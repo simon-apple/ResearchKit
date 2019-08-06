@@ -309,6 +309,7 @@ static const CGFloat TableViewYOffsetStandard = 30.0;
     ORKNavigationContainerView *_navigationFooterView;
     NSMutableSet *_formItemCells;
     NSMutableArray<ORKTableSection *> *_sections;
+    NSMutableSet *_answeredSections;
     BOOL _skipped;
     UITableViewCell *_currentFirstResponderCell;
     NSArray<NSLayoutConstraint *> *_constraints;
@@ -355,7 +356,7 @@ static const CGFloat TableViewYOffsetStandard = 30.0;
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
+    [self updateAnsweredSections];
     NSMutableSet *types = [NSMutableSet set];
     for (ORKFormItem *item in [self formItems]) {
         ORKAnswerFormat *format = [item answerFormat];
@@ -392,6 +393,19 @@ static const CGFloat TableViewYOffsetStandard = 30.0;
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, nil);
+}
+
+- (void)updateAnsweredSections {
+    _answeredSections = [NSMutableSet new];
+    [_sections enumerateObjectsUsingBlock:^(ORKTableSection * _Nonnull section, NSUInteger idx, BOOL * _Nonnull stop) {
+        for (ORKTableCellItem *cellItem in section.items) {
+            id answer = _savedAnswers[cellItem.formItem.identifier];
+            if (!ORKIsAnswerEmpty(answer)) {
+                NSNumber *sectionNumber = [NSNumber numberWithUnsignedInteger:idx];
+                [_answeredSections addObject:sectionNumber];
+            }
+        }
+    }];
 }
 
 - (void)updateDefaults:(NSMutableDictionary *)defaults {
@@ -514,10 +528,10 @@ static const CGFloat TableViewYOffsetStandard = 30.0;
     _formItemCells = nil;
     _headerView = nil;
     _navigationFooterView = nil;
-    
+
     if (self.isViewLoaded && self.step) {
         [self buildSections];
-        
+
         _formItemCells = [NSMutableSet new];
         
         _tableContainer = [[ORKTableContainerView alloc] initWithStyle:UITableViewStyleGrouped pinNavigationContainer:NO];
@@ -635,7 +649,7 @@ static const CGFloat TableViewYOffsetStandard = 30.0;
     
     for (ORKFormItem *item in items) {
         BOOL itemRequiresSingleSection = [self doesItemRequireSingleSection:item];
-        
+
         if (!item.answerFormat) {
             // Add new section
             section = [self createSectionWithItem:item];
@@ -1132,9 +1146,9 @@ static const CGFloat TableViewYOffsetStandard = 30.0;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
-    
+
+    NSNumber *sectionIndex = [NSNumber numberWithLong:indexPath.section];
     ORKFormItemCell *cell = (ORKFormItemCell *)[tableView cellForRowAtIndexPath:indexPath];
     if ([cell isKindOfClass:[ORKFormItemCell class]]) {
         [cell becomeFirstResponder];
@@ -1146,13 +1160,15 @@ static const CGFloat TableViewYOffsetStandard = 30.0;
         ORKTableSection *section = _sections[indexPath.section];
         [section.textChoiceCellGroup didSelectCellAtIndexPath:indexPath];
         
-        if (section.textChoiceCellGroup.answerFormat.style == ORKChoiceAnswerStyleSingleChoice && (indexPath.section < _sections.count - 1) && [self shouldAutoScrollToNextSection:indexPath]) {
+        if (section.textChoiceCellGroup.answerFormat.style == ORKChoiceAnswerStyleSingleChoice && (indexPath.section < _sections.count - 1) && [self shouldAutoScrollToNextSection:indexPath] && ![_answeredSections containsObject:sectionIndex]) {
             [self autoScrollToNextSection:indexPath];
-        } else if (indexPath.section < (_sections.count - 1) && section.textChoiceCellGroup.answerFormat.style != ORKChoiceAnswerStyleMultipleChoice ) {
+        } else if (indexPath.section < (_sections.count - 1) && section.textChoiceCellGroup.answerFormat.style != ORKChoiceAnswerStyleMultipleChoice && ![_answeredSections containsObject:sectionIndex]) {
             NSIndexPath *nextIndexPath = [NSIndexPath indexPathForRow:0 inSection:(indexPath.section + 1)];
             [_tableView scrollToRowAtIndexPath:nextIndexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
         }
     }
+
+    [_answeredSections addObject:sectionIndex];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -1289,6 +1305,7 @@ static NSString *const _ORKSavedAnswerDatesRestoreKey = @"savedAnswerDates";
 static NSString *const _ORKSavedSystemCalendarsRestoreKey = @"savedSystemCalendars";
 static NSString *const _ORKSavedSystemTimeZonesRestoreKey = @"savedSystemTimeZones";
 static NSString *const _ORKOriginalAnswersRestoreKey = @"originalAnswers";
+static NSString *const _ORKAnsweredSectionsRestoreKey = @"answeredSections";
 
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
     [super encodeRestorableStateWithCoder:coder];
@@ -1298,6 +1315,7 @@ static NSString *const _ORKOriginalAnswersRestoreKey = @"originalAnswers";
     [coder encodeObject:_savedSystemCalendars forKey:_ORKSavedSystemCalendarsRestoreKey];
     [coder encodeObject:_savedSystemTimeZones forKey:_ORKSavedSystemTimeZonesRestoreKey];
     [coder encodeObject:_originalAnswers forKey:_ORKOriginalAnswersRestoreKey];
+    [coder encodeObject:_answeredSections forKey:_ORKAnsweredSectionsRestoreKey];
 }
 
 - (void)decodeRestorableStateWithCoder:(NSCoder *)coder {
@@ -1308,6 +1326,7 @@ static NSString *const _ORKOriginalAnswersRestoreKey = @"originalAnswers";
     _savedSystemCalendars = [coder decodeObjectOfClass:[NSMutableDictionary class] forKey:_ORKSavedSystemCalendarsRestoreKey];
     _savedSystemTimeZones = [coder decodeObjectOfClass:[NSMutableDictionary class] forKey:_ORKSavedSystemTimeZonesRestoreKey];
     _originalAnswers = [coder decodeObjectOfClass:[NSMutableDictionary class] forKey:_ORKOriginalAnswersRestoreKey];
+    _answeredSections = [coder decodeObjectOfClass:[NSMutableSet class] forKey:_ORKAnsweredSectionsRestoreKey];
 }
 
 #pragma mark Rotate
