@@ -57,7 +57,7 @@
     CAShapeLayer *_shapeLayer;
 }
 
-static const CGFloat TickViewSize = 122;
+static const CGFloat TickViewSize = 132;
 
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
@@ -66,15 +66,14 @@ static const CGFloat TickViewSize = 122;
         [self tintColorDidChange];
         
         UIBezierPath *path = [UIBezierPath new];
-        [path moveToPoint:(CGPoint){37, 65}];
-        [path addLineToPoint:(CGPoint){50, 78}];
-        [path addLineToPoint:(CGPoint){87, 42}];
+        [path moveToPoint:(CGPoint){48, 66}];
+        [path addLineToPoint:(CGPoint){62, 82}];
+        [path addLineToPoint:(CGPoint){82, 50}];
         path.lineCapStyle = kCGLineCapRound;
-        path.lineWidth = 5;
     
         CAShapeLayer *shapeLayer = [CAShapeLayer new];
         shapeLayer.path = path.CGPath;
-        shapeLayer.lineWidth = 5;
+        shapeLayer.lineWidth = 8;
         shapeLayer.lineCap = kCALineCapRound;
         shapeLayer.lineJoin = kCALineJoinRound;
         shapeLayer.frame = self.layer.bounds;
@@ -95,7 +94,7 @@ static const CGFloat TickViewSize = 122;
 }
 
 - (CGSize)intrinsicContentSize {
-    return (CGSize){TickViewSize,TickViewSize};
+    return (CGSize){TickViewSize, TickViewSize};
 }
 
 - (CGSize)sizeThatFits:(CGSize)size {
