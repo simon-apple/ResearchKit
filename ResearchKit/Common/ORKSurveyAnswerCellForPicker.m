@@ -57,7 +57,7 @@
         _tempPicker.delegate = self;
         [self addSubview:_tempPicker];
         
-        [self addHorizontalHuggingConstraintForView:_tempPicker];
+        [self setupConstraintsForView:_tempPicker];
     }
     
     _valueChangedDueUserAction = NO;
@@ -79,11 +79,11 @@
         [_tempPicker removeFromSuperview];
         _tempPicker = nil;
         
-        [self addHorizontalHuggingConstraintForView:_picker.pickerView];
+        [self setupConstraintsForView:_picker.pickerView];
     }
 }
 
-- (void)addHorizontalHuggingConstraintForView:(UIView *)view {
+- (void)setupConstraintsForView:(UIView *)view {
     if (view) {
         view.translatesAutoresizingMaskIntoConstraints = NO;
         NSArray *constraints = @[
@@ -92,6 +92,20 @@
                                                               relatedBy:NSLayoutRelationEqual
                                                                  toItem:self
                                                               attribute:NSLayoutAttributeCenterX
+                                                             multiplier:1.0
+                                                               constant:0.0],
+                                 [NSLayoutConstraint constraintWithItem:view
+                                                              attribute:NSLayoutAttributeTop
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self
+                                                              attribute:NSLayoutAttributeTop
+                                                             multiplier:1.0
+                                                               constant:0.0],
+                                 [NSLayoutConstraint constraintWithItem:view
+                                                              attribute:NSLayoutAttributeBottom
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self
+                                                              attribute:NSLayoutAttributeBottom
                                                              multiplier:1.0
                                                                constant:0.0]
                                  ];
