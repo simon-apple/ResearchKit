@@ -66,25 +66,4 @@
     }
 }
 
-
-#pragma mark - Accessibility
-
-- (BOOL)isAccessibilityElement {
-    return NO;
-}
-
-- (NSArray *)accessibilityElements {
-    NSMutableArray *elements = [[NSMutableArray alloc] init];
-    
-    // VO elements in containers with UIPickers of any kind are often not spoken in right order.
-    // This is caused by the picker's frame overlapping other elements on screen, so we have to manually
-    // tell VO the order of the elements.
-    // Desired order: Headline label, Instruction label, "Learn more" button, picker, "Next" button, "Skip" button
-    
-    if (self.questionCustomView) {
-        [elements addObject:self.questionCustomView];
-    }
-    return elements;
-}
-
 @end
