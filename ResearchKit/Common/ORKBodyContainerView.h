@@ -55,6 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)updateBodyItemViews;
 - (BOOL)hasShownAllBodyItem;
+- (UIView *)lastVisibleBodyItem;
 
 @property (nonatomic, nonnull) NSArray<ORKBodyItem *> *bodyItems;
 

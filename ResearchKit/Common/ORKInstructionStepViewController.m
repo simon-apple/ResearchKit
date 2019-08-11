@@ -167,6 +167,9 @@
 
 - (void)buildInNextBodyItem {
     [_stepView.stepContentView.bodyContainerView updateBodyItemViews];
+    
+    UIView *lastView = [_stepView.stepContentView.bodyContainerView lastVisibleBodyItem];
+    [_stepView scrollToBodyItem:lastView];
 }
 
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder {

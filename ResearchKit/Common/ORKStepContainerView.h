@@ -38,6 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)topContentImageShouldStickToTop;
 - (void)removeCustomContentPadding;
+- (void)scrollToBodyItem:(UIView *)bodyItem;
 
 @end
 

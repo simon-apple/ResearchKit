@@ -505,6 +505,10 @@ static NSString *ORKBulletUnicode = @"\u2981";
     return (_currentBodyItemIndex == (_views.count - 1));
 }
 
+- (UIView *)lastVisibleBodyItem {
+    return _views[_currentBodyItemIndex];
+}
+
 - (CGFloat)spacingWithAboveStyle:(ORKBodyItemStyle )aboveStyle belowStyle:(ORKBodyItemStyle )belowStyle {
     if (aboveStyle == ORKBodyItemStyleText) {
         return belowStyle == ORKBodyItemStyleText ? ORKBodyToBodyPaddingStandard : ORKBodyToBulletPaddingStandard;

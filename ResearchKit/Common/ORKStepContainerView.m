@@ -96,6 +96,7 @@
 static const CGFloat ORKStepContainerTopCustomContentPaddingStandard = 20.0;
 static const CGFloat ORKStepContainerNavigationFooterTopPaddingStandard = 10.0;
 static const CGFloat ORKContentBottomPadding = 19.0;
+static const CGFloat ORKBodyItemScrollPadding = 24.0;
 
 @implementation ORKStepContainerView {
     CGFloat _leftRightPadding;
@@ -701,6 +702,17 @@ static const CGFloat ORKContentBottomPadding = 19.0;
         [self setStepTopContentImage:stepTopContentImage];
     }
     _topContentImageShouldScroll = NO;
+}
+
+- (void)scrollToBodyItem:(UIView *)bodyItem {
+    CGPoint pointInScrollView = [bodyItem.superview convertPoint:bodyItem.frame.origin toView:_scrollView];
+    CGFloat bottomOfView = pointInScrollView.y + bodyItem.frame.size.height;
+    CGFloat bottomOfScrollView = _scrollView.frame.size.height - [self navigationFooterView].frame.size.height;
+
+    // TODO:- update ORKBodyItemScrollPadding depending on device size
+    if (bottomOfView > bottomOfScrollView) {
+        [_scrollView setContentOffset:CGPointMake(0, (bottomOfView - bottomOfScrollView) + ORKBodyItemScrollPadding) animated:YES];
+    }
 }
 
 @end
