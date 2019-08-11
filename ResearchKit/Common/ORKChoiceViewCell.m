@@ -303,9 +303,7 @@ static const CGFloat LabelCheckViewPadding = 10.0;
 }
 
 - (void)updateSelectedItem {
-    if (_immediateNavigation == NO) {
         [self updateCheckView];
-    }
 }
 
 - (void)setImmediateNavigation:(BOOL)immediateNavigation {
