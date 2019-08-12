@@ -197,6 +197,8 @@ static const CGFloat TickViewSize = 132;
 - (void)stepDidChange {
     [super stepDidChange];
     
+    self.cancelButtonItem = nil;
+    
     _completionStepView = [ORKCompletionStepView new];
     if (self.checkmarkColor) {
         _completionStepView.tintColor = self.checkmarkColor;
