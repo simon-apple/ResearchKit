@@ -65,6 +65,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic) BOOL buildsInBodyItems;
 
+@property (nonatomic) BOOL useExtendedPadding;
+
 @property (nonatomic, weak) id<ORKStepContentLearnMoreItemDelegate> delegate;
 
 @end

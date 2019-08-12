@@ -47,6 +47,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) CGFloat topMargin;
 @property (nonatomic, assign) CGFloat bottomMargin;
 
+@property (nonatomic, assign) BOOL useExtendedPadding;
+
 - (BOOL)hasContinueOrSkip;
 
 - (void)removeStyling;

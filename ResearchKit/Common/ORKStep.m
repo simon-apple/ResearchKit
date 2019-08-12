@@ -106,6 +106,7 @@
     step.showsProgress = _showsProgress;
     step.shouldTintImages = _shouldTintImages;
     step.useSurveyMode = _useSurveyMode;
+    step.useExtendedPadding = _useExtendedPadding;
     return step;
 }
 
@@ -132,12 +133,13 @@
             && (self.showsProgress == castObject.showsProgress)
             && (self.optional == castObject.optional)
             && (self.shouldTintImages == castObject.shouldTintImages)
-            && (self.useSurveyMode == castObject.useSurveyMode));
+            && (self.useSurveyMode == castObject.useSurveyMode)
+            && (self.useExtendedPadding == castObject.useExtendedPadding));
 }
 
 - (NSUInteger)hash {
     // Ignore the task reference - it's not part of the content of the step.
-    return _identifier.hash ^ _title.hash ^ _text.hash ^ self.detailText.hash ^_headerTextAlignment ^ _bodyItemTextAlignment ^ (_buildInBodyItems ? 0xf : 0x0) ^ _imageContentMode ^ self.footnote.hash ^ (_optional ? 0xf : 0x0) ^ _bodyItems.hash ^ (_showsProgress ? 0xf : 0x0);
+    return _identifier.hash ^ _title.hash ^ _text.hash ^ self.detailText.hash ^_headerTextAlignment ^ _bodyItemTextAlignment ^ (_buildInBodyItems ? 0xf : 0x0) ^ _imageContentMode ^ self.footnote.hash ^ (_optional ? 0xf : 0x0) ^ _bodyItems.hash ^ (_showsProgress ? 0xf : 0x0) ^ (_useExtendedPadding ? 0xf : 0x0);
 }
 
 + (BOOL)supportsSecureCoding {
@@ -165,6 +167,7 @@
         ORK_DECODE_BOOL(aDecoder, shouldTintImages);
         ORK_DECODE_BOOL(aDecoder, useSurveyMode);
         ORK_DECODE_BOOL(aDecoder, buildInBodyItems);
+        ORK_DECODE_BOOL(aDecoder, useExtendedPadding);
     }
     return self;
 }
@@ -187,6 +190,7 @@
     ORK_ENCODE_BOOL(aCoder, shouldTintImages);
     ORK_ENCODE_BOOL(aCoder, useSurveyMode);
     ORK_ENCODE_BOOL(aCoder, buildInBodyItems);
+    ORK_ENCODE_BOOL(aCoder, useExtendedPadding);
     if ([_task isKindOfClass:[ORKOrderedTask class]]) {
         ORK_ENCODE_OBJ(aCoder, task);
     }

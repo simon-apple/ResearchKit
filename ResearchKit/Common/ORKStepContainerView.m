@@ -127,8 +127,8 @@ static const CGFloat ORKBodyItemScrollPadding = 24.0;
 - (instancetype)init {
     self = [super init];
     if (self) {
-        _leftRightPadding = ORKStepContainerLeftRightPaddingForWindow(self.window);
         _customContentLeftRightPadding = ORKStepContainerLeftRightPaddingForWindow(self.window);
+        _leftRightPadding = ORKStepContainerExtendedLeftRightPaddingForWindow(self.window);
         [self setupScrollView];
         [self setupScrollContainerView];
         [self addStepContentView];
@@ -234,22 +234,23 @@ static const CGFloat ORKBodyItemScrollPadding = 24.0;
 - (void)setStepContentViewConstraints {
     self.stepContentView.translatesAutoresizingMaskIntoConstraints = NO;
     [self setStepContentViewTopConstraint];
+    
     [NSLayoutConstraint activateConstraints:@[
                                               _stepContentViewTopConstraint,
                                               [NSLayoutConstraint constraintWithItem:self.stepContentView
-                                                                           attribute:NSLayoutAttributeLeft
-                                                                           relatedBy:NSLayoutRelationEqual
-                                                                              toItem:_scrollContainerView
-                                                                           attribute:NSLayoutAttributeLeft
-                                                                          multiplier:1.0
-                                                                            constant:0.0],
-                                              [NSLayoutConstraint constraintWithItem:self.stepContentView
-                                                                           attribute:NSLayoutAttributeRight
-                                                                           relatedBy:NSLayoutRelationEqual
-                                                                              toItem:_scrollContainerView
-                                                                           attribute:NSLayoutAttributeRight
-                                                                          multiplier:1.0
-                                                                            constant:0.0]
+                                                                                   attribute:NSLayoutAttributeLeft
+                                                                                   relatedBy:NSLayoutRelationEqual
+                                                                                      toItem:_scrollContainerView
+                                                                                   attribute:NSLayoutAttributeLeft
+                                                                                  multiplier:1.0
+                                                                                    constant:0.0],
+                                                      [NSLayoutConstraint constraintWithItem:self.stepContentView
+                                                                                   attribute:NSLayoutAttributeRight
+                                                                                   relatedBy:NSLayoutRelationEqual
+                                                                                      toItem:_scrollContainerView
+                                                                                   attribute:NSLayoutAttributeRight
+                                                                                  multiplier:1.0
+                                                                                    constant:0.0]
                                               ]];
 }
 
@@ -352,8 +353,8 @@ static const CGFloat ORKBodyItemScrollPadding = 24.0;
                                                                               toItem:self.isNavigationContainerScrollable ? _scrollContainerView : self
                                                                            attribute:NSLayoutAttributeRight
                                                                           multiplier:1.0
-                                                                            constant:0.0]
-    ];
+                                                                            constant:0.0]];
+    
     [_updatedConstraints addObjectsFromArray:_navigationContainerViewConstraints];
     [self updateNavigationContainerViewTopConstraint];
 
@@ -702,6 +703,11 @@ static const CGFloat ORKBodyItemScrollPadding = 24.0;
         [self setStepTopContentImage:stepTopContentImage];
     }
     _topContentImageShouldScroll = NO;
+}
+
+- (void)updatePaddingConstraints {
+    [self.stepContentView setUseExtendedPadding:[self useExtendedPadding]];
+    [self.navigationFooterView setUseExtendedPadding:[self useExtendedPadding]];
 }
 
 - (void)scrollToBodyItem:(UIView *)bodyItem {

@@ -155,6 +155,8 @@ ORKDefineStringKey(ORKBasicCellReuseIdentifier);
         _navigationFooterView.continueButtonItem = self.continueButtonItem;
         _navigationFooterView.optional = self.step.optional;
         
+        [_navigationFooterView setUseExtendedPadding:[[self step] useExtendedPadding]];
+        
         [self setupConstraints];
         // Register the cells for the table view
         if ([self.tableStep respondsToSelector:@selector(registerCellsForTableView:)]) {

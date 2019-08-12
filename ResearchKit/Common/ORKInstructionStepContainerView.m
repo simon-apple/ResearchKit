@@ -52,9 +52,12 @@
     self.bodyTextAlignment = _instructionStep.bodyItemTextAlignment;
     self.bodyItems = _instructionStep.bodyItems;
     self.buildInBodyItems = _instructionStep.buildInBodyItems;
+    self.useExtendedPadding = _instructionStep.useExtendedPadding;
 
     self.auxiliaryImage = _instructionStep.auxiliaryImage;
     self.titleIconImage = _instructionStep.iconImage;
+    
+    [super updatePaddingConstraints];
     if (_instructionStep.centerImageVertically) {
         UIImageView *centeredImageView = [UIImageView new];
         centeredImageView.image = _instructionStep.image;

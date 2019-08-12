@@ -52,6 +52,8 @@ static const CGFloat ORKSignatureToClearPadding = 15.0;
     
     ORKSignatureView *_signatureView;
     UIButton *_clearButton;
+    
+    CGFloat _leftRightPadding;
 }
 
 - (ORKWebViewStep *)webViewStep {
@@ -94,7 +96,8 @@ static const CGFloat ORKSignatureToClearPadding = 15.0;
         [controller addScriptMessageHandler:self name:@"ResearchKit"];
         config.userContentController = controller;
         
-        CGFloat leftRightPadding = ORKStepContainerLeftRightPaddingForWindow(self.view.window);
+        _leftRightPadding = self.step.useExtendedPadding ? ORKStepContainerExtendedLeftRightPaddingForWindow(self.view.window) : ORKStepContainerLeftRightPaddingForWindow(self.view.window);
+        
         UIColor *backgroundColor;
         UIColor *textColor;
         if (@available(iOS 13.0, *)) {
@@ -108,7 +111,11 @@ static const CGFloat ORKSignatureToClearPadding = 15.0;
         NSString *backgroundColorString = [self hexStringForColor:backgroundColor];
         NSString *textColorString = [self hexStringForColor:textColor];
         
-        NSString *css = [NSString stringWithFormat:@"body { font-size: 17px; font-family: \"-apple-system\"; padding-left: %fpx; padding-right: %fpx; background-color: %@; color: %@; }", leftRightPadding, leftRightPadding, backgroundColorString, textColorString];
+        NSString *css = [NSString stringWithFormat:@"body { font-size: 17px; font-family: \"-apple-system\"; padding-left: %fpx; padding-right: %fpx; background-color: %@; color: %@; }",
+                         _leftRightPadding,
+                         _leftRightPadding,
+                         backgroundColorString,
+                         textColorString];
         
         if ([self webViewStep].customCSS != nil) {
             css = [self webViewStep].customCSS;
@@ -140,6 +147,7 @@ static const CGFloat ORKSignatureToClearPadding = 15.0;
     _navigationFooterView.continueButtonItem = self.continueButtonItem;
     _navigationFooterView.continueEnabled = YES;
     [_navigationFooterView updateContinueAndSkipEnabled];
+    [_navigationFooterView setUseExtendedPadding:[self.step useExtendedPadding]];
     
     if ([self webViewStep].showSignatureAfterContent) {
         _navigationFooterView.continueEnabled = NO;
@@ -166,8 +174,6 @@ static const CGFloat ORKSignatureToClearPadding = 15.0;
     _scrollView.translatesAutoresizingMaskIntoConstraints = NO;
     _signatureView.translatesAutoresizingMaskIntoConstraints = NO;
     _clearButton.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    CGFloat leftRightPadding = ORKStepContainerLeftRightPaddingForWindow(self.view.window);
     
     _constraints = [[NSMutableArray alloc] initWithArray:@[
         [NSLayoutConstraint constraintWithItem:_scrollView
@@ -251,14 +257,14 @@ static const CGFloat ORKSignatureToClearPadding = 15.0;
                                             toItem:self.view
                                          attribute:NSLayoutAttributeLeading
                                         multiplier:1.0
-                                          constant:leftRightPadding],
+                                          constant:_leftRightPadding],
             [NSLayoutConstraint constraintWithItem:_signatureView
                                          attribute:NSLayoutAttributeTrailing
                                          relatedBy:NSLayoutRelationEqual
                                             toItem:self.view
                                          attribute:NSLayoutAttributeTrailing
                                         multiplier:1.0
-                                          constant:-leftRightPadding],
+                                          constant:-_leftRightPadding],
             [NSLayoutConstraint constraintWithItem:_clearButton
                                          attribute:NSLayoutAttributeTop
                                          relatedBy:NSLayoutRelationEqual
@@ -272,14 +278,14 @@ static const CGFloat ORKSignatureToClearPadding = 15.0;
                                             toItem:self.view
                                          attribute:NSLayoutAttributeLeading
                                         multiplier:1.0
-                                          constant:leftRightPadding],
+                                          constant:_leftRightPadding],
             [NSLayoutConstraint constraintWithItem:_clearButton
                                          attribute:NSLayoutAttributeTrailing
                                          relatedBy:NSLayoutRelationEqual
                                             toItem:self.view
                                          attribute:NSLayoutAttributeTrailing
                                         multiplier:1.0
-                                          constant:-leftRightPadding],
+                                          constant:-_leftRightPadding],
             [NSLayoutConstraint constraintWithItem:_navigationFooterView
                                          attribute:NSLayoutAttributeTop
                                          relatedBy:NSLayoutRelationEqual

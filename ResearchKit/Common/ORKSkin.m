@@ -460,6 +460,10 @@ CGFloat ORKStepContainerLeftRightPaddingForWindow(UIWindow *window) {
     return margin;
 }
 
+CGFloat ORKStepContainerExtendedLeftRightPaddingForWindow(UIWindow *window) {
+    return (ORKStepContainerLeftRightPaddingForWindow(window) * 2.0) ;
+}
+
 CGFloat ORKStepContainerTopPaddingForWindow(UIWindow *window) {
     CGFloat margin = 0;
     switch (ORKGetVerticalScreenTypeForWindow(window)) {

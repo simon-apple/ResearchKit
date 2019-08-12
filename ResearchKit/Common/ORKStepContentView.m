@@ -105,12 +105,14 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKUpdateConstraintSequence) {
     NSArray<NSLayoutConstraint *> *_iconImageViewConstraints;
     NSArray<NSLayoutConstraint *> *_textLabelConstraints;
     NSArray<NSLayoutConstraint *> *_detailTextLabelConstraints;
+    NSMutableArray<NSLayoutConstraint *> *_leftRightPaddingConstraints;
     
     NSLayoutConstraint *_iconImageViewTopConstraint;
     NSLayoutConstraint *_titleLabelTopConstraint;
     NSLayoutConstraint *_textLabelTopConstraint;
     NSLayoutConstraint *_detailTextLabelTopConstraint;
     NSLayoutConstraint *_bodyContainerViewTopConstraint;
+    NSArray<NSLayoutConstraint *> *_bodyContainerLeftRightConstraints;
     NSLayoutConstraint *_stepContentBottomConstraint;
 }
 
@@ -123,7 +125,6 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKUpdateConstraintSequence) {
     }
     return self;
 }
-
 
 // top content image
 
@@ -354,27 +355,14 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKUpdateConstraintSequence) {
     _titleLabel.adjustsFontSizeToFitWidth = YES;
     [self addSubview:_titleLabel];
     [self setupTitleLabelConstraints];
+    [self setContainerLeftRightConstraints];
 }
 
 - (void)setupTitleLabelConstraints {
     _titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [self setTitleLabelTopConstraint];
     [_updatedConstraints addObjectsFromArray:@[
-                                               _titleLabelTopConstraint,
-                                               [NSLayoutConstraint constraintWithItem:_titleLabel
-                                                                            attribute:NSLayoutAttributeCenterX
-                                                                            relatedBy:NSLayoutRelationEqual
-                                                                               toItem:self
-                                                                            attribute:NSLayoutAttributeCenterX
-                                                                           multiplier:1.0
-                                                                             constant:0.0],
-                                               [NSLayoutConstraint constraintWithItem:_titleLabel
-                                                                            attribute:NSLayoutAttributeWidth
-                                                                            relatedBy:NSLayoutRelationEqual
-                                                                               toItem:self
-                                                                            attribute:NSLayoutAttributeWidth
-                                                                           multiplier:1.0
-                                                                             constant:-2*_leftRightPadding]
+                                               _titleLabelTopConstraint
                                                ]];
     [self setNeedsUpdateConstraints];
 }
@@ -443,26 +431,14 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKUpdateConstraintSequence) {
     _textLabel.adjustsFontSizeToFitWidth = YES;
     [self addSubview:_textLabel];
     [self setupTextLabelConstraints];
+    [self setContainerLeftRightConstraints];
 }
 
 - (void)setupTextLabelConstraints {
     _textLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    _leftRightPadding = ORKStepContainerExtendedLeftRightPaddingForWindow(self.window);
     [self setTextLabelTopConstraint];
-    _textLabelConstraints = @[_textLabelTopConstraint,
-                              [NSLayoutConstraint constraintWithItem:_textLabel
-                                                           attribute:NSLayoutAttributeCenterX
-                                                           relatedBy:NSLayoutRelationEqual
-                                                              toItem:self
-                                                           attribute:NSLayoutAttributeCenterX
-                                                          multiplier:1.0
-                                                            constant:0.0],
-                              [NSLayoutConstraint constraintWithItem:_textLabel
-                                                           attribute:NSLayoutAttributeWidth
-                                                           relatedBy:NSLayoutRelationEqual
-                                                              toItem:self
-                                                           attribute:NSLayoutAttributeWidth
-                                                          multiplier:1.0
-                                                            constant:-2*_leftRightPadding]];
+    _textLabelConstraints = @[_textLabelTopConstraint];
     
     [_updatedConstraints addObjectsFromArray:_textLabelConstraints];
     [self setNeedsUpdateConstraints];
@@ -551,6 +527,7 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKUpdateConstraintSequence) {
     _detailTextLabel.numberOfLines = 0;
     [self addSubview:_detailTextLabel];
     [self setupDetailTextLabelConstraints];
+    [self setContainerLeftRightConstraints];
 }
 
 - (void)setStepHeaderTextAlignment:(NSTextAlignment)stepHeaderTextAlignment {
@@ -564,24 +541,18 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKUpdateConstraintSequence) {
     _bodyTextAlignment = bodyTextAlignment;
 }
 
+- (void)setUseExtendedPadding:(BOOL)useExtendedPadding {
+    _useExtendedPadding = useExtendedPadding;
+    _leftRightPadding = useExtendedPadding ? ORKStepContainerExtendedLeftRightPaddingForWindow(self.window) : ORKStepContainerLeftRightPaddingForWindow(self.window);
+    [NSLayoutConstraint deactivateConstraints:_leftRightPaddingConstraints];
+    [_updatedConstraints removeObjectsInArray:_leftRightPaddingConstraints];
+    [self setContainerLeftRightConstraints];
+}
+
 - (void)setupDetailTextLabelConstraints {
     _detailTextLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [self setDetailTextLabelTopConstraint];
-    _detailTextLabelConstraints = @[_detailTextLabelTopConstraint,
-                              [NSLayoutConstraint constraintWithItem:_detailTextLabel
-                                                           attribute:NSLayoutAttributeCenterX
-                                                           relatedBy:NSLayoutRelationEqual
-                                                              toItem:self
-                                                           attribute:NSLayoutAttributeCenterX
-                                                          multiplier:1.0
-                                                            constant:0.0],
-                              [NSLayoutConstraint constraintWithItem:_detailTextLabel
-                                                           attribute:NSLayoutAttributeWidth
-                                                           relatedBy:NSLayoutRelationEqual
-                                                              toItem:self
-                                                           attribute:NSLayoutAttributeWidth
-                                                          multiplier:1.0
-                                                            constant:-2*_leftRightPadding]];
+    _detailTextLabelConstraints = @[_detailTextLabelTopConstraint];
     
     [_updatedConstraints addObjectsFromArray:_detailTextLabelConstraints];
     [self setNeedsUpdateConstraints];
@@ -694,21 +665,92 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKUpdateConstraintSequence) {
     [self setBodyContainerViewTopConstraint];
     [_updatedConstraints addObjectsFromArray:@[
                                                _bodyContainerViewTopConstraint,
-                                               [NSLayoutConstraint constraintWithItem:_bodyContainerView
-                                                                            attribute:NSLayoutAttributeLeft
-                                                                            relatedBy:NSLayoutRelationEqual
-                                                                               toItem:self
-                                                                            attribute:NSLayoutAttributeLeft
-                                                                           multiplier:1.0
-                                                                             constant:_leftRightPadding],
-                                               [NSLayoutConstraint constraintWithItem:_bodyContainerView
-                                                                            attribute:NSLayoutAttributeRight
-                                                                            relatedBy:NSLayoutRelationEqual
-                                                                               toItem:self
-                                                                            attribute:NSLayoutAttributeRight
-                                                                           multiplier:1.0
-                                                                             constant:-_leftRightPadding]
                                                ]];
+    [self setNeedsUpdateConstraints];
+}
+
+- (void)setContainerLeftRightConstraints {
+    [NSLayoutConstraint deactivateConstraints:_leftRightPaddingConstraints];
+    [_updatedConstraints removeObjectsInArray:_leftRightPaddingConstraints];
+    
+    _leftRightPaddingConstraints = [[NSMutableArray alloc] init];
+    if (_textLabel != nil) {
+        [_leftRightPaddingConstraints addObjectsFromArray:@[
+            [NSLayoutConstraint constraintWithItem:_textLabel
+                                         attribute:NSLayoutAttributeLeading
+                                         relatedBy:NSLayoutRelationEqual
+                                            toItem:self
+                                         attribute:NSLayoutAttributeLeading
+                                        multiplier:1.0
+                                          constant:_leftRightPadding],
+            [NSLayoutConstraint constraintWithItem:_textLabel
+                                         attribute:NSLayoutAttributeTrailing
+                                         relatedBy:NSLayoutRelationEqual
+                                            toItem:self
+                                         attribute:NSLayoutAttributeTrailing
+                                        multiplier:1.0
+                                          constant:-_leftRightPadding]
+        ]];
+    }
+    
+    if (_titleLabel != nil) {
+        [_leftRightPaddingConstraints addObjectsFromArray:@[
+            [NSLayoutConstraint constraintWithItem:_titleLabel
+                                         attribute:NSLayoutAttributeLeading
+                                         relatedBy:NSLayoutRelationEqual
+                                            toItem:self
+                                         attribute:NSLayoutAttributeLeading
+                                        multiplier:1.0
+                                          constant:_leftRightPadding],
+            [NSLayoutConstraint constraintWithItem:_titleLabel
+                                         attribute:NSLayoutAttributeTrailing
+                                         relatedBy:NSLayoutRelationEqual
+                                            toItem:self
+                                         attribute:NSLayoutAttributeTrailing
+                                        multiplier:1.0
+                                          constant:-_leftRightPadding]
+        ]];
+    }
+    
+    if (_detailTextLabel != nil) {
+        [_leftRightPaddingConstraints addObjectsFromArray:@[
+            [NSLayoutConstraint constraintWithItem:_detailTextLabel
+                                         attribute:NSLayoutAttributeLeading
+                                         relatedBy:NSLayoutRelationEqual
+                                            toItem:self
+                                         attribute:NSLayoutAttributeLeading
+                                        multiplier:1.0
+                                          constant:_leftRightPadding],
+            [NSLayoutConstraint constraintWithItem:_detailTextLabel
+                                         attribute:NSLayoutAttributeTrailing
+                                         relatedBy:NSLayoutRelationEqual
+                                            toItem:self
+                                         attribute:NSLayoutAttributeTrailing
+                                        multiplier:1.0
+                                          constant:-_leftRightPadding]
+        ]];
+    }
+    
+    if (_bodyContainerView != nil) {
+        [_leftRightPaddingConstraints addObjectsFromArray:@[
+            [NSLayoutConstraint constraintWithItem:_bodyContainerView
+                                         attribute:NSLayoutAttributeLeft
+                                         relatedBy:NSLayoutRelationEqual
+                                            toItem:self
+                                         attribute:NSLayoutAttributeLeft
+                                        multiplier:1.0
+                                         constant:_leftRightPadding],
+            [NSLayoutConstraint constraintWithItem:_bodyContainerView
+                                         attribute:NSLayoutAttributeRight
+                                         relatedBy:NSLayoutRelationEqual
+                                            toItem:self
+                                         attribute:NSLayoutAttributeRight
+                                          multiplier:1.0
+                                          constant:-_leftRightPadding]
+        ]];
+    }
+
+    [_updatedConstraints addObjectsFromArray:_leftRightPaddingConstraints];
     [self setNeedsUpdateConstraints];
 }
 

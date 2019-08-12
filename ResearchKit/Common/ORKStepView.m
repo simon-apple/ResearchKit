@@ -133,6 +133,12 @@
     [_stepContentView setBuildsInBodyItems:_buildInBodyItems];
 }
 
+
+- (void)setUseExtendedPadding:(BOOL)useExtendedPadding {
+    _useExtendedPadding = useExtendedPadding;
+    [_stepContentView setUseExtendedPadding:_useExtendedPadding];
+}
+
 - (UIImage *)topContentAndAuxiliaryImage {
     if (!_auxiliaryImage) {
         return _stepTopContentImage;

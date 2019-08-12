@@ -231,6 +231,11 @@ Whether to show progress for this step when it is presented. The default is YES.
 @property (nonatomic, assign) BOOL showsProgress;
 
 /**
+ Whether to use extended outer padding for views
+ */
+@property (nonatomic, assign) BOOL useExtendedPadding;
+
+/**
  The task that contains the step.
  
  The value of `task` is usually set when a step is added to the `ORKOrderedTask` object.

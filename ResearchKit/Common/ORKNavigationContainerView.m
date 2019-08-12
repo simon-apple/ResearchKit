@@ -47,6 +47,7 @@ static const CGFloat topSpacing = 24.0;
     NSMutableArray *_variableConstraints;
     NSMutableArray *_skipButtonConstraints;
     NSArray *_contentWidthConstraints;
+    NSArray *_leftRightPaddingConstraints;
     BOOL _deprioritizeContentWidthConstraints;
     UIVisualEffectView *effectView;
     UIColor *_appTintColor;
@@ -431,7 +432,6 @@ static const CGFloat topSpacing = 24.0;
 }
 
 - (void)setUpConstraints {
-    CGFloat leftRightPadding = ORKStepContainerLeftRightPaddingForWindow(self.window);
     
     NSMutableArray *constraints = [NSMutableArray new];
     
@@ -456,21 +456,7 @@ static const CGFloat topSpacing = 24.0;
                                                                        toItem:_footnoteLabel
                                                                     attribute:NSLayoutAttributeBottom
                                                                    multiplier:1.0
-                                                                     constant:0.0],
-                                       [NSLayoutConstraint constraintWithItem:_parentStackView
-                                                                    attribute:NSLayoutAttributeLeft
-                                                                    relatedBy:NSLayoutRelationEqual
-                                                                       toItem:self.safeAreaLayoutGuide
-                                                                    attribute:NSLayoutAttributeLeft
-                                                                   multiplier:1.0
-                                                                     constant:leftRightPadding],
-                                       [NSLayoutConstraint constraintWithItem:_parentStackView
-                                                                    attribute:NSLayoutAttributeRight
-                                                                    relatedBy:NSLayoutRelationEqual
-                                                                       toItem:self.safeAreaLayoutGuide
-                                                                    attribute:NSLayoutAttributeRight
-                                                                   multiplier:1.0
-                                                                     constant:-leftRightPadding]
+                                                                     constant:0.0]
                                        ]];
     _contentWidthConstraints = @[
                                             [NSLayoutConstraint constraintWithItem:_footnoteLabel
@@ -488,6 +474,8 @@ static const CGFloat topSpacing = 24.0;
                                                                         multiplier:1.0
                                                                           constant:-ORKStackViewSpacing]
                                             ];
+    
+    [self updateLeftRightConstraints];
     [self setContentWidthConstraintsPriority];
     [constraints addObjectsFromArray:_contentWidthConstraints];
     [constraints addObjectsFromArray:@[
@@ -524,6 +512,34 @@ static const CGFloat topSpacing = 24.0;
     [NSLayoutConstraint activateConstraints:constraints];
 }
 
+- (void)updateLeftRightConstraints {
+    if (_leftRightPaddingConstraints != nil) {
+        [NSLayoutConstraint deactivateConstraints:_leftRightPaddingConstraints];
+    }
+    
+    CGFloat leftRightPadding = _useExtendedPadding ? ORKStepContainerExtendedLeftRightPaddingForWindow(self.window) : ORKStepContainerLeftRightPaddingForWindow(self.window);
+    
+    _leftRightPaddingConstraints = @[
+            [NSLayoutConstraint constraintWithItem:_parentStackView
+                                         attribute:NSLayoutAttributeLeft
+                                         relatedBy:NSLayoutRelationEqual
+                                            toItem:self
+                                         attribute:NSLayoutAttributeLeft
+                                        multiplier:1.0
+                                          constant:leftRightPadding],
+            [NSLayoutConstraint constraintWithItem:_parentStackView
+                                         attribute:NSLayoutAttributeRight
+                                         relatedBy:NSLayoutRelationEqual
+                                            toItem:self
+                                         attribute:NSLayoutAttributeRight
+                                        multiplier:1.0
+                                          constant:-leftRightPadding]
+    ];
+    
+    [NSLayoutConstraint activateConstraints:_leftRightPaddingConstraints];
+    [self layoutSubviews];
+}
+
 - (void)deprioritizeContentWidthConstraints {
     _deprioritizeContentWidthConstraints = YES;
     [self setContentWidthConstraintsPriority];
@@ -543,6 +559,11 @@ static const CGFloat topSpacing = 24.0;
         isInside = [self.continueButton pointInside:[self convertPoint:point toView:self.continueButton] withEvent:event];
     }
     return isInside;
+}
+
+- (void)setUseExtendedPadding:(BOOL)useExtendedPadding {
+    _useExtendedPadding = useExtendedPadding;
+    [self updateLeftRightConstraints];
 }
 
 @end

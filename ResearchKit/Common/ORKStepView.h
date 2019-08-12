@@ -76,6 +76,8 @@ ORK_CLASS_AVAILABLE
 
 @property (nonatomic, weak) id<ORKStepViewLearnMoreItemDelegate> delegate;
 
+@property (nonatomic) BOOL useExtendedPadding;
+
 - (void)pinNavigationContainerToBottom;
 
 @end
