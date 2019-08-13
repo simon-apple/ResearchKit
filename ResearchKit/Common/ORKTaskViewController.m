@@ -248,7 +248,12 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:pageViewController];
     [navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
     [navigationController.navigationBar setShadowImage:[UIImage new]];
-    [navigationController.navigationBar setTranslucent:YES];
+    [navigationController.navigationBar setTranslucent:NO];
+    if (@available(iOS 13.0, *)) {
+        [navigationController.navigationBar setBarTintColor:[UIColor systemGroupedBackgroundColor]];
+    } else {
+        [navigationController.navigationBar setBarTintColor:ORKColor(ORKBackgroundColorKey)];
+    }
     [navigationController.view setBackgroundColor:UIColor.clearColor];
     self.childNavigationController = navigationController;
     
