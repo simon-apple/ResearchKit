@@ -103,7 +103,6 @@ static const CGFloat HeadlineStackViewSpacing = 4.0;
     _headlineStackView = [[UIStackView alloc] init];
     _headlineStackView.axis = UILayoutConstraintAxisVertical;
     _headlineStackView.distribution = UIStackViewDistributionFill;
-    _headlineStackView.alignment = UIStackViewAlignmentLeading;
     _headlineStackView.spacing = HeadlineStackViewSpacing;
 }
 
