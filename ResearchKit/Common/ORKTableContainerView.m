@@ -71,7 +71,6 @@
     if (self) {
         _leftRightPadding = ORKStepContainerLeftRightPaddingForWindow(self.window);
         [self setupTableViewWithStyle:style];
-
         
         _scrollView = _tableView;
         self.isNavigationContainerScrollable = !pinNavigationContainer;

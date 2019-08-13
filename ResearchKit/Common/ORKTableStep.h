@@ -114,6 +114,12 @@ typedef NS_ENUM(NSInteger, ORKBulletType) {
 @optional
 - (nullable UIView *)viewForHeaderInSection:(NSInteger)section tableView:(UITableView *)tableView;
 
+/**
+ Optional override for configuring the table style.
+ */
+@optional
+- (UITableViewStyle)customTableViewStyle;
+
 @end
 
 /**

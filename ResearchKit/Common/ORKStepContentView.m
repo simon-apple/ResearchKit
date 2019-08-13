@@ -436,7 +436,6 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKUpdateConstraintSequence) {
 
 - (void)setupTextLabelConstraints {
     _textLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    _leftRightPadding = ORKStepContainerExtendedLeftRightPaddingForWindow(self.window);
     [self setTextLabelTopConstraint];
     _textLabelConstraints = @[_textLabelTopConstraint];
     

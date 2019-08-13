@@ -95,6 +95,10 @@ ORKDefineStringKey(ORKBasicCellReuseIdentifier);
 }
     
 - (UITableViewStyle)tableViewStyle {
+    if ([self.tableStep respondsToSelector:@selector(customTableViewStyle)]) {
+        return [self.tableStep customTableViewStyle];
+    }
+    
     return [self numSections] > 1 ? UITableViewStyleGrouped : UITableViewStylePlain;
 }
 
@@ -141,6 +145,8 @@ ORKDefineStringKey(ORKBasicCellReuseIdentifier);
         [_tableView setBackgroundColor:_tableViewColor];
         _tableView.alwaysBounceVertical = NO;
         _headerView = _tableContainer.stepContentView;
+        [_tableContainer.stepContentView setUseExtendedPadding:[[self step] useExtendedPadding]];
+        
         _headerView.stepTitle = [[self step] title];
         _headerView.stepText = [[self step] text];
         _headerView.bodyItems = [[self step] bodyItems];
