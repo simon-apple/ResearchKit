@@ -46,6 +46,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ORKSignatureView : UIView
 
+- (instancetype)initWithoutDefaultWidth;
+
 @property (nonatomic, strong, nullable) UIColor *lineColor;
 @property (nonatomic) CGFloat lineWidth;
 

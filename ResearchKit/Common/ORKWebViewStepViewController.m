@@ -75,7 +75,7 @@ static const CGFloat ORKSignatureToClearPadding = 15.0;
         [self.view addSubview:_scrollView];
         
         if ([self webViewStep].showSignatureAfterContent) {
-            _signatureView = [[ORKSignatureView alloc] init];
+            _signatureView = [[ORKSignatureView alloc] initWithoutDefaultWidth];
             _signatureView.delegate = self;
             [_scrollView addSubview:_signatureView];
             
