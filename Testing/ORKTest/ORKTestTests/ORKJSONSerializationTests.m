@@ -867,6 +867,8 @@ ORK_MAKE_TEST_INIT(NSRegularExpression, (^{
                                               @"ORKAnswerFormat.healthKitUserUnit",
                                               @"ORKCollectionResult.firstResult",
                                               
+                                              @"ORKCustomStep.contentView",  // UIView is not able to be serialized
+                                              
                                               // Images: ignored so we can do the equality test and pass
                                               @"ORKImageChoice.normalStateImage",
                                               @"ORKImageChoice.selectedStateImage",
