@@ -131,6 +131,7 @@ static const CGFloat HeadlineStackViewSpacing = 4.0;
             [_headlineStackView setCustomSpacing:6.0 afterView:previousLabel];
             [_headlineStackView addArrangedSubview:_learnMoreView];
             [_learnMoreView setLearnMoreButtonFont:[UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline]];
+            [_learnMoreView setLearnMoreButtonTextAlignment:NSTextAlignmentLeft];
         } else {
             [_headlineView addSubview:_learnMoreView];
         }
