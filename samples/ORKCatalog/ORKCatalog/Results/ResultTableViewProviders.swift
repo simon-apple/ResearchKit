@@ -166,6 +166,12 @@ func resultTableViewProviderForResult(_ result: ORKResult?) -> UITableViewDataSo
     case is ORKWebViewStepResult:
         providerType = WebViewStepResultTableViewProvider.self
         
+    case is ORKHeadphoneDetectResult:
+        providerType = HeadphoneDetectStepResultTableViewProvider.self
+        
+    case is ORKEnvironmentSPLMeterResult:
+        providerType = SPLMeterStepResultTableViewProvider.self
+        
     default:
         fatalError("No ResultTableViewProvider defined for \(type(of: result)).")
     }
@@ -1251,6 +1257,27 @@ class VideoInstructionStepResultTableViewProvider: ResultTableViewProvider {
 }
 // swiftlint:enable type_name
 
+/// Table view provider specific to an `ORKVideoInstructionStepResult` instance.
+// swiftlint:disable type_name
+class HeadphoneDetectStepResultTableViewProvider: ResultTableViewProvider {
+    // MARK: ResultTableViewProvider
+    
+    override func resultRowsForSection(_ section: Int) -> [ResultRow] {
+        let headphoneDetectStepResult = result as! ORKHeadphoneDetectResult
+        
+        let rows = super.resultRowsForSection(section)
+        
+        if section == 0 {
+            return rows + [
+                ResultRow(text: "headphoneType", detail: headphoneDetectStepResult.headphoneType)
+            ]
+        }
+        
+        return rows
+    }
+}
+// swiftlint:enable type_name
+
 /// Table view provider specific to an `ORKWebViewStepResult` instance.
 class WebViewStepResultTableViewProvider: ResultTableViewProvider {
     // MARK: ResultTableViewProvider
@@ -1270,3 +1297,23 @@ class WebViewStepResultTableViewProvider: ResultTableViewProvider {
     }
 }
 //swiftlint:enable force_cast
+
+/// Table view provider specific to an `ORKEnvironmentSPLMeterResult` instance.
+class SPLMeterStepResultTableViewProvider: ResultTableViewProvider {
+    // MARK: ResultTableViewProvider
+    
+    override func resultRowsForSection(_ section: Int) -> [ResultRow] {
+        let splMeterResult = result as! ORKEnvironmentSPLMeterResult
+        
+        let rows = super.resultRowsForSection(section)
+        
+        if section == 0 {
+            return rows + [
+                ResultRow(text: "sensitivityOffset", detail: splMeterResult.sensitivityOffset),
+                ResultRow(text: "recordedSPLMeterSamples", detail: splMeterResult.recordedSPLMeterSamples)
+            ]
+        }
+        
+        return rows
+    }
+}

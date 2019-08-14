@@ -38,7 +38,7 @@
 
 static const CGFloat TopToProgressViewMinPadding = 10.0;
 
-@implementation ORKDBHLToneAudiometryButton
+@implementation ORKdBHLToneAudiometryButton
 
 - (instancetype)init
 {
@@ -73,10 +73,9 @@ static const CGFloat TopToProgressViewMinPadding = 10.0;
         _progressView.progressTintColor = [self tintColor];
         [_progressView setAlpha:0];
         [self addSubview:_progressView];
-        _tapButton = [[ORKDBHLToneAudiometryButton alloc] init];
+        _tapButton = [[ORKdBHLToneAudiometryButton alloc] init];
         [_tapButton setDiameter:150];
         _tapButton.translatesAutoresizingMaskIntoConstraints = NO;
-        [_tapButton setTitle:ORKLocalizedString(@"TAP_BUTTON_TITLE", nil) forState:UIControlStateNormal];
         _tapButton.accessibilityTraits = UIAccessibilityTraitButton | UIAccessibilityTraitAllowsDirectInteraction;
 
         [self addSubview:_tapButton];

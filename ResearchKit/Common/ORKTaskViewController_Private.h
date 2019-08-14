@@ -68,6 +68,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (ORKStepViewController *)viewControllerForStep:(ORKStep *)step;
 
+/**
+ Locks the device volume to a specific value. Will ignore a new locked value if the method was called before.
+ */
+- (void)lockDeviceVolume:(float)volume;
+
 @end
 
 NS_ASSUME_NONNULL_END

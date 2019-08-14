@@ -32,12 +32,13 @@
 @import Foundation;
 #import <ResearchKit/ORKDefines.h>
 #import <ResearchKit/ORKActiveStepViewController.h>
+#import "ORKHeadphoneDetector.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
 
 ORK_CLASS_AVAILABLE
-@interface ORKdBHLToneAudiometryStepViewController : ORKActiveStepViewController
+@interface ORKdBHLToneAudiometryStepViewController : ORKActiveStepViewController <ORKHeadphoneDetectorDelegate>
 
 @end
 

@@ -97,6 +97,7 @@
     secondaryTaskViewController = nil;
     secondaryTaskViewController = [[ORKTaskViewController alloc] initWithTask:[self secondaryTaskStep].secondaryTask taskRunUUID:[NSUUID UUID]];
     secondaryTaskViewController.delegate = self;
+    secondaryTaskViewController.outputDirectory = self.taskViewController.outputDirectory;
 }
 
 - (void)taskCompleted {

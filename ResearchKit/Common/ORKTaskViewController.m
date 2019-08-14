@@ -63,6 +63,7 @@
 @import CoreMotion;
 #import <CoreLocation/CoreLocation.h>
 
+#import "ORKCelestialSoftLink.h"
 
 typedef void (^_ORKLocationAuthorizationRequestHandler)(BOOL success);
 
@@ -186,6 +187,9 @@ static void *_ORKViewControllerToolbarObserverContext = &_ORKViewControllerToolb
     
     NSString *_restoredTaskIdentifier;
     NSString *_restoredStepIdentifier;
+    BOOL _hasLockedVolume;
+    float _savedVolume;
+    float _lockedVolume;
 }
 
 @property (nonatomic, strong) UINavigationController *childNavigationController;
@@ -272,6 +276,8 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     // Ensure taskRunUUID has non-nil valuetaskRunUUID
     (void)[self taskRunUUID];
     self.restorationClass = [ORKTaskViewController class];
+    
+    _hasLockedVolume = NO;
     
     return self;
 }
@@ -673,6 +679,24 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     self.view = view;
 }
 
+- (void)lockDeviceVolume:(float)volume {
+    if (!_hasLockedVolume) {
+        [[NSNotificationCenter defaultCenter] removeObserver:self];
+        _hasLockedVolume = YES;
+        _lockedVolume = volume;
+        _savedVolume = [[AVAudioSession sharedInstance] outputVolume];
+        
+        [[getAVSystemControllerClass() sharedAVSystemController] setActiveCategoryVolumeTo:_lockedVolume];
+        
+        [self registerNotifications];
+    }
+}
+
+- (void)registerNotifications
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(volumeDidChange:) name:@"AVSystemController_SystemVolumeDidChangeNotification" object:nil];
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
@@ -720,6 +744,12 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
+
+    // restore saved volume
+    if (_hasLockedVolume) {
+        [[NSNotificationCenter defaultCenter] removeObserver:self];
+        [[getAVSystemControllerClass() sharedAVSystemController] setActiveCategoryVolumeTo:_savedVolume];
+    }
     
     // Set endDate on TaskVC is dismissed,
     // because nextResponder is not nil when current TaskVC is covered by another modal view
@@ -1331,7 +1361,18 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     }
 }
 
-- (void)flipToPreviousPageFrom:(ORKStepViewController *)fromController {
+- (void)flipToFirstPage{
+    if ([self.task isKindOfClass:[ORKOrderedTask class]]) {
+        ORKOrderedTask *orderedTask = (ORKOrderedTask *)self.task;
+        ORKStep *firstStep = [[orderedTask steps] firstObject];
+        if (firstStep) {
+            [_managedStepIdentifiers removeAllObjects];
+            [self showViewController:[self viewControllerForStep:firstStep] goForward:YES animated:NO];
+        }
+    }
+}
+
+- (void)flipToPreviousPageFrom:(ORKStepViewController *)fromController{
     if (fromController != _currentStepViewController) {
         return;
     }
@@ -1698,5 +1739,16 @@ static NSString *const _ORKPresentedDate = @"presentedDate";
     [self showViewController:[self viewControllerForStep:[self.task stepWithIdentifier:stepIdentifier]] goForward:YES animated:YES];
 }
 
+#pragma mark Volume notifications
+- (void)volumeDidChange:(NSNotification *)note
+{
+    if ([[AVAudioSession sharedInstance] outputVolume] != _lockedVolume) {
+        NSDictionary *userInfo = note.userInfo;
+        NSString *reason = userInfo[@"AVSystemController_AudioVolumeChangeReasonNotificationParameter"];
+        if ([reason isEqualToString:@"ExplicitVolumeChange"]) {
+            [[getAVSystemControllerClass() sharedAVSystemController] setActiveCategoryVolumeTo:_lockedVolume];
+        };
+    }
+}
 
 @end

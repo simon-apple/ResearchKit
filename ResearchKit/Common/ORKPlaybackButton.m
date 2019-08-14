@@ -131,4 +131,14 @@ static const CGFloat ImageToLabelPadding = 2.0;
     }
 }
 
+- (void)setText:(NSString *)text {
+    _text = text;
+    _textLabel.text = text;
+}
+
+- (void)setImage:(UIImage *)image {
+    _image = image;
+    _imageView.image = image;
+}
+
 @end

@@ -1231,6 +1231,7 @@ ORK_MAKE_TEST_INIT(NSRegularExpression, (^{
                                                                              @"ORKdBHLToneAudiometryStepViewController" : @"ORKdBHLToneAudiometryStep",
 
                                                                              @"ORKSecondaryTaskStepViewController" : @"ORKSecondaryTaskStep",
+                                                                             @"ORKHeadphoneDetectStepViewController" : @"ORKHeadphoneDetectStep",
                                                                              @"ORKWebViewStepViewController": @"ORKWebViewStep",
                                                                              };
     

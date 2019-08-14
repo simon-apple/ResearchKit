@@ -81,6 +81,7 @@
 #import "ORKSpeechInNoiseStep.h"
 #import "ORKdBHLToneAudiometryStep.h"
 #import "ORKdBHLToneAudiometryOnboardingStep.h"
+#import "ORKHeadphoneDetectStep.h"
 #import "ORKSkin.h"
 
 #import "ORKHelpers_Internal.h"
@@ -1612,6 +1613,8 @@ NSString *const ORKdBHLToneAudiometryStep1Identifier = @"dBHL1.tone.audiometry";
 NSString *const ORKdBHLToneAudiometryStep2Identifier = @"dBHL2.tone.audiometry";
 NSString *const ORKdBHLToneAudiometryStep3Identifier = @"dBHL3.tone.audiometry";
 
+NSString *const ORKdBHLToneAudiometryHeadphoneDetectStepIdentifier = @"dBHL.tone.audiometry.headphonedetect";
+
 + (ORKOrderedTask *)dBHLToneAudiometryTaskWithIdentifier:(NSString *)identifier
                               intendedUseDescription:(nullable NSString *)intendedUseDescription
                                              options:(ORKPredefinedTaskOption)options {
@@ -1626,56 +1629,36 @@ NSString *const ORKdBHLToneAudiometryStep3Identifier = @"dBHL3.tone.audiometry";
         {
             ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction0StepIdentifier];
             step.title = ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_TASK_TITLE", nil);
-            step.text = intendedUseDescription;
-            step.detailText = ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_INTENDED_USE", nil);
+//            step.text = intendedUseDescription;
+//            step.detailText = ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_INTENDED_USE", nil);
+            step.detailText = @"This test identifies how loud a sound needs to be in order for you to hear it.";
             step.image = [UIImage imageNamed:@"audiometry" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
             step.imageContentMode = UIViewContentModeCenter;
             step.shouldTintImages = YES;
+            if (@available(iOS 13.0, *)) {
+                ORKBodyItem * item1 = [[ORKBodyItem alloc] initWithText:@"Listen to sentence." detailText:nil image:[UIImage systemImageNamed:@"ear"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
+                ORKBodyItem * item2 = [[ORKBodyItem alloc] initWithText:@"Repeat what you heard." detailText:nil image:[UIImage systemImageNamed:@"captions.bubble"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
+                ORKBodyItem * item3 = [[ORKBodyItem alloc] initWithText:@"Check and submit the transcript." detailText:nil image:[UIImage systemImageNamed:@"checkmark.seal"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
+                ORKBodyItem * item4 = [[ORKBodyItem alloc] initWithHorizontalRule];
+                ORKBodyItem * item5 = [[ORKBodyItem alloc] initWithText:@"This test takes about 10 minutes." detailText:nil image:[UIImage systemImageNamed:@"stopwatch"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
+                item5.useSecondaryColor = YES;
+                ORKBodyItem * item6 = [[ORKBodyItem alloc] initWithText:@"Turn on Do Not Disturb to Avoid Interruptions" detailText:nil image:[UIImage systemImageNamed:@"moon.fill"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
+                item6.useSecondaryColor = YES;
+                step.bodyItems = @[item1, item2, item3, item4, item5, item6];
+            } else {
+                // Fallback on earlier versions
+            }
             
             ORKStepArrayAddStep(steps, step);
         }
         
     }
-
-    {
-        ORKdBHLToneAudiometryOnboardingStep *step = [[ORKdBHLToneAudiometryOnboardingStep alloc] initWithIdentifier:ORKdBHLToneAudiometryStepIdentifier];
-        step.title = ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_TASK_TITLE", nil);
-        step.text = ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_ONBOARDING", nil);
-        
-        step.optional = NO;
-        
-        ORKTextChoice *left = [ORKTextChoice choiceWithText:ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_OPTION_LEFT", nil)
-                                                      value:@"LEFT"];
-        ORKTextChoice *right = [ORKTextChoice choiceWithText:ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_OPTION_RIGHT", nil)
-                                                       value:@"RIGHT"];
-        ORKTextChoice *neither = [ORKTextChoice choiceWithText:ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_OPTION_NO_PREFERENCE", nil)
-                                                         value:@"NEITHER"];
-        
-        ORKAnswerFormat *answerFormat = [ORKAnswerFormat choiceAnswerFormatWithStyle:ORKChoiceAnswerStyleSingleChoice
-                                                                         textChoices:@[right, left, neither]];
-        
-        ORKFormItem *formItem = [[ORKFormItem alloc] initWithIdentifier:ORKdBHLToneAudiometryStep0Identifier
-                                                                   text:ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_ONBOARDING_QUESTION", nil)
-                                                           answerFormat:answerFormat];
-        
-        ORKTextChoice *airpods = [ORKTextChoice choiceWithText:@"AirPods"
-                                                      value:@"AIRPODS"];
-        ORKTextChoice *earpods = [ORKTextChoice choiceWithText:@"EarPods"
-                                                         value:@"EARPODS"];
-        
-        ORKAnswerFormat *answerFormat1 = [ORKAnswerFormat choiceAnswerFormatWithStyle:ORKChoiceAnswerStyleSingleChoice
-                                                                         textChoices:@[airpods, earpods]];
-        ORKFormItem *formItem1 = [[ORKFormItem alloc] initWithIdentifier:ORKdBHLToneAudiometryStep3Identifier
-                                                                   text:@"Select the headphones that you will be using"
-                                                           answerFormat:answerFormat1];
-
-        
-        formItem.optional = NO;
-        formItem1.optional = NO;
-        
-        step.formItems = @[formItem, formItem1];
     
-        ORKStepArrayAddStep(steps, step);
+    {
+        ORKHeadphoneDetectStep *step = [[ORKHeadphoneDetectStep alloc] initWithIdentifier:ORKdBHLToneAudiometryHeadphoneDetectStepIdentifier headphoneTypes:ORKHeadphoneTypesSupported];
+        step.title = @"Connect your Headphones";
+        step.detailText = @"This test requires that you use Apple Airpods or Apple Earpods";
+        [steps addObject:step];
     }
     
     if (!(options & ORKPredefinedTaskOptionExcludeInstructions)) {
@@ -1696,10 +1679,21 @@ NSString *const ORKdBHLToneAudiometryStep3Identifier = @"dBHL3.tone.audiometry";
     }
     
     {
-        ORKCountdownStep *step = [[ORKCountdownStep alloc] initWithIdentifier:ORKCountdownStepIdentifier];
-        step.stepDuration = 5.0;
-        step.title = ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_TASK_TITLE", nil);
+        ORKEnvironmentSPLMeterStep *step = [[ORKEnvironmentSPLMeterStep alloc] initWithIdentifier:@"splMeter"];
+        step.requiredContiguousSamples = 5;
+        step.thresholdValue = 45;
+        step.title = @"Find a quiet place";
+        step.text = @"Make sure the circle stays inside the green by moving to a quiet environment";
         
+        ORKStepArrayAddStep(steps, step);
+    }
+    
+    {
+        ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction2StepIdentifier];
+        step.title = ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_STEP_TITLE_RIGHT_EAR", nil);
+        step.shouldTintImages = YES;
+        step.image = [[UIImage imageNamed:@"walkingman" inBundle:ORKBundle() compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        step.centerImageVertically = YES;
         ORKStepArrayAddStep(steps, step);
     }
     
@@ -1711,9 +1705,9 @@ NSString *const ORKdBHLToneAudiometryStep3Identifier = @"dBHL3.tone.audiometry";
     }
     
     {
-        ORKCountdownStep *step = [[ORKCountdownStep alloc] initWithIdentifier:ORKCountdown1StepIdentifier];
-        step.stepDuration = 5.0;
-        step.title = ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_TASK_TITLE", nil);
+        ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction3StepIdentifier];
+        step.title = ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_STEP_TITLE_LEFT_EAR", nil);
+        step.shouldTintImages = YES;
         
         ORKStepArrayAddStep(steps, step);
     }

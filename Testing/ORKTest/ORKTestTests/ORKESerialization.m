@@ -954,6 +954,13 @@ static NSMutableDictionary *ORKESerializationEncodingTable() {
                     PROPERTY(earPreference, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(frequencyList, NSArray, NSObject, YES, nil, nil)
                     })),
+           ENTRY(ORKHeadphoneDetectStep,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+               return [[ORKHeadphoneDetectStep alloc] initWithIdentifier:GETPROP(dict, identifier) headphoneTypes:(NSUInteger)[GETPROP(dict, headphoneTypes) integerValue]];
+           },
+                 (@{
+                     PROPERTY(headphoneTypes, NSNumber, NSObject, YES, nil, nil),
+                 })),
            ENTRY(ORKHolePegTestPlaceStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      return [[ORKHolePegTestPlaceStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
@@ -1772,6 +1779,11 @@ static NSMutableDictionary *ORKESerializationEncodingTable() {
                     PROPERTY(headphoneType, NSString, NSObject, NO, nil, nil),
                     PROPERTY(samples, ORKdBHLToneAudiometryFrequencySample, NSArray, NO, nil, nil),
                     })),
+           ENTRY(ORKHeadphoneDetectResult,
+                 nil,
+                 (@{
+                     PROPERTY(headphoneType, NSString, NSObject, NO, nil, nil),
+                 })),
            ENTRY(ORKReactionTimeResult,
                  nil,
                  (@{

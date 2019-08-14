@@ -107,6 +107,7 @@
     step.initialdBHLValue = self.initialdBHLValue;
     step.dBHLStepDownSize = self.dBHLStepDownSize;
     step.dBHLStepUpSize = self.dBHLStepUpSize;
+    step.dBHLMinimumThreshold = self.dBHLMinimumThreshold;
     step.dBHLStepUpSizeFirstMiss = self.dBHLStepUpSizeFirstMiss;
     step.dBHLStepUpSizeSecondMiss = self.dBHLStepUpSizeSecondMiss;
     step.dBHLStepUpSizeThirdMiss = self.dBHLStepUpSizeThirdMiss;

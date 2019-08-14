@@ -186,6 +186,7 @@
 
 - (void)configureAudioSession {
     NSError *error = nil;
+    
     // Stop any existing audio
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategorySoloAmbient error:&error];
     if (error) {
@@ -350,7 +351,6 @@
 - (void)stepDidFinish {
     [super stepDidFinish];
     [self.environmentSPLMeterContentView finishStep:self];
-
     [self goForward];
 }
 

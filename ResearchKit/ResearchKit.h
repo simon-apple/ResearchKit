@@ -59,6 +59,7 @@
 #import <ResearchKit/ORKEnvironmentSPLMeterStep.h>
 #import <ResearchKit/ORKLearnMoreInstructionStep.h>
 #import <ResearchKit/ORKSecondaryTaskStep.h>
+#import <ResearchKit/ORKHeadphoneDetectStep.h>
 
 #import <ResearchKit/ORKTask.h>
 #import <ResearchKit/ORKOrderedTask.h>
@@ -80,6 +81,7 @@
 #import <ResearchKit/ORKWebViewStepResult.h>
 #import <ResearchKit/ORKEnvironmentSPLMeterResult.h>
 #import <ResearchKit/ORKResultPredicate.h>
+#import <ResearchKit/ORKHeadphoneDetectResult.h>
 
 #import <ResearchKit/ORKTextButton.h>
 #import <ResearchKit/ORKBorderedButton.h>
@@ -105,6 +107,8 @@
 #import <ResearchKit/ORKCustomStepViewController.h>
 
 #import <ResearchKit/ORKRecorder.h>
+
+#import <ResearchKit/ORKHeadphoneDetector.h>
 
 #import <ResearchKit/ORKConsentDocument.h>
 #import <ResearchKit/ORKConsentSection.h>

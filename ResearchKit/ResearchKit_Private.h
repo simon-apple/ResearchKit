@@ -104,7 +104,6 @@
 #import <ResearchKit/ORKStroopStepViewController.h>
 #import <ResearchKit/ORKTappingIntervalStepViewController.h>
 #import <ResearchKit/ORKToneAudiometryStepViewController.h>
-#import <ResearchKit/ORKdBHLToneAudiometryStepViewController.h>
 #import <ResearchKit/ORKTimedWalkStepViewController.h>
 #import <ResearchKit/ORKVisualConsentStepViewController.h>
 #import <ResearchKit/ORKWalkingTaskStepViewController.h>

@@ -1,0 +1,70 @@
+# Install Requirements
+46GB APFS Container
+  All volumes on container must be unmountable
+    e.g. container must not contain your boot volume
+
+# Optimizations
+134048 duplicate files hard-linked
+
+# Install-Xcode Command
+/SWE/Teams/DT/InstallXcode/uitools/bin/install-xcode --ios Yukon17A803a --macos LibertyBuildPlatform18A391011 --xcode --macos InstallTestmacOSJazz --tvos --watchos --bridgeos --SDK-UI-internals --FastSim --boost --no-prereleasedocs --fleps --ios-nopkgs --no-prompt --hide-progress
+
+# Install-Xcode Installed Tools
+Xcode: 11.0 (11M374r)
+AppleTVOS SDK: 13.0 Internal (17J543)
+AppleTVOS SDK: 13.0 (17J543)
+AppleTVSimulator SDK: 13.0 Internal (17J543)
+AppleTVSimulator SDK: 13.0 (17J543)
+BridgeOS SDK: 4.0 Internal (17P524)
+BridgeOS SDK: 4.0 (17P524)
+MacOSX SDK: 10.14 Internal (18A391011)
+MacOSX SDK: 10.14 (18A391011)
+MacOSX SDK: 10.15 Internal (19A529)
+MacOSX SDK: 10.15 (19A529)
+WatchOS SDK: 6.0 Internal (17R549)
+WatchOS SDK: 6.0 (17R549)
+WatchSimulator SDK: 6.0 Internal (17R549)
+WatchSimulator SDK: 6.0 (17R549)
+iPhoneOS SDK: 13.0 Internal (17A803a)
+iPhoneOS SDK: 13.0 (17A803a)
+iPhoneSimulator SDK: 13.0 Internal (17A803a)
+iPhoneSimulator SDK: 13.0 (17A803a)
+
+# Install-Xcode Installed Images
+Xcode_AppleInternal (YellowstoneSeed11M374r)
+XcodePieces_Base (YellowstoneSeed11M374r)
+XcodeSystemResourcesInternal (YellowstoneSeed11M374r)
+FirstLaunchExperiencePackages (YellowstoneSeed11M374r)
+iOSSDKOnly_NoPkgs (Yukon17A803a)
+iOSDeveloperDiskImages (Yukon17A803a)
+iOSSDKInternalUI_NoPkgs (Yukon17A803a)
+iOSSimulatorRuntimeInternal_NoPkg (Yukon17A803a)
+iOSSDKInternalAdditions_boost (Yukon17A803a)
+MobileDevice_for_Xcode (Yukon17A803a)
+XcodeSupport_iOS (YellowstoneSeed11M374r)
+XcodeSupport_EmbeddedSDKInternalUI (YellowstoneSeed11M374r)
+AppleTVOSSDKOnly_NoPkgs (Yager17J543)
+AppleTVOSDeveloperDiskImages (Yager17J543)
+AppleTVOSSDKInternalUI_NoPkgs (Yager17J543)
+AppleTVOSSimulatorRuntimeInternal_NoPkg (Yager17J543)
+AppleTVOSSDKInternalAdditions_boost (Yager17J543)
+XcodeSupport_ATV (YellowstoneSeed11M374r)
+WatchOSSDKOnly_NoPkgs (Grace17R549)
+WatchOSDeveloperDiskImages (Grace17R549)
+WatchOSSDKInternalUI_NoPkgs (Grace17R549)
+WatchOSSimulatorRuntimeInternal_NoPkg (Grace17R549)
+WatchOSSDKInternalAdditions_boost (Grace17R549)
+XcodeSupport_Watch (YellowstoneSeed11M374r)
+BridgeOSSDKInternalNonUI_NoPkgs (bridgeOSJazz17P524)
+BridgeOSSDKInternalAdditions_boost (bridgeOSJazz17P524)
+XcodeSupport_Bridge (YellowstoneSeed11M374r)
+macOSSDKInternal (LibertyBuildPlatform18A391011)
+macOSSDKInternal (macOSJazz19A529)
+FastSim (Yukon17A803a)
+
+# Generation Info
+Category: macOS_iOS_tvOS_watchOS_bridgeOS
+Cohort: macOSJazz_Yukon_Yager_Grace_bridgeOSJazz
+Type: standard-ui-sdk-internal
+NFA Security Template: XIA-M19-I17-W17-B17
+Build Number: 30070

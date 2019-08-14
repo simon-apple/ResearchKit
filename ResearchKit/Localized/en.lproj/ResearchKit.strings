@@ -328,6 +328,8 @@
 
 /* dBHL Tone audiometry active task. */
 "dBHL_TONE_AUDIOMETRY_TASK_TITLE" = "Tone Audiometry";
+"dBHL_TONE_AUDIOMETRY_STEP_TITLE_RIGHT_EAR" = "Tones will play in your right ear first.";
+"dBHL_TONE_AUDIOMETRY_STEP_TITLE_LEFT_EAR" = "Tones will now play in your left ear.";
 "dBHL_TONE_AUDIOMETRY_INTENDED_USE" = "This activity identifies hearing threshold levels of an individual in dB HL scale.";
 "dBHL_TONE_AUDIOMETRY_INTRO_TEXT" = "Make sure the device volume is set to the maximum level.\n\nDuring this task, a subtle tone will play in either the left or right ear.\n\nListen carefully and tap the button every time you hear a tone.";
 "dBHL_TONE_AUDIOMETRY_ONBOARDING" = "Onboarding questionnaire.";
@@ -335,6 +337,19 @@
 "dBHL_TONE_AUDIOMETRY_OPTION_LEFT" = "left";
 "dBHL_TONE_AUDIOMETRY_OPTION_RIGHT" = "right";
 "dBHL_TONE_AUDIOMETRY_OPTION_NO_PREFERENCE" = "no preference";
+"dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "Test interrupted";
+"dBHL_ALERT_TITLE_START_OVER" = "Start Over";
+"dBHL_ALERT_TITLE_CANCEL_TEST" = "Cancel Test";
+"dBHL_ALERT_TEXT" = "There is something wrong with you headphones.";
+
+/* Headphones. */
+"AIRPODS" = "Airpods";
+"EARPODS" = "Earpods";
+"HEADPHONES" = "Headphones";
+"HEADPHONES_UNKNOWN" = "Unknown";
+"HEADPHONES_NONE" = "None";
+"CONNECTED" = "Connected";
+"HEADPHONE_CONNECTED_%@" = "Connected - %@";
 
 /* Spatial span memory active task. */
 "SPATIAL_SPAN_MEMORY_TITLE" = "Spatial Memory";

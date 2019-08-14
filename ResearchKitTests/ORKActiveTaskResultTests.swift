@@ -514,6 +514,37 @@ class ORKToneAudiometryResultTests: XCTestCase {
     }
 }
 
+class ORKHeadphoneDetectResultTests: XCTestCase {
+    var result: ORKHeadphoneDetectResult!
+    var identifier: String!
+    let date = Date()
+    
+    override func setUp() {
+        super.setUp()
+        identifier = "RESULT"
+        result = ORKHeadphoneDetectResult(identifier: identifier)
+        
+        result.headphoneType = "AIRPODS"
+    }
+ 
+    func testProperties() {
+        XCTAssertEqual(result.identifier, identifier)
+        XCTAssertEqual(result.headphoneType, "AIRPODS")
+    }
+    
+    func testIsEqual() {
+        result.startDate = date
+        result.endDate = date
+        
+        let newResult = ORKHeadphoneDetectResult(identifier: identifier)
+        newResult.headphoneType = "AIRPODS"
+        newResult.startDate = date
+        newResult.endDate = date
+        
+        XCTAssert(result.isEqual(newResult))
+    }
+}
+
 class ORKdBHLToneAudiometryResultTests: XCTestCase {
     var result: ORKdBHLToneAudiometryResult!
     var identifier: String!
