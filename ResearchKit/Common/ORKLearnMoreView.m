@@ -141,6 +141,10 @@ ORK_CLASS_AVAILABLE
     }
 }
 
+- (void)setLearnMoreButtonTextAlignment:(NSTextAlignment)textAlignment {
+    _learnMoreButton.titleLabel.textAlignment = textAlignment;
+}
+
 - (BOOL)isTextLink {
     return _learnMoreButton.titleLabel.text.length > 0;
 }
