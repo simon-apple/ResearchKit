@@ -223,7 +223,8 @@ static const CGFloat ErrorLabelBottomPadding = 10.0;
 
 - (void)updateErrorLabelWithMessage:(NSString *)message {
     NSString *separatorString = @":";
-    NSString *parsedString = [message componentsSeparatedByString:separatorString].firstObject;
+    NSString *stringtoParse = message ? : ORKLocalizedString(@"RANGE_ALERT_TITLE", @"");
+    NSString *parsedString = [stringtoParse componentsSeparatedByString:separatorString].firstObject;
     
     if (@available(iOS 13.0, *)) {
         
