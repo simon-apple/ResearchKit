@@ -234,14 +234,16 @@
 
 - (void)sizeHeaderToFit {
     CGFloat width = self.stepContentView.bounds.size.width > CGFLOAT_MIN ? self.stepContentView.bounds.size.width : self.bounds.size.width;
-
-    [self.stepContentView.titleLabel setPreferredMaxLayoutWidth:width];
-    [self.stepContentView.textLabel setPreferredMaxLayoutWidth:width];
-    [self.stepContentView.detailTextLabel setPreferredMaxLayoutWidth:width];
+    CGFloat padding = [[self stepContentView] useExtendedPadding] ? ORKStepContainerExtendedLeftRightPaddingForWindow(self.window) : ORKStepContainerLeftRightPaddingForWindow(self.window);
+    
+    [self.stepContentView.titleLabel setPreferredMaxLayoutWidth:width - (padding * 2)];
+    [self.stepContentView.textLabel setPreferredMaxLayoutWidth:width - (padding * 2)];
+    [self.stepContentView.detailTextLabel setPreferredMaxLayoutWidth:width - (padding * 2)];
     CGFloat estimatedHeight = [self.stepContentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
     CGRect bounds = CGRectMake(0.0, 0.0, self.stepContentView.bounds.size.width, self.stepContentView.bounds.size.height);
     bounds.size.height = estimatedHeight;
     [self.stepContentView setBounds:bounds];
+    
 }
 
 - (void)setTapOffView:(UIView *)tapOffView {

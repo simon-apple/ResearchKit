@@ -101,6 +101,7 @@
     questionStep.answerFormat = [self.answerFormat copy];
     questionStep.placeholder = [self.placeholder copy];
     questionStep.learnMoreItem = [self.learnMoreItem copy];
+    questionStep.question = [self.question copy];
     return questionStep;
 }
 

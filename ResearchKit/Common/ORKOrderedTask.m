@@ -74,6 +74,13 @@
     return task;
 }
 
+- (instancetype)copyWithSteps:(NSArray <ORKStep *> *)steps identifier:(NSString *)identifier {
+    ORKOrderedTask *task = [self copyWithZone:nil];
+    task->_steps = ORKArrayCopyObjects(steps);
+    task->_identifier = [identifier copy];
+    return task;
+}
+
 - (instancetype)copyWithZone:(NSZone *)zone {
     ORKOrderedTask *task = [[[self class] allocWithZone:zone] initWithIdentifier:[_identifier copy]
                                                                            steps:ORKArrayCopyObjects(_steps)];

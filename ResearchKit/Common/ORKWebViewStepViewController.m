@@ -111,7 +111,7 @@ static const CGFloat ORKSignatureToClearPadding = 15.0;
         NSString *backgroundColorString = [self hexStringForColor:backgroundColor];
         NSString *textColorString = [self hexStringForColor:textColor];
         
-        NSString *css = [NSString stringWithFormat:@"body { font-size: 17px; font-family: \"-apple-system\"; padding-left: %fpx; padding-right: %fpx; background-color: %@; color: %@; }",
+        NSString *css = [NSString stringWithFormat:@"body { margin: 0px; font-size: 17px; font-family: \"-apple-system\"; padding-left: %fpx; padding-right: %fpx; background-color: %@; color: %@; }",
                          _leftRightPadding,
                          _leftRightPadding,
                          backgroundColorString,
