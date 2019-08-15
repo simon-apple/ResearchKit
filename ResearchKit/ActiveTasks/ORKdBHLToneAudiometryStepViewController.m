@@ -189,6 +189,27 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    [self start];
+}
+
+- (void)animatedBHLButton {
+    [UIView animateWithDuration:0.1
+                          delay:0.0
+         usingSpringWithDamping:0.1
+          initialSpringVelocity:0.0
+                        options:UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+        [self.dBHLToneAudiometryContentView.tapButton setTransform:CGAffineTransformMakeScale(0.88, 0.88)];
+    } completion:^(BOOL finished) {
+        [UIView animateWithDuration:1.0
+                              delay:0.0
+             usingSpringWithDamping:0.4
+              initialSpringVelocity:0.0
+                            options:UIViewAnimationOptionCurveLinear
+                         animations:^{
+            [self.dBHLToneAudiometryContentView.tapButton setTransform:CGAffineTransformMakeScale(1.0, 1.0)];
+        } completion:nil];
+    }];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -197,18 +218,6 @@
     _headphoneDetector.delegate = nil;
     _headphoneDetector = nil;
     _audioGenerator.delegate = nil;
-}
-
-- (void)addAnimationToButton:(UIButton *)button {
-    CABasicAnimation *pulseAnimation;
-    
-    pulseAnimation=[CABasicAnimation animationWithKeyPath:@"transform.scale.xy"];
-    pulseAnimation.duration=1.0;
-    pulseAnimation.repeatCount=HUGE_VALF;
-    pulseAnimation.autoreverses=YES;
-    pulseAnimation.fromValue=[NSNumber numberWithFloat:1.0];
-    pulseAnimation.toValue=[NSNumber numberWithFloat:0.85];
-    [button.layer addAnimation:pulseAnimation forKey:@"pulse"];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -254,7 +263,6 @@
     _audioGenerator.delegate = self;
     _hapticFeedback = [[UIImpactFeedbackGenerator alloc] initWithStyle: UIImpactFeedbackStyleHeavy];
     
-    [self addAnimationToButton:self.dBHLToneAudiometryContentView.tapButton];
     [self.dBHLToneAudiometryContentView.tapButton setEnabled:YES];
     [self estimatedBHLAndPlayToneWithFrequency:_freqLoopList[_indexOfFreqLoopList]];
 }
@@ -374,6 +382,7 @@
 }
 
 - (void)tapButtonPressed {
+    [self animatedBHLButton];
     _ackOnce = YES;
     [_hapticFeedback impactOccurred];
     _currentTestIndex += 1;

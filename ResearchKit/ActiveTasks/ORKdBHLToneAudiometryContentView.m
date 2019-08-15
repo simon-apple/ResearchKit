@@ -44,7 +44,7 @@ static const CGFloat TopToProgressViewMinPadding = 10.0;
 {
     self = [super init];
     if (self) {
-        self.layer.borderWidth = 20.0;
+        self.layer.borderWidth = 15.0;
         self.layer.borderColor = UIColor.whiteColor.CGColor;
         self.layer.shadowRadius = 10.0;
         self.layer.shadowOpacity = 0.2;
