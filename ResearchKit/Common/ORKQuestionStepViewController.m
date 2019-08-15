@@ -120,7 +120,7 @@ typedef NS_ENUM(NSInteger, ORKQuestionSection) {
 }
 
 - (instancetype)initWithStep:(ORKStep *)step result:(ORKResult *)result {
-    self = [self initWithStep:step];
+    self = [super initWithStep:step result:result];
     if (self) {
 		ORKStepResult *stepResult = (ORKStepResult *)result;
 		if (stepResult && [stepResult results].count > 0) {

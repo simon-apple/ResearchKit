@@ -29,7 +29,7 @@
  */
 
 
-#import "ORKStepViewController.h"
+#import "ORKStepViewController_Internal.h"
 
 #import "UIBarButtonItem+ORKBarButtonItem.h"
 
@@ -86,16 +86,9 @@ static const CGFloat iPadStepTitleLabelFontSize = 50.0;
 
 #pragma clang diagnostic pop
 
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        [self initializeInternalButtonItems];
-    }
-    return self;
-}
-
-- (instancetype)initWithStep:(ORKStep *)step {
-    self = [self init];
+- (instancetype)initWithStep:(ORKStep *)step result:(ORKResult *)result {
+    // The default implementation ignores the previous result.
+    self = [super initWithNibName:nil bundle:nil];
     if (self) {
         _wasSkipped = false;
         [self initializeInternalButtonItems];
@@ -104,9 +97,8 @@ static const CGFloat iPadStepTitleLabelFontSize = 50.0;
     return self;
 }
 
-- (instancetype)initWithStep:(ORKStep *)step result:(ORKResult *)result {
-    // Default implementation ignores the previous result.
-    return [self initWithStep:step];
+- (instancetype)initWithStep:(ORKStep *)step {
+    return [self initWithStep:step result:nil];
 }
 
 - (void)viewDidLoad {

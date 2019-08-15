@@ -337,7 +337,7 @@ static const CGFloat TableViewYOffsetStandard = 30.0;
 
 - (instancetype)initWithStep:(ORKStep *)step result:(ORKResult *)result {
 
-    self = [super initWithStep:step];
+    self = [super initWithStep:step result:result];
     return [self ORKFormStepViewController_initWithResult:result];
 }
 
