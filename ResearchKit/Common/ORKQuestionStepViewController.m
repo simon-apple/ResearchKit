@@ -237,7 +237,24 @@ typedef NS_ENUM(NSInteger, ORKQuestionSection) {
                     [_questionView setBackgroundColor:ORKColor(ORKBackgroundColorKey)];
                     [self.taskViewController.navigationBar setBarTintColor:[_questionView backgroundColor]];
                     [self.view setBackgroundColor:[_questionView backgroundColor]];
-                    [_cellHolderView useCardViewWithTitle:self.questionStep.question];
+                    ORKLearnMoreView *learnMoreView;
+                    NSString *sectionProgressText = nil;
+                    
+                    if (self.step.showsProgress) {
+                        if ([self.delegate respondsToSelector:@selector(stepViewControllerTotalProgressInfoForStep:currentStep:)]) {
+                            ORKTaskTotalProgress progressInfo = [self.delegate stepViewControllerTotalProgressInfoForStep:self currentStep:self.step];
+                            if (progressInfo.stepShouldShowTotalProgress) {
+                                sectionProgressText = [NSString localizedStringWithFormat:ORKLocalizedString(@"FORM_ITEM_PROGRESS", nil) ,ORKLocalizedStringFromNumber(@(progressInfo.currentStepStartingProgressPosition)), ORKLocalizedStringFromNumber(@(progressInfo.total))];
+                            }
+                        }
+                    }
+                    
+                    if (self.questionStep.learnMoreItem) {
+                        learnMoreView = [ORKLearnMoreView learnMoreViewWithItem:self.questionStep.learnMoreItem];
+                        learnMoreView.delegate = self;
+                    }
+                    
+                    [_cellHolderView useCardViewWithTitle:self.questionStep.question detailText:self.step.detailText learnMoreView:learnMoreView progressText:sectionProgressText];
                 }
                 _questionView.questionCustomView = _cellHolderView;
             }
@@ -610,13 +627,23 @@ typedef NS_ENUM(NSInteger, ORKQuestionSection) {
     
     if ([self questionStep].useCardView && [self questionStep].question) {
         ORKLearnMoreView *learnMoreView;
+        NSString *sectionProgressText = nil;
+        
+        if (self.step.showsProgress) {
+            if ([self.delegate respondsToSelector:@selector(stepViewControllerTotalProgressInfoForStep:currentStep:)]) {
+                ORKTaskTotalProgress progressInfo = [self.delegate stepViewControllerTotalProgressInfoForStep:self currentStep:self.step];
+                if (progressInfo.stepShouldShowTotalProgress) {
+                    sectionProgressText = [NSString localizedStringWithFormat:ORKLocalizedString(@"FORM_ITEM_PROGRESS", nil) ,ORKLocalizedStringFromNumber(@(section + progressInfo.currentStepStartingProgressPosition)), ORKLocalizedStringFromNumber(@(progressInfo.total))];
+                }
+            }
+        }
         
         if (self.questionStep.learnMoreItem) {
             learnMoreView = [ORKLearnMoreView learnMoreViewWithItem:self.questionStep.learnMoreItem];
             learnMoreView.delegate = self;
         }
-        
-        return [[ORKSurveyCardHeaderView alloc] initWithTitle:self.questionStep.question detailText:nil learnMoreView:learnMoreView progressText:nil];
+
+        return [[ORKSurveyCardHeaderView alloc] initWithTitle:self.questionStep.question detailText:self.questionStep.detailText learnMoreView:learnMoreView progressText:sectionProgressText];
     }
     return nil;
 }

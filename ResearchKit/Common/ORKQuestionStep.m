@@ -79,6 +79,7 @@
         self.optional = YES;
         self.useSurveyMode = YES;
         self.useCardView = YES;
+        self.showsProgress = YES;
     }
     return self;
 }

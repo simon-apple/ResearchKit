@@ -31,6 +31,7 @@
 
 @import UIKit;
 #import <ResearchKit/ORKDefines.h>
+#import "ORKTask.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -155,6 +156,20 @@ typedef NS_ENUM(NSInteger, ORKStepViewControllerNavigationDirection) {
  */
 - (BOOL)stepViewControllerHasNextStep:(ORKStepViewController *)stepViewController;
 
+/**
+ Asks the delegate for the total amount of questions for the entire task and the position of the current step.
+ 
+ Depending on the result of the step, the step view controller can adjust the language for the
+ Next button.
+ 
+ @param stepViewController     The step view controller providing the callback.
+ 
+ @param currentStep     The current step that is being presented.
+ 
+ @return a struct 
+ */
+- (ORKTaskTotalProgress)stepViewControllerTotalProgressInfoForStep:(ORKStepViewController *)stepViewController currentStep:(ORKStep *)currentStep;
+
 @end
 
 
@@ -231,7 +246,7 @@ ORK_CLASS_AVAILABLE
  A localized string that represents the title of the Continue button.
  
  Most steps display a button that enables forward navigation. This button can have titles
- such as Next, Continue, or Done. Use this property to override the forward navigation
+ such as Next, Continue, or Done. Use this property to override the forward navigationORKTableSection
  button title for the step.
  */
 @property (nonatomic, copy, nullable) NSString *continueButtonTitle;

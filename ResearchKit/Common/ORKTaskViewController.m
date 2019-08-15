@@ -269,6 +269,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     
     self.showsProgressInNavigationBar = YES;
     self.discardable = NO;
+    self.progressMode = ORKTaskViewControllerProgressModeTotalQuestions;
     _saveable = NO;
     
     _managedResults = [NSMutableDictionary dictionary];
@@ -1456,6 +1457,19 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     }
 }
 
+- (ORKTaskTotalProgress)stepViewControllerTotalProgressInfoForStep:(ORKStepViewController *)stepViewController currentStep:(ORKStep *)currentStep {
+    
+    ORKTaskTotalProgress progressData = [self.task totalProgressOfCurrentStep:currentStep];
+    
+    if (self.progressMode != ORKTaskViewControllerProgressModeTotalQuestions) {
+        progressData.stepShouldShowTotalProgress = NO;
+    } else {
+        progressData.stepShouldShowTotalProgress = YES;
+    }
+    
+    return progressData;
+}
+
 - (ORKStep *)stepBeforeStep:(ORKStep *)step {
     return [self.task stepBeforeStep:step withResult:[self result]];
 }
@@ -1500,6 +1514,7 @@ static NSString *const _ORKLastBeginningInstructionStepIdentifierKey = @"lastBeg
 static NSString *const _ORKTaskIdentifierRestoreKey = @"taskIdentifier";
 static NSString *const _ORKStepIdentifierRestoreKey = @"stepIdentifier";
 static NSString *const _ORKPresentedDate = @"presentedDate";
+static NSString *const _ORKProgressMode = @"progressMode";
 
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
     [super encodeRestorableStateWithCoder:coder];
@@ -1513,7 +1528,7 @@ static NSString *const _ORKPresentedDate = @"presentedDate";
     [coder encodeObject:_requestedHealthTypesForRead forKey:_ORKRequestedHealthTypesForReadRestoreKey];
     [coder encodeObject:_requestedHealthTypesForWrite forKey:_ORKRequestedHealthTypesForWriteRestoreKey];
     [coder encodeObject:_presentedDate forKey:_ORKPresentedDate];
-    
+    [coder encodeInteger:_progressMode forKey:_ORKProgressMode];
     [coder encodeObject:ORKBookmarkDataFromURL(_outputDirectory) forKey:_ORKOutputDirectoryRestoreKey];
     [coder encodeObject:_lastBeginningInstructionStepIdentifier forKey:_ORKLastBeginningInstructionStepIdentifierKey];
     
@@ -1533,6 +1548,7 @@ static NSString *const _ORKPresentedDate = @"presentedDate";
     _taskRunUUID = [coder decodeObjectOfClass:[NSUUID class] forKey:_ORKTaskRunUUIDRestoreKey];
     self.showsProgressInNavigationBar = [coder decodeBoolForKey:_ORKShowsProgressInNavigationBarRestoreKey];
     self.discardable = [coder decodeBoolForKey:_ORKDiscardableTaskRestoreKey];
+    self.progressMode = [coder decodeIntegerForKey:_ORKProgressMode];
     
     _outputDirectory = ORKURLFromBookmarkData([coder decodeObjectOfClass:[NSData class] forKey:_ORKOutputDirectoryRestoreKey]);
     [self ensureDirectoryExists:_outputDirectory];
@@ -1566,7 +1582,6 @@ static NSString *const _ORKPresentedDate = @"presentedDate";
         }
     }
 }
-
 
 - (void)applicationFinishedRestoringState {
     [super applicationFinishedRestoringState];

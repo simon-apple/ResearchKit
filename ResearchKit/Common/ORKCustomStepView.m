@@ -101,9 +101,9 @@
     [self addSubview:_containerView];
 }
 
-- (void)setupHeaderViewWithTitle:(NSString *)title {
+- (void)setupHeaderViewWithTitle:(NSString *)title detailText:(nullable NSString *)detailText learnMoreView:(nullable ORKLearnMoreView *)learnMoreView progressText:(nullable NSString *)progressText {
     if (!_cardHeaderView) {
-        _cardHeaderView = [[ORKSurveyCardHeaderView alloc] initWithTitle:title];
+        _cardHeaderView = [[ORKSurveyCardHeaderView alloc] initWithTitle:title detailText:detailText learnMoreView:learnMoreView progressText:progressText];
     }
     _cardHeaderView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:_cardHeaderView];
@@ -133,12 +133,12 @@
     [self setUpCellConstraints];
 }
 
--(void)useCardViewWithTitle:(NSString *)title {
+-(void)useCardViewWithTitle:(NSString *)title detailText:(nullable NSString *)detailText learnMoreView:(nullable ORKLearnMoreView *)learnMoreView progressText:(nullable NSString *)progressText {
     _title = title;
     _useCardView = YES;
     _leftRightMargin = 0.0;
     [self setBackgroundColor:[UIColor clearColor]];
-    [self setupHeaderViewWithTitle:title];
+    [self setupHeaderViewWithTitle:title detailText:detailText learnMoreView:learnMoreView progressText:progressText];
     [self setupConstraints];
 }
 

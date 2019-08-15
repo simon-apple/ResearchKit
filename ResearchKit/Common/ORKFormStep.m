@@ -174,7 +174,7 @@
                                text:text
                          detailText:nil
                       learnMoreItem:nil
-                      showsProgress:NO
+                      showsProgress:YES
                        answerFormat:answerFormat
                            optional:YES];
 }
@@ -184,7 +184,7 @@
                                text:text
                          detailText:nil
                       learnMoreItem:nil
-                      showsProgress:NO
+                      showsProgress:YES
                        answerFormat:answerFormat
                            optional:optional];
 }

@@ -31,12 +31,16 @@
 
 
 #import "ORKOrderedTask.h"
+#import "ORKFormStep.h"
+#import "ORKQuestionStep.h"
+#import "ORKFormStepViewController.h"
+#import "ORKAnswerFormat.h"
+#import "ORKFormItem_Internal.h"
 
 #import "ORKActiveStep_Internal.h"
 #import "ORKStep_Private.h"
 #import "ORKHelpers_Internal.h"
 #import "ORKSkin.h"
-
 
 @implementation ORKOrderedTask {
     NSString *_identifier;
@@ -174,11 +178,117 @@
     ORKTaskProgress progress;
     progress.current = [self indexOfStep:step];
     progress.total = _steps.count;
-    
     if (![step showsProgress]) {
         progress.total = 0;
     }
     return progress;
+}
+
+- (ORKTaskTotalProgress)totalProgressOfCurrentStep:(ORKStep *)currentStep {
+    ORKTaskTotalProgress totalProgress;
+    int totalQuestions = 0;
+    int currentStepStartingProgressNumber = 0;
+    
+    for (ORKStep *step in self.steps) {
+        if ([step isKindOfClass:[ORKFormStep class]]) {
+            ORKFormStep *formStep = (ORKFormStep *)step;
+            if (formStep.identifier == currentStep.identifier) {
+                currentStepStartingProgressNumber = (totalQuestions + 1);
+            }
+            NSMutableArray *allSections = [self calculateSectionsForFormItems:formStep.formItems];
+            totalQuestions += allSections.count;
+        } else if ([step isKindOfClass:[ORKQuestionStep class]]) {
+            if (step.identifier == currentStep.identifier) {
+                currentStepStartingProgressNumber = (totalQuestions + 1);
+            }
+            totalQuestions += 1;
+        }
+    }
+    
+    totalProgress.currentStepStartingProgressPosition = currentStepStartingProgressNumber;
+    totalProgress.total = totalQuestions;
+    
+    return totalProgress;
+}
+
+- (NSMutableArray *)calculateSectionsForFormItems:(NSArray *)formItems {
+    NSMutableArray<NSMutableArray *> *_sections = [NSMutableArray new];
+    NSMutableArray *section = nil;
+    
+    for (ORKFormItem *item in formItems) {
+        BOOL itemRequiresSingleSection = [self doesItemRequireSingleSection:item];
+
+        if (!item.answerFormat) {
+            // Add new section
+            section = [NSMutableArray new];
+            [_sections addObject:section];
+            
+        } else if (itemRequiresSingleSection || _sections.count == 0) {
+            
+            NSMutableArray *newSection = [self buildSingleSection:item];
+            [_sections addObject:newSection];
+            section = newSection;
+        } else {
+            if (section) {
+                [section addObject:item];
+            }
+        }
+    }
+    return _sections;
+}
+
+- (NSMutableArray *)buildSingleSection:(ORKFormItem *)item {
+    NSMutableArray *section = nil;
+
+    // Section header
+    if ([item impliedAnswerFormat] == nil) {
+        // Add new section
+        section = [NSMutableArray new];
+        return section;
+    } else {
+
+        if ([self doesItemRequireSingleSection:item]) {
+            // Add new section
+            section = [NSMutableArray new];
+            [section addObject:item];
+            return section;
+
+        } else {
+            // In case no section available, create new one.
+            if (section == nil) {
+                section = [NSMutableArray new];
+            }
+            [section addObject:item];
+            return section;
+        }
+    }
+}
+
+- (BOOL)doesItemRequireSingleSection:(ORKFormItem *)item {
+    if (item.impliedAnswerFormat == nil) {
+        return NO;
+    }
+    
+    ORKAnswerFormat *answerFormat = [item impliedAnswerFormat];
+    
+    NSArray *singleSectionTypes = @[@(ORKQuestionTypeBoolean),
+                                    @(ORKQuestionTypeSingleChoice),
+                                    @(ORKQuestionTypeMultipleChoice),
+                                    @(ORKQuestionTypeLocation)];
+    
+    BOOL multiCellChoices = ([singleSectionTypes containsObject:@(answerFormat.questionType)] &&
+                             NO == [answerFormat isKindOfClass:[ORKValuePickerAnswerFormat class]]);
+    
+    BOOL multilineTextEntry = (answerFormat.questionType == ORKQuestionTypeText && [(ORKTextAnswerFormat *)answerFormat multipleLines]);
+    
+    BOOL scale = (answerFormat.questionType == ORKQuestionTypeScale);
+    
+    // Items that require individual section
+    if (multiCellChoices || multilineTextEntry || scale) {
+        return YES;
+    }
+    
+    return NO;
 }
 
 - (NSSet *)requestedHealthKitTypesForReading {

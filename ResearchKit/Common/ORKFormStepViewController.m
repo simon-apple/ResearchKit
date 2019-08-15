@@ -1188,8 +1188,17 @@ static const CGFloat TableViewYOffsetStandard = 30.0;
     NSString *sectionProgressText = nil;
     ORKLearnMoreView *learnMoreView;
     
-    if (_sections[section].showsProgress && (_sections.count > 1)) {
-        sectionProgressText = [NSString localizedStringWithFormat:ORKLocalizedString(@"FORM_ITEM_PROGRESS", nil) ,ORKLocalizedStringFromNumber(@(section + 1)), ORKLocalizedStringFromNumber(@([_sections count]))];
+    if (_sections[section].showsProgress) {
+        if ([self.delegate respondsToSelector:@selector(stepViewControllerTotalProgressInfoForStep:currentStep:)]) {
+            ORKTaskTotalProgress progressInfo = [self.delegate stepViewControllerTotalProgressInfoForStep:self currentStep:self.step];
+            if (progressInfo.stepShouldShowTotalProgress) {
+                sectionProgressText = [NSString localizedStringWithFormat:ORKLocalizedString(@"FORM_ITEM_PROGRESS", nil) ,ORKLocalizedStringFromNumber(@(section + progressInfo.currentStepStartingProgressPosition)), ORKLocalizedStringFromNumber(@(progressInfo.total))];
+            }
+        }
+        
+        if (!sectionProgressText) {
+             sectionProgressText = [NSString localizedStringWithFormat:ORKLocalizedString(@"FORM_ITEM_PROGRESS", nil) ,ORKLocalizedStringFromNumber(@(section + 1)), ORKLocalizedStringFromNumber(@([_sections count]))];
+        }
     }
     
     if (_sections[section].learnMoreItem) {

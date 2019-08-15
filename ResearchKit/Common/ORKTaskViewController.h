@@ -85,6 +85,20 @@ typedef NS_ENUM(NSInteger, ORKTaskViewControllerFinishReason) {
 };
 
 /**
+ The `ORKTaskViewControllerProgressMode` value indicates how the question progress labels will be presented during the task
+ */
+typedef NS_ENUM(NSInteger, ORKTaskViewControllerProgressMode) {
+    
+    /// The displayed progress numbers for each step will be dependent on the total amount of questions throughout the entire task.
+    ORKTaskViewControllerProgressModeTotalQuestions = 0,
+
+    /// The displayed progress numbers for each step will be dependent on amount of questions within that particular step.
+    ORKTaskViewControllerProgressModeQuestionsPerStep
+} ORK_ENUM_AVAILABLE;
+
+
+
+/**
  The task view controller delegate is responsible for processing the results
  of the task, exerting some control over how the controller behaves, and providing
  auxiliary content as needed.
@@ -556,6 +570,14 @@ ORK_CLASS_AVAILABLE
 @property (nonatomic) ORKTaskViewControllerReviewMode reviewMode;
 
 @property (nonatomic, nullable) ORKInstructionStep * reviewInstructionStep;
+
+/**
+ A enum that determines if the progress numbers displayed within each step is based on the total amount of questions throughout the task or the total amount of questoins within that particular step.
+ 
+ The default value is ORKTaskViewControllerProgressModeTotalQuestions
+ */
+
+@property (nonatomic) ORKTaskViewControllerProgressMode progressMode;
 
 @end
 
