@@ -66,7 +66,7 @@
 }
 
 - (instancetype)initWithStep:(ORKStep *)step result:(ORKResult *)result {
-    self = [super initWithStep:step result:result];
+    self = [self initWithStep:step];
     if (self) {
         ORKStepResult *stepResult = (ORKStepResult *)result;
         if (stepResult && [stepResult results].count > 0) {

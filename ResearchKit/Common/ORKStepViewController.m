@@ -86,8 +86,7 @@ static const CGFloat iPadStepTitleLabelFontSize = 50.0;
 
 #pragma clang diagnostic pop
 
-- (instancetype)initWithStep:(ORKStep *)step result:(ORKResult *)result {
-    // The default implementation ignores the previous result.
+- (instancetype)initWithStep:(ORKStep *)step {
     self = [super initWithNibName:nil bundle:nil];
     if (self) {
         _wasSkipped = false;
@@ -97,8 +96,9 @@ static const CGFloat iPadStepTitleLabelFontSize = 50.0;
     return self;
 }
 
-- (instancetype)initWithStep:(ORKStep *)step {
-    return [self initWithStep:step result:nil];
+- (instancetype)initWithStep:(ORKStep *)step result:(ORKResult *)result {
+    // The default implementation ignores the previous result.
+    return [self initWithStep:step];
 }
 
 - (void)viewDidLoad {
