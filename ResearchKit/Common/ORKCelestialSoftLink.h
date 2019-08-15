@@ -31,7 +31,7 @@
 #import <Celestial/AVSystemController.h>
 #import <SoftLinking/SoftLinking.h>
 
-SOFT_LINK_FRAMEWORK(Frameworks, Celestial)
+SOFT_LINK_FRAMEWORK(PrivateFrameworks, Celestial)
 SOFT_LINK_CLASS(Celestial, AVSystemController)
 SOFT_LINK_CONSTANT(Celestial, AVSystemController_PickableRoutesAttribute, NSString *)
 SOFT_LINK_CONSTANT(Celestial, AVSystemController_RouteDescriptionKey_RouteCurrentlyPicked, NSString *)
