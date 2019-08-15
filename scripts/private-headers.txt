@@ -1,3 +1,1 @@
 System/Library/PrivateFrameworks/Celestial.framework
-usr/local/include/SoftLinking
-usr/local/include/libc_private.h

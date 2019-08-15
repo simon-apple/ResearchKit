@@ -28,11 +28,15 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Celestial/AVSystemController.h>
-#import <SoftLinking/SoftLinking.h>
 
-SOFT_LINK_FRAMEWORK(PrivateFrameworks, Celestial)
-SOFT_LINK_CLASS(Celestial, AVSystemController)
-SOFT_LINK_CONSTANT(Celestial, AVSystemController_PickableRoutesAttribute, NSString *)
-SOFT_LINK_CONSTANT(Celestial, AVSystemController_RouteDescriptionKey_RouteCurrentlyPicked, NSString *)
-SOFT_LINK_CONSTANT(Celestial, AVSystemController_RouteDescriptionKey_RouteSubtype, NSString *)
+#import "ORKSoftLinking.h"
+
+#import <Celestial/AVSystemController.h>
+
+
+ORK_SOFT_LINK_FRAMEWORK(PrivateFrameworks, Celestial)
+ORK_SOFT_LINK_CLASS(Celestial, AVSystemController)
+ORK_SOFT_LINK_CONSTANT(Celestial, AVSystemController_PickableRoutesAttribute, NSString *)
+ORK_SOFT_LINK_CONSTANT(Celestial, AVSystemController_RouteDescriptionKey_RouteCurrentlyPicked, NSString *)
+ORK_SOFT_LINK_CONSTANT(Celestial, AVSystemController_RouteDescriptionKey_RouteSubtype, NSString *)
+
