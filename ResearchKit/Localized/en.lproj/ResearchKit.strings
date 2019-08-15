@@ -598,6 +598,7 @@
 
 /* Slider */
 "SLIDER_MOVE_SLIDER_FOR_VALUE" = "Move slider to enter value";
+"SLIDER_I_DONT_KNOW" = "I Don't Know";
 
 /* Review Step */
 "REVIEW_STEP_PAGE" = "Page";

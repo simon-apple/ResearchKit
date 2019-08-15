@@ -743,7 +743,7 @@ enum TaskListRow: Int, CustomStringConvertible {
 
         let formItem03Text = NSLocalizedString(exampleQuestionText, comment: "")
         let scaleAnswerFormat = ORKScaleAnswerFormat(maximumValue: 10, minimumValue: 0, defaultValue: 0, step: 1)//ORKScaleAnswerFormat(maximumValue: 10, minimumValue: 0, defaultValue: 0, step: 1)
-//        scaleAnswerFormat.shouldHideRanges = true
+        scaleAnswerFormat.shouldHideRanges = true
         let formItem03 = ORKFormItem(identifier: String(describing: Identifier.formItem03), text: formItem03Text, answerFormat: scaleAnswerFormat)
 
         let textChoices: [ORKTextChoice] = [
@@ -757,6 +757,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         
         let textScaleAnswerFormat = ORKTextScaleAnswerFormat(textChoices: textChoices, defaultIndex: 10)
         textScaleAnswerFormat.shouldHideLabels = true
+        textScaleAnswerFormat.shouldShowDontKnowButton = true;
         let formItem04 = ORKFormItem(identifier: String(describing: Identifier.formItem04), text: exampleQuestionText, answerFormat: textScaleAnswerFormat)
         
         step.formItems = [

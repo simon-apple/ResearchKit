@@ -120,22 +120,13 @@
 }
 
 - (void)setDefaultThumb {
-    
-    if (@available(iOS 13.0, *)) {
-        UIImageSymbolConfiguration *imageConfig = [UIImageSymbolConfiguration configurationWithPointSize:22 weight:UIImageSymbolWeightRegular scale:UIImageSymbolScaleLarge];
-        UIImage *circleImage = [UIImage systemImageNamed:@"circle.fill" withConfiguration:imageConfig];
-        [self setThumbImage:circleImage forState:UIControlStateNormal];
-    } else {
-        [self setThumbImage:nil forState:UIControlStateNormal];
-    }
+    [self setThumbImage:nil forState:UIControlStateNormal];
 }
 
 - (void)setBorderedThumb {
-    
     if (@available(iOS 13.0, *)) {
-        UIImageSymbolConfiguration *imageConfig = [UIImageSymbolConfiguration configurationWithPointSize:22 weight:UIImageSymbolWeightRegular scale:UIImageSymbolScaleLarge];
-        UIImage *circleImage = [UIImage systemImageNamed:@"circle" withConfiguration:imageConfig];
-        [self setThumbImage:[circleImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+         UIImage *circleImage = [UIImage imageNamed:@"sliderThumbCircled" inBundle:ORKBundle() compatibleWithTraitCollection:nil];
+        [self setThumbImage:circleImage forState:UIControlStateNormal];
     }
 }
 

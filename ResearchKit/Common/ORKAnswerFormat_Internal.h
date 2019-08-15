@@ -133,8 +133,10 @@ ORK_DESIGNATE_CODING_AND_SERIALIZATION_INITIALIZERS(ORKWeightAnswerFormat)
 - (BOOL)shouldHideRanges;
 - (BOOL)shouldHideLabels;
 - (BOOL)shouldHideValueMarkers;
+- (BOOL)shouldShowDontKnowButton;
 - (NSString *)maximumValueDescription;
 - (NSString *)minimumValueDescription;
+- (nullable NSString *)customDontKnowButtonText;
 - (nullable UIImage *)maximumImage;
 - (nullable UIImage *)minimumImage;
 - (nullable NSArray<UIColor *> *)gradientColors;
