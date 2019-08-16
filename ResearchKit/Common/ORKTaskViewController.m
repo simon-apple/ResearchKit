@@ -40,6 +40,7 @@
 #import "ORKTappingIntervalStepViewController.h"
 #import "ORKTaskViewController_Internal.h"
 #import "ORKVisualConsentStepViewController.h"
+#import "ORKLearnMoreStepViewController.h"
 
 #import "ORKActiveStep.h"
 #import "ORKCollectionResult_Private.h"
@@ -1086,6 +1087,24 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
         }];
     }
     return [steps copy];
+}
+
+-(ORKLearnMoreStepViewController *)learnMoreViewControllerForStep:(ORKLearnMoreInstructionStep *)step {
+    if (step == nil) {
+        return nil;
+    }
+    
+    ORKLearnMoreStepViewController *learnMoreViewController = nil;
+    
+    if ([self.delegate respondsToSelector:@selector(taskViewController:learnMoreViewControllerForStep:)]) {
+        learnMoreViewController = [self.delegate taskViewController:self learnMoreViewControllerForStep:step];
+    }
+    
+    if (!learnMoreViewController) {
+        learnMoreViewController = [[ORKLearnMoreStepViewController alloc] initWithStep:step];
+    }
+    
+    return learnMoreViewController;
 }
 
 - (ORKStepViewController *)viewControllerForStep:(ORKStep *)step {

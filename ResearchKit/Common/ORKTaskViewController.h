@@ -208,6 +208,18 @@ task view controller and pass that data to `initWithTask:restorationData:` when 
 - (void)taskViewController:(ORKTaskViewController *)taskViewController learnMoreForStep:(ORKStepViewController *)stepViewController;
 
 /**
+ Asks the delegate for a custom view Learn More view controller for the specified step.
+ 
+ If this method is implemented, the task view controller calls it to obtain a
+ view controller for the learn more item in the step.
+ 
+ @param step The step for which the learn more controller should be overridden.
+ 
+ @return A custom `ORKLearMoreStepViewController`, or `nil` to request the default learn more step controller for this step.
+ */
+- (nullable ORKLearnMoreStepViewController *)taskViewController:(ORKTaskViewController *)taskViewController learnMoreViewControllerForStep:(ORKLearnMoreInstructionStep *)step;
+
+/**
  Asks the delegate for a custom view controller for the specified step.
  
  If this method is implemented, the task view controller calls it to obtain a
@@ -550,6 +562,12 @@ ORK_CLASS_AVAILABLE
  @param animated   `YES` to animate the show or hide operation; otherwise, `NO`.
  */
 - (void)setNavigationBarHidden:(BOOL)hidden animated:(BOOL)animated;
+
+/**
+ Returns a learn more view controller for the given step.
+ @param step The step needing a learn more view controller
+ */
+-(ORKLearnMoreStepViewController *)learnMoreViewControllerForStep:(ORKLearnMoreInstructionStep *)step;
 
 /**
  The navigation bar for the task view controller. (read-only)
