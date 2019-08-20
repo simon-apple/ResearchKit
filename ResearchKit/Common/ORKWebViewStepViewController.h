@@ -44,6 +44,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface ORKWebViewStepViewController : ORKStepViewController<WKScriptMessageHandler, WKNavigationDelegate, ORKSignatureViewDelegate>
 
+- (void)displaySpinnerInContinueButton:(BOOL)enabled;
+
 @end
 
 NS_ASSUME_NONNULL_END

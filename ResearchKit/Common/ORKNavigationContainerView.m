@@ -36,6 +36,7 @@
 static const CGFloat ORKStackViewSpacing = 5.0;
 static const CGFloat skipButtonHeight = 50.0;
 static const CGFloat topSpacing = 24.0;
+static const CGFloat spinnerPadding = 24.0;
 
 @implementation ORKNavigationContainerView {
     
@@ -43,6 +44,7 @@ static const CGFloat topSpacing = 24.0;
     UIStackView *_subStackView1;
     UIStackView *_subStackView2;
     UIView *_skipButtonView;
+    UIActivityIndicatorView *_activityIndicatorView;
     
     NSMutableArray *_variableConstraints;
     NSMutableArray *_skipButtonConstraints;
@@ -411,9 +413,31 @@ static const CGFloat topSpacing = 24.0;
     [self arrangeSubStacks];
 }
 
+- (void)showSpinner:(BOOL)showSpinner {
+    if (showSpinner == YES) {
+        if (_activityIndicatorView == nil) {
+            _activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+            [_activityIndicatorView startAnimating];
+            
+            [_continueButton addSubview:_activityIndicatorView];
+            CGPoint center = CGPointMake(_continueButton.titleLabel.frame.origin.x - spinnerPadding, _continueButton.titleLabel.center.y);
+            [_activityIndicatorView setCenter:center];
+        } else {
+            [_activityIndicatorView startAnimating];
+        }
+    } else {
+        [_activityIndicatorView stopAnimating];
+    }
+}
+
 - (void)setContinueEnabled:(BOOL)continueEnabled {
     _continueEnabled = continueEnabled;
     [self updateContinueAndSkipEnabled];
+}
+
+- (void)setSpinnerEnabled:(BOOL)spinnerEnabled {
+    [_continueButton setUserInteractionEnabled:!spinnerEnabled];
+    [self showSpinner:spinnerEnabled];
 }
 
 - (void)setSkipEnabled:(BOOL)skipEnabled {

@@ -369,6 +369,10 @@ static const CGFloat ORKSignatureToClearPadding = 15.0;
     return parentResult;
 }
 
+- (void)displaySpinnerInContinueButton:(BOOL)enabled {
+    [_navigationFooterView setSpinnerEnabled:enabled];
+}
+
 // MARK: WKWebViewDelegate
 
 - (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(null_unspecified WKNavigation *)navigation {
