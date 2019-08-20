@@ -324,5 +324,17 @@ ORK_CLASS_AVAILABLE
 
 @end
 
+/**
+ The `ORKSESQuestionResult` class represents the result of socio-economic ladder answer format.
+ */
+ORK_CLASS_AVAILABLE
+@interface ORKSESQuestionResult : ORKQuestionResult
+
+/**
+ The socio-economic status picked by the user.
+ */
+@property (nonatomic, copy, nullable) NSNumber *rungPicked;
+
+@end
 
 NS_ASSUME_NONNULL_END

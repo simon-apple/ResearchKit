@@ -120,4 +120,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+@interface ORKFormItemSESCell : ORKFormItemCell
+
+@end
+
 NS_ASSUME_NONNULL_END

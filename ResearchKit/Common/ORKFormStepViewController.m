@@ -57,6 +57,7 @@
 #import "ORKResult_Private.h"
 #import "ORKStep_Private.h"
 
+#import "ORKSESSelectionView.h"
 #import "ORKHelpers_Internal.h"
 #import "ORKSkin.h"
 
@@ -718,7 +719,8 @@ static const CGFloat TableViewYOffsetStandard = 30.0;
     NSArray *singleSectionTypes = @[@(ORKQuestionTypeBoolean),
                                     @(ORKQuestionTypeSingleChoice),
                                     @(ORKQuestionTypeMultipleChoice),
-                                    @(ORKQuestionTypeLocation)];
+                                    @(ORKQuestionTypeLocation),
+                                    @(ORKQuestionTypeSES)];
     
     BOOL multiCellChoices = ([singleSectionTypes containsObject:@(answerFormat.questionType)] &&
                              NO == [answerFormat isKindOfClass:[ORKValuePickerAnswerFormat class]]);
@@ -1078,6 +1080,10 @@ static const CGFloat TableViewYOffsetStandard = 30.0;
                     
                 case ORKQuestionTypeLocation: {
                     class = [ORKFormItemLocationCell class];
+                    break;
+                }
+                case ORKQuestionTypeSES: {
+                    class = [ORKFormItemSESCell class];
                     break;
                 }
                     

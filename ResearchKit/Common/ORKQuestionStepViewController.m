@@ -42,6 +42,7 @@
 #import "ORKSurveyAnswerCellForPicker.h"
 #import "ORKSurveyAnswerCellForImageSelection.h"
 #import "ORKSurveyAnswerCellForLocation.h"
+#import "ORKSurveyAnswerCellForSES.h"
 #import "ORKTableContainerView.h"
 #import "ORKSurveyCardHeaderView.h"
 #import "ORKTextChoiceCellGroup.h"
@@ -681,7 +682,8 @@ typedef NS_ENUM(NSInteger, ORKQuestionSection) {
                                @(ORKQuestionTypeWeight) : [ORKSurveyAnswerCellForPicker class],
                                @(ORKQuestionTypeMultiplePicker) : [ORKSurveyAnswerCellForPicker class],
                                @(ORKQuestionTypeInteger): [ORKSurveyAnswerCellForNumber class],
-                               @(ORKQuestionTypeLocation): [ORKSurveyAnswerCellForLocation class]};
+                               @(ORKQuestionTypeLocation): [ORKSurveyAnswerCellForLocation class],
+                               @(ORKQuestionTypeSES): [ORKSurveyAnswerCellForSES class]};
     });
     
     // SingleSelectionPicker Cell && Other Cells

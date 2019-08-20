@@ -121,7 +121,12 @@ typedef NS_ENUM(NSInteger, ORKQuestionType) {
     /**
      In a location question, the participant can enter a location using a map view.
      */
-    ORKQuestionTypeLocation
+    ORKQuestionTypeLocation,
+    
+    /**
+     In a socio-economic ladder, participant can pick their socio economic status.
+     */
+    ORKQuestionTypeSES
 } ORK_ENUM_AVAILABLE;
 
 

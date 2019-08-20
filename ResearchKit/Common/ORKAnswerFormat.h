@@ -56,6 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class ORKHeightAnswerFormat;
 @class ORKWeightAnswerFormat;
 @class ORKLocationAnswerFormat;
+@class ORKSESAnswerFormat;
 
 @class ORKTextChoice;
 @class ORKImageChoice;
@@ -183,6 +184,8 @@ ORK_CLASS_AVAILABLE
                                                       defaultValue:(double)defaultValue;
 
 + (ORKLocationAnswerFormat *)locationAnswerFormat;
+
++ (ORKSESAnswerFormat *)socioEconomicAnswerFormatWithTopRungText:(NSString *)topRungText bottomRungText:(NSString *)bottomRungText;
 
 /// @name Validation
 
@@ -1924,6 +1927,19 @@ ORK_CLASS_AVAILABLE
  By default, this value is YES.
  */
 @property (nonatomic, assign) BOOL useCurrentLocation;
+
+@end
+
+/**
+ Socio-Economic Ladder Answer Format
+ */
+ORK_CLASS_AVAILABLE
+@interface ORKSESAnswerFormat : ORKAnswerFormat
+
+- (instancetype)initWithTopRungText:(nullable NSString *)topRungText bottomRungText:(nullable NSString *)bottomRungText;
+
+@property (nonatomic, nullable) NSString *topRungText;
+@property (nonatomic, nullable) NSString *bottomRungText;
 
 @end
 

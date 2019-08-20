@@ -467,6 +467,55 @@ static NSString *const RegionIdentifierKey = @"region.identifier";
 
 @end
 
+#pragma mark ORKSESQuestionResult
+
+@implementation ORKSESQuestionResult
+
+- (void)setAnswer:(id)answer {
+    answer = [self validateAnswer:answer];
+    self.rungPicked = [answer copy];
+}
+
++ (Class)answerClass {
+    return [NSNumber class];
+}
+
+- (id)answer {
+    return self.rungPicked;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [super encodeWithCoder:aCoder];
+    ORK_ENCODE_OBJ(aCoder, rungPicked);
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        ORK_DECODE_OBJ_CLASS(aDecoder, rungPicked, NSNumber);
+    }
+    return self;
+}
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
+- (BOOL)isEqual:(id)object {
+    BOOL isParentSame = [super isEqual:object];
+
+    __typeof(self) castObject = object;
+    return (isParentSame && ORKEqualObjects(self.rungPicked, castObject.rungPicked));
+}
+
+- (instancetype)copyWithZone:(NSZone *)zone {
+    ORKSESQuestionResult *result = [super copyWithZone:zone];
+    result->_rungPicked = [self.rungPicked copy];
+    return result;
+}
+
+@end
+
 
 #pragma mark - ORKMultipleComponentQuestionResult
 

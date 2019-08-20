@@ -349,7 +349,7 @@
 "dBHL_ALERT_TITLE_START_OVER" = "Start Over";
 "dBHL_ALERT_TITLE_CANCEL_TEST" = "Cancel Test";
 "dBHL_ALERT_TEXT" = "There is something wrong with you headphones.";
-"dBHL_PROGRESS_COMPLETION" = "%@ Complete";
+"dBHL_PROGRESS_COMPLETION_%@" = "%@ Complete";
 
 /* Headphones. */
 "AIRPODS" = "Airpods";

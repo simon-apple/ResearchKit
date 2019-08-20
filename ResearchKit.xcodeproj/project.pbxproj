@@ -616,6 +616,10 @@
 		BABBB1B72097E58300CB29E5 /* ORKPDFViewerStepView.m in Sources */ = {isa = PBXBuildFile; fileRef = BABBB1B52097E58300CB29E5 /* ORKPDFViewerStepView.m */; };
 		BABBB1BA2097EF3800CB29E5 /* ORKFreehandDrawingView.h in Headers */ = {isa = PBXBuildFile; fileRef = BABBB1B82097EF3800CB29E5 /* ORKFreehandDrawingView.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		BABBB1BB2097EF3800CB29E5 /* ORKFreehandDrawingView.m in Sources */ = {isa = PBXBuildFile; fileRef = BABBB1B92097EF3800CB29E5 /* ORKFreehandDrawingView.m */; };
+		BAC2B65722F252F70079304E /* ORKSurveyAnswerCellForSES.h in Headers */ = {isa = PBXBuildFile; fileRef = BAC2B65522F252F70079304E /* ORKSurveyAnswerCellForSES.h */; };
+		BAC2B65822F252F70079304E /* ORKSurveyAnswerCellForSES.m in Sources */ = {isa = PBXBuildFile; fileRef = BAC2B65622F252F70079304E /* ORKSurveyAnswerCellForSES.m */; };
+		BAC2B65B22F25A2E0079304E /* ORKSESSelectionView.h in Headers */ = {isa = PBXBuildFile; fileRef = BAC2B65922F25A2E0079304E /* ORKSESSelectionView.h */; };
+		BAC2B65C22F25A2F0079304E /* ORKSESSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = BAC2B65A22F25A2E0079304E /* ORKSESSelectionView.m */; };
 		BAC6F1A922AF535100E31C22 /* ORKTaskReviewViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = BAC6F1A722AF535100E31C22 /* ORKTaskReviewViewController.h */; };
 		BAC6F1AA22AF535100E31C22 /* ORKTaskReviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BAC6F1A822AF535100E31C22 /* ORKTaskReviewViewController.m */; };
 		BAD65E4B2284EFF9008A5DCE /* ORKStepView.h in Headers */ = {isa = PBXBuildFile; fileRef = BAD65E492284EFF9008A5DCE /* ORKStepView.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -1455,6 +1459,10 @@
 		BABBB1B52097E58300CB29E5 /* ORKPDFViewerStepView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKPDFViewerStepView.m; sourceTree = "<group>"; };
 		BABBB1B82097EF3800CB29E5 /* ORKFreehandDrawingView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKFreehandDrawingView.h; sourceTree = "<group>"; };
 		BABBB1B92097EF3800CB29E5 /* ORKFreehandDrawingView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKFreehandDrawingView.m; sourceTree = "<group>"; };
+		BAC2B65522F252F70079304E /* ORKSurveyAnswerCellForSES.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKSurveyAnswerCellForSES.h; sourceTree = "<group>"; };
+		BAC2B65622F252F70079304E /* ORKSurveyAnswerCellForSES.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKSurveyAnswerCellForSES.m; sourceTree = "<group>"; };
+		BAC2B65922F25A2E0079304E /* ORKSESSelectionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKSESSelectionView.h; sourceTree = "<group>"; };
+		BAC2B65A22F25A2E0079304E /* ORKSESSelectionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKSESSelectionView.m; sourceTree = "<group>"; };
 		BAC6F1A722AF535100E31C22 /* ORKTaskReviewViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKTaskReviewViewController.h; sourceTree = "<group>"; };
 		BAC6F1A822AF535100E31C22 /* ORKTaskReviewViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKTaskReviewViewController.m; sourceTree = "<group>"; };
 		BAD65E492284EFF9008A5DCE /* ORKStepView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKStepView.h; sourceTree = "<group>"; };
@@ -2635,6 +2643,8 @@
 				865EA16B1ABA1BE20037C68E /* ORKSurveyAnswerCellForPicker.m */,
 				CBD34A581BB207FC00F204EA /* ORKSurveyAnswerCellForLocation.h */,
 				CBD34A591BB207FC00F204EA /* ORKSurveyAnswerCellForLocation.m */,
+				BAC2B65522F252F70079304E /* ORKSurveyAnswerCellForSES.h */,
+				BAC2B65622F252F70079304E /* ORKSurveyAnswerCellForSES.m */,
 			);
 			name = "Question Step Views";
 			sourceTree = "<group>";
@@ -2668,6 +2678,8 @@
 				865EA1671ABA1AA10037C68E /* ORKPicker.m */,
 				FFF65AB61E318F2D0043FB40 /* ORKMultipleValuePicker.h */,
 				FFF65AB71E318F2D0043FB40 /* ORKMultipleValuePicker.m */,
+				BAC2B65922F25A2E0079304E /* ORKSESSelectionView.h */,
+				BAC2B65A22F25A2E0079304E /* ORKSESSelectionView.m */,
 			);
 			name = "Control Views";
 			sourceTree = "<group>";
@@ -3507,9 +3519,11 @@
 				86C40E1C1A8D7C5C00081FAC /* ORKConsentSection_Private.h in Headers */,
 				861D2AEC1B8409B2008C4CD0 /* ORKTimedWalkStepViewController.h in Headers */,
 				86C40C7A1A8D7C5C00081FAC /* ORKAccelerometerRecorder.h in Headers */,
+				BAC2B65B22F25A2E0079304E /* ORKSESSelectionView.h in Headers */,
 				242C9E051BBDFDAC0088B7F4 /* ORKVerificationStep.h in Headers */,
 				86C40D141A8D7C5C00081FAC /* ORKHelpers_Private.h in Headers */,
 				FF919A2E1E81AAD0005C2A1E /* ORKTowerOfHanoiResult.h in Headers */,
+				BAC2B65722F252F70079304E /* ORKSurveyAnswerCellForSES.h in Headers */,
 				86C40CA81A8D7C5C00081FAC /* ORKPedometerRecorder.h in Headers */,
 				86C40CD01A8D7C5C00081FAC /* ORKInstructionStepView.h in Headers */,
 				86C40E021A8D7C5C00081FAC /* ORKConsentDocument_Internal.h in Headers */,
@@ -4056,6 +4070,7 @@
 				10FF9ACC1B79F22900ECB5B4 /* ORKHolePegTestRemoveStepViewController.m in Sources */,
 				86C40CD61A8D7C5C00081FAC /* ORKTableContainerView.m in Sources */,
 				2429D5731BBB5397003A512F /* ORKRegistrationStep.m in Sources */,
+				BAC2B65822F252F70079304E /* ORKSurveyAnswerCellForSES.m in Sources */,
 				257FCE201B4D14E50001EF06 /* ORKTowerOfHanoiTowerView.m in Sources */,
 				2489F7B61D65214D008DEF20 /* ORKVideoCaptureView.m in Sources */,
 				861D11AE1AA7951F003C98A7 /* ORKChoiceAnswerFormatHelper.m in Sources */,
@@ -4223,6 +4238,7 @@
 				86C40CD21A8D7C5C00081FAC /* ORKInstructionStepView.m in Sources */,
 				10FF9AD81B7A045E00ECB5B4 /* ORKSeparatorView.m in Sources */,
 				86C40D181A8D7C5C00081FAC /* ORKErrors.m in Sources */,
+				BAC2B65C22F25A2F0079304E /* ORKSESSelectionView.m in Sources */,
 				24850E1A1BCDA9C7006E91FB /* ORKLoginStepViewController.m in Sources */,
 				25ECC09C1AFBD8B300F3D63B /* ORKReactionTimeViewController.m in Sources */,
 				86C40DB01A8D7C5C00081FAC /* ORKSurveyAnswerCellForScale.m in Sources */,

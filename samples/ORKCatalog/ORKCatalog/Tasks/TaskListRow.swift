@@ -790,16 +790,22 @@ enum TaskListRow: Int, CustomStringConvertible {
         let formItem02 = ORKFormItem(identifier: String(describing: Identifier.formItem02), text: formItem02Text, answerFormat: ORKTimeIntervalAnswerFormat())
         formItem02.placeholder = NSLocalizedString("Your placeholder here", comment: "")
         
+        
+        let sesAnswerFormat = ORKSESAnswerFormat.init(topRungText: "Best Off", bottomRungText: "Worst Off")
+        let sesFormItem = ORKFormItem(identifier: "sesIdentifier", text: "Select where you are on the socioeconomic ladder.", answerFormat: sesAnswerFormat)
+        
+        
         //Start of section for scale question
         let formItem03Text = NSLocalizedString(exampleQuestionText, comment: "")
         let scaleAnswerFormat = ORKContinuousScaleAnswerFormat(maximumValue: 10, minimumValue: 0, defaultValue: 0.0, maximumFractionDigits: 1)//ORKScaleAnswerFormat(maximumValue: 10, minimumValue: 0, defaultValue: 0, step: 1)
         let formItem03 = ORKFormItem(identifier:  String(describing: Identifier.formItem03), text: formItem03Text, detailText: nil, learnMoreItem: nil, showsProgress: true, answerFormat: scaleAnswerFormat, optional: true)
-        
+       
         step.formItems = [
             section01,
             formItem01,
             formItem02,
-            formItem03
+            formItem03,
+            sesFormItem
         ]
         
         // Add a question step.
@@ -878,6 +884,9 @@ enum TaskListRow: Int, CustomStringConvertible {
         secondaryTaskStep.secondaryTaskButtonTitle = "Practice test"
         secondaryTaskStep.nextButtonTitle = "Start Test"
         
+        let socioEconomicLadderAnswerFormat = ORKSESAnswerFormat(topRungText: "Best Off", bottomRungText: "Worst Off")
+        let socioEconomicLadderQuestionStep = ORKQuestionStep(identifier: "socioEconomicLadderQuestionStep01", title: "Title here", question: "Select where you are on the socioeconomic ladder.", answer: socioEconomicLadderAnswerFormat)
+        
         // Add a summary step.
         let summaryStep = ORKInstructionStep(identifier: String(describing: Identifier.summaryStep))
         summaryStep.title = NSLocalizedString("Thanks", comment: "")
@@ -887,6 +896,7 @@ enum TaskListRow: Int, CustomStringConvertible {
             instructionStep,
             question1Step,
             question2Step,
+            socioEconomicLadderQuestionStep,
             secondaryTaskStep,
             summaryStep
             ])

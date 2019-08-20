@@ -79,6 +79,7 @@ NSString *ORKQuestionTypeString(ORKQuestionType questionType) {
             SQT_CASE(Height);
             SQT_CASE(Weight);
             SQT_CASE(Location);
+            SQT_CASE(SES);
     }
 #undef SQT_CASE
 }
@@ -451,6 +452,12 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
 
 + (ORKLocationAnswerFormat *)locationAnswerFormat {
     return [ORKLocationAnswerFormat new];
+}
+
++ (ORKSESAnswerFormat *)socioEconomicAnswerFormatWithTopRungText:(NSString *)topRungText
+                                                                      bottomRungText:(NSString *)bottomRungText {
+    return [[ORKSESAnswerFormat alloc] initWithTopRungText:topRungText
+                                                                bottomRungText:bottomRungText];
 }
 
 - (void)validateParameters {
@@ -3318,5 +3325,48 @@ static NSString *const kSecureTextEntryEscapeString = @"*";
     }
     return answerString;
 }
+
+@end
+
+#pragma mark ORKSESAnswerFormat
+
+@implementation ORKSESAnswerFormat
+
+- (instancetype)initWithTopRungText:(NSString *)topRungText bottomRungText:(NSString *)bottomRungText {
+    self = [super init];
+    if (self) {
+        _topRungText = topRungText;
+        _bottomRungText = bottomRungText;
+    }
+    return self;
+}
+
+- (ORKQuestionType)questionType {
+    return ORKQuestionTypeSES;
+}
+
+- (Class)questionResultClass {
+    return [ORKSESQuestionResult class];
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        ORK_DECODE_OBJ_CLASS(aDecoder, topRungText, NSString);
+        ORK_DECODE_OBJ_CLASS(aDecoder, bottomRungText, NSString);
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [super encodeWithCoder:aCoder];
+    ORK_ENCODE_OBJ(aCoder, topRungText);
+    ORK_ENCODE_OBJ(aCoder, bottomRungText);
+}
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
 
 @end

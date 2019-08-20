@@ -1635,6 +1635,14 @@ static NSMutableDictionary *ORKESerializationEncodingTable() {
                  (@{
                     PROPERTY(useCurrentLocation, NSNumber, NSObject, YES, nil, nil)
                     })),
+           ENTRY(ORKSESAnswerFormat,
+                 ^id(__unused NSDictionary *dict, __unused ORKESerializationPropertyGetter getter) {
+               return [[ORKSESAnswerFormat alloc] init];
+           },
+                 (@{
+                     PROPERTY(topRungText, NSString, NSObject, YES, nil, nil),
+                     PROPERTY(bottomRungText, NSString, NSObject, YES, nil, nil)
+                 })),
            ENTRY(ORKLocationRecorderConfiguration,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      return [[ORKLocationRecorderConfiguration alloc] initWithIdentifier:GETPROP(dict,identifier)];
@@ -1976,6 +1984,11 @@ static NSMutableDictionary *ORKESerializationEncodingTable() {
                  (@{
                     PROPERTY(locationAnswer, ORKLocation, NSObject, NO, nil, nil)
                     })),
+           ENTRY(ORKSESQuestionResult,
+                 nil,
+                 (@{
+                     PROPERTY(rungPicked, NSNumber, NSObject, NO, nil, nil)
+                 })),
            ENTRY(ORKConsentSignatureResult,
                  nil,
                  (@{

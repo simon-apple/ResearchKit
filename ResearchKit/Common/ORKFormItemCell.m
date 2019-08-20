@@ -36,6 +36,7 @@
 #import "ORKFormTextView.h"
 #import "ORKImageSelectionView.h"
 #import "ORKLocationSelectionView.h"
+#import "ORKSESSelectionView.h"
 #import "ORKPicker.h"
 #import "ORKScaleSliderView.h"
 #import "ORKTableContainerView.h"
@@ -524,7 +525,7 @@ static const CGFloat ErrorLabelBottomPadding = 10.0;
     }
     
     [_variableConstraints addObjectsFromArray:
-     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-hMargin-[labelLabel(==labelWidth)]-hSpacer-[textFieldView]|"
+     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-hMargin-[labelLabel(<=labelWidth)]-hSpacer-[textFieldView]|"
                                              options:NSLayoutFormatAlignAllCenterY
                                              metrics:metrics
                                                views:views]];
@@ -1542,6 +1543,57 @@ static const CGFloat ErrorLabelBottomPadding = 10.0;
     BOOL didResign = [super resignFirstResponder];
     didResign = [_selectionView resignFirstResponder] || didResign;
     return didResign;
+}
+
+@end
+
+
+@interface ORKFormItemSESCell()<ORKSESSelectionViewDelegate>
+
+@end
+
+@implementation ORKFormItemSESCell {
+    ORKSESSelectionView *_selectionView;
+    NSLayoutConstraint *_heightConstraint;
+    NSLayoutConstraint *_bottomConstraint;
+}
+
+- (void)cellInit {
+    [super cellInit];
+    
+    _selectionView = [[ORKSESSelectionView alloc] initWithAnswerFormat:(ORKSESAnswerFormat *)self.formItem.answerFormat];
+    _selectionView.delegate = self;
+    [self.containerView addSubview:_selectionView];
+    
+    [self setUpConstraints];
+}
+
+- (void)setUpConstraints {
+    
+    NSMutableArray *constraints = [NSMutableArray new];
+
+    NSDictionary *dictionary = @{@"_selectionView":_selectionView};
+    ORKEnableAutoLayoutForViews([dictionary allValues]);
+
+    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_selectionView]|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:dictionary]];
+    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_selectionView]" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:dictionary]];
+    _bottomConstraint = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_selectionView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:10.0];
+    _heightConstraint = [NSLayoutConstraint constraintWithItem:_selectionView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:_selectionView.intrinsicContentSize.height];
+    _heightConstraint.priority = UILayoutPriorityDefaultHigh;
+    [constraints addObject:_heightConstraint];
+    [constraints addObject:_bottomConstraint];
+
+    [self.contentView addConstraints:constraints];
+}
+
+- (void)buttonPressedAtIndex:(NSInteger)index {
+    _selectionView.answer = [NSNumber numberWithInteger:index];
+    [self inputValueDidChange];
+}
+
+- (void)inputValueDidChange {
+    [self ork_setAnswer:_selectionView.answer];
+    [super inputValueDidChange];
 }
 
 @end
