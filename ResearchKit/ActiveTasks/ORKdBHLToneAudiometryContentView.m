@@ -37,6 +37,7 @@
 #import "ORKSkin.h"
 
 static const CGFloat TopToProgressViewMinPadding = 10.0;
+static const CGFloat BottomToProgressLabelPadding = 30.0;
 
 @implementation ORKdBHLToneAudiometryButton
 
@@ -62,6 +63,7 @@ static const CGFloat TopToProgressViewMinPadding = 10.0;
 
 @implementation ORKdBHLToneAudiometryContentView {
     NSLayoutConstraint *_topToProgressViewConstraint;
+    UILabel *_progressLabel;
 }
 
 - (instancetype)init {
@@ -72,6 +74,7 @@ static const CGFloat TopToProgressViewMinPadding = 10.0;
         _progressView.translatesAutoresizingMaskIntoConstraints = NO;
         _progressView.progressTintColor = [self tintColor];
         [_progressView setAlpha:0];
+        [_progressView setHidden:YES];
         [self addSubview:_progressView];
         _tapButton = [[ORKdBHLToneAudiometryButton alloc] init];
         [_tapButton setDiameter:150];
@@ -80,12 +83,36 @@ static const CGFloat TopToProgressViewMinPadding = 10.0;
 
         [self addSubview:_tapButton];
         self.translatesAutoresizingMaskIntoConstraints = NO;
-        
+        [self setupProgressLabel];
+
         [self setUpConstraints];
     }
     
     return self;
 }
+
+- (void)setupProgressLabel {
+    if (!_progressLabel) {
+        _progressLabel = [UILabel new];
+    }
+    _progressLabel.font = [self textFontBold];
+    _progressLabel.textAlignment = NSTextAlignmentCenter;
+    if (@available(iOS 13.0, *)) {
+        _progressLabel.textColor = UIColor.separatorColor;
+    } else {
+        _progressLabel.textColor = UIColor.grayColor;
+    }
+    _progressLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    [self addSubview:_progressLabel];
+}
+
+- (UIFont *)textFontBold {
+    UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleSubheadline];
+    UIFontDescriptor *fontDescriptor = [descriptor fontDescriptorWithSymbolicTraits:(UIFontDescriptorTraitBold | UIFontDescriptorTraitLooseLeading)];
+    return [UIFont fontWithDescriptor:fontDescriptor size:[[fontDescriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]];
+}
+
+
 
 - (void)didMoveToWindow {
     if (self.window != nil && UIAccessibilityIsVoiceOverRunning()) {
@@ -105,6 +132,13 @@ static const CGFloat TopToProgressViewMinPadding = 10.0;
     [UIView animateWithDuration:animated ? 0.2 : 0 animations:^{
         [self.progressView setAlpha:(progress == 0) ? 0 : 1];
     }];
+
+    NSNumberFormatter *formatter = [NSNumberFormatter new];
+    formatter.numberStyle = NSNumberFormatterPercentStyle;
+    formatter.locale = [NSLocale currentLocale];
+
+    NSString *percentageText = [formatter stringFromNumber:[NSNumber numberWithFloat:progress]];
+    _progressLabel.text = [NSString stringWithFormat:ORKLocalizedString(@"dBHL_PROGRESS_COMPLETION_%@", nil), percentageText];
 }
 
 - (void)finishStep:(ORKActiveStepViewController *)viewController {
@@ -148,7 +182,22 @@ static const CGFloat TopToProgressViewMinPadding = 10.0;
                                                                                    toItem:self
                                                                                 attribute:NSLayoutAttributeCenterY
                                                                                multiplier:1.0
-                                                                                 constant:0.0]
+                                                                                 constant:0.0],
+                                                   [NSLayoutConstraint constraintWithItem:_progressLabel
+                                                                                attribute:NSLayoutAttributeCenterX
+                                                                                relatedBy:NSLayoutRelationEqual
+                                                                                   toItem:self
+                                                                                attribute:NSLayoutAttributeCenterX
+                                                                               multiplier:1.0
+                                                                                 constant:0.0],
+                                                   [NSLayoutConstraint constraintWithItem:_progressLabel
+                                                                                attribute:NSLayoutAttributeBottom
+                                                                                relatedBy:NSLayoutRelationEqual
+                                                                                   toItem:self
+                                                                                attribute:NSLayoutAttributeBottom
+                                                                               multiplier:1.0
+                                                                                 constant:-BottomToProgressLabelPadding]
+
                                                    ];
     
     [NSLayoutConstraint activateConstraints:constraints];

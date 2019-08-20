@@ -254,11 +254,10 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     [navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
     [navigationController.navigationBar setShadowImage:[UIImage new]];
     [navigationController.navigationBar setTranslucent:NO];
+    [navigationController.navigationBar setBarTintColor:ORKColor(ORKBackgroundColorKey)];
     if (@available(iOS 13.0, *)) {
-        [navigationController.navigationBar setBarTintColor:[UIColor systemGroupedBackgroundColor]];
         [navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor secondaryLabelColor]}];
     } else {
-        [navigationController.navigationBar setBarTintColor:ORKColor(ORKBackgroundColorKey)];
         [navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor systemGrayColor]}];
     }
     [navigationController.view setBackgroundColor:UIColor.clearColor];

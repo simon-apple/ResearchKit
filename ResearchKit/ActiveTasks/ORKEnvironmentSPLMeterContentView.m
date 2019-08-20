@@ -55,7 +55,7 @@ static const CGFloat InstructionLabelTopPadding = 50.0;
     if (self) {
         preValue = -M_PI_2;
         currentValue = 0.0;
-        _circleIndicatorNoiseColor = [UIColor.orangeColor colorWithAlphaComponent:0.8];
+        _circleIndicatorNoiseColor = UIColor.systemOrangeColor;
         self.translatesAutoresizingMaskIntoConstraints = NO;
         [self setupRingView];
         [self setupCircleIndicatorView];
@@ -70,7 +70,7 @@ static const CGFloat InstructionLabelTopPadding = 50.0;
     if (!_ringView) {
         _ringView = [ORKRingView new];
     }
-    _ringView.animationDuration = 0.8;
+    _ringView.animationDuration = 0.0;
     _ringView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:_ringView];
     [[_ringView.centerXAnchor constraintEqualToAnchor:self.centerXAnchor] setActive:YES];
@@ -96,7 +96,7 @@ static const CGFloat InstructionLabelTopPadding = 50.0;
     if (!_DBInstructionLabel) {
         _DBInstructionLabel = [ORKLabel new];
         _DBInstructionLabel.numberOfLines = 0;
-        _DBInstructionLabel.textColor = UIColor.grayColor;
+        _DBInstructionLabel.textColor = UIColor.systemGrayColor;
         _DBInstructionLabel.text = ORKLocalizedString(@"ENVIRONMENTSPL_OK", nil);
     }
     _DBInstructionLabel.translatesAutoresizingMaskIntoConstraints = NO;
@@ -108,6 +108,12 @@ static const CGFloat InstructionLabelTopPadding = 50.0;
 
 - (void)setProgressCircle:(CGFloat)progress {
     CGFloat circleDiameter = progress < 0.3 ? 0.3 : progress;
+    if (progress > 1.0) {
+        [_ringView setBackgroundLayerStrokeColor:[UIColor.whiteColor colorWithAlphaComponent:0.3] circleStrokeColor:UIColor.whiteColor];
+    }
+    else {
+        [_ringView resetLayerColors];
+    }
     [UIView animateWithDuration:0.8
                           delay:0
                         options:UIViewAnimationOptionTransitionNone

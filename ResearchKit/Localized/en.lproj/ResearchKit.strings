@@ -328,10 +328,18 @@
 
 /* dBHL Tone audiometry active task. */
 "dBHL_TONE_AUDIOMETRY_TASK_TITLE" = "Tone Audiometry";
+"dBHL_TONE_AUDIOMETRY_TASK_TITLE_2" = "Tap when you hear a tone.";
+"dBHL_TONE_AUDIOMETRY_INTRO_TITLE" = "Tone & Volume";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_1" = "You will hear a series of tones.";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_2" = "When you hear a tone, tap on the button.";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_3" = "For this test, volume will be set to 50 percent.";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_4" = "This test takes about 10 minutes.";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_5" = "Turn on Do Not Disturb to avoid interruptions.";
 "dBHL_TONE_AUDIOMETRY_STEP_TITLE_RIGHT_EAR" = "Tones will play in your right ear first.";
 "dBHL_TONE_AUDIOMETRY_STEP_TITLE_LEFT_EAR" = "Tones will now play in your left ear.";
 "dBHL_TONE_AUDIOMETRY_INTENDED_USE" = "This activity identifies hearing threshold levels of an individual in dB HL scale.";
 "dBHL_TONE_AUDIOMETRY_INTRO_TEXT" = "Make sure the device volume is set to the maximum level.\n\nDuring this task, a subtle tone will play in either the left or right ear.\n\nListen carefully and tap the button every time you hear a tone.";
+"dBHL_TONE_AUDIOMETRY_INTRO_TEXT_2" = "This test identifies how loud a sound needs to be in order for you to hear it.";
 "dBHL_TONE_AUDIOMETRY_ONBOARDING" = "Onboarding questionnaire.";
 "dBHL_TONE_AUDIOMETRY_ONBOARDING_QUESTION" = "Select your preference for ‘better ear’, if any";
 "dBHL_TONE_AUDIOMETRY_OPTION_LEFT" = "left";
@@ -341,6 +349,7 @@
 "dBHL_ALERT_TITLE_START_OVER" = "Start Over";
 "dBHL_ALERT_TITLE_CANCEL_TEST" = "Cancel Test";
 "dBHL_ALERT_TEXT" = "There is something wrong with you headphones.";
+"dBHL_PROGRESS_COMPLETION" = "%@ Complete";
 
 /* Headphones. */
 "AIRPODS" = "Airpods";
@@ -349,7 +358,10 @@
 "HEADPHONES_UNKNOWN" = "Unknown";
 "HEADPHONES_NONE" = "None";
 "CONNECTED" = "Connected";
+"NOT_CONNECTED" = "Not Connected";
 "HEADPHONE_CONNECTED_%@" = "Connected - %@";
+"HEADPHONE_DETECT_TITLE" = "Connect your Headphones";
+"HEADPHONE_DETECT_TEXT" = "This test requires Apple Airpods or Apple Earpods";
 
 /* Spatial span memory active task. */
 "SPATIAL_SPAN_MEMORY_TITLE" = "Spatial Memory";
@@ -589,6 +601,8 @@
 "ENVIRONMENTSPL_THRESHOLD" = "Threshold: %@ dBA";
 "ENVIRONMENTSPL_OK" = "OK";
 "ENVIRONMENTSPL_NOISE" = "Too Much Background Noise";
+"ENVIRONMENTSPL_TITLE_2" = "Find a quiet place";
+"ENVIRONMENTSPL_INTRO_TEXT_2" = "To ensure accuracy, this test should be taken in a quiet environment.";
 
 /* Secondary Task Step*/
 "SECONDARY_TASK_START_BUTTON" = "Start Task";

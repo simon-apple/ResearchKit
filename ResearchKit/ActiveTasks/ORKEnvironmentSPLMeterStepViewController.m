@@ -36,6 +36,7 @@
 #import "ORKStepContainerView_Private.h"
 #import "ORKRoundTappingButton.h"
 #import "ORKEnvironmentSPLMeterContentView.h"
+#import "ORKRingView.h"
 
 #import "ORKActiveStepViewController_Internal.h"
 #import "ORKStepViewController_Internal.h"
@@ -49,7 +50,7 @@
 #import <AVFoundation/AVFoundation.h>
 #include <sys/sysctl.h>
 
-@interface ORKEnvironmentSPLMeterStepViewController () {
+@interface ORKEnvironmentSPLMeterStepViewController ()<ORKRingViewDelegate> {
     AVAudioEngine *_audioEngine;
     AVAudioInputNode *_inputNode;
     AVAudioUnitEQ *_eqUnit;
@@ -100,6 +101,7 @@
     _sensitivityOffset = [self sensitivityOffsetForDevice];
     _environmentSPLMeterContentView = [ORKEnvironmentSPLMeterContentView new];
     [self setNavigationFooterView];
+    _environmentSPLMeterContentView.ringView.delegate = self;
     self.activeStepView.activeCustomView = _environmentSPLMeterContentView;
     self.activeStepView.customContentFillsAvailableSpace = YES;
     [self requestMicrophoneAuthorization];
@@ -317,14 +319,13 @@
 - (void) evaluateThreshold: (float)spl {
     if (spl < _thresholdValue) {
         _counter += 1;
-        [self.environmentSPLMeterContentView setProgress:((float)_counter/_requiredContiguousSamples)];
+        [self.environmentSPLMeterContentView.ringView fillRingWithDuration:(double)_requiredContiguousSamples*_samplingInterval];
         if (_counter >= _requiredContiguousSamples) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self reachedOptimumNoiseLevel];
-            });
+            [self reachedOptimumNoiseLevel];
         }
     } else {
         _counter = 0;
+        self.environmentSPLMeterContentView.ringView.animationDuration = 0.5;
         [self.environmentSPLMeterContentView setProgress:0.0];
     }
 }
@@ -342,10 +343,8 @@
 }
 
 - (void)reachedOptimumNoiseLevel {
-    [self.environmentSPLMeterContentView reachedOptimumNoiseLevel];
     [self resetAudioSession];
     [_audioEngine stop];
-    _navigationFooterView.continueEnabled = YES;
 }
 
 - (void)stepDidFinish {
@@ -360,6 +359,13 @@
 
 - (ORKEnvironmentSPLMeterStep *)environmentSPLMeterStep {
     return (ORKEnvironmentSPLMeterStep *)self.step;
+}
+
+#pragma mark - ORKRingViewDelegate
+
+- (void)ringViewDidFinishFillAnimation {
+    [self.environmentSPLMeterContentView reachedOptimumNoiseLevel];
+    _navigationFooterView.continueEnabled = YES;
 }
 
 @end

@@ -34,6 +34,8 @@
 #import "ORKActiveStepView.h"
 #import "ORKActiveStep_Internal.h"
 #import "ORKStepHeaderView_Internal.h"
+#import "ORKNavigationContainerView.h"
+#import "ORKStepContainerView.h"
 
 #import "ORKdBHLToneAudiometryAudioGenerator.h"
 #import "ORKRoundTappingButton.h"
@@ -147,32 +149,34 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _maxNumberOfTransitionsPerFreq = [self dBHLToneAudiometryStep].maxNumberOfTransitionsPerFrequency;
-    _freqLoopList = [self dBHLToneAudiometryStep].frequencyList;
-    _stepUpMissingList = @[ [NSNumber numberWithDouble:[self dBHLToneAudiometryStep].dBHLStepUpSizeFirstMiss],
-                            [NSNumber numberWithDouble:[self dBHLToneAudiometryStep].dBHLStepUpSizeSecondMiss],
-                            [NSNumber numberWithDouble:[self dBHLToneAudiometryStep].dBHLStepUpSizeThirdMiss] ];
-    _currentdBHL = [self dBHLToneAudiometryStep].initialdBHLValue;
-    _dBHLStepDownSize = [self dBHLToneAudiometryStep].dBHLStepDownSize;
-    _dBHLStepUpSize = [self dBHLToneAudiometryStep].dBHLStepUpSize;
-    _dBHLMinimumThreshold = [self dBHLToneAudiometryStep].dBHLMinimumThreshold;
-    
-    self.dBHLToneAudiometryContentView = [[ORKdBHLToneAudiometryContentView alloc] init];
-    self.activeStepView.activeCustomView = self.dBHLToneAudiometryContentView;
-    self.activeStepView.customContentFillsAvailableSpace = YES;
-    
-    [self.dBHLToneAudiometryContentView.tapButton addTarget:self action:@selector(tapButtonPressed) forControlEvents:UIControlEventTouchDown];
-    
-    self.dBHLToneAudiometryContentView.tapButton.enabled = NO;
-    _headphoneDetector = [[ORKHeadphoneDetector alloc] initWithDelegate:self
-                                                supportedHeadphoneTypes:[ORKHeadphoneDetectStep dBHLTypes]];
-    //TODO:- figure out where this call lives
-    [[self taskViewController] lockDeviceVolume:0.5];
+
     [self configureStep];
 }
 
 - (void)configureStep {
     ORKdBHLToneAudiometryStep *dBHLTAStep = [self dBHLToneAudiometryStep];
+
+    _maxNumberOfTransitionsPerFreq = dBHLTAStep.maxNumberOfTransitionsPerFrequency;
+    _freqLoopList = dBHLTAStep.frequencyList;
+    _stepUpMissingList = @[ [NSNumber numberWithDouble:dBHLTAStep.dBHLStepUpSizeFirstMiss],
+                            [NSNumber numberWithDouble:dBHLTAStep.dBHLStepUpSizeSecondMiss],
+                            [NSNumber numberWithDouble:dBHLTAStep.dBHLStepUpSizeThirdMiss] ];
+    _currentdBHL = dBHLTAStep.initialdBHLValue;
+    _dBHLStepDownSize = dBHLTAStep.dBHLStepDownSize;
+    _dBHLStepUpSize = dBHLTAStep.dBHLStepUpSize;
+    _dBHLMinimumThreshold = dBHLTAStep.dBHLMinimumThreshold;
+
+    self.dBHLToneAudiometryContentView = [[ORKdBHLToneAudiometryContentView alloc] init];
+    self.activeStepView.activeCustomView = self.dBHLToneAudiometryContentView;
+    self.activeStepView.customContentFillsAvailableSpace = YES;
+    [self.activeStepView.navigationFooterView setHidden:YES];
+
+    [self.dBHLToneAudiometryContentView.tapButton addTarget:self action:@selector(tapButtonPressed) forControlEvents:UIControlEventTouchDown];
+
+    _headphoneDetector = [[ORKHeadphoneDetector alloc] initWithDelegate:self
+                                                supportedHeadphoneTypes:[ORKHeadphoneDetectStep dBHLTypes]];
+    //TODO:- figure out where this call lives
+    [[self taskViewController] lockDeviceVolume:0.5];
 
     ORKTaskResult *taskResults = [[self taskViewController] result];
 
@@ -185,6 +189,12 @@
             }
         }
     }
+
+    _audioChannel = dBHLTAStep.earPreference;
+    _audioGenerator = [[ORKdBHLToneAudiometryAudioGenerator alloc] initForHeadphones:dBHLTAStep.headphoneType];
+    _audioGenerator.delegate = self;
+    _hapticFeedback = [[UIImpactFeedbackGenerator alloc] initWithStyle: UIImpactFeedbackStyleHeavy];
+
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -193,11 +203,12 @@
 }
 
 - (void)animatedBHLButton {
+    [self.dBHLToneAudiometryContentView.layer removeAllAnimations];
     [UIView animateWithDuration:0.1
                           delay:0.0
          usingSpringWithDamping:0.1
           initialSpringVelocity:0.0
-                        options:UIViewAnimationOptionCurveEaseOut
+                        options:UIViewAnimationOptionCurveEaseOut|UIViewAnimationOptionAllowUserInteraction
                      animations:^{
         [self.dBHLToneAudiometryContentView.tapButton setTransform:CGAffineTransformMakeScale(0.88, 0.88)];
     } completion:^(BOOL finished) {
@@ -205,7 +216,7 @@
                               delay:0.0
              usingSpringWithDamping:0.4
               initialSpringVelocity:0.0
-                            options:UIViewAnimationOptionCurveLinear
+                            options:UIViewAnimationOptionCurveLinear|UIViewAnimationOptionAllowUserInteraction
                          animations:^{
             [self.dBHLToneAudiometryContentView.tapButton setTransform:CGAffineTransformMakeScale(1.0, 1.0)];
         } completion:nil];
@@ -257,13 +268,6 @@
 
 - (void)start {
     [super start];
-    ORKdBHLToneAudiometryStep *dBHLTAStep = [self dBHLToneAudiometryStep];
-    _audioChannel = dBHLTAStep.earPreference;
-    _audioGenerator = [[ORKdBHLToneAudiometryAudioGenerator alloc] initForHeadphones:dBHLTAStep.headphoneType];
-    _audioGenerator.delegate = self;
-    _hapticFeedback = [[UIImpactFeedbackGenerator alloc] initWithStyle: UIImpactFeedbackStyleHeavy];
-    
-    [self.dBHLToneAudiometryContentView.tapButton setEnabled:YES];
     [self estimatedBHLAndPlayToneWithFrequency:_freqLoopList[_indexOfFreqLoopList]];
 }
     
@@ -468,9 +472,7 @@
 }
 
 - (void)headphoneTypeDetected:(NSString *)headphoneType isSupported:(BOOL)isSupported {
-    if ([[self convertHeadphoneRawType:headphoneType] isEqualToString:[[self dBHLToneAudiometryStep].headphoneType uppercaseString]]) {
-        [self start];
-    } else {
+    if (![[self convertHeadphoneRawType:headphoneType] isEqualToString:[[self dBHLToneAudiometryStep].headphoneType uppercaseString]]) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [self stopAudio];
             UIAlertController *alertController = [UIAlertController

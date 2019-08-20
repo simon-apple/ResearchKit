@@ -97,11 +97,11 @@ static const CGFloat ORKHeadphoneDetectStepViewTopPadding = 50.0;
 }
 
 - (instancetype)initWithAirpods {
-    return [self initWithTitle:ORKLocalizedString(@"AIRPODS", nil) image:[UIImage imageNamed:@"play" inBundle:ORKBundle() compatibleWithTraitCollection:nil]];
+    return [self initWithTitle:ORKLocalizedString(@"AIRPODS", nil) image:[UIImage imageNamed:@"airpods" inBundle:ORKBundle() compatibleWithTraitCollection:nil]];
 }
 
 - (instancetype)initWithEarpods {
-    return [self initWithTitle:ORKLocalizedString(@"EARPODS", nil) image:[UIImage imageNamed:@"play" inBundle:ORKBundle() compatibleWithTraitCollection:nil]];
+    return [self initWithTitle:ORKLocalizedString(@"EARPODS", nil) image:[UIImage imageNamed:@"earpods" inBundle:ORKBundle() compatibleWithTraitCollection:nil]];
 }
 
 - (instancetype)initWithAnyHeadphones {
@@ -149,7 +149,8 @@ static const CGFloat ORKHeadphoneDetectStepViewTopPadding = 50.0;
     if (!_textLabel) {
         _textLabel = [UILabel new];
     }
-    _textLabel.text = ORKLocalizedString(@"CONNECTED", nil);
+    _textLabel.text = _connected ? ORKLocalizedString(@"CONNECTED", nil) : ORKLocalizedString(@"NOT_CONNECTED", nil);
+    _textLabel.textColor = UIColor.systemGrayColor;
     _textLabel.font = [self bodyTextFont];
     _textLabel.textAlignment = NSTextAlignmentLeft;
     _textLabel.translatesAutoresizingMaskIntoConstraints = NO;
@@ -209,6 +210,7 @@ static const CGFloat ORKHeadphoneDetectStepViewTopPadding = 50.0;
 
 - (void)setConnected:(BOOL)connected {
     _connected = connected;
+    _textLabel.text = _connected ? ORKLocalizedString(@"CONNECTED", nil) : ORKLocalizedString(@"NOT_CONNECTED", nil);
 }
 
 - (void)anyHeadphoneDetected:(NSString *)headphoneName {
@@ -351,11 +353,13 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
             switch (_headphoneDetected) {
                 case ORKHeadphoneDetectedAirpods:
                     _airpodSupportView.selected = YES;
+                    _airpodSupportView.connected = YES;
                     _earpodSupportView.selected = NO;
                     break;
                 case ORKHeadphoneDetectedEarpods:
                     _airpodSupportView.selected = NO;
                     _earpodSupportView.selected = YES;
+                    _earpodSupportView.connected = YES;
                     break;
                 default:
                     _airpodSupportView.selected = NO;
