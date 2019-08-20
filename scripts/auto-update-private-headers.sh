@@ -7,4 +7,4 @@
 
 scriptPath="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-$scriptPath/update-private-headers.sh "$(xcode-select -p)/../../Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS13.0.Internal.sdk" $scriptPath/private-headers.txt  $scriptPath/../ResearchKit/PrivateHeaders
+$scriptPath/update-private-headers.sh "$(xcode-select -p)/../../Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS13.1.Internal.sdk" $scriptPath/private-headers.txt  $scriptPath/../ResearchKit/PrivateHeaders

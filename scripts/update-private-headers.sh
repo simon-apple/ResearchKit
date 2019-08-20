@@ -22,26 +22,26 @@ fi
 
 # set -o xtrace
 
-rm -R $targetPath/*
-
+mkdir -p $targetPath 2>/dev/null
 
 echo "Copying iOS headers..."
 while read line
 do
+    if [[ $line == \#* ]]; then continue; fi
     echo "  $line"
     # Optionally, lines can specify the target subpath
     set -- $line
     headerSourcePath=$1
     headerTargetSubPath=$2
     # If the target subpath is not empty, create the directory
-    [[ ! -z "$headerTargetSubPath" ]] && mkdir $targetPath/$headerTargetSubPath/
+    [[ ! -z "$headerTargetSubPath" ]] && mkdir -p $targetPath/$headerTargetSubPath/ 2>/dev/null
     cp -R $sdkPath/$headerSourcePath $targetPath/$headerTargetSubPath/
 done < $iosHeadersSourceFile
 echo "done"
 echo
 
 echo "Deleting framework binaries..."
-frameworkList="$(ls -d $targetPath/*.framework)"
+frameworkList="$(ls -d $targetPath/*.framework 2> /dev/null)"
 for framework in $frameworkList
 do
     frameworkBaseName=$(basename $framework)
@@ -60,15 +60,12 @@ find $targetPath/ -type f -print0 | xargs -0 -P 6 perl -pi -e 's|,\s*bridgeos\([
 echo "done"
 echo
 
-echo -n "Fixing HealthKit..."
-find $targetPath/HealthKit.framework/ -type f -print0 | xargs -0 -P 6 perl -pi -e 's|__IOS_PROHIBITED|__SPI_AVAILABLE(ios(12.0))|'
-echo "done"
-echo
+# echo -n "Fixing HealthKit..."
+# find $targetPath/HealthKit.framework/ -type f -print0 | xargs -0 -P 6 perl -pi -e 's|__IOS_PROHIBITED|__SPI_AVAILABLE(ios(12.0))|'
+# echo "done"
+# echo
 
 echo -n "Copying Xcode Info Text File..."
 cp $xcodePath/../Xcode*.txt $targetPath/
 echo "done"
 echo
-
-
-

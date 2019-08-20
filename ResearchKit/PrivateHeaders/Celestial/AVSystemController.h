@@ -56,6 +56,8 @@ AV_EXTERN NSString *AVSystemController_NowPlayingAppDidChangeNotification;				//
 
 AV_EXTERN NSString *AVSystemController_SomeClientIsPlayingDidChangeNotification;		// payload contains whether some client is playing audio
 
+AV_EXTERN NSString *AVSystemController_SomeClientIsActiveDidChangeNotification;			// no payload
+
 AV_EXTERN NSString *AVSystemController_VibeIntensityDidChangeNotification;				// payload contains new vibe intensity
 
 AV_EXTERN NSString *AVSystemController_EUVolumeLimitDidChangeNotification;				// payload contains EU volume limit
@@ -105,6 +107,7 @@ AV_EXTERN NSString *AVSystemController_VideoAppInForegroundDidChangeNotification
 // attributes for sharedAVSystemController                                                 type 
 AV_EXTERN NSString *AVSystemController_AudioIsPlayingSomewhereAttribute;				// NSNumber (BOOL) YES == audio is playing; NO == audio is not playing (get only)
 AV_EXTERN NSString *AVSystemController_SpeechDetectionDevicePresentAttribute;			// NSNumber (BOOL) YES == speech detection device is present; NO == speech detection device is NOT present (get only)
+AV_EXTERN NSString *AVSystemController_ActiveClientPIDsThatHideTheSpeechDetectionDeviceAttribute; // NSArray NULL if no such client is active; NSArray of NSNumber(int32_t) client PIDs if there are active clients which hide the speech detection VAD.
 AV_EXTERN NSString *AVSystemController_SomeClientIsPlayingLongFormAudioAttribute;		// NSNumber (BOOL) YES == long form audio is playing; NO == long form audio is not playing (get only) (valid only for watchOS currently)
 AV_EXTERN NSString *AVSystemController_SystemHasAudioInputDeviceAttribute;				// NSNumber (BOOL) YES == has input device; NO == no input device
 AV_EXTERN NSString *AVSystemController_SystemHasAudioInputDeviceExcludingBluetoothAttribute; // NSNumber (BOOL) YES == has input device; NO == no input device

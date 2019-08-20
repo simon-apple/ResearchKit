@@ -31,7 +31,7 @@
 
 #import "ORKSoftLinking.h"
 
-#import <Celestial/AVSystemController.h>
+#import "Celestial_Private.h"
 
 
 ORK_SOFT_LINK_FRAMEWORK(PrivateFrameworks, Celestial)
