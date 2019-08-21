@@ -56,6 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy, nullable) NSString *restoredStepIdentifier;
 @property (nonatomic, assign) BOOL shouldIgnoreiPadDesign;
+@property (nonatomic) BOOL shouldPresentInReview;
 
 + (UIInterfaceOrientationMask)supportedInterfaceOrientations;
 

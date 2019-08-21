@@ -113,6 +113,12 @@ static const CGFloat iPadStepTitleLabelFontSize = 50.0;
     }
 }
 
+- (void)setShouldPresentInReview:(BOOL)shouldPresentInReview {
+    _shouldPresentInReview = shouldPresentInReview;
+    self.navigationItem.leftBarButtonItem = nil;
+    self.navigationItem.leftBarButtonItem = self.cancelButtonItem;
+}
+
 - (void)setupiPadBackgroundView {
     if (!_iPadBackgroundView) {
         _iPadBackgroundView = [UIView new];

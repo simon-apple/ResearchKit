@@ -30,52 +30,38 @@
 
 #import <UIKit/UIKit.h>
 
+@class ORKOrderedTask;
+@class ORKTaskResult;
+@class ORKBodyItem;
+@class ORKStepResult;
+@class ORKReviewViewController;
+
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol ORKTaskResultSource;
-@class ORKInstructionStep;
-@class ORKTaskResult;
-@class ORKStep;
+@protocol ORKReviewViewControllerDelegate <NSObject>
 
-@protocol ORKTaskReviewViewControllerDelegate <NSObject>
-
-@required
-- (void)editAnswerTappedForStepWithIdentifier:(NSString *)stepIdentifier;
-
-- (void)doneButtonTappedWithResultSource:(id<ORKTaskResultSource>)resultSource;
-
+//TODO: Leaving optional until further discussion.
+//@required
+@optional
+- (void)resultModifiedForReviewViewController:(ORKReviewViewController *)reviewViewController withSource:(ORKTaskResult *)resultSource updatedResult:(ORKTaskResult *)updatedResult;
 @end
 
+@interface ORKReviewViewController : UIViewController
 
-@interface ORKReviewItem : NSObject
-@property (nonatomic) NSString *question;
-@property (nonatomic, nullable) NSString *answer;
-@end
+- (instancetype)initWithTask:(ORKOrderedTask *)task result:(ORKTaskResult *)result delegate:(id<ORKReviewViewControllerDelegate>)delegate;
 
-@interface ORKReviewSection : NSObject
-@property (nonatomic) NSString *title;
+- (void)updateResultSource:(ORKTaskResult *)result forTask:(ORKOrderedTask *)task;
+
+- (void)updateResultSource:(ORKTaskResult *)result;
+
+@property (nonatomic, weak)id<ORKReviewViewControllerDelegate> delegate;
+
+@property (nonatomic) NSString *reviewTitle;
 @property (nonatomic) NSString *text;
-@property (nonatomic) NSString *stepIdentifier;
-@property (nonatomic) NSArray <ORKReviewItem *> *items;
-@end
+@property (nonatomic) NSString *detailText;
 
-@interface ORKReviewCell : UITableViewCell
-
-@property (nonatomic) BOOL isLastCell;
-@property (nonatomic) NSString *question;
-@property (nonatomic) NSString *answer;
-@end
-
-@interface ORKReviewSectionFooter : UIView
-@property (nonatomic) UIButton *button;
-@end
-
-
-@interface ORKTaskReviewViewController : UIViewController
-
-@property (nonatomic, weak) id<ORKTaskReviewViewControllerDelegate> delegate;
-
-- (instancetype)initWithResultSource:(id<ORKTaskResultSource>)resultSource forSteps:(NSArray<ORKStep *> *)steps withContentFrom:(nullable ORKInstructionStep *)reviewInstructionStep;
+@property (nonatomic) UIImage *image;
+@property (nonatomic) NSArray<ORKBodyItem *> *bodyItems;
 
 @end
 

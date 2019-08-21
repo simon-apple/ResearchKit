@@ -1021,8 +1021,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
         
         strongSelf->_hasSetProgressLabel = (progressLabel != nil);
         
-        strongSelf.pageViewController.navigationItem.rightBarButtonItem = viewController.cancelButtonItem;
-
+        strongSelf.pageViewController.navigationItem.rightBarButtonItem = viewController.shouldPresentInReview ? viewController.internalDoneButtonItem : viewController.cancelButtonItem;
         // Collect toolbarItems
         [strongSelf collectToolbarItemsFromViewController:viewController];
     }];

@@ -796,6 +796,11 @@ static const CGFloat TableViewYOffsetStandard = 30.0;
     _navigationFooterView.skipEnabled = [self skipButtonEnabled];
 }
 
+- (void)setShouldPresentInReview:(BOOL)shouldPresentInReview {
+    [super setShouldPresentInReview:shouldPresentInReview];
+    [_navigationFooterView setHidden:YES];
+}
+
 #pragma mark Helpers
 
 - (ORKFormStep *)formStep {

@@ -47,29 +47,10 @@
 static const float ReviewCellTopBottomPadding = 15.0;
 static const float EditAnswerButtonTopBottomPadding = 10.0;
 
-@interface ORKReviewItem : NSObject
-@property (nonatomic) NSString *question;
-@property (nonatomic, nullable) NSString *answer;
-@end
-
 @implementation ORKReviewItem
 @end
 
-@interface ORKReviewSection : NSObject
-@property (nonatomic) NSString *title;
-@property (nonatomic) NSString *text;
-@property (nonatomic) NSString *stepIdentifier;
-@property (nonatomic) NSArray <ORKReviewItem *> *items;
-@end
-
 @implementation ORKReviewSection
-@end
-
-@interface ORKReviewCell : UITableViewCell
-
-@property (nonatomic) BOOL isLastCell;
-@property (nonatomic) NSString *question;
-@property (nonatomic) NSString *answer;
 @end
 
 @implementation ORKReviewCell {
@@ -205,10 +186,6 @@ static const float EditAnswerButtonTopBottomPadding = 10.0;
     [[self.contentView.bottomAnchor constraintEqualToAnchor:_containerView.bottomAnchor] setActive:YES];
 }
 
-@end
-
-@interface ORKReviewSectionFooter : UIView
-@property (nonatomic) UIButton *button;
 @end
 
 @implementation ORKReviewSectionFooter {

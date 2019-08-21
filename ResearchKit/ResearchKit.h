@@ -104,6 +104,7 @@
 #import <ResearchKit/ORKVerificationStepViewController.h>
 #import <ResearchKit/ORKWaitStepViewController.h>
 #import <ResearchKit/ORKWebViewStepViewController.h>
+#import <ResearchKit/ORKReviewViewController.h>
 #import <ResearchKit/ORKCustomStepViewController.h>
 
 #import <ResearchKit/ORKRecorder.h>

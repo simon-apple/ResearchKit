@@ -799,6 +799,11 @@ typedef NS_ENUM(NSInteger, ORKQuestionSection) {
     }
 }
 
+- (void)setShouldPresentInReview:(BOOL)shouldPresentInReview {
+    [super setShouldPresentInReview:shouldPresentInReview];
+    [_navigationFooterView setHidden:YES];
+}
+
 #pragma mark - UITableViewDelegate
 
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {

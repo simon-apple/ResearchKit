@@ -111,20 +111,22 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
         taskViewController.outputDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         
         if (task.identifier == String(describing: TaskListRow.Identifier.groupedFormTask) && (groupedFormTaskResult != nil)) {
-            taskViewController.defaultResultSource = groupedFormTaskResult
-            taskViewController.reviewMode = .standalone
-            let instructionStep = ORKInstructionStep.init(identifier: "ContentReviewStepIdentifier")
-            instructionStep.title = "Review Survey"
-            instructionStep.text = "Please review the answers you provided for the questionnaire. Press the 'Edit Answer' button to change your entry."
-            taskViewController.reviewInstructionStep = instructionStep;
+            let reviewViewController = ORKReviewViewController(task: task as! ORKOrderedTask, result: groupedFormTaskResult!, delegate: self)
+            
+            reviewViewController.reviewTitle = "Review Survey"
+            reviewViewController.text = "Please review the answers you provided for the questionnaire. Press the 'Edit Answer' button to change your entry."
+            present(reviewViewController, animated: true, completion: nil)
+
         }
-        
-        /*
-            We present the task directly, but it is also possible to use segues.
-            The task property of the task view controller can be set any time before
-            the task view controller is presented.
-        */
-        present(taskViewController, animated: true, completion: nil)
+        else {
+            
+            /*
+             We present the task directly, but it is also possible to use segues.
+             The task property of the task view controller can be set any time before
+             the task view controller is presented.
+             */
+            present(taskViewController, animated: true, completion: nil)
+        }
     }
     
     // MARK: ORKTaskViewControllerDelegate
@@ -201,4 +203,26 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
         }
     }
 
+}
+
+extension TaskListViewController: ORKReviewViewControllerDelegate {
+    
+    func mapStepResult(stepResult: ORKStepResult, resultSource: ORKTaskResult) -> ORKTaskResult {
+        let resultSourceCopy = resultSource.copy() as! ORKTaskResult
+        for resultSourceItem in resultSourceCopy.results! {
+            if resultSourceItem.identifier == stepResult.identifier {
+                if let stepResultSource = resultSourceItem as? ORKStepResult {
+                    stepResultSource.results = stepResult.results
+                }
+            }
+        }
+        return resultSourceCopy
+    }
+    
+    func resultModified(for reviewViewController: ORKReviewViewController, withSource resultSource: ORKTaskResult, updatedResult: ORKTaskResult) {
+        if let stepResult = updatedResult.results?.first as? ORKStepResult {
+            groupedFormTaskResult = self.mapStepResult(stepResult: stepResult, resultSource: resultSource)
+            reviewViewController.updateResultSource(groupedFormTaskResult!)
+        }
+    }
 }

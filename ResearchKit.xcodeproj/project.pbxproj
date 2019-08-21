@@ -576,6 +576,8 @@
 		BA0AA6981EAEC0B600671ACE /* ORKStroopStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = BA0AA6921EAEC0B600671ACE /* ORKStroopStepViewController.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		BA0AA6991EAEC0B600671ACE /* ORKStroopStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA0AA6931EAEC0B600671ACE /* ORKStroopStepViewController.m */; };
 		BA22F76D20C4F884006E6E11 /* SentencesList.txt in Resources */ = {isa = PBXBuildFile; fileRef = BA22F76C20C4F884006E6E11 /* SentencesList.txt */; };
+		BA2645E62301571800D00B73 /* ORKReviewViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = BA2645E42301571800D00B73 /* ORKReviewViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BA2645E72301571800D00B73 /* ORKReviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA2645E52301571800D00B73 /* ORKReviewViewController.m */; };
 		BA2FE3EE20B109C600AAC231 /* ORKAmslerGridResult.h in Headers */ = {isa = PBXBuildFile; fileRef = BA2FE3EC20B109C600AAC231 /* ORKAmslerGridResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BA2FE3EF20B109C600AAC231 /* ORKAmslerGridResult.m in Sources */ = {isa = PBXBuildFile; fileRef = BA2FE3ED20B109C600AAC231 /* ORKAmslerGridResult.m */; };
 		BA3D7E732223F8B90023FE3A /* ORKChoiceViewCell_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = BA3D7E722223F8B90023FE3A /* ORKChoiceViewCell_Internal.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -1426,6 +1428,8 @@
 		BA0AA6921EAEC0B600671ACE /* ORKStroopStepViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKStroopStepViewController.h; sourceTree = "<group>"; };
 		BA0AA6931EAEC0B600671ACE /* ORKStroopStepViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKStroopStepViewController.m; sourceTree = "<group>"; };
 		BA22F76C20C4F884006E6E11 /* SentencesList.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SentencesList.txt; sourceTree = "<group>"; };
+		BA2645E42301571800D00B73 /* ORKReviewViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKReviewViewController.h; sourceTree = "<group>"; };
+		BA2645E52301571800D00B73 /* ORKReviewViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKReviewViewController.m; sourceTree = "<group>"; };
 		BA2FE3EC20B109C600AAC231 /* ORKAmslerGridResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKAmslerGridResult.h; sourceTree = "<group>"; };
 		BA2FE3ED20B109C600AAC231 /* ORKAmslerGridResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKAmslerGridResult.m; sourceTree = "<group>"; };
 		BA3D7E722223F8B90023FE3A /* ORKChoiceViewCell_Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKChoiceViewCell_Internal.h; sourceTree = "<group>"; };
@@ -2271,6 +2275,7 @@
 		86C40B511A8D7C5B00081FAC /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				BA2645E3230156C200D00B73 /* Review */,
 				BA8C067522EEB7FD00ACDE6B /* Playback Button */,
 				BA87E26A20A79F5F00B375A9 /* Ring View */,
 				B12EFF3B1AB211E000A80147 /* Answer Format */,
@@ -3174,6 +3179,15 @@
 			name = Stroop;
 			sourceTree = "<group>";
 		};
+		BA2645E3230156C200D00B73 /* Review */ = {
+			isa = PBXGroup;
+			children = (
+				BA2645E42301571800D00B73 /* ORKReviewViewController.h */,
+				BA2645E52301571800D00B73 /* ORKReviewViewController.m */,
+			);
+			name = Review;
+			sourceTree = "<group>";
+		};
 		BA473FE5224DB36500A362E3 /* Step Body */ = {
 			isa = PBXGroup;
 			children = (
@@ -3583,6 +3597,7 @@
 				865EA16C1ABA1BE20037C68E /* ORKSurveyAnswerCellForPicker.h in Headers */,
 				86C40C121A8D7C5C00081FAC /* ORKActiveStepQuantityView.h in Headers */,
 				86C40CCC1A8D7C5C00081FAC /* ORKImageSelectionView.h in Headers */,
+				BA2645E62301571800D00B73 /* ORKReviewViewController.h in Headers */,
 				866DA5251D63D04700C9AF3F /* ORKHealthSampleQueryOperation.h in Headers */,
 				2441034F1B966D4C00EEAB0C /* ORKPasscodeViewController.h in Headers */,
 				B11C549F1A9EF4A700265E61 /* ORKConsentSharingStepViewController.h in Headers */,
@@ -4237,6 +4252,7 @@
 				86C40C241A8D7C5C00081FAC /* ORKCountdownStep.m in Sources */,
 				BCB6E65C1B7D534C000D5B34 /* ORKDiscreteGraphChartView.m in Sources */,
 				71BD9EAA20969EED007B436E /* ORKEnvironmentSPLMeterStepViewController.m in Sources */,
+				BA2645E72301571800D00B73 /* ORKReviewViewController.m in Sources */,
 				716B126920A7A40400590264 /* ORKdBHLToneAudiometryAudioGenerator.m in Sources */,
 				86C40CA21A8D7C5C00081FAC /* ORKHealthQuantityTypeRecorder.m in Sources */,
 				95E11E561D73396300BF865B /* ORKShoulderRangeOfMotionStepViewController.m in Sources */,
