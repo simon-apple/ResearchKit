@@ -80,8 +80,6 @@
         
         _axLastOutputTime = 0;
         _thumbImageNeedsTransformUpdate = NO;
-        
-        [self setDefaultThumb];
     }
     return self;
 }
@@ -117,17 +115,6 @@
 - (void)setGradientLocations:(nullable NSArray<NSNumber *> *)gradientLocations {
     _gradientLocations = [gradientLocations copy];
     _gradientLayer.locations = gradientLocations;
-}
-
-- (void)setDefaultThumb {
-    [self setThumbImage:nil forState:UIControlStateNormal];
-}
-
-- (void)setBorderedThumb {
-    if (@available(iOS 13.0, *)) {
-         UIImage *circleImage = [UIImage imageNamed:@"sliderThumbCircled" inBundle:ORKBundle() compatibleWithTraitCollection:nil];
-        [self setThumbImage:circleImage forState:UIControlStateNormal];
-    }
 }
 
 // Error prone: needs to be replaced by a custom thumb asset

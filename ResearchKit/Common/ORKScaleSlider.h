@@ -52,10 +52,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy, nullable) NSArray<NSNumber *> *gradientLocations;
 
-- (void)setDefaultThumb;
-
-- (void)setBorderedThumb;
-
 @end
 
 NS_ASSUME_NONNULL_END

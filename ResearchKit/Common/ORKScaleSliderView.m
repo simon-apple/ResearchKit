@@ -176,10 +176,6 @@ static const CGFloat kMargin = 25.0;
             _leftRangeDescriptionLabel.text = [formatProvider shouldHideLabels] ? @"" : [formatProvider minimumValueDescription];
             _rightRangeDescriptionLabel.text = [formatProvider shouldHideLabels] ? @"" : [formatProvider maximumValueDescription];
             
-            if (_slider.isWaitingForUserFeedback) {
-                [_slider setBorderedThumb];
-            }
-            
             _moveSliderLabel.translatesAutoresizingMaskIntoConstraints = NO;
             _valueLabel.translatesAutoresizingMaskIntoConstraints = NO;
             _leftRangeView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -759,7 +755,7 @@ static const CGFloat kMargin = 25.0;
     _slider.showThumb = YES;
     
     if (_currentNumberValue && _slider.isWaitingForUserFeedback) {
-        [self resetViewWithDefaultThumb];
+        [self resetViewToDefault];
     }
     
     [self updateCurrentValueLabel];
@@ -790,7 +786,7 @@ static const CGFloat kMargin = 25.0;
 
 - (IBAction)sliderValueChanged:(id)sender {
     if (_slider.isWaitingForUserFeedback) {
-        [self resetViewWithDefaultThumb];
+        [self resetViewToDefault];
     }
     
     if (_dontKnowButtonActive) {
@@ -802,8 +798,7 @@ static const CGFloat kMargin = 25.0;
     [self notifyDelegate];
 }
 
-- (void)resetViewWithDefaultThumb {
-    [_slider setDefaultThumb];
+- (void)resetViewToDefault {
     _slider.isWaitingForUserFeedback = NO;
     [_topStackView removeArrangedSubview:_moveSliderLabel];
     [_moveSliderLabel removeFromSuperview];
@@ -817,7 +812,6 @@ static const CGFloat kMargin = 25.0;
 
 - (void)dontKnowButtonWasPressed {
     if (!_slider.isWaitingForUserFeedback) {
-        [_slider setBorderedThumb];
         _slider.isWaitingForUserFeedback = YES;
         
         [_topStackView removeArrangedSubview:_valueLabel];
