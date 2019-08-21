@@ -3330,7 +3330,9 @@ static NSString *const kSecureTextEntryEscapeString = @"*";
 
 #pragma mark ORKSESAnswerFormat
 
-@implementation ORKSESAnswerFormat
+@implementation ORKSESAnswerFormat {
+    NSNumberFormatter *_numberFormatter;
+}
 
 - (instancetype)initWithTopRungText:(NSString *)topRungText bottomRungText:(NSString *)bottomRungText {
     self = [super init];
@@ -3366,6 +3368,24 @@ static NSString *const kSecureTextEntryEscapeString = @"*";
 
 + (BOOL)supportsSecureCoding {
     return YES;
+}
+
+- (NSNumberFormatter *)numberFormatter {
+    if (!_numberFormatter) {
+        _numberFormatter = [[NSNumberFormatter alloc] init];
+        _numberFormatter.numberStyle = NSNumberFormatterDecimalStyle;
+        _numberFormatter.locale = [NSLocale autoupdatingCurrentLocale];
+        _numberFormatter.maximumFractionDigits = 0;
+    }
+    return _numberFormatter;
+}
+
+- (NSString *)localizedStringForNumber:(NSNumber *)number {
+    return [self.numberFormatter stringFromNumber:number];
+}
+
+- (NSString *)stringForAnswer:(id)answer {
+    return [self localizedStringForNumber:answer];
 }
 
 
