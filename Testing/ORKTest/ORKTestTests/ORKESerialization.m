@@ -1484,6 +1484,8 @@ static NSMutableDictionary *ORKESerializationEncodingTable() {
                     PROPERTY(maximum, NSNumber, NSObject, NO, nil, nil),
                     PROPERTY(maximumFractionDigits, NSNumber, NSObject, NO, nil, nil),
                     PROPERTY(defaultNumericAnswer, NSNumber, NSObject, NO, nil, nil),
+                    PROPERTY(showDontKnowButton, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(customDontKnowButtonText, NSString, NSObject, YES, nil, nil),
                     })),
            ENTRY(ORKScaleAnswerFormat,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {

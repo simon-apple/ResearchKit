@@ -1657,6 +1657,8 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
         _minimum = [minimum copy];
         _maximum = [maximum copy];
         _maximumFractionDigits = [maximumFractionDigits copy];
+        _showDontKnowButton = NO;
+        _customDontKnowButtonText = nil;
         
         [self validateParameters];
     }
@@ -1675,11 +1677,13 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
     self = [super initWithCoder:aDecoder];
     if (self) {
         ORK_DECODE_ENUM(aDecoder, style);
+        ORK_DECODE_BOOL(aDecoder, showDontKnowButton);
         ORK_DECODE_OBJ_CLASS(aDecoder, unit, NSString);
         ORK_DECODE_OBJ_CLASS(aDecoder, minimum, NSNumber);
         ORK_DECODE_OBJ_CLASS(aDecoder, maximum, NSNumber);
         ORK_DECODE_OBJ_CLASS(aDecoder, defaultNumericAnswer, NSNumber);
         ORK_DECODE_OBJ_CLASS(aDecoder, maximumFractionDigits, NSNumber);
+        ORK_DECODE_OBJ_CLASS(aDecoder, customDontKnowButtonText, NSString);
     }
     return self;
 }
@@ -1687,11 +1691,13 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [super encodeWithCoder:aCoder];
     ORK_ENCODE_ENUM(aCoder, style);
+    ORK_ENCODE_BOOL(aCoder, showDontKnowButton);
     ORK_ENCODE_OBJ(aCoder, unit);
     ORK_ENCODE_OBJ(aCoder, minimum);
     ORK_ENCODE_OBJ(aCoder, maximum);
     ORK_ENCODE_OBJ(aCoder, defaultNumericAnswer);
     ORK_ENCODE_OBJ(aCoder, maximumFractionDigits);
+    ORK_ENCODE_OBJ(aCoder, customDontKnowButtonText);
 }
 
 + (BOOL)supportsSecureCoding {
@@ -1705,6 +1711,8 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
                                                                                     maximum:[_maximum copy]
                                                                       maximumFractionDigits:[_maximumFractionDigits copy]];
     answerFormat->_defaultNumericAnswer = [_defaultNumericAnswer copy];
+    answerFormat->_showDontKnowButton = _showDontKnowButton;
+    answerFormat->_customDontKnowButtonText = [_customDontKnowButtonText copy];
     return answerFormat;
 }
 
@@ -1718,6 +1726,8 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
             ORKEqualObjects(self.maximum, castObject.maximum) &&
             ORKEqualObjects(self.defaultNumericAnswer, castObject.defaultNumericAnswer) &&
             ORKEqualObjects(self.maximumFractionDigits, castObject.maximumFractionDigits) &&
+            ORKEqualObjects(self.customDontKnowButtonText, castObject.customDontKnowButtonText) &&
+            (_showDontKnowButton == castObject.showDontKnowButton) &&
             (_style == castObject.style));
 }
 
@@ -1773,6 +1783,10 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
         isValid = [self isAnswerValidWithNumber:number];
     }
     return isValid;
+}
+
+- (BOOL)shouldShowDontKnowButton {
+    return _showDontKnowButton;
 }
 
 - (NSString *)localizedInvalidValueStringWithAnswerString:(NSString *)text {

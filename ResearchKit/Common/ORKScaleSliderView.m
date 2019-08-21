@@ -53,7 +53,11 @@ static const CGFloat MoveSliderLabelBottomPadding = 38.0;
 static const CGFloat RangeViewHorizontalPadding = 16.0;
 static const CGFloat SliderBottomPadding = 16.0;
 static const CGFloat DontKnowButtonTopBottomPadding = 16.0;
+static const CGFloat DontKnowButtonCornerRadius = 10.0;
+static const CGFloat DontKnowButtonEdgeInsetHorizontalSpacing = 10.0;
+static const CGFloat DontKnowButtonEdgeInsetVerticalSpacing = 4.0;
 static const CGFloat kMargin = 25.0;
+
 
 // #define LAYOUT_DEBUG 1
 
@@ -289,9 +293,9 @@ static const CGFloat kMargin = 25.0;
 - (void)setupDontKnowButton {
     if (!_dontKnowButton) {
         _dontKnowButton = [UIButton new];
-        _dontKnowButton.layer.cornerRadius = 10.0;
+        _dontKnowButton.layer.cornerRadius = DontKnowButtonCornerRadius;
         _dontKnowButton.clipsToBounds = YES;
-        [_dontKnowButton setContentEdgeInsets:UIEdgeInsetsMake(4, 10, 4, 10)];
+        [_dontKnowButton setContentEdgeInsets:UIEdgeInsetsMake(DontKnowButtonEdgeInsetVerticalSpacing, DontKnowButtonEdgeInsetHorizontalSpacing, DontKnowButtonEdgeInsetVerticalSpacing, DontKnowButtonEdgeInsetHorizontalSpacing)];
         [_dontKnowButton addTarget:self action:@selector(dontKnowButtonWasPressed) forControlEvents:UIControlEventTouchUpInside];
     }
     

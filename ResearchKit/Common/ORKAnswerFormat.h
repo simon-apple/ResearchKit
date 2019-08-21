@@ -1396,6 +1396,21 @@ Returns an initialized numeric answer format using the specified style, unit des
  */
 @property (copy, nullable) NSNumber *defaultNumericAnswer;
 
+/**
+ Determines if the "I Don't Know" button will show
+ 
+ Defults to false.
+ */
+@property (nonatomic, assign, getter=shouldShowDontKnowButton) BOOL showDontKnowButton;
+
+/**
+ Custom text that will be shown inside of the "I Don't Know" button if showDontKnowButton is set to true
+ 
+ Defults to nil
+ */
+@property (nonatomic, nullable) NSString *customDontKnowButtonText;
+
+
 @end
 
 

@@ -40,7 +40,14 @@
 #import "ORKSkin.h"
 
 static const CGFloat ErrorLabelTopPadding = 4.0;
+static const CGFloat DefaultPadding = 8.0;
+static const CGFloat MinTextFieldViewHeight = 40.0;
 static const CGFloat ErrorLabelBottomPadding = 10.0;
+static const CGFloat DontKnowButtonTopBottomPadding = 16.0;
+static const CGFloat DontKnowButtonCornerRadius = 10.0;
+static const CGFloat DontKnowButtonEdgeInsetHorizontalSpacing = 10.0;
+static const CGFloat DontKnowButtonEdgeInsetVerticalSpacing = 4.0;
+
 
 @interface ORKSurveyAnswerCellForNumber ()
 
@@ -54,6 +61,9 @@ static const CGFloat ErrorLabelBottomPadding = 10.0;
     NSNumberFormatter *_numberFormatter;
     NSNumber *_defaultNumericAnswer;
     NSMutableArray *constraints;
+    UIButton *_dontKnowButton;
+    UIView *_dividerView;
+    BOOL _dontKnowButtonActive;
 }
 
 - (ORKUnitTextField *)textField {
@@ -64,6 +74,8 @@ static const CGFloat ErrorLabelBottomPadding = 10.0;
     ORKQuestionType questionType = self.step.questionType;
     _numberFormatter = ORKDecimalNumberFormatter();
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(localeDidChange:) name:NSCurrentLocaleDidChangeNotification object:nil];
+   
+    _dontKnowButtonActive = NO;
     
     _textFieldView = [[ORKTextFieldView alloc] init];
     ORKUnitTextField *textField =  _textFieldView.textField;
@@ -86,6 +98,33 @@ static const CGFloat ErrorLabelBottomPadding = 10.0;
     _errorLabel.numberOfLines = 0;
     _errorLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:_errorLabel];
+    
+    ORKNumericAnswerFormat *numericAnswerFormat = (ORKNumericAnswerFormat *)self.step.answerFormat;
+    if (numericAnswerFormat.shouldShowDontKnowButton) {
+        if (!_dontKnowButton) {
+            _dontKnowButton = [UIButton new];
+            _dontKnowButton.layer.cornerRadius = DontKnowButtonCornerRadius;
+            _dontKnowButton.translatesAutoresizingMaskIntoConstraints = NO;
+            [_dontKnowButton setContentEdgeInsets:UIEdgeInsetsMake(DontKnowButtonEdgeInsetVerticalSpacing, DontKnowButtonEdgeInsetHorizontalSpacing, DontKnowButtonEdgeInsetVerticalSpacing, DontKnowButtonEdgeInsetHorizontalSpacing)];
+            
+            [_dontKnowButton addTarget:self action:@selector(dontKnowButtonWasPressed) forControlEvents:UIControlEventTouchUpInside];
+        }
+        
+        [self setDontKnowButtonInactive];
+        
+        if (!_dividerView) {
+            _dividerView = [UIView new];
+            _dividerView.translatesAutoresizingMaskIntoConstraints = NO;
+            if (@available(iOS 13.0, *)) {
+                [_dividerView setBackgroundColor:[UIColor separatorColor]];
+            } else {
+                [_dividerView setBackgroundColor:[UIColor lightGrayColor]];
+            }
+        }
+        
+        [self addSubview:_dontKnowButton];
+        [self addSubview:_dividerView];
+    }
    
     self.layoutMargins = ORKStandardLayoutMarginsForTableViewCell(self);
     ORKEnableAutoLayoutForViews(@[_textFieldView]);
@@ -106,48 +145,110 @@ static const CGFloat ErrorLabelBottomPadding = 10.0;
     self.layoutMargins = ORKStandardLayoutMarginsForTableViewCell(self);
 }
 
-- (void)setUpConstraints {
-    if (constraints != nil) {
-        [NSLayoutConstraint deactivateConstraints:constraints];
+- (void)dontKnowButtonWasPressed {
+    if (!_dontKnowButtonActive) {
+        [_textFieldView.textField setText:nil];
+        [self textFieldShouldClear:_textFieldView.textField];
+        [self setDontKnowButtonActive];
+    }
+}
+
+- (void)setDontKnowButtonInactive {
+    _dontKnowButtonActive = NO;
+    
+    NSDictionary *attrs = nil;
+    UIFontDescriptor *dontKnowButtonDescriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleFootnote];
+    UIFontDescriptor *dontKnowButtonFontDescriptor = [dontKnowButtonDescriptor fontDescriptorWithSymbolicTraits:(UIFontDescriptorTraitBold)];
+    if (@available(iOS 13.0, *)) {
+        attrs = @{ NSForegroundColorAttributeName : [UIColor secondaryLabelColor], NSFontAttributeName : [UIFont fontWithDescriptor:dontKnowButtonFontDescriptor size:[[dontKnowButtonFontDescriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]]};
+    } else {
+        attrs = @{ NSForegroundColorAttributeName : [UIColor grayColor], NSFontAttributeName : [UIFont fontWithDescriptor:dontKnowButtonFontDescriptor size:[[dontKnowButtonFontDescriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]]};
     }
     
-    constraints = [NSMutableArray new];
-    NSDictionary *metrics = @{@"errorLabelTopPadding":@(ErrorLabelTopPadding), @"errorLabelBottomPadding":@(ErrorLabelBottomPadding)};
-    NSDictionary *views = NSDictionaryOfVariableBindings(_textFieldView, _errorLabel);
+    ORKNumericAnswerFormat *numericAnswerFormat = (ORKNumericAnswerFormat *)self.step.answerFormat;
+    NSString *dontKnowString = numericAnswerFormat.customDontKnowButtonText ? : ORKLocalizedString(@"SLIDER_I_DONT_KNOW", nil);
+    NSMutableAttributedString *dontKnowButtonString = [[NSMutableAttributedString alloc] initWithString:dontKnowString attributes:attrs];
+    [_dontKnowButton setAttributedTitle:dontKnowButtonString forState:(UIControlState)UIControlStateNormal];
     
-    if (self.errorLabel.attributedText == nil) {
-            [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[_textFieldView]-|"
-                                                                                     options:NSLayoutFormatDirectionLeadingToTrailing | NSLayoutFormatAlignAllLeading
-                                                                                     metrics:nil
-                                                                                       views:views]];
-            
-            [constraints addObjectsFromArray:
-             [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_errorLabel(==0)]"
-                                                     options:0
-                                                     metrics:nil
-                                                       views:views]];
-        } else {
-            [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[_textFieldView]-errorLabelTopPadding-[_errorLabel]-|"
-                                                                                     options:NSLayoutFormatDirectionLeadingToTrailing | NSLayoutFormatAlignAllLeading
-                                                                                     metrics:metrics
-                                                                                       views:views]];
-        }
+    if (@available(iOS 13.0, *)) {
+        [_dontKnowButton setBackgroundColor:[UIColor systemFillColor]];
+    } else {
+        [_dontKnowButton setBackgroundColor:[UIColor grayColor]];
+    }
+}
+
+- (void)setDontKnowButtonActive {
+    _dontKnowButtonActive = YES;
     
-   
-    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_textFieldView]-|"
-                                                                             options:(NSLayoutFormatOptions)0
-                                                                             metrics:nil
-                                                                               views:views]];
+    [_dontKnowButton setBackgroundColor:[UIColor systemBlueColor]];
     
-    [constraints addObject:[NSLayoutConstraint constraintWithItem:_errorLabel
-                                                            attribute:NSLayoutAttributeRight
-                                                            relatedBy:NSLayoutRelationEqual
-                                                               toItem:_textFieldView
-                                                            attribute:NSLayoutAttributeRight
-                                                           multiplier:1.0
-                                                             constant:0.0]];
+    NSDictionary *attrs = nil;
     
-    [NSLayoutConstraint activateConstraints:constraints];
+    ORKNumericAnswerFormat *numericAnswerFormat = (ORKNumericAnswerFormat *)self.step.answerFormat;
+    NSString *dontKnowString = numericAnswerFormat.customDontKnowButtonText ? : ORKLocalizedString(@"SLIDER_I_DONT_KNOW", nil);
+    UIFontDescriptor *dontKnowButtonDescriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleFootnote];
+    UIFontDescriptor *dontKnowButtonFontDescriptor = [dontKnowButtonDescriptor fontDescriptorWithSymbolicTraits:(UIFontDescriptorTraitBold)];
+    
+    if (@available(iOS 13.0, *)) {
+
+        NSString *formattedString = [NSString stringWithFormat:@" %@", dontKnowString];
+        NSMutableAttributedString *fullString = [[NSMutableAttributedString alloc] initWithString:formattedString];
+        
+        NSTextAttachment *imageAttachment = [NSTextAttachment new];
+         UIImageSymbolConfiguration *imageConfig = [UIImageSymbolConfiguration configurationWithScale:UIImageSymbolScaleSmall];
+        UIImage *checkMarkImage = [UIImage systemImageNamed:@"checkmark.circle.fill" withConfiguration:imageConfig];
+        imageAttachment.image = [checkMarkImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        NSAttributedString *imageString = [NSAttributedString attributedStringWithAttachment:imageAttachment];
+        
+        [fullString insertAttributedString:imageString atIndex:0];
+        [fullString addAttribute:NSForegroundColorAttributeName value:[UIColor systemBackgroundColor] range:NSMakeRange(0, fullString.length)];
+        [fullString addAttribute:NSFontAttributeName value:[UIFont fontWithDescriptor:dontKnowButtonFontDescriptor size:[[dontKnowButtonFontDescriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]] range:NSMakeRange(0, fullString.length)];
+        
+        [_dontKnowButton setAttributedTitle:fullString forState:(UIControlState)UIControlStateNormal];
+    } else {
+        attrs = @{ NSForegroundColorAttributeName : [UIColor whiteColor], NSFontAttributeName : [UIFont fontWithDescriptor:dontKnowButtonFontDescriptor size:[[dontKnowButtonFontDescriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]]};
+        NSMutableAttributedString *dontKnowButtonString = [[NSMutableAttributedString alloc] initWithString:dontKnowString attributes:attrs];
+        [_dontKnowButton setAttributedTitle:dontKnowButtonString forState:(UIControlState)UIControlStateNormal];
+    }
+}
+
+- (NSArray *)suggestedCellHeightConstraintsForView:(UIView *)view {
+    return @[
+        [NSLayoutConstraint constraintWithItem:self
+                                     attribute:NSLayoutAttributeBottom
+                                     relatedBy:NSLayoutRelationEqual
+                                        toItem:_dontKnowButton ?: _errorLabel
+                                     attribute:NSLayoutAttributeBottom
+                                    multiplier:1.0
+                                      constant:_dontKnowButton ? (DontKnowButtonTopBottomPadding - self.layoutMargins.bottom): (ErrorLabelBottomPadding - self.layoutMargins.bottom)]
+    ];
+}
+
+- (void)setUpConstraints {
+    _textFieldView.translatesAutoresizingMaskIntoConstraints = NO;
+    _errorLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    _dividerView.translatesAutoresizingMaskIntoConstraints = NO;
+    _dontKnowButton.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    [[_textFieldView.topAnchor constraintEqualToAnchor:self.topAnchor constant:DefaultPadding] setActive:YES];
+    [[_textFieldView.leftAnchor constraintEqualToAnchor:self.leftAnchor constant:DefaultPadding] setActive:YES];
+    [[_textFieldView.rightAnchor constraintEqualToAnchor:self.rightAnchor constant:-DefaultPadding] setActive:YES];
+    [[_textFieldView.heightAnchor constraintGreaterThanOrEqualToConstant:MinTextFieldViewHeight] setActive:YES];
+    
+    [[_errorLabel.topAnchor constraintEqualToAnchor:_textFieldView.bottomAnchor constant:ErrorLabelTopPadding] setActive:YES];
+    [[_errorLabel.leftAnchor constraintEqualToAnchor:_textFieldView.leftAnchor] setActive:YES];
+    [[_errorLabel.rightAnchor constraintEqualToAnchor:self.rightAnchor] setActive:YES];
+    
+    if (_dontKnowButton) {
+        CGFloat separatorHeight = 1.0 / [UIScreen mainScreen].scale;
+        [[_dividerView.topAnchor constraintEqualToAnchor:_errorLabel.bottomAnchor constant:ErrorLabelBottomPadding] setActive:YES];
+        [[_dividerView.leftAnchor constraintEqualToAnchor:self.leftAnchor] setActive:YES];
+        [[_dividerView.rightAnchor constraintEqualToAnchor:self.rightAnchor] setActive:YES];
+        [[_dividerView.heightAnchor constraintGreaterThanOrEqualToConstant:separatorHeight] setActive:YES];
+
+        [[_dontKnowButton.topAnchor constraintEqualToAnchor:_dividerView.bottomAnchor constant:DontKnowButtonTopBottomPadding] setActive:YES];
+        [[_dontKnowButton.centerXAnchor constraintEqualToAnchor:self.centerXAnchor] setActive:YES];
+    }
 }
 
 - (BOOL)becomeFirstResponder {
@@ -265,6 +366,10 @@ static const CGFloat ErrorLabelBottomPadding = 10.0;
         _errorLabel.attributedText = nil;
         [self setUpConstraints];
     }
+    
+    if (_dontKnowButtonActive && _dontKnowButton) {
+        [self setDontKnowButtonInactive];
+   }
 }
 
 - (BOOL)textFieldShouldClear:(UITextField *)textField {
