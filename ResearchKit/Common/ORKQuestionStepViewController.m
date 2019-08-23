@@ -823,8 +823,11 @@ typedef NS_ENUM(NSInteger, ORKQuestionSection) {
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    [_choiceCellGroup didSelectCellAtIndexPath:indexPath];
+    if (_choiceCellGroup.answerFormat.style == ORKChoiceAnswerStyleSingleChoice && ![self hasAnswer]) {
+         [self.tableView scrollRectToVisible:[self.tableView convertRect:self.tableView.tableFooterView.bounds fromView:self.tableView.tableFooterView] animated:YES];
+     }
     
+    [_choiceCellGroup didSelectCellAtIndexPath:indexPath];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

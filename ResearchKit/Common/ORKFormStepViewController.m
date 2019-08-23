@@ -938,13 +938,10 @@ static const CGFloat TableViewYOffsetStandard = 30.0;
     
     if ([nextCell respondsToSelector:@selector(formItem)]) {
         ORKQuestionType type = nextCell.formItem.impliedAnswerFormat.questionType;
-        if ([self doesTableCellTypeUseKeyboard:type]) {
-            if ([nextCell isKindOfClass:[ORKFormItemCell class]]) {
-                return YES;
-            }
+        if ([self doesTableCellTypeUseKeyboard:type] && [nextCell isKindOfClass:[ORKFormItemCell class]]) {
+            return YES;
         }
     }
-    
     return NO;
 }
 
@@ -955,15 +952,31 @@ static const CGFloat TableViewYOffsetStandard = 30.0;
     [_tableView scrollToRowAtIndexPath:nextIndexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
 
+- (void)handleAutoScrollForNonKeyboardCell:(ORKFormItemCell *)cell {
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    ORKTableSection *section = _sections[indexPath.section];
+    NSNumber *sectionIndex = [NSNumber numberWithLong:indexPath.section];
+    
+    if ([cell isKindOfClass:[ORKFormItemCell class]]) {
+        if (cell.formItem.answerFormat.impliedAnswerFormat.questionType != ORKQuestionTypeSES) {
+            return;
+        }
+    } else if (section.textChoiceCellGroup.answerFormat.style != ORKChoiceAnswerStyleSingleChoice) {
+        return;
+    }
+
+    if ((indexPath.section < _sections.count - 1) && [self shouldAutoScrollToNextSection:indexPath] && ![_answeredSections containsObject:sectionIndex]) {
+        [self autoScrollToNextSection:indexPath];
+    } else if ((indexPath.section == (_sections.count - 1)) && ![_answeredSections containsObject:sectionIndex]) {
+        [self.tableView scrollRectToVisible:[self.tableView convertRect:self.tableView.tableFooterView.bounds fromView:self.tableView.tableFooterView] animated:YES];
+    } else if (indexPath.section < (_sections.count - 1) && ![_answeredSections containsObject:sectionIndex]) {
+        NSIndexPath *nextIndexPath = [NSIndexPath indexPathForRow:0 inSection:(indexPath.section + 1)];
+        [_tableView scrollToRowAtIndexPath:nextIndexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    }
+}
+
 - (BOOL)doesTableCellTypeUseKeyboard:(ORKQuestionType)questionType {
     switch (questionType) {
-        case ORKQuestionTypeDateAndTime:
-        case ORKQuestionTypeDate:
-        case ORKQuestionTypeTimeOfDay:
-        case ORKQuestionTypeTimeInterval:
-        case ORKQuestionTypeMultiplePicker:
-        case ORKQuestionTypeHeight:
-        case ORKQuestionTypeWeight:
         case ORKQuestionTypeDecimal:
         case ORKQuestionTypeInteger:
         case ORKQuestionTypeText:
@@ -1159,7 +1172,6 @@ static const CGFloat TableViewYOffsetStandard = 30.0;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 
-    NSNumber *sectionIndex = [NSNumber numberWithLong:indexPath.section];
     ORKFormItemCell *cell = (ORKFormItemCell *)[tableView cellForRowAtIndexPath:indexPath];
     if ([cell isKindOfClass:[ORKFormItemCell class]]) {
         [cell becomeFirstResponder];
@@ -1170,16 +1182,7 @@ static const CGFloat TableViewYOffsetStandard = 30.0;
         
         ORKTableSection *section = _sections[indexPath.section];
         [section.textChoiceCellGroup didSelectCellAtIndexPath:indexPath];
-        
-        if (section.textChoiceCellGroup.answerFormat.style == ORKChoiceAnswerStyleSingleChoice && (indexPath.section < _sections.count - 1) && [self shouldAutoScrollToNextSection:indexPath] && ![_answeredSections containsObject:sectionIndex]) {
-            [self autoScrollToNextSection:indexPath];
-        } else if (indexPath.section < (_sections.count - 1) && section.textChoiceCellGroup.answerFormat.style != ORKChoiceAnswerStyleMultipleChoice && ![_answeredSections containsObject:sectionIndex]) {
-            NSIndexPath *nextIndexPath = [NSIndexPath indexPathForRow:0 inSection:(indexPath.section + 1)];
-            [_tableView scrollToRowAtIndexPath:nextIndexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
-        }
     }
-
-    [_answeredSections addObject:sectionIndex];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -1263,9 +1266,12 @@ static const CGFloat TableViewYOffsetStandard = 30.0;
     
     //determines if the table should autoscroll to the next section
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    NSNumber *sectionIndex = [NSNumber numberWithLong:indexPath.section];
     if (cell.isLastItem && [self shouldAutoScrollToNextSection:indexPath]) {
         [self autoScrollToNextSection:indexPath];
         return;
+    } else if (cell.isLastItem && indexPath.section == (_sections.count - 1) && ![_answeredSections containsObject:sectionIndex]) {
+        [self.tableView scrollRectToVisible:[self.tableView convertRect:self.tableView.tableFooterView.bounds fromView:self.tableView.tableFooterView] animated:YES];
     }
     
     NSIndexPath *path = [_tableView indexPathForCell:cell];
@@ -1298,6 +1304,8 @@ static const CGFloat TableViewYOffsetStandard = 30.0;
     _skipped = NO;
     [self updateButtonStates];
     [self notifyDelegateOnResultChange];
+    [self handleAutoScrollForNonKeyboardCell:cell];
+    [self updateAnsweredSections];
 }
 
 - (void)formItemCellShouldResizeCells {
@@ -1375,6 +1383,10 @@ static NSString *const _ORKAnsweredSectionsRestoreKey = @"answeredSections";
     _skipped = NO;
     [self updateButtonStates];
     [self notifyDelegateOnResultChange];
+    
+    ORKFormItemCell *cell = (ORKFormItemCell *)[_tableView cellForRowAtIndexPath:indexPath];
+    [self handleAutoScrollForNonKeyboardCell:cell];
+    [self updateAnsweredSections];
 }
 
 - (void)tableViewCellHeightUpdated {
