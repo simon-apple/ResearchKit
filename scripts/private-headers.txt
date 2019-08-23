@@ -1,1 +1,2 @@
-System/Library/PrivateFrameworks/Celestial.framework/Headers/AVSystemController.h Celestial
+System/Library/PrivateFrameworks/Celestial.framework
+    Headers/AVSystemController.h
