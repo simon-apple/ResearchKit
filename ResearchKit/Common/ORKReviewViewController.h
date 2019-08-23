@@ -29,6 +29,7 @@
  */
 
 #import <UIKit/UIKit.h>
+#import "ORKDefines.h"
 
 @class ORKOrderedTask;
 @class ORKTaskResult;
@@ -48,6 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)didSelectIncompleteCell;
 @end
 
+ORK_CLASS_AVAILABLE
 @interface ORKReviewViewController : UIViewController
 
 - (instancetype)initWithTask:(ORKOrderedTask *)task result:(ORKTaskResult *)result delegate:(id<ORKReviewViewControllerDelegate>)delegate;
