@@ -285,7 +285,7 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKUpdateConstraintSequence) {
                                                                       toItem:_topContentImageView ? : self
                                                                    attribute:_topContentImageView ? NSLayoutAttributeBottom : NSLayoutAttributeTop
                                                                   multiplier:1.0
-                                                                    constant:ORKStepContainerFirstItemTopPaddingForWindow(self.window)];
+                                                                    constant:ORKStepContentIconImageViewToTitleLabelPadding]; // This needs to match what the text padding is
     }
 }
 
@@ -302,29 +302,23 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKUpdateConstraintSequence) {
 - (void)setIconImageViewConstraints {
     _iconImageView.translatesAutoresizingMaskIntoConstraints = NO;
     [self setIconImageViewTopConstraint];
+    
     _iconImageViewConstraints = @[
-                                  _iconImageViewTopConstraint,
-                                  [NSLayoutConstraint constraintWithItem:_iconImageView
-                                                               attribute:NSLayoutAttributeCenterX
-                                                               relatedBy:NSLayoutRelationEqual
-                                                                  toItem:self
-                                                               attribute:NSLayoutAttributeCenterX
-                                                              multiplier:1.0
-                                                                constant:0.0],
-                                  [NSLayoutConstraint constraintWithItem:_iconImageView
-                                                               attribute:NSLayoutAttributeWidth
-                                                               relatedBy:NSLayoutRelationEqual
-                                                                  toItem:nil
-                                                               attribute:NSLayoutAttributeNotAnAttribute
-                                                              multiplier:1.0
-                                                                constant:ORKStepContentIconImageViewDimension],
-                                  [NSLayoutConstraint constraintWithItem:_iconImageView
-                                                               attribute:NSLayoutAttributeHeight
-                                                               relatedBy:NSLayoutRelationEqual
-                                                                  toItem:nil
-                                                               attribute:NSLayoutAttributeNotAnAttribute
-                                                              multiplier:1.0
-                                                                constant:ORKStepContentIconImageViewDimension]];
+                                _iconImageViewTopConstraint,
+                                [NSLayoutConstraint constraintWithItem:_iconImageView
+                                                             attribute:NSLayoutAttributeWidth
+                                                             relatedBy:NSLayoutRelationEqual
+                                                                toItem:nil
+                                                             attribute:NSLayoutAttributeNotAnAttribute
+                                                            multiplier:1.0
+                                                              constant:ORKStepContentIconImageViewDimension],
+                                [NSLayoutConstraint constraintWithItem:_iconImageView
+                                                             attribute:NSLayoutAttributeHeight
+                                                             relatedBy:NSLayoutRelationEqual
+                                                                toItem:nil
+                                                             attribute:NSLayoutAttributeNotAnAttribute
+                                                            multiplier:1.0
+                                                              constant:ORKStepContentIconImageViewDimension]];
     [_updatedConstraints addObjectsFromArray:_iconImageViewConstraints];
     [self setNeedsUpdateConstraints];
 }
@@ -745,6 +739,30 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKUpdateConstraintSequence) {
                                           multiplier:1.0
                                           constant:-_leftRightPadding]
         ]];
+    }
+    
+    if (_iconImageView != nil) {
+        if (_stepHeaderTextAlignment == NSTextAlignmentLeft) {
+            [_leftRightPaddingConstraints addObjectsFromArray:@[
+                [NSLayoutConstraint constraintWithItem:_iconImageView
+                                             attribute:NSLayoutAttributeLeading
+                                             relatedBy:NSLayoutRelationEqual
+                                                toItem:self
+                                             attribute:NSLayoutAttributeLeading
+                                            multiplier:1.0
+                                              constant:_leftRightPadding]
+            ]];
+        } else {
+            [_leftRightPaddingConstraints addObjectsFromArray:@[
+                [NSLayoutConstraint constraintWithItem:_iconImageView
+                                             attribute:NSLayoutAttributeCenterX
+                                             relatedBy:NSLayoutRelationEqual
+                                                toItem:self
+                                             attribute:NSLayoutAttributeCenterX
+                                            multiplier:1.0
+                                              constant:0.0]
+            ]];
+        }
     }
 
     [_updatedConstraints addObjectsFromArray:_leftRightPaddingConstraints];
