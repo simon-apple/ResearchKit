@@ -47,7 +47,10 @@
 #import "ORKSkin.h"
 #import "ORKHelpers_Internal.h"
 #import "ORKStepViewController_Internal.h"
+#import "ORKReviewIncompleteCell.h"
+#import "ORKNavigableOrderedTask.h"
 
+static const float FirstSectionHeaderPadding = 24.0;
 
 @interface ORKReviewViewController () <UITableViewDataSource, UITableViewDelegate, ORKTaskViewControllerDelegate>
 
@@ -55,6 +58,9 @@
 @property (nonatomic) NSMutableArray<ORKReviewSection *> *reviewSections;
 @property (nonatomic) id<ORKTaskResultSource> resultSource;
 @property (nonatomic, nonnull) NSArray<ORKStep *> *steps;
+@property (nonatomic, strong) ORKNavigableOrderedTask *navigableOrderedTask;
+@property (nonatomic, assign) BOOL isCompleted;
+@property (nonatomic, strong) NSString *incompleteText;
 
 @end
 
@@ -68,13 +74,33 @@
         _steps = task.steps;
         _resultSource = result;
         _delegate = delegate;
+        _isCompleted = YES;
         [self createReviewSectionsWithDefaultResultSource:_resultSource];
     }
     return self;
 }
 
+- (instancetype)initWithTask:(ORKNavigableOrderedTask *)task delegate:(id<ORKReviewViewControllerDelegate>)delegate isCompleted:(BOOL)isCompleted incompleteText:(NSString *)incompleteText {
+    self = [super init];
+        if (self) {
+            _steps = task.steps;
+            _navigableOrderedTask = task;
+            _isCompleted = isCompleted;
+            _delegate = delegate;
+            _incompleteText = incompleteText;
+        }
+        return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    if (@available(iOS 13.0, *)) {
+        self.view.backgroundColor = [UIColor systemGroupedBackgroundColor];
+    } else {
+        self.view.backgroundColor = ORKColor(ORKBackgroundColorKey);
+    }
+
     [self setupTableContainerView];
     
     _tableContainerView.stepTitle = _reviewTitle;
@@ -82,8 +108,8 @@
     _tableContainerView.stepDetailText = _detailText;
     _tableContainerView.stepTopContentImage = _image;
     _tableContainerView.bodyItems = _bodyItems;
-    [_tableContainerView.navigationFooterView setHidden:YES];
     
+    [_tableContainerView.navigationFooterView setHidden:YES];
     [_tableContainerView setNeedsLayout];
 }
 
@@ -95,6 +121,7 @@
 - (void)setText:(NSString *)text {
     _text = text;
     _tableContainerView.stepText = text;
+    [_tableContainerView sizeHeaderToFit];
 }
 
 - (void)setDetailText:(NSString *)detailText {
@@ -240,39 +267,66 @@
     _reviewSections = nil;
     
     _resultSource = result;
+    _isCompleted = YES;
     [self createReviewSectionsWithDefaultResultSource:_resultSource];
     [_tableContainerView.tableView reloadData];
 }
 
 - (void)updateResultSource:(ORKTaskResult *)result forTask:(ORKOrderedTask *)task {
     _steps = task.steps;
+    _isCompleted = YES;
     [self updateResultSource:result];
 }
 
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    if (_isCompleted == NO) {
+        return 1;
+    }
+    
     return _reviewSections ? _reviewSections.count : 0;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (_isCompleted == NO) {
+        return 1;
+    }
+    
     return _reviewSections[section].items.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
-    if (cell == nil) {
-        ORKReviewCell *reviewCell = [[ORKReviewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
-        cell = reviewCell;
+    
+    if (_isCompleted == NO) {
+        if (cell == nil || ![cell isKindOfClass:ORKReviewIncompleteCell.class]) {
+            ORKReviewIncompleteCell *reviewIncompleteCell = [[ORKReviewIncompleteCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"incompleteCell"];
+            reviewIncompleteCell.text = _incompleteText;
+            reviewIncompleteCell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell = reviewIncompleteCell;
+        }
+    } else {
+        if (cell == nil || ![cell isKindOfClass:ORKReviewCell.class]) {
+            ORKReviewCell *reviewCell = [[ORKReviewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+            cell = reviewCell;
+        }
+        ORKReviewCell *reviewCell = (ORKReviewCell *)cell;
+        reviewCell.question = _reviewSections[indexPath.section].items[indexPath.row].question;
+        reviewCell.answer = _reviewSections[indexPath.section].items[indexPath.row].answer;
+        reviewCell.isLastCell = _reviewSections[indexPath.section].items.count - 1 == indexPath.row;
     }
-    ORKReviewCell *reviewCell = (ORKReviewCell *)cell;
-    reviewCell.question = _reviewSections[indexPath.section].items[indexPath.row].question;
-    reviewCell.answer = _reviewSections[indexPath.section].items[indexPath.row].answer;
-    reviewCell.isLastCell = _reviewSections[indexPath.section].items.count - 1 == indexPath.row;
+
     return cell;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    if (_isCompleted == NO) {
+        return nil;
+    }
+    
+    UIView *headerView;
+    
     ORKSurveyCardHeaderView *cardHeaderView = (ORKSurveyCardHeaderView *)[tableView dequeueReusableHeaderFooterViewWithIdentifier:@(section).stringValue];
     
     if (cardHeaderView == nil) {
@@ -280,14 +334,35 @@
         cardHeaderView = [[ORKSurveyCardHeaderView alloc] initWithTitle:reviewSection.title detailText:reviewSection.text learnMoreView:nil progressText:[NSString stringWithFormat:@"%@ %@", ORKLocalizedString(@"REVIEW_STEP_PAGE", nil), ORKLocalizedStringFromNumber(@(section + 1))] showBorder:YES];
     }
     
-    return cardHeaderView;
+    // The first section needs extra padding at the top to account for space between the content in
+    // the table header and the first review card.
+    if (section == 0) {
+        UIView *cardHeaderViewWithPadding = [[UIView alloc] init];
+        cardHeaderView.translatesAutoresizingMaskIntoConstraints = NO;
+        [cardHeaderViewWithPadding addSubview:cardHeaderView];
+        
+        [cardHeaderView.leadingAnchor constraintEqualToAnchor:cardHeaderViewWithPadding.leadingAnchor].active = YES;
+        [cardHeaderView.trailingAnchor constraintEqualToAnchor:cardHeaderViewWithPadding.trailingAnchor].active = YES;
+        [cardHeaderView.bottomAnchor constraintEqualToAnchor:cardHeaderViewWithPadding.bottomAnchor].active = YES;
+        [cardHeaderView.topAnchor constraintEqualToAnchor:cardHeaderViewWithPadding.topAnchor constant:FirstSectionHeaderPadding].active = YES;
+        
+        headerView = cardHeaderViewWithPadding;
+    } else {
+        headerView = cardHeaderView;
+    }
+    
+    return headerView;
 }
 
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
-    return NO;
+    return !_isCompleted;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    if (_isCompleted == NO) {
+        return nil;
+    }
+    
     ORKReviewSectionFooter *sectionFooter = (ORKReviewSectionFooter *)[tableView dequeueReusableHeaderFooterViewWithIdentifier:[NSString stringWithFormat:@"Footer%@", @(section).stringValue]];
     if (!sectionFooter) {
         sectionFooter = [ORKReviewSectionFooter new];
@@ -313,6 +388,8 @@
     ORKOrderedTask *subOrderedTask = [[ORKOrderedTask alloc] initWithIdentifier:[[NSUUID UUID] UUIDString] steps:@[[self stepForIdentifier:_reviewSections[button.tag].stepIdentifier]]];
     ORKTaskViewController *taskViewController = [[ORKTaskViewController alloc] initWithTask:subOrderedTask taskRunUUID:[NSUUID UUID]];
     taskViewController.delegate = self;
+    [taskViewController.navigationBar setTranslucent:YES];
+    taskViewController.navigationBar.prefersLargeTitles = NO;
     taskViewController.defaultResultSource = _resultSource;
     [self presentViewController:taskViewController animated:YES completion:nil];
 }
@@ -320,6 +397,13 @@
 #pragma mark - UItableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if ((_isCompleted == NO) && (indexPath.row == 0)) {
+        if (_delegate && [_delegate respondsToSelector:@selector(didSelectIncompleteCell)]) {
+            [_delegate didSelectIncompleteCell];
+        }
+    }
+    
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
@@ -335,7 +419,7 @@
 }
 
 - (void)taskViewController:(ORKTaskViewController *)taskViewController stepViewControllerWillAppear:(ORKStepViewController *)stepViewController {
-    stepViewController.shouldPresentInReview = YES;
+    stepViewController.shouldPresentInReview = _isCompleted;
 }
 
 @end

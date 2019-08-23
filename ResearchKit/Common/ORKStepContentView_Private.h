@@ -47,6 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 // This padding is ignored if there is a `topContentImageView` or `iconImageView` above the label.
 - (void)setAdditionalTopPaddingForTopLabel:(CGFloat)padding;
+
 @end
 
 NS_ASSUME_NONNULL_END

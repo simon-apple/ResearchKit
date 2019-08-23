@@ -30,41 +30,11 @@
 
 #import <UIKit/UIKit.h>
 
-@class ORKOrderedTask;
-@class ORKTaskResult;
-@class ORKBodyItem;
-@class ORKStepResult;
-@class ORKReviewViewController;
-@class ORKNavigableOrderedTask;
-
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol ORKReviewViewControllerDelegate <NSObject>
+@interface ORKReviewIncompleteCell : UITableViewCell
 
-//TODO: Leaving optional until further discussion.
-//@required
-@optional
-- (void)resultModifiedForReviewViewController:(ORKReviewViewController *)reviewViewController withSource:(ORKTaskResult *)resultSource updatedResult:(ORKTaskResult *)updatedResult;
-- (void)didSelectIncompleteCell;
-@end
-
-@interface ORKReviewViewController : UIViewController
-
-- (instancetype)initWithTask:(ORKOrderedTask *)task result:(ORKTaskResult *)result delegate:(id<ORKReviewViewControllerDelegate>)delegate;
-- (instancetype)initWithTask:(ORKNavigableOrderedTask *)task delegate:(id<ORKReviewViewControllerDelegate>)delegate isCompleted:(BOOL)isCompleted incompleteText:(NSString *)incompleteText;
-
-- (void)updateResultSource:(ORKTaskResult *)result forTask:(ORKOrderedTask *)task;
-
-- (void)updateResultSource:(ORKTaskResult *)result;
-
-@property (nonatomic, weak)id<ORKReviewViewControllerDelegate> delegate;
-
-@property (nonatomic) NSString *reviewTitle;
-@property (nonatomic) NSString *text;
-@property (nonatomic) NSString *detailText;
-
-@property (nonatomic) UIImage *image;
-@property (nonatomic) NSArray<ORKBodyItem *> *bodyItems;
+@property (nonatomic, strong) NSString *text;
 
 @end
 

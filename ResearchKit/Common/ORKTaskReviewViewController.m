@@ -46,6 +46,7 @@
 
 static const float ReviewCellTopBottomPadding = 15.0;
 static const float EditAnswerButtonTopBottomPadding = 10.0;
+static const float ReviewCardBottomPadding = 10.0;
 
 @implementation ORKReviewItem
 @end
@@ -273,14 +274,17 @@ static const float EditAnswerButtonTopBottomPadding = 10.0;
 
 - (void)setupConstraints {
     //    TODO: replace padding constants
+    
+    CGFloat leftRightPadding = ORKCardLeftRightMarginForWindow(self.window);
+    
     [[_containerView.topAnchor constraintEqualToAnchor:self.topAnchor constant:0.0] setActive:YES];
-    [[_containerView.leftAnchor constraintEqualToAnchor:self.leftAnchor constant:ORKSurveyItemMargin+2.0] setActive:YES];
-    [[_containerView.rightAnchor constraintEqualToAnchor:self.rightAnchor constant:-ORKSurveyItemMargin-2.0] setActive:YES];
+    [[_containerView.leftAnchor constraintEqualToAnchor:self.leftAnchor constant:leftRightPadding] setActive:YES];
+    [[_containerView.rightAnchor constraintEqualToAnchor:self.rightAnchor constant:-leftRightPadding] setActive:YES];
     [[_button.topAnchor constraintEqualToAnchor:_containerView.topAnchor constant:EditAnswerButtonTopBottomPadding] setActive:YES];
     [[_button.centerXAnchor constraintEqualToAnchor:_containerView.centerXAnchor] setActive:YES];
     [[_containerView.bottomAnchor constraintEqualToAnchor:_button.bottomAnchor constant:EditAnswerButtonTopBottomPadding] setActive:YES];
     
-    [[self.bottomAnchor constraintEqualToAnchor:_containerView.bottomAnchor constant:50.0] setActive:YES];
+    [[self.bottomAnchor constraintEqualToAnchor:_containerView.bottomAnchor constant:ReviewCardBottomPadding] setActive:YES];
 }
 
 @end

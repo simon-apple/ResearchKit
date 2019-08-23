@@ -39,6 +39,8 @@
 #import "ORKHelpers_Internal.h"
 #import "ORKSkin.h"
 
+#import "ORKBodyItem.h"
+#import "ORKBodyContainerView.h"
 
 // Enable this define to see outlines and colors of all the views laid out at this level.
 // #define LAYOUT_DEBUG
@@ -236,14 +238,15 @@
     CGFloat width = self.stepContentView.bounds.size.width > CGFLOAT_MIN ? self.stepContentView.bounds.size.width : self.bounds.size.width;
     CGFloat padding = [[self stepContentView] useExtendedPadding] ? ORKStepContainerExtendedLeftRightPaddingForWindow(self.window) : ORKStepContainerLeftRightPaddingForWindow(self.window);
     
-    [self.stepContentView.titleLabel setPreferredMaxLayoutWidth:width - (padding * 2)];
-    [self.stepContentView.textLabel setPreferredMaxLayoutWidth:width - (padding * 2)];
-    [self.stepContentView.detailTextLabel setPreferredMaxLayoutWidth:width - (padding * 2)];
+    CGFloat preferredWidth = (width - (padding * 2));
+    [self.stepContentView.titleLabel setPreferredMaxLayoutWidth:preferredWidth];
+    [self.stepContentView.textLabel setPreferredMaxLayoutWidth:preferredWidth];
+    [self.stepContentView.detailTextLabel setPreferredMaxLayoutWidth:preferredWidth];
+    
     CGFloat estimatedHeight = [self.stepContentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
     CGRect bounds = CGRectMake(0.0, 0.0, self.stepContentView.bounds.size.width, self.stepContentView.bounds.size.height);
     bounds.size.height = estimatedHeight;
     [self.stepContentView setBounds:bounds];
-    
 }
 
 - (void)setTapOffView:(UIView *)tapOffView {

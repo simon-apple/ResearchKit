@@ -544,6 +544,8 @@
 		959A2C0E1D68C91400841B04 /* ORKShoulderRangeOfMotionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 959A2C0C1D68C91400841B04 /* ORKShoulderRangeOfMotionStep.m */; };
 		95E11E551D73396300BF865B /* ORKShoulderRangeOfMotionStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 95E11E531D73396300BF865B /* ORKShoulderRangeOfMotionStepViewController.h */; };
 		95E11E561D73396300BF865B /* ORKShoulderRangeOfMotionStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95E11E541D73396300BF865B /* ORKShoulderRangeOfMotionStepViewController.m */; };
+		AEFE0AC1230DB857004D0519 /* ORKReviewIncompleteCell.h in Headers */ = {isa = PBXBuildFile; fileRef = AEFE0ABF230DB857004D0519 /* ORKReviewIncompleteCell.h */; };
+		AEFE0AC2230DB857004D0519 /* ORKReviewIncompleteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AEFE0AC0230DB857004D0519 /* ORKReviewIncompleteCell.m */; };
 		B11C54991A9EEF8800265E61 /* ORKConsentSharingStep.h in Headers */ = {isa = PBXBuildFile; fileRef = B11C54961A9EEF8800265E61 /* ORKConsentSharingStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B11C549B1A9EEF8800265E61 /* ORKConsentSharingStep.m in Sources */ = {isa = PBXBuildFile; fileRef = B11C54971A9EEF8800265E61 /* ORKConsentSharingStep.m */; };
 		B11C549F1A9EF4A700265E61 /* ORKConsentSharingStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = B11C549C1A9EF4A700265E61 /* ORKConsentSharingStepViewController.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -1356,6 +1358,8 @@
 		959A2C0C1D68C91400841B04 /* ORKShoulderRangeOfMotionStep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKShoulderRangeOfMotionStep.m; sourceTree = "<group>"; };
 		95E11E531D73396300BF865B /* ORKShoulderRangeOfMotionStepViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKShoulderRangeOfMotionStepViewController.h; sourceTree = "<group>"; };
 		95E11E541D73396300BF865B /* ORKShoulderRangeOfMotionStepViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKShoulderRangeOfMotionStepViewController.m; sourceTree = "<group>"; };
+		AEFE0ABF230DB857004D0519 /* ORKReviewIncompleteCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKReviewIncompleteCell.h; sourceTree = "<group>"; };
+		AEFE0AC0230DB857004D0519 /* ORKReviewIncompleteCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKReviewIncompleteCell.m; sourceTree = "<group>"; };
 		B11C54961A9EEF8800265E61 /* ORKConsentSharingStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKConsentSharingStep.h; sourceTree = "<group>"; };
 		B11C54971A9EEF8800265E61 /* ORKConsentSharingStep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKConsentSharingStep.m; sourceTree = "<group>"; };
 		B11C549C1A9EF4A700265E61 /* ORKConsentSharingStepViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKConsentSharingStepViewController.h; sourceTree = "<group>"; };
@@ -3184,6 +3188,8 @@
 			children = (
 				BA2645E42301571800D00B73 /* ORKReviewViewController.h */,
 				BA2645E52301571800D00B73 /* ORKReviewViewController.m */,
+				AEFE0ABF230DB857004D0519 /* ORKReviewIncompleteCell.h */,
+				AEFE0AC0230DB857004D0519 /* ORKReviewIncompleteCell.m */,
 			);
 			name = Review;
 			sourceTree = "<group>";
@@ -3747,6 +3753,7 @@
 				24850E191BCDA9C7006E91FB /* ORKLoginStepViewController.h in Headers */,
 				BC13CE401B0666FD0044153C /* ORKResultPredicate.h in Headers */,
 				242C9E0D1BBE03F90088B7F4 /* ORKVerificationStepViewController.h in Headers */,
+				AEFE0AC1230DB857004D0519 /* ORKReviewIncompleteCell.h in Headers */,
 				86C40CFA1A8D7C5C00081FAC /* ORKCaption1Label.h in Headers */,
 				FF919A361E81AD9C005C2A1E /* ORKSpatialSpanMemoryResult.h in Headers */,
 				86C40E081A8D7C5C00081FAC /* ORKConsentReviewStep.h in Headers */,
@@ -4209,6 +4216,7 @@
 				866DA5211D63D04700C9AF3F /* ORKCollector.m in Sources */,
 				BC4A21401C85FC0000BFC271 /* ORKBarGraphChartView.m in Sources */,
 				86C40D3A1A8D7C5C00081FAC /* ORKHTMLPDFWriter.m in Sources */,
+				AEFE0AC2230DB857004D0519 /* ORKReviewIncompleteCell.m in Sources */,
 				865EA1691ABA1AA10037C68E /* ORKPicker.m in Sources */,
 				BCB6E6511B7D533B000D5B34 /* ORKPieChartLegendCollectionViewLayout.m in Sources */,
 				86C40D321A8D7C5C00081FAC /* ORKHealthAnswerFormat.m in Sources */,
