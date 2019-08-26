@@ -546,14 +546,14 @@ static const CGFloat spinnerPadding = 24.0;
     _leftRightPaddingConstraints = @[
             [NSLayoutConstraint constraintWithItem:_parentStackView
                                          attribute:NSLayoutAttributeLeft
-                                         relatedBy:NSLayoutRelationEqual
+                                         relatedBy:NSLayoutRelationLessThanOrEqual
                                             toItem:self
                                          attribute:NSLayoutAttributeLeft
                                         multiplier:1.0
                                           constant:leftRightPadding],
             [NSLayoutConstraint constraintWithItem:_parentStackView
                                          attribute:NSLayoutAttributeRight
-                                         relatedBy:NSLayoutRelationEqual
+                                         relatedBy:NSLayoutRelationGreaterThanOrEqual
                                             toItem:self
                                          attribute:NSLayoutAttributeRight
                                         multiplier:1.0
