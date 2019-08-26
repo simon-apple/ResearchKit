@@ -66,6 +66,7 @@ static const float FirstSectionHeaderPadding = 24.0;
 
 @implementation ORKReviewViewController {
     ORKStep *_reviewInstructionStep;
+    NSString *_currentSectionTitle;
 }
 
 - (instancetype)initWithTask:(ORKOrderedTask *)task result:(ORKTaskResult *)result delegate:(nonnull id<ORKReviewViewControllerDelegate>)delegate {
@@ -207,12 +208,22 @@ static const float FirstSectionHeaderPadding = 24.0;
             if (formItem.answerFormat) {
                 ORKResult *formItemResult = [result resultForIdentifier:formItem.identifier];
                 ORKReviewItem *formReviewItem = [[ORKReviewItem alloc] init];
-                formReviewItem.question = formItem.text;
+                if (formItem.text) {
+                    formReviewItem.question = formItem.text;
+                } else {
+                    // formItem.text will return nil if a question was constructed as follows
+                    // - you create a section header with the ORKFormItem(sectionTitle: API
+                    // - you then add a ORKFormItem with the relevant answer format and expect it to be grouped under the section title
+                    formReviewItem.question = _currentSectionTitle;
+                }
                 formReviewItem.answer = [self answerStringForFormItem:formItem withFormItemResult:formItemResult];
                 [formReviewItems addObject:formReviewItem];
             }
             else {
-                // Use this for grouping form items without answer formats.
+                // formItem.answerFormat will return nil if a question was constructed as follows
+                // - you create a section header with the ORKFormItem(sectionTitle: API
+                // - you then add a ORKFormItem with the relevant answer format and expect it to be grouped under the section title
+                _currentSectionTitle = formItem.text;
             }
         }
         ORKReviewSection *section = [[ORKReviewSection alloc] init];
