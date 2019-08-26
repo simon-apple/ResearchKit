@@ -175,11 +175,11 @@ static const float ReviewCardBottomPadding = 10.0;
     
     [[_questionLabel.topAnchor constraintEqualToAnchor:_containerView.topAnchor constant:ReviewCellTopBottomPadding] setActive:YES];
     [[_questionLabel.leadingAnchor constraintEqualToAnchor:_containerView.leadingAnchor constant:ORKSurveyItemMargin] setActive:YES];
-    [[_questionLabel.widthAnchor constraintEqualToAnchor:_containerView.widthAnchor multiplier:0.5] setActive:YES];
+    [[_questionLabel.trailingAnchor constraintEqualToAnchor:_containerView.centerXAnchor] setActive:YES];
 
     [[_answerLabel.topAnchor constraintEqualToAnchor:_containerView.topAnchor constant:ReviewCellTopBottomPadding] setActive:YES];
     [[_answerLabel.trailingAnchor constraintEqualToAnchor:_containerView.trailingAnchor constant:-ORKSurveyItemMargin] setActive:YES];
-    [[_answerLabel.widthAnchor constraintEqualToAnchor:_containerView.widthAnchor multiplier:0.5] setActive:YES];
+    [[_answerLabel.leadingAnchor constraintEqualToAnchor:_containerView.centerXAnchor] setActive:YES];
     
     [[_containerView.bottomAnchor constraintGreaterThanOrEqualToAnchor:_questionLabel.bottomAnchor constant:ReviewCellTopBottomPadding] setActive:YES];
     [[_containerView.bottomAnchor constraintGreaterThanOrEqualToAnchor:_answerLabel.bottomAnchor constant:ReviewCellTopBottomPadding] setActive:YES];
