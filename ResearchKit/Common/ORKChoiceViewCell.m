@@ -366,7 +366,7 @@ static const CGFloat LabelCheckViewPadding = 10.0;
     
     if (@available(iOS 13.0, *)) {
         _checkView.image = [self unCheckedImage];
-        _checkView.tintColor = [UIColor secondaryLabelColor];
+        _checkView.tintColor = [UIColor systemGray3Color];
     } else {
         _checkView.layer.cornerRadius = CheckViewDimension * 0.5;
         _checkView.layer.borderWidth = CheckViewBorderWidth;
@@ -457,7 +457,7 @@ static const CGFloat LabelCheckViewPadding = 10.0;
         else {
             _checkView.image = [self unCheckedImage];
             if (@available(iOS 13.0, *)) {
-                _checkView.tintColor = [UIColor secondaryLabelColor];
+                _checkView.tintColor = [UIColor systemGray3Color];
             } else {
                 _checkView.tintColor = nil;
                 _checkView.image = nil;
