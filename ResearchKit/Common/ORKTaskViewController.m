@@ -987,7 +987,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     self.registeredScrollView = nil;
     
     // Switch to non-animated transition if the application is not in the foreground.
-    animated = animated && ([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive);
+    animated = animated && ([[UIApplication sharedApplication] applicationState] != UIApplicationStateBackground);
     
     // Update currentStepViewController now, so we don't accept additional transition requests
     // from the same VC.
