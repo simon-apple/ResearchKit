@@ -138,7 +138,7 @@ static const CGFloat LabelCheckViewPadding = 10.0;
             foreLayer.path = [UIBezierPath bezierPathWithRect:foreLayerBounds].CGPath;
             _contentMaskLayer.path = [UIBezierPath bezierPathWithRect:self.containerView.bounds].CGPath;
             
-            CGRect lineBounds = CGRectMake(_leftRightMargin, self.containerView.bounds.size.height - 1.0, self.containerView.bounds.size.width - _leftRightMargin, 0.5);
+            CGRect lineBounds = CGRectMake(ORKSurveyItemMargin, self.containerView.bounds.size.height - 1.0, self.containerView.bounds.size.width - ORKSurveyItemMargin, 0.5);
             lineLayer.path = [UIBezierPath bezierPathWithRect:lineBounds].CGPath;
             lineLayer.zPosition = 0.0f;
         }
