@@ -505,30 +505,56 @@ static const CGFloat ErrorLabelBottomPadding = 10.0;
     NSDictionary *views = NSDictionaryOfVariableBindings(labelLabel,textFieldView, errorLabel);
     
     if (self.errorLabel.attributedText == nil) {
-        [_variableConstraints addObjectsFromArray:
-         [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[labelLabel]-|"
-                                                 options:0
-                                                 metrics:metrics
-                                                   views:views]];
         
         [_variableConstraints addObjectsFromArray:
                  [NSLayoutConstraint constraintsWithVisualFormat:@"V:[errorLabel(==0)]"
                                                          options:0
                                                          metrics:nil
                                                            views:views]];
-    } else {
+    }
+    
+    NSString *contentSize = [[UIApplication sharedApplication] preferredContentSizeCategory];
+    NSArray *largeSizes = @[
+        UIContentSizeCategoryExtraExtraLarge,
+        UIContentSizeCategoryExtraExtraExtraLarge,
+        UIContentSizeCategoryAccessibilityLarge,
+        UIContentSizeCategoryAccessibilityExtraLarge,
+        UIContentSizeCategoryAccessibilityExtraExtraLarge,
+        UIContentSizeCategoryAccessibilityExtraExtraExtraLarge];
+    
+    if ([largeSizes containsObject:contentSize]) {
+        //stack label and textfieldview
         [_variableConstraints addObjectsFromArray:
-         [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[labelLabel]-errorLabelTopPadding-[errorLabel]-errorLabelBottomPadding-|"
+         [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[labelLabel]-[textFieldView]-errorLabelTopPadding-[errorLabel]-errorLabelBottomPadding-|"
                                                  options:0
                                                  metrics:metrics
                                                    views:views]];
+        
+        [_variableConstraints addObjectsFromArray:
+                 [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-hMargin-[labelLabel]-hMargin-|"
+                                                         options:0
+                                                         metrics:metrics
+                                                           views:views]];
+        [_variableConstraints addObjectsFromArray:
+                        [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-hMargin-[textFieldView]-hMargin-|"
+                                                                options:0
+                                                                metrics:metrics
+                                                                  views:views]];
+        
+    } else {
+        
+        [_variableConstraints addObjectsFromArray:
+         [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[labelLabel]-errorLabelTopPadding-[errorLabel]-errorLabelBottomPadding-|"
+                                                 options:NSLayoutFormatAlignAllLeading
+                                                 metrics:metrics
+                                                   views:views]];
+        
+        [_variableConstraints addObjectsFromArray:
+         [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-hMargin-[labelLabel(<=labelWidth)]-hSpacer-[textFieldView]|"
+                                                 options:NSLayoutFormatAlignAllCenterY
+                                                 metrics:metrics
+                                                   views:views]];
     }
-    
-    [_variableConstraints addObjectsFromArray:
-     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-hMargin-[labelLabel(<=labelWidth)]-hSpacer-[textFieldView]|"
-                                             options:NSLayoutFormatAlignAllCenterY
-                                             metrics:metrics
-                                               views:views]];
     
     [_variableConstraints addObject:[NSLayoutConstraint constraintWithItem:self.errorLabel
                                                                  attribute:NSLayoutAttributeRight
