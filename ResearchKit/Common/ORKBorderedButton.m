@@ -73,13 +73,13 @@ static const CGFloat ORKBorderedButtonCornerRadii = 14.0;
 }
 
 - (void)setDefaultTintColors {
-    _normalTintColor = [[self tintColor] colorWithAlphaComponent:0.7f];
-    _normalHighlightOrSelectTintColor = [_normalTintColor colorWithAlphaComponent:1.0f];
+    _normalTintColor = [[self tintColor] colorWithAlphaComponent:1.0f];
+    _normalHighlightOrSelectTintColor = [_normalTintColor colorWithAlphaComponent:0.7f];
 }
 
 - (void)setNormalTintColor:(UIColor *)normalTintColor {
     _normalTintColor = normalTintColor;
-    _normalHighlightOrSelectTintColor = [normalTintColor colorWithAlphaComponent:1.0f];
+    _normalHighlightOrSelectTintColor = [normalTintColor colorWithAlphaComponent:0.7f];
     
     _disableTintColor = [normalTintColor colorWithAlphaComponent:0.3f];
     [self updateBackgroundColor];
