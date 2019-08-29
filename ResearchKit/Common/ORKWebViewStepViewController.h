@@ -50,7 +50,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 
 ORK_CLASS_AVAILABLE
-@interface ORKWebViewStepViewController : ORKStepViewController<WKScriptMessageHandler, WKNavigationDelegate, ORKSignatureViewDelegate>
+@interface ORKWebViewStepViewController : ORKStepViewController<WKScriptMessageHandler, WKNavigationDelegate, ORKSignatureViewDelegate, UIScrollViewDelegate>
 
 @property (nonatomic, weak, nullable) id<ORKWebViewStepDelegate> webViewDelegate;
 

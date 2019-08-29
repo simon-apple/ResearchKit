@@ -72,6 +72,7 @@ static const CGFloat ORKSignatureToClearPadding = 15.0;
     if (self.step && [self isViewLoaded]) {
         
         _scrollView = [[UIScrollView alloc] init];
+        [_scrollView setDelegate:self];
         [self.view addSubview:_scrollView];
         
         if ([self webViewStep].showSignatureAfterContent) {
@@ -404,6 +405,16 @@ static const CGFloat ORKSignatureToClearPadding = 15.0;
     }
     
     decisionHandler(WKNavigationActionPolicyAllow);
+}
+
+// MARK: UIScrollViewDelegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [_signatureView setEnabled:NO];
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    [_signatureView setEnabled:YES];
 }
 
 // MARK: Signature
