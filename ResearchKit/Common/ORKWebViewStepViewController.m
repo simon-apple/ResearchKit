@@ -395,6 +395,17 @@ static const CGFloat ORKSignatureToClearPadding = 15.0;
     [UIApplication sharedApplication].networkActivityIndicatorVisible = false;
 }
 
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
+    if (navigationAction.navigationType == WKNavigationTypeLinkActivated) {
+        if (_webViewDelegate != nil && [_webViewDelegate respondsToSelector:@selector(handleLinkNavigationWithURL:)]) {
+            decisionHandler([_webViewDelegate handleLinkNavigationWithURL:[navigationAction.request mainDocumentURL]]);
+            return;
+        }
+    }
+    
+    decisionHandler(WKNavigationActionPolicyAllow);
+}
+
 // MARK: Signature
 
 - (void)clearSignature {

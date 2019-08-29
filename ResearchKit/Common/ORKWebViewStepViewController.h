@@ -35,6 +35,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol ORKWebViewStepDelegate <NSObject>
+
+- (WKNavigationActionPolicy)handleLinkNavigationWithURL:(NSURL *)url;
+
+@end
+
 /**
  The `ORKWebViewStepViewController` class is a step view controller subclass
  used to manage a web view step (`ORKWebViewStep`).
@@ -45,6 +51,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 ORK_CLASS_AVAILABLE
 @interface ORKWebViewStepViewController : ORKStepViewController<WKScriptMessageHandler, WKNavigationDelegate, ORKSignatureViewDelegate>
+
+@property (nonatomic, weak, nullable) id<ORKWebViewStepDelegate> webViewDelegate;
 
 - (void)displaySpinnerInContinueButton:(BOOL)enabled;
 
