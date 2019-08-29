@@ -183,7 +183,9 @@
 #pragma mark - ORKStepContainerLearnMoreItemDelegate
 
 - (void)stepViewLearnMoreButtonPressed:(ORKLearnMoreInstructionStep *)learnMoreStep {
-    [self presentViewController: [self.taskViewController learnMoreViewControllerForStep:learnMoreStep]
+    UINavigationController *navigationViewController = [[UINavigationController alloc] initWithRootViewController: [self.taskViewController learnMoreViewControllerForStep:learnMoreStep]];
+    [navigationViewController.navigationBar setPrefersLargeTitles:NO];
+    [self presentViewController:navigationViewController
                        animated:YES
                      completion:nil];
 }
