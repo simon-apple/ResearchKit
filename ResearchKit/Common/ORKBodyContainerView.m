@@ -48,16 +48,17 @@ static const CGFloat ORKBodyDetailTextToLearnMoreButtonPaddingStandard = 15.0;
 
 static const CGFloat ORKBulletIconToBodyPadding = 14.0;
 static const CGFloat ORKBulletIconWidthStandard = 10.0;
-static const CGFloat ORKBulletStackLeftRightPadding = 10.0;
 
 static const CGFloat ORKBulletIconDimension = 40.0;
 
 static const CGFloat ORKBodyItemHorizontalRuleHeight = 1.0;
 
 static const CGFloat ORKCardStylePadding = 16.0;
-static const CGFloat ORKCardStyleLeadingPadding = 12.0;
-static const CGFloat ORKCardStyleMediumTextPadding = 6.0;
+static const CGFloat ORKCardStyleMediumTextPadding = 14.0;
 static const CGFloat ORKCardStyleSmallTextPadding = 2.0;
+
+static const CGFloat ORKCardStyleBuildInPostitionStart = 31.0;
+static const CGFloat ORKCardStyleBuildInPostitionEnd = 26.0;
 
 static NSString *ORKBulletUnicode = @"\u2981";
 
@@ -122,7 +123,6 @@ static NSString *ORKBulletUnicode = @"\u2981";
         } else {
             [_cardView setBackgroundColor:[UIColor groupTableViewBackgroundColor]];
         }
-        _cardView.layer.cornerRadius = ORKCardDefaultCornerRadii;
         [self addArrangedSubview:_cardView];
     }
     
@@ -268,7 +268,7 @@ static NSString *ORKBulletUnicode = @"\u2981";
 
 - (void)setupBulletPointStackView {
     self.axis = UILayoutConstraintAxisHorizontal;
-    self.layoutMargins = UIEdgeInsetsMake(0.0, ORKBulletStackLeftRightPadding, 0.0, ORKBulletStackLeftRightPadding);
+    self.layoutMargins = UIEdgeInsetsZero;
     [self setLayoutMarginsRelativeArrangement:YES];
 }
 
@@ -278,8 +278,8 @@ static NSString *ORKBulletUnicode = @"\u2981";
     if (_bodyItem.useCardStyle == YES) {
         bulletIcon.translatesAutoresizingMaskIntoConstraints = NO;
         [_cardView addSubview:bulletIcon];
-        [bulletIcon.leadingAnchor constraintEqualToAnchor:_cardView.leadingAnchor constant:ORKCardStyleLeadingPadding].active = YES;
-        [bulletIcon.topAnchor constraintEqualToAnchor:_cardView.topAnchor constant:ORKCardStylePadding].active = YES;
+        [bulletIcon.leadingAnchor constraintEqualToAnchor:_cardView.leadingAnchor].active = YES;
+        [bulletIcon.topAnchor constraintEqualToAnchor:_cardView.topAnchor].active = YES;
         _cardStyleAccessoryView = bulletIcon;
     } else {
         [self addArrangedSubview:bulletIcon]; // Stack this in substack for vertical bullet icon.
@@ -296,8 +296,8 @@ static NSString *ORKBulletUnicode = @"\u2981";
     if (_bodyItem.useCardStyle == YES) {
         imageView.translatesAutoresizingMaskIntoConstraints = NO;
         [_cardView addSubview:imageView];
-        [imageView.leadingAnchor constraintEqualToAnchor:_cardView.leadingAnchor constant:ORKCardStyleLeadingPadding].active = YES;
-        [imageView.topAnchor constraintEqualToAnchor:_cardView.topAnchor constant:ORKCardStylePadding].active = YES;
+        [imageView.leadingAnchor constraintEqualToAnchor:_cardView.leadingAnchor].active = YES;
+        [imageView.topAnchor constraintEqualToAnchor:_cardView.topAnchor].active = YES;
         _cardStyleAccessoryView = imageView;
     } else {
         [self addArrangedSubview:imageView];
@@ -318,6 +318,7 @@ static NSString *ORKBulletUnicode = @"\u2981";
     }
     [bulletIconLabel setText:ORKBulletUnicode];
     bulletIconLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    
     [NSLayoutConstraint activateConstraints:@[
                                               [NSLayoutConstraint constraintWithItem:bulletIconLabel
                                                                            attribute:NSLayoutAttributeWidth
@@ -383,11 +384,11 @@ static NSString *ORKBulletUnicode = @"\u2981";
             [_cardView addSubview:textLabel];
             [textLabel.leadingAnchor constraintEqualToAnchor: _cardStyleAccessoryView.trailingAnchor constant:ORKCardStyleMediumTextPadding].active = YES;
             [textLabel.topAnchor constraintEqualToAnchor:_cardStyleAccessoryView.topAnchor constant:0].active = YES;
-            [textLabel.trailingAnchor constraintEqualToAnchor:_cardView.trailingAnchor constant:-ORKCardStylePadding].active = YES;
+            [textLabel.trailingAnchor constraintEqualToAnchor:_cardView.trailingAnchor].active = YES;
             [textLabel setContentHuggingPriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisHorizontal];
             
             if (_bodyItem.detailText == nil) {
-                [textLabel.bottomAnchor constraintEqualToAnchor:_cardView.bottomAnchor constant:-ORKCardStylePadding].active = YES;
+                [textLabel.bottomAnchor constraintEqualToAnchor:_cardView.bottomAnchor].active = YES;
             }
         } else {
             textLabel.font = _bodyItem.detailText ? [ORKBodyItemView bulletTextFontBold] : [ORKBodyItemView bulletTextFont];
@@ -414,8 +415,8 @@ static NSString *ORKBulletUnicode = @"\u2981";
             [_cardView addSubview:detailTextLabel];
             [detailTextLabel.leadingAnchor constraintEqualToAnchor: _cardStyleAccessoryView.trailingAnchor constant:ORKCardStyleMediumTextPadding].active = YES;
             [detailTextLabel.topAnchor constraintEqualToAnchor:textLabel.bottomAnchor constant:ORKCardStyleSmallTextPadding].active = YES;
-            [detailTextLabel.trailingAnchor constraintEqualToAnchor:_cardView.trailingAnchor constant:-ORKCardStylePadding].active = YES;
-            [detailTextLabel.bottomAnchor constraintEqualToAnchor:_cardView.bottomAnchor constant:-ORKCardStylePadding].active = YES;
+            [detailTextLabel.trailingAnchor constraintEqualToAnchor:_cardView.trailingAnchor].active = YES;
+            [detailTextLabel.bottomAnchor constraintEqualToAnchor:_cardView.bottomAnchor].active = YES;
         } else {
             [subStackView addArrangedSubview:detailTextLabel];
         }
@@ -479,6 +480,7 @@ static NSString *ORKBulletUnicode = @"\u2981";
 - (void)setBuildsInBodyItems:(BOOL)buildsInBodyItems {
     _buildsInBodyItems = buildsInBodyItems;
     for (NSInteger i = 0; i < _views.count; i++) {
+        [self setCustomSpacing:ORKCardStyleBuildInPostitionStart afterView:_views[i]];
         if ((_buildsInBodyItems == YES) && (i != 0)) {
             _views[i].alpha = 0;
         }
@@ -492,8 +494,9 @@ static NSString *ORKBulletUnicode = @"\u2981";
     
     NSUInteger indexToShow = _currentBodyItemIndex + 1;
     for (NSInteger i = 0; i < _views.count; i++) {
-        if ((i <= indexToShow) && (_views[i].alpha == 0)) {
-            [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
+        if (i == indexToShow) {
+            [UIView transitionWithView:_views[i] duration:0.5 options:UIViewAnimationOptionTransitionCrossDissolve animations:^ {
+                [self setCustomSpacing:ORKCardStyleBuildInPostitionEnd afterView:_views[i - 1]];
                 _views[i].alpha = 1;
             } completion:nil];
         }
