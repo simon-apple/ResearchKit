@@ -190,7 +190,7 @@ typedef NS_ENUM(NSInteger, ORKQuestionSection) {
             _headerView.titleIconImage = self.step.iconImage;
             _headerView.stepTitle = self.step.title;
             _headerView.stepText = self.step.text;
-            _headerView.stepDetailText = self.step.detailText;
+            // TODO:- we are currently not setting detailText to _headerView because we are restricting detailText to be displayed only inside ORKSurveyCardHeaderView, might wanna rethink this later. Please use the text property on ORKQuestionStep for adding extra information.
             _headerView.stepHeaderTextAlignment = self.step.headerTextAlignment;
             _headerView.bodyItems = self.step.bodyItems;
             _tableContainer.stepTopContentImageContentMode = self.step.imageContentMode;
