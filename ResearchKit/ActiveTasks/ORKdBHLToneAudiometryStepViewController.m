@@ -303,7 +303,7 @@
         _resultSample = [ORKdBHLToneAudiometryFrequencySample new];
         _resultSample.channel = _audioChannel;
         _resultSample.frequency = [freq doubleValue];
-        _resultSample.calculatedThreshold = NAN;
+        _resultSample.calculatedThreshold = ORKInvalidDBHLValue;
         [_arrayOfResultSamples addObject:_resultSample];
     } else {
         _numberOfTransitionsPerFreq += 1;

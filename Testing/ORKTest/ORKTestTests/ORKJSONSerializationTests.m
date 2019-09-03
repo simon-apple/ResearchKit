@@ -1326,5 +1326,36 @@ ORK_MAKE_TEST_INIT(NSRegularExpression, (^{
     }
 }
 
+- (void)testInvalidDBHLValue {
+    // Non ORKInvalidDBHLValue-containing sample
+    ORKdBHLToneAudiometryFrequencySample *sample = [[ORKdBHLToneAudiometryFrequencySample alloc] init];
+    sample.channel = ORKAudioChannelLeft;
+    sample.frequency = 1000;
+    sample.calculatedThreshold = 0.5;
+    
+    NSDictionary *sampleDictionary = [ORKESerializer JSONObjectForObject:sample error:NULL];
+    ORKdBHLToneAudiometryFrequencySample *deserializedSample = [ORKESerializer objectFromJSONObject:sampleDictionary error:NULL];
+    
+    XCTAssertEqualObjects(sample, deserializedSample);
+
+    NSData *sampleData = [ORKESerializer JSONDataForObject:sample error:NULL];
+    deserializedSample = [ORKESerializer objectFromJSONData:sampleData error:NULL];
+
+    XCTAssertEqualObjects(sample, deserializedSample);
+
+    // ORKInvalidDBHLValue-containing sample
+    sample.calculatedThreshold = ORKInvalidDBHLValue;
+    
+    sampleDictionary = [ORKESerializer JSONObjectForObject:sample error:NULL];
+    deserializedSample = [ORKESerializer objectFromJSONObject:sampleDictionary error:NULL];
+    
+    XCTAssertEqualObjects(sample, deserializedSample);
+
+    sampleData = [ORKESerializer JSONDataForObject:sample error:NULL];
+    deserializedSample = [ORKESerializer objectFromJSONData:sampleData error:NULL];
+
+    XCTAssertEqualObjects(sample, deserializedSample);
+}
+
 @end
 

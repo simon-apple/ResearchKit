@@ -36,6 +36,8 @@ NS_ASSUME_NONNULL_BEGIN
 @class ORKdBHLToneAudiometryFrequencySample;
 @class ORKdBHLToneAudiometryUnit;
 
+ORK_EXTERN const double ORKInvalidDBHLValue ORK_AVAILABLE_DECL;
+
 ORK_CLASS_AVAILABLE
 @interface ORKdBHLToneAudiometryResult : ORKResult
 
