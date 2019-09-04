@@ -248,6 +248,10 @@ typedef NS_ENUM(NSInteger, ORKQuestionSection) {
                                 sectionProgressText = [NSString localizedStringWithFormat:ORKLocalizedString(@"FORM_ITEM_PROGRESS", nil) ,ORKLocalizedStringFromNumber(@(progressInfo.currentStepStartingProgressPosition)), ORKLocalizedStringFromNumber(@(progressInfo.total))];
                             }
                         }
+                        if (!sectionProgressText) {
+                            // Always default to "1 of 1" in a questionStep progress label
+                            sectionProgressText = [NSString localizedStringWithFormat:ORKLocalizedString(@"FORM_ITEM_PROGRESS", nil) ,ORKLocalizedStringFromNumber(@(ORKQuestionSection_COUNT)), ORKLocalizedStringFromNumber(@(ORKQuestionSection_COUNT))];
+                        }
                     }
                     
                     if (self.questionStep.learnMoreItem) {
@@ -636,6 +640,10 @@ typedef NS_ENUM(NSInteger, ORKQuestionSection) {
                 if (progressInfo.stepShouldShowTotalProgress) {
                     sectionProgressText = [NSString localizedStringWithFormat:ORKLocalizedString(@"FORM_ITEM_PROGRESS", nil) ,ORKLocalizedStringFromNumber(@(section + progressInfo.currentStepStartingProgressPosition)), ORKLocalizedStringFromNumber(@(progressInfo.total))];
                 }
+            }
+            if (!sectionProgressText) {
+                // Always default to "1 of 1" in a questionStep progress label
+                sectionProgressText = [NSString localizedStringWithFormat:ORKLocalizedString(@"FORM_ITEM_PROGRESS", nil) ,ORKLocalizedStringFromNumber(@(ORKQuestionSection_COUNT)), ORKLocalizedStringFromNumber(@(ORKQuestionSection_COUNT))];
             }
         }
         

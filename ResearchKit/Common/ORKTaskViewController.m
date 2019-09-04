@@ -269,7 +269,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     
     self.showsProgressInNavigationBar = YES;
     self.discardable = NO;
-    self.progressMode = ORKTaskViewControllerProgressModeTotalQuestions;
+    self.progressMode = ORKTaskViewControllerProgressModeQuestionsPerStep;
     _saveable = NO;
     
     _managedResults = [NSMutableDictionary dictionary];
