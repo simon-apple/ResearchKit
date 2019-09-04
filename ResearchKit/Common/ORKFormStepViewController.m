@@ -1222,7 +1222,10 @@ static const CGFloat TableViewYOffsetStandard = 30.0;
         }
         
         if (!sectionProgressText) {
+            // only display progress label if there are more than 1 sections in the form step
+            if ([_sections count] > 1) {
              sectionProgressText = [NSString localizedStringWithFormat:ORKLocalizedString(@"FORM_ITEM_PROGRESS", nil) ,ORKLocalizedStringFromNumber(@(section + 1)), ORKLocalizedStringFromNumber(@([_sections count]))];
+            }
         }
     }
     
