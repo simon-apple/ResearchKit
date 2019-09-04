@@ -114,6 +114,37 @@
     return super.hash ^ self.formItems.hash;
 }
 
+- (ORKAnswerFormat *)impliedAnswerFormat {
+    // We enter this code-path only for formSteps which have ONE valid answer format (the other type of formItem would likely be a section header)
+    ORKFormItem *item;
+    for (item in self.formItems) {
+        if (item.answerFormat) {
+            break;
+        }
+    }
+    return item.answerFormat;
+}
+
+- (ORKQuestionType)questionType {
+    ORKAnswerFormat *impliedFormat = [self impliedAnswerFormat];
+    return impliedFormat.questionType;
+}
+
+- (BOOL)isFormatImmediateNavigation {
+    // Only allow immediate navigation for formSteps which contain only ONE formItem with a valid answer format
+    int numberOfAnswerFormats = 0;
+    for (ORKFormItem *item in self.formItems) {
+        if (item.answerFormat) {
+            numberOfAnswerFormats += 1;
+            if (numberOfAnswerFormats > 1) {
+                return false;
+            }
+        }
+    }
+    ORKQuestionType questionType = self.questionType;
+    return (self.optional == NO) && ((questionType == ORKQuestionTypeBoolean) || (questionType == ORKQuestionTypeSingleChoice));
+}
+
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {

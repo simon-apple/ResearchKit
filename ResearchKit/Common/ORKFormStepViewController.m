@@ -54,6 +54,7 @@
 #import "ORKCollectionResult_Private.h"
 #import "ORKQuestionResult_Private.h"
 #import "ORKFormItem_Internal.h"
+#import "ORKFormStep_Internal.h"
 #import "ORKResult_Private.h"
 #import "ORKStep_Private.h"
 
@@ -833,6 +834,16 @@ static const CGFloat TableViewYOffsetStandard = 30.0;
     return [super showValidityAlertWithMessage:text];
 }
 
+- (BOOL)hasAnswer {
+    return (self.savedAnswers != nil);
+}
+
+// Not to use `ImmediateNavigation` when current step already has an answer.
+// So user is able to review the answer when it is present.
+- (BOOL)isStepImmediateNavigation {
+    return [[self formStep] isFormatImmediateNavigation] && [self hasAnswer] == NO && !self.isBeingReviewed;
+}
+
 - (ORKStepResult *)result {
     ORKStepResult *parentResult = [super result];
     
@@ -1370,6 +1381,7 @@ static NSString *const _ORKAnsweredSectionsRestoreKey = @"answeredSections";
 #pragma mark ORKTextChoiceCellGroupDelegate
 
 - (void)answerChangedForIndexPath:(NSIndexPath *)indexPath {
+    BOOL immediateNavigation = [self isStepImmediateNavigation];
     ORKTableSection *section = _sections[indexPath.section];
     ORKTableCellItem *cellItem = section.items[indexPath.row];
     id answer = ([cellItem.formItem.answerFormat isKindOfClass:[ORKBooleanAnswerFormat class]]) ? [section.textChoiceCellGroup answerForBoolean] : [section.textChoiceCellGroup answer];
@@ -1387,6 +1399,12 @@ static NSString *const _ORKAnsweredSectionsRestoreKey = @"answeredSections";
     ORKFormItemCell *cell = (ORKFormItemCell *)[_tableView cellForRowAtIndexPath:indexPath];
     [self handleAutoScrollForNonKeyboardCell:cell];
     [self updateAnsweredSections];
+
+    if (immediateNavigation) {
+            // Proceed as continueButton tapped
+            ORKSuppressPerformSelectorWarning(
+                                              [self.continueButtonItem.target performSelector:self.continueButtonItem.action withObject:self.continueButtonItem];);
+        }
 }
 
 - (void)tableViewCellHeightUpdated {

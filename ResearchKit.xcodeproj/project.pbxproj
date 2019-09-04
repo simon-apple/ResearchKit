@@ -184,6 +184,7 @@
 		713D4B1E20FE5480002BE28D /* retspl_EARPODS.plist in Resources */ = {isa = PBXBuildFile; fileRef = 713D4B1D20FE5480002BE28D /* retspl_EARPODS.plist */; };
 		714151D0225C4A23002CA33B /* ORKPasscodeViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A92C6922444F93007547F2 /* ORKPasscodeViewControllerTests.swift */; };
 		7141EA2222EFBC0C00650145 /* ORKLoggingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7141EA2122EFBC0C00650145 /* ORKLoggingTests.m */; };
+		7167D028231B1EAA00AAB4DD /* ORKFormStep_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 7167D027231B1EAA00AAB4DD /* ORKFormStep_Internal.h */; };
 		716B126520A78C6B00590264 /* ORKEnvironmentSPLMeterResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 716B126320A78C6B00590264 /* ORKEnvironmentSPLMeterResult.m */; };
 		716B126820A7A40400590264 /* ORKdBHLToneAudiometryAudioGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 716B126620A7A40400590264 /* ORKdBHLToneAudiometryAudioGenerator.h */; };
 		716B126920A7A40400590264 /* ORKdBHLToneAudiometryAudioGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 716B126720A7A40400590264 /* ORKdBHLToneAudiometryAudioGenerator.m */; };
@@ -990,6 +991,7 @@
 		713D4B1B20FE5464002BE28D /* frequency_dBSPL_EARPODS.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = frequency_dBSPL_EARPODS.plist; sourceTree = "<group>"; };
 		713D4B1D20FE5480002BE28D /* retspl_EARPODS.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = retspl_EARPODS.plist; sourceTree = "<group>"; };
 		7141EA2122EFBC0C00650145 /* ORKLoggingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKLoggingTests.m; sourceTree = "<group>"; };
+		7167D027231B1EAA00AAB4DD /* ORKFormStep_Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ORKFormStep_Internal.h; path = ORKFormStep_Internal.h; sourceTree = "<group>"; };
 		716B126220A78C6B00590264 /* ORKEnvironmentSPLMeterResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKEnvironmentSPLMeterResult.h; sourceTree = "<group>"; };
 		716B126320A78C6B00590264 /* ORKEnvironmentSPLMeterResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKEnvironmentSPLMeterResult.m; sourceTree = "<group>"; };
 		716B126620A7A40400590264 /* ORKdBHLToneAudiometryAudioGenerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKdBHLToneAudiometryAudioGenerator.h; sourceTree = "<group>"; };
@@ -2641,6 +2643,7 @@
 				86C40B821A8D7C5C00081FAC /* ORKFormStep.h */,
 				86C40B831A8D7C5C00081FAC /* ORKFormStep.m */,
 				86C40B7F1A8D7C5C00081FAC /* ORKFormItem_Internal.h */,
+				7167D027231B1EAA00AAB4DD /* ORKFormStep_Internal.h */,
 				86C40B841A8D7C5C00081FAC /* ORKFormStepViewController.h */,
 				86C40B851A8D7C5C00081FAC /* ORKFormStepViewController.m */,
 				249F44E31BCD9EAC0000D57E /* ORKFormStepViewController_Internal.h */,
@@ -3732,6 +3735,7 @@
 				86C40D301A8D7C5C00081FAC /* ORKHealthAnswerFormat.h in Headers */,
 				781D54141DF886AB00223305 /* ORKTrailmakingStepViewController.h in Headers */,
 				86C40C261A8D7C5C00081FAC /* ORKCountdownStepViewController.h in Headers */,
+				7167D028231B1EAA00AAB4DD /* ORKFormStep_Internal.h in Headers */,
 				FF919A2A1E81A94B005C2A1E /* ORKRangeOfMotionResult.h in Headers */,
 				861D2AF01B8409D9008C4CD0 /* ORKTimedWalkContentView.h in Headers */,
 				2489F7B31D65214D008DEF20 /* ORKVideoCaptureStepViewController.h in Headers */,
