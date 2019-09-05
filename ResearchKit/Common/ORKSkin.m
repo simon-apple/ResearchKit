@@ -68,12 +68,19 @@ CGFloat ORKiPadBackgroundViewCornerRadius = 20.0;
 CGFloat ORKiPadBackgroundViewBottomPadding = 50.0;
 CGFloat ORKiPadBackgroundViewLeftRightPadding = 115.0;
 
-CGFloat ORKStepContainerLeftRightMarginForXSMax = 22.0;
-CGFloat ORKStepContainerLeftRightMarginForXS = 12.0;
-CGFloat ORKStepContainerLeftRightMarginFor7Plus = 22.0;
-CGFloat ORKStepContainerLeftRightMarginFor7 = 12.0;
-CGFloat ORKStepContainerLeftRightMarginForSE = 8.0;
-CGFloat ORKStepContainerLeftRightMarginForDefault = 12.0;
+CGFloat ORKStepContainerLeftRightMarginForXSMax = 20.0;
+CGFloat ORKStepContainerLeftRightMarginForXS = 16.0;
+CGFloat ORKStepContainerLeftRightMarginFor7Plus = 20.0;
+CGFloat ORKStepContainerLeftRightMarginFor7 = 16.0;
+CGFloat ORKStepContainerLeftRightMarginForSE = 16.0;
+CGFloat ORKStepContainerLeftRightMarginForDefault = 16.0;
+
+CGFloat ORKStepContainerExtendedLeftRightMarginForXSMax = 24.0;
+CGFloat ORKStepContainerExtendedLeftRightMarginForXS = 24.0;
+CGFloat ORKStepContainerExtendedLeftRightMarginFor7Plus = 24.0;
+CGFloat ORKStepContainerExtendedLeftRightMarginFor7 = 24.0;
+CGFloat ORKStepContainerExtendedLeftRightMarginForSE = 16.0;
+CGFloat ORKStepContainerExtendedLeftRightMarginForDefault = 24.0;
 
 CGFloat ORKStepContainerTopMarginForXSMax = 44.0;
 CGFloat ORKStepContainerTopMarginForXS = 44.0;
@@ -461,7 +468,28 @@ CGFloat ORKStepContainerLeftRightPaddingForWindow(UIWindow *window) {
 }
 
 CGFloat ORKStepContainerExtendedLeftRightPaddingForWindow(UIWindow *window) {
-    return (ORKStepContainerLeftRightPaddingForWindow(window) * 2.0) ;
+    CGFloat margin = 0;
+    switch (ORKGetHorizontalScreenTypeForWindow(window)) {
+        case ORKScreenTypeiPhoneXSMax:
+            margin = ORKStepContainerExtendedLeftRightMarginForXSMax;
+            break;
+        case ORKScreenTypeiPhoneX:
+            margin = ORKStepContainerExtendedLeftRightMarginForXS;
+            break;
+        case ORKScreenTypeiPhone6Plus:
+            margin = ORKStepContainerExtendedLeftRightMarginFor7Plus;
+            break;
+        case ORKScreenTypeiPhone6:
+            margin = ORKStepContainerExtendedLeftRightMarginFor7;
+            break;
+        case ORKScreenTypeiPhone5:
+            margin = ORKStepContainerExtendedLeftRightMarginForSE;
+            break;
+        default:
+            margin = ORKStepContainerExtendedLeftRightMarginForDefault;
+            break;
+    }
+    return margin;
 }
 
 CGFloat ORKStepContainerTopPaddingForWindow(UIWindow *window) {
