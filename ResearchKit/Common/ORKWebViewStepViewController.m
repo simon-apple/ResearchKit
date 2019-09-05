@@ -410,7 +410,7 @@ static const CGFloat ORKSignatureToClearPadding = 15.0;
 // MARK: UIScrollViewDelegate
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    [_signatureView setEnabled:NO];
+    [_signatureView setEnabled:scrollView.isDecelerating];
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
