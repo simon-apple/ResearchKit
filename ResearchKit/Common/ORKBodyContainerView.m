@@ -38,9 +38,10 @@
 
 
 
-static const CGFloat ORKBodyToBulletPaddingStandard = 37.0;
+static const CGFloat ORKBodyToBulletPaddingStandard = 26.0;
 
 static const CGFloat ORKBulletToBulletPaddingStandard = 26.0;
+static const CGFloat ORKBodyToLearnMorePaddingStandard = 15.0;
 
 static const CGFloat ORKBodyTextToBodyDetailTextPaddingStandard = 6.0;
 static const CGFloat ORKBodyTextToLearnMoreButtonPaddingStandard = 15.0;
@@ -297,7 +298,7 @@ static NSString *ORKBulletUnicode = @"\u2981";
         imageView.translatesAutoresizingMaskIntoConstraints = NO;
         [_cardView addSubview:imageView];
         [imageView.leadingAnchor constraintEqualToAnchor:_cardView.leadingAnchor].active = YES;
-        [imageView.topAnchor constraintEqualToAnchor:_cardView.topAnchor].active = YES;
+        [imageView.centerYAnchor constraintEqualToAnchor:_cardView.centerYAnchor].active = YES;
         _cardStyleAccessoryView = imageView;
     } else {
         [self addArrangedSubview:imageView];
@@ -383,7 +384,7 @@ static NSString *ORKBulletUnicode = @"\u2981";
             
             [_cardView addSubview:textLabel];
             [textLabel.leadingAnchor constraintEqualToAnchor: _cardStyleAccessoryView.trailingAnchor constant:ORKCardStyleMediumTextPadding].active = YES;
-            [textLabel.topAnchor constraintEqualToAnchor:_cardStyleAccessoryView.topAnchor constant:0].active = YES;
+            [textLabel.topAnchor constraintEqualToAnchor:_cardView.topAnchor constant:0].active = YES;
             [textLabel.trailingAnchor constraintEqualToAnchor:_cardView.trailingAnchor].active = YES;
             [textLabel setContentHuggingPriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisHorizontal];
             
@@ -471,7 +472,7 @@ static NSString *ORKBulletUnicode = @"\u2981";
         _views[i].delegate = self;
         
         if (i < _views.count - 1) {
-            CGFloat padding = [self spacingWithAboveStyle:_bodyItems[i].bodyItemStyle belowStyle:_bodyItems[i + 1].bodyItemStyle];
+            CGFloat padding = [self spacingWithAboveStyle:_bodyItems[i].bodyItemStyle belowStyle:_bodyItems[i + 1].bodyItemStyle belowIsLearnMore:(_bodyItems[i + 1].learnMoreItem != nil)];
             [self setCustomSpacing:padding afterView:_views[i]];
         }
     }
@@ -479,14 +480,16 @@ static NSString *ORKBulletUnicode = @"\u2981";
 
 - (void)setBuildsInBodyItems:(BOOL)buildsInBodyItems {
     _buildsInBodyItems = buildsInBodyItems;
-    for (NSInteger i = 0; i < _views.count; i++) {
-        [self setCustomSpacing:ORKCardStyleBuildInPostitionStart afterView:_views[i]];
-        if ((_buildsInBodyItems == YES) && (i != 0)) {
-            _views[i].alpha = 0;
+    if (buildsInBodyItems == YES) {
+        for (NSInteger i = 0; i < _views.count; i++) {
+            [self setCustomSpacing:ORKCardStyleBuildInPostitionStart afterView:_views[i]];
+            if ((_buildsInBodyItems == YES) && (i != 0)) {
+                _views[i].alpha = 0;
+            }
         }
+        
+        _currentBodyItemIndex = 0;
     }
-    
-    _currentBodyItemIndex = 0;
 }
 
 - (void)updateBodyItemViews {
@@ -513,12 +516,15 @@ static NSString *ORKBulletUnicode = @"\u2981";
     return _views[_currentBodyItemIndex];
 }
 
-- (CGFloat)spacingWithAboveStyle:(ORKBodyItemStyle )aboveStyle belowStyle:(ORKBodyItemStyle )belowStyle {
+- (CGFloat)spacingWithAboveStyle:(ORKBodyItemStyle )aboveStyle belowStyle:(ORKBodyItemStyle )belowStyle belowIsLearnMore:(BOOL)belowIsLearnMore {
     if (aboveStyle == ORKBodyItemStyleText) {
         return belowStyle == ORKBodyItemStyleText ? ORKBodyToBodyPaddingStandard : ORKBodyToBulletPaddingStandard;
-    }
-    else {
-        return belowStyle == ORKBodyItemStyleText ? ORKBodyToBulletPaddingStandard : ORKBulletToBulletPaddingStandard;
+    } else {
+        if (belowIsLearnMore == YES) {
+            return ORKBodyToLearnMorePaddingStandard;
+        } else {
+            return belowStyle == ORKBodyItemStyleText ? ORKBodyToBulletPaddingStandard : ORKBulletToBulletPaddingStandard;
+        }
     }
 }
 
