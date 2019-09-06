@@ -725,13 +725,11 @@ static const CGFloat TableViewYOffsetStandard = 30.0;
     
     BOOL multiCellChoices = ([singleSectionTypes containsObject:@(answerFormat.questionType)] &&
                              NO == [answerFormat isKindOfClass:[ORKValuePickerAnswerFormat class]]);
-    
-    BOOL multilineTextEntry = (answerFormat.questionType == ORKQuestionTypeText && [(ORKTextAnswerFormat *)answerFormat multipleLines]);
-    
+
     BOOL scale = (answerFormat.questionType == ORKQuestionTypeScale);
     
     // Items require individual section
-    if (multiCellChoices || multilineTextEntry || scale) {
+    if (multiCellChoices || scale) {
         return YES;
     }
     
