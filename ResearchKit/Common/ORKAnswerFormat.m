@@ -1489,6 +1489,8 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
         _maximumDate = [maximum copy];
         _calendar = [calendar copy];
         _minuteInterval = 1;
+        _showDontKnowButton = NO;
+        _customDontKnowButtonText = nil;
         [self validateParameters];
     }
     return self;
@@ -1521,7 +1523,9 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
             ORKEqualObjects(self.minimumDate, castObject.minimumDate) &&
             ORKEqualObjects(self.maximumDate, castObject.maximumDate) &&
             ORKEqualObjects(self.calendar, castObject.calendar) &&
+            ORKEqualObjects(self.customDontKnowButtonText, castObject.customDontKnowButtonText) &&
             (self.minuteInterval == castObject.minuteInterval) &&
+            (self.showDontKnowButton == castObject.showDontKnowButton) &&
             (_style == castObject.style));
 }
 
@@ -1589,6 +1593,8 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
         ORK_DECODE_OBJ_CLASS(aDecoder, defaultDate, NSDate);
         ORK_DECODE_OBJ_CLASS(aDecoder, calendar, NSCalendar);
         ORK_DECODE_INTEGER(aDecoder, minuteInterval);
+        ORK_DECODE_BOOL(aDecoder, showDontKnowButton);
+        ORK_DECODE_OBJ_CLASS(aDecoder, customDontKnowButtonText, NSString);
     }
     return self;
 }
@@ -1601,10 +1607,16 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
     ORK_ENCODE_OBJ(aCoder, defaultDate);
     ORK_ENCODE_OBJ(aCoder, calendar);
     ORK_ENCODE_INTEGER(aCoder, minuteInterval);
+    ORK_ENCODE_BOOL(aCoder, showDontKnowButton);
+    ORK_ENCODE_OBJ(aCoder, customDontKnowButtonText);
 }
 
 - (ORKQuestionType)questionType {
     return (_style == ORKDateAnswerStyleDateAndTime) ? ORKQuestionTypeDateAndTime : ORKQuestionTypeDate;
+}
+
+- (BOOL)shouldShowDontKnowButton {
+    return _showDontKnowButton;
 }
 
 + (BOOL)supportsSecureCoding {

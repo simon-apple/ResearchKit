@@ -1467,7 +1467,9 @@ static NSMutableDictionary *ORKESerializationEncodingTable() {
                     PROPERTY(defaultDate, NSDate, NSObject, NO,
                              ^id(id date, __unused ORKESerializationContext *context) { return [ORKResultDateTimeFormatter() stringFromDate:date]; },
                              ^id(id string, __unused ORKESerializationContext *context) { return [ORKResultDateTimeFormatter() dateFromString:string]; }),
-                    PROPERTY(minuteInterval, NSNumber, NSObject, YES, nil, nil)
+                    PROPERTY(minuteInterval, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(showDontKnowButton, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(customDontKnowButtonText, NSString, NSObject, YES, nil, nil)
                     })),
            ENTRY(ORKNumericAnswerFormat,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {

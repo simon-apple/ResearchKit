@@ -1557,6 +1557,20 @@ When the value of this property is `nil`, there is no minimum.
  */
 @property (nonatomic) NSInteger minuteInterval;
 
+/**
+ Determines if the "I Don't Know" button will show
+ 
+ Defults to false.
+ */
+@property (nonatomic, assign, getter=shouldShowDontKnowButton) BOOL showDontKnowButton;
+
+/**
+ Custom text that will be shown inside of the "I Don't Know" button if showDontKnowButton is set to true
+ 
+ Defults to nil
+ */
+@property (nonatomic, nullable) NSString *customDontKnowButtonText;
+
 @end
 
 
