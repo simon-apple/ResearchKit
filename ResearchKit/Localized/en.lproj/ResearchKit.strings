@@ -78,7 +78,7 @@
 "STEP_PROGRESS_FORMAT" = "%1$@ of %2$@";
 
 /* Progress indication (in formItem section header). */
-"FORM_ITEM_PROGRESS" = "QUESTION %1$@ OF %2$@";
+"FORM_ITEM_PROGRESS" = "Question %1$@ of %2$@";
 
 /* ORKTaskReviewViewController */
 "REVIEW_SKIPPED_ANSWER" = "Skipped";
