@@ -402,6 +402,8 @@ static const float FirstSectionHeaderPadding = 24.0;
     [taskViewController.navigationBar setTranslucent:YES];
     taskViewController.navigationBar.prefersLargeTitles = NO;
     taskViewController.defaultResultSource = _resultSource;
+    taskViewController.discardable = YES;
+    taskViewController.showsProgressInNavigationBar = NO;
     [self presentViewController:taskViewController animated:YES completion:nil];
 }
 
