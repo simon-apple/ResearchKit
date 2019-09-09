@@ -35,13 +35,15 @@
 #import "ORKBodyItem.h"
 #import "ORKLearnMoreView.h"
 #import "ORKLearnMoreInstructionStep.h"
-
+#import "ORKTagLabel.h"
 
 
 static const CGFloat ORKBodyToBulletPaddingStandard = 26.0;
 
 static const CGFloat ORKBulletToBulletPaddingStandard = 26.0;
 static const CGFloat ORKBodyToLearnMorePaddingStandard = 15.0;
+static const CGFloat ORKTagLabelBottomPadding = 6.0;
+static const CGFloat ORKHorizontalRulePadding = 20.0;
 
 static const CGFloat ORKBodyTextToBodyDetailTextPaddingStandard = 6.0;
 static const CGFloat ORKBodyTextToLearnMoreButtonPaddingStandard = 15.0;
@@ -52,7 +54,7 @@ static const CGFloat ORKBulletIconWidthStandard = 10.0;
 
 static const CGFloat ORKBulletIconDimension = 40.0;
 
-static const CGFloat ORKBodyItemHorizontalRuleHeight = 1.0;
+static const CGFloat ORKBodyItemHorizontalRuleHeight = 0.5;
 
 static const CGFloat ORKCardStylePadding = 16.0;
 static const CGFloat ORKCardStyleMediumTextPadding = 14.0;
@@ -135,9 +137,10 @@ static NSString *ORKBulletUnicode = @"\u2981";
     } else if (_bodyItem.bodyItemStyle == ORKBodyItemStyleBulletPoint) {
         [self setupBulletPointStackView];
         [self setupBodyStyleBulletPointView];
-    }
-    else if (_bodyItem.bodyItemStyle == ORKBodyItemStyleHorizontalRule) {
+    } else if (_bodyItem.bodyItemStyle == ORKBodyItemStyleHorizontalRule) {
         [self setupBodyStyleHorizontalRule];
+    } else if (_bodyItem.bodyItemStyle == ORKBodyItemStyleTag) {
+        [self setupBodyStyleTag];
     }
 }
 
@@ -358,6 +361,23 @@ static NSString *ORKBulletUnicode = @"\u2981";
     return imageView;
 }
 
+- (void)setupBodyStyleTag {
+    UIView *container = [UIView new];
+    container.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    ORKTagLabel *tagLabel = [ORKTagLabel new];
+    tagLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    tagLabel.text = _bodyItem.text;
+    [container addSubview:tagLabel];
+    
+    [tagLabel.topAnchor constraintEqualToAnchor:container.topAnchor].active = YES;
+    [tagLabel.leadingAnchor constraintEqualToAnchor:container.leadingAnchor].active = YES;
+    [tagLabel.bottomAnchor constraintEqualToAnchor:container.bottomAnchor].active = YES;
+    [tagLabel.trailingAnchor constraintLessThanOrEqualToAnchor:container.trailingAnchor].active = YES;
+
+    [self addArrangedSubview:container];
+}
+
 - (void)addSubStackView {
     UILabel *textLabel;
     UILabel *detailTextLabel;
@@ -516,15 +536,17 @@ static NSString *ORKBulletUnicode = @"\u2981";
     return _views[_currentBodyItemIndex];
 }
 
-- (CGFloat)spacingWithAboveStyle:(ORKBodyItemStyle )aboveStyle belowStyle:(ORKBodyItemStyle )belowStyle belowIsLearnMore:(BOOL)belowIsLearnMore {
-    if (aboveStyle == ORKBodyItemStyleText) {
+- (CGFloat)spacingWithAboveStyle:(ORKBodyItemStyle)aboveStyle belowStyle:(ORKBodyItemStyle )belowStyle belowIsLearnMore:(BOOL)belowIsLearnMore {
+    if (aboveStyle == ORKBodyItemStyleHorizontalRule || belowStyle == ORKBodyItemStyleHorizontalRule) {
+        return ORKHorizontalRulePadding;
+    } else if (aboveStyle == ORKBodyItemStyleText) {
         return belowStyle == ORKBodyItemStyleText ? ORKBodyToBodyPaddingStandard : ORKBodyToBulletPaddingStandard;
+    } else if (belowIsLearnMore == YES) {
+        return ORKBodyToLearnMorePaddingStandard;
+    } else if (aboveStyle == ORKBodyItemStyleTag) {
+        return ORKTagLabelBottomPadding;
     } else {
-        if (belowIsLearnMore == YES) {
-            return ORKBodyToLearnMorePaddingStandard;
-        } else {
-            return belowStyle == ORKBodyItemStyleText ? ORKBodyToBulletPaddingStandard : ORKBulletToBulletPaddingStandard;
-        }
+        return belowStyle == ORKBodyItemStyleText ? ORKBodyToBulletPaddingStandard : ORKBulletToBulletPaddingStandard;
     }
 }
 

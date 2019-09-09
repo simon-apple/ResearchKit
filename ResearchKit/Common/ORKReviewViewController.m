@@ -342,7 +342,7 @@ static const float FirstSectionHeaderPadding = 24.0;
     
     if (cardHeaderView == nil) {
         ORKReviewSection *reviewSection = _reviewSections[section];
-        cardHeaderView = [[ORKSurveyCardHeaderView alloc] initWithTitle:reviewSection.title detailText:reviewSection.text learnMoreView:nil progressText:[NSString stringWithFormat:@"%@ %@", ORKLocalizedString(@"REVIEW_STEP_PAGE", nil), ORKLocalizedStringFromNumber(@(section + 1))] showBorder:YES];
+        cardHeaderView = [[ORKSurveyCardHeaderView alloc] initWithTitle:reviewSection.title detailText:reviewSection.text learnMoreView:nil progressText:[NSString stringWithFormat:@"%@ %@", ORKLocalizedString(@"REVIEW_STEP_PAGE", nil), ORKLocalizedStringFromNumber(@(section + 1))] tagText:nil showBorder:YES];
     }
     
     // The first section needs extra padding at the top to account for space between the content in

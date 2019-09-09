@@ -540,6 +540,8 @@
 		959A2C0E1D68C91400841B04 /* ORKShoulderRangeOfMotionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 959A2C0C1D68C91400841B04 /* ORKShoulderRangeOfMotionStep.m */; };
 		95E11E551D73396300BF865B /* ORKShoulderRangeOfMotionStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 95E11E531D73396300BF865B /* ORKShoulderRangeOfMotionStepViewController.h */; };
 		95E11E561D73396300BF865B /* ORKShoulderRangeOfMotionStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95E11E541D73396300BF865B /* ORKShoulderRangeOfMotionStepViewController.m */; };
+		AE2CF2C123231C5A00FDD733 /* ORKTagLabel.h in Headers */ = {isa = PBXBuildFile; fileRef = AE2CF2BF23231C5A00FDD733 /* ORKTagLabel.h */; };
+		AE2CF2C223231C5A00FDD733 /* ORKTagLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = AE2CF2C023231C5A00FDD733 /* ORKTagLabel.m */; };
 		AEFE0AC1230DB857004D0519 /* ORKReviewIncompleteCell.h in Headers */ = {isa = PBXBuildFile; fileRef = AEFE0ABF230DB857004D0519 /* ORKReviewIncompleteCell.h */; };
 		AEFE0AC2230DB857004D0519 /* ORKReviewIncompleteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AEFE0AC0230DB857004D0519 /* ORKReviewIncompleteCell.m */; };
 		B11C54991A9EEF8800265E61 /* ORKConsentSharingStep.h in Headers */ = {isa = PBXBuildFile; fileRef = B11C54961A9EEF8800265E61 /* ORKConsentSharingStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -991,7 +993,7 @@
 		713D4B1B20FE5464002BE28D /* frequency_dBSPL_EARPODS.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = frequency_dBSPL_EARPODS.plist; sourceTree = "<group>"; };
 		713D4B1D20FE5480002BE28D /* retspl_EARPODS.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = retspl_EARPODS.plist; sourceTree = "<group>"; };
 		7141EA2122EFBC0C00650145 /* ORKLoggingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKLoggingTests.m; sourceTree = "<group>"; };
-		7167D027231B1EAA00AAB4DD /* ORKFormStep_Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ORKFormStep_Internal.h; path = ORKFormStep_Internal.h; sourceTree = "<group>"; };
+		7167D027231B1EAA00AAB4DD /* ORKFormStep_Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKFormStep_Internal.h; sourceTree = "<group>"; };
 		716B126220A78C6B00590264 /* ORKEnvironmentSPLMeterResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKEnvironmentSPLMeterResult.h; sourceTree = "<group>"; };
 		716B126320A78C6B00590264 /* ORKEnvironmentSPLMeterResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKEnvironmentSPLMeterResult.m; sourceTree = "<group>"; };
 		716B126620A7A40400590264 /* ORKdBHLToneAudiometryAudioGenerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKdBHLToneAudiometryAudioGenerator.h; sourceTree = "<group>"; };
@@ -1354,6 +1356,8 @@
 		959A2C0C1D68C91400841B04 /* ORKShoulderRangeOfMotionStep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKShoulderRangeOfMotionStep.m; sourceTree = "<group>"; };
 		95E11E531D73396300BF865B /* ORKShoulderRangeOfMotionStepViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKShoulderRangeOfMotionStepViewController.h; sourceTree = "<group>"; };
 		95E11E541D73396300BF865B /* ORKShoulderRangeOfMotionStepViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKShoulderRangeOfMotionStepViewController.m; sourceTree = "<group>"; };
+		AE2CF2BF23231C5A00FDD733 /* ORKTagLabel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKTagLabel.h; sourceTree = "<group>"; };
+		AE2CF2C023231C5A00FDD733 /* ORKTagLabel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKTagLabel.m; sourceTree = "<group>"; };
 		AEFE0ABF230DB857004D0519 /* ORKReviewIncompleteCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKReviewIncompleteCell.h; sourceTree = "<group>"; };
 		AEFE0AC0230DB857004D0519 /* ORKReviewIncompleteCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKReviewIncompleteCell.m; sourceTree = "<group>"; };
 		B11C54961A9EEF8800265E61 /* ORKConsentSharingStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKConsentSharingStep.h; sourceTree = "<group>"; };
@@ -2461,6 +2465,8 @@
 				86C40B611A8D7C5B00081FAC /* ORKTintedImageView.m */,
 				86C40BDD1A8D7C5C00081FAC /* ORKUnitLabel.h */,
 				86C40BDE1A8D7C5C00081FAC /* ORKUnitLabel.m */,
+				AE2CF2BF23231C5A00FDD733 /* ORKTagLabel.h */,
+				AE2CF2C023231C5A00FDD733 /* ORKTagLabel.m */,
 			);
 			name = Skin;
 			sourceTree = "<group>";
@@ -3522,6 +3528,7 @@
 				FFAE71401DAEC66200AE82B4 /* ORKFootnoteLabel.h in Headers */,
 				FF5CA61B1D2C6453001660A3 /* ORKSignatureStep.h in Headers */,
 				71769E312088260B00A19914 /* ORKdBHLToneAudiometryOnboardingStepViewController.h in Headers */,
+				AE2CF2C123231C5A00FDD733 /* ORKTagLabel.h in Headers */,
 				FF919A471E81BA3D005C2A1E /* ORKHolePegTestResult.h in Headers */,
 				25ECC0A31AFBDD2700F3D63B /* ORKReactionTimeStimulusView.h in Headers */,
 				106FF2AA1B690FD7004EACF2 /* ORKHolePegTestPlacePegView.h in Headers */,
@@ -4341,6 +4348,7 @@
 				86AD91151AB7B97E00361FEB /* ORKQuestionStepView.m in Sources */,
 				71769E2A20880C4500A19914 /* ORKdBHLToneAudiometryResult.m in Sources */,
 				10864CA11B27146B000F4158 /* ORKPSATStepViewController.m in Sources */,
+				AE2CF2C223231C5A00FDD733 /* ORKTagLabel.m in Sources */,
 				FF919A6A1E81D255005C2A1E /* ORKConsentSignatureResult.m in Sources */,
 				86C40C5C1A8D7C5C00081FAC /* ORKWalkingTaskStep.m in Sources */,
 				7118AC7620BF6A7800D7A6BB /* ORKSpeechInNoiseContentView.m in Sources */,

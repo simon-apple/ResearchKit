@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018, Apple Inc. All rights reserved.
+ Copyright (c) 2019, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,29 +28,46 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@import UIKit;
+#import "ORKTagLabel.h"
 
+@implementation ORKTagLabel
 
-NS_ASSUME_NONNULL_BEGIN
-@class ORKLearnMoreView;
+static const CGFloat horizontalInset = 10;
+static const CGFloat verticalInset = 5;
 
-@interface ORKSurveyCardHeaderView: UIView
+- (instancetype)init {
+   self = [super initWithFrame:CGRectZero];
+    if (self) {
+        self.numberOfLines = 0;
+        self.clipsToBounds = YES;
+        self.layer.cornerRadius = 4.0;
+        
+        UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleFootnote];
+        UIFontDescriptor *fontDescriptor = [descriptor fontDescriptorWithSymbolicTraits:(UIFontDescriptorTraitBold)];
+        
+        self.font = [UIFont fontWithDescriptor:fontDescriptor size:[[fontDescriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]];
+        
+        if (@available(iOS 13.0, *)) {
+            self.textColor = [UIColor secondaryLabelColor];
+            self.backgroundColor = [UIColor systemGray6Color];
+        } else {
+            self.textColor = [UIColor darkGrayColor];
+            self.backgroundColor = [UIColor lightGrayColor];
+        }
+    }
+    return self;
+}
 
-- (instancetype) initWithTitle:(NSString *)title;
+- (void)drawTextInRect:(CGRect)rect {
+    UIEdgeInsets insets = {verticalInset, horizontalInset, verticalInset, horizontalInset};
+    [super drawTextInRect:UIEdgeInsetsInsetRect(rect, insets)];
+}
 
-- (instancetype) initWithTitle:(NSString *)title
-                    detailText:(nullable NSString *)text
-                 learnMoreView:(nullable ORKLearnMoreView *)learnMoreView
-                 progressText:(nullable NSString *)progressText
-                       tagText:(nullable NSString *)tagText;
-
-- (instancetype) initWithTitle:(NSString *)title
-                    detailText:(nullable NSString *)text
-                 learnMoreView:(nullable ORKLearnMoreView *)learnMoreView
-                  progressText:(nullable NSString *)progressText
-                       tagText:(nullable NSString *)tagText
-                    showBorder:(BOOL)showBorder;
+- (CGSize)intrinsicContentSize {
+    CGSize contentSize = [super intrinsicContentSize];
+    contentSize.height += (verticalInset * 2);
+    contentSize.width += (horizontalInset * 2);
+    return contentSize;
+}
 
 @end
-
-NS_ASSUME_NONNULL_END

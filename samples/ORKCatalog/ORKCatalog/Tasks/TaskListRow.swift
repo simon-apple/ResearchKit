@@ -791,14 +791,14 @@ enum TaskListRow: Int, CustomStringConvertible {
         formItem02.placeholder = NSLocalizedString("Your placeholder here", comment: "")
         
         
-        let sesAnswerFormat = ORKSESAnswerFormat.init(topRungText: "Best Off", bottomRungText: "Worst Off")
+        let sesAnswerFormat = ORKSESAnswerFormat(topRungText: "Best Off", bottomRungText: "Worst Off")
         let sesFormItem = ORKFormItem(identifier: "sesIdentifier", text: "Select where you are on the socioeconomic ladder.", answerFormat: sesAnswerFormat)
         
         
         //Start of section for scale question
         let formItem03Text = NSLocalizedString(exampleQuestionText, comment: "")
         let scaleAnswerFormat = ORKContinuousScaleAnswerFormat(maximumValue: 10, minimumValue: 0, defaultValue: 0.0, maximumFractionDigits: 1)//ORKScaleAnswerFormat(maximumValue: 10, minimumValue: 0, defaultValue: 0, step: 1)
-        let formItem03 = ORKFormItem(identifier:  String(describing: Identifier.formItem03), text: formItem03Text, detailText: nil, learnMoreItem: nil, showsProgress: true, answerFormat: scaleAnswerFormat, optional: true)
+        let formItem03 = ORKFormItem(identifier: String(describing: Identifier.formItem03), text: formItem03Text, detailText: nil, learnMoreItem: nil, showsProgress: true, answerFormat: scaleAnswerFormat, tagText: nil, optional: true)
        
         step.formItems = [
             section01,

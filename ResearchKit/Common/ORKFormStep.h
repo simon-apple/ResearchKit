@@ -170,6 +170,7 @@ ORK_CLASS_AVAILABLE
                      learnMoreItem:(nullable ORKLearnMoreItem *)learnMoreItem
                      showsProgress:(BOOL)showsProgress
                       answerFormat:(nullable ORKAnswerFormat *)answerFormat
+                           tagText:(nullable NSString *)tagText
                           optional:(BOOL) optional;
 
 /**
@@ -226,6 +227,8 @@ ORK_CLASS_AVAILABLE
 @property (nonatomic) BOOL showsProgress;
 
 @property (nonatomic, copy, nullable) ORKLearnMoreItem *learnMoreItem;
+
+@property (nonatomic, copy, nullable) NSString *tagText;
 
 /**
  A localized string that displays placeholder information for the form item.

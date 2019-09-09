@@ -32,6 +32,7 @@
 #import "ORKSurveyCardHeaderView.h"
 #import "ORKSkin.h"
 #import "ORKLearnMoreView.h"
+#import "ORKTagLabel.h"
 
 static const CGFloat HeaderViewLabelTopBottomPadding = 6.0;
 static const CGFloat HeaderViewBottomPadding = 24.0;
@@ -46,7 +47,9 @@ static const CGFloat HeaderViewBottomPadding = 24.0;
     ORKLearnMoreView *_learnMoreView;
     NSString *_progressText;
     UILabel *_progressLabel;
+    UILabel *_tagLabel;
     BOOL _showBorder;
+    NSString *_tagText;
     CAShapeLayer *_headlineMaskLayer;
     NSArray<NSLayoutConstraint *> *_headerViewConstraints;
     NSArray<NSLayoutConstraint *> *_learnMoreViewConstraints;
@@ -64,7 +67,7 @@ static const CGFloat HeaderViewBottomPadding = 24.0;
     return self;
 }
 
-- (instancetype)initWithTitle:(NSString *)title detailText:(nullable NSString *)text learnMoreView:(nullable ORKLearnMoreView *)learnMoreView progressText:(nullable NSString *)progressText {
+- (instancetype)initWithTitle:(NSString *)title detailText:(nullable NSString *)text learnMoreView:(nullable ORKLearnMoreView *)learnMoreView progressText:(nullable NSString *)progressText tagText:(nullable NSString *)tagText {
     
     self = [super init];
     if (self) {
@@ -73,6 +76,7 @@ static const CGFloat HeaderViewBottomPadding = 24.0;
         _learnMoreView = learnMoreView;
         _progressText = progressText;
         _showBorder = NO;
+        _tagText = tagText;
         [self setBackgroundColor:[UIColor clearColor]];
         [self setupHeaderView];
         [self setupConstraints];
@@ -80,7 +84,7 @@ static const CGFloat HeaderViewBottomPadding = 24.0;
     return self;
 }
 
-- (instancetype)initWithTitle:(NSString *)title detailText:(NSString *)text learnMoreView:(ORKLearnMoreView *)learnMoreView progressText:(NSString *)progressText showBorder:(BOOL)showBorder {
+- (instancetype)initWithTitle:(NSString *)title detailText:(NSString *)text learnMoreView:(ORKLearnMoreView *)learnMoreView progressText:(NSString *)progressText tagText:(nullable NSString *)tagText showBorder:(BOOL)showBorder {
     
     self = [super init];
     if (self) {
@@ -89,6 +93,7 @@ static const CGFloat HeaderViewBottomPadding = 24.0;
         _learnMoreView = learnMoreView;
         _progressText = progressText;
         _showBorder = showBorder;
+        _tagText = tagText;
         [self setBackgroundColor:[UIColor clearColor]];
         [self setupHeaderView];
         [self setupConstraints];
@@ -99,6 +104,11 @@ static const CGFloat HeaderViewBottomPadding = 24.0;
 - (void)setupHeaderView {
     [self setupHeadlineView];
     [self addSubview:_headlineView];
+    
+    if (_tagText) {
+        [self setupTagLabel];
+        [_headlineView addSubview:_tagLabel];
+    }
     
     if (_progressText) {
         [self setUpProgressLabel];
@@ -164,6 +174,13 @@ static const CGFloat HeaderViewBottomPadding = 24.0;
     }
     _progressLabel.textAlignment = NSTextAlignmentNatural;
     [_progressLabel setFont:[self progressLabelFont]];
+}
+
+- (void)setupTagLabel {
+    if (!_tagLabel) {
+        _tagLabel = [ORKTagLabel new];
+    }
+    _tagLabel.text = _tagText;
 }
 
 - (UIFont *)titleLabelFont {
@@ -245,17 +262,30 @@ static const CGFloat HeaderViewBottomPadding = 24.0;
 
 - (void)setupConstraints {
 
+    NSLayoutXAxisAnchor *trailingAnchor = [self useLearnMoreLeftAlignmentLayout] ? _learnMoreView.leadingAnchor : _headlineView.trailingAnchor;
+    NSLayoutYAxisAnchor *lastYAxisAnchor = self.topAnchor;
+    
     _headlineView.translatesAutoresizingMaskIntoConstraints = NO;
     
+    if (_tagLabel) {
+        _tagLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        [_tagLabel.topAnchor constraintEqualToAnchor:lastYAxisAnchor constant:ORKSurveyItemMargin].active = YES;
+        [_tagLabel.leadingAnchor constraintEqualToAnchor:_titleLabel.leadingAnchor].active = YES;
+        [_tagLabel.trailingAnchor constraintLessThanOrEqualToAnchor:trailingAnchor constant:-ORKSurveyItemMargin].active = YES;
+        lastYAxisAnchor = _tagLabel.bottomAnchor;
+    }
+    
     if (_progressLabel) {
+        CGFloat topPadding = _tagLabel ? HeaderViewLabelTopBottomPadding : ORKSurveyItemMargin;
         _progressLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        [[_progressLabel.topAnchor constraintEqualToAnchor:self.topAnchor constant:ORKSurveyItemMargin] setActive:YES];
+        [[_progressLabel.topAnchor constraintEqualToAnchor:lastYAxisAnchor constant:topPadding] setActive:YES];
         [[_progressLabel.leadingAnchor constraintEqualToAnchor:_titleLabel.leadingAnchor] setActive:YES];
-        [[_progressLabel.trailingAnchor constraintEqualToAnchor:[self useLearnMoreLeftAlignmentLayout] ? _learnMoreView.leadingAnchor : _headlineView.trailingAnchor constant:-ORKSurveyItemMargin] setActive:YES];
+        [[_progressLabel.trailingAnchor constraintEqualToAnchor:trailingAnchor constant:-ORKSurveyItemMargin] setActive:YES];
+        lastYAxisAnchor = _progressLabel.bottomAnchor;
     }
     
     _titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    [[_titleLabel.topAnchor constraintEqualToAnchor:_progressLabel ? _progressLabel.bottomAnchor : self.topAnchor constant:_progressText ? HeaderViewLabelTopBottomPadding : ORKSurveyItemMargin] setActive:YES];
+    [[_titleLabel.topAnchor constraintEqualToAnchor:lastYAxisAnchor constant:(_progressText || _tagLabel) ? HeaderViewLabelTopBottomPadding : ORKSurveyItemMargin] setActive:YES];
     [[_titleLabel.leadingAnchor constraintEqualToAnchor:_headlineView.leadingAnchor constant:ORKSurveyItemMargin] setActive:YES];
     [[_titleLabel.trailingAnchor constraintEqualToAnchor:[self useLearnMoreLeftAlignmentLayout] ? _learnMoreView.leadingAnchor : _headlineView.trailingAnchor constant:-ORKSurveyItemMargin] setActive:YES];
      NSLayoutYAxisAnchor *headlineViewBottomAnchor = _titleLabel.bottomAnchor;

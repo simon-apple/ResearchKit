@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018, Apple Inc. All rights reserved.
+ Copyright (c) 2019, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -30,26 +30,12 @@
 
 @import UIKit;
 
+#import <ResearchKit/ORKDefines.h>
 
 NS_ASSUME_NONNULL_BEGIN
-@class ORKLearnMoreView;
 
-@interface ORKSurveyCardHeaderView: UIView
-
-- (instancetype) initWithTitle:(NSString *)title;
-
-- (instancetype) initWithTitle:(NSString *)title
-                    detailText:(nullable NSString *)text
-                 learnMoreView:(nullable ORKLearnMoreView *)learnMoreView
-                 progressText:(nullable NSString *)progressText
-                       tagText:(nullable NSString *)tagText;
-
-- (instancetype) initWithTitle:(NSString *)title
-                    detailText:(nullable NSString *)text
-                 learnMoreView:(nullable ORKLearnMoreView *)learnMoreView
-                  progressText:(nullable NSString *)progressText
-                       tagText:(nullable NSString *)tagText
-                    showBorder:(BOOL)showBorder;
+ORK_CLASS_AVAILABLE
+@interface ORKTagLabel : UILabel
 
 @end
 

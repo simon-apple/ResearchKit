@@ -1315,6 +1315,7 @@ static NSMutableDictionary *ORKESerializationEncodingTable() {
                     PROPERTY(placeholder, NSString, NSObject, YES, nil, nil),
                     PROPERTY(answerFormat, ORKAnswerFormat, NSObject, NO, nil, nil),
                     PROPERTY(learnMoreItem, ORKLearnMoreItem, NSObject, YES, nil, nil),
+                    PROPERTY(tagText, NSString, NSObject, YES, nil, nil),
                     })),
            ENTRY(ORKPageStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {

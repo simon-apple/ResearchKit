@@ -48,6 +48,11 @@
     if (self.navigationItem.leftBarButtonItem) {
         self.navigationItem.leftBarButtonItem = nil;
     }
+    if (@available(iOS 13.0, *)) {
+        self.view.backgroundColor = [UIColor systemBackgroundColor];
+    } else {
+        self.view.backgroundColor = [UIColor whiteColor];
+    }
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:ORKLocalizedString(@"BUTTON_DONE", nil) style:UIBarButtonItemStyleDone target:self action:@selector(doneButtonPressed:)];
 }
 

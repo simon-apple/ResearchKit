@@ -644,7 +644,7 @@ typedef NS_ENUM(NSInteger, ORKQuestionSection) {
             learnMoreView.delegate = self;
         }
 
-        return [[ORKSurveyCardHeaderView alloc] initWithTitle:self.questionStep.question detailText:self.questionStep.detailText learnMoreView:learnMoreView progressText:sectionProgressText];
+        return [[ORKSurveyCardHeaderView alloc] initWithTitle:self.questionStep.question detailText:self.questionStep.detailText learnMoreView:learnMoreView progressText:sectionProgressText tagText:nil];
     }
     return nil;
 }

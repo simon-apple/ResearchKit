@@ -53,7 +53,12 @@ typedef NS_ENUM(NSInteger, ORKBodyItemStyle) {
     /**
      horizontal rule
      */
-    ORKBodyItemStyleHorizontalRule
+    ORKBodyItemStyleHorizontalRule,
+    
+    /**
+     tag label
+     */
+    ORKBodyItemStyleTag
 } ORK_ENUM_AVAILABLE;
 
 @class ORKLearnMoreItem;

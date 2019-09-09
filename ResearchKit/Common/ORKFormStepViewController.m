@@ -141,6 +141,8 @@ static const CGFloat TableViewYOffsetStandard = 30.0;
 
 @property (nonatomic, nullable) ORKLearnMoreItem *learnMoreItem;
 
+@property (nonatomic, copy, nullable) NSString *tagText;
+
 // ORKTableCellItem
 @property (nonatomic, copy, readonly) NSArray *items;
 
@@ -706,6 +708,7 @@ static const CGFloat TableViewYOffsetStandard = 30.0;
     section.detailText = item.detailText;
     section.learnMoreItem = item.learnMoreItem;
     section.showsProgress = item.showsProgress;
+    section.tagText = item.tagText;
     
     return section;
 }
@@ -1210,6 +1213,7 @@ static const CGFloat TableViewYOffsetStandard = 30.0;
     NSString *detailText = _sections[section].detailText;
     NSString *sectionProgressText = nil;
     ORKLearnMoreView *learnMoreView;
+    NSString *tagText = _sections[section].tagText;
     
     if (_sections[section].showsProgress) {
         if ([self.delegate respondsToSelector:@selector(stepViewControllerTotalProgressInfoForStep:currentStep:)]) {
@@ -1239,6 +1243,7 @@ static const CGFloat TableViewYOffsetStandard = 30.0;
                                                              detailText:detailText
                                                           learnMoreView:learnMoreView
                                                            progressText:sectionProgressText
+                                                                tagText:tagText
                                                              showBorder:([self formStep].cardViewStyle == ORKCardViewStyleBordered)];
     }
     
