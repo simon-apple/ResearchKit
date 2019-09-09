@@ -277,7 +277,7 @@ ORK_CLASS_AVAILABLE
  This property lets you control the appearance and target of the
  Back button at runtime.
  
- When the value of the property is `nil`, the Back button is not displayed; otherwise, the title, target,
+ When the value of the property is `nil`, the default Back button is displayed; otherwise, the title, target,
  and action associated with the Back button item are used (other properties of `UIBarButtonItem`
  are ignored).
  

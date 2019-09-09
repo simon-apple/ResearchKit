@@ -240,10 +240,6 @@
     return button;
 }
 
-- (void)ork_setBackButtonItem:(UIBarButtonItem *)backButton {
-    [super ork_setBackButtonItem:backButton];
-}
-
 - (void)updateNavLeftBarButtonItem {
     if ([self currentIndex] == 0) {
         [super updateNavLeftBarButtonItem];

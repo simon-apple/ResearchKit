@@ -134,40 +134,34 @@ typedef void (^_ORKLocationAuthorizationRequestHandler)(BOOL success);
 @end
 
 
-@protocol ORKViewControllerToolbarObserverDelegate <NSObject>
+@class ORKNavigationController;
 
-@required
-- (void)collectToolbarItemsFromViewController:(UIViewController *)viewController;
+@protocol ORKNavigationControllerDelegate <NSObject>
 
-@end
-
-
-@interface ORKViewControllerToolbarObserver : ORKObserver
-
-- (instancetype)initWithTargetViewController:(UIViewController *)target delegate:(id <ORKViewControllerToolbarObserverDelegate>)delegate;
+- (void)navigationController:(ORKNavigationController *)navigationController popViewController:(UIViewController *)viewController animated:(BOOL)animated;
 
 @end
 
+@interface ORKNavigationController: UINavigationController
 
-@implementation ORKViewControllerToolbarObserver
+@property (nonatomic, weak, nullable) id<ORKNavigationControllerDelegate> navigationDelegate;
 
-static void *_ORKViewControllerToolbarObserverContext = &_ORKViewControllerToolbarObserverContext;
+@end
 
-- (instancetype)initWithTargetViewController:(UIViewController *)target delegate:(id <ORKViewControllerToolbarObserverDelegate>)delegate {
-    return [super initWithTarget:target
-                        keyPaths:@[ @"navigationItem.leftBarButtonItem", @"navigationItem.rightBarButtonItem", @"toolbarItems", @"navigationItem.title", @"navigationItem.titleView" ]
-                        delegate:delegate
-                          action:@selector(collectToolbarItemsFromViewController:)
-                         context:_ORKViewControllerToolbarObserverContext];
+@implementation ORKNavigationController
+
+- (UIViewController *)popViewControllerAnimated:(BOOL)animated {
+    UIViewController *topViewController = self.topViewController;
+    [self.navigationDelegate navigationController:self popViewController:topViewController animated:animated];
+    return topViewController;
 }
 
+
 @end
 
-
-@interface ORKTaskViewController () <ORKViewControllerToolbarObserverDelegate, ORKTaskReviewViewControllerDelegate> {
+@interface ORKTaskViewController () <ORKTaskReviewViewControllerDelegate, ORKNavigationControllerDelegate> {
     NSMutableDictionary *_managedResults;
     NSMutableArray *_managedStepIdentifiers;
-    ORKViewControllerToolbarObserver *_stepViewControllerObserver;
     ORKScrollViewObserver *_scrollViewObserver;
     BOOL _hasSetProgressLabel;
     BOOL _hasBeenPresented;
@@ -191,10 +185,10 @@ static void *_ORKViewControllerToolbarObserverContext = &_ORKViewControllerToolb
     BOOL _hasLockedVolume;
     float _savedVolume;
     float _lockedVolume;
+    
+    ORKNavigationController *_childNavigationController;
 }
 
-@property (nonatomic, strong) UINavigationController *childNavigationController;
-@property (nonatomic, strong) UIPageViewController *pageViewController;
 @property (nonatomic, strong) ORKStepViewController *currentStepViewController;
 @property (nonatomic) ORKTaskReviewViewController *taskReviewViewController;
 
@@ -205,66 +199,38 @@ static void *_ORKViewControllerToolbarObserverContext = &_ORKViewControllerToolb
 
 @synthesize taskRunUUID=_taskRunUUID;
 
-static NSString *const _PageViewControllerRestorationKey = @"pageViewController";
 static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigationController";
 
-+ (UIPageViewController *)pageViewController {
-    UIPageViewController *pageViewController = [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll
-                                                                               navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal
-                                                                                             options:nil];
+- (void)setUpChildNavigationController  {
+    UIViewController *emptyViewController = [[UIViewController alloc] initWithNibName:nil bundle:nil];
+    _childNavigationController = [[ORKNavigationController alloc] initWithRootViewController:emptyViewController];
+    
 
-    pageViewController.restorationIdentifier = _PageViewControllerRestorationKey;
-    pageViewController.restorationClass = self;
+    _childNavigationController.navigationDelegate = self;
     
+    [_childNavigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    [_childNavigationController.navigationBar setShadowImage:[UIImage new]];
+    [_childNavigationController.navigationBar setTranslucent:NO];
+    [_childNavigationController.navigationBar setBarTintColor:ORKColor(ORKBackgroundColorKey)];
     
-    // Disable swipe to scroll
-    for (UIScrollView *view in pageViewController.view.subviews) {
-        if ([view isKindOfClass:[UIScrollView class]]) {
-            view.scrollEnabled = NO;
-        }
+    if (@available(iOS 13.0, *)) {
+        [_childNavigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor secondaryLabelColor]}];
+        _childNavigationController.navigationBar.prefersLargeTitles = NO;
+    } else {
+        [_childNavigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor systemGrayColor]}];
     }
-    return pageViewController;
-}
-
-- (void)setChildNavigationController:(UINavigationController *)childNavigationController {
-    if (_childNavigationController) {
-        [_childNavigationController.view removeFromSuperview];
-        [_childNavigationController removeFromParentViewController];
-        _childNavigationController = nil;
-    }
+    [_childNavigationController.view setBackgroundColor:UIColor.clearColor];
     
-    if ([self isViewLoaded]) {
-        UIView *v = self.view;
-        UIView *childView = childNavigationController.view;
-        childView.frame = v.bounds;
-        childView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-        [v addSubview:childView];
-    }
-    _childNavigationController = childNavigationController;
     [self addChildViewController:_childNavigationController];
+    _childNavigationController.view.frame = self.view.frame;
+    _childNavigationController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+    [self.view addSubview:_childNavigationController.view];
     [_childNavigationController didMoveToParentViewController:self];
     _childNavigationController.restorationClass = [self class];
     _childNavigationController.restorationIdentifier = _ChildNavigationControllerRestorationKey;
 }
 
 - (instancetype)commonInitWithTask:(id<ORKTask>)task taskRunUUID:(NSUUID *)taskRunUUID {
-    UIPageViewController *pageViewController = [[self class] pageViewController];
-    
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:pageViewController];
-    [navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
-    [navigationController.navigationBar setShadowImage:[UIImage new]];
-    [navigationController.navigationBar setTranslucent:NO];
-    [navigationController.navigationBar setBarTintColor:ORKColor(ORKBackgroundColorKey)];
-    if (@available(iOS 13.0, *)) {
-        [navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor secondaryLabelColor]}];
-    } else {
-        [navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor systemGrayColor]}];
-    }
-    [navigationController.view setBackgroundColor:UIColor.clearColor];
-
-    self.childNavigationController = navigationController;
-    
-    _pageViewController = pageViewController;
     [self setTask: task];
     
     self.showsProgressInNavigationBar = YES;
@@ -343,7 +309,6 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
         }
         if (startingStepIdentifier != nil) {
             _restoredStepIdentifier = startingStepIdentifier;
-            [self applicationFinishedRestoringState];
         }
     }
     return self;
@@ -654,16 +619,16 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
 }
 
 - (void)loadView {
-    UIView *view = [[UIView alloc] initWithFrame:(CGRect){{0,0},{320,480}}];
+    self.view = [[UIView alloc] initWithFrame:CGRectZero];
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [self setUpChildNavigationController];
     
-    if (_childNavigationController) {
-        UIView *childView = _childNavigationController.view;
-        childView.frame = view.bounds;
-        childView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-        [view addSubview:childView];
+    if (_restoredStepIdentifier) {
+        [self applicationFinishedRestoringState];
     }
-    
-    self.view = view;
 }
 
 - (void)lockDeviceVolume:(float)volume {
@@ -702,7 +667,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
             }
             
             ORKStepViewController *firstViewController = [self viewControllerForStep:step];
-            [self showViewController:firstViewController goForward:YES animated:animated];
+            [self showViewController:firstViewController goForward:YES animated:NO];
             
         }
         _hasBeenPresented = YES;
@@ -723,8 +688,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
         }
     }
     if (_taskReviewViewController) {
-        [self.pageViewController setViewControllers:@[_taskReviewViewController] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:^(BOOL finished) {
-        }];
+        [_childNavigationController setViewControllers:@[_taskReviewViewController] animated:NO];
         [self setTaskReviewViewControllerNavbar];
     }
 }
@@ -973,11 +937,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     if ([step isRestorable] && !(viewController.isBeingReviewed && viewController.parentReviewStep.isStandalone)) {
         _lastRestorableStepIdentifier = step.identifier;
     }
-    
-    UIPageViewControllerNavigationDirection direction = goForward ? UIPageViewControllerNavigationDirectionForward : UIPageViewControllerNavigationDirectionReverse;
-    
-    ORKAdjustPageViewControllerNavigationDirectionForRTL(&direction);
-    
+        
     ORKStepViewControllerNavigationDirection stepDirection = goForward ? ORKStepViewControllerNavigationDirectionForward : ORKStepViewControllerNavigationDirectionReverse;
     
     [viewController willNavigateDirection:stepDirection];
@@ -1001,30 +961,31 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
         }
     }
     
-    ORKWeakTypeOf(self) weakSelf = self;
-    [self.pageViewController setViewControllers:@[viewController] direction:direction animated:animated completion:^(BOOL finished) {
-        
-        if (weakSelf == nil) {
-            ORK_Log_Debug("Task VC has been dismissed, skipping block code");
-            return;
-        }
-        
-        ORKStrongTypeOf(weakSelf) strongSelf = weakSelf;
-        
-        ORK_Log_Debug("%@ %@", strongSelf, viewController);
-        
-        // Set the progress label only if non-nil or if it is nil having previously set a progress label.
-        if (progressLabel || strongSelf->_hasSetProgressLabel) {
-            viewController.navigationItem.title = progressLabel;
-            strongSelf.pageViewController.navigationItem.title = progressLabel;
-        }
-        
-        strongSelf->_hasSetProgressLabel = (progressLabel != nil);
-        
-        strongSelf.pageViewController.navigationItem.rightBarButtonItem = viewController.shouldPresentInReview ? viewController.internalDoneButtonItem : viewController.cancelButtonItem;
-        // Collect toolbarItems
-        [strongSelf collectToolbarItemsFromViewController:viewController];
-    }];
+    // Set the progress label only if non-nil or if it is nil having previously set a progress label.
+    if (progressLabel || _hasSetProgressLabel) {
+        viewController.navigationItem.title = progressLabel;
+    }
+    _hasSetProgressLabel = (progressLabel != nil);
+    viewController.navigationItem.rightBarButtonItem = viewController.shouldPresentInReview ? viewController.internalDoneButtonItem : viewController.cancelButtonItem;
+    
+    NSMutableArray<UIViewController *> *newViewControllers = [NSMutableArray new];
+    ORKStep *previousStep = nil;
+    if (viewController.hasPreviousStep) {
+        previousStep = [self.task stepBeforeStep:step withResult:self.result];
+    }
+    if (previousStep) {
+        ORKStepViewController *previousStepViewController = [self viewControllerForStep:step];
+        [newViewControllers addObject:previousStepViewController];
+    }
+    if (!goForward && _childNavigationController.topViewController) {
+        // Add the view controller that is going to be shown before the top one so it performs a pop animation
+        // This is needed because a new ORKStepViewController instance is created even when you go back
+        // So UINavigationController doesn't recognize it as the same controller that's already in the stack
+        NSArray<UIViewController *> *replacedControllers = @[viewController, _childNavigationController.topViewController];
+        [_childNavigationController setViewControllers:replacedControllers animated:NO];
+    }
+    [newViewControllers addObject:viewController];
+    [_childNavigationController setViewControllers:newViewControllers animated:animated];
 }
 
 - (BOOL)shouldPresentStep:(ORKStep *)step {
@@ -1056,16 +1017,6 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     }
     
     return step;
-}
-
-- (void)collectToolbarItemsFromViewController:(UIViewController *)viewController {
-    if (_currentStepViewController == viewController) {
-        _pageViewController.toolbarItems = viewController.toolbarItems;
-        _pageViewController.navigationItem.leftBarButtonItem = viewController.navigationItem.leftBarButtonItem;
-        if (![self shouldDisplayProgressLabel]) {
-            _pageViewController.navigationItem.title = nil;
-        }
-    }
 }
 
 - (NSArray<ORKStep *> *)stepsForReviewStep:(ORKReviewStep *)reviewStep {
@@ -1190,8 +1141,6 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     }
     
     stepViewController.delegate = self;
-    
-    _stepViewControllerObserver = [[ORKViewControllerToolbarObserver alloc] initWithTargetViewController:stepViewController delegate:self];
     return stepViewController;
 }
 
@@ -1332,9 +1281,8 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
                 if (!_taskReviewViewController) {
                     _taskReviewViewController = [[ORKTaskReviewViewController alloc] initWithResultSource:self.result forSteps:orderedTask.steps withContentFrom:_reviewInstructionStep];
                     _taskReviewViewController.delegate = self;
-
-                    [self.pageViewController setViewControllers:@[_taskReviewViewController] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:^(BOOL finished) {
-                    }];
+                    
+                    [_childNavigationController setViewControllers:@[_taskReviewViewController] animated:YES];
                     [self setTaskReviewViewControllerNavbar];
                     
                 }
@@ -1358,8 +1306,6 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     if (_taskReviewViewController && _taskReviewViewController.navigationController) {
         _taskReviewViewController.navigationController.navigationBar.topItem.title = @"";
         [_taskReviewViewController.navigationController.navigationBar setBackgroundColor:ORKColor(ORKBackgroundColorKey)];
-        _pageViewController.navigationItem.rightBarButtonItem = nil;
-        _pageViewController.navigationItem.leftBarButtonItem = nil;
     }
 }
 
@@ -1415,7 +1361,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
         [self setManagedResult:[stepViewController result] forKey:stepViewController.step.identifier];
     }
     
-    // Alert the delegate that the step is finished 
+    // Alert the delegate that the step is finished
     ORKStrongTypeOf(self.delegate) strongDelegate = self.delegate;
     if ([strongDelegate respondsToSelector:@selector(taskViewController:stepViewControllerWillDisappear:navigationDirection:)]) {
         [strongDelegate taskViewController:self stepViewControllerWillDisappear:stepViewController navigationDirection:direction];
@@ -1602,9 +1548,7 @@ static NSString *const _ORKProgressMode = @"progressMode";
 
 - (void)applicationFinishedRestoringState {
     [super applicationFinishedRestoringState];
-    
-    _pageViewController = (UIPageViewController *)[self.childNavigationController viewControllers][0];
-
+        
     if (!_task) {
         @throw [NSException exceptionWithName:NSInternalInconsistencyException
                                        reason:@"Task must be provided to restore task view controller"
@@ -1626,8 +1570,6 @@ static NSString *const _ORKProgressMode = @"progressMode";
                 stepViewController.learnMoreButtonItem = [self defaultLearnMoreButtonItem];
             }
             
-            _stepViewControllerObserver = [[ORKViewControllerToolbarObserver alloc] initWithTargetViewController:stepViewController delegate:self];
-            
         } else if ([_task respondsToSelector:@selector(stepWithIdentifier:)]) {
             stepViewController = [self viewControllerForStep:[_task stepWithIdentifier:_restoredStepIdentifier]];
         } else {
@@ -1642,12 +1584,7 @@ static NSString *const _ORKProgressMode = @"progressMode";
 }
 
 + (UIViewController *)viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder {
-    if ([identifierComponents.lastObject isEqualToString:_PageViewControllerRestorationKey]) {
-        UIPageViewController *pageViewController = [self pageViewController];
-        pageViewController.restorationIdentifier = identifierComponents.lastObject;
-        pageViewController.restorationClass = self;
-        return pageViewController;
-    } else if ([identifierComponents.lastObject isEqualToString:_ChildNavigationControllerRestorationKey]) {
+    if ([identifierComponents.lastObject isEqualToString:_ChildNavigationControllerRestorationKey]) {
         UINavigationController *navigationController = [UINavigationController new];
         navigationController.restorationIdentifier = identifierComponents.lastObject;
         navigationController.restorationClass = self;
@@ -1663,19 +1600,19 @@ static NSString *const _ORKProgressMode = @"progressMode";
 #pragma mark UINavigationController pass-throughs
 
 - (void)setNavigationBarHidden:(BOOL)navigationBarHidden {
-    self.childNavigationController.navigationBarHidden = navigationBarHidden;
+    _childNavigationController.navigationBarHidden = navigationBarHidden;
 }
 
 - (BOOL)isNavigationBarHidden {
-    return self.childNavigationController.navigationBarHidden;
+    return _childNavigationController.navigationBarHidden;
 }
 
 - (void)setNavigationBarHidden:(BOOL)hidden animated:(BOOL)animated {
-    [self.childNavigationController setNavigationBarHidden:hidden animated:YES];
+    [_childNavigationController setNavigationBarHidden:hidden animated:YES];
 }
 
 - (UINavigationBar *)navigationBar {
-    return self.childNavigationController.navigationBar;
+    return _childNavigationController.navigationBar;
 }
 
 #pragma mark Review mode
@@ -1764,6 +1701,14 @@ static NSString *const _ORKProgressMode = @"progressMode";
         if ([reason isEqualToString:@"ExplicitVolumeChange"]) {
             [[getAVSystemControllerClass() sharedAVSystemController] setActiveCategoryVolumeTo:_lockedVolume];
         };
+    }
+}
+
+// PRAGMA Mark: ORKNavigationController delegate
+
+- (void)navigationController:(ORKNavigationController *)navigationController popViewController:(UIViewController *)viewController animated:(BOOL)animated {
+    if ([viewController isKindOfClass:[ORKStepViewController class]]) {
+        [self stepViewController:(ORKStepViewController *)viewController didFinishWithNavigationDirection:ORKStepViewControllerNavigationDirectionReverse];
     }
 }
 

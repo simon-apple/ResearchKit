@@ -42,7 +42,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy, readonly, nullable) NSArray <ORKResult *> *addedResults;
 
 @property (nonatomic, strong, nullable) UIBarButtonItem *internalContinueButtonItem;
-@property (nonatomic, strong, nullable) UIBarButtonItem *internalBackButtonItem;
 @property (nonatomic, strong, nullable) UIBarButtonItem *internalDoneButtonItem;
 
 @property (nonatomic, strong, nullable) UIBarButtonItem *internalSkipButtonItem;
@@ -78,9 +77,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)showValidityAlertWithTitle:(NSString *)title message:(NSString *)message;
 
 - (void)initializeInternalButtonItems;
-
-// internal use version to set backButton, without override "_internalBackButtonItem"
-- (void)ork_setBackButtonItem:(nullable UIBarButtonItem *)backButton;
 
 // internal method for updating the right bar button item.
 - (void)updateNavLeftBarButtonItem;

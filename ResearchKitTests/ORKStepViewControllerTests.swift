@@ -97,7 +97,7 @@ class ORKStepViewControllerTests: XCTestCase {
         }
         
         XCTAssertEqual(testController.continueButtonItem, testController.internalContinueButtonItem)
-        XCTAssertEqual(testController.backButtonItem, testController.internalBackButtonItem)
+        XCTAssertEqual(testController.backButtonItem, nil)
         
         testController.delegate = nil
         testController.viewWillAppear(false)

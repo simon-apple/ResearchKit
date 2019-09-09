@@ -31,8 +31,6 @@
 
 #import "ORKStepViewController_Internal.h"
 
-#import "UIBarButtonItem+ORKBarButtonItem.h"
-
 #import "ORKStepViewController_Internal.h"
 #import "ORKTaskViewController_Internal.h"
 
@@ -66,12 +64,10 @@ static const CGFloat iPadStepTitleLabelFontSize = 50.0;
 }
 
 - (void)initializeInternalButtonItems {
-    _internalBackButtonItem = [UIBarButtonItem ork_backBarButtonItemWithTarget:self action:@selector(goBackward)];
-    _internalBackButtonItem.accessibilityLabel = ORKLocalizedString(@"AX_BUTTON_BACK", nil);
     _internalContinueButtonItem = [[UIBarButtonItem alloc] initWithTitle:ORKLocalizedString(@"BUTTON_NEXT", nil) style:UIBarButtonItemStylePlain target:self action:@selector(goForward)];
     _internalDoneButtonItem = [[UIBarButtonItem alloc] initWithTitle:ORKLocalizedString(@"BUTTON_DONE", nil) style:UIBarButtonItemStyleDone target:self action:@selector(goForward)];
     _internalSkipButtonItem = [[UIBarButtonItem alloc] initWithTitle:ORKLocalizedString(@"BUTTON_SKIP", nil) style:UIBarButtonItemStylePlain target:self action:@selector(skip:)];
-    _backButtonItem = _internalBackButtonItem;
+    _backButtonItem = nil;
 }
 
 #pragma clang diagnostic push
@@ -248,12 +244,6 @@ static const CGFloat iPadStepTitleLabelFontSize = 50.0;
 }
 
 - (void)setupButtons {
-    if (self.hasPreviousStep == YES) {
-        [self ork_setBackButtonItem: _internalBackButtonItem];
-    } else {
-        [self ork_setBackButtonItem:nil];
-    }
-    
     if (self.hasNextStep == YES) {
         self.continueButtonItem = _internalContinueButtonItem;
     } else {
@@ -320,13 +310,11 @@ static const CGFloat iPadStepTitleLabelFontSize = 50.0;
     
     [super viewDidDisappear:animated];
     
-    // Set endDate if current stepVC is dismissed
-    // Because stepVC is embeded in a UIPageViewController,
-    // when current stepVC is out of screen, it didn't belongs to UIPageViewController's viewControllers any more.
-    // If stepVC is just covered by a modal view, dismissedDate should not be set.
+    // Set endDate if the current ORKStepViewController's view disappears, and is not the topViewController anymore
+    // That way, if the step view controller is just covered by a modal view, dismissedDate will not be set.
     if (self.nextResponder == nil ||
-        ([self.parentViewController isKindOfClass:[UIPageViewController class]]
-         && NO == [[(UIPageViewController *)self.parentViewController viewControllers] containsObject:self])) {
+        ([self.parentViewController isKindOfClass:[UINavigationController class]]
+         && ((UINavigationController *)self.parentViewController).topViewController != self)) {
         self.dismissedDate = [NSDate date];
     }
     _dismissing = NO;
@@ -364,18 +352,9 @@ static const CGFloat iPadStepTitleLabelFontSize = 50.0;
     return self.skipButtonItem.title;
 }
 
-// internal use version to set backButton, without overriding "_internalBackButtonItem"
-- (void)ork_setBackButtonItem:(UIBarButtonItem *)backButton {
-    backButton.accessibilityLabel = ORKLocalizedString(@"AX_BUTTON_BACK", nil);
-    _backButtonItem = backButton;
-    [self updateNavLeftBarButtonItem];
-}
-
-// Subclass should avoid using this method, which wound overide "_internalBackButtonItem"
 - (void)setBackButtonItem:(UIBarButtonItem *)backButton {
     backButton.accessibilityLabel = ORKLocalizedString(@"AX_BUTTON_BACK", nil);
     _backButtonItem = backButton;
-    _internalBackButtonItem = backButton;
     [self updateNavLeftBarButtonItem];
 }
 
