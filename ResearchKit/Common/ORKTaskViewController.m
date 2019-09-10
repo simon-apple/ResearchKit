@@ -974,7 +974,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
         previousStep = [self.task stepBeforeStep:step withResult:self.result];
     }
     if (previousStep) {
-        ORKStepViewController *previousStepViewController = [self viewControllerForStep:step];
+        ORKStepViewController *previousStepViewController = [self viewControllerForStep:previousStep];
         [newViewControllers addObject:previousStepViewController];
     }
     if (!goForward && _childNavigationController.topViewController) {
