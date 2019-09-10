@@ -290,6 +290,7 @@ static const CGFloat rungButtonPadding = 10.0;
 
 @implementation ORKSESRungButton {
     ORKSESRungView *_rungView;
+    UIColor *_fillColor;
 }
 
 - (instancetype)initWithRungAtIndex:(NSUInteger)rungIndex
@@ -301,6 +302,8 @@ static const CGFloat rungButtonPadding = 10.0;
         [_rungView setUserInteractionEnabled:NO];
         [self setupRungView];
         self.tag = _rungIndex;
+        [self updateFillColor];
+        self.layer.backgroundColor = _fillColor.CGColor;
     }
     return self;
 }
@@ -331,6 +334,57 @@ static const CGFloat rungButtonPadding = 10.0;
 - (void)setSelected:(BOOL)selected {
     [super setSelected:selected];
     [_rungView setChecked:selected];
+    if (selected) {
+        [self tapAnimation];
+    }
+}
+
+- (void)tapAnimation {
+    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"backgroundColor"];
+    if (@available(iOS 13.0, *)) {
+        animation.fromValue = (__bridge id _Nullable)(UIColor.systemGray3Color.CGColor);
+    } else {
+        animation.fromValue = (__bridge id _Nullable)([UIColor colorWithRed:0.282 green:0.282 blue:0.235 alpha:1.0].CGColor);
+    }
+    animation.toValue = (__bridge id _Nullable)(_fillColor.CGColor);
+    animation.beginTime = 0.0;
+    animation.duration = 0.45;
+    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    animation.removedOnCompletion = YES;
+    [self.layer addAnimation:animation forKey:@"backgroundColor"];
+    self.layer.backgroundColor = _fillColor.CGColor;
+}
+
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+    [super traitCollectionDidChange:previousTraitCollection];
+    [self updateFillColor];
+}
+
+- (void)updateFillColor {
+    if (@available(iOS 13.0, *)) {
+        _fillColor = [UIColor secondarySystemGroupedBackgroundColor];
+        // FIXME:- dark mode color displays solid black after animation ends if the views are stacked
+        if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+            _fillColor = [UIColor colorWithRed:0.173 green:0.173 blue:0.180 alpha:1.0];
+        }
+    } else {
+        _fillColor = [UIColor ork_borderGrayColor];
+    }
+    self.layer.backgroundColor = _fillColor.CGColor;
+}
+
+- (void)setHighlighted:(BOOL)highlighted {
+    [super setHighlighted:highlighted];
+    if (highlighted) {
+        if (@available(iOS 13.0, *)) {
+            self.layer.backgroundColor = UIColor.systemGray3Color.CGColor;
+        } else {
+            self.layer.backgroundColor = [UIColor colorWithRed:0.282 green:0.282 blue:0.235 alpha:1.0].CGColor;
+        }
+    }
+    else {
+        self.layer.backgroundColor = _fillColor.CGColor;
+    }
 }
 
 @end

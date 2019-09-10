@@ -760,7 +760,15 @@ enum TaskListRow: Int, CustomStringConvertible {
         textScaleAnswerFormat.shouldShowDontKnowButton = true;
         let formItem04 = ORKFormItem(identifier: String(describing: Identifier.formItem04), text: exampleQuestionText, answerFormat: textScaleAnswerFormat)
         
+        let appleChoices: [ORKTextChoice] = [ORKTextChoice(text: "Granny Smith", value: 1 as NSCoding & NSCopying & NSObjectProtocol), ORKTextChoice(text: "Honeycrisp", value: 2 as NSCoding & NSCopying & NSObjectProtocol), ORKTextChoice(text: "Fuji", value: 3 as NSCoding & NSCopying & NSObjectProtocol), ORKTextChoice(text: "McIntosh", value: 10 as NSCoding & NSCopying & NSObjectProtocol), ORKTextChoice(text: "Kanzi", value: 5 as NSCoding & NSCopying & NSObjectProtocol)]
+        
+        let appleAnswerFormat = ORKTextChoiceAnswerFormat(style: .singleChoice, textChoices: appleChoices)
+        
+        let appleFormItem = ORKFormItem(identifier: "appleFormItemIdentifier", text: "Which is your favorite apple?", answerFormat: appleAnswerFormat)
+        
+        
         step.formItems = [
+            appleFormItem,
             formItem03,
             formItem04,
             formItem01,
