@@ -975,6 +975,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     }
     if (previousStep) {
         ORKStepViewController *previousStepViewController = [self viewControllerForStep:previousStep];
+        previousStepViewController.navigationItem.title = nil; // Make sure the back button shows "Back"
         [newViewControllers addObject:previousStepViewController];
     }
     if (!goForward && _childNavigationController.topViewController) {
