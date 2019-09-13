@@ -510,10 +510,6 @@ static const CGFloat TableViewYOffsetStandard = 30.0;
     [self updateButtonStates];
 }
 
-- (void)setCancelButtonItem:(UIBarButtonItem *)cancelButtonItem {
-    [super setCancelButtonItem:cancelButtonItem];
-}
-
 - (void)setSkipButtonItem:(UIBarButtonItem *)skipButtonItem {
     [super setSkipButtonItem:skipButtonItem];
     

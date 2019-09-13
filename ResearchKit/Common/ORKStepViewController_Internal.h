@@ -78,8 +78,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)initializeInternalButtonItems;
 
-// internal method for updating the right bar button item.
-- (void)updateNavLeftBarButtonItem;
+// internal method for updating the bar button items.
+- (void)updateBarButtonItems;
 
 // Use this view to layout iPad Constraints.
 - (UIView *)viewForiPadLayoutConstraints;

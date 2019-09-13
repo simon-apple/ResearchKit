@@ -156,9 +156,9 @@ typedef NS_ENUM(NSInteger, ORKConsentReviewPhase) {
     return button;
 }
 
-- (void)updateNavLeftBarButtonItem {
+- (void)updateBarButtonItems {
     if (_currentPageIndex == 0) {
-        [super updateNavLeftBarButtonItem];
+        [super updateBarButtonItems];
     } else {
         self.navigationItem.leftBarButtonItem = [self goToPreviousPageButtonItem];
     }
@@ -169,7 +169,7 @@ typedef NS_ENUM(NSInteger, ORKConsentReviewPhase) {
         return;
     }
     
-    [self updateNavLeftBarButtonItem];
+    [self updateBarButtonItems];
 }
 
 static NSString *const _NameFormIdentifier = @"nameForm";

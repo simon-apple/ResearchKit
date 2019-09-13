@@ -109,10 +109,19 @@ static const CGFloat iPadStepTitleLabelFontSize = 50.0;
     }
 }
 
+- (void)updateBarButtonItems {
+    if (self.shouldPresentInReview) {
+        self.navigationItem.leftBarButtonItem = self.cancelButtonItem;
+        self.navigationItem.rightBarButtonItem = self.internalDoneButtonItem;
+    } else {
+        self.navigationItem.leftBarButtonItem = self.backButtonItem;
+        self.navigationItem.rightBarButtonItem = self.cancelButtonItem;
+    }
+}
+
 - (void)setShouldPresentInReview:(BOOL)shouldPresentInReview {
     _shouldPresentInReview = shouldPresentInReview;
-    self.navigationItem.leftBarButtonItem = nil;
-    self.navigationItem.leftBarButtonItem = self.cancelButtonItem;
+    [self updateBarButtonItems];
 }
 
 - (void)setupiPadBackgroundView {
@@ -355,15 +364,12 @@ static const CGFloat iPadStepTitleLabelFontSize = 50.0;
 - (void)setBackButtonItem:(UIBarButtonItem *)backButton {
     backButton.accessibilityLabel = ORKLocalizedString(@"AX_BUTTON_BACK", nil);
     _backButtonItem = backButton;
-    [self updateNavLeftBarButtonItem];
-}
-
-- (void)updateNavLeftBarButtonItem {
-    self.navigationItem.leftBarButtonItem = _backButtonItem;
+    [self updateBarButtonItems];
 }
 
 - (void)setCancelButtonItem:(UIBarButtonItem *)cancelButton {
     _cancelButtonItem = cancelButton;
+    [self updateBarButtonItems];
 }
 
 - (BOOL)hasPreviousStep {

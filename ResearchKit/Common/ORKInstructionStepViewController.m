@@ -154,10 +154,6 @@
     _navigationFooterView.continueButtonItem = continueButtonItem;
 }
 
-- (void)setCancelButtonItem:(UIBarButtonItem *)cancelButtonItem {
-    [super setCancelButtonItem:cancelButtonItem];
-}
-
 - (void)setSkipButtonItem:(UIBarButtonItem *)skipButtonItem {
     [super setSkipButtonItem:skipButtonItem];
 

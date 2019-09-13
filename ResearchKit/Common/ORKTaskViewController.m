@@ -967,7 +967,6 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
         viewController.navigationItem.title = progressLabel;
     }
     _hasSetProgressLabel = (progressLabel != nil);
-    viewController.navigationItem.rightBarButtonItem = viewController.shouldPresentInReview ? viewController.internalDoneButtonItem : viewController.cancelButtonItem;
     
     NSMutableArray<UIViewController *> *newViewControllers = [NSMutableArray new];
     ORKStep *previousStep = nil;

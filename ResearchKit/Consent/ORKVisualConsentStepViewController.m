@@ -240,9 +240,9 @@
     return button;
 }
 
-- (void)updateNavLeftBarButtonItem {
+- (void)updateBarButtonItems {
     if ([self currentIndex] == 0) {
-        [super updateNavLeftBarButtonItem];
+        [super updateBarButtonItems];
     } else {
         self.navigationItem.leftBarButtonItem = [self goToPreviousPageButton];
     }
@@ -253,7 +253,7 @@
         return;
     }
     
-    [self updateNavLeftBarButtonItem];
+    [self updateBarButtonItems];
 }
 
 #pragma mark - actions

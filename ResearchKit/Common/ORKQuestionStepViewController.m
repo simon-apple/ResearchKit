@@ -485,10 +485,6 @@ typedef NS_ENUM(NSInteger, ORKQuestionSection) {
 }
 
 
-- (void)setCancelButtonItem:(UIBarButtonItem *)cancelButtonItem {
-    [super setCancelButtonItem:cancelButtonItem];
-}
-
 - (void)setSkipButtonItem:(UIBarButtonItem *)skipButtonItem {
     [super setSkipButtonItem:skipButtonItem];
     

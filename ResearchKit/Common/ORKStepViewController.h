@@ -277,9 +277,7 @@ ORK_CLASS_AVAILABLE
  This property lets you control the appearance and target of the
  Back button at runtime.
  
- When the value of the property is `nil`, the default Back button is displayed; otherwise, the title, target,
- and action associated with the Back button item are used (other properties of `UIBarButtonItem`
- are ignored).
+ When the value of the property is `nil`, the default Back button is displayed; otherwise passed Back button item is used . If you want to hide the back button, set it to a newly allocated `UIBarButtonItem` instance.
  
  The back button item is updated during view loading and when the value of the `step` property
  is changed, but they are safe to set in the `taskViewController:stepViewControllerWillAppear:` delegate callback.
