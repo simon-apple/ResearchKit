@@ -209,6 +209,14 @@ ORK_AVAILABLE_DECL
 - (ORKTaskTotalProgress)totalProgressOfCurrentStep:(ORKStep *)currentStep;
 
 /**
+ Returns true if the provided step is the first or last object in the array of steps
+
+ @param step    The current step.
+ */
+
+- (BOOL)shouldHideProgressFor:(ORKStep *)step;
+
+/**
  Validates the task parameters.
  
  The implementation of this method should check that all the task parameters are correct. An invalid task

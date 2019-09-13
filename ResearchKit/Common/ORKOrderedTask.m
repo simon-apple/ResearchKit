@@ -116,6 +116,16 @@
     return _identifier;
 }
 
+- (BOOL)shouldHideProgressFor:(ORKStep *)step {
+    NSUInteger indexOfStep = [self indexOfStep:step];
+    // Hide progress if any one of the following conditions is true -
+    // 1) for the very first step in a task
+    // 2) for the last step in a task
+    // 3) if there is only ONE step in the entire task
+    // 4) if the showsProgress property is set to false
+    return (indexOfStep == 0 || indexOfStep == _steps.count - 1 || _steps.count == 1 || ![step showsProgress]);
+}
+
 - (NSUInteger)indexOfStep:(ORKStep *)step {
     NSUInteger index = [_steps indexOfObject:step];
     if (index == NSNotFound) {
@@ -185,9 +195,7 @@
     ORKTaskProgress progress;
     progress.current = [self indexOfStep:step];
     progress.total = _steps.count;
-    if (![step showsProgress]) {
-        progress.total = 0;
-    }
+    
     return progress;
 }
 
