@@ -36,44 +36,39 @@
 #import "ORKInstructionStepView.h"
 #import "ORKNavigationContainerView.h"
 #import "ORKStepHeaderView_Internal.h"
+#import "ORKStepView_Private.h"
 #import "ORKStepContainerView_Private.h"
+#import "ORKStepContentView_Private.h"
 
 #import "ORKInstructionStepViewController_Internal.h"
 #import "ORKStepViewController_Internal.h"
 
+#import "ORKSkin.h"
 #import "ORKHelpers_Internal.h"
-
-
-@interface ORKCompletionCheckmarkView : UIView
-
-@property (nonatomic) CGFloat animationPoint;
-
-- (void)setAnimationPoint:(CGFloat)animationPoint animated:(BOOL)animated;
-
-@end
 
 
 @implementation ORKCompletionCheckmarkView {
     CAShapeLayer *_shapeLayer;
-}
+    CGFloat tickViewSize;
 
-static const CGFloat TickViewSize = 132;
+}
 
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        self.layer.cornerRadius = TickViewSize / 2;
+        tickViewSize = ORKStepContentIconImageViewDimension;
+        self.layer.cornerRadius = tickViewSize / 2;
         [self tintColorDidChange];
         
         UIBezierPath *path = [UIBezierPath new];
-        [path moveToPoint:(CGPoint){48, 66}];
-        [path addLineToPoint:(CGPoint){62, 82}];
-        [path addLineToPoint:(CGPoint){82, 50}];
+        [path moveToPoint:(CGPoint){0.36*tickViewSize, 0.5*tickViewSize}];
+        [path addLineToPoint:(CGPoint){0.46*tickViewSize, 0.62*tickViewSize}];
+        [path addLineToPoint:(CGPoint){0.62*tickViewSize, 0.37*tickViewSize}];
         path.lineCapStyle = kCGLineCapRound;
     
         CAShapeLayer *shapeLayer = [CAShapeLayer new];
         shapeLayer.path = path.CGPath;
-        shapeLayer.lineWidth = 8;
+        shapeLayer.lineWidth = 0.06*tickViewSize;
         shapeLayer.lineCap = kCALineCapRound;
         shapeLayer.lineJoin = kCALineJoinRound;
         shapeLayer.frame = self.layer.bounds;
@@ -94,7 +89,7 @@ static const CGFloat TickViewSize = 132;
 }
 
 - (CGSize)intrinsicContentSize {
-    return (CGSize){TickViewSize, TickViewSize};
+    return (CGSize){tickViewSize, tickViewSize};
 }
 
 - (CGSize)sizeThatFits:(CGSize)size {
@@ -141,88 +136,38 @@ static const CGFloat TickViewSize = 132;
 
 @end
 
-
-@interface ORKCompletionStepView : UIView
-
-@property (nonatomic) ORKCompletionCheckmarkView * completionCheckmarkView;
-
-@end
-
-
-@implementation ORKCompletionStepView
-
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
-        [self setupCheckmarkView];
-        [self setupConstraints];
-    }
-    return self;
-}
-
-- (void)setupCheckmarkView {
-    if (!_completionCheckmarkView) {
-        _completionCheckmarkView = [ORKCompletionCheckmarkView new];
-    }
-    [self addSubview:_completionCheckmarkView];
-}
-
-- (void)setupConstraints {
-    _completionCheckmarkView.translatesAutoresizingMaskIntoConstraints = NO;
-    [NSLayoutConstraint activateConstraints:@[
-                                              [NSLayoutConstraint constraintWithItem:_completionCheckmarkView
-                                                                           attribute:NSLayoutAttributeCenterX
-                                                                           relatedBy:NSLayoutRelationEqual
-                                                                              toItem:self
-                                                                           attribute:NSLayoutAttributeCenterX
-                                                                          multiplier:1.0
-                                                                            constant:0.0],
-                                              [NSLayoutConstraint constraintWithItem:_completionCheckmarkView
-                                                                           attribute:NSLayoutAttributeCenterY
-                                                                           relatedBy:NSLayoutRelationEqual
-                                                                              toItem:self
-                                                                           attribute:NSLayoutAttributeCenterY
-                                                                          multiplier:0.7
-                                                                            constant:0.0]
-                                              ]];
-}
-
-@end
-
 @implementation ORKCompletionStepViewController {
-    ORKCompletionStepView *_completionStepView;
+    ORKCompletionCheckmarkView *_completionCheckmarkView;
 }
 
 - (void)stepDidChange {
     [super stepDidChange];
     
     self.cancelButtonItem = nil;
-    
-    _completionStepView = [ORKCompletionStepView new];
+    _completionCheckmarkView = [self.stepView.stepContentView completionCheckmarkView];
+    [_completionCheckmarkView setNeedsLayout];
     if (self.checkmarkColor) {
-        _completionStepView.tintColor = self.checkmarkColor;
+        _completionCheckmarkView.tintColor = self.checkmarkColor;
     }
     self.stepView.customContentFillsAvailableSpace = YES;
-    self.stepView.customContentView = _completionStepView;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    _completionStepView.completionCheckmarkView.animationPoint = animated ? 0 : 1;
+    _completionCheckmarkView.animationPoint = animated ? 0 : 1;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     if (animated) {
-        [_completionStepView.completionCheckmarkView setAnimationPoint:1 animated:YES];
+        [_completionCheckmarkView setAnimationPoint:1 animated:YES];
     }
 }
 
 - (void)setCheckmarkColor:(UIColor *)checkmarkColor {
     _checkmarkColor = [checkmarkColor copy];
-    _completionStepView.tintColor = checkmarkColor;
+    _completionCheckmarkView.tintColor = checkmarkColor;
 }
 
 @end

@@ -140,6 +140,8 @@ ORK_EXTERN CGFloat ORKiPadBackgroundViewLeftRightPadding;
 /// Default body to body item padding;
 ORK_EXTERN CGFloat ORKBodyToBodyPaddingStandard;
 
+/// Step Content Icon Image View Dimension
+ORK_EXTERN CGFloat ORKStepContentIconImageViewDimension;
 
 /// Modify the color for a specified ORK...ColorKey. (for customization)
 void ORKColorSetColorForKey(NSString *key, UIColor *color);

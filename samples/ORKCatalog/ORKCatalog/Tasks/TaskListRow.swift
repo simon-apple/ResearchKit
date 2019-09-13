@@ -774,8 +774,10 @@ enum TaskListRow: Int, CustomStringConvertible {
             formItem01,
             formItem02
         ]
-
-        return ORKOrderedTask(identifier: String(describing: Identifier.formTask), steps: [step])
+        let completionStep = ORKCompletionStep(identifier: "CompletionStep")
+        completionStep.title = NSLocalizedString("All Done!", comment: "")
+        completionStep.detailText = NSLocalizedString("You have completed the questionnaire.", comment: "")
+        return ORKOrderedTask(identifier: String(describing: Identifier.formTask), steps: [step, completionStep])
     }
     
     private var groupedFormTask: ORKTask {

@@ -33,6 +33,7 @@
 #import "ORKTitleLabel.h"
 #import "ORKBodyLabel.h"
 #import "ORKBodyItem.h"
+#import "ORKCompletionStepViewController.h"
 #import "ORKBodyContainerView.h"
 #import "ORKSkin.h"
 
@@ -75,7 +76,6 @@
  |_________________________|
  */
 
-static const CGFloat ORKStepContentIconImageViewDimension = 80.0;
 static const CGFloat ORKStepContentIconImageViewToTitleLabelPadding = 20.0;
 static const CGFloat ORKStepContentIconToBodyTopPaddingStandard = 20.0;
 static const CGFloat ORKStepContentIconToBulletTopPaddingStandard = 20.0;
@@ -114,6 +114,8 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKUpdateConstraintSequence) {
     NSLayoutConstraint *_bodyContainerViewTopConstraint;
     NSArray<NSLayoutConstraint *> *_bodyContainerLeftRightConstraints;
     NSLayoutConstraint *_stepContentBottomConstraint;
+    ORKCompletionCheckmarkView *_completionCheckmarkView;
+
 }
 
 - (instancetype)init {
@@ -939,6 +941,48 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKUpdateConstraintSequence) {
             [self updateDetailTextLabelTopConstraint];
         }
     }
+}
+
+- (nullable ORKCompletionCheckmarkView *)completionCheckmarkView {
+    if (!_completionCheckmarkView) {
+        _completionCheckmarkView = [ORKCompletionCheckmarkView new];
+        [self addSubview:_completionCheckmarkView];
+        self.titleIconImage = [UIImage new];
+        [_iconImageView setHidden:YES];
+        _completionCheckmarkView.translatesAutoresizingMaskIntoConstraints = NO;
+        [self setContainerLeftRightConstraints];
+        [_updatedConstraints addObjectsFromArray:@[
+            [NSLayoutConstraint constraintWithItem:_completionCheckmarkView
+                                         attribute:NSLayoutAttributeLeading
+                                         relatedBy:NSLayoutRelationEqual
+                                            toItem:_iconImageView
+                                         attribute:NSLayoutAttributeLeading
+                                        multiplier:1.0
+                                          constant:0.0],
+            [NSLayoutConstraint constraintWithItem:_completionCheckmarkView
+                                         attribute:NSLayoutAttributeCenterY
+                                         relatedBy:NSLayoutRelationEqual
+                                            toItem:_iconImageView
+                                         attribute:NSLayoutAttributeCenterY
+                                        multiplier:1.0
+                                          constant:0.0],
+            [NSLayoutConstraint constraintWithItem:_completionCheckmarkView
+                                         attribute:NSLayoutAttributeWidth
+                                         relatedBy:NSLayoutRelationEqual
+                                            toItem:_iconImageView
+                                         attribute:NSLayoutAttributeWidth
+                                        multiplier:1.0
+                                          constant:0.0],
+            [NSLayoutConstraint constraintWithItem:_completionCheckmarkView
+                                         attribute:NSLayoutAttributeHeight
+                                         relatedBy:NSLayoutRelationEqual
+                                            toItem:_iconImageView
+                                         attribute:NSLayoutAttributeHeight
+                                        multiplier:1.0
+                                          constant:0.0]
+        ]];
+    }
+    return _completionCheckmarkView;
 }
 
 #pragma mark - ORKBodycontainerViewDelegate
