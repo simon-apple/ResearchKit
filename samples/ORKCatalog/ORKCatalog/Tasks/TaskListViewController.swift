@@ -114,7 +114,7 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
             let reviewViewController = ORKReviewViewController(task: task as! ORKOrderedTask, result: groupedFormTaskResult!, delegate: self)
             
             reviewViewController.reviewTitle = "Review Survey"
-            reviewViewController.text = "Please review the answers you provided for the questionnaire. Press the 'Edit Answer' button to change your entry."
+            reviewViewController.text = "Please review the answers you provided for the questionnaire. Press the 'Edit' button to change your entry."
             present(reviewViewController, animated: true, completion: nil)
 
         }
