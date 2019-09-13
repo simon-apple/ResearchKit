@@ -293,6 +293,7 @@ typedef NS_ENUM(NSInteger, ORKQuestionSection) {
     [super viewDidLayoutSubviews];
     if (_tableContainer) {
         [_tableContainer sizeHeaderToFit];
+        [_tableContainer resizeFooterToFit];
     }
 }
 

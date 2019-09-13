@@ -64,6 +64,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sizeHeaderToFit;
 
+- (void)resizeFooterToFit;
+
 @end
 
 NS_ASSUME_NONNULL_END

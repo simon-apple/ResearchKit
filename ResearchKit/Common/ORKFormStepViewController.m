@@ -356,6 +356,7 @@ static const CGFloat TableViewYOffsetStandard = 30.0;
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     [_tableContainer sizeHeaderToFit];
+    [_tableContainer resizeFooterToFit];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

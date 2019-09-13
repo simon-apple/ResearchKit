@@ -191,27 +191,7 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    [_tableView layoutIfNeeded];
-     CGSize footerSize = [self.navigationFooterView systemLayoutSizeFittingSize:(CGSize){_tableView.bounds.size.width,0} withHorizontalFittingPriority:UILayoutPriorityRequired verticalFittingPriority:UILayoutPriorityFittingSizeLevel];
-    
-    if (self.isNavigationContainerScrollable) {
-        _tableView.tableFooterView = nil;
-        [_footerView removeFromSuperview];
-        CGRect footerBounds = (CGRect){{0,0},footerSize};
-        
-        CGFloat boundsHeightUnused = _tableView.bounds.size.height - _tableView.contentSize.height;
-        if (boundsHeightUnused > footerBounds.size.height) {
-            _tableView.scrollEnabled = YES;
-            footerBounds.size.height = boundsHeightUnused;
-        } else {
-            _tableView.scrollEnabled = YES;
-        }
-        _footerView.frame = footerBounds;
-        _tableView.tableFooterView = _footerView;
-    } else {
-        _tableView.tableFooterView = [UIView new];
-        [_tableView setContentInset:UIEdgeInsetsMake(0, 0, footerSize.height, 0)];
-    }
+    [self resizeFooterToFit];
 }
 
 - (void)addStepContentView {
@@ -232,6 +212,23 @@
         _footerView = nil;
     }
     _tableView.tableFooterView = nil;
+}
+
+- (void)resizeFooterToFit {
+//     This method would resize the tableFooterView, so that navigationContainerView can have appropriate height.
+    if (self.isNavigationContainerScrollable) { // only need to resize if navigationFooter is non-sticky to the bottom.
+        CGFloat navigationFooterHeight = self.navigationFooterView.bounds.size.height;
+        _tableView.tableFooterView = nil;
+        [_footerView removeFromSuperview]; //removing footerView so that table's contentSize does not account for navigationContainerView.
+        
+//         if tableViews content's height is less than tableView's height,
+//              the footerView's Height is set to either the difference in table's height and its content's height, OR the height of the navigationContainerView, depending on which one's taller. Otherwise, it matches the height of the navigationContainerView.
+        CGFloat requiredTableFooterHeight = (_tableView.contentSize.height < _tableView.bounds.size.height) ? MAX(_tableView.bounds.size.height - _tableView.contentSize.height, navigationFooterHeight) : navigationFooterHeight;
+        
+        CGRect footerBounds = CGRectMake(0.0, 0.0, _tableView.bounds.size.width, requiredTableFooterHeight);
+        [_footerView setBounds:footerBounds];
+        _tableView.tableFooterView = _footerView;
+    }
 }
 
 - (void)sizeHeaderToFit {
