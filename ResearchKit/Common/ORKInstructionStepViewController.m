@@ -168,6 +168,10 @@
     [_stepView scrollToBodyItem:lastView];
 }
 
+- (void)displaySpinnerInContinueButton:(BOOL)enabled {
+    [_navigationFooterView setSpinnerEnabled:enabled];
+}
+
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
     [super encodeRestorableStateWithCoder:coder];
 }
