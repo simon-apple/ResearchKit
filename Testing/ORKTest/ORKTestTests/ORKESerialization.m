@@ -807,7 +807,8 @@ static NSMutableDictionary *ORKESerializationEncodingTable() {
                     PROPERTY(placeholder, NSString, NSObject, YES, nil, nil),
                     PROPERTY(question, NSString, NSObject, YES, nil, nil),
                     PROPERTY(useCardView, NSNumber, NSObject, YES, nil, nil),
-                    PROPERTY(learnMoreItem, ORKLearnMoreItem, NSObject, YES, nil, nil)
+                    PROPERTY(learnMoreItem, ORKLearnMoreItem, NSObject, YES, nil, nil),
+                    PROPERTY(tagText, NSString, NSObject, YES, nil, nil)
                     })),
            ENTRY(ORKInstructionStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {

@@ -220,7 +220,6 @@ typedef NS_ENUM(NSInteger, ORKQuestionSection) {
             [_navigationFooterView updateContinueAndSkipEnabled];
             
             [self.view addSubview:_questionView];
-            
             if (_customQuestionView) {
                 _questionView.questionCustomView = _customQuestionView;
                 _customQuestionView.delegate = self;
@@ -255,7 +254,7 @@ typedef NS_ENUM(NSInteger, ORKQuestionSection) {
                         learnMoreView.delegate = self;
                     }
                     
-                    [_cellHolderView useCardViewWithTitle:self.questionStep.question detailText:self.step.detailText learnMoreView:learnMoreView progressText:sectionProgressText];
+                    [_cellHolderView useCardViewWithTitle:self.questionStep.question detailText:self.step.detailText learnMoreView:learnMoreView progressText:sectionProgressText tagText:self.questionStep.tagText];
                 }
                 _questionView.questionCustomView = _cellHolderView;
             }
@@ -641,7 +640,7 @@ typedef NS_ENUM(NSInteger, ORKQuestionSection) {
             learnMoreView.delegate = self;
         }
 
-        return [[ORKSurveyCardHeaderView alloc] initWithTitle:self.questionStep.question detailText:self.questionStep.detailText learnMoreView:learnMoreView progressText:sectionProgressText tagText:nil];
+        return [[ORKSurveyCardHeaderView alloc] initWithTitle:self.questionStep.question detailText:self.questionStep.detailText learnMoreView:learnMoreView progressText:sectionProgressText tagText:self.questionStep.tagText];
     }
     return nil;
 }

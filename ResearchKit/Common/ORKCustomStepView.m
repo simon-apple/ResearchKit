@@ -133,7 +133,7 @@
     [self setUpCellConstraints];
 }
 
--(void)useCardViewWithTitle:(NSString *)title detailText:(nullable NSString *)detailText learnMoreView:(nullable ORKLearnMoreView *)learnMoreView progressText:(nullable NSString *)progressText {
+- (void)useCardViewWithTitle:(NSString *)title detailText:(NSString *)detailText learnMoreView:(ORKLearnMoreView *)learnMoreView progressText:(NSString *)progressText tagText:(NSString *)tagText {
     _title = title;
     _useCardView = YES;
     _leftRightMargin = 0.0;

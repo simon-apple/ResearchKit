@@ -129,6 +129,11 @@ ORK_CLASS_AVAILABLE
  */
 @property (nonatomic, copy, nullable) ORKLearnMoreItem *learnMoreItem;
 
+/**
+ The value displayed as a tag if set.
+ */
+@property (nonatomic, copy, nullable) NSString *tagText;
+
 @end
 
 NS_ASSUME_NONNULL_END
