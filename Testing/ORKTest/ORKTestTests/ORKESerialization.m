@@ -1374,6 +1374,8 @@ static NSMutableDictionary *ORKESerializationEncodingTable() {
            ENTRY(ORKAnswerFormat,
                  nil,
                  (@{
+                     PROPERTY(showDontKnowButton, NSNumber, NSObject, YES, nil, nil),
+                     PROPERTY(customDontKnowButtonText, NSString, NSObject, YES, nil, nil)
                     })),
            ENTRY(ORKValuePickerAnswerFormat,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
@@ -1469,8 +1471,6 @@ static NSMutableDictionary *ORKESerializationEncodingTable() {
                              ^id(id date, __unused ORKESerializationContext *context) { return [ORKResultDateTimeFormatter() stringFromDate:date]; },
                              ^id(id string, __unused ORKESerializationContext *context) { return [ORKResultDateTimeFormatter() dateFromString:string]; }),
                     PROPERTY(minuteInterval, NSNumber, NSObject, YES, nil, nil),
-                    PROPERTY(showDontKnowButton, NSNumber, NSObject, YES, nil, nil),
-                    PROPERTY(customDontKnowButtonText, NSString, NSObject, YES, nil, nil)
                     })),
            ENTRY(ORKNumericAnswerFormat,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
@@ -1487,8 +1487,6 @@ static NSMutableDictionary *ORKESerializationEncodingTable() {
                     PROPERTY(maximum, NSNumber, NSObject, NO, nil, nil),
                     PROPERTY(maximumFractionDigits, NSNumber, NSObject, NO, nil, nil),
                     PROPERTY(defaultNumericAnswer, NSNumber, NSObject, NO, nil, nil),
-                    PROPERTY(showDontKnowButton, NSNumber, NSObject, YES, nil, nil),
-                    PROPERTY(customDontKnowButtonText, NSString, NSObject, YES, nil, nil),
                     })),
            ENTRY(ORKScaleAnswerFormat,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
@@ -1508,8 +1506,6 @@ static NSMutableDictionary *ORKESerializationEncodingTable() {
                     PROPERTY(hideRanges, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(hideLabels, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(hideValueMarkers, NSNumber, NSObject, YES, nil, nil),
-                    PROPERTY(showDontKnowButton, NSNumber, NSObject, YES, nil, nil),
-                    PROPERTY(customDontKnowButtonText, NSString, NSObject, YES, nil, nil),
                     IMAGEPROPERTY(minimumImage, NSObject, YES),
                     IMAGEPROPERTY(maximumImage, NSObject, YES),
                     })),
@@ -1533,8 +1529,6 @@ static NSMutableDictionary *ORKESerializationEncodingTable() {
                     PROPERTY(hideSelectedValue, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(hideRanges, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(hideLabels, NSNumber, NSObject, YES, nil, nil),
-                    PROPERTY(showDontKnowButton, NSNumber, NSObject, YES, nil, nil),
-                    PROPERTY(customDontKnowButtonText, NSString, NSObject, YES, nil, nil),
                     IMAGEPROPERTY(minimumImage, NSObject, YES),
                     IMAGEPROPERTY(maximumImage, NSObject, YES),
                     })),
@@ -1551,8 +1545,6 @@ static NSMutableDictionary *ORKESerializationEncodingTable() {
                     PROPERTY(hideSelectedValue, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(hideRanges, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(hideLabels, NSNumber, NSObject, YES, nil, nil),
-                    PROPERTY(showDontKnowButton, NSNumber, NSObject, YES, nil, nil),
-                    PROPERTY(customDontKnowButtonText, NSString, NSObject, YES, nil, nil),
                     PROPERTY(hideValueMarkers, NSNumber, NSObject, YES, nil, nil)
                     })),
            ENTRY(ORKTextAnswerFormat,

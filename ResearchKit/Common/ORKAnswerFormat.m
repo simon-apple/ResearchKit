@@ -468,15 +468,27 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
 }
 
 - (instancetype)init {
-    return [super init];
+    self = [super init];
+    if (self) {
+        _showDontKnowButton = NO;
+        _customDontKnowButtonText = nil;
+    }
+    return self;
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     self = [super init];
+    
+    if (self) {
+        ORK_DECODE_BOOL(aDecoder, showDontKnowButton);
+        ORK_DECODE_OBJ(aDecoder, customDontKnowButtonText);
+    }
     return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
+    ORK_ENCODE_BOOL(aCoder, showDontKnowButton);
+    ORK_ENCODE_OBJ(aCoder, customDontKnowButtonText);
 }
 
 - (instancetype)copyWithZone:(NSZone *)zone {
@@ -567,6 +579,10 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
     return impliedFormat == self ? nil : [impliedFormat stringForAnswer:answer];
 }
 
+- (BOOL)shouldShowDontKnowButton {
+    return _showDontKnowButton;
+}
+
 @end
 
 
@@ -628,7 +644,6 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
     _helper = [[ORKChoiceAnswerFormatHelper alloc] initWithAnswerFormat:self];
 }
 
-
 - (void)validateParameters {
     [super validateParameters];
     
@@ -687,6 +702,10 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
 
 - (NSString *)stringForAnswer:(id)answer {
     return [_helper stringForChoiceAnswer:answer];
+}
+
+- (BOOL)shouldShowDontKnowButton {
+    return NO;
 }
 
 @end
@@ -803,6 +822,10 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
     return [answerTexts componentsJoinedByString:self.separator];
 }
 
+- (BOOL)shouldShowDontKnowButton {
+    return NO;
+}
+
 @end
 
 
@@ -908,6 +931,10 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
     return [_helper stringForChoiceAnswer:answer];
 }
 
+- (BOOL)shouldShowDontKnowButton {
+    return NO;
+}
+
 @end
 
 
@@ -997,6 +1024,10 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
 
 - (NSString *)stringForAnswer:(id)answer {
     return [_helper stringForChoiceAnswer:answer];
+}
+
+- (BOOL)shouldShowDontKnowButton {
+    return NO;
 }
 
 @end
@@ -1098,6 +1129,10 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
     ORK_ENCODE_OBJ(aCoder, detailTextAttributedString);
     ORK_ENCODE_OBJ(aCoder, value);
     ORK_ENCODE_BOOL(aCoder, exclusive);
+}
+
+- (BOOL)shouldShowDontKnowButton {
+    return NO;
 }
 
 @end
@@ -1205,6 +1240,10 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
     ORK_ENCODE_BOOL(aCoder, textViewStartsHidden);
 }
 
+- (BOOL)shouldShowDontKnowButton {
+    return NO;
+}
+
 @end
 
 
@@ -1291,6 +1330,10 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
     ORK_ENCODE_IMAGE(aCoder, selectedStateImage);
 }
 
+- (BOOL)shouldShowDontKnowButton {
+    return NO;
+}
+
 @end
 
 
@@ -1369,6 +1412,10 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
     [super encodeWithCoder:aCoder];
     ORK_ENCODE_OBJ(aCoder, yes);
     ORK_ENCODE_OBJ(aCoder, no);
+}
+
+- (BOOL)shouldShowDontKnowButton {
+    return NO;
 }
 
 @end
@@ -1489,8 +1536,6 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
         _maximumDate = [maximum copy];
         _calendar = [calendar copy];
         _minuteInterval = 1;
-        _showDontKnowButton = NO;
-        _customDontKnowButtonText = nil;
         [self validateParameters];
     }
     return self;
@@ -1523,9 +1568,7 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
             ORKEqualObjects(self.minimumDate, castObject.minimumDate) &&
             ORKEqualObjects(self.maximumDate, castObject.maximumDate) &&
             ORKEqualObjects(self.calendar, castObject.calendar) &&
-            ORKEqualObjects(self.customDontKnowButtonText, castObject.customDontKnowButtonText) &&
             (self.minuteInterval == castObject.minuteInterval) &&
-            (self.showDontKnowButton == castObject.showDontKnowButton) &&
             (_style == castObject.style));
 }
 
@@ -1593,8 +1636,6 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
         ORK_DECODE_OBJ_CLASS(aDecoder, defaultDate, NSDate);
         ORK_DECODE_OBJ_CLASS(aDecoder, calendar, NSCalendar);
         ORK_DECODE_INTEGER(aDecoder, minuteInterval);
-        ORK_DECODE_BOOL(aDecoder, showDontKnowButton);
-        ORK_DECODE_OBJ_CLASS(aDecoder, customDontKnowButtonText, NSString);
     }
     return self;
 }
@@ -1607,17 +1648,12 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
     ORK_ENCODE_OBJ(aCoder, defaultDate);
     ORK_ENCODE_OBJ(aCoder, calendar);
     ORK_ENCODE_INTEGER(aCoder, minuteInterval);
-    ORK_ENCODE_BOOL(aCoder, showDontKnowButton);
-    ORK_ENCODE_OBJ(aCoder, customDontKnowButtonText);
 }
 
 - (ORKQuestionType)questionType {
     return (_style == ORKDateAnswerStyleDateAndTime) ? ORKQuestionTypeDateAndTime : ORKQuestionTypeDate;
 }
 
-- (BOOL)shouldShowDontKnowButton {
-    return _showDontKnowButton;
-}
 
 + (BOOL)supportsSecureCoding {
     return YES;
@@ -1669,8 +1705,6 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
         _minimum = [minimum copy];
         _maximum = [maximum copy];
         _maximumFractionDigits = [maximumFractionDigits copy];
-        _showDontKnowButton = NO;
-        _customDontKnowButtonText = nil;
         
         [self validateParameters];
     }
@@ -1689,13 +1723,11 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
     self = [super initWithCoder:aDecoder];
     if (self) {
         ORK_DECODE_ENUM(aDecoder, style);
-        ORK_DECODE_BOOL(aDecoder, showDontKnowButton);
         ORK_DECODE_OBJ_CLASS(aDecoder, unit, NSString);
         ORK_DECODE_OBJ_CLASS(aDecoder, minimum, NSNumber);
         ORK_DECODE_OBJ_CLASS(aDecoder, maximum, NSNumber);
         ORK_DECODE_OBJ_CLASS(aDecoder, defaultNumericAnswer, NSNumber);
         ORK_DECODE_OBJ_CLASS(aDecoder, maximumFractionDigits, NSNumber);
-        ORK_DECODE_OBJ_CLASS(aDecoder, customDontKnowButtonText, NSString);
     }
     return self;
 }
@@ -1703,13 +1735,11 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [super encodeWithCoder:aCoder];
     ORK_ENCODE_ENUM(aCoder, style);
-    ORK_ENCODE_BOOL(aCoder, showDontKnowButton);
     ORK_ENCODE_OBJ(aCoder, unit);
     ORK_ENCODE_OBJ(aCoder, minimum);
     ORK_ENCODE_OBJ(aCoder, maximum);
     ORK_ENCODE_OBJ(aCoder, defaultNumericAnswer);
     ORK_ENCODE_OBJ(aCoder, maximumFractionDigits);
-    ORK_ENCODE_OBJ(aCoder, customDontKnowButtonText);
 }
 
 + (BOOL)supportsSecureCoding {
@@ -1723,8 +1753,6 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
                                                                                     maximum:[_maximum copy]
                                                                       maximumFractionDigits:[_maximumFractionDigits copy]];
     answerFormat->_defaultNumericAnswer = [_defaultNumericAnswer copy];
-    answerFormat->_showDontKnowButton = _showDontKnowButton;
-    answerFormat->_customDontKnowButtonText = [_customDontKnowButtonText copy];
     return answerFormat;
 }
 
@@ -1738,8 +1766,6 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
             ORKEqualObjects(self.maximum, castObject.maximum) &&
             ORKEqualObjects(self.defaultNumericAnswer, castObject.defaultNumericAnswer) &&
             ORKEqualObjects(self.maximumFractionDigits, castObject.maximumFractionDigits) &&
-            ORKEqualObjects(self.customDontKnowButtonText, castObject.customDontKnowButtonText) &&
-            (_showDontKnowButton == castObject.showDontKnowButton) &&
             (_style == castObject.style));
 }
 
@@ -1795,10 +1821,6 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
         isValid = [self isAnswerValidWithNumber:number];
     }
     return isValid;
-}
-
-- (BOOL)shouldShowDontKnowButton {
-    return _showDontKnowButton;
 }
 
 - (NSString *)localizedInvalidValueStringWithAnswerString:(NSString *)text {
@@ -1917,8 +1939,6 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
         _hideRanges = NO;
         _hideLabels = NO;
         _hideValueMarkers = NO;
-        _showDontKnowButton = NO;
-        _customDontKnowButtonText = nil;
 
         [self validateParameters];
     }
@@ -1952,9 +1972,6 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
               minimumValueDescription:nil];
 }
 
-- (NSString *)customDontKnowButtonText {
-    return _customDontKnowButtonText;
-}
 - (NSNumber *)minimumNumber {
     return @(_minimum);
 }
@@ -2054,10 +2071,8 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
         ORK_DECODE_BOOL(aDecoder, hideRanges);
         ORK_DECODE_BOOL(aDecoder, hideLabels);
         ORK_DECODE_BOOL(aDecoder, hideValueMarkers);
-        ORK_DECODE_BOOL(aDecoder, showDontKnowButton);
         ORK_DECODE_OBJ(aDecoder, maximumValueDescription);
         ORK_DECODE_OBJ(aDecoder, minimumValueDescription);
-        ORK_DECODE_OBJ(aDecoder, customDontKnowButtonText);
         ORK_DECODE_IMAGE(aDecoder, maximumImage);
         ORK_DECODE_IMAGE(aDecoder, minimumImage);
         ORK_DECODE_OBJ_ARRAY(aDecoder, gradientColors, UIColor);
@@ -2077,10 +2092,8 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
     ORK_ENCODE_BOOL(aCoder, hideRanges);
     ORK_ENCODE_BOOL(aCoder, hideLabels);
     ORK_ENCODE_BOOL(aCoder, hideValueMarkers);
-    ORK_ENCODE_BOOL(aCoder, showDontKnowButton);
     ORK_ENCODE_OBJ(aCoder, maximumValueDescription);
     ORK_ENCODE_OBJ(aCoder, minimumValueDescription);
-    ORK_ENCODE_OBJ(aCoder, customDontKnowButtonText);
     ORK_ENCODE_IMAGE(aCoder, maximumImage);
     ORK_ENCODE_IMAGE(aCoder, minimumImage);
     ORK_ENCODE_OBJ(aCoder, gradientColors);
@@ -2104,8 +2117,6 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
             (_hideRanges == castObject.hideRanges) &&
             (_hideValueMarkers == castObject.hideValueMarkers) &&
             (_hideSelectedValue == castObject.hideSelectedValue) &&
-            (_showDontKnowButton == castObject.showDontKnowButton) &&
-            ORKEqualObjects(self.customDontKnowButtonText, castObject.customDontKnowButtonText) &&
             ORKEqualObjects(self.maximumValueDescription, castObject.maximumValueDescription) &&
             ORKEqualObjects(self.minimumValueDescription, castObject.minimumValueDescription) &&
             ORKEqualObjects(self.maximumImage, castObject.maximumImage) &&
@@ -2132,10 +2143,6 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
 
 - (BOOL)shouldHideValueMarkers {
     return _hideValueMarkers;
-}
-
-- (BOOL)shouldShowDontKnowButton {
-    return _showDontKnowButton;
 }
 
 @end
@@ -2178,8 +2185,6 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
         _minimumValueDescription = minimumValueDescription;
         _hideRanges = NO;
         _hideLabels = NO;
-        _showDontKnowButton = NO;
-        _customDontKnowButtonText = nil;
         
         [self validateParameters];
     }
@@ -2213,9 +2218,6 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
               minimumValueDescription:nil];
 }
 
-- (NSString *)customDontKnowButtonText {
-    return _customDontKnowButtonText;
-}
 - (NSNumber *)minimumNumber {
     return @(_minimum);
 }
@@ -2296,10 +2298,8 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
         ORK_DECODE_BOOL(aDecoder, hideSelectedValue);
         ORK_DECODE_BOOL(aDecoder, hideLabels);
         ORK_DECODE_BOOL(aDecoder, hideRanges);
-        ORK_DECODE_BOOL(aDecoder, showDontKnowButton);
         ORK_DECODE_OBJ(aDecoder, maximumValueDescription);
         ORK_DECODE_OBJ(aDecoder, minimumValueDescription);
-        ORK_DECODE_OBJ(aDecoder, customDontKnowButtonText);
         ORK_DECODE_IMAGE(aDecoder, maximumImage);
         ORK_DECODE_IMAGE(aDecoder, minimumImage);
         ORK_DECODE_OBJ_ARRAY(aDecoder, gradientColors, UIColor);
@@ -2318,11 +2318,9 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
     ORK_ENCODE_BOOL(aCoder, hideSelectedValue);
     ORK_ENCODE_BOOL(aCoder, hideLabels);
     ORK_ENCODE_BOOL(aCoder, hideRanges);
-    ORK_ENCODE_BOOL(aCoder, showDontKnowButton);
     ORK_ENCODE_ENUM(aCoder, numberStyle);
     ORK_ENCODE_OBJ(aCoder, maximumValueDescription);
     ORK_ENCODE_OBJ(aCoder, minimumValueDescription);
-    ORK_ENCODE_OBJ(aCoder, customDontKnowButtonText);
     ORK_ENCODE_IMAGE(aCoder, maximumImage);
     ORK_ENCODE_IMAGE(aCoder, minimumImage);
     ORK_ENCODE_OBJ(aCoder, gradientColors);
@@ -2346,10 +2344,8 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
             (_hideSelectedValue == castObject.hideSelectedValue) &&
             (_hideLabels == castObject.hideLabels) &&
             (_hideRanges == castObject.hideRanges) &&
-            (_showDontKnowButton == castObject.showDontKnowButton) &&
             ORKEqualObjects(self.maximumValueDescription, castObject.maximumValueDescription) &&
             ORKEqualObjects(self.minimumValueDescription, castObject.minimumValueDescription) &&
-            ORKEqualObjects(self.customDontKnowButtonText, castObject.customDontKnowButtonText) &&
             ORKEqualObjects(self.maximumImage, castObject.maximumImage) &&
             ORKEqualObjects(self.minimumImage, castObject.minimumImage) &&
             ORKEqualObjects(self.gradientColors, castObject.gradientColors) &&
@@ -2374,10 +2370,6 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
 
 - (BOOL)shouldHideValueMarkers {
     return NO;
-}
-
-- (BOOL)shouldShowDontKnowButton {
-    return _showDontKnowButton;
 }
 
 @end
@@ -2422,8 +2414,6 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
         _hideRanges = NO;
         _hideLabels = NO;
         _hideValueMarkers = NO;
-        _showDontKnowButton = NO;
-        _customDontKnowButtonText = nil;
         
         [self validateParameters];
     }
@@ -2458,9 +2448,6 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
 }
 - (NSString *)maximumValueDescription {
     return _textChoices.lastObject.text;
-}
-- (NSString *)customDontKnowButtonText {
-    return _customDontKnowButtonText;
 }
 - (UIImage *)minimumImage {
     return nil;
@@ -2537,9 +2524,6 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
         ORK_DECODE_BOOL(aDecoder, hideValueMarkers);
         ORK_DECODE_BOOL(aDecoder, hideLabels);
         ORK_DECODE_BOOL(aDecoder, hideRanges);
-        ORK_DECODE_BOOL(aDecoder, showDontKnowButton);
-        ORK_DECODE_OBJ(aDecoder, customDontKnowButtonText);
-        
     }
     return self;
 }
@@ -2555,8 +2539,6 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
     ORK_ENCODE_BOOL(aCoder, hideValueMarkers);
     ORK_ENCODE_BOOL(aCoder, hideLabels);
     ORK_ENCODE_BOOL(aCoder, hideRanges);
-    ORK_ENCODE_BOOL(aCoder, showDontKnowButton);
-    ORK_ENCODE_OBJ(aCoder, customDontKnowButtonText);
 }
 
 + (BOOL)supportsSecureCoding {
@@ -2575,8 +2557,6 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
             (_hideValueMarkers == castObject.hideValueMarkers) &&
             (_hideLabels == castObject.hideLabels) &&
             (_hideRanges == castObject.hideRanges) &&
-            (_showDontKnowButton == castObject.showDontKnowButton) &&
-            ORKEqualObjects(self.customDontKnowButtonText, castObject.customDontKnowButtonText) &&
             ORKEqualObjects(self.gradientColors, castObject.gradientColors) &&
             ORKEqualObjects(self.gradientLocations, castObject.gradientLocations));
 }
@@ -2599,10 +2579,6 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
 
 - (BOOL)shouldHideValueMarkers {
     return _hideValueMarkers;
-}
-
-- (BOOL)shouldShowDontKnowButton {
-    return _showDontKnowButton;
 }
 
 @end
@@ -2886,6 +2862,10 @@ static NSString *const kSecureTextEntryEscapeString = @"*";
     }
 }
 
+- (BOOL)shouldShowDontKnowButton {
+    return NO;
+}
+
 @end
 
 
@@ -2964,6 +2944,10 @@ static NSString *const kSecureTextEntryEscapeString = @"*";
     return (isParentSame &&
             ORKEqualObjects(self.originalItemIdentifier, castObject.originalItemIdentifier) &&
             ORKEqualObjects(self.errorMessage, castObject.errorMessage));
+}
+
+- (BOOL)shouldShowDontKnowButton {
+    return NO;
 }
 
 @end
@@ -3048,6 +3032,10 @@ static NSString *const kSecureTextEntryEscapeString = @"*";
 
 - (NSString *)stringForAnswer:(id)answer {
     return [ORKTimeIntervalLabelFormatter() stringFromTimeInterval:((NSNumber *)answer).floatValue];
+}
+
+- (BOOL)shouldShowDontKnowButton {
+    return NO;
 }
 
 @end
@@ -3352,6 +3340,10 @@ static NSString *const kSecureTextEntryEscapeString = @"*";
     return answerString;
 }
 
+- (BOOL)shouldShowDontKnowButton {
+    return NO;
+}
+
 @end
 
 #pragma mark ORKSESAnswerFormat
@@ -3414,5 +3406,8 @@ static NSString *const kSecureTextEntryEscapeString = @"*";
     return [self localizedStringForNumber:answer];
 }
 
+- (BOOL)shouldShowDontKnowButton {
+    return NO;
+}
 
 @end

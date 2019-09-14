@@ -95,6 +95,20 @@ ORK_CLASS_AVAILABLE
  */
 @property (readonly) ORKQuestionType questionType;
 
+/**
+ Determines if the "I Don't Know" button will show.
+ 
+ Defults to false.
+ */
+@property (nonatomic, assign, getter=shouldShowDontKnowButton) BOOL showDontKnowButton;
+
+/**
+ Custom text that will be shown inside of the "I Don't Know" button if showDontKnowButton is set to true.
+ 
+ Defults to nil.
+ */
+@property (nonatomic, nullable) NSString *customDontKnowButtonText;
+
 /// @name Factory methods
 
 + (ORKScaleAnswerFormat *)scaleAnswerFormatWithMaximumValue:(NSInteger)scaleMaximum
@@ -406,20 +420,6 @@ ORK_CLASS_AVAILABLE
  */
 @property (nonatomic, assign, getter=shouldHideValueMarkers) BOOL hideValueMarkers;
 
-/**
- Determines if the "I Don't Know" button will show
- 
- Defults to false.
- */
-@property (nonatomic, assign, getter=shouldShowDontKnowButton) BOOL showDontKnowButton;
-
-/**
- Custom text that will be shown inside of the "I Don't Know" button if showDontKnowButton is set to true
- 
- Defults to nil
- */
-@property (nonatomic, nullable) NSString *customDontKnowButtonText;
-
 @end
 
 
@@ -600,20 +600,6 @@ ORK_CLASS_AVAILABLE
  */
 @property (nonatomic, assign, getter=shouldHideLabels) BOOL hideLabels;
 
-/**
- Determines if the "I Don't Know" button will show
- 
- Defults to false.
- */
-@property (nonatomic, assign, getter=shouldShowDontKnowButton) BOOL showDontKnowButton;
-
-/**
- Custom text that will be shown inside of the "I Don't Know" button if showDontKnowButton is set to true
- 
- Defults to nil
- */
-@property (nonatomic, nullable) NSString *customDontKnowButtonText;
-
 @end
 
 
@@ -729,20 +715,6 @@ ORK_CLASS_AVAILABLE
  Defults to false.
  */
 @property (nonatomic, assign, getter=shouldHideValueMarkers) BOOL hideValueMarkers;
-
-/**
- Determines if the "I Don't Know" button will show
- 
- Defults to false.
- */
-@property (nonatomic, assign, getter=shouldShowDontKnowButton) BOOL showDontKnowButton;
-
-/**
- Custom text that will be shown inside of the "I Don't Know" button if showDontKnowButton is set to true
- 
- Defults to nil
- */
-@property (nonatomic, nullable) NSString *customDontKnowButtonText;
 
 @end
 
@@ -1396,21 +1368,6 @@ Returns an initialized numeric answer format using the specified style, unit des
  */
 @property (copy, nullable) NSNumber *defaultNumericAnswer;
 
-/**
- Determines if the "I Don't Know" button will show
- 
- Defults to false.
- */
-@property (nonatomic, assign, getter=shouldShowDontKnowButton) BOOL showDontKnowButton;
-
-/**
- Custom text that will be shown inside of the "I Don't Know" button if showDontKnowButton is set to true
- 
- Defults to nil
- */
-@property (nonatomic, nullable) NSString *customDontKnowButtonText;
-
-
 @end
 
 
@@ -1556,20 +1513,6 @@ When the value of this property is `nil`, there is no minimum.
  one minute.
  */
 @property (nonatomic) NSInteger minuteInterval;
-
-/**
- Determines if the "I Don't Know" button will show
- 
- Defults to false.
- */
-@property (nonatomic, assign, getter=shouldShowDontKnowButton) BOOL showDontKnowButton;
-
-/**
- Custom text that will be shown inside of the "I Don't Know" button if showDontKnowButton is set to true
- 
- Defults to nil
- */
-@property (nonatomic, nullable) NSString *customDontKnowButtonText;
 
 @end
 
