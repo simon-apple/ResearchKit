@@ -974,7 +974,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
         previousStep = [self.task stepBeforeStep:step withResult:self.result];
     }
     if (previousStep) {
-        ORKStepViewController *previousStepViewController = [self viewControllerForStep:previousStep];
+        ORKStepViewController *previousStepViewController = [self viewControllerForStep:previousStep isPreviousViewController:YES];
         previousStepViewController.navigationItem.title = nil; // Make sure the back button shows "Back"
         [newViewControllers addObject:previousStepViewController];
     }
@@ -1057,7 +1057,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     return learnMoreViewController;
 }
 
-- (ORKStepViewController *)viewControllerForStep:(ORKStep *)step {
+- (ORKStepViewController *)viewControllerForStep:(ORKStep *)step isPreviousViewController:(BOOL)isPreviousViewController {
     if (step == nil) {
         return nil;
     }
@@ -1128,7 +1128,12 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     }
     
     stepViewController.outputDirectory = self.outputDirectory;
-    [self setManagedResult:stepViewController.result forKey:step.identifier];
+    if (!isPreviousViewController) {
+        // Do not update the task's managed result if we are instantiating a previous view controllers for the
+        // navigation stack. Some active view controllers such as `ORKHeadphoneDetectStepViewController` don't feature
+        // a result retoration path on init and we don't want to overwrite the most current result stored by the task
+        [self setManagedResult:stepViewController.result forKey:step.identifier];
+    }
     
     
     if (stepViewController.cancelButtonItem == nil) {
@@ -1143,6 +1148,10 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     
     stepViewController.delegate = self;
     return stepViewController;
+}
+
+- (ORKStepViewController *)viewControllerForStep:(ORKStep *)step {
+    return [self viewControllerForStep:step isPreviousViewController:NO];
 }
 
 - (BOOL)shouldDisplayProgressLabel {
