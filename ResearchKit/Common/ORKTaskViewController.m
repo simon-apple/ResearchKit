@@ -205,7 +205,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     UIViewController *emptyViewController = [[UIViewController alloc] initWithNibName:nil bundle:nil];
     _childNavigationController = [[ORKNavigationController alloc] initWithRootViewController:emptyViewController];
     
-
+    _childNavigationController.interactivePopGestureRecognizer.enabled = NO;
     _childNavigationController.navigationDelegate = self;
     
     [_childNavigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
