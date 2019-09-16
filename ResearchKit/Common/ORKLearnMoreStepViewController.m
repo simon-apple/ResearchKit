@@ -50,9 +50,15 @@
     }
     if (@available(iOS 13.0, *)) {
         self.view.backgroundColor = [UIColor systemBackgroundColor];
+        self.navigationController.navigationBar.backgroundColor = UIColor.systemBackgroundColor;
     } else {
         self.view.backgroundColor = [UIColor whiteColor];
+        self.navigationController.navigationBar.backgroundColor = UIColor.whiteColor;
     }
+    
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.shadowImage = [UIImage new];
+
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:ORKLocalizedString(@"BUTTON_DONE", nil) style:UIBarButtonItemStyleDone target:self action:@selector(doneButtonPressed:)];
 }
 
