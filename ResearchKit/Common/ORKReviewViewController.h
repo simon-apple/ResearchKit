@@ -37,6 +37,9 @@
 @class ORKStepResult;
 @class ORKReviewViewController;
 @class ORKNavigableOrderedTask;
+@class ORKTaskViewController;
+@class ORKLearnMoreInstructionStep;
+@class ORKStepViewController;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -46,6 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
 //@required
 @optional
 - (void)resultModifiedForReviewViewController:(ORKReviewViewController *)reviewViewController withSource:(ORKTaskResult *)resultSource updatedResult:(ORKTaskResult *)updatedResult;
+- (void)taskViewController:(ORKTaskViewController *)taskViewController learnMoreButtonPressedWithStep:(ORKLearnMoreInstructionStep *)learnMoreStep;
 - (void)didSelectIncompleteCell;
 @end
 

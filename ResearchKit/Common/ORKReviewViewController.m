@@ -435,4 +435,10 @@ static const float FirstSectionHeaderPadding = 24.0;
     stepViewController.shouldPresentInReview = _isCompleted;
 }
 
+- (void)taskViewController:(ORKTaskViewController *)taskViewController learnMoreButtonPressedWithStep:(ORKLearnMoreInstructionStep *)learnMoreStep forStepViewController:(ORKStepViewController *)stepViewController {
+    if (_delegate && [_delegate respondsToSelector:@selector(taskViewController:learnMoreButtonPressedWithStep:)]) {
+        [_delegate taskViewController:taskViewController learnMoreButtonPressedWithStep:learnMoreStep];
+    }
+}
+
 @end
