@@ -42,6 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ORKSESSelectionView : UIView
 
+- (instancetype)initWithAnswerFormat:(ORKSESAnswerFormat *)answerFormat answer:(nullable id)answer;
 - (instancetype)initWithAnswerFormat:(ORKSESAnswerFormat *)answerFormat;
 
 @property (nonatomic, weak) id<ORKSESSelectionViewDelegate> delegate;

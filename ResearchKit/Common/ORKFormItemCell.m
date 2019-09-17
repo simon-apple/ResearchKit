@@ -1587,7 +1587,7 @@ static const CGFloat ErrorLabelBottomPadding = 10.0;
 - (void)cellInit {
     [super cellInit];
     
-    _selectionView = [[ORKSESSelectionView alloc] initWithAnswerFormat:(ORKSESAnswerFormat *)self.formItem.answerFormat];
+    _selectionView = [[ORKSESSelectionView alloc] initWithAnswerFormat:(ORKSESAnswerFormat *)self.formItem.answerFormat answer:self.answer];
     _selectionView.delegate = self;
     [self.containerView addSubview:_selectionView];
     

@@ -394,12 +394,18 @@ static const CGFloat rungButtonPadding = 10.0;
     ORKSESAnswerFormat *_answerFormat;
 }
 
-- (instancetype)initWithAnswerFormat:(ORKSESAnswerFormat *)answerFormat {
+- (instancetype)initWithAnswerFormat:(ORKSESAnswerFormat *)answerFormat answer:(nullable id)answer {
     self = [super init];
     if (self) {
         _answerFormat = answerFormat;
+        _answer = answer;
         [self addRungButtonsWithTopRungText:_answerFormat.topRungText bottomRungText:_answerFormat.bottomRungText];
     }
+    return self;
+}
+
+- (instancetype)initWithAnswerFormat:(ORKSESAnswerFormat *)answerFormat {
+    self = [self initWithAnswerFormat:answerFormat answer:nil];
     return self;
 }
 
@@ -425,6 +431,12 @@ static const CGFloat rungButtonPadding = 10.0;
         [[rungButton.topAnchor constraintEqualToAnchor:(i==0) ? self.topAnchor : _buttons[i-1].bottomAnchor constant:(i==0) ? rungButtonPadding : rungToRungPadding] setActive:YES];
         if (i==_buttons.count-1) {
             [[self.bottomAnchor constraintGreaterThanOrEqualToAnchor:rungButton.bottomAnchor constant:rungButtonPadding] setActive:YES];
+        }
+        
+        if (self.answer && [self.answer intValue] == i) {
+            [rungButton setSelected:YES];
+        } else {
+            [rungButton setSelected:NO];
         }
     }
 }
