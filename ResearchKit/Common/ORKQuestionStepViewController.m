@@ -182,7 +182,11 @@ static const CGFloat DelayBeforeAutoScroll = 0.25;
             _headerView = _tableContainer.stepContentView;
             if (self.questionStep.useCardView) {
                 _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-                [_tableView setBackgroundColor:ORKColor(ORKBackgroundColorKey)];
+                if (@available(iOS 13.0, *)) {
+                    [_tableView setBackgroundColor:UIColor.systemGroupedBackgroundColor];
+                } else {
+                    [_tableView setBackgroundColor:ORKColor(ORKBackgroundColorKey)];
+                }
                 [self.taskViewController.navigationBar setBarTintColor:[_tableView backgroundColor]];
                 [self.view setBackgroundColor:[_tableView backgroundColor]];
             }
@@ -235,7 +239,11 @@ static const CGFloat DelayBeforeAutoScroll = 0.25;
                 _cellHolderView.answer = [self answer];
                 _cellHolderView.userInteractionEnabled = !self.readOnlyMode;
                 if (self.questionStep.useCardView) {
-                    [_questionView setBackgroundColor:ORKColor(ORKBackgroundColorKey)];
+                    if (@available(iOS 13.0, *)) {
+                        [_questionView setBackgroundColor:UIColor.systemGroupedBackgroundColor];
+                    } else {
+                        [_questionView setBackgroundColor:ORKColor(ORKBackgroundColorKey)];
+                    }
                     [self.taskViewController.navigationBar setBarTintColor:[_questionView backgroundColor]];
                     [self.view setBackgroundColor:[_questionView backgroundColor]];
                     ORKLearnMoreView *learnMoreView;
