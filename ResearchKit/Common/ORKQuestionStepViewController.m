@@ -69,6 +69,7 @@ typedef NS_ENUM(NSInteger, ORKQuestionSection) {
     ORKQuestionSection_COUNT
 };
 
+static const CGFloat DelayBeforeAutoScroll = 0.25;
 
 @interface ORKQuestionStepViewController () <UITableViewDataSource, UITableViewDelegate, ORKSurveyAnswerCellDelegate, ORKTextChoiceCellGroupDelegate, ORKChoiceOtherViewCellDelegate, ORKTableContainerViewDelegate, ORKLearnMoreViewDelegate> {
     id _answer;
@@ -923,8 +924,10 @@ static NSString *const _ORKOriginalAnswerRestoreKey = @"originalAnswer";
     
     if (immediateNavigation) {
         // Proceed as continueButton tapped
-        ORKSuppressPerformSelectorWarning(
-                                          [self.continueButtonItem.target performSelector:self.continueButtonItem.action withObject:self.continueButtonItem];);
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, DelayBeforeAutoScroll * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+            ORKSuppressPerformSelectorWarning(
+                                              [self.continueButtonItem.target performSelector:self.continueButtonItem.action withObject:self.continueButtonItem];);
+        });
     }
 }
 

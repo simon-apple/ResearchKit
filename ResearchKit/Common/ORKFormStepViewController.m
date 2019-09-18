@@ -63,6 +63,7 @@
 #import "ORKSkin.h"
 
 static const CGFloat TableViewYOffsetStandard = 30.0;
+static const CGFloat DelayBeforeAutoScroll = 0.25;
 
 @interface ORKTableCellItem : NSObject
 
@@ -930,7 +931,9 @@ static const CGFloat TableViewYOffsetStandard = 30.0;
 
             if ([nextCell isKindOfClass:[ORKFormItemCell class]]) {
                 [nextCell becomeFirstResponder];
-                [_tableView scrollToRowAtIndexPath:nextIndexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, DelayBeforeAutoScroll * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                    [_tableView scrollToRowAtIndexPath:nextIndexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+                });
             }
 
         } else {
@@ -958,7 +961,9 @@ static const CGFloat TableViewYOffsetStandard = 30.0;
     NSIndexPath *nextIndexPath = [NSIndexPath indexPathForRow:0 inSection:(indexPath.section + 1)];
     ORKFormItemCell *nextCell = [self.tableView cellForRowAtIndexPath:nextIndexPath];
     [nextCell becomeFirstResponder];
-    [_tableView scrollToRowAtIndexPath:nextIndexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, DelayBeforeAutoScroll * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        [_tableView scrollToRowAtIndexPath:nextIndexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    });
 }
 
 - (void)handleAutoScrollForNonKeyboardCell:(ORKFormItemCell *)cell {
@@ -980,7 +985,9 @@ static const CGFloat TableViewYOffsetStandard = 30.0;
         [self.tableView scrollRectToVisible:[self.tableView convertRect:self.tableView.tableFooterView.bounds fromView:self.tableView.tableFooterView] animated:YES];
     } else if (indexPath.section < (_sections.count - 1) && ![_answeredSections containsObject:sectionIndex]) {
         NSIndexPath *nextIndexPath = [NSIndexPath indexPathForRow:0 inSection:(indexPath.section + 1)];
-        [_tableView scrollToRowAtIndexPath:nextIndexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, DelayBeforeAutoScroll * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+            [_tableView scrollToRowAtIndexPath:nextIndexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+        });
     }
 }
 
@@ -1184,7 +1191,9 @@ static const CGFloat TableViewYOffsetStandard = 30.0;
     ORKFormItemCell *cell = (ORKFormItemCell *)[tableView cellForRowAtIndexPath:indexPath];
     if ([cell isKindOfClass:[ORKFormItemCell class]]) {
         [cell becomeFirstResponder];
-        [_tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, DelayBeforeAutoScroll * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+            [_tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+        });
     } else {
         // Dismiss other textField's keyboard
         [tableView endEditing:NO];
@@ -1294,7 +1303,9 @@ static const CGFloat TableViewYOffsetStandard = 30.0;
         ORKTableSection *sectionObject = (ORKTableSection *)_sections[path.section];
         if (path.row < sectionObject.items.count - 1) {
             NSIndexPath *nextPath = [NSIndexPath indexPathForRow:(path.row + 1) inSection:path.section];
-            [_tableView scrollToRowAtIndexPath:nextPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, DelayBeforeAutoScroll * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                [_tableView scrollToRowAtIndexPath:nextPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+            });
         }
     }
 
@@ -1404,10 +1415,12 @@ static NSString *const _ORKAnsweredSectionsRestoreKey = @"answeredSections";
     [self updateAnsweredSections];
 
     if (immediateNavigation) {
-            // Proceed as continueButton tapped
+        // Proceed as continueButton tapped
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, DelayBeforeAutoScroll * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
             ORKSuppressPerformSelectorWarning(
                                               [self.continueButtonItem.target performSelector:self.continueButtonItem.action withObject:self.continueButtonItem];);
-        }
+        });
+    }
 }
 
 - (void)tableViewCellHeightUpdated {
