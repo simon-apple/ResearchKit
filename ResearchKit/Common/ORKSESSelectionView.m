@@ -342,7 +342,7 @@ static const CGFloat rungButtonPadding = 10.0;
 - (void)tapAnimation {
     CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"backgroundColor"];
     if (@available(iOS 13.0, *)) {
-        animation.fromValue = (__bridge id _Nullable)(UIColor.systemGray3Color.CGColor);
+        animation.fromValue = (__bridge id _Nullable)(UIColor.systemGray5Color.CGColor);
     } else {
         animation.fromValue = (__bridge id _Nullable)([UIColor colorWithRed:0.282 green:0.282 blue:0.235 alpha:1.0].CGColor);
     }
@@ -377,7 +377,7 @@ static const CGFloat rungButtonPadding = 10.0;
     [super setHighlighted:highlighted];
     if (highlighted) {
         if (@available(iOS 13.0, *)) {
-            self.layer.backgroundColor = UIColor.systemGray3Color.CGColor;
+            self.layer.backgroundColor = UIColor.systemGray5Color.CGColor;
         } else {
             self.layer.backgroundColor = [UIColor colorWithRed:0.282 green:0.282 blue:0.235 alpha:1.0].CGColor;
         }

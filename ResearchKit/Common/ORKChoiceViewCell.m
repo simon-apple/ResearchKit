@@ -343,7 +343,7 @@ static const CGFloat LabelCheckViewPadding = 10.0;
         [_contentMaskLayer addSublayer:_animationLayer];
         CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"backgroundColor"];
         if (@available(iOS 13.0, *)) {
-            animation.fromValue = (__bridge id _Nullable)(UIColor.systemGray3Color.CGColor);
+            animation.fromValue = (__bridge id _Nullable)(UIColor.systemGray5Color.CGColor);
         } else {
             animation.fromValue = (__bridge id _Nullable)([UIColor colorWithRed:0.282 green:0.282 blue:0.235 alpha:1.0].CGColor);
         }
@@ -527,7 +527,7 @@ static const CGFloat LabelCheckViewPadding = 10.0;
     
     if (highlighted) {
         if (@available(iOS 13.0, *)) {
-            [_foreLayer setFillColor:UIColor.systemGray3Color.CGColor];
+            [_foreLayer setFillColor:UIColor.systemGray5Color.CGColor];
         } else {
             self.layer.backgroundColor = [UIColor colorWithRed:0.282 green:0.282 blue:0.235 alpha:1.0].CGColor;
         }
