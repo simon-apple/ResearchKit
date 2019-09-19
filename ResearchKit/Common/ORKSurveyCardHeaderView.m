@@ -35,6 +35,7 @@
 #import "ORKTagLabel.h"
 
 static const CGFloat HeaderViewLabelTopBottomPadding = 6.0;
+static const CGFloat TagBottomPadding = 8.0;
 static const CGFloat HeaderViewBottomPadding = 24.0;
 
 @implementation ORKSurveyCardHeaderView {
@@ -276,7 +277,7 @@ static const CGFloat HeaderViewBottomPadding = 24.0;
     }
     
     if (_progressLabel) {
-        CGFloat topPadding = _tagLabel ? HeaderViewLabelTopBottomPadding : ORKSurveyItemMargin;
+        CGFloat topPadding = _tagLabel ? TagBottomPadding : ORKSurveyItemMargin;
         _progressLabel.translatesAutoresizingMaskIntoConstraints = NO;
         [[_progressLabel.topAnchor constraintEqualToAnchor:lastYAxisAnchor constant:topPadding] setActive:YES];
         [[_progressLabel.leadingAnchor constraintEqualToAnchor:_titleLabel.leadingAnchor] setActive:YES];

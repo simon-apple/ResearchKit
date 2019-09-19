@@ -79,7 +79,7 @@
 static const CGFloat ORKStepContentIconImageViewToTitleLabelPadding = 20.0;
 static const CGFloat ORKStepContentIconToBodyTopPaddingStandard = 20.0;
 static const CGFloat ORKStepContentIconToBulletTopPaddingStandard = 20.0;
-
+static const CGFloat ORKStepContentTagPaddingTop = 15.0;
 
 typedef NS_CLOSED_ENUM(NSInteger, ORKUpdateConstraintSequence) {
     ORKUpdateConstraintSequenceTopContentImageView = 0,
@@ -776,13 +776,13 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKUpdateConstraintSequence) {
     CGFloat topPadding;
     NSLayoutAttribute attribute;
 
-    if (_detailTextLabel) {
+    if (_detailTextLabel && ![_stepDetailText isEqualToString:@""]) {
         topItem = _detailTextLabel;
         topPadding = ORKBodyToBodyPaddingStandard;
         attribute = NSLayoutAttributeBottom;
     }
     
-    else if (_textLabel) {
+    else if (_textLabel && ![_stepText isEqualToString:@""]) {
         topItem = _textLabel;
         topPadding = ORKBodyToBodyPaddingStandard;
         attribute = NSLayoutAttributeBottom;
@@ -790,7 +790,13 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKUpdateConstraintSequence) {
     
     else if (_titleLabel) {
         topItem = _titleLabel;
-        topPadding = _bodyItems.firstObject.bodyItemStyle == ORKBodyItemStyleText ? ORKStepContainerTitleToBodyTopPaddingForWindow(self.window) : ORKStepContainerTitleToBulletTopPaddingForWindow(self.window);
+        
+        if (_bodyItems.firstObject.bodyItemStyle == ORKBodyItemStyleTag) {
+            topPadding = ORKStepContentTagPaddingTop;
+        } else {
+            topPadding = _bodyItems.firstObject.bodyItemStyle == ORKBodyItemStyleText ? ORKStepContainerTitleToBodyTopPaddingForWindow(self.window) : ORKStepContainerTitleToBulletTopPaddingForWindow(self.window);
+        }
+        
         attribute = NSLayoutAttributeBottom;
     }
     else if (_iconImageView) {

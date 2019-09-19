@@ -42,8 +42,8 @@ static const CGFloat ORKBodyToBulletPaddingStandard = 26.0;
 
 static const CGFloat ORKBulletToBulletPaddingStandard = 22.0;
 static const CGFloat ORKBodyToLearnMorePaddingStandard = 15.0;
-static const CGFloat ORKTagLabelBottomPadding = 6.0;
-static const CGFloat ORKHorizontalRulePadding = 20.0;
+static const CGFloat ORKTagLabelBottomPadding = 8.0;
+static const CGFloat ORKHorizontalRulePadding = 22.0;
 
 static const CGFloat ORKBodyTextToBodyDetailTextPaddingStandard = 6.0;
 static const CGFloat ORKBodyTextToLearnMoreButtonPaddingStandard = 15.0;

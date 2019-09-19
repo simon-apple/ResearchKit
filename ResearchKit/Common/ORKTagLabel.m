@@ -32,17 +32,17 @@
 
 @implementation ORKTagLabel
 
-static const CGFloat horizontalInset = 10;
-static const CGFloat verticalInset = 5;
+static const CGFloat horizontalInset = 6;
+static const CGFloat verticalInset = 4;
 
 - (instancetype)init {
    self = [super initWithFrame:CGRectZero];
     if (self) {
         self.numberOfLines = 0;
         self.clipsToBounds = YES;
-        self.layer.cornerRadius = 4.0;
+        self.layer.cornerRadius = 2.0;
         
-        UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleFootnote];
+        UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleCaption2];
         UIFontDescriptor *fontDescriptor = [descriptor fontDescriptorWithSymbolicTraits:(UIFontDescriptorTraitBold)];
         
         self.font = [UIFont fontWithDescriptor:fontDescriptor size:[[fontDescriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]];
