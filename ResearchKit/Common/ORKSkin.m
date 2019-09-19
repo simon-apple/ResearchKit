@@ -93,7 +93,6 @@ CGFloat ORKStepContainerTitleToBodyTopPaddingStandard = 15.0;
 CGFloat ORKStepContainerTitleToBodyTopPaddingShort = 11.0;
 CGFloat ORKBodyToBodyPaddingStandard = 12.0;
 
-CGFloat ORKStepContainerTitleToBulletTopPaddingStandard = 57.0;
 CGFloat ORKStepContainerTitleToBulletTopPaddingShort = 37.0;
 
 CGFloat ORKStepContainerTopContentHeightPercentage = 36.0;
@@ -564,7 +563,8 @@ CGFloat ORKStepContainerTitleToBulletTopPaddingForWindow(UIWindow *window) {
         case ORKScreenTypeiPhone6Plus:
         case ORKScreenTypeiPhone6:
         default:
-            padding = ORKStepContainerTitleToBulletTopPaddingStandard;
+            // FIXME:- defaulting to short padding for larger devices as well
+            padding = ORKStepContainerTitleToBulletTopPaddingShort;
             break;
     }
     return padding;
