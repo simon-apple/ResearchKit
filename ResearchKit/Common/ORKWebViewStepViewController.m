@@ -128,9 +128,10 @@ static const CGFloat ORKSignatureToClearPadding = 15.0;
         [controller addUserScript:userScript];
         
         _webView = [[WKWebView alloc] initWithFrame:self.view.bounds configuration:config];
-        _webView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        _webView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
         _webView.navigationDelegate = self;
         _webView.scrollView.scrollEnabled = NO;
+        _webView.scrollView.delegate = self;
         
         [_scrollView addSubview:_webView];
         [self setupNavigationFooterView];
@@ -327,6 +328,10 @@ static const CGFloat ORKSignatureToClearPadding = 15.0;
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self stepDidChange];
+}
+
+- (void)scrollViewDidZoom:(UIScrollView *)scrollView {
+    _webView.scrollView.contentOffset = CGPointZero;
 }
 
 - (void)viewDidLayoutSubviews {
