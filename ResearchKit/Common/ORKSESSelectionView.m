@@ -30,6 +30,7 @@
 
 #import "ORKSESSelectionView.h"
 #import "ORKAnswerFormat.h"
+#import "ORKCheckmarkView.h"
 #import "ORKHelpers_Internal.h"
 #import "ORKSkin.h"
 
@@ -50,8 +51,6 @@
  | <---rungIndex9
  */
 
-static const CGFloat CheckmarkViewDimension = 25.0;
-static const CGFloat CheckmarkViewBorderWidth = 2.0;
 static const int defaultNumberOfRungs = 10;
 //  FIXME: need specs
 static const CGFloat rungHeight = 36.0;
@@ -60,110 +59,6 @@ static const CGFloat labelToRungPadding = 20.0;
 static const CGFloat labelToCheckmarkPadding = 8.0;
 static const CGFloat rungToRungPadding = 6.0;
 static const CGFloat rungButtonPadding = 10.0;
-
-
-@interface ORKCheckmarkView : UIImageView;
-
-- (instancetype)initWithRadius:(CGFloat)radius checkedImage:(nullable UIImage *)checkedImage uncheckedImage:(nullable UIImage *)uncheckedImage;
-- (instancetype)initWithDefaults;
-
-@property (nonatomic, nullable) UIImage *checkedImage;
-@property (nonatomic, nullable) UIImage *uncheckedImage;
-@property (nonatomic) BOOL checked;
-
-- (CGFloat)getDimension;
-
-@end
-
-@implementation ORKCheckmarkView {
-    CGFloat _dimension;
-}
-
-- (instancetype)initWithRadius:(CGFloat)radius checkedImage:(UIImage *)checkedImage uncheckedImage:(UIImage *)uncheckedImage {
-    self = [super init];
-    if (self) {
-        _dimension = 2*radius;
-        _checkedImage = checkedImage;
-        _uncheckedImage = uncheckedImage;
-    }
-    [self setupView];
-    return self;
-}
-
-- (instancetype)initWithDefaults {
-    return [self initWithRadius:CheckmarkViewDimension*0.5
-                   checkedImage:[ORKCheckmarkView checkedImage]
-                 uncheckedImage:[ORKCheckmarkView unCheckedImage]];
-}
-
-- (CGFloat)getDimension {
-    return _dimension;
-}
-
-+ (UIImage *)unCheckedImage {
-    if (@available(iOS 13.0, *)) {
-        UIImageConfiguration *configuration = [UIImageSymbolConfiguration configurationWithFont:[UIFont preferredFontForTextStyle:UIFontTextStyleBody] scale:UIImageSymbolScaleLarge];
-        return [UIImage systemImageNamed:@"circle" withConfiguration:configuration];
-    } else {
-        return nil;
-    }
-}
-
-+ (UIImage *)checkedImage {
-    if (@available(iOS 13.0, *)) {
-        UIImageConfiguration *configuration = [UIImageSymbolConfiguration configurationWithFont:[UIFont preferredFontForTextStyle:UIFontTextStyleBody] scale:UIImageSymbolScaleLarge];
-        return [UIImage systemImageNamed:@"checkmark.circle.fill" withConfiguration:configuration];
-    } else {
-        return [[UIImage imageNamed:@"checkmark" inBundle:ORKBundle() compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    }
-}
-
-- (void)updateCheckView {
-    if (_checked) {
-        self.image = _checkedImage;
-//        FIXME: Need to be replaced.
-        if (@available(iOS 13.0, *)) {
-            self.tintColor = UIColor.systemBlueColor;
-        } else {
-            self.backgroundColor = [self tintColor];
-            self.tintColor = UIColor.whiteColor;
-        }
-    }
-    else {
-        self.image = _uncheckedImage;
-        if (@available(iOS 13.0, *)) {
-            self.tintColor = [UIColor secondaryLabelColor];
-        } else {
-            self.tintColor = nil;
-            self.image = nil;
-            self.backgroundColor = UIColor.clearColor;
-        }
-    }
-}
-
-
-- (void)setupView {
-    self.translatesAutoresizingMaskIntoConstraints = NO;
-    [[self.widthAnchor constraintEqualToConstant:_dimension] setActive:YES];
-    [[self.heightAnchor constraintEqualToConstant:_dimension] setActive:YES];
-    
-    if (@available(iOS 13.0, *)) {
-    } else {
-        self.layer.cornerRadius = _dimension * 0.5;
-        self.layer.borderWidth = CheckmarkViewBorderWidth;
-        self.layer.borderColor = self.tintColor.CGColor;
-        self.layer.masksToBounds = YES;
-    }
-    
-    self.contentMode = UIViewContentModeCenter;
-}
-
-- (void)setChecked:(BOOL)checked {
-    _checked = checked;
-    [self updateCheckView];
-}
-
-@end
 
 @interface ORKSESRungView : UIView
 

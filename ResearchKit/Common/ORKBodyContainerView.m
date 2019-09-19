@@ -53,9 +53,6 @@ static const CGFloat ORKBulletIconToBodyPadding = 14.0;
 static const CGFloat ORKBulletIconWidthStandard = 10.0;
 
 static const CGFloat ORKBulletIconDimension = 40.0;
-
-static const CGFloat ORKBodyItemHorizontalRuleHeight = 0.5;
-
 static const CGFloat ORKCardStylePadding = 16.0;
 static const CGFloat ORKCardStyleMediumTextPadding = 14.0;
 static const CGFloat ORKCardStyleSmallTextPadding = 2.0;
@@ -197,7 +194,7 @@ static NSString *ORKBulletUnicode = @"\u2981";
     } else {
         separator.backgroundColor = UIColor.lightGrayColor;
     }
-    [separator.heightAnchor constraintEqualToConstant:ORKBodyItemHorizontalRuleHeight].active = YES;
+    [separator.heightAnchor constraintEqualToConstant:ORKHorizontalRuleHeight].active = YES;
     [self addArrangedSubview:separator];
 }
 

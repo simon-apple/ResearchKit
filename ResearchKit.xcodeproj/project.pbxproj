@@ -634,6 +634,8 @@
 		BAD65E4B2284EFF9008A5DCE /* ORKStepView.h in Headers */ = {isa = PBXBuildFile; fileRef = BAD65E492284EFF9008A5DCE /* ORKStepView.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		BAD65E4C2284EFF9008A5DCE /* ORKStepView.m in Sources */ = {isa = PBXBuildFile; fileRef = BAD65E4A2284EFF9008A5DCE /* ORKStepView.m */; };
 		BAD65E502284F266008A5DCE /* ORKStepView_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = BAD65E4F2284F266008A5DCE /* ORKStepView_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		BAD6FAB12332A2FD006647E7 /* ORKCheckmarkView.h in Headers */ = {isa = PBXBuildFile; fileRef = BAD6FAAF2332A2FD006647E7 /* ORKCheckmarkView.h */; };
+		BAD6FAB22332A2FD006647E7 /* ORKCheckmarkView.m in Sources */ = {isa = PBXBuildFile; fileRef = BAD6FAB02332A2FD006647E7 /* ORKCheckmarkView.m */; };
 		BAD9E9122255E9750014FA29 /* ORKLearnMoreInstructionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = BAD9E9102255E9750014FA29 /* ORKLearnMoreInstructionStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BAD9E9132255E9750014FA29 /* ORKLearnMoreInstructionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = BAD9E9112255E9750014FA29 /* ORKLearnMoreInstructionStep.m */; };
 		BAD9E9162255E9CE0014FA29 /* ORKLearnMoreStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = BAD9E9142255E9CE0014FA29 /* ORKLearnMoreStepViewController.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -1490,6 +1492,8 @@
 		BAD65E492284EFF9008A5DCE /* ORKStepView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKStepView.h; sourceTree = "<group>"; };
 		BAD65E4A2284EFF9008A5DCE /* ORKStepView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKStepView.m; sourceTree = "<group>"; };
 		BAD65E4F2284F266008A5DCE /* ORKStepView_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKStepView_Private.h; sourceTree = "<group>"; };
+		BAD6FAAF2332A2FD006647E7 /* ORKCheckmarkView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKCheckmarkView.h; sourceTree = "<group>"; };
+		BAD6FAB02332A2FD006647E7 /* ORKCheckmarkView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKCheckmarkView.m; sourceTree = "<group>"; };
 		BAD9E9102255E9750014FA29 /* ORKLearnMoreInstructionStep.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKLearnMoreInstructionStep.h; sourceTree = "<group>"; };
 		BAD9E9112255E9750014FA29 /* ORKLearnMoreInstructionStep.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKLearnMoreInstructionStep.m; sourceTree = "<group>"; };
 		BAD9E9142255E9CE0014FA29 /* ORKLearnMoreStepViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKLearnMoreStepViewController.h; sourceTree = "<group>"; };
@@ -2281,6 +2285,7 @@
 		86C40B511A8D7C5B00081FAC /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				BAD6FAAE2332A2B6006647E7 /* CheckmarkView */,
 				BA2645E3230156C200D00B73 /* Review */,
 				BA8C067522EEB7FD00ACDE6B /* Playback Button */,
 				BA87E26A20A79F5F00B375A9 /* Ring View */,
@@ -3288,6 +3293,15 @@
 			name = PDFStep;
 			sourceTree = "<group>";
 		};
+		BAD6FAAE2332A2B6006647E7 /* CheckmarkView */ = {
+			isa = PBXGroup;
+			children = (
+				BAD6FAAF2332A2FD006647E7 /* ORKCheckmarkView.h */,
+				BAD6FAB02332A2FD006647E7 /* ORKCheckmarkView.m */,
+			);
+			name = CheckmarkView;
+			sourceTree = "<group>";
+		};
 		BAD9E90F2255E94F0014FA29 /* LearnMore Step */ = {
 			isa = PBXGroup;
 			children = (
@@ -3537,6 +3551,7 @@
 				BF1D43891D4905FC007EE90B /* ORKVideoInstructionStepViewController.h in Headers */,
 				CBD34A561BB1FB9000F204EA /* ORKLocationSelectionView.h in Headers */,
 				71BD9EA520969BE1007B436E /* ORKEnvironmentSPLMeterStep.h in Headers */,
+				BAD6FAB12332A2FD006647E7 /* ORKCheckmarkView.h in Headers */,
 				BA8078F3224AC8AA0013B554 /* ORKStepContainerView.h in Headers */,
 				865EA1621AB8DF750037C68E /* ORKDateTimePicker.h in Headers */,
 				86C40DA01A8D7C5C00081FAC /* ORKSurveyAnswerCell.h in Headers */,
@@ -4364,6 +4379,7 @@
 				86C40C581A8D7C5C00081FAC /* ORKTappingIntervalStepViewController.m in Sources */,
 				BA473FE4224DAFEF00A362E3 /* ORKBodyContainerView.m in Sources */,
 				BA0AA6971EAEC0B600671ACE /* ORKStroopStep.m in Sources */,
+				BAD6FAB22332A2FD006647E7 /* ORKCheckmarkView.m in Sources */,
 				86C40E0E1A8D7C5C00081FAC /* ORKConsentReviewStepViewController.m in Sources */,
 				BF9155A01BDE8D7E007FA459 /* ORKReviewStepViewController.m in Sources */,
 				2E80C1AA1FA2AA8D00399A0C /* ORKStreamingAudioRecorder.m in Sources */,

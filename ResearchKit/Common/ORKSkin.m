@@ -60,7 +60,7 @@ NSString *const ORKDoneButtonPressedKey = @"ORKDoneButtonPressed";
 NSString *const ORKResetDoneButtonKey = @"ORKResetDoneButton";
 CGFloat ORKQuestionStepMinimumHeaderHeight = 29.75;
 CGFloat ORKCardDefaultCornerRadii = 10.0;
-CGFloat ORKCardDefaultBorderWidth = 0.5;
+CGFloat ORKCardDefaultBorderWidth = 0.0;
 CGFloat ORKCardDefaultFontSize = 25.0;
 CGFloat ORKSurveyItemMargin = 16.0;
 CGFloat ORKSurveyTableContainerLeftRightPadding = 20.0;
@@ -100,6 +100,9 @@ CGFloat ORKStepContainerTopContentHeightPercentage = 36.0;
 CGFloat ORKStepContainerFirstItemTopPaddingPercentage = 9.0;
 
 CGFloat ORKStepContentIconImageViewDimension = 80.0;
+
+CGFloat CheckmarkViewDimension = 25.0;
+CGFloat ORKHorizontalRuleHeight = 0.33;
 
 @implementation UIColor (ORKColor)
 

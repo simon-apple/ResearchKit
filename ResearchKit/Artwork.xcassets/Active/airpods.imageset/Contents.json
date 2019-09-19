@@ -2,11 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
+      "filename" : "airpods.pdf",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "airpods.png",
       "scale" : "2x"
     },
     {

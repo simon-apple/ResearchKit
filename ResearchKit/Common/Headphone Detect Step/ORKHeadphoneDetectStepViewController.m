@@ -33,7 +33,7 @@
 #import "ORKHeadphoneDetectResult.h"
 #import "ORKHeadphoneDetectStep.h"
 #import "ORKHeadphoneDetector.h"
-
+#import "ORKCheckmarkView.h"
 #import "ORKCustomStepView_Internal.h"
 #import "ORKInstructionStepContainerView.h"
 #import "ORKInstructionStepView.h"
@@ -43,13 +43,10 @@
 
 #import "ORKInstructionStepViewController_Internal.h"
 #import "ORKStepViewController_Internal.h"
-
+#import "ORKSkin.h"
 #import "ORKHelpers_Internal.h"
 
 static const CGFloat ORKHeadphoneImageViewDimension = 60.0;
-static const CGFloat CheckViewDimension = 25.0;
-static const CGFloat CheckViewBorderWidth = 2.0;
-static const CGFloat ORKHorizontalRuleHeight = 1.0;
 static const CGFloat ORKHeadphoneDetectStepViewTopPadding = 50.0;
 
 @interface ORKHeadphoneDetectedView : UIStackView
@@ -75,7 +72,7 @@ static const CGFloat ORKHeadphoneDetectStepViewTopPadding = 50.0;
     UILabel *_textLabel;
     UIView *_labelContainerView;
     
-    UIImageView *_checkView;
+    ORKCheckmarkView *_checkView;
 }
 
 - (instancetype)initWithTitle:(NSString *)title image:(UIImage *)image {
@@ -173,33 +170,15 @@ static const CGFloat ORKHeadphoneDetectStepViewTopPadding = 50.0;
 
 - (void)setupCheckView {
     if (!_checkView) {
-        _checkView = [UIImageView new];
+        _checkView = [[ORKCheckmarkView alloc] initWithDefaults];
     }
-    _checkView.layer.cornerRadius = CheckViewDimension * 0.5;
-    _checkView.layer.borderWidth = CheckViewBorderWidth;
-    _checkView.layer.borderColor = UIColor.lightGrayColor.CGColor;
-    _checkView.layer.masksToBounds = YES;
-    _checkView.contentMode = UIViewContentModeCenter;
-    
-    [[_checkView.widthAnchor constraintEqualToConstant:CheckViewDimension] setActive:YES];
-    [[_checkView.heightAnchor constraintEqualToConstant:CheckViewDimension] setActive:YES];
-
+    [_checkView setChecked:NO];
     [self addArrangedSubview:_checkView];
 }
 
 - (void)updateCheckView {
     if (_checkView) {
-        if (_selected) {
-            _checkView.layer.borderColor = self.tintColor.CGColor;
-            _checkView.backgroundColor = self.tintColor;
-            _checkView.image = [[UIImage imageNamed:@"checkmark" inBundle:ORKBundle() compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-            _checkView.tintColor = UIColor.whiteColor;
-        }
-        else {
-            _checkView.backgroundColor = UIColor.clearColor;
-            _checkView.layer.borderColor = UIColor.lightGrayColor.CGColor;
-            _checkView.image = nil;
-        }
+        [_checkView setChecked:_selected];
     }
 }
 
