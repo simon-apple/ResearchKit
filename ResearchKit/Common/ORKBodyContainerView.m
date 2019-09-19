@@ -319,15 +319,8 @@ static NSString *ORKBulletUnicode = @"\u2981";
     [bulletIconLabel setText:ORKBulletUnicode];
     bulletIconLabel.translatesAutoresizingMaskIntoConstraints = NO;
     
-    [NSLayoutConstraint activateConstraints:@[
-                                              [NSLayoutConstraint constraintWithItem:bulletIconLabel
-                                                                           attribute:NSLayoutAttributeWidth
-                                                                           relatedBy:NSLayoutRelationEqual
-                                                                              toItem:nil
-                                                                           attribute:NSLayoutAttributeNotAnAttribute
-                                                                          multiplier:1.0
-                                                                            constant:ORKBulletIconWidthStandard]
-                                              ]];
+    [[bulletIconLabel.widthAnchor constraintGreaterThanOrEqualToConstant:ORKBulletIconWidthStandard] setActive:YES];
+    
     return bulletIconLabel;
 }
 
