@@ -330,19 +330,15 @@ static NSString *ORKBulletUnicode = @"\u2981";
     }
     if (@available(iOS 13.0, *)) {
         // To allow symbols to handle their own configuration
-        if (imageView.image.configuration != nil) {
+        if (imageView.image.isSymbolImage) {
             imageView.contentMode = UIViewContentModeCenter;
         } else {
             imageView.contentMode = UIViewContentModeScaleAspectFit;
         }
     }
-    
-    if (!_bodyItem.useCardStyle) {
-        [imageView.heightAnchor constraintEqualToConstant:ORKBulletIconDimension].active = YES;
-        [imageView.widthAnchor constraintEqualToConstant:ORKBulletIconDimension].active = YES;
-    } else {
-        [imageView setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh + 1 forAxis:UILayoutConstraintAxisHorizontal];
-    }
+
+    [imageView.heightAnchor constraintEqualToConstant:ORKBulletIconDimension].active = YES;
+    [imageView.widthAnchor constraintEqualToConstant:ORKBulletIconDimension].active = YES;
 
     return imageView;
 }
