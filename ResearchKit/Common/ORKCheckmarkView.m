@@ -79,7 +79,7 @@ static const CGFloat CheckmarkViewBorderWidth = 2.0;
 
 - (void)updateCheckView {
     if (_checked) {
-        self.image = _checkedImage;
+         self.image = _checkedImage;
         //        FIXME: Need to be replaced.
         if (@available(iOS 13.0, *)) {
             self.tintColor = UIColor.systemBlueColor;
@@ -100,9 +100,7 @@ static const CGFloat CheckmarkViewBorderWidth = 2.0;
     }
 }
 
-
 - (void)setupView {
-    self.translatesAutoresizingMaskIntoConstraints = NO;
     [[self.widthAnchor constraintEqualToConstant:_dimension] setActive:YES];
     [[self.heightAnchor constraintEqualToConstant:_dimension] setActive:YES];
     

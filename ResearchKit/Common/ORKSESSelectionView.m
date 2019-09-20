@@ -109,6 +109,7 @@ static const CGFloat rungButtonPadding = 10.0;
     }
     [_checkmarkView setChecked:NO];
     [self addSubview:_checkmarkView];
+    _checkmarkView.contentMode = UIViewContentModeScaleAspectFill;
     _checkmarkView.translatesAutoresizingMaskIntoConstraints = NO;
 }
 
@@ -328,7 +329,7 @@ static const CGFloat rungButtonPadding = 10.0;
             [[self.bottomAnchor constraintGreaterThanOrEqualToAnchor:rungButton.bottomAnchor constant:rungButtonPadding] setActive:YES];
         }
         
-        if (self.answer && [self.answer intValue] == i) {
+        if (self.answer && ![self.answer isEqual:[NSNull null]] && [self.answer intValue] == i) {
             [rungButton setSelected:YES];
         } else {
             [rungButton setSelected:NO];
