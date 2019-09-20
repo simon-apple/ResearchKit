@@ -167,19 +167,21 @@ static OSStatus ORKdBHLAudioGeneratorZeroTone(void *inRefCon,
 
 @implementation ORKdBHLToneAudiometryAudioGenerator
 
-- (instancetype)initForHeadphones: (NSString *)headphones {
+- (instancetype)initForHeadphoneType:(ORKHeadphoneTypeIdentifier)headphoneType {
     self = [super init];
     if (self) {
         _lastNodeInput = 0;
         
-        _sensitivityPerFrequency = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle bundleForClass:[self class]] pathForResource:[NSString stringWithFormat:@"frequency_dBSPL_%@", [headphones uppercaseString]]  ofType:@"plist"]];
+        _sensitivityPerFrequency = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle bundleForClass:[self class]] pathForResource:[NSString stringWithFormat:@"frequency_dBSPL_%@", [headphoneType uppercaseString]]  ofType:@"plist"]];
 
-        _retspl = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle bundleForClass:[self class]] pathForResource:[NSString stringWithFormat:@"retspl_%@", [headphones uppercaseString]] ofType:@"plist"]];
+        _retspl = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle bundleForClass:[self class]] pathForResource:[NSString stringWithFormat:@"retspl_%@", [headphoneType uppercaseString]] ofType:@"plist"]];
         
-        if ([[headphones uppercaseString] isEqualToString:@"AIRPODS"]) {
+        if ([[headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPods]) {
             _volumeCurve = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle bundleForClass:[self class]] pathForResource:@"volume_curve_AIRPODS" ofType:@"plist"]];
-        } else {
+        } else if ([[headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierEarPods]) {
             _volumeCurve = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle bundleForClass:[self class]] pathForResource:@"volume_curve_WIRED" ofType:@"plist"]];
+        } else {
+            @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"A valid headphone route identifier must be provided" userInfo:nil];
         }
         
         [self setupGraph];

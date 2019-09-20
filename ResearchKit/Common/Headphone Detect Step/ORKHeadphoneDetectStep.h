@@ -54,9 +54,9 @@ ORK_CLASS_AVAILABLE
 
 - (instancetype)initWithIdentifier:(NSString *)identifier headphoneTypes:(ORKHeadphoneTypes)headphoneTypes;
 
-+ (NSSet<NSString *> *)dBHLTypes;
++ (NSSet<ORKHeadphoneRawTypeIdentifier> *)dBHLTypes;
 
-- (nullable NSSet<NSString *> *)supportedHeadphoneTypes;
+- (nullable NSSet<ORKHeadphoneRawTypeIdentifier> *)supportedHeadphoneTypes;
 
 @end
 

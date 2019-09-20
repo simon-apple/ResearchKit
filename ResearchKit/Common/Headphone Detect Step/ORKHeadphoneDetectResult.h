@@ -36,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 ORK_CLASS_AVAILABLE
 @interface ORKHeadphoneDetectResult : ORKResult
 
-@property (nonatomic, copy, nullable) NSString *headphoneType;
+@property (nonatomic, copy, nullable) ORKHeadphoneTypeIdentifier headphoneType;
 
 @end
 

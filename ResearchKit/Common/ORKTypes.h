@@ -366,12 +366,20 @@ typedef NS_ENUM(NSInteger, ORKMeasurementSystem) {
 /**
  Type Identifiers for supported headphones types.
  */
-typedef NSString * ORKHeadphoneTypeIdentifier NS_STRING_ENUM;
+typedef NSString * ORKHeadphoneRawTypeIdentifier NS_STRING_ENUM;
 
+ORK_EXTERN ORKHeadphoneRawTypeIdentifier const ORKHeadphoneRawTypeIdentifierUnknown;
+ORK_EXTERN ORKHeadphoneRawTypeIdentifier const ORKHeadphoneRawTypeIdentifierAirPods;
+ORK_EXTERN ORKHeadphoneRawTypeIdentifier const ORKHeadphoneRawTypeIdentifierLightningEarPods;
+ORK_EXTERN ORKHeadphoneRawTypeIdentifier const ORKHeadphoneRawTypeIdentifierAudioJackEarPods;
+
+/**
+ Route Identifiers for supported headphone types.
+ */
+typedef NSString *ORKHeadphoneTypeIdentifier NS_STRING_ENUM;
+ORK_EXTERN ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierAirPods;
+ORK_EXTERN ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierEarPods;
 ORK_EXTERN ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierUnknown;
-ORK_EXTERN ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierAirpods;
-ORK_EXTERN ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierLightningEarpods;
-ORK_EXTERN ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierAudiojackEarpods;
 
 
 /**

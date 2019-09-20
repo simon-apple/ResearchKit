@@ -32,13 +32,19 @@
 
 #import "ORKTypes.h"
 
-ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierUnknown = @"unknown";
+ORKHeadphoneRawTypeIdentifier const ORKHeadphoneRawTypeIdentifierUnknown = @"unknown";
 
-ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierAirpods = @"aa2d";
+ORKHeadphoneRawTypeIdentifier const ORKHeadphoneRawTypeIdentifierAirPods = @"aa2d";
 
-ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierLightningEarpods = @"b225";
+ORKHeadphoneRawTypeIdentifier const ORKHeadphoneRawTypeIdentifierLightningEarPods = @"b225";
 
-ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierAudiojackEarpods = @"b60";
+ORKHeadphoneRawTypeIdentifier const ORKHeadphoneRawTypeIdentifierAudioJackEarPods = @"b60";
+
+ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierAirPods = @"AIRPODS";
+
+ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierEarPods = @"EARPODS";
+
+ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierUnknown = @"UNKNOWN";
 
 ORKTrailMakingTypeIdentifier const ORKTrailMakingTypeIdentifierA = @"A";
 

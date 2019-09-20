@@ -44,7 +44,7 @@
 }
 
 - (instancetype)initWithDelegate:(id<ORKHeadphoneDetectorDelegate>)delegate
-       supportedHeadphoneTypes:(NSSet<NSString *> *)supportedHeadphoneTypes {
+       supportedHeadphoneTypes:(NSSet<ORKHeadphoneRawTypeIdentifier> *)supportedHeadphoneTypes {
     self = [super init];
     if (self) {
         _newRoute = nil;
@@ -94,7 +94,7 @@
             NSSet *supportedRoutes = [_supportedHeadphoneTypes objectsPassingTest:^BOOL(NSString * _Nonnull obj, BOOL * _Nonnull routesStop) {
                 return [subtype containsString:obj];
             }];
-            _newRoute =  subtype;
+            _newRoute = subtype;
             routeSupported = ( [supportedRoutes count] > 0 || _supportedHeadphoneTypes == nil );
             *stop = YES;
         }

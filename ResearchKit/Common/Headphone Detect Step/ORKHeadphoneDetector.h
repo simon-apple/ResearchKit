@@ -40,17 +40,17 @@ ORK_CLASS_AVAILABLE
 @interface ORKHeadphoneDetector : NSObject
 
 @property (nonatomic, weak) id<ORKHeadphoneDetectorDelegate> delegate;
-@property (nonatomic, readonly, nullable) NSSet<NSString *> *supportedHeadphoneTypes;
+@property (nonatomic, readonly, nullable) NSSet<ORKHeadphoneRawTypeIdentifier> *supportedHeadphoneTypes;
 
 - (instancetype)initWithDelegate:(id<ORKHeadphoneDetectorDelegate>)delegate
-       supportedHeadphoneTypes:(NSSet<NSString *> *)supportedHeadphoneTypes;
+       supportedHeadphoneTypes:(NSSet<ORKHeadphoneRawTypeIdentifier> *)supportedHeadphoneTypes;
 
 @end
 
 @protocol ORKHeadphoneDetectorDelegate <NSObject>
 
 @required
-- (void)headphoneTypeDetected:(NSString *)headphoneType isSupported:(BOOL)isSupported;
+- (void)headphoneTypeDetected:(ORKHeadphoneRawTypeIdentifier)headphoneType isSupported:(BOOL)isSupported;
 
 @end
 

@@ -47,7 +47,7 @@ ORK_CLASS_AVAILABLE
 
 @property (nonatomic, assign) NSTimeInterval postStimulusDelay;
 
-@property (nonatomic, copy, nullable) NSString *headphoneType;
+@property (nonatomic, copy, nullable) ORKHeadphoneTypeIdentifier headphoneType;
 
 @property (nonatomic, copy, nullable) NSArray<ORKdBHLToneAudiometryFrequencySample *> *samples;
 

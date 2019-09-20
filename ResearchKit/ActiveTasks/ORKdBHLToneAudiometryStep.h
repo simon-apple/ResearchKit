@@ -60,7 +60,7 @@ ORK_CLASS_AVAILABLE
 
 @property (nonatomic, assign) double dBHLMinimumThreshold;
 
-@property (nonatomic, strong) NSString *headphoneType;
+@property (nonatomic, strong) ORKHeadphoneTypeIdentifier headphoneType;
 
 @property (nonatomic, assign) ORKAudioChannel earPreference;
 

@@ -38,13 +38,13 @@
 }
 
 + (NSSet<NSString *> *)dBHLTypes {
-    static NSSet<NSString *> *audioRouteSubtypes = nil;
+    static NSSet<ORKHeadphoneRawTypeIdentifier> *audioRouteSubtypes = nil;
     
     if ( audioRouteSubtypes == nil )
     {
-        audioRouteSubtypes = [[NSSet alloc] initWithObjects:ORKHeadphoneTypeIdentifierAirpods,
-                              ORKHeadphoneTypeIdentifierLightningEarpods,
-                              ORKHeadphoneTypeIdentifierAudiojackEarpods,
+        audioRouteSubtypes = [[NSSet alloc] initWithObjects:ORKHeadphoneRawTypeIdentifierAirPods,
+                              ORKHeadphoneRawTypeIdentifierLightningEarPods,
+                              ORKHeadphoneRawTypeIdentifierAudioJackEarPods,
                               nil];
     }
     return audioRouteSubtypes;
@@ -98,7 +98,7 @@
     return super.hash ^ self.headphoneTypes;
 }
 
-- (nullable NSSet<NSString *> *)supportedHeadphoneTypes {
+- (nullable NSSet<ORKHeadphoneRawTypeIdentifier> *)supportedHeadphoneTypes {
     return _supportedHeadphoneTypes;
 }
 

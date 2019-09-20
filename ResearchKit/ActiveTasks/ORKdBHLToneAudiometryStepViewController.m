@@ -103,9 +103,7 @@
     dispatch_block_t _preStimulusDelayWorkBlock;
     dispatch_block_t _pulseDurationWorkBlock;
     dispatch_block_t _postStimulusDelayWorkBlock;
-
-    NSString * _currentRoute;
-
+    
     ORKHeadphoneDetector *_headphoneDetector;
 }
 
@@ -191,7 +189,7 @@
     }
 
     _audioChannel = dBHLTAStep.earPreference;
-    _audioGenerator = [[ORKdBHLToneAudiometryAudioGenerator alloc] initForHeadphones:dBHLTAStep.headphoneType];
+    _audioGenerator = [[ORKdBHLToneAudiometryAudioGenerator alloc] initForHeadphoneType:dBHLTAStep.headphoneType];
     _audioGenerator.delegate = self;
     _hapticFeedback = [[UIImpactFeedbackGenerator alloc] initWithStyle: UIImpactFeedbackStyleHeavy];
 
@@ -461,17 +459,17 @@
 
 #pragma mark - Headphone Monitoring
 
-- (NSString *)convertHeadphoneRawType:(NSString *)rawHeadphoneType {
-    if ([rawHeadphoneType containsString: ORKHeadphoneTypeIdentifierAirpods]) {
-        return @"AIRPODS";
-    } else if ([rawHeadphoneType containsString: ORKHeadphoneTypeIdentifierLightningEarpods]
-               || [rawHeadphoneType containsString: ORKHeadphoneTypeIdentifierAudiojackEarpods]) {
-        return @"EARPODS";
+- (ORKHeadphoneTypeIdentifier)convertHeadphoneRawType:(ORKHeadphoneRawTypeIdentifier)rawHeadphoneType {
+    if ([rawHeadphoneType containsString: ORKHeadphoneRawTypeIdentifierAirPods]) {
+        return ORKHeadphoneTypeIdentifierAirPods;
+    } else if ([rawHeadphoneType containsString: ORKHeadphoneRawTypeIdentifierLightningEarPods]
+               || [rawHeadphoneType containsString: ORKHeadphoneRawTypeIdentifierAudioJackEarPods]) {
+        return ORKHeadphoneTypeIdentifierEarPods;
     }
     return nil;
 }
 
-- (void)headphoneTypeDetected:(NSString *)headphoneType isSupported:(BOOL)isSupported {
+- (void)headphoneTypeDetected:(ORKHeadphoneRawTypeIdentifier)headphoneType isSupported:(BOOL)isSupported {
     if (![[self convertHeadphoneRawType:headphoneType] isEqualToString:[[self dBHLToneAudiometryStep].headphoneType uppercaseString]]) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [self stopAudio];
