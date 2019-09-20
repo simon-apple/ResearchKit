@@ -48,8 +48,8 @@ static const CGFloat verticalInset = 4;
         self.font = [UIFont fontWithDescriptor:fontDescriptor size:[[fontDescriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]];
         
         if (@available(iOS 13.0, *)) {
-            self.textColor = [UIColor secondaryLabelColor];
-            self.backgroundColor = [UIColor systemGray6Color];
+            self.textColor = [UIColor systemGrayColor];
+            self.backgroundColor = [UIColor tertiarySystemGroupedBackgroundColor];
         } else {
             self.textColor = [UIColor darkGrayColor];
             self.backgroundColor = [UIColor lightGrayColor];
