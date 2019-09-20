@@ -160,13 +160,13 @@ static NSString *ORKBulletUnicode = @"\u2981";
 }
 
 + (UIFont *)bulletTextFontBold {
-    UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleSubheadline];
+    UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleBody];
     UIFontDescriptor *fontDescriptor = [descriptor fontDescriptorWithSymbolicTraits:(UIFontDescriptorTraitBold | UIFontDescriptorTraitLooseLeading)];
     return [UIFont fontWithDescriptor:fontDescriptor size:[[fontDescriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]];
 }
 
 + (UIFont *)bulletBodyTextFontBold {
-    UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleSubheadline];
+    UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleBody];
     UIFontDescriptor *fontDescriptor = [descriptor fontDescriptorWithSymbolicTraits:(UIFontDescriptorTraitBold | UIFontDescriptorTraitLooseLeading)];
     return [UIFont fontWithDescriptor:fontDescriptor size:[[fontDescriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]];
 }
@@ -209,7 +209,7 @@ static NSString *ORKBulletUnicode = @"\u2981";
         
         textLabel = [UILabel new];
         textLabel.numberOfLines = 0;
-        textLabel.font = _bodyItem.detailText == nil ? [ORKBodyItemView bodyTitleFont] : [ORKBodyItemView bodyTitleFontBold];
+        textLabel.font = [ORKBodyItemView bodyTitleFontBold];
         textLabel.text = _bodyItem.text;
         textLabel.textAlignment = _textAlignment;
         textLabel.translatesAutoresizingMaskIntoConstraints = NO;
@@ -394,7 +394,7 @@ static NSString *ORKBulletUnicode = @"\u2981";
                 [textLabel.bottomAnchor constraintEqualToAnchor:_cardView.bottomAnchor].active = YES;
             }
         } else {
-            textLabel.font = _bodyItem.detailText ? [ORKBodyItemView bulletTextFontBold] : [ORKBodyItemView bulletTextFont];
+            textLabel.font = [ORKBodyItemView bulletTextFontBold];
             [subStackView addArrangedSubview:textLabel];
         }
     }
