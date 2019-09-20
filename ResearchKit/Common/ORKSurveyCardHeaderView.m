@@ -272,7 +272,8 @@ static const CGFloat HeaderViewBottomPadding = 24.0;
         _tagLabel.translatesAutoresizingMaskIntoConstraints = NO;
         [_tagLabel.topAnchor constraintEqualToAnchor:lastYAxisAnchor constant:ORKSurveyItemMargin].active = YES;
         [_tagLabel.leadingAnchor constraintEqualToAnchor:_titleLabel.leadingAnchor].active = YES;
-        [_tagLabel.trailingAnchor constraintLessThanOrEqualToAnchor:trailingAnchor constant:-ORKSurveyItemMargin].active = YES;
+        // FIXME:- learnMoreView gets compressed if we use _learnMoreView.leadingAnchor
+        [_tagLabel.trailingAnchor constraintLessThanOrEqualToAnchor:_headlineView.trailingAnchor constant:-ORKSurveyItemMargin].active = YES;
         lastYAxisAnchor = _tagLabel.bottomAnchor;
     }
     
