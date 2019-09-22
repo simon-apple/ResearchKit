@@ -41,6 +41,7 @@
 #import "ORKScaleSliderView.h"
 #import "ORKTableContainerView.h"
 #import "ORKTextFieldView.h"
+#import "ORKDontKnowButton.h"
 
 #import "ORKAnswerFormat_Internal.h"
 #import "ORKFormItem_Internal.h"
@@ -54,10 +55,11 @@
 
 
 static const CGFloat VerticalMargin = 10.0;
-static const CGFloat VerticalSpacer = 15.0;
-static const CGFloat HorizontalSpacer = 16.0;
+static const CGFloat StandardSpacing = 8.0;
 static const CGFloat ErrorLabelTopPadding = 4.0;
 static const CGFloat ErrorLabelBottomPadding = 10.0;
+static const CGFloat DontKnowButtonTopBottomPadding = 16.0;
+static const CGFloat DividerViewTopPadding = 10.0;
 
 @interface ORKFormItemCell ()
 
@@ -112,6 +114,7 @@ static const CGFloat ErrorLabelBottomPadding = 10.0;
 @implementation ORKFormItemCell {
     CGFloat _leftRightMargin;
     CAShapeLayer *_contentMaskLayer;
+    NSLayoutConstraint *contentViewBottomConstraint;
     NSArray<NSLayoutConstraint *> *_containerConstraints;
 }
 
@@ -157,11 +160,15 @@ static const CGFloat ErrorLabelBottomPadding = 10.0;
     _containerView.translatesAutoresizingMaskIntoConstraints = NO;
     
     _containerConstraints = @[
-                              [NSLayoutConstraint constraintWithItem:_containerView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0],
-                              [NSLayoutConstraint constraintWithItem:_containerView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeft multiplier:1.0 constant:_leftRightMargin],
-                              [NSLayoutConstraint constraintWithItem:_containerView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeRight multiplier:1.0 constant:-_leftRightMargin],
-                              [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0],
-                              ];
+        [NSLayoutConstraint constraintWithItem:_containerView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0],
+        [NSLayoutConstraint constraintWithItem:_containerView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeft multiplier:1.0 constant:_leftRightMargin],
+        [NSLayoutConstraint constraintWithItem:_containerView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeRight multiplier:1.0 constant:-_leftRightMargin]
+    ];
+    
+    contentViewBottomConstraint = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_containerView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0];
+    
+    _containerConstraints = [_containerConstraints arrayByAddingObject:contentViewBottomConstraint];
+    
     [NSLayoutConstraint activateConstraints:_containerConstraints];
 }
 
@@ -402,7 +409,11 @@ static const CGFloat ErrorLabelBottomPadding = 10.0;
 
 
 @implementation ORKFormItemTextFieldBasedCell {
-    NSMutableArray *_variableConstraints;
+    BOOL _shouldShowDontKnow;
+    NSString *_customDontKnowString;
+    ORKDontKnowButton *_dontKnowButton;
+    UIView *_dividerView;
+    BOOL _dontKnowButtonActive;
 }
 
 - (instancetype)initWithReuseIdentifier:(NSString *)reuseIdentifier
@@ -455,10 +466,20 @@ static const CGFloat ErrorLabelBottomPadding = 10.0;
     self.errorLabel.numberOfLines = 0;
     
     [self.containerView addSubview:self.errorLabel];
-
+    
     self.labelLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.labelLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
     _textFieldView.translatesAutoresizingMaskIntoConstraints = NO;
+    [_textFieldView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
     self.errorLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    _shouldShowDontKnow = NO;
+    _customDontKnowString = nil;
+    if ([self.formItem.answerFormat shouldShowDontKnowButton]) {
+        _shouldShowDontKnow = YES;
+        _customDontKnowString = self.formItem.answerFormat.customDontKnowButtonText;
+        [self setupDontKnowButton];
+    }
     
     [self setUpContentConstraint];
     [self setNeedsUpdateConstraints];
@@ -467,6 +488,41 @@ static const CGFloat ErrorLabelBottomPadding = 10.0;
 - (void)willMoveToWindow:(UIWindow *)newWindow {
     [super willMoveToWindow:newWindow];
     [self setNeedsUpdateConstraints];
+}
+
+- (void)setupDontKnowButton {
+    if (!_dontKnowButton) {
+        _dontKnowButton = [ORKDontKnowButton new];
+        _dontKnowButton.translatesAutoresizingMaskIntoConstraints = NO;
+        [_dontKnowButton addTarget:self action:@selector(dontKnowButtonWasPressed) forControlEvents:UIControlEventTouchUpInside];
+    }
+
+    if (!_dividerView) {
+        _dividerView = [UIView new];
+        _dividerView.translatesAutoresizingMaskIntoConstraints = NO;
+        if (@available(iOS 13.0, *)) {
+            [_dividerView setBackgroundColor:[UIColor separatorColor]];
+        } else {
+            [_dividerView setBackgroundColor:[UIColor lightGrayColor]];
+        }
+    }
+
+    [self.containerView addSubview:_dontKnowButton];
+    [self.containerView addSubview:_dividerView];
+}
+
+- (void)dontKnowButtonWasPressed {
+    if (![_dontKnowButton isDontKnowButtonActive]) {
+        [_textFieldView.textField setText:nil];
+        [self textFieldShouldClear:_textFieldView.textField];
+        [_dontKnowButton setButtonActive];
+        
+        if (self.errorLabel.attributedText) {
+            self.errorLabel.attributedText = nil;
+            [self updateConstraints];
+            [self.delegate formItemCellShouldResizeCells];
+        }
+    }
 }
 
 - (void)setUpContentConstraint {
@@ -482,37 +538,8 @@ static const CGFloat ErrorLabelBottomPadding = 10.0;
 }
 
 - (void)updateConstraints {
-    [NSLayoutConstraint deactivateConstraints:_variableConstraints];
-    [_variableConstraints removeAllObjects];
-    
-    if (!_variableConstraints) {
-        _variableConstraints = [NSMutableArray new];
-    }
-    
     CGFloat labelWidth = self.maxLabelWidth;
-    
-    NSDictionary *metrics = @{@"vMargin":@(VerticalMargin),
-                              @"hMargin":@(ORKSurveyItemMargin),
-                              @"hSpacer":@(HorizontalSpacer),
-                              @"vSpacer":@(VerticalSpacer),
-                              @"labelWidth":@(labelWidth),
-                              @"errorLabelTopPadding":@(ErrorLabelTopPadding),
-                              @"errorLabelBottomPadding":@(ErrorLabelBottomPadding)};
-    
-    id labelLabel = self.labelLabel;
-    id textFieldView = _textFieldView;
-    id errorLabel = self.errorLabel;
-    NSDictionary *views = NSDictionaryOfVariableBindings(labelLabel,textFieldView, errorLabel);
-    
-    if (self.errorLabel.attributedText == nil) {
-        
-        [_variableConstraints addObjectsFromArray:
-                 [NSLayoutConstraint constraintsWithVisualFormat:@"V:[errorLabel(==0)]"
-                                                         options:0
-                                                         metrics:nil
-                                                           views:views]];
-    }
-    
+
     NSString *contentSize = [[UIApplication sharedApplication] preferredContentSizeCategory];
     NSArray *largeSizes = @[
         UIContentSizeCategoryExtraExtraLarge,
@@ -521,88 +548,73 @@ static const CGFloat ErrorLabelBottomPadding = 10.0;
         UIContentSizeCategoryAccessibilityExtraLarge,
         UIContentSizeCategoryAccessibilityExtraExtraLarge,
         UIContentSizeCategoryAccessibilityExtraExtraExtraLarge];
-    
-    if ([largeSizes containsObject:contentSize]) {
-        //stack label and textfieldview
-        [_variableConstraints addObjectsFromArray:
-         [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[labelLabel]-[textFieldView]-errorLabelTopPadding-[errorLabel]-errorLabelBottomPadding-|"
-                                                 options:0
-                                                 metrics:metrics
-                                                   views:views]];
-        
-        [_variableConstraints addObjectsFromArray:
-                 [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-hMargin-[labelLabel]-hMargin-|"
-                                                         options:0
-                                                         metrics:metrics
-                                                           views:views]];
-        [_variableConstraints addObjectsFromArray:
-                        [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-hMargin-[textFieldView]-hMargin-|"
-                                                                options:0
-                                                                metrics:metrics
-                                                                  views:views]];
-        
-    } else {
-        
-        [_variableConstraints addObjectsFromArray:
-         [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[labelLabel]-errorLabelTopPadding-[errorLabel]-errorLabelBottomPadding-|"
-                                                 options:NSLayoutFormatAlignAllLeading
-                                                 metrics:metrics
-                                                   views:views]];
-        
-        [_variableConstraints addObjectsFromArray:
-         [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-hMargin-[labelLabel(<=labelWidth)]-hSpacer-[textFieldView]|"
-                                                 options:NSLayoutFormatAlignAllCenterY
-                                                 metrics:metrics
-                                                   views:views]];
+
+    if (self.labelLabel.text) {
+        [[self.labelLabel.topAnchor constraintEqualToAnchor:self.containerView.topAnchor constant:StandardSpacing] setActive:YES];
+        [[self.labelLabel.leftAnchor constraintEqualToAnchor:self.containerView.leftAnchor constant:ORKSurveyItemMargin] setActive:YES];
     }
-    
-    [_variableConstraints addObject:[NSLayoutConstraint constraintWithItem:self.errorLabel
-                                                                 attribute:NSLayoutAttributeRight
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:self.containerView
-                                                                 attribute:NSLayoutAttributeRight
-                                                                multiplier:1.0
-                                                                  constant: 0.0]];
-    
-    [_variableConstraints addObject:[NSLayoutConstraint constraintWithItem:self.errorLabel
-                                                                 attribute:NSLayoutAttributeLeft
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:self.labelLabel
-                                                                 attribute:NSLayoutAttributeLeft
-                                                                multiplier:1.0
-                                                                  constant: 0.0]];
 
-    [_variableConstraints addObject:[NSLayoutConstraint constraintWithItem:self.contentView
-                                                                 attribute:NSLayoutAttributeHeight
-                                                                 relatedBy:NSLayoutRelationGreaterThanOrEqual
-                                                                    toItem:labelLabel
-                                                                 attribute:NSLayoutAttributeHeight
-                                                                multiplier:1.0
-                                                                  constant:0.0]];
-    
-    [_variableConstraints addObject:[NSLayoutConstraint constraintWithItem:self.contentView
-                                                                 attribute:NSLayoutAttributeHeight
-                                                                 relatedBy:NSLayoutRelationGreaterThanOrEqual
-                                                                    toItem:textFieldView
-                                                                 attribute:NSLayoutAttributeHeight
-                                                                multiplier:1.0
-                                                                  constant:0.0]];
+    if ([largeSizes containsObject:contentSize]) {
+        //stack label and textfieldview when the content size is large
+        if (self.labelLabel.text) {
+            [[self.labelLabel.rightAnchor constraintEqualToAnchor:self.containerView.rightAnchor constant:-ORKSurveyItemMargin] setActive:YES];
+        }
+        [[self.textFieldView.topAnchor constraintEqualToAnchor:self.labelLabel.text ? self.labelLabel.bottomAnchor : self.containerView.topAnchor
+                                                      constant:self.labelLabel.text ? StandardSpacing : ORKSurveyItemMargin] setActive:YES];
+        [[self.textFieldView.leftAnchor constraintEqualToAnchor:self.containerView.leftAnchor constant:ORKSurveyItemMargin] setActive:YES];
 
-    CGFloat defaultTableCelltHeight = ORKGetMetricForWindow(ORKScreenMetricTableCellDefaultHeight, self.window);
-    NSLayoutConstraint *heightConstraint = [NSLayoutConstraint constraintWithItem:self.contentView
-                                                                        attribute:NSLayoutAttributeHeight
-                                                                        relatedBy:NSLayoutRelationGreaterThanOrEqual
-                                                                           toItem:nil
-                                                                        attribute:NSLayoutAttributeNotAnAttribute
-                                                                       multiplier:1.0
-                                                                         constant:defaultTableCelltHeight];
-    
-    // Lower the priority to avoid conflicts with system supplied UIView-Encapsulated-Layout-Height constraint.
-    heightConstraint.priority = 999;
-    [_variableConstraints addObject:heightConstraint];
-    
-    [NSLayoutConstraint activateConstraints:_variableConstraints];
+        [[self.errorLabel.topAnchor constraintEqualToAnchor:self.textFieldView.bottomAnchor constant:ErrorLabelTopPadding] setActive:YES];
+    } else {
+        if (self.labelLabel.text) {
+            [[self.labelLabel.widthAnchor constraintLessThanOrEqualToConstant:labelWidth] setActive:YES];
+            [[self.textFieldView.centerYAnchor constraintEqualToAnchor:self.labelLabel.centerYAnchor constant:0.0] setActive:YES];
+        } else {
+            [[self.textFieldView.topAnchor constraintEqualToAnchor:self.containerView.topAnchor
+            constant:ORKSurveyItemMargin] setActive:YES];
+        }
+        [[self.textFieldView.leftAnchor constraintEqualToAnchor:self.labelLabel.text ? self.labelLabel.rightAnchor : self.containerView.leftAnchor
+                                                       constant:ORKSurveyItemMargin] setActive:YES];
+
+        [[self.errorLabel.topAnchor constraintEqualToAnchor:self.labelLabel.text ? self.labelLabel.bottomAnchor : self.textFieldView.bottomAnchor
+                                                   constant:ErrorLabelTopPadding] setActive:YES];
+    }
+
+    [[self.textFieldView.rightAnchor constraintEqualToAnchor:self.containerView.rightAnchor constant:0.0] setActive:YES];
+
+    [[self.errorLabel.rightAnchor constraintEqualToAnchor:self.containerView.rightAnchor] setActive:YES];
+    [[self.errorLabel.leftAnchor constraintEqualToAnchor:self.containerView.leftAnchor constant:ORKSurveyItemMargin] setActive:YES];
+
+    if (_shouldShowDontKnow) {
+        CGFloat separatorHeight = 1.0 / [UIScreen mainScreen].scale;
+        [[_dividerView.topAnchor constraintEqualToAnchor:self.errorLabel.bottomAnchor constant:DividerViewTopPadding] setActive:YES];
+        [[_dividerView.leadingAnchor constraintEqualToAnchor:self.containerView.leadingAnchor] setActive:YES];
+        [[_dividerView.trailingAnchor constraintEqualToAnchor:self.containerView.trailingAnchor] setActive:YES];
+        NSLayoutConstraint *constraint1 = [NSLayoutConstraint constraintWithItem:_dividerView
+                                                                      attribute:NSLayoutAttributeHeight
+                                                                      relatedBy:NSLayoutRelationEqual
+                                                                         toItem:nil
+                                                                      attribute:NSLayoutAttributeNotAnAttribute
+                                                                     multiplier:1.0
+                                                                       constant:separatorHeight];
+        constraint1.priority = UILayoutPriorityRequired - 1;
+        constraint1.active = YES;
+        [[_dontKnowButton.topAnchor constraintEqualToAnchor:_dividerView.bottomAnchor constant:DontKnowButtonTopBottomPadding] setActive:YES];
+        [[_dontKnowButton.centerXAnchor constraintEqualToAnchor:self.containerView.centerXAnchor] setActive:YES];
+        NSLayoutConstraint *constraint2 = [NSLayoutConstraint constraintWithItem:self.containerView
+                                                                      attribute:NSLayoutAttributeBottom
+                                                                      relatedBy:NSLayoutRelationEqual
+                                                                         toItem:_dontKnowButton
+                                                                      attribute:NSLayoutAttributeBottom
+                                                                     multiplier:1.0
+                                                                       constant:DontKnowButtonTopBottomPadding];
+        constraint2.priority = UILayoutPriorityRequired - 1;
+        constraint2.active = YES;
+    } else {
+        [[self.containerView.bottomAnchor constraintEqualToAnchor:self.errorLabel.bottomAnchor constant:ErrorLabelBottomPadding] setActive:YES];
+    }
+
     [super updateConstraints];
+    [self.delegate formItemCellShouldResizeCells];
 }
 
 - (void)setEditingHighlight:(BOOL)editingHighlight {
@@ -672,6 +684,14 @@ static const CGFloat ErrorLabelBottomPadding = 10.0;
     [super inputValueDidClear];
 }
 
+- (void)inputValueDidChange {
+    [super inputValueDidChange];
+
+    if (_dontKnowButton && [_dontKnowButton isDontKnowButtonActive]) {
+        [_dontKnowButton setButtonInactive];
+    }
+}
+
 - (void)removeEditingHighlight {
     self.editingHighlight = NO;
 }
@@ -718,7 +738,6 @@ static const CGFloat ErrorLabelBottomPadding = 10.0;
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     self.editingHighlight = NO;
     [self.delegate formItemCellDidResignFirstResponder:self];
-    [self inputValueDidChange];
 }
 
 - (BOOL)textFieldShouldClear:(UITextField *)textField {
@@ -949,7 +968,7 @@ static const CGFloat ErrorLabelBottomPadding = 10.0;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(localeDidChange:) name:NSCurrentLocaleDidChangeNotification object:nil];
     
     [self answerDidChange];
-    
+
 }
 
 - (void) assignDefaultAnswer {

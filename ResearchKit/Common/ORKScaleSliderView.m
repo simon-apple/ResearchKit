@@ -39,6 +39,7 @@
 #import "ORKScaleRangeLabel.h"
 #import "ORKScaleSlider.h"
 #import "ORKScaleValueLabel.h"
+#import "ORKDontKnowButton.h"
 
 #import "ORKAnswerFormat_Internal.h"
 
@@ -53,9 +54,6 @@ static const CGFloat MoveSliderLabelBottomPadding = 38.0;
 static const CGFloat RangeViewHorizontalPadding = 16.0;
 static const CGFloat SliderBottomPadding = 16.0;
 static const CGFloat DontKnowButtonTopBottomPadding = 16.0;
-static const CGFloat DontKnowButtonCornerRadius = 10.0;
-static const CGFloat DontKnowButtonEdgeInsetHorizontalSpacing = 10.0;
-static const CGFloat DontKnowButtonEdgeInsetVerticalSpacing = 4.0;
 static const CGFloat kMargin = 25.0;
 
 
@@ -66,8 +64,7 @@ static const CGFloat kMargin = 25.0;
     UIStackView *_topStackView;
     ORKScaleSlider *_slider;
     UILabel *_moveSliderLabel;
-    UIButton *_dontKnowButton;
-    BOOL _dontKnowButtonActive;
+    ORKDontKnowButton *_dontKnowButton;
     ORKScaleRangeDescriptionLabel *_leftRangeDescriptionLabel;
     ORKScaleRangeDescriptionLabel *_rightRangeDescriptionLabel;
     UIView *_leftRangeView;
@@ -292,14 +289,9 @@ static const CGFloat kMargin = 25.0;
 
 - (void)setupDontKnowButton {
     if (!_dontKnowButton) {
-        _dontKnowButton = [UIButton new];
-        _dontKnowButton.layer.cornerRadius = DontKnowButtonCornerRadius;
-        _dontKnowButton.clipsToBounds = YES;
-        [_dontKnowButton setContentEdgeInsets:UIEdgeInsetsMake(DontKnowButtonEdgeInsetVerticalSpacing, DontKnowButtonEdgeInsetHorizontalSpacing, DontKnowButtonEdgeInsetVerticalSpacing, DontKnowButtonEdgeInsetHorizontalSpacing)];
+        _dontKnowButton = [ORKDontKnowButton new];
         [_dontKnowButton addTarget:self action:@selector(dontKnowButtonWasPressed) forControlEvents:UIControlEventTouchUpInside];
     }
-    
-    [self setDontKnowButtonInactive];
     
     if (!_dividerView) {
         _dividerView = [UIView new];
@@ -309,67 +301,6 @@ static const CGFloat kMargin = 25.0;
             [_dividerView setBackgroundColor:[UIColor lightGrayColor]];
         }
     }
-}
-
-- (void)setDontKnowButtonInactive {
-    _dontKnowButtonActive = NO;
-    
-    NSDictionary *attrs = nil;
-    UIFontDescriptor *dontKnowButtonDescriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleFootnote];
-    UIFontDescriptor *dontKnowButtonFontDescriptor = [dontKnowButtonDescriptor fontDescriptorWithSymbolicTraits:(UIFontDescriptorTraitBold)];
-    if (@available(iOS 13.0, *)) {
-        attrs = @{ NSForegroundColorAttributeName : [UIColor secondaryLabelColor], NSFontAttributeName : [UIFont fontWithDescriptor:dontKnowButtonFontDescriptor size:[[dontKnowButtonFontDescriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]]};
-    } else {
-        attrs = @{ NSForegroundColorAttributeName : [UIColor grayColor], NSFontAttributeName : [UIFont fontWithDescriptor:dontKnowButtonFontDescriptor size:[[dontKnowButtonFontDescriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]]};
-    }
-    
-    NSString *dontKnowString = [_formatProvider customDontKnowButtonText] ? : ORKLocalizedString(@"SLIDER_I_DONT_KNOW", nil);
-    
-    NSMutableAttributedString *dontKnowButtonString = [[NSMutableAttributedString alloc] initWithString:dontKnowString attributes:attrs];
-    [_dontKnowButton setAttributedTitle:dontKnowButtonString forState:(UIControlState)UIControlStateNormal];
-    
-    if (@available(iOS 13.0, *)) {
-        [_dontKnowButton setBackgroundColor:[UIColor systemFillColor]];
-    } else {
-        [_dontKnowButton setBackgroundColor:[UIColor grayColor]];
-    }
-}
-
-- (void)setDontKnowButtonActive {
-    _dontKnowButtonActive = YES;
-    
-    [_dontKnowButton setBackgroundColor:[UIColor systemBlueColor]];
-    
-    NSDictionary *attrs = nil;
-    
-    NSString *dontKnowString = [_formatProvider customDontKnowButtonText] ? : ORKLocalizedString(@"SLIDER_I_DONT_KNOW", nil);
-    UIFontDescriptor *dontKnowButtonDescriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleFootnote];
-    UIFontDescriptor *dontKnowButtonFontDescriptor = [dontKnowButtonDescriptor fontDescriptorWithSymbolicTraits:(UIFontDescriptorTraitBold)];
-    
-    if (@available(iOS 13.0, *)) {
-
-        NSString *formattedString = [NSString stringWithFormat:@" %@", dontKnowString];
-        NSMutableAttributedString *fullString = [[NSMutableAttributedString alloc] initWithString:formattedString];
-        
-        NSTextAttachment *imageAttachment = [NSTextAttachment new];
-         UIImageSymbolConfiguration *imageConfig = [UIImageSymbolConfiguration configurationWithScale:UIImageSymbolScaleSmall];
-        UIImage *checkMarkImage = [UIImage systemImageNamed:@"checkmark.circle.fill" withConfiguration:imageConfig];
-        imageAttachment.image = [checkMarkImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-        NSAttributedString *imageString = [NSAttributedString attributedStringWithAttachment:imageAttachment];
-        
-        [fullString insertAttributedString:imageString atIndex:0];
-        [fullString addAttribute:NSForegroundColorAttributeName value:[UIColor systemBackgroundColor] range:NSMakeRange(0, fullString.length)];
-        [fullString addAttribute:NSFontAttributeName value:[UIFont fontWithDescriptor:dontKnowButtonFontDescriptor size:[[dontKnowButtonFontDescriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]] range:NSMakeRange(0, fullString.length)];
-        
-        [_dontKnowButton setAttributedTitle:fullString forState:(UIControlState)UIControlStateNormal];
-    } else {
-        attrs = @{ NSForegroundColorAttributeName : [UIColor whiteColor], NSFontAttributeName : [UIFont fontWithDescriptor:dontKnowButtonFontDescriptor size:[[dontKnowButtonFontDescriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]]};
-        NSMutableAttributedString *dontKnowButtonString = [[NSMutableAttributedString alloc] initWithString:dontKnowString attributes:attrs];
-        [_dontKnowButton setAttributedTitle:dontKnowButtonString forState:(UIControlState)UIControlStateNormal];
-    }
-    
-    _currentNumberValue = nil;
-    [self notifyDelegate];
 }
 
 - (void)setUpConstraints {
@@ -793,8 +724,8 @@ static const CGFloat kMargin = 25.0;
         [self resetViewToDefault];
     }
     
-    if (_dontKnowButtonActive) {
-        [self setDontKnowButtonInactive];
+    if (_dontKnowButton && [_dontKnowButton isDontKnowButtonActive]) {
+        [_dontKnowButton setButtonInactive];
     }
     
     _currentNumberValue = [_formatProvider normalizedValueForNumber:@(_slider.value)];
@@ -831,8 +762,10 @@ static const CGFloat kMargin = 25.0;
         _slider.value =  [_formatProvider minimumNumber].floatValue;
     }
     
-    if (!_dontKnowButtonActive) {
-        [self setDontKnowButtonActive];
+    if (_dontKnowButton && ![_dontKnowButton isDontKnowButtonActive]) {
+        [_dontKnowButton setButtonActive];
+        _currentNumberValue = nil;
+        [self notifyDelegate];
     }
 
 }

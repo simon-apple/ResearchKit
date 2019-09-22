@@ -32,6 +32,7 @@
 #import "ORKSurveyAnswerCellForNumber.h"
 
 #import "ORKTextFieldView.h"
+#import "ORKDontKnowButton.h"
 
 #import "ORKAnswerFormat_Internal.h"
 #import "ORKQuestionStep_Internal.h"
@@ -44,9 +45,6 @@ static const CGFloat DefaultPadding = 8.0;
 static const CGFloat MinTextFieldViewHeight = 40.0;
 static const CGFloat ErrorLabelBottomPadding = 10.0;
 static const CGFloat DontKnowButtonTopBottomPadding = 16.0;
-static const CGFloat DontKnowButtonCornerRadius = 10.0;
-static const CGFloat DontKnowButtonEdgeInsetHorizontalSpacing = 10.0;
-static const CGFloat DontKnowButtonEdgeInsetVerticalSpacing = 4.0;
 
 
 @interface ORKSurveyAnswerCellForNumber ()
@@ -61,7 +59,7 @@ static const CGFloat DontKnowButtonEdgeInsetVerticalSpacing = 4.0;
     NSNumberFormatter *_numberFormatter;
     NSNumber *_defaultNumericAnswer;
     NSMutableArray *constraints;
-    UIButton *_dontKnowButton;
+    ORKDontKnowButton *_dontKnowButton;
     UIView *_dividerView;
     BOOL _dontKnowButtonActive;
 }
@@ -102,15 +100,10 @@ static const CGFloat DontKnowButtonEdgeInsetVerticalSpacing = 4.0;
     ORKNumericAnswerFormat *numericAnswerFormat = (ORKNumericAnswerFormat *)self.step.answerFormat;
     if (numericAnswerFormat.shouldShowDontKnowButton) {
         if (!_dontKnowButton) {
-            _dontKnowButton = [UIButton new];
-            _dontKnowButton.layer.cornerRadius = DontKnowButtonCornerRadius;
+            _dontKnowButton = [ORKDontKnowButton new];
             _dontKnowButton.translatesAutoresizingMaskIntoConstraints = NO;
-            [_dontKnowButton setContentEdgeInsets:UIEdgeInsetsMake(DontKnowButtonEdgeInsetVerticalSpacing, DontKnowButtonEdgeInsetHorizontalSpacing, DontKnowButtonEdgeInsetVerticalSpacing, DontKnowButtonEdgeInsetHorizontalSpacing)];
-            
             [_dontKnowButton addTarget:self action:@selector(dontKnowButtonWasPressed) forControlEvents:UIControlEventTouchUpInside];
         }
-        
-        [self setDontKnowButtonInactive];
         
         if (!_dividerView) {
             _dividerView = [UIView new];
@@ -146,69 +139,10 @@ static const CGFloat DontKnowButtonEdgeInsetVerticalSpacing = 4.0;
 }
 
 - (void)dontKnowButtonWasPressed {
-    if (!_dontKnowButtonActive) {
+    if (![_dontKnowButton isDontKnowButtonActive]) {
         [_textFieldView.textField setText:nil];
         [self textFieldShouldClear:_textFieldView.textField];
-        [self setDontKnowButtonActive];
-    }
-}
-
-- (void)setDontKnowButtonInactive {
-    _dontKnowButtonActive = NO;
-    
-    NSDictionary *attrs = nil;
-    UIFontDescriptor *dontKnowButtonDescriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleFootnote];
-    UIFontDescriptor *dontKnowButtonFontDescriptor = [dontKnowButtonDescriptor fontDescriptorWithSymbolicTraits:(UIFontDescriptorTraitBold)];
-    if (@available(iOS 13.0, *)) {
-        attrs = @{ NSForegroundColorAttributeName : [UIColor secondaryLabelColor], NSFontAttributeName : [UIFont fontWithDescriptor:dontKnowButtonFontDescriptor size:[[dontKnowButtonFontDescriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]]};
-    } else {
-        attrs = @{ NSForegroundColorAttributeName : [UIColor grayColor], NSFontAttributeName : [UIFont fontWithDescriptor:dontKnowButtonFontDescriptor size:[[dontKnowButtonFontDescriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]]};
-    }
-    
-    ORKNumericAnswerFormat *numericAnswerFormat = (ORKNumericAnswerFormat *)self.step.answerFormat;
-    NSString *dontKnowString = numericAnswerFormat.customDontKnowButtonText ? : ORKLocalizedString(@"SLIDER_I_DONT_KNOW", nil);
-    NSMutableAttributedString *dontKnowButtonString = [[NSMutableAttributedString alloc] initWithString:dontKnowString attributes:attrs];
-    [_dontKnowButton setAttributedTitle:dontKnowButtonString forState:(UIControlState)UIControlStateNormal];
-    
-    if (@available(iOS 13.0, *)) {
-        [_dontKnowButton setBackgroundColor:[UIColor systemFillColor]];
-    } else {
-        [_dontKnowButton setBackgroundColor:[UIColor grayColor]];
-    }
-}
-
-- (void)setDontKnowButtonActive {
-    _dontKnowButtonActive = YES;
-    
-    [_dontKnowButton setBackgroundColor:[UIColor systemBlueColor]];
-    
-    NSDictionary *attrs = nil;
-    
-    ORKNumericAnswerFormat *numericAnswerFormat = (ORKNumericAnswerFormat *)self.step.answerFormat;
-    NSString *dontKnowString = numericAnswerFormat.customDontKnowButtonText ? : ORKLocalizedString(@"SLIDER_I_DONT_KNOW", nil);
-    UIFontDescriptor *dontKnowButtonDescriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleFootnote];
-    UIFontDescriptor *dontKnowButtonFontDescriptor = [dontKnowButtonDescriptor fontDescriptorWithSymbolicTraits:(UIFontDescriptorTraitBold)];
-    
-    if (@available(iOS 13.0, *)) {
-
-        NSString *formattedString = [NSString stringWithFormat:@" %@", dontKnowString];
-        NSMutableAttributedString *fullString = [[NSMutableAttributedString alloc] initWithString:formattedString];
-        
-        NSTextAttachment *imageAttachment = [NSTextAttachment new];
-         UIImageSymbolConfiguration *imageConfig = [UIImageSymbolConfiguration configurationWithScale:UIImageSymbolScaleSmall];
-        UIImage *checkMarkImage = [UIImage systemImageNamed:@"checkmark.circle.fill" withConfiguration:imageConfig];
-        imageAttachment.image = [checkMarkImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-        NSAttributedString *imageString = [NSAttributedString attributedStringWithAttachment:imageAttachment];
-        
-        [fullString insertAttributedString:imageString atIndex:0];
-        [fullString addAttribute:NSForegroundColorAttributeName value:[UIColor systemBackgroundColor] range:NSMakeRange(0, fullString.length)];
-        [fullString addAttribute:NSFontAttributeName value:[UIFont fontWithDescriptor:dontKnowButtonFontDescriptor size:[[dontKnowButtonFontDescriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]] range:NSMakeRange(0, fullString.length)];
-        
-        [_dontKnowButton setAttributedTitle:fullString forState:(UIControlState)UIControlStateNormal];
-    } else {
-        attrs = @{ NSForegroundColorAttributeName : [UIColor whiteColor], NSFontAttributeName : [UIFont fontWithDescriptor:dontKnowButtonFontDescriptor size:[[dontKnowButtonFontDescriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]]};
-        NSMutableAttributedString *dontKnowButtonString = [[NSMutableAttributedString alloc] initWithString:dontKnowString attributes:attrs];
-        [_dontKnowButton setAttributedTitle:dontKnowButtonString forState:(UIControlState)UIControlStateNormal];
+        [_dontKnowButton setButtonActive];
     }
 }
 
@@ -367,8 +301,8 @@ static const CGFloat DontKnowButtonEdgeInsetVerticalSpacing = 4.0;
         [self setUpConstraints];
     }
     
-    if (_dontKnowButtonActive && _dontKnowButton) {
-        [self setDontKnowButtonInactive];
+    if (_dontKnowButton && [_dontKnowButton isDontKnowButtonActive]) {
+        [_dontKnowButton setButtonInactive];
    }
 }
 

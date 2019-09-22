@@ -1753,6 +1753,8 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
                                                                                     maximum:[_maximum copy]
                                                                       maximumFractionDigits:[_maximumFractionDigits copy]];
     answerFormat->_defaultNumericAnswer = [_defaultNumericAnswer copy];
+    answerFormat.showDontKnowButton = self.showDontKnowButton;
+    answerFormat.customDontKnowButtonText = [self.customDontKnowButtonText copy];
     return answerFormat;
 }
 
@@ -2862,10 +2864,6 @@ static NSString *const kSecureTextEntryEscapeString = @"*";
     }
 }
 
-- (BOOL)shouldShowDontKnowButton {
-    return NO;
-}
-
 @end
 
 
@@ -2944,10 +2942,6 @@ static NSString *const kSecureTextEntryEscapeString = @"*";
     return (isParentSame &&
             ORKEqualObjects(self.originalItemIdentifier, castObject.originalItemIdentifier) &&
             ORKEqualObjects(self.errorMessage, castObject.errorMessage));
-}
-
-- (BOOL)shouldShowDontKnowButton {
-    return NO;
 }
 
 @end
@@ -3032,10 +3026,6 @@ static NSString *const kSecureTextEntryEscapeString = @"*";
 
 - (NSString *)stringForAnswer:(id)answer {
     return [ORKTimeIntervalLabelFormatter() stringFromTimeInterval:((NSNumber *)answer).floatValue];
-}
-
-- (BOOL)shouldShowDontKnowButton {
-    return NO;
 }
 
 @end
