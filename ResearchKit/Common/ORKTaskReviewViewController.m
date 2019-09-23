@@ -47,6 +47,7 @@
 static const float ReviewCellTopBottomPadding = 15.0;
 static const float EditAnswerButtonTopBottomPadding = 10.0;
 static const float ReviewCardBottomPadding = 10.0;
+static const float ReviewQuestionAnswerPadding = 2.0;
 
 @implementation ORKReviewItem
 @end
@@ -156,14 +157,20 @@ static const float ReviewCardBottomPadding = 10.0;
     if (!_answerLabel) {
         _answerLabel = [UILabel new];
     }
+    if (@available(iOS 13.0, *)) {
+        _questionLabel.textColor = [UIColor labelColor];
+    } else {
+        _questionLabel.textColor = [UIColor blackColor];
+    }
     _questionLabel.numberOfLines = 0;
     _questionLabel.textAlignment = NSTextAlignmentLeft;
     
     _answerLabel.numberOfLines = 0;
-    _answerLabel.textAlignment = NSTextAlignmentRight;
+    _answerLabel.textAlignment = NSTextAlignmentLeft;
     
     [_containerView addSubview:_questionLabel];
     [_containerView addSubview:_answerLabel];
+    
     _questionLabel.translatesAutoresizingMaskIntoConstraints = NO;
     _answerLabel.translatesAutoresizingMaskIntoConstraints = NO;
 }
@@ -175,14 +182,12 @@ static const float ReviewCardBottomPadding = 10.0;
     
     [[_questionLabel.topAnchor constraintEqualToAnchor:_containerView.topAnchor constant:ReviewCellTopBottomPadding] setActive:YES];
     [[_questionLabel.leadingAnchor constraintEqualToAnchor:_containerView.leadingAnchor constant:ORKSurveyItemMargin] setActive:YES];
-    [[_questionLabel.trailingAnchor constraintEqualToAnchor:_containerView.centerXAnchor] setActive:YES];
+    [[_questionLabel.trailingAnchor constraintEqualToAnchor:_containerView.trailingAnchor constant:-ORKSurveyItemMargin] setActive:YES];
 
-    [[_answerLabel.topAnchor constraintEqualToAnchor:_containerView.topAnchor constant:ReviewCellTopBottomPadding] setActive:YES];
+    [[_answerLabel.topAnchor constraintEqualToAnchor:_questionLabel.bottomAnchor constant:ReviewQuestionAnswerPadding] setActive:YES];
     [[_answerLabel.trailingAnchor constraintEqualToAnchor:_containerView.trailingAnchor constant:-ORKSurveyItemMargin] setActive:YES];
-    [[_answerLabel.leadingAnchor constraintEqualToAnchor:_containerView.centerXAnchor] setActive:YES];
-    
-    [[_containerView.bottomAnchor constraintGreaterThanOrEqualToAnchor:_questionLabel.bottomAnchor constant:ReviewCellTopBottomPadding] setActive:YES];
-    [[_containerView.bottomAnchor constraintGreaterThanOrEqualToAnchor:_answerLabel.bottomAnchor constant:ReviewCellTopBottomPadding] setActive:YES];
+    [[_answerLabel.leadingAnchor constraintEqualToAnchor:_containerView.leadingAnchor constant:ORKSurveyItemMargin] setActive:YES];
+    [[_answerLabel.bottomAnchor constraintEqualToAnchor:_containerView.bottomAnchor constant:-ReviewCellTopBottomPadding] setActive:YES];
     
     [[self.contentView.bottomAnchor constraintEqualToAnchor:_containerView.bottomAnchor] setActive:YES];
 }
@@ -192,6 +197,7 @@ static const float ReviewCardBottomPadding = 10.0;
 @implementation ORKReviewSectionFooter {
     UIView *_containerView;
     CAShapeLayer *_contentLayer;
+    UIView *_separator;
 }
 
 - (instancetype)init
@@ -254,9 +260,18 @@ static const float ReviewCardBottomPadding = 10.0;
     if (!_containerView) {
         _containerView = [UIView new];
     }
-    
     [_containerView setBackgroundColor:[UIColor clearColor]];
+    
+    _separator = [UIView new];
+    if (@available(iOS 13.0, *)) {
+        _separator.backgroundColor = UIColor.separatorColor;
+    } else {
+        _separator.backgroundColor = UIColor.lightGrayColor;
+    }
+    [_containerView addSubview:_separator];
+    
     _containerView.translatesAutoresizingMaskIntoConstraints = NO;
+    _separator.translatesAutoresizingMaskIntoConstraints = NO;
 
     [self addSubview:_containerView];
 }
@@ -283,6 +298,11 @@ static const float ReviewCardBottomPadding = 10.0;
     [[_button.topAnchor constraintEqualToAnchor:_containerView.topAnchor constant:EditAnswerButtonTopBottomPadding] setActive:YES];
     [[_button.centerXAnchor constraintEqualToAnchor:_containerView.centerXAnchor] setActive:YES];
     [[_containerView.bottomAnchor constraintEqualToAnchor:_button.bottomAnchor constant:EditAnswerButtonTopBottomPadding] setActive:YES];
+    
+    [_separator.heightAnchor constraintEqualToConstant:ORKHorizontalRuleHeight].active = YES;
+    [_separator.leadingAnchor constraintEqualToAnchor:_containerView.leadingAnchor].active = YES;
+    [_separator.trailingAnchor constraintEqualToAnchor:_containerView.trailingAnchor].active = YES;
+    [_separator.topAnchor constraintEqualToAnchor:_containerView.topAnchor].active = YES;
     
     [[self.bottomAnchor constraintEqualToAnchor:_containerView.bottomAnchor constant:ReviewCardBottomPadding] setActive:YES];
 }
