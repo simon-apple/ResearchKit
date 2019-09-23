@@ -64,6 +64,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sizeHeaderToFit;
 
+- (void)sizeHeaderToFitForGroupedTableView;
+
 - (void)resizeFooterToFit;
 
 @end

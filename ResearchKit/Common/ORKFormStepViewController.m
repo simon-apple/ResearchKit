@@ -356,7 +356,7 @@ static const CGFloat DelayBeforeAutoScroll = 0.25;
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
-    [_tableContainer sizeHeaderToFit];
+    [_tableContainer sizeHeaderToFitForGroupedTableView];
     [_tableContainer resizeFooterToFit];
 }
 

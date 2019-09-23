@@ -776,6 +776,10 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKUpdateConstraintSequence) {
     CGFloat topPadding;
     NSLayoutAttribute attribute;
 
+    // Checking empty string as we have an odd case where the label gets created because the text
+    // is an empty string. This causes the layout to be bigger than expected as the label is given
+    // some amount of height and we are calculating vertical padding based off a label that is not
+    // visible. TODO - rework the labels so they do not get created with empty text.
     if (_detailTextLabel && ![_stepDetailText isEqualToString:@""]) {
         topItem = _detailTextLabel;
         topPadding = ORKBodyToBodyPaddingStandard;
@@ -864,12 +868,12 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKUpdateConstraintSequence) {
         attribute = NSLayoutAttributeBottom;
         constant = 0.0;
     }
-    else if (_detailTextLabel) {
+    else if (_detailTextLabel && ![_stepDetailText isEqualToString:@""]) {
         bottomItem = _detailTextLabel;
         attribute = NSLayoutAttributeBottom;
         constant = 0.0;
     }
-    else if (_textLabel) {
+    else if (_textLabel && ![_stepText isEqualToString:@""]) {
         bottomItem = _textLabel;
         attribute = NSLayoutAttributeBottom;
         constant = 0.0;
