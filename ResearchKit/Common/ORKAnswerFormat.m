@@ -1807,6 +1807,8 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
     BOOL isValid = NO;
     if ([answer isKindOfClass:[NSNumber class]]) {
         return [self isAnswerValidWithNumber:(NSNumber *)answer];
+    } else if ([answer isKindOfClass:[ORKDontKnowAnswer class]]) {
+        isValid = YES;
     }
     return isValid;
 }
@@ -2679,6 +2681,8 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
     BOOL isValid = NO;
     if ([answer isKindOfClass:[NSString class]]) {
         isValid = [self isAnswerValidWithString:(NSString *)answer];
+    } else if ([answer isKindOfClass:[ORKDontKnowAnswer class]]) {
+        isValid = YES;
     }
     return isValid;
 }
@@ -2916,6 +2920,8 @@ static NSString *const kSecureTextEntryEscapeString = @"*";
     if ([answer isKindOfClass:[NSString class]]) {
         NSString *stringAnswer = (NSString *)answer;
         isValid = (stringAnswer.length > 0);
+    } else if ([answer isKindOfClass:[ORKDontKnowAnswer class]]) {
+        isValid = YES;
     }
     return isValid;
 }

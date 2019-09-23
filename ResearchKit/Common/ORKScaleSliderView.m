@@ -757,6 +757,13 @@ static const CGFloat kMargin = 25.0;
 }
 
 - (void)dontKnowButtonWasPressed {
+
+    if (_dontKnowButton && ![_dontKnowButton isDontKnowButtonActive]) {
+        [_dontKnowButton setButtonActive];
+        _currentNumberValue = nil;
+        [self notifyDelegate];
+    }
+
     if (!_slider.isWaitingForUserFeedback) {
         _slider.isWaitingForUserFeedback = YES;
         
@@ -772,14 +779,6 @@ static const CGFloat kMargin = 25.0;
         
         _slider.value =  [_formatProvider minimumNumber].floatValue;
     }
-    
-
-    if (_dontKnowButton && ![_dontKnowButton isDontKnowButtonActive]) {
-        [_dontKnowButton setButtonActive];
-        _currentNumberValue = nil;
-        [self notifyDelegate];
-    }
-
 }
 
 - (void)notifyDelegate {
@@ -809,6 +808,9 @@ static const CGFloat kMargin = 25.0;
 }
 
 - (id)currentAnswerValue {
+    if ([_dontKnowButton isDontKnowButtonActive]) {
+        return [ORKDontKnowAnswer answer];
+    }
     if ([self textScaleFormatProvider]) {
         id<NSCopying, NSCoding, NSObject> value = [self currentTextChoiceValue];
         return value ? @[value] : @[];

@@ -143,9 +143,9 @@ static const CGFloat DontKnowButtonTopBottomPadding = 16.0;
 
 - (void)dontKnowButtonWasPressed {
     if (![_dontKnowButton isDontKnowButtonActive]) {
+        [_dontKnowButton setButtonActive];
         [_textFieldView.textField setText:nil];
         [self textFieldShouldClear:_textFieldView.textField];
-        [_dontKnowButton setButtonActive];
     }
 }
 
@@ -205,7 +205,7 @@ static const CGFloat DontKnowButtonTopBottomPadding = 16.0;
 - (BOOL)isAnswerValid {
     id answer = self.answer;
     
-    if (answer == ORKNullAnswerValue()) {
+    if (answer == ORKNullAnswerValue() || answer == [ORKDontKnowAnswer answer]) {
         return YES;
     }
     
@@ -311,7 +311,11 @@ static const CGFloat DontKnowButtonTopBottomPadding = 16.0;
 }
 
 - (BOOL)textFieldShouldClear:(UITextField *)textField {
-    [self ork_setAnswer:ORKNullAnswerValue()];
+    if ([_dontKnowButton isDontKnowButtonActive]) {
+        [self ork_setAnswer:[ORKDontKnowAnswer answer]];
+    } else {
+        [self ork_setAnswer:ORKNullAnswerValue()];
+    }
     return YES;
 }
 

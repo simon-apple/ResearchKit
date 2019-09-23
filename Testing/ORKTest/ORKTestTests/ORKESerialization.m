@@ -1378,6 +1378,10 @@ static NSMutableDictionary *ORKESerializationEncodingTable() {
                      PROPERTY(showDontKnowButton, NSNumber, NSObject, YES, nil, nil),
                      PROPERTY(customDontKnowButtonText, NSString, NSObject, YES, nil, nil)
                     })),
+           ENTRY(ORKDontKnowAnswer,
+           nil,
+           (@{
+              })),
            ENTRY(ORKValuePickerAnswerFormat,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      return [[ORKValuePickerAnswerFormat alloc] initWithTextChoices:GETPROP(dict, textChoices)];
@@ -2120,7 +2124,12 @@ static id objectForJsonObject(id input, Class expectedClass, ORKESerializationJS
                                    return propFromDict(propDict, param, context); });
             writeAllProperties = NO;
         } else {
-            output = [[NSClassFromString(className) alloc] init];
+            Class class = NSClassFromString(className);
+            if (class == [ORKDontKnowAnswer class]) {
+                output = [ORKDontKnowAnswer answer];
+            } else {
+                output = [[class alloc] init];
+            }
         }
         
         for (NSString *key in [dict allKeys]) {
@@ -2162,7 +2171,7 @@ static id objectForJsonObject(id input, Class expectedClass, ORKESerializationJS
 }
 
 static BOOL isValid(id object) {
-    return [NSJSONSerialization isValidJSONObject:object] || [object isKindOfClass:[NSNumber class]] || [object isKindOfClass:[NSString class]] || [object isKindOfClass:[NSNull class]];
+    return [NSJSONSerialization isValidJSONObject:object] || [object isKindOfClass:[NSNumber class]] || [object isKindOfClass:[NSString class]] || [object isKindOfClass:[NSNull class]] || [object isKindOfClass:[ORKDontKnowAnswer class]];
 }
 
 static id jsonObjectForObject(id object, ORKESerializationContext *context) {

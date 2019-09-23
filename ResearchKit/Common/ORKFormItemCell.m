@@ -514,9 +514,9 @@ static const CGFloat DividerViewTopPadding = 10.0;
 
 - (void)dontKnowButtonWasPressed {
     if (![_dontKnowButton isDontKnowButtonActive]) {
+        [_dontKnowButton setButtonActive];
         [_textFieldView.textField setText:nil];
         [self textFieldShouldClear:_textFieldView.textField];
-        [_dontKnowButton setButtonActive];
         
         if (self.errorLabel.attributedText) {
             self.errorLabel.attributedText = nil;
@@ -681,7 +681,11 @@ static const CGFloat DividerViewTopPadding = 10.0;
 }
 
 - (void)inputValueDidClear {
-    [self ork_setAnswer:ORKNullAnswerValue()];
+    if ([_dontKnowButton isDontKnowButtonActive]) {
+        [self ork_setAnswer:[ORKDontKnowAnswer answer]];
+    } else {
+        [self ork_setAnswer:ORKNullAnswerValue()];
+    }
     [super inputValueDidClear];
 }
 
@@ -1408,7 +1412,7 @@ static const CGFloat DividerViewTopPadding = 10.0;
 }
 
 - (void)answerDidChange {
-    self.picker.answer = self.answer;
+    self.picker.answer = (self.answer == [ORKDontKnowAnswer answer]) ? nil : self.answer;
     self.textField.text = self.picker.selectedLabelText;
 }
 

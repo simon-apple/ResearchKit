@@ -207,6 +207,7 @@ ORK_MAKE_TEST_INIT(ORKSkipStepNavigationRule, ^{return [super init];});
 ORK_MAKE_TEST_INIT(ORKStepModifier, ^{return [super init];});
 ORK_MAKE_TEST_INIT(ORKKeyValueStepModifier, ^{return [super init];});
 ORK_MAKE_TEST_INIT(ORKAnswerFormat, ^{return [super init];});
+ORK_MAKE_TEST_INIT(ORKDontKnowAnswer, ^{return [ORKDontKnowAnswer answer];});
 ORK_MAKE_TEST_INIT(ORKLoginStep, ^{return [self initWithIdentifier:[NSUUID UUID].UUIDString title:@"title" text:@"text" loginViewControllerClass:NSClassFromString(@"ORKLoginStepViewController") ];});
 ORK_MAKE_TEST_INIT(ORKVerificationStep, ^{return [self initWithIdentifier:[NSUUID UUID].UUIDString text:@"text" verificationViewControllerClass:NSClassFromString(@"ORKVerificationStepViewController") ];});
 ORK_MAKE_TEST_INIT(ORKStep, ^{return [self initWithIdentifier:[NSUUID UUID].UUIDString];});

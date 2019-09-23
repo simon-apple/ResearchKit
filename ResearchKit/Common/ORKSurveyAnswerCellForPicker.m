@@ -123,13 +123,11 @@ static const CGFloat DontKnowButtonBottomPaddingOffset = 10.0;
 
 - (void)dontKnowButtonWasPressed {
     if (![_dontKnowButton isDontKnowButtonActive]) {
-        
+        [_dontKnowButton setButtonActive];
+        [self ork_setAnswer:[ORKDontKnowAnswer answer]];
         if (_picker) {
             [_picker setAnswer:nil];
-            [self ork_setAnswer:_picker.answer];
         }
-        
-        [_dontKnowButton setButtonActive];
     }
 }
 

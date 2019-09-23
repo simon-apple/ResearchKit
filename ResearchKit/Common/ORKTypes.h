@@ -381,6 +381,15 @@ ORK_EXTERN ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierAirPods;
 ORK_EXTERN ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierEarPods;
 ORK_EXTERN ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierUnknown;
 
+@interface ORKDontKnowAnswer : NSObject<NSCopying, NSSecureCoding>
+
++ (instancetype)answer;
+
++ (instancetype)new NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
+
+@end
+
 
 /**
  Trailmaking Type Identifiers for supported trailmaking types.
