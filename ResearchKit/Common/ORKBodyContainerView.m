@@ -209,7 +209,7 @@ static NSString *ORKBulletUnicode = @"\u2981";
         
         textLabel = [UILabel new];
         textLabel.numberOfLines = 0;
-        textLabel.font = [ORKBodyItemView bodyTitleFontBold];
+        textLabel.font = _bodyItem.detailText == nil ? [ORKBodyItemView bodyTitleFont] : [ORKBodyItemView bodyTitleFontBold];
         textLabel.text = _bodyItem.text;
         textLabel.textAlignment = _textAlignment;
         textLabel.translatesAutoresizingMaskIntoConstraints = NO;
@@ -394,7 +394,7 @@ static NSString *ORKBulletUnicode = @"\u2981";
                 [textLabel.bottomAnchor constraintEqualToAnchor:_cardView.bottomAnchor].active = YES;
             }
         } else {
-            textLabel.font = [ORKBodyItemView bulletTextFontBold];
+            textLabel.font = _bodyItem.detailText ? [ORKBodyItemView bulletTextFontBold] : [ORKBodyItemView bulletTextFont];
             [subStackView addArrangedSubview:textLabel];
         }
     }
