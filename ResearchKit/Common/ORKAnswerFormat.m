@@ -1705,6 +1705,8 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
         _minimum = [minimum copy];
         _maximum = [maximum copy];
         _maximumFractionDigits = [maximumFractionDigits copy];
+        _hideUnitWhenAnswerIsEmpty = YES;
+        _placeholder = nil;
         
         [self validateParameters];
     }
@@ -1728,6 +1730,8 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
         ORK_DECODE_OBJ_CLASS(aDecoder, maximum, NSNumber);
         ORK_DECODE_OBJ_CLASS(aDecoder, defaultNumericAnswer, NSNumber);
         ORK_DECODE_OBJ_CLASS(aDecoder, maximumFractionDigits, NSNumber);
+        ORK_DECODE_BOOL(aDecoder, hideUnitWhenAnswerIsEmpty);
+        ORK_DECODE_OBJ_CLASS(aDecoder, placeholder, NSString);
     }
     return self;
 }
@@ -1740,6 +1744,8 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
     ORK_ENCODE_OBJ(aCoder, maximum);
     ORK_ENCODE_OBJ(aCoder, defaultNumericAnswer);
     ORK_ENCODE_OBJ(aCoder, maximumFractionDigits);
+    ORK_ENCODE_BOOL(aCoder, hideUnitWhenAnswerIsEmpty);
+    ORK_ENCODE_OBJ(aCoder, placeholder);
 }
 
 + (BOOL)supportsSecureCoding {
@@ -1753,6 +1759,8 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
                                                                                     maximum:[_maximum copy]
                                                                       maximumFractionDigits:[_maximumFractionDigits copy]];
     answerFormat->_defaultNumericAnswer = [_defaultNumericAnswer copy];
+    answerFormat->_hideUnitWhenAnswerIsEmpty = _hideUnitWhenAnswerIsEmpty;
+    answerFormat->_placeholder = [_placeholder copy];
     answerFormat.showDontKnowButton = self.showDontKnowButton;
     answerFormat.customDontKnowButtonText = [self.customDontKnowButtonText copy];
     return answerFormat;
@@ -1763,12 +1771,14 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
     
     __typeof(self) castObject = object;
     return (isParentSame &&
+            _style == castObject.style &&
             ORKEqualObjects(self.unit, castObject.unit) &&
             ORKEqualObjects(self.minimum, castObject.minimum) &&
             ORKEqualObjects(self.maximum, castObject.maximum) &&
             ORKEqualObjects(self.defaultNumericAnswer, castObject.defaultNumericAnswer) &&
             ORKEqualObjects(self.maximumFractionDigits, castObject.maximumFractionDigits) &&
-            (_style == castObject.style));
+            (_hideUnitWhenAnswerIsEmpty == castObject.hideUnitWhenAnswerIsEmpty) &&
+            ORKEqualObjects(self.placeholder, castObject.placeholder));
 }
 
 - (NSUInteger)hash {
@@ -2656,7 +2666,8 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
     answerFormat->_multipleLines = _multipleLines;
     answerFormat->_secureTextEntry = _secureTextEntry;
     answerFormat->_textContentType = _textContentType;
-    
+    answerFormat->_placeholder = _placeholder;
+
     if (@available(iOS 12.0, *)) {
         answerFormat->_passwordRules = _passwordRules;
     }
@@ -2732,6 +2743,7 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
     // Always set to no autocorrection or spell checking
     answerFormat->_autocorrectionType = UITextAutocorrectionTypeNo;
     answerFormat->_spellCheckingType = UITextSpellCheckingTypeNo;
+    answerFormat->_placeholder = _placeholder;
     
     return answerFormat;
 }
@@ -2756,6 +2768,7 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
         ORK_DECODE_ENUM(aDecoder, keyboardType);
         ORK_DECODE_BOOL(aDecoder, multipleLines);
         ORK_DECODE_BOOL(aDecoder, secureTextEntry);
+        ORK_DECODE_OBJ_CLASS(aDecoder, placeholder, NSString);
     }
     return self;
 }
@@ -2776,6 +2789,7 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
     ORK_ENCODE_ENUM(aCoder, keyboardType);
     ORK_ENCODE_BOOL(aCoder, multipleLines);
     ORK_ENCODE_BOOL(aCoder, secureTextEntry);
+    ORK_ENCODE_OBJ(aCoder, placeholder);
 }
 
 + (BOOL)supportsSecureCoding {
@@ -2803,7 +2817,8 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
              ORKEqualObjects(self.textContentType, castObject.textContentType) &&
              equalPasswordRules &&
              self.multipleLines == castObject.multipleLines) &&
-             self.secureTextEntry == castObject.secureTextEntry);
+             self.secureTextEntry == castObject.secureTextEntry) &&
+             ORKEqualObjects(self.placeholder, castObject.placeholder);
 }
 
 static NSString *const kSecureTextEntryEscapeString = @"*";
@@ -3282,6 +3297,7 @@ static NSString *const kSecureTextEntryEscapeString = @"*";
     self = [super initWithCoder:aDecoder];
     if (self) {
         ORK_DECODE_BOOL(aDecoder, useCurrentLocation);
+        ORK_DECODE_OBJ_CLASS(aDecoder, placeholder, NSString);
     }
     return self;
 }
@@ -3289,6 +3305,7 @@ static NSString *const kSecureTextEntryEscapeString = @"*";
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [super encodeWithCoder:aCoder];
     ORK_ENCODE_BOOL(aCoder, useCurrentLocation);
+    ORK_ENCODE_OBJ(aCoder, placeholder);
 }
 
 + (BOOL)supportsSecureCoding {

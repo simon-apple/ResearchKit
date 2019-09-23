@@ -333,10 +333,15 @@ static const CGFloat ErrorLabelBottomPadding = 10.0;
 }
 
 - (void)textFieldCell_initialize {
+    ORKAnswerFormat *answerFormat = [self.step impliedAnswerFormat];
+    ORKTextAnswerFormat *textAnswerFormat = ORKDynamicCast(answerFormat, ORKTextAnswerFormat);
+
     _textField = [[ORKAnswerTextField alloc] initWithFrame:CGRectZero];
     _textField.text = @"";
     
-    _textField.placeholder = self.step.placeholder ? : ORKLocalizedString(@"PLACEHOLDER_TEXT_OR_NUMBER", nil);
+    NSString *placeholder = textAnswerFormat.placeholder ? :
+        (self.step.placeholder ? : ORKLocalizedString(@"PLACEHOLDER_TEXT_OR_NUMBER", nil));
+    _textField.placeholder = placeholder;
     _textField.textAlignment = NSTextAlignmentNatural;
     _textField.delegate = self;
     _textField.keyboardType = UIKeyboardTypeDefault;

@@ -1475,7 +1475,11 @@ static NSMutableDictionary *ORKESerializationEncodingTable() {
                     })),
            ENTRY(ORKNumericAnswerFormat,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-                     ORKNumericAnswerFormat *format = [[ORKNumericAnswerFormat alloc] initWithStyle:((NSNumber *)GETPROP(dict, style)).integerValue unit:GETPROP(dict, unit) minimum:GETPROP(dict, minimum) maximum:GETPROP(dict, maximum) maximumFractionDigits:GETPROP(dict, maximumFractionDigits)];
+                     ORKNumericAnswerFormat *format = [[ORKNumericAnswerFormat alloc] initWithStyle:((NSNumber *)GETPROP(dict, style)).integerValue
+                                                                                               unit:GETPROP(dict, unit)
+                                                                                            minimum:GETPROP(dict, minimum)
+                                                                                            maximum:GETPROP(dict, maximum)
+                                                                              maximumFractionDigits:GETPROP(dict, maximumFractionDigits)];
                      format.defaultNumericAnswer = GETPROP(dict, defaultNumericAnswer);
                      return format;
                  },
@@ -1488,10 +1492,18 @@ static NSMutableDictionary *ORKESerializationEncodingTable() {
                     PROPERTY(maximum, NSNumber, NSObject, NO, nil, nil),
                     PROPERTY(maximumFractionDigits, NSNumber, NSObject, NO, nil, nil),
                     PROPERTY(defaultNumericAnswer, NSNumber, NSObject, NO, nil, nil),
+                    PROPERTY(hideUnitWhenAnswerIsEmpty, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(placeholder, NSString, NSObject, YES, nil, nil)
                     })),
            ENTRY(ORKScaleAnswerFormat,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-                     return [[ORKScaleAnswerFormat alloc] initWithMaximumValue:((NSNumber *)GETPROP(dict, maximum)).integerValue minimumValue:((NSNumber *)GETPROP(dict, minimum)).integerValue defaultValue:((NSNumber *)GETPROP(dict, defaultValue)).integerValue step:((NSNumber *)GETPROP(dict, step)).integerValue vertical:((NSNumber *)GETPROP(dict, vertical)).boolValue maximumValueDescription:GETPROP(dict, maximumValueDescription) minimumValueDescription:GETPROP(dict, minimumValueDescription)];
+                     return [[ORKScaleAnswerFormat alloc] initWithMaximumValue:((NSNumber *)GETPROP(dict, maximum)).integerValue
+                                                                  minimumValue:((NSNumber *)GETPROP(dict, minimum)).integerValue
+                                                                  defaultValue:((NSNumber *)GETPROP(dict, defaultValue)).integerValue
+                                                                          step:((NSNumber *)GETPROP(dict, step)).integerValue
+                                                                      vertical:((NSNumber *)GETPROP(dict, vertical)).boolValue
+                                                       maximumValueDescription:GETPROP(dict, maximumValueDescription)
+                                                       minimumValueDescription:GETPROP(dict, minimumValueDescription)];
                  },
                  (@{
                     PROPERTY(minimum, NSNumber, NSObject, NO, nil, nil),
@@ -1568,7 +1580,8 @@ static NSMutableDictionary *ORKESerializationEncodingTable() {
                     PROPERTY(textContentType, NSString, NSObject, YES, nil, nil),
                     PROPERTY(passwordRules, UITextInputPasswordRules, NSObject, YES,
                              ^id(id value, __unused ORKESerializationContext *context) { return dictionaryFromPasswordRules((UITextInputPasswordRules *)value); },
-                             ^id(id dict, __unused ORKESerializationContext *context) { return passwordRulesFromDictionary(dict); } )
+                             ^id(id dict, __unused ORKESerializationContext *context) { return passwordRulesFromDictionary(dict); } ),
+                    PROPERTY(placeholder, NSString, NSObject, YES, nil, nil)
                     })),
            ENTRY(ORKEmailAnswerFormat,
                  nil,
@@ -1631,7 +1644,8 @@ static NSMutableDictionary *ORKESerializationEncodingTable() {
                      return [[ORKLocationAnswerFormat alloc] init];
                  },
                  (@{
-                    PROPERTY(useCurrentLocation, NSNumber, NSObject, YES, nil, nil)
+                    PROPERTY(useCurrentLocation, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(placeholder, NSString, NSObject, YES, nil, nil)
                     })),
            ENTRY(ORKSESAnswerFormat,
                  ^id(__unused NSDictionary *dict, __unused ORKESerializationPropertyGetter getter) {

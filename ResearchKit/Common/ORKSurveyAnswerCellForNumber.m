@@ -75,8 +75,11 @@ static const CGFloat DontKnowButtonTopBottomPadding = 16.0;
    
     _dontKnowButtonActive = NO;
     
+    ORKNumericAnswerFormat *numericAnswerFormat = (ORKNumericAnswerFormat *)self.step.answerFormat;
+
     _textFieldView = [[ORKTextFieldView alloc] init];
-    ORKUnitTextField *textField =  _textFieldView.textField;
+    _textFieldView.hideUnitWhenAnswerEmpty = numericAnswerFormat.hideUnitWhenAnswerIsEmpty;
+    ORKUnitTextField *textField = _textFieldView.textField;
     
     textField.delegate = self;
     textField.allowsSelection = YES;
@@ -97,7 +100,6 @@ static const CGFloat DontKnowButtonTopBottomPadding = 16.0;
     _errorLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:_errorLabel];
     
-    ORKNumericAnswerFormat *numericAnswerFormat = (ORKNumericAnswerFormat *)self.step.answerFormat;
     if (numericAnswerFormat.shouldShowDontKnowButton) {
         if (!_dontKnowButton) {
             _dontKnowButton = [ORKDontKnowButton new];
@@ -234,13 +236,14 @@ static const CGFloat DontKnowButtonTopBottomPadding = 16.0;
 - (void)answerDidChange {
     id answer = self.answer;
     ORKAnswerFormat *answerFormat = [self.step impliedAnswerFormat];
-    ORKNumericAnswerFormat *numericFormat = (ORKNumericAnswerFormat *)answerFormat;
+    ORKNumericAnswerFormat *numericAnswerFormat = ORKDynamicCast(answerFormat, ORKNumericAnswerFormat);
     
-    _defaultNumericAnswer = numericFormat.defaultNumericAnswer;
-    NSString *placeholder = self.step.placeholder ? : ORKLocalizedString(@"PLACEHOLDER_TEXT_OR_NUMBER", nil);
+    _defaultNumericAnswer = numericAnswerFormat.defaultNumericAnswer;
+    NSString *placeholder = numericAnswerFormat.placeholder ? :
+        (self.step.placeholder ? : ORKLocalizedString(@"PLACEHOLDER_TEXT_OR_NUMBER", nil));
 
     self.textField.manageUnitAndPlaceholder = YES;
-    self.textField.unit = numericFormat.unit;
+    self.textField.unit = numericAnswerFormat.unit;
     self.textField.placeholder = placeholder;
     if (answer != ORKNullAnswerValue()) {
         if (!answer) {

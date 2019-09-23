@@ -266,16 +266,25 @@ static NSString *const FilledBulletString = @"\u25CF";
         
         UIColor *suffixColor = isEditing ? _unitActiveColor : _unitRegularColor;
             if (_managedPlaceholder.length > 0) {
-            [self ork_setPlaceholder:((isEditing && _unit.length > 0) ? nil : _managedPlaceholder)];
-            [self ork_updateSuffix:_unitWithNumber withColor:suffixColor];
-            } else {
-            if (self.text.length > 0 || isEditing) {
-                    [self ork_setPlaceholder:nil];
-                [self ork_updateSuffix:_unitWithNumber withColor:suffixColor];
+                [self ork_setPlaceholder:((isEditing && _unit.length > 0) ? nil : _managedPlaceholder)];
+                if (!(_hideUnitWhenAnswerEmpty && !isEditing && self.text.length == 0)) {
+                    [self ork_updateSuffix:_unitWithNumber withColor:suffixColor];
                 } else {
-                    [self ork_setPlaceholder: _unit];
-                [self ork_updateSuffix:nil withColor:suffixColor];
-            }
+                    [self ork_updateSuffix:nil withColor:suffixColor];
+                }
+            } else {
+                if (self.text.length > 0 || isEditing) {
+                    [self ork_setPlaceholder:nil];
+                    [self ork_updateSuffix:_unitWithNumber withColor:suffixColor];
+                } else {
+                    if (!(_hideUnitWhenAnswerEmpty && !isEditing && self.text.length == 0)) {
+                        [self ork_setPlaceholder:_unit];
+                        [self ork_updateSuffix:nil withColor:suffixColor];
+                    } else {
+                        [self ork_setPlaceholder:nil];
+                        [self ork_updateSuffix:nil withColor:suffixColor];
+                    }
+                }
         }
     } else {
         // remove unit string
@@ -283,7 +292,7 @@ static NSString *const FilledBulletString = @"\u25CF";
             [self ork_updateSuffix:nil withColor:nil];
         }
         // put back unit string
-        if ([self.placeholder isEqualToString: _managedPlaceholder] == NO) {
+        if ([self.placeholder isEqualToString:_managedPlaceholder] == NO) {
             [self ork_setPlaceholder:_managedPlaceholder];
         }
     }
@@ -494,6 +503,14 @@ static const UIEdgeInsets paddingGuess = (UIEdgeInsets){.left = 2, .right = 6};
                              [textAndUnit sizeWithAttributes:attributes].width);
     
     return fieldWidth;
+}
+
+- (void)setHideUnitWhenAnswerEmpty:(BOOL)hideUnitWhenAnswerEmpty {
+    _textField.hideUnitWhenAnswerEmpty = hideUnitWhenAnswerEmpty;
+}
+
+- (BOOL)hideUnitWhenAnswerEmpty {
+    return _textField.hideUnitWhenAnswerEmpty;
 }
 
 @end

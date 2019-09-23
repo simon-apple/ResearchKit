@@ -1337,7 +1337,7 @@ Returns an initialized numeric answer format using the specified style, unit des
  
  Examples of unit designations are days, lbs, and liters.
  The unit string is included in the `ORKNumericQuestionResult` object.
-  */
+ */
 @property (copy, readonly, nullable) NSString *unit;
 
 /**
@@ -1367,6 +1367,20 @@ Returns an initialized numeric answer format using the specified style, unit des
  The default numeric answer.
  */
 @property (copy, nullable) NSNumber *defaultNumericAnswer;
+
+/**
+ A property that specifies whether the unit is hidden when the answer is empty.
+ 
+ Defaults to `YES`.
+ */
+@property (assign) BOOL hideUnitWhenAnswerIsEmpty;
+
+/**
+The placeholder to dislpay when the answer is empty.
+ 
+Overrides any specified step placeholder. Setting it to `nil` displays the default placeholeder.
+*/
+@property (copy, nullable) NSString *placeholder;
 
 @end
 
@@ -1637,6 +1651,13 @@ ORK_CLASS_AVAILABLE
  */
 @property (nonatomic,getter=isSecureTextEntry) BOOL secureTextEntry;
 
+/**
+ The placeholder to dislpay when the answer is empty.
+ 
+ Overrides any specified step placeholder. Setting it to `nil` displays the default placeholeder.
+  */
+@property (copy, nullable) NSString *placeholder;
+
 @end
 
 
@@ -1899,6 +1920,13 @@ ORK_CLASS_AVAILABLE
  By default, this value is YES.
  */
 @property (nonatomic, assign) BOOL useCurrentLocation;
+
+/**
+ The placeholder to dislpay when the answer is empty.
+ 
+ Overrides any specified step placeholder. Setting it to `nil` displays the default placeholeder.
+  */
+@property (copy, nullable) NSString *placeholder;
 
 @end
 
