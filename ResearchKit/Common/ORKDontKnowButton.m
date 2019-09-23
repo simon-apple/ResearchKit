@@ -34,6 +34,8 @@
 static const CGFloat DontKnowButtonCornerRadius = 10.0;
 static const CGFloat DontKnowButtonEdgeInsetHorizontalSpacing = 10.0;
 static const CGFloat DontKnowButtonEdgeInsetVerticalSpacing = 4.0;
+static const CGFloat CheckMarkImageHeightOffset = 2.0;
+static const CGFloat CheckMarkImageTrailingPadding = 2.0;
 
 @implementation ORKDontKnowButton {
     UIView *_dontKnowButtonCustomView;
@@ -77,7 +79,7 @@ static const CGFloat DontKnowButtonEdgeInsetVerticalSpacing = 4.0;
     [self addSubview:_dontKnowButtonCustomView];
     
     _dontKnowButtonTextLabel = [UILabel new];
-    _dontKnowButtonTextLabel.text = ORKLocalizedString(@"SLIDER_I_DONT_KNOW", nil);
+    _dontKnowButtonTextLabel.text = _customDontKnowButtonText ? : ORKLocalizedString(@"SLIDER_I_DONT_KNOW", nil);
     _dontKnowButtonTextLabel.translatesAutoresizingMaskIntoConstraints = NO;
     _dontKnowButtonTextLabel.numberOfLines = 0;
 }
@@ -144,8 +146,8 @@ static const CGFloat DontKnowButtonEdgeInsetVerticalSpacing = 4.0;
         CGSize neededSize = [_dontKnowButtonTextLabel sizeThatFits:CGSizeMake( _dontKnowButtonTextLabel.frame.size.width, CGFLOAT_MAX)];
         [[_dontKnowButtonTextLabel.heightAnchor constraintEqualToConstant:neededSize.height] setActive: YES];
         
-        [imageView.trailingAnchor constraintEqualToAnchor:_dontKnowButtonTextLabel.leadingAnchor constant:-5.0].active = YES;
-        [[imageView.heightAnchor constraintEqualToAnchor:_dontKnowButtonTextLabel.heightAnchor multiplier:1.0] setActive:YES];
+        [imageView.trailingAnchor constraintEqualToAnchor:_dontKnowButtonTextLabel.leadingAnchor constant:-CheckMarkImageTrailingPadding].active = YES;
+        [[imageView.heightAnchor constraintEqualToAnchor:_dontKnowButtonTextLabel.heightAnchor multiplier:1.0 constant:CheckMarkImageHeightOffset] setActive:YES];
         [[imageView.widthAnchor constraintEqualToAnchor:_dontKnowButtonTextLabel.heightAnchor multiplier:1.0] setActive:YES];
         [imageView.centerYAnchor constraintEqualToAnchor:_dontKnowButtonTextLabel.centerYAnchor].active = YES;
         
@@ -165,6 +167,15 @@ static const CGFloat DontKnowButtonEdgeInsetVerticalSpacing = 4.0;
     [_dontKnowButtonCustomView setBackgroundColor:[UIColor systemBlueColor]];
 }
 
+- (void)setCustomDontKnowButtonText:(NSString *)customDontKnowButtonText {
+    _customDontKnowButtonText = customDontKnowButtonText;
+    
+    if (_isDontKnowButtonActive) {
+        [self setButtonActive];
+    } else {
+        [self setButtonInactive];
+    }
+}
 
 @end
 

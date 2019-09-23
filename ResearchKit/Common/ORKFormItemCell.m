@@ -493,6 +493,7 @@ static const CGFloat DividerViewTopPadding = 10.0;
 - (void)setupDontKnowButton {
     if (!_dontKnowButton) {
         _dontKnowButton = [ORKDontKnowButton new];
+        _dontKnowButton.customDontKnowButtonText = self.formItem.answerFormat.customDontKnowButtonText;
         _dontKnowButton.translatesAutoresizingMaskIntoConstraints = NO;
         [_dontKnowButton addTarget:self action:@selector(dontKnowButtonWasPressed) forControlEvents:UIControlEventTouchUpInside];
     }

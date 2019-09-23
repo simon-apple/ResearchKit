@@ -101,6 +101,7 @@ static const CGFloat DontKnowButtonTopBottomPadding = 16.0;
     if (numericAnswerFormat.shouldShowDontKnowButton) {
         if (!_dontKnowButton) {
             _dontKnowButton = [ORKDontKnowButton new];
+            _dontKnowButton.customDontKnowButtonText = numericAnswerFormat.customDontKnowButtonText;
             _dontKnowButton.translatesAutoresizingMaskIntoConstraints = NO;
             [_dontKnowButton addTarget:self action:@selector(dontKnowButtonWasPressed) forControlEvents:UIControlEventTouchUpInside];
         }

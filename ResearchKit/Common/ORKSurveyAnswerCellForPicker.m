@@ -102,6 +102,7 @@ static const CGFloat DontKnowButtonBottomPaddingOffset = 10.0;
 - (void)setupDontKnowButton {
     if (!_dontKnowButton) {
         _dontKnowButton = [ORKDontKnowButton new];
+        _dontKnowButton.customDontKnowButtonText = self.step.answerFormat.customDontKnowButtonText;
         [_dontKnowButton addTarget:self action:@selector(dontKnowButtonWasPressed) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:_dontKnowButton];
      }

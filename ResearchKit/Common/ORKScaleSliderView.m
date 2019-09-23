@@ -290,6 +290,7 @@ static const CGFloat kMargin = 25.0;
 - (void)setupDontKnowButton {
     if (!_dontKnowButton) {
         _dontKnowButton = [ORKDontKnowButton new];
+        _dontKnowButton.customDontKnowButtonText = [_formatProvider customDontKnowButtonText];
         [_dontKnowButton addTarget:self action:@selector(dontKnowButtonWasPressed) forControlEvents:UIControlEventTouchUpInside];
     }
     
@@ -658,23 +659,33 @@ static const CGFloat kMargin = 25.0;
                                                                multiplier:1.0
                                                                  constant:0.0]];
             
+            [constraints addObject:[NSLayoutConstraint constraintWithItem:_dontKnowButton
+                                                                attribute:NSLayoutAttributeLeft
+                                                                relatedBy:NSLayoutRelationGreaterThanOrEqual
+                                                                   toItem:_dividerView
+                                                                attribute:NSLayoutAttributeLeft
+                                                               multiplier:1.0
+                                                                 constant:0.0]];
+            
+            [constraints addObject:[NSLayoutConstraint constraintWithItem:_dontKnowButton
+                                                                attribute:NSLayoutAttributeRight
+                                                                relatedBy:NSLayoutRelationLessThanOrEqual
+                                                                   toItem:_dividerView
+                                                                attribute:NSLayoutAttributeRight
+                                                               multiplier:1.0
+                                                                 constant:0.0]];
+            
             [[self.bottomAnchor constraintEqualToAnchor:_dontKnowButton.bottomAnchor constant:DontKnowButtonTopBottomPadding] setActive: YES];
-            
-            
         }
     }
     
-    // Hide the selected value label if necessary;
-    // skipped when not present (text choice slider)
     if ([_formatProvider shouldHideSelectedValueLabel] &&
-        !([_formatProvider isVertical] && [self textScaleFormatProvider]) && !_slider.isWaitingForUserFeedback) {
-        [self addConstraints:
-         [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_valueLabel(==0)]"
-                                                 options:0
-                                                 metrics:nil
-                                                   views:views]];
+             !([_formatProvider isVertical] && [self textScaleFormatProvider]) && !_slider.isWaitingForUserFeedback) {
+        _valueLabel.layer.opacity = 0.0;
+    } else {
+         _valueLabel.layer.opacity = 1.0;
     }
-     
+       
     [NSLayoutConstraint activateConstraints:constraints];
 }
 
@@ -762,6 +773,7 @@ static const CGFloat kMargin = 25.0;
         _slider.value =  [_formatProvider minimumNumber].floatValue;
     }
     
+
     if (_dontKnowButton && ![_dontKnowButton isDontKnowButtonActive]) {
         [_dontKnowButton setButtonActive];
         _currentNumberValue = nil;

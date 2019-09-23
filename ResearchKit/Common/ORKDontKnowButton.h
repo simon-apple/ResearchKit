@@ -40,6 +40,7 @@ ORK_CLASS_AVAILABLE
 - (void)setButtonInactive;
 
 @property (nonatomic) BOOL isDontKnowButtonActive;
+@property (nonatomic, nullable) NSString *customDontKnowButtonText;
 
 @end
 
