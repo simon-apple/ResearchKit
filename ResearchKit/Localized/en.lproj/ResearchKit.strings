@@ -345,15 +345,15 @@
 "dBHL_TONE_AUDIOMETRY_OPTION_LEFT" = "left";
 "dBHL_TONE_AUDIOMETRY_OPTION_RIGHT" = "right";
 "dBHL_TONE_AUDIOMETRY_OPTION_NO_PREFERENCE" = "no preference";
-"dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "Test interrupted";
-"dBHL_ALERT_TITLE_START_OVER" = "Start Over";
+"dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "Test Cancelled";
+"dBHL_ALERT_TITLE_START_OVER" = "Start Again";
 "dBHL_ALERT_TITLE_CANCEL_TEST" = "Cancel Test";
-"dBHL_ALERT_TEXT" = "There is something wrong with you headphones.";
+"dBHL_ALERT_TEXT" = "Reconnect your AirPods or EarPods to take this test.";
 "dBHL_PROGRESS_COMPLETION_%@" = "%@ Complete";
 
 /* Headphones. */
-"AIRPODS" = "Airpods";
-"EARPODS" = "Earpods";
+"AIRPODS" = "AirPods";
+"EARPODS" = "EarPods";
 "HEADPHONES" = "Headphones";
 "HEADPHONES_UNKNOWN" = "Unknown";
 "HEADPHONES_NONE" = "None";
@@ -361,7 +361,7 @@
 "NOT_CONNECTED" = "Not Connected";
 "HEADPHONE_CONNECTED_%@" = "Connected - %@";
 "HEADPHONE_DETECT_TITLE" = "Connect your Headphones";
-"HEADPHONE_DETECT_TEXT" = "This test requires Apple Airpods or Apple Earpods";
+"HEADPHONE_DETECT_TEXT" = "This test requires Apple AirPods or Apple EarPods";
 
 /* Spatial span memory active task. */
 "SPATIAL_SPAN_MEMORY_TITLE" = "Spatial Memory";
@@ -599,7 +599,7 @@
 "ENVIRONMENTSPL_UNIT" = "dBA";
 "ENVIRONMENTSPL_CALCULATING" = "Calculating";
 "ENVIRONMENTSPL_THRESHOLD" = "Threshold: %@ dBA";
-"ENVIRONMENTSPL_OK" = "OK";
+"ENVIRONMENTSPL_OK" = "Background Noise OK";
 "ENVIRONMENTSPL_NOISE" = "Too Much Background Noise";
 "ENVIRONMENTSPL_TITLE_2" = "Find a quiet place";
 "ENVIRONMENTSPL_INTRO_TEXT_2" = "To ensure accuracy, this test should be taken in a quiet environment.";
