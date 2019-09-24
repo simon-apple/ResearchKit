@@ -329,8 +329,13 @@ static const CGFloat rungButtonPadding = 10.0;
             [[self.bottomAnchor constraintGreaterThanOrEqualToAnchor:rungButton.bottomAnchor constant:rungButtonPadding] setActive:YES];
         }
         
-        if (self.answer && ![self.answer isEqual:[NSNull null]] && [self.answer intValue] == i) {
-            [rungButton setSelected:YES];
+        if (self.answer && ![self.answer isEqual:[NSNull null]]) {
+            // calling intValue on NSNull will cause a crash
+            if ([self.answer intValue] == i) {
+                [rungButton setSelected:YES];
+            } else {
+                [rungButton setSelected:NO];
+            }
         } else {
             [rungButton setSelected:NO];
         }
