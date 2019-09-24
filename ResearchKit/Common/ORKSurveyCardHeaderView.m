@@ -35,7 +35,8 @@
 #import "ORKTagLabel.h"
 
 static const CGFloat HeaderViewLabelTopBottomPadding = 6.0;
-static const CGFloat TagBottomPadding = 8.0;
+static const CGFloat TagBottomPadding = 4.0;
+static const CGFloat TagTopPadding = 8.0;
 static const CGFloat HeaderViewBottomPadding = 24.0;
 
 @implementation ORKSurveyCardHeaderView {
@@ -268,26 +269,34 @@ static const CGFloat HeaderViewBottomPadding = 24.0;
     
     _headlineView.translatesAutoresizingMaskIntoConstraints = NO;
     
+    if (_progressLabel) {
+        _progressLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        [[_progressLabel.topAnchor constraintEqualToAnchor:lastYAxisAnchor constant:ORKSurveyItemMargin] setActive:YES];
+        [[_progressLabel.leadingAnchor constraintEqualToAnchor:_titleLabel.leadingAnchor] setActive:YES];
+        [[_progressLabel.trailingAnchor constraintEqualToAnchor:trailingAnchor constant:-ORKSurveyItemMargin] setActive:YES];
+        lastYAxisAnchor = _progressLabel.bottomAnchor;
+    }
+    
     if (_tagLabel) {
+        CGFloat topPadding = _progressLabel ? TagTopPadding : ORKSurveyItemMargin;
         _tagLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        [_tagLabel.topAnchor constraintEqualToAnchor:lastYAxisAnchor constant:ORKSurveyItemMargin].active = YES;
+        [_tagLabel.topAnchor constraintEqualToAnchor:lastYAxisAnchor constant:topPadding].active = YES;
         [_tagLabel.leadingAnchor constraintEqualToAnchor:_titleLabel.leadingAnchor].active = YES;
         // FIXME:- learnMoreView gets compressed if we use _learnMoreView.leadingAnchor
         [_tagLabel.trailingAnchor constraintLessThanOrEqualToAnchor:_headlineView.trailingAnchor constant:-ORKSurveyItemMargin].active = YES;
         lastYAxisAnchor = _tagLabel.bottomAnchor;
     }
     
-    if (_progressLabel) {
-        CGFloat topPadding = _tagLabel ? TagBottomPadding : ORKSurveyItemMargin;
-        _progressLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        [[_progressLabel.topAnchor constraintEqualToAnchor:lastYAxisAnchor constant:topPadding] setActive:YES];
-        [[_progressLabel.leadingAnchor constraintEqualToAnchor:_titleLabel.leadingAnchor] setActive:YES];
-        [[_progressLabel.trailingAnchor constraintEqualToAnchor:trailingAnchor constant:-ORKSurveyItemMargin] setActive:YES];
-        lastYAxisAnchor = _progressLabel.bottomAnchor;
+    CGFloat titlePadding;
+    if (_tagLabel) {
+        titlePadding = TagBottomPadding;
+    } else if (_progressLabel) {
+        titlePadding = HeaderViewLabelTopBottomPadding;
+    } else {
+        titlePadding = ORKSurveyItemMargin;
     }
-    
     _titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    [[_titleLabel.topAnchor constraintEqualToAnchor:lastYAxisAnchor constant:(_progressText || _tagLabel) ? HeaderViewLabelTopBottomPadding : ORKSurveyItemMargin] setActive:YES];
+    [[_titleLabel.topAnchor constraintEqualToAnchor:lastYAxisAnchor constant:titlePadding] setActive:YES];
     [[_titleLabel.leadingAnchor constraintEqualToAnchor:_headlineView.leadingAnchor constant:ORKSurveyItemMargin] setActive:YES];
     [[_titleLabel.trailingAnchor constraintEqualToAnchor:[self useLearnMoreLeftAlignmentLayout] ? _learnMoreView.leadingAnchor : _headlineView.trailingAnchor constant:-ORKSurveyItemMargin] setActive:YES];
      NSLayoutYAxisAnchor *headlineViewBottomAnchor = _titleLabel.bottomAnchor;
