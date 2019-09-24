@@ -56,6 +56,7 @@
     self.thresholdValue = ORKEnvironmentSPLMeterTaskDefaultThresholdValue;
     self.samplingInterval = ORKEnvironmentSPLMeterTaskMinimumSamplingInterval;
     self.requiredContiguousSamples = ORKEnvironmentSPLMeterTaskDefaultRequiredContiguousSamples;
+    self.stepDuration = CGFLOAT_MAX;
 }
 
 - (void)validateParameters {
