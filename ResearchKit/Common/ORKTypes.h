@@ -381,6 +381,7 @@ ORK_EXTERN ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierAirPods;
 ORK_EXTERN ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierEarPods;
 ORK_EXTERN ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierUnknown;
 
+ORK_CLASS_AVAILABLE
 @interface ORKDontKnowAnswer : NSObject<NSCopying, NSSecureCoding>
 
 + (instancetype)answer;
