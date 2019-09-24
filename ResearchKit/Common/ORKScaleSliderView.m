@@ -48,7 +48,7 @@
 #import "ORKHelpers_Internal.h"
 
 static const CGFloat ValueLabelTopPadding = 16.0;
-static const CGFloat ValueLabelBottomPadding = 20.0;
+static const CGFloat ValueLabelBottomPadding = 20.5;
 static const CGFloat MoveSliderLabelTopPadding = 8.0;
 static const CGFloat MoveSliderLabelBottomPadding = 38.0;
 static const CGFloat RangeViewHorizontalPadding = 16.0;
