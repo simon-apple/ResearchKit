@@ -342,7 +342,9 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
                     break;
                 default:
                     _airpodSupportView.selected = NO;
+                    _airpodSupportView.connected = NO;
                     _earpodSupportView.selected = NO;
+                    _earpodSupportView.connected = NO;
                     break;
             }
             break;
