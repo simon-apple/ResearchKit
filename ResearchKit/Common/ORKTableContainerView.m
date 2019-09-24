@@ -194,6 +194,7 @@ static const CGFloat topTableViewPadding = 24.0;
 - (void)layoutSubviews {
     [super layoutSubviews];
     [self resizeFooterToFit];
+    [self updateTableViewBottomConstraint];
 }
 
 - (void)addStepContentView {
@@ -328,13 +329,14 @@ static const CGFloat topTableViewPadding = 24.0;
 }
 
 - (void)setTableViewBottomConstraint {
+    CGFloat bottomConstant = (self.isNavigationContainerScrollable == YES) ? 0 : -self.navigationFooterView.frame.size.height;
     _tableViewBottomConstraint = [NSLayoutConstraint constraintWithItem:_tableView
                                                               attribute:NSLayoutAttributeBottom
                                                               relatedBy:NSLayoutRelationEqual
                                                                  toItem:self
                                                               attribute:NSLayoutAttributeBottom
                                                              multiplier:1.0
-                                                               constant:0.0];
+                                                               constant:bottomConstant];
 }
 
 - (void)updateTableViewBottomConstraint {

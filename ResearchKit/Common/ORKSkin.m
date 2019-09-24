@@ -100,6 +100,9 @@ CGFloat ORKStepContainerFirstItemTopPaddingPercentage = 9.0;
 
 CGFloat ORKStepContentIconImageViewDimension = 80.0;
 
+CGFloat ORKEffectViewOpacityHidden = 0.0;
+CGFloat ORKEffectViewOpacityVisible = 1.0;
+
 CGFloat CheckmarkViewDimension = 25.0;
 CGFloat ORKHorizontalRuleHeight = 0.33;
 

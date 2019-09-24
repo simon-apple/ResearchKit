@@ -143,6 +143,12 @@ ORK_EXTERN CGFloat ORKBodyToBodyPaddingStandard;
 /// Step Content Icon Image View Dimension
 ORK_EXTERN CGFloat ORKStepContentIconImageViewDimension;
 
+/// Navigation Container Effect View Style
+ORK_EXTERN CGFloat ORKEffectViewOpacityHidden;
+
+/// Navigation Container Effect View Style
+ORK_EXTERN CGFloat ORKEffectViewOpacityVisible;
+
 /// Checkmark View dimension
 ORK_EXTERN CGFloat CheckmarkViewDimension;
 

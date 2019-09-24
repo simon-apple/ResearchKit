@@ -34,7 +34,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ORKStepContainerView : ORKStepView
+@interface ORKStepContainerView : ORKStepView<UIScrollViewDelegate>
 
 - (void)topContentImageShouldStickToTop;
 - (void)removeCustomContentPadding;

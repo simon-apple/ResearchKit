@@ -178,6 +178,7 @@ static const CGFloat ORKBodyItemScrollPadding = 24.0;
     }
     _scrollView.showsVerticalScrollIndicator = self.showScrollIndicator;
     _scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    _scrollView.delegate = self;
     [self addSubview:_scrollView];
 }
 
@@ -313,6 +314,7 @@ static const CGFloat ORKBodyItemScrollPadding = 24.0;
 - (void)layoutSubviews {
     [super layoutSubviews];
     [self updateScrollContentConstraints];
+    [self updateEffectViewStylingAndAnimate:NO];
 }
 
 - (void)updateScrollContentConstraints {
@@ -719,6 +721,25 @@ static const CGFloat ORKBodyItemScrollPadding = 24.0;
     if (bottomOfView > bottomOfScrollView) {
         [_scrollView setContentOffset:CGPointMake(0, (bottomOfView - bottomOfScrollView) + ORKBodyItemScrollPadding) animated:YES];
     }
+}
+
+- (void)updateEffectViewStylingAndAnimate:(BOOL)animated {
+    CGFloat currentOpacity = [self.navigationFooterView effectViewOpacity];
+    CGFloat startOfFooter = self.navigationFooterView.frame.origin.y;
+    CGFloat contentPosition = (_scrollView.contentSize.height - _scrollView.contentOffset.y - self.navigationFooterView.frame.size.height) - ORKContentBottomPadding;
+
+    CGFloat newOpacity = (contentPosition < startOfFooter) ? ORKEffectViewOpacityHidden : ORKEffectViewOpacityVisible;
+    if (newOpacity != currentOpacity) {
+        // Don't animate transition from hidden to visible as text appears behind during animation
+        if (currentOpacity == ORKEffectViewOpacityHidden) { animated = NO; }
+        [self.navigationFooterView setStylingOpactity:newOpacity animated:animated];
+    }
+}
+
+// MARK: ScrollViewDelegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [self updateEffectViewStylingAndAnimate:YES];
 }
 
 @end

@@ -85,12 +85,30 @@ static const CGFloat spinnerPadding = 24.0;
 - (void)setupVisualEffectView {
     if (!effectView && !_removeVisualEffect) {
         self.backgroundColor = [UIColor clearColor];
-        UIVisualEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
-        
-        effectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+        UIVisualEffect *blurEffect;
+        if (@available(iOS 13.0, *)) {
+            blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleSystemChromeMaterial];
+        } else {
+            blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+        }
+         effectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
     }
     effectView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:effectView];
+}
+
+- (CGFloat)effectViewOpacity {
+    return effectView.alpha;
+}
+
+- (void)setStylingOpactity:(CGFloat)opacity animated:(BOOL)animated {
+    if (animated == YES) {
+        [UIView animateWithDuration:0.2 animations:^(void) {
+            effectView.alpha = opacity;
+        }];
+    } else {
+        effectView.alpha = opacity;
+    }
 }
 
 - (void)setupContinueButton {

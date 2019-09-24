@@ -104,6 +104,7 @@ ORKDefineStringKey(ORKBasicCellReuseIdentifier);
     
     // Recalculate the footer view size if needed.
     [_tableContainer layoutSubviews];
+    [self updateEffectViewStylingAndAnimate:NO];
 }
 
 - (void)stepDidChange {
@@ -221,6 +222,19 @@ ORKDefineStringKey(ORKBasicCellReuseIdentifier);
     self.navigationFooterView.continueEnabled = [self continueButtonEnabled];
 }
 
+- (void)updateEffectViewStylingAndAnimate:(BOOL)animated {
+    CGFloat currentOpacity = [self.navigationFooterView effectViewOpacity];
+    CGFloat startOfFooter = self.navigationFooterView.frame.origin.y;
+    CGFloat contentPosition = (_tableView.contentSize.height - _tableView.contentOffset.y);
+
+    CGFloat newOpacity = (contentPosition < startOfFooter) ? ORKEffectViewOpacityHidden : ORKEffectViewOpacityVisible;
+    if (newOpacity != currentOpacity) {
+        // Don't animate transition from hidden to visible as text appears behind during animation
+        if (currentOpacity == ORKEffectViewOpacityHidden) { animated = NO; }
+        [self.navigationFooterView setStylingOpactity:newOpacity animated:animated];
+    }
+}
+
 #pragma mark UITableViewDataSource
     
 - (NSInteger)numSections {
@@ -279,6 +293,12 @@ ORKDefineStringKey(ORKBasicCellReuseIdentifier);
     } else {
         return nil;
     }
+}
+
+// MARK: ScrollViewDelegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [self updateEffectViewStylingAndAnimate:YES];
 }
 
 @end
