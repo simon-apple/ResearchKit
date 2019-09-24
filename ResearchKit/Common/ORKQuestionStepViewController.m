@@ -165,7 +165,7 @@ static const CGFloat DelayBeforeAutoScroll = 0.25;
         _questionView = nil;
 
         if ([self.questionStep formatRequiresTableView] && !_customQuestionView) {
-            _tableContainer = [ORKTableContainerView new];
+            _tableContainer = [[ORKTableContainerView alloc] initWithStyle:UITableViewStyleGrouped pinNavigationContainer:NO];
             
             // Create a new one (with correct style)
             _tableView = _tableContainer.tableView;
@@ -212,6 +212,10 @@ static const CGFloat DelayBeforeAutoScroll = 0.25;
             }
             [self setupConstraints:_tableContainer];
             [_tableContainer setNeedsLayout];
+            
+            // Question steps should always force the navigation controller to be scrollable
+            // therefore we should always remove the styling.
+            [_navigationFooterView removeStyling];
         } else if (self.step) {
             _questionView = [ORKQuestionStepView new];
             _questionView.isNavigationContainerScrollable = YES;
