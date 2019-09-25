@@ -113,7 +113,6 @@ static const CGFloat topTableViewPadding = 24.0;
         _navigationContainerConstraints = nil;
     }
     if (self.isNavigationContainerScrollable) {
-        [self.navigationFooterView deprioritizeContentWidthConstraints];
         [_footerView addSubview:self.navigationFooterView];
     }
     else {
@@ -129,21 +128,17 @@ static const CGFloat topTableViewPadding = 24.0;
     self.navigationFooterView.translatesAutoresizingMaskIntoConstraints = NO;
     _navigationContainerConstraints = [[NSMutableArray alloc] init];
     if (self.isNavigationContainerScrollable) {
-        [_navigationContainerConstraints addObject:[NSLayoutConstraint constraintWithItem:self.navigationFooterView
-                                                                                attribute:NSLayoutAttributeLeft
-                                                                                relatedBy:NSLayoutRelationEqual
-                                                                                   toItem:_footerView
-                                                                                attribute:NSLayoutAttributeLeft
-                                                                               multiplier:1.0
-                                                                                 constant:0.0]];
         
-        [_navigationContainerConstraints addObject:[NSLayoutConstraint constraintWithItem:self.navigationFooterView
-                                                                                attribute:NSLayoutAttributeRight
-                                                                                relatedBy:NSLayoutRelationEqual
-                                                                                   toItem:_footerView
-                                                                                attribute:NSLayoutAttributeRight
-                                                                               multiplier:1.0
-                                                                                 constant:0.0]];
+        NSLayoutConstraint *_footerWidthConstraint = [NSLayoutConstraint constraintWithItem:self.navigationFooterView
+                                                                                  attribute:NSLayoutAttributeWidth
+                                                                                  relatedBy:NSLayoutRelationEqual
+                                                                                     toItem:_footerView
+                                                                                  attribute:NSLayoutAttributeWidth
+                                                                                 multiplier:1.0
+                                                                                   constant:0.0];
+        
+        _footerWidthConstraint.priority = UILayoutPriorityRequired-1;
+        [_navigationContainerConstraints addObject:_footerWidthConstraint];
         
         [_navigationContainerConstraints addObject:[NSLayoutConstraint constraintWithItem:self.navigationFooterView
                                                                                 attribute:NSLayoutAttributeTop
