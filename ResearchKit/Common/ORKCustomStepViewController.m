@@ -59,6 +59,7 @@
     if (self.step && [self isViewLoaded]) {
 
         _scrollView = [[UIScrollView alloc] init];
+        _scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
         [self.view addSubview:_scrollView];
                 
         _contentView = [[UIView alloc] init];
@@ -168,7 +169,7 @@
 
         [NSLayoutConstraint constraintWithItem:_navigationFooterView
                                      attribute:NSLayoutAttributeTop
-                                     relatedBy:NSLayoutRelationEqual
+                                     relatedBy:NSLayoutRelationGreaterThanOrEqual
                                         toItem:_contentView
                                      attribute:NSLayoutAttributeBottom
                                     multiplier:1.0
@@ -189,11 +190,11 @@
                                       constant:0],
         [NSLayoutConstraint constraintWithItem:_navigationFooterView
                                      attribute:NSLayoutAttributeBottom
-                                     relatedBy:NSLayoutRelationLessThanOrEqual
+                                     relatedBy:NSLayoutRelationEqual
                                         toItem:_scrollView
                                      attribute:NSLayoutAttributeBottom
                                     multiplier:1.0
-                                      constant:0.0],
+                                      constant:0.0]
 
     ]];
     
@@ -213,6 +214,7 @@
     
     _navigationFooterView.continueButtonItem = self.continueButtonItem;
     _navigationFooterView.continueEnabled = [self continueButtonEnabled];
+    _navigationFooterView.skipButtonItem = [self skipButtonItem];
     [_navigationFooterView updateContinueAndSkipEnabled];
     [_navigationFooterView setUseExtendedPadding:[self.step useExtendedPadding]];
     

@@ -170,6 +170,11 @@ static const float FirstSectionHeaderPadding = 24.0;
         _tableContainerView.tableView.estimatedSectionHeaderHeight = 30.0;
         _tableContainerView.tableView.estimatedSectionFooterHeight = 30.0;
         _tableContainerView.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        if (@available(iOS 13.0, *)) {
+            _tableContainerView.tableView.backgroundColor = [UIColor systemGroupedBackgroundColor];
+        } else {
+            _tableContainerView.tableView.backgroundColor = ORKColor(ORKBackgroundColorKey);
+        }
         
     }
     [self.view addSubview:_tableContainerView];

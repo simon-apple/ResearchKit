@@ -72,6 +72,7 @@ static const CGFloat ORKSignatureToClearPadding = 15.0;
     if (self.step && [self isViewLoaded]) {
         
         _scrollView = [[UIScrollView alloc] init];
+        _scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
         [_scrollView setDelegate:self];
         [self.view addSubview:_scrollView];
         
