@@ -107,7 +107,19 @@ static const CGFloat InstructionLabelTopPadding = 50.0;
 }
 
 - (void)setProgressCircle:(CGFloat)progress {
-    CGFloat circleDiameter = progress < 0.3 ? 0.3 : progress;
+    CGFloat circleDiameter;
+    CGFloat y1 = 0.5, x1 = 0.8, y2 = 1.4, x2 = 1.2;
+
+    if (progress < x1) {
+        // lower limit for diameter
+        circleDiameter = y1;
+    } else if (progress > x2) {
+        // upper limit for diameter
+        circleDiameter = y2;
+    } else {
+        // linear interpolation
+        circleDiameter = y1 + (y2 - y1)/(x2 - x1) * (progress - x1);
+    }
     if (progress > 1.0) {
         [_ringView setBackgroundLayerStrokeColor:[UIColor.whiteColor colorWithAlphaComponent:0.3] circleStrokeColor:UIColor.whiteColor];
     }
@@ -116,7 +128,7 @@ static const CGFloat InstructionLabelTopPadding = 50.0;
     }
     [UIView animateWithDuration:0.8
                           delay:0
-                        options:UIViewAnimationOptionTransitionNone
+                        options:UIViewAnimationOptionCurveLinear
                      animations:^{
                     _circleIndicatorView.transform = CGAffineTransformMakeScale(circleDiameter, circleDiameter);
                     _circleIndicatorView.backgroundColor = progress > 1.0 ? _circleIndicatorNoiseColor : self.tintColor;
