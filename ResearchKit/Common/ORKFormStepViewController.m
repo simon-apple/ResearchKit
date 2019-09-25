@@ -840,7 +840,9 @@ static const CGFloat DelayBeforeAutoScroll = 0.25;
 // Not to use `ImmediateNavigation` when current step already has an answer.
 // So user is able to review the answer when it is present.
 - (BOOL)isStepImmediateNavigation {
-    return [[self formStep] isFormatImmediateNavigation] && [self hasAnswer] == NO && !self.isBeingReviewed;
+    // FIXME: - add explicit property in FormStep to dictate this behavior
+//    return [[self formStep] isFormatImmediateNavigation] && [self hasAnswer] == NO && !self.isBeingReviewed;
+    return NO;
 }
 
 - (ORKStepResult *)result {
