@@ -155,6 +155,7 @@ ORK_CLASS_AVAILABLE
 
 - (void)setupConstraints {
     _learnMoreButton.translatesAutoresizingMaskIntoConstraints = NO;
+    [_learnMoreButton setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
     NSArray<NSLayoutConstraint *> *constraints = @[
                                                    [NSLayoutConstraint constraintWithItem:self
                                                                                 attribute:NSLayoutAttributeTop
