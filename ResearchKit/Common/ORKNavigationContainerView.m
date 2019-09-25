@@ -391,7 +391,7 @@ static const CGFloat spinnerPadding = 24.0;
     
     if (lastView) {
         
-        [_regularConstraints addObject:[NSLayoutConstraint constraintWithItem:self.safeAreaLayoutGuide
+        [_regularConstraints addObject:[NSLayoutConstraint constraintWithItem:self
                                                                     attribute:NSLayoutAttributeBottom
                                                                     relatedBy:NSLayoutRelationEqual
                                                                        toItem:lastView
