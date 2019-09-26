@@ -64,6 +64,7 @@ static const CGFloat verticalPadding = 10.0;
     
     label = [[UILabel alloc] init];
     label.textColor = [UIColor systemBlueColor];
+    label.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
     label.numberOfLines = 0;
     label.translatesAutoresizingMaskIntoConstraints = NO;
     [cardView addSubview:label];
