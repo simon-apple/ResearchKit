@@ -91,7 +91,7 @@ static const CGFloat CheckmarkViewBorderWidth = 2.0;
     else {
         self.image = _uncheckedImage;
         if (@available(iOS 13.0, *)) {
-            self.tintColor = [UIColor secondaryLabelColor];
+            self.tintColor = [UIColor systemGray3Color];
         } else {
             self.tintColor = nil;
             self.image = nil;

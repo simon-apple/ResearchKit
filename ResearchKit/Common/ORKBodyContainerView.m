@@ -474,7 +474,7 @@ static NSString *ORKBulletUnicode = @"\u2981";
         _views[i].delegate = self;
         
         if (i < _views.count - 1) {
-            CGFloat padding = [self spacingWithAboveStyle:_bodyItems[i].bodyItemStyle belowStyle:_bodyItems[i + 1].bodyItemStyle belowIsLearnMore:(_bodyItems[i + 1].learnMoreItem != nil)];
+            CGFloat padding = [self spacingWithAboveStyle:_bodyItems[i].bodyItemStyle belowStyle:_bodyItems[i + 1].bodyItemStyle belowIsLearnMore:(_bodyItems[i + 1].learnMoreItem != nil) belowItemIndex:i+1];
             [self setCustomSpacing:padding afterView:_views[i]];
         }
     }
@@ -518,11 +518,11 @@ static NSString *ORKBulletUnicode = @"\u2981";
     return _views[_currentBodyItemIndex];
 }
 
-- (CGFloat)spacingWithAboveStyle:(ORKBodyItemStyle)aboveStyle belowStyle:(ORKBodyItemStyle )belowStyle belowIsLearnMore:(BOOL)belowIsLearnMore {
+- (CGFloat)spacingWithAboveStyle:(ORKBodyItemStyle)aboveStyle belowStyle:(ORKBodyItemStyle )belowStyle belowIsLearnMore:(BOOL)belowIsLearnMore belowItemIndex:(NSInteger)belowItemIndex {
     if (aboveStyle == ORKBodyItemStyleHorizontalRule || belowStyle == ORKBodyItemStyleHorizontalRule) {
         return ORKHorizontalRulePadding;
     } else if (aboveStyle == ORKBodyItemStyleText) {
-        return belowStyle == ORKBodyItemStyleText ? ORKBodyToBodyPaddingStandard : ORKBodyToBulletPaddingStandard;
+        return belowStyle == ORKBodyItemStyleText ? (_bodyItems[belowItemIndex].text ? ORKBodyToBodyParagraphPaddingStandard : ORKBodyToBodyPaddingStandard) : ORKBodyToBulletPaddingStandard;
     } else if (belowIsLearnMore == YES) {
         return ORKBodyToLearnMorePaddingStandard;
     } else if (aboveStyle == ORKBodyItemStyleTag) {

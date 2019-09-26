@@ -61,14 +61,14 @@
         [self tintColorDidChange];
         
         UIBezierPath *path = [UIBezierPath new];
-        [path moveToPoint:(CGPoint){0.36*tickViewSize, 0.5*tickViewSize}];
-        [path addLineToPoint:(CGPoint){0.46*tickViewSize, 0.62*tickViewSize}];
-        [path addLineToPoint:(CGPoint){0.62*tickViewSize, 0.37*tickViewSize}];
+        [path moveToPoint:(CGPoint){0.25*tickViewSize, 0.5*tickViewSize}];
+        [path addLineToPoint:(CGPoint){0.43*tickViewSize, 0.7*tickViewSize}];
+        [path addLineToPoint:(CGPoint){0.77*tickViewSize, 0.27*tickViewSize}];
         path.lineCapStyle = kCGLineCapRound;
     
         CAShapeLayer *shapeLayer = [CAShapeLayer new];
         shapeLayer.path = path.CGPath;
-        shapeLayer.lineWidth = 0.06*tickViewSize;
+        shapeLayer.lineWidth = 0.08*tickViewSize;
         shapeLayer.lineCap = kCALineCapRound;
         shapeLayer.lineJoin = kCALineJoinRound;
         shapeLayer.frame = self.layer.bounds;

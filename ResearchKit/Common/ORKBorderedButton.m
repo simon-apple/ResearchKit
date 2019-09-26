@@ -58,9 +58,9 @@ static const CGFloat ORKBorderedButtonCornerRadii = 14.0;
     if (!_appearsAsTextButton) {
         [self setLayerAndFadeDelay];
         [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [self setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
-        [self setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
-        [self setTitleColor:[UIColor whiteColor] forState:UIControlStateDisabled];
+        [self setTitleColor:[[UIColor whiteColor] colorWithAlphaComponent:0.7f] forState:UIControlStateHighlighted];
+        [self setTitleColor:[[UIColor whiteColor] colorWithAlphaComponent:0.7f] forState:UIControlStateSelected];
+        [self setTitleColor:[[UIColor whiteColor] colorWithAlphaComponent:0.3f] forState:UIControlStateDisabled];
     }
     else {
         [self setTitleColor:_normalTintColor forState:UIControlStateNormal];

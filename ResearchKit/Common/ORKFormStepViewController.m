@@ -1267,6 +1267,14 @@ static const CGFloat DelayBeforeAutoScroll = 0.25;
     return nil;
 }
 
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    return nil;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return section == tableView.numberOfSections - 1 ? UITableViewAutomaticDimension : 10;
+}
+
 #pragma mark ORKFormItemCellDelegate
 
 - (void)formItemCellDidBecomeFirstResponder:(ORKFormItemCell *)cell {

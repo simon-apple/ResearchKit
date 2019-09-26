@@ -2,15 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "earpods.pdf",
+      "filename" : "Tone-Audiometry-Earpods.pdf",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
+      "filename" : "Tone-Audiometry-Earpods@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
+      "filename" : "Tone-Audiometry-Earpods@3x.png",
       "scale" : "3x"
     }
   ],

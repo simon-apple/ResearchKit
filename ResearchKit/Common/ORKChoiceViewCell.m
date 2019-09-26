@@ -38,14 +38,13 @@
 #import "ORKHelpers_Internal.h"
 #import "ORKAnswerTextView.h"
 #import "ORKSkin.h"
+#import "ORKCheckmarkView.h"
 
 
 static const CGFloat CardTopBottomMargin = 2.0;
 static const CGFloat LabelTopBottomMargin = 14.0;
 static const CGFloat TextViewTopMargin = 20.0;
 static const CGFloat TextViewHeight = 100.0;
-static const CGFloat CheckViewDimension = 25.0;
-static const CGFloat CheckViewBorderWidth = 2.0;
 static const CGFloat LabelCheckViewPadding = 10.0;
 
 @interface ORKChoiceViewCell() <CAAnimationDelegate>
@@ -53,7 +52,7 @@ static const CGFloat LabelCheckViewPadding = 10.0;
 @property (nonatomic) UIView *containerView;
 @property (nonatomic) ORKSelectionTitleLabel *primaryLabel;
 @property (nonatomic) ORKSelectionSubTitleLabel *detailLabel;
-@property (nonatomic) UIImageView *checkView;
+@property (nonatomic) ORKCheckmarkView *checkView;
 @property (nonatomic) NSMutableArray<NSLayoutConstraint *> *containerConstraints;
 
 @end
@@ -404,20 +403,9 @@ static const CGFloat LabelCheckViewPadding = 10.0;
 
 - (void)setupCheckView {
     if (!_checkView) {
-        _checkView = [UIImageView new];
+        _checkView = [[ORKCheckmarkView alloc] initWithDefaults];
     }
-    
-    if (@available(iOS 13.0, *)) {
-        _checkView.image = [self unCheckedImage];
-        _checkView.tintColor = [UIColor systemGray3Color];
-    } else {
-        _checkView.layer.cornerRadius = CheckViewDimension * 0.5;
-        _checkView.layer.borderWidth = CheckViewBorderWidth;
-        _checkView.layer.borderColor = self.tintColor.CGColor;
-        _checkView.layer.masksToBounds = YES;
-    }
-    
-    _checkView.contentMode = UIViewContentModeCenter;
+    [_checkView setChecked:NO];
     [self.containerView addSubview:_checkView];
 }
 
@@ -432,20 +420,6 @@ static const CGFloat LabelCheckViewPadding = 10.0;
                                          attribute:NSLayoutAttributeCenterY
                                         multiplier:1.0
                                           constant:0.0],
-            [NSLayoutConstraint constraintWithItem:_checkView
-                                         attribute:NSLayoutAttributeWidth
-                                         relatedBy:NSLayoutRelationEqual
-                                            toItem:nil
-                                         attribute:NSLayoutAttributeNotAnAttribute
-                                        multiplier:1.0
-                                          constant:CheckViewDimension],
-            [NSLayoutConstraint constraintWithItem:_checkView
-                                         attribute:NSLayoutAttributeHeight
-                                         relatedBy:NSLayoutRelationEqual
-                                            toItem:nil
-                                         attribute:NSLayoutAttributeNotAnAttribute
-                                        multiplier:1.0
-                                          constant:CheckViewDimension],
             [NSLayoutConstraint constraintWithItem:_checkView
                                          attribute:NSLayoutAttributeTrailing
                                          relatedBy:NSLayoutRelationEqual
@@ -487,26 +461,7 @@ static const CGFloat LabelCheckViewPadding = 10.0;
 
 - (void)updateCheckView {
     if (_checkView) {
-        if (_cellSelected) {
-            _checkView.image = [self checkedImage];
-            
-            if (@available(iOS 13.0, *)) {
-                _checkView.tintColor = self.tintColor;
-            } else {
-                _checkView.backgroundColor = [self tintColor];
-                _checkView.tintColor = UIColor.whiteColor;
-            }
-        }
-        else {
-            _checkView.image = [self unCheckedImage];
-            if (@available(iOS 13.0, *)) {
-                _checkView.tintColor = [UIColor systemGray3Color];
-            } else {
-                _checkView.tintColor = nil;
-                _checkView.image = nil;
-                _checkView.backgroundColor = UIColor.clearColor;
-            }
-        }
+        [_checkView setChecked:_cellSelected];
     }
 }
 

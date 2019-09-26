@@ -46,8 +46,9 @@
 #import "ORKSkin.h"
 #import "ORKHelpers_Internal.h"
 
-static const CGFloat ORKHeadphoneImageViewDimension = 60.0;
-static const CGFloat ORKHeadphoneDetectStepViewTopPadding = 50.0;
+static const CGFloat ORKHeadphoneImageViewDimension = 36.0;
+static const CGFloat ORKHeadphoneDetectStepViewTopPadding = 37.0;
+static const CGFloat ORKHeadphoneDetectStepSpacing = 12.0;
 
 @interface ORKHeadphoneDetectedView : UIStackView
 
@@ -83,7 +84,9 @@ static const CGFloat ORKHeadphoneDetectStepViewTopPadding = 50.0;
         self.axis = UILayoutConstraintAxisHorizontal;
         self.distribution = UIStackViewDistributionFill;
         self.alignment = UIStackViewAlignmentCenter;
-        self.spacing = 0.0;
+        self.spacing = ORKHeadphoneDetectStepSpacing;
+        self.layoutMargins = UIEdgeInsetsMake(0.0, ORKStepContainerLeftRightPaddingForWindow(self.window), 0.0, ORKStepContainerLeftRightPaddingForWindow(self.window));
+        self.layoutMarginsRelativeArrangement = YES;
         [self setupImageView];
         [self setupLabelStackView];
         [self setupTitleLabel];
@@ -255,8 +258,9 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
         _stackView = [UIStackView new];
     }
     _stackView.axis = UILayoutConstraintAxisVertical;
-    _stackView.spacing = 5.0;
-    _stackView.distribution = UIStackViewDistributionFillProportionally;
+    _stackView.spacing = ORKHeadphoneDetectStepSpacing;
+    _stackView.alignment = UIStackViewAlignmentTrailing;
+    
     _stackView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:_stackView];
     [[_stackView.topAnchor constraintEqualToAnchor:self.topAnchor constant:ORKHeadphoneDetectStepViewTopPadding] setActive:YES];
@@ -272,12 +276,17 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
 }
 
 - (void)addSupportedHeadphonesDetectedViews {
-    [_stackView addArrangedSubview:[self horizontalRuleView]];
+    UIView *hr1 = [self horizontalRuleView];
+    [_stackView addArrangedSubview:hr1];
+    [[hr1.leadingAnchor constraintEqualToAnchor:_stackView.leadingAnchor] setActive:YES];
     [self setupAirpodView];
-    [_stackView addArrangedSubview:[self horizontalRuleView]];
+    UIView *hr2 = [self horizontalRuleView];
+    [_stackView addArrangedSubview:hr2];
+    [[hr2.leadingAnchor constraintEqualToAnchor:_stackView.leadingAnchor constant:3*ORKHeadphoneDetectStepSpacing+ORKHeadphoneImageViewDimension] setActive:YES];
     [self setupEarpodView];
-    [_stackView addArrangedSubview:[self horizontalRuleView]];
-}
+    UIView *hr3 = [self horizontalRuleView];
+    [_stackView addArrangedSubview:hr3];
+    [[hr3.leadingAnchor constraintEqualToAnchor:_stackView.leadingAnchor] setActive:YES];}
 
 - (void)addAnyHeadphoneDetectedView {
     [_stackView addArrangedSubview:[self horizontalRuleView]];
@@ -303,6 +312,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     }
     _airpodSupportView.translatesAutoresizingMaskIntoConstraints = NO;
     [_stackView addArrangedSubview:_airpodSupportView];
+    [[_airpodSupportView.leadingAnchor constraintEqualToAnchor:_stackView.leadingAnchor] setActive:YES];
 }
 
 - (void)setupEarpodView {
@@ -311,6 +321,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     }
     _earpodSupportView.translatesAutoresizingMaskIntoConstraints = NO;
     [_stackView addArrangedSubview:_earpodSupportView];
+    [[_earpodSupportView.leadingAnchor constraintEqualToAnchor:_stackView.leadingAnchor] setActive:YES];
 }
 
 - (void)setupAnyHeadphoneView {
@@ -392,6 +403,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
 
     self.stepView.customContentFillsAvailableSpace = YES;
     self.stepView.customContentView = _headphoneDetectStepView;
+    [self.stepView removeCustomContentPadding];
 }
 
 - (void)viewDidLoad {

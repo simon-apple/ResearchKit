@@ -140,6 +140,9 @@ ORK_EXTERN CGFloat ORKiPadBackgroundViewLeftRightPadding;
 /// Default body to body item padding;
 ORK_EXTERN CGFloat ORKBodyToBodyPaddingStandard;
 
+/// Default body to body item padding;
+ORK_EXTERN CGFloat ORKBodyToBodyParagraphPaddingStandard;
+
 /// Step Content Icon Image View Dimension
 ORK_EXTERN CGFloat ORKStepContentIconImageViewDimension;
 
