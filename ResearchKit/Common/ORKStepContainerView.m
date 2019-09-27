@@ -728,6 +728,9 @@ static const CGFloat ORKBodyItemScrollPadding = 24.0;
     CGFloat startOfFooter = self.navigationFooterView.frame.origin.y;
     CGFloat contentPosition = (_scrollView.contentSize.height - _scrollView.contentOffset.y - self.navigationFooterView.frame.size.height) - ORKContentBottomPadding;
 
+    // Reset if there is no content yet
+    if (contentPosition <= 0) { currentOpacity = ORKEffectViewOpacityHidden; }
+    
     CGFloat newOpacity = (contentPosition < startOfFooter) ? ORKEffectViewOpacityHidden : ORKEffectViewOpacityVisible;
     if (newOpacity != currentOpacity) {
         // Don't animate transition from hidden to visible as text appears behind during animation
