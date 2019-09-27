@@ -413,7 +413,7 @@ static const CGFloat DividerViewTopPadding = 10.0;
     NSString *_customDontKnowString;
     ORKDontKnowButton *_dontKnowButton;
     UIView *_dividerView;
-    BOOL _dontKnowButtonActive;
+    UIView *_dontKnowBackgroundView;
 }
 
 - (instancetype)initWithReuseIdentifier:(NSString *)reuseIdentifier
@@ -491,13 +491,22 @@ static const CGFloat DividerViewTopPadding = 10.0;
 }
 
 - (void)setupDontKnowButton {
+    if(!_dontKnowBackgroundView) {
+        _dontKnowBackgroundView = [UIView new];
+        _dontKnowBackgroundView.userInteractionEnabled = YES;
+        
+        UITapGestureRecognizer *tapGesture1 = [[UITapGestureRecognizer alloc] initWithTarget:self  action:@selector(tapGesture:)];
+        [_dontKnowBackgroundView addGestureRecognizer:tapGesture1];
+        _dontKnowBackgroundView.translatesAutoresizingMaskIntoConstraints = NO;
+    }
+    
     if (!_dontKnowButton) {
         _dontKnowButton = [ORKDontKnowButton new];
         _dontKnowButton.customDontKnowButtonText = self.formItem.answerFormat.customDontKnowButtonText;
         _dontKnowButton.translatesAutoresizingMaskIntoConstraints = NO;
         [_dontKnowButton addTarget:self action:@selector(dontKnowButtonWasPressed) forControlEvents:UIControlEventTouchUpInside];
     }
-
+    
     if (!_dividerView) {
         _dividerView = [UIView new];
         _dividerView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -507,7 +516,8 @@ static const CGFloat DividerViewTopPadding = 10.0;
             [_dividerView setBackgroundColor:[UIColor lightGrayColor]];
         }
     }
-
+    
+    [self.containerView addSubview:_dontKnowBackgroundView];
     [self.containerView addSubview:_dontKnowButton];
     [self.containerView addSubview:_dividerView];
 }
@@ -524,6 +534,10 @@ static const CGFloat DividerViewTopPadding = 10.0;
             [self.delegate formItemCellShouldResizeCells];
         }
     }
+}
+
+- (void) tapGesture: (id)sender {
+    //this tap gesture is here to avoid the cell being selected if the user missed the dont know button
 }
 
 - (void)setUpContentConstraint {
@@ -586,6 +600,11 @@ static const CGFloat DividerViewTopPadding = 10.0;
     [[self.errorLabel.leftAnchor constraintEqualToAnchor:self.containerView.leftAnchor constant:ORKSurveyItemMargin] setActive:YES];
 
     if (_shouldShowDontKnow) {
+        [[_dontKnowBackgroundView.topAnchor constraintEqualToAnchor:_dividerView.topAnchor] setActive:YES];
+        [[_dontKnowBackgroundView.leadingAnchor constraintEqualToAnchor:self.containerView.leadingAnchor] setActive:YES];
+        [[_dontKnowBackgroundView.trailingAnchor constraintEqualToAnchor:self.containerView.trailingAnchor] setActive:YES];
+        [[_dontKnowBackgroundView.bottomAnchor constraintEqualToAnchor:self.containerView.bottomAnchor] setActive:YES];
+        
         CGFloat separatorHeight = 1.0 / [UIScreen mainScreen].scale;
         [[_dividerView.topAnchor constraintEqualToAnchor:self.errorLabel.bottomAnchor constant:DividerViewTopPadding] setActive:YES];
         [[_dividerView.leadingAnchor constraintEqualToAnchor:self.containerView.leadingAnchor] setActive:YES];

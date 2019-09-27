@@ -65,6 +65,7 @@ static const CGFloat kMargin = 25.0;
     ORKScaleSlider *_slider;
     UILabel *_moveSliderLabel;
     ORKDontKnowButton *_dontKnowButton;
+    UIView *_dontKnowBackgroundView;
     ORKScaleRangeDescriptionLabel *_leftRangeDescriptionLabel;
     ORKScaleRangeDescriptionLabel *_rightRangeDescriptionLabel;
     UIView *_leftRangeView;
@@ -145,6 +146,7 @@ static const CGFloat kMargin = 25.0;
                 [_topStackView addArrangedSubview: _slider.isWaitingForUserFeedback ? _moveSliderLabel : _valueLabel];
                 
                 if ([formatProvider shouldShowDontKnowButton]) {
+                    [self addSubview:_dontKnowBackgroundView];
                     [self addSubview:_dividerView];
                     [self addSubview:_dontKnowButton];
                 }
@@ -288,6 +290,14 @@ static const CGFloat kMargin = 25.0;
 }
 
 - (void)setupDontKnowButton {
+    if(!_dontKnowBackgroundView) {
+        _dontKnowBackgroundView = [UIView new];
+
+        UITapGestureRecognizer *tapGesture1 = [[UITapGestureRecognizer alloc] initWithTarget:self  action:@selector(tapGesture:)];
+        [_dontKnowBackgroundView addGestureRecognizer:tapGesture1];
+        _dontKnowBackgroundView.translatesAutoresizingMaskIntoConstraints = NO;
+    }
+    
     if (!_dontKnowButton) {
         _dontKnowButton = [ORKDontKnowButton new];
         _dontKnowButton.customDontKnowButtonText = [_formatProvider customDontKnowButtonText];
@@ -619,6 +629,12 @@ static const CGFloat kMargin = 25.0;
         
         
         if ([_formatProvider shouldShowDontKnowButton]) {
+            [[_dontKnowBackgroundView.topAnchor constraintEqualToAnchor:_dividerView.topAnchor] setActive:YES];
+            [[_dontKnowBackgroundView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor] setActive:YES];
+            [[_dontKnowBackgroundView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor] setActive:YES];
+            [[_dontKnowBackgroundView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor] setActive:YES];
+            
+            
              CGFloat separatorHeight = 1.0 / [UIScreen mainScreen].scale;
             
             [constraints addObjectsFromArray:
@@ -779,6 +795,10 @@ static const CGFloat kMargin = 25.0;
         
         _slider.value =  [_formatProvider minimumNumber].floatValue;
     }
+}
+
+- (void) tapGesture: (id)sender {
+    //this tap gesture is here to avoid the cell being selected if the user missed the dont know button
 }
 
 - (void)notifyDelegate {
