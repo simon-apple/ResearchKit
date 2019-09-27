@@ -97,11 +97,11 @@ static const CGFloat ORKHeadphoneDetectStepSpacing = 12.0;
 }
 
 - (instancetype)initWithAirpods {
-    return [self initWithTitle:ORKLocalizedString(@"AIRPODS", nil) image:[UIImage imageNamed:@"airpods" inBundle:ORKBundle() compatibleWithTraitCollection:nil]];
+    return [self initWithTitle:ORKLocalizedString(@"AIRPODS", nil) image:[[UIImage imageNamed:@"airpods" inBundle:ORKBundle() compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]];
 }
 
 - (instancetype)initWithEarpods {
-    return [self initWithTitle:ORKLocalizedString(@"EARPODS", nil) image:[UIImage imageNamed:@"earpods" inBundle:ORKBundle() compatibleWithTraitCollection:nil]];
+    return [self initWithTitle:ORKLocalizedString(@"EARPODS", nil) image:[[UIImage imageNamed:@"earpods" inBundle:ORKBundle() compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]];
 }
 
 - (instancetype)initWithAnyHeadphones {
@@ -112,6 +112,9 @@ static const CGFloat ORKHeadphoneDetectStepSpacing = 12.0;
     if (_image) {
         if (!_imageView) {
             _imageView = [UIImageView new];
+        }
+        if (@available(iOS 13.0, *)) {
+            _imageView.tintColor = UIColor.labelColor;
         }
         _imageView.image = _image;
         _imageView.translatesAutoresizingMaskIntoConstraints = NO;
