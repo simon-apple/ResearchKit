@@ -45,9 +45,6 @@
 // Enable this define to see outlines and colors of all the views laid out at this level.
 // #define LAYOUT_DEBUG
 
-static const CGFloat extraGroupedTableViewPadding = 35.0;
-static const CGFloat topTableViewPadding = 24.0;
-
 @interface ORKTableContainerView () <UIGestureRecognizerDelegate>
 
 @end
@@ -230,14 +227,6 @@ static const CGFloat topTableViewPadding = 24.0;
 }
 
 - (void)sizeHeaderToFit {
-    [self sizeHeaderRemovingPadding:0.0];
-}
-
-- (void)sizeHeaderToFitForGroupedTableView {
-    [self sizeHeaderRemovingPadding:(extraGroupedTableViewPadding - topTableViewPadding)];
-}
-
-- (void)sizeHeaderRemovingPadding:(CGFloat)extraPadding {
     CGFloat width = self.stepContentView.bounds.size.width > CGFLOAT_MIN ? self.stepContentView.bounds.size.width : self.bounds.size.width;
     CGFloat padding = [[self stepContentView] useExtendedPadding] ? ORKStepContainerExtendedLeftRightPaddingForWindow(self.window) : ORKStepContainerLeftRightPaddingForWindow(self.window);
     
@@ -248,7 +237,7 @@ static const CGFloat topTableViewPadding = 24.0;
     
     CGFloat estimatedHeight = [self.stepContentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
     CGRect bounds = CGRectMake(0.0, 0.0, self.stepContentView.bounds.size.width, self.stepContentView.bounds.size.height);
-    bounds.size.height = estimatedHeight - extraPadding;
+    bounds.size.height = estimatedHeight;
     [self.stepContentView setBounds:bounds];
 }
 

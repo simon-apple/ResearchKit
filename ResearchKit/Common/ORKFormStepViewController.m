@@ -356,6 +356,7 @@ static const CGFloat DelayBeforeAutoScroll = 0.25;
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
+    [_tableContainer sizeHeaderToFit];
     [_tableContainer resizeFooterToFit];
 }
 
@@ -393,7 +394,6 @@ static const CGFloat DelayBeforeAutoScroll = 0.25;
     // Reset skipped flag - result can now be non-empty
     _skipped = NO;
     [_tableContainer layoutIfNeeded];
-    [_tableContainer sizeHeaderToFitForGroupedTableView];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
