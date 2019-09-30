@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)removeCustomContentPadding;
 - (void)updatePaddingConstraints;
 - (void)scrollToBodyItem:(UIView *)bodyItem;
-- (void)updateEffectViewStylingAndAnimate:(BOOL)animated;
+- (void)updateEffectViewStylingAndAnimate:(BOOL)animated checkCurrentValue:(BOOL)checkCurrentValue;
 
 @end
 

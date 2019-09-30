@@ -83,7 +83,7 @@ static const CGFloat spinnerPadding = 24.0;
         } else {
             blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
         }
-         effectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+        effectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
     }
     effectView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:effectView];

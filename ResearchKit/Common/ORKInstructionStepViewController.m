@@ -143,7 +143,7 @@
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     [_stepView setNeedsUpdateConstraints];
-    [_stepView updateEffectViewStylingAndAnimate:NO];
+    [_stepView updateEffectViewStylingAndAnimate:NO checkCurrentValue:NO];
 }
 
 - (void)useAppropriateButtonTitleAsLastBeginningInstructionStep {

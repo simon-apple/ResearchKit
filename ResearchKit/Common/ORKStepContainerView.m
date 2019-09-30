@@ -93,6 +93,21 @@
       vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
  */
 
+static NSString *scrollContentChangedNotification = @"scrollContentChanged";
+
+@interface ScrollView : UIScrollView
+
+@end
+
+@implementation ScrollView
+
+- (void)setContentSize:(CGSize)contentSize {
+    [super setContentSize:contentSize];
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:scrollContentChangedNotification object:nil]];
+}
+
+@end
+
 static const CGFloat ORKStepContainerTopCustomContentPaddingStandard = 20.0;
 static const CGFloat ORKStepContainerNavigationFooterTopPaddingStandard = 10.0;
 static const CGFloat ORKContentBottomPadding = 19.0;
@@ -101,7 +116,7 @@ static const CGFloat ORKBodyItemScrollPadding = 24.0;
 @implementation ORKStepContainerView {
     CGFloat _leftRightPadding;
     CGFloat _customContentLeftRightPadding;
-    UIScrollView *_scrollView;
+    ScrollView *_scrollView;
     UIView *_scrollContainerView;
     BOOL _topContentImageShouldScroll;
     CGFloat _customContentTopPadding;
@@ -137,8 +152,14 @@ static const CGFloat ORKBodyItemScrollPadding = 24.0;
         [self placeNavigationContainerView];
         _topContentImageShouldScroll = YES;
         _customContentTopPadding = ORKStepContainerTopCustomContentPaddingStandard;
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(scrollContentChanged) name:scrollContentChangedNotification object:nil];
     }
     return self;
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:scrollContentChangedNotification object:nil];
 }
 
 - (void)setStepTopContentImage:(UIImage *)stepTopContentImage {
@@ -174,7 +195,7 @@ static const CGFloat ORKBodyItemScrollPadding = 24.0;
 
 - (void)setupScrollView {
     if (!_scrollView) {
-        _scrollView = [[UIScrollView alloc] init];
+        _scrollView = [[ScrollView alloc] init];
     }
     _scrollView.showsVerticalScrollIndicator = self.showScrollIndicator;
     _scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
@@ -314,7 +335,7 @@ static const CGFloat ORKBodyItemScrollPadding = 24.0;
 - (void)layoutSubviews {
     [super layoutSubviews];
     [self updateScrollContentConstraints];
-    [self updateEffectViewStylingAndAnimate:NO];
+    [self updateEffectViewStylingAndAnimate:NO checkCurrentValue:NO];
 }
 
 - (void)updateScrollContentConstraints {
@@ -723,16 +744,13 @@ static const CGFloat ORKBodyItemScrollPadding = 24.0;
     }
 }
 
-- (void)updateEffectViewStylingAndAnimate:(BOOL)animated {
+- (void)updateEffectViewStylingAndAnimate:(BOOL)animated checkCurrentValue:(BOOL)checkCurrentValue {
     CGFloat currentOpacity = [self.navigationFooterView effectViewOpacity];
     CGFloat startOfFooter = self.navigationFooterView.frame.origin.y;
     CGFloat contentPosition = (_scrollView.contentSize.height - _scrollView.contentOffset.y - self.navigationFooterView.frame.size.height) - ORKContentBottomPadding;
 
-    // Reset if there is no content yet
-    if (contentPosition <= 0) { currentOpacity = ORKEffectViewOpacityHidden; }
-    
     CGFloat newOpacity = (contentPosition < startOfFooter) ? ORKEffectViewOpacityHidden : ORKEffectViewOpacityVisible;
-    if (newOpacity != currentOpacity) {
+    if (!checkCurrentValue || (newOpacity != currentOpacity)) {
         // Don't animate transition from hidden to visible as text appears behind during animation
         if (currentOpacity == ORKEffectViewOpacityHidden) { animated = NO; }
         [self.navigationFooterView setStylingOpactity:newOpacity animated:animated];
@@ -742,7 +760,11 @@ static const CGFloat ORKBodyItemScrollPadding = 24.0;
 // MARK: ScrollViewDelegate
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    [self updateEffectViewStylingAndAnimate:YES];
+    [self updateEffectViewStylingAndAnimate:YES checkCurrentValue:YES];
+}
+
+- (void)scrollContentChanged {
+    [self updateEffectViewStylingAndAnimate:NO checkCurrentValue:NO];
 }
 
 @end
