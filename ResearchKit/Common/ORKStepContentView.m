@@ -76,7 +76,7 @@
  |_________________________|
  */
 
-static const CGFloat ORKStepContentIconImageViewToTitleLabelPadding = 20.0;
+static const CGFloat ORKStepContentIconImageViewToTitleLabelPadding = 15.0;
 static const CGFloat ORKStepContentIconToBodyTopPaddingStandard = 20.0;
 static const CGFloat ORKStepContentIconToBulletTopPaddingStandard = 20.0;
 static const CGFloat ORKStepContentTagPaddingTop = 15.0;

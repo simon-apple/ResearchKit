@@ -35,7 +35,7 @@
 #import "ORKTagLabel.h"
 
 static const CGFloat HeaderViewLabelTopBottomPadding = 6.0;
-static const CGFloat TagBottomPadding = 6.0;
+static const CGFloat TagBottomPadding = 4.0;
 static const CGFloat TagTopPadding = 8.0;
 static const CGFloat HeaderViewBottomPadding = 24.0;
 
