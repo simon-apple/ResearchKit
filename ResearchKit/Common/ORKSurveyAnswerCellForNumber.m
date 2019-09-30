@@ -42,6 +42,7 @@
 
 static const CGFloat ErrorLabelTopPadding = 4.0;
 static const CGFloat DefaultPadding = 8.0;
+static const CGFloat HorizontalPadding = 16.0;
 static const CGFloat MinTextFieldViewHeight = 40.0;
 static const CGFloat ErrorLabelBottomPadding = 10.0;
 static const CGFloat DontKnowButtonTopBottomPadding = 16.0;
@@ -168,8 +169,8 @@ static const CGFloat DontKnowButtonTopBottomPadding = 16.0;
     _dontKnowButton.translatesAutoresizingMaskIntoConstraints = NO;
     
     [[_textFieldView.topAnchor constraintEqualToAnchor:self.topAnchor constant:DefaultPadding] setActive:YES];
-    [[_textFieldView.leftAnchor constraintEqualToAnchor:self.leftAnchor constant:DefaultPadding] setActive:YES];
-    [[_textFieldView.rightAnchor constraintEqualToAnchor:self.rightAnchor constant:-DefaultPadding] setActive:YES];
+    [[_textFieldView.leftAnchor constraintEqualToAnchor:self.leftAnchor constant:HorizontalPadding] setActive:YES];
+    [[_textFieldView.rightAnchor constraintEqualToAnchor:self.rightAnchor constant:-HorizontalPadding] setActive:YES];
     [[_textFieldView.heightAnchor constraintGreaterThanOrEqualToConstant:MinTextFieldViewHeight] setActive:YES];
     
     [[_errorLabel.topAnchor constraintEqualToAnchor:_textFieldView.bottomAnchor constant:ErrorLabelTopPadding] setActive:YES];

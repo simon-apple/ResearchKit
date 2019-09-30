@@ -60,6 +60,7 @@ static const CGFloat ErrorLabelTopPadding = 4.0;
 static const CGFloat ErrorLabelBottomPadding = 10.0;
 static const CGFloat DontKnowButtonTopBottomPadding = 16.0;
 static const CGFloat DividerViewTopPadding = 10.0;
+static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
 
 @interface ORKFormItemCell ()
 
@@ -590,15 +591,14 @@ static const CGFloat DividerViewTopPadding = 10.0;
         if (self.labelLabel.text) {
             [[self.labelLabel.widthAnchor constraintLessThanOrEqualToConstant:labelWidth] setActive:YES];
             [[self.textFieldView.centerYAnchor constraintEqualToAnchor:self.labelLabel.centerYAnchor constant:0.0] setActive:YES];
+            [[self.textFieldView.leftAnchor constraintEqualToAnchor:self.labelLabel.rightAnchor constant:InlineFormItemLabelToTextFieldPadding] setActive:YES];
+            [[self.errorLabel.topAnchor constraintEqualToAnchor:self.labelLabel.bottomAnchor constant:ErrorLabelTopPadding] setActive:YES];
         } else {
             [[self.textFieldView.topAnchor constraintEqualToAnchor:self.containerView.topAnchor
             constant:ORKSurveyItemMargin] setActive:YES];
+            [[self.textFieldView.leftAnchor constraintEqualToAnchor:self.containerView.leftAnchor constant:ORKSurveyItemMargin] setActive:YES];
+            [[self.errorLabel.topAnchor constraintEqualToAnchor:self.textFieldView.bottomAnchor constant:ErrorLabelTopPadding] setActive:YES];
         }
-        [[self.textFieldView.leftAnchor constraintEqualToAnchor:self.labelLabel.text ? self.labelLabel.rightAnchor : self.containerView.leftAnchor
-                                                       constant:ORKSurveyItemMargin] setActive:YES];
-
-        [[self.errorLabel.topAnchor constraintEqualToAnchor:self.labelLabel.text ? self.labelLabel.bottomAnchor : self.textFieldView.bottomAnchor
-                                                   constant:ErrorLabelTopPadding] setActive:YES];
     }
 
     [[self.textFieldView.rightAnchor constraintEqualToAnchor:self.containerView.rightAnchor constant:0.0] setActive:YES];
