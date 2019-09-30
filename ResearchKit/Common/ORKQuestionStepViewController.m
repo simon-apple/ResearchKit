@@ -267,7 +267,12 @@ static const CGFloat DelayBeforeAutoScroll = 0.25;
                         learnMoreView.delegate = self;
                     }
                     
-                    [_cellHolderView useCardViewWithTitle:self.questionStep.question detailText:self.step.detailText learnMoreView:learnMoreView progressText:sectionProgressText tagText:self.questionStep.tagText];
+                    BOOL hasMultipleChoiceFormItem = NO;
+                    if (self.questionStep.impliedAnswerFormat != nil && self.questionStep.impliedAnswerFormat.questionType == ORKQuestionTypeMultipleChoice) {
+                        hasMultipleChoiceFormItem = YES;
+                    }
+                    
+                    [_cellHolderView useCardViewWithTitle:self.questionStep.question detailText:self.step.detailText learnMoreView:learnMoreView progressText:sectionProgressText tagText:self.questionStep.tagText hasMultipleChoiceFormItem:hasMultipleChoiceFormItem];
                 }
                 _questionView.questionCustomView = _cellHolderView;
             }
@@ -645,6 +650,7 @@ static const CGFloat DelayBeforeAutoScroll = 0.25;
     if ([self questionStep].useCardView && [self questionStep].question) {
         ORKLearnMoreView *learnMoreView;
         NSString *sectionProgressText = nil;
+        BOOL hasMultipleChoiceFormItem = NO;
         
         if (self.step.showsProgress) {
             if ([self.delegate respondsToSelector:@selector(stepViewControllerTotalProgressInfoForStep:currentStep:)]) {
@@ -659,8 +665,12 @@ static const CGFloat DelayBeforeAutoScroll = 0.25;
             learnMoreView = [ORKLearnMoreView learnMoreViewWithItem:self.questionStep.learnMoreItem];
             learnMoreView.delegate = self;
         }
+        
+        if (self.questionStep.impliedAnswerFormat != nil && self.questionStep.impliedAnswerFormat.questionType == ORKQuestionTypeMultipleChoice) {
+            hasMultipleChoiceFormItem = YES;
+        }
 
-        return [[ORKSurveyCardHeaderView alloc] initWithTitle:self.questionStep.question detailText:self.questionStep.detailText learnMoreView:learnMoreView progressText:sectionProgressText tagText:self.questionStep.tagText];
+        return [[ORKSurveyCardHeaderView alloc] initWithTitle:self.questionStep.question detailText:self.questionStep.detailText  learnMoreView:learnMoreView progressText:sectionProgressText tagText:self.questionStep.tagText showBorder:NO hasMultipleChoiceItem:hasMultipleChoiceFormItem];
     }
     return nil;
 }

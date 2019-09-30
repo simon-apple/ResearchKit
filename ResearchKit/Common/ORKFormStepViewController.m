@@ -1222,6 +1222,7 @@ static const CGFloat DelayBeforeAutoScroll = 0.25;
     NSString *sectionProgressText = nil;
     ORKLearnMoreView *learnMoreView;
     NSString *tagText = _sections[section].tagText;
+    BOOL hasMultipleChoiceFormItem = NO;
     
     if (_sections[section].showsProgress) {
         if ([self.delegate respondsToSelector:@selector(stepViewControllerTotalProgressInfoForStep:currentStep:)]) {
@@ -1244,6 +1245,17 @@ static const CGFloat DelayBeforeAutoScroll = 0.25;
         learnMoreView.delegate = self;
     }
     
+    if (_sections[section].items.count > 0) {
+        ORKTableCellItem *tableCellItem = (ORKTableCellItem *)_sections[section].items.firstObject;
+        ORKFormItem *firstFormItem = tableCellItem.formItem;
+        
+        if (firstFormItem.impliedAnswerFormat != nil) {
+            if (firstFormItem.impliedAnswerFormat.questionType == ORKQuestionTypeMultipleChoice) {
+                hasMultipleChoiceFormItem = YES;
+            }
+        }
+    }
+    
     ORKSurveyCardHeaderView *cardHeaderView = (ORKSurveyCardHeaderView *)[tableView dequeueReusableHeaderFooterViewWithIdentifier:@(section).stringValue];
     
     if (cardHeaderView == nil && title) {
@@ -1252,7 +1264,8 @@ static const CGFloat DelayBeforeAutoScroll = 0.25;
                                                           learnMoreView:learnMoreView
                                                            progressText:sectionProgressText
                                                                 tagText:tagText
-                                                             showBorder:([self formStep].cardViewStyle == ORKCardViewStyleBordered)];
+                                                             showBorder:([self formStep].cardViewStyle == ORKCardViewStyleBordered)
+                                                  hasMultipleChoiceItem:hasMultipleChoiceFormItem];
     }
     
     return cardHeaderView;

@@ -84,7 +84,7 @@ ORK_CLASS_AVAILABLE
 
 @property (nonatomic, strong, nullable) ORKSurveyAnswerCell *cell;
 
-- (void)useCardViewWithTitle:(NSString *)title detailText:(nullable NSString *)detailText learnMoreView:(nullable ORKLearnMoreView *)learnMoreView progressText:(nullable NSString *)progressText tagText:(nullable NSString *)tagText;
+- (void)useCardViewWithTitle:(NSString *)title detailText:(nullable NSString *)detailText learnMoreView:(nullable ORKLearnMoreView *)learnMoreView progressText:(nullable NSString *)progressText tagText:(nullable NSString *)tagText hasMultipleChoiceFormItem:(BOOL)hasMultipleChoiceFormItem;
 
 @end
 

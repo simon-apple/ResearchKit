@@ -33,11 +33,14 @@
 #import "ORKSkin.h"
 #import "ORKLearnMoreView.h"
 #import "ORKTagLabel.h"
+#import "ORKHelpers_Internal.h"
 
 static const CGFloat HeaderViewLabelTopBottomPadding = 6.0;
 static const CGFloat TagBottomPadding = 4.0;
 static const CGFloat TagTopPadding = 8.0;
 static const CGFloat HeaderViewBottomPadding = 24.0;
+static const CGFloat SelectAllThatApplyTopPadding = 24.0;
+static const CGFloat SelectAllThatApplyBottomPadding = 6.0;
 
 @implementation ORKSurveyCardHeaderView {
     
@@ -50,7 +53,9 @@ static const CGFloat HeaderViewBottomPadding = 24.0;
     NSString *_progressText;
     UILabel *_progressLabel;
     UILabel *_tagLabel;
+    UILabel *_selectAllThatApplyLabel;
     BOOL _showBorder;
+    BOOL _hasMultipleChoiceItem;
     NSString *_tagText;
     CAShapeLayer *_headlineMaskLayer;
     NSArray<NSLayoutConstraint *> *_headerViewConstraints;
@@ -78,6 +83,7 @@ static const CGFloat HeaderViewBottomPadding = 24.0;
         _learnMoreView = learnMoreView;
         _progressText = progressText;
         _showBorder = NO;
+        _hasMultipleChoiceItem = NO;
         _tagText = tagText;
         [self setBackgroundColor:[UIColor clearColor]];
         [self setupHeaderView];
@@ -86,7 +92,7 @@ static const CGFloat HeaderViewBottomPadding = 24.0;
     return self;
 }
 
-- (instancetype)initWithTitle:(NSString *)title detailText:(NSString *)text learnMoreView:(ORKLearnMoreView *)learnMoreView progressText:(NSString *)progressText tagText:(nullable NSString *)tagText showBorder:(BOOL)showBorder {
+- (instancetype)initWithTitle:(NSString *)title detailText:(NSString *)text learnMoreView:(ORKLearnMoreView *)learnMoreView progressText:(NSString *)progressText tagText:(nullable NSString *)tagText showBorder:(BOOL)showBorder hasMultipleChoiceItem:(BOOL)hasMultipleChoiceItem {
     
     self = [super init];
     if (self) {
@@ -96,6 +102,7 @@ static const CGFloat HeaderViewBottomPadding = 24.0;
         _progressText = progressText;
         _showBorder = showBorder;
         _tagText = tagText;
+        _hasMultipleChoiceItem = hasMultipleChoiceItem;
         [self setBackgroundColor:[UIColor clearColor]];
         [self setupHeaderView];
         [self setupConstraints];
@@ -127,6 +134,11 @@ static const CGFloat HeaderViewBottomPadding = 24.0;
     
     if (_learnMoreView) {
         [_headlineView addSubview:_learnMoreView];
+    }
+    
+    if (_hasMultipleChoiceItem) {
+        [self setupSelectAllThatApplyLabel];
+        [_headlineView addSubview:_selectAllThatApplyLabel];
     }
 }
 
@@ -185,6 +197,22 @@ static const CGFloat HeaderViewBottomPadding = 24.0;
     _tagLabel.text = _tagText;
 }
 
+- (void)setupSelectAllThatApplyLabel {
+    if (!_selectAllThatApplyLabel) {
+        _selectAllThatApplyLabel = [UILabel new];
+    }
+    
+    _selectAllThatApplyLabel.text = ORKLocalizedString(@"AX_SELECT_ALL_THAT_APPLY", nil);
+    _selectAllThatApplyLabel.numberOfLines = 0;
+    if (@available(iOS 13.0, *)) {
+        _selectAllThatApplyLabel.textColor = [UIColor secondaryLabelColor];
+    } else {
+        _selectAllThatApplyLabel.textColor = [UIColor lightGrayColor];
+    }
+    _selectAllThatApplyLabel.textAlignment = NSTextAlignmentNatural;
+    [_selectAllThatApplyLabel setFont:[self selectAllThatApplyFont]];
+}
+
 - (UIFont *)titleLabelFont {
     UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleBody];
     UIFontDescriptor *fontDescriptor = [descriptor fontDescriptorWithSymbolicTraits:(UIFontDescriptorTraitBold)];
@@ -197,6 +225,12 @@ static const CGFloat HeaderViewBottomPadding = 24.0;
 }
 
 - (UIFont *)progressLabelFont {
+    UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleFootnote];
+    UIFontDescriptor *fontDescriptor = [descriptor fontDescriptorWithSymbolicTraits:(UIFontDescriptorTraitBold)];
+    return [UIFont fontWithDescriptor:fontDescriptor size:[[fontDescriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]];
+}
+
+- (UIFont *)selectAllThatApplyFont {
     UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleFootnote];
     UIFontDescriptor *fontDescriptor = [descriptor fontDescriptorWithSymbolicTraits:(UIFontDescriptorTraitBold)];
     return [UIFont fontWithDescriptor:fontDescriptor size:[[fontDescriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]];
@@ -263,7 +297,6 @@ static const CGFloat HeaderViewBottomPadding = 24.0;
 }
 
 - (void)setupConstraints {
-
     NSLayoutXAxisAnchor *trailingAnchor = [self useLearnMoreLeftAlignmentLayout] ? _learnMoreView.leadingAnchor : _headlineView.trailingAnchor;
     NSLayoutYAxisAnchor *lastYAxisAnchor = self.topAnchor;
     
@@ -299,7 +332,8 @@ static const CGFloat HeaderViewBottomPadding = 24.0;
     [[_titleLabel.topAnchor constraintEqualToAnchor:lastYAxisAnchor constant:titlePadding] setActive:YES];
     [[_titleLabel.leadingAnchor constraintEqualToAnchor:_headlineView.leadingAnchor constant:ORKSurveyItemMargin] setActive:YES];
     [[_titleLabel.trailingAnchor constraintEqualToAnchor:[self useLearnMoreLeftAlignmentLayout] ? _learnMoreView.leadingAnchor : _headlineView.trailingAnchor constant:-ORKSurveyItemMargin] setActive:YES];
-     NSLayoutYAxisAnchor *headlineViewBottomAnchor = _titleLabel.bottomAnchor;
+    lastYAxisAnchor = _titleLabel.bottomAnchor;
+    NSLayoutYAxisAnchor *headlineViewBottomAnchor = _titleLabel.bottomAnchor;
     
     if (_detailTextLabel) {
         _detailTextLabel.translatesAutoresizingMaskIntoConstraints = NO;
@@ -307,6 +341,7 @@ static const CGFloat HeaderViewBottomPadding = 24.0;
         [[_detailTextLabel.topAnchor constraintEqualToAnchor:_titleLabel.bottomAnchor constant:HeaderViewLabelTopBottomPadding] setActive:YES];
         [[_detailTextLabel.leadingAnchor constraintEqualToAnchor:_titleLabel.leadingAnchor] setActive:YES];
         [[_detailTextLabel.trailingAnchor constraintEqualToAnchor:[self useLearnMoreLeftAlignmentLayout] ? _learnMoreView.leadingAnchor : _headlineView.trailingAnchor constant:-ORKSurveyItemMargin] setActive:YES];
+        lastYAxisAnchor = _detailTextLabel.bottomAnchor;
         headlineViewBottomAnchor = _detailTextLabel.bottomAnchor;
     }
     
@@ -320,14 +355,24 @@ static const CGFloat HeaderViewBottomPadding = 24.0;
             [[_learnMoreView.leadingAnchor constraintEqualToAnchor:_titleLabel.leadingAnchor] setActive:YES];
             [[_learnMoreView.trailingAnchor constraintEqualToAnchor:[self useLearnMoreLeftAlignmentLayout] ? _learnMoreView.leadingAnchor : _headlineView.trailingAnchor constant:-ORKSurveyItemMargin] setActive:YES];
             
+            lastYAxisAnchor = _learnMoreView.bottomAnchor;
             headlineViewBottomAnchor = _learnMoreView.bottomAnchor;
         }
+    }
+    
+    if (_selectAllThatApplyLabel) {
+        _selectAllThatApplyLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        [[_selectAllThatApplyLabel.topAnchor constraintEqualToAnchor:lastYAxisAnchor constant:SelectAllThatApplyTopPadding] setActive:YES];
+        [[_selectAllThatApplyLabel.leadingAnchor constraintEqualToAnchor:_titleLabel.leadingAnchor] setActive:YES];
+        [[_selectAllThatApplyLabel.trailingAnchor constraintEqualToAnchor:_titleLabel.trailingAnchor] setActive:YES];
+        
+        headlineViewBottomAnchor = _selectAllThatApplyLabel.bottomAnchor;
     }
     
     [[_headlineView.topAnchor constraintEqualToAnchor:self.topAnchor constant:0.0] setActive:YES];
     [[_headlineView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:ORKCardLeftRightMarginForWindow(self.window)] setActive:YES];
     [[_headlineView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-ORKCardLeftRightMarginForWindow(self.window)] setActive:YES];
-    [[_headlineView.bottomAnchor constraintEqualToAnchor: headlineViewBottomAnchor constant:HeaderViewBottomPadding] setActive:YES];
+    [[_headlineView.bottomAnchor constraintEqualToAnchor: headlineViewBottomAnchor constant: _selectAllThatApplyLabel ? SelectAllThatApplyBottomPadding : HeaderViewBottomPadding] setActive:YES];
     
     [[self.bottomAnchor constraintEqualToAnchor:_headlineView.bottomAnchor constant:0.0] setActive:YES];
 }

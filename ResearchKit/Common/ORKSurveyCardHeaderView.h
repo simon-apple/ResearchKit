@@ -49,7 +49,8 @@ NS_ASSUME_NONNULL_BEGIN
                  learnMoreView:(nullable ORKLearnMoreView *)learnMoreView
                   progressText:(nullable NSString *)progressText
                        tagText:(nullable NSString *)tagText
-                    showBorder:(BOOL)showBorder;
+                    showBorder:(BOOL)showBorder
+         hasMultipleChoiceItem:(BOOL)hasMultipleChoiceItem;
 
 @end
 

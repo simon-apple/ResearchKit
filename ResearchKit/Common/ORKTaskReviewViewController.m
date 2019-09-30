@@ -508,7 +508,7 @@ static const float ReviewQuestionAnswerPadding = 2.0;
     
     if (cardHeaderView == nil) {
         ORKReviewSection *reviewSection = _reviewSections[section];
-        cardHeaderView = [[ORKSurveyCardHeaderView alloc] initWithTitle:reviewSection.title detailText:reviewSection.text learnMoreView:nil progressText:[NSString stringWithFormat:@"%@ %@", ORKLocalizedString(@"REVIEW_STEP_PAGE", nil), ORKLocalizedStringFromNumber(@(section + 1))] tagText:nil showBorder:YES];
+        cardHeaderView = [[ORKSurveyCardHeaderView alloc] initWithTitle:reviewSection.title detailText:reviewSection.text learnMoreView:nil progressText:[NSString stringWithFormat:@"%@ %@", ORKLocalizedString(@"REVIEW_STEP_PAGE", nil), ORKLocalizedStringFromNumber(@(section + 1))] tagText:nil showBorder:YES hasMultipleChoiceItem:NO];
     }
     
     return cardHeaderView;
