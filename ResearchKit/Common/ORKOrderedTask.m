@@ -35,6 +35,8 @@
 #import "ORKQuestionStep.h"
 #import "ORKFormStepViewController.h"
 #import "ORKAnswerFormat.h"
+#import "ORKInstructionStep.h"
+#import "ORKCompletionStep.h"
 #import "ORKFormItem_Internal.h"
 
 #import "ORKActiveStep_Internal.h"
@@ -44,6 +46,7 @@
 
 @implementation ORKOrderedTask {
     NSString *_identifier;
+    NSMutableArray *_stepsThatDisplayProgress;
 }
 
 + (instancetype)new {
@@ -63,6 +66,7 @@
         _steps = steps;
         
         _progressLabelColor = ORKColor(ORKProgressLabelColorKey);
+        [self setUpArrayOfStepsThatShowProgress];
         [self validateParameters];
     }
     return self;
@@ -116,14 +120,23 @@
     return _identifier;
 }
 
-- (BOOL)shouldHideProgressFor:(ORKStep *)step {
-    NSUInteger indexOfStep = [self indexOfStep:step];
-    // Hide progress if any one of the following conditions is true -
-    // 1) for the very first step in a task
-    // 2) for the last step in a task
-    // 3) if there is only ONE step in the entire task
-    // 4) if the showsProgress property is set to false
-    return (indexOfStep == 0 || indexOfStep == _steps.count - 1 || _steps.count == 1 || ![step showsProgress]);
+- (void)setUpArrayOfStepsThatShowProgress {
+    _stepsThatDisplayProgress = [NSMutableArray new];
+    
+    // Steps will not be included in the _stepsThatDisplayProgress array if:
+    // 1) The step is a instruction or completion step (or inherits from it) and is the first or last step in the task
+    // 3) There is only ONE step in the entire task
+    // 4) The showsProgress property is set to false
+    
+    for (ORKStep *stepObject in _steps) {
+        NSUInteger indexOfStep = [self indexOfStep:stepObject];
+        BOOL isFirstOrLastStep = indexOfStep == 0 || indexOfStep == _steps.count - 1;
+        BOOL isInstructionOrCompletionStep = [stepObject isKindOfClass:[ORKInstructionStep class]] || [stepObject isKindOfClass:[ORKCompletionStep class]];
+        
+        if (!(isInstructionOrCompletionStep && isFirstOrLastStep) && [stepObject showsProgress]) {
+            [_stepsThatDisplayProgress addObject:stepObject.identifier];
+        }
+    }
 }
 
 - (NSUInteger)indexOfStep:(ORKStep *)step {
@@ -193,8 +206,16 @@
 
 - (ORKTaskProgress)progressOfCurrentStep:(ORKStep *)step withResult:(ORKTaskResult *)taskResult {
     ORKTaskProgress progress;
-    progress.current = [self indexOfStep:step];
-    progress.total = _steps.count;
+    
+    if ([_stepsThatDisplayProgress containsObject:step.identifier]) {
+        progress.current = [_stepsThatDisplayProgress indexOfObject:step.identifier];
+        progress.total = _stepsThatDisplayProgress.count;
+        progress.shouldBePresented = progress.total > 1 ? YES : NO;
+    } else {
+        progress.current = [self indexOfStep:step];
+        progress.total = 0;
+        progress.shouldBePresented = NO;
+    }
     
     return progress;
 }
