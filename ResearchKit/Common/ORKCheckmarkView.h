@@ -36,6 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithRadius:(CGFloat)radius checkedImage:(nullable UIImage *)checkedImage uncheckedImage:(nullable UIImage *)uncheckedImage;
 - (instancetype)initWithDefaults;
+- (instancetype)initWithDefaultsWithoutCircle;
 
 @property (nonatomic, nullable) UIImage *checkedImage;
 @property (nonatomic, nullable) UIImage *uncheckedImage;

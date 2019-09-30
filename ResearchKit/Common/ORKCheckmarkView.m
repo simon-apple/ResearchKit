@@ -36,23 +36,39 @@ static const CGFloat CheckmarkViewBorderWidth = 2.0;
 
 @implementation ORKCheckmarkView {
     CGFloat _dimension;
+    BOOL _shouldShowCircle;
 }
 
-- (instancetype)initWithRadius:(CGFloat)radius checkedImage:(UIImage *)checkedImage uncheckedImage:(UIImage *)uncheckedImage {
+- (instancetype)initWithRadius:(CGFloat)radius checkedImage:(UIImage *)checkedImage uncheckedImage:(UIImage *)uncheckedImage shouldShowCircle:(BOOL)shouldShowCircle {
     self = [super init];
     if (self) {
         _dimension = 2*radius;
         _checkedImage = checkedImage;
         _uncheckedImage = uncheckedImage;
+        _shouldShowCircle = shouldShowCircle;
     }
     [self setupView];
     return self;
+}
+
+- (instancetype)initWithRadius:(CGFloat)radius checkedImage:(UIImage *)checkedImage uncheckedImage:(UIImage *)uncheckedImage {
+    return [self initWithRadius:CheckmarkViewDimension*0.5
+                   checkedImage:[ORKCheckmarkView checkedImage]
+                 uncheckedImage:[ORKCheckmarkView unCheckedImage]
+               shouldShowCircle:YES];
 }
 
 - (instancetype)initWithDefaults {
     return [self initWithRadius:CheckmarkViewDimension*0.5
                    checkedImage:[ORKCheckmarkView checkedImage]
                  uncheckedImage:[ORKCheckmarkView unCheckedImage]];
+}
+
+- (instancetype)initWithDefaultsWithoutCircle {
+    return [self initWithRadius:CheckmarkViewDimension*0.5
+                   checkedImage:[ORKCheckmarkView checkedImageWithoutCircle]
+                 uncheckedImage:nil
+               shouldShowCircle:NO];
 }
 
 - (CGFloat)getDimension {
@@ -72,6 +88,15 @@ static const CGFloat CheckmarkViewBorderWidth = 2.0;
     if (@available(iOS 13.0, *)) {
         UIImageConfiguration *configuration = [UIImageSymbolConfiguration configurationWithFont:[UIFont preferredFontForTextStyle:UIFontTextStyleBody] scale:UIImageSymbolScaleLarge];
         return [UIImage systemImageNamed:@"checkmark.circle.fill" withConfiguration:configuration];
+    } else {
+        return [[UIImage imageNamed:@"checkmark" inBundle:ORKBundle() compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    }
+}
+
++ (UIImage *)checkedImageWithoutCircle {
+    if (@available(iOS 13.0, *)) {
+        UIImageConfiguration *configuration = [UIImageSymbolConfiguration configurationWithFont:[UIFont preferredFontForTextStyle:UIFontTextStyleBody] scale:UIImageSymbolScaleLarge];
+        return [UIImage systemImageNamed:@"checkmark" withConfiguration:configuration];
     } else {
         return [[UIImage imageNamed:@"checkmark" inBundle:ORKBundle() compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     }

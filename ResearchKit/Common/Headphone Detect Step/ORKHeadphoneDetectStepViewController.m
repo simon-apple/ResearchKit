@@ -176,7 +176,7 @@ static const CGFloat ORKHeadphoneDetectStepSpacing = 12.0;
 
 - (void)setupCheckView {
     if (!_checkView) {
-        _checkView = [[ORKCheckmarkView alloc] initWithDefaults];
+        _checkView = [[ORKCheckmarkView alloc] initWithDefaultsWithoutCircle];
     }
     [_checkView setChecked:NO];
     [self addArrangedSubview:_checkView];
