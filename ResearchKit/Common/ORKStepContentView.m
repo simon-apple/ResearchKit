@@ -33,7 +33,7 @@
 #import "ORKTitleLabel.h"
 #import "ORKBodyLabel.h"
 #import "ORKBodyItem.h"
-#import "ORKCompletionStepViewController.h"
+#import "ORKCompletionCheckmarkView.h"
 #import "ORKBodyContainerView.h"
 #import "ORKSkin.h"
 
@@ -955,7 +955,7 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKUpdateConstraintSequence) {
 
 - (nullable ORKCompletionCheckmarkView *)completionCheckmarkView {
     if (!_completionCheckmarkView) {
-        _completionCheckmarkView = [ORKCompletionCheckmarkView new];
+        _completionCheckmarkView = [[ORKCompletionCheckmarkView alloc] initWithDefaultDimension];
         [self addSubview:_completionCheckmarkView];
         self.titleIconImage = [UIImage new];
         [_iconImageView setHidden:YES];

@@ -36,15 +36,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-
-@interface ORKCompletionCheckmarkView : UIView
-
-@property (nonatomic) CGFloat animationPoint;
-
-- (void)setAnimationPoint:(CGFloat)animationPoint animated:(BOOL)animated;
-
-@end
-
 /**
  An `ORKCompletionStepViewController` object is the step view controller for an
 `ORKCompletionStep` object.

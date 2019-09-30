@@ -580,6 +580,8 @@
 		BA22F76D20C4F884006E6E11 /* SentencesList.txt in Resources */ = {isa = PBXBuildFile; fileRef = BA22F76C20C4F884006E6E11 /* SentencesList.txt */; };
 		BA2645E62301571800D00B73 /* ORKReviewViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = BA2645E42301571800D00B73 /* ORKReviewViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BA2645E72301571800D00B73 /* ORKReviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA2645E52301571800D00B73 /* ORKReviewViewController.m */; };
+		BA2CFBB02342935800B71919 /* ORKCompletionCheckmarkView.h in Headers */ = {isa = PBXBuildFile; fileRef = BA2CFBAE2342935800B71919 /* ORKCompletionCheckmarkView.h */; };
+		BA2CFBB12342935800B71919 /* ORKCompletionCheckmarkView.m in Sources */ = {isa = PBXBuildFile; fileRef = BA2CFBAF2342935800B71919 /* ORKCompletionCheckmarkView.m */; };
 		BA2FE3EE20B109C600AAC231 /* ORKAmslerGridResult.h in Headers */ = {isa = PBXBuildFile; fileRef = BA2FE3EC20B109C600AAC231 /* ORKAmslerGridResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BA2FE3EF20B109C600AAC231 /* ORKAmslerGridResult.m in Sources */ = {isa = PBXBuildFile; fileRef = BA2FE3ED20B109C600AAC231 /* ORKAmslerGridResult.m */; };
 		BA3D7E732223F8B90023FE3A /* ORKChoiceViewCell_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = BA3D7E722223F8B90023FE3A /* ORKChoiceViewCell_Internal.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -1440,6 +1442,8 @@
 		BA22F76C20C4F884006E6E11 /* SentencesList.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SentencesList.txt; sourceTree = "<group>"; };
 		BA2645E42301571800D00B73 /* ORKReviewViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKReviewViewController.h; sourceTree = "<group>"; };
 		BA2645E52301571800D00B73 /* ORKReviewViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKReviewViewController.m; sourceTree = "<group>"; };
+		BA2CFBAE2342935800B71919 /* ORKCompletionCheckmarkView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKCompletionCheckmarkView.h; sourceTree = "<group>"; };
+		BA2CFBAF2342935800B71919 /* ORKCompletionCheckmarkView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKCompletionCheckmarkView.m; sourceTree = "<group>"; };
 		BA2FE3EC20B109C600AAC231 /* ORKAmslerGridResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKAmslerGridResult.h; sourceTree = "<group>"; };
 		BA2FE3ED20B109C600AAC231 /* ORKAmslerGridResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKAmslerGridResult.m; sourceTree = "<group>"; };
 		BA3D7E722223F8B90023FE3A /* ORKChoiceViewCell_Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKChoiceViewCell_Internal.h; sourceTree = "<group>"; };
@@ -2405,6 +2409,8 @@
 				86C40B531A8D7C5B00081FAC /* ORKCompletionStep.m */,
 				86C40B541A8D7C5B00081FAC /* ORKCompletionStepViewController.h */,
 				86C40B551A8D7C5B00081FAC /* ORKCompletionStepViewController.m */,
+				BA2CFBAE2342935800B71919 /* ORKCompletionCheckmarkView.h */,
+				BA2CFBAF2342935800B71919 /* ORKCompletionCheckmarkView.m */,
 			);
 			name = "Completion Step";
 			sourceTree = "<group>";
@@ -3541,6 +3547,7 @@
 				7118AC7520BF6A7800D7A6BB /* ORKSpeechInNoiseStepViewController.h in Headers */,
 				BF91559B1BDE8D7D007FA459 /* ORKReviewStep_Internal.h in Headers */,
 				BF91559E1BDE8D7E007FA459 /* ORKReviewStepViewController_Internal.h in Headers */,
+				BA2CFBB02342935800B71919 /* ORKCompletionCheckmarkView.h in Headers */,
 				FF919A3B1E81AF1D005C2A1E /* ORKFileResult.h in Headers */,
 				FF919A561E81BEE0005C2A1E /* ORKCollectionResult_Private.h in Headers */,
 				FF919A661E81D168005C2A1E /* ORKSignatureResult_Private.h in Headers */,
@@ -4298,6 +4305,7 @@
 				716B126920A7A40400590264 /* ORKdBHLToneAudiometryAudioGenerator.m in Sources */,
 				86C40CA21A8D7C5C00081FAC /* ORKHealthQuantityTypeRecorder.m in Sources */,
 				95E11E561D73396300BF865B /* ORKShoulderRangeOfMotionStepViewController.m in Sources */,
+				BA2CFBB12342935800B71919 /* ORKCompletionCheckmarkView.m in Sources */,
 				86C40DC01A8D7C5C00081FAC /* ORKTableViewCell.m in Sources */,
 				24A4DA111B8D0F21009C797A /* ORKPasscodeStepView.m in Sources */,
 				BC41942A1AE8453A00073D6B /* ORKObserver.m in Sources */,

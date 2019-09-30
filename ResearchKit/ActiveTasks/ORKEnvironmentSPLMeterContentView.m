@@ -37,6 +37,7 @@
 #import "ORKSkin.h"
 #import "ORKRingView.h"
 #import "ORKProgressView.h"
+#import "ORKCompletionCheckmarkView.h"
 
 static const CGFloat CircleIndicatorMaxDiameter = 150.0;
 static const CGFloat RingViewYOffset = 80.0;
@@ -155,19 +156,12 @@ static const CGFloat InstructionLabelTopPadding = 50.0;
 - (void)reachedOptimumNoiseLevel {
     _ringView.hidden = YES;
     _circleIndicatorView.hidden = YES;
-    UIImageView *checkmarkView = [UIImageView new];
+    ORKCompletionCheckmarkView *checkmarkView = [[ORKCompletionCheckmarkView alloc] initWithDimension:_ringView.bounds.size.width];
     checkmarkView.translatesAutoresizingMaskIntoConstraints = NO;
     [self insertSubview:checkmarkView aboveSubview:_ringView];
     [[checkmarkView.centerXAnchor constraintEqualToAnchor:_ringView.centerXAnchor] setActive:YES];
     [[checkmarkView.centerYAnchor constraintEqualToAnchor:_ringView.centerYAnchor] setActive:YES];
-    [[checkmarkView.widthAnchor constraintEqualToAnchor:_ringView.widthAnchor] setActive:YES];
-    [[checkmarkView.heightAnchor constraintEqualToAnchor:_ringView.heightAnchor] setActive:YES];
-    checkmarkView.contentMode = UIViewContentModeScaleAspectFill;
-    if (@available(iOS 13.0, *)) {
-        checkmarkView.image = [[UIImage systemImageNamed:@"checkmark.circle.fill" compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    } else {
-        checkmarkView.image = [[UIImage imageNamed:@"checkmark" inBundle:ORKBundle() compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    }
+    [checkmarkView setAnimationPoint:1 animated:YES];
 }
 
 @end

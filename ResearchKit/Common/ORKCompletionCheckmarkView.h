@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, Apple Inc. All rights reserved.
+ Copyright (c) 2019, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,57 +28,21 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <UIKit/UIKit.h>
 
-#import "ORKCompletionStepViewController.h"
+NS_ASSUME_NONNULL_BEGIN
 
-#import "ORKCustomStepView_Internal.h"
-#import "ORKInstructionStepContainerView.h"
-#import "ORKInstructionStepView.h"
-#import "ORKNavigationContainerView.h"
-#import "ORKStepHeaderView_Internal.h"
-#import "ORKStepView_Private.h"
-#import "ORKStepContainerView_Private.h"
-#import "ORKStepContentView_Private.h"
+@interface ORKCompletionCheckmarkView : UIView
++ (instancetype)new NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
 
-#import "ORKInstructionStepViewController_Internal.h"
-#import "ORKStepViewController_Internal.h"
-#import "ORKCompletionCheckmarkView.h"
-#import "ORKSkin.h"
-#import "ORKHelpers_Internal.h"
+- (instancetype)initWithDimension:(CGFloat)dimension;
+- (instancetype)initWithDefaultDimension;
 
+@property (nonatomic) CGFloat animationPoint;
 
-@implementation ORKCompletionStepViewController {
-    ORKCompletionCheckmarkView *_completionCheckmarkView;
-}
-
-- (void)stepDidChange {
-    [super stepDidChange];
-    
-    self.cancelButtonItem = nil;
-    _completionCheckmarkView = [self.stepView.stepContentView completionCheckmarkView];
-    [_completionCheckmarkView setNeedsLayout];
-    if (self.checkmarkColor) {
-        _completionCheckmarkView.tintColor = self.checkmarkColor;
-    }
-    self.stepView.customContentFillsAvailableSpace = YES;
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
-    _completionCheckmarkView.animationPoint = animated ? 0 : 1;
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    if (animated) {
-        [_completionCheckmarkView setAnimationPoint:1 animated:YES];
-    }
-}
-
-- (void)setCheckmarkColor:(UIColor *)checkmarkColor {
-    _checkmarkColor = [checkmarkColor copy];
-    _completionCheckmarkView.tintColor = checkmarkColor;
-}
+- (void)setAnimationPoint:(CGFloat)animationPoint animated:(BOOL)animated;
 
 @end
+
+NS_ASSUME_NONNULL_END
