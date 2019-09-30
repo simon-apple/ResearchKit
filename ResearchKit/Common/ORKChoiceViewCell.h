@@ -54,6 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setPrimaryAttributedText: (NSAttributedString *)primaryAttributedText;
 - (void)setDetailText:(NSString *)detailText;
 - (void)setDetailAttributedText:(NSAttributedString *)detailAttributedText;
+- (void)setCellSelected:(BOOL)cellSelected highlight:(BOOL)highlight;
 
 @end
 

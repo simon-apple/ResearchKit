@@ -181,6 +181,7 @@ static const CGFloat rungButtonPadding = 10.0;
 - (instancetype)initTopRungButtonWithText:(NSString *)text;
 - (instancetype)initBottomRungButtonWithText:(NSString *)text;
 - (instancetype)initWithRungAtIndex:(NSUInteger)rungIndex;
+- (void)setSelected:(BOOL)selected highlight:(BOOL)highlight;
 
 @end
 
@@ -227,10 +228,10 @@ static const CGFloat rungButtonPadding = 10.0;
     return [self initWithRungAtIndex:rungIndex text:nil];
 }
 
-- (void)setSelected:(BOOL)selected {
+- (void)setSelected:(BOOL)selected highlight:(BOOL)highlight {
     [super setSelected:selected];
     [_rungView setChecked:selected];
-    if (selected) {
+    if (highlight) {
         [self tapAnimation];
     }
 }
@@ -332,22 +333,22 @@ static const CGFloat rungButtonPadding = 10.0;
         if (self.answer && ![self.answer isEqual:[NSNull null]]) {
             // calling intValue on NSNull will cause a crash
             if ([self.answer intValue] == i) {
-                [rungButton setSelected:YES];
+                [rungButton setSelected:YES highlight:NO];
             } else {
-                [rungButton setSelected:NO];
+                [rungButton setSelected:NO highlight:NO];
             }
         } else {
-            [rungButton setSelected:NO];
+            [rungButton setSelected:NO highlight:NO];
         }
     }
 }
 
 - (void)rungButtonPressed:(id)sender {
     ORKSESRungButton *buttonPressed = (ORKSESRungButton *)sender;
-    [buttonPressed setSelected:YES];
+    [buttonPressed setSelected:YES highlight:YES];
     for (ORKSESRungButton *button in _buttons) {
         if (buttonPressed.tag != button.tag) {
-            [button setSelected:NO];
+            [button setSelected:NO highlight:NO];
         }
     }
     if (self.delegate && [self.delegate respondsToSelector:@selector(buttonPressedAtIndex:)]) {

@@ -138,7 +138,7 @@
     } else {
         textChoice.textViewText = nil;
         if (!textChoice.textViewInputOptional) {
-            touchedCell.cellSelected = NO;
+            [touchedCell setCellSelected:NO highlight:NO];
         }
         _answer = [_helper answerForSelectedIndexes:[self selectedIndexes]];
         [self.delegate answerChangedForIndexPath:indexPath];
@@ -163,21 +163,21 @@
     }
     
     if (_singleChoice) {
-        touchedCell.cellSelected = YES;
+        [touchedCell setCellSelected:YES highlight:YES];
         for (ORKChoiceViewCell *cell in _cells.allValues) {
             if (cell != touchedCell) {
-                cell.cellSelected = NO;
+                [cell setCellSelected:NO highlight:NO];
             }
         }
     } else {
-        touchedCell.cellSelected = !touchedCell.isCellSelected;
+        [touchedCell setCellSelected:!touchedCell.isCellSelected highlight:YES];
         if (touchedCell.isCellSelected) {
             ORKTextChoice *touchedChoice = [_helper textChoiceAtIndex:index];
             for (NSNumber *num in _cells.allKeys) {
                 ORKChoiceViewCell *cell = _cells[num];
                 ORKTextChoice *choice = [_helper textChoiceAtIndex:num.unsignedIntegerValue];
                 if (cell != touchedCell && (touchedChoice.exclusive || (cell.isCellSelected && choice.exclusive))) {
-                    cell.cellSelected = NO;
+                    [cell setCellSelected:NO highlight:NO];
                 }
             }
         }
@@ -202,11 +202,12 @@
         if (selected) {
             // In case the cell has not been created, need to create cell
             ORKChoiceViewCell *cell = [self cellAtIndex:index withReuseIdentifier:nil];
-            cell.cellSelected = YES;
+            [cell setCellSelected:YES highlight:NO];
         } else {
             // It is ok to not create the cell at here
             ORKChoiceViewCell *cell = _cells[@(index)];
-            cell.cellSelected = NO;
+            [cell setCellSelected:NO highlight:NO];
+
         }
     }
 }

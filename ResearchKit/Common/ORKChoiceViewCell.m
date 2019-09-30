@@ -331,10 +331,11 @@ static const CGFloat LabelCheckViewPadding = 10.0;
     _immediateNavigation = immediateNavigation;
 }
 
-- (void)setCellSelected:(BOOL)cellSelected {
+- (void)setCellSelected:(BOOL)cellSelected highlight:(BOOL)highlight {
     _cellSelected = cellSelected;
     [self updateSelectedItem];
-    if (cellSelected) {
+    
+    if (highlight) {
         _animationLayer = [CAShapeLayer layer];
         [_animationLayer setOpaque:NO];
         _animationLayer.frame = _foreLayerBounds;
