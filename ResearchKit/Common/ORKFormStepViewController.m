@@ -392,8 +392,8 @@ static const CGFloat DelayBeforeAutoScroll = 0.25;
     
     // Reset skipped flag - result can now be non-empty
     _skipped = NO;
-    [_tableContainer sizeHeaderToFitForGroupedTableView];
     [_tableContainer layoutIfNeeded];
+    [_tableContainer sizeHeaderToFitForGroupedTableView];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
