@@ -1343,11 +1343,6 @@ static const CGFloat DelayBeforeAutoScroll = 0.25;
     [self updateAnsweredSections];
 }
 
-- (void)formItemCellShouldResizeCells {
-    [_tableView beginUpdates];
-    [_tableView endUpdates];
-}
-
 - (BOOL)formItemCellShouldDismissKeyboard:(ORKFormItemCell *)cell {
     if ([self didAutoScrollToNextItem:cell]) {
         return NO;

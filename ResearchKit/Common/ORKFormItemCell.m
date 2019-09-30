@@ -68,6 +68,7 @@ static const CGFloat DividerViewTopPadding = 10.0;
 - (void)inputValueDidClear NS_REQUIRES_SUPER;
 - (void)defaultAnswerDidChange NS_REQUIRES_SUPER;
 - (void)answerDidChange;
+- (void)cellNeedsToResize;
 - (void)updateErrorLabelWithMessage:(NSString *)message;
 
 // For use when setting the answer in response to user action
@@ -361,6 +362,12 @@ static const CGFloat DividerViewTopPadding = 10.0;
     [self.delegate formItemCell:self invalidInputAlertWithTitle:title message:message];
 }
 
+- (void)cellNeedsToResize {
+    UITableView *tableView = [self parentTableView];
+    [tableView beginUpdates];
+    [tableView endUpdates];
+}
+
 - (void)updateErrorLabelWithMessage:(NSString *)message {
     NSString *separatorString = @":";
     NSString *stringtoParse = message ? : ORKLocalizedString(@"RANGE_ALERT_TITLE", @"");
@@ -389,7 +396,7 @@ static const CGFloat DividerViewTopPadding = 10.0;
     }
     
     [self updateConstraints];
-    [self.delegate formItemCellShouldResizeCells];
+    [self cellNeedsToResize];
 }
 
 @end
@@ -531,7 +538,7 @@ static const CGFloat DividerViewTopPadding = 10.0;
         if (self.errorLabel.attributedText) {
             self.errorLabel.attributedText = nil;
             [self updateConstraints];
-            [self.delegate formItemCellShouldResizeCells];
+            [self cellNeedsToResize];
         }
     }
 }
@@ -634,7 +641,6 @@ static const CGFloat DividerViewTopPadding = 10.0;
     }
 
     [super updateConstraints];
-    [self.delegate formItemCellShouldResizeCells];
 }
 
 - (void)setEditingHighlight:(BOOL)editingHighlight {
@@ -746,7 +752,7 @@ static const CGFloat DividerViewTopPadding = 10.0;
     } else {
         self.errorLabel.attributedText = nil;
         [self updateConstraints];
-        [self.delegate formItemCellShouldResizeCells];
+        [self cellNeedsToResize];
     }
     
     if (self.delegate && wasDoneButtonPressed && ![self.delegate formItemCellShouldDismissKeyboard:self]) {
@@ -775,7 +781,7 @@ static const CGFloat DividerViewTopPadding = 10.0;
     } else {
         self.errorLabel.attributedText = nil;
         [self updateConstraints];
-        [self.delegate formItemCellShouldResizeCells];
+        [self cellNeedsToResize];
     }
     
     [textField resignFirstResponder];
@@ -1585,14 +1591,10 @@ static const CGFloat DividerViewTopPadding = 10.0;
 }
 
 - (void)locationSelectionViewNeedsResize:(ORKLocationSelectionView *)view {
-    UITableView *tableView = [self parentTableView];
-    
     _heightConstraint.constant = _selectionView.intrinsicContentSize.height;
     _bottomConstraint.constant = -(VerticalMargin - (1.0 / [UIScreen mainScreen].scale));
     
-    [tableView beginUpdates];
-    [tableView endUpdates];
-
+    [self cellNeedsToResize];
 }
 
 - (void)locationSelectionView:(ORKLocationSelectionView *)view didFailWithErrorTitle:(NSString *)title message:(NSString *)message {
