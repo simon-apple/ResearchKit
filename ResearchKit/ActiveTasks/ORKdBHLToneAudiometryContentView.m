@@ -98,7 +98,7 @@ static const CGFloat BottomToProgressLabelPadding = 30.0;
     _progressLabel.font = [self textFontBold];
     _progressLabel.textAlignment = NSTextAlignmentCenter;
     if (@available(iOS 13.0, *)) {
-        _progressLabel.textColor = UIColor.separatorColor;
+        _progressLabel.textColor = UIColor.secondaryLabelColor;
     } else {
         _progressLabel.textColor = UIColor.grayColor;
     }

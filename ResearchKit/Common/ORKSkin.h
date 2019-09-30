@@ -155,9 +155,6 @@ ORK_EXTERN CGFloat ORKEffectViewOpacityVisible;
 /// Checkmark View dimension
 ORK_EXTERN CGFloat CheckmarkViewDimension;
 
-/// Checkmark View dimension
-ORK_EXTERN CGFloat ORKHorizontalRuleHeight;
-
 /// Modify the color for a specified ORK...ColorKey. (for customization)
 void ORKColorSetColorForKey(NSString *key, UIColor *color);
 

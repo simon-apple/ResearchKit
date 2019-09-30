@@ -299,7 +299,7 @@ static const float ReviewQuestionAnswerPadding = 2.0;
     [[_button.centerXAnchor constraintEqualToAnchor:_containerView.centerXAnchor] setActive:YES];
     [[_containerView.bottomAnchor constraintEqualToAnchor:_button.bottomAnchor constant:EditAnswerButtonTopBottomPadding] setActive:YES];
     
-    [_separator.heightAnchor constraintEqualToConstant:ORKHorizontalRuleHeight].active = YES;
+    [_separator.heightAnchor constraintEqualToConstant:1.0 / [UIScreen mainScreen].scale].active = YES;
     [_separator.leadingAnchor constraintEqualToAnchor:_containerView.leadingAnchor].active = YES;
     [_separator.trailingAnchor constraintEqualToAnchor:_containerView.trailingAnchor].active = YES;
     [_separator.topAnchor constraintEqualToAnchor:_containerView.topAnchor].active = YES;

@@ -305,7 +305,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     } else {
         separator.backgroundColor = UIColor.lightGrayColor;
     }
-    [separator.heightAnchor constraintEqualToConstant:ORKHorizontalRuleHeight].active = YES;
+    [separator.heightAnchor constraintEqualToConstant:1.0 / [UIScreen mainScreen].scale].active = YES;
     return separator;
 }
 

@@ -105,7 +105,6 @@ CGFloat ORKEffectViewOpacityHidden = 0.0;
 CGFloat ORKEffectViewOpacityVisible = 1.0;
 
 CGFloat CheckmarkViewDimension = 25.0;
-CGFloat ORKHorizontalRuleHeight = 0.33;
 
 @implementation UIColor (ORKColor)
 

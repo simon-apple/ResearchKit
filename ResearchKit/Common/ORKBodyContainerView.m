@@ -194,7 +194,7 @@ static NSString *ORKBulletUnicode = @"\u2981";
     } else {
         separator.backgroundColor = UIColor.lightGrayColor;
     }
-    [separator.heightAnchor constraintEqualToConstant:ORKHorizontalRuleHeight].active = YES;
+    [separator.heightAnchor constraintEqualToConstant:1.0 / [UIScreen mainScreen].scale].active = YES;
     [self addArrangedSubview:separator];
 }
 
