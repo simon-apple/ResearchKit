@@ -143,7 +143,18 @@
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     [_stepView setNeedsUpdateConstraints];
-    [_stepView updateEffectViewStylingAndAnimate:NO checkCurrentValue:NO];
+    
+    if (_stepView.stepContentView.buildsInBodyItems == YES) {
+        /*
+         Body items that build in should always be scrolled above the nav controller.
+         Since body items are hidden and shown for the build in effect, the content gets
+         calculated with the hidden content and therefore the effect is always shown
+         even though it is not hiding visible content.
+         */
+        [_stepView.navigationFooterView removeStyling];
+    } else {
+        [_stepView updateEffectViewStylingAndAnimate:NO checkCurrentValue:NO];
+    }
 }
 
 - (void)useAppropriateButtonTitleAsLastBeginningInstructionStep {
