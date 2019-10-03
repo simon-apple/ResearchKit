@@ -549,6 +549,11 @@ ORK_CLASS_AVAILABLE
 - (ORKStep *)stepAfterStep:(ORKStep *)step;
 
 /**
+ Returns true if the step provided is instruction step and is the  first step in the task.
+ */
+- (BOOL)isStepLastBeginningInstructionStep:(ORKStep *)step;
+
+/**
  A Boolean value indicating whether the navigation bar is hidden.
  
  By default, the task view controller includes a visible navigation bar. To disable the display of the navigation bar, set this property to `NO`.

@@ -130,6 +130,11 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    
+    if ([self.taskViewController isStepLastBeginningInstructionStep:self.step]) {
+        [self useAppropriateButtonTitleAsLastBeginningInstructionStep];
+    }
+    
     [super viewWillAppear:animated];
     [self.taskViewController.navigationBar setBarTintColor:self.view.backgroundColor];
 }

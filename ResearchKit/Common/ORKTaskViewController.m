@@ -871,14 +871,6 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     ORKStep *step = stepViewController.step;
     [self updateLastBeginningInstructionStepIdentifierForStep:step goForward:goForward];
     
-    
-    if ([self isStepLastBeginningInstructionStep:step]) {
-        // Check again, in case it's a user-supplied view controller for this step that's not an ORKInstructionStepViewController.
-        if ([stepViewController isKindOfClass:[ORKInstructionStepViewController class]]) {
-            [(ORKInstructionStepViewController *)stepViewController useAppropriateButtonTitleAsLastBeginningInstructionStep];
-        }
-    }
-    
     ORKStepViewController *fromController = self.currentStepViewController;
     if (fromController && animated && [self isStepLastBeginningInstructionStep:fromController.step]) {
         [self startAudioPromptSessionIfNeeded];
