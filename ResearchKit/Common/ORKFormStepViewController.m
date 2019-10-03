@@ -398,6 +398,8 @@ static const CGFloat DelayBeforeAutoScroll = 0.25;
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    [_tableContainer sizeHeaderToFit];
+    [_tableContainer resizeFooterToFit];
     UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, nil);
 }
 

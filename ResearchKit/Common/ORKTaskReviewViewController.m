@@ -176,7 +176,7 @@ static const float ReviewQuestionAnswerPadding = 2.0;
 }
 
 - (void)setupConstraints {
-    [[_containerView.topAnchor constraintEqualToAnchor:self.contentView.topAnchor constant:0.5] setActive:YES];
+    [[_containerView.topAnchor constraintEqualToAnchor:self.contentView.topAnchor constant:1.0 / [UIScreen mainScreen].scale] setActive:YES];
     [[_containerView.leftAnchor constraintEqualToAnchor:self.contentView.leftAnchor constant:ORKCardLeftRightMarginForWindow(self.window)] setActive:YES];
     [[_containerView.rightAnchor constraintEqualToAnchor:self.contentView.rightAnchor constant:-ORKCardLeftRightMarginForWindow(self.window)] setActive:YES];
     
