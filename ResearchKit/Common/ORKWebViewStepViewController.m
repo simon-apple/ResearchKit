@@ -335,6 +335,11 @@ static const CGFloat ORKSignatureToClearPadding = 15.0;
     _webView.scrollView.contentOffset = CGPointZero;
 }
 
+- (void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(UIView *)view {
+    // To prevent zooming
+    scrollView.pinchGestureRecognizer.enabled = NO;
+}
+
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
