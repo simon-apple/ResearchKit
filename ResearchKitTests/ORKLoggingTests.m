@@ -56,7 +56,7 @@
     for (int i = 0; i < 2; ++i) {
         ORK_Log("[$$OK_DEFAULT$$], self: %@, aThing: %d", self, 42);
         ORK_Log_Info("[$$OK_INFO$$], self: %@, aThing: %d", self, 42);
-        ORK_Log_Debug("[$$OK_DEBUG$$], self: %@, aThing: %d", self, 42);
+//        ORK_Log_Debug("[$$OK_DEBUG$$], self: %@, aThing: %d", self, 42);
         ORK_Log_Error("[$$OK_ERROR$$], self: %@, aThing: %d", self, 42);
         ORK_Log_Fault("[$$OK_FAULT$$], self: %@, aThing: %d", self, 42);
         ORKLoggingEnabled = NO;
@@ -70,7 +70,7 @@
         NSString *output = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         XCTAssertTrue([output containsString:@"[$$OK_DEFAULT$$]"]);
         XCTAssertTrue([output containsString:@"[$$OK_INFO$$]"]);
-        XCTAssertTrue([output containsString:@"[$$OK_DEBUG$$]"]);
+//        XCTAssertTrue([output containsString:@"[$$OK_DEBUG$$]"]);
         XCTAssertTrue([output containsString:@"[$$OK_ERROR$$]"]);
         XCTAssertTrue([output containsString:@"[$$OK_FAULT$$]"]);
         XCTAssertFalse([output containsString:@"[$$NOTOK_DEFAULT$$]"]);

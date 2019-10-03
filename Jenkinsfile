@@ -7,6 +7,7 @@ pipeline {
                             sh 'export DEVELOPER_DIR="/Applications/XcodeYukon/Xcode.app/Contents/Developer"'
                             sh 'export LC_CTYPE=en_US.UTF-8'
                             sh 'mkdir -p output/ResearchKit/ios output/DiagnosticLogs'
+                            sh 'rm -rf output/ResearchKit/ios/* output/DiagnosticLogs/*'
                             
                             // Reset content from all the simulators
                             sh 'killall "Simulator" 2> /dev/null || true; xcrun simctl erase all'
@@ -30,7 +31,7 @@ pipeline {
                     steps {
                             timeout(time: 20, unit: 'MINUTES') {
                 sh 'echo "Test (ResearchKit iOS)"'
-                                    sh 'set -o pipefail && xcodebuild test-without-building -project ./ResearchKit.xcodeproj -scheme "ResearchKit" -destination "name=iPhone Xs" | tee output/ResearchKit/ios/test.log | /usr/local/bin/xcpretty -r junit'
+                                    sh 'set -o pipefail && xcodebuild test-without-building -project ./ResearchKit.xcodeproj -scheme "ResearchKit" -destination "name=iPhone Xs" -resultBundlePath output/ResearchKit/ios/RKTestResult | tee output/ResearchKit/ios/test.log | /usr/local/bin/xcpretty -r junit'
                             }
                     }
             }
@@ -46,7 +47,7 @@ pipeline {
                     steps {
                             timeout(time: 20, unit: 'MINUTES') {
                 sh 'echo "Test (ORKTest iOS)"'
-                                    sh 'set -o pipefail && xcodebuild test-without-building -project ./Testing/ORKTest/ORKTest.xcodeproj -scheme "ORKTest" -destination "name=iPhone Xs" | tee output/ResearchKit/ios/testORKTest.log | /usr/local/bin/xcpretty -r junit'
+                                    sh 'set -o pipefail && xcodebuild test-without-building -project ./Testing/ORKTest/ORKTest.xcodeproj -scheme "ORKTest" -destination "name=iPhone Xs" -resultBundlePath output/ResearchKit/ios/ORKTestResult | tee output/ResearchKit/ios/testORKTest.log | /usr/local/bin/xcpretty -r junit'
                             }
                     }
             }
