@@ -41,6 +41,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)signatureViewDidEditImage:(ORKSignatureView *)signatureView;
 
+@optional
+- (void)signatureViewDidEndEditingWithTimeInterval;
+
 @end
 
 
@@ -73,6 +76,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) BOOL signatureExists;
 
 - (void)clear;
+- (void)cancelAutoScrollTimer;
 
 @end
 

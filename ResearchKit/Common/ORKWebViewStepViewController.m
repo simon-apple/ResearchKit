@@ -421,11 +421,27 @@ static const CGFloat ORKSignatureToClearPadding = 15.0;
 // MARK: UIScrollViewDelegate
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    [_signatureView setEnabled:scrollView.isDecelerating];
+    BOOL enabled = [self shouldEnableSignatureView] && scrollView.isDecelerating;
+    [_signatureView setEnabled:enabled];
+    
+    if ([_scrollView.panGestureRecognizer translationInView:_scrollView.superview].y > 0) {
+        // Scrolling upward
+        [_signatureView cancelAutoScrollTimer];
+    }
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    [_signatureView setEnabled:YES];
+    [_signatureView setEnabled:[self shouldEnableSignatureView]];
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    [_signatureView setEnabled:[self shouldEnableSignatureView]];
+}
+
+- (BOOL)shouldEnableSignatureView {
+    CGFloat bottomOfSignature = _signatureView.frame.size.height + _signatureView.frame.origin.y;
+    CGFloat signaturePosition = _scrollView.contentOffset.y + _scrollView.frame.size.height;
+    return (bottomOfSignature <= signaturePosition);
 }
 
 // MARK: Signature
@@ -435,9 +451,13 @@ static const CGFloat ORKSignatureToClearPadding = 15.0;
     _navigationFooterView.continueEnabled = NO;
 }
 
-
 - (void)signatureViewDidEditImage:(nonnull ORKSignatureView *)signatureView {
     _navigationFooterView.continueEnabled = YES;
+}
+
+- (void)signatureViewDidEndEditingWithTimeInterval {
+    CGPoint bottom = CGPointMake(0, _scrollView.contentSize.height - _scrollView.bounds.size.height + _scrollView.contentInset.bottom);
+    [_scrollView setContentOffset:bottom animated:YES];
 }
 
 // MARK: Color

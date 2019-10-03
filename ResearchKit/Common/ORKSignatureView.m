@@ -46,22 +46,30 @@
 - (void)gestureTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event;
 - (void)gestureTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event;
 
+@optional
+- (void)gestureTouchesHaveEndedWithTimeInterval;
+
 @end
 
 
 @interface ORKSignatureGestureRecognizer : UIGestureRecognizer
 
 @property (nonatomic, weak) id<ORKSignatureGestureRecognizerDelegate> eventDelegate;
+@property (nonatomic, strong) NSTimer *endEditingTimer;
+
+- (void)cancelAutoScrollTimer;
 
 @end
 
 
 static const CGFloat TopToSigningLineRatio = 0.7;
-
+static const CGFloat TouchesEndedTimeInterval = 2.0;
 
 @implementation ORKSignatureGestureRecognizer
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    [self.endEditingTimer invalidate];
+    
     if (touches.count > 1 || self.numberOfTouches > 1) {
         for (UITouch *touch in touches) {
             [self ignoreTouch:touch forEvent:event];
@@ -73,12 +81,19 @@ static const CGFloat TopToSigningLineRatio = 0.7;
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+    [self.endEditingTimer invalidate];
     [self.eventDelegate gestureTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event];
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     self.state = UIGestureRecognizerStateEnded;
     [self.eventDelegate gestureTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event];
+    
+    self.endEditingTimer = [NSTimer scheduledTimerWithTimeInterval:TouchesEndedTimeInterval target:self selector:@selector(timerDidEnd) userInfo:nil repeats:NO];
+}
+
+- (void)timerDidEnd {
+    [self.eventDelegate gestureTouchesHaveEndedWithTimeInterval];
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -93,6 +108,10 @@ static const CGFloat TopToSigningLineRatio = 0.7;
         return YES;
     }
     return NO;
+}
+
+- (void)cancelAutoScrollTimer {
+    [self.endEditingTimer invalidate];
 }
 
 @end
@@ -444,6 +463,10 @@ static CGPoint mmid_Point(CGPoint p1, CGPoint p2) {
     [self commitCurrentPath];
 }
 
+- (void)gestureTouchesHaveEndedWithTimeInterval {
+    [self.delegate signatureViewDidEndEditingWithTimeInterval];
+}
+
 - (void)commitCurrentPath {
     CGRect rect = self.currentPath.bounds;
     if (CGSizeEqualToSize(rect.size, CGSizeZero)) {
@@ -516,6 +539,10 @@ static CGPoint mmid_Point(CGPoint p1, CGPoint p2) {
         [self.pathArray removeAllObjects];
         [self setNeedsDisplayInRect:self.bounds];
     }
+}
+
+- (void)cancelAutoScrollTimer {
+    [(ORKSignatureGestureRecognizer *)_signatureGestureRecognizer cancelAutoScrollTimer];
 }
 
 - (void)setEnabled:(BOOL)enabled {
