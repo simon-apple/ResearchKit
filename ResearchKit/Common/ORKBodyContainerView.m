@@ -518,6 +518,13 @@ static NSString *ORKBulletUnicode = @"\u2981";
     return _views[_currentBodyItemIndex];
 }
 
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    if ([_bodyItemDelegate respondsToSelector:@selector(bodyContainerViewDidLoadBodyItems)]) {
+        [_bodyItemDelegate bodyContainerViewDidLoadBodyItems];
+    }
+}
+
 - (CGFloat)spacingWithAboveStyle:(ORKBodyItemStyle)aboveStyle belowStyle:(ORKBodyItemStyle )belowStyle belowIsLearnMore:(BOOL)belowIsLearnMore belowItemIndex:(NSInteger)belowItemIndex {
     if (aboveStyle == ORKBodyItemStyleHorizontalRule || belowStyle == ORKBodyItemStyleHorizontalRule) {
         return ORKHorizontalRulePadding;

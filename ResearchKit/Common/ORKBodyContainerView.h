@@ -39,7 +39,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @required
 - (void)bodyContainerLearnMoreButtonPressed:(ORKLearnMoreInstructionStep *)learnMoreStep;
+@end
 
+@protocol ORKBodyItemContainerViewDelegate <NSObject>
+
+@optional
+- (void)bodyContainerViewDidLoadBodyItems;
 @end
 
 
@@ -62,6 +67,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) BOOL buildsInBodyItems;
 
 @property (nonatomic, weak) id<ORKBodyContainerViewDelegate> delegate;
+
+@property (nonatomic, weak) id<ORKBodyItemContainerViewDelegate> bodyItemDelegate;
 
 @end
 

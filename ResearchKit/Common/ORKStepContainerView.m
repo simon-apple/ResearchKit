@@ -745,11 +745,22 @@ static const CGFloat ORKBodyItemScrollPadding = 24.0;
 }
 
 - (void)updateEffectViewStylingAndAnimate:(BOOL)animated checkCurrentValue:(BOOL)checkCurrentValue {
-    CGFloat currentOpacity = [self.navigationFooterView effectViewOpacity];
     CGFloat startOfFooter = self.navigationFooterView.frame.origin.y;
     CGFloat contentPosition = (_scrollView.contentSize.height - _scrollView.contentOffset.y - self.navigationFooterView.frame.size.height) - ORKContentBottomPadding;
-
     CGFloat newOpacity = (contentPosition < startOfFooter) ? ORKEffectViewOpacityHidden : ORKEffectViewOpacityVisible;
+    [self updateEffectStyleWithNewOpacity:newOpacity animated:animated checkCurrentValue:checkCurrentValue];
+}
+
+- (void)updateEffectViewStylingAndAnimate:(BOOL)animated checkCurrentValue:(BOOL)checkCurrentValue customView:(UIView *)customView {
+    CGFloat startOfFooter = self.navigationFooterView.frame.origin.y;
+    CGPoint newPoint = [customView convertPoint:customView.frame.origin toView:_scrollView];
+    CGFloat endOfContent = newPoint.y + customView.frame.size.height;
+    CGFloat newOpacity = (endOfContent < startOfFooter) ? ORKEffectViewOpacityHidden : ORKEffectViewOpacityVisible;
+    [self updateEffectStyleWithNewOpacity:newOpacity animated:animated checkCurrentValue:checkCurrentValue];
+}
+
+- (void)updateEffectStyleWithNewOpacity:(CGFloat)newOpacity animated:(BOOL)animated checkCurrentValue:(BOOL)checkCurrentValue {
+    CGFloat currentOpacity = [self.navigationFooterView effectViewOpacity];
     if (!checkCurrentValue || (newOpacity != currentOpacity)) {
         // Don't animate transition from hidden to visible as text appears behind during animation
         if (currentOpacity == ORKEffectViewOpacityHidden) { animated = NO; }

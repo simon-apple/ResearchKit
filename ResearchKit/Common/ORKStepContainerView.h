@@ -41,6 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)updatePaddingConstraints;
 - (void)scrollToBodyItem:(UIView *)bodyItem;
 - (void)updateEffectViewStylingAndAnimate:(BOOL)animated checkCurrentValue:(BOOL)checkCurrentValue;
+- (void)updateEffectViewStylingAndAnimate:(BOOL)animated checkCurrentValue:(BOOL)checkCurrentValue customView:(UIView *)customView;
 
 @end
 

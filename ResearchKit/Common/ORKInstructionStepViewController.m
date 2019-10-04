@@ -50,7 +50,7 @@
 
 @class ORKBodyContainerView;
 
-@interface ORKInstructionStepViewController()<ORKStepViewLearnMoreItemDelegate>
+@interface ORKInstructionStepViewController()<ORKStepViewLearnMoreItemDelegate, ORKBodyItemContainerViewDelegate>
 
 @end
 
@@ -72,6 +72,7 @@
     if (self.step && [self isViewLoaded]) {
         self.stepView = [[ORKInstructionStepContainerView alloc] initWithInstructionStep:[self instructionStep]];
         _stepView.delegate = self;
+        _stepView.stepContentView.bodyContainerView.bodyItemDelegate = self;
         [self.view addSubview:self.stepView];
         [self setNavigationFooterView];
         [self setupConstraints];
@@ -149,14 +150,9 @@
     [super viewDidLayoutSubviews];
     [_stepView setNeedsUpdateConstraints];
     
-    if (_stepView.stepContentView.buildsInBodyItems == YES) {
-        /*
-         Body items that build in should always be scrolled above the nav controller.
-         Since body items are hidden and shown for the build in effect, the content gets
-         calculated with the hidden content and therefore the effect is always shown
-         even though it is not hiding visible content.
-         */
-        [_stepView.navigationFooterView removeStyling];
+    if (self.step.buildInBodyItems == YES) {
+        UIView *lastVisibleBodyItem = [_stepView.stepContentView.bodyContainerView lastVisibleBodyItem];
+        [_stepView updateEffectViewStylingAndAnimate:NO checkCurrentValue:NO customView:lastVisibleBodyItem];
     } else {
         [_stepView updateEffectViewStylingAndAnimate:NO checkCurrentValue:NO];
     }
@@ -183,6 +179,7 @@
     
     UIView *lastView = [_stepView.stepContentView.bodyContainerView lastVisibleBodyItem];
     [_stepView scrollToBodyItem:lastView];
+    [_stepView updateEffectViewStylingAndAnimate:NO checkCurrentValue:NO customView:lastView];
 }
 
 - (void)displaySpinnerInContinueButton:(BOOL)enabled {
@@ -223,6 +220,13 @@
         [self buildInNextBodyItem];
     } else {
         [super goForward];
+    }
+}
+
+- (void)bodyContainerViewDidLoadBodyItems {
+    if ([self.stepView buildInBodyItems] == YES) {
+        UIView *lastVisibleBodyItem = [_stepView.stepContentView.bodyContainerView lastVisibleBodyItem];
+        [_stepView updateEffectViewStylingAndAnimate:NO checkCurrentValue:NO customView:lastVisibleBodyItem];
     }
 }
 
