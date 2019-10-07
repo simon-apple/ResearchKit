@@ -311,7 +311,6 @@ static const CGFloat DelayBeforeAutoScroll = 0.25;
 
 @implementation ORKFormStepViewController {
     ORKAnswerDefaultSource *_defaultSource;
-    ORKNavigationContainerView *_navigationFooterView;
     NSMutableSet *_formItemCells;
     NSMutableArray<ORKTableSection *> *_sections;
     NSMutableSet *_answeredSections;

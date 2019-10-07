@@ -209,7 +209,6 @@
 
 @property (nonatomic, strong, readonly, nullable) ORKSignatureView *signatureView;
 @property (nonatomic, strong) ORKConsentSigningView *signingView;
-@property (nonatomic, strong) ORKNavigationContainerView *navigationFooterView;
 @property (nonatomic, strong) NSArray <UIBezierPath *> *originalPath;
 
 @end
@@ -257,20 +256,20 @@
 
 - (void)setContinueButtonItem:(UIBarButtonItem *)continueButtonItem {
     [super setContinueButtonItem:continueButtonItem];
-    self.navigationFooterView.continueButtonItem = continueButtonItem;
+    _navigationFooterView.continueButtonItem = continueButtonItem;
     [self updateButtonStates];
 }
 
 - (void)setSkipButtonItem:(UIBarButtonItem *)skipButtonItem {
     [super setSkipButtonItem:skipButtonItem];
-    self.navigationFooterView.skipButtonItem = skipButtonItem;
+    _navigationFooterView.skipButtonItem = skipButtonItem;
     [self updateButtonStates];
 }
 
 - (void)updateButtonStates {
     BOOL hasSigned = self.signatureView.signatureExists;
-    self.navigationFooterView.continueEnabled = hasSigned;
-    self.navigationFooterView.optional = self.step.optional;
+    _navigationFooterView.continueEnabled = hasSigned;
+    _navigationFooterView.optional = self.step.optional;
     [_signingView.wrapperView setClearButtonEnabled:hasSigned];
 }
 

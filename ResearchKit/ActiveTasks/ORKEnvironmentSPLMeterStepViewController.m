@@ -68,7 +68,6 @@
     NSInteger _requiredContiguousSamples;
     int _counter;
     NSMutableArray *_recordedSamples;
-    ORKNavigationContainerView *_navigationFooterView;
 }
 
 @property (nonatomic, strong) ORKEnvironmentSPLMeterContentView *environmentSPLMeterContentView;

@@ -67,7 +67,6 @@
 
 
 @implementation ORKReviewStepViewController {
-    ORKNavigationContainerView *_navigationFooterView;
     NSArray<NSLayoutConstraint *> *_constraints;
 }
  

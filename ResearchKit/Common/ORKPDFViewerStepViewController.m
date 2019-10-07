@@ -50,7 +50,6 @@
 @implementation ORKPDFViewerStepViewController {
     NSArray<NSLayoutConstraint *> *_constraints;
     ORKPDFViewerStepView *_pdfView;
-    ORKNavigationContainerView *_navigationFooterView;
     
     NSString *_newFilename;
 }

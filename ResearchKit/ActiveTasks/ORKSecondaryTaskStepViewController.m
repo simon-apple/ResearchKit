@@ -46,8 +46,6 @@
     ORKTaskViewController *secondaryTaskViewController;
     NSUInteger requiredAttempts;
     NSUInteger numberOfTimesTaskCompleted;
-    
-    ORKNavigationContainerView *_navigationFooterView;
 }
 
 - (void)viewDidLoad {

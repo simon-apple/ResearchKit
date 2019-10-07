@@ -40,7 +40,6 @@
 @implementation ORKCustomStepViewController {
     UIScrollView *_scrollView;
     UIView *_contentView;
-    ORKNavigationContainerView *_navigationFooterView;
     NSMutableArray<NSLayoutConstraint *> *_constraints;
 }
 

@@ -54,8 +54,6 @@ ORK_CLASS_AVAILABLE
 
 @property (nonatomic, weak, nullable) id<ORKWebViewStepDelegate> webViewDelegate;
 
-- (void)displaySpinnerInContinueButton:(BOOL)enabled;
-
 @end
 
 NS_ASSUME_NONNULL_END

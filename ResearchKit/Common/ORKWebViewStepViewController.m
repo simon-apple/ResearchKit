@@ -47,7 +47,6 @@ static const CGFloat ORKSignatureToClearPadding = 15.0;
     UIScrollView *_scrollView;
     WKWebView *_webView;
     NSString *_result;
-    ORKNavigationContainerView *_navigationFooterView;
     NSMutableArray<NSLayoutConstraint *> *_constraints;
     
     ORKSignatureView *_signatureView;
@@ -379,10 +378,6 @@ static const CGFloat ORKSignatureToClearPadding = 15.0;
         }
     }
     return parentResult;
-}
-
-- (void)displaySpinnerInContinueButton:(BOOL)enabled {
-    [_navigationFooterView setSpinnerEnabled:enabled];
 }
 
 // MARK: WKWebViewDelegate

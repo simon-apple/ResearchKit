@@ -80,13 +80,13 @@ ORKDefineStringKey(ORKBasicCellReuseIdentifier);
 // Override to monitor button title change
 - (void)setContinueButtonItem:(UIBarButtonItem *)continueButtonItem {
     [super setContinueButtonItem:continueButtonItem];
-    self.navigationFooterView.continueButtonItem = continueButtonItem;
+    _navigationFooterView.continueButtonItem = continueButtonItem;
     [self updateButtonStates];
 }
 
 - (void)setSkipButtonItem:(UIBarButtonItem *)skipButtonItem {
     [super setSkipButtonItem:skipButtonItem];
-    self.navigationFooterView.skipButtonItem = skipButtonItem;
+    _navigationFooterView.skipButtonItem = skipButtonItem;
     [self updateButtonStates];
 }
     
@@ -219,19 +219,19 @@ ORKDefineStringKey(ORKBasicCellReuseIdentifier);
 }
 
 - (void)updateButtonStates {
-    self.navigationFooterView.continueEnabled = [self continueButtonEnabled];
+    _navigationFooterView.continueEnabled = [self continueButtonEnabled];
 }
 
 - (void)updateEffectViewStylingAndAnimate:(BOOL)animated {
-    CGFloat currentOpacity = [self.navigationFooterView effectViewOpacity];
-    CGFloat startOfFooter = self.navigationFooterView.frame.origin.y;
+    CGFloat currentOpacity = [_navigationFooterView effectViewOpacity];
+    CGFloat startOfFooter = _navigationFooterView.frame.origin.y;
     CGFloat contentPosition = (_tableView.contentSize.height - _tableView.contentOffset.y);
 
     CGFloat newOpacity = (contentPosition < startOfFooter) ? ORKEffectViewOpacityHidden : ORKEffectViewOpacityVisible;
     if (newOpacity != currentOpacity) {
         // Don't animate transition from hidden to visible as text appears behind during animation
         if (currentOpacity == ORKEffectViewOpacityHidden) { animated = NO; }
-        [self.navigationFooterView setStylingOpactity:newOpacity animated:animated];
+        [_navigationFooterView setStylingOpactity:newOpacity animated:animated];
     }
 }
 

@@ -397,6 +397,14 @@ ORK_CLASS_AVAILABLE
 - (void)skipForward;
 
 /**
+ Control the activity indicator on the Continue buttom.
+ 
+ @param showActivityIndicator     Set this value to `true` to show an animating activity indicator to the left of the
+    Continue button. Set this value to `false` to hide the activity indicator.
+*/
+- (void)showActivityIndicatorInContinueButton:(BOOL)showActivityIndicator;
+
+/**
  A Boolean value indicating whether the view controller has been presented before.
  */
 @property (nonatomic, readonly) BOOL hasBeenPresented;

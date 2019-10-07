@@ -37,6 +37,8 @@
 #import "ORKCollectionResult.h"
 #import "ORKReviewStep_Internal.h"
 
+#import "ORKNavigationContainerView.h"
+
 #import "ORKHelpers_Internal.h"
 #import "ORKSkin.h"
 #import "ORKStepContentView.h"
@@ -341,6 +343,10 @@ static const CGFloat iPadStepTitleLabelFontSize = 50.0;
 
 - (NSString *)continueButtonTitle {
     return self.continueButtonItem.title;
+}
+
+- (void)showActivityIndicatorInContinueButton:(BOOL)showActivityIndicator {
+    [_navigationFooterView showActivityIndicator:showActivityIndicator];
 }
 
 - (void)setLearnMoreButtonTitle:(NSString *)learnMoreButtonTitle {

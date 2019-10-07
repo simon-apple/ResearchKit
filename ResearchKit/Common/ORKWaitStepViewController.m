@@ -55,7 +55,6 @@
     ORKWaitStepView *_waitStepView;
     ORKProgressIndicatorType _indicatorType;
     NSString *_updatedText;
-    ORKNavigationContainerView *_navigationFooterView;
     NSArray<NSLayoutConstraint *> *_constraints;
 }
 

@@ -48,7 +48,6 @@ ORK_CLASS_AVAILABLE
 @interface ORKInstructionStepViewController : ORKStepViewController
 
 - (void)buildInNextBodyItem;
-- (void)displaySpinnerInContinueButton:(BOOL)enabled;
 
 @end
 

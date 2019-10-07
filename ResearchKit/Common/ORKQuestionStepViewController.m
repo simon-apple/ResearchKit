@@ -76,7 +76,6 @@ static const CGFloat DelayBeforeAutoScroll = 0.25;
     
     ORKTableContainerView *_tableContainer;
     ORKStepContentView *_headerView;
-    ORKNavigationContainerView *_navigationFooterView;
     ORKAnswerDefaultSource *_defaultSource;
     
     NSCalendar *_savedSystemCalendar;

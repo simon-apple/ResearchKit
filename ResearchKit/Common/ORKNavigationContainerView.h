@@ -41,7 +41,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, assign) BOOL continueEnabled;
 @property (nonatomic, assign) BOOL neverHasContinueButton;
-@property (nonatomic, assign) BOOL spinnerEnabled;
 
 @property (nonatomic, assign) BOOL skipEnabled;
 
@@ -55,6 +54,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (CGFloat)effectViewOpacity;
 - (void)setStylingOpactity:(CGFloat)opacity animated:(BOOL)animated;
+
+- (void)showActivityIndicator:(BOOL)showActivityIndicator;
 
 @end
 

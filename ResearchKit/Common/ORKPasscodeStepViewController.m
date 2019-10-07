@@ -72,7 +72,6 @@ static CGFloat const kForgotPasscodeHeight              = 100.0f;
     LAContext *_touchContext;
     ORKPasscodeType _authenticationPasscodeType;
     BOOL _useTouchId;
-    ORKNavigationContainerView *_navigationFooterView;
 }
 
 - (ORKPasscodeStep *)passcodeStep {

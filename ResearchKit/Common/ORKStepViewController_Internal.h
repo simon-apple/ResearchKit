@@ -34,7 +34,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ORKStepViewController () <UIViewControllerRestoration>
+@class ORKNavigationContainerView;
+
+@interface ORKStepViewController () <UIViewControllerRestoration> {
+    @protected ORKNavigationContainerView *_navigationFooterView;
+}
 
 - (void)stepDidChange;
 

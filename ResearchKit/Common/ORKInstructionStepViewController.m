@@ -55,7 +55,6 @@
 @end
 
 @implementation ORKInstructionStepViewController {
-    ORKNavigationContainerView *_navigationFooterView;
     NSArray<NSLayoutConstraint *> *_constraints;
 }
 
@@ -180,10 +179,6 @@
     UIView *lastView = [_stepView.stepContentView.bodyContainerView lastVisibleBodyItem];
     [_stepView scrollToBodyItem:lastView];
     [_stepView updateEffectViewStylingAndAnimate:NO checkCurrentValue:NO customView:lastView];
-}
-
-- (void)displaySpinnerInContinueButton:(BOOL)enabled {
-    [_navigationFooterView setSpinnerEnabled:enabled];
 }
 
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
