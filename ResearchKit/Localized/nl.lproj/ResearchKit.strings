@@ -69,13 +69,20 @@
 "CONSENT_SHARING_DESCRIPTION_%@" = "De resultaten van je deelname aan dit onderzoek worden naar %@ gestuurd.\n\nDoor de gecodeerde onderzoeksgegevens met anderen te delen (zonder persoonlijke gegevens zoals je naam) kun je helpen om dit en toekomstig onderzoek te verbeteren.";
 "LEARN_MORE_CONSENT_SHARING" = "Meer informatie over het delen van gegevens";
 
-/* Lines beneath typewritten signatures on documents. Argument is the title of the signatory, e.g. "Participant's Signature" */
-"CONSENT_DOC_LINE_PRINTED_NAME" = "Naam van %@ (voluit)";
-"CONSENT_DOC_LINE_SIGNATURE" = "Handtekening van %@";
+/* Lines beneath typewritten signatures on documents.*/
+"CONSENT_DOC_LINE_PRINTED_NAME" = "Printed Name";
+"CONSENT_DOC_LINE_SIGNATURE" = "Signature";
 "CONSENT_DOC_LINE_DATE" = "Datum";
 
 /* Progress indication (in navigation bar). */
 "STEP_PROGRESS_FORMAT" = "%1$@ van %2$@";
+
+/* Progress indication (in formItem section header). */
+"FORM_ITEM_PROGRESS" = "Vraag %1$@ van %2$@";
+
+/* ORKTaskReviewViewController */
+"REVIEW_SKIPPED_ANSWER" = "Overgeslagen";
+"REVIEW_EDIT_ANSWER" = "Edit";
 
 /* Alert for out of range values. */
 "RANGE_ALERT_TITLE" = "Ongeldige waarde";
@@ -201,6 +208,7 @@
 "BUTTON_CANCEL" = "Annuleer";
 "BUTTON_OK" = "OK";
 "BUTTON_CLEAR" = "Wis";
+"BUTTON_CLEAR_SIGNATURE" = "Wis handtekening";
 "BUTTON_APPLY" = "Pas toe";
 "BUTTON_DISAGREE" = "Niet akkoord";
 "BUTTON_DONE" = "Gereed";
@@ -217,12 +225,13 @@
 "BUTTON_CLEAR_ANSWER" = "Wis antwoord";
 "BUTTON_READ_ONLY_MODE" = "Dit antwoord kan niet worden gewijzigd.";
 "BUTTON_COPYRIGHT" = "Copyright";
+"BUTTON_CLOSE" = "Sluit";
 
 /* General active tasks. */
 "COUNTDOWN_LABEL" = "Activiteit begint over";
 "TASK_COMPLETE_TITLE" = "Activiteit voltooid";
 "TASK_COMPLETE_TEXT" = "Je gegevens worden geanalyseerd. Je ontvangt bericht als de resultaten gereed zijn.";
-"COUNTDOWN_SPOKEN_REMAINING_%@" = "Nog %@ seconden.";
+"COUNTDOWN_SPOKEN_REMAINING_%@" = "Nog %@.";
 "TOUCH_ANYWHERE_LABEL" = "Tik om verder te gaan";
 
 /* Image capture step. */
@@ -319,13 +328,40 @@
 
 /* dBHL Tone audiometry active task. */
 "dBHL_TONE_AUDIOMETRY_TASK_TITLE" = "Toonaudiometrie";
+"dBHL_TONE_AUDIOMETRY_TASK_TITLE_2" = "Tik wanneer je een toon hoort.";
+"dBHL_TONE_AUDIOMETRY_INTRO_TITLE" = "Toon en volume";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_1" = "Je hoort een reeks tonen.";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_2" = "Wanneer je een toon hoort, tik je op de knop.";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_3" = "Voor deze test wordt het volume ingesteld op 50 procent.";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_4" = "Deze test duurt ongeveer 10 minuten.";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_5" = "Schakel 'Niet storen' in om onderbrekingen te voorkomen.";
+"dBHL_TONE_AUDIOMETRY_STEP_TITLE_RIGHT_EAR" = "Er worden eerst tonen in je rechteroor afgespeeld.";
+"dBHL_TONE_AUDIOMETRY_STEP_TITLE_LEFT_EAR" = "Er worden nu tonen in je linkeroor afgespeeld.";
 "dBHL_TONE_AUDIOMETRY_INTENDED_USE" = "Met deze activiteit bepaal je de gehoordrempelwaarden van een individu op de dB HL-schaal.";
 "dBHL_TONE_AUDIOMETRY_INTRO_TEXT" = "Zorg ervoor dat het volume van het apparaat op het hoogste niveau is ingesteld.\n\nTijdens deze taak wordt er een subtiele toon afgespeeld in het linker- of rechteroor.\n\nLuister aandachtig en tik telkens wanneer je een toon hoort op de knop.";
+"dBHL_TONE_AUDIOMETRY_INTRO_TEXT_2" = "Deze test stelt vast hoe hard een geluid moet zijn, zodat jij het kunt horen.";
 "dBHL_TONE_AUDIOMETRY_ONBOARDING" = "Intakevragenlijst.";
-"dBHL_TONE_AUDIOMETRY_ONBOARDING_QUESTION" = "Selecteer je voorkeur voor \“beter oor\”, indien van toepassing";
+"dBHL_TONE_AUDIOMETRY_ONBOARDING_QUESTION" = "Selecteer je voorkeur voor \"beter oor\", indien van toepassing";
 "dBHL_TONE_AUDIOMETRY_OPTION_LEFT" = "links";
 "dBHL_TONE_AUDIOMETRY_OPTION_RIGHT" = "rechts";
 "dBHL_TONE_AUDIOMETRY_OPTION_NO_PREFERENCE" = "geen voorkeur";
+"dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "Test Cancelled";
+"dBHL_ALERT_TITLE_START_OVER" = "Begin opnieuw";
+"dBHL_ALERT_TITLE_CANCEL_TEST" = "Annuleer test";
+"dBHL_ALERT_TEXT" = "Reconnect your AirPods or EarPods to take this test.";
+"dBHL_PROGRESS_COMPLETION_%@" = "%@ Complete";
+
+/* Headphones. */
+"AIRPODS" = "AirPods";
+"EARPODS" = "EarPods";
+"HEADPHONES" = "Koptelefoon";
+"HEADPHONES_UNKNOWN" = "Onbekend";
+"HEADPHONES_NONE" = "Geen";
+"CONNECTED" = "Verbonden";
+"NOT_CONNECTED" = "Not Connected";
+"HEADPHONE_CONNECTED_%@" = "Verbonden - %@";
+"HEADPHONE_DETECT_TITLE" = "Sluit je koptelefoon aan";
+"HEADPHONE_DETECT_TEXT" = "This test requires Apple AirPods or Apple EarPods";
 
 /* Spatial span memory active task. */
 "SPATIAL_SPAN_MEMORY_TITLE" = "Ruimtelijk geheugen";
@@ -395,12 +431,12 @@
 "KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_1_RIGHT" = "Ga op de rand van een stoel zitten. Wanneer je begint, plaats je je apparaat op je rechterknie voor een meting. Schakel het geluid van je apparaat in zodat je instructies kunt horen.";
 "KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_LEFT" = "Plaats je apparaat op je linkerknie met het scherm naar boven en de leesrichting van je af, zoals in de afbeelding.";
 "KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_RIGHT" = "Plaats je apparaat op je rechterknie met het scherm naar boven en de leesrichting van je af, zoals in de afbeelding.";
-"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_LEFT" = "Wanneer je klaar bent, tik je op het scherm om te beginnen en strek je je linkerknie zo ver als je kunt. Tik opnieuw wanneer je dit hebt gedaan.";
-"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_RIGHT" = "Wanneer je klaar bent, tik je op het scherm om te beginnen en strek je je rechterknie zo ver als je kunt. Tik opnieuw wanneer je dit hebt gedaan.";
-"KNEE_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_LEFT" = "Plaats je apparaat op je linkerknie";
-"KNEE_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_RIGHT" = "Plaats je apparaat op je rechterknie";
-"KNEE_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_LEFT" = "Strek je linkerknie. Tik vervolgens op het scherm.";
-"KNEE_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_RIGHT" = "Strek je rechterknie. Tik vervolgens op het scherm.";
+"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_LEFT" = "Wanneer je klaar bent, tik je op het scherm om te beginnen en strek je je linkerknie zo ver mogelijk uit. Breng je knie terug naar het beginpunt en tik opnieuw wanneer je klaar bent.";
+"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_RIGHT" = "Wanneer je klaar bent, tik je op het scherm om te beginnen en strek je je rechterknie zo ver mogelijk. Breng je knie terug naar het beginpunt en tik opnieuw wanneer je klaar bent.";
+"KNEE_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_LEFT" = "Plaats je apparaat op je linkerknie. Tik op het scherm en strek je linkerknie zo ver mogelijk.";
+"KNEE_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_RIGHT" = "Plaats je apparaat op je rechterknie. Tik op het scherm en strek je rechterknie zo ver mogelijk.";
+"KNEE_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_LEFT" = "Wanneer je klaar bent, breng je je linkerknie terug naar het beginpunt. Tik vervolgens op een willekeurige plaats.";
+"KNEE_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_RIGHT" = "Wanneer je klaar bent, breng je je rechterknie terug naar het beginpunt. Tik vervolgens op een willekeurige plaats.";
 
 /* Shoulder Range of Motion active task */
 "SHOULDER_RANGE_OF_MOTION_TITLE_LEFT" = "Beweeglijkheid linkerschouder";
@@ -411,15 +447,15 @@
 "SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_1_RIGHT" = "Wanneer je begint, plaats je je apparaat op je rechterschouder voor een meting. Schakel het geluid van je apparaat in zodat je instructies kunt horen.";
 "SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_LEFT" = "Plaats je apparaat op je linkerschouder met het scherm naar boven en de leesrichting van je af, zoals in de afbeelding.";
 "SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_RIGHT" = "Plaats je apparaat op je rechterschouder met het scherm naar boven en de leesrichting van je af, zoals in de afbeelding.";
-"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_LEFT" = "Wanneer je klaar bent, tik je op het scherm om te beginnen en hef je je linkerarm op zo ver als je kunt. Tik opnieuw wanneer je dit hebt gedaan.";
-"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_RIGHT" = "Wanneer je klaar bent, tik je op het scherm om te beginnen en hef je je rechterarm op zo ver als je kunt. Tik opnieuw wanneer je dit hebt gedaan.";
-"SHOULDER_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_LEFT" = "Plaats je apparaat op je linkerschouder";
-"SHOULDER_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_RIGHT" = "Plaats je apparaat op je rechterschouder";
-"SHOULDER_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_LEFT" = "Hef je linkerarm op. Tik vervolgens op het scherm.";
-"SHOULDER_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_RIGHT" = "Hef je rechterarm op. Tik vervolgens op het scherm.";
+"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_LEFT" = "Wanneer je klaar bent, tik je op het scherm om te beginnen en til je je linkerarm zo ver mogelijk op. Breng je arm terug naar het beginpunt en tik opnieuw wanneer je klaar bent.";
+"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_RIGHT" = "Wanneer je klaar bent, tik je op het scherm om te beginnen en til je je rechterarm zo ver mogelijk op. Breng je arm terug naar het beginpunt en tik opnieuw wanneer je klaar bent.";
+"SHOULDER_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_LEFT" = "Plaats je apparaat op je rechterschouder. Tik op het scherm en strek je linkerarm zo ver mogelijk naar voren.";
+"SHOULDER_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_RIGHT" = "Plaats je apparaat op je rechterschouder. Tik op het scherm en strek je rechterarm zo ver mogelijk naar voren.";
+"SHOULDER_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_LEFT" = "Wanneer je klaar bent, breng je je linkerarm terug naar het beginpunt. Tik vervolgens op een willekeurige plaats.";
+"SHOULDER_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_RIGHT" = "Wanneer je klaar bent, breng je je rechterarm terug naar het beginpunt. Tik vervolgens op een willekeurige plaats.";
 
 /* Timed walk active task. */
-"TIMED_WALK_TITLE" = "Lopen met tijdmeting";
+"TIMED_WALK_TITLE" = "Looptest";
 "TIMED_WALK_INTRO_DETAIL" = "Met deze activiteit wordt het functioneren van je onderlichaam gemeten.";
 "TIMED_WALK_INTRO_2_TEXT_%@" = "Zoek een plek, bij voorkeur buiten, waar je veilig zo snel mogelijk ongeveer %@ in een rechte lijn kunt lopen. Vertraag je tempo niet totdat je voorbij de eindstreep bent.";
 "TIMED_WALK_INTRO_2_DETAIL" = "Tik op 'Volgende' om te beginnen.";
@@ -563,9 +599,23 @@
 "ENVIRONMENTSPL_UNIT" = "dBA";
 "ENVIRONMENTSPL_CALCULATING" = "Berekenen";
 "ENVIRONMENTSPL_THRESHOLD" = "Drempelwaarde: %@ dBA";
+"ENVIRONMENTSPL_OK" = "Background Noise OK";
+"ENVIRONMENTSPL_NOISE" = "Te veel geluid op de achtergrond";
+"ENVIRONMENTSPL_TITLE_2" = "Zoek een rustige plek op";
+"ENVIRONMENTSPL_INTRO_TEXT_2" = "Voor een grotere nauwkeurigheid moet deze test in een rustige omgeving worden uitgevoerd.";
+
+/* Secondary Task Step*/
+"SECONDARY_TASK_START_BUTTON" = "Start taak";
 
 /* Charts */
 "CHART_NO_DATA_TEXT" = "Geen gegevens";
+
+/* Slider */
+"SLIDER_MOVE_SLIDER_FOR_VALUE" = "Versleep schuifknop om waarde in te voeren";
+"SLIDER_I_DONT_KNOW" = "Weet ik niet";
+
+/* Review Step */
+"REVIEW_STEP_PAGE" = "Pagina";
 
 /* Accessibility */
 "AX_BUTTON_BACK" = "Terug";
@@ -612,6 +662,7 @@
 "AX_TOWER_OF_HANOI_TOWER_CONTAINS" = "Heeft schijf met groottes %@";
 "AX_TOWER_OF_HANOI_TOWER_EMPTY" = "Leeg";
 
+"AX_DISMISS_KEYBOARD_CUSTOM_ACTION" = "Sluit toetsenbord";
 
 "AX_GRAPH_RANGE_FORMAT_%@_%@" = "Bereik van %@ tot %@";
 "AX_GRAPH_STACK_PREFIX" = "Stack bestaat uit";
@@ -626,8 +677,24 @@
 "AX_AMSLER_GRID_LABEL" = "Amslerrooster";
 "AX_AMSLER_GRID_HINT" = "Gebruik je vinger of stylus om rechtstreeks markeringen aan te brengen op het rooster of veeg naar links buiten het rooster om te stoppen.";
 
+"AX_TAP_BUTTON_DIRECT_TOUCH_AREA" = "Tikbare knoppen";
+"AX_TONE_AUDIOMETRY_BUTTON_LEFT_EAR_LABEL" = "Tik voor linkeroor";
+"AX_TONE_AUDIOMETRY_BUTTON_LEFT_EAR_HINT" = "Activeer om de test te starten. Wanneer de test start, tik je direct op deze knop wanneer je een geluid in je linkeroor hoort.";
+"AX_TONE_AUDIOMETRY_BUTTON_RIGHT_EAR_LABEL" = "Tik voor rechteroor";
+"AX_TONE_AUDIOMETRY_BUTTON_RIGHT_EAR_HINT" = "Activeer om de test te starten. Wanneer de test start, tik je direct op deze knop wanneer je een geluid in je rechteroor hoort.";
 /* This contains the visual text, followed by a VoiceOver-specific description, followed by the visual text on the following page (since VoiceOver users may not have a chance to hear the visual text before needing to perform the actions). */
+"AX_TONE_AUDIOMETRY_PREP_TEXT_VOICEOVER" = "%@ Als je VoiceOver gebruikt, verken je het scherm door middel van aanraken om de locatie van de knoppen voor elk oor vast te stellen. Wanneer de test start, zijn de knoppen direct tikbaar. %@";
+"AX_TAP_BUTTON_1_LABEL" = "Tik voor één vinger";
+"AX_TAP_BUTTON_2_LABEL" = "Tik voor andere vinger";
+"AX_TAP_BUTTON_HINT" = "Activeer om knoppen direct tikbaar te maken.";
 /* This contains the visual text, followed by a VoiceOver-specific description. */
+"AX_TAPPING_INSTRUCTION_VOICEOVER" = "%@ Als je VoiceOver gebruikt, verken je het scherm door middel van aanraken om de locatie van de knoppen voor elk oor vast te stellen. Activeer de knoppen om ze direct tikbaar te maken.";
+"AX_TAP_BUTTON_DIRECT_TOUCH_ANNOUNCEMENT" = "Er kan nu direct op knoppen worden getikt.";
 /* This contains the visual text, followed by a VoiceOver-specific description. */
+"AX_dBHL_TONE_AUDIOMETRY_INTRO_TEXT" = "%@ Als je VoiceOver gebruikt, is de knop direct tikbaar. De knop bevindt zich midden op het scherm.";
 
 /* This contains the visual text, followed by a VoiceOver-specific description. */
+"AX_TRAILMAKING_CALL_TO_ACTION_VOICEOVER" = "%@ Als je VoiceOver gebruikt, zijn de knoppen in de test direct tikbaar.";
+
+/* Restore error */
+"RESTORE_ERROR_CANNOT_DECODE" = "Decoderen van restoreData voor initialisatie niet mogelijk";

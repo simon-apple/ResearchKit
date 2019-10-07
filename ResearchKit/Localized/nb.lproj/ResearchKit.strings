@@ -69,13 +69,17 @@
 "CONSENT_SHARING_DESCRIPTION_%@" = "%@ vil motta data fra undersøkelsen du deltar i.\n\nEn videre deling av dine kodede opplysninger (navn og lignende fjernes) kan komme til nytte både i denne og framtidige undersøkelser.";
 "LEARN_MORE_CONSENT_SHARING" = "Finn ut mer om datadeling";
 
-/* Lines beneath typewritten signatures on documents. Argument is the title of the signatory, e.g. "Participant's Signature" */
+/* Lines beneath typewritten signatures on documents.*/
 "CONSENT_DOC_LINE_PRINTED_NAME" = "Navnet til %@ (store bokstaver)";
 "CONSENT_DOC_LINE_SIGNATURE" = "Signaturen til %@";
 "CONSENT_DOC_LINE_DATE" = "Dato";
 
 /* Progress indication (in navigation bar). */
 "STEP_PROGRESS_FORMAT" = "Trinn %1$@ av %2$@";
+
+/* Progress indication (in formItem section header). */
+
+/* ORKTaskReviewViewController */
 
 /* Alert for out of range values. */
 "RANGE_ALERT_TITLE" = "Ugyldig verdi";
@@ -295,6 +299,8 @@
 
 /* dBHL Tone audiometry active task. */
 
+/* Headphones. */
+
 /* Spatial span memory active task. */
 "SPATIAL_SPAN_MEMORY_TITLE" = "Visuell hukommelse";
 "SPATIAL_SPAN_MEMORY_INTRO_TEXT_%@" = "Denne aktiviteten måler den visuelle korttidshukommelsen din ved å be deg gjenta i hvilken rekkefølge %@ lyser.";
@@ -449,8 +455,14 @@
 
 /* Environment SPL*/
 
+/* Secondary Task Step*/
+
 /* Charts */
 "CHART_NO_DATA_TEXT" = "Ingen data";
+
+/* Slider */
+
+/* Review Step */
 
 /* Accessibility */
 "AX_BUTTON_BACK" = "Tilbake";
@@ -503,6 +515,8 @@
 /* This contains the visual text, followed by a VoiceOver-specific description. */
 
 /* This contains the visual text, followed by a VoiceOver-specific description. */
+
+/* Restore error */
 
 
 /* Unsorted */

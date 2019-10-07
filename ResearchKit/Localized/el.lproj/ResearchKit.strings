@@ -69,13 +69,20 @@
 "CONSENT_SHARING_DESCRIPTION_%@" = "Η %@ θα λάβει τα δεδομένα που θα προκύψουν από τη συμμετοχή σας σε αυτήν τη μελέτη.\n\nΗ πιο ευρεία κοινοποίηση των κωδικοποιημένων δεδομένων μελέτης σας (χωρίς πληροφορίες όπως π.χ. το όνομά σας) μπορεί να ωφελήσουν αυτήν και τυχόν μελλοντικές μελέτες.";
 "LEARN_MORE_CONSENT_SHARING" = "Μάθετε περισσότερα για την κοινοποίηση δεδομένων";
 
-/* Lines beneath typewritten signatures on documents. Argument is the title of the signatory, e.g. "Participant's Signature" */
+/* Lines beneath typewritten signatures on documents.*/
 "CONSENT_DOC_LINE_PRINTED_NAME" = "%@: όνομα (με κεφαλαία)";
 "CONSENT_DOC_LINE_SIGNATURE" = "%@: υπογραφή";
 "CONSENT_DOC_LINE_DATE" = "Ημερομηνία";
 
 /* Progress indication (in navigation bar). */
 "STEP_PROGRESS_FORMAT" = "%1$@ από %2$@";
+
+/* Progress indication (in formItem section header). */
+"FORM_ITEM_PROGRESS" = "ΕΡΩΤΗΣΗ %1$@ ΑΠΟ %2$@";
+
+/* ORKTaskReviewViewController */
+"REVIEW_SKIPPED_ANSWER" = "Παραλείφθηκε";
+"REVIEW_EDIT_ANSWER" = "Επεξεργασία απάντησης";
 
 /* Alert for out of range values. */
 "RANGE_ALERT_TITLE" = "Μη έγκυρη τιμή";
@@ -201,6 +208,7 @@
 "BUTTON_CANCEL" = "Ακύρωση";
 "BUTTON_OK" = "OK";
 "BUTTON_CLEAR" = "Εκκαθάριση";
+"BUTTON_CLEAR_SIGNATURE" = "Εκκαθάριση υπογραφής";
 "BUTTON_APPLY" = "Εφαρμογή";
 "BUTTON_DISAGREE" = "Απόρριψη";
 "BUTTON_DONE" = "Τέλος";
@@ -217,12 +225,13 @@
 "BUTTON_CLEAR_ANSWER" = "Εκκαθάριση απάντησης";
 "BUTTON_READ_ONLY_MODE" = "Δεν είναι δυνατή η τροποποίηση αυτής της απάντησης.";
 "BUTTON_COPYRIGHT" = "Πνευματικά δικαιώματα";
+"BUTTON_CLOSE" = "Κλείσιμο";
 
 /* General active tasks. */
 "COUNTDOWN_LABEL" = "Έναρξη δραστηριότητας σε";
 "TASK_COMPLETE_TITLE" = "Η δραστηριότητα ολοκληρώθηκε";
 "TASK_COMPLETE_TEXT" = "Τα δεδομένα σας θα αναλυθούν και θα ειδοποιηθείτε όταν είναι έτοιμα τα αποτελέσματα.";
-"COUNTDOWN_SPOKEN_REMAINING_%@" = "Απομένουν %@ δευτερόλεπτα.";
+"COUNTDOWN_SPOKEN_REMAINING_%@" = "Απομένουν %@.";
 "TOUCH_ANYWHERE_LABEL" = "Αγγίξτε οπουδήποτε για να συνεχίσετε";
 
 /* Image capture step. */
@@ -319,6 +328,8 @@
 
 /* dBHL Tone audiometry active task. */
 "dBHL_TONE_AUDIOMETRY_TASK_TITLE" = "Τονική ακοομετρία";
+"dBHL_TONE_AUDIOMETRY_STEP_TITLE_RIGHT_EAR" = "Πρώτα θα αναπαραχθούν τόνοι στο δεξιό αυτί σας.";
+"dBHL_TONE_AUDIOMETRY_STEP_TITLE_LEFT_EAR" = "Τώρα θα αναπαραχθούν τόνοι στο αριστερό αυτί σας.";
 "dBHL_TONE_AUDIOMETRY_INTENDED_USE" = "Αυτή η δραστηριότητα εντοπίζει τα επίπεδα κατωφλίου ακοής ενός ατόμου σε κλίμακα επιπέδου ακοής dB.";
 "dBHL_TONE_AUDIOMETRY_INTRO_TEXT" = "Βεβαιωθείτε ότι η ένταση ήχου της συσκευής είναι στο μέγιστο επίπεδο.\n\nΚατά τη διάρκεια αυτής της δραστηριότητας, θα αναπαραχθεί ένας απαλός ήχος είτε στο αριστερό είτε στο δεξιό αφτί.\n\nΑκούστε προσεκτικά και αγγίξτε το κουμπί κάθε φορά που ακούτε έναν τόνο.";
 "dBHL_TONE_AUDIOMETRY_ONBOARDING" = "Ερωτηματολόγιο συμμετοχής.";
@@ -326,6 +337,19 @@
 "dBHL_TONE_AUDIOMETRY_OPTION_LEFT" = "αριστερό";
 "dBHL_TONE_AUDIOMETRY_OPTION_RIGHT" = "δεξιό";
 "dBHL_TONE_AUDIOMETRY_OPTION_NO_PREFERENCE" = "καμία προτίμηση";
+"dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "Η δοκιμή διακόπηκε";
+"dBHL_ALERT_TITLE_START_OVER" = "Εκ νέου έναρξη";
+"dBHL_ALERT_TITLE_CANCEL_TEST" = "Ακύρωση δοκιμής";
+"dBHL_ALERT_TEXT" = "Υπάρχει κάποιο πρόβλημα με τα ακουστικά σας.";
+
+/* Headphones. */
+"AIRPODS" = "Airpods";
+"EARPODS" = "Earpods";
+"HEADPHONES" = "Ακουστικά";
+"HEADPHONES_UNKNOWN" = "Άγνωστο";
+"HEADPHONES_NONE" = "Κανένα";
+"CONNECTED" = "Συνδεδεμένο";
+"HEADPHONE_CONNECTED_%@" = "Συνδέθηκε - %@";
 
 /* Spatial span memory active task. */
 "SPATIAL_SPAN_MEMORY_TITLE" = "Χωρική μνήμη";
@@ -395,12 +419,12 @@
 "KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_1_RIGHT" = "Καθίστε στην άκρη μιας καρέκλας. Όταν ξεκινήσετε, θα τοποθετήσετε τη συσκευή στο δεξιό σας γόνατο για τη μέτρηση. Αυξήστε την ένταση ήχου στη συσκευή για να ακούσετε τις οδηγίες.";
 "KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_LEFT" = "Τοποθετήστε τη συσκευή στο αριστερό σας γόνατο με την οθόνη να κοιτά προς τα πάνω, όπως φαίνεται στην εικόνα.";
 "KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_RIGHT" = "Τοποθετήστε τη συσκευή στο δεξιό σας γόνατο με την οθόνη να κοιτά προς τα πάνω, όπως φαίνεται στην εικόνα.";
-"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_LEFT" = "Όταν είστε έτοιμοι, αγγίξτε την οθόνη και τεντώστε το αριστερό σας γόνατο όσο περισσότερο μπορείτε. Αγγίξτε πάλι όταν τελειώσετε.";
-"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_RIGHT" = "Όταν είστε έτοιμοι, αγγίξτε την οθόνη και τεντώστε το δεξιό σας γόνατο όσο περισσότερο μπορείτε. Αγγίξτε πάλι όταν τελειώσετε.";
-"KNEE_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_LEFT" = "Τοποθετήστε τη συσκευή στο αριστερό σας γόνατο";
-"KNEE_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_RIGHT" = "Τοποθετήστε τη συσκευή στο δεξιό σας γόνατο";
-"KNEE_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_LEFT" = "Τεντώστε το αριστερό σας γόνατο. Μετά, αγγίξτε οπουδήποτε.";
-"KNEE_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_RIGHT" = "Τεντώστε το δεξιό σας γόνατο. Μετά, αγγίξτε οπουδήποτε.";
+"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_LEFT" = "Όταν είστε έτοιμοι, αγγίξτε την οθόνη για να ξεκινήσετε και εκτείνετε το αριστερό σας γόνατο όσο μπορείτε. Επιστρέψτε στη αρχική θέση και αγγίξτε πάλι όταν τελειώσετε.";
+"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_RIGHT" = "Όταν είστε έτοιμοι, αγγίξτε την οθόνη για να ξεκινήσετε και εκτείνετε το δεξιό σας γόνατο όσο μπορείτε. Επιστρέψτε στη αρχική θέση και αγγίξτε πάλι όταν τελειώσετε.";
+"KNEE_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_LEFT" = "Τοποθετήστε τη συσκευή στο αριστερό σας γόνατο. Αγγίξτε την οθόνη και εκτείνετε όσο μπορείτε το αριστερό σας γόνατο.";
+"KNEE_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_RIGHT" = "Τοποθετήστε τη συσκευή στο δεξιό σας γόνατο. Αγγίξτε την οθόνη και εκτείνετε όσο μπορείτε το δεξιό σας γόνατο.";
+"KNEE_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_LEFT" = "Όταν τελειώσετε, επαναφέρετε το αριστερό σας γόνατο στην αρχική θέση. Μετά, αγγίξτε οπουδήποτε.";
+"KNEE_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_RIGHT" = "Όταν τελειώσετε, επαναφέρετε το δεξιό σας γόνατο στην αρχική θέση. Μετά, αγγίξτε οπουδήποτε.";
 
 /* Shoulder Range of Motion active task */
 "SHOULDER_RANGE_OF_MOTION_TITLE_LEFT" = "Εύρος κίνησης αριστερού ώμου";
@@ -411,12 +435,12 @@
 "SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_1_RIGHT" = "Όταν ξεκινήσετε, θα τοποθετήσετε τη συσκευή στον δεξιό σας ώμο για τη μέτρηση. Αυξήστε την ένταση ήχου στη συσκευή για να ακούσετε τις οδηγίες.";
 "SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_LEFT" = "Τοποθετήστε τη συσκευή στον αριστερό σας ώμο με την οθόνη να κοιτά προς τα πάνω, όπως φαίνεται στην εικόνα.";
 "SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_RIGHT" = "Τοποθετήστε τη συσκευή στον δεξιό σας ώμο με την οθόνη να κοιτά προς τα πάνω, όπως φαίνεται στην εικόνα.";
-"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_LEFT" = "Όταν είστε έτοιμοι, αγγίξτε την οθόνη και σηκώστε το αριστερό σας χέρι όσο πιο πάνω μπορείτε. Αγγίξτε πάλι όταν τελειώσετε.";
-"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_RIGHT" = "Όταν είστε έτοιμοι, αγγίξτε την οθόνη και σηκώστε το δεξιό σας χέρι όσο πιο πάνω μπορείτε. Αγγίξτε πάλι όταν τελειώσετε.";
-"SHOULDER_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_LEFT" = "Τοποθετήστε τη συσκευή στον αριστερό σας ώμο";
-"SHOULDER_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_RIGHT" = "Τοποθετήστε τη συσκευή στον δεξιό σας ώμο";
-"SHOULDER_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_LEFT" = "Σηκώστε το αριστερό σας χέρι προς τα πάνω. Μετά, αγγίξτε οπουδήποτε.";
-"SHOULDER_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_RIGHT" = "Σηκώστε το δεξιό σας χέρι προς τα πάνω. Μετά, αγγίξτε οπουδήποτε.";
+"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_LEFT" = "Όταν είστε έτοιμοι, αγγίξτε την οθόνη για να ξεκινήσετε και σηκώστε το αριστερό χέρι σας όσο μπορείτε. Επιστρέψτε στη αρχική θέση και αγγίξτε πάλι όταν τελειώσετε.";
+"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_RIGHT" = "Όταν είστε έτοιμοι, αγγίξτε την οθόνη για να ξεκινήσετε και σηκώστε το δεξιό χέρι σας όσο μπορείτε. Επιστρέψτε στη αρχική θέση και αγγίξτε πάλι όταν τελειώσετε.";
+"SHOULDER_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_LEFT" = "Τοποθετήστε τη συσκευή στον αριστερό σας ώμο. Αγγίξτε την οθόνη και σηκώστε όσο μπορείτε το αριστερό χέρι σας προς τα εμπρός.";
+"SHOULDER_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_RIGHT" = "Τοποθετήστε τη συσκευή στον δεξιό σας ώμο. Αγγίξτε την οθόνη και σηκώστε όσο μπορείτε το δεξιό χέρι σας προς τα εμπρός.";
+"SHOULDER_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_LEFT" = "Όταν τελειώσετε, επαναφέρετε το αριστερό χέρι σας στην αρχική θέση. Μετά, αγγίξτε οπουδήποτε.";
+"SHOULDER_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_RIGHT" = "Όταν τελειώσετε, επαναφέρετε το δεξιό χέρι σας στην αρχική θέση. Μετά, αγγίξτε οπουδήποτε.";
 
 /* Timed walk active task. */
 "TIMED_WALK_TITLE" = "Χρονισμένο περπάτημα";
@@ -446,7 +470,7 @@
 "PASAT_INTRO_TEXT" = "Η δοκιμασία PASAT (Βηματική ακουστική πρόσθεση αριθμών σε σειρά) αξιολογεί την ταχύτητα ακουστικής επεξεργασίας πληροφοριών και την ικανότητα υπολογισμών.";
 "PVSAT_INTRO_TEXT" = "Η δοκιμασία PVSAT (Βηματική οπτική πρόσθεση αριθμών σε σειρά) αξιολογεί την ταχύτητα οπτικής επεξεργασίας πληροφοριών και την ικανότητα υπολογισμών.";
 "PAVSAT_INTRO_TEXT" = "Η δοκιμασία PAVSAT (Βηματική ακουστική και οπτική πρόσθεση αριθμών σε σειρά) αξιολογεί την ταχύτητα ακουστικής και οπτικής επεξεργασίας πληροφοριών και την ικανότητα υπολογισμών.";
-"PSAT_INTRO_TEXT_2_%@" = "Τα μονά ψηφία εμφανίζονται κάθε %@ δευτερόλεπτα.\nΠρέπει να προσθέτετε κάθε νέο ψηφίο με το ακριβώς προηγούμενό του.\nΠροσοχή: Δεν πρέπει να υπολογίζετε το ολικό σύνολο, αλλά μόνο το σύνολο των τελευταίων δύο αριθμών.";
+"PSAT_INTRO_TEXT_2_%@" = "Τα μονά ψηφία εμφανίζονται κάθε %@.\nΠρέπει να προσθέτετε κάθε νέο ψηφίο με το ακριβώς προηγούμενό του.\nΠροσοχή: Δεν πρέπει να υπολογίζετε το ολικό σύνολο, αλλά μόνο το σύνολο των τελευταίων δύο αριθμών.";
 "PSAT_CALL_TO_ACTION" = "Αγγίξτε «Έναρξη» για να αρχίσετε.";
 "PSAT_INITIAL_INSTRUCTION" = "Θυμηθείτε αυτό το πρώτο ψηφίο.";
 "PSAT_INSTRUCTION" = "Προσθέστε αυτό το νέο ψηφίο στο προηγούμενο ψηφίο.";
@@ -563,9 +587,21 @@
 "ENVIRONMENTSPL_UNIT" = "dBA";
 "ENVIRONMENTSPL_CALCULATING" = "Υπολογισμός…";
 "ENVIRONMENTSPL_THRESHOLD" = "Όριο: %@ dBA";
+"ENVIRONMENTSPL_OK" = "ΟΚ";
+"ENVIRONMENTSPL_NOISE" = "Υπερβολικός θόρυβος βάθους";
+
+/* Secondary Task Step*/
+"SECONDARY_TASK_START_BUTTON" = "Έναρξη εργασίας";
 
 /* Charts */
 "CHART_NO_DATA_TEXT" = "Δεν υπάρχουν δεδομένα";
+
+/* Slider */
+"SLIDER_MOVE_SLIDER_FOR_VALUE" = "Μετακινήστε το ρυθμιστικό για εισαγωγή τιμής";
+"SLIDER_I_DONT_KNOW" = "Δεν γνωρίζω";
+
+/* Review Step */
+"REVIEW_STEP_PAGE" = "Σελίδα";
 
 /* Accessibility */
 "AX_BUTTON_BACK" = "Πίσω";
@@ -612,6 +648,7 @@
 "AX_TOWER_OF_HANOI_TOWER_CONTAINS" = "Έχει δίσκο με μεγέθη %@";
 "AX_TOWER_OF_HANOI_TOWER_EMPTY" = "Κενός";
 
+"AX_DISMISS_KEYBOARD_CUSTOM_ACTION" = "Απόρριψη πληκτρολογίου";
 
 "AX_GRAPH_RANGE_FORMAT_%@_%@" = "Εύρος από %@ έως %@";
 "AX_GRAPH_STACK_PREFIX" = "Η στοίβα αποτελείται από";
@@ -626,8 +663,24 @@
 "AX_AMSLER_GRID_LABEL" = "Πλέγμα Amsler";
 "AX_AMSLER_GRID_HINT" = "Χρησιμοποιήστε το δάχτυλό σας ή τη γραφίδα για να σημειώσετε απευθείας πάνω στο πλέγμα, ή σαρώστε προς τα αριστερά έξω από το πλέγμα για ολοκλήρωση.";
 
+"AX_TAP_BUTTON_DIRECT_TOUCH_AREA" = "Κουμπιά με δυνατότητα αγγίγματος";
+"AX_TONE_AUDIOMETRY_BUTTON_LEFT_EAR_LABEL" = "Αγγίξτε για αριστερό αυτί";
+"AX_TONE_AUDIOMETRY_BUTTON_LEFT_EAR_HINT" = "Ενεργοποιήστε για έναρξη της δοκιμής. Όταν ξεκινήσει η δοκιμή, αγγίξτε απευθείας σε αυτό το κουμπί όταν ακούσετε έναν ήχο στο αριστερό αυτί σας.";
+"AX_TONE_AUDIOMETRY_BUTTON_RIGHT_EAR_LABEL" = "Αγγίξτε για δεξιό αυτί";
+"AX_TONE_AUDIOMETRY_BUTTON_RIGHT_EAR_HINT" = "Ενεργοποιήστε για έναρξη της δοκιμής. Όταν ξεκινήσει η δοκιμή, αγγίξτε απευθείας σε αυτό το κουμπί όταν ακούσετε έναν ήχο στο δεξιό αυτί σας.";
 /* This contains the visual text, followed by a VoiceOver-specific description, followed by the visual text on the following page (since VoiceOver users may not have a chance to hear the visual text before needing to perform the actions). */
+"AX_TONE_AUDIOMETRY_PREP_TEXT_VOICEOVER" = "%@ Χρησιμοποιώντας το VoiceOver, εξερευνήστε την οθόνη με αφή για να μάθετε πού βρίσκονται τα κουμπιά για κάθε αυτί. Όταν ξεκινήσει η δοκιμή, τα κουμπιά θα είναι δυνατό να αγγίζονται απευθείας. %@";
+"AX_TAP_BUTTON_1_LABEL" = "Αγγίξτε για ένα δάχτυλο";
+"AX_TAP_BUTTON_2_LABEL" = "Αγγίξτε για άλλο δάχτυλο";
+"AX_TAP_BUTTON_HINT" = "Ενεργοποιήστε για να μπορείτε να αγγίζετε απευθείας τα κουμπιά.";
 /* This contains the visual text, followed by a VoiceOver-specific description. */
+"AX_TAPPING_INSTRUCTION_VOICEOVER" = "%@ Χρησιμοποιώντας το VoiceOver, εξερευνήστε την οθόνη με αφή για να μάθετε πού βρίσκονται τα κουμπιά για κάθε αυτί. Ενεργοποιήστε οποιοδήποτε κουμπί ώστε τα κουμπιά να είναι δυνατό να αγγίζονται απευθείας.";
+"AX_TAP_BUTTON_DIRECT_TOUCH_ANNOUNCEMENT" = "Τα κουμπιά τώρα είναι δυνατό να αγγίζονται απευθείας.";
 /* This contains the visual text, followed by a VoiceOver-specific description. */
+"AX_dBHL_TONE_AUDIOMETRY_INTRO_TEXT" = "%@ Με τη χρήση του VoiceOver, το κουμπί θα είναι δυνατό να αγγίζεται απευθείας. Θα βρίσκεται κοντά στο κέντρο της οθόνης.";
 
 /* This contains the visual text, followed by a VoiceOver-specific description. */
+"AX_TRAILMAKING_CALL_TO_ACTION_VOICEOVER" = "%@ Με τη χρήση του VoiceOver, τα κουμπιά στη δοκιμή θα είναι δυνατό να αγγίζονται απευθείας.";
+
+/* Restore error */
+"RESTORE_ERROR_CANNOT_DECODE" = "Δεν είναι δυνατή η αποκωδικοποίηση του returnData για αρχικοποίηση";

@@ -69,13 +69,20 @@
 "CONSENT_SHARING_DESCRIPTION_%@" = "%@ modtager dine data fra din deltagelse i dette studie.\n\nHvis du deler dine kodede data fra studiet (uden oplysninger som f.eks. dit navn), kan det være til gavn for dette studie og fremtidig forskning.";
 "LEARN_MORE_CONSENT_SHARING" = "Læs mere om deling af data";
 
-/* Lines beneath typewritten signatures on documents. Argument is the title of the signatory, e.g. "Participant's Signature" */
+/* Lines beneath typewritten signatures on documents.*/
 "CONSENT_DOC_LINE_PRINTED_NAME" = "%@s navn (med bogstaver)";
 "CONSENT_DOC_LINE_SIGNATURE" = "%@s underskrift";
 "CONSENT_DOC_LINE_DATE" = "Dato";
 
 /* Progress indication (in navigation bar). */
 "STEP_PROGRESS_FORMAT" = "%1$@ af %2$@";
+
+/* Progress indication (in formItem section header). */
+"FORM_ITEM_PROGRESS" = "SPØRGSMÅL %1$@ AF %2$@";
+
+/* ORKTaskReviewViewController */
+"REVIEW_SKIPPED_ANSWER" = "Sprunget over";
+"REVIEW_EDIT_ANSWER" = "Rediger svar";
 
 /* Alert for out of range values. */
 "RANGE_ALERT_TITLE" = "Ugyldig værdi";
@@ -181,7 +188,7 @@
 /* Measuring unit abbreviations */
 "MEASURING_UNIT_CM" = "cm";
 "MEASURING_UNIT_FT" = "fod";
-"MEASURING_UNIT_IN" = "\\\“";
+"MEASURING_UNIT_IN" = "\\\"";
 "MEASURING_UNIT_KG" = "kg";
 "MEASURING_UNIT_LB" = "lb";
 "MEASURING_UNIT_OZ" = "oz";
@@ -201,6 +208,7 @@
 "BUTTON_CANCEL" = "Annuller";
 "BUTTON_OK" = "OK";
 "BUTTON_CLEAR" = "Ryd";
+"BUTTON_CLEAR_SIGNATURE" = "Ryd underskrift";
 "BUTTON_APPLY" = "Anvend";
 "BUTTON_DISAGREE" = "Uenig";
 "BUTTON_DONE" = "OK";
@@ -217,12 +225,13 @@
 "BUTTON_CLEAR_ANSWER" = "Ryd svar";
 "BUTTON_READ_ONLY_MODE" = "Dette svar kan ikke ændres.";
 "BUTTON_COPYRIGHT" = "Ophavsret";
+"BUTTON_CLOSE" = "Luk";
 
 /* General active tasks. */
 "COUNTDOWN_LABEL" = "Starter aktivitet om";
 "TASK_COMPLETE_TITLE" = "Aktivitet færdig";
 "TASK_COMPLETE_TEXT" = "Dine data vil blive analyseret, og du får besked, når resultaterne er klar.";
-"COUNTDOWN_SPOKEN_REMAINING_%@" = "%@ sekunder tilbage.";
+"COUNTDOWN_SPOKEN_REMAINING_%@" = "%@ tilbage.";
 "TOUCH_ANYWHERE_LABEL" = "Rør et tilfældigt sted for at fortsætte";
 
 /* Image capture step. */
@@ -319,6 +328,8 @@
 
 /* dBHL Tone audiometry active task. */
 "dBHL_TONE_AUDIOMETRY_TASK_TITLE" = "Toneaudiometri";
+"dBHL_TONE_AUDIOMETRY_STEP_TITLE_RIGHT_EAR" = "Først afspilles der toner i dit højre øre.";
+"dBHL_TONE_AUDIOMETRY_STEP_TITLE_LEFT_EAR" = "Nu afspilles der toner i dit venstre øre.";
 "dBHL_TONE_AUDIOMETRY_INTENDED_USE" = "Denne aktivitet identificerer grænseniveauer for en persons hørelse i skalaen dB HL.";
 "dBHL_TONE_AUDIOMETRY_INTRO_TEXT" = "Sørg for, at enhedens lydstyrke er skruet helt op.\n\nUnder denne opgave afspilles en diskret tone i enten venstre eller højre øre.\n\nLyt godt efter, og tryk på knappen, hver gang du hører en tone.";
 "dBHL_TONE_AUDIOMETRY_ONBOARDING" = "Indledende spørgeskema.";
@@ -326,6 +337,19 @@
 "dBHL_TONE_AUDIOMETRY_OPTION_LEFT" = "venstre";
 "dBHL_TONE_AUDIOMETRY_OPTION_RIGHT" = "højre";
 "dBHL_TONE_AUDIOMETRY_OPTION_NO_PREFERENCE" = "ingen præference";
+"dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "Test afbrudt";
+"dBHL_ALERT_TITLE_START_OVER" = "Start forfra";
+"dBHL_ALERT_TITLE_CANCEL_TEST" = "Annuller test";
+"dBHL_ALERT_TEXT" = "Der er noget galt med dine hovedtelefoner.";
+
+/* Headphones. */
+"AIRPODS" = "Airpods";
+"EARPODS" = "Earpods";
+"HEADPHONES" = "Hovedtelefoner";
+"HEADPHONES_UNKNOWN" = "Ukendt";
+"HEADPHONES_NONE" = "Ingen";
+"CONNECTED" = "Tilsluttet";
+"HEADPHONE_CONNECTED_%@" = "Tilsluttet – %@";
 
 /* Spatial span memory active task. */
 "SPATIAL_SPAN_MEMORY_TITLE" = "Rumlig hukommelse";
@@ -395,12 +419,12 @@
 "KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_1_RIGHT" = "Sæt dig på kanten af en stol. Når du starter, anbringer du din enhed på dit højre knæ for at tage et mål. Slå lyden til på din enhed, så du kan høre instruktioner.";
 "KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_LEFT" = "Anbring din enhed på dit venstre knæ med skærmen udad som vist på billedet.";
 "KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_RIGHT" = "Anbring din enhed på dit højre knæ med skærmen udad som vist på billedet.";
-"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_LEFT" = "Når du er klar, skal du trykke på skærmen for at starte og strække dit venstre knæ så langt frem, som du kan. Tryk igen, når du er færdig.";
-"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_RIGHT" = "Når du er klar, skal du trykke på skærmen for at starte og strække dit højre knæ så langt frem, som du kan. Tryk igen, når du er færdig.";
-"KNEE_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_LEFT" = "Anbring din enhed på dit venstre knæ";
-"KNEE_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_RIGHT" = "Anbring din enhed på dit højre knæ";
-"KNEE_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_LEFT" = "Stræk dit venstre knæ. Tryk derefter et tilfældigt sted.";
-"KNEE_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_RIGHT" = "Stræk dit højre knæ. Tryk derefter et tilfældigt sted.";
+"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_LEFT" = "Når du er klar, skal du trykke på skærmen for at begynde og føre dit venstre knæ så langt fremad, som du kan. Vend tilbage til startpositionen, og tryk igen, når du er færdig.";
+"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_RIGHT" = "Når du er klar, skal du trykke på skærmen for at begynde og føre dit højre knæ så langt fremad, som du kan. Vend tilbage til startpositionen, og tryk igen, når du er færdig.";
+"KNEE_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_LEFT" = "Anbring enheden på dit venstre knæ. Tryk på skærmen, og før dit venstre knæ så langt fremad, som du kan.";
+"KNEE_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_RIGHT" = "Anbring enheden på dit højre knæ. Tryk på skærmen, og før dit højre knæ så langt fremad, som du kan.";
+"KNEE_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_LEFT" = "Når du er færdig, skal du føre dit venstre knæ tilbage til startpositionen. Tryk derefter et vilkårligt sted.";
+"KNEE_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_RIGHT" = "Når du er færdig, skal du føre dit højre knæ tilbage til startpositionen. Tryk derefter et vilkårligt sted.";
 
 /* Shoulder Range of Motion active task */
 "SHOULDER_RANGE_OF_MOTION_TITLE_LEFT" = "Bevægelighed af venstre skulder";
@@ -411,12 +435,12 @@
 "SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_1_RIGHT" = "Når du starter, anbringer du din enhed på din højre skulder for at tage et mål. Slå lyden til på din enhed, så du kan høre instruktioner.";
 "SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_LEFT" = "Anbring din enhed på din venstre skulder med skærmen udad som vist på billedet.";
 "SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_RIGHT" = "Anbring din enhed på din højre skulder med skærmen udad som vist på billedet.";
-"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_LEFT" = "Når du er klar, skal du trykke på skærmen for at starte og løfte din venstre arm så højt op, som du kan. Tryk igen, når du er færdig.";
-"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_RIGHT" = "Når du er klar, skal du trykke på skærmen for at starte og løfte din højre arm så højt op, som du kan. Tryk igen, når du er færdig.";
-"SHOULDER_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_LEFT" = "Anbring din enhed på din venstre skulder";
-"SHOULDER_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_RIGHT" = "Anbring din enhed på din højre skulder";
-"SHOULDER_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_LEFT" = "Løft din venstre arm. Tryk derefter et tilfældigt sted.";
-"SHOULDER_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_RIGHT" = "Løft din højre arm. Tryk derefter et tilfældigt sted.";
+"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_LEFT" = "Når du er klar, skal du trykke på skærmen for at begynde og løfte din venstre arm så langt, som du kan. Vend tilbage til startpositionen, og tryk igen, når du er færdig.";
+"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_RIGHT" = "Når du er klar, skal du trykke på skærmen for at begynde og løfte din højre arm så langt, som du kan. Vend tilbage til startpositionen, og tryk igen, når du er færdig.";
+"SHOULDER_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_LEFT" = "Anbring enheden på din venstre skulder. Tryk på skærmen, og løft din venstre arm så langt fremad, som du kan.";
+"SHOULDER_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_RIGHT" = "Anbring enheden på din højre skulder. Tryk på skærmen, og løft din højre arm så langt fremad, som du kan.";
+"SHOULDER_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_LEFT" = "Når du er færdig, skal du føre din venstre arm tilbage til startpositionen. Tryk derefter et vilkårligt sted.";
+"SHOULDER_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_RIGHT" = "Når du er færdig, skal du føre din højre arm tilbage til startpositionen. Tryk derefter et vilkårligt sted.";
 
 /* Timed walk active task. */
 "TIMED_WALK_TITLE" = "Gå på tid";
@@ -446,7 +470,7 @@
 "PASAT_INTRO_TEXT" = "PASAT-testen måler, hvor hurtigt du behandler lydoplysninger og din evne til at foretage udregninger.";
 "PVSAT_INTRO_TEXT" = "PVSAT-testen måler, hvor hurtigt du behandler synsoplysninger og din evne til at foretage udregninger.";
 "PAVSAT_INTRO_TEXT" = "PAVSAT-testen (Paced Auditory and Visual Serial Addition Test) måler, hvor hurtigt du behandler lyd- og synsoplysninger og din evne til at foretage udregninger.";
-"PSAT_INTRO_TEXT_2_%@" = "Der vises enkelte tal hvert %@. sekund.\nDu skal lægge hvert nye tal sammen med tallet lige før det.\nBemærk: Du skal ikke lægge alle tallene sammen, kun de to sidste tal.";
+"PSAT_INTRO_TEXT_2_%@" = "Der vises enkelte tal hvert %@. sekund.\nDu skal lægge hvert nye tal sammen med tallet lige før det.\nBemærk: Du skal ikke lægge alle tallene sammen, men kun de to sidste tal.";
 "PSAT_CALL_TO_ACTION" = "Tryk på Gå i gang for at starte.";
 "PSAT_INITIAL_INSTRUCTION" = "Husk dette første tal.";
 "PSAT_INSTRUCTION" = "Læg dette nye tal sammen med det forrige.";
@@ -563,9 +587,21 @@
 "ENVIRONMENTSPL_UNIT" = "dB(A)";
 "ENVIRONMENTSPL_CALCULATING" = "Beregner";
 "ENVIRONMENTSPL_THRESHOLD" = "Grænse: %@ dB(A)";
+"ENVIRONMENTSPL_OK" = "OK";
+"ENVIRONMENTSPL_NOISE" = "For meget baggrundsstøj";
+
+/* Secondary Task Step*/
+"SECONDARY_TASK_START_BUTTON" = "Start opgave";
 
 /* Charts */
 "CHART_NO_DATA_TEXT" = "Ingen data";
+
+/* Slider */
+"SLIDER_MOVE_SLIDER_FOR_VALUE" = "Flyt mærket for at anføre en værdi";
+"SLIDER_I_DONT_KNOW" = "Jeg ved det ikke";
+
+/* Review Step */
+"REVIEW_STEP_PAGE" = "Side";
 
 /* Accessibility */
 "AX_BUTTON_BACK" = "Tilbage";
@@ -612,6 +648,7 @@
 "AX_TOWER_OF_HANOI_TOWER_CONTAINS" = "Har ringe med størrelserne %@";
 "AX_TOWER_OF_HANOI_TOWER_EMPTY" = "Tom";
 
+"AX_DISMISS_KEYBOARD_CUSTOM_ACTION" = "Luk tastatur";
 
 "AX_GRAPH_RANGE_FORMAT_%@_%@" = "Udsnit fra %@ til %@";
 "AX_GRAPH_STACK_PREFIX" = "Stak består af";
@@ -626,8 +663,24 @@
 "AX_AMSLER_GRID_LABEL" = "Amsler-gitter";
 "AX_AMSLER_GRID_HINT" = "Brug din finger eller pen til at markere gitteret, eller skub til venstre uden for gitteret for at fortsætte.";
 
+"AX_TAP_BUTTON_DIRECT_TOUCH_AREA" = "Knapper, der kan trykkes på";
+"AX_TONE_AUDIOMETRY_BUTTON_LEFT_EAR_LABEL" = "Tryk for venstre øre";
+"AX_TONE_AUDIOMETRY_BUTTON_LEFT_EAR_HINT" = "Aktiver for at starte testen. Når testen starter, skal du trykke direkte på denne knap, når du hører en lyd i dit venstre øre.";
+"AX_TONE_AUDIOMETRY_BUTTON_RIGHT_EAR_LABEL" = "Tryk for højre øre";
+"AX_TONE_AUDIOMETRY_BUTTON_RIGHT_EAR_HINT" = "Aktiver for at starte testen. Når testen starter, skal du trykke direkte på denne knap, når du hører en lyd i dit højre øre.";
 /* This contains the visual text, followed by a VoiceOver-specific description, followed by the visual text on the following page (since VoiceOver users may not have a chance to hear the visual text before needing to perform the actions). */
+"AX_TONE_AUDIOMETRY_PREP_TEXT_VOICEOVER" = "%@ Med VoiceOver kan du udforske skærmen ved at berøre den, så du kan finde ud af, hvor knapperne for hvert øre er placeret. Når testen starter, kan du trykke direkte på knapperne. %@";
+"AX_TAP_BUTTON_1_LABEL" = "Tryk med en finger";
+"AX_TAP_BUTTON_2_LABEL" = "Tryk med en anden finger";
+"AX_TAP_BUTTON_HINT" = "Aktiver for at kunne trykke direkte på knapperne.";
 /* This contains the visual text, followed by a VoiceOver-specific description. */
+"AX_TAPPING_INSTRUCTION_VOICEOVER" = "%@ Med VoiceOver kan du udforske skærmen ved at berøre den, så du kan finde ud af, hvor knapperne er placeret. Aktiver knapperne for at kunne trykke direkte på dem.";
+"AX_TAP_BUTTON_DIRECT_TOUCH_ANNOUNCEMENT" = "Nu kan du trykke direkte på knapperne.";
 /* This contains the visual text, followed by a VoiceOver-specific description. */
+"AX_dBHL_TONE_AUDIOMETRY_INTRO_TEXT" = "%@ Med VoiceOver kan du trykke direkte på knappen. Den bliver placeret omkring midten af skærmen.";
 
 /* This contains the visual text, followed by a VoiceOver-specific description. */
+"AX_TRAILMAKING_CALL_TO_ACTION_VOICEOVER" = "%@ Med VoiceOver kan du trykke direkte på knapperne i testen.";
+
+/* Restore error */
+"RESTORE_ERROR_CANNOT_DECODE" = "Kan ikke afkode gendannelsesdata til initialisering";

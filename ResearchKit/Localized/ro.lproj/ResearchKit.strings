@@ -69,13 +69,20 @@
 "CONSENT_SHARING_DESCRIPTION_%@" = "%@ va primi datele referitoare la participarea dvs. la acest studiu.\n\nPartajarea mai extinsă a datelor codificate privind studiul (fără informații precum numele dvs.) poate contribui la această cercetare și la cele viitoare.";
 "LEARN_MORE_CONSENT_SHARING" = "Mai multe despre partajarea datelor";
 
-/* Lines beneath typewritten signatures on documents. Argument is the title of the signatory, e.g. "Participant's Signature" */
-"CONSENT_DOC_LINE_PRINTED_NAME" = "Nume %@ (tipărit)";
-"CONSENT_DOC_LINE_SIGNATURE" = "Semnătură %@";
+/* Lines beneath typewritten signatures on documents.*/
+"CONSENT_DOC_LINE_PRINTED_NAME" = "Printed Name";
+"CONSENT_DOC_LINE_SIGNATURE" = "Signature";
 "CONSENT_DOC_LINE_DATE" = "Data";
 
 /* Progress indication (in navigation bar). */
 "STEP_PROGRESS_FORMAT" = "%1$@ din %2$@";
+
+/* Progress indication (in formItem section header). */
+"FORM_ITEM_PROGRESS" = "Întrebarea %1$@ din %2$@";
+
+/* ORKTaskReviewViewController */
+"REVIEW_SKIPPED_ANSWER" = "Omis";
+"REVIEW_EDIT_ANSWER" = "Edit";
 
 /* Alert for out of range values. */
 "RANGE_ALERT_TITLE" = "Valoare nevalidă";
@@ -92,7 +99,7 @@
 "LOCATION_ERROR_MESSAGE_LOCATION_UNKNOWN" = "Imposibil de rezolvat localizarea dvs. actuală. Introduceți o adresă sau mergeți într-un loc cu semnal GPS mai bun dacă este cazul.";
 "LOCATION_ERROR_MESSAGE_DENIED" = "Accesul la serviciile de localizare a fost refuzat. Acordați acestei aplicații permisiunea de a utiliza serviciile de localizare din Configurări.";
 "LOCATION_ERROR_GEOCODE" = "Imposibil de găsit un rezultat pentru adresa introdusă. Asigurați-vă că adresa este validă.";
-"LOCATION_ERROR_GEOCODE_NETWORK" = "Nu dispuneți de o conexiune la Internet sau ați depășit numărul maxim al solicitărilor de identificare a adreselor. Dacă nu dispuneți de conexiune la Internet, activați Wi-Fi pentru a răspunde la această întrebare, omiteți întrebarea dacă butonul de omitere este disponibil sau reveniți la chestionar după ce vă conectați la Internet. În caz contrar, reîncercați peste câteva minute.";
+"LOCATION_ERROR_GEOCODE_NETWORK" = "Nu dispuneți de o conexiune la internet sau ați depășit numărul maxim al solicitărilor de identificare a adreselor. Dacă nu dispuneți de conexiune la internet, activați Wi-Fi pentru a răspunde la această întrebare, omiteți întrebarea dacă butonul de omitere este disponibil sau reveniți la chestionar după ce vă conectați la internet. În caz contrar, reîncercați peste câteva minute.";
 
 /* Alert for exceeding length limit in text answer */
 "TEXT_ANSWER_EXCEEDING_MAX_LENGTH_ALERT_MESSAGE" = "Conținutul de text depășește lungimea maximă: %@";
@@ -201,6 +208,7 @@
 "BUTTON_CANCEL" = "Anulați";
 "BUTTON_OK" = "OK";
 "BUTTON_CLEAR" = "Degajați";
+"BUTTON_CLEAR_SIGNATURE" = "Degajați semnătura";
 "BUTTON_APPLY" = "Aplicați";
 "BUTTON_DISAGREE" = "Nu sunt de acord";
 "BUTTON_DONE" = "OK";
@@ -217,12 +225,13 @@
 "BUTTON_CLEAR_ANSWER" = "Degajați răspunsul";
 "BUTTON_READ_ONLY_MODE" = "Acest răspuns nu poate fi modificat.";
 "BUTTON_COPYRIGHT" = "Copyright";
+"BUTTON_CLOSE" = "Închideți";
 
 /* General active tasks. */
 "COUNTDOWN_LABEL" = "Activitatea începe în";
 "TASK_COMPLETE_TITLE" = "Activitate finalizată";
 "TASK_COMPLETE_TEXT" = "Datele dvs. vor fi analizate și veți primi o notificare atunci când rezultatele vor fi disponibile.";
-"COUNTDOWN_SPOKEN_REMAINING_%@" = "timp rămas: %@ secunde.";
+"COUNTDOWN_SPOKEN_REMAINING_%@" = "%@ rămase.";
 "TOUCH_ANYWHERE_LABEL" = "Apăsați oriunde pentru a continua";
 
 /* Image capture step. */
@@ -319,13 +328,40 @@
 
 /* dBHL Tone audiometry active task. */
 "dBHL_TONE_AUDIOMETRY_TASK_TITLE" = "Audiometrie tonală";
+"dBHL_TONE_AUDIOMETRY_TASK_TITLE_2" = "Apăsați când auziți un ton.";
+"dBHL_TONE_AUDIOMETRY_INTRO_TITLE" = "Ton și volum";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_1" = "Veți auzi o serie de tonuri.";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_2" = "Când auziți un ton, apăsați pe buton.";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_3" = "Pentru acest test, volumul va fi fixat la 50 la sută.";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_4" = "Acest test durează aproximatv 10 minute.";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_5" = "Activați opțiunea “Nu deranjați” pentru a evita întreruperire.";
+"dBHL_TONE_AUDIOMETRY_STEP_TITLE_RIGHT_EAR" = "Vor fi redate tonuri în urechea dvs. dreaptă.";
+"dBHL_TONE_AUDIOMETRY_STEP_TITLE_LEFT_EAR" = "Vor fi redate tonuri în urechea dvs. stângă.";
 "dBHL_TONE_AUDIOMETRY_INTENDED_USE" = "Această activitate identifică nivelul pragului auditiv al unei persoane în scala HL dB.";
 "dBHL_TONE_AUDIOMETRY_INTRO_TEXT" = "Asigurați-vă că volumul dispozitivului este la nivel maxim.\n\nPe durata sarcinii va fi redat un ton subtil în urechea stângă sau dreaptă.\n\nAscultați cu atenție și apăsați butonul de fiecare dată când auziți un ton.";
+"dBHL_TONE_AUDIOMETRY_INTRO_TEXT_2" = "Acest test determină cât de puternic trebuie să fie un sunet pentru a‑l putea auzi.";
 "dBHL_TONE_AUDIOMETRY_ONBOARDING" = "Chestionar de orientare.";
 "dBHL_TONE_AUDIOMETRY_ONBOARDING_QUESTION" = "Selectați preferința dvs. pentru urechea cu care auziți mai bine, dacă este cazul";
 "dBHL_TONE_AUDIOMETRY_OPTION_LEFT" = "stânga";
 "dBHL_TONE_AUDIOMETRY_OPTION_RIGHT" = "dreapta";
 "dBHL_TONE_AUDIOMETRY_OPTION_NO_PREFERENCE" = "nicio preferință";
+"dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "Test Cancelled";
+"dBHL_ALERT_TITLE_START_OVER" = "Reîncepe";
+"dBHL_ALERT_TITLE_CANCEL_TEST" = "Anulați testul";
+"dBHL_ALERT_TEXT" = "Reconnect your AirPods or EarPods to take this test.";
+"dBHL_PROGRESS_COMPLETION_%@" = "%@ Complete";
+
+/* Headphones. */
+"AIRPODS" = "AirPods";
+"EARPODS" = "EarPods";
+"HEADPHONES" = "Căști audio";
+"HEADPHONES_UNKNOWN" = "Necunoscut";
+"HEADPHONES_NONE" = "Nimic";
+"CONNECTED" = "Conectat";
+"NOT_CONNECTED" = "Not Connected";
+"HEADPHONE_CONNECTED_%@" = "Conectat - %@";
+"HEADPHONE_DETECT_TITLE" = "Conectați‑vă căștile audio";
+"HEADPHONE_DETECT_TEXT" = "This test requires Apple AirPods or Apple EarPods";
 
 /* Spatial span memory active task. */
 "SPATIAL_SPAN_MEMORY_TITLE" = "Memorie spațială";
@@ -395,12 +431,12 @@
 "KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_1_RIGHT" = "Așezați-vă pe marginea unui scaun. Când începeți, puneți-vă dispozitivul pe genunchiul drept pentru măsurătoare. Activați sunetul pe dispozitivul dvs. pentru a auzi instrucțiunile.";
 "KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_LEFT" = "Așezați dispozitivul pe genunchiul stâng cu ecranul în sus, ca în imagine.";
 "KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_RIGHT" = "Așezați dispozitivul pe genunchiul drept cu ecranul în sus, ca în imagine.";
-"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_LEFT" = "Când sunteți gata, apăsați ecranul pentru a începe și întindeți genunchiul stâng cât de mult puteți. Apăsați din nou când ați terminat.";
-"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_RIGHT" = "Când sunteți gata, apăsați ecranul pentru a începe și întindeți genunchiul drept cât de mult puteți. Apăsați din nou când ați terminat.";
-"KNEE_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_LEFT" = "Așezați dispozitivul pe genunchiul stâng";
-"KNEE_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_RIGHT" = "Așezați dispozitivul pe genunchiul drept";
-"KNEE_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_LEFT" = "Întindeți genunchiul stâng, apoi apăsați oriunde.";
-"KNEE_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_RIGHT" = "Întindeți genunchiul drept, apoi apăsați oriunde.";
+"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_LEFT" = "Când sunteți gata, apăsați ecranul pentru a începe și întindeți genunchiul stâng cât de mult puteți. Reveniți la poziția inițială și apăsați din nou când ați terminat.";
+"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_RIGHT" = "Când sunteți gata, apăsați ecranul pentru a începe și întindeți genunchiul drept cât de mult puteți. Reveniți la poziția inițială și apăsați din nou când ați terminat.";
+"KNEE_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_LEFT" = "Așezați dispozitivul pe genunchiul stâng. Apăsați ecranul și întindeți genunchiul stâng cât de mult puteți.";
+"KNEE_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_RIGHT" = "Așezați dispozitivul pe genunchiul drept. Apăsați ecranul și întindeți genunchiul drept cât de mult puteți.";
+"KNEE_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_LEFT" = "Când sunteți gata, readuceți genunchiul stâng în poziția inițială, apoi apăsați oriunde.";
+"KNEE_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_RIGHT" = "Când sunteți gata, readuceți genunchiul drept în poziția inițială, apoi apăsați oriunde.";
 
 /* Shoulder Range of Motion active task */
 "SHOULDER_RANGE_OF_MOTION_TITLE_LEFT" = "Amplitudinea mișcării umărului stâng";
@@ -411,12 +447,12 @@
 "SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_1_RIGHT" = "Când începeți, puneți-vă dispozitivul pe umărul drept pentru măsurătoare. Activați sunetul pe dispozitivul dvs. pentru a auzi instrucțiunile.";
 "SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_LEFT" = "Așezați dispozitivul pe umărul stâng cu ecranul în sus, ca în imagine.";
 "SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_RIGHT" = "Așezați dispozitivul pe umărul drept cu ecranul în sus, ca în imagine.";
-"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_LEFT" = "Când sunteți gata, apăsați ecranul pentru a începe și ridicați brațul stâng cât de mult puteți. Apăsați din nou când ați terminat.";
-"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_RIGHT" = "Când sunteți gata, apăsați ecranul pentru a începe și ridicați brațul drept cât de mult puteți. Apăsați din nou când ați terminat.";
-"SHOULDER_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_LEFT" = "Așezați dispozitivul pe umărul stâng";
-"SHOULDER_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_RIGHT" = "Așezați dispozitivul pe umărul drept";
-"SHOULDER_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_LEFT" = "Ridicați brațul stâng, apoi apăsați oriunde.";
-"SHOULDER_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_RIGHT" = "Ridicați brațul drept, apoi apăsați oriunde.";
+"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_LEFT" = "Când sunteți gata, apăsați ecranul pentru a începe și ridicați brațul stâng cât de mult puteți. Reveniți la poziția inițială și apăsați din nou când ați terminat.";
+"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_RIGHT" = "Când sunteți gata, apăsați ecranul pentru a începe și ridicați brațul drept cât de mult puteți. Reveniți la poziția inițială și apăsați din nou când ați terminat.";
+"SHOULDER_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_LEFT" = "Așezați dispozitivul pe umărul stâng. Apăsați ecranul și ridicați brațul stâng în față cât de mult puteți.";
+"SHOULDER_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_RIGHT" = "Așezați dispozitivul pe umărul drept. Apăsați ecranul și ridicați brațul drept în față cât de mult puteți.";
+"SHOULDER_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_LEFT" = "Când sunteți gata, readuceți brațul stâng în poziția inițială, apoi apăsați oriunde.";
+"SHOULDER_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_RIGHT" = "Când sunteți gata, readuceți brațul drept în poziția inițială, apoi apăsați oriunde.";
 
 /* Timed walk active task. */
 "TIMED_WALK_TITLE" = "Mers cronometrat";
@@ -563,9 +599,23 @@
 "ENVIRONMENTSPL_UNIT" = "dBA";
 "ENVIRONMENTSPL_CALCULATING" = "Calculare";
 "ENVIRONMENTSPL_THRESHOLD" = "Prag: %@ dBA";
+"ENVIRONMENTSPL_OK" = "Background Noise OK";
+"ENVIRONMENTSPL_NOISE" = "Zgomot de fundal excesiv";
+"ENVIRONMENTSPL_TITLE_2" = "Găsiți un loc liniștit";
+"ENVIRONMENTSPL_INTRO_TEXT_2" = "Pentru asigurarea preciziei, acest test trebuie efectuat într‑un loc tăcut.";
+
+/* Secondary Task Step*/
+"SECONDARY_TASK_START_BUTTON" = "Începeți sarcina";
 
 /* Charts */
 "CHART_NO_DATA_TEXT" = "Nu există date";
+
+/* Slider */
+"SLIDER_MOVE_SLIDER_FOR_VALUE" = "Deplasați glisorul pentru a introduce o valoare";
+"SLIDER_I_DONT_KNOW" = "Nu știu";
+
+/* Review Step */
+"REVIEW_STEP_PAGE" = "Pagină";
 
 /* Accessibility */
 "AX_BUTTON_BACK" = "Înapoi";
@@ -612,6 +662,7 @@
 "AX_TOWER_OF_HANOI_TOWER_CONTAINS" = "Are disc de mărime %@";
 "AX_TOWER_OF_HANOI_TOWER_EMPTY" = "Gol";
 
+"AX_DISMISS_KEYBOARD_CUSTOM_ACTION" = "Închideți tastatura";
 
 "AX_GRAPH_RANGE_FORMAT_%@_%@" = "Interval de la %@ la %@";
 "AX_GRAPH_STACK_PREFIX" = "Stiva compusă din";
@@ -626,8 +677,24 @@
 "AX_AMSLER_GRID_LABEL" = "Grilă Amsler";
 "AX_AMSLER_GRID_HINT" = "Utilizați degetul sau un stilou pentru a marca grila direct sau glisați spre stânga în exteriorul grilei pentru a termina.";
 
+"AX_TAP_BUTTON_DIRECT_TOUCH_AREA" = "Butoane pe care puteți apăsa";
+"AX_TONE_AUDIOMETRY_BUTTON_LEFT_EAR_LABEL" = "Apăsați pentru urechea stângă";
+"AX_TONE_AUDIOMETRY_BUTTON_LEFT_EAR_HINT" = "Activați pentru a începe testul. Când începe testul, apăsați direct pe acest buton atunci când auziți un sunet în urechea stângă.";
+"AX_TONE_AUDIOMETRY_BUTTON_RIGHT_EAR_LABEL" = "Apăsați pentru urechea dreaptă";
+"AX_TONE_AUDIOMETRY_BUTTON_RIGHT_EAR_HINT" = "Activați pentru a începe testul. Când începe testul, apăsați direct pe acest buton atunci când auziți un sunet în urechea dreaptă.";
 /* This contains the visual text, followed by a VoiceOver-specific description, followed by the visual text on the following page (since VoiceOver users may not have a chance to hear the visual text before needing to perform the actions). */
+"AX_TONE_AUDIOMETRY_PREP_TEXT_VOICEOVER" = "%@ Folosind VoiceOver, explorați tactil ecranul pentru a afla unde se află butoanele pentru fiecare ureche. Când începe testul, veți putea apăsa direct pe butoane.";
+"AX_TAP_BUTTON_1_LABEL" = "Apăsați pentru un deget";
+"AX_TAP_BUTTON_2_LABEL" = "Apăsați pentru alt deget";
+"AX_TAP_BUTTON_HINT" = "Activați pentru a putea apăsa direct pe butoane.";
 /* This contains the visual text, followed by a VoiceOver-specific description. */
+"AX_TAPPING_INSTRUCTION_VOICEOVER" = "%@ Folosind VoiceOver, explorați tactil ecranul pentru a afla unde se află butoanele. Activați oricare dintre butoane pentru a putea să le apăsați direct.";
+"AX_TAP_BUTTON_DIRECT_TOUCH_ANNOUNCEMENT" = "Acum puteți apăsa direct pe butoane.";
 /* This contains the visual text, followed by a VoiceOver-specific description. */
+"AX_dBHL_TONE_AUDIOMETRY_INTRO_TEXT" = "%@ Folosind VoiceOver, veți putea apăsa direct pe buton. Acesta va fi amplasat aproape de centrul ecranului.";
 
 /* This contains the visual text, followed by a VoiceOver-specific description. */
+"AX_TRAILMAKING_CALL_TO_ACTION_VOICEOVER" = "%@ Folosind VoiceOver, veți putea apăsa direct pe butoanele din test.";
+
+/* Restore error */
+"RESTORE_ERROR_CANNOT_DECODE" = "Datele nu pot fi decodate pentru inițializare";

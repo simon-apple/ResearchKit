@@ -69,13 +69,20 @@
 "CONSENT_SHARING_DESCRIPTION_%@" = "%@ otrzyma wyniki badań w zakresie wynikającym z Twojego udziału w tym badaniu.\n\nUdostępnianie zakodowanych wyników badań szerszej grupie odbiorców (bez informacji takich jak imię i nazwisko) może przynieść korzyści z tych i przyszłych badań.";
 "LEARN_MORE_CONSENT_SHARING" = "Więcej informacji o udostępnianiu danych";
 
-/* Lines beneath typewritten signatures on documents. Argument is the title of the signatory, e.g. "Participant's Signature" */
+/* Lines beneath typewritten signatures on documents.*/
 "CONSENT_DOC_LINE_PRINTED_NAME" = "%@ – imię i nazwisko (drukowane)";
 "CONSENT_DOC_LINE_SIGNATURE" = "%@ – podpis";
 "CONSENT_DOC_LINE_DATE" = "Data";
 
 /* Progress indication (in navigation bar). */
 "STEP_PROGRESS_FORMAT" = "%1$@ z %2$@";
+
+/* Progress indication (in formItem section header). */
+"FORM_ITEM_PROGRESS" = "PYTANIE %1$@ Z %2$@";
+
+/* ORKTaskReviewViewController */
+"REVIEW_SKIPPED_ANSWER" = "Pominięta";
+"REVIEW_EDIT_ANSWER" = "Edycja odpowiedzi";
 
 /* Alert for out of range values. */
 "RANGE_ALERT_TITLE" = "Nieprawidłowa wartość";
@@ -201,6 +208,7 @@
 "BUTTON_CANCEL" = "Anuluj";
 "BUTTON_OK" = "OK";
 "BUTTON_CLEAR" = "Wymaż";
+"BUTTON_CLEAR_SIGNATURE" = "Wymaż podpis";
 "BUTTON_APPLY" = "Zastosuj";
 "BUTTON_DISAGREE" = "Nie akceptuję";
 "BUTTON_DONE" = "Gotowe";
@@ -217,12 +225,13 @@
 "BUTTON_CLEAR_ANSWER" = "Wymaż odpowiedź";
 "BUTTON_READ_ONLY_MODE" = "Nie można modyfikować tej odpowiedzi.";
 "BUTTON_COPYRIGHT" = "Prawa autorskie";
+"BUTTON_CLOSE" = "Zamknij";
 
 /* General active tasks. */
 "COUNTDOWN_LABEL" = "Początek ćwiczenia za:";
 "TASK_COMPLETE_TITLE" = "Koniec ćwiczenia";
 "TASK_COMPLETE_TEXT" = "Twoje dane zostaną przeanalizowane i otrzymasz powiadomienie o wynikach.";
-"COUNTDOWN_SPOKEN_REMAINING_%@" = "Pozostało: %@ s.";
+"COUNTDOWN_SPOKEN_REMAINING_%@" = "Pozostało %@.";
 "TOUCH_ANYWHERE_LABEL" = "Aby kontynuować, dotknij w dowolnym miejscu";
 
 /* Image capture step. */
@@ -319,6 +328,8 @@
 
 /* dBHL Tone audiometry active task. */
 "dBHL_TONE_AUDIOMETRY_TASK_TITLE" = "Audiometria tonalna";
+"dBHL_TONE_AUDIOMETRY_STEP_TITLE_RIGHT_EAR" = "Dźwięki będą najpierw odtwarzane w prawym uchu.";
+"dBHL_TONE_AUDIOMETRY_STEP_TITLE_LEFT_EAR" = "Dźwięki będą teraz odtwarzane w lewym uchu.";
 "dBHL_TONE_AUDIOMETRY_INTENDED_USE" = "Ta czynność identyfikuje poziomy progu słuchu osoby w skali dB HL.";
 "dBHL_TONE_AUDIOMETRY_INTRO_TEXT" = "Ustaw głośność urządzenia na maksymalny poziom.\n\nPodczas tego zadania w lewym lub prawym uchu będzie odtwarzany delikatny dźwięk.\n\nSłuchaj uważnie i za każdym razem, gdy usłyszysz ten dźwięk, stuknij w przycisk.";
 "dBHL_TONE_AUDIOMETRY_ONBOARDING" = "Kwestionariusz wprowadzający.";
@@ -326,6 +337,19 @@
 "dBHL_TONE_AUDIOMETRY_OPTION_LEFT" = "lewe";
 "dBHL_TONE_AUDIOMETRY_OPTION_RIGHT" = "prawe";
 "dBHL_TONE_AUDIOMETRY_OPTION_NO_PREFERENCE" = "bez preferencji";
+"dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "Test przerwany";
+"dBHL_ALERT_TITLE_START_OVER" = "Zacznij od nowa";
+"dBHL_ALERT_TITLE_CANCEL_TEST" = "Anuluj test";
+"dBHL_ALERT_TEXT" = "Być może wystąpił problem ze słuchawkami.";
+
+/* Headphones. */
+"AIRPODS" = "AirPods";
+"EARPODS" = "EarPods";
+"HEADPHONES" = "Słuchawki";
+"HEADPHONES_UNKNOWN" = "Nieznane";
+"HEADPHONES_NONE" = "Brak";
+"CONNECTED" = "Połączono";
+"HEADPHONE_CONNECTED_%@" = "Połączono – %@";
 
 /* Spatial span memory active task. */
 "SPATIAL_SPAN_MEMORY_TITLE" = "Pamięć przestrzenna";
@@ -395,12 +419,12 @@
 "KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_1_RIGHT" = "Usiądź na krawędzi krzesła. Na początek umieścisz urządzenie na prawym kolanie w celu pomiaru. Włącz dźwięk w urządzeniu, aby słyszeć instrukcje.";
 "KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_LEFT" = "Umieść urządzenie na lewym kolanie, a ekran skieruj na zewnątrz, tak jak na ilustracji.";
 "KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_RIGHT" = "Umieść urządzenie na prawym kolanie, a ekran skieruj na zewnątrz, tak jak na ilustracji.";
-"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_LEFT" = "Gdy będziesz gotów, dotknij ekranu i rozpocznij rozciągać lewe kolano tak daleko, jak możesz. Gdy skończysz, stuknij ponownie.";
-"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_RIGHT" = "Gdy będziesz gotów, dotknij ekranu i rozpocznij rozciągać prawe kolano tak daleko, jak możesz. Gdy skończysz, stuknij ponownie.";
-"KNEE_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_LEFT" = "Umieść urządzenie na lewym kolanie";
-"KNEE_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_RIGHT" = "Umieść urządzenie na prawym kolanie";
-"KNEE_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_LEFT" = "Rozciągnij lewe kolano. Stuknij w dowolnym miejscu.";
-"KNEE_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_RIGHT" = "Rozciągnij prawe kolano. Stuknij w dowolnym miejscu.";
+"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_LEFT" = "Przygotuj się, stuknij w ekran i przesuń lewe kolano jak najdalej w lewo. Następnie ustaw je w pozycji początkowej. Gdy skończysz, stuknij ponownie w ekran.";
+"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_RIGHT" = "Przygotuj się, stuknij w ekran i przesuń prawe kolano jak najdalej w prawo. Następnie ustaw je w pozycji początkowej. Gdy skończysz, stuknij ponownie w ekran.";
+"KNEE_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_LEFT" = "Umieść urządzenie na lewym kolanie. Stuknij w ekran i przesuń lewe kolano jak najdalej w lewo.";
+"KNEE_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_RIGHT" = "Umieść urządzenie na prawym kolanie. Stuknij w ekran i przesuń prawe kolano jak najdalej w prawo.";
+"KNEE_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_LEFT" = "Gdy skończysz, ustaw lewe kolano w pozycji początkowej i stuknij w ekran.";
+"KNEE_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_RIGHT" = "Gdy skończysz, ustaw prawe kolano w pozycji początkowej i stuknij w ekran.";
 
 /* Shoulder Range of Motion active task */
 "SHOULDER_RANGE_OF_MOTION_TITLE_LEFT" = "Zasięg ruchu lewego ramienia";
@@ -411,12 +435,12 @@
 "SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_1_RIGHT" = "Na początek umieścisz urządzenie na prawym ramieniu w celu pomiaru. Włącz dźwięk w urządzeniu, aby słyszeć instrukcje.";
 "SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_LEFT" = "Umieść urządzenie na lewym ramieniu, a ekran skieruj na zewnątrz, tak jak na ilustracji.";
 "SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_RIGHT" = "Umieść urządzenie na prawym ramieniu, a ekran skieruj na zewnątrz, tak jak na ilustracji.";
-"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_LEFT" = "Gdy będziesz gotów, dotknij ekranu i zacznij unosić lewe ramię tak daleko, jak możesz. Gdy skończysz, stuknij ponownie.";
-"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_RIGHT" = "Gdy będziesz gotów, dotknij ekranu i zacznij unosić prawe ramię tak daleko, jak możesz. Gdy skończysz, stuknij ponownie.";
-"SHOULDER_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_LEFT" = "Umieść urządzenie na lewym ramieniu";
-"SHOULDER_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_RIGHT" = "Umieść urządzenie na prawym ramieniu";
-"SHOULDER_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_LEFT" = "Unieś lewe ramię. Następnie stuknij w dowolnym miejscu.";
-"SHOULDER_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_RIGHT" = "Unieś prawe ramię. Następnie stuknij w dowolnym miejscu.";
+"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_LEFT" = "Przygotuj się, stuknij w ekran i unieś lewe ramię jak najwyżej. Następnie ustaw je w pozycji początkowej. Gdy skończysz, stuknij ponownie w ekran.";
+"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_RIGHT" = "Przygotuj się, stuknij w ekran i unieś prawe ramię jak najwyżej. Następnie ustaw je w pozycji początkowej. Gdy skończysz, stuknij ponownie w ekran.";
+"SHOULDER_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_LEFT" = "Umieść urządzenie na lewym barku. Stuknij w ekran i unieś lewe ramię jak najwyżej.";
+"SHOULDER_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_RIGHT" = "Umieść urządzenie na prawym barku. Stuknij w ekran i unieś prawe ramię jak najwyżej.";
+"SHOULDER_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_LEFT" = "Gdy skończysz, ustaw lewe ramię w pozycji początkowej i stuknij w ekran.";
+"SHOULDER_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_RIGHT" = "Gdy skończysz, ustaw prawe ramię w pozycji początkowej i stuknij w ekran.";
 
 /* Timed walk active task. */
 "TIMED_WALK_TITLE" = "Chód na czas";
@@ -446,7 +470,7 @@
 "PASAT_INTRO_TEXT" = "Test PASAT mierzy szybkość przetwarzania danych audialnych i umiejętność liczenia.";
 "PVSAT_INTRO_TEXT" = "Test PVSAT mierzy szybkość przetwarzania danych wizualnych i umiejętność liczenia.";
 "PAVSAT_INTRO_TEXT" = "Test PAVSAT mierzy szybkość przetwarzania danych audiowizualnych i umiejętność liczenia.";
-"PSAT_INTRO_TEXT_2_%@" = "Zaprezentujemy pojedyncze cyfry zmieniające się po %@ sekundach.\nKażdą nową cyfrę musisz dodać do cyfry poprzedniej.\nUwaga, nie obliczaj łącznej sumy, lecz tylko sumę dwóch ostatnich cyfr.";
+"PSAT_INTRO_TEXT_2_%@" = "Zaprezentujemy liczby jednocyfrowe zmieniające się po %@ sekundach.\nKażdą nową liczbę musisz dodać do poprzedniej.\nUwaga: Nie obliczaj łącznej sumy, tylko sumę dwóch ostatnich liczb.";
 "PSAT_CALL_TO_ACTION" = "Aby rozpocząć, stuknij w Start.";
 "PSAT_INITIAL_INSTRUCTION" = "Zapamiętaj tę pierwszą cyfrę.";
 "PSAT_INSTRUCTION" = "Dodaj tę cyfrę do poprzedniej.";
@@ -563,9 +587,21 @@
 "ENVIRONMENTSPL_UNIT" = "dBA";
 "ENVIRONMENTSPL_CALCULATING" = "Obliczam";
 "ENVIRONMENTSPL_THRESHOLD" = "Próg: %@ dBA";
+"ENVIRONMENTSPL_OK" = "OK";
+"ENVIRONMENTSPL_NOISE" = "Zbyt głośne otoczenie";
+
+/* Secondary Task Step*/
+"SECONDARY_TASK_START_BUTTON" = "Start";
 
 /* Charts */
 "CHART_NO_DATA_TEXT" = "Brak danych";
+
+/* Slider */
+"SLIDER_MOVE_SLIDER_FOR_VALUE" = "Aby wprowadzić wartość, przesuń suwak";
+"SLIDER_I_DONT_KNOW" = "Nie wiem";
+
+/* Review Step */
+"REVIEW_STEP_PAGE" = "Strona";
 
 /* Accessibility */
 "AX_BUTTON_BACK" = "Wróć";
@@ -612,6 +648,7 @@
 "AX_TOWER_OF_HANOI_TOWER_CONTAINS" = "Zawiera krążki o rozmiarach %@";
 "AX_TOWER_OF_HANOI_TOWER_EMPTY" = "Pusta";
 
+"AX_DISMISS_KEYBOARD_CUSTOM_ACTION" = "Zamknij klawiaturę";
 
 "AX_GRAPH_RANGE_FORMAT_%@_%@" = "Zakres %@–%@";
 "AX_GRAPH_STACK_PREFIX" = "Stos złożony z";
@@ -626,8 +663,24 @@
 "AX_AMSLER_GRID_LABEL" = "Siatka Amsler";
 "AX_AMSLER_GRID_HINT" = "Palcem lub stylusem oznaczaj bezpośrednio na siatce, lub przesuń palcem w lewo poza siatkę, aby zakończyć.";
 
+"AX_TAP_BUTTON_DIRECT_TOUCH_AREA" = "Akty	wne przyciski";
+"AX_TONE_AUDIOMETRY_BUTTON_LEFT_EAR_LABEL" = "Stuknij (lewe ucho)";
+"AX_TONE_AUDIOMETRY_BUTTON_LEFT_EAR_HINT" = "Aktywuj, aby rozpocząć test. Podczas testu stuknij bezpośrednio w ten przycisk, gdy usłyszysz dźwięk w lewym uchu.";
+"AX_TONE_AUDIOMETRY_BUTTON_RIGHT_EAR_LABEL" = "Stuknij (prawo ucho)";
+"AX_TONE_AUDIOMETRY_BUTTON_RIGHT_EAR_HINT" = "Aktywuj, aby rozpocząć test. Podczas testu stuknij bezpośrednio w ten przycisk, gdy usłyszysz dźwięk w prawym uchu.";
 /* This contains the visual text, followed by a VoiceOver-specific description, followed by the visual text on the following page (since VoiceOver users may not have a chance to hear the visual text before needing to perform the actions). */
+"AX_TONE_AUDIOMETRY_PREP_TEXT_VOICEOVER" = "%@ Jeśli korzystasz z VoiceOver, możesz nawigować po ekranie, używając dotyku, i dowiedzieć się, gdzie znajdują się przyciski każdego z uszu. Po rozpoczęciu testu możesz stukać w te przyciski bezpośrednio. %@";
+"AX_TAP_BUTTON_1_LABEL" = "Stuknij (1 palec)";
+"AX_TAP_BUTTON_2_LABEL" = "Stuknij (inny palec)";
+"AX_TAP_BUTTON_HINT" = "Aktywuj, jeśli chcesz móc stukać w przyciski bezpośrednio.";
 /* This contains the visual text, followed by a VoiceOver-specific description. */
+"AX_TAPPING_INSTRUCTION_VOICEOVER" = "%@ Jeśli korzystasz z VoiceOver, możesz nawigować po ekranie, używając dotyku, i dowiedzieć się, gdzie znajdują się przyciski. Aktywuj każdy z przycisków, aby móc stukać w niego bezpośrednio.";
+"AX_TAP_BUTTON_DIRECT_TOUCH_ANNOUNCEMENT" = "Możesz teraz stukać w przyciski bezpośrednio.";
 /* This contains the visual text, followed by a VoiceOver-specific description. */
+"AX_dBHL_TONE_AUDIOMETRY_INTRO_TEXT" = "%@ Jeśli korzystasz z VoiceOver, będziesz mieć możliwość stukania w ten przycisk bezpośrednio (w środkowej części ekranu).";
 
 /* This contains the visual text, followed by a VoiceOver-specific description. */
+"AX_TRAILMAKING_CALL_TO_ACTION_VOICEOVER" = "%@ Jeśli korzystasz z VoiceOver, możesz stukać bezpośrednio w przyciski wyświetlane przez test.";
+
+/* Restore error */
+"RESTORE_ERROR_CANNOT_DECODE" = "Nie można odkodować restoreData na potrzeby inicjalizacji";
