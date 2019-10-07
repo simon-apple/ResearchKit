@@ -335,14 +335,11 @@ static const CGFloat iPadStepTitleLabelFontSize = 50.0;
 }
 
 - (void)setContinueButtonTitle:(NSString *)continueButtonTitle {
+    _continueButtonTitle = continueButtonTitle;
     self.internalContinueButtonItem.title = continueButtonTitle;
     self.internalDoneButtonItem.title = continueButtonTitle;
     
     self.continueButtonItem = self.internalContinueButtonItem;
-}
-
-- (NSString *)continueButtonTitle {
-    return self.continueButtonItem.title;
 }
 
 - (void)showActivityIndicatorInContinueButton:(BOOL)showActivityIndicator {

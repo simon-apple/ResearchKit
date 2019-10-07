@@ -158,7 +158,9 @@
 }
 
 - (void)useAppropriateButtonTitleAsLastBeginningInstructionStep {
-    self.internalContinueButtonItem.title = ORKLocalizedString(@"BUTTON_GET_STARTED", nil);
+    if (self.continueButtonTitle ==  nil) {
+        self.internalContinueButtonItem.title = ORKLocalizedString(@"BUTTON_GET_STARTED", nil);
+    }
 }
 
 - (void)setContinueButtonItem:(UIBarButtonItem *)continueButtonItem {
