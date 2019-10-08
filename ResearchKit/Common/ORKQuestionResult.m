@@ -82,10 +82,10 @@
 }
 
 - (NSObject *)validateAnswer:(id)answer {
-    if (answer == ORKNullAnswerValue() || answer == [ORKDontKnowAnswer answer]) {
+    if (answer == ORKNullAnswerValue()) {
         answer = nil;
     }
-    NSParameterAssert(!answer || [answer isKindOfClass:[[self class] answerClass]]);
+    NSParameterAssert(!answer || [answer isKindOfClass:[[self class] answerClass]] || [answer isKindOfClass:[ORKDontKnowAnswer class]]);
     return answer;
 }
 
@@ -624,10 +624,10 @@ static NSString *const RegionIdentifierKey = @"region.identifier";
 }
 
 - (void)setAnswer:(id)answer {
-    if (answer == ORKNullAnswerValue() || answer == [ORKDontKnowAnswer answer]) {
+    if (answer == ORKNullAnswerValue()) {
         answer = nil;
     }
-    NSAssert(!answer || [answer isKindOfClass:[[self class] answerClass]], @"Answer should be of class %@", NSStringFromClass([[self class] answerClass]));
+    NSAssert(!answer || [answer isKindOfClass:[[self class] answerClass]] || [answer isKindOfClass:[ORKDontKnowAnswer class]], @"Answer should be of class %@", NSStringFromClass([[self class] answerClass]));
     self.numericAnswer = answer;
 }
 

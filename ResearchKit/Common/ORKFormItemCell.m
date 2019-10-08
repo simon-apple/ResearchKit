@@ -410,6 +410,7 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
 - (ORKUnitTextField *)textField;
 
 @property (nonatomic, readonly) ORKTextFieldView *textFieldView;
+@property (nonatomic) ORKDontKnowButton *dontKnowButton;
 @property (nonatomic, assign) BOOL editingHighlight;
 @property (nonatomic) BOOL doneButtonWasPressed;
 
@@ -419,7 +420,6 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
 @implementation ORKFormItemTextFieldBasedCell {
     BOOL _shouldShowDontKnow;
     NSString *_customDontKnowString;
-    ORKDontKnowButton *_dontKnowButton;
     UIView *_dividerView;
     UIView *_dontKnowBackgroundView;
 }
@@ -528,6 +528,10 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     [self.containerView addSubview:_dontKnowBackgroundView];
     [self.containerView addSubview:_dontKnowButton];
     [self.containerView addSubview:_dividerView];
+    
+    if (self.answer == [ORKDontKnowAnswer answer]) {
+        [self dontKnowButtonWasPressed];
+    }
 }
 
 - (void)dontKnowButtonWasPressed {
@@ -923,7 +927,10 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     id answer = self.answer;
     
     ORKTextAnswerFormat *answerFormat = (ORKTextAnswerFormat *)[self.formItem impliedAnswerFormat];
-    if (answer != ORKNullAnswerValue()) {
+    if (answer == [ORKDontKnowAnswer answer]) {
+        [self.dontKnowButton setButtonActive];
+        self.textField.text = nil;
+    } else if (answer != ORKNullAnswerValue()) {
         if (!answer) {
             [self assignDefaultAnswer];
         }
@@ -1030,7 +1037,10 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
 
 - (void)answerDidChange {
     id answer = self.answer;
-    if (answer != ORKNullAnswerValue()) {
+    if (answer == [ORKDontKnowAnswer answer]) {
+        [self.dontKnowButton setButtonActive];
+        self.textField.text = nil;
+    } else if (answer != ORKNullAnswerValue()) {
         if (!answer) {
             [self assignDefaultAnswer];
         }
@@ -1381,9 +1391,7 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     id<ORKScaleAnswerFormatProvider> formatProvider = self.formatProvider;
     id answer = self.answer;
     if (answer && answer != ORKNullAnswerValue()) {
-        
         [_sliderView setCurrentAnswerValue:answer];
-
     } else {
         if (answer == nil && [formatProvider defaultAnswer]) {
             [_sliderView setCurrentAnswerValue:[formatProvider defaultAnswer]];
@@ -1437,6 +1445,7 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
 }
 
 - (void)answerDidChange {
+    
     self.picker.answer = (self.answer == [ORKDontKnowAnswer answer]) ? nil : self.answer;
     self.textField.text = self.picker.selectedLabelText;
 }

@@ -775,6 +775,7 @@ static const CGFloat kMargin = 25.0;
 - (void)dontKnowButtonWasPressed {
 
     if (_dontKnowButton && ![_dontKnowButton isDontKnowButtonActive]) {
+        [_slider setShowThumb:YES];
         [_dontKnowButton setButtonActive];
         _currentNumberValue = nil;
         [self notifyDelegate];
@@ -792,7 +793,6 @@ static const CGFloat kMargin = 25.0;
         [NSLayoutConstraint deactivateConstraints:constraints];
         [constraints removeAllObjects];
         [self setUpConstraints];
-        
         _slider.value =  [_formatProvider minimumNumber].floatValue;
     }
 }
@@ -840,7 +840,9 @@ static const CGFloat kMargin = 25.0;
 }
 
 - (void)setCurrentAnswerValue:(id)currentAnswerValue {
-    if ([self textScaleFormatProvider]) {
+    if (currentAnswerValue == [ORKDontKnowAnswer answer] && _dontKnowButton) {
+        [self dontKnowButtonWasPressed];
+    } else if ([self textScaleFormatProvider]) {
         
         if (ORKIsAnswerEmpty(currentAnswerValue)) {
             [self setCurrentTextChoiceValue:nil];
@@ -850,6 +852,7 @@ static const CGFloat kMargin = 25.0;
     } else {
         [self setCurrentNumberValue:currentAnswerValue];
     }
+    
 }
 
 #pragma mark - Accessibility

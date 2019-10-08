@@ -90,8 +90,7 @@ static const CGFloat DontKnowButtonBottomPaddingOffset = 10.0;
         [_tempPicker removeFromSuperview];
         _tempPicker = nil;
         
-        ORKDateAnswerFormat *dateAnswerFormat = (ORKDateAnswerFormat *)self.step.answerFormat;
-        if (dateAnswerFormat && [dateAnswerFormat shouldShowDontKnowButton]) {
+        if ([self.step.answerFormat shouldShowDontKnowButton] && !_dontKnowButton) {
             [self setupDontKnowButton];
         }
         
@@ -119,6 +118,10 @@ static const CGFloat DontKnowButtonBottomPaddingOffset = 10.0;
     
     _dontKnowButton.translatesAutoresizingMaskIntoConstraints = NO;
     _dividerView.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    if (self.answer == [ORKDontKnowAnswer answer]) {
+        [self dontKnowButtonWasPressed];
+    }
 }
 
 - (void)dontKnowButtonWasPressed {
@@ -156,7 +159,9 @@ static const CGFloat DontKnowButtonBottomPaddingOffset = 10.0;
 }
 
 - (void)answerDidChange {
-    [_picker setAnswer:self.answer];
+    if (self.answer != [ORKDontKnowAnswer answer]) {
+      [_picker setAnswer:self.answer];
+    }
 }
 
 - (void)valueChangedDueUserAction:(BOOL)userAction {
