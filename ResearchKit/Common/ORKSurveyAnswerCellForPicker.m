@@ -44,7 +44,6 @@ static const CGFloat DontKnowButtonBottomPaddingOffset = 10.0;
 
 
 @interface ORKSurveyAnswerCellForPicker () <ORKPickerDelegate, UIPickerViewDelegate> {
-    UIPickerView *_tempPicker;
     BOOL _valueChangedDueUserAction;
 }
 
@@ -62,15 +61,7 @@ static const CGFloat DontKnowButtonBottomPaddingOffset = 10.0;
 - (void)prepareView {
     [super prepareView];
     
-    // Add a temporary picker view to show the lines the date picker will have
-    if (!_tempPicker && !self.picker) {
-        _tempPicker = [UIPickerView new];
-        _tempPicker.delegate = self;
-        [self addSubview:_tempPicker];
-        
-        [self setupConstraintsForView:_tempPicker];
-    }
-    
+    [self loadPicker];
     _valueChangedDueUserAction = NO;
 }
 
@@ -85,10 +76,6 @@ static const CGFloat DontKnowButtonBottomPaddingOffset = 10.0;
         [self.picker pickerWillAppear];
         
         [self addSubview:_picker.pickerView];
-        
-        // Removing _tempPicker automatically removes its constraints
-        [_tempPicker removeFromSuperview];
-        _tempPicker = nil;
         
         if ([self.step.answerFormat shouldShowDontKnowButton] && !_dontKnowButton) {
             [self setupDontKnowButton];
@@ -192,7 +179,7 @@ static const CGFloat DontKnowButtonBottomPaddingOffset = 10.0;
 #pragma mark UIPickerViewDelegate
 
 - (CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component {
-    assert(pickerView == _tempPicker);
+    assert(pickerView == _picker.pickerView);
     return 32;
 }
 

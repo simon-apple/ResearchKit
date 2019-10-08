@@ -449,12 +449,6 @@ static const CGFloat DelayBeforeAutoScroll = 0.25;
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    // Delay creating the date picker until the view has appeared (to avoid animation stutter)
-    ORKSurveyAnswerCellForPicker *cell = (ORKSurveyAnswerCellForPicker *)[(ORKQuestionStepCellHolderView *)_questionView.questionCustomView cell];
-    if ([cell isKindOfClass:[ORKSurveyAnswerCellForPicker class]]) {
-        [cell loadPicker];
-    }
-    
     _visible = YES;
     
     UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, nil);
