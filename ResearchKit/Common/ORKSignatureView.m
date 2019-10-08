@@ -185,6 +185,7 @@ static const CGFloat LineWidthStepValue = 0.25f;
     }
     self.layer.borderWidth = 1.0;
     self.layer.cornerRadius = 10.0;
+    self.clipsToBounds = YES;
     
     [self makeSignatureGestureRecognizer];
     [self setUpConstraints];
