@@ -417,8 +417,8 @@ static const float FirstSectionHeaderPadding = 24.0;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if ((_isCompleted == NO) && (indexPath.row == 0)) {
-        if (_delegate && [_delegate respondsToSelector:@selector(didSelectIncompleteCell)]) {
-            [_delegate didSelectIncompleteCell];
+        if (_delegate && [_delegate respondsToSelector:@selector(reviewViewControllerDidSelectIncompleteCell:)]) {
+            [_delegate reviewViewControllerDidSelectIncompleteCell:self];
         }
     }
     
@@ -429,8 +429,9 @@ static const float FirstSectionHeaderPadding = 24.0;
 
 - (void)taskViewController:(ORKTaskViewController *)taskViewController didFinishWithReason:(ORKTaskViewControllerFinishReason)reason error:(NSError *)error {
     if (reason == ORKTaskViewControllerFinishReasonCompleted) {
-        if (_delegate && [_delegate respondsToSelector:@selector(resultModifiedForReviewViewController:withSource:updatedResult:)]) {
-            [_delegate resultModifiedForReviewViewController:self withSource:(ORKTaskResult *)_resultSource updatedResult:taskViewController.result];
+        if (_delegate && [_delegate respondsToSelector:@selector(reviewViewController:didUpdateResult:source:)]) {
+            ORKTaskResult *taskResult = ORKDynamicCast(_resultSource, ORKTaskResult);
+            [_delegate reviewViewController:self didUpdateResult:taskViewController.result source:taskResult];
         }
     }
     [taskViewController dismissViewControllerAnimated:YES completion:nil];

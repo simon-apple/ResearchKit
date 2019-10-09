@@ -45,12 +45,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol ORKReviewViewControllerDelegate <NSObject>
 
-//TODO: Leaving optional until further discussion.
-//@required
+@required
+- (void)reviewViewController:(ORKReviewViewController *)reviewViewController didUpdateResult:(ORKTaskResult *)updatedResult source:(ORKTaskResult *)resultSource;
+- (void)reviewViewControllerDidSelectIncompleteCell:(ORKReviewViewController *)reviewViewController;
 @optional
-- (void)resultModifiedForReviewViewController:(ORKReviewViewController *)reviewViewController withSource:(ORKTaskResult *)resultSource updatedResult:(ORKTaskResult *)updatedResult;
 - (void)taskViewController:(ORKTaskViewController *)taskViewController learnMoreButtonPressedWithStep:(ORKLearnMoreInstructionStep *)learnMoreStep;
-- (void)didSelectIncompleteCell;
 @end
 
 ORK_CLASS_AVAILABLE
