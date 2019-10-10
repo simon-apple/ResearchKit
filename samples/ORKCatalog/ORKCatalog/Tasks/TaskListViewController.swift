@@ -219,6 +219,14 @@ extension TaskListViewController: ORKReviewViewControllerDelegate {
         return resultSourceCopy
     }
     
+    func reviewViewControllerDidSelectIncompleteCell(_ reviewViewController: ORKReviewViewController) {
+        //todo: handle delegate function
+    }
+    
+    func reviewViewController(_ reviewViewController: ORKReviewViewController, didUpdate updatedResult: ORKTaskResult, source resultSource: ORKTaskResult) {
+        //todo: handle delegate function
+    }
+    
     func resultModified(for reviewViewController: ORKReviewViewController, withSource resultSource: ORKTaskResult, updatedResult: ORKTaskResult) {
         if let stepResult = updatedResult.results?.first as? ORKStepResult {
             groupedFormTaskResult = self.mapStepResult(stepResult: stepResult, resultSource: resultSource)

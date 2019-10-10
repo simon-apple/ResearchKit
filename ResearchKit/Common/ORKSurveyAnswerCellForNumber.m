@@ -121,6 +121,10 @@ static const CGFloat DontKnowButtonTopBottomPadding = 16.0;
         
         [self addSubview:_dontKnowButton];
         [self addSubview:_dividerView];
+        
+        if (self.answer == [ORKDontKnowAnswer answer]) {
+            [_dontKnowButton setButtonActive];
+        }
     }
    
     self.layoutMargins = ORKStandardLayoutMarginsForTableViewCell(self);
@@ -146,6 +150,7 @@ static const CGFloat DontKnowButtonTopBottomPadding = 16.0;
     if (![_dontKnowButton isDontKnowButtonActive]) {
         [_dontKnowButton setButtonActive];
         [_textFieldView.textField setText:nil];
+        [_textFieldView endEditing:YES];
         [self textFieldShouldClear:_textFieldView.textField];
     }
 }
@@ -238,15 +243,18 @@ static const CGFloat DontKnowButtonTopBottomPadding = 16.0;
     id answer = self.answer;
     ORKAnswerFormat *answerFormat = [self.step impliedAnswerFormat];
     ORKNumericAnswerFormat *numericAnswerFormat = ORKDynamicCast(answerFormat, ORKNumericAnswerFormat);
-    
+
     _defaultNumericAnswer = numericAnswerFormat.defaultNumericAnswer;
     NSString *placeholder = numericAnswerFormat.placeholder ? :
-        (self.step.placeholder ? : ORKLocalizedString(@"PLACEHOLDER_TEXT_OR_NUMBER", nil));
+    (self.step.placeholder ? : ORKLocalizedString(@"PLACEHOLDER_TEXT_OR_NUMBER", nil));
 
     self.textField.manageUnitAndPlaceholder = YES;
     self.textField.unit = numericAnswerFormat.unit;
     self.textField.placeholder = placeholder;
-    if (answer != ORKNullAnswerValue()) {
+
+    if (answer == [ORKDontKnowAnswer answer]) {
+        [self dontKnowButtonWasPressed];
+    } else if (answer != ORKNullAnswerValue() && ![_dontKnowButton isDontKnowButtonActive]) {
         if (!answer) {
             [self assignDefaultAnswer];
         }
@@ -255,7 +263,6 @@ static const CGFloat DontKnowButtonTopBottomPadding = 16.0;
             if ([answer isKindOfClass:[NSNumber class]]) {
                 displayValue = [_numberFormatter stringFromNumber:answer];
             }
-            
             self.textField.text = displayValue;
         }
     }
