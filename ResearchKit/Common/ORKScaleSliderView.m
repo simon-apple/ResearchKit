@@ -203,6 +203,8 @@ static const CGFloat kMargin = 25.0;
     _moveSliderLabel = [UILabel new];
     _moveSliderLabel.text = ORKLocalizedString(@"SLIDER_MOVE_SLIDER_FOR_VALUE", nil);
     _moveSliderLabel.textAlignment = NSTextAlignmentLeft;
+    _moveSliderLabel.numberOfLines = 0;
+    _moveSliderLabel.lineBreakMode = NSLineBreakByWordWrapping;
     UIFontDescriptor *moveSliderDescriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleFootnote];
     UIFontDescriptor *moveSliderFontDescriptor = [moveSliderDescriptor fontDescriptorWithSymbolicTraits:(UIFontDescriptorTraitBold)];
     [_moveSliderLabel setFont: [UIFont fontWithDescriptor:moveSliderFontDescriptor size:[[moveSliderFontDescriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]]];
