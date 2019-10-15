@@ -34,7 +34,7 @@
 "CONSENT_NAME_FAMILY" = "Sobrenome";
 "CONSENT_NAME_PLACEHOLDER" = "Obrigatório";
 "CONSENT_REVIEW_TITLE" = "Revisar";
-"CONSENT_REVIEW_INSTRUCTION" = "Analise o formulário abaixo e toque em Aceitar se estiver pronto para continuar.";
+"CONSENT_REVIEW_INSTRUCTION" = "Review the form below, and tap Agree if you’re ready to continue.";
 "CONSENT_REVIEW_ALERT_TITLE" = "Revisar";
 "CONSENT_SIGNATURE_TITLE" = "Assinatura";
 "CONSENT_SIGNATURE_INSTRUCTION" = "Assine com o seu dedo na caixa abaixo.";
@@ -58,7 +58,7 @@
 "LEARN_MORE_PRIVACY" = "Saiba mais sobre como sua privacidade e sua identidade são protegidas";
 "LEARN_MORE_WELCOME" = "Antes, saiba mais sobre o estudo";
 "LEARN_MORE_STUDY_SURVEY" = "Saiba mais sobre a pesquisa de opinião";
-"LEARN_MORE_TIME_COMMITMENT" = "Saiba mais sobre o impacto do estudo sobre o seu tempo";
+"LEARN_MORE_TIME_COMMITMENT" = "Learn more about the study’s impact on your time";
 "LEARN_MORE_TASKS" = "Saiba mais sobre as tarefas envolvidas";
 "LEARN_MORE_WITHDRAWING" = "Saiba mais sobre a desistência";
 
@@ -254,7 +254,7 @@
 "FITNESS_SIT_INSTRUCTION_FORMAT" = "Sente confortavelmente por %@.";
 "FITNESS_WALK_INSTRUCTION_FORMAT" = "Ande o mais rápido que conseguir por %@.";
 "FITNESS_INTRO_TEXT_FORMAT" = "Esta atividade monitora a sua pulsação e mede o quão longe você consegue andar em %1$@.";
-"FITNESS_INTRO_2_TEXT_FORMAT" = "Ande ao ar livre o mais rápido que conseguir por %1$@. Ao terminar, sente e descanse confortavelmente por %2$@. Para começar, toque em Iniciar.";
+"FITNESS_INTRO_2_TEXT_FORMAT" = "Walk outdoors at your fastest possible pace for %1$@. When you’re done, sit and rest comfortably for %2$@. To begin, tap Get Started.";
 
 /* Short walk active task. */
 "WALK_TASK_TITLE" = "Caminhada e Equilíbrio";
@@ -296,7 +296,7 @@
 
 /* Amsler Grid Task.*/
 "AMSLER_GRID_TITLE" = "Tela de Amsler";
-"AMSLER_GRID_INTRO_TEXT" = "Esta atividade ajuda a detectar problemas na visão do usuário.";
+"AMSLER_GRID_INTRO_TEXT" = "This activity helps in detecting problems in user’s vision.";
 "AMSLER_GRID_INSTRUCTION_TEXT" = "Mantenha o dispositivo a 30 centímetros do seu rosto, no nível dos olhos, durante todo o teste.";
 "AMSLER_GRID_INSTRUCTION_DETAIL_TEXT" = "Feche o %@ e olhe fixamente para o ponto no centro da grade quadrada.\n\nCom o dedo ou uma caneta stylus, marque quaisquer distorções que você vê, como linhas desfocadas ou onduladas.\n\nQuando terminar, deslize para a esquerda em qualquer lugar fora da grade.";
 "AMSLER_GRID_LEFT_EYE" = "Olho Esquerdo";
@@ -379,7 +379,7 @@
 "MEMORY_GAME_COMPLETE_TITLE" = "Sequência Concluída";
 "MEMORY_GAME_COMPLETE_MESSAGE" = "Para continuar, toque em Seguinte";
 "MEMORY_GAME_FAILED_TITLE" = "Tentar Novamente";
-"MEMORY_GAME_FAILED_MESSAGE" = "Não foi desta vez. Toque em Seguinte para continuar.";
+"MEMORY_GAME_FAILED_MESSAGE" = "You didn’t quite make it through that time. Tap Next to continue.";
 "MEMORY_GAME_TIMEOUT_TITLE" = "O Tempo Acabou";
 "MEMORY_GAME_TIMEOUT_MESSAGE" = "O tempo acabou.\nToque em Seguinte para continuar.";
 "MEMORY_GAME_COMPLETE" = "Jogo Concluído";
@@ -457,7 +457,7 @@
 /* Timed walk active task. */
 "TIMED_WALK_TITLE" = "Caminhada Cronometrada";
 "TIMED_WALK_INTRO_DETAIL" = "Esta atividade mede o funcionamento das suas extremidades inferiores.";
-"TIMED_WALK_INTRO_2_TEXT_%@" = "Encontre um local, de preferência ao ar livre, onde você possa andar por %@ em linha reta o mais rápido que puder com segurança. Não desacelere até ultrapassar a linha de chegada.";
+"TIMED_WALK_INTRO_2_TEXT_%@" = "Find a place, preferably outside, where you can walk for about %@ in a straight line as quickly as possible, but safely. Do not slow down until after you’ve passed the finish line.";
 "TIMED_WALK_INTRO_2_DETAIL" = "Toque em Seguinte para começar.";
 "TIMED_WALK_FORM_TITLE" = "Dispositivo assistivo";
 "TIMED_WALK_FORM_TEXT" = "Use o mesmo dispositivo assistivo para cada teste.";
@@ -482,7 +482,7 @@
 "PASAT_INTRO_TEXT" = "O Teste de Adição Sequencial de Audição Medida processa a velocidade e capacidade de calcular para medir suas informações auditivas.";
 "PVSAT_INTRO_TEXT" = "O Teste de Adição Sequencial de Visão Medida processa a velocidade e capacidade de calcular para medir suas informações visuais.";
 "PAVSAT_INTRO_TEXT" = "O Teste de Adição Sequencial de Audição e Visão mede suas informações auditivas e visuais processando a velocidade e a capacidade de calcular.";
-"PSAT_INTRO_TEXT_2_%@" = "Dígitos únicos são apresentados a cada %@.\nVocê deve adicionar cada novo dígito ao dígito anterior.\nAtenção, não calcule um total cumulativo, apenas a soma dos últimos dois números.";
+"PSAT_INTRO_TEXT_2_%@" = "Single digits are presented every %@.\nYou must add each new digit to the one immediately prior to it.\nAttention, you mustn’t calculate a running total, but only the sum of the last two numbers.";
 "PSAT_CALL_TO_ACTION" = "Toque em Iniciar para começar.";
 "PSAT_INITIAL_INSTRUCTION" = "Memorize este primeiro dígito.";
 "PSAT_INSTRUCTION" = "Adicione esse novo dígito ao anterior.";
@@ -612,7 +612,7 @@
 
 /* Slider */
 "SLIDER_MOVE_SLIDER_FOR_VALUE" = "Mova o controle deslizante para inserir o valor";
-"SLIDER_I_DONT_KNOW" = "Não Sei";
+"SLIDER_I_DONT_KNOW" = "I Don’t Know";
 
 /* Review Step */
 "REVIEW_STEP_PAGE" = "Página";
@@ -636,6 +636,7 @@
 
 "AX_SELECTED" = "Selecionado";
 "AX_UNSELECTED" = "Não selecionado";
+"AX_SELECT_ALL_THAT_APPLY" = "SELECT ALL THAT APPLY";
 
 "AX_SLIDER_LABEL" = "Controle de resposta. Os valores vão de %@ a %@";
 "AX_UNLABELED_IMAGE" = "Imagem sem rótulo";

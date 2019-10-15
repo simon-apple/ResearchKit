@@ -34,7 +34,7 @@
 "CONSENT_NAME_FAMILY" = "姓氏";
 "CONSENT_NAME_PLACEHOLDER" = "必填";
 "CONSENT_REVIEW_TITLE" = "檢視";
-"CONSENT_REVIEW_INSTRUCTION" = "檢視下方的表單，準備好繼續時請點一下「同意」。";
+"CONSENT_REVIEW_INSTRUCTION" = "Review the form below, and tap Agree if you’re ready to continue.";
 "CONSENT_REVIEW_ALERT_TITLE" = "檢視";
 "CONSENT_SIGNATURE_TITLE" = "簽名";
 "CONSENT_SIGNATURE_INSTRUCTION" = "請使用手指在下方的方框內簽名。";
@@ -58,7 +58,7 @@
 "LEARN_MORE_PRIVACY" = "進一步瞭解隱私權和識別身分如何被保護";
 "LEARN_MORE_WELCOME" = "開始前先瞭解研究內容";
 "LEARN_MORE_STUDY_SURVEY" = "進一步瞭解研究問卷";
-"LEARN_MORE_TIME_COMMITMENT" = "進一步瞭解研究需花費的時間";
+"LEARN_MORE_TIME_COMMITMENT" = "Learn more about the study’s impact on your time";
 "LEARN_MORE_TASKS" = "進一步瞭解相關的任務";
 "LEARN_MORE_WITHDRAWING" = "進一步瞭解如何退出調查";
 
@@ -70,8 +70,7 @@
 "LEARN_MORE_CONSENT_SHARING" = "進一步瞭解資料分享";
 
 /* Lines beneath typewritten signatures on documents.*/
-"CONSENT_DOC_LINE_PRINTED_NAME" = "%@的姓名（工整書寫）";
-"CONSENT_DOC_LINE_SIGNATURE" = "%@的簽名";
+"CONSENT_DOC_LINE_PRINTED_NAME" = "印表機名稱";
 "CONSENT_DOC_LINE_DATE" = "日期";
 
 /* Progress indication (in navigation bar). */
@@ -82,7 +81,7 @@
 
 /* ORKTaskReviewViewController */
 "REVIEW_SKIPPED_ANSWER" = "已略過";
-"REVIEW_EDIT_ANSWER" = "編輯答案";
+"REVIEW_EDIT_ANSWER" = "Edit";
 
 /* Alert for out of range values. */
 "RANGE_ALERT_TITLE" = "無效值";
@@ -254,7 +253,7 @@
 "FITNESS_SIT_INSTRUCTION_FORMAT" = "輕鬆坐著%@。";
 "FITNESS_WALK_INSTRUCTION_FORMAT" = "以最快的速度步行%@。";
 "FITNESS_INTRO_TEXT_FORMAT" = "此活動會監控您的心率並測量您在%1$@內最快的步行速度。";
-"FITNESS_INTRO_2_TEXT_FORMAT" = "以最快的配速在室外步行%1$@。完成後，請輕鬆坐下並休息%2$@。若要開始，請點一下「開始測試」。";
+"FITNESS_INTRO_2_TEXT_FORMAT" = "Walk outdoors at your fastest possible pace for %1$@. When you’re done, sit and rest comfortably for %2$@. To begin, tap Get Started.";
 
 /* Short walk active task. */
 "WALK_TASK_TITLE" = "步態和平衡";
@@ -296,7 +295,7 @@
 
 /* Amsler Grid Task.*/
 "AMSLER_GRID_TITLE" = "阿姆斯勒方格表";
-"AMSLER_GRID_INTRO_TEXT" = "此活動有助於偵測使用者的視力問題。";
+"AMSLER_GRID_INTRO_TEXT" = "This activity helps in detecting problems in user’s vision.";
 "AMSLER_GRID_INSTRUCTION_TEXT" = "測試期間，請將裝置放在離臉約30公分遠的距離，且需平視。";
 "AMSLER_GRID_INSTRUCTION_DETAIL_TEXT" = "關閉您的%@並注視方格中央的圓點。\n\n使用手指或筆標出您所看見扭曲的地方，例如模糊或波浪線條。\n\n完成時，請在方格外任意位置向左滑動。";
 "AMSLER_GRID_LEFT_EYE" = "左眼";
@@ -328,19 +327,28 @@
 
 /* dBHL Tone audiometry active task. */
 "dBHL_TONE_AUDIOMETRY_TASK_TITLE" = "純音聽力檢查";
+"dBHL_TONE_AUDIOMETRY_TASK_TITLE_2" = "聽到聲音時請點一下。";
+"dBHL_TONE_AUDIOMETRY_INTRO_TITLE" = "聲音與音量";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_1" = "您將會聽到一連串的聲音。";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_2" = "聽到聲音時，請點一下按鈕。";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_3" = "音量在本測試中會設為百分之五十。";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_4" = "本測試會花上大約10分鐘的時間。";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_5" = "開啟「勿擾模式」來避免干擾。";
 "dBHL_TONE_AUDIOMETRY_STEP_TITLE_RIGHT_EAR" = "現在會在您的右耳播放聲音。";
 "dBHL_TONE_AUDIOMETRY_STEP_TITLE_LEFT_EAR" = "現在會在您的左耳播放聲音。";
 "dBHL_TONE_AUDIOMETRY_INTENDED_USE" = "此活動會識別每個人的聽閾線，單位為dB HL量程。";
 "dBHL_TONE_AUDIOMETRY_INTRO_TEXT" = "確定裝置音量已設到最大聲。\n\n此任務期間，會在左耳或右耳播放微弱的音調。\n\n請仔細聆聽，並在每次聽到音調時點一下按鈕。";
+"dBHL_TONE_AUDIOMETRY_INTRO_TEXT_2" = "本測試會辨識音量需要多大才能讓您聽到。";
 "dBHL_TONE_AUDIOMETRY_ONBOARDING" = "新手問卷調查。";
 "dBHL_TONE_AUDIOMETRY_ONBOARDING_QUESTION" = "如有需要，請選擇「聽力較好的耳朵」偏好設定";
 "dBHL_TONE_AUDIOMETRY_OPTION_LEFT" = "左側";
 "dBHL_TONE_AUDIOMETRY_OPTION_RIGHT" = "右側";
 "dBHL_TONE_AUDIOMETRY_OPTION_NO_PREFERENCE" = "無偏好";
-"dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "測試中斷";
+"dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "測試已取消";
 "dBHL_ALERT_TITLE_START_OVER" = "重新開始";
 "dBHL_ALERT_TITLE_CANCEL_TEST" = "取消測試";
-"dBHL_ALERT_TEXT" = "您的耳機發生問題。";
+"dBHL_ALERT_TEXT" = "重新連接AirPods或EarPods來進行測試。";
+"dBHL_PROGRESS_COMPLETION_%@" = "%@ Complete";
 
 /* Headphones. */
 "AIRPODS" = "AirPods";
@@ -349,7 +357,10 @@
 "HEADPHONES_UNKNOWN" = "未知";
 "HEADPHONES_NONE" = "無";
 "CONNECTED" = "已連線";
+"NOT_CONNECTED" = "Not Connected";
 "HEADPHONE_CONNECTED_%@" = "已連線 - %@";
+"HEADPHONE_DETECT_TITLE" = "連接您的耳機";
+"HEADPHONE_DETECT_TEXT" = "此測試需要Apple AirPods或Apple EarPods";
 
 /* Spatial span memory active task. */
 "SPATIAL_SPAN_MEMORY_TITLE" = "空間記憶";
@@ -367,7 +378,7 @@
 "MEMORY_GAME_COMPLETE_TITLE" = "完成順序";
 "MEMORY_GAME_COMPLETE_MESSAGE" = "若要繼續，請點「下一步」";
 "MEMORY_GAME_FAILED_TITLE" = "再試一次";
-"MEMORY_GAME_FAILED_MESSAGE" = "您這次未成功。點「下一步」來繼續。";
+"MEMORY_GAME_FAILED_MESSAGE" = "You didn’t quite make it through that time. Tap Next to continue.";
 "MEMORY_GAME_TIMEOUT_TITLE" = "時間到了";
 "MEMORY_GAME_TIMEOUT_MESSAGE" = "您的時間用完了。\n點「下一步」來繼續。";
 "MEMORY_GAME_COMPLETE" = "遊戲完成";
@@ -445,7 +456,7 @@
 /* Timed walk active task. */
 "TIMED_WALK_TITLE" = "定時步行";
 "TIMED_WALK_INTRO_DETAIL" = "此活動會測量您的下肢功能。";
-"TIMED_WALK_INTRO_2_TEXT_%@" = "請找到一個地方（最好在室外）可讓您快速安全地直線步行約%@。通過終點線前請勿放慢速度。";
+"TIMED_WALK_INTRO_2_TEXT_%@" = "Find a place, preferably outside, where you can walk for about %@ in a straight line as quickly as possible, but safely. Do not slow down until after you’ve passed the finish line.";
 "TIMED_WALK_INTRO_2_DETAIL" = "點「下一步」來開始。";
 "TIMED_WALK_FORM_TITLE" = "輔具";
 "TIMED_WALK_FORM_TEXT" = "每次測試時請使用相同的輔具。";
@@ -470,7 +481,7 @@
 "PASAT_INTRO_TEXT" = "連續聽覺序列附加測試（PASAT）會測量您的聽覺資訊處理速度和計算能力。";
 "PVSAT_INTRO_TEXT" = "連續視覺序列附加測試（PVSAT）會測量您的視覺資訊處理速度和計算能力。";
 "PAVSAT_INTRO_TEXT" = "連續聽覺序列附加測試（PAVSAT）會測量您的視聽覺資訊處理速度和計算能力。";
-"PSAT_INTRO_TEXT_2_%@" = "每%@秒會顯示單一數字。\n您必須將新的數字與前一個數字相加。\n注意：您不能計算所有的數字總和，只需計算前兩個數字的總和。";
+"PSAT_INTRO_TEXT_2_%@" = "Single digits are presented every %@.\nYou must add each new digit to the one immediately prior to it.\nAttention, you mustn’t calculate a running total, but only the sum of the last two numbers.";
 "PSAT_CALL_TO_ACTION" = "點一下「開始測試」來開始。";
 "PSAT_INITIAL_INSTRUCTION" = "記住第一個數字。";
 "PSAT_INSTRUCTION" = "將新的數字與前一個數字相加。";
@@ -587,8 +598,10 @@
 "ENVIRONMENTSPL_UNIT" = "dBA";
 "ENVIRONMENTSPL_CALCULATING" = "正在計算";
 "ENVIRONMENTSPL_THRESHOLD" = "閾值：%@ dBA";
-"ENVIRONMENTSPL_OK" = "好";
+"ENVIRONMENTSPL_OK" = "背景噪音正常";
 "ENVIRONMENTSPL_NOISE" = "太多背景噪音";
+"ENVIRONMENTSPL_TITLE_2" = "尋找一個安靜的地方";
+"ENVIRONMENTSPL_INTRO_TEXT_2" = "為了確保結果準確，此測試必須在安靜的環境下進行。";
 
 /* Secondary Task Step*/
 "SECONDARY_TASK_START_BUTTON" = "開始任務";
@@ -598,7 +611,7 @@
 
 /* Slider */
 "SLIDER_MOVE_SLIDER_FOR_VALUE" = "移動滑桿來輸入數值";
-"SLIDER_I_DONT_KNOW" = "不知道";
+"SLIDER_I_DONT_KNOW" = "I Don’t Know";
 
 /* Review Step */
 "REVIEW_STEP_PAGE" = "頁面";
@@ -622,6 +635,7 @@
 
 "AX_SELECTED" = "已選取";
 "AX_UNSELECTED" = "未選取";
+"AX_SELECT_ALL_THAT_APPLY" = "勾選所有適用的欄位";
 
 "AX_SLIDER_LABEL" = "回應滑桿。範圍在%@到%@之間";
 "AX_UNLABELED_IMAGE" = "未標示的影像";

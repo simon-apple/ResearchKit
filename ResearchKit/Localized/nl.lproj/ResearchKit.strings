@@ -34,7 +34,7 @@
 "CONSENT_NAME_FAMILY" = "Achternaam";
 "CONSENT_NAME_PLACEHOLDER" = "Vereist";
 "CONSENT_REVIEW_TITLE" = "Bekijk";
-"CONSENT_REVIEW_INSTRUCTION" = "Lees het formulier hieronder door en tik op 'Akkoord' als je gereed bent om verder te gaan.";
+"CONSENT_REVIEW_INSTRUCTION" = "Review the form below, and tap Agree if you’re ready to continue.";
 "CONSENT_REVIEW_ALERT_TITLE" = "Bekijk";
 "CONSENT_SIGNATURE_TITLE" = "Handtekening";
 "CONSENT_SIGNATURE_INSTRUCTION" = "Onderteken met je vinger in het onderstaande vak.";
@@ -58,7 +58,7 @@
 "LEARN_MORE_PRIVACY" = "Meer informatie over de bescherming van je privacy en identiteit";
 "LEARN_MORE_WELCOME" = "Meer informatie over het onderzoek";
 "LEARN_MORE_STUDY_SURVEY" = "Meer informatie over de onderzoeksenquête";
-"LEARN_MORE_TIME_COMMITMENT" = "Meer informatie over hoe lang het onderzoek duurt";
+"LEARN_MORE_TIME_COMMITMENT" = "Learn more about the study’s impact on your time";
 "LEARN_MORE_TASKS" = "Meer informatie over wat je moet doen";
 "LEARN_MORE_WITHDRAWING" = "Meer informatie over afzien van deelname";
 
@@ -254,7 +254,7 @@
 "FITNESS_SIT_INSTRUCTION_FORMAT" = "Ga %@ gemakkelijk zitten.";
 "FITNESS_WALK_INSTRUCTION_FORMAT" = "Loop %@ zo snel als je kunt.";
 "FITNESS_INTRO_TEXT_FORMAT" = "Tijdens deze activiteit wordt je hartslag gemeten en wordt gekeken hoe ver je in %1$@ kunt lopen.";
-"FITNESS_INTRO_2_TEXT_FORMAT" = "Loop buiten %1$@ zo snel als je kunt. Ga daarna gemakkelijk zitten en rust %2$@ uit. Tik op 'Start' om te beginnen.";
+"FITNESS_INTRO_2_TEXT_FORMAT" = "Walk outdoors at your fastest possible pace for %1$@. When you’re done, sit and rest comfortably for %2$@. To begin, tap Get Started.";
 
 /* Short walk active task. */
 "WALK_TASK_TITLE" = "Tred en balans";
@@ -296,7 +296,7 @@
 
 /* Amsler Grid Task.*/
 "AMSLER_GRID_TITLE" = "Amslerrooster";
-"AMSLER_GRID_INTRO_TEXT" = "Met deze activiteit detecteer je problemen met het gezichtsvermogen van de gebruiker.";
+"AMSLER_GRID_INTRO_TEXT" = "This activity helps in detecting problems in user’s vision.";
 "AMSLER_GRID_INSTRUCTION_TEXT" = "Houd het apparaat gedurende de test 30 centimeter van je gezicht en op ooghoogte.";
 "AMSLER_GRID_INSTRUCTION_DETAIL_TEXT" = "Sluit je %@ en staar naar de stip in het midden van het vierkante rooster.\n\nGebruik je vinger of stylus en markeer eventuele vervormingen die je ziet, zoals vervaagde of golvende lijnen.\n\nVeeg wanneer je klaar bent naar links buiten het rooster.";
 "AMSLER_GRID_LEFT_EYE" = "linkeroog";
@@ -345,7 +345,7 @@
 "dBHL_TONE_AUDIOMETRY_OPTION_LEFT" = "links";
 "dBHL_TONE_AUDIOMETRY_OPTION_RIGHT" = "rechts";
 "dBHL_TONE_AUDIOMETRY_OPTION_NO_PREFERENCE" = "geen voorkeur";
-"dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "Test Cancelled";
+"dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "Test geannuleerd";
 "dBHL_ALERT_TITLE_START_OVER" = "Begin opnieuw";
 "dBHL_ALERT_TITLE_CANCEL_TEST" = "Annuleer test";
 "dBHL_ALERT_TEXT" = "Reconnect your AirPods or EarPods to take this test.";
@@ -379,8 +379,8 @@
 "MEMORY_GAME_COMPLETE_TITLE" = "Volgorde voltooid";
 "MEMORY_GAME_COMPLETE_MESSAGE" = "Tik op 'Ga door' om verder te gaan";
 "MEMORY_GAME_FAILED_TITLE" = "Probeer het opnieuw";
-"MEMORY_GAME_FAILED_MESSAGE" = "Het is niet helemaal gelukt dit keer. Tik op 'Volgende' om verder te gaan.";
-"MEMORY_GAME_TIMEOUT_TITLE" = "De tijd is om";
+"MEMORY_GAME_FAILED_MESSAGE" = "You didn’t quite make it through that time. Tap Next to continue.";
+"MEMORY_GAME_TIMEOUT_TITLE" = "Tijd is om";
 "MEMORY_GAME_TIMEOUT_MESSAGE" = "Je hebt het niet binnen de tijd gehaald.\nTik op 'Volgende' om verder te gaan.";
 "MEMORY_GAME_COMPLETE" = "Spel voltooid";
 "MEMORY_GAME_PAUSED_TITLE" = "Pauze";
@@ -457,7 +457,7 @@
 /* Timed walk active task. */
 "TIMED_WALK_TITLE" = "Looptest";
 "TIMED_WALK_INTRO_DETAIL" = "Met deze activiteit wordt het functioneren van je onderlichaam gemeten.";
-"TIMED_WALK_INTRO_2_TEXT_%@" = "Zoek een plek, bij voorkeur buiten, waar je veilig zo snel mogelijk ongeveer %@ in een rechte lijn kunt lopen. Vertraag je tempo niet totdat je voorbij de eindstreep bent.";
+"TIMED_WALK_INTRO_2_TEXT_%@" = "Find a place, preferably outside, where you can walk for about %@ in a straight line as quickly as possible, but safely. Do not slow down until after you’ve passed the finish line.";
 "TIMED_WALK_INTRO_2_DETAIL" = "Tik op 'Volgende' om te beginnen.";
 "TIMED_WALK_FORM_TITLE" = "Loophulpmiddel";
 "TIMED_WALK_FORM_TEXT" = "Gebruik hetzelfde hulpmiddel voor elke test.";
@@ -482,7 +482,7 @@
 "PASAT_INTRO_TEXT" = "Met de PASAT (een stapsgewijze auditieve seriële opteltest) wordt gemeten hoe snel je hoorbare informatie verwerkt en hoe goed je kunt rekenen.";
 "PVSAT_INTRO_TEXT" = "Met de PVSAT (een stapsgewijze visuele seriële opteltest) wordt gemeten hoe snel je zichtbare informatie verwerkt en hoe goed je kunt rekenen.";
 "PAVSAT_INTRO_TEXT" = "Met de PAVSAT (een stapsgewijze auditieve en visuele seriële opteltest) wordt gemeten hoe snel je hoorbare en zichtbare informatie verwerkt en hoe goed je kunt rekenen.";
-"PSAT_INTRO_TEXT_2_%@" = "Elke %@ seconden zie en/of hoor je een cijfer.\nJe moet elk nieuw cijfer optellen bij het vorige cijfer.\nLet op: je moet niet het totaal van alle cijfers berekenen, maar alleen de som van de laatste twee cijfers.";
+"PSAT_INTRO_TEXT_2_%@" = "Single digits are presented every %@.\nYou must add each new digit to the one immediately prior to it.\nAttention, you mustn’t calculate a running total, but only the sum of the last two numbers.";
 "PSAT_CALL_TO_ACTION" = "Tik op 'Start' om te beginnen.";
 "PSAT_INITIAL_INSTRUCTION" = "Onthoud dit eerste cijfer.";
 "PSAT_INSTRUCTION" = "Tel dit nieuwe cijfer op bij het vorige.";
@@ -612,7 +612,7 @@
 
 /* Slider */
 "SLIDER_MOVE_SLIDER_FOR_VALUE" = "Versleep schuifknop om waarde in te voeren";
-"SLIDER_I_DONT_KNOW" = "Weet ik niet";
+"SLIDER_I_DONT_KNOW" = "I Don’t Know";
 
 /* Review Step */
 "REVIEW_STEP_PAGE" = "Pagina";
@@ -636,6 +636,7 @@
 
 "AX_SELECTED" = "Geselecteerd";
 "AX_UNSELECTED" = "Selectie opgeheven";
+"AX_SELECT_ALL_THAT_APPLY" = "SELECT ALL THAT APPLY";
 
 "AX_SLIDER_LABEL" = "Antwoordschuifknop. Bereik van %@ tot %@";
 "AX_UNLABELED_IMAGE" = "Naamloze afbeelding";

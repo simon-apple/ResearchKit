@@ -34,7 +34,7 @@
 "CONSENT_NAME_FAMILY" = "Họ";
 "CONSENT_NAME_PLACEHOLDER" = "Bắt buộc";
 "CONSENT_REVIEW_TITLE" = "Xem lại";
-"CONSENT_REVIEW_INSTRUCTION" = "Hãy xem xét biểu mẫu bên dưới và chạm vào Đồng ý nếu bạn sẵn sàng tiếp tục.";
+"CONSENT_REVIEW_INSTRUCTION" = "Review the form below, and tap Agree if you’re ready to continue.";
 "CONSENT_REVIEW_ALERT_TITLE" = "Xem lại";
 "CONSENT_SIGNATURE_TITLE" = "Chữ ký";
 "CONSENT_SIGNATURE_INSTRUCTION" = "Vui lòng ký tên bằng ngón tay của bạn trong hộp bên dưới.";
@@ -58,7 +58,7 @@
 "LEARN_MORE_PRIVACY" = "Tìm hiểu thêm về cách bảo vệ quyền riêng tư và nhận dạng của bạn";
 "LEARN_MORE_WELCOME" = "Trước tiên, tìm hiểu thêm về nghiên cứu";
 "LEARN_MORE_STUDY_SURVEY" = "Tìm hiểu thêm về khảo sát nghiên cứu";
-"LEARN_MORE_TIME_COMMITMENT" = "Tìm hiểu thêm về tác động của nghiên cứu đối với thời gian của bạn";
+"LEARN_MORE_TIME_COMMITMENT" = "Learn more about the study’s impact on your time";
 "LEARN_MORE_TASKS" = "Tìm hiểu thêm về các nhiệm vụ liên quan";
 "LEARN_MORE_WITHDRAWING" = "Tìm hiểu thêm về việc rút lui";
 
@@ -70,19 +70,19 @@
 "LEARN_MORE_CONSENT_SHARING" = "Tìm hiểu thêm về chia sẻ dữ liệu";
 
 /* Lines beneath typewritten signatures on documents.*/
-"CONSENT_DOC_LINE_PRINTED_NAME" = "Tên của %@ (chữ in hoa)";
-"CONSENT_DOC_LINE_SIGNATURE" = "Chữ ký của %@";
+"CONSENT_DOC_LINE_PRINTED_NAME" = "Printed Name";
+"CONSENT_DOC_LINE_SIGNATURE" = "Signature";
 "CONSENT_DOC_LINE_DATE" = "Ngày";
 
 /* Progress indication (in navigation bar). */
 "STEP_PROGRESS_FORMAT" = "%1$@ / %2$@";
 
 /* Progress indication (in formItem section header). */
-"FORM_ITEM_PROGRESS" = "CÂU HỎI %1$@ / %2$@";
+"FORM_ITEM_PROGRESS" = "Câu hỏi %1$@ / %2$@";
 
 /* ORKTaskReviewViewController */
 "REVIEW_SKIPPED_ANSWER" = "Đã bỏ qua";
-"REVIEW_EDIT_ANSWER" = "Sửa câu trả lời";
+"REVIEW_EDIT_ANSWER" = "Edit";
 
 /* Alert for out of range values. */
 "RANGE_ALERT_TITLE" = "Giá trị không hợp lệ";
@@ -254,7 +254,7 @@
 "FITNESS_SIT_INSTRUCTION_FORMAT" = "Ngồi thoải mái trong %@.";
 "FITNESS_WALK_INSTRUCTION_FORMAT" = "Đi bộ với tốc độ nhanh nhất có thể trong %@.";
 "FITNESS_INTRO_TEXT_FORMAT" = "Hoạt động này sẽ theo dõi nhịp tim của bạn và tính quãng đường bạn có thể đi bộ trong %1$@.";
-"FITNESS_INTRO_2_TEXT_FORMAT" = "Đi bộ ngoài trời với tốc độ cao nhất có thể của bạn trong %1$@. Khi bạn hoàn tất, hãy ngồi và nghỉ ngơi thoải mái trong %2$@. Để bắt đầu, chạm Bắt đầu.";
+"FITNESS_INTRO_2_TEXT_FORMAT" = "Walk outdoors at your fastest possible pace for %1$@. When you’re done, sit and rest comfortably for %2$@. To begin, tap Get Started.";
 
 /* Short walk active task. */
 "WALK_TASK_TITLE" = "Dáng đi & thăng bằng";
@@ -296,7 +296,7 @@
 
 /* Amsler Grid Task.*/
 "AMSLER_GRID_TITLE" = "Lưới Amsler";
-"AMSLER_GRID_INTRO_TEXT" = "Hoạt động này giúp phát hiện các vấn đề về thị lực của người dùng.";
+"AMSLER_GRID_INTRO_TEXT" = "This activity helps in detecting problems in user’s vision.";
 "AMSLER_GRID_INSTRUCTION_TEXT" = "Giữ thiết bị cách mặt bạn 12 inch và ở ngang tầm mắt trong suốt bài kiểm tra.";
 "AMSLER_GRID_INSTRUCTION_DETAIL_TEXT" = "Nhắm %@ của bạn và nhìn chăm chú vào dấu chấm ở giữa lưới hình vuông.\n\nSử dụng ngón tay của bạn hoặc bút cảm ứng, đánh dấu bất kỳ sự biến dạng nào mà bạn thấy như đường kẻ bị mờ hoặc lượn sóng.\n\nKhi bạn hoàn tất, hãy vuốt sang trái ở bất kỳ đâu bên ngoài lưới.";
 "AMSLER_GRID_LEFT_EYE" = "Mắt trái";
@@ -328,19 +328,28 @@
 
 /* dBHL Tone audiometry active task. */
 "dBHL_TONE_AUDIOMETRY_TASK_TITLE" = "Trắc thính Âm báo";
+"dBHL_TONE_AUDIOMETRY_TASK_TITLE_2" = "Chạm khi bạn nghe thấy một âm báo.";
+"dBHL_TONE_AUDIOMETRY_INTRO_TITLE" = "Âm báo & Âm lượng";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_1" = "Bạn sẽ nghe thấy một chuỗi âm báo.";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_2" = "Khi bạn nghe thấy một âm báo, hãy chạm vào nút.";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_3" = "Đối với kiểm tra này, âm lượng sẽ được đặt thành 50%.";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_4" = "Kiểm tra này kéo dài khoảng 10 phút.";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_5" = "Bật Không làm phiền để tránh gián đoạn.";
 "dBHL_TONE_AUDIOMETRY_STEP_TITLE_RIGHT_EAR" = "Âm báo sẽ phát trong tai phải của bạn trước tiên.";
 "dBHL_TONE_AUDIOMETRY_STEP_TITLE_LEFT_EAR" = "Bây giờ, âm báo sẽ phát trong tai trái của bạn.";
 "dBHL_TONE_AUDIOMETRY_INTENDED_USE" = "Hoạt động này xác định các mức ngưỡng thính giác của một cá nhân theo thang dB HL.";
 "dBHL_TONE_AUDIOMETRY_INTRO_TEXT" = "Đảm bảo rằng âm lượng của thiết bị được đặt ở mức tối đa.\n\nTrong phần này, một âm báo nhỏ sẽ phát ở tai bên trái hoặc bên phải.\n\nNghe cẩn thận và chạm vào nút mỗi lần bạn nghe thấy một âm báo.";
+"dBHL_TONE_AUDIOMETRY_INTRO_TEXT_2" = "Kiểm tra này xác định độ lớn cần thiết của một âm thanh để bạn nghe thấy.";
 "dBHL_TONE_AUDIOMETRY_ONBOARDING" = "Bảng câu hỏi tích hợp.";
 "dBHL_TONE_AUDIOMETRY_ONBOARDING_QUESTION" = "Chọn ưu tiên của bạn cho 'tai tốt hơn', nếu có";
 "dBHL_TONE_AUDIOMETRY_OPTION_LEFT" = "trái";
 "dBHL_TONE_AUDIOMETRY_OPTION_RIGHT" = "phải";
 "dBHL_TONE_AUDIOMETRY_OPTION_NO_PREFERENCE" = "không có ưu tiên";
-"dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "Kiểm tra bị gián đoạn";
+"dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "Test Cancelled";
 "dBHL_ALERT_TITLE_START_OVER" = "Bắt đầu lại";
 "dBHL_ALERT_TITLE_CANCEL_TEST" = "Hủy kiểm tra";
-"dBHL_ALERT_TEXT" = "Đã xảy ra sự cố với tai nghe của bạn.";
+"dBHL_ALERT_TEXT" = "Reconnect your AirPods or EarPods to take this test.";
+"dBHL_PROGRESS_COMPLETION_%@" = "%@ Complete";
 
 /* Headphones. */
 "AIRPODS" = "AirPods";
@@ -349,7 +358,10 @@
 "HEADPHONES_UNKNOWN" = "Không xác định";
 "HEADPHONES_NONE" = "Không có";
 "CONNECTED" = "Đã kết nối";
+"NOT_CONNECTED" = "Not Connected";
 "HEADPHONE_CONNECTED_%@" = "Đã kết nối - %@";
+"HEADPHONE_DETECT_TITLE" = "Kết nối tai nghe của bạn";
+"HEADPHONE_DETECT_TEXT" = "This test requires Apple AirPods or Apple EarPods";
 
 /* Spatial span memory active task. */
 "SPATIAL_SPAN_MEMORY_TITLE" = "Trí nhớ Không gian";
@@ -367,8 +379,8 @@
 "MEMORY_GAME_COMPLETE_TITLE" = "Chuỗi Hoàn thành";
 "MEMORY_GAME_COMPLETE_MESSAGE" = "Để tiếp tục, hãy chạm vào Tiếp";
 "MEMORY_GAME_FAILED_TITLE" = "Thử lại";
-"MEMORY_GAME_FAILED_MESSAGE" = "Lần trước bạn chưa thực sự thành công. Hãy chạm vào Tiếp để tiếp tục.";
-"MEMORY_GAME_TIMEOUT_TITLE" = "Hết Thời gian";
+"MEMORY_GAME_FAILED_MESSAGE" = "You didn’t quite make it through that time. Tap Next to continue.";
+"MEMORY_GAME_TIMEOUT_TITLE" = "Time’s Up";
 "MEMORY_GAME_TIMEOUT_MESSAGE" = "Bạn đã hết thời gian.\nHãy chạm vào Tiếp để tiếp tục.";
 "MEMORY_GAME_COMPLETE" = "Hoàn tất Trò chơi";
 "MEMORY_GAME_PAUSED_TITLE" = "Đã tạm dừng";
@@ -445,7 +457,7 @@
 /* Timed walk active task. */
 "TIMED_WALK_TITLE" = "Đi bộ Tính giờ";
 "TIMED_WALK_INTRO_DETAIL" = "Hoạt động này đo lường chức năng chi dưới của bạn.";
-"TIMED_WALK_INTRO_2_TEXT_%@" = "Tìm một địa điểm, tốt nhất là ngoài trời, mà bạn có thể đi bộ trong khoảng %@ theo đường thẳng nhanh nhất có thể, nhưng an toàn. Không giảm tốc độ cho tới khi bạn đã vượt qua vạch đích.";
+"TIMED_WALK_INTRO_2_TEXT_%@" = "Find a place, preferably outside, where you can walk for about %@ in a straight line as quickly as possible, but safely. Do not slow down until after you’ve passed the finish line.";
 "TIMED_WALK_INTRO_2_DETAIL" = "Chạm Tiếp để bắt đầu.";
 "TIMED_WALK_FORM_TITLE" = "Thiết bị hỗ trợ";
 "TIMED_WALK_FORM_TEXT" = "Sử dụng cùng thiết bị hỗ trợ cho từng bài kiểm tra.";
@@ -470,7 +482,7 @@
 "PASAT_INTRO_TEXT" = "Bài Kiểm tra Tính tổng Tuần tự bằng Âm thanh Theo tốc độ đo lường tốc độ xử lý thông tin âm thanh cùng với khả năng tính toán của bạn.";
 "PVSAT_INTRO_TEXT" = "Bài Kiểm tra Tính tổng Tuần tự bằng Hình ảnh Theo tốc độ đo lường tốc độ xử lý thông tin hình ảnh cùng với khả năng tính toán của bạn.";
 "PAVSAT_INTRO_TEXT" = "Bài Kiểm tra Tính tổng Tuần tự bằng Âm thanh và Hình ảnh Theo tốc độ đo lường tốc độ xử lý thông tin âm thanh và hình ảnh cùng với khả năng tính toán của bạn.";
-"PSAT_INTRO_TEXT_2_%@" = "Các số duy nhất được đưa ra sau mỗi %@ giây.\nBạn phải cộng từng số mới với số ngay trước nó.\nLưu ý: bạn không được tính tổng liên tục mà chỉ được tính tổng của hai số sau cùng.";
+"PSAT_INTRO_TEXT_2_%@" = "Single digits are presented every %@.\nYou must add each new digit to the one immediately prior to it.\nAttention, you mustn’t calculate a running total, but only the sum of the last two numbers.";
 "PSAT_CALL_TO_ACTION" = "Chạm vào Bắt đầu để bắt đầu.";
 "PSAT_INITIAL_INSTRUCTION" = "Ghi nhớ số đầu tiên này.";
 "PSAT_INSTRUCTION" = "Cộng số mới này với số trước đó.";
@@ -587,8 +599,10 @@
 "ENVIRONMENTSPL_UNIT" = "dBA";
 "ENVIRONMENTSPL_CALCULATING" = "Đang tính";
 "ENVIRONMENTSPL_THRESHOLD" = "Ngưỡng: %@ dBA";
-"ENVIRONMENTSPL_OK" = "OK";
+"ENVIRONMENTSPL_OK" = "Background Noise OK";
 "ENVIRONMENTSPL_NOISE" = "Quá nhiều tiếng ồn trong nền";
+"ENVIRONMENTSPL_TITLE_2" = "Tìm một địa điểm yên tĩnh";
+"ENVIRONMENTSPL_INTRO_TEXT_2" = "Để đảm bảo độ chính xác, bạn nên thực hiện kiểm tra này trong một môi trường yên tĩnh.";
 
 /* Secondary Task Step*/
 "SECONDARY_TASK_START_BUTTON" = "Bắt đầu tác vụ";
@@ -598,7 +612,7 @@
 
 /* Slider */
 "SLIDER_MOVE_SLIDER_FOR_VALUE" = "Di chuyển thanh trượt để nhập giá trị";
-"SLIDER_I_DONT_KNOW" = "Tôi không biết";
+"SLIDER_I_DONT_KNOW" = "I Don’t Know";
 
 /* Review Step */
 "REVIEW_STEP_PAGE" = "Trang";
@@ -622,6 +636,7 @@
 
 "AX_SELECTED" = "Đã chọn";
 "AX_UNSELECTED" = "Đã bỏ chọn";
+"AX_SELECT_ALL_THAT_APPLY" = "SELECT ALL THAT APPLY";
 
 "AX_SLIDER_LABEL" = "Thanh trượt phản hồi. Phạm vi từ %@ đến %@";
 "AX_UNLABELED_IMAGE" = "Hình ảnh không có nhãn";

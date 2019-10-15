@@ -34,7 +34,7 @@
 "CONSENT_NAME_FAMILY" = "उपनाम";
 "CONSENT_NAME_PLACEHOLDER" = "आवश्यक";
 "CONSENT_REVIEW_TITLE" = "समीक्षा";
-"CONSENT_REVIEW_INSTRUCTION" = "नीचे दिए गए फ़ॉर्म को देखें और जारी रखने के लिए “सहमत” पर टैप करें।";
+"CONSENT_REVIEW_INSTRUCTION" = "Review the form below, and tap Agree if you’re ready to continue.";
 "CONSENT_REVIEW_ALERT_TITLE" = "समीक्षा";
 "CONSENT_SIGNATURE_TITLE" = "हस्ताक्षर";
 "CONSENT_SIGNATURE_INSTRUCTION" = "कृपया अपनी उँगली का उपयोग करके नीचे दिए गए बॉक्स में हस्ताक्षर करें।";
@@ -58,7 +58,7 @@
 "LEARN_MORE_PRIVACY" = "आपकी गोपनीयता और पहचान की सुरक्षा के बारे में और अधिक जानें";
 "LEARN_MORE_WELCOME" = "अध्ययन से पहले उसके बारे में और अधिक जानें";
 "LEARN_MORE_STUDY_SURVEY" = "सर्वेक्षण अध्ययन के बारे में और अधिक जानें";
-"LEARN_MORE_TIME_COMMITMENT" = "अपने समय पर अध्ययन के प्रभाव के बारे में और अधिक जानें";
+"LEARN_MORE_TIME_COMMITMENT" = "Learn more about the study’s impact on your time";
 "LEARN_MORE_TASKS" = "सम्मिलित कार्यों के बारे में और अधिक जानें";
 "LEARN_MORE_WITHDRAWING" = "सहमति वापस लेने के बारे में और अधिक जानें";
 
@@ -70,8 +70,8 @@
 "LEARN_MORE_CONSENT_SHARING" = "डेटा साझाकरण के बारे में अधिक जानें";
 
 /* Lines beneath typewritten signatures on documents.*/
-"CONSENT_DOC_LINE_PRINTED_NAME" = "%@ का नाम (प्रिंट किया हुआ)";
-"CONSENT_DOC_LINE_SIGNATURE" = "%@ का हस्ताक्षर";
+"CONSENT_DOC_LINE_PRINTED_NAME" = "Printed Name";
+"CONSENT_DOC_LINE_SIGNATURE" = "Signature";
 "CONSENT_DOC_LINE_DATE" = "तिथि";
 
 /* Progress indication (in navigation bar). */
@@ -82,7 +82,7 @@
 
 /* ORKTaskReviewViewController */
 "REVIEW_SKIPPED_ANSWER" = "स्किप किया गया";
-"REVIEW_EDIT_ANSWER" = "उत्तर संपादित करें";
+"REVIEW_EDIT_ANSWER" = "Edit";
 
 /* Alert for out of range values. */
 "RANGE_ALERT_TITLE" = "अमान्य मान";
@@ -254,7 +254,7 @@
 "FITNESS_SIT_INSTRUCTION_FORMAT" = "%@ तक आराम से बैठें।";
 "FITNESS_WALK_INSTRUCTION_FORMAT" = "%@ तक जितना तेज़ हो सके, चलें।";
 "FITNESS_INTRO_TEXT_FORMAT" = "इस गतिविधि द्वारा आपकी हृदय गति का निरीक्षण किया जाता है और यह मापित किया जाता है कि %1$@ में आप कितनी दूर पैदल चल सकते हैं।";
-"FITNESS_INTRO_2_TEXT_FORMAT" = "बाहर %1$@ तक जितनी तेज़ गति से संभव हो, चलें। उसके बाद बैठ जाएँ और आराम से %2$@ तक सुस्ताएँ। आरंभ करने के लिए “आरंभ करें” पर टैप करें।";
+"FITNESS_INTRO_2_TEXT_FORMAT" = "Walk outdoors at your fastest possible pace for %1$@. When you’re done, sit and rest comfortably for %2$@. To begin, tap Get Started.";
 
 /* Short walk active task. */
 "WALK_TASK_TITLE" = "चाल और संतुलन";
@@ -296,7 +296,7 @@
 
 /* Amsler Grid Task.*/
 "AMSLER_GRID_TITLE" = "Amsler ग्रिड";
-"AMSLER_GRID_INTRO_TEXT" = "इस गतिविधि से प्रयोगकर्ता की दृष्टि से संबंधित समस्याओं का पता लगाने में मदद मिलती है।";
+"AMSLER_GRID_INTRO_TEXT" = "This activity helps in detecting problems in user’s vision.";
 "AMSLER_GRID_INSTRUCTION_TEXT" = "पूरे परीक्षण के दौरान डिवाइस को अपने चेहरे से १२ इंच दूर और अपनी आँखों के बराबर की ऊँचाई पर पकड़कर रखें।";
 "AMSLER_GRID_INSTRUCTION_DETAIL_TEXT" = "अपनी %@ बंद करें और वर्गाकार ग्रिड के मध्य में स्थित डॉट की तरफ़ देखते रहें।\n\nअपनी उँगली या स्टाइलस का उपयोग करके आपको दिखने वाली धुँधली या हिलती हुई रेखाओं जैसे किसी भी व्यवधान को चिह्नित करें।\n\nइसे पूर्ण करने पर ग्रिड के बाहर कहीं भी बाईं ओर स्वाइप करें।";
 "AMSLER_GRID_LEFT_EYE" = "बाईं आँख";
@@ -328,19 +328,28 @@
 
 /* dBHL Tone audiometry active task. */
 "dBHL_TONE_AUDIOMETRY_TASK_TITLE" = "टोन ऑडियोमेट्री";
+"dBHL_TONE_AUDIOMETRY_TASK_TITLE_2" = "जब आप कोई टोन सुनें, तो टैप करें।";
+"dBHL_TONE_AUDIOMETRY_INTRO_TITLE" = "टोन और वॉल्यूम";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_1" = "आपको टोन की शृंखलाएँ सुनाई देंगी।";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_2" = "जब आप कोई टोन सुनें, तो बटन पर टैप करें।";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_3" = "इस परीक्षण के लिए वॉल्यूम को 50 प्रतिशत पर सेट किया जाएगा।";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_4" = "इस परीक्षण में क़रीब 10 मिनट लगते हैं।";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_5" = "व्यवधान से बचने के लिए विश्राम मोड चालू करें।";
 "dBHL_TONE_AUDIOMETRY_STEP_TITLE_RIGHT_EAR" = "आपके दाएँ कान में पहले टोन बजाए जाएँगे।";
 "dBHL_TONE_AUDIOMETRY_STEP_TITLE_LEFT_EAR" = "अब आपके बाएँ कान में टोन बजाए जाएँगे।";
 "dBHL_TONE_AUDIOMETRY_INTENDED_USE" = "इस गतिविधि से किसी व्यक्ति के सुनने की सीमा के स्तरों की पहचान dB HL स्केल में की जाती है।";
 "dBHL_TONE_AUDIOMETRY_INTRO_TEXT" = "सुनिश्चित करें कि डिवाइस का वॉल्यूम अधिकतम स्तर पर सेट है।\n\nइस परीक्षण के दौरान या तो बाएँ या दाएँ कान में हल्की टोन बजाई जाएगी।\n\nध्यान से सुनें और हर बार टोन सुनाई देने पर बटन पर टैप करें।";
+"dBHL_TONE_AUDIOMETRY_INTRO_TEXT_2" = "यह परीक्षण पहचान करती है कि किसी भी आवाज़ को सुनाई देने के लिए उसे कितना तेज़ होना चाहिए।";
 "dBHL_TONE_AUDIOMETRY_ONBOARDING" = "ऑनबोर्डिंग प्रश्न।";
 "dBHL_TONE_AUDIOMETRY_ONBOARDING_QUESTION" = "‘बेहतर कान' के लिए अपनी प्राथमिकता चुनें, यदि कोई हो";
 "dBHL_TONE_AUDIOMETRY_OPTION_LEFT" = "बायाँ";
 "dBHL_TONE_AUDIOMETRY_OPTION_RIGHT" = "दायाँ";
 "dBHL_TONE_AUDIOMETRY_OPTION_NO_PREFERENCE" = "कोई प्राथमिकता नहीं है";
-"dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "परीक्षण बाधित";
-"dBHL_ALERT_TITLE_START_OVER" = "फिर से शुरू करें";
+"dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "Test Cancelled";
+"dBHL_ALERT_TITLE_START_OVER" = "फिर शुरू करें";
 "dBHL_ALERT_TITLE_CANCEL_TEST" = "परीक्षण रद्द करें";
-"dBHL_ALERT_TEXT" = "आपके हेडफ़ोन में कुछ समस्या है।";
+"dBHL_ALERT_TEXT" = "Reconnect your AirPods or EarPods to take this test.";
+"dBHL_PROGRESS_COMPLETION_%@" = "%@ Complete";
 
 /* Headphones. */
 "AIRPODS" = "AirPods";
@@ -349,7 +358,10 @@
 "HEADPHONES_UNKNOWN" = "अज्ञात";
 "HEADPHONES_NONE" = "कोई नहीं";
 "CONNECTED" = "कनेक्टेड";
+"NOT_CONNECTED" = "Not Connected";
 "HEADPHONE_CONNECTED_%@" = "कनेक्टेड - %@";
+"HEADPHONE_DETECT_TITLE" = "अपने हेडफ़ोन को कनेक्ट करें";
+"HEADPHONE_DETECT_TEXT" = "This test requires Apple AirPods or Apple EarPods";
 
 /* Spatial span memory active task. */
 "SPATIAL_SPAN_MEMORY_TITLE" = "स्थानिक याददाश्त";
@@ -367,7 +379,7 @@
 "MEMORY_GAME_COMPLETE_TITLE" = "अनुक्रम पूरा हुआ";
 "MEMORY_GAME_COMPLETE_MESSAGE" = "जारी रखने के लिए “अगला” पर टैप करें";
 "MEMORY_GAME_FAILED_TITLE" = "फिर कोशिश करें";
-"MEMORY_GAME_FAILED_MESSAGE" = "आप निर्धारित समय में इसे पूरा नहीं कर पाए। जारी रखने के लिए “अगला” पर टैप करें।";
+"MEMORY_GAME_FAILED_MESSAGE" = "You didn’t quite make it through that time. Tap Next to continue.";
 "MEMORY_GAME_TIMEOUT_TITLE" = "समय-समाप्त";
 "MEMORY_GAME_TIMEOUT_MESSAGE" = "आप निर्धारित समय में इसे पूरा नहीं कर पाए।\nजारी रखने के लिए “अगला” पर टैप करें।";
 "MEMORY_GAME_COMPLETE" = "गेम पूरा हुआ";
@@ -445,7 +457,7 @@
 /* Timed walk active task. */
 "TIMED_WALK_TITLE" = "समयबद्ध चाल";
 "TIMED_WALK_INTRO_DETAIL" = "इस गतिविधि के द्वारा शरीर के निचले हिस्से के कार्य करने की क्षमता को मापा जाता है।";
-"TIMED_WALK_INTRO_2_TEXT_%@" = "ऐसी जगह ढूँढें, यदि संभव हो तो घर के बाहर, जहाँ पर आप लगभग %@ तक जितना संभव हो, उतनी तेज़ी से लेकिन सुरक्षित रूप से सीधी रेखा में चल सकें। समाप्ति रेखा तक पहुँचने तक गति कम न करें।";
+"TIMED_WALK_INTRO_2_TEXT_%@" = "Find a place, preferably outside, where you can walk for about %@ in a straight line as quickly as possible, but safely. Do not slow down until after you’ve passed the finish line.";
 "TIMED_WALK_INTRO_2_DETAIL" = "आरंभ करने के लिए “अगला” पर टैप करें।";
 "TIMED_WALK_FORM_TITLE" = "सहायक डिवाइस";
 "TIMED_WALK_FORM_TEXT" = "प्रत्येक परीक्षण हेतु समान सहायक डिवाइस का उपयोग करें।";
@@ -470,7 +482,7 @@
 "PASAT_INTRO_TEXT" = "पेस्ड ऑडिटरी सीरियल ऐडीशन टेस्ट के द्वारा सुनकर जानकारी संसाधित करने की आपकी गति और परिकलन क्षमता को मापा जाता है।";
 "PVSAT_INTRO_TEXT" = "पेस्ड विजुअल सीरियल ऐडीशन टेस्ट के द्वारा देखकर जानकारी संसाधित करने की आपकी गति और परिकलन क्षमता को मापा जाता है।";
 "PAVSAT_INTRO_TEXT" = "पेस्ड ऑडिटरी एंड विजुअल सीरियल ऐडीशन टेस्ट के द्वारा देख और सुनकर जानकारी संसाधित करने की आपकी गति और परिकलन क्षमता को मापा जाता है।";
-"PSAT_INTRO_TEXT_2_%@" = "एकल अंक हर %@ में प्रस्तुत किए जाते हैं।\nआपको प्रत्येक नए अंक को उससे ठीक पहले वाले अंक से जोड़ना होगा।\nध्यान रखें, आपको कुल योग की गणना नहीं करनी है बल्कि केवल अंतिम दो अंकों का योग करना है।";
+"PSAT_INTRO_TEXT_2_%@" = "Single digits are presented every %@.\nYou must add each new digit to the one immediately prior to it.\nAttention, you mustn’t calculate a running total, but only the sum of the last two numbers.";
 "PSAT_CALL_TO_ACTION" = "आरंभ करने के लिए “आरंभ करें” पर टैप करें।";
 "PSAT_INITIAL_INSTRUCTION" = "इस पहले अंक को याद रखें।";
 "PSAT_INSTRUCTION" = "इस नए अंक का पिछले अंक में योग करें।";
@@ -587,8 +599,10 @@
 "ENVIRONMENTSPL_UNIT" = "dBA";
 "ENVIRONMENTSPL_CALCULATING" = "गणना जारी है";
 "ENVIRONMENTSPL_THRESHOLD" = "सीमा : %@ dBA";
-"ENVIRONMENTSPL_OK" = "ठीक";
+"ENVIRONMENTSPL_OK" = "Background Noise OK";
 "ENVIRONMENTSPL_NOISE" = "बहुत अधिक पृष्ठभूमि नॉइज़";
+"ENVIRONMENTSPL_TITLE_2" = "कोई शांत जगह ढूँढें";
+"ENVIRONMENTSPL_INTRO_TEXT_2" = "सटीकता सुनिश्चित करने के लिए इस परीक्षण को शांत वातावरण में किया जाना चाहिए।";
 
 /* Secondary Task Step*/
 "SECONDARY_TASK_START_BUTTON" = "कार्य शुरू करें";
@@ -598,7 +612,7 @@
 
 /* Slider */
 "SLIDER_MOVE_SLIDER_FOR_VALUE" = "मान दर्ज करने के लिए स्लाइडर सरकाएँ";
-"SLIDER_I_DONT_KNOW" = "मुझे नहीं पता";
+"SLIDER_I_DONT_KNOW" = "I Don’t Know";
 
 /* Review Step */
 "REVIEW_STEP_PAGE" = "पृष्ठ";
@@ -622,6 +636,7 @@
 
 "AX_SELECTED" = "चयनित";
 "AX_UNSELECTED" = "अचयनित";
+"AX_SELECT_ALL_THAT_APPLY" = "SELECT ALL THAT APPLY";
 
 "AX_SLIDER_LABEL" = "प्रतिक्रिया स्लाइडर। %1$@ से %2$@ तक सीमा";
 "AX_UNLABELED_IMAGE" = "बिना लेबल की इमेज";

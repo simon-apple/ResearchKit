@@ -34,7 +34,7 @@
 "CONSENT_NAME_FAMILY" = "Nazwisko";
 "CONSENT_NAME_PLACEHOLDER" = "Wymagane";
 "CONSENT_REVIEW_TITLE" = "Przejrzyj";
-"CONSENT_REVIEW_INSTRUCTION" = "Przejrzyj poniższy formularz i stuknij w Akceptuję, jeśli możesz kontynuować.";
+"CONSENT_REVIEW_INSTRUCTION" = "Review the form below, and tap Agree if you’re ready to continue.";
 "CONSENT_REVIEW_ALERT_TITLE" = "Przejrzyj";
 "CONSENT_SIGNATURE_TITLE" = "Podpis";
 "CONSENT_SIGNATURE_INSTRUCTION" = "Podpisz palcem w polu poniżej.";
@@ -58,7 +58,7 @@
 "LEARN_MORE_PRIVACY" = "Więcej informacji o ochronie prywatności i tożsamości";
 "LEARN_MORE_WELCOME" = "Na początek: więcej informacji o badaniu";
 "LEARN_MORE_STUDY_SURVEY" = "Więcej informacji o ankiecie";
-"LEARN_MORE_TIME_COMMITMENT" = "Więcej informacji o wymogach czasowych badania";
+"LEARN_MORE_TIME_COMMITMENT" = "Learn more about the study’s impact on your time";
 "LEARN_MORE_TASKS" = "Więcej informacji o zadaniach";
 "LEARN_MORE_WITHDRAWING" = "Więcej informacji o wycofywaniu się z badania";
 
@@ -70,19 +70,19 @@
 "LEARN_MORE_CONSENT_SHARING" = "Więcej informacji o udostępnianiu danych";
 
 /* Lines beneath typewritten signatures on documents.*/
-"CONSENT_DOC_LINE_PRINTED_NAME" = "%@ – imię i nazwisko (drukowane)";
-"CONSENT_DOC_LINE_SIGNATURE" = "%@ – podpis";
+"CONSENT_DOC_LINE_PRINTED_NAME" = "Printed Name";
+"CONSENT_DOC_LINE_SIGNATURE" = "Signature";
 "CONSENT_DOC_LINE_DATE" = "Data";
 
 /* Progress indication (in navigation bar). */
 "STEP_PROGRESS_FORMAT" = "%1$@ z %2$@";
 
 /* Progress indication (in formItem section header). */
-"FORM_ITEM_PROGRESS" = "PYTANIE %1$@ Z %2$@";
+"FORM_ITEM_PROGRESS" = "Pytanie %1$@ z %2$@";
 
 /* ORKTaskReviewViewController */
 "REVIEW_SKIPPED_ANSWER" = "Pominięta";
-"REVIEW_EDIT_ANSWER" = "Edycja odpowiedzi";
+"REVIEW_EDIT_ANSWER" = "Edit";
 
 /* Alert for out of range values. */
 "RANGE_ALERT_TITLE" = "Nieprawidłowa wartość";
@@ -254,7 +254,7 @@
 "FITNESS_SIT_INSTRUCTION_FORMAT" = "Siedź wygodnie przez %@.";
 "FITNESS_WALK_INSTRUCTION_FORMAT" = "Idź najszybciej jak potrafisz przez %@.";
 "FITNESS_INTRO_TEXT_FORMAT" = "To ćwiczenie monitoruje Twoje tętno i mierzy dystans, jaki potrafisz przejść przez %1$@.";
-"FITNESS_INTRO_2_TEXT_FORMAT" = "Wyjdź na zewnątrz i idź najszybciej jak potrafisz przez %1$@. Gdy skończysz, usiądź wygodnie i odpoczywaj przez %2$@. Aby rozpocząć, stuknij w Start.";
+"FITNESS_INTRO_2_TEXT_FORMAT" = "Walk outdoors at your fastest possible pace for %1$@. When you’re done, sit and rest comfortably for %2$@. To begin, tap Get Started.";
 
 /* Short walk active task. */
 "WALK_TASK_TITLE" = "Chód i równowaga";
@@ -296,7 +296,7 @@
 
 /* Amsler Grid Task.*/
 "AMSLER_GRID_TITLE" = "Siatka Amsler";
-"AMSLER_GRID_INTRO_TEXT" = "Ta czynność pomaga wykrywać problemy ze wzrokiem użytkownika.";
+"AMSLER_GRID_INTRO_TEXT" = "This activity helps in detecting problems in user’s vision.";
 "AMSLER_GRID_INSTRUCTION_TEXT" = "Trzymaj to urządzenie 30 centymetrów od twarzy na poziomie oczu przez cały test.";
 "AMSLER_GRID_INSTRUCTION_DETAIL_TEXT" = "Zamknij %@ i zacznij wpatrywać się w kropkę na środku kwadratowej siatki.\n\nPalcem lub stylusem zaznacz zniekształcenia, jakie zobaczysz, takie jak nieostre lub faliste linie.\n\nGdy skończysz, przesuń palcem w lewo poza siatkę.";
 "AMSLER_GRID_LEFT_EYE" = "lewe oko";
@@ -328,19 +328,28 @@
 
 /* dBHL Tone audiometry active task. */
 "dBHL_TONE_AUDIOMETRY_TASK_TITLE" = "Audiometria tonalna";
+"dBHL_TONE_AUDIOMETRY_TASK_TITLE_2" = "Stuknij, gdy usłyszysz dźwięk.";
+"dBHL_TONE_AUDIOMETRY_INTRO_TITLE" = "Dźwięk i głośność";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_1" = "Urządzenie odtworzy serię dźwięków.";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_2" = "Gdy usłyszysz dźwięk, stuknij w przycisk.";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_3" = "Na potrzeby tego testu ustaw głośność na 50 procent.";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_4" = "Test trwa około 10 minut.";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_5" = "Aby skupić się na teście, włącz tryb Nie przeszkadzać.";
 "dBHL_TONE_AUDIOMETRY_STEP_TITLE_RIGHT_EAR" = "Dźwięki będą najpierw odtwarzane w prawym uchu.";
 "dBHL_TONE_AUDIOMETRY_STEP_TITLE_LEFT_EAR" = "Dźwięki będą teraz odtwarzane w lewym uchu.";
 "dBHL_TONE_AUDIOMETRY_INTENDED_USE" = "Ta czynność identyfikuje poziomy progu słuchu osoby w skali dB HL.";
 "dBHL_TONE_AUDIOMETRY_INTRO_TEXT" = "Ustaw głośność urządzenia na maksymalny poziom.\n\nPodczas tego zadania w lewym lub prawym uchu będzie odtwarzany delikatny dźwięk.\n\nSłuchaj uważnie i za każdym razem, gdy usłyszysz ten dźwięk, stuknij w przycisk.";
+"dBHL_TONE_AUDIOMETRY_INTRO_TEXT_2" = "Ten test określa, jak głośny musi być dźwięk, aby był słyszalny dla Ciebie.";
 "dBHL_TONE_AUDIOMETRY_ONBOARDING" = "Kwestionariusz wprowadzający.";
 "dBHL_TONE_AUDIOMETRY_ONBOARDING_QUESTION" = "Zaznacz preferencje „sprawniejszego ucha”, jeśli to konieczne";
 "dBHL_TONE_AUDIOMETRY_OPTION_LEFT" = "lewe";
 "dBHL_TONE_AUDIOMETRY_OPTION_RIGHT" = "prawe";
 "dBHL_TONE_AUDIOMETRY_OPTION_NO_PREFERENCE" = "bez preferencji";
-"dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "Test przerwany";
+"dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "Test Cancelled";
 "dBHL_ALERT_TITLE_START_OVER" = "Zacznij od nowa";
 "dBHL_ALERT_TITLE_CANCEL_TEST" = "Anuluj test";
-"dBHL_ALERT_TEXT" = "Być może wystąpił problem ze słuchawkami.";
+"dBHL_ALERT_TEXT" = "Reconnect your AirPods or EarPods to take this test.";
+"dBHL_PROGRESS_COMPLETION_%@" = "%@ Complete";
 
 /* Headphones. */
 "AIRPODS" = "AirPods";
@@ -349,7 +358,10 @@
 "HEADPHONES_UNKNOWN" = "Nieznane";
 "HEADPHONES_NONE" = "Brak";
 "CONNECTED" = "Połączono";
+"NOT_CONNECTED" = "Not Connected";
 "HEADPHONE_CONNECTED_%@" = "Połączono – %@";
+"HEADPHONE_DETECT_TITLE" = "Połącz ze słuchawkami";
+"HEADPHONE_DETECT_TEXT" = "This test requires Apple AirPods or Apple EarPods";
 
 /* Spatial span memory active task. */
 "SPATIAL_SPAN_MEMORY_TITLE" = "Pamięć przestrzenna";
@@ -367,8 +379,8 @@
 "MEMORY_GAME_COMPLETE_TITLE" = "Koniec sekwencji";
 "MEMORY_GAME_COMPLETE_MESSAGE" = "Aby kontynuować, stuknij w Dalej";
 "MEMORY_GAME_FAILED_TITLE" = "Spróbuj ponownie";
-"MEMORY_GAME_FAILED_MESSAGE" = "Tym razem nie udało Ci się. Stuknij w Dalej, aby kontynuować.";
-"MEMORY_GAME_TIMEOUT_TITLE" = "Czas upłynął";
+"MEMORY_GAME_FAILED_MESSAGE" = "You didn’t quite make it through that time. Tap Next to continue.";
+"MEMORY_GAME_TIMEOUT_TITLE" = "Nadszedł czas";
 "MEMORY_GAME_TIMEOUT_MESSAGE" = "Skończył Ci się czas.\nAby kontynuować, stuknij w Dalej.";
 "MEMORY_GAME_COMPLETE" = "Gra zakończona";
 "MEMORY_GAME_PAUSED_TITLE" = "Wstrzymana";
@@ -445,7 +457,7 @@
 /* Timed walk active task. */
 "TIMED_WALK_TITLE" = "Chód na czas";
 "TIMED_WALK_INTRO_DETAIL" = "To ćwiczenie mierzy sprawność dolnej partii ciała.";
-"TIMED_WALK_INTRO_2_TEXT_%@" = "Znajdź miejsce, najlepiej na zewnątrz, gdzie możesz iść w linii prostej przez ok. %@ możliwie najszybciej, ale bezpiecznie. Nie zwalniaj, dopóki nie przekroczysz linii końcowej.";
+"TIMED_WALK_INTRO_2_TEXT_%@" = "Find a place, preferably outside, where you can walk for about %@ in a straight line as quickly as possible, but safely. Do not slow down until after you’ve passed the finish line.";
 "TIMED_WALK_INTRO_2_DETAIL" = "Aby rozpocząć, stuknij w Dalej.";
 "TIMED_WALK_FORM_TITLE" = "Urządzenie wspomagające";
 "TIMED_WALK_FORM_TEXT" = "Użyj tego samego urządzenia wspomagającego w każdym teście.";
@@ -470,7 +482,7 @@
 "PASAT_INTRO_TEXT" = "Test PASAT mierzy szybkość przetwarzania danych audialnych i umiejętność liczenia.";
 "PVSAT_INTRO_TEXT" = "Test PVSAT mierzy szybkość przetwarzania danych wizualnych i umiejętność liczenia.";
 "PAVSAT_INTRO_TEXT" = "Test PAVSAT mierzy szybkość przetwarzania danych audiowizualnych i umiejętność liczenia.";
-"PSAT_INTRO_TEXT_2_%@" = "Zaprezentujemy liczby jednocyfrowe zmieniające się po %@ sekundach.\nKażdą nową liczbę musisz dodać do poprzedniej.\nUwaga: Nie obliczaj łącznej sumy, tylko sumę dwóch ostatnich liczb.";
+"PSAT_INTRO_TEXT_2_%@" = "Single digits are presented every %@.\nYou must add each new digit to the one immediately prior to it.\nAttention, you mustn’t calculate a running total, but only the sum of the last two numbers.";
 "PSAT_CALL_TO_ACTION" = "Aby rozpocząć, stuknij w Start.";
 "PSAT_INITIAL_INSTRUCTION" = "Zapamiętaj tę pierwszą cyfrę.";
 "PSAT_INSTRUCTION" = "Dodaj tę cyfrę do poprzedniej.";
@@ -587,8 +599,10 @@
 "ENVIRONMENTSPL_UNIT" = "dBA";
 "ENVIRONMENTSPL_CALCULATING" = "Obliczam";
 "ENVIRONMENTSPL_THRESHOLD" = "Próg: %@ dBA";
-"ENVIRONMENTSPL_OK" = "OK";
+"ENVIRONMENTSPL_OK" = "Background Noise OK";
 "ENVIRONMENTSPL_NOISE" = "Zbyt głośne otoczenie";
+"ENVIRONMENTSPL_TITLE_2" = "Znajdź ciche miejsce";
+"ENVIRONMENTSPL_INTRO_TEXT_2" = "Aby zapewnić dokładność testu, przeprowadź go w cichym miejscu.";
 
 /* Secondary Task Step*/
 "SECONDARY_TASK_START_BUTTON" = "Start";
@@ -598,7 +612,7 @@
 
 /* Slider */
 "SLIDER_MOVE_SLIDER_FOR_VALUE" = "Aby wprowadzić wartość, przesuń suwak";
-"SLIDER_I_DONT_KNOW" = "Nie wiem";
+"SLIDER_I_DONT_KNOW" = "I Don’t Know";
 
 /* Review Step */
 "REVIEW_STEP_PAGE" = "Strona";
@@ -622,6 +636,7 @@
 
 "AX_SELECTED" = "Zaznaczone";
 "AX_UNSELECTED" = "Nie zaznaczone";
+"AX_SELECT_ALL_THAT_APPLY" = "SELECT ALL THAT APPLY";
 
 "AX_SLIDER_LABEL" = "Suwak odpowiedzi. Zakres od %@ do %@";
 "AX_UNLABELED_IMAGE" = "Obrazek bez etykiety";

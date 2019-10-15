@@ -34,7 +34,7 @@
 "CONSENT_NAME_FAMILY" = "Prezime";
 "CONSENT_NAME_PLACEHOLDER" = "Potrebno";
 "CONSENT_REVIEW_TITLE" = "Pregled informacija";
-"CONSENT_REVIEW_INSTRUCTION" = "Pregledajte obrazac u nastavku, te dodirnite Slažem se ako ste spremni nastaviti.";
+"CONSENT_REVIEW_INSTRUCTION" = "Review the form below, and tap Agree if you’re ready to continue.";
 "CONSENT_REVIEW_ALERT_TITLE" = "Pregled informacija";
 "CONSENT_SIGNATURE_TITLE" = "Potpis";
 "CONSENT_SIGNATURE_INSTRUCTION" = "Prijavite se koristeći prst u donjem okviru.";
@@ -58,7 +58,7 @@
 "LEARN_MORE_PRIVACY" = "Saznajte više o načinu zaštite vaše privatnosti i identiteta";
 "LEARN_MORE_WELCOME" = "Saznajte više o istraživanju";
 "LEARN_MORE_STUDY_SURVEY" = "Saznajte više o istraživačkoj anketi";
-"LEARN_MORE_TIME_COMMITMENT" = "Saznajte kako će istraživanje utjecati na vaše vrijeme";
+"LEARN_MORE_TIME_COMMITMENT" = "Learn more about the study’s impact on your time";
 "LEARN_MORE_TASKS" = "Saznajte više o zadacima";
 "LEARN_MORE_WITHDRAWING" = "Saznajte više o povlačenju pristanka";
 
@@ -254,7 +254,7 @@
 "FITNESS_SIT_INSTRUCTION_FORMAT" = "Sjedite udobno %@.";
 "FITNESS_WALK_INSTRUCTION_FORMAT" = "Hodajte što brže možete %@.";
 "FITNESS_INTRO_TEXT_FORMAT" = "Ova aktivnost prati vašu brzinu otkucaja srca i mjeri koliko možete prehodati unutar %1$@.";
-"FITNESS_INTRO_2_TEXT_FORMAT" = "Hodajte na otvorenom najbrže što možete %1$@. Kad završite, sjednite i odmarajte %2$@. Za početak dodirnite Pokreni.";
+"FITNESS_INTRO_2_TEXT_FORMAT" = "Walk outdoors at your fastest possible pace for %1$@. When you’re done, sit and rest comfortably for %2$@. To begin, tap Get Started.";
 
 /* Short walk active task. */
 "WALK_TASK_TITLE" = "Položaj i ravnoteža";
@@ -296,7 +296,7 @@
 
 /* Amsler Grid Task.*/
 "AMSLER_GRID_TITLE" = "Amslerova mreža";
-"AMSLER_GRID_INTRO_TEXT" = "Ovom se aktivnošću pomažu detektirati problemi u vidu korisnika.";
+"AMSLER_GRID_INTRO_TEXT" = "This activity helps in detecting problems in user’s vision.";
 "AMSLER_GRID_INSTRUCTION_TEXT" = "Tijekom cijelog testa uređaj držite na udaljenosti od 30 centimetara od svog lica i u razini očiju.";
 "AMSLER_GRID_INSTRUCTION_DETAIL_TEXT" = "Zatvorite svoje %@ i gledajte točku u središtu četvrtaste mreže.\n\nPrstima ili olovkom označite sva izobličenja koja vidite poput zamagljenih ili valovitih linija.\n\nKad završite, povucite lijevo bilo gdje izvan rešetke.";
 "AMSLER_GRID_LEFT_EYE" = "Lijevo oko";
@@ -379,8 +379,8 @@
 "MEMORY_GAME_COMPLETE_TITLE" = "Niz je dovršen";
 "MEMORY_GAME_COMPLETE_MESSAGE" = "Za nastavak dodirnite Sljedeće";
 "MEMORY_GAME_FAILED_TITLE" = "Pokušaj ponovno";
-"MEMORY_GAME_FAILED_MESSAGE" = "Ovaj put niste uspjeli. Dodirnite Sljedeće za nastavak.";
-"MEMORY_GAME_TIMEOUT_TITLE" = "Vrijeme je isteklo";
+"MEMORY_GAME_FAILED_MESSAGE" = "You didn’t quite make it through that time. Tap Next to continue.";
+"MEMORY_GAME_TIMEOUT_TITLE" = "Isteklo vrijeme";
 "MEMORY_GAME_TIMEOUT_MESSAGE" = "Isteklo vam je vrijeme.\nZa nastavak kliknite Dalje.";
 "MEMORY_GAME_COMPLETE" = "Igra je dovršena";
 "MEMORY_GAME_PAUSED_TITLE" = "Pauzirano";
@@ -457,7 +457,7 @@
 /* Timed walk active task. */
 "TIMED_WALK_TITLE" = "Tempirana šetnja";
 "TIMED_WALK_INTRO_DETAIL" = "Ova aktivnost mjeri funkcionalnost vaših donjih ekstremiteta.";
-"TIMED_WALK_INTRO_2_TEXT_%@" = "Pronađite mjesto, po mogućnosti vani, gdje možete hodati otprilike\\n%@ u ravnoj liniji što brže možete, ali sigurno. Nemojte usporavati sve dok ne prijeđete ciljnu liniju.";
+"TIMED_WALK_INTRO_2_TEXT_%@" = "Find a place, preferably outside, where you can walk for about %@ in a straight line as quickly as possible, but safely. Do not slow down until after you’ve passed the finish line.";
 "TIMED_WALK_INTRO_2_DETAIL" = "Dodirnite Sljedeće za početak.";
 "TIMED_WALK_FORM_TITLE" = "Pomagalo";
 "TIMED_WALK_FORM_TEXT" = "Koristite isto pomagalo za svaki test.";
@@ -482,7 +482,7 @@
 "PASAT_INTRO_TEXT" = "Auditivni test tempiranog serijskog zbrajanja (PASAT) mjeri brzinu vaše obrade auditivnih podataka te sposobnost računanja.";
 "PVSAT_INTRO_TEXT" = "Vizualni test tempiranog serijskog zbrajanja mjeri (PVSAT) brzinu vaše obrade vizualnih podataka te sposobnost računanja.";
 "PAVSAT_INTRO_TEXT" = "Auditivni i vizualni test tempiranog serijskog zbrajanja (PAVSAT) mjeri brzinu vaše obrade auditivnih i vizualnih podataka te sposobnost računanja.";
-"PSAT_INTRO_TEXT_2_%@" = "Jednoznamenkaste brojke prikazuju se svakih %@.\nMorate pribrojiti svaku novu znamenku onoj koja joj neposredno prethodi.\nPozor, ne smijete računati ukupni iznos, nego samo zbroj posljednja dva broja.";
+"PSAT_INTRO_TEXT_2_%@" = "Single digits are presented every %@.\nYou must add each new digit to the one immediately prior to it.\nAttention, you mustn’t calculate a running total, but only the sum of the last two numbers.";
 "PSAT_CALL_TO_ACTION" = "Dodirnite Pokreni za početak.";
 "PSAT_INITIAL_INSTRUCTION" = "Zapamtite prvu znamenku.";
 "PSAT_INSTRUCTION" = "Zbrojite ovu novu znamenku s prethodnom.";
@@ -612,7 +612,7 @@
 
 /* Slider */
 "SLIDER_MOVE_SLIDER_FOR_VALUE" = "Pomaknite kliznik za unos vrijednosti";
-"SLIDER_I_DONT_KNOW" = "Ne znam";
+"SLIDER_I_DONT_KNOW" = "I Don’t Know";
 
 /* Review Step */
 "REVIEW_STEP_PAGE" = "Stranica";
@@ -636,6 +636,7 @@
 
 "AX_SELECTED" = "Odabrano";
 "AX_UNSELECTED" = "Nije odabrano";
+"AX_SELECT_ALL_THAT_APPLY" = "SELECT ALL THAT APPLY";
 
 "AX_SLIDER_LABEL" = "Kliznik odgovora. Raspon od %@ do %@";
 "AX_UNLABELED_IMAGE" = "Neoznačena slika";

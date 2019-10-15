@@ -34,7 +34,7 @@
 "CONSENT_NAME_FAMILY" = "성";
 "CONSENT_NAME_PLACEHOLDER" = "필요함";
 "CONSENT_REVIEW_TITLE" = "검토";
-"CONSENT_REVIEW_INSTRUCTION" = "아래 양식을 검토하고 계속할 준비가 되었으면 동의를 탭하십시오.";
+"CONSENT_REVIEW_INSTRUCTION" = "Review the form below, and tap Agree if you’re ready to continue.";
 "CONSENT_REVIEW_ALERT_TITLE" = "검토";
 "CONSENT_SIGNATURE_TITLE" = "서명";
 "CONSENT_SIGNATURE_INSTRUCTION" = "손가락을 사용하여 아래에 있는 상자에 서명하십시오.";
@@ -58,7 +58,7 @@
 "LEARN_MORE_PRIVACY" = "사용자의 개인 정보 및 신원 보호 방법에 관하여 더 알아보기";
 "LEARN_MORE_WELCOME" = "연구에 관하여 더 알아보기";
 "LEARN_MORE_STUDY_SURVEY" = "연구 설문에 관하여 더 알아보기";
-"LEARN_MORE_TIME_COMMITMENT" = "이 연구가 사용자의 시간에 미치는 영향에 관하여 더 알아보기";
+"LEARN_MORE_TIME_COMMITMENT" = "Learn more about the study’s impact on your time";
 "LEARN_MORE_TASKS" = "관련된 과제에 관하여 더 알아보기";
 "LEARN_MORE_WITHDRAWING" = "철회하기에 관하여 더 알아보기";
 
@@ -70,7 +70,7 @@
 "LEARN_MORE_CONSENT_SHARING" = "데이터 공유에 관하여 더 알아보기";
 
 /* Lines beneath typewritten signatures on documents.*/
-"CONSENT_DOC_LINE_PRINTED_NAME" = "Printed Name";
+"CONSENT_DOC_LINE_PRINTED_NAME" = "프린트된 이름";
 "CONSENT_DOC_LINE_SIGNATURE" = "Signature";
 "CONSENT_DOC_LINE_DATE" = "날짜";
 
@@ -254,7 +254,7 @@
 "FITNESS_SIT_INSTRUCTION_FORMAT" = "%@ 동안 편하게 앉아 있으십시오.";
 "FITNESS_WALK_INSTRUCTION_FORMAT" = "%@ 동안 최대한 빨리 걸으십시오.";
 "FITNESS_INTRO_TEXT_FORMAT" = "이 실험은 사용자의 심박수를 모니터하고 %1$@ 동안 얼마나 멀리 걸을 수 있는지를 측정합니다.";
-"FITNESS_INTRO_2_TEXT_FORMAT" = "실외에서 최대한 빠른 페이스로 %1$@ 동안 걸으십시오. 걷기가 끝나면 편하게 앉아서 %2$@ 동안 휴식하십시오. 시작하려면 시작하기를 탭하십시오.";
+"FITNESS_INTRO_2_TEXT_FORMAT" = "Walk outdoors at your fastest possible pace for %1$@. When you’re done, sit and rest comfortably for %2$@. To begin, tap Get Started.";
 
 /* Short walk active task. */
 "WALK_TASK_TITLE" = "보행 및 균형";
@@ -296,7 +296,7 @@
 
 /* Amsler Grid Task.*/
 "AMSLER_GRID_TITLE" = "암슬러 격자";
-"AMSLER_GRID_INTRO_TEXT" = "이 실험은 사용자의 시각에 문제가 있는지 감지할 수 있습니다.";
+"AMSLER_GRID_INTRO_TEXT" = "This activity helps in detecting problems in user’s vision.";
 "AMSLER_GRID_INSTRUCTION_TEXT" = "실험하는 동안 기기를 얼굴에서 약 30cm 정도 떨어진 거리에서 눈높이에 맞춰 유지하십시오.";
 "AMSLER_GRID_INSTRUCTION_DETAIL_TEXT" = "%@을(를) 감고 정사각형 격자 가운데 있는 점을 응시합니다.\n\n손가락이나 스타일러스를 사용하여 흐릿한 선이나 물결선 같은 왜곡된 부분을 모두 표시하십시오.\n\n모두 완료하면 격자 바깥을 왼쪽으로 쓸어 넘기십시오.";
 "AMSLER_GRID_LEFT_EYE" = "왼쪽 눈";
@@ -345,10 +345,10 @@
 "dBHL_TONE_AUDIOMETRY_OPTION_LEFT" = "왼쪽";
 "dBHL_TONE_AUDIOMETRY_OPTION_RIGHT" = "오른쪽";
 "dBHL_TONE_AUDIOMETRY_OPTION_NO_PREFERENCE" = "선호하는 쪽 없음";
-"dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "Test Cancelled";
+"dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "테스트가 취소됨";
 "dBHL_ALERT_TITLE_START_OVER" = "다시 시작";
 "dBHL_ALERT_TITLE_CANCEL_TEST" = "테스트 취소";
-"dBHL_ALERT_TEXT" = "Reconnect your AirPods or EarPods to take this test.";
+"dBHL_ALERT_TEXT" = "이 테스트를 실시하려면 AirPods 또는 EarPods를 다시 연결하십시오.";
 "dBHL_PROGRESS_COMPLETION_%@" = "%@ Complete";
 
 /* Headphones. */
@@ -361,7 +361,7 @@
 "NOT_CONNECTED" = "Not Connected";
 "HEADPHONE_CONNECTED_%@" = "연결됨 - %@";
 "HEADPHONE_DETECT_TITLE" = "헤드폰에 연결";
-"HEADPHONE_DETECT_TEXT" = "This test requires Apple AirPods or Apple EarPods";
+"HEADPHONE_DETECT_TEXT" = "이 테스트는 Apple Airpods 또는 Apple Earpods이 필요합니다.";
 
 /* Spatial span memory active task. */
 "SPATIAL_SPAN_MEMORY_TITLE" = "공간 기억";
@@ -379,8 +379,8 @@
 "MEMORY_GAME_COMPLETE_TITLE" = "순서 완료";
 "MEMORY_GAME_COMPLETE_MESSAGE" = "계속하려면 다음을 탭하십시오.";
 "MEMORY_GAME_FAILED_TITLE" = "다시 시도";
-"MEMORY_GAME_FAILED_MESSAGE" = "이번에는 성공적으로 완료하지 못했습니다. 계속하려면 다음을 탭하십시오.";
-"MEMORY_GAME_TIMEOUT_TITLE" = "제한 시간 종료";
+"MEMORY_GAME_FAILED_MESSAGE" = "You didn’t quite make it through that time. Tap Next to continue.";
+"MEMORY_GAME_TIMEOUT_TITLE" = "제한 시간 도달";
 "MEMORY_GAME_TIMEOUT_MESSAGE" = "시간이 초과되었습니다.\n계속하려면 다음을 탭하십시오.";
 "MEMORY_GAME_COMPLETE" = "게임 종료";
 "MEMORY_GAME_PAUSED_TITLE" = "일시 정지됨";
@@ -457,7 +457,7 @@
 /* Timed walk active task. */
 "TIMED_WALK_TITLE" = "보행 테스트";
 "TIMED_WALK_INTRO_DETAIL" = "이 실험은 사용자의 하지 기능을 측정합니다.";
-"TIMED_WALK_INTRO_2_TEXT_%@" = "되도록 실외로 장소를 골라서 안전하면서도 최대한 빨리 일직선으로 약 %@를 걸으십시오. 결승선을 지나기 전에는 속도를 늦추지 마십시오.";
+"TIMED_WALK_INTRO_2_TEXT_%@" = "Find a place, preferably outside, where you can walk for about %@ in a straight line as quickly as possible, but safely. Do not slow down until after you’ve passed the finish line.";
 "TIMED_WALK_INTRO_2_DETAIL" = "시작하려면 다음을 탭하십시오.";
 "TIMED_WALK_FORM_TITLE" = "보조 기구";
 "TIMED_WALK_FORM_TEXT" = "매 테스트에 동일한 보조 기구를 사용하십시오.";
@@ -482,7 +482,7 @@
 "PASAT_INTRO_TEXT" = "PASAT 테스트(Paced Auditory Serial Addition Test)는 사용자의 청각 정보 처리 속도 및 계산 능력을 측정합니다.";
 "PVSAT_INTRO_TEXT" = "PVSAT 테스트(Paced Visual Serial Addition Test)는 사용자의 시각 정보 처리 속도 및 계산 능력을 측정합니다.";
 "PAVSAT_INTRO_TEXT" = "PAVSAT 테스트(Paced Auditory and Visual Serial Addition Test)는 사용자의 청각 및 시각 정보 처리 속도 및 계산 능력을 측정합니다.";
-"PSAT_INTRO_TEXT_2_%@" = "한 자릿수의 숫자가 %@마다 제시됩니다.\n새로운 숫자가 제시될 때마다 직전에 제시된 숫자에 더하십시오.\n총 누계를 계산하지 않도록 주의하십시오. 직전에 제시된 두 개의 숫자만 더하십시오.";
+"PSAT_INTRO_TEXT_2_%@" = "Single digits are presented every %@.\nYou must add each new digit to the one immediately prior to it.\nAttention, you mustn’t calculate a running total, but only the sum of the last two numbers.";
 "PSAT_CALL_TO_ACTION" = "시작하려면 시작하기를 탭하십시오.";
 "PSAT_INITIAL_INSTRUCTION" = "아래 첫 번째 숫자를 기억하십시오.";
 "PSAT_INSTRUCTION" = "아래 새로운 숫자를 이전 숫자에 더하십시오.";
@@ -599,7 +599,7 @@
 "ENVIRONMENTSPL_UNIT" = "dBA";
 "ENVIRONMENTSPL_CALCULATING" = "계산 중";
 "ENVIRONMENTSPL_THRESHOLD" = "임계값: %@dBA";
-"ENVIRONMENTSPL_OK" = "Background Noise OK";
+"ENVIRONMENTSPL_OK" = "주변 소음 양호함";
 "ENVIRONMENTSPL_NOISE" = "주변 소음이 너무 큼";
 "ENVIRONMENTSPL_TITLE_2" = "조용한 장소 찾기";
 "ENVIRONMENTSPL_INTRO_TEXT_2" = "이 테스트는 정확성을 기하기 위해 조용한 환경에서 진행해야 합니다.";
@@ -612,7 +612,7 @@
 
 /* Slider */
 "SLIDER_MOVE_SLIDER_FOR_VALUE" = "슬라이더를 이동하여 값 입력";
-"SLIDER_I_DONT_KNOW" = "모르겠음";
+"SLIDER_I_DONT_KNOW" = "I Don’t Know";
 
 /* Review Step */
 "REVIEW_STEP_PAGE" = "페이지";
@@ -636,6 +636,7 @@
 
 "AX_SELECTED" = "선택됨";
 "AX_UNSELECTED" = "선택 안 됨";
+"AX_SELECT_ALL_THAT_APPLY" = "해당되는 사항은 모두 선택하십시오.";
 
 "AX_SLIDER_LABEL" = "응답 슬라이더. %@에서 %@까지의 범위";
 "AX_UNLABELED_IMAGE" = "꼬리표 없는 이미지";

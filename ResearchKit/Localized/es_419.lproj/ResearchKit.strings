@@ -34,7 +34,7 @@
 "CONSENT_NAME_FAMILY" = "Apellidos";
 "CONSENT_NAME_PLACEHOLDER" = "Campo obligatorio";
 "CONSENT_REVIEW_TITLE" = "Revisar";
-"CONSENT_REVIEW_INSTRUCTION" = "Lee el siguiente formulario y toca Acepto si estás listo para continuar.";
+"CONSENT_REVIEW_INSTRUCTION" = "Revisa el formulario siguiente y toca Acepto para continuar.";
 "CONSENT_REVIEW_ALERT_TITLE" = "Revisar";
 "CONSENT_SIGNATURE_TITLE" = "Firma";
 "CONSENT_SIGNATURE_INSTRUCTION" = "Firma con tu dedo en el siguiente cuadro.";
@@ -58,7 +58,7 @@
 "LEARN_MORE_PRIVACY" = "Más información sobre cómo se protege tu privacidad e identidad";
 "LEARN_MORE_WELCOME" = "Obtén primero más información sobre el estudio";
 "LEARN_MORE_STUDY_SURVEY" = "Más información sobre la encuesta del estudio";
-"LEARN_MORE_TIME_COMMITMENT" = "Más información sobre el impacto del estudio en tu tiempo";
+"LEARN_MORE_TIME_COMMITMENT" = "Learn more about the study’s impact on your time";
 "LEARN_MORE_TASKS" = "Más información sobre las tareas relacionadas";
 "LEARN_MORE_WITHDRAWING" = "Más información";
 
@@ -70,7 +70,7 @@
 "LEARN_MORE_CONSENT_SHARING" = "Más información sobre compartir datos";
 
 /* Lines beneath typewritten signatures on documents.*/
-"CONSENT_DOC_LINE_PRINTED_NAME" = "Printed Name";
+"CONSENT_DOC_LINE_PRINTED_NAME" = "Nombre";
 "CONSENT_DOC_LINE_SIGNATURE" = "Signature";
 "CONSENT_DOC_LINE_DATE" = "Fecha";
 
@@ -254,7 +254,7 @@
 "FITNESS_SIT_INSTRUCTION_FORMAT" = "Siéntate cómodamente durante %@.";
 "FITNESS_WALK_INSTRUCTION_FORMAT" = "Camina tan rápido como sea posible durante %@.";
 "FITNESS_INTRO_TEXT_FORMAT" = "Esta actividad revisa tu frecuencia cardiaca y mide cuánto puedes caminar en el transcurso de %1$@.";
-"FITNESS_INTRO_2_TEXT_FORMAT" = "Camina afuera tan rápido como puedas durante %1$@. Al terminar, siéntate y descansa cómodamente durante %2$@. Toca Empezar para comenzar.";
+"FITNESS_INTRO_2_TEXT_FORMAT" = "Walk outdoors at your fastest possible pace for %1$@. When you’re done, sit and rest comfortably for %2$@. To begin, tap Get Started.";
 
 /* Short walk active task. */
 "WALK_TASK_TITLE" = "Pasos y equilibrio";
@@ -345,10 +345,10 @@
 "dBHL_TONE_AUDIOMETRY_OPTION_LEFT" = "izquierdo";
 "dBHL_TONE_AUDIOMETRY_OPTION_RIGHT" = "derecho";
 "dBHL_TONE_AUDIOMETRY_OPTION_NO_PREFERENCE" = "sin preferencia";
-"dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "Test Cancelled";
+"dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "Prueba cancelada";
 "dBHL_ALERT_TITLE_START_OVER" = "Volver a empezar";
 "dBHL_ALERT_TITLE_CANCEL_TEST" = "Cancelar prueba";
-"dBHL_ALERT_TEXT" = "Reconnect your AirPods or EarPods to take this test.";
+"dBHL_ALERT_TEXT" = "Vuelve a conectar tus AirPods o EarPods para realizar esta prueba.";
 "dBHL_PROGRESS_COMPLETION_%@" = "%@ Complete";
 
 /* Headphones. */
@@ -361,7 +361,7 @@
 "NOT_CONNECTED" = "Not Connected";
 "HEADPHONE_CONNECTED_%@" = "Se conectó el %@";
 "HEADPHONE_DETECT_TITLE" = "Conecta tus audífonos";
-"HEADPHONE_DETECT_TEXT" = "This test requires Apple AirPods or Apple EarPods";
+"HEADPHONE_DETECT_TEXT" = "Este estudio requiere usar Airpods de Apple o Earpods de Apple";
 
 /* Spatial span memory active task. */
 "SPATIAL_SPAN_MEMORY_TITLE" = "Memoria espacial";
@@ -379,7 +379,7 @@
 "MEMORY_GAME_COMPLETE_TITLE" = "Secuencia completada";
 "MEMORY_GAME_COMPLETE_MESSAGE" = "Para continuar, toca Siguiente";
 "MEMORY_GAME_FAILED_TITLE" = "Reintentar";
-"MEMORY_GAME_FAILED_MESSAGE" = "Esta vez no lo conseguiste. Toca Siguiente para continuar.";
+"MEMORY_GAME_FAILED_MESSAGE" = "You didn’t quite make it through that time. Tap Next to continue.";
 "MEMORY_GAME_TIMEOUT_TITLE" = "Se acabó el tiempo";
 "MEMORY_GAME_TIMEOUT_MESSAGE" = "Se agotó el tiempo.\nToca Siguiente para continuar.";
 "MEMORY_GAME_COMPLETE" = "Juego completado";
@@ -599,7 +599,7 @@
 "ENVIRONMENTSPL_UNIT" = "dBA";
 "ENVIRONMENTSPL_CALCULATING" = "Calculando";
 "ENVIRONMENTSPL_THRESHOLD" = "Umbral: %@ dBA";
-"ENVIRONMENTSPL_OK" = "Background Noise OK";
+"ENVIRONMENTSPL_OK" = "Ruido ambiental aceptable";
 "ENVIRONMENTSPL_NOISE" = "Hay demasiado ruido ambiental";
 "ENVIRONMENTSPL_TITLE_2" = "Encuentra un lugar silencioso";
 "ENVIRONMENTSPL_INTRO_TEXT_2" = "Para asegurar la precisión, este estudio se debe tomar en un entorno silencioso.";
@@ -612,7 +612,7 @@
 
 /* Slider */
 "SLIDER_MOVE_SLIDER_FOR_VALUE" = "Desliza el interruptor para ingresar el valor";
-"SLIDER_I_DONT_KNOW" = "No lo sé";
+"SLIDER_I_DONT_KNOW" = "No sé";
 
 /* Review Step */
 "REVIEW_STEP_PAGE" = "Página";
@@ -636,6 +636,7 @@
 
 "AX_SELECTED" = "Elemento seleccionado";
 "AX_UNSELECTED" = "No seleccionado";
+"AX_SELECT_ALL_THAT_APPLY" = "SELECCIONA TODO LO QUE APLIQUE";
 
 "AX_SLIDER_LABEL" = "Regulador de respuesta. Rango de %@ a %@";
 "AX_UNLABELED_IMAGE" = "Imagen sin etiqueta";

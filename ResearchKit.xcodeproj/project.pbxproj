@@ -1400,7 +1400,6 @@
 		B1B349EA1AA10E2E005FAD66 /* sk */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; name = sk; path = sk.lproj/ResearchKit.strings; sourceTree = "<group>"; };
 		B1B349EB1AA10E38005FAD66 /* ru */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; name = ru; path = ru.lproj/ResearchKit.strings; sourceTree = "<group>"; };
 		B1B349EC1AA10E40005FAD66 /* ro */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; name = ro; path = ro.lproj/ResearchKit.strings; sourceTree = "<group>"; };
-		B1B349ED1AA10E47005FAD66 /* pt */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; name = pt; path = pt.lproj/ResearchKit.strings; sourceTree = "<group>"; };
 		B1B349EE1AA10E4F005FAD66 /* pt_PT */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; name = pt_PT; path = pt_PT.lproj/ResearchKit.strings; sourceTree = "<group>"; };
 		B1B349EF1AA10E56005FAD66 /* pl */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; name = pl; path = pl.lproj/ResearchKit.strings; sourceTree = "<group>"; };
 		B1B349F01AA10E5E005FAD66 /* nl */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; name = nl; path = nl.lproj/ResearchKit.strings; sourceTree = "<group>"; };
@@ -1426,7 +1425,6 @@
 		B1B34A041AA10EDA005FAD66 /* cs */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; name = cs; path = cs.lproj/ResearchKit.strings; sourceTree = "<group>"; };
 		B1B34A051AA10EDF005FAD66 /* ca */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; name = ca; path = ca.lproj/ResearchKit.strings; sourceTree = "<group>"; };
 		B1B34A061AA10EE4005FAD66 /* ar */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; name = ar; path = ar.lproj/ResearchKit.strings; sourceTree = "<group>"; };
-		B1B34A061AABBCCDDEEFFAAA /* no */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; name = no; path = nb.lproj/ResearchKit.strings; sourceTree = "<group>"; };
 		B1B894391A00345200C5CF2D /* ResearchKit_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ResearchKit_Private.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		B1C0F4E21A9BA65F0022C153 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ResearchKit.strings; sourceTree = "<group>"; };
 		B1C1DE4F196F541F00F75544 /* ResearchKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResearchKit.h; sourceTree = "<group>"; };
@@ -3950,7 +3948,6 @@
 				sk,
 				ru,
 				ro,
-				pt,
 				pt_PT,
 				pl,
 				nl,
@@ -4508,7 +4505,6 @@
 				B1B349EA1AA10E2E005FAD66 /* sk */,
 				B1B349EB1AA10E38005FAD66 /* ru */,
 				B1B349EC1AA10E40005FAD66 /* ro */,
-				B1B349ED1AA10E47005FAD66 /* pt */,
 				B1B349EE1AA10E4F005FAD66 /* pt_PT */,
 				B1B349EF1AA10E56005FAD66 /* pl */,
 				B1B349F01AA10E5E005FAD66 /* nl */,
@@ -4534,7 +4530,6 @@
 				B1B34A041AA10EDA005FAD66 /* cs */,
 				B1B34A051AA10EDF005FAD66 /* ca */,
 				B1B34A061AA10EE4005FAD66 /* ar */,
-				B1B34A061AABBCCDDEEFFAAA /* no */,
 			);
 			name = ResearchKit.strings;
 			sourceTree = "<group>";

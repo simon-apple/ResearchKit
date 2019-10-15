@@ -34,7 +34,7 @@
 "CONSENT_NAME_FAMILY" = "Фамилия";
 "CONSENT_NAME_PLACEHOLDER" = "Обязательно";
 "CONSENT_REVIEW_TITLE" = "Проверка";
-"CONSENT_REVIEW_INSTRUCTION" = "Проверьте приведенную ниже форму и коснитесь «Принимаю», если Вы готовы продолжить.";
+"CONSENT_REVIEW_INSTRUCTION" = "Review the form below, and tap Agree if you’re ready to continue.";
 "CONSENT_REVIEW_ALERT_TITLE" = "Проверка";
 "CONSENT_SIGNATURE_TITLE" = "Подпись";
 "CONSENT_SIGNATURE_INSTRUCTION" = "Распишитесь пальцем в поле ниже.";
@@ -58,7 +58,7 @@
 "LEARN_MORE_PRIVACY" = "Подробнее о конфиденциальности и защите личной информации";
 "LEARN_MORE_WELCOME" = "Подробнее об исследовании";
 "LEARN_MORE_STUDY_SURVEY" = "Подробнее об опросе";
-"LEARN_MORE_TIME_COMMITMENT" = "Подробнее о том, сколько времени занимает исследование";
+"LEARN_MORE_TIME_COMMITMENT" = "Learn more about the study’s impact on your time";
 "LEARN_MORE_TASKS" = "Подробнее о задачах, включенных в исследование";
 "LEARN_MORE_WITHDRAWING" = "Подробнее об отказе от участия";
 
@@ -70,19 +70,19 @@
 "LEARN_MORE_CONSENT_SHARING" = "Подробнее о предоставлении данных";
 
 /* Lines beneath typewritten signatures on documents.*/
-"CONSENT_DOC_LINE_PRINTED_NAME" = "%@ (расшифровка подписи)";
-"CONSENT_DOC_LINE_SIGNATURE" = "%@ (подпись)";
+"CONSENT_DOC_LINE_PRINTED_NAME" = "Printed Name";
+"CONSENT_DOC_LINE_SIGNATURE" = "Signature";
 "CONSENT_DOC_LINE_DATE" = "Дата";
 
 /* Progress indication (in navigation bar). */
 "STEP_PROGRESS_FORMAT" = "%1$@ из %2$@";
 
 /* Progress indication (in formItem section header). */
-"FORM_ITEM_PROGRESS" = "ВОПРОС %1$@ ИЗ %2$@";
+"FORM_ITEM_PROGRESS" = "Вопрос %1$@ из %2$@";
 
 /* ORKTaskReviewViewController */
 "REVIEW_SKIPPED_ANSWER" = "Пропущено";
-"REVIEW_EDIT_ANSWER" = "Изменить ответ";
+"REVIEW_EDIT_ANSWER" = "Edit";
 
 /* Alert for out of range values. */
 "RANGE_ALERT_TITLE" = "Недопустимое значение";
@@ -254,7 +254,7 @@
 "FITNESS_SIT_INSTRUCTION_FORMAT" = "Сядьте поудобнее и сидите %@.";
 "FITNESS_WALK_INSTRUCTION_FORMAT" = "Идите %@ с максимальной скоростью.";
 "FITNESS_INTRO_TEXT_FORMAT" = "Во время выполнения этого задания программа следит за частотой Вашего пульса и измеряет расстояние, которое Вы пройдете за %1$@.";
-"FITNESS_INTRO_2_TEXT_FORMAT" = "Идите %1$@ по улице с максимальной скоростью. После этого удобно сядьте и отдыхайте %2$@. Коснитесь «Начать», чтобы приступить.";
+"FITNESS_INTRO_2_TEXT_FORMAT" = "Walk outdoors at your fastest possible pace for %1$@. When you’re done, sit and rest comfortably for %2$@. To begin, tap Get Started.";
 
 /* Short walk active task. */
 "WALK_TASK_TITLE" = "Координация";
@@ -296,7 +296,7 @@
 
 /* Amsler Grid Task.*/
 "AMSLER_GRID_TITLE" = "Сетка Амслера";
-"AMSLER_GRID_INTRO_TEXT" = "Это задание позволяет установить наличие проблем со зрением.";
+"AMSLER_GRID_INTRO_TEXT" = "This activity helps in detecting problems in user’s vision.";
 "AMSLER_GRID_INSTRUCTION_TEXT" = "Во время теста держите устройство на уровне глаз и в 30 сантиметрах от лица.";
 "AMSLER_GRID_INSTRUCTION_DETAIL_TEXT" = "Закройте %@ и смотрите на точку в центре сетки.\n\nИспользуя стилус или палец, отметьте любые дефекты сетки, которые заметите, например, волны или искривления линий сетки.\n\nКогда будете готовы, смахните влево в любом месте, где нет сетки.";
 "AMSLER_GRID_LEFT_EYE" = "левый глаз";
@@ -328,28 +328,40 @@
 
 /* dBHL Tone audiometry active task. */
 "dBHL_TONE_AUDIOMETRY_TASK_TITLE" = "Аудиометрия";
+"dBHL_TONE_AUDIOMETRY_TASK_TITLE_2" = "Касайтесь, когда услышите звук.";
+"dBHL_TONE_AUDIOMETRY_INTRO_TITLE" = "Звук и громкость";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_1" = "Вы услышите последовательность звуков.";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_2" = "Нажимайте кнопку, когда услышите звук.";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_3" = "Для этого теста громкость будет установлена на 50 процентов.";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_4" = "Этот тест займет около 10 минут.";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_5" = "Включите режим «Не беспокоить», чтобы не прерываться.";
 "dBHL_TONE_AUDIOMETRY_STEP_TITLE_RIGHT_EAR" = "Звуки сначала будут воспроизводиться для правого уха.";
 "dBHL_TONE_AUDIOMETRY_STEP_TITLE_LEFT_EAR" = "Звуки теперь будут воспроизводиться для левого уха.";
 "dBHL_TONE_AUDIOMETRY_INTENDED_USE" = "Это задание позволяет определить порог слышимости (ПС) по шкале дБ ПС.";
 "dBHL_TONE_AUDIOMETRY_INTRO_TEXT" = "Убедитесь, что установлена максимальная громкость устройства.\n\nВо время выполнения задания Вы услышите слабый звук с правой или левой стороны.\n\nСлушайте внимательно и касайтесь кнопки каждый раз, когда слышите звук.";
+"dBHL_TONE_AUDIOMETRY_INTRO_TEXT_2" = "Этот тест определяет, насколько громким должен быть звук, чтобы Вы могли его услышать.";
 "dBHL_TONE_AUDIOMETRY_ONBOARDING" = "Вводный опрос.";
 "dBHL_TONE_AUDIOMETRY_ONBOARDING_QUESTION" = "Каким ухом Вы слышите лучше? (Если замечаете разницу)";
 "dBHL_TONE_AUDIOMETRY_OPTION_LEFT" = "левым";
 "dBHL_TONE_AUDIOMETRY_OPTION_RIGHT" = "правым";
 "dBHL_TONE_AUDIOMETRY_OPTION_NO_PREFERENCE" = "не замечаю разницы";
-"dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "Тест прерван";
-"dBHL_ALERT_TITLE_START_OVER" = "Начать сначала";
+"dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "Test Cancelled";
+"dBHL_ALERT_TITLE_START_OVER" = "Начать снова";
 "dBHL_ALERT_TITLE_CANCEL_TEST" = "Отменить тест";
-"dBHL_ALERT_TEXT" = "Что-то не так с Вашими наушниками.";
+"dBHL_ALERT_TEXT" = "Reconnect your AirPods or EarPods to take this test.";
+"dBHL_PROGRESS_COMPLETION_%@" = "%@ Complete";
 
 /* Headphones. */
-"AIRPODS" = "Наушники AirPods";
-"EARPODS" = "Наушники EarPods";
+"AIRPODS" = "AirPods";
+"EARPODS" = "EarPods";
 "HEADPHONES" = "Наушники";
 "HEADPHONES_UNKNOWN" = "Неизвестно";
 "HEADPHONES_NONE" = "Нет";
 "CONNECTED" = "Подключено";
+"NOT_CONNECTED" = "Not Connected";
 "HEADPHONE_CONNECTED_%@" = "Подключено — %@";
+"HEADPHONE_DETECT_TITLE" = "Подключите наушники";
+"HEADPHONE_DETECT_TEXT" = "This test requires Apple AirPods or Apple EarPods";
 
 /* Spatial span memory active task. */
 "SPATIAL_SPAN_MEMORY_TITLE" = "Пространственная память";
@@ -367,7 +379,7 @@
 "MEMORY_GAME_COMPLETE_TITLE" = "Задание выполнено";
 "MEMORY_GAME_COMPLETE_MESSAGE" = "Нажмите «Далее», чтобы продолжить";
 "MEMORY_GAME_FAILED_TITLE" = "Повторить";
-"MEMORY_GAME_FAILED_MESSAGE" = "В этот раз Вы не совсем справились с заданием. Коснитесь «Далее», чтобы продолжить.";
+"MEMORY_GAME_FAILED_MESSAGE" = "You didn’t quite make it through that time. Tap Next to continue.";
 "MEMORY_GAME_TIMEOUT_TITLE" = "Время истекло";
 "MEMORY_GAME_TIMEOUT_MESSAGE" = "Время истекло.\nНажмите «Далее», чтобы продолжить.";
 "MEMORY_GAME_COMPLETE" = "Игра завершена";
@@ -445,7 +457,7 @@
 /* Timed walk active task. */
 "TIMED_WALK_TITLE" = "Ходьба на время";
 "TIMED_WALK_INTRO_DETAIL" = "Во время выполнения этого задания оценивается работоспособность нижних конечностей.";
-"TIMED_WALK_INTRO_2_TEXT_%@" = "Найдите место, предпочтительно на улице, где Вы смогли бы безопасно идти %@ по прямой линии с максимальной скоростью. Не замедляйте шаг, пока не дойдете до финиша.";
+"TIMED_WALK_INTRO_2_TEXT_%@" = "Find a place, preferably outside, where you can walk for about %@ in a straight line as quickly as possible, but safely. Do not slow down until after you’ve passed the finish line.";
 "TIMED_WALK_INTRO_2_DETAIL" = "Чтобы начать, коснитесь «Далее».";
 "TIMED_WALK_FORM_TITLE" = "Вспомогательные приспособления";
 "TIMED_WALK_FORM_TEXT" = "Используйте одно и тоже вспомогательное приспособление для всех упражнений.";
@@ -470,7 +482,7 @@
 "PASAT_INTRO_TEXT" = "В слуховом тесте на сложение с заданным темпом измеряются способность обрабатывать аудиальную информацию, а также способность к вычислениям.";
 "PVSAT_INTRO_TEXT" = "В визуальном тесте на сложение с заданным темпом измеряются способность обрабатывать визуальную информацию, а также способность к вычислениям.";
 "PAVSAT_INTRO_TEXT" = "В слуховом и визуальном тестах на сложение с заданным темпом измеряются способности обрабатывать аудиальную и визуальную информацию, а также способность к вычислениям.";
-"PSAT_INTRO_TEXT_2_%@" = "С частотой в %@ с будет появляться однозначное число.\nПрибавляйте каждое новое число к предыдущему.\nВнимание! Вычислять общую сумму не нужно — просто складывайте два последних числа.";
+"PSAT_INTRO_TEXT_2_%@" = "Single digits are presented every %@.\nYou must add each new digit to the one immediately prior to it.\nAttention, you mustn’t calculate a running total, but only the sum of the last two numbers.";
 "PSAT_CALL_TO_ACTION" = "Чтобы приступить, коснитесь «Начать».";
 "PSAT_INITIAL_INSTRUCTION" = "Запомните эту первую цифру.";
 "PSAT_INSTRUCTION" = "Прибавьте это новое число к предыдущему.";
@@ -587,8 +599,10 @@
 "ENVIRONMENTSPL_UNIT" = "дБА";
 "ENVIRONMENTSPL_CALCULATING" = "Вычисление";
 "ENVIRONMENTSPL_THRESHOLD" = "Порог: %@ дБА";
-"ENVIRONMENTSPL_OK" = "ОК";
+"ENVIRONMENTSPL_OK" = "Background Noise OK";
 "ENVIRONMENTSPL_NOISE" = "Вокруг слишком шумно";
+"ENVIRONMENTSPL_TITLE_2" = "Найдите тихое место";
+"ENVIRONMENTSPL_INTRO_TEXT_2" = "Для получения достоверного результата этот тест необходимо проводить в тихом месте.";
 
 /* Secondary Task Step*/
 "SECONDARY_TASK_START_BUTTON" = "Начать задание";
@@ -598,7 +612,7 @@
 
 /* Slider */
 "SLIDER_MOVE_SLIDER_FOR_VALUE" = "Чтобы ввести значение, передвиньте бегунок.";
-"SLIDER_I_DONT_KNOW" = "Я не знаю";
+"SLIDER_I_DONT_KNOW" = "I Don’t Know";
 
 /* Review Step */
 "REVIEW_STEP_PAGE" = "Страница";
@@ -622,6 +636,7 @@
 
 "AX_SELECTED" = "Выбрано";
 "AX_UNSELECTED" = "Не выбрано";
+"AX_SELECT_ALL_THAT_APPLY" = "SELECT ALL THAT APPLY";
 
 "AX_SLIDER_LABEL" = "Бегунок ответа. Диапазон от %@ до %@";
 "AX_UNLABELED_IMAGE" = "Изображение без подписи";

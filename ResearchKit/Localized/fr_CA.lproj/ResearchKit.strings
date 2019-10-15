@@ -34,7 +34,7 @@
 "CONSENT_NAME_FAMILY" = "Nom de famille";
 "CONSENT_NAME_PLACEHOLDER" = "Requis";
 "CONSENT_REVIEW_TITLE" = "Révision";
-"CONSENT_REVIEW_INSTRUCTION" = "Consultez le formulaire ci-dessous et touchez Accepter si vous êtes prêt à continuer.";
+"CONSENT_REVIEW_INSTRUCTION" = "Review the form below, and tap Agree if you’re ready to continue.";
 "CONSENT_REVIEW_ALERT_TITLE" = "Révision";
 "CONSENT_SIGNATURE_TITLE" = "Signature";
 "CONSENT_SIGNATURE_INSTRUCTION" = "Signez avec votre doigt dans la boîte ci-dessous.";
@@ -58,7 +58,7 @@
 "LEARN_MORE_PRIVACY" = "En savoir plus sur notre façon de protéger votre confidentialité et votre identité";
 "LEARN_MORE_WELCOME" = "Tout d’abord, en savoir plus sur l’étude";
 "LEARN_MORE_STUDY_SURVEY" = "En savoir plus sur l’enquête de l’étude";
-"LEARN_MORE_TIME_COMMITMENT" = "En savoir plus sur l’impact de l’étude sur votre agenda";
+"LEARN_MORE_TIME_COMMITMENT" = "Learn more about the study’s impact on your time";
 "LEARN_MORE_TASKS" = "En savoir plus sur les tâches concernées";
 "LEARN_MORE_WITHDRAWING" = "En savoir plus sur l’abandon";
 
@@ -254,7 +254,7 @@
 "FITNESS_SIT_INSTRUCTION_FORMAT" = "Assoyez-vous confortablement pendant %@.";
 "FITNESS_WALK_INSTRUCTION_FORMAT" = "Marchez aussi vite que possible pendant %@.";
 "FITNESS_INTRO_TEXT_FORMAT" = "Cette activité mesure votre rythme cardiaque, ainsi que la distance que vous pouvez parcourir à pied en %1$@.";
-"FITNESS_INTRO_2_TEXT_FORMAT" = "Marchez aussi vite que possible pendant %1$@ en plein air. Ensuite, assoyez-vous et reposez-vous confortablement pendant %2$@. Pour commencer, touchez Démarrer.";
+"FITNESS_INTRO_2_TEXT_FORMAT" = "Walk outdoors at your fastest possible pace for %1$@. When you’re done, sit and rest comfortably for %2$@. To begin, tap Get Started.";
 
 /* Short walk active task. */
 "WALK_TASK_TITLE" = "Démarche et équilibre";
@@ -296,7 +296,7 @@
 
 /* Amsler Grid Task.*/
 "AMSLER_GRID_TITLE" = "Grille d’Amsler";
-"AMSLER_GRID_INTRO_TEXT" = "Cette activité contribue à détecter les problèmes de vision de l’utilisateur.";
+"AMSLER_GRID_INTRO_TEXT" = "This activity helps in detecting problems in user’s vision.";
 "AMSLER_GRID_INSTRUCTION_TEXT" = "Tenez l’appareil à 30 cm de votre visage et à hauteur des yeux pendant toute la durée du test.";
 "AMSLER_GRID_INSTRUCTION_DETAIL_TEXT" = "Fermez votre %@ et fixez le point au centre de la grille.\n\nUtilisez votre doigt ou le stylet et indiquez toutes les distortions que vous voyez, par exemple des lignes floues ou ondulées.\n\nLorsque vous avez terminé, balayez vers la gauche sur un point à l’extérieur de la grille.";
 "AMSLER_GRID_LEFT_EYE" = "œil gauche";
@@ -379,8 +379,8 @@
 "MEMORY_GAME_COMPLETE_TITLE" = "Séquence terminée";
 "MEMORY_GAME_COMPLETE_MESSAGE" = "Pour continuer, touchez Suivant";
 "MEMORY_GAME_FAILED_TITLE" = "Réessayer";
-"MEMORY_GAME_FAILED_MESSAGE" = "Vous n’y êtes pas arrivé cette fois-ci. Touchez Suivant pour continuer.";
-"MEMORY_GAME_TIMEOUT_TITLE" = "Temps écoulé";
+"MEMORY_GAME_FAILED_MESSAGE" = "You didn’t quite make it through that time. Tap Next to continue.";
+"MEMORY_GAME_TIMEOUT_TITLE" = "C’est l’heure";
 "MEMORY_GAME_TIMEOUT_MESSAGE" = "Le temps s’est écoulé.\nTouchez Suivant pour continuer.";
 "MEMORY_GAME_COMPLETE" = "Jeu terminé";
 "MEMORY_GAME_PAUSED_TITLE" = "En pause";
@@ -457,7 +457,7 @@
 /* Timed walk active task. */
 "TIMED_WALK_TITLE" = "Marche chronométrée";
 "TIMED_WALK_INTRO_DETAIL" = "Cette activité évalue la fonction des membres inférieurs.";
-"TIMED_WALK_INTRO_2_TEXT_%@" = "Identifiez un endroit, de préférence à l’extérieur, où vous pouvez marcher sur %@ en ligne droite, le plus vite possible, mais en toute sécurité. Ne ralentissez pas tant que vous n’avez pas franchi la ligne d’arrivée.";
+"TIMED_WALK_INTRO_2_TEXT_%@" = "Find a place, preferably outside, where you can walk for about %@ in a straight line as quickly as possible, but safely. Do not slow down until after you’ve passed the finish line.";
 "TIMED_WALK_INTRO_2_DETAIL" = "Touchez Suivant pour commencer.";
 "TIMED_WALK_FORM_TITLE" = "Appareil d’assistance";
 "TIMED_WALK_FORM_TEXT" = "Utilisez le même appareil d’assistance pour chaque test.";
@@ -482,7 +482,7 @@
 "PASAT_INTRO_TEXT" = "Le test rythmé d’addition en série auditive (PASAT) mesure la vitesse de traitement d’informations auditives, ainsi que la capacité de calcul.";
 "PVSAT_INTRO_TEXT" = "Le test rythmé d’addition en série visuelle (PAVAT) mesure la vitesse de traitement d’informations visuelles, ainsi que la capacité de calcul.";
 "PAVSAT_INTRO_TEXT" = "Le test rythmé d’addition en série auditive et visuelle (PAVSAT) mesure la vitesse de traitement d’informations auditives et visuelles, ainsi que la capacité de calcul.";
-"PSAT_INTRO_TEXT_2_%@" = "Les chiffres s’affichent toutes les %@ secondes.\nVous devez ajouter chaque nouveau chiffre au chiffre précédent.\nAttention, vous ne devez pas calculer la somme totale, mais bien la somme des deux derniers chiffres.";
+"PSAT_INTRO_TEXT_2_%@" = "Single digits are presented every %@.\nYou must add each new digit to the one immediately prior to it.\nAttention, you mustn’t calculate a running total, but only the sum of the last two numbers.";
 "PSAT_CALL_TO_ACTION" = "Touchez Démarrer pour commencer.";
 "PSAT_INITIAL_INSTRUCTION" = "Mémorisez ce premier chiffre.";
 "PSAT_INSTRUCTION" = "Ajoutez ce nouveau chiffre au précédent.";
@@ -612,7 +612,7 @@
 
 /* Slider */
 "SLIDER_MOVE_SLIDER_FOR_VALUE" = "Déplacer le curseur pour entrer une valeur";
-"SLIDER_I_DONT_KNOW" = "Je ne sais pas";
+"SLIDER_I_DONT_KNOW" = "I Don’t Know";
 
 /* Review Step */
 "REVIEW_STEP_PAGE" = "Page";
@@ -636,6 +636,7 @@
 
 "AX_SELECTED" = "Sélectionné";
 "AX_UNSELECTED" = "Désélectionné";
+"AX_SELECT_ALL_THAT_APPLY" = "SELECT ALL THAT APPLY";
 
 "AX_SLIDER_LABEL" = "Curseur de réponse. De %@ à %@";
 "AX_UNLABELED_IMAGE" = "Image sans étiquette";

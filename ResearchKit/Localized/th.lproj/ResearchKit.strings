@@ -34,7 +34,7 @@
 "CONSENT_NAME_FAMILY" = "นามสกุล";
 "CONSENT_NAME_PLACEHOLDER" = "บังคับ";
 "CONSENT_REVIEW_TITLE" = "ตรวจทาน";
-"CONSENT_REVIEW_INSTRUCTION" = "ตรวจทานแบบฟอร์มด้านล่างแล้วแตะยอมรับหากคุณพร้อมดำเนินการต่อแล้ว";
+"CONSENT_REVIEW_INSTRUCTION" = "Review the form below, and tap Agree if you’re ready to continue.";
 "CONSENT_REVIEW_ALERT_TITLE" = "ตรวจทาน";
 "CONSENT_SIGNATURE_TITLE" = "ลายเซ็น";
 "CONSENT_SIGNATURE_INSTRUCTION" = "โปรดเซ็นชื่อในช่องด้านล่างโดยใช้นิ้วของคุณ";
@@ -58,7 +58,7 @@
 "LEARN_MORE_PRIVACY" = "เรียนรู้เพิ่มเติมเกี่ยวกับวิธีการปกป้องความเป็นส่วนตัวและข้อมูลประจำตัวของคุณ";
 "LEARN_MORE_WELCOME" = "เรียนรู้เพิ่มเติมเกี่ยวกับงานศึกษาก่อน";
 "LEARN_MORE_STUDY_SURVEY" = "เรียนรู้เพิ่มเติมเกี่ยวกับการสำรวจงานศึกษา";
-"LEARN_MORE_TIME_COMMITMENT" = "เรียนรู้เพิ่มเติมเกี่ยวกับผลกระทบของงานศึกษาที่มีต่อเวลาของคุณ";
+"LEARN_MORE_TIME_COMMITMENT" = "Learn more about the study’s impact on your time";
 "LEARN_MORE_TASKS" = "เรียนรู้เพิ่มเติมเกี่ยวกับแบบทดสอบที่เกี่ยวข้อง";
 "LEARN_MORE_WITHDRAWING" = "เรียนรู้เพิ่มเติมเกี่ยวกับการถอนตัว";
 
@@ -70,8 +70,8 @@
 "LEARN_MORE_CONSENT_SHARING" = "เรียนรู้เพิ่มเติมเกี่ยวกับการแชร์ข้อมูล";
 
 /* Lines beneath typewritten signatures on documents.*/
-"CONSENT_DOC_LINE_PRINTED_NAME" = "ชื่อของ %@ (ตัวพิมพ์)";
-"CONSENT_DOC_LINE_SIGNATURE" = "ลายเซ็นของ %@";
+"CONSENT_DOC_LINE_PRINTED_NAME" = "Printed Name";
+"CONSENT_DOC_LINE_SIGNATURE" = "Signature";
 "CONSENT_DOC_LINE_DATE" = "วันที่";
 
 /* Progress indication (in navigation bar). */
@@ -82,7 +82,7 @@
 
 /* ORKTaskReviewViewController */
 "REVIEW_SKIPPED_ANSWER" = "ข้ามไป";
-"REVIEW_EDIT_ANSWER" = "แก้ไขคำตอบ";
+"REVIEW_EDIT_ANSWER" = "Edit";
 
 /* Alert for out of range values. */
 "RANGE_ALERT_TITLE" = "ค่าไม่ถูกต้อง";
@@ -254,7 +254,7 @@
 "FITNESS_SIT_INSTRUCTION_FORMAT" = "นั่งสบายๆ นาน %@";
 "FITNESS_WALK_INSTRUCTION_FORMAT" = "เดินให้เร็วที่สุดเท่าที่คุณทำได้นาน %@";
 "FITNESS_INTRO_TEXT_FORMAT" = "กิจกรรมนี้จะตรวจสอบอัตราการเต้นของหัวใจของคุณและวัดระยะทางที่คุณสามารถเดินได้ภายใน %1$@";
-"FITNESS_INTRO_2_TEXT_FORMAT" = "เดินกลางแจ้งด้วยอัตราการเดินที่เร็วที่สุดที่คุณทำได้นาน %1$@ เมื่อคุณเดินเสร็จแล้ว ให้นั่งพักสบายๆ นาน %2$@ ในการเริ่มต้น ให้แตะเริ่มต้นใช้งาน";
+"FITNESS_INTRO_2_TEXT_FORMAT" = "Walk outdoors at your fastest possible pace for %1$@. When you’re done, sit and rest comfortably for %2$@. To begin, tap Get Started.";
 
 /* Short walk active task. */
 "WALK_TASK_TITLE" = "ท่าเดินและความสมดุล";
@@ -296,7 +296,7 @@
 
 /* Amsler Grid Task.*/
 "AMSLER_GRID_TITLE" = "ตาราง Amsler";
-"AMSLER_GRID_INTRO_TEXT" = "กิจกรรมนี้จะช่วยตรวจหาปัญหาสายตาของผู้ใช้";
+"AMSLER_GRID_INTRO_TEXT" = "กิจกรรมนี้ช่วยตรวจหาปัญหาสายตาของผู้ใช้";
 "AMSLER_GRID_INSTRUCTION_TEXT" = "ถืออุปกรณ์ให้ห่างจากใบหน้าของคุณเป็นระยะ 12 นิ้วในระดับสายตาตลอดการทดสอบ";
 "AMSLER_GRID_INSTRUCTION_DETAIL_TEXT" = "ปิด %@ ของคุณแล้วจ้องที่จุดตรงกึ่งกลางของตารางสี่เหลี่ยมจัตุรัส\n\nใช้นิ้วหรือปากกาสไตลัสทำเครื่องหมายบนตำแหน่งใดๆ ที่คุณเห็นว่าบิดเบี้ยว เช่น เส้นที่พร่ามัวหรือเส้นหยัก\n\nเมื่อเสร็จแล้ว ให้ปัดไปทางซ้ายที่ตำแหน่งใดก็ได้นอกตาราง";
 "AMSLER_GRID_LEFT_EYE" = "ตาข้างซ้าย";
@@ -328,19 +328,28 @@
 
 /* dBHL Tone audiometry active task. */
 "dBHL_TONE_AUDIOMETRY_TASK_TITLE" = "ตรวจวัดการได้ยิน";
+"dBHL_TONE_AUDIOMETRY_TASK_TITLE_2" = "แตะเมื่อคุณได้ยินเสียง";
+"dBHL_TONE_AUDIOMETRY_INTRO_TITLE" = "เสียงและระดับเสียง";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_1" = "คุณจะได้ยินเสียงต่อเนื่องกันหลายเสียง";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_2" = "เมื่อคุณได้ยินเสียง ให้แตะบนปุ่ม";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_3" = "สำหรับการทดสอบนี้ ระดับความดังจะถูกตั้งอยู่ที่ 50 เปอร์เซ็นต์";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_4" = "การทดสอบนี้ใช้เวลาประมาณ 10 นาที";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_5" = "เปิดใช้ห้ามรบกวนเพื่อหลีกเลี่ยงการขัดจังหวะ";
 "dBHL_TONE_AUDIOMETRY_STEP_TITLE_RIGHT_EAR" = "เสียงจะดังครั้งแรกในหูข้างขวาของคุณ";
 "dBHL_TONE_AUDIOMETRY_STEP_TITLE_LEFT_EAR" = "เสียงจะดังในหูข้างซ้ายของคุณ";
 "dBHL_TONE_AUDIOMETRY_INTENDED_USE" = "กิจกรรมนี้จะระบุระดับเกณฑ์การได้ยินของบุคคลเป็น dB HL";
 "dBHL_TONE_AUDIOMETRY_INTRO_TEXT" = "ตรวจสอบให้แน่ใจว่าได้ตั้งค่าความดังของอุปกรณ์เป็นระดับสูงสุดแล้ว\n\nในบททดสอบนี้ จะมีเสียงเบาๆ เล่นในหูข้างซ้ายหรือข้างขวา\n\nตั้งใจฟังให้ดี แล้วแตะปุ่มทุกครั้งที่คุณได้ยินเสียง";
+"dBHL_TONE_AUDIOMETRY_INTRO_TEXT_2" = "การทดสอบนี้ตรวจสอบว่าควรมีระดับความดังของเสียงเท่าไหร่ที่คุณสามารถได้ยิน";
 "dBHL_TONE_AUDIOMETRY_ONBOARDING" = "คำแนะนำแบบสอบถาม";
 "dBHL_TONE_AUDIOMETRY_ONBOARDING_QUESTION" = "ถ้ามี ‘หูข้างที่ถนัด’ ให้เลือกหูข้างนั้น";
 "dBHL_TONE_AUDIOMETRY_OPTION_LEFT" = "ซ้าย";
 "dBHL_TONE_AUDIOMETRY_OPTION_RIGHT" = "ขวา";
 "dBHL_TONE_AUDIOMETRY_OPTION_NO_PREFERENCE" = "ไม่มีข้างที่ถนัด";
-"dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "การทดสอบถูกขัดจังหวะ";
-"dBHL_ALERT_TITLE_START_OVER" = "เริ่มต้นใหม่";
+"dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "Test Cancelled";
+"dBHL_ALERT_TITLE_START_OVER" = "เริ่มอีกครั้ง";
 "dBHL_ALERT_TITLE_CANCEL_TEST" = "ยกเลิกการทดสอบ";
-"dBHL_ALERT_TEXT" = "มีบางอย่างผิดพลาดกับหูฟังของคุณ";
+"dBHL_ALERT_TEXT" = "Reconnect your AirPods or EarPods to take this test.";
+"dBHL_PROGRESS_COMPLETION_%@" = "%@ Complete";
 
 /* Headphones. */
 "AIRPODS" = "AirPods";
@@ -349,7 +358,10 @@
 "HEADPHONES_UNKNOWN" = "ไม่ทราบชื่อ";
 "HEADPHONES_NONE" = "ไม่มี";
 "CONNECTED" = "เชื่อมต่ออยู่";
+"NOT_CONNECTED" = "ไม่ได้เชื่อมต่อ";
 "HEADPHONE_CONNECTED_%@" = "%@ - เชื่อมต่ออยู่";
+"HEADPHONE_DETECT_TITLE" = "เชื่อมต่อกับหูฟังของคุณ";
+"HEADPHONE_DETECT_TEXT" = "This test requires Apple AirPods or Apple EarPods";
 
 /* Spatial span memory active task. */
 "SPATIAL_SPAN_MEMORY_TITLE" = "ความจำเชิงพื้นที่";
@@ -367,7 +379,7 @@
 "MEMORY_GAME_COMPLETE_TITLE" = "ลำดับเสร็จสมบูรณ์";
 "MEMORY_GAME_COMPLETE_MESSAGE" = "ในการดำเนินการต่อ ให้แตะถัดไป";
 "MEMORY_GAME_FAILED_TITLE" = "ลองอีกครั้ง";
-"MEMORY_GAME_FAILED_MESSAGE" = "คุณทำได้ไม่ค่อยดีนักในครั้งที่ผ่านมา ให้แตะถัดไปเพื่อดำเนินการต่อ";
+"MEMORY_GAME_FAILED_MESSAGE" = "You didn’t quite make it through that time. Tap Next to continue.";
 "MEMORY_GAME_TIMEOUT_TITLE" = "หมดเวลา";
 "MEMORY_GAME_TIMEOUT_MESSAGE" = "หมดเวลาแล้ว\nให้แตะถัดไปเพื่อดำเนินการต่อ";
 "MEMORY_GAME_COMPLETE" = "เกมเสร็จสมบูรณ์";
@@ -445,7 +457,7 @@
 /* Timed walk active task. */
 "TIMED_WALK_TITLE" = "การเดินแบบจับเวลา";
 "TIMED_WALK_INTRO_DETAIL" = "กิจกรรมนี้จะประเมินการทำหน้าที่ของรยางค์ล่างของคุณ";
-"TIMED_WALK_INTRO_2_TEXT_%@" = "ค้นหาสถานที่ โดยเฉพาะบริเวณกลางแจ้ง ซึ่งคุณสามารถเดินเป็นเส้นตรงในระยะทางประมาณ %@ ได้เร็วที่สุดเท่าที่จะทำได้อย่างปลอดภัย อย่าลดความเร็วลงจนกว่าคุณจะเดินผ่านจุดสิ้นสุด";
+"TIMED_WALK_INTRO_2_TEXT_%@" = "Find a place, preferably outside, where you can walk for about %@ in a straight line as quickly as possible, but safely. Do not slow down until after you’ve passed the finish line.";
 "TIMED_WALK_INTRO_2_DETAIL" = "แตะถัดไปเพื่อเริ่ม";
 "TIMED_WALK_FORM_TITLE" = "อุปกรณ์ช่วยเหลือ";
 "TIMED_WALK_FORM_TEXT" = "ใช้อุปกรณ์ช่วยเหลืออันเดียวกันสำหรับการทดสอบแต่ละครั้ง";
@@ -470,7 +482,7 @@
 "PASAT_INTRO_TEXT" = "การทดสอบความสามารถผ่านการบวกเลขตามความเร็วที่ได้ยินจะประเมินข้อมูลด้านการได้ยินของคุณโดยการประมวลผลความเร็วและความสามารถด้านการคิดคำนวณ";
 "PVSAT_INTRO_TEXT" = "การทดสอบความสามารถผ่านการบวกเลขตามความเร็วที่มองเห็นจะประเมินข้อมูลด้านการมองเห็นของคุณโดยการประมวลผลความเร็วและความสามารถด้านการคิดคำนวณ";
 "PAVSAT_INTRO_TEXT" = "การทดสอบความสามารถผ่านการบวกเลขตามความเร็วที่ได้ยินและมองเห็นจะประเมินข้อมูลด้านการได้ยินและการมองเห็นของคุณโดยการประมวลผลความเร็วและความสามารถด้านการคิดคำนวณ";
-"PSAT_INTRO_TEXT_2_%@" = "ตัวเลขแต่ละตัวจะแสดงทุก %@\nคุณต้องเพิ่มตัวเลขใหม่หนึ่งตัวต่อท้ายตัวเลขก่อนหน้านี้โดยทันที\nโปรดทราบว่าคุณต้องไม่คำนวณผลรวมของตัวเลขที่เรียงต่อกันทั้งหมด แต่คำนวณเฉพาะผลรวมของตัวเลขสองจำนวนสุดท้ายเท่านั้น";
+"PSAT_INTRO_TEXT_2_%@" = "Single digits are presented every %@.\nYou must add each new digit to the one immediately prior to it.\nAttention, you mustn’t calculate a running total, but only the sum of the last two numbers.";
 "PSAT_CALL_TO_ACTION" = "แตะเริ่มต้นใช้งานเพื่อเริ่ม";
 "PSAT_INITIAL_INSTRUCTION" = "จดจำตัวเลขตัวแรกนี้";
 "PSAT_INSTRUCTION" = "เพิ่มตัวเลขตัวใหม่นี้ไปที่ตัวเลขก่อนหน้า";
@@ -587,8 +599,10 @@
 "ENVIRONMENTSPL_UNIT" = "dBA";
 "ENVIRONMENTSPL_CALCULATING" = "กำลังคำนวณ";
 "ENVIRONMENTSPL_THRESHOLD" = "เกณฑ์: %@ dBA";
-"ENVIRONMENTSPL_OK" = "ตกลง";
+"ENVIRONMENTSPL_OK" = "Background Noise OK";
 "ENVIRONMENTSPL_NOISE" = "มีเสียงรบกวนอยู่เบื้องหลังมากเกินไป";
+"ENVIRONMENTSPL_TITLE_2" = "ค้นหาสถานที่เงียบ";
+"ENVIRONMENTSPL_INTRO_TEXT_2" = "เพื่อความแม่นยำที่ถูกต้อง ควรทำการทดสอบนี้ในสภาพแวดล้อมที่เงียบสงบ";
 
 /* Secondary Task Step*/
 "SECONDARY_TASK_START_BUTTON" = "เริ่มงาน";
@@ -598,7 +612,7 @@
 
 /* Slider */
 "SLIDER_MOVE_SLIDER_FOR_VALUE" = "เลื่อนแถบเลื่อนเพื่อป้อนค่า";
-"SLIDER_I_DONT_KNOW" = "ฉันไม่รู้";
+"SLIDER_I_DONT_KNOW" = "I Don’t Know";
 
 /* Review Step */
 "REVIEW_STEP_PAGE" = "หน้า";
@@ -622,6 +636,7 @@
 
 "AX_SELECTED" = "เลือกอยู่";
 "AX_UNSELECTED" = "ไม่ได้เลือก";
+"AX_SELECT_ALL_THAT_APPLY" = "SELECT ALL THAT APPLY";
 
 "AX_SLIDER_LABEL" = "แถบเลื่อนการตอบสนอง ช่วงตั้งแต่ %@ ถึง %@";
 "AX_UNLABELED_IMAGE" = "รูปภาพที่ไม่มีคำอธิบาย";

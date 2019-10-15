@@ -34,7 +34,7 @@
 "CONSENT_NAME_FAMILY" = "姓";
 "CONSENT_NAME_PLACEHOLDER" = "必須";
 "CONSENT_REVIEW_TITLE" = "確認";
-"CONSENT_REVIEW_INSTRUCTION" = "下記のフォームを確認して、続ける場合は“同意する”をタップしてください。";
+"CONSENT_REVIEW_INSTRUCTION" = "Review the form below, and tap Agree if you’re ready to continue.";
 "CONSENT_REVIEW_ALERT_TITLE" = "確認";
 "CONSENT_SIGNATURE_TITLE" = "署名";
 "CONSENT_SIGNATURE_INSTRUCTION" = "下の枠内に指で署名してください。";
@@ -58,7 +58,7 @@
 "LEARN_MORE_PRIVACY" = "プライバシーおよび個人を特定する情報の保護方法についての詳しい情報を表示します";
 "LEARN_MORE_WELCOME" = "まず調査についての詳しい情報を表示します";
 "LEARN_MORE_STUDY_SURVEY" = "調査アンケートについての詳しい情報を表示します";
-"LEARN_MORE_TIME_COMMITMENT" = "調査にかかる時間についての詳しい情報を表示します";
+"LEARN_MORE_TIME_COMMITMENT" = "Learn more about the study’s impact on your time";
 "LEARN_MORE_TASKS" = "必要なタスクについての詳しい情報を表示します";
 "LEARN_MORE_WITHDRAWING" = "同意の撤回についての詳しい情報を表示します";
 
@@ -254,7 +254,7 @@
 "FITNESS_SIT_INSTRUCTION_FORMAT" = "%@間楽な姿勢で座ってください。";
 "FITNESS_WALK_INSTRUCTION_FORMAT" = "できるだけ速く%@間歩いてください。";
 "FITNESS_INTRO_TEXT_FORMAT" = "このアクティビティでは、心拍数をモニタし、%1$@で歩ける距離を測定します。";
-"FITNESS_INTRO_2_TEXT_FORMAT" = "屋外でできるだけ速いペースで%1$@間歩いてください。終わったら座って、%2$@間楽にしてください。始めるには、“開始”をタップしてください。";
+"FITNESS_INTRO_2_TEXT_FORMAT" = "Walk outdoors at your fastest possible pace for %1$@. When you’re done, sit and rest comfortably for %2$@. To begin, tap Get Started.";
 
 /* Short walk active task. */
 "WALK_TASK_TITLE" = "歩行/バランス";
@@ -296,7 +296,7 @@
 
 /* Amsler Grid Task.*/
 "AMSLER_GRID_TITLE" = "アムスラーグリッド";
-"AMSLER_GRID_INTRO_TEXT" = "このアクティビティは、ユーザの視力の問題を検出するときに役立てることができます。";
+"AMSLER_GRID_INTRO_TEXT" = "This activity helps in detecting problems in user’s vision.";
 "AMSLER_GRID_INSTRUCTION_TEXT" = "テストの間、デバイスを目の高さで、顔から30センチメートルほど離して持ってください。";
 "AMSLER_GRID_INSTRUCTION_DETAIL_TEXT" = "%@を閉じて、四角形のグリッドの中央にあるドットを見つめます。\n\n指かスタイラスペンで、不鮮明な線や破線などの歪みをマークします。\n\n終わったら、グリッドの外を左へスワイプします。";
 "AMSLER_GRID_LEFT_EYE" = "左目";
@@ -379,7 +379,7 @@
 "MEMORY_GAME_COMPLETE_TITLE" = "シーケンス完了";
 "MEMORY_GAME_COMPLETE_MESSAGE" = "続けるには、“次へ”をタップしてください";
 "MEMORY_GAME_FAILED_TITLE" = "やり直す";
-"MEMORY_GAME_FAILED_MESSAGE" = "うまくできませんでした。\\n続けるには、“次へ”をタップしてください。";
+"MEMORY_GAME_FAILED_MESSAGE" = "You didn’t quite make it through that time. Tap Next to continue.";
 "MEMORY_GAME_TIMEOUT_TITLE" = "タイムアップ";
 "MEMORY_GAME_TIMEOUT_MESSAGE" = "時間がなくなりました。\n続けるには、“次へ”をタップしてください。";
 "MEMORY_GAME_COMPLETE" = "ゲーム完了";
@@ -457,7 +457,7 @@
 /* Timed walk active task. */
 "TIMED_WALK_TITLE" = "歩行時間";
 "TIMED_WALK_INTRO_DETAIL" = "このアクティビティでは、下肢の機能を測定します。";
-"TIMED_WALK_INTRO_2_TEXT_%@" = "約%@を安全にまっすぐ歩ける場所を見つけてください。できれば屋外が良いでしょう。このアクティビティでは安全にできるだけ速く歩いていただきます。ゴールを過ぎるまで速度を落とさないでください。";
+"TIMED_WALK_INTRO_2_TEXT_%@" = "Find a place, preferably outside, where you can walk for about %@ in a straight line as quickly as possible, but safely. Do not slow down until after you’ve passed the finish line.";
 "TIMED_WALK_INTRO_2_DETAIL" = "始めるには、“次へ”をタップしてください。";
 "TIMED_WALK_FORM_TITLE" = "補助器具";
 "TIMED_WALK_FORM_TEXT" = "すべてのテストで同じ補助器具を使用してください。";
@@ -482,7 +482,7 @@
 "PASAT_INTRO_TEXT" = "PASAT（定速聴覚的連続加算）では、聴覚による情報処理速度と計算能力を測定します。";
 "PVSAT_INTRO_TEXT" = "PVSAT（定速視覚的連続加算）では、視覚による情報処理速度と計算能力を測定します。";
 "PAVSAT_INTRO_TEXT" = "PAVSAT（定速聴覚および視覚的連続加算）では、聴覚および視覚による情報処理速度と計算能力を測定します。";
-"PSAT_INTRO_TEXT_2_%@" = "%@秒ごとに1つの数字が表示されます。\n表示された数字を、直前に表示された数字と足してください。\nすべての数字を足すのではありません。常に、表示された数字とその直前の数字の2つだけを足してください。";
+"PSAT_INTRO_TEXT_2_%@" = "Single digits are presented every %@.\nYou must add each new digit to the one immediately prior to it.\nAttention, you mustn’t calculate a running total, but only the sum of the last two numbers.";
 "PSAT_CALL_TO_ACTION" = "始めるには、“開始”をタップしてください。";
 "PSAT_INITIAL_INSTRUCTION" = "この最初の数字を覚えておいてください。";
 "PSAT_INSTRUCTION" = "この数字を直前の数字と足してください。";
@@ -612,7 +612,7 @@
 
 /* Slider */
 "SLIDER_MOVE_SLIDER_FOR_VALUE" = "スライダを動かして値を入力します";
-"SLIDER_I_DONT_KNOW" = "知りません";
+"SLIDER_I_DONT_KNOW" = "I Don’t Know";
 
 /* Review Step */
 "REVIEW_STEP_PAGE" = "ページ";
@@ -636,6 +636,7 @@
 
 "AX_SELECTED" = "選択";
 "AX_UNSELECTED" = "選択解除";
+"AX_SELECT_ALL_THAT_APPLY" = "SELECT ALL THAT APPLY";
 
 "AX_SLIDER_LABEL" = "応答スライダ。範囲は%@から%@です";
 "AX_UNLABELED_IMAGE" = "ラベルなしイメージ";

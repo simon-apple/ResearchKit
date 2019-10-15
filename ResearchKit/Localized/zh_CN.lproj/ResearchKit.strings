@@ -34,7 +34,7 @@
 "CONSENT_NAME_FAMILY" = "姓";
 "CONSENT_NAME_PLACEHOLDER" = "必填";
 "CONSENT_REVIEW_TITLE" = "检查";
-"CONSENT_REVIEW_INSTRUCTION" = "请检查下方的表单，确认后请轻点“同意”。";
+"CONSENT_REVIEW_INSTRUCTION" = "Review the form below, and tap Agree if you’re ready to continue.";
 "CONSENT_REVIEW_ALERT_TITLE" = "检查";
 "CONSENT_SIGNATURE_TITLE" = "签名";
 "CONSENT_SIGNATURE_INSTRUCTION" = "请用手指在下方的方框中签名。";
@@ -58,7 +58,7 @@
 "LEARN_MORE_PRIVACY" = "了解有关隐私和身份保护方式的更多信息";
 "LEARN_MORE_WELCOME" = "首先了解有关研究的更多信息";
 "LEARN_MORE_STUDY_SURVEY" = "了解有关研究调查的更多信息";
-"LEARN_MORE_TIME_COMMITMENT" = "了解有关研究所占用时间的更多信息";
+"LEARN_MORE_TIME_COMMITMENT" = "Learn more about the study’s impact on your time";
 "LEARN_MORE_TASKS" = "了解有关所涉及任务的更多信息";
 "LEARN_MORE_WITHDRAWING" = "了解有关退出研究的更多信息";
 
@@ -254,7 +254,7 @@
 "FITNESS_SIT_INSTRUCTION_FORMAT" = "请静坐%@。";
 "FITNESS_WALK_INSTRUCTION_FORMAT" = "以最快速度步行%@。";
 "FITNESS_INTRO_TEXT_FORMAT" = "本活动监控您的心率并测量%1$@内的步行距离。";
-"FITNESS_INTRO_2_TEXT_FORMAT" = "请在室外以最快的速度步行%1$@。步行完成后，请静坐%2$@。若要开始，请轻点“开始”。";
+"FITNESS_INTRO_2_TEXT_FORMAT" = "Walk outdoors at your fastest possible pace for %1$@. When you’re done, sit and rest comfortably for %2$@. To begin, tap Get Started.";
 
 /* Short walk active task. */
 "WALK_TASK_TITLE" = "步态和平衡";
@@ -296,7 +296,7 @@
 
 /* Amsler Grid Task.*/
 "AMSLER_GRID_TITLE" = "阿姆斯勒方格表";
-"AMSLER_GRID_INTRO_TEXT" = "本活动帮助检测用户视力方面的问题。";
+"AMSLER_GRID_INTRO_TEXT" = "This activity helps in detecting problems in user’s vision.";
 "AMSLER_GRID_INSTRUCTION_TEXT" = "在整个测试中，将设备置于靠近距您脸部12英寸（约30厘米）的位置，与眼睛同高。";
 "AMSLER_GRID_INSTRUCTION_DETAIL_TEXT" = "闭上您的%@并盯着正方形网格中间的圆点。\n\n用您的手指或触控笔标记出您所看到的任何变形，如模糊的线或波浪线。\n\n完成后，在网格外的任意位置向左轻扫。";
 "AMSLER_GRID_LEFT_EYE" = "左眼";
@@ -379,8 +379,8 @@
 "MEMORY_GAME_COMPLETE_TITLE" = "顺序完成";
 "MEMORY_GAME_COMPLETE_MESSAGE" = "轻点“下一步”来继续";
 "MEMORY_GAME_FAILED_TITLE" = "再试一次";
-"MEMORY_GAME_FAILED_MESSAGE" = "您好像记错了顺序。轻点“下一步”来继续。";
-"MEMORY_GAME_TIMEOUT_TITLE" = "时间已到";
+"MEMORY_GAME_FAILED_MESSAGE" = "You didn’t quite make it through that time. Tap Next to continue.";
+"MEMORY_GAME_TIMEOUT_TITLE" = "计时结束";
 "MEMORY_GAME_TIMEOUT_MESSAGE" = "时间已到。\n轻点“下一步”来继续。";
 "MEMORY_GAME_COMPLETE" = "游戏完成";
 "MEMORY_GAME_PAUSED_TITLE" = "暂停";
@@ -457,7 +457,7 @@
 /* Timed walk active task. */
 "TIMED_WALK_TITLE" = "计时步行";
 "TIMED_WALK_INTRO_DETAIL" = "本活动测量您的下肢功能。";
-"TIMED_WALK_INTRO_2_TEXT_%@" = "找到一处地点，最好是户外，能够安全地以最快速度直线步行约%@。请不要放慢脚步，直到跨过终点线。";
+"TIMED_WALK_INTRO_2_TEXT_%@" = "Find a place, preferably outside, where you can walk for about %@ in a straight line as quickly as possible, but safely. Do not slow down until after you’ve passed the finish line.";
 "TIMED_WALK_INTRO_2_DETAIL" = "轻点“下一步”来开始。";
 "TIMED_WALK_FORM_TITLE" = "辅助设备";
 "TIMED_WALK_FORM_TEXT" = "在每次测试中使用相同的辅助设备。";
@@ -482,7 +482,7 @@
 "PASAT_INTRO_TEXT" = "“步进式听觉累加实验”测量您的听觉信息处理速度和计算能力。";
 "PVSAT_INTRO_TEXT" = "“步进式视觉累加实验”测量您的视觉信息处理速度和计算能力。";
 "PAVSAT_INTRO_TEXT" = "“步进式听觉和视觉累加实验”测量您的听觉和视觉信息处理速度和计算能力。";
-"PSAT_INTRO_TEXT_2_%@" = "每隔%@会显示一个一位数。\n您必须将每个新数字与前一个数字相加。\n注意，您不用计算累加值，只需计算最后两个数字之和。";
+"PSAT_INTRO_TEXT_2_%@" = "Single digits are presented every %@.\nYou must add each new digit to the one immediately prior to it.\nAttention, you mustn’t calculate a running total, but only the sum of the last two numbers.";
 "PSAT_CALL_TO_ACTION" = "轻点“开始”来进行测试。";
 "PSAT_INITIAL_INSTRUCTION" = "记住这第一个数字。";
 "PSAT_INSTRUCTION" = "将这个新数字与前一个数字相加。";
@@ -612,7 +612,7 @@
 
 /* Slider */
 "SLIDER_MOVE_SLIDER_FOR_VALUE" = "移动滑块输入值";
-"SLIDER_I_DONT_KNOW" = "不知道";
+"SLIDER_I_DONT_KNOW" = "I Don’t Know";
 
 /* Review Step */
 "REVIEW_STEP_PAGE" = "页面";
@@ -636,6 +636,7 @@
 
 "AX_SELECTED" = "已选择";
 "AX_UNSELECTED" = "未选择";
+"AX_SELECT_ALL_THAT_APPLY" = "SELECT ALL THAT APPLY";
 
 "AX_SLIDER_LABEL" = "响应滑块。范围：%@ ~ %@";
 "AX_UNLABELED_IMAGE" = "无标签图像";

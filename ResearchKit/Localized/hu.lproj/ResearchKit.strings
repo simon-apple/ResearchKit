@@ -34,7 +34,7 @@
 "CONSENT_NAME_FAMILY" = "Családi név";
 "CONSENT_NAME_PLACEHOLDER" = "Szükséges";
 "CONSENT_REVIEW_TITLE" = "Áttekintés";
-"CONSENT_REVIEW_INSTRUCTION" = "Tekintse át az alábbi űrlapot, majd koppintson az Elfogadom gombra, ha készen áll a folytatásra.";
+"CONSENT_REVIEW_INSTRUCTION" = "Review the form below, and tap Agree if you’re ready to continue.";
 "CONSENT_REVIEW_ALERT_TITLE" = "Áttekintés";
 "CONSENT_SIGNATURE_TITLE" = "Aláírás";
 "CONSENT_SIGNATURE_INSTRUCTION" = "Kérjük, írja alá az ujjával az alábbi mezőben.";
@@ -58,7 +58,7 @@
 "LEARN_MORE_PRIVACY" = "További információk az adatok és személyes információk védelmének módjáról";
 "LEARN_MORE_WELCOME" = "További információk a vizsgálatról";
 "LEARN_MORE_STUDY_SURVEY" = "További információk a kérdőívről";
-"LEARN_MORE_TIME_COMMITMENT" = "További információk arról, mennyi időt vesz igénybe a felmérés";
+"LEARN_MORE_TIME_COMMITMENT" = "Learn more about the study’s impact on your time";
 "LEARN_MORE_TASKS" = "További információk a bennfoglalt feladatokról";
 "LEARN_MORE_WITHDRAWING" = "További információk a visszavonásról";
 
@@ -70,19 +70,19 @@
 "LEARN_MORE_CONSENT_SHARING" = "További infó az adatok megosztásáról";
 
 /* Lines beneath typewritten signatures on documents.*/
-"CONSENT_DOC_LINE_PRINTED_NAME" = "%@ neve (kinyomtatva)";
-"CONSENT_DOC_LINE_SIGNATURE" = "%@ aláírása";
+"CONSENT_DOC_LINE_PRINTED_NAME" = "Printed Name";
+"CONSENT_DOC_LINE_SIGNATURE" = "Signature";
 "CONSENT_DOC_LINE_DATE" = "Dátum";
 
 /* Progress indication (in navigation bar). */
 "STEP_PROGRESS_FORMAT" = "%2$@/%1$@";
 
 /* Progress indication (in formItem section header). */
-"FORM_ITEM_PROGRESS" = "%2$@/%1$@. KÉRDÉS";
+"FORM_ITEM_PROGRESS" = "%2$@/%1$@. kérdés";
 
 /* ORKTaskReviewViewController */
 "REVIEW_SKIPPED_ANSWER" = "Átugorva";
-"REVIEW_EDIT_ANSWER" = "Válasz szerkesztése";
+"REVIEW_EDIT_ANSWER" = "Edit";
 
 /* Alert for out of range values. */
 "RANGE_ALERT_TITLE" = "Érvénytelen érték";
@@ -254,7 +254,7 @@
 "FITNESS_SIT_INSTRUCTION_FORMAT" = "Üljön kényelmesen %@ időtartamig.";
 "FITNESS_WALK_INSTRUCTION_FORMAT" = "Gyalogoljon olyan gyorsan, amilyen gyorsan tud %@ időtartam alatt.";
 "FITNESS_INTRO_TEXT_FORMAT" = "Ez a tevékenység a pulzusát figyeli, és megméri, milyen messzire tud gyalogolni %1$@ időtartam alatt.";
-"FITNESS_INTRO_2_TEXT_FORMAT" = "Kültéren gyalogoljon olyan gyorsan, ahogy csak tud %1$@ időtartamig. Amikor befejezte, üljön le, és pihenjen kényelmesen %2$@ időtartamig. A kezdéshez koppintson a Kezdés elemre.";
+"FITNESS_INTRO_2_TEXT_FORMAT" = "Walk outdoors at your fastest possible pace for %1$@. When you’re done, sit and rest comfortably for %2$@. To begin, tap Get Started.";
 
 /* Short walk active task. */
 "WALK_TASK_TITLE" = "Testtartás és egyensúly";
@@ -296,7 +296,7 @@
 
 /* Amsler Grid Task.*/
 "AMSLER_GRID_TITLE" = "Amsler-rács";
-"AMSLER_GRID_INTRO_TEXT" = "Ez a tevékenység segít észlelni a felhasználó látással kapcsolatos problémáit.";
+"AMSLER_GRID_INTRO_TEXT" = "This activity helps in detecting problems in user’s vision.";
 "AMSLER_GRID_INSTRUCTION_TEXT" = "A vizsgálat alatt tartsa 30 cm-re az eszközt az arcától, szemmagasságban.";
 "AMSLER_GRID_INSTRUCTION_DETAIL_TEXT" = "Csukja be a %@, és nézze a négyzetrács közepén lévő pontot.\n\nAz ujja vagy egy érintőceruza segítségével jelölje meg az összes torzítva megjelenő elemet, például elmosott vagy hullámos vonalakat.\n\nHa elkészült, legyintsen balra bárhol, a rácson kívül.";
 "AMSLER_GRID_LEFT_EYE" = "bal szemét";
@@ -328,28 +328,40 @@
 
 /* dBHL Tone audiometry active task. */
 "dBHL_TONE_AUDIOMETRY_TASK_TITLE" = "Hangaudiometria";
+"dBHL_TONE_AUDIOMETRY_TASK_TITLE_2" = "Koppintson, amikor hangot hall.";
+"dBHL_TONE_AUDIOMETRY_INTRO_TITLE" = "Hang és hangerő";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_1" = "Egy hangsorozatot fog hallani.";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_2" = "Amikor hangot hall, koppintson a gombra.";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_3" = "Ehhez a teszthez 50 százalékra lesz állítva.";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_4" = "Ez a vizsgálat 10 percig tart.";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_5" = "A zavaró körülmények kizárásához kapcsolja be a Ne zavarjanak funkciót.";
 "dBHL_TONE_AUDIOMETRY_STEP_TITLE_RIGHT_EAR" = "A hangok először közvetlenül a fülében lesznek lejátszva.";
 "dBHL_TONE_AUDIOMETRY_STEP_TITLE_LEFT_EAR" = "A hangok most a bal fülében lesznek lejátszva.";
 "dBHL_TONE_AUDIOMETRY_INTENDED_USE" = "Ez a tevékenység megméri egy személy hallási küszöbének szintjét a dB HL skálán.";
 "dBHL_TONE_AUDIOMETRY_INTRO_TEXT" = "Győződjön meg róla, hogy az eszköz hangereje a maximális szintre van állítva.\n\nA feladat alatt egy halk hang lesz lejátszva a bal vagy jobb fülében.\n\nHallgasson figyelmesen, és minden alkalommal koppintson a gombra, amikor hangot hall.";
+"dBHL_TONE_AUDIOMETRY_INTRO_TEXT_2" = "Ez a vizsgálat meghatározza, milyen hangosnak kell lennie egy hangnak, hogy Ön azt meghallja.";
 "dBHL_TONE_AUDIOMETRY_ONBOARDING" = "Belépési kérdőív.";
 "dBHL_TONE_AUDIOMETRY_ONBOARDING_QUESTION" = "Ha az egyik fülére jobban hall, válassza ki itt.";
 "dBHL_TONE_AUDIOMETRY_OPTION_LEFT" = "bal";
 "dBHL_TONE_AUDIOMETRY_OPTION_RIGHT" = "jobb";
 "dBHL_TONE_AUDIOMETRY_OPTION_NO_PREFERENCE" = "nincs beállítás";
-"dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "A teszt megszakadt";
+"dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "Test Cancelled";
 "dBHL_ALERT_TITLE_START_OVER" = "Újrakezdés";
 "dBHL_ALERT_TITLE_CANCEL_TEST" = "Teszt megszakítása";
-"dBHL_ALERT_TEXT" = "Nincs semmilyen probléma fejhallgatójával.";
+"dBHL_ALERT_TEXT" = "Reconnect your AirPods or EarPods to take this test.";
+"dBHL_PROGRESS_COMPLETION_%@" = "%@ Complete";
 
 /* Headphones. */
-"AIRPODS" = "Airpods";
-"EARPODS" = "Earpods";
+"AIRPODS" = "AirPods";
+"EARPODS" = "EarPods";
 "HEADPHONES" = "Fejhallgató";
 "HEADPHONES_UNKNOWN" = "Ismeretlen";
 "HEADPHONES_NONE" = "Nincs";
 "CONNECTED" = "Csatlakoztatva";
+"NOT_CONNECTED" = "Not Connected";
 "HEADPHONE_CONNECTED_%@" = "Csatlakozva – %@";
+"HEADPHONE_DETECT_TITLE" = "Fejhallgató csatlakoztatása";
+"HEADPHONE_DETECT_TEXT" = "This test requires Apple AirPods or Apple EarPods";
 
 /* Spatial span memory active task. */
 "SPATIAL_SPAN_MEMORY_TITLE" = "Térbeli memória";
@@ -367,7 +379,7 @@
 "MEMORY_GAME_COMPLETE_TITLE" = "A sorozat befejeződött";
 "MEMORY_GAME_COMPLETE_MESSAGE" = "A folytatáshoz koppintson a Következő gombra";
 "MEMORY_GAME_FAILED_TITLE" = "Újrapróbálkozás";
-"MEMORY_GAME_FAILED_MESSAGE" = "Ez alkalommal nem sikerült. A folytatáshoz koppintson a Következő gombra.";
+"MEMORY_GAME_FAILED_MESSAGE" = "You didn’t quite make it through that time. Tap Next to continue.";
 "MEMORY_GAME_TIMEOUT_TITLE" = "Letelt az idő";
 "MEMORY_GAME_TIMEOUT_MESSAGE" = "Elfogyott az idő.\nA folytatáshoz koppintson a Következő gombra.";
 "MEMORY_GAME_COMPLETE" = "Játék befejezve";
@@ -445,7 +457,7 @@
 /* Timed walk active task. */
 "TIMED_WALK_TITLE" = "Időre mért gyaloglás";
 "TIMED_WALK_INTRO_DETAIL" = "Ez a tevékenység az alsó végtagok működését méri.";
-"TIMED_WALK_INTRO_2_TEXT_%@" = "Keressen olyan helyet, lehetőleg kültéren, ahol %@ távolságot egyenesen tud gyalogolni olyan gyorsan, ahogy csak tud, de biztonságosan. Ne lassítson le, amíg el nem hagyta a célvonalat.";
+"TIMED_WALK_INTRO_2_TEXT_%@" = "Find a place, preferably outside, where you can walk for about %@ in a straight line as quickly as possible, but safely. Do not slow down until after you’ve passed the finish line.";
 "TIMED_WALK_INTRO_2_DETAIL" = "Koppintson\na Következő elemre\na kezdéshez.";
 "TIMED_WALK_FORM_TITLE" = "Segítőeszköz";
 "TIMED_WALK_FORM_TEXT" = "Ugyanazt a segítőeszközt használja minden teszthez.";
@@ -470,7 +482,7 @@
 "PASAT_INTRO_TEXT" = "Az Ütemes hallási sorozatösszeadási teszt a hallási információfeldolgozási sebességet és számítási képességet méri.";
 "PVSAT_INTRO_TEXT" = "Az Ütemes vizuális sorozatösszeadási teszt a vizuális információfeldolgozási sebességet és számítási képességet méri.";
 "PAVSAT_INTRO_TEXT" = "Az Ütemes hallási és vizuális sorozatösszeadási teszt a hallási és vizuális információfeldolgozási sebességet és számítási képességet méri.";
-"PSAT_INTRO_TEXT_2_%@" = "%@ másodpercenként számjegyek jelennek meg.\nMinden új számjegyet adjon hozzá az előtte lévőhöz.\nFigyelem: Ne számítsa ki a teljes sorozat összegét, csak az utolsó két számjegy összegét.";
+"PSAT_INTRO_TEXT_2_%@" = "Single digits are presented every %@.\nYou must add each new digit to the one immediately prior to it.\nAttention, you mustn’t calculate a running total, but only the sum of the last two numbers.";
 "PSAT_CALL_TO_ACTION" = "A kezdéshez koppintson a Kezdés elemre.";
 "PSAT_INITIAL_INSTRUCTION" = "Jegyezze meg ezt az első számjegyet.";
 "PSAT_INSTRUCTION" = "Adja hozzá ezt az új számjegyet az előzőhöz.";
@@ -587,8 +599,10 @@
 "ENVIRONMENTSPL_UNIT" = "dBA";
 "ENVIRONMENTSPL_CALCULATING" = "Számítás";
 "ENVIRONMENTSPL_THRESHOLD" = "Küszöb: %@ dBA";
-"ENVIRONMENTSPL_OK" = "OK";
+"ENVIRONMENTSPL_OK" = "Background Noise OK";
 "ENVIRONMENTSPL_NOISE" = "Túl erős háttérzaj";
+"ENVIRONMENTSPL_TITLE_2" = "Keressen egy csendes helyet";
+"ENVIRONMENTSPL_INTRO_TEXT_2" = "A pontosság biztosításához ezt a vizsgálatot haék környezetben kell elvégezni.";
 
 /* Secondary Task Step*/
 "SECONDARY_TASK_START_BUTTON" = "Feladat elkezdése";
@@ -598,7 +612,7 @@
 
 /* Slider */
 "SLIDER_MOVE_SLIDER_FOR_VALUE" = "Mozgassa a csúszkát érték megadásához";
-"SLIDER_I_DONT_KNOW" = "Nem tudom";
+"SLIDER_I_DONT_KNOW" = "I Don’t Know";
 
 /* Review Step */
 "REVIEW_STEP_PAGE" = "Oldal";
@@ -622,6 +636,7 @@
 
 "AX_SELECTED" = "Kiválasztva";
 "AX_UNSELECTED" = "Nincs kijelölve";
+"AX_SELECT_ALL_THAT_APPLY" = "SELECT ALL THAT APPLY";
 
 "AX_SLIDER_LABEL" = "Válaszcsúszka. Tartomány: %@ - %@";
 "AX_UNLABELED_IMAGE" = "Címke nélküli kép";

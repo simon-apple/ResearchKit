@@ -34,7 +34,7 @@
 "CONSENT_NAME_FAMILY" = "Επώνυμο";
 "CONSENT_NAME_PLACEHOLDER" = "Απαιτείται";
 "CONSENT_REVIEW_TITLE" = "Έλεγχος";
-"CONSENT_REVIEW_INSTRUCTION" = "Διαβάστε την παρακάτω φόρμα και αγγίξτε «Αποδοχή» αν είστε έτοιμοι να συνεχίσετε.";
+"CONSENT_REVIEW_INSTRUCTION" = "Review the form below, and tap Agree if you’re ready to continue.";
 "CONSENT_REVIEW_ALERT_TITLE" = "Έλεγχος";
 "CONSENT_SIGNATURE_TITLE" = "Υπογραφή";
 "CONSENT_SIGNATURE_INSTRUCTION" = "Υπογράψτε με το δάχτυλό σας στο παρακάτω πλαίσιο.";
@@ -58,7 +58,7 @@
 "LEARN_MORE_PRIVACY" = "Μάθετε περισσότερα για τον τρόπο προστασίας του απορρήτου και της ταυτότητάς σας";
 "LEARN_MORE_WELCOME" = "Μάθετε περισσότερα για τη μελέτη πρώτα";
 "LEARN_MORE_STUDY_SURVEY" = "Μάθετε περισσότερα για την έρευνα μελέτης";
-"LEARN_MORE_TIME_COMMITMENT" = "Μάθετε περισσότερα για τον χρόνο που θα χρειαστείτε για να ολοκληρώσετε τη μελέτη";
+"LEARN_MORE_TIME_COMMITMENT" = "Learn more about the study’s impact on your time";
 "LEARN_MORE_TASKS" = "Μάθετε περισσότερα για τις σχετιζόμενες εργασίες";
 "LEARN_MORE_WITHDRAWING" = "Μάθετε περισσότερα για την αποχώρηση από την έρευνα";
 
@@ -70,19 +70,19 @@
 "LEARN_MORE_CONSENT_SHARING" = "Μάθετε περισσότερα για την κοινοποίηση δεδομένων";
 
 /* Lines beneath typewritten signatures on documents.*/
-"CONSENT_DOC_LINE_PRINTED_NAME" = "%@: όνομα (με κεφαλαία)";
-"CONSENT_DOC_LINE_SIGNATURE" = "%@: υπογραφή";
+"CONSENT_DOC_LINE_PRINTED_NAME" = "Printed Name";
+"CONSENT_DOC_LINE_SIGNATURE" = "Signature";
 "CONSENT_DOC_LINE_DATE" = "Ημερομηνία";
 
 /* Progress indication (in navigation bar). */
 "STEP_PROGRESS_FORMAT" = "%1$@ από %2$@";
 
 /* Progress indication (in formItem section header). */
-"FORM_ITEM_PROGRESS" = "ΕΡΩΤΗΣΗ %1$@ ΑΠΟ %2$@";
+"FORM_ITEM_PROGRESS" = "Ερώτηση %1$@ από %2$@";
 
 /* ORKTaskReviewViewController */
 "REVIEW_SKIPPED_ANSWER" = "Παραλείφθηκε";
-"REVIEW_EDIT_ANSWER" = "Επεξεργασία απάντησης";
+"REVIEW_EDIT_ANSWER" = "Edit";
 
 /* Alert for out of range values. */
 "RANGE_ALERT_TITLE" = "Μη έγκυρη τιμή";
@@ -254,7 +254,7 @@
 "FITNESS_SIT_INSTRUCTION_FORMAT" = "Καθίστε κάπου άνετα για %@.";
 "FITNESS_WALK_INSTRUCTION_FORMAT" = "Περπατήστε όσο πιο γρήγορα μπορείτε για %@.";
 "FITNESS_INTRO_TEXT_FORMAT" = "Αυτή η δραστηριότητα αξιολογεί τους καρδιακούς παλμούς σας και μετρά πόσο μακριά μπορείτε να περπατήσετε σε %1$@.";
-"FITNESS_INTRO_2_TEXT_FORMAT" = "Περπατήστε σε εξωτερικό χώρο όσο πιο γρήγορα μπορείτε για %1$@. Όταν τελειώσετε, καθίστε κάπου άνετα και ξεκουραστείτε για %2$@. Για να αρχίσετε, αγγίξτε «Έναρξη».";
+"FITNESS_INTRO_2_TEXT_FORMAT" = "Walk outdoors at your fastest possible pace for %1$@. When you’re done, sit and rest comfortably for %2$@. To begin, tap Get Started.";
 
 /* Short walk active task. */
 "WALK_TASK_TITLE" = "Βάδισμα και ισορροπία";
@@ -296,7 +296,7 @@
 
 /* Amsler Grid Task.*/
 "AMSLER_GRID_TITLE" = "Πλέγμα Amsler";
-"AMSLER_GRID_INTRO_TEXT" = "Αυτή η δραστηριότητα βοηθά στον εντοπισμό προβλημάτων στην όραση του χρήστη.";
+"AMSLER_GRID_INTRO_TEXT" = "This activity helps in detecting problems in user’s vision.";
 "AMSLER_GRID_INSTRUCTION_TEXT" = "Κρατήστε τη συσκευή σε απόσταση 30 εκατοστών από το πρόσωπό σας στο ύψος των ματιών σας κατά τη διάρκεια του τεστ.";
 "AMSLER_GRID_INSTRUCTION_DETAIL_TEXT" = "Κλείστε το %@ σας και κοιτάξτε την κουκκίδα στο κέντρο του τετράγωνου πλέγματος.\n\nΧρησιμοποιώντας το δάχτυλό σας ή τη γραφίδα, σημειώστε τυχόν παραμορφώσεις που βλέπετε, όπως π.χ. θαμπές ή κυματιστές γραμμές.\n\nΌταν τελειώσετε, σαρώστε προς τα αριστερά οπουδήποτε έξω από το πλέγμα.";
 "AMSLER_GRID_LEFT_EYE" = "αριστερό μάτι";
@@ -328,28 +328,40 @@
 
 /* dBHL Tone audiometry active task. */
 "dBHL_TONE_AUDIOMETRY_TASK_TITLE" = "Τονική ακοομετρία";
+"dBHL_TONE_AUDIOMETRY_TASK_TITLE_2" = "Αγγίξτε όταν ακούσετε έναν τόνο.";
+"dBHL_TONE_AUDIOMETRY_INTRO_TITLE" = "Τόνος και ένταση ήχου";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_1" = "Θα ακούσετε μια σειρά τόνων.";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_2" = "Όταν ακούσετε έναν τόνο, αγγίξτε το κουμπί.";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_3" = "Για αυτό το τεστ, η ένταση ήχου θα οριστεί στο 50 τοις εκατό.";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_4" = "Αυτό το τεστ δοκιμή διαρκεί περίπου 10 λεπτά.";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_5" = "Ενεργοποιήστε τη ρύθμιση «Μην ενοχλείτε» για να μη σας διακόψουν.";
 "dBHL_TONE_AUDIOMETRY_STEP_TITLE_RIGHT_EAR" = "Πρώτα θα αναπαραχθούν τόνοι στο δεξιό αυτί σας.";
 "dBHL_TONE_AUDIOMETRY_STEP_TITLE_LEFT_EAR" = "Τώρα θα αναπαραχθούν τόνοι στο αριστερό αυτί σας.";
 "dBHL_TONE_AUDIOMETRY_INTENDED_USE" = "Αυτή η δραστηριότητα εντοπίζει τα επίπεδα κατωφλίου ακοής ενός ατόμου σε κλίμακα επιπέδου ακοής dB.";
 "dBHL_TONE_AUDIOMETRY_INTRO_TEXT" = "Βεβαιωθείτε ότι η ένταση ήχου της συσκευής είναι στο μέγιστο επίπεδο.\n\nΚατά τη διάρκεια αυτής της δραστηριότητας, θα αναπαραχθεί ένας απαλός ήχος είτε στο αριστερό είτε στο δεξιό αφτί.\n\nΑκούστε προσεκτικά και αγγίξτε το κουμπί κάθε φορά που ακούτε έναν τόνο.";
+"dBHL_TONE_AUDIOMETRY_INTRO_TEXT_2" = "Αυτό το τεστ προσδιορίζει πόσο δυνατός πρέπει να είναι ένας ήχος για να τον ακούσετε.";
 "dBHL_TONE_AUDIOMETRY_ONBOARDING" = "Ερωτηματολόγιο συμμετοχής.";
 "dBHL_TONE_AUDIOMETRY_ONBOARDING_QUESTION" = "Επιλέξτε την προτίμηση σας για «καλύτερο αφτί», αν ισχύει";
 "dBHL_TONE_AUDIOMETRY_OPTION_LEFT" = "αριστερό";
 "dBHL_TONE_AUDIOMETRY_OPTION_RIGHT" = "δεξιό";
 "dBHL_TONE_AUDIOMETRY_OPTION_NO_PREFERENCE" = "καμία προτίμηση";
-"dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "Η δοκιμή διακόπηκε";
-"dBHL_ALERT_TITLE_START_OVER" = "Εκ νέου έναρξη";
+"dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "Test Cancelled";
+"dBHL_ALERT_TITLE_START_OVER" = "Έναρξη εκ νέου";
 "dBHL_ALERT_TITLE_CANCEL_TEST" = "Ακύρωση δοκιμής";
-"dBHL_ALERT_TEXT" = "Υπάρχει κάποιο πρόβλημα με τα ακουστικά σας.";
+"dBHL_ALERT_TEXT" = "Reconnect your AirPods or EarPods to take this test.";
+"dBHL_PROGRESS_COMPLETION_%@" = "%@ Complete";
 
 /* Headphones. */
-"AIRPODS" = "Airpods";
-"EARPODS" = "Earpods";
+"AIRPODS" = "AirPods";
+"EARPODS" = "EarPods";
 "HEADPHONES" = "Ακουστικά";
 "HEADPHONES_UNKNOWN" = "Άγνωστο";
 "HEADPHONES_NONE" = "Κανένα";
 "CONNECTED" = "Συνδεδεμένο";
+"NOT_CONNECTED" = "Μη συνδεδεμένο";
 "HEADPHONE_CONNECTED_%@" = "Συνδέθηκε - %@";
+"HEADPHONE_DETECT_TITLE" = "Συνδέστε τα ακουστικά σας";
+"HEADPHONE_DETECT_TEXT" = "This test requires Apple AirPods or Apple EarPods";
 
 /* Spatial span memory active task. */
 "SPATIAL_SPAN_MEMORY_TITLE" = "Χωρική μνήμη";
@@ -367,7 +379,7 @@
 "MEMORY_GAME_COMPLETE_TITLE" = "Η ακολουθία ολοκληρώθηκε";
 "MEMORY_GAME_COMPLETE_MESSAGE" = "Για να συνεχίσετε, αγγίξτε «Επόμενο»";
 "MEMORY_GAME_FAILED_TITLE" = "Νέα δοκιμή";
-"MEMORY_GAME_FAILED_MESSAGE" = "Δεν τα καταφέρατε αυτήν τη φορά. Αγγίξτε «Επόμενο» για να συνεχίσετε.";
+"MEMORY_GAME_FAILED_MESSAGE" = "You didn’t quite make it through that time. Tap Next to continue.";
 "MEMORY_GAME_TIMEOUT_TITLE" = "Τέλος χρόνου";
 "MEMORY_GAME_TIMEOUT_MESSAGE" = "Τελείωσε ο χρόνος.\nΑγγίξτε «Επόμενο» για να συνεχίσετε.";
 "MEMORY_GAME_COMPLETE" = "Το παιχνίδι ολοκληρώθηκε";
@@ -445,7 +457,7 @@
 /* Timed walk active task. */
 "TIMED_WALK_TITLE" = "Χρονισμένο περπάτημα";
 "TIMED_WALK_INTRO_DETAIL" = "Αυτή η δραστηριότητα αξιολογεί τη λειτουργία των κάτω άκρων σας.";
-"TIMED_WALK_INTRO_2_TEXT_%@" = "Βρείτε ένα μέρος, κατά προτίμηση σε εξωτερικό χώρο, όπου μπορείτε να περπατήσετε για περίπου %@ σε ευθεία γραμμή όσο το δυνατόν πιο γρήγορα αλλά με ασφάλεια. Μη μειώσετε την ταχύτητά σας μέχρι να περάσετε τη γραμμή τερματισμού.";
+"TIMED_WALK_INTRO_2_TEXT_%@" = "Find a place, preferably outside, where you can walk for about %@ in a straight line as quickly as possible, but safely. Do not slow down until after you’ve passed the finish line.";
 "TIMED_WALK_INTRO_2_DETAIL" = "Αγγίξτε «Επόμενο» για να ξεκινήσετε.";
 "TIMED_WALK_FORM_TITLE" = "Βοηθητική συσκευή";
 "TIMED_WALK_FORM_TEXT" = "Χρησιμοποιήστε την ίδια βοηθητική συσκευή για κάθε τεστ.";
@@ -470,7 +482,7 @@
 "PASAT_INTRO_TEXT" = "Η δοκιμασία PASAT (Βηματική ακουστική πρόσθεση αριθμών σε σειρά) αξιολογεί την ταχύτητα ακουστικής επεξεργασίας πληροφοριών και την ικανότητα υπολογισμών.";
 "PVSAT_INTRO_TEXT" = "Η δοκιμασία PVSAT (Βηματική οπτική πρόσθεση αριθμών σε σειρά) αξιολογεί την ταχύτητα οπτικής επεξεργασίας πληροφοριών και την ικανότητα υπολογισμών.";
 "PAVSAT_INTRO_TEXT" = "Η δοκιμασία PAVSAT (Βηματική ακουστική και οπτική πρόσθεση αριθμών σε σειρά) αξιολογεί την ταχύτητα ακουστικής και οπτικής επεξεργασίας πληροφοριών και την ικανότητα υπολογισμών.";
-"PSAT_INTRO_TEXT_2_%@" = "Τα μονά ψηφία εμφανίζονται κάθε %@.\nΠρέπει να προσθέτετε κάθε νέο ψηφίο με το ακριβώς προηγούμενό του.\nΠροσοχή: Δεν πρέπει να υπολογίζετε το ολικό σύνολο, αλλά μόνο το σύνολο των τελευταίων δύο αριθμών.";
+"PSAT_INTRO_TEXT_2_%@" = "Single digits are presented every %@.\nYou must add each new digit to the one immediately prior to it.\nAttention, you mustn’t calculate a running total, but only the sum of the last two numbers.";
 "PSAT_CALL_TO_ACTION" = "Αγγίξτε «Έναρξη» για να αρχίσετε.";
 "PSAT_INITIAL_INSTRUCTION" = "Θυμηθείτε αυτό το πρώτο ψηφίο.";
 "PSAT_INSTRUCTION" = "Προσθέστε αυτό το νέο ψηφίο στο προηγούμενο ψηφίο.";
@@ -587,8 +599,10 @@
 "ENVIRONMENTSPL_UNIT" = "dBA";
 "ENVIRONMENTSPL_CALCULATING" = "Υπολογισμός…";
 "ENVIRONMENTSPL_THRESHOLD" = "Όριο: %@ dBA";
-"ENVIRONMENTSPL_OK" = "ΟΚ";
+"ENVIRONMENTSPL_OK" = "Background Noise OK";
 "ENVIRONMENTSPL_NOISE" = "Υπερβολικός θόρυβος βάθους";
+"ENVIRONMENTSPL_TITLE_2" = "Βρείτε ένα ήσυχο μέρος";
+"ENVIRONMENTSPL_INTRO_TEXT_2" = "Για διασφάλιση της ακρίβειας, αυτό το τεστ πρέπει να διεξαχθεί σε ήσυχο περιβάλλον.";
 
 /* Secondary Task Step*/
 "SECONDARY_TASK_START_BUTTON" = "Έναρξη εργασίας";
@@ -598,7 +612,7 @@
 
 /* Slider */
 "SLIDER_MOVE_SLIDER_FOR_VALUE" = "Μετακινήστε το ρυθμιστικό για εισαγωγή τιμής";
-"SLIDER_I_DONT_KNOW" = "Δεν γνωρίζω";
+"SLIDER_I_DONT_KNOW" = "I Don’t Know";
 
 /* Review Step */
 "REVIEW_STEP_PAGE" = "Σελίδα";
@@ -622,6 +636,7 @@
 
 "AX_SELECTED" = "Επιλεγμένο";
 "AX_UNSELECTED" = "Μη επιλεγμένο";
+"AX_SELECT_ALL_THAT_APPLY" = "SELECT ALL THAT APPLY";
 
 "AX_SLIDER_LABEL" = "Ρυθμιστικό απάντησης. Εύρος από %@ έως %@";
 "AX_UNLABELED_IMAGE" = "Εικόνα χωρίς ετικέτα";

@@ -34,7 +34,7 @@
 "CONSENT_NAME_FAMILY" = "اسم العائلة";
 "CONSENT_NAME_PLACEHOLDER" = "مطلوب";
 "CONSENT_REVIEW_TITLE" = "مراجعة";
-"CONSENT_REVIEW_INSTRUCTION" = "راجع النموذج أدناه، واضغط على موافقة إذا كنت مستعدًا للمتابعة.";
+"CONSENT_REVIEW_INSTRUCTION" = "Review the form below, and tap Agree if you’re ready to continue.";
 "CONSENT_REVIEW_ALERT_TITLE" = "مراجعة";
 "CONSENT_SIGNATURE_TITLE" = "التوقيع";
 "CONSENT_SIGNATURE_INSTRUCTION" = "الرجاء التوقيع باستخدام إصبعك في المربع أدناه.";
@@ -58,7 +58,7 @@
 "LEARN_MORE_PRIVACY" = "معرفة المزيد عن كيفية حماية خصوصيتك وهويتك";
 "LEARN_MORE_WELCOME" = "معرفة المزيد عن الدراسة أولاً";
 "LEARN_MORE_STUDY_SURVEY" = "معرفة المزيد عن استطلاع الدراسة";
-"LEARN_MORE_TIME_COMMITMENT" = "معرفة المزيد عن أثر الدراسة على وقتك";
+"LEARN_MORE_TIME_COMMITMENT" = "Learn more about the study’s impact on your time";
 "LEARN_MORE_TASKS" = "معرفة المزيد عن المهام المتضمنة";
 "LEARN_MORE_WITHDRAWING" = "معرفة المزيد عن الانسحاب";
 
@@ -70,19 +70,19 @@
 "LEARN_MORE_CONSENT_SHARING" = "معرفة المزيد عن مشاركة البيانات";
 
 /* Lines beneath typewritten signatures on documents.*/
-"CONSENT_DOC_LINE_PRINTED_NAME" = "اسم %@ (مطبوعًا)";
-"CONSENT_DOC_LINE_SIGNATURE" = "توقيع %@";
+"CONSENT_DOC_LINE_PRINTED_NAME" = "Printed Name";
+"CONSENT_DOC_LINE_SIGNATURE" = "Signature";
 "CONSENT_DOC_LINE_DATE" = "التاريخ";
 
 /* Progress indication (in navigation bar). */
 "STEP_PROGRESS_FORMAT" = "%1$@ من %2$@";
 
 /* Progress indication (in formItem section header). */
-"FORM_ITEM_PROGRESS" = "السؤال %1$@ من %2$@";
+"FORM_ITEM_PROGRESS" = "Question %1$@ of %2$@";
 
 /* ORKTaskReviewViewController */
 "REVIEW_SKIPPED_ANSWER" = "تم التخطي";
-"REVIEW_EDIT_ANSWER" = "تحرير الإجابة";
+"REVIEW_EDIT_ANSWER" = "Edit";
 
 /* Alert for out of range values. */
 "RANGE_ALERT_TITLE" = "القيمة غير صالحة";
@@ -254,7 +254,7 @@
 "FITNESS_SIT_INSTRUCTION_FORMAT" = "خذ استراحة لمدة %@.";
 "FITNESS_WALK_INSTRUCTION_FORMAT" = "قم بالمشي بأقصى سرعة لديك لمدة %@.";
 "FITNESS_INTRO_TEXT_FORMAT" = "يعمل هذا النشاط على مراقبة معدل نبض القلب لديك وقياس المسافة التي يمكنك أن تمشيها خلال %1$@.";
-"FITNESS_INTRO_2_TEXT_FORMAT" = "قم بالمشي في الخارج بأقصى سرعة ممكنة لديك لمدة %1$@. عندما تنتهي، اجلس وخذ استراحة لمدة %2$@. للبدء، اضغط على البدء.";
+"FITNESS_INTRO_2_TEXT_FORMAT" = "Walk outdoors at your fastest possible pace for %1$@. When you’re done, sit and rest comfortably for %2$@. To begin, tap Get Started.";
 
 /* Short walk active task. */
 "WALK_TASK_TITLE" = "سرعة المشي والتوازن";
@@ -296,7 +296,7 @@
 
 /* Amsler Grid Task.*/
 "AMSLER_GRID_TITLE" = "شبكة أمسلر";
-"AMSLER_GRID_INTRO_TEXT" = "يساعد هذا النشاط في اكتشاف المشاكل في رؤية المستخدم.";
+"AMSLER_GRID_INTRO_TEXT" = "This activity helps in detecting problems in user’s vision.";
 "AMSLER_GRID_INSTRUCTION_TEXT" = "أمسك بالجهاز على بعد ١٢ بوصة من وجهك وعلى مستوى عينيك طوال مدة الاختبار.";
 "AMSLER_GRID_INSTRUCTION_DETAIL_TEXT" = "أغلق %@ وحدّق في النقطة الموجودة في مركز الشبكة المربعة.\n\nاستخدم إصبعك أو القلم لتمييز أي تحرّفات تراها مثل الخطوط الضبابية أو المتموجة.\n\nعند الانتهاء، حرّك لليمين في أي مكان خارج الشبكة.";
 "AMSLER_GRID_LEFT_EYE" = "العين اليسرى";
@@ -328,28 +328,40 @@
 
 /* dBHL Tone audiometry active task. */
 "dBHL_TONE_AUDIOMETRY_TASK_TITLE" = "قياس سمع النغمة";
+"dBHL_TONE_AUDIOMETRY_TASK_TITLE_2" = "Tap when you hear a tone.";
+"dBHL_TONE_AUDIOMETRY_INTRO_TITLE" = "Tone & Volume";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_1" = "You will hear a series of tones.";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_2" = "When you hear a tone, tap on the button.";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_3" = "For this test, volume will be set to 50 percent.";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_4" = "This test takes about 10 minutes.";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_5" = "Turn on Do Not Disturb to avoid interruptions.";
 "dBHL_TONE_AUDIOMETRY_STEP_TITLE_RIGHT_EAR" = "سيتم تشغيل النغمات في أذنك اليمنى أولاً.";
 "dBHL_TONE_AUDIOMETRY_STEP_TITLE_LEFT_EAR" = "الآن سيتم تشغيل النغمات في أذنك اليسرى.";
 "dBHL_TONE_AUDIOMETRY_INTENDED_USE" = "يحدد هذا النشاط مستويات الحد الأقصى للسمع للفرد بمقياس مستوى السمع بالديسيبل (dB HL).";
 "dBHL_TONE_AUDIOMETRY_INTRO_TEXT" = "تأكد من تعيين مستوى صوت الجهاز على الحد الأقصى.\n\nأثناء هذه المهمة، سيتم تشغيل نغمة رقيقة في الأذن اليسرى أو اليمنى.\n\nاستمع بعناية واضغط على الزر في كل مرة تسمع فيها النغمة.";
+"dBHL_TONE_AUDIOMETRY_INTRO_TEXT_2" = "This test identifies how loud a sound needs to be in order for you to hear it.";
 "dBHL_TONE_AUDIOMETRY_ONBOARDING" = "استطلاع الالتحاق.";
 "dBHL_TONE_AUDIOMETRY_ONBOARDING_QUESTION" = "حدد تفضيلك بخصوص \"الأذن الأفضل\"، إذا كانت هناك أذن أفضل من الأخرى.";
 "dBHL_TONE_AUDIOMETRY_OPTION_LEFT" = "يسار";
 "dBHL_TONE_AUDIOMETRY_OPTION_RIGHT" = "يمين";
 "dBHL_TONE_AUDIOMETRY_OPTION_NO_PREFERENCE" = "بلا تفضيل";
-"dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "تمت مقاطعة الاختبار";
-"dBHL_ALERT_TITLE_START_OVER" = "البدء من جديد";
+"dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "Test Cancelled";
+"dBHL_ALERT_TITLE_START_OVER" = "بدء مرة أخرى";
 "dBHL_ALERT_TITLE_CANCEL_TEST" = "إلغاء الاختبار";
-"dBHL_ALERT_TEXT" = "هناك خطأ في سماعات الرأس لديك.";
+"dBHL_ALERT_TEXT" = "Reconnect your AirPods or EarPods to take this test.";
+"dBHL_PROGRESS_COMPLETION_%@" = "%@ Complete";
 
 /* Headphones. */
-"AIRPODS" = "‏AirPods";
-"EARPODS" = "‏EarPods";
+"AIRPODS" = "AirPods";
+"EARPODS" = "EarPods";
 "HEADPHONES" = "سماعات الرأس";
 "HEADPHONES_UNKNOWN" = "غير معروف";
 "HEADPHONES_NONE" = "لا شيء";
 "CONNECTED" = "متصلة";
+"NOT_CONNECTED" = "Not Connected";
 "HEADPHONE_CONNECTED_%@" = "متصلة - %@";
+"HEADPHONE_DETECT_TITLE" = "Connect your Headphones";
+"HEADPHONE_DETECT_TEXT" = "This test requires Apple AirPods or Apple EarPods";
 
 /* Spatial span memory active task. */
 "SPATIAL_SPAN_MEMORY_TITLE" = "الذاكرة المكانية";
@@ -367,8 +379,8 @@
 "MEMORY_GAME_COMPLETE_TITLE" = "اكتمل التتابع";
 "MEMORY_GAME_COMPLETE_MESSAGE" = "للمتابعة اضغط على التالي.";
 "MEMORY_GAME_FAILED_TITLE" = "المحاولة مرة أخرى";
-"MEMORY_GAME_FAILED_MESSAGE" = "لم يحالفك التوفيق تلك المرة. اضغط على التالي للمتابعة.";
-"MEMORY_GAME_TIMEOUT_TITLE" = "انتهى الوقت";
+"MEMORY_GAME_FAILED_MESSAGE" = "You didn’t quite make it through that time. Tap Next to continue.";
+"MEMORY_GAME_TIMEOUT_TITLE" = "Time’s Up";
 "MEMORY_GAME_TIMEOUT_MESSAGE" = "نفد وقتك.\nاضغط على التالي للمتابعة.";
 "MEMORY_GAME_COMPLETE" = "اكتملت اللعبة";
 "MEMORY_GAME_PAUSED_TITLE" = "تم الإيقاف مؤقتاً";
@@ -445,7 +457,7 @@
 /* Timed walk active task. */
 "TIMED_WALK_TITLE" = "المشي المحدد بوقت";
 "TIMED_WALK_INTRO_DETAIL" = "يقيس هذا النشاط وظيفة الطرف السفلي لديك.";
-"TIMED_WALK_INTRO_2_TEXT_%@" = "ابحث عن مكان، يفضل أن يكون بالخارج، يمكنك المشي فيه %@ تقريبًا في خط مستقيم بأقصى سرعة ممكنة، لكن بأمان. لا تبطئ من سرعتك قبل أن تجتاز خط النهاية.";
+"TIMED_WALK_INTRO_2_TEXT_%@" = "Find a place, preferably outside, where you can walk for about %@ in a straight line as quickly as possible, but safely. Do not slow down until after you’ve passed the finish line.";
 "TIMED_WALK_INTRO_2_DETAIL" = "اضغط على التالي للبدء.";
 "TIMED_WALK_FORM_TITLE" = "الجهاز المساعد";
 "TIMED_WALK_FORM_TEXT" = "استخدم نفس الجهاز المساعد لكل اختبار.";
@@ -470,7 +482,7 @@
 "PASAT_INTRO_TEXT" = "يقيس اختبار الجمع المتوالى السمعى المتواتر سرعة معالجة المعلومات السمعية والقدرة الحسابية.";
 "PVSAT_INTRO_TEXT" = "يقيس اختبار الجمع المتوالى البصري المتواتر سرعة معالجة المعلومات المرئية والقدرة الحسابية.";
 "PAVSAT_INTRO_TEXT" = "يقيس اختبار الجمع المتوالى السمعى البصري المتواتر سرعة معالجة المعلومات السمعية والمرئية والقدرة الحسابية.";
-"PSAT_INTRO_TEXT_2_%@" = "يتم عرض أرقام فردية كل %@.\nيجب إضافة كل رقم جديد إلى الرقم الذي يسبقه مباشرةً.\nانتبه، لا يتعين عليك حساب مجموع مستمر، لكن فقط مجموع آخر رقمين.";
+"PSAT_INTRO_TEXT_2_%@" = "Single digits are presented every %@.\nYou must add each new digit to the one immediately prior to it.\nAttention, you mustn’t calculate a running total, but only the sum of the last two numbers.";
 "PSAT_CALL_TO_ACTION" = "اضغط على البدء لكي تبدأ.";
 "PSAT_INITIAL_INSTRUCTION" = "تذكر هذا العدد الأول.";
 "PSAT_INSTRUCTION" = "اجمع هذا العدد الجديد على العدد السابق.";
@@ -587,8 +599,10 @@
 "ENVIRONMENTSPL_UNIT" = "dBA";
 "ENVIRONMENTSPL_CALCULATING" = "جاري الحساب";
 "ENVIRONMENTSPL_THRESHOLD" = "الحد الأقصى: %@ dBA";
-"ENVIRONMENTSPL_OK" = "موافق";
+"ENVIRONMENTSPL_OK" = "Background Noise OK";
 "ENVIRONMENTSPL_NOISE" = "مستوى الضوضاء في الخلفية مرتفع جدًا";
+"ENVIRONMENTSPL_TITLE_2" = "Find a quiet place";
+"ENVIRONMENTSPL_INTRO_TEXT_2" = "To ensure accuracy, this test should be taken in a quiet environment.";
 
 /* Secondary Task Step*/
 "SECONDARY_TASK_START_BUTTON" = "بدء مهمة";
@@ -598,7 +612,7 @@
 
 /* Slider */
 "SLIDER_MOVE_SLIDER_FOR_VALUE" = "حرّك شريط التمرير لإدخال قيمة";
-"SLIDER_I_DONT_KNOW" = "لا أعلم";
+"SLIDER_I_DONT_KNOW" = "I Don’t Know";
 
 /* Review Step */
 "REVIEW_STEP_PAGE" = "صفحة";
@@ -622,6 +636,7 @@
 
 "AX_SELECTED" = "محددة";
 "AX_UNSELECTED" = "غير محددة";
+"AX_SELECT_ALL_THAT_APPLY" = "SELECT ALL THAT APPLY";
 
 "AX_SLIDER_LABEL" = "شريط تمرير الاستجابة. النطاق من %@ إلى %@";
 "AX_UNLABELED_IMAGE" = "صورة بلا تسمية";

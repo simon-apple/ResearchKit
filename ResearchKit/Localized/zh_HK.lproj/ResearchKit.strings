@@ -58,7 +58,7 @@
 "LEARN_MORE_PRIVACY" = "進一步了解你的私隱及個人身份如何得到保護";
 "LEARN_MORE_WELCOME" = "開始前先了解此研究";
 "LEARN_MORE_STUDY_SURVEY" = "進一步了解研究的問卷";
-"LEARN_MORE_TIME_COMMITMENT" = "進一步了解研究所花費的時間";
+"LEARN_MORE_TIME_COMMITMENT" = "Learn more about the study’s impact on your time";
 "LEARN_MORE_TASKS" = "進一步了解相關的任務";
 "LEARN_MORE_WITHDRAWING" = "進一步了解退出研究";
 
@@ -70,7 +70,7 @@
 "LEARN_MORE_CONSENT_SHARING" = "進一步了解數據共享";
 
 /* Lines beneath typewritten signatures on documents.*/
-"CONSENT_DOC_LINE_PRINTED_NAME" = "Printed Name";
+"CONSENT_DOC_LINE_PRINTED_NAME" = "正楷名稱";
 "CONSENT_DOC_LINE_SIGNATURE" = "Signature";
 "CONSENT_DOC_LINE_DATE" = "日期";
 
@@ -254,7 +254,7 @@
 "FITNESS_SIT_INSTRUCTION_FORMAT" = "安坐%@。";
 "FITNESS_WALK_INSTRUCTION_FORMAT" = "用最快的速度步行%@。";
 "FITNESS_INTRO_TEXT_FORMAT" = "此測試活動能監測你的心跳率，並量度你在%1$@內能步行的最遠距離。";
-"FITNESS_INTRO_2_TEXT_FORMAT" = "在室外以最快的速度步行 %1$@。完成後，安坐並休息 %2$@。點一下「開始」以進行測試。";
+"FITNESS_INTRO_2_TEXT_FORMAT" = "在室外以最快的配速步行%1$@。完成後，安坐並休息%2$@。點一下「開始」以進行測試。";
 
 /* Short walk active task. */
 "WALK_TASK_TITLE" = "步態及平衡";
@@ -296,7 +296,7 @@
 
 /* Amsler Grid Task.*/
 "AMSLER_GRID_TITLE" = "阿姆斯勒⽅格";
-"AMSLER_GRID_INTRO_TEXT" = "此測試活動有助偵測用户的視力問題。";
+"AMSLER_GRID_INTRO_TEXT" = "此活動有助偵測用户的視力問題。";
 "AMSLER_GRID_INSTRUCTION_TEXT" = "在整個測試期間，將裝置放在面孔前方與視線成水平，距離約30厘米。";
 "AMSLER_GRID_INSTRUCTION_DETAIL_TEXT" = "閉上你的%@並注視方格中央的點。\n\n使用手指或觸控筆，標記你看到的任何變形地方，例如模糊或波浪線條。\n\n完成後，在方格外任何位置向左掃。";
 "AMSLER_GRID_LEFT_EYE" = "左眼";
@@ -345,10 +345,10 @@
 "dBHL_TONE_AUDIOMETRY_OPTION_LEFT" = "左";
 "dBHL_TONE_AUDIOMETRY_OPTION_RIGHT" = "右";
 "dBHL_TONE_AUDIOMETRY_OPTION_NO_PREFERENCE" = "沒有偏好";
-"dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "Test Cancelled";
+"dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "測試已取消";
 "dBHL_ALERT_TITLE_START_OVER" = "重新開始";
 "dBHL_ALERT_TITLE_CANCEL_TEST" = "取消測試";
-"dBHL_ALERT_TEXT" = "Reconnect your AirPods or EarPods to take this test.";
+"dBHL_ALERT_TEXT" = "重新連接AirPods或EarPods以進行測試。";
 "dBHL_PROGRESS_COMPLETION_%@" = "%@ Complete";
 
 /* Headphones. */
@@ -361,7 +361,7 @@
 "NOT_CONNECTED" = "Not Connected";
 "HEADPHONE_CONNECTED_%@" = "已連接 - %@";
 "HEADPHONE_DETECT_TITLE" = "連接你的耳筒";
-"HEADPHONE_DETECT_TEXT" = "This test requires Apple AirPods or Apple EarPods";
+"HEADPHONE_DETECT_TEXT" = "此測試需要Apple AirPods或Apple EarPods";
 
 /* Spatial span memory active task. */
 "SPATIAL_SPAN_MEMORY_TITLE" = "空間記憶";
@@ -379,7 +379,7 @@
 "MEMORY_GAME_COMPLETE_TITLE" = "已完成順序";
 "MEMORY_GAME_COMPLETE_MESSAGE" = "如要繼續，點一下「下一步」";
 "MEMORY_GAME_FAILED_TITLE" = "再試一次";
-"MEMORY_GAME_FAILED_MESSAGE" = "你似乎記錯了順序。點一下「下一步」繼續。";
+"MEMORY_GAME_FAILED_MESSAGE" = "You didn’t quite make it through that time. Tap Next to continue.";
 "MEMORY_GAME_TIMEOUT_TITLE" = "時間到了";
 "MEMORY_GAME_TIMEOUT_MESSAGE" = "時限已經到了。\n按一下「下一步」來繼續。";
 "MEMORY_GAME_COMPLETE" = "遊戲結束";
@@ -457,7 +457,7 @@
 /* Timed walk active task. */
 "TIMED_WALK_TITLE" = "定時步行";
 "TIMED_WALK_INTRO_DETAIL" = "此測試活動可測量你的下肢功能。";
-"TIMED_WALK_INTRO_2_TEXT_%@" = "找一個安全的地方（最好在室外），讓你可以快速地直線步行大約%@。通過終點線前請勿放慢速度。";
+"TIMED_WALK_INTRO_2_TEXT_%@" = "找一個地方（最好在室外），讓你可以用最快的速度直線步行大約%@。通過終點線前請勿放慢速度。";
 "TIMED_WALK_INTRO_2_DETAIL" = "點一下「下一步」開始。";
 "TIMED_WALK_FORM_TITLE" = "輔助器材";
 "TIMED_WALK_FORM_TEXT" = "每次測試時請使用相同的輔助器材。";
@@ -599,7 +599,7 @@
 "ENVIRONMENTSPL_UNIT" = "dBA";
 "ENVIRONMENTSPL_CALCULATING" = "正在計算";
 "ENVIRONMENTSPL_THRESHOLD" = "臨界值：%@dBA";
-"ENVIRONMENTSPL_OK" = "Background Noise OK";
+"ENVIRONMENTSPL_OK" = "背景噪音正常";
 "ENVIRONMENTSPL_NOISE" = "太多背景噪音";
 "ENVIRONMENTSPL_TITLE_2" = "找一個安靜的地方";
 "ENVIRONMENTSPL_INTRO_TEXT_2" = "為確保準確性，此測試應該在一個安靜的環境中進行。";
@@ -636,6 +636,7 @@
 
 "AX_SELECTED" = "已選擇";
 "AX_UNSELECTED" = "未選擇";
+"AX_SELECT_ALL_THAT_APPLY" = "選擇所有適用的選項";
 
 "AX_SLIDER_LABEL" = "回應滑桿。範圍由%@至%@";
 "AX_UNLABELED_IMAGE" = "未標記的圖案";

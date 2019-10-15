@@ -34,7 +34,7 @@
 "CONSENT_NAME_FAMILY" = "Apelido";
 "CONSENT_NAME_PLACEHOLDER" = "necessário";
 "CONSENT_REVIEW_TITLE" = "Leia com atenção";
-"CONSENT_REVIEW_INSTRUCTION" = "Leia com atenção o texto abaixo e toque em Concordo se pretende continuar.";
+"CONSENT_REVIEW_INSTRUCTION" = "Review the form below, and tap Agree if you’re ready to continue.";
 "CONSENT_REVIEW_ALERT_TITLE" = "Leia com atenção";
 "CONSENT_SIGNATURE_TITLE" = "Assinatura";
 "CONSENT_SIGNATURE_INSTRUCTION" = "Assine com o dedo na caixa abaixo.";
@@ -58,7 +58,7 @@
 "LEARN_MORE_PRIVACY" = "Saiba mais acerca de como a sua privacidade e identidade são protegidas.";
 "LEARN_MORE_WELCOME" = "Saiba mais acerca deste inquérito antes de começar.";
 "LEARN_MORE_STUDY_SURVEY" = "Saiba mais acerca deste inquérito.";
-"LEARN_MORE_TIME_COMMITMENT" = "Saiba mais acerca da duração do inquérito.";
+"LEARN_MORE_TIME_COMMITMENT" = "Learn more about the study’s impact on your time";
 "LEARN_MORE_TASKS" = "Saiba mais acerca das tarefas incluídas.";
 "LEARN_MORE_WITHDRAWING" = "Saiba mais acerca de como desistir do inquérito.";
 
@@ -70,19 +70,19 @@
 "LEARN_MORE_CONSENT_SHARING" = "Saiba mais acerca da partilha de dados";
 
 /* Lines beneath typewritten signatures on documents.*/
-"CONSENT_DOC_LINE_PRINTED_NAME" = "Nome de: %@ (maiúsculas)";
-"CONSENT_DOC_LINE_SIGNATURE" = "Assinatura de: %@";
+"CONSENT_DOC_LINE_PRINTED_NAME" = "Printed Name";
+"CONSENT_DOC_LINE_SIGNATURE" = "Signature";
 "CONSENT_DOC_LINE_DATE" = "Data";
 
 /* Progress indication (in navigation bar). */
 "STEP_PROGRESS_FORMAT" = "%1$@ de %2$@";
 
 /* Progress indication (in formItem section header). */
-"FORM_ITEM_PROGRESS" = "PERGUNTA %1$@ DE %2$@";
+"FORM_ITEM_PROGRESS" = "Pergunta %1$@ de %2$@";
 
 /* ORKTaskReviewViewController */
 "REVIEW_SKIPPED_ANSWER" = "Ignorada";
-"REVIEW_EDIT_ANSWER" = "Editar resposta";
+"REVIEW_EDIT_ANSWER" = "Edit";
 
 /* Alert for out of range values. */
 "RANGE_ALERT_TITLE" = "Valor inválido";
@@ -254,7 +254,7 @@
 "FITNESS_SIT_INSTRUCTION_FORMAT" = "Sente‑se confortavelmente durante %@.";
 "FITNESS_WALK_INSTRUCTION_FORMAT" = "Ande o mais depressa que puder durante %@.";
 "FITNESS_INTRO_TEXT_FORMAT" = "Este exercício mede o seu ritmo cardíaco e a distância que consegue percorrer a pé em %1$@.";
-"FITNESS_INTRO_2_TEXT_FORMAT" = "Durante %1$@, ande na rua o mais depressa que puder, sem correr. No fim, sente‑se confortavelmente e descanse durante %2$@. Para dar inicio ao teste, toque em Começar.";
+"FITNESS_INTRO_2_TEXT_FORMAT" = "Walk outdoors at your fastest possible pace for %1$@. When you’re done, sit and rest comfortably for %2$@. To begin, tap Get Started.";
 
 /* Short walk active task. */
 "WALK_TASK_TITLE" = "Equilíbrio e modo de andar";
@@ -296,7 +296,7 @@
 
 /* Amsler Grid Task.*/
 "AMSLER_GRID_TITLE" = "Grelha de Amsler";
-"AMSLER_GRID_INTRO_TEXT" = "Este exercício ajuda a detetar problemas na visão do utilizador.";
+"AMSLER_GRID_INTRO_TEXT" = "This activity helps in detecting problems in user’s vision.";
 "AMSLER_GRID_INSTRUCTION_TEXT" = "Mantenha o dispositivo a uma distância de 30 centímetros do seu rosto, ao nível dos olhos, durante o teste.";
 "AMSLER_GRID_INSTRUCTION_DETAIL_TEXT" = "Feche o %@ e olhe atentamente para o ponto no centro da grelha.\n\nCom o dedo ou o estilete, marque as distorções que vê, tais como linhas desfocadas ou onduladas.\n\nQuando terminar, passe o dedo para a esquerda em qualquer local fora da grelha.";
 "AMSLER_GRID_LEFT_EYE" = "olho esquerdo";
@@ -328,19 +328,28 @@
 
 /* dBHL Tone audiometry active task. */
 "dBHL_TONE_AUDIOMETRY_TASK_TITLE" = "Audiometria de tom";
+"dBHL_TONE_AUDIOMETRY_TASK_TITLE_2" = "Toque quando ouvir um som.";
+"dBHL_TONE_AUDIOMETRY_INTRO_TITLE" = "Som e volume";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_1" = "Ouvirá uma série de sons.";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_2" = "Quando ouvir um som, toque no botão.";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_3" = "Para este teste, o volume será definido a 50 por cento.";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_4" = "Este teste demora cerca de 10 minutos.";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_5" = "Ative a funcionalidade Não incomodar para evitar interrupções.";
 "dBHL_TONE_AUDIOMETRY_STEP_TITLE_RIGHT_EAR" = "Ouvirá primeiro os sons no ouvido direito.";
 "dBHL_TONE_AUDIOMETRY_STEP_TITLE_LEFT_EAR" = "Agora ouvirá os sons no ouvido esquerdo.";
 "dBHL_TONE_AUDIOMETRY_INTENDED_USE" = "Este exercício identifica os limiares de audição de uma pessoa na escala dB HL.";
 "dBHL_TONE_AUDIOMETRY_INTRO_TEXT" = "Certifique‑se de que o volume do dispositivo está no máximo.\n\nDurante esta tarefa, um som subtil será reproduzido no ouvido esquerdo ou direito.\n\nOuça atentamente e toque no botão sempre que ouvir um som.";
+"dBHL_TONE_AUDIOMETRY_INTRO_TEXT_2" = "Este teste identifica quão alto um som tem de ser para que o consiga ouvir.";
 "dBHL_TONE_AUDIOMETRY_ONBOARDING" = "Questionário de preparação.";
 "dBHL_TONE_AUDIOMETRY_ONBOARDING_QUESTION" = "Selecione a sua preferência de “melhor ouvido”, se for o caso";
 "dBHL_TONE_AUDIOMETRY_OPTION_LEFT" = "esquerdo";
 "dBHL_TONE_AUDIOMETRY_OPTION_RIGHT" = "direito";
 "dBHL_TONE_AUDIOMETRY_OPTION_NO_PREFERENCE" = "sem preferência";
-"dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "Teste interrompido";
+"dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "Test Cancelled";
 "dBHL_ALERT_TITLE_START_OVER" = "Recomeçar";
 "dBHL_ALERT_TITLE_CANCEL_TEST" = "Cancelar teste";
-"dBHL_ALERT_TEXT" = "Há um problema com os auscultadores.";
+"dBHL_ALERT_TEXT" = "Reconnect your AirPods or EarPods to take this test.";
+"dBHL_PROGRESS_COMPLETION_%@" = "%@ Complete";
 
 /* Headphones. */
 "AIRPODS" = "AirPods";
@@ -349,7 +358,10 @@
 "HEADPHONES_UNKNOWN" = "Desconhecido";
 "HEADPHONES_NONE" = "Nenhum";
 "CONNECTED" = "Ligação estabelecida";
+"NOT_CONNECTED" = "Not Connected";
 "HEADPHONE_CONNECTED_%@" = "Ligação estabelecida – %@";
+"HEADPHONE_DETECT_TITLE" = "Ligue os auscultadores";
+"HEADPHONE_DETECT_TEXT" = "This test requires Apple AirPods or Apple EarPods";
 
 /* Spatial span memory active task. */
 "SPATIAL_SPAN_MEMORY_TITLE" = "Memória espacial";
@@ -367,8 +379,8 @@
 "MEMORY_GAME_COMPLETE_TITLE" = "Sequência completa";
 "MEMORY_GAME_COMPLETE_MESSAGE" = "Para continuar, toque em Seguinte";
 "MEMORY_GAME_FAILED_TITLE" = "Voltar a tentar";
-"MEMORY_GAME_FAILED_MESSAGE" = "Desta vez, não correu muito bem. Toque em Seguinte para continuar.";
-"MEMORY_GAME_TIMEOUT_TITLE" = "Acabou o tempo";
+"MEMORY_GAME_FAILED_MESSAGE" = "You didn’t quite make it through that time. Tap Next to continue.";
+"MEMORY_GAME_TIMEOUT_TITLE" = "Fim do tempo";
 "MEMORY_GAME_TIMEOUT_MESSAGE" = "Acabou o tempo.\nToque em Seguinte para continuar.";
 "MEMORY_GAME_COMPLETE" = "Jogo terminado";
 "MEMORY_GAME_PAUSED_TITLE" = "Em pausa";
@@ -445,7 +457,7 @@
 /* Timed walk active task. */
 "TIMED_WALK_TITLE" = "Caminhada temporizada";
 "TIMED_WALK_INTRO_DETAIL" = "Este exercício mede a função das suas extremidades inferiores.";
-"TIMED_WALK_INTRO_2_TEXT_%@" = "Encontre um lugar, preferencialmente no exterior, onde possa caminhar cerca de %@ em linha reta o mais rapidamente possível, mas em segurança. Não abrande até ultrapassar a meta.";
+"TIMED_WALK_INTRO_2_TEXT_%@" = "Find a place, preferably outside, where you can walk for about %@ in a straight line as quickly as possible, but safely. Do not slow down until after you’ve passed the finish line.";
 "TIMED_WALK_INTRO_2_DETAIL" = "Toque em Seguinte para começar.";
 "TIMED_WALK_FORM_TITLE" = "Dispositivo auxiliar";
 "TIMED_WALK_FORM_TEXT" = "Use o mesmo dispositivo auxiliar para cada teste.";
@@ -470,7 +482,7 @@
 "PASAT_INTRO_TEXT" = "O teste PASAT (Paced Auditory Serial Addition Test) mede a velocidade de processamento de informação auditiva e a capacidade de cálculo.";
 "PVSAT_INTRO_TEXT" = "O teste PVSAT (Paced Auditory Serial Addition Test) mede a velocidade de processamento de informação visual e a capacidade de cálculo.";
 "PAVSAT_INTRO_TEXT" = "O teste PAVSAT (Paced Auditory and Visual Serial Addition Test) mede a velocidade de processamento de informação auditiva e visual e a capacidade de cálculo.";
-"PSAT_INTRO_TEXT_2_%@" = "É apresentado um dígito a cada %@ segundos.\nTem de adicionar cada novo dígito ao dígito imediatamente anterior.\nAtenção: não deve calcular o valor total, mas apenas a soma dos últimos dois dígitos.";
+"PSAT_INTRO_TEXT_2_%@" = "Single digits are presented every %@.\nYou must add each new digit to the one immediately prior to it.\nAttention, you mustn’t calculate a running total, but only the sum of the last two numbers.";
 "PSAT_CALL_TO_ACTION" = "Para iniciar, toque em Começar.";
 "PSAT_INITIAL_INSTRUCTION" = "Lembre-se deste primeiro dígito.";
 "PSAT_INSTRUCTION" = "Adicione este novo dígito ao anterior.";
@@ -587,8 +599,10 @@
 "ENVIRONMENTSPL_UNIT" = "dBA";
 "ENVIRONMENTSPL_CALCULATING" = "A calcular…";
 "ENVIRONMENTSPL_THRESHOLD" = "Limiar: %@ dBA";
-"ENVIRONMENTSPL_OK" = "OK";
+"ENVIRONMENTSPL_OK" = "Background Noise OK";
 "ENVIRONMENTSPL_NOISE" = "Demasiado ruído de fundo";
+"ENVIRONMENTSPL_TITLE_2" = "Procure um lugar tranquilo";
+"ENVIRONMENTSPL_INTRO_TEXT_2" = "Para assegurar a precisão do teste, este deverá ser realizado num ambiente calmo.";
 
 /* Secondary Task Step*/
 "SECONDARY_TASK_START_BUTTON" = "Iniciar tarefa";
@@ -598,7 +612,7 @@
 
 /* Slider */
 "SLIDER_MOVE_SLIDER_FOR_VALUE" = "Mova o nivelador para especificar o valor";
-"SLIDER_I_DONT_KNOW" = "Não sei";
+"SLIDER_I_DONT_KNOW" = "I Don’t Know";
 
 /* Review Step */
 "REVIEW_STEP_PAGE" = "Página";
@@ -622,6 +636,7 @@
 
 "AX_SELECTED" = "Selecionado";
 "AX_UNSELECTED" = "Não selecionado";
+"AX_SELECT_ALL_THAT_APPLY" = "SELECIONE O QUE FOR RELEVANTE";
 
 "AX_SLIDER_LABEL" = "Nivelador de resposta. De %@ a %@";
 "AX_UNLABELED_IMAGE" = "Imagem sem etiqueta";

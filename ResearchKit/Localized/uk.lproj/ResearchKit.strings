@@ -34,7 +34,7 @@
 "CONSENT_NAME_FAMILY" = "Прізвище";
 "CONSENT_NAME_PLACEHOLDER" = "Обов’язково";
 "CONSENT_REVIEW_TITLE" = "Огляд";
-"CONSENT_REVIEW_INSTRUCTION" = "Перегляньте форму вище і торкніть «Погоджуюсь», якщо ви готові продовжити.";
+"CONSENT_REVIEW_INSTRUCTION" = "Review the form below, and tap Agree if you’re ready to continue.";
 "CONSENT_REVIEW_ALERT_TITLE" = "Огляд";
 "CONSENT_SIGNATURE_TITLE" = "Підпис";
 "CONSENT_SIGNATURE_INSTRUCTION" = "Будь ласка, підпишіть пальцем у полі нижче.";
@@ -58,7 +58,7 @@
 "LEARN_MORE_PRIVACY" = "Докладніше про захист вашої приватності і особистих даних";
 "LEARN_MORE_WELCOME" = "Докладніше про дослідження";
 "LEARN_MORE_STUDY_SURVEY" = "Докладніше про дослідне опитування";
-"LEARN_MORE_TIME_COMMITMENT" = "Докладніше про вплив дослідження на ваш час";
+"LEARN_MORE_TIME_COMMITMENT" = "Learn more about the study’s impact on your time";
 "LEARN_MORE_TASKS" = "Докладніше про залучені завдання";
 "LEARN_MORE_WITHDRAWING" = "Докладніше про відкликання";
 
@@ -70,8 +70,8 @@
 "LEARN_MORE_CONSENT_SHARING" = "Докладніше про оприлюднення даних";
 
 /* Lines beneath typewritten signatures on documents.*/
-"CONSENT_DOC_LINE_PRINTED_NAME" = "Printed Name";
-"CONSENT_DOC_LINE_SIGNATURE" = "Signature";
+"CONSENT_DOC_LINE_PRINTED_NAME" = "Імʼя друкованими літерами";
+"CONSENT_DOC_LINE_SIGNATURE" = "Підпис";
 "CONSENT_DOC_LINE_DATE" = "Дата";
 
 /* Progress indication (in navigation bar). */
@@ -82,7 +82,7 @@
 
 /* ORKTaskReviewViewController */
 "REVIEW_SKIPPED_ANSWER" = "Пропущено";
-"REVIEW_EDIT_ANSWER" = "Edit";
+"REVIEW_EDIT_ANSWER" = "Змінити";
 
 /* Alert for out of range values. */
 "RANGE_ALERT_TITLE" = "Неправильне значення";
@@ -254,7 +254,7 @@
 "FITNESS_SIT_INSTRUCTION_FORMAT" = "Сидіть зручно %@.";
 "FITNESS_WALK_INSTRUCTION_FORMAT" = "Ідіть якомога швидше %@.";
 "FITNESS_INTRO_TEXT_FORMAT" = "Цей тест оцінює ваш серцевий ритм і обчислює, скільки ви можете пройти за %1$@.";
-"FITNESS_INTRO_2_TEXT_FORMAT" = "Ідіть надворі своєю найшвидшою ходою %1$@. Завершивши, зручно сядьте і відпочивайте %2$@. Щоб почати, торкніть «Розпочати».";
+"FITNESS_INTRO_2_TEXT_FORMAT" = "Walk outdoors at your fastest possible pace for %1$@. When you’re done, sit and rest comfortably for %2$@. To begin, tap Get Started.";
 
 /* Short walk active task. */
 "WALK_TASK_TITLE" = "Хода і рівновага";
@@ -296,7 +296,7 @@
 
 /* Amsler Grid Task.*/
 "AMSLER_GRID_TITLE" = "Сітка Амслера";
-"AMSLER_GRID_INTRO_TEXT" = "Ця операція допомагає виявити проблеми з зором користувача.";
+"AMSLER_GRID_INTRO_TEXT" = "This activity helps in detecting problems in user’s vision.";
 "AMSLER_GRID_INSTRUCTION_TEXT" = "Тримайте пристрій на рівні очей на відстані 30 см (12 дюймів) від обличчя під час усього тесту.";
 "AMSLER_GRID_INSTRUCTION_DETAIL_TEXT" = "Закрийте своє %@ і пильно дивіться на крапку в центрі квадратної сітки.\n\nПальцем чи стилусом позначте всі видимі спотворення, як-от розмиті або хвилясті лінії.\n\nКоли завершите, посуньте вліво поза сіткою.";
 "AMSLER_GRID_LEFT_EYE" = "Ліве око";
@@ -345,11 +345,11 @@
 "dBHL_TONE_AUDIOMETRY_OPTION_LEFT" = "ліве";
 "dBHL_TONE_AUDIOMETRY_OPTION_RIGHT" = "праве";
 "dBHL_TONE_AUDIOMETRY_OPTION_NO_PREFERENCE" = "немає";
-"dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "Test Cancelled";
+"dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "Тест скасовано";
 "dBHL_ALERT_TITLE_START_OVER" = "З початку";
 "dBHL_ALERT_TITLE_CANCEL_TEST" = "Скасувати тест";
-"dBHL_ALERT_TEXT" = "Reconnect your AirPods or EarPods to take this test.";
-"dBHL_PROGRESS_COMPLETION_%@" = "%@ Complete";
+"dBHL_ALERT_TEXT" = "Перепідʼєднайте свої AirPods або EarPods, щоб виконати цей тест.";
+"dBHL_PROGRESS_COMPLETION_%@" = "%@ виконано";
 
 /* Headphones. */
 "AIRPODS" = "AirPods";
@@ -358,10 +358,10 @@
 "HEADPHONES_UNKNOWN" = "Невідомі";
 "HEADPHONES_NONE" = "Немає";
 "CONNECTED" = "Зʼєднано";
-"NOT_CONNECTED" = "Not Connected";
+"NOT_CONNECTED" = "Не зʼєднано";
 "HEADPHONE_CONNECTED_%@" = "Зʼєднано - %@";
 "HEADPHONE_DETECT_TITLE" = "Підʼєднайте свої навушники";
-"HEADPHONE_DETECT_TEXT" = "This test requires Apple AirPods or Apple EarPods";
+"HEADPHONE_DETECT_TEXT" = "Для цього тесту необхідні Apple Airpods або Apple EarPods";
 
 /* Spatial span memory active task. */
 "SPATIAL_SPAN_MEMORY_TITLE" = "Просторова пам’ять";
@@ -379,8 +379,8 @@
 "MEMORY_GAME_COMPLETE_TITLE" = "Послідовність завершено";
 "MEMORY_GAME_COMPLETE_MESSAGE" = "Щоб продовжити, торкніть «Далі»";
 "MEMORY_GAME_FAILED_TITLE" = "Повторити спробу";
-"MEMORY_GAME_FAILED_MESSAGE" = "У вас не вийшло вкластися у цей час. Торкніть «Далі», щоб продовжити.";
-"MEMORY_GAME_TIMEOUT_TITLE" = "Час вийшов";
+"MEMORY_GAME_FAILED_MESSAGE" = "You didn’t quite make it through that time. Tap Next to continue.";
+"MEMORY_GAME_TIMEOUT_TITLE" = "Час завершився";
 "MEMORY_GAME_TIMEOUT_MESSAGE" = "Ваш час минув.\nТоркніть «Далі», щоб продовжити.";
 "MEMORY_GAME_COMPLETE" = "Гру завершено";
 "MEMORY_GAME_PAUSED_TITLE" = "Припинено";
@@ -457,7 +457,7 @@
 /* Timed walk active task. */
 "TIMED_WALK_TITLE" = "Ходіння за часом";
 "TIMED_WALK_INTRO_DETAIL" = "Цей тест оцінює роботу ваших нижніх кінцівок.";
-"TIMED_WALK_INTRO_2_TEXT_%@" = "Знайдіть місце, краще надворі, де ви можете якомога швидко і безпечно пройти близько %@ по прямій. Не зменшуйте швидкість, доки не перетнете фінішну лінію.";
+"TIMED_WALK_INTRO_2_TEXT_%@" = "Find a place, preferably outside, where you can walk for about %@ in a straight line as quickly as possible, but safely. Do not slow down until after you’ve passed the finish line.";
 "TIMED_WALK_INTRO_2_DETAIL" = "Торкніть «Далі», щоб почати.";
 "TIMED_WALK_FORM_TITLE" = "Допоміжний засіб";
 "TIMED_WALK_FORM_TEXT" = "Вживайте однаковий допоміжний засіб для всіх тестів.";
@@ -482,7 +482,7 @@
 "PASAT_INTRO_TEXT" = "Слуховий тест на складання у заданому темпі вимірює швидкість обробки вами слухової інформації та вашу здібність до обчислення.";
 "PVSAT_INTRO_TEXT" = "Візуальний тест на складання у заданому темпі вимірює швидкість обробки вами візуальної інформації та вашу здібність до обчислення.";
 "PAVSAT_INTRO_TEXT" = "Слуховий і візуальний тест на складання у заданому темпі вимірює швидкість обробки вами слухової і візуальної інформації та вашу здібність до обчислення.";
-"PSAT_INTRO_TEXT_2_%@" = "Однорозрядні числа показуються з інтервалом %@.\nВи маєте додавати кожну нову цифру до цифри, що їй передує.\nЗауважте, що вам треба рахувати не підсумок, що наростає, а лише суму двох останніх чисел.";
+"PSAT_INTRO_TEXT_2_%@" = "Single digits are presented every %@.\nYou must add each new digit to the one immediately prior to it.\nAttention, you mustn’t calculate a running total, but only the sum of the last two numbers.";
 "PSAT_CALL_TO_ACTION" = "Торкніть «Розпочати», щоб почати.";
 "PSAT_INITIAL_INSTRUCTION" = "Запам’ятайте цю першу цифру.";
 "PSAT_INSTRUCTION" = "Додайте це нове число до попереднього.";
@@ -599,7 +599,7 @@
 "ENVIRONMENTSPL_UNIT" = "дБ";
 "ENVIRONMENTSPL_CALCULATING" = "Обчислювання";
 "ENVIRONMENTSPL_THRESHOLD" = "Поріг: %@ дБ";
-"ENVIRONMENTSPL_OK" = "Background Noise OK";
+"ENVIRONMENTSPL_OK" = "Фоновий шум OK";
 "ENVIRONMENTSPL_NOISE" = "Забагато фонового шуму";
 "ENVIRONMENTSPL_TITLE_2" = "Знайдіть тихе місце";
 "ENVIRONMENTSPL_INTRO_TEXT_2" = "Щоб гарантувати точність, цей тест слід проводити в тихому середовищі.";
@@ -612,7 +612,7 @@
 
 /* Slider */
 "SLIDER_MOVE_SLIDER_FOR_VALUE" = "Рухайте повзунок для вводу значення";
-"SLIDER_I_DONT_KNOW" = "Я не знаю";
+"SLIDER_I_DONT_KNOW" = "I Don’t Know";
 
 /* Review Step */
 "REVIEW_STEP_PAGE" = "Сторінка";
@@ -636,6 +636,7 @@
 
 "AX_SELECTED" = "Вибрано";
 "AX_UNSELECTED" = "Вибір скасовано";
+"AX_SELECT_ALL_THAT_APPLY" = "ВИБЕРІТЬ УСІ ДОРЕЧНІ";
 
 "AX_SLIDER_LABEL" = "Повзунок відповіді. Діапазон від %@ до %@";
 "AX_UNLABELED_IMAGE" = "Зображення без мітки";
