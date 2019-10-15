@@ -68,6 +68,9 @@
     NSInteger _requiredContiguousSamples;
     int _counter;
     NSMutableArray *_recordedSamples;
+    AVAudioSessionCategory _savedSessionCategory;
+    AVAudioSessionMode _savedSessionMode;
+    AVAudioSessionCategoryOptions _savedSessionCategoryOptions;
 }
 
 @property (nonatomic, strong) ORKEnvironmentSPLMeterContentView *environmentSPLMeterContentView;
@@ -95,8 +98,8 @@
 }
 
 - (void)viewDidLoad {
-    
     [super viewDidLoad];
+    [self saveAudioSession];
     _sensitivityOffset = [self sensitivityOffsetForDevice];
     _environmentSPLMeterContentView = [ORKEnvironmentSPLMeterContentView new];
     [self setNavigationFooterView];
@@ -115,7 +118,13 @@
     [self configureEQ];
     [_audioEngine attachNode:_eqUnit];
     [_audioEngine connect:_inputNode to:_eqUnit format:_inputNodeOutputFormat];
-    
+}
+
+- (void)saveAudioSession {
+    AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+    _savedSessionCategory = audioSession.category;
+    _savedSessionMode = audioSession.mode;
+    _savedSessionCategoryOptions = audioSession.categoryOptions;
 }
 
 - (void)setNavigationFooterView {
@@ -144,6 +153,7 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+    [self resetAudioSession];
     [_eqUnit removeTapOnBus:0];
     [_audioEngine stop];
     [_rmsBuffer removeAllObjects];
@@ -331,7 +341,8 @@
 
 - (void) resetAudioSession {
     NSError *error = nil;
-    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback mode:AVAudioSessionModeDefault options:AVAudioSessionCategoryOptionMixWithOthers error:&error];
+    [[AVAudioSession sharedInstance] setCategory:_savedSessionCategory mode:_savedSessionMode options:_savedSessionCategoryOptions error:&error];
+    [[AVAudioSession sharedInstance] overrideOutputAudioPort: AVAudioSessionPortOverrideNone error:&error];
     if (error) {
         ORK_Log_Error("Setting AVAudioSessionCategory failed with error message: \"%@\"", error.localizedDescription);
     }
