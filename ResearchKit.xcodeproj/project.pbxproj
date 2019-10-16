@@ -1579,6 +1579,8 @@
 		BF9155A41BDE8DA9007FA459 /* ORKWaitStepView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKWaitStepView.m; sourceTree = "<group>"; };
 		BF9155A51BDE8DA9007FA459 /* ORKWaitStepViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKWaitStepViewController.h; sourceTree = "<group>"; };
 		BF9155A61BDE8DA9007FA459 /* ORKWaitStepViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKWaitStepViewController.m; sourceTree = "<group>"; };
+		C72B9DF1235695DC00B982B7 /* no */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = no; path = no.lproj/ResearchKit.strings; sourceTree = "<group>"; };
+		C72B9DF42356960F00B982B7 /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt_BR; path = pt_BR.lproj/ResearchKit.strings; sourceTree = "<group>"; };
 		CBD34A541BB1FB9000F204EA /* ORKLocationSelectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKLocationSelectionView.h; sourceTree = "<group>"; };
 		CBD34A551BB1FB9000F204EA /* ORKLocationSelectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKLocationSelectionView.m; sourceTree = "<group>"; };
 		CBD34A581BB207FC00F204EA /* ORKSurveyAnswerCellForLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKSurveyAnswerCellForLocation.h; sourceTree = "<group>"; };
@@ -3949,6 +3951,7 @@
 				ru,
 				ro,
 				pt_PT,
+				pt_BR,
 				pl,
 				nl,
 				ms,
@@ -3964,7 +3967,6 @@
 				fr_CA,
 				fi,
 				es,
-				es_MX,
 				en_GB,
 				en_AU,
 				el,
@@ -3973,14 +3975,7 @@
 				cs,
 				ca,
 				ar,
-				"zh-Hant",
-				"zh-HK",
-				"zh-Hans",
-				"pt-PT",
-				"fr-CA",
-				"en-GB",
-				"en-AU",
-				nb,
+				no,
 				"es-419",
 			);
 			mainGroup = 3FFF18341829DB1D00167070;
@@ -4530,6 +4525,8 @@
 				B1B34A041AA10EDA005FAD66 /* cs */,
 				B1B34A051AA10EDF005FAD66 /* ca */,
 				B1B34A061AA10EE4005FAD66 /* ar */,
+				C72B9DF1235695DC00B982B7 /* no */,
+				C72B9DF42356960F00B982B7 /* pt_BR */,
 			);
 			name = ResearchKit.strings;
 			sourceTree = "<group>";
