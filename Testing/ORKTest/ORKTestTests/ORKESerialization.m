@@ -1501,9 +1501,14 @@ static NSMutableDictionary *ORKESerializationEncodingTable() {
                     })),
            ENTRY(ORKScaleAnswerFormat,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+                     NSNumber *defaultValue = (NSNumber *)GETPROP(dict, defaultValue);
+                     // FIXME:- We are adding this for scenarios where the payload does not have the "defaultValue" key
+                     if (defaultValue == nil) {
+                         defaultValue = [[NSNumber alloc] initWithInt:INT_MAX];
+                     }
                      return [[ORKScaleAnswerFormat alloc] initWithMaximumValue:((NSNumber *)GETPROP(dict, maximum)).integerValue
                                                                   minimumValue:((NSNumber *)GETPROP(dict, minimum)).integerValue
-                                                                  defaultValue:((NSNumber *)GETPROP(dict, defaultValue)).integerValue
+                                                                  defaultValue:defaultValue.integerValue
                                                                           step:((NSNumber *)GETPROP(dict, step)).integerValue
                                                                       vertical:((NSNumber *)GETPROP(dict, vertical)).boolValue
                                                        maximumValueDescription:GETPROP(dict, maximumValueDescription)
@@ -1528,7 +1533,18 @@ static NSMutableDictionary *ORKESerializationEncodingTable() {
                     })),
            ENTRY(ORKContinuousScaleAnswerFormat,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-                     return [[ORKContinuousScaleAnswerFormat alloc] initWithMaximumValue:((NSNumber *)GETPROP(dict, maximum)).doubleValue minimumValue:((NSNumber *)GETPROP(dict, minimum)).doubleValue defaultValue:((NSNumber *)GETPROP(dict, defaultValue)).doubleValue maximumFractionDigits:((NSNumber *)GETPROP(dict, maximumFractionDigits)).integerValue vertical:((NSNumber *)GETPROP(dict, vertical)).boolValue maximumValueDescription:GETPROP(dict, maximumValueDescription) minimumValueDescription:GETPROP(dict, minimumValueDescription)];
+                     NSNumber *defaultValue = (NSNumber *)GETPROP(dict, defaultValue);
+                     // FIXME:- We are adding this for scenarios where the payload does not have the "defaultValue" key
+                     if (defaultValue == nil) {
+                         defaultValue = [[NSNumber alloc] initWithDouble:DBL_MAX];
+                     }
+                     return [[ORKContinuousScaleAnswerFormat alloc] initWithMaximumValue:((NSNumber *)GETPROP(dict, maximum)).doubleValue
+                                                                            minimumValue:((NSNumber *)GETPROP(dict, minimum)).doubleValue
+                                                                            defaultValue:defaultValue.doubleValue
+                                                                   maximumFractionDigits:((NSNumber *)GETPROP(dict, maximumFractionDigits)).integerValue
+                                                                                vertical:((NSNumber *)GETPROP(dict, vertical)).boolValue
+                                                                 maximumValueDescription:GETPROP(dict, maximumValueDescription)
+                                                                 minimumValueDescription:GETPROP(dict, minimumValueDescription)];
                  },
                  (@{
                     PROPERTY(minimum, NSNumber, NSObject, NO, nil, nil),

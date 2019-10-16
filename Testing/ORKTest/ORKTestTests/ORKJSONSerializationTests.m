@@ -1358,5 +1358,18 @@ ORK_MAKE_TEST_INIT(NSRegularExpression, (^{
     XCTAssertEqualObjects(sample, deserializedSample);
 }
 
+- (void)testMissingDefaultValueKeyInScaleAnswerFormat {
+    ORKESerializationContext *context = [[ORKESerializationContext alloc] initWithLocalizer:nil imageProvider:nil];
+
+    NSDictionary *payloadForContinuousScale = @{@"minimumValueDescription":@"",@"maximum":@100,@"_class":@"ORKContinuousScaleAnswerFormat",@"vertical":@NO,@"minimum":@0,@"maximumFractionDigits":@0,@"hideSelectedValue":@NO,@"hideRanges":@NO,@"hideLabels":@NO,@"numberStyle":@"percent",@"maximumValueDescription":@"",@"showDontKnowButton":@NO,@"customDontKnowButtonText":@""};
+
+    ORKContinuousScaleAnswerFormat *continuousScaleAnswerFormat = (ORKContinuousScaleAnswerFormat *)[ORKESerializer objectFromJSONObject:payloadForContinuousScale context:context error:NULL];
+    XCTAssertEqual(continuousScaleAnswerFormat.defaultValue, DBL_MAX);
+
+    NSDictionary *payloadForScale = @{@"minimumValueDescription":@"",@"maximum":@100,@"_class":@"ORKScaleAnswerFormat",@"vertical":@NO,@"minimum":@0,@"hideSelectedValue":@NO,@"hideRanges":@NO,@"hideLabels":@NO,@"hideValueMarkers":@NO,@"step":@10,@"maximumValueDescription":@"",@"showDontKnowButton":@NO,@"customDontKnowButtonText":@""};
+    ORKScaleAnswerFormat *scaleAnswerFormat = (ORKScaleAnswerFormat *)[ORKESerializer objectFromJSONObject:payloadForScale context:context error:NULL];
+    XCTAssertEqual(scaleAnswerFormat.defaultValue, INT_MAX);
+}
+
 @end
 
