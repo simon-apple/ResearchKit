@@ -267,7 +267,8 @@ static const CGFloat activityIndicatorPadding = 24.0;
     _continueButton.disableTintColor = [[self tintColor] colorWithAlphaComponent:0.3];
     
     // Do not modify _continueButton.userInteractionEnabled during continueButton disable period
-    if (_continueButtonJustTapped == NO) {
+    // or when the activity indicator is present
+    if (_continueButtonJustTapped == NO && _activityIndicatorView == nil) {
         _continueButton.userInteractionEnabled = (_continueEnabled || (_useNextForSkip && _skipButtonItem));
     }
     
@@ -277,7 +278,9 @@ static const CGFloat activityIndicatorPadding = 24.0;
 }
 
 - (void)showActivityIndicator:(BOOL)showActivityIndicator {
+    
     [_continueButton setUserInteractionEnabled:!showActivityIndicator];
+
     if (showActivityIndicator == YES) {
         if (_activityIndicatorView == nil) {
             _activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];

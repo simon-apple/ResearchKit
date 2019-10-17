@@ -35,9 +35,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class ORKWebViewStepViewController;
+
 @protocol ORKWebViewStepDelegate <NSObject>
 
 - (WKNavigationActionPolicy)handleLinkNavigationWithURL:(NSURL *)url;
+- (void)didFinishLoadingWebStepViewController:(ORKWebViewStepViewController *)webStepViewController;
 
 @end
 
@@ -53,6 +56,8 @@ ORK_CLASS_AVAILABLE
 @interface ORKWebViewStepViewController : ORKStepViewController<WKScriptMessageHandler, WKNavigationDelegate, ORKSignatureViewDelegate, UIScrollViewDelegate>
 
 @property (nonatomic, weak, nullable) id<ORKWebViewStepDelegate> webViewDelegate;
+
+- (void)startPreload;
 
 @end
 

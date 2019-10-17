@@ -354,6 +354,11 @@ static const CGFloat ORKSignatureToClearPadding = 15.0;
     _navigationFooterView.continueButtonItem = continueButtonItem;
 }
 
+- (void)startPreload {
+    [self.view layoutSubviews];
+    [self stepDidChange];
+}
+
 - (void)userContentController:(WKUserContentController *)userContentController didReceiveScriptMessage:(WKScriptMessage *)message
 {
     if ([message.body isKindOfClass:[NSString class]]){
@@ -395,7 +400,15 @@ static const CGFloat ORKSignatureToClearPadding = 15.0;
                     CGFloat height = [resultString floatValue];
                     [_webView.heightAnchor constraintEqualToConstant:height].active = YES;
                 }
+                
+                if (_webViewDelegate != nil && [_webViewDelegate respondsToSelector:@selector(didFinishLoadingWebStepViewController:)]) {
+                    [_webViewDelegate didFinishLoadingWebStepViewController:self];
+                }
             }];
+        } else {
+            if (_webViewDelegate != nil && [_webViewDelegate respondsToSelector:@selector(didFinishLoadingWebStepViewController:)]) {
+                [_webViewDelegate didFinishLoadingWebStepViewController:self];
+            }
         }
     }];
     
