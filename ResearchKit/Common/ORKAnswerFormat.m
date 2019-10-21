@@ -2611,7 +2611,7 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
     _autocorrectionType = UITextAutocorrectionTypeDefault;
     _spellCheckingType = UITextSpellCheckingTypeDefault;
     _keyboardType = UIKeyboardTypeDefault;
-    _multipleLines = YES;
+    _multipleLines = NO;
 }
 
 - (instancetype)initWithMaximumLength:(NSInteger)maximumLength {
@@ -2669,6 +2669,8 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
     answerFormat->_secureTextEntry = _secureTextEntry;
     answerFormat->_textContentType = _textContentType;
     answerFormat->_placeholder = _placeholder;
+    answerFormat.showDontKnowButton = self.showDontKnowButton;
+    answerFormat.customDontKnowButtonText = [self.customDontKnowButtonText copy];
 
     if (@available(iOS 12.0, *)) {
         answerFormat->_passwordRules = _passwordRules;
@@ -2757,7 +2759,7 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        _multipleLines = YES;
+        _multipleLines = NO;
         ORK_DECODE_INTEGER(aDecoder, maximumLength);
         ORK_DECODE_OBJ_CLASS(aDecoder, validationRegularExpression, NSRegularExpression);
         ORK_DECODE_OBJ_CLASS(aDecoder, invalidMessage, NSString);

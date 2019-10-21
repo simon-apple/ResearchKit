@@ -538,7 +538,13 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     if (![_dontKnowButton isDontKnowButtonActive]) {
         [_dontKnowButton setButtonActive];
         [_textFieldView.textField setText:nil];
-        [self textFieldShouldClear:_textFieldView.textField];
+        
+        if (![_textFieldView.textField isFirstResponder]) {
+            [self inputValueDidChange];
+        } else {
+            [self textFieldShouldClear:_textFieldView.textField];
+            [_textFieldView.textField endEditing:YES];
+        }
         
         if (self.errorLabel.attributedText) {
             self.errorLabel.attributedText = nil;
@@ -548,7 +554,7 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     }
 }
 
-- (void) tapGesture: (id)sender {
+- (void)tapGesture: (id)sender {
     //this tap gesture is here to avoid the cell being selected if the user missed the dont know button
 }
 
@@ -720,9 +726,14 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
 
 - (void)inputValueDidChange {
     [super inputValueDidChange];
-
-    if (_dontKnowButton && [_dontKnowButton isDontKnowButtonActive]) {
-        [_dontKnowButton setButtonInactive];
+    
+    if (_dontKnowButton && [_dontKnowButton isDontKnowButtonActive] && self.answer != [ORKDontKnowAnswer answer]) {
+        [self ork_setAnswer:[ORKDontKnowAnswer answer]];
+    }
+    
+    if (self.errorLabel.attributedText != nil) {
+        self.errorLabel.attributedText = nil;
+        [self setupConstraints];
     }
 }
 
@@ -741,6 +752,11 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     self.editingHighlight = YES;
     [self.delegate formItemCellDidBecomeFirstResponder:self];
     UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, nil);
+    
+    if (_dontKnowButton && [_dontKnowButton isDontKnowButtonActive]) {
+        [_dontKnowButton setButtonInactive];
+        [self ork_setAnswer:ORKNullAnswerValue()];
+    }
 }
 
 - (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
