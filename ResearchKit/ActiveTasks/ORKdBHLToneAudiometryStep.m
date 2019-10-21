@@ -38,7 +38,7 @@
 #define ORKdBHLToneAudiometryTaskToneMinimumDuration 1.0
 #define ORKdBHLToneAudiometryTaskDefaultMaxRandomPreStimulusDelay 2.0
 #define ORKdBHLToneAudiometryTaskDefaultMaxPostStimulusDelay 1.0
-#define ORKdBHLToneAudiometryTaskDefaultTransitionsPerFrequency 15
+#define ORKdBHLToneAudiometryTaskDefaultTransitionsPerFrequency 20
 #define ORKdBHLToneAudiometryTaskInitialdBHLValue 30.0
 #define ORKdBHLToneAudiometryTaskdBHLStepUpSize 5.0
 #define ORKdBHLToneAudiometryTaskdBHLStepUpSizeFirstMiss 20.0
