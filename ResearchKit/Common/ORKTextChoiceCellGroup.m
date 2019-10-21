@@ -40,6 +40,7 @@
 #import "ORKAnswerFormat_Internal.h"
 #import "ORKChoiceAnswerFormatHelper.h"
 
+#import "ORKHelpers_Internal.h"
 
 @implementation ORKTextChoiceCellGroup {
     ORKChoiceAnswerFormatHelper *_helper;
@@ -74,7 +75,7 @@
 - (void)setAnswer:(id)answer {
     _answer = answer;
 
-    [self setSelectedIndexes:[_helper selectedIndexesForAnswer:answer]];
+    [self safelySetSelectedIndexesForAnswer:answer];
 }
 
 - (ORKChoiceViewCell *)cellAtIndexPath:(NSIndexPath *)indexPath withReuseIdentifier:(NSString *)identifier {
@@ -111,7 +112,7 @@
         }
         _cells[@(index)] = cell;
         
-        [self setSelectedIndexes:[_helper selectedIndexesForAnswer:_answer]];
+        [self safelySetSelectedIndexesForAnswer:_answer];
     }
     
     return cell;
@@ -193,6 +194,18 @@
     return (indexPath.section == _beginningIndexPath.section) &&
             (indexPath.row >= _beginningIndexPath.row) &&
             (indexPath.row < (_beginningIndexPath.row + count));
+}
+
+-(void)safelySetSelectedIndexesForAnswer:(nullable id)answer {
+    NSArray *selectedIndexes;
+    @try {
+        selectedIndexes = [_helper selectedIndexesForAnswer:answer];
+    } @catch (NSException *exception) {
+        selectedIndexes = [[NSArray alloc] init];
+        ORK_Log_Error("Error getting selected indexes: %@", exception.reason);
+    } @finally {
+        [self setSelectedIndexes: selectedIndexes];
+    }
 }
 
 - (void)setSelectedIndexes:(NSArray *)indexes {

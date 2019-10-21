@@ -166,8 +166,8 @@
             if (nil == matchedChoice) {
                 
                 if (![answerValue isKindOfClass:[NSNumber class]]) {
-                    @throw [NSException exceptionWithName:@"Wrong class type for answerValue"
-                                                   reason:[NSString stringWithFormat:@"Expected class type %@, but was given %@", [NSNumber class], [answerValue class]]
+                    @throw [NSException exceptionWithName:@"No matching choice found"
+                                                   reason:[NSString stringWithFormat:@"Provided choice of type %@ not found in available choices", [answerValue class]]
                                                  userInfo:nil];
                 }
                 
