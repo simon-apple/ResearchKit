@@ -34,7 +34,7 @@
 "CONSENT_NAME_FAMILY" = "Efternamn";
 "CONSENT_NAME_PLACEHOLDER" = "Krävs";
 "CONSENT_REVIEW_TITLE" = "Granska";
-"CONSENT_REVIEW_INSTRUCTION" = "Review the form below, and tap Agree if you’re ready to continue.";
+"CONSENT_REVIEW_INSTRUCTION" = "Granska formuläret nedan och tryck på Godkänn om du vill fortsätta.";
 "CONSENT_REVIEW_ALERT_TITLE" = "Granska";
 "CONSENT_SIGNATURE_TITLE" = "Signatur";
 "CONSENT_SIGNATURE_INSTRUCTION" = "Signera med hjälp av fingret i rutan nedan.";
@@ -58,7 +58,7 @@
 "LEARN_MORE_PRIVACY" = "Läs mer om hur din integritet och identitet skyddas";
 "LEARN_MORE_WELCOME" = "Läs mer om studien först";
 "LEARN_MORE_STUDY_SURVEY" = "Läs mer om studieenkäten";
-"LEARN_MORE_TIME_COMMITMENT" = "Learn more about the study’s impact on your time";
+"LEARN_MORE_TIME_COMMITMENT" = "Läs mer om studiens påverkan på din tid";
 "LEARN_MORE_TASKS" = "Läs mer om de berörda åtgärderna";
 "LEARN_MORE_WITHDRAWING" = "Läs mer om tillbakadragning";
 
@@ -70,8 +70,8 @@
 "LEARN_MORE_CONSENT_SHARING" = "Läs mer om datadelning";
 
 /* Lines beneath typewritten signatures on documents.*/
-"CONSENT_DOC_LINE_PRINTED_NAME" = "Printed Name";
-"CONSENT_DOC_LINE_SIGNATURE" = "Signature";
+"CONSENT_DOC_LINE_PRINTED_NAME" = "Namnförtydligande";
+"CONSENT_DOC_LINE_SIGNATURE" = "Signatur";
 "CONSENT_DOC_LINE_DATE" = "Datum";
 
 /* Progress indication (in navigation bar). */
@@ -82,7 +82,7 @@
 
 /* ORKTaskReviewViewController */
 "REVIEW_SKIPPED_ANSWER" = "Överhoppad";
-"REVIEW_EDIT_ANSWER" = "Edit";
+"REVIEW_EDIT_ANSWER" = "Ändra";
 
 /* Alert for out of range values. */
 "RANGE_ALERT_TITLE" = "Ogiltigt värde";
@@ -254,7 +254,7 @@
 "FITNESS_SIT_INSTRUCTION_FORMAT" = "Sitt bekvämt under %@.";
 "FITNESS_WALK_INSTRUCTION_FORMAT" = "Gå så fort du kan under %@.";
 "FITNESS_INTRO_TEXT_FORMAT" = "Den här aktiviteten registrerar din puls och mäter hur långt du kan gå på %1$@.";
-"FITNESS_INTRO_2_TEXT_FORMAT" = "Walk outdoors at your fastest possible pace for %1$@. When you’re done, sit and rest comfortably for %2$@. To begin, tap Get Started.";
+"FITNESS_INTRO_2_TEXT_FORMAT" = "Gå utomhus i snabbast möjliga takt under %1$@. När du är klar sitter du och vilar bekvämt under %2$@. Tryck på Kom igång för att börja.";
 
 /* Short walk active task. */
 "WALK_TASK_TITLE" = "Gång och balans";
@@ -296,7 +296,7 @@
 
 /* Amsler Grid Task.*/
 "AMSLER_GRID_TITLE" = "Amsler-nät";
-"AMSLER_GRID_INTRO_TEXT" = "This activity helps in detecting problems in user’s vision.";
+"AMSLER_GRID_INTRO_TEXT" = "Den här aktiviteten kan upptäcka synproblem hos användaren.";
 "AMSLER_GRID_INSTRUCTION_TEXT" = "Håll enheten 30 cm från ansiktet och i ögonhöjd under hela testet.";
 "AMSLER_GRID_INSTRUCTION_DETAIL_TEXT" = "Blunda med %@ och fokusera på punkten i mitten av det kvadratiska rutnätet.\n\nOm du ser förvrängningar, exempelvis suddiga eller vågiga linjer, märker du ut dem med fingret eller en ritpenna.\n\nSvep åt vänster utanför rutnätet när du är klar.";
 "AMSLER_GRID_LEFT_EYE" = "vänster öga";
@@ -345,11 +345,11 @@
 "dBHL_TONE_AUDIOMETRY_OPTION_LEFT" = "vänster";
 "dBHL_TONE_AUDIOMETRY_OPTION_RIGHT" = "höger";
 "dBHL_TONE_AUDIOMETRY_OPTION_NO_PREFERENCE" = "ingen inställning";
-"dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "Test Cancelled";
+"dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "Testet avbröts";
 "dBHL_ALERT_TITLE_START_OVER" = "Börja om";
 "dBHL_ALERT_TITLE_CANCEL_TEST" = "Avbryt testet";
-"dBHL_ALERT_TEXT" = "Reconnect your AirPods or EarPods to take this test.";
-"dBHL_PROGRESS_COMPLETION_%@" = "%@ Complete";
+"dBHL_ALERT_TEXT" = "Anslut AirPods eller EarPods på nytt om du vill utföra det här testet.";
+"dBHL_PROGRESS_COMPLETION_%@" = "%@ klart";
 
 /* Headphones. */
 "AIRPODS" = "AirPods";
@@ -358,10 +358,10 @@
 "HEADPHONES_UNKNOWN" = "Okända";
 "HEADPHONES_NONE" = "Inga";
 "CONNECTED" = "Ansluten";
-"NOT_CONNECTED" = "Not Connected";
+"NOT_CONNECTED" = "Ej ansluten";
 "HEADPHONE_CONNECTED_%@" = "Anslutna – %@";
 "HEADPHONE_DETECT_TITLE" = "Anslut dina hörlurar";
-"HEADPHONE_DETECT_TEXT" = "This test requires Apple AirPods or Apple EarPods";
+"HEADPHONE_DETECT_TEXT" = "Det här testet kräver Apple AirPods eller Apple EarPods";
 
 /* Spatial span memory active task. */
 "SPATIAL_SPAN_MEMORY_TITLE" = "Spatialt minne";
@@ -379,7 +379,7 @@
 "MEMORY_GAME_COMPLETE_TITLE" = "Sekvensen är klar";
 "MEMORY_GAME_COMPLETE_MESSAGE" = "Tryck på Nästa när du vill fortsätta";
 "MEMORY_GAME_FAILED_TITLE" = "Försök igen";
-"MEMORY_GAME_FAILED_MESSAGE" = "You didn’t quite make it through that time. Tap Next to continue.";
+"MEMORY_GAME_FAILED_MESSAGE" = "Du klarade dig inte riktigt igenom den gången. Tryck på Nästa för att fortsätta.";
 "MEMORY_GAME_TIMEOUT_TITLE" = "Tiden är slut";
 "MEMORY_GAME_TIMEOUT_MESSAGE" = "Tiden tog slut.\nTryck på Nästa för att fortsätta.";
 "MEMORY_GAME_COMPLETE" = "Spelet är klart";
@@ -457,7 +457,7 @@
 /* Timed walk active task. */
 "TIMED_WALK_TITLE" = "Gång med tidtagning";
 "TIMED_WALK_INTRO_DETAIL" = "Den här aktiviteten mäter benfunktionen.";
-"TIMED_WALK_INTRO_2_TEXT_%@" = "Find a place, preferably outside, where you can walk for about %@ in a straight line as quickly as possible, but safely. Do not slow down until after you’ve passed the finish line.";
+"TIMED_WALK_INTRO_2_TEXT_%@" = "Hitta en plats, helst utomhus, där du kan gå ungefär %@ i en rät linje så fort som möjligt (men fortfarande säkert). Sakta inte ned förrän du har passerat mållinjen.";
 "TIMED_WALK_INTRO_2_DETAIL" = "Tryck på Nästa för att börja.";
 "TIMED_WALK_FORM_TITLE" = "Hjälpmedel";
 "TIMED_WALK_FORM_TEXT" = "Använd samma hjälpmedel för alla test.";
@@ -482,7 +482,7 @@
 "PASAT_INTRO_TEXT" = "PASAT (Paced Auditory Serial Addition Test) mäter din auditiva bearbetningshastighet och beräkningsförmåga.";
 "PVSAT_INTRO_TEXT" = "PVSAT (Paced Visual Serial Addition Test) mäter din visuella bearbetningshastighet och beräkningsförmåga.";
 "PAVSAT_INTRO_TEXT" = "PAVSAT (Paced Auditory and Visual Serial Addition Test) mäter din auditiva och visuella bearbetningshastighet och beräkningsförmåga.";
-"PSAT_INTRO_TEXT_2_%@" = "Single digits are presented every %@.\nYou must add each new digit to the one immediately prior to it.\nAttention, you mustn’t calculate a running total, but only the sum of the last two numbers.";
+"PSAT_INTRO_TEXT_2_%@" = "Ensiffriga tal visas med intervall på %@.\nDu måste addera varje nytt tal till talet som visades omedelbart före det.\nObs! Du ska inte beräkna en löpande totalsumma, utan bara summan av de senaste två talen.";
 "PSAT_CALL_TO_ACTION" = "Tryck på Kom igång för att börja.";
 "PSAT_INITIAL_INSTRUCTION" = "Kom ihåg den första siffran.";
 "PSAT_INSTRUCTION" = "Addera det nya talet till det föregående.";
@@ -599,7 +599,7 @@
 "ENVIRONMENTSPL_UNIT" = "dBA";
 "ENVIRONMENTSPL_CALCULATING" = "Beräknar";
 "ENVIRONMENTSPL_THRESHOLD" = "Tröskel: %@ dBA";
-"ENVIRONMENTSPL_OK" = "Background Noise OK";
+"ENVIRONMENTSPL_OK" = "Bakgrundsbrus OK";
 "ENVIRONMENTSPL_NOISE" = "För mycket bakgrundsljud";
 "ENVIRONMENTSPL_TITLE_2" = "Hitta en tyst plats";
 "ENVIRONMENTSPL_INTRO_TEXT_2" = "För att det här testet ska bli så exakt som möjligt bör det utföras i en tyst miljö.";
@@ -612,7 +612,7 @@
 
 /* Slider */
 "SLIDER_MOVE_SLIDER_FOR_VALUE" = "Ange ett värde genom att flytta skjutreglaget";
-"SLIDER_I_DONT_KNOW" = "I Don’t Know";
+"SLIDER_I_DONT_KNOW" = "Jag vet inte";
 
 /* Review Step */
 "REVIEW_STEP_PAGE" = "Sida";
@@ -636,7 +636,7 @@
 
 "AX_SELECTED" = "Markerat";
 "AX_UNSELECTED" = "Avmarkerat";
-"AX_SELECT_ALL_THAT_APPLY" = "SELECT ALL THAT APPLY";
+"AX_SELECT_ALL_THAT_APPLY" = "MARKERA ALLT SOM GÄLLER";
 
 "AX_SLIDER_LABEL" = "Svarsreglage. Intervall från %@ till %@";
 "AX_UNLABELED_IMAGE" = "Omärkt bild";

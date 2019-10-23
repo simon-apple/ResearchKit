@@ -34,7 +34,7 @@
 "CONSENT_NAME_FAMILY" = "שם משפחה";
 "CONSENT_NAME_PLACEHOLDER" = "חובה";
 "CONSENT_REVIEW_TITLE" = "סקור/י";
-"CONSENT_REVIEW_INSTRUCTION" = "Review the form below, and tap Agree if you’re ready to continue.";
+"CONSENT_REVIEW_INSTRUCTION" = "יש לעיין בטופס הבא ולהקיש על ״אני מסכים/ה״ כדי להמשיך.";
 "CONSENT_REVIEW_ALERT_TITLE" = "סקור/י";
 "CONSENT_SIGNATURE_TITLE" = "חתימה";
 "CONSENT_SIGNATURE_INSTRUCTION" = "חתום/י עם האצבע בתיבה שלמטה.";
@@ -58,7 +58,7 @@
 "LEARN_MORE_PRIVACY" = "קבל/י מידע נוסף בנושא ההגנה על הפרטיות והזהות שלך";
 "LEARN_MORE_WELCOME" = "קבל/י מידע נוסף תחילה בנושא המחקר";
 "LEARN_MORE_STUDY_SURVEY" = "קבל/י מידע נוסף בנושא סקר המחקר";
-"LEARN_MORE_TIME_COMMITMENT" = "Learn more about the study’s impact on your time";
+"LEARN_MORE_TIME_COMMITMENT" = "קבל/י מידע נוסף בנושא השפעת המחקר על זמנך";
 "LEARN_MORE_TASKS" = "קבל/י מידע נוסף בנושא המשימות הכרוכות";
 "LEARN_MORE_WITHDRAWING" = "קבל/י מידע נוסף בנושא ביטול ההשתתפות";
 
@@ -70,19 +70,19 @@
 "LEARN_MORE_CONSENT_SHARING" = "קבל/י מידע נוסף בנושא שיתוף נתונים";
 
 /* Lines beneath typewritten signatures on documents.*/
-"CONSENT_DOC_LINE_PRINTED_NAME" = "Printed Name";
-"CONSENT_DOC_LINE_SIGNATURE" = "Signature";
+"CONSENT_DOC_LINE_PRINTED_NAME" = "שם מלא";
+"CONSENT_DOC_LINE_SIGNATURE" = "חתימה";
 "CONSENT_DOC_LINE_DATE" = "תאריך";
 
 /* Progress indication (in navigation bar). */
 "STEP_PROGRESS_FORMAT" = "%1$@ מתוך %2$@";
 
 /* Progress indication (in formItem section header). */
-"FORM_ITEM_PROGRESS" = "Question %1$@ of %2$@";
+"FORM_ITEM_PROGRESS" = "שאלה %1$@ מתוך %2$@";
 
 /* ORKTaskReviewViewController */
 "REVIEW_SKIPPED_ANSWER" = "דילגת על פריט זה";
-"REVIEW_EDIT_ANSWER" = "Edit";
+"REVIEW_EDIT_ANSWER" = "עריכה";
 
 /* Alert for out of range values. */
 "RANGE_ALERT_TITLE" = "ערך שאינו תקין";
@@ -254,7 +254,7 @@
 "FITNESS_SIT_INSTRUCTION_FORMAT" = "שב/י בצורה נוחה למשך %@.";
 "FITNESS_WALK_INSTRUCTION_FORMAT" = "לך/י הכי מהר שתוכל/י למשך %@.";
 "FITNESS_INTRO_TEXT_FORMAT" = "פעילות זו בודקת את קצב הלב שלך ומודדת כמה רחוק תוכל/י ללכת תוך %1$@.";
-"FITNESS_INTRO_2_TEXT_FORMAT" = "Walk outdoors at your fastest possible pace for %1$@. When you’re done, sit and rest comfortably for %2$@. To begin, tap Get Started.";
+"FITNESS_INTRO_2_TEXT_FORMAT" = "לך/י בחוץ בקצב המהיר ביותר שלך למשך %1$@. לסיום, התיישב/י והרגע/י למשך %2$@. כדי להתחיל, הקש/י על ״התחלה״.";
 
 /* Short walk active task. */
 "WALK_TASK_TITLE" = "הליכה ואיזון";
@@ -296,7 +296,7 @@
 
 /* Amsler Grid Task.*/
 "AMSLER_GRID_TITLE" = "בדיקת רשת אמסלר";
-"AMSLER_GRID_INTRO_TEXT" = "This activity helps in detecting problems in user’s vision.";
+"AMSLER_GRID_INTRO_TEXT" = "פעילות זו עוזרת לזהות בעיות ראיה.";
 "AMSLER_GRID_INSTRUCTION_TEXT" = "החזק/י את המכשיר במרחק של כ-30 ס״מ מפניך ובגובה העיניים לכל אורך המבחן.";
 "AMSLER_GRID_INSTRUCTION_DETAIL_TEXT" = "עצום/י את %@ ונעץ/י את מבטך בנקודה שבמרכז הרשת המרובעת.\n\nכעת, באמצעות האצבע או עט דיגיטלי, סמן/י עיוותים הנראים לעין, כמו טשטושים או קווים גליים.\n\nלסיום, החלק/י ימינה בכל מקום מחוץ לרשת.";
 "AMSLER_GRID_LEFT_EYE" = "עין שמאל";
@@ -328,28 +328,28 @@
 
 /* dBHL Tone audiometry active task. */
 "dBHL_TONE_AUDIOMETRY_TASK_TITLE" = "בדיקת שמיעה";
-"dBHL_TONE_AUDIOMETRY_TASK_TITLE_2" = "Tap when you hear a tone.";
-"dBHL_TONE_AUDIOMETRY_INTRO_TITLE" = "Tone & Volume";
-"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_1" = "You will hear a series of tones.";
-"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_2" = "When you hear a tone, tap on the button.";
-"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_3" = "For this test, volume will be set to 50 percent.";
-"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_4" = "This test takes about 10 minutes.";
-"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_5" = "Turn on Do Not Disturb to avoid interruptions.";
-"dBHL_TONE_AUDIOMETRY_STEP_TITLE_RIGHT_EAR" = "הצלילים יושמעו כעת באוזן ימין שלך תחילה.";
-"dBHL_TONE_AUDIOMETRY_STEP_TITLE_LEFT_EAR" = "הצלילים יושמעו כעת באוזן שמאל שלך.";
+"dBHL_TONE_AUDIOMETRY_TASK_TITLE_2" = "הקש/י כאשר תשמע/י את הצליל.";
+"dBHL_TONE_AUDIOMETRY_INTRO_TITLE" = "צליל ועוצמת קול";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_1" = "כעת יישמעו כמה צלילים ברצף.";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_2" = "כאשר תשמע/י צליל, עליך להקיש על הכפתור.";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_3" = "במהלך בדיקה זו, עוצמת הקול תיקבע ל-50 אחוז.";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_4" = "משך הבדיקה הוא כ-10 דקות.";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_5" = "מומלץ להפעיל את ״נא לא להפריע״ כדי למנוע הפרעות במהלך הבדיקה.";
+"dBHL_TONE_AUDIOMETRY_STEP_TITLE_RIGHT_EAR" = "הצלילים יושמעו באוזן ימין שלך תחילה.";
+"dBHL_TONE_AUDIOMETRY_STEP_TITLE_LEFT_EAR" = "הצלילים יושמעו באוזן שמאל שלך.";
 "dBHL_TONE_AUDIOMETRY_INTENDED_USE" = "פעילות זו מזהה רמות סף של שמיעה בטווח דציבלים גבוה/נמוך.";
 "dBHL_TONE_AUDIOMETRY_INTRO_TEXT" = "ודא/י שעוצמת הקול של המכשיר הוגדרה לעוצמה המקסימלית.\n\nבמהלך משימה זו, יישמע צליל עדין באוזן שמאל או באוזן ימין.\n\nהאזן/י בקפידה והקש/י על הכפתור בכל פעם שהינך שומע/ת צליל.";
-"dBHL_TONE_AUDIOMETRY_INTRO_TEXT_2" = "This test identifies how loud a sound needs to be in order for you to hear it.";
+"dBHL_TONE_AUDIOMETRY_INTRO_TEXT_2" = "בדיקה זו מזהה את עוצמת הצליל הנמוכה ביותר שביכולתך לשמוע.";
 "dBHL_TONE_AUDIOMETRY_ONBOARDING" = "שאלון הצטרפות.";
 "dBHL_TONE_AUDIOMETRY_ONBOARDING_QUESTION" = "בחר/י את העדפתך לגבי האוזן ״הטובה יותר״, אם יש כזו";
 "dBHL_TONE_AUDIOMETRY_OPTION_LEFT" = "שמאל";
 "dBHL_TONE_AUDIOMETRY_OPTION_RIGHT" = "ימין";
 "dBHL_TONE_AUDIOMETRY_OPTION_NO_PREFERENCE" = "ללא העדפה";
-"dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "Test Cancelled";
+"dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "הבדיקה בוטלה";
 "dBHL_ALERT_TITLE_START_OVER" = "התחל מחדש";
 "dBHL_ALERT_TITLE_CANCEL_TEST" = "בטל את הבדיקה";
-"dBHL_ALERT_TEXT" = "Reconnect your AirPods or EarPods to take this test.";
-"dBHL_PROGRESS_COMPLETION_%@" = "%@ Complete";
+"dBHL_ALERT_TEXT" = "יש לחבר מחדש את ה-AirPods או ה-EarPods כדי להתחיל בבדיקה.";
+"dBHL_PROGRESS_COMPLETION_%@" = "‏%@ הושלם";
 
 /* Headphones. */
 "AIRPODS" = "AirPods";
@@ -360,8 +360,8 @@
 "CONNECTED" = "מחובר";
 "NOT_CONNECTED" = "לא מחובר";
 "HEADPHONE_CONNECTED_%@" = "מחובר - %@";
-"HEADPHONE_DETECT_TITLE" = "Connect your Headphones";
-"HEADPHONE_DETECT_TEXT" = "This test requires Apple AirPods or Apple EarPods";
+"HEADPHONE_DETECT_TITLE" = "כעת עליך לחבר אזניות";
+"HEADPHONE_DETECT_TEXT" = "בדיקה זו דורשת שימוש ב-Apple AirPods או Apple EarPods";
 
 /* Spatial span memory active task. */
 "SPATIAL_SPAN_MEMORY_TITLE" = "זכרון מרחבי";
@@ -379,7 +379,7 @@
 "MEMORY_GAME_COMPLETE_TITLE" = "הרצף הושלם";
 "MEMORY_GAME_COMPLETE_MESSAGE" = "להמשך, הקש/י על ״הבא״.";
 "MEMORY_GAME_FAILED_TITLE" = "נסה/י שוב";
-"MEMORY_GAME_FAILED_MESSAGE" = "You didn’t quite make it through that time. Tap Next to continue.";
+"MEMORY_GAME_FAILED_MESSAGE" = "לא השלמת את המשימה הפעם. הקש/י על ״הבא״ להמשך.";
 "MEMORY_GAME_TIMEOUT_TITLE" = "נגמר הזמן";
 "MEMORY_GAME_TIMEOUT_MESSAGE" = "אזל הזמן.\nהקש/י על ״הבא״ להמשך.";
 "MEMORY_GAME_COMPLETE" = "המשחק הושלם";
@@ -457,7 +457,7 @@
 /* Timed walk active task. */
 "TIMED_WALK_TITLE" = "הליכה מתוזמנת";
 "TIMED_WALK_INTRO_DETAIL" = "פעילות זו מודדת את תפקוד פלג הגוף התחתון שלך.";
-"TIMED_WALK_INTRO_2_TEXT_%@" = "Find a place, preferably outside, where you can walk for about %@ in a straight line as quickly as possible, but safely. Do not slow down until after you’ve passed the finish line.";
+"TIMED_WALK_INTRO_2_TEXT_%@" = "מצא/י מקום, עדיף בחוץ, שבו תוכל/י ללכת במשך %@ בקו ישר במהירות המרבית שניתן, אך בבטחה. אל תאט/י עד שתעבור/י את קו הסיום.";
 "TIMED_WALK_INTRO_2_DETAIL" = "הקש/י על ״הבא״ כדי להתחיל.";
 "TIMED_WALK_FORM_TITLE" = "אמצעי עזר";
 "TIMED_WALK_FORM_TEXT" = "השתמש/י באותו אמצעי עזר בכל בדיקה.";
@@ -482,7 +482,7 @@
 "PASAT_INTRO_TEXT" = "הבדיקה ״חיבור סדרתי מתוזמן של שמע״ מודדת את מהירות עיבוד המידע ויכולת החישוב שלך בשמיעה.";
 "PVSAT_INTRO_TEXT" = "הבדיקה ״חיבור סדרתי מתוזמן של ראיה״ מודדת את מהירות עיבוד המידע ויכולת החישוב שלך בראיה.";
 "PAVSAT_INTRO_TEXT" = "הבדיקה ״חיבור סדרתי מתוזמן של שמע וראיה״ מודדת את מהירות עיבוד המידע ויכולת החישוב שלך, הן בשמיעה והן בראייה.";
-"PSAT_INTRO_TEXT_2_%@" = "Single digits are presented every %@.\nYou must add each new digit to the one immediately prior to it.\nAttention, you mustn’t calculate a running total, but only the sum of the last two numbers.";
+"PSAT_INTRO_TEXT_2_%@" = "ספרות בודדות מוצגות כל %@ שניות.\nעליך להוסיף ספרה חדשה אל זו שנמצאת ממש לפניה.\nלתשומת לבך, אין לחשב את הסה״כ המצטבר, אלא רק את סכום שני המספרים האחרונים.";
 "PSAT_CALL_TO_ACTION" = "הקש/י על ״התחלה״ כדי להתחיל.";
 "PSAT_INITIAL_INSTRUCTION" = "זכור/י ספרה ראשונה זו.";
 "PSAT_INSTRUCTION" = "הוסף/י ספרה חדשה זו לספרה הקודמת.";
@@ -599,10 +599,10 @@
 "ENVIRONMENTSPL_UNIT" = "dBA";
 "ENVIRONMENTSPL_CALCULATING" = "מחשב";
 "ENVIRONMENTSPL_THRESHOLD" = "סף: ‎%@ dBA";
-"ENVIRONMENTSPL_OK" = "Background Noise OK";
+"ENVIRONMENTSPL_OK" = "רעשי רקע תקינים";
 "ENVIRONMENTSPL_NOISE" = "יש יותר מדי רעשי רקע";
-"ENVIRONMENTSPL_TITLE_2" = "Find a quiet place";
-"ENVIRONMENTSPL_INTRO_TEXT_2" = "To ensure accuracy, this test should be taken in a quiet environment.";
+"ENVIRONMENTSPL_TITLE_2" = "עליך למצוא מקום שקט";
+"ENVIRONMENTSPL_INTRO_TEXT_2" = "לשמירה על מידת הדיוק של הבדיקה, יש לבצעה באזור שקט.";
 
 /* Secondary Task Step*/
 "SECONDARY_TASK_START_BUTTON" = "התחל משימה";
@@ -612,7 +612,7 @@
 
 /* Slider */
 "SLIDER_MOVE_SLIDER_FOR_VALUE" = "הזז/י את המחוון להזנת ערך";
-"SLIDER_I_DONT_KNOW" = "I Don’t Know";
+"SLIDER_I_DONT_KNOW" = "לא ממש ברור לי";
 
 /* Review Step */
 "REVIEW_STEP_PAGE" = "עמוד";
@@ -636,7 +636,7 @@
 
 "AX_SELECTED" = "נבחרו";
 "AX_UNSELECTED" = "לא נבחר";
-"AX_SELECT_ALL_THAT_APPLY" = "SELECT ALL THAT APPLY";
+"AX_SELECT_ALL_THAT_APPLY" = "נא לבחור את כל האפשרויות הרלוונטיות";
 
 "AX_SLIDER_LABEL" = "מחוון תגובה. טווח שנע בין %@ ל-%@";
 "AX_UNLABELED_IMAGE" = "תמונה ללא תיוג";

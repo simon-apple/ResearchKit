@@ -34,7 +34,7 @@
 "CONSENT_NAME_FAMILY" = "Прізвище";
 "CONSENT_NAME_PLACEHOLDER" = "Обов’язково";
 "CONSENT_REVIEW_TITLE" = "Огляд";
-"CONSENT_REVIEW_INSTRUCTION" = "Review the form below, and tap Agree if you’re ready to continue.";
+"CONSENT_REVIEW_INSTRUCTION" = "Перегляньте подану нижче форму і торкніть «Погоджуюсь», якщо ви готові продовжити.";
 "CONSENT_REVIEW_ALERT_TITLE" = "Огляд";
 "CONSENT_SIGNATURE_TITLE" = "Підпис";
 "CONSENT_SIGNATURE_INSTRUCTION" = "Будь ласка, підпишіть пальцем у полі нижче.";
@@ -58,7 +58,7 @@
 "LEARN_MORE_PRIVACY" = "Докладніше про захист вашої приватності і особистих даних";
 "LEARN_MORE_WELCOME" = "Докладніше про дослідження";
 "LEARN_MORE_STUDY_SURVEY" = "Докладніше про дослідне опитування";
-"LEARN_MORE_TIME_COMMITMENT" = "Learn more about the study’s impact on your time";
+"LEARN_MORE_TIME_COMMITMENT" = "Докладніше про те, скільки вашого часу треба на цей дослід";
 "LEARN_MORE_TASKS" = "Докладніше про залучені завдання";
 "LEARN_MORE_WITHDRAWING" = "Докладніше про відкликання";
 
@@ -254,7 +254,7 @@
 "FITNESS_SIT_INSTRUCTION_FORMAT" = "Сидіть зручно %@.";
 "FITNESS_WALK_INSTRUCTION_FORMAT" = "Ідіть якомога швидше %@.";
 "FITNESS_INTRO_TEXT_FORMAT" = "Цей тест оцінює ваш серцевий ритм і обчислює, скільки ви можете пройти за %1$@.";
-"FITNESS_INTRO_2_TEXT_FORMAT" = "Walk outdoors at your fastest possible pace for %1$@. When you’re done, sit and rest comfortably for %2$@. To begin, tap Get Started.";
+"FITNESS_INTRO_2_TEXT_FORMAT" = "Простуйте надворі своєю якнайшвидшою ходою %1$@. Упоравшись із завданням, присядьте і, зручно влаштувавшись, відпочиньте протягом %2$@. Щоб почати, торкніть «Розпочати».";
 
 /* Short walk active task. */
 "WALK_TASK_TITLE" = "Хода і рівновага";
@@ -296,7 +296,7 @@
 
 /* Amsler Grid Task.*/
 "AMSLER_GRID_TITLE" = "Сітка Амслера";
-"AMSLER_GRID_INTRO_TEXT" = "This activity helps in detecting problems in user’s vision.";
+"AMSLER_GRID_INTRO_TEXT" = "Ця вправа допомагає виявляти проблеми із зором користувача.";
 "AMSLER_GRID_INSTRUCTION_TEXT" = "Тримайте пристрій на рівні очей на відстані 30 см (12 дюймів) від обличчя під час усього тесту.";
 "AMSLER_GRID_INSTRUCTION_DETAIL_TEXT" = "Закрийте своє %@ і пильно дивіться на крапку в центрі квадратної сітки.\n\nПальцем чи стилусом позначте всі видимі спотворення, як-от розмиті або хвилясті лінії.\n\nКоли завершите, посуньте вліво поза сіткою.";
 "AMSLER_GRID_LEFT_EYE" = "Ліве око";
@@ -361,7 +361,7 @@
 "NOT_CONNECTED" = "Не зʼєднано";
 "HEADPHONE_CONNECTED_%@" = "Зʼєднано - %@";
 "HEADPHONE_DETECT_TITLE" = "Підʼєднайте свої навушники";
-"HEADPHONE_DETECT_TEXT" = "Для цього тесту необхідні Apple Airpods або Apple EarPods";
+"HEADPHONE_DETECT_TEXT" = "Для цього тесту необхідні Apple AirPods або Apple EarPods";
 
 /* Spatial span memory active task. */
 "SPATIAL_SPAN_MEMORY_TITLE" = "Просторова пам’ять";
@@ -379,7 +379,7 @@
 "MEMORY_GAME_COMPLETE_TITLE" = "Послідовність завершено";
 "MEMORY_GAME_COMPLETE_MESSAGE" = "Щоб продовжити, торкніть «Далі»";
 "MEMORY_GAME_FAILED_TITLE" = "Повторити спробу";
-"MEMORY_GAME_FAILED_MESSAGE" = "You didn’t quite make it through that time. Tap Next to continue.";
+"MEMORY_GAME_FAILED_MESSAGE" = "Вам трохи не вдалося вкластися в цей час. Торкніть «Далі», щоб продовжити.";
 "MEMORY_GAME_TIMEOUT_TITLE" = "Час завершився";
 "MEMORY_GAME_TIMEOUT_MESSAGE" = "Ваш час минув.\nТоркніть «Далі», щоб продовжити.";
 "MEMORY_GAME_COMPLETE" = "Гру завершено";
@@ -425,8 +425,8 @@
 /* Knee Range of Motion active task */
 "KNEE_RANGE_OF_MOTION_TITLE_LEFT" = "Межі руху лівого коліна";
 "KNEE_RANGE_OF_MOTION_TITLE_RIGHT" = "Межі руху правого коліна";
-"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_0_LEFT" = "Цей тест оцінює, на скільки ви можете вирівняти ногу в лівому коліні.";
-"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_0_RIGHT" = "Цей тест оцінює, на скільки ви можете вирівняти ногу в правому коліні.";
+"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_0_LEFT" = "Цей тест оцінює, наскільки ви можете вирівняти ногу в лівому коліні.";
+"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_0_RIGHT" = "Цей тест оцінює, наскільки ви можете вирівняти ногу в правому коліні.";
 "KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_1_LEFT" = "Сідайте на край стільця. Почніть, поклавши свій пристрій на ліве коліно для вимірювання. Будь ласка, увімкніть звук на своєму пристрою, щоб чути вказівки.";
 "KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_1_RIGHT" = "Сідайте на край стільця. Почніть, поклавши свій пристрій на праве коліно для вимірювання. Будь ласка, увімкніть звук на своєму пристрою, щоб чути вказівки.";
 "KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_LEFT" = "Покладіть свій пристрій на ліве коліно екраном назовні, як показано.";
@@ -441,8 +441,8 @@
 /* Shoulder Range of Motion active task */
 "SHOULDER_RANGE_OF_MOTION_TITLE_LEFT" = "Межі руху лівого плеча";
 "SHOULDER_RANGE_OF_MOTION_TITLE_RIGHT" = "Межі руху правого плеча";
-"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_0_LEFT" = "Цей тест оцінює, на скільки ви можете вирівняти руку в лівому плечі.";
-"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_0_RIGHT" = "Цей тест оцінює, на скільки ви можете вирівняти руку в правому плечі.";
+"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_0_LEFT" = "Цей тест оцінює, наскільки ви можете вирівняти руку в лівому плечі.";
+"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_0_RIGHT" = "Цей тест оцінює, наскільки ви можете вирівняти руку в правому плечі.";
 "SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_1_LEFT" = "Почніть, поклавши свій пристрій на ліве плече для вимірювання. Будь ласка, увімкніть звук на своєму пристрою, щоб чути вказівки.";
 "SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_1_RIGHT" = "Почніть, поклавши свій пристрій на праве плече для вимірювання. Будь ласка, увімкніть звук на своєму пристрою, щоб чути вказівки.";
 "SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_LEFT" = "Покладіть свій пристрій на ліве плече екраном назовні, як показано.";
@@ -457,7 +457,7 @@
 /* Timed walk active task. */
 "TIMED_WALK_TITLE" = "Ходіння за часом";
 "TIMED_WALK_INTRO_DETAIL" = "Цей тест оцінює роботу ваших нижніх кінцівок.";
-"TIMED_WALK_INTRO_2_TEXT_%@" = "Find a place, preferably outside, where you can walk for about %@ in a straight line as quickly as possible, but safely. Do not slow down until after you’ve passed the finish line.";
+"TIMED_WALK_INTRO_2_TEXT_%@" = "Знайдіть місце, бажано просто неба, де ви без ризику можете якнайшвидше пройти приблизно %@ по прямій. Не сповільнюйте темп, доки не перетнете фінішну лінію.";
 "TIMED_WALK_INTRO_2_DETAIL" = "Торкніть «Далі», щоб почати.";
 "TIMED_WALK_FORM_TITLE" = "Допоміжний засіб";
 "TIMED_WALK_FORM_TEXT" = "Вживайте однаковий допоміжний засіб для всіх тестів.";
@@ -482,7 +482,7 @@
 "PASAT_INTRO_TEXT" = "Слуховий тест на складання у заданому темпі вимірює швидкість обробки вами слухової інформації та вашу здібність до обчислення.";
 "PVSAT_INTRO_TEXT" = "Візуальний тест на складання у заданому темпі вимірює швидкість обробки вами візуальної інформації та вашу здібність до обчислення.";
 "PAVSAT_INTRO_TEXT" = "Слуховий і візуальний тест на складання у заданому темпі вимірює швидкість обробки вами слухової і візуальної інформації та вашу здібність до обчислення.";
-"PSAT_INTRO_TEXT_2_%@" = "Single digits are presented every %@.\nYou must add each new digit to the one immediately prior to it.\nAttention, you mustn’t calculate a running total, but only the sum of the last two numbers.";
+"PSAT_INTRO_TEXT_2_%@" = "Однорозрядні числа показуються з інтервалом %@.\nВи маєте додавати кожну нову цифру до цифри, що їй передує.\nМайте на увазі, що вам слід підраховувати не проміжний підсумок, а лише суму двох останніх чисел.";
 "PSAT_CALL_TO_ACTION" = "Торкніть «Розпочати», щоб почати.";
 "PSAT_INITIAL_INSTRUCTION" = "Запам’ятайте цю першу цифру.";
 "PSAT_INSTRUCTION" = "Додайте це нове число до попереднього.";
@@ -612,7 +612,7 @@
 
 /* Slider */
 "SLIDER_MOVE_SLIDER_FOR_VALUE" = "Рухайте повзунок для вводу значення";
-"SLIDER_I_DONT_KNOW" = "I Don’t Know";
+"SLIDER_I_DONT_KNOW" = "Я не знаю";
 
 /* Review Step */
 "REVIEW_STEP_PAGE" = "Сторінка";
@@ -684,18 +684,18 @@
 "AX_TONE_AUDIOMETRY_BUTTON_RIGHT_EAR_LABEL" = "Торкніть для правого вуха";
 "AX_TONE_AUDIOMETRY_BUTTON_RIGHT_EAR_HINT" = "Активуйте, щоб розпочати тест. Коли тест розпочнеться, торкайте прямолінійно цю кнопку, почувши будь-який звук своїм правим вухом.";
 /* This contains the visual text, followed by a VoiceOver-specific description, followed by the visual text on the following page (since VoiceOver users may not have a chance to hear the visual text before needing to perform the actions). */
-"AX_TONE_AUDIOMETRY_PREP_TEXT_VOICEOVER" = "%@ За допомогою VoiceOver досліджуйте екран дотиком, аби вивчити, де розташовано кнопки для кожного вуха. Коли тест розпочнеться, ці кнопки будуть прямолінійні. %@";
+"AX_TONE_AUDIOMETRY_PREP_TEXT_VOICEOVER" = "%@ За допомогою VoiceOver досліджуйте екран дотиком, аби вивчити, де розташовано кнопки для кожного вуха. Коли тест розпочнеться, цих кнопок можна буде просто торкатися. %@";
 "AX_TAP_BUTTON_1_LABEL" = "Торкніть для одного пальця";
 "AX_TAP_BUTTON_2_LABEL" = "Торкніть для іншого пальця";
-"AX_TAP_BUTTON_HINT" = "Активуйте, щоб зробити кнопки прямолінійними.";
+"AX_TAP_BUTTON_HINT" = "Активуйте, щоб кнопок можна було просто торкатися.";
 /* This contains the visual text, followed by a VoiceOver-specific description. */
-"AX_TAPPING_INSTRUCTION_VOICEOVER" = "%@ За допомогою VoiceOver досліджуйте екран дотиком, аби вивчити де розташовано кнопки. Активуйте будь-яку з кнопок, щоб зробити кнопки прямолінійними.";
-"AX_TAP_BUTTON_DIRECT_TOUCH_ANNOUNCEMENT" = "Кнопки відтепер можна торкати прямолінійно.";
+"AX_TAPPING_INSTRUCTION_VOICEOVER" = "%@ За допомогою VoiceOver досліджуйте екран дотиком, аби вивчити де розташовано кнопки. Активуйте будь-яку з кнопок, щоб кнопок можна було просто торкатися.";
+"AX_TAP_BUTTON_DIRECT_TOUCH_ANNOUNCEMENT" = "Кнопок відтепер можна просто торкатися.";
 /* This contains the visual text, followed by a VoiceOver-specific description. */
-"AX_dBHL_TONE_AUDIOMETRY_INTRO_TEXT" = "%@ За допомогою VoiceOver цю кнопку можна буде торкати прямолінійно. Її буде розташовано біля центру екрана.";
+"AX_dBHL_TONE_AUDIOMETRY_INTRO_TEXT" = "%@ За допомогою VoiceOver цієї кнопки можна буде просто торкатися. Її буде розташовано біля центру екрана.";
 
 /* This contains the visual text, followed by a VoiceOver-specific description. */
-"AX_TRAILMAKING_CALL_TO_ACTION_VOICEOVER" = "%@ За допомогою VoiceOver ці кнопки можна торкати в цьому тесті прямолінійно.";
+"AX_TRAILMAKING_CALL_TO_ACTION_VOICEOVER" = "%@ За допомогою VoiceOver цих кнопок у тесті можна буде просто торкатися.";
 
 /* Restore error */
 "RESTORE_ERROR_CANNOT_DECODE" = "Не вдається декодувати restoreData для ініціалізації";

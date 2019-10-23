@@ -34,7 +34,7 @@
 "CONSENT_NAME_FAMILY" = "Last Name";
 "CONSENT_NAME_PLACEHOLDER" = "Required";
 "CONSENT_REVIEW_TITLE" = "Review";
-"CONSENT_REVIEW_INSTRUCTION" = "Review the form below, and tap Agree if you’re ready to continue.";
+"CONSENT_REVIEW_INSTRUCTION" = "Review the form below and tap Agree if you‘re ready to continue.";
 "CONSENT_REVIEW_ALERT_TITLE" = "Review";
 "CONSENT_SIGNATURE_TITLE" = "Signature";
 "CONSENT_SIGNATURE_INSTRUCTION" = "Please sign using your finger in the box below.";
@@ -58,7 +58,7 @@
 "LEARN_MORE_PRIVACY" = "Learn more about how your privacy and identity are protected";
 "LEARN_MORE_WELCOME" = "Learn more about the study first";
 "LEARN_MORE_STUDY_SURVEY" = "Learn more about the study survey";
-"LEARN_MORE_TIME_COMMITMENT" = "Learn more about the study’s impact on your time";
+"LEARN_MORE_TIME_COMMITMENT" = "Learn more about the study‘s impact on your time";
 "LEARN_MORE_TASKS" = "Learn more about the tasks involved";
 "LEARN_MORE_WITHDRAWING" = "Learn more about withdrawing";
 
@@ -254,7 +254,7 @@
 "FITNESS_SIT_INSTRUCTION_FORMAT" = "Sit comfortably for %@.";
 "FITNESS_WALK_INSTRUCTION_FORMAT" = "Walk as fast as you can for %@.";
 "FITNESS_INTRO_TEXT_FORMAT" = "This activity monitors your heart rate and measures how far you can walk in %1$@.";
-"FITNESS_INTRO_2_TEXT_FORMAT" = "Walk outdoors at your fastest possible pace for %1$@. When you’re done, sit and rest comfortably for %2$@. To begin, tap Get Started.";
+"FITNESS_INTRO_2_TEXT_FORMAT" = "Walk outdoors at your fastest possible pace for %1$@. When you‘re done, sit and rest comfortably for %2$@. To begin, tap Get Started.";
 
 /* Short walk active task. */
 "WALK_TASK_TITLE" = "Gait and Balance";
@@ -296,7 +296,7 @@
 
 /* Amsler Grid Task.*/
 "AMSLER_GRID_TITLE" = "Amsler Grid";
-"AMSLER_GRID_INTRO_TEXT" = "This activity helps in detecting problems in user’s vision.";
+"AMSLER_GRID_INTRO_TEXT" = "This activity helps in detecting problems in user‘s vision.";
 "AMSLER_GRID_INSTRUCTION_TEXT" = "Hold the device 30 centimetres from your face and at eye level throughout the test.";
 "AMSLER_GRID_INSTRUCTION_DETAIL_TEXT" = "Close your %@ and stare at the dot in the centre of the square grid.\n\nUsing your finger or stylus, mark any distortions you see, such as blurred or wavy lines.\n\nWhen you are done, swipe left anywhere outside the grid.";
 "AMSLER_GRID_LEFT_EYE" = "Left Eye";
@@ -379,8 +379,8 @@
 "MEMORY_GAME_COMPLETE_TITLE" = "Sequence Complete";
 "MEMORY_GAME_COMPLETE_MESSAGE" = "To continue, tap Next";
 "MEMORY_GAME_FAILED_TITLE" = "Try Again";
-"MEMORY_GAME_FAILED_MESSAGE" = "You didn’t quite make it through that time. Tap Next to continue.";
-"MEMORY_GAME_TIMEOUT_TITLE" = "Time’s Up";
+"MEMORY_GAME_FAILED_MESSAGE" = "You didn‘t quite make it through that time. Tap Next to continue.";
+"MEMORY_GAME_TIMEOUT_TITLE" = "Time‘s Up";
 "MEMORY_GAME_TIMEOUT_MESSAGE" = "You ran out of time.\nTap Next to continue.";
 "MEMORY_GAME_COMPLETE" = "Game Complete";
 "MEMORY_GAME_PAUSED_TITLE" = "Paused";
@@ -457,7 +457,7 @@
 /* Timed walk active task. */
 "TIMED_WALK_TITLE" = "Timed Walk";
 "TIMED_WALK_INTRO_DETAIL" = "This activity measures your lower extremity function.";
-"TIMED_WALK_INTRO_2_TEXT_%@" = "Find a place, preferably outside, where you can walk for about %@ in a straight line as quickly as possible, but safely. Do not slow down until after you’ve passed the finish line.";
+"TIMED_WALK_INTRO_2_TEXT_%@" = "Find a place, preferably outside, where you can walk for about %@ in a straight line as quickly as possible, but safely. Do not slow down until after you‘ve passed the finish line.";
 "TIMED_WALK_INTRO_2_DETAIL" = "Tap Next to begin.";
 "TIMED_WALK_FORM_TITLE" = "Assistive device";
 "TIMED_WALK_FORM_TEXT" = "Use the same assistive device for each test.";
@@ -482,7 +482,7 @@
 "PASAT_INTRO_TEXT" = "The Paced Auditory Serial Addition Test measures your auditory information processing speed and calculation ability.";
 "PVSAT_INTRO_TEXT" = "The Paced Visual Serial Addition Test measures your visual information processing speed and calculation ability.";
 "PAVSAT_INTRO_TEXT" = "The Paced Auditory and Visual Serial Addition Test measures your auditory and visual information processing speed and calculation ability.";
-"PSAT_INTRO_TEXT_2_%@" = "Single digits are presented every %@.\nYou must add each new digit to the one immediately prior to it.\nAttention, you mustn’t calculate a running total, but only the sum of the last two numbers.";
+"PSAT_INTRO_TEXT_2_%@" = "Single digits are presented every %@ seconds.\nYou must add each new digit to the one immediately prior to it.\nAttention, you mustn‘t calculate a running total, but only the sum of the last two numbers.";
 "PSAT_CALL_TO_ACTION" = "Tap Get Started to begin.";
 "PSAT_INITIAL_INSTRUCTION" = "Remember this first digit.";
 "PSAT_INSTRUCTION" = "Add this new digit to the previous one.";
@@ -612,7 +612,7 @@
 
 /* Slider */
 "SLIDER_MOVE_SLIDER_FOR_VALUE" = "Move slider to enter value";
-"SLIDER_I_DONT_KNOW" = "I Don’t Know";
+"SLIDER_I_DONT_KNOW" = "I don’t know";
 
 /* Review Step */
 "REVIEW_STEP_PAGE" = "Page";

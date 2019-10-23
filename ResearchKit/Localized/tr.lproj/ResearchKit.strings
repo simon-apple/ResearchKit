@@ -34,7 +34,7 @@
 "CONSENT_NAME_FAMILY" = "Soyad";
 "CONSENT_NAME_PLACEHOLDER" = "Gerekli";
 "CONSENT_REVIEW_TITLE" = "Gözden Geçir";
-"CONSENT_REVIEW_INSTRUCTION" = "Review the form below, and tap Agree if you’re ready to continue.";
+"CONSENT_REVIEW_INSTRUCTION" = "Aşağıdaki formu gözden geçirin, sürdürmeye hazırsanız Kabul Ediyorum’a dokunun.";
 "CONSENT_REVIEW_ALERT_TITLE" = "Gözden Geçir";
 "CONSENT_SIGNATURE_TITLE" = "İmza";
 "CONSENT_SIGNATURE_INSTRUCTION" = "Lütfen aşağıdaki kutuyu parmağınızı kullanarak imzalayın.";
@@ -58,7 +58,7 @@
 "LEARN_MORE_PRIVACY" = "Gizliliğinizin ve kimliğinizin korunması hakkında daha fazla bilgi";
 "LEARN_MORE_WELCOME" = "Çalışma hakkında daha fazla bilgi";
 "LEARN_MORE_STUDY_SURVEY" = "Çalışma anketi hakkında daha fazla bilgi";
-"LEARN_MORE_TIME_COMMITMENT" = "Learn more about the study’s impact on your time";
+"LEARN_MORE_TIME_COMMITMENT" = "Çalışmanın zamanınıza etkisi hakkında daha fazla bilgi";
 "LEARN_MORE_TASKS" = "İlişkili görevler hakkında daha fazla bilgi";
 "LEARN_MORE_WITHDRAWING" = "Sözünü geri alma hakkında daha fazla bilgi";
 
@@ -70,8 +70,8 @@
 "LEARN_MORE_CONSENT_SHARING" = "Veri paylaşımı hakkında daha fazla bilgi";
 
 /* Lines beneath typewritten signatures on documents.*/
-"CONSENT_DOC_LINE_PRINTED_NAME" = "Printed Name";
-"CONSENT_DOC_LINE_SIGNATURE" = "Signature";
+"CONSENT_DOC_LINE_PRINTED_NAME" = "Yazılı Ad";
+"CONSENT_DOC_LINE_SIGNATURE" = "İmza";
 "CONSENT_DOC_LINE_DATE" = "Tarih";
 
 /* Progress indication (in navigation bar). */
@@ -82,7 +82,7 @@
 
 /* ORKTaskReviewViewController */
 "REVIEW_SKIPPED_ANSWER" = "Atlandı";
-"REVIEW_EDIT_ANSWER" = "Edit";
+"REVIEW_EDIT_ANSWER" = "Düzenle";
 
 /* Alert for out of range values. */
 "RANGE_ALERT_TITLE" = "Geçersiz değer";
@@ -99,7 +99,7 @@
 "LOCATION_ERROR_MESSAGE_LOCATION_UNKNOWN" = "Şu anki konumunuz çözülemedi. Lütfen bir adres girin veya uygunsa daha iyi GPS sinyalı olan bir konuma gidin.";
 "LOCATION_ERROR_MESSAGE_DENIED" = "Konum servislerine erişim reddedildi. Lütfen konum servislerini kullanmak için Ayarlar'da bu uygulamaya izin verin.";
 "LOCATION_ERROR_GEOCODE" = "Girilen adres için bir sonuç bulunmadı. Lütfen adresin geçerli olduğundan emin olun.";
-"LOCATION_ERROR_GEOCODE_NETWORK" = "İnternet'e bağlı değilsiniz veya en fazla adres arama isteği miktarını aştınız. İnternet'e bağlı değilseniz lütfen bu soruya yanıt vermek için Wi-Fi'yi açın, atlama düğmesi varsa bu soruyu atlayın ya da İnternet'e bağlı olduğunuzda anket için yeniden sayfayı ziyaret edin. Aksi takdirde, birkaç dakika sonra yeniden deneyin.";
+"LOCATION_ERROR_GEOCODE_NETWORK" = "İnternete bağlı değilsiniz veya en fazla adres arama isteği miktarını aştınız. İnternete bağlı değilseniz lütfen bu soruya yanıt vermek için Wi-Fi'yi açın, atlama düğmesi varsa bu soruyu atlayın ya da internete bağlı olduğunuzda anket için yeniden sayfayı ziyaret edin. Aksi takdirde, birkaç dakika sonra yeniden deneyin.";
 
 /* Alert for exceeding length limit in text answer */
 "TEXT_ANSWER_EXCEEDING_MAX_LENGTH_ALERT_MESSAGE" = "Metin içeriği maksimum uzunluğu aşıyor: %@";
@@ -254,7 +254,7 @@
 "FITNESS_SIT_INSTRUCTION_FORMAT" = "Rahat bir şekilde %@ oturun.";
 "FITNESS_WALK_INSTRUCTION_FORMAT" = "Yürüyebildiğiniz kadar hızlı %@ yürüyün.";
 "FITNESS_INTRO_TEXT_FORMAT" = "Bu aktivite, kalp atış hızınızı izler ve %1$@ içinde ne kadar mesafe yürüyebileceğinizi ölçer.";
-"FITNESS_INTRO_2_TEXT_FORMAT" = "Walk outdoors at your fastest possible pace for %1$@. When you’re done, sit and rest comfortably for %2$@. To begin, tap Get Started.";
+"FITNESS_INTRO_2_TEXT_FORMAT" = "Açık havada yürüyebildiğiniz en yüksek hızda %1$@ yürüyün. Bitirdiğinizde, oturun ve %2$@ rahat bir şekilde dinlenin. Başlamak için Başla’ya dokunun.";
 
 /* Short walk active task. */
 "WALK_TASK_TITLE" = "Yürüyüş Tarzı ve Denge";
@@ -296,7 +296,7 @@
 
 /* Amsler Grid Task.*/
 "AMSLER_GRID_TITLE" = "Amsler Izgarası";
-"AMSLER_GRID_INTRO_TEXT" = "This activity helps in detecting problems in user’s vision.";
+"AMSLER_GRID_INTRO_TEXT" = "Bu aktivite, kullanıcının görüşündeki sorunları algılamaya yardımcı olur.";
 "AMSLER_GRID_INSTRUCTION_TEXT" = "Aygıtı test boyunca yüzünüzden 30 cm uzakta ve göz seviyenizde tutun.";
 "AMSLER_GRID_INSTRUCTION_DETAIL_TEXT" = "%@ünüzü kapatın ve kare ızgaranın ortasındaki noktaya bakın.\n\nParmağınızı veya ekran kalemini kullanarak gördüğünüz bozulmaları işaretleyin (örneğin bulanık veya dalgalı çizgiler).\n\nİşiniz bittiğinde, ızgaranın dışında herhangi bir yere doğru sola kaydırın.";
 "AMSLER_GRID_LEFT_EYE" = "Sol Göz";
@@ -345,11 +345,11 @@
 "dBHL_TONE_AUDIOMETRY_OPTION_LEFT" = "sol";
 "dBHL_TONE_AUDIOMETRY_OPTION_RIGHT" = "sağ";
 "dBHL_TONE_AUDIOMETRY_OPTION_NO_PREFERENCE" = "tercih yok";
-"dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "Test Cancelled";
+"dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "Testten Vazgeçildi";
 "dBHL_ALERT_TITLE_START_OVER" = "Baştan Başla";
 "dBHL_ALERT_TITLE_CANCEL_TEST" = "Testten Vazgeç";
-"dBHL_ALERT_TEXT" = "Reconnect your AirPods or EarPods to take this test.";
-"dBHL_PROGRESS_COMPLETION_%@" = "%@ Complete";
+"dBHL_ALERT_TEXT" = "Bu test için AirPods veya EarPods bağlayın.";
+"dBHL_PROGRESS_COMPLETION_%@" = "%@ Tamamlandı";
 
 /* Headphones. */
 "AIRPODS" = "AirPods";
@@ -361,7 +361,7 @@
 "NOT_CONNECTED" = "Bağlı Değil";
 "HEADPHONE_CONNECTED_%@" = "Bağlı - %@";
 "HEADPHONE_DETECT_TITLE" = "Kulaklığınızı bağlayın";
-"HEADPHONE_DETECT_TEXT" = "This test requires Apple AirPods or Apple EarPods";
+"HEADPHONE_DETECT_TEXT" = "Bu test Apple Airpods veya Apple Earpods gerektiriyor";
 
 /* Spatial span memory active task. */
 "SPATIAL_SPAN_MEMORY_TITLE" = "Konumsal Bellek";
@@ -379,7 +379,7 @@
 "MEMORY_GAME_COMPLETE_TITLE" = "Dizi Tamamlandı";
 "MEMORY_GAME_COMPLETE_MESSAGE" = "Devam etmek için İleri’ye dokunun";
 "MEMORY_GAME_FAILED_TITLE" = "Yeniden Deneyin";
-"MEMORY_GAME_FAILED_MESSAGE" = "You didn’t quite make it through that time. Tap Next to continue.";
+"MEMORY_GAME_FAILED_MESSAGE" = "Bu sefer pek iyi yapamadınız. Devam etmek için İleri’ye dokunun.";
 "MEMORY_GAME_TIMEOUT_TITLE" = "Süre Doldu";
 "MEMORY_GAME_TIMEOUT_MESSAGE" = "Süreniz doldu.\nSürdürmek için Sonraki’ye dokunun.";
 "MEMORY_GAME_COMPLETE" = "Oyun Tamamlandı";
@@ -457,7 +457,7 @@
 /* Timed walk active task. */
 "TIMED_WALK_TITLE" = "Süreli Yürüme";
 "TIMED_WALK_INTRO_DETAIL" = "Bu aktivite, alt ekstremite fonksiyonlarınızı ölçer.";
-"TIMED_WALK_INTRO_2_TEXT_%@" = "Find a place, preferably outside, where you can walk for about %@ in a straight line as quickly as possible, but safely. Do not slow down until after you’ve passed the finish line.";
+"TIMED_WALK_INTRO_2_TEXT_%@" = "Düz bir çizgide mümkün olduğunca hızlı ama güvenli bir şekilde %@ yürüyebileceğiniz bir yer (tercihen dışarıda) bulun. Bitirme çizgisini geçene dek yavaşlamayın.";
 "TIMED_WALK_INTRO_2_DETAIL" = "Başlamak için İleri’ye dokunun.";
 "TIMED_WALK_FORM_TITLE" = "Yardımcı aygıt";
 "TIMED_WALK_FORM_TEXT" = "Her test için aynı yardımcı aygıtı kullanın.";
@@ -482,7 +482,7 @@
 "PASAT_INTRO_TEXT" = "Tempolu İşitsel Toplama Testi, işitsel bilgi işleme hızınızı ve hesaplama becerinizi ölçer.";
 "PVSAT_INTRO_TEXT" = "Tempolu Görsel Toplama Testi, görsel bilgi işleme hızınızı ve hesaplama becerinizi ölçer.";
 "PAVSAT_INTRO_TEXT" = "Tempolu İşitsel ve Görsel Toplama Testi, işitsel ve görsel bilgi işleme hızınızı ve hesaplama becerinizi ölçer.";
-"PSAT_INTRO_TEXT_2_%@" = "Single digits are presented every %@.\nYou must add each new digit to the one immediately prior to it.\nAttention, you mustn’t calculate a running total, but only the sum of the last two numbers.";
+"PSAT_INTRO_TEXT_2_%@" = "Tek basamaklar her %@ saniyede bir gösterilir.\nHer bir yeni basamağı hemen öncesindeki basamağa eklemelisiniz.\nDikkat edin, toplamı değil, yalnızca son iki sayının toplamını hesaplamalısınız.";
 "PSAT_CALL_TO_ACTION" = "Başlamak için Başla’ya dokunun.";
 "PSAT_INITIAL_INSTRUCTION" = "Bu ilk rakamı aklınızda tutun.";
 "PSAT_INSTRUCTION" = "Bu yeni rakamı bir öncekine ekleyin.";
@@ -599,7 +599,7 @@
 "ENVIRONMENTSPL_UNIT" = "dBA";
 "ENVIRONMENTSPL_CALCULATING" = "Hesaplanıyor";
 "ENVIRONMENTSPL_THRESHOLD" = "Eşik: %@ dBA";
-"ENVIRONMENTSPL_OK" = "Background Noise OK";
+"ENVIRONMENTSPL_OK" = "Arka Plan Gürültüsü Tamam";
 "ENVIRONMENTSPL_NOISE" = "Arka Plan Gürültüsü Çok Fazla";
 "ENVIRONMENTSPL_TITLE_2" = "Sessiz bir yer bulun";
 "ENVIRONMENTSPL_INTRO_TEXT_2" = "Doğruluğu sağlamak için bu test sessiz bir ortamda yapılmalıdır.";
@@ -612,7 +612,7 @@
 
 /* Slider */
 "SLIDER_MOVE_SLIDER_FOR_VALUE" = "Değeri girmek için sürgüyü hareket ettirin";
-"SLIDER_I_DONT_KNOW" = "I Don’t Know";
+"SLIDER_I_DONT_KNOW" = "Bilmiyorum";
 
 /* Review Step */
 "REVIEW_STEP_PAGE" = "Sayfa";
@@ -636,7 +636,7 @@
 
 "AX_SELECTED" = "Seçili";
 "AX_UNSELECTED" = "Seçili değil";
-"AX_SELECT_ALL_THAT_APPLY" = "SELECT ALL THAT APPLY";
+"AX_SELECT_ALL_THAT_APPLY" = "UYGUN OLANLARIN TÜMÜNÜ SEÇİN";
 
 "AX_SLIDER_LABEL" = "Yanıt sürgüsü. %@ ile %@ aralığında";
 "AX_UNLABELED_IMAGE" = "Etiketsiz görüntü";
@@ -689,13 +689,13 @@
 "AX_TAP_BUTTON_2_LABEL" = "Diğer Parmak İçin Dokun";
 "AX_TAP_BUTTON_HINT" = "Düğmeleri doğrudan dokunulabilir yapmak için etkinleştirin.";
 /* This contains the visual text, followed by a VoiceOver-specific description. */
-"AX_TAPPING_INSTRUCTION_VOICEOVER" = "%@ VoiceOver ile, her bir kulağın düğmelerinin nerede olduğunu öğrenmek için ekranı dokunarak keşfedin. Düğmeleri doğrudan dokunulabilir yapmak için düğmelerden birini etkinleştirin.";
+"AX_TAPPING_INSTRUCTION_VOICEOVER" = "%@ VoiceOver ile, düğmelerin nerede olduğunu öğrenmek için ekranı dokunarak keşfedin. Düğmeleri doğrudan dokunulabilir yapmak için düğmelerden birini etkinleştirin.";
 "AX_TAP_BUTTON_DIRECT_TOUCH_ANNOUNCEMENT" = "Düğmeler artık doğrudan dokunulabilir.";
 /* This contains the visual text, followed by a VoiceOver-specific description. */
-"AX_dBHL_TONE_AUDIOMETRY_INTRO_TEXT" = "%@ VoiceOver ile düğme doğrudan dokunabilir olur ve ekranın merkezine yakın bir noktada konumlanır.";
+"AX_dBHL_TONE_AUDIOMETRY_INTRO_TEXT" = "%@ VoiceOver ile düğme doğrudan dokunulabilir olur ve ekranın merkezine yakın bir noktada konumlanır.";
 
 /* This contains the visual text, followed by a VoiceOver-specific description. */
-"AX_TRAILMAKING_CALL_TO_ACTION_VOICEOVER" = "%@ VoiceOver ile test edilen düğmeler doğrudan dokunabilir olur.";
+"AX_TRAILMAKING_CALL_TO_ACTION_VOICEOVER" = "%@ VoiceOver ile test edilen düğmeler doğrudan dokunulabilir olur.";
 
 /* Restore error */
 "RESTORE_ERROR_CANNOT_DECODE" = "restoreData kodu başlangıç için çözülemiyor";

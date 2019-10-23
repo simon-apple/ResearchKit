@@ -34,7 +34,7 @@
 "CONSENT_NAME_FAMILY" = "姓氏";
 "CONSENT_NAME_PLACEHOLDER" = "必填";
 "CONSENT_REVIEW_TITLE" = "檢視";
-"CONSENT_REVIEW_INSTRUCTION" = "Review the form below, and tap Agree if you’re ready to continue.";
+"CONSENT_REVIEW_INSTRUCTION" = "檢視下方的表單，準備好繼續時請點一下「同意」。";
 "CONSENT_REVIEW_ALERT_TITLE" = "檢視";
 "CONSENT_SIGNATURE_TITLE" = "簽名";
 "CONSENT_SIGNATURE_INSTRUCTION" = "請使用手指在下方的方框內簽名。";
@@ -49,7 +49,7 @@
 "CONSENT_SECTION_STUDY_SURVEY" = "研究問卷";
 "CONSENT_SECTION_STUDY_TASKS" = "研究任務";
 "CONSENT_SECTION_TIME_COMMITMENT" = "花費時間";
-"CONSENT_SECTION_WITHDRAWING" = "退出調查";
+"CONSENT_SECTION_WITHDRAWING" = "退出";
 "CONSENT_LEARN_MORE_TITLE" = "更多內容";
 
 /* Consent section learn more */
@@ -58,9 +58,9 @@
 "LEARN_MORE_PRIVACY" = "進一步瞭解隱私權和識別身分如何被保護";
 "LEARN_MORE_WELCOME" = "開始前先瞭解研究內容";
 "LEARN_MORE_STUDY_SURVEY" = "進一步瞭解研究問卷";
-"LEARN_MORE_TIME_COMMITMENT" = "Learn more about the study’s impact on your time";
+"LEARN_MORE_TIME_COMMITMENT" = "進一步瞭解研究需花費的時間";
 "LEARN_MORE_TASKS" = "進一步瞭解相關的任務";
-"LEARN_MORE_WITHDRAWING" = "進一步瞭解如何退出調查";
+"LEARN_MORE_WITHDRAWING" = "進一步瞭解如何退出";
 
 /* Consent sharing step */
 "CONSENT_SHARING_TITLE" = "分享選項";
@@ -70,7 +70,8 @@
 "LEARN_MORE_CONSENT_SHARING" = "進一步瞭解資料分享";
 
 /* Lines beneath typewritten signatures on documents.*/
-"CONSENT_DOC_LINE_PRINTED_NAME" = "印表機名稱";
+"CONSENT_DOC_LINE_PRINTED_NAME" = "工整書寫姓名";
+"CONSENT_DOC_LINE_SIGNATURE" = "簽名";
 "CONSENT_DOC_LINE_DATE" = "日期";
 
 /* Progress indication (in navigation bar). */
@@ -81,7 +82,7 @@
 
 /* ORKTaskReviewViewController */
 "REVIEW_SKIPPED_ANSWER" = "已略過";
-"REVIEW_EDIT_ANSWER" = "Edit";
+"REVIEW_EDIT_ANSWER" = "編輯";
 
 /* Alert for out of range values. */
 "RANGE_ALERT_TITLE" = "無效值";
@@ -230,7 +231,7 @@
 "COUNTDOWN_LABEL" = "準備開始活動：";
 "TASK_COMPLETE_TITLE" = "活動完成";
 "TASK_COMPLETE_TEXT" = "您的資料會經過分析，收到結果時會通知您。";
-"COUNTDOWN_SPOKEN_REMAINING_%@" = "剩餘%@秒。";
+"COUNTDOWN_SPOKEN_REMAINING_%@" = "剩餘%@。";
 "TOUCH_ANYWHERE_LABEL" = "觸碰任一處來繼續";
 
 /* Image capture step. */
@@ -242,7 +243,7 @@
 "CAPTURE_ERROR_CANNOT_WRITE_FILE" = "無法儲存擷取的影像。";
 
 /* Video capture step. */
-"CAPTURE_BUTTON_CAPTURE_VIDEO" = "開始錄音";
+"CAPTURE_BUTTON_CAPTURE_VIDEO" = "開始錄影";
 "CAPTURE_BUTTON_STOP_CAPTURE_VIDEO" = "停止錄影";
 "CAPTURE_BUTTON_RECAPTURE_VIDEO" = "重新擷取影像";
 
@@ -253,7 +254,7 @@
 "FITNESS_SIT_INSTRUCTION_FORMAT" = "輕鬆坐著%@。";
 "FITNESS_WALK_INSTRUCTION_FORMAT" = "以最快的速度步行%@。";
 "FITNESS_INTRO_TEXT_FORMAT" = "此活動會監控您的心率並測量您在%1$@內最快的步行速度。";
-"FITNESS_INTRO_2_TEXT_FORMAT" = "Walk outdoors at your fastest possible pace for %1$@. When you’re done, sit and rest comfortably for %2$@. To begin, tap Get Started.";
+"FITNESS_INTRO_2_TEXT_FORMAT" = "以最快的配速在室外步行%1$@。完成後，請輕鬆坐下並休息%2$@。若要開始，請點一下「開始測試」。";
 
 /* Short walk active task. */
 "WALK_TASK_TITLE" = "步態和平衡";
@@ -295,7 +296,7 @@
 
 /* Amsler Grid Task.*/
 "AMSLER_GRID_TITLE" = "阿姆斯勒方格表";
-"AMSLER_GRID_INTRO_TEXT" = "This activity helps in detecting problems in user’s vision.";
+"AMSLER_GRID_INTRO_TEXT" = "此活動有助於偵測使用者的視力問題。";
 "AMSLER_GRID_INSTRUCTION_TEXT" = "測試期間，請將裝置放在離臉約30公分遠的距離，且需平視。";
 "AMSLER_GRID_INSTRUCTION_DETAIL_TEXT" = "關閉您的%@並注視方格中央的圓點。\n\n使用手指或筆標出您所看見扭曲的地方，例如模糊或波浪線條。\n\n完成時，請在方格外任意位置向左滑動。";
 "AMSLER_GRID_LEFT_EYE" = "左眼";
@@ -348,7 +349,7 @@
 "dBHL_ALERT_TITLE_START_OVER" = "重新開始";
 "dBHL_ALERT_TITLE_CANCEL_TEST" = "取消測試";
 "dBHL_ALERT_TEXT" = "重新連接AirPods或EarPods來進行測試。";
-"dBHL_PROGRESS_COMPLETION_%@" = "%@ Complete";
+"dBHL_PROGRESS_COMPLETION_%@" = "已完成%@";
 
 /* Headphones. */
 "AIRPODS" = "AirPods";
@@ -357,7 +358,7 @@
 "HEADPHONES_UNKNOWN" = "未知";
 "HEADPHONES_NONE" = "無";
 "CONNECTED" = "已連線";
-"NOT_CONNECTED" = "Not Connected";
+"NOT_CONNECTED" = "未連線";
 "HEADPHONE_CONNECTED_%@" = "已連線 - %@";
 "HEADPHONE_DETECT_TITLE" = "連接您的耳機";
 "HEADPHONE_DETECT_TEXT" = "此測試需要Apple AirPods或Apple EarPods";
@@ -378,7 +379,7 @@
 "MEMORY_GAME_COMPLETE_TITLE" = "完成順序";
 "MEMORY_GAME_COMPLETE_MESSAGE" = "若要繼續，請點「下一步」";
 "MEMORY_GAME_FAILED_TITLE" = "再試一次";
-"MEMORY_GAME_FAILED_MESSAGE" = "You didn’t quite make it through that time. Tap Next to continue.";
+"MEMORY_GAME_FAILED_MESSAGE" = "您這次未成功。點「下一步」來繼續。";
 "MEMORY_GAME_TIMEOUT_TITLE" = "時間到了";
 "MEMORY_GAME_TIMEOUT_MESSAGE" = "您的時間用完了。\n點「下一步」來繼續。";
 "MEMORY_GAME_COMPLETE" = "遊戲完成";
@@ -456,11 +457,11 @@
 /* Timed walk active task. */
 "TIMED_WALK_TITLE" = "定時步行";
 "TIMED_WALK_INTRO_DETAIL" = "此活動會測量您的下肢功能。";
-"TIMED_WALK_INTRO_2_TEXT_%@" = "Find a place, preferably outside, where you can walk for about %@ in a straight line as quickly as possible, but safely. Do not slow down until after you’ve passed the finish line.";
+"TIMED_WALK_INTRO_2_TEXT_%@" = "請找到一個地方（最好在室外）可讓您快速安全地直線步行約%@。通過終點線前請勿放慢速度。";
 "TIMED_WALK_INTRO_2_DETAIL" = "點「下一步」來開始。";
 "TIMED_WALK_FORM_TITLE" = "輔具";
 "TIMED_WALK_FORM_TEXT" = "每次測試時請使用相同的輔具。";
-"TIMED_WALK_QUESTION_TEXT" = "您是否穿戴踝足副木？";
+"TIMED_WALK_QUESTION_TEXT" = "您是否穿戴足踝輔具？";
 "TIMED_WALK_QUESTION_2_TITLE" = "您是否使用輔具？";
 "TIMED_WALK_QUESTION_2_TEXT" = "點一下此處來選取答案。";
 "TIMED_WALK_QUESTION_2_CHOICE" = "無";
@@ -481,7 +482,7 @@
 "PASAT_INTRO_TEXT" = "連續聽覺序列附加測試（PASAT）會測量您的聽覺資訊處理速度和計算能力。";
 "PVSAT_INTRO_TEXT" = "連續視覺序列附加測試（PVSAT）會測量您的視覺資訊處理速度和計算能力。";
 "PAVSAT_INTRO_TEXT" = "連續聽覺序列附加測試（PAVSAT）會測量您的視聽覺資訊處理速度和計算能力。";
-"PSAT_INTRO_TEXT_2_%@" = "Single digits are presented every %@.\nYou must add each new digit to the one immediately prior to it.\nAttention, you mustn’t calculate a running total, but only the sum of the last two numbers.";
+"PSAT_INTRO_TEXT_2_%@" = "每%@秒會顯示單一數字。\n您必須將新的數字與前一個數字相加。\n注意：您不能計算所有的數字總和，只需計算前兩個數字的總和。";
 "PSAT_CALL_TO_ACTION" = "點一下「開始測試」來開始。";
 "PSAT_INITIAL_INSTRUCTION" = "記住第一個數字。";
 "PSAT_INSTRUCTION" = "將新的數字與前一個數字相加。";
@@ -611,7 +612,7 @@
 
 /* Slider */
 "SLIDER_MOVE_SLIDER_FOR_VALUE" = "移動滑桿來輸入數值";
-"SLIDER_I_DONT_KNOW" = "I Don’t Know";
+"SLIDER_I_DONT_KNOW" = "不知道";
 
 /* Review Step */
 "REVIEW_STEP_PAGE" = "頁面";

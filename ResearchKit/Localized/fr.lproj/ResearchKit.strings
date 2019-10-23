@@ -34,7 +34,7 @@
 "CONSENT_NAME_FAMILY" = "Nom";
 "CONSENT_NAME_PLACEHOLDER" = "Obligatoire";
 "CONSENT_REVIEW_TITLE" = "Vérification";
-"CONSENT_REVIEW_INSTRUCTION" = "Review the form below, and tap Agree if you’re ready to continue.";
+"CONSENT_REVIEW_INSTRUCTION" = "Consultez le formulaire ci-dessous et touchez Accepter si vous êtes prêt à continuer.";
 "CONSENT_REVIEW_ALERT_TITLE" = "Vérification";
 "CONSENT_SIGNATURE_TITLE" = "Signature";
 "CONSENT_SIGNATURE_INSTRUCTION" = "Veuillez signer dans la zone ci-dessous à l’aide de votre doigt.";
@@ -58,7 +58,7 @@
 "LEARN_MORE_PRIVACY" = "En savoir plus sur la protection de la confidentialité et de votre identité";
 "LEARN_MORE_WELCOME" = "Commencer par en savoir plus sur l’étude";
 "LEARN_MORE_STUDY_SURVEY" = "En savoir plus sur l’étude";
-"LEARN_MORE_TIME_COMMITMENT" = "Learn more about the study’s impact on your time";
+"LEARN_MORE_TIME_COMMITMENT" = "En savoir plus sur l’impact de l’étude sur votre emploi du temps";
 "LEARN_MORE_TASKS" = "En savoir plus sur les tâches impliquées";
 "LEARN_MORE_WITHDRAWING" = "En savoir plus sur le retrait de l’étude";
 
@@ -70,7 +70,7 @@
 "LEARN_MORE_CONSENT_SHARING" = "En savoir plus sur le partage de données";
 
 /* Lines beneath typewritten signatures on documents.*/
-"CONSENT_DOC_LINE_PRINTED_NAME" = "Printed Name";
+"CONSENT_DOC_LINE_PRINTED_NAME" = "Nom en majuscules";
 "CONSENT_DOC_LINE_SIGNATURE" = "Signature";
 "CONSENT_DOC_LINE_DATE" = "Date";
 
@@ -82,7 +82,7 @@
 
 /* ORKTaskReviewViewController */
 "REVIEW_SKIPPED_ANSWER" = "Ignorée";
-"REVIEW_EDIT_ANSWER" = "Edit";
+"REVIEW_EDIT_ANSWER" = "Modifier";
 
 /* Alert for out of range values. */
 "RANGE_ALERT_TITLE" = "Valeur non valide";
@@ -254,7 +254,7 @@
 "FITNESS_SIT_INSTRUCTION_FORMAT" = "Asseyez-vous confortablement pendant %@.";
 "FITNESS_WALK_INSTRUCTION_FORMAT" = "Marchez le plus rapidement possible pendant %@.";
 "FITNESS_INTRO_TEXT_FORMAT" = "Cette activité mesure votre fréquence cardiaque et la distance maximale que vous pouvez parcourir à pied en %1$@.";
-"FITNESS_INTRO_2_TEXT_FORMAT" = "Walk outdoors at your fastest possible pace for %1$@. When you’re done, sit and rest comfortably for %2$@. To begin, tap Get Started.";
+"FITNESS_INTRO_2_TEXT_FORMAT" = "Marchez à l’extérieur à votre rythme le plus rapide pendant %1$@. Asseyez-vous ensuite confortablement pendant %2$@. Touchez Démarrer pour commencer.";
 
 /* Short walk active task. */
 "WALK_TASK_TITLE" = "Marche et équilibre";
@@ -296,7 +296,7 @@
 
 /* Amsler Grid Task.*/
 "AMSLER_GRID_TITLE" = "Grille d'Amsler";
-"AMSLER_GRID_INTRO_TEXT" = "This activity helps in detecting problems in user’s vision.";
+"AMSLER_GRID_INTRO_TEXT" = "Cette activité permet de détecter les problèmes de vision de l’utilisateur.";
 "AMSLER_GRID_INSTRUCTION_TEXT" = "Tenez l’appareil à 12 pouces (environ 30 centimètres) de votre visage et au niveau de votre œil pendant toute la durée du test.";
 "AMSLER_GRID_INSTRUCTION_DETAIL_TEXT" = "Fermez votre %@ et fixez le point au centre de la grille carrée.\n\nAvec votre doigt ou votre stylet, marquez toute distorsion que vous percevez, comme des lignes ondulées ou floues.\n\nUne fois que vous avez terminé, balayez vers la gauche depuis n’importe quel endroit extérieur à la grille.";
 "AMSLER_GRID_LEFT_EYE" = "Œil de gauche";
@@ -345,11 +345,11 @@
 "dBHL_TONE_AUDIOMETRY_OPTION_LEFT" = "gauche";
 "dBHL_TONE_AUDIOMETRY_OPTION_RIGHT" = "droite";
 "dBHL_TONE_AUDIOMETRY_OPTION_NO_PREFERENCE" = "aucune préférence";
-"dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "Test Cancelled";
+"dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "Test annulé";
 "dBHL_ALERT_TITLE_START_OVER" = "Recommencer";
 "dBHL_ALERT_TITLE_CANCEL_TEST" = "Annuler le test";
-"dBHL_ALERT_TEXT" = "Reconnect your AirPods or EarPods to take this test.";
-"dBHL_PROGRESS_COMPLETION_%@" = "%@ Complete";
+"dBHL_ALERT_TEXT" = "Reconnectez vos AirPods ou EarPods pour passer ce test.";
+"dBHL_PROGRESS_COMPLETION_%@" = "Progression : %@";
 
 /* Headphones. */
 "AIRPODS" = "AirPods";
@@ -358,7 +358,7 @@
 "HEADPHONES_UNKNOWN" = "Inconnu";
 "HEADPHONES_NONE" = "Aucun";
 "CONNECTED" = "Connecté";
-"NOT_CONNECTED" = "Not Connected";
+"NOT_CONNECTED" = "Non connecté";
 "HEADPHONE_CONNECTED_%@" = "Connecté - %@";
 "HEADPHONE_DETECT_TITLE" = "Connecter les écouteurs";
 "HEADPHONE_DETECT_TEXT" = "Ce test requiert des AirPods ou des EarPods Apple";
@@ -379,8 +379,8 @@
 "MEMORY_GAME_COMPLETE_TITLE" = "Séquence terminée";
 "MEMORY_GAME_COMPLETE_MESSAGE" = "Pour continuer, touchez Suivant.";
 "MEMORY_GAME_FAILED_TITLE" = "Réessayer";
-"MEMORY_GAME_FAILED_MESSAGE" = "You didn’t quite make it through that time. Tap Next to continue.";
-"MEMORY_GAME_TIMEOUT_TITLE" = "Time’s Up";
+"MEMORY_GAME_FAILED_MESSAGE" = "Vous n’avez pas totalement réussi cette fois-ci. Touchez Suivant pour continuer.";
+"MEMORY_GAME_TIMEOUT_TITLE" = "Temps écoulé";
 "MEMORY_GAME_TIMEOUT_MESSAGE" = "Votre temps est écoulé.\nTouchez Suivant pour continuer.";
 "MEMORY_GAME_COMPLETE" = "Jeu terminé";
 "MEMORY_GAME_PAUSED_TITLE" = "En pause";
@@ -457,7 +457,7 @@
 /* Timed walk active task. */
 "TIMED_WALK_TITLE" = "Marche chronométrée";
 "TIMED_WALK_INTRO_DETAIL" = "Cette activité évalue le fonctionnement de vos extrémités inférieures.";
-"TIMED_WALK_INTRO_2_TEXT_%@" = "Find a place, preferably outside, where you can walk for about %@ in a straight line as quickly as possible, but safely. Do not slow down until after you’ve passed the finish line.";
+"TIMED_WALK_INTRO_2_TEXT_%@" = "Trouvez un endroit, de préférence en extérieur, où vous pouvez marcher environ %@ en ligne droite aussi vite que possible, mais sans vous mettre en danger. Ne ralentissez pas avant d’avoir passé la ligne d’arrivée.";
 "TIMED_WALK_INTRO_2_DETAIL" = "Touchez Suivant pour commencer.";
 "TIMED_WALK_FORM_TITLE" = "Appareil d’assistance";
 "TIMED_WALK_FORM_TEXT" = "Utilisez le même appareil d’assistance pour chaque test.";
@@ -482,7 +482,7 @@
 "PASAT_INTRO_TEXT" = "Le test PASAT (Paced Auditory Serial Addition Test) mesure votre vitesse de traitement des informations audio et votre capacité à calculer.";
 "PVSAT_INTRO_TEXT" = "Le test PVSAT (Paced Visual Serial Addition Test) mesure votre vitesse de traitement des informations visuelles et votre capacité à calculer.";
 "PAVSAT_INTRO_TEXT" = "Le test PAVSAT (Paced Auditory and Visual Serial Addition Test) mesure votre vitesse de traitement des informations audio et visuelles et votre capacité à calculer.";
-"PSAT_INTRO_TEXT_2_%@" = "Single digits are presented every %@.\nYou must add each new digit to the one immediately prior to it.\nAttention, you mustn’t calculate a running total, but only the sum of the last two numbers.";
+"PSAT_INTRO_TEXT_2_%@" = "Des chiffres uniques s’affichent toutes les %@.\nVous devez ajouter chaque nouveau chiffre à celui qui l’a précédé.\nAttention, vous ne devez pas calculer de total, mais simplement la somme des deux derniers chiffres.";
 "PSAT_CALL_TO_ACTION" = "Touchez Démarrer pour commencer.";
 "PSAT_INITIAL_INSTRUCTION" = "Souvenez-vous de ce chiffre.";
 "PSAT_INSTRUCTION" = "Ajoutez ce chiffre au précédent.";
@@ -599,7 +599,7 @@
 "ENVIRONMENTSPL_UNIT" = "dB (A)";
 "ENVIRONMENTSPL_CALCULATING" = "Calcul en cours";
 "ENVIRONMENTSPL_THRESHOLD" = "Seuil : %@ dB (A)";
-"ENVIRONMENTSPL_OK" = "Background Noise OK";
+"ENVIRONMENTSPL_OK" = "Bruit de fond OK";
 "ENVIRONMENTSPL_NOISE" = "Bruit de fond excessif";
 "ENVIRONMENTSPL_TITLE_2" = "Trouver un lieu calme";
 "ENVIRONMENTSPL_INTRO_TEXT_2" = "Pour obtenir des résultats précis, il est recommandé d’effectuer ce test dans un environnement calme.";
@@ -612,7 +612,7 @@
 
 /* Slider */
 "SLIDER_MOVE_SLIDER_FOR_VALUE" = "Déplacer le curseur pour saisir une valeur";
-"SLIDER_I_DONT_KNOW" = "I Don’t Know";
+"SLIDER_I_DONT_KNOW" = "Je ne sais pas";
 
 /* Review Step */
 "REVIEW_STEP_PAGE" = "Page";

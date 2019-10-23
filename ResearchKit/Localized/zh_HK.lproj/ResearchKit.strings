@@ -58,7 +58,7 @@
 "LEARN_MORE_PRIVACY" = "進一步了解你的私隱及個人身份如何得到保護";
 "LEARN_MORE_WELCOME" = "開始前先了解此研究";
 "LEARN_MORE_STUDY_SURVEY" = "進一步了解研究的問卷";
-"LEARN_MORE_TIME_COMMITMENT" = "Learn more about the study’s impact on your time";
+"LEARN_MORE_TIME_COMMITMENT" = "進一步了解研究所花費的時間";
 "LEARN_MORE_TASKS" = "進一步了解相關的任務";
 "LEARN_MORE_WITHDRAWING" = "進一步了解退出研究";
 
@@ -71,7 +71,7 @@
 
 /* Lines beneath typewritten signatures on documents.*/
 "CONSENT_DOC_LINE_PRINTED_NAME" = "正楷名稱";
-"CONSENT_DOC_LINE_SIGNATURE" = "Signature";
+"CONSENT_DOC_LINE_SIGNATURE" = "簽名";
 "CONSENT_DOC_LINE_DATE" = "日期";
 
 /* Progress indication (in navigation bar). */
@@ -82,7 +82,7 @@
 
 /* ORKTaskReviewViewController */
 "REVIEW_SKIPPED_ANSWER" = "已略過";
-"REVIEW_EDIT_ANSWER" = "Edit";
+"REVIEW_EDIT_ANSWER" = "編輯";
 
 /* Alert for out of range values. */
 "RANGE_ALERT_TITLE" = "無效值";
@@ -97,7 +97,7 @@
 "LOCATION_QUESTION_PLACEHOLDER" = "輸入地址";
 "LOCATION_ERROR_TITLE" = "找不到指定的地址";
 "LOCATION_ERROR_MESSAGE_LOCATION_UNKNOWN" = "無法找出現時位置，請輸入地址或移動至GPS訊號較佳的位置（如適用）。";
-"LOCATION_ERROR_MESSAGE_DENIED" = "定位服務存取遭拒，請前往「設定」以授權此 App 使用定位服務。";
+"LOCATION_ERROR_MESSAGE_DENIED" = "定位服務存取遭拒，請前往「設定」以授權此App使用定位服務。";
 "LOCATION_ERROR_GEOCODE" = "找不到輸入的地址，請確定地址是否正確。";
 "LOCATION_ERROR_GEOCODE_NETWORK" = "你可能未連接互聯網，或地址查詢請求的次數已超出上限。如果你未連接互聯網，請開啟Wi-Fi以回答此問題（如果顯示「略過」按鈕，則可略過此問題），或在連接互聯網後返回此問卷。否則，請在幾分鐘後再試一次。";
 
@@ -243,7 +243,7 @@
 "CAPTURE_ERROR_CANNOT_WRITE_FILE" = "無法儲存截取的圖案。";
 
 /* Video capture step. */
-"CAPTURE_BUTTON_CAPTURE_VIDEO" = "開始錄音";
+"CAPTURE_BUTTON_CAPTURE_VIDEO" = "開始錄製";
 "CAPTURE_BUTTON_STOP_CAPTURE_VIDEO" = "停止錄影";
 "CAPTURE_BUTTON_RECAPTURE_VIDEO" = "重新截取影片";
 
@@ -335,7 +335,7 @@
 "dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_3" = "就是次測試，音量將會設定為50%。";
 "dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_4" = "此測試需時大約10分鐘。";
 "dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_5" = "開啟「請勿打擾」以避免打擾。";
-"dBHL_TONE_AUDIOMETRY_STEP_TITLE_RIGHT_EAR" = "會先在你的左耳播放聲音。";
+"dBHL_TONE_AUDIOMETRY_STEP_TITLE_RIGHT_EAR" = "會先在你的右耳播放聲音。";
 "dBHL_TONE_AUDIOMETRY_STEP_TITLE_LEFT_EAR" = "現在會在你的左耳播放聲音。";
 "dBHL_TONE_AUDIOMETRY_INTENDED_USE" = "此測試活動以分貝聽力級別為單位辨識個別人士的聽力臨界值。";
 "dBHL_TONE_AUDIOMETRY_INTRO_TEXT" = "請確定裝置音量已設定為最大聲。\n\n在此測試活動中，會在左耳或右耳播放一個微細的音調。\n\n細心聆聽並在每次聽到音調時點一下按鈕。";
@@ -349,7 +349,7 @@
 "dBHL_ALERT_TITLE_START_OVER" = "重新開始";
 "dBHL_ALERT_TITLE_CANCEL_TEST" = "取消測試";
 "dBHL_ALERT_TEXT" = "重新連接AirPods或EarPods以進行測試。";
-"dBHL_PROGRESS_COMPLETION_%@" = "%@ Complete";
+"dBHL_PROGRESS_COMPLETION_%@" = "已完成%@";
 
 /* Headphones. */
 "AIRPODS" = "AirPods";
@@ -358,7 +358,7 @@
 "HEADPHONES_UNKNOWN" = "未知";
 "HEADPHONES_NONE" = "無";
 "CONNECTED" = "已連接";
-"NOT_CONNECTED" = "Not Connected";
+"NOT_CONNECTED" = "未連接";
 "HEADPHONE_CONNECTED_%@" = "已連接 - %@";
 "HEADPHONE_DETECT_TITLE" = "連接你的耳筒";
 "HEADPHONE_DETECT_TEXT" = "此測試需要Apple AirPods或Apple EarPods";
@@ -379,7 +379,7 @@
 "MEMORY_GAME_COMPLETE_TITLE" = "已完成順序";
 "MEMORY_GAME_COMPLETE_MESSAGE" = "如要繼續，點一下「下一步」";
 "MEMORY_GAME_FAILED_TITLE" = "再試一次";
-"MEMORY_GAME_FAILED_MESSAGE" = "You didn’t quite make it through that time. Tap Next to continue.";
+"MEMORY_GAME_FAILED_MESSAGE" = "你似乎記錯了順序。點一下「下一步」繼續。";
 "MEMORY_GAME_TIMEOUT_TITLE" = "時間到了";
 "MEMORY_GAME_TIMEOUT_MESSAGE" = "時限已經到了。\n按一下「下一步」來繼續。";
 "MEMORY_GAME_COMPLETE" = "遊戲結束";
@@ -434,7 +434,7 @@
 "KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_LEFT" = "準備好時，點一下螢幕即可開始，將你的左膝盡量伸展到最遠的距離。完成後，將你的左膝還原至開始時的位置，並且再點一下。";
 "KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_RIGHT" = "準備好時，點一下螢幕即可開始，將你的右膝盡量伸展到最遠的距離。完成後，將你的右膝還原至開始時的位置，並且再點一下。";
 "KNEE_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_LEFT" = "將裝置放在你的左膝上。點一下螢幕並將左膝盡量伸展到最遠的距離。";
-"KNEE_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_RIGHT" = "將裝置放在你的左膝上。點一下螢幕並將右膝盡量伸展到最遠的距離。";
+"KNEE_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_RIGHT" = "將裝置放在你的右膝上。點一下螢幕並將右膝盡量伸展到最遠的距離。";
 "KNEE_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_LEFT" = "完成後，請將你的左膝還原至開始時的位置。然後點一下任何位置。";
 "KNEE_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_RIGHT" = "完成後，請將你的右膝還原至開始時的位置。然後點一下任何位置。";
 
@@ -490,7 +490,7 @@
 
 /* Hole peg test active task. */
 "HOLE_PEG_TEST_TITLE_%@" = "%@孔柱測試";
-"HOLE_PEG_TEST_INTRO_TEXT_%@" = "此測試活動需要你將圓柱放進洞內，以測量你的上肢功能。你將需要執行此操作 %@ 次。";
+"HOLE_PEG_TEST_INTRO_TEXT_%@" = "此測試活動需要你將圓柱放進洞內，以測量你的上肢功能。你將需要執行此操作%@次。";
 "HOLE_PEG_TEST_INTRO_TEXT_2_LEFT_HAND_FIRST_%@" = "你的左右手都會被測試。\n你必須盡快拿起釘子放入洞中，並在完成%@次後，再拿出來%@次。";
 "HOLE_PEG_TEST_INTRO_TEXT_2_RIGHT_HAND_FIRST_%@" = "你的左右手都會被測試。\n你必須盡快拿起釘子放入洞中，並在完成%@次後，再拿出來%@次。";
 

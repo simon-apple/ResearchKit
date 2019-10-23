@@ -58,7 +58,7 @@
 "LEARN_MORE_PRIVACY" = "Más información sobre cómo se protege tu privacidad e identidad";
 "LEARN_MORE_WELCOME" = "Obtén primero más información sobre el estudio";
 "LEARN_MORE_STUDY_SURVEY" = "Más información sobre la encuesta del estudio";
-"LEARN_MORE_TIME_COMMITMENT" = "Learn more about the study’s impact on your time";
+"LEARN_MORE_TIME_COMMITMENT" = "Conoce más acerca del impacto del estudio en tu tiempo";
 "LEARN_MORE_TASKS" = "Más información sobre las tareas relacionadas";
 "LEARN_MORE_WITHDRAWING" = "Más información";
 
@@ -71,7 +71,7 @@
 
 /* Lines beneath typewritten signatures on documents.*/
 "CONSENT_DOC_LINE_PRINTED_NAME" = "Nombre";
-"CONSENT_DOC_LINE_SIGNATURE" = "Signature";
+"CONSENT_DOC_LINE_SIGNATURE" = "Firma";
 "CONSENT_DOC_LINE_DATE" = "Fecha";
 
 /* Progress indication (in navigation bar). */
@@ -82,7 +82,7 @@
 
 /* ORKTaskReviewViewController */
 "REVIEW_SKIPPED_ANSWER" = "Se omitió";
-"REVIEW_EDIT_ANSWER" = "Edit";
+"REVIEW_EDIT_ANSWER" = "Editar";
 
 /* Alert for out of range values. */
 "RANGE_ALERT_TITLE" = "Valor no válido";
@@ -113,15 +113,15 @@
 "PASSWORD_FORM_ITEM_TITLE" = "Contraseña";
 "PASSWORD_FORM_ITEM_PLACEHOLDER" = "Ingresar contraseña";
 "CONFIRM_PASSWORD_FORM_ITEM_TITLE" = "Confirmar";
-"CONFIRM_PASSWORD_FORM_ITEM_PLACEHOLDER" = "Vuelve a ingresar la contraseña";
+"CONFIRM_PASSWORD_FORM_ITEM_PLACEHOLDER" = "Reingresar contraseña";
 "CONFIRM_PASSWORD_ERROR_MESSAGE" = "Las contraseñas no coinciden.";
 "ADDITIONAL_INFO_SECTION_TITLE" = "Información adicional";
 "GIVEN_NAME_ITEM_PLACEHOLDER" = "Juan";
 "FAMILY_NAME_ITEM_PLACEHOLDER" = "López";
 "GENDER_FORM_ITEM_TITLE" = "Sexo";
-"GENDER_FORM_ITEM_PLACEHOLDER" = "Elige un sexo";
+"GENDER_FORM_ITEM_PLACEHOLDER" = "Seleccionar";
 "DOB_FORM_ITEM_TITLE" = "Fecha de nacimiento";
-"DOB_FORM_ITEM_PLACEHOLDER" = "Elige una fecha";
+"DOB_FORM_ITEM_PLACEHOLDER" = "Seleccionar";
 "PHONE_NUMBER_FORM_ITEM_TITLE" = "Teléfono";
 "PHONE_NUMBER_FORM_ITEM_PLACEHOLDER" = "+1 (555) 555 5555";
 
@@ -254,7 +254,7 @@
 "FITNESS_SIT_INSTRUCTION_FORMAT" = "Siéntate cómodamente durante %@.";
 "FITNESS_WALK_INSTRUCTION_FORMAT" = "Camina tan rápido como sea posible durante %@.";
 "FITNESS_INTRO_TEXT_FORMAT" = "Esta actividad revisa tu frecuencia cardiaca y mide cuánto puedes caminar en el transcurso de %1$@.";
-"FITNESS_INTRO_2_TEXT_FORMAT" = "Walk outdoors at your fastest possible pace for %1$@. When you’re done, sit and rest comfortably for %2$@. To begin, tap Get Started.";
+"FITNESS_INTRO_2_TEXT_FORMAT" = "Camina en exteriores al paso más apresurado que puedas durante %1$@. Cuando termines, siéntate y descansa cómodamente durante %2$@. Para comenzar, toca Empezar.";
 
 /* Short walk active task. */
 "WALK_TASK_TITLE" = "Pasos y equilibrio";
@@ -268,7 +268,7 @@
 
 /* Short walk back and forth. */
 "WALK_INTRO_2_TEXT_BACK_AND_FORTH_INSTRUCTION" = "Encuentra un lugar donde puedas avanzar y retroceder en línea recta de manera segura. Camina sin detenerte y, cuando llegues al final, da una media vuelta amplia.\n\nA continuación, se te pedirá que des una vuelta completa, que te pares con los brazos extendidos a los costados y los pies separados a lo ancho de los hombros.";
-"WALK_INTRO_2_DETAIL_BACK_AND_FORTH_INSTRUCTION" = "Toca \"Iniciar\" cuando estés listo para empezar.\nLuego coloca tu dispositivo en tu bolsillo o bolsa y sigue las instrucciones sonoras.";
+"WALK_INTRO_2_DETAIL_BACK_AND_FORTH_INSTRUCTION" = "Toca Empezar cuando quieras comenzar.\nLuego coloca tu dispositivo en tu bolsillo o bolsa y sigue las instrucciones sonoras.";
 "WALK_BACK_AND_FORTH_INSTRUCTION_FORMAT" = "Camina de un lado a otro en una línea recta por %@. Camina como lo harías normalmente.";
 "WALK_BACK_AND_FORTH_STAND_INSTRUCTION_FORMAT" = "Da una vuelta completa sobre tu eje y quédate quieto por %@.";
 "WALK_BACK_AND_FORTH_FINISHED_VOICE" = "Completaste la actividad.";
@@ -349,7 +349,7 @@
 "dBHL_ALERT_TITLE_START_OVER" = "Volver a empezar";
 "dBHL_ALERT_TITLE_CANCEL_TEST" = "Cancelar prueba";
 "dBHL_ALERT_TEXT" = "Vuelve a conectar tus AirPods o EarPods para realizar esta prueba.";
-"dBHL_PROGRESS_COMPLETION_%@" = "%@ Complete";
+"dBHL_PROGRESS_COMPLETION_%@" = "%@ terminado";
 
 /* Headphones. */
 "AIRPODS" = "AirPods";
@@ -357,11 +357,11 @@
 "HEADPHONES" = "Audífonos";
 "HEADPHONES_UNKNOWN" = "Desconocidos";
 "HEADPHONES_NONE" = "Ninguno";
-"CONNECTED" = "Conectado";
-"NOT_CONNECTED" = "Not Connected";
-"HEADPHONE_CONNECTED_%@" = "Se conectó el %@";
+"CONNECTED" = "Conectados";
+"NOT_CONNECTED" = "Sin conectar";
+"HEADPHONE_CONNECTED_%@" = "Conectados: %@";
 "HEADPHONE_DETECT_TITLE" = "Conecta tus audífonos";
-"HEADPHONE_DETECT_TEXT" = "Este estudio requiere usar Airpods de Apple o Earpods de Apple";
+"HEADPHONE_DETECT_TEXT" = "Este estudio requiere usar Apple AirPods o Apple EarPods";
 
 /* Spatial span memory active task. */
 "SPATIAL_SPAN_MEMORY_TITLE" = "Memoria espacial";
@@ -379,7 +379,7 @@
 "MEMORY_GAME_COMPLETE_TITLE" = "Secuencia completada";
 "MEMORY_GAME_COMPLETE_MESSAGE" = "Para continuar, toca Siguiente";
 "MEMORY_GAME_FAILED_TITLE" = "Reintentar";
-"MEMORY_GAME_FAILED_MESSAGE" = "You didn’t quite make it through that time. Tap Next to continue.";
+"MEMORY_GAME_FAILED_MESSAGE" = "Tuviste dificultades esa vez. Toca Siguiente para continuar.";
 "MEMORY_GAME_TIMEOUT_TITLE" = "Se acabó el tiempo";
 "MEMORY_GAME_TIMEOUT_MESSAGE" = "Se agotó el tiempo.\nToca Siguiente para continuar.";
 "MEMORY_GAME_COMPLETE" = "Juego completado";
@@ -398,7 +398,7 @@
 /* Stroop active task.*/
 "STROOP_TASK_TITLE" = "Stroop";
 "STROOP_TASK_INTRO1_DETAIL_TEXT" = "Cada que aparezca la palabra, selecciona la primera letra del nombre del COLOR que se muestra.";
-"STROOP_TASK_INTRO2_DETAIL_TEXT" = "Cuando estés listo para iniciar la actividad Stroop, toca Empezar.";
+"STROOP_TASK_INTRO2_DETAIL_TEXT" = "Cuando estés listo para comenzar la actividad de Stroop, toca Empezar.";
 "STROOP_TASK_STEP_TEXT" = "Selecciona la primera letra del nombre del COLOR que se muestra.";
 "STROOP_COLOR_RED" = "ROJO";
 "STROOP_COLOR_GREEN" = "VERDE";

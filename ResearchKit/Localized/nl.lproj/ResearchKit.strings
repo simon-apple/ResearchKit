@@ -34,7 +34,7 @@
 "CONSENT_NAME_FAMILY" = "Achternaam";
 "CONSENT_NAME_PLACEHOLDER" = "Vereist";
 "CONSENT_REVIEW_TITLE" = "Bekijk";
-"CONSENT_REVIEW_INSTRUCTION" = "Review the form below, and tap Agree if you’re ready to continue.";
+"CONSENT_REVIEW_INSTRUCTION" = "Lees het formulier hieronder door en tik op 'Akkoord' als je klaar bent om verder te gaan.";
 "CONSENT_REVIEW_ALERT_TITLE" = "Bekijk";
 "CONSENT_SIGNATURE_TITLE" = "Handtekening";
 "CONSENT_SIGNATURE_INSTRUCTION" = "Onderteken met je vinger in het onderstaande vak.";
@@ -58,7 +58,7 @@
 "LEARN_MORE_PRIVACY" = "Meer informatie over de bescherming van je privacy en identiteit";
 "LEARN_MORE_WELCOME" = "Meer informatie over het onderzoek";
 "LEARN_MORE_STUDY_SURVEY" = "Meer informatie over de onderzoeksenquête";
-"LEARN_MORE_TIME_COMMITMENT" = "Learn more about the study’s impact on your time";
+"LEARN_MORE_TIME_COMMITMENT" = "Meer informatie over hoelang het onderzoek duurt";
 "LEARN_MORE_TASKS" = "Meer informatie over wat je moet doen";
 "LEARN_MORE_WITHDRAWING" = "Meer informatie over afzien van deelname";
 
@@ -70,8 +70,8 @@
 "LEARN_MORE_CONSENT_SHARING" = "Meer informatie over het delen van gegevens";
 
 /* Lines beneath typewritten signatures on documents.*/
-"CONSENT_DOC_LINE_PRINTED_NAME" = "Printed Name";
-"CONSENT_DOC_LINE_SIGNATURE" = "Signature";
+"CONSENT_DOC_LINE_PRINTED_NAME" = "Naam in hoofdletters";
+"CONSENT_DOC_LINE_SIGNATURE" = "Handtekening";
 "CONSENT_DOC_LINE_DATE" = "Datum";
 
 /* Progress indication (in navigation bar). */
@@ -82,7 +82,7 @@
 
 /* ORKTaskReviewViewController */
 "REVIEW_SKIPPED_ANSWER" = "Overgeslagen";
-"REVIEW_EDIT_ANSWER" = "Edit";
+"REVIEW_EDIT_ANSWER" = "Wijzig";
 
 /* Alert for out of range values. */
 "RANGE_ALERT_TITLE" = "Ongeldige waarde";
@@ -254,7 +254,7 @@
 "FITNESS_SIT_INSTRUCTION_FORMAT" = "Ga %@ gemakkelijk zitten.";
 "FITNESS_WALK_INSTRUCTION_FORMAT" = "Loop %@ zo snel als je kunt.";
 "FITNESS_INTRO_TEXT_FORMAT" = "Tijdens deze activiteit wordt je hartslag gemeten en wordt gekeken hoe ver je in %1$@ kunt lopen.";
-"FITNESS_INTRO_2_TEXT_FORMAT" = "Walk outdoors at your fastest possible pace for %1$@. When you’re done, sit and rest comfortably for %2$@. To begin, tap Get Started.";
+"FITNESS_INTRO_2_TEXT_FORMAT" = "Loop buiten %1$@ zo snel als je kunt. Ga daarna gemakkelijk zitten en rust %2$@ uit. Tik op 'Start' om te beginnen.";
 
 /* Short walk active task. */
 "WALK_TASK_TITLE" = "Tred en balans";
@@ -296,7 +296,7 @@
 
 /* Amsler Grid Task.*/
 "AMSLER_GRID_TITLE" = "Amslerrooster";
-"AMSLER_GRID_INTRO_TEXT" = "This activity helps in detecting problems in user’s vision.";
+"AMSLER_GRID_INTRO_TEXT" = "Met deze activiteit kun je problemen met het gezichtsvermogen van de gebruiker beter detecteren.";
 "AMSLER_GRID_INSTRUCTION_TEXT" = "Houd het apparaat gedurende de test 30 centimeter van je gezicht en op ooghoogte.";
 "AMSLER_GRID_INSTRUCTION_DETAIL_TEXT" = "Sluit je %@ en staar naar de stip in het midden van het vierkante rooster.\n\nGebruik je vinger of stylus en markeer eventuele vervormingen die je ziet, zoals vervaagde of golvende lijnen.\n\nVeeg wanneer je klaar bent naar links buiten het rooster.";
 "AMSLER_GRID_LEFT_EYE" = "linkeroog";
@@ -348,8 +348,8 @@
 "dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "Test geannuleerd";
 "dBHL_ALERT_TITLE_START_OVER" = "Begin opnieuw";
 "dBHL_ALERT_TITLE_CANCEL_TEST" = "Annuleer test";
-"dBHL_ALERT_TEXT" = "Reconnect your AirPods or EarPods to take this test.";
-"dBHL_PROGRESS_COMPLETION_%@" = "%@ Complete";
+"dBHL_ALERT_TEXT" = "Verbind je AirPods of EarPods opnieuw om deze test uit te voeren.";
+"dBHL_PROGRESS_COMPLETION_%@" = "%@ voltooid";
 
 /* Headphones. */
 "AIRPODS" = "AirPods";
@@ -358,10 +358,10 @@
 "HEADPHONES_UNKNOWN" = "Onbekend";
 "HEADPHONES_NONE" = "Geen";
 "CONNECTED" = "Verbonden";
-"NOT_CONNECTED" = "Not Connected";
+"NOT_CONNECTED" = "Geen verbinding";
 "HEADPHONE_CONNECTED_%@" = "Verbonden - %@";
 "HEADPHONE_DETECT_TITLE" = "Sluit je koptelefoon aan";
-"HEADPHONE_DETECT_TEXT" = "This test requires Apple AirPods or Apple EarPods";
+"HEADPHONE_DETECT_TEXT" = "Voor deze test zijn Apple Airpods of Apple Earpods vereist";
 
 /* Spatial span memory active task. */
 "SPATIAL_SPAN_MEMORY_TITLE" = "Ruimtelijk geheugen";
@@ -379,7 +379,7 @@
 "MEMORY_GAME_COMPLETE_TITLE" = "Volgorde voltooid";
 "MEMORY_GAME_COMPLETE_MESSAGE" = "Tik op 'Ga door' om verder te gaan";
 "MEMORY_GAME_FAILED_TITLE" = "Probeer het opnieuw";
-"MEMORY_GAME_FAILED_MESSAGE" = "You didn’t quite make it through that time. Tap Next to continue.";
+"MEMORY_GAME_FAILED_MESSAGE" = "Het is niet helemaal gelukt dit keer. Tik op 'Volgende' om verder te gaan.";
 "MEMORY_GAME_TIMEOUT_TITLE" = "Tijd is om";
 "MEMORY_GAME_TIMEOUT_MESSAGE" = "Je hebt het niet binnen de tijd gehaald.\nTik op 'Volgende' om verder te gaan.";
 "MEMORY_GAME_COMPLETE" = "Spel voltooid";
@@ -397,9 +397,9 @@
 
 /* Stroop active task.*/
 "STROOP_TASK_TITLE" = "Stroop-taak";
-"STROOP_TASK_INTRO1_DETAIL_TEXT" = "Telkens wanneer er een woord verschijnt, selecteer je de eerste letter van de naam van de KLEUR die wordt weergegeven.";
+"STROOP_TASK_INTRO1_DETAIL_TEXT" = "Telkens wanneer er een woord verschijnt, selecteer je de eerste letter(s) van de naam van de KLEUR die wordt weergegeven.";
 "STROOP_TASK_INTRO2_DETAIL_TEXT" = "Tik op 'Start' wanneer je klaar bent om de Stroop-taak te starten.";
-"STROOP_TASK_STEP_TEXT" = "Selecteer de eerste letters van de naam van de KLEUR die wordt weergegeven.";
+"STROOP_TASK_STEP_TEXT" = "Selecteer de eerste letter(s) van de naam van de KLEUR die wordt weergegeven.";
 "STROOP_COLOR_RED" = "ROOD";
 "STROOP_COLOR_GREEN" = "GROEN";
 "STROOP_COLOR_BLUE" = "BLAUW";
@@ -457,7 +457,7 @@
 /* Timed walk active task. */
 "TIMED_WALK_TITLE" = "Looptest";
 "TIMED_WALK_INTRO_DETAIL" = "Met deze activiteit wordt het functioneren van je onderlichaam gemeten.";
-"TIMED_WALK_INTRO_2_TEXT_%@" = "Find a place, preferably outside, where you can walk for about %@ in a straight line as quickly as possible, but safely. Do not slow down until after you’ve passed the finish line.";
+"TIMED_WALK_INTRO_2_TEXT_%@" = "Zoek een plek, bij voorkeur buiten, waar je veilig zo snel mogelijk ongeveer %@ in een rechte lijn kunt lopen. Vertraag je tempo niet totdat je voorbij de eindstreep bent.";
 "TIMED_WALK_INTRO_2_DETAIL" = "Tik op 'Volgende' om te beginnen.";
 "TIMED_WALK_FORM_TITLE" = "Loophulpmiddel";
 "TIMED_WALK_FORM_TEXT" = "Gebruik hetzelfde hulpmiddel voor elke test.";
@@ -482,7 +482,7 @@
 "PASAT_INTRO_TEXT" = "Met de PASAT (een stapsgewijze auditieve seriële opteltest) wordt gemeten hoe snel je hoorbare informatie verwerkt en hoe goed je kunt rekenen.";
 "PVSAT_INTRO_TEXT" = "Met de PVSAT (een stapsgewijze visuele seriële opteltest) wordt gemeten hoe snel je zichtbare informatie verwerkt en hoe goed je kunt rekenen.";
 "PAVSAT_INTRO_TEXT" = "Met de PAVSAT (een stapsgewijze auditieve en visuele seriële opteltest) wordt gemeten hoe snel je hoorbare en zichtbare informatie verwerkt en hoe goed je kunt rekenen.";
-"PSAT_INTRO_TEXT_2_%@" = "Single digits are presented every %@.\nYou must add each new digit to the one immediately prior to it.\nAttention, you mustn’t calculate a running total, but only the sum of the last two numbers.";
+"PSAT_INTRO_TEXT_2_%@" = "Elke %@ zie en/of hoor je een cijfer.\nJe moet elk nieuw cijfer optellen bij het vorige cijfer.\nLet op: je moet niet het totaal van alle cijfers berekenen, maar alleen de som van de laatste twee cijfers.";
 "PSAT_CALL_TO_ACTION" = "Tik op 'Start' om te beginnen.";
 "PSAT_INITIAL_INSTRUCTION" = "Onthoud dit eerste cijfer.";
 "PSAT_INSTRUCTION" = "Tel dit nieuwe cijfer op bij het vorige.";
@@ -599,7 +599,7 @@
 "ENVIRONMENTSPL_UNIT" = "dBA";
 "ENVIRONMENTSPL_CALCULATING" = "Berekenen";
 "ENVIRONMENTSPL_THRESHOLD" = "Drempelwaarde: %@ dBA";
-"ENVIRONMENTSPL_OK" = "Background Noise OK";
+"ENVIRONMENTSPL_OK" = "Achtergrondgeluid OK";
 "ENVIRONMENTSPL_NOISE" = "Te veel geluid op de achtergrond";
 "ENVIRONMENTSPL_TITLE_2" = "Zoek een rustige plek op";
 "ENVIRONMENTSPL_INTRO_TEXT_2" = "Voor een grotere nauwkeurigheid moet deze test in een rustige omgeving worden uitgevoerd.";
@@ -612,7 +612,7 @@
 
 /* Slider */
 "SLIDER_MOVE_SLIDER_FOR_VALUE" = "Versleep schuifknop om waarde in te voeren";
-"SLIDER_I_DONT_KNOW" = "I Don’t Know";
+"SLIDER_I_DONT_KNOW" = "Weet ik niet";
 
 /* Review Step */
 "REVIEW_STEP_PAGE" = "Pagina";
@@ -636,7 +636,7 @@
 
 "AX_SELECTED" = "Geselecteerd";
 "AX_UNSELECTED" = "Selectie opgeheven";
-"AX_SELECT_ALL_THAT_APPLY" = "SELECT ALL THAT APPLY";
+"AX_SELECT_ALL_THAT_APPLY" = "SELECTEER ALLES WAT VAN TOEPASSING IS";
 
 "AX_SLIDER_LABEL" = "Antwoordschuifknop. Bereik van %@ tot %@";
 "AX_UNLABELED_IMAGE" = "Naamloze afbeelding";

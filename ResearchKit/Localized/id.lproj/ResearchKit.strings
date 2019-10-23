@@ -34,7 +34,7 @@
 "CONSENT_NAME_FAMILY" = "Nama Belakang";
 "CONSENT_NAME_PLACEHOLDER" = "Diperlukan";
 "CONSENT_REVIEW_TITLE" = "Tinjauan";
-"CONSENT_REVIEW_INSTRUCTION" = "Review the form below, and tap Agree if you’re ready to continue.";
+"CONSENT_REVIEW_INSTRUCTION" = "Tinjau formulir di bawah dan ketuk Setuju jika Anda siap melanjutkan.";
 "CONSENT_REVIEW_ALERT_TITLE" = "Tinjauan";
 "CONSENT_SIGNATURE_TITLE" = "Tanda Tangan";
 "CONSENT_SIGNATURE_INSTRUCTION" = "Tanda tangani menggunakan jari Anda di kotak di bawah.";
@@ -58,7 +58,7 @@
 "LEARN_MORE_PRIVACY" = "Lebih lanjut mengenai cara privasi dan identitas Anda dilindungi";
 "LEARN_MORE_WELCOME" = "Pelajari lebih lanjut mengenai studi terlebih dahulu";
 "LEARN_MORE_STUDY_SURVEY" = "Lebih lanjut mengenai survei studi";
-"LEARN_MORE_TIME_COMMITMENT" = "Learn more about the study’s impact on your time";
+"LEARN_MORE_TIME_COMMITMENT" = "Lebih lanjut mengenai dampak kajian terhadap waktu Anda";
 "LEARN_MORE_TASKS" = "Lebih lanjut mengenai tugas yang bersangkutan";
 "LEARN_MORE_WITHDRAWING" = "Lebih lanjut mengenai penarikan diri";
 
@@ -67,11 +67,11 @@
 "CONSENT_SHARE_WIDELY_%@" = "Bagikan data saya dengan %@ dan peneliti berkualifikasi di seluruh dunia";
 "CONSENT_SHARE_ONLY_%@" = "Hanya bagikan data saya dengan %@";
 "CONSENT_SHARING_DESCRIPTION_%@" = "%@ akan menerima data kajian Anda dari partisipasi Anda dalam kajian ini.\n\nBerbagi data kajian yang dikodekan secara lebih luas (tanpa informasi seperti nama Anda) dapat bermanfaat bagi penelitian ini dan mendatang.";
-"LEARN_MORE_CONSENT_SHARING" = "Pelajari berbagi data lebih lanjut";
+"LEARN_MORE_CONSENT_SHARING" = "Lebih lanjut mengenai berbagi data";
 
 /* Lines beneath typewritten signatures on documents.*/
-"CONSENT_DOC_LINE_PRINTED_NAME" = "Printed Name";
-"CONSENT_DOC_LINE_SIGNATURE" = "Signature";
+"CONSENT_DOC_LINE_PRINTED_NAME" = "Nama Tercetak";
+"CONSENT_DOC_LINE_SIGNATURE" = "Tanda Tangan";
 "CONSENT_DOC_LINE_DATE" = "Tanggal";
 
 /* Progress indication (in navigation bar). */
@@ -254,7 +254,7 @@
 "FITNESS_SIT_INSTRUCTION_FORMAT" = "Duduk dengan nyaman selama %@.";
 "FITNESS_WALK_INSTRUCTION_FORMAT" = "Jalan secepat mungkin selama %@.";
 "FITNESS_INTRO_TEXT_FORMAT" = "Aktivitas ini memonitor detak jantung Anda dan mengukur seberapa jauh Anda dapat berjalan dalam %1$@.";
-"FITNESS_INTRO_2_TEXT_FORMAT" = "Walk outdoors at your fastest possible pace for %1$@. When you’re done, sit and rest comfortably for %2$@. To begin, tap Get Started.";
+"FITNESS_INTRO_2_TEXT_FORMAT" = "Berjalan kaki di luar ruangan dengan laju secepat mungkin selama %1$@. Setelah selesai, duduk dan istirahat dengan nyaman selama %2$@. Untuk memulai, ketuk Mulai.";
 
 /* Short walk active task. */
 "WALK_TASK_TITLE" = "Gaya dan Keseimbangan";
@@ -296,7 +296,7 @@
 
 /* Amsler Grid Task.*/
 "AMSLER_GRID_TITLE" = "Grid Amsler";
-"AMSLER_GRID_INTRO_TEXT" = "This activity helps in detecting problems in user’s vision.";
+"AMSLER_GRID_INTRO_TEXT" = "Aktivitas ini membantu mendeteksi masalah pada penglihatan pengguna.";
 "AMSLER_GRID_INSTRUCTION_TEXT" = "Pegang perangkat sejauh 30 cm dari wajah Anda dan sejajar dengan mata selama tes.";
 "AMSLER_GRID_INSTRUCTION_DETAIL_TEXT" = "Tutup %@ Anda dan lihat ke arah titik di pusat grid persegi.\n\nDengan menggunakan jari atau stylus Anda, tandai semua distorsi yang Anda lihat seperti garis kabur atau bergelombang.\n\nSetelah selesai, gesek ke kiri di mana pun di luar grid.";
 "AMSLER_GRID_LEFT_EYE" = "Mata Kiri";
@@ -320,7 +320,7 @@
 "TONE_AUDIOMETRY_INTRO_TEXT" = "Sebelum memulai, sambungkan dan kenakan headphone Anda.\n\nBunyi akan terdengar sangat halus dan berbeda dengan nada peringatan biasa.  Bunyi akan terdengar lembut pada awalnya, namun volumenya perlahan-lahan akan bertambah.  Perhatikan dan ketuk tombol kiri atau kanan untuk menunjukkan di telinga mana Anda mendengarnya.";
 "TONE_AUDIOMETRY_CALL_TO_ACTION" = "Ketuk Mulai untuk memulai.";
 "TONE_AUDIOMETRY_PREP_TEXT" = "Seharusnya Anda telah mendengar nada sekarang. Sesuaikan volume menggunakan kontrol di sisi perangkat Anda.\n\nKetuk tombol mana pun setelah Anda siap memulai.";
-"TONE_AUDIOMETRY_INSTRUCTION" = "Setiap kali Anda mulai mendegar bunyi, ketuk tombol kiri atau kanan untuk menunjukkan di telinga mana Anda mendengar bunyi tersebut.";
+"TONE_AUDIOMETRY_INSTRUCTION" = "Setiap kali Anda mulai mendengar bunyi, ketuk tombol kiri atau kanan untuk menunjukkan di telinga mana Anda mendengar bunyi tersebut.";
 "TONE_AUDIOMETRY_LABEL_LEFT_EAR" = "Telinga Kiri";
 "TONE_AUDIOMETRY_LABEL_RIGHT_EAR" = "Telinga Kanan";
 "TONE_LABEL_%@_LEFT" = "%@ Hz, Kiri";
@@ -328,10 +328,10 @@
 
 /* dBHL Tone audiometry active task. */
 "dBHL_TONE_AUDIOMETRY_TASK_TITLE" = "Audiometri Nada";
-"dBHL_TONE_AUDIOMETRY_TASK_TITLE_2" = "Ketuk setelah mendengar nada.";
+"dBHL_TONE_AUDIOMETRY_TASK_TITLE_2" = "Ketuk saat mendengar nada.";
 "dBHL_TONE_AUDIOMETRY_INTRO_TITLE" = "Nada & Volume";
 "dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_1" = "Anda akan mendengar rangkaian nada.";
-"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_2" = "Setelah mendengar nada, ketuk tombol.";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_2" = "Saat mendengar nada, ketuk tombol.";
 "dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_3" = "Untuk tes ini, volume akan diatur ke 50 persen.";
 "dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_4" = "Tes ini memerlukan waktu sekitar 10 menit.";
 "dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_5" = "Nyalakan Jangan Ganggu untuk menghindari gangguan.";
@@ -345,11 +345,11 @@
 "dBHL_TONE_AUDIOMETRY_OPTION_LEFT" = "kiri";
 "dBHL_TONE_AUDIOMETRY_OPTION_RIGHT" = "kanan";
 "dBHL_TONE_AUDIOMETRY_OPTION_NO_PREFERENCE" = "tidak ada preferensi";
-"dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "Test Cancelled";
+"dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "Tes Dibatalkan";
 "dBHL_ALERT_TITLE_START_OVER" = "Mulai Lagi";
 "dBHL_ALERT_TITLE_CANCEL_TEST" = "Batalkan Tes";
-"dBHL_ALERT_TEXT" = "Reconnect your AirPods or EarPods to take this test.";
-"dBHL_PROGRESS_COMPLETION_%@" = "%@ Complete";
+"dBHL_ALERT_TEXT" = "Hubungkan ulang AirPods Anda ke EarPods untuk mengikuti tes ini.";
+"dBHL_PROGRESS_COMPLETION_%@" = "%@ Selesai";
 
 /* Headphones. */
 "AIRPODS" = "AirPods";
@@ -358,10 +358,10 @@
 "HEADPHONES_UNKNOWN" = "Tidak Diketahui";
 "HEADPHONES_NONE" = "Tidak Ada";
 "CONNECTED" = "Terhubung";
-"NOT_CONNECTED" = "Not Connected";
+"NOT_CONNECTED" = "Tidak Terhubung";
 "HEADPHONE_CONNECTED_%@" = "Terhubung - %@";
 "HEADPHONE_DETECT_TITLE" = "Hubungkan Headphone Anda";
-"HEADPHONE_DETECT_TEXT" = "This test requires Apple AirPods or Apple EarPods";
+"HEADPHONE_DETECT_TEXT" = "Tes ini memerlukan Apple AirPods atau Apple EarPods";
 
 /* Spatial span memory active task. */
 "SPATIAL_SPAN_MEMORY_TITLE" = "Memori Spasial";
@@ -379,7 +379,7 @@
 "MEMORY_GAME_COMPLETE_TITLE" = "Urutan Selesai";
 "MEMORY_GAME_COMPLETE_MESSAGE" = "Untuk melanjutkan, ketuk Berikutnya";
 "MEMORY_GAME_FAILED_TITLE" = "Coba Lagi";
-"MEMORY_GAME_FAILED_MESSAGE" = "You didn’t quite make it through that time. Tap Next to continue.";
+"MEMORY_GAME_FAILED_MESSAGE" = "Sebelumnya Anda tidak berhasil. Ketuk Berikutnya untuk melanjutkan.";
 "MEMORY_GAME_TIMEOUT_TITLE" = "Waktu Habis";
 "MEMORY_GAME_TIMEOUT_MESSAGE" = "Anda kehabisan waktu.\nKetuk Berikutnya untuk melanjutkan.";
 "MEMORY_GAME_COMPLETE" = "Permainan Selesai";
@@ -443,8 +443,8 @@
 "SHOULDER_RANGE_OF_MOTION_TITLE_RIGHT" = "Jangkauan Gerakan Bahu Kanan";
 "SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_0_LEFT" = "Aktivitas ini mengukur seberapa jauh Anda dapat meregangkan bahu kiri Anda.";
 "SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_0_RIGHT" = "Aktivitas ini mengukur seberapa jauh Anda dapat meregangkan bahu kanan Anda.";
-"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_1_LEFT" = "Saat Anda memulai, taruh perangkat di bahu kiri Anda untuk pengukuran. Nyalakan bunyi perangkat sehingga Anda dapat mendengar instruksi.";
-"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_1_RIGHT" = "Saat Anda memulai, taruh perangkat di bahu kanan Anda untuk pengukuran. Nyalakan bunyi perangkat sehingga Anda dapat mendengar instruksi.";
+"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_1_LEFT" = "Saat Anda memulai, taruh perangkat di bahu kiri Anda untuk pengukuran. Nyalakan bunyi pada perangkat sehingga Anda dapat mendengar instruksi.";
+"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_1_RIGHT" = "Saat Anda memulai, taruh perangkat di bahu kanan Anda untuk pengukuran. Nyalakan bunyi pada perangkat sehingga Anda dapat mendengar instruksi.";
 "SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_LEFT" = "Letakkan perangkat di bahu kiri Anda dengan layar menghadap keluar, sebagaimana yang terlihat di gambar.";
 "SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_RIGHT" = "Letakkan perangkat di bahu kanan Anda dengan layar menghadap keluar, sebagaimana yang terlihat di gambar.";
 "SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_LEFT" = "Setelah siap, ketuk layar untuk memulai dan angkat lengan kiri Anda sejauh mungkin. Kembali ke posisi semula dan ketuk lagi setelah Anda selesai.";
@@ -457,7 +457,7 @@
 /* Timed walk active task. */
 "TIMED_WALK_TITLE" = "Berjalan Kaki dibatasi Waktu";
 "TIMED_WALK_INTRO_DETAIL" = "Aktivitas ini mengukur fungsi ekstrem rendah Anda.";
-"TIMED_WALK_INTRO_2_TEXT_%@" = "Find a place, preferably outside, where you can walk for about %@ in a straight line as quickly as possible, but safely. Do not slow down until after you’ve passed the finish line.";
+"TIMED_WALK_INTRO_2_TEXT_%@" = "Cari tempat (usahakan di luar ruangan) yang memungkinkan Anda untuk berjalan lurus sekitar selama %@ secepat mungkin dengan aman. Jangan kurangi kecepatan hingga Anda melewat garis akhir.";
 "TIMED_WALK_INTRO_2_DETAIL" = "Ketuk Berikutnya untuk memulai.";
 "TIMED_WALK_FORM_TITLE" = "Perangkat bantuan";
 "TIMED_WALK_FORM_TEXT" = "Gunakan perangkat bantuan yang sama untuk tiap pengujian.";
@@ -482,7 +482,7 @@
 "PASAT_INTRO_TEXT" = "Pengujian Paced Auditory Serial Addition mengukur kecepatan pemrosesan informasi dan kemampuan menghitung auditori Anda.";
 "PVSAT_INTRO_TEXT" = "Pengujian Paced Visual Serial Addition mengukur kecepatan pemrosesan informasi dan kemampuan menghitung visual Anda.";
 "PAVSAT_INTRO_TEXT" = "Pengujian Paced Auditory dan Visual Serial Addition mengukur kecepatan pemrosesan informasi dan kemampuan menghitung auditori dan visual Anda.";
-"PSAT_INTRO_TEXT_2_%@" = "Single digits are presented every %@.\nYou must add each new digit to the one immediately prior to it.\nAttention, you mustn’t calculate a running total, but only the sum of the last two numbers.";
+"PSAT_INTRO_TEXT_2_%@" = "Digit tunggal dimunculkan setiap %@.\nAnda harus menambahkan setiap digit baru ke digit sebelumnya.\nIngat, jangan menghitung jumlah total, tapi hanya jumlah dua angka terakhir.";
 "PSAT_CALL_TO_ACTION" = "Ketuk Mulai untuk memulai.";
 "PSAT_INITIAL_INSTRUCTION" = "Ingat digit pertama ini.";
 "PSAT_INSTRUCTION" = "Tambahkan digit baru ini ke digit sebelumnya.";
@@ -599,8 +599,8 @@
 "ENVIRONMENTSPL_UNIT" = "dBA";
 "ENVIRONMENTSPL_CALCULATING" = "Menghitung";
 "ENVIRONMENTSPL_THRESHOLD" = "Ambang: %@ dBA";
-"ENVIRONMENTSPL_OK" = "Background Noise OK";
-"ENVIRONMENTSPL_NOISE" = "Terlalu Banyak Kebisingan di Latar Belakang";
+"ENVIRONMENTSPL_OK" = "Kebisingan Latar Belakang OKE";
+"ENVIRONMENTSPL_NOISE" = "Suara Latar Belakang Terlalu Bising";
 "ENVIRONMENTSPL_TITLE_2" = "Cari tempat yang sunyi";
 "ENVIRONMENTSPL_INTRO_TEXT_2" = "Untuk memastikan akurasi, tes ini harus diambil di tempat yang sunyi.";
 
@@ -612,7 +612,7 @@
 
 /* Slider */
 "SLIDER_MOVE_SLIDER_FOR_VALUE" = "Pindahkan penggeser untuk memasukkan nilai";
-"SLIDER_I_DONT_KNOW" = "I Don’t Know";
+"SLIDER_I_DONT_KNOW" = "Saya Tidak Tahu";
 
 /* Review Step */
 "REVIEW_STEP_PAGE" = "Halaman";
@@ -636,7 +636,7 @@
 
 "AX_SELECTED" = "Dipilih";
 "AX_UNSELECTED" = "Tidak dipilih";
-"AX_SELECT_ALL_THAT_APPLY" = "SELECT ALL THAT APPLY";
+"AX_SELECT_ALL_THAT_APPLY" = "PILIH SEMUA YANG SESUAI";
 
 "AX_SLIDER_LABEL" = "Penggeser respons. Berkisar dari %@ hingga %@";
 "AX_UNLABELED_IMAGE" = "Gambar tidak dilabeli";

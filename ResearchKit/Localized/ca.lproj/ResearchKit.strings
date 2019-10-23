@@ -34,7 +34,7 @@
 "CONSENT_NAME_FAMILY" = "Cognoms";
 "CONSENT_NAME_PLACEHOLDER" = "Obligatori";
 "CONSENT_REVIEW_TITLE" = "Revisió";
-"CONSENT_REVIEW_INSTRUCTION" = "Review the form below, and tap Agree if you’re ready to continue.";
+"CONSENT_REVIEW_INSTRUCTION" = "Repassa el formulari de sota i toca Acceptar si estàs a punt per continuar.";
 "CONSENT_REVIEW_ALERT_TITLE" = "Revisió";
 "CONSENT_SIGNATURE_TITLE" = "Signatura";
 "CONSENT_SIGNATURE_INSTRUCTION" = "Signa amb el dit al requadre de sota.";
@@ -58,7 +58,7 @@
 "LEARN_MORE_PRIVACY" = "Més informació sobre com es protegeix la privadesa i la identitat";
 "LEARN_MORE_WELCOME" = "Més informació sobre el primer estudi";
 "LEARN_MORE_STUDY_SURVEY" = "Més informació sobre l’avaluació de l’estudi";
-"LEARN_MORE_TIME_COMMITMENT" = "Learn more about the study’s impact on your time";
+"LEARN_MORE_TIME_COMMITMENT" = "Més informació sobre el temps necessari per a l’estudi";
 "LEARN_MORE_TASKS" = "Més informació sobre les tasques de l’estudi";
 "LEARN_MORE_WITHDRAWING" = "Més informació sobre l’abandonament";
 
@@ -70,8 +70,8 @@
 "LEARN_MORE_CONSENT_SHARING" = "Més informació sobre com compartir dades";
 
 /* Lines beneath typewritten signatures on documents.*/
-"CONSENT_DOC_LINE_PRINTED_NAME" = "Printed Name";
-"CONSENT_DOC_LINE_SIGNATURE" = "Signature";
+"CONSENT_DOC_LINE_PRINTED_NAME" = "Nom en majúscules";
+"CONSENT_DOC_LINE_SIGNATURE" = "Signatura";
 "CONSENT_DOC_LINE_DATE" = "Data";
 
 /* Progress indication (in navigation bar). */
@@ -82,7 +82,7 @@
 
 /* ORKTaskReviewViewController */
 "REVIEW_SKIPPED_ANSWER" = "Omesa";
-"REVIEW_EDIT_ANSWER" = "Edit";
+"REVIEW_EDIT_ANSWER" = "Editar";
 
 /* Alert for out of range values. */
 "RANGE_ALERT_TITLE" = "Valor no vàlid";
@@ -198,7 +198,7 @@
 "LIMB_RIGHT" = "dreta";
 
 /* Default placeholders to request answers in a questionnaire. */
-"PLACEHOLDER_TEXT_OR_NUMBER" = "Prémer per contestar";
+"PLACEHOLDER_TEXT_OR_NUMBER" = "Tocar per contestar";
 "NULL_ANSWER" = "Seleccionar una resposta";
 "PLACEHOLDER_IMAGE_CHOICES" = "Prem per seleccionar";
 "PLACEHOLDER_LONG_TEXT" = "Prem per escriure";
@@ -254,7 +254,7 @@
 "FITNESS_SIT_INSTRUCTION_FORMAT" = "Seu còmodament %@.";
 "FITNESS_WALK_INSTRUCTION_FORMAT" = "Camina tan ràpid com puguis durant %@.";
 "FITNESS_INTRO_TEXT_FORMAT" = "Aquesta activitat controla la freqüència cardíaca i mesura la distància que pots caminar en %1$@.";
-"FITNESS_INTRO_2_TEXT_FORMAT" = "Walk outdoors at your fastest possible pace for %1$@. When you’re done, sit and rest comfortably for %2$@. To begin, tap Get Started.";
+"FITNESS_INTRO_2_TEXT_FORMAT" = "Camina a l’aire lliure al ritme més alt que puguis durant %1$@. Transcorregut aquest temps, seu i descansa còmodament %2$@. Quan estiguis a punt, prem Començar.";
 
 /* Short walk active task. */
 "WALK_TASK_TITLE" = "Marxa i equilibri";
@@ -268,7 +268,7 @@
 
 /* Short walk back and forth. */
 "WALK_INTRO_2_TEXT_BACK_AND_FORTH_INSTRUCTION" = "Busca un lloc on puguis anar i tornar caminant en línia recta de forma segura. Camina sense parar i gira al final del camí com si estiguessis vorejant un con.\n\nA continuació, se’t demanarà que giris fent un cercle complet i que et quedis quiet amb els braços als costats i els peus separats més o menys per la mateixa distància que hi ha entre espatlla i espatlla.";
-"WALK_INTRO_2_DETAIL_BACK_AND_FORTH_INSTRUCTION" = "Quan estiguis a punt per començar, toca Començar.\nLlavors, posa’t el dispositiu a la butxaca o a la bossa i segueix les instruccions d’àudio.";
+"WALK_INTRO_2_DETAIL_BACK_AND_FORTH_INSTRUCTION" = "Quan estiguis a punt, toca Començar.\nLlavors, posa’t el dispositiu a la butxaca o a la bossa i segueix les instruccions d’àudio.";
 "WALK_BACK_AND_FORTH_INSTRUCTION_FORMAT" = "Vés i torna caminant en línia recta durant %@. Camina naturalment.";
 "WALK_BACK_AND_FORTH_STAND_INSTRUCTION_FORMAT" = "Gira fent un cercle complet i llavors queda’t quiet durant %@.";
 "WALK_BACK_AND_FORTH_FINISHED_VOICE" = "Has completat l’activitat.";
@@ -296,7 +296,7 @@
 
 /* Amsler Grid Task.*/
 "AMSLER_GRID_TITLE" = "Reixeta d’Amsler";
-"AMSLER_GRID_INTRO_TEXT" = "This activity helps in detecting problems in user’s vision.";
+"AMSLER_GRID_INTRO_TEXT" = "Aquesta activitat ajuda a detectar problemes de visió de l’usuari.";
 "AMSLER_GRID_INSTRUCTION_TEXT" = "Mantén el dispositiu a una distància de 30 a 40 centímetres de la teva cara, a l’alçada dels ulls, durant tota la prova.";
 "AMSLER_GRID_INSTRUCTION_DETAIL_TEXT" = "Tanca l’%@ i mira fixament el punt central de la quadrícula.\n\nAmb el dit o el llapis tàctil, marca les distorsions que vegis, com ara línies borroses o ondulades.\n\nQuan hagis acabat, llisca cap a l’esquerra a qualsevol lloc de l’exterior de la reixeta.";
 "AMSLER_GRID_LEFT_EYE" = "ull esquerre";
@@ -345,11 +345,11 @@
 "dBHL_TONE_AUDIOMETRY_OPTION_LEFT" = "esquerra";
 "dBHL_TONE_AUDIOMETRY_OPTION_RIGHT" = "dreta";
 "dBHL_TONE_AUDIOMETRY_OPTION_NO_PREFERENCE" = "cap preferència";
-"dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "Test Cancelled";
+"dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "Prova cancel·lada";
 "dBHL_ALERT_TITLE_START_OVER" = "Tornar a començar";
 "dBHL_ALERT_TITLE_CANCEL_TEST" = "Cancel·lar la prova";
-"dBHL_ALERT_TEXT" = "Reconnect your AirPods or EarPods to take this test.";
-"dBHL_PROGRESS_COMPLETION_%@" = "%@ Complete";
+"dBHL_ALERT_TEXT" = "Torna a connectar els AirPods o els EarPods per fer la prova.";
+"dBHL_PROGRESS_COMPLETION_%@" = "%@ completat";
 
 /* Headphones. */
 "AIRPODS" = "AirPods";
@@ -361,7 +361,7 @@
 "NOT_CONNECTED" = "Sense connexió";
 "HEADPHONE_CONNECTED_%@" = "Connectat - %@";
 "HEADPHONE_DETECT_TITLE" = "Connecta els auriculars";
-"HEADPHONE_DETECT_TEXT" = "This test requires Apple AirPods or Apple EarPods";
+"HEADPHONE_DETECT_TEXT" = "Per fer aquesta prova necessitaràs uns AirPods o uns EarPods d’Apple";
 
 /* Spatial span memory active task. */
 "SPATIAL_SPAN_MEMORY_TITLE" = "Memòria espacial";
@@ -379,7 +379,7 @@
 "MEMORY_GAME_COMPLETE_TITLE" = "Seqüència completa";
 "MEMORY_GAME_COMPLETE_MESSAGE" = "Per continuar, prem Següent";
 "MEMORY_GAME_FAILED_TITLE" = "Reintentar";
-"MEMORY_GAME_FAILED_MESSAGE" = "You didn’t quite make it through that time. Tap Next to continue.";
+"MEMORY_GAME_FAILED_MESSAGE" = "No ho has aconseguit aquesta vegada. Prem Següent per continuar.";
 "MEMORY_GAME_TIMEOUT_TITLE" = "És l’hora";
 "MEMORY_GAME_TIMEOUT_MESSAGE" = "T’has quedat sense temps.\nToca Següent per continuar.";
 "MEMORY_GAME_COMPLETE" = "Joc completat";
@@ -457,7 +457,7 @@
 /* Timed walk active task. */
 "TIMED_WALK_TITLE" = "Caminada cronometrada";
 "TIMED_WALK_INTRO_DETAIL" = "Aquesta activitat mesura la funcionalitat de les teves extremitats inferiors.";
-"TIMED_WALK_INTRO_2_TEXT_%@" = "Find a place, preferably outside, where you can walk for about %@ in a straight line as quickly as possible, but safely. Do not slow down until after you’ve passed the finish line.";
+"TIMED_WALK_INTRO_2_TEXT_%@" = "Busca un lloc, preferiblement a l’aire lliure, on puguis caminar aproximadament %@ en línia recta tan ràpid com puguis, amb total seguretat. No abaixis el ritme fins que no hagis passat la línia d’arribada.";
 "TIMED_WALK_INTRO_2_DETAIL" = "Prem Següent per continuar.";
 "TIMED_WALK_FORM_TITLE" = "Tipus d’assistència";
 "TIMED_WALK_FORM_TEXT" = "Utilitza el mateix tipus d’assistència per a cada prova.";
@@ -482,7 +482,7 @@
 "PASAT_INTRO_TEXT" = "El PAST (test auditiu de suma en sèrie a ritme) mesura la teva velocitat de processament d’informació auditiva i la teva habilitat de càlcul.";
 "PVSAT_INTRO_TEXT" = "El PAVT (test visual de suma en sèrie a ritme) mesura la teva velocitat de processament d’informació visual i la teva habilitat de càlcul.";
 "PAVSAT_INTRO_TEXT" = "El PAVSAT (test visual i auditiu de suma en sèrie per passos) mesura la teva velocitat de processament d’informació auditiva i visual i la teva habilitat de càlcul.";
-"PSAT_INTRO_TEXT_2_%@" = "Single digits are presented every %@.\nYou must add each new digit to the one immediately prior to it.\nAttention, you mustn’t calculate a running total, but only the sum of the last two numbers.";
+"PSAT_INTRO_TEXT_2_%@" = "Es presenten números solts cada %@ segons.\nHas de sumar cada nou número al número immediatament anterior.\nAtenció: No has d’anar calculant la suma total, sinó només la suma dels dos últims números.";
 "PSAT_CALL_TO_ACTION" = "Per iniciar, toca Començar.";
 "PSAT_INITIAL_INSTRUCTION" = "Recorda aquest primer dígit.";
 "PSAT_INSTRUCTION" = "Suma aquest número a l’anterior.";
@@ -599,7 +599,7 @@
 "ENVIRONMENTSPL_UNIT" = "dBA";
 "ENVIRONMENTSPL_CALCULATING" = "Calculant";
 "ENVIRONMENTSPL_THRESHOLD" = "Llindar: %@ dBA";
-"ENVIRONMENTSPL_OK" = "Background Noise OK";
+"ENVIRONMENTSPL_OK" = "Soroll de fons acceptable";
 "ENVIRONMENTSPL_NOISE" = "Hi ha massa soroll de fons";
 "ENVIRONMENTSPL_TITLE_2" = "Busca un lloc tranquil";
 "ENVIRONMENTSPL_INTRO_TEXT_2" = "Perquè el resultat de la prova sigui precís, has d’estar en un entorn tranquil.";
@@ -611,8 +611,8 @@
 "CHART_NO_DATA_TEXT" = "Sense dades";
 
 /* Slider */
-"SLIDER_MOVE_SLIDER_FOR_VALUE" = "Mou el regulador per introduir un valor";
-"SLIDER_I_DONT_KNOW" = "I Don’t Know";
+"SLIDER_MOVE_SLIDER_FOR_VALUE" = "Mou el regulador per fixar un valor";
+"SLIDER_I_DONT_KNOW" = "No ho sé";
 
 /* Review Step */
 "REVIEW_STEP_PAGE" = "Pàgina";
@@ -636,7 +636,7 @@
 
 "AX_SELECTED" = "Seleccionat";
 "AX_UNSELECTED" = "No seleccionat";
-"AX_SELECT_ALL_THAT_APPLY" = "SELECT ALL THAT APPLY";
+"AX_SELECT_ALL_THAT_APPLY" = "SELECCIONA TOT ALLÒ QUE CORRESPONGUI";
 
 "AX_SLIDER_LABEL" = "Regulador de resposta. Interval de %@ a %@";
 "AX_UNLABELED_IMAGE" = "Imatge sense etiquetar";
