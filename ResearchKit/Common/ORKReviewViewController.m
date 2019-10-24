@@ -247,7 +247,11 @@ static const float FirstSectionHeaderPadding = 24.0;
     if (formItem && formItemResult && [formItemResult isKindOfClass:[ORKQuestionResult class]]) {
         ORKQuestionResult *questionResult = (ORKQuestionResult *)formItemResult;
         if (formItem.answerFormat && [questionResult isKindOfClass:formItem.answerFormat.questionResultClass] && questionResult.answer) {
-            answerString = [formItem.answerFormat stringForAnswer:questionResult.answer];
+            if ([questionResult.answer isKindOfClass:[ORKDontKnowAnswer class]]) {
+                answerString = formItem.answerFormat.customDontKnowButtonText;
+            } else {
+                answerString = [formItem.answerFormat stringForAnswer:questionResult.answer];
+            }
         }
     }
     return answerString;
@@ -273,7 +277,11 @@ static const float FirstSectionHeaderPadding = 24.0;
 - (NSString *)answerStringForQuestionStep:(ORKQuestionStep *)questionStep withQuestionResult:(ORKQuestionResult *)questionResult {
     NSString *answerString = nil;
     if (questionStep && questionResult && questionStep.answerFormat && [questionResult isKindOfClass:questionStep.answerFormat.questionResultClass] && questionResult.answer) {
-        answerString = [questionStep.answerFormat stringForAnswer:questionResult.answer];
+        if ([questionResult.answer isKindOfClass:[ORKDontKnowAnswer class]]) {
+            answerString = questionStep.answerFormat.customDontKnowButtonText;
+        } else {
+            answerString = [questionStep.answerFormat stringForAnswer:questionResult.answer];
+        }
     }
     return answerString;
 }
