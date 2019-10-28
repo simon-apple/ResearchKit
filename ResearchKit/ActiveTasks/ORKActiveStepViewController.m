@@ -140,6 +140,7 @@
     BOOL neverHasContinueButton = (step.shouldContinueOnFinish && !step.startsFinished);
     [_navigationFooterView setNeverHasContinueButton:neverHasContinueButton];
     [_navigationFooterView updateContinueAndSkipEnabled];
+    [_navigationFooterView flattenIfNeeded];
     
     [self updateContinueButtonItem];
 }

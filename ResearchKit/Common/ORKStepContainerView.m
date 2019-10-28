@@ -323,12 +323,7 @@ static const CGFloat ORKBodyItemScrollPadding = 24.0;
 - (void)placeNavigationContainerView {
     [self removeNavigationFooterView];
     self.isNavigationContainerScrollable = NO;
-    if (self.isNavigationContainerScrollable) {
-        [_scrollContainerView addSubview:self.navigationFooterView];
-    }
-    else {
-        [self addSubview:self.navigationFooterView];
-    }
+    [self addSubview:self.navigationFooterView];
     [self setupNavigationContainerViewConstraints];
 }
 
@@ -350,6 +345,7 @@ static const CGFloat ORKBodyItemScrollPadding = 24.0;
                                                                   attribute:NSLayoutAttributeBottom
                                                                  multiplier:1.0
                                                                    constant:-(self.navigationFooterView.frame.size.height + ORKContentBottomPadding)];
+    
     [NSLayoutConstraint activateConstraints:@[_scrollContentBottomConstraint]];
 }
 
@@ -386,13 +382,14 @@ static const CGFloat ORKBodyItemScrollPadding = 24.0;
         if ([_updatedConstraints containsObject:_scrollViewBottomConstraint]) {
             [_updatedConstraints removeObject:_scrollViewBottomConstraint];
         }
+        
         _scrollViewBottomConstraint = [NSLayoutConstraint constraintWithItem:_scrollView
                                                                    attribute:NSLayoutAttributeBottom
                                                                    relatedBy:NSLayoutRelationEqual
-                                                                      toItem:self
-                                                                   attribute:NSLayoutAttributeBottom
+                                                                      toItem:self.navigationFooterView
+                                                                   attribute:NSLayoutAttributeTop
                                                                   multiplier:1.0
-                                                                    constant:0.0];
+                                                                    constant:-ORKContentBottomPadding];
         [_updatedConstraints addObject:_scrollViewBottomConstraint];
     }
     
