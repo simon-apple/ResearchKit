@@ -561,10 +561,50 @@ ORK_MAKE_TEST_INIT(NSRegularExpression, (^{
 }
 
 /*
+ Verify that all the known classes that can have dont know answers, serialize them as separate properties with
+ the prefix noAnswer_
+ */
+- (void)testDontKnowSerialization {
+    
+    NSDictionary *examples = @{
+        @"ORKBooleanQuestionResult" : @"booleanAnswer",
+        @"ORKDateQuestionResult": @"dateAnswer",
+        @"ORKNumericQuestionResult" : @"numericAnswer",
+        @"ORKScaleQuestionResult" : @"scaleAnswer"
+    };
+    [examples enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull className, NSString *  _Nonnull answerProp, __unused BOOL * _Nonnull stop) {
+        ORKQuestionResult *result = [(ORKQuestionResult *)[NSClassFromString(className) alloc] initWithIdentifier:[[NSUUID UUID] UUIDString]];
+        [result setAnswer:[ORKDontKnowAnswer answer]];
+        result.startDate = [NSDate date];
+        result.endDate = [NSDate date];
+        NSDictionary *dict = [ORKESerializer JSONObjectForObject:result error:nil];
+        
+        // Do not expect the property name for the answer to have a value
+        XCTAssertNil([dict valueForKey:answerProp]);
+        
+        // Do expect the "dont know" version of the property name for the answer to have a value.
+        XCTAssertEqualObjects(@"ORKDontKnowAnswer",
+                              [[dict valueForKey:[@"noAnswer_" stringByAppendingString:answerProp]] valueForKey:@"_class"]);
+        
+    }];
+}
+
+- (void)_verifyDontKnowExampleFromPath:(NSString *)path
+                    answerPropertyName:(NSString *)propertyName
+                               context:(ORKESerializationContext *)context {
+
+    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:path] options:0 error:NULL];
+    id instance = [ORKESerializer objectFromJSONObject:dict context:context error:NULL];
+    XCTAssertNotNil(instance);
+    XCTAssertEqualObjects([instance valueForKey:propertyName], [ORKDontKnowAnswer answer]);
+}
+
+/*
  Verifies there is a sample for every JSON-serializable class.
  Verifies all registered properties for each of those classes is present in the sample.
  Verifies that all properties in the sample are registered.
  Attempts a decode of the sample, twice: once with image decoding enabled and once with images mapped to nil.
+ Provides special handling for dont know answers, verifying that they deserialize as expected.
  */
 - (void)testORKSampleDeserialization {
     NSString *bundlePath = [[NSBundle bundleForClass:[ORKJSONSerializationTests class]] pathForResource:@"samples" ofType:@"bundle"];
@@ -585,6 +625,9 @@ ORK_MAKE_TEST_INIT(NSRegularExpression, (^{
     
     // Decode where images are "decoded"
     for (NSString *path in paths) {
+        if ([[path lastPathComponent] hasPrefix:@"DontKnow"]) {
+            continue;
+        }
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:path] options:0 error:NULL];
         NSString *className = [[path lastPathComponent] stringByDeletingPathExtension];
         NSMutableArray<NSString *> *knownProperties = [[ORKESerializer serializedPropertiesForClass:NSClassFromString(className)] mutableCopy];
@@ -596,7 +639,7 @@ ORK_MAKE_TEST_INIT(NSRegularExpression, (^{
         NSMutableSet *extraKnownProps = [knownPropSet mutableCopy]; [extraKnownProps minusSet:intersectionSet];
         NSMutableSet *extraLoadedProps = [loadedPropSet mutableCopy]; [extraLoadedProps minusSet:intersectionSet];
         XCTAssertEqualObjects(extraKnownProps, [NSSet set], @"Extra properties registered but not in example for %@", className);
-        XCTAssertEqualObjects(extraLoadedProps, [NSSet set], @"Extra properties in sample but not registered for %@", className);
+        XCTAssertEqualObjects(extraLoadedProps, [NSSet set], @"Extra properties in sample but not registered for %@ on %@", className, path);
         id instance = [ORKESerializer objectFromJSONObject:dict context:context error:NULL];
         XCTAssertNotNil(instance);
         XCTAssertEqualObjects(NSStringFromClass([instance class]), className);
@@ -606,12 +649,30 @@ ORK_MAKE_TEST_INIT(NSRegularExpression, (^{
     
     // Decode with image decoding failing and returning nil instead of an image: silently suppress the failure
     for (NSString *path in paths) {
+        if ([[path lastPathComponent] hasPrefix:@"DontKnow"]) {
+            continue;
+        }
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:path] options:0 error:NULL];
         NSString *className = [[path lastPathComponent] stringByDeletingPathExtension];
         id instance = [ORKESerializer objectFromJSONObject:dict context:context error:NULL];
         XCTAssertNotNil(instance);
         XCTAssertEqualObjects(NSStringFromClass([instance class]), className);
     }
+
+    // Test the dont know examples
+    NSDictionary *examples = @{
+        @"DontKnowBooleanResult" : @"booleanAnswer",
+        @"DontKnowDateResult": @"dateAnswer",
+        @"DontKnowNumericResult" : @"numericAnswer",
+        @"DontKnowScaleResult" : @"scaleAnswer"
+    };
+    [examples enumerateKeysAndObjectsUsingBlock:^(NSString *  _Nonnull key, NSString *  _Nonnull propName, __unused BOOL * _Nonnull stop) {
+        [self _verifyDontKnowExampleFromPath:[bundle pathForResource:key ofType:@"json"]
+                          answerPropertyName:propName
+                                     context:context];
+    }];
+    
+    
     
 }
 

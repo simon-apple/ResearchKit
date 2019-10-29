@@ -39,6 +39,7 @@
 @import MapKit;
 @import Speech;
 
+static NSString *noAnswerPrefix = @"noAnswer_";
 
 static NSString *ORKEStringFromDateISO8601(NSDate *date) {
     static NSDateFormatter *formatter = nil;
@@ -236,6 +237,10 @@ static NSDictionary *dictionaryFromPostalAddress(CNPostalAddress *address) {
 
 static NSString *identifierFromClinicalType(HKClinicalType *type) {
     return type.identifier;
+}
+
+static NSString *dontKnowFakePropertyName(NSString *propertyName) {
+    return [noAnswerPrefix stringByAppendingString:propertyName];
 }
 
 static CLCircularRegion *circularRegionFromDictionary(NSDictionary *dict) {
@@ -529,6 +534,11 @@ static id propFromDict(NSDictionary *dict, NSString *propName, ORKESerialization
     ORKESerializationJSONToObjectBlock converterBlock = propertyEntry.jsonToObjectBlock;
     
     id input = dict[propName];
+    if (input == nil) {
+        input = dict[dontKnowFakePropertyName(propName)];
+        propertyClass = [ORKDontKnowAnswer class];
+        converterBlock = nil;
+    }
     id output = nil;
     if (input != nil) {
         if ([containerClass isSubclassOfClass:[NSArray class]]) {
@@ -2148,9 +2158,12 @@ static id objectForJsonObject(id input, Class expectedClass, ORKESerializationJS
             }
         }
         
-        for (NSString *key in [dict allKeys]) {
+        for (__strong NSString *key in [dict allKeys]) {
             if ([key isEqualToString:_ClassKey]) {
                 continue;
+            }
+            if ([key hasPrefix:noAnswerPrefix]) {
+                key = [key substringFromIndex:[noAnswerPrefix length]];
             }
             
             BOOL haveSetProp = NO;
@@ -2212,6 +2225,10 @@ static id jsonObjectForObject(id object, ORKESerializationContext *context) {
                 ORKESerializationObjectToJSONBlock converter = propertyEntry.objectToJSONBlock;
                 Class containerClass = propertyEntry.containerClass;
                 id valueForKey = [object valueForKey:propertyName];
+                BOOL valueIsDontKnowAnswer = [valueForKey isKindOfClass:[ORKDontKnowAnswer class]];
+                if (valueIsDontKnowAnswer) {
+                    converter = nil;
+                }
                 if (valueForKey != nil) {
                     if ([containerClass isSubclassOfClass:[NSArray class]]) {
                         NSMutableArray *a = [NSMutableArray array];
@@ -2239,7 +2256,11 @@ static id jsonObjectForObject(id object, ORKESerializationContext *context) {
                 }
                 
                 if (valueForKey != nil) {
-                    encodedDict[propertyName] = valueForKey;
+                    if (valueIsDontKnowAnswer) {
+                        encodedDict[dontKnowFakePropertyName(propertyName)] = valueForKey;
+                    } else {
+                        encodedDict[propertyName] = valueForKey;
+                    }
                 }
             }
         }
