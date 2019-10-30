@@ -791,7 +791,8 @@ static NSMutableDictionary *ORKESerializationEncodingTable() {
                  },
                  (@{
                     PROPERTY(passcodeType, NSNumber, NSObject, YES, nil, nil),
-                    PROPERTY(passcodeFlow, NSNumber, NSObject, YES, nil, nil)
+                    PROPERTY(useBiometrics, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(passcodeFlow, NSNumber, NSObject, YES, nil, nil),
                     })),
            ENTRY(ORKWaitStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {

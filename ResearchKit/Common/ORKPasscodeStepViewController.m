@@ -115,7 +115,7 @@ static CGFloat const kForgotPasscodeHeight              = 100.0f;
         _isChangingState = NO;
         _isTouchIdAuthenticated = NO;
         _isPasscodeSaved = NO;
-        _useTouchId = YES;
+        _useTouchId = [self passcodeStep].useBiometrics;
         
         // If this has text, we should add the forgot passcode button with this title
         if ([self hasForgotPasscode]) {
