@@ -670,19 +670,12 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKUpdateConstraintSequence) {
     if (_textLabel != nil) {
         [_leftRightPaddingConstraints addObjectsFromArray:@[
             [NSLayoutConstraint constraintWithItem:_textLabel
-                                         attribute:NSLayoutAttributeLeading
+                                         attribute:NSLayoutAttributeCenterX
                                          relatedBy:NSLayoutRelationEqual
                                             toItem:self
-                                         attribute:NSLayoutAttributeLeading
+                                         attribute:NSLayoutAttributeCenterX
                                         multiplier:1.0
-                                          constant:_leftRightPadding],
-            [NSLayoutConstraint constraintWithItem:_textLabel
-                                         attribute:NSLayoutAttributeTrailing
-                                         relatedBy:NSLayoutRelationEqual
-                                            toItem:self
-                                         attribute:NSLayoutAttributeTrailing
-                                        multiplier:1.0
-                                          constant:-_leftRightPadding]
+                                          constant:0.0]
         ]];
     }
     
@@ -747,12 +740,12 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKUpdateConstraintSequence) {
         if (_stepHeaderTextAlignment == NSTextAlignmentLeft) {
             [_leftRightPaddingConstraints addObjectsFromArray:@[
                 [NSLayoutConstraint constraintWithItem:_iconImageView
-                                             attribute:NSLayoutAttributeLeading
+                                             attribute:NSLayoutAttributeCenterX
                                              relatedBy:NSLayoutRelationEqual
                                                 toItem:self
-                                             attribute:NSLayoutAttributeLeading
+                                             attribute:NSLayoutAttributeCenterX
                                             multiplier:1.0
-                                              constant:_leftRightPadding]
+                                              constant:0.0]
             ]];
         } else {
             [_leftRightPaddingConstraints addObjectsFromArray:@[
