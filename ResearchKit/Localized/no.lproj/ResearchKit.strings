@@ -361,7 +361,7 @@
 "NOT_CONNECTED" = "Ikke tilkoblet";
 "HEADPHONE_CONNECTED_%@" = "Tilkoblet – %@";
 "HEADPHONE_DETECT_TITLE" = "Koble til hodetelefonene dine";
-"HEADPHONE_DETECT_TEXT" = "Denne testen krever Apple Airpods eller Apple Earpods";
+"HEADPHONE_DETECT_TEXT" = "Denne testen krever Apple AirPods eller Apple EarPods";
 
 /* Spatial span memory active task. */
 "SPATIAL_SPAN_MEMORY_TITLE" = "Visuell hukommelse";

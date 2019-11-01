@@ -66,7 +66,7 @@
 "CONSENT_SHARING_TITLE" = "Jakovalinnat";
 "CONSENT_SHARE_WIDELY_%@" = "Jaa datani kohteen %@ ja hyväksyttyjen tutkijoiden kanssa maailmanlaajuisesti";
 "CONSENT_SHARE_ONLY_%@" = "Jaa datani vain kohteen %@ kanssa";
-"CONSENT_SHARING_DESCRIPTION_%@" = "%@ vastaanottaa tutkimusdatasi tästä tutkimuksesta.\n\nKoodatun tutkimusdatan jakaminen laajemmalle käyttäjäkunnalle (ilman nimi ym. tietoja) voi edesauttaa tätä ja tulevia tutkimuksia.";
+"CONSENT_SHARING_DESCRIPTION_%@" = "%@ vastaanottaa tutkimusdatasi tästä tutkimuksesta.\n\nKoodatun tutkimusdatan jakaminen laajemmalle käyttäjäkunnalle (ilman nimeä ym. tietoja) voi edesauttaa tätä ja tulevia tutkimuksia.";
 "LEARN_MORE_CONSENT_SHARING" = "Lisätietoja datajaosta";
 
 /* Lines beneath typewritten signatures on documents.*/
@@ -433,7 +433,7 @@
 "KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_RIGHT" = "Aseta laite oikealle polvelle näyttö ulospäin, kuten kuvassa.";
 "KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_LEFT" = "Kun olet valmis, aloita napauttamalla näyttöä ja nosta vasen polvi niin ylös kuin mahdollista. Palaa aloitusasentoon ja napauta uudelleen, kun olet valmis.";
 "KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_RIGHT" = "Kun olet valmis, aloita napauttamalla näyttöä ja nosta oikea polvi niin ylös kuin mahdollista. Palaa aloitusasentoon ja napauta uudelleen, kun olet valmis.";
-"KNEE_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_LEFT" = "Aseta laite vasemmalle polvelle. Napauta näyttöä ja suorista vasenta polvea niin kauas kuin mahdollista.";
+"KNEE_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_LEFT" = "Aseta laite vasemmalle polvelle. Napauta näyttöä ja suorista vasenta polvea niin pitkälle kuin mahdollista.";
 "KNEE_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_RIGHT" = "Aseta laite oikealle polvelle. Napauta näyttöä ja suorista oikeaa polvea niin pitkälle kuin mahdollista.";
 "KNEE_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_LEFT" = "Kun olet valmis, palauta vasen polvi lähtöasentoon. Napauta sitten missä tahansa.";
 "KNEE_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_RIGHT" = "Kun olet valmis, palauta oikea polvi aloitusasentoon. Napauta sitten missä tahansa.";

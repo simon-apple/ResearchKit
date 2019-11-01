@@ -33,7 +33,7 @@
 "CONSENT_NAME_GIVEN" = "Meno";
 "CONSENT_NAME_FAMILY" = "Priezvisko";
 "CONSENT_NAME_PLACEHOLDER" = "Povinné";
-"CONSENT_REVIEW_TITLE" = "Skontrolovať";
+"CONSENT_REVIEW_TITLE" = "Revízia";
 "CONSENT_REVIEW_INSTRUCTION" = "Skontrolujte formulár nižšie, a ak ste pripravení pokračovať, klepnite na Súhlasím.";
 "CONSENT_REVIEW_ALERT_TITLE" = "Skontrolovať";
 "CONSENT_SIGNATURE_TITLE" = "Podpis";
@@ -58,7 +58,7 @@
 "LEARN_MORE_PRIVACY" = "Viac informácií o ochrane súkromia a identity";
 "LEARN_MORE_WELCOME" = "Viac informácií o štúdii";
 "LEARN_MORE_STUDY_SURVEY" = "Viac informácií o prieskume štúdie";
-"LEARN_MORE_TIME_COMMITMENT" = "Viac informácií o vplyvu štúdie na váš čas";
+"LEARN_MORE_TIME_COMMITMENT" = "Viac informácií o vplyve štúdie na váš čas";
 "LEARN_MORE_TASKS" = "Viac informácií o úlohách";
 "LEARN_MORE_WITHDRAWING" = "Viac informácií o odstúpení";
 
@@ -286,7 +286,7 @@
 "TAPPING_INTRO_TEXT_2_LEFT_SECOND" = "Zopakujte tento test pomocou ľavej ruky.";
 "TAPPING_INTRO_TEXT_2_FORMAT" = "Klepnite najprv jedným prstom a potom druhým prstom. Skúste klepnutia načasovať tak, aby boli čo najviac pravidelné. Klepte %@.";
 "TAPPING_CALL_TO_ACTION" = "Aktivitu spustíte klepnutím na Začať.";
-"TAPPING_CALL_TO_ACTION_NEXT" = "Pre spustenie klepnite na Ďalej.";
+"TAPPING_CALL_TO_ACTION_NEXT" = "Začnite klepnutím na Ďalej.";
 "TAP_BUTTON_TITLE" = "Klepnite";
 "TOTAL_TAPS_LABEL" = "Počet klepnutí";
 "TAPPING_INSTRUCTION" = "Pravidelne klepte na tlačidlá dvomi prstami.";
@@ -306,7 +306,7 @@
 "AUDIO_TASK_TITLE" = "Hlas";
 "AUDIO_CALL_TO_ACTION" = "Aktivitu spustíte klepnutím na Začať.";
 "AUDIO_INSTRUCTION" = "Po čo najdlhšiu dobu vravte do mikrofónu „Aaaaaaaaaa“.";
-"AUDIO_INTRO_TEXT" = "Zhlboka sa nadýchnite a po čo najdlhšiu dobu vravte do mikrofónu „Aaaaaaaaaa“. Snažte sa zachovať rovnakú hlasitosť – paličky zvuku by mali byť modré.";
+"AUDIO_INTRO_TEXT" = "Zhlboka sa nadýchnite a čo najdlhšie hovorte do mikrofónu „Aaaaaaaaaa“. Snažte sa udržať stabilnú hlasitosť, aby paličky zvuku zostali modré.";
 "AUDIO_INTENDED_USE" = "Táto aktivita vyhodnotí váš hlas, ktorý nahráte pomocou mikrofónu v dolnej časti zariadenia.";
 "AUDIO_TOO_LOUD_LABEL" = "Príliš nahlas";
 "AUDIO_GENERIC_ERROR_LABEL" = "Nie je možné nahrať zvuk";
@@ -377,14 +377,14 @@
 "MEMORY_GAME_GAMEPLAY_TITLE_%@" = "Klepnite na obrázky (%@) v poradí, v akom sa rozsvietili";
 "MEMORY_GAME_GAMEPLAY_REVERSE_TITLE_%@" = "Klepnite na obrázky (%@) v opačnom poradí";
 "MEMORY_GAME_COMPLETE_TITLE" = "Sekvencia dokončená";
-"MEMORY_GAME_COMPLETE_MESSAGE" = "Pre pokračovanie klepnite na Ďalej.";
+"MEMORY_GAME_COMPLETE_MESSAGE" = "Pokračujte klepnutím na Ďalej.";
 "MEMORY_GAME_FAILED_TITLE" = "Skúste to znovu";
 "MEMORY_GAME_FAILED_MESSAGE" = "Tentokrát sa vám to nepodarilo. Pokračujte klepnutím na Ďalej.";
 "MEMORY_GAME_TIMEOUT_TITLE" = "Čas vypršal";
 "MEMORY_GAME_TIMEOUT_MESSAGE" = "Vypršal vám čas.\nPokračujte klepnutím na Ďalej.";
 "MEMORY_GAME_COMPLETE" = "Hra dokončená";
 "MEMORY_GAME_PAUSED_TITLE" = "Pozastavené";
-"MEMORY_GAME_PAUSED_MESSAGE" = "Pre pokračovanie klepnite na Ďalej.";
+"MEMORY_GAME_PAUSED_MESSAGE" = "Pokračujte klepnutím na Ďalej.";
 "MEMORY_GAME_COPYRIGHT_TEXT" = "Na vývoji tejto aktivity sa podieľali Katherine Possin, PhD a Joel Kramer, PhD z Kalifornskej univerzity v San Franciscu.";
 
 /* Reaction time active task. */
@@ -431,10 +431,10 @@
 "KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_1_RIGHT" = "Na zariadení zapnite zvuk, aby ste počuli pokyny. Sadnite si na okraj stoličky. Po spustení aktivity si na účely merania pridržte zariadenie na pravom kolene.";
 "KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_LEFT" = "Položte zariadenie na ľavé koleno obrazovkou nahor, ako je to znázornené na obrázku.";
 "KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_RIGHT" = "Pridržte si zariadenie na pravom kolene obrazovkou nahor, ako je to znázornené na obrázku.";
-"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_LEFT" = "Keď budete pripravení, klepnite na obrazovku a vystrite ľavé koleno čo najviac, ako sa dá. Potom ho vráťte do počiatočnej polohy a znova klepnite na obrazovku.";
-"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_RIGHT" = "Keď budete pripravení, klepnite na obrazovku a vystrite pravé koleno čo najviac, ako sa dá. Potom ho vráťte do počiatočnej polohy a znova klepnite na obrazovku.";
-"KNEE_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_LEFT" = "Položte si zariadenie na ľavé koleno. Klepnite na obrazovku a vystrite ľavé koleno čo najviac, ako sa dá.";
-"KNEE_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_RIGHT" = "Položte si zariadenie na pravé koleno. Klepnite na obrazovku a vystrite pravé koleno čo najviac, ako sa dá.";
+"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_LEFT" = "Keď budete pripravení, klepnite na obrazovku a čo najviac vystrite ľavé koleno. Potom ho vráťte do počiatočnej polohy a znova klepnite na obrazovku.";
+"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_RIGHT" = "Keď budete pripravení, klepnite na obrazovku a čo najviac vystrite pravé koleno. Potom ho vráťte do počiatočnej polohy a znova klepnite na obrazovku.";
+"KNEE_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_LEFT" = "Položte si zariadenie na ľavé koleno. Klepnite na obrazovku a ľavé koleno čo najviac vystrite.";
+"KNEE_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_RIGHT" = "Položte si zariadenie na pravé koleno. Klepnite na obrazovku a pravé koleno čo najviac vystrite.";
 "KNEE_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_LEFT" = "Keď skončíte, vráťte ľavé koleno do počiatočnej polohy. Potom klepnite na ľubovoľné miesto.";
 "KNEE_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_RIGHT" = "Keď skončíte, vráťte pravé koleno do počiatočnej polohy. Potom klepnite na ľubovoľné miesto.";
 
@@ -447,10 +447,10 @@
 "SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_1_RIGHT" = "Na zariadení zapnite zvuk, aby ste počuli pokyny. Po spustení aktivity si na účely merania pridržte zariadenie na pravom ramene.";
 "SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_LEFT" = "Pridržte si zariadenie na ľavom ramene obrazovkou nahor, ako je to znázornené na obrázku.";
 "SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_RIGHT" = "Pridržte si zariadenie na pravom ramene obrazovkou nahor, ako je to znázornené na obrázku.";
-"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_LEFT" = "Keď budete pripravení, klepnite na obrazovku a zdvihnite ľavú ruku čo najviac, ako sa dá. Potom ju vráťte do počiatočnej polohy a znova klepnite na obrazovku.";
-"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_RIGHT" = "Keď budete pripravení, klepnite na obrazovku a zdvihnite pravú ruku čo najviac, ako sa dá. Potom ju vráťte do počiatočnej polohy a znova klepnite na obrazovku.";
-"SHOULDER_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_LEFT" = "Položte si zariadenie na ľavé plece. Klepnite na obrazovku a predpažte ľavú ruku najviac, ako sa dá.";
-"SHOULDER_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_RIGHT" = "Položte si zariadenie na pravé plece. Klepnite na obrazovku a predpažte pravú ruku najviac, ako sa dá.";
+"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_LEFT" = "Keď budete pripravení, klepnite na obrazovku a zdvihnite ľavú ruku čo najvyššie. Potom ju vráťte do počiatočnej polohy a znova klepnite na obrazovku.";
+"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_RIGHT" = "Keď budete pripravení, klepnite na obrazovku a zdvihnite pravú ruku čo najvyššie. Potom ju vráťte do počiatočnej polohy a znova klepnite na obrazovku.";
+"SHOULDER_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_LEFT" = "Položte si zariadenie na ľavé plece. Klepnite na obrazovku a ľavú ruku čo najviac predpažte.";
+"SHOULDER_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_RIGHT" = "Položte si zariadenie na pravé plece. Klepnite na obrazovku a pravú ruku čo najviac predpažte.";
 "SHOULDER_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_LEFT" = "Keď skončíte, vráťte ľavú ruku do počiatočnej polohy. Potom klepnite na ľubovoľné miesto.";
 "SHOULDER_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_RIGHT" = "Keď skončíte, vráťte pravú ruku do počiatočnej polohy. Potom klepnite na ľubovoľné miesto.";
 
@@ -458,7 +458,7 @@
 "TIMED_WALK_TITLE" = "Chôdza na čas";
 "TIMED_WALK_INTRO_DETAIL" = "Táto aktivita meria funkčnosť vašich dolných končatín.";
 "TIMED_WALK_INTRO_2_TEXT_%@" = "Nájdite si miesto, najlepšie vonku, kde môžete čo najrýchlejšie bezpečne prejsť v priamom smere približne %@. Nespomaľujte, kým neprejdete cieľom.";
-"TIMED_WALK_INTRO_2_DETAIL" = "Pre spustenie klepnite na Ďalej.";
+"TIMED_WALK_INTRO_2_DETAIL" = "Začnite klepnutím na Ďalej.";
 "TIMED_WALK_FORM_TITLE" = "Zdravotná pomôcka";
 "TIMED_WALK_FORM_TEXT" = "Pre každý test použite rovnakú zdravotnú pomôcku.";
 "TIMED_WALK_QUESTION_TEXT" = "Nosíte ortézu na členku?";
@@ -545,7 +545,7 @@
 "TREMOR_SKIP_NEITHER" = "Túto aktivitu dokážem vykonať pomocou oboch rúk.";
 
 /* Trail making task. */
-"TRAILMAKING_TASK_TITLE" = "Test cesty";
+"TRAILMAKING_TASK_TITLE" = "Test spájania bodov";
 "TRAILMAKING_INTENDED_USE" = "Táto aktivita vyhodnotí vašu vizuálnu pozornosť a schopnosť pracovať na viacerých úlohách tak, že zaznamená čas, ktorý potrebujete na klepnutie na sériu bodiek v určitom poradí.";
 "TRAILMAKING_INTENDED_USE2_A" = "Po skončení odpočítavania striedavo klepajte na bodky s číslami a písmenami. Začnite klepnutím na prvé číslo „1“ a potom klepnite na čísla „2“ – „3“ – „4“…, až kým nedosiahnete číslo „7“.";
 "TRAILMAKING_INTENDED_USE2_B" = "Po skončení odpočítavania striedavo klepajte na bodky s číslami a písmenami. Začnite klepnutím na prvé číslo „1“, potom klepnite na prvé písmeno „A“ a pokračujte klepnutím na „2“ – „B“ – „3“ – „C“…, až kým nedosiahnete číslo „7“.";

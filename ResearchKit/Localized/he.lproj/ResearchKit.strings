@@ -33,9 +33,9 @@
 "CONSENT_NAME_GIVEN" = "שם פרטי";
 "CONSENT_NAME_FAMILY" = "שם משפחה";
 "CONSENT_NAME_PLACEHOLDER" = "חובה";
-"CONSENT_REVIEW_TITLE" = "סקור/י";
+"CONSENT_REVIEW_TITLE" = "נא לקרוא בעיון";
 "CONSENT_REVIEW_INSTRUCTION" = "יש לעיין בטופס הבא ולהקיש על ״אני מסכים/ה״ כדי להמשיך.";
-"CONSENT_REVIEW_ALERT_TITLE" = "סקור/י";
+"CONSENT_REVIEW_ALERT_TITLE" = "נא לקרוא בעיון";
 "CONSENT_SIGNATURE_TITLE" = "חתימה";
 "CONSENT_SIGNATURE_INSTRUCTION" = "חתום/י עם האצבע בתיבה שלמטה.";
 "CONSENT_SIGNATURE_PLACEHOLDER" = "חתום/י כאן";
@@ -66,7 +66,7 @@
 "CONSENT_SHARING_TITLE" = "אפשרויות שיתוף";
 "CONSENT_SHARE_WIDELY_%@" = "שתף את הנתונים שלי עם %@ ועם חוקרים מוסמכים מכל העולם";
 "CONSENT_SHARE_ONLY_%@" = "שתף את הנתונים שלי רק עם %@";
-"CONSENT_SHARING_DESCRIPTION_%@" = "%@ תקבל את נתוני המחקר שבו השתתפת.\n\nשיתוף נרחב יותר של נתוני המחקר המקודדים שלך (שאינם מכילים מידע כגון שמך) עשוי לתרום למחקר זה ולמחקרים עתידיים.";
+"CONSENT_SHARING_DESCRIPTION_%@" = "נתוני המחקר שבו השתתפת יישלחו אל %@.\n\nשיתוף נרחב יותר של נתונים מקודדים מהמחקר שלך (שאינם כוללים מידע אישי כמו השם שלך) עשוי לתרום למחקר זה ולמחקרים עתידיים.";
 "LEARN_MORE_CONSENT_SHARING" = "קבל/י מידע נוסף בנושא שיתוף נתונים";
 
 /* Lines beneath typewritten signatures on documents.*/

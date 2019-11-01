@@ -44,7 +44,7 @@
 /* Consent section titles. */
 "CONSENT_SECTION_WELCOME" = "Benvingut";
 "CONSENT_SECTION_DATA_GATHERING" = "Recopilació de dades";
-"CONSENT_SECTION_PRIVACY" = "Privadesa";
+"CONSENT_SECTION_PRIVACY" = "Privacitat";
 "CONSENT_SECTION_DATA_USE" = "Ús de dades";
 "CONSENT_SECTION_STUDY_SURVEY" = "Avaluació de l’estudi";
 "CONSENT_SECTION_STUDY_TASKS" = "Tasques d’estudi";
@@ -55,10 +55,10 @@
 /* Consent section learn more */
 "LEARN_MORE_DATA_GATHERING" = "Més informació sobre com es recopilen les dades";
 "LEARN_MORE_DATA_USE" = "Més informació sobre com s’utilitzen les dades";
-"LEARN_MORE_PRIVACY" = "Més informació sobre com es protegeix la privadesa i la identitat";
+"LEARN_MORE_PRIVACY" = "Més informació sobre com es protegeix la privacitat i la identitat";
 "LEARN_MORE_WELCOME" = "Més informació sobre el primer estudi";
 "LEARN_MORE_STUDY_SURVEY" = "Més informació sobre l’avaluació de l’estudi";
-"LEARN_MORE_TIME_COMMITMENT" = "Més informació sobre el temps necessari per a l’estudi";
+"LEARN_MORE_TIME_COMMITMENT" = "Més informació sobre com afecta l’estudi al teu temps";
 "LEARN_MORE_TASKS" = "Més informació sobre les tasques de l’estudi";
 "LEARN_MORE_WITHDRAWING" = "Més informació sobre l’abandonament";
 
@@ -198,7 +198,7 @@
 "LIMB_RIGHT" = "dreta";
 
 /* Default placeholders to request answers in a questionnaire. */
-"PLACEHOLDER_TEXT_OR_NUMBER" = "Tocar per contestar";
+"PLACEHOLDER_TEXT_OR_NUMBER" = "Toca per contestar";
 "NULL_ANSWER" = "Seleccionar una resposta";
 "PLACEHOLDER_IMAGE_CHOICES" = "Prem per seleccionar";
 "PLACEHOLDER_LONG_TEXT" = "Prem per escriure";
@@ -380,7 +380,7 @@
 "MEMORY_GAME_COMPLETE_MESSAGE" = "Per continuar, prem Següent";
 "MEMORY_GAME_FAILED_TITLE" = "Reintentar";
 "MEMORY_GAME_FAILED_MESSAGE" = "No ho has aconseguit aquesta vegada. Prem Següent per continuar.";
-"MEMORY_GAME_TIMEOUT_TITLE" = "És l’hora";
+"MEMORY_GAME_TIMEOUT_TITLE" = "S’ha acabat el temps";
 "MEMORY_GAME_TIMEOUT_MESSAGE" = "T’has quedat sense temps.\nToca Següent per continuar.";
 "MEMORY_GAME_COMPLETE" = "Joc completat";
 "MEMORY_GAME_PAUSED_TITLE" = "En pausa";
@@ -461,7 +461,7 @@
 "TIMED_WALK_INTRO_2_DETAIL" = "Prem Següent per continuar.";
 "TIMED_WALK_FORM_TITLE" = "Tipus d’assistència";
 "TIMED_WALK_FORM_TEXT" = "Utilitza el mateix tipus d’assistència per a cada prova.";
-"TIMED_WALK_QUESTION_TEXT" = "Portes ortesi al turmell?";
+"TIMED_WALK_QUESTION_TEXT" = "Portes una ortesi al peu i turmell?";
 "TIMED_WALK_QUESTION_2_TITLE" = "Fas servir algun tipus d’assistència?";
 "TIMED_WALK_QUESTION_2_TEXT" = "Prem aquí per respondre.";
 "TIMED_WALK_QUESTION_2_CHOICE" = "Cap";

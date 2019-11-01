@@ -334,7 +334,7 @@
 "dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_2" = "عندما تسمع نغمة، اضغط على الزر.";
 "dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_3" = "خلال هذا الاختبار، سيتم تعيين مستوى الصوت إلى ٥٠ بالمائة.";
 "dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_4" = "يستغرق هذا الاختبار حوالي ١٠ دقائق.";
-"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_5" = "شغّل عدم الإزعاج لتتجنب التوقفات.";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_5" = "شغّل عدم الإزعاج لتجنب المقاطعة.";
 "dBHL_TONE_AUDIOMETRY_STEP_TITLE_RIGHT_EAR" = "سيتم تشغيل النغمات في أذنك اليمنى أولاً.";
 "dBHL_TONE_AUDIOMETRY_STEP_TITLE_LEFT_EAR" = "الآن سيتم تشغيل النغمات في أذنك اليسرى.";
 "dBHL_TONE_AUDIOMETRY_INTENDED_USE" = "يحدد هذا النشاط مستويات الحد الأقصى للسمع للفرد بمقياس مستوى السمع بالديسيبل (dB HL).";
@@ -489,18 +489,18 @@
 "PSAT_NO_DIGIT" = "-";
 
 /* Hole peg test active task. */
-"HOLE_PEG_TEST_TITLE_%@" = "‏%@-فحص العقدة والحفرة";
-"HOLE_PEG_TEST_INTRO_TEXT_%@" = "هذا النشاط يقيس وظيفة الطرف العلوي عن طريق الطلب منك بأن تضع العقدة في حفرة. سوف يطلب منك أن تفعل هذا %@ مرات.";
+"HOLE_PEG_TEST_TITLE_%@" = "‏%@-فحص السدادة والفتحة";
+"HOLE_PEG_TEST_INTRO_TEXT_%@" = "هذا النشاط يقيس وظيفة الطرف العلوي من خلال مطالبتك بوضع السدادة في فتحة. سيُطلب منك أن تفعل هذا %@ مرات.";
 "HOLE_PEG_TEST_INTRO_TEXT_2_LEFT_HAND_FIRST_%@" = "سيتم اختبار كلتا يديك اليسرى واليمنى.\nيجب التقاط السدادة بأسرع ما يمكن ووضعها في الفتحة، وبمجرد فعل ذلك %@ مرات، قم بإزالتها مجددًا %@ مرات.";
 "HOLE_PEG_TEST_INTRO_TEXT_2_RIGHT_HAND_FIRST_%@" = "سيتم اختبار كلتا يديك اليمنى واليسرى.\nيجب التقاط السدادة بأسرع ما يمكن ووضعها في الفتحة، وبمجرد فعل ذلك %@ مرات، قم بإزالتها مجددًا %@ مرات.";
 
 "HOLE_PEG_TEST_CALL_TO_ACTION" = "اضغط على البدء لكي تبدأ.";
-"HOLE_PEG_TEST_PLACE_INSTRUCTION_LEFT_HAND" = "قم بوضع العقدة في الحفرة باستخدام اليد اليسرى.";
-"HOLE_PEG_TEST_PLACE_INSTRUCTION_RIGHT_HAND" = "قم بوضع العقدة في الحفرة باستخدام اليد اليمنى.";
-"HOLE_PEG_TEST_REMOVE_INSTRUCTION_LEFT_HAND" = "قم بوضع العقدة خلف السطر باستخدام اليد اليسرى.";
-"HOLE_PEG_TEST_REMOVE_INSTRUCTION_RIGHT_HAND" = "قم بوضع العقدة خلف السطر باستخدام اليد اليمنى.";
-"HOLE_PEG_TEST_TEXT" = "رفع العقدة باستخدام اصبعين.";
-"HOLE_PEG_TEST_TEXT_2" = "ارفع الأصابع لإسقاط العقدة.";
+"HOLE_PEG_TEST_PLACE_INSTRUCTION_LEFT_HAND" = "ضع السدادة في الفتحة باليد اليسرى.";
+"HOLE_PEG_TEST_PLACE_INSTRUCTION_RIGHT_HAND" = "ضع السدادة في الفتحة باليد اليمنى.";
+"HOLE_PEG_TEST_REMOVE_INSTRUCTION_LEFT_HAND" = "ضع السدادة خلف السطر باليد اليسرى.";
+"HOLE_PEG_TEST_REMOVE_INSTRUCTION_RIGHT_HAND" = "ضع السدادة خلف السطر باليد اليمنى.";
+"HOLE_PEG_TEST_TEXT" = "ارفع السدادة بإصبعين.";
+"HOLE_PEG_TEST_TEXT_2" = "ارفع الأصابع لإسقاط السدادة.";
 
 /* Tremor test active task. */
 "TREMOR_TEST_TITLE" = "نشاط الرُعاش";
@@ -599,7 +599,7 @@
 "ENVIRONMENTSPL_UNIT" = "dBA";
 "ENVIRONMENTSPL_CALCULATING" = "جاري الحساب";
 "ENVIRONMENTSPL_THRESHOLD" = "الحد الأقصى: %@ dBA";
-"ENVIRONMENTSPL_OK" = "مستوى الضوضاء في الخلفية على ما يرام";
+"ENVIRONMENTSPL_OK" = "مستوى الضوضاء في الخلفية مقبول";
 "ENVIRONMENTSPL_NOISE" = "مستوى الضوضاء في الخلفية مرتفع جدًا";
 "ENVIRONMENTSPL_TITLE_2" = "ابحث عن مكان هادئ";
 "ENVIRONMENTSPL_INTRO_TEXT_2" = "لضمان الدقة، يجب إجراء هذا الاختبار في بيئة هادئة.";

@@ -58,7 +58,7 @@
 "LEARN_MORE_PRIVACY" = "További információk az adatok és személyes információk védelmének módjáról";
 "LEARN_MORE_WELCOME" = "További információk a vizsgálatról";
 "LEARN_MORE_STUDY_SURVEY" = "További információk a kérdőívről";
-"LEARN_MORE_TIME_COMMITMENT" = "További információk arról, mennyi időt vesz igénybe a kutatás";
+"LEARN_MORE_TIME_COMMITMENT" = "További információk arról, hogy mennyi időt vesz igénybe a tanulmány";
 "LEARN_MORE_TASKS" = "További információk a bennfoglalt feladatokról";
 "LEARN_MORE_WITHDRAWING" = "További információk a visszavonásról";
 
@@ -229,7 +229,7 @@
 
 /* General active tasks. */
 "COUNTDOWN_LABEL" = "Tevékenység indítása:";
-"TASK_COMPLETE_TITLE" = "Tevék. befejezve";
+"TASK_COMPLETE_TITLE" = "Tevékenység befejezve";
 "TASK_COMPLETE_TEXT" = "Az adatok ki lesznek elemezve, és értesítést fog kapni, ha az eredmény elkészült.";
 "COUNTDOWN_SPOKEN_REMAINING_%@" = "%@ maradt.";
 "TOUCH_ANYWHERE_LABEL" = "A folytatáshoz érintse meg a képernyőt";
@@ -296,7 +296,7 @@
 
 /* Amsler Grid Task.*/
 "AMSLER_GRID_TITLE" = "Amsler-rács";
-"AMSLER_GRID_INTRO_TEXT" = "Ez a tevékenység segít észlelni a felhasználó látással kapcsolatos problémákat.";
+"AMSLER_GRID_INTRO_TEXT" = "Ez a tevékenység segít észlelni a felhasználó látásával kapcsolatos problémákat.";
 "AMSLER_GRID_INSTRUCTION_TEXT" = "A vizsgálat alatt tartsa 30 cm-re az eszközt az arcától, szemmagasságban.";
 "AMSLER_GRID_INSTRUCTION_DETAIL_TEXT" = "Csukja be a %@, és nézze a négyzetrács közepén lévő pontot.\n\nAz ujja vagy egy érintőceruza segítségével jelölje meg az összes torzítva megjelenő elemet, például elmosott vagy hullámos vonalakat.\n\nHa elkészült, legyintsen balra bárhol, a rácson kívül.";
 "AMSLER_GRID_LEFT_EYE" = "bal szemét";
@@ -332,14 +332,14 @@
 "dBHL_TONE_AUDIOMETRY_INTRO_TITLE" = "Hang és hangerő";
 "dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_1" = "Egy hangsorozatot fog hallani.";
 "dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_2" = "Amikor hangot hall, koppintson a gombra.";
-"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_3" = "Ehhez a teszthez 50 százalékra lesz állítva.";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_3" = "A hangerő 50 százalékra lesz állítva ehhez a teszthez.";
 "dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_4" = "Ez a vizsgálat 10 percig tart.";
 "dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_5" = "A zavaró körülmények kizárásához kapcsolja be a Ne zavarjanak funkciót.";
 "dBHL_TONE_AUDIOMETRY_STEP_TITLE_RIGHT_EAR" = "A hangok először a jobb fülében lesznek lejátszva.";
 "dBHL_TONE_AUDIOMETRY_STEP_TITLE_LEFT_EAR" = "A hangok most a bal fülében lesznek lejátszva.";
 "dBHL_TONE_AUDIOMETRY_INTENDED_USE" = "Ez a tevékenység megméri egy személy hallási küszöbének szintjét a dB HL skálán.";
 "dBHL_TONE_AUDIOMETRY_INTRO_TEXT" = "Győződjön meg róla, hogy az eszköz hangereje a maximális szintre van állítva.\n\nA feladat alatt egy halk hang lesz lejátszva a bal vagy jobb fülében.\n\nHallgasson figyelmesen, és minden alkalommal koppintson a gombra, amikor hangot hall.";
-"dBHL_TONE_AUDIOMETRY_INTRO_TEXT_2" = "Ez a vizsgálat meghatározza, milyen hangosnak kell lennie egy hangnak, hogy Ön azt meghallja.";
+"dBHL_TONE_AUDIOMETRY_INTRO_TEXT_2" = "Ez a vizsgálat megállapítja, hogy milyen hangosnak kell lennie egy hangnak, hogy Ön azt meghallja.";
 "dBHL_TONE_AUDIOMETRY_ONBOARDING" = "Belépési kérdőív.";
 "dBHL_TONE_AUDIOMETRY_ONBOARDING_QUESTION" = "Ha az egyik fülére jobban hall, válassza ki itt.";
 "dBHL_TONE_AUDIOMETRY_OPTION_LEFT" = "bal";
@@ -458,7 +458,7 @@
 "TIMED_WALK_TITLE" = "Időre mért gyaloglás";
 "TIMED_WALK_INTRO_DETAIL" = "Ez a tevékenység az alsó végtagok működését méri.";
 "TIMED_WALK_INTRO_2_TEXT_%@" = "Keressen olyan helyet, lehetőleg kültéren, ahol %@ távolságot egyenesen tud gyalogolni olyan gyorsan, ahogy csak tud, de biztonságosan. Ne lassítson le, amíg el nem hagyta a célvonalat.";
-"TIMED_WALK_INTRO_2_DETAIL" = "Koppintson\na Következő elemre\na kezdéshez.";
+"TIMED_WALK_INTRO_2_DETAIL" = "Koppintson a Következő gombra a kezdéshez.";
 "TIMED_WALK_FORM_TITLE" = "Segítőeszköz";
 "TIMED_WALK_FORM_TEXT" = "Ugyanazt a segítőeszközt használja minden teszthez.";
 "TIMED_WALK_QUESTION_TEXT" = "Használ boka-járáskönnyítőt?";
@@ -599,10 +599,10 @@
 "ENVIRONMENTSPL_UNIT" = "dBA";
 "ENVIRONMENTSPL_CALCULATING" = "Számítás";
 "ENVIRONMENTSPL_THRESHOLD" = "Küszöb: %@ dBA";
-"ENVIRONMENTSPL_OK" = "Háttérzaj rendben";
+"ENVIRONMENTSPL_OK" = "Elfogadható mértékű háttérzaj";
 "ENVIRONMENTSPL_NOISE" = "Túl erős háttérzaj";
 "ENVIRONMENTSPL_TITLE_2" = "Keressen egy csendes helyet";
-"ENVIRONMENTSPL_INTRO_TEXT_2" = "A pontosság biztosításához ezt a vizsgálatot haék környezetben kell elvégezni.";
+"ENVIRONMENTSPL_INTRO_TEXT_2" = "A pontos eredményhez ezt a vizsgálatot halk környezetben kell elvégezni.";
 
 /* Secondary Task Step*/
 "SECONDARY_TASK_START_BUTTON" = "Feladat elkezdése";
@@ -611,7 +611,7 @@
 "CHART_NO_DATA_TEXT" = "Nincs adat";
 
 /* Slider */
-"SLIDER_MOVE_SLIDER_FOR_VALUE" = "Mozgassa a csúszkát érték megadásához";
+"SLIDER_MOVE_SLIDER_FOR_VALUE" = "Értékbeállítás a csúszka mozgatásával";
 "SLIDER_I_DONT_KNOW" = "Nem tudom";
 
 /* Review Step */
