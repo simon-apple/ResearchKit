@@ -324,9 +324,8 @@ static const CGFloat ORKBodyItemScrollPadding = 24.0;
     [self removeNavigationFooterView];
     self.isNavigationContainerScrollable = NO;
     if (self.isNavigationContainerScrollable) {
-        [_scrollContainerView addSubview:self.navigationFooterView];
-    }
-    else {
+     [_scrollContainerView addSubview:self.navigationFooterView];
+    } else {
         [self addSubview:self.navigationFooterView];
     }
     [self setupNavigationContainerViewConstraints];

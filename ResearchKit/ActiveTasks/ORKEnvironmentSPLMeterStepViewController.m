@@ -128,10 +128,12 @@
 }
 
 - (void)setNavigationFooterView {
-    _navigationFooterView = self.activeStepView.navigationFooterView;
-    _navigationFooterView.continueButtonItem = self.continueButtonItem;
-    _navigationFooterView.continueEnabled = NO;
-    [_navigationFooterView updateContinueAndSkipEnabled];
+    [self.activeStepView.navigationFooterView setHidden:YES];
+    [self.activeStepView.navigationFooterView setUserInteractionEnabled:NO];
+    
+    _environmentSPLMeterContentView.navigationFooterView.continueButtonItem = self.continueButtonItem;
+    _environmentSPLMeterContentView.navigationFooterView.continueEnabled = NO;
+    [_environmentSPLMeterContentView.navigationFooterView updateContinueAndSkipEnabled];
 }
 
 - (void)setContinueButtonItem:(UIBarButtonItem *)continueButtonItem {
@@ -375,7 +377,7 @@
 
 - (void)ringViewDidFinishFillAnimation {
     [self.environmentSPLMeterContentView reachedOptimumNoiseLevel];
-    _navigationFooterView.continueEnabled = YES;
+    _environmentSPLMeterContentView.navigationFooterView.continueEnabled = YES;
 }
 
 @end
