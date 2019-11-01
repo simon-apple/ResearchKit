@@ -254,7 +254,7 @@
 "FITNESS_SIT_INSTRUCTION_FORMAT" = "Asseyez-vous confortablement pendant %@.";
 "FITNESS_WALK_INSTRUCTION_FORMAT" = "Marchez le plus rapidement possible pendant %@.";
 "FITNESS_INTRO_TEXT_FORMAT" = "Cette activité mesure votre fréquence cardiaque et la distance maximale que vous pouvez parcourir à pied en %1$@.";
-"FITNESS_INTRO_2_TEXT_FORMAT" = "Marchez à l’extérieur à votre rythme le plus rapide pendant %1$@. Asseyez-vous ensuite confortablement pendant %2$@. Touchez Démarrer pour commencer.";
+"FITNESS_INTRO_2_TEXT_FORMAT" = "Marchez à l’extérieur le plus rapidement possible pendant %1$@. Asseyez-vous ensuite confortablement pendant %2$@. Touchez Démarrer pour commencer.";
 
 /* Short walk active task. */
 "WALK_TASK_TITLE" = "Marche et équilibre";
@@ -360,7 +360,7 @@
 "CONNECTED" = "Connecté";
 "NOT_CONNECTED" = "Non connecté";
 "HEADPHONE_CONNECTED_%@" = "Connecté - %@";
-"HEADPHONE_DETECT_TITLE" = "Connecter les écouteurs";
+"HEADPHONE_DETECT_TITLE" = "Connectez vos écouteurs";
 "HEADPHONE_DETECT_TEXT" = "Ce test requiert des AirPods ou des EarPods Apple";
 
 /* Spatial span memory active task. */
@@ -601,7 +601,7 @@
 "ENVIRONMENTSPL_THRESHOLD" = "Seuil : %@ dB (A)";
 "ENVIRONMENTSPL_OK" = "Bruit de fond OK";
 "ENVIRONMENTSPL_NOISE" = "Bruit de fond excessif";
-"ENVIRONMENTSPL_TITLE_2" = "Trouver un lieu calme";
+"ENVIRONMENTSPL_TITLE_2" = "Trouvez un lieu calme";
 "ENVIRONMENTSPL_INTRO_TEXT_2" = "Pour obtenir des résultats précis, il est recommandé d’effectuer ce test dans un environnement calme.";
 
 /* Secondary Task Step*/

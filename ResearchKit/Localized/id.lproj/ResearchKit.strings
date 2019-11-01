@@ -46,8 +46,8 @@
 "CONSENT_SECTION_DATA_GATHERING" = "Pengumpulan Data";
 "CONSENT_SECTION_PRIVACY" = "Privasi";
 "CONSENT_SECTION_DATA_USE" = "Penggunaan Data";
-"CONSENT_SECTION_STUDY_SURVEY" = "Survei Studi";
-"CONSENT_SECTION_STUDY_TASKS" = "Tugas Studi";
+"CONSENT_SECTION_STUDY_SURVEY" = "Survei Kajian";
+"CONSENT_SECTION_STUDY_TASKS" = "Tugas Kajian";
 "CONSENT_SECTION_TIME_COMMITMENT" = "Komitmen Waktu";
 "CONSENT_SECTION_WITHDRAWING" = "Penarikan Diri";
 "CONSENT_LEARN_MORE_TITLE" = "Lebih Lanjut";
@@ -56,8 +56,8 @@
 "LEARN_MORE_DATA_GATHERING" = "Lebih lanjut mengenai cara data dikumpulkan";
 "LEARN_MORE_DATA_USE" = "Lebih lanjut mengenai cara data digunakan";
 "LEARN_MORE_PRIVACY" = "Lebih lanjut mengenai cara privasi dan identitas Anda dilindungi";
-"LEARN_MORE_WELCOME" = "Pelajari lebih lanjut mengenai studi terlebih dahulu";
-"LEARN_MORE_STUDY_SURVEY" = "Lebih lanjut mengenai survei studi";
+"LEARN_MORE_WELCOME" = "Pelajari lebih lanjut mengenai kajian terlebih dahulu";
+"LEARN_MORE_STUDY_SURVEY" = "Lebih lanjut mengenai survei kajian";
 "LEARN_MORE_TIME_COMMITMENT" = "Lebih lanjut mengenai dampak kajian terhadap waktu Anda";
 "LEARN_MORE_TASKS" = "Lebih lanjut mengenai tugas yang bersangkutan";
 "LEARN_MORE_WITHDRAWING" = "Lebih lanjut mengenai penarikan diri";
@@ -348,7 +348,7 @@
 "dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "Tes Dibatalkan";
 "dBHL_ALERT_TITLE_START_OVER" = "Mulai Lagi";
 "dBHL_ALERT_TITLE_CANCEL_TEST" = "Batalkan Tes";
-"dBHL_ALERT_TEXT" = "Hubungkan ulang AirPods Anda ke EarPods untuk mengikuti tes ini.";
+"dBHL_ALERT_TEXT" = "Hubungkan ulang AirPods atau EarPods Anda untuk mengikuti tes ini.";
 "dBHL_PROGRESS_COMPLETION_%@" = "%@ Selesai";
 
 /* Headphones. */
@@ -390,10 +390,10 @@
 /* Reaction time active task. */
 "REACTION_TIME_TASK_TITLE" = "Waktu Reaksi";
 "REACTION_TIME_TASK_INTENDED_USE" = "Aktivitas ini mengevaluasi waktu yang Anda butuhkan untuk merespons isyarat visual.";
-"REACTION_TIME_TASK_INTRO_TEXT_FORMAT" = "Goyang perangkat ke arah mana pun segera setelah titik biru muncul di layar. Anda akan diminta untuk melakukannya sebanyak %D kali.";
+"REACTION_TIME_TASK_INTRO_TEXT_FORMAT" = "Goyangkan perangkat ke arah mana pun segera setelah titik biru muncul di layar. Anda akan diminta untuk melakukannya sebanyak %D kali.";
 "REACTION_TIME_TASK_CALL_TO_ACTION" = "Ketuk Mulai untuk memulai.";
 "REACTION_TIME_TASK_ATTEMPTS_FORMAT" = "Percobaan %@ dari %@";
-"REACTION_TIME_TASK_ACTIVE_STEP_TITLE" = "Goyang perangkat dengan cepat saat lingkaran biru muncul";
+"REACTION_TIME_TASK_ACTIVE_STEP_TITLE" = "Goyangkan perangkat dengan cepat saat lingkaran biru muncul";
 
 /* Stroop active task.*/
 "STROOP_TASK_TITLE" = "Stroop";
@@ -427,8 +427,8 @@
 "KNEE_RANGE_OF_MOTION_TITLE_RIGHT" = "Jangkauan Gerakan Lutut Kanan";
 "KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_0_LEFT" = "Aktivitas ini mengukur seberapa jauh Anda dapat meregangkan lutut kiri Anda.";
 "KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_0_RIGHT" = "Aktivitas ini mengukur seberapa jauh Anda dapat meregangkan lutut kanan Anda.";
-"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_1_LEFT" = "Duduk di tepi kursi. Saat Anda memulai, taruh perangkat di lutut kiri Anda untuk pengukuran. Nyalakan bunyi perangkat sehingga Anda dapat mendengar instruksi.";
-"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_1_RIGHT" = "Duduk di tepi kursi. Saat Anda memulai, taruh perangkat di lutut kanan Anda untuk pengukuran. Nyalakan bunyi perangkat sehingga Anda dapat mendengar instruksi.";
+"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_1_LEFT" = "Duduk di tepi kursi. Saat Anda memulai, taruh perangkat di lutut kiri Anda untuk pengukuran. Nyalakan bunyi pada perangkat sehingga Anda dapat mendengar instruksi.";
+"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_1_RIGHT" = "Duduk di tepi kursi. Saat Anda memulai, taruh perangkat di lutut kanan Anda untuk pengukuran. Nyalakan bunyi pada perangkat sehingga Anda dapat mendengar instruksi.";
 "KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_LEFT" = "Letakkan perangkat di lutut kiri Anda dengan layar menghadap keluar, sebagaimana yang terlihat di gambar.";
 "KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_RIGHT" = "Letakkan perangkat di lutut kanan Anda dengan layar menghadap keluar, sebagaimana yang terlihat di gambar.";
 "KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_LEFT" = "Setelah siap, ketuk layar untuk memulai dan regangkan lutut kiri Anda sejauh mungkin. Kembali ke posisi semula dan ketuk lagi setelah Anda selesai.";

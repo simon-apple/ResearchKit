@@ -111,9 +111,9 @@
 "EMAIL_FORM_ITEM_TITLE" = "E‑mail";
 "EMAIL_FORM_ITEM_PLACEHOLDER" = "mmacieira@example.com";
 "PASSWORD_FORM_ITEM_TITLE" = "Palavra‑passe";
-"PASSWORD_FORM_ITEM_PLACEHOLDER" = "Digite a palavra‑passe";
+"PASSWORD_FORM_ITEM_PLACEHOLDER" = "Digite";
 "CONFIRM_PASSWORD_FORM_ITEM_TITLE" = "Confirmar";
-"CONFIRM_PASSWORD_FORM_ITEM_PLACEHOLDER" = "Volte a digitar a palavra‑passe";
+"CONFIRM_PASSWORD_FORM_ITEM_PLACEHOLDER" = "Volte a digitar";
 "CONFIRM_PASSWORD_ERROR_MESSAGE" = "As palavras‑passe não coincidem.";
 "ADDITIONAL_INFO_SECTION_TITLE" = "Informação adicional";
 "GIVEN_NAME_ITEM_PLACEHOLDER" = "Manuel";
@@ -121,7 +121,7 @@
 "GENDER_FORM_ITEM_TITLE" = "Sexo";
 "GENDER_FORM_ITEM_PLACEHOLDER" = "Escolha o sexo";
 "DOB_FORM_ITEM_TITLE" = "Data de nascimento";
-"DOB_FORM_ITEM_PLACEHOLDER" = "Escolha uma data";
+"DOB_FORM_ITEM_PLACEHOLDER" = "Data";
 "PHONE_NUMBER_FORM_ITEM_TITLE" = "Número de telefone";
 "PHONE_NUMBER_FORM_ITEM_PLACEHOLDER" = "+1 (555) 555 5555";
 
@@ -254,7 +254,7 @@
 "FITNESS_SIT_INSTRUCTION_FORMAT" = "Sente‑se confortavelmente durante %@.";
 "FITNESS_WALK_INSTRUCTION_FORMAT" = "Ande o mais depressa que puder durante %@.";
 "FITNESS_INTRO_TEXT_FORMAT" = "Este exercício mede o seu ritmo cardíaco e a distância que consegue percorrer a pé em %1$@.";
-"FITNESS_INTRO_2_TEXT_FORMAT" = "Durante %1$@, ande na rua o mais depressa que puder, sem correr. No fim, sente‑se confortavelmente e descanse durante %2$@. Para dar inicio ao teste, toque em Começar.";
+"FITNESS_INTRO_2_TEXT_FORMAT" = "Durante %1$@, ande na rua o mais depressa que puder. No fim, sente‑se confortavelmente e descanse durante %2$@. Para dar início ao teste, toque em Começar.";
 
 /* Short walk active task. */
 "WALK_TASK_TITLE" = "Equilíbrio e modo de andar";
@@ -462,7 +462,7 @@
 "TIMED_WALK_FORM_TITLE" = "Dispositivo auxiliar";
 "TIMED_WALK_FORM_TEXT" = "Use o mesmo dispositivo auxiliar para cada teste.";
 "TIMED_WALK_QUESTION_TEXT" = "Utiliza uma órtotese tornozelo-pé?";
-"TIMED_WALK_QUESTION_2_TITLE" = "Utiliza um dispositivo auxiliar?";
+"TIMED_WALK_QUESTION_2_TITLE" = "Usa dispositivo auxiliar?";
 "TIMED_WALK_QUESTION_2_TEXT" = "Toque aqui para responder.";
 "TIMED_WALK_QUESTION_2_CHOICE" = "Nenhum";
 "TIMED_WALK_QUESTION_2_CHOICE_2" = "Bengala unilateral";
@@ -602,7 +602,7 @@
 "ENVIRONMENTSPL_OK" = "Ruído de fundo aceitável";
 "ENVIRONMENTSPL_NOISE" = "Demasiado ruído de fundo";
 "ENVIRONMENTSPL_TITLE_2" = "Procure um lugar tranquilo";
-"ENVIRONMENTSPL_INTRO_TEXT_2" = "Para assegurar a precisão do teste, este deverá ser realizado num ambiente calmo.";
+"ENVIRONMENTSPL_INTRO_TEXT_2" = "Para assegurar a precisão do teste, este deverá ser realizado num ambiente tranquilo.";
 
 /* Secondary Task Step*/
 "SECONDARY_TASK_START_BUTTON" = "Iniciar tarefa";

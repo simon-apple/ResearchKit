@@ -229,7 +229,7 @@
 
 /* General active tasks. */
 "COUNTDOWN_LABEL" = "Початок тесту через";
-"TASK_COMPLETE_TITLE" = "Тест завершено";
+"TASK_COMPLETE_TITLE" = "Дію виконано";
 "TASK_COMPLETE_TEXT" = "Ваші дані буде проаналізовано, і ви отримаєте сповіщення, коли будуть готові результати.";
 "COUNTDOWN_SPOKEN_REMAINING_%@" = "Ще %@.";
 "TOUCH_ANYWHERE_LABEL" = "Торкніть будь-де, щоб продовжити";
@@ -238,7 +238,7 @@
 "CAPTURE_BUTTON_CAPTURE_IMAGE" = "Зробити знімок";
 "CAPTURE_BUTTON_RECAPTURE_IMAGE" = "Зробити знімок ще раз";
 "CAPTURE_ERROR_CAMERA_NOT_FOUND" = "Камери не знайдено.  Неможливо виконати цей крок.";
-"CAPTURE_ERROR_NO_PERMISSIONS" = "Щоб завершити цей крок, надайте цій програмі доступ до камери в Параметрах.";
+"CAPTURE_ERROR_NO_PERMISSIONS" = "Щоб виконати цей крок, надайте цій програмі доступ до камери в Параметрах.";
 "CAPTURE_ERROR_NO_OUTPUT_DIRECTORY" = "Для зроблених знімків не вказано вихідного каталогу.";
 "CAPTURE_ERROR_CANNOT_WRITE_FILE" = "Не вдається зберегти зроблений знімок.";
 
@@ -271,7 +271,7 @@
 "WALK_INTRO_2_DETAIL_BACK_AND_FORTH_INSTRUCTION" = "Торкніть «Розпочати», коли ви готові починати.\nПотім покладіть свій пристрій у кишеню чи сумку і виконайте аудіовказівки.";
 "WALK_BACK_AND_FORTH_INSTRUCTION_FORMAT" = "Ідіть по прямій уперед і назад %@. Ідіть, як ви ходите зазвичай.";
 "WALK_BACK_AND_FORTH_STAND_INSTRUCTION_FORMAT" = "Пройдіть повну відстань по колу, потім зупиніться і не рухайтесь %@.";
-"WALK_BACK_AND_FORTH_FINISHED_VOICE" = "Ви завершили виконання тесту.";
+"WALK_BACK_AND_FORTH_FINISHED_VOICE" = "Ви виконали дію.";
 
 /* Tapping active task. */
 "TAPPING_TASK_TITLE" = "Темп торкання";
@@ -376,13 +376,13 @@
 "MEMORY_GAME_PLAYBACK_TITLE_%@" = "Слідкуйте, як загоряються %@";
 "MEMORY_GAME_GAMEPLAY_TITLE_%@" = "Торкайте %@ у порядку, у якому вони загоряються";
 "MEMORY_GAME_GAMEPLAY_REVERSE_TITLE_%@" = "Торкайте %@ у зворотному порядку";
-"MEMORY_GAME_COMPLETE_TITLE" = "Послідовність завершено";
+"MEMORY_GAME_COMPLETE_TITLE" = "Послідовність виконано";
 "MEMORY_GAME_COMPLETE_MESSAGE" = "Щоб продовжити, торкніть «Далі»";
 "MEMORY_GAME_FAILED_TITLE" = "Повторити спробу";
 "MEMORY_GAME_FAILED_MESSAGE" = "Вам трохи не вдалося вкластися в цей час. Торкніть «Далі», щоб продовжити.";
 "MEMORY_GAME_TIMEOUT_TITLE" = "Час завершився";
 "MEMORY_GAME_TIMEOUT_MESSAGE" = "Ваш час минув.\nТоркніть «Далі», щоб продовжити.";
-"MEMORY_GAME_COMPLETE" = "Гру завершено";
+"MEMORY_GAME_COMPLETE" = "Гру виконано";
 "MEMORY_GAME_PAUSED_TITLE" = "Припинено";
 "MEMORY_GAME_PAUSED_MESSAGE" = "Щоб продовжити, торкніть «Далі»";
 "MEMORY_GAME_COPYRIGHT_TEXT" = "Тест на памʼять було розроблено за сприяння Кетрін Поссін, Ph.D і Джоель Крамер, Ph.D з Університету Каліфорнії в Сан-Франціско.";
@@ -473,7 +473,7 @@
 "TIMED_WALK_INSTRUCTION_%@" = "Пройдіть до %@ по прямій.";
 "TIMED_WALK_INSTRUCTION_TURN" = "Розверніться.";
 "TIMED_WALK_INSTRUCTION_2" = "Поверніться туди, де ви почали.";
-"TIMED_WALK_INSTRUCTION_TEXT" = "Завершивши, торкніть «Далі».";
+"TIMED_WALK_INSTRUCTION_TEXT" = "Торкніть «Далі», коли виконаєте.";
 
 /* PSAT active task. */
 "PASAT_TITLE" = "СТСЗТ";
@@ -538,7 +538,7 @@
 "TREMOR_TEST_ACTIVE_STEP_SWITCH_HANDS_LEFT_INSTRUCTION" = "Тепер перекладіть телефон у ЛІВУ руку, і перейдіть до наступного завдання.";
 "TREMOR_TEST_ACTIVE_STEP_SWITCH_HANDS_RIGHT_INSTRUCTION" = "Тепер перекладіть телефон у ПРАВУ руку, і перейдіть до наступного завдання.";
 "TREMOR_TEST_ACTIVE_STEP_FINISHED_INSTRUCTION" = "Перейдіть до наступного завдання.";
-"TREMOR_TEST_COMPLETED_INSTRUCTION" = "Тест виконано.";
+"TREMOR_TEST_COMPLETED_INSTRUCTION" = "Дію виконано.";
 "TREMOR_TEST_SKIP_QUESTION_BOTH_HANDS_%@" = "Вам буде запропоновано виконати %@, сидячи з телефоном спочатку в одній руці, потім ще раз в іншій руці.";
 "TREMOR_SKIP_LEFT_HAND" = "Я не можу виконати цю дію ЛІВОЮ рукою.";
 "TREMOR_SKIP_RIGHT_HAND" = "Я не можу виконати цю дію ПРАВОЮ рукою.";
@@ -599,7 +599,7 @@
 "ENVIRONMENTSPL_UNIT" = "дБ";
 "ENVIRONMENTSPL_CALCULATING" = "Обчислювання";
 "ENVIRONMENTSPL_THRESHOLD" = "Поріг: %@ дБ";
-"ENVIRONMENTSPL_OK" = "Фоновий шум OK";
+"ENVIRONMENTSPL_OK" = "Фоновий шум у нормі";
 "ENVIRONMENTSPL_NOISE" = "Забагато фонового шуму";
 "ENVIRONMENTSPL_TITLE_2" = "Знайдіть тихе місце";
 "ENVIRONMENTSPL_INTRO_TEXT_2" = "Щоб гарантувати точність, цей тест слід проводити в тихому середовищі.";
@@ -653,7 +653,7 @@
 "AX_IMAGE_CAPTURED_LABEL" = "Зроблений знімок";
 
 "AX_VIDEO_CAPTURE_LABEL" = "Перегляд знятого відео";
-"AX_VIDEO_CAPTURE_COMPLETE" = "Запис відео завершено";
+"AX_VIDEO_CAPTURE_COMPLETE" = "Запис відео виконано";
 
 "AX_TOWER_OF_HANOI_INVALID_MOVE_FORMAT" = "Неможливо розмістити диск розміру %@ на диск розміру %@";
 "AX_TOWER_OF_HANOI_TARGET_DISK" = "Ціль";
@@ -680,9 +680,9 @@
 
 "AX_TAP_BUTTON_DIRECT_TOUCH_AREA" = "Прямолінійні кнопки";
 "AX_TONE_AUDIOMETRY_BUTTON_LEFT_EAR_LABEL" = "Торкніть для лівого вуха";
-"AX_TONE_AUDIOMETRY_BUTTON_LEFT_EAR_HINT" = "Активуйте, щоб розпочати тест. Коли тест розпочнеться, торкайте прямолінійно цю кнопку, почувши будь-який звук своїм лівим вухом.";
+"AX_TONE_AUDIOMETRY_BUTTON_LEFT_EAR_HINT" = "Активуйте, щоб розпочати тест. Коли тест розпочнеться, просто торкайте цю кнопку, почувши будь-який звук своїм лівим вухом.";
 "AX_TONE_AUDIOMETRY_BUTTON_RIGHT_EAR_LABEL" = "Торкніть для правого вуха";
-"AX_TONE_AUDIOMETRY_BUTTON_RIGHT_EAR_HINT" = "Активуйте, щоб розпочати тест. Коли тест розпочнеться, торкайте прямолінійно цю кнопку, почувши будь-який звук своїм правим вухом.";
+"AX_TONE_AUDIOMETRY_BUTTON_RIGHT_EAR_HINT" = "Активуйте, щоб розпочати тест. Коли тест розпочнеться, просто торкайте цю кнопку, почувши будь-який звук своїм правим вухом.";
 /* This contains the visual text, followed by a VoiceOver-specific description, followed by the visual text on the following page (since VoiceOver users may not have a chance to hear the visual text before needing to perform the actions). */
 "AX_TONE_AUDIOMETRY_PREP_TEXT_VOICEOVER" = "%@ За допомогою VoiceOver досліджуйте екран дотиком, аби вивчити, де розташовано кнопки для кожного вуха. Коли тест розпочнеться, цих кнопок можна буде просто торкатися. %@";
 "AX_TAP_BUTTON_1_LABEL" = "Торкніть для одного пальця";

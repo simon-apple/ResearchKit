@@ -34,7 +34,7 @@
 "CONSENT_NAME_FAMILY" = "Nazwisko";
 "CONSENT_NAME_PLACEHOLDER" = "Wymagane";
 "CONSENT_REVIEW_TITLE" = "Przejrzyj";
-"CONSENT_REVIEW_INSTRUCTION" = "Przejrzyj poniższy formularz i stuknij w Akceptuję, jeśli możesz kontynuować.";
+"CONSENT_REVIEW_INSTRUCTION" = "Przejrzyj poniższy formularz i stuknij w Akceptuję, aby kontynuować.";
 "CONSENT_REVIEW_ALERT_TITLE" = "Przejrzyj";
 "CONSENT_SIGNATURE_TITLE" = "Podpis";
 "CONSENT_SIGNATURE_INSTRUCTION" = "Podpisz palcem w polu poniżej.";
@@ -332,7 +332,7 @@
 "dBHL_TONE_AUDIOMETRY_INTRO_TITLE" = "Dźwięk i głośność";
 "dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_1" = "Urządzenie odtworzy serię dźwięków.";
 "dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_2" = "Gdy usłyszysz dźwięk, stuknij w przycisk.";
-"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_3" = "Na potrzeby tego testu ustaw głośność na 50 procent.";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_3" = "Na potrzeby tego testu głośność zostanie ustawiona na 50 procent.";
 "dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_4" = "Test trwa około 10 minut.";
 "dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_5" = "Aby skupić się na teście, włącz tryb Nie przeszkadzać.";
 "dBHL_TONE_AUDIOMETRY_STEP_TITLE_RIGHT_EAR" = "Dźwięki będą najpierw odtwarzane w prawym uchu.";
@@ -380,7 +380,7 @@
 "MEMORY_GAME_COMPLETE_MESSAGE" = "Aby kontynuować, stuknij w Dalej";
 "MEMORY_GAME_FAILED_TITLE" = "Spróbuj ponownie";
 "MEMORY_GAME_FAILED_MESSAGE" = "Tym razem nie udało Ci się. Stuknij w Dalej, aby kontynuować.";
-"MEMORY_GAME_TIMEOUT_TITLE" = "Nadszedł czas";
+"MEMORY_GAME_TIMEOUT_TITLE" = "Czas minął";
 "MEMORY_GAME_TIMEOUT_MESSAGE" = "Skończył Ci się czas.\nAby kontynuować, stuknij w Dalej.";
 "MEMORY_GAME_COMPLETE" = "Gra zakończona";
 "MEMORY_GAME_PAUSED_TITLE" = "Wstrzymana";
@@ -575,7 +575,7 @@
 "SPEECH_IN_NOISE_START_AUDIO_LABEL" = "Odtwarzaj dźwięk";
 "SPEECH_IN_NOISE_STOP_AUDIO_LABEL" = "Zatrzymaj dźwięk";
 "SPEECH_IN_NOISE_TITLE" = "Szum podczas mówienia";
-"SPEECH_IN_NOISE_INTRO_TEXT" = "Ta czynność mierzy rozpoznawalność mowy, podczas mówienia w hałaśliwym otoczeniu.";
+"SPEECH_IN_NOISE_INTRO_TEXT" = "Ta czynność mierzy rozpoznawalność mowy w hałaśliwym otoczeniu.";
 "SPEECH_IN_NOISE_DETAIL_TEXT" = "Zadaniem tego testu będzie:\n\nOdsłuchanie zdania.\n\nWyraźne powtórzenie usłyszanej treści lub pominięcie i wpisanie tej treści na klawiaturze. \n\nJeśli powtórzysz usłyszaną treść, damy Ci możliwość modyfikowania zapisu treści wygenerowanego przez mechanizm rozpoznawania mowy.";
 "SPEECH_IN_NOISE_CALIBRATION_TITLE" = "Kalibracja głośności";
 "SPEECH_IN_NOISE_CALIBRATION_TEXT" = "Stuknij w Odtwarzaj dźwięk, dostosuj głośność do odpowiedniego poziomu, a potem stuknij w Zatrzymaj dźwięk, aby kontynuować.";
@@ -605,7 +605,7 @@
 "ENVIRONMENTSPL_INTRO_TEXT_2" = "Aby zapewnić dokładność testu, przeprowadź go w cichym miejscu.";
 
 /* Secondary Task Step*/
-"SECONDARY_TASK_START_BUTTON" = "Start";
+"SECONDARY_TASK_START_BUTTON" = "Rozpocznij";
 
 /* Charts */
 "CHART_NO_DATA_TEXT" = "Brak danych";

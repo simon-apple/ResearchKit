@@ -66,7 +66,7 @@
 "CONSENT_SHARING_TITLE" = "Freigabe-Optionen";
 "CONSENT_SHARE_WIDELY_%@" = "Meine Daten mit %@ und qualifizierten Forschern auf der ganzen Welt teilen";
 "CONSENT_SHARE_ONLY_%@" = "Meine Daten nur mit „%@“ teilen";
-"CONSENT_SHARING_DESCRIPTION_%@" = "%@ wird die Studiendaten von deiner Teilnahme an dieser Studie erhalten.\n\nDurch Teilen deiner codierten Studiendaten (ohne Informationen wie deinem Namen) mit einer breiteren Basis können diese und künftige Studien profitieren.";
+"CONSENT_SHARING_DESCRIPTION_%@" = "Die Studiendaten deiner Teilnahme an dieser Studie werden an %@ gesendet.\n\nDurch Teilen deiner codierten Studiendaten (ohne Informationen wie deinem Namen) mit einer breiteren Basis können diese und künftige Studien profitieren.";
 "LEARN_MORE_CONSENT_SHARING" = "Weitere Infos zur Datenfreigabe";
 
 /* Lines beneath typewritten signatures on documents.*/
@@ -179,7 +179,7 @@
 /* Gender values. */
 "GENDER_FEMALE" = "Weiblich";
 "GENDER_MALE" = "Männlich";
-"GENDER_OTHER" = "Sonstiges";
+"GENDER_OTHER" = "Divers";
 
 /* Boolean answer strings */
 "BOOL_NO" = "Nein";
@@ -232,7 +232,7 @@
 "TASK_COMPLETE_TITLE" = "Aktivität abgeschlossen";
 "TASK_COMPLETE_TEXT" = "Deine Daten werden analysiert und du wirst benachrichtigt, wenn deine Ergebnisse bereitstehen.";
 "COUNTDOWN_SPOKEN_REMAINING_%@" = "Noch %@.";
-"TOUCH_ANYWHERE_LABEL" = "Tippe irgendwo auf den Bildschirm, um fortzufahren";
+"TOUCH_ANYWHERE_LABEL" = "Tippe auf den Bildschirm, um fortzufahren.";
 
 /* Image capture step. */
 "CAPTURE_BUTTON_CAPTURE_IMAGE" = "Bild aufnehmen";
@@ -348,7 +348,7 @@
 "dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "Test abgebrochen";
 "dBHL_ALERT_TITLE_START_OVER" = "Erneut starten";
 "dBHL_ALERT_TITLE_CANCEL_TEST" = "Test abbrechen";
-"dBHL_ALERT_TEXT" = "Schließe deine AirPods oder EarPods erneut an, um diesen Test.";
+"dBHL_ALERT_TEXT" = "Schließe deine AirPods oder EarPods erneut an, um diesen Test zu machen.";
 "dBHL_PROGRESS_COMPLETION_%@" = "%@ vollständig";
 
 /* Headphones. */
@@ -390,7 +390,7 @@
 /* Reaction time active task. */
 "REACTION_TIME_TASK_TITLE" = "Reaktionszeit";
 "REACTION_TIME_TASK_INTENDED_USE" = "Mit dieser Aktivität wird bewertet, wie lange du brauchst, um auf optische Reize zu reagieren.";
-"REACTION_TIME_TASK_INTRO_TEXT_FORMAT" = "Schüttle das Gerät, sobald der blaue Punkt auf dem Bildschirm angezeigt wird. Du wirst %D mal darum gebeten.";
+"REACTION_TIME_TASK_INTRO_TEXT_FORMAT" = "Schüttle das Gerät, sobald der blaue Punkt auf dem Bildschirm angezeigt wird. Du wirst %D-mal dazu aufgefordert.";
 "REACTION_TIME_TASK_CALL_TO_ACTION" = "Tippe zum Starten auf „Los geht’s“.";
 "REACTION_TIME_TASK_ATTEMPTS_FORMAT" = "Versuch %@ von %@";
 "REACTION_TIME_TASK_ACTIVE_STEP_TITLE" = "Wenn der blaue Kreis angezeigt wird, schüttle das Gerät schnell";
@@ -435,8 +435,8 @@
 "KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_RIGHT" = "Wenn du bereit bist, tippe zum Starten auf den Bildschirm und strecke dein rechtes Knie so weit wie möglich durch. Kehre zur Startposition zurück und tippe erneut, wenn du fertig bist.";
 "KNEE_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_LEFT" = "Lege dein Gerät auf dein linkes Knie. Tippe auf den Bildschirm und strecke dein linkes Knie so weit wie möglich durch.";
 "KNEE_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_RIGHT" = "Lege dein Gerät auf dein rechtes Knie. Tippe auf den Bildschirm und strecke dein rechtes Knie so weit wie möglich durch.";
-"KNEE_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_LEFT" = "Wenn du fertig bist, bringe dein linkes Knie wieder in die Startposition und tippe dann auf eine beliebige Stelle.";
-"KNEE_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_RIGHT" = "Wenn du fertig bist, bringe dein rechtes Knie wieder in die Startposition und tippe dann auf eine beliebige Stelle.";
+"KNEE_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_LEFT" = "Wenn du fertig bist, bringe dein linkes Knie wieder in die Startposition und tippe dann auf den Bildschirm.";
+"KNEE_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_RIGHT" = "Wenn du fertig bist, bringe dein rechtes Knie wieder in die Startposition und tippe dann auf den Bildschirm.";
 
 /* Shoulder Range of Motion active task */
 "SHOULDER_RANGE_OF_MOTION_TITLE_LEFT" = "Linke Schulter Bewegungsumfang";
@@ -451,8 +451,8 @@
 "SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_RIGHT" = "Wenn du bereit bist, tippe zum Starten auf den Bildschirm und hebe den rechten Arm so weit wie möglich an. Kehre zur Startposition zurück und tippe erneut, wenn du fertig bist.";
 "SHOULDER_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_LEFT" = "Lege dein Gerät auf deine linke Schulter. Tippe auf den Bildschirm und strecke den linken Arm so weit wie möglich nach vorne aus.";
 "SHOULDER_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_RIGHT" = "Lege dein Gerät auf deine rechte Schulter. Tippe auf den Bildschirm und strecke den rechten Arm so weit wie möglich nach vorne aus.";
-"SHOULDER_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_LEFT" = "Wenn du fertig bist, bringe deinen linken Arm wieder in die Startposition und tippe dann auf eine beliebige Stelle.";
-"SHOULDER_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_RIGHT" = "Wenn du fertig bist, bringe deinen rechten Arm wieder in die Startposition und tippe dann auf eine beliebige Stelle.";
+"SHOULDER_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_LEFT" = "Wenn du fertig bist, bringe deinen linken Arm wieder in die Startposition und tippe dann auf den Bildschirm.";
+"SHOULDER_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_RIGHT" = "Wenn du fertig bist, bringe deinen rechten Arm wieder in die Startposition und tippe dann auf den Bildschirm.";
 
 /* Timed walk active task. */
 "TIMED_WALK_TITLE" = "Gehen mit Zeitmessung";
@@ -491,8 +491,8 @@
 /* Hole peg test active task. */
 "HOLE_PEG_TEST_TITLE_%@" = "%@-Hole-Peg-Test";
 "HOLE_PEG_TEST_INTRO_TEXT_%@" = "Mit dieser Aktivität wird die Reaktionsfähigkeit deiner oberen Extremitäten gemessen, indem du aufgefordert wirst, einen Kreis auf einem Loch zu platzieren. Das Ganze wird %@-mal wiederholt.";
-"HOLE_PEG_TEST_INTRO_TEXT_2_LEFT_HAND_FIRST_%@" = "Sowohl deine linke als auch die rechte Hand werden getestet.\nDu musst den Stift so schnell wie möglich greifen, in das Loch stecken und nach einer %@maligen Wiederholung wieder %@ Mal entfernen.";
-"HOLE_PEG_TEST_INTRO_TEXT_2_RIGHT_HAND_FIRST_%@" = "Sowohl deine rechte als auch die linke Hand werden getestet.\nDu musst den Stift so schnell wie möglich greifen, in das Loch stecken und nach einer %@maligen Wiederholung wieder %@ Mal entfernen.";
+"HOLE_PEG_TEST_INTRO_TEXT_2_LEFT_HAND_FIRST_%@" = "Sowohl deine linke als auch die rechte Hand werden getestet.\nDu musst den Stift so schnell wie möglich greifen, in das Loch stecken und nach einer %@-maligen Wiederholung wieder %@-mal entfernen.";
+"HOLE_PEG_TEST_INTRO_TEXT_2_RIGHT_HAND_FIRST_%@" = "Sowohl deine rechte als auch die linke Hand werden getestet.\nDu musst den Stift so schnell wie möglich greifen, in das Loch stecken und nach einer %@-maligen Wiederholung wieder %@-mal entfernen.";
 
 "HOLE_PEG_TEST_CALL_TO_ACTION" = "Tippe zum Starten auf „Los geht’s“.";
 "HOLE_PEG_TEST_PLACE_INSTRUCTION_LEFT_HAND" = "Bewege den Kreis mit der linken Hand in das Loch.";
@@ -523,10 +523,10 @@
 "TREMOR_TEST_ACTIVE_STEP_EXTEND_ARM_INTRO_LEFT" = "Halte dein Telefon nun mit ausgestreckter LINKER Hand in Schulterhöhe.";
 "TREMOR_TEST_ACTIVE_STEP_EXTEND_ARM_INTRO_RIGHT" = "Halte dein Telefon nun mit ausgestreckter RECHTER Hand in Schulterhöhe.";
 "TREMOR_TEST_ACTIVE_STEP_EXTEND_ARM_INSTRUCTION_%ld" = "Halte mit ausgestreckter Hand %ld Sekunden lang dein Telefon.";
-"TREMOR_TEST_ACTIVE_STEP_BEND_ARM_INTRO" = "Halte dein Telefon nun mit angewinkelten Ellenbogen in Schulterhöhe.";
+"TREMOR_TEST_ACTIVE_STEP_BEND_ARM_INTRO" = "Halte dein Telefon nun mit angewinkeltem Ellenbogen in Schulterhöhe.";
 "TREMOR_TEST_ACTIVE_STEP_BEND_ARM_INTRO_LEFT" = "Halte dein Telefon nun in deiner LINKEN Hand mit angewinkeltem Ellenbogen in Schulterhöhe.";
 "TREMOR_TEST_ACTIVE_STEP_BEND_ARM_INTRO_RIGHT" = "Halte dein Telefon nun in deiner RECHTEN Hand mit angewinkeltem Ellenbogen in Schulterhöhe.";
-"TREMOR_TEST_ACTIVE_STEP_BEND_ARM_INSTRUCTION_%ld" = "Halte mit angewinkelten Ellenbogen %ld Sekunden lang dein Telefon";
+"TREMOR_TEST_ACTIVE_STEP_BEND_ARM_INSTRUCTION_%ld" = "Halte mit angewinkeltem Ellenbogen %ld Sekunden lang dein Telefon";
 "TREMOR_TEST_ACTIVE_STEP_TOUCH_NOSE_INTRO" = "Winkle nun deinen Ellenbogen an und berühre wiederholt mit deinem Telefon deine Nase.";
 "TREMOR_TEST_ACTIVE_STEP_TOUCH_NOSE_INTRO_LEFT" = "Winkle nun deinen Ellenbogen an, halte dein Telefon in der LINKEN Hand und berühre wiederholt mit deinem Telefon deine Nase.";
 "TREMOR_TEST_ACTIVE_STEP_TOUCH_NOSE_INTRO_RIGHT" = "Winkle nun deinen Ellenbogen an, halte dein Telefon in der RECHTEN Hand und berühre wiederholt mit deinem Telefon deine Nase.";

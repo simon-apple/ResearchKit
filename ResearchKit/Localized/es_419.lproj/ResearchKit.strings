@@ -349,7 +349,7 @@
 "dBHL_ALERT_TITLE_START_OVER" = "Volver a empezar";
 "dBHL_ALERT_TITLE_CANCEL_TEST" = "Cancelar prueba";
 "dBHL_ALERT_TEXT" = "Vuelve a conectar tus AirPods o EarPods para realizar esta prueba.";
-"dBHL_PROGRESS_COMPLETION_%@" = "%@ terminado";
+"dBHL_PROGRESS_COMPLETION_%@" = "%@ completado";
 
 /* Headphones. */
 "AIRPODS" = "AirPods";
@@ -429,8 +429,8 @@
 "KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_0_RIGHT" = "Esta actividad mide cuánto puedes extender tu rodilla derecha.";
 "KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_1_LEFT" = "Siéntate en el borde de una silla. Al iniciar deberás colocar el dispositivo sobre tu rodilla izquierda para realizar una medición. Activa el sonido en el dispositivo para escuchar las instrucciones.";
 "KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_1_RIGHT" = "Siéntate en el borde de una silla. Al iniciar deberás colocar el dispositivo sobre tu rodilla derecha para realizar una medición. Activa el sonido en el dispositivo para escuchar las instrucciones.";
-"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_LEFT" = "Coloca el dispositivo sobre tu rodilla izquierda con la pantalla hacia arriba, como se indica en la imagen.";
-"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_RIGHT" = "Coloca el dispositivo sobre tu rodilla derecha con la pantalla hacia arriba, como se indica en la imagen.";
+"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_LEFT" = "Coloca el dispositivo sobre tu rodilla izquierda con la pantalla expuesta, como se indica en la imagen.";
+"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_RIGHT" = "Coloca el dispositivo sobre tu rodilla derecha con la pantalla expuesta, como se indica en la imagen.";
 "KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_LEFT" = "Toca la pantalla cuando te hayas preparado para comenzar y estira tu rodilla izquierda tanto como puedas. Vuelve a la posición inicial y toca de nuevo cuando hayas terminado.";
 "KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_RIGHT" = "Toca la pantalla cuando te hayas preparado para comenzar y estira tu rodilla derecha tanto como puedas. Vuelve a la posición inicial y toca de nuevo cuando hayas terminado.";
 "KNEE_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_LEFT" = "Coloca el dispositivo sobre tu rodilla izquierda. Toca la pantalla y estira la rodilla tanto como puedas.";
@@ -445,8 +445,8 @@
 "SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_0_RIGHT" = "Esta actividad mide cuánto puedes extender tu hombro derecho.";
 "SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_1_LEFT" = "Al iniciar deberás colocar el dispositivo sobre tu hombro izquierdo para realizar una medición. Activa el sonido en el dispositivo para escuchar las instrucciones.";
 "SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_1_RIGHT" = "Al iniciar deberás colocar el dispositivo sobre tu hombro derecho para realizar una medición. Activa el sonido en el dispositivo para escuchar las instrucciones.";
-"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_LEFT" = "Coloca el dispositivo sobre tu hombro izquierdo con la pantalla hacia arriba, como se indica en la imagen.";
-"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_RIGHT" = "Coloca el dispositivo sobre tu hombro derecho con la pantalla hacia arriba, como se indica en la imagen.";
+"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_LEFT" = "Coloca el dispositivo sobre tu hombro izquierdo con la pantalla expuesta, como se indica en la imagen.";
+"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_RIGHT" = "Coloca el dispositivo sobre tu hombro derecho con la pantalla expuesta, como se indica en la imagen.";
 "SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_LEFT" = "Toca la pantalla cuando te hayas preparado para comenzar y levanta tu brazo izquierdo tanto como puedas. Vuelve a la posición inicial y toca de nuevo cuando hayas terminado.";
 "SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_RIGHT" = "Toca la pantalla cuando te hayas preparado para comenzar y levanta tu brazo derecho tanto como puedas. Vuelve a la posición inicial y toca de nuevo cuando hayas terminado.";
 "SHOULDER_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_LEFT" = "Coloca el dispositivo sobre tu hombro izquierdo. Toca la pantalla y levanta el brazo izquierdo hacia el frente tanto como puedas.";
@@ -473,7 +473,7 @@
 "TIMED_WALK_INSTRUCTION_%@" = "Camina hasta %@ en línea recta.";
 "TIMED_WALK_INSTRUCTION_TURN" = "Da vuelta.";
 "TIMED_WALK_INSTRUCTION_2" = "Camina al punto de inicio.";
-"TIMED_WALK_INSTRUCTION_TEXT" = "Toca OK al terminar.";
+"TIMED_WALK_INSTRUCTION_TEXT" = "Toca Siguiente al terminar.";
 
 /* PSAT active task. */
 "PASAT_TITLE" = "PASAT";
@@ -503,7 +503,7 @@
 "HOLE_PEG_TEST_TEXT_2" = "Levanta los dedos para soltar la estaca.";
 
 /* Tremor test active task. */
-"TREMOR_TEST_TITLE" = "Actividad para temblores";
+"TREMOR_TEST_TITLE" = "Medición de temblor de manos";
 "TREMOR_TEST_INTRO_1_DETAIL" = "Esta actividad mide cuánto tiemblan tus manos en varias posiciones. Busca un lugar en donde te puedas sentar cómodamente durante esta actividad.";
 "TREMOR_TEST_INTRO_2_DEFAULT_TEXT" = "Agarra el teléfono con tu mano más afectada como se muestra en la imagen.";
 "TREMOR_TEST_INTRO_2_RIGHT_HAND_TEXT" = "Agarra el teléfono con tu mano derecha como se muestra en la imagen.";
@@ -545,7 +545,7 @@
 "TREMOR_SKIP_NEITHER" = "Puedo realizar esta actividad con las dos manos.";
 
 /* Trail making task. */
-"TRAILMAKING_TASK_TITLE" = "Prueba de seguim.";
+"TRAILMAKING_TASK_TITLE" = "Prueba de seguimiento";
 "TRAILMAKING_INTENDED_USE" = "Esta actividad evalúa la capacidad de atención visual y de cambio de tareas al registrar el tiempo necesario para tocar una serie de puntos en orden.";
 "TRAILMAKING_INTENDED_USE2_A" = "Cuando termine la cuenta regresiva, toca los puntos alternando entre los números y las letras. Empieza con el primer número '1' seguido de los números 2', ’3’, ’4’, etc. hasta llegar a '7'.";
 "TRAILMAKING_INTENDED_USE2_B" = "Cuando termine la cuenta regresiva, toca los puntos alternando entre los números y las letras. Empieza con el primer número '1' seguido de la primera letra 'A', luego '2' y ’B’, después ’3’ y ’C’, y así sucesivamente hasta llegar a '7'.";

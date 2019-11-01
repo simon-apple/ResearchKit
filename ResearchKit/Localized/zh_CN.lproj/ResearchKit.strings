@@ -29,7 +29,7 @@
  */
 
 /* Informed consent process. */
-"CONSENT_NAME_TITLE" = "同意";
+"CONSENT_NAME_TITLE" = "同意书";
 "CONSENT_NAME_GIVEN" = "名";
 "CONSENT_NAME_FAMILY" = "姓";
 "CONSENT_NAME_PLACEHOLDER" = "必填";
@@ -145,8 +145,8 @@
 "PASSCODE_CONFIRM_NEW_ENTRY_MESSAGE" = "确认新口令";
 "PASSCODE_INVALID_ALERT_TITLE" = "口令不正确";
 "PASSCODE_INVALID_ALERT_MESSAGE" = "口令不匹配。请再试一次。";
-"PASSCODE_TOUCH_ID_MESSAGE" = "请使用触控 ID进行认证";
-"PASSCODE_TOUCH_ID_ERROR_ALERT_TITLE" = "触控 ID错误";
+"PASSCODE_TOUCH_ID_MESSAGE" = "请使用触控ID进行认证";
+"PASSCODE_TOUCH_ID_ERROR_ALERT_TITLE" = "触控ID错误";
 "PASSCODE_TEXTFIELD_INVALID_INPUT_MESSAGE" = "仅允许数字字符。";
 "PASSCODE_TEXTFIELD_ACCESSIBILITY_LABEL" = "口令输入进度指示器";
 "PASSCODE_TEXTFIELD_ACCESSIBILTIY_VALUE" = "已输入%@/%@位";
@@ -538,7 +538,7 @@
 "TREMOR_TEST_ACTIVE_STEP_SWITCH_HANDS_LEFT_INSTRUCTION" = "现在换左手握住手机并继续下一个任务。";
 "TREMOR_TEST_ACTIVE_STEP_SWITCH_HANDS_RIGHT_INSTRUCTION" = "现在换右手握住手机并继续下一个任务。";
 "TREMOR_TEST_ACTIVE_STEP_FINISHED_INSTRUCTION" = "继续下一个任务。";
-"TREMOR_TEST_COMPLETED_INSTRUCTION" = "活动完成。";
+"TREMOR_TEST_COMPLETED_INSTRUCTION" = "活动已完成。";
 "TREMOR_TEST_SKIP_QUESTION_BOTH_HANDS_%@" = "请坐下并用一只手握住手机，然后完成%@，接着换另一只手再完成一次。";
 "TREMOR_SKIP_LEFT_HAND" = "我不能用左手完成本活动。";
 "TREMOR_SKIP_RIGHT_HAND" = "我不能用右手完成本活动。";
@@ -576,13 +576,13 @@
 "SPEECH_IN_NOISE_STOP_AUDIO_LABEL" = "停止播放音频";
 "SPEECH_IN_NOISE_TITLE" = "在噪声中说话";
 "SPEECH_IN_NOISE_INTRO_TEXT" = "本活动测量噪声环境中语音的清晰度。";
-"SPEECH_IN_NOISE_DETAIL_TEXT" = "作为本测试的一部分，您将：\n\n听一个句子。\n\n清楚地重复您所听到的内容，或跳过以使用键盘键入您听到的内容。\n\n如果重复听到的内容，您可以选择修改由语音识别引擎生成的文本记录。";
+"SPEECH_IN_NOISE_DETAIL_TEXT" = "作为本测试的一部分，您将：\n\n听一个句子。\n\n清楚地复述您所听到的内容，或跳过以使用键盘键入您听到的内容。\n\n如果复述听到的内容，您可以选择修改由语音识别引擎生成的文本记录。";
 "SPEECH_IN_NOISE_CALIBRATION_TITLE" = "音量校准";
 "SPEECH_IN_NOISE_CALIBRATION_TEXT" = "轻点“播放音频”，将音量调整至舒适的程度，然后轻点“停止播放音频”以进行下一步。";
 "SPEECH_IN_NOISE_STEP_TITLE" = "听";
 "SPEECH_IN_NOISE_STEP_TEXT" = "混有背景噪声的句子会以随机信噪比(SNR)只播放一次。";
 "SPEECH_IN_NOISE_SPEAK_TITLE" = "说话";
-"SPEECH_IN_NOISE_SPEAK_TEXT" = "重复您所听到的内容。";
+"SPEECH_IN_NOISE_SPEAK_TEXT" = "复述您所听到的内容。";
 
 /* Potentially user visible error messages. */
 "ERROR_DATALOGGER_CREATE_FILE" = "无法创建文件";

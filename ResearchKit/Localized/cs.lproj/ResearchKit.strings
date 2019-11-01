@@ -99,7 +99,7 @@
 "LOCATION_ERROR_MESSAGE_LOCATION_UNKNOWN" = "Vaši aktuální polohu nelze zjistit. Zadejte adresu nebo se přesuňte na místo s lepším GPS signálem, je‑li to možné.";
 "LOCATION_ERROR_MESSAGE_DENIED" = "Přístup k polohovým službám byl odepřen. Přejděte do Nastavení a udělte této aplikaci oprávnění k používání polohových služeb.";
 "LOCATION_ERROR_GEOCODE" = "Pro zadanou adresu se nepodařilo najít výsledek. Ověřte správnost adresy.";
-"LOCATION_ERROR_GEOCODE_NETWORK" = "Nejste připojeni k internetu nebo jste překročili maximální počet žádostí o vyhledání adresy. Pokud nejste připojeni k internetu a chcete tuto otázku zodpovědět, zapněte Wi-Fi. Je-li k dispozici tlačítko přeskočit, můžete otázku přeskočit nebo se můžete k průzkumu vrátit, až bude internet dostupný. Případně to můžete zkusit za několik minut znovu.";
+"LOCATION_ERROR_GEOCODE_NETWORK" = "Nejste připojeni k internetu nebo jste překročili maximální počet žádostí o vyhledání adresy. Pokud nejste připojeni k internetu a chcete tuto otázku zodpovědět, zapněte Wi‑Fi. Je‑li k dispozici tlačítko přeskočit, můžete otázku přeskočit nebo se můžete k průzkumu vrátit, až bude internet dostupný. Případně to můžete zkusit za několik minut znovu.";
 
 /* Alert for exceeding length limit in text answer */
 "TEXT_ANSWER_EXCEEDING_MAX_LENGTH_ALERT_MESSAGE" = "Text překračuje maximální délku: %@";
@@ -254,7 +254,7 @@
 "FITNESS_SIT_INSTRUCTION_FORMAT" = "Po %@ pohodlně seďte.";
 "FITNESS_WALK_INSTRUCTION_FORMAT" = "Po %@ co nejrychleji kráčejte.";
 "FITNESS_INTRO_TEXT_FORMAT" = "Tato aktivita změří váš srdeční tep a vzdálenost, kterou ujdete za %1$@.";
-"FITNESS_INTRO_2_TEXT_FORMAT" = "Po %1$@ se procházejte venku nejvyšším možným tempem. Poté po %2$@ v pohodlné pozici odpočívejte. Chcete-li začít, klepněte na Začít.";
+"FITNESS_INTRO_2_TEXT_FORMAT" = "Po %1$@ se procházejte venku nejvyšším možným tempem. Poté po %2$@ v pohodlné pozici odpočívejte. Chcete‑li začít, klepněte na Začít.";
 
 /* Short walk active task. */
 "WALK_TASK_TITLE" = "Chůze a rovnováha";

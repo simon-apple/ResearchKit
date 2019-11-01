@@ -317,7 +317,7 @@
 /* Tone audiometry active task. */
 "TONE_AUDIOMETRY_TASK_TITLE" = "Tonaudiometri";
 "TONE_AUDIOMETRY_INTENDED_USE" = "Den här aktiviteten mäter din förmåga att höra olika ljud.";
-"TONE_AUDIOMETRY_INTRO_TEXT" = "Anslut och ta på dig hörlurarna innan du börjar.\n\nLjudet kommer att vara väldigt subtilt och liknar inte ett vanligt varningsljud. Ljudet är svagt i början och ökar sakta i ljudstyrka. Koncentrera dig på ljudet och tryck på höger- eller vänsterknappen för att registrera i vilket öra du hör ljudet.";
+"TONE_AUDIOMETRY_INTRO_TEXT" = "Anslut och ta på dig hörlurarna innan du börjar.\n\nLjudet kommer att vara väldigt subtilt och liknar inte ett vanligt varningsljud. Ljudet är svagt i början och ökar sakta i ljudstyrka. Koncentrera dig på ljudet och tryck på höger- eller vänsterknappen för att registrera i vilket öra du hör ljudet.";
 "TONE_AUDIOMETRY_CALL_TO_ACTION" = "Tryck på Kom igång för att börja.";
 "TONE_AUDIOMETRY_PREP_TEXT" = "Nu bör du höra en ton. Justera volymen med reglagen på sidan av enheten.\n\nTryck på någon av knapparna när du vill börja.";
 "TONE_AUDIOMETRY_INSTRUCTION" = "Varje gång du börjar höra ett ljud ska du trycka på vänster eller höger knapp för att visa vilket öra du hör ljudet i.";
@@ -339,7 +339,7 @@
 "dBHL_TONE_AUDIOMETRY_STEP_TITLE_LEFT_EAR" = "Nu kommer toner att spelas upp i ditt vänstra öra.";
 "dBHL_TONE_AUDIOMETRY_INTENDED_USE" = "Den här aktiviteten identifierar en persons hörseltröskvärden i dB HL-skala.";
 "dBHL_TONE_AUDIOMETRY_INTRO_TEXT" = "Se till att ljudet på enheten är inställt på högsta volym.\n\nUnder den här uppgiften kommer en subtil ton att spelas i antingen det högra eller vänstra örat.\n\nLyssna noga och tryck på knappen varje gång du hör en ton.";
-"dBHL_TONE_AUDIOMETRY_INTRO_TEXT_2" = "Det här testet identifierar hur hög volymen måste vara för att du ska kunna höra ett ljud.";
+"dBHL_TONE_AUDIOMETRY_INTRO_TEXT_2" = "Det här testet mäter hur hög volymen måste vara för att du ska kunna höra ett ljud.";
 "dBHL_TONE_AUDIOMETRY_ONBOARDING" = "Förberedande frågeformulär.";
 "dBHL_TONE_AUDIOMETRY_ONBOARDING_QUESTION" = "Markera din inställning för ”bättre öra” (om du har ett)";
 "dBHL_TONE_AUDIOMETRY_OPTION_LEFT" = "vänster";
@@ -429,8 +429,8 @@
 "KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_0_RIGHT" = "Den här aktiviteten mäter hur långt du kan sträcka ditt högra knä.";
 "KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_1_LEFT" = "Sätt dig längst ut på en stol. Du börjar med att lägga enheten på ditt vänstra knä så att det kan mätas. Slå på ljudet på enheten så att du kan höra anvisningarna.";
 "KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_1_RIGHT" = "Sätt dig längst ut på en stol. Du börjar med att lägga enheten på ditt högra knä så att det kan mätas. Slå på ljudet på enheten så att du kan höra anvisningarna.";
-"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_LEFT" = "Lägg enheten på ditt vänstra knä med skärmen utåt (se bild).";
-"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_RIGHT" = "Lägg enheten på ditt högra knä med skärmen utåt (se bild).";
+"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_LEFT" = "Placera enheten på ditt vänstra knä med skärmen utåt (se bild).";
+"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_RIGHT" = "Placera enheten på ditt högra knä med skärmen utåt (se bild).";
 "KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_LEFT" = "När du är klar trycker du på skärmen för att börja och rätar ut ditt vänstra knä så långt du kan. Återgå till startpositionen och tryck igen när du är klar.";
 "KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_RIGHT" = "När du är klar trycker du på skärmen för att börja och rätar ut ditt högra knä så långt du kan. Återgå till startpositionen och tryck igen när du är klar.";
 "KNEE_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_LEFT" = "Placera enheten på ditt vänstra knä. Tryck på skärmen och räta ut ditt vänstra knä så mycket du kan.";
@@ -445,8 +445,8 @@
 "SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_0_RIGHT" = "Den här aktiviteten mäter hur långt du kan sträcka din högra axel.";
 "SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_1_LEFT" = "Du börjar med att lägga enheten på din vänstra axel så att den kan mätas. Slå på ljudet på enheten så att du kan höra anvisningarna.";
 "SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_1_RIGHT" = "Du börjar med att lägga enheten på din högra axel så att den kan mätas. Slå på ljudet på enheten så att du kan höra anvisningarna.";
-"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_LEFT" = "Lägg enheten på din vänstra axel med skärmen utåt (se bild).";
-"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_RIGHT" = "Lägg enheten på din högra axel med skärmen utåt (se bild).";
+"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_LEFT" = "Placera enheten på din vänstra axel med skärmen utåt (se bild).";
+"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_RIGHT" = "Placera enheten på din högra axel med skärmen utåt (se bild).";
 "SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_LEFT" = "När du är klar trycker du på skärmen för att börja och höjer din vänstra arm så högt du kan. Återgå till startpositionen och tryck igen när du är klar.";
 "SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_RIGHT" = "När du är klar trycker du på skärmen för att börja och höjer din högra arm så högt du kan. Återgå till startpositionen och tryck igen när du är klar.";
 "SHOULDER_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_LEFT" = "Placera enheten på din vänstra axel. Tryck på skärmen och lyft din vänstra arm framåt så långt du kan.";
@@ -575,7 +575,7 @@
 "SPEECH_IN_NOISE_START_AUDIO_LABEL" = "Spela upp ljud";
 "SPEECH_IN_NOISE_STOP_AUDIO_LABEL" = "Stoppa ljud";
 "SPEECH_IN_NOISE_TITLE" = "Tal i brus";
-"SPEECH_IN_NOISE_INTRO_TEXT" = "Den här aktiviteten mäter hörförståelsen i bullriga nivåer.";
+"SPEECH_IN_NOISE_INTRO_TEXT" = "Den här aktiviteten mäter hörförståelsen i bullriga miljöer.";
 "SPEECH_IN_NOISE_DETAIL_TEXT" = "Som en del av det här testet ska du:\n\nLyssna på en mening.\n\nTydligt upprepa det du hörde eller gå vidare för att skriva in det du hörde med tangentbordet. \n\nOm du upprepar det du hörde har du möjlighet att ändra utskriften som görs av röstigenkänningsmotorn.";
 "SPEECH_IN_NOISE_CALIBRATION_TITLE" = "Volymkalibrering";
 "SPEECH_IN_NOISE_CALIBRATION_TEXT" = "Tryck på Spela upp ljud, justera volymen till en behaglig nivå och fortsätt sedan genom att trycka på Stoppa ljud.";

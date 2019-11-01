@@ -546,7 +546,7 @@
 
 /* Trail making task. */
 "TRAILMAKING_TASK_TITLE" = "선로 잇기 검사";
-"TRAILMAKING_INTENDED_USE" = "이 실험은 여러 개의 점을 순서대로 탭하는 데 들인 시간을 기록하여 사용자의 시주의와 과제 전환 능력을 평가합니다.";
+"TRAILMAKING_INTENDED_USE" = "이 실험은 여러 개의 점을 순서대로 탭하는 데 들인 시간을 기록하여 사용자의 시각적 주의력과 과제 전환 능력을 평가합니다.";
 "TRAILMAKING_INTENDED_USE2_A" = "카운트다운이 지나면 숫자와 한글 자음을 순서대로 연결하십시오. 숫자 1을 먼저 탭하여 시작합니다. 그런 다음 숫자 7에 도달할 때까지 2 – 3 – 4의 순서대로 탭하십시오.";
 "TRAILMAKING_INTENDED_USE2_B" = "카운트다운이 지나면 숫자와 한글 자음을 순서대로 연결하십시오. 먼저 숫자 1을 탭하여 시작한 다음, 자음 ㄱ을 탭합니다. 그런 다음 숫자 7에 도달할 때까지 2 – ㄴ – 3 – ㄷ의 순서대로 탭하십시오.";
 "TRAILMAKING_INTRO_TEXT" = "실수 없이 최대한 빠르게 해보십시오. \n ";
@@ -602,7 +602,7 @@
 "ENVIRONMENTSPL_OK" = "주변 소음 양호함";
 "ENVIRONMENTSPL_NOISE" = "주변 소음이 너무 큼";
 "ENVIRONMENTSPL_TITLE_2" = "조용한 장소 찾기";
-"ENVIRONMENTSPL_INTRO_TEXT_2" = "이 테스트는 정확성을 기하기 위해 조용한 환경에서 진행해야 합니다.";
+"ENVIRONMENTSPL_INTRO_TEXT_2" = "이 테스트는 정확성을 높이기 위해 조용한 환경에서 진행해야 합니다.";
 
 /* Secondary Task Step*/
 "SECONDARY_TASK_START_BUTTON" = "과제 시작";
