@@ -51,6 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 - (void)reachedOptimumNoiseLevel;
+- (void)setLeftRightConstraints:(CGFloat)leftRightPadding;
 
 @end
 

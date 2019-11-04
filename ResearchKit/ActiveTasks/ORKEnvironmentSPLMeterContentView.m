@@ -41,7 +41,7 @@
 #import "ORKNavigationContainerView_Internal.h"
 
 static const CGFloat CircleIndicatorMaxDiameter = 150.0;
-static const CGFloat RingViewYOffset = 80.0;
+static const CGFloat RingViewTopPadding = 24.0;
 static const CGFloat InstructionLabelTopPadding = 50.0;
 static const CGFloat InstructionLabelMinimumBottomPadding = 15.0;
 
@@ -77,8 +77,9 @@ static const CGFloat InstructionLabelMinimumBottomPadding = 15.0;
     _ringView.animationDuration = 0.0;
     _ringView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:_ringView];
+    
     [[_ringView.centerXAnchor constraintEqualToAnchor:self.centerXAnchor] setActive:YES];
-    [[_ringView.centerYAnchor constraintEqualToAnchor:self.centerYAnchor constant:-RingViewYOffset] setActive:YES];
+    [[_ringView.topAnchor constraintEqualToAnchor:self.topAnchor constant:RingViewTopPadding] setActive:YES];
     [_ringView setColor:UIColor.grayColor];
 }
 
@@ -120,9 +121,13 @@ static const CGFloat InstructionLabelMinimumBottomPadding = 15.0;
     [self addSubview:_navigationFooterView];
     
     [[_navigationFooterView.topAnchor constraintGreaterThanOrEqualToAnchor:_DBInstructionLabel.bottomAnchor constant:InstructionLabelMinimumBottomPadding] setActive:YES];
-    [[_navigationFooterView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:0.0] setActive:YES];
-    [[_navigationFooterView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:0.0] setActive:YES];
     [[_navigationFooterView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor constant:0.0] setActive:YES];
+}
+
+- (void)setLeftRightConstraints:(CGFloat)leftRightPadding {
+    // <rdar://problem/56866177> Fix tone audiometry on smaller devices and image size on all devices
+    [[_navigationFooterView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:-leftRightPadding] setActive:YES];
+    [[_navigationFooterView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:leftRightPadding] setActive:YES];
 }
 
 - (void)setProgressCircle:(CGFloat)progress {

@@ -45,6 +45,7 @@
 #import "ORKEnvironmentSPLMeterResult.h"
 #import "ORKEnvironmentSPLMeterStep.h"
 #import "ORKNavigationContainerView_Internal.h"
+#import "ORKSkin.h"
 
 #import "ORKHelpers_Internal.h"
 #import <AVFoundation/AVFoundation.h>
@@ -134,6 +135,9 @@
     _environmentSPLMeterContentView.navigationFooterView.continueButtonItem = self.continueButtonItem;
     _environmentSPLMeterContentView.navigationFooterView.continueEnabled = NO;
     [_environmentSPLMeterContentView.navigationFooterView updateContinueAndSkipEnabled];
+    
+    CGFloat leftRightPadding = self.step.useExtendedPadding ? ORKStepContainerExtendedLeftRightPaddingForWindow(self.view.window) : ORKStepContainerLeftRightPaddingForWindow(self.view.window);
+    [_environmentSPLMeterContentView setLeftRightConstraints:leftRightPadding];
 }
 
 - (void)setContinueButtonItem:(UIBarButtonItem *)continueButtonItem {
