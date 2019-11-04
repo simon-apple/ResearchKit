@@ -452,8 +452,6 @@ static const CGFloat DelayBeforeAutoScroll = 0.25;
     _visible = YES;
     
     UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, nil);
-    // TODO: Remove reloadData later.
-    [_tableView reloadData];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

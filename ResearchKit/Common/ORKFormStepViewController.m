@@ -392,13 +392,13 @@ static const CGFloat DelayBeforeAutoScroll = 0.25;
     
     // Reset skipped flag - result can now be non-empty
     _skipped = NO;
+    [_tableContainer sizeHeaderToFit];
+    [_tableContainer resizeFooterToFit];
     [_tableContainer layoutIfNeeded];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [_tableContainer sizeHeaderToFit];
-    [_tableContainer resizeFooterToFit];
     UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, nil);
 }
 
