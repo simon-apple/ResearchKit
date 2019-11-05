@@ -37,6 +37,7 @@
 #import "ORKPSATContentView.h"
 #import "ORKPSATKeyboardView.h"
 #import "ORKVerticalContainerView.h"
+#import "ORKNavigationContainerView_Internal.h"
 
 #import "ORKActiveStepViewController_Internal.h"
 #import "ORKCollectionResult_Private.h"
@@ -106,6 +107,8 @@
     self.psatContentView = [[ORKPSATContentView alloc] initWithPresentationMode:[self psatStep].presentationMode];
     self.psatContentView.keyboardView.delegate = self;
     [self.psatContentView setEnabled:NO];
+    [self.activeStepView.navigationFooterView setHidden:YES];
+    [self.activeStepView.navigationFooterView setUserInteractionEnabled:NO];
     self.activeStepView.activeCustomView = self.psatContentView;
     self.activeStepView.customContentFillsAvailableSpace = YES;
     
