@@ -44,6 +44,7 @@
 #import "ORKToneAudiometryStep.h"
 #import "ORKStepContainerView_Private.h"
 #import "ORKHelpers_Internal.h"
+#import "ORKNavigationContainerView_Internal.h"
 
 #import <MediaPlayer/MediaPlayer.h>
 
@@ -108,6 +109,9 @@
         self.toneAudiometryContentView.accessibilityLabel = ORKLocalizedString(@"AX_TAP_BUTTON_DIRECT_TOUCH_AREA", nil);
         self.toneAudiometryContentView.accessibilityTraits = UIAccessibilityTraitAllowsDirectInteraction;
     }
+    
+    [self.activeStepView.navigationFooterView setHidden:YES];
+    [self.activeStepView.navigationFooterView setUserInteractionEnabled:NO];
 }
 
 - (void)generateFrequencyCombination {

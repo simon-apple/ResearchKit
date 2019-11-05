@@ -670,12 +670,19 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKUpdateConstraintSequence) {
     if (_textLabel != nil) {
         [_leftRightPaddingConstraints addObjectsFromArray:@[
             [NSLayoutConstraint constraintWithItem:_textLabel
-                                         attribute:NSLayoutAttributeCenterX
+                                         attribute:NSLayoutAttributeLeading
                                          relatedBy:NSLayoutRelationEqual
                                             toItem:self
-                                         attribute:NSLayoutAttributeCenterX
+                                         attribute:NSLayoutAttributeLeading
                                         multiplier:1.0
-                                          constant:0.0]
+                                          constant:_leftRightPadding],
+            [NSLayoutConstraint constraintWithItem:_textLabel
+                                         attribute:NSLayoutAttributeTrailing
+                                         relatedBy:NSLayoutRelationEqual
+                                            toItem:self
+                                         attribute:NSLayoutAttributeTrailing
+                                        multiplier:1.0
+                                          constant:-_leftRightPadding]
         ]];
     }
     

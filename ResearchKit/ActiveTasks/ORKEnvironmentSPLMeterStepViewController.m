@@ -45,6 +45,7 @@
 #import "ORKEnvironmentSPLMeterResult.h"
 #import "ORKEnvironmentSPLMeterStep.h"
 #import "ORKNavigationContainerView_Internal.h"
+#import "ORKSkin.h"
 
 #import "ORKHelpers_Internal.h"
 #import <AVFoundation/AVFoundation.h>
@@ -128,10 +129,15 @@
 }
 
 - (void)setNavigationFooterView {
-    _navigationFooterView = self.activeStepView.navigationFooterView;
-    _navigationFooterView.continueButtonItem = self.continueButtonItem;
-    _navigationFooterView.continueEnabled = NO;
-    [_navigationFooterView updateContinueAndSkipEnabled];
+    [self.activeStepView.navigationFooterView setHidden:YES];
+    [self.activeStepView.navigationFooterView setUserInteractionEnabled:NO];
+    
+    _environmentSPLMeterContentView.navigationFooterView.continueButtonItem = self.continueButtonItem;
+    _environmentSPLMeterContentView.navigationFooterView.continueEnabled = NO;
+    [_environmentSPLMeterContentView.navigationFooterView updateContinueAndSkipEnabled];
+    
+    CGFloat leftRightPadding = self.step.useExtendedPadding ? ORKStepContainerExtendedLeftRightPaddingForWindow(self.view.window) : ORKStepContainerLeftRightPaddingForWindow(self.view.window);
+    [_environmentSPLMeterContentView setLeftRightConstraints:leftRightPadding];
 }
 
 - (void)setContinueButtonItem:(UIBarButtonItem *)continueButtonItem {
@@ -263,7 +269,6 @@
     eqCoefficient.bypass = NO;
 }
 
-
 - (void)splWorkBlock {
     if (!_audioEngine.isRunning && ![[AVAudioSession sharedInstance] isOtherAudioPlaying]) {
         [_eqUnit installTapOnBus:0
@@ -375,7 +380,7 @@
 
 - (void)ringViewDidFinishFillAnimation {
     [self.environmentSPLMeterContentView reachedOptimumNoiseLevel];
-    _navigationFooterView.continueEnabled = YES;
+    _environmentSPLMeterContentView.navigationFooterView.continueEnabled = YES;
 }
 
 @end

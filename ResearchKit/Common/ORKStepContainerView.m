@@ -386,8 +386,8 @@ static const CGFloat ORKBodyItemScrollPadding = 24.0;
         _scrollViewBottomConstraint = [NSLayoutConstraint constraintWithItem:_scrollView
                                                                    attribute:NSLayoutAttributeBottom
                                                                    relatedBy:NSLayoutRelationEqual
-                                                                      toItem:self.navigationFooterView
-                                                                   attribute:NSLayoutAttributeTop
+                                                                      toItem:self
+                                                                   attribute:NSLayoutAttributeBottom
                                                                   multiplier:1.0
                                                                     constant:-ORKContentBottomPadding];
         [_updatedConstraints addObject:_scrollViewBottomConstraint];

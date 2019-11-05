@@ -38,6 +38,7 @@
 #import "ORKRoundTappingButton.h"
 
 #import "ORKActiveStepViewController_Internal.h"
+#import "ORKNavigationContainerView_Internal.h"
 
 #import "ORKCollectionResult_Private.h"
 #import "ORKTrailmakingResult.h"
@@ -100,6 +101,9 @@
     _timerLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
     _timerLabel.adjustsFontForContentSizeCategory = YES;
     _timerLabel.textAlignment = NSTextAlignmentCenter;
+
+    [self.activeStepView.navigationFooterView setHidden:YES];
+    [self.activeStepView.navigationFooterView setUserInteractionEnabled:NO];
     
     [self.view addSubview:_timerLabel];
 }

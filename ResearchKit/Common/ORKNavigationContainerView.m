@@ -277,13 +277,6 @@ static const CGFloat activityIndicatorPadding = 24.0;
     [self setUpConstraints];
 }
 
-- (void)flattenIfNeeded {
-    // The navigation container view will set its own height to 0 if both buttons have an alpha of 0
-    if (_skipButton.alpha == 0 && _continueButton.alpha == 0) {
-        [[self.heightAnchor constraintEqualToConstant:0] setActive:YES];
-    }
-}
-
 - (void)showActivityIndicator:(BOOL)showActivityIndicator {
     
     [_continueButton setUserInteractionEnabled:!showActivityIndicator];
