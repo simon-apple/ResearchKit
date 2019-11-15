@@ -62,7 +62,6 @@ class SystemSound {
 enum TaskListRow: Int, CustomStringConvertible {
     case form = 0
     case groupedForm
-    case groupedFormReview
     case survey
     case booleanQuestion
     case customBooleanQuestion
@@ -132,7 +131,6 @@ enum TaskListRow: Int, CustomStringConvertible {
                 [
                     .form,
                     .groupedForm,
-                    .groupedFormReview,
                     .survey
                 ]),
             TaskListRowSection(title: "Survey Questions", rows:
@@ -207,10 +205,7 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .groupedForm:
             return NSLocalizedString("Grouped Form Survey Example", comment: "")
-        
-        case .groupedFormReview:
-            return NSLocalizedString("Review Grouped Form Survey Example", comment: "")
-            
+
         case .survey:
             return NSLocalizedString("Simple Survey Example", comment: "")
             
@@ -566,9 +561,6 @@ enum TaskListRow: Int, CustomStringConvertible {
         case .groupedForm:
             return groupedFormTask
             
-        case .groupedFormReview:
-            return groupedFormTaskReview
-            
         case .survey:
             return surveyTask
             
@@ -852,9 +844,6 @@ enum TaskListRow: Int, CustomStringConvertible {
         return ORKOrderedTask(identifier: String(describing: Identifier.groupedFormTask), steps: [step, question1Step, question2Step, appleFormStep])
     }
 
-    private var groupedFormTaskReview: ORKTask {
-        return groupedFormTask
-    }
     /**
     A task demonstrating how the ResearchKit framework can be used to present a simple
     survey with an introduction, a question, and a conclusion.
