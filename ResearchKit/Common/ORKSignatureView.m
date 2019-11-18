@@ -465,7 +465,9 @@ static CGPoint mmid_Point(CGPoint p1, CGPoint p2) {
 }
 
 - (void)gestureTouchesHaveEndedWithTimeInterval {
-    [self.delegate signatureViewDidEndEditingWithTimeInterval];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(signatureViewDidEndEditingWithTimeInterval)]) {
+        [self.delegate signatureViewDidEndEditingWithTimeInterval];
+    }
 }
 
 - (void)commitCurrentPath {
