@@ -550,7 +550,7 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
      ContinuousScale navigation rules always evaluate to false because the result is different from what is displayed in the UI.
      The fraction digits have to be taken into account in self.answer as well.
      */
-    if ([self isKindOfClass:[ORKContinuousScaleAnswerFormat class]]) {
+    if ([self isKindOfClass:[ORKContinuousScaleAnswerFormat class]] && ![answer isKindOfClass:[ORKDontKnowAnswer class]]) {
         NSNumberFormatter* formatter = [(ORKContinuousScaleAnswerFormat*)self numberFormatter];
         answer = [formatter numberFromString:[formatter stringFromNumber:answer]];
     }
