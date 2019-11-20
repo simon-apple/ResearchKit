@@ -91,8 +91,18 @@
         if ( [[route valueForKey:getAVSystemController_RouteDescriptionKey_RouteCurrentlyPicked()] boolValue] )
         {
             NSString *subtype = [route valueForKey:getAVSystemController_RouteDescriptionKey_RouteSubtype()];
+            NSString *productIDStr = [route valueForKey:getAVSystemController_RouteDescriptionKey_BTDetails_ProductID()];
             NSSet *supportedRoutes = [_supportedHeadphoneTypes objectsPassingTest:^BOOL(NSString * _Nonnull obj, BOOL * _Nonnull routesStop) {
-                return [subtype containsString:obj];
+                BOOL isAuthorizedDevice = YES;
+                if (productIDStr != nil) {
+                    NSArray *components = [productIDStr componentsSeparatedByString: @","];
+                    NSString *productId = [components lastObject];
+                    NSString *deviceVendorPrefix = [components firstObject];
+                    BOOL isAppleDevice = deviceVendorPrefix != nil && ([deviceVendorPrefix containsString:ORKHeadphoneRawTypeIdentifierVendorIdApple]);
+                    BOOL isAuthorizedProductId = productId != nil && ([productId isEqualToString:ORKHeadphoneRawTypeIdentifierProductIdAirPodsGen1] || [productId isEqualToString:ORKHeadphoneRawTypeIdentifierProductIdAirPodsGen2]);
+                    isAuthorizedDevice = isAppleDevice && isAuthorizedProductId;
+                }
+                return [subtype containsString:obj] && isAuthorizedDevice;
             }];
             _newRoute = subtype;
             routeSupported = ( [supportedRoutes count] > 0 || _supportedHeadphoneTypes == nil );

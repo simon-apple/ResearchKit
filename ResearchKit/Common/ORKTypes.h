@@ -364,14 +364,17 @@ typedef NS_ENUM(NSInteger, ORKMeasurementSystem) {
 } ORK_ENUM_AVAILABLE;
 
 /**
- Type Identifiers for supported headphones types.
+ Type Identifiers for supported headphones chipset types.
  */
 typedef NSString * ORKHeadphoneRawTypeIdentifier NS_STRING_ENUM;
 
-ORK_EXTERN ORKHeadphoneRawTypeIdentifier const ORKHeadphoneRawTypeIdentifierUnknown;
-ORK_EXTERN ORKHeadphoneRawTypeIdentifier const ORKHeadphoneRawTypeIdentifierAirPods;
-ORK_EXTERN ORKHeadphoneRawTypeIdentifier const ORKHeadphoneRawTypeIdentifierLightningEarPods;
-ORK_EXTERN ORKHeadphoneRawTypeIdentifier const ORKHeadphoneRawTypeIdentifierAudioJackEarPods;
+ORK_EXTERN ORKHeadphoneRawTypeIdentifier const ORKHeadphoneRawTypeIdentifierChipsetUnknown;
+ORK_EXTERN ORKHeadphoneRawTypeIdentifier const ORKHeadphoneRawTypeIdentifierChipsetAirPods;
+ORK_EXTERN ORKHeadphoneRawTypeIdentifier const ORKHeadphoneRawTypeIdentifierChipsetLightningEarPods;
+ORK_EXTERN ORKHeadphoneRawTypeIdentifier const ORKHeadphoneRawTypeIdentifierChipsetAudioJackEarPods;
+ORK_EXTERN ORKHeadphoneRawTypeIdentifier const ORKHeadphoneRawTypeIdentifierProductIdAirPodsGen1;
+ORK_EXTERN ORKHeadphoneRawTypeIdentifier const ORKHeadphoneRawTypeIdentifierProductIdAirPodsGen2;
+ORK_EXTERN ORKHeadphoneRawTypeIdentifier const ORKHeadphoneRawTypeIdentifierVendorIdApple;
 
 /**
  Route Identifiers for supported headphone types.

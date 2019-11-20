@@ -445,18 +445,20 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
 # pragma mark OKHeadphoneDetectorDelegate
 
 - (void)headphoneTypeDetected:(ORKHeadphoneRawTypeIdentifier)headphoneType isSupported:(BOOL)isSupported {
-    if (headphoneType == nil) {
+    if (isSupported) {
+        if ([headphoneType containsString:ORKHeadphoneRawTypeIdentifierChipsetAirPods]) {
+            _lastDetectedRoute = ORKHeadphoneTypeIdentifierAirPods;
+            _headphoneDetectStepView.headphoneDetected = ORKHeadphoneDetectedAirpods;
+        } else if ([headphoneType containsString:ORKHeadphoneRawTypeIdentifierChipsetAudioJackEarPods] || [headphoneType containsString:ORKHeadphoneRawTypeIdentifierChipsetLightningEarPods]) {
+            _lastDetectedRoute = ORKHeadphoneTypeIdentifierEarPods;
+            _headphoneDetectStepView.headphoneDetected = ORKHeadphoneDetectedEarpods;
+        } else {
+            _lastDetectedRoute = ORKHeadphoneTypeIdentifierUnknown;
+            _headphoneDetectStepView.headphoneDetected = ORKHeadphoneDetectedUnknown;
+        }
+    } else {
         _lastDetectedRoute = nil;
         _headphoneDetectStepView.headphoneDetected = ORKHeadphoneDetectedNone;
-    } else if ([headphoneType containsString:ORKHeadphoneRawTypeIdentifierAirPods]) {
-        _lastDetectedRoute = ORKHeadphoneTypeIdentifierAirPods;
-        _headphoneDetectStepView.headphoneDetected = ORKHeadphoneDetectedAirpods;
-    } else if ([headphoneType containsString:ORKHeadphoneRawTypeIdentifierAudioJackEarPods] || [headphoneType containsString:ORKHeadphoneRawTypeIdentifierLightningEarPods]) {
-        _lastDetectedRoute = ORKHeadphoneTypeIdentifierEarPods;
-        _headphoneDetectStepView.headphoneDetected = ORKHeadphoneDetectedEarpods;
-    } else {
-        _lastDetectedRoute = ORKHeadphoneTypeIdentifierUnknown;
-        _headphoneDetectStepView.headphoneDetected = ORKHeadphoneDetectedUnknown;
     }
     self.stepView.navigationFooterView.continueEnabled = isSupported;
 }

@@ -460,10 +460,10 @@
 #pragma mark - Headphone Monitoring
 
 - (ORKHeadphoneTypeIdentifier)convertHeadphoneRawType:(ORKHeadphoneRawTypeIdentifier)rawHeadphoneType {
-    if ([rawHeadphoneType containsString: ORKHeadphoneRawTypeIdentifierAirPods]) {
+    if ([rawHeadphoneType containsString: ORKHeadphoneRawTypeIdentifierChipsetAirPods]) {
         return ORKHeadphoneTypeIdentifierAirPods;
-    } else if ([rawHeadphoneType containsString: ORKHeadphoneRawTypeIdentifierLightningEarPods]
-               || [rawHeadphoneType containsString: ORKHeadphoneRawTypeIdentifierAudioJackEarPods]) {
+    } else if ([rawHeadphoneType containsString: ORKHeadphoneRawTypeIdentifierChipsetLightningEarPods]
+               || [rawHeadphoneType containsString: ORKHeadphoneRawTypeIdentifierChipsetAudioJackEarPods]) {
         return ORKHeadphoneTypeIdentifierEarPods;
     }
     return nil;
