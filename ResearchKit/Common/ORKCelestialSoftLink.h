@@ -39,4 +39,4 @@ ORK_SOFT_LINK_CLASS(Celestial, AVSystemController)
 ORK_SOFT_LINK_CONSTANT(Celestial, AVSystemController_PickableRoutesAttribute, NSString *)
 ORK_SOFT_LINK_CONSTANT(Celestial, AVSystemController_RouteDescriptionKey_RouteCurrentlyPicked, NSString *)
 ORK_SOFT_LINK_CONSTANT(Celestial, AVSystemController_RouteDescriptionKey_RouteSubtype, NSString *)
-
+ORK_SOFT_LINK_CONSTANT(Celestial, AVSystemController_RouteDescriptionKey_BTDetails_ProductID, NSString *)
