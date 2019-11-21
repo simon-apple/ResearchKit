@@ -258,7 +258,7 @@ static NSString *ORKBulletUnicode = @"\u2981";
             [self setCustomSpacing:ORKBodyDetailTextToLearnMoreButtonPaddingStandard afterView:detailTextLabel];
         }
         else if (textLabel) {
-            [self setCustomSpacing:ORKBodyTextToLearnMoreButtonPaddingStandard afterView:detailTextLabel];
+            [self setCustomSpacing:ORKBodyTextToLearnMoreButtonPaddingStandard afterView:textLabel];
         }
     }
 }
@@ -528,10 +528,10 @@ static NSString *ORKBulletUnicode = @"\u2981";
 - (CGFloat)spacingWithAboveStyle:(ORKBodyItemStyle)aboveStyle belowStyle:(ORKBodyItemStyle )belowStyle belowIsLearnMore:(BOOL)belowIsLearnMore belowItemIndex:(NSInteger)belowItemIndex {
     if (aboveStyle == ORKBodyItemStyleHorizontalRule || belowStyle == ORKBodyItemStyleHorizontalRule) {
         return ORKHorizontalRulePadding;
-    } else if (aboveStyle == ORKBodyItemStyleText) {
-        return belowStyle == ORKBodyItemStyleText ? (_bodyItems[belowItemIndex].text ? ORKBodyToBodyParagraphPaddingStandard : ORKBodyToBodyPaddingStandard) : ORKBodyToBulletPaddingStandard;
     } else if (belowIsLearnMore == YES) {
         return ORKBodyToLearnMorePaddingStandard;
+    } else if (aboveStyle == ORKBodyItemStyleText) {
+        return belowStyle == ORKBodyItemStyleText ? (_bodyItems[belowItemIndex].text ? ORKBodyToBodyParagraphPaddingStandard : ORKBodyToBodyPaddingStandard) : ORKBodyToBulletPaddingStandard;
     } else if (aboveStyle == ORKBodyItemStyleTag) {
         return ORKTagLabelBottomPadding;
     } else {
