@@ -111,8 +111,6 @@
 
     self.questionNumber = 0;
     _stroopContentView = [ORKStroopContentView new];
-    [self.activeStepView.navigationFooterView setHidden:YES];
-    [self.activeStepView.navigationFooterView setUserInteractionEnabled:NO];
     self.activeStepView.activeCustomView = _stroopContentView;
     
     [self.stroopContentView.RButton addTarget:self

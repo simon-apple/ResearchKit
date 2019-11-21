@@ -1251,7 +1251,7 @@ NSString *const ORKSpatialSpanMemoryStepIdentifier = @"cognitive.memory.spatials
             step.detailText = [NSString localizedStringWithFormat:ORKLocalizedString(@"SPATIAL_SPAN_MEMORY_INTRO_TEXT_%@", nil),targetPluralName];
             
             step.image = [UIImage imageNamed:@"memory" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
-            step.imageContentMode = UIViewContentModeCenter;
+            step.imageContentMode = UIViewContentModeScaleAspectFit;
             step.shouldTintImages = YES;
             
             ORKStepArrayAddStep(steps, step);
@@ -1268,7 +1268,7 @@ NSString *const ORKSpatialSpanMemoryStepIdentifier = @"cognitive.memory.spatials
             } else {
                 step.image = customTargetImage;
             }
-            step.imageContentMode = UIViewContentModeCenter;
+            step.imageContentMode = UIViewContentModeScaleAspectFit;
             step.shouldTintImages = YES;
             
             ORKStepArrayAddStep(steps, step);

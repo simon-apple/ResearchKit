@@ -38,12 +38,10 @@
 #import "ORKRingView.h"
 #import "ORKProgressView.h"
 #import "ORKCompletionCheckmarkView.h"
-#import "ORKNavigationContainerView_Internal.h"
 
 static const CGFloat CircleIndicatorMaxDiameter = 150.0;
 static const CGFloat RingViewTopPadding = 24.0;
 static const CGFloat InstructionLabelTopPadding = 50.0;
-static const CGFloat InstructionLabelMinimumBottomPadding = 15.0;
 
 @implementation ORKEnvironmentSPLMeterContentView {
     UIView *_circleIndicatorView;
@@ -64,7 +62,6 @@ static const CGFloat InstructionLabelMinimumBottomPadding = 15.0;
         [self setupCircleIndicatorView];
         [self setProgressCircle:0.0];
         [self setupDBInstructionLabel];
-        [self setUpNavigationFooterView];
     }
 
     return self;
@@ -109,25 +106,6 @@ static const CGFloat InstructionLabelMinimumBottomPadding = 15.0;
     
     [[_DBInstructionLabel.centerXAnchor constraintEqualToAnchor:self.centerXAnchor] setActive:YES];
     [[_DBInstructionLabel.topAnchor constraintEqualToAnchor:_circleIndicatorView.bottomAnchor constant:InstructionLabelTopPadding] setActive:YES];
-}
-
-- (void)setUpNavigationFooterView {
-    if (!_navigationFooterView) {
-        _navigationFooterView = [ORKNavigationContainerView new];
-    }
-    
-    _navigationFooterView.translatesAutoresizingMaskIntoConstraints = NO;
-    [_navigationFooterView removeStyling];
-    [self addSubview:_navigationFooterView];
-    
-    [[_navigationFooterView.topAnchor constraintGreaterThanOrEqualToAnchor:_DBInstructionLabel.bottomAnchor constant:InstructionLabelMinimumBottomPadding] setActive:YES];
-    [[_navigationFooterView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor constant:0.0] setActive:YES];
-}
-
-- (void)setLeftRightConstraints:(CGFloat)leftRightPadding {
-    // <rdar://problem/56866177> Fix tone audiometry on smaller devices and image size on all devices
-    [[_navigationFooterView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:-leftRightPadding] setActive:YES];
-    [[_navigationFooterView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:leftRightPadding] setActive:YES];
 }
 
 - (void)setProgressCircle:(CGFloat)progress {

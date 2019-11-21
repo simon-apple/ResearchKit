@@ -101,9 +101,6 @@
     _timerLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
     _timerLabel.adjustsFontForContentSizeCategory = YES;
     _timerLabel.textAlignment = NSTextAlignmentCenter;
-
-    [self.activeStepView.navigationFooterView setHidden:YES];
-    [self.activeStepView.navigationFooterView setUserInteractionEnabled:NO];
     
     [self.view addSubview:_timerLabel];
 }

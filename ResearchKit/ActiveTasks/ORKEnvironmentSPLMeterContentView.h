@@ -38,7 +38,6 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @class ORKRoundTappingButton;
-@class ORKNavigationContainerView;
 
 @interface ORKEnvironmentSPLMeterContentView : ORKActiveStepCustomView
 
@@ -47,10 +46,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setProgressCircle:(CGFloat)progress;
 
 @property(nonatomic, strong) ORKRingView *ringView;
-@property(nonatomic, strong) ORKNavigationContainerView *navigationFooterView;
 
 - (void)reachedOptimumNoiseLevel;
-- (void)setLeftRightConstraints:(CGFloat)leftRightPadding;
 
 @end
 

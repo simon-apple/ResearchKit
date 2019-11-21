@@ -74,6 +74,12 @@ static const CGFloat activityIndicatorPadding = 24.0;
     }
 }
 
+- (void)flattenIfNeeded {
+    if (![self hasContinueOrSkip] || (self.continueButtonItem == nil && [self neverHasSkipButton] && [self neverHasFootnote])) {
+        [[self.heightAnchor constraintEqualToConstant:0] setActive:YES];
+    }
+}
+
 - (void)setupVisualEffectView {
     if (!effectView && !_removeVisualEffect) {
         self.backgroundColor = [UIColor clearColor];

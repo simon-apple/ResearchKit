@@ -35,6 +35,7 @@
 #import "ORKStepContentView_Private.h"
 #import "ORKBodyContainerView.h"
 #import "ORKSkin.h"
+#import "ORKActiveStep.h"
 #import "ORKNavigationContainerView_Internal.h"
 
 /**
@@ -144,6 +145,7 @@ static const CGFloat ORKBodyItemScrollPadding = 24.0;
     if (self) {
         _customContentLeftRightPadding = ORKStepContainerLeftRightPaddingForWindow(self.window);
         _leftRightPadding = ORKStepContainerExtendedLeftRightPaddingForWindow(self.window);
+        self.isNavigationContainerScrollable = NO;
         [self setupScrollView];
         [self setupScrollContainerView];
         [self addStepContentView];
@@ -322,9 +324,18 @@ static const CGFloat ORKBodyItemScrollPadding = 24.0;
 
 - (void)placeNavigationContainerView {
     [self removeNavigationFooterView];
-    self.isNavigationContainerScrollable = NO;
-    [self addSubview:self.navigationFooterView];
+    
+    if (self.isNavigationContainerScrollable) {
+        [_scrollContainerView addSubview:self.navigationFooterView];
+    } else {
+        [self addSubview:self.navigationFooterView];
+    }
     [self setupNavigationContainerViewConstraints];
+}
+
+- (void)placeNavigationContainerInsideScrollView {
+    self.isNavigationContainerScrollable = YES;
+    [self placeNavigationContainerView];
 }
 
 - (void)layoutSubviews {

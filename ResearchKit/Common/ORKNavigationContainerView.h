@@ -56,6 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setStylingOpactity:(CGFloat)opacity animated:(BOOL)animated;
 
 - (void)showActivityIndicator:(BOOL)showActivityIndicator;
+- (void)flattenIfNeeded;
 
 @end
 

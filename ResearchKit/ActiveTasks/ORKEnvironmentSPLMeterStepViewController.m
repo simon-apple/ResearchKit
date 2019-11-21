@@ -129,15 +129,9 @@
 }
 
 - (void)setNavigationFooterView {
-    [self.activeStepView.navigationFooterView setHidden:YES];
-    [self.activeStepView.navigationFooterView setUserInteractionEnabled:NO];
-    
-    _environmentSPLMeterContentView.navigationFooterView.continueButtonItem = self.continueButtonItem;
-    _environmentSPLMeterContentView.navigationFooterView.continueEnabled = NO;
-    [_environmentSPLMeterContentView.navigationFooterView updateContinueAndSkipEnabled];
-    
-    CGFloat leftRightPadding = self.step.useExtendedPadding ? ORKStepContainerExtendedLeftRightPaddingForWindow(self.view.window) : ORKStepContainerLeftRightPaddingForWindow(self.view.window);
-    [_environmentSPLMeterContentView setLeftRightConstraints:leftRightPadding];
+    self.activeStepView.navigationFooterView.continueButtonItem = self.continueButtonItem;
+    self.activeStepView.navigationFooterView.continueEnabled = NO;
+    [self.activeStepView.navigationFooterView updateContinueAndSkipEnabled];
 }
 
 - (void)setContinueButtonItem:(UIBarButtonItem *)continueButtonItem {
@@ -380,7 +374,7 @@
 
 - (void)ringViewDidFinishFillAnimation {
     [self.environmentSPLMeterContentView reachedOptimumNoiseLevel];
-    _environmentSPLMeterContentView.navigationFooterView.continueEnabled = YES;
+    self.activeStepView.navigationFooterView.continueEnabled = YES;
 }
 
 @end

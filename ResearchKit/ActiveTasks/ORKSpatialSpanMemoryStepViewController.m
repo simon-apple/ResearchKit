@@ -169,8 +169,6 @@ typedef void (^_ORKStateHandler)(ORKState *fromState, ORKState *_toState, id con
     _contentView.translatesAutoresizingMaskIntoConstraints = NO;
     _contentView.footerHidden = YES;
     _contentView.gameView.delegate = self;
-    [self.activeStepView.navigationFooterView setHidden:YES];
-    [self.activeStepView.navigationFooterView setUserInteractionEnabled:NO];
     self.activeStepView.activeCustomView = _contentView;
     self.activeStepView.customContentFillsAvailableSpace = YES;
     

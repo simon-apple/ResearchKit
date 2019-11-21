@@ -109,9 +109,6 @@
         self.toneAudiometryContentView.accessibilityLabel = ORKLocalizedString(@"AX_TAP_BUTTON_DIRECT_TOUCH_AREA", nil);
         self.toneAudiometryContentView.accessibilityTraits = UIAccessibilityTraitAllowsDirectInteraction;
     }
-    
-    [self.activeStepView.navigationFooterView setHidden:YES];
-    [self.activeStepView.navigationFooterView setUserInteractionEnabled:NO];
 }
 
 - (void)generateFrequencyCombination {

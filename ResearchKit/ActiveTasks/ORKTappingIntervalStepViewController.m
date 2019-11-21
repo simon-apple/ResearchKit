@@ -97,8 +97,6 @@
     _expired = NO;
     
     _tappingContentView = [[ORKTappingContentView alloc] init];
-    [self.activeStepView.navigationFooterView setHidden:YES];
-    [self.activeStepView.navigationFooterView setUserInteractionEnabled:NO];
     self.activeStepView.activeCustomView = _tappingContentView;
     self.activeStepView.customContentFillsAvailableSpace = YES;
     
