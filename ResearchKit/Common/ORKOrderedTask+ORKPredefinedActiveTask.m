@@ -416,7 +416,7 @@ NSString *const ORKTappingStepIdentifier = @"tapping";
             }
             step.image = [UIImage imageNamed:imageName inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
             step.shouldTintImages = YES;
-            step.imageContentMode = UIViewContentModeCenter;
+            step.imageContentMode = UIViewContentModeScaleAspectFit;
             ORKStepArrayAddStep(steps, step);
         }
     }
@@ -500,7 +500,7 @@ NSString *const ORKTappingStepIdentifier = @"tapping";
             } else {
                 step.image = [imageAnimation ork_flippedImage:UIImageOrientationUpMirrored];
             }
-            step.imageContentMode = UIViewContentModeCenter;
+            step.imageContentMode = UIViewContentModeScaleAspectFit;
             step.shouldTintImages = YES;
             
             ORKStepArrayAddStep(steps, step);
