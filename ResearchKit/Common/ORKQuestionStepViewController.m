@@ -407,6 +407,10 @@ static const CGFloat DelayBeforeAutoScroll = 0.25;
         [_tableContainer resizeFooterToFit];
         [_tableContainer layoutIfNeeded];
     }
+    
+    if (_tableView) {
+        [_tableView reloadData];
+    }
 }
 
 - (void)answerDidChange {
