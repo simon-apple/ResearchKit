@@ -1354,10 +1354,15 @@ NSString *const ORKSpeechRecognitionStepIdentifier = @"speech.recognition";
     ORKStepArrayAddStep(steps, step);
     
     if (allowsEdittingTranscript) {
+        ORKTextAnswerFormat *answerFormat = [ORKTextAnswerFormat new];
+        answerFormat.spellCheckingType = UITextSpellCheckingTypeNo;
+        answerFormat.autocorrectionType = UITextAutocorrectionTypeNo;
+        answerFormat.multipleLines = YES;
+        answerFormat.maximumLength = 280;
         ORKQuestionStep *editTranscriptStep = [ORKQuestionStep questionStepWithIdentifier:ORKEditSpeechTranscript0StepIdentifier
                                                                                     title:ORKLocalizedString(@"SPEECH_RECOGNITION_QUESTION_TITLE", nil)
                                                                                  question:nil
-                                                                                   answer:[ORKTextAnswerFormat new]];
+                                                                                   answer:answerFormat];
         editTranscriptStep.text = ORKLocalizedString(@"SPEECH_RECOGNITION_QUESTION_TEXT", nil);
         ORKStepArrayAddStep(steps, editTranscriptStep);
     }
@@ -1441,6 +1446,8 @@ NSString *const ORKSpeechInNoiseStep2Identifier = @"speech.in.noise2";
         ORKTextAnswerFormat *answerFormat = [ORKTextAnswerFormat new];
         answerFormat.spellCheckingType = UITextSpellCheckingTypeNo;
         answerFormat.autocorrectionType = UITextAutocorrectionTypeNo;
+        answerFormat.multipleLines = YES;
+        answerFormat.maximumLength = 280;
         ORKQuestionStep *editTranscriptStep = [ORKQuestionStep questionStepWithIdentifier:ORKEditSpeechTranscript0StepIdentifier
                                                                                     title:ORKLocalizedString(@"SPEECH_RECOGNITION_QUESTION_TITLE", nil)
                                                                                  question:nil

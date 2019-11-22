@@ -1158,6 +1158,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     */
     private var textQuestionTask: ORKTask {
         let answerFormat = ORKAnswerFormat.textAnswerFormat()
+        answerFormat.multipleLines = true
         answerFormat.maximumLength = 280;
         
         let step = ORKQuestionStep(identifier: String(describing: Identifier.textQuestionStep), title: NSLocalizedString("Text", comment: ""), question: exampleQuestionText, answer: answerFormat)

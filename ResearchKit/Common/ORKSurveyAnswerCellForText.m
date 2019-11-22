@@ -326,6 +326,7 @@ static const CGFloat ErrorLabelBottomPadding = 10.0;
 
 @implementation ORKSurveyAnswerCellForTextField {
     NSMutableArray *constraints;
+    NSString *_defaultTextAnswer;
 }
 
 - (BOOL)becomeFirstResponder {
@@ -335,7 +336,9 @@ static const CGFloat ErrorLabelBottomPadding = 10.0;
 - (void)textFieldCell_initialize {
     ORKAnswerFormat *answerFormat = [self.step impliedAnswerFormat];
     ORKTextAnswerFormat *textAnswerFormat = ORKDynamicCast(answerFormat, ORKTextAnswerFormat);
-
+    
+    _defaultTextAnswer = textAnswerFormat.defaultTextAnswer;
+    
     _textField = [[ORKAnswerTextField alloc] initWithFrame:CGRectZero];
     _textField.text = @"";
     
@@ -362,6 +365,15 @@ static const CGFloat ErrorLabelBottomPadding = 10.0;
     
     
     [self setUpConstraints];
+}
+
+- (void)assignDefaultAnswer {
+    if (_defaultTextAnswer) {
+        [self ork_setAnswer:_defaultTextAnswer];
+        if (self.textField) {
+            self.textField.text = _defaultTextAnswer;
+        }
+    }
 }
 
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
@@ -454,7 +466,11 @@ static const CGFloat ErrorLabelBottomPadding = 10.0;
     }
     NSString *displayValue = (answer && answer != ORKNullAnswerValue()) ? answer : nil;
     
-    self.textField.text = displayValue;
+    if (displayValue == nil && _defaultTextAnswer) {
+        [self assignDefaultAnswer];
+    } else {
+        self.textField.text = displayValue;
+    }
 }
 
 - (void)textFieldDidChange:(UITextField *)textField {
