@@ -1931,7 +1931,9 @@ ORK_CLASS_AVAILABLE
 @end
 
 /**
- Socio-Economic Ladder Answer Format
+ Socio-Economic Ladder Answer Format.
+
+ This answer format works best in ORKFormStep, there is a known issue where the cell might get squished if presented inside an ORKQuestionStep.
  */
 ORK_CLASS_AVAILABLE
 @interface ORKSESAnswerFormat : ORKAnswerFormat
