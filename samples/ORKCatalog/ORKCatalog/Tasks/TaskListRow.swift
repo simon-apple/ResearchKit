@@ -1504,7 +1504,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         let registrationOptions: ORKRegistrationStepOption = [.includeGivenName, .includeFamilyName, .includeGender, .includeDOB, .includePhoneNumber]
         let registrationStep = ORKRegistrationStep(identifier: String(describing: Identifier.registrationStep), title: registrationTitle, text: exampleDetailText, passcodeValidationRegularExpression: passcodeValidationRegularExpression, passcodeInvalidMessage: passcodeInvalidMessage, options: registrationOptions)
         registrationStep.phoneNumberValidationRegularExpression = try? NSRegularExpression(pattern: "^[+]{1,1}[1]{1,1}\\s{1,1}[(]{1,1}[1-9]{3,3}[)]{1,1}\\s{1,1}[1-9]{3,3}\\s{1,1}[1-9]{4,4}$")
-        registrationStep.phoneNumberInvalidMessage = "Invalid phone number"
+        registrationStep.phoneNumberInvalidMessage = "Expected format +1 (555) 555 5555"
         
         /*
         A wait step allows you to upload the data from the user registration onto your server before presenting the verification step.
