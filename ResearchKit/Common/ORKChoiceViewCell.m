@@ -597,10 +597,12 @@ static const CGFloat LabelCheckViewPadding = 10.0;
 
 # pragma mark - UITextViewDelegate
 
-- (void)textViewDidBeginEditing:(UITextView *)textView {
+- (BOOL)textViewShouldBeginEditing:(UITextView *)textView {
     if (self.delegate && [self.delegate respondsToSelector:@selector(textChoiceOtherCellDidBecomeFirstResponder:)]) {
         [self.delegate textChoiceOtherCellDidBecomeFirstResponder:self];
     }
+    
+    return YES;
 }
 
 - (void) textViewDidEndEditing:(UITextView *)textView {
