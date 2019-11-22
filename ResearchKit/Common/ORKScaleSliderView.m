@@ -153,8 +153,14 @@ static const CGFloat kMargin = 25.0;
             }
             
             if (textChoices) {
-                _leftRangeDescriptionLabel.textColor = [UIColor blackColor];
-                _rightRangeDescriptionLabel.textColor = [UIColor blackColor];
+                if (@available(iOS 13.0, *)) {
+                    [_leftRangeDescriptionLabel setTextColor:[UIColor labelColor]];
+                    [_rightRangeDescriptionLabel setTextColor:[UIColor labelColor]];
+                } else {
+                    _leftRangeDescriptionLabel.textColor = [UIColor blackColor];
+                    _rightRangeDescriptionLabel.textColor = [UIColor blackColor];
+                }
+                
                 _leftRangeLabel.text = @"";
                 _rightRangeLabel.text = @"";
             }
