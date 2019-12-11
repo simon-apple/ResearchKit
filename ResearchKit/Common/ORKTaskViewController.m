@@ -1354,7 +1354,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
 }
 
 - (void)stepViewController:(ORKStepViewController *)stepViewController didFinishWithNavigationDirection:(ORKStepViewControllerNavigationDirection)direction {
-    [self stepViewController:stepViewController didFinishWithNavigationDirection:direction animated:YES];
+    [self stepViewController:stepViewController didFinishWithNavigationDirection:direction animated:(direction == ORKStepViewControllerNavigationDirectionForward)];
 }
 
 - (void)stepViewControllerDidFail:(ORKStepViewController *)stepViewController withError:(NSError *)error {
@@ -1700,8 +1700,7 @@ static NSString *const _ORKProgressMode = @"progressMode";
         // _childNavigationController has completed either: a non-interactive animated pop transition by tapping on the
         // back button; or an interactive animated pop transition by completing a drag-from-the-edge action. Update view
         // controller stack and task view controller state.
-        [self stepViewController:_currentStepViewController didFinishWithNavigationDirection:ORKStepViewControllerNavigationDirectionReverse
-                        animated:NO];
+        [_currentStepViewController goBackward];
     }
 }
 
