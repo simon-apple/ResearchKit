@@ -339,7 +339,14 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKUpdateConstraintSequence) {
         [self updateViewConstraintsForSequence:ORKUpdateConstraintSequenceTitleLabel];
         [self setNeedsUpdateConstraints];
     }
-    [_titleLabel setText:stepTitle];
+    
+    NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
+    [paragraphStyle setHyphenationFactor:0.5];
+    
+    NSDictionary *hyphenAttribute = @{NSParagraphStyleAttributeName : paragraphStyle};
+    
+    NSAttributedString *attributedStepTitle = [[NSAttributedString alloc] initWithString:stepTitle ?: @"" attributes:hyphenAttribute];
+    [_titleLabel setAttributedText:attributedStepTitle];
 }
 
 - (void)setupTitleLabel {
