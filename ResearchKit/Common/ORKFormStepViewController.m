@@ -1080,6 +1080,7 @@ static const CGFloat DelayBeforeAutoScroll = 0.25;
             choiceViewCell.cardViewStyle = [self formStep].cardViewStyle;
             choiceViewCell.isLastItem = isLastItem;
             choiceViewCell.isFirstItemInSectionWithoutTitle = isFirstItemWithSectionWithoutTitle;
+            [choiceViewCell layoutSubviews];
             cell = choiceViewCell;
 
         } else {
