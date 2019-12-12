@@ -30,6 +30,7 @@
 
 /* Informed consent process. */
 "CONSENT_NAME_TITLE" = "Consent";
+"CONSENT_NAME_SECTION_TITLE" = "Name";
 "CONSENT_NAME_GIVEN" = "First Name";
 "CONSENT_NAME_FAMILY" = "Last Name";
 "CONSENT_NAME_PLACEHOLDER" = "Required";
