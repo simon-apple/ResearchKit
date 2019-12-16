@@ -28,24 +28,20 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 @import UIKit;
 #import "ORKCustomStepView_Internal.h"
-#import "ORKUnitLabel.h"
-#import "ORKRingView.h"
-
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class ORKRoundTappingButton;
+@class ORKRingView;
 
 @interface ORKEnvironmentSPLMeterContentView : ORKActiveStepCustomView
+
+- (ORKRingView *)ringView;
 
 - (void)setProgress:(CGFloat)progress;
 
 - (void)setProgressCircle:(CGFloat)progress;
-
-@property(nonatomic, strong) ORKRingView *ringView;
 
 - (void)reachedOptimumNoiseLevel;
 
