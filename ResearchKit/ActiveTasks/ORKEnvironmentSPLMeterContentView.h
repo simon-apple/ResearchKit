@@ -37,8 +37,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class ORKRoundTappingButton;
 @class ORKNavigationContainerView;
+@class ORKEnvironmentSPLMeterContentView;
+
+@protocol ORKEnvironmentSPLMeterContentViewVoiceOverDelegate <NSObject>
+
+- (void)contentView:(ORKEnvironmentSPLMeterContentView * _Nonnull)contentView shouldAnnounce:(NSString * _Nonnull)inAnnouncement;
+
+@end
 
 @interface ORKEnvironmentSPLMeterContentView : ORKActiveStepCustomView
+
+@property (nonatomic, strong) ORKNavigationContainerView *navigationFooterView;
+
+@property (nonatomic, weak) id<ORKEnvironmentSPLMeterContentViewVoiceOverDelegate> voiceOverDelegate;
 
 - (ORKRingView *)ringView;
 
@@ -46,9 +57,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)setProgressCircle:(CGFloat)progress;
 
-@property(nonatomic, strong) ORKNavigationContainerView *navigationFooterView;
-
 - (void)reachedOptimumNoiseLevel;
+
 - (void)setLeftRightConstraints:(CGFloat)leftRightPadding;
 
 @end
