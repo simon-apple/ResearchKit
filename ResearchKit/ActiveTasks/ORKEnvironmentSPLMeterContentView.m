@@ -215,9 +215,22 @@ static CGFloat CircleIndicatorPulseVarianceForProgress(CGFloat progress) {
     [_ringView setValue:value];
 }
 
-- (void)updateInstructionForValue:(CGFloat)progress {
+- (void)updateInstructionForValue:(CGFloat)progress
+{
     dispatch_async(dispatch_get_main_queue(), ^{
-        _DBInstructionLabel.text = progress >= ORKRingViewMaximumValue ? ORKLocalizedString(@"ENVIRONMENTSPL_NOISE", nil) : ORKLocalizedString(@"ENVIRONMENTSPL_OK", nil);
+        
+        NSString *currentInstruction = [_DBInstructionLabel.text copy];
+        NSString *newInstruction = progress >= ORKRingViewMaximumValue ? ORKLocalizedString(@"ENVIRONMENTSPL_NOISE", nil) : ORKLocalizedString(@"ENVIRONMENTSPL_OK", nil);
+        
+        if (![newInstruction isEqualToString:currentInstruction])
+        {
+            _DBInstructionLabel.text = newInstruction;
+            
+            if (UIAccessibilityIsVoiceOverRunning() && [self.voiceOverDelegate respondsToSelector:@selector(contentView:shouldAnnounce:)])
+            {
+                [self.voiceOverDelegate contentView:self shouldAnnounce:_DBInstructionLabel.text];
+            }
+        }
     });
 }
 
