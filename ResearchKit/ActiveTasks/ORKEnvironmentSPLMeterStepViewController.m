@@ -51,7 +51,7 @@
 #import <AVFoundation/AVFoundation.h>
 #include <sys/sysctl.h>
 
-@interface ORKEnvironmentSPLMeterStepViewController ()<ORKRingViewDelegate> {
+@interface ORKEnvironmentSPLMeterStepViewController ()<ORKRingViewDelegate, ORKEnvironmentSPLMeterContentViewVoiceOverDelegate> {
     AVAudioEngine *_audioEngine;
     AVAudioInputNode *_inputNode;
     AVAudioUnitEQ *_eqUnit;
@@ -72,6 +72,8 @@
     AVAudioSessionCategory _savedSessionCategory;
     AVAudioSessionMode _savedSessionMode;
     AVAudioSessionCategoryOptions _savedSessionCategoryOptions;
+    UINotificationFeedbackGenerator *_notificationFeedbackGenerator;
+    dispatch_semaphore_t _voiceOverAnnouncementSemaphore;
 }
 
 @property (nonatomic, strong) ORKEnvironmentSPLMeterContentView *environmentSPLMeterContentView;
@@ -104,6 +106,7 @@
     _sensitivityOffset = [self sensitivityOffsetForDevice];
     _environmentSPLMeterContentView = [ORKEnvironmentSPLMeterContentView new];
     [self setNavigationFooterView];
+    _environmentSPLMeterContentView.voiceOverDelegate = self;
     _environmentSPLMeterContentView.ringView.delegate = self;
     self.activeStepView.activeCustomView = _environmentSPLMeterContentView;
     self.activeStepView.customContentFillsAvailableSpace = YES;
@@ -119,6 +122,8 @@
     [self configureEQ];
     [_audioEngine attachNode:_eqUnit];
     [_audioEngine connect:_inputNode to:_eqUnit format:_inputNodeOutputFormat];
+    [self setupAccessibilityAnnouncementNotification];
+    [self setupFeedbackGenerator];
 }
 
 - (void)saveAudioSession {
@@ -148,7 +153,6 @@
     _requiredContiguousSamples = [self environmentSPLMeterStep].requiredContiguousSamples;
     _thresholdValue = [self environmentSPLMeterStep].thresholdValue;
     [self splWorkBlock];
-    
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -203,17 +207,25 @@
     if (error) {
         ORK_Log_Error("Setting AVAudioSessionCategory failed with error message: \"%@\"", error.localizedDescription);
     }
+    
     [[AVAudioSession sharedInstance] setActive:YES error:&error];
     if (error) {
         ORK_Log_Error("Activating AVAudioSession failed with error message: \"%@\"", error.localizedDescription);
     }
     
     // Force input/output from iOS device
-    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord mode:AVAudioSessionModeMeasurement options:AVAudioSessionCategoryOptionMixWithOthers error:&error];
-    [[AVAudioSession sharedInstance] overrideOutputAudioPort: AVAudioSessionPortOverrideSpeaker error:&error];
+    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord mode:AVAudioSessionModeMeasurement options:AVAudioSessionCategoryOptionDuckOthers | AVAudioSessionCategoryOptionMixWithOthers | AVAudioSessionCategoryOptionAllowBluetoothA2DP error:&error];
     if (error) {
         ORK_Log_Error("Setting AVAudioSessionCategory failed with error message: \"%@\"", error.localizedDescription);
     }
+    
+    // Override Output (and Input) to use built-in mic and speaker.
+    [[AVAudioSession sharedInstance] overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:&error];
+    if (error)
+    {
+        ORK_Log_Error("Setting AVAudioSessionPortOverrideSpeaker failed with error message: \"%@\"", error.localizedDescription);
+    }
+    
     [[AVAudioSession sharedInstance] setActive:YES error:&error];
     if (error) {
         ORK_Log_Error("Activating AVAudioSession failed with error message: \"%@\"", error.localizedDescription);
@@ -264,7 +276,13 @@
 }
 
 - (void)splWorkBlock {
-    if (!_audioEngine.isRunning && ![[AVAudioSession sharedInstance] isOtherAudioPlaying]) {
+    // secondaryAudioShouldBeSilencedHint returns true if VoiceOver is running.
+    // Since we are killing all audio when configuring the session, here we can make a safe assumption that if VoiceOver is running, allow the user to continue even if the secondaryAudioShouldBeSilencedHint is YES.
+    // If VoiceOver is not running, we can still gate based on the secondaryAudioShouldBeSilencedHint.
+    
+    BOOL otherAudioIsProhibitingMeasurement = [[AVAudioSession sharedInstance] secondaryAudioShouldBeSilencedHint] && !UIAccessibilityIsVoiceOverRunning();
+    
+    if (!_audioEngine.isRunning && !otherAudioIsProhibitingMeasurement) {
         [_eqUnit installTapOnBus:0
                       bufferSize:_bufferSize
                           format:_inputNodeOutputFormat
@@ -313,7 +331,7 @@
                                    });
                                }
                            }];
-        if (!_audioEngine.isRunning && ![[AVAudioSession sharedInstance] isOtherAudioPlaying]) {
+        if (!_audioEngine.isRunning && !otherAudioIsProhibitingMeasurement) {
             NSError *error = nil;
             [_audioEngine startAndReturnError:&error];
         } else {
@@ -324,24 +342,35 @@
     }
 }
 
-- (void) evaluateThreshold: (float)spl {
-    if (spl < _thresholdValue) {
+- (void)evaluateThreshold:(float)spl
+{
+    if (spl < _thresholdValue)
+    {
         _counter += 1;
+        
         [self.environmentSPLMeterContentView.ringView fillRingWithDuration:(double)_requiredContiguousSamples*_samplingInterval];
-        if (_counter >= _requiredContiguousSamples) {
+        
+        if (_counter >= _requiredContiguousSamples)
+        {
             [self reachedOptimumNoiseLevel];
+            
+            [self sendHapticEvent:UINotificationFeedbackTypeSuccess shouldResumeAudioEngine:NO];
         }
-    } else {
+    }
+    else
+    {
         _counter = 0;
         self.environmentSPLMeterContentView.ringView.animationDuration = 0.5;
         [self.environmentSPLMeterContentView setProgress:0.0];
+        
+        [self sendHapticEvent:UINotificationFeedbackTypeError shouldResumeAudioEngine:YES];
     }
 }
 
-- (void) resetAudioSession {
+- (void)resetAudioSession {
     NSError *error = nil;
     [[AVAudioSession sharedInstance] setCategory:_savedSessionCategory mode:_savedSessionMode options:_savedSessionCategoryOptions error:&error];
-    [[AVAudioSession sharedInstance] overrideOutputAudioPort: AVAudioSessionPortOverrideNone error:&error];
+    [[AVAudioSession sharedInstance] overrideOutputAudioPort:AVAudioSessionPortOverrideNone error:&error];
     if (error) {
         ORK_Log_Error("Setting AVAudioSessionCategory failed with error message: \"%@\"", error.localizedDescription);
     }
@@ -375,6 +404,85 @@
 - (void)ringViewDidFinishFillAnimation {
     [self.environmentSPLMeterContentView reachedOptimumNoiseLevel];
     self.activeStepView.navigationFooterView.continueEnabled = YES;
+}
+
+#pragma mark - AVAudioEngine Pause/Resume Support
+
+- (void)pauseAudioEngineAndResumeAfter:(BOOL)shouldResumeAudioEngine block:(void(^_Nonnull)(void))inBlock
+{
+    if (_audioEngine.isRunning)
+    {
+        [_audioEngine pause];
+    }
+    
+    inBlock();
+    
+    if (!_audioEngine.isRunning && shouldResumeAudioEngine)
+    {
+        NSError *error = nil;
+        
+        [_audioEngine startAndReturnError:&error];
+        
+        if (error)
+        {
+            ORK_Log_Error("Encountered Error Trying To Resume Audio Engine: error=%{public}@", error);
+        }
+    }
+}
+
+#pragma mark - UINotificationFeedbackGenerator
+
+- (void)setupFeedbackGenerator
+{
+    _notificationFeedbackGenerator = [[UINotificationFeedbackGenerator alloc] init];
+    [_notificationFeedbackGenerator prepare];
+}
+
+- (void)sendHapticEvent:(UINotificationFeedbackType)eventType shouldResumeAudioEngine:(BOOL)shouldResumeAudioEngine
+{
+    [self pauseAudioEngineAndResumeAfter:shouldResumeAudioEngine block:^{
+        [_notificationFeedbackGenerator notificationOccurred:eventType];
+        [_notificationFeedbackGenerator prepare];
+    }];
+}
+
+#pragma mark - UIAccessibility
+
+- (void)setupAccessibilityAnnouncementNotification
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(announcementDidFinishNotification:) name:UIAccessibilityAnnouncementDidFinishNotification object:nil];
+}
+
+- (void)announce:(NSString * _Nonnull)annoucement shouldResumeAudioEngine:(BOOL)shouldResumeAudioEngine
+{
+    if (!_voiceOverAnnouncementSemaphore)
+    {
+        _voiceOverAnnouncementSemaphore = dispatch_semaphore_create(0);
+    }
+        
+    [self pauseAudioEngineAndResumeAfter:shouldResumeAudioEngine block:^{
+        
+        UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, annoucement);
+        
+        // Deadlining this to 1.5s, it's possible that while we are waiting for the signal, the user can swipe and our announcement may be dropped.
+        // If our announcement is dropped, we can expect the UIAccessibilityAnnouncementDidFinishNotification to never fire.
+        dispatch_semaphore_wait(_voiceOverAnnouncementSemaphore, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)));
+    }];
+}
+
+- (void)announcementDidFinishNotification:(NSNotification *)inNotification
+{
+    if (_voiceOverAnnouncementSemaphore)
+    {
+        dispatch_semaphore_signal(_voiceOverAnnouncementSemaphore);
+    }
+}
+
+#pragma mark - ORKEnvironmentSPLMeterContentViewVoiceOverDelegate
+
+- (void)contentView:(ORKEnvironmentSPLMeterContentView *)contentView shouldAnnounce:(NSString *)inAnnouncement
+{
+    [self announce:inAnnouncement shouldResumeAudioEngine:_audioEngine.isRunning];
 }
 
 @end
