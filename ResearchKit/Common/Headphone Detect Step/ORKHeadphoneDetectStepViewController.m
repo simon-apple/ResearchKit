@@ -38,6 +38,7 @@
 #import "ORKInstructionStepContainerView.h"
 #import "ORKInstructionStepView.h"
 #import "ORKNavigationContainerView.h"
+#import "ORKNavigationContainerView_Internal.h"
 #import "ORKStepHeaderView_Internal.h"
 #import "ORKStepContainerView_Private.h"
 
@@ -409,9 +410,22 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     [self.stepView removeCustomContentPadding];
 }
 
+- (void)goToEnd:(id)sender {
+    [[self taskViewController] flipToLastPage];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.stepView.navigationFooterView.optional = YES;
     self.stepView.navigationFooterView.continueEnabled = NO;
+}
+
+- (void)setSkipButtonItem:(UIBarButtonItem *)skipButtonItem {
+    [super setSkipButtonItem:skipButtonItem];
+    
+    [skipButtonItem setTitle:ORKLocalizedString(@"SKIP_TO_END_TEXT", nil)];
+    skipButtonItem.target = self;
+    skipButtonItem.action = @selector(goToEnd:);
 }
 
 - (void)viewDidAppear:(BOOL)animated {
