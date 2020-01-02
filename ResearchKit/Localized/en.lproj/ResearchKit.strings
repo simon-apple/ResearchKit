@@ -362,7 +362,8 @@
 "NOT_CONNECTED" = "Not Connected";
 "HEADPHONE_CONNECTED_%@" = "Connected - %@";
 "HEADPHONE_DETECT_TITLE" = "Connect your Headphones";
-"HEADPHONE_DETECT_TEXT" = "This test requires Apple AirPods or Apple EarPods";
+"HEADPHONE_DETECT_TEXT" = "To ensure accurate results, this test requires Apple AirPods or Apple EarPods.";
+"SKIP_TO_END_TEXT" = "I Don’t Have AirPods or EarPods";
 
 /* Spatial span memory active task. */
 "SPATIAL_SPAN_MEMORY_TITLE" = "Spatial Memory";

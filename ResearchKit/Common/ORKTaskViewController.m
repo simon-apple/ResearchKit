@@ -1298,6 +1298,16 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     }
 }
 
+- (void)flipToLastPage {
+    if ([self.task isKindOfClass:[ORKOrderedTask class]]) {
+        ORKOrderedTask *orderedTask = (ORKOrderedTask *)self.task;
+        ORKStep *lastStep = [[orderedTask steps] lastObject];
+        if (lastStep) {
+            [self showStepViewController:[self viewControllerForStep:lastStep] goForward:YES animated:YES];
+        }
+    }
+}
+
 - (void)flipToPreviousPageFrom:(ORKStepViewController *)fromController animated:(BOOL)animated {
     if (fromController != _currentStepViewController) {
         return;
