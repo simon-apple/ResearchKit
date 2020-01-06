@@ -332,29 +332,47 @@ static const CGFloat LabelCheckViewPadding = 10.0;
     _immediateNavigation = immediateNavigation;
 }
 
-- (void)setCellSelected:(BOOL)cellSelected highlight:(BOOL)highlight {
+- (void)setCellSelected:(BOOL)cellSelected highlight:(BOOL)highlight
+{
     _cellSelected = cellSelected;
+    
     [self updateSelectedItem];
     
-    if (highlight) {
+    if (highlight)
+    {
         _animationLayer = [CAShapeLayer layer];
         [_animationLayer setOpaque:NO];
-        _animationLayer.frame = _foreLayerBounds;
+        _animationLayer.frame = CGRectMake(_foreLayerBounds.origin.x, _foreLayerBounds.origin.y, _foreLayerBounds.size.width, _foreLayerBounds.size.height - 1.0);
         _animationLayer.zPosition = 1.0f;
         [_contentMaskLayer addSublayer:_animationLayer];
+        
         CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"backgroundColor"];
-        if (@available(iOS 13.0, *)) {
-            animation.fromValue = (__bridge id _Nullable)(UIColor.systemGray5Color.CGColor);
-        } else {
+        
+        if (@available(iOS 13.0, *))
+        {
+            if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight)
+            {
+                animation.fromValue = (__bridge id _Nullable)(UIColor.systemGray5Color.CGColor);
+            }
+            else
+            {
+                animation.fromValue = (__bridge id _Nullable)(UIColor.systemGray3Color.CGColor);
+            }
+        }
+        else
+        {
             animation.fromValue = (__bridge id _Nullable)([UIColor colorWithRed:0.282 green:0.282 blue:0.235 alpha:1.0].CGColor);
         }
+        
         animation.toValue = (__bridge id _Nullable)(_fillColor.CGColor);
         animation.beginTime = 0.0;
         animation.duration = 0.45;
         animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
         animation.removedOnCompletion = YES;
         animation.delegate = self;
+        
         [_animationLayer addAnimation:animation forKey:@"backgroundColor"];
+        
         _animationLayer.backgroundColor = _fillColor.CGColor;
     }
 }
