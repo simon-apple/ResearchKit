@@ -2,7 +2,7 @@
 
 pushd /tmp/ci/developmentexport
 
-if [ "${CI_BRANCH}" == "master" ]; then
+if [ "${CI_BRANCH}" == "skywagon-setup" ]; then
 	BUNDLE_ID="com.example.researchkit-samplecode.ORKCatalog"
 	IPA_NAME="ORKCatalog.ipa"
 elif [ "${CI_BRANCH}" == "stable" ]; then
