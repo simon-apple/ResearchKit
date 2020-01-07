@@ -110,10 +110,6 @@ extension String {
 func generateCoberturaReport(from coverageReport: CoverageReport) -> String {
     let currentDirectoryPath = FileManager.default.currentDirectoryPath
     
-    let dtd = try! XMLDTD(contentsOf: URL(string: "http://cobertura.sourceforge.net/xml/coverage-04.dtd")!)
-    dtd.name = "coverage"
-    dtd.systemID = "http://cobertura.sourceforge.net/xml/coverage-04.dtd"
-    
     let rootElement = XMLElement(name: "coverage")
     rootElement.addAttribute(XMLNode.attribute(withName: "line-rate", stringValue: "\(coverageReport.lineCoverage)") as! XMLNode)
     rootElement.addAttribute(XMLNode.attribute(withName: "branch-rate", stringValue: "1.0") as! XMLNode)
@@ -127,7 +123,6 @@ func generateCoberturaReport(from coverageReport: CoverageReport) -> String {
     
     let doc = XMLDocument(rootElement: rootElement)
     doc.version = "1.0"
-    doc.dtd = dtd
     doc.documentContentKind = .xml
     
     let sourceElement = XMLElement(name: "sources")
