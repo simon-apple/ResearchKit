@@ -1530,6 +1530,15 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     return NO;
 }
 
+- (BOOL)textFieldShouldEndEditing:(UITextField *)textField
+{
+    BOOL shouldEndEditing = [super textFieldShouldEndEditing:textField];
+    
+    [self inputValueDidChange];
+    
+    return shouldEndEditing;
+}
+
 @end
 
 
