@@ -230,7 +230,7 @@
 /* General active tasks. */
 "COUNTDOWN_LABEL" = "アクティビティ開始まで";
 "TASK_COMPLETE_TITLE" = "アクティビティ完了";
-"TASK_COMPLETE_TEXT" = "データは分析され、結果の準備ができると通知されます。";
+"TASK_COMPLETE_TEXT" = "データは分析され、結果が準備できたら通知されます。";
 "COUNTDOWN_SPOKEN_REMAINING_%@" = "残り%@です。";
 "TOUCH_ANYWHERE_LABEL" = "続けるにはどこかをタッチしてください";
 

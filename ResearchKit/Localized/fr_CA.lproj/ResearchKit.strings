@@ -335,8 +335,8 @@
 "dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_3" = "Pour ce test, le volume sera réglé à 50 pour cent.";
 "dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_4" = "Ce test prend environ dix minutes.";
 "dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_5" = "Activez Ne pas déranger pour éviter les interruptions.";
-"dBHL_TONE_AUDIOMETRY_STEP_TITLE_RIGHT_EAR" = "Les tons seront d’abord émis dans votre oreille droite.";
-"dBHL_TONE_AUDIOMETRY_STEP_TITLE_LEFT_EAR" = "Les tons seront maintenant émis dans votre oreille gauche.";
+"dBHL_TONE_AUDIOMETRY_STEP_TITLE_RIGHT_EAR" = "Les tonalités seront d’abord émises dans votre oreille droite.";
+"dBHL_TONE_AUDIOMETRY_STEP_TITLE_LEFT_EAR" = "Les tonalités seront maintenant émises dans votre oreille gauche.";
 "dBHL_TONE_AUDIOMETRY_INTENDED_USE" = "Cette activité identifie les niveaux de seuil d’audition d’une personne en fonction de l’échelle dB HL.";
 "dBHL_TONE_AUDIOMETRY_INTRO_TEXT" = "Assurez-vous que le volume de l’appareil soit réglé au niveau le plus élevé.\n\nPendant cette tâche, une tonalité subtile se fera entendre soit dans l’oreille droite ou la gauche.\n\nÉcoutez avec attention et touchez le bouton chaque fois que vous entendez une tonalité.";
 "dBHL_TONE_AUDIOMETRY_INTRO_TEXT_2" = "Ce test mesure le volume minimum que vous êtes en mesure d’entendre.";
@@ -389,7 +389,7 @@
 
 /* Reaction time active task. */
 "REACTION_TIME_TASK_TITLE" = "Temps de réaction";
-"REACTION_TIME_TASK_INTENDED_USE" = "Cette activité évalue votre de temps de réaction pour répondre à un signal visuel.";
+"REACTION_TIME_TASK_INTENDED_USE" = "Cette activité évalue votre temps de réaction pour répondre à un signal visuel.";
 "REACTION_TIME_TASK_INTRO_TEXT_FORMAT" = "Secouez l’appareil dans n’importe quel sens dès que le point bleu apparaît à l’écran. Vous serez invité à effectuer cette action %D fois.";
 "REACTION_TIME_TASK_CALL_TO_ACTION" = "Touchez Démarrer pour commencer.";
 "REACTION_TIME_TASK_ATTEMPTS_FORMAT" = "Tentative %@ sur %@";
@@ -464,7 +464,7 @@
 "TIMED_WALK_QUESTION_TEXT" = "Portez-vous une orthèse de cheville et de pied?";
 "TIMED_WALK_QUESTION_2_TITLE" = "Utilisez-vous un appareil d’assistance?";
 "TIMED_WALK_QUESTION_2_TEXT" = "Sélectionnez une réponse.";
-"TIMED_WALK_QUESTION_2_CHOICE" = "Aucune";
+"TIMED_WALK_QUESTION_2_CHOICE" = "Aucun";
 "TIMED_WALK_QUESTION_2_CHOICE_2" = "Une canne";
 "TIMED_WALK_QUESTION_2_CHOICE_3" = "Une béquille";
 "TIMED_WALK_QUESTION_2_CHOICE_4" = "Deux cannes";

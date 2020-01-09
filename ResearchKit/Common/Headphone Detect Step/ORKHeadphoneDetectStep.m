@@ -42,9 +42,9 @@
     
     if ( audioRouteSubtypes == nil )
     {
-        audioRouteSubtypes = [[NSSet alloc] initWithObjects:ORKHeadphoneRawTypeIdentifierAirPods,
-                              ORKHeadphoneRawTypeIdentifierLightningEarPods,
-                              ORKHeadphoneRawTypeIdentifierAudioJackEarPods,
+        audioRouteSubtypes = [[NSSet alloc] initWithObjects:ORKHeadphoneRawTypeIdentifierChipsetAirPods,
+                              ORKHeadphoneRawTypeIdentifierChipsetLightningEarPods,
+                              ORKHeadphoneRawTypeIdentifierChipsetAudioJackEarPods,
                               nil];
     }
     return audioRouteSubtypes;

@@ -339,7 +339,14 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKUpdateConstraintSequence) {
         [self updateViewConstraintsForSequence:ORKUpdateConstraintSequenceTitleLabel];
         [self setNeedsUpdateConstraints];
     }
-    [_titleLabel setText:stepTitle];
+    
+    NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
+    [paragraphStyle setHyphenationFactor:0.5];
+    
+    NSDictionary *hyphenAttribute = @{NSParagraphStyleAttributeName : paragraphStyle};
+    
+    NSAttributedString *attributedStepTitle = [[NSAttributedString alloc] initWithString:stepTitle ?: @"" attributes:hyphenAttribute];
+    [_titleLabel setAttributedText:attributedStepTitle];
 }
 
 - (void)setupTitleLabel {
@@ -423,6 +430,7 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKUpdateConstraintSequence) {
     }
     _textLabel.textAlignment = _stepHeaderTextAlignment;
     _textLabel.numberOfLines = 0;
+    _textLabel.lineBreakMode = NSLineBreakByWordWrapping;
     [self addSubview:_textLabel];
     [self setupTextLabelConstraints];
     [self setContainerLeftRightConstraints];
@@ -518,6 +526,7 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKUpdateConstraintSequence) {
     }
     _detailTextLabel.textAlignment = _stepHeaderTextAlignment;
     _detailTextLabel.numberOfLines = 0;
+    _detailTextLabel.lineBreakMode = NSLineBreakByWordWrapping;
     [self addSubview:_detailTextLabel];
     [self setupDetailTextLabelConstraints];
     [self setContainerLeftRightConstraints];
@@ -670,12 +679,19 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKUpdateConstraintSequence) {
     if (_textLabel != nil) {
         [_leftRightPaddingConstraints addObjectsFromArray:@[
             [NSLayoutConstraint constraintWithItem:_textLabel
-                                         attribute:NSLayoutAttributeCenterX
+                                         attribute:NSLayoutAttributeLeading
                                          relatedBy:NSLayoutRelationEqual
                                             toItem:self
-                                         attribute:NSLayoutAttributeCenterX
+                                         attribute:NSLayoutAttributeLeading
                                         multiplier:1.0
-                                          constant:0.0]
+                                          constant:_leftRightPadding],
+            [NSLayoutConstraint constraintWithItem:_textLabel
+                                         attribute:NSLayoutAttributeTrailing
+                                         relatedBy:NSLayoutRelationEqual
+                                            toItem:self
+                                         attribute:NSLayoutAttributeTrailing
+                                        multiplier:1.0
+                                          constant:-_leftRightPadding]
         ]];
     }
     

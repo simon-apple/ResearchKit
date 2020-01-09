@@ -75,7 +75,7 @@
 "CONSENT_DOC_LINE_DATE" = "日期";
 
 /* Progress indication (in navigation bar). */
-"STEP_PROGRESS_FORMAT" = "%1$@（共%2$@）";
+"STEP_PROGRESS_FORMAT" = "%1$@/%2$@";
 
 /* Progress indication (in formItem section header). */
 "FORM_ITEM_PROGRESS" = "問題%1$@（共%2$@個）";
@@ -123,7 +123,7 @@
 "DOB_FORM_ITEM_TITLE" = "出生日期";
 "DOB_FORM_ITEM_PLACEHOLDER" = "選擇日期";
 "PHONE_NUMBER_FORM_ITEM_TITLE" = "電話號碼";
-"PHONE_NUMBER_FORM_ITEM_PLACEHOLDER" = "+1 (555) 555 5555";
+"PHONE_NUMBER_FORM_ITEM_PLACEHOLDER" = "+852 1111 1111";
 
 /* Verification step */
 "VERIFICATION_NAV_TITLE" = "驗證";
@@ -450,7 +450,7 @@
 "SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_LEFT" = "當準備好，點一下螢幕即可開始，舉起你的左臂，盡量向上方伸展。完成後，將左臂還原至開始時的位置，並且再點一下。";
 "SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_RIGHT" = "當準備好，點一下螢幕即可開始，舉起你的右臂，盡量向上方伸展。完成後，將右臂還原至開始時的位置，並且再點一下。";
 "SHOULDER_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_LEFT" = "將裝置放在你的左肩上。點一下螢幕，舉起你的左臂，盡量向前方伸展。";
-"SHOULDER_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_RIGHT" = "將裝置放在你的左肩上。點一下螢幕，舉起你的右臂，盡量向前方伸展。";
+"SHOULDER_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_RIGHT" = "將裝置放在你的右肩上。點一下螢幕，舉起你的右臂，盡量向前方伸展。";
 "SHOULDER_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_LEFT" = "完成後，請將你的左臂還原至開始時的位置。然後點一下任何位置。";
 "SHOULDER_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_RIGHT" = "完成後，請將你的右臂還原至開始時的位置。然後點一下任何位置。";
 

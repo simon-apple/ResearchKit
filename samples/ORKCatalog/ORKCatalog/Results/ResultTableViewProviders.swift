@@ -278,7 +278,13 @@ class ResultTableViewProvider: NSObject, UITableViewDataSource, UITableViewDeleg
         
         // Show an empty row if there isn't any metadata in the rows for this section.
         if resultRows.isEmpty {
-            return tableView.dequeueReusableCell(withIdentifier: ResultRow.TableViewCellIdentifier.noChildResults.rawValue, for: indexPath)
+            let noChildResultsCell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: ResultRow.TableViewCellIdentifier.noChildResults.rawValue, for: indexPath)
+            
+            if #available(iOS 13.0, *) {
+                noChildResultsCell.textLabel?.textColor = UIColor.label
+            }
+            
+            return noChildResultsCell
         }
 
         // Fetch the `ResultRow` that corresponds to `indexPath`.
@@ -290,6 +296,11 @@ class ResultTableViewProvider: NSObject, UITableViewDataSource, UITableViewDeleg
 
                 cell.textLabel!.text = text
                 cell.detailTextLabel!.text = detailText
+                
+                if #available(iOS 13.0, *) {
+                    cell.textLabel?.textColor = UIColor.label
+                    cell.detailTextLabel?.textColor = UIColor.secondaryLabel
+                }
                 
                 /*
                     In this sample, the accessory type should be a disclosure
@@ -305,6 +316,10 @@ class ResultTableViewProvider: NSObject, UITableViewDataSource, UITableViewDeleg
 
                 cell.leftTextLabel.text = text
                 cell.rightImageView.image = image
+                
+                if #available(iOS 13.0, *) {
+                    cell.leftTextLabel.textColor = UIColor.label
+                }
 
                 return cell
 

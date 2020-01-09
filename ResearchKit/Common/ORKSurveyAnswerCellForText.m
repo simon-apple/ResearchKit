@@ -45,6 +45,8 @@ static const CGFloat TextViewBottomPadding = 16.0;
 static const CGFloat TextViewMinimumHeight = 140.0;
 static const CGFloat ErrorLabelTopPadding = 4.0;
 static const CGFloat ErrorLabelBottomPadding = 10.0;
+static const CGFloat StandardSpacing = 8.0;
+
 
 @interface ORKSurveyAnswerCellForText () <UITextViewDelegate>
 
@@ -326,6 +328,7 @@ static const CGFloat ErrorLabelBottomPadding = 10.0;
 
 @implementation ORKSurveyAnswerCellForTextField {
     NSMutableArray *constraints;
+    NSString *_defaultTextAnswer;
 }
 
 - (BOOL)becomeFirstResponder {
@@ -335,7 +338,9 @@ static const CGFloat ErrorLabelBottomPadding = 10.0;
 - (void)textFieldCell_initialize {
     ORKAnswerFormat *answerFormat = [self.step impliedAnswerFormat];
     ORKTextAnswerFormat *textAnswerFormat = ORKDynamicCast(answerFormat, ORKTextAnswerFormat);
-
+    
+    _defaultTextAnswer = textAnswerFormat.defaultTextAnswer;
+    
     _textField = [[ORKAnswerTextField alloc] initWithFrame:CGRectZero];
     _textField.text = @"";
     
@@ -364,6 +369,15 @@ static const CGFloat ErrorLabelBottomPadding = 10.0;
     [self setUpConstraints];
 }
 
+- (void)assignDefaultAnswer {
+    if (_defaultTextAnswer) {
+        [self ork_setAnswer:_defaultTextAnswer];
+        if (self.textField) {
+            self.textField.text = _defaultTextAnswer;
+        }
+    }
+}
+
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
     self.contentView.layoutMargins = ORKStandardLayoutMarginsForTableViewCell(self);
 }
@@ -374,38 +388,16 @@ static const CGFloat ErrorLabelBottomPadding = 10.0;
     }
     
     constraints = [NSMutableArray new];
-    NSDictionary *metrics = @{@"errorLabelTopPadding":@(ErrorLabelTopPadding), @"errorLabelBottomPadding":@(ErrorLabelBottomPadding)};
-    NSDictionary *views = NSDictionaryOfVariableBindings(_textField, _errorLabel);
-    if (self.errorLabel.attributedText == nil) {
-        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[_textField]-|"
-                                                                                 options:NSLayoutFormatDirectionLeadingToTrailing | NSLayoutFormatAlignAllLeading
-                                                                                 metrics:nil
-                                                                                   views:views]];
-        
-        [constraints addObjectsFromArray:
-         [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_errorLabel(==0)]"
-                                                 options:0
-                                                 metrics:nil
-                                                   views:views]];
-    } else {
-        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[_textField]-errorLabelTopPadding-[_errorLabel]-errorLabelBottomPadding-|"
-                                                                                 options:NSLayoutFormatDirectionLeadingToTrailing | NSLayoutFormatAlignAllLeading
-                                                                                 metrics:metrics
-                                                                                   views:views]];
-    }
+
+    [[_textField.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:StandardSpacing] setActive:YES];
+    [[_textField.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-StandardSpacing] setActive:YES];
+    [[_textField.topAnchor constraintEqualToAnchor:self.topAnchor constant:0.0] setActive:YES];
+    [[_textField.bottomAnchor constraintEqualToAnchor:_errorLabel.topAnchor constant:ErrorLabelTopPadding] setActive:YES];
     
-    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_textField]-|"
-                                                                             options:NSLayoutFormatDirectionLeadingToTrailing
-                                                                             metrics:nil
-                                                                               views:views]];
+    [[_errorLabel.leadingAnchor constraintEqualToAnchor:_textField.leadingAnchor constant:0.0] setActive:YES];
+    [[_errorLabel.trailingAnchor constraintEqualToAnchor:_textField.trailingAnchor constant:0.0] setActive:YES];
     
-    [constraints addObject:[NSLayoutConstraint constraintWithItem:_errorLabel
-                                                        attribute:NSLayoutAttributeRight
-                                                        relatedBy:NSLayoutRelationEqual
-                                                           toItem:_textField
-                                                        attribute:NSLayoutAttributeRight
-                                                       multiplier:1.0
-                                                         constant:0.0]];
+    [[self.bottomAnchor constraintEqualToAnchor:_errorLabel.bottomAnchor constant:ErrorLabelBottomPadding] setActive:YES];
     
     // Get a full width layout
     [constraints addObject:[self.class fullWidthLayoutConstraint:_textField]];
@@ -454,7 +446,11 @@ static const CGFloat ErrorLabelBottomPadding = 10.0;
     }
     NSString *displayValue = (answer && answer != ORKNullAnswerValue()) ? answer : nil;
     
-    self.textField.text = displayValue;
+    if (displayValue == nil && _defaultTextAnswer) {
+        [self assignDefaultAnswer];
+    } else {
+        self.textField.text = displayValue;
+    }
 }
 
 - (void)textFieldDidChange:(UITextField *)textField {

@@ -120,6 +120,7 @@
 - (void)setActiveStepView {
     if (!_activeStepView) {
         _activeStepView = [ORKActiveStepView new];
+        [_activeStepView placeNavigationContainerInsideScrollView];
     }
     if (_customView) {
         _activeStepView.customContentView = _customView;
@@ -133,15 +134,14 @@
     }
     _navigationFooterView.skipButtonItem = self.skipButtonItem;
     _navigationFooterView.continueEnabled = _finished;
-    
+
     ORKActiveStep *step = [self activeStep];
     _navigationFooterView.useNextForSkip = step.shouldUseNextAsSkipButton;
     _navigationFooterView.optional = step.optional;
     BOOL neverHasContinueButton = (step.shouldContinueOnFinish && !step.startsFinished);
     [_navigationFooterView setNeverHasContinueButton:neverHasContinueButton];
     [_navigationFooterView updateContinueAndSkipEnabled];
-    [_navigationFooterView flattenIfNeeded];
-    
+
     [self updateContinueButtonItem];
 }
 
@@ -204,6 +204,10 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
+    if (_activeStepView.navigationFooterView) {
+        [_activeStepView.navigationFooterView flattenIfNeeded];
+    }
     ORK_Log_Debug("%@",self);
 }
 

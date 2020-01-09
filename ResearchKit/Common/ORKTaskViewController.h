@@ -55,14 +55,7 @@ typedef NS_ENUM(NSInteger, ORKTaskViewControllerReviewMode) {
     
     ORKTaskViewControllerReviewModeNever = 0,
     
-    ORKTaskViewControllerReviewModeStandalone,
-
-    // TODO: support future modes
-//    ORKTaskViewControllerReviewModeContinuous,
-//    
-//    ORKTaskViewControllerReviewModeStartAndEnd,
-//    
-//    ORKTaskViewControllerReviewModeStartAndContinuous
+    ORKTaskViewControllerReviewModeStandalone
 };
 
 /**
@@ -539,6 +532,7 @@ ORK_CLASS_AVAILABLE
 - (void)goBackward;
 
 - (void)flipToFirstPage;
+- (void)flipToLastPage;
 
 /**
  Returns the step after the  provided step

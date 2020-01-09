@@ -35,6 +35,7 @@
 #import "ORKStepContentView_Private.h"
 #import "ORKBodyContainerView.h"
 #import "ORKSkin.h"
+#import "ORKActiveStep.h"
 #import "ORKNavigationContainerView_Internal.h"
 
 /**
@@ -144,6 +145,7 @@ static const CGFloat ORKBodyItemScrollPadding = 24.0;
     if (self) {
         _customContentLeftRightPadding = ORKStepContainerLeftRightPaddingForWindow(self.window);
         _leftRightPadding = ORKStepContainerExtendedLeftRightPaddingForWindow(self.window);
+        self.isNavigationContainerScrollable = NO;
         [self setupScrollView];
         [self setupScrollContainerView];
         [self addStepContentView];
@@ -322,30 +324,39 @@ static const CGFloat ORKBodyItemScrollPadding = 24.0;
 
 - (void)placeNavigationContainerView {
     [self removeNavigationFooterView];
-    self.isNavigationContainerScrollable = NO;
-    [self addSubview:self.navigationFooterView];
+    
+    if (self.isNavigationContainerScrollable) {
+        [_scrollContainerView addSubview:self.navigationFooterView];
+    } else {
+        [self addSubview:self.navigationFooterView];
+    }
     [self setupNavigationContainerViewConstraints];
+}
+
+- (void)placeNavigationContainerInsideScrollView {
+    self.isNavigationContainerScrollable = YES;
+    [self placeNavigationContainerView];
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
     [self updateScrollContentConstraints];
     [self updateEffectViewStylingAndAnimate:NO checkCurrentValue:NO];
+    _scrollView.contentInset = UIEdgeInsetsMake(0, 0, self.navigationFooterView.frame.size.height + ORKContentBottomPadding, 0);
 }
 
 - (void)updateScrollContentConstraints {
     if (_scrollContentBottomConstraint != nil) {
         [NSLayoutConstraint deactivateConstraints:@[_scrollContentBottomConstraint]];
     }
-    
     _scrollContentBottomConstraint = [NSLayoutConstraint constraintWithItem:self.stepContentView
                                                                   attribute:NSLayoutAttributeBottom
                                                                   relatedBy:NSLayoutRelationLessThanOrEqual
                                                                      toItem:_scrollContainerView
                                                                   attribute:NSLayoutAttributeBottom
                                                                  multiplier:1.0
-                                                                   constant:-(self.navigationFooterView.frame.size.height + ORKContentBottomPadding)];
-    
+                                                                   constant:0];
+
     [NSLayoutConstraint activateConstraints:@[_scrollContentBottomConstraint]];
 }
 
@@ -386,8 +397,8 @@ static const CGFloat ORKBodyItemScrollPadding = 24.0;
         _scrollViewBottomConstraint = [NSLayoutConstraint constraintWithItem:_scrollView
                                                                    attribute:NSLayoutAttributeBottom
                                                                    relatedBy:NSLayoutRelationEqual
-                                                                      toItem:self.navigationFooterView
-                                                                   attribute:NSLayoutAttributeTop
+                                                                      toItem:self
+                                                                   attribute:NSLayoutAttributeBottom
                                                                   multiplier:1.0
                                                                     constant:-ORKContentBottomPadding];
         [_updatedConstraints addObject:_scrollViewBottomConstraint];
@@ -743,7 +754,7 @@ static const CGFloat ORKBodyItemScrollPadding = 24.0;
 
 - (void)updateEffectViewStylingAndAnimate:(BOOL)animated checkCurrentValue:(BOOL)checkCurrentValue {
     CGFloat startOfFooter = self.navigationFooterView.frame.origin.y;
-    CGFloat contentPosition = (_scrollView.contentSize.height - _scrollView.contentOffset.y - self.navigationFooterView.frame.size.height) - ORKContentBottomPadding;
+    CGFloat contentPosition = _scrollView.contentSize.height - _scrollView.contentOffset.y;
     CGFloat newOpacity = (contentPosition < startOfFooter) ? ORKEffectViewOpacityHidden : ORKEffectViewOpacityVisible;
     [self updateEffectStyleWithNewOpacity:newOpacity animated:animated checkCurrentValue:checkCurrentValue];
 }

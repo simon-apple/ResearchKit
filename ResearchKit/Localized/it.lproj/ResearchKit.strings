@@ -42,14 +42,14 @@
 "CONSENT_PAGE_NUMBER_FORMAT" = "Pagina %1$ld di %2$ld";
 
 /* Consent section titles. */
-"CONSENT_SECTION_WELCOME" = "Benvenuto";
+"CONSENT_SECTION_WELCOME" = "Ciao";
 "CONSENT_SECTION_DATA_GATHERING" = "Raccolta dati";
 "CONSENT_SECTION_PRIVACY" = "Privacy";
 "CONSENT_SECTION_DATA_USE" = "Utilizzo dati";
 "CONSENT_SECTION_STUDY_SURVEY" = "Indagine studio scientifico";
 "CONSENT_SECTION_STUDY_TASKS" = "Attività studio";
 "CONSENT_SECTION_TIME_COMMITMENT" = "Tempo richiesto";
-"CONSENT_SECTION_WITHDRAWING" = "Ritiro";
+"CONSENT_SECTION_WITHDRAWING" = "Non partecipare più allo studio";
 "CONSENT_LEARN_MORE_TITLE" = "Scopri di più";
 
 /* Consent section learn more */
@@ -60,17 +60,17 @@
 "LEARN_MORE_STUDY_SURVEY" = "Scopri di più sullo studio";
 "LEARN_MORE_TIME_COMMITMENT" = "Scopri di più sull'impatto che lo studio avrà sul tuo tempo";
 "LEARN_MORE_TASKS" = "Scopri di più sulle attività previste";
-"LEARN_MORE_WITHDRAWING" = "Scopri di più sul ritiro";
+"LEARN_MORE_WITHDRAWING" = "Scopri di più sulla possibilità di annullare la partecipazione allo studio";
 
 /* Consent sharing step */
 "CONSENT_SHARING_TITLE" = "Opzioni di condivisione";
 "CONSENT_SHARE_WIDELY_%@" = "Condividi i miei dati con %@ e con ricercatori qualificati a livello mondiale";
 "CONSENT_SHARE_ONLY_%@" = "Condividi i miei dati solo con %@";
-"CONSENT_SHARING_DESCRIPTION_%@" = "%@ riceverà i dati raccolti grazie alla tua partecipazione allo studio.\n\nUna condivisione più ampia di questi dati codificati (senza rivelare informazioni sensibili come il tuo nome) può aiutare questo studio ed eventuali ricerche future.";
+"CONSENT_SHARING_DESCRIPTION_%@" = "Partecipando allo studio, invierai a %@ i dati raccolti.\n\nUna condivisione più ampia di questi dati codificati (senza rivelare informazioni sensibili come il tuo nome) può aiutare questo studio ed eventuali ricerche future.";
 "LEARN_MORE_CONSENT_SHARING" = "Scopri di più sulla condivisione dei dati";
 
 /* Lines beneath typewritten signatures on documents.*/
-"CONSENT_DOC_LINE_PRINTED_NAME" = "Nome per esteso";
+"CONSENT_DOC_LINE_PRINTED_NAME" = "Nome in stampatello";
 "CONSENT_DOC_LINE_SIGNATURE" = "Firma";
 "CONSENT_DOC_LINE_DATE" = "Data";
 
@@ -99,7 +99,7 @@
 "LOCATION_ERROR_MESSAGE_LOCATION_UNKNOWN" = "Impossibile individuare la tua posizione attuale. Inserisci l'indirizzo o spostati in una zona con una migliore copertura GPS.";
 "LOCATION_ERROR_MESSAGE_DENIED" = "L'accesso ai servizi di localizzazione è stato negato. Vai in Impostazioni e autorizza l'applicazione a utilizzare i servizi di localizzazione.";
 "LOCATION_ERROR_GEOCODE" = "Impossibile trovare risultati per l'indirizzo inserito, assicurati che sia valido.";
-"LOCATION_ERROR_GEOCODE_NETWORK" = "La connessione a internet non è attiva oppure hai superato il numero massimo di tentativi di ricerca dell'indirizzo. Se la connessione a internet non è attiva, per rispondere a questa domanda attiva la rete Wi-Fi, ignora il passaggio se è disponibile il tasto Ignora o torna al sondaggio una volta ristabilita la connessione. In alternativa, riprova tra qualche minuto.";
+"LOCATION_ERROR_GEOCODE_NETWORK" = "La connessione a internet non è attiva oppure hai superato il numero massimo di tentativi di ricerca dell'indirizzo. Se la connessione a internet non è attiva, per rispondere a questa domanda attiva la rete Wi-Fi, ignora il passaggio se è disponibile il pulsante Ignora o torna all'indagine conoscitiva una volta ristabilita la connessione. In alternativa, riprova tra qualche minuto.";
 
 /* Alert for exceeding length limit in text answer */
 "TEXT_ANSWER_EXCEEDING_MAX_LENGTH_ALERT_MESSAGE" = "Il testo supera la lunghezza massima: %@";
@@ -113,7 +113,7 @@
 "PASSWORD_FORM_ITEM_TITLE" = "Password";
 "PASSWORD_FORM_ITEM_PLACEHOLDER" = "Inserisci password";
 "CONFIRM_PASSWORD_FORM_ITEM_TITLE" = "Conferma";
-"CONFIRM_PASSWORD_FORM_ITEM_PLACEHOLDER" = "Inserisci di nuovo la password";
+"CONFIRM_PASSWORD_FORM_ITEM_PLACEHOLDER" = "Reinserisci password";
 "CONFIRM_PASSWORD_ERROR_MESSAGE" = "Le password non coincidono.";
 "ADDITIONAL_INFO_SECTION_TITLE" = "Ulteriori informazioni";
 "GIVEN_NAME_ITEM_PLACEHOLDER" = "Giovanni";
@@ -357,18 +357,18 @@
 "HEADPHONES" = "Cuffie";
 "HEADPHONES_UNKNOWN" = "Sconosciute";
 "HEADPHONES_NONE" = "Nessuna";
-"CONNECTED" = "Connesso";
-"NOT_CONNECTED" = "Non connesso";
+"CONNECTED" = "Connessi";
+"NOT_CONNECTED" = "Non connessi";
 "HEADPHONE_CONNECTED_%@" = "Connesso - %@";
 "HEADPHONE_DETECT_TITLE" = "Connetti le cuffie";
-"HEADPHONE_DETECT_TEXT" = "Questo test richiede auricolari Airpods o Earpods di Apple";
+"HEADPHONE_DETECT_TEXT" = "Questo test richiede auricolari AirPods o Earpods di Apple";
 
 /* Spatial span memory active task. */
 "SPATIAL_SPAN_MEMORY_TITLE" = "Memoria spaziale";
 "SPATIAL_SPAN_MEMORY_INTRO_TEXT_%@" = "L'attività valuta la tua memoria spaziale a breve termine. Ripeti l'ordine di accensione dei simboli a forma di %@.";
 "SPATIAL_SPAN_MEMORY_TARGET_PLURAL" = "fiore";
 "SPATIAL_SPAN_MEMORY_TARGET_STANDALONE" = "fiori";
-"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_%@" = "I simboli a forma di %@ si accenderanno uno alla volta. Toccali in ordine inverso rispetto alla sequenza iniziale.";
+"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_%@" = "I simboli a forma di %@ si accenderanno uno alla volta. Toccali seguendo l'ordine di accensione.";
 "SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_REVERSE_%@" = "I simboli a forma di %@ si accenderanno uno alla volta. Toccali in ordine inverso rispetto alla sequenza iniziale.";
 "SPATIAL_SPAN_MEMORY_CALL_TO_ACTION" = "Per cominciare, tocca Inizia e osserva con attenzione.";
 "MEMORY_GAME_ITEM_COUNT_TITLE_%@" = "%@";
@@ -636,7 +636,7 @@
 
 "AX_SELECTED" = "Selezionato";
 "AX_UNSELECTED" = "Non selezionato";
-"AX_SELECT_ALL_THAT_APPLY" = "SELEZIONA TUTTE LE OPZIONI POSSIBILI";
+"AX_SELECT_ALL_THAT_APPLY" = "SELEZIONA TUTTE LE OPZIONI VALIDE";
 
 "AX_SLIDER_LABEL" = "Slider risposta. Da %@ a %@";
 "AX_UNLABELED_IMAGE" = "Immagine senza etichetta";

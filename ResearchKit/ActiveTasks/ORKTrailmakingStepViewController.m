@@ -38,6 +38,7 @@
 #import "ORKRoundTappingButton.h"
 
 #import "ORKActiveStepViewController_Internal.h"
+#import "ORKNavigationContainerView_Internal.h"
 
 #import "ORKCollectionResult_Private.h"
 #import "ORKTrailmakingResult.h"

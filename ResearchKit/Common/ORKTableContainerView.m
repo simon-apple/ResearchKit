@@ -216,14 +216,20 @@
         _tableView.tableFooterView = nil;
         [_footerView removeFromSuperview]; //removing footerView so that table's contentSize does not account for navigationContainerView.
         
-//         if tableViews content's height is less than tableView's height,
-//              the footerView's Height is set to either the difference in table's height and its content's height, OR the height of the navigationContainerView, depending on which one's taller. Otherwise, it matches the height of the navigationContainerView.
-        CGFloat requiredTableFooterHeight = (_tableView.contentSize.height < _tableView.bounds.size.height) ? MAX(_tableView.bounds.size.height - _tableView.contentSize.height, navigationFooterHeight) : navigationFooterHeight;
-        
-        CGRect footerBounds = CGRectMake(0.0, 0.0, _tableView.bounds.size.width, requiredTableFooterHeight);
-        [_footerView setBounds:footerBounds];
-        _tableView.tableFooterView = _footerView;
+        /*
+          if tableViews content's height is less than tableView's height,the footerView will be pinned to the bottom of the screen. Otherwise, the footerView's height will be set the current navigationFooterView's height.
+         */
+        if (_tableView.contentSize.height < _tableView.bounds.size.height) {
+            [self pinNavigationContainerToBottom];
+        } else {
+            CGFloat requiredTableFooterHeight = navigationFooterHeight;
+            
+            CGRect footerBounds = CGRectMake(0.0, 0.0, _tableView.bounds.size.width, requiredTableFooterHeight);
+            [_footerView setBounds:footerBounds];
+            _tableView.tableFooterView = _footerView;
+        }
     }
+    
 }
 
 - (void)sizeHeaderToFit {

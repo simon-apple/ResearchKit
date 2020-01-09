@@ -49,7 +49,7 @@
 "CONSENT_SECTION_STUDY_SURVEY" = "Çalışma Anketi";
 "CONSENT_SECTION_STUDY_TASKS" = "Çalışma Görevleri";
 "CONSENT_SECTION_TIME_COMMITMENT" = "Zaman Ayırma";
-"CONSENT_SECTION_WITHDRAWING" = "Sözünü Geri Alma";
+"CONSENT_SECTION_WITHDRAWING" = "Ayrılma";
 "CONSENT_LEARN_MORE_TITLE" = "Daha Fazla Bilgi";
 
 /* Consent section learn more */
@@ -60,7 +60,7 @@
 "LEARN_MORE_STUDY_SURVEY" = "Çalışma anketi hakkında daha fazla bilgi";
 "LEARN_MORE_TIME_COMMITMENT" = "Çalışmanın zamanınıza etkisi hakkında daha fazla bilgi";
 "LEARN_MORE_TASKS" = "İlişkili görevler hakkında daha fazla bilgi";
-"LEARN_MORE_WITHDRAWING" = "Sözünü geri alma hakkında daha fazla bilgi";
+"LEARN_MORE_WITHDRAWING" = "Ayrılma hakkında daha fazla bilgi";
 
 /* Consent sharing step */
 "CONSENT_SHARING_TITLE" = "Paylaşma Seçenekleri";
@@ -334,7 +334,7 @@
 "dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_2" = "Bir ses tonu duyduğunuzda düğmeye dokunun.";
 "dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_3" = "Bu test için ses düzeyi yüzde 50 olarak ayarlanır.";
 "dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_4" = "Bu test yaklaşık 10 dakika sürer.";
-"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_5" = "Kesintilerden kaçınmak için Rhatsız Etme'yi açın.";
+"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_5" = "Kesintilerden kaçınmak için Rahatsız Etme'yi açın.";
 "dBHL_TONE_AUDIOMETRY_STEP_TITLE_RIGHT_EAR" = "Tonlar ilk önce sağ kulağınızda çalacak.";
 "dBHL_TONE_AUDIOMETRY_STEP_TITLE_LEFT_EAR" = "Tonlar şimdi sol kulağınızda çalacak.";
 "dBHL_TONE_AUDIOMETRY_INTENDED_USE" = "Bu aktivite, bir bireyin duyma eşiği düzeylerini dB HL ölçeğinde belirler.";
@@ -361,7 +361,7 @@
 "NOT_CONNECTED" = "Bağlı Değil";
 "HEADPHONE_CONNECTED_%@" = "Bağlı - %@";
 "HEADPHONE_DETECT_TITLE" = "Kulaklığınızı bağlayın";
-"HEADPHONE_DETECT_TEXT" = "Bu test Apple Airpods veya Apple Earpods gerektiriyor";
+"HEADPHONE_DETECT_TEXT" = "Bu test Apple AirPods veya Apple EarPods gerektiriyor";
 
 /* Spatial span memory active task. */
 "SPATIAL_SPAN_MEMORY_TITLE" = "Konumsal Bellek";
@@ -599,7 +599,7 @@
 "ENVIRONMENTSPL_UNIT" = "dBA";
 "ENVIRONMENTSPL_CALCULATING" = "Hesaplanıyor";
 "ENVIRONMENTSPL_THRESHOLD" = "Eşik: %@ dBA";
-"ENVIRONMENTSPL_OK" = "Arka Plan Gürültüsü Tamam";
+"ENVIRONMENTSPL_OK" = "Arka Plan Gürültüsü İyi";
 "ENVIRONMENTSPL_NOISE" = "Arka Plan Gürültüsü Çok Fazla";
 "ENVIRONMENTSPL_TITLE_2" = "Sessiz bir yer bulun";
 "ENVIRONMENTSPL_INTRO_TEXT_2" = "Doğruluğu sağlamak için bu test sessiz bir ortamda yapılmalıdır.";
@@ -684,12 +684,12 @@
 "AX_TONE_AUDIOMETRY_BUTTON_RIGHT_EAR_LABEL" = "Sağ Kulak İçin Dokun";
 "AX_TONE_AUDIOMETRY_BUTTON_RIGHT_EAR_HINT" = "Teste başlamak için etkinleştirin. Test başladıktan sonra sağ kulağınızda bir ses duyduğunuzda doğrudan bu düğmeye basın.";
 /* This contains the visual text, followed by a VoiceOver-specific description, followed by the visual text on the following page (since VoiceOver users may not have a chance to hear the visual text before needing to perform the actions). */
-"AX_TONE_AUDIOMETRY_PREP_TEXT_VOICEOVER" = "%@ VoiceOver ile, her bir kulağın düğmelerinin nerede olduğunu öğrenmek için ekranı dokunarak keşfedin. Test başladığında düğmeler doğrudan dokunulabilir olur. %@";
+"AX_TONE_AUDIOMETRY_PREP_TEXT_VOICEOVER" = "%@ Düğmelerin nerede olduğunu öğrenmek için ekranı dokunarak VoiceOver ile keşfedin. Test başladığında düğmeler doğrudan dokunulabilir olur. %@";
 "AX_TAP_BUTTON_1_LABEL" = "Bir Parmak İçin Dokun";
 "AX_TAP_BUTTON_2_LABEL" = "Diğer Parmak İçin Dokun";
 "AX_TAP_BUTTON_HINT" = "Düğmeleri doğrudan dokunulabilir yapmak için etkinleştirin.";
 /* This contains the visual text, followed by a VoiceOver-specific description. */
-"AX_TAPPING_INSTRUCTION_VOICEOVER" = "%@ VoiceOver ile, düğmelerin nerede olduğunu öğrenmek için ekranı dokunarak keşfedin. Düğmeleri doğrudan dokunulabilir yapmak için düğmelerden birini etkinleştirin.";
+"AX_TAPPING_INSTRUCTION_VOICEOVER" = "%@ Düğmelerin nerede olduğunu öğrenmek için ekranı dokunarak VoiceOver ile keşfedin. Düğmeleri doğrudan dokunulabilir yapmak için düğmelerden birini etkinleştirin.";
 "AX_TAP_BUTTON_DIRECT_TOUCH_ANNOUNCEMENT" = "Düğmeler artık doğrudan dokunulabilir.";
 /* This contains the visual text, followed by a VoiceOver-specific description. */
 "AX_dBHL_TONE_AUDIOMETRY_INTRO_TEXT" = "%@ VoiceOver ile düğme doğrudan dokunulabilir olur ve ekranın merkezine yakın bir noktada konumlanır.";

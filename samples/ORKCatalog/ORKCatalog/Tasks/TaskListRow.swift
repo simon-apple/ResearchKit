@@ -62,7 +62,6 @@ class SystemSound {
 enum TaskListRow: Int, CustomStringConvertible {
     case form = 0
     case groupedForm
-    case groupedFormReview
     case survey
     case booleanQuestion
     case customBooleanQuestion
@@ -132,7 +131,6 @@ enum TaskListRow: Int, CustomStringConvertible {
                 [
                     .form,
                     .groupedForm,
-                    .groupedFormReview,
                     .survey
                 ]),
             TaskListRowSection(title: "Survey Questions", rows:
@@ -207,10 +205,7 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .groupedForm:
             return NSLocalizedString("Grouped Form Survey Example", comment: "")
-        
-        case .groupedFormReview:
-            return NSLocalizedString("Review Grouped Form Survey Example", comment: "")
-            
+
         case .survey:
             return NSLocalizedString("Simple Survey Example", comment: "")
             
@@ -566,9 +561,6 @@ enum TaskListRow: Int, CustomStringConvertible {
         case .groupedForm:
             return groupedFormTask
             
-        case .groupedFormReview:
-            return groupedFormTaskReview
-            
         case .survey:
             return surveyTask
             
@@ -852,9 +844,6 @@ enum TaskListRow: Int, CustomStringConvertible {
         return ORKOrderedTask(identifier: String(describing: Identifier.groupedFormTask), steps: [step, question1Step, question2Step, appleFormStep])
     }
 
-    private var groupedFormTaskReview: ORKTask {
-        return groupedFormTask
-    }
     /**
     A task demonstrating how the ResearchKit framework can be used to present a simple
     survey with an introduction, a question, and a conclusion.
@@ -886,17 +875,6 @@ enum TaskListRow: Int, CustomStringConvertible {
         let question2Step = ORKQuestionStep(identifier: String(describing: Identifier.birthdayQuestion), title: "Questionnaire", question: question2, answer: question2StepAnswerFormat)
         question2Step.text = exampleDetailText
         
-        let secondaryTaskStep = ORKSecondaryTaskStep(identifier: "secondaryTask")
-        secondaryTaskStep.title = "Secondary Task step"
-        secondaryTaskStep.detailText = "Please complete the practise test to proceed."
-        secondaryTaskStep.secondaryTask = groupedFormTask as! ORKOrderedTask
-        secondaryTaskStep.requiredAttempts = 1
-        secondaryTaskStep.secondaryTaskButtonTitle = "Practice test"
-        secondaryTaskStep.nextButtonTitle = "Start Test"
-        
-        let socioEconomicLadderAnswerFormat = ORKSESAnswerFormat(topRungText: "Best Off", bottomRungText: "Worst Off")
-        let socioEconomicLadderQuestionStep = ORKQuestionStep(identifier: "socioEconomicLadderQuestionStep01", title: "Title here", question: "Select where you are on the socioeconomic ladder.", answer: socioEconomicLadderAnswerFormat)
-        
         // Add a summary step.
         let summaryStep = ORKInstructionStep(identifier: String(describing: Identifier.summaryStep))
         summaryStep.title = NSLocalizedString("Thanks", comment: "")
@@ -906,8 +884,6 @@ enum TaskListRow: Int, CustomStringConvertible {
             instructionStep,
             question1Step,
             question2Step,
-            socioEconomicLadderQuestionStep,
-            secondaryTaskStep,
             summaryStep
             ])
     }
@@ -1182,6 +1158,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     */
     private var textQuestionTask: ORKTask {
         let answerFormat = ORKAnswerFormat.textAnswerFormat()
+        answerFormat.multipleLines = true
         answerFormat.maximumLength = 280;
         
         let step = ORKQuestionStep(identifier: String(describing: Identifier.textQuestionStep), title: NSLocalizedString("Text", comment: ""), question: exampleQuestionText, answer: answerFormat)
@@ -1515,7 +1492,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         let registrationOptions: ORKRegistrationStepOption = [.includeGivenName, .includeFamilyName, .includeGender, .includeDOB, .includePhoneNumber]
         let registrationStep = ORKRegistrationStep(identifier: String(describing: Identifier.registrationStep), title: registrationTitle, text: exampleDetailText, passcodeValidationRegularExpression: passcodeValidationRegularExpression, passcodeInvalidMessage: passcodeInvalidMessage, options: registrationOptions)
         registrationStep.phoneNumberValidationRegularExpression = try? NSRegularExpression(pattern: "^[+]{1,1}[1]{1,1}\\s{1,1}[(]{1,1}[1-9]{3,3}[)]{1,1}\\s{1,1}[1-9]{3,3}\\s{1,1}[1-9]{4,4}$")
-        registrationStep.phoneNumberInvalidMessage = "Invalid phone number"
+        registrationStep.phoneNumberInvalidMessage = "Expected format +1 (555) 555 5555"
         
         /*
         A wait step allows you to upload the data from the user registration onto your server before presenting the verification step.

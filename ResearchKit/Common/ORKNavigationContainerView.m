@@ -74,6 +74,12 @@ static const CGFloat activityIndicatorPadding = 24.0;
     }
 }
 
+- (void)flattenIfNeeded {
+    if (![self hasContinueOrSkip] || (self.continueButtonItem == nil && [self neverHasSkipButton] && [self neverHasFootnote])) {
+        [[self.heightAnchor constraintEqualToConstant:0] setActive:YES];
+    }
+}
+
 - (void)setupVisualEffectView {
     if (!effectView && !_removeVisualEffect) {
         self.backgroundColor = [UIColor clearColor];
@@ -111,9 +117,6 @@ static const CGFloat activityIndicatorPadding = 24.0;
     _continueButton.exclusiveTouch = YES;
     _continueButton.translatesAutoresizingMaskIntoConstraints = NO;
     [_continueButton addTarget:self action:@selector(continueButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-    if (_appTintColor) {
-        _continueButton.normalTintColor = _appTintColor;
-    }
     [self addSubview:_continueButton];
 }
 
@@ -125,9 +128,6 @@ static const CGFloat activityIndicatorPadding = 24.0;
     [_skipButton setTitle:nil forState:UIControlStateNormal];
     [_skipButton addTarget:self action:@selector(skipButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     _skipButton.translatesAutoresizingMaskIntoConstraints = NO;
-    if (_appTintColor) {
-        _skipButton.normalTintColor = _appTintColor;
-    }
     [self addSubview:_skipButton];
 }
 
@@ -140,10 +140,15 @@ static const CGFloat activityIndicatorPadding = 24.0;
 }
 
 - (void)setupViews {
-    _appTintColor = [[UIApplication sharedApplication].delegate window].tintColor;
     [self setupContinueButton];
     [self setupSkipButton];
     [self setUpConstraints];
+}
+
+- (void)didMoveToWindow {
+    _appTintColor = self.window.tintColor ? : ORKColor(ORKBlueHighlightColorKey);
+    _continueButton.normalTintColor = _appTintColor;
+    _skipButton.normalTintColor = _appTintColor;
 }
 
 - (void)setSkipButtonStyle:(ORKNavigationContainerButtonStyle)skipButtonStyle {
@@ -275,13 +280,6 @@ static const CGFloat activityIndicatorPadding = 24.0;
     _skipButton.alpha = [self skipButtonAlpha];
     [self setNeedsUpdateConstraints];
     [self setUpConstraints];
-}
-
-- (void)flattenIfNeeded {
-    // The navigation container view will set its own height to 0 if both buttons have an alpha of 0
-    if (_skipButton.alpha == 0 && _continueButton.alpha == 0) {
-        [[self.heightAnchor constraintEqualToConstant:0] setActive:YES];
-    }
 }
 
 - (void)showActivityIndicator:(BOOL)showActivityIndicator {

@@ -33,13 +33,19 @@
 #import "ORKTypes.h"
 #import "ORKHelpers_Internal.h"
 
-ORKHeadphoneRawTypeIdentifier const ORKHeadphoneRawTypeIdentifierUnknown = @"unknown";
+ORKHeadphoneRawTypeIdentifier const ORKHeadphoneRawTypeIdentifierChipsetUnknown = @"unknown";
 
-ORKHeadphoneRawTypeIdentifier const ORKHeadphoneRawTypeIdentifierAirPods = @"aa2d";
+ORKHeadphoneRawTypeIdentifier const ORKHeadphoneRawTypeIdentifierChipsetAirPods = @"aa2d";
 
-ORKHeadphoneRawTypeIdentifier const ORKHeadphoneRawTypeIdentifierLightningEarPods = @"b225";
+ORKHeadphoneRawTypeIdentifier const ORKHeadphoneRawTypeIdentifierChipsetLightningEarPods = @"b225";
 
-ORKHeadphoneRawTypeIdentifier const ORKHeadphoneRawTypeIdentifierAudioJackEarPods = @"b60";
+ORKHeadphoneRawTypeIdentifier const ORKHeadphoneRawTypeIdentifierChipsetAudioJackEarPods = @"b60";
+
+ORKHeadphoneRawTypeIdentifier const ORKHeadphoneRawTypeIdentifierProductIdAirPodsGen1 = @"8194";
+
+ORKHeadphoneRawTypeIdentifier const ORKHeadphoneRawTypeIdentifierProductIdAirPodsGen2 = @"8207";
+
+ORKHeadphoneRawTypeIdentifier const ORKHeadphoneRawTypeIdentifierVendorIdApple = @"76";
 
 ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierAirPods = @"AIRPODS";
 

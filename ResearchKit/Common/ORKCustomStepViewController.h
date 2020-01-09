@@ -37,6 +37,12 @@ ORK_CLASS_AVAILABLE
 
 - (BOOL)continueButtonEnabled;
 
+- (void)updateButtonStates;
+
+- (void)setScrollViewOffset:(UIEdgeInsets)contentInset;
+
+- (void)scrollToPoint:(CGPoint)point;
+
 @end
 
 NS_ASSUME_NONNULL_END

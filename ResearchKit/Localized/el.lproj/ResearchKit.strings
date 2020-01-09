@@ -111,17 +111,17 @@
 "EMAIL_FORM_ITEM_TITLE" = "Email";
 "EMAIL_FORM_ITEM_PLACEHOLDER" = "gmilosporos@example.com";
 "PASSWORD_FORM_ITEM_TITLE" = "Συνθηματικό";
-"PASSWORD_FORM_ITEM_PLACEHOLDER" = "Εισαγάγετε συνθηματικό";
+"PASSWORD_FORM_ITEM_PLACEHOLDER" = "Εισαγωγή";
 "CONFIRM_PASSWORD_FORM_ITEM_TITLE" = "Επιβεβαίωση";
-"CONFIRM_PASSWORD_FORM_ITEM_PLACEHOLDER" = "Εισαγάγετε πάλι το συνθηματικό";
+"CONFIRM_PASSWORD_FORM_ITEM_PLACEHOLDER" = "Εισαγωγή πάλι";
 "CONFIRM_PASSWORD_ERROR_MESSAGE" = "Τα συνθηματικά δεν ταιριάζουν.";
 "ADDITIONAL_INFO_SECTION_TITLE" = "Πρόσθετες πληροφορίες";
 "GIVEN_NAME_ITEM_PLACEHOLDER" = "Γιάννης";
 "FAMILY_NAME_ITEM_PLACEHOLDER" = "Μηλοσπόρος";
 "GENDER_FORM_ITEM_TITLE" = "Φύλο";
-"GENDER_FORM_ITEM_PLACEHOLDER" = "Επιλέξτε φύλο";
+"GENDER_FORM_ITEM_PLACEHOLDER" = "Επιλογή";
 "DOB_FORM_ITEM_TITLE" = "Ημερομηνία γέννησης";
-"DOB_FORM_ITEM_PLACEHOLDER" = "Επιλέξτε ημερομηνία";
+"DOB_FORM_ITEM_PLACEHOLDER" = "Επιλογή";
 "PHONE_NUMBER_FORM_ITEM_TITLE" = "Αριθμός τηλεφώνου";
 "PHONE_NUMBER_FORM_ITEM_PLACEHOLDER" = "+1 (555) 555 5555";
 
@@ -136,21 +136,21 @@
 "FORGOT_PASSWORD_BUTTON_TITLE" = "Ξεχάσατε το συνθηματικό;";
 
 /* Passcode step */
-"PASSCODE_PROMPT_MESSAGE" = "Εισαγάγετε συνθηματικό";
-"PASSCODE_CONFIRM_MESSAGE" = "Επιβεβαίωση συνθηματικού";
-"PASSCODE_SAVED_MESSAGE" = "Το συνθηματικό αποθηκεύτηκε";
-"PASSCODE_AUTHENTICATED_MESSAGE" = "Έγινε έλεγχος ταυτότητας συνθηματικού";
-"PASSCODE_OLD_ENTRY_MESSAGE" = "Εισαγάγετε το παλιό συνθηματικό";
-"PASSCODE_NEW_ENTRY_MESSAGE" = "Εισαγάγετε το νέο συνθηματικό";
-"PASSCODE_CONFIRM_NEW_ENTRY_MESSAGE" = "Επιβεβαίωση νέου συνθηματικού";
-"PASSCODE_INVALID_ALERT_TITLE" = "Λανθασμένο συνθηματικό";
-"PASSCODE_INVALID_ALERT_MESSAGE" = "Ασυμφωνία συνθηματικών. Δοκιμάστε ξανά.";
+"PASSCODE_PROMPT_MESSAGE" = "Εισαγωγή κωδικού";
+"PASSCODE_CONFIRM_MESSAGE" = "Επιβεβαίωση κωδικού";
+"PASSCODE_SAVED_MESSAGE" = "Ο κωδικός αποθηκεύτηκε";
+"PASSCODE_AUTHENTICATED_MESSAGE" = "Έγινε έλεγχος ταυτότητας κωδικού";
+"PASSCODE_OLD_ENTRY_MESSAGE" = "Εισαγάγετε τον παλιό κωδικό";
+"PASSCODE_NEW_ENTRY_MESSAGE" = "Εισαγάγετε τον νέο κωδικό";
+"PASSCODE_CONFIRM_NEW_ENTRY_MESSAGE" = "Επιβεβαίωση νέου κωδικού";
+"PASSCODE_INVALID_ALERT_TITLE" = "Λανθασμένος κωδικός";
+"PASSCODE_INVALID_ALERT_MESSAGE" = "Ασυμφωνία κωδικών. Δοκιμάστε ξανά.";
 "PASSCODE_TOUCH_ID_MESSAGE" = "Πραγματοποιήστε έλεγχο ταυτότητας με Touch ID";
 "PASSCODE_TOUCH_ID_ERROR_ALERT_TITLE" = "Σφάλμα Touch ID";
 "PASSCODE_TEXTFIELD_INVALID_INPUT_MESSAGE" = "Επιτρέπονται μόνο αριθμητικοί χαρακτήρες.";
-"PASSCODE_TEXTFIELD_ACCESSIBILITY_LABEL" = "Ένδειξη προόδου εισαγωγής συνθηματικού";
+"PASSCODE_TEXTFIELD_ACCESSIBILITY_LABEL" = "Ένδειξη προόδου εισαγωγής κωδικού";
 "PASSCODE_TEXTFIELD_ACCESSIBILTIY_VALUE" = "Εισάχθηκαν %@ από %@ ψηφία";
-"PASSCODE_FORGOT_BUTTON_TITLE" = "Ξεχάσατε το συνθηματικό;";
+"PASSCODE_FORGOT_BUTTON_TITLE" = "Ξεχάσατε τον κωδικό;";
 
 /* Keychain wrapper */
 "KEYCHAIN_ADD_ERROR_MESSAGE" = "Δεν ήταν δυνατή η προσθήκη στοιχείου της Κλειδοθήκης.";
@@ -317,7 +317,7 @@
 /* Tone audiometry active task. */
 "TONE_AUDIOMETRY_TASK_TITLE" = "Τονική ακοομετρία";
 "TONE_AUDIOMETRY_INTENDED_USE" = "Αυτή η δραστηριότητα μετρά την ικανότητά σας να ακούτε διαφορετικούς ήχους.";
-"TONE_AUDIOMETRY_INTRO_TEXT" = "Προτού ξεκινήσετε, συνδέστε και φορέστε τα ακουστικά κεφαλής.\n\nΟ ήχος θα είναι πολύ απαλός και δεν μοιάζει με τυπικό τόνο ειδοποίησης. Η ένταση του ήχου θα ξεκινήσει σε χαμηλό επίπεδο και θα αυξάνεται αργά. Δώστε προσοχή και αγγίξτε το αριστερό ή το δεξιό κουμπί για να υποδείξετε σε ποιο αυτί ακούτε τον ήχο.";
+"TONE_AUDIOMETRY_INTRO_TEXT" = "Προτού ξεκινήσετε, συνδέστε και φορέστε τα ακουστικά κεφαλής.\n\nΟ ήχος θα είναι πολύ απαλός και δεν μοιάζει με τυπικό τόνο ειδοποίησης.  Η ένταση του ήχου θα ξεκινήσει σε χαμηλό επίπεδο και θα αυξάνεται αργά.  Δώστε προσοχή και αγγίξτε το αριστερό ή το δεξιό κουμπί για να υποδείξετε σε ποιο αυτί ακούτε τον ήχο.";
 "TONE_AUDIOMETRY_CALL_TO_ACTION" = "Αγγίξτε «Έναρξη» για να αρχίσετε.";
 "TONE_AUDIOMETRY_PREP_TEXT" = "Τώρα θα ακούσετε έναν τόνο. Προσαρμόστε την ένταση ήχου με τα χειριστήρια που βρίσκονται στην πλαϊνή πλευρά της συσκευής σας.\n\nΑγγίξτε οποιοδήποτε κουμπί όταν είστε έτοιμοι να ξεκινήσετε.";
 "TONE_AUDIOMETRY_INSTRUCTION" = "Κάθε φορά που ακούτε έναν ήχο, αγγίξτε το αριστερό ή το δεξιό κουμπί για να υποδείξετε σε ποιο αυτί ακούτε τον ήχο.";
@@ -429,8 +429,8 @@
 "KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_0_RIGHT" = "Αυτή η δραστηριότητα μετρά πόσο πολύ μπορείτε να τεντώσετε το δεξιό σας γόνατο.";
 "KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_1_LEFT" = "Καθίστε στην άκρη μιας καρέκλας. Όταν ξεκινήσετε, θα τοποθετήσετε τη συσκευή στο αριστερό σας γόνατο για τη μέτρηση. Αυξήστε την ένταση ήχου στη συσκευή για να ακούσετε τις οδηγίες.";
 "KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_1_RIGHT" = "Καθίστε στην άκρη μιας καρέκλας. Όταν ξεκινήσετε, θα τοποθετήσετε τη συσκευή στο δεξιό σας γόνατο για τη μέτρηση. Αυξήστε την ένταση ήχου στη συσκευή για να ακούσετε τις οδηγίες.";
-"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_LEFT" = "Τοποθετήστε τη συσκευή στο αριστερό σας γόνατο με την οθόνη να κοιτά προς τα πάνω, όπως φαίνεται στην εικόνα.";
-"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_RIGHT" = "Τοποθετήστε τη συσκευή στο δεξιό σας γόνατο με την οθόνη να κοιτά προς τα πάνω, όπως φαίνεται στην εικόνα.";
+"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_LEFT" = "Τοποθετήστε τη συσκευή στο αριστερό σας γόνατο με την οθόνη να κοιτά προς τα έξω, όπως φαίνεται στην εικόνα.";
+"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_RIGHT" = "Τοποθετήστε τη συσκευή στο δεξιό σας γόνατο με την οθόνη να κοιτά προς τα έξω, όπως φαίνεται στην εικόνα.";
 "KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_LEFT" = "Όταν είστε έτοιμοι, αγγίξτε την οθόνη για να ξεκινήσετε και εκτείνετε το αριστερό σας γόνατο όσο μπορείτε. Επιστρέψτε στην αρχική θέση και αγγίξτε πάλι όταν τελειώσετε.";
 "KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_RIGHT" = "Όταν είστε έτοιμοι, αγγίξτε την οθόνη για να ξεκινήσετε και εκτείνετε το δεξιό σας γόνατο όσο μπορείτε. Επιστρέψτε στην αρχική θέση και αγγίξτε πάλι όταν τελειώσετε.";
 "KNEE_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_LEFT" = "Τοποθετήστε τη συσκευή στο αριστερό σας γόνατο. Αγγίξτε την οθόνη και εκτείνετε όσο μπορείτε το αριστερό σας γόνατο.";
@@ -445,8 +445,8 @@
 "SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_0_RIGHT" = "Αυτή η δραστηριότητα μετρά πόσο πολύ μπορείτε να τεντώσετε τον δεξιό σας ώμο.";
 "SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_1_LEFT" = "Όταν ξεκινήσετε, θα τοποθετήσετε τη συσκευή στον αριστερό σας ώμο για τη μέτρηση. Αυξήστε την ένταση ήχου στη συσκευή για να ακούσετε τις οδηγίες.";
 "SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_1_RIGHT" = "Όταν ξεκινήσετε, θα τοποθετήσετε τη συσκευή στον δεξιό σας ώμο για τη μέτρηση. Αυξήστε την ένταση ήχου στη συσκευή για να ακούσετε τις οδηγίες.";
-"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_LEFT" = "Τοποθετήστε τη συσκευή στον αριστερό σας ώμο με την οθόνη να κοιτά προς τα πάνω, όπως φαίνεται στην εικόνα.";
-"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_RIGHT" = "Τοποθετήστε τη συσκευή στον δεξιό σας ώμο με την οθόνη να κοιτά προς τα πάνω, όπως φαίνεται στην εικόνα.";
+"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_LEFT" = "Τοποθετήστε τη συσκευή στον αριστερό σας ώμο με την οθόνη να κοιτά προς τα έξω, όπως φαίνεται στην εικόνα.";
+"SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_RIGHT" = "Τοποθετήστε τη συσκευή στον δεξιό σας ώμο με την οθόνη να κοιτά προς τα έξω, όπως φαίνεται στην εικόνα.";
 "SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_LEFT" = "Όταν είστε έτοιμοι, αγγίξτε την οθόνη για να ξεκινήσετε και σηκώστε το αριστερό χέρι σας όσο μπορείτε. Επιστρέψτε στην αρχική θέση και αγγίξτε πάλι όταν τελειώσετε.";
 "SHOULDER_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_RIGHT" = "Όταν είστε έτοιμοι, αγγίξτε την οθόνη για να ξεκινήσετε και σηκώστε το δεξιό χέρι σας όσο μπορείτε. Επιστρέψτε στην αρχική θέση και αγγίξτε πάλι όταν τελειώσετε.";
 "SHOULDER_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_LEFT" = "Τοποθετήστε τη συσκευή στον αριστερό σας ώμο. Αγγίξτε την οθόνη και σηκώστε όσο μπορείτε το αριστερό χέρι σας προς τα εμπρός.";
@@ -532,8 +532,8 @@
 "TREMOR_TEST_ACTIVE_STEP_TOUCH_NOSE_INTRO_RIGHT" = "Κρατώντας τον αγκώνα σας λυγισμένο με το τηλέφωνο στο ΔΕΞΙΟ χέρι σας, αγγίξτε τη μύτη σας με το τηλέφωνο επανειλημμένα.";
 "TREMOR_TEST_ACTIVE_STEP_TOUCH_NOSE_INSTRUCTION_%ld" = "Συνεχίστε να ακουμπάτε τη μύτη σας με το τηλέφωνο για %ld δευτερόλεπτα.";
 "TREMOR_TEST_ACTIVE_STEP_TURN_WRIST_INTRO" = "Προετοιμαστείτε να κάνετε έναν βασιλικό χαιρετισμό (κουνώντας τον καρπό).";
-"TREMOR_TEST_ACTIVE_STEP_TURN_WRIST_INTRO_LEFT" = "Προετοιμαστείτε να κάνετε έναν βασιλικό χαιρετισμό με το τηλέφωνο στο ΑΡΙΣΤΕΡΟ χέρι σας (χαιρετίστε κουνώντας τον καρπό).";
-"TREMOR_TEST_ACTIVE_STEP_TURN_WRIST_INTRO_RIGHT" = "Προετοιμαστείτε να κάνετε έναν βασιλικό χαιρετισμό με το τηλέφωνο στο ΔΕΞΙΟ χέρι σας (χαιρετίστε κουνώντας τον καρπό).";
+"TREMOR_TEST_ACTIVE_STEP_TURN_WRIST_INTRO_LEFT" = "Προετοιμαστείτε να κάνετε έναν βασιλικό χαιρετισμό (κουνώντας τον καρπό) με το τηλέφωνο στο ΑΡΙΣΤΕΡΟ χέρι σας.";
+"TREMOR_TEST_ACTIVE_STEP_TURN_WRIST_INTRO_RIGHT" = "Προετοιμαστείτε να κάνετε έναν βασιλικό χαιρετισμό (κουνώντας τον καρπό) με το τηλέφωνο στο ΔΕΞΙΟ χέρι σας.";
 "TREMOR_TEST_ACTIVE_STEP_TURN_WRIST_INSTRUCTION_%ld" = "Συνεχίστε να χαιρετάτε με αυτόν τον τρόπο για %ld δευτερόλεπτα.";
 "TREMOR_TEST_ACTIVE_STEP_SWITCH_HANDS_LEFT_INSTRUCTION" = "Τώρα κρατήστε το τηλέφωνο στο ΑΡΙΣΤΕΡΟ χέρι σας και συνεχίστε στην επόμενη εργασία.";
 "TREMOR_TEST_ACTIVE_STEP_SWITCH_HANDS_RIGHT_INSTRUCTION" = "Τώρα κρατήστε το τηλέφωνο στο ΔΕΞΙΟ χέρι σας και συνεχίστε στην επόμενη εργασία.";

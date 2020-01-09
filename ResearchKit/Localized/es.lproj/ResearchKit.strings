@@ -347,7 +347,7 @@
 "dBHL_TONE_AUDIOMETRY_OPTION_NO_PREFERENCE" = "sin preferencia";
 "dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "Se ha cancelado la prueba";
 "dBHL_ALERT_TITLE_START_OVER" = "Volver a empezar";
-"dBHL_ALERT_TITLE_CANCEL_TEST" = "Cancela la prueba";
+"dBHL_ALERT_TITLE_CANCEL_TEST" = "Cancelar la prueba";
 "dBHL_ALERT_TEXT" = "Vuelve a conectar tus AirPods o EarPods para realizar esta prueba.";
 "dBHL_PROGRESS_COMPLETION_%@" = "%@ completado";
 
@@ -429,8 +429,8 @@
 "KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_0_RIGHT" = "Este ejercicio mide tu capacidad para estirar la rodilla derecha.";
 "KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_1_LEFT" = "Siéntate en el borde de una silla. Cuando estés preparado, colócate el dispositivo en la rodilla izquierda para empezar a medir. Activa el sonido del dispositivo para oír las instrucciones.";
 "KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_1_RIGHT" = "Siéntate en el borde de una silla. Cuando estés preparado, colócate el dispositivo en la rodilla derecha para empezar a medir. Activa el sonido del dispositivo para oír las instrucciones.";
-"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_LEFT" = "Colócate el dispositivo en la rodilla izquierda con la pantalla hacia arriba, tal y como se ve en la imagen.";
-"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_RIGHT" = "Colócate el dispositivo en la rodilla derecha con la pantalla hacia arriba, tal y como se ve en la imagen.";
+"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_LEFT" = "Colócate el dispositivo en la rodilla izquierda con la pantalla hacia delante, tal y como se ve en la imagen.";
+"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_RIGHT" = "Colócate el dispositivo en la rodilla derecha con la pantalla hacia delante, tal y como se ve en la imagen.";
 "KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_LEFT" = "Para empezar, pulsa la pantalla y eleva la rodilla izquierda todo lo que puedas. Cuando termines, vuelve a la posición inicial y pulsa la pantalla de nuevo.";
 "KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_RIGHT" = "Para empezar, pulsa la pantalla y eleva la rodilla derecha todo lo que puedas. Cuando termines, vuelve a la posición inicial y pulsa la pantalla de nuevo.";
 "KNEE_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_LEFT" = "Colócate el dispositivo en la rodilla izquierda. Pulsa la pantalla y extiende la rodilla izquierda todo lo que puedas.";
@@ -489,18 +489,18 @@
 "PSAT_NO_DIGIT" = "-";
 
 /* Hole peg test active task. */
-"HOLE_PEG_TEST_TITLE_%@" = "Prueba de las %@ clavijas";
-"HOLE_PEG_TEST_INTRO_TEXT_%@" = "Esta actividad mide la capacidad funcional de tus extremidades superiores, para lo cual se te pedirá que introduzcas una clavija en un agujero %@ veces.";
-"HOLE_PEG_TEST_INTRO_TEXT_2_LEFT_HAND_FIRST_%@" = "La prueba debe realizarse tanto con la mano izquierda como con la derecha.\nHay que introducir la clavija lo más rápido posible en el orificio y, una vez que lo hayas hecho %@ veces, volver a extraerla %@ veces.";
-"HOLE_PEG_TEST_INTRO_TEXT_2_RIGHT_HAND_FIRST_%@" = "La prueba debe realizarse tanto con la mano derecha como con la izquierda.\nHay que introducir la clavija lo más rápido posible en el orificio y, una vez que lo hayas hecho %@ veces, volver a extraerla %@ veces.";
+"HOLE_PEG_TEST_TITLE_%@" = "Prueba de los %@ círculos";
+"HOLE_PEG_TEST_INTRO_TEXT_%@" = "Esta actividad mide la capacidad funcional de tus extremidades superiores, para lo cual se te pedirá que introduzcas un círculo azul en un círculo vacío %@ veces.";
+"HOLE_PEG_TEST_INTRO_TEXT_2_LEFT_HAND_FIRST_%@" = "La prueba debe realizarse tanto con la mano izquierda como con la derecha.\nHay que arrastrar el círculo azul y colocarlo en el círculo vacío lo más rápido posible y, una vez que lo hayas hecho %@ veces, volver a extraerlo %@ veces.";
+"HOLE_PEG_TEST_INTRO_TEXT_2_RIGHT_HAND_FIRST_%@" = "La prueba debe realizarse tanto con la mano derecha como con la izquierda.\nHay que arrastrar el círculo azul y colocarlo en el círculo vacío lo más rápido posible y, una vez que lo hayas hecho %@ veces, volver a extraerlo %@ veces.";
 
 "HOLE_PEG_TEST_CALL_TO_ACTION" = "Pulsa Empezar para comenzar.";
-"HOLE_PEG_TEST_PLACE_INSTRUCTION_LEFT_HAND" = "Introduce la clavija en el agujero con la mano izquierda.";
-"HOLE_PEG_TEST_PLACE_INSTRUCTION_RIGHT_HAND" = "Introduce la clavija en el agujero con la mano derecha.";
-"HOLE_PEG_TEST_REMOVE_INSTRUCTION_LEFT_HAND" = "Coloca la clavija detrás de la línea con la mano izquierda.";
-"HOLE_PEG_TEST_REMOVE_INSTRUCTION_RIGHT_HAND" = "Coloca la clavija detrás de la línea con la mano derecha.";
-"HOLE_PEG_TEST_TEXT" = "Coge la clavija con dos dedos.";
-"HOLE_PEG_TEST_TEXT_2" = "Levanta los dedos para soltar la clavija.";
+"HOLE_PEG_TEST_PLACE_INSTRUCTION_LEFT_HAND" = "Introduce el círculo azul en el círculo vacío con la mano izquierda.";
+"HOLE_PEG_TEST_PLACE_INSTRUCTION_RIGHT_HAND" = "Introduce el círculo azul en el círculo vacío con la mano derecha.";
+"HOLE_PEG_TEST_REMOVE_INSTRUCTION_LEFT_HAND" = "Coloca el círculo azul detrás de la línea con la mano izquierda.";
+"HOLE_PEG_TEST_REMOVE_INSTRUCTION_RIGHT_HAND" = "Coloca el círculo azul detrás de la línea con la mano derecha.";
+"HOLE_PEG_TEST_TEXT" = "Arrastra el círculo azul con dos dedos.";
+"HOLE_PEG_TEST_TEXT_2" = "Levanta los dedos para soltar el círculo azul.";
 
 /* Tremor test active task. */
 "TREMOR_TEST_TITLE" = "Actividad para medir el temblor";
@@ -612,7 +612,7 @@
 
 /* Slider */
 "SLIDER_MOVE_SLIDER_FOR_VALUE" = "Desplaza el regulador para introducir un valor";
-"SLIDER_I_DONT_KNOW" = "No lo sé.";
+"SLIDER_I_DONT_KNOW" = "No lo sé";
 
 /* Review Step */
 "REVIEW_STEP_PAGE" = "Página";

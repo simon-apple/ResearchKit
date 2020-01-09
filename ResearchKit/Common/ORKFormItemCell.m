@@ -729,6 +729,7 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     
     if (_dontKnowButton && [_dontKnowButton isDontKnowButtonActive] && self.answer != [ORKDontKnowAnswer answer]) {
         [self ork_setAnswer:[ORKDontKnowAnswer answer]];
+        self.textField.text = @"";
     }
     
     if (self.errorLabel.attributedText != nil) {
@@ -756,6 +757,7 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     if (_dontKnowButton && [_dontKnowButton isDontKnowButtonActive]) {
         [_dontKnowButton setButtonInactive];
         [self ork_setAnswer:ORKNullAnswerValue()];
+        [self inputValueDidChange];
     }
 }
 
@@ -1528,6 +1530,15 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     return NO;
+}
+
+- (BOOL)textFieldShouldEndEditing:(UITextField *)textField
+{
+    BOOL shouldEndEditing = [super textFieldShouldEndEditing:textField];
+    
+    [self inputValueDidChange];
+    
+    return shouldEndEditing;
 }
 
 @end

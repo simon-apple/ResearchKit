@@ -38,6 +38,7 @@
 #import "ORKInstructionStepContainerView.h"
 #import "ORKInstructionStepView.h"
 #import "ORKNavigationContainerView.h"
+#import "ORKNavigationContainerView_Internal.h"
 #import "ORKStepHeaderView_Internal.h"
 #import "ORKStepContainerView_Private.h"
 
@@ -409,9 +410,22 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     [self.stepView removeCustomContentPadding];
 }
 
+- (void)goToEnd:(id)sender {
+    [[self taskViewController] flipToLastPage];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.stepView.navigationFooterView.optional = YES;
     self.stepView.navigationFooterView.continueEnabled = NO;
+}
+
+- (void)setSkipButtonItem:(UIBarButtonItem *)skipButtonItem {
+    [super setSkipButtonItem:skipButtonItem];
+    
+    [skipButtonItem setTitle:ORKLocalizedString(@"SKIP_TO_END_TEXT", nil)];
+    skipButtonItem.target = self;
+    skipButtonItem.action = @selector(goToEnd:);
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -445,18 +459,20 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
 # pragma mark OKHeadphoneDetectorDelegate
 
 - (void)headphoneTypeDetected:(ORKHeadphoneRawTypeIdentifier)headphoneType isSupported:(BOOL)isSupported {
-    if (headphoneType == nil) {
+    if (isSupported) {
+        if ([headphoneType containsString:ORKHeadphoneRawTypeIdentifierChipsetAirPods]) {
+            _lastDetectedRoute = ORKHeadphoneTypeIdentifierAirPods;
+            _headphoneDetectStepView.headphoneDetected = ORKHeadphoneDetectedAirpods;
+        } else if ([headphoneType containsString:ORKHeadphoneRawTypeIdentifierChipsetAudioJackEarPods] || [headphoneType containsString:ORKHeadphoneRawTypeIdentifierChipsetLightningEarPods]) {
+            _lastDetectedRoute = ORKHeadphoneTypeIdentifierEarPods;
+            _headphoneDetectStepView.headphoneDetected = ORKHeadphoneDetectedEarpods;
+        } else {
+            _lastDetectedRoute = ORKHeadphoneTypeIdentifierUnknown;
+            _headphoneDetectStepView.headphoneDetected = ORKHeadphoneDetectedUnknown;
+        }
+    } else {
         _lastDetectedRoute = nil;
         _headphoneDetectStepView.headphoneDetected = ORKHeadphoneDetectedNone;
-    } else if ([headphoneType containsString:ORKHeadphoneRawTypeIdentifierAirPods]) {
-        _lastDetectedRoute = ORKHeadphoneTypeIdentifierAirPods;
-        _headphoneDetectStepView.headphoneDetected = ORKHeadphoneDetectedAirpods;
-    } else if ([headphoneType containsString:ORKHeadphoneRawTypeIdentifierAudioJackEarPods] || [headphoneType containsString:ORKHeadphoneRawTypeIdentifierLightningEarPods]) {
-        _lastDetectedRoute = ORKHeadphoneTypeIdentifierEarPods;
-        _headphoneDetectStepView.headphoneDetected = ORKHeadphoneDetectedEarpods;
-    } else {
-        _lastDetectedRoute = ORKHeadphoneTypeIdentifierUnknown;
-        _headphoneDetectStepView.headphoneDetected = ORKHeadphoneDetectedUnknown;
     }
     self.stepView.navigationFooterView.continueEnabled = isSupported;
 }
