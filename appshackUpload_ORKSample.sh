@@ -3,16 +3,16 @@
 pushd /tmp/ci/developmentexport
 
 if [ "${CI_BRANCH}" == "master" ]; then
-	BUNDLE_ID="com.example.carekit-samplecode.ORKSample"
+	BUNDLE_ID="com.example.apple-ResearchKit.Sample"
 	IPA_NAME="ORKSample.ipa"
 elif [ "${CI_BRANCH}" == "stable" ]; then
-	BUNDLE_ID="com.example.carekit-samplecode.ORKSample-qa"
+	BUNDLE_ID="com.example.apple-ResearchKit.Sample-qa"
 	IPA_NAME="ORKSample QA.ipa"
 elif [ "${CI_BRANCH}" == "release/public" ]; then
-	BUNDLE_ID="com.example.carekit-samplecode.ORKSample-public"
+	BUNDLE_ID="com.example.apple-ResearchKit.Sample-public"
 	IPA_NAME="ORKSample Public.ipa"
 elif [ "${CI_BRANCH}" == "release/internal" ]; then
-	BUNDLE_ID="com.example.carekit-samplecode.ORKSample-internal"
+	BUNDLE_ID="com.example.apple-ResearchKit.Sample-internal"
 	IPA_NAME="ORKSample Internal.ipa"
 else
 	echo "Only master, stable, or public-release will upload to appshack"
