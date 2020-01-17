@@ -28,36 +28,13 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@import Foundation;
-#import <ResearchKit/ORKInstructionStep.h>
-#import <ResearchKit/ORKDefines.h>
+#import "ORKSoftLinking.h"
 
-NS_ASSUME_NONNULL_BEGIN
+#import "AVFoundation_Private.h"
 
-typedef NS_ENUM(NSUInteger, ORKHeadphoneTypes) {
-    /**
-     Supported
-     */
-    ORKHeadphoneTypesSupported=0,
-    
-    /**
-     Any
-     */
-    ORKHeadphoneTypesAny
-    
-} ORK_ENUM_AVAILABLE;
-
-ORK_CLASS_AVAILABLE
-@interface ORKHeadphoneDetectStep : ORKInstructionStep
-
-@property (nonatomic, assign) ORKHeadphoneTypes headphoneTypes;
-
-- (instancetype)initWithIdentifier:(NSString *)identifier headphoneTypes:(ORKHeadphoneTypes)headphoneTypes;
-
-+ (NSSet<ORKHeadphoneChipsetIdentifier> *)dBHLTypes;
-
-- (nullable NSSet<ORKHeadphoneChipsetIdentifier> *)supportedHeadphoneChipsetTypes;
-
-@end
-
-NS_ASSUME_NONNULL_END
+ORK_SOFT_LINK_FRAMEWORK(PrivateFrameworks, AVFoundation)
+ORK_SOFT_LINK_CLASS(AVFoundation, AVOutputDevice)
+ORK_SOFT_LINK_CLASS(AVFoundation, AVOutputContext)
+ORK_SOFT_LINK_CONSTANT(AVFoundation, AVOutputDeviceBluetoothListeningModeActiveNoiseCancellation, NSString *)
+ORK_SOFT_LINK_CONSTANT(AVFoundation, AVOutputDeviceBluetoothListeningModeAudioTransparency, NSString *)
+ORK_SOFT_LINK_CONSTANT(AVFoundation, AVOutputDeviceBluetoothListeningModeNormal, NSString *)
