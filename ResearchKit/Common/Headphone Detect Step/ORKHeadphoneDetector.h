@@ -40,17 +40,20 @@ ORK_CLASS_AVAILABLE
 @interface ORKHeadphoneDetector : NSObject
 
 @property (nonatomic, weak) id<ORKHeadphoneDetectorDelegate> delegate;
-@property (nonatomic, readonly, nullable) NSSet<ORKHeadphoneRawTypeIdentifier> *supportedHeadphoneTypes;
+@property (nonatomic, readonly, nullable) NSSet<ORKHeadphoneChipsetIdentifier> *supportedHeadphoneChipsetTypes;
 
 - (instancetype)initWithDelegate:(id<ORKHeadphoneDetectorDelegate>)delegate
-       supportedHeadphoneTypes:(NSSet<ORKHeadphoneRawTypeIdentifier> *)supportedHeadphoneTypes;
+       supportedHeadphoneChipsetTypes:(NSSet<ORKHeadphoneChipsetIdentifier> *)supportedHeadphoneChipsetTypes;
 
 @end
 
 @protocol ORKHeadphoneDetectorDelegate <NSObject>
 
 @required
-- (void)headphoneTypeDetected:(ORKHeadphoneRawTypeIdentifier)headphoneType isSupported:(BOOL)isSupported;
+- (void)headphoneTypeDetected:(ORKHeadphoneTypeIdentifier)headphoneType isSupported:(BOOL)isSupported;
+
+@optional
+- (void)bluetoothModeChanged:(ORKBluetoothMode)bluetoothMode;
 
 @end
 
