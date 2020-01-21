@@ -573,7 +573,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     
     _headphoneDetectStepView = [self detectStep].headphoneTypes == ORKHeadphoneTypesSupported ? [[ORKHeadphoneDetectStepView alloc] initWithHeadphonesSupported] : [[ORKHeadphoneDetectStepView alloc] initWithHeadphonesAny];
 
-    self.stepView.customContentFillsAvailableSpace = YES;
+    self.stepView.customContentFillsAvailableSpace = NO;
     self.stepView.customContentView = _headphoneDetectStepView;
     [self.stepView removeCustomContentPadding];
 }
