@@ -38,7 +38,7 @@
 #import "ORKActiveStep.h"
 #import "ORKNavigationContainerView_Internal.h"
 
-/**
+/*
  +-----------------------------------------+
  | +-------------------------------------+ |<---_stepContainerView
  | |        _topContentImageView         | |
@@ -341,8 +341,10 @@ static const CGFloat ORKBodyItemScrollPadding = 24.0;
 - (void)layoutSubviews {
     [super layoutSubviews];
     [self updateScrollContentConstraints];
-    [self updateEffectViewStylingAndAnimate:NO checkCurrentValue:NO];
-    _scrollView.contentInset = UIEdgeInsetsMake(0, 0, self.navigationFooterView.frame.size.height + ORKContentBottomPadding, 0);
+    // dispatching on main thread to prevent the blur view from popping-up after transition is complete
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self updateEffectViewStylingAndAnimate:NO checkCurrentValue:NO];
+    });
 }
 
 - (void)updateScrollContentConstraints {
@@ -355,8 +357,7 @@ static const CGFloat ORKBodyItemScrollPadding = 24.0;
                                                                      toItem:_scrollContainerView
                                                                   attribute:NSLayoutAttributeBottom
                                                                  multiplier:1.0
-                                                                   constant:0];
-
+                                                                   constant:0.0];
     [NSLayoutConstraint activateConstraints:@[_scrollContentBottomConstraint]];
 }
 
@@ -590,6 +591,16 @@ static const CGFloat ORKBodyItemScrollPadding = 24.0;
 }
 
 - (NSArray<NSLayoutConstraint *> *)scrollContainerStaticConstraints {
+
+    NSLayoutConstraint *heightConstraint = [NSLayoutConstraint constraintWithItem:_scrollContainerView
+                                                              attribute:NSLayoutAttributeHeight
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:_scrollView
+                                                              attribute:NSLayoutAttributeHeight
+                                                             multiplier:1.0
+                                                               constant:0.0];
+    heightConstraint.priority = UILayoutPriorityDefaultLow;
+
     return @[
              [NSLayoutConstraint constraintWithItem:_scrollContainerView
                                           attribute:NSLayoutAttributeTop
@@ -620,19 +631,13 @@ static const CGFloat ORKBodyItemScrollPadding = 24.0;
                                          multiplier:1.0
                                            constant:0.0],
              [NSLayoutConstraint constraintWithItem:_scrollContainerView
-                                          attribute:NSLayoutAttributeCenterX
+                                          attribute:NSLayoutAttributeWidth
                                           relatedBy:NSLayoutRelationEqual
                                              toItem:_scrollView
-                                          attribute:NSLayoutAttributeCenterX
+                                          attribute:NSLayoutAttributeWidth
                                          multiplier:1.0
                                            constant:0.0],
-             [NSLayoutConstraint constraintWithItem:_scrollContainerView
-                                          attribute:NSLayoutAttributeHeight
-                                          relatedBy:NSLayoutRelationGreaterThanOrEqual
-                                             toItem:_scrollView
-                                          attribute:NSLayoutAttributeHeight
-                                         multiplier:1.0
-                                           constant:0.0]
+             heightConstraint
              ];
 }
 
@@ -754,9 +759,22 @@ static const CGFloat ORKBodyItemScrollPadding = 24.0;
 
 - (void)updateEffectViewStylingAndAnimate:(BOOL)animated checkCurrentValue:(BOOL)checkCurrentValue {
     CGFloat startOfFooter = self.navigationFooterView.frame.origin.y;
-    CGFloat contentPosition = _scrollView.contentSize.height - _scrollView.contentOffset.y;
+
+    // calculating height of all subviews in _scrollContainerView
+    CGFloat height = 0.0;
+
+    for(UIView *view in _scrollContainerView.subviews) {
+        height += view.frame.size.height;
+    }
+
+    CGFloat contentPosition = (height - _scrollView.contentOffset.y);
     CGFloat newOpacity = (contentPosition < startOfFooter) ? ORKEffectViewOpacityHidden : ORKEffectViewOpacityVisible;
     [self updateEffectStyleWithNewOpacity:newOpacity animated:animated checkCurrentValue:checkCurrentValue];
+
+    // add contentInset if the contentPosition extends beyond the footerView
+    if (contentPosition > startOfFooter) {
+        _scrollView.contentInset = UIEdgeInsetsMake(0, 0, self.navigationFooterView.frame.size.height + ORKContentBottomPadding, 0);
+    }
 }
 
 - (void)updateEffectViewStylingAndAnimate:(BOOL)animated checkCurrentValue:(BOOL)checkCurrentValue customView:(UIView *)customView {
