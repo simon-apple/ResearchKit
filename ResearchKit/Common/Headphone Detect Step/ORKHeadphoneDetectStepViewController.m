@@ -393,7 +393,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     [[_stackView.topAnchor constraintEqualToAnchor:self.topAnchor constant:ORKHeadphoneDetectStepViewTopPadding] setActive:YES];
     [[_stackView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor] setActive:YES];
     [[_stackView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor] setActive:YES];
-    [[_stackView.heightAnchor constraintGreaterThanOrEqualToConstant:ORKHeadphoneImageViewDimension] setActive:YES];
+    [[_stackView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor] setActive:YES];
     if (_headphoneTypes == ORKHeadphoneTypesSupported) {
         [self addSupportedHeadphonesDetectedViews];
     }
@@ -573,7 +573,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     
     _headphoneDetectStepView = [self detectStep].headphoneTypes == ORKHeadphoneTypesSupported ? [[ORKHeadphoneDetectStepView alloc] initWithHeadphonesSupported] : [[ORKHeadphoneDetectStepView alloc] initWithHeadphonesAny];
 
-    self.stepView.customContentFillsAvailableSpace = YES;
+    self.stepView.customContentFillsAvailableSpace = NO;
     self.stepView.customContentView = _headphoneDetectStepView;
     [self.stepView removeCustomContentPadding];
 }
