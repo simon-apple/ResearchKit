@@ -92,13 +92,13 @@ NSString *ORKHKBloodTypeString(HKBloodType bloodType) {
     ORKAnswerFormat *_impliedAnswerFormat;
 }
 
-//+ (instancetype)new {
-//    ORKThrowMethodUnavailableException();
-//}
-//
-//- (instancetype)init {
-//    ORKThrowMethodUnavailableException();
-//}
++ (instancetype)new {
+    ORKThrowMethodUnavailableException();
+}
+
+- (instancetype)init {
+    ORKThrowMethodUnavailableException();
+}
 
 - (BOOL)isHealthKitAnswerFormat {
     return YES;
@@ -261,13 +261,13 @@ NSString *ORKHKBloodTypeString(HKBloodType bloodType) {
     HKUnit *_userUnit;
 }
 
-//+ (instancetype)new {
-//    ORKThrowMethodUnavailableException();
-//}
-//
-//- (instancetype)init {
-//    ORKThrowMethodUnavailableException();
-//}
++ (instancetype)new {
+    ORKThrowMethodUnavailableException();
+}
+
+- (instancetype)init {
+    ORKThrowMethodUnavailableException();
+}
 
 - (BOOL)isHealthKitAnswerFormat {
     return YES;

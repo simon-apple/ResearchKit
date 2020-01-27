@@ -51,8 +51,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithFrame:(CGRect)frame NS_UNAVAILABLE;
 
-- (instancetype)initWithCoder:(NSCoder *)coder NS_UNAVAILABLE;
-
 - (instancetype)initWithParentGraphChartView:(ORKGraphChartView *)parentGraphChartView NS_DESIGNATED_INITIALIZER;
 
 - (void)updateTicksAndLabels;

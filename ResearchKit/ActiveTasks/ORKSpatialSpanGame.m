@@ -38,13 +38,13 @@
     NSInteger *_sequence;
 }
 
-//+ (instancetype)new {
-//    ORKThrowMethodUnavailableException();
-//}
-//
-//- (instancetype)init {
-//    ORKThrowMethodUnavailableException();
-//}
++ (instancetype)new {
+    ORKThrowMethodUnavailableException();
+}
+
+- (instancetype)init {
+    ORKThrowMethodUnavailableException();
+}
 
 - (void)generateSequence {
     _sequence = calloc(_gameSize, sizeof(NSInteger));

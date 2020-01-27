@@ -85,13 +85,13 @@ ORK_CLASS_AVAILABLE
     ORKLearnMoreButton *_learnMoreButton;
 }
 
-//- (instancetype)initWithCoder:(NSCoder *)aDecoder {
-//    ORKThrowMethodUnavailableException();
-//}
-//
-//+ (instancetype)new {
-//    ORKThrowMethodUnavailableException();
-//}
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    ORKThrowMethodUnavailableException();
+}
+
++ (instancetype)new {
+    ORKThrowMethodUnavailableException();
+}
 
 - (instancetype)initWithLearnMoreStep:(ORKLearnMoreInstructionStep *)learnMoreInstructionStep {
     self = [super init];

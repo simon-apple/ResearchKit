@@ -66,10 +66,7 @@ API_AVAILABLE(ios(12.0))
                               step:(nullable ORKStep *)step
                    outputDirectory:(nullable NSURL *)outputDirectory NS_DESIGNATED_INITIALIZER API_AVAILABLE(ios(12.0));
 
-- (instancetype)initWithIdentifier:(NSString *)identifier NS_UNAVAILABLE;
-
 @end
-
 #endif
 
 NS_ASSUME_NONNULL_END

@@ -46,13 +46,13 @@ NSString *const ORKResultPredicateTaskIdentifierVariableName = @"ORK_TASK_IDENTI
 
 @implementation ORKResultSelector
 
-//+ (instancetype)new {
-//    ORKThrowMethodUnavailableException();
-//}
-//
-//- (instancetype)init {
-//    ORKThrowMethodUnavailableException();
-//}
++ (instancetype)new {
+    ORKThrowMethodUnavailableException();
+}
+
+- (instancetype)init {
+    ORKThrowMethodUnavailableException();
+}
 
 + (instancetype)selectorWithTaskIdentifier:(NSString *)taskIdentifier
                             stepIdentifier:(NSString *)stepIdentifier
