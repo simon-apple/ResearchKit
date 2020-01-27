@@ -43,13 +43,13 @@
 
 @implementation ORKStep
 
-+ (instancetype)new {
-    ORKThrowMethodUnavailableException();
-}
-
-- (instancetype)init {
-    ORKThrowMethodUnavailableException();
-}
+//+ (instancetype)new {
+//    ORKThrowMethodUnavailableException();
+//}
+//
+//- (instancetype)init {
+//    ORKThrowMethodUnavailableException();
+//}
 
 - (instancetype)initWithIdentifier:(NSString *)identifier {
     self = [super init];

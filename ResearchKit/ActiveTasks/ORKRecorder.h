@@ -421,6 +421,8 @@ API_AVAILABLE(ios(12.0))
  */
 - (instancetype)initWithCoder:(NSCoder *)aDecoder NS_DESIGNATED_INITIALIZER;
 
+- (instancetype)initWithIdentifier:(NSString *)identifier NS_UNAVAILABLE;
+
 /**
  The HKClinicalType to be collected from HealthKit. (read-only)
  */

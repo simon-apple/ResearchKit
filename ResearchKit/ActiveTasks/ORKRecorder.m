@@ -41,13 +41,13 @@
 
 @implementation ORKRecorderConfiguration
 
-+ (instancetype)new {
-    ORKThrowMethodUnavailableException();
-}
-
-- (instancetype)init {
-    ORKThrowMethodUnavailableException();
-}
+//+ (instancetype)new {
+//    ORKThrowMethodUnavailableException();
+//}
+//
+//- (instancetype)init {
+//    ORKThrowMethodUnavailableException();
+//}
 
 - (instancetype)initWithIdentifier:(NSString *)identifier {
     self = [super init];
@@ -104,13 +104,13 @@
     NSUUID *_recorderUUID;
 }
 
-+ (instancetype)new {
-    ORKThrowMethodUnavailableException();
-}
+//+ (instancetype)new {
+//    ORKThrowMethodUnavailableException();
+//}
 
-- (instancetype)init {
-    @throw [NSException exceptionWithName:NSGenericException reason:@"Use designated initializer" userInfo:nil];
-}
+//- (instancetype)init {
+//    @throw [NSException exceptionWithName:NSGenericException reason:@"Use designated initializer" userInfo:nil];
+//}
 
 - (instancetype)initWithIdentifier:(NSString *)identifier step:(ORKStep *)step outputDirectory:(NSURL *)outputDirectory {
     self = [super init];

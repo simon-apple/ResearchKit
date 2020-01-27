@@ -100,12 +100,12 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
     return source;
 }
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wobjc-designated-initializers"
-- (instancetype)init {
-    ORKThrowMethodUnavailableException();
-}
-#pragma clang diagnostic pop
+//#pragma clang diagnostic push
+//#pragma clang diagnostic ignored "-Wobjc-designated-initializers"
+//- (instancetype)init {
+//    ORKThrowMethodUnavailableException();
+//}
+//#pragma clang diagnostic pop
 
 - (instancetype)initWithHealthStore:(HKHealthStore *)healthStore {
     self = [super init];
@@ -614,13 +614,13 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
     ORKTextChoice *_nullTextChoice;
 }
 
-+ (instancetype)new {
-    ORKThrowMethodUnavailableException();
-}
-
-- (instancetype)init {
-    ORKThrowMethodUnavailableException();
-}
+//+ (instancetype)new {
+//    ORKThrowMethodUnavailableException();
+//}
+//
+//- (instancetype)init {
+//    ORKThrowMethodUnavailableException();
+//}
 
 - (instancetype)initWithTextChoices:(NSArray<ORKTextChoice *> *)textChoices {
     self = [super init];
@@ -715,13 +715,13 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
 
 @implementation ORKMultipleValuePickerAnswerFormat
 
-+ (instancetype)new {
-    ORKThrowMethodUnavailableException();
-}
-
-- (instancetype)init {
-    ORKThrowMethodUnavailableException();
-}
+//+ (instancetype)new {
+//    ORKThrowMethodUnavailableException();
+//}
+//
+//- (instancetype)init {
+//    ORKThrowMethodUnavailableException();
+//}
 
 - (instancetype)initWithValuePickers:(NSArray<ORKValuePickerAnswerFormat *> *)valuePickers {
     return [self initWithValuePickers:valuePickers separator:@" "];
@@ -841,13 +841,13 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
 
 @implementation ORKImageChoiceAnswerFormat
 
-+ (instancetype)new {
-    ORKThrowMethodUnavailableException();
-}
-
-- (instancetype)init {
-    ORKThrowMethodUnavailableException();
-}
+//+ (instancetype)new {
+//    ORKThrowMethodUnavailableException();
+//}
+//
+//- (instancetype)init {
+//    ORKThrowMethodUnavailableException();
+//}
 
 - (instancetype)initWithImageChoices:(NSArray<ORKImageChoice *> *)imageChoices {
     self = [self initWithImageChoices:imageChoices style:ORKChoiceAnswerStyleSingleChoice vertical:NO];
@@ -950,13 +950,13 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
 
 @implementation ORKTextChoiceAnswerFormat
 
-+ (instancetype)new {
-    ORKThrowMethodUnavailableException();
-}
-
-- (instancetype)init {
-    ORKThrowMethodUnavailableException();
-}
+//+ (instancetype)new {
+//    ORKThrowMethodUnavailableException();
+//}
+//
+//- (instancetype)init {
+//    ORKThrowMethodUnavailableException();
+//}
 
 - (instancetype)initWithStyle:(ORKChoiceAnswerStyle)style
                   textChoices:(NSArray<ORKTextChoice *> *)textChoices {
@@ -1040,13 +1040,13 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
     id<NSCopying, NSCoding, NSObject> _value;
 }
 
-+ (instancetype)new {
-    ORKThrowMethodUnavailableException();
-}
-
-- (instancetype)init {
-    ORKThrowMethodUnavailableException();
-}
+//+ (instancetype)new {
+//    ORKThrowMethodUnavailableException();
+//}
+//
+//- (instancetype)init {
+//    ORKThrowMethodUnavailableException();
+//}
 
 + (instancetype)choiceWithText:(NSString *)text primaryTextAttributedString:(NSAttributedString *)primaryTextAttributedString detailText:(NSString *)detailText detailTextAttributedString:(NSAttributedString *)detailTextAttributedString value:(id<NSCopying,NSCoding,NSObject>)value exclusive:(BOOL)exclusive {
     return [[ORKTextChoice alloc] initWithText:text primaryTextAttributedString:primaryTextAttributedString detailText:detailText detailTextAttributedString:detailTextAttributedString value:value exclusive:exclusive];
@@ -1141,14 +1141,14 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
 #pragma mark - ORKTextChoiceOther
 
 @implementation ORKTextChoiceOther
-
-+ (instancetype)new {
-    ORKThrowMethodUnavailableException();
-}
-
-- (instancetype)init {
-    ORKThrowMethodUnavailableException();
-}
+//
+//+ (instancetype)new {
+//    ORKThrowMethodUnavailableException();
+//}
+//
+//- (instancetype)init {
+//    ORKThrowMethodUnavailableException();
+//}
 
 + (instancetype)choiceWithText:(NSString *)text
                     detailText:(NSString *)detailText
@@ -1258,13 +1258,13 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
     return [[ORKImageChoice alloc] initWithNormalImage:normal selectedImage:selected text:text value:value];
 }
 
-+ (instancetype)new {
-    ORKThrowMethodUnavailableException();
-}
-
-- (instancetype)init {
-    ORKThrowMethodUnavailableException();
-}
+//+ (instancetype)new {
+//    ORKThrowMethodUnavailableException();
+//}
+//
+//- (instancetype)init {
+//    ORKThrowMethodUnavailableException();
+//}
 
 - (instancetype)initWithNormalImage:(UIImage *)normal selectedImage:(UIImage *)selected text:(NSString *)text value:(id<NSCopying,NSCoding,NSObject>)value {
     self = [super init];
@@ -1510,13 +1510,13 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
     return [ORKDateQuestionResult class];
 }
 
-+ (instancetype)new {
-    ORKThrowMethodUnavailableException();
-}
-
-- (instancetype)init {
-    ORKThrowMethodUnavailableException();
-}
+//+ (instancetype)new {
+//    ORKThrowMethodUnavailableException();
+//}
+//
+//- (instancetype)init {
+//    ORKThrowMethodUnavailableException();
+//}
 
 - (instancetype)initWithStyle:(ORKDateAnswerStyle)style {
     self = [self initWithStyle:style defaultDate:nil minimumDate:nil maximumDate:nil calendar:nil];
@@ -1674,13 +1674,13 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
     return [ORKNumericQuestionResult class];
 }
 
-+ (instancetype)new {
-    ORKThrowMethodUnavailableException();
-}
-
-- (instancetype)init {
-    ORKThrowMethodUnavailableException();
-}
+//+ (instancetype)new {
+//    ORKThrowMethodUnavailableException();
+//}
+//
+//- (instancetype)init {
+//    ORKThrowMethodUnavailableException();
+//}
 
 - (instancetype)initWithStyle:(ORKNumericAnswerStyle)style {
     return [self initWithStyle:style unit:nil minimum:nil maximum:nil];
@@ -1925,13 +1925,13 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
     return [ORKScaleQuestionResult class];
 }
 
-+ (instancetype)new {
-    ORKThrowMethodUnavailableException();
-}
-
-- (instancetype)init {
-    ORKThrowMethodUnavailableException();
-}
+//+ (instancetype)new {
+//    ORKThrowMethodUnavailableException();
+//}
+//
+//- (instancetype)init {
+//    ORKThrowMethodUnavailableException();
+//}
 
 - (instancetype)initWithMaximumValue:(NSInteger)maximumValue
                         minimumValue:(NSInteger)minimumValue
@@ -2172,13 +2172,13 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
     return [ORKScaleQuestionResult class];
 }
 
-+ (instancetype)new {
-    ORKThrowMethodUnavailableException();
-}
-
-- (instancetype)init {
-    ORKThrowMethodUnavailableException();
-}
+//+ (instancetype)new {
+//    ORKThrowMethodUnavailableException();
+//}
+//
+//- (instancetype)init {
+//    ORKThrowMethodUnavailableException();
+//}
 
 - (instancetype)initWithMaximumValue:(double)maximumValue
                         minimumValue:(double)minimumValue
@@ -2406,14 +2406,14 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
 - (Class)questionResultClass {
     return [ORKChoiceQuestionResult class];
 }
-
-+ (instancetype)new {
-    ORKThrowMethodUnavailableException();
-}
-
-- (instancetype)init {
-    ORKThrowMethodUnavailableException();
-}
+//
+//+ (instancetype)new {
+//    ORKThrowMethodUnavailableException();
+//}
+//
+//- (instancetype)init {
+//    ORKThrowMethodUnavailableException();
+//}
 
 - (instancetype)initWithTextChoices:(NSArray<ORKTextChoice *> *)textChoices
                        defaultIndex:(NSInteger)defaultIndex
@@ -2892,16 +2892,16 @@ static NSString *const kSecureTextEntryEscapeString = @"*";
 
 @implementation ORKConfirmTextAnswerFormat
 
-+ (instancetype)new {
-    ORKThrowMethodUnavailableException();
-}
-
-// Don't throw on -init nor -initWithMaximumLength: because they're internally used by -copyWithZone:
-
-- (instancetype)initWithValidationRegularExpression:(NSRegularExpression *)validationRegularExpression
-                                     invalidMessage:(NSString *)invalidMessage {
-    ORKThrowMethodUnavailableException();
-}
+//+ (instancetype)new {
+//    ORKThrowMethodUnavailableException();
+//}
+//
+//// Don't throw on -init nor -initWithMaximumLength: because they're internally used by -copyWithZone:
+//
+//- (instancetype)initWithValidationRegularExpression:(NSRegularExpression *)validationRegularExpression
+//                                     invalidMessage:(NSString *)invalidMessage {
+//    ORKThrowMethodUnavailableException();
+//}
 
 - (instancetype)initWithOriginalItemIdentifier:(NSString *)originalItemIdentifier
                                   errorMessage:(NSString *)errorMessage {

@@ -41,13 +41,13 @@
     ORKSpatialSpanTargetState *_states;
 }
 
-+ (instancetype)new {
-    ORKThrowMethodUnavailableException();
-}
-
-- (instancetype)init {
-    ORKThrowMethodUnavailableException();
-}
+//+ (instancetype)new {
+//    ORKThrowMethodUnavailableException();
+//}
+//
+//- (instancetype)init {
+//    ORKThrowMethodUnavailableException();
+//}
 
 - (instancetype)initWithGame:(ORKSpatialSpanGame *)game {
     self = [super init];

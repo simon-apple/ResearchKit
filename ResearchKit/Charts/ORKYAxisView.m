@@ -54,12 +54,12 @@ static const CGFloat ImageVerticalPadding = 3.0;
     ORKThrowMethodUnavailableException();
 }
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wobjc-designated-initializers"
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    ORKThrowMethodUnavailableException();
-}
-#pragma clang diagnostic pop
+//#pragma clang diagnostic push
+//#pragma clang diagnostic ignored "-Wobjc-designated-initializers"
+//- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+//    ORKThrowMethodUnavailableException();
+//}
+//#pragma clang diagnostic pop
 
 - (instancetype)initWithParentGraphChartView:(ORKGraphChartView *)parentGraphChartView {
     self = [super initWithFrame:CGRectZero];

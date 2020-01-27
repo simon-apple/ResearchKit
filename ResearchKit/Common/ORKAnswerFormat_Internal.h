@@ -242,6 +242,7 @@ ORK_DESIGNATE_CODING_AND_SERIALIZATION_INITIALIZERS(ORKWeightAnswerFormat)
 
 + (instancetype)sourceWithHealthStore:(HKHealthStore *)healthStore;
 - (instancetype)initWithHealthStore:(HKHealthStore *)healthStore NS_DESIGNATED_INITIALIZER;
+- (instancetype)init NS_UNAVAILABLE;
 
 @property (nonatomic, strong, readonly, nullable) HKHealthStore *healthStore;
 

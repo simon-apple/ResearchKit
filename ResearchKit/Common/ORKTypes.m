@@ -185,13 +185,13 @@ const double ORKDoubleDefaultValue = DBL_MAX;
 
 @implementation ORKDontKnowAnswer
 
-+ (instancetype)new {
-    ORKThrowMethodUnavailableException();
-}
-
-- (instancetype)init {
-    ORKThrowMethodUnavailableException();
-}
+//+ (instancetype)new {
+//    ORKThrowMethodUnavailableException();
+//}
+//
+//- (instancetype)init {
+//    ORKThrowMethodUnavailableException();
+//}
 
 - (instancetype)init_ORKDontKnowAnswer {
    return [super init];

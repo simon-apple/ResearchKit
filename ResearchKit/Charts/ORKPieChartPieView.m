@@ -55,12 +55,12 @@ static const CGFloat InterAnimationDelay = 0.05;
     ORKThrowMethodUnavailableException();
 }
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wobjc-designated-initializers"
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    ORKThrowMethodUnavailableException();
-}
-#pragma clang diagnostic pop
+//#pragma clang diagnostic push
+//#pragma clang diagnostic ignored "-Wobjc-designated-initializers"
+//- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+//    ORKThrowMethodUnavailableException();
+//}
+//#pragma clang diagnostic pop
 
 - (instancetype)initWithParentPieChartView:(ORKPieChartView *)parentPieChartView {
     self = [super initWithFrame:CGRectZero];
