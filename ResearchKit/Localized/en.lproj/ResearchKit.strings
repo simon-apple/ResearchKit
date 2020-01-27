@@ -366,8 +366,8 @@
 "HEADPHONE_DETECT_TITLE" = "Connect your Headphones";
 "NOISE_CANCELLATION_EXPLANATION" = "Press and hold one of your Airpods to turn on Noise Cancellation";
 "NOISE_CANCELLATION_REQUIRED" = "Noise cancellation required";
-"HEADPHONE_DETECT_TEXT" = "To ensure accurate results, this test requires Apple AirPods or Apple EarPods.";
-"SKIP_TO_END_TEXT" = "I Don’t Have AirPods or EarPods";
+"HEADPHONE_DETECT_TEXT" = "To ensure accurate results, this task requires Apple EarPods, AirPods, or AirPods Pro.";
+"SKIP_TO_END_TEXT" = "I don’t have compatible headphones";
 
 /* Spatial span memory active task. */
 "SPATIAL_SPAN_MEMORY_TITLE" = "Spatial Memory";
