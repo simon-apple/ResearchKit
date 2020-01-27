@@ -770,7 +770,7 @@ static const CGFloat ORKBodyItemScrollPadding = 24.0;
     if (contentPosition > _highestContentPosition) {
         _highestContentPosition = contentPosition;
         // add contentInset if the contentPosition extends beyond the footerView
-        if (contentPosition > startOfFooter) {
+        if ((contentPosition > startOfFooter) && (!self.navigationFooterView.isHidden)) {
             _scrollView.contentInset = UIEdgeInsetsMake(0, 0, self.navigationFooterView.frame.size.height + ORKContentBottomPadding, 0);
         }
     }
