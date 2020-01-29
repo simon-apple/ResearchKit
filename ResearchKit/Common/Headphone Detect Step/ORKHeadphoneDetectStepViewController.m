@@ -209,6 +209,11 @@ static const NSTimeInterval ORKHeadphoneCellAnimationDuration = 0.2;
     _extraLabelsContainerView.translatesAutoresizingMaskIntoConstraints = NO;
     [_extraLabelsContainerView addSubview:_orangeLabelImage];
     [_extraLabelsContainerView addSubview:_orangeLabel];
+    
+    [[_orangeLabelImage.topAnchor constraintEqualToAnchor:_extraLabelsContainerView.topAnchor] setActive:YES];
+    [[_orangeLabelImage.leadingAnchor constraintEqualToAnchor:_extraLabelsContainerView.leadingAnchor] setActive:YES];
+    
+    [[_orangeLabel.topAnchor constraintEqualToAnchor:_extraLabelsContainerView.topAnchor] setActive:YES];
     [[_orangeLabel.leadingAnchor constraintEqualToAnchor:_orangeLabelImage.trailingAnchor constant:ORKHeadphoneDetectExtraLabelsSpacing * 0.5] setActive:YES];
     
     [_labelContainerView addSubview:_extraLabelsContainerView];
@@ -234,7 +239,7 @@ static const NSTimeInterval ORKHeadphoneCellAnimationDuration = 0.2;
     [[_extraLabel.leadingAnchor constraintEqualToAnchor:_extraLabelsContainerView.leadingAnchor] setActive:YES];
     [[_extraLabel.trailingAnchor constraintEqualToAnchor:_extraLabelsContainerView.trailingAnchor constant: -ORKHeadphoneDetectStepSpacing] setActive:YES];
     [[_extraLabel.topAnchor constraintEqualToAnchor:_orangeLabel.bottomAnchor constant:ORKHeadphoneDetectExtraLabelsSpacing] setActive:YES];
-
+    [[_extraLabel.bottomAnchor constraintEqualToAnchor:_extraLabelsContainerView.bottomAnchor] setActive:YES];
 }
 
 - (UIFont *)footnoteFont {
