@@ -42,6 +42,7 @@
 static const CGFloat CircleIndicatorMaxDiameter = 150.0;
 static const CGFloat RingViewTopPadding = 24.0;
 static const CGFloat InstructionLabelTopPadding = 50.0;
+static const CGFloat InstructionLabelBottomPadding = 10.0;
 
 static CGFloat CircleIndicatorViewScaleFactorForProgress(CGFloat progress) {
     
@@ -152,6 +153,7 @@ static CGFloat CircleIndicatorPulseVarianceForProgress(CGFloat progress) {
     
     [[_DBInstructionLabel.centerXAnchor constraintEqualToAnchor:self.centerXAnchor] setActive:YES];
     [[_DBInstructionLabel.topAnchor constraintEqualToAnchor:_circleIndicatorView.bottomAnchor constant:InstructionLabelTopPadding] setActive:YES];
+    [[_DBInstructionLabel.bottomAnchor constraintEqualToAnchor:self.bottomAnchor constant:-InstructionLabelBottomPadding] setActive:YES];
 }
 
 - (void)setProgressCircle:(CGFloat)progress {
