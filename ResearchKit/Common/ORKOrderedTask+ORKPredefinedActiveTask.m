@@ -178,7 +178,6 @@ NSString *const ORKAmslerGridCalibrationRightIdentifier = @"amsler.grid.calibrat
                                    intendedUseDescription:(NSString *)intendedUseDescription
                                                   options:(ORKPredefinedTaskOption)options {
     NSMutableArray *steps = [NSMutableArray array];
-    UIColor *tintColor = [[[UIApplication sharedApplication] delegate] window].tintColor ? : ORKColor(ORKBlueHighlightColorKey);
 
     if (!(options & ORKPredefinedTaskOptionExcludeInstructions)) {
         {
@@ -200,12 +199,7 @@ NSString *const ORKAmslerGridCalibrationRightIdentifier = @"amsler.grid.calibrat
 
             NSString *leftEye = ORKLocalizedString(@"AMSLER_GRID_LEFT_EYE", nil);
             NSString *detailText = [@"\n" stringByAppendingString:[NSString stringWithFormat:ORKLocalizedString(@"AMSLER_GRID_INSTRUCTION_DETAIL_TEXT", nil), leftEye]];
-
-            NSMutableAttributedString *attributedDetailText = [[NSMutableAttributedString alloc] initWithString:detailText];
-            [attributedDetailText addAttribute:NSForegroundColorAttributeName
-                                         value:tintColor
-                                         range:[detailText rangeOfString:leftEye]];
-            step.attributedDetailText = attributedDetailText;
+            step.detailText = detailText;
             
             step.image = [UIImage imageNamed:@"amslerGrid" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
             step.shouldTintImages = YES;
@@ -225,12 +219,8 @@ NSString *const ORKAmslerGridCalibrationRightIdentifier = @"amsler.grid.calibrat
             step.text = ORKLocalizedString(@"AMSLER_GRID_INSTRUCTION_TEXT", nil);
             NSString *rightEye = ORKLocalizedString(@"AMSLER_GRID_RIGHT_EYE", nil);
             NSString *detailText = [@"\n" stringByAppendingString:[NSString stringWithFormat:ORKLocalizedString(@"AMSLER_GRID_INSTRUCTION_DETAIL_TEXT", nil), rightEye]];
+            step.detailText = detailText;
             
-            NSMutableAttributedString *attributedDetailText = [[NSMutableAttributedString alloc] initWithString:detailText];
-            [attributedDetailText addAttribute:NSForegroundColorAttributeName
-                                         value:tintColor
-                                         range:[detailText rangeOfString:rightEye]];
-            step.attributedDetailText = attributedDetailText;
             step.image = [UIImage imageNamed:@"amslerGrid" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
             step.imageContentMode = UIViewContentModeCenter;
             step.shouldTintImages = YES;
