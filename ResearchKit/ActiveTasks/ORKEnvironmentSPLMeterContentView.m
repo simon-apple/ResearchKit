@@ -153,7 +153,7 @@ static CGFloat CircleIndicatorPulseVarianceForProgress(CGFloat progress) {
     
     [[_DBInstructionLabel.centerXAnchor constraintEqualToAnchor:self.centerXAnchor] setActive:YES];
     [[_DBInstructionLabel.topAnchor constraintEqualToAnchor:_circleIndicatorView.bottomAnchor constant:InstructionLabelTopPadding] setActive:YES];
-    [[_DBInstructionLabel.bottomAnchor constraintEqualToAnchor:self.bottomAnchor constant:-InstructionLabelBottomPadding] setActive:YES];
+    [[_DBInstructionLabel.bottomAnchor constraintLessThanOrEqualToAnchor:self.bottomAnchor constant:-InstructionLabelBottomPadding] setActive:YES];
 }
 
 - (void)setProgressCircle:(CGFloat)progress {
