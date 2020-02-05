@@ -3,7 +3,7 @@
 catalog_appshack_upload () {
     pushd /Volumes/workspace/developmentexport
 
-    if [ "${CI_BRANCH}" == "skywagon-setup" ]; then
+    if [ "${CI_BRANCH}" == "master" ]; then
         BUNDLE_ID="com.example.researchkit-samplecode.ORKCatalog"
         IPA_NAME="ORKCatalog.ipa"
     elif [ "${CI_BRANCH}" == "stable" ]; then
@@ -33,7 +33,7 @@ catalog_appshack_upload () {
 sample_appshack_upload () {
     pushd /Volumes/workspace/developmentexport
 
-    if [ "${CI_BRANCH}" == "skywagon-setup" ]; then
+    if [ "${CI_BRANCH}" == "master" ]; then
         BUNDLE_ID="com.example.apple-ResearchKit.Sample"
         IPA_NAME="ORKSample.ipa"
     elif [ "${CI_BRANCH}" == "stable" ]; then
