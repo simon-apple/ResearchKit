@@ -412,6 +412,7 @@ static const CGFloat DelayBeforeAutoScroll = 0.25;
     if (!scheduledRefresh) {
         [self refreshDefaults];
     }
+    
     if (_tableContainer) {
         [_tableContainer sizeHeaderToFit];
         [_tableContainer resizeFooterToFit];

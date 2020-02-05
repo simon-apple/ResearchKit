@@ -34,20 +34,20 @@
 #import "ORKHelpers_Internal.h"
 
 @implementation ORKHeadphoneDetectStep {
-    NSSet<NSString *> *_supportedHeadphoneTypes;
+    NSSet<NSString *> *_supportedHeadphoneChipsetTypes;
 }
 
 + (NSSet<NSString *> *)dBHLTypes {
-    static NSSet<ORKHeadphoneRawTypeIdentifier> *audioRouteSubtypes = nil;
+    static NSSet<ORKHeadphoneChipsetIdentifier> *audioChipsetRouteSubtypes = nil;
     
-    if ( audioRouteSubtypes == nil )
+    if ( audioChipsetRouteSubtypes == nil )
     {
-        audioRouteSubtypes = [[NSSet alloc] initWithObjects:ORKHeadphoneRawTypeIdentifierChipsetAirPods,
-                              ORKHeadphoneRawTypeIdentifierChipsetLightningEarPods,
-                              ORKHeadphoneRawTypeIdentifierChipsetAudioJackEarPods,
+        audioChipsetRouteSubtypes = [[NSSet alloc] initWithObjects:ORKHeadphoneChipsetIdentifierAirPods,
+                              ORKHeadphoneChipsetIdentifierLightningEarPods,
+                              ORKHeadphoneChipsetIdentifierAudioJackEarPods,
                               nil];
     }
-    return audioRouteSubtypes;
+    return audioChipsetRouteSubtypes;
 }
 
 + (Class)stepViewControllerClass {
@@ -57,7 +57,7 @@
 - (instancetype)initWithIdentifier:(NSString *)identifier headphoneTypes:(ORKHeadphoneTypes)headphoneTypes {
     self = [super initWithIdentifier:identifier];
     if (self) {
-        _supportedHeadphoneTypes = headphoneTypes == ORKHeadphoneTypesSupported ? [ORKHeadphoneDetectStep dBHLTypes] : nil;
+        _supportedHeadphoneChipsetTypes = headphoneTypes == ORKHeadphoneTypesSupported ? [ORKHeadphoneDetectStep dBHLTypes] : nil;
         self.headphoneTypes = headphoneTypes;
     }
     return self;
@@ -98,8 +98,8 @@
     return super.hash ^ self.headphoneTypes;
 }
 
-- (nullable NSSet<ORKHeadphoneRawTypeIdentifier> *)supportedHeadphoneTypes {
-    return _supportedHeadphoneTypes;
+- (nullable NSSet<ORKHeadphoneChipsetIdentifier> *)supportedHeadphoneChipsetTypes {
+    return _supportedHeadphoneChipsetTypes;
 }
 
 @end

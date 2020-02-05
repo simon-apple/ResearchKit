@@ -234,6 +234,14 @@
     _navigationFooterView.continueEnabled = [self continueButtonEnabled];
 }
 
+- (void)setScrollEnabled:(BOOL)scrollEnabled {
+    [_scrollView setScrollEnabled:scrollEnabled];
+}
+
+- (BOOL)isScrollEnabled {
+    return _scrollView.scrollEnabled;
+}
+
 - (void)setScrollViewOffset:(UIEdgeInsets)contentInset {
     _scrollView.contentInset = contentInset;
 }

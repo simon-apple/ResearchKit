@@ -38,7 +38,7 @@
 #import "ORKSkin.h"
 
 
-/**
+/*
  +_________________________+
  |                         |<-------------_stepContentView
  |       +-------+         |
@@ -756,12 +756,12 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKUpdateConstraintSequence) {
         if (_stepHeaderTextAlignment == NSTextAlignmentLeft) {
             [_leftRightPaddingConstraints addObjectsFromArray:@[
                 [NSLayoutConstraint constraintWithItem:_iconImageView
-                                             attribute:NSLayoutAttributeCenterX
+                                             attribute:NSLayoutAttributeLeading
                                              relatedBy:NSLayoutRelationEqual
                                                 toItem:self
-                                             attribute:NSLayoutAttributeCenterX
+                                             attribute:NSLayoutAttributeLeading
                                             multiplier:1.0
-                                              constant:0.0]
+                                              constant:_leftRightPadding]
             ]];
         } else {
             [_leftRightPaddingConstraints addObjectsFromArray:@[

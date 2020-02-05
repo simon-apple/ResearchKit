@@ -122,7 +122,6 @@
     [self configureEQ];
     [_audioEngine attachNode:_eqUnit];
     [_audioEngine connect:_inputNode to:_eqUnit format:_inputNodeOutputFormat];
-    [self setupAccessibilityAnnouncementNotification];
     [self setupFeedbackGenerator];
 }
 
@@ -220,6 +219,8 @@
     }
     
     // Override Output (and Input) to use built-in mic and speaker.
+    // We need to make sure audio output is to the Headphones and Audio Input is uing the built-in mic.
+    // Although this forces both to the built-in mic AND Speaker, we need to also override the speaker.
     [[AVAudioSession sharedInstance] overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:&error];
     if (error)
     {
@@ -354,7 +355,7 @@
         {
             [self reachedOptimumNoiseLevel];
             
-            [self sendHapticEvent:UINotificationFeedbackTypeSuccess shouldResumeAudioEngine:NO];
+            [self sendHapticEvent:UINotificationFeedbackTypeSuccess];
         }
     }
     else
@@ -363,7 +364,7 @@
         self.environmentSPLMeterContentView.ringView.animationDuration = 0.5;
         [self.environmentSPLMeterContentView setProgress:0.0];
         
-        [self sendHapticEvent:UINotificationFeedbackTypeError shouldResumeAudioEngine:YES];
+        [self sendHapticEvent:UINotificationFeedbackTypeError];
     }
 }
 
@@ -406,30 +407,6 @@
     self.activeStepView.navigationFooterView.continueEnabled = YES;
 }
 
-#pragma mark - AVAudioEngine Pause/Resume Support
-
-- (void)pauseAudioEngineAndResumeAfter:(BOOL)shouldResumeAudioEngine block:(void(^_Nonnull)(void))inBlock
-{
-    if (_audioEngine.isRunning)
-    {
-        [_audioEngine pause];
-    }
-    
-    inBlock();
-    
-    if (!_audioEngine.isRunning && shouldResumeAudioEngine)
-    {
-        NSError *error = nil;
-        
-        [_audioEngine startAndReturnError:&error];
-        
-        if (error)
-        {
-            ORK_Log_Error("Encountered Error Trying To Resume Audio Engine: error=%{public}@", error);
-        }
-    }
-}
-
 #pragma mark - UINotificationFeedbackGenerator
 
 - (void)setupFeedbackGenerator
@@ -438,51 +415,21 @@
     [_notificationFeedbackGenerator prepare];
 }
 
-- (void)sendHapticEvent:(UINotificationFeedbackType)eventType shouldResumeAudioEngine:(BOOL)shouldResumeAudioEngine
+- (void)sendHapticEvent:(UINotificationFeedbackType)eventType
 {
-    [self pauseAudioEngineAndResumeAfter:shouldResumeAudioEngine block:^{
-        [_notificationFeedbackGenerator notificationOccurred:eventType];
-        [_notificationFeedbackGenerator prepare];
-    }];
-}
-
-#pragma mark - UIAccessibility
-
-- (void)setupAccessibilityAnnouncementNotification
-{
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(announcementDidFinishNotification:) name:UIAccessibilityAnnouncementDidFinishNotification object:nil];
-}
-
-- (void)announce:(NSString * _Nonnull)annoucement shouldResumeAudioEngine:(BOOL)shouldResumeAudioEngine
-{
-    if (!_voiceOverAnnouncementSemaphore)
-    {
-        _voiceOverAnnouncementSemaphore = dispatch_semaphore_create(0);
-    }
-        
-    [self pauseAudioEngineAndResumeAfter:shouldResumeAudioEngine block:^{
-        
-        UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, annoucement);
-        
-        // Deadlining this to 1.5s, it's possible that while we are waiting for the signal, the user can swipe and our announcement may be dropped.
-        // If our announcement is dropped, we can expect the UIAccessibilityAnnouncementDidFinishNotification to never fire.
-        dispatch_semaphore_wait(_voiceOverAnnouncementSemaphore, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)));
-    }];
-}
-
-- (void)announcementDidFinishNotification:(NSNotification *)inNotification
-{
-    if (_voiceOverAnnouncementSemaphore)
-    {
-        dispatch_semaphore_signal(_voiceOverAnnouncementSemaphore);
-    }
+    [_notificationFeedbackGenerator notificationOccurred:eventType];
+    [_notificationFeedbackGenerator prepare];
 }
 
 #pragma mark - ORKEnvironmentSPLMeterContentViewVoiceOverDelegate
 
 - (void)contentView:(ORKEnvironmentSPLMeterContentView *)contentView shouldAnnounce:(NSString *)inAnnouncement
 {
-    [self announce:inAnnouncement shouldResumeAudioEngine:_audioEngine.isRunning];
+    if ([_audioEngine isRunning] == NO)
+    {
+        // Only make this announcement if the audio engine is not running.
+        UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, inAnnouncement);
+    }
 }
 
 @end

@@ -811,7 +811,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
 }
 
 - (void)goBackward {
-    [_currentStepViewController goBackward];
+    [_childNavigationController popViewControllerAnimated:YES];
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
@@ -1430,7 +1430,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     return [self.task stepBeforeStep:step withResult:[self result]];
 }
 
-- (ORKStep *)stepAfterStep:(ORKStep *)step {
+- (nullable ORKStep *)stepAfterStep:(ORKStep *)step {
     return [self.task stepAfterStep:step withResult:[self result]];
 }
 

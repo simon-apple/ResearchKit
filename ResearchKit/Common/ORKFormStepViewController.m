@@ -392,9 +392,16 @@ static const CGFloat DelayBeforeAutoScroll = 0.25;
     
     // Reset skipped flag - result can now be non-empty
     _skipped = NO;
-    [_tableContainer sizeHeaderToFit];
-    [_tableContainer resizeFooterToFit];
-    [_tableContainer layoutIfNeeded];
+    
+    if (_tableContainer) {
+        [_tableContainer sizeHeaderToFit];
+        [_tableContainer resizeFooterToFit];
+        [_tableContainer layoutIfNeeded];
+    }
+    
+    if (_tableView) {
+        [_tableView reloadData];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {

@@ -329,7 +329,7 @@
 
 /* dBHL Tone audiometry active task. */
 "dBHL_TONE_AUDIOMETRY_TASK_TITLE" = "Tone Audiometry";
-"dBHL_TONE_AUDIOMETRY_TASK_TITLE_2" = "Tap when you hear a tone.";
+"dBHL_TONE_AUDIOMETRY_TASK_TITLE_2" = "Tap the button when you hear a tone.";
 "dBHL_TONE_AUDIOMETRY_INTRO_TITLE" = "Tone & Volume";
 "dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_1" = "You will hear a series of tones.";
 "dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_2" = "When you hear a tone, tap on the button.";
@@ -347,6 +347,7 @@
 "dBHL_TONE_AUDIOMETRY_OPTION_RIGHT" = "right";
 "dBHL_TONE_AUDIOMETRY_OPTION_NO_PREFERENCE" = "no preference";
 "dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "Headphones Disconnected";
+"dBHL_NOISE_CANCELLING_ALERT_TEXT" = "Turn on AirPods Pro Active Noise Cancellation mode to take this test";
 "dBHL_ALERT_TITLE_START_OVER" = "Start Again";
 "dBHL_ALERT_TITLE_CANCEL_TEST" = "Cancel Test";
 "dBHL_ALERT_TEXT" = "Reconnect your AirPods or EarPods to take this test.";
@@ -354,6 +355,7 @@
 
 /* Headphones. */
 "AIRPODS" = "AirPods";
+"AIRPODSPRO" = "AirPods Pro";
 "EARPODS" = "EarPods";
 "HEADPHONES" = "Headphones";
 "HEADPHONES_UNKNOWN" = "Unknown";
@@ -362,8 +364,10 @@
 "NOT_CONNECTED" = "Not Connected";
 "HEADPHONE_CONNECTED_%@" = "Connected - %@";
 "HEADPHONE_DETECT_TITLE" = "Connect your Headphones";
-"HEADPHONE_DETECT_TEXT" = "To ensure accurate results, this test requires Apple AirPods or Apple EarPods.";
-"SKIP_TO_END_TEXT" = "I Don’t Have AirPods or EarPods";
+"NOISE_CANCELLATION_EXPLANATION" = "Press and hold one of your Airpods to turn on Noise Cancellation";
+"NOISE_CANCELLATION_REQUIRED" = "Noise cancellation required";
+"HEADPHONE_DETECT_TEXT" = "To ensure accurate results, this task requires Apple EarPods, AirPods, or AirPods Pro.";
+"SKIP_TO_END_TEXT" = "I don’t have compatible headphones";
 
 /* Spatial span memory active task. */
 "SPATIAL_SPAN_MEMORY_TITLE" = "Spatial Memory";
@@ -639,6 +643,7 @@
 "AX_SELECTED" = "Selected";
 "AX_UNSELECTED" = "Un-selected";
 "AX_SELECT_ALL_THAT_APPLY" = "SELECT ALL THAT APPLY";
+"AX_BUTTON" = "Button";
 
 "AX_SLIDER_LABEL" = "Response slider. Range from %@ to %@";
 "AX_UNLABELED_IMAGE" = "Unlabeled image";
