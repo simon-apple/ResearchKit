@@ -251,6 +251,10 @@ static const CGFloat activityIndicatorPadding = 24.0;
     return !([self neverHasContinueButton] && [self neverHasSkipButton] && [self neverHasFootnote]);
 }
 
+- (BOOL)wasContinueButtonJustPressed {
+    return _continueButtonJustTapped;
+}
+
 - (void)updateContinueAndSkipEnabled {
     [_skipButton setTitle:_skipButtonItem.title ? : ORKLocalizedString(@"BUTTON_SKIP", nil) forState:UIControlStateNormal];
 

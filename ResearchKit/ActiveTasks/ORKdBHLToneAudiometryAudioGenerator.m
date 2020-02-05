@@ -178,6 +178,8 @@ static OSStatus ORKdBHLAudioGeneratorZeroTone(void *inRefCon,
         
         if ([[headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPods]) {
             _volumeCurve = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle bundleForClass:[self class]] pathForResource:@"volume_curve_AIRPODS" ofType:@"plist"]];
+        } else if ([[headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsPro]) {
+                   _volumeCurve = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle bundleForClass:[self class]] pathForResource:@"volume_curve_AIRPODSPRO" ofType:@"plist"]];
         } else if ([[headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierEarPods]) {
             _volumeCurve = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle bundleForClass:[self class]] pathForResource:@"volume_curve_WIRED" ofType:@"plist"]];
         } else {

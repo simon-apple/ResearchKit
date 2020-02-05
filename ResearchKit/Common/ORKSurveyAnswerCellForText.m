@@ -352,6 +352,7 @@ static const CGFloat StandardSpacing = 8.0;
     _textField.keyboardType = UIKeyboardTypeDefault;
     
     [_textField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
+    self.accessibilityElements = @[_textField];
     
     [self addSubview:_textField];
     ORKEnableAutoLayoutForViews(@[_textField]);
@@ -454,14 +455,29 @@ static const CGFloat StandardSpacing = 8.0;
 }
 
 - (void)textFieldDidChange:(UITextField *)textField {
+    [self checkTextAndSetAnswer];
+}
+
+- (void)checkTextAndSetAnswer {
     NSString *text = self.textField.text;
-    [self ork_setAnswer:text.length ? text : ORKNullAnswerValue()];
+    ORKTextAnswerFormat *answerFormat = (ORKTextAnswerFormat *)[self.step impliedAnswerFormat];
+    
+    if (text.length && [answerFormat isAnswerValidWithString:text]) {
+        [self ork_setAnswer:text];
+    } else {
+        [self ork_setAnswer:ORKNullAnswerValue()];
+        [self removeErrorMessage];
+    }
 }
 
 - (void)updateErrorLabelWithMessage:(NSString *)message {
     NSString *separatorString = @":";
     NSString *stringtoParse = message ? : ORKLocalizedString(@"RANGE_ALERT_TITLE", @"");
     NSString *parsedString = [stringtoParse componentsSeparatedByString:separatorString].firstObject;
+    
+    if (![self.accessibilityElements containsObject:self.errorLabel]) {
+        self.accessibilityElements = [self.accessibilityElements arrayByAddingObject:self.errorLabel];
+    }
     
     if (@available(iOS 13.0, *)) {
         
@@ -488,6 +504,15 @@ static const CGFloat StandardSpacing = 8.0;
     [self setUpConstraints];
 }
 
+- (void)removeErrorMessage {
+    self.errorLabel.attributedText = nil;
+    if ([self.accessibilityElements containsObject:self.errorLabel]) {
+        NSMutableArray *tempArray = [self.accessibilityElements mutableCopy];
+        [tempArray removeObject:self.errorLabel];
+        self.accessibilityElements = [tempArray copy];
+    }
+}
+
 #pragma mark - UITextFieldDelegate
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
@@ -510,7 +535,7 @@ static const CGFloat StandardSpacing = 8.0;
         }
     }
     
-    [self ork_setAnswer:text.length ? text : ORKNullAnswerValue()];
+    [self checkTextAndSetAnswer];
     
     return YES;
 }
@@ -521,12 +546,17 @@ static const CGFloat StandardSpacing = 8.0;
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [self.textField resignFirstResponder];
+    
     return YES;
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     NSString *text = self.textField.text;
-    [self ork_setAnswer:text.length ? text : ORKNullAnswerValue()];
+    ORKTextAnswerFormat *answerFormat = (ORKTextAnswerFormat *)[self.step impliedAnswerFormat];
+    
+    if (text.length && ![answerFormat isAnswerValidWithString:text]) {
+        [self updateErrorLabelWithMessage:[[self.step impliedAnswerFormat] localizedInvalidValueStringWithAnswerString:self.textField.text]];
+    }
 }
 
 @end

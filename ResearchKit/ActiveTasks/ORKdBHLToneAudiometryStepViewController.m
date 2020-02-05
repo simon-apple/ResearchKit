@@ -105,6 +105,7 @@
     dispatch_block_t _postStimulusDelayWorkBlock;
     
     ORKHeadphoneDetector *_headphoneDetector;
+    BOOL _showingAlert;
 }
 
 @property (nonatomic, strong) ORKdBHLToneAudiometryContentView *dBHLToneAudiometryContentView;
@@ -125,6 +126,7 @@
         _usingMissingList = YES;
         _prevFreq = 0;
         _currentTestIndex = 0;
+        _showingAlert = NO;
         _transitionsDictionary = [NSMutableDictionary dictionary];
         _arrayOfResultSamples = [NSMutableArray array];
         _arrayOfResultUnits = [NSMutableArray array];
@@ -172,7 +174,7 @@
     [self.dBHLToneAudiometryContentView.tapButton addTarget:self action:@selector(tapButtonPressed) forControlEvents:UIControlEventTouchDown];
 
     _headphoneDetector = [[ORKHeadphoneDetector alloc] initWithDelegate:self
-                                                supportedHeadphoneTypes:[ORKHeadphoneDetectStep dBHLTypes]];
+                                                supportedHeadphoneChipsetTypes:[ORKHeadphoneDetectStep dBHLTypes]];
     //TODO:- figure out where this call lives
     [[self taskViewController] lockDeviceVolume:0.5];
 
@@ -459,23 +461,28 @@
 
 #pragma mark - Headphone Monitoring
 
-- (ORKHeadphoneTypeIdentifier)convertHeadphoneRawType:(ORKHeadphoneRawTypeIdentifier)rawHeadphoneType {
-    if ([rawHeadphoneType containsString: ORKHeadphoneRawTypeIdentifierChipsetAirPods]) {
-        return ORKHeadphoneTypeIdentifierAirPods;
-    } else if ([rawHeadphoneType containsString: ORKHeadphoneRawTypeIdentifierChipsetLightningEarPods]
-               || [rawHeadphoneType containsString: ORKHeadphoneRawTypeIdentifierChipsetAudioJackEarPods]) {
-        return ORKHeadphoneTypeIdentifierEarPods;
+- (void)headphoneTypeDetected:(ORKHeadphoneTypeIdentifier)headphoneType isSupported:(BOOL)isSupported {
+    if (![headphoneType isEqualToString:[[self dBHLToneAudiometryStep].headphoneType uppercaseString]]) {
+        [self showAlertWithMessage:ORKLocalizedString(@"dBHL_ALERT_TEXT", nil)];
     }
-    return nil;
 }
 
-- (void)headphoneTypeDetected:(ORKHeadphoneRawTypeIdentifier)headphoneType isSupported:(BOOL)isSupported {
-    if (![[self convertHeadphoneRawType:headphoneType] isEqualToString:[[self dBHLToneAudiometryStep].headphoneType uppercaseString]]) {
+- (void)bluetoothModeChanged:(ORKBluetoothMode)bluetoothMode {
+    if ([[[self dBHLToneAudiometryStep].headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsPro]) {
+        if (bluetoothMode != ORKBluetoothModeNoiseCancellation) {
+            [self showAlertWithMessage:ORKLocalizedString(@"dBHL_NOISE_CANCELLING_ALERT_TEXT", nil)];
+        }
+    }
+}
+
+- (void)showAlertWithMessage:(NSString*)message {
+    if (!_showingAlert) {
+        _showingAlert = YES;
         dispatch_async(dispatch_get_main_queue(), ^{
             [self stopAudio];
             UIAlertController *alertController = [UIAlertController
                                                   alertControllerWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE_TEST_INTERRUPTED", nil)
-                                                  message:ORKLocalizedString(@"dBHL_ALERT_TEXT", nil)
+                                                  message:message
                                                   preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *startOver = [UIAlertAction
                                         actionWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE_START_OVER", nil)
@@ -499,5 +506,5 @@
     }
 }
 
-@end
 
+@end
