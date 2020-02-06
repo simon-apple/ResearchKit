@@ -4599,7 +4599,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		050968E6236B71FF006F734C /* Stable */ = {
+		050968E6236B71FF006F734C /* Skywagon Stable */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -4672,9 +4672,9 @@
 					"-Wno-sign-compare",
 				);
 			};
-			name = Stable;
+			name = "Skywagon Stable";
 		};
-		050968E7236B71FF006F734C /* Stable */ = {
+		050968E7236B71FF006F734C /* Skywagon Stable */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_SECURITY_FLOATLOOPCOUNTER = YES;
@@ -4723,9 +4723,9 @@
 				SYSTEM_HEADER_SEARCH_PATHS = "$(SRCROOT)/ResearchKit/PrivateHeaders $(inherited)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
-			name = Stable;
+			name = "Skywagon Stable";
 		};
-		050968E8236B71FF006F734C /* Stable */ = {
+		050968E8236B71FF006F734C /* Skywagon Stable */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -4750,16 +4750,16 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
-			name = Stable;
+			name = "Skywagon Stable";
 		};
-		050968E9236B71FF006F734C /* Stable */ = {
+		050968E9236B71FF006F734C /* Skywagon Stable */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
-			name = Stable;
+			name = "Skywagon Stable";
 		};
-		050968EA236B720B006F734C /* Internal Release */ = {
+		050968EA236B720B006F734C /* Skywagon Internal Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -4828,9 +4828,9 @@
 					"-Wno-sign-compare",
 				);
 			};
-			name = "Internal Release";
+			name = "Skywagon Internal Release";
 		};
-		050968EB236B720B006F734C /* Internal Release */ = {
+		050968EB236B720B006F734C /* Skywagon Internal Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_SECURITY_FLOATLOOPCOUNTER = YES;
@@ -4877,9 +4877,9 @@
 				SYSTEM_HEADER_SEARCH_PATHS = "$(SRCROOT)/ResearchKit/PrivateHeaders $(inherited)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
-			name = "Internal Release";
+			name = "Skywagon Internal Release";
 		};
-		050968EC236B720B006F734C /* Internal Release */ = {
+		050968EC236B720B006F734C /* Skywagon Internal Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -4900,16 +4900,16 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "ResearchKitTests/ResearchKitTests-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 			};
-			name = "Internal Release";
+			name = "Skywagon Internal Release";
 		};
-		050968ED236B720B006F734C /* Internal Release */ = {
+		050968ED236B720B006F734C /* Skywagon Internal Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
-			name = "Internal Release";
+			name = "Skywagon Internal Release";
 		};
-		050968EE236B7217006F734C /* Public Release */ = {
+		050968EE236B7217006F734C /* Skywagon Public Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -4978,9 +4978,9 @@
 					"-Wno-sign-compare",
 				);
 			};
-			name = "Public Release";
+			name = "Skywagon Public Release";
 		};
-		050968EF236B7217006F734C /* Public Release */ = {
+		050968EF236B7217006F734C /* Skywagon Public Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_SECURITY_FLOATLOOPCOUNTER = YES;
@@ -5027,9 +5027,9 @@
 				SYSTEM_HEADER_SEARCH_PATHS = "$(SRCROOT)/ResearchKit/PrivateHeaders $(inherited)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
-			name = "Public Release";
+			name = "Skywagon Public Release";
 		};
-		050968F0236B7217006F734C /* Public Release */ = {
+		050968F0236B7217006F734C /* Skywagon Public Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -5050,14 +5050,14 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "ResearchKitTests/ResearchKitTests-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 			};
-			name = "Public Release";
+			name = "Skywagon Public Release";
 		};
-		050968F1236B7217006F734C /* Public Release */ = {
+		050968F1236B7217006F734C /* Skywagon Public Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
-			name = "Public Release";
+			name = "Skywagon Public Release";
 		};
 		3FFF18691829DB1E00167070 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -5519,11 +5519,11 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3FFF18691829DB1E00167070 /* Debug */,
-				050968E6236B71FF006F734C /* Stable */,
+				050968E6236B71FF006F734C /* Skywagon Stable */,
 				AE5A53E62208F491009EBC12 /* ATP */,
 				3FFF186A1829DB1E00167070 /* Release */,
-				050968EA236B720B006F734C /* Internal Release */,
-				050968EE236B7217006F734C /* Public Release */,
+				050968EA236B720B006F734C /* Skywagon Internal Release */,
+				050968EE236B7217006F734C /* Skywagon Public Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = ATP;
@@ -5532,11 +5532,11 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				86CC8EA41AC09332001CCD89 /* Debug */,
-				050968E8236B71FF006F734C /* Stable */,
+				050968E8236B71FF006F734C /* Skywagon Stable */,
 				AE5A53E82208F491009EBC12 /* ATP */,
 				86CC8EA51AC09332001CCD89 /* Release */,
-				050968EC236B720B006F734C /* Internal Release */,
-				050968F0236B7217006F734C /* Public Release */,
+				050968EC236B720B006F734C /* Skywagon Internal Release */,
+				050968F0236B7217006F734C /* Skywagon Public Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = ATP;
@@ -5545,11 +5545,11 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B183A5931A8535D100C76870 /* Debug */,
-				050968E7236B71FF006F734C /* Stable */,
+				050968E7236B71FF006F734C /* Skywagon Stable */,
 				AE5A53E72208F491009EBC12 /* ATP */,
 				B183A5941A8535D100C76870 /* Release */,
-				050968EB236B720B006F734C /* Internal Release */,
-				050968EF236B7217006F734C /* Public Release */,
+				050968EB236B720B006F734C /* Skywagon Internal Release */,
+				050968EF236B7217006F734C /* Skywagon Public Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = ATP;
@@ -5558,11 +5558,11 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B18FF3A51A9FE25700C0C3B0 /* Debug */,
-				050968E9236B71FF006F734C /* Stable */,
+				050968E9236B71FF006F734C /* Skywagon Stable */,
 				AE5A53E92208F491009EBC12 /* ATP */,
 				B18FF3A61A9FE25700C0C3B0 /* Release */,
-				050968ED236B720B006F734C /* Internal Release */,
-				050968F1236B7217006F734C /* Public Release */,
+				050968ED236B720B006F734C /* Skywagon Internal Release */,
+				050968F1236B7217006F734C /* Skywagon Public Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = ATP;
