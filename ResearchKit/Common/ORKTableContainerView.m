@@ -50,6 +50,7 @@
 
 @end
 
+static const CGFloat FooterViewHeightOffset = 20.0;
 
 @implementation ORKTableContainerView {
     CGFloat _leftRightPadding;
@@ -213,12 +214,12 @@
 
 - (void)resizeFooterToFit {
     //     This method would resize the tableFooterView, so that navigationContainerView can have appropriate height.
-    if (self.isNavigationContainerScrollable && _tableView.bounds.size.height > 0 && self.navigationFooterView.bounds.size.height > 0 && ![self.navigationFooterView wasContinueButtonJustPressed]) {
+    if (self.isNavigationContainerScrollable && _tableView.bounds.size.height > 0 && self.navigationFooterView.bounds.size.height > 0 && ![self.navigationFooterView wasContinueOrSkipButtonJustPressed]) {
         CGFloat minHeight = self.navigationFooterView.bounds.size.height;
         _tableView.tableFooterView = nil;
         [_tableView layoutIfNeeded];
         CGFloat tableViewHeight = self.tableView.bounds.size.height;
-        CGFloat newHeight = tableViewHeight - self.tableView.contentSize.height;
+        CGFloat newHeight = tableViewHeight - self.tableView.contentSize.height + FooterViewHeightOffset;
         CGRect footerBounds = newHeight < minHeight ? CGRectMake(0.0, 0.0, _tableView.bounds.size.width, minHeight) : CGRectMake(0.0, 0.0, _tableView.bounds.size.width, newHeight);
 
         [_footerView setBounds:footerBounds];
