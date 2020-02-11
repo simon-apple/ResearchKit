@@ -42,6 +42,11 @@ ORK_CLASS_AVAILABLE
 @interface ORKSpeechInNoiseStep : ORKActiveStep
 
 /**
+ This property accepts the speech file Path.
+*/
+@property (nonatomic, copy, nullable) NSString *speechFilePath;
+
+/**
  This property accepts the speech file.
  */
 @property (nonatomic, copy, nullable) NSString *speechFileNameWithExtension;

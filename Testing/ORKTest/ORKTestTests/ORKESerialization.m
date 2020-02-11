@@ -1226,6 +1226,7 @@ static NSMutableDictionary *ORKESerializationEncodingTable() {
                      return [[ORKSpeechInNoiseStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
                  },
                  ((@{
+                     PROPERTY(speechFilePath, NSString, NSObject, YES, nil, nil),
                      PROPERTY(speechFileNameWithExtension, NSString, NSObject, YES, nil, nil),
                      PROPERTY(noiseFileNameWithExtension, NSString, NSObject, YES, nil, nil),
                      PROPERTY(filterFileNameWithExtension, NSString, NSObject, YES, nil, nil),

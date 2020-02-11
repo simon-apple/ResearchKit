@@ -1,4 +1,3 @@
-//
 /*
  Copyright (c) 2020, Apple Inc. All rights reserved.
  
@@ -32,6 +31,45 @@
 #import "ORKSpeechInNoisePredefinedTask.h"
 #import "ORKHelpers_Internal.h"
 #import "ORKStep.h"
+#import "ORKRecorder.h"
+#import "ORKSpeechInNoiseStep.h"
+#import "ORKSpeechRecognitionStep.h"
+#import "ORKAnswerFormat.h"
+#import "ORKQuestionStep.h"
+
+@interface ORKSpeechInNoiseSample : NSObject
+
+@property (nonatomic, readonly, nonnull) NSString *path;
+
+@property (nonatomic, readonly, nonnull) NSString *transcript;
+
++ (instancetype)new NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
+
++ (instancetype)sampleWithPath:(nonnull NSString *)path transcript:(nonnull NSString *)transcript;
+- (instancetype)initWithPath:(nonnull NSString *)path transcript:(nonnull NSString *)transcript;
+
+@end
+
+@implementation ORKSpeechInNoiseSample
+
++ (instancetype)sampleWithPath:(nonnull NSString *)path transcript:(nonnull NSString *)transcript
+{
+    return [[ORKSpeechInNoiseSample alloc] initWithPath:path transcript:transcript];
+}
+
+- (instancetype)initWithPath:(nonnull NSString *)path transcript:(nonnull NSString *)transcript
+{
+    self = [super init];
+    if (self)
+    {
+        _path = [path copy];
+        _transcript = [transcript copy];
+    }
+    return self;
+}
+
+@end
 
 @implementation ORKSpeechInNoisePredefinedTask
 
@@ -45,12 +83,10 @@
                                                                                                             prependSteps:prependSteps
                                                                                                              appendSteps:appendSteps
                                                                                                                    error:&error];
-    if (error != nil) {
-        ORK_Log_Error("%@", error);
-        return nil;
-    }
-    if (steps == nil) {
-        // Something went wrong fetching audio files, return a null task.
+    
+    if (error)
+    {
+        ORK_Log_Error("An error occurred while creating the predefined task. %@", error);
         return nil;
     }
     
@@ -130,30 +166,177 @@
 
 #pragma mark - Speech In Noise
 
-//TODO: Error arg support.
-+ (nullable NSArray<ORKStep *> *)speechInNoisePredefinedTaskStepsWithAudioSetManifestPath:(nonnull NSString *)manifestPath
-                                                                                    error:(__unused NSError **)error
-{
-    return nil;    
-}
-
 + (nullable NSArray<ORKStep *> *)speechInNoisePredefinedTaskStepsWithAudioSetManifestPath:(nonnull NSString *)manifestPath
                                                                              prependSteps:(nullable NSArray<ORKStep *> *)prependSteps
                                                                               appendSteps:(nullable NSArray<ORKStep *> *)appendSteps
-                                                                                    error:(__unused NSError **)error {
+                                                                                    error:(NSError * _Nullable * _Nullable)error
+{
     NSMutableArray<ORKStep *> *steps = [[NSMutableArray alloc] init];
-    if (prependSteps.count > 0) {
+    
+    if (prependSteps.count > 0)
+    {
         [steps addObjectsFromArray:[prependSteps copy]];
     }
+    
     NSArray *predefinedSteps = [ORKSpeechInNoisePredefinedTask speechInNoisePredefinedTaskStepsWithAudioSetManifestPath:manifestPath error:error];
-    NSAssert(predefinedSteps.count > 0, @"Predefined steps count cannot be 0");
-    if (predefinedSteps != nil) {
+    
+    if (predefinedSteps != nil)
+    {
         [steps addObjectsFromArray:predefinedSteps];
     }
-    if (appendSteps.count > 0) {
+    if (appendSteps.count > 0)
+    {
         [steps addObjectsFromArray:[appendSteps copy]];
     }
+    
     return [steps copy];
+}
+
++ (nullable NSArray<ORKStep *> *)speechInNoisePredefinedTaskStepsWithAudioSetManifestPath:(nonnull NSString *)manifestPath error:(NSError * _Nullable * _Nullable)error
+{
+    NSArray *audioFileSamples = [ORKSpeechInNoisePredefinedTask prefetchAudioSamplesFromManifestAtPath:manifestPath error:error];
+    if (*error)
+    {
+        return nil;
+    }
+    
+    typedef NSString * ORKSpeechInNoiseStepIdentifier NS_STRING_ENUM;
+
+    NSMutableArray<ORKStep *> *steps = [[NSMutableArray alloc] init];
+    
+    {
+        ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierSpeechInNoiseStep = @"ORKSpeechInNoiseStepIdentifierSpeechInNoiseStep";
+        ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierSpeechRecognitionStep = @"ORKSpeechInNoiseStepIdentifierSpeechRecognitionStep";
+        ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierEditSpeechTranscriptStep = @"ORKSpeechInNoiseStepIdentifierEditSpeechTranscriptStep";
+        
+        [audioFileSamples enumerateObjectsUsingBlock:^(ORKSpeechInNoiseSample * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            
+            // Speech In Noise
+            {
+                ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@.%lu", ORKSpeechInNoiseStepIdentifierSpeechInNoiseStep, idx];
+                ORKSpeechInNoiseStep *step = [[ORKSpeechInNoiseStep alloc] initWithIdentifier:stepIdentifier];
+                step.speechFilePath = obj.path;
+                step.title = @"Listen";
+                step.text = @"Each sentence only plays once.";
+                step.detailText = [NSString stringWithFormat:@"Sentence %lu of %lu", idx + 1, audioFileSamples.count];
+                step.optional = NO;
+                [steps addObject:step];
+            }
+            
+            // Speech Recognition
+            {
+                ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@.%lu", ORKSpeechInNoiseStepIdentifierSpeechRecognitionStep, idx];
+                ORKStreamingAudioRecorderConfiguration *config = [[ORKStreamingAudioRecorderConfiguration alloc] initWithIdentifier:@"streamingAudio"];
+                ORKSpeechRecognitionStep *step = [[ORKSpeechRecognitionStep alloc] initWithIdentifier:stepIdentifier image:nil text:obj.transcript];
+                step.shouldHideTranscript = YES;
+                step.recorderConfigurations = @[config];
+                step.speechRecognizerLocale = @"en-US";
+                step.title = @"Repeat what you heard";
+                step.optional = NO;
+                [steps addObject:step];
+            }
+            
+            // Edit Transcript
+            {
+                ORKTextAnswerFormat *answerFormat = [ORKTextAnswerFormat new];
+                answerFormat.spellCheckingType = UITextSpellCheckingTypeNo;
+                answerFormat.autocorrectionType = UITextAutocorrectionTypeNo;
+                
+                ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@.%lu", ORKSpeechInNoiseStepIdentifierEditSpeechTranscriptStep, idx];
+                ORKQuestionStep *step = [ORKQuestionStep questionStepWithIdentifier:stepIdentifier
+                                                                              title:@"Review Transcript"
+                                                                           question:nil
+                                                                             answer:answerFormat];
+                step.text = @"Correct any errors in your recording.";
+                step.optional = NO;
+                [steps addObject:step];
+            }
+        }];
+    }
+    
+    return [steps copy];
+}
+
++ (nullable NSArray<ORKSpeechInNoiseSample *> *)prefetchAudioSamplesFromManifestAtPath:(nonnull NSString *)path error:(NSError * _Nullable * _Nullable)error
+{
+    NSFileManager *fileManager = [[NSFileManager alloc] init];
+    
+    if (![fileManager fileExistsAtPath:path])
+    {
+        if (error != NULL)
+        {
+            *error = [NSError errorWithDomain:ORKErrorDomain
+                                         code:ORKErrorException
+                                     userInfo:@{NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:@"Could not locate file at path %@", path]}];
+        }
+        return nil;
+    }
+    
+    NSData *data = [NSData dataWithContentsOfFile:path options:0 error:error];
+    if (!data)
+    {
+        return nil;
+    }
+    
+    NSArray<NSDictionary *> *manifest = [NSJSONSerialization JSONObjectWithData:data options:0 error:error];
+    if (!manifest)
+    {
+        return nil;
+    }
+    
+    NSString *parentDirectory = [path stringByDeletingLastPathComponent];
+    BOOL isDir;
+    if (![fileManager fileExistsAtPath:parentDirectory isDirectory:&isDir] || !isDir)
+    {
+        if (error != NULL)
+        {
+            *error = [NSError errorWithDomain:ORKErrorDomain
+                                         code:ORKErrorException
+                                     userInfo:@{NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:@"Could not locate parent directory at path %@", parentDirectory]}];
+        }
+        return nil;
+    }
+    
+    NSString * const ManifestJSONKeyAudioFilename = @"filename";
+    NSString * const ManifestJSONKeyTranscript = @"targetSentence";
+    
+    NSMutableArray<ORKSpeechInNoiseSample *> *audioFileSamples = [[NSMutableArray alloc] init];
+    
+    __block BOOL success;
+    __block NSError *err;
+    [manifest enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        
+        NSString *audioFilename = (NSString *)[obj objectForKey:ManifestJSONKeyAudioFilename];
+        NSString *audioFilePath = [parentDirectory stringByAppendingPathComponent:audioFilename];
+        NSString *audioFileTranscript = (NSString *)[obj objectForKey:ManifestJSONKeyTranscript];
+        
+        if ([fileManager fileExistsAtPath:audioFilePath])
+        {
+            [audioFileSamples addObject:[ORKSpeechInNoiseSample sampleWithPath:audioFilePath transcript:audioFileTranscript]];
+            success = YES;
+        }
+        else
+        {
+            *stop = YES;
+            err = [NSError errorWithDomain:ORKErrorDomain
+                                      code:ORKErrorException
+                                  userInfo:@{NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:@"Could not locate file at path %@", audioFilePath]}];
+            success = NO;
+        }
+    }];
+    
+    if (success)
+    {
+        return [audioFileSamples copy];
+    }
+    else
+    {
+        if (error != NULL)
+        {
+            *error = err;
+        }
+        return nil;
+    }
 }
 
 @end
