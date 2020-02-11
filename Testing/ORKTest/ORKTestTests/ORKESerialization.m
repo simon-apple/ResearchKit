@@ -40,6 +40,7 @@
 @import Speech;
 
 static NSString *noAnswerPrefix = @"noAnswer_";
+static NSString *_ClassKey = @"_class";
 
 static NSString *ORKEStringFromDateISO8601(NSDate *date) {
     static NSDateFormatter *formatter = nil;
@@ -365,7 +366,9 @@ __unused static NSInteger const SerializationVersion = 1; // Will be used moving
 #define ESTRINGIFY2( x) #x
 #define ESTRINGIFY(x) ESTRINGIFY2(x)
 
-#define ENTRY(entryName, bb, props) @ESTRINGIFY(entryName) : [[ORKESerializableTableEntry alloc] initWithClass:[entryName class] initBlock:bb properties: props]
+#define ENTRY(entryName, bb, props) @ESTRINGIFY(entryName) : [[ORKESerializableTableEntry alloc] initWithClass:[entryName class] initBlock:bb properties:props]
+
+#define ENTRY_SKIP_SUPER(entryName, bb, props) @ESTRINGIFY(entryName) : [[ORKESerializableTableEntry alloc] initWithClass:[entryName class] initBlock:bb properties:props skipSuperClass:YES]
 
 #define PROPERTY(x, vc, cc, ww, jb, ob) @ESTRINGIFY(x) : ([[ORKESerializableProperty alloc] initWithPropertyName:@ESTRINGIFY(x) valueClass:[vc class] containerClass:[cc class] writeAfterInit:ww objectToJSONBlock:jb jsonToObjectBlock:ob ])
 
@@ -376,13 +379,21 @@ __unused static NSInteger const SerializationVersion = 1; // Will be used moving
 
 @interface ORKESerializableTableEntry : NSObject
 
+- (instancetype)init NS_UNAVAILABLE;
+
 - (instancetype)initWithClass:(Class)class
                     initBlock:(ORKESerializationInitBlock)initBlock
                    properties:(NSDictionary *)properties;
 
+- (instancetype)initWithClass:(Class)class
+                    initBlock:(ORKESerializationInitBlock)initBlock
+                   properties:(NSDictionary *)properties
+               skipSuperClass:(BOOL)skipSuperClass NS_DESIGNATED_INITIALIZER;
+
 @property (nonatomic) Class class;
 @property (nonatomic, copy) ORKESerializationInitBlock initBlock;
 @property (nonatomic, strong) NSMutableDictionary *properties;
+@property (nonatomic, readonly) BOOL skipSuperClass;
 
 @end
 
@@ -427,6 +438,58 @@ static NSString * const _SerializedBundleImageNameKey = @"imageName";
 
 @end
 
+@implementation ORKESerializationPropertyModifier
+
+- (instancetype)initWithKeypath:(NSString *)keypath value:(id)value type:(ORKESerializationPropertyModifierType)type {
+    self = [super init];
+    if (self) {
+        _keypath = [keypath copy];
+        _value = [value copy];
+        _type = type;
+    }
+    return self;
+}
+
+@end
+
+@implementation ORKESerializationPropertyInjector
+
+- (instancetype)initWithBundle:(NSBundle *)bundle modifiers:(NSArray<ORKESerializationPropertyModifier *> *)modifiers {
+    self = [super init];
+    if (self) {
+        _bundle = bundle;
+        NSMutableDictionary *propertyValues = [NSMutableDictionary dictionary];
+        NSString *bundlePath = bundle.bundlePath;
+        [modifiers enumerateObjectsUsingBlock:^(ORKESerializationPropertyModifier * _Nonnull obj, __unused NSUInteger idx, __unused BOOL * _Nonnull stop) {
+            if (obj.type == ORKESerializationPropertyModifierTypePath && [obj.value isKindOfClass:[NSString class]]) {
+                propertyValues[obj.keypath] = [bundlePath stringByAppendingPathComponent:(NSString *)obj.value];
+            } else {
+                propertyValues[obj.keypath] = obj.value;
+            }
+        }];
+        _propertyValues = [propertyValues copy];
+        
+    }
+    return self;
+}
+
+- (NSDictionary *)injectedDictionaryWithDictionary:(NSDictionary *)inputDictionary {
+    NSMutableDictionary *mutatedDictionary = [inputDictionary mutableCopy];
+    [_propertyValues enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull keypath, id  _Nonnull obj, __unused BOOL * _Nonnull stop) {
+        NSArray<NSString *> *components = [keypath componentsSeparatedByString:@"."];
+        NSCAssert(components.count == 2, @"Unexpected number of components in keypath %@", keypath);
+        NSString *class = components[0];
+        NSString *key = components[1];
+        // Only inject the property if it's the corresponding class,and the key exists in the dictionary
+        if ([class isEqualToString:mutatedDictionary[_ClassKey]] && mutatedDictionary[key] != nil) {
+            mutatedDictionary[key] = obj;
+        }
+    }];
+    return [mutatedDictionary copy];
+}
+
+@end
+
 @interface ORKESerializableProperty : NSObject
 
 - (instancetype)initWithPropertyName:(NSString *)propertyName
@@ -464,14 +527,25 @@ static ORKESerializableProperty *imagePropertyObject(NSString *propertyName,
 
 - (instancetype)initWithClass:(Class)class
                     initBlock:(ORKESerializationInitBlock)initBlock
-                   properties:(NSDictionary *)properties {
+                   properties:(NSDictionary *)properties
+               skipSuperClass:(BOOL)skipSuperClass {
     self = [super init];
     if (self) {
         _class = class;
-        self.initBlock = initBlock;
-        self.properties = [properties mutableCopy];
+        _initBlock = initBlock;
+        _properties = [properties mutableCopy];
+        _skipSuperClass = skipSuperClass;
     }
     return self;
+}
+
+- (instancetype)initWithClass:(Class)class
+                    initBlock:(ORKESerializationInitBlock)initBlock
+                   properties:(NSDictionary *)properties {
+    return [self initWithClass:class
+                     initBlock:initBlock
+                    properties:properties
+                skipSuperClass:NO];
 }
 
 @end
@@ -502,19 +576,27 @@ static ORKESerializableProperty *imagePropertyObject(NSString *propertyName,
 @implementation ORKESerializationContext
 
 - (instancetype)initWithLocalizer:(nullable ORKESerializationLocalizer *)localizer
-                    imageProvider:(nullable id<ORKESerializationImageProvider>)imageProvider {
+                    imageProvider:(nullable id<ORKESerializationImageProvider>)imageProvider
+                 propertyInjector:(nullable ORKESerializationPropertyInjector *)propertyInjector {
     self = [super init];
     if (self) {
         _localizer = localizer;
         _imageProvider = imageProvider;
+        _propertyInjector = propertyInjector;
     }
     return self;
 }
 
+- (instancetype)initWithBundle:(NSBundle *)bundle
+         localizationTableName:(NSString *)localizationTableName
+                     modifiers:(NSArray<ORKESerializationPropertyModifier *> *)modifiers {
+    ORKESerializationLocalizer *localizer = [[ORKESerializationLocalizer alloc] initWithBundle:bundle tableName:localizationTableName];
+    ORKESerializationBundleImageProvider *imageProvider = [[ORKESerializationBundleImageProvider alloc] initWithBundle:bundle];
+    ORKESerializationPropertyInjector *propertyInjector = [[ORKESerializationPropertyInjector alloc] initWithBundle:bundle modifiers:modifiers];
+    return [self initWithLocalizer:localizer imageProvider:imageProvider propertyInjector:propertyInjector];
+}
+
 @end
-
-
-static NSString *_ClassKey = @"_class";
 
 static id propFromDict(NSDictionary *dict, NSString *propName, ORKESerializationContext *context) {
     NSArray *classEncodings = classEncodingsForClass(NSClassFromString(dict[_ClassKey]));
@@ -691,6 +773,19 @@ static NSMutableDictionary *ORKESerializationEncodingTable() {
                       PROPERTY(identifier, NSString, NSObject, NO, nil, nil),
                       PROPERTY(steps, ORKStep, NSArray, NO, nil, nil)
                       })),
+           ENTRY_SKIP_SUPER(ORKSpeechInNoisePredefinedTask,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+                    return [[ORKSpeechInNoisePredefinedTask alloc] initWithIdentifier:GETPROP(dict, identifier)
+                                                                 audioSetManifestPath:GETPROP(dict, audioSetManifestPath)
+                                                                         prependSteps:GETPROP(dict, prependSteps)
+                                                                          appendSteps:GETPROP(dict, appendSteps)];
+               
+                },(@{
+                    PROPERTY(identifier, NSString, NSObject, NO, nil, nil),
+                    PROPERTY(audioSetManifestPath, NSString, NSObject, NO, nil, nil),
+                    PROPERTY(prependSteps, ORKStep, NSArray, NO, nil, nil),
+                    PROPERTY(appendSteps, ORKStep, NSArray, NO, nil, nil)
+                })),
            ENTRY(ORKNavigableOrderedTask,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      ORKNavigableOrderedTask *task = [[ORKNavigableOrderedTask alloc] initWithIdentifier:GETPROP(dict, identifier)
@@ -2104,7 +2199,11 @@ static NSArray *classEncodingsForClass(Class c) {
         if (classEncoding) {
             [classEncodings addObject:classEncoding];
         }
-        sc = [sc superclass];
+        if (classEncoding.skipSuperClass) {
+            sc = nil;
+        } else {
+            sc = [sc superclass];
+        }
     }
     return classEncodings;
 }
@@ -2135,6 +2234,13 @@ static id objectForJsonObject(id input, Class expectedClass, ORKESerializationJS
     } else if ([input isKindOfClass:[NSDictionary class]]) {
         NSDictionary *dict = (NSDictionary *)input;
         NSString *className = input[_ClassKey];
+        
+        ORKESerializationPropertyInjector *propertyInjector = context.propertyInjector;
+        if (propertyInjector != nil) {
+            NSDictionary *dictionary = (NSDictionary *)input;
+            dict = [propertyInjector injectedDictionaryWithDictionary:dictionary];
+        }
+
         if (expectedClass != nil) {
             NSCAssert([NSClassFromString(className) isSubclassOfClass:expectedClass], @"Expected subclass of %@ but got %@", expectedClass, className);
         }
@@ -2292,7 +2398,7 @@ static id jsonObjectForObject(id object, ORKESerializationContext *context) {
 }
 
 + (NSDictionary *)JSONObjectForObject:(id)object error:(__unused NSError * __autoreleasing *)error {
-    return [self JSONObjectForObject:object context:[[ORKESerializationContext alloc] initWithLocalizer:nil imageProvider:nil] error:error];
+    return [self JSONObjectForObject:object context:[[ORKESerializationContext alloc] initWithLocalizer:nil imageProvider:nil propertyInjector:nil] error:error];
 }
 
 + (NSDictionary *)JSONObjectForObject:(id)object context:(ORKESerializationContext *)context error:(__unused NSError * __autoreleasing *)error {
@@ -2301,7 +2407,7 @@ static id jsonObjectForObject(id object, ORKESerializationContext *context) {
 }
 
 + (id)objectFromJSONObject:(NSDictionary *)object error:(__unused NSError * __autoreleasing *)error {
-    return objectForJsonObject(object, nil, nil, [[ORKESerializationContext alloc] initWithLocalizer:nil imageProvider:nil]);
+    return objectForJsonObject(object, nil, nil, [[ORKESerializationContext alloc] initWithLocalizer:nil imageProvider:nil propertyInjector:nil]);
 }
 
 + (id)objectFromJSONObject:(NSDictionary *)object context:(ORKESerializationContext *)context error:(__unused NSError * __autoreleasing *)error {
@@ -2309,7 +2415,7 @@ static id jsonObjectForObject(id object, ORKESerializationContext *context) {
 }
 
 + (NSData *)JSONDataForObject:(id)object error:(NSError * __autoreleasing *)error {
-    id json = jsonObjectForObject(object, [[ORKESerializationContext alloc] initWithLocalizer:nil imageProvider:nil]);
+    id json = jsonObjectForObject(object, [[ORKESerializationContext alloc] initWithLocalizer:nil imageProvider:nil propertyInjector:nil]);
     return [NSJSONSerialization dataWithJSONObject:json options:(NSJSONWritingOptions)0 error:error];
 }
 
@@ -2317,7 +2423,7 @@ static id jsonObjectForObject(id object, ORKESerializationContext *context) {
     id json = [NSJSONSerialization JSONObjectWithData:data options:(NSJSONReadingOptions)0 error:error];
     id ret = nil;
     if (json != nil) {
-        ret = objectForJsonObject(json, nil, nil, [[ORKESerializationContext alloc] initWithLocalizer:nil imageProvider:nil]);
+        ret = objectForJsonObject(json, nil, nil, [[ORKESerializationContext alloc] initWithLocalizer:nil imageProvider:nil propertyInjector:nil]);
     }
     return ret;
 }
