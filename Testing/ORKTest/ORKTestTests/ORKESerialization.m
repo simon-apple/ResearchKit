@@ -589,7 +589,7 @@ static ORKESerializableProperty *imagePropertyObject(NSString *propertyName,
 
 - (instancetype)initWithBundle:(NSBundle *)bundle
          localizationTableName:(NSString *)localizationTableName
-                     modifiers:(NSArray<ORKESerializationPropertyModifier *> *)modifiers {
+             propertyModifiers:(NSArray<ORKESerializationPropertyModifier *> *)modifiers {
     ORKESerializationLocalizer *localizer = [[ORKESerializationLocalizer alloc] initWithBundle:bundle tableName:localizationTableName];
     ORKESerializationBundleImageProvider *imageProvider = [[ORKESerializationBundleImageProvider alloc] initWithBundle:bundle];
     ORKESerializationPropertyInjector *propertyInjector = [[ORKESerializationPropertyInjector alloc] initWithBundle:bundle modifiers:modifiers];

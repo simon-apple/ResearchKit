@@ -82,7 +82,7 @@ typedef NS_ENUM(NSInteger, ORKESerializationPropertyModifierType) {
 
 - (instancetype)initWithBundle:(NSBundle *)bundle
          localizationTableName:(NSString *)localizationTableName
-                     modifiers:(nullable NSArray<ORKESerializationPropertyModifier *> *)modifiers;
+             propertyModifiers:(nullable NSArray<ORKESerializationPropertyModifier *> *)modifiers;
 
 @property (nonatomic, strong, nullable) ORKESerializationLocalizer *localizer;
 @property (nonatomic, strong, nullable) id<ORKESerializationImageProvider> imageProvider;
