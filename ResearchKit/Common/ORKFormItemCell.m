@@ -1259,7 +1259,11 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
 - (void)textViewDidBeginEditing:(UITextView *)textView {
     if (textView.textColor == [self placeholderColor]) {
         textView.text = nil;
-        textView.textColor = [UIColor blackColor];
+        if (@available(iOS 13.0, *)) {
+            textView.textColor = [UIColor labelColor];
+        } else {
+            textView.textColor = [UIColor blackColor];
+        }
     }
     // Ask table view to adjust scrollview's position
     [self.delegate formItemCellDidBecomeFirstResponder:self];
@@ -1620,7 +1624,15 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
 
 - (void)setEditingHighlight:(BOOL)editingHighlight {
     _editingHighlight = editingHighlight;
-    [_selectionView setTextColor:( _editingHighlight ? [self tintColor] : [UIColor blackColor])];
+    if (_editingHighlight) {
+        [_selectionView setTextColor:[self tintColor]];
+    } else {
+        if (@available(iOS 13.0, *)) {
+            [_selectionView setTextColor:[UIColor labelColor]];
+        } else {
+            [_selectionView setTextColor:[UIColor blackColor]];
+        }
+    }
 }
 
 - (void)locationSelectionViewDidBeginEditing:(ORKLocationSelectionView *)view {
