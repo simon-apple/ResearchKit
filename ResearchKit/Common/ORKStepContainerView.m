@@ -301,6 +301,10 @@ static const CGFloat ORKBodyItemScrollPadding = 24.0;
     }
 }
 
+- (void)setScrollViewCustomContentInset:(CGFloat)scrollViewCustomContentInset {
+    _scrollView.contentInset = UIEdgeInsetsMake(0, 0, scrollViewCustomContentInset, 0);
+}
+
 - (void)setCustomContentView:(UIView *)customContentView {
     _customContentView = customContentView;
     [_scrollContainerView addSubview:_customContentView];
