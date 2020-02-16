@@ -41,6 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL customContentFillsAvailableSpace;
 
 - (void)setCustomContentView:(UIView *)customContentView withTopPadding:(CGFloat)topPadding;
+- (void)setScrollViewCustomContentInset:(CGFloat)scrollViewCustomContentInset;
 
 @end
 
