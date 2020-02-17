@@ -96,6 +96,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     case spatialSpanMemory
     case speechRecognition
     case speechInNoise
+    case predefinedSpeechInNoiseTask
     case stroop
     case timedWalkWithTurnAround
     case toneAudiometry
@@ -176,6 +177,7 @@ enum TaskListRow: Int, CustomStringConvertible {
                     .spatialSpanMemory,
                     .speechRecognition,
                     .speechInNoise,
+                    .predefinedSpeechInNoiseTask,
                     .stroop,
                     .timedWalkWithTurnAround,
                     .toneAudiometry,
@@ -313,6 +315,9 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .speechInNoise:
             return NSLocalizedString("Speech in Noise", comment: "")
+            
+        case .predefinedSpeechInNoiseTask:
+            return NSLocalizedString("Predefined Speech In Noise", comment: "")
             
         case .stroop:
             return NSLocalizedString("Stroop", comment: "")
@@ -527,6 +532,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         case spatialSpanMemoryTask
         case speechRecognitionTask
         case speechInNoiseTask
+        case predefinedSpeechInNoiseTask
         case stroopTask
         case timedWalkWithTurnAroundTask
         case toneAudiometryTask
@@ -667,6 +673,9 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .speechInNoise:
             return speechInNoiseTask
+            
+        case .predefinedSpeechInNoiseTask:
+            return predefinedSpeechInNoiseTask
             
         case .stroop:
             return stroopTask
@@ -1632,6 +1641,15 @@ enum TaskListRow: Int, CustomStringConvertible {
     /// This task presents the Speech in Noise pre-defined active task.
     private var speechInNoiseTask: ORKTask {
         return ORKOrderedTask.speechInNoiseTask(withIdentifier: String(describing: Identifier.speechInNoiseTask), intendedUseDescription: nil, options: [])
+    }
+    
+    private var predefinedSpeechInNoiseTask: ORKTask {
+        
+        guard let path = Bundle.main.path(forResource: "manifest", ofType: "json", inDirectory: "List1") else {
+            return speechInNoiseTask
+        }
+        
+         return ORKSpeechInNoisePredefinedTask(identifier: "\(Identifier.speechInNoiseTask)", audioSetManifestPath: path, prepend: nil, append: nil)
     }
     
     /// This task presents the Stroop pre-defined active task.

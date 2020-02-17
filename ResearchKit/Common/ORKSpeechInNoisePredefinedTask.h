@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018, Apple Inc. All rights reserved.
+ Copyright (c) 2020, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,50 +28,34 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 @import Foundation;
-#import <ResearchKit/ORKDefines.h>
-#import <ResearchKit/ORKActiveStep.h>
+#import "ORKNavigableOrderedTask.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class ORKStep;
+
 ORK_CLASS_AVAILABLE
-/**
- This active step programatically mixes the speech file with noise file and applies the filter.
- */
-@interface ORKSpeechInNoiseStep : ORKActiveStep
+@interface ORKSpeechInNoisePredefinedTask : ORKNavigableOrderedTask
 
-/**
- This property accepts the speech file Path.
-*/
-@property (nonatomic, copy, nullable) NSString *speechFilePath;
++ (instancetype)new NS_UNAVAILABLE;
 
-/**
- This property accepts the speech file.
- */
-@property (nonatomic, copy, nullable) NSString *speechFileNameWithExtension;
+- (instancetype)init NS_UNAVAILABLE;
 
-/**
- This property accepts the noise file.
- */
-@property (nonatomic, copy, nullable) NSString *noiseFileNameWithExtension;
+- (instancetype)initWithCoder:(NSCoder *)aDecoder NS_DESIGNATED_INITIALIZER;
 
-/**
- This property accepts the filter file.
- */
-@property (nonatomic, copy, nullable) NSString *filterFileNameWithExtension;
+- (instancetype)initWithIdentifier:(NSString *)identifier steps:(nullable NSArray<ORKStep *> *)steps NS_UNAVAILABLE;
 
-/**
- The linear gain applied to the noise file before mixing it with the speech file.
- */
-@property (nonatomic, assign) double gainAppliedToNoise;
+- (instancetype)initWithIdentifier:(nonnull NSString *)identifier
+              audioSetManifestPath:(nonnull NSString *)audioSetManifestPath
+                      prependSteps:(nullable NSArray<ORKStep *> *)prependSteps
+                       appendSteps:(nullable NSArray<ORKStep *> *)appendSteps NS_DESIGNATED_INITIALIZER;
 
-/**
- This boolean determines the repetitions of the file.
- */
-@property (nonatomic, assign) BOOL willAudioLoop;
+@property (nonatomic, readonly, nonnull) NSString *audioSetManifestPath;
 
-@property (nonatomic) BOOL hideGraphView;
+@property (nonatomic, readonly, nullable) NSArray<ORKStep *> *prependSteps;
+
+@property (nonatomic, readonly, nullable) NSArray<ORKStep *> *appendSteps;
 
 @end
 

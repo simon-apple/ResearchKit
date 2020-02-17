@@ -1,0 +1,53 @@
+{
+    "_class": "ORKSpeechInNoisePredefinedTask",
+    "audioSetManifestPath": "StudyResources/List1/manifest.json",
+    "appendSteps": [
+        {
+            "_class": "ORKCompletionStep",
+            "identifier": "213109ee-5de4-4d51-b6f8-d2516a8f427e",
+            "optional": 0,
+            "title": "asd"
+        },
+        {
+            "_class": "ORKCompletionStep",
+            "identifier": "b8089ace-2ede-4890-a779-0333004993db",
+            "optional": 0,
+            "title": "aa"
+        }
+    ],
+    "identifier": "385d63d3-d3c7-48d2-8cfb-fdb111acacd5",
+    "prependSteps": [
+        {
+            "_class": "ORKQuestionStep",
+            "answerFormat": {
+                "_class": "ORKTextChoiceAnswerFormat",
+                "style": "singleChoice",
+                "textChoices": [
+                    {
+                        "_class": "ORKTextChoice",
+                        "exclusive": 0,
+                        "text": "lettuce",
+                        "value": "lettuce"
+                    },
+                    {
+                        "_class": "ORKTextChoice",
+                        "exclusive": 0,
+                        "text": "arugula",
+                        "value": "arugula"
+                    },
+                    {
+                        "_class": "ORKTextChoice",
+                        "exclusive": 0,
+                        "text": "kale",
+                        "value": "kale"
+                    }
+                ]
+            },
+            "detailText": "",
+            "identifier": "408ea6c2-8a82-4824-bc5f-8a080a7841d1",
+            "optional": 0,
+            "question": "What is your favorite salad base?",
+            "title": "Salad Bases"
+        }
+    ]
+}
