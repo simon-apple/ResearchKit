@@ -102,7 +102,17 @@
 }
 
 - (void)setupBuffers {
-    [self loadFileName:[self speechInNoiseStep].speechFileNameWithExtension intoBuffer:&_speechAudioBuffer];
+    
+    if ([[self speechInNoiseStep] speechFilePath] != nil)
+    {
+        NSURL *url = [NSURL fileURLWithPath:[self speechInNoiseStep].speechFilePath isDirectory:NO];
+        [self loadFileAtURL:url intoBuffer:&_speechAudioBuffer];
+    }
+    else
+    {
+        [self loadFileName:[self speechInNoiseStep].speechFileNameWithExtension intoBuffer:&_speechAudioBuffer];
+    }
+    
     [self loadFileName:[self speechInNoiseStep].noiseFileNameWithExtension intoBuffer:&_noiseAudioBuffer];
     [self loadFileName:[self speechInNoiseStep].filterFileNameWithExtension intoBuffer:&_filterAudioBuffer];
     
@@ -124,6 +134,32 @@
     }
 }
 
+- (void)loadFileAtURL:(NSURL *)url intoBuffer:(AVAudioPCMBuffer * __strong *)buffer {
+    
+    AVAudioFile *audioFile = [[AVAudioFile alloc] initForReading:url error:nil];
+    AVAudioFormat *audioFileFormat = audioFile.processingFormat;
+    AVAudioFrameCount audioFileCapacity = (AVAudioFrameCount)audioFile.length;
+    
+    if (*buffer == _filterAudioBuffer)
+    {
+        _speechToneCapacity = audioFileCapacity;
+    }
+    else if (*buffer == _noiseAudioBuffer)
+    {
+        _noiseToneCapacity = audioFileCapacity;
+    }
+    else
+    {
+        AVAsset *asset = [AVURLAsset URLAssetWithURL:url options:nil];
+        CMTime audioDuration = asset.duration;
+        _toneDuration = CMTimeGetSeconds(audioDuration);
+    }
+    
+    *buffer = [[AVAudioPCMBuffer alloc] initWithPCMFormat:audioFileFormat frameCapacity:audioFileCapacity];
+    
+    [audioFile readIntoBuffer:*buffer error:nil];
+}
+
 - (void)loadFileName: (NSString *)file intoBuffer: (AVAudioPCMBuffer * __strong *)buffer {
     NSArray *fileComponents = [file componentsSeparatedByString:@"."];
     NSString *fileName = fileComponents[0];
@@ -131,20 +167,7 @@
     
     NSURL *fileURL = [[NSBundle bundleForClass:[self class]] URLForResource:fileName withExtension:fileExtension];
     
-    AVAudioFile *audioFile = [[AVAudioFile alloc] initForReading:fileURL error:nil];
-    AVAudioFormat *audioFileFormat = audioFile.processingFormat;
-    AVAudioFrameCount audioFileCapacity = (AVAudioFrameCount)audioFile.length;
-    if (*buffer == _filterAudioBuffer) {
-        _speechToneCapacity = audioFileCapacity;
-    } else if (*buffer == _noiseAudioBuffer) {
-        _noiseToneCapacity = audioFileCapacity;
-    } else {
-        AVAsset *asset = [AVURLAsset URLAssetWithURL:fileURL options:nil];
-        CMTime audioDuration = asset.duration;
-        _toneDuration = CMTimeGetSeconds(audioDuration);
-    }
-    *buffer = [[AVAudioPCMBuffer alloc] initWithPCMFormat:audioFileFormat frameCapacity:audioFileCapacity];
-    [audioFile readIntoBuffer:*buffer error:nil];
+    [self loadFileAtURL:fileURL intoBuffer:buffer];
 }
 
 - (void)installTap {

@@ -64,6 +64,7 @@
 #import <ResearchKit/ORKTask.h>
 #import <ResearchKit/ORKOrderedTask.h>
 #import <ResearchKit/ORKOrderedTask+ORKPredefinedActiveTask.h>
+#import <ResearchKit/ORKSpeechInNoisePredefinedTask.h>
 #import <ResearchKit/ORKNavigableOrderedTask.h>
 #import <ResearchKit/ORKStepNavigationRule.h>
 

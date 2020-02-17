@@ -51,13 +51,42 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+typedef NS_ENUM(NSInteger, ORKESerializationPropertyModifierType) {
+    ORKESerializationPropertyModifierTypePath
+} ORK_ENUM_AVAILABLE;
+
+@interface ORKESerializationPropertyModifier: NSObject
+
+- (instancetype)initWithKeypath:(NSString *)keypath value:(id)value type:(ORKESerializationPropertyModifierType)type;
+
+@property (nonatomic, copy, readonly) NSString *keypath;
+@property (nonatomic, copy, readonly) id value;
+@property (nonatomic, assign, readonly) ORKESerializationPropertyModifierType type;
+
+@end
+
+@interface ORKESerializationPropertyInjector : NSObject
+
+- (instancetype)initWithBundle:(NSBundle *)bundle modifiers:(nullable NSArray<ORKESerializationPropertyModifier *> *)modifiers;
+
+@property (nonatomic, strong, readonly) NSBundle *bundle;
+@property (nonatomic, copy, readonly) NSDictionary<NSString *, id> *propertyValues;
+
+@end
+
 @interface ORKESerializationContext : NSObject
 
 - (instancetype)initWithLocalizer:(nullable ORKESerializationLocalizer *)localizer
-                    imageProvider:(nullable id<ORKESerializationImageProvider>)imageProvider;
+                    imageProvider:(nullable id<ORKESerializationImageProvider>)imageProvider
+                 propertyInjector:(nullable ORKESerializationPropertyInjector *)propertyInjector;
+
+- (instancetype)initWithBundle:(NSBundle *)bundle
+         localizationTableName:(NSString *)localizationTableName
+             propertyModifiers:(nullable NSArray<ORKESerializationPropertyModifier *> *)modifiers;
 
 @property (nonatomic, strong, nullable) ORKESerializationLocalizer *localizer;
 @property (nonatomic, strong, nullable) id<ORKESerializationImageProvider> imageProvider;
+@property (nonatomic, strong, nullable) ORKESerializationPropertyInjector *propertyInjector;
 
 @end
 
