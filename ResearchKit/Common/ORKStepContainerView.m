@@ -342,7 +342,6 @@ static const CGFloat ORKBodyItemScrollPadding = 24.0;
 - (void)placeNavigationContainerInsideScrollView {
     self.isNavigationContainerScrollable = YES;
     [self setupConstraints];
-    [self setupUpdatedConstraints];
     [self placeNavigationContainerView];
 }
 
