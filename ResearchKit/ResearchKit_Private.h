@@ -142,7 +142,9 @@
 #import <ResearchKit/ORKRingView.h>
 #import <ResearchKit/ORKProgressView.h>
 #import <ResearchKit/ORKFreehandDrawingView.h>
+#import <ResearchKit/ORKAudioMeteringView.h>
 #import <ResearchKit/ORKAudioGraphView.h>
+#import <ResearchKit/ORKAudioDictationView.h>
 #import <ResearchKit/ORKInstructionStepContainerView.h>
 
 #import <ResearchKit/ORKLabel.h>

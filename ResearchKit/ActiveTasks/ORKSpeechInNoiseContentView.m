@@ -30,7 +30,7 @@
 
 
 #import "ORKSpeechInNoiseContentView.h"
-#import "ORKAudioGraphView.h"
+#import "ORKAudioMeteringView.h"
 
 #import "ORKHeadlineLabel.h"
 #import "ORKSubheadlineLabel.h"
@@ -43,7 +43,7 @@
 
 @interface ORKSpeechInNoiseContentView () <UITextFieldDelegate>
 
-@property (nonatomic, strong) ORKAudioGraphView *graphView;
+@property (nonatomic, strong) ORKAudioMeteringView *graphView;
 @property (nonatomic, strong) ORKSubheadlineLabel *transcriptLabel;
 
 @end
@@ -81,8 +81,9 @@
 }
 
 - (void)setupGraphView {
-    self.graphView = [ORKAudioGraphView new];
+    self.graphView = [[ORKAudioMeteringView alloc] init];
     _graphView.translatesAutoresizingMaskIntoConstraints = NO;
+    [_graphView setMeterColor:self.tintColor];
     
     [self addSubview:_graphView];
 }
@@ -163,7 +164,7 @@
 }
 
 - (void)updateGraphSamples {
-    _graphView.values = _samples;
+    _graphView.samples = _samples;
 }
 
 - (void)setGraphViewHidden:(BOOL)hidden {
