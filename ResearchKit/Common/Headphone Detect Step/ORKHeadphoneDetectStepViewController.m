@@ -201,6 +201,7 @@ static const NSTimeInterval ORKHeadphoneCellAnimationDuration = 0.2;
     [_orangeLabelImage sizeToFit];
     _orangeLabelImage.translatesAutoresizingMaskIntoConstraints = NO;
     _orangeLabel.text = ORKLocalizedString(@"NOISE_CANCELLATION_REQUIRED", nil);
+    _orangeLabel.numberOfLines = 0;
     _orangeLabel.textColor = UIColor.systemOrangeColor;
     _orangeLabel.font = [self subheadlineFontBold];
     _orangeLabel.textAlignment = NSTextAlignmentLeft;
@@ -215,6 +216,7 @@ static const NSTimeInterval ORKHeadphoneCellAnimationDuration = 0.2;
     
     [[_orangeLabel.topAnchor constraintEqualToAnchor:_extraLabelsContainerView.topAnchor] setActive:YES];
     [[_orangeLabel.leadingAnchor constraintEqualToAnchor:_orangeLabelImage.trailingAnchor constant:ORKHeadphoneDetectExtraLabelsSpacing * 0.5] setActive:YES];
+    [[_orangeLabel.trailingAnchor constraintEqualToAnchor:_extraLabelsContainerView.trailingAnchor constant: -ORKHeadphoneDetectStepSpacing] setActive:YES];
     
     [_labelContainerView addSubview:_extraLabelsContainerView];
     
