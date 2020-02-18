@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, Apple Inc. All rights reserved.
+ Copyright (c) 2020, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -29,11 +29,26 @@
  */
 
 @import UIKit;
-#import "ORKAudioMeteringView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ORKAudioGraphView : UIView <ORKAudioMetering, ORKAudioMeteringDisplay>
+@protocol ORKAudioMetering <NSObject>
+
+- (void)setSamples:(nullable NSArray<NSNumber *> *)samples;
+
+- (void)setAlertThreshold:(float)threshold;
+
+@end
+
+@protocol ORKAudioMeteringDisplay
+
+- (void)setMeterColor:(nonnull UIColor *)meterColor;
+
+- (void)setAlertColor:(nonnull UIColor *)alertColor;
+
+@end
+
+@interface ORKAudioMeteringView : UIView <ORKAudioMetering, ORKAudioMeteringDisplay>
 
 @end
 

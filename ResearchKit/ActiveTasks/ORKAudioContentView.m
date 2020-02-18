@@ -30,7 +30,7 @@
 
 
 #import "ORKAudioContentView.h"
-#import "ORKAudioGraphView.h"
+#import "ORKAudioMeteringView.h"
 
 #import "ORKHeadlineLabel.h"
 #import "ORKLabel.h"
@@ -65,7 +65,7 @@ static const CGFloat GraphViewRedZoneHeight = 25;
 
 @property (nonatomic, strong) ORKHeadlineLabel *alertLabel;
 @property (nonatomic, strong) UILabel *timerLabel;
-@property (nonatomic, strong) ORKAudioGraphView *graphView;
+@property (nonatomic, strong) ORKAudioMeteringView *graphView;
 
 @end
 
@@ -85,7 +85,7 @@ static const CGFloat GraphViewRedZoneHeight = 25;
         self.timerLabel = [ORKAudioTimerLabel new];
         _timerLabel.translatesAutoresizingMaskIntoConstraints = NO;
         _timerLabel.textAlignment = NSTextAlignmentRight;
-        self.graphView = [ORKAudioGraphView new];
+        self.graphView = [[ORKAudioMeteringView alloc] init];
         _graphView.translatesAutoresizingMaskIntoConstraints = NO;
         self.translatesAutoresizingMaskIntoConstraints = NO;
         
@@ -125,7 +125,7 @@ static const CGFloat GraphViewRedZoneHeight = 25;
 - (void)applyKeyColor {
     UIColor *keyColor = [self keyColor];
     _timerLabel.textColor = keyColor;
-    _graphView.keyColor = keyColor;
+    _graphView.meterColor = keyColor;
 }
 
 - (UIColor *)keyColor {
@@ -206,7 +206,7 @@ static const CGFloat GraphViewRedZoneHeight = 25;
 }
 
 - (void)updateGraphSamples {
-    _graphView.values = _samples;
+    _graphView.samples = _samples;
     [self updateAlertLabelHidden];
 }
 

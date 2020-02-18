@@ -30,7 +30,7 @@
 
 
 #import "ORKSpeechRecognitionContentView.h"
-#import "ORKAudioGraphView.h"
+#import "ORKAudioMeteringView.h"
 
 #import "ORKHeadlineLabel.h"
 #import "ORKSubheadlineLabel.h"
@@ -43,7 +43,7 @@
 
 @interface ORKSpeechRecognitionContentView () <UITextFieldDelegate>
 
-@property (nonatomic, strong) ORKAudioGraphView *graphView;
+@property (nonatomic, strong) ORKAudioMeteringView *graphView;
 @property (nonatomic, strong) ORKSubheadlineLabel *transcriptLabel;
 
 @end
@@ -94,7 +94,7 @@
 }
 
 - (void)setupGraphView {
-    self.graphView = [ORKAudioGraphView new];
+    self.graphView = [[ORKAudioMeteringView alloc] init];
     _graphView.translatesAutoresizingMaskIntoConstraints = NO;
     _graphView.isAccessibilityElement = YES;
     _graphView.accessibilityLabel = ORKLocalizedString(@"AX_SPEECH_RECOGNITION_WAVEFORM", nil);
@@ -145,7 +145,7 @@
 
 - (void)applyKeyColor {
     UIColor *keyColor = [self keyColor];
-    _graphView.keyColor = keyColor;
+    [_graphView setMeterColor:keyColor];
 }
 
 - (UIColor *)keyColor {
@@ -221,7 +221,7 @@
 }
 
 - (void)updateGraphSamples {
-    _graphView.values = _samples;
+    _graphView.samples = _samples;
 }
 
 - (void)addSample:(NSNumber *)sample {
