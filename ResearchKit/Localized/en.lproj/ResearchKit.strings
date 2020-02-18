@@ -346,7 +346,7 @@
 "dBHL_TONE_AUDIOMETRY_OPTION_RIGHT" = "right";
 "dBHL_TONE_AUDIOMETRY_OPTION_NO_PREFERENCE" = "no preference";
 "dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "Headphones Disconnected";
-"dBHL_NOISE_CANCELLING_ALERT_TEXT" = "Turn on AirPods Pro Noise Cancellation mode to take this test";
+"dBHL_NOISE_CANCELLING_ALERT_TEXT" = "Turn on AirPods Pro Noise Cancellation mode to take this test.";
 "dBHL_ALERT_TITLE_START_OVER" = "Start Again";
 "dBHL_ALERT_TITLE_CANCEL_TEST" = "Cancel Test";
 "dBHL_ALERT_TEXT" = "Reconnect your AirPods or EarPods to take this test.";
