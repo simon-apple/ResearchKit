@@ -486,6 +486,8 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     }
     _anyHeadphoneView.translatesAutoresizingMaskIntoConstraints = NO;
     [_stackView addArrangedSubview:_anyHeadphoneView];
+    [[_anyHeadphoneView.leadingAnchor constraintEqualToAnchor:_stackView.leadingAnchor] setActive:YES];
+    [[_anyHeadphoneView.heightAnchor constraintEqualToConstant:ORKHeadphoneDetectCellStepSize] setActive:YES];
 }
 
 - (void)setHeadphoneDetected:(ORKHeadphoneDetected)headphoneDetected {
