@@ -36,6 +36,7 @@
 #import "ORKSpeechRecognitionStep.h"
 #import "ORKAnswerFormat.h"
 #import "ORKQuestionStep.h"
+#import "ORKHeadphoneDetectStep.h"
 
 @interface ORKSpeechInNoiseSample : NSObject
 
@@ -192,6 +193,8 @@
     return [steps copy];
 }
 
+#define HIDE_HEADPHONE_DETECT_STEP 0
+
 + (nullable NSArray<ORKStep *> *)speechInNoisePredefinedTaskStepsWithAudioSetManifestPath:(nonnull NSString *)manifestPath error:(NSError * _Nullable * _Nullable)error
 {
     NSArray *audioFileSamples = [ORKSpeechInNoisePredefinedTask prefetchAudioSamplesFromManifestAtPath:manifestPath error:error];
@@ -203,6 +206,17 @@
     typedef NSString * ORKSpeechInNoiseStepIdentifier NS_STRING_ENUM;
 
     NSMutableArray<ORKStep *> *steps = [[NSMutableArray alloc] init];
+    
+#if !HIDE_HEADPHONE_DETECT_STEP
+    {
+        ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierHeadphoneDetectStep = @"ORKSpeechInNoiseStepIdentifierHeadphoneDetectStep";
+        ORKHeadphoneDetectStep *step = [[ORKHeadphoneDetectStep alloc] initWithIdentifier:ORKSpeechInNoiseStepIdentifierHeadphoneDetectStep headphoneTypes:ORKHeadphoneTypesAny];
+        step.title = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_DETECT_TITLE", nil);
+        step.detailText = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_DETECT_TEXT", nil);
+        step.optional = NO;
+        [steps addObject:step];
+    }
+#endif
     
     {
         ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierSpeechInNoiseStep = @"ORKSpeechInNoiseStepIdentifierSpeechInNoiseStep";

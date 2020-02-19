@@ -590,6 +590,10 @@
 "SPEECH_IN_NOISE_SPEAK_TITLE" = "Speak";
 "SPEECH_IN_NOISE_SPEAK_TEXT" = "Repeat what you heard.";
 
+/* Speech In Noise Predefined Task */
+"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_DETECT_TITLE" = "Connect Your Headphones";
+"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_DETECT_TEXT" = "This test requires Apple EarPods or Apple AirPods.";
+
 /* Potentially user visible error messages. */
 "ERROR_DATALOGGER_CREATE_FILE" = "Could not create file";
 "ERROR_DATALOGGER_COULD_NOT_FREE_SPACE" = "Could not remove sufficient log files to reach threshold";
