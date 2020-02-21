@@ -235,33 +235,36 @@
 #endif
     
     {
-        ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierSpeechInNoiseStep = @"ORKSpeechInNoiseStepIdentifierSpeechInNoiseStep";
-        ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierSpeechRecognitionStep = @"ORKSpeechInNoiseStepIdentifierSpeechRecognitionStep";
-        ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierEditSpeechTranscriptStep = @"ORKSpeechInNoiseStepIdentifierEditSpeechTranscriptStep";
+        ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierSpeechInNoiseStep = @"PLAYBACK";
+        ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierSpeechRecognitionStep = @"SPEECH_RECOGNITION";
+        ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierEditSpeechTranscriptStep = @"TRANSCRIPT";
         
         [audioFileSamples enumerateObjectsUsingBlock:^(ORKSpeechInNoiseSample * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             
+            NSString *fileName = [[obj.path stringByDeletingPathExtension] lastPathComponent];
+            NSString *listName = [[obj.path stringByDeletingLastPathComponent] lastPathComponent];
+            
             // Speech In Noise
             {
-                ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@.%lu", ORKSpeechInNoiseStepIdentifierSpeechInNoiseStep, idx];
+                ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@_%@_%@", listName.uppercaseString, fileName.uppercaseString, ORKSpeechInNoiseStepIdentifierSpeechInNoiseStep];
                 ORKSpeechInNoiseStep *step = [[ORKSpeechInNoiseStep alloc] initWithIdentifier:stepIdentifier];
                 step.speechFilePath = obj.path;
-                step.title = @"Listen";
-                step.text = @"Each sentence only plays once.";
-                step.detailText = [NSString stringWithFormat:@"Sentence %lu of %lu", idx + 1, audioFileSamples.count];
+                step.title = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_LISTEN_TITLE", nil);
+                step.text = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_LISTEN_TEXT", nil);
+                step.detailText = [NSString stringWithFormat:ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_LISTEN_SENTENCE_X_OF_Y", nil), idx + 1, audioFileSamples.count];
                 step.optional = NO;
                 [steps addObject:step];
             }
             
             // Speech Recognition
             {
-                ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@.%lu", ORKSpeechInNoiseStepIdentifierSpeechRecognitionStep, idx];
+                ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@_%@_%@", listName.uppercaseString, fileName.uppercaseString, ORKSpeechInNoiseStepIdentifierSpeechRecognitionStep];
                 ORKStreamingAudioRecorderConfiguration *config = [[ORKStreamingAudioRecorderConfiguration alloc] initWithIdentifier:@"streamingAudio"];
-                ORKSpeechRecognitionStep *step = [[ORKSpeechRecognitionStep alloc] initWithIdentifier:stepIdentifier image:nil text:obj.transcript];
+                ORKSpeechRecognitionStep *step = [[ORKSpeechRecognitionStep alloc] initWithIdentifier:stepIdentifier image:nil text:nil];
                 step.shouldHideTranscript = YES;
                 step.recorderConfigurations = @[config];
                 step.speechRecognizerLocale = @"en-US";
-                step.title = @"Repeat what you heard";
+                step.title = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_REPEAT_TITLE", nil);
                 step.optional = NO;
                 [steps addObject:step];
             }
@@ -272,12 +275,12 @@
                 answerFormat.spellCheckingType = UITextSpellCheckingTypeNo;
                 answerFormat.autocorrectionType = UITextAutocorrectionTypeNo;
                 
-                ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@.%lu", ORKSpeechInNoiseStepIdentifierEditSpeechTranscriptStep, idx];
+                ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@_%@_%@", listName.uppercaseString, fileName.uppercaseString, ORKSpeechInNoiseStepIdentifierEditSpeechTranscriptStep];
                 ORKQuestionStep *step = [ORKQuestionStep questionStepWithIdentifier:stepIdentifier
-                                                                              title:@"Review Transcript"
+                                                                              title:ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_REVIEW_TITLE", nil)
                                                                            question:nil
                                                                              answer:answerFormat];
-                step.text = @"Correct any errors in your recording.";
+                step.text = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_REVIEW_TEXT", nil);
                 step.optional = NO;
                 [steps addObject:step];
             }
