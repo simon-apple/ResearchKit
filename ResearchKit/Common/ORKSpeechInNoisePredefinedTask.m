@@ -37,6 +37,7 @@
 #import "ORKAnswerFormat.h"
 #import "ORKQuestionStep.h"
 #import "ORKHeadphoneDetectStep.h"
+#import "ORKEnvironmentSPLMeterStep.h"
 
 @interface ORKSpeechInNoiseSample : NSObject
 
@@ -194,6 +195,7 @@
 }
 
 #define HIDE_HEADPHONE_DETECT_STEP 0
+#define HIDE_ENVIRONMENT_SPL_STEP 0
 
 + (nullable NSArray<ORKStep *> *)speechInNoisePredefinedTaskStepsWithAudioSetManifestPath:(nonnull NSString *)manifestPath error:(NSError * _Nullable * _Nullable)error
 {
@@ -213,6 +215,20 @@
         ORKHeadphoneDetectStep *step = [[ORKHeadphoneDetectStep alloc] initWithIdentifier:ORKSpeechInNoiseStepIdentifierHeadphoneDetectStep headphoneTypes:ORKHeadphoneTypesAny];
         step.title = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_DETECT_TITLE", nil);
         step.detailText = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_DETECT_TEXT", nil);
+        step.optional = NO;
+        [steps addObject:step];
+    }
+#endif
+    
+#if !HIDE_ENVIRONMENT_SPL_STEP
+    {
+        ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierEnvironmentSPLStep = @"ORKSpeechInNoiseStepIdentifierEnvironmentSPLStep";
+        ORKEnvironmentSPLMeterStep *step = [[ORKEnvironmentSPLMeterStep alloc] initWithIdentifier:ORKSpeechInNoiseStepIdentifierEnvironmentSPLStep];
+        step.title = ORKLocalizedString(@"ENVIRONMENTSPL_TITLE_2", nil);
+        step.text = ORKLocalizedString(@"ENVIRONMENTSPL_INTRO_TEXT_2", nil);
+        step.thresholdValue = 60;
+        step.requiredContiguousSamples = 5;
+        step.samplingInterval = 1;
         step.optional = NO;
         [steps addObject:step];
     }
