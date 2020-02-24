@@ -1261,6 +1261,12 @@ static NSMutableDictionary *ORKESerializationEncodingTable() {
                     PROPERTY(sensitivityOffset, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(recordedSPLMeterSamples, NSNumber, NSArray, YES, nil, nil)
                     })),
+           ENTRY(ORKVolumeCalibrationStep,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+                    return [[ORKVolumeCalibrationStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
+                },
+                (@{
+                   })),
            ENTRY(ORKStreamingAudioRecorderConfiguration,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      return [[ORKStreamingAudioRecorderConfiguration alloc] initWithIdentifier:GETPROP(dict, identifier)];

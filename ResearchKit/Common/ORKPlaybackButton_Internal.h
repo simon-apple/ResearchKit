@@ -28,34 +28,13 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@import Foundation;
-#import <ResearchKit/ORKNavigableOrderedTask.h>
+#import "ORKPlaybackButton.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class ORKStep;
+@interface ORKPlaybackButton ()
 
-ORK_CLASS_AVAILABLE
-@interface ORKSpeechInNoisePredefinedTask : ORKNavigableOrderedTask
-
-+ (instancetype)new NS_UNAVAILABLE;
-
-- (instancetype)init NS_UNAVAILABLE;
-
-- (instancetype)initWithCoder:(NSCoder *)aDecoder NS_DESIGNATED_INITIALIZER;
-
-- (instancetype)initWithIdentifier:(NSString *)identifier steps:(nullable NSArray<ORKStep *> *)steps NS_UNAVAILABLE;
-
-- (instancetype)initWithIdentifier:(nonnull NSString *)identifier
-              audioSetManifestPath:(nonnull NSString *)audioSetManifestPath
-                      prependSteps:(nullable NSArray<ORKStep *> *)prependSteps
-                       appendSteps:(nullable NSArray<ORKStep *> *)appendSteps NS_DESIGNATED_INITIALIZER;
-
-@property (nonatomic, readonly, nonnull) NSString *audioSetManifestPath;
-
-@property (nonatomic, readonly, nullable) NSArray<ORKStep *> *prependSteps;
-
-@property (nonatomic, readonly, nullable) NSArray<ORKStep *> *appendSteps;
+@property (nonatomic, strong) UIImageView *iconImageView;
 
 @end
 

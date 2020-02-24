@@ -38,6 +38,7 @@
 #import "ORKQuestionStep.h"
 #import "ORKHeadphoneDetectStep.h"
 #import "ORKEnvironmentSPLMeterStep.h"
+#import "ORKVolumeCalibrationStep.h"
 
 @interface ORKSpeechInNoiseSample : NSObject
 
@@ -196,6 +197,7 @@
 
 #define HIDE_HEADPHONE_DETECT_STEP 0
 #define HIDE_ENVIRONMENT_SPL_STEP 0
+#define HIDE_VOLUME_CALIBRATION_STEP 0
 
 + (nullable NSArray<ORKStep *> *)speechInNoisePredefinedTaskStepsWithAudioSetManifestPath:(nonnull NSString *)manifestPath error:(NSError * _Nullable * _Nullable)error
 {
@@ -215,6 +217,16 @@
         ORKHeadphoneDetectStep *step = [[ORKHeadphoneDetectStep alloc] initWithIdentifier:ORKSpeechInNoiseStepIdentifierHeadphoneDetectStep headphoneTypes:ORKHeadphoneTypesAny];
         step.title = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_DETECT_TITLE", nil);
         step.detailText = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_DETECT_TEXT", nil);
+        step.optional = NO;
+        [steps addObject:step];
+    }
+#endif
+    
+#if !HIDE_VOLUME_CALIBRATION_STEP
+    {
+        ORKVolumeCalibrationStep *step = [[ORKVolumeCalibrationStep alloc] initWithIdentifier:@""];
+        step.title = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_VOLUME_CALIBRATION_TITLE", nil);
+        step.detailText = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_VOLUME_CALIBRATION_TEXT", nil);
         step.optional = NO;
         [steps addObject:step];
     }

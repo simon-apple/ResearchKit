@@ -28,34 +28,23 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@import Foundation;
-#import <ResearchKit/ORKNavigableOrderedTask.h>
+@import UIKit;
+#import "ORKCustomStepView_Internal.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class ORKStep;
+@class ORKVolumeCalibrationContentView;
+@class ORKPlaybackButton;
 
-ORK_CLASS_AVAILABLE
-@interface ORKSpeechInNoisePredefinedTask : ORKNavigableOrderedTask
+@protocol ORKVolumeCalibrationContentViewDelegate <NSObject>
 
-+ (instancetype)new NS_UNAVAILABLE;
+- (BOOL)contentView:(ORKVolumeCalibrationContentView *)contentView didPressPlaybackButton:(ORKPlaybackButton *)playbackButton;
 
-- (instancetype)init NS_UNAVAILABLE;
+@end
 
-- (instancetype)initWithCoder:(NSCoder *)aDecoder NS_DESIGNATED_INITIALIZER;
+@interface ORKVolumeCalibrationContentView : ORKActiveStepCustomView
 
-- (instancetype)initWithIdentifier:(NSString *)identifier steps:(nullable NSArray<ORKStep *> *)steps NS_UNAVAILABLE;
-
-- (instancetype)initWithIdentifier:(nonnull NSString *)identifier
-              audioSetManifestPath:(nonnull NSString *)audioSetManifestPath
-                      prependSteps:(nullable NSArray<ORKStep *> *)prependSteps
-                       appendSteps:(nullable NSArray<ORKStep *> *)appendSteps NS_DESIGNATED_INITIALIZER;
-
-@property (nonatomic, readonly, nonnull) NSString *audioSetManifestPath;
-
-@property (nonatomic, readonly, nullable) NSArray<ORKStep *> *prependSteps;
-
-@property (nonatomic, readonly, nullable) NSArray<ORKStep *> *appendSteps;
+@property (nonatomic, weak, nullable) id<ORKVolumeCalibrationContentViewDelegate> delegate;
 
 @end
 
