@@ -83,8 +83,7 @@
 - (void)setupGraphView {
     self.graphView = [[ORKAudioMeteringView alloc] init];
     _graphView.translatesAutoresizingMaskIntoConstraints = NO;
-    [_graphView setMeterColor:self.tintColor];
-    
+    [_graphView setMeterColor:[UIColor lightGrayColor]];
     [self addSubview:_graphView];
 }
 
@@ -122,70 +121,47 @@
     [self applyAlertColor];
 }
 
-- (void)setUpConstraints {
-    NSMutableArray *constraints = [NSMutableArray array];
-    
-    NSDictionary *views = NSDictionaryOfVariableBindings(_textLabel, _graphView, _playButton);
-    const CGFloat graphHeight = 150;
-    
-    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[_textLabel]-(5)-[_graphView(graphHeight)]-buttonGap-[_playButton]-(>=topBottomMargin)-|"
-                                                                             options:(NSLayoutFormatOptions)0
-                                                                             metrics:@{
-                                                                                       @"graphHeight": @(graphHeight),
-                                                                                       @"topBottomMargin" : @(5),
-                                                                                       @"buttonGap" : @(20)
-                                                                                       }
-                                                                               views:views]];
-    
-    
-    const CGFloat sideMargin = self.layoutMargins.left + (2 * ORKStandardLeftMarginForTableViewCell(self));
-    const CGFloat twiceSideMargin = sideMargin * 2;
-    
-    
-    [constraints addObjectsFromArray:
-     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_textLabel]-|"
-                                             options:0
-                                             metrics: nil
-                                               views:views]];
-    [constraints addObjectsFromArray:
-     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-sideMargin-[_graphView]-sideMargin-|"
-                                             options:0
-                                             metrics: @{@"sideMargin": @(sideMargin)}
-                                               views:views]];
-    
-    
-    [constraints addObjectsFromArray:
-     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-twiceSideMargin-[_playButton(>=200)]-twiceSideMargin-|"
-                                             options:0
-                                             metrics: @{@"twiceSideMargin": @(twiceSideMargin)}
-                                               views:views]];
-    
-    [NSLayoutConstraint activateConstraints:constraints];
+- (void)setUpConstraints
+{
+    [NSLayoutConstraint activateConstraints:@[
+        [_graphView.centerYAnchor constraintEqualToAnchor:self.centerYAnchor],
+        [_graphView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor],
+        [_graphView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor],
+        [_graphView.heightAnchor constraintEqualToConstant:200.0],
+        [_playButton.centerXAnchor constraintEqualToAnchor:self.centerXAnchor],
+        [_playButton.topAnchor constraintEqualToAnchor:_graphView.bottomAnchor constant:20],
+        [_playButton.bottomAnchor constraintEqualToAnchor:self.bottomAnchor]
+    ]];
 }
 
-- (void)updateGraphSamples {
+- (void)updateGraphSamples
+{
     _graphView.samples = _samples;
 }
 
-- (void)setGraphViewHidden:(BOOL)hidden {
+- (void)setGraphViewHidden:(BOOL)hidden
+{
     [_graphView setHidden:hidden];
 }
 
-- (void)addSample:(NSNumber *)sample {
+- (void)addSample:(NSNumber *)sample
+{
     NSAssert(sample != nil, @"Sample should be non-nil");
-    if (!_samples) {
-        _samples = [NSMutableArray array];
-    }
+    if (!_samples) { _samples = [NSMutableArray array]; }
+    
     [_samples addObject:sample];
+    
     // Try to keep around 250 samples
-    if (_samples.count > 500) {
+    if (_samples.count > 500)
+    {
         _samples = [[_samples subarrayWithRange:(NSRange){250, _samples.count - 250}] mutableCopy];
     }
+    
     [self updateGraphSamples];
 }
 
-
-- (void)removeAllSamples {
+- (void)removeAllSamples
+{
     _samples = nil;
     [self updateGraphSamples];
 }
