@@ -34,6 +34,9 @@
 #import <ResearchKit/ORKHelpers_Private.h>
 #import <ResearchKit/ORKHelpers_Internal.h>
 
+// Predefined Tasks
+#import <ResearchKit/ORKSpeechInNoisePredefinedTask.h>
+
 // Active step support
 #import <ResearchKit/ORKDataLogger.h>
 #import <ResearchKit/ORKErrors.h>
@@ -80,6 +83,7 @@
 #import <ResearchKit/ORKWalkingTaskStep.h>
 #import <ResearchKit/ORKSpeechRecognitionStep.h>
 #import <ResearchKit/ORKSpeechInNoiseStep.h>
+#import <ResearchKit/ORKVolumeCalibrationStep.h>
 
 #import <ResearchKit/ORKTaskViewController_Private.h>
 #import <ResearchKit/ORKFormStepViewController_Private.h>
@@ -110,6 +114,7 @@
 #import <ResearchKit/ORKVideoInstructionStepViewController.h>
 #import <ResearchKit/ORKSpeechRecognitionStepViewController.h>
 #import <ResearchKit/ORKLearnMoreStepViewController.h>
+#import <ResearchKit/ORKVolumeCalibrationStepViewController.h>
 
 #import <ResearchKit/ORKAccelerometerRecorder.h>
 #import <ResearchKit/ORKAudioRecorder.h>
