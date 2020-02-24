@@ -89,7 +89,7 @@ static float TransformRange(float x, float a, float b, float c, float d)
     
     self.flamesView = [[SUICFlamesView alloc] initWithFrame:CGRectZero screen:UIScreen.mainScreen fidelity:SUICFlamesViewFidelityHigh];
     self.flamesView.mode = SUICFlamesViewModeDictation;
-    self.flamesView.state = SUICFlamesViewStateAboutToListen;
+    self.flamesView.state = SUICFlamesViewStateThinking;
     self.flamesView.flamesDelegate = self;
     self.flamesView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:self.flamesView];
@@ -110,7 +110,7 @@ static float TransformRange(float x, float a, float b, float c, float d)
     
     if (!_samples || _samples.count == 0)
     {
-        [self.flamesView setState:SUICFlamesViewStateAboutToListen];
+        [self.flamesView setState:SUICFlamesViewStateThinking];
     }
     else
     {
@@ -146,9 +146,9 @@ static float TransformRange(float x, float a, float b, float c, float d)
         float currentSample = [[mutableSamples lastObject] floatValue];
         [mutableSamples removeLastObject];
         _samples = [mutableSamples copy];
-        
+
         currentSample = TRANSFORM_RANGE_TO_POWER_LEVEL(currentSample);
-        
+
         if (currentSample < ORKAudioDictationViewAveragePowerLevelMinimum)
         {
             currentSample = ORKAudioDictationViewAveragePowerLevelMinimum;
@@ -157,7 +157,7 @@ static float TransformRange(float x, float a, float b, float c, float d)
         {
             currentSample = ORKAudioDictationViewAveragePowerLevelMinimum;
         }
-        
+
         if (currentSample > _alertThreshold && _alertColor)
         {
             [self.flamesView setDictationColor:_alertColor];
@@ -166,7 +166,7 @@ static float TransformRange(float x, float a, float b, float c, float d)
         {
             [self.flamesView setDictationColor:_meterColor];
         }
-        
+
         return currentSample;
     }
     else

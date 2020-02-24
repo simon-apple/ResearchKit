@@ -31,6 +31,7 @@
 #import "ORKSpeechInNoisePredefinedTask.h"
 #import "ORKHelpers_Internal.h"
 #import "ORKStep.h"
+#import "ORKBodyItem.h"
 #import "ORKRecorder.h"
 #import "ORKSpeechInNoiseStep.h"
 #import "ORKSpeechRecognitionStep.h"
@@ -224,7 +225,8 @@
     
 #if !HIDE_VOLUME_CALIBRATION_STEP
     {
-        ORKVolumeCalibrationStep *step = [[ORKVolumeCalibrationStep alloc] initWithIdentifier:@""];
+        ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierVolumeCalibrationStep = @"ORKSpeechInNoiseStepIdentifierVolumeCalibrationStep";
+        ORKVolumeCalibrationStep *step = [[ORKVolumeCalibrationStep alloc] initWithIdentifier:ORKSpeechInNoiseStepIdentifierVolumeCalibrationStep];
         step.title = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_VOLUME_CALIBRATION_TITLE", nil);
         step.detailText = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_VOLUME_CALIBRATION_TEXT", nil);
         step.optional = NO;
@@ -261,10 +263,12 @@
                 ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@_%@_%@", listName.uppercaseString, fileName.uppercaseString, ORKSpeechInNoiseStepIdentifierSpeechInNoiseStep];
                 ORKSpeechInNoiseStep *step = [[ORKSpeechInNoiseStep alloc] initWithIdentifier:stepIdentifier];
                 step.speechFilePath = obj.path;
+                step.gainAppliedToNoise = 0.51;
                 step.title = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_LISTEN_TITLE", nil);
                 step.text = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_LISTEN_TEXT", nil);
                 step.detailText = [NSString stringWithFormat:ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_LISTEN_SENTENCE_X_OF_Y", nil), idx + 1, audioFileSamples.count];
                 step.optional = NO;
+                step.hideGraphView = NO;
                 [steps addObject:step];
             }
             

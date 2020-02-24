@@ -174,7 +174,7 @@
 
     AVAudioFormat *mainMixerFormat = [[_audioEngine mainMixerNode] outputFormatForBus:0];
     
-    [_mixerNode installTapOnBus:0 bufferSize:1024 format:mainMixerFormat block:^(AVAudioPCMBuffer * _Nonnull buffer5, AVAudioTime * _Nonnull when) {
+    [_mixerNode installTapOnBus:0 bufferSize:64 format:mainMixerFormat block:^(AVAudioPCMBuffer * _Nonnull buffer5, AVAudioTime * _Nonnull when) {
         float * const *channelData = [buffer5 floatChannelData];
         if (channelData[0]) {
             float avgValue = 0;
