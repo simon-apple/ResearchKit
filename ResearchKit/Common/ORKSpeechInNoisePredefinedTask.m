@@ -202,9 +202,14 @@
 
 + (nullable NSArray<ORKStep *> *)speechInNoisePredefinedTaskStepsWithAudioSetManifestPath:(nonnull NSString *)manifestPath error:(NSError * _Nullable * _Nullable)error
 {
-    NSArray *audioFileSamples = [ORKSpeechInNoisePredefinedTask prefetchAudioSamplesFromManifestAtPath:manifestPath error:error];
-    if (*error)
+    NSError *localError = nil;
+    NSArray *audioFileSamples = [ORKSpeechInNoisePredefinedTask prefetchAudioSamplesFromManifestAtPath:manifestPath error:&localError];
+    if (localError)
     {
+        if (error != NULL)
+        {
+            *error = localError;
+        }
         return nil;
     }
     
