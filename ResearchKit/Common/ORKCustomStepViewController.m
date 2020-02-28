@@ -216,6 +216,7 @@
     _navigationFooterView.skipButtonItem = [self skipButtonItem];
     [_navigationFooterView updateContinueAndSkipEnabled];
     [_navigationFooterView setUseExtendedPadding:[self.step useExtendedPadding]];
+    [_navigationFooterView setOptional:self.step.isOptional];
     
     [_scrollView addSubview:_navigationFooterView];
 }
@@ -248,6 +249,11 @@
 
 - (void)scrollToPoint:(CGPoint)point {
     [_scrollView setContentOffset:point animated:YES];
+}
+
+- (void)setSkipButtonTitle:(NSString *)skipButtonTitle {
+    [super setSkipButtonTitle:skipButtonTitle];
+    [self setupNavigationFooterView];
 }
 
 @end
