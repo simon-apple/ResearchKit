@@ -138,7 +138,8 @@ typedef _Nullable id (^ORKESerializationJSONToObjectBlock)(id jsonObject, ORKESe
                                containerClass:(nullable Class)containerClass
                                writeAfterInit:(BOOL)writeAfterInit
                             objectToJSONBlock:(nullable ORKESerializationObjectToJSONBlock)objectToJSON
-                            jsonToObjectBlock:(nullable ORKESerializationJSONToObjectBlock)jsonToObjectBlock;
+                            jsonToObjectBlock:(nullable ORKESerializationJSONToObjectBlock)jsonToObjectBlock
+                            skipSerialization:(BOOL)skipSerialization;
 
 @end
 

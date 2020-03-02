@@ -372,7 +372,6 @@ ORK_MAKE_TEST_INIT(NSRegularExpression, (^{
 @property (nonatomic, readonly) NSArray<Class> *classesWithORKSerialization;
 @property (nonatomic, readonly) NSArray<Class> *classesWithSecureCoding;
 @property (nonatomic, readonly) NSArray<Class> *classesExcludedForORKESerialization;
-@property (nonatomic, readonly) NSArray<Class> *classesThatSkipSuperclass;
 @property (nonatomic, readonly) NSArray<NSString *> *propertyExclusionList;
 @property (nonatomic, readonly) NSArray<NSString *> *knownNotSerializedProperties;
 @property (nonatomic, readonly) NSArray<NSString *> *allowedUnTouchedKeys;
@@ -400,9 +399,6 @@ ORK_MAKE_TEST_INIT(NSRegularExpression, (^{
                                                  [ORKMotionActivityCollector class],
                                                  [ORKShoulderRangeOfMotionStep class],
                                                  ];
-        _classesThatSkipSuperclass = @[
-            [ORKSpeechInNoisePredefinedTask class]
-        ];
         
         _propertyExclusionList = @[
                                    @"superclass",
@@ -422,6 +418,7 @@ ORK_MAKE_TEST_INIT(NSRegularExpression, (^{
                                    @"ORKRegistrationStep.passcodeValidationRegex",
                                    @"ORKSpeechRecognitionResult.transcription",
                                    @"ORKTextAnswerFormat.validationRegex",
+                                   @"ORKSpeechInNoisePredefinedTask.steps",
                                    ];
         
         _knownNotSerializedProperties = @[
@@ -775,7 +772,6 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
     NSArray *propertyExclusionList = testConfiguration.propertyExclusionList;
     NSArray *knownNotSerializedProperties = testConfiguration.knownNotSerializedProperties;
     NSArray *allowedUnTouchedKeys = testConfiguration.allowedUnTouchedKeys;
-    NSArray *classesThatSkipSuperclass = testConfiguration.classesThatSkipSuperclass;
 
     // Test Each class
     for (Class aClass in classesWithORKSerialization) {
@@ -792,34 +788,40 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
         Class currentClass = aClass;
         while ([classesWithORKSerialization containsObject:currentClass]) {
             
-            objc_property_t *props = class_copyPropertyList(currentClass, &count);
+            objc_property_t *objcProperties = class_copyPropertyList(currentClass, &count);
             for (uint i = 0; i < count; i++) {
-                objc_property_t property = props[i];
-                ClassProperty *p = [[ClassProperty alloc] initWithObjcProperty:property];
+                objc_property_t objcProperty = objcProperties[i];
+                ClassProperty *classProperty = [[ClassProperty alloc] initWithObjcProperty:objcProperty];
                 
-                NSString *dottedPropertyName = [NSString stringWithFormat:@"%@.%@",NSStringFromClass(currentClass),p.propertyName];
-                if (![propertyExclusionList containsObject: p.propertyName] &&
-                    ![propertyExclusionList containsObject: dottedPropertyName]) {
-                    if (p.isPrimitiveType == NO) {
+                NSString *dottedPropertyName = [NSString stringWithFormat:@"%@.%@",
+                                                NSStringFromClass(currentClass),
+                                                classProperty.propertyName];
+                NSString *dottedOriginalClassPropertyName = [NSString stringWithFormat:@"%@.%@",
+                                                             NSStringFromClass(aClass),
+                                                             classProperty.propertyName];
+                if (![propertyExclusionList containsObject:classProperty.propertyName] &&
+                    ![propertyExclusionList containsObject:dottedPropertyName] &&
+                    ![propertyExclusionList containsObject:dottedOriginalClassPropertyName]) {
+                    if (classProperty.isPrimitiveType == NO) {
                         // Assign value to object type property
-                        if (p.propertyClass == [NSObject class] && (aClass == [ORKTextChoice class] || aClass == [ORKImageChoice class]))
+                        if (classProperty.propertyClass == [NSObject class] &&
+                            (aClass == [ORKTextChoice class] || aClass == [ORKImageChoice class]))
                         {
                             // Map NSObject to string, since it's used where either a string or a number is acceptable
-                            [instance setValue:@"test" forKey:p.propertyName];
+                            [instance setValue:@"test" forKey:classProperty.propertyName];
                         } else {
-                            id itemInstance = [self instanceForClass:p.propertyClass];
-                            [instance setValue:itemInstance forKey:p.propertyName];
+                            id itemInstance = [self instanceForClass:classProperty.propertyClass];
+                            [instance setValue:itemInstance forKey:classProperty.propertyName];
                         }
                     }
-                    [propertyNames addObject:p.propertyName];
-                    dottedPropertyNames[p.propertyName] = dottedPropertyName;
+                    if ([classProperty.propertyName isEqualToString:@"steps"]) {
+                        NSLog(@"steps");
+                    }
+                    [propertyNames addObject:classProperty.propertyName];
+                    dottedPropertyNames[classProperty.propertyName] = dottedPropertyName;
                 }
             }
-            if ([classesThatSkipSuperclass containsObject:currentClass]) {
-                currentClass = nil;
-            } else {
-                currentClass = [currentClass superclass];
-            }
+            currentClass = [currentClass superclass];
         }
         
         if ([aClass isSubclassOfClass:[ORKTextScaleAnswerFormat class]]) {
@@ -855,9 +857,9 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
         XCTAssertTrue([NSStringFromClass(aClass) isEqualToString:mockDictionary[@"_class"]]);
         
         // All properties should have matching fields in dictionary (allow predefined exceptions)
-        for (NSString *pName in propertyNames) {
-            if (mockDictionary[pName] == nil) {
-                NSString *notSerializedProperty = dottedPropertyNames[pName];
+        for (NSString *propertyName in propertyNames) {
+            if (mockDictionary[propertyName] == nil) {
+                NSString *notSerializedProperty = dottedPropertyNames[propertyName];
                 BOOL success = [knownNotSerializedProperties containsObject:notSerializedProperty];
                 if (!success) {
                     XCTAssertTrue(success, "Unexpected notSerializedProperty = %@ (%@)", notSerializedProperty, NSStringFromClass(aClass));

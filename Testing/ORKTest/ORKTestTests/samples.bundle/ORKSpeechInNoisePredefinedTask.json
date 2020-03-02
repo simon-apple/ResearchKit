@@ -15,7 +15,6 @@
             "title": "aa"
         }
     ],
-    "identifier": "385d63d3-d3c7-48d2-8cfb-fdb111acacd5",
     "prependSteps": [
         {
             "_class": "ORKQuestionStep",
@@ -44,10 +43,16 @@
                 ]
             },
             "detailText": "",
-            "identifier": "408ea6c2-8a82-4824-bc5f-8a080a7841d1",
+            "identifier": "b8089ace-2ede-4890-a779-0333004993de",
             "optional": 0,
             "question": "What is your favorite salad base?",
             "title": "Salad Bases"
         }
-    ]
+    ],
+    "steps": [],
+    "stepModifiers": {},
+    "identifier": "",
+    "skipStepNavigationRules": {},
+    "shouldReportProgress": false,
+    "stepNavigationRules": {}
 }
