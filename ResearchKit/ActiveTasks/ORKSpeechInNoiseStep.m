@@ -55,6 +55,7 @@
 - (void)commonInit {
     _willAudioLoop = NO;
     _speechFilePath = nil;
+    _targetSentence = nil;
     _noiseFileNameWithExtension = @ORKSpeechInNoiseDefaultNoiseFileName;
     _filterFileNameWithExtension = @ORKSpeechInNoiseDefaultFilterFileName;
     _speechFileNameWithExtension = @ORKSpeechInNoiseDefaultSpeechFileName;
@@ -75,6 +76,7 @@
 - (instancetype)copyWithZone:(NSZone *)zone {
     ORKSpeechInNoiseStep *step = [super copyWithZone:zone];
     step.speechFilePath = self.speechFilePath;
+    step.targetSentence = self.targetSentence;
     step.speechFileNameWithExtension = self.speechFileNameWithExtension;
     step.noiseFileNameWithExtension = self.noiseFileNameWithExtension;
     step.filterFileNameWithExtension = self.filterFileNameWithExtension;
@@ -88,6 +90,7 @@
     self = [super initWithCoder:aDecoder];
     if (self) {
         ORK_DECODE_OBJ(aDecoder, speechFilePath);
+        ORK_DECODE_OBJ(aDecoder, targetSentence);
         ORK_DECODE_OBJ(aDecoder, speechFileNameWithExtension);
         ORK_DECODE_OBJ(aDecoder, noiseFileNameWithExtension);
         ORK_DECODE_OBJ(aDecoder, filterFileNameWithExtension);
@@ -101,6 +104,7 @@
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [super encodeWithCoder:aCoder];
     ORK_ENCODE_OBJ(aCoder, speechFilePath);
+    ORK_ENCODE_OBJ(aCoder, targetSentence);
     ORK_ENCODE_OBJ(aCoder, speechFileNameWithExtension);
     ORK_ENCODE_OBJ(aCoder, noiseFileNameWithExtension);
     ORK_ENCODE_OBJ(aCoder, filterFileNameWithExtension);
@@ -119,6 +123,7 @@
     __typeof(self) castObject = object;
     return (isParentSame
             && ORKEqualObjects(self.speechFilePath, castObject.speechFilePath)
+            && ORKEqualObjects(self.targetSentence, castObject.targetSentence)
             && ORKEqualObjects(self.speechFileNameWithExtension, castObject.speechFileNameWithExtension)
             && ORKEqualObjects(self.noiseFileNameWithExtension, castObject.noiseFileNameWithExtension)
             && ORKEqualObjects(self.filterFileNameWithExtension, castObject.filterFileNameWithExtension)

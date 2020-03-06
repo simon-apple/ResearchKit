@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018, Apple Inc. All rights reserved.
+ Copyright (c) 2020, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,56 +28,52 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import "ORKSpeechInNoiseResult.h"
+#import "ORKHelpers_Internal.h"
+#import "ORKResult_Private.h"
 
-@import Foundation;
-#import <ResearchKit/ORKDefines.h>
-#import <ResearchKit/ORKActiveStep.h>
+@implementation ORKSpeechInNoiseResult
 
-NS_ASSUME_NONNULL_BEGIN
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+    [super encodeWithCoder:aCoder];
+    ORK_ENCODE_OBJ(aCoder, targetSentence);
+}
 
-ORK_CLASS_AVAILABLE
-/**
- This active step programatically mixes the speech file with noise file and applies the filter.
- */
-@interface ORKSpeechInNoiseStep : ORKActiveStep
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+    if (self)
+    {
+        ORK_DECODE_OBJ_CLASS(aDecoder, targetSentence, NSString);
+    }
+    return self;
+}
 
-/**
- This property accepts the speech file Path.
-*/
-@property (nonatomic, copy, nullable) NSString *speechFilePath;
++ (BOOL)supportsSecureCoding
+{
+    return YES;
+}
 
-/**
- This property acceopts the string representation of the speech to be played.
- */
-@property (nonatomic, copy, nullable) NSString *targetSentence;
+- (BOOL)isEqual:(id)object
+{
+    BOOL isParentSame = [super isEqual:object];
+    
+    __typeof(self) castObject = object;
+    return (isParentSame &&
+            ORKEqualObjects(self.targetSentence, castObject.targetSentence));
+}
 
-/**
- This property accepts the speech file.
- */
-@property (nonatomic, copy, nullable) NSString *speechFileNameWithExtension;
+- (instancetype)copyWithZone:(NSZone *)zone
+{
+    ORKSpeechInNoiseResult *result = [super copyWithZone:zone];
+    result.targetSentence = [self.targetSentence copy];
+    return result;
+}
 
-/**
- This property accepts the noise file.
- */
-@property (nonatomic, copy, nullable) NSString *noiseFileNameWithExtension;
-
-/**
- This property accepts the filter file.
- */
-@property (nonatomic, copy, nullable) NSString *filterFileNameWithExtension;
-
-/**
- The linear gain applied to the noise file before mixing it with the speech file.
- */
-@property (nonatomic, assign) double gainAppliedToNoise;
-
-/**
- This boolean determines the repetitions of the file.
- */
-@property (nonatomic, assign) BOOL willAudioLoop;
-
-@property (nonatomic) BOOL hideGraphView;
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"targetSentence = %@;", self.targetSentence];
+}
 
 @end
-
-NS_ASSUME_NONNULL_END

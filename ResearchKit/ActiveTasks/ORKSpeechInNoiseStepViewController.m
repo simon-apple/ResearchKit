@@ -37,6 +37,7 @@
 #import "ORKStepContainerView_Private.h"
 #import "ORKSpeechInNoiseContentView.h"
 #import "ORKSpeechInNoiseStep.h"
+#import "ORKSpeechInNoiseResult.h"
 
 #import "ORKCollectionResult_Private.h"
 #import "ORKHelpers_Internal.h"
@@ -220,6 +221,28 @@
 
 - (ORKSpeechInNoiseStep *)speechInNoiseStep {
     return (ORKSpeechInNoiseStep *)self.step;
+}
+
+- (ORKStepResult *)result
+{
+    ORKStepResult *sResult = [super result];
+    
+    ORKSpeechInNoiseStep *currentStep = (ORKSpeechInNoiseStep *)self.step;
+    
+    if (currentStep && [currentStep isKindOfClass:[ORKSpeechInNoiseStep class]] && currentStep.targetSentence)
+    {
+        NSMutableArray *results = [NSMutableArray arrayWithArray:sResult.results];
+        
+        ORKSpeechInNoiseResult *speechInNoiseResult = [[ORKSpeechInNoiseResult alloc] initWithIdentifier:currentStep.identifier];
+        
+        speechInNoiseResult.targetSentence = currentStep.targetSentence;
+        
+        [results addObject:speechInNoiseResult];
+        
+        sResult.results = [results copy];
+    }
+    
+    return sResult;
 }
 
 @end

@@ -1,5 +1,6 @@
 {
     "_class": "ORKSpeechInNoiseStep",
+    "targetSentence":"",
     "speechFilePath": "",
     "footnote": "",
     "shouldContinueOnFinish": true,

@@ -268,6 +268,7 @@
                 ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@_%@_%@", listName.uppercaseString, fileName.uppercaseString, ORKSpeechInNoiseStepIdentifierSpeechInNoiseStep];
                 ORKSpeechInNoiseStep *step = [[ORKSpeechInNoiseStep alloc] initWithIdentifier:stepIdentifier];
                 step.speechFilePath = obj.path;
+                step.targetSentence = obj.transcript;
                 step.gainAppliedToNoise = 0.51;
                 step.title = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_LISTEN_TITLE", nil);
                 step.text = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_LISTEN_TEXT", nil);

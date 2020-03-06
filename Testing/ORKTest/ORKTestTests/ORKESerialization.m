@@ -1246,6 +1246,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                  },
                  ((@{
                      PROPERTY(speechFilePath, NSString, NSObject, YES, nil, nil),
+                     PROPERTY(targetSentence, NSString, NSObject, YES, nil, nil),
                      PROPERTY(speechFileNameWithExtension, NSString, NSObject, YES, nil, nil),
                      PROPERTY(noiseFileNameWithExtension, NSString, NSObject, YES, nil, nil),
                      PROPERTY(filterFileNameWithExtension, NSString, NSObject, YES, nil, nil),
@@ -1967,6 +1968,11 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(timestamp, NSNumber, NSObject, NO, nil, nil),
                     PROPERTY(fileResult, ORKResult, NSObject, NO, nil, nil)
                     })),
+           ENTRY(ORKSpeechInNoiseResult,
+           nil,
+           (@{
+               PROPERTY(targetSentence, NSString, NSObject, NO, nil, nil)
+              })),
            ENTRY(ORKSpeechRecognitionResult,
                  nil,
                  (@{
