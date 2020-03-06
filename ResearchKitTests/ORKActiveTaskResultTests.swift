@@ -314,6 +314,39 @@ class ORKSpatialSpanMemoryResultTests: XCTestCase {
     }
 }
 
+class ORKSpeechInNoiseResultTests: XCTestCase {
+    var result: ORKSpeechInNoiseResult!
+    var identifier: String!
+    var targetSentence: String!
+    let date = Date()
+    
+    override func setUp() {
+        super.setUp()
+        identifier = "Result"
+        result = ORKSpeechInNoiseResult(identifier: identifier)
+        
+        targetSentence = "The Result Object Contains The Target Sentence."
+        result.targetSentence = targetSentence
+    }
+    
+    func testProperties() {
+        XCTAssertEqual(result.identifier, identifier)
+        XCTAssertEqual(result.targetSentence, targetSentence)
+    }
+    
+    func testIsEqual() {
+        result.startDate = date
+        result.endDate = date
+        
+        let newResult = ORKSpeechInNoiseResult(identifier: identifier)
+        newResult.targetSentence = targetSentence
+        newResult.startDate = date
+        newResult.endDate = date
+        
+        XCTAssert(result.isEqual(newResult))
+    }
+}
+
 class ORKSpeechRecognitionResultTests: XCTestCase {
     var result: ORKSpeechRecognitionResult!
     var identifier: String!

@@ -38,6 +38,7 @@
 #import <ResearchKit/ORKReactionTimeResult.h>
 #import <ResearchKit/ORKSpatialSpanMemoryResult.h>
 #import <ResearchKit/ORKSpeechRecognitionResult.h>
+#import <ResearchKit/ORKSpeechInNoiseResult.h>
 #import <ResearchKit/ORKStroopResult.h>
 #import <ResearchKit/ORKTappingIntervalResult.h>
 #import <ResearchKit/ORKTimedWalkResult.h>

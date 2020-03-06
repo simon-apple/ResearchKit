@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018, Apple Inc. All rights reserved.
+ Copyright (c) 2020, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,55 +28,22 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
-@import Foundation;
-#import <ResearchKit/ORKDefines.h>
-#import <ResearchKit/ORKActiveStep.h>
+#import <ResearchKit/ORKResult.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-ORK_CLASS_AVAILABLE
 /**
- This active step programatically mixes the speech file with noise file and applies the filter.
- */
-@interface ORKSpeechInNoiseStep : ORKActiveStep
+ 
+The `ORKSpeechInNoiseResult` class represents the result of a single successful attempt of an ORKSpeechInNoiseStep.
 
-/**
- This property accepts the speech file Path.
+A speech-in-noise result contains a single string representing the target sentence to be repeated in subsequent ORKSpeechRecognitionSteps.
+
 */
-@property (nonatomic, copy, nullable) NSString *speechFilePath;
 
-/**
- This property acceopts the string representation of the speech to be played.
- */
+ORK_CLASS_AVAILABLE
+@interface ORKSpeechInNoiseResult : ORKResult
+
 @property (nonatomic, copy, nullable) NSString *targetSentence;
-
-/**
- This property accepts the speech file.
- */
-@property (nonatomic, copy, nullable) NSString *speechFileNameWithExtension;
-
-/**
- This property accepts the noise file.
- */
-@property (nonatomic, copy, nullable) NSString *noiseFileNameWithExtension;
-
-/**
- This property accepts the filter file.
- */
-@property (nonatomic, copy, nullable) NSString *filterFileNameWithExtension;
-
-/**
- The linear gain applied to the noise file before mixing it with the speech file.
- */
-@property (nonatomic, assign) double gainAppliedToNoise;
-
-/**
- This boolean determines the repetitions of the file.
- */
-@property (nonatomic, assign) BOOL willAudioLoop;
-
-@property (nonatomic) BOOL hideGraphView;
 
 @end
 
