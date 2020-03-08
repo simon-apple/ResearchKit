@@ -43,6 +43,7 @@
 static const CGFloat TextViewTopPadding = 8.0;
 static const CGFloat TextViewBottomPadding = 16.0;
 static const CGFloat TextViewMinimumHeight = 140.0;
+static const CGFloat ClearTextButtonMinimumHeight = 20.0;
 static const CGFloat ErrorLabelTopPadding = 4.0;
 static const CGFloat ErrorLabelBottomPadding = 10.0;
 static const CGFloat StandardSpacing = 8.0;
@@ -99,6 +100,9 @@ static const CGFloat StandardSpacing = 8.0;
 }
 
 - (void)prepareView {
+    
+    NSMutableArray *accessibilityElements = [NSMutableArray new];
+    
     if (self.textView == nil ) {
         self.preservesSuperviewLayoutMargins = NO;
         self.layoutMargins = ORKStandardLayoutMarginsForTableViewCell(self);
@@ -123,7 +127,7 @@ static const CGFloat StandardSpacing = 8.0;
         
         // Avoid exposing both this cell and its inner text view as elements to accessibility
         // See also ORKCustomStepView -accessibilityElements
-        self.accessibilityElements = @[self.textView];
+        [accessibilityElements addObject:self.textView];
     }
     
     if (_bottomSeperatorView == nil) {
@@ -145,7 +149,9 @@ static const CGFloat StandardSpacing = 8.0;
         } else {
             [_textCountLabel setTextColor:[UIColor grayColor]];
         }
+        
         if (_maxLength > 0) {
+            [accessibilityElements addObject:_textCountLabel];
             [self updateTextCountLabel];
         } else {
             [_textCountLabel setHidden:YES];
@@ -163,7 +169,12 @@ static const CGFloat StandardSpacing = 8.0;
         [_clearTextViewButton addTarget:self action:@selector(clearTextView) forControlEvents:UIControlEventTouchUpInside];
         _clearTextViewButton.translatesAutoresizingMaskIntoConstraints = NO;
         [self addSubview: _clearTextViewButton];
+        
+        [accessibilityElements addObject:_clearTextViewButton];
     }
+    
+    self.accessibilityElements = [accessibilityElements copy];
+    accessibilityElements = nil;
     
     [self setUpConstraints];
     [super prepareView];
@@ -187,65 +198,26 @@ static const CGFloat StandardSpacing = 8.0;
 - (void)setUpConstraints {
     NSMutableArray *constraints = [NSMutableArray array];
     
-    NSDictionary *views = NSDictionaryOfVariableBindings(_textView,_bottomSeperatorView, _textCountLabel);
+    //Vertical constraints for views
+    [[_textView.topAnchor constraintEqualToAnchor:self.topAnchor constant:TextViewTopPadding] setActive:YES];
+    [[_bottomSeperatorView.topAnchor constraintEqualToAnchor:_textView.bottomAnchor constant:TextViewTopPadding] setActive:YES];
+    [[_clearTextViewButton.topAnchor constraintEqualToAnchor:_bottomSeperatorView.bottomAnchor constant:TextViewBottomPadding] setActive:YES];
+    [[_textCountLabel.centerYAnchor constraintEqualToAnchor:_clearTextViewButton.centerYAnchor] setActive:YES];
+    [[self.bottomAnchor constraintEqualToAnchor:_clearTextViewButton.bottomAnchor constant:StandardSpacing] setActive:YES];
     
-    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-textViewTopPadding-[_textView(>=textViewMinimumHeight)]-textViewBottomPadding-[_bottomSeperatorView]-textViewBottomPadding-[_textCountLabel]-|"
-                                                                             options:(NSLayoutFormatOptions)0
-                                                                             metrics:@{@"textViewTopPadding": @(TextViewTopPadding), @"textViewBottomPadding": @(TextViewBottomPadding), @"textViewMinimumHeight": @(TextViewMinimumHeight)}
-                                                                               views:views]];
+    //Horizontal constraints for views
+    [[_textView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:StandardSpacing] setActive:YES];
+    [[_textView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-StandardSpacing] setActive:YES];
+    [[_bottomSeperatorView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor] setActive:YES];
+    [[_bottomSeperatorView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor] setActive:YES];
+    [[_textCountLabel.leadingAnchor constraintEqualToAnchor:_textView.leadingAnchor] setActive:YES];
+    [[_clearTextViewButton.trailingAnchor constraintEqualToAnchor:_textView.trailingAnchor] setActive:YES];
     
-    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_textView]-|"
-                                                                             options:(NSLayoutFormatOptions)0
-                                                                             metrics:nil
-                                                                               views:views]];
-    
-    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_bottomSeperatorView]|"
-                                                                             options:(NSLayoutFormatOptions)0
-                                                                             metrics:nil
-                                                                               views:views]];
-    
-    CGFloat separatorHeight = 1.0 / [UIScreen mainScreen].scale;
-    
-    
-    [constraints addObject:[NSLayoutConstraint constraintWithItem:_bottomSeperatorView
-                                                        attribute:NSLayoutAttributeHeight
-                                                        relatedBy:NSLayoutRelationEqual
-                                                           toItem:nil
-                                                        attribute:NSLayoutAttributeNotAnAttribute
-                                                       multiplier:1.0
-                                                         constant:separatorHeight]];
-    
-    [constraints addObject:[NSLayoutConstraint constraintWithItem:_textCountLabel
-                                                        attribute:NSLayoutAttributeLeft
-                                                        relatedBy:NSLayoutRelationEqual
-                                                           toItem:_textView
-                                                        attribute:NSLayoutAttributeLeft
-                                                       multiplier:1.0
-                                                         constant:0.0]];
-    
-    [constraints addObject:[NSLayoutConstraint constraintWithItem:_textCountLabel
-                                                        attribute:NSLayoutAttributeHeight
-                                                        relatedBy:NSLayoutRelationEqual
-                                                           toItem:_clearTextViewButton
-                                                        attribute:NSLayoutAttributeHeight
-                                                       multiplier:1.0
-                                                         constant:0.0]];
-    
-    [constraints addObject:[NSLayoutConstraint constraintWithItem:_clearTextViewButton
-                                                        attribute:NSLayoutAttributeRight
-                                                        relatedBy:NSLayoutRelationEqual
-                                                           toItem:_textView
-                                                        attribute:NSLayoutAttributeRight
-                                                       multiplier:1.0
-                                                         constant:0.0]];
-    
-    [constraints addObject:[NSLayoutConstraint constraintWithItem:_clearTextViewButton
-                                                        attribute:NSLayoutAttributeCenterY
-                                                        relatedBy:NSLayoutRelationEqual
-                                                           toItem:_textCountLabel
-                                                        attribute:NSLayoutAttributeCenterY
-                                                       multiplier:1.0
-                                                         constant:0.0]];
+    //Height constraints for views
+    [[_textView.heightAnchor constraintGreaterThanOrEqualToConstant:TextViewMinimumHeight] setActive:YES];
+    [[_bottomSeperatorView.heightAnchor constraintEqualToConstant:1.0 / [UIScreen mainScreen].scale] setActive:YES];
+    [[_clearTextViewButton.heightAnchor constraintGreaterThanOrEqualToConstant:ClearTextButtonMinimumHeight] setActive:YES];
+    [[_textCountLabel.heightAnchor constraintEqualToAnchor:_clearTextViewButton.heightAnchor] setActive:YES];
     
     // Get full width layout
     [constraints addObject:[self.class fullWidthLayoutConstraint:_textView]];
