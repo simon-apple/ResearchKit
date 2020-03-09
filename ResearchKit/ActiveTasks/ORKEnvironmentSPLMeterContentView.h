@@ -30,11 +30,10 @@
 
 @import UIKit;
 #import "ORKCustomStepView_Internal.h"
-#import "ORKUnitLabel.h"
-#import "ORKRingView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class ORKRingView;
 @class ORKRoundTappingButton;
 @class ORKNavigationContainerView;
 @class ORKEnvironmentSPLMeterContentView;
@@ -58,8 +57,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setProgressCircle:(CGFloat)progress;
 
 - (void)reachedOptimumNoiseLevel;
-
-- (void)setLeftRightConstraints:(CGFloat)leftRightPadding;
 
 @end
 

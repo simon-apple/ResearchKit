@@ -35,6 +35,7 @@
 #import "ORKStepContentView_Private.h"
 #import "ORKBodyContainerView.h"
 #import "ORKSkin.h"
+#import "ORKActiveStep.h"
 #import "ORKNavigationContainerView_Internal.h"
 
 /*
@@ -145,6 +146,7 @@ static const CGFloat ORKBodyItemScrollPadding = 24.0;
     if (self) {
         _customContentLeftRightPadding = ORKStepContainerLeftRightPaddingForWindow(self.window);
         _leftRightPadding = ORKStepContainerExtendedLeftRightPaddingForWindow(self.window);
+        self.isNavigationContainerScrollable = NO;
         _highestContentPosition = 0.0;
         [self setupScrollView];
         [self setupScrollContainerView];
@@ -328,13 +330,19 @@ static const CGFloat ORKBodyItemScrollPadding = 24.0;
 
 - (void)placeNavigationContainerView {
     [self removeNavigationFooterView];
-    self.isNavigationContainerScrollable = NO;
+    
     if (self.isNavigationContainerScrollable) {
-     [_scrollContainerView addSubview:self.navigationFooterView];
+        [_scrollContainerView addSubview:self.navigationFooterView];
     } else {
         [self addSubview:self.navigationFooterView];
     }
     [self setupNavigationContainerViewConstraints];
+}
+
+- (void)placeNavigationContainerInsideScrollView {
+    self.isNavigationContainerScrollable = YES;
+    [self setupConstraints];
+    [self placeNavigationContainerView];
 }
 
 - (void)layoutSubviews {
@@ -350,7 +358,6 @@ static const CGFloat ORKBodyItemScrollPadding = 24.0;
     if (_scrollContentBottomConstraint != nil) {
         [NSLayoutConstraint deactivateConstraints:@[_scrollContentBottomConstraint]];
     }
-    
     _scrollContentBottomConstraint = [NSLayoutConstraint constraintWithItem:self.stepContentView
                                                                   attribute:NSLayoutAttributeBottom
                                                                   relatedBy:NSLayoutRelationLessThanOrEqual
@@ -394,6 +401,7 @@ static const CGFloat ORKBodyItemScrollPadding = 24.0;
         if ([_updatedConstraints containsObject:_scrollViewBottomConstraint]) {
             [_updatedConstraints removeObject:_scrollViewBottomConstraint];
         }
+        
         _scrollViewBottomConstraint = [NSLayoutConstraint constraintWithItem:_scrollView
                                                                    attribute:NSLayoutAttributeBottom
                                                                    relatedBy:NSLayoutRelationEqual
@@ -758,25 +766,29 @@ static const CGFloat ORKBodyItemScrollPadding = 24.0;
 
 - (void)updateEffectViewStylingAndAnimate:(BOOL)animated checkCurrentValue:(BOOL)checkCurrentValue {
     CGFloat startOfFooter = self.navigationFooterView.frame.origin.y;
-
+    
     // calculating height of all subviews in _scrollContainerView
     CGFloat height = 0.0;
 
     for(UIView *view in _scrollContainerView.subviews) {
         height += view.frame.size.height;
     }
+    
+    if (!self.isNavigationContainerScrollable) {
+        CGFloat contentPosition = (height - _scrollView.contentOffset.y);
+        CGFloat newOpacity = (contentPosition < startOfFooter) ? ORKEffectViewOpacityHidden : ORKEffectViewOpacityVisible;
+        [self updateEffectStyleWithNewOpacity:newOpacity animated:animated checkCurrentValue:checkCurrentValue];
 
-    CGFloat contentPosition = (height - _scrollView.contentOffset.y);
-    CGFloat newOpacity = (contentPosition < startOfFooter) ? ORKEffectViewOpacityHidden : ORKEffectViewOpacityVisible;
-    [self updateEffectStyleWithNewOpacity:newOpacity animated:animated checkCurrentValue:checkCurrentValue];
-
-    // This check is to guard against scenarios when the view can be dragged down even if the content size doesn't allow for scrolling behavior
-    if (contentPosition > _highestContentPosition) {
-        _highestContentPosition = contentPosition;
-        // add contentInset if the contentPosition extends beyond the footerView
-        if ((contentPosition > startOfFooter) && (!self.navigationFooterView.isHidden)) {
-            _scrollView.contentInset = UIEdgeInsetsMake(0, 0, self.navigationFooterView.frame.size.height + ORKContentBottomPadding, 0);
+        // This check is to guard against scenarios when the view can be dragged down even if the content size doesn't allow for scrolling behavior
+        if (contentPosition > _highestContentPosition) {
+            _highestContentPosition = contentPosition;
+            // add contentInset if the contentPosition extends beyond the footerView
+            if ((contentPosition > startOfFooter) && (!self.navigationFooterView.isHidden)) {
+                _scrollView.contentInset = UIEdgeInsetsMake(0, 0, self.navigationFooterView.frame.size.height + ORKContentBottomPadding, 0);
+            }
         }
+    } else if ([self.navigationFooterView effectViewOpacity] != ORKEffectViewOpacityHidden) {
+        [self updateEffectStyleWithNewOpacity:ORKEffectViewOpacityHidden animated:NO checkCurrentValue:NO];
     }
 }
 

@@ -38,7 +38,7 @@
 #import "ORKSkin.h"
 
 
-/**
+/*
  +_________________________+
  |                         |<-------------_stepContentView
  |       +-------+         |
@@ -430,6 +430,7 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKUpdateConstraintSequence) {
     }
     _textLabel.textAlignment = _stepHeaderTextAlignment;
     _textLabel.numberOfLines = 0;
+    _textLabel.lineBreakMode = NSLineBreakByWordWrapping;
     [self addSubview:_textLabel];
     [self setupTextLabelConstraints];
     [self setContainerLeftRightConstraints];
@@ -525,6 +526,7 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKUpdateConstraintSequence) {
     }
     _detailTextLabel.textAlignment = _stepHeaderTextAlignment;
     _detailTextLabel.numberOfLines = 0;
+    _detailTextLabel.lineBreakMode = NSLineBreakByWordWrapping;
     [self addSubview:_detailTextLabel];
     [self setupDetailTextLabelConstraints];
     [self setContainerLeftRightConstraints];

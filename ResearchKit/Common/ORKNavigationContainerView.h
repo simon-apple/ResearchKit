@@ -50,12 +50,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL useExtendedPadding;
 
 - (BOOL)hasContinueOrSkip;
+- (BOOL)wasContinueOrSkipButtonJustPressed;
 - (void)removeStyling;
 
 - (CGFloat)effectViewOpacity;
 - (void)setStylingOpactity:(CGFloat)opacity animated:(BOOL)animated;
 
 - (void)showActivityIndicator:(BOOL)showActivityIndicator;
+- (void)flattenIfNeeded;
 
 @end
 

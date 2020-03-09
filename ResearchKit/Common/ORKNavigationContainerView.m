@@ -46,7 +46,7 @@ static const CGFloat activityIndicatorPadding = 24.0;
     UIVisualEffectView *effectView;
     UIColor *_appTintColor;
     
-    BOOL _continueButtonJustTapped;
+    BOOL _continueOrSkipButtonJustTapped;
     BOOL _removeVisualEffect;
     NSMutableArray *_regularConstraints;
 }
@@ -71,6 +71,12 @@ static const CGFloat activityIndicatorPadding = 24.0;
     if (effectView) {
         [effectView removeFromSuperview];
         effectView = nil;
+    }
+}
+
+- (void)flattenIfNeeded {
+    if (![self hasContinueOrSkip] || (self.continueButtonItem == nil && [self neverHasSkipButton] && [self neverHasFootnote])) {
+        [[self.heightAnchor constraintEqualToConstant:0] setActive:YES];
     }
 }
 
@@ -111,9 +117,6 @@ static const CGFloat activityIndicatorPadding = 24.0;
     _continueButton.exclusiveTouch = YES;
     _continueButton.translatesAutoresizingMaskIntoConstraints = NO;
     [_continueButton addTarget:self action:@selector(continueButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-    if (_appTintColor) {
-        _continueButton.normalTintColor = _appTintColor;
-    }
     [self addSubview:_continueButton];
 }
 
@@ -125,9 +128,6 @@ static const CGFloat activityIndicatorPadding = 24.0;
     [_skipButton setTitle:nil forState:UIControlStateNormal];
     [_skipButton addTarget:self action:@selector(skipButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     _skipButton.translatesAutoresizingMaskIntoConstraints = NO;
-    if (_appTintColor) {
-        _skipButton.normalTintColor = _appTintColor;
-    }
     [self addSubview:_skipButton];
 }
 
@@ -140,10 +140,15 @@ static const CGFloat activityIndicatorPadding = 24.0;
 }
 
 - (void)setupViews {
-    _appTintColor = [[UIApplication sharedApplication].delegate window].tintColor;
     [self setupContinueButton];
     [self setupSkipButton];
     [self setUpConstraints];
+}
+
+- (void)didMoveToWindow {
+    _appTintColor = self.window.tintColor ? : ORKColor(ORKBlueHighlightColorKey);
+    _continueButton.normalTintColor = _appTintColor;
+    _skipButton.normalTintColor = _appTintColor;
 }
 
 - (void)setSkipButtonStyle:(ORKNavigationContainerButtonStyle)skipButtonStyle {
@@ -184,7 +189,9 @@ static const CGFloat activityIndicatorPadding = 24.0;
     // Disable button for 0.5s
     ((UIView *)sender).userInteractionEnabled = NO;
     ((ORKTextButton *)sender).isInTransition = YES;
+    _continueOrSkipButtonJustTapped = YES;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        _continueOrSkipButtonJustTapped = NO;
         // Re-enable skip button
         ((UIView *)sender).userInteractionEnabled = YES;
         ((ORKTextButton *)sender).isInTransition = NO;
@@ -201,9 +208,9 @@ static const CGFloat activityIndicatorPadding = 24.0;
     // Disable button for 0.5s
     ((UIView *)sender).userInteractionEnabled = NO;
     ((ORKTextButton *)sender).isInTransition = YES;
-    _continueButtonJustTapped = YES;
+    _continueOrSkipButtonJustTapped = YES;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        _continueButtonJustTapped = NO;
+        _continueOrSkipButtonJustTapped = NO;
         ((ORKTextButton *)sender).isInTransition = NO;
         [self updateContinueAndSkipEnabled];
     });
@@ -246,6 +253,10 @@ static const CGFloat activityIndicatorPadding = 24.0;
     return !([self neverHasContinueButton] && [self neverHasSkipButton] && [self neverHasFootnote]);
 }
 
+- (BOOL)wasContinueOrSkipButtonJustPressed {
+    return _continueOrSkipButtonJustTapped;
+}
+
 - (void)updateContinueAndSkipEnabled {
     [_skipButton setTitle:_skipButtonItem.title ? : ORKLocalizedString(@"BUTTON_SKIP", nil) forState:UIControlStateNormal];
 
@@ -268,7 +279,7 @@ static const CGFloat activityIndicatorPadding = 24.0;
     
     // Do not modify _continueButton.userInteractionEnabled during continueButton disable period
     // or when the activity indicator is present
-    if (_continueButtonJustTapped == NO && _activityIndicatorView == nil) {
+    if (_continueOrSkipButtonJustTapped == NO && _activityIndicatorView == nil) {
         _continueButton.userInteractionEnabled = (_continueEnabled || (_useNextForSkip && _skipButtonItem));
     }
     
