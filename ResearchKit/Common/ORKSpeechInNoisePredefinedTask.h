@@ -49,13 +49,22 @@ ORK_CLASS_AVAILABLE
 - (instancetype)initWithIdentifier:(nonnull NSString *)identifier
               audioSetManifestPath:(nonnull NSString *)audioSetManifestPath
                       prependSteps:(nullable NSArray<ORKStep *> *)prependSteps
-                       appendSteps:(nullable NSArray<ORKStep *> *)appendSteps NS_DESIGNATED_INITIALIZER;
+                       appendSteps:(nullable NSArray<ORKStep *> *)appendSteps
+              includePracticeSteps:(BOOL)includePracticeSteps NS_DESIGNATED_INITIALIZER;
+        
+
+- (instancetype)initWithIdentifier:(nonnull NSString *)identifier
+              audioSetManifestPath:(nonnull NSString *)audioSetManifestPath
+                      prependSteps:(nullable NSArray<ORKStep *> *)prependSteps
+                       appendSteps:(nullable NSArray<ORKStep *> *)appendSteps;
 
 @property (nonatomic, readonly, nonnull) NSString *audioSetManifestPath;
 
 @property (nonatomic, readonly, nullable) NSArray<ORKStep *> *prependSteps;
 
 @property (nonatomic, readonly, nullable) NSArray<ORKStep *> *appendSteps;
+
+@property (nonatomic, readonly, assign) BOOL includePracticeSteps;
 
 @end
 

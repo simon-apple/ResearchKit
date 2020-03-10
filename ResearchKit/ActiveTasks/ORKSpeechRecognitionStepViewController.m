@@ -55,7 +55,7 @@
 #import "ORKTaskViewController.h"
 
 #import "ORKOrderedTask.h"
-
+#import "ORKContext.h"
 
 @interface ORKSpeechRecognitionStepViewController () <ORKStreamingAudioResultDelegate, ORKSpeechRecognitionDelegate, UITextFieldDelegate>
 
@@ -143,8 +143,20 @@
     _audioRecorder = audioRecorder;
 }
 
-- (ORKStepResult *)result {
+- (ORKStepResult *)result
+{
     ORKStepResult *sResult = [super result];
+    
+    if ([self.step.context isKindOfClass:[ORKSpeechInNoisePredefinedTaskContext class]])
+    {
+        ORKSpeechInNoisePredefinedTaskContext *speechInNoisePredefinedTaskContext = (ORKSpeechInNoisePredefinedTaskContext *)self.step.context;
+        if ([speechInNoisePredefinedTaskContext isPracticeTest])
+        {
+            // If we are in the speech in noise predefined context and we are in a practice test, do not save the result.
+            return sResult;
+        }
+    }
+    
     if (_speechRecognitionQueue) {
         dispatch_sync(_speechRecognitionQueue, ^{
             if (_localResult != nil) {

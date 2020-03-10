@@ -39,9 +39,11 @@
 #import "ORKBodyItem.h"
 
 #import "ORKHelpers_Internal.h"
+#import "ORKContext.h"
 
 
 @implementation ORKStep
+@synthesize context;
 
 + (instancetype)new {
     ORKThrowMethodUnavailableException();

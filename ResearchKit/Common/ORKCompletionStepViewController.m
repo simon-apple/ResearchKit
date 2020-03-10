@@ -39,13 +39,13 @@
 #import "ORKStepView_Private.h"
 #import "ORKStepContainerView_Private.h"
 #import "ORKStepContentView_Private.h"
-
+#import "ORKTaskViewController_Internal.h"
 #import "ORKInstructionStepViewController_Internal.h"
 #import "ORKStepViewController_Internal.h"
 #import "ORKCompletionCheckmarkView.h"
 #import "ORKSkin.h"
 #import "ORKHelpers_Internal.h"
-
+#import "ORKContext.h"
 
 @implementation ORKCompletionStepViewController {
     ORKCompletionCheckmarkView *_completionCheckmarkView;
@@ -61,6 +61,46 @@
         _completionCheckmarkView.tintColor = self.checkmarkColor;
     }
     self.stepView.customContentFillsAvailableSpace = YES;
+    
+    
+    if ([self isSpeechInNoisePredefinedTaskPractice])
+    {
+        [self setContinueButtonTitle:ORKLocalizedString(@"BUTTON_START_TEST", nil)];
+    }
+}
+
+- (BOOL)isSpeechInNoisePredefinedTaskPractice
+{
+    if ([self.step.context isKindOfClass:[ORKSpeechInNoisePredefinedTaskContext class]])
+    {
+        ORKSpeechInNoisePredefinedTaskContext *speechInNoisePredefinedTaskContext = (ORKSpeechInNoisePredefinedTaskContext *)self.step.context;
+        if ([speechInNoisePredefinedTaskContext isPracticeTest])
+        {
+            return YES;
+        }
+    }
+    
+    return NO;
+}
+
+- (void)setSkipButtonItem:(UIBarButtonItem *)skipButtonItem
+{
+    [super setSkipButtonItem:skipButtonItem];
+    
+    if ([self isSpeechInNoisePredefinedTaskPractice])
+    {
+        [skipButtonItem setTitle:ORKLocalizedString(@"BUTTON_PRACTICE_AGAIN", nil)];
+        skipButtonItem.target = self;
+        skipButtonItem.action = @selector(practiceAgainPressed:);
+    }
+}
+
+- (void)practiceAgainPressed:(id)sender
+{
+    if ([self isSpeechInNoisePredefinedTaskPractice])
+    {
+        [self.taskViewController flipToPageWithIdentifier:@"PLAYBACK_PRACTICE" forward:NO];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {

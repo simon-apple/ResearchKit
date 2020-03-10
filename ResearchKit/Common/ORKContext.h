@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, Apple Inc. All rights reserved.
+ Copyright (c) 2020, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,28 +28,25 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+@import Foundation;
 
-#import "ORKTaskViewController_Private.h"
-#import "ORKReviewStepViewController.h"
-@import HealthKit;
-
+#import "ORKStep.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class ORKLearnMoreInstructionStep;
+@protocol ORKContext <NSObject>
 
-@interface ORKTaskViewController () <ORKReviewStepViewControllerDelegate, UIViewControllerRestoration>
+@end
 
-- (nullable NSSet<HKObjectType *> *)requestedHealthTypesForRead;
-- (nullable NSSet<HKObjectType *> *)requestedHealthTypesForWrite;
+@interface ORKStep ()
 
-// Any StepVC contains a vertical scroll view should register here.
-// So taskVC can monitor scroll view's content offset and update hairline's alpha.
-@property (nonatomic, weak, nullable) UIScrollView *registeredScrollView;
+@property (nonatomic, strong, nullable) id<ORKContext> context;
 
-- (void)learnMoreButtonPressedWithStep:(ORKLearnMoreInstructionStep *)learnMoreInstructionStep fromStepViewController:(ORKStepViewController *)stepViewController;
+@end
 
-- (void)flipToPageWithIdentifier:(NSString *)identifier forward:(BOOL)forward;
+@interface ORKSpeechInNoisePredefinedTaskContext : NSObject <ORKContext>
+
+@property (nonatomic, assign, getter=isPracticeTest) BOOL practiceTest;
 
 @end
 

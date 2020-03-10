@@ -40,6 +40,12 @@
 #import "ORKHeadphoneDetectStep.h"
 #import "ORKEnvironmentSPLMeterStep.h"
 #import "ORKVolumeCalibrationStep.h"
+#import "ORKCompletionStep.h"
+#import "ORKContext.h"
+
+@implementation ORKSpeechInNoisePredefinedTaskContext
+
+@end
 
 @interface ORKSpeechInNoiseSample : NSObject
 
@@ -81,11 +87,13 @@
               audioSetManifestPath:(nonnull NSString *)audioSetManifestPath
                       prependSteps:(nullable NSArray<ORKStep *> *)prependSteps
                        appendSteps:(nullable NSArray<ORKStep *> *)appendSteps
+              includePracticeSteps:(BOOL)includePracticeSteps
 {
     NSError *error = nil;
     NSArray<ORKStep *> *steps = [ORKSpeechInNoisePredefinedTask speechInNoisePredefinedTaskStepsWithAudioSetManifestPath:audioSetManifestPath
                                                                                                             prependSteps:prependSteps
                                                                                                              appendSteps:appendSteps
+                                                                                                    includePracticeSteps:includePracticeSteps
                                                                                                                    error:&error];
     
     if (error)
@@ -99,6 +107,7 @@
         _audioSetManifestPath = [audioSetManifestPath copy];
         _prependSteps = [prependSteps copy];
         _appendSteps = [appendSteps copy];
+        _includePracticeSteps = includePracticeSteps;
         
         for (ORKStep *step in self.steps)
         {
@@ -109,6 +118,14 @@
         }
     }
     return self;
+}
+
+- (instancetype)initWithIdentifier:(nonnull NSString *)identifier
+              audioSetManifestPath:(nonnull NSString *)audioSetManifestPath
+                      prependSteps:(nullable NSArray<ORKStep *> *)prependSteps
+                       appendSteps:(nullable NSArray<ORKStep *> *)appendSteps
+{
+    return [self initWithIdentifier:identifier audioSetManifestPath:audioSetManifestPath prependSteps:prependSteps appendSteps:appendSteps includePracticeSteps:NO];
 }
 
 - (instancetype)initWithIdentifier:(NSString *)identifier steps:(nullable NSArray<ORKStep *> *)steps
@@ -129,6 +146,7 @@
     ORK_ENCODE_OBJ(aCoder, audioSetManifestPath);
     ORK_ENCODE_OBJ(aCoder, prependSteps);
     ORK_ENCODE_OBJ(aCoder, appendSteps);
+    ORK_ENCODE_BOOL(aCoder, includePracticeSteps);
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder
@@ -138,6 +156,7 @@
         ORK_DECODE_OBJ_CLASS(aDecoder, audioSetManifestPath, NSString);
         ORK_DECODE_OBJ_ARRAY(aDecoder, prependSteps, ORKStep);
         ORK_DECODE_OBJ_ARRAY(aDecoder, appendSteps, ORKStep);
+        ORK_DECODE_BOOL(aDecoder, includePracticeSteps);
     }
     return self;
 }
@@ -149,7 +168,8 @@
     return [[[self class] allocWithZone:zone] initWithIdentifier:[self.identifier copy]
                                             audioSetManifestPath:[self.audioSetManifestPath copy]
                                                      prependSteps:[[NSArray alloc] initWithArray:self.prependSteps copyItems:YES]
-                                                      appendSteps:[[NSArray alloc] initWithArray:self.appendSteps copyItems:YES]];
+                                                      appendSteps:[[NSArray alloc] initWithArray:self.appendSteps copyItems:YES]
+                                            includePracticeSteps:self.includePracticeSteps];
 }
 
 - (BOOL)isEqual:(id)object
@@ -160,12 +180,13 @@
     [super isEqual:object] &&
     [self.audioSetManifestPath isEqualToString:castObject.audioSetManifestPath] &&
     [self.prependSteps isEqualToArray:castObject.prependSteps] &&
-    [self.appendSteps isEqualToArray:castObject.appendSteps];
+    [self.appendSteps isEqualToArray:castObject.appendSteps] &&
+    self.includePracticeSteps == castObject.includePracticeSteps;
 }
 
 - (NSUInteger)hash
 {
-    return [super hash] ^ [_audioSetManifestPath hash] ^ [_prependSteps hash] ^ [_appendSteps hash];
+    return [super hash] ^ [_audioSetManifestPath hash] ^ [_prependSteps hash] ^ [_appendSteps hash] ^ _includePracticeSteps;
 }
 
 #pragma mark - Speech In Noise
@@ -173,6 +194,7 @@
 + (nullable NSArray<ORKStep *> *)speechInNoisePredefinedTaskStepsWithAudioSetManifestPath:(nonnull NSString *)manifestPath
                                                                              prependSteps:(nullable NSArray<ORKStep *> *)prependSteps
                                                                               appendSteps:(nullable NSArray<ORKStep *> *)appendSteps
+                                                                     includePracticeSteps:(BOOL)includePracticeSteps
                                                                                     error:(NSError * _Nullable * _Nullable)error
 {
     NSMutableArray<ORKStep *> *steps = [[NSMutableArray alloc] init];
@@ -182,7 +204,7 @@
         [steps addObjectsFromArray:[prependSteps copy]];
     }
     
-    NSArray *predefinedSteps = [ORKSpeechInNoisePredefinedTask speechInNoisePredefinedTaskStepsWithAudioSetManifestPath:manifestPath error:error];
+    NSArray *predefinedSteps = [ORKSpeechInNoisePredefinedTask speechInNoisePredefinedTaskStepsWithAudioSetManifestPath:manifestPath includePracticeSteps:includePracticeSteps error:error];
     
     if (predefinedSteps != nil)
     {
@@ -200,7 +222,7 @@
 #define HIDE_ENVIRONMENT_SPL_STEP 0
 #define HIDE_VOLUME_CALIBRATION_STEP 0
 
-+ (nullable NSArray<ORKStep *> *)speechInNoisePredefinedTaskStepsWithAudioSetManifestPath:(nonnull NSString *)manifestPath error:(NSError * _Nullable * _Nullable)error
++ (nullable NSArray<ORKStep *> *)speechInNoisePredefinedTaskStepsWithAudioSetManifestPath:(nonnull NSString *)manifestPath includePracticeSteps:(BOOL)includePracticeSteps error:(NSError * _Nullable * _Nullable)error
 {
     NSError *localError = nil;
     NSArray *audioFileSamples = [ORKSpeechInNoisePredefinedTask prefetchAudioSamplesFromManifestAtPath:manifestPath error:&localError];
@@ -252,62 +274,130 @@
         [steps addObject:step];
     }
 #endif
-    
-    {
-        ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierSpeechInNoiseStep = @"PLAYBACK";
-        ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierSpeechRecognitionStep = @"SPEECH_RECOGNITION";
-        ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierEditSpeechTranscriptStep = @"TRANSCRIPT";
+       
+    ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierSpeechInNoiseStep = @"PLAYBACK";
+    ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierSpeechRecognitionStep = @"SPEECH_RECOGNITION";
+    ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierEditSpeechTranscriptStep = @"TRANSCRIPT";
         
-        [audioFileSamples enumerateObjectsUsingBlock:^(ORKSpeechInNoiseSample * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    // Create ORKSpeechInNoisePredefinedTaskContext Which denotes we are practicing.
+    ORKSpeechInNoisePredefinedTaskContext *practiceContext = [[ORKSpeechInNoisePredefinedTaskContext alloc] init];
+    
+    if (includePracticeSteps)
+    {
+        practiceContext.practiceTest = YES;
+        
+        // Speech In Noise (Practice)
+        {
+            ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@_PRACTICE", ORKSpeechInNoiseStepIdentifierSpeechInNoiseStep];
+            ORKSpeechInNoiseStep *step = [[ORKSpeechInNoiseStep alloc] initWithIdentifier:stepIdentifier];
+            step.context = practiceContext;
+            step.speechFilePath = [[audioFileSamples firstObject] path];
+            step.gainAppliedToNoise = 0.51;
+            step.title = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_LISTEN_TITLE", nil);
+            step.text = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_LISTEN_TEXT", nil);
+            step.optional = NO;
+            step.hideGraphView = NO;
+            [steps addObject:step];
+        }
+        
+        // Speech Recognition (Practice)
+        {
+            ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@_PRACTICE", ORKSpeechInNoiseStepIdentifierSpeechRecognitionStep];
+            ORKStreamingAudioRecorderConfiguration *config = [[ORKStreamingAudioRecorderConfiguration alloc] initWithIdentifier:@"streamingAudio"];
+            ORKSpeechRecognitionStep *step = [[ORKSpeechRecognitionStep alloc] initWithIdentifier:stepIdentifier image:nil text:nil];
+            step.context = practiceContext;
+            step.shouldHideTranscript = YES;
+            step.recorderConfigurations = @[config];
+            step.speechRecognizerLocale = @"en-US";
+            step.title = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_REPEAT_TITLE", nil);
+            step.optional = NO;
+            [steps addObject:step];
+        }
+        
+        // Edit Transcript (Practice)
+        {
+            ORKTextAnswerFormat *answerFormat = [ORKTextAnswerFormat new];
+            answerFormat.spellCheckingType = UITextSpellCheckingTypeNo;
+            answerFormat.autocorrectionType = UITextAutocorrectionTypeNo;
             
-            NSString *fileName = [[obj.path stringByDeletingPathExtension] lastPathComponent];
-            NSString *listName = [[obj.path stringByDeletingLastPathComponent] lastPathComponent];
+            ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@_PRACTICE", ORKSpeechInNoiseStepIdentifierEditSpeechTranscriptStep];
+            ORKQuestionStep *step = [ORKQuestionStep questionStepWithIdentifier:stepIdentifier
+                                                                          title:ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_REVIEW_TITLE", nil)
+                                                                       question:nil
+                                                                         answer:answerFormat];
+            step.text = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_REVIEW_TEXT", nil);
+            step.context = practiceContext;
+            step.optional = NO;
+            [steps addObject:step];
+        }
+        
+        // Completion (Practice)
+        {
+            ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierPracticeCompletionStep = @"ORKSpeechInNoiseStepIdentifierPracticeCompletionStep";
+            ORKCompletionStep *step = [[ORKCompletionStep alloc] initWithIdentifier:ORKSpeechInNoiseStepIdentifierPracticeCompletionStep];
+            step.context = practiceContext;
+            step.title = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_PRACTICE_COMPLETION_TITLE", nil);
+            step.optional = YES;
+            [steps addObject:step];
+        }
+    }
+    else
+    {
+        practiceContext.practiceTest = NO;
+    }
+    
+    [audioFileSamples enumerateObjectsUsingBlock:^(ORKSpeechInNoiseSample * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             
-            // Speech In Noise
-            {
-                ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@_%@_%@", listName.uppercaseString, fileName.uppercaseString, ORKSpeechInNoiseStepIdentifierSpeechInNoiseStep];
-                ORKSpeechInNoiseStep *step = [[ORKSpeechInNoiseStep alloc] initWithIdentifier:stepIdentifier];
-                step.speechFilePath = obj.path;
-                step.targetSentence = obj.transcript;
-                step.gainAppliedToNoise = 0.51;
-                step.title = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_LISTEN_TITLE", nil);
-                step.text = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_LISTEN_TEXT", nil);
-                step.detailText = [NSString stringWithFormat:ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_LISTEN_SENTENCE_X_OF_Y", nil), idx + 1, audioFileSamples.count];
-                step.optional = NO;
-                step.hideGraphView = NO;
-                [steps addObject:step];
-            }
+        NSString *fileName = [[obj.path stringByDeletingPathExtension] lastPathComponent];
+        NSString *listName = [[obj.path stringByDeletingLastPathComponent] lastPathComponent];
             
-            // Speech Recognition
-            {
-                ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@_%@_%@", listName.uppercaseString, fileName.uppercaseString, ORKSpeechInNoiseStepIdentifierSpeechRecognitionStep];
-                ORKStreamingAudioRecorderConfiguration *config = [[ORKStreamingAudioRecorderConfiguration alloc] initWithIdentifier:@"streamingAudio"];
-                ORKSpeechRecognitionStep *step = [[ORKSpeechRecognitionStep alloc] initWithIdentifier:stepIdentifier image:nil text:nil];
-                step.shouldHideTranscript = YES;
-                step.recorderConfigurations = @[config];
-                step.speechRecognizerLocale = @"en-US";
-                step.title = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_REPEAT_TITLE", nil);
-                step.optional = NO;
-                [steps addObject:step];
-            }
+        // Speech In Noise
+        {
+            ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@_%@_%@", listName.uppercaseString, fileName.uppercaseString, ORKSpeechInNoiseStepIdentifierSpeechInNoiseStep];
+            ORKSpeechInNoiseStep *step = [[ORKSpeechInNoiseStep alloc] initWithIdentifier:stepIdentifier];
+            step.context = practiceContext;
+            step.speechFilePath = obj.path;
+            step.targetSentence = obj.transcript;
+            step.gainAppliedToNoise = 0.51;
+            step.title = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_LISTEN_TITLE", nil);
+            step.text = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_LISTEN_TEXT", nil);
+            step.detailText = [NSString stringWithFormat:ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_LISTEN_SENTENCE_X_OF_Y", nil), idx + 1, audioFileSamples.count];
+            step.optional = NO;
+            step.hideGraphView = NO;
+            [steps addObject:step];
+        }
             
-            // Edit Transcript
-            {
-                ORKTextAnswerFormat *answerFormat = [ORKTextAnswerFormat new];
-                answerFormat.spellCheckingType = UITextSpellCheckingTypeNo;
-                answerFormat.autocorrectionType = UITextAutocorrectionTypeNo;
+        // Speech Recognition
+        {
+            ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@_%@_%@", listName.uppercaseString, fileName.uppercaseString, ORKSpeechInNoiseStepIdentifierSpeechRecognitionStep];
+            ORKStreamingAudioRecorderConfiguration *config = [[ORKStreamingAudioRecorderConfiguration alloc] initWithIdentifier:@"streamingAudio"];
+            ORKSpeechRecognitionStep *step = [[ORKSpeechRecognitionStep alloc] initWithIdentifier:stepIdentifier image:nil text:nil];
+            step.shouldHideTranscript = YES;
+            step.context = practiceContext;
+            step.recorderConfigurations = @[config];
+            step.speechRecognizerLocale = @"en-US";
+            step.title = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_REPEAT_TITLE", nil);
+            step.optional = NO;
+            [steps addObject:step];
+        }
+            
+        // Edit Transcript
+        {
+            ORKTextAnswerFormat *answerFormat = [ORKTextAnswerFormat new];
+            answerFormat.spellCheckingType = UITextSpellCheckingTypeNo;
+            answerFormat.autocorrectionType = UITextAutocorrectionTypeNo;
                 
-                ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@_%@_%@", listName.uppercaseString, fileName.uppercaseString, ORKSpeechInNoiseStepIdentifierEditSpeechTranscriptStep];
-                ORKQuestionStep *step = [ORKQuestionStep questionStepWithIdentifier:stepIdentifier
+            ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@_%@_%@", listName.uppercaseString, fileName.uppercaseString, ORKSpeechInNoiseStepIdentifierEditSpeechTranscriptStep];
+            ORKQuestionStep *step = [ORKQuestionStep questionStepWithIdentifier:stepIdentifier
                                                                               title:ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_REVIEW_TITLE", nil)
                                                                            question:nil
                                                                              answer:answerFormat];
-                step.text = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_REVIEW_TEXT", nil);
-                step.optional = NO;
-                [steps addObject:step];
-            }
-        }];
-    }
+            step.context = practiceContext;
+            step.text = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_REVIEW_TEXT", nil);
+            step.optional = NO;
+            [steps addObject:step];
+        }
+    }];
     
     return [steps copy];
 }
