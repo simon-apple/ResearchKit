@@ -244,7 +244,8 @@ ORK_MAKE_TEST_INIT(ORKSpeechInNoisePredefinedTask, ^{
     return [self initWithIdentifier:@"test1"
                audioSetManifestPath:[bundlePath stringByAppendingPathComponent: @"PredefinedTaskResources/List1/manifest.json"]
                        prependSteps:@[stepA]
-                        appendSteps:@[stepB]];
+                        appendSteps:@[stepB]
+               includePracticeSteps:YES];
 });
 ORK_MAKE_TEST_INIT(ORKImageChoice, ^{return [super init];});
 ORK_MAKE_TEST_INIT(ORKTextChoice, ^{return [super init];});
@@ -485,7 +486,8 @@ ORK_MAKE_TEST_INIT(NSRegularExpression, (^{
                                           @"ORKStep.requestedPermissions",
                                           @"ORKStep.restorable",
                                           @"ORKStep.showsProgress",
-                                          @"ORKStep.task", // weak ref - object will be nil
+                                          @"ORKStep.task", // weak ref - object will be nil,
+                                          @"ORKStep.context",
                                           @"ORKTableStep.bulletIconNames",
                                           @"ORKTextAnswerFormat.autocapitalizationType",
                                           @"ORKTextAnswerFormat.autocorrectionType",
@@ -1165,7 +1167,8 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
                                        @"ORKSpeechRecognitionStep.shouldHideTranscript",
                                        @"ORKTableStep.isBulleted",
                                        @"ORKTableStep.allowsSelection",
-                                       @"ORKPDFViewerStep.actionBarOption"
+                                       @"ORKPDFViewerStep.actionBarOption",
+                                       @"ORKSpeechInNoisePredefinedTask.includePracticeSteps"
                                        ];
     
     NSArray *hashExclusionList = @[

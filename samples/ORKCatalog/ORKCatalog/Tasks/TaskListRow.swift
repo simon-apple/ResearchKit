@@ -1649,7 +1649,7 @@ enum TaskListRow: Int, CustomStringConvertible {
             return speechInNoiseTask
         }
         
-         return ORKSpeechInNoisePredefinedTask(identifier: "\(Identifier.speechInNoiseTask)", audioSetManifestPath: path, prepend: nil, append: nil)
+         return ORKSpeechInNoisePredefinedTask(identifier: "\(Identifier.speechInNoiseTask)", audioSetManifestPath: path, prepend: nil, append: nil, includePracticeSteps: true)
     }
     
     /// This task presents the Stroop pre-defined active task.

@@ -1,5 +1,6 @@
 {
     "_class": "ORKSpeechInNoisePredefinedTask",
+    "includePracticeSteps": 1,
     "audioSetManifestPath": "StudyResources/List1/manifest.json",
     "appendSteps": [
         {

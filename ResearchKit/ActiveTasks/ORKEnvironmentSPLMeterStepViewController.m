@@ -31,6 +31,7 @@
 
 #import "ORKEnvironmentSPLMeterStepViewController.h"
 
+#import "ORKContext.h"
 #import "ORKActiveStepView.h"
 #import "ORKStepView.h"
 #import "ORKStepContainerView_Private.h"
@@ -133,9 +134,24 @@
 }
 
 - (void)setNavigationFooterView {
+
     self.activeStepView.navigationFooterView.continueButtonItem = self.continueButtonItem;
     self.activeStepView.navigationFooterView.continueEnabled = NO;
     [self.activeStepView.navigationFooterView updateContinueAndSkipEnabled];
+    
+    ORKStep *nextStep = [self.taskViewController stepAfterStep:self.step];
+    if (nextStep && [nextStep.context isKindOfClass:[ORKSpeechInNoisePredefinedTaskContext class]])
+    {
+        ORKSpeechInNoisePredefinedTaskContext *context = (ORKSpeechInNoisePredefinedTaskContext *)nextStep.context;
+        if ([context isPracticeTest])
+        {
+            [self setContinueButtonTitle:ORKLocalizedString(@"BUTTON_PRACTICE_TEST", nil)];
+        }
+        else
+        {
+            [self setContinueButtonTitle:ORKLocalizedString(@"BUTTON_START_TEST", nil)];
+        }
+    }
 }
 
 - (void)setContinueButtonItem:(UIBarButtonItem *)continueButtonItem {

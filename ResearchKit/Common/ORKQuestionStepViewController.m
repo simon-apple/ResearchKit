@@ -62,6 +62,7 @@
 
 #import "ORKHelpers_Internal.h"
 #import "ORKSkin.h"
+#import "ORKContext.h"
 
 
 typedef NS_ENUM(NSInteger, ORKQuestionSection) {
@@ -520,8 +521,19 @@ static const CGFloat DelayBeforeAutoScroll = 0.25;
     [self updateButtonStates];
 }
 
-- (ORKStepResult *)result {
+- (ORKStepResult *)result
+{
     ORKStepResult *parentResult = [super result];
+    
+    if ([self.step.context isKindOfClass:[ORKSpeechInNoisePredefinedTaskContext class]])
+    {
+        ORKSpeechInNoisePredefinedTaskContext *speechInNoisePredefinedTaskContext = (ORKSpeechInNoisePredefinedTaskContext *)self.step.context;
+        if ([speechInNoisePredefinedTaskContext isPracticeTest])
+        {
+            return parentResult;
+        }
+    }
+    
     ORKQuestionStep *questionStep = self.questionStep;
     
     if (self.answer) {

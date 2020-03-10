@@ -227,6 +227,9 @@
 "BUTTON_READ_ONLY_MODE" = "This answer cannot be modified.";
 "BUTTON_COPYRIGHT" = "Copyright";
 "BUTTON_CLOSE" = "Close";
+"BUTTON_START_TEST" = "Start Test";
+"BUTTON_PRACTICE_TEST" = "Practice Test";
+"BUTTON_PRACTICE_AGAIN" = "Practice Again";
 
 /* General active tasks. */
 "COUNTDOWN_LABEL" = "Starting activity in";
@@ -603,6 +606,7 @@
 "SPEECH_IN_NOISE_PREDEFINED_VOLUME_CALIBRATION_TEXT" = "Make sure your ears and headphones are clear of any obstructions.\r\n\r\nAdjust the volume so you can clearly hear the sample.";
 "SPEECH_IN_NOISE_PREDEFINED_PLAY_AUDIO_SAMPLE" = "Play Sample";
 "SPEECH_IN_NOISE_PREDEFINED_STOP_AUDIO_SAMPLE" = "Stop Sample";
+"SPEECH_IN_NOISE_PREDEFINED_PRACTICE_COMPLETION_TITLE" = "Practice Complete";
 
 /* Potentially user visible error messages. */
 "ERROR_DATALOGGER_CREATE_FILE" = "Could not create file";

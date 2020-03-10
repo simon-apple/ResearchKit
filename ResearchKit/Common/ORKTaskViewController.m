@@ -41,6 +41,7 @@
 #import "ORKTaskViewController_Internal.h"
 #import "ORKVisualConsentStepViewController.h"
 #import "ORKLearnMoreStepViewController.h"
+#import "ORKSpeechInNoisePredefinedTask.h"
 
 #import "ORKActiveStep.h"
 #import "ORKCollectionResult_Private.h"
@@ -1332,6 +1333,29 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
             [self showStepViewController:stepViewController goForward:NO animated:animated];
         }
     }
+}
+
+- (void)flipToPageWithIdentifier:(NSString *)identifier forward:(BOOL)forward
+{
+    NSUInteger index =
+    [[(ORKOrderedTask *)self.task steps] indexOfObjectPassingTest:^BOOL(ORKStep * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop)
+    {
+            if ([obj.identifier isEqualToString:identifier])
+            {
+                *stop = YES;
+                return YES;
+            }
+            
+            return NO;
+    }];
+        
+        if (index == NSNotFound) { return; }
+        
+        ORKStep *step = [[(ORKOrderedTask *)self.task steps] objectAtIndex:index];
+        if (step)
+        {
+            [self showStepViewController:[self viewControllerForStep:step] goForward:forward animated:YES];
+        }
 }
 
 #pragma mark -  ORKStepViewControllerDelegate

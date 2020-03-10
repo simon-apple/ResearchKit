@@ -806,14 +806,15 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     return [[ORKSpeechInNoisePredefinedTask alloc] initWithIdentifier:GETPROP(dict, identifier)
                                                                  audioSetManifestPath:GETPROP(dict, audioSetManifestPath)
                                                                          prependSteps:GETPROP(dict, prependSteps)
-                                                                          appendSteps:GETPROP(dict, appendSteps)];
-               
+                                                                          appendSteps:GETPROP(dict, appendSteps)
+                                                                 includePracticeSteps:GETPROP(dict, includePracticeSteps)];
                 },
                  (@{
                     PROPERTY(audioSetManifestPath, NSString, NSObject, NO, nil, nil),
                     PROPERTY(prependSteps, ORKStep, NSArray, NO, nil, nil),
                     PROPERTY(appendSteps, ORKStep, NSArray, NO, nil, nil),
                     SKIP_PROPERTY(steps, ORKStep, NSArray, NO, nil, nil),
+                    PROPERTY(includePracticeSteps, NSNumber, NSObject, YES, nil, nil)
                 })),
            ENTRY(ORKStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
