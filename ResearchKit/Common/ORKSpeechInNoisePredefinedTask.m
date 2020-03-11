@@ -319,6 +319,7 @@
             ORKTextAnswerFormat *answerFormat = [ORKTextAnswerFormat new];
             answerFormat.spellCheckingType = UITextSpellCheckingTypeNo;
             answerFormat.autocorrectionType = UITextAutocorrectionTypeNo;
+            answerFormat.multipleLines = YES;
             
             ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@_PRACTICE", ORKSpeechInNoiseStepIdentifierEditSpeechTranscriptStep];
             ORKQuestionStep *step = [ORKQuestionStep questionStepWithIdentifier:stepIdentifier
