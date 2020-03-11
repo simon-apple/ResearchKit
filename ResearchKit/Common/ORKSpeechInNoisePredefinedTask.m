@@ -387,7 +387,8 @@
             ORKTextAnswerFormat *answerFormat = [ORKTextAnswerFormat new];
             answerFormat.spellCheckingType = UITextSpellCheckingTypeNo;
             answerFormat.autocorrectionType = UITextAutocorrectionTypeNo;
-                
+            answerFormat.multipleLines = YES;
+            
             ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@_%@_%@", listName.uppercaseString, fileName.uppercaseString, ORKSpeechInNoiseStepIdentifierEditSpeechTranscriptStep];
             ORKQuestionStep *step = [ORKQuestionStep questionStepWithIdentifier:stepIdentifier
                                                                               title:ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_REVIEW_TITLE", nil)
