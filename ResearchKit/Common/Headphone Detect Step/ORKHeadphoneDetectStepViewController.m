@@ -46,6 +46,7 @@
 #import "ORKStepViewController_Internal.h"
 #import "ORKSkin.h"
 #import "ORKHelpers_Internal.h"
+#import "ORKContext.h"
 
 static const CGFloat ORKHeadphoneImageViewDimension = 36.0;
 static const CGFloat ORKHeadphoneDetectStepViewTopPadding = 37.0;
@@ -587,6 +588,16 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     [self.stepView removeCustomContentPadding];
 }
 
+- (void)noHeadphonesButtonPressed:(id)sender
+{
+    if ([self.step.context isKindOfClass:[ORKSpeechInNoisePredefinedTaskContext class]])
+    {
+        [(ORKSpeechInNoisePredefinedTaskContext *)self.step.context didSkipHeadphoneDetectionStepForTask:self.step.task];
+    }
+    
+    [self goToEnd:sender];
+}
+
 - (void)goToEnd:(id)sender {
     [[self taskViewController] flipToLastPage];
 }
@@ -597,12 +608,32 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     self.stepView.navigationFooterView.continueEnabled = NO;
 }
 
-- (void)setSkipButtonItem:(UIBarButtonItem *)skipButtonItem {
+- (void)setContinueButtonItem:(UIBarButtonItem *)continueButtonItem
+{
+    [super setContinueButtonItem:continueButtonItem];
+    
+    if ([self.step.context isKindOfClass:[ORKSpeechInNoisePredefinedTaskContext class]])
+    {
+        continueButtonItem.title = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_DETECT_CONTINUE", nil);
+    }
+}
+
+- (void)setSkipButtonItem:(UIBarButtonItem *)skipButtonItem
+{
     [super setSkipButtonItem:skipButtonItem];
     
-    [skipButtonItem setTitle:ORKLocalizedString(@"SKIP_TO_END_TEXT", nil)];
-    skipButtonItem.target = self;
-    skipButtonItem.action = @selector(goToEnd:);
+    if ([self.step.context isKindOfClass:[ORKSpeechInNoisePredefinedTaskContext class]])
+    {
+        [skipButtonItem setTitle:ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_DETECT_SKIP", nil)];
+        skipButtonItem.target = self;
+        skipButtonItem.action = @selector(noHeadphonesButtonPressed:);
+    }
+    else
+    {
+        [skipButtonItem setTitle:ORKLocalizedString(@"SKIP_TO_END_TEXT", nil)];
+        skipButtonItem.target = self;
+        skipButtonItem.action = @selector(goToEnd:);
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
