@@ -28,22 +28,67 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "ORKSpeechInNoisePredefinedTask.h"
-#import "ORKHelpers_Internal.h"
-#import "ORKStep.h"
-#import "ORKBodyItem.h"
-#import "ORKRecorder.h"
-#import "ORKSpeechInNoiseStep.h"
-#import "ORKSpeechRecognitionStep.h"
 #import "ORKAnswerFormat.h"
-#import "ORKQuestionStep.h"
-#import "ORKHeadphoneDetectStep.h"
-#import "ORKEnvironmentSPLMeterStep.h"
-#import "ORKVolumeCalibrationStep.h"
+#import "ORKBodyItem.h"
 #import "ORKCompletionStep.h"
 #import "ORKContext.h"
+#import "ORKEnvironmentSPLMeterStep.h"
+#import "ORKHeadphoneDetectStep.h"
+#import "ORKHelpers_Internal.h"
+#import "ORKQuestionStep.h"
+#import "ORKRecorder.h"
+#import "ORKSpeechInNoisePredefinedTask.h"
+#import "ORKSpeechInNoiseStep.h"
+#import "ORKSpeechRecognitionStep.h"
+#import "ORKStep.h"
+#import "ORKStepNavigationRule.h"
+#import "ORKVolumeCalibrationStep.h"
+
+typedef NSString * ORKSpeechInNoiseStepIdentifier NS_STRING_ENUM;
+ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierHeadphoneDetectStep = @"ORKSpeechInNoiseStepIdentifierHeadphoneDetectStep";
+ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierVolumeCalibrationStep = @"ORKSpeechInNoiseStepIdentifierVolumeCalibrationStep";
+ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierEnvironmentSPLStep = @"ORKSpeechInNoiseStepIdentifierEnvironmentSPLStep";
+ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierSpeechInNoiseStep = @"PLAYBACK";
+ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierSpeechRecognitionStep = @"SPEECH_RECOGNITION";
+ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierEditSpeechTranscriptStep = @"TRANSCRIPT";
+ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierPracticeCompletionStep = @"ORKSpeechInNoiseStepIdentifierPracticeCompletionStep";
+
+// Private subclass to disable backwards navigation.
+@interface ORKFinalInstructionStep : ORKInstructionStep
+
+@end
+
+@implementation ORKFinalInstructionStep
+
+- (BOOL)allowsBackNavigation
+{
+    return NO;
+}
+
+@end
 
 @implementation ORKSpeechInNoisePredefinedTaskContext
+
+- (void)didSkipHeadphoneDetectionStepForTask:(id<ORKTask>)task
+{
+    if ([task isKindOfClass:[ORKNavigableOrderedTask class]])
+    {
+        // If the user selects to skip here, append a new step to the end of the task and skip to the end.
+        // Add a navigation rule to end the current task.
+        ORKNavigableOrderedTask *currentTask = (ORKNavigableOrderedTask *)task;
+        
+        ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierHeadphonesRequired = @"ORKSpeechInNoiseStepIdentifierHeadphonesRequired";
+        
+        ORKFinalInstructionStep *step = [[ORKFinalInstructionStep alloc] initWithIdentifier:ORKSpeechInNoiseStepIdentifierHeadphonesRequired];
+        step.title = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_REQUIRED_TITLE", nil);
+        step.text = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_REQUIRED_TEXT", nil);
+        step.optional = NO;
+        [currentTask appendSteps:@[step]];
+        
+        ORKDirectStepNavigationRule *endNavigationRule = [[ORKDirectStepNavigationRule alloc] initWithDestinationStepIdentifier:ORKNullStepIdentifier];
+        [currentTask setNavigationRule:endNavigationRule forTriggerStepIdentifier:ORKSpeechInNoiseStepIdentifierHeadphonesRequired];
+    }
+}
 
 @end
 
@@ -234,15 +279,14 @@
         }
         return nil;
     }
-    
-    typedef NSString * ORKSpeechInNoiseStepIdentifier NS_STRING_ENUM;
 
     NSMutableArray<ORKStep *> *steps = [[NSMutableArray alloc] init];
     
 #if !HIDE_HEADPHONE_DETECT_STEP
     {
-        ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierHeadphoneDetectStep = @"ORKSpeechInNoiseStepIdentifierHeadphoneDetectStep";
+        ORKSpeechInNoisePredefinedTaskContext *context = [[ORKSpeechInNoisePredefinedTaskContext alloc] init];
         ORKHeadphoneDetectStep *step = [[ORKHeadphoneDetectStep alloc] initWithIdentifier:ORKSpeechInNoiseStepIdentifierHeadphoneDetectStep headphoneTypes:ORKHeadphoneTypesAny];
+        step.context = context;
         step.title = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_DETECT_TITLE", nil);
         step.detailText = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_DETECT_TEXT", nil);
         step.optional = NO;
@@ -252,7 +296,6 @@
     
 #if !HIDE_VOLUME_CALIBRATION_STEP
     {
-        ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierVolumeCalibrationStep = @"ORKSpeechInNoiseStepIdentifierVolumeCalibrationStep";
         ORKVolumeCalibrationStep *step = [[ORKVolumeCalibrationStep alloc] initWithIdentifier:ORKSpeechInNoiseStepIdentifierVolumeCalibrationStep];
         step.title = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_VOLUME_CALIBRATION_TITLE", nil);
         step.detailText = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_VOLUME_CALIBRATION_TEXT", nil);
@@ -263,7 +306,6 @@
     
 #if !HIDE_ENVIRONMENT_SPL_STEP
     {
-        ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierEnvironmentSPLStep = @"ORKSpeechInNoiseStepIdentifierEnvironmentSPLStep";
         ORKEnvironmentSPLMeterStep *step = [[ORKEnvironmentSPLMeterStep alloc] initWithIdentifier:ORKSpeechInNoiseStepIdentifierEnvironmentSPLStep];
         step.title = ORKLocalizedString(@"ENVIRONMENTSPL_TITLE_2", nil);
         step.text = ORKLocalizedString(@"ENVIRONMENTSPL_INTRO_TEXT_2", nil);
@@ -275,10 +317,6 @@
     }
 #endif
        
-    ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierSpeechInNoiseStep = @"PLAYBACK";
-    ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierSpeechRecognitionStep = @"SPEECH_RECOGNITION";
-    ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierEditSpeechTranscriptStep = @"TRANSCRIPT";
-        
     // Create ORKSpeechInNoisePredefinedTaskContext Which denotes we are practicing.
     ORKSpeechInNoisePredefinedTaskContext *practiceContext = [[ORKSpeechInNoisePredefinedTaskContext alloc] init];
     
@@ -334,7 +372,6 @@
         
         // Completion (Practice)
         {
-            ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierPracticeCompletionStep = @"ORKSpeechInNoiseStepIdentifierPracticeCompletionStep";
             ORKCompletionStep *step = [[ORKCompletionStep alloc] initWithIdentifier:ORKSpeechInNoiseStepIdentifierPracticeCompletionStep];
             step.context = practiceContext;
             step.title = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_PRACTICE_COMPLETION_TITLE", nil);

@@ -517,6 +517,7 @@ ORK_MAKE_TEST_INIT(NSRegularExpression, (^{
         [stringsForClassesExcluded addObject:NSStringFromClass(c)];
     }
     
+    [stringsForClassesExcluded addObject:@"ORKFinalInstructionStep"];
     [stringsForClassesExcluded addObject:@"ORKFreehandDrawingGestureRecognizer"];
     [stringsForClassesExcluded addObject:@"ORKSignatureGestureRecognizer"];
     [stringsForClassesExcluded addObject:@"ORKTouchGestureRecognizer"];
