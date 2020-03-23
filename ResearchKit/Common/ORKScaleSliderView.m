@@ -283,7 +283,8 @@ static const CGFloat kMargin = 25.0;
     UIFontDescriptor *rangeDescriptionLabelFontDescriptor = [rangeDescriptionLabelDescriptor fontDescriptorWithSymbolicTraits:(UIFontDescriptorTraitBold)];
     
     _leftRangeDescriptionLabel = [[ORKScaleRangeDescriptionLabel alloc] initWithFrame:CGRectZero];
-    _leftRangeDescriptionLabel.numberOfLines = -1;
+    _leftRangeDescriptionLabel.numberOfLines = 0;
+    _leftRangeDescriptionLabel.lineBreakMode = NSLineBreakByWordWrapping;
     [_leftRangeDescriptionLabel setFont: [UIFont fontWithDescriptor:rangeDescriptionLabelFontDescriptor size:[[rangeDescriptionLabelFontDescriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]]];
     _leftRangeDescriptionLabel.translatesAutoresizingMaskIntoConstraints = NO;
     if (@available(iOS 13.0, *)) {
@@ -291,7 +292,8 @@ static const CGFloat kMargin = 25.0;
     }
    
     _rightRangeDescriptionLabel = [[ORKScaleRangeDescriptionLabel alloc] initWithFrame:CGRectZero];
-    _rightRangeDescriptionLabel.numberOfLines = -1;
+    _rightRangeDescriptionLabel.numberOfLines = 0;
+    _rightRangeDescriptionLabel.lineBreakMode = NSLineBreakByWordWrapping;
     [_rightRangeDescriptionLabel setFont: [UIFont fontWithDescriptor:rangeDescriptionLabelFontDescriptor size:[[rangeDescriptionLabelFontDescriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]]];
     _rightRangeDescriptionLabel.translatesAutoresizingMaskIntoConstraints = NO;
     if (@available(iOS 13.0, *)) {
@@ -585,13 +587,13 @@ static const CGFloat kMargin = 25.0;
         if (_slider.isWaitingForUserFeedback) {
             [constraints addObject:[_topStackView.topAnchor constraintEqualToAnchor:self.topAnchor constant:MoveSliderLabelTopPadding]];
             [constraints addObject:[_slider.topAnchor constraintEqualToAnchor:_topStackView.bottomAnchor constant:MoveSliderLabelBottomPadding]];
-            [[_leftRangeDescriptionLabel.topAnchor constraintEqualToAnchor:_slider.bottomAnchor constant:SliderBottomPadding] setActive:YES];
-            
         } else {
             [constraints addObject:[_topStackView.topAnchor constraintEqualToAnchor:self.topAnchor constant:ValueLabelTopPadding]];
             [constraints addObject:[_slider.topAnchor constraintEqualToAnchor:_topStackView.bottomAnchor constant:ValueLabelBottomPadding]];
-            [[_leftRangeDescriptionLabel.topAnchor constraintEqualToAnchor:_slider.bottomAnchor constant:SliderBottomPadding] setActive:YES];
         }
+        
+        [[_leftRangeDescriptionLabel.topAnchor constraintEqualToAnchor:_slider.bottomAnchor constant:SliderBottomPadding] setActive:YES];
+        [[_rightRangeDescriptionLabel.topAnchor constraintEqualToAnchor:_slider.bottomAnchor constant:SliderBottomPadding] setActive:YES];
         
         //Horizontal constraints for center elements
         [[_leftRangeView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:kMargin] setActive:YES];
@@ -603,8 +605,11 @@ static const CGFloat kMargin = 25.0;
         
         //Horizontal constraints for bottom elements
         [[_leftRangeDescriptionLabel.leadingAnchor constraintEqualToAnchor:_slider.leadingAnchor] setActive:YES];
+        [[_leftRangeDescriptionLabel.trailingAnchor constraintLessThanOrEqualToAnchor:self.centerXAnchor] setActive:YES];
         [[_rightRangeDescriptionLabel.trailingAnchor constraintEqualToAnchor:_slider.trailingAnchor] setActive:YES];
-        [[_rightRangeDescriptionLabel.centerYAnchor constraintEqualToAnchor:_leftRangeDescriptionLabel.centerYAnchor] setActive:YES];
+        [[_rightRangeDescriptionLabel.leadingAnchor constraintGreaterThanOrEqualToAnchor:self.centerXAnchor] setActive:YES];
+        
+        UILabel *largerDescriptionLabel = _leftRangeDescriptionLabel.text.length >= _rightRangeDescriptionLabel.text.length ? _leftRangeDescriptionLabel : _rightRangeDescriptionLabel;
         
         //Constraints for dont know button elements
         if ([_formatProvider shouldShowDontKnowButton]) {
@@ -618,15 +623,14 @@ static const CGFloat kMargin = 25.0;
             [[_dividerView.leftAnchor constraintEqualToAnchor:self.leftAnchor] setActive:YES];
             [[_dividerView.rightAnchor constraintEqualToAnchor:self.rightAnchor] setActive:YES];
             [[_dividerView.heightAnchor constraintEqualToConstant:separatorHeight] setActive:YES];
-            [[_dividerView.topAnchor constraintGreaterThanOrEqualToAnchor:_leftRangeDescriptionLabel.bottomAnchor constant:8.0] setActive:YES];
+            [[_dividerView.topAnchor constraintGreaterThanOrEqualToAnchor: largerDescriptionLabel.bottomAnchor constant:8.0] setActive:YES];
 
             [[_dontKnowButton.topAnchor constraintGreaterThanOrEqualToAnchor:_dividerView.bottomAnchor constant:DontKnowButtonTopBottomPadding] setActive:YES];
             [[_dontKnowButton.centerXAnchor constraintEqualToAnchor:_dividerView.centerXAnchor] setActive:YES];
             
             [[self.bottomAnchor constraintEqualToAnchor:_dontKnowButton.bottomAnchor constant:DontKnowButtonTopBottomPadding] setActive: YES];
         } else {
-            
-            [[self.bottomAnchor constraintEqualToAnchor:_leftRangeDescriptionLabel.bottomAnchor constant:8.0] setActive: YES];
+            [[self.bottomAnchor constraintEqualToAnchor:largerDescriptionLabel.bottomAnchor constant:8.0] setActive: YES];
         }
         
     }
