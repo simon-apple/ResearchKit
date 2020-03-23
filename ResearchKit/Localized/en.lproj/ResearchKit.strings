@@ -354,6 +354,8 @@
 "dBHL_ALERT_TITLE_CANCEL_TEST" = "Cancel Test";
 "dBHL_ALERT_TEXT" = "Reconnect your AirPods or EarPods to take this test.";
 "dBHL_PROGRESS_COMPLETION_%@" = "%@ Complete";
+"dBHL_TONE_AUDIOMETRY_TESTING_IN_PROGRESS" = "TEST IN PROGRESS";
+"dBHL_TONE_AUDIOMETRY_TESTING_IN_PROGRESS_FMT" = "TEST IN PROGRESS \U2022 %@";
 
 /* Headphones. */
 "AIRPODS" = "AirPods";
