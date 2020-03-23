@@ -266,7 +266,6 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
 }
 
 - (instancetype)initWithTask:(id<ORKTask>)task
-      startingStepIdentifier:(NSString *)startingStepIdentifier
                ongoingResult:(nullable ORKTaskResult *)ongoingResult
          defaultResultSource:(nullable id<ORKTaskResultSource>)defaultResultSource
                     delegate:(id<ORKTaskViewControllerDelegate>)delegate {
@@ -278,12 +277,14 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
         _defaultResultSource = defaultResultSource;
         if (ongoingResult != nil) {
             for (ORKResult *stepResult in ongoingResult.results) {
-                [_managedStepIdentifiers addObject:stepResult.identifier];
-                _managedResults[stepResult.identifier] = stepResult;
+                NSString *stepResultIdentifier = stepResult.identifier;
+                if ([task stepWithIdentifier:stepResultIdentifier] == nil) {
+                    @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"ongoingResults has results for identifiers not found within the task steps" userInfo:nil];
+                }
+                [_managedStepIdentifiers addObject:stepResultIdentifier];
+                _managedResults[stepResultIdentifier] = stepResult;
             }
-        }
-        if (startingStepIdentifier != nil) {
-            _restoredStepIdentifier = startingStepIdentifier;
+            _restoredStepIdentifier = ongoingResult.results.lastObject.identifier;
         }
     }
     return self;
