@@ -2691,7 +2691,10 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
 
 - (BOOL)isAnswerValidWithString:(NSString *)text {
     BOOL isValid = YES;
-    if (text && text.length > 0) {
+    
+    if (text &&
+        [text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length > 0)
+    {
         isValid = ([self isTextLengthValidWithString:text] && [self isTextRegularExpressionValidWithString:text]);
     }
     return isValid;
