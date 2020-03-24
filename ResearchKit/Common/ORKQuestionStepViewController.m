@@ -425,6 +425,11 @@ static const CGFloat DelayBeforeAutoScroll = 0.25;
     }
 }
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+}
+
 - (void)answerDidChange {
     if ([self.questionStep formatRequiresTableView] && !_customQuestionView) {
         [self.tableView reloadData];

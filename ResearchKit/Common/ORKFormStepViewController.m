@@ -409,6 +409,11 @@ static const CGFloat DelayBeforeAutoScroll = 0.25;
     UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, nil);
 }
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+}
+
 - (void)updateAnsweredSections {
     _answeredSections = [NSMutableSet new];
     [_sections enumerateObjectsUsingBlock:^(ORKTableSection * _Nonnull section, NSUInteger idx, BOOL * _Nonnull stop) {
