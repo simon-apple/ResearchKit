@@ -127,7 +127,7 @@ static const NSTimeInterval ORKHeadphoneCellAnimationDuration = 0.2;
 }
 
 - (instancetype)initWithAnyHeadphones {
-    return [self initWithTitle:ORKLocalizedString(@"HEADPHONES", nil) image:nil];
+    return [self initWithTitle:ORKLocalizedString(@"HEADPHONES", nil) image:[[UIImage imageNamed:@"headphones" inBundle:ORKBundle() compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]];
 }
 
 - (void)setupImageView {
@@ -304,9 +304,17 @@ static const NSTimeInterval ORKHeadphoneCellAnimationDuration = 0.2;
     _textLabel.text = _connected ? ORKLocalizedString(@"CONNECTED", nil) : ORKLocalizedString(@"NOT_CONNECTED", nil);
 }
 
-- (void)anyHeadphoneDetected:(NSString *)headphoneName {
-    if (_textLabel && headphoneName) {
+- (void)anyHeadphoneDetected:(NSString * _Nullable)headphoneName
+{
+    if (!_textLabel) { return; }
+    
+    if (headphoneName)
+    {
         [_textLabel setText:[NSString localizedStringWithFormat:ORKLocalizedString(@"HEADPHONE_CONNECTED_%@", nil),headphoneName]];
+    }
+    else
+    {
+        [_textLabel setText:ORKLocalizedString(@"CONNECTED", nil)];
     }
 }
 
@@ -545,7 +553,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
                     break;
                 case ORKHeadphoneDetectedUnknown:
                     _anyHeadphoneView.selected = YES;
-                    [_anyHeadphoneView anyHeadphoneDetected:ORKLocalizedString(@"HEADPHONES_UNKNOWN", nil)];
+                    [_anyHeadphoneView anyHeadphoneDetected:nil];
                     break;
                 case ORKHeadphoneDetectedNone:
                     _anyHeadphoneView.selected = NO;
