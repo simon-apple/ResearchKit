@@ -37,6 +37,7 @@
 #import "ORKSkin.h"
 #import "ORKActiveStep.h"
 #import "ORKNavigationContainerView_Internal.h"
+#import "ORKTypes.h"
 
 /*
  +-----------------------------------------+
@@ -123,6 +124,8 @@ static const CGFloat ORKBodyItemScrollPadding = 24.0;
     CGFloat _customContentTopPadding;
     CGFloat _highestContentPosition;
     
+    CGFloat _scrollViewCustomContentInset;
+    
     UIImageView *_topContentImageView;
 
 //    variable constraints:
@@ -148,6 +151,7 @@ static const CGFloat ORKBodyItemScrollPadding = 24.0;
         _leftRightPadding = ORKStepContainerExtendedLeftRightPaddingForWindow(self.window);
         self.isNavigationContainerScrollable = NO;
         _highestContentPosition = 0.0;
+        _scrollViewCustomContentInset = ORKCGFloatDefaultValue;
         [self setupScrollView];
         [self setupScrollContainerView];
         [self addStepContentView];
@@ -304,7 +308,18 @@ static const CGFloat ORKBodyItemScrollPadding = 24.0;
 }
 
 - (void)setScrollViewCustomContentInset:(CGFloat)scrollViewCustomContentInset {
-    _scrollView.contentInset = UIEdgeInsetsMake(0, 0, scrollViewCustomContentInset, 0);
+    _scrollViewCustomContentInset = scrollViewCustomContentInset;
+    [self updateScrollViewCustomContentInset];
+}
+
+- (void)updateScrollViewCustomContentInset {
+    if (_scrollViewCustomContentInset == ORKCGFloatDefaultValue) { return; }
+    
+    if (self.contentHeight > self.frame.size.height) {
+        _scrollView.contentInset = UIEdgeInsetsMake(0, 0, _scrollViewCustomContentInset, 0);
+    } else {
+        _scrollView.contentInset = UIEdgeInsetsZero;
+    }
 }
 
 - (void)setCustomContentView:(UIView *)customContentView {
@@ -351,6 +366,9 @@ static const CGFloat ORKBodyItemScrollPadding = 24.0;
     // dispatching on main thread to prevent the blur view from popping-up after transition is complete
     dispatch_async(dispatch_get_main_queue(), ^{
         [self updateEffectViewStylingAndAnimate:NO checkCurrentValue:NO];
+        if (_scrollViewCustomContentInset != ORKCGFloatDefaultValue) {
+            [self updateScrollViewCustomContentInset];
+        }
     });
 }
 
@@ -764,27 +782,39 @@ static const CGFloat ORKBodyItemScrollPadding = 24.0;
     }
 }
 
-- (void)updateEffectViewStylingAndAnimate:(BOOL)animated checkCurrentValue:(BOOL)checkCurrentValue {
-    CGFloat startOfFooter = self.navigationFooterView.frame.origin.y;
-    
-    // calculating height of all subviews in _scrollContainerView
+- (CGFloat)contentHeight {
     CGFloat height = 0.0;
-
-    for(UIView *view in _scrollContainerView.subviews) {
+    for (UIView *view in _scrollContainerView.subviews) {
         height += view.frame.size.height;
     }
     
+    return height;
+}
+
+- (void)updateEffectViewStylingAndAnimate:(BOOL)animated checkCurrentValue:(BOOL)checkCurrentValue {
+    CGFloat startOfFooter = self.navigationFooterView.frame.origin.y;
+    CGFloat endOfFooter = self.navigationFooterView.frame.origin.y + self.navigationFooterView.frame.size.height;
+    
+    // calculating height of all subviews in _scrollContainerView
+    CGFloat height = [self contentHeight];
     if (!self.isNavigationContainerScrollable) {
         CGFloat contentPosition = (height - _scrollView.contentOffset.y);
         CGFloat newOpacity = (contentPosition < startOfFooter) ? ORKEffectViewOpacityHidden : ORKEffectViewOpacityVisible;
         [self updateEffectStyleWithNewOpacity:newOpacity animated:animated checkCurrentValue:checkCurrentValue];
 
         // This check is to guard against scenarios when the view can be dragged down even if the content size doesn't allow for scrolling behavior
-        if (contentPosition > _highestContentPosition) {
+        if (contentPosition > _highestContentPosition && (_scrollView.contentOffset.y >= _scrollView.contentInset.top)) {
             _highestContentPosition = contentPosition;
             // add contentInset if the contentPosition extends beyond the footerView
             if ((contentPosition > startOfFooter) && (!self.navigationFooterView.isHidden)) {
-                _scrollView.contentInset = UIEdgeInsetsMake(0, 0, self.navigationFooterView.frame.size.height + ORKContentBottomPadding, 0);
+                // Only need to calculate the offset based on content position if the end of the content sits between
+                // the top and the bottom of the navigation footer view
+                if (contentPosition < endOfFooter) {
+                    CGFloat offset = contentPosition - startOfFooter;
+                    _scrollView.contentInset = UIEdgeInsetsMake(0, 0, offset + ORKContentBottomPadding, 0);
+                } else {
+                    _scrollView.contentInset = UIEdgeInsetsMake(0, 0, self.navigationFooterView.frame.size.height + ORKContentBottomPadding, 0);
+                }
             }
         }
     } else if ([self.navigationFooterView effectViewOpacity] != ORKEffectViewOpacityHidden) {
