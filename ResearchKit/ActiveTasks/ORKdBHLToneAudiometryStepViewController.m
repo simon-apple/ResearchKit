@@ -282,6 +282,9 @@
 
 - (void)estimatedBHLAndPlayToneWithFrequency: (NSNumber *)freq {
     [self stopAudio];
+    if (_showingAlert) {
+        return;
+    }
     if (_prevFreq != [freq doubleValue]) {
         CGFloat progress = 0.001 + (CGFloat)_indexOfFreqLoopList / _freqLoopList.count;
         [self.dBHLToneAudiometryContentView setProgress:progress
@@ -463,25 +466,29 @@
 
 - (void)headphoneTypeDetected:(ORKHeadphoneTypeIdentifier)headphoneType isSupported:(BOOL)isSupported {
     if (![headphoneType isEqualToString:[[self dBHLToneAudiometryStep].headphoneType uppercaseString]]) {
-        [self showAlertWithMessage:ORKLocalizedString(@"dBHL_ALERT_TEXT", nil)];
+        [self showAlertWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE_TEST_INTERRUPTED", nil) andMessage:ORKLocalizedString(@"dBHL_ALERT_TEXT", nil)];
     }
 }
 
 - (void)bluetoothModeChanged:(ORKBluetoothMode)bluetoothMode {
     if ([[[self dBHLToneAudiometryStep].headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsPro]) {
         if (bluetoothMode != ORKBluetoothModeNoiseCancellation) {
-            [self showAlertWithMessage:ORKLocalizedString(@"dBHL_NOISE_CANCELLING_ALERT_TEXT", nil)];
+            [self showAlertWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE_TEST_INTERRUPTED", nil) andMessage:ORKLocalizedString(@"dBHL_NOISE_CANCELLING_ALERT_TEXT", nil)];
         }
     }
 }
 
-- (void)showAlertWithMessage:(NSString*)message {
+- (void)podLowBatteryLevelDetected {
+    [self showAlertWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE2_TEST_INTERRUPTED", nil) andMessage:ORKLocalizedString(@"dBHL_POD_LOW_LEVEL_ALERT_TEXT", nil)];
+}
+
+- (void)showAlertWithTitle:(NSString*)title andMessage:(NSString*)message {
     if (!_showingAlert) {
         _showingAlert = YES;
         dispatch_async(dispatch_get_main_queue(), ^{
             [self stopAudio];
             UIAlertController *alertController = [UIAlertController
-                                                  alertControllerWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE_TEST_INTERRUPTED", nil)
+                                                  alertControllerWithTitle:title
                                                   message:message
                                                   preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *startOver = [UIAlertAction
