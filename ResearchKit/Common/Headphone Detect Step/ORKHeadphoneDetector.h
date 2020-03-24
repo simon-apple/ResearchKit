@@ -54,6 +54,7 @@ ORK_CLASS_AVAILABLE
 
 @optional
 - (void)bluetoothModeChanged:(ORKBluetoothMode)bluetoothMode;
+- (void)podLowBatteryLevelDetected;
 
 @end
 

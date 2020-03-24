@@ -695,5 +695,33 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     }
 }
 
+- (void)podLowBatteryLevelDetected {
+    _headphoneDetector.delegate = nil;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIAlertController *alertController = [UIAlertController
+                                              alertControllerWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE2_TEST_INTERRUPTED", nil)
+                                              message:ORKLocalizedString(@"dBHL_POD_LOW_LEVEL_ALERT_TEXT", nil)
+                                              preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *startOver = [UIAlertAction
+                                    actionWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE_START_OVER", nil)
+                                    style:UIAlertActionStyleDefault
+                                    handler:^(UIAlertAction *action) {
+            [[self taskViewController] flipToFirstPage];
+        }];
+        [alertController addAction:startOver];
+        [alertController addAction:[UIAlertAction
+                                    actionWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE_CANCEL_TEST", nil)
+                                    style:UIAlertActionStyleDefault
+                                    handler:^(UIAlertAction *action) {
+            ORKStrongTypeOf(self.taskViewController.delegate) strongDelegate = self.taskViewController.delegate;
+            if ([strongDelegate respondsToSelector:@selector(taskViewController:didFinishWithReason:error:)]) {
+                [strongDelegate taskViewController:self.taskViewController didFinishWithReason:ORKTaskViewControllerFinishReasonDiscarded error:nil];
+            }
+        }]];
+        alertController.preferredAction = startOver;
+        [self presentViewController:alertController animated:YES completion:nil];
+    });
+}
+
 @end
 

@@ -35,6 +35,7 @@
 #import "ORKAVFoundationSoftLink.h"
 
 static const NSTimeInterval ORKBTListeningModeCheckInterval = 0.1;
+static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
 
 @interface ORKHeadphoneDetector ()
 
@@ -76,7 +77,7 @@ static const NSTimeInterval ORKBTListeningModeCheckInterval = 0.1;
     if (_avFoundationSPIOk) {
         _btListeningModeCheckTimer = [NSTimer scheduledTimerWithTimeInterval: ORKBTListeningModeCheckInterval
                                                                       target: self
-                                                                    selector: @selector(noiseCancellingCheckTick:)
+                                                                    selector: @selector(checkTick:)
                                                                     userInfo: nil repeats:YES];
     }
 }
@@ -180,6 +181,21 @@ static const NSTimeInterval ORKBTListeningModeCheckInterval = 0.1;
     return nil;
 }
 
+- (BOOL)checkLowBatteryLevelForPods {
+    if (_avFoundationSPIOk) {
+        BOOL wirelessSplitterHasMoreThenOneDevice = ([[getAVOutputContextClass() sharedSystemAudioContext] outputDevices].count > 1);
+        NSDictionary *modelSpecificInformation = [[[getAVOutputContextClass() sharedSystemAudioContext] outputDevice] modelSpecificInformation];
+        if ([modelSpecificInformation objectForKey:getAVOutputDeviceBatteryLevelLeftKey()] != nil &&
+            [modelSpecificInformation objectForKey:getAVOutputDeviceBatteryLevelRightKey()] != nil &&
+            !wirelessSplitterHasMoreThenOneDevice) {
+            double leftValue = [[modelSpecificInformation objectForKey:getAVOutputDeviceBatteryLevelLeftKey()] doubleValue];
+            double rightValue = [[modelSpecificInformation objectForKey:getAVOutputDeviceBatteryLevelRightKey()] doubleValue];
+            return (leftValue < LOW_BATTERY_LEVEL_THRESHOLD_VALUE || rightValue < LOW_BATTERY_LEVEL_THRESHOLD_VALUE);
+        }
+    }
+    return NO;
+}
+
 - (BOOL)isRouteSupported {
     __block BOOL routeSupported = NO;
     
@@ -234,8 +250,16 @@ static const NSTimeInterval ORKBTListeningModeCheckInterval = 0.1;
     });
 }
 
-- (void)noiseCancellingCheckTick:(NSNotification *)notification {
+- (void)checkTick:(NSNotification *)notification {
     ORKStrongTypeOf(self.delegate) strongDelegate = self.delegate;
+    if ([self checkLowBatteryLevelForPods]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (strongDelegate &&
+                [strongDelegate respondsToSelector:@selector(podLowBatteryLevelDetected)]) {
+                [strongDelegate podLowBatteryLevelDetected];
+            }
+        });
+    }
     if (@available(iOS 13.0, *)) {
         if ([self getCurrentBTHeadphoneType] == ORKHeadphoneTypeIdentifierAirPodsPro &&
             _lastDetectedDevice == ORKHeadphoneTypeIdentifierAirPodsPro &&
