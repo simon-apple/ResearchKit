@@ -42,6 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)setCustomContentView:(UIView *)customContentView withTopPadding:(CGFloat)topPadding;
 - (void)setScrollViewCustomContentInset:(CGFloat)scrollViewCustomContentInset;
+- (CGFloat)contentHeight;
 
 @end
 
