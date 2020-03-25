@@ -667,6 +667,10 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
         [_childNavigationController setViewControllers:@[_taskReviewViewController] animated:NO];
         [self setTaskReviewViewControllerNavbar];
     }
+    
+    if (_currentStepViewController) {
+        [self setUpProgressLabelForStepViewController:_currentStepViewController];
+    }
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
