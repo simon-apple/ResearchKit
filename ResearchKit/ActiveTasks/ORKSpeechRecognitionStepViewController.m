@@ -39,6 +39,8 @@
 #import "ORKTask.h"
 #import "ORKActiveStepView.h"
 #import "ORKActiveStepViewController_Internal.h"
+#import "ORKBodyItem_Internal.h"
+#import "ORKStepContainerView_Private.h"
 
 #import "ORKSpeechRecognitionContentView.h"
 #import "ORKStreamingAudioRecorder.h"
@@ -48,6 +50,7 @@
 
 #import "ORKHelpers_Internal.h"
 #import "ORKBorderedButton.h"
+#import "ORKRecordButton.h"
 #import "ORKSpeechRecognitionResult.h"
 #import "ORKResult_Private.h"
 #import "ORKCollectionResult_Private.h"
@@ -57,10 +60,9 @@
 #import "ORKOrderedTask.h"
 #import "ORKContext.h"
 
-@interface ORKSpeechRecognitionStepViewController () <ORKStreamingAudioResultDelegate, ORKSpeechRecognitionDelegate, UITextFieldDelegate>
+@interface ORKSpeechRecognitionStepViewController () <ORKStreamingAudioResultDelegate, ORKSpeechRecognitionDelegate, UITextFieldDelegate, ORKSpeechRecognitionContentViewDelegate>
 
 @end
-
 
 @implementation ORKSpeechRecognitionStepViewController {
     ORKSpeechRecognitionContentView *_speechRecognitionContentView;
@@ -71,6 +73,7 @@
     ORKSpeechRecognitionResult *_localResult;
     BOOL _errorState;
     float _peakPower;
+    BOOL _allowUserToRecordInsteadOnNextStep;
 }
 
 - (instancetype)initWithStep:(ORKStep *)step {
@@ -83,17 +86,15 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    [self setAllowUserToRecordInsteadOnNextStep:NO];
     ORKSpeechRecognitionStep *step = (ORKSpeechRecognitionStep *) self.step;
     _speechRecognitionContentView = [ORKSpeechRecognitionContentView new];
     _speechRecognitionContentView.shouldHideTranscript = step.shouldHideTranscript;
     self.activeStepView.activeCustomView = _speechRecognitionContentView;
     _speechRecognitionContentView.speechRecognitionImage = step.speechRecognitionImage;
     _speechRecognitionContentView.speechRecognitionText = step.speechRecognitionText;
-    
-    [_speechRecognitionContentView.recordButton addTarget:self
-                                                   action:@selector(recordButtonPressed:)
-                                         forControlEvents:UIControlEventTouchDown];
+    _speechRecognitionContentView.delegate = self;
+    self.activeStepView.customContentFillsAvailableSpace = YES;
     
     _errorState = NO;
    
@@ -115,21 +116,72 @@
     }
 }
 
-- (void)recordButtonPressed:(id)sender {
-    if (sender == _speechRecognitionContentView.recordButton) {
-        if ([_speechRecognitionContentView.recordButton.titleLabel.text
-             isEqualToString:ORKLocalizedString(@"SPEECH_RECOGNITION_STOP_RECORD_LABEL", nil)]) {
-            [self stopWithError:nil];
-        } else {
+- (void)didPressRecordButton:(ORKRecordButton *)recordButton
+{
+    switch ([recordButton buttonType])
+    {
+        case ORKRecordButtonTypeRecord:
             
             [self initializeRecognizer];
-            
             [self start];
-            [_speechRecognitionContentView.recordButton setTitle:ORKLocalizedString(@"SPEECH_RECOGNITION_STOP_RECORD_LABEL", nil)
-                                                        forState:UIControlStateNormal];
-            _speechRecognitionContentView.recordButton.enabled = YES;
-        }
+            break;
+            
+        default:
+            [self stopWithError:nil];
+            break;
     }
+}
+
+- (void)didPressUseKeyboardButton
+{
+    [self setAllowUserToRecordInsteadOnNextStep:YES];
+    
+    [self goForward];
+}
+
+- (ORKSpeechInNoisePredefinedTaskContext * _Nullable)currentSpeechInNoisePredefinedTaskContext
+{
+    if (self.step.context && [self.step.context isKindOfClass:[ORKSpeechInNoisePredefinedTaskContext class]])
+    {
+        return (ORKSpeechInNoisePredefinedTaskContext *)self.step.context;
+    }
+    
+    return nil;
+}
+
+- (void)setAllowUserToRecordInsteadOnNextStep:(BOOL)allowUserToRecordInsteadOnNextStep
+{
+    _allowUserToRecordInsteadOnNextStep = allowUserToRecordInsteadOnNextStep;
+    
+    ORKSpeechInNoisePredefinedTaskContext *currentContext = [self currentSpeechInNoisePredefinedTaskContext];
+    if (currentContext)
+    {
+        currentContext.prefersKeyboard = allowUserToRecordInsteadOnNextStep;
+    }
+}
+
+- (CAShapeLayer *)recordingShapeLayer
+{
+    CAShapeLayer *layer = [CAShapeLayer layer];
+    UIBezierPath *circlePath = [UIBezierPath bezierPathWithOvalInRect:CGRectMake(0, 0, 30, 30)];
+    layer.path = circlePath.CGPath;
+    layer.strokeColor = UIColor.systemRedColor.CGColor;
+    return layer;
+}
+
+- (UIImage *)imageFromLayer:(CALayer *)layer
+{
+    UIGraphicsBeginImageContextWithOptions(layer.frame.size, NO, 0);
+    [layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return image;
+}
+
+- (UIFont *)buttonTextFont
+{
+    CGFloat fontSize = [[UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleCallout] pointSize];
+    return [UIFont systemFontOfSize:fontSize weight:UIFontWeightSemibold];
 }
 
 - (void)recordersDidChange {
@@ -147,12 +199,13 @@
 {
     ORKStepResult *sResult = [super result];
     
-    if ([self.step.context isKindOfClass:[ORKSpeechInNoisePredefinedTaskContext class]])
+    ORKSpeechInNoisePredefinedTaskContext *currentContext = [self currentSpeechInNoisePredefinedTaskContext];
+    
+    if (currentContext)
     {
-        ORKSpeechInNoisePredefinedTaskContext *speechInNoisePredefinedTaskContext = (ORKSpeechInNoisePredefinedTaskContext *)self.step.context;
-        if ([speechInNoisePredefinedTaskContext isPracticeTest])
+        if ([currentContext isPracticeTest] || currentContext.prefersKeyboard)
         {
-            // If we are in the speech in noise predefined context and we are in a practice test, do not save the result.
+            // If we are in the speech in noise predefined context and we are in a practice test or the user elected to use keyboard entry, do not save their result.
             return sResult;
         }
     }
@@ -187,14 +240,61 @@
     // Background processing is not supported
 }
 
-- (void)goForward {
-    if ([self hasNextStep]) {
+- (void)goForward
+{
+    [self setupNextStepForAllowingUserToRecordInstead:_allowUserToRecordInsteadOnNextStep];
+    [super goForward];
+}
+
+- (void)setupNextStepForAllowingUserToRecordInstead:(BOOL)allowUserToRecordInsteadOnNextStep
+{
+    ORKSpeechInNoisePredefinedTaskContext *currentContext = [self currentSpeechInNoisePredefinedTaskContext];
+    if (currentContext)
+    {
         ORKQuestionStep *nextStep = [self nextStep];
-        if (nextStep) {
+        if (nextStep)
+        {
             [((ORKTextAnswerFormat *)nextStep.answerFormat) setDefaultTextAnswer: [_localResult.transcription formattedString]];
+            
+            if (allowUserToRecordInsteadOnNextStep)
+            {
+                nextStep.title = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_TYPE_TITLE", nil);
+                nextStep.text = nil;
+                
+                ORKSpeechInNoisePredefinedTaskContext *context = [[ORKSpeechInNoisePredefinedTaskContext alloc] init];
+                context.prefersKeyboard = YES;
+                nextStep.context = context;
+                
+                ORKBodyItem *buttonItem = [[ORKBodyItem alloc] initWithCustomButtonConfigurationHandler:^(UIButton * _Nonnull button) {
+                    
+                    if (@available(iOS 13.0, *))
+                    {
+                        [button setImage:[UIImage systemImageNamed:@"smallcircle.fill.circle"] forState:UIControlStateNormal];
+                        [[button imageView] setTintColor:UIColor.systemRedColor];
+                    }
+                    button.adjustsImageWhenHighlighted = NO;
+                    NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_RECORD_INSTEAD", nil)
+                                                                                          attributes:@{NSFontAttributeName:[self buttonTextFont],
+                                                                                                       NSForegroundColorAttributeName:self.view.tintColor}];
+                    [button setAttributedTitle:attributedTitle forState:UIControlStateNormal];
+                    [button addTarget:self.taskViewController action:@selector(goBackward) forControlEvents:UIControlEventTouchUpInside];
+                    [button setTitleEdgeInsets:UIEdgeInsetsMake(0, 5, 0, -5)];
+                    [button setContentEdgeInsets:UIEdgeInsetsMake(0, 0, 0, -5)];
+                }];
+                
+                nextStep.bodyItems = @[buttonItem];
+            }
+            else
+            {
+                nextStep.title = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_REVIEW_TITLE", nil);
+                nextStep.text = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_REVIEW_TEXT", nil);
+                nextStep.bodyItems = nil;
+                
+                ORKSpeechInNoisePredefinedTaskContext *context = [[ORKSpeechInNoisePredefinedTaskContext alloc] init];
+                nextStep.context = context;
+            }
         }
     }
-    [super goForward];
 }
 
 - (nullable ORKQuestionStep *)nextStep {

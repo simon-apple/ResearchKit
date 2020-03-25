@@ -48,6 +48,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, assign, getter=isPracticeTest) BOOL practiceTest;
 
+@property (nonatomic, assign) BOOL prefersKeyboard;
+
 - (void)didSkipHeadphoneDetectionStepForTask:(id<ORKTask>)task;
 
 @end

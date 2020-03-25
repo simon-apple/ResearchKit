@@ -602,7 +602,9 @@
 "SPEECH_IN_NOISE_PREDEFINED_LISTEN_TEXT" = "Each sentence only plays once.";
 "SPEECH_IN_NOISE_PREDEFINED_LISTEN_SENTENCE_X_OF_Y" = "Sentence %lu of %lu";
 "SPEECH_IN_NOISE_PREDEFINED_REPEAT_TITLE" = "Repeat what you heard";
+"SPEECH_IN_NOISE_PREDEFINED_TYPE_TITLE" = "Type what you heard";
 "SPEECH_IN_NOISE_PREDEFINED_REVIEW_TITLE" = "Review Transcript";
+"SPEECH_IN_NOISE_PREDEFINED_RECORD_INSTEAD" = "Record Instead";
 "SPEECH_IN_NOISE_PREDEFINED_REVIEW_TEXT" = "Correct any errors.";
 "SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_DETECT_TITLE" = "Connect Your Headphones";
 "SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_DETECT_TEXT" = "This test requires Apple EarPods or Apple AirPods.";
@@ -614,7 +616,13 @@
 "SPEECH_IN_NOISE_PREDEFINED_VOLUME_CALIBRATION_TEXT" = "Make sure your ears and headphones are clear of any obstructions.\r\n\r\nAdjust the volume so you can clearly hear the sample.";
 "SPEECH_IN_NOISE_PREDEFINED_PLAY_AUDIO_SAMPLE" = "Play Sample";
 "SPEECH_IN_NOISE_PREDEFINED_STOP_AUDIO_SAMPLE" = "Stop Sample";
+"SPEECH_IN_NOISE_PREDEFINED_USE_KEYBOARD_INSTEAD" = "Use Keyboard Instead";
 "SPEECH_IN_NOISE_PREDEFINED_PRACTICE_COMPLETION_TITLE" = "Practice Complete";
+
+/* ORKRecordButton */
+"PLAY" = "Play";
+"RECORD" = "Record";
+"STOP" = "Stop";
 
 /* Potentially user visible error messages. */
 "ERROR_DATALOGGER_CREATE_FILE" = "Could not create file";

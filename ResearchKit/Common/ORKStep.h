@@ -169,7 +169,7 @@ ORK_CLASS_AVAILABLE
 /**
  Array of `ORKBodyItem` type items to display textual info.
  */
-@property (nonatomic) NSArray<ORKBodyItem *> *bodyItems;
+@property (nonatomic, nullable) NSArray<ORKBodyItem *> *bodyItems;
 
 /**
  An 'NSTextAlignment' that controls the text alignment for text bodyItems.

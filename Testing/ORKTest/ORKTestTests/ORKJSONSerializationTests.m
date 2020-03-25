@@ -413,6 +413,7 @@ ORK_MAKE_TEST_INIT(NSRegularExpression, (^{
                                    @"answer",
                                    @"firstResult",
                                    @"textViewText",
+                                   @"ORKBodyItem.customButtonConfigurationHandler",
                                    @"ORKConsentSection.image",
                                    @"ORKNavigablePageStep.steps",
                                    @"ORKPageStep.steps",
@@ -429,6 +430,7 @@ ORK_MAKE_TEST_INIT(NSRegularExpression, (^{
                                           @"ORKAnswerFormat.healthKitUserUnit",
                                           @"ORKAnswerFormat.questionType",
                                           @"ORKBodyItem.image",
+                                          @"ORKBodyItem.customButtonConfigurationHandler",
                                           @"ORKCollectionResult.firstResult",
                                           @"ORKConsentDocument.sectionFormatter", // created on demand
                                           @"ORKConsentDocument.sections",
@@ -1169,7 +1171,8 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
                                        @"ORKTableStep.isBulleted",
                                        @"ORKTableStep.allowsSelection",
                                        @"ORKPDFViewerStep.actionBarOption",
-                                       @"ORKSpeechInNoisePredefinedTask.includePracticeSteps"
+                                       @"ORKSpeechInNoisePredefinedTask.includePracticeSteps",
+                                       @"ORKBodyItem.customButtonConfigurationHandler"
                                        ];
     
     NSArray *hashExclusionList = @[

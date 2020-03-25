@@ -39,21 +39,22 @@
 #import "ORKAccessibility.h"
 #import "ORKHelpers_Internal.h"
 #import "ORKSkin.h"
-#import "ORKBorderedButton.h"
+#import "ORKRecordButton.h"
 
-@interface ORKSpeechRecognitionContentView () <UITextFieldDelegate>
+@interface ORKSpeechRecognitionContentView () <UITextFieldDelegate, ORKRecordButtonDelegate>
 
 @property (nonatomic, strong) ORKAudioMeteringView *graphView;
 @property (nonatomic, strong) ORKSubheadlineLabel *transcriptLabel;
+@property (nonatomic, copy) NSArray<NSLayoutConstraint *> *constraints;
 
 @end
-
 
 @implementation ORKSpeechRecognitionContentView {
     NSMutableArray *_samples;
     UIColor *_keyColor;
     UIImageView *_imageView;
     UILabel *_textLabel;
+    UIButton *_useKeyboardButton;
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -61,28 +62,34 @@
     if (self) {
         self.layoutMargins = ORKStandardFullScreenLayoutMarginsForView(self);
         self.translatesAutoresizingMaskIntoConstraints = NO;
-        
         [self setupTranscriptLabel];
         [self setupGraphView];
         [self setupRecordButton];
         [self setupImageView];
         [self setupTextLabel];
+        [self setupUseKeyboardButton];
         [self updateGraphSamples];
         [self applyKeyColor];
-        [self setUpConstraints];
     }
     return self;
+}
+
+- (void)drawRect:(CGRect)rect
+{
+    [self setUpConstraints];
 }
 
 - (void)setupImageView {
     _imageView = [UIImageView new];
     _imageView.contentMode = UIViewContentModeScaleAspectFit;
     _imageView.translatesAutoresizingMaskIntoConstraints = NO;
+    _imageView.backgroundColor = [UIColor redColor];
     [self addSubview:_imageView];
 }
 
 - (void)setupTextLabel {
     _textLabel = [UILabel new];
+    _textLabel.backgroundColor = [UIColor greenColor];
     _textLabel.font = [[UIFontMetrics metricsForTextStyle:UIFontTextStyleTitle2] scaledFontForFont:[UIFont systemFontOfSize:25.0 weight:UIFontWeightMedium]];
     _textLabel.textColor = [self tintColor];
     _textLabel.textAlignment = NSTextAlignmentCenter;
@@ -114,15 +121,84 @@
     [self addSubview:_transcriptLabel];
 }
 
-- (void)setupRecordButton {
-    self.recordButton = [[ORKBorderedButton alloc] init];
-    self.recordButton.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.recordButton setTitle:ORKLocalizedString(@"SPEECH_RECOGNITION_START_RECORD_LABEL", nil)
-                       forState:UIControlStateNormal];
-    self.recordButton.enabled = YES;
-    self.recordButton.accessibilityTraits = UIAccessibilityTraitButton | UIAccessibilityTraitStartsMediaSession;
-    self.recordButton.accessibilityHint = ORKLocalizedString(@"AX_SPEECH_RECOGNITION_START_RECORDING_HINT", nil);
-    [self addSubview:_recordButton];
+- (void)setupRecordButton
+{
+    if (!_recordButton)
+    {
+        self.recordButton = [[ORKRecordButton alloc] init];
+        self.recordButton.delegate = self;
+        self.recordButton.translatesAutoresizingMaskIntoConstraints = NO;
+        self.recordButton.enabled = YES;
+        self.recordButton.accessibilityTraits = UIAccessibilityTraitButton | UIAccessibilityTraitStartsMediaSession;
+        self.recordButton.accessibilityHint = ORKLocalizedString(@"AX_SPEECH_RECOGNITION_START_RECORDING_HINT", nil);
+        [self addSubview:_recordButton];
+    }
+}
+
+- (void)buttonPressed:(ORKRecordButton *)recordButton
+{
+    if ([self.delegate conformsToProtocol:@protocol(ORKSpeechRecognitionContentViewDelegate)] &&
+        [self.delegate respondsToSelector:@selector(didPressRecordButton:)])
+    {
+        [self.delegate didPressRecordButton:recordButton];
+    }
+    
+    switch ([recordButton buttonType])
+    {
+        case ORKRecordButtonTypeRecord:
+            
+            [recordButton setButtonType:ORKRecordButtonTypeStop animated:YES];
+            [self setKeyboardButtonEnabled:NO];
+            break;
+            
+        default:
+            [recordButton setButtonType:ORKRecordButtonTypeRecord animated:YES];
+            [self setKeyboardButtonEnabled:YES];
+            break;
+    }
+}
+
+- (void)setupUseKeyboardButton
+{
+    _useKeyboardButton = [[UIButton alloc] init];
+    if (@available(iOS 13.0, *))
+    {
+        [_useKeyboardButton setImage:[UIImage systemImageNamed:@"keyboard"] forState:UIControlStateNormal];
+    }
+    _useKeyboardButton.adjustsImageWhenHighlighted = NO;
+    NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_USE_KEYBOARD_INSTEAD", nil)
+                                                                          attributes:@{NSFontAttributeName:[self buttonTextFont],
+                                                                                       NSForegroundColorAttributeName:self.tintColor}];
+    [_useKeyboardButton setAttributedTitle:attributedTitle forState:UIControlStateNormal];
+    [_useKeyboardButton setTranslatesAutoresizingMaskIntoConstraints:NO];
+    CGFloat spacing = 8;
+    _useKeyboardButton.imageEdgeInsets = UIEdgeInsetsMake(0, -(spacing/2), 0, (spacing/2));
+    _useKeyboardButton.titleEdgeInsets = UIEdgeInsetsMake(0, (spacing/2), 0, -(spacing/2));
+    _useKeyboardButton.contentEdgeInsets = UIEdgeInsetsMake(0, -spacing, 0, -spacing);
+    [self addSubview:_useKeyboardButton];
+    
+    [_useKeyboardButton addTarget:self action:@selector(useKeyboardButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)setKeyboardButtonEnabled:(BOOL)enabled
+{
+    _useKeyboardButton.userInteractionEnabled = enabled;
+    _useKeyboardButton.alpha = enabled ? 1.0 : 0.25;
+}
+
+- (void)useKeyboardButtonPressed
+{
+    if ([self.delegate conformsToProtocol:@protocol(ORKSpeechRecognitionContentViewDelegate)] &&
+        [self.delegate respondsToSelector:@selector(didPressUseKeyboardButton)])
+    {
+        [self.delegate didPressUseKeyboardButton];
+    }
+}
+
+- (UIFont *)buttonTextFont
+{
+    CGFloat fontSize = [[UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleCallout] pointSize];
+    return [UIFont systemFontOfSize:fontSize weight:UIFontWeightSemibold];
 }
 
 - (void)setSpeechRecognitionText:(NSString *)speechRecognitionText {
@@ -157,60 +233,37 @@
     [self applyKeyColor];
 }
 
-- (void)setUpConstraints {
-    NSMutableArray *constraints = [NSMutableArray array];
-    
-    NSDictionary *views = NSDictionaryOfVariableBindings(_imageView, _textLabel, _transcriptLabel, _graphView, _recordButton);
-    const CGFloat graphHeight = 150;
-    
-    // In case the text on the button is large, ensure that the button can grow larger than the default height if needed
-    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[_imageView]-[_textLabel]-(5)-[_graphView(graphHeight)]-[_transcriptLabel]-buttonGap-[_recordButton(50@250)]-topBottomMargin-|"
-                                                                             options:(NSLayoutFormatOptions)0
-                                                                             metrics:@{
-                                                                                       @"graphHeight": @(graphHeight),
-                                                                                       @"topBottomMargin" : @(5),
-                                                                                       @"buttonGap" : @(20)
-                                                                                       }
-                                                                               views:views]];
-    
-    
-    const CGFloat sideMargin = self.layoutMargins.left + (2 * ORKStandardLeftMarginForTableViewCell(self));
-    const CGFloat twiceSideMargin = sideMargin * 2;
-    
-    [constraints addObjectsFromArray:
-     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_imageView]-|"
-                                             options:0
-                                             metrics: nil
-                                               views:views]];
-    
-    [constraints addObjectsFromArray:
-     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_textLabel]-|"
-                                             options:0
-                                             metrics: nil
-                                               views:views]];
-    [constraints addObjectsFromArray:
-     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-sideMargin-[_graphView]-sideMargin-|"
-                                             options:0
-                                             metrics: @{@"sideMargin": @(sideMargin)}
-                                               views:views]];
-    
-    [constraints addObjectsFromArray:
-     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_transcriptLabel]-|"
-                                             options:0
-                                             metrics: @{@"sideMargin": @(sideMargin)}
-                                               views:views]];
-    
-    // In case the text on the button is large, ensure that the button can grow larger than the default width if needed
-    [constraints addObjectsFromArray:
-     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-twiceSideMargin@250-[_recordButton(200@250)]-twiceSideMargin@250-|"
-                                             options:0
-                                             metrics: @{@"twiceSideMargin": @(twiceSideMargin)}
-                                               views:views]];
-    [constraints addObject:[_recordButton.centerXAnchor constraintEqualToAnchor:self.centerXAnchor]];
-    [constraints addObject:[_recordButton.leadingAnchor constraintGreaterThanOrEqualToAnchor:self.layoutMarginsGuide.leadingAnchor]];
-    [constraints addObject:[_recordButton.trailingAnchor constraintLessThanOrEqualToAnchor:self.layoutMarginsGuide.trailingAnchor]];
-    
-    [NSLayoutConstraint activateConstraints:constraints];
+- (void)setUpConstraints
+{
+    if (self.constraints.count > 0)
+    {
+        [NSLayoutConstraint deactivateConstraints:self.constraints];
+    }
+        
+    // The graphView needs to be centered on screen. This calculates the offset of our center with the window center.
+    CGFloat offset = ABS(self.window.center.y - [self.superview convertPoint:self.center toView:nil].y);
+        
+    self.constraints = @[
+        [_imageView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor],
+        [_imageView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor],
+        [_imageView.topAnchor constraintEqualToAnchor:self.topAnchor],
+        [_textLabel.topAnchor constraintEqualToAnchor:_imageView.bottomAnchor],
+        [_textLabel.leadingAnchor constraintEqualToAnchor:self.leadingAnchor],
+        [_textLabel.trailingAnchor constraintEqualToAnchor:self.trailingAnchor],
+        [_graphView.heightAnchor constraintEqualToConstant:150.0],
+        [_graphView.centerYAnchor constraintEqualToAnchor:self.centerYAnchor constant:-offset],
+        [_graphView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor],
+        [_graphView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor],
+        [_transcriptLabel.leadingAnchor constraintEqualToAnchor:self.leadingAnchor],
+        [_transcriptLabel.trailingAnchor constraintEqualToAnchor:self.trailingAnchor],
+        [_transcriptLabel.topAnchor constraintEqualToAnchor:_graphView.bottomAnchor],
+        [_recordButton.centerXAnchor constraintEqualToAnchor:self.centerXAnchor],
+        [_recordButton.bottomAnchor constraintEqualToAnchor:_useKeyboardButton.topAnchor constant:-44.0],
+        [_useKeyboardButton.centerXAnchor constraintEqualToAnchor:self.centerXAnchor],
+        [_useKeyboardButton.bottomAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.bottomAnchor constant:-20.0]
+    ];
+        
+    [NSLayoutConstraint activateConstraints:self.constraints];
 }
 
 - (void)setShouldHideTranscript:(BOOL)shouldHideTranscript {
