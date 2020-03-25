@@ -187,6 +187,9 @@
 		5D1CE46823FDED92004CB416 /* ORKVolumeCalibrationContentView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D1CE46623FDED92004CB416 /* ORKVolumeCalibrationContentView.h */; };
 		5D1CE46923FDED92004CB416 /* ORKVolumeCalibrationContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1CE46723FDED92004CB416 /* ORKVolumeCalibrationContentView.m */; };
 		5D3196A523DA204000A27087 /* ORKSpeechInNoisePredefinedTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D5C907C23D91FD8007AD5FC /* ORKSpeechInNoisePredefinedTask.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		5D43C5D124217393006F4084 /* ORKRecordButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D43C5CF24217393006F4084 /* ORKRecordButton.h */; };
+		5D43C5D224217393006F4084 /* ORKRecordButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D43C5D024217393006F4084 /* ORKRecordButton.m */; };
+		5D43C5D424255675006F4084 /* ORKBodyItem_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D43C5D324255675006F4084 /* ORKBodyItem_Internal.h */; };
 		5D58800B24007140005B3D91 /* ORKPlaybackButton_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D58800A24007140005B3D91 /* ORKPlaybackButton_Internal.h */; };
 		5D5880392410394F005B3D91 /* ORKSpeechInNoiseResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D5880372410394E005B3D91 /* ORKSpeechInNoiseResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D58803A2410394F005B3D91 /* ORKSpeechInNoiseResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D5880382410394E005B3D91 /* ORKSpeechInNoiseResult.m */; };
@@ -1041,6 +1044,9 @@
 		5D1CE46223FDEA43004CB416 /* ORKVolumeCalibrationStepViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKVolumeCalibrationStepViewController.m; sourceTree = "<group>"; };
 		5D1CE46623FDED92004CB416 /* ORKVolumeCalibrationContentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKVolumeCalibrationContentView.h; sourceTree = "<group>"; };
 		5D1CE46723FDED92004CB416 /* ORKVolumeCalibrationContentView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKVolumeCalibrationContentView.m; sourceTree = "<group>"; };
+		5D43C5CF24217393006F4084 /* ORKRecordButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKRecordButton.h; sourceTree = "<group>"; };
+		5D43C5D024217393006F4084 /* ORKRecordButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKRecordButton.m; sourceTree = "<group>"; };
+		5D43C5D324255675006F4084 /* ORKBodyItem_Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKBodyItem_Internal.h; sourceTree = "<group>"; };
 		5D58800A24007140005B3D91 /* ORKPlaybackButton_Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKPlaybackButton_Internal.h; sourceTree = "<group>"; };
 		5D5880372410394E005B3D91 /* ORKSpeechInNoiseResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKSpeechInNoiseResult.h; sourceTree = "<group>"; };
 		5D5880382410394E005B3D91 /* ORKSpeechInNoiseResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKSpeechInNoiseResult.m; sourceTree = "<group>"; };
@@ -2181,6 +2187,15 @@
 			name = "Volume Adjustment";
 			sourceTree = "<group>";
 		};
+		5D43C5CE2421736D006F4084 /* ORKRecordButton */ = {
+			isa = PBXGroup;
+			children = (
+				5D43C5CF24217393006F4084 /* ORKRecordButton.h */,
+				5D43C5D024217393006F4084 /* ORKRecordButton.m */,
+			);
+			name = ORKRecordButton;
+			sourceTree = "<group>";
+		};
 		618DA0471A93D0D600E63AA8 /* Accessibility */ = {
 			isa = PBXGroup;
 			children = (
@@ -2383,6 +2398,7 @@
 		86C40B511A8D7C5B00081FAC /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				5D43C5CE2421736D006F4084 /* ORKRecordButton */,
 				BAD6FAAE2332A2B6006647E7 /* CheckmarkView */,
 				BA2645E3230156C200D00B73 /* Review */,
 				BA8C067522EEB7FD00ACDE6B /* Playback Button */,
@@ -3316,6 +3332,7 @@
 			isa = PBXGroup;
 			children = (
 				BA473FE6224DB38900A362E3 /* ORKBodyItem.h */,
+				5D43C5D324255675006F4084 /* ORKBodyItem_Internal.h */,
 				BA473FE7224DB38900A362E3 /* ORKBodyItem.m */,
 			);
 			name = "Step Body";
@@ -3650,6 +3667,7 @@
 				86C40DD61A8D7C5C00081FAC /* ORKUnitLabel.h in Headers */,
 				BABBB1BA2097EF3800CB29E5 /* ORKFreehandDrawingView.h in Headers */,
 				10FF9AD71B7A045E00ECB5B4 /* ORKSeparatorView.h in Headers */,
+				5D43C5D124217393006F4084 /* ORKRecordButton.h in Headers */,
 				5D1CE42F23F497D5004CB416 /* SUICFlamesViewProviding.h in Headers */,
 				FF72B1EF1F5F10CD004C6F15 /* ORKStroopResult.h in Headers */,
 				86C40D9C1A8D7C5C00081FAC /* ORKSubheadlineLabel.h in Headers */,
@@ -3898,6 +3916,7 @@
 				25ECC09B1AFBD8B300F3D63B /* ORKReactionTimeViewController.h in Headers */,
 				86C40D061A8D7C5C00081FAC /* ORKCountdownLabel.h in Headers */,
 				86C40C2A1A8D7C5C00081FAC /* ORKFitnessContentView.h in Headers */,
+				5D43C5D424255675006F4084 /* ORKBodyItem_Internal.h in Headers */,
 				BA43CCA822722C6E00F2A2D2 /* ORKStepContentView_Private.h in Headers */,
 				5D1CE42C23F497D5004CB416 /* SUICAudioLevelSmoother.h in Headers */,
 				5D1CE42623F497D5004CB416 /* SUICFlamesView.h in Headers */,
@@ -4508,6 +4527,7 @@
 				24850E1A1BCDA9C7006E91FB /* ORKLoginStepViewController.m in Sources */,
 				25ECC09C1AFBD8B300F3D63B /* ORKReactionTimeViewController.m in Sources */,
 				5D1CE42A23F497D5004CB416 /* SUICFlamesViewMetal.m in Sources */,
+				5D43C5D224217393006F4084 /* ORKRecordButton.m in Sources */,
 				86C40DB01A8D7C5C00081FAC /* ORKSurveyAnswerCellForScale.m in Sources */,
 				BABBB1B72097E58300CB29E5 /* ORKPDFViewerStepView.m in Sources */,
 				86C40C281A8D7C5C00081FAC /* ORKCountdownStepViewController.m in Sources */,

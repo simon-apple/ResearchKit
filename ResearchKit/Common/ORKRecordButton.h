@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018, Apple Inc. All rights reserved.
+ Copyright (c) 2020, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,51 +28,35 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
-@import UIKit;
-#import "ORKCustomStepView_Internal.h"
-
+#import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
+
 @class ORKRecordButton;
 
-@protocol ORKSpeechRecognitionContentViewDelegate <NSObject>
+typedef NS_ENUM(NSUInteger, ORKRecordButtonType) {
+    ORKRecordButtonTypePlay,
+    ORKRecordButtonTypeStop,
+    ORKRecordButtonTypeRecord,
+};
 
-- (void)didPressRecordButton:(ORKRecordButton *)recordButton;
+@protocol ORKRecordButtonDelegate <NSObject>
 
-- (void)didPressUseKeyboardButton;
+- (void)buttonPressed:(ORKRecordButton *)recordButton;
+
+@end
+
+@interface ORKRecordButton : UIControl
+
+@property (nonatomic, weak) id<ORKRecordButtonDelegate> delegate;
+
+@property (nonatomic, readonly) ORKRecordButtonType buttonType;
+
+- (void)setButtonType:(ORKRecordButtonType)type;
+
+- (void)setButtonType:(ORKRecordButtonType)type animated:(BOOL)animated;
 
 @end
 
-@interface ORKSpeechRecognitionContentView : ORKActiveStepCustomView
-
-@property (nonatomic, weak) id<ORKSpeechRecognitionContentViewDelegate> delegate;
-
-@property (nonatomic, copy, nullable) UIColor *keyColor;
-
-@property (nonatomic, assign) BOOL failed;
-
-@property (nonatomic, assign, getter=isFinished) BOOL finished;
-
-@property (nonatomic, copy, nullable) NSArray *samples;
-
-@property (nonatomic) ORKRecordButton *recordButton;
-
-@property (nonatomic, copy, nullable) UIImage *speechRecognitionImage;
-
-@property (nonatomic, copy, nullable) NSString *speechRecognitionText;
-
-@property (nonatomic) BOOL shouldHideTranscript;
-
-// Samples should be in the range of (0, 1).
-- (void)addSample:(NSNumber *)sample;
-- (void)removeAllSamples;
-
-- (void)updateRecognitionText:(NSString *)recognitionText;
-
-- (void)addRecognitionError:(NSString *)errorMsg;
-
-@end
 
 NS_ASSUME_NONNULL_END
-

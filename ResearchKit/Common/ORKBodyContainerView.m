@@ -33,6 +33,7 @@
 #import "ORKHelpers_Internal.h"
 #import "ORKSkin.h"
 #import "ORKBodyItem.h"
+#import "ORKBodyItem_Internal.h"
 #import "ORKLearnMoreView.h"
 #import "ORKLearnMoreInstructionStep.h"
 #import "ORKTagLabel.h"
@@ -122,6 +123,11 @@ static NSString *ORKBulletUnicode = @"\u2981";
         [self addArrangedSubview:_cardView];
     }
     
+    if ([_bodyItem isCustomButtonItemType])
+    {
+        [self setupCustomButtonViewWithConfigurationHandler:_bodyItem.customButtonConfigurationHandler];
+    }
+    
     if (_bodyItem.bodyItemStyle == ORKBodyItemStyleText) {
         [self setupBodyStyleTextView];
     } else if (_bodyItem.bodyItemStyle == ORKBodyItemStyleImage) {
@@ -182,6 +188,17 @@ static NSString *ORKBulletUnicode = @"\u2981";
     UIFontDescriptor *fontDescriptor = [descriptor fontDescriptorWithSymbolicTraits:(UIFontDescriptorTraitLooseLeading)];
     return [UIFont fontWithDescriptor:fontDescriptor size:[[descriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]];
     
+}
+
+- (void)setupCustomButtonViewWithConfigurationHandler:(void(^)(UIButton *button))configurationHandler
+{
+    UIButton *button = [[UIButton alloc] init];
+    configurationHandler(button);
+    button.translatesAutoresizingMaskIntoConstraints = NO;
+    [self addArrangedSubview:button];
+    [NSLayoutConstraint activateConstraints:@[
+        [button.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:ORKStepContainerLeftRightPaddingForWindow(self.window)]
+    ]];
 }
 
 - (void)setupBodyStyleHorizontalRule {
