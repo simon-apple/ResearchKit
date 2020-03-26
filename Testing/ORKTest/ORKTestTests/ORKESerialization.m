@@ -1972,6 +1972,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
            ENTRY(ORKSpeechInNoiseResult,
            nil,
            (@{
+               PROPERTY(filename, NSString, NSObject, NO, nil, nil),
                PROPERTY(targetSentence, NSString, NSObject, NO, nil, nil)
               })),
            ENTRY(ORKSpeechRecognitionResult,

@@ -43,6 +43,8 @@ A speech-in-noise result contains a single string representing the target senten
 ORK_CLASS_AVAILABLE
 @interface ORKSpeechInNoiseResult : ORKResult
 
+@property (nonatomic, copy, nullable) NSString *filename;
+
 @property (nonatomic, copy, nullable) NSString *targetSentence;
 
 @end
