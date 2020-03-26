@@ -318,6 +318,7 @@ class ORKSpeechInNoiseResultTests: XCTestCase {
     var result: ORKSpeechInNoiseResult!
     var identifier: String!
     var targetSentence: String!
+    var filename: String!
     let date = Date()
     
     override func setUp() {
@@ -326,12 +327,15 @@ class ORKSpeechInNoiseResultTests: XCTestCase {
         result = ORKSpeechInNoiseResult(identifier: identifier)
         
         targetSentence = "The Result Object Contains The Target Sentence."
+        filename = "filename.wav"
         result.targetSentence = targetSentence
+        result.filename = filename
     }
     
     func testProperties() {
         XCTAssertEqual(result.identifier, identifier)
         XCTAssertEqual(result.targetSentence, targetSentence)
+        XCTAssertEqual(result.filename, filename)
     }
     
     func testIsEqual() {
@@ -340,6 +344,7 @@ class ORKSpeechInNoiseResultTests: XCTestCase {
         
         let newResult = ORKSpeechInNoiseResult(identifier: identifier)
         newResult.targetSentence = targetSentence
+        newResult.filename = filename
         newResult.startDate = date
         newResult.endDate = date
         

@@ -224,18 +224,49 @@
     return (ORKSpeechInNoiseStep *)self.step;
 }
 
+- (NSString *)filename
+{
+    NSString *filename = nil;
+    
+    ORKSpeechInNoisePredefinedTaskContext *context = [self predefinedSpeechInNoiseContext];
+    
+    if (context)
+    {
+        BOOL (^validate)(NSString * _Nullable) = ^BOOL(NSString * _Nullable str) { return str && str.length > 0; };
+        
+        NSString *path = [[self speechInNoiseStep] speechFilePath];
+        NSString *file = [path lastPathComponent];
+        NSString *list = [[path stringByDeletingLastPathComponent] lastPathComponent];
+        
+        if (validate(list) && validate(file))
+        {
+            filename = [NSString stringWithFormat:@"%@ - %@", list, file];
+        }
+    }
+    
+    return filename;
+}
+
+- (ORKSpeechInNoisePredefinedTaskContext * _Nullable)predefinedSpeechInNoiseContext
+{
+    if ([self.step.context isKindOfClass:[ORKSpeechInNoisePredefinedTaskContext class]])
+    {
+        return (ORKSpeechInNoisePredefinedTaskContext *)self.step.context;
+    }
+    
+    return nil;
+}
+
 - (ORKStepResult *)result
 {
     ORKStepResult *sResult = [super result];
     
-    if ([self.step.context isKindOfClass:[ORKSpeechInNoisePredefinedTaskContext class]])
+    ORKSpeechInNoisePredefinedTaskContext *context = [self predefinedSpeechInNoiseContext];
+    if (context && [context isPracticeTest])
     {
-        ORKSpeechInNoisePredefinedTaskContext *speechInNoisePredefinedTaskContext = (ORKSpeechInNoisePredefinedTaskContext *)self.step.context;
-        if ([speechInNoisePredefinedTaskContext isPracticeTest])
-        {
-            return sResult;
-        }
+        return sResult;
     }
+    
     
     ORKSpeechInNoiseStep *currentStep = (ORKSpeechInNoiseStep *)self.step;
     
@@ -246,6 +277,8 @@
         ORKSpeechInNoiseResult *speechInNoiseResult = [[ORKSpeechInNoiseResult alloc] initWithIdentifier:currentStep.identifier];
         
         speechInNoiseResult.targetSentence = currentStep.targetSentence;
+        
+        speechInNoiseResult.filename = [self filename];
         
         [results addObject:speechInNoiseResult];
         

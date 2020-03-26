@@ -37,6 +37,7 @@
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
     [super encodeWithCoder:aCoder];
+    ORK_ENCODE_OBJ(aCoder, filename);
     ORK_ENCODE_OBJ(aCoder, targetSentence);
 }
 
@@ -45,6 +46,7 @@
     self = [super initWithCoder:aDecoder];
     if (self)
     {
+        ORK_DECODE_OBJ_CLASS(aDecoder, filename, NSString);
         ORK_DECODE_OBJ_CLASS(aDecoder, targetSentence, NSString);
     }
     return self;
@@ -61,19 +63,21 @@
     
     __typeof(self) castObject = object;
     return (isParentSame &&
-            ORKEqualObjects(self.targetSentence, castObject.targetSentence));
+            ORKEqualObjects(self.targetSentence, castObject.targetSentence) &&
+            ORKEqualObjects(self.filename, castObject.filename));
 }
 
 - (instancetype)copyWithZone:(NSZone *)zone
 {
     ORKSpeechInNoiseResult *result = [super copyWithZone:zone];
     result.targetSentence = [self.targetSentence copy];
+    result.filename = [self.filename copy];
     return result;
 }
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"targetSentence = %@;", self.targetSentence];
+    return [NSString stringWithFormat:@"filename = %@;\r\ntargetSentence = %@;", self.filename, self.targetSentence];
 }
 
 @end
