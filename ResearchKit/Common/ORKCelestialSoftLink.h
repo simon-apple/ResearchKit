@@ -40,3 +40,4 @@ ORK_SOFT_LINK_CONSTANT(Celestial, AVSystemController_PickableRoutesAttribute, NS
 ORK_SOFT_LINK_CONSTANT(Celestial, AVSystemController_RouteDescriptionKey_RouteCurrentlyPicked, NSString *)
 ORK_SOFT_LINK_CONSTANT(Celestial, AVSystemController_RouteDescriptionKey_RouteSubtype, NSString *)
 ORK_SOFT_LINK_CONSTANT(Celestial, AVSystemController_RouteDescriptionKey_BTDetails_ProductID, NSString *)
+ORK_SOFT_LINK_CONSTANT(Celestial, AVSystemController_RouteDescriptionKey_AVAudioRouteName, NSString *)

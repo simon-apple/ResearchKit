@@ -196,36 +196,54 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
     return NO;
 }
 
-- (BOOL)isRouteSupported {
+- (BOOL)isRouteSupported
+{
     __block BOOL routeSupported = NO;
     
-    if (_celestialSPIOk) {
+    if (_celestialSPIOk)
+    {
         NSArray *routesAttributes = [[getAVSystemControllerClass() sharedAVSystemController] attributeForKey:getAVSystemController_PickableRoutesAttribute()];
-        if (routesAttributes != nil) {
-            [routesAttributes enumerateObjectsUsingBlock:^(NSDictionary *route, NSUInteger idx, BOOL *stop) {
-                if ( [[route valueForKey:getAVSystemController_RouteDescriptionKey_RouteCurrentlyPicked()] boolValue] )
+        
+        if (routesAttributes != nil)
+        {
+            [routesAttributes enumerateObjectsUsingBlock:^(NSDictionary *route, NSUInteger idx, BOOL *stop)
+            {
+                if ([[route valueForKey:getAVSystemController_RouteDescriptionKey_RouteCurrentlyPicked()] boolValue])
                 {
                     NSString *subtype = [route valueForKey:getAVSystemController_RouteDescriptionKey_RouteSubtype()];
                     NSSet *supportedRoutes = [_supportedHeadphoneChipsetTypes objectsPassingTest:^BOOL(NSString * _Nonnull obj, BOOL * _Nonnull routesStop) {
                         return [subtype containsString:obj];
                     }];
-                    if (supportedRoutes.count > 0) {
+                    
+                    if (supportedRoutes.count > 0)
+                    {
                         ORKHeadphoneTypeIdentifier btHeadphoneType = [self getCurrentBTHeadphoneType];
-                        if (btHeadphoneType == nil) {
+                        if (btHeadphoneType == nil)
+                        {
                             NSSet *lightningSet = [NSSet setWithObject:ORKHeadphoneChipsetIdentifierLightningEarPods];
                             NSSet *audioJackSet = [NSSet setWithObject:ORKHeadphoneChipsetIdentifierAudioJackEarPods];
 
                             BOOL isWiredPod = [lightningSet isSubsetOfSet:supportedRoutes] || [audioJackSet isSubsetOfSet:supportedRoutes];
                             
-                            if (isWiredPod) {
+                            if (isWiredPod)
+                            {
                                 routeSupported = YES;
                                 _lastDetectedDevice = ORKHeadphoneTypeIdentifierEarPods;
                             }
-                        } else {
+                        }
+                        else
+                        {
                             routeSupported = YES;
                             _lastDetectedDevice = btHeadphoneType;
                         }
-                    } else {
+                    }
+                    else if ([[route objectForKey:getAVSystemController_RouteDescriptionKey_AVAudioRouteName()] isEqualToString:@"Speaker"])
+                    {
+                        routeSupported = NO;
+                        _lastDetectedDevice = nil;
+                    }
+                    else
+                    {
                         routeSupported = _supportedHeadphoneChipsetTypes == nil;
                         _lastDetectedDevice = ORKHeadphoneTypeIdentifierUnknown;
                     }
