@@ -62,7 +62,7 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierPracticeCompl
 
 - (BOOL)allowsBackNavigation
 {
-    return NO;
+    return YES;
 }
 
 @end
