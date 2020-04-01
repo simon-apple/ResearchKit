@@ -78,7 +78,6 @@
     _installedTap = NO;
     self.speechInNoiseContentView = [[ORKSpeechInNoiseContentView alloc] init];
     self.activeStepView.activeCustomView = self.speechInNoiseContentView;
-    self.activeStepView.customContentFillsAvailableSpace = YES;
     _speechInNoiseContentView.alertColor = [UIColor blueColor];
     [self.speechInNoiseContentView.playButton addTarget:self action:@selector(tapButtonPressed) forControlEvents:UIControlEventTouchDown];
     [_speechInNoiseContentView setGraphViewHidden:[self speechInNoiseStep].hideGraphView];

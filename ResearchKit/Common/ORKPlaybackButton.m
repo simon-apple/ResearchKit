@@ -55,6 +55,12 @@ static const CGFloat ImageToLabelPadding = 2.0;
     _normalTintColor = [self.tintColor colorWithAlphaComponent:0.4];
 }
 
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection
+{
+    [super traitCollectionDidChange:previousTraitCollection];
+    _textLabel.font = [self bodyTextFont];
+}
+
 - (void)setupImageView {
     if (!_iconImageView) {
         _iconImageView = [UIImageView new];

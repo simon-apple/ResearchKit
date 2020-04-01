@@ -46,7 +46,7 @@ typedef NS_ENUM(NSUInteger, ORKRecordButtonType) {
 
 @end
 
-@interface ORKRecordButton : UIControl
+@interface ORKRecordButton : UIView
 
 @property (nonatomic, weak) id<ORKRecordButtonDelegate> delegate;
 
