@@ -90,6 +90,31 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierPracticeCompl
     }
 }
 
+- (NSString *)didNotAllowRequiredHealthPermissionsForTask:(id<ORKTask>)task
+{
+    if ([task isKindOfClass:[ORKNavigableOrderedTask class]])
+    {
+        // If the user opts out of health access, append a new step to the end of the task and skip to the end.
+        // Add a navigation rule to end the current task.
+        ORKNavigableOrderedTask *currentTask = (ORKNavigableOrderedTask *)task;
+        
+        ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierHealthPermissionsRequired = @"ORKSpeechInNoiseStepIdentifierHealthPermissionsRequired";
+        
+        ORKFinalInstructionStep *step = [[ORKFinalInstructionStep alloc] initWithIdentifier:ORKSpeechInNoiseStepIdentifierHealthPermissionsRequired];
+        step.title = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_MICROPHONE_SPEECH_RECOGNITION_REQUIRED_TITLE", nil);
+        step.text = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_MICROPHONE_SPEECH_RECOGNITION_REQUIRED_TEXT", nil);
+        step.optional = NO;
+        [currentTask appendSteps:@[step]];
+        
+        ORKDirectStepNavigationRule *endNavigationRule = [[ORKDirectStepNavigationRule alloc] initWithDestinationStepIdentifier:ORKNullStepIdentifier];
+        [currentTask setNavigationRule:endNavigationRule forTriggerStepIdentifier:ORKSpeechInNoiseStepIdentifierHealthPermissionsRequired];
+        
+        return ORKSpeechInNoiseStepIdentifierHealthPermissionsRequired;
+    }
+    
+    return nil;
+}
+
 @end
 
 @interface ORKSpeechInNoiseSample : NSObject
