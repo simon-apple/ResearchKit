@@ -335,8 +335,11 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     /** None */
     ORKHeadphoneDetectedNone=0,
     
-    /** Airpods */
-    ORKHeadphoneDetectedAirpods,
+    /** Airpods Generation 1 */
+    ORKHeadphoneDetectedAirpodsGen1,
+    
+    /** Airpods Generation 2 */
+    ORKHeadphoneDetectedAirpodsGen2,
     
     /** Airpods Pro */
     ORKHeadphoneDetectedAirpodsPro,
@@ -509,7 +512,8 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     switch (_headphoneTypes) {
         case ORKHeadphoneTypesSupported:
             switch (_headphoneDetected) {
-                case ORKHeadphoneDetectedAirpods:
+                case ORKHeadphoneDetectedAirpodsGen1:
+                case ORKHeadphoneDetectedAirpodsGen2:
                     _airpodSupportView.selected = YES;
                     _airpodSupportView.connected = YES;
                     _earpodSupportView.selected = NO;
@@ -540,7 +544,8 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
             
         case ORKHeadphoneTypesAny:
             switch (_headphoneDetected) {
-                case ORKHeadphoneDetectedAirpods:
+                case ORKHeadphoneDetectedAirpodsGen1:
+                case ORKHeadphoneDetectedAirpodsGen2:
                     _anyHeadphoneView.selected = YES;
                     [_anyHeadphoneView anyHeadphoneDetected:ORKLocalizedString(@"AIRPODS", nil)];
                     break;
@@ -678,8 +683,10 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
 - (void)headphoneTypeDetected:(ORKHeadphoneTypeIdentifier)headphoneType isSupported:(BOOL)isSupported {
     if (isSupported) {
         _lastDetectedHeadphoneType = headphoneType;
-        if ([headphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPods]) {
-            _headphoneDetectStepView.headphoneDetected = ORKHeadphoneDetectedAirpods;
+        if ([headphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsGen1]) {
+            _headphoneDetectStepView.headphoneDetected = ORKHeadphoneDetectedAirpodsGen1;
+        } else if ([headphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsGen2]) {
+            _headphoneDetectStepView.headphoneDetected = ORKHeadphoneDetectedAirpodsGen2;
         } else if ([headphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsPro]) {
             _lastDetectedBluetoothMode = ORKBluetoothModeNone;
             _headphoneDetectStepView.headphoneDetected = ORKHeadphoneDetectedAirpodsPro;

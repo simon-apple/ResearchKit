@@ -172,19 +172,29 @@ static OSStatus ORKdBHLAudioGeneratorZeroTone(void *inRefCon,
     if (self) {
         _lastNodeInput = 0;
         
-        _sensitivityPerFrequency = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle bundleForClass:[self class]] pathForResource:[NSString stringWithFormat:@"frequency_dBSPL_%@", [headphoneType uppercaseString]]  ofType:@"plist"]];
-
-        _retspl = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle bundleForClass:[self class]] pathForResource:[NSString stringWithFormat:@"retspl_%@", [headphoneType uppercaseString]] ofType:@"plist"]];
+        NSString *headphoneTypeUppercased = [headphoneType uppercaseString];
+        NSString *headphoneTypeString;
+        NSString *volumeCurveString;
         
-        if ([[headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPods]) {
-            _volumeCurve = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle bundleForClass:[self class]] pathForResource:@"volume_curve_AIRPODS" ofType:@"plist"]];
-        } else if ([[headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsPro]) {
-                   _volumeCurve = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle bundleForClass:[self class]] pathForResource:@"volume_curve_AIRPODSPRO" ofType:@"plist"]];
-        } else if ([[headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierEarPods]) {
-            _volumeCurve = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle bundleForClass:[self class]] pathForResource:@"volume_curve_WIRED" ofType:@"plist"]];
+        if ([headphoneTypeUppercased isEqualToString:ORKHeadphoneTypeIdentifierAirPodsGen1] ||
+            [headphoneTypeUppercased isEqualToString:ORKHeadphoneTypeIdentifierAirPodsGen2]) {
+            headphoneTypeString = @"AIRPODS";
+            volumeCurveString = @"volume_curve_AIRPODS";
+        } else if ([headphoneTypeUppercased isEqualToString:ORKHeadphoneTypeIdentifierAirPodsPro]) {
+            headphoneTypeString = @"AIRPODSPRO";
+            volumeCurveString = @"volume_curve_AIRPODSPRO";
+        } else if ([headphoneTypeUppercased isEqualToString:ORKHeadphoneTypeIdentifierEarPods]) {
+            headphoneTypeString = @"EARPODS";
+            volumeCurveString = @"volume_curve_WIRED";
         } else {
             @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"A valid headphone route identifier must be provided" userInfo:nil];
         }
+        
+        _sensitivityPerFrequency = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle bundleForClass:[self class]] pathForResource:[NSString stringWithFormat:@"frequency_dBSPL_%@", headphoneTypeString]  ofType:@"plist"]];
+
+        _retspl = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle bundleForClass:[self class]] pathForResource:[NSString stringWithFormat:@"retspl_%@", headphoneTypeString] ofType:@"plist"]];
+        
+        _volumeCurve = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle bundleForClass:[self class]] pathForResource:volumeCurveString ofType:@"plist"]];
         
         [self setupGraph];
     }

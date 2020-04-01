@@ -169,9 +169,11 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
         BOOL wirelessSplitterHasMoreThenOneDevice = ([[getAVOutputContextClass() sharedSystemAudioContext] outputDevices].count > 1);
         NSString* modelId = [[[getAVOutputContextClass() sharedSystemAudioContext] outputDevice] modelID];
         if (modelId != nil && !wirelessSplitterHasMoreThenOneDevice) {
-            if ([modelId containsString:ORKHeadphoneVendorAndProductIdIdentifierAirPodsGen1] ||
-                [modelId containsString:ORKHeadphoneVendorAndProductIdIdentifierAirPodsGen2]) {
-                return ORKHeadphoneTypeIdentifierAirPods;
+            if ([modelId containsString:ORKHeadphoneVendorAndProductIdIdentifierAirPodsGen1]) {
+                return ORKHeadphoneTypeIdentifierAirPodsGen1;
+            }
+            if ([modelId containsString:ORKHeadphoneVendorAndProductIdIdentifierAirPodsGen2]) {
+                return ORKHeadphoneTypeIdentifierAirPodsGen2;
             }
             if ([modelId containsString:ORKHeadphoneVendorAndProductIdIdentifierAirPodsPro]) {
                 return ORKHeadphoneTypeIdentifierAirPodsPro;
