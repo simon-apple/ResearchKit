@@ -562,12 +562,12 @@ class ORKHeadphoneDetectResultTests: XCTestCase {
         identifier = "RESULT"
         result = ORKHeadphoneDetectResult(identifier: identifier)
         
-        result.headphoneType = ORKHeadphoneTypeIdentifier.airPods
+        result.headphoneType = ORKHeadphoneTypeIdentifier.airPodsGen1
     }
  
     func testProperties() {
         XCTAssertEqual(result.identifier, identifier)
-        XCTAssertEqual(result.headphoneType, ORKHeadphoneTypeIdentifier.airPods)
+        XCTAssertEqual(result.headphoneType, ORKHeadphoneTypeIdentifier.airPodsGen1)
     }
     
     func testIsEqual() {
@@ -575,7 +575,7 @@ class ORKHeadphoneDetectResultTests: XCTestCase {
         result.endDate = date
         
         let newResult = ORKHeadphoneDetectResult(identifier: identifier)
-        newResult.headphoneType = ORKHeadphoneTypeIdentifier.airPods
+        newResult.headphoneType = ORKHeadphoneTypeIdentifier.airPodsGen1
         newResult.startDate = date
         newResult.endDate = date
         
@@ -597,7 +597,7 @@ class ORKdBHLToneAudiometryResultTests: XCTestCase {
         result.outputVolume = 100
         result.tonePlaybackDuration = 360
         result.postStimulusDelay = 10
-        result.headphoneType = ORKHeadphoneTypeIdentifier.airPods
+        result.headphoneType = ORKHeadphoneTypeIdentifier.airPodsGen1
         sample = ORKdBHLToneAudiometryFrequencySample()
         sample.frequency = 100
         result.samples = [sample]
@@ -608,7 +608,7 @@ class ORKdBHLToneAudiometryResultTests: XCTestCase {
         XCTAssertEqual(result.outputVolume, 100)
         XCTAssertEqual(result.tonePlaybackDuration, 360)
         XCTAssertEqual(result.postStimulusDelay, 10)
-        XCTAssertEqual(result.headphoneType, ORKHeadphoneTypeIdentifier.airPods)
+        XCTAssertEqual(result.headphoneType, ORKHeadphoneTypeIdentifier.airPodsGen1)
         XCTAssertEqual(result.samples, [sample])
     }
     
@@ -620,7 +620,7 @@ class ORKdBHLToneAudiometryResultTests: XCTestCase {
         newResult.outputVolume = 100
         newResult.tonePlaybackDuration = 360
         newResult.postStimulusDelay = 10
-        newResult.headphoneType = ORKHeadphoneTypeIdentifier.airPods
+        newResult.headphoneType = ORKHeadphoneTypeIdentifier.airPodsGen1
         newResult.samples = [sample]
         newResult.startDate = date
         newResult.endDate = date
