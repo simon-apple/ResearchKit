@@ -49,7 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)learnMoreButtonPressedWithStep:(ORKLearnMoreInstructionStep *)learnMoreInstructionStep fromStepViewController:(ORKStepViewController *)stepViewController;
 
-- (void)flipToPageWithIdentifier:(NSString *)identifier forward:(BOOL)forward;
+- (void)flipToPageWithIdentifier:(NSString *)identifier forward:(BOOL)forward animated:(BOOL)animated;
 
 @end
 

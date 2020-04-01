@@ -60,6 +60,7 @@
 #import "ORKSkin.h"
 #import "ORKBorderedButton.h"
 #import "ORKTaskReviewViewController.h"
+#import "ORKContext.h"
 
 @import AVFoundation;
 @import CoreMotion;
@@ -891,6 +892,33 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
                 // can easily fail even if the user does not see a dialog, which would
                 // be highly unexpected.
                 if ([self grantedAtLeastOnePermission] == NO) {
+                    
+                    // We need to check if this is the SIN Predefined Task
+                    // If they select to not allow required permissions, we need to show them to the door.
+                    ORKNavigableOrderedTask *speechInNoiseTask = nil;
+                    if ([self.task isKindOfClass:[ORKNavigableOrderedTask class]])
+                    {
+                        speechInNoiseTask = (ORKNavigableOrderedTask *)self.task;
+                        __block ORKSpeechInNoisePredefinedTaskContext *context = nil;
+                        [speechInNoiseTask.steps indexOfObjectPassingTest:^BOOL(ORKStep * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                           
+                            if ([obj.context isKindOfClass:[ORKSpeechInNoisePredefinedTaskContext class]])
+                            {
+                                context = (ORKSpeechInNoisePredefinedTaskContext *)obj.context;
+                                *stop = YES;
+                                return YES;
+                            }
+                            return NO;
+                        }];
+                        
+                        if (context)
+                        {
+                            NSString *identifier = [context didNotAllowRequiredHealthPermissionsForTask:self.task];
+                            [self flipToPageWithIdentifier:identifier forward:YES animated:NO];
+                            return;
+                        }
+                    }
+                    
                     [self reportError:[NSError errorWithDomain:NSCocoaErrorDomain
                                                           code:NSUserCancelledError
                                                       userInfo:@{@"reason": @"Required permissions not granted."}]
@@ -1340,7 +1368,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     }
 }
 
-- (void)flipToPageWithIdentifier:(NSString *)identifier forward:(BOOL)forward
+- (void)flipToPageWithIdentifier:(NSString *)identifier forward:(BOOL)forward animated:(BOOL)animated
 {
     NSUInteger index =
     [[(ORKOrderedTask *)self.task steps] indexOfObjectPassingTest:^BOOL(ORKStep * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop)
@@ -1359,7 +1387,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
         ORKStep *step = [[(ORKOrderedTask *)self.task steps] objectAtIndex:index];
         if (step)
         {
-            [self showStepViewController:[self viewControllerForStep:step] goForward:forward animated:YES];
+            [self showStepViewController:[self viewControllerForStep:step] goForward:forward animated:animated];
         }
 }
 

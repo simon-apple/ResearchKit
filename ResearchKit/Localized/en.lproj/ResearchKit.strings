@@ -612,6 +612,8 @@
 "SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_DETECT_SKIP" = "I don’t have headphones";
 "SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_REQUIRED_TITLE" = "This Test Requires Headphones";
 "SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_REQUIRED_TEXT" = "You can take the task again when you have them available.";
+"SPEECH_IN_NOISE_PREDEFINED_MICROPHONE_SPEECH_RECOGNITION_REQUIRED_TITLE" = "This Test Requires Access To The Microphone and Speech Recognition";
+"SPEECH_IN_NOISE_PREDEFINED_MICROPHONE_SPEECH_RECOGNITION_REQUIRED_TEXT" = "You can take the task again when you give access.";
 "SPEECH_IN_NOISE_PREDEFINED_VOLUME_CALIBRATION_TITLE" = "Adjust volume to a comfortable level";
 "SPEECH_IN_NOISE_PREDEFINED_VOLUME_CALIBRATION_TEXT" = "Make sure your ears and headphones are clear of any obstructions.\r\n\r\nAdjust the volume so you can clearly hear the sample.";
 "SPEECH_IN_NOISE_PREDEFINED_PLAY_AUDIO_SAMPLE" = "Play Sample";

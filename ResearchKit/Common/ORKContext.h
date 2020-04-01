@@ -52,6 +52,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)didSkipHeadphoneDetectionStepForTask:(id<ORKTask>)task;
 
+- (NSString *)didNotAllowRequiredHealthPermissionsForTask:(id<ORKTask>)task;
+
 @end
 
 NS_ASSUME_NONNULL_END

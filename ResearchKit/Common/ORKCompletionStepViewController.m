@@ -99,7 +99,7 @@
 {
     if ([self isSpeechInNoisePredefinedTaskPractice])
     {
-        [self.taskViewController flipToPageWithIdentifier:@"PLAYBACK_PRACTICE" forward:NO];
+        [self.taskViewController flipToPageWithIdentifier:@"PLAYBACK_PRACTICE" forward:NO animated:YES];
     }
 }
 
