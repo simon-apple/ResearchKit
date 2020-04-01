@@ -41,10 +41,17 @@
 #import "ORKSkin.h"
 #import "ORKPlaybackButton.h"
 
+
+static CGFloat const ORKSpeechInNoiseContentFlamesViewHeightConstant = 150.0;
+static CGFloat const ORKSpeechInNoiseContentFlamesViewVerticalSpacing = 44.0;
+static CGFloat const ORKSpeechInNoiseContentViewVerticalMargin = 20;
+
+
 @interface ORKSpeechInNoiseContentView () <UITextFieldDelegate>
 
 @property (nonatomic, strong) ORKAudioMeteringView *graphView;
 @property (nonatomic, strong) ORKSubheadlineLabel *transcriptLabel;
+@property (nonatomic, copy) NSArray<NSLayoutConstraint *> *constraints;
 
 @end
 
@@ -69,6 +76,11 @@
         [self setUpConstraints];
     }
     return self;
+}
+
+- (void)drawRect:(CGRect)rect
+{
+    [self setUpConstraints];
 }
 
 - (void)setupTextLabel {
@@ -123,15 +135,29 @@
 
 - (void)setUpConstraints
 {
-    [NSLayoutConstraint activateConstraints:@[
-        [_graphView.centerYAnchor constraintEqualToAnchor:self.centerYAnchor],
+    if (self.constraints.count > 0)
+    {
+        [NSLayoutConstraint deactivateConstraints:self.constraints];
+    }
+    
+    self.constraints = @[
+        [_graphView.topAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.topAnchor],
         [_graphView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor],
         [_graphView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor],
-        [_graphView.heightAnchor constraintEqualToConstant:200.0],
+        [_graphView.heightAnchor constraintEqualToConstant:ORKSpeechInNoiseContentFlamesViewHeightConstant],
         [_playButton.centerXAnchor constraintEqualToAnchor:self.centerXAnchor],
-        [_playButton.topAnchor constraintEqualToAnchor:_graphView.bottomAnchor constant:20],
-        [_playButton.bottomAnchor constraintEqualToAnchor:self.bottomAnchor]
-    ]];
+        [_playButton.topAnchor constraintEqualToAnchor:_graphView.bottomAnchor constant:ORKSpeechInNoiseContentFlamesViewVerticalSpacing],
+        [_playButton.bottomAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.bottomAnchor constant:-ORKSpeechInNoiseContentViewVerticalMargin]
+    ];
+    
+    [NSLayoutConstraint activateConstraints:self.constraints];
+}
+
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection
+{
+    [super traitCollectionDidChange:previousTraitCollection];
+    
+    [self setUpConstraints];
 }
 
 - (void)updateGraphSamples

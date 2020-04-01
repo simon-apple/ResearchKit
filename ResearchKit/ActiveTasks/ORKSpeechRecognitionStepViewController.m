@@ -94,7 +94,6 @@
     _speechRecognitionContentView.speechRecognitionImage = step.speechRecognitionImage;
     _speechRecognitionContentView.speechRecognitionText = step.speechRecognitionText;
     _speechRecognitionContentView.delegate = self;
-    self.activeStepView.customContentFillsAvailableSpace = YES;
     
     _errorState = NO;
    
@@ -230,7 +229,7 @@
     if (error) {
         ORK_Log_Error("Speech recognition failed with error message: \"%@\"", error.localizedDescription);
         [_speechRecognitionContentView addRecognitionError:error.localizedDescription];
-        _speechRecognitionContentView.recordButton.enabled = NO;
+        _speechRecognitionContentView.recordButton.userInteractionEnabled = NO;
         _errorState = YES;
     }
     [self stopRecorders];
