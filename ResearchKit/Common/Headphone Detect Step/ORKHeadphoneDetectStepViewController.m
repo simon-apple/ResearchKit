@@ -47,6 +47,7 @@
 #import "ORKSkin.h"
 #import "ORKHelpers_Internal.h"
 #import "ORKContext.h"
+#import "ORKTaskViewController_Internal.h"
 
 static const CGFloat ORKHeadphoneImageViewDimension = 36.0;
 static const CGFloat ORKHeadphoneDetectStepViewTopPadding = 37.0;
@@ -603,7 +604,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
         [(ORKSpeechInNoisePredefinedTaskContext *)self.step.context didSkipHeadphoneDetectionStepForTask:self.step.task];
     }
     
-    [self goToEnd:sender];
+    [[self taskViewController] flipToPageWithIdentifier:@"ORKSpeechInNoiseStepIdentifierHeadphonesRequired" forward:YES animated:NO];
 }
 
 - (void)goToEnd:(id)sender {
