@@ -412,11 +412,10 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierPracticeCompl
     [audioFileSamples enumerateObjectsUsingBlock:^(ORKSpeechInNoiseSample * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             
         NSString *fileName = [[obj.path stringByDeletingPathExtension] lastPathComponent];
-        NSString *listName = [[obj.path stringByDeletingLastPathComponent] lastPathComponent];
             
         // Speech In Noise
         {
-            ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@_%@_%@", listName.uppercaseString, fileName.uppercaseString, ORKSpeechInNoiseStepIdentifierSpeechInNoiseStep];
+            ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@_%@", fileName.uppercaseString, ORKSpeechInNoiseStepIdentifierSpeechInNoiseStep];
             ORKSpeechInNoiseStep *step = [[ORKSpeechInNoiseStep alloc] initWithIdentifier:stepIdentifier];
             step.context = practiceContext;
             step.speechFilePath = obj.path;
@@ -432,7 +431,7 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierPracticeCompl
             
         // Speech Recognition
         {
-            ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@_%@_%@", listName.uppercaseString, fileName.uppercaseString, ORKSpeechInNoiseStepIdentifierSpeechRecognitionStep];
+            ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@_%@", fileName.uppercaseString, ORKSpeechInNoiseStepIdentifierSpeechRecognitionStep];
             ORKStreamingAudioRecorderConfiguration *config = [[ORKStreamingAudioRecorderConfiguration alloc] initWithIdentifier:@"streamingAudio"];
             ORKSpeechRecognitionStep *step = [[ORKSpeechRecognitionStep alloc] initWithIdentifier:stepIdentifier image:nil text:nil];
             step.shouldHideTranscript = YES;
@@ -451,7 +450,7 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierPracticeCompl
             answerFormat.autocorrectionType = UITextAutocorrectionTypeNo;
             answerFormat.multipleLines = YES;
             
-            ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@_%@_%@", listName.uppercaseString, fileName.uppercaseString, ORKSpeechInNoiseStepIdentifierEditSpeechTranscriptStep];
+            ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@_%@", fileName.uppercaseString, ORKSpeechInNoiseStepIdentifierEditSpeechTranscriptStep];
             ORKQuestionStep *step = [ORKQuestionStep questionStepWithIdentifier:stepIdentifier
                                                                               title:ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_REVIEW_TITLE", nil)
                                                                            question:nil
