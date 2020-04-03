@@ -114,6 +114,7 @@ static const CGFloat ORKStepContainerTopCustomContentPaddingStandard = 20.0;
 static const CGFloat ORKStepContainerNavigationFooterTopPaddingStandard = 10.0;
 static const CGFloat ORKContentBottomPadding = 19.0;
 static const CGFloat ORKBodyItemScrollPadding = 24.0;
+static const CGFloat ImageViewMaxHeightAndWidth = 175.0;
 
 @implementation ORKStepContainerView {
     CGFloat _leftRightPadding;
@@ -502,13 +503,17 @@ static const CGFloat ORKBodyItemScrollPadding = 24.0;
 
 - (void)setCustomContentHeightConstraint {
     if (_customContentView) {
-        _customContentHeightConstraint = [NSLayoutConstraint constraintWithItem:_customContentView
-                                                                      attribute:NSLayoutAttributeBottom
-                                                                      relatedBy:_customContentFillsAvailableSpace ? NSLayoutRelationEqual : NSLayoutRelationLessThanOrEqual
-                                                                         toItem:self.isNavigationContainerScrollable ? self.navigationFooterView : _scrollContainerView
-                                                                      attribute:self.isNavigationContainerScrollable ? NSLayoutAttributeTop : NSLayoutAttributeBottom
-                                                                     multiplier:1.0
-                                                                       constant:self.isNavigationContainerScrollable ? -ORKStepContainerNavigationFooterTopPaddingStandard : 0.0];
+        if ([_customContentView isKindOfClass:[UIImageView class]]) {
+            _customContentHeightConstraint = [_customContentView.heightAnchor constraintLessThanOrEqualToConstant:ImageViewMaxHeightAndWidth];
+        } else {
+            _customContentHeightConstraint = [NSLayoutConstraint constraintWithItem:_customContentView
+                                                                          attribute:NSLayoutAttributeBottom
+                                                                          relatedBy:_customContentFillsAvailableSpace ? NSLayoutRelationEqual : NSLayoutRelationLessThanOrEqual
+                                                                             toItem:self.isNavigationContainerScrollable ? self.navigationFooterView : _scrollContainerView
+                                                                          attribute:self.isNavigationContainerScrollable ? NSLayoutAttributeTop : NSLayoutAttributeBottom
+                                                                         multiplier:1.0
+                                                                           constant:self.isNavigationContainerScrollable ? -ORKStepContainerNavigationFooterTopPaddingStandard : 0.0];
+        }
     }
 }
 
@@ -529,13 +534,17 @@ static const CGFloat ORKBodyItemScrollPadding = 24.0;
 
 - (void)setCustomContentWidthConstraint {
     if (_customContentView) {
-        _customContentWidthConstraint = [NSLayoutConstraint constraintWithItem:_customContentView
-                                                                     attribute:NSLayoutAttributeWidth
-                                                                     relatedBy:NSLayoutRelationEqual
-                                                                        toItem:_scrollContainerView
-                                                                     attribute:NSLayoutAttributeWidth
-                                                                    multiplier:1.0
-                                                                      constant:-2*_customContentLeftRightPadding];
+        if ([_customContentView isKindOfClass:[UIImageView class]]) {
+            _customContentWidthConstraint = [_customContentView.widthAnchor constraintLessThanOrEqualToConstant:ImageViewMaxHeightAndWidth];
+        } else {
+            _customContentWidthConstraint = [NSLayoutConstraint constraintWithItem:_customContentView
+                                                                         attribute:NSLayoutAttributeWidth
+                                                                         relatedBy:NSLayoutRelationEqual
+                                                                            toItem:_scrollContainerView
+                                                                         attribute:NSLayoutAttributeWidth
+                                                                        multiplier:1.0
+                                                                          constant:-2*_customContentLeftRightPadding];
+        }
     }
 }
 
