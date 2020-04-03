@@ -643,7 +643,7 @@
 "ENVIRONMENTSPL_THRESHOLD" = "Threshold: %@ dBA";
 "ENVIRONMENTSPL_OK" = "Background Noise OK";
 "ENVIRONMENTSPL_NOISE" = "Too Much Background Noise";
-"ENVIRONMENTSPL_TITLE_2" = "Find a quiet place";
+"ENVIRONMENTSPL_TITLE_2" = "Find a Quiet Place";
 "ENVIRONMENTSPL_INTRO_TEXT_2" = "To ensure accuracy, this test should be taken in a quiet environment.";
 
 /* Secondary Task Step*/
