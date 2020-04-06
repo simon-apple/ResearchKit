@@ -90,6 +90,7 @@
     ORKSpeechRecognitionStep *step = (ORKSpeechRecognitionStep *) self.step;
     _speechRecognitionContentView = [ORKSpeechRecognitionContentView new];
     _speechRecognitionContentView.shouldHideTranscript = step.shouldHideTranscript;
+    self.activeStepView.customContentFillsAvailableSpace = YES;
     self.activeStepView.activeCustomView = _speechRecognitionContentView;
     _speechRecognitionContentView.speechRecognitionImage = step.speechRecognitionImage;
     _speechRecognitionContentView.speechRecognitionText = step.speechRecognitionText;
