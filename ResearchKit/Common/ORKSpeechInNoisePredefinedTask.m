@@ -384,6 +384,9 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierPracticeCompl
             answerFormat.spellCheckingType = UITextSpellCheckingTypeNo;
             answerFormat.autocorrectionType = UITextAutocorrectionTypeNo;
             answerFormat.multipleLines = YES;
+            answerFormat.maximumLength = 300;
+            answerFormat.hideClearButton = YES;
+            answerFormat.hideWordCountLabel = YES;
             
             ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@_%@", ORKSpeechInNoiseStepIdentifierEditSpeechTranscriptStep, ORKSpeechInNoiseStepIdentifierSuffixPractice];
             ORKQuestionStep *step = [ORKQuestionStep questionStepWithIdentifier:stepIdentifier
@@ -450,6 +453,9 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierPracticeCompl
             answerFormat.spellCheckingType = UITextSpellCheckingTypeNo;
             answerFormat.autocorrectionType = UITextAutocorrectionTypeNo;
             answerFormat.multipleLines = YES;
+            answerFormat.maximumLength = 300;
+            answerFormat.hideClearButton = YES;
+            answerFormat.hideWordCountLabel = YES;
             
             ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@_%@", fileName.lowercaseString, ORKSpeechInNoiseStepIdentifierEditSpeechTranscriptStep];
             ORKQuestionStep *step = [ORKQuestionStep questionStepWithIdentifier:stepIdentifier

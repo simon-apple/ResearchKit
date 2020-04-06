@@ -1735,6 +1735,8 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(spellCheckingType, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(keyboardType, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(multipleLines, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(hideClearButton, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(hideWordCountLabel, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(secureTextEntry, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(textContentType, NSString, NSObject, YES, nil, nil),
                     PROPERTY(passwordRules, UITextInputPasswordRules, NSObject, YES,

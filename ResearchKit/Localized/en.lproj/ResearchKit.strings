@@ -656,6 +656,9 @@
 "SLIDER_MOVE_SLIDER_FOR_VALUE" = "Move slider to enter value";
 "SLIDER_I_DONT_KNOW" = "I Don’t Know";
 
+/* Word Count Error */
+"MAX_WORD_COUNT_ERROR" = "You've reached the maximum character count";
+
 /* Review Step */
 "REVIEW_STEP_PAGE" = "Page";
 
