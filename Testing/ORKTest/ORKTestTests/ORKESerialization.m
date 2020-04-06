@@ -1292,6 +1292,12 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                  },
                  (@{
                     })),
+           ENTRY(ORKAudioStreamerConfiguration,
+           ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+               return [[ORKAudioStreamerConfiguration alloc] initWithIdentifier:GETPROP(dict, identifier)];
+           },
+                 (@{
+                    })),
            ENTRY(ORKAccelerometerRecorderConfiguration,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      return [[ORKAccelerometerRecorderConfiguration alloc] initWithIdentifier:GETPROP(dict, identifier) frequency:((NSNumber *)GETPROP(dict, frequency)).doubleValue];

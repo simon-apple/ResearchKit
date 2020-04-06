@@ -187,6 +187,8 @@
 		5D1CE46823FDED92004CB416 /* ORKVolumeCalibrationContentView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D1CE46623FDED92004CB416 /* ORKVolumeCalibrationContentView.h */; };
 		5D1CE46923FDED92004CB416 /* ORKVolumeCalibrationContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1CE46723FDED92004CB416 /* ORKVolumeCalibrationContentView.m */; };
 		5D3196A523DA204000A27087 /* ORKSpeechInNoisePredefinedTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D5C907C23D91FD8007AD5FC /* ORKSpeechInNoisePredefinedTask.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		5D38006B2437E53500E7D2BD /* ORKAudioStreamer.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D3800692437E53500E7D2BD /* ORKAudioStreamer.h */; };
+		5D38006C2437E53500E7D2BD /* ORKAudioStreamer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D38006A2437E53500E7D2BD /* ORKAudioStreamer.m */; };
 		5D43C5D124217393006F4084 /* ORKRecordButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D43C5CF24217393006F4084 /* ORKRecordButton.h */; };
 		5D43C5D224217393006F4084 /* ORKRecordButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D43C5D024217393006F4084 /* ORKRecordButton.m */; };
 		5D43C5D424255675006F4084 /* ORKBodyItem_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D43C5D324255675006F4084 /* ORKBodyItem_Internal.h */; };
@@ -1044,6 +1046,8 @@
 		5D1CE46223FDEA43004CB416 /* ORKVolumeCalibrationStepViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKVolumeCalibrationStepViewController.m; sourceTree = "<group>"; };
 		5D1CE46623FDED92004CB416 /* ORKVolumeCalibrationContentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKVolumeCalibrationContentView.h; sourceTree = "<group>"; };
 		5D1CE46723FDED92004CB416 /* ORKVolumeCalibrationContentView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKVolumeCalibrationContentView.m; sourceTree = "<group>"; };
+		5D3800692437E53500E7D2BD /* ORKAudioStreamer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKAudioStreamer.h; sourceTree = "<group>"; };
+		5D38006A2437E53500E7D2BD /* ORKAudioStreamer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKAudioStreamer.m; sourceTree = "<group>"; };
 		5D43C5CF24217393006F4084 /* ORKRecordButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKRecordButton.h; sourceTree = "<group>"; };
 		5D43C5D024217393006F4084 /* ORKRecordButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKRecordButton.m; sourceTree = "<group>"; };
 		5D43C5D324255675006F4084 /* ORKBodyItem_Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKBodyItem_Internal.h; sourceTree = "<group>"; };
@@ -3112,6 +3116,8 @@
 				86C40B3B1A8D7C5B00081FAC /* ORKAudioRecorder.m */,
 				2E80C1A81FA2A6E500399A0C /* ORKStreamingAudioRecorder.h */,
 				2E80C1A91FA2AA8D00399A0C /* ORKStreamingAudioRecorder.m */,
+				5D3800692437E53500E7D2BD /* ORKAudioStreamer.h */,
+				5D38006A2437E53500E7D2BD /* ORKAudioStreamer.m */,
 			);
 			name = Audio;
 			sourceTree = "<group>";
@@ -3685,6 +3691,7 @@
 				866DA5201D63D04700C9AF3F /* ORKCollector.h in Headers */,
 				BF9155AB1BDE8DA9007FA459 /* ORKWaitStepViewController.h in Headers */,
 				BF9155A91BDE8DA9007FA459 /* ORKWaitStepView.h in Headers */,
+				5D38006B2437E53500E7D2BD /* ORKAudioStreamer.h in Headers */,
 				86C40C661A8D7C5C00081FAC /* CMAccelerometerData+ORKJSONDictionary.h in Headers */,
 				BF91559F1BDE8D7E007FA459 /* ORKReviewStepViewController.h in Headers */,
 				7118AC7520BF6A7800D7A6BB /* ORKSpeechInNoiseStepViewController.h in Headers */,
@@ -4641,6 +4648,7 @@
 				BCC1CD9B1B7ED64F00D86886 /* ORKYAxisView.m in Sources */,
 				FF919A541E81BEB5005C2A1E /* ORKCollectionResult.m in Sources */,
 				86C40D581A8D7C5C00081FAC /* ORKOrderedTask.m in Sources */,
+				5D38006C2437E53500E7D2BD /* ORKAudioStreamer.m in Sources */,
 				2E8070F91FAD217500E4FC7F /* ORKSpeechRecognitionStepViewController.m in Sources */,
 				86C40D601A8D7C5C00081FAC /* ORKQuestionStep.m in Sources */,
 				86C40E381A8D7C5C00081FAC /* ORKVisualConsentTransitionAnimator.m in Sources */,

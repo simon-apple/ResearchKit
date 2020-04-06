@@ -36,7 +36,7 @@
 #import "ORKHeadphoneDetectStep.h"
 #import "ORKHelpers_Internal.h"
 #import "ORKQuestionStep.h"
-#import "ORKRecorder.h"
+#import "ORKRecorder_Private.h"
 #import "ORKSpeechInNoisePredefinedTask.h"
 #import "ORKSpeechInNoiseStep.h"
 #import "ORKSpeechRecognitionStep.h"
@@ -367,7 +367,7 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierPracticeCompl
         // Speech Recognition (Practice)
         {
             ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@_%@", ORKSpeechInNoiseStepIdentifierSpeechRecognitionStep, ORKSpeechInNoiseStepIdentifierSuffixPractice];
-            ORKStreamingAudioRecorderConfiguration *config = [[ORKStreamingAudioRecorderConfiguration alloc] initWithIdentifier:@"streamingAudio"];
+            ORKAudioStreamerConfiguration *config = [[ORKAudioStreamerConfiguration alloc] initWithIdentifier:@"streamingAudio"];
             ORKSpeechRecognitionStep *step = [[ORKSpeechRecognitionStep alloc] initWithIdentifier:stepIdentifier image:nil text:nil];
             step.context = practiceContext;
             step.shouldHideTranscript = YES;
@@ -433,7 +433,7 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierPracticeCompl
         // Speech Recognition
         {
             ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@_%@", fileName.lowercaseString, ORKSpeechInNoiseStepIdentifierSpeechRecognitionStep];
-            ORKStreamingAudioRecorderConfiguration *config = [[ORKStreamingAudioRecorderConfiguration alloc] initWithIdentifier:@"streamingAudio"];
+            ORKAudioStreamerConfiguration *config = [[ORKAudioStreamerConfiguration alloc] initWithIdentifier:@"streamingAudio"];
             ORKSpeechRecognitionStep *step = [[ORKSpeechRecognitionStep alloc] initWithIdentifier:stepIdentifier image:nil text:nil];
             step.shouldHideTranscript = YES;
             step.context = practiceContext;
