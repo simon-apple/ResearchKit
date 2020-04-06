@@ -48,9 +48,10 @@ typedef NSString * ORKSpeechInNoiseStepIdentifier NS_STRING_ENUM;
 ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierHeadphoneDetectStep = @"ORKSpeechInNoiseStepIdentifierHeadphoneDetectStep";
 ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierVolumeCalibrationStep = @"ORKSpeechInNoiseStepIdentifierVolumeCalibrationStep";
 ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierEnvironmentSPLStep = @"ORKSpeechInNoiseStepIdentifierEnvironmentSPLStep";
-ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierSpeechInNoiseStep = @"PLAYBACK";
-ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierSpeechRecognitionStep = @"SPEECH_RECOGNITION";
-ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierEditSpeechTranscriptStep = @"TRANSCRIPT";
+ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierSpeechInNoiseStep = @"playback";
+ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierSpeechRecognitionStep = @"speech_recognition";
+ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierEditSpeechTranscriptStep = @"transcript";
+ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierSuffixPractice = @"practice";
 ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierPracticeCompletionStep = @"ORKSpeechInNoiseStepIdentifierPracticeCompletionStep";
 
 // Private subclass to disable backwards navigation.
@@ -351,7 +352,7 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierPracticeCompl
         
         // Speech In Noise (Practice)
         {
-            ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@_PRACTICE", ORKSpeechInNoiseStepIdentifierSpeechInNoiseStep];
+            ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@_%@", ORKSpeechInNoiseStepIdentifierSpeechInNoiseStep, ORKSpeechInNoiseStepIdentifierSuffixPractice];
             ORKSpeechInNoiseStep *step = [[ORKSpeechInNoiseStep alloc] initWithIdentifier:stepIdentifier];
             step.context = practiceContext;
             step.speechFilePath = [[audioFileSamples firstObject] path];
@@ -365,7 +366,7 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierPracticeCompl
         
         // Speech Recognition (Practice)
         {
-            ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@_PRACTICE", ORKSpeechInNoiseStepIdentifierSpeechRecognitionStep];
+            ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@_%@", ORKSpeechInNoiseStepIdentifierSpeechRecognitionStep, ORKSpeechInNoiseStepIdentifierSuffixPractice];
             ORKStreamingAudioRecorderConfiguration *config = [[ORKStreamingAudioRecorderConfiguration alloc] initWithIdentifier:@"streamingAudio"];
             ORKSpeechRecognitionStep *step = [[ORKSpeechRecognitionStep alloc] initWithIdentifier:stepIdentifier image:nil text:nil];
             step.context = practiceContext;
@@ -384,7 +385,7 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierPracticeCompl
             answerFormat.autocorrectionType = UITextAutocorrectionTypeNo;
             answerFormat.multipleLines = YES;
             
-            ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@_PRACTICE", ORKSpeechInNoiseStepIdentifierEditSpeechTranscriptStep];
+            ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@_%@", ORKSpeechInNoiseStepIdentifierEditSpeechTranscriptStep, ORKSpeechInNoiseStepIdentifierSuffixPractice];
             ORKQuestionStep *step = [ORKQuestionStep questionStepWithIdentifier:stepIdentifier
                                                                           title:ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_REVIEW_TITLE", nil)
                                                                        question:nil
@@ -415,7 +416,7 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierPracticeCompl
             
         // Speech In Noise
         {
-            ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@_%@", fileName.uppercaseString, ORKSpeechInNoiseStepIdentifierSpeechInNoiseStep];
+            ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@_%@", fileName.lowercaseString, ORKSpeechInNoiseStepIdentifierSpeechInNoiseStep];
             ORKSpeechInNoiseStep *step = [[ORKSpeechInNoiseStep alloc] initWithIdentifier:stepIdentifier];
             step.context = practiceContext;
             step.speechFilePath = obj.path;
@@ -431,7 +432,7 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierPracticeCompl
             
         // Speech Recognition
         {
-            ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@_%@", fileName.uppercaseString, ORKSpeechInNoiseStepIdentifierSpeechRecognitionStep];
+            ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@_%@", fileName.lowercaseString, ORKSpeechInNoiseStepIdentifierSpeechRecognitionStep];
             ORKStreamingAudioRecorderConfiguration *config = [[ORKStreamingAudioRecorderConfiguration alloc] initWithIdentifier:@"streamingAudio"];
             ORKSpeechRecognitionStep *step = [[ORKSpeechRecognitionStep alloc] initWithIdentifier:stepIdentifier image:nil text:nil];
             step.shouldHideTranscript = YES;
@@ -450,7 +451,7 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierPracticeCompl
             answerFormat.autocorrectionType = UITextAutocorrectionTypeNo;
             answerFormat.multipleLines = YES;
             
-            ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@_%@", fileName.uppercaseString, ORKSpeechInNoiseStepIdentifierEditSpeechTranscriptStep];
+            ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@_%@", fileName.lowercaseString, ORKSpeechInNoiseStepIdentifierEditSpeechTranscriptStep];
             ORKQuestionStep *step = [ORKQuestionStep questionStepWithIdentifier:stepIdentifier
                                                                               title:ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_REVIEW_TITLE", nil)
                                                                            question:nil
