@@ -47,11 +47,12 @@ static const CGFloat ClearTextButtonMinimumHeight = 20.0;
 static const CGFloat ErrorLabelTopPadding = 4.0;
 static const CGFloat ErrorLabelBottomPadding = 10.0;
 static const CGFloat StandardSpacing = 8.0;
-
+static const CGFloat CellBottomPadding = 5.0;
 
 @interface ORKSurveyAnswerCellForText () <UITextViewDelegate>
 
 @property (nonatomic, strong) ORKAnswerTextView *textView;
+@property (nonatomic, strong) UILabel *errorLabel;
 
 @end
 
@@ -62,6 +63,9 @@ static const CGFloat StandardSpacing = 8.0;
     UILabel *_textCountLabel;
     UIButton *_clearTextViewButton;
     UIView *_bottomSeperatorView;
+    NSMutableArray *_constraints;
+    BOOL _hideClearButton;
+    BOOL _hideWordCountLabel;
 }
 
 - (void)applyAnswerFormat {
@@ -70,6 +74,8 @@ static const CGFloat StandardSpacing = 8.0;
     if ([answerFormat isKindOfClass:[ORKTextAnswerFormat class]]) {
         ORKTextAnswerFormat *textAnswerFormat = (ORKTextAnswerFormat *)answerFormat;
         _maxLength = [textAnswerFormat maximumLength];
+        _hideClearButton = [textAnswerFormat hideClearButton];
+        _hideWordCountLabel = [textAnswerFormat hideWordCountLabel];
         _defaultTextAnswer = textAnswerFormat.defaultTextAnswer;
         self.textView.autocorrectionType = textAnswerFormat.autocorrectionType;
         self.textView.autocapitalizationType = textAnswerFormat.autocapitalizationType;
@@ -142,7 +148,7 @@ static const CGFloat StandardSpacing = 8.0;
         [self addSubview:_bottomSeperatorView];
     }
     
-    if (_textCountLabel == nil) {
+    if (_textCountLabel == nil && _maxLength > 0) {
         _textCountLabel = [UILabel new];
         if (@available(iOS 13.0, *)) {
             [_textCountLabel setTextColor:[UIColor labelColor]];
@@ -150,18 +156,18 @@ static const CGFloat StandardSpacing = 8.0;
             [_textCountLabel setTextColor:[UIColor grayColor]];
         }
         
-        if (_maxLength > 0) {
+        if (!_hideWordCountLabel) {
             [accessibilityElements addObject:_textCountLabel];
             [self updateTextCountLabel];
-        } else {
-            [_textCountLabel setHidden:YES];
         }
+        
+        [_textCountLabel setHidden: _hideWordCountLabel];
         
         _textCountLabel.translatesAutoresizingMaskIntoConstraints = NO;
         [self addSubview: _textCountLabel];
     }
     
-    if (_clearTextViewButton == nil) {
+    if (_clearTextViewButton == nil && !_hideClearButton) {
         _clearTextViewButton = [UIButton new];
         [_clearTextViewButton setTitle:ORKLocalizedString(@"BUTTON_CLEAR", nil) forState:UIControlStateNormal];
         [_clearTextViewButton setBackgroundColor:[UIColor clearColor]];
@@ -171,6 +177,17 @@ static const CGFloat StandardSpacing = 8.0;
         [self addSubview: _clearTextViewButton];
         
         [accessibilityElements addObject:_clearTextViewButton];
+    }
+    
+    if (_errorLabel == nil) {
+        _errorLabel = [UILabel new];
+        [_errorLabel setTextColor: [UIColor orangeColor]];
+        [self.errorLabel setFont:[UIFont preferredFontForTextStyle:UIFontTextStyleFootnote]];
+        _errorLabel.numberOfLines = 0;
+        _errorLabel.lineBreakMode = NSLineBreakByWordWrapping;
+        [_errorLabel setAdjustsFontForContentSizeCategory:YES];
+        _errorLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        [self addSubview:_errorLabel];
     }
     
     self.accessibilityElements = [accessibilityElements copy];
@@ -196,33 +213,92 @@ static const CGFloat StandardSpacing = 8.0;
 }
 
 - (void)setUpConstraints {
-    NSMutableArray *constraints = [NSMutableArray array];
+
+    if (_constraints) {
+        [NSLayoutConstraint deactivateConstraints:_constraints];
+    }
     
-    //Vertical constraints for views
-    [[_textView.topAnchor constraintEqualToAnchor:self.topAnchor constant:TextViewTopPadding] setActive:YES];
-    [[_bottomSeperatorView.topAnchor constraintEqualToAnchor:_textView.bottomAnchor constant:TextViewTopPadding] setActive:YES];
-    [[_clearTextViewButton.topAnchor constraintEqualToAnchor:_bottomSeperatorView.bottomAnchor constant:TextViewBottomPadding] setActive:YES];
-    [[_textCountLabel.centerYAnchor constraintEqualToAnchor:_clearTextViewButton.centerYAnchor] setActive:YES];
-    [[self.bottomAnchor constraintEqualToAnchor:_clearTextViewButton.bottomAnchor constant:StandardSpacing] setActive:YES];
+    _constraints = [NSMutableArray array];
     
-    //Horizontal constraints for views
-    [[_textView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:StandardSpacing] setActive:YES];
-    [[_textView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-StandardSpacing] setActive:YES];
-    [[_bottomSeperatorView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor] setActive:YES];
-    [[_bottomSeperatorView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor] setActive:YES];
-    [[_textCountLabel.leadingAnchor constraintEqualToAnchor:_textView.leadingAnchor] setActive:YES];
-    [[_clearTextViewButton.trailingAnchor constraintEqualToAnchor:_textView.trailingAnchor] setActive:YES];
+    //TextView Constraints
+    [_constraints addObject:[_textView.topAnchor constraintEqualToAnchor:self.topAnchor constant:TextViewTopPadding]];
+    [_constraints addObject:[_textView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:StandardSpacing]];
+    [_constraints addObject:[_textView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-StandardSpacing]];
+    NSLayoutConstraint *heightConstraint = [_textView.heightAnchor constraintGreaterThanOrEqualToConstant:TextViewMinimumHeight];
+    [heightConstraint setPriority:UILayoutPriorityRequired];
+    [_constraints addObject:heightConstraint];
     
-    //Height constraints for views
-    [[_textView.heightAnchor constraintGreaterThanOrEqualToConstant:TextViewMinimumHeight] setActive:YES];
-    [[_bottomSeperatorView.heightAnchor constraintEqualToConstant:1.0 / [UIScreen mainScreen].scale] setActive:YES];
-    [[_clearTextViewButton.heightAnchor constraintGreaterThanOrEqualToConstant:ClearTextButtonMinimumHeight] setActive:YES];
-    [[_textCountLabel.heightAnchor constraintEqualToAnchor:_clearTextViewButton.heightAnchor] setActive:YES];
+    UIView *bottomMostElement;
     
+    if (_textCountLabel && !_textCountLabel.isHidden) {
+        bottomMostElement = _textCountLabel;
+    }
+    
+    if (_clearTextViewButton && !_clearTextViewButton.isHidden) {
+        bottomMostElement = _clearTextViewButton;
+    }
+    
+    if (_errorLabel.attributedText && (!_textCountLabel || _textCountLabel.isHidden)) {
+        bottomMostElement = _errorLabel;
+    }
+    
+    BOOL createEmptySpaceForPossibleErrorMessage = NO;
+    if (!bottomMostElement && _textCountLabel) {
+        bottomMostElement = _bottomSeperatorView;
+        createEmptySpaceForPossibleErrorMessage = YES;
+    }
+    
+    if (bottomMostElement || createEmptySpaceForPossibleErrorMessage) {
+        //SeperatorView Constraints
+        [_constraints addObject:[_bottomSeperatorView.topAnchor constraintEqualToAnchor:_textView.bottomAnchor constant:TextViewTopPadding]];
+        [_constraints addObject:[_bottomSeperatorView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor]];
+        [_constraints addObject:[_bottomSeperatorView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor]];
+        [_constraints addObject:[_bottomSeperatorView.heightAnchor constraintEqualToConstant:1.0 / [UIScreen mainScreen].scale]];
+    }
+    
+    if (bottomMostElement && !createEmptySpaceForPossibleErrorMessage) {
+        //TextCountLabel Constraints
+        if (_textCountLabel && !_textCountLabel.isHidden) {
+            [_constraints addObject:[_textCountLabel.topAnchor constraintEqualToAnchor:_bottomSeperatorView.bottomAnchor constant:TextViewBottomPadding]];
+            [_constraints addObject:[_textCountLabel.leadingAnchor constraintEqualToAnchor:_textView.leadingAnchor]];
+            [_constraints addObject:[_textCountLabel.heightAnchor constraintGreaterThanOrEqualToConstant:ClearTextButtonMinimumHeight]];
+        }
+        
+        //ClearTextViewButton Constraints
+        if (_clearTextViewButton) {
+            [_constraints addObject:[_clearTextViewButton.topAnchor constraintEqualToAnchor:_bottomSeperatorView.bottomAnchor constant:TextViewBottomPadding]];
+            [_constraints addObject:[_clearTextViewButton.trailingAnchor constraintEqualToAnchor:_textView.trailingAnchor]];
+            [_constraints addObject:[_clearTextViewButton.heightAnchor constraintGreaterThanOrEqualToConstant:ClearTextButtonMinimumHeight]];
+        }
+        
+        //ErrorLabel Constraints
+        if (_errorLabel.attributedText && (_textCountLabel && _textCountLabel.isHidden)) {
+            [_constraints addObject:[_errorLabel.leadingAnchor constraintEqualToAnchor:_textView.leadingAnchor]];
+            [_constraints addObject:[_errorLabel.topAnchor constraintEqualToAnchor:_bottomSeperatorView.bottomAnchor constant:TextViewBottomPadding]];
+            [_errorLabel setContentCompressionResistancePriority:1000 forAxis:UILayoutConstraintAxisVertical];
+            [_constraints addObject:[_errorLabel.heightAnchor constraintGreaterThanOrEqualToConstant:ClearTextButtonMinimumHeight]];
+            
+            if (_clearTextViewButton) {
+                [_constraints addObject:[_errorLabel.trailingAnchor constraintEqualToAnchor:_clearTextViewButton.leadingAnchor constant: -5.0]];
+                [_clearTextViewButton setContentCompressionResistancePriority:1000 forAxis:UILayoutConstraintAxisHorizontal];
+            } else {
+                [_constraints addObject:[_errorLabel.trailingAnchor constraintEqualToAnchor:self.trailingAnchor]];
+            }
+        }
+    } else if (!createEmptySpaceForPossibleErrorMessage) {
+        bottomMostElement = _textView;
+    }
+    
+    if (createEmptySpaceForPossibleErrorMessage) {
+        [_constraints addObject:[self.bottomAnchor constraintGreaterThanOrEqualToAnchor:bottomMostElement.bottomAnchor constant:CellBottomPadding + TextViewBottomPadding + ClearTextButtonMinimumHeight]];
+    } else {
+        [_constraints addObject:[self.bottomAnchor constraintGreaterThanOrEqualToAnchor:bottomMostElement.bottomAnchor constant:CellBottomPadding]];
+    }
+
     // Get full width layout
-    [constraints addObject:[self.class fullWidthLayoutConstraint:_textView]];
+    [_constraints addObject:[self.class fullWidthLayoutConstraint:_textView]];
     
-    [NSLayoutConstraint activateConstraints:constraints];
+    [NSLayoutConstraint activateConstraints:_constraints];
 }
 
 + (BOOL)shouldDisplayWithSeparators {
@@ -238,6 +314,10 @@ static const CGFloat StandardSpacing = 8.0;
         NSString *text = [[self.textView.text componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]] componentsJoinedByString:@""];
         NSString *textCountLabelText = [[NSString alloc] initWithFormat:@"%lu/%li", (unsigned long)text.length, (long)_maxLength];
         _textCountLabel.text = textCountLabelText;
+        
+        if (_errorLabel && _errorLabel.attributedText) {
+            [self removeErrorMessage];
+        }
     }
 }
 
@@ -254,6 +334,51 @@ static const CGFloat StandardSpacing = 8.0;
         return NO;
     }
     return YES;
+}
+
+- (void)updateErrorLabelWithMessage:(NSString *)message {
+    NSString *separatorString = @":";
+    NSString *stringtoParse = message ? : ORKLocalizedString(@"RANGE_ALERT_TITLE", @"");
+    NSString *parsedString = [stringtoParse componentsSeparatedByString:separatorString].firstObject;
+    
+    if (![self.accessibilityElements containsObject:self.errorLabel]) {
+        self.accessibilityElements = [self.accessibilityElements arrayByAddingObject:self.errorLabel];
+    }
+    
+    if (@available(iOS 13.0, *)) {
+        
+        NSString *errorMessage = [NSString stringWithFormat:@" %@", parsedString];
+        NSMutableAttributedString *fullString = [[NSMutableAttributedString alloc] initWithString:errorMessage];
+        NSTextAttachment *imageAttachment = [NSTextAttachment new];
+        
+        UIImage *exclamationMarkImage = [UIImage systemImageNamed:@"exclamationmark.circle.fill"];
+        
+        UIImageSymbolConfiguration *imageConfig = [UIImageSymbolConfiguration configurationWithTextStyle:UIFontTextStyleFootnote];
+        UIImage *configuredImage = [exclamationMarkImage imageByApplyingSymbolConfiguration:imageConfig];
+        
+        imageAttachment.image = [configuredImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        
+        NSAttributedString *imageString = [NSAttributedString attributedStringWithAttachment:imageAttachment];
+        
+        [fullString insertAttributedString:imageString atIndex:0];
+        
+        self.errorLabel.attributedText = fullString;
+    } else {
+        NSMutableAttributedString *fullString = [[NSMutableAttributedString alloc] initWithString:parsedString];
+        self.errorLabel.attributedText = fullString;
+    }
+    
+    [self setUpConstraints];
+}
+
+- (void)removeErrorMessage {
+    self.errorLabel.attributedText = nil;
+    if ([self.accessibilityElements containsObject:self.errorLabel]) {
+        NSMutableArray *tempArray = [self.accessibilityElements mutableCopy];
+        [tempArray removeObject:self.errorLabel];
+        self.accessibilityElements = [tempArray copy];
+    }
+    [self setUpConstraints];
 }
 
 #pragma mark - UITextViewDelegate
@@ -273,8 +398,16 @@ static const CGFloat StandardSpacing = 8.0;
         string = [[string componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]] componentsJoinedByString:@""];
         
         if (_maxLength > 0 && string.length > _maxLength) {
-            [self showValidityAlertWithMessage:[[self.step impliedAnswerFormat] localizedInvalidValueStringWithAnswerString:string]];
+            
+            if (_textCountLabel.isHidden) {
+                [self updateErrorLabelWithMessage:ORKLocalizedString(@"MAX_WORD_COUNT_ERROR", @"")];
+            } else {
+                [self showValidityAlertWithMessage:[[self.step impliedAnswerFormat] localizedInvalidValueStringWithAnswerString:string]];
+            }
+           
             return NO;
+        } else if (_errorLabel.attributedText) {
+            [self removeErrorMessage];
         }
     }
     
