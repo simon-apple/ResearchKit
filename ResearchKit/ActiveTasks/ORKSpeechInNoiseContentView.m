@@ -41,11 +41,9 @@
 #import "ORKSkin.h"
 #import "ORKPlaybackButton.h"
 
-
 static CGFloat const ORKSpeechInNoiseContentFlamesViewHeightConstant = 150.0;
 static CGFloat const ORKSpeechInNoiseContentFlamesViewVerticalSpacing = 44.0;
-static CGFloat const ORKSpeechInNoiseContentViewVerticalMargin = 20;
-
+static CGFloat const ORKSpeechInNoiseContentViewVerticalMargin = 44;
 
 @interface ORKSpeechInNoiseContentView () <UITextFieldDelegate>
 
@@ -141,12 +139,12 @@ static CGFloat const ORKSpeechInNoiseContentViewVerticalMargin = 20;
     }
     
     self.constraints = @[
-        [_graphView.topAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.topAnchor],
+        [_graphView.centerYAnchor constraintLessThanOrEqualToAnchor:self.centerYAnchor constant:-ORKSpeechInNoiseContentFlamesViewVerticalSpacing],
         [_graphView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor],
         [_graphView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor],
         [_graphView.heightAnchor constraintEqualToConstant:ORKSpeechInNoiseContentFlamesViewHeightConstant],
         [_playButton.centerXAnchor constraintEqualToAnchor:self.centerXAnchor],
-        [_playButton.topAnchor constraintEqualToAnchor:_graphView.bottomAnchor constant:ORKSpeechInNoiseContentFlamesViewVerticalSpacing],
+        [_playButton.topAnchor constraintGreaterThanOrEqualToAnchor:_graphView.bottomAnchor constant:ORKSpeechInNoiseContentFlamesViewVerticalSpacing],
         [_playButton.bottomAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.bottomAnchor constant:-ORKSpeechInNoiseContentViewVerticalMargin]
     ];
     
