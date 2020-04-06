@@ -356,7 +356,6 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierPracticeCompl
             ORKSpeechInNoiseStep *step = [[ORKSpeechInNoiseStep alloc] initWithIdentifier:stepIdentifier];
             step.context = practiceContext;
             step.speechFilePath = [[audioFileSamples firstObject] path];
-            step.gainAppliedToNoise = 0.51;
             step.title = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_LISTEN_TITLE", nil);
             step.text = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_LISTEN_TEXT", nil);
             step.optional = NO;
@@ -412,7 +411,19 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierPracticeCompl
     {
         practiceContext.practiceTest = NO;
     }
-    
+
+    // SNR ranging from 18 dB to 0 dB with a 3 dB step
+    NSMutableArray *gainValues = [NSMutableArray new];
+    [gainValues addObject:[NSNumber numberWithDouble:0.18]];
+    [gainValues addObject:[NSNumber numberWithDouble:0.25]];
+    [gainValues addObject:[NSNumber numberWithDouble:0.36]];
+    [gainValues addObject:[NSNumber numberWithDouble:0.51]];
+    [gainValues addObject:[NSNumber numberWithDouble:0.73]];
+    [gainValues addObject:[NSNumber numberWithDouble:1.03]];
+    [gainValues addObject:[NSNumber numberWithDouble:1.46]];
+
+    NSAssert((audioFileSamples.count <= 7), @"the number of audio files cannot exceed 7");
+
     [audioFileSamples enumerateObjectsUsingBlock:^(ORKSpeechInNoiseSample * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             
         NSString *fileName = [[obj.path stringByDeletingPathExtension] lastPathComponent];
@@ -424,7 +435,7 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierPracticeCompl
             step.context = practiceContext;
             step.speechFilePath = obj.path;
             step.targetSentence = obj.transcript;
-            step.gainAppliedToNoise = 0.51;
+            step.gainAppliedToNoise = [gainValues[idx] doubleValue];
             step.title = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_LISTEN_TITLE", nil);
             step.text = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_LISTEN_TEXT", nil);
             step.detailText = [NSString stringWithFormat:ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_LISTEN_SENTENCE_X_OF_Y", nil), idx + 1, audioFileSamples.count];
