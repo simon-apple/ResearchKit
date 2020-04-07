@@ -115,6 +115,13 @@
         }];
     }
 }
+- (void)start
+{
+    [super start];
+    
+    // Remove any errors on the content view.
+    [_speechRecognitionContentView addRecognitionError:nil];
+}
 
 - (void)didPressRecordButton:(ORKRecordButton *)recordButton
 {
@@ -222,17 +229,33 @@
     return sResult;
 }
 
-- (void)stopWithError:(NSError *)error {
-    if (_speechRecognizer) {
+- (void)stopWithError:(NSError *)error
+{
+    if (_speechRecognizer)
+    {
         [_speechRecognizer endAudio];
     }
     
-    if (error) {
+    if (error)
+    {
         ORK_Log_Error("Speech recognition failed with error message: \"%@\"", error.localizedDescription);
+        
+        if (error.code == ORKSpeechRecognitionErrorRecognitionFailed)
+        {
+            // Speech Recognition Failed, let the user try again.
+            [_speechRecognitionContentView addRecognitionError:ORKLocalizedString(@"SPEECH_RECOGNITION_FAILED_TRY_AGAIN", nil)];
+            return;
+        }
+        
+        // Speech Recogntion Failed (Fatal)
+        // In this case, the user can't try again and they will need to cancel out of the task.
+        // Disable the Record button.
         [_speechRecognitionContentView addRecognitionError:error.localizedDescription];
         _speechRecognitionContentView.recordButton.userInteractionEnabled = NO;
+        [_speechRecognitionContentView.recordButton setButtonState:ORKRecordButtonStateDisabled];
         _errorState = YES;
     }
+    
     [self stopRecorders];
 }
 

@@ -318,7 +318,8 @@ static CGFloat const ORKSpeechRecognitionContentBottomLayoutMargin = 44.0;
     }
 }
 
-- (void)addRecognitionError:(NSString *)errorMsg {
+- (void)addRecognitionError:(NSString * _Nullable)errorMsg
+{
     _transcriptLabel.textColor = [UIColor ork_redColor];
     _transcriptLabel.text = errorMsg;
 }
