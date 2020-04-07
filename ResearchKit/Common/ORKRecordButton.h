@@ -40,6 +40,11 @@ typedef NS_ENUM(NSUInteger, ORKRecordButtonType) {
     ORKRecordButtonTypeRecord,
 };
 
+typedef NS_ENUM(NSUInteger, ORKRecordButtonState) {
+    ORKRecordButtonStateDisabled = 0,
+    ORKRecordButtonStateEnabled
+};
+
 @protocol ORKRecordButtonDelegate <NSObject>
 
 - (void)buttonPressed:(ORKRecordButton *)recordButton;
@@ -55,6 +60,8 @@ typedef NS_ENUM(NSUInteger, ORKRecordButtonType) {
 - (void)setButtonType:(ORKRecordButtonType)type;
 
 - (void)setButtonType:(ORKRecordButtonType)type animated:(BOOL)animated;
+
+- (void)setButtonState:(ORKRecordButtonState)state;
 
 @end
 

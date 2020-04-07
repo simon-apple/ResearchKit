@@ -70,7 +70,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)updateRecognitionText:(NSString *)recognitionText;
 
-- (void)addRecognitionError:(NSString *)errorMsg;
+- (void)addRecognitionError:(NSString * _Nullable)errorMsg;
 
 @end
 

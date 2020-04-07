@@ -43,6 +43,7 @@
 
 @implementation ORKRecordButtonInternalControl
 {
+    ORKRecordButtonState _state;
     CAShapeLayer *_ringLayer;
     CAShapeLayer *_shapeLayer;
     CGPathRef _ringPath;
@@ -57,6 +58,8 @@
     if (self)
     {
         _buttonType = ORKRecordButtonTypeRecord;
+        _state = ORKRecordButtonStateEnabled;
+        
     }
     return self;
 }
@@ -84,6 +87,38 @@
     _shapeLayer.path = path;
 }
 
+- (void)setButtonState:(ORKRecordButtonState)state
+{
+    _state = state;
+    
+    self.userInteractionEnabled = state == ORKRecordButtonStateEnabled;
+    
+    [self setAppearanceForState:state];
+}
+
+- (UIColor *)enabledColor
+{
+    return [UIColor systemRedColor];
+}
+
+- (UIColor *)disabledColor
+{
+    return [UIColor systemGrayColor];
+}
+
+- (UIColor *)appearanceColorForState:(ORKRecordButtonState)state
+{
+    return state == ORKRecordButtonStateDisabled ? [self disabledColor] : [self enabledColor];
+}
+
+- (void)setAppearanceForState:(ORKRecordButtonState)state
+{
+    UIColor *color = [self appearanceColorForState:state];
+    
+    _ringLayer.strokeColor = color.CGColor;
+    _shapeLayer.fillColor = color.CGColor;
+}
+
 - (void)layoutSubviews
 {
     [super layoutSubviews];
@@ -105,7 +140,7 @@
     _ringLayer = [CAShapeLayer layer];
     _ringLayer.path = [self ringPath];
     _ringLayer.fillColor = [[UIColor clearColor] CGColor];
-    _ringLayer.strokeColor = [[UIColor systemRedColor] CGColor];
+    _ringLayer.strokeColor = [[self appearanceColorForState:_state] CGColor];
     _ringLayer.lineWidth = 2.0;
     [self.layer addSublayer:_ringLayer];
 }
@@ -114,7 +149,7 @@
 {
     _shapeLayer = [CAShapeLayer layer];
     [self setButtonType:_buttonType];
-    _shapeLayer.fillColor = [[UIColor systemRedColor] CGColor];
+    _shapeLayer.fillColor = [[self appearanceColorForState:_state] CGColor];
     [self.layer addSublayer:_shapeLayer];
 }
 
@@ -348,6 +383,11 @@
     [_recordControl setButtonType:type animated:animated];
     _buttonType = type;
     _textLabel.text = [self localizedTitleForType:type];
+}
+
+- (void)setButtonState:(ORKRecordButtonState)state
+{
+    [_recordControl setButtonState:ORKRecordButtonStateDisabled];
 }
 
 @end
