@@ -581,7 +581,7 @@
 "SPEECH_RECOGNITION_QUESTION_TEXT" = "Edit transcript text to correct any misinterpretation of the speech.";
 "SPEECH_RECOGNITION_TRANSCRIPTION_LABEL" = "Your transcription will appear here.";
 "SPEECH_RECOGNITION_FAILED" = "Speech recognition failed.";
-"SPEECH_RECOGNITION_FAILED_TRY_AGAIN" = "Speech recognition failed. Try again.";
+"SPEECH_RECOGNITION_FAILED_TRY_AGAIN" = "Could not record. Tap to try again.";
 "SPEECH_RECOGNITION_INIT_FAILURE" = "Failed to initialize speech recognition.";
 
 /* Speech In Noise active task. */
