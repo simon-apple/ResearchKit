@@ -31,6 +31,7 @@
 
 @import Foundation;
 #import <ResearchKit/ORKInstructionStep.h>
+#import <ResearchKit/ORKTaskViewController.h>
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -42,6 +43,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 ORK_CLASS_AVAILABLE
 @interface ORKCompletionStep : ORKInstructionStep
+
+@property (nonatomic) ORKTaskViewControllerFinishReason reasonForCompletion;
 
 @end
 

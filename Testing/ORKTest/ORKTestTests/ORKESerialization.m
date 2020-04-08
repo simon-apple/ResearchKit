@@ -983,6 +983,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                      return [[ORKCompletionStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
                  },
                  (@{
+                    PROPERTY(reasonForCompletion, NSNumber, NSObject, YES, nil, nil),
                     })),
            ENTRY(ORKCountdownStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
