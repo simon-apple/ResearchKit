@@ -54,19 +54,6 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierEditSpeechTra
 ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierSuffixPractice = @"practice";
 ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierPracticeCompletionStep = @"ORKSpeechInNoiseStepIdentifierPracticeCompletionStep";
 
-// Private subclass to disable backwards navigation.
-@interface ORKFinalInstructionStep : ORKInstructionStep
-
-@end
-
-@implementation ORKFinalInstructionStep
-
-- (BOOL)allowsBackNavigation
-{
-    return YES;
-}
-
-@end
 
 @implementation ORKSpeechInNoisePredefinedTaskContext
 
@@ -79,11 +66,12 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierPracticeCompl
         ORKNavigableOrderedTask *currentTask = (ORKNavigableOrderedTask *)task;
         
         ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierHeadphonesRequired = @"ORKSpeechInNoiseStepIdentifierHeadphonesRequired";
-        
-        ORKFinalInstructionStep *step = [[ORKFinalInstructionStep alloc] initWithIdentifier:ORKSpeechInNoiseStepIdentifierHeadphonesRequired];
+                
+        ORKCompletionStep *step = [[ORKCompletionStep alloc] initWithIdentifier:ORKSpeechInNoiseStepIdentifierHeadphonesRequired];
         step.title = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_REQUIRED_TITLE", nil);
         step.text = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_REQUIRED_TEXT", nil);
         step.optional = NO;
+        step.reasonForCompletion = ORKTaskViewControllerFinishReasonDiscarded;
         [currentTask appendSteps:@[step]];
         
         ORKDirectStepNavigationRule *endNavigationRule = [[ORKDirectStepNavigationRule alloc] initWithDestinationStepIdentifier:ORKNullStepIdentifier];
@@ -101,10 +89,11 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierPracticeCompl
         
         ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierHealthPermissionsRequired = @"ORKSpeechInNoiseStepIdentifierHealthPermissionsRequired";
         
-        ORKFinalInstructionStep *step = [[ORKFinalInstructionStep alloc] initWithIdentifier:ORKSpeechInNoiseStepIdentifierHealthPermissionsRequired];
+        ORKCompletionStep *step = [[ORKCompletionStep alloc] initWithIdentifier:ORKSpeechInNoiseStepIdentifierHealthPermissionsRequired];
         step.title = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_MICROPHONE_SPEECH_RECOGNITION_REQUIRED_TITLE", nil);
         step.text = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_MICROPHONE_SPEECH_RECOGNITION_REQUIRED_TEXT", nil);
         step.optional = NO;
+        step.reasonForCompletion = ORKTaskViewControllerFinishReasonDiscarded;
         [currentTask appendSteps:@[step]];
         
         ORKDirectStepNavigationRule *endNavigationRule = [[ORKDirectStepNavigationRule alloc] initWithDestinationStepIdentifier:ORKNullStepIdentifier];

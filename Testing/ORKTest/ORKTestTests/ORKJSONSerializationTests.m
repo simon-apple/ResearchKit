@@ -519,7 +519,6 @@ ORK_MAKE_TEST_INIT(NSRegularExpression, (^{
         [stringsForClassesExcluded addObject:NSStringFromClass(c)];
     }
     
-    [stringsForClassesExcluded addObject:@"ORKFinalInstructionStep"];
     [stringsForClassesExcluded addObject:@"ORKFreehandDrawingGestureRecognizer"];
     [stringsForClassesExcluded addObject:@"ORKSignatureGestureRecognizer"];
     [stringsForClassesExcluded addObject:@"ORKTouchGestureRecognizer"];
@@ -1284,6 +1283,7 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
     
     NSDictionary <NSString *, NSString *> *mapStepClassForViewController = @{ // classes that require custom step class
                                                                              @"ORKActiveStepViewController" : @"ORKActiveStep",
+                                                                             @"ORKCompletionStepViewController" : @"ORKCompletionStep",
                                                                              @"ORKConsentReviewStepViewController" : @"ORKConsentReviewStep",
                                                                              @"ORKFormStepViewController" : @"ORKFormStep",
                                                                              @"ORKHolePegTestPlaceStepViewController" : @"ORKHolePegTestPlaceStep",
