@@ -54,6 +54,11 @@
     dispatch_queue_t _responseQueue;
 }
 
++ (SFSpeechRecognizerAuthorizationStatus)authorizationStatus
+{
+    return [SFSpeechRecognizer authorizationStatus];
+}
+
 + (void)requestAuthorization {
     
     [SFSpeechRecognizer requestAuthorization:^(SFSpeechRecognizerAuthorizationStatus status) {
@@ -65,6 +70,13 @@
                 // User did not authorize speech recognition
                 break;
         }
+    }];
+}
+
++ (void)requestAuthorization:(void (^ _Nonnull)(SFSpeechRecognizerAuthorizationStatus authorizationStatus))handler
+{
+    [SFSpeechRecognizer requestAuthorization:^(SFSpeechRecognizerAuthorizationStatus status) {
+        handler(status == SFSpeechRecognizerAuthorizationStatusAuthorized);
     }];
 }
 

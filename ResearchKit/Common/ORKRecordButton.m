@@ -387,7 +387,7 @@
 
 - (void)setButtonState:(ORKRecordButtonState)state
 {
-    [_recordControl setButtonState:ORKRecordButtonStateDisabled];
+    [_recordControl setButtonState:state];
 }
 
 @end

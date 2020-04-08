@@ -55,6 +55,7 @@
 #import "ORKResult_Private.h"
 #import "ORKCollectionResult_Private.h"
 #import "ORKStepViewController_Internal.h"
+#import "ORKTaskViewController_Internal.h"
 #import "ORKTaskViewController.h"
 
 #import "ORKOrderedTask.h"
@@ -98,10 +99,55 @@
     
     _errorState = NO;
    
-    [ORKSpeechRecognizer requestAuthorization];
+    [self requestSpeechRecognizerAuthorizationIfNeeded];
 
     _localResult = [[ORKSpeechRecognitionResult alloc] initWithIdentifier:self.step.identifier];
     _speechRecognitionQueue = dispatch_queue_create("SpeechRecognitionQueue", DISPATCH_QUEUE_SERIAL);
+}
+
+- (void)requestSpeechRecognizerAuthorizationIfNeeded
+{
+    [self handleSpeechRecognizerAuthorizationStatus:[ORKSpeechRecognizer authorizationStatus]];
+}
+
+- (void)handleSpeechRecognizerAuthorizationStatus:(SFSpeechRecognizerAuthorizationStatus)status
+{
+    switch (status)
+    {
+        case SFSpeechRecognizerAuthorizationStatusAuthorized:
+        {
+            [_speechRecognitionContentView.recordButton setButtonState:ORKRecordButtonStateEnabled];
+            break;
+        }
+        case SFSpeechRecognizerAuthorizationStatusRestricted:
+        case SFSpeechRecognizerAuthorizationStatusDenied:
+        {
+            id<ORKTask> task = self.step.task;
+            
+            ORKSpeechInNoisePredefinedTaskContext *context = [self currentSpeechInNoisePredefinedTaskContext];
+            
+            if (context && task)
+            {
+                NSString *identifier = [context didNotAllowRequiredHealthPermissionsForTask:task];
+                [[self taskViewController] flipToPageWithIdentifier:identifier forward:YES animated:NO];
+            }
+            else
+            {
+                [_speechRecognitionContentView.recordButton setButtonState:ORKRecordButtonStateDisabled];
+            }
+            break;
+        }
+        case SFSpeechRecognizerAuthorizationStatusNotDetermined:
+        {
+            [ORKSpeechRecognizer requestAuthorization:^(SFSpeechRecognizerAuthorizationStatus authorizationStatus)
+            {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self handleSpeechRecognizerAuthorizationStatus:authorizationStatus == SFSpeechRecognizerAuthorizationStatusAuthorized ?: SFSpeechRecognizerAuthorizationStatusDenied];
+                });
+            }];
+            break;
+        }
+    }
 }
 
 - (void)initializeRecognizer {
@@ -115,6 +161,7 @@
         }];
     }
 }
+
 - (void)start
 {
     [super start];

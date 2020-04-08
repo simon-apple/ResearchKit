@@ -41,6 +41,7 @@
 
 #import "ORKActiveStepViewController_Internal.h"
 #import "ORKStepViewController_Internal.h"
+#import "ORKTaskViewController_Internal.h"
 
 #import "ORKCollectionResult_Private.h"
 #import "ORKEnvironmentSPLMeterResult.h"
@@ -111,7 +112,7 @@
     _environmentSPLMeterContentView.ringView.delegate = self;
     self.activeStepView.activeCustomView = _environmentSPLMeterContentView;
     self.activeStepView.customContentFillsAvailableSpace = YES;
-    [self requestMicrophoneAuthorization];
+    [self requestRecordPermissionIfNeeded];
     [self configureAudioSession];
     _audioEngine = [[AVAudioEngine alloc] init];
     _eqUnit = [[AVAudioUnitEQ alloc] initWithNumberOfBands:6];
@@ -210,8 +211,51 @@
     return sResult;
 }
 
-- (void)requestMicrophoneAuthorization {
-    [[AVAudioSession sharedInstance] recordPermission];
+- (nullable ORKSpeechInNoisePredefinedTaskContext *)speechInNoisePredefinedTaskContext
+{
+    if ([self.step.context isKindOfClass:[ORKSpeechInNoisePredefinedTaskContext class]])
+    {
+        return (ORKSpeechInNoisePredefinedTaskContext *)self.step.context;
+    }
+    return nil;
+}
+
+- (void)requestRecordPermissionIfNeeded
+{
+    [self handleRecordPermission:[[AVAudioSession sharedInstance] recordPermission]];
+}
+
+- (void)handleRecordPermission:(AVAudioSessionRecordPermission)recordPermission
+{
+    switch (recordPermission)
+    {
+        case AVAudioSessionRecordPermissionGranted:
+            break;
+            
+        case AVAudioSessionRecordPermissionDenied:
+        {
+            id<ORKTask> task = self.step.task;
+            ORKSpeechInNoisePredefinedTaskContext *context = [self speechInNoisePredefinedTaskContext];
+            if (context && task)
+            {
+                NSString *identifier = [context didNotAllowRequiredHealthPermissionsForTask:task];
+                [[self taskViewController] flipToPageWithIdentifier:identifier forward:YES animated:NO];
+            }
+            else
+            {
+                ORK_Log_Error("User has denied record permission for a step which requires microphone access.");
+                // TODO: Error message to the user instructing them to enable microphone access.
+            }
+            break;
+        }
+        case AVAudioSessionRecordPermissionUndetermined:
+        {
+            [[AVAudioSession sharedInstance] requestRecordPermission:^(BOOL granted) {
+                [self handleRecordPermission:granted ? AVAudioSessionRecordPermissionGranted : AVAudioSessionRecordPermissionDenied];
+            }];
+            break;
+        }
+    }
 }
 
 - (void)configureAudioSession {
