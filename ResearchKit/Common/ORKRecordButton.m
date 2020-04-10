@@ -31,6 +31,21 @@
 #import "ORKRecordButton.h"
 #import "ORKHelpers_Internal.h"
 
+static NSString * ORKRecordButtonLabelForType(ORKRecordButtonType type)
+{
+    switch (type)
+    {
+        case ORKRecordButtonTypePlay:
+            return ORKLocalizedString(@"PLAY", nil);
+            
+        case ORKRecordButtonTypeStop:
+            return ORKLocalizedString(@"STOP", nil);
+            
+        case ORKRecordButtonTypeRecord:
+            return ORKLocalizedString(@"RECORD", nil);
+    }
+}
+
 @interface ORKRecordButtonInternalControl : UIControl
 
 @property (nonatomic, readonly) ORKRecordButtonType buttonType;
@@ -62,6 +77,21 @@
         
     }
     return self;
+}
+
+- (BOOL)isAccessibilityElement
+{
+    return YES;
+}
+
+- (NSString *)accessibilityLabel
+{
+    return ORKRecordButtonLabelForType(_buttonType);
+}
+
+- (UIAccessibilityTraits)accessibilityTraits
+{
+    return UIAccessibilityTraitButton;
 }
 
 - (void)setButtonType:(ORKRecordButtonType)type
@@ -294,6 +324,11 @@
     return self;
 }
 
+- (BOOL)isAccessibilityElement
+{
+    return NO;
+}
+
 - (void)buttonPressed:(id)sender
 {
     if ([self.delegate conformsToProtocol:@protocol(ORKRecordButtonDelegate)] && [self.delegate respondsToSelector:@selector(buttonPressed:)])
@@ -360,17 +395,7 @@
 
 - (NSString *)localizedTitleForType:(ORKRecordButtonType)type
 {
-    switch (type)
-    {
-        case ORKRecordButtonTypePlay:
-            return ORKLocalizedString(@"PLAY", nil);
-            
-        case ORKRecordButtonTypeStop:
-            return ORKLocalizedString(@"STOP", nil);
-            
-        case ORKRecordButtonTypeRecord:
-            return ORKLocalizedString(@"RECORD", nil);
-    }
+    return ORKRecordButtonLabelForType(type);
 }
 
 - (void)setButtonType:(ORKRecordButtonType)type
