@@ -75,9 +75,7 @@
 
 + (void)requestAuthorization:(void (^ _Nonnull)(SFSpeechRecognizerAuthorizationStatus authorizationStatus))handler
 {
-    [SFSpeechRecognizer requestAuthorization:^(SFSpeechRecognizerAuthorizationStatus status) {
-        handler(status == SFSpeechRecognizerAuthorizationStatusAuthorized);
-    }];
+    [SFSpeechRecognizer requestAuthorization:^(SFSpeechRecognizerAuthorizationStatus status) { handler(status); }];
 }
 
 - (void)startRecognitionWithLocale:(NSLocale *)locale reportPartialResults:(BOOL)reportPartialResults responseDelegate:(id<ORKSpeechRecognitionDelegate>)delegate errorHandler:(void (^)(NSError *error))handler
