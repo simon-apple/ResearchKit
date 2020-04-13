@@ -236,11 +236,10 @@
         
         NSString *path = [[self speechInNoiseStep] speechFilePath];
         NSString *file = [path lastPathComponent];
-        NSString *list = [[path stringByDeletingLastPathComponent] lastPathComponent];
         
-        if (validate(list) && validate(file))
+        if (validate(file))
         {
-            filename = [NSString stringWithFormat:@"%@ - %@", list, file];
+            filename = [NSString stringWithFormat:@"%@", file];
         }
     }
     
