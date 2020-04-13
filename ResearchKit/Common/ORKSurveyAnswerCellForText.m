@@ -114,6 +114,9 @@ static const CGFloat CellBottomPadding = 5.0;
         
         self.textView.delegate = self;
         self.textView.editable = YES;
+        if (@available(iOS 13.0, *)) {
+            self.textView.backgroundColor = [UIColor secondarySystemGroupedBackgroundColor];
+        }
         
         [self addSubview:self.textView];
         
