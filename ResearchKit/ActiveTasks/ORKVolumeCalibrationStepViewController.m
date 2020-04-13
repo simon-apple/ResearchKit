@@ -76,6 +76,12 @@
     [self.audioEngine startAndReturnError:nil];
 }
 
+- (void)tearDownAudioEngine
+{
+    [self.playerNode stop];
+    [self.audioEngine stop];
+}
+
 - (void)start
 {
     [super start];
@@ -84,6 +90,12 @@
 - (ORKStepResult *)result
 {
     return [super result];
+}
+
+- (void)goForward
+{
+    [self tearDownAudioEngine];
+    [super goForward];
 }
 
 - (void)finish
@@ -113,8 +125,7 @@
     }
     else
     {
-        [self.playerNode stop];
-        [self.audioEngine stop];
+        [self tearDownAudioEngine];
         [self finish];
         return NO;
     }
