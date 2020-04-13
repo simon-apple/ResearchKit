@@ -324,7 +324,34 @@
         ORKQuestionStep *nextStep = [self nextStep];
         if (nextStep)
         {
-            [((ORKTextAnswerFormat *)nextStep.answerFormat) setDefaultTextAnswer: [_localResult.transcription formattedString]];
+            NSString *textAnswer = [_localResult.transcription formattedString];
+
+            // Known substitutions
+            // TODO: - make this locale specific and grab mapping from manifest file
+
+            NSDictionary *knownSubstitutions = @{ @"for"  : @"four",
+                                                  @"to"   : @"two",
+                                                  @"too"  : @"two",
+                                                  @"10"   : @"ten",
+                                                  @"11"   : @"eleven",
+                                                  @"12"   : @"twelve",
+                                                  @"13"   : @"thirteen",
+                                                  @"14"   : @"fourteen",
+                                                  @"15"   : @"fifteen",
+                                                  @"16"   : @"sixteen",
+                                                  @"17"   : @"seventeen",
+                                                  @"read" : @"red"
+            };
+
+            NSArray *words = [textAnswer componentsSeparatedByString:@" "];
+            NSMutableArray *substitutedWords = [NSMutableArray new];
+            for(NSString *word in words) {
+                [substitutedWords addObject:[knownSubstitutions objectForKey:word] ? : word];
+            }
+
+            NSString *substitutedTextAnswer = [substitutedWords componentsJoinedByString:@" "];
+
+            [((ORKTextAnswerFormat *)nextStep.answerFormat) setDefaultTextAnswer: substitutedTextAnswer];
             
             if (allowUserToRecordInsteadOnNextStep)
             {
