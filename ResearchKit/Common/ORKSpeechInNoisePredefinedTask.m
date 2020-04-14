@@ -185,7 +185,7 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierPracticeCompl
                       prependSteps:(nullable NSArray<ORKStep *> *)prependSteps
                        appendSteps:(nullable NSArray<ORKStep *> *)appendSteps
 {
-    return [self initWithIdentifier:identifier audioSetManifestPath:audioSetManifestPath prependSteps:prependSteps appendSteps:appendSteps includePracticeSteps:NO];
+    return [self initWithIdentifier:identifier audioSetManifestPath:audioSetManifestPath prependSteps:prependSteps appendSteps:appendSteps includePracticeSteps:YES];
 }
 
 - (instancetype)initWithIdentifier:(NSString *)identifier steps:(nullable NSArray<ORKStep *> *)steps
@@ -410,6 +410,8 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierPracticeCompl
     [gainValues addObject:[NSNumber numberWithDouble:1.03]];
     [gainValues addObject:[NSNumber numberWithDouble:1.46]];
 
+    ORKSpeechInNoisePredefinedTaskContext *context = [[ORKSpeechInNoisePredefinedTaskContext alloc] init];
+    
     NSAssert((audioFileSamples.count <= 7), @"the number of audio files cannot exceed 7");
 
     [audioFileSamples enumerateObjectsUsingBlock:^(ORKSpeechInNoiseSample * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -420,7 +422,7 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierPracticeCompl
         {
             ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@_%@", fileName.lowercaseString, ORKSpeechInNoiseStepIdentifierSpeechInNoiseStep];
             ORKSpeechInNoiseStep *step = [[ORKSpeechInNoiseStep alloc] initWithIdentifier:stepIdentifier];
-            step.context = practiceContext;
+            step.context = context;
             step.speechFilePath = obj.path;
             step.targetSentence = obj.transcript;
             step.gainAppliedToNoise = [gainValues[idx] doubleValue];
@@ -438,7 +440,7 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierPracticeCompl
             ORKAudioStreamerConfiguration *config = [[ORKAudioStreamerConfiguration alloc] initWithIdentifier:@"streamingAudio"];
             ORKSpeechRecognitionStep *step = [[ORKSpeechRecognitionStep alloc] initWithIdentifier:stepIdentifier image:nil text:nil];
             step.shouldHideTranscript = YES;
-            step.context = practiceContext;
+            step.context = context;
             step.recorderConfigurations = @[config];
             step.speechRecognizerLocale = @"en-US";
             step.title = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_REPEAT_TITLE", nil);
@@ -461,7 +463,7 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierPracticeCompl
                                                                               title:ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_REVIEW_TITLE", nil)
                                                                            question:nil
                                                                              answer:answerFormat];
-            step.context = practiceContext;
+            step.context = context;
             step.text = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_REVIEW_TEXT", nil);
             step.optional = NO;
             [steps addObject:step];

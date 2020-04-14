@@ -324,6 +324,12 @@
         ORKQuestionStep *nextStep = [self nextStep];
         if (nextStep)
         {
+            ORKSpeechInNoisePredefinedTaskContext *nextStepContext = nil;
+            if ([nextStep.context isKindOfClass:[ORKSpeechInNoisePredefinedTaskContext class]])
+            {
+                nextStepContext = (ORKSpeechInNoisePredefinedTaskContext *)nextStep.context;
+            }
+            
             NSString *textAnswer = [_localResult.transcription formattedString];
 
             // Known substitutions
@@ -358,9 +364,10 @@
                 nextStep.title = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_TYPE_TITLE", nil);
                 nextStep.text = nil;
                 
-                ORKSpeechInNoisePredefinedTaskContext *context = [[ORKSpeechInNoisePredefinedTaskContext alloc] init];
-                context.prefersKeyboard = YES;
-                nextStep.context = context;
+                if (nextStepContext)
+                {
+                    nextStepContext.prefersKeyboard = YES;
+                }
                 
                 ORKBodyItem *buttonItem = [[ORKBodyItem alloc] initWithCustomButtonConfigurationHandler:^(UIButton * _Nonnull button) {
                     
@@ -387,8 +394,10 @@
                 nextStep.text = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_REVIEW_TEXT", nil);
                 nextStep.bodyItems = nil;
                 
-                ORKSpeechInNoisePredefinedTaskContext *context = [[ORKSpeechInNoisePredefinedTaskContext alloc] init];
-                nextStep.context = context;
+                if (nextStepContext)
+                {
+                    nextStepContext.prefersKeyboard = NO;
+                }
             }
         }
     }
