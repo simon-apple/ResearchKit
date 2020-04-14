@@ -49,6 +49,8 @@
 #import <AVFoundation/AVFoundation.h>
 @import Accelerate;
 
+static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
+
 @interface ORKSpeechInNoiseStepViewController () {
     AVAudioEngine *_audioEngine;
     AVAudioPlayerNode *_playerNode;
@@ -239,7 +241,7 @@
         
         if (validate(file))
         {
-            filename = [NSString stringWithFormat:@"%@", file];
+            filename = [file copy];
         }
     }
     
@@ -285,6 +287,21 @@
     }
     
     return sResult;
+}
+
+- (void)finish
+{
+    [_speechInNoiseContentView removeAllSamples];
+    
+    ORKSpeechInNoisePredefinedTaskContext *context = [self predefinedSpeechInNoiseContext];
+    if (context)
+    {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(ORKSpeechInNoiseStepFinishDelay * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{ [super finish]; });
+    }
+    else
+    {
+        [super finish];
+    }
 }
 
 @end
