@@ -72,6 +72,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)addRecognitionError:(NSString * _Nullable)errorMsg;
 
+- (void)updateButtonStates;
+
 @end
 
 NS_ASSUME_NONNULL_END
