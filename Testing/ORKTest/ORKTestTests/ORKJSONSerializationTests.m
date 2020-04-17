@@ -244,8 +244,7 @@ ORK_MAKE_TEST_INIT(ORKSpeechInNoisePredefinedTask, ^{
     return [self initWithIdentifier:@"test1"
                audioSetManifestPath:[bundlePath stringByAppendingPathComponent: @"PredefinedTaskResources/List1/manifest.json"]
                        prependSteps:@[stepA]
-                        appendSteps:@[stepB]
-               includePracticeSteps:YES];
+                        appendSteps:@[stepB]];
 });
 ORK_MAKE_TEST_INIT(ORKImageChoice, ^{return [super init];});
 ORK_MAKE_TEST_INIT(ORKTextChoice, ^{return [super init];});
@@ -1170,7 +1169,6 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
                                        @"ORKTableStep.isBulleted",
                                        @"ORKTableStep.allowsSelection",
                                        @"ORKPDFViewerStep.actionBarOption",
-                                       @"ORKSpeechInNoisePredefinedTask.includePracticeSteps",
                                        @"ORKBodyItem.customButtonConfigurationHandler"
                                        ];
     
