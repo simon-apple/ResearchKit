@@ -527,12 +527,9 @@ static NSUInteger sIndexCacheSize = 5;
     }
 }
 - (void)_applicationWillResignActive:(NSNotification *)notification {
-    [self setPaused:YES];
-    [self releaseDrawables];
     [self setRenderingEnabled:NO forReason:kSUICFlamesViewUIApplicationNotificationReason];
 }
 - (void)_applicationWillEnterForeground:(NSNotification *)notification {
-    [self setPaused:NO];
     [self setRenderingEnabled:YES forReason:kSUICFlamesViewUIApplicationNotificationReason];
 }
 - (void)_applicationDidBecomeActive:(NSNotification *)notification {
