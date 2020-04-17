@@ -317,6 +317,8 @@
 {
     [super suspend];
     
+    [_speechRecognitionContentView removeAllSamples];
+    
     [_speechRecognitionContentView.recordButton setButtonType:ORKRecordButtonTypeRecord animated:YES];
     
     [_speechRecognitionContentView updateButtonStates];
