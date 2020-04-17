@@ -44,6 +44,7 @@
 
 #import "ORKSpeechRecognitionContentView.h"
 #import "ORKStreamingAudioRecorder.h"
+#import "ORKAudioStreamer.h"
 #import "ORKSpeechRecognizer.h"
 #import "ORKSpeechRecognitionStep.h"
 #import "ORKSpeechRecognitionError.h"
@@ -67,7 +68,7 @@
 
 @implementation ORKSpeechRecognitionStepViewController {
     ORKSpeechRecognitionContentView *_speechRecognitionContentView;
-    ORKStreamingAudioRecorder *_audioRecorder;
+    ORKAudioStreamer *_audioRecorder;
     ORKSpeechRecognizer *_speechRecognizer;
     
     dispatch_queue_t _speechRecognitionQueue;
@@ -241,10 +242,10 @@
 }
 
 - (void)recordersDidChange {
-    ORKStreamingAudioRecorder *audioRecorder = nil;
+    ORKAudioStreamer *audioRecorder = nil;
     for (ORKRecorder *recorder in self.recorders) {
-        if ([recorder isKindOfClass:[ORKStreamingAudioRecorder class]]) {
-            audioRecorder = (ORKStreamingAudioRecorder *)recorder;
+        if ([recorder isKindOfClass:[ORKAudioStreamer class]]) {
+            audioRecorder = (ORKAudioStreamer *)recorder;
             break;
         }
     }
@@ -280,6 +281,10 @@
 
 - (void)stopWithError:(NSError *)error
 {
+    [_speechRecognitionContentView.recordButton setButtonType:ORKRecordButtonTypeRecord animated:YES];
+    
+    [_speechRecognitionContentView updateButtonStates];
+    
     if (_speechRecognizer)
     {
         [_speechRecognizer endAudio];
@@ -306,6 +311,15 @@
     }
     
     [self stopRecorders];
+}
+
+- (void)suspend
+{
+    [super suspend];
+    
+    [_speechRecognitionContentView.recordButton setButtonType:ORKRecordButtonTypeRecord animated:YES];
+    
+    [_speechRecognitionContentView updateButtonStates];
 }
 
 - (void)resume {

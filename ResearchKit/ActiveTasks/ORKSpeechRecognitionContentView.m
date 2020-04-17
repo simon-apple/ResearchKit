@@ -178,6 +178,21 @@ static CGFloat const ORKSpeechRecognitionContentBottomLayoutMargin = 44.0;
     }
 }
 
+- (void)updateButtonStates
+{
+    switch ([_recordButton buttonType])
+       {
+           case ORKRecordButtonTypeRecord:
+               
+               [self setKeyboardButtonEnabled:YES];
+               break;
+               
+           default:
+               [self setKeyboardButtonEnabled:NO];
+               break;
+       }
+}
+
 - (void)setupUseKeyboardButton
 {
     _useKeyboardButton = [[UIButton alloc] init];
