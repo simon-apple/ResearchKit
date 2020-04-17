@@ -142,7 +142,9 @@
             [ORKSpeechRecognizer requestAuthorization:^(SFSpeechRecognizerAuthorizationStatus authorizationStatus)
             {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [self handleSpeechRecognizerAuthorizationStatus:authorizationStatus == SFSpeechRecognizerAuthorizationStatusAuthorized ?: SFSpeechRecognizerAuthorizationStatusDenied];
+                    [self handleSpeechRecognizerAuthorizationStatus:authorizationStatus == SFSpeechRecognizerAuthorizationStatusAuthorized ?
+                    SFSpeechRecognizerAuthorizationStatusAuthorized:
+                     SFSpeechRecognizerAuthorizationStatusDenied];
                 });
             }];
             break;
