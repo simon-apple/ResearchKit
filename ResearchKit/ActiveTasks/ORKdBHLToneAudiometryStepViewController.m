@@ -52,6 +52,7 @@
 
 #import "ORKHelpers_Internal.h"
 #import "ORKTaskViewController_Private.h"
+#import "ORKTaskViewController_Internal.h"
 #import "ORKOrderedTask.h"
 #import "ORKHeadphoneDetectResult.h"
 
