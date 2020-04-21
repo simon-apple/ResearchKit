@@ -212,10 +212,7 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
             {
                 if ([[route valueForKey:getAVSystemController_RouteDescriptionKey_RouteCurrentlyPicked()] boolValue])
                 {
-                    NSString *subtype = [route valueForKey:getAVSystemController_RouteDescriptionKey_RouteSubtype()];
-                    NSSet *supportedRoutes = [_supportedHeadphoneChipsetTypes objectsPassingTest:^BOOL(NSString * _Nonnull obj, BOOL * _Nonnull routesStop) {
-                        return [subtype containsString:obj];
-                    }];
+                    NSSet *supportedRoutes = [self supportedHeadphoneChipsetTypesForRoute:route];
                     
                     if (supportedRoutes.count > 0)
                     {
@@ -256,6 +253,27 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
     }
     
     return routeSupported;
+}
+
+- (NSSet *)supportedHeadphoneChipsetTypesForRoute:(NSDictionary *)route
+{
+    NSString *subtype = [route valueForKey:getAVSystemController_RouteDescriptionKey_RouteSubtype()];
+    
+    NSSet *supportedChipsetTypes = _supportedHeadphoneChipsetTypes;
+    
+    // If we are supporting any type of headphones, we can still try to classify them!
+    if (_supportedHeadphoneChipsetTypes == nil)
+    {
+        supportedChipsetTypes = [NSSet setWithArray:@[ORKHeadphoneChipsetIdentifierLightningEarPods,
+                                                      ORKHeadphoneChipsetIdentifierAudioJackEarPods,
+                                                      ORKHeadphoneChipsetIdentifierAirPods]];
+    }
+    
+    NSSet *supportedRoutes = [supportedChipsetTypes objectsPassingTest:^BOOL(NSString * _Nonnull obj, BOOL * _Nonnull routesStop) {
+        return [subtype containsString:obj];
+    }];
+    
+    return supportedRoutes;
 }
 
 - (void)updateHeadphoneState {
