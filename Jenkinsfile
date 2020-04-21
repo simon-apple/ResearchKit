@@ -32,6 +32,8 @@ pipeline {
                             timeout(time: 20, unit: 'MINUTES') {
                 sh 'echo "Test (ResearchKit iOS)"'
                                     sh 'set -o pipefail && xcodebuild test-without-building -project ./ResearchKit.xcodeproj -scheme "ResearchKit" -destination "name=iPhone Xs" -resultBundlePath output/ResearchKit/ios/RKTestResult | tee output/ResearchKit/ios/test.log | /usr/local/bin/xcpretty -r junit'
+									sh 'set -o pipefail && xcrun xccov view --report --json output/ResearchKit/ios/RKTestResult.xcresult > output/ResearchKit/ios/CodeCoverage.json'
+									sh 'set -o pipefail && swift ./scripts/xccov-json-to-cobertura-xml.swift output/ResearchKit/ios/CodeCoverage.json -targetsToExclude ResearchKitTests.xctest > output/ResearchKit/ios/CoberturaCodeCoverage.xml'
                             }
                     }
             }
@@ -61,6 +63,7 @@ pipeline {
             sh 'tar -zcvf artifacts.tar.gz output'
             archiveArtifacts artifacts: 'artifacts.tar.gz', fingerprint: true
             junit 'build/reports/*.xml'
+			cobertura autoUpdateHealth: false, autoUpdateStability: false, coberturaReportFile: 'output/ResearchKit/ios/CoberturaCodeCoverage.xml', failUnhealthy: false, failUnstable: false, maxNumberOfBuilds: 0, onlyStable: false, sourceEncoding: 'ASCII', zoomCoverageChart: false
         }
     }
 }

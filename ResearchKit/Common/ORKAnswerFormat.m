@@ -1155,7 +1155,7 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
                          value:(id<NSCopying, NSCoding, NSObject>)value
                      exclusive:(BOOL)exclusive
        textViewPlaceholderText:(NSString *)textViewPlaceholderText {
-    ORKTextChoiceOther *option = [[ORKTextChoiceOther alloc] initWithText:text primaryTextAttributedString:nil detailText:detailText detailTextAttributedString:nil value:value exclusive:exclusive textViewPlaceholderText:textViewPlaceholderText textViewInputOptional:NO textViewStartsHidden:YES];
+    ORKTextChoiceOther *option = [[ORKTextChoiceOther alloc] initWithText:text primaryTextAttributedString:nil detailText:detailText detailTextAttributedString:nil value:value exclusive:exclusive textViewPlaceholderText:textViewPlaceholderText textViewInputOptional:YES textViewStartsHidden:YES];
     return option;
 }
 

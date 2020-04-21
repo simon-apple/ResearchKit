@@ -374,4 +374,9 @@ static const CGFloat DontKnowButtonTopBottomPadding = 16.0;
     [self setAnswerWithText:text];
 }
 
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    if (_dontKnowButton && [_dontKnowButton isDontKnowButtonActive]) {
+        [_dontKnowButton setButtonInactive];
+    }
+}
 @end

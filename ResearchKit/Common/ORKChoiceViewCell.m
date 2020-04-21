@@ -307,6 +307,7 @@ static const CGFloat LabelCheckViewPadding = 10.0;
     [super layoutSubviews];
     [self updateSelectedItem];
     [self setMaskLayers];
+    [self setPrimaryLabelFont];
 }
 
 - (void)setUseCardView:(bool)useCardView {
@@ -386,6 +387,7 @@ static const CGFloat LabelCheckViewPadding = 10.0;
             _primaryLabel.textColor = [UIColor blackColor];
         }
         [self.containerView addSubview:_primaryLabel];
+        [self setPrimaryLabelFont];
         _primaryLabel.translatesAutoresizingMaskIntoConstraints = NO;
         [self setupConstraints];
     }
@@ -478,6 +480,11 @@ static const CGFloat LabelCheckViewPadding = 10.0;
     }
 }
 
+- (void)setPrimaryLabelFont {
+    UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleSubheadline];
+    [_primaryLabel setFont:[UIFont fontWithDescriptor:descriptor size:[[descriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]]];
+}
+
 - (void)updateCheckView {
     if (_checkView) {
         [_checkView setChecked:_cellSelected];
@@ -537,6 +544,9 @@ static const CGFloat LabelCheckViewPadding = 10.0;
         _textView = [[ORKAnswerTextView alloc] init];
         _textView.delegate = self;
         _textView.translatesAutoresizingMaskIntoConstraints = NO;
+        if (@available(iOS 13.0, *)) {
+            _textView.backgroundColor = [UIColor secondarySystemGroupedBackgroundColor];
+        }
         [self.containerView addSubview:_textView];
         [self updateTextView];
     }
@@ -615,10 +625,12 @@ static const CGFloat LabelCheckViewPadding = 10.0;
 
 # pragma mark - UITextViewDelegate
 
-- (void)textViewDidBeginEditing:(UITextView *)textView {
+- (BOOL)textViewShouldBeginEditing:(UITextView *)textView {
     if (self.delegate && [self.delegate respondsToSelector:@selector(textChoiceOtherCellDidBecomeFirstResponder:)]) {
         [self.delegate textChoiceOtherCellDidBecomeFirstResponder:self];
     }
+    
+    return YES;
 }
 
 - (void) textViewDidEndEditing:(UITextView *)textView {

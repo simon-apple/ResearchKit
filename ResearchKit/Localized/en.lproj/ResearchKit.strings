@@ -30,6 +30,7 @@
 
 /* Informed consent process. */
 "CONSENT_NAME_TITLE" = "Consent";
+"CONSENT_NAME_SECTION_TITLE" = "Name";
 "CONSENT_NAME_GIVEN" = "First Name";
 "CONSENT_NAME_FAMILY" = "Last Name";
 "CONSENT_NAME_PLACEHOLDER" = "Required";
@@ -526,7 +527,7 @@
 "TREMOR_TEST_INTRO_2_DETAIL_3_TASK" = "three tasks";
 "TREMOR_TEST_INTRO_2_DETAIL_4_TASK" = "four tasks";
 "TREMOR_TEST_INTRO_2_DETAIL_5_TASK" = "five tasks";
-"TREMOR_TEST_ACTIVE_STEP_INTRO_TEXT" = "Tap next to proceed.";
+"TREMOR_TEST_ACTIVE_STEP_INTRO_TEXT" = "Tap Next to proceed.";
 "TREMOR_TEST_ACTIVE_STEP_IN_LAP_INTRO" = "Prepare to hold your phone in your lap.";
 "TREMOR_TEST_ACTIVE_STEP_IN_LAP_INTRO_LEFT" = "Prepare to hold your phone in your lap with your LEFT hand.";
 "TREMOR_TEST_ACTIVE_STEP_IN_LAP_INTRO_RIGHT" = "Prepare to hold your phone in your lap with your RIGHT hand.";

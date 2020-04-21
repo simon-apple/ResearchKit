@@ -46,9 +46,7 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
     var waitStepViewController: ORKWaitStepViewController?
     var waitStepUpdateTimer: Timer?
     var waitStepProgress: CGFloat = 0.0
-    
-    var groupedFormTaskResult: ORKTaskResult?
-    
+
     // MARK: Types
     
     enum TableViewCellIdentifier: String {
@@ -62,6 +60,16 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
         with the created task.
     */
     var taskResultFinishedCompletionHandler: ((ORKResult) -> Void)?
+    
+    // MARK: View Life Cycle
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        if #available(iOS 13.0, *) {
+            self.tableView.backgroundColor = UIColor.systemGroupedBackground
+        }
+    }
     
     // MARK: UITableViewDataSource
 
@@ -83,6 +91,10 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
         let taskListRow = TaskListRow.sections[(indexPath as NSIndexPath).section].rows[(indexPath as NSIndexPath).row]
         
         cell.textLabel!.text = "\(taskListRow)"
+        
+        if #available(iOS 13.0, *) {
+            cell.textLabel?.textColor = UIColor.label
+        }
         
         return cell
     }
@@ -109,24 +121,13 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
         
         // Assign a directory to store `taskViewController` output.
         taskViewController.outputDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-        
-        if (task.identifier == String(describing: TaskListRow.Identifier.groupedFormTask) && (groupedFormTaskResult != nil)) {
-            let reviewViewController = ORKReviewViewController(task: task as! ORKOrderedTask, result: groupedFormTaskResult!, delegate: self)
-            
-            reviewViewController.reviewTitle = "Review Survey"
-            reviewViewController.text = "Please review the answers you provided for the questionnaire. Press the 'Edit' button to change your entry."
-            present(reviewViewController, animated: true, completion: nil)
 
-        }
-        else {
-            
-            /*
-             We present the task directly, but it is also possible to use segues.
-             The task property of the task view controller can be set any time before
-             the task view controller is presented.
-             */
-            present(taskViewController, animated: true, completion: nil)
-        }
+        /*
+         We present the task directly, but it is also possible to use segues.
+         The task property of the task view controller can be set any time before
+         the task view controller is presented.
+         */
+        present(taskViewController, animated: true, completion: nil)
     }
     
     // MARK: ORKTaskViewControllerDelegate
@@ -141,10 +142,6 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
             view controller.
         */
         taskResultFinishedCompletionHandler?(taskViewController.result)
-        
-        if (taskViewController.task?.identifier == String(describing: TaskListRow.Identifier.groupedFormTask)) {
-            groupedFormTaskResult = taskViewController.result
-        }
 
         taskViewController.dismiss(animated: true, completion: nil)
     }
@@ -203,34 +200,4 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
         }
     }
 
-}
-
-extension TaskListViewController: ORKReviewViewControllerDelegate {
-    
-    func mapStepResult(stepResult: ORKStepResult, resultSource: ORKTaskResult) -> ORKTaskResult {
-        let resultSourceCopy = resultSource.copy() as! ORKTaskResult
-        for resultSourceItem in resultSourceCopy.results! {
-            if resultSourceItem.identifier == stepResult.identifier {
-                if let stepResultSource = resultSourceItem as? ORKStepResult {
-                    stepResultSource.results = stepResult.results
-                }
-            }
-        }
-        return resultSourceCopy
-    }
-    
-    func reviewViewControllerDidSelectIncompleteCell(_ reviewViewController: ORKReviewViewController) {
-        //todo: handle delegate function
-    }
-    
-    func reviewViewController(_ reviewViewController: ORKReviewViewController, didUpdate updatedResult: ORKTaskResult, source resultSource: ORKTaskResult) {
-        //todo: handle delegate function
-    }
-    
-    func resultModified(for reviewViewController: ORKReviewViewController, withSource resultSource: ORKTaskResult, updatedResult: ORKTaskResult) {
-        if let stepResult = updatedResult.results?.first as? ORKStepResult {
-            groupedFormTaskResult = self.mapStepResult(stepResult: stepResult, resultSource: resultSource)
-            reviewViewController.updateResultSource(groupedFormTaskResult!)
-        }
-    }
 }
