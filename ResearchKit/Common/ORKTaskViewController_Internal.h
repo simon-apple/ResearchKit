@@ -51,6 +51,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)flipToPageWithIdentifier:(NSString *)identifier forward:(BOOL)forward animated:(BOOL)animated;
 
+- (void)flipToFirstPage;
+
+- (void)flipToLastPage;
+
 @end
 
 NS_ASSUME_NONNULL_END

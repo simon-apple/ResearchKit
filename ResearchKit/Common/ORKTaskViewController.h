@@ -536,9 +536,6 @@ ORK_CLASS_AVAILABLE
  */
 - (void)goBackward;
 
-- (void)flipToFirstPage;
-- (void)flipToLastPage;
-
 /**
  Returns the step after the  provided step
  
