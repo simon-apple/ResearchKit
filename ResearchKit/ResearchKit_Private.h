@@ -36,6 +36,7 @@
 
 // Predefined Tasks
 #import <ResearchKit/ORKSpeechInNoisePredefinedTask.h>
+#import <ResearchKit/ORKAVJournalingPredefinedTask.h>
 
 // Active step support
 #import <ResearchKit/ORKDataLogger.h>

@@ -97,6 +97,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     case speechRecognition
     case speechInNoise
     case predefinedSpeechInNoiseTask
+    case predefinedAVJournalingTask
     case stroop
     case timedWalkWithTurnAround
     case toneAudiometry
@@ -178,6 +179,7 @@ enum TaskListRow: Int, CustomStringConvertible {
                     .speechRecognition,
                     .speechInNoise,
                     .predefinedSpeechInNoiseTask,
+                    .predefinedAVJournalingTask,
                     .stroop,
                     .timedWalkWithTurnAround,
                     .toneAudiometry,
@@ -318,6 +320,9 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .predefinedSpeechInNoiseTask:
             return NSLocalizedString("Predefined Speech In Noise", comment: "")
+            
+        case .predefinedAVJournalingTask:
+            return NSLocalizedString("Predefined AVJournaling", comment: "")
             
         case .stroop:
             return NSLocalizedString("Stroop", comment: "")
@@ -676,6 +681,9 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .predefinedSpeechInNoiseTask:
             return predefinedSpeechInNoiseTask
+        
+        case .predefinedAVJournalingTask:
+            return predefinedAVJournalingTask
             
         case .stroop:
             return stroopTask
@@ -1650,6 +1658,19 @@ enum TaskListRow: Int, CustomStringConvertible {
         }
         
          return ORKSpeechInNoisePredefinedTask(identifier: "\(Identifier.speechInNoiseTask)", audioSetManifestPath: path, prepend: nil, append: nil)
+    }
+    
+    private var predefinedAVJournalingTask: ORKTask {
+        
+        guard let path = Bundle.main.path(forResource: "manifest", ofType: "json", inDirectory: "QuestionList1") else {
+            let completionStep = ORKCompletionStep(identifier: "CompletionStepIdentifier")
+            completionStep.title = NSLocalizedString("Task Complete", comment: "")
+            completionStep.text = NSLocalizedString("Was unable to locate the manifest.json file", comment: "")
+            
+            return ORKOrderedTask(identifier: "\(Identifier.predefinedSpeechInNoiseTask)", steps: [completionStep])
+        }
+        
+        return ORKAVJournalingPredefinedTask(identifier: "\(Identifier.predefinedSpeechInNoiseTask)", maxRecordingTime: 60, journalQuestionSetManifestPath: path)
     }
     
     /// This task presents the Stroop pre-defined active task.

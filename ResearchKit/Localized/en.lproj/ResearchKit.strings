@@ -621,6 +621,12 @@
 "SPEECH_IN_NOISE_PREDEFINED_USE_KEYBOARD_INSTEAD" = "Use Keyboard Instead";
 "SPEECH_IN_NOISE_PREDEFINED_PRACTICE_COMPLETION_TITLE" = "Practice Complete";
 
+/* AV Journaling Predefined Task */
+"AV_JOURNALING_PREDEFINED_TASK_INSTRUCTION_STEP_TITLE" = "Video Journal";
+"AV_JOURNALING_PREDEFINED_TASK_INSTRUCTION_STEP_TEXT" = "You will be asked %lu questions. Think about each question as long as needed and then speak your answer out loud";
+"AV_JOURNALING_PREDEFINED_TASK_COMPLETION_TITLE" = "Task Complete";
+"AV_JOURNALING_PREDEFINED_TASK_COMPLETION_TEXT" = "Thank you for completing this task";
+
 /* ORKRecordButton */
 "PLAY" = "Play";
 "RECORD" = "Record";

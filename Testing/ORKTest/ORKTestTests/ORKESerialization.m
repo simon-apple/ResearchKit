@@ -814,6 +814,17 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(appendSteps, ORKStep, NSArray, NO, nil, nil),
                     SKIP_PROPERTY(steps, ORKStep, NSArray, NO, nil, nil)
                 })),
+           ENTRY(ORKAVJournalingPredefinedTask,
+            ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+               return [[ORKAVJournalingPredefinedTask alloc] initWithIdentifier:GETPROP(dict, identifier)
+                                                               maxRecordingTime:((NSNumber *)GETPROP(dict, maxRecordingTime)).doubleValue
+                                                 journalQuestionSetManifestPath:GETPROP(dict, journalQuestionSetManifestPath)];
+           },
+            (@{
+               PROPERTY(journalQuestionSetManifestPath, NSString, NSObject, NO, nil, nil),
+               PROPERTY(maxRecordingTime, NSNumber, NSObject, NO, nil, nil),
+               SKIP_PROPERTY(steps, ORKStep, NSArray, NO, nil, nil)
+           })),
            ENTRY(ORKStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      ORKStep *step = [[ORKStep alloc] initWithIdentifier:GETPROP(dict, identifier)];

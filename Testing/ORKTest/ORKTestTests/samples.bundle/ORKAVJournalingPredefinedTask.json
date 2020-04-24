@@ -1,0 +1,11 @@
+{
+    "_class": "ORKAVJournalingPredefinedTask",
+    "journalQuestionSetManifestPath": "StudyResources/QuestionList1/manifest.json",
+    "maxRecordingTime" : 0,
+    "steps": [],
+    "stepModifiers": {},
+    "identifier": "",
+    "skipStepNavigationRules": {},
+    "shouldReportProgress": false,
+    "stepNavigationRules": {}
+}

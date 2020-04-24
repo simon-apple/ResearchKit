@@ -1,0 +1,10 @@
+[
+  {
+    "identifier" : "AVJournalStepIdentifier1",
+    "question" : "Some question"
+  },
+  {
+    "identifier" : "AVJournalStepIdentifier2",
+    "question" : "Some question"
+  }
+]
