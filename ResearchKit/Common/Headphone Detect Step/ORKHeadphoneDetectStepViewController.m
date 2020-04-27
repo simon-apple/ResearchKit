@@ -575,7 +575,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     [UIView animateWithDuration: ORKHeadphoneCellAnimationDuration animations:^{
         [_airpodProSupportView setExtraLabelsAlpha: expanded ? 1.0 : 0.0];
         _airpodsProCellHeightConstraint.constant = expanded ? [_airpodProSupportView extraLabelsContentSize] : ORKHeadphoneDetectCellStepSize;
-        [self layoutIfNeeded];
+        [self.superview layoutIfNeeded];
     }];
 }
 

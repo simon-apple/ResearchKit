@@ -289,42 +289,44 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
 }
 
 - (void)checkTick:(NSNotification *)notification {
-    ORKStrongTypeOf(self.delegate) strongDelegate = self.delegate;
-    if ([self checkLowBatteryLevelForPods]) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (strongDelegate &&
-                [strongDelegate respondsToSelector:@selector(podLowBatteryLevelDetected)]) {
-                [strongDelegate podLowBatteryLevelDetected];
-            }
-        });
-    }
-    if (@available(iOS 13.0, *)) {
-        if ([self getCurrentBTHeadphoneType] == ORKHeadphoneTypeIdentifierAirPodsPro &&
-            _lastDetectedDevice == ORKHeadphoneTypeIdentifierAirPodsPro &&
-            strongDelegate && [strongDelegate respondsToSelector:@selector(bluetoothModeChanged:)]) {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        ORKStrongTypeOf(self.delegate) strongDelegate = self.delegate;
+        if ([self checkLowBatteryLevelForPods]) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                NSString* listeningMode = [[[getAVOutputContextClass() sharedSystemAudioContext] outputDevice] currentBluetoothListeningMode];
-                ORKBluetoothMode btMode = ORKBluetoothModeNone;
-                if (listeningMode != nil) {
-                    if ([listeningMode isEqualToString:getAVOutputDeviceBluetoothListeningModeNormal()]) {
-                        btMode = ORKBluetoothModeNormal;
-                    } else if ([listeningMode isEqualToString:getAVOutputDeviceBluetoothListeningModeAudioTransparency()]) {
-                        btMode = ORKBluetoothModeTransparency;
-                    } else if ([listeningMode isEqualToString:getAVOutputDeviceBluetoothListeningModeActiveNoiseCancellation()]) {
-                        btMode = ORKBluetoothModeNoiseCancellation;
-                    }
+                if (strongDelegate &&
+                    [strongDelegate respondsToSelector:@selector(podLowBatteryLevelDetected)]) {
+                    [strongDelegate podLowBatteryLevelDetected];
                 }
-                [strongDelegate bluetoothModeChanged:btMode];
             });
         }
-    } else {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (strongDelegate &&
-                [strongDelegate respondsToSelector:@selector(bluetoothModeChanged:)]) {
-                [strongDelegate bluetoothModeChanged:ORKBluetoothModeNoiseCancellation];
+        if (@available(iOS 13.0, *)) {
+            if ([self getCurrentBTHeadphoneType] == ORKHeadphoneTypeIdentifierAirPodsPro &&
+                _lastDetectedDevice == ORKHeadphoneTypeIdentifierAirPodsPro &&
+                strongDelegate && [strongDelegate respondsToSelector:@selector(bluetoothModeChanged:)]) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    NSString* listeningMode = [[[getAVOutputContextClass() sharedSystemAudioContext] outputDevice] currentBluetoothListeningMode];
+                    ORKBluetoothMode btMode = ORKBluetoothModeNone;
+                    if (listeningMode != nil) {
+                        if ([listeningMode isEqualToString:getAVOutputDeviceBluetoothListeningModeNormal()]) {
+                            btMode = ORKBluetoothModeNormal;
+                        } else if ([listeningMode isEqualToString:getAVOutputDeviceBluetoothListeningModeAudioTransparency()]) {
+                            btMode = ORKBluetoothModeTransparency;
+                        } else if ([listeningMode isEqualToString:getAVOutputDeviceBluetoothListeningModeActiveNoiseCancellation()]) {
+                            btMode = ORKBluetoothModeNoiseCancellation;
+                        }
+                    }
+                    [strongDelegate bluetoothModeChanged:btMode];
+                });
             }
-        });
-    }
+        } else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (strongDelegate &&
+                    [strongDelegate respondsToSelector:@selector(bluetoothModeChanged:)]) {
+                    [strongDelegate bluetoothModeChanged:ORKBluetoothModeNoiseCancellation];
+                }
+            });
+        }
+    });
 }
 
 @end
