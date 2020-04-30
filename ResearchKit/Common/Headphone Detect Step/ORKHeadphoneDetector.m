@@ -206,16 +206,19 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
     {
         NSArray *routesAttributes = [[getAVSystemControllerClass() sharedAVSystemController] attributeForKey:getAVSystemController_PickableRoutesAttribute()];
         
-        if (routesAttributes != nil)
-        {
+        if (routesAttributes != nil) {
             [routesAttributes enumerateObjectsUsingBlock:^(NSDictionary *route, NSUInteger idx, BOOL *stop)
             {
-                if ([[route valueForKey:getAVSystemController_RouteDescriptionKey_RouteCurrentlyPicked()] boolValue])
-                {
+                if ([[route valueForKey:getAVSystemController_RouteDescriptionKey_RouteCurrentlyPicked()] boolValue]) {
                     NSSet *supportedRoutes = [self supportedHeadphoneChipsetTypesForRoute:route];
                     
-                    if (supportedRoutes.count > 0)
-                    {
+                    NSString* modelId = [[[[getAVOutputContextClass() sharedSystemAudioContext] outputDevice] modelID] lowercaseString];
+                    BOOL hasSpeakerOnModelId = [modelId containsString:@"speaker"];
+                    
+                    if ([[[getAVOutputContextClass() sharedSystemAudioContext] outputDevice] deviceSubType] != AVOutputDeviceSubTypeHeadphones || hasSpeakerOnModelId) {
+                        routeSupported = NO;
+                        _lastDetectedDevice = nil;
+                    } else if (supportedRoutes.count > 0) {
                         ORKHeadphoneTypeIdentifier btHeadphoneType = [self getCurrentBTHeadphoneType];
                         if (btHeadphoneType == nil)
                         {
@@ -229,20 +232,11 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
                                 routeSupported = YES;
                                 _lastDetectedDevice = ORKHeadphoneTypeIdentifierEarPods;
                             }
-                        }
-                        else
-                        {
+                        } else {
                             routeSupported = YES;
                             _lastDetectedDevice = btHeadphoneType;
                         }
-                    }
-                    else if ([[route objectForKey:getAVSystemController_RouteDescriptionKey_AVAudioRouteName()] isEqualToString:@"Speaker"])
-                    {
-                        routeSupported = NO;
-                        _lastDetectedDevice = nil;
-                    }
-                    else
-                    {
+                    } else {
                         routeSupported = _supportedHeadphoneChipsetTypes == nil;
                         _lastDetectedDevice = ORKHeadphoneTypeIdentifierUnknown;
                     }
