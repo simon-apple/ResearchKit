@@ -347,35 +347,10 @@
             {
                 nextStepContext = (ORKSpeechInNoisePredefinedTaskContext *)nextStep.context;
             }
+
+            NSString *substitutedTextAnswer = [self substitutedStringWithString:[_localResult.transcription formattedString]];
             
-            NSString *textAnswer = [_localResult.transcription formattedString];
-
-            // Known substitutions
-            // TODO: - make this locale specific and grab mapping from manifest file
-
-            NSDictionary *knownSubstitutions = @{ @"for"  : @"four",
-                                                  @"to"   : @"two",
-                                                  @"too"  : @"two",
-                                                  @"10"   : @"ten",
-                                                  @"11"   : @"eleven",
-                                                  @"12"   : @"twelve",
-                                                  @"13"   : @"thirteen",
-                                                  @"14"   : @"fourteen",
-                                                  @"15"   : @"fifteen",
-                                                  @"16"   : @"sixteen",
-                                                  @"17"   : @"seventeen",
-                                                  @"read" : @"red"
-            };
-
-            NSArray *words = [textAnswer componentsSeparatedByString:@" "];
-            NSMutableArray *substitutedWords = [NSMutableArray new];
-            for(NSString *word in words) {
-                [substitutedWords addObject:[knownSubstitutions objectForKey:word] ? : word];
-            }
-
-            NSString *substitutedTextAnswer = [substitutedWords componentsJoinedByString:@" "];
-
-            [((ORKTextAnswerFormat *)nextStep.answerFormat) setDefaultTextAnswer: substitutedTextAnswer];
+            [((ORKTextAnswerFormat *)nextStep.answerFormat) setDefaultTextAnswer:substitutedTextAnswer];
             
             if (allowUserToRecordInsteadOnNextStep)
             {
@@ -419,6 +394,52 @@
             }
         }
     }
+}
+
+- (nullable NSString *)substitutedStringWithString:(nullable NSString *)string
+{
+    if (!string)
+    {
+        return nil;
+    }
+    
+    // Known substitutions
+    // TODO: - make this locale specific and grab mapping from manifest file
+    static NSDictionary *substitutions = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        substitutions = @{ @"for"  : @"four",
+                           @"to"   : @"two",
+                           @"too"  : @"two",
+                           @"10"   : @"ten",
+                           @"11"   : @"eleven",
+                           @"12"   : @"twelve",
+                           @"13"   : @"thirteen",
+                           @"14"   : @"fourteen",
+                           @"15"   : @"fifteen",
+                           @"16"   : @"sixteen",
+                           @"17"   : @"seventeen",
+                           @"read" : @"red"
+        };
+    });
+    
+    NSArray *words = [string componentsSeparatedByString:@" "];
+    
+    NSMutableArray *substitutedWords = [NSMutableArray new];
+    
+    for (NSString *word in words)
+    {
+        [substitutedWords addObject:[substitutions objectForKey:word] ? : word];
+    }
+
+    NSString *substitutedString = [substitutedWords componentsJoinedByString:@" "];
+
+    // Test For Non-Whitespace/Newline Characters
+    NSCharacterSet *inverted = [[NSCharacterSet whitespaceAndNewlineCharacterSet] invertedSet];
+    NSRange range = [substitutedString rangeOfCharacterFromSet:inverted];
+    BOOL empty = (range.location == NSNotFound);
+    
+    return empty ? nil : substitutedString;
 }
 
 - (nullable ORKQuestionStep *)nextStep {
