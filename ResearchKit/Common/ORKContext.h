@@ -46,6 +46,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ORKSpeechInNoisePredefinedTaskContext : NSObject <ORKContext>
 
+@property (nonatomic, copy) NSString *practiceAgainStepIdentifier;
+
 @property (nonatomic, assign, getter=isPracticeTest) BOOL practiceTest;
 
 @property (nonatomic, assign) BOOL prefersKeyboard;

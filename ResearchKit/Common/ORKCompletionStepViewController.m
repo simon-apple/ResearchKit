@@ -88,18 +88,18 @@
     }
 }
 
+- (nullable ORKSpeechInNoisePredefinedTaskContext *)speechInNoisePredefinedTaskContext
+{
+    if (self.step.context && [self.step.context isKindOfClass:[ORKSpeechInNoisePredefinedTaskContext class]])
+    {
+        return (ORKSpeechInNoisePredefinedTaskContext *)self.step.context;
+    }
+    return nil;
+}
+
 - (BOOL)isSpeechInNoisePredefinedTaskPractice
 {
-    if ([self.step.context isKindOfClass:[ORKSpeechInNoisePredefinedTaskContext class]])
-    {
-        ORKSpeechInNoisePredefinedTaskContext *speechInNoisePredefinedTaskContext = (ORKSpeechInNoisePredefinedTaskContext *)self.step.context;
-        if ([speechInNoisePredefinedTaskContext isPracticeTest])
-        {
-            return YES;
-        }
-    }
-    
-    return NO;
+    return [[self speechInNoisePredefinedTaskContext] isPracticeTest];
 }
 
 - (void)setSkipButtonItem:(UIBarButtonItem *)skipButtonItem
@@ -118,7 +118,7 @@
 {
     if ([self isSpeechInNoisePredefinedTaskPractice])
     {
-        [self.taskViewController flipToPageWithIdentifier:@"PLAYBACK_PRACTICE" forward:NO animated:YES];
+        [self.taskViewController flipToPageWithIdentifier:[self speechInNoisePredefinedTaskContext].practiceAgainStepIdentifier forward:NO animated:YES];
     }
 }
 
