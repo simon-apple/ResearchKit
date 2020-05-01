@@ -562,12 +562,15 @@ class ORKHeadphoneDetectResultTests: XCTestCase {
         identifier = "RESULT"
         result = ORKHeadphoneDetectResult(identifier: identifier)
         
-        result.headphoneType = ORKHeadphoneTypeIdentifier.airPodsGen1
+        result.headphoneType = ORKHeadphoneTypeIdentifier.airPodsGen2
+        result.vendorID = "0x004C"
+        result.productID = "0x200f"
+        result.deviceSubType = 1
     }
  
     func testProperties() {
         XCTAssertEqual(result.identifier, identifier)
-        XCTAssertEqual(result.headphoneType, ORKHeadphoneTypeIdentifier.airPodsGen1)
+        XCTAssertEqual(result.headphoneType, ORKHeadphoneTypeIdentifier.airPodsGen2)
     }
     
     func testIsEqual() {
@@ -575,7 +578,10 @@ class ORKHeadphoneDetectResultTests: XCTestCase {
         result.endDate = date
         
         let newResult = ORKHeadphoneDetectResult(identifier: identifier)
-        newResult.headphoneType = ORKHeadphoneTypeIdentifier.airPodsGen1
+        newResult.headphoneType = ORKHeadphoneTypeIdentifier.airPodsGen2
+        newResult.vendorID = "0x004C"
+        newResult.productID = "0x200f"
+        newResult.deviceSubType = 1
         newResult.startDate = date
         newResult.endDate = date
         

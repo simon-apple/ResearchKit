@@ -1269,7 +1269,10 @@ class HeadphoneDetectStepResultTableViewProvider: ResultTableViewProvider {
         
         if section == 0 {
             return rows + [
-                ResultRow(text: "headphoneType", detail: headphoneDetectStepResult.headphoneType)
+                ResultRow(text: "headphoneType", detail: headphoneDetectStepResult.headphoneType),
+                ResultRow(text: "vendorID", detail: headphoneDetectStepResult.vendorID),
+                ResultRow(text: "productID", detail: headphoneDetectStepResult.productID),
+                ResultRow(text: "deviceSubType", detail: headphoneDetectStepResult.deviceSubType)
             ]
         }
         

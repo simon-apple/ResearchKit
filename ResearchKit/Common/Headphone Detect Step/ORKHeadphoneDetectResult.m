@@ -38,12 +38,18 @@
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [super encodeWithCoder:aCoder];
     ORK_ENCODE_OBJ(aCoder, headphoneType);
+    ORK_ENCODE_OBJ(aCoder, vendorID);
+    ORK_ENCODE_OBJ(aCoder, productID);
+    ORK_ENCODE_INTEGER(aCoder, deviceSubType);
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
         ORK_DECODE_OBJ(aDecoder, headphoneType);
+        ORK_DECODE_OBJ(aDecoder, vendorID);
+        ORK_DECODE_OBJ(aDecoder, productID);
+        ORK_DECODE_INTEGER(aDecoder, deviceSubType);
     }
     return self;
 }
@@ -56,22 +62,29 @@
     BOOL isParentSame = [super isEqual:object];
     
     __typeof(self) castObject = object;
-    return (isParentSame &&
-            ORKEqualObjects(self.headphoneType, castObject.headphoneType));
+    return (isParentSame
+            && ORKEqualObjects(self.headphoneType, castObject.headphoneType)
+            && ORKEqualObjects(self.vendorID, castObject.vendorID)
+            && ORKEqualObjects(self.productID, castObject.productID)
+            && self.deviceSubType == castObject.deviceSubType
+            );
 }
 
 - (NSUInteger)hash {
-    return super.hash ^ self.headphoneType.hash;
+    return super.hash ^ self.headphoneType.hash ^ self.vendorID.hash ^ self.productID.hash;
 }
 
 - (instancetype)copyWithZone:(NSZone *)zone {
     ORKHeadphoneDetectResult *result = [super copyWithZone:zone];
     result.headphoneType = [self.headphoneType copy];
+    result.vendorID = [self.vendorID copy];
+    result.productID = [self.productID copy];
+    result.deviceSubType = self.deviceSubType;
     return result;
 }
 
 - (NSString *)descriptionWithNumberOfPaddingSpaces:(NSUInteger)numberOfPaddingSpaces {
-    return [NSString stringWithFormat:@"%@; headphoneType: %@%@", [self descriptionPrefixWithNumberOfPaddingSpaces:numberOfPaddingSpaces], self.headphoneType, self.descriptionSuffix];
+    return [NSString stringWithFormat:@"%@; headphoneType: %@; vendorId: %@; productId: %@; deviceSubType: %li;%@", [self descriptionPrefixWithNumberOfPaddingSpaces:numberOfPaddingSpaces], self.headphoneType, self.vendorID, self.productID, self.deviceSubType, self.descriptionSuffix];
 }
 
 @end

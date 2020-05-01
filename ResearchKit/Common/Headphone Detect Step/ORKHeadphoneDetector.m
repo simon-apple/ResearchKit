@@ -45,6 +45,9 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
 
 @implementation ORKHeadphoneDetector {
     NSString                            *_lastDetectedDevice;
+    NSString                            *_vendorID;
+    NSString                            *_productID;
+    NSInteger                           _deviceSubType;
     NSTimer                             *_btListeningModeCheckTimer;
     BOOL                                _avFoundationSPIOk;
     BOOL                                _celestialSPIOk;
@@ -198,6 +201,19 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
     return NO;
 }
 
+- (void)updateDeviceInformationForRoute:(NSDictionary *)routeDict
+{
+    _deviceSubType = [[[getAVOutputContextClass() sharedSystemAudioContext] outputDevice] deviceSubType];
+    NSString *btDetails = [routeDict valueForKey:getAVSystemController_RouteDescriptionKey_BTDetails_ProductID()];
+    NSArray *productIDComponents = [btDetails componentsSeparatedByString:@","];
+    if (productIDComponents.count == 2) {
+        NSString *vendorIDDec = [[productIDComponents[0] componentsSeparatedByCharactersInSet: [[NSCharacterSet decimalDigitCharacterSet] invertedSet]] componentsJoinedByString:@""];
+        NSString *productIDDec = [[productIDComponents[1] componentsSeparatedByCharactersInSet: [[NSCharacterSet decimalDigitCharacterSet] invertedSet]] componentsJoinedByString:@""];
+        _vendorID = [NSString stringWithFormat:@"0x%04lX", (unsigned long)[vendorIDDec integerValue]];
+        _productID = [NSString stringWithFormat:@"0x%04lX", (unsigned long)[productIDDec integerValue]];
+    }
+}
+
 - (BOOL)isRouteSupported
 {
     __block BOOL routeSupported = NO;
@@ -210,6 +226,7 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
             [routesAttributes enumerateObjectsUsingBlock:^(NSDictionary *route, NSUInteger idx, BOOL *stop)
             {
                 if ([[route valueForKey:getAVSystemController_RouteDescriptionKey_RouteCurrentlyPicked()] boolValue]) {
+                    [self updateDeviceInformationForRoute:route];
                     NSSet *supportedRoutes = [self supportedHeadphoneChipsetTypesForRoute:route];
                     
                     NSString* modelId = [[[[getAVOutputContextClass() sharedSystemAudioContext] outputDevice] modelID] lowercaseString];
@@ -276,8 +293,8 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
     dispatch_async(dispatch_get_main_queue(), ^{
         ORKStrongTypeOf(self.delegate) strongDelegate = self.delegate;
         if (strongDelegate &&
-            [strongDelegate respondsToSelector:@selector(headphoneTypeDetected: isSupported:)]) {
-            [strongDelegate headphoneTypeDetected:_lastDetectedDevice isSupported:routeIsSupported];
+            [strongDelegate respondsToSelector:@selector(headphoneTypeDetected: vendorID: productID: deviceSubType: isSupported:)]) {
+            [strongDelegate headphoneTypeDetected:_lastDetectedDevice vendorID:_vendorID productID:_productID deviceSubType:_deviceSubType isSupported:routeIsSupported];
         }
     });
 }

@@ -465,7 +465,7 @@
 
 #pragma mark - Headphone Monitoring
 
-- (void)headphoneTypeDetected:(ORKHeadphoneTypeIdentifier)headphoneType isSupported:(BOOL)isSupported {
+- (void)headphoneTypeDetected:(nonnull ORKHeadphoneTypeIdentifier)headphoneType vendorID:(nonnull NSString *)vendorID productID:(nonnull NSString *)productID deviceSubType:(NSInteger)deviceSubType isSupported:(BOOL)isSupported {
     if (![headphoneType isEqualToString:[[self dBHLToneAudiometryStep].headphoneType uppercaseString]]) {
         [self showAlertWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE_TEST_INTERRUPTED", nil) andMessage:ORKLocalizedString(@"dBHL_ALERT_TEXT", nil)];
     }
@@ -513,6 +513,5 @@
         });
     }
 }
-
 
 @end

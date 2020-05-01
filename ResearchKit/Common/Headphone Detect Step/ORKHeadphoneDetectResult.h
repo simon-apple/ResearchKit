@@ -37,6 +37,9 @@ ORK_CLASS_AVAILABLE
 @interface ORKHeadphoneDetectResult : ORKResult
 
 @property (nonatomic, copy, nullable) ORKHeadphoneTypeIdentifier headphoneType;
+@property (nonatomic, copy, nullable) NSString *vendorID;
+@property (nonatomic, copy, nullable) NSString *productID;
+@property (assign) NSInteger deviceSubType;
 
 @end
 
