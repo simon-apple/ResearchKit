@@ -50,7 +50,7 @@ ORK_CLASS_AVAILABLE
 @protocol ORKHeadphoneDetectorDelegate <NSObject>
 
 @required
-- (void)headphoneTypeDetected:(ORKHeadphoneTypeIdentifier)headphoneType isSupported:(BOOL)isSupported;
+- (void)headphoneTypeDetected:(ORKHeadphoneTypeIdentifier)headphoneType vendorID:(NSString *)vendorID productID:(NSString *)productID deviceSubType:(NSInteger)deviceSubType isSupported:(BOOL)isSupported;
 
 @optional
 - (void)bluetoothModeChanged:(ORKBluetoothMode)bluetoothMode;

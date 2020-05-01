@@ -585,6 +585,9 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     ORKHeadphoneDetectStepView *_headphoneDetectStepView;
     ORKHeadphoneDetector * _headphoneDetector;
     ORKHeadphoneTypeIdentifier _lastDetectedHeadphoneType;
+    NSString * _lastDetectedVendorID;
+    NSString * _lastDetectedProductID;
+    NSInteger _lastDetectedDeviceSubType;
     ORKBluetoothMode _lastDetectedBluetoothMode;
 }
 
@@ -664,6 +667,9 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     ORKHeadphoneDetectResult *headphoneResult = [[ORKHeadphoneDetectResult alloc] initWithIdentifier:self.step.identifier];
     
     headphoneResult.headphoneType = _lastDetectedHeadphoneType;
+    headphoneResult.vendorID = _lastDetectedVendorID;
+    headphoneResult.productID = _lastDetectedProductID;
+    headphoneResult.deviceSubType = _lastDetectedDeviceSubType;
     
     [results addObject:headphoneResult];
     
@@ -680,9 +686,12 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
 
 # pragma mark OKHeadphoneDetectorDelegate
 
-- (void)headphoneTypeDetected:(ORKHeadphoneTypeIdentifier)headphoneType isSupported:(BOOL)isSupported {
+- (void)headphoneTypeDetected:(nonnull ORKHeadphoneTypeIdentifier)headphoneType vendorID:(nonnull NSString *)vendorID productID:(nonnull NSString *)productID deviceSubType:(NSInteger)deviceSubType isSupported:(BOOL)isSupported {
     if (isSupported) {
         _lastDetectedHeadphoneType = headphoneType;
+        _lastDetectedVendorID = vendorID;
+        _lastDetectedProductID = productID;
+        _lastDetectedDeviceSubType = deviceSubType;
         if ([headphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsGen1]) {
             _headphoneDetectStepView.headphoneDetected = ORKHeadphoneDetectedAirpodsGen1;
         } else if ([headphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsGen2]) {

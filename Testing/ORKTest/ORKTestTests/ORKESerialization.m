@@ -1980,6 +1980,9 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                  nil,
                  (@{
                      PROPERTY(headphoneType, NSString, NSObject, NO, nil, nil),
+                     PROPERTY(vendorID, NSString, NSObject, NO, nil, nil),
+                     PROPERTY(productID, NSString, NSObject, NO, nil, nil),
+                     PROPERTY(deviceSubType, NSNumber, NSObject, NO, nil, nil),
                  })),
            ENTRY(ORKReactionTimeResult,
                  nil,
