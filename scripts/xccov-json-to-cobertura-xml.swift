@@ -1,6 +1,6 @@
 #!/usr/bin/env xcrun swift
 
-/**
+/*
 
  Derived from: https://gist.github.com/csaby02/ab2441715a89865a7e8e29804df23dc6
 
@@ -111,6 +111,8 @@ func generateCoberturaReport(from coverageReport: CoverageReport) -> String {
     let currentDirectoryPath = FileManager.default.currentDirectoryPath
     
     let rootElement = XMLElement(name: "coverage")
+
+    //swiftlint:disable force_cast
     rootElement.addAttribute(XMLNode.attribute(withName: "line-rate", stringValue: "\(coverageReport.lineCoverage)") as! XMLNode)
     rootElement.addAttribute(XMLNode.attribute(withName: "branch-rate", stringValue: "1.0") as! XMLNode)
     rootElement.addAttribute(XMLNode.attribute(withName: "lines-covered", stringValue: "\(coverageReport.coveredLines)") as! XMLNode)
@@ -120,7 +122,8 @@ func generateCoberturaReport(from coverageReport: CoverageReport) -> String {
     rootElement.addAttribute(XMLNode.attribute(withName: "complexity", stringValue: "0.0") as! XMLNode)
     rootElement.addAttribute(XMLNode.attribute(withName: "branches-valid", stringValue: "1.0") as! XMLNode)
     rootElement.addAttribute(XMLNode.attribute(withName: "branches-covered", stringValue: "1.0") as! XMLNode)
-    
+    //swiftlint:enable force_cast
+
     let doc = XMLDocument(rootElement: rootElement)
     doc.version = "1.0"
     doc.documentContentKind = .xml
@@ -165,6 +168,7 @@ func generateCoberturaReport(from coverageReport: CoverageReport) -> String {
             packagesElement.addChild(currentPackageElement)
         }
         
+        //swiftlint:disable force_cast
         currentPackage = packageName
         if isNewPackage {
             currentPackageElement.addAttribute(XMLNode.attribute(withName: "name", stringValue: packageName) as! XMLNode)
@@ -180,11 +184,14 @@ func generateCoberturaReport(from coverageReport: CoverageReport) -> String {
         classElement.addAttribute(XMLNode.attribute(withName: "branch-rate", stringValue: "1.0") as! XMLNode)
         classElement.addAttribute(XMLNode.attribute(withName: "complexity", stringValue: "0.0") as! XMLNode)
         currentPackageElement.addChild(classElement)
+        //swiftlint:enable force_cast
+
         
         let linesElement = XMLElement(name: "lines")
         classElement.addChild(linesElement)
         
         for functionCoverageReport in fileCoverageReport.functions {
+            //swiftlint:disable force_cast
             for index in 0..<functionCoverageReport.executableLines {
                 // Function coverage report won't be 100% reliable without parsing it by file (would need to use xccov view --file filePath currentDirectory + Build/Logs/Test/*.xccovarchive)
                 let lineElement = XMLElement(kind: .element, options: .nodeCompactEmptyElement)
@@ -202,6 +209,7 @@ func generateCoberturaReport(from coverageReport: CoverageReport) -> String {
                 lineElement.addAttribute(XMLNode.attribute(withName: "hits", stringValue: "\(lineHits)") as! XMLNode)
                 linesElement.addChild(lineElement)
             }
+            //swiftlint:enable force_cast
         }
     }
     

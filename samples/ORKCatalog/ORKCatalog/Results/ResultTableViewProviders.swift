@@ -187,11 +187,9 @@ func resultTableViewProviderForResult(_ result: ORKResult?) -> UITableViewDataSo
 enum ResultRow {
     // MARK: Cases
 
-    // swiftlint:disable identifier_name
     case text(String, detail: String, selectable: Bool)
     case textImage(String, image: UIImage?)
     case image(UIImage?)
-    // swiftlint:enable identifier_name
     
     // MARK: Types
     
@@ -1314,7 +1312,6 @@ class WebViewStepResultTableViewProvider: ResultTableViewProvider {
         return rows
     }
 }
-//swiftlint:enable force_cast
 
 /// Table view provider specific to an `ORKEnvironmentSPLMeterResult` instance.
 class SPLMeterStepResultTableViewProvider: ResultTableViewProvider {
@@ -1335,3 +1332,4 @@ class SPLMeterStepResultTableViewProvider: ResultTableViewProvider {
         return rows
     }
 }
+//swiftlint:enable force_cast

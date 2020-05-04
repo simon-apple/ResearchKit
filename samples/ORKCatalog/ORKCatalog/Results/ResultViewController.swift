@@ -31,6 +31,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 import UIKit
 import ResearchKit
 
+//swiftlint:disable force_cast
 /**
     The purpose of this view controller is to show you the kinds of data
     you can fetch from a specific `ORKResult`. The intention is for this view
@@ -38,7 +39,6 @@ import ResearchKit
     it should not ever be shown to a user. Because of this, the UI for this view
     controller is not localized.
 */
-//swiftlint:disable force_cast
 class ResultViewController: UITableViewController {
     // MARK: Types
     
