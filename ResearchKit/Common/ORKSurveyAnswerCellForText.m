@@ -248,7 +248,7 @@ static const CGFloat CellBottomPadding = 5.0;
         createEmptySpaceForPossibleErrorMessage = YES;
     }
     
-    if (bottomMostElement || createEmptySpaceForPossibleErrorMessage) {
+    if (_bottomSeperatorView && (bottomMostElement || createEmptySpaceForPossibleErrorMessage)) {
         //SeperatorView Constraints
         [_constraints addObject:[_bottomSeperatorView.topAnchor constraintEqualToAnchor:_textView.bottomAnchor constant:TextViewTopPadding]];
         [_constraints addObject:[_bottomSeperatorView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor]];

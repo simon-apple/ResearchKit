@@ -81,6 +81,7 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierPracticeCompl
 
 - (NSString *)didNotAllowRequiredHealthPermissionsForTask:(id<ORKTask>)task
 {
+    NSAssert([task isKindOfClass:[ORKNavigableOrderedTask class]], @"Unexpected task type.");
     if ([task isKindOfClass:[ORKNavigableOrderedTask class]])
     {
         // If the user opts out of health access, append a new step to the end of the task and skip to the end.
@@ -102,7 +103,7 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierPracticeCompl
         return ORKSpeechInNoiseStepIdentifierHealthPermissionsRequired;
     }
     
-    return nil;
+    return (NSString * _Nonnull)nil;
 }
 
 @end
