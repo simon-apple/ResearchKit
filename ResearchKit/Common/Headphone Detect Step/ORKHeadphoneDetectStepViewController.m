@@ -714,7 +714,8 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
 - (void)bluetoothModeChanged:(ORKBluetoothMode)bluetoothMode {
     if (_lastDetectedBluetoothMode != bluetoothMode && [_lastDetectedHeadphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsPro]) {
         _lastDetectedBluetoothMode = bluetoothMode;
-        BOOL isNoiseCancellingEnabled = (bluetoothMode == ORKBluetoothModeNoiseCancellation);
+        // FIXME:- temporary workaround for <rdar://problem/62519889>
+        BOOL isNoiseCancellingEnabled = (bluetoothMode == ORKBluetoothModeNoiseCancellation) || ([self detectStep].headphoneTypes == ORKHeadphoneTypesAny);
         [_headphoneDetectStepView updateAppearanceWithExpandedCell: !isNoiseCancellingEnabled];
         self.stepView.navigationFooterView.continueEnabled = isNoiseCancellingEnabled;
     }
