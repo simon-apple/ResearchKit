@@ -37,7 +37,7 @@
 
 @implementation ORKAVJournalingPredefinedTask
 
-- (instancetype)initWithIdentifier:(NSString *)identifier maxRecordingTime:(NSInteger)maxRecordingtime journalQuestionSetManifestPath:(NSString *)journalQuestionSetManifestPath {
+- (instancetype)initWithIdentifier:(NSString *)identifier maxRecordingTime:(NSTimeInterval)maxRecordingtime journalQuestionSetManifestPath:(NSString *)journalQuestionSetManifestPath {
     NSError *error = nil;
     NSArray<ORKStep *> *steps = [self setupStepsFromManifestPath:journalQuestionSetManifestPath
                                                 maxRecordingTime:maxRecordingtime
@@ -57,7 +57,7 @@
     return self;
 }
 
-- (nullable NSArray<ORKStep *> *)setupStepsFromManifestPath:(NSString *)manifestPath maxRecordingTime:(NSInteger)maxRecordingTime error:(NSError * _Nullable * _Nullable)error {
+- (nullable NSArray<ORKStep *> *)setupStepsFromManifestPath:(NSString *)manifestPath maxRecordingTime:(NSTimeInterval)maxRecordingTime error:(NSError * _Nullable * _Nullable)error {
     NSMutableArray<ORKStep *> *steps = [[NSMutableArray alloc] init];
     
     ORKInstructionStep *instructionStep = [[ORKInstructionStep alloc] initWithIdentifier:@"InstructionStepIdentifier"];

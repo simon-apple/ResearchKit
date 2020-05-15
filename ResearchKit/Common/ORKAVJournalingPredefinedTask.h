@@ -47,12 +47,12 @@ ORK_CLASS_AVAILABLE
 - (instancetype)initWithIdentifier:(NSString *)identifier steps:(nullable NSArray<ORKStep *> *)steps NS_UNAVAILABLE;
 
 - (instancetype)initWithIdentifier:(NSString *)identifier
-                  maxRecordingTime:(NSInteger)maxRecordingtime
+                  maxRecordingTime:(NSTimeInterval)maxRecordingtime
     journalQuestionSetManifestPath:(NSString *)journalQuestionSetManifestPath NS_DESIGNATED_INITIALIZER;
         
 @property (nonatomic, readonly) NSString *journalQuestionSetManifestPath;
 
-@property (nonatomic, readonly) NSInteger maxRecordingTime;
+@property (nonatomic, readonly) NSTimeInterval maxRecordingTime;
  
 @end
 

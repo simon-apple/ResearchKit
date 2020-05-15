@@ -67,6 +67,7 @@
         [file readIntoBuffer:self.audioBuffer error:nil];
     }
     
+#if (__IPHONE_OS_VERSION_MAX_ALLOWED < 140000)
     self.audioEngine = [[AVAudioEngine alloc] init];
     self.playerNode = [[AVAudioPlayerNode alloc] init];
     [self.audioEngine attachNode:self.playerNode];
@@ -74,6 +75,7 @@
     [self.playerNode scheduleBuffer:self.audioBuffer atTime:nil options:AVAudioPlayerNodeBufferLoops completionHandler:nil];
     [self.audioEngine prepare];
     [self.audioEngine startAndReturnError:nil];
+#endif
 }
 
 - (void)tearDownAudioEngine
