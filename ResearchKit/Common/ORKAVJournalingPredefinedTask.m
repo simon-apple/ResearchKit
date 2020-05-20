@@ -34,6 +34,41 @@
 #import "ORKCompletionStep.h"
 #import "ORKHelpers_Internal.h"
 #import "ORKStep.h"
+#import "ORKFaceDetectionStep.h"
+#import "ORKContext.h"
+#import "ORKStepNavigationRule.h"
+
+typedef NSString * ORKAVJournalingStepIdentifier NS_STRING_ENUM;
+ORKAVJournalingStepIdentifier const FaceDetectionStepIdentifier = @"ORKAVJournalingFaceDetectionStepIdentifier";
+ORKAVJournalingStepIdentifier const InstructionStepIdentifier = @"ORKAVJournalingInstructionStepIdentifier";
+ORKAVJournalingStepIdentifier const CompletionStepIdentifier = @"ORKAVJournalingCompletionStepIdentifier";
+ORKAVJournalingStepIdentifier const MaxLimitHitCompletionStepIdentifier = @"ORKAVJournalingMaxLimitHitCompletionStepIdentifierHeadphonesRequired";
+
+
+@implementation ORKAVJournalingPredfinedTaskContext
+
+- (void)didReachDetectionTimeLimitForTask:(id<ORKTask>)task {
+    
+    if ([task isKindOfClass:[ORKNavigableOrderedTask class]]) {
+        // If the user reaches the max limit for face detection, append a new step to the end of the task and skip to the end.
+        
+        // Add a navigation rule to end the current task.
+        ORKNavigableOrderedTask *currentTask = (ORKNavigableOrderedTask *)task;
+        
+        ORKCompletionStep *step = [[ORKCompletionStep alloc] initWithIdentifier:MaxLimitHitCompletionStepIdentifier];
+        step.title = ORKLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TITLE", nil);
+        step.text = ORKLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TEXT", nil);
+        step.optional = NO;
+        step.reasonForCompletion = ORKTaskViewControllerFinishReasonDiscarded;
+        [currentTask appendSteps:@[step]];
+
+        ORKDirectStepNavigationRule *endNavigationRule = [[ORKDirectStepNavigationRule alloc] initWithDestinationStepIdentifier:ORKNullStepIdentifier];
+        [currentTask setNavigationRule:endNavigationRule forTriggerStepIdentifier:step.identifier];
+    }
+}
+
+@end
+
 
 @implementation ORKAVJournalingPredefinedTask
 
@@ -52,6 +87,13 @@
     if (self) {
         _journalQuestionSetManifestPath = journalQuestionSetManifestPath;
         _maxRecordingTime = maxRecordingtime;
+        
+        for (ORKStep *step in self.steps) {
+            if ([step isKindOfClass:[ORKStep class]]) {
+                [step setTask:self];
+            }
+        }
+        
     }
     
     return self;
@@ -60,13 +102,20 @@
 - (nullable NSArray<ORKStep *> *)setupStepsFromManifestPath:(NSString *)manifestPath maxRecordingTime:(NSTimeInterval)maxRecordingTime error:(NSError * _Nullable * _Nullable)error {
     NSMutableArray<ORKStep *> *steps = [[NSMutableArray alloc] init];
     
-    ORKInstructionStep *instructionStep = [[ORKInstructionStep alloc] initWithIdentifier:@"InstructionStepIdentifier"];
+    ORKAVJournalingPredfinedTaskContext *avJournalingPredefinedContext = [[ORKAVJournalingPredfinedTaskContext alloc] init];
+    ORKFaceDetectionStep *faceDetectionStep = [[ORKFaceDetectionStep alloc] initWithIdentifier:FaceDetectionStepIdentifier];
+    faceDetectionStep.title = ORKLocalizedString(@"AV_JOURNALING_PREDEFINED_TASK_FACE_DETECTION_STEP_TITLE", nil);
+    faceDetectionStep.context = avJournalingPredefinedContext;
+    
+    [steps addObject:faceDetectionStep];
+    
+    ORKInstructionStep *instructionStep = [[ORKInstructionStep alloc] initWithIdentifier:InstructionStepIdentifier];
     instructionStep.title = ORKLocalizedString(@"AV_JOURNALING_PREDEFINED_TASK_INSTRUCTION_STEP_TITLE", nil);
     instructionStep.text = [NSString stringWithFormat:ORKLocalizedString(@"AV_JOURNALING_PREDEFINED_TASK_INSTRUCTION_STEP_TEXT", nil), 2];
     
     [steps addObject:instructionStep];
     
-    ORKCompletionStep *completionStep = [[ORKCompletionStep alloc] initWithIdentifier:@"CompletionStepIdentifier"];
+    ORKCompletionStep *completionStep = [[ORKCompletionStep alloc] initWithIdentifier:CompletionStepIdentifier];
     completionStep.title = ORKLocalizedString(@"AV_JOURNALING_PREDEFINED_TASK_COMPLETION_TITLE", "");
     completionStep.text = ORKLocalizedString(@"AV_JOURNALING_PREDEFINED_TASK_COMPLETION_TEXT", "");
     

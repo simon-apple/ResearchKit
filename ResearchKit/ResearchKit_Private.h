@@ -85,6 +85,7 @@
 #import <ResearchKit/ORKSpeechRecognitionStep.h>
 #import <ResearchKit/ORKSpeechInNoiseStep.h>
 #import <ResearchKit/ORKVolumeCalibrationStep.h>
+#import <ResearchKit/ORKFaceDetectionStep.h>
 
 #import <ResearchKit/ORKTaskViewController_Private.h>
 #import <ResearchKit/ORKFormStepViewController_Private.h>

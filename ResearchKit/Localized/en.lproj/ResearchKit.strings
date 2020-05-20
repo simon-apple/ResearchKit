@@ -622,10 +622,17 @@
 "SPEECH_IN_NOISE_PREDEFINED_PRACTICE_COMPLETION_TITLE" = "Practice Complete";
 
 /* AV Journaling Predefined Task */
+"AV_JOURNALING_PREDEFINED_TASK_FACE_DETECTION_STEP_TITLE" = "Video Journal";
 "AV_JOURNALING_PREDEFINED_TASK_INSTRUCTION_STEP_TITLE" = "Video Journal";
 "AV_JOURNALING_PREDEFINED_TASK_INSTRUCTION_STEP_TEXT" = "You will be asked %lu questions. Think about each question as long as needed and then speak your answer out loud";
 "AV_JOURNALING_PREDEFINED_TASK_COMPLETION_TITLE" = "Task Complete";
 "AV_JOURNALING_PREDEFINED_TASK_COMPLETION_TEXT" = "Thank you for completing this task";
+
+/* AV Journaling Face Detection Step */
+"AV_JOURNALING_FACE_DETECTION_STEP_NEXT_BUTTON_TEXT" = "Next";
+"AV_JOURNALING_FACE_DETECTION_STEP_CENTER_FACE_TEXT" = "Please center your face in the screen";
+"AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TITLE" = "No Face Detected";
+"AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TEXT" = "The max time limit for detecting a face was reached. Please try again at a later time";
 
 /* ORKRecordButton */
 "PLAY" = "Play";

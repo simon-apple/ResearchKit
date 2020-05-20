@@ -1231,6 +1231,12 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                  },
                  (@{
                     PROPERTY(numberOfAttempts, NSNumber, NSObject, YES, nil, nil)})),
+           ENTRY(ORKFaceDetectionStep,
+                           ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+                               return [[ORKFaceDetectionStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
+                           },
+                           (@{
+                              })),
            ENTRY(ORKTappingIntervalStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      return [[ORKTappingIntervalStep alloc] initWithIdentifier:GETPROP(dict, identifier)];

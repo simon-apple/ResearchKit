@@ -28,40 +28,29 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@import Foundation;
+@import UIKit;
 
-#import "ORKStep.h"
+#import "ORKCustomStepView_Internal.h"
+#import <AVFoundation/AVFoundation.h>
+#import <CoreImage/CoreImage.h>
+#import <SceneKit/SceneKit.h>
+#import <ARKit/ARKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol ORKContext <NSObject>
+@class ORKBorderedButton;
+
+@interface ORKFaceDetectionStepContentView : ORKActiveStepCustomView
+
+@property (nonatomic) UIButton *nextButton;
+@property (nonatomic) AVCaptureSession *captureSession;
+
+- (void)updateTimerLabelWithSeconds:(int)seconds;
+- (void)setPreviewLayerWithSession:(AVCaptureSession *)session;
+- (void)setFaceDetected:(BOOL)detected;
+- (ARSCNView *)arSceneView;
 
 @end
-
-@interface ORKStep ()
-
-@property (nonatomic, strong, nullable) id<ORKContext> context;
-
-@end
-
-@interface ORKSpeechInNoisePredefinedTaskContext : NSObject <ORKContext>
-
-@property (nonatomic, copy) NSString *practiceAgainStepIdentifier;
-
-@property (nonatomic, assign, getter=isPracticeTest) BOOL practiceTest;
-
-@property (nonatomic, assign) BOOL prefersKeyboard;
-
-- (void)didSkipHeadphoneDetectionStepForTask:(id<ORKTask>)task;
-
-- (NSString *)didNotAllowRequiredHealthPermissionsForTask:(id<ORKTask>)task;
-
-@end
-
-@interface ORKAVJournalingPredfinedTaskContext : NSObject <ORKContext>
-
-- (void)didReachDetectionTimeLimitForTask:(id<ORKTask>)task;
-
-@end
-
 NS_ASSUME_NONNULL_END
+
+

@@ -28,40 +28,14 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@import Foundation;
-
-#import "ORKStep.h"
+#import <ResearchKit/ORKDefines.h>
+#import <ResearchKit/ORKActiveStep.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol ORKContext <NSObject>
-
-@end
-
-@interface ORKStep ()
-
-@property (nonatomic, strong, nullable) id<ORKContext> context;
-
-@end
-
-@interface ORKSpeechInNoisePredefinedTaskContext : NSObject <ORKContext>
-
-@property (nonatomic, copy) NSString *practiceAgainStepIdentifier;
-
-@property (nonatomic, assign, getter=isPracticeTest) BOOL practiceTest;
-
-@property (nonatomic, assign) BOOL prefersKeyboard;
-
-- (void)didSkipHeadphoneDetectionStepForTask:(id<ORKTask>)task;
-
-- (NSString *)didNotAllowRequiredHealthPermissionsForTask:(id<ORKTask>)task;
-
-@end
-
-@interface ORKAVJournalingPredfinedTaskContext : NSObject <ORKContext>
-
-- (void)didReachDetectionTimeLimitForTask:(id<ORKTask>)task;
-
+ORK_CLASS_AVAILABLE
+@interface ORKFaceDetectionStep : ORKActiveStep
 @end
 
 NS_ASSUME_NONNULL_END
+

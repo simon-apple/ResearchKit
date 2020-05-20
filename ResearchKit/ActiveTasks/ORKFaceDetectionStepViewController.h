@@ -29,39 +29,19 @@
  */
 
 @import Foundation;
-
-#import "ORKStep.h"
+#import <ResearchKit/ORKDefines.h>
+#import <ResearchKit/ORKActiveStepViewController.h>
+#import <AVFoundation/AVFoundation.h>
+#import <CoreImage/CoreImage.h>
+#import <SceneKit/SceneKit.h>
+#import <ARKit/ARKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol ORKContext <NSObject>
-
-@end
-
-@interface ORKStep ()
-
-@property (nonatomic, strong, nullable) id<ORKContext> context;
-
-@end
-
-@interface ORKSpeechInNoisePredefinedTaskContext : NSObject <ORKContext>
-
-@property (nonatomic, copy) NSString *practiceAgainStepIdentifier;
-
-@property (nonatomic, assign, getter=isPracticeTest) BOOL practiceTest;
-
-@property (nonatomic, assign) BOOL prefersKeyboard;
-
-- (void)didSkipHeadphoneDetectionStepForTask:(id<ORKTask>)task;
-
-- (NSString *)didNotAllowRequiredHealthPermissionsForTask:(id<ORKTask>)task;
-
-@end
-
-@interface ORKAVJournalingPredfinedTaskContext : NSObject <ORKContext>
-
-- (void)didReachDetectionTimeLimitForTask:(id<ORKTask>)task;
+ORK_CLASS_AVAILABLE
+@interface ORKFaceDetectionStepViewController : ORKActiveStepViewController 
 
 @end
 
 NS_ASSUME_NONNULL_END
+

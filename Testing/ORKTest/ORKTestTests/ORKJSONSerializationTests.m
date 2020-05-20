@@ -252,6 +252,9 @@ ORK_MAKE_TEST_INIT(ORKAVJournalingPredefinedTask, ^{
                maxRecordingTime:60
      journalQuestionSetManifestPath:[bundlePath stringByAppendingPathComponent: @"PredefinedTaskResources/QuestionList1/manifest.json"]];
 });
+ORK_MAKE_TEST_INIT(ORKFaceDetectionStep, ^{
+    return [self initWithIdentifier:@"test1"];
+});
 ORK_MAKE_TEST_INIT(ORKImageChoice, ^{return [super init];});
 ORK_MAKE_TEST_INIT(ORKTextChoice, ^{return [super init];});
 ORK_MAKE_TEST_INIT(ORKTextChoiceOther, ^{return [self initWithText:@"test" primaryTextAttributedString:nil detailText:@"test1" detailTextAttributedString:nil value:@"value" exclusive:YES textViewPlaceholderText:@"test2" textViewInputOptional:NO textViewStartsHidden:YES];});
