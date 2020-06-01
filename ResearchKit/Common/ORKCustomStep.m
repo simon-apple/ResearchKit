@@ -29,6 +29,7 @@
  */
 
 #import "ORKCustomStep.h"
+#import "ORKHelpers_Internal.h"
 
 @implementation ORKCustomStep
 
@@ -37,6 +38,16 @@
     ORKCustomStep *step = [[ORKCustomStep alloc] initWithIdentifier:identifier];
     step.contentView = contentView;
     return step;
+}
+
+#pragma mark - Equality
+
+- (BOOL)isEqual:(id)object {
+    BOOL superIsEqual = [super isEqual:object];
+    
+    __typeof(self) castObject = object;
+    return (superIsEqual
+            && self.pinNavigationContainer == castObject.pinNavigationContainer);
 }
 
 @end

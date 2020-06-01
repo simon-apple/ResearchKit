@@ -110,12 +110,6 @@ static NSString *scrollContentChangedNotification = @"scrollContentChanged";
 
 @end
 
-static const CGFloat ORKStepContainerTopCustomContentPaddingStandard = 20.0;
-static const CGFloat ORKStepContainerNavigationFooterTopPaddingStandard = 10.0;
-static const CGFloat ORKContentBottomPadding = 19.0;
-static const CGFloat ORKBodyItemScrollPadding = 24.0;
-static const CGFloat ImageViewMaxHeightAndWidth = 175.0;
-
 @implementation ORKStepContainerView {
     CGFloat _leftRightPadding;
     CGFloat _customContentLeftRightPadding;
@@ -124,7 +118,7 @@ static const CGFloat ImageViewMaxHeightAndWidth = 175.0;
     BOOL _topContentImageShouldScroll;
     CGFloat _customContentTopPadding;
     CGFloat _highestContentPosition;
-    
+    BOOL _showScrollIndicator;
     CGFloat _scrollViewCustomContentInset;
     
     UIImageView *_topContentImageView;
@@ -161,10 +155,15 @@ static const CGFloat ImageViewMaxHeightAndWidth = 175.0;
         [self placeNavigationContainerView];
         _topContentImageShouldScroll = YES;
         _customContentTopPadding = ORKStepContainerTopCustomContentPaddingStandard;
-        
+        _pinNavigationContainer = YES; // Default behavior is to pin the navigation footer
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(scrollContentChanged) name:scrollContentChangedNotification object:nil];
     }
     return self;
+}
+
+- (void)setPinNavigationContainer:(BOOL)pinNavigationContainer {
+    _pinNavigationContainer = pinNavigationContainer;
+    [self placeNavigationContainerView];
 }
 
 - (void)dealloc {
@@ -213,8 +212,12 @@ static const CGFloat ImageViewMaxHeightAndWidth = 175.0;
 }
 
 - (void)setShowScrollIndicator:(BOOL)showScrollIndicator {
-    self.showScrollIndicator = showScrollIndicator;
+    _showScrollIndicator = showScrollIndicator;
     _scrollView.showsVerticalScrollIndicator = showScrollIndicator;
+}
+
+- (BOOL)showScrollIndicator {
+    return _showScrollIndicator;
 }
 
 - (void)setupScrollContainerView {
@@ -347,7 +350,9 @@ static const CGFloat ImageViewMaxHeightAndWidth = 175.0;
 - (void)placeNavigationContainerView {
     [self removeNavigationFooterView];
     
-    if (self.isNavigationContainerScrollable) {
+    if (!_pinNavigationContainer) {
+        [_scrollView addSubview:self.navigationFooterView];
+    } else if (self.isNavigationContainerScrollable) {
         [_scrollContainerView addSubview:self.navigationFooterView];
     } else {
         [self addSubview:self.navigationFooterView];
@@ -389,25 +394,27 @@ static const CGFloat ImageViewMaxHeightAndWidth = 175.0;
 
 - (void)setupNavigationContainerViewConstraints {
     self.navigationFooterView.translatesAutoresizingMaskIntoConstraints = NO;
+    BOOL useScrollableItem = (self.isNavigationContainerScrollable || !_pinNavigationContainer);
+    id boundaryView = useScrollableItem ? _scrollContainerView : self;
     _navigationContainerViewConstraints = @[
                                               [NSLayoutConstraint constraintWithItem:self.navigationFooterView
                                                                            attribute:NSLayoutAttributeBottom
                                                                            relatedBy:NSLayoutRelationEqual
-                                                                              toItem:self.isNavigationContainerScrollable ? _scrollContainerView : self
+                                                                              toItem:boundaryView
                                                                            attribute:NSLayoutAttributeBottom
                                                                           multiplier:1.0
                                                                             constant:0.0],
                                               [NSLayoutConstraint constraintWithItem:self.navigationFooterView
                                                                            attribute:NSLayoutAttributeLeft
                                                                            relatedBy:NSLayoutRelationEqual
-                                                                              toItem:self.isNavigationContainerScrollable ? _scrollContainerView : self
+                                                                              toItem:boundaryView
                                                                            attribute:NSLayoutAttributeLeft
                                                                           multiplier:1.0
                                                                             constant:0.0],
                                               [NSLayoutConstraint constraintWithItem:self.navigationFooterView
                                                                            attribute:NSLayoutAttributeRight
                                                                            relatedBy:NSLayoutRelationEqual
-                                                                              toItem:self.isNavigationContainerScrollable ? _scrollContainerView : self
+                                                                              toItem:boundaryView
                                                                            attribute:NSLayoutAttributeRight
                                                                           multiplier:1.0
                                                                             constant:0.0]];
@@ -435,7 +442,8 @@ static const CGFloat ImageViewMaxHeightAndWidth = 175.0;
 }
 
 - (void)setupNavigationContainerViewTopConstraint {
-    if (self.navigationFooterView && self.isNavigationContainerScrollable) {
+    BOOL shouldScrollNavigationContainer = (self.isNavigationContainerScrollable || !_pinNavigationContainer);
+    if (self.navigationFooterView && shouldScrollNavigationContainer) {
         
         id topItem;
         NSLayoutAttribute topItemAttribute;
@@ -463,7 +471,8 @@ static const CGFloat ImageViewMaxHeightAndWidth = 175.0;
 }
 
 - (void)updateNavigationContainerViewTopConstraint {
-    if (self.navigationFooterView && self.isNavigationContainerScrollable) {
+    BOOL shouldScrollNavigationContainer = (self.isNavigationContainerScrollable || !_pinNavigationContainer);
+    if (self.navigationFooterView && shouldScrollNavigationContainer) {
         if (_navigationContainerViewTopConstraint) {
             [NSLayoutConstraint deactivateConstraints:@[_navigationContainerViewTopConstraint]];
             if ([_updatedConstraints containsObject:_navigationContainerViewTopConstraint]) {
@@ -578,7 +587,12 @@ static const CGFloat ImageViewMaxHeightAndWidth = 175.0;
 }
 
 - (void)setCustomContentView:(UIView *)customContentView withTopPadding:(CGFloat)topPadding {
+    [self setCustomContentView:customContentView withTopPadding:topPadding sidePadding:_customContentLeftRightPadding];
+}
+
+- (void)setCustomContentView:(UIView *)customContentView withTopPadding:(CGFloat)topPadding sidePadding:(CGFloat)sidePadding {
     _customContentTopPadding = topPadding;
+    _customContentLeftRightPadding = sidePadding;
     [self setCustomContentView:customContentView];
 }
 
@@ -780,6 +794,11 @@ static const CGFloat ImageViewMaxHeightAndWidth = 175.0;
     [self.navigationFooterView setUseExtendedPadding:[self useExtendedPadding]];
 }
 
+- (void)setUseExtendedPadding:(BOOL)useExtendedPadding {
+    [super setUseExtendedPadding:useExtendedPadding];
+    [self updatePaddingConstraints];
+}
+
 - (void)scrollToBodyItem:(UIView *)bodyItem {
     CGPoint pointInScrollView = [bodyItem.superview convertPoint:bodyItem.frame.origin toView:_scrollView];
     CGFloat bottomOfView = pointInScrollView.y + bodyItem.frame.size.height;
@@ -846,6 +865,22 @@ static const CGFloat ImageViewMaxHeightAndWidth = 175.0;
         if (currentOpacity == ORKEffectViewOpacityHidden) { animated = NO; }
         [self.navigationFooterView setStylingOpactity:newOpacity animated:animated];
     }
+}
+
+- (void)setScrollEnabled:(BOOL)scrollEnabled {
+    [_scrollView setScrollEnabled:scrollEnabled];
+}
+
+- (BOOL)isScrollEnabled {
+    return _scrollView.scrollEnabled;
+}
+
+- (void)setScrollViewInset:(UIEdgeInsets)inset {
+    [_scrollView setContentInset:inset];
+}
+
+- (void)scrollToPoint:(CGPoint)point {
+    [_scrollView setContentOffset:point animated:YES];
 }
 
 // MARK: ScrollViewDelegate

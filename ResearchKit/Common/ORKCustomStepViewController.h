@@ -35,13 +35,23 @@ NS_ASSUME_NONNULL_BEGIN
 ORK_CLASS_AVAILABLE
 @interface ORKCustomStepViewController : ORKStepViewController
 
-- (BOOL)continueButtonEnabled;
-
 @property (nonatomic, getter=isScrollEnabled) BOOL scrollEnabled;
+@property (nonatomic, getter=showScrollIndicator) BOOL showScrollIndicator;
+
+@property (nonatomic) NSTextAlignment stepHeaderTextAlignment;
+@property (nonatomic) NSTextAlignment bodyTextAlignment;
+
+@property (nonatomic) NSString *stepTitle;
+@property (nonatomic) NSString *stepText;
+@property (nonatomic) NSString *stepDetailText;
+
+- (BOOL)continueButtonEnabled;
 
 - (void)updateButtonStates;
 
-- (void)setScrollViewOffset:(UIEdgeInsets)contentInset;
+- (void)setScrollViewInset:(UIEdgeInsets)contentInset;
+
+- (void)resetScrollViewInset;
 
 - (void)scrollToPoint:(CGPoint)point;
 
