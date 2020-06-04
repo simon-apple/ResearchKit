@@ -30,8 +30,8 @@
 
 @import UIKit;
 @import WebKit;
-#import "ORKStepViewController.h"
-#import "ORKSignatureView.h"
+#import <ResearchKit/ORKStepViewController.h>
+#import <ResearchKit/ORKSignatureView.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

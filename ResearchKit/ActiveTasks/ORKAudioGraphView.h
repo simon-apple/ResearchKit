@@ -29,7 +29,7 @@
  */
 
 @import UIKit;
-#import "ORKAudioMeteringView.h"
+#import <ResearchKit/ORKAudioMeteringView.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
