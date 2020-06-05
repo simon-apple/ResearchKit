@@ -30,7 +30,7 @@
 
 @import UIKit;
 @import AVFoundation;
-#import "ORKTypes.h"
+#import <ResearchKit/ORKTypes.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -29,8 +29,8 @@
  */
 
 
-#import "ORKTaskViewController_Private.h"
-#import "ORKReviewStepViewController.h"
+#import <ResearchKit/ORKTaskViewController_Private.h>
+#import <ResearchKit/ORKReviewStepViewController.h>
 @import HealthKit;
 
 

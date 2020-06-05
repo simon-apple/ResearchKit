@@ -29,6 +29,7 @@
  */
 
 
+#import <ResearchKit/ORKDefines.h>
 #import <ResearchKit/ORKTypes.h>
 
 #import <ResearchKit/ORKStep.h>
