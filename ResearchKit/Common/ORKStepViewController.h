@@ -32,7 +32,7 @@
 @import UIKit;
 #import <ResearchKit/ORKDefines.h>
 #import <ResearchKit/ORKTask.h>
-\
+
 
 NS_ASSUME_NONNULL_BEGIN
 
