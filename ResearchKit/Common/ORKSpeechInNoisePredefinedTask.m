@@ -438,7 +438,7 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierPracticeCompl
             answerFormat.multipleLines = YES;
             answerFormat.maximumLength = 300;
             answerFormat.hideClearButton = YES;
-            answerFormat.hideWordCountLabel = YES;
+            answerFormat.hideCharacterCountLabel = YES;
             
             ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@_%@", fileName.lowercaseString, ORKSpeechInNoiseStepIdentifierEditSpeechTranscriptStep];
             ORKQuestionStep *step = [ORKQuestionStep questionStepWithIdentifier:stepIdentifier

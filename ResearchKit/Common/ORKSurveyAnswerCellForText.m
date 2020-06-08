@@ -65,7 +65,7 @@ static const CGFloat CellBottomPadding = 5.0;
     UIView *_bottomSeperatorView;
     NSMutableArray *_constraints;
     BOOL _hideClearButton;
-    BOOL _hideWordCountLabel;
+    BOOL _hideCharacterCountLabel;
 }
 
 - (void)applyAnswerFormat {
@@ -75,7 +75,7 @@ static const CGFloat CellBottomPadding = 5.0;
         ORKTextAnswerFormat *textAnswerFormat = (ORKTextAnswerFormat *)answerFormat;
         _maxLength = [textAnswerFormat maximumLength];
         _hideClearButton = [textAnswerFormat hideClearButton];
-        _hideWordCountLabel = [textAnswerFormat hideWordCountLabel];
+        _hideCharacterCountLabel = [textAnswerFormat hideCharacterCountLabel];
         _defaultTextAnswer = textAnswerFormat.defaultTextAnswer;
         self.textView.autocorrectionType = textAnswerFormat.autocorrectionType;
         self.textView.autocapitalizationType = textAnswerFormat.autocapitalizationType;
@@ -156,12 +156,12 @@ static const CGFloat CellBottomPadding = 5.0;
             [_textCountLabel setTextColor:[UIColor grayColor]];
         }
         
-        if (!_hideWordCountLabel) {
+        if (!_hideCharacterCountLabel) {
             [accessibilityElements addObject:_textCountLabel];
             [self updateTextCountLabel];
         }
         
-        [_textCountLabel setHidden: _hideWordCountLabel];
+        [_textCountLabel setHidden: _hideCharacterCountLabel];
         
         _textCountLabel.translatesAutoresizingMaskIntoConstraints = NO;
         [self addSubview: _textCountLabel];

@@ -1617,7 +1617,7 @@ This only applies if multipleLines is set to YES.
 
 This By default, the value of this property is `NO`.
 */
-@property BOOL hideWordCountLabel;
+@property BOOL hideCharacterCountLabel;
 
 /**
  The autocapitalization type that applies to the user's input.
