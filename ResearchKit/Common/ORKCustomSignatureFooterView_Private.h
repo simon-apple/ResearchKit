@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2017, CareEvolution, Inc.
+ Copyright (c) 2020, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,41 +28,16 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@import UIKit;
-@import WebKit;
-#import <ResearchKit/ORKStepViewController.h>
-#import <ResearchKit/ORKSignatureView.h>
+#import <ResearchKit/ORKCustomSignatureFooterView.h>
+#import <ResearchKit/ORKWebViewStep.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class ORKWebViewStepViewController;
+@protocol ORKCustomSignatureFooterViewDelegate;
 
-@protocol ORKWebViewStepDelegate <NSObject>
-
-- (WKNavigationActionPolicy)handleLinkNavigationWithURL:(NSURL *)url;
-- (void)didFinishLoadingWebStepViewController:(ORKWebViewStepViewController *)webStepViewController;
+@interface ORKCustomSignatureFooterView () <ORKCustomSignatureFooterViewDelegate>
 
 @end
 
-@class ORKCustomSignatureFooterView;
-
-/**
- The `ORKWebViewStepViewController` class is a step view controller subclass
- used to manage a web view step (`ORKWebViewStep`).
- 
- You should not need to instantiate a web view step view controller directly. Instead, include
- a web view step in a task, and present a task view controller for that task.
- */
-
-ORK_CLASS_AVAILABLE
-@interface ORKWebViewStepViewController : ORKStepViewController<WKScriptMessageHandler, WKNavigationDelegate, ORKSignatureViewDelegate,  ORKCustomSignatureFooterViewStatusDelegate, UIScrollViewDelegate>
-
-@property (nonatomic, weak, nullable) id<ORKWebViewStepDelegate> webViewDelegate;
-
-- (void)startPreload;
-
-- (void)scrollSignatureViewRect:(CGRect)rect toPoint:(CGPoint)endPoint animated:(BOOL)animated;
-
-@end
 
 NS_ASSUME_NONNULL_END

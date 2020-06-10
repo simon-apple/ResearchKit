@@ -515,6 +515,7 @@ ORK_MAKE_TEST_INIT(NSRegularExpression, (^{
                                           @"ORKVerificationStep.verificationViewControllerClass",
                                           @"ORKVideoCaptureStep.templateImage",
                                           @"ORKWeightAnswerFormat.useMetricSystem",
+                                          @"ORKWebViewStep.customViewProvider"
                                           ];
         _allowedUnTouchedKeys = @[@"_class"];
     }

@@ -41,10 +41,6 @@ ORK_CLASS_AVAILABLE
 @property (nonatomic) NSTextAlignment stepHeaderTextAlignment;
 @property (nonatomic) NSTextAlignment bodyTextAlignment;
 
-@property (nonatomic) NSString *stepTitle;
-@property (nonatomic) NSString *stepText;
-@property (nonatomic) NSString *stepDetailText;
-
 - (BOOL)continueButtonEnabled;
 
 - (void)updateButtonStates;
