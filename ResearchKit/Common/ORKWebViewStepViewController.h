@@ -58,6 +58,7 @@ ORK_CLASS_AVAILABLE
 @interface ORKWebViewStepViewController : ORKStepViewController<WKScriptMessageHandler, WKNavigationDelegate, ORKSignatureViewDelegate,  ORKCustomSignatureFooterViewStatusDelegate, UIScrollViewDelegate>
 
 @property (nonatomic, weak, nullable) id<ORKWebViewStepDelegate> webViewDelegate;
+@property (nonatomic) CGFloat bottomOffset;
 
 - (void)startPreload;
 

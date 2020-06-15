@@ -33,7 +33,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol ORKSignatureViewDelegate;
-@protocol ORKCustomSignatureFooterViewProvider;
+@protocol ORKCustomSignatureAccessoryViewProvider;
 @protocol ORKCustomSignatureFooterViewStatusDelegate;
 
 @class ORKSignatureResult;
@@ -41,7 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ORKCustomSignatureFooterView : UIView
 
 @property (nonatomic, weak, nullable) id<ORKSignatureViewDelegate> signatureViewDelegate;
-@property (nonatomic, weak, nullable) id<ORKCustomSignatureFooterViewProvider> customViewProvider;
+@property (nonatomic, weak, nullable) id<ORKCustomSignatureAccessoryViewProvider> customViewProvider;
 @property (nonatomic, weak, nullable) id<ORKCustomSignatureFooterViewStatusDelegate> delegate;
 @property (nonatomic) BOOL enabled;
 

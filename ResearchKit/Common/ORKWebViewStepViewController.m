@@ -52,6 +52,7 @@ static const CGFloat ORKSignatureTopPadding = 37.0;
     ORKCustomSignatureFooterView *_signatureView;
     
     CGFloat _leftRightPadding;
+    CGFloat _bottomOffset;
 }
 
 - (ORKWebViewStep *)webViewStep {
@@ -324,10 +325,11 @@ static const CGFloat ORKSignatureTopPadding = 37.0;
     CGRect rectInView = [_signatureView convertRect:rect toView:self.view];
     
     CGFloat offset = endPoint.y - (rectInView.origin.y + rectInView.size.height);
+    
     if (offset < 0) {
         CGFloat xOffset = _scrollView.contentOffset.x;
         CGFloat yOffset = _scrollView.contentOffset.y - offset;
-        
+    
         if (animated) {
             [UIView animateWithDuration:0.2 animations:^{
                 [_scrollView setContentOffset:CGPointMake(xOffset, yOffset)];
@@ -336,6 +338,15 @@ static const CGFloat ORKSignatureTopPadding = 37.0;
             [_scrollView setContentOffset:CGPointMake(xOffset, yOffset)];
         }
     }
+}
+
+- (void)setBottomOffset:(CGFloat)bottomOffset {
+    _bottomOffset = bottomOffset;
+    [_scrollView setContentSize:CGSizeMake(_scrollView.contentSize.width, _scrollView.contentSize.height + bottomOffset)];
+}
+
+- (CGFloat)bottomOffset {
+    return _bottomOffset;
 }
 
 - (void)viewDidLayoutSubviews {

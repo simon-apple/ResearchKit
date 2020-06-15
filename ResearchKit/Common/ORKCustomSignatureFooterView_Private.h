@@ -33,9 +33,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol ORKCustomSignatureFooterViewDelegate;
+@protocol ORKCustomSignatureAccessoryViewDelegate;
 
-@interface ORKCustomSignatureFooterView () <ORKCustomSignatureFooterViewDelegate>
+@interface ORKCustomSignatureFooterView () <ORKCustomSignatureAccessoryViewDelegate>
 
 @end
 

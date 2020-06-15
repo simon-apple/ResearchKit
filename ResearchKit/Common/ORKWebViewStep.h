@@ -33,28 +33,33 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol ORKCustomSignatureFooterViewProtocol;
+@protocol ORKCustomSignatureAccessoryViewProtocol;
 
-@protocol ORKCustomSignatureFooterViewDelegate <NSObject>
+@protocol ORKCustomSignatureAccessoryViewDelegate <NSObject>
 
-- (void)customViewDidChangeCompletedState:(UIView<ORKCustomSignatureFooterViewProtocol> *)customView;
+- (void)customViewDidChangeCompletedState:(UIView<ORKCustomSignatureAccessoryViewProtocol> *)customView;
 - (CGRect)rectInFooterViewForRect:(CGRect)rect;
+- (CGRect)rectInHeaderViewForRect:(CGRect)rect;
 
 @end
 
-@protocol ORKCustomSignatureFooterViewProtocol <NSObject>
+@protocol ORKCustomSignatureAccessoryViewProtocol <NSObject>
 
 @required
-@property (nonatomic, weak, nullable) id<ORKCustomSignatureFooterViewDelegate> customViewDelegate;
+@property (nonatomic, weak, nullable) id<ORKCustomSignatureAccessoryViewDelegate> customViewDelegate;
 
 - (NSDictionary *)resultUserInfo;
 - (BOOL)isComplete;
 
 @end
 
-@protocol ORKCustomSignatureFooterViewProvider <NSObject>
+@protocol ORKCustomSignatureAccessoryViewProvider <NSObject>
 
-- (UIView<ORKCustomSignatureFooterViewProtocol> * _Nullable)customFooterViewForSignatureContent;
+@optional
+- (UIView<ORKCustomSignatureAccessoryViewProtocol> * _Nullable)customFooterViewForSignatureContent;
+
+@optional
+- (UIView<ORKCustomSignatureAccessoryViewProtocol> * _Nullable)customHeaderViewForSignatureContent;
 
 @end
 
@@ -93,7 +98,7 @@ ORK_CLASS_AVAILABLE
 
 @property (nonatomic) BOOL showSignatureAfterContent;
 
-@property (nonatomic, weak, nullable) id<ORKCustomSignatureFooterViewProvider> customViewProvider;
+@property (nonatomic, weak, nullable) id<ORKCustomSignatureAccessoryViewProvider> customViewProvider;
 
 @end
 

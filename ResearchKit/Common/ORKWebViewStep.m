@@ -61,7 +61,7 @@
         ORK_DECODE_OBJ_CLASS(aDecoder, html, NSString);
         ORK_DECODE_OBJ_CLASS(aDecoder, customCSS, NSString);
         ORK_DECODE_BOOL(aDecoder, showSignatureAfterContent);
-        ORK_DECODE_OBJ_CLASS(aDecoder, customViewProvider, NSObject<ORKCustomSignatureFooterViewProvider>);
+        ORK_DECODE_OBJ_CLASS(aDecoder, customViewProvider, NSObject<ORKCustomSignatureAccessoryViewProvider>);
     }
     return self;
 }

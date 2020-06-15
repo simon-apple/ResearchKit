@@ -42,7 +42,8 @@ static const CGFloat ORKSignatureToClearPadding = 15.0;
     NSMutableArray<NSLayoutConstraint *> *_constraints;
     ORKSignatureView *_signatureView;
     ORKTextButton *_clearButton;
-    UIView<ORKCustomSignatureFooterViewProtocol> *_customView;
+    UIView<ORKCustomSignatureAccessoryViewProtocol> *_customFooterView;
+    UIView<ORKCustomSignatureAccessoryViewProtocol> *_customHeaderView;
 }
 
 - (instancetype)init {
@@ -67,10 +68,16 @@ static const CGFloat ORKSignatureToClearPadding = 15.0;
         [self addSubview:_clearButton];
     }
     
+    if (_customViewProvider && [_customViewProvider respondsToSelector:@selector(customHeaderViewForSignatureContent)]) {
+        _customHeaderView = [_customViewProvider customHeaderViewForSignatureContent];
+        _customHeaderView.customViewDelegate = self;
+        [self addSubview:_customHeaderView];
+    }
+    
     if (_customViewProvider && [_customViewProvider respondsToSelector:@selector(customFooterViewForSignatureContent)]) {
-        _customView = [_customViewProvider customFooterViewForSignatureContent];
-        _customView.customViewDelegate = self;
-        [self addSubview:_customView];
+        _customFooterView = [_customViewProvider customFooterViewForSignatureContent];
+        _customFooterView.customViewDelegate = self;
+        [self addSubview:_customFooterView];
     }
     
     [self configureConstraints];
@@ -100,7 +107,6 @@ static const CGFloat ORKSignatureToClearPadding = 15.0;
                                      attribute:NSLayoutAttributeTrailing
                                     multiplier:1.0
                                       constant:0.0],
-        
         [NSLayoutConstraint constraintWithItem:_clearButton
                                      attribute:NSLayoutAttributeTop
                                      relatedBy:NSLayoutRelationEqual
@@ -121,43 +127,36 @@ static const CGFloat ORKSignatureToClearPadding = 15.0;
                                         toItem:self
                                      attribute:NSLayoutAttributeTrailing
                                     multiplier:1.0
-                                      constant:0.0],
-        [NSLayoutConstraint constraintWithItem:_clearButton
-                                     attribute:NSLayoutAttributeBottom
-                                     relatedBy:NSLayoutRelationEqual
-                                        toItem:self
-                                     attribute:NSLayoutAttributeBottom
-                                    multiplier:1.0
-                                      constant:0]
+                                      constant:0.0]
     ]];
     
-    if (_customView) {
-        _customView.translatesAutoresizingMaskIntoConstraints = NO;
-        
+    if (_customHeaderView) {
+        _customHeaderView.translatesAutoresizingMaskIntoConstraints = NO;
+
         [_constraints addObjectsFromArray:@[
             [NSLayoutConstraint constraintWithItem:_signatureView
                                          attribute:NSLayoutAttributeTop
                                          relatedBy:NSLayoutRelationEqual
-                                            toItem:_customView
+                                            toItem:_customHeaderView
                                          attribute:NSLayoutAttributeBottom
                                         multiplier:1.0
                                           constant:ORKSignatureToClearPadding],
-            
-            [NSLayoutConstraint constraintWithItem:_customView
+
+            [NSLayoutConstraint constraintWithItem:_customHeaderView
                                          attribute:NSLayoutAttributeTop
                                          relatedBy:NSLayoutRelationEqual
                                             toItem:self
                                          attribute:NSLayoutAttributeTop
                                         multiplier:1.0
                                           constant:0.0],
-            [NSLayoutConstraint constraintWithItem:_customView
+            [NSLayoutConstraint constraintWithItem:_customHeaderView
                                          attribute:NSLayoutAttributeLeading
                                          relatedBy:NSLayoutRelationEqual
                                             toItem:self
                                          attribute:NSLayoutAttributeLeading
                                         multiplier:1.0
                                           constant:0.0],
-            [NSLayoutConstraint constraintWithItem:_customView
+            [NSLayoutConstraint constraintWithItem:_customHeaderView
                                          attribute:NSLayoutAttributeTrailing
                                          relatedBy:NSLayoutRelationEqual
                                             toItem:self
@@ -177,6 +176,52 @@ static const CGFloat ORKSignatureToClearPadding = 15.0;
         ]];
     }
     
+    if (_customFooterView) {
+        _customFooterView.translatesAutoresizingMaskIntoConstraints = NO;
+
+        [_constraints addObjectsFromArray:@[
+            [NSLayoutConstraint constraintWithItem:_customFooterView
+                                         attribute:NSLayoutAttributeTop
+                                         relatedBy:NSLayoutRelationEqual
+                                            toItem:_clearButton
+                                         attribute:NSLayoutAttributeBottom
+                                        multiplier:1.0
+                                          constant:ORKSignatureToClearPadding / 2.0],
+
+            [NSLayoutConstraint constraintWithItem:_customFooterView
+                                         attribute:NSLayoutAttributeBottom
+                                         relatedBy:NSLayoutRelationEqual
+                                            toItem:self
+                                         attribute:NSLayoutAttributeBottom
+                                        multiplier:1.0
+                                          constant:0.0],
+            [NSLayoutConstraint constraintWithItem:_customFooterView
+                                         attribute:NSLayoutAttributeLeading
+                                         relatedBy:NSLayoutRelationEqual
+                                            toItem:self
+                                         attribute:NSLayoutAttributeLeading
+                                        multiplier:1.0
+                                          constant:0.0],
+            [NSLayoutConstraint constraintWithItem:_customFooterView
+                                         attribute:NSLayoutAttributeTrailing
+                                         relatedBy:NSLayoutRelationEqual
+                                            toItem:self
+                                         attribute:NSLayoutAttributeTrailing
+                                        multiplier:1.0
+                                          constant:0.0]
+        ]];
+    } else {
+        [_constraints addObjectsFromArray:@[
+            [NSLayoutConstraint constraintWithItem:_clearButton
+                                         attribute:NSLayoutAttributeBottom
+                                         relatedBy:NSLayoutRelationEqual
+                                            toItem:self
+                                         attribute:NSLayoutAttributeBottom
+                                        multiplier:1.0
+                                          constant:0]
+        ]];
+    }
+    
     [NSLayoutConstraint activateConstraints:_constraints];
     [self setNeedsLayout];
 }
@@ -190,7 +235,7 @@ static const CGFloat ORKSignatureToClearPadding = 15.0;
     _signatureView.delegate = signatureViewDelegate;
 }
 
-- (void)setCustomViewProvider:(id<ORKCustomSignatureFooterViewProvider> _Nullable)customViewProvider {
+- (void)setCustomViewProvider:(id<ORKCustomSignatureAccessoryViewProvider> _Nullable)customViewProvider {
     _customViewProvider = customViewProvider;
     [self configure];
 }
@@ -198,8 +243,12 @@ static const CGFloat ORKSignatureToClearPadding = 15.0;
 - (BOOL)isComplete {
     BOOL complete = _signatureView.signatureExists;
     
-    if (_customView) {
-        complete = complete && [_customView isComplete];
+    if (_customFooterView) {
+        complete = complete && [_customFooterView isComplete];
+    }
+    
+    if (_customHeaderView) {
+        complete = complete && [_customHeaderView isComplete];
     }
     
     return complete;
@@ -217,12 +266,13 @@ static const CGFloat ORKSignatureToClearPadding = 15.0;
     }
     
     ORKSignatureResult *parentResult = [[ORKSignatureResult alloc] initWithSignatureImage:_signatureView.signatureImage signaturePath:_signatureView.signaturePath];
-    if (_customView) {
+    if (_customHeaderView || _customFooterView) {
         NSMutableDictionary *userInfo = [parentResult.userInfo mutableCopy];
         if (!userInfo) {
             userInfo = [[NSMutableDictionary alloc] init];
         }
-        [userInfo addEntriesFromDictionary: [_customView resultUserInfo]];
+        [userInfo addEntriesFromDictionary: [_customHeaderView resultUserInfo]];
+        [userInfo addEntriesFromDictionary: [_customFooterView resultUserInfo]];
         parentResult.userInfo = userInfo;
     }
     
@@ -238,13 +288,17 @@ static const CGFloat ORKSignatureToClearPadding = 15.0;
     [_signatureView cancelAutoScrollTimer];
 }
 
-// MARK: ORKCustomSignatureFooterViewDelegate
-- (void)customViewDidChangeCompletedState:(UIView<ORKCustomSignatureFooterViewProtocol> *)customView {
+// MARK: ORKCustomSignatureAccessoryViewDelegate
+- (void)customViewDidChangeCompletedState:(UIView<ORKCustomSignatureAccessoryViewProtocol> *)customView {
     [self updateIsComplete];
 }
 
 - (CGRect)rectInFooterViewForRect:(CGRect)rect {
-    return [_customView convertRect:rect toView:self];
+    return [_customFooterView convertRect:rect toView:self];
+}
+
+- (CGRect)rectInHeaderViewForRect:(CGRect)rect {
+    return [_customHeaderView convertRect:rect toView:self];
 }
 
 @end
