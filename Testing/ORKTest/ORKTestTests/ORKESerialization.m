@@ -1419,6 +1419,13 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                  (@{
                     PROPERTY(options, NSNumber, NSObject, NO, nil, nil)
                     })),
+           ENTRY(ORKRequestPermissionsStep,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+                     return [[ORKRequestPermissionsStep alloc] initWithIdentifier:GETPROP(dict, identifier) permissionTypes:GETPROP(dict, permissionTypes)];
+                 },
+                 (@{
+                    PROPERTY(permissionTypes, ORKPermissionType, NSArray, YES, nil, nil)
+                  })),
            ENTRY(ORKVerificationStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      return [[ORKVerificationStep alloc] initWithIdentifier:GETPROP(dict, identifier) text:GETPROP(dict, text) verificationViewControllerClass:NSClassFromString(GETPROP(dict, verificationViewControllerString))];
@@ -2230,7 +2237,6 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(playbackStoppedTime, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(playbackCompleted, NSNumber, NSObject, YES, nil, nil),
                     })),
-           
            } mutableCopy];
         if (@available(iOS 12.0, *)) {
             [internalEncodingTable addEntriesFromDictionary:@{ ENTRY(ORKHealthClinicalTypeRecorderConfiguration,

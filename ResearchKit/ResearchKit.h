@@ -61,6 +61,7 @@
 #import <ResearchKit/ORKLearnMoreInstructionStep.h>
 #import <ResearchKit/ORKSecondaryTaskStep.h>
 #import <ResearchKit/ORKHeadphoneDetectStep.h>
+#import <ResearchKit/ORKRequestPermissionsStep.h>
 
 #import <ResearchKit/ORKTask.h>
 #import <ResearchKit/ORKOrderedTask.h>
@@ -129,5 +130,8 @@
 
 #import <ResearchKit/ORKDataCollectionManager.h>
 #import <ResearchKit/ORKCollector.h>
+
+#import <ResearchKit/ORKPermissionType.h>
+#import <ResearchKit/ORKHealthKitPermissionType.h>
 
 #import <ResearchKit/ORKDeprecated.h>

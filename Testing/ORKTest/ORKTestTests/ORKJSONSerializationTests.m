@@ -1321,7 +1321,8 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
                                                                              @"ORKHeadphoneDetectStepViewController" : @"ORKHeadphoneDetectStep",
                                                                              @"ORKWebViewStepViewController": @"ORKWebViewStep",
                                                                              
-                                                                             @"ORKCustomStepViewController":@"ORKCustomStep"
+                                                                             @"ORKCustomStepViewController":@"ORKCustomStep",
+                                                                             @"ORKRequestPermissionsStepViewController":@"ORKRequestPermissionsStep"
                                                                              };
     
     NSDictionary <NSString *, NSDictionary *> *kvMapForStep = @{ // Steps that require modification to validate

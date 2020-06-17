@@ -81,6 +81,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     case videoCapture
     case wait
     case PDFViewer
+    case requestPermissions
     case eligibilityTask
     case consent
     case accountCreation
@@ -156,7 +157,8 @@ enum TaskListRow: Int, CustomStringConvertible {
                     .imageCapture,
                     .videoCapture,
                     .wait,
-                    .PDFViewer
+                    .PDFViewer,
+                    .requestPermissions
                 ]),
             TaskListRowSection(title: "Onboarding", rows:
                 [
@@ -272,6 +274,9 @@ enum TaskListRow: Int, CustomStringConvertible {
         
         case .PDFViewer:
             return NSLocalizedString("PDF Viewer Step", comment: "")
+            
+        case .requestPermissions:
+            return NSLocalizedString("Request Permissions Step", comment: "")
 
         case .eligibilityTask:
             return NSLocalizedString("Eligibility Task Example", comment: "")
@@ -493,6 +498,8 @@ enum TaskListRow: Int, CustomStringConvertible {
         case pdfViewerStep
         case pdfViewerTask
         
+        case requestPermissionsStep
+        
         // Eligibility task specific indentifiers.
         case eligibilityTask
         case eligibilityIntroStep
@@ -633,6 +640,9 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .PDFViewer:
             return PDFViewerTask
+            
+        case .requestPermissions:
+            return requestPermissionsTask
         
         case .eligibilityTask:
             return eligibilityTask
@@ -1378,6 +1388,30 @@ enum TaskListRow: Int, CustomStringConvertible {
         return ORKOrderedTask(identifier: String(describing: Identifier.pdfViewerTask), steps: [PDFViewerStep])
     }
     
+    private var requestPermissionsTask: ORKTask {
+        let healthKitTypesToWrite: Set<HKSampleType> = [
+            HKObjectType.quantityType(forIdentifier: .bodyMassIndex)!,
+            HKObjectType.quantityType(forIdentifier: .activeEnergyBurned)!,
+            HKObjectType.workoutType()]
+        
+        let healthKitTypesToRead: Set<HKObjectType> = [
+            HKObjectType.characteristicType(forIdentifier: .dateOfBirth)!,
+            HKObjectType.characteristicType(forIdentifier: .bloodType)!,
+            HKObjectType.workoutType()]
+        
+        
+        let healthKitPermissionType = ORKHealthKitPermissionType(sampleTypesToWrite: healthKitTypesToWrite,
+                                                                 objectTypesToRead: healthKitTypesToRead)
+        
+        let requestPermissionsStep = ORKRequestPermissionsStep(identifier: String(describing: Identifier.requestPermissionsStep),
+                                                               permissionTypes: [healthKitPermissionType])
+       
+        requestPermissionsStep.title = "Health Data Request"
+        requestPermissionsStep.text = "Please review the health data types below and enable sharing to contribute to the study."
+        
+        return ORKOrderedTask(identifier: String(describing: Identifier.requestPermissionsStep), steps: [requestPermissionsStep])
+    }
+    
     /**
     A task demonstrating how the ResearchKit framework can be used to determine
     eligibility using a navigable ordered task.
@@ -1757,6 +1791,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     private var webView: ORKTask {
         let webViewStep = ORKWebViewStep(identifier: String(describing: Identifier.webViewStep), html: exampleHtml)
         webViewStep.title = NSLocalizedString("Web View", comment: "")
+        webViewStep.showSignatureAfterContent = true
         return ORKOrderedTask(identifier: String(describing: Identifier.webViewTask), steps: [webViewStep])
     }
     
