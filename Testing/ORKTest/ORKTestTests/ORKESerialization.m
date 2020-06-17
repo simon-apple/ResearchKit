@@ -2237,6 +2237,21 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(playbackStoppedTime, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(playbackCompleted, NSNumber, NSObject, YES, nil, nil),
                     })),
+           ENTRY(ORKFrontFacingCameraStep,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+                    return [[ORKFrontFacingCameraStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
+                 },
+                 (@{
+                     PROPERTY(maximumRecordingLimit, NSNumber, NSObject, YES, nil, nil),
+                     PROPERTY(allowsReview, NSNumber, NSObject, YES, nil, nil),
+                     PROPERTY(allowsRetry, NSNumber, NSObject, YES, nil, nil)
+                    })),
+           ENTRY(ORKFrontFacingCameraStepResult,
+                 nil,
+                 (@{
+                     PROPERTY(retryCount, NSNumber, NSObject, NO, nil, nil)
+                  })),
+
            } mutableCopy];
         if (@available(iOS 12.0, *)) {
             [internalEncodingTable addEntriesFromDictionary:@{ ENTRY(ORKHealthClinicalTypeRecorderConfiguration,

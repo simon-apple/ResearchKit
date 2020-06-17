@@ -79,6 +79,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     case validatedTextQuestion
     case imageCapture
     case videoCapture
+    case frontFacingCamera
     case wait
     case PDFViewer
     case requestPermissions
@@ -156,6 +157,7 @@ enum TaskListRow: Int, CustomStringConvertible {
                     .validatedTextQuestion,
                     .imageCapture,
                     .videoCapture,
+                    .frontFacingCamera,
                     .wait,
                     .PDFViewer,
                     .requestPermissions
@@ -268,6 +270,9 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .videoCapture:
             return NSLocalizedString("Video Capture Step", comment: "")
+            
+        case .frontFacingCamera:
+            return NSLocalizedString("Front Facing Camera Step", comment: "")
             
         case .wait:
             return NSLocalizedString("Wait Step", comment: "")
@@ -490,6 +495,8 @@ enum TaskListRow: Int, CustomStringConvertible {
         case videoCaptureTask
         case videoCaptureStep
         
+        case frontFacingCameraStep
+        
         // Task with an example of waiting.
         case waitTask
         case waitStepDeterminate
@@ -635,6 +642,10 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .videoCapture:
             return videoCaptureTask
+            
+        case .frontFacingCamera:
+            return frontFacingCameraStep
+            
         case .wait:
             return waitTask
             
@@ -1786,6 +1797,19 @@ enum TaskListRow: Int, CustomStringConvertible {
         videoInstructionStep.thumbnailTime = 2 // Customizable thumbnail timestamp
         return ORKOrderedTask(identifier: String(describing: Identifier.videoInstructionTask), steps: [videoInstructionStep])
     }
+    
+    /// This task presents a video instruction step
+    private var frontFacingCameraStep: ORKTask {
+        let frontFacingCameraStep = ORKFrontFacingCameraStep(identifier: String(describing: Identifier.frontFacingCameraStep))
+        frontFacingCameraStep.maximumRecordingLimit = 30.0
+        frontFacingCameraStep.title = "Front Facing Camera Step"
+        frontFacingCameraStep.text = "Your text goes here."
+        frontFacingCameraStep.allowsRetry = true
+        frontFacingCameraStep.allowsReview = true
+
+        return ORKOrderedTask(identifier: String(describing: Identifier.videoInstructionTask), steps: [frontFacingCameraStep])
+    }
+    
     
     /// This task presents a web view step
     private var webView: ORKTask {

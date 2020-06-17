@@ -406,7 +406,7 @@ ORK_MAKE_TEST_INIT(NSRegularExpression, (^{
                                                  [ORKHealthCollector class],
                                                  [ORKHealthCorrelationCollector class],
                                                  [ORKMotionActivityCollector class],
-                                                 [ORKShoulderRangeOfMotionStep class],
+                                                 [ORKShoulderRangeOfMotionStep class]
                                                  ];
         
         _propertyExclusionList = @[
@@ -533,6 +533,8 @@ ORK_MAKE_TEST_INIT(NSRegularExpression, (^{
     [stringsForClassesExcluded addObject:@"ORKSignatureGestureRecognizer"];
     [stringsForClassesExcluded addObject:@"ORKTouchGestureRecognizer"];
     [stringsForClassesExcluded addObject:@"ORKHealthClinicalTypeRecorderConfiguration"];
+    [stringsForClassesExcluded addObject:@"ORKBlurFooterView"];
+    [stringsForClassesExcluded addObject:@"ORKFrontFacingCameraStepOptionsView"];
     
     // Find all classes that conform to NSSecureCoding
     NSMutableArray<Class> *classesWithSecureCoding = [NSMutableArray new];

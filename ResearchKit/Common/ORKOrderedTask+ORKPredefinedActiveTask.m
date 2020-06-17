@@ -2060,7 +2060,7 @@ NSString *const ORKPSATStepIdentifier = @"psat";
             step.title = versionTitle;
             
             NSDateComponentsFormatter *secondsFormatter = [NSDateComponentsFormatter new];
-            secondsFormatter.unitsStyle = NSDateFormatterFullStyle;
+            secondsFormatter.unitsStyle = NSDateComponentsFormatterUnitsStyleSpellOut;
             secondsFormatter.allowedUnits = NSCalendarUnitSecond;
             secondsFormatter.formattingContext = NSFormattingContextDynamic;
             secondsFormatter.maximumUnitCount = 1;

@@ -633,11 +633,22 @@
 "AV_JOURNALING_FACE_DETECTION_STEP_CENTER_FACE_TEXT" = "Please center your face in the screen";
 "AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TITLE" = "No Face Detected";
 "AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TEXT" = "The max time limit for detecting a face was reached. Please try again at a later time";
+"AV_JOURNALING_FACE_DETECTION_START_TIME" = "0:00";
+"AV_JOURNALING_FACE_DETECTION_END_TIME" = "0:00";
 
 /* ORKRecordButton */
 "PLAY" = "Play";
 "RECORD" = "Record";
 "STOP" = "Stop";
+
+/* ORKFrontFacingCameraStepContentView */
+"FRONT_FACING_CAMERA_START_TITLE" = "Start Recording";
+"FRONT_FACING_CAMERA_STOP_TITLE" = "Stop Recording";
+"FRONT_FACING_CAMERA_START_TIME" = "0:00";
+"FRONT_FACING_CAMERA_REVIEW_OPTIONS_TITLE" = "Video Options";
+"FRONT_FACING_CAMERA_REVIEW_VIDEO" = "Review Video";
+"FRONT_FACING_CAMERA_RETRY_VIDEO" = "Delete and Retry";
+"FRONT_FACING_CAMERA_SUBMIT_VIDEO" = "Submit Video";
 
 /* Potentially user visible error messages. */
 "ERROR_DATALOGGER_CREATE_FILE" = "Could not create file";

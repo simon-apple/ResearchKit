@@ -55,6 +55,7 @@
 #import <ResearchKit/ORKVisualConsentStep.h>
 #import <ResearchKit/ORKWaitStep.h>
 #import <ResearchKit/ORKVideoInstructionStep.h>
+#import <ResearchKit/ORKFrontFacingCameraStep.h>
 #import <ResearchKit/ORKWebViewStep.h>
 #import <ResearchKit/ORKCustomStep.h>
 #import <ResearchKit/ORKEnvironmentSPLMeterStep.h>
@@ -76,6 +77,7 @@
 #import <ResearchKit/ORKActiveTaskResult.h>
 #import <ResearchKit/ORKCollectionResult.h>
 #import <ResearchKit/ORKConsentSignatureResult.h>
+#import <ResearchKit/ORKFrontFacingCameraStepResult.h>
 #import <ResearchKit/ORKPasscodeResult.h>
 #import <ResearchKit/ORKQuestionResult.h>
 #import <ResearchKit/ORKSignatureResult.h>

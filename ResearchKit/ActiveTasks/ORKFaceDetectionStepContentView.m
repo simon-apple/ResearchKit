@@ -84,7 +84,7 @@
     _alignmentTimerLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
     _alignmentTimerLabel.adjustsFontForContentSizeCategory = YES;
     _alignmentTimerLabel.textAlignment = NSTextAlignmentLeft;
-    [_alignmentTimerLabel setText:@"0:00"];
+    [_alignmentTimerLabel setText:ORKLocalizedString(@"AV_JOURNALING_FACE_DETECTION_START_TIME", nil)];
         
     _cameraView = [UIView new];
     _cameraView.alpha = 1.0;
@@ -168,7 +168,7 @@
         } else if (seconds >= 10 && seconds < 60) {
             [_alignmentTimerLabel setText:[NSString stringWithFormat:@"0:%i", seconds]];
         } else if (seconds == 60) {
-            [_alignmentTimerLabel setText:@"1:00"];
+            [_alignmentTimerLabel setText:ORKLocalizedString(@"AV_JOURNALING_FACE_DETECTION_END_TIME", nil)];
         }
     }
 }
