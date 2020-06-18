@@ -2254,7 +2254,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(playbackCompleted, NSNumber, NSObject, YES, nil, nil),
                     })),
            ENTRY(ORK3DModelManager,
-          ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+          ^id(__unused NSDictionary *dict, __unused ORKESerializationPropertyGetter getter) {
                return [[ORK3DModelManager alloc] init];
            },
            (@{
