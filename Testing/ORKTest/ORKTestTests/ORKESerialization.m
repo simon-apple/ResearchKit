@@ -356,6 +356,22 @@ static HKClinicalType *typeFromIdentifier(NSString *identifier) {
     return [HKClinicalType clinicalTypeForIdentifier:identifier];
 }
 
+static UIColor * _Nullable colorFromDictionary(NSDictionary *dict) {
+    CGFloat r = [[dict objectForKey:@"r"] floatValue];
+    CGFloat g = [[dict objectForKey:@"g"] floatValue];
+    CGFloat b = [[dict objectForKey:@"b"] floatValue];
+    CGFloat a = [[dict objectForKey:@"a"] floatValue];
+    return [UIColor colorWithRed:r green:g blue:b alpha:a];
+}
+
+static NSDictionary * _Nullable dictionaryFromColor(UIColor *color) {
+    CGFloat r, g, b, a;
+    if ([color getRed:&r green:&g blue:&b alpha:&a]) {
+        return @{@"r":@(r), @"g":@(g), @"b":@(b), @"a":@(a)};
+    }
+    return nil;
+}
+
 static NSMutableDictionary *ORKESerializationEncodingTable(void);
 static id propFromDict(NSDictionary *dict, NSString *propName, ORKESerializationContext *context);
 static NSArray *classEncodingsForClass(Class c) ;
@@ -2237,6 +2253,39 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(playbackStoppedTime, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(playbackCompleted, NSNumber, NSObject, YES, nil, nil),
                     })),
+           ENTRY(ORK3DModelManager,
+          ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+               return [[ORK3DModelManager alloc] init];
+           },
+           (@{
+              PROPERTY(allowsSelection, NSNumber, NSObject, YES, nil, nil),
+              PROPERTY(identifiersOfObjectsToHighlight, NSString, NSArray, YES, nil, nil),
+              PROPERTY(highlightColor, UIColor, NSObject, YES,
+                       ^id(id color, __unused ORKESerializationContext *context) { return dictionaryFromColor(color); },
+                       ^id(id dict, __unused ORKESerializationContext *context) { return  colorFromDictionary(dict); })
+              })),
+           ENTRY(ORKUSDZModelManagerResult,
+                 nil,
+                 (@{
+                     PROPERTY(identifiersOfSelectedObjects, NSString, NSArray, YES, nil, nil),
+                     PROPERTY(identifierOfObjectSelectedAtClose, NSString, NSObject, YES, nil, nil)
+                  })),
+           ENTRY(ORKUSDZModelManager,
+           ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+                return [[ORKUSDZModelManager alloc] initWithUSDZFileName:GETPROP(dict, fileName)];
+            },
+            (@{
+               PROPERTY(enableContinueAfterSelection, NSNumber, NSObject, YES, nil, nil),
+               PROPERTY(fileName, NSString, NSObject, NO, nil, nil),
+               })),
+           ENTRY(ORK3DModelStep,
+           ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+                return [[ORK3DModelStep alloc] initWithIdentifier:GETPROP(dict, identifier) modelManager:GETPROP(dict, modelManager)];
+            },
+            (@{
+               PROPERTY(modelManager, ORK3DModelManager, NSObject, YES, nil, nil),
+               })),
+           
            ENTRY(ORKFrontFacingCameraStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                     return [[ORKFrontFacingCameraStep alloc] initWithIdentifier:GETPROP(dict, identifier)];

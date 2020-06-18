@@ -63,6 +63,8 @@
 #import <ResearchKit/ORKSecondaryTaskStep.h>
 #import <ResearchKit/ORKHeadphoneDetectStep.h>
 #import <ResearchKit/ORKRequestPermissionsStep.h>
+#import <ResearchKit/ORK3DModelStep.h>
+
 
 #import <ResearchKit/ORKTask.h>
 #import <ResearchKit/ORKOrderedTask.h>
@@ -86,6 +88,8 @@
 #import <ResearchKit/ORKEnvironmentSPLMeterResult.h>
 #import <ResearchKit/ORKResultPredicate.h>
 #import <ResearchKit/ORKHeadphoneDetectResult.h>
+#import <ResearchKit/ORKUSDZModelManagerResult.h>
+
 
 #import <ResearchKit/ORKTextButton.h>
 #import <ResearchKit/ORKBorderedButton.h>
@@ -132,6 +136,9 @@
 
 #import <ResearchKit/ORKDataCollectionManager.h>
 #import <ResearchKit/ORKCollector.h>
+
+#import <ResearchKit/ORK3DModelManager.h>
+#import <ResearchKit/ORKUSDZModelManager.h>
 
 #import <ResearchKit/ORKPermissionType.h>
 #import <ResearchKit/ORKHealthKitPermissionType.h>

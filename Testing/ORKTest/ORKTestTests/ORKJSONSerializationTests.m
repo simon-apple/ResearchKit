@@ -319,6 +319,7 @@ ORK_MAKE_TEST_INIT(NSCalendar, (^{
 ORK_MAKE_TEST_INIT(NSRegularExpression, (^{
     return [self initWithPattern:@"." options:0 error:nil];
 }));
+ORK_MAKE_TEST_INIT(UIColor, (^{ return [self initWithRed:1 green:1 blue:1 alpha:1]; }));
 
 @interface ORKJSONTestImageSerialization : NSObject<ORKESerializationImageProvider>
 
@@ -533,6 +534,7 @@ ORK_MAKE_TEST_INIT(NSRegularExpression, (^{
     [stringsForClassesExcluded addObject:@"ORKSignatureGestureRecognizer"];
     [stringsForClassesExcluded addObject:@"ORKTouchGestureRecognizer"];
     [stringsForClassesExcluded addObject:@"ORKHealthClinicalTypeRecorderConfiguration"];
+    [stringsForClassesExcluded addObject:@"ORKUSDZModelManagerScene"];
     [stringsForClassesExcluded addObject:@"ORKBlurFooterView"];
     [stringsForClassesExcluded addObject:@"ORKFrontFacingCameraStepOptionsView"];
     
