@@ -28,10 +28,12 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <ResearchKit/ORKDefines.h>
 #import <ResearchKit/ORKFileResult.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
+ORK_CLASS_AVAILABLE
 @interface ORKFrontFacingCameraStepResult : ORKFileResult
 
 @property (nonatomic, assign) NSInteger retryCount;

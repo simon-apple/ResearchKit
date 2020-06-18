@@ -61,6 +61,7 @@ You can also optionally pass back an array of ORKResults.
 
 @end
 
+ORK_CLASS_AVAILABLE
 @interface ORK3DModelManager : NSObject <ORK3DModelManagerProtocol, NSSecureCoding, NSCopying>
 
 - (instancetype)init;
