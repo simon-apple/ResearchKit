@@ -40,7 +40,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithBundle:(NSBundle *)bundle tableName:(NSString *)tableName;
 
 @property (nonatomic, strong) NSBundle *bundle;
-@property (nonatomic, strong) NSString *tableName;
+@property (nonatomic, copy) NSString *tableName;
+
+- (NSString *)localizedStringForString:(NSString *)string;
 
 @end
 
@@ -74,10 +76,17 @@ typedef NS_ENUM(NSInteger, ORKESerializationPropertyModifierType) {
 
 @end
 
+@protocol ORKESerializationStringInterpolator
+
+- (NSString *)interpolatedStringForString:(NSString *)string;
+
+@end
+
 @interface ORKESerializationContext : NSObject
 
 - (instancetype)initWithLocalizer:(nullable ORKESerializationLocalizer *)localizer
                     imageProvider:(nullable id<ORKESerializationImageProvider>)imageProvider
+               stringInterpolator:(nullable id<ORKESerializationStringInterpolator>)stringInterpolator
                  propertyInjector:(nullable ORKESerializationPropertyInjector *)propertyInjector;
 
 - (instancetype)initWithBundle:(NSBundle *)bundle
@@ -86,6 +95,7 @@ typedef NS_ENUM(NSInteger, ORKESerializationPropertyModifierType) {
 
 @property (nonatomic, strong, nullable) ORKESerializationLocalizer *localizer;
 @property (nonatomic, strong, nullable) id<ORKESerializationImageProvider> imageProvider;
+@property (nonatomic, strong, nullable) id<ORKESerializationStringInterpolator> stringInterpolator;
 @property (nonatomic, strong, nullable) ORKESerializationPropertyInjector *propertyInjector;
 
 @end

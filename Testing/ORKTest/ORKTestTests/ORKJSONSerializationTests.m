@@ -704,6 +704,7 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
     testImageSerialization.generateImages = YES;
     ORKESerializationContext *context = [[ORKESerializationContext alloc] initWithLocalizer:nil
                                                                               imageProvider:testImageSerialization
+                                                                         stringInterpolator:nil
                                                                            propertyInjector:ORKSerializationTestPropertyInjector()];
     
     ORKJSONSerializationTestConfiguration *testConfiguration = [[ORKJSONSerializationTestConfiguration alloc] init];
@@ -773,7 +774,7 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
 // JSON Serialization
 - (void)testORKSerialization {
     ORKJSONTestImageSerialization *testImageSerialization = [[ORKJSONTestImageSerialization alloc] init];
-    ORKESerializationContext *context = [[ORKESerializationContext alloc] initWithLocalizer:nil imageProvider:testImageSerialization propertyInjector:ORKSerializationTestPropertyInjector()];
+    ORKESerializationContext *context = [[ORKESerializationContext alloc] initWithLocalizer:nil imageProvider:testImageSerialization stringInterpolator:nil propertyInjector:ORKSerializationTestPropertyInjector()];
     
     ORKJSONSerializationTestConfiguration *testConfiguration = [[ORKJSONSerializationTestConfiguration alloc] init];
     // Find all classes that are serializable this way
@@ -1452,7 +1453,7 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
 }
 
 - (void)testMissingDefaultValueKeyInScaleAnswerFormat {
-    ORKESerializationContext *context = [[ORKESerializationContext alloc] initWithLocalizer:nil imageProvider:nil propertyInjector:nil];
+    ORKESerializationContext *context = [[ORKESerializationContext alloc] initWithLocalizer:nil imageProvider:nil stringInterpolator:nil propertyInjector:nil];
 
     NSDictionary *payloadForContinuousScale = @{@"minimumValueDescription":@"",@"maximum":@100,@"_class":@"ORKContinuousScaleAnswerFormat",@"vertical":@NO,@"minimum":@0,@"maximumFractionDigits":@0,@"hideSelectedValue":@NO,@"hideRanges":@NO,@"hideLabels":@NO,@"numberStyle":@"percent",@"maximumValueDescription":@"",@"showDontKnowButton":@NO,@"customDontKnowButtonText":@""};
 

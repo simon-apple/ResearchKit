@@ -604,11 +604,13 @@ static ORKESerializableProperty *imagePropertyObject(NSString *propertyName,
 
 - (instancetype)initWithLocalizer:(nullable ORKESerializationLocalizer *)localizer
                     imageProvider:(nullable id<ORKESerializationImageProvider>)imageProvider
+               stringInterpolator:(nullable id<ORKESerializationStringInterpolator>)stringInterpolator
                  propertyInjector:(nullable ORKESerializationPropertyInjector *)propertyInjector {
     self = [super init];
     if (self) {
         _localizer = localizer;
         _imageProvider = imageProvider;
+        _stringInterpolator = stringInterpolator;
         _propertyInjector = propertyInjector;
     }
     return self;
@@ -616,11 +618,12 @@ static ORKESerializableProperty *imagePropertyObject(NSString *propertyName,
 
 - (instancetype)initWithBundle:(NSBundle *)bundle
          localizationTableName:(NSString *)localizationTableName
+            stringInterpolator:(nullable id<ORKESerializationStringInterpolator>)stringInterpolator
              propertyModifiers:(NSArray<ORKESerializationPropertyModifier *> *)modifiers {
     ORKESerializationLocalizer *localizer = [[ORKESerializationLocalizer alloc] initWithBundle:bundle tableName:localizationTableName];
     ORKESerializationBundleImageProvider *imageProvider = [[ORKESerializationBundleImageProvider alloc] initWithBundle:bundle];
     ORKESerializationPropertyInjector *propertyInjector = [[ORKESerializationPropertyInjector alloc] initWithBundle:bundle modifiers:modifiers];
-    return [self initWithLocalizer:localizer imageProvider:imageProvider propertyInjector:propertyInjector];
+    return [self initWithLocalizer:localizer imageProvider:imageProvider stringInterpolator:stringInterpolator propertyInjector:propertyInjector];
 }
 
 @end
@@ -670,6 +673,23 @@ static id propFromDict(NSDictionary *dict, NSString *propName, ORKESerialization
             NSCAssert(containerClass == [NSObject class], @"Unexpected container class %@", containerClass);
             
             output = objectForJsonObject(input, propertyClass, converterBlock, context);
+
+            // Edge case for ORKAnswerFormat options. Certain formats (e.g. ORKTextChoiceAnswerFormat) contain
+            // text strings (e.g. 'Yes', 'No') that need to be localized but are already of the expected type.
+            //
+            // Remaining localization/interpolication is done in `objectForJsonObject`.
+            if ([output isKindOfClass:[NSString class]] && ![propName isEqualToString:@"identifier"]) {
+                ORKESerializationLocalizer *localizer = context.localizer;
+                id<ORKESerializationStringInterpolator> stringInterpolator = context.stringInterpolator;
+
+                if (localizer != nil) {
+                    output =  [localizer localizedStringForString:output];
+                }
+
+                if (stringInterpolator != nil) {
+                    output = [stringInterpolator interpolatedStringForString:output];
+                }
+            }
         }
     }
     return output;
@@ -680,10 +700,20 @@ static id propFromDict(NSDictionary *dict, NSString *propName, ORKESerialization
 - (instancetype)initWithBundle:(NSBundle *)bundle tableName:(NSString *)tableName {
     self = [super init];
     if (self) {
-        self.bundle = bundle;
-        self.tableName = tableName;
+        _bundle = bundle;
+        _tableName = [tableName copy];
     }
     return self;
+}
+
+- (NSString *)localizedStringForString:(NSString *)string;
+{
+    // Keys that exist in the localization table will be localized.
+    //
+    // If the key is not found in the table the provided key string will be returned as is,
+    // supporting the expected functionality for inputs that contain both strings to be
+    // localized as well as strings to be displayed as is.
+    return [self.bundle localizedStringForKey:string value:string table:self.tableName];
 }
 
 @end
@@ -2350,17 +2380,11 @@ static id objectForJsonObject(id input,
     }
     
     ORKESerializationLocalizer *localizer = context.localizer;
+    id<ORKESerializationStringInterpolator> stringInterpolator = context.stringInterpolator;
+
     if (expectedClass != nil && [input isKindOfClass:expectedClass]) {
         // Input is already of the expected class, do nothing
-        
-        // Edge case for ORKAnswerFormat options. Certain formats (e.g. ORKTextChoiceAnswerFormat) contain
-        // text strings (e.g. 'Yes', 'No') that need to be localized but are already of the expected type.
-        if ([input isKindOfClass:[NSString class]] && localizer != nil) {
-            NSString *localizedValue = NSLocalizedStringFromTableInBundle((NSString *)input, localizer.tableName, localizer.bundle, nil);
-            output = localizedValue;
-        } else {
-            output = input;
-        }
+        output = input;
     } else if ([input isKindOfClass:[NSDictionary class]]) {
         NSDictionary *dict = (NSDictionary *)input;
         NSString *className = input[_ClassKey];
@@ -2410,17 +2434,16 @@ static id objectForJsonObject(id input,
                     // Only write the property if it has not already been set during init
                     if (writeAllProperties || propertyEntry.writeAfterInit) {
                         id property = propFromDict(dict, key, context);
-                        if ((localizer != nil) && ([property isKindOfClass: [NSString class]])) {
-                            // Keys that exist in the localization table will be localized.
-                            //
-                            // If the key is not found in the table the provided key string will be returned as is,
-                            // supporting the expected functionality for inputs that contain both strings to be
-                            // localized as well as strings to be displayed as is.
-                            NSString *localizedValue = NSLocalizedStringFromTableInBundle((NSString *)property, localizer.tableName, localizer.bundle, nil);
-                            [output setValue:localizedValue forKey:key];
-                        } else {
-                            [output setValue:property forKey:key];
+                        if ([property isKindOfClass: [NSString class]] && ![key isEqualToString:@"identifier"]) {
+                            if (localizer != nil) {
+                                property = [localizer localizedStringForString:property];
+                            }
+
+                            if (stringInterpolator != nil) {
+                                property = [stringInterpolator interpolatedStringForString:property];
+                            }
                         }
+                        [output setValue:property forKey:key];
                     }
                     haveSetProp = YES;
                     break;
@@ -2536,7 +2559,7 @@ static id jsonObjectForObject(id object, ORKESerializationContext *context) {
 }
 
 + (NSDictionary *)JSONObjectForObject:(id)object error:(__unused NSError * __autoreleasing *)error {
-    return [self JSONObjectForObject:object context:[[ORKESerializationContext alloc] initWithLocalizer:nil imageProvider:nil propertyInjector:nil] error:error];
+    return [self JSONObjectForObject:object context:[[ORKESerializationContext alloc] initWithLocalizer:nil imageProvider:nil stringInterpolator:nil propertyInjector:nil] error:error];
 }
 
 + (NSDictionary *)JSONObjectForObject:(id)object context:(ORKESerializationContext *)context error:(__unused NSError * __autoreleasing *)error {
@@ -2545,7 +2568,7 @@ static id jsonObjectForObject(id object, ORKESerializationContext *context) {
 }
 
 + (id)objectFromJSONObject:(NSDictionary *)object error:(__unused NSError * __autoreleasing *)error {
-    return objectForJsonObject(object, nil, nil, [[ORKESerializationContext alloc] initWithLocalizer:nil imageProvider:nil propertyInjector:nil]);
+    return objectForJsonObject(object, nil, nil, [[ORKESerializationContext alloc] initWithLocalizer:nil imageProvider:nil stringInterpolator:nil propertyInjector:nil]);
 }
 
 + (id)objectFromJSONObject:(NSDictionary *)object context:(ORKESerializationContext *)context error:(__unused NSError * __autoreleasing *)error {
@@ -2553,7 +2576,7 @@ static id jsonObjectForObject(id object, ORKESerializationContext *context) {
 }
 
 + (NSData *)JSONDataForObject:(id)object error:(NSError * __autoreleasing *)error {
-    id json = jsonObjectForObject(object, [[ORKESerializationContext alloc] initWithLocalizer:nil imageProvider:nil propertyInjector:nil]);
+    id json = jsonObjectForObject(object, [[ORKESerializationContext alloc] initWithLocalizer:nil imageProvider:nil stringInterpolator:nil propertyInjector:nil]);
     return [NSJSONSerialization dataWithJSONObject:json options:(NSJSONWritingOptions)0 error:error];
 }
 
@@ -2561,7 +2584,7 @@ static id jsonObjectForObject(id object, ORKESerializationContext *context) {
     id json = [NSJSONSerialization JSONObjectWithData:data options:(NSJSONReadingOptions)0 error:error];
     id ret = nil;
     if (json != nil) {
-        ret = objectForJsonObject(json, nil, nil, [[ORKESerializationContext alloc] initWithLocalizer:nil imageProvider:nil propertyInjector:nil]);
+        ret = objectForJsonObject(json, nil, nil, [[ORKESerializationContext alloc] initWithLocalizer:nil imageProvider:nil stringInterpolator:nil propertyInjector:nil]);
     }
     return ret;
 }
