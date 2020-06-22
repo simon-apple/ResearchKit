@@ -626,6 +626,12 @@ static ORKESerializableProperty *imagePropertyObject(NSString *propertyName,
     return [self initWithLocalizer:localizer imageProvider:imageProvider stringInterpolator:stringInterpolator propertyInjector:propertyInjector];
 }
 
+- (instancetype)initWithBundle:(NSBundle *)bundle
+         localizationTableName:(NSString *)localizationTableName
+             propertyModifiers:(NSArray<ORKESerializationPropertyModifier *> *)modifiers {
+    return [self initWithBundle:bundle localizationTableName:localizationTableName stringInterpolator:nil propertyModifiers:modifiers];
+}
+
 @end
 
 static id propFromDict(NSDictionary *dict, NSString *propName, ORKESerializationContext *context) {
@@ -706,7 +712,7 @@ static id propFromDict(NSDictionary *dict, NSString *propName, ORKESerialization
     return self;
 }
 
-- (NSString *)localizedStringForString:(NSString *)string;
+- (NSString *)localizedStringForString:(NSString *)string
 {
     // Keys that exist in the localization table will be localized.
     //
