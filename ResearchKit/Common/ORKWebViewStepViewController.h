@@ -59,7 +59,7 @@ ORK_CLASS_AVAILABLE
 
 @property (nonatomic, weak, nullable) id<ORKWebViewStepDelegate> webViewDelegate;
 @property (nonatomic) CGFloat bottomOffset;
-
+@property (nonatomic) BOOL shouldScrollAfterSignature;
 - (void)startPreload;
 
 - (void)scrollSignatureViewRect:(CGRect)rect toPoint:(CGPoint)endPoint animated:(BOOL)animated;

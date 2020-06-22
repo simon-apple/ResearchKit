@@ -469,8 +469,10 @@ static const CGFloat ORKSignatureTopPadding = 37.0;
 }
 
 - (void)signatureViewDidEndEditingWithTimeInterval {
-    CGPoint bottom = CGPointMake(0, _scrollView.contentSize.height - _scrollView.bounds.size.height + _scrollView.contentInset.bottom);
-    [_scrollView setContentOffset:bottom animated:YES];
+    if (_shouldScrollAfterSignature) {
+        CGPoint bottom = CGPointMake(0, _scrollView.contentSize.height - _scrollView.bounds.size.height + _scrollView.contentInset.bottom);
+        [_scrollView setContentOffset:bottom animated:YES];
+    }
 }
 
 // MARK: Color
