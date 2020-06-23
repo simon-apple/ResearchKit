@@ -186,8 +186,6 @@
 		51751468245A53D7009E8FFC /* ORKFrontFacingCameraStepContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 51751466245A53D7009E8FFC /* ORKFrontFacingCameraStepContentView.m */; };
 		5190141924759E6800E3A418 /* ORKFrontFacingCameraStepResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 5190141724759E6800E3A418 /* ORKFrontFacingCameraStepResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5190141A24759E6800E3A418 /* ORKFrontFacingCameraStepResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 5190141824759E6800E3A418 /* ORKFrontFacingCameraStepResult.m */; };
-		51BF30BE247B330900E2E669 /* ORKIconButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 51BF30BC247B330900E2E669 /* ORKIconButton.h */; };
-		51BF30BF247B330A00E2E669 /* ORKIconButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 51BF30BD247B330900E2E669 /* ORKIconButton.m */; };
 		5192C28B24536ACF0097DB41 /* ORKFaceDetectionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 5192C28924536ACF0097DB41 /* ORKFaceDetectionStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5192C28C24536ACF0097DB41 /* ORKFaceDetectionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 5192C28A24536ACF0097DB41 /* ORKFaceDetectionStep.m */; };
 		5192C29324536B360097DB41 /* ORKFaceDetectionStepContentView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5192C29124536B360097DB41 /* ORKFaceDetectionStepContentView.h */; };
@@ -196,6 +194,8 @@
 		5192C29C24536DAD0097DB41 /* ORKFaceDetectionStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5192C29A24536DAD0097DB41 /* ORKFaceDetectionStepViewController.m */; };
 		5192C2A12453949B0097DB41 /* ORKDetectionOverlayView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5192C29F2453949B0097DB41 /* ORKDetectionOverlayView.h */; };
 		5192C2A22453949B0097DB41 /* ORKDetectionOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5192C2A02453949B0097DB41 /* ORKDetectionOverlayView.m */; };
+		51BF30BE247B330900E2E669 /* ORKIconButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 51BF30BC247B330900E2E669 /* ORKIconButton.h */; };
+		51BF30BF247B330A00E2E669 /* ORKIconButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 51BF30BD247B330900E2E669 /* ORKIconButton.m */; };
 		51C3F78224500E4A00FFAC91 /* ORKAVJournalingPredefinedTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 51C3F78024500E4A00FFAC91 /* ORKAVJournalingPredefinedTask.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		51C3F78324500E4A00FFAC91 /* ORKAVJournalingPredefinedTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 51C3F78124500E4A00FFAC91 /* ORKAVJournalingPredefinedTask.m */; };
 		51D823052472FB9B00BF4F72 /* ORKRequestPermissionsStepContainerView.h in Headers */ = {isa = PBXBuildFile; fileRef = 51D823032472FB9B00BF4F72 /* ORKRequestPermissionsStepContainerView.h */; };
@@ -1096,8 +1096,6 @@
 		51751466245A53D7009E8FFC /* ORKFrontFacingCameraStepContentView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKFrontFacingCameraStepContentView.m; sourceTree = "<group>"; };
 		5190141724759E6800E3A418 /* ORKFrontFacingCameraStepResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKFrontFacingCameraStepResult.h; sourceTree = "<group>"; };
 		5190141824759E6800E3A418 /* ORKFrontFacingCameraStepResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKFrontFacingCameraStepResult.m; sourceTree = "<group>"; };
-		51BF30BC247B330900E2E669 /* ORKIconButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKIconButton.h; sourceTree = "<group>"; };
-		51BF30BD247B330900E2E669 /* ORKIconButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKIconButton.m; sourceTree = "<group>"; };
 		5192C28924536ACF0097DB41 /* ORKFaceDetectionStep.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKFaceDetectionStep.h; sourceTree = "<group>"; };
 		5192C28A24536ACF0097DB41 /* ORKFaceDetectionStep.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKFaceDetectionStep.m; sourceTree = "<group>"; };
 		5192C29124536B360097DB41 /* ORKFaceDetectionStepContentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKFaceDetectionStepContentView.h; sourceTree = "<group>"; };
@@ -1106,6 +1104,8 @@
 		5192C29A24536DAD0097DB41 /* ORKFaceDetectionStepViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKFaceDetectionStepViewController.m; sourceTree = "<group>"; };
 		5192C29F2453949B0097DB41 /* ORKDetectionOverlayView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKDetectionOverlayView.h; sourceTree = "<group>"; };
 		5192C2A02453949B0097DB41 /* ORKDetectionOverlayView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKDetectionOverlayView.m; sourceTree = "<group>"; };
+		51BF30BC247B330900E2E669 /* ORKIconButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKIconButton.h; sourceTree = "<group>"; };
+		51BF30BD247B330900E2E669 /* ORKIconButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKIconButton.m; sourceTree = "<group>"; };
 		51C3F78024500E4A00FFAC91 /* ORKAVJournalingPredefinedTask.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKAVJournalingPredefinedTask.h; sourceTree = "<group>"; };
 		51C3F78124500E4A00FFAC91 /* ORKAVJournalingPredefinedTask.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKAVJournalingPredefinedTask.m; sourceTree = "<group>"; };
 		51D823032472FB9B00BF4F72 /* ORKRequestPermissionsStepContainerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKRequestPermissionsStepContainerView.h; sourceTree = "<group>"; };
@@ -2317,6 +2317,22 @@
 			name = "USDZ Model Manager";
 			sourceTree = "<group>";
 		};
+		511987C024632E33004FC2C7 /* Request Permissions Step */ = {
+			isa = PBXGroup;
+			children = (
+				51E03D60249196E0008F8406 /* Permission Types */,
+				511987C1246330CA004FC2C7 /* ORKRequestPermissionsStep.h */,
+				511987C2246330CA004FC2C7 /* ORKRequestPermissionsStep.m */,
+				511987C52463316E004FC2C7 /* ORKRequestPermissionsStepViewController.h */,
+				511987C62463316E004FC2C7 /* ORKRequestPermissionsStepViewController.m */,
+				51D823032472FB9B00BF4F72 /* ORKRequestPermissionsStepContainerView.h */,
+				51D823042472FB9B00BF4F72 /* ORKRequestPermissionsStepContainerView.m */,
+				51E03D6B2491B6DB008F8406 /* ORKRequestPermissionView.h */,
+				51E03D6C2491B6DB008F8406 /* ORKRequestPermissionView.m */,
+			);
+			name = "Request Permissions Step";
+			sourceTree = "<group>";
+		};
 		5175144B2459EBD3009E8FFC /* 3D Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -2377,22 +2393,6 @@
 				5192C2A02453949B0097DB41 /* ORKDetectionOverlayView.m */,
 			);
 			name = Helpers;
-			sourceTree = "<group>";
-		};
-		511987C024632E33004FC2C7 /* Request Permissions Step */ = {
-			isa = PBXGroup;
-			children = (
-				51E03D60249196E0008F8406 /* Permission Types */,
-				511987C1246330CA004FC2C7 /* ORKRequestPermissionsStep.h */,
-				511987C2246330CA004FC2C7 /* ORKRequestPermissionsStep.m */,
-				511987C52463316E004FC2C7 /* ORKRequestPermissionsStepViewController.h */,
-				511987C62463316E004FC2C7 /* ORKRequestPermissionsStepViewController.m */,
-				51D823032472FB9B00BF4F72 /* ORKRequestPermissionsStepContainerView.h */,
-				51D823042472FB9B00BF4F72 /* ORKRequestPermissionsStepContainerView.m */,
-				51E03D6B2491B6DB008F8406 /* ORKRequestPermissionView.h */,
-				51E03D6C2491B6DB008F8406 /* ORKRequestPermissionView.m */,
-			);
-			name = "Request Permissions Step";
 			sourceTree = "<group>";
 		};
 		51E03D60249196E0008F8406 /* Permission Types */ = {
@@ -4381,7 +4381,7 @@
 			attributes = {
 				CLASSPREFIX = ORK;
 				LastSwiftUpdateCheck = 1020;
-				LastUpgradeCheck = 1100;
+				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = researchkit.org;
 				TargetAttributes = {
 					86CC8E991AC09332001CCD89 = {
@@ -5078,6 +5078,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_SEMICOLON_BEFORE_METHOD_BODY = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
@@ -5238,6 +5239,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_SEMICOLON_BEFORE_METHOD_BODY = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
@@ -5388,6 +5390,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_SEMICOLON_BEFORE_METHOD_BODY = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
@@ -5538,6 +5541,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_SEMICOLON_BEFORE_METHOD_BODY = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
@@ -5612,6 +5616,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_SEMICOLON_BEFORE_METHOD_BODY = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
@@ -5732,6 +5737,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_SEMICOLON_BEFORE_METHOD_BODY = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
