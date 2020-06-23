@@ -368,8 +368,8 @@
 "SPATIAL_SPAN_MEMORY_INTRO_TEXT_%@" = "Hoạt động này sẽ đánh giá trí nhớ không gian ngắn hạn của bạn bằng cách yêu cầu bạn lặp lại thứ tự sáng lên của %@.";
 "SPATIAL_SPAN_MEMORY_TARGET_PLURAL" = "những bông hoa";
 "SPATIAL_SPAN_MEMORY_TARGET_STANDALONE" = "những bông hoa";
-"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_%@" = "Một số %@ sẽ sáng lên lần lượt. Hãy chạm vào các %@ này theo thứ tự sáng lên của chúng.";
-"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_REVERSE_%@" = "Một số %@ sẽ sáng lên lần lượt. Hãy chạm vào các %@ này theo thứ tự ngược với thứ tự sáng lên của chúng.";
+"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_%@%@" = "Một số %@ sẽ sáng lên lần lượt. Hãy chạm vào các %@ này theo thứ tự sáng lên của chúng.";
+"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_REVERSE_%@%@" = "Một số %@ sẽ sáng lên lần lượt. Hãy chạm vào các %@ này theo thứ tự ngược với thứ tự sáng lên của chúng.";
 "SPATIAL_SPAN_MEMORY_CALL_TO_ACTION" = "Để bắt đầu, chạm Bắt đầu, sau đó theo dõi chặt chẽ.";
 "MEMORY_GAME_ITEM_COUNT_TITLE_%@" = "%@";
 "MEMORY_GAME_SCORE_TITLE" = "Điểm";

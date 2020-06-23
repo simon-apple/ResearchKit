@@ -368,8 +368,8 @@
 "SPATIAL_SPAN_MEMORY_INTRO_TEXT_%@" = "Este exercício mede a sua memória espacial de curto termo, pedindo‑lhe que repita a ordem pela qual os elementos (%@) se tornam mais destacados.";
 "SPATIAL_SPAN_MEMORY_TARGET_PLURAL" = "flores";
 "SPATIAL_SPAN_MEMORY_TARGET_STANDALONE" = "flores";
-"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_%@" = "Um de cada vez, alguns dos elementos (%@) vão ficar mais destacados que os outros. Toque nos elementos (%@) na ordem pela qual se destacam.";
-"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_REVERSE_%@" = "Um de cada vez, alguns dos elementos (%@) vão ficar mais destacados que os outros. Toque nos elementos (%@) na ordem inversa à qual se destacam.";
+"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_%@%@" = "Um de cada vez, alguns dos elementos (%@) vão ficar mais destacados que os outros. Toque nos elementos (%@) na ordem pela qual se destacam.";
+"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_REVERSE_%@%@" = "Um de cada vez, alguns dos elementos (%@) vão ficar mais destacados que os outros. Toque nos elementos (%@) na ordem inversa à qual se destacam.";
 "SPATIAL_SPAN_MEMORY_CALL_TO_ACTION" = "Para dar início ao teste, toque em Começar e observe com atenção.";
 "MEMORY_GAME_ITEM_COUNT_TITLE_%@" = "%@";
 "MEMORY_GAME_SCORE_TITLE" = "Resultado";

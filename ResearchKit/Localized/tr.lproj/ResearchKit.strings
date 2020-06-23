@@ -368,8 +368,8 @@
 "SPATIAL_SPAN_MEMORY_INTRO_TEXT_%@" = "Bu aktivite, %@ görüntülerinin sırasını yinelemenizi isteyerek kısa süreli konumsal belleğinizi ölçer.";
 "SPATIAL_SPAN_MEMORY_TARGET_PLURAL" = "çiçek";
 "SPATIAL_SPAN_MEMORY_TARGET_STANDALONE" = "çiçek";
-"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_%@" = "Bu %@ görüntülerinin bazıları teker teker yanacaktır. Bu %@ görüntülerine yandıkları sırada dokunun.";
-"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_REVERSE_%@" = "Bu %@ görüntülerinin bazıları teker teker yanacaktır. Bu %@ görüntülerine yandıkları sıranın tersinde dokunun.";
+"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_%@%@" = "Bu %@ görüntülerinin bazıları teker teker yanacaktır. Bu %@ görüntülerine yandıkları sırada dokunun.";
+"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_REVERSE_%@%@" = "Bu %@ görüntülerinin bazıları teker teker yanacaktır. Bu %@ görüntülerine yandıkları sıranın tersinde dokunun.";
 "SPATIAL_SPAN_MEMORY_CALL_TO_ACTION" = "Başlamak için Başla'ya dokunun, sonra dikkatlice izleyin.";
 "MEMORY_GAME_ITEM_COUNT_TITLE_%@" = "%@";
 "MEMORY_GAME_SCORE_TITLE" = "Puan";

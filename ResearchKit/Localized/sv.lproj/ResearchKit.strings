@@ -368,8 +368,8 @@
 "SPATIAL_SPAN_MEMORY_INTRO_TEXT_%@" = "Den här aktiviteten mäter ditt spatiala korttidsminne genom att be dig upprepa den ordning i vilken %@ lyser upp.";
 "SPATIAL_SPAN_MEMORY_TARGET_PLURAL" = "blommor";
 "SPATIAL_SPAN_MEMORY_TARGET_STANDALONE" = "blommor";
-"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_%@" = "En del av %@na kommer att lysa upp en i taget. Tryck på de %@na i samma ordning som de lyser upp.";
-"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_REVERSE_%@" = "En del av %@na kommer att lysa upp en i taget. Tryck på de %@na i omvänd ordning jämfört med hur de lyser upp.";
+"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_%@%@" = "En del av %@na kommer att lysa upp en i taget. Tryck på de %@na i samma ordning som de lyser upp.";
+"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_REVERSE_%@%@" = "En del av %@na kommer att lysa upp en i taget. Tryck på de %@na i omvänd ordning jämfört med hur de lyser upp.";
 "SPATIAL_SPAN_MEMORY_CALL_TO_ACTION" = "Tryck på Kom igång för att börja och titta noggrant.";
 "MEMORY_GAME_ITEM_COUNT_TITLE_%@" = "%@";
 "MEMORY_GAME_SCORE_TITLE" = "Poäng";

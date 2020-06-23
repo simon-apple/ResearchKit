@@ -368,8 +368,8 @@
 "SPATIAL_SPAN_MEMORY_INTRO_TEXT_%@" = "此活動會讓您重複%@亮起來的順序以測量您的短期空間記憶。";
 "SPATIAL_SPAN_MEMORY_TARGET_PLURAL" = "花朵";
 "SPATIAL_SPAN_MEMORY_TARGET_STANDALONE" = "花朵";
-"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_%@" = "部分的%@會一次點亮一個。按照相同的點亮順序點一下這些%@。";
-"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_REVERSE_%@" = "部分的%@會一次點亮一個。按照相反的點亮順序點一下這些%@。";
+"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_%@%@" = "部分的%@會一次點亮一個。按照相同的點亮順序點一下這些%@。";
+"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_REVERSE_%@%@" = "部分的%@會一次點亮一個。按照相反的點亮順序點一下這些%@。";
 "SPATIAL_SPAN_MEMORY_CALL_TO_ACTION" = "若要開始，請點一下「開始測試」，然後仔細觀看螢幕。";
 "MEMORY_GAME_ITEM_COUNT_TITLE_%@" = "%@";
 "MEMORY_GAME_SCORE_TITLE" = "分數";

@@ -368,8 +368,8 @@
 "SPATIAL_SPAN_MEMORY_INTRO_TEXT_%@" = "To ćwiczenie mierzy Twoją krótkotrwałą pamięć przestrzenną: podświetla %@ w określonej sekwencji i prosi o jej powtórzenie.";
 "SPATIAL_SPAN_MEMORY_TARGET_PLURAL" = "kwiaty";
 "SPATIAL_SPAN_MEMORY_TARGET_STANDALONE" = "kwiaty";
-"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_%@" = "Widoczne na ekranie %@ będą kolejno podświetlane. Stuknij w te %@ w takie samej kolejności.";
-"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_REVERSE_%@" = "Widoczne na ekranie %@ będą kolejno podświetlane. Stuknij w te %@ w odwrotnej kolejności.";
+"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_%@%@" = "Widoczne na ekranie %@ będą kolejno podświetlane. Stuknij w te %@ w takie samej kolejności.";
+"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_REVERSE_%@%@" = "Widoczne na ekranie %@ będą kolejno podświetlane. Stuknij w te %@ w odwrotnej kolejności.";
 "SPATIAL_SPAN_MEMORY_CALL_TO_ACTION" = "Aby rozpocząć, stuknij w Start, a następnie obserwuj ekran.";
 "MEMORY_GAME_ITEM_COUNT_TITLE_%@" = "%@";
 "MEMORY_GAME_SCORE_TITLE" = "Wynik";

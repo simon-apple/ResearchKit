@@ -368,8 +368,8 @@
 "SPATIAL_SPAN_MEMORY_INTRO_TEXT_%@" = "이 실험은 %@에 불이 들어오는 순서를 반복하도록 하여 사용자의 단기 공간 기억 능력을 측정합니다.";
 "SPATIAL_SPAN_MEMORY_TARGET_PLURAL" = "꽃";
 "SPATIAL_SPAN_MEMORY_TARGET_STANDALONE" = "꽃";
-"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_%@" = "일부 %@에 한 번에 하나씩 불이 들어옵니다. 이 %@을(를) 불이 들어온 순서와 같은 순서로 탭하십시오.";
-"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_REVERSE_%@" = "일부 %@에 한 번에 하나씩 불이 들어옵니다. 이 %@을(를) 불이 들어온 순서와 반대로 탭하십시오.";
+"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_%@%@" = "일부 %@에 한 번에 하나씩 불이 들어옵니다. 이 %@을(를) 불이 들어온 순서와 같은 순서로 탭하십시오.";
+"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_REVERSE_%@%@" = "일부 %@에 한 번에 하나씩 불이 들어옵니다. 이 %@을(를) 불이 들어온 순서와 반대로 탭하십시오.";
 "SPATIAL_SPAN_MEMORY_CALL_TO_ACTION" = "시작하려면 시작하기를 탭한 다음 주의깊게 보십시오.";
 "MEMORY_GAME_ITEM_COUNT_TITLE_%@" = "%@";
 "MEMORY_GAME_SCORE_TITLE" = "점수";

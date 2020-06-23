@@ -368,8 +368,8 @@
 "SPATIAL_SPAN_MEMORY_INTRO_TEXT_%@" = "Tijdens deze activiteit wordt je ruimtelijk kortetermijngeheugen gemeten door je de volgorde waarin %@ oplichten te laten herhalen.";
 "SPATIAL_SPAN_MEMORY_TARGET_PLURAL" = "bloemen";
 "SPATIAL_SPAN_MEMORY_TARGET_STANDALONE" = "bloemen";
-"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_%@" = "Een aantal van de %@ licht een voor een op. Tik op die %@ in dezelfde volgorde als waarin ze oplichtten.";
-"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_REVERSE_%@" = "Een aantal van de %@ licht een voor een op. Tik op die %@ in de omgekeerde volgorde als waarin ze oplichtten.";
+"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_%@%@" = "Een aantal van de %@ licht een voor een op. Tik op die %@ in dezelfde volgorde als waarin ze oplichtten.";
+"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_REVERSE_%@%@" = "Een aantal van de %@ licht een voor een op. Tik op die %@ in de omgekeerde volgorde als waarin ze oplichtten.";
 "SPATIAL_SPAN_MEMORY_CALL_TO_ACTION" = "Tik op 'Start' om te beginnen en kijk goed.";
 "MEMORY_GAME_ITEM_COUNT_TITLE_%@" = "%@";
 "MEMORY_GAME_SCORE_TITLE" = "Score";

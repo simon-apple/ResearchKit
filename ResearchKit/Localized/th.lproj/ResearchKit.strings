@@ -368,8 +368,8 @@
 "SPATIAL_SPAN_MEMORY_INTRO_TEXT_%@" = "กิจกรรมนี้จะวัดความจำเชิงพื้นที่ระยะสั้นของคุณโดยจะขอให้คุณทวนลำดับการสว่างขึ้นของ%@";
 "SPATIAL_SPAN_MEMORY_TARGET_PLURAL" = "ดอกไม้";
 "SPATIAL_SPAN_MEMORY_TARGET_STANDALONE" = "ดอกไม้";
-"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_%@" = "%@บางตัวจะสว่างขึ้นครั้งละหนึ่งตัว ให้แตะ%@เหล่านั้นแบบตามลำดับการสว่าง";
-"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_REVERSE_%@" = "%@บางตัวจะสว่างขึ้นครั้งละหนึ่งตัว ให้แตะ%@เหล่านั้นแบบย้อนลำดับการสว่าง";
+"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_%@%@" = "%@บางตัวจะสว่างขึ้นครั้งละหนึ่งตัว ให้แตะ%@เหล่านั้นแบบตามลำดับการสว่าง";
+"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_REVERSE_%@%@" = "%@บางตัวจะสว่างขึ้นครั้งละหนึ่งตัว ให้แตะ%@เหล่านั้นแบบย้อนลำดับการสว่าง";
 "SPATIAL_SPAN_MEMORY_CALL_TO_ACTION" = "ในการเริ่มต้น ให้แตะเริ่มต้นใช้งาน แล้วจับตาดูอย่างใกล้ชิด";
 "MEMORY_GAME_ITEM_COUNT_TITLE_%@" = "%@";
 "MEMORY_GAME_SCORE_TITLE" = "คะแนน";

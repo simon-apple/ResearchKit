@@ -368,8 +368,8 @@
 "SPATIAL_SPAN_MEMORY_INTRO_TEXT_%@" = "Denne aktivitet måler din rumlige korttidshukommelse ved at bede dig om at gentage den rækkefølge, som de enkelte %@ blinker i.";
 "SPATIAL_SPAN_MEMORY_TARGET_PLURAL" = "blomster";
 "SPATIAL_SPAN_MEMORY_TARGET_STANDALONE" = "blomster";
-"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_%@" = "Nogle af %@ne vil blinke en ad gangen. Tryk på %@ne i den samme rækkefølge, som de blinker i.";
-"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_REVERSE_%@" = "Nogle af %@ne vil blinke en ad gangen. Tryk på disse %@ i modsat rækkefølge af, hvordan de blinkede.";
+"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_%@%@" = "Nogle af %@ne vil blinke en ad gangen. Tryk på %@ne i den samme rækkefølge, som de blinker i.";
+"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_REVERSE_%@%@" = "Nogle af %@ne vil blinke en ad gangen. Tryk på disse %@ i modsat rækkefølge af, hvordan de blinkede.";
 "SPATIAL_SPAN_MEMORY_CALL_TO_ACTION" = "Du starter ved at trykke på Gå i gang og følge nøje med.";
 "MEMORY_GAME_ITEM_COUNT_TITLE_%@" = "%@";
 "MEMORY_GAME_SCORE_TITLE" = "Point";

@@ -368,8 +368,8 @@
 "SPATIAL_SPAN_MEMORY_INTRO_TEXT_%@" = "Cette activité mesure votre mémoire spatiale à court terme en vous demandant de reproduire l’ordre dans lequel les %@ se sont allumées.";
 "SPATIAL_SPAN_MEMORY_TARGET_PLURAL" = "fleurs";
 "SPATIAL_SPAN_MEMORY_TARGET_STANDALONE" = "fleurs";
-"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_%@" = "Certaines %@ s’allumeront une par une. Touchez ces %@ dans l’ordre duquel elles se sont allumées.";
-"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_REVERSE_%@" = "Certaines %@ s’allumeront une par une. Touchez ces %@ dans l’ordre inverse duquel elles se sont allumées.";
+"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_%@%@" = "Certaines %@ s’allumeront une par une. Touchez ces %@ dans l’ordre duquel elles se sont allumées.";
+"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_REVERSE_%@%@" = "Certaines %@ s’allumeront une par une. Touchez ces %@ dans l’ordre inverse duquel elles se sont allumées.";
 "SPATIAL_SPAN_MEMORY_CALL_TO_ACTION" = "Pour commencer, touchez Démarrer et soyez attentif.";
 "MEMORY_GAME_ITEM_COUNT_TITLE_%@" = "%@";
 "MEMORY_GAME_SCORE_TITLE" = "Score";

@@ -368,8 +368,8 @@
 "SPATIAL_SPAN_MEMORY_INTRO_TEXT_%@" = "Ova aktivnost mjeri vašu kratkotrajnu prostornu memoriju dok dodirujete %@ redoslijedom kojim su zasvijetlili.";
 "SPATIAL_SPAN_MEMORY_TARGET_PLURAL" = "cvjetove";
 "SPATIAL_SPAN_MEMORY_TARGET_STANDALONE" = "cvjetovi";
-"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_%@" = "Gledajte %@ kako će zasvijetliti jedan za drugim. Dodirnite te %@ istim redoslijedom kojim su zasvijetlili.";
-"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_REVERSE_%@" = "Gledajte %@ kako će zasvijetliti jedan za drugim. Dodirnite te %@ obrnutim redoslijedom od onog kojim su zasvijetlili.";
+"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_%@%@" = "Gledajte %@ kako će zasvijetliti jedan za drugim. Dodirnite te %@ istim redoslijedom kojim su zasvijetlili.";
+"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_REVERSE_%@%@" = "Gledajte %@ kako će zasvijetliti jedan za drugim. Dodirnite te %@ obrnutim redoslijedom od onog kojim su zasvijetlili.";
 "SPATIAL_SPAN_MEMORY_CALL_TO_ACTION" = "Za početak dodirnite Pokreni i zatim gledajte pažljivo.";
 "MEMORY_GAME_ITEM_COUNT_TITLE_%@" = "%@";
 "MEMORY_GAME_SCORE_TITLE" = "Rezultat";

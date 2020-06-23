@@ -368,8 +368,8 @@
 "SPATIAL_SPAN_MEMORY_INTRO_TEXT_%@" = "Tämä aktiiviteetti mittaa lyhytaikaista avaruudellista muistiasi. Toista järjestys, jossa %@ syttyy.";
 "SPATIAL_SPAN_MEMORY_TARGET_PLURAL" = "kukkia";
 "SPATIAL_SPAN_MEMORY_TARGET_STANDALONE" = "kukkia";
-"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_%@" = "Näet yksi kerrallaan syttyviä %@. Napauta %@ samassa järjestyksessä kuin ne syttyivät.";
-"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_REVERSE_%@" = "Näet yksi kerrallaan syttyviä %@. Napauta %@ käänteisessä syttymisjärjestyksessä.";
+"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_%@%@" = "Näet yksi kerrallaan syttyviä %@. Napauta %@ samassa järjestyksessä kuin ne syttyivät.";
+"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_REVERSE_%@%@" = "Näet yksi kerrallaan syttyviä %@. Napauta %@ käänteisessä syttymisjärjestyksessä.";
 "SPATIAL_SPAN_MEMORY_CALL_TO_ACTION" = "Aloita napauttamalla Aloita ja katso tarkasti.";
 "MEMORY_GAME_ITEM_COUNT_TITLE_%@" = "%@";
 "MEMORY_GAME_SCORE_TITLE" = "Tulos";

@@ -368,8 +368,8 @@
 "SPATIAL_SPAN_MEMORY_INTRO_TEXT_%@" = "يقيس هذا النشاط ذاكرتك المكانية قصيرة المدى من خلال مطالبتك بتكرار نفس ترتيب إضاءة %@.";
 "SPATIAL_SPAN_MEMORY_TARGET_PLURAL" = "زهور";
 "SPATIAL_SPAN_MEMORY_TARGET_STANDALONE" = "زهور";
-"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_%@" = "ستضيء بعض ال%@ كلٌ على حدة. اضغط على هذه ال%@ بنفس ترتيب إضاءتها.";
-"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_REVERSE_%@" = "ستضيء بعض ال%@ كلٌ على حدة. اضغط على هذه ال%@ بعكس ترتيب إضاءتها.";
+"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_%@%@" = "ستضيء بعض ال%@ كلٌ على حدة. اضغط على هذه ال%@ بنفس ترتيب إضاءتها.";
+"SPATIAL_SPAN_MEMORY_INTRO_2_TEXT_REVERSE_%@%@" = "ستضيء بعض ال%@ كلٌ على حدة. اضغط على هذه ال%@ بعكس ترتيب إضاءتها.";
 "SPATIAL_SPAN_MEMORY_CALL_TO_ACTION" = "للبدء، اضغط على البدء ثم قم بالمشاهدة عن قُرب.";
 "MEMORY_GAME_ITEM_COUNT_TITLE_%@" = "%@";
 "MEMORY_GAME_SCORE_TITLE" = "النتيجة";
