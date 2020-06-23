@@ -351,7 +351,7 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierPracticeCompl
         ORKEnvironmentSPLMeterStep *step = [[ORKEnvironmentSPLMeterStep alloc] initWithIdentifier:ORKSpeechInNoiseStepIdentifierEnvironmentSPLStep];
         step.title = ORKLocalizedString(@"ENVIRONMENTSPL_TITLE_2", nil);
         step.text = ORKLocalizedString(@"ENVIRONMENTSPL_INTRO_TEXT_2", nil);
-        step.thresholdValue = 60;
+        step.thresholdValue = 45;
         step.requiredContiguousSamples = 5;
         step.samplingInterval = 1;
         step.optional = NO;
