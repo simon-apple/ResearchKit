@@ -491,7 +491,7 @@
 /* Hole peg test active task. */
 "HOLE_PEG_TEST_TITLE_%@" = "%@kolíkový test";
 "HOLE_PEG_TEST_INTRO_TEXT_%@" = "Tato aktivita otestuje motoriku vašich horních končetin. Požádáme vás o zasunutí kolíku do otvoru. Budete k tomu vyzváni celkem %@×.";
-"HOLE_PEG_TEST_INTRO_TEXT_2_LEFT_HAND_FIRST_%@" = "Bude proveden test levé i pravé ruky.\nCo nejrychleji uchopte kolík a zasuňte ho do otvoru. Tuto akci proveďte %@× a potom ho opět %@× vyndejte.";
+"HOLE_PEG_TEST_INTRO_TEXT_2_LEFT_HAND_FIRST_%@%@" = "Bude proveden test levé i pravé ruky.\nCo nejrychleji uchopte kolík a zasuňte ho do otvoru. Tuto akci proveďte %@× a potom ho opět %@× vyndejte.";
 "HOLE_PEG_TEST_INTRO_TEXT_2_RIGHT_HAND_FIRST_%@" = "Bude proveden test pravé i levé ruky.\nCo nejrychleji uchopte kolík a zasuňte ho do otvoru. Tuto akci proveďte %@× a potom ho opět %@× vyndejte.";
 
 "HOLE_PEG_TEST_CALL_TO_ACTION" = "Začněte klepnutím na Začít.";

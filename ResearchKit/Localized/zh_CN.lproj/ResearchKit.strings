@@ -491,7 +491,7 @@
 /* Hole peg test active task. */
 "HOLE_PEG_TEST_TITLE_%@" = "%@孔插棒测试";
 "HOLE_PEG_TEST_INTRO_TEXT_%@" = "本活动通过将圆饼放入圆孔来测量您的上肢功能。您将需要完成此操作%@次。";
-"HOLE_PEG_TEST_INTRO_TEXT_2_LEFT_HAND_FIRST_%@" = "您的左手和右手都需要进行测试。\n您必须以最快速度拿起圆饼，将其放入圆孔中，完成%@次后，再将其移除%@次。";
+"HOLE_PEG_TEST_INTRO_TEXT_2_LEFT_HAND_FIRST_%@%@" = "您的左手和右手都需要进行测试。\n您必须以最快速度拿起圆饼，将其放入圆孔中，完成%@次后，再将其移除%@次。";
 "HOLE_PEG_TEST_INTRO_TEXT_2_RIGHT_HAND_FIRST_%@" = "您的右手和左手都需要进行测试。\n您必须以最快速度拿起圆饼，将其放入圆孔中，完成%@次后，再将其移除%@次。";
 
 "HOLE_PEG_TEST_CALL_TO_ACTION" = "轻点“开始”来进行测试。";

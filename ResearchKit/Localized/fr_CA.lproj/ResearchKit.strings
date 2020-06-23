@@ -491,7 +491,7 @@
 /* Hole peg test active task. */
 "HOLE_PEG_TEST_TITLE_%@" = "Test des %@ trous";
 "HOLE_PEG_TEST_INTRO_TEXT_%@" = "Cette activité mesure la dextérité de vos membres supérieurs en vous demandant de placer un cercle dans un trou. On vous demandera de le faire %@ fois.";
-"HOLE_PEG_TEST_INTRO_TEXT_2_LEFT_HAND_FIRST_%@" = "Votre main gauche et votre main droite seront testées.\nVous devez saisir la cheville aussi rapidement que possible, la placer dans le trou et, après avoir fait cela %@ fois, la retirer à nouveau %@ fois.";
+"HOLE_PEG_TEST_INTRO_TEXT_2_LEFT_HAND_FIRST_%@%@" = "Votre main gauche et votre main droite seront testées.\nVous devez saisir la cheville aussi rapidement que possible, la placer dans le trou et, après avoir fait cela %@ fois, la retirer à nouveau %@ fois.";
 "HOLE_PEG_TEST_INTRO_TEXT_2_RIGHT_HAND_FIRST_%@" = "Votre main droite et votre main gauche seront testées.\nVous devez saisir la cheville aussi rapidement que possible, la placer dans le trou et, après avoir fait cela %@ fois, la retirer à nouveau %@ fois.";
 
 "HOLE_PEG_TEST_CALL_TO_ACTION" = "Touchez Démarrer pour commencer.";

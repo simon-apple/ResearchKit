@@ -491,7 +491,7 @@
 /* Hole peg test active task. */
 "HOLE_PEG_TEST_TITLE_%@" = "Teste dos %@ Pinos nos Buracos";
 "HOLE_PEG_TEST_INTRO_TEXT_%@" = "Esta atividade determinará a capacidade das suas extremidades superiores, solicitando que você coloque um círculo dentro de um buraco. Você precisará fazer isso %@ vezes.";
-"HOLE_PEG_TEST_INTRO_TEXT_2_LEFT_HAND_FIRST_%@" = "Tanto a sua mão esquerda como a direita serão testadas.\nVocê deve pegar o círculo o mais rapidamente possível, colocá-lo no buraco e, após repetir %@ vezes, removê-lo novamente %@ vezes.";
+"HOLE_PEG_TEST_INTRO_TEXT_2_LEFT_HAND_FIRST_%@%@" = "Tanto a sua mão esquerda como a direita serão testadas.\nVocê deve pegar o círculo o mais rapidamente possível, colocá-lo no buraco e, após repetir %@ vezes, removê-lo novamente %@ vezes.";
 "HOLE_PEG_TEST_INTRO_TEXT_2_RIGHT_HAND_FIRST_%@" = "Tanto a sua mão direita como a esquerda serão testadas.\nVocê deve pegar o círculo o mais rapidamente possível, colocá-lo no buraco e, após repetir %@ vezes, removê-lo novamente %@ vezes.";
 
 "HOLE_PEG_TEST_CALL_TO_ACTION" = "Toque em Iniciar para começar.";

@@ -491,7 +491,7 @@
 /* Hole peg test active task. */
 "HOLE_PEG_TEST_TITLE_%@" = "%@ Delikli Daire Testi";
 "HOLE_PEG_TEST_INTRO_TEXT_%@" = "Bu aktivite, bir daireyi deliğe yerleştirmenizi isteyerek üst uzuvlarınızın işlevini ölçer. Bunu %@ kez yapmanız istenecektir.";
-"HOLE_PEG_TEST_INTRO_TEXT_2_LEFT_HAND_FIRST_%@" = "Hem sol hem de sağ eliniz test edilecektir.\nDaireyi mümkün olduğu kadar hızlı bir şekilde almalı, onu deliğe koymalı ve bunu %@ kez yaptıktan sonra yeniden %@ kez kaldırmalısınız.";
+"HOLE_PEG_TEST_INTRO_TEXT_2_LEFT_HAND_FIRST_%@%@" = "Hem sol hem de sağ eliniz test edilecektir.\nDaireyi mümkün olduğu kadar hızlı bir şekilde almalı, onu deliğe koymalı ve bunu %@ kez yaptıktan sonra yeniden %@ kez kaldırmalısınız.";
 "HOLE_PEG_TEST_INTRO_TEXT_2_RIGHT_HAND_FIRST_%@" = "Hem sağ hem de sol eliniz test edilecektir.\nDaireyi mümkün olduğu kadar hızlı bir şekilde almalı, onu deliğe koymalı ve bunu %@ kez yaptıktan sonra yeniden %@ kez kaldırmalısınız.";
 
 "HOLE_PEG_TEST_CALL_TO_ACTION" = "Başlamak için Başla’ya dokunun.";

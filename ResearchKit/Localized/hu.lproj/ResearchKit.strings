@@ -491,7 +491,7 @@
 /* Hole peg test active task. */
 "HOLE_PEG_TEST_TITLE_%@" = "%@ lyukú körillesztő teszt";
 "HOLE_PEG_TEST_INTRO_TEXT_%@" = "Ez a tevékenység a felső végtagok mozgását vizsgálja, amelynek során a rendszer megkéri Önt, hogy illesszen bele egy kört egy lyukba. Ezt %@ alkalommal kell megtennie.";
-"HOLE_PEG_TEST_INTRO_TEXT_2_LEFT_HAND_FIRST_%@" = "A bal és a jobb keze egyaránt tesztelve lesz.\nMinél gyorsabban vegye fel a kört, és illessze be a lyukba, és miután ezt %@ alkalommal megtette, távolítsa el %@ alkalommal.";
+"HOLE_PEG_TEST_INTRO_TEXT_2_LEFT_HAND_FIRST_%@%@" = "A bal és a jobb keze egyaránt tesztelve lesz.\nMinél gyorsabban vegye fel a kört, és illessze be a lyukba, és miután ezt %@ alkalommal megtette, távolítsa el %@ alkalommal.";
 "HOLE_PEG_TEST_INTRO_TEXT_2_RIGHT_HAND_FIRST_%@" = "A jobb és a bal keze egyaránt tesztelve lesz.\nMinél gyorsabban vegye fel a kört, és illessze be a lyukba, és miután ezt %@ alkalommal megtette, távolítsa el %@ alkalommal.";
 
 "HOLE_PEG_TEST_CALL_TO_ACTION" = "A kezdéshez koppintson a Kezdés elemre.";

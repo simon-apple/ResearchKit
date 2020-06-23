@@ -491,7 +491,7 @@
 /* Hole peg test active task. */
 "HOLE_PEG_TEST_TITLE_%@" = "%@-huls pindetest";
 "HOLE_PEG_TEST_INTRO_TEXT_%@" = "Denne aktivitet måler funktionen i dine hænder ved at bede dig om at anbringe en pind i et hul. Du bliver bedt om at gøre dette %@ gange.";
-"HOLE_PEG_TEST_INTRO_TEXT_2_LEFT_HAND_FIRST_%@" = "Både din venstre og højre hånd testes.\nDu skal samle cirklen op så hurtigt som muligt, anbringe den i hullet, og når det er gjort %@ gange, skal du fjerne den igen %@ gange.";
+"HOLE_PEG_TEST_INTRO_TEXT_2_LEFT_HAND_FIRST_%@%@" = "Både din venstre og højre hånd testes.\nDu skal samle cirklen op så hurtigt som muligt, anbringe den i hullet, og når det er gjort %@ gange, skal du fjerne den igen %@ gange.";
 "HOLE_PEG_TEST_INTRO_TEXT_2_RIGHT_HAND_FIRST_%@" = "Både din højre og venstre hånd testes.\nDu skal samle cirklen op så hurtigt som muligt, anbringe den i hullet, og når det er gjort %@ gange, skal du fjerne den igen %@ gange.";
 
 "HOLE_PEG_TEST_CALL_TO_ACTION" = "Tryk på Gå i gang for at starte.";

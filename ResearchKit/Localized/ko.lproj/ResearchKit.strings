@@ -491,7 +491,7 @@
 /* Hole peg test active task. */
 "HOLE_PEG_TEST_TITLE_%@" = "%@-홀 페그 테스트";
 "HOLE_PEG_TEST_INTRO_TEXT_%@" = "이 실험은 페그를 구멍에 넣는 동작을 통해 사용자의 상지 기능을 측정합니다. 이 동작을 %@번 해야 합니다.";
-"HOLE_PEG_TEST_INTRO_TEXT_2_LEFT_HAND_FIRST_%@" = "왼손과 오른손을 모두 테스트합니다.\n페그를 최대한 빨리 집어서 구멍에 넣으십시오. 이 동작을 %@번 완료하면, 페그를 제거하는 동작을 다시 %@번 하십시오.";
+"HOLE_PEG_TEST_INTRO_TEXT_2_LEFT_HAND_FIRST_%@%@" = "왼손과 오른손을 모두 테스트합니다.\n페그를 최대한 빨리 집어서 구멍에 넣으십시오. 이 동작을 %@번 완료하면, 페그를 제거하는 동작을 다시 %@번 하십시오.";
 "HOLE_PEG_TEST_INTRO_TEXT_2_RIGHT_HAND_FIRST_%@" = "오른손과 왼손을 모두 테스트합니다.\n페그를 최대한 빨리 집어서 구멍에 넣으십시오. 이 동작을 %@번 완료하면, 페그를 제거하는 동작을 다시 %@번 하십시오.";
 
 "HOLE_PEG_TEST_CALL_TO_ACTION" = "시작하려면 시작하기를 탭하십시오.";

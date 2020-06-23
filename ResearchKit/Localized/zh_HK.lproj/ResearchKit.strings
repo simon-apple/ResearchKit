@@ -491,7 +491,7 @@
 /* Hole peg test active task. */
 "HOLE_PEG_TEST_TITLE_%@" = "%@孔柱測試";
 "HOLE_PEG_TEST_INTRO_TEXT_%@" = "此測試活動需要你將圓柱放進洞內，以測量你的上肢功能。你將需要執行此操作%@次。";
-"HOLE_PEG_TEST_INTRO_TEXT_2_LEFT_HAND_FIRST_%@" = "你的左右手都會被測試。\n你必須盡快拿起釘子放入洞中，並在完成%@次後，再拿出來%@次。";
+"HOLE_PEG_TEST_INTRO_TEXT_2_LEFT_HAND_FIRST_%@%@" = "你的左右手都會被測試。\n你必須盡快拿起釘子放入洞中，並在完成%@次後，再拿出來%@次。";
 "HOLE_PEG_TEST_INTRO_TEXT_2_RIGHT_HAND_FIRST_%@" = "你的左右手都會被測試。\n你必須盡快拿起釘子放入洞中，並在完成%@次後，再拿出來%@次。";
 
 "HOLE_PEG_TEST_CALL_TO_ACTION" = "點一下「開始」以進行測試。";
