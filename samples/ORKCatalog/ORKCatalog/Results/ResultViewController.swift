@@ -48,11 +48,11 @@ class ResultViewController: UITableViewController {
     
     // MARK: Properties
 
-    var result: ORKResult? = ORKTaskResult()
+    var result: ORKResult?
 
-    var currentResult: ORKResult? = ORKTaskResult()
+    var currentResult: ORKResult?
 
-    var resultTableViewProvider: UITableViewDataSource & UITableViewDelegate = resultTableViewProviderForResult(ORKTaskResult())
+    var resultTableViewProvider: UITableViewDataSource & UITableViewDelegate = resultTableViewProviderForResult(nil)
     
     // MARK: View Life Cycle
     

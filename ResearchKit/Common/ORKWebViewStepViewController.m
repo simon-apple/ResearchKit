@@ -46,7 +46,7 @@ static const CGFloat ORKSignatureToClearPadding = 15.0;
 @implementation ORKWebViewStepViewController {
     UIScrollView *_scrollView;
     WKWebView *_webView;
-    NSString *_result;
+    NSString *_receivedMessageBody;
     NSMutableArray<NSLayoutConstraint *> *_constraints;
     
     ORKSignatureView *_signatureView;
@@ -61,7 +61,7 @@ static const CGFloat ORKSignatureToClearPadding = 15.0;
 
 - (void)stepDidChange {
     
-    _result = nil;
+    _receivedMessageBody = nil;
     [_webView removeFromSuperview];
     _webView = nil;
     
@@ -362,27 +362,30 @@ static const CGFloat ORKSignatureToClearPadding = 15.0;
 - (void)userContentController:(WKUserContentController *)userContentController didReceiveScriptMessage:(WKScriptMessage *)message
 {
     if ([message.body isKindOfClass:[NSString class]]){
-        _result = (NSString *)message.body;
+        _receivedMessageBody = ORKDynamicCast(message.body, NSString);
         [self goForward];
     }
 }
 
 - (ORKStepResult *)result {
-    ORKStepResult *parentResult = [super result];
-    
-    if (parentResult) {
-        ORKWebViewStepResult *childResult = [[ORKWebViewStepResult alloc] initWithIdentifier:self.step.identifier];
-        childResult.result = _result;
-        childResult.endDate = parentResult.endDate;
-        childResult.userInfo = @{@"html": [self webViewStep].html};
-        parentResult.results = [parentResult.results arrayByAddingObject:childResult] ? : @[childResult];
+    ORKStepResult *stepResult = [super result];
+    if (stepResult) {
+        NSString *webViewResultIdentifier = @"WebView";
+        ORKWebViewStepResult *webViewResult = [[ORKWebViewStepResult alloc] initWithIdentifier:webViewResultIdentifier];
+        webViewResult.result = _receivedMessageBody;
+        webViewResult.endDate = stepResult.endDate;
+        webViewResult.userInfo = @{@"html": [self webViewStep].html};
+        stepResult.results = [stepResult.results arrayByAddingObject:webViewResult] ? : @[webViewResult];
         
         if ([self webViewStep].showSignatureAfterContent && _signatureView.signatureExists) {
-            ORKSignatureResult *signatureResult = [[ORKSignatureResult alloc] initWithSignatureImage:_signatureView.signatureImage signaturePath:_signatureView.signaturePath];
-            parentResult.results = [parentResult.results arrayByAddingObject:signatureResult] ? : @[signatureResult];
+            NSString *signatureResultIdentifier = @"Signature";
+            ORKSignatureResult *signatureResult = [[ORKSignatureResult alloc] initWithIdentifier:signatureResultIdentifier
+                                                                                  signatureImage:_signatureView.signatureImage
+                                                                                   signaturePath:_signatureView.signaturePath];
+            stepResult.results = [stepResult.results arrayByAddingObject:signatureResult] ? : @[signatureResult];
         }
     }
-    return parentResult;
+    return stepResult;
 }
 
 // MARK: WKWebViewDelegate
