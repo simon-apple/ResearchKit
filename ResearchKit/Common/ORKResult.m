@@ -100,15 +100,6 @@ const NSUInteger NumberOfPaddingSpacesForIndentationLevel = 4;
     return result;
 }
 
-- (instancetype)init {
-    self = [super init];
-    if (self) {
-        self.startDate = [NSDate date];
-        self.endDate = [NSDate date];
-    }
-    return self;
-}
-
 - (NSString *)descriptionPrefixWithNumberOfPaddingSpaces:(NSUInteger)numberOfPaddingSpaces {
     return [NSString stringWithFormat:@"%@<%@: %p; identifier: \"%@\"", ORKPaddingWithNumberOfSpaces(numberOfPaddingSpaces), self.class.description, self, self.identifier];
 }
