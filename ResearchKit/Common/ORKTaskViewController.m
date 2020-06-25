@@ -708,7 +708,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
         return;
     }
     
-    if (result == nil || NO == [result isKindOfClass:[ORKStepResult class]]) {
+    if (result == nil || ![result isKindOfClass:[ORKStepResult class]]) {
         @throw [NSException exceptionWithName:NSGenericException reason:[NSString stringWithFormat: @"Expect result object to be `ORKStepResult` type and not nil: {%@ : %@}", aKey, result] userInfo:nil];
         return;
     }
@@ -722,13 +722,6 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     
     if (_managedResults == nil) {
         _managedResults = [NSMutableDictionary new];
-    }
-    _managedResults[aKey] = result;
-    
-    // Also point to the object using a unique key
-    NSUInteger idx = _managedStepIdentifiers.count;
-    if ([_managedStepIdentifiers.lastObject isEqualToString:aKey]) {
-        idx--;
     }
     _managedResults[aKey] = result;
 }

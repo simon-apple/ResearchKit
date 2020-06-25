@@ -135,7 +135,11 @@ ORK_CLASS_AVAILABLE
  */
 - (instancetype)initWithTaskIdentifier:(NSString *)identifier
                            taskRunUUID:(NSUUID *)taskRunUUID
-                       outputDirectory:(nullable NSURL *)outputDirectory;
+                       outputDirectory:(nullable NSURL *)outputDirectory NS_DESIGNATED_INITIALIZER;
+
+- (instancetype)initWithCoder:(NSCoder *)coder NS_DESIGNATED_INITIALIZER;
+
+- (instancetype)initWithIdentifier:(NSString *)identifier NS_UNAVAILABLE;
 
 /**
  A unique identifier (UUID) for the presentation of the task that generated

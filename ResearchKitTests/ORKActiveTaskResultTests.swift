@@ -245,7 +245,7 @@ class ORKReactionTimeResultTests: XCTestCase {
         result = ORKReactionTimeResult(identifier: identifier)
         
         result.timestamp = 10
-        fileResult = ORKFileResult()
+        fileResult = ORKFileResult(identifier: identifier)
         url = URL(fileURLWithPath: "FILEURL")
         fileResult.fileURL = url
         result.fileResult = fileResult

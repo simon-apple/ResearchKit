@@ -47,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (BOOL)isComplete;
 
-- (ORKSignatureResult * _Nullable)result;
+- (ORKSignatureResult * _Nullable)resultWithIdentifier:(NSString *)identifier;
 - (void)clear;
 - (void)cancelAutoScrollTimer;
 

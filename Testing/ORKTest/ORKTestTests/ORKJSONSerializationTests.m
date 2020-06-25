@@ -226,6 +226,8 @@ return block(); \
  Add an orktest_init method to all the classes which make init unavailable. This
  allows us to write very short code to instantiate valid objects during these tests.
  */
+ORK_MAKE_TEST_INIT(ORKResult, ^{return [self initWithIdentifier:[NSUUID UUID].UUIDString];});
+ORK_MAKE_TEST_INIT(ORKTaskResult, ^{return [self initWithTaskIdentifier:[NSUUID UUID].UUIDString taskRunUUID:[NSUUID UUID] outputDirectory:nil];});
 ORK_MAKE_TEST_INIT(ORKStepNavigationRule, ^{return [super init];});
 ORK_MAKE_TEST_INIT(ORKSkipStepNavigationRule, ^{return [super init];});
 ORK_MAKE_TEST_INIT(ORKStepModifier, ^{return [super init];});
@@ -235,7 +237,7 @@ ORK_MAKE_TEST_INIT(ORKDontKnowAnswer, ^{return [ORKDontKnowAnswer answer];});
 ORK_MAKE_TEST_INIT(ORKLoginStep, ^{return [self initWithIdentifier:[NSUUID UUID].UUIDString title:@"title" text:@"text" loginViewControllerClass:NSClassFromString(@"ORKLoginStepViewController") ];});
 ORK_MAKE_TEST_INIT(ORKVerificationStep, ^{return [self initWithIdentifier:[NSUUID UUID].UUIDString text:@"text" verificationViewControllerClass:NSClassFromString(@"ORKVerificationStepViewController") ];});
 ORK_MAKE_TEST_INIT(ORKStep, ^{return [self initWithIdentifier:[NSUUID UUID].UUIDString];});
-ORK_MAKE_TEST_INIT(ORKReviewStep, ^{return [[self class] standaloneReviewStepWithIdentifier:[NSUUID UUID].UUIDString steps:@[] resultSource:[ORKTaskResult new]];});
+ORK_MAKE_TEST_INIT(ORKReviewStep, ^{return [[self class] standaloneReviewStepWithIdentifier:[NSUUID UUID].UUIDString steps:@[] resultSource:[[ORKTaskResult alloc] orktest_init]];});
 ORK_MAKE_TEST_INIT(ORKOrderedTask, ^{return [self initWithIdentifier:@"test1" steps:nil];});
 ORK_MAKE_TEST_INIT(ORKSpeechInNoisePredefinedTask, ^{
     ORKStep *stepA = [[ORKStep alloc] initWithIdentifier:[NSUUID UUID].UUIDString];
@@ -587,10 +589,9 @@ ORK_MAKE_TEST_INIT(UIColor, (^{ return [self initWithRed:1 green:1 blue:1 alpha:
     
     //ORKTaskResult *result = [[ORKTaskResult alloc] initWithTaskIdentifier:@"a000012" taskRunUUID:[NSUUID UUID] outputDirectory:[NSURL fileURLWithPath:NSTemporaryDirectory()]];
     
-    ORKQuestionResult *qr = [[ORKQuestionResult alloc] init];
+    ORKQuestionResult *qr = [[ORKQuestionResult alloc] initWithIdentifier:@"a000012.s05"];
     qr.answer = @(1010);
     qr.questionType = ORKQuestionTypeInteger;
-    qr.identifier = @"a000012.s05";
     
     ORKStepResult *stepResult = [[ORKStepResult alloc] initWithStepIdentifier:@"stepIdentifier" results:@[qr]];
     stepResult.results = @[qr];
@@ -871,11 +872,12 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
         } else if ([aClass isSubclassOfClass:[ORKVerificationStep class]]) {
             [instance setValue:NSStringFromClass([ORKVerificationStepViewController class]) forKey:@"verificationViewControllerString"];
         } else if ([aClass isSubclassOfClass:[ORKReviewStep class]]) {
-            [instance setValue:[ORKTaskResult new] forKey:@"resultSource"]; // Manually add here because it's a protocol and hence property doesn't have a class
+            [instance setValue:[[ORKTaskResult alloc] orktest_init] forKey:@"resultSource"]; // Manually add here because it's a protocol and hence property doesn't have a class
         }
 
         // Serialization
-        id mockDictionary = [[MockCountingDictionary alloc] initWithDictionary:[ORKESerializer JSONObjectForObject:instance context:context error:NULL]];
+        NSDictionary *instanceDictionary = [ORKESerializer JSONObjectForObject:instance context:context error:NULL];
+        id mockDictionary = [[MockCountingDictionary alloc] initWithDictionary:instanceDictionary];
         
         // Must contain corrected _class field
         XCTAssertTrue([NSStringFromClass(aClass) isEqualToString:mockDictionary[@"_class"]]);
@@ -980,7 +982,9 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
         // do nothing - meaningless for the equality check
         return NO;
     } else if (aClass == [ORKReviewStep class] && [p.propertyName isEqualToString:@"resultSource"]) {
-        [instance setValue:[[ORKTaskResult alloc] initWithIdentifier:@"blah"] forKey:p.propertyName];
+        [instance setValue:[[ORKTaskResult alloc] initWithTaskIdentifier:@"blah"
+                                                             taskRunUUID:[NSUUID UUID]
+                                                         outputDirectory:nil] forKey:p.propertyName];
         return NO;
     } else {
         id instanceForChild = [self instanceForClass:p.propertyClass];
