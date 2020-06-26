@@ -81,6 +81,10 @@ static const CGFloat ORKSignatureTopPadding = 37.0;
             _signatureView.delegate = self;
             _signatureView.customViewProvider = [self webViewStep].customViewProvider;
             [_scrollView addSubview:_signatureView];
+            
+            if ([_signatureView.customViewProvider respondsToSelector:@selector(keyboardDismissModeForCustomView)]) {
+                [_scrollView setKeyboardDismissMode:[_signatureView.customViewProvider keyboardDismissModeForCustomView]];
+            }
         }
         
         WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
