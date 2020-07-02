@@ -72,7 +72,7 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierPracticeCompl
         step.text = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_REQUIRED_TEXT", nil);
         step.optional = NO;
         step.reasonForCompletion = ORKTaskViewControllerFinishReasonDiscarded;
-        [currentTask appendSteps:@[step]];
+        [currentTask addStep:step];
         
         ORKDirectStepNavigationRule *endNavigationRule = [[ORKDirectStepNavigationRule alloc] initWithDestinationStepIdentifier:ORKNullStepIdentifier];
         [currentTask setNavigationRule:endNavigationRule forTriggerStepIdentifier:ORKSpeechInNoiseStepIdentifierHeadphonesRequired];
@@ -95,7 +95,7 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierPracticeCompl
         step.text = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_MICROPHONE_SPEECH_RECOGNITION_REQUIRED_TEXT", nil);
         step.optional = NO;
         step.reasonForCompletion = ORKTaskViewControllerFinishReasonDiscarded;
-        [currentTask appendSteps:@[step]];
+        [currentTask addStep:step];
         
         ORKDirectStepNavigationRule *endNavigationRule = [[ORKDirectStepNavigationRule alloc] initWithDestinationStepIdentifier:ORKNullStepIdentifier];
         [currentTask setNavigationRule:endNavigationRule forTriggerStepIdentifier:ORKSpeechInNoiseStepIdentifierHealthPermissionsRequired];

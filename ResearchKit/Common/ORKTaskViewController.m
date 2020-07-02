@@ -207,7 +207,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
 }
 
 - (instancetype)commonInitWithTask:(id<ORKTask>)task taskRunUUID:(NSUUID *)taskRunUUID {
-    [self setTask: task];
+    [self setTask:task];
     
     self.showsProgressInNavigationBar = YES;
     self.discardable = NO;

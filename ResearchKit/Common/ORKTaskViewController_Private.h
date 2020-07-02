@@ -73,6 +73,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)lockDeviceVolume:(float)volume;
 
+- (void)stepViewController:(ORKStepViewController *)stepViewController didFinishWithNavigationDirection:(ORKStepViewControllerNavigationDirection)direction
+                  animated:(BOOL)animated;
+
 @end
 
 NS_ASSUME_NONNULL_END

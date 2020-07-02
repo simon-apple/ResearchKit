@@ -60,7 +60,7 @@ ORKAVJournalingStepIdentifier const MaxLimitHitCompletionStepIdentifier = @"ORKA
         step.text = ORKLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TEXT", nil);
         step.optional = NO;
         step.reasonForCompletion = ORKTaskViewControllerFinishReasonDiscarded;
-        [currentTask appendSteps:@[step]];
+        [currentTask addStep:step];
 
         ORKDirectStepNavigationRule *endNavigationRule = [[ORKDirectStepNavigationRule alloc] initWithDestinationStepIdentifier:ORKNullStepIdentifier];
         [currentTask setNavigationRule:endNavigationRule forTriggerStepIdentifier:step.identifier];

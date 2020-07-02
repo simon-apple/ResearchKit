@@ -139,12 +139,25 @@
     }
 }
 
-- (void)appendSteps:(NSArray<ORKStep *> *)additionalSteps {
+- (void)addStepsFromArray:(NSArray<ORKStep *> *)stepsToAdd {
     NSMutableArray *newSteps = [_steps mutableCopy];
-    
-    [newSteps addObjectsFromArray:additionalSteps];
-    
+    [newSteps addObjectsFromArray:stepsToAdd];
     _steps = [newSteps copy];
+}
+
+- (void)addStep:(ORKStep *)stepToAdd {
+    [self addStepsFromArray:@[stepToAdd]];
+}
+
+- (void)insertSteps:(NSArray<ORKStep *> *)stepsToInsert atIndexes:(NSIndexSet *)indexSet {
+    NSMutableArray *newSteps = [_steps mutableCopy];
+    [newSteps insertObjects:stepsToInsert atIndexes:indexSet];
+    _steps = [newSteps copy];
+}
+
+- (void)insertStep:(ORKStep *)stepToInsert atIndex:(NSUInteger)index {
+    NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndex:index];
+    [self insertSteps:@[stepToInsert] atIndexes:indexSet];
 }
 
 - (NSUInteger)indexOfStep:(ORKStep *)step {
