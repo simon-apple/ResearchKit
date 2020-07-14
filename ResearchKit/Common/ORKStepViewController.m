@@ -598,8 +598,12 @@ static NSString *const _ORKAddedResultsKey = @"addedResults";
 #pragma mark - Accessibility
 
 - (BOOL)accessibilityPerformEscape {
-    [self goBackward];
-    return YES;
+    if ([self hasPreviousStep]) {
+        [self goBackward];
+        return YES;
+    }
+    
+    return NO;
 }
 
 @end

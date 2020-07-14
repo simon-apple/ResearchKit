@@ -270,8 +270,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
                ongoingResult:(nullable ORKTaskResult *)ongoingResult
          defaultResultSource:(nullable id<ORKTaskResultSource>)defaultResultSource
                     delegate:(id<ORKTaskViewControllerDelegate>)delegate {
-    
-    self = [self initWithTask:task taskRunUUID:nil];
+    self = [[super initWithNibName:nil bundle:nil] commonInitWithTask:task taskRunUUID:nil];
     
     if (self) {
         _delegate = delegate;
@@ -672,6 +671,8 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     if (_currentStepViewController) {
         [self setUpProgressLabelForStepViewController:_currentStepViewController];
     }
+    
+    self.presentationController.delegate = self;
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -1761,6 +1762,13 @@ static NSString *const _ORKProgressMode = @"progressMode";
         // controller stack and task view controller state.
         [_currentStepViewController goBackward];
     }
+}
+
+#pragma mark - UIAdaptivePresentationControllerDelegate
+
+- (void)presentationControllerDidDismiss:(UIPresentationController *)presentationController {
+    // If dismissed with a swipe, `finishWithReason:error:` should be called with `discarded`
+    [self finishWithReason:ORKTaskViewControllerFinishReasonDiscarded error:nil];
 }
 
 @end
