@@ -71,6 +71,8 @@
                                              selector:@selector(cardViewStatusDidChange:)
                                                  name:ORKRequestPermissionsNotificationCardViewStatusChanged
                                                object:nil];
+    
+    [self checkCardViewsStatus];
 }
 
 - (void)dealloc {
@@ -144,6 +146,10 @@
 }
 
 - (void)cardViewStatusDidChange:(NSNotification *)notification {
+    [self checkCardViewsStatus];
+}
+
+- (void)checkCardViewsStatus {
     NSMutableArray *cardViews = [self fetchCardViews];
     
     for (ORKRequestPermissionView *cardView in cardViews) {
@@ -165,7 +171,6 @@
     NSMutableArray<ORKRequestPermissionView *> *cardViews = [NSMutableArray new];
     
     for (ORKPermissionType *permissionType in requestPermissionStep.permissionTypes) {
-       
         [cardViews addObject:permissionType.cardView];
     }
     
