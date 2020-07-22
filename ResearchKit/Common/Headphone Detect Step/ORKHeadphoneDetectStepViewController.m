@@ -653,6 +653,19 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     }
 }
 
+- (void)updateAppearanceForConnectedState:(BOOL)connected {
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        self.stepView.navigationFooterView.continueEnabled = connected;
+        
+        if ([self.step.context isKindOfClass:[ORKSpeechInNoisePredefinedTaskContext class]])
+        {
+            self.stepView.navigationFooterView.skipEnabled = !connected;
+        }
+    });
+}
+
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
@@ -708,7 +721,9 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
         _lastDetectedHeadphoneType = nil;
         _headphoneDetectStepView.headphoneDetected = ORKHeadphoneDetectedNone;
     }
-    self.stepView.navigationFooterView.continueEnabled = isSupported && (_lastDetectedHeadphoneType != ORKHeadphoneTypeIdentifierAirPodsPro);
+    
+    BOOL isConnected = isSupported && (_lastDetectedHeadphoneType != ORKHeadphoneTypeIdentifierAirPodsPro);
+    [self updateAppearanceForConnectedState:isConnected];
 }
 
 - (void)bluetoothModeChanged:(ORKBluetoothMode)bluetoothMode {
