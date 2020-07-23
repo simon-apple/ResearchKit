@@ -628,7 +628,7 @@ static const CGFloat DelayBeforeAutoScroll = 0.25;
 }
 
 - (BOOL)continueButtonEnabled {
-    BOOL enabled = ([self hasAnswer] || (self.questionStep.optional && !self.skipButtonItem));
+    BOOL enabled = (([self hasAnswer] && [self.answerFormat isAnswerValid:self.answer]) || (self.questionStep.optional && !self.skipButtonItem));
     if (self.isBeingReviewed) {
         enabled = enabled && (![self.answer isEqual:self.originalAnswer]);
     }
