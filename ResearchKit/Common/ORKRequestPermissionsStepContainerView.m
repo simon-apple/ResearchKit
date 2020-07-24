@@ -68,8 +68,7 @@
     UIView *lastView;
 
     for (ORKRequestPermissionView *cardView in _cardViews) {
-        [[cardView.topAnchor constraintEqualToAnchor:lastView ? lastView.topAnchor : _contentView.topAnchor constant:10.0] setActive:YES];
-        [[cardView.centerXAnchor constraintEqualToAnchor:_contentView.centerXAnchor] setActive:YES];
+        [[cardView.topAnchor constraintEqualToAnchor:lastView ? lastView.bottomAnchor : _contentView.topAnchor constant:10.0] setActive:YES];
         [[cardView.leadingAnchor constraintEqualToAnchor:_contentView.leadingAnchor] setActive:YES];
         [[cardView.trailingAnchor constraintEqualToAnchor:_contentView.trailingAnchor] setActive:YES];
         
