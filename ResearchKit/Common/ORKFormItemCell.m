@@ -1722,6 +1722,11 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     [self inputValueDidChange];
 }
 
+- (void)dontKnowButtonPressed {
+    _selectionView.answer = [ORKDontKnowAnswer answer];
+    [self inputValueDidChange];
+}
+
 - (void)inputValueDidChange {
     [self ork_setAnswer:_selectionView.answer];
     [super inputValueDidChange];

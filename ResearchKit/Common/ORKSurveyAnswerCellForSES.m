@@ -69,4 +69,9 @@
     [self ork_setAnswer:_selectionView.answer];
 }
 
+- (void)dontKnowButtonPressed {
+    _selectionView.answer = [ORKDontKnowAnswer answer];
+    [self ork_setAnswer:_selectionView.answer];
+}
+
 @end

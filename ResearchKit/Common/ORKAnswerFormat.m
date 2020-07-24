@@ -3436,8 +3436,4 @@ static NSString *const kSecureTextEntryEscapeString = @"*";
     return [self localizedStringForNumber:answer];
 }
 
-- (BOOL)shouldShowDontKnowButton {
-    return NO;
-}
-
 @end
