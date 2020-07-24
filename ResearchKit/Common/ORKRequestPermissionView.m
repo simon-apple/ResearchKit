@@ -222,7 +222,7 @@ static const CGFloat RequestDataButtonWidth = 125.0;
 
 - (void)updateIconTintColor:(UIColor *)iconTintColor {
     if (_iconImageView) {
-        [_iconImageView setTintColor:[UIColor redColor]];
+        [_iconImageView setTintColor:iconTintColor];
     }
 }
 
