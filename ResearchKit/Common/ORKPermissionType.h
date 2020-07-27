@@ -29,13 +29,13 @@
  */
 
 #import <ResearchKit/ORKDefines.h>
-#import <UserNotifications/UserNotifications.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @class ORKHealthKitPermissionType;
 @class ORKNotificationPermissionType;
 @class ORKRequestPermissionView;
+typedef NS_OPTIONS(NSUInteger, UNAuthorizationOptions);
 
 ORK_CLASS_AVAILABLE
 @interface ORKPermissionType : NSObject

@@ -28,6 +28,8 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <UserNotifications/UserNotifications.h>
+
 #import "ORKNotificationPermissionType.h"
 #import "ORKRequestPermissionView.h"
 #import "ORKHelpers_Internal.h"
