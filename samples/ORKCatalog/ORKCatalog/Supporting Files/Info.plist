@@ -79,5 +79,24 @@
 			</array>
 		</dict>
 	</dict>
+	<key>NSSensorKitUsageDescription</key>
+	<string>This app collects sensor data during certain tasks</string>
+	<key>NSSensorKitPrivacyPolicyURL</key>
+	<string>https://www.apple.com/privacy/</string>
+	<key>NSSensorKitUsageDetail</key>
+	<dict>
+		<key>SRSensorAccelerometer</key>
+		<dict>
+			<key>Description</key>
+			<string>Accelerometer will be used to...</string>
+		</dict>
+		<key>SRSensorRotationRate</key>
+		<dict>
+			<key>Required</key>
+			<true/>
+			<key>Description</key>
+			<string>Rotation will be used to...</string>
+		</dict>
+	</dict>
 </dict>
 </plist>

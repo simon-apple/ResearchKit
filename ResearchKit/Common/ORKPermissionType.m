@@ -30,6 +30,7 @@
 
 #import "ORKHealthKitPermissionType.h"
 #import "ORKNotificationPermissionType.h"
+#import "ORKSensorPermissionType.h"
 #import "ORKHelpers_Internal.h"
 #import "ORKPermissionType.h"
 
@@ -44,5 +45,8 @@
     return [[ORKNotificationPermissionType alloc] initWithAuthorizationOptions:options];
 }
 
++ (ORKSensorPermissionType *)sensorPermissionType:(NSSet<SRSensor> *)sensors {
+    return [[ORKSensorPermissionType alloc] initWithSensors:sensors];
+}
 @end
 

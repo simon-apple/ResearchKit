@@ -1401,7 +1401,11 @@ enum TaskListRow: Int, CustomStringConvertible {
     
     private var requestPermissionsTask: ORKTask {
 
+        var permissionTypes = [ORKPermissionType]()
+
         let notificationsPermissionType = ORKNotificationPermissionType(authorizationOptions: [.alert, .badge, .sound])
+        permissionTypes.append(notificationsPermissionType)
+
 
         let healthKitTypesToWrite: Set<HKSampleType> = [
             HKObjectType.quantityType(forIdentifier: .bodyMassIndex)!,
@@ -1416,10 +1420,20 @@ enum TaskListRow: Int, CustomStringConvertible {
         
         let healthKitPermissionType = ORKHealthKitPermissionType(sampleTypesToWrite: healthKitTypesToWrite,
                                                                  objectTypesToRead: healthKitTypesToRead)
-        
+        permissionTypes.append(healthKitPermissionType)
+
+        if #available(iOS 14, *) {
+            let sensorPermissionType = ORKSensorPermissionType(sensors: Set<SRSensor>([
+                .accelerometer,
+                .rotationRate
+            ]))
+
+            permissionTypes.append(sensorPermissionType)
+        }
+
         let requestPermissionsStep = ORKRequestPermissionsStep(
             identifier: String(describing: Identifier.requestPermissionsStep),
-            permissionTypes: [notificationsPermissionType, healthKitPermissionType])
+            permissionTypes: permissionTypes)
        
         requestPermissionsStep.title = "Health Data Request"
         requestPermissionsStep.text = "Please review the health data types below and enable sharing to contribute to the study."

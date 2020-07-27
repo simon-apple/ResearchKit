@@ -142,5 +142,6 @@
 #import <ResearchKit/ORKPermissionType.h>
 #import <ResearchKit/ORKHealthKitPermissionType.h>
 #import <ResearchKit/ORKNotificationPermissionType.h>
+#import <ResearchKit/ORKSensorPermissionType.h>
 
 #import <ResearchKit/ORKDeprecated.h>
