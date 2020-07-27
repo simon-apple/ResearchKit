@@ -51,6 +51,7 @@
 }
 
 - (instancetype)initWithAuthorizationOptions:(UNAuthorizationOptions)options {
+    NSAssert(options != 0, @"Authorization options must not be empty!");
     self = [super init];
     if (self) {
         self.options = options;
