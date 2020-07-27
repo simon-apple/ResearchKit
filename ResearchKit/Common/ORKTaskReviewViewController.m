@@ -296,7 +296,7 @@ static const float ReviewQuestionAnswerPadding = 2.0;
     } else {
         [_button setBackgroundColor:[UIColor lightGrayColor]];
     }
-    [_button setContentEdgeInsets:UIEdgeInsetsMake(EditAnswerButtomLeftRightInsetSpacing, EditAnswerButtonTopBottomInsetSpacing, EditAnswerButtomLeftRightInsetSpacing, EditAnswerButtonTopBottomInsetSpacing)];
+    [_button setContentEdgeInsets:UIEdgeInsetsMake(EditAnswerButtonTopBottomInsetSpacing, EditAnswerButtomLeftRightInsetSpacing, EditAnswerButtonTopBottomInsetSpacing, EditAnswerButtomLeftRightInsetSpacing)];
     _button.clipsToBounds = YES;
 
     UIFontDescriptor *buttonDescriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleFootnote];
