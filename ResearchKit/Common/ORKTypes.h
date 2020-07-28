@@ -29,7 +29,6 @@
  */
 
 
-@import Foundation;
 @import UIKit;
 #import <ResearchKit/ORKDefines.h>
 
@@ -402,12 +401,17 @@ typedef NS_ENUM(NSInteger, ORKBluetoothMode) {
 } ORK_ENUM_AVAILABLE;
 
 ORK_CLASS_AVAILABLE
-@interface ORKDontKnowAnswer : NSObject<NSCopying, NSSecureCoding>
-
-+ (instancetype)answer;
+@interface ORKNoAnswer : NSObject<NSCopying, NSSecureCoding>
 
 + (instancetype)new NS_UNAVAILABLE;
 - (instancetype)init NS_UNAVAILABLE;
+
+@end
+
+ORK_CLASS_AVAILABLE
+@interface ORKDontKnowAnswer : ORKNoAnswer
+
++ (instancetype)answer NS_SWIFT_NAME(answer());
 
 @end
 

@@ -31,6 +31,8 @@
 
 #import <ResearchKit/ResearchKit.h>
 
+#import <ResearchKit/ORKTypes_Private.h>
+
 #import <ResearchKit/ORKHelpers_Private.h>
 #import <ResearchKit/ORKHelpers_Internal.h>
 

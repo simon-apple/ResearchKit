@@ -214,7 +214,13 @@ enum ResultRow {
             it's "nil". Use Optional's map method to map the value to a string
             if the detail is not `nil`.
         */
-        let detailText = detail.map { String(describing: $0) } ?? "nil"
+        let detailText: String
+        // Workaroud for Swift crash when detail is ORKDontKnowAnswer
+        if let detail = detail as? NSObject {
+            detailText = String(describing: detail)
+        } else {
+            detailText = detail.map { String(describing: $0) } ?? "nil"
+        }
         
         self = .text(text, detail: detailText, selectable: selectable)
     }
@@ -341,8 +347,7 @@ class ResultTableViewProvider: NSObject, UITableViewDataSource, UITableViewDeleg
     func resultRowsForSection(_ section: Int) -> [ResultRow] {
         // Default to an empty array.
         guard section == 0 else { return [] }
-        
-        return [
+        var rows = [
             // The class name of the result object.
             ResultRow(text: "type", detail: type(of: result)),
 
@@ -358,6 +363,12 @@ class ResultTableViewProvider: NSObject, UITableViewDataSource, UITableViewDeleg
             // The end date for the result.
             ResultRow(text: "end", detail: result.endDate)
         ]
+        if let questionResult = result as? ORKQuestionResult {
+            rows.append(
+                ResultRow(text: "noAnswerType", detail: questionResult.noAnswerType)
+            )
+        }
+        return rows
     }
 }
 

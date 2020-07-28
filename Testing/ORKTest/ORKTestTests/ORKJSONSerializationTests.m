@@ -322,6 +322,8 @@ ORK_MAKE_TEST_INIT(NSRegularExpression, (^{
     return [self initWithPattern:@"." options:0 error:nil];
 }));
 ORK_MAKE_TEST_INIT(UIColor, (^{ return [self initWithRed:1 green:1 blue:1 alpha:1]; }));
+ORK_MAKE_TEST_INIT(ORKNoAnswer, (^{ return [ORKDontKnowAnswer answer]; }));
+
 
 @interface ORKJSONTestImageSerialization : NSObject<ORKESerializationImageProvider>
 
@@ -331,6 +333,7 @@ ORK_MAKE_TEST_INIT(UIColor, (^{ return [self initWithRed:1 green:1 blue:1 alpha:
 - (void)reset;
 
 @end
+
 
 @implementation ORKJSONTestImageSerialization {
     NSMutableDictionary<NSString *, UIImage *> *_imageTable;
@@ -380,17 +383,41 @@ ORK_MAKE_TEST_INIT(UIColor, (^{ return [self initWithRed:1 green:1 blue:1 alpha:
 
 @end
 
+
+@interface _ORKTestNoAnswer : ORKNoAnswer
+
++ (instancetype)answer;
+
+@end
+
+@implementation _ORKTestNoAnswer
+
++ (instancetype)answer {
+    static _ORKTestNoAnswer *instance = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        instance = [[self alloc] init_ork];
+    });
+    return instance;
+}
+
+@end
+
+
 @interface ORKJSONSerializationTestConfiguration : NSObject
+
 @property (nonatomic, readonly) NSArray<Class> *classesWithORKSerialization;
 @property (nonatomic, readonly) NSArray<Class> *classesWithSecureCoding;
 @property (nonatomic, readonly) NSArray<Class> *classesExcludedForORKESerialization;
 @property (nonatomic, readonly) NSArray<NSString *> *propertyExclusionList;
 @property (nonatomic, readonly) NSArray<NSString *> *knownNotSerializedProperties;
 @property (nonatomic, readonly) NSArray<NSString *> *allowedUnTouchedKeys;
+@property (nonatomic, readonly) NSDictionary<NSString *, NSArray<NSString *> *> *mutuallyExclusiveProperties;
 
 + (NSArray<Class> *)_classesWithSecureCoding;
 
 @end
+
 
 @implementation ORKJSONSerializationTestConfiguration
 
@@ -521,25 +548,35 @@ ORK_MAKE_TEST_INIT(UIColor, (^{ return [self initWithRed:1 green:1 blue:1 alpha:
                                           @"ORKWebViewStep.customViewProvider"
                                           ];
         _allowedUnTouchedKeys = @[@"_class"];
+        _mutuallyExclusiveProperties = @{
+            @"ORKBooleanQuestionResult": @[@"noAnswerType", @"booleanAnswer"],
+            @"ORKChoiceQuestionResult": @[@"noAnswerType", @"choiceAnswers"],
+            @"ORKDateQuestionResult": @[@"noAnswerType", @"dateAnswer"],
+            @"ORKLocationQuestionResult": @[@"noAnswerType", @"locationAnswer"],
+            @"ORKMultipleComponentQuestionResult": @[@"noAnswerType", @"componentsAnswer"],
+            @"ORKNumericQuestionResult": @[@"noAnswerType", @"numericAnswer"],
+            @"ORKScaleQuestionResult": @[@"noAnswerType", @"scaleAnswer"],
+            @"ORKTextQuestionResult": @[@"noAnswerType", @"textAnswer"],
+            @"ORKTimeIntervalQuestionResult": @[@"noAnswerType", @"intervalAnswer"],
+            @"ORKTimeOfDayQuestionResult": @[@"noAnswerType", @"dateComponentsAnswer"],
+            @"ORKSESQuestionResult": @[@"noAnswerType", @"rungPicked"],
+        };
     }
     return self;
 }
 
 + (NSArray<Class> *)_classesWithSecureCoding {
-    NSArray *classesExcluded = @[]; // classes not intended to be serialized standalone
-    NSMutableArray *stringsForClassesExcluded = [NSMutableArray array];
-    for (Class c in classesExcluded) {
-        [stringsForClassesExcluded addObject:NSStringFromClass(c)];
-    }
-    
-    [stringsForClassesExcluded addObject:@"ORKFreehandDrawingGestureRecognizer"];
-    [stringsForClassesExcluded addObject:@"ORKSignatureGestureRecognizer"];
-    [stringsForClassesExcluded addObject:@"ORKTouchGestureRecognizer"];
-    [stringsForClassesExcluded addObject:@"ORKHealthClinicalTypeRecorderConfiguration"];
-    [stringsForClassesExcluded addObject:@"ORKUSDZModelManagerScene"];
-    [stringsForClassesExcluded addObject:@"ORKBlurFooterView"];
-    [stringsForClassesExcluded addObject:@"ORKFrontFacingCameraStepOptionsView"];
-    
+    // Classes not intended to be serialized standalone
+    NSArray *excludedClassNames = @[
+        @"ORKFreehandDrawingGestureRecognizer",
+        @"ORKSignatureGestureRecognizer",
+        @"ORKTouchGestureRecognizer",
+        @"ORKHealthClinicalTypeRecorderConfiguration",
+        @"ORKUSDZModelManagerScene",
+        @"ORKBlurFooterView",
+        @"ORKFrontFacingCameraStepOptionsView",
+        @"ORKNoAnswer",
+    ];
     // Find all classes that conform to NSSecureCoding
     NSMutableArray<Class> *classesWithSecureCoding = [NSMutableArray new];
     int numClasses = objc_getClassList(NULL, 0);
@@ -547,10 +584,9 @@ ORK_MAKE_TEST_INIT(UIColor, (^{ return [self initWithRed:1 green:1 blue:1 alpha:
     numClasses = objc_getClassList(classes, numClasses);
     for (int index = 0; index < numClasses; index++) {
         Class aClass = classes[index];
-        if ([stringsForClassesExcluded containsObject:NSStringFromClass(aClass)]) {
+        if ([excludedClassNames containsObject:NSStringFromClass(aClass)]) {
             continue;
         }
-        
         if ([NSStringFromClass(aClass) hasPrefix:@"ORK"] &&
             [aClass conformsToProtocol:@protocol(NSSecureCoding)]) {
             [classesWithSecureCoding addObject:aClass];
@@ -585,18 +621,6 @@ ORK_MAKE_TEST_INIT(UIColor, (^{ return [self initWithRed:1 green:1 blue:1 alpha:
     [super tearDown];
 }
 
-- (void)testTaskResult {
-    
-    //ORKTaskResult *result = [[ORKTaskResult alloc] initWithTaskIdentifier:@"a000012" taskRunUUID:[NSUUID UUID] outputDirectory:[NSURL fileURLWithPath:NSTemporaryDirectory()]];
-    
-    ORKQuestionResult *qr = [[ORKQuestionResult alloc] initWithIdentifier:@"a000012.s05"];
-    qr.answer = @(1010);
-    qr.questionType = ORKQuestionTypeInteger;
-    
-    ORKStepResult *stepResult = [[ORKStepResult alloc] initWithStepIdentifier:@"stepIdentifier" results:@[qr]];
-    stepResult.results = @[qr];
-}
-
 - (void)testTaskModel {
     
     ORKActiveStep *activeStep = [[ORKActiveStep alloc] initWithIdentifier:@"id"];
@@ -629,45 +653,6 @@ ORK_MAKE_TEST_INIT(UIColor, (^{ return [self initWithRed:1 green:1 blue:1 alpha:
     
     XCTAssertTrue([dict1 isEqualToDictionary:dict2], @"Should be equal");
     
-}
-
-/*
- Verify that all the known classes that can have dont know answers, serialize them as separate properties with
- the prefix noAnswer_
- */
-- (void)testDontKnowSerialization {
-    
-    NSDictionary *examples = @{
-        @"ORKBooleanQuestionResult" : @"booleanAnswer",
-        @"ORKDateQuestionResult": @"dateAnswer",
-        @"ORKNumericQuestionResult" : @"numericAnswer",
-        @"ORKScaleQuestionResult" : @"scaleAnswer"
-    };
-    [examples enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull className, NSString *  _Nonnull answerProp, __unused BOOL * _Nonnull stop) {
-        ORKQuestionResult *result = [(ORKQuestionResult *)[NSClassFromString(className) alloc] initWithIdentifier:[[NSUUID UUID] UUIDString]];
-        [result setAnswer:[ORKDontKnowAnswer answer]];
-        result.startDate = [NSDate date];
-        result.endDate = [NSDate date];
-        NSDictionary *dict = [ORKESerializer JSONObjectForObject:result error:nil];
-        
-        // Do not expect the property name for the answer to have a value
-        XCTAssertNil([dict valueForKey:answerProp]);
-        
-        // Do expect the "dont know" version of the property name for the answer to have a value.
-        XCTAssertEqualObjects(@"ORKDontKnowAnswer",
-                              [[dict valueForKey:[@"noAnswer_" stringByAppendingString:answerProp]] valueForKey:@"_class"]);
-        
-    }];
-}
-
-- (void)_verifyDontKnowExampleFromPath:(NSString *)path
-                    answerPropertyName:(NSString *)propertyName
-                               context:(ORKESerializationContext *)context {
-
-    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:path] options:0 error:NULL];
-    id instance = [ORKESerializer objectFromJSONObject:dict context:context error:NULL];
-    XCTAssertNotNil(instance);
-    XCTAssertEqualObjects([instance valueForKey:propertyName], [ORKDontKnowAnswer answer]);
 }
 
 /*
@@ -711,19 +696,23 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
     ORKJSONSerializationTestConfiguration *testConfiguration = [[ORKJSONSerializationTestConfiguration alloc] init];
     
     NSArray *classesWithORKSerialization = testConfiguration.classesWithORKSerialization;
+    NSDictionary *mutuallyExclusiveProperties = testConfiguration.mutuallyExclusiveProperties;
     
     for (Class c in classesWithORKSerialization) {
         XCTAssertNotNil([bundle pathForResource:NSStringFromClass(c) ofType:@"json"], @"Missing JSON serialization example for %@", NSStringFromClass(c));
     }
     
+    NSString *(^filenamePathToClassName)(NSString *) = ^NSString *(NSString *path) {
+        NSString *filename = [[path lastPathComponent] stringByDeletingPathExtension];
+        NSArray<NSString *> *filenameComponents = [filename componentsSeparatedByString:@"-"];
+        return filenameComponents.firstObject;
+    };
+    
     // Decode where images are "decoded"
     for (NSString *path in paths) {
         
-        if ([[path lastPathComponent] hasPrefix:@"DontKnow"]) {
-            continue;
-        }
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:path] options:0 error:NULL];
-        NSString *className = [[path lastPathComponent] stringByDeletingPathExtension];
+        NSString *className = filenamePathToClassName(path);
         NSMutableArray<NSString *> *knownProperties = [[ORKESerializer serializedPropertiesForClass:NSClassFromString(className)] mutableCopy];
         NSMutableArray<NSString *> *loadedProperties = [[dict allKeys] mutableCopy];
         [loadedProperties removeObject:@"_class"];
@@ -732,6 +721,20 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
         NSMutableSet *intersectionSet = [knownPropSet mutableCopy]; [intersectionSet intersectSet:loadedPropSet];
         NSMutableSet *extraKnownProps = [knownPropSet mutableCopy]; [extraKnownProps minusSet:intersectionSet];
         NSMutableSet *extraLoadedProps = [loadedPropSet mutableCopy]; [extraLoadedProps minusSet:intersectionSet];
+        
+        // Exception for mutually exclusive properties
+        NSArray *classMutuallyExclusiveProperties = mutuallyExclusiveProperties[className];
+        for (NSString *propertyName in [extraKnownProps allObjects]) {
+            if ([classMutuallyExclusiveProperties containsObject:propertyName]) {
+                NSMutableArray *copy = [classMutuallyExclusiveProperties mutableCopy];
+                [copy removeObject:propertyName];
+                NSString *exclusivePropertyName = copy.firstObject;
+                if ([knownPropSet containsObject:exclusivePropertyName]) {
+                    [extraKnownProps removeObject:propertyName];
+                }
+            }
+        }
+        
         XCTAssertEqualObjects(extraKnownProps, [NSSet set], @"Extra properties registered but not in example for %@", className);
         XCTAssertEqualObjects(extraLoadedProps, [NSSet set], @"Extra properties in sample but not registered for %@ on %@", className, path);
         id instance = [ORKESerializer objectFromJSONObject:dict context:context error:NULL];
@@ -747,27 +750,11 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
             continue;
         }
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:path] options:0 error:NULL];
-        NSString *className = [[path lastPathComponent] stringByDeletingPathExtension];
+        NSString *className = filenamePathToClassName(path);
         id instance = [ORKESerializer objectFromJSONObject:dict context:context error:NULL];
         XCTAssertNotNil(instance);
         XCTAssertEqualObjects(NSStringFromClass([instance class]), className);
     }
-
-    // Test the dont know examples
-    NSDictionary *examples = @{
-        @"DontKnowBooleanResult" : @"booleanAnswer",
-        @"DontKnowDateResult": @"dateAnswer",
-        @"DontKnowNumericResult" : @"numericAnswer",
-        @"DontKnowScaleResult" : @"scaleAnswer"
-    };
-    [examples enumerateKeysAndObjectsUsingBlock:^(NSString *  _Nonnull key, NSString *  _Nonnull propName, __unused BOOL * _Nonnull stop) {
-        [self _verifyDontKnowExampleFromPath:[bundle pathForResource:key ofType:@"json"]
-                          answerPropertyName:propName
-                                     context:context];
-    }];
-    
-    
-    
 }
 
 #define GENERATE_SAMPLES 0
@@ -797,9 +784,12 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
     NSArray *propertyExclusionList = testConfiguration.propertyExclusionList;
     NSArray *knownNotSerializedProperties = testConfiguration.knownNotSerializedProperties;
     NSArray *allowedUnTouchedKeys = testConfiguration.allowedUnTouchedKeys;
-
+    NSDictionary *mutallyExclusiveProperties = testConfiguration.mutuallyExclusiveProperties;
+    
     // Test Each class
     for (Class aClass in classesWithORKSerialization) {
+        NSString *className = NSStringFromClass(aClass);
+        NSArray *classMutuallyExclusiveProperties = mutallyExclusiveProperties[className];
         
         id instance = [self instanceForClass:aClass];
         
@@ -887,6 +877,17 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
             if (mockDictionary[propertyName] == nil) {
                 NSString *notSerializedProperty = dottedPropertyNames[propertyName];
                 BOOL success = [knownNotSerializedProperties containsObject:notSerializedProperty];
+                
+                // Exception for mutually exclusive properties
+                if ([classMutuallyExclusiveProperties containsObject:propertyName]) {
+                    NSMutableArray *copy = [classMutuallyExclusiveProperties mutableCopy];
+                    [copy removeObject:propertyName];
+                    NSString *exclusivePropertyName = copy.firstObject;
+                    if (mockDictionary[exclusivePropertyName] != nil) {
+                        success = YES;
+                    }
+                }
+                
                 if (!success) {
                     XCTAssertTrue(success, "Unexpected notSerializedProperty = %@ (%@)", notSerializedProperty, NSStringFromClass(aClass));
                 }
@@ -948,7 +949,7 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
     
     Class aClass = [instance class];
     // Assign value to object type property
-    if (p.propertyClass == [NSObject class] && (aClass == [ORKTextChoice class]|| aClass == [ORKImageChoice class] || (aClass == [ORKQuestionResult class])))
+    if (p.propertyClass == [NSObject class] && (aClass == [ORKTextChoice class] || aClass == [ORKImageChoice class] || (aClass == [ORKQuestionResult class])))
     {
         // Map NSObject to string, since it's used where either a string or a number is acceptable
         [instance setValue:index?@"blah":@"test" forKey:p.propertyName];
@@ -986,6 +987,9 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
                                                              taskRunUUID:[NSUUID UUID]
                                                          outputDirectory:nil] forKey:p.propertyName];
         return NO;
+    } else if (p.propertyClass == [ORKNoAnswer class]) {
+        ORKNoAnswer *value = (index ? [ORKDontKnowAnswer answer] : [_ORKTestNoAnswer answer]);
+        [instance setValue:value forKey:p.propertyName];
     } else {
         id instanceForChild = [self instanceForClass:p.propertyClass];
         [instance setValue:instanceForChild forKey:p.propertyName];
@@ -1124,6 +1128,7 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
 
 - (void)testEquality {
     NSArray *classesExcluded = @[
+                                 [ORKNoAnswer class],     // abstract base class
                                  [ORKStepNavigationRule class],     // abstract base class
                                  [ORKSkipStepNavigationRule class],     // abstract base class
                                  [ORKStepModifier class],     // abstract base class

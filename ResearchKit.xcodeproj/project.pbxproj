@@ -731,6 +731,7 @@
 		BADA2F26225DA54B005D2255 /* ORKInstructionStepContainerView.h in Headers */ = {isa = PBXBuildFile; fileRef = BADA2F24225DA54B005D2255 /* ORKInstructionStepContainerView.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		BADA2F27225DA54B005D2255 /* ORKInstructionStepContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = BADA2F25225DA54B005D2255 /* ORKInstructionStepContainerView.m */; };
 		BC01B0FB1B0EB99700863803 /* ORKTintedImageView_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = BC01B0FA1B0EB99700863803 /* ORKTintedImageView_Internal.h */; };
+		BC081DE224CBC4DE00AD92AA /* ORKTypes_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = BC081DE124CBC4DE00AD92AA /* ORKTypes_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		BC13CE391B0660220044153C /* ORKNavigableOrderedTask.h in Headers */ = {isa = PBXBuildFile; fileRef = BC13CE371B0660220044153C /* ORKNavigableOrderedTask.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BC13CE3A1B0660220044153C /* ORKNavigableOrderedTask.m in Sources */ = {isa = PBXBuildFile; fileRef = BC13CE381B0660220044153C /* ORKNavigableOrderedTask.m */; };
 		BC13CE3C1B0662990044153C /* ORKStepNavigationRule_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = BC13CE3B1B0662990044153C /* ORKStepNavigationRule_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -1687,6 +1688,7 @@
 		BADA2F24225DA54B005D2255 /* ORKInstructionStepContainerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKInstructionStepContainerView.h; sourceTree = "<group>"; };
 		BADA2F25225DA54B005D2255 /* ORKInstructionStepContainerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKInstructionStepContainerView.m; sourceTree = "<group>"; };
 		BC01B0FA1B0EB99700863803 /* ORKTintedImageView_Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKTintedImageView_Internal.h; sourceTree = "<group>"; };
+		BC081DE124CBC4DE00AD92AA /* ORKTypes_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKTypes_Private.h; sourceTree = "<group>"; };
 		BC13CE371B0660220044153C /* ORKNavigableOrderedTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKNavigableOrderedTask.h; sourceTree = "<group>"; };
 		BC13CE381B0660220044153C /* ORKNavigableOrderedTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKNavigableOrderedTask.m; sourceTree = "<group>"; };
 		BC13CE3B1B0662990044153C /* ORKStepNavigationRule_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKStepNavigationRule_Private.h; sourceTree = "<group>"; };
@@ -3057,6 +3059,7 @@
 		B12EFF3D1AB2121000A80147 /* Definitions */ = {
 			isa = PBXGroup;
 			children = (
+				BC081DE124CBC4DE00AD92AA /* ORKTypes_Private.h */,
 				BC2908BB1FBD628F0030AB89 /* ORKTypes.m */,
 				BCB8133B1C98367A00346561 /* ORKTypes.h */,
 				86C40B7B1A8D7C5C00081FAC /* ORKDefines.h */,
@@ -3982,6 +3985,7 @@
 				71769E312088260B00A19914 /* ORKdBHLToneAudiometryOnboardingStepViewController.h in Headers */,
 				AE2CF2C123231C5A00FDD733 /* ORKTagLabel.h in Headers */,
 				FF919A471E81BA3D005C2A1E /* ORKHolePegTestResult.h in Headers */,
+				BC081DE224CBC4DE00AD92AA /* ORKTypes_Private.h in Headers */,
 				5175144E2459EBF0009E8FFC /* ORK3DModelStep.h in Headers */,
 				25ECC0A31AFBDD2700F3D63B /* ORKReactionTimeStimulusView.h in Headers */,
 				106FF2AA1B690FD7004EACF2 /* ORKHolePegTestPlacePegView.h in Headers */,
