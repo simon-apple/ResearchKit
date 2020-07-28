@@ -814,6 +814,10 @@ static const CGFloat DelayBeforeAutoScroll = 0.25;
 - (void)updateButtonStates {
     _navigationFooterView.continueEnabled = [self continueButtonEnabled];
     _navigationFooterView.skipEnabled = [self skipButtonEnabled];
+    
+    if (self.shouldPresentInReview && self.navigationItem.rightBarButtonItem) {
+        self.navigationItem.rightBarButtonItem.enabled = [self continueButtonEnabled];
+    }
 }
 
 - (void)setShouldPresentInReview:(BOOL)shouldPresentInReview {

@@ -509,6 +509,10 @@ static const CGFloat DelayBeforeAutoScroll = 0.25;
     }
     _navigationFooterView.continueEnabled = [self continueButtonEnabled];
     _navigationFooterView.skipEnabled = [self skipButtonEnabled];
+    
+    if (self.shouldPresentInReview && self.navigationItem.rightBarButtonItem) {
+        self.navigationItem.rightBarButtonItem.enabled = [self continueButtonEnabled];
+    }
 }
 
 // Override to monitor button title change
