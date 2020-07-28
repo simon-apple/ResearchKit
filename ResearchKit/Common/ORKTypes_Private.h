@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015-2017, Apple Inc. All rights reserved.
+ Copyright (c) 2020, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -29,31 +29,15 @@
  */
 
 
-#import <ResearchKit/ORKQuestionResult.h>
-@import MapKit;
-
+@import UIKit;
+#import <ResearchKit/ORKDefines.h>
+#import <ResearchKit/ORKTypes.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ORKQuestionResult ()
+@interface ORKNoAnswer ()
 
-// Used internally for unit testing.
-+ (nullable Class)answerClass;
-
-// Used internally for unit testing.
-@property (nonatomic, strong, nullable) NSObject<NSCopying, NSSecureCoding> *answer;
-
-@end
-
-
-@interface ORKLocation ()
-
-- (instancetype)initWithCoordinate:(CLLocationCoordinate2D)coordinate
-                            region:(nullable CLCircularRegion *)region
-                         userInput:(nullable NSString *)userInput
-                     postalAddress:(nullable CNPostalAddress *)postalAddress;
-
-- (instancetype)initWithPlacemark:(CLPlacemark *)placemark userInput:(NSString *)userInput;
+- (instancetype)init_ork;
 
 @end
 

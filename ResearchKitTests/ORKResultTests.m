@@ -120,7 +120,7 @@
     }];
 }
 
-- (void)testResultSerialization {
+- (void)testResultSecureCoding {
     ORKTaskResult *taskResult1 = [self createTaskResultTree];
     
     // Archive
