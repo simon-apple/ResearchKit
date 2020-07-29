@@ -147,4 +147,8 @@ static const CGFloat ImageToLabelPadding = 2.0;
     _iconImageView.image = image;
 }
 
+- (NSString *)accessibilityLabel {
+    return _textLabel.text;
+}
+
 @end
