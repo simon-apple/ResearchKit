@@ -111,6 +111,8 @@ static const NSTimeInterval ORKHeadphoneCellAnimationDuration = 0.2;
             [self setupExtraLabel];
             [self setExtraLabelsAlpha:0.0];
         }
+        
+        [self updateAccessibilityElements];
     }
     return self;
 }
@@ -225,7 +227,6 @@ static const NSTimeInterval ORKHeadphoneCellAnimationDuration = 0.2;
     [[_extraLabelsContainerView.leadingAnchor constraintEqualToAnchor:_labelContainerView.leadingAnchor] setActive:YES];
     [[_extraLabelsContainerView.topAnchor constraintEqualToAnchor:_textLabel.bottomAnchor constant:ORKHeadphoneDetectExtraLabelsSpacing] setActive:YES];
     [[_extraLabelsContainerView.trailingAnchor constraintEqualToAnchor:_checkContainerView.leadingAnchor constant:ORKHeadphoneDetectStepSpacing] setActive:YES];
-
 }
 
 - (void)setupExtraLabel {
@@ -244,6 +245,31 @@ static const NSTimeInterval ORKHeadphoneCellAnimationDuration = 0.2;
     [[_extraLabel.trailingAnchor constraintEqualToAnchor:_extraLabelsContainerView.trailingAnchor constant: -ORKHeadphoneDetectStepSpacing] setActive:YES];
     [[_extraLabel.topAnchor constraintEqualToAnchor:_orangeLabel.bottomAnchor constant:ORKHeadphoneDetectExtraLabelsSpacing] setActive:YES];
     [[_extraLabel.bottomAnchor constraintEqualToAnchor:_extraLabelsContainerView.bottomAnchor] setActive:YES];
+}
+
+- (void)updateAccessibilityElements {
+    
+    BOOL isShowingExtraLabels = _extraLabelsContainerView.alpha > 0;
+    
+    // Default (_titleLabel)
+    NSMutableArray *mutableAccessibilityElements = [[NSMutableArray alloc] initWithObjects:_titleLabel, nil];
+    
+    if (isShowingExtraLabels)
+    {
+        if (_orangeLabel) {
+            [mutableAccessibilityElements addObject:_orangeLabel];
+        }
+        
+        if (_extraLabel) {
+            [mutableAccessibilityElements addObject:_extraLabel];
+        }
+    }
+    
+    
+    NSString *titleAndTextAccessibilityLabel = [NSString stringWithFormat:@"%@ %@", _titleLabel.text, _textLabel.text];
+    _titleLabel.accessibilityLabel = titleAndTextAccessibilityLabel;
+    
+    self.accessibilityElements = (NSArray *)[mutableAccessibilityElements copy];
 }
 
 - (UIFont *)footnoteFont {
@@ -293,6 +319,8 @@ static const NSTimeInterval ORKHeadphoneCellAnimationDuration = 0.2;
 
 - (void)setExtraLabelsAlpha:(CGFloat) alpha {
     _extraLabelsContainerView.alpha = alpha;
+    
+    [self updateAccessibilityElements];
 }
 
 - (void)setSelected:(BOOL)selected {
@@ -303,6 +331,8 @@ static const NSTimeInterval ORKHeadphoneCellAnimationDuration = 0.2;
 - (void)setConnected:(BOOL)connected {
     _connected = connected;
     _textLabel.text = _connected ? ORKLocalizedString(@"CONNECTED", nil) : ORKLocalizedString(@"NOT_CONNECTED", nil);
+    
+    [self updateAccessibilityElements];
 }
 
 - (void)anyHeadphoneDetected:(NSString * _Nullable)headphoneName
@@ -317,6 +347,8 @@ static const NSTimeInterval ORKHeadphoneCellAnimationDuration = 0.2;
     {
         [_textLabel setText:ORKLocalizedString(@"CONNECTED", nil)];
     }
+    
+    [self updateAccessibilityElements];
 }
 
 - (CGFloat)extraLabelsContentSize {
