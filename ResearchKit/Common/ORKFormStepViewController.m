@@ -976,6 +976,7 @@ static const CGFloat DelayBeforeAutoScroll = 0.25;
     
     if ([nextCell respondsToSelector:@selector(formItem)] && !_autoScrollCancelled) {
         ORKQuestionType type = nextCell.formItem.impliedAnswerFormat.questionType;
+        
         if ([self doesTableCellTypeUseKeyboard:type] && [nextCell isKindOfClass:[ORKFormItemCell class]]) {
             return YES;
         }
@@ -997,11 +998,11 @@ static const CGFloat DelayBeforeAutoScroll = 0.25;
     ORKTableSection *section = _sections[indexPath.section];
     NSNumber *sectionIndex = [NSNumber numberWithLong:indexPath.section];
     
-    if ([cell isKindOfClass:[ORKFormItemCell class]]) {
+    if ([cell isKindOfClass:[ORKFormItemCell class]] && [cell.answer class] != [ORKDontKnowAnswer class]) {
         if (cell.formItem.answerFormat.impliedAnswerFormat.questionType != ORKQuestionTypeSES) {
             return;
         }
-    } else if (section.textChoiceCellGroup.answerFormat.style != ORKChoiceAnswerStyleSingleChoice) {
+    } else if (section.textChoiceCellGroup.answerFormat.style != ORKChoiceAnswerStyleSingleChoice && [cell.answer class] != [ORKDontKnowAnswer class]) {
         return;
     }
 

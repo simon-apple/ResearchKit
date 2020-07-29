@@ -547,6 +547,9 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
         
         if (![_textFieldView.textField isFirstResponder]) {
             [self inputValueDidChange];
+            if (self.delegate) {
+                [self.delegate formItemCellDidResignFirstResponder:self];
+            }
         } else {
             [self textFieldShouldClear:_textFieldView.textField];
             [_textFieldView.textField endEditing:YES];
