@@ -54,6 +54,7 @@ static const CGFloat MoveSliderLabelBottomPadding = 38.0;
 static const CGFloat RangeViewHorizontalPadding = 16.0;
 static const CGFloat SliderBottomPadding = 16.0;
 static const CGFloat DontKnowButtonTopBottomPadding = 16.0;
+static const CGFloat DontKnowButtonMaxWidthOffset = 16.0;
 static const CGFloat kMargin = 25.0;
 
 
@@ -205,6 +206,14 @@ static const CGFloat kMargin = 25.0;
         [self setUpConstraints];
     }
     return self;
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    if (self.frame.size.width > 0 && _dontKnowButton) {
+        [[_dontKnowButton.widthAnchor constraintLessThanOrEqualToConstant:self.frame.size.width - DontKnowButtonMaxWidthOffset] setActive:YES];
+    }
 }
 
 - (void)setupTopLabels {
@@ -691,7 +700,7 @@ static const CGFloat kMargin = 25.0;
         [self resetViewToDefault];
     }
     
-    if (_dontKnowButton && [_dontKnowButton isDontKnowButtonActive]) {
+    if (_dontKnowButton) {
         [_dontKnowButton setButtonInactive];
     }
     

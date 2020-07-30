@@ -40,6 +40,7 @@ static const CGFloat CheckMarkImageTrailingPadding = 2.0;
 @implementation ORKDontKnowButton {
     UIView *_dontKnowButtonCustomView;
     UILabel *_dontKnowButtonTextLabel;
+    NSMutableArray<NSLayoutConstraint *> *_constraints;
 }
 
 - (instancetype)init {
@@ -65,6 +66,14 @@ static const CGFloat CheckMarkImageTrailingPadding = 2.0;
     [self tintColorDidChange];
 }
 
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    if (self.frame.size.width > 0) {
+        self.layer.cornerRadius = self.frame.size.height / 2;
+    }
+}
+
 - (void)updateAppearance {
     self.layer.cornerRadius = DontKnowButtonCornerRadius;
     self.clipsToBounds = YES;
@@ -78,10 +87,13 @@ static const CGFloat CheckMarkImageTrailingPadding = 2.0;
     _dontKnowButtonCustomView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:_dontKnowButtonCustomView];
     
-    _dontKnowButtonTextLabel = [UILabel new];
-    _dontKnowButtonTextLabel.text = _customDontKnowButtonText ? : ORKLocalizedString(@"SLIDER_I_DONT_KNOW", nil);
-    _dontKnowButtonTextLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    _dontKnowButtonTextLabel.numberOfLines = 0;
+    if (!_dontKnowButtonTextLabel) {
+        _dontKnowButtonTextLabel = [UILabel new];
+        _dontKnowButtonTextLabel.text = ORKLocalizedString(@"SLIDER_I_DONT_KNOW", nil);
+        _dontKnowButtonTextLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        _dontKnowButtonTextLabel.numberOfLines = 0;
+        _dontKnowButtonTextLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    }
 }
 
 - (void)dealloc {
@@ -89,6 +101,12 @@ static const CGFloat CheckMarkImageTrailingPadding = 2.0;
 }
 
 - (void)setButtonInactive {
+    if (_constraints) {
+        [NSLayoutConstraint deactivateConstraints:_constraints];
+    }
+    
+    _constraints = [NSMutableArray new];
+    
     _isDontKnowButtonActive = NO;
     [self updateAppearance];
     
@@ -107,20 +125,33 @@ static const CGFloat CheckMarkImageTrailingPadding = 2.0;
     }
 
     CGSize neededSize = [_dontKnowButtonTextLabel sizeThatFits:CGSizeMake( _dontKnowButtonTextLabel.frame.size.width, CGFLOAT_MAX)];
-    [[_dontKnowButtonTextLabel.heightAnchor constraintEqualToConstant:neededSize.height] setActive: YES];
-    [[_dontKnowButtonTextLabel.centerYAnchor constraintEqualToAnchor:_dontKnowButtonCustomView.centerYAnchor] setActive:YES];
     
-    [[_dontKnowButtonCustomView.trailingAnchor constraintEqualToAnchor:_dontKnowButtonTextLabel.trailingAnchor constant:DontKnowButtonEdgeInsetHorizontalSpacing] setActive:YES];
-    [[_dontKnowButtonCustomView.leadingAnchor constraintEqualToAnchor:_dontKnowButtonTextLabel.leadingAnchor constant:-DontKnowButtonEdgeInsetHorizontalSpacing] setActive:YES];
-    [[_dontKnowButtonCustomView.heightAnchor constraintEqualToAnchor:_dontKnowButtonTextLabel.heightAnchor multiplier:1.0 constant:DontKnowButtonEdgeInsetVerticalSpacing * 2] setActive:YES];
+    //label constraints
+    [_constraints addObject:[_dontKnowButtonTextLabel.heightAnchor constraintGreaterThanOrEqualToConstant:neededSize.height]];
+    [_constraints addObject:[_dontKnowButtonTextLabel.centerYAnchor constraintEqualToAnchor:_dontKnowButtonCustomView.centerYAnchor]];
     
-    [[self.trailingAnchor constraintEqualToAnchor:_dontKnowButtonCustomView.trailingAnchor constant:0.0] setActive:YES];
-    [[self.leadingAnchor constraintEqualToAnchor:_dontKnowButtonCustomView.leadingAnchor constant:0.0] setActive:YES];
-    [[self.topAnchor constraintEqualToAnchor:_dontKnowButtonCustomView.topAnchor constant:0.0] setActive:YES];
-    [[self.bottomAnchor constraintEqualToAnchor:_dontKnowButtonCustomView.bottomAnchor constant:0.0] setActive:YES];
+    //custom view constraints
+    [_constraints addObject:[_dontKnowButtonCustomView.trailingAnchor constraintEqualToAnchor:_dontKnowButtonTextLabel.trailingAnchor constant:DontKnowButtonEdgeInsetHorizontalSpacing]];
+    [_constraints addObject:[_dontKnowButtonCustomView.leadingAnchor constraintEqualToAnchor:_dontKnowButtonTextLabel.leadingAnchor constant:-DontKnowButtonEdgeInsetHorizontalSpacing]];
+    [_constraints addObject:[_dontKnowButtonCustomView.topAnchor constraintEqualToAnchor:_dontKnowButtonTextLabel.topAnchor constant:-DontKnowButtonEdgeInsetVerticalSpacing]];
+    [_constraints addObject:[_dontKnowButtonCustomView.bottomAnchor constraintEqualToAnchor:_dontKnowButtonTextLabel.bottomAnchor constant:DontKnowButtonEdgeInsetVerticalSpacing]];
+        
+    //button constraints
+    [_constraints addObject:[self.trailingAnchor constraintEqualToAnchor:_dontKnowButtonCustomView.trailingAnchor constant:0.0]];
+    [_constraints addObject:[self.leadingAnchor constraintEqualToAnchor:_dontKnowButtonCustomView.leadingAnchor constant:0.0]];
+    [_constraints addObject:[self.topAnchor constraintEqualToAnchor:_dontKnowButtonCustomView.topAnchor constant:0.0]];
+    [_constraints addObject:[self.bottomAnchor constraintEqualToAnchor:_dontKnowButtonCustomView.bottomAnchor constant:0.0]];
+    
+    [NSLayoutConstraint activateConstraints:_constraints];
 }
 
 - (void)setButtonActive {
+    if (_constraints) {
+        [NSLayoutConstraint deactivateConstraints:_constraints];
+    }
+    
+    _constraints = [NSMutableArray new];
+    
     _isDontKnowButtonActive = YES;
     [self updateAppearance];
     
@@ -144,22 +175,26 @@ static const CGFloat CheckMarkImageTrailingPadding = 2.0;
         [_dontKnowButtonCustomView addSubview:imageView];
         
         CGSize neededSize = [_dontKnowButtonTextLabel sizeThatFits:CGSizeMake( _dontKnowButtonTextLabel.frame.size.width, CGFLOAT_MAX)];
-        [[_dontKnowButtonTextLabel.heightAnchor constraintEqualToConstant:neededSize.height] setActive: YES];
         
-        [imageView.trailingAnchor constraintEqualToAnchor:_dontKnowButtonTextLabel.leadingAnchor constant:-CheckMarkImageTrailingPadding].active = YES;
-        [[imageView.heightAnchor constraintEqualToAnchor:_dontKnowButtonTextLabel.heightAnchor multiplier:1.0 constant:CheckMarkImageHeightOffset] setActive:YES];
-        [[imageView.widthAnchor constraintEqualToAnchor:_dontKnowButtonTextLabel.heightAnchor multiplier:1.0] setActive:YES];
-        [imageView.centerYAnchor constraintEqualToAnchor:_dontKnowButtonTextLabel.centerYAnchor].active = YES;
+        //image view constraints
+        [_constraints addObject:[imageView.trailingAnchor constraintEqualToAnchor:_dontKnowButtonTextLabel.leadingAnchor constant:-CheckMarkImageTrailingPadding]];
+        [_constraints addObject:[imageView.heightAnchor constraintEqualToConstant:neededSize.height + CheckMarkImageHeightOffset]];
+        [_constraints addObject:[imageView.widthAnchor constraintEqualToConstant:neededSize.height + CheckMarkImageHeightOffset]];
+        [_constraints addObject:[imageView.centerYAnchor constraintEqualToAnchor:_dontKnowButtonTextLabel.centerYAnchor]];
+                
+        //custom view constraints
+        [_constraints addObject:[_dontKnowButtonCustomView.trailingAnchor constraintEqualToAnchor:_dontKnowButtonTextLabel.trailingAnchor constant:DontKnowButtonEdgeInsetHorizontalSpacing]];
+        [_constraints addObject:[_dontKnowButtonCustomView.topAnchor constraintEqualToAnchor:_dontKnowButtonTextLabel.topAnchor constant:-DontKnowButtonEdgeInsetVerticalSpacing]];
+        [_constraints addObject:[_dontKnowButtonCustomView.bottomAnchor constraintEqualToAnchor:_dontKnowButtonTextLabel.bottomAnchor constant:DontKnowButtonEdgeInsetVerticalSpacing]];
+        [_constraints addObject:[_dontKnowButtonCustomView.leadingAnchor constraintEqualToAnchor:imageView.leadingAnchor constant:-DontKnowButtonEdgeInsetHorizontalSpacing]];
         
-        [_dontKnowButtonCustomView.trailingAnchor constraintEqualToAnchor:_dontKnowButtonTextLabel.trailingAnchor constant:DontKnowButtonEdgeInsetHorizontalSpacing].active = YES;
-        [_dontKnowButtonCustomView.topAnchor constraintEqualToAnchor:_dontKnowButtonTextLabel.topAnchor constant:-DontKnowButtonEdgeInsetVerticalSpacing].active = YES;
-        [_dontKnowButtonCustomView.bottomAnchor constraintEqualToAnchor:_dontKnowButtonTextLabel.bottomAnchor constant:DontKnowButtonEdgeInsetVerticalSpacing].active = YES;
-        [_dontKnowButtonCustomView.leadingAnchor constraintEqualToAnchor:imageView.leadingAnchor constant:-DontKnowButtonEdgeInsetHorizontalSpacing].active = YES;
+        //button constraints
+        [_constraints addObject:[self.trailingAnchor constraintEqualToAnchor:_dontKnowButtonCustomView.trailingAnchor constant:0.0]];
+        [_constraints addObject:[self.leadingAnchor constraintEqualToAnchor:_dontKnowButtonCustomView.leadingAnchor constant:0.0]];
+        [_constraints addObject:[self.topAnchor constraintEqualToAnchor:_dontKnowButtonCustomView.topAnchor constant:0.0]];
+        [_constraints addObject:[self.bottomAnchor constraintEqualToAnchor:_dontKnowButtonCustomView.bottomAnchor constant:0.0]];
         
-        [[self.trailingAnchor constraintEqualToAnchor:_dontKnowButtonCustomView.trailingAnchor constant:0.0] setActive:YES];
-        [[self.leadingAnchor constraintEqualToAnchor:_dontKnowButtonCustomView.leadingAnchor constant:0.0] setActive:YES];
-        [[self.topAnchor constraintEqualToAnchor:_dontKnowButtonCustomView.topAnchor constant:0.0] setActive:YES];
-        [[self.bottomAnchor constraintEqualToAnchor:_dontKnowButtonCustomView.bottomAnchor constant:0.0] setActive:YES];
+        [NSLayoutConstraint activateConstraints:_constraints];
     } else {
         [_dontKnowButtonTextLabel setTextColor:[UIColor whiteColor]];
     }
@@ -169,6 +204,10 @@ static const CGFloat CheckMarkImageTrailingPadding = 2.0;
 
 - (void)setCustomDontKnowButtonText:(NSString *)customDontKnowButtonText {
     _customDontKnowButtonText = customDontKnowButtonText;
+    
+    if (_customDontKnowButtonText) {
+        _dontKnowButtonTextLabel.text = _customDontKnowButtonText;
+    }
     
     if (_isDontKnowButtonActive) {
         [self setButtonActive];
