@@ -129,4 +129,10 @@
     [_meteringView setAlertColor:alertColor];
 }
 
+#pragma mark - UIAccessibility
+
+- (BOOL)isAccessibilityElement {
+    return NO;
+}
+
 @end

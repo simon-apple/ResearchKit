@@ -329,6 +329,10 @@ static NSString * ORKRecordButtonLabelForType(ORKRecordButtonType type)
     return NO;
 }
 
+- (NSArray *)accessibilityElements {
+    return @[_recordControl];
+}
+
 - (void)buttonPressed:(id)sender
 {
     if ([self.delegate conformsToProtocol:@protocol(ORKRecordButtonDelegate)] && [self.delegate respondsToSelector:@selector(buttonPressed:)])
