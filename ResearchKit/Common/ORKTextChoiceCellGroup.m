@@ -101,6 +101,7 @@
         } else {
             cell = [[ORKChoiceViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
         }
+        cell.isExclusive = textChoice.exclusive;
         cell.immediateNavigation = _immediateNavigation;
         [cell setPrimaryText:textChoice.text];
         [cell setDetailText:textChoice.detailText];

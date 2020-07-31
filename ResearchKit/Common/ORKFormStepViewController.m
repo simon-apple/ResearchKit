@@ -1002,7 +1002,7 @@ static const CGFloat DelayBeforeAutoScroll = 0.25;
         if (cell.formItem.answerFormat.impliedAnswerFormat.questionType != ORKQuestionTypeSES) {
             return;
         }
-    } else if (section.textChoiceCellGroup.answerFormat.style != ORKChoiceAnswerStyleSingleChoice && [cell.answer class] != [ORKDontKnowAnswer class]) {
+    } else if (![cell isKindOfClass:[ORKFormItemCell class]] && ![self isAnswerStyleSingleChoice:section.textChoiceCellGroup] && ![self exclusiveChoiceSelectedForCellGroup:section.textChoiceCellGroup withCell:cell] ) {
         return;
     }
 
@@ -1015,6 +1015,20 @@ static const CGFloat DelayBeforeAutoScroll = 0.25;
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, DelayBeforeAutoScroll * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
             [_tableView scrollToRowAtIndexPath:nextIndexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
         });
+    }
+}
+
+- (BOOL)isAnswerStyleSingleChoice:(ORKTextChoiceCellGroup *)cellGroup {
+    return (cellGroup.answerFormat.style == ORKChoiceAnswerStyleSingleChoice);
+}
+
+- (BOOL)exclusiveChoiceSelectedForCellGroup:(ORKTextChoiceCellGroup *)cellGroup withCell:(ORKFormItemCell *)cell {
+    ORKChoiceViewCell *choiceViewCell = (ORKChoiceViewCell *)cell;
+    
+    if (choiceViewCell) {
+        return (cellGroup.answer != nil && choiceViewCell.isExclusive);
+    } else {
+        return NO;
     }
 }
 
