@@ -593,6 +593,7 @@ static NSString *scrollContentChangedNotification = @"scrollContentChanged";
 - (void)setCustomContentView:(UIView *)customContentView withTopPadding:(CGFloat)topPadding sidePadding:(CGFloat)sidePadding {
     _customContentTopPadding = topPadding;
     _customContentLeftRightPadding = sidePadding;
+    [self.stepContentView setCustomTopPadding:[NSNumber numberWithFloat:topPadding]];
     [self setCustomContentView:customContentView];
 }
 
