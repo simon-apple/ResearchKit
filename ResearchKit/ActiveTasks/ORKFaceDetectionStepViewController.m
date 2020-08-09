@@ -42,6 +42,10 @@
 #import "ORKNavigationContainerView_Internal.h"
 #import "ORKContext.h"
 #import "ORKTaskViewController_Internal.h"
+#import <AVFoundation/AVFoundation.h>
+#import <CoreImage/CoreImage.h>
+#import <SceneKit/SceneKit.h>
+#import <ARKit/ARKit.h>
 
 
 @interface ORKFaceDetectionStepViewController () <AVCaptureVideoDataOutputSampleBufferDelegate, ARSCNViewDelegate, ARSessionDelegate>
@@ -52,13 +56,10 @@
 
 
 @implementation ORKFaceDetectionStepViewController {
-    NSTimer *_alignFaceTimer;
-    int _alignFaceSeconds;
-    
     AVCaptureDevice *_frontCameraCaptureDevice;
     AVCaptureSession *_captureSession;
     
-    ARSCNView *_arSceneView;
+    ORKFaceDetectionStepContentView *_contentView;
 }
 
 - (instancetype)initWithStep:(ORKStep *)step {
@@ -69,131 +70,117 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.activeStepView.navigationFooterView.neverHasContinueButton = true;
-    _videoJournalFaceDetectionContentView = [ORKFaceDetectionStepContentView new];
-    self.activeStepView.activeCustomView = _videoJournalFaceDetectionContentView;
-    self.activeStepView.customContentFillsAvailableSpace = YES;
-
-    [_videoJournalFaceDetectionContentView.nextButton addTarget:self
-                                                         action:@selector(nextButtonPressed)
-                                               forControlEvents:UIControlEventTouchUpInside];
-    
-    _alignFaceTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(alignFaceTimerIncrease) userInfo:nil repeats:YES];
-    
+    [self setupContentView];
+    [self setupConstraints];
     [self startSession];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    [_contentView layoutSubviews];
+}
+
+- (void)setupContentView {
+    _contentView = [[ORKFaceDetectionStepContentView alloc] init];
+    _contentView.layer.cornerRadius = 10.0;
+    _contentView.layer.maskedCorners = kCALayerMinXMinYCorner | kCALayerMaxXMinYCorner;
+    _contentView.clipsToBounds = YES;
+    
+    [_contentView addTargetToContinueButton:self selector:@selector(continueButtonPressed)];
+    
+    [self.view addSubview:_contentView];
+}
+
+-(void)setupConstraints {
+    _contentView.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    [[_contentView.topAnchor constraintEqualToAnchor:self.view.topAnchor] setActive:YES];
+    [[_contentView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor] setActive:YES];
+    [[_contentView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor] setActive:YES];
+    [[_contentView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor] setActive:YES];
+}
+
 - (void)startSession {
-    if ([ARFaceTrackingConfiguration isSupported]) {
-        _arSceneView = [_videoJournalFaceDetectionContentView arSceneView];
-        _arSceneView.delegate = self;
-        [_arSceneView.session setDelegate:self];
+    _frontCameraCaptureDevice = [AVCaptureDevice defaultDeviceWithDeviceType:AVCaptureDeviceTypeBuiltInWideAngleCamera mediaType:AVMediaTypeVideo position:AVCaptureDevicePositionFront];
+    _captureSession = [AVCaptureSession new];
+    
+    if (_frontCameraCaptureDevice) {
+        NSError *error;
         
-        ARFaceTrackingConfiguration *faceTrackingConfiguration = [ARFaceTrackingConfiguration new];
-        [faceTrackingConfiguration setLightEstimationEnabled:YES];
-        [_arSceneView.session runWithConfiguration:faceTrackingConfiguration options:ARSessionRunOptionResetTracking | ARSessionRunOptionRemoveExistingAnchors];
-    } else {
-        _frontCameraCaptureDevice = [AVCaptureDevice defaultDeviceWithDeviceType:AVCaptureDeviceTypeBuiltInWideAngleCamera mediaType:AVMediaTypeVideo position:AVCaptureDevicePositionFront];
-        _captureSession = [AVCaptureSession new];
+        AVCaptureDeviceInput *deviceInput = [AVCaptureDeviceInput deviceInputWithDevice:_frontCameraCaptureDevice error:&error];
         
-        if (_frontCameraCaptureDevice) {
-            NSError *error;
-            
-            AVCaptureDeviceInput *deviceInput = [AVCaptureDeviceInput deviceInputWithDevice:_frontCameraCaptureDevice error:&error];
-            
-            [_captureSession beginConfiguration];
-            
-            if (error) {
-                //todo: handle error
-                return;
-            }
-            
-            if ([_captureSession canAddInput:deviceInput]) {
-                [_captureSession addInput:deviceInput];
-            }
-            
-            if ([_captureSession canSetSessionPreset:AVCaptureSessionPreset640x480]) {
-                [_captureSession setSessionPreset:AVCaptureSessionPreset640x480];
-            }
-            
-            AVCaptureVideoDataOutput *output = [AVCaptureVideoDataOutput new];
-            
-            NSString* key = (NSString*)kCVPixelBufferPixelFormatTypeKey;
-            NSNumber* value = [NSNumber numberWithUnsignedInt:kCVPixelFormatType_32BGRA];
-            NSDictionary* videoSettings = [NSDictionary dictionaryWithObject:value forKey:key];
-            [output setVideoSettings:videoSettings];
-            output.alwaysDiscardsLateVideoFrames = YES;
-            
-            if ([_captureSession canAddOutput:output]) {
-                [_captureSession addOutput:output];
-            }
-            
-            AVCaptureConnection *connection = [output connectionWithMediaType:AVMediaTypeVideo];
-            if ([connection isVideoOrientationSupported]) {
-                connection.videoOrientation = AVCaptureVideoOrientationPortrait;
-            }
-            
-            if ([connection isVideoMirroringSupported]) {
-                [connection setVideoMirrored:NO];
-            }
-            
-            [_captureSession commitConfiguration];
-            
-            dispatch_queue_attr_t qos = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, QOS_CLASS_USER_INITIATED, -1);
-            dispatch_queue_t recordingQueue = dispatch_queue_create("output.queue", qos);
-            
-            [output setSampleBufferDelegate:self queue:recordingQueue];
-            
-            [_videoJournalFaceDetectionContentView setPreviewLayerWithSession:_captureSession];
-            
-            [_captureSession startRunning];
+        [_captureSession beginConfiguration];
+        
+        if (error) {
+            [self handleError:[NSError errorWithDomain:NSCocoaErrorDomain code:NSFeatureUnsupportedError userInfo:@{NSLocalizedDescriptionKey:ORKLocalizedString(@"CAPTURE_ERROR_CAMERA_NOT_FOUND", nil)}]];
+            return;
         }
         
-    }
-    
-    [_videoJournalFaceDetectionContentView layoutSubviews];
-}
-
-- (void)alignFaceTimerIncrease {
-    if (!_alignFaceSeconds) {
-        _alignFaceSeconds = 1;
-    }
-    
-    [_videoJournalFaceDetectionContentView updateTimerLabelWithSeconds:_alignFaceSeconds];
-    
-    if (_alignFaceSeconds == 60) {
-        [_alignFaceTimer invalidate];
-        
-        if ([self.step.context isKindOfClass:[ORKAVJournalingPredfinedTaskContext class]]) {
-            [(ORKAVJournalingPredfinedTaskContext *)self.step.context didReachDetectionTimeLimitForTask:self.step.task];
-            
-             [[self taskViewController] flipToPageWithIdentifier:@"MaxLimitHitCompletionStepIdentifierHeadphonesRequired" forward:YES animated:NO];
+        if ([_captureSession canAddInput:deviceInput]) {
+            [_captureSession addInput:deviceInput];
         }
         
-    } else {
-        _alignFaceSeconds += 1;
-    }
-}
-
-- (void)nextButtonPressed {
-    if (_arSceneView) {
-        [_arSceneView.session pause];
-        [_arSceneView removeFromSuperview];
-        _arSceneView = nil;
+        if ([_captureSession canSetSessionPreset:AVCaptureSessionPreset640x480]) {
+            [_captureSession setSessionPreset:AVCaptureSessionPreset640x480];
+        }
+        
+        AVCaptureVideoDataOutput *output = [AVCaptureVideoDataOutput new];
+        
+        NSString* key = (NSString*)kCVPixelBufferPixelFormatTypeKey;
+        NSNumber* value = [NSNumber numberWithUnsignedInt:kCVPixelFormatType_32BGRA];
+        NSDictionary* videoSettings = [NSDictionary dictionaryWithObject:value forKey:key];
+        [output setVideoSettings:videoSettings];
+        output.alwaysDiscardsLateVideoFrames = YES;
+        
+        if ([_captureSession canAddOutput:output]) {
+            [_captureSession addOutput:output];
+        }
+        
+        AVCaptureConnection *connection = [output connectionWithMediaType:AVMediaTypeVideo];
+        if ([connection isVideoOrientationSupported]) {
+            connection.videoOrientation = AVCaptureVideoOrientationPortrait;
+        }
+        
+        if ([connection isVideoMirroringSupported]) {
+            [connection setVideoMirrored:NO];
+        }
+        
+        [_captureSession commitConfiguration];
+        
+        dispatch_queue_attr_t qos = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, QOS_CLASS_USER_INITIATED, -1);
+        dispatch_queue_t recordingQueue = dispatch_queue_create("output.queue", qos);
+        
+        [output setSampleBufferDelegate:self queue:recordingQueue];
+        
+        [_contentView setPreviewLayerWithSession:_captureSession];
+        
+        [_captureSession startRunning];
     }
     
+    [_contentView layoutSubviews];
+}
+
+- (void)handleError:(NSError *)error {
+    // Shut down the session, if running
+    if (_captureSession.isRunning) {
+        [_captureSession stopRunning];
+    }
+    
+    // Reset the state to before the capture session was setup.  Order here is important
+    _captureSession = nil;
+    
+    // Handle error in the UI.
+    [_contentView handleError:error];
+}
+
+- (void)continueButtonPressed {
     if (_captureSession) {
         [_captureSession stopRunning];
         _captureSession = nil;
     }
     
     [self finish];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    
-    [self.activeStepView.customContentView layoutSubviews];
 }
 
 - (void)stepDidFinish {
@@ -217,7 +204,7 @@
     
     //check for features. If the count is greater than one it means a face was detected
     NSArray<CIFeature *> *features = [faceDetector featuresInImage:image];
-    [_videoJournalFaceDetectionContentView setFaceDetected:(features.count > 0)];
+    [_contentView setFaceDetected:(features.count > 0)];
 }
 
 #pragma mark - ARSessionDelegate methods
@@ -226,11 +213,11 @@
     for (ARAnchor *anchor in frame.anchors) {
         ARFaceAnchor *faceAnchor = (ARFaceAnchor *)anchor;
         if (faceAnchor && [faceAnchor isTracked]) {
-            [_videoJournalFaceDetectionContentView setFaceDetected:YES];
+            [_contentView setFaceDetected:YES];
             return;
         }
     }
-    [_videoJournalFaceDetectionContentView setFaceDetected:NO];
+    [_contentView setFaceDetected:NO];
 }
 
 @end

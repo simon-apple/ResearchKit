@@ -28,53 +28,28 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "ORKFaceDetectionStep.h"
-#import "ORKFaceDetectionStepViewController.h"
-#import "ORKHelpers_Internal.h"
-#import "ORKStep_Private.h"
+#import <ResearchKit/ORKAVJournalingARSessionHelper.h>
+#import <AVFoundation/AVFoundation.h>
 
-@implementation ORKFaceDetectionStep
 
-+ (Class)stepViewControllerClass {
-    return [ORKFaceDetectionStepViewController class];
-}
+NS_ASSUME_NONNULL_BEGIN
 
-+ (BOOL)supportsSecureCoding {
-    return YES;
-}
-
-- (instancetype)initWithIdentifier:(NSString *)identifier {
-    self = [super initWithIdentifier:identifier];
-    return self;
-}
-
-- (BOOL)startsFinished {
-    return NO;
-}
-
-- (BOOL)allowsBackNavigation {
-    return NO;
-}
-
-- (instancetype)copyWithZone:(NSZone *)zone {
-    ORKFaceDetectionStep *step = [super copyWithZone:zone];
-    return step;
-}
-
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    return self;
-}
-
-- (void)encodeWithCoder:(NSCoder *)aCoder {
-    [super encodeWithCoder:aCoder];
-}
-
-- (BOOL)isEqual:(id)object {
-    BOOL isParentSame = [super isEqual:object];
-    return (isParentSame);
-}
-
+@protocol AVJournalingSessionHelperProtocol <AVCaptureAudioDataOutputSampleBufferDelegate, AVCaptureVideoDataOutputSampleBufferDelegate>
 @end
 
 
+@interface ORKAVJournalingSessionHelper : NSObject
+
+- (instancetype)initWithSampleBufferDelegate:(id<AVJournalingSessionHelperProtocol>)sampleBufferDelegate sessionHelperDelegate:(id<ORKAVJournalingSessionHelperDelegate>)sessionHelperDelegate;
+
+@property (nonatomic, readonly) AVCaptureSession *captureSession;
+
+- (BOOL)startSession:(NSError **)error;
+- (void)startCapturing;
+- (void)stopCapturing;
+- (void)tearDownSession;
+- (void)saveSampleBuffer:(CMSampleBufferRef)sampleBuffer;
+
+@end
+
+NS_ASSUME_NONNULL_END

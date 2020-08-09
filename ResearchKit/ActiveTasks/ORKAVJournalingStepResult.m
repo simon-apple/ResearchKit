@@ -28,51 +28,49 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "ORKFaceDetectionStep.h"
-#import "ORKFaceDetectionStepViewController.h"
+#import "ORKAVJournalingStepResult.h"
+#import "ORKResult_Private.h"
 #import "ORKHelpers_Internal.h"
-#import "ORKStep_Private.h"
 
-@implementation ORKFaceDetectionStep
+@implementation ORKAVJournalingStepResult
 
-+ (Class)stepViewControllerClass {
-    return [ORKFaceDetectionStepViewController class];
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [super encodeWithCoder:aCoder];
+    ORK_ENCODE_OBJ(aCoder, fileName);
+    ORK_ENCODE_OBJ(aCoder, cameraIntrinsics);
+    ORK_ENCODE_INTEGER(aCoder, retryCount);
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        ORK_DECODE_OBJ_CLASS(aDecoder, fileName, NSString);
+        ORK_DECODE_OBJ_CLASS(aDecoder, cameraIntrinsics, NSMutableArray);
+        ORK_DECODE_INTEGER(aDecoder, retryCount);
+    }
+    return self;
 }
 
 + (BOOL)supportsSecureCoding {
     return YES;
 }
 
-- (instancetype)initWithIdentifier:(NSString *)identifier {
-    self = [super initWithIdentifier:identifier];
-    return self;
-}
-
-- (BOOL)startsFinished {
-    return NO;
-}
-
-- (BOOL)allowsBackNavigation {
-    return NO;
+- (BOOL)isEqual:(id)object {
+    BOOL isParentSame = [super isEqual:object];
+    
+    __typeof(self) castObject = object;
+    return (isParentSame &&
+            ORKEqualObjects(self.fileName, castObject.fileName) &&
+            ORKEqualObjects(self.cameraIntrinsics, castObject.cameraIntrinsics) &&
+            (castObject.retryCount == self.retryCount));
 }
 
 - (instancetype)copyWithZone:(NSZone *)zone {
-    ORKFaceDetectionStep *step = [super copyWithZone:zone];
-    return step;
-}
-
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    return self;
-}
-
-- (void)encodeWithCoder:(NSCoder *)aCoder {
-    [super encodeWithCoder:aCoder];
-}
-
-- (BOOL)isEqual:(id)object {
-    BOOL isParentSame = [super isEqual:object];
-    return (isParentSame);
+    ORKAVJournalingStepResult *result = [super copyWithZone:zone];
+    result.fileName = [self.fileName copy];
+    result.cameraIntrinsics = [self.cameraIntrinsics copy];
+    result.retryCount = self.retryCount;
+    return result;
 }
 
 @end

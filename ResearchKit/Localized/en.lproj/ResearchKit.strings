@@ -629,12 +629,21 @@
 "AV_JOURNALING_PREDEFINED_TASK_COMPLETION_TEXT" = "Thank you for completing this task";
 
 /* AV Journaling Face Detection Step */
-"AV_JOURNALING_FACE_DETECTION_STEP_NEXT_BUTTON_TEXT" = "Next";
-"AV_JOURNALING_FACE_DETECTION_STEP_CENTER_FACE_TEXT" = "Please center your face in the screen";
+"AV_JOURNALING_FACE_DETECTION_STEP_NEXT_BUTTON_TEXT" = "Continue";
+"AV_JOURNALING_FACE_DETECTION_STEP_FACE_DETECTED_TITLE" = "Face Detected";
+"AV_JOURNALING_FACE_DETECTION_STEP_FACE_DETECTED_TEXT" = "Select the Continue button to move forward";
 "AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TITLE" = "No Face Detected";
-"AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TEXT" = "The max time limit for detecting a face was reached. Please try again at a later time";
-"AV_JOURNALING_FACE_DETECTION_START_TIME" = "0:00";
-"AV_JOURNALING_FACE_DETECTION_END_TIME" = "0:00";
+"AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TEXT" = "Please center your face in the screen";
+"AV_JOURNALING_FACE_DETECTION_START_TIME" = "00:00";
+
+/* AV Journaling Step */
+"AV_JOURNALING_STEP_NEXT_BUTTON_TEXT" = "Continue";
+"AV_JOURNALING_STEP_TITLE" = "Video Journal";
+"AV_JOURNALING_STEP_START_TIME" = "00:00";
+"AV_JOURNALING_STEP_NO_FACE_DETECTED_TITLE" = "No Face Detected";
+"AV_JOURNALING_STEP_NO_FACE_DETECTED_TEXT" = "Please center your face in the screen";
+"AV_JOURNALING_STEP_CAMERA_ERROR" = "Can't access front camera. This step cannot be completed.";
+"AV_JOURNALING_STEP_AUDIO_ERROR" = "Can't access audio. This step cannot be completed.";
 
 /* ORKRecordButton */
 "PLAY" = "Play";

@@ -30,25 +30,23 @@
 
 @import UIKit;
 
-#import "ORKCustomStepView_Internal.h"
-#import <AVFoundation/AVFoundation.h>
-#import <CoreImage/CoreImage.h>
-#import <SceneKit/SceneKit.h>
-#import <ARKit/ARKit.h>
+#import <ResearchKit/ORKCustomStepView_Internal.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class ORKBorderedButton;
+@class AVCaptureSession;
 
 @interface ORKFaceDetectionStepContentView : ORKActiveStepCustomView
 
-@property (nonatomic) UIButton *nextButton;
-@property (nonatomic) AVCaptureSession *captureSession;
+- (instancetype)init;
 
-- (void)updateTimerLabelWithSeconds:(int)seconds;
 - (void)setPreviewLayerWithSession:(AVCaptureSession *)session;
+
 - (void)setFaceDetected:(BOOL)detected;
-- (ARSCNView *)arSceneView;
+
+- (void)handleError:(NSError *)error;
+
+- (void)addTargetToContinueButton:(nullable id)target selector:(nonnull SEL)selector;
 
 @end
 NS_ASSUME_NONNULL_END

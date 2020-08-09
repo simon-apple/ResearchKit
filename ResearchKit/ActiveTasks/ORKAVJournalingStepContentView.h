@@ -28,53 +28,41 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "ORKFaceDetectionStep.h"
-#import "ORKFaceDetectionStepViewController.h"
-#import "ORKHelpers_Internal.h"
-#import "ORKStep_Private.h"
+#import <ResearchKit/ORKCustomStepView_Internal.h>
 
-@implementation ORKFaceDetectionStep
+NS_ASSUME_NONNULL_BEGIN
 
-+ (Class)stepViewControllerClass {
-    return [ORKFaceDetectionStepViewController class];
-}
+@class AVCaptureSession;
+@class ARSCNView;
 
-+ (BOOL)supportsSecureCoding {
-    return YES;
-}
+typedef NS_ENUM(NSUInteger, ORKAVJournalingStepContentViewEvent) {
+    ORKAVJournalingStepContentViewEventStartRecording = 0,
+    ORKAVJournalingStepContentViewEventStopRecording,
+    ORKAVJournalingStepContentViewEventReviewRecording,
+    ORKAVJournalingStepContentViewEventRetryRecording,
+    ORKAVJournalingStepContentViewEventSubmitRecording,
+    ORKAVJournalingStepContentViewEventError
+};
 
-- (instancetype)initWithIdentifier:(NSString *)identifier {
-    self = [super initWithIdentifier:identifier];
-    return self;
-}
+typedef void (^ORKAVJournalingStepContentViewEventHandler)(ORKAVJournalingStepContentViewEvent);
 
-- (BOOL)startsFinished {
-    return NO;
-}
+@interface ORKAVJournalingStepContentView : ORKActiveStepCustomView
 
-- (BOOL)allowsBackNavigation {
-    return NO;
-}
+- (instancetype)initWithTitle:(nullable NSString *)title text:(nullable NSString *)text;
 
-- (instancetype)copyWithZone:(NSZone *)zone {
-    ORKFaceDetectionStep *step = [super copyWithZone:zone];
-    return step;
-}
+- (void)setViewEventHandler:(ORKAVJournalingStepContentViewEventHandler)handler;
 
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    return self;
-}
+- (void)setPreviewLayerWithSession:(AVCaptureSession *)session;
 
-- (void)encodeWithCoder:(NSCoder *)aCoder {
-    [super encodeWithCoder:aCoder];
-}
+- (void)startTimerWithMaximumRecordingLimit:(NSTimeInterval)maximumRecordingLimit;
 
-- (BOOL)isEqual:(id)object {
-    BOOL isParentSame = [super isEqual:object];
-    return (isParentSame);
-}
+- (void)presentReviewOptionsAllowingReview:(BOOL)allowReview allowRetry:(BOOL)allowRetry;
+
+- (void)setFaceDetected:(BOOL)detected;
+
+- (void)handleError:(NSError *)error;
+
+- (ARSCNView *)ARSceneView;
 
 @end
-
-
+NS_ASSUME_NONNULL_END

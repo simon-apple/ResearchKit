@@ -28,15 +28,17 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "ORKFaceDetectionStep.h"
-#import "ORKFaceDetectionStepViewController.h"
+#import "ORKAVJournalingStep.h"
+#import "ORKAVJournalingStepViewController.h"
 #import "ORKHelpers_Internal.h"
-#import "ORKStep_Private.h"
 
-@implementation ORKFaceDetectionStep
+static const NSTimeInterval MIN_RECORDING_DURATION = 10.0;
+static const NSTimeInterval MAX_RECORDING_DURATION = 300.0;
+
+@implementation ORKAVJournalingStep
 
 + (Class)stepViewControllerClass {
-    return [ORKFaceDetectionStepViewController class];
+    return [ORKAVJournalingStepViewController class];
 }
 
 + (BOOL)supportsSecureCoding {
@@ -45,7 +47,24 @@
 
 - (instancetype)initWithIdentifier:(NSString *)identifier {
     self = [super initWithIdentifier:identifier];
+    if (self) {
+        _maximumRecordingLimit = 60.0;
+        _allowsRetry = NO;
+        _allowsReview = NO;
+    }
     return self;
+}
+
+- (void)validateParameters {
+    [super validateParameters];
+    
+    if (self.maximumRecordingLimit < MIN_RECORDING_DURATION || self.maximumRecordingLimit > MAX_RECORDING_DURATION) {
+        @throw [NSException exceptionWithName:NSInvalidArgumentException
+                                       reason:[NSString stringWithFormat:@"maxRecordingDuration must be greater than %f seconds and less than %f seconds.",
+                                               MIN_RECORDING_DURATION,
+                                               MAX_RECORDING_DURATION]
+                                     userInfo:nil];
+    }
 }
 
 - (BOOL)startsFinished {
@@ -57,24 +76,39 @@
 }
 
 - (instancetype)copyWithZone:(NSZone *)zone {
-    ORKFaceDetectionStep *step = [super copyWithZone:zone];
+    ORKAVJournalingStep *step = [super copyWithZone:zone];
+    step.maximumRecordingLimit = self.maximumRecordingLimit;
+    step.allowsRetry = self.allowsRetry;
+    step.allowsReview = self.allowsReview;
     return step;
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
+    if (self )
+    {
+        ORK_DECODE_DOUBLE(aDecoder, maximumRecordingLimit);
+        ORK_DECODE_BOOL(aDecoder, allowsRetry);
+        ORK_DECODE_BOOL(aDecoder, allowsReview);
+    }
     return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [super encodeWithCoder:aCoder];
+    ORK_ENCODE_DOUBLE(aCoder, maximumRecordingLimit);
+    ORK_ENCODE_BOOL(aCoder, allowsRetry);
+    ORK_ENCODE_BOOL(aCoder, allowsReview);
 }
 
 - (BOOL)isEqual:(id)object {
     BOOL isParentSame = [super isEqual:object];
-    return (isParentSame);
+    __typeof(self) castObject = object;
+    
+    return (isParentSame &&
+            (self.maximumRecordingLimit == castObject.maximumRecordingLimit) &&
+            (self.allowsRetry == castObject.allowsRetry) &&
+            (self.allowsReview == castObject.allowsReview));
 }
 
 @end
-
-

@@ -35,6 +35,7 @@
 #import "ORKHelpers_Internal.h"
 #import "ORKStep.h"
 #import "ORKFaceDetectionStep.h"
+#import "ORKAVJournalingStep.h"
 #import "ORKContext.h"
 #import "ORKStepNavigationRule.h"
 
@@ -79,11 +80,11 @@ ORKAVJournalingStepIdentifier const MaxLimitHitCompletionStepIdentifier = @"ORKA
                                                            error:&error];
     
     if (error) {
-        //throw error
+        ORK_Log_Error("An error occurred while creating the predefined task. %@", error);
+        return nil;
     }
     
     self = [super initWithIdentifier:identifier steps:steps];
-    
     if (self) {
         _journalQuestionSetManifestPath = journalQuestionSetManifestPath;
         _maxRecordingTime = maxRecordingtime;
@@ -99,9 +100,17 @@ ORKAVJournalingStepIdentifier const MaxLimitHitCompletionStepIdentifier = @"ORKA
     return self;
 }
 
+- (instancetype)initWithIdentifier:(NSString *)identifier steps:(nullable NSArray<ORKStep *> *)steps {
+    ORKThrowMethodUnavailableException();
+}
+
 - (nullable NSArray<ORKStep *> *)setupStepsFromManifestPath:(NSString *)manifestPath maxRecordingTime:(NSTimeInterval)maxRecordingTime error:(NSError * _Nullable * _Nullable)error {
     NSMutableArray<ORKStep *> *steps = [[NSMutableArray alloc] init];
     
+    //Fetch AVJournalSteps from manifest file
+    NSArray<ORKAVJournalingStep *> *avJournalingSteps = [self prefetchJournalQuestionSetsFromManifestAtPath:manifestPath error:error];
+    
+    //Face Detection Step
     ORKAVJournalingPredfinedTaskContext *avJournalingPredefinedContext = [[ORKAVJournalingPredfinedTaskContext alloc] init];
     ORKFaceDetectionStep *faceDetectionStep = [[ORKFaceDetectionStep alloc] initWithIdentifier:FaceDetectionStepIdentifier];
     faceDetectionStep.title = ORKLocalizedString(@"AV_JOURNALING_PREDEFINED_TASK_FACE_DETECTION_STEP_TITLE", nil);
@@ -109,12 +118,19 @@ ORKAVJournalingStepIdentifier const MaxLimitHitCompletionStepIdentifier = @"ORKA
     
     [steps addObject:faceDetectionStep];
     
+    //Instruction Step
     ORKInstructionStep *instructionStep = [[ORKInstructionStep alloc] initWithIdentifier:InstructionStepIdentifier];
     instructionStep.title = ORKLocalizedString(@"AV_JOURNALING_PREDEFINED_TASK_INSTRUCTION_STEP_TITLE", nil);
-    instructionStep.text = [NSString stringWithFormat:ORKLocalizedString(@"AV_JOURNALING_PREDEFINED_TASK_INSTRUCTION_STEP_TEXT", nil), 2];
+    instructionStep.text = [NSString stringWithFormat:ORKLocalizedString(@"AV_JOURNALING_PREDEFINED_TASK_INSTRUCTION_STEP_TEXT", nil), avJournalingSteps.count];
     
     [steps addObject:instructionStep];
     
+    //add AVJournalSteps
+    for (ORKAVJournalingStep* avJournalingStep in avJournalingSteps) {
+        [steps addObject:avJournalingStep];
+    }
+    
+    //Completion Step
     ORKCompletionStep *completionStep = [[ORKCompletionStep alloc] initWithIdentifier:CompletionStepIdentifier];
     completionStep.title = ORKLocalizedString(@"AV_JOURNALING_PREDEFINED_TASK_COMPLETION_TITLE", "");
     completionStep.text = ORKLocalizedString(@"AV_JOURNALING_PREDEFINED_TASK_COMPLETION_TEXT", "");
@@ -122,6 +138,80 @@ ORKAVJournalingStepIdentifier const MaxLimitHitCompletionStepIdentifier = @"ORKA
     [steps addObject:completionStep];
     
     return [steps copy];
+}
+
+- (nullable NSArray<ORKAVJournalingStep *> *)prefetchJournalQuestionSetsFromManifestAtPath:(nonnull NSString *)path error:(NSError * _Nullable * _Nullable)error {
+    
+    NSFileManager *fileManager = [[NSFileManager alloc] init];
+    
+    if (![fileManager fileExistsAtPath:path]) {
+        if (error != NULL) {
+            *error = [NSError errorWithDomain:ORKErrorDomain
+                                         code:ORKErrorException
+                                     userInfo:@{NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:@"Could not locate file at path %@", path]}];
+        }
+        return nil;
+    }
+    
+    NSData *data = [NSData dataWithContentsOfFile:path options:0 error:error];
+    if (!data) {
+        return nil;
+    }
+    
+    NSArray<NSDictionary *> *manifest = [NSJSONSerialization JSONObjectWithData:data options:0 error:error];
+    if (!manifest) {
+        return nil;
+    }
+    
+    NSString *parentDirectory = [path stringByDeletingLastPathComponent];
+    BOOL isDir;
+    if (![fileManager fileExistsAtPath:parentDirectory isDirectory:&isDir] || !isDir) {
+        if (error != NULL) {
+            *error = [NSError errorWithDomain:ORKErrorDomain
+                                         code:ORKErrorException
+                                     userInfo:@{NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:@"Could not locate parent directory at path %@", parentDirectory]}];
+        }
+        return nil;
+    }
+    
+    NSString * const ManifestJSONKeyIdentifier = @"identifier";
+    NSString * const ManifestJSONKeyQuestion = @"question";
+    
+    NSMutableArray<ORKAVJournalingStep *> *avJournalingSteps = [[NSMutableArray alloc] init];
+    
+    __block BOOL success;
+    __block NSError *err;
+    [manifest enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        
+        NSString *avJournalStepIdentifier = (NSString *)[obj objectForKey:ManifestJSONKeyIdentifier];
+        NSString *avJournalStepQuestion = (NSString *)[obj objectForKey:ManifestJSONKeyQuestion];
+        
+        if (avJournalStepIdentifier && avJournalStepQuestion) {
+            ORKAVJournalingStep *avJournalingStep = [[ORKAVJournalingStep alloc] initWithIdentifier:avJournalStepIdentifier];
+            avJournalingStep.title = ORKLocalizedString(@"AV_JOURNALING_STEP_TITLE", "");
+            avJournalingStep.text = avJournalStepQuestion;
+            avJournalingStep.allowsRetry = YES;
+            avJournalingStep.allowsReview = YES;
+
+            [avJournalingSteps addObject: avJournalingStep];
+            success = YES;
+        } else {
+            *stop = YES;
+            err = [NSError errorWithDomain:ORKErrorDomain
+                                      code:ORKErrorException
+                                  userInfo:@{NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:@"Could not locate identifier or question value within the manifest.json file"]}];
+            success = NO;
+        }
+    }];
+    
+    if (success) {
+        return [avJournalingSteps copy];
+    } else {
+        if (error != NULL) {
+            *error = err;
+        }
+        return nil;
+    }
 }
 
 #pragma mark - NSSecureCoding
@@ -159,7 +249,7 @@ ORKAVJournalingStepIdentifier const MaxLimitHitCompletionStepIdentifier = @"ORKA
     __typeof(self) castObject = object;
     
     return (isParentSame &&
-            ORKEqualObjects(self.journalQuestionSetManifestPath, castObject.journalQuestionSetManifestPath) &&
+            [self.journalQuestionSetManifestPath isEqualToString:castObject.journalQuestionSetManifestPath] &&
             (self.maxRecordingTime == castObject.maxRecordingTime));
 }
 
