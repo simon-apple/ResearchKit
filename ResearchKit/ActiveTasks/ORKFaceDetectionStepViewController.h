@@ -28,13 +28,9 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@import Foundation;
-#import <ResearchKit/ORKDefines.h>
+
 #import <ResearchKit/ORKActiveStepViewController.h>
-#import <AVFoundation/AVFoundation.h>
-#import <CoreImage/CoreImage.h>
-#import <SceneKit/SceneKit.h>
-#import <ARKit/ARKit.h>
+
 
 NS_ASSUME_NONNULL_BEGIN
 

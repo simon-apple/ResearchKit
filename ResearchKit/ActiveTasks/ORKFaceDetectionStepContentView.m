@@ -34,22 +34,149 @@
 #import "ORKSkin.h"
 #import "ORKBorderedButton.h"
 #import "ORKDetectionOverlayView.h"
+#import "ORKTitleLabel.h"
+#import "ORKBodyLabel.h"
+#import "ORKIconButton.h"
+#import "ORKStepHeaderView_Internal.h"
+#import <CoreImage/CoreImage.h>
+#import <SceneKit/SceneKit.h>
+#import <ARKit/ARKit.h>
+#import <AVFoundation/AVFoundation.h>
 
-@implementation ORKFaceDetectionStepContentView {
-    UILabel *_centerFaceInstructionLabel;
-    UILabel *_alignmentTimerLabel;
+
+typedef NS_CLOSED_ENUM(NSInteger, ORKFaceDetectionButtonState) {
+    ORKFaceDetectionButtonStateFaceDetected = 0,
+    ORKFaceDetectionButtonStateNoFaceDetected,
+} ORK_ENUM_AVAILABLE;
+
+@interface ORKFaceDetectionBlurFooterView : UIVisualEffectView
+- (instancetype)init;
+
+@property (nonatomic) UIButton *startStopButton;
+@property (nonatomic) UILabel *timerLabel;
+
+- (void)setStartStopButtonState:(ORKFaceDetectionButtonState)buttonState;
+
+@end
+
+
+@implementation ORKFaceDetectionBlurFooterView {
+    NSMutableArray<NSLayoutConstraint *> *_heightConstraints;
+    NSLayoutConstraint *_blurViewTopConstraint;
     
-    UIView *_cameraView;
-    ORKDetectionOverlayView *_detectionOverlayView;
-    
-    ARSCNView *_arSceneView;
-    
-    AVCaptureVideoPreviewLayer *_previewLayer;
-    AVCaptureDevice *_frontCameraCaptureDevice;
+    ORKTitleLabel *_titleLabel;
+    ORKBodyLabel *_detailTextLabel;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
+- (instancetype)init {
+    self = [super initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]];
+    if (self) {
+        [self setupSubviews];
+        [self setupConstraints];
+        [self setStartStopButtonState:ORKFaceDetectionButtonStateNoFaceDetected];
+    }
+    return self;
+}
+
+- (void)setupSubviews {
+    _startStopButton = [UIButton new];
+    _startStopButton.layer.cornerRadius = 14.0;
+    _startStopButton.clipsToBounds = YES;
+    _startStopButton.contentEdgeInsets = (UIEdgeInsets){.left = 6, .right = 6};
+    UIFontDescriptor *descriptorOne = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleHeadline];
+    _startStopButton.titleLabel.font = [UIFont boldSystemFontOfSize:[[descriptorOne objectForKey: UIFontDescriptorSizeAttribute] doubleValue] + 1.0];
+    [_startStopButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [_startStopButton setTitle:ORKLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_NEXT_BUTTON_TEXT", nil) forState:UIControlStateNormal];
+    [self.contentView addSubview:_startStopButton];
+    
+    _timerLabel = [UILabel new];
+    _timerLabel.font = [UIFont systemFontOfSize:15.0];
+    _timerLabel.adjustsFontSizeToFitWidth = YES;
+    [_timerLabel setTextColor:[UIColor whiteColor]];
+    [_timerLabel setText:ORKLocalizedString(@"AV_JOURNALING_FACE_DETECTION_START_TIME", nil)];
+    [self.contentView addSubview:_timerLabel];
+    
+    _titleLabel = [ORKTitleLabel new];
+    _titleLabel.textAlignment = NSTextAlignmentLeft;
+    _titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    _titleLabel.numberOfLines = 0;
+    [_titleLabel setTextColor:[UIColor whiteColor]];
+    [self.contentView addSubview:_titleLabel];
+    
+    _detailTextLabel = [ORKBodyLabel new];
+    _detailTextLabel.textAlignment = NSTextAlignmentLeft;
+    _detailTextLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    _detailTextLabel.numberOfLines = 0;
+    [_detailTextLabel setTextColor:[UIColor whiteColor]];
+    [self.contentView addSubview:_detailTextLabel];
+}
+
+- (void)setupConstraints {
+    _startStopButton.translatesAutoresizingMaskIntoConstraints = NO;
+    _timerLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    _detailTextLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    _titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    [[_startStopButton.leadingAnchor constraintEqualToAnchor:self.contentView.leadingAnchor constant:20.0] setActive:YES];
+    [[_startStopButton.trailingAnchor constraintEqualToAnchor:_timerLabel.leadingAnchor constant:-15.0] setActive:YES];
+    [[_startStopButton.bottomAnchor constraintEqualToAnchor:self.contentView.safeAreaLayoutGuide.bottomAnchor constant:-20.0] setActive:YES];
+    [[_startStopButton.heightAnchor constraintEqualToConstant:50.0] setActive:YES];
+    
+    [[_timerLabel.trailingAnchor constraintEqualToAnchor:self.contentView.trailingAnchor constant:-20.0] setActive:YES];
+    [[_timerLabel.centerYAnchor constraintEqualToAnchor:_startStopButton.centerYAnchor] setActive:YES];
+    [[_timerLabel.widthAnchor constraintEqualToConstant:40.0] setActive:YES];
+    
+    [[_detailTextLabel.leadingAnchor constraintEqualToAnchor:_startStopButton.leadingAnchor] setActive:YES];
+    [[_detailTextLabel.trailingAnchor constraintEqualToAnchor:_timerLabel.trailingAnchor] setActive:YES];
+    [[_detailTextLabel.bottomAnchor constraintEqualToAnchor:_startStopButton.topAnchor constant:-20.0] setActive:YES];
+    
+    [[_titleLabel.leadingAnchor constraintEqualToAnchor:_startStopButton.leadingAnchor] setActive:YES];
+    [[_titleLabel.trailingAnchor constraintEqualToAnchor:_timerLabel.leadingAnchor constant: -10.0] setActive:YES];
+    [[_titleLabel.bottomAnchor constraintEqualToAnchor:_detailTextLabel ? _detailTextLabel.topAnchor : _startStopButton.topAnchor constant: -15.0] setActive:YES];
+    
+    _blurViewTopConstraint = [self.contentView.topAnchor constraintEqualToAnchor:_titleLabel.topAnchor constant:-20.0];
+    
+    [_blurViewTopConstraint setActive:YES];
+   
+}
+
+- (void)setStartStopButtonState:(ORKFaceDetectionButtonState)buttonState {
+    if (buttonState == ORKFaceDetectionButtonStateFaceDetected) {
+        [_startStopButton setBackgroundColor:[UIColor systemBlueColor]];
+        [_startStopButton setEnabled:YES];
+        _titleLabel.text = ORKLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_FACE_DETECTED_TITLE", nil);
+        _detailTextLabel.text = ORKLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_FACE_DETECTED_TEXT", nil);
+        [_titleLabel setTextColor:[UIColor whiteColor]];
+        [_detailTextLabel setTextColor:[UIColor whiteColor]];
+    } else {
+        [_startStopButton setBackgroundColor:[UIColor systemGrayColor]];
+        [_startStopButton setEnabled:NO];
+        _titleLabel.text = ORKLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TITLE", nil);
+        _detailTextLabel.text = ORKLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TEXT", nil);
+        [_titleLabel setTextColor:[UIColor redColor]];
+        [_detailTextLabel setTextColor:[UIColor redColor]];
+    }
+}
+
+@end
+
+@implementation ORKFaceDetectionStepContentView {
+    ORKStepHeaderView *_headerView;
+    UIView *_cameraView;
+    UIView *_blurView;
+    
+    ORKFaceDetectionBlurFooterView *_blurFooterView;
+    
+    AVCaptureVideoPreviewLayer *_previewLayer;
+    
+    NSTimer *_timer;
+    NSTimeInterval _maxRecordingTime;
+    CGFloat _recordingTime;
+    NSDateComponentsFormatter *_dateComponentsFormatter;
+}
+
+- (instancetype)init {
+    self = [super initWithFrame:CGRectZero];
     self.layoutMargins = ORKStandardFullScreenLayoutMarginsForView(self);
     
     if (self) {
@@ -63,136 +190,126 @@
 }
 
 - (void)setUpSubviews {
-    _nextButton = [UIButton new];
-    [_nextButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-    [_nextButton setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
-    [_nextButton setBackgroundColor:[UIColor whiteColor]];
-    [_nextButton.layer setBorderColor:[[UIColor grayColor] CGColor]];
-    [_nextButton setEnabled:NO];
-    [_nextButton.layer setBorderWidth:1.0];
-    _nextButton.translatesAutoresizingMaskIntoConstraints = NO;
-    [_nextButton setTitle:ORKLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_NEXT_BUTTON_TEXT", nil) forState:UIControlStateNormal];
-    
-    _centerFaceInstructionLabel = [UILabel new];
-    _centerFaceInstructionLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
-    _centerFaceInstructionLabel.adjustsFontForContentSizeCategory = YES;
-    _centerFaceInstructionLabel.textAlignment = NSTextAlignmentCenter;
-    _centerFaceInstructionLabel.numberOfLines = 0;
-    [_centerFaceInstructionLabel setText:ORKLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_CENTER_FACE_TEXT", nil)];
-    
-    _alignmentTimerLabel = [UILabel new];
-    _alignmentTimerLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
-    _alignmentTimerLabel.adjustsFontForContentSizeCategory = YES;
-    _alignmentTimerLabel.textAlignment = NSTextAlignmentLeft;
-    [_alignmentTimerLabel setText:ORKLocalizedString(@"AV_JOURNALING_FACE_DETECTION_START_TIME", nil)];
-        
     _cameraView = [UIView new];
     _cameraView.alpha = 1.0;
+     [self addSubview:_cameraView];
     
-    _arSceneView = [[ARSCNView alloc] initWithFrame:_previewLayer.frame];
+    _blurView = [UIView new];
+    [_blurView setBackgroundColor:[UIColor whiteColor]];
+    [_blurView setAlpha:0.95];
+    [self addSubview:_blurView];
+    
+    _blurFooterView = [[ORKFaceDetectionBlurFooterView alloc] init];
+    _blurFooterView.layer.cornerRadius = 10.0;
+    _blurFooterView.layer.maskedCorners = kCALayerMinXMinYCorner | kCALayerMaxXMinYCorner;
+    _blurFooterView.clipsToBounds = YES;
+    [self addSubview:_blurFooterView];
 }
 
 - (void)layoutSubviews {
-    if (_previewLayer && _previewLayer.frame.size.height == 0 && _cameraView.frame.size.height != 0 && ![ARFaceTrackingConfiguration isSupported]) {
+    if (_previewLayer && _previewLayer.frame.size.height == 0 && _cameraView.frame.size.height != 0) {
         _previewLayer.position = CGPointMake(_cameraView.frame.size.width / 2, _cameraView.frame.size.height / 2);
         _previewLayer.bounds = CGRectMake(0, 0, _cameraView.frame.size.width, _cameraView.frame.size.height);
-        
-        if (_detectionOverlayView) {
-            [_detectionOverlayView removeFromSuperview];
-            _detectionOverlayView = nil;
-        }
-        
-        _detectionOverlayView = [[ORKDetectionOverlayView alloc] initWithFrame:_cameraView.frame];
-        [_detectionOverlayView createRectsAndLayersForFaceDetection];
-        [self addSubview:_detectionOverlayView];
-    } else if ([ARFaceTrackingConfiguration isSupported] && (!_detectionOverlayView || _detectionOverlayView.frame.size.height == 0)) {
-        _detectionOverlayView = [[ORKDetectionOverlayView alloc] initWithFrame:_arSceneView.frame];
-        [_detectionOverlayView createRectsAndLayersForFaceDetection];
-        [self addSubview:_detectionOverlayView];
     }
 }
 
 - (void)setUpConstraints {
-    _alignmentTimerLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    _nextButton.translatesAutoresizingMaskIntoConstraints = NO;
-    _centerFaceInstructionLabel.translatesAutoresizingMaskIntoConstraints = NO;
     _cameraView.translatesAutoresizingMaskIntoConstraints = NO;
-    _arSceneView.translatesAutoresizingMaskIntoConstraints = NO;
+    _blurFooterView.translatesAutoresizingMaskIntoConstraints = NO;
+    _blurView.translatesAutoresizingMaskIntoConstraints = NO;
     
-    [self addSubview:_alignmentTimerLabel];
-    [self addSubview:_nextButton];
-    [self addSubview:_centerFaceInstructionLabel];
+    [[_cameraView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor] setActive:YES];
+    [[_cameraView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor] setActive:YES];
+    [[_cameraView.topAnchor constraintEqualToAnchor:self.topAnchor] setActive:YES];
+    [[_cameraView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor] setActive:YES];
     
-    [[_centerFaceInstructionLabel.centerXAnchor constraintEqualToAnchor:self.centerXAnchor] setActive:YES];
-    [[_centerFaceInstructionLabel.topAnchor constraintEqualToAnchor:self.topAnchor constant:25.0] setActive:YES];
-    [[_centerFaceInstructionLabel.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:15.0] setActive:YES];
-    [[_centerFaceInstructionLabel.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-15.0] setActive:YES];
+    [[_blurView.leadingAnchor constraintEqualToAnchor:_cameraView.leadingAnchor] setActive:YES];
+    [[_blurView.trailingAnchor constraintEqualToAnchor:_cameraView.trailingAnchor] setActive:YES];
+    [[_blurView.topAnchor constraintEqualToAnchor:_cameraView.topAnchor] setActive:YES];
+    [[_blurView.bottomAnchor constraintEqualToAnchor:_cameraView.bottomAnchor] setActive:YES];
     
-    if ([ARFaceTrackingConfiguration isSupported]) {
-        [self addSubview:_arSceneView];
-        [[_arSceneView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant: 15.0] setActive:YES];
-        [[_arSceneView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant: -15.0] setActive:YES];
-        [[_arSceneView.topAnchor constraintEqualToAnchor:_centerFaceInstructionLabel.bottomAnchor constant:15.0] setActive:YES];
-        [[_arSceneView.bottomAnchor constraintEqualToAnchor:_nextButton.topAnchor constant:-15.0] setActive:YES];
-        [[_arSceneView.heightAnchor constraintGreaterThanOrEqualToConstant:400.0] setActive:YES];
-    } else {
-        [self addSubview:_cameraView];
-        [[_cameraView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant: 15.0] setActive:YES];
-        [[_cameraView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant: -15.0] setActive:YES];
-        [[_cameraView.topAnchor constraintEqualToAnchor:_centerFaceInstructionLabel.bottomAnchor constant:15.0] setActive:YES];
-        [[_cameraView.bottomAnchor constraintEqualToAnchor:_nextButton.topAnchor constant:-15.0] setActive:YES];
-        [[_cameraView.heightAnchor constraintGreaterThanOrEqualToConstant:400.0] setActive:YES];
-    }
-    
-    [[_nextButton.centerXAnchor constraintEqualToAnchor:self.centerXAnchor] setActive:YES];
-    [[_nextButton.bottomAnchor constraintEqualToAnchor:_alignmentTimerLabel.topAnchor constant:-15.0] setActive:YES];
-    [[_nextButton.widthAnchor constraintEqualToConstant:100.0] setActive:YES];
-    
-    [[_alignmentTimerLabel.centerXAnchor constraintEqualToAnchor:self.centerXAnchor] setActive:YES];
-    [[_alignmentTimerLabel.bottomAnchor constraintGreaterThanOrEqualToAnchor:self.bottomAnchor constant:-8.0] setActive:YES];
-    
+    [[_blurFooterView.leadingAnchor constraintEqualToAnchor:_cameraView.leadingAnchor] setActive:YES];
+    [[_blurFooterView.trailingAnchor constraintEqualToAnchor:_cameraView.trailingAnchor] setActive:YES];
+    [[_blurFooterView.bottomAnchor constraintEqualToAnchor:_cameraView.bottomAnchor] setActive:YES];
 }
 
 - (void)setPreviewLayerWithSession:(AVCaptureSession *)session {
     _previewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:session];
     _previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+    _previewLayer.needsDisplayOnBoundsChange = YES;
     _previewLayer.connection.videoOrientation = AVCaptureVideoOrientationPortrait;
     
     [_cameraView.layer addSublayer:_previewLayer];
-}
-
-- (void)updateTimerLabelWithSeconds:(int)seconds {
-    if (_detectionOverlayView) {
-        if (seconds < 10) {
-            [_alignmentTimerLabel setText:[NSString stringWithFormat:@"0:0%i", seconds]];
-        } else if (seconds >= 10 && seconds < 60) {
-            [_alignmentTimerLabel setText:[NSString stringWithFormat:@"0:%i", seconds]];
-        } else if (seconds == 60) {
-            [_alignmentTimerLabel setText:ORKLocalizedString(@"AV_JOURNALING_FACE_DETECTION_END_TIME", nil)];
-        }
-    }
-}
-
-- (ARSCNView *)arSceneView {
-    return _arSceneView;
+    [self startTimerWithMaximumRecordingLimit:60.0];
 }
 
 - (void)setFaceDetected:(BOOL)detected {
-    if (_detectionOverlayView) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-            dispatch_async(dispatch_get_main_queue(), ^(void){
-                [_detectionOverlayView wasFaceDetected:detected];
-                [self toggleNextButtonEnabled:detected];
-            });
-        });
+    dispatch_async(dispatch_get_main_queue(), ^(void) {
+        [_blurFooterView setStartStopButtonState: detected ? ORKFaceDetectionButtonStateFaceDetected : ORKFaceDetectionButtonStateNoFaceDetected] ;
+    });
+}
+
+- (void)handleError:(NSError *)error {
+    [_cameraView removeFromSuperview];
+    [_blurFooterView removeFromSuperview];
+    [_previewLayer removeFromSuperlayer];
+    
+    _cameraView = nil;
+    _previewLayer = nil;
+    
+    if (_headerView)
+    {
+        [_headerView removeFromSuperview];
+        _headerView = nil;
+    }
+    
+    _headerView = [[ORKStepHeaderView alloc] init];
+    _headerView.instructionLabel.text = error.localizedDescription;
+    [_headerView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self addSubview:_headerView];
+    [NSLayoutConstraint activateConstraints:@[
+        [_headerView.topAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.topAnchor],
+        [_headerView.leftAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.leftAnchor],
+        [_headerView.rightAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.rightAnchor],
+    ]];
+    
+}
+
+- (void)addTargetToContinueButton:(nullable id)target selector:(nonnull SEL)selector {
+    [_blurFooterView.startStopButton addTarget:target action:selector forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)startTimerWithMaximumRecordingLimit:(NSTimeInterval)maximumRecordingLimit {
+    if (_timer) {
+        [_timer invalidate];
+    }
+    
+    _maxRecordingTime = maximumRecordingLimit;
+    _recordingTime = 0.0;
+    _timer = [NSTimer scheduledTimerWithTimeInterval:1.0
+                                              target:self
+                                            selector:@selector(updateRecordingTime)
+                                            userInfo:nil
+                                             repeats:YES];
+}
+
+- (void)updateRecordingTime {
+    _recordingTime += _timer.timeInterval;
+    _blurFooterView.timerLabel.text = [self formattedTimeFromSeconds:_recordingTime];
+    
+    if (_recordingTime >= _maxRecordingTime) {
+        [_timer invalidate];
+        //todo: deactivate button and stop task completely
     }
 }
 
-- (void)toggleNextButtonEnabled:(BOOL)detected {
-    if (_nextButton) {
-        [_nextButton setEnabled:detected];
-        [_nextButton.layer setBorderColor:detected ? [UIColor blueColor].CGColor : [UIColor grayColor].CGColor];
+- (NSString *)formattedTimeFromSeconds:(CGFloat)seconds {
+    if (!_dateComponentsFormatter) {
+        _dateComponentsFormatter = [NSDateComponentsFormatter new];
+        _dateComponentsFormatter.zeroFormattingBehavior = NSDateComponentsFormatterZeroFormattingBehaviorPad;
+        _dateComponentsFormatter.allowedUnits =  NSCalendarUnitMinute | NSCalendarUnitSecond | NSCalendarUnitNanosecond;
     }
+    return [_dateComponentsFormatter stringFromTimeInterval:seconds];
 }
 
 @end

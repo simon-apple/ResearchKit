@@ -28,53 +28,17 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "ORKFaceDetectionStep.h"
-#import "ORKFaceDetectionStepViewController.h"
-#import "ORKHelpers_Internal.h"
-#import "ORKStep_Private.h"
+#import <ResearchKit/ORKActiveStep.h>
 
-@implementation ORKFaceDetectionStep
+NS_ASSUME_NONNULL_BEGIN
 
-+ (Class)stepViewControllerClass {
-    return [ORKFaceDetectionStepViewController class];
-}
+ORK_CLASS_AVAILABLE
+@interface ORKAVJournalingStep : ORKActiveStep
 
-+ (BOOL)supportsSecureCoding {
-    return YES;
-}
-
-- (instancetype)initWithIdentifier:(NSString *)identifier {
-    self = [super initWithIdentifier:identifier];
-    return self;
-}
-
-- (BOOL)startsFinished {
-    return NO;
-}
-
-- (BOOL)allowsBackNavigation {
-    return NO;
-}
-
-- (instancetype)copyWithZone:(NSZone *)zone {
-    ORKFaceDetectionStep *step = [super copyWithZone:zone];
-    return step;
-}
-
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    return self;
-}
-
-- (void)encodeWithCoder:(NSCoder *)aCoder {
-    [super encodeWithCoder:aCoder];
-}
-
-- (BOOL)isEqual:(id)object {
-    BOOL isParentSame = [super isEqual:object];
-    return (isParentSame);
-}
+@property (nonatomic, assign) NSTimeInterval maximumRecordingLimit;
+@property (nonatomic, assign) BOOL allowsReview;
+@property (nonatomic, assign) BOOL allowsRetry;
 
 @end
 
-
+NS_ASSUME_NONNULL_END
