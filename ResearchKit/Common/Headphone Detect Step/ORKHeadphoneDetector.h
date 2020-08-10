@@ -55,6 +55,7 @@ ORK_CLASS_AVAILABLE
 @optional
 - (void)bluetoothModeChanged:(ORKBluetoothMode)bluetoothMode;
 - (void)podLowBatteryLevelDetected;
+- (void)wirelessSplitterNumberOfDevices:(NSUInteger)numberOfDevices;
 
 @end
 

@@ -388,6 +388,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
 
 - (instancetype)initWithHeadphonesSupported;
 - (instancetype)initWithHeadphonesAny;
+- (void)hideBottomAlert:(BOOL)isHidden;
 @property (nonatomic) ORKHeadphoneDetected headphoneDetected;
 
 @end
@@ -400,6 +401,8 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     ORKHeadphoneDetectedView *_anyHeadphoneView;
     
     ORKHeadphoneTypes _headphoneTypes;
+    
+    UILabel *_bottomAlertLabel;
     
     NSLayoutConstraint *_airpodsProCellHeightConstraint;
 }
@@ -452,6 +455,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     else {
         [self addAnyHeadphoneDetectedView];
     }
+    [self setupBottomAlertLabel];
 }
 
 - (void)addSupportedHeadphonesDetectedViews {
@@ -473,6 +477,73 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     UIView *hr4 = [self horizontalRuleView];
     [_stackView addArrangedSubview:hr4];
     [[hr4.leadingAnchor constraintEqualToAnchor:_stackView.leadingAnchor] setActive:YES];
+}
+
+- (void)setupBottomAlertLabel {
+    if (!_bottomAlertLabel) {
+        _bottomAlertLabel = [UILabel new];
+    }
+    _bottomAlertLabel.attributedText = [self getSharedAudioMessage];
+    _bottomAlertLabel.numberOfLines = 0;
+    _bottomAlertLabel.textAlignment = NSTextAlignmentLeft;
+    _bottomAlertLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    [_stackView addArrangedSubview:_bottomAlertLabel];
+    
+    [[_bottomAlertLabel.leadingAnchor constraintEqualToAnchor:_stackView.leadingAnchor constant:2*ORKHeadphoneDetectStepSpacing] setActive:YES];
+    [[_bottomAlertLabel.widthAnchor constraintEqualToAnchor:_stackView.widthAnchor constant:-2*ORKHeadphoneDetectStepSpacing] setActive:YES];
+    
+    _bottomAlertLabel.alpha = 0.0;
+}
+
+- (NSAttributedString *)getSharedAudioMessage {
+    UIColor *orangeColor = UIColor.systemOrangeColor;
+    NSDictionary *orangeAttrs = @{ NSForegroundColorAttributeName : orangeColor };
+    UIColor *grayColor = UIColor.systemGrayColor;
+    NSDictionary *grayAttrs = @{ NSForegroundColorAttributeName : grayColor };
+    
+    NSMutableAttributedString *sharedAudioString = [[NSMutableAttributedString alloc] initWithString:@"\n"];
+    
+    NSTextAttachment *exclamationAttachment = [NSTextAttachment new];
+    NSTextAttachment *airplayAttachment = [NSTextAttachment new];
+    NSTextAttachment *checkmarkAttachment = [NSTextAttachment new];
+    
+    if (@available(iOS 13.0, *)) {
+        UIImageConfiguration *configuration = [UIImageSymbolConfiguration configurationWithFont:[UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline] scale:UIImageSymbolScaleDefault];
+        
+        UIImage *exclamationImg = [[UIImage systemImageNamed:@"exclamationmark.circle.fill"
+                                           withConfiguration:configuration] imageWithTintColor:orangeColor];
+        exclamationAttachment.image = exclamationImg;
+        
+        UIImage *airplayImg = [[UIImage systemImageNamed:@"airplayaudio"
+                                       withConfiguration:configuration] imageWithTintColor:grayColor];
+        airplayAttachment.image = airplayImg;
+        
+        UIImage *checkmarkImg = [[UIImage systemImageNamed:@"checkmark.circle.fill"
+                                         withConfiguration:configuration] imageWithTintColor:grayColor];
+        checkmarkAttachment.image = checkmarkImg;
+    }
+    
+    NSString *text1 = [NSString stringWithFormat:@" %@\n\n", ORKLocalizedString(@"SHARED_AUDIO_ALERT1", nil)];
+    
+    [sharedAudioString appendAttributedString:[NSAttributedString attributedStringWithAttachment:exclamationAttachment]];
+    [sharedAudioString appendAttributedString:[[NSAttributedString alloc] initWithString:text1 attributes:orangeAttrs]];
+    
+    [sharedAudioString appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"SHARED_AUDIO_ALERT2", nil) attributes:grayAttrs]];
+    
+    [sharedAudioString appendAttributedString:[NSAttributedString attributedStringWithAttachment:airplayAttachment]];
+    [sharedAudioString appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"SHARED_AUDIO_ALERT3", nil) attributes:grayAttrs]];
+    
+    [sharedAudioString appendAttributedString:[NSAttributedString attributedStringWithAttachment:checkmarkAttachment]];
+    [sharedAudioString appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"SHARED_AUDIO_ALERT4", nil) attributes:grayAttrs]];
+    
+    return sharedAudioString;
+}
+
+- (void)hideBottomAlert:(BOOL)isHidden {
+    [UIView animateWithDuration: ORKHeadphoneCellAnimationDuration animations:^{
+        _bottomAlertLabel.alpha = isHidden ? 0 : 1;
+        [self.superview layoutIfNeeded];
+    }];
 }
 
 - (void)addAnyHeadphoneDetectedView {
@@ -793,6 +864,12 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
         }]];
         alertController.preferredAction = startOver;
         [self presentViewController:alertController animated:YES completion:nil];
+    });
+}
+
+- (void)wirelessSplitterNumberOfDevices:(NSUInteger)numberOfDevices {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [_headphoneDetectStepView hideBottomAlert:!(numberOfDevices > 1)];
     });
 }
 

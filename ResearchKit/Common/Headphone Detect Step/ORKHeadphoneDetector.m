@@ -310,6 +310,12 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
                 }
             });
         }
+        NSUInteger numberOfDevices = [[getAVOutputContextClass() sharedSystemAudioContext] outputDevices].count;
+        if ( strongDelegate && [strongDelegate respondsToSelector:@selector(wirelessSplitterNumberOfDevices:)]) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [strongDelegate wirelessSplitterNumberOfDevices:numberOfDevices];
+            });
+        }
         if (@available(iOS 13.0, *)) {
             if ([self getCurrentBTHeadphoneType] == ORKHeadphoneTypeIdentifierAirPodsPro &&
                 _lastDetectedDevice == ORKHeadphoneTypeIdentifierAirPodsPro &&

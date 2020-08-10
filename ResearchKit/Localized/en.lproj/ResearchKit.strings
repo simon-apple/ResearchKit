@@ -375,6 +375,10 @@
 "NOISE_CANCELLATION_REQUIRED" = "Noise cancellation required";
 "HEADPHONE_DETECT_TEXT" = "To ensure accurate results, this task requires Apple EarPods, AirPods, or AirPods Pro.";
 "SKIP_TO_END_TEXT" = "No Compatible Headphones";
+"SHARED_AUDIO_ALERT1" = "Shared audio must be disabled.";
+"SHARED_AUDIO_ALERT2" = "To stop sharing, tap the AirPlay icon ";
+"SHARED_AUDIO_ALERT3" = " in Control Center, then tap the check mark ";
+"SHARED_AUDIO_ALERT4" = " next to the headphones you want to stop sharing with.";
 
 /* Spatial span memory active task. */
 "SPATIAL_SPAN_MEMORY_TITLE" = "Spatial Memory";
