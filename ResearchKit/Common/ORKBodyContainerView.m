@@ -366,7 +366,18 @@ static NSString *ORKBulletUnicode = @"\u2981";
     
     ORKTagLabel *tagLabel = [ORKTagLabel new];
     tagLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    tagLabel.text = _bodyItem.text;
+    
+    if (_bodyItem.image != nil) {
+        NSMutableAttributedString *iconText = [self icon:_bodyItem.image withText:_bodyItem.text font:tagLabel.font color:tagLabel.textColor];
+        if (iconText != nil) {
+            tagLabel.attributedText = iconText;
+        } else {
+            tagLabel.text = _bodyItem.text;
+        }
+    } else {
+        tagLabel.text = _bodyItem.text;
+    }
+    
     [container addSubview:tagLabel];
     
     [tagLabel.topAnchor constraintEqualToAnchor:container.topAnchor].active = YES;
@@ -448,6 +459,25 @@ static NSString *ORKBulletUnicode = @"\u2981";
         learnMoreView.translatesAutoresizingMaskIntoConstraints = NO;
         [subStackView addArrangedSubview:learnMoreView];
     }
+}
+
+- (NSMutableAttributedString *)icon:(UIImage *)image withText:(NSString *)text font:(UIFont *)font color:(UIColor *)color {
+    NSString *textString = [[NSString alloc] initWithFormat:@" %@", text];
+    NSMutableAttributedString *attributedText = [[NSMutableAttributedString alloc] initWithString:textString];
+    NSTextAttachment *imageAttachment = [[NSTextAttachment alloc] init];
+    
+    if (@available(iOS 13.0, *)) {
+        UIImage *iconImage = image;
+        if (iconImage.isSymbolImage) {
+            UIImageSymbolConfiguration *configuration = [UIImageSymbolConfiguration configurationWithFont:font];
+            iconImage = [[image imageWithConfiguration:configuration] imageWithTintColor:color];
+        }
+        imageAttachment.image = iconImage;
+        NSAttributedString *imageString = [NSAttributedString attributedStringWithAttachment:imageAttachment];
+        [attributedText insertAttributedString:imageString atIndex:0];
+    }
+    
+    return attributedText;
 }
 
 #pragma mark - ORKLearnMoreViewDelegate
