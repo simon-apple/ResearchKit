@@ -50,7 +50,6 @@
 #import "ORKTaskViewController_Internal.h"
 
 static const CGFloat ORKHeadphoneImageViewDimension = 36.0;
-static const CGFloat ORKHeadphoneDetectStepViewTopPadding = 37.0;
 static const CGFloat ORKHeadphoneDetectStepSpacing = 12.0;
 static const CGFloat ORKHeadphoneDetectCellStepSize = 40;
 static const CGFloat ORKHeadphoneDetectExtraLabelsSpacing = 10.0;
@@ -384,7 +383,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     
 } ORK_ENUM_AVAILABLE;
 
-@interface ORKHeadphoneDetectStepView : ORKActiveStepCustomView
+@interface ORKHeadphoneDetectStepView : UIStackView
 
 - (instancetype)initWithHeadphonesSupported;
 - (instancetype)initWithHeadphonesAny;
@@ -394,7 +393,6 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
 @end
 
 @implementation ORKHeadphoneDetectStepView {
-    UIStackView *_stackView;
     ORKHeadphoneDetectedView *_airpodSupportView;
     ORKHeadphoneDetectedView *_airpodProSupportView;
     ORKHeadphoneDetectedView *_earpodSupportView;
@@ -410,7 +408,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     self = [super init];
     if (self) {
         _headphoneTypes = headphoneTypes;
-        [self setupStackView];
+        [self setupView];
         if (headphoneTypes == ORKHeadphoneTypesSupported) {
             _airpodProSupportView.selected = NO;
             _airpodProSupportView.connected = NO;
@@ -434,49 +432,22 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     return [self initWithHeadphoneTypes:ORKHeadphoneTypesAny];
 }
 
-- (void)setupStackView {
-    if (!_stackView) {
-        _stackView = [UIStackView new];
-    }
-    _stackView.axis = UILayoutConstraintAxisVertical;
-    _stackView.spacing = ORKHeadphoneDetectStepSpacing;
-    _stackView.distribution = UIStackViewDistributionFill;
-    _stackView.alignment = UIStackViewAlignmentTrailing;
+- (void)setupView {
+    self.axis = UILayoutConstraintAxisVertical;
+    self.spacing = ORKHeadphoneDetectStepSpacing;
+    self.distribution = UIStackViewDistributionFill;
+    self.alignment = UIStackViewAlignmentTrailing;
     
-    _stackView.translatesAutoresizingMaskIntoConstraints = NO;
-    [self addSubview:_stackView];
-    [[_stackView.topAnchor constraintEqualToAnchor:self.topAnchor constant:ORKHeadphoneDetectStepViewTopPadding] setActive:YES];
-    [[_stackView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor] setActive:YES];
-    [[_stackView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor] setActive:YES];
-    [[_stackView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor] setActive:YES];
+    self.translatesAutoresizingMaskIntoConstraints = NO;
+    
     if (_headphoneTypes == ORKHeadphoneTypesSupported) {
         [self addSupportedHeadphonesDetectedViews];
     }
     else {
         [self addAnyHeadphoneDetectedView];
     }
+    
     [self setupBottomAlertLabel];
-}
-
-- (void)addSupportedHeadphonesDetectedViews {
-    UIView *hr1 = [self horizontalRuleView];
-    [_stackView addArrangedSubview:hr1];
-    [[hr1.leadingAnchor constraintEqualToAnchor:_stackView.leadingAnchor] setActive:YES];
-    [self setupAirpodProView];
-    
-    UIView *hr2 = [self horizontalRuleView];
-    [_stackView addArrangedSubview:hr2];
-    [[hr2.leadingAnchor constraintEqualToAnchor:_stackView.leadingAnchor constant:3*ORKHeadphoneDetectStepSpacing+ORKHeadphoneImageViewDimension] setActive:YES];
-    [self setupAirpodView];
-    
-    UIView *hr3 = [self horizontalRuleView];
-    [_stackView addArrangedSubview:hr3];
-    [[hr3.leadingAnchor constraintEqualToAnchor:_stackView.leadingAnchor constant:3*ORKHeadphoneDetectStepSpacing+ORKHeadphoneImageViewDimension] setActive:YES];
-    [self setupEarpodView];
-    
-    UIView *hr4 = [self horizontalRuleView];
-    [_stackView addArrangedSubview:hr4];
-    [[hr4.leadingAnchor constraintEqualToAnchor:_stackView.leadingAnchor] setActive:YES];
 }
 
 - (void)setupBottomAlertLabel {
@@ -487,12 +458,40 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     _bottomAlertLabel.numberOfLines = 0;
     _bottomAlertLabel.textAlignment = NSTextAlignmentLeft;
     _bottomAlertLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    [_stackView addArrangedSubview:_bottomAlertLabel];
+    [self addArrangedSubview:_bottomAlertLabel];
     
-    [[_bottomAlertLabel.leadingAnchor constraintEqualToAnchor:_stackView.leadingAnchor constant:2*ORKHeadphoneDetectStepSpacing] setActive:YES];
-    [[_bottomAlertLabel.widthAnchor constraintEqualToAnchor:_stackView.widthAnchor constant:-2*ORKHeadphoneDetectStepSpacing] setActive:YES];
+    CGFloat margin = ORKStandardHorizontalMarginForView(self);
     
-    _bottomAlertLabel.alpha = 0.0;
+    [[_bottomAlertLabel.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:margin] setActive:YES];
+    
+    _bottomAlertLabel.hidden = YES;
+}
+
+- (void)addSupportedHeadphonesDetectedViews {
+    UIView *hr1 = [self horizontalRuleView];
+    [self addArrangedSubview:hr1];
+    [[hr1.leadingAnchor constraintEqualToAnchor:self.leadingAnchor] setActive:YES];
+    [self setupAirpodProView];
+    
+    UIView *hr2 = [self horizontalRuleView];
+    [self addArrangedSubview:hr2];
+    [[hr2.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:3*ORKHeadphoneDetectStepSpacing+ORKHeadphoneImageViewDimension] setActive:YES];
+    [self setupAirpodView];
+
+    UIView *hr3 = [self horizontalRuleView];
+    [self addArrangedSubview:hr3];
+    [[hr3.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:3*ORKHeadphoneDetectStepSpacing+ORKHeadphoneImageViewDimension] setActive:YES];
+    [self setupEarpodView];
+
+    UIView *hr4 = [self horizontalRuleView];
+    [self addArrangedSubview:hr4];
+    [[hr4.leadingAnchor constraintEqualToAnchor:self.leadingAnchor] setActive:YES];
+}
+
+- (void)addAnyHeadphoneDetectedView {
+    [self addArrangedSubview:[self horizontalRuleView]];
+    [self setupAnyHeadphoneView];
+    [self addArrangedSubview:[self horizontalRuleView]];
 }
 
 - (NSAttributedString *)getSharedAudioMessage {
@@ -501,7 +500,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     UIColor *grayColor = UIColor.systemGrayColor;
     NSDictionary *grayAttrs = @{ NSForegroundColorAttributeName : grayColor };
     
-    NSMutableAttributedString *sharedAudioString = [[NSMutableAttributedString alloc] initWithString:@"\n"];
+    NSMutableAttributedString *sharedAudioString = [[NSMutableAttributedString alloc] init];
     
     NSTextAttachment *exclamationAttachment = [NSTextAttachment new];
     NSTextAttachment *airplayAttachment = [NSTextAttachment new];
@@ -523,10 +522,14 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
         checkmarkAttachment.image = checkmarkImg;
     }
     
-    NSString *text1 = [NSString stringWithFormat:@" %@\n\n", ORKLocalizedString(@"SHARED_AUDIO_ALERT1", nil)];
+    [sharedAudioString appendAttributedString:[self attributedEmptyLineWithSize:10]];
+    
+    NSString *text1 = [NSString stringWithFormat:@" %@\n", ORKLocalizedString(@"SHARED_AUDIO_ALERT1", nil)];
     
     [sharedAudioString appendAttributedString:[NSAttributedString attributedStringWithAttachment:exclamationAttachment]];
     [sharedAudioString appendAttributedString:[[NSAttributedString alloc] initWithString:text1 attributes:orangeAttrs]];
+    
+    [sharedAudioString appendAttributedString:[self attributedEmptyLineWithSize:5]];
     
     [sharedAudioString appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"SHARED_AUDIO_ALERT2", nil) attributes:grayAttrs]];
     
@@ -539,17 +542,17 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     return sharedAudioString;
 }
 
-- (void)hideBottomAlert:(BOOL)isHidden {
-    [UIView animateWithDuration: ORKHeadphoneCellAnimationDuration animations:^{
-        _bottomAlertLabel.alpha = isHidden ? 0 : 1;
-        [self.superview layoutIfNeeded];
-    }];
+- (NSAttributedString *)attributedEmptyLineWithSize:(CGFloat)lineSize {
+    UIFont *font = [UIFont systemFontOfSize:lineSize];
+    NSDictionary *attrs = @{ NSFontAttributeName : font };
+    return [[NSAttributedString alloc] initWithString:@" \n" attributes:attrs];
 }
 
-- (void)addAnyHeadphoneDetectedView {
-    [_stackView addArrangedSubview:[self horizontalRuleView]];
-    [self setupAnyHeadphoneView];
-    [_stackView addArrangedSubview:[self horizontalRuleView]];
+- (void)hideBottomAlert:(BOOL)isHidden {
+    [UIView animateWithDuration: ORKHeadphoneCellAnimationDuration animations:^{
+        [_bottomAlertLabel setHidden:isHidden];
+        [self layoutIfNeeded];
+    }];
 }
 
 - (UIView *)horizontalRuleView {
@@ -569,8 +572,8 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
         _airpodProSupportView = [[ORKHeadphoneDetectedView alloc] initWithAirpodsPro];
     }
     _airpodProSupportView.translatesAutoresizingMaskIntoConstraints = NO;
-    [_stackView addArrangedSubview:_airpodProSupportView];
-    [[_airpodProSupportView.leadingAnchor constraintEqualToAnchor:_stackView.leadingAnchor] setActive:YES];
+    [self addArrangedSubview:_airpodProSupportView];
+    [[_airpodProSupportView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor] setActive:YES];
     _airpodsProCellHeightConstraint = [_airpodProSupportView.heightAnchor constraintEqualToConstant: ORKHeadphoneDetectCellStepSize];
     [_airpodProSupportView addConstraint:_airpodsProCellHeightConstraint];
     _airpodsProCellHeightConstraint.active = YES;
@@ -581,8 +584,8 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
         _airpodSupportView = [[ORKHeadphoneDetectedView alloc] initWithAirpods];
     }
     _airpodSupportView.translatesAutoresizingMaskIntoConstraints = NO;
-    [_stackView addArrangedSubview:_airpodSupportView];
-    [[_airpodSupportView.leadingAnchor constraintEqualToAnchor:_stackView.leadingAnchor] setActive:YES];
+    [self addArrangedSubview:_airpodSupportView];
+    [[_airpodSupportView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor] setActive:YES];
     [[_airpodSupportView.heightAnchor constraintEqualToConstant:ORKHeadphoneDetectCellStepSize] setActive:YES];
 }
 
@@ -591,8 +594,8 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
         _earpodSupportView = [[ORKHeadphoneDetectedView alloc] initWithEarpods];
     }
     _earpodSupportView.translatesAutoresizingMaskIntoConstraints = NO;
-    [_stackView addArrangedSubview:_earpodSupportView];
-    [[_earpodSupportView.leadingAnchor constraintEqualToAnchor:_stackView.leadingAnchor] setActive:YES];
+    [self addArrangedSubview:_earpodSupportView];
+    [[_earpodSupportView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor] setActive:YES];
     [[_earpodSupportView.heightAnchor constraintEqualToConstant:ORKHeadphoneDetectCellStepSize] setActive:YES];
 }
 
@@ -601,8 +604,8 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
         _anyHeadphoneView = [[ORKHeadphoneDetectedView alloc] initWithAnyHeadphones];
     }
     _anyHeadphoneView.translatesAutoresizingMaskIntoConstraints = NO;
-    [_stackView addArrangedSubview:_anyHeadphoneView];
-    [[_anyHeadphoneView.leadingAnchor constraintEqualToAnchor:_stackView.leadingAnchor] setActive:YES];
+    [self addArrangedSubview:_anyHeadphoneView];
+    [[_anyHeadphoneView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor] setActive:YES];
     [[_anyHeadphoneView.heightAnchor constraintEqualToConstant:ORKHeadphoneDetectCellStepSize] setActive:YES];
 }
 
@@ -692,6 +695,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     NSString * _lastDetectedProductID;
     NSInteger _lastDetectedDeviceSubType;
     ORKBluetoothMode _lastDetectedBluetoothMode;
+    NSUInteger _wirelessSplitterNumberOfDevices;
 }
 
 - (ORKHeadphoneDetectStep *)detectStep {
@@ -703,8 +707,10 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     
     _headphoneDetectStepView = [self detectStep].headphoneTypes == ORKHeadphoneTypesSupported ? [[ORKHeadphoneDetectStepView alloc] initWithHeadphonesSupported] : [[ORKHeadphoneDetectStepView alloc] initWithHeadphonesAny];
 
+    _wirelessSplitterNumberOfDevices = 0;
     self.stepView.customContentFillsAvailableSpace = NO;
     self.stepView.customContentView = _headphoneDetectStepView;
+    [self.stepView pinNavigationContainerToBottom];
     [self.stepView removeCustomContentPadding];
 }
 
@@ -867,9 +873,9 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     });
 }
 
-- (void)wirelessSplitterNumberOfDevices:(NSUInteger)numberOfDevices {
+- (void)wirelessSplitterMoreThanOneDeviceDetected:(BOOL)moreThanOne {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [_headphoneDetectStepView hideBottomAlert:!(numberOfDevices > 1)];
+        [_headphoneDetectStepView hideBottomAlert:!moreThanOne];
     });
 }
 
