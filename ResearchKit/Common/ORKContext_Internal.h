@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, Apple Inc. All rights reserved.
+ Copyright (c) 2020, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,37 +28,29 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+@import Foundation;
 
-#import <ResearchKit/ORKStep.h>
-#import <ResearchKit/ORKContext.h>
+#import "ORKContext.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ORKStep ()
+@interface ORKSpeechInNoisePredefinedTaskContext : NSObject <ORKContext>
 
-/**
- Returns the class that the task view controller should instantiate to display
- this step.
- 
- This method is used within the framework so that steps can define their
- step view controller pairing.
- 
- Outside the framework, developers should instantiate the required view
- controller in their task view controller delegate to override the task
- view controller's default.
- */
-+ (Class)stepViewControllerClass;
+@property (nonatomic, copy) NSString *practiceAgainStepIdentifier;
 
-- (Class)stepViewControllerClass;
+@property (nonatomic, assign, getter=isPracticeTest) BOOL practiceTest;
 
-- (nullable ORKEarlyTerminationContext *)earlyTerminationContext;
+@property (nonatomic, assign) BOOL prefersKeyboard;
 
-@property (nonatomic, assign) BOOL shouldTintImages;
+- (void)didSkipHeadphoneDetectionStepForTask:(id<ORKTask>)task;
 
-// Whether to allow navigation back from this step.
-@property (nonatomic, assign, readonly) BOOL allowsBackNavigation;
+- (NSString *)didNotAllowRequiredHealthPermissionsForTask:(id<ORKTask>)task;
 
-@property (nonatomic, assign) BOOL useSurveyMode;
+@end
+
+@interface ORKAVJournalingPredfinedTaskContext : NSObject <ORKContext>
+
+- (void)didReachDetectionTimeLimitForTask:(id<ORKTask>)task;
 
 @end
 

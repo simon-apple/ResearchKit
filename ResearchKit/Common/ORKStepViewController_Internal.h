@@ -70,6 +70,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, nullable) ORKReviewStep* parentReviewStep;
 
+@property (nonatomic, assign) BOOL isEarlyTerminationStep;
+
 - (void)willNavigateDirection:(ORKStepViewControllerNavigationDirection)direction;
 
 - (void)notifyDelegateOnResultChange;

@@ -40,7 +40,7 @@
 #import "ORKHelpers_Internal.h"
 #import "ORKBorderedButton.h"
 #import "ORKNavigationContainerView_Internal.h"
-#import "ORKContext.h"
+#import "ORKContext_Internal.h"
 #import "ORKTaskViewController_Internal.h"
 #import <AVFoundation/AVFoundation.h>
 #import <CoreImage/CoreImage.h>

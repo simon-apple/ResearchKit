@@ -45,7 +45,7 @@
 #import "ORKCompletionCheckmarkView.h"
 #import "ORKSkin.h"
 #import "ORKHelpers_Internal.h"
-#import "ORKContext.h"
+#import "ORKContext_Internal.h"
 #import "ORKCompletionStep.h"
 #import "ORKTaskViewController.h"
 
