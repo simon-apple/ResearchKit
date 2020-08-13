@@ -36,7 +36,7 @@
 #import "ORKStep.h"
 #import "ORKFaceDetectionStep.h"
 #import "ORKAVJournalingStep.h"
-#import "ORKContext.h"
+#import "ORKContext_Internal.h"
 #import "ORKStepNavigationRule.h"
 
 typedef NSString * ORKAVJournalingStepIdentifier NS_STRING_ENUM;

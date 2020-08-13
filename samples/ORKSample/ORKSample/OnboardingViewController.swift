@@ -69,7 +69,7 @@ extension OnboardingViewController: ORKTaskViewControllerDelegate {
             case .completed:
                 performSegue(withIdentifier: "unwindToStudy", sender: nil)
             
-            case .discarded, .failed, .saved:
+        case .discarded, .failed, .saved, .earlyTermination:
                 dismiss(animated: true, completion: nil)
         }
     }

@@ -74,7 +74,10 @@ typedef NS_ENUM(NSInteger, ORKTaskViewControllerFinishReason) {
     ORKTaskViewControllerFinishReasonCompleted,
     
     /// An error was detected during the current step.
-    ORKTaskViewControllerFinishReasonFailed
+    ORKTaskViewControllerFinishReasonFailed,
+    
+    /// Interntional early termination of a task
+    ORKTaskViewControllerFinishReasonEarlyTermination
 };
 
 /**

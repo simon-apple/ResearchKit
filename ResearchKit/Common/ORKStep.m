@@ -229,4 +229,11 @@
     return nil;
 }
 
+- (nullable ORKEarlyTerminationContext *)earlyTerminationContext {
+    if (self.context && [self.context isKindOfClass:[ORKEarlyTerminationContext class]]) {
+        return (ORKEarlyTerminationContext *)self.context;
+    }
+    return nil;
+}
+
 @end

@@ -46,7 +46,7 @@
 #import "ORKStepViewController_Internal.h"
 #import "ORKSkin.h"
 #import "ORKHelpers_Internal.h"
-#import "ORKContext.h"
+#import "ORKContext_Internal.h"
 #import "ORKTaskViewController_Internal.h"
 
 static const CGFloat ORKHeadphoneImageViewDimension = 36.0;

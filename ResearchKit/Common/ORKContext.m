@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, Apple Inc. All rights reserved.
+ Copyright (c) 2020, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,38 +28,17 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import "ORKContext.h"
 
-#import <ResearchKit/ORKStep.h>
-#import <ResearchKit/ORKContext.h>
+@implementation ORKEarlyTerminationContext
 
-NS_ASSUME_NONNULL_BEGIN
-
-@interface ORKStep ()
-
-/**
- Returns the class that the task view controller should instantiate to display
- this step.
- 
- This method is used within the framework so that steps can define their
- step view controller pairing.
- 
- Outside the framework, developers should instantiate the required view
- controller in their task view controller delegate to override the task
- view controller's default.
- */
-+ (Class)stepViewControllerClass;
-
-- (Class)stepViewControllerClass;
-
-- (nullable ORKEarlyTerminationContext *)earlyTerminationContext;
-
-@property (nonatomic, assign) BOOL shouldTintImages;
-
-// Whether to allow navigation back from this step.
-@property (nonatomic, assign, readonly) BOOL allowsBackNavigation;
-
-@property (nonatomic, assign) BOOL useSurveyMode;
+- (instancetype)initWithButtonText:(NSString *)buttonText earlyTerminationStep:(ORKStep *)earlyTerminationStep {
+    self = [super init];
+    if (self) {
+        _buttonText = buttonText;
+        _earlyTerminationStep = earlyTerminationStep;
+    }
+    return self;
+}
 
 @end
-
-NS_ASSUME_NONNULL_END

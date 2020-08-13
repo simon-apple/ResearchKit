@@ -31,7 +31,7 @@
 
 #import "ORKEnvironmentSPLMeterStepViewController.h"
 
-#import "ORKContext.h"
+#import "ORKContext_Internal.h"
 #import "ORKActiveStepView.h"
 #import "ORKStepView.h"
 #import "ORKStepContainerView_Private.h"
