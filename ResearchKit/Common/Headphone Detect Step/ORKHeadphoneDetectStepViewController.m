@@ -495,49 +495,60 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
 }
 
 - (NSAttributedString *)getSharedAudioMessage {
-    UIColor *orangeColor = UIColor.systemOrangeColor;
-    NSDictionary *orangeAttrs = @{ NSForegroundColorAttributeName : orangeColor };
-    UIColor *grayColor = UIColor.systemGrayColor;
-    NSDictionary *grayAttrs = @{ NSForegroundColorAttributeName : grayColor };
+    NSMutableAttributedString *sharedAudioString = [NSMutableAttributedString new];
     
-    NSMutableAttributedString *sharedAudioString = [[NSMutableAttributedString alloc] init];
-    
-    NSTextAttachment *exclamationAttachment = [NSTextAttachment new];
-    NSTextAttachment *airplayAttachment = [NSTextAttachment new];
-    NSTextAttachment *checkmarkAttachment = [NSTextAttachment new];
-    
-    if (@available(iOS 13.0, *)) {
-        UIImageConfiguration *configuration = [UIImageSymbolConfiguration configurationWithFont:[UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline] scale:UIImageSymbolScaleDefault];
+    NSArray<NSString *> *stringElements = [ORKLocalizedString(@"SHARED_AUDIO_ALERT", nil) componentsSeparatedByString:@"%@"];
+
+    if (stringElements.count == 4) {
+        NSString *title = stringElements[0];
+        NSString *text1 = stringElements[1];
+        NSString *text2 = stringElements[2];
+        NSString *text3 = stringElements[3];
         
-        UIImage *exclamationImg = [[UIImage systemImageNamed:@"exclamationmark.circle.fill"
-                                           withConfiguration:configuration] imageWithTintColor:orangeColor];
-        exclamationAttachment.image = exclamationImg;
+        UIColor *orangeColor = UIColor.systemOrangeColor;
+        NSDictionary *orangeAttrs = @{ NSForegroundColorAttributeName : orangeColor };
+        UIColor *grayColor = UIColor.systemGrayColor;
+        NSDictionary *grayAttrs = @{ NSForegroundColorAttributeName : grayColor };
         
-        UIImage *airplayImg = [[UIImage systemImageNamed:@"airplayaudio"
-                                       withConfiguration:configuration] imageWithTintColor:grayColor];
-        airplayAttachment.image = airplayImg;
+        NSTextAttachment *exclamationAttachment = [NSTextAttachment new];
+        NSTextAttachment *airplayAttachment = [NSTextAttachment new];
+        NSTextAttachment *checkmarkAttachment = [NSTextAttachment new];
         
-        UIImage *checkmarkImg = [[UIImage systemImageNamed:@"checkmark.circle.fill"
-                                         withConfiguration:configuration] imageWithTintColor:grayColor];
-        checkmarkAttachment.image = checkmarkImg;
+        if (@available(iOS 13.0, *)) {
+            UIImageConfiguration *configuration = [UIImageSymbolConfiguration configurationWithFont:[UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline] scale:UIImageSymbolScaleDefault];
+            
+            UIImage *exclamationImg = [[UIImage systemImageNamed:@"exclamationmark.circle.fill"
+                                               withConfiguration:configuration] imageWithTintColor:orangeColor];
+            exclamationAttachment.image = exclamationImg;
+            
+            UIImage *airplayImg = [[UIImage systemImageNamed:@"airplayaudio"
+                                           withConfiguration:configuration] imageWithTintColor:grayColor];
+            airplayAttachment.image = airplayImg;
+            
+            UIImage *checkmarkImg = [[UIImage systemImageNamed:@"checkmark.circle.fill"
+                                             withConfiguration:configuration] imageWithTintColor:grayColor];
+            checkmarkAttachment.image = checkmarkImg;
+        }
+        
+        [sharedAudioString appendAttributedString:[self attributedEmptyLineWithSize:10]];
+        
+        NSString *titleString = [NSString stringWithFormat:@" %@\n", title];
+        
+        [sharedAudioString appendAttributedString:[NSAttributedString attributedStringWithAttachment:exclamationAttachment]];
+        [sharedAudioString appendAttributedString:[[NSAttributedString alloc] initWithString:titleString attributes:orangeAttrs]];
+        
+        [sharedAudioString appendAttributedString:[self attributedEmptyLineWithSize:5]];
+        
+        [sharedAudioString appendAttributedString:[[NSAttributedString alloc] initWithString:text1 attributes:grayAttrs]];
+        
+        [sharedAudioString appendAttributedString:[NSAttributedString attributedStringWithAttachment:airplayAttachment]];
+        [sharedAudioString appendAttributedString:[[NSAttributedString alloc] initWithString:text2 attributes:grayAttrs]];
+        
+        [sharedAudioString appendAttributedString:[NSAttributedString attributedStringWithAttachment:checkmarkAttachment]];
+        [sharedAudioString appendAttributedString:[[NSAttributedString alloc] initWithString:text3 attributes:grayAttrs]];
+        
     }
-    
-    [sharedAudioString appendAttributedString:[self attributedEmptyLineWithSize:10]];
-    
-    NSString *text1 = [NSString stringWithFormat:@" %@\n", ORKLocalizedString(@"SHARED_AUDIO_ALERT1", nil)];
-    
-    [sharedAudioString appendAttributedString:[NSAttributedString attributedStringWithAttachment:exclamationAttachment]];
-    [sharedAudioString appendAttributedString:[[NSAttributedString alloc] initWithString:text1 attributes:orangeAttrs]];
-    
-    [sharedAudioString appendAttributedString:[self attributedEmptyLineWithSize:5]];
-    
-    [sharedAudioString appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"SHARED_AUDIO_ALERT2", nil) attributes:grayAttrs]];
-    
-    [sharedAudioString appendAttributedString:[NSAttributedString attributedStringWithAttachment:airplayAttachment]];
-    [sharedAudioString appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"SHARED_AUDIO_ALERT3", nil) attributes:grayAttrs]];
-    
-    [sharedAudioString appendAttributedString:[NSAttributedString attributedStringWithAttachment:checkmarkAttachment]];
-    [sharedAudioString appendAttributedString:[[NSAttributedString alloc] initWithString:ORKLocalizedString(@"SHARED_AUDIO_ALERT4", nil) attributes:grayAttrs]];
+
     
     return sharedAudioString;
 }

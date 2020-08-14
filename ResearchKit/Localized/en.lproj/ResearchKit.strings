@@ -375,10 +375,7 @@
 "NOISE_CANCELLATION_REQUIRED" = "Noise cancellation required";
 "HEADPHONE_DETECT_TEXT" = "To ensure accurate results, this task requires Apple EarPods, AirPods, or AirPods Pro.";
 "SKIP_TO_END_TEXT" = "No Compatible Headphones";
-"SHARED_AUDIO_ALERT1" = "Shared audio must be turned off.";
-"SHARED_AUDIO_ALERT2" = "To turn off shared audio, open Control Center and tap ";
-"SHARED_AUDIO_ALERT3" = ". Then tap the ";
-"SHARED_AUDIO_ALERT4" = " to turn off sharing a particular set of headphones.";
+"SHARED_AUDIO_ALERT" = "Shared audio must be turned off.%@To turn off shared audio, open Control Center and tap %@. Then tap the %@ to turn off sharing a particular set of headphones.";
 
 /* Spatial span memory active task. */
 "SPATIAL_SPAN_MEMORY_TITLE" = "Spatial Memory";
