@@ -493,6 +493,7 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
         _shouldShowDontKnow = YES;
         _customDontKnowString = self.formItem.answerFormat.customDontKnowButtonText;
         [self setupDontKnowButton];
+        self.accessibilityElements = @[_textFieldView, _dontKnowButton];
     }
     
     [self setUpContentConstraint];
