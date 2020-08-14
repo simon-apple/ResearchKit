@@ -290,6 +290,10 @@ static const CGFloat ORKSignatureToClearPadding = 15.0;
     [_signatureView cancelAutoScrollTimer];
 }
 
+- (CGRect)signatureViewFrame {
+    return _signatureView.frame;
+}
+
 // MARK: ORKCustomSignatureAccessoryViewDelegate
 - (void)customViewDidChangeCompletedState:(UIView<ORKCustomSignatureAccessoryViewProtocol> *)customView {
     [self updateIsComplete];
