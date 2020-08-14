@@ -50,7 +50,6 @@
 #import "ORKTaskViewController_Internal.h"
 
 static const CGFloat ORKHeadphoneImageViewDimension = 36.0;
-static const CGFloat ORKHeadphoneDetectStepViewTopPadding = 37.0;
 static const CGFloat ORKHeadphoneDetectStepSpacing = 12.0;
 static const CGFloat ORKHeadphoneDetectCellStepSize = 40;
 static const CGFloat ORKHeadphoneDetectExtraLabelsSpacing = 10.0;
@@ -384,16 +383,16 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     
 } ORK_ENUM_AVAILABLE;
 
-@interface ORKHeadphoneDetectStepView : ORKActiveStepCustomView
+@interface ORKHeadphoneDetectStepView : UIStackView
 
 - (instancetype)initWithHeadphonesSupported;
 - (instancetype)initWithHeadphonesAny;
+- (void)hideBottomAlert:(BOOL)isHidden;
 @property (nonatomic) ORKHeadphoneDetected headphoneDetected;
 
 @end
 
 @implementation ORKHeadphoneDetectStepView {
-    UIStackView *_stackView;
     ORKHeadphoneDetectedView *_airpodSupportView;
     ORKHeadphoneDetectedView *_airpodProSupportView;
     ORKHeadphoneDetectedView *_earpodSupportView;
@@ -401,13 +400,15 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     
     ORKHeadphoneTypes _headphoneTypes;
     
+    UILabel *_bottomAlertLabel;
+    
     NSLayoutConstraint *_airpodsProCellHeightConstraint;
 }
 - (instancetype)initWithHeadphoneTypes:(ORKHeadphoneTypes)headphoneTypes {
     self = [super init];
     if (self) {
         _headphoneTypes = headphoneTypes;
-        [self setupStackView];
+        [self setupView];
         if (headphoneTypes == ORKHeadphoneTypesSupported) {
             _airpodProSupportView.selected = NO;
             _airpodProSupportView.connected = NO;
@@ -431,54 +432,138 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     return [self initWithHeadphoneTypes:ORKHeadphoneTypesAny];
 }
 
-- (void)setupStackView {
-    if (!_stackView) {
-        _stackView = [UIStackView new];
-    }
-    _stackView.axis = UILayoutConstraintAxisVertical;
-    _stackView.spacing = ORKHeadphoneDetectStepSpacing;
-    _stackView.distribution = UIStackViewDistributionFill;
-    _stackView.alignment = UIStackViewAlignmentTrailing;
+- (void)setupView {
+    self.axis = UILayoutConstraintAxisVertical;
+    self.spacing = ORKHeadphoneDetectStepSpacing;
+    self.distribution = UIStackViewDistributionFill;
+    self.alignment = UIStackViewAlignmentTrailing;
     
-    _stackView.translatesAutoresizingMaskIntoConstraints = NO;
-    [self addSubview:_stackView];
-    [[_stackView.topAnchor constraintEqualToAnchor:self.topAnchor constant:ORKHeadphoneDetectStepViewTopPadding] setActive:YES];
-    [[_stackView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor] setActive:YES];
-    [[_stackView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor] setActive:YES];
-    [[_stackView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor] setActive:YES];
+    self.translatesAutoresizingMaskIntoConstraints = NO;
+    
     if (_headphoneTypes == ORKHeadphoneTypesSupported) {
         [self addSupportedHeadphonesDetectedViews];
     }
     else {
         [self addAnyHeadphoneDetectedView];
     }
+    
+    [self setupBottomAlertLabel];
+}
+
+- (void)setupBottomAlertLabel {
+    if (!_bottomAlertLabel) {
+        _bottomAlertLabel = [UILabel new];
+    }
+    _bottomAlertLabel.attributedText = [self getSharedAudioMessage];
+    _bottomAlertLabel.numberOfLines = 0;
+    _bottomAlertLabel.textAlignment = NSTextAlignmentLeft;
+    _bottomAlertLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    [self addArrangedSubview:_bottomAlertLabel];
+    
+    CGFloat margin = ORKStandardHorizontalMarginForView(self);
+    
+    [[_bottomAlertLabel.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:margin] setActive:YES];
+    
+    _bottomAlertLabel.hidden = YES;
 }
 
 - (void)addSupportedHeadphonesDetectedViews {
     UIView *hr1 = [self horizontalRuleView];
-    [_stackView addArrangedSubview:hr1];
-    [[hr1.leadingAnchor constraintEqualToAnchor:_stackView.leadingAnchor] setActive:YES];
+    [self addArrangedSubview:hr1];
+    [[hr1.leadingAnchor constraintEqualToAnchor:self.leadingAnchor] setActive:YES];
     [self setupAirpodProView];
     
     UIView *hr2 = [self horizontalRuleView];
-    [_stackView addArrangedSubview:hr2];
-    [[hr2.leadingAnchor constraintEqualToAnchor:_stackView.leadingAnchor constant:3*ORKHeadphoneDetectStepSpacing+ORKHeadphoneImageViewDimension] setActive:YES];
+    [self addArrangedSubview:hr2];
+    [[hr2.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:3*ORKHeadphoneDetectStepSpacing+ORKHeadphoneImageViewDimension] setActive:YES];
     [self setupAirpodView];
-    
+
     UIView *hr3 = [self horizontalRuleView];
-    [_stackView addArrangedSubview:hr3];
-    [[hr3.leadingAnchor constraintEqualToAnchor:_stackView.leadingAnchor constant:3*ORKHeadphoneDetectStepSpacing+ORKHeadphoneImageViewDimension] setActive:YES];
+    [self addArrangedSubview:hr3];
+    [[hr3.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:3*ORKHeadphoneDetectStepSpacing+ORKHeadphoneImageViewDimension] setActive:YES];
     [self setupEarpodView];
-    
+
     UIView *hr4 = [self horizontalRuleView];
-    [_stackView addArrangedSubview:hr4];
-    [[hr4.leadingAnchor constraintEqualToAnchor:_stackView.leadingAnchor] setActive:YES];
+    [self addArrangedSubview:hr4];
+    [[hr4.leadingAnchor constraintEqualToAnchor:self.leadingAnchor] setActive:YES];
 }
 
 - (void)addAnyHeadphoneDetectedView {
-    [_stackView addArrangedSubview:[self horizontalRuleView]];
+    [self addArrangedSubview:[self horizontalRuleView]];
     [self setupAnyHeadphoneView];
-    [_stackView addArrangedSubview:[self horizontalRuleView]];
+    [self addArrangedSubview:[self horizontalRuleView]];
+}
+
+- (NSAttributedString *)getSharedAudioMessage {
+    NSMutableAttributedString *sharedAudioString = [NSMutableAttributedString new];
+    
+    NSArray<NSString *> *stringElements = [ORKLocalizedString(@"SHARED_AUDIO_ALERT", nil) componentsSeparatedByString:@"%@"];
+
+    if (stringElements.count == 4) {
+        NSString *title = stringElements[0];
+        NSString *text1 = stringElements[1];
+        NSString *text2 = stringElements[2];
+        NSString *text3 = stringElements[3];
+        
+        UIColor *orangeColor = UIColor.systemOrangeColor;
+        NSDictionary *orangeAttrs = @{ NSForegroundColorAttributeName : orangeColor };
+        UIColor *grayColor = UIColor.systemGrayColor;
+        NSDictionary *grayAttrs = @{ NSForegroundColorAttributeName : grayColor };
+        
+        NSTextAttachment *exclamationAttachment = [NSTextAttachment new];
+        NSTextAttachment *airplayAttachment = [NSTextAttachment new];
+        NSTextAttachment *checkmarkAttachment = [NSTextAttachment new];
+        
+        if (@available(iOS 13.0, *)) {
+            UIImageConfiguration *configuration = [UIImageSymbolConfiguration configurationWithFont:[UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline] scale:UIImageSymbolScaleDefault];
+            
+            UIImage *exclamationImg = [[UIImage systemImageNamed:@"exclamationmark.circle.fill"
+                                               withConfiguration:configuration] imageWithTintColor:orangeColor];
+            exclamationAttachment.image = exclamationImg;
+            
+            UIImage *airplayImg = [[UIImage systemImageNamed:@"airplayaudio"
+                                           withConfiguration:configuration] imageWithTintColor:grayColor];
+            airplayAttachment.image = airplayImg;
+            
+            UIImage *checkmarkImg = [[UIImage systemImageNamed:@"checkmark.circle.fill"
+                                             withConfiguration:configuration] imageWithTintColor:grayColor];
+            checkmarkAttachment.image = checkmarkImg;
+        }
+        
+        [sharedAudioString appendAttributedString:[self attributedEmptyLineWithSize:10]];
+        
+        NSString *titleString = [NSString stringWithFormat:@" %@\n", title];
+        
+        [sharedAudioString appendAttributedString:[NSAttributedString attributedStringWithAttachment:exclamationAttachment]];
+        [sharedAudioString appendAttributedString:[[NSAttributedString alloc] initWithString:titleString attributes:orangeAttrs]];
+        
+        [sharedAudioString appendAttributedString:[self attributedEmptyLineWithSize:5]];
+        
+        [sharedAudioString appendAttributedString:[[NSAttributedString alloc] initWithString:text1 attributes:grayAttrs]];
+        
+        [sharedAudioString appendAttributedString:[NSAttributedString attributedStringWithAttachment:airplayAttachment]];
+        [sharedAudioString appendAttributedString:[[NSAttributedString alloc] initWithString:text2 attributes:grayAttrs]];
+        
+        [sharedAudioString appendAttributedString:[NSAttributedString attributedStringWithAttachment:checkmarkAttachment]];
+        [sharedAudioString appendAttributedString:[[NSAttributedString alloc] initWithString:text3 attributes:grayAttrs]];
+        
+    }
+
+    
+    return sharedAudioString;
+}
+
+- (NSAttributedString *)attributedEmptyLineWithSize:(CGFloat)lineSize {
+    UIFont *font = [UIFont systemFontOfSize:lineSize];
+    NSDictionary *attrs = @{ NSFontAttributeName : font };
+    return [[NSAttributedString alloc] initWithString:@" \n" attributes:attrs];
+}
+
+- (void)hideBottomAlert:(BOOL)isHidden {
+    [UIView animateWithDuration: ORKHeadphoneCellAnimationDuration animations:^{
+        [_bottomAlertLabel setHidden:isHidden];
+        [self layoutIfNeeded];
+    }];
 }
 
 - (UIView *)horizontalRuleView {
@@ -498,8 +583,8 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
         _airpodProSupportView = [[ORKHeadphoneDetectedView alloc] initWithAirpodsPro];
     }
     _airpodProSupportView.translatesAutoresizingMaskIntoConstraints = NO;
-    [_stackView addArrangedSubview:_airpodProSupportView];
-    [[_airpodProSupportView.leadingAnchor constraintEqualToAnchor:_stackView.leadingAnchor] setActive:YES];
+    [self addArrangedSubview:_airpodProSupportView];
+    [[_airpodProSupportView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor] setActive:YES];
     _airpodsProCellHeightConstraint = [_airpodProSupportView.heightAnchor constraintEqualToConstant: ORKHeadphoneDetectCellStepSize];
     [_airpodProSupportView addConstraint:_airpodsProCellHeightConstraint];
     _airpodsProCellHeightConstraint.active = YES;
@@ -510,8 +595,8 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
         _airpodSupportView = [[ORKHeadphoneDetectedView alloc] initWithAirpods];
     }
     _airpodSupportView.translatesAutoresizingMaskIntoConstraints = NO;
-    [_stackView addArrangedSubview:_airpodSupportView];
-    [[_airpodSupportView.leadingAnchor constraintEqualToAnchor:_stackView.leadingAnchor] setActive:YES];
+    [self addArrangedSubview:_airpodSupportView];
+    [[_airpodSupportView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor] setActive:YES];
     [[_airpodSupportView.heightAnchor constraintEqualToConstant:ORKHeadphoneDetectCellStepSize] setActive:YES];
 }
 
@@ -520,8 +605,8 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
         _earpodSupportView = [[ORKHeadphoneDetectedView alloc] initWithEarpods];
     }
     _earpodSupportView.translatesAutoresizingMaskIntoConstraints = NO;
-    [_stackView addArrangedSubview:_earpodSupportView];
-    [[_earpodSupportView.leadingAnchor constraintEqualToAnchor:_stackView.leadingAnchor] setActive:YES];
+    [self addArrangedSubview:_earpodSupportView];
+    [[_earpodSupportView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor] setActive:YES];
     [[_earpodSupportView.heightAnchor constraintEqualToConstant:ORKHeadphoneDetectCellStepSize] setActive:YES];
 }
 
@@ -530,8 +615,8 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
         _anyHeadphoneView = [[ORKHeadphoneDetectedView alloc] initWithAnyHeadphones];
     }
     _anyHeadphoneView.translatesAutoresizingMaskIntoConstraints = NO;
-    [_stackView addArrangedSubview:_anyHeadphoneView];
-    [[_anyHeadphoneView.leadingAnchor constraintEqualToAnchor:_stackView.leadingAnchor] setActive:YES];
+    [self addArrangedSubview:_anyHeadphoneView];
+    [[_anyHeadphoneView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor] setActive:YES];
     [[_anyHeadphoneView.heightAnchor constraintEqualToConstant:ORKHeadphoneDetectCellStepSize] setActive:YES];
 }
 
@@ -621,6 +706,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     NSString * _lastDetectedProductID;
     NSInteger _lastDetectedDeviceSubType;
     ORKBluetoothMode _lastDetectedBluetoothMode;
+    NSUInteger _wirelessSplitterNumberOfDevices;
 }
 
 - (ORKHeadphoneDetectStep *)detectStep {
@@ -632,8 +718,10 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     
     _headphoneDetectStepView = [self detectStep].headphoneTypes == ORKHeadphoneTypesSupported ? [[ORKHeadphoneDetectStepView alloc] initWithHeadphonesSupported] : [[ORKHeadphoneDetectStepView alloc] initWithHeadphonesAny];
 
+    _wirelessSplitterNumberOfDevices = 0;
     self.stepView.customContentFillsAvailableSpace = NO;
     self.stepView.customContentView = _headphoneDetectStepView;
+    [self.stepView pinNavigationContainerToBottom];
     [self.stepView removeCustomContentPadding];
 }
 
@@ -793,6 +881,12 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
         }]];
         alertController.preferredAction = startOver;
         [self presentViewController:alertController animated:YES completion:nil];
+    });
+}
+
+- (void)wirelessSplitterMoreThanOneDeviceDetected:(BOOL)moreThanOne {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [_headphoneDetectStepView hideBottomAlert:!moreThanOne];
     });
 }
 

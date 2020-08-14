@@ -51,6 +51,8 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
     NSTimer                             *_btListeningModeCheckTimer;
     BOOL                                _avFoundationSPIOk;
     BOOL                                _celestialSPIOk;
+    
+    NSUInteger                          _wirelessSplitterNumberOfDevices;
 }
 
 - (instancetype)initWithDelegate:(id<ORKHeadphoneDetectorDelegate>)delegate
@@ -58,6 +60,7 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
     self = [super init];
     if (self) {
         _lastDetectedDevice = nil;
+        _wirelessSplitterNumberOfDevices = 0;
         _avFoundationSPIOk = [self checkAVFoundationSPI];
         _celestialSPIOk = [self checkCelestial];
         self.delegate = delegate;
@@ -302,13 +305,22 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
 - (void)checkTick:(NSNotification *)notification {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         ORKStrongTypeOf(self.delegate) strongDelegate = self.delegate;
-        if ([self checkLowBatteryLevelForPods]) {
+        if ([self checkLowBatteryLevelForPods] && strongDelegate &&
+            [strongDelegate respondsToSelector:@selector(podLowBatteryLevelDetected)]) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                if (strongDelegate &&
-                    [strongDelegate respondsToSelector:@selector(podLowBatteryLevelDetected)]) {
-                    [strongDelegate podLowBatteryLevelDetected];
-                }
+                [strongDelegate podLowBatteryLevelDetected];
             });
+        }
+        NSUInteger numberOfDevices = [[getAVOutputContextClass() sharedSystemAudioContext] outputDevices].count;
+        if (_wirelessSplitterNumberOfDevices != numberOfDevices) {
+            _wirelessSplitterNumberOfDevices = numberOfDevices;
+            if (_lastDetectedDevice != nil &&
+                strongDelegate &&
+                [strongDelegate respondsToSelector:@selector(wirelessSplitterMoreThanOneDeviceDetected:)]) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [strongDelegate wirelessSplitterMoreThanOneDeviceDetected:(numberOfDevices > 1)];
+                });
+            }
         }
         if (@available(iOS 13.0, *)) {
             if ([self getCurrentBTHeadphoneType] == ORKHeadphoneTypeIdentifierAirPodsPro &&
