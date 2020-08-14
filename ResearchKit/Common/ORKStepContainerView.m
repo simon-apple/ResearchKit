@@ -840,9 +840,9 @@ static NSString *scrollContentChangedNotification = @"scrollContentChanged";
                 // the top and the bottom of the navigation footer view
                 if (contentPosition < endOfFooter) {
                     CGFloat offset = contentPosition - startOfFooter;
-                    _scrollView.contentInset = UIEdgeInsetsMake(0, 0, offset + ORKContentBottomPadding, 0);
+                    self.scrollViewInset = UIEdgeInsetsMake(0, 0, offset + ORKContentBottomPadding, 0);
                 } else {
-                    _scrollView.contentInset = UIEdgeInsetsMake(0, 0, self.navigationFooterView.frame.size.height + ORKContentBottomPadding, 0);
+                    self.scrollViewInset = UIEdgeInsetsMake(0, 0, self.navigationFooterView.frame.size.height + ORKContentBottomPadding, 0);
                 }
             }
         }
@@ -876,8 +876,21 @@ static NSString *scrollContentChangedNotification = @"scrollContentChanged";
     return _scrollView.scrollEnabled;
 }
 
-- (void)setScrollViewInset:(UIEdgeInsets)inset {
-    [_scrollView setContentInset:inset];
+- (UIEdgeInsets)scrollViewInset {
+    return _scrollView.contentInset;
+}
+
+- (void)setScrollViewInset:(UIEdgeInsets)scrollViewInset {
+    [_scrollView setContentInset:scrollViewInset];
+}
+
+- (void)resetScrollViewInset {
+    if (_pinNavigationContainer) {
+        CGFloat offset = [self contentHeight] - self.navigationFooterView.frame.origin.y;
+        self.scrollViewInset = UIEdgeInsetsMake(0.0, 0.0, offset + ORKContentBottomPadding, 0.0);
+    } else {
+        self.scrollViewInset = UIEdgeInsetsZero;
+    }
 }
 
 - (void)scrollToPoint:(CGPoint)point {
