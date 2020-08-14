@@ -39,7 +39,7 @@
 #import "ORKSkin.h"
 #import "ORKHelpers_Internal.h"
 #import "ORKSignatureResult_Private.h"
-#import "ORKCustomSignatureFooterView.h"
+#import "ORKCustomSignatureFooterView_Private.h"
 
 static const CGFloat ORKSignatureTopPadding = 37.0;
 
@@ -49,7 +49,7 @@ static const CGFloat ORKSignatureTopPadding = 37.0;
     NSString *_receivedMessageBody;
     NSMutableArray<NSLayoutConstraint *> *_constraints;
     
-    ORKCustomSignatureFooterView *_signatureView;
+    ORKCustomSignatureFooterView *_signatureFooterView;
     
     CGFloat _leftRightPadding;
     CGFloat _bottomOffset;
@@ -76,14 +76,14 @@ static const CGFloat ORKSignatureTopPadding = 37.0;
         [self.view addSubview:_scrollView];
         
         if ([self webViewStep].showSignatureAfterContent) {
-            _signatureView = [[ORKCustomSignatureFooterView alloc] init];
-            _signatureView.signatureViewDelegate = self;
-            _signatureView.delegate = self;
-            _signatureView.customViewProvider = [self webViewStep].customViewProvider;
-            [_scrollView addSubview:_signatureView];
+            _signatureFooterView = [[ORKCustomSignatureFooterView alloc] init];
+            _signatureFooterView.signatureViewDelegate = self;
+            _signatureFooterView.delegate = self;
+            _signatureFooterView.customViewProvider = [self webViewStep].customViewProvider;
+            [_scrollView addSubview:_signatureFooterView];
             
-            if ([_signatureView.customViewProvider respondsToSelector:@selector(keyboardDismissModeForCustomView)]) {
-                [_scrollView setKeyboardDismissMode:[_signatureView.customViewProvider keyboardDismissModeForCustomView]];
+            if ([_signatureFooterView.customViewProvider respondsToSelector:@selector(keyboardDismissModeForCustomView)]) {
+                [_scrollView setKeyboardDismissMode:[_signatureFooterView.customViewProvider keyboardDismissModeForCustomView]];
             }
         }
         
@@ -174,7 +174,7 @@ static const CGFloat ORKSignatureTopPadding = 37.0;
     _webView.translatesAutoresizingMaskIntoConstraints = NO;
     _navigationFooterView.translatesAutoresizingMaskIntoConstraints = NO;
     _scrollView.translatesAutoresizingMaskIntoConstraints = NO;
-    _signatureView.translatesAutoresizingMaskIntoConstraints = NO;
+    _signatureFooterView.translatesAutoresizingMaskIntoConstraints = NO;
     
     _constraints = [[NSMutableArray alloc] initWithArray:@[
         [NSLayoutConstraint constraintWithItem:_scrollView
@@ -245,21 +245,21 @@ static const CGFloat ORKSignatureTopPadding = 37.0;
     
     if ([[self webViewStep] showSignatureAfterContent]) {
         [_constraints addObjectsFromArray:@[
-            [NSLayoutConstraint constraintWithItem:_signatureView
+            [NSLayoutConstraint constraintWithItem:_signatureFooterView
                                          attribute:NSLayoutAttributeTop
                                          relatedBy:NSLayoutRelationEqual
                                             toItem:_webView
                                          attribute:NSLayoutAttributeBottom
                                         multiplier:1.0
                                           constant:ORKSignatureTopPadding / 2.0],
-            [NSLayoutConstraint constraintWithItem:_signatureView
+            [NSLayoutConstraint constraintWithItem:_signatureFooterView
                                          attribute:NSLayoutAttributeLeading
                                          relatedBy:NSLayoutRelationEqual
                                             toItem:self.view
                                          attribute:NSLayoutAttributeLeading
                                         multiplier:1.0
                                           constant:_leftRightPadding],
-            [NSLayoutConstraint constraintWithItem:_signatureView
+            [NSLayoutConstraint constraintWithItem:_signatureFooterView
                                          attribute:NSLayoutAttributeTrailing
                                          relatedBy:NSLayoutRelationEqual
                                             toItem:self.view
@@ -270,7 +270,7 @@ static const CGFloat ORKSignatureTopPadding = 37.0;
             [NSLayoutConstraint constraintWithItem:_navigationFooterView
                                          attribute:NSLayoutAttributeTop
                                          relatedBy:NSLayoutRelationEqual
-                                            toItem:_signatureView
+                                            toItem:_signatureFooterView
                                          attribute:NSLayoutAttributeBottom
                                         multiplier:1.0
                                           constant:ORKSignatureTopPadding / 2.0],
@@ -326,7 +326,7 @@ static const CGFloat ORKSignatureTopPadding = 37.0;
  @param animated            A boolean value indicating wether the scroll should be animated or not.
  */
 - (void)scrollSignatureViewRect:(CGRect)rect toPoint:(CGPoint)endPoint animated:(BOOL)animated {
-    CGRect rectInView = [_signatureView convertRect:rect toView:self.view];
+    CGRect rectInView = [_signatureFooterView convertRect:rect toView:self.view];
     
     CGFloat offset = endPoint.y - (rectInView.origin.y + rectInView.size.height);
     
@@ -391,9 +391,9 @@ static const CGFloat ORKSignatureTopPadding = 37.0;
         webViewResult.userInfo = @{@"html": [self webViewStep].html};
         stepResult.results = [stepResult.results arrayByAddingObject:webViewResult] ? : @[webViewResult];
         
-        if ([[self webViewStep] showSignatureAfterContent] && [_signatureView isComplete]) {
+        if ([[self webViewStep] showSignatureAfterContent] && [_signatureFooterView isComplete]) {
             NSString *signatureResultIdentifier = @"Signature";
-            ORKSignatureResult *signatureResult = [_signatureView resultWithIdentifier: signatureResultIdentifier];
+            ORKSignatureResult *signatureResult = [_signatureFooterView resultWithIdentifier: signatureResultIdentifier];
             stepResult.results = [stepResult.results arrayByAddingObject:signatureResult] ? : @[signatureResult];
         }
     }
@@ -445,24 +445,24 @@ static const CGFloat ORKSignatureTopPadding = 37.0;
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     BOOL enabled = [self shouldEnableSignatureView] && scrollView.isDecelerating;
-    [_signatureView setEnabled:enabled];
+    [_signatureFooterView setEnabled:enabled];
     
     if ([_scrollView.panGestureRecognizer translationInView:_scrollView.superview].y > 0) {
         // Scrolling upward
-        [_signatureView cancelAutoScrollTimer];
+        [_signatureFooterView cancelAutoScrollTimer];
     }
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    [_signatureView setEnabled:[self shouldEnableSignatureView]];
+    [_signatureFooterView setEnabled:[self shouldEnableSignatureView]];
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-    [_signatureView setEnabled:[self shouldEnableSignatureView]];
+    [_signatureFooterView setEnabled:[self shouldEnableSignatureView]];
 }
 
 - (BOOL)shouldEnableSignatureView {
-    CGFloat bottomOfSignature = _signatureView.frame.size.height + _signatureView.frame.origin.y;
+    CGFloat bottomOfSignature = _signatureFooterView.frame.origin.y + _signatureFooterView.signatureViewFrame.origin.y + _signatureFooterView.signatureViewFrame.size.height;
     CGFloat signaturePosition = _scrollView.contentOffset.y + _scrollView.frame.size.height;
     return (bottomOfSignature <= signaturePosition);
 }
@@ -470,7 +470,7 @@ static const CGFloat ORKSignatureTopPadding = 37.0;
 // MARK: Signature
 
 - (void)signatureViewDidEditImage:(nonnull ORKSignatureView *)signatureView {
-    _navigationFooterView.continueEnabled = [_signatureView isComplete];
+    _navigationFooterView.continueEnabled = [_signatureFooterView isComplete];
 }
 
 - (void)signatureViewDidEndEditingWithTimeInterval {
