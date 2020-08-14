@@ -356,7 +356,7 @@ static NSString * ORKRecordButtonLabelForType(ORKRecordButtonType type)
     _stackView.distribution = UIStackViewDistributionEqualSpacing;
     _stackView.spacing = 15.0;
     _stackView.translatesAutoresizingMaskIntoConstraints = NO;
-    _stackView.backgroundColor = [UIColor grayColor];
+    _stackView.backgroundColor = [UIColor clearColor];
     [self addSubview:_stackView];
     
     [NSLayoutConstraint activateConstraints:@[
