@@ -31,7 +31,12 @@
 
 @import Foundation;
 @import HealthKit;
+
+#if TARGET_OS_WATCH
+#import <ResearchKitCore/ORKTypes.h>
+#else
 #import <ResearchKit/ORKTypes.h>
+#endif
 
 
 NS_ASSUME_NONNULL_BEGIN

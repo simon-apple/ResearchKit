@@ -34,19 +34,17 @@
 
 
 @import UIKit;
+
+#if TARGET_OS_WATCH
+#import <ResearchKitCore/ORKTypes.h>
+#elif TARGET_OS_IOS
 #import <ResearchKit/ORKTypes.h>
-
-
-NS_ASSUME_NONNULL_BEGIN
-
 @class ORKScaleAnswerFormat;
 @class ORKContinuousScaleAnswerFormat;
 @class ORKTextScaleAnswerFormat;
 @class ORKValuePickerAnswerFormat;
 @class ORKMultipleValuePickerAnswerFormat;
 @class ORKImageChoiceAnswerFormat;
-@class ORKTextChoiceAnswerFormat;
-@class ORKBooleanAnswerFormat;
 @class ORKNumericAnswerFormat;
 @class ORKTimeOfDayAnswerFormat;
 @class ORKDateAnswerFormat;
@@ -57,9 +55,16 @@ NS_ASSUME_NONNULL_BEGIN
 @class ORKWeightAnswerFormat;
 @class ORKLocationAnswerFormat;
 @class ORKSESAnswerFormat;
+@class ORKImageChoice;
+#endif
+
+NS_ASSUME_NONNULL_BEGIN
+
+
+@class ORKTextChoiceAnswerFormat;
+@class ORKBooleanAnswerFormat;
 
 @class ORKTextChoice;
-@class ORKImageChoice;
 
 /**
  The `ORKAnswerFormat` class is the abstract base class for classes that describe the
@@ -109,97 +114,13 @@ ORK_CLASS_AVAILABLE
  */
 @property (nonatomic, nullable) NSString *customDontKnowButtonText;
 
-/// @name Factory methods
-
-+ (ORKScaleAnswerFormat *)scaleAnswerFormatWithMaximumValue:(NSInteger)scaleMaximum
-                                               minimumValue:(NSInteger)scaleMinimum
-                                               defaultValue:(NSInteger)defaultValue
-                                                       step:(NSInteger)step
-                                                   vertical:(BOOL)vertical
-                                    maximumValueDescription:(nullable NSString *)maximumValueDescription
-                                    minimumValueDescription:(nullable NSString *)minimumValueDescription;
-
-+ (ORKContinuousScaleAnswerFormat *)continuousScaleAnswerFormatWithMaximumValue:(double)scaleMaximum
-                                                                   minimumValue:(double)scaleMinimum
-                                                                   defaultValue:(double)defaultValue
-                                                          maximumFractionDigits:(NSInteger)maximumFractionDigits
-                                                                       vertical:(BOOL)vertical
-                                                        maximumValueDescription:(nullable NSString *)maximumValueDescription
-                                                        minimumValueDescription:(nullable NSString *)minimumValueDescription;
-
-+ (ORKTextScaleAnswerFormat *)textScaleAnswerFormatWithTextChoices:(NSArray <ORKTextChoice *> *)textChoices
-                                                      defaultIndex:(NSInteger)defaultIndex
-                                                          vertical:(BOOL)vertical;
-
 + (ORKBooleanAnswerFormat *)booleanAnswerFormat;
 
 + (ORKBooleanAnswerFormat *)booleanAnswerFormatWithYesString:(NSString *)yes
                                                     noString:(NSString *)no;
 
-+ (ORKValuePickerAnswerFormat *)valuePickerAnswerFormatWithTextChoices:(NSArray<ORKTextChoice *> *)textChoices;
-
-+ (ORKMultipleValuePickerAnswerFormat *)multipleValuePickerAnswerFormatWithValuePickers:(NSArray<ORKValuePickerAnswerFormat *> *)valuePickers;
-
-+ (ORKImageChoiceAnswerFormat *)choiceAnswerFormatWithImageChoices:(NSArray<ORKImageChoice *> *)imageChoices;
-+ (ORKImageChoiceAnswerFormat *)choiceAnswerFormatWithImageChoices:(NSArray<ORKImageChoice *> *)imageChoices
-                                                             style:(ORKChoiceAnswerStyle)style
-                                                          vertical:(BOOL)vertical;
-
 + (ORKTextChoiceAnswerFormat *)choiceAnswerFormatWithStyle:(ORKChoiceAnswerStyle)style
                                                textChoices:(NSArray<ORKTextChoice *> *)textChoices;
-
-+ (ORKNumericAnswerFormat *)decimalAnswerFormatWithUnit:(nullable NSString *)unit;
-+ (ORKNumericAnswerFormat *)integerAnswerFormatWithUnit:(nullable NSString *)unit;
-
-+ (ORKTimeOfDayAnswerFormat *)timeOfDayAnswerFormat;
-+ (ORKTimeOfDayAnswerFormat *)timeOfDayAnswerFormatWithDefaultComponents:(nullable NSDateComponents *)defaultComponents;
-
-+ (ORKDateAnswerFormat *)dateTimeAnswerFormat;
-+ (ORKDateAnswerFormat *)dateTimeAnswerFormatWithDefaultDate:(nullable NSDate *)defaultDate
-                                                 minimumDate:(nullable NSDate *)minimumDate
-                                                 maximumDate:(nullable NSDate *)maximumDate
-                                                    calendar:(nullable NSCalendar *)calendar;
-
-+ (ORKDateAnswerFormat *)dateAnswerFormat;
-+ (ORKDateAnswerFormat *)dateAnswerFormatWithDefaultDate:(nullable NSDate *)defaultDate
-                                             minimumDate:(nullable NSDate *)minimumDate
-                                             maximumDate:(nullable NSDate *)maximumDate
-                                                calendar:(nullable NSCalendar *)calendar;
-
-+ (ORKTextAnswerFormat *)textAnswerFormat;
-
-+ (ORKTextAnswerFormat *)textAnswerFormatWithMaximumLength:(NSInteger)maximumLength;
-
-+ (ORKTextAnswerFormat *)textAnswerFormatWithValidationRegularExpression:(NSRegularExpression *)validationRegularExpression
-                                                          invalidMessage:(NSString *)invalidMessage;
-
-+ (ORKEmailAnswerFormat *)emailAnswerFormat;
-
-+ (ORKTimeIntervalAnswerFormat *)timeIntervalAnswerFormat;
-
-+ (ORKTimeIntervalAnswerFormat *)timeIntervalAnswerFormatWithDefaultInterval:(NSTimeInterval)defaultInterval
-                                                                        step:(NSInteger)step;
-
-+ (ORKHeightAnswerFormat *)heightAnswerFormat;
-
-+ (ORKHeightAnswerFormat *)heightAnswerFormatWithMeasurementSystem:(ORKMeasurementSystem)measurementSystem;
-
-+ (ORKWeightAnswerFormat *)weightAnswerFormat;
-
-+ (ORKWeightAnswerFormat *)weightAnswerFormatWithMeasurementSystem:(ORKMeasurementSystem)measurementSystem;
-
-+ (ORKWeightAnswerFormat *)weightAnswerFormatWithMeasurementSystem:(ORKMeasurementSystem)measurementSystem
-                                                  numericPrecision:(ORKNumericPrecision)numericPrecision;
-
-+ (ORKWeightAnswerFormat *)weightAnswerFormatWithMeasurementSystem:(ORKMeasurementSystem)measurementSystem
-                                                  numericPrecision:(ORKNumericPrecision)numericPrecision
-                                                      minimumValue:(double)minimumValue
-                                                      maximumValue:(double)maximumValue
-                                                      defaultValue:(double)defaultValue;
-
-+ (ORKLocationAnswerFormat *)locationAnswerFormat;
-
-+ (ORKSESAnswerFormat *)socioEconomicAnswerFormatWithTopRungText:(NSString *)topRungText bottomRungText:(NSString *)bottomRungText;
 
 /// @name Validation
 
@@ -223,651 +144,6 @@ ORK_CLASS_AVAILABLE
 - (ORKAnswerFormat *)impliedAnswerFormat;
 
 @end
-
-
-/**
- The `ORKScaleAnswerFormat `class represents an answer format that includes a slider control.
- 
- The scale answer format produces an `ORKScaleQuestionResult` object that contains an integer whose
- value is between the scale's minimum and maximum values, and represents one of the quantized step
- values.
-
- The following are the rules bound with scale answer format -
- 
- * Minimum number of step in a task should not be less than 1.
- * Minimum number of section on a scale (step count) should not be less than 1.
- * Maximum number of section on a scale (step count) should not be more than 13.
- * The lower bound value in scale answer format cannot be lower than - 10000.
- * The upper bound value in scale answer format cannot be more than 10000.
-
- */
-ORK_CLASS_AVAILABLE
-@interface ORKScaleAnswerFormat : ORKAnswerFormat
-
-+ (instancetype)new NS_UNAVAILABLE;
-- (instancetype)init NS_UNAVAILABLE;
-
-/**
- Returns an initialized scale answer format using the specified values.
- 
- This method is the designated initializer.
- 
- @param maximumValue                The upper bound of the scale.
- @param minimumValue                The lower bound of the scale.
- @param defaultValue                The default value of the scale. If this value is out of range,
-                                        the slider is displayed without a default value.
- @param step                        The size of each discrete offset on the scale.
- @param vertical                    Pass `YES` to use a vertical scale; for the default horizontal
-                                        scale, pass `NO`.
- @param maximumValueDescription     A localized label to describe the maximum value of the scale.
-                                        For none, pass `nil`.
- @param minimumValueDescription     A localized label to describe the minimum value of the scale.
-                                        For none, pass `nil`.
- 
- @return An initialized scale answer format.
- */
-- (instancetype)initWithMaximumValue:(NSInteger)maximumValue
-                        minimumValue:(NSInteger)minimumValue
-                        defaultValue:(NSInteger)defaultValue
-                                step:(NSInteger)step
-                            vertical:(BOOL)vertical
-             maximumValueDescription:(nullable NSString *)maximumValueDescription
-             minimumValueDescription:(nullable NSString *)minimumValueDescription NS_DESIGNATED_INITIALIZER;
-
-
-/**
- Returns an initialized scale answer format using the specified values.
- 
- This method is a convenience initializer.
- 
- @param maximumValue    The upper bound of the scale.
- @param minimumValue    The lower bound of the scale.
- @param defaultValue    The default value of the scale. If this value is out of range, the slider is
-                            displayed without a default value.
- @param step            The size of each discrete offset on the scale.
- @param vertical        Pass `YES` to use a vertical scale; for the default horizontal scale,
-                            pass `NO`.
- 
- @return An initialized scale answer format.
- */
-- (instancetype)initWithMaximumValue:(NSInteger)maximumValue
-                        minimumValue:(NSInteger)minimumValue
-                        defaultValue:(NSInteger)defaultValue
-                                step:(NSInteger)step
-                            vertical:(BOOL)vertical;
-
-/**
- Returns an initialized horizontal scale answer format using the specified values.
- 
- This method is a convenience initializer.
-
- @param maximumValue    The upper bound of the scale.
- @param minimumValue    The lower bound of the scale.
- @param defaultValue    The default value of the scale. If this value is out of range, the slider is
-                            displayed without a default value.
- @param step            The size of each discrete offset on the scale.
- 
- @return An initialized scale answer format.
- */
-- (instancetype)initWithMaximumValue:(NSInteger)maximumValue
-                        minimumValue:(NSInteger)minimumValue
-                        defaultValue:(NSInteger)defaultValue
-                                step:(NSInteger)step;
-
-/**
- The upper bound of the scale. (read-only)
- */
-@property (readonly) NSInteger maximum;
-
-/**
- The lower bound of the scale. (read-only)
- */
-@property (readonly) NSInteger minimum;
-
-/**
- The size of each discrete offset on the scale. (read-only)
- 
- The value of this property should be greater than zero.
- The difference between `maximumValue` and `minimumValue` should be divisible
- by the step value.
- */
-@property (readonly) NSInteger step;
-
-/**
- The default value for the slider. (read-only)
- 
- If the value of this property is less than `minimum` or greater than `maximum`, the slider has no
- default. Otherwise, the value is rounded to the nearest valid `step` value.
- */
-@property (readonly) NSInteger defaultValue;
-
-/**
- A Boolean value indicating whether the scale is oriented vertically. (read-only)
- */
-@property (readonly, getter=isVertical) BOOL vertical;
-
-/**
- A Boolean value indicating whether the selected value should be hidden.
- */
-@property (assign, getter=shouldHideSelectedValueLabel) BOOL hideSelectedValue;
-
-/**
- Number formatter applied to the minimum, maximum, and slider values. Can be overridden by
- subclasses.
- */
-@property (readonly) NSNumberFormatter *numberFormatter;
-
-/**
- A localized label to describe the maximum value of the scale. (read-only)
- */
-@property (readonly, nullable) NSString *maximumValueDescription;
-
-/**
- A localized label to describe the minimum value of the scale. (read-only)
- */
-@property (readonly, nullable) NSString *minimumValueDescription;
-
-/**
- An image for the upper bound of the slider. The recommended image size is 30 x 30 points.
- The maximum range label will not be visible.
- */
-@property (strong, nullable) UIImage *maximumImage;
-
-/**
- An image for the lower bound of the slider. The recommended image size is 30 x 30 points.
- The minimum range label will not be visible.
- */
-@property (strong, nullable) UIImage *minimumImage;
-
-/**
- The colors to use when drawing a color gradient above the slider. Colors are drawn such that
- lower indexes correspond to the minimum side of the scale, while colors at higher indexes in
- the array corresond to the maximum side of the scale. 
- 
- Setting this value to nil results in no gradient being drawn. Defaults to nil.
- 
- An example usage would set an array of red and green to visually indicate a scale from bad to good.
- */
-@property (copy, nullable) NSArray<UIColor *> *gradientColors;
-
-/**
- Indicates the position of gradient stops for the colors specified in `gradientColors`.
- Gradient stops are specified as values between 0 and 1. The values must be monotonically
- increasing. 
- 
- If nil, the stops are spread uniformly across the range. Defaults to nil.
- */
-@property (copy, nullable) NSArray<NSNumber *> *gradientLocations;
-
-/**
- Determines if the minimum and maximum numbers are hidden on the slider.
- 
- Defults to false.
- */
-@property (nonatomic, assign, getter=shouldHideRanges) BOOL hideRanges;
-
-/**
- Determines if the bottom left and bottom right description labels are hidden
- 
- Defults to false.
- */
-@property (nonatomic, assign, getter=shouldHideLabels) BOOL hideLabels;
-
-/**
- Determines if the value markers on the slider are hidden
- 
- Defults to false.
- */
-@property (nonatomic, assign, getter=shouldHideValueMarkers) BOOL hideValueMarkers;
-
-@end
-
-
-/**
- The `ORKContinuousScaleAnswerFormat` class represents an answer format that lets participants
- select a value on a continuous scale.
- 
- The continuous scale answer format produces an `ORKScaleQuestionResult` object that has a
- real-number value.
- */
-ORK_CLASS_AVAILABLE
-@interface ORKContinuousScaleAnswerFormat : ORKAnswerFormat
-
-+ (instancetype)new NS_UNAVAILABLE;
-- (instancetype)init NS_UNAVAILABLE;
-
-/**
- Returns an initialized continuous scale answer format using the specified values.
- 
- This method is the designated initializer.
- 
- @param maximumValue                The upper bound of the scale.
- @param minimumValue                The lower bound of the scale.
- @param defaultValue                The default value of the scale. If this value is out of range,
-                                        the slider is displayed without a default value.
- @param maximumFractionDigits       The maximum number of fractional digits to display.
- @param vertical                    Pass `YES` to use a vertical scale; for the default horizontal
-                                        scale, pass `NO`.
- @param maximumValueDescription     A localized label to describe the maximum value of the scale.
-                                        For none, pass `nil`.
- @param minimumValueDescription     A localized label to describe the minimum value of the scale.
-                                        For none, pass `nil`.
- 
- @return An initialized scale answer format.
- */
-- (instancetype)initWithMaximumValue:(double)maximumValue
-                        minimumValue:(double)minimumValue
-                        defaultValue:(double)defaultValue
-               maximumFractionDigits:(NSInteger)maximumFractionDigits
-                            vertical:(BOOL)vertical
-             maximumValueDescription:(nullable NSString *)maximumValueDescription
-             minimumValueDescription:(nullable NSString *)minimumValueDescription NS_DESIGNATED_INITIALIZER;
-
-/**
- Returns an initialized continuous scale answer format using the specified values.
- 
- @param maximumValue            The upper bound of the scale.
- @param minimumValue            The lower bound of the scale.
- @param defaultValue            The default value of the scale. If this value is out of range, the
-                                    slider is displayed without a default value.
- @param maximumFractionDigits   The maximum number of fractional digits to display.
- @param vertical                Pass `YES` to use a vertical scale; for the default horizontal scale,
-                                    pass `NO`.
- 
- @return An initialized scale answer format.
- */
-- (instancetype)initWithMaximumValue:(double)maximumValue
-                        minimumValue:(double)minimumValue
-                        defaultValue:(double)defaultValue
-               maximumFractionDigits:(NSInteger)maximumFractionDigits
-                            vertical:(BOOL)vertical;
-
-/**
- Returns an initialized horizontal continous scale answer format using the specified values.
- 
- This method is a convenience initializer.
- 
- @param maximumValue            The upper bound of the scale.
- @param minimumValue            The lower bound of the scale.
- @param defaultValue            The default value of the scale. If this value is out of range, the
-                                    slider is displayed without a default value.
- @param maximumFractionDigits   The maximum number of fractional digits to display.
- 
- @return An initialized scale answer format.
- */
-- (instancetype)initWithMaximumValue:(double)maximumValue
-                        minimumValue:(double)minimumValue
-                        defaultValue:(double)defaultValue
-               maximumFractionDigits:(NSInteger)maximumFractionDigits;
-
-/**
- The upper bound of the scale. (read-only)
- */
-@property (readonly) double maximum;
-
-/**
- The lower bound of the scale. (read-only)
- */
-@property (readonly) double minimum;
-
-/**
- The default value for the slider. (read-only)
- 
- If the value of this property is less than `minimum` or greater than `maximum`, the slider has no 
- default value.
- */
-@property (readonly) double defaultValue;
-
-/**
- The maximum number of fractional digits to display. (read-only)
- */
-@property (readonly) NSInteger maximumFractionDigits;
-
-/**
- A Boolean value indicating whether the scale is oriented vertically. (read-only)
- */
-@property (readonly, getter=isVertical) BOOL vertical;
-
-/**
- A formatting style applied to the minimum, maximum, and slider values.
- */
-@property ORKNumberFormattingStyle numberStyle;
-
-/**
- A number formatter applied to the minimum, maximum, and slider values. Can be overridden by
- subclasses.
- */
-@property (readonly) NSNumberFormatter *numberFormatter;
-
-/**
- A Boolean value indicating whether the selected value should be hidden.
- */
-@property (assign, getter=shouldHideSelectedValueLabel) BOOL hideSelectedValue;
-
-/**
- A localized label to describe the maximum value of the scale. (read-only)
- */
-@property (readonly, nullable) NSString *maximumValueDescription;
-
-/**
- A localized label to describe the minimum value of the scale. (read-only)
- */
-@property (readonly, nullable) NSString *minimumValueDescription;
-
-/**
- An image for the upper bound of the slider. 
- @discussion The recommended image size is 30 x 30 points. The maximum range label will not be visible.
- */
-@property (strong, nullable) UIImage *maximumImage;
-
-/**
- An image for the lower bound of the slider. 
- @discussion The recommended image size is 30 x 30 points. The minimum range label will not be visible.
- */
-@property (strong, nullable) UIImage *minimumImage;
-
-/**
- The colors to use when drawing a color gradient above the slider. Colors are drawn such that
- lower indexes correspond to the minimum side of the scale, while colors at higher indexes in
- the array corresond to the maximum side of the scale.
- 
- Setting this value to nil results in no gradient being drawn. Defaults to nil.
- 
- An example usage would set an array of red and green to visually indicate a scale from bad to good.
- */
-@property (copy, nullable) NSArray<UIColor *> *gradientColors;
-
-/**
- Indicates the position of gradient stops for the colors specified in `gradientColors`.
- Gradient stops are specified as values between 0 and 1. The values must be monotonically
- increasing.
- 
- If nil, the stops are spread uniformly across the range. Defaults to nil.
- */
-@property (copy, nullable) NSArray<NSNumber *> *gradientLocations;
-
-/**
- Determines if the minimum and maximum numbers are hidden on the slider.
- 
- Defults to false.
- */
-@property (nonatomic, assign, getter=shouldHideRanges) BOOL hideRanges;
-
-/**
- Determines if the bottom left and bottom right description labels are hidden
- 
- Defults to false.
- */
-@property (nonatomic, assign, getter=shouldHideLabels) BOOL hideLabels;
-
-@end
-
-
-/**
- The `ORKTextScaleAnswerFormat` represents an answer format that includes a discrete slider control
- with a text label next to each step.
- 
- The scale answer format produces an `ORKChoiceQuestionResult` object that contains the selected text 
- choice's value. */
-ORK_CLASS_AVAILABLE
-@interface ORKTextScaleAnswerFormat : ORKAnswerFormat
-
-+ (instancetype)new NS_UNAVAILABLE;
-- (instancetype)init NS_UNAVAILABLE;
-
-/**
- Returns an initialized text scale answer format using the specified values.
- 
- This method is the designated initializer.
- 
- @param textChoices                 An array of text choices which will be used to determine the
-                                        number of steps in the slider, and
-                                    to fill the text label next to each of the steps. The array must
-                                        contain between 2 and 8 text choices.
- @param defaultIndex                The default index of the scale. If this value is out of range,
-                                        the slider is displayed without a default value.
- @param vertical                    Pass `YES` to use a vertical scale; for the default horizontal
-                                        scale, pass `NO`.
- @return An initialized text scale answer format.
- */
-- (instancetype)initWithTextChoices:(NSArray<ORKTextChoice *> *)textChoices
-                       defaultIndex:(NSInteger)defaultIndex
-                           vertical:(BOOL)vertical NS_DESIGNATED_INITIALIZER;
-
-/**
- Returns an initialized text scale answer format using the specified values.
- 
- This method is a convenience initializer.
- 
- @param textChoices                 An array of text choices which will be used to determine the
-                                        number of steps in the slider, and
-                                    to fill the text label next to each of the steps. The array must
-                                        contain between 2 and 8 text choices.
- @param defaultIndex                The default index of the scale. If this value is out of range,
-                                        the slider is displayed without a default value.
- 
- @return An initialized text scale answer format.
- */
-- (instancetype)initWithTextChoices:(NSArray<ORKTextChoice *> *)textChoices
-                       defaultIndex:(NSInteger)defaultIndex;
-
-/**
- An array of text choices which provides the text to be shown next to each of the slider steps.
- (read-only)
- */
-@property (copy, readonly) NSArray<ORKTextChoice *> *textChoices;
-
-/**
- The default index for the slider. (read-only)
- 
- If the value of this property is less than zero or greater than the number of text choices,
- the slider has no default value.
- */
-@property (readonly) NSInteger defaultIndex;
-
-/**
- A Boolean value indicating whether the scale is oriented vertically. (read-only)
- */
-@property (readonly, getter=isVertical) BOOL vertical;
-
-/**
- A Boolean value indicating whether the selected value should be hidden.
- */
-@property (assign, getter=shouldHideSelectedValueLabel) BOOL hideSelectedValue;
-
-/**
- The colors to use when drawing a color gradient above the slider. Colors are drawn such that
- lower indexes correspond to the minimum side of the scale, while colors at higher indexes in
- the array corresond to the maximum side of the scale.
- 
- Setting this value to nil results in no gradient being drawn. Defaults to nil.
- 
- An example usage would set an array of red and green to visually indicate a scale from bad to good.
- */
-@property (copy, nullable) NSArray<UIColor *> *gradientColors;
-
-/**
- Indicates the position of gradient stops for the colors specified in `gradientColors`.
- Gradient stops are specified as values between 0 and 1. The values must be monotonically
- increasing.
- 
- If nil, the stops are spread uniformly across the range. Defaults to nil.
- */
-@property (copy, nullable) NSArray<NSNumber *> *gradientLocations;
-
-/**
- Determines if the minimum and maximum numbers are hidden on the slider.
- 
- Defults to false.
- */
-@property (nonatomic, assign, getter=shouldHideRanges) BOOL hideRanges;
-
-/**
- Determines if the bottom left and bottom right description labels are hidden
- 
- Defults to false.
- */
-@property (nonatomic, assign, getter=shouldHideLabels) BOOL hideLabels;
-
-/**
- Determines if the value markers on the slider are hidden
- 
- Defults to false.
- */
-@property (nonatomic, assign, getter=shouldHideValueMarkers) BOOL hideValueMarkers;
-
-@end
-
-
-/**
- The `ORKValuePickerAnswerFormat` class represents an answer format that lets participants use a
- value picker to choose from a fixed set of text choices.
- 
- When the number of choices is relatively large and the text that describes each choice
- is short, you might want to use the value picker answer format instead of the text choice answer
- format (`ORKTextChoiceAnswerFormat`). When the text that describes each choice is long, or there
- are only a very small number of choices, it's usually better to use the text choice answer format.
- 
- Note that the value picker answer format reports itself as being of the single choice question
- type. The value picker answer format produces an `ORKChoiceQuestionResult` object.
- */
-ORK_CLASS_AVAILABLE
-@interface ORKValuePickerAnswerFormat : ORKAnswerFormat
-
-+ (instancetype)new NS_UNAVAILABLE;
-- (instancetype)init NS_UNAVAILABLE;
-
-/**
- Returns a value picker answer format using the specified array of text choices.
- 
- Note that the `detailText` property of each choice is ignored. Be sure to create localized text for
- each choice that is short enough to fit in a `UIPickerView` object.
- 
- @param textChoices     Array of `ORKTextChoice` objects.
- 
- @return An initialized value picker answer format.
- */
-- (instancetype)initWithTextChoices:(NSArray<ORKTextChoice *> *)textChoices NS_DESIGNATED_INITIALIZER;
-
-/**
- An array of text choices that represent the options to display in the picker. (read-only)
- 
- Note that the `detailText` property of each choice is ignored. Be sure to create localized text for
- each choice that is short enough to fit in a `UIPickerView` object.
- */
-@property (copy, readonly) NSArray<ORKTextChoice *> *textChoices;
-
-@end
-
-
-/**
- The `ORKMultipleValuePickerAnswerFormat` class represents an answer format that lets participants use a
- multiple-component value picker to choose from a fixed set of text choices.
- 
- Note that the multiple value picker answer format reports itself as being of the multiple picker question
- type. The multiple-component value picker answer format produces an `ORKMultipleComponentQuestionResult` 
- object where the index into the array matches the array of `ORKValuePickerAnswerFormat` objects.
- 
- For example, if the picker shows two columns with choices of `[[A, B, C], [1, 2, 3, 4]]` and the user picked
- `B` and `3` then this would result in `componentsAnswer = [B, 3]`.
- */
-ORK_CLASS_AVAILABLE
-@interface ORKMultipleValuePickerAnswerFormat : ORKAnswerFormat
-
-+ (instancetype)new NS_UNAVAILABLE;
-- (instancetype)init NS_UNAVAILABLE;
-
-/**
- Returns a multiple value picker answer format using the specified array of value pickers.
- 
- @param valuePickers     Array of `ORKValuePickerAnswerFormat` objects.
- 
- @return An initialized multiple value picker answer format.
- */
-- (instancetype)initWithValuePickers:(NSArray<ORKValuePickerAnswerFormat *> *)valuePickers;
-
-/**
- Returns a multiple value picker answer format using the specified array of value pickers.
- 
- @param valuePickers     Array of `ORKValuePickerAnswerFormat` objects.
- @param separator        String used to separate the components
- 
- @return An initialized multiple value picker answer format.
- */
-- (instancetype)initWithValuePickers:(NSArray<ORKValuePickerAnswerFormat *> *)valuePickers separator:(NSString *)separator NS_DESIGNATED_INITIALIZER;
-
-/**
- An array of value pickers that represent the options to display in the picker. (read-only)
- */
-@property (copy, readonly) NSArray<ORKValuePickerAnswerFormat *> *valuePickers;
-
-/**
- A string used to define the separator for the format of the string. Default = " ".
- */
-@property (copy, readonly) NSString *separator;
-
-@end
-
-
-/**
- The `ORKImageChoiceAnswerFormat` class represents an answer format that lets participants choose
- one image from a fixed set of images in a single choice question.
- 
- For example, you might use the image choice answer format to represent a range of moods that range
- from very sad
- to very happy.
- 
- The image choice answer format produces an `ORKChoiceQuestionResult` object.
- */
-ORK_CLASS_AVAILABLE
-@interface ORKImageChoiceAnswerFormat : ORKAnswerFormat
-
-+ (instancetype)new NS_UNAVAILABLE;
-- (instancetype)init NS_UNAVAILABLE;
-
-/**
- Returns an initialized image choice answer format using the specified array of images.
- 
- @param imageChoices    Array of `ORKImageChoice` objects.
- 
- @return An initialized image choice answer format.
- */
-- (instancetype)initWithImageChoices:(NSArray<ORKImageChoice *> *)imageChoices;
-
-/**
- Returns an initialized image choice answer format using the specified array of images.
- 
- @param imageChoices    Array of `ORKImageChoice` objects.
- @param style           The style of question, such as single or multiple choice.
- @param vertical        Pass `YES` to stack images vertically; for the default horizontal
- layout, pass `NO`.
- 
- @return An initialized image choice answer format.
- */
-- (instancetype)initWithImageChoices:(NSArray<ORKImageChoice *> *)imageChoices
-                               style:(ORKChoiceAnswerStyle)style
-                            vertical:(BOOL)vertical NS_DESIGNATED_INITIALIZER;
-
-/**
- An array of `ORKImageChoice` objects that represent the available choices. (read-only)
- 
- The text of the currently selected choice is displayed on screen. The text for
- each choice is spoken by VoiceOver when an image is highlighted.
- */
-@property (copy, readonly) NSArray<ORKImageChoice *> *imageChoices;
-
-/**
- The style of the question (that is, single or multiple choice).
- */
-@property (readonly) ORKChoiceAnswerStyle style;
-
-/**
- A Boolean value indicating whether the choices are stacked vertically. (read-only)
- */
-@property (readonly, getter=isVertical) BOOL vertical;
-
-@end
-
 
 /**
  The `ORKTextChoiceAnswerFormat` class represents an answer format that lets participants choose
@@ -1082,6 +358,741 @@ ORK_CLASS_AVAILABLE
 
 @end
 
+#pragma mark - iOS
+
+#if TARGET_OS_IOS
+@interface ORKAnswerFormat()
+
+/// @name Factory methods
++ (ORKScaleAnswerFormat *)scaleAnswerFormatWithMaximumValue:(NSInteger)scaleMaximum
+                                               minimumValue:(NSInteger)scaleMinimum
+                                               defaultValue:(NSInteger)defaultValue
+                                                       step:(NSInteger)step
+                                                   vertical:(BOOL)vertical
+                                    maximumValueDescription:(nullable NSString *)maximumValueDescription
+                                    minimumValueDescription:(nullable NSString *)minimumValueDescription;
+
++ (ORKContinuousScaleAnswerFormat *)continuousScaleAnswerFormatWithMaximumValue:(double)scaleMaximum
+                                                                   minimumValue:(double)scaleMinimum
+                                                                   defaultValue:(double)defaultValue
+                                                          maximumFractionDigits:(NSInteger)maximumFractionDigits
+                                                                       vertical:(BOOL)vertical
+                                                        maximumValueDescription:(nullable NSString *)maximumValueDescription
+                                                        minimumValueDescription:(nullable NSString *)minimumValueDescription;
+
++ (ORKTextScaleAnswerFormat *)textScaleAnswerFormatWithTextChoices:(NSArray <ORKTextChoice *> *)textChoices
+                                                      defaultIndex:(NSInteger)defaultIndex
+                                                          vertical:(BOOL)vertical;
+
++ (ORKValuePickerAnswerFormat *)valuePickerAnswerFormatWithTextChoices:(NSArray<ORKTextChoice *> *)textChoices;
+
++ (ORKMultipleValuePickerAnswerFormat *)multipleValuePickerAnswerFormatWithValuePickers:(NSArray<ORKValuePickerAnswerFormat *> *)valuePickers;
+
++ (ORKImageChoiceAnswerFormat *)choiceAnswerFormatWithImageChoices:(NSArray<ORKImageChoice *> *)imageChoices;
+
++ (ORKImageChoiceAnswerFormat *)choiceAnswerFormatWithImageChoices:(NSArray<ORKImageChoice *> *)imageChoices
+                                                             style:(ORKChoiceAnswerStyle)style
+                                                          vertical:(BOOL)vertical;
+
++ (ORKNumericAnswerFormat *)decimalAnswerFormatWithUnit:(nullable NSString *)unit;
++ (ORKNumericAnswerFormat *)integerAnswerFormatWithUnit:(nullable NSString *)unit;
+
++ (ORKTimeOfDayAnswerFormat *)timeOfDayAnswerFormat;
++ (ORKTimeOfDayAnswerFormat *)timeOfDayAnswerFormatWithDefaultComponents:(nullable NSDateComponents *)defaultComponents;
+
++ (ORKDateAnswerFormat *)dateTimeAnswerFormat;
++ (ORKDateAnswerFormat *)dateTimeAnswerFormatWithDefaultDate:(nullable NSDate *)defaultDate
+                                                 minimumDate:(nullable NSDate *)minimumDate
+                                                 maximumDate:(nullable NSDate *)maximumDate
+                                                    calendar:(nullable NSCalendar *)calendar;
+
++ (ORKDateAnswerFormat *)dateAnswerFormat;
++ (ORKDateAnswerFormat *)dateAnswerFormatWithDefaultDate:(nullable NSDate *)defaultDate
+                                             minimumDate:(nullable NSDate *)minimumDate
+                                             maximumDate:(nullable NSDate *)maximumDate
+                                                calendar:(nullable NSCalendar *)calendar;
+
++ (ORKTextAnswerFormat *)textAnswerFormat;
+
++ (ORKTextAnswerFormat *)textAnswerFormatWithMaximumLength:(NSInteger)maximumLength;
+
++ (ORKTextAnswerFormat *)textAnswerFormatWithValidationRegularExpression:(NSRegularExpression *)validationRegularExpression
+                                                          invalidMessage:(NSString *)invalidMessage;
+
++ (ORKEmailAnswerFormat *)emailAnswerFormat;
+
++ (ORKTimeIntervalAnswerFormat *)timeIntervalAnswerFormat;
+
++ (ORKTimeIntervalAnswerFormat *)timeIntervalAnswerFormatWithDefaultInterval:(NSTimeInterval)defaultInterval
+                                                                        step:(NSInteger)step;
+
++ (ORKHeightAnswerFormat *)heightAnswerFormat;
+
++ (ORKHeightAnswerFormat *)heightAnswerFormatWithMeasurementSystem:(ORKMeasurementSystem)measurementSystem;
+
++ (ORKWeightAnswerFormat *)weightAnswerFormat;
+
++ (ORKWeightAnswerFormat *)weightAnswerFormatWithMeasurementSystem:(ORKMeasurementSystem)measurementSystem;
+
++ (ORKWeightAnswerFormat *)weightAnswerFormatWithMeasurementSystem:(ORKMeasurementSystem)measurementSystem
+                                                  numericPrecision:(ORKNumericPrecision)numericPrecision;
+
++ (ORKWeightAnswerFormat *)weightAnswerFormatWithMeasurementSystem:(ORKMeasurementSystem)measurementSystem
+                                                  numericPrecision:(ORKNumericPrecision)numericPrecision
+                                                      minimumValue:(double)minimumValue
+                                                      maximumValue:(double)maximumValue
+                                                      defaultValue:(double)defaultValue;
+
++ (ORKLocationAnswerFormat *)locationAnswerFormat;
+
++ (ORKSESAnswerFormat *)socioEconomicAnswerFormatWithTopRungText:(NSString *)topRungText bottomRungText:(NSString *)bottomRungText;
+
+@end
+
+
+/**
+ The `ORKScaleAnswerFormat `class represents an answer format that includes a slider control.
+ 
+ The scale answer format produces an `ORKScaleQuestionResult` object that contains an integer whose
+ value is between the scale's minimum and maximum values, and represents one of the quantized step
+ values.
+
+ The following are the rules bound with scale answer format -
+ 
+ * Minimum number of step in a task should not be less than 1.
+ * Minimum number of section on a scale (step count) should not be less than 1.
+ * Maximum number of section on a scale (step count) should not be more than 13.
+ * The lower bound value in scale answer format cannot be lower than - 10000.
+ * The upper bound value in scale answer format cannot be more than 10000.
+
+ */
+
+ORK_CLASS_AVAILABLE
+@interface ORKScaleAnswerFormat : ORKAnswerFormat
+
++ (instancetype)new NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
+
+/**
+ Returns an initialized scale answer format using the specified values.
+ 
+ This method is the designated initializer.
+ 
+ @param maximumValue                The upper bound of the scale.
+ @param minimumValue                The lower bound of the scale.
+ @param defaultValue                The default value of the scale. If this value is out of range,
+                                        the slider is displayed without a default value.
+ @param step                        The size of each discrete offset on the scale.
+ @param vertical                    Pass `YES` to use a vertical scale; for the default horizontal
+                                        scale, pass `NO`.
+ @param maximumValueDescription     A localized label to describe the maximum value of the scale.
+                                        For none, pass `nil`.
+ @param minimumValueDescription     A localized label to describe the minimum value of the scale.
+                                        For none, pass `nil`.
+ 
+ @return An initialized scale answer format.
+ */
+- (instancetype)initWithMaximumValue:(NSInteger)maximumValue
+                        minimumValue:(NSInteger)minimumValue
+                        defaultValue:(NSInteger)defaultValue
+                                step:(NSInteger)step
+                            vertical:(BOOL)vertical
+             maximumValueDescription:(nullable NSString *)maximumValueDescription
+             minimumValueDescription:(nullable NSString *)minimumValueDescription NS_DESIGNATED_INITIALIZER;
+
+
+/**
+ Returns an initialized scale answer format using the specified values.
+ 
+ This method is a convenience initializer.
+ 
+ @param maximumValue    The upper bound of the scale.
+ @param minimumValue    The lower bound of the scale.
+ @param defaultValue    The default value of the scale. If this value is out of range, the slider is
+                            displayed without a default value.
+ @param step            The size of each discrete offset on the scale.
+ @param vertical        Pass `YES` to use a vertical scale; for the default horizontal scale,
+                            pass `NO`.
+ 
+ @return An initialized scale answer format.
+ */
+- (instancetype)initWithMaximumValue:(NSInteger)maximumValue
+                        minimumValue:(NSInteger)minimumValue
+                        defaultValue:(NSInteger)defaultValue
+                                step:(NSInteger)step
+                            vertical:(BOOL)vertical;
+
+/**
+ Returns an initialized horizontal scale answer format using the specified values.
+ 
+ This method is a convenience initializer.
+
+ @param maximumValue    The upper bound of the scale.
+ @param minimumValue    The lower bound of the scale.
+ @param defaultValue    The default value of the scale. If this value is out of range, the slider is
+                            displayed without a default value.
+ @param step            The size of each discrete offset on the scale.
+ 
+ @return An initialized scale answer format.
+ */
+- (instancetype)initWithMaximumValue:(NSInteger)maximumValue
+                        minimumValue:(NSInteger)minimumValue
+                        defaultValue:(NSInteger)defaultValue
+                                step:(NSInteger)step;
+
+/**
+ The upper bound of the scale. (read-only)
+ */
+@property (readonly) NSInteger maximum;
+
+/**
+ The lower bound of the scale. (read-only)
+ */
+@property (readonly) NSInteger minimum;
+
+/**
+ The size of each discrete offset on the scale. (read-only)
+ 
+ The value of this property should be greater than zero.
+ The difference between `maximumValue` and `minimumValue` should be divisible
+ by the step value.
+ */
+@property (readonly) NSInteger step;
+
+/**
+ The default value for the slider. (read-only)
+ 
+ If the value of this property is less than `minimum` or greater than `maximum`, the slider has no
+ default. Otherwise, the value is rounded to the nearest valid `step` value.
+ */
+@property (readonly) NSInteger defaultValue;
+
+/**
+ A Boolean value indicating whether the scale is oriented vertically. (read-only)
+ */
+@property (readonly, getter=isVertical) BOOL vertical;
+
+/**
+ A Boolean value indicating whether the selected value should be hidden.
+ */
+@property (assign, getter=shouldHideSelectedValueLabel) BOOL hideSelectedValue;
+
+/**
+ Number formatter applied to the minimum, maximum, and slider values. Can be overridden by
+ subclasses.
+ */
+@property (readonly) NSNumberFormatter *numberFormatter;
+
+/**
+ A localized label to describe the maximum value of the scale. (read-only)
+ */
+@property (readonly, nullable) NSString *maximumValueDescription;
+
+/**
+ A localized label to describe the minimum value of the scale. (read-only)
+ */
+@property (readonly, nullable) NSString *minimumValueDescription;
+
+/**
+ An image for the upper bound of the slider. The recommended image size is 30 x 30 points.
+ The maximum range label will not be visible.
+ */
+@property (strong, nullable) UIImage *maximumImage;
+
+/**
+ An image for the lower bound of the slider. The recommended image size is 30 x 30 points.
+ The minimum range label will not be visible.
+ */
+@property (strong, nullable) UIImage *minimumImage;
+
+/**
+ The colors to use when drawing a color gradient above the slider. Colors are drawn such that
+ lower indexes correspond to the minimum side of the scale, while colors at higher indexes in
+ the array corresond to the maximum side of the scale.
+ 
+ Setting this value to nil results in no gradient being drawn. Defaults to nil.
+ 
+ An example usage would set an array of red and green to visually indicate a scale from bad to good.
+ */
+@property (copy, nullable) NSArray<UIColor *> *gradientColors;
+
+/**
+ Indicates the position of gradient stops for the colors specified in `gradientColors`.
+ Gradient stops are specified as values between 0 and 1. The values must be monotonically
+ increasing.
+ 
+ If nil, the stops are spread uniformly across the range. Defaults to nil.
+ */
+@property (copy, nullable) NSArray<NSNumber *> *gradientLocations;
+
+/**
+ Determines if the minimum and maximum numbers are hidden on the slider.
+ 
+ Defults to false.
+ */
+@property (nonatomic, assign, getter=shouldHideRanges) BOOL hideRanges;
+
+/**
+ Determines if the bottom left and bottom right description labels are hidden
+ 
+ Defults to false.
+ */
+@property (nonatomic, assign, getter=shouldHideLabels) BOOL hideLabels;
+
+/**
+ Determines if the value markers on the slider are hidden
+ 
+ Defults to false.
+ */
+@property (nonatomic, assign, getter=shouldHideValueMarkers) BOOL hideValueMarkers;
+
+@end
+
+
+/**
+ The `ORKContinuousScaleAnswerFormat` class represents an answer format that lets participants
+ select a value on a continuous scale.
+ 
+ The continuous scale answer format produces an `ORKScaleQuestionResult` object that has a
+ real-number value.
+ */
+ORK_CLASS_AVAILABLE
+@interface ORKContinuousScaleAnswerFormat : ORKAnswerFormat
+
++ (instancetype)new NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
+
+/**
+ Returns an initialized continuous scale answer format using the specified values.
+ 
+ This method is the designated initializer.
+ 
+ @param maximumValue                The upper bound of the scale.
+ @param minimumValue                The lower bound of the scale.
+ @param defaultValue                The default value of the scale. If this value is out of range,
+                                        the slider is displayed without a default value.
+ @param maximumFractionDigits       The maximum number of fractional digits to display.
+ @param vertical                    Pass `YES` to use a vertical scale; for the default horizontal
+                                        scale, pass `NO`.
+ @param maximumValueDescription     A localized label to describe the maximum value of the scale.
+                                        For none, pass `nil`.
+ @param minimumValueDescription     A localized label to describe the minimum value of the scale.
+                                        For none, pass `nil`.
+ 
+ @return An initialized scale answer format.
+ */
+- (instancetype)initWithMaximumValue:(double)maximumValue
+                        minimumValue:(double)minimumValue
+                        defaultValue:(double)defaultValue
+               maximumFractionDigits:(NSInteger)maximumFractionDigits
+                            vertical:(BOOL)vertical
+             maximumValueDescription:(nullable NSString *)maximumValueDescription
+             minimumValueDescription:(nullable NSString *)minimumValueDescription NS_DESIGNATED_INITIALIZER;
+
+/**
+ Returns an initialized continuous scale answer format using the specified values.
+ 
+ @param maximumValue            The upper bound of the scale.
+ @param minimumValue            The lower bound of the scale.
+ @param defaultValue            The default value of the scale. If this value is out of range, the
+                                    slider is displayed without a default value.
+ @param maximumFractionDigits   The maximum number of fractional digits to display.
+ @param vertical                Pass `YES` to use a vertical scale; for the default horizontal scale,
+                                    pass `NO`.
+ 
+ @return An initialized scale answer format.
+ */
+- (instancetype)initWithMaximumValue:(double)maximumValue
+                        minimumValue:(double)minimumValue
+                        defaultValue:(double)defaultValue
+               maximumFractionDigits:(NSInteger)maximumFractionDigits
+                            vertical:(BOOL)vertical;
+
+/**
+ Returns an initialized horizontal continous scale answer format using the specified values.
+ 
+ This method is a convenience initializer.
+ 
+ @param maximumValue            The upper bound of the scale.
+ @param minimumValue            The lower bound of the scale.
+ @param defaultValue            The default value of the scale. If this value is out of range, the
+                                    slider is displayed without a default value.
+ @param maximumFractionDigits   The maximum number of fractional digits to display.
+ 
+ @return An initialized scale answer format.
+ */
+- (instancetype)initWithMaximumValue:(double)maximumValue
+                        minimumValue:(double)minimumValue
+                        defaultValue:(double)defaultValue
+               maximumFractionDigits:(NSInteger)maximumFractionDigits;
+
+/**
+ The upper bound of the scale. (read-only)
+ */
+@property (readonly) double maximum;
+
+/**
+ The lower bound of the scale. (read-only)
+ */
+@property (readonly) double minimum;
+
+/**
+ The default value for the slider. (read-only)
+ 
+ If the value of this property is less than `minimum` or greater than `maximum`, the slider has no
+ default value.
+ */
+@property (readonly) double defaultValue;
+
+/**
+ The maximum number of fractional digits to display. (read-only)
+ */
+@property (readonly) NSInteger maximumFractionDigits;
+
+/**
+ A Boolean value indicating whether the scale is oriented vertically. (read-only)
+ */
+@property (readonly, getter=isVertical) BOOL vertical;
+
+/**
+ A formatting style applied to the minimum, maximum, and slider values.
+ */
+@property ORKNumberFormattingStyle numberStyle;
+
+/**
+ A number formatter applied to the minimum, maximum, and slider values. Can be overridden by
+ subclasses.
+ */
+@property (readonly) NSNumberFormatter *numberFormatter;
+
+/**
+ A Boolean value indicating whether the selected value should be hidden.
+ */
+@property (assign, getter=shouldHideSelectedValueLabel) BOOL hideSelectedValue;
+
+/**
+ A localized label to describe the maximum value of the scale. (read-only)
+ */
+@property (readonly, nullable) NSString *maximumValueDescription;
+
+/**
+ A localized label to describe the minimum value of the scale. (read-only)
+ */
+@property (readonly, nullable) NSString *minimumValueDescription;
+
+/**
+ An image for the upper bound of the slider.
+ @discussion The recommended image size is 30 x 30 points. The maximum range label will not be visible.
+ */
+@property (strong, nullable) UIImage *maximumImage;
+
+/**
+ An image for the lower bound of the slider.
+ @discussion The recommended image size is 30 x 30 points. The minimum range label will not be visible.
+ */
+@property (strong, nullable) UIImage *minimumImage;
+
+/**
+ The colors to use when drawing a color gradient above the slider. Colors are drawn such that
+ lower indexes correspond to the minimum side of the scale, while colors at higher indexes in
+ the array corresond to the maximum side of the scale.
+ 
+ Setting this value to nil results in no gradient being drawn. Defaults to nil.
+ 
+ An example usage would set an array of red and green to visually indicate a scale from bad to good.
+ */
+@property (copy, nullable) NSArray<UIColor *> *gradientColors;
+
+/**
+ Indicates the position of gradient stops for the colors specified in `gradientColors`.
+ Gradient stops are specified as values between 0 and 1. The values must be monotonically
+ increasing.
+ 
+ If nil, the stops are spread uniformly across the range. Defaults to nil.
+ */
+@property (copy, nullable) NSArray<NSNumber *> *gradientLocations;
+
+/**
+ Determines if the minimum and maximum numbers are hidden on the slider.
+ 
+ Defults to false.
+ */
+@property (nonatomic, assign, getter=shouldHideRanges) BOOL hideRanges;
+
+/**
+ Determines if the bottom left and bottom right description labels are hidden
+ 
+ Defults to false.
+ */
+@property (nonatomic, assign, getter=shouldHideLabels) BOOL hideLabels;
+
+@end
+
+
+/**
+ The `ORKTextScaleAnswerFormat` represents an answer format that includes a discrete slider control
+ with a text label next to each step.
+ 
+ The scale answer format produces an `ORKChoiceQuestionResult` object that contains the selected text
+ choice's value. */
+ORK_CLASS_AVAILABLE
+@interface ORKTextScaleAnswerFormat : ORKAnswerFormat
+
++ (instancetype)new NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
+
+/**
+ Returns an initialized text scale answer format using the specified values.
+ 
+ This method is the designated initializer.
+ 
+ @param textChoices                 An array of text choices which will be used to determine the
+                                        number of steps in the slider, and
+                                    to fill the text label next to each of the steps. The array must
+                                        contain between 2 and 8 text choices.
+ @param defaultIndex                The default index of the scale. If this value is out of range,
+                                        the slider is displayed without a default value.
+ @param vertical                    Pass `YES` to use a vertical scale; for the default horizontal
+                                        scale, pass `NO`.
+ @return An initialized text scale answer format.
+ */
+- (instancetype)initWithTextChoices:(NSArray<ORKTextChoice *> *)textChoices
+                       defaultIndex:(NSInteger)defaultIndex
+                           vertical:(BOOL)vertical NS_DESIGNATED_INITIALIZER;
+
+/**
+ Returns an initialized text scale answer format using the specified values.
+ 
+ This method is a convenience initializer.
+ 
+ @param textChoices                 An array of text choices which will be used to determine the
+                                        number of steps in the slider, and
+                                    to fill the text label next to each of the steps. The array must
+                                        contain between 2 and 8 text choices.
+ @param defaultIndex                The default index of the scale. If this value is out of range,
+                                        the slider is displayed without a default value.
+ 
+ @return An initialized text scale answer format.
+ */
+- (instancetype)initWithTextChoices:(NSArray<ORKTextChoice *> *)textChoices
+                       defaultIndex:(NSInteger)defaultIndex;
+
+/**
+ An array of text choices which provides the text to be shown next to each of the slider steps.
+ (read-only)
+ */
+@property (copy, readonly) NSArray<ORKTextChoice *> *textChoices;
+
+/**
+ The default index for the slider. (read-only)
+ 
+ If the value of this property is less than zero or greater than the number of text choices,
+ the slider has no default value.
+ */
+@property (readonly) NSInteger defaultIndex;
+
+/**
+ A Boolean value indicating whether the scale is oriented vertically. (read-only)
+ */
+@property (readonly, getter=isVertical) BOOL vertical;
+
+/**
+ A Boolean value indicating whether the selected value should be hidden.
+ */
+@property (assign, getter=shouldHideSelectedValueLabel) BOOL hideSelectedValue;
+
+/**
+ The colors to use when drawing a color gradient above the slider. Colors are drawn such that
+ lower indexes correspond to the minimum side of the scale, while colors at higher indexes in
+ the array corresond to the maximum side of the scale.
+ 
+ Setting this value to nil results in no gradient being drawn. Defaults to nil.
+ 
+ An example usage would set an array of red and green to visually indicate a scale from bad to good.
+ */
+@property (copy, nullable) NSArray<UIColor *> *gradientColors;
+
+/**
+ Indicates the position of gradient stops for the colors specified in `gradientColors`.
+ Gradient stops are specified as values between 0 and 1. The values must be monotonically
+ increasing.
+ 
+ If nil, the stops are spread uniformly across the range. Defaults to nil.
+ */
+@property (copy, nullable) NSArray<NSNumber *> *gradientLocations;
+
+/**
+ Determines if the minimum and maximum numbers are hidden on the slider.
+ 
+ Defults to false.
+ */
+@property (nonatomic, assign, getter=shouldHideRanges) BOOL hideRanges;
+
+/**
+ Determines if the bottom left and bottom right description labels are hidden
+ 
+ Defults to false.
+ */
+@property (nonatomic, assign, getter=shouldHideLabels) BOOL hideLabels;
+
+/**
+ Determines if the value markers on the slider are hidden
+ 
+ Defults to false.
+ */
+@property (nonatomic, assign, getter=shouldHideValueMarkers) BOOL hideValueMarkers;
+
+@end
+
+
+/**
+ The `ORKValuePickerAnswerFormat` class represents an answer format that lets participants use a
+ value picker to choose from a fixed set of text choices.
+ 
+ When the number of choices is relatively large and the text that describes each choice
+ is short, you might want to use the value picker answer format instead of the text choice answer
+ format (`ORKTextChoiceAnswerFormat`). When the text that describes each choice is long, or there
+ are only a very small number of choices, it's usually better to use the text choice answer format.
+ 
+ Note that the value picker answer format reports itself as being of the single choice question
+ type. The value picker answer format produces an `ORKChoiceQuestionResult` object.
+ */
+ORK_CLASS_AVAILABLE
+@interface ORKValuePickerAnswerFormat : ORKAnswerFormat
+
++ (instancetype)new NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
+
+/**
+ Returns a value picker answer format using the specified array of text choices.
+ 
+ Note that the `detailText` property of each choice is ignored. Be sure to create localized text for
+ each choice that is short enough to fit in a `UIPickerView` object.
+ 
+ @param textChoices     Array of `ORKTextChoice` objects.
+ 
+ @return An initialized value picker answer format.
+ */
+- (instancetype)initWithTextChoices:(NSArray<ORKTextChoice *> *)textChoices NS_DESIGNATED_INITIALIZER;
+
+/**
+ An array of text choices that represent the options to display in the picker. (read-only)
+ 
+ Note that the `detailText` property of each choice is ignored. Be sure to create localized text for
+ each choice that is short enough to fit in a `UIPickerView` object.
+ */
+@property (copy, readonly) NSArray<ORKTextChoice *> *textChoices;
+
+@end
+
+
+/**
+ The `ORKMultipleValuePickerAnswerFormat` class represents an answer format that lets participants use a
+ multiple-component value picker to choose from a fixed set of text choices.
+ 
+ Note that the multiple value picker answer format reports itself as being of the multiple picker question
+ type. The multiple-component value picker answer format produces an `ORKMultipleComponentQuestionResult`
+ object where the index into the array matches the array of `ORKValuePickerAnswerFormat` objects.
+ 
+ For example, if the picker shows two columns with choices of `[[A, B, C], [1, 2, 3, 4]]` and the user picked
+ `B` and `3` then this would result in `componentsAnswer = [B, 3]`.
+ */
+ORK_CLASS_AVAILABLE
+@interface ORKMultipleValuePickerAnswerFormat : ORKAnswerFormat
+
++ (instancetype)new NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
+
+/**
+ Returns a multiple value picker answer format using the specified array of value pickers.
+ 
+ @param valuePickers     Array of `ORKValuePickerAnswerFormat` objects.
+ 
+ @return An initialized multiple value picker answer format.
+ */
+- (instancetype)initWithValuePickers:(NSArray<ORKValuePickerAnswerFormat *> *)valuePickers;
+
+/**
+ Returns a multiple value picker answer format using the specified array of value pickers.
+ 
+ @param valuePickers     Array of `ORKValuePickerAnswerFormat` objects.
+ @param separator        String used to separate the components
+ 
+ @return An initialized multiple value picker answer format.
+ */
+- (instancetype)initWithValuePickers:(NSArray<ORKValuePickerAnswerFormat *> *)valuePickers separator:(NSString *)separator NS_DESIGNATED_INITIALIZER;
+
+/**
+ An array of value pickers that represent the options to display in the picker. (read-only)
+ */
+@property (copy, readonly) NSArray<ORKValuePickerAnswerFormat *> *valuePickers;
+
+/**
+ A string used to define the separator for the format of the string. Default = " ".
+ */
+@property (copy, readonly) NSString *separator;
+
+@end
+
+
+/**
+ The `ORKImageChoiceAnswerFormat` class represents an answer format that lets participants choose
+ one image from a fixed set of images in a single choice question.
+ 
+ For example, you might use the image choice answer format to represent a range of moods that range
+ from very sad
+ to very happy.
+ 
+ The image choice answer format produces an `ORKChoiceQuestionResult` object.
+ */
+ORK_CLASS_AVAILABLE
+@interface ORKImageChoiceAnswerFormat : ORKAnswerFormat
+
++ (instancetype)new NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
+
+/**
+ Returns an initialized image choice answer format using the specified array of images.
+ 
+ @param imageChoices    Array of `ORKImageChoice` objects.
+ 
+ @return An initialized image choice answer format.
+ */
+- (instancetype)initWithImageChoices:(NSArray<ORKImageChoice *> *)imageChoices;
+
+/**
+ Returns an initialized image choice answer format using the specified array of images.
+ 
+ @param imageChoices    Array of `ORKImageChoice` objects.
+ @param style           The style of question, such as single or multiple choice.
+ @param vertical        Pass `YES` to stack images vertically; for the default horizontal
+ layout, pass `NO`.
+ 
+ @return An initialized image choice answer format.
+ */
+- (instancetype)initWithImageChoices:(NSArray<ORKImageChoice *> *)imageChoices
+                               style:(ORKChoiceAnswerStyle)style
+                            vertical:(BOOL)vertical NS_DESIGNATED_INITIALIZER;
+
+/**
+ An array of `ORKImageChoice` objects that represent the available choices. (read-only)
+ 
+ The text of the currently selected choice is displayed on screen. The text for
+ each choice is spoken by VoiceOver when an image is highlighted.
+ */
+@property (copy, readonly) NSArray<ORKImageChoice *> *imageChoices;
+
+/**
+ The style of the question (that is, single or multiple choice).
+ */
+@property (readonly) ORKChoiceAnswerStyle style;
+
+/**
+ A Boolean value indicating whether the choices are stacked vertically. (read-only)
+ */
+@property (readonly, getter=isVertical) BOOL vertical;
+
+@end
 
 /**
  The `ORKTextChoiceOther` class defines the choice option to describe an answer not
@@ -1470,9 +1481,9 @@ ORK_CLASS_AVAILABLE
  @param style           The style of date answer, such as date, or date and time.
  @param defaultDate     The default date to display. When the value of this parameter is `nil`, the
                             picker displays the current time.
- @param minimumDate     The minimum date that is accessible in the picker. If the value of this 
+ @param minimumDate     The minimum date that is accessible in the picker. If the value of this
                             parameter is `nil`, there is no minimum.
- @param maximumDate     The maximum date that is accessible in the picker. If the value of this 
+ @param maximumDate     The maximum date that is accessible in the picker. If the value of this
                             parameter is `nil`, there is no maximum.
  @param calendar        The calendar to use. If the value of this parameter is `nil`, the picker
                             uses the default calendar for the current locale.
@@ -1620,6 +1631,20 @@ This By default, the value of this property is `NO`.
 @property BOOL hideCharacterCountLabel;
 
 /**
+ Identifies whether the text object should hide the text being entered.
+ 
+ By default, the value of this property is NO.
+ */
+@property (nonatomic,getter=isSecureTextEntry) BOOL secureTextEntry;
+
+/**
+ The placeholder to dislpay when the answer is empty.
+ 
+ Overrides any specified step placeholder. Setting it to `nil` displays the default placeholeder.
+  */
+@property (copy, nullable) NSString *placeholder;
+
+/**
  The autocapitalization type that applies to the user's input.
  
  By default, the value of this property is `UITextAutocapitalizationTypeSentences`.
@@ -1661,20 +1686,6 @@ This By default, the value of this property is `NO`.
  If specified, overrides the default passsword generation rules for fields with secureTextEntry.
  */
 @property (nonatomic, copy, nullable) UITextInputPasswordRules *passwordRules API_AVAILABLE(ios(12));
-
-/**
- Identifies whether the text object should hide the text being entered.
- 
- By default, the value of this property is NO.
- */
-@property (nonatomic,getter=isSecureTextEntry) BOOL secureTextEntry;
-
-/**
- The placeholder to dislpay when the answer is empty.
- 
- Overrides any specified step placeholder. Setting it to `nil` displays the default placeholeder.
-  */
-@property (copy, nullable) NSString *placeholder;
 
 @end
 
@@ -1718,7 +1729,7 @@ ORK_CLASS_AVAILABLE
 @interface ORKTimeIntervalAnswerFormat : ORKAnswerFormat
 
 /**
- Returns an initialized time interval answer format using the specified default interval and step 
+ Returns an initialized time interval answer format using the specified default interval and step
  value.
  
  This method is the designated initializer.
@@ -1963,5 +1974,6 @@ ORK_CLASS_AVAILABLE
 
 @end
 
+#endif
 
 NS_ASSUME_NONNULL_END

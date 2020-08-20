@@ -33,16 +33,15 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 #import "ORKAnswerFormat.h"
 #import "ORKAnswerFormat_Internal.h"
-
 #import "ORKChoiceAnswerFormatHelper.h"
-#import "ORKHealthAnswerFormat.h"
 #import "ORKQuestionResult_Private.h"
 #import "ORKResult_Private.h"
-
 #import "ORKHelpers_Internal.h"
+#if TARGET_OS_IOS
+#import "ORKHealthAnswerFormat.h"
+#endif
 
 @import HealthKit;
 @import MapKit;
@@ -84,10 +83,11 @@ NSString *ORKQuestionTypeString(ORKQuestionType questionType) {
 #undef SQT_CASE
 }
 
+
+#if TARGET_OS_IOS
 static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattingStyle style) {
     return style == ORKNumberFormattingStylePercent ? NSNumberFormatterPercentStyle : NSNumberFormatterDecimalStyle;
 }
-
 
 @implementation ORKAnswerDefaultSource {
     NSMutableDictionary *_unitsTable;
@@ -269,10 +269,13 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
 
 @end
 
+#endif
 
 #pragma mark - ORKAnswerFormat
 
 @implementation ORKAnswerFormat
+
+#if TARGET_OS_IOS
 
 + (ORKScaleAnswerFormat *)scaleAnswerFormatWithMaximumValue:(NSInteger)scaleMaximum
                                                minimumValue:(NSInteger)scaleMinimum
@@ -314,14 +317,6 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
                                                         vertical:vertical];
 }
 
-+ (ORKBooleanAnswerFormat *)booleanAnswerFormat {
-    return [ORKBooleanAnswerFormat new];
-}
-
-+ (ORKBooleanAnswerFormat *)booleanAnswerFormatWithYesString:(NSString *)yes noString:(NSString *)no {
-    return [[ORKBooleanAnswerFormat alloc] initWithYesString:yes noString:no];
-}
-
 + (ORKValuePickerAnswerFormat *)valuePickerAnswerFormatWithTextChoices:(NSArray<ORKTextChoice *> *)textChoices {
     return [[ORKValuePickerAnswerFormat alloc] initWithTextChoices:textChoices];
 }
@@ -340,11 +335,6 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
     return [[ORKImageChoiceAnswerFormat alloc] initWithImageChoices:imageChoices
                                                               style:style
                                                            vertical:vertical];
-}
-
-+ (ORKTextChoiceAnswerFormat *)choiceAnswerFormatWithStyle:(ORKChoiceAnswerStyle)style
-                                               textChoices:(NSArray<ORKTextChoice *> *)textChoices {
-    return [[ORKTextChoiceAnswerFormat alloc] initWithStyle:style textChoices:textChoices];
 }
 
 + (ORKNumericAnswerFormat *)decimalAnswerFormatWithUnit:(NSString *)unit {
@@ -460,6 +450,21 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
                                                                 bottomRungText:bottomRungText];
 }
 
+#endif
+
++ (ORKBooleanAnswerFormat *)booleanAnswerFormat {
+    return [ORKBooleanAnswerFormat new];
+}
+
++ (ORKBooleanAnswerFormat *)booleanAnswerFormatWithYesString:(NSString *)yes noString:(NSString *)no {
+    return [[ORKBooleanAnswerFormat alloc] initWithYesString:yes noString:no];
+}
+
++ (ORKTextChoiceAnswerFormat *)choiceAnswerFormatWithStyle:(ORKChoiceAnswerStyle)style
+                                               textChoices:(NSArray<ORKTextChoice *> *)textChoices {
+    return [[ORKTextChoiceAnswerFormat alloc] initWithStyle:style textChoices:textChoices];
+}
+
 - (void)validateParameters {
 }
 
@@ -550,10 +555,12 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
      ContinuousScale navigation rules always evaluate to false because the result is different from what is displayed in the UI.
      The fraction digits have to be taken into account in self.answer as well.
      */
+#if TARGET_OS_IOS
     if ([self isKindOfClass:[ORKContinuousScaleAnswerFormat class]] && ![answer isKindOfClass:[ORKDontKnowAnswer class]]) {
         NSNumberFormatter* formatter = [(ORKContinuousScaleAnswerFormat*)self numberFormatter];
         answer = [formatter numberFromString:[formatter stringFromNumber:answer]];
     }
+#endif
     
     questionResult.answer = answer;
     questionResult.questionType = self.questionType;
@@ -583,6 +590,15 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
     return _showDontKnowButton;
 }
 
+- (NSArray *)choices {
+    NSString *exceptionReason = [NSString stringWithFormat:@"%@ is not a currently supported answer format for the choice answer format helper.", NSStringFromClass([self class])];
+    @throw [NSException exceptionWithName:NSGenericException reason:exceptionReason userInfo:nil];
+}
+
+- (BOOL)isValuePicker {
+    return NO;
+}
+
 @end
 
 
@@ -603,12 +619,16 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
         if (![textObject isKindOfClass:[ORKTextChoice class]]) {
             @throw [NSException exceptionWithName:NSGenericException reason:@"The textChoices array should only containt objects of the ORKTextChoice kind." userInfo:@{@"nonConformingObject": textObject}];
         }
+#if TARGET_OS_IOS
         [choices addObject:[textObject isKindOfClass:[ORKTextChoiceOther class]] ? [textObject copyWithZone:nil] : textObject];
+#else
+        [choices addObject:textObject];
+#endif
     }
     return choices;
 }
 
-
+#if TARGET_OS_IOS
 @implementation ORKValuePickerAnswerFormat {
     ORKChoiceAnswerFormatHelper *_helper;
     ORKTextChoice *_nullTextChoice;
@@ -708,8 +728,15 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
     return NO;
 }
 
-@end
+- (NSArray *)choices {
+    return [@[self.nullTextChoice] arrayByAddingObjectsFromArray:self.textChoices];
+}
 
+- (BOOL)isValuePicker {
+    return YES;
+}
+
+@end
 
 #pragma mark - ORKMultipleValuePickerAnswerFormat
 
@@ -935,7 +962,12 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
     return NO;
 }
 
+- (NSArray *)choices {
+    return self.imageChoices;
+}
+
 @end
+#endif
 
 
 #pragma mark - ORKTextChoiceAnswerFormat
@@ -1028,6 +1060,10 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
 
 - (BOOL)shouldShowDontKnowButton {
     return NO;
+}
+
+- (NSArray *)choices {
+    return self.textChoices;
 }
 
 @end
@@ -1139,7 +1175,7 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
 
 
 #pragma mark - ORKTextChoiceOther
-
+#if TARGET_OS_IOS
 @implementation ORKTextChoiceOther
 
 + (instancetype)new {
@@ -1335,6 +1371,7 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
 }
 
 @end
+#endif
 
 
 #pragma mark - ORKBooleanAnswerFormat
@@ -1422,7 +1459,7 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
 
 
 #pragma mark - ORKTimeOfDayAnswerFormat
-
+#if TARGET_OS_IOS
 @implementation ORKTimeOfDayAnswerFormat
 
 - (instancetype)init {
@@ -2390,7 +2427,7 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
 
 
 #pragma mark - ORKTextScaleAnswerFormat
-
+#if TARGET_OS_IOS
 @interface ORKTextScaleAnswerFormat () {
     
     ORKChoiceAnswerFormatHelper *_helper;
@@ -2595,7 +2632,12 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
     return _hideValueMarkers;
 }
 
+- (NSArray *)choices {
+    return self.textChoices;
+}
+
 @end
+#endif
 
 
 #pragma mark - ORKTextAnswerFormat
@@ -2607,10 +2649,12 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
 }
 
 - (void)commonInit {
+#if TARGET_OS_IOS
     _autocapitalizationType = UITextAutocapitalizationTypeSentences;
     _autocorrectionType = UITextAutocorrectionTypeDefault;
     _spellCheckingType = UITextSpellCheckingTypeDefault;
     _keyboardType = UIKeyboardTypeDefault;
+#endif
     _multipleLines = NO;
     _hideClearButton = NO;
     _hideCharacterCountLabel = NO;
@@ -2663,22 +2707,23 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
     answerFormat->_validationRegularExpression = [_validationRegularExpression copy];
     answerFormat->_invalidMessage = [_invalidMessage copy];
     answerFormat->_defaultTextAnswer = [_defaultTextAnswer copy];
-    answerFormat->_autocapitalizationType = _autocapitalizationType;
-    answerFormat->_autocorrectionType = _autocorrectionType;
-    answerFormat->_spellCheckingType = _spellCheckingType;
-    answerFormat->_keyboardType = _keyboardType;
     answerFormat->_multipleLines = _multipleLines;
     answerFormat->_hideClearButton = _hideClearButton;
     answerFormat->_hideCharacterCountLabel = _hideCharacterCountLabel;
     answerFormat->_secureTextEntry = _secureTextEntry;
-    answerFormat->_textContentType = _textContentType;
     answerFormat->_placeholder = _placeholder;
     answerFormat.showDontKnowButton = self.showDontKnowButton;
     answerFormat.customDontKnowButtonText = [self.customDontKnowButtonText copy];
-
+#if TARGET_OS_IOS
+    answerFormat->_autocapitalizationType = _autocapitalizationType;
+    answerFormat->_autocorrectionType = _autocorrectionType;
+    answerFormat->_spellCheckingType = _spellCheckingType;
+    answerFormat->_keyboardType = _keyboardType;
+    answerFormat->_textContentType = _textContentType;
     if (@available(iOS 12.0, *)) {
         answerFormat->_passwordRules = _passwordRules;
     }
+#endif
     
     return answerFormat;
 }
@@ -2743,11 +2788,12 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
     
     // Copy from ORKTextAnswerFormat being confirmed
     answerFormat->_maximumLength = _maximumLength;
-    answerFormat->_keyboardType = _keyboardType;
     answerFormat->_multipleLines = _multipleLines;
     answerFormat->_hideClearButton = _hideClearButton;
     answerFormat->_hideCharacterCountLabel = _hideCharacterCountLabel;
     answerFormat->_secureTextEntry = _secureTextEntry;
+#if TARGET_OS_IOS
+    answerFormat->_keyboardType = _keyboardType;
     answerFormat->_autocapitalizationType = _autocapitalizationType;
     answerFormat->_textContentType = _textContentType;
     
@@ -2758,6 +2804,7 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
     // Always set to no autocorrection or spell checking
     answerFormat->_autocorrectionType = UITextAutocorrectionTypeNo;
     answerFormat->_spellCheckingType = UITextSpellCheckingTypeNo;
+#endif
     answerFormat->_placeholder = _placeholder;
     
     return answerFormat;
@@ -2773,6 +2820,7 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
         ORK_DECODE_OBJ_CLASS(aDecoder, validationRegularExpression, NSRegularExpression);
         ORK_DECODE_OBJ_CLASS(aDecoder, invalidMessage, NSString);
         ORK_DECODE_OBJ_CLASS(aDecoder, defaultTextAnswer, NSString);
+#if TARGET_OS_IOS
         ORK_DECODE_OBJ_CLASS(aDecoder, textContentType, NSString);
         if (@available(iOS 12.0, *)) {
             ORK_DECODE_OBJ_CLASS(aDecoder, passwordRules, UITextInputPasswordRules);
@@ -2781,6 +2829,7 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
         ORK_DECODE_ENUM(aDecoder, autocorrectionType);
         ORK_DECODE_ENUM(aDecoder, spellCheckingType);
         ORK_DECODE_ENUM(aDecoder, keyboardType);
+#endif
         ORK_DECODE_BOOL(aDecoder, multipleLines);
         ORK_DECODE_BOOL(aDecoder, hideClearButton);
         ORK_DECODE_BOOL(aDecoder, hideCharacterCountLabel);
@@ -2796,6 +2845,7 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
     ORK_ENCODE_OBJ(aCoder, validationRegularExpression);
     ORK_ENCODE_OBJ(aCoder, invalidMessage);
     ORK_ENCODE_OBJ(aCoder, defaultTextAnswer);
+#if TARGET_OS_IOS
     ORK_ENCODE_OBJ(aCoder, textContentType);
     if (@available(iOS 12.0, *)) {
         ORK_ENCODE_OBJ(aCoder, passwordRules);
@@ -2804,6 +2854,7 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
     ORK_ENCODE_ENUM(aCoder, autocorrectionType);
     ORK_ENCODE_ENUM(aCoder, spellCheckingType);
     ORK_ENCODE_ENUM(aCoder, keyboardType);
+#endif
     ORK_ENCODE_BOOL(aCoder, multipleLines);
     ORK_ENCODE_BOOL(aCoder, hideClearButton);
     ORK_ENCODE_BOOL(aCoder, hideCharacterCountLabel);
@@ -2817,24 +2868,28 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
 
 - (BOOL)isEqual:(id)object {
     BOOL isParentSame = [super isEqual:object];
-    BOOL equalPasswordRules = YES;
+
     
     __typeof(self) castObject = object;
-    
+#if TARGET_OS_IOS
+    BOOL equalPasswordRules = YES;
     if (@available(iOS 12.0, *)) {
         equalPasswordRules = ORKEqualObjects(self.passwordRules, castObject.passwordRules);
     }
+#endif
     return (isParentSame &&
             (self.maximumLength == castObject.maximumLength &&
              ORKEqualObjects(self.validationRegularExpression, castObject.validationRegularExpression) &&
              ORKEqualObjects(self.invalidMessage, castObject.invalidMessage) &&
              ORKEqualObjects(self.defaultTextAnswer, castObject.defaultTextAnswer) &&
+#if TARGET_OS_IOS
              self.autocapitalizationType == castObject.autocapitalizationType &&
              self.autocorrectionType == castObject.autocorrectionType &&
              self.spellCheckingType == castObject.spellCheckingType &&
              self.keyboardType == castObject.keyboardType &&
              ORKEqualObjects(self.textContentType, castObject.textContentType) &&
              equalPasswordRules &&
+#endif
              self.multipleLines == castObject.multipleLines &&
              self.hideClearButton == castObject.hideClearButton &&
              self.hideCharacterCountLabel == castObject.hideCharacterCountLabel) &&
@@ -2878,12 +2933,15 @@ static NSString *const kSecureTextEntryEscapeString = @"*";
         NSString *invalidMessage = ORKLocalizedString(@"INVALID_EMAIL_ALERT_MESSAGE", nil);
         _impliedAnswerFormat = [ORKTextAnswerFormat textAnswerFormatWithValidationRegularExpression:validationRegularExpression
                                                                                      invalidMessage:invalidMessage];
-        _impliedAnswerFormat.keyboardType = UIKeyboardTypeEmailAddress;
         _impliedAnswerFormat.multipleLines = NO;
+#if TARGET_OS_IOS
+        _impliedAnswerFormat.keyboardType = UIKeyboardTypeEmailAddress;
+
         _impliedAnswerFormat.spellCheckingType = UITextSpellCheckingTypeNo;
         _impliedAnswerFormat.autocapitalizationType = UITextAutocapitalizationTypeNone;
         _impliedAnswerFormat.autocorrectionType = UITextAutocorrectionTypeNo;
         _impliedAnswerFormat.textContentType = UITextContentTypeEmailAddress;
+#endif
     }
     return _impliedAnswerFormat;
 }
@@ -2894,10 +2952,14 @@ static NSString *const kSecureTextEntryEscapeString = @"*";
 
 - (void)setUsernameField:(BOOL)usernameField {
     _usernameField = usernameField;
+#if TARGET_OS_IOS
     if ([self.impliedAnswerFormat isMemberOfClass:[ORKTextAnswerFormat class]]) {
         ORKTextAnswerFormat *textFormat = (ORKTextAnswerFormat *)self.impliedAnswerFormat;
+
         textFormat.textContentType = usernameField ? UITextContentTypeUsername : UITextContentTypeEmailAddress;
+
     }
+#endif
 }
 
 @end
@@ -3305,7 +3367,6 @@ static NSString *const kSecureTextEntryEscapeString = @"*";
 
 
 #pragma mark - ORKLocationAnswerFormat
-
 @implementation ORKLocationAnswerFormat
 
 - (instancetype)init {
@@ -3437,3 +3498,4 @@ static NSString *const kSecureTextEntryEscapeString = @"*";
 }
 
 @end
+#endif

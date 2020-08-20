@@ -31,6 +31,7 @@
 #import "ORKHealthKitPermissionType.h"
 #import "ORKHelpers_Internal.h"
 #import "ORKRequestPermissionView.h"
+#import <HealthKit/HealthKit.h>
 
 typedef NS_CLOSED_ENUM(NSInteger, ORKRequestPermissionsButtonState) {
     ORKRequestPermissionsButtonStateDefault = 0,
