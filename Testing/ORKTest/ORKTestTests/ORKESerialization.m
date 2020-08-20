@@ -1278,7 +1278,16 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                                return [[ORKFaceDetectionStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
                            },
                            (@{
-                              })),
+                            })),
+           ENTRY(ORKAVJournalingStep,
+                        ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+                            return [[ORKAVJournalingStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
+                        },
+                        (@{
+                            PROPERTY(maximumRecordingLimit, NSNumber, NSObject, YES, nil, nil),
+                            PROPERTY(allowsReview, NSNumber, NSObject, YES, nil, nil),
+                            PROPERTY(allowsRetry, NSNumber, NSObject, YES, nil, nil),
+                        })),
            ENTRY(ORKTappingIntervalStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      return [[ORKTappingIntervalStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
@@ -1993,6 +2002,17 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                              ^id(id url, __unused ORKESerializationContext *context) { return [url absoluteString]; },
                              ^id(id string, __unused ORKESerializationContext *context) { return [NSURL URLWithString:string]; })
                     })),
+           ENTRY(ORKAVJournalingStepResult,
+                nil,
+                (@{
+                    PROPERTY(contentType, NSString, NSObject, NO, nil, nil),
+                    PROPERTY(fileName, NSString, NSObject, NO, nil, nil),
+                    PROPERTY(retryCount, NSNumber, NSObject, NO, nil, nil),
+                    PROPERTY(cameraIntrinsics, NSString, NSArray, NO, nil, nil),
+                    PROPERTY(fileURL, NSURL, NSObject, NO,
+                             ^id(id url, __unused ORKESerializationContext *context) { return [url absoluteString]; },
+                             ^id(id string, __unused ORKESerializationContext *context) { return [NSURL URLWithString:string]; })
+                 })),
            ENTRY(ORKToneAudiometrySample,
                  nil,
                  (@{

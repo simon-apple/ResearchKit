@@ -30,7 +30,7 @@
 
 
 #import <ResearchKit/ORKStep.h>
-
+#import <ResearchKit/ORKContext.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -50,6 +50,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (Class)stepViewControllerClass;
 
 - (Class)stepViewControllerClass;
+
+- (nullable ORKEarlyTerminationContext *)earlyTerminationContext;
 
 @property (nonatomic, assign) BOOL shouldTintImages;
 

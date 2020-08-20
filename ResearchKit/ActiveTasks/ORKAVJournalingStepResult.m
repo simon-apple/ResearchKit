@@ -1,6 +1,6 @@
 /*
- Copyright (c) 2019, Apple Inc. All rights reserved.
-
+ Copyright (c) 2020, Apple Inc. All rights reserved.
+ 
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
  
@@ -28,30 +28,51 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import "ORKAVJournalingStepResult.h"
+#import "ORKResult_Private.h"
+#import "ORKHelpers_Internal.h"
 
-#import <ResearchKit/ORKStepContentView.h>
+@implementation ORKAVJournalingStepResult
 
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [super encodeWithCoder:aCoder];
+    ORK_ENCODE_OBJ(aCoder, fileName);
+    ORK_ENCODE_OBJ(aCoder, cameraIntrinsics);
+    ORK_ENCODE_INTEGER(aCoder, retryCount);
+}
 
-NS_ASSUME_NONNULL_BEGIN
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        ORK_DECODE_OBJ_CLASS(aDecoder, fileName, NSString);
+        ORK_DECODE_OBJ_CLASS(aDecoder, cameraIntrinsics, NSMutableArray);
+        ORK_DECODE_INTEGER(aDecoder, retryCount);
+    }
+    return self;
+}
 
-@class ORKTitleLabel;
-@class ORKBodyContainerView;
-@class ORKCompletionCheckmarkView;
-@interface ORKStepContentView ()
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
 
-@property (nonatomic, nullable) UIImageView *topContentImageView;
-@property (nonatomic) ORKTitleLabel *titleLabel;
-@property (nonatomic, nullable) UILabel *textLabel;
-@property (nonatomic, nullable) UILabel *detailTextLabel;
-@property (nonatomic, nullable) UIImageView *iconImageView;
-@property (nonatomic) ORKBodyContainerView *bodyContainerView;
-@property (nonatomic, nullable) NSNumber *customTopPadding;
+- (BOOL)isEqual:(id)object {
+    BOOL isParentSame = [super isEqual:object];
+    
+    __typeof(self) castObject = object;
+    return (isParentSame &&
+            ORKEqualObjects(self.fileName, castObject.fileName) &&
+            ORKEqualObjects(self.cameraIntrinsics, castObject.cameraIntrinsics) &&
+            (castObject.retryCount == self.retryCount));
+}
 
-// This padding is ignored if there is a `topContentImageView` or `iconImageView` above the label.
-- (void)setAdditionalTopPaddingForTopLabel:(CGFloat)padding;
-
-- (nullable ORKCompletionCheckmarkView *)completionCheckmarkView;
+- (instancetype)copyWithZone:(NSZone *)zone {
+    ORKAVJournalingStepResult *result = [super copyWithZone:zone];
+    result.fileName = [self.fileName copy];
+    result.cameraIntrinsics = [self.cameraIntrinsics copy];
+    result.retryCount = self.retryCount;
+    return result;
+}
 
 @end
 
-NS_ASSUME_NONNULL_END
+

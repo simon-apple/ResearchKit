@@ -44,7 +44,7 @@
 #import "ORKRoundTappingButton.h"
 #import "ORKPlaybackButton.h"
 #import "ORKSkin.h"
-#import "ORKContext.h"
+#import "ORKContext_Internal.h"
 
 #import <AVFoundation/AVFoundation.h>
 @import Accelerate;
@@ -203,6 +203,7 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
         [_mixerNode removeTapOnBus:0];
         [self finish];
     } else {
+        [self.navigationItem setHidesBackButton:YES animated:YES];
         [self installTap];
         [_playerNode play];
         if ([self speechInNoiseStep].willAudioLoop) {

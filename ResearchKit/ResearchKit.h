@@ -88,8 +88,8 @@
 #import <ResearchKit/ORKEnvironmentSPLMeterResult.h>
 #import <ResearchKit/ORKResultPredicate.h>
 #import <ResearchKit/ORKHeadphoneDetectResult.h>
+#import <ResearchKit/ORKAVJournalingStepResult.h>
 #import <ResearchKit/ORKUSDZModelManagerResult.h>
-
 
 #import <ResearchKit/ORKTextButton.h>
 #import <ResearchKit/ORKBorderedButton.h>
@@ -143,5 +143,7 @@
 #import <ResearchKit/ORKHealthKitPermissionType.h>
 #import <ResearchKit/ORKNotificationPermissionType.h>
 #import <ResearchKit/ORKSensorPermissionType.h>
+
+#import <ResearchKit/ORKContext.h>
 
 #import <ResearchKit/ORKDeprecated.h>

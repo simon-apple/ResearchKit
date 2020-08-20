@@ -142,7 +142,7 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
             view controller.
         */
         taskResultFinishedCompletionHandler?(taskViewController.result)
-
+        
         taskViewController.dismiss(animated: true, completion: nil)
     }
     

@@ -193,11 +193,7 @@
 }
 
 - (void)resetScrollViewInset {
-    if (_containerView.pinNavigationContainer) {
-        [_containerView setScrollViewInset:UIEdgeInsetsMake(0.0, 0.0, -(_containerView.navigationFooterView.frame.size.height + ORKContentBottomPadding), 0.0)];
-    } else {
-        [_containerView setScrollViewInset:UIEdgeInsetsZero];
-    }
+    [_containerView resetScrollViewInset];
 }
 
 - (void)showActivityIndicatorInContinueButton:(BOOL)showActivityIndicator {

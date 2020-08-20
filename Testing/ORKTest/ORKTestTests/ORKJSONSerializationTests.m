@@ -545,7 +545,9 @@ ORK_MAKE_TEST_INIT(ORKNoAnswer, (^{ return [ORKDontKnowAnswer answer]; }));
                                           @"ORKVerificationStep.verificationViewControllerClass",
                                           @"ORKVideoCaptureStep.templateImage",
                                           @"ORKWeightAnswerFormat.useMetricSystem",
-                                          @"ORKWebViewStep.customViewProvider"
+                                          @"ORKWebViewStep.customViewProvider",
+                                          @"ORKFaceDetectionBlurFooterView.startStopButton",
+                                          @"ORKFaceDetectionBlurFooterView.timerLabel",
                                           ];
         _allowedUnTouchedKeys = @[@"_class"];
         _mutuallyExclusiveProperties = @{
@@ -576,7 +578,11 @@ ORK_MAKE_TEST_INIT(ORKNoAnswer, (^{ return [ORKDontKnowAnswer answer]; }));
         @"ORKBlurFooterView",
         @"ORKFrontFacingCameraStepOptionsView",
         @"ORKNoAnswer",
+        @"ORKAVJournalingStepOptionsView",
+        @"ORKFaceDetectionBlurFooterView",
+        @"ORKAVJournalingBlurFooterView"
     ];
+    
     // Find all classes that conform to NSSecureCoding
     NSMutableArray<Class> *classesWithSecureCoding = [NSMutableArray new];
     int numClasses = objc_getClassList(NULL, 0);
@@ -673,7 +679,7 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
                                                         type:ORKESerializationPropertyModifierTypePath];
     
     ORKESerializationPropertyModifier *modifier2 = [[ORKESerializationPropertyModifier alloc]
-                                                        initWithKeypath:@"ORKAVJournalingPredefinedTask._journalQuestionSetManifestPath"
+                                                        initWithKeypath:@"ORKAVJournalingPredefinedTask.journalQuestionSetManifestPath"
                                                         value:@"PredefinedTaskResources/QuestionList1/manifest.json"
                                                         type:ORKESerializationPropertyModifierTypePath];
     ORKESerializationPropertyInjector *propertyInjector = [[ORKESerializationPropertyInjector alloc] initWithBundle:bundle

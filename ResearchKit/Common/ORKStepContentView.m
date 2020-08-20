@@ -379,16 +379,14 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKUpdateConstraintSequence) {
             topItem = _iconImageView;
             attribute = NSLayoutAttributeBottom;
             constant = ORKStepContentIconImageViewToTitleLabelPadding;
-        }
-        else if (_topContentImageView) {
+        } else if (_topContentImageView) {
             topItem = _topContentImageView;
             attribute = NSLayoutAttributeBottom;
             constant = ORKStepContentIconImageViewToTitleLabelPadding;
-        }
-        else {
+        } else {
             topItem = self;
             attribute = NSLayoutAttributeTop;
-            constant = ORKStepContentIconImageViewToTitleLabelPadding;
+            constant = _customTopPadding ? [_customTopPadding floatValue] : ORKStepContentIconImageViewToTitleLabelPadding;
         }
         
         _titleLabelTopConstraint = [NSLayoutConstraint constraintWithItem:_titleLabel
@@ -401,6 +399,10 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKUpdateConstraintSequence) {
     }
 }
 
+- (void)setCustomTopPadding:(NSNumber *)customTopPadding {
+    _customTopPadding = customTopPadding;
+    [self updateTitleLabelTopConstraint];
+}
 
 // step text
 

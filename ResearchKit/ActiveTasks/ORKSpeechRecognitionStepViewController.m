@@ -60,7 +60,7 @@
 #import "ORKTaskViewController.h"
 
 #import "ORKOrderedTask.h"
-#import "ORKContext.h"
+#import "ORKContext_Internal.h"
 
 @interface ORKSpeechRecognitionStepViewController () <ORKStreamingAudioResultDelegate, ORKSpeechRecognitionDelegate, UITextFieldDelegate, ORKSpeechRecognitionContentViewDelegate>
 

@@ -1,6 +1,6 @@
 /*
- Copyright (c) 2019, Apple Inc. All rights reserved.
-
+ Copyright (c) 2020, Apple Inc. All rights reserved.
+ 
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
  
@@ -28,30 +28,17 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import "ORKContext.h"
 
-#import <ResearchKit/ORKStepContentView.h>
+@implementation ORKEarlyTerminationContext
 
-
-NS_ASSUME_NONNULL_BEGIN
-
-@class ORKTitleLabel;
-@class ORKBodyContainerView;
-@class ORKCompletionCheckmarkView;
-@interface ORKStepContentView ()
-
-@property (nonatomic, nullable) UIImageView *topContentImageView;
-@property (nonatomic) ORKTitleLabel *titleLabel;
-@property (nonatomic, nullable) UILabel *textLabel;
-@property (nonatomic, nullable) UILabel *detailTextLabel;
-@property (nonatomic, nullable) UIImageView *iconImageView;
-@property (nonatomic) ORKBodyContainerView *bodyContainerView;
-@property (nonatomic, nullable) NSNumber *customTopPadding;
-
-// This padding is ignored if there is a `topContentImageView` or `iconImageView` above the label.
-- (void)setAdditionalTopPaddingForTopLabel:(CGFloat)padding;
-
-- (nullable ORKCompletionCheckmarkView *)completionCheckmarkView;
+- (instancetype)initWithButtonText:(NSString *)buttonText earlyTerminationStep:(ORKStep *)earlyTerminationStep {
+    self = [super init];
+    if (self) {
+        _buttonText = buttonText;
+        _earlyTerminationStep = earlyTerminationStep;
+    }
+    return self;
+}
 
 @end
-
-NS_ASSUME_NONNULL_END

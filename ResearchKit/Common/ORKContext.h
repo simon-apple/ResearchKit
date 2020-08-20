@@ -30,7 +30,7 @@
 
 @import Foundation;
 
-#import "ORKStep.h"
+#import <ResearchKit/ORKStep.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -44,23 +44,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface ORKSpeechInNoisePredefinedTaskContext : NSObject <ORKContext>
+@interface ORKEarlyTerminationContext : NSObject<ORKContext>
 
-@property (nonatomic, copy) NSString *practiceAgainStepIdentifier;
+- (instancetype)initWithButtonText:(NSString *)buttonText earlyTerminationStep:(ORKStep *)earlyTerminationStep;
 
-@property (nonatomic, assign, getter=isPracticeTest) BOOL practiceTest;
+@property (nonatomic, copy, readonly) NSString *buttonText;
 
-@property (nonatomic, assign) BOOL prefersKeyboard;
-
-- (void)didSkipHeadphoneDetectionStepForTask:(id<ORKTask>)task;
-
-- (NSString *)didNotAllowRequiredHealthPermissionsForTask:(id<ORKTask>)task;
-
-@end
-
-@interface ORKAVJournalingPredfinedTaskContext : NSObject <ORKContext>
-
-- (void)didReachDetectionTimeLimitForTask:(id<ORKTask>)task;
+@property (nonatomic, copy, readonly) ORKStep *earlyTerminationStep;
 
 @end
 

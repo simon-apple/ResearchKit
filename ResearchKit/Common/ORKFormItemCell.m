@@ -467,6 +467,7 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     [super cellInit];
     
     _textFieldView = [[ORKTextFieldView alloc] init];
+    _textFieldView.isAccessibilityElement = YES;
     
     ORKUnitTextField *textField = _textFieldView.textField;
     textField.delegate = self;
@@ -493,6 +494,7 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
         _shouldShowDontKnow = YES;
         _customDontKnowString = self.formItem.answerFormat.customDontKnowButtonText;
         [self setupDontKnowButton];
+        self.accessibilityElements = @[_textFieldView, _dontKnowButton];
     }
     
     [self setUpContentConstraint];
