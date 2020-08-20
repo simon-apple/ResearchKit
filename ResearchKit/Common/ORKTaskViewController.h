@@ -571,7 +571,9 @@ ORK_CLASS_AVAILABLE
  
  You can use this method to customize the appearance of the task view controller's navigation bar.
  */
+#if TARGET_OS_IOS
 @property (nonatomic, readonly) UINavigationBar *navigationBar;
+#endif
 
 /**
  A Boolean value indicating whether the task view controller can be dismissed directly, without showing the "End Task" action sheet, when

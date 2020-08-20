@@ -36,6 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class ORKNavigationContainerView;
 
+#if TARGET_OS_IOS
 @interface ORKStepViewController () <UIViewControllerRestoration> {
     @protected ORKNavigationContainerView *_navigationFooterView;
 }
@@ -97,5 +98,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setiPadBackgroundViewColor:(UIColor *)color;
 
 @end
+#endif
 
 NS_ASSUME_NONNULL_END

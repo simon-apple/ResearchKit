@@ -28,6 +28,8 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+@import Foundation;
+
 #import <ResearchKit/ORKDefines.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -35,6 +37,9 @@ NS_ASSUME_NONNULL_BEGIN
 @class ORKHealthKitPermissionType;
 @class ORKNotificationPermissionType;
 @class ORKRequestPermissionView;
+
+@class HKSampleType, HKObjectType;
+
 typedef NS_OPTIONS(NSUInteger, UNAuthorizationOptions);
 
 ORK_CLASS_AVAILABLE

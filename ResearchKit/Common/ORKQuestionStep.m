@@ -28,23 +28,16 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 #import "ORKQuestionStep.h"
-#import "ORKLearnMoreItem.h"
-
-#import "ORKQuestionStepViewController.h"
-
 #import "ORKAnswerFormat_Internal.h"
 #import "ORKStep_Private.h"
-
 #import "ORKHelpers_Internal.h"
-
+#if TARGET_OS_IOS
+#import "ORKQuestionStepViewController.h"
+#import "ORKLearnMoreItem.h"
+#endif
 
 @implementation ORKQuestionStep
-
-+ (Class)stepViewControllerClass {
-    return [ORKQuestionStepViewController class];
-}
 
 + (instancetype)questionStepWithIdentifier:(NSString *)identifier
                                      title:(nullable NSString *)title
@@ -57,6 +50,12 @@
     step.answerFormat = answerFormat;
     step.tagText = nil;
     return step;
+}
+
+#if TARGET_OS_IOS
+
++ (Class)stepViewControllerClass {
+    return [ORKQuestionStepViewController class];
 }
 
 + (instancetype)questionStepWithIdentifier:(NSString *)identifier
@@ -74,6 +73,26 @@
     return step;
 }
 
+- (BOOL)isFormatChoiceWithImageOptions {
+    return [[self impliedAnswerFormat] isKindOfClass:[ORKImageChoiceAnswerFormat class]];
+}
+
+- (BOOL)isFormatChoiceValuePicker {
+    return [[self impliedAnswerFormat] isKindOfClass:[ORKValuePickerAnswerFormat class]];
+}
+
+- (BOOL)isFormatTextfield {
+    ORKAnswerFormat *impliedAnswerFormat = [self impliedAnswerFormat];
+    return [impliedAnswerFormat isKindOfClass:[ORKTextAnswerFormat class]] && ![(ORKTextAnswerFormat *)impliedAnswerFormat multipleLines];
+}
+
+- (NSSet<HKObjectType *> *)requestedHealthKitTypesForReading {
+    HKObjectType *objType = [[self answerFormat] healthKitObjectTypeForAuthorization];
+    return (objType != nil) ? [NSSet setWithObject:objType] : nil;
+}
+
+#endif
+
 - (instancetype)initWithIdentifier:(NSString *)identifier {
     
     self = [super initWithIdentifier:identifier];
@@ -89,12 +108,14 @@
 
 - (void)validateParameters {
     [super validateParameters];
-    
+
+#if TARGET_OS_IOS
     if([self.answerFormat isKindOfClass:[ORKConfirmTextAnswerFormat class]]) {
         @throw [NSException exceptionWithName:NSInvalidArgumentException
                                        reason:@"ORKConfirmTextAnswerFormat can only be used with an ORKFormStep."
                                      userInfo:nil];
     }
+#endif
     
     [[self impliedAnswerFormat] validateParameters];
 }
@@ -103,7 +124,9 @@
     ORKQuestionStep *questionStep = [super copyWithZone:zone];
     questionStep.answerFormat = [self.answerFormat copy];
     questionStep.placeholder = [self.placeholder copy];
+#if TARGET_OS_IOS
     questionStep.learnMoreItem = [self.learnMoreItem copy];
+#endif
     questionStep.question = [self.question copy];
     questionStep.tagText = [self.tagText copy];
     return questionStep;
@@ -116,12 +139,25 @@
     return isParentSame &&
     ORKEqualObjects(self.answerFormat, castObject.answerFormat) &&
     ORKEqualObjects(self.placeholder, castObject.placeholder) &&
+#if TARGET_OS_IOS
     ORKEqualObjects(self.learnMoreItem, castObject.learnMoreItem) &&
+#endif
     ORKEqualObjects(self.tagText, castObject.tagText);
 }
 
 - (NSUInteger)hash {
-    return super.hash ^ self.answerFormat.hash ^ self.question.hash ^ self.questionType ^ self.placeholder.hash ^ (_useCardView ? 0xf : 0x0) ^ self.learnMoreItem.hash ^ self.tagText.hash;
+    
+    return super.hash ^
+    self.answerFormat.hash ^
+    self.question.hash ^
+    self.questionType ^
+    self.placeholder.hash ^
+    (_useCardView ? 0xf : 0x0) ^
+    self.tagText.hash
+#if TARGET_OS_IOS
+    ^ self.learnMoreItem.hash
+#endif
+    ;
 }
 
 - (void)setQuestion:(NSString *)question {
@@ -143,7 +179,9 @@
         ORK_DECODE_OBJ_CLASS(aDecoder, answerFormat, ORKAnswerFormat);
         ORK_DECODE_OBJ_CLASS(aDecoder, placeholder, NSString);
         ORK_DECODE_OBJ_CLASS(aDecoder, question, NSString);
+#if TARGET_OS_IOS
         ORK_DECODE_OBJ_CLASS(aDecoder, learnMoreItem, ORKLearnMoreItem);
+#endif
         ORK_DECODE_BOOL(aDecoder, useCardView);
         ORK_DECODE_OBJ_CLASS(aDecoder, tagText, NSString);
     }
@@ -156,7 +194,9 @@
     ORK_ENCODE_OBJ(aCoder, answerFormat);
     ORK_ENCODE_OBJ(aCoder, placeholder);
     ORK_ENCODE_OBJ(aCoder, question);
+#if TARGET_OS_IOS
     ORK_ENCODE_OBJ(aCoder, learnMoreItem);
+#endif
     ORK_ENCODE_BOOL(aCoder, useCardView);
     ORK_ENCODE_OBJ(aCoder, tagText);
 }
@@ -170,32 +210,21 @@
     return (self.optional == NO) && ((questionType == ORKQuestionTypeBoolean) || (questionType == ORKQuestionTypeSingleChoice));
 }
 
-- (BOOL)isFormatChoiceWithImageOptions {
-    return [[self impliedAnswerFormat] isKindOfClass:[ORKImageChoiceAnswerFormat class]];
-}
-
-- (BOOL)isFormatChoiceValuePicker {
-    return [[self impliedAnswerFormat] isKindOfClass:[ORKValuePickerAnswerFormat class]];
-}
-
-- (BOOL)isFormatTextfield {
-    ORKAnswerFormat *impliedAnswerFormat = [self impliedAnswerFormat];
-    return [impliedAnswerFormat isKindOfClass:[ORKTextAnswerFormat class]] && ![(ORKTextAnswerFormat *)impliedAnswerFormat multipleLines];
-}
-
 - (BOOL)isFormatFitsChoiceCells {
+#if TARGET_OS_IOS
     return ((self.questionType == ORKQuestionTypeSingleChoice && ![self isFormatChoiceWithImageOptions] && ![self isFormatChoiceValuePicker]) ||
             (self.questionType == ORKQuestionTypeMultipleChoice && ![self isFormatChoiceWithImageOptions]) ||
             self.questionType == ORKQuestionTypeBoolean);
+#else
+    return ((self.questionType == ORKQuestionTypeSingleChoice) ||
+    (self.questionType == ORKQuestionTypeMultipleChoice) ||
+    self.questionType == ORKQuestionTypeBoolean);
+#endif
+
 }
 
 - (BOOL)formatRequiresTableView {
     return [self isFormatFitsChoiceCells];
-}
-
-- (NSSet<HKObjectType *> *)requestedHealthKitTypesForReading {
-    HKObjectType *objType = [[self answerFormat] healthKitObjectTypeForAuthorization];
-    return (objType != nil) ? [NSSet setWithObject:objType] : nil;
 }
 
 @end
