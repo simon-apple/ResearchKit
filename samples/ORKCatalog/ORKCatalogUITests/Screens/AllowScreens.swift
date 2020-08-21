@@ -65,10 +65,9 @@ struct AllowScreens {
             let heightTask = app.tables.staticTexts[task]
             heightTask.tap()
             
-            XCTAssert(commonElements.verifyElement(healthAccessScreen))
-            
-            sleep(2)
-            allowHealthAccess()
+            if healthAccessScreen.exists {
+                allowHealthAccess()
+            }
             
             sleep(1)
             guard let cancelButton = commonElements.cancelButton else {
