@@ -23,7 +23,7 @@ class Helpers: XCTestCase {
     }
     
     func launchAndLeave(_ task: String) -> Bool {
-        XCTAssert(verifyElement(taskScreen.mainTaskScreen))
+        
         XCTAssert(app.tables.staticTexts[task].exists, "Unable to find \(task) element")
         let currentTask = app.tables.staticTexts[task]
         currentTask.tap()
