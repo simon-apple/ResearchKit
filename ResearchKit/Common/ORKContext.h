@@ -48,6 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+ORK_CLASS_AVAILABLE
 @interface ORKEarlyTerminationContext : NSObject<ORKContext>
 
 - (instancetype)initWithButtonText:(NSString *)buttonText earlyTerminationStep:(ORKStep *)earlyTerminationStep;
