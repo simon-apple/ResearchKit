@@ -17,7 +17,6 @@
 		5DD2B46B249974AC00FF17F5 /* QuestionList1 in Resources */ = {isa = PBXBuildFile; fileRef = 5DD2B46A249974AC00FF17F5 /* QuestionList1 */; };
 		863CCD821ACF545E009FD3B4 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 863CCD811ACF545E009FD3B4 /* HealthKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		86B89AA51AB2C0A5001626A4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B89A9C1AB2C0A5001626A4 /* AppDelegate.swift */; };
-		9622282D24F04D780056E74D /* ORKCatalogUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9622282C24F04D780056E74D /* ORKCatalogUITests.swift */; };
 		9622283924F04DBF0056E74D /* TaskScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9622283824F04DBF0056E74D /* TaskScreen.swift */; };
 		9622283B24F04DFE0056E74D /* CommonElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9622283A24F04DFE0056E74D /* CommonElements.swift */; };
 		9622283D24F04E6F0056E74D /* AllowScreens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9622283C24F04E6F0056E74D /* AllowScreens.swift */; };
@@ -117,7 +116,6 @@
 		86B89A981AB2C0A5001626A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		86B89A9C1AB2C0A5001626A4 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = ORKCatalog/AppDelegate.swift; sourceTree = SOURCE_ROOT; };
 		9622282A24F04D780056E74D /* ORKCatalogUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ORKCatalogUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		9622282C24F04D780056E74D /* ORKCatalogUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ORKCatalogUITests.swift; sourceTree = "<group>"; };
 		9622282E24F04D780056E74D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9622283824F04DBF0056E74D /* TaskScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskScreen.swift; sourceTree = "<group>"; };
 		9622283A24F04DFE0056E74D /* CommonElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonElements.swift; sourceTree = "<group>"; };
@@ -238,7 +236,6 @@
 			isa = PBXGroup;
 			children = (
 				9622283724F04D850056E74D /* Screens */,
-				9622282C24F04D780056E74D /* ORKCatalogUITests.swift */,
 				9622282E24F04D780056E74D /* Info.plist */,
 				9622283E24F04EBA0056E74D /* Helpers.swift */,
 				9622284024F04EEF0056E74D /* PreSubmissionTests.swift */,
@@ -462,7 +459,6 @@
 			files = (
 				9622283924F04DBF0056E74D /* TaskScreen.swift in Sources */,
 				9622283B24F04DFE0056E74D /* CommonElements.swift in Sources */,
-				9622282D24F04D780056E74D /* ORKCatalogUITests.swift in Sources */,
 				9622284124F04EEF0056E74D /* PreSubmissionTests.swift in Sources */,
 				9622283F24F04EBA0056E74D /* Helpers.swift in Sources */,
 				9622283D24F04E6F0056E74D /* AllowScreens.swift in Sources */,
