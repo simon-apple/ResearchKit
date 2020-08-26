@@ -85,17 +85,10 @@
     <string>ResearchKit would like to read your sensor data for study related analysis.</string>
     <key>NSSensorKitUsageDetail</key>
     <dict>
-        <key>SRSensorUsageHeartRate</key>
-        <dict>
-            <key>Description</key>
-            <string>ResearchKit would like access to your heart rate data for study related analysis.</string>
-            <key>Required</key>
-            <true/>
-        </dict>
         <key>SRSensorUsageMotion</key>
         <dict>
             <key>Description</key>
-            <string>ResearchKit would like access to your heart rate data for study related analysis.</string>
+            <string>ResearchKit would like access to your device motion for study related analysis.</string>
             <key>Required</key>
             <true/>
         </dict>

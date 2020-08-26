@@ -1424,8 +1424,7 @@ enum TaskListRow: Int, CustomStringConvertible {
 
         if #available(iOS 14, *) {
             let sensorPermissionType = ORKSensorPermissionType(sensors: Set<SRSensor>([
-                .accelerometer,
-                .rotationRate
+                .accelerometer
             ]))
 
             permissionTypes.append(sensorPermissionType)
