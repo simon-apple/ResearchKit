@@ -103,4 +103,62 @@ class PreSubmissionTests: XCTestCase {
         done.tap()
         return
     }
+    
+    func testImageMultipleChoice() throws {
+        XCTAssert(helpers.verifyElement(taskScreen.mainTaskScreen))
+        
+        let task = app.tables.staticTexts["Image Choice Question"]
+        XCTAssert(task.exists, "Unable to find \(task) element")
+        task.tap()
+        
+        let required = ["Image Choice", "Additional text can go here."]
+        for item in required {
+            XCTAssert(app.scrollViews.staticTexts[item].exists, "Unable to locate the \(item) element.")
+        }
+        
+        let square = app.buttons["Square Shape"]
+        let circle = app.buttons["Round Shape"]
+        
+        XCTAssert(square.exists)
+        XCTAssert(circle.exists)
+        
+        square.tap()
+        
+        guard let next = commonElements.nextButton else {
+            XCTFail("Unable to locate the Next button")
+            return
+        }
+        
+        next.tap()
+        
+        XCTAssert(app.navigationBars["2 of 2"].exists)
+        
+        guard let back = commonElements.backButton else {
+            XCTFail("Unable to locate the Back Button")
+            return
+        }
+        back.tap()
+        
+        XCTAssert(app.navigationBars["1 of 2"].exists)
+        square.tap()
+        next.tap()
+        XCTAssertFalse(app.navigationBars["2 of 2"].exists)
+        
+        circle.tap()
+        next.tap()
+        
+        XCTAssert(app.navigationBars["2 of 2"].exists)
+        
+        square.tap()
+        circle.tap()
+        
+        guard let done = commonElements.doneButton else {
+            XCTFail("Unable to locate Done button")
+            return
+        }
+        done.tap()
+        
+        XCTAssert(helpers.verifyElement(taskScreen.mainTaskScreen))
+        return
+    }
 }
