@@ -43,7 +43,15 @@ struct CommonElements {
     }
     
     var doneButton: XCUIElement? {
-        app.tables.buttons["Done"]
+        app.buttons["Done"]
+    }
+    
+    var nextButton: XCUIElement? {
+        app.scrollViews.otherElements.staticTexts["Next"]
+    }
+    
+    var backButton: XCUIElement? {
+        app.navigationBars.buttons["Back"]
     }
     
     func getExitButton() -> XCUIElement? {
