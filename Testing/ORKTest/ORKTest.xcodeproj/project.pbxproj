@@ -9,6 +9,18 @@
 /* Begin PBXBuildFile section */
 		24D002781BA2268D001BF82F /* ORKKeychainWrapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 24D002771BA2268D001BF82F /* ORKKeychainWrapperTests.m */; };
 		335418E91B118EAD00A38F5E /* SAMPLE_PDF_TEST.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 335418E81B118EAD00A38F5E /* SAMPLE_PDF_TEST.pdf */; };
+		5D2DEA6324DB618B000A2A5B /* ORKESerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D2DEA5D24DB618A000A2A5B /* ORKESerialization.m */; };
+		5DABE56824D9CCDC00570C57 /* ORKTest (watchOS) WatchKit App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 5DABE56724D9CCDC00570C57 /* ORKTest (watchOS) WatchKit App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		5DABE56D24D9CCDF00570C57 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5DABE56C24D9CCDF00570C57 /* Assets.xcassets */; };
+		5DABE57424D9CCDF00570C57 /* ORKTest (watchOS) WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 5DABE57324D9CCDF00570C57 /* ORKTest (watchOS) WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		5DABE57924D9CCDF00570C57 /* ORKTestApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DABE57824D9CCDF00570C57 /* ORKTestApp.swift */; };
+		5DABE57B24D9CCDF00570C57 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DABE57A24D9CCDF00570C57 /* ContentView.swift */; };
+		5DABE57D24D9CCDF00570C57 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DABE57C24D9CCDF00570C57 /* NotificationController.swift */; };
+		5DABE57F24D9CCDF00570C57 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DABE57E24D9CCDF00570C57 /* NotificationView.swift */; };
+		5DABE58124D9CCDF00570C57 /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DABE58024D9CCDF00570C57 /* ComplicationController.swift */; };
+		5DABE58324D9CCE000570C57 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5DABE58224D9CCE000570C57 /* Assets.xcassets */; };
+		5DABE58624D9CCE000570C57 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5DABE58524D9CCE000570C57 /* Preview Assets.xcassets */; };
+		5DABE59724D9E55C00570C57 /* ResearchKitCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DABE55B24D8C17C00570C57 /* ResearchKitCore.framework */; };
 		712977A922B0917A0049213B /* ResearchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 712977A622B091500049213B /* ResearchKit.framework */; };
 		712977AA22B0917A0049213B /* ResearchKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 712977A622B091500049213B /* ResearchKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		866DA52E1D63D1EE00C9AF3F /* ORKDataCollectionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 866DA52D1D63D1EE00C9AF3F /* ORKDataCollectionTests.m */; };
@@ -20,7 +32,6 @@
 		86717AEA1AC0C53800AC2A23 /* image_example.png in Resources */ = {isa = PBXBuildFile; fileRef = 86717AE01AC0C53800AC2A23 /* image_example.png */; };
 		86717AED1AC0C53800AC2A23 /* signature.png in Resources */ = {isa = PBXBuildFile; fileRef = 86717AE31AC0C53800AC2A23 /* signature.png */; };
 		86717AFD1AC0C86000AC2A23 /* ORKJSONSerializationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 86717AFC1AC0C86000AC2A23 /* ORKJSONSerializationTests.m */; };
-		86717AFE1AC0C8BC00AC2A23 /* ORKESerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 86717AD81AC0C53800AC2A23 /* ORKESerialization.m */; };
 		86717B071AC0CC0400AC2A23 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 86717B091AC0CC0400AC2A23 /* Localizable.strings */; };
 		86D347FA1AC0E1B4006DB02B /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86D347F91AC0E1B4006DB02B /* HealthKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		B119F055229BD4B6001402F9 /* samples.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B119F054229BD4B6001402F9 /* samples.bundle */; };
@@ -47,6 +58,27 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		5DABE55A24D8C17C00570C57 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7129779F22B091500049213B /* ResearchKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5DABE54824D8BF2400570C57;
+			remoteInfo = "ResearchKitCore (watchOS)";
+		};
+		5DABE56924D9CCDC00570C57 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 86717A821AC0C0FE00AC2A23 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5DABE56624D9CCDC00570C57;
+			remoteInfo = "ORKTest (watchOS) WatchKit App";
+		};
+		5DABE57524D9CCDF00570C57 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 86717A821AC0C0FE00AC2A23 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5DABE57224D9CCDF00570C57;
+			remoteInfo = "ORKTest (watchOS) WatchKit Extension";
+		};
 		712977A522B091500049213B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7129779F22B091500049213B /* ResearchKit.xcodeproj */;
@@ -71,6 +103,38 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		5DABE58C24D9CCE000570C57 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				5DABE57424D9CCDF00570C57 /* ORKTest (watchOS) WatchKit Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5DABE59024D9CCE000570C57 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				5DABE56824D9CCDC00570C57 /* ORKTest (watchOS) WatchKit App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		71B4927C24981533001F9598 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BC2A3CE31C58F1EE00DA64B7 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -87,6 +151,22 @@
 /* Begin PBXFileReference section */
 		24D002771BA2268D001BF82F /* ORKKeychainWrapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKKeychainWrapperTests.m; sourceTree = "<group>"; };
 		335418E81B118EAD00A38F5E /* SAMPLE_PDF_TEST.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = SAMPLE_PDF_TEST.pdf; sourceTree = "<group>"; };
+		5D2DEA5D24DB618A000A2A5B /* ORKESerialization.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKESerialization.m; sourceTree = "<group>"; };
+		5D2DEA6224DB618B000A2A5B /* ORKESerialization.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKESerialization.h; sourceTree = "<group>"; };
+		5DABE56424D9CCDC00570C57 /* ORKTest (watchOS).app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ORKTest (watchOS).app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5DABE56724D9CCDC00570C57 /* ORKTest (watchOS) WatchKit App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ORKTest (watchOS) WatchKit App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5DABE56C24D9CCDF00570C57 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		5DABE56E24D9CCDF00570C57 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5DABE57324D9CCDF00570C57 /* ORKTest (watchOS) WatchKit Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "ORKTest (watchOS) WatchKit Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5DABE57824D9CCDF00570C57 /* ORKTestApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ORKTestApp.swift; sourceTree = "<group>"; };
+		5DABE57A24D9CCDF00570C57 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		5DABE57C24D9CCDF00570C57 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
+		5DABE57E24D9CCDF00570C57 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
+		5DABE58024D9CCDF00570C57 /* ComplicationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplicationController.swift; sourceTree = "<group>"; };
+		5DABE58224D9CCE000570C57 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		5DABE58524D9CCE000570C57 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		5DABE58724D9CCE000570C57 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5DABE58824D9CCE000570C57 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
 		7129779F22B091500049213B /* ResearchKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ResearchKit.xcodeproj; path = ../../ResearchKit.xcodeproj; sourceTree = "<group>"; };
 		866DA52D1D63D1EE00C9AF3F /* ORKDataCollectionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKDataCollectionTests.m; sourceTree = "<group>"; };
 		86717A8A1AC0C0FE00AC2A23 /* ORKTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ORKTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -99,12 +179,10 @@
 		86717AA31AC0C0FE00AC2A23 /* ORKTestTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ORKTestTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		86717AA81AC0C0FE00AC2A23 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		86717AD71AC0C53800AC2A23 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
-		86717AD81AC0C53800AC2A23 /* ORKESerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKESerialization.m; sourceTree = "<group>"; };
 		86717ADE1AC0C53800AC2A23 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		86717AE01AC0C53800AC2A23 /* image_example.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = image_example.png; sourceTree = "<group>"; };
 		86717AE31AC0C53800AC2A23 /* signature.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = signature.png; sourceTree = "<group>"; };
 		86717AFC1AC0C86000AC2A23 /* ORKJSONSerializationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKJSONSerializationTests.m; sourceTree = "<group>"; };
-		86717AFF1AC0C93E00AC2A23 /* ORKESerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKESerialization.h; sourceTree = "<group>"; };
 		86717B081AC0CC0400AC2A23 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		86717B0A1AC0CC1A00AC2A23 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		86717B0B1AC0CC1C00AC2A23 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -185,6 +263,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		5DABE57024D9CCDF00570C57 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5DABE59724D9E55C00570C57 /* ResearchKitCore.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		86717A871AC0C0FE00AC2A23 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -205,11 +291,45 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5DABE56B24D9CCDC00570C57 /* ORKTest (watchOS) WatchKit App */ = {
+			isa = PBXGroup;
+			children = (
+				5DABE56C24D9CCDF00570C57 /* Assets.xcassets */,
+				5DABE56E24D9CCDF00570C57 /* Info.plist */,
+			);
+			path = "ORKTest (watchOS) WatchKit App";
+			sourceTree = "<group>";
+		};
+		5DABE57724D9CCDF00570C57 /* ORKTest (watchOS) WatchKit Extension */ = {
+			isa = PBXGroup;
+			children = (
+				5DABE57824D9CCDF00570C57 /* ORKTestApp.swift */,
+				5DABE57A24D9CCDF00570C57 /* ContentView.swift */,
+				5DABE57C24D9CCDF00570C57 /* NotificationController.swift */,
+				5DABE57E24D9CCDF00570C57 /* NotificationView.swift */,
+				5DABE58024D9CCDF00570C57 /* ComplicationController.swift */,
+				5DABE58224D9CCE000570C57 /* Assets.xcassets */,
+				5DABE58724D9CCE000570C57 /* Info.plist */,
+				5DABE58824D9CCE000570C57 /* PushNotificationPayload.apns */,
+				5DABE58424D9CCE000570C57 /* Preview Content */,
+			);
+			path = "ORKTest (watchOS) WatchKit Extension";
+			sourceTree = "<group>";
+		};
+		5DABE58424D9CCE000570C57 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				5DABE58524D9CCE000570C57 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
 		712977A022B091500049213B /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				712977A622B091500049213B /* ResearchKit.framework */,
 				712977A822B091500049213B /* ResearchKitTests.xctest */,
+				5DABE55B24D8C17C00570C57 /* ResearchKitCore.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -219,6 +339,8 @@
 			children = (
 				7129779F22B091500049213B /* ResearchKit.xcodeproj */,
 				BC2A3CA01C58E85D00DA64B7 /* README.md */,
+				5DABE56B24D9CCDC00570C57 /* ORKTest (watchOS) WatchKit App */,
+				5DABE57724D9CCDF00570C57 /* ORKTest (watchOS) WatchKit Extension */,
 				BC2A3C9F1C58E83B00DA64B7 /* Frameworks */,
 				86717A8C1AC0C0FE00AC2A23 /* ORKTest */,
 				86717AA61AC0C0FE00AC2A23 /* ORKTestTests */,
@@ -231,6 +353,9 @@
 			children = (
 				86717A8A1AC0C0FE00AC2A23 /* ORKTest.app */,
 				86717AA31AC0C0FE00AC2A23 /* ORKTestTests.xctest */,
+				5DABE56424D9CCDC00570C57 /* ORKTest (watchOS).app */,
+				5DABE56724D9CCDC00570C57 /* ORKTest (watchOS) WatchKit App.app */,
+				5DABE57324D9CCDF00570C57 /* ORKTest (watchOS) WatchKit Extension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -264,10 +389,10 @@
 		86717AA61AC0C0FE00AC2A23 /* ORKTestTests */ = {
 			isa = PBXGroup;
 			children = (
+				5D2DEA6224DB618B000A2A5B /* ORKESerialization.h */,
+				5D2DEA5D24DB618A000A2A5B /* ORKESerialization.m */,
 				B119F054229BD4B6001402F9 /* samples.bundle */,
 				866DA52D1D63D1EE00C9AF3F /* ORKDataCollectionTests.m */,
-				86717AFF1AC0C93E00AC2A23 /* ORKESerialization.h */,
-				86717AD81AC0C53800AC2A23 /* ORKESerialization.m */,
 				86717AFC1AC0C86000AC2A23 /* ORKJSONSerializationTests.m */,
 				24D002771BA2268D001BF82F /* ORKKeychainWrapperTests.m */,
 				86717AA71AC0C0FE00AC2A23 /* Supporting Files */,
@@ -361,6 +486,57 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		5DABE56324D9CCDC00570C57 /* ORKTest (watchOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5DABE59124D9CCE000570C57 /* Build configuration list for PBXNativeTarget "ORKTest (watchOS)" */;
+			buildPhases = (
+				5DABE56224D9CCDC00570C57 /* Resources */,
+				5DABE59024D9CCE000570C57 /* Embed Watch Content */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5DABE56A24D9CCDC00570C57 /* PBXTargetDependency */,
+			);
+			name = "ORKTest (watchOS)";
+			productName = "ORKTest (watchOS)";
+			productReference = 5DABE56424D9CCDC00570C57 /* ORKTest (watchOS).app */;
+			productType = "com.apple.product-type.application.watchapp2-container";
+		};
+		5DABE56624D9CCDC00570C57 /* ORKTest (watchOS) WatchKit App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5DABE58D24D9CCE000570C57 /* Build configuration list for PBXNativeTarget "ORKTest (watchOS) WatchKit App" */;
+			buildPhases = (
+				5DABE56524D9CCDC00570C57 /* Resources */,
+				5DABE58C24D9CCE000570C57 /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5DABE57624D9CCDF00570C57 /* PBXTargetDependency */,
+			);
+			name = "ORKTest (watchOS) WatchKit App";
+			productName = "ORKTest (watchOS) WatchKit App";
+			productReference = 5DABE56724D9CCDC00570C57 /* ORKTest (watchOS) WatchKit App.app */;
+			productType = "com.apple.product-type.application.watchapp2";
+		};
+		5DABE57224D9CCDF00570C57 /* ORKTest (watchOS) WatchKit Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5DABE58924D9CCE000570C57 /* Build configuration list for PBXNativeTarget "ORKTest (watchOS) WatchKit Extension" */;
+			buildPhases = (
+				5DABE56F24D9CCDF00570C57 /* Sources */,
+				5DABE57024D9CCDF00570C57 /* Frameworks */,
+				5DABE57124D9CCDF00570C57 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "ORKTest (watchOS) WatchKit Extension";
+			productName = "ORKTest (watchOS) WatchKit Extension";
+			productReference = 5DABE57324D9CCDF00570C57 /* ORKTest (watchOS) WatchKit Extension.appex */;
+			productType = "com.apple.product-type.watchkit2-extension";
+		};
 		86717A891AC0C0FE00AC2A23 /* ORKTest */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 86717AAD1AC0C0FE00AC2A23 /* Build configuration list for PBXNativeTarget "ORKTest" */;
@@ -369,6 +545,7 @@
 				86717A871AC0C0FE00AC2A23 /* Frameworks */,
 				86717A881AC0C0FE00AC2A23 /* Resources */,
 				BC2A3CE31C58F1EE00DA64B7 /* Embed Frameworks */,
+				71B4927C24981533001F9598 /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
@@ -407,6 +584,21 @@
 				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = ResearchKit;
 				TargetAttributes = {
+					5DABE56324D9CCDC00570C57 = {
+						CreatedOnToolsVersion = 12.0;
+						DevelopmentTeam = 7JYUG8QGJ3;
+						ProvisioningStyle = Automatic;
+					};
+					5DABE56624D9CCDC00570C57 = {
+						CreatedOnToolsVersion = 12.0;
+						DevelopmentTeam = 7JYUG8QGJ3;
+						ProvisioningStyle = Automatic;
+					};
+					5DABE57224D9CCDF00570C57 = {
+						CreatedOnToolsVersion = 12.0;
+						DevelopmentTeam = 7JYUG8QGJ3;
+						ProvisioningStyle = Automatic;
+					};
 					86717A891AC0C0FE00AC2A23 = {
 						CreatedOnToolsVersion = 6.2;
 						LastSwiftMigration = 1020;
@@ -493,11 +685,21 @@
 			targets = (
 				86717A891AC0C0FE00AC2A23 /* ORKTest */,
 				86717AA21AC0C0FE00AC2A23 /* ORKTestTests */,
+				5DABE56324D9CCDC00570C57 /* ORKTest (watchOS) */,
+				5DABE56624D9CCDC00570C57 /* ORKTest (watchOS) WatchKit App */,
+				5DABE57224D9CCDF00570C57 /* ORKTest (watchOS) WatchKit Extension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		5DABE55B24D8C17C00570C57 /* ResearchKitCore.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = ResearchKitCore.framework;
+			remoteRef = 5DABE55A24D8C17C00570C57 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		712977A622B091500049213B /* ResearchKit.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -515,6 +717,30 @@
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
+		5DABE56224D9CCDC00570C57 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5DABE56524D9CCDC00570C57 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5DABE56D24D9CCDF00570C57 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5DABE57124D9CCDF00570C57 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5DABE58624D9CCE000570C57 /* Preview Assets.xcassets in Resources */,
+				5DABE58324D9CCE000570C57 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		86717A881AC0C0FE00AC2A23 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -541,6 +767,18 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		5DABE56F24D9CCDF00570C57 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5DABE57D24D9CCDF00570C57 /* NotificationController.swift in Sources */,
+				5DABE57B24D9CCDF00570C57 /* ContentView.swift in Sources */,
+				5DABE58124D9CCDF00570C57 /* ComplicationController.swift in Sources */,
+				5DABE57924D9CCDF00570C57 /* ORKTestApp.swift in Sources */,
+				5DABE57F24D9CCDF00570C57 /* NotificationView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		86717A861AC0C0FE00AC2A23 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -573,8 +811,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				86717AFD1AC0C86000AC2A23 /* ORKJSONSerializationTests.m in Sources */,
+				5D2DEA6324DB618B000A2A5B /* ORKESerialization.m in Sources */,
 				866DA52E1D63D1EE00C9AF3F /* ORKDataCollectionTests.m in Sources */,
-				86717AFE1AC0C8BC00AC2A23 /* ORKESerialization.m in Sources */,
 				24D002781BA2268D001BF82F /* ORKKeychainWrapperTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -582,6 +820,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		5DABE56A24D9CCDC00570C57 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5DABE56624D9CCDC00570C57 /* ORKTest (watchOS) WatchKit App */;
+			targetProxy = 5DABE56924D9CCDC00570C57 /* PBXContainerItemProxy */;
+		};
+		5DABE57624D9CCDF00570C57 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5DABE57224D9CCDF00570C57 /* ORKTest (watchOS) WatchKit Extension */;
+			targetProxy = 5DABE57524D9CCDF00570C57 /* PBXContainerItemProxy */;
+		};
 		86717AA51AC0C0FE00AC2A23 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 86717A891AC0C0FE00AC2A23 /* ORKTest */;
@@ -650,6 +898,190 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		5DABE58A24D9CCE000570C57 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_ASSET_PATHS = "\"ORKTest (watchOS) WatchKit Extension/Preview Content\"";
+				DEVELOPMENT_TEAM = 7JYUG8QGJ3;
+				ENABLE_PREVIEWS = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				INFOPLIST_FILE = "ORKTest (watchOS) WatchKit Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.apple.ORKTest--watchOS-.watchkitapp.watchkitextension";
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 7.0;
+			};
+			name = Debug;
+		};
+		5DABE58B24D9CCE000570C57 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_ASSET_PATHS = "\"ORKTest (watchOS) WatchKit Extension/Preview Content\"";
+				DEVELOPMENT_TEAM = 7JYUG8QGJ3;
+				ENABLE_PREVIEWS = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = "ORKTest (watchOS) WatchKit Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.apple.ORKTest--watchOS-.watchkitapp.watchkitextension";
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 7.0;
+			};
+			name = Release;
+		};
+		5DABE58E24D9CCE000570C57 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 7JYUG8QGJ3;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				IBSC_MODULE = ORKTest__watchOS__WatchKit_Extension;
+				INFOPLIST_FILE = "ORKTest (watchOS) WatchKit App/Info.plist";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.apple.ORKTest--watchOS-.watchkitapp";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 7.0;
+			};
+			name = Debug;
+		};
+		5DABE58F24D9CCE000570C57 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 7JYUG8QGJ3;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				IBSC_MODULE = ORKTest__watchOS__WatchKit_Extension;
+				INFOPLIST_FILE = "ORKTest (watchOS) WatchKit App/Info.plist";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.apple.ORKTest--watchOS-.watchkitapp";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 7.0;
+			};
+			name = Release;
+		};
+		5DABE59224D9CCE000570C57 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 7JYUG8QGJ3;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.apple.ORKTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		5DABE59324D9CCE000570C57 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 7JYUG8QGJ3;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.apple.ORKTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 		86717AAB1AC0C0FE00AC2A23 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -833,6 +1265,33 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		5DABE58924D9CCE000570C57 /* Build configuration list for PBXNativeTarget "ORKTest (watchOS) WatchKit Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5DABE58A24D9CCE000570C57 /* Debug */,
+				5DABE58B24D9CCE000570C57 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5DABE58D24D9CCE000570C57 /* Build configuration list for PBXNativeTarget "ORKTest (watchOS) WatchKit App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5DABE58E24D9CCE000570C57 /* Debug */,
+				5DABE58F24D9CCE000570C57 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5DABE59124D9CCE000570C57 /* Build configuration list for PBXNativeTarget "ORKTest (watchOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5DABE59224D9CCE000570C57 /* Debug */,
+				5DABE59324D9CCE000570C57 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		86717A851AC0C0FE00AC2A23 /* Build configuration list for PBXProject "ORKTest" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

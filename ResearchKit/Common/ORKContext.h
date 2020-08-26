@@ -30,7 +30,11 @@
 
 @import Foundation;
 
+#if TARGET_OS_IOS
 #import <ResearchKit/ORKStep.h>
+#elif TARGET_OS_WATCH
+#import <ResearchKitCore/ORKStep.h>
+#endif
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -44,6 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+ORK_CLASS_AVAILABLE
 @interface ORKEarlyTerminationContext : NSObject<ORKContext>
 
 - (instancetype)initWithButtonText:(NSString *)buttonText earlyTerminationStep:(ORKStep *)earlyTerminationStep;

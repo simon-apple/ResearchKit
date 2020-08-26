@@ -29,20 +29,20 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 #import "ORKOrderedTask.h"
-#import "ORKFormStep.h"
 #import "ORKQuestionStep.h"
-#import "ORKFormStepViewController.h"
 #import "ORKAnswerFormat.h"
 #import "ORKInstructionStep.h"
 #import "ORKCompletionStep.h"
-#import "ORKFormItem_Internal.h"
-
-#import "ORKActiveStep_Internal.h"
 #import "ORKStep_Private.h"
 #import "ORKHelpers_Internal.h"
 #import "ORKSkin.h"
+#if TARGET_OS_IOS
+#import "ORKFormStep.h"
+#import "ORKFormStepViewController.h"
+#import "ORKFormItem_Internal.h"
+#import "ORKActiveStep_Internal.h"
+#endif
 
 @implementation ORKOrderedTask {
     NSString *_identifier;
@@ -247,6 +247,7 @@
     int currentStepStartingProgressNumber = 0;
     
     for (ORKStep *step in self.steps) {
+#if TARGET_OS_IOS
         if ([step isKindOfClass:[ORKFormStep class]]) {
             ORKFormStep *formStep = (ORKFormStep *)step;
             if (formStep.identifier == currentStep.identifier) {
@@ -260,6 +261,14 @@
             }
             totalQuestions += 1;
         }
+#else
+        if ([step isKindOfClass:[ORKQuestionStep class]]) {
+            if (step.identifier == currentStep.identifier) {
+                currentStepStartingProgressNumber = (totalQuestions + 1);
+            }
+            totalQuestions += 1;
+        }
+#endif
     }
     
     totalProgress.currentStepStartingProgressPosition = currentStepStartingProgressNumber;
@@ -268,6 +277,7 @@
     return totalProgress;
 }
 
+#if TARGET_OS_IOS
 - (NSMutableArray *)calculateSectionsForFormItems:(NSArray *)formItems {
     NSMutableArray<NSMutableArray *> *_sections = [NSMutableArray new];
     NSMutableArray *section = nil;
@@ -348,6 +358,22 @@
     return NO;
 }
 
+- (BOOL)providesBackgroundAudioPrompts {
+    BOOL providesAudioPrompts = NO;
+    for (ORKStep *step in self.steps) {
+        if ([step isKindOfClass:[ORKActiveStep class]]) {
+            ORKActiveStep *activeStep = (ORKActiveStep *)step;
+            if ([activeStep hasVoice] || [activeStep hasCountDown]) {
+                providesAudioPrompts = YES;
+                break;
+            }
+        }
+    }
+    return providesAudioPrompts;
+}
+
+#endif
+
 - (NSSet *)requestedHealthKitTypesForReading {
     NSMutableSet *healthTypes = [NSMutableSet set];
     for (ORKStep *step in self.steps) {
@@ -369,20 +395,6 @@
         mask |= [step requestedPermissions];
     }
     return mask;
-}
-
-- (BOOL)providesBackgroundAudioPrompts {
-    BOOL providesAudioPrompts = NO;
-    for (ORKStep *step in self.steps) {
-        if ([step isKindOfClass:[ORKActiveStep class]]) {
-            ORKActiveStep *activeStep = (ORKActiveStep *)step;
-            if ([activeStep hasVoice] || [activeStep hasCountDown]) {
-                providesAudioPrompts = YES;
-                break;
-            }
-        }
-    }
-    return providesAudioPrompts;
 }
 
 #pragma mark - NSSecureCoding

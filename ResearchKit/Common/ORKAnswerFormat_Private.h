@@ -57,6 +57,7 @@ ORK_EXTERN id ORKNullAnswerValue(void) ORK_AVAILABLE_DECL;
  
  An `ORKConfirmTextAnswerFormat` object produces an `ORKBooleanQuestionResult` object.
  */
+#if TARGET_OS_IOS
 ORK_CLASS_AVAILABLE
 @interface ORKConfirmTextAnswerFormat : ORKTextAnswerFormat
 
@@ -91,5 +92,6 @@ ORK_CLASS_AVAILABLE
 @property (nonatomic, copy, readonly) NSString *errorMessage;
 
 @end
+#endif
 
 NS_ASSUME_NONNULL_END

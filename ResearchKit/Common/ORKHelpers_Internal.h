@@ -31,9 +31,16 @@
 
 
 @import UIKit;
+
+#if TARGET_OS_IOS
 #import <ResearchKit/ORKTypes.h>
 #import <ResearchKit/ORKHelpers_Private.h>
 #import <ResearchKit/ORKErrors.h>
+#elif TARGET_OS_WATCH
+#import <ResearchKitCore/ORKTypes.h>
+#import <ResearchKitCore/ORKHelpers_Private.h>
+#import <ResearchKitCore/ORKErrors.h>
+#endif
 #import <Foundation/Foundation.h>
 #import <os/log.h>
 
@@ -170,7 +177,9 @@ NSURL *ORKCreateRandomBaseURL(void);
 // Marked extern so it is accessible to unit tests
 ORK_EXTERN NSString *ORKFileProtectionFromMode(ORKFileProtectionMode mode);
 
+#if TARGET_OS_IOS
 CGFloat ORKExpectedLabelHeight(UILabel *label);
+#endif
 
 // build a image with color
 UIImage *ORKImageWithColor(UIColor *color);
@@ -191,7 +200,9 @@ BOOL ORKCurrentLocalePresentsFamilyNameFirst(void);
 UIFont *ORKTimeFontForSize(CGFloat size);
 UIFontDescriptor *ORKFontDescriptorForLightStylisticAlternative(UIFontDescriptor *descriptor);
 
+#if TARGET_OS_IOS
 CGFloat ORKFloorToViewScale(CGFloat value, UIView *view);
+#endif
 
 ORK_INLINE bool
 ORKEqualObjects(id o1, id o2) {
@@ -269,7 +280,9 @@ extern const double ORKDoubleInvalidValue;
 
 extern const CGFloat ORKCGFloatInvalidValue;
 
+#if TARGET_OS_IOS
 void ORKAdjustPageViewControllerNavigationDirectionForRTL(UIPageViewControllerNavigationDirection *direction);
+#endif
 
 NSString *ORKPaddingWithNumberOfSpaces(NSUInteger numberOfPaddingSpaces);
 

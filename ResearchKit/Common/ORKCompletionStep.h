@@ -30,9 +30,13 @@
 
 
 @import Foundation;
+
+#if TARGET_OS_WATCH
+#import <ResearchKitCore/ORKInstructionStep.h>
+#else
 #import <ResearchKit/ORKInstructionStep.h>
 #import <ResearchKit/ORKTaskViewController.h>
-
+#endif
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -41,11 +45,19 @@ NS_ASSUME_NONNULL_BEGIN
  an instruction step, but includes animated imagery that thanks the user
  for participating in the task.
  */
-ORK_CLASS_AVAILABLE
+ORK_CLASS_AVAILABLE API_AVAILABLE(ios(11.0), watchos(6.0))
 @interface ORKCompletionStep : ORKInstructionStep
+
+@end
+
+#if TARGET_OS_IOS
+
+@interface ORKCompletionStep ()
 
 @property (nonatomic) ORKTaskViewControllerFinishReason reasonForCompletion;
 
 @end
+
+#endif
 
 NS_ASSUME_NONNULL_END
