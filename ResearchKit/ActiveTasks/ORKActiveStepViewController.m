@@ -336,14 +336,18 @@
     // Start recorders
     for (ORKRecorder *recorder in self.recorders) {
         [recorder viewController:self willStartStepWithView:self.customViewContainer];
-        [recorder start];
+        dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+            [recorder start];
+        });
     }
 }
 
 - (void)stopRecorders {
     [self recordersWillStop];
     for (ORKRecorder *recorder in self.recorders) {
-        [recorder stop];
+        dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+            [recorder stop];
+        });
     }
 }
 
