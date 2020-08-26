@@ -62,9 +62,10 @@ struct AllowScreens {
         XCTAssert(commonElements.verifyElement(taskScreen.mainTaskScreen))
 
         for task in healthTriggers {
-            let heightTask = app.tables.staticTexts[task]
-            heightTask.tap()
+            let healthTask = app.tables.staticTexts[task]
+            healthTask.tap()
             
+            sleep(2)
             if healthAccessScreen.exists {
                 allowHealthAccess()
             }
