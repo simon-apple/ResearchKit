@@ -79,4 +79,28 @@ class PreSubmissionTests: XCTestCase {
         return
     }
 
+    func testWrittenMultipleChoice() throws {
+        XCTAssert(helpers.verifyElement(taskScreen.mainTaskScreen))
+        let options = ["Choice 1", "Choice 2", "Choice 3", "Other"]
+        let task = app.tables.staticTexts["Text Choice Question"]
+        let required = ["Text Choice", "Additional text can go here.", "Your question here."]
+        
+        XCTAssert(task.exists, "Unable to find \(task) element")
+        task.tap()
+        
+        for item in required {
+            XCTAssert(app.tables.staticTexts[item].exists, "Unable to locate the \(item) element.")
+        }
+        
+        let choice = app.tables.staticTexts[options.randomElement()!]
+        XCTAssert(choice.exists, "Unable to find \(choice) element")
+        choice.tap()
+
+        guard let done = commonElements.doneButton else {
+            XCTFail("Unable to find the Done button")
+            return
+        }
+        done.tap()
+        return
+    }
 }
