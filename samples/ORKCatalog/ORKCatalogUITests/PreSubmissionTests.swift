@@ -161,7 +161,7 @@ class PreSubmissionTests: XCTestCase {
         XCTAssert(helpers.verifyElement(taskScreen.mainTaskScreen))
         return
     }
-    
+  
     func testSQPickerWheel() throws {
         XCTAssert(helpers.verifyElement(taskScreen.mainTaskScreen))
         
