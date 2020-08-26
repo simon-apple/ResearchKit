@@ -81,7 +81,7 @@ struct TaskScreen {
     "Timed Walk with Turn Around",
     "Tone Audiometry",
     "dBHL Tone Audiometry",
-    "Environment SPL Meter",
+    //"Environment SPL Meter",
     "Tower of Hanoi",
     "Tremor Test",
     "Two Finger Tapping Interval",
