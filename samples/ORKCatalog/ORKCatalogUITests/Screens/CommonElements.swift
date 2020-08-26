@@ -54,6 +54,10 @@ struct CommonElements {
         app.navigationBars.buttons["Back"]
     }
     
+    var skipButton: XCUIElement? {
+        app.scrollViews.otherElements.staticTexts["Skip"]
+    }
+    
     func getExitButton() -> XCUIElement? {
         let otherElements = app.sheets.scrollViews.otherElements
         if otherElements.buttons["Discard Results"].exists {
