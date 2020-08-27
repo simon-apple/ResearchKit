@@ -41,7 +41,7 @@
 @end
 
 @implementation ORKSensorPermissionType {
-    NSMutableSet<SRSensorReader *> *_readers;
+    NSSet<SRSensorReader *> *_readers;
 }
 
 + (instancetype)new {
@@ -57,11 +57,12 @@
     self = [super init];
     if (self) {
         self.sensors = sensors;
-        _readers = [[NSMutableSet alloc] init];
+        NSMutableSet *readers = [[NSMutableSet alloc] init];
         for (SRSensor sensor in sensors) {
             SRSensorReader *reader = [[SRSensorReader alloc] initWithSensor:sensor];
-            [_readers addObject:reader];
+            [readers addObject:reader];
         }
+        _readers = [readers copy];
         [self setupCardView];
     }
     return self;
@@ -94,7 +95,7 @@
 - (void)requestPermissionButtonPressed {
     [SRSensorReader requestAuthorizationForSensors:self.sensors completion:^(NSError * _Nullable error) {
         if (error) {
-            NSLog(@"Error requesting sensor permissions: %@", error);
+            ORK_Log_Error("Error requesting sensor permissions: %@", error);
             return;
         }
         [self setRequestPermissionRequested:YES];

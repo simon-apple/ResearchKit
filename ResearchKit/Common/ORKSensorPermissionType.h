@@ -30,7 +30,7 @@
 
 #import <ResearchKit/ORKDefines.h>
 #import <ResearchKit/ORKPermissionType.h>
-#import <SensorKit/SensorKit.h>
+
 NS_ASSUME_NONNULL_BEGIN
 
 API_AVAILABLE(ios(14.0))
