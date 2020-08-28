@@ -710,6 +710,12 @@
 "REQUEST_NOTIFICATIONS_STEP_BUTTON_STATE_DEFAULT" = "Review Request";
 "REQUEST_NOTIFICATIONS_STEP_BUTTON_STATE_CONNECTED" = "Requested";
 
+/* Request Sensor Permission Step */
+"REQUEST_SENSOR_STEP_VIEW_TITLE" = "Sensor Data";
+"REQUEST_SENSOR_STEP_VIEW_DESCRIPTION" = "The study is requesting access to sensor data";
+"REQUEST_SENSOR_STEP_BUTTON_STATE_DEFAULT" = "Review Request";
+"REQUEST_SENSOR_STEP_BUTTON_STATE_CONNECTED" = "Requested";
+
 /* Accessibility */
 "AX_BUTTON_BACK" = "Back";
 "AX_BUTTON_SHOW_PDF_THUMBNAIL" = "Show PDF Thumbnail";
