@@ -1401,42 +1401,29 @@ enum TaskListRow: Int, CustomStringConvertible {
     
     private var requestPermissionsTask: ORKTask {
 
-        var permissionTypes = [ORKPermissionType]()
-
         let notificationsPermissionType = ORKNotificationPermissionType(authorizationOptions: [.alert, .badge, .sound])
-        permissionTypes.append(notificationsPermissionType)
-
 
         let healthKitTypesToWrite: Set<HKSampleType> = [
             HKObjectType.quantityType(forIdentifier: .bodyMassIndex)!,
             HKObjectType.quantityType(forIdentifier: .activeEnergyBurned)!,
             HKObjectType.workoutType()]
-        
+
         let healthKitTypesToRead: Set<HKObjectType> = [
             HKObjectType.characteristicType(forIdentifier: .dateOfBirth)!,
             HKObjectType.characteristicType(forIdentifier: .bloodType)!,
             HKObjectType.workoutType()]
-        
-        
+
+
         let healthKitPermissionType = ORKHealthKitPermissionType(sampleTypesToWrite: healthKitTypesToWrite,
                                                                  objectTypesToRead: healthKitTypesToRead)
-        permissionTypes.append(healthKitPermissionType)
-
-        if #available(iOS 14, *) {
-            let sensorPermissionType = ORKSensorPermissionType(sensors: Set<SRSensor>([
-                SRSensor(rawValue: "SRSensorAccelerometer")
-            ]))
-
-            permissionTypes.append(sensorPermissionType)
-        }
 
         let requestPermissionsStep = ORKRequestPermissionsStep(
             identifier: String(describing: Identifier.requestPermissionsStep),
-            permissionTypes: permissionTypes)
-       
+            permissionTypes: [notificationsPermissionType, healthKitPermissionType])
+
         requestPermissionsStep.title = "Health Data Request"
         requestPermissionsStep.text = "Please review the health data types below and enable sharing to contribute to the study."
-        
+
         return ORKOrderedTask(identifier: String(describing: Identifier.requestPermissionsStep), steps: [requestPermissionsStep])
     }
     
