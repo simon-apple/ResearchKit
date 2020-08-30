@@ -28,8 +28,13 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#if TARGET_OS_WATCH
+#import <ResearchKitCore/ORKStep.h>
+#import <ResearchKitCore/ORKContext.h>
+#elif TARGET_OS_IOS
 #import <ResearchKit/ORKStep.h>
 #import <ResearchKit/ORKContext.h>
+#endif
 
 NS_ASSUME_NONNULL_BEGIN
 

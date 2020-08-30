@@ -29,6 +29,10 @@
 		00C2668F23022CD400337E0B /* ORKCustomStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 00C2668D23022CD400337E0B /* ORKCustomStep.m */; };
 		031A0FC124CF4ECD000E4455 /* ORKSensorPermissionType.h in Headers */ = {isa = PBXBuildFile; fileRef = 031A0FBF24CF4ECD000E4455 /* ORKSensorPermissionType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		031A0FC224CF4ECD000E4455 /* ORKSensorPermissionType.m in Sources */ = {isa = PBXBuildFile; fileRef = 031A0FC024CF4ECD000E4455 /* ORKSensorPermissionType.m */; };
+		00F189CB24F5B45300371E9C /* ORKStep_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40BBB1A8D7C5C00081FAC /* ORKStep_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		00F189CC24F5B46100371E9C /* ORKAnswerFormat_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 244EFAD11BCEFD83001850D9 /* ORKAnswerFormat_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		00F189CD24F5B46800371E9C /* ORKFormStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40B821A8D7C5C00081FAC /* ORKFormStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		00F189CE24F5B46F00371E9C /* ORKQuestionResult_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = FF919A5B1E81C63B005C2A1E /* ORKQuestionResult_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		03EDD58024CA6B1D006245E9 /* ORKNotificationPermissionType.h in Headers */ = {isa = PBXBuildFile; fileRef = 03EDD57E24CA6B1D006245E9 /* ORKNotificationPermissionType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		03EDD58124CA6B1D006245E9 /* ORKNotificationPermissionType.m in Sources */ = {isa = PBXBuildFile; fileRef = 03EDD57F24CA6B1D006245E9 /* ORKNotificationPermissionType.m */; };
 		106FF29E1B663FCE004EACF2 /* ORKHolePegTestPlaceStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 106FF29C1B663FCE004EACF2 /* ORKHolePegTestPlaceStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -989,6 +993,7 @@
 		00C2668D23022CD400337E0B /* ORKCustomStep.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKCustomStep.m; sourceTree = "<group>"; };
 		031A0FBF24CF4ECD000E4455 /* ORKSensorPermissionType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKSensorPermissionType.h; sourceTree = "<group>"; };
 		031A0FC024CF4ECD000E4455 /* ORKSensorPermissionType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKSensorPermissionType.m; sourceTree = "<group>"; };
+		00F189C824F59EC700371E9C /* ResearchKitCore.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = ResearchKitCore.modulemap; sourceTree = "<group>"; };
 		03EDD57E24CA6B1D006245E9 /* ORKNotificationPermissionType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKNotificationPermissionType.h; sourceTree = "<group>"; };
 		03EDD57F24CA6B1D006245E9 /* ORKNotificationPermissionType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKNotificationPermissionType.m; sourceTree = "<group>"; };
 		05F3765923C797930068E166 /* ResearchKit.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = ResearchKit.xctestplan; sourceTree = "<group>"; };
@@ -2353,7 +2358,7 @@
 				B11DF3B21AA109C8009E76D2 /* docs */,
 				86B623AF19520B770074CD3C /* ResearchKit */,
 				86CC8EA61AC09383001CCD89 /* ResearchKitTests */,
-				5DABE54924D8BF2400570C57 /* ResearchKitCore (watchOS) */,
+				5DABE54924D8BF2400570C57 /* ResearchKitCore */,
 				3FFF183F1829DB1D00167070 /* Frameworks */,
 				3FFF183E1829DB1D00167070 /* Products */,
 				8419D66A1FB73C5A0088D7E5 /* Recovered References */,
@@ -2561,13 +2566,14 @@
 			name = ORKRecordButton;
 			sourceTree = "<group>";
 		};
-		5DABE54924D8BF2400570C57 /* ResearchKitCore (watchOS) */ = {
+		5DABE54924D8BF2400570C57 /* ResearchKitCore */ = {
 			isa = PBXGroup;
 			children = (
+				00F189C824F59EC700371E9C /* ResearchKitCore.modulemap */,
 				5DABE54A24D8BF2400570C57 /* ResearchKitCore.h */,
 				5DABE55424D8C02F00570C57 /* Info.plist */,
 			);
-			path = "ResearchKitCore (watchOS)";
+			path = ResearchKitCore;
 			sourceTree = "<group>";
 		};
 		618DA0471A93D0D600E63AA8 /* Accessibility */ = {
@@ -4002,6 +4008,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				00F189CC24F5B46100371E9C /* ORKAnswerFormat_Private.h in Headers */,
 				5DABE5B024DA1A4900570C57 /* ORKChoiceAnswerFormatHelper.h in Headers */,
 				5DABE55E24D8C35A00570C57 /* ORKDefines.h in Headers */,
 				5DABE54C24D8BF2400570C57 /* ResearchKitCore.h in Headers */,
@@ -4015,12 +4022,15 @@
 				5DABE56024D8C94500570C57 /* ORKCompletionStep.h in Headers */,
 				5DABE55C24D8C33800570C57 /* ORKStep.h in Headers */,
 				5DABE55D24D8C34B00570C57 /* ORKTypes.h in Headers */,
+				00F189CE24F5B46F00371E9C /* ORKQuestionResult_Private.h in Headers */,
 				5DABE59624D9E49200570C57 /* ORKTask.h in Headers */,
 				5DABE59924D9E98F00570C57 /* ORKOrderedTask.h in Headers */,
 				5DABE59E24D9EA0C00570C57 /* ORKAnswerFormat.h in Headers */,
+				00F189CD24F5B46800371E9C /* ORKFormStep.h in Headers */,
 				5DABE5A724D9EEF800570C57 /* ORKHelpers_Internal.h in Headers */,
 				5DABE5A924D9EF8800570C57 /* ORKErrors.h in Headers */,
 				5DABE56124D8CB4300570C57 /* ORKQuestionStep.h in Headers */,
+				00F189CB24F5B45300371E9C /* ORKStep_Private.h in Headers */,
 				5DABE5A424D9ECAF00570C57 /* ORKResult.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4555,6 +4565,9 @@
 				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = researchkit.org;
 				TargetAttributes = {
+					5DABE54724D8BF2400570C57 = {
+						ProvisioningStyle = Manual;
+					};
 					86CC8E991AC09332001CCD89 = {
 						CreatedOnToolsVersion = 6.2;
 						LastSwiftMigration = 1020;
@@ -5907,11 +5920,11 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 7JYUG8QGJ3;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -5920,15 +5933,17 @@
 				GCC_PREFIX_HEADER = ResearchKit/ResearchKit_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				INFOPLIST_FILE = "ResearchKitCore (watchOS)/Info.plist";
+				INFOPLIST_FILE = ResearchKitCore/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = ResearchKitCore/ResearchKitCore.modulemap;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.apple.ResearchKitCore;
 				PRODUCT_NAME = ResearchKitCore;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
@@ -5950,12 +5965,12 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 7JYUG8QGJ3;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -5964,14 +5979,16 @@
 				GCC_PREFIX_HEADER = ResearchKit/ResearchKit_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				INFOPLIST_FILE = "ResearchKitCore (watchOS)/Info.plist";
+				INFOPLIST_FILE = ResearchKitCore/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = ResearchKitCore/ResearchKitCore.modulemap;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				OTHER_CFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.apple.ResearchKitCore;
 				PRODUCT_NAME = ResearchKitCore;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
@@ -5993,12 +6010,12 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 7JYUG8QGJ3;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -6007,14 +6024,16 @@
 				GCC_PREFIX_HEADER = ResearchKit/ResearchKit_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				INFOPLIST_FILE = "ResearchKitCore (watchOS)/Info.plist";
+				INFOPLIST_FILE = ResearchKitCore/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = ResearchKitCore/ResearchKitCore.modulemap;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				OTHER_CFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.apple.ResearchKitCore;
 				PRODUCT_NAME = ResearchKitCore;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
@@ -6036,12 +6055,12 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 7JYUG8QGJ3;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -6050,14 +6069,16 @@
 				GCC_PREFIX_HEADER = ResearchKit/ResearchKit_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				INFOPLIST_FILE = "ResearchKitCore (watchOS)/Info.plist";
+				INFOPLIST_FILE = ResearchKitCore/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = ResearchKitCore/ResearchKitCore.modulemap;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				OTHER_CFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.apple.ResearchKitCore;
 				PRODUCT_NAME = ResearchKitCore;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
@@ -6079,12 +6100,12 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 7JYUG8QGJ3;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -6093,14 +6114,16 @@
 				GCC_PREFIX_HEADER = ResearchKit/ResearchKit_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				INFOPLIST_FILE = "ResearchKitCore (watchOS)/Info.plist";
+				INFOPLIST_FILE = ResearchKitCore/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = ResearchKitCore/ResearchKitCore.modulemap;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				OTHER_CFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.apple.ResearchKitCore;
 				PRODUCT_NAME = ResearchKitCore;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
@@ -6122,12 +6145,12 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 7JYUG8QGJ3;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -6136,14 +6159,16 @@
 				GCC_PREFIX_HEADER = ResearchKit/ResearchKit_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				INFOPLIST_FILE = "ResearchKitCore (watchOS)/Info.plist";
+				INFOPLIST_FILE = ResearchKitCore/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = ResearchKitCore/ResearchKitCore.modulemap;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				OTHER_CFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.apple.ResearchKitCore;
 				PRODUCT_NAME = ResearchKitCore;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
