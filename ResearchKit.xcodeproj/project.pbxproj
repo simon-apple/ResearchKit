@@ -22,6 +22,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		003BC2BF24FD585B00BC7CDF /* ORKCollectionResult.h in Headers */ = {isa = PBXBuildFile; fileRef = FF919A511E81BEB5005C2A1E /* ORKCollectionResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		005C065424FC5B5200325A31 /* ORKCollectionResult.m in Sources */ = {isa = PBXBuildFile; fileRef = FF919A521E81BEB5005C2A1E /* ORKCollectionResult.m */; };
 		00B1F7852241503900D022FE /* Speech.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B1F7842241503900D022FE /* Speech.framework */; };
 		00C2668A2302244300337E0B /* ORKCustomStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 00C266882302244300337E0B /* ORKCustomStepViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		00C2668B2302244300337E0B /* ORKCustomStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00C266892302244300337E0B /* ORKCustomStepViewController.m */; };
@@ -4003,6 +4005,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				00F189CC24F5B46100371E9C /* ORKAnswerFormat_Private.h in Headers */,
+				003BC2BF24FD585B00BC7CDF /* ORKCollectionResult.h in Headers */,
 				5DABE5B024DA1A4900570C57 /* ORKChoiceAnswerFormatHelper.h in Headers */,
 				5DABE55E24D8C35A00570C57 /* ORKDefines.h in Headers */,
 				5DABE54C24D8BF2400570C57 /* ResearchKitCore.h in Headers */,
@@ -4753,6 +4756,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				005C065424FC5B5200325A31 /* ORKCollectionResult.m in Sources */,
 				5DABE5A524D9ECB500570C57 /* ORKResult.m in Sources */,
 				5DABE5AA24D9EFB000570C57 /* ORKErrors.m in Sources */,
 				5DABE5B124DA1A4F00570C57 /* ORKChoiceAnswerFormatHelper.m in Sources */,
@@ -5941,7 +5945,7 @@
 				TARGETED_DEVICE_FAMILY = 4;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
-				WATCHOS_DEPLOYMENT_TARGET = 7.0;
+				WATCHOS_DEPLOYMENT_TARGET = 6.1;
 			};
 			name = Debug;
 		};
@@ -5986,7 +5990,7 @@
 				TARGETED_DEVICE_FAMILY = 4;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
-				WATCHOS_DEPLOYMENT_TARGET = 7.0;
+				WATCHOS_DEPLOYMENT_TARGET = 6.1;
 			};
 			name = "Skywagon Stable";
 		};
@@ -6031,7 +6035,7 @@
 				TARGETED_DEVICE_FAMILY = 4;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
-				WATCHOS_DEPLOYMENT_TARGET = 7.0;
+				WATCHOS_DEPLOYMENT_TARGET = 6.1;
 			};
 			name = ATP;
 		};
@@ -6076,7 +6080,7 @@
 				TARGETED_DEVICE_FAMILY = 4;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
-				WATCHOS_DEPLOYMENT_TARGET = 7.0;
+				WATCHOS_DEPLOYMENT_TARGET = 6.1;
 			};
 			name = Release;
 		};
@@ -6121,7 +6125,7 @@
 				TARGETED_DEVICE_FAMILY = 4;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
-				WATCHOS_DEPLOYMENT_TARGET = 7.0;
+				WATCHOS_DEPLOYMENT_TARGET = 6.1;
 			};
 			name = "Skywagon Internal Release";
 		};
@@ -6166,7 +6170,7 @@
 				TARGETED_DEVICE_FAMILY = 4;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
-				WATCHOS_DEPLOYMENT_TARGET = 7.0;
+				WATCHOS_DEPLOYMENT_TARGET = 6.1;
 			};
 			name = "Skywagon Public Release";
 		};

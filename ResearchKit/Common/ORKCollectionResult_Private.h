@@ -30,8 +30,11 @@
  */
 
 
+#if TARGET_OS_WATCH
+#import <ResearchKitCore/ORKCollectionResult.h>
+#elif TARGET_OS_IOS
 #import <ResearchKit/ORKCollectionResult.h>
-
+#endif
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -60,11 +63,13 @@ ORK_CLASS_AVAILABLE
 @end
 
 
+#if TARGET_OS_IOS
 @interface ORKStepResult ()
 
 @property (nonatomic) BOOL isPreviousResult;
 
 @end
+#endif // TARGET_OS_IOS
 
 @interface ORKTaskResult ()
 
