@@ -2276,7 +2276,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     })),
            ENTRY(ORKTaskResult,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-                     return [[ORKTaskResult alloc] initWithTaskIdentifier:GETPROP(dict, identifier) taskRunUUID:GETPROP(dict, taskRunUUID) outputDirectory:GETPROP(dict, outputDirectory)];
+               return [[ORKTaskResult alloc] initWithTaskIdentifier:GETPROP(dict, identifier) taskRunUUID:GETPROP(dict, taskRunUUID) outputDirectory:GETPROP(dict, outputDirectory)];
                  },
                  (@{
                     PROPERTY(taskRunUUID, NSUUID, NSObject, NO,
@@ -2284,7 +2284,8 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                              ^id(id string, __unused ORKESerializationContext *context) { return [[NSUUID alloc] initWithUUIDString:string]; }),
                     PROPERTY(outputDirectory, NSURL, NSObject, NO,
                              ^id(id url, __unused ORKESerializationContext *context) { return [url absoluteString]; },
-                             ^id(id string, __unused ORKESerializationContext *context) { return [NSURL URLWithString:string]; })
+                             ^id(id string, __unused ORKESerializationContext *context) { return [NSURL URLWithString:string]; }),
+                    PROPERTY(systemName, NSString, NSObject, YES, nil, nil),
                     })),
            ENTRY(ORKStepResult,
                  nil,

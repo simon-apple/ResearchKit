@@ -77,4 +77,18 @@ ORK_CLASS_AVAILABLE
 
 @end
 
+@interface ORKTaskResult ()
+
+/**
+ The name of the operating system
+ 
+ On iOS, this value is "iOS"
+ 
+ On watchOS, this value is "watchOS"
+ 
+ */
+@property (nonatomic, copy, readonly, nullable) NSString *systemName;
+
+@end
+
 NS_ASSUME_NONNULL_END

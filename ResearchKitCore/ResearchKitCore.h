@@ -43,6 +43,5 @@
 #import <ResearchKitCore/ORKAnswerFormat.h>
 
 #import <ResearchKitCore/ORKResult.h>
-#import <ResearchKitCore/ORKQuestionResult.h>
 #import <ResearchKitCore/ORKCollectionResult.h>
-
+#import <ResearchKitCore/ORKQuestionResult.h>

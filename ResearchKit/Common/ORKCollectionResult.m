@@ -28,6 +28,10 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#if TARGET_OS_WATCH
+@import WatchKit;
+#endif
+
 #import "ORKCollectionResult.h"
 
 #import "ORKCollectionResult_Private.h"
@@ -173,6 +177,11 @@
     if (self) {
         self->_taskRunUUID = [taskRunUUID copy];
         self->_outputDirectory = [outputDirectory copy];
+#if TARGET_OS_IOS
+        self->_systemName = [UIDevice.currentDevice.systemName copy];
+#elif TARGET_OS_WATCH
+        self->_systemName = [WKInterfaceDevice.currentDevice.systemName copy];
+#endif
     }
     return self;
 }
@@ -181,6 +190,7 @@
     [super encodeWithCoder:aCoder];
     ORK_ENCODE_OBJ(aCoder, taskRunUUID);
     ORK_ENCODE_URL(aCoder, outputDirectory);
+    ORK_ENCODE_OBJ(aCoder, systemName);
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
@@ -188,6 +198,7 @@
     if (self) {
         ORK_DECODE_OBJ_CLASS(aDecoder, taskRunUUID, NSUUID);
         ORK_DECODE_URL(aDecoder, outputDirectory);
+        ORK_DECODE_OBJ(aDecoder, systemName);
     }
     return self;
 }
@@ -206,11 +217,12 @@
     __typeof(self) castObject = object;
     return (isParentSame &&
             ORKEqualObjects(self.taskRunUUID, castObject.taskRunUUID) &&
-            ORKEqualFileURLs(self.outputDirectory, castObject.outputDirectory));
+            ORKEqualFileURLs(self.outputDirectory, castObject.outputDirectory) &&
+            ORKEqualObjects(self.systemName, castObject.systemName));
 }
 
 - (NSUInteger)hash {
-    return super.hash ^ self.taskRunUUID.hash ^ self.outputDirectory.hash;
+    return super.hash ^ self.taskRunUUID.hash ^ self.outputDirectory.hash ^ self.systemName.hash;
 }
 
 
@@ -218,6 +230,7 @@
     ORKTaskResult *result = [super copyWithZone:zone];
     result->_taskRunUUID = [self.taskRunUUID copy];
     result->_outputDirectory =  [self.outputDirectory copy];
+    result->_systemName = [self.systemName copy];
     return result;
 }
 
@@ -243,11 +256,17 @@
 }
 
 - (void)updateEnabledAssistiveTechnology {
+#if TARGET_OS_IOS
     if (UIAccessibilityIsVoiceOverRunning()) {
         _enabledAssistiveTechnology = [UIAccessibilityNotificationVoiceOverIdentifier copy];
     } else if (UIAccessibilityIsSwitchControlRunning()) {
         _enabledAssistiveTechnology = [UIAccessibilityNotificationSwitchControlIdentifier copy];
     }
+#elif TARGET_OS_WATCH
+    if (WKAccessibilityIsVoiceOverRunning()) {
+        _enabledAssistiveTechnology = @"WKAccessibilityNotificationVoiceOverIdentifier";
+    }
+#endif
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
