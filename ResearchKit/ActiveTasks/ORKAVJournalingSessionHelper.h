@@ -34,13 +34,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol AVJournalingSessionHelperProtocol <AVCaptureAudioDataOutputSampleBufferDelegate, AVCaptureVideoDataOutputSampleBufferDelegate>
-@end
-
 
 @interface ORKAVJournalingSessionHelper : NSObject
 
-- (instancetype)initWithSampleBufferDelegate:(id<AVJournalingSessionHelperProtocol>)sampleBufferDelegate sessionHelperDelegate:(id<ORKAVJournalingSessionHelperDelegate>)sessionHelperDelegate;
+- (instancetype)initWithSampleBufferDelegate:(id<AVCaptureDataOutputSynchronizerDelegate>)sampleBufferDelegate
+                       sessionHelperDelegate:(id<ORKAVJournalingSessionHelperDelegate>)sessionHelperDelegate
+                        shouldBlurBackground:(BOOL)shouldBlurBackground;
 
 @property (nonatomic, readonly) AVCaptureSession *captureSession;
 
@@ -49,6 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)stopCapturing;
 - (void)tearDownSession;
 - (void)saveSampleBuffer:(CMSampleBufferRef)sampleBuffer;
+- (void)saveOutputsFromDataCollection:(AVCaptureSynchronizedDataCollection *)dataCollection;
 
 @end
 
