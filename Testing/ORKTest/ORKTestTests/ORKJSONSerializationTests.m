@@ -741,6 +741,8 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
             }
         }
         
+        
+        
         XCTAssertEqualObjects(extraKnownProps, [NSSet set], @"Extra properties registered but not in example for %@", className);
         XCTAssertEqualObjects(extraLoadedProps, [NSSet set], @"Extra properties in sample but not registered for %@ on %@", className, path);
         id instance = [ORKESerializer objectFromJSONObject:dict context:context error:NULL];
