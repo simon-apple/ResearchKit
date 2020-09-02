@@ -1287,6 +1287,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                             PROPERTY(maximumRecordingLimit, NSNumber, NSObject, YES, nil, nil),
                             PROPERTY(allowsReview, NSNumber, NSObject, YES, nil, nil),
                             PROPERTY(allowsRetry, NSNumber, NSObject, YES, nil, nil),
+                            PROPERTY(shouldBlurBackground, NSNumber, NSObject, YES, nil, nil),
                         })),
            ENTRY(ORKTappingIntervalStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {

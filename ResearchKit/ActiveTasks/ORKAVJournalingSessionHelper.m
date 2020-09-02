@@ -34,8 +34,7 @@
 
 @interface ORKAVJournalingSessionHelper ()
 
-@property (nonatomic, weak) id<AVCaptureAudioDataOutputSampleBufferDelegate> audioOutputSampleBufferDelegate;
-@property (nonatomic, weak) id<AVCaptureVideoDataOutputSampleBufferDelegate> videoOutputSampleBufferDelegate;
+@property (nonatomic, weak) id<AVCaptureDataOutputSynchronizerDelegate> synchronizerDelegate;
 
 @end
 
@@ -49,13 +48,18 @@
     
     AVCaptureAudioDataOutput *_audioDataOutput;
     AVCaptureVideoDataOutput *_videoDataOutput;
+    AVCaptureMetadataOutput *_metaDataOutput;
     
-    AVAssetWriterInput *_audioAssetWriterInput;
-    AVAssetWriterInput *_videoAssetWriterInput;
+    AVCaptureDataOutputSynchronizer *_outputSynchronizer;
+    
+    CIContext *_context;
+    
+    CVPixelBufferPoolRef _bufferPool;
     
     AVAssetWriter *_videoAssetWriter;
     
-    AVCaptureSession *_audioCaptureSession;
+    AVAssetWriterInput *_audioAssetWriterInput;
+    AVAssetWriterInput *_videoAssetWriterInput;
     
     AVCaptureDevice *_audioCaptureDevice;
     AVCaptureDevice *_frontCameraCaptureDevice;
@@ -66,29 +70,32 @@
     BOOL _startTimeSet;
     BOOL _sessionSetUp;
     BOOL _readyToRecord;
+    BOOL _shouldBlurBackground;
     
     CMTime _startTime;
     
     void (^captureSessionFinishedWriting)(void);
 }
 
-- (instancetype)initWithSampleBufferDelegate:(id<AVJournalingSessionHelperProtocol>)sampleBufferDelegate sessionHelperDelegate:(id<ORKAVJournalingSessionHelperDelegate>)sessionHelperDelegate {
+- (instancetype)initWithSampleBufferDelegate:(id<AVCaptureDataOutputSynchronizerDelegate>)sampleBufferDelegate
+                       sessionHelperDelegate:(id<ORKAVJournalingSessionHelperDelegate>)sessionHelperDelegate
+                        shouldBlurBackground:(BOOL)shouldBlurBackground {
     self = [super init];
     if (self) {
         _dataOutputQueue = dispatch_queue_create("com.apple.hrs.captureOutput", nil);
         _capturing = NO;
+        _shouldBlurBackground = shouldBlurBackground;
         
-        if ([sampleBufferDelegate conformsToProtocol:@protocol(AVCaptureAudioDataOutputSampleBufferDelegate)] && [sampleBufferDelegate conformsToProtocol:@protocol(AVCaptureVideoDataOutputSampleBufferDelegate)]) {
-            _audioOutputSampleBufferDelegate = sampleBufferDelegate;
-            _videoOutputSampleBufferDelegate = sampleBufferDelegate;
+        if ([sampleBufferDelegate conformsToProtocol:@protocol(AVCaptureDataOutputSynchronizerDelegate)]) {
+            _synchronizerDelegate = sampleBufferDelegate;
         } else {
-            @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"The delegate passed in must conform to the AVCaptureAudioDataOutputSampleBufferDelegate and AVCaptureVideoDataOutputSampleBufferDelegate protocols." userInfo:nil];
+            @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"The delegate passed in must conform to the AVCaptureDataOutputSynchronizerDelegate protocol." userInfo:nil];
         }
         
         if ([sessionHelperDelegate conformsToProtocol:@protocol(ORKAVJournalingSessionHelperDelegate)]) {
             _sessionHelperDelegate = sessionHelperDelegate;
         } else {
-            @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"The delegate passed in must conform to the AVCaptureAudioDataOutputSampleBufferDelegate and AVCaptureVideoDataOutputSampleBufferDelegate protocols." userInfo:nil];
+            @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"The delegate passed in must conform to the ORKAVJournalingSessionHelperDelegate protocol." userInfo:nil];
         }
         
     }
@@ -98,7 +105,9 @@
 
 #pragma mark Methods
 
-- (BOOL)startSession:(NSError **)error {    
+- (BOOL)startSession:(NSError **)error {
+    _context = [CIContext contextWithOptions:nil];
+    
     //Setup AVCaptureSession to record audio/video
     _captureSession = [AVCaptureSession new];
     [_captureSession beginConfiguration];
@@ -141,17 +150,14 @@
     NSString *tempVideoFilePath = [[NSTemporaryDirectory() stringByAppendingPathComponent:[NSUUID new].UUIDString] stringByAppendingPathExtension:@"mov"];
     _tempOutputURL = [NSURL fileURLWithPath:tempVideoFilePath];
     
-    AVAudioFormat *audioFormat = [[AVAudioFormat alloc] initWithCommonFormat:AVAudioPCMFormatFloat32
-                                                                  sampleRate:44100
-                                                                    channels:1
-                                                                 interleaved:YES];
-    
     // Writer input needs to be synched so we don't have issues starting/stopping video capture.
     dispatch_async(_dataOutputQueue, ^{
         
         NSError *error = nil;
         
         _videoAssetWriter = [AVAssetWriter assetWriterWithURL:_tempOutputURL fileType:AVFileTypeQuickTimeMovie error:&error];
+        
+        //create video asset writer input
         _videoAssetWriterInput = [AVAssetWriterInput assetWriterInputWithMediaType:AVMediaTypeVideo
                                                                     outputSettings:[_videoDataOutput
                                                                                     recommendedVideoSettingsForAssetWriterWithOutputFileType:AVFileTypeQuickTimeMovie]];
@@ -161,6 +167,12 @@
         if ([_videoAssetWriter canAddInput:_videoAssetWriterInput]) {
             [_videoAssetWriter addInput:_videoAssetWriterInput];
         }
+        
+        //create audio asset writer input
+        AVAudioFormat *audioFormat = [[AVAudioFormat alloc] initWithCommonFormat:AVAudioPCMFormatFloat32
+                                                                      sampleRate:44100
+                                                                        channels:1
+                                                                     interleaved:YES];
         
         _audioAssetWriterInput = [AVAssetWriterInput assetWriterInputWithMediaType:AVMediaTypeAudio
                                                                     outputSettings:audioFormat.settings];
@@ -191,6 +203,192 @@
             _capturing = NO;
         });
     }
+}
+
+- (void)saveOutputsFromDataCollection:(AVCaptureSynchronizedDataCollection *)dataCollection {
+    //pull out meta data
+    AVCaptureSynchronizedMetadataObjectData *syncedMetaData = (AVCaptureSynchronizedMetadataObjectData *)[dataCollection synchronizedDataForCaptureOutput:_metaDataOutput];
+    CGRect facebounds = CGRectZero;
+    
+    if (syncedMetaData) {
+        for (AVMetadataFaceObject *faceObject in syncedMetaData.metadataObjects) {
+            if (faceObject) {
+                facebounds = faceObject.bounds;
+            }
+        }
+    }
+    
+    //pull out video data
+    AVCaptureSynchronizedSampleBufferData *syncedVideoSampleBufferData = (AVCaptureSynchronizedSampleBufferData *)[dataCollection synchronizedDataForCaptureOutput:_videoDataOutput];
+    
+    if (syncedVideoSampleBufferData && !syncedVideoSampleBufferData.sampleBufferWasDropped) {
+        if (!_startTimeSet || !_shouldBlurBackground) {
+            [self saveSampleBuffer:syncedVideoSampleBufferData.sampleBuffer];
+        } else {
+            CMTime presentationTime = CMSampleBufferGetPresentationTimeStamp(syncedVideoSampleBufferData.sampleBuffer);
+            CVPixelBufferRef pixelBufferRef = [self blurSampleBuffer:syncedVideoSampleBufferData.sampleBuffer faceBounds:facebounds];
+            CMSampleBufferRef sbuf;
+            OSStatus err = [self attachDepthPixelBuffer:pixelBufferRef toSampleBuffer:&sbuf withPresentationTime:presentationTime];
+            
+            if (err == noErr) {
+                [self saveSampleBuffer:sbuf];
+            }
+            
+            if (sbuf != NULL) {
+                CFRelease(sbuf);
+            }
+            
+            CVPixelBufferRelease(pixelBufferRef);
+        }
+    }
+    
+    //pull out audio data
+    AVCaptureSynchronizedSampleBufferData *syncedAudioSampleBufferData = (AVCaptureSynchronizedSampleBufferData *)[dataCollection synchronizedDataForCaptureOutput:_audioDataOutput];
+    
+    if (syncedAudioSampleBufferData && syncedAudioSampleBufferData.sampleBuffer) {
+        [self saveSampleBuffer:syncedAudioSampleBufferData.sampleBuffer];
+    }
+}
+
+- (void)tearDownSession {
+    if ([_captureSession isRunning]) {
+        [_captureSession stopRunning];
+        _captureSession = nil;
+    }
+}
+
+#pragma mark Helper Methods (private)
+
+- (BOOL)setupFrontCameraOnSession:(NSError **)error {
+    
+    _frontCameraCaptureDevice = [AVCaptureDevice defaultDeviceWithDeviceType:AVCaptureDeviceTypeBuiltInWideAngleCamera mediaType:AVMediaTypeVideo position:AVCaptureDevicePositionFront];
+    AVCaptureDeviceInput *frontCameraInput = [AVCaptureDeviceInput deviceInputWithDevice: _frontCameraCaptureDevice error: error];
+    if (frontCameraInput) {
+        if ([_captureSession canAddInput: frontCameraInput]) {
+            [_captureSession addInput: frontCameraInput];
+            
+            [self configureCameraForHighestFrameRate: _frontCameraCaptureDevice];
+            
+            _sessionPreset = AVCaptureSessionPreset1920x1080;
+            
+            if ([_captureSession canSetSessionPreset: _sessionPreset]) {
+                [_captureSession setSessionPreset: _sessionPreset];
+            } else {
+                if (error != NULL) {
+                    *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFeatureUnsupportedError userInfo:@{NSLocalizedDescriptionKey:ORKLocalizedString(@"AV_JOURNALING_STEP_CAMERA_ERROR", nil)}];
+                }
+                return NO;
+            }
+        } else {
+            if (error != NULL) {
+                *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFeatureUnsupportedError userInfo:@{NSLocalizedDescriptionKey:ORKLocalizedString(@"AV_JOURNALING_STEP_CAMERA_ERROR", nil)}];
+            }
+            return NO;
+        }
+    }
+    
+    return YES;
+}
+
+- (void)configureCameraForHighestFrameRate:(AVCaptureDevice *)device {
+    AVCaptureDeviceFormat *bestFormat = nil;
+    AVFrameRateRange *bestFrameRateRange = nil;
+    for ( AVCaptureDeviceFormat *format in [device formats] ) {
+        for ( AVFrameRateRange *range in format.videoSupportedFrameRateRanges ) {
+            if ( range.maxFrameRate > bestFrameRateRange.maxFrameRate ) {
+                bestFormat = format;
+                bestFrameRateRange = range;
+            }
+        }
+    }
+    
+    if (bestFormat && bestFrameRateRange) {
+        if ( [device lockForConfiguration:NULL] == YES ) {
+            device.activeFormat = bestFormat;
+            device.activeVideoMinFrameDuration = bestFrameRateRange.minFrameDuration;
+            device.activeVideoMaxFrameDuration = bestFrameRateRange.minFrameDuration;
+            [device unlockForConfiguration];
+        }
+    }
+}
+
+- (BOOL)setupAudioOnSession:(NSError **)error {
+    _audioCaptureDevice = [AVCaptureDevice defaultDeviceWithMediaType: AVMediaTypeAudio];
+    AVCaptureDeviceInput *audioInput = [AVCaptureDeviceInput deviceInputWithDevice:_audioCaptureDevice error:error];
+    
+    if ([_captureSession canAddInput: audioInput]) {
+        [_captureSession addInput: audioInput];
+    } else {
+        if (error != NULL) {
+            *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFeatureUnsupportedError userInfo:@{NSLocalizedDescriptionKey:ORKLocalizedString(@"AV_JOURNALING_STEP_AUDIO_ERROR", nil)}];
+        }
+        return NO;
+    }
+    
+    return YES;
+}
+
+- (BOOL)setupDataOutputForSession:(NSError **)error {
+    if (!_audioDataOutput) {
+        _audioDataOutput = [[AVCaptureAudioDataOutput alloc] init];
+        if ([_captureSession canAddOutput:_audioDataOutput]) {
+            [_captureSession  addOutput:_audioDataOutput];
+        } else {
+            if (error != NULL) {
+                *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFeatureUnsupportedError userInfo:@{NSLocalizedDescriptionKey:ORKLocalizedString(@"AV_JOURNALING_STEP_AUDIO_ERROR", nil)}];
+            }
+            return NO;
+        }
+    }
+    
+    if (!_videoDataOutput) {
+        NSString* key = (NSString*)kCVPixelBufferPixelFormatTypeKey;
+        NSNumber* value = [NSNumber numberWithUnsignedInt:kCVPixelFormatType_32BGRA];
+        _videoSettings = [NSDictionary dictionaryWithObject:value forKey:key];
+        
+        _videoDataOutput = [[AVCaptureVideoDataOutput alloc] init];
+        _videoDataOutput.alwaysDiscardsLateVideoFrames = YES;
+        [_videoDataOutput setVideoSettings:_videoSettings];
+        
+        if ([_captureSession canAddOutput:_videoDataOutput]) {
+            [_captureSession addOutput:_videoDataOutput];
+        } else {
+            if (error != NULL) {
+                *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFeatureUnsupportedError userInfo:@{NSLocalizedDescriptionKey:ORKLocalizedString(@"AV_JOURNALING_STEP_CAMERA_ERROR", nil)}];
+            }
+            return NO;
+        }
+        
+        // Required for VNFaceTracking
+        AVCaptureConnection *connection = [_videoDataOutput connectionWithMediaType: AVMediaTypeVideo];
+        connection.cameraIntrinsicMatrixDeliveryEnabled = YES;
+        
+        if ([connection isVideoOrientationSupported]) {
+            connection.videoOrientation = AVCaptureVideoOrientationLandscapeRight;
+        }
+        
+        if ([connection isVideoMirroringSupported]) {
+            [connection setVideoMirrored:NO];
+        }
+    }
+    
+    if (!_metaDataOutput) {
+        _metaDataOutput = [[AVCaptureMetadataOutput alloc] init];
+        
+        if ([_captureSession canAddOutput:_metaDataOutput]) {
+            [_captureSession addOutput:_metaDataOutput];
+            
+            [_metaDataOutput setMetadataObjectTypes:@[AVMetadataObjectTypeFace]];
+        }
+    }
+    
+    if (!_outputSynchronizer) {
+        _outputSynchronizer = [[AVCaptureDataOutputSynchronizer alloc] initWithDataOutputs:@[_videoDataOutput, _audioDataOutput, _metaDataOutput]];
+    }
+    
+    [_outputSynchronizer setDelegate:_synchronizerDelegate queue:_dataOutputQueue];
+    
+    return YES;
 }
 
 - (void)saveSampleBuffer:(CMSampleBufferRef)sampleBuffer {
@@ -237,129 +435,97 @@
     }
 }
 
-- (void)tearDownSession {
-    if ([_captureSession isRunning]) {
-        [_captureSession stopRunning];
-        _captureSession = nil;
-    }
-}
-
-#pragma mark Helper Methods (private)
-
-- (BOOL)setupFrontCameraOnSession:(NSError **)error {
+- (CVPixelBufferRef)blurSampleBuffer:(CMSampleBufferRef)sampleBuffer faceBounds:(CGRect)faceBounds {
+    //Create Get CVImageBufferRef from sampleBuffer
+    CVImageBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
+    CGSize imageSize = CVImageBufferGetDisplaySize(pixelBuffer);
     
-    _frontCameraCaptureDevice = [AVCaptureDevice defaultDeviceWithDeviceType:AVCaptureDeviceTypeBuiltInWideAngleCamera mediaType:AVMediaTypeVideo position:AVCaptureDevicePositionFront];
-    AVCaptureDeviceInput *frontCameraInput = [AVCaptureDeviceInput deviceInputWithDevice: _frontCameraCaptureDevice error: error];
-    if (frontCameraInput) {
-        if ([_captureSession canAddInput: frontCameraInput]) {
-            [_captureSession addInput: frontCameraInput];
-            
-            [self configureCameraForHighestFrameRate: _frontCameraCaptureDevice];
-            
-            _sessionPreset = AVCaptureSessionPreset1920x1080;
-            
-            if ([_captureSession canSetSessionPreset: _sessionPreset]) {
-                [_captureSession setSessionPreset: _sessionPreset];
-            } else {
-                *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFeatureUnsupportedError userInfo:@{NSLocalizedDescriptionKey:ORKLocalizedString(@"AV_JOURNALING_STEP_CAMERA_ERROR", nil)}];
-                return NO;
-            }
-        } else {
-            *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFeatureUnsupportedError userInfo:@{NSLocalizedDescriptionKey:ORKLocalizedString(@"AV_JOURNALING_STEP_CAMERA_ERROR", nil)}];
-            return NO;
-        }
+    if (_bufferPool == NULL) {
+        CreatePixelBufferPool(imageSize.width, imageSize.height, kCVPixelFormatType_32BGRA, &_bufferPool);
     }
     
-    return YES;
-}
-
-- (void)configureCameraForHighestFrameRate:(AVCaptureDevice *)device {
-    AVCaptureDeviceFormat *bestFormat = nil;
-    AVFrameRateRange *bestFrameRateRange = nil;
-    for ( AVCaptureDeviceFormat *format in [device formats] ) {
-        for ( AVFrameRateRange *range in format.videoSupportedFrameRateRanges ) {
-            if ( range.maxFrameRate > bestFrameRateRange.maxFrameRate ) {
-                bestFormat = format;
-                bestFrameRateRange = range;
-            }
-        }
-    }
-    if (bestFormat && bestFrameRateRange) {
-        if ( [device lockForConfiguration:NULL] == YES ) {
-            device.activeFormat = bestFormat;
-            device.activeVideoMinFrameDuration = bestFrameRateRange.minFrameDuration;
-            device.activeVideoMaxFrameDuration = bestFrameRateRange.minFrameDuration;
-            [device unlockForConfiguration];
-        }
-    }
-}
-
-- (BOOL)setupAudioOnSession:(NSError **)error {
-    _audioCaptureDevice = [AVCaptureDevice defaultDeviceWithMediaType: AVMediaTypeAudio];
-    AVCaptureDeviceInput *audioInput = [AVCaptureDeviceInput deviceInputWithDevice:_audioCaptureDevice error:error];
+    //Create CIImage from CVPixelBufferRef created above
+    CFDictionaryRef attachments = CMCopyDictionaryOfAttachments(kCFAllocatorDefault, sampleBuffer, kCMAttachmentMode_ShouldPropagate);
+    CIImage *image = [[CIImage alloc] initWithCVImageBuffer:pixelBuffer options:CFBridgingRelease(attachments)];
     
-    if ([ARFaceTrackingConfiguration isSupported]) {
-        if ([_audioCaptureSession canAddInput: audioInput]) {
-            [_audioCaptureSession addInput: audioInput];
-        } else {
-            *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFeatureUnsupportedError userInfo:@{NSLocalizedDescriptionKey:ORKLocalizedString(@"AV_JOURNALING_STEP_AUDIO_ERROR", nil)}];
-            return NO;
-        }
+    //Create filter and set value
+    CIFilter *filter = [CIFilter filterWithName:@"CIGaussianBlur"];
+    [filter setValue:image forKey:kCIInputImageKey];
+    [filter setValue:@20.0 forKey:kCIInputRadiusKey];
+    
+    //Create CIImage with filter applied
+    CIImage *imageWithFilter = [filter valueForKey:kCIOutputImageKey];
+    CIImage *combinedImage;
+    
+    if (faceBounds.size.height > 0 && faceBounds.size.width > 0) {
+        //landscape left
+        CGFloat faceWidth = faceBounds.size.width * imageSize.width;
+        CGFloat faceHeight = faceBounds.size.height * imageSize.height;
+        CGFloat faceOriginX = (imageSize.width) - (faceBounds.origin.x * imageSize.width) - faceHeight;
+        CGFloat faceOriginY = (faceBounds.origin.y * imageSize.height);
+    
+        CGRect updatedFaceBounds = CGRectMake(faceOriginX, faceOriginY, faceWidth, faceHeight);
+        
+        CIImage *croppedImage = [image imageByCroppingToRect:updatedFaceBounds];
+        combinedImage = [croppedImage imageByCompositingOverImage:imageWithFilter];
+    }
+    
+    //Use CIContext to create a CGImageRef
+    CVPixelBufferRef newBuffer = NULL;
+    CVPixelBufferPoolCreatePixelBuffer(NULL, _bufferPool, &newBuffer);
+    
+    if (combinedImage) {
+        [_context render:combinedImage toCVPixelBuffer:newBuffer];
     } else {
-        if ([_captureSession canAddInput: audioInput]) {
-            [_captureSession addInput: audioInput];
-        } else {
-            *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFeatureUnsupportedError userInfo:@{NSLocalizedDescriptionKey:ORKLocalizedString(@"AV_JOURNALING_STEP_AUDIO_ERROR", nil)}];
-            return NO;
-        }
+        [_context render:imageWithFilter toCVPixelBuffer:newBuffer];
     }
+
     
-    return YES;
+    return newBuffer;
 }
 
-- (BOOL)setupDataOutputForSession:(NSError **)error {
-    _videoSettings = [NSDictionary dictionary];
+static CVReturn CreatePixelBufferPool(size_t width, size_t height, OSType format, CVPixelBufferPoolRef *pool) {
+    CVReturn err = kCVReturnError;
+    NSDictionary* attributes = @{
+                                (id)kCVPixelBufferIOSurfacePropertiesKey : @{},
+                                (id)kCVPixelBufferPixelFormatTypeKey : @(format),
+                                (id)kCVPixelBufferWidthKey : @(width),
+                                (id)kCVPixelBufferHeightKey: @(height),
+                                (id)kCVPixelBufferPoolMinimumBufferCountKey : @(3),
+                                };
     
-    if (!_audioDataOutput) {
-        _audioDataOutput = [[AVCaptureAudioDataOutput alloc] init];
-        if ([_captureSession canAddOutput:_audioDataOutput]) {
-            [_captureSession  addOutput:_audioDataOutput];
-        } else {
-            *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFeatureUnsupportedError userInfo:@{NSLocalizedDescriptionKey:ORKLocalizedString(@"AV_JOURNALING_STEP_AUDIO_ERROR", nil)}];
-            return NO;
-        }
+    
+    err = CVPixelBufferPoolCreate(kCFAllocatorDefault, nil, (__bridge CFDictionaryRef)(attributes), pool);
+    if (err != kCVReturnSuccess) {
+       //unable to create pool
+       *pool = nil;
+    }
+    return err;
+}
+
+//creates CMSampleBuffer from CVPixelBuffer
+- (OSStatus)attachDepthPixelBuffer:(CVPixelBufferRef)pixelBuffer toSampleBuffer:(CMSampleBufferRef *)sbuf withPresentationTime:(CMTime)presentationTime {
+    OSStatus err = noErr;
+    CMFormatDescriptionRef formatDescription = NULL;
+    CMSampleTimingInfo sampleTiming;
+    err = CMVideoFormatDescriptionCreateForImageBuffer(kCFAllocatorDefault, pixelBuffer, &formatDescription);
+    
+    if ( err != noErr){
+        goto bail;
     }
     
-    if (!_videoDataOutput) {
-        _videoDataOutput = [[AVCaptureVideoDataOutput alloc] init];
-        _videoDataOutput.alwaysDiscardsLateVideoFrames = YES;
-        _videoDataOutput.videoSettings = _videoSettings;
-        
-        // Required for VNFaceTracking
-        AVCaptureConnection *connection = [_videoDataOutput connectionWithMediaType: AVMediaTypeVideo];
-        connection.cameraIntrinsicMatrixDeliveryEnabled = YES;
-        
-        if ([_captureSession canAddOutput:_videoDataOutput]) {
-            [_captureSession addOutput:_videoDataOutput];
-            
-        } else {
-            *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFeatureUnsupportedError userInfo:@{NSLocalizedDescriptionKey:ORKLocalizedString(@"AV_JOURNALING_STEP_CAMERA_ERROR", nil)}];
-            return NO;
-        }
-        
-        if ([connection isVideoOrientationSupported]) {
-            connection.videoOrientation = AVCaptureVideoOrientationPortrait;
-        }
-        
-        if ([connection isVideoMirroringSupported]) {
-            [connection setVideoMirrored:NO];
-        }
+    sampleTiming.presentationTimeStamp = presentationTime;
+    sampleTiming.decodeTimeStamp    = kCMTimeInvalid;
+    sampleTiming.duration       = kCMTimeInvalid;
+    err = CMSampleBufferCreateReadyWithImageBuffer(kCFAllocatorDefault,pixelBuffer, formatDescription, &sampleTiming, sbuf);
+    if (( err != noErr) || ( *sbuf == NULL )) {
+        goto bail;
     }
-    
-    [_audioDataOutput setSampleBufferDelegate:_audioOutputSampleBufferDelegate queue:_dataOutputQueue];
-    [_videoDataOutput setSampleBufferDelegate:_videoOutputSampleBufferDelegate queue:_dataOutputQueue];
-    
-    return YES;
+bail:
+    if ( formatDescription ) {
+        CFRelease( formatDescription );
+    }
+    return err;
 }
 
 - (void)capturedFileHasFinishedWriting {

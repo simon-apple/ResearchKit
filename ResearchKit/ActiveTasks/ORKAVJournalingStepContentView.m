@@ -484,7 +484,7 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKStartStopButtonState) {
     _previewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:session];
     _previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
     _previewLayer.needsDisplayOnBoundsChange = YES;
-    _previewLayer.connection.videoOrientation = AVCaptureVideoOrientationPortrait;
+    _previewLayer.connection.videoOrientation = AVCaptureVideoOrientationLandscapeRight;
     
     [_cameraView.layer addSublayer:_previewLayer];
 }

@@ -52,7 +52,7 @@
 #import "ORKAVJournalingSessionHelper.h"
 
 
-@interface ORKAVJournalingStepViewController () <AVJournalingSessionHelperProtocol, ARSCNViewDelegate, ARSessionDelegate, ORKAVJournalingSessionHelperDelegate>
+@interface ORKAVJournalingStepViewController () <AVCaptureDataOutputSynchronizerDelegate, ARSCNViewDelegate, ARSessionDelegate, ORKAVJournalingSessionHelperDelegate>
 @end
 
 @implementation ORKAVJournalingStepViewController {
@@ -217,9 +217,10 @@
         }
         
     } else {
-        
         //Setup SessionHelper
-        _sessionHelper = [[ORKAVJournalingSessionHelper alloc] initWithSampleBufferDelegate:self sessionHelperDelegate:self];
+        _sessionHelper = [[ORKAVJournalingSessionHelper alloc] initWithSampleBufferDelegate:self
+                                                                      sessionHelperDelegate:self
+                                                                       shouldBlurBackground:_avJournalingStep.shouldBlurBackground];
     
         NSError *error = nil;
         
@@ -391,13 +392,21 @@
         
         return;
     }
+}
+
+#pragma mark - AVCaptureDataOutputSynchronizer
+
+- (void)dataOutputSynchronizer:(AVCaptureDataOutputSynchronizer *)synchronizer didOutputSynchronizedDataCollection:(AVCaptureSynchronizedDataCollection *)synchronizedDataCollection {
+    if (_waitingOnUserToStartRecording) {
+        return;
+    }
     
     if (_sessionHelper) {
-        [_sessionHelper saveSampleBuffer:sampleBuffer];
+         [_sessionHelper saveOutputsFromDataCollection:synchronizedDataCollection];
     }
 }
 
-#pragma mark - ARSessionDelegate methods
+#pragma mark - ARSession Methods
 
 - (void)session:(ARSession *)session didUpdateFrame:(ARFrame *)frame {
     if (_waitingOnUserToStartRecording) {
