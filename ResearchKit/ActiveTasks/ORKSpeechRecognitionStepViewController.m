@@ -49,6 +49,7 @@
 #import "ORKSpeechRecognitionStep.h"
 #import "ORKSpeechRecognitionError.h"
 
+#import "ORKHeadphoneDetector.h"
 #import "ORKHelpers_Internal.h"
 #import "ORKBorderedButton.h"
 #import "ORKRecordButton.h"
@@ -62,7 +63,7 @@
 #import "ORKOrderedTask.h"
 #import "ORKContext_Internal.h"
 
-@interface ORKSpeechRecognitionStepViewController () <ORKStreamingAudioResultDelegate, ORKSpeechRecognitionDelegate, UITextFieldDelegate, ORKSpeechRecognitionContentViewDelegate>
+@interface ORKSpeechRecognitionStepViewController () <ORKStreamingAudioResultDelegate, ORKSpeechRecognitionDelegate, UITextFieldDelegate, ORKSpeechRecognitionContentViewDelegate, ORKHeadphoneDetectorDelegate>
 
 @end
 
@@ -76,6 +77,8 @@
     BOOL _errorState;
     float _peakPower;
     BOOL _allowUserToRecordInsteadOnNextStep;
+    
+    ORKHeadphoneDetector *_headphoneDetector;
 }
 
 - (instancetype)initWithStep:(ORKStep *)step {
@@ -104,6 +107,10 @@
 
     _localResult = [[ORKSpeechRecognitionResult alloc] initWithIdentifier:self.step.identifier];
     _speechRecognitionQueue = dispatch_queue_create("SpeechRecognitionQueue", DISPATCH_QUEUE_SERIAL);
+    
+    if ([self currentSpeechInNoisePredefinedTaskContext]) {
+        _headphoneDetector = [[ORKHeadphoneDetector alloc] initWithDelegate:self supportedHeadphoneChipsetTypes:nil];
+    }
 }
 
 - (void)requestSpeechRecognizerAuthorizationIfNeeded
@@ -534,6 +541,48 @@
 
 - (void)recordersWillStart {
     ORK_Log_Debug("Recorder is starting");
+}
+
+#pragma mark - ORKHeadphoneDetectorDelegate
+
+- (void)headphoneTypeDetected:(ORKHeadphoneTypeIdentifier)headphoneType vendorID:(NSString *)vendorID productID:(NSString *)productID deviceSubType:(NSInteger)deviceSubType isSupported:(BOOL)isSupported {
+
+    if ([self currentSpeechInNoisePredefinedTaskContext] && (headphoneType == nil || isSupported == NO)) {
+        [self showAlertWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE_TEST_INTERRUPTED", nil) message:ORKLocalizedString(@"dBHL_ALERT_TEXT", nil)];
+    }
+}
+
+- (void)podLowBatteryLevelDetected {
+    
+    if ([self currentSpeechInNoisePredefinedTaskContext]) {
+        [self showAlertWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE2_TEST_INTERRUPTED", nil) message:ORKLocalizedString(@"dBHL_POD_LOW_LEVEL_ALERT_TEXT", nil)];
+    }
+}
+
+- (void)showAlertWithTitle:(NSString *)title message:(NSString *)message {
+    
+    [_audioRecorder stop];
+    [_speechRecognizer endAudio];
+    
+    [_speechRecognitionContentView removeAllSamples];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        [_speechRecognitionContentView.recordButton setButtonType:ORKRecordButtonTypeRecord];
+        [_speechRecognitionContentView.recordButton setButtonState:ORKRecordButtonStateDisabled];
+        [_speechRecognitionContentView setUserInteractionEnabled:NO];
+        
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *ok = [UIAlertAction actionWithTitle:ORKLocalizedString(@"BUTTON_OK", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            ORKStrongTypeOf(self.taskViewController.delegate) strongDelegate = self.taskViewController.delegate;
+            if ([strongDelegate respondsToSelector:@selector(taskViewController:didFinishWithReason:error:)]) {
+                [strongDelegate taskViewController:self.taskViewController didFinishWithReason:ORKTaskViewControllerFinishReasonDiscarded error:nil];
+            }
+        }];
+        [alert addAction:ok];
+        
+        [self presentViewController:alert animated:YES completion:nil];
+    });
 }
 
 @end
