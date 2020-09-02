@@ -161,4 +161,67 @@ class PreSubmissionTests: XCTestCase {
         XCTAssert(helpers.verifyElement(taskScreen.mainTaskScreen))
         return
     }
+  
+    func testSQPickerWheel() throws {
+        XCTAssert(helpers.verifyElement(taskScreen.mainTaskScreen))
+        
+        let dt = app.tables.staticTexts["Date and Time Question"]
+        let elementsQuery = app.scrollViews.otherElements.staticTexts
+        
+        dt.tap()
+        XCTAssert(elementsQuery["Date and Time"].exists)
+        XCTAssert(elementsQuery["Additional text can go here."].exists)
+        XCTAssert(elementsQuery["Your question here."].exists)
+        
+        guard let skip = commonElements.skipButton else {
+            XCTFail("Unable to locate Skip butotn")
+            return
+        }
+        XCTAssert(skip.isEnabled)
+        
+        guard let done = commonElements.doneButton else {
+            XCTFail("Unable to locate Done button")
+            return
+        }
+        XCTAssert(done.isEnabled)
+        
+        let firstPredicate = NSPredicate(format: "value BEGINSWITH 'Today'")
+        let firstPicker = app.pickerWheels.element(matching: firstPredicate)
+        XCTAssert(firstPicker.isEnabled)
+        firstPicker.adjust(toPickerWheelValue: "Aug 25")
+        
+        let secondPredicate = NSPredicate(format: "value CONTAINS 'clock'")
+        let secondPicker = app.pickerWheels.element(matching: secondPredicate)
+        XCTAssert((secondPicker.isEnabled))
+        secondPicker.adjust(toPickerWheelValue: "5")
+        
+        let thirdPredicatre = NSPredicate(format: "value CONTAINS 'minute'")
+        let thirdPicker = app.pickerWheels.element(matching: thirdPredicatre)
+        XCTAssert(thirdPicker.isEnabled)
+        thirdPicker.adjust(toPickerWheelValue: "23")
+        
+        let now = Date()
+        let formatter = DateFormatter()
+        formatter.setLocalizedDateFormatFromTemplate("a")
+        let datetime = formatter.string(from: now)
+        
+        let fourthPredicate = NSPredicate(format: "value CONTAINS '\(datetime)'")
+        let fourthPicker = app.pickerWheels.element(matching: fourthPredicate)
+        XCTAssert(fourthPicker.isEnabled)
+        if datetime == "AM" {
+            fourthPicker.adjust(toPickerWheelValue: "PM")
+        } else {
+            fourthPicker.adjust(toPickerWheelValue: "AM")
+        }
+        
+        XCTAssert(done.isEnabled)
+        done.tap()
+        XCTAssert(helpers.verifyElement(taskScreen.mainTaskScreen))
+        
+        dt.tap()
+        skip.tap()
+        XCTAssert(helpers.verifyElement(taskScreen.mainTaskScreen))
+    
+        return
+    }
 }
