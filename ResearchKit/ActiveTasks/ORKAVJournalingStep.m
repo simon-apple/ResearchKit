@@ -51,7 +51,6 @@ static const NSTimeInterval MAX_RECORDING_DURATION = 300.0;
         _maximumRecordingLimit = 60.0;
         _allowsRetry = NO;
         _allowsReview = NO;
-        _shouldBlurBackground = YES;
     }
     return self;
 }
@@ -81,7 +80,6 @@ static const NSTimeInterval MAX_RECORDING_DURATION = 300.0;
     step.maximumRecordingLimit = self.maximumRecordingLimit;
     step.allowsRetry = self.allowsRetry;
     step.allowsReview = self.allowsReview;
-    step.shouldBlurBackground = self.shouldBlurBackground;
     return step;
 }
 
@@ -92,7 +90,6 @@ static const NSTimeInterval MAX_RECORDING_DURATION = 300.0;
         ORK_DECODE_DOUBLE(aDecoder, maximumRecordingLimit);
         ORK_DECODE_BOOL(aDecoder, allowsRetry);
         ORK_DECODE_BOOL(aDecoder, allowsReview);
-        ORK_DECODE_BOOL(aDecoder, shouldBlurBackground);
     }
     return self;
 }
@@ -102,7 +99,6 @@ static const NSTimeInterval MAX_RECORDING_DURATION = 300.0;
     ORK_ENCODE_DOUBLE(aCoder, maximumRecordingLimit);
     ORK_ENCODE_BOOL(aCoder, allowsRetry);
     ORK_ENCODE_BOOL(aCoder, allowsReview);
-    ORK_ENCODE_BOOL(aCoder, shouldBlurBackground);
 }
 
 - (BOOL)isEqual:(id)object {
@@ -112,8 +108,7 @@ static const NSTimeInterval MAX_RECORDING_DURATION = 300.0;
     return (isParentSame &&
             (self.maximumRecordingLimit == castObject.maximumRecordingLimit) &&
             (self.allowsRetry == castObject.allowsRetry) &&
-            (self.allowsReview == castObject.allowsReview) &&
-            (self.shouldBlurBackground == castObject.shouldBlurBackground));
+            (self.allowsReview == castObject.allowsReview));
 }
 
 @end

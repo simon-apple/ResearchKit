@@ -70,7 +70,6 @@
     BOOL _startTimeSet;
     BOOL _sessionSetUp;
     BOOL _readyToRecord;
-    BOOL _shouldBlurBackground;
     
     CMTime _startTime;
     
@@ -78,13 +77,11 @@
 }
 
 - (instancetype)initWithSampleBufferDelegate:(id<AVCaptureDataOutputSynchronizerDelegate>)sampleBufferDelegate
-                       sessionHelperDelegate:(id<ORKAVJournalingSessionHelperDelegate>)sessionHelperDelegate
-                        shouldBlurBackground:(BOOL)shouldBlurBackground {
+                       sessionHelperDelegate:(id<ORKAVJournalingSessionHelperDelegate>)sessionHelperDelegate {
     self = [super init];
     if (self) {
         _dataOutputQueue = dispatch_queue_create("com.apple.hrs.captureOutput", nil);
         _capturing = NO;
-        _shouldBlurBackground = shouldBlurBackground;
         
         if ([sampleBufferDelegate conformsToProtocol:@protocol(AVCaptureDataOutputSynchronizerDelegate)]) {
             _synchronizerDelegate = sampleBufferDelegate;
@@ -222,7 +219,7 @@
     AVCaptureSynchronizedSampleBufferData *syncedVideoSampleBufferData = (AVCaptureSynchronizedSampleBufferData *)[dataCollection synchronizedDataForCaptureOutput:_videoDataOutput];
     
     if (syncedVideoSampleBufferData && !syncedVideoSampleBufferData.sampleBufferWasDropped) {
-        if (!_startTimeSet || !_shouldBlurBackground) {
+        if (!_startTimeSet) {
             [self saveSampleBuffer:syncedVideoSampleBufferData.sampleBuffer];
         } else {
             CMTime presentationTime = CMSampleBufferGetPresentationTimeStamp(syncedVideoSampleBufferData.sampleBuffer);
@@ -345,7 +342,6 @@
         NSString* key = (NSString*)kCVPixelBufferPixelFormatTypeKey;
         NSNumber* value = [NSNumber numberWithUnsignedInt:kCVPixelFormatType_32BGRA];
         _videoSettings = [NSDictionary dictionaryWithObject:value forKey:key];
-        
         _videoDataOutput = [[AVCaptureVideoDataOutput alloc] init];
         _videoDataOutput.alwaysDiscardsLateVideoFrames = YES;
         [_videoDataOutput setVideoSettings:_videoSettings];
@@ -480,7 +476,6 @@
         [_context render:imageWithFilter toCVPixelBuffer:newBuffer];
     }
 
-    
     return newBuffer;
 }
 

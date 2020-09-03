@@ -34,12 +34,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-
 @interface ORKAVJournalingSessionHelper : NSObject
 
 - (instancetype)initWithSampleBufferDelegate:(id<AVCaptureDataOutputSynchronizerDelegate>)sampleBufferDelegate
-                       sessionHelperDelegate:(id<ORKAVJournalingSessionHelperDelegate>)sessionHelperDelegate
-                        shouldBlurBackground:(BOOL)shouldBlurBackground;
+                       sessionHelperDelegate:(id<ORKAVJournalingSessionHelperDelegate>)sessionHelperDelegate;
 
 @property (nonatomic, readonly) AVCaptureSession *captureSession;
 

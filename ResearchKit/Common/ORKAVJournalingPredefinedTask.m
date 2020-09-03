@@ -57,8 +57,8 @@ ORKAVJournalingStepIdentifier const MaxLimitHitCompletionStepIdentifier = @"ORKA
         ORKNavigableOrderedTask *currentTask = (ORKNavigableOrderedTask *)task;
         
         ORKCompletionStep *step = [[ORKCompletionStep alloc] initWithIdentifier:MaxLimitHitCompletionStepIdentifier];
-        step.title = ORKLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TITLE", nil);
-        step.text = ORKLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TEXT", nil);
+        step.title = ORKLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_TIME_LIMIT_REACHED_TITLE", nil);
+        step.text = ORKLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_TIME_LIMIT_REACHED_TEXT", nil);
         step.optional = NO;
         step.reasonForCompletion = ORKTaskViewControllerFinishReasonDiscarded;
         [currentTask addStep:step];

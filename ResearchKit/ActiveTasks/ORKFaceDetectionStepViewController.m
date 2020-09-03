@@ -58,17 +58,29 @@
 @implementation ORKFaceDetectionStepViewController {
     AVCaptureDevice *_frontCameraCaptureDevice;
     AVCaptureSession *_captureSession;
+    ORKFaceDetectionStep *_faceDetectionStep;
     
     ORKFaceDetectionStepContentView *_contentView;
 }
 
 - (instancetype)initWithStep:(ORKStep *)step {
     self = [super initWithStep:step];
+    
+    if (self) {
+        _faceDetectionStep = (ORKFaceDetectionStep *)self.step;
+    }
+    
     return self;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    if (@available(iOS 13.0, *)) {
+        [self.navigationController.navigationBar setBarTintColor:[UIColor secondarySystemBackgroundColor]];
+    } else {
+        [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
+    }
     
     [self setupContentView];
     [self setupConstraints];
@@ -83,16 +95,37 @@
 
 - (void)setupContentView {
     _contentView = [[ORKFaceDetectionStepContentView alloc] init];
+    __weak typeof(self) weakSelf = self;
+    [_contentView setViewEventHandler:^(ORKFaceDetectionStepContentViewEvent event) {
+        [weakSelf handleContentViewEvent:event];
+    }];
     _contentView.layer.cornerRadius = 10.0;
     _contentView.layer.maskedCorners = kCALayerMinXMinYCorner | kCALayerMaxXMinYCorner;
     _contentView.clipsToBounds = YES;
     
-    [_contentView addTargetToContinueButton:self selector:@selector(continueButtonPressed)];
-    
     [self.view addSubview:_contentView];
 }
 
--(void)setupConstraints {
+- (void)handleContentViewEvent:(ORKFaceDetectionStepContentViewEvent)event {
+    
+    switch (event) {
+        case ORKFaceDetectionStepContentViewEventTimeLimitHit:
+            if ([self.step.context isKindOfClass:[ORKAVJournalingPredfinedTaskContext class]]) {
+                [(ORKAVJournalingPredfinedTaskContext *)self.step.context didReachDetectionTimeLimitForTask:self.step.task];
+            }
+            
+            [self clearSession];
+            [[self taskViewController] flipToPageWithIdentifier:@"ORKAVJournalingMaxLimitHitCompletionStepIdentifierHeadphonesRequired" forward:YES animated:NO];
+            break;
+            
+        case ORKFaceDetectionStepContentViewEventContinueButtonPressed:
+            [self clearSession];
+            [self finish];
+            break;
+    }
+}
+
+- (void)setupConstraints {
     _contentView.translatesAutoresizingMaskIntoConstraints = NO;
     
     [[_contentView.topAnchor constraintEqualToAnchor:self.view.topAnchor] setActive:YES];
@@ -174,22 +207,22 @@
     [_contentView handleError:error];
 }
 
-- (void)continueButtonPressed {
-    if (_captureSession) {
-        [_captureSession stopRunning];
-        _captureSession = nil;
-    }
-    
-    [self finish];
-}
-
 - (void)stepDidFinish {
     [super stepDidFinish];
+    
+    [self clearSession];
     [self goForward];
 }
 
 - (void)start {
     [super start];
+}
+
+- (void)clearSession {
+    if (_captureSession) {
+        [_captureSession stopRunning];
+        _captureSession = nil;
+    }
 }
 
 #pragma mark - AVCaptureVideoDataOutputSampleBufferDelegate methods
@@ -199,25 +232,20 @@
     
     //create CIImage
     CVImageBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
+    CGSize imageSize = CVImageBufferGetDisplaySize(pixelBuffer);
     CFDictionaryRef attachments = CMCopyDictionaryOfAttachments(kCFAllocatorDefault, sampleBuffer, kCMAttachmentMode_ShouldPropagate);
     CIImage *image = [[CIImage alloc] initWithCVImageBuffer:pixelBuffer options:CFBridgingRelease(attachments)];
     
     //check for features. If the count is greater than one it means a face was detected
     NSArray<CIFeature *> *features = [faceDetector featuresInImage:image];
-    [_contentView setFaceDetected:(features.count > 0)];
-}
-
-#pragma mark - ARSessionDelegate methods
-
-- (void)session:(ARSession *)session didUpdateFrame:(ARFrame *)frame {
-    for (ARAnchor *anchor in frame.anchors) {
-        ARFaceAnchor *faceAnchor = (ARFaceAnchor *)anchor;
-        if (faceAnchor && [faceAnchor isTracked]) {
-            [_contentView setFaceDetected:YES];
-            return;
-        }
+    
+    if (features.count > 0) {
+        CIFaceFeature *faceFeature = (CIFaceFeature *)features.firstObject;
+        [_contentView setFaceDetected:YES faceRect:faceFeature.bounds originalSize:imageSize];
+        [_contentView updateFacePositionCircleWithCGRect:faceFeature.bounds originalSize:imageSize];
+    } else {
+        [_contentView setFaceDetected:NO faceRect:CGRectNull originalSize:CGSizeZero];
     }
-    [_contentView setFaceDetected:NO];
 }
 
 @end

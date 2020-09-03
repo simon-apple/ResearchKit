@@ -219,9 +219,8 @@
     } else {
         //Setup SessionHelper
         _sessionHelper = [[ORKAVJournalingSessionHelper alloc] initWithSampleBufferDelegate:self
-                                                                      sessionHelperDelegate:self
-                                                                       shouldBlurBackground:_avJournalingStep.shouldBlurBackground];
-    
+                                                                      sessionHelperDelegate:self];
+        
         NSError *error = nil;
         
         BOOL success = [_sessionHelper startSession:&error];
