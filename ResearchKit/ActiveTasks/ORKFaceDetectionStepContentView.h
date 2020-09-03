@@ -36,17 +36,24 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class AVCaptureSession;
 
+typedef NS_ENUM(NSUInteger, ORKFaceDetectionStepContentViewEvent) {
+    ORKFaceDetectionStepContentViewEventTimeLimitHit = 0,
+    ORKFaceDetectionStepContentViewEventContinueButtonPressed
+};
+
+typedef void (^ORKFaceDetectionStepContentViewEventHandler)(ORKFaceDetectionStepContentViewEvent);
+
 @interface ORKFaceDetectionStepContentView : ORKActiveStepCustomView
 
-- (instancetype)init;
+- (void)setViewEventHandler:(ORKFaceDetectionStepContentViewEventHandler)handler;
 
 - (void)setPreviewLayerWithSession:(AVCaptureSession *)session;
 
-- (void)setFaceDetected:(BOOL)detected;
+- (void)setFaceDetected:(BOOL)detected faceRect:(CGRect)faceRect originalSize:(CGSize)originalSize;
+
+- (void)updateFacePositionCircleWithCGRect:(CGRect)rect originalSize:(CGSize)originalSize;
 
 - (void)handleError:(NSError *)error;
-
-- (void)addTargetToContinueButton:(nullable id)target selector:(nonnull SEL)selector;
 
 @end
 NS_ASSUME_NONNULL_END

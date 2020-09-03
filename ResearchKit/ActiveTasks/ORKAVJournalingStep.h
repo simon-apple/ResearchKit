@@ -38,7 +38,6 @@ ORK_CLASS_AVAILABLE
 @property (nonatomic, assign) NSTimeInterval maximumRecordingLimit;
 @property (nonatomic, assign) BOOL allowsReview;
 @property (nonatomic, assign) BOOL allowsRetry;
-@property (nonatomic, assign) BOOL shouldBlurBackground;
 
 @end
 
