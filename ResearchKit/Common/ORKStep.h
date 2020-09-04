@@ -47,6 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - ORKStep Common
 
 ORK_EXTERN NSString *const ORKNullStepIdentifier ORK_AVAILABLE_DECL;
+@class ORKEarlyTerminationConfiguration;
 
 /**
  `ORKStep` is the base class for the steps that can compose a task for presentation
@@ -192,6 +193,11 @@ Whether to show progress for this step when it is presented. The default is YES.
  Whether to use extended outer padding for views
  */
 @property (nonatomic, assign) BOOL useExtendedPadding;
+
+/**
+ Configuration for supporting early termination from a step
+ */
+@property (nonatomic, copy, nullable) ORKEarlyTerminationConfiguration *earlyTerminationConfiguration;
 
 /**
  The task that contains the step.

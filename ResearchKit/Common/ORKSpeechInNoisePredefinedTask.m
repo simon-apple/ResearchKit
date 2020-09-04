@@ -31,7 +31,7 @@
 #import "ORKAnswerFormat.h"
 #import "ORKBodyItem.h"
 #import "ORKCompletionStep.h"
-#import "ORKContext_Internal.h"
+#import "ORKContext.h"
 #import "ORKEnvironmentSPLMeterStep.h"
 #import "ORKHeadphoneDetectStep.h"
 #import "ORKHelpers_Internal.h"

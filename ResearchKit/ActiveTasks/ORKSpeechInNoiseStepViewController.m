@@ -45,7 +45,7 @@
 #import "ORKRoundTappingButton.h"
 #import "ORKPlaybackButton.h"
 #import "ORKSkin.h"
-#import "ORKContext_Internal.h"
+#import "ORKContext.h"
 #import "ORKTaskViewController.h"
 
 #import <AVFoundation/AVFoundation.h>

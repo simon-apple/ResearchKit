@@ -62,7 +62,7 @@
 
 #import "ORKHelpers_Internal.h"
 #import "ORKSkin.h"
-#import "ORKContext_Internal.h"
+#import "ORKContext.h"
 
 
 typedef NS_ENUM(NSInteger, ORKQuestionSection) {

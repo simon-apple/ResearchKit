@@ -42,8 +42,7 @@
 #import "ORKHelpers_Internal.h"
 #import "ORKSkin.h"
 #import "ORKStepContentView.h"
-#import "ORKContext.h"
-#import "ORKStep_Private.h"
+#import "ORKEarlyTerminationConfiguration.h"
 
 static const CGFloat iPadStepTitleLabelPadding = 15.0;
 static const CGFloat iPadStepTitleLabelFontSize = 50.0;
@@ -313,10 +312,8 @@ static const CGFloat iPadStepTitleLabelFontSize = 50.0;
     // clear dismissedDate
     self.dismissedDate = nil;
     
-    // Set the skip button if there is an earlyTermination context
-    ORKEarlyTerminationContext *earlyTerminationContext = [self.step earlyTerminationContext];
-    if (earlyTerminationContext != nil) {
-        self.skipButtonTitle = earlyTerminationContext.buttonText;
+    if (self.step.earlyTerminationConfiguration != nil) {
+        self.skipButtonTitle = self.step.earlyTerminationConfiguration.buttonText;
     }
 }
 
