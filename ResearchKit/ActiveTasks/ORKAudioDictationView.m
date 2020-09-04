@@ -87,19 +87,21 @@ static float TransformRange(float x, float a, float b, float c, float d)
     _meterColor = self.tintColor;
     _alertThreshold = CGFLOAT_MAX;
     
-    self.flamesView = [[SUICFlamesView alloc] initWithFrame:CGRectZero screen:UIScreen.mainScreen fidelity:SUICFlamesViewFidelityHigh];
-    self.flamesView.mode = SUICFlamesViewModeDictation;
-    self.flamesView.state = SUICFlamesViewStateThinking;
-    self.flamesView.flamesDelegate = self;
-    self.flamesView.translatesAutoresizingMaskIntoConstraints = NO;
-    [self addSubview:self.flamesView];
+    if (!self.flamesView) {
+        self.flamesView = [[SUICFlamesView alloc] initWithFrame:CGRectZero screen:UIScreen.mainScreen fidelity:SUICFlamesViewFidelityHigh];
+        self.flamesView.mode = SUICFlamesViewModeDictation;
+        self.flamesView.state = SUICFlamesViewStateThinking;
+        self.flamesView.flamesDelegate = self;
+        self.flamesView.translatesAutoresizingMaskIntoConstraints = NO;
+        [self addSubview:self.flamesView];
     
-    [NSLayoutConstraint activateConstraints:@[
-        [self.flamesView.topAnchor constraintEqualToAnchor:self.topAnchor],
-        [self.flamesView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor],
-        [self.flamesView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor],
-        [self.flamesView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor]
-    ]];
+        [NSLayoutConstraint activateConstraints:@[
+            [self.flamesView.topAnchor constraintEqualToAnchor:self.topAnchor],
+            [self.flamesView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor],
+            [self.flamesView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor],
+            [self.flamesView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor]
+        ]];
+    }
 }
 
 #pragma mark - ORKAudioMetering

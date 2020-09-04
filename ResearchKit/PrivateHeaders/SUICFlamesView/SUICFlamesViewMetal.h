@@ -5,11 +5,11 @@
 //  Copyright (c) 2013-2014 Apple Inc. All rights reserved.
 //
 
-#import <MetalKit/MTKView.h>
+#import <UIKit/UIKit.h>
 #import "SUICFlamesViewProviding.h"
 
 NS_CLASS_AVAILABLE_IOS(13_0)
-@interface SUICFlamesViewMetal : MTKView <SUICFlamesViewProviding>
+@interface SUICFlamesViewMetal : UIView <SUICFlamesViewProviding>
 
 // The frame passed here is the space to render the aura.
 

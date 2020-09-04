@@ -5,6 +5,8 @@
 //  Created by Peter Bohac on 5/25/19.
 //  Copyright © 2019 Apple Inc. All rights reserved.
 //
+
+#import <Metal/Metal.h>
 #import "SUICFlamesView.h"
 #import "SUICFlamesViewMetal.h"
 #import "SUICFlamesViewLegacy.h"

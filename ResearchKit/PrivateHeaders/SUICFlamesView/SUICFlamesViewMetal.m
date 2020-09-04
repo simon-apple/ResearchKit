@@ -4,6 +4,8 @@
 //  Created by Brandon Newendorp on 3/5/13.
 //  Copyright (c) 2013-2014 Apple Inc. All rights reserved.
 //
+
+#import <Metal/Metal.h>
 #import "SUICFlamesViewMetal.h"
 #import "SUICFlameGroup.h"
 #import "SUICFlamesShaderTypes.h"
@@ -29,6 +31,11 @@ static NSUInteger sIndexCacheSize = 5;
 #pragma mark - Implementation
 @implementation SUICFlamesViewMetal
 {
+    NSThread *_thread;
+    BOOL _shouldContinueRunLoop;
+    MTLRenderPassDescriptor *_renderPassDescriptor;
+    CAMetalLayer *_metalLayer;
+    
     CADisplayLink *_displayLink;
     NSInteger _currentContextCount;
     NSMutableSet *_renderingDisabledReasons;
@@ -90,7 +97,6 @@ static NSUInteger sIndexCacheSize = 5;
     // The current size of our view so we can use this in our render pipeline
     vector_uint2 _viewportSize;
 };
-@dynamic delegate;
 @synthesize flamesDelegate = _flamesDelegate;
 @synthesize accelerateTransitions = _accelerateTransitions;
 @synthesize state = _state;
@@ -195,7 +201,7 @@ static NSUInteger sIndexCacheSize = 5;
         [_flameGroups addObject:_currentFlameGroup];
         
         _renderingDisabledReasons = [NSMutableSet set];
-        [self setClearColor:MTLClearColorMake(0.0, 0.0, 0.0, 0.0)];
+        _renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(0, 0, 0, 0);
     }
     
     return self;
@@ -213,6 +219,7 @@ static NSUInteger sIndexCacheSize = 5;
     if ([self superview] == nil) {
         [self _tearDownDisplayLink];
     } else {
+        _metalLayer = (CAMetalLayer *)[self layer];
         [self _setupDisplayLink];
         // Set UIKit properties here to ensure that they only are called when the
         // view is to be displayed and not as part of prewarming in background.
@@ -498,7 +505,7 @@ static NSUInteger sIndexCacheSize = 5;
 - (void)_prewarmShaders {
     // force a complete render pass as part of prewarm
     _isInitialized = [self _initMetalAndSetupDisplayLink:NO];
-    [self _updateCurveLayer:_displayLink];
+    [self _updateCurveLayer:_displayLink drawable:[_metalLayer nextDrawable]];
 }
 - (void)resetAndReinitialize:(BOOL)initialize {
     if (initialize) {
@@ -516,7 +523,11 @@ static NSUInteger sIndexCacheSize = 5;
     
     // force one final draw, to flush any pending animations
     // this is needed for NanoSiri to reset the flames view and not show a frame of the aura animation
-    [self _updateCurveLayer:_displayLink];
+    if (_thread && _shouldContinueRunLoop) {
+        [self performSelector:@selector(_prewarmUpdateCurveLayer:) onThread:_thread withObject:_displayLink waitUntilDone:NO];
+    } else {
+        [self _updateCurveLayer:_displayLink drawable:[_metalLayer nextDrawable]];
+    }
 }
 - (void)_reduceMotionStatusChanged:(NSNotification *)notification {
     _reduceMotionEnabled = UIAccessibilityIsReduceMotionEnabled();
@@ -535,14 +546,50 @@ static NSUInteger sIndexCacheSize = 5;
 - (void)_applicationDidBecomeActive:(NSNotification *)notification {
     [self setRenderingEnabled:YES forReason:kSUICFlamesViewUIApplicationNotificationReason];
 }
+
 - (void)_setupDisplayLink {
     if (!_displayLink && ([self superview] != nil) && ![self isHidden]) {
-        _displayLink = [_screen displayLinkWithTarget:self selector:@selector(_updateCurveLayer:)];
-        [_displayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
-        [self _setPreferredFramesPerSecond];
-        [self _updateDisplayLinkPausedState];
+        _displayLink = [_screen displayLinkWithTarget:self selector:@selector(_prewarmUpdateCurveLayer:)];
+    }
+    
+    if (!_thread) {
+        _thread = [[NSThread alloc] initWithTarget:self selector:@selector(_threadStartRunLoop) object:nil];
+        [_thread start];
     }
 }
+
+- (void)_threadStartRunLoop {
+    @autoreleasepool {
+        @synchronized (self) {
+            _shouldContinueRunLoop = YES;
+        }
+        [_displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+        [self _setPreferredFramesPerSecond];
+        [self _updateDisplayLinkPausedState];
+        do {
+            @autoreleasepool {
+                [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
+            }
+        } while (_shouldContinueRunLoop);
+        
+        [_displayLink invalidate];
+        _displayLink = nil;
+        
+        return;
+    }
+}
+
+- (void)_prewarmUpdateCurveLayer:(CADisplayLink *)displayLink {
+    
+    id<CAMetalDrawable> currentDrawable = [_metalLayer nextDrawable];
+    
+    if (currentDrawable == nil) { return; }
+        
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        [self _updateCurveLayer:displayLink drawable:currentDrawable];
+    });
+}
+
 - (uint32_t)_numVerticesPerCircle {
     return (int)roundf(3 * powf(2, _maxSubdivisionLevel));
 }
@@ -796,20 +843,25 @@ static NSUInteger sIndexCacheSize = 5;
     
     return YES;
 }
-- (BOOL)_initMetalAndSetupDisplayLink:(BOOL)setupDisplayLink
-{
+- (BOOL)_initMetalAndSetupDisplayLink:(BOOL)setupDisplayLink {
     self.layer.opaque = NO;
     self.layer.contentsScale = [self _currentDisplayScale];
     _viewWidth =  self.layer.contentsScale * self.layer.bounds.size.width;
     _viewHeight = self.layer.contentsScale * self.layer.bounds.size.height;
     
-    [self setDrawableSize:CGSizeMake(_viewWidth, _viewHeight)];
     // Setup Metal
-    self.device = MTLCreateSystemDefaultDevice();
-        
-    if (!self.device) {
+    [_metalLayer setDrawableSize:CGSizeMake(_viewWidth, _viewHeight)];
+    _metalLayer.device = MTLCreateSystemDefaultDevice();
+    
+    if (![self device]) {
         return NO;
     }
+    
+    _renderPassDescriptor = [[MTLRenderPassDescriptor alloc] init];
+    _renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
+    _renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionStore;
+    _renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(0, 0, 0, 0);
+    
     [self _setupVertexBuffer];
     if ([self _loadPipelineLibraries] == NO) {
         return NO;
@@ -819,6 +871,10 @@ static NSUInteger sIndexCacheSize = 5;
     }
     
     return YES;
+}
+
+- (id<MTLDevice>)device {
+    return _metalLayer.device;
 }
 - (BOOL)_loadPipelineLibraries {
     // Load all the shader files with a .metal file extension in the project
@@ -830,7 +886,7 @@ static NSUInteger sIndexCacheSize = 5;
     
     // Load shader and configure pipeline descriptors
     MTLRenderPipelineDescriptor *pipelineStateDescriptor = [[MTLRenderPipelineDescriptor alloc] init];
-    pipelineStateDescriptor.colorAttachments[0].pixelFormat = [self colorPixelFormat];
+    pipelineStateDescriptor.colorAttachments[0].pixelFormat = _metalLayer.pixelFormat;
     pipelineStateDescriptor.colorAttachments[0].blendingEnabled = YES;
     pipelineStateDescriptor.colorAttachments[0].rgbBlendOperation = MTLBlendOperationAdd;
     pipelineStateDescriptor.colorAttachments[0].sourceRGBBlendFactor = MTLBlendFactorSourceAlpha;
@@ -879,7 +935,7 @@ static NSUInteger sIndexCacheSize = 5;
     
     _viewWidth =  layer.contentsScale * layer.bounds.size.width;
     _viewHeight = layer.contentsScale * layer.bounds.size.height;
-    [self setDrawableSize:CGSizeMake(_viewWidth, _viewHeight)];
+    [_metalLayer setDrawableSize:CGSizeMake(_viewWidth, _viewHeight)];
     return YES;
 }
 
@@ -898,7 +954,7 @@ static NSUInteger sIndexCacheSize = 5;
     {
         if (@available(iOS 13.0, *))
         {
-            [self _resizeFromLayer:[self _metalLayer]];
+            [self _resizeFromLayer:_metalLayer];
         }
     }
     
@@ -928,11 +984,13 @@ static NSUInteger sIndexCacheSize = 5;
     return (needsLowerQualityFlames && scale == 3.0);
 }
 - (void)_tearDownDisplayLink {
+    @synchronized (self) {
+        _shouldContinueRunLoop = NO;
+    }
     _state = SUICFlamesViewStateDisabled;
-    [_displayLink invalidate];
-    _displayLink = nil;
     _commandQueue = nil;
 }
+
 - (BOOL)inSiriMode {
     return ([self mode] == SUICFlamesViewModeSiri);
 }
@@ -957,10 +1015,11 @@ static NSUInteger sIndexCacheSize = 5;
 #endif
 }
 
+/*
 - (CAMetalLayer *)_metalLayer  API_AVAILABLE(ios(13.0)) {
     return (CAMetalLayer *)[self layer];
 }
-
+*/
 - (void)_didSkipFrameUpdateWithReason:(NSString *)reason andCount:(NSUInteger)count {
 
 }
@@ -971,7 +1030,8 @@ static NSUInteger sIndexCacheSize = 5;
     
     return _commandQueue;
 }
-- (void)_updateCurveLayer:(CADisplayLink*)sender {
+
+- (void)_updateCurveLayer:(CADisplayLink*)sender drawable:(id<CAMetalDrawable>)currentDrawable {
     if (!_currentFlameGroup) {
         [self _didSkipFrameUpdateWithReason:@"No current flame group" andCount:0];
         return;
@@ -986,8 +1046,8 @@ static NSUInteger sIndexCacheSize = 5;
         [self _didSkipFrameUpdateWithReason:@"rendering disabled" andCount:0];
         return;
     }
-   
 // Commenting this out due to SPI `isDrawableAvailable`.
+    
 //    CAMetalLayer *layer = [self _metalLayer];
 //    if (![layer isDrawableAvailable]) {
 //        // <rdar://problem/52006442> is tracking the investigation into why this happens so frequently
@@ -1049,13 +1109,13 @@ static NSUInteger sIndexCacheSize = 5;
         powerLevel = [self _currentMicPowerLevel];
     }
     // Obtain a renderPassDescriptor generated from the view's drawable textures
-    MTLRenderPassDescriptor *renderPassDescriptor = [self currentRenderPassDescriptor];
-    if (renderPassDescriptor != nil) {
+    _renderPassDescriptor.colorAttachments[0].texture = currentDrawable.texture;
+    if (_renderPassDescriptor != nil) {
         // Create a new command buffer for each render pass to the current drawable
         id<MTLCommandBuffer> commandBuffer = [[self _lazy_commandQueue] commandBuffer];
         [commandBuffer setLabel:@"SUICFlamesViewMetalBuffer"];
         // Create a render command encoder so we can render into something
-        id<MTLRenderCommandEncoder> renderEncoder = [commandBuffer renderCommandEncoderWithDescriptor:renderPassDescriptor];
+        id<MTLRenderCommandEncoder> renderEncoder = [commandBuffer renderCommandEncoderWithDescriptor:_renderPassDescriptor];
         [renderEncoder setLabel:@"SUICFlamesViewMetalEncoder"];
         float timeInterval = [_displayLink duration];
         
@@ -1109,9 +1169,9 @@ static NSUInteger sIndexCacheSize = 5;
             
             // Set the region of the drawable to which we'll draw.
             vector_float4 viewportSize;
-            viewportSize.x = [self drawableSize].width;
-            viewportSize.y = [self drawableSize].height;
-            [renderEncoder setViewport:(MTLViewport){0.0, 0.0, viewportSize.x, viewportSize.y, -1.0, 1.0}];
+            viewportSize.x = [_metalLayer drawableSize].width;
+            viewportSize.y = [_metalLayer drawableSize].height;
+            [renderEncoder setViewport:(MTLViewport){0.0, 0.0, viewportSize.x, viewportSize.y, 0.0, 1.0}];
             
             [renderEncoder setVertexBuffer:_vertexBuffer offset:0 atIndex:SiriFlames_VertexInput_Polar];
             
@@ -1148,7 +1208,7 @@ static NSUInteger sIndexCacheSize = 5;
         [renderEncoder endEncoding];
         
         // Schedule a present once the framebuffer is complete using the current drawable
-        [commandBuffer presentDrawable:[self currentDrawable]];
+        [commandBuffer presentDrawable:currentDrawable];
         // If freezing the aura, only consider a transition finished if both the flames and aura are finished.
         _transitionFinished = _freezesAura ? (flamesTransitionFinished && auraTransitionFinished) : flamesTransitionFinished;
         __weak typeof(self) weakSelf = self;
@@ -1177,6 +1237,9 @@ static NSUInteger sIndexCacheSize = 5;
         
         // Finalize rendering here & push the command buffer to the GPU
         [commandBuffer commit];
+        
+        renderEncoder = nil;
+        commandBuffer = nil;
     }
     
     if (!sender) {
