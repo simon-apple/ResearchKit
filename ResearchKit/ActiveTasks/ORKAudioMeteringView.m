@@ -72,11 +72,13 @@
 
 - (void)configureMeteringView
 {
+    if (!_meteringView) {
 #if USE_DICTATION_VIEW
-    [self setMeteringView:[[ORKAudioDictationView alloc] init]];
+        [self setMeteringView:[[ORKAudioDictationView alloc] init]];
 #else
-    [self setMeteringView:[[ORKAudioGraphView alloc] init]];
+        [self setMeteringView:[[ORKAudioGraphView alloc] init]];
 #endif
+    }
 }
 
 - (void)layoutSubviews
