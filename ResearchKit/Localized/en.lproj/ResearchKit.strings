@@ -373,6 +373,7 @@
 "HEADPHONE_DETECT_TITLE" = "Connect your Headphones";
 "NOISE_CANCELLATION_EXPLANATION" = "Press and hold one of your AirPods Pro to turn on Noise Cancellation";
 "NOISE_CANCELLATION_REQUIRED" = "Noise cancellation required";
+"BOTH_BUDS_IN_EAR_REQUIRED" = "Put both AirPods in to proceed.";
 "HEADPHONE_DETECT_TEXT" = "To ensure accurate results, this task requires Apple EarPods, AirPods, or AirPods Pro.";
 "SKIP_TO_END_TEXT" = "No Compatible Headphones";
 "SHARED_AUDIO_ALERT" = "Shared audio must be turned off.%@To turn off shared audio, open Control Center and tap %@. Then tap the %@ to turn off sharing a particular set of headphones.";
