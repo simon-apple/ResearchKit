@@ -28,17 +28,56 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "ORKContext.h"
+#import "ORKEarlyTerminationConfiguration.h"
+#import "ORKHelpers_Internal.h"
+#import "ORKStep.h"
 
-@implementation ORKEarlyTerminationContext
+@implementation ORKEarlyTerminationConfiguration
 
-- (instancetype)initWithButtonText:(NSString *)buttonText earlyTerminationStep:(ORKStep *)earlyTerminationStep {
+- (instancetype)initWithButtonText:(NSString *)buttonText earlyTerminationStep:(nonnull ORKStep *)earlyTerminationStep {
     self = [super init];
     if (self) {
         _buttonText = buttonText;
         _earlyTerminationStep = earlyTerminationStep;
     }
     return self;
+}
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
+- (nullable instancetype)initWithCoder:(nonnull NSCoder *)coder {
+    self = [super init];
+    if (self) {
+        ORK_DECODE_OBJ_CLASS(coder, buttonText, NSString);
+        ORK_DECODE_OBJ_CLASS(coder, earlyTerminationStep, ORKStep);
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(nonnull NSCoder *)coder {
+    ORK_ENCODE_OBJ(coder, buttonText);
+    ORK_ENCODE_OBJ(coder, earlyTerminationStep);
+}
+
+- (nonnull id)copyWithZone:(nullable NSZone *)zone {
+    ORKEarlyTerminationConfiguration *configuration = [[[self class] allocWithZone:zone] initWithButtonText:self.buttonText earlyTerminationStep:self.earlyTerminationStep];
+    return configuration;
+}
+
+- (NSUInteger)hash {
+    return _buttonText.hash ^ _earlyTerminationStep.hash;
+}
+
+- (BOOL)isEqual:(id)object {
+    if ([self class] != [object class]) {
+        return NO;
+    }
+
+    __typeof(self) castObject = object;
+    return (ORKEqualObjects(self.buttonText, castObject.buttonText)
+            && ORKEqualObjects(self.earlyTerminationStep, castObject.earlyTerminationStep));
 }
 
 @end

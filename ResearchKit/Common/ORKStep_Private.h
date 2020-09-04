@@ -33,7 +33,7 @@
 #import <ResearchKitCore/ORKContext.h>
 #elif TARGET_OS_IOS
 #import <ResearchKit/ORKStep.h>
-#import <ResearchKit/ORKContext.h>
+
 #endif
 
 NS_ASSUME_NONNULL_BEGIN
@@ -68,8 +68,6 @@ NS_ASSUME_NONNULL_BEGIN
 + (Class)stepViewControllerClass;
 
 - (Class)stepViewControllerClass;
-
-- (nullable ORKEarlyTerminationContext *)earlyTerminationContext;
 
 @end
 

@@ -38,5 +38,6 @@
     "imageContentMode": 0,
     "bodyItemTextAlignment": 0,
     "buildInBodyItems": 0,
-    "useExtendedPadding": 0
+    "useExtendedPadding": 0,
+    "earlyTerminationConfiguration":{"_class":"ORKEarlyTerminationConfiguration"}
 }

@@ -48,14 +48,23 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-ORK_CLASS_AVAILABLE
-@interface ORKEarlyTerminationContext : NSObject<ORKContext>
+@interface ORKSpeechInNoisePredefinedTaskContext : NSObject <ORKContext>
 
-- (instancetype)initWithButtonText:(NSString *)buttonText earlyTerminationStep:(ORKStep *)earlyTerminationStep;
+@property (nonatomic, copy) NSString *practiceAgainStepIdentifier;
 
-@property (nonatomic, copy, readonly) NSString *buttonText;
+@property (nonatomic, assign, getter=isPracticeTest) BOOL practiceTest;
 
-@property (nonatomic, copy, readonly) ORKStep *earlyTerminationStep;
+@property (nonatomic, assign) BOOL prefersKeyboard;
+
+- (void)didSkipHeadphoneDetectionStepForTask:(id<ORKTask>)task;
+
+- (NSString *)didNotAllowRequiredHealthPermissionsForTask:(id<ORKTask>)task;
+
+@end
+
+@interface ORKAVJournalingPredfinedTaskContext : NSObject <ORKContext>
+
+- (void)didReachDetectionTimeLimitForTask:(id<ORKTask>)task;
 
 @end
 

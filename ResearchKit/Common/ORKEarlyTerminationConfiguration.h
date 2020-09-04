@@ -28,29 +28,23 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@import Foundation;
-
-#import "ORKContext.h"
+#import <Foundation/Foundation.h>
+#import <ResearchKit/ORKDefines.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ORKSpeechInNoisePredefinedTaskContext : NSObject <ORKContext>
+@class ORKStep;
 
-@property (nonatomic, copy) NSString *practiceAgainStepIdentifier;
+ORK_CLASS_AVAILABLE
+@interface ORKEarlyTerminationConfiguration : NSObject <NSSecureCoding, NSCopying>
 
-@property (nonatomic, assign, getter=isPracticeTest) BOOL practiceTest;
+- (instancetype)init NS_UNAVAILABLE;
 
-@property (nonatomic, assign) BOOL prefersKeyboard;
+- (instancetype)initWithButtonText:(NSString *)buttonText earlyTerminationStep:(ORKStep *)earlyTerminationStep;
 
-- (void)didSkipHeadphoneDetectionStepForTask:(id<ORKTask>)task;
+@property (nonatomic, readonly, copy) NSString *buttonText;
 
-- (NSString *)didNotAllowRequiredHealthPermissionsForTask:(id<ORKTask>)task;
-
-@end
-
-@interface ORKAVJournalingPredfinedTaskContext : NSObject <ORKContext>
-
-- (void)didReachDetectionTimeLimitForTask:(id<ORKTask>)task;
+@property (nonatomic, readonly, copy) ORKStep *earlyTerminationStep;
 
 @end
 

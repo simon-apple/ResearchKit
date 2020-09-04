@@ -60,7 +60,7 @@
 #import "ORKSkin.h"
 #import "ORKBorderedButton.h"
 #import "ORKTaskReviewViewController.h"
-#import "ORKContext_Internal.h"
+#import "ORKContext.h"
 
 @import AVFoundation;
 @import CoreMotion;
@@ -1268,14 +1268,13 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     if (fromController != _currentStepViewController) {
         return;
     }
-    
+
     ORKStep *step = fromController.parentReviewStep;
     
-    BOOL isEarlyTermination = fromController.wasSkipped == YES && [fromController.step earlyTerminationContext] != nil;
+    BOOL isEarlyTermination = fromController.wasSkipped == YES && fromController.step.earlyTerminationConfiguration != nil;
     if (!step && isEarlyTermination == YES) {
-        step = [fromController.step earlyTerminationContext].earlyTerminationStep;
+        step = fromController.step.earlyTerminationConfiguration.earlyTerminationStep;
     }
-    
     if (!step) {
         step = [self nextStep];
     }
@@ -1296,7 +1295,6 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
                     
                     [_childNavigationController setViewControllers:@[_taskReviewViewController] animated:YES];
                     [self setTaskReviewViewControllerNavbar];
-                    
                 }
             }
         }
@@ -1313,6 +1311,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
         if (fromController.isBeingReviewed) {
             [_managedStepIdentifiers removeLastObject];
         }
+        
         stepViewController.isEarlyTerminationStep = (isEarlyTermination == YES);
         
         [self showStepViewController:stepViewController goForward:YES animated:animated];

@@ -143,6 +143,6 @@
 #import <ResearchKit/ORKHealthKitPermissionType.h>
 #import <ResearchKit/ORKNotificationPermissionType.h>
 
-#import <ResearchKit/ORKContext.h>
-
 #import <ResearchKit/ORKDeprecated.h>
+
+#import <ResearchKit/ORKEarlyTerminationConfiguration.h>

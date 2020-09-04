@@ -40,6 +40,7 @@
 #import "ORKStepViewController_Internal.h"
 #endif
 
+#import "ORKEarlyTerminationConfiguration.h"
 @implementation ORKStep
 @synthesize context;
 
@@ -57,6 +58,7 @@
     if (self) {
         ORKThrowInvalidArgumentExceptionIfNil(identifier);
         _identifier = [identifier copy];
+        _earlyTerminationConfiguration = nil;
         self.showsProgress = YES;
     }
     return self;
@@ -116,6 +118,7 @@
     step.iconImage = self.iconImage;
     step.bodyItems = [_bodyItems copy];
 #endif
+    step.earlyTerminationConfiguration = self.earlyTerminationConfiguration;
     return step;
 }
 
@@ -138,7 +141,7 @@
             && (self.optional == castObject.optional)
             && (self.shouldTintImages == castObject.shouldTintImages)
             && (self.useSurveyMode == castObject.useSurveyMode)
-            && (self.useExtendedPadding == castObject.useExtendedPadding))
+            && (self.useExtendedPadding == castObject.useExtendedPadding)
 #if TARGET_OS_IOS
             && (self.bodyItemTextAlignment == castObject.bodyItemTextAlignment)
             && (self.buildInBodyItems == castObject.buildInBodyItems)
@@ -147,15 +150,15 @@
             && (self.imageContentMode == castObject.imageContentMode)
             && ORKEqualObjects(self.iconImage, castObject.iconImage)
             && ORKEqualObjects(self.bodyItems, castObject.bodyItems)
+            && ORKEqualObjects(self.earlyTerminationConfiguration, castObject.earlyTerminationConfiguration));
 #endif
-            ;
 }
 
 - (NSUInteger)hash {
     // Ignore the task reference - it's not part of the content of the step.
-    return _identifier.hash ^_title.hash ^ _text.hash ^ self.detailText.hash ^ _headerTextAlignment ^ self.footnote.hash ^ (_optional ? 0xf : 0x0)  ^ (_showsProgress ? 0xf : 0x0) ^ (_useExtendedPadding ? 0xf : 0x0)
+    return _identifier.hash ^ _title.hash ^ _text.hash ^ self.detailText.hash ^_headerTextAlignment ^ _bodyItemTextAlignment ^ (_buildInBodyItems ? 0xf : 0x0) ^ _imageContentMode ^ self.footnote.hash ^ (_optional ? 0xf : 0x0) ^ _bodyItems.hash ^ (_showsProgress ? 0xf : 0x0) ^ (_useExtendedPadding ? 0xf : 0x0)
 #if TARGET_OS_IOS
-    ^ _bodyItemTextAlignment ^ (_buildInBodyItems ? 0xf : 0x0) ^ _imageContentMode ^ _bodyItems.hash
+    ^ _bodyItemTextAlignment ^ (_buildInBodyItems ? 0xf : 0x0) ^ _imageContentMode ^ _bodyItems.hash ^_earlyTerminationConfiguration.hash;
 #endif
     ;
 }
@@ -189,6 +192,7 @@
         ORK_DECODE_IMAGE(aDecoder, auxiliaryImage);
         ORK_DECODE_OBJ_ARRAY(aDecoder, bodyItems, ORKBodyItem);
         ORK_DECODE_BOOL(aDecoder, buildInBodyItems);
+        ORK_DECODE_OBJ_CLASS(aDecoder, earlyTerminationConfiguration, ORKEarlyTerminationConfiguration);
 #endif
     }
     return self;
@@ -214,6 +218,7 @@
     ORK_ENCODE_IMAGE(aCoder, iconImage);
     ORK_ENCODE_OBJ(aCoder, bodyItems);
     ORK_ENCODE_BOOL(aCoder, buildInBodyItems);
+    ORK_ENCODE_OBJ(aCoder, earlyTerminationConfiguration);
 #endif
     if ([_task isKindOfClass:[ORKOrderedTask class]]) {
         ORK_ENCODE_OBJ(aCoder, task);
@@ -250,12 +255,5 @@
     }
 }
 #endif
-
-- (nullable ORKEarlyTerminationContext *)earlyTerminationContext {
-    if (self.context && [self.context isKindOfClass:[ORKEarlyTerminationContext class]]) {
-        return (ORKEarlyTerminationContext *)self.context;
-    }
-    return nil;
-}
 
 @end
