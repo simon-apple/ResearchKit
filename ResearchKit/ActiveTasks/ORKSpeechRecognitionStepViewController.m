@@ -369,7 +369,11 @@
                     nextStepContext.prefersKeyboard = YES;
                 }
                 
+                ORKStrongTypeOf(self.taskViewController) strongTaskViewController = self.taskViewController;
+                
                 ORKBodyItem *buttonItem = [[ORKBodyItem alloc] initWithCustomButtonConfigurationHandler:^(UIButton * _Nonnull button) {
+                    
+                    ORKWeakTypeOf(self.taskViewController) weakTaskViewController = strongTaskViewController;
                     
                     if (@available(iOS 13.0, *))
                     {
@@ -381,7 +385,7 @@
                                                                                           attributes:@{NSFontAttributeName:[self buttonTextFont],
                                                                                                        NSForegroundColorAttributeName:self.view.tintColor}];
                     [button setAttributedTitle:attributedTitle forState:UIControlStateNormal];
-                    [button addTarget:self.taskViewController action:@selector(goBackward) forControlEvents:UIControlEventTouchUpInside];
+                    [button addTarget:weakTaskViewController.currentStepViewController action:@selector(goBackward) forControlEvents:UIControlEventTouchUpInside];
                     [button setTitleEdgeInsets:UIEdgeInsetsMake(0, 5, 0, -5)];
                     [button setContentEdgeInsets:UIEdgeInsetsMake(0, 0, 0, -5)];
                 }];
