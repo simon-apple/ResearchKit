@@ -404,6 +404,14 @@
                 }
             }
         }
+    } else {
+        
+        if ([[self nextStep] isKindOfClass:[ORKQuestionStep class]] && [[[self nextStep] answerFormat] isKindOfClass:[ORKTextAnswerFormat class]]) {
+            
+            NSString *substitutedTextAnswer = [self substitutedStringWithString:[_localResult.transcription formattedString]];
+            
+            [((ORKTextAnswerFormat *)self.nextStep.answerFormat) setDefaultTextAnswer:substitutedTextAnswer];
+        }
     }
 }
 
