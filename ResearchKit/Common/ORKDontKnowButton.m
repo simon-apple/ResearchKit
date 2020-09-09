@@ -179,7 +179,7 @@ static const CGFloat CheckMarkImageTrailingPadding = 2.0;
         //image view constraints
         [_constraints addObject:[imageView.trailingAnchor constraintEqualToAnchor:_dontKnowButtonTextLabel.leadingAnchor constant:-CheckMarkImageTrailingPadding]];
         [_constraints addObject:[imageView.heightAnchor constraintEqualToConstant:neededSize.height + CheckMarkImageHeightOffset]];
-        [_constraints addObject:[imageView.widthAnchor constraintEqualToConstant:neededSize.height + CheckMarkImageHeightOffset]];
+        [_constraints addObject:[imageView.widthAnchor constraintEqualToConstant:neededSize.height]];
         [_constraints addObject:[imageView.centerYAnchor constraintEqualToAnchor:_dontKnowButtonTextLabel.centerYAnchor]];
                 
         //custom view constraints
