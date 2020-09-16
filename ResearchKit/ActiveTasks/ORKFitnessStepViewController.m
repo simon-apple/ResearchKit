@@ -30,24 +30,15 @@
 
 
 #import "ORKFitnessStepViewController.h"
-
-#import "ORKActiveStepTimer.h"
-#import "ORKActiveStepView.h"
 #import "ORKFitnessContentView.h"
-#import "ORKVerticalContainerView.h"
-
-#import "ORKStepViewController_Internal.h"
-#import "ORKHealthQuantityTypeRecorder.h"
-#import "ORKPedometerRecorder.h"
-
-#import "ORKActiveStepViewController_Internal.h"
 #import "ORKFitnessStep.h"
-#import "ORKStep_Private.h"
+#import "ORKActiveStepView.h"
+#import "ORKActiveStepTimer.h"
+#import "ORKStepViewController_Internal.h"
+#import "ORKActiveStepViewController_Internal.h"
+#import "ORKStepContainerView_Private.h"
 
-#import "ORKHelpers_Internal.h"
-
-
-@interface ORKFitnessStepViewController () <ORKPedometerRecorderDelegate> {
+@interface ORKFitnessStepViewController () {
     ORKFitnessContentView *_contentView;
 }
 
@@ -70,19 +61,23 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _contentView = [ORKFitnessContentView new];
-    _contentView.timeLeft = self.fitnessStep.stepDuration;
+
+    _contentView = [[ORKFitnessContentView alloc] initWithDuration:self.fitnessStep.stepDuration];
+    _contentView.translatesAutoresizingMaskIntoConstraints = NO;
 
     self.activeStepView.activeCustomView = _contentView;
+    self.activeStepView.customContentFillsAvailableSpace = YES;
 }
 
 - (void)stepDidChange {
     [super stepDidChange];
+    _contentView.duration = self.fitnessStep.stepDuration;
     _contentView.timeLeft = self.fitnessStep.stepDuration;
 }
 
 - (void)countDownTimerFired:(ORKActiveStepTimer *)timer finished:(BOOL)finished {
     _contentView.timeLeft = finished ? 0 : (timer.duration - timer.runtime);
+    _contentView.duration = self.fitnessStep.stepDuration;
     [super countDownTimerFired:timer finished:finished];
 }
 

@@ -50,12 +50,19 @@ NS_ASSUME_NONNULL_BEGIN
 // |______________________________|
 @interface ORKFitnessContentView : ORKActiveStepCustomView
 
+
 /// The total amount of time the active task is supposed to be performed for.
 /// For the six minute walk test, this will typically be 360 seconds.
-@property (nonatomic, assign) NSTimeInterval duration;
+@property (nonatomic) NSTimeInterval duration;
 
 /// The amount of time that still remain.
-@property (nonatomic, assign) NSTimeInterval timeLeft;
+@property (nonatomic) NSTimeInterval timeLeft;
+
++ (instancetype)new NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
+- (instancetype)initWithFrame:(CGRect)frame NS_UNAVAILABLE;
+
+- (instancetype)initWithDuration:(NSTimeInterval)duration;
 
 @end
 

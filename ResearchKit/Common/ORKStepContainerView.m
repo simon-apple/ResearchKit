@@ -326,6 +326,14 @@ static NSString *scrollContentChangedNotification = @"scrollContentChanged";
     }
 }
 
+- (void)setCustomContentView:(UIView *)customContentView {
+    _customContentView = customContentView;
+    [_scrollContainerView addSubview:_customContentView];
+    [self setupCustomContentViewConstraints];
+    [self updateNavigationContainerViewTopConstraint];
+    [self setNeedsUpdateConstraints];
+}
+
 - (void)removeNavigationFooterView {
     [self.navigationFooterView removeFromSuperview];
     if (_navigationContainerViewConstraints) {

@@ -32,7 +32,6 @@
 #import "ORKFitnessContentView.h"
 
 @interface ORKFitnessContentView () {
-    UIStackView *_stackView;
     UILabel *_timerLabel;
 }
 
@@ -41,18 +40,59 @@
 
 @implementation ORKFitnessContentView
 
-- (instancetype)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
+- (instancetype)initWithDuration:(NSTimeInterval)duration {
+    self = [super init];
     if (self) {
-        _stackView = [[UIStackView alloc] initWithFrame:frame];
-        _timerLabel = [UILabel new];
+        _duration = duration;
+        _timeLeft = duration;
+
+        _timerLabel = [[UILabel alloc] init];
+        _timerLabel.textAlignment = NSTextAlignmentCenter;
+        _timerLabel.font = [self labelFont];
+        _timerLabel.adjustsFontForContentSizeCategory = YES;
+        _timerLabel.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
+
+        [self addSubview:_timerLabel];
+        [self tintColorDidChange];
+        [self updateTimerLabel];
+
+        self.backgroundColor = [UIColor clearColor];
     }
     return self;
+}
+
+- (void)tintColorDidChange {
+    [self setNeedsDisplay];
+    _timerLabel.textColor = self.tintColor;
+}
+
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+    _timerLabel.font = [self labelFont];
+}
+
+- (void)setDuration:(NSTimeInterval)duration {
+    _duration = duration;
+    [self setNeedsDisplay];
 }
 
 - (void)setTimeLeft:(NSTimeInterval)timeLeft {
     _timeLeft = timeLeft;
     [self updateTimerLabel];
+    [self setNeedsDisplay];
+}
+
+- (UIFont*) labelFont {
+
+    UIFont* font = [UIFont preferredFontForTextStyle: UIFontTextStyleLargeTitle];
+    UIFontMetrics* metrics = [UIFontMetrics metricsForTextStyle:UIFontTextStyleLargeTitle];
+
+    if (@available(iOS 13, *)) {
+         UIFontDescriptor* round = [[font fontDescriptor] fontDescriptorWithDesign:UIFontDescriptorSystemDesignRounded];
+        font = [UIFont fontWithDescriptor:round size:80];
+    }
+
+    UIFont* scaled = [metrics scaledFontForFont:font];
+    return scaled;
 }
 
 - (void)updateTimerLabel {
@@ -61,11 +101,39 @@
     dispatch_once(&onceToken, ^{
         formatter = [NSDateComponentsFormatter new];
         formatter.unitsStyle = NSDateComponentsFormatterUnitsStylePositional;
-        formatter.zeroFormattingBehavior = NSDateComponentsFormatterZeroFormattingBehaviorPad;
+        formatter.zeroFormattingBehavior = NSDateComponentsFormatterZeroFormattingBehaviorDropLeading;
         formatter.allowedUnits = NSCalendarUnitMinute | NSCalendarUnitSecond;
     });
     
     _timerLabel.text = [formatter stringFromTimeInterval:MAX(round(_timeLeft),0)];
+}
+
+- (void)drawRect:(CGRect)rect {
+
+    // The ring should be be centered and fill 2/3 of the view's width
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGFloat strokeWidth = 12;
+    CGFloat xCenter = self.bounds.size.width / 2;
+    CGFloat yCenter = self.bounds.size.height / 2;
+    CGFloat dimension = MIN(self.bounds.size.width, self.bounds.size.height);
+    CGFloat radius = (2.0/3.0) * dimension * (1.0/2.0);
+    CGFloat percentFilled = _timeLeft / _duration;
+    CGFloat startAngle = -M_PI_2 - (percentFilled * 2 * M_PI);
+    CGFloat stopAngle = -M_PI_2;
+    bool clockwise = NO;
+
+    CGContextSetLineWidth(context, strokeWidth);
+    CGContextSetLineCap(context, kCGLineCapRound);
+
+    // Draw a circular track
+    [[UIColor lightGrayColor] setStroke];
+    CGContextAddArc(context, xCenter, yCenter, radius, 0, 2 * M_PI, clockwise ? 1 : 0);
+    CGContextStrokePath(context);
+
+    // Fill in the track based on progress
+    [self.tintColor setStroke];
+    CGContextAddArc(context, xCenter, yCenter, radius, startAngle, stopAngle, clockwise ? 1 : 0);
+    CGContextStrokePath(context);
 }
 
 @end
