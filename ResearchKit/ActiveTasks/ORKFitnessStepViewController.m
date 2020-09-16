@@ -47,10 +47,8 @@
 #import "ORKHelpers_Internal.h"
 
 
-@interface ORKFitnessStepViewController () <ORKHealthQuantityTypeRecorderDelegate, ORKPedometerRecorderDelegate> {
-    NSInteger _intendedSteps;
+@interface ORKFitnessStepViewController () <ORKPedometerRecorderDelegate> {
     ORKFitnessContentView *_contentView;
-    NSNumberFormatter *_hrFormatter;
 }
 
 @end
@@ -70,82 +68,22 @@
     return (ORKFitnessStep *)self.step;
 }
 
-- (void)stepDidChange {
-    [super stepDidChange];
-    _hrFormatter = [[NSNumberFormatter alloc] init];
-    _hrFormatter.numberStyle = NSNumberFormatterNoStyle;
-    _contentView.timeLeft = self.fitnessStep.stepDuration;
-    
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     _contentView = [ORKFitnessContentView new];
     _contentView.timeLeft = self.fitnessStep.stepDuration;
+
     self.activeStepView.activeCustomView = _contentView;
 }
 
-- (void)updateHeartRateWithQuantity:(HKQuantitySample *)quantity unit:(HKUnit *)unit {
-    if (quantity != nil) {
-        _contentView.hasHeartRate = YES;
-    }
-    if (quantity) {
-        _contentView.heartRate = [_hrFormatter stringFromNumber:@([quantity.quantity doubleValueForUnit:unit])];
-    } else {
-        _contentView.heartRate = @"--";
-    }
-}
-
-- (void)updateDistance:(double)distanceInMeters {
-    _contentView.hasDistance = YES;
-    _contentView.distanceInMeters = distanceInMeters;
-    
-}
-
-- (void)recordersDidChange {
-    [super recordersDidChange];
-    
-    ORKPedometerRecorder *pedometerRecorder = nil;
-    ORKHealthQuantityTypeRecorder *heartRateRecorder = nil;
-    for (ORKRecorder *recorder in self.recorders) {
-        if ([recorder isKindOfClass:[ORKPedometerRecorder class]]) {
-            pedometerRecorder = (ORKPedometerRecorder *)recorder;
-        } else if ([recorder isKindOfClass:[ORKHealthQuantityTypeRecorder class]]) {
-            ORKHealthQuantityTypeRecorder *rec1 = (ORKHealthQuantityTypeRecorder *)recorder;
-            if ([[[rec1 quantityType] identifier] isEqualToString:HKQuantityTypeIdentifierHeartRate]) {
-                heartRateRecorder = (ORKHealthQuantityTypeRecorder *)recorder;
-            }
-        }
-    }
-    
-    if (heartRateRecorder == nil) {
-        _contentView.hasHeartRate = NO;
-    }
-    _contentView.heartRate = @"--";
-    _contentView.hasDistance = (pedometerRecorder != nil);
-    _contentView.distanceInMeters = 0;
-    
+- (void)stepDidChange {
+    [super stepDidChange];
+    _contentView.timeLeft = self.fitnessStep.stepDuration;
 }
 
 - (void)countDownTimerFired:(ORKActiveStepTimer *)timer finished:(BOOL)finished {
     _contentView.timeLeft = finished ? 0 : (timer.duration - timer.runtime);
     [super countDownTimerFired:timer finished:finished];
-}
-
-#pragma mark - ORKHealthQuantityTypeRecorderDelegate
-
-- (void)healthQuantityTypeRecorderDidUpdate:(ORKHealthQuantityTypeRecorder *)healthQuantityTypeRecorder {
-    if ([[healthQuantityTypeRecorder.quantityType identifier] isEqualToString:HKQuantityTypeIdentifierHeartRate]) {
-        [self updateHeartRateWithQuantity:healthQuantityTypeRecorder.lastSample unit:healthQuantityTypeRecorder.unit];
-    }
-}
-
-#pragma mark - ORKPedometerRecorderDelegate
-
-- (void)pedometerRecorderDidUpdate:(ORKPedometerRecorder *)pedometerRecorder {
-    double distanceInMeters = pedometerRecorder.totalDistance;
-    [self updateDistance:distanceInMeters];
 }
 
 @end
