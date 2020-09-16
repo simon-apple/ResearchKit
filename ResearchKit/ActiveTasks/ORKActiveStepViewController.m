@@ -122,6 +122,9 @@
         _activeStepView = [ORKActiveStepView new];
         [_activeStepView placeNavigationContainerInsideScrollView];
     }
+    if (_customView) {
+        _activeStepView.customContentView = _customView;
+    }
     [self.view addSubview:_activeStepView];
 }
 
@@ -190,6 +193,13 @@
     ORKActiveStep *step = [self activeStep];
     _activeStepView.activeStep = step;
     [self prepareStep];
+}
+
+- (void)setCustomView:(UIView *)customView {
+    _customView = customView;
+    if (_customView) {
+        [_activeStepView setCustomContentView:_customView];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
