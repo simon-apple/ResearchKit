@@ -71,18 +71,6 @@ ORK_CLASS_AVAILABLE
 /// @name UI Customization
 
 /**
- The custom view for the active step.
- 
- Attach a custom view here, and implement `sizeThatFits:` or
- use `intrinsicContentSize` or provide constraints that request the size needed for
- the custom view within the active step's layout.
- 
- Custom views can be used for visual instructions with animation,
- or for getting interactive input.
- */
-@property (nonatomic, strong, nullable) UIView *customView;
-
-/**
  The image view for the active step. (read-only)
  
  The image view is created on demand when this property is accessed, and is a
