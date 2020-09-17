@@ -69,7 +69,7 @@ struct CommonElements {
         return nil
     }
     
-    func verifyElement(_ element: XCUIElement) -> Bool{
+    func verifyElement(_ element: XCUIElement) -> Bool {
         if element.exists {
             return true
         }

@@ -31,7 +31,7 @@
 import SwiftUI
 
 @available(watchOS 6.0, *)
-public struct TaskView : View {
+public struct TaskView: View {
     
     public var body: some View {
         Text("Hello World!")
