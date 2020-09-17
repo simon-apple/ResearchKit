@@ -43,7 +43,7 @@ ORK_CLASS_AVAILABLE
 @property (nonatomic, readonly, nullable) NSSet<ORKHeadphoneChipsetIdentifier> *supportedHeadphoneChipsetTypes;
 
 - (instancetype)initWithDelegate:(id<ORKHeadphoneDetectorDelegate>)delegate
-       supportedHeadphoneChipsetTypes:(nullable NSSet<ORKHeadphoneChipsetIdentifier> *)supportedHeadphoneChipsetTypes;
+       supportedHeadphoneChipsetTypes:(NSSet<ORKHeadphoneChipsetIdentifier> *)supportedHeadphoneChipsetTypes;
 
 @end
 

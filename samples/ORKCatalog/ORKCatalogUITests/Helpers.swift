@@ -80,9 +80,7 @@ class Helpers: XCTestCase {
     }
     
     func monitorAlerts() {
-        addUIInterruptionMonitor(withDescription: "Alert") {
-            
-            element in
+        addUIInterruptionMonitor(withDescription: "Alert") { element in
             do {
             // Push Notification
                 let button = element.buttons["Allow"]

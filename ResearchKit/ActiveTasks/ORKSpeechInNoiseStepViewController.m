@@ -41,7 +41,6 @@
 
 #import "ORKCollectionResult_Private.h"
 #import "ORKHelpers_Internal.h"
-#import "ORKHeadphoneDetector.h"
 #import "ORKRoundTappingButton.h"
 #import "ORKPlaybackButton.h"
 #import "ORKSkin.h"
@@ -53,7 +52,7 @@
 
 static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
 
-@interface ORKSpeechInNoiseStepViewController () <ORKHeadphoneDetectorDelegate> {
+@interface ORKSpeechInNoiseStepViewController () {
     AVAudioEngine *_audioEngine;
     AVAudioPlayerNode *_playerNode;
     AVAudioMixerNode *_mixerNode;
@@ -65,7 +64,6 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
     AVAudioFrameCount _speechToneCapacity;
     AVAudioFrameCount _noiseToneCapacity;
     BOOL _installedTap;
-    ORKHeadphoneDetector *_headphoneDetector;
 }
 
 @property (nonatomic, strong) ORKSpeechInNoiseContentView *speechInNoiseContentView;
@@ -77,9 +75,6 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    if ([self predefinedSpeechInNoiseContext]) {
-        _headphoneDetector = [[ORKHeadphoneDetector alloc] initWithDelegate:self supportedHeadphoneChipsetTypes:nil];
-    }
     _noiseAudioBuffer = [[AVAudioPCMBuffer alloc] init];
     _speechAudioBuffer = [[AVAudioPCMBuffer alloc] init];
     _filterAudioBuffer = [[AVAudioPCMBuffer alloc] init];
@@ -309,45 +304,6 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
     {
         [super finish];
     }
-}
-
-#pragma mark - ORKHeadphoneDetectorDelegate
-
-- (void)headphoneTypeDetected:(ORKHeadphoneTypeIdentifier)headphoneType vendorID:(NSString *)vendorID productID:(NSString *)productID deviceSubType:(NSInteger)deviceSubType isSupported:(BOOL)isSupported {
-
-    if ([self predefinedSpeechInNoiseContext] && (headphoneType == nil || isSupported == NO)) {
-        [self showAlertWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE_TEST_INTERRUPTED", nil) message:ORKLocalizedString(@"dBHL_ALERT_TEXT", nil)];
-    }
-}
-
-- (void)podLowBatteryLevelDetected {
-    
-    if ([self predefinedSpeechInNoiseContext]) {
-        [self showAlertWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE2_TEST_INTERRUPTED", nil) message:ORKLocalizedString(@"dBHL_POD_LOW_LEVEL_ALERT_TEXT", nil)];
-    }
-}
-
-- (void)showAlertWithTitle:(NSString *)title message:(NSString *)message {
-    
-    [_mixerNode removeTapOnBus:0];
-    [_playerNode stop];
-    [_speechInNoiseContentView removeAllSamples];
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        
-        [_speechInNoiseContentView.playButton setEnabled:NO];
-        
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *ok = [UIAlertAction actionWithTitle:ORKLocalizedString(@"BUTTON_OK", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            ORKStrongTypeOf(self.taskViewController.delegate) strongDelegate = self.taskViewController.delegate;
-            if ([strongDelegate respondsToSelector:@selector(taskViewController:didFinishWithReason:error:)]) {
-                [strongDelegate taskViewController:self.taskViewController didFinishWithReason:ORKTaskViewControllerFinishReasonDiscarded error:nil];
-            }
-        }];
-        [alert addAction:ok];
-        
-        [self presentViewController:alert animated:YES completion:nil];
-    });
 }
 
 @end
