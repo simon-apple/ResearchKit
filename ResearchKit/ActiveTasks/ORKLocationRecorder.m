@@ -119,7 +119,8 @@
 }
 
 - (void)locationManager:(CLLocationManager *)manager
-     didUpdateLocations:(NSArray *)locations {
+     didUpdateLocations:(NSArray<CLLocation *> *)locations {
+
     BOOL success = YES;
     NSParameterAssert(locations.count >= 0);
     NSError *error = nil;
