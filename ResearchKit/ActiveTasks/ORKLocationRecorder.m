@@ -71,6 +71,15 @@
     return @"location";
 }
 
+
+// Test Seam - unit tests don't support background updates or pausing.
+- (CLLocationManager *)createLocationManager {
+    CLLocationManager *manager = [[CLLocationManager alloc] init];
+    manager.pausesLocationUpdatesAutomatically = NO;
+    manager.allowsBackgroundLocationUpdates = YES;
+    return manager;
+}
+
 - (void)start {
     [super start];
     
@@ -83,9 +92,7 @@
         }
     }
     
-    self.locationManager = [[CLLocationManager alloc] init];
-    self.locationManager.pausesLocationUpdatesAutomatically = NO;
-    self.locationManager.allowsBackgroundLocationUpdates = YES;
+    self.locationManager = [self createLocationManager];
     self.locationManager.delegate = self;
 
     if ([CLLocationManager authorizationStatus] <= kCLAuthorizationStatusDenied) {
