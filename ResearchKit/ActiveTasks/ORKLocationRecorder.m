@@ -71,10 +71,6 @@
     return @"location";
 }
 
-- (CLLocationManager *)createLocationManager {
-    return [[CLLocationManager alloc] init];
-}
-
 - (void)start {
     [super start];
     
@@ -87,21 +83,15 @@
         }
     }
     
-    self.locationManager = [self createLocationManager];
+    self.locationManager = [[CLLocationManager alloc] init];
+    self.locationManager.pausesLocationUpdatesAutomatically = NO;
+    self.locationManager.allowsBackgroundLocationUpdates = YES;
+    self.locationManager.delegate = self;
+
     if ([CLLocationManager authorizationStatus] <= kCLAuthorizationStatusDenied) {
         [self.locationManager requestWhenInUseAuthorization];
     }
-    self.locationManager.pausesLocationUpdatesAutomatically = NO;
-    self.locationManager.delegate = self;
-    
-    if (!self.locationManager) {
-        NSError *error = [NSError errorWithDomain:NSCocoaErrorDomain
-                                             code:NSFeatureUnsupportedError
-                                         userInfo:@{@"recorder": self}];
-        [self finishRecordingWithError:error];
-        return;
-    }
-    
+
     self.uptime = [NSProcessInfo processInfo].systemUptime;
     [self.locationManager startUpdatingLocation];
 }
