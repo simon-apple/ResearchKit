@@ -326,9 +326,7 @@
     // Start recorders
     for (ORKRecorder *recorder in self.recorders) {
         [recorder viewController:self willStartStepWithView:self.customViewContainer];
-        dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
-            [recorder start];
-        });
+        [recorder start];
     }
 }
 
