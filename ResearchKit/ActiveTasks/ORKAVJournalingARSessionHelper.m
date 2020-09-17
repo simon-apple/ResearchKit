@@ -143,7 +143,9 @@ static const CGFloat AudioSampleRate = 44100;
     
     if (_videoAssetWriter == nil) {
         if (_sampleBufferDelegate == nil) {
-            *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFeatureUnsupportedError userInfo:@{NSLocalizedDescriptionKey:ORKLocalizedString(@"AV_JOURNALING_STEP_CAMERA_ERROR", nil)}];
+            if (error != NULL) {
+                *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFeatureUnsupportedError userInfo:@{NSLocalizedDescriptionKey:ORKLocalizedString(@"AV_JOURNALING_STEP_CAMERA_ERROR", nil)}];
+            }
             return NO;
         }
         
@@ -191,7 +193,7 @@ static const CGFloat AudioSampleRate = 44100;
                 [_pixelBufferAdaptor appendPixelBuffer:pixelBuffer withPresentationTime:presentationTime];
                  
                 if (frame.capturedDepthData.depthDataMap && [_depthDataAssetWriterInput isReadyForMoreMediaData]) {
-                    CMSampleBufferRef sbuf;
+                    CMSampleBufferRef sbuf = NULL;
                     OSStatus err = [self attachDepthPixelBuffer: frame.capturedDepthData.depthDataMap toSampleBuffer:&sbuf withPresentationTime:presentationTime];
                     
                     if (err == noErr) {
@@ -273,7 +275,9 @@ static const CGFloat AudioSampleRate = 44100;
     if ([_videoAssetWriter canAddInput:_videoAssetWriterInput]) {
         [_videoAssetWriter addInput:_videoAssetWriterInput];
     } else {
-        *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFeatureUnsupportedError userInfo:@{NSLocalizedDescriptionKey:ORKLocalizedString(@"AV_JOURNALING_STEP_CAMERA_ERROR", nil)}];
+        if (error != NULL) {
+            *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFeatureUnsupportedError userInfo:@{NSLocalizedDescriptionKey:ORKLocalizedString(@"AV_JOURNALING_STEP_CAMERA_ERROR", nil)}];
+        }
         return NO;
     }
     
@@ -287,7 +291,9 @@ static const CGFloat AudioSampleRate = 44100;
     if ([_audioCaptureSession canAddInput: audioInput]) {
         [_audioCaptureSession addInput: audioInput];
     } else {
-        *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFeatureUnsupportedError userInfo:@{NSLocalizedDescriptionKey:ORKLocalizedString(@"AV_JOURNALING_STEP_AUDIO_ERROR", nil)}];
+        if (error != NULL) {
+            *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFeatureUnsupportedError userInfo:@{NSLocalizedDescriptionKey:ORKLocalizedString(@"AV_JOURNALING_STEP_AUDIO_ERROR", nil)}];
+        }
         return NO;
     }
     
@@ -302,7 +308,9 @@ static const CGFloat AudioSampleRate = 44100;
         
         [_audioDataOutput setSampleBufferDelegate:_sampleBufferDelegate queue:_dataOutputQueue];
     } else {
-        *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFeatureUnsupportedError userInfo:@{NSLocalizedDescriptionKey:ORKLocalizedString(@"AV_JOURNALING_STEP_CAMERA_ERROR", nil)}];
+        if (error != NULL) {
+            *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFeatureUnsupportedError userInfo:@{NSLocalizedDescriptionKey:ORKLocalizedString(@"AV_JOURNALING_STEP_CAMERA_ERROR", nil)}];
+        }
         return NO;
     }
     
