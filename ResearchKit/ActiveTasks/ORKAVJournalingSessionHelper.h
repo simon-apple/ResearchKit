@@ -39,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithSampleBufferDelegate:(id<AVCaptureDataOutputSynchronizerDelegate>)sampleBufferDelegate
                        sessionHelperDelegate:(id<ORKAVJournalingSessionHelperDelegate>)sessionHelperDelegate;
 
-@property (nonatomic, readonly) AVCaptureSession *captureSession;
+@property (nonatomic, nullable, readonly) AVCaptureSession *captureSession;
 
 - (BOOL)startSession:(NSError **)error;
 - (void)startCapturing;

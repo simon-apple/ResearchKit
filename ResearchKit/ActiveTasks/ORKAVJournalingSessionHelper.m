@@ -224,7 +224,7 @@
         } else {
             CMTime presentationTime = CMSampleBufferGetPresentationTimeStamp(syncedVideoSampleBufferData.sampleBuffer);
             CVPixelBufferRef pixelBufferRef = [self blurSampleBuffer:syncedVideoSampleBufferData.sampleBuffer faceBounds:facebounds];
-            CMSampleBufferRef sbuf;
+            CMSampleBufferRef sbuf = NULL;
             OSStatus err = [self attachDepthPixelBuffer:pixelBufferRef toSampleBuffer:&sbuf withPresentationTime:presentationTime];
             
             if (err == noErr) {
