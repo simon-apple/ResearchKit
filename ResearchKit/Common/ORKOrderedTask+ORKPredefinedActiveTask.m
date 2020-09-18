@@ -836,25 +836,25 @@ NSString *const ORKSixMinuteWalkFatigueIdentifier = @"6mwt.fatigue";
         instructStep.bodyItems = @[
             [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"6MWT_INSTRUCTIONS_1", nil)
                                    detailText:nil
-                                        image:nil
+                                        image:[UIImage systemImageNamed:@"1.circle"]
                                 learnMoreItem:nil
                                 bodyItemStyle:ORKBodyItemStyleImage],
 
             [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"6MWT_INSTRUCTIONS_2", nil)
                                    detailText:nil
-                                        image:[UIImage systemImageNamed:@"1.circle"]
+                                        image:[UIImage systemImageNamed:@"2.circle"]
                                 learnMoreItem:nil
                                 bodyItemStyle:ORKBodyItemStyleImage],
 
             [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"6MWT_INSTRUCTIONS_3", nil)
                                    detailText:nil
-                                        image:[UIImage systemImageNamed:@"2.circle"]
+                                        image:[UIImage systemImageNamed:@"3.circle"]
                                 learnMoreItem:nil
                                 bodyItemStyle:ORKBodyItemStyleImage],
 
             [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"6MWT_INSTRUCTIONS_4", nil)
                                    detailText:nil
-                                        image:[UIImage systemImageNamed:@"3.circle"]
+                                        image:[UIImage systemImageNamed:@"4.circle"]
                                 learnMoreItem:nil
                                 bodyItemStyle:ORKBodyItemStyleImage],
         ];
