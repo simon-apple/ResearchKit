@@ -73,10 +73,14 @@ ORKAVJournalingStepIdentifier const MaxLimitHitCompletionStepIdentifier = @"ORKA
 
 @implementation ORKAVJournalingPredefinedTask
 
-- (instancetype)initWithIdentifier:(NSString *)identifier maxRecordingTime:(NSTimeInterval)maxRecordingtime journalQuestionSetManifestPath:(NSString *)journalQuestionSetManifestPath {
+- (instancetype)initWithIdentifier:(NSString *)identifier
+    journalQuestionSetManifestPath:(NSString *)journalQuestionSetManifestPath
+                      prependSteps:(nullable NSArray<ORKStep *> *)prependSteps
+                       appendSteps:(nullable NSArray<ORKStep *> *)appendSteps  {
     NSError *error = nil;
     NSArray<ORKStep *> *steps = [self setupStepsFromManifestPath:journalQuestionSetManifestPath
-                                                maxRecordingTime:maxRecordingtime
+                                                    prependSteps:prependSteps
+                                                     appendSteps:appendSteps
                                                            error:&error];
     
     if (error) {
@@ -86,8 +90,9 @@ ORKAVJournalingStepIdentifier const MaxLimitHitCompletionStepIdentifier = @"ORKA
     
     self = [super initWithIdentifier:identifier steps:steps];
     if (self) {
-        _journalQuestionSetManifestPath = journalQuestionSetManifestPath;
-        _maxRecordingTime = maxRecordingtime;
+        _journalQuestionSetManifestPath = [journalQuestionSetManifestPath copy];
+        _prependSteps = [prependSteps copy];
+        _appendSteps = [appendSteps copy];
         
         for (ORKStep *step in self.steps) {
             if ([step isKindOfClass:[ORKStep class]]) {
@@ -104,8 +109,16 @@ ORKAVJournalingStepIdentifier const MaxLimitHitCompletionStepIdentifier = @"ORKA
     ORKThrowMethodUnavailableException();
 }
 
-- (nullable NSArray<ORKStep *> *)setupStepsFromManifestPath:(NSString *)manifestPath maxRecordingTime:(NSTimeInterval)maxRecordingTime error:(NSError * _Nullable * _Nullable)error {
+- (nullable NSArray<ORKStep *> *)setupStepsFromManifestPath:(NSString *)manifestPath
+                                               prependSteps:(nullable NSArray<ORKStep *> *)prependSteps
+                                                appendSteps:(nullable NSArray<ORKStep *> *)appendSteps
+                                                      error:(NSError * _Nullable * _Nullable)error {
+    
     NSMutableArray<ORKStep *> *steps = [[NSMutableArray alloc] init];
+    
+    if (prependSteps.count > 0) {
+        [steps addObjectsFromArray:[prependSteps copy]];
+    }
     
     //Fetch AVJournalSteps from manifest file
     NSArray<ORKAVJournalingStep *> *avJournalingSteps = [self prefetchJournalQuestionSetsFromManifestAtPath:manifestPath error:error];
@@ -117,17 +130,14 @@ ORKAVJournalingStepIdentifier const MaxLimitHitCompletionStepIdentifier = @"ORKA
     faceDetectionStep.context = avJournalingPredefinedContext;
     
     [steps addObject:faceDetectionStep];
-    
-    //Instruction Step
-    ORKInstructionStep *instructionStep = [[ORKInstructionStep alloc] initWithIdentifier:InstructionStepIdentifier];
-    instructionStep.title = ORKLocalizedString(@"AV_JOURNALING_PREDEFINED_TASK_INSTRUCTION_STEP_TITLE", nil);
-    instructionStep.text = [NSString stringWithFormat:ORKLocalizedString(@"AV_JOURNALING_PREDEFINED_TASK_INSTRUCTION_STEP_TEXT", nil), avJournalingSteps.count];
-    
-    [steps addObject:instructionStep];
-    
+        
     //add AVJournalSteps
     for (ORKAVJournalingStep* avJournalingStep in avJournalingSteps) {
         [steps addObject:avJournalingStep];
+    }
+    
+    if (appendSteps.count > 0) {
+        [steps addObjectsFromArray:[appendSteps copy]];
     }
     
     //Completion Step
@@ -176,6 +186,8 @@ ORKAVJournalingStepIdentifier const MaxLimitHitCompletionStepIdentifier = @"ORKA
     
     NSString * const ManifestJSONKeyIdentifier = @"identifier";
     NSString * const ManifestJSONKeyQuestion = @"question";
+    NSString * const ManifestJSONKeyMaxRecordingTime = @"maxRecordingTime";
+    NSString * const ManifestJSONKeySaveDepthDataIfAvailable = @"saveDepthDataIfAvailable";
     
     NSMutableArray<ORKAVJournalingStep *> *avJournalingSteps = [[NSMutableArray alloc] init];
     
@@ -185,14 +197,18 @@ ORKAVJournalingStepIdentifier const MaxLimitHitCompletionStepIdentifier = @"ORKA
         
         NSString *avJournalStepIdentifier = (NSString *)[obj objectForKey:ManifestJSONKeyIdentifier];
         NSString *avJournalStepQuestion = (NSString *)[obj objectForKey:ManifestJSONKeyQuestion];
+        BOOL avJournalStepSaveDepthDataIfAvailable = (BOOL)[obj objectForKey:ManifestJSONKeySaveDepthDataIfAvailable];
+        NSString *avJournalStepMaxRecordingTime = (NSString *)[obj objectForKey:ManifestJSONKeyMaxRecordingTime];
         
-        if (avJournalStepIdentifier && avJournalStepQuestion) {
+        NSTimeInterval maxRecordingtime = [avJournalStepMaxRecordingTime doubleValue];
+        
+        if (avJournalStepIdentifier && avJournalStepQuestion && [obj objectForKey:ManifestJSONKeyMaxRecordingTime] && [obj objectForKey:ManifestJSONKeySaveDepthDataIfAvailable]) {
             ORKAVJournalingStep *avJournalingStep = [[ORKAVJournalingStep alloc] initWithIdentifier:avJournalStepIdentifier];
-            avJournalingStep.title = ORKLocalizedString(@"AV_JOURNALING_STEP_TITLE", "");
+            avJournalingStep.title = [NSString stringWithFormat:ORKLocalizedString(@"AV_JOURNALING_STEP_QUESTION_NUMBER_TEXT", nil), avJournalingSteps.count + 1, manifest.count];
             avJournalingStep.text = avJournalStepQuestion;
-            avJournalingStep.allowsRetry = YES;
-            avJournalingStep.allowsReview = YES;
-
+            avJournalingStep.maximumRecordingLimit = maxRecordingtime;
+            avJournalingStep.saveDepthDataIfAvailable = avJournalStepSaveDepthDataIfAvailable;
+            
             [avJournalingSteps addObject: avJournalingStep];
             success = YES;
         } else {
@@ -223,14 +239,16 @@ ORKAVJournalingStepIdentifier const MaxLimitHitCompletionStepIdentifier = @"ORKA
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [super encodeWithCoder:aCoder];
     ORK_ENCODE_OBJ(aCoder, journalQuestionSetManifestPath);
-    ORK_ENCODE_DOUBLE(aCoder, maxRecordingTime);
+    ORK_ENCODE_OBJ(aCoder, prependSteps);
+    ORK_ENCODE_OBJ(aCoder, appendSteps);
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
         ORK_DECODE_OBJ_CLASS(aDecoder, journalQuestionSetManifestPath, NSString);
-        ORK_DECODE_DOUBLE(aDecoder, maxRecordingTime);
+        ORK_DECODE_OBJ_ARRAY(aDecoder, prependSteps, ORKStep);
+        ORK_DECODE_OBJ_ARRAY(aDecoder, appendSteps, ORKStep);
     }
     return self;
 }
@@ -238,9 +256,10 @@ ORKAVJournalingStepIdentifier const MaxLimitHitCompletionStepIdentifier = @"ORKA
 #pragma mark - NSCopying
 
 - (instancetype)copyWithZone:(NSZone *)zone {    
-    return [[[self class] allocWithZone:zone] initWithIdentifier: [self.identifier copy]
-                                                maxRecordingTime: self.maxRecordingTime
-                                  journalQuestionSetManifestPath: [self.journalQuestionSetManifestPath copy]];
+    return [[[self class] allocWithZone:zone] initWithIdentifier:[self.identifier copy]
+                                  journalQuestionSetManifestPath:[self.journalQuestionSetManifestPath copy]
+                                                    prependSteps:[[NSArray alloc] initWithArray:self.prependSteps copyItems:YES]
+                                                     appendSteps:[[NSArray alloc] initWithArray:self.appendSteps copyItems:YES]];
 }
 
 - (BOOL)isEqual:(id)object {
@@ -250,11 +269,12 @@ ORKAVJournalingStepIdentifier const MaxLimitHitCompletionStepIdentifier = @"ORKA
     
     return (isParentSame &&
             [self.journalQuestionSetManifestPath isEqualToString:castObject.journalQuestionSetManifestPath] &&
-            (self.maxRecordingTime == castObject.maxRecordingTime));
+            [self.prependSteps isEqualToArray:castObject.prependSteps] &&
+            [self.appendSteps isEqualToArray:castObject.appendSteps]);
 }
 
 - (NSUInteger)hash {
-    return [super hash] ^ [_journalQuestionSetManifestPath hash];
+    return [super hash] ^ [_journalQuestionSetManifestPath hash] ^ [_prependSteps hash] ^ [_appendSteps hash];
 }
 
 

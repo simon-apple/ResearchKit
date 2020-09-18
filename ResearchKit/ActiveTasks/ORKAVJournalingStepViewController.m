@@ -72,6 +72,7 @@
     NSURL *_savedFileURL;
     
     BOOL _waitingOnUserToStartRecording;
+    BOOL _submitVideoAfterStopping;
     
     ORKAVJournalingARSessionHelper *_arSessionHelper;
     ORKAVJournalingSessionHelper *_sessionHelper;
@@ -92,12 +93,39 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     _results = [NSMutableArray new];
     _waitingOnUserToStartRecording = YES;
+    _submitVideoAfterStopping = NO;
     
    [self setupContentView];
-   [self setupConstraints];
+   [self setupContentViewConstraints];
    [self startSession];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    dispatch_async(dispatch_get_main_queue(), ^(void) {
+        [_navigationFooterView.skipButton setTitle:ORKLocalizedString(@"AV_JOURNALING_STEP_FINISH_LATER_BUTTON_TEXT", "") forState:UIControlStateNormal];
+        
+        [_navigationFooterView.continueButton removeTarget:nil
+                                                    action:NULL
+                                          forControlEvents:UIControlEventAllEvents];
+        
+        [_navigationFooterView.skipButton removeTarget:nil
+                                                action:NULL
+                                      forControlEvents:UIControlEventAllEvents];
+        
+        
+        [_navigationFooterView.continueButton addTarget:self
+                                                 action:@selector(nextButtonPressed)
+                                       forControlEvents:UIControlEventTouchUpInside];
+        
+        [_navigationFooterView.skipButton addTarget:self
+                                             action:@selector(finishLaterButtonPressed)
+                                   forControlEvents:UIControlEventTouchUpInside];
+    });
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -105,6 +133,21 @@
     
     [_contentView layoutSubviews];
 }
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    [self cleanupSession];
+}
+
+- (void)stepDidFinish {
+    [super stepDidFinish];
+
+    [self cleanupSession];
+    [self goForward];
+}
+
+#pragma mark - Methods
 
 - (void)handleError:(NSError *)error {
     // Shut down the session, if running
@@ -117,26 +160,9 @@
     [_contentView handleError:error];
 }
 
-- (void)stepDidFinish {
-    [super stepDidFinish];
-
-    [self deleteTempVideoFile];
-    
-    if (_arSceneView) {
-        [_arSceneView.session pause];
-        [_arSceneView removeFromSuperview];
-        _arSceneView = nil;
-    }
-    
-    [self tearDownSession];
-   
-    [self goForward];
-}
-
-#pragma mark - Methods
-
 - (void)setupContentView {
     _contentView = [[ORKAVJournalingStepContentView alloc] initWithTitle:_avJournalingStep.title text:_avJournalingStep.text];
+    _contentView.translatesAutoresizingMaskIntoConstraints = NO;
     _contentView.layer.cornerRadius = 10.0;
     _contentView.layer.maskedCorners = kCALayerMinXMinYCorner | kCALayerMaxXMinYCorner;
     _contentView.clipsToBounds = YES;
@@ -145,57 +171,37 @@
         [weakSelf handleContentViewEvent:event];
     }];
     
-    [self.view addSubview:_contentView];
+    self.activeStepView.activeCustomView = _contentView;
+    self.activeStepView.customContentFillsAvailableSpace = YES;
+    
+    _navigationFooterView = self.activeStepView.navigationFooterView;
+    [_navigationFooterView setContinueEnabled:YES];
+    [_navigationFooterView setSkipEnabled:YES];
+    _navigationFooterView.optional = YES;
 }
 
 - (void)handleContentViewEvent:(ORKAVJournalingStepContentViewEvent)event {
     switch (event) {
-        case ORKAVJournalingStepContentViewEventStartRecording:
-            [self startVideoRecording];
-            break;
-            
-        case ORKAVJournalingStepContentViewEventStopRecording:
+        case ORKAVJournalingStepContentViewEventStopAndSubmitRecording:
+            _submitVideoAfterStopping = YES;
             [self stopVideoRecording];
             break;
             
-        case ORKAVJournalingStepContentViewEventReviewRecording:
-        {
-            AVPlayerItem* playerItem = [AVPlayerItem playerItemWithURL:_tempFileURL];
-            AVPlayer *playVideo = [[AVPlayer alloc] initWithPlayerItem:playerItem];
-            AVPlayerViewController *playerViewController = [[AVPlayerViewController alloc] init];
-            playerViewController.player = playVideo;
-            playerViewController.player.volume = 1.0;
-            [self presentViewController:playerViewController animated:YES completion:nil];
-            [playVideo play];
-            break;
-        }
-        case ORKAVJournalingStepContentViewEventRetryRecording:
-            [self deleteTempVideoFile];
-            _retryCount++;
-            break;
-        case ORKAVJournalingStepContentViewEventSubmitRecording:
-        {
-            [self submitVideo];
-            break;
-        }
         case ORKAVJournalingStepContentViewEventError:
             break;
     }
 }
 
-- (void)setupConstraints {
-    _contentView.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    [[_contentView.topAnchor constraintEqualToAnchor:self.view.topAnchor] setActive:YES];
-    [[_contentView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor] setActive:YES];
-    [[_contentView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor] setActive:YES];
-    [[_contentView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor] setActive:YES];
+- (void)setupContentViewConstraints {
+    [[_contentView.topAnchor constraintEqualToAnchor:self.activeStepView.topAnchor] setActive:YES];
+    [[_contentView.leadingAnchor constraintEqualToAnchor:self.activeStepView.leadingAnchor] setActive:YES];
+    [[_contentView.trailingAnchor constraintEqualToAnchor:self.activeStepView.trailingAnchor] setActive:YES];
 }
 
 - (void)startSession {
     if ([ARFaceTrackingConfiguration isSupported]) {
         //Setup ARSession to record video/audio & depth map data
-        _arSceneView = [_contentView ARSceneView];
+        _arSceneView = [ARSCNView new];
         _arSceneView.delegate = self;
         [_arSceneView.session setDelegate:self];
         
@@ -228,14 +234,14 @@
         if (!success) {
             [self handleError:error];
         } else {
-            [_contentView setPreviewLayerWithSession:_sessionHelper.captureSession];
             [_contentView layoutSubviews];
         }
     }
+    
+    [self startVideoRecording];
 }
 
 - (void)startVideoRecording {
-    
     if ([ARFaceTrackingConfiguration isSupported]) {
         NSError *error = nil;
         BOOL success = [_arSessionHelper startCapturing:&error];
@@ -254,6 +260,15 @@
     
     [_contentView startTimerWithMaximumRecordingLimit:_avJournalingStep.maximumRecordingLimit];
     [_contentView layoutSubviews];
+}
+
+- (void)nextButtonPressed {
+    _submitVideoAfterStopping = YES;
+    [self stopVideoRecording];
+}
+
+- (void)finishLaterButtonPressed {
+    //TODO: add finish later functionality
 }
 
 - (void)tearDownSession {
@@ -291,18 +306,6 @@
             [self finish];
         }
     }
-}
-
-- (void)presentOptionsViewIfRequired {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [_contentView presentReviewOptionsAllowingReview:_avJournalingStep.allowsReview
-                                              allowRetry:_avJournalingStep.allowsRetry];
-        
-        if (!_avJournalingStep.allowsRetry && !_avJournalingStep.allowsReview) {
-            [self submitVideo];
-        }
-        
-    });
 }
 
 - (void)deleteTempVideoFile {
@@ -349,6 +352,18 @@
     return stepResult;
 }
 
+- (void)cleanupSession {
+    [self deleteTempVideoFile];
+    
+    if (_arSceneView) {
+        [_arSceneView.session pause];
+        [_arSceneView removeFromSuperview];
+        _arSceneView = nil;
+    }
+    
+    [self tearDownSession];
+}
+
 - (void)extractDataFromCurrentFrame:(ARFrame *)frame {
     NSMutableDictionary *dict = [[NSMutableDictionary alloc]initWithCapacity:15];
     [dict setObject:[NSString stringWithFormat:@"%f", frame.timestamp] forKey:@"timeStamp"];
@@ -374,7 +389,9 @@
 - (void)capturingEndedWithTemporaryURL:(NSURL *)tempURL {
     _tempFileURL = tempURL;
     _waitingOnUserToStartRecording = YES;
-    [self presentOptionsViewIfRequired];
+    if (_submitVideoAfterStopping) {
+        [self submitVideo];
+    }
 }
 
 #pragma mark AVCaptureVideoDataOutputSampleBufferDelegate

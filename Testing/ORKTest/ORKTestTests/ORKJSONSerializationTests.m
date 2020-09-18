@@ -249,10 +249,13 @@ ORK_MAKE_TEST_INIT(ORKSpeechInNoisePredefinedTask, ^{
                         appendSteps:@[stepB]];
 });
 ORK_MAKE_TEST_INIT(ORKAVJournalingPredefinedTask, ^{
+    ORKStep *stepA = [[ORKStep alloc] initWithIdentifier:[NSUUID UUID].UUIDString];
+    ORKStep *stepB = [[ORKStep alloc] initWithIdentifier:[NSUUID UUID].UUIDString];
     NSString *bundlePath = [[NSBundle bundleForClass:[ORKJSONSerializationTests class]] pathForResource:@"samples" ofType:@"bundle"];
     return [self initWithIdentifier:@"test1"
-               maxRecordingTime:60
-     journalQuestionSetManifestPath:[bundlePath stringByAppendingPathComponent: @"PredefinedTaskResources/QuestionList1/manifest.json"]];
+     journalQuestionSetManifestPath:[bundlePath stringByAppendingPathComponent: @"PredefinedTaskResources/QuestionList1/manifest.json"]
+                       prependSteps:@[stepA]
+                        appendSteps:@[stepB]];
 });
 ORK_MAKE_TEST_INIT(ORKFaceDetectionStep, ^{
     return [self initWithIdentifier:@"test1"];

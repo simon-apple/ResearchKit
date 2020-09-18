@@ -1746,7 +1746,7 @@ enum TaskListRow: Int, CustomStringConvertible {
             return ORKOrderedTask(identifier: "\(Identifier.predefinedSpeechInNoiseTask)", steps: [completionStep])
         }
         
-        return ORKAVJournalingPredefinedTask(identifier: "\(Identifier.predefinedSpeechInNoiseTask)", maxRecordingTime: 60, journalQuestionSetManifestPath: path)
+        return ORKAVJournalingPredefinedTask(identifier: "\(Identifier.predefinedSpeechInNoiseTask)", journalQuestionSetManifestPath: path, prepend: nil, append: nil)
     }
     
     /// This task presents the Stroop pre-defined active task.
