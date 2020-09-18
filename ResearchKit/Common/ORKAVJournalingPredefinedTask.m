@@ -188,7 +188,7 @@ ORKAVJournalingStepIdentifier const MaxLimitHitCompletionStepIdentifier = @"ORKA
         
         if (avJournalStepIdentifier && avJournalStepQuestion) {
             ORKAVJournalingStep *avJournalingStep = [[ORKAVJournalingStep alloc] initWithIdentifier:avJournalStepIdentifier];
-            avJournalingStep.title = ORKLocalizedString(@"AV_JOURNALING_STEP_TITLE", "");
+            avJournalingStep.title = [NSString stringWithFormat:ORKLocalizedString(@"AV_JOURNALING_STEP_QUESTION_NUMBER_TEXT", nil), avJournalingSteps.count + 1, manifest.count];
             avJournalingStep.text = avJournalStepQuestion;
             avJournalingStep.allowsRetry = YES;
             avJournalingStep.allowsReview = YES;
