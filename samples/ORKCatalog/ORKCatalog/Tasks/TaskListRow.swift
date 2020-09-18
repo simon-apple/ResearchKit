@@ -90,7 +90,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     case passcode
     case audio
     case amslerGrid
-    case tecumsehTest
+    case tecumsehCubeTest
     case sixMinuteWalk
     case fitness
     case holePegTest
@@ -177,7 +177,7 @@ enum TaskListRow: Int, CustomStringConvertible {
                     .audio,
                     .amslerGrid,
                     .sixMinuteWalk,
-                    .tecumsehTest,
+                    .tecumsehCubeTest,
                     .fitness,
                     .holePegTest,
                     .psat,
@@ -308,7 +308,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         case .amslerGrid:
             return NSLocalizedString("Amsler Grid", comment: "")
 
-        case .tecumsehTest:
+        case .tecumsehCubeTest:
             return NSLocalizedString("Tecumseh Cube Test", comment: "")
 
         case .sixMinuteWalk:
@@ -688,8 +688,8 @@ enum TaskListRow: Int, CustomStringConvertible {
         case .amslerGrid:
             return amslerGridTask
 
-        case .tecumsehTest:
-            return tecumsehCubeTask
+        case .tecumsehCubeTest:
+            return tecumsehCubeTestTask
 
         case .sixMinuteWalk:
             return sixMinuteWalkTask
@@ -1680,12 +1680,21 @@ enum TaskListRow: Int, CustomStringConvertible {
         return ORKOrderedTask.fitnessCheck(withIdentifier: String(describing: Identifier.fitnessTask), intendedUseDescription: exampleDescription, walkDuration: 20, restDuration: 20, options: [])
     }
 
-    private var tecumsehCubeTask: ORKTask {
-        return ORKOrderedTask.tecumsehCubeTask(
-            withIdentifier: String(describing: Identifier.tecumsehCubeTestTask),
-            intendedUseDescription: exampleDescription,
-            options: []
-        )
+    private var tecumsehCubeTestTask: ORKTask {
+        if #available(iOS 14, *) {
+            return ORKOrderedTask.tecumsehCubeTask(
+                withIdentifier: String(describing: Identifier.tecumsehCubeTestTask),
+                intendedUseDescription: exampleDescription,
+                options: []
+            )
+        } else {
+            return ORKOrderedTask.fitnessCheck(
+                withIdentifier: String(describing: Identifier.tecumsehCubeTestTask),
+                intendedUseDescription: exampleDescription,
+                walkDuration: 180,
+                restDuration: 180,
+                options: [])
+        }
     }
 
     private var sixMinuteWalkTask: ORKTask {
@@ -1705,7 +1714,7 @@ enum TaskListRow: Int, CustomStringConvertible {
             )
         }
     }
-    
+
     /// This task presents the Hole Peg Test pre-defined active task.
     private var holePegTestTask: ORKTask {
         return ORKNavigableOrderedTask.holePegTest(withIdentifier: String(describing: Identifier.holePegTestTask), intendedUseDescription: exampleDescription, dominantHand: .right, numberOfPegs: 9, threshold: 0.2, rotated: false, timeLimit: 300, options: [])
