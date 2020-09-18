@@ -1,10 +1,14 @@
 [
   {
     "identifier" : "AVJournalStepIdentifier1",
-    "question" : "Some question"
+    "question" : "Some question",
+    "maxRecordingTime" : 45,
+    "saveDepthDataIfAvailable" : "false"
   },
   {
     "identifier" : "AVJournalStepIdentifier2",
-    "question" : "Some question"
+    "question" : "Some question",
+    "maxRecordingTime" : 45,
+    "saveDepthDataIfAvailable" : "false"
   }
 ]
