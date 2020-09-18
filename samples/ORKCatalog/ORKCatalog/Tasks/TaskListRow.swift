@@ -90,6 +90,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     case passcode
     case audio
     case amslerGrid
+    case sixMinuteWalk
     case fitness
     case holePegTest
     case psat
@@ -174,6 +175,7 @@ enum TaskListRow: Int, CustomStringConvertible {
                 [
                     .audio,
                     .amslerGrid,
+                    .sixMinuteWalk,
                     .fitness,
                     .holePegTest,
                     .psat,
@@ -303,7 +305,10 @@ enum TaskListRow: Int, CustomStringConvertible {
         
         case .amslerGrid:
             return NSLocalizedString("Amsler Grid", comment: "")
-            
+
+        case .sixMinuteWalk:
+            return NSLocalizedString("Six Minute Walk", comment: "")
+
         case .fitness:
             return NSLocalizedString("Fitness Check", comment: "")
         
@@ -543,6 +548,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         // Active tasks.
         case audioTask
         case amslerGridTask
+        case sixMinuteWalkTask
         case fitnessTask
         case holePegTestTask
         case psatTask
@@ -675,6 +681,9 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .amslerGrid:
             return amslerGridTask
+
+        case .sixMinuteWalk:
+            return sixMinuteWalkTask
 
         case .fitness:
             return fitnessTask
@@ -1659,7 +1668,15 @@ enum TaskListRow: Int, CustomStringConvertible {
         realistic durations might be several minutes each.
     */
     private var fitnessTask: ORKTask {
-        return ORKOrderedTask.fitnessCheck(withIdentifier: String(describing: Identifier.fitnessTask), intendedUseDescription: exampleDescription, walkDuration: 20, restDuration: 20, options: [])
+        return ORKOrderedTask.fitnessCheck(withIdentifier: String(describing: Identifier.fitnessTask), intendedUseDescription: exampleDescription, walkDuration: 360, restDuration: 0, options: [])
+    }
+
+    private var sixMinuteWalkTask: ORKTask {
+        return ORKOrderedTask.sixMinuteWalk(
+            withIdentifier: String(describing: Identifier.sixMinuteWalkTask),
+            intendedUseDescription: exampleDescription,
+            options: []
+        )
     }
     
     /// This task presents the Hole Peg Test pre-defined active task.
