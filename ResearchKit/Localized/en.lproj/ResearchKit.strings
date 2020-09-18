@@ -283,6 +283,24 @@
 "6MWT_LOW_SCORE" = "1: Not Any";
 "6MWT_HIGH_SCORE" = "10: A Lot";
 
+/* Tecumseh cube active task. */
+"TC_TASK_TITLE" = "Tecumseh Cube Test";
+"TC_INTRO" = "The goal of this test is to raise your heart rate while you are stepping up and down for 3 minutes following a beat.";
+"TC_INTRO_DETAILS" = "Details";
+"TC_INTRO_DETAIL_TIME" = "This test will take about 6 minutes to complete.";
+"TC_INTRO_DETAIL_WATCH" = "You'll need your Apple Watch to complete this test.";
+"TC_INTRO_DETAIL_DANGER" = "If you develop chest pain or discomfort, stop this test immediately.";
+"TC_INSTRUCTIONS_TITLE" = "Getting Started";
+"TC_INSTRUCTIONS_1" = "Find a step with about 20 cm (8 in) of elevation from the ground.";
+"TC_INSTRUCTIONS_2" = "Turn your iPhone volume up to at least 50%.";
+"TC_INSTRUCTIONS_3" = "Start a Stairs workout on your Apple Watch by asking Siri, or by launching the Workouts app, tapping on Add Workout, then choosing Stairs.";
+"TC_TEST_IN_PROGRESS" = "Test in Progress";
+"TC_TEST_IN_PROGRESS_DETAIL" = "Using the stair, step up and down in place with the beat";
+"TC_REST_IN_PROGRESS" = "Have a Rest";
+"TC_REST_IN_PROGRESS_DETAIL" = "Sit down and relax for 3 minutes while your Apple Watch records your resting heart rate.";
+"TC_COMPLETION_TITLE" = "Nicely Done";
+"TC_COMPLETION_DETAIL" = "Congratulation on completing the Tecumseh Cube Test!";
+
 /* Short walk active task. */
 "WALK_TASK_TITLE" = "Gait and Balance";
 "WALK_INTRO_TEXT" = "This activity measures your gait and balance as you walk and stand still. Do not continue if you cannot safely walk unassisted.";

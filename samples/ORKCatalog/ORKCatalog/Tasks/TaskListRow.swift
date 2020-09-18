@@ -90,6 +90,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     case passcode
     case audio
     case amslerGrid
+    case tecumsehTest
     case sixMinuteWalk
     case fitness
     case holePegTest
@@ -176,6 +177,7 @@ enum TaskListRow: Int, CustomStringConvertible {
                     .audio,
                     .amslerGrid,
                     .sixMinuteWalk,
+                    .tecumsehTest,
                     .fitness,
                     .holePegTest,
                     .psat,
@@ -305,6 +307,9 @@ enum TaskListRow: Int, CustomStringConvertible {
         
         case .amslerGrid:
             return NSLocalizedString("Amsler Grid", comment: "")
+
+        case .tecumsehTest:
+            return NSLocalizedString("Tecumseh Cube Test", comment: "")
 
         case .sixMinuteWalk:
             return NSLocalizedString("Six Minute Walk", comment: "")
@@ -548,6 +553,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         // Active tasks.
         case audioTask
         case amslerGridTask
+        case tecumsehCubeTestTask
         case sixMinuteWalkTask
         case fitnessTask
         case holePegTestTask
@@ -681,6 +687,9 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .amslerGrid:
             return amslerGridTask
+
+        case .tecumsehTest:
+            return tecumsehCubeTask
 
         case .sixMinuteWalk:
             return sixMinuteWalkTask
@@ -1669,6 +1678,14 @@ enum TaskListRow: Int, CustomStringConvertible {
     */
     private var fitnessTask: ORKTask {
         return ORKOrderedTask.fitnessCheck(withIdentifier: String(describing: Identifier.fitnessTask), intendedUseDescription: exampleDescription, walkDuration: 360, restDuration: 0, options: [])
+    }
+
+    private var tecumsehCubeTask: ORKTask {
+        return ORKOrderedTask.tecumsehCubeTask(
+            withIdentifier: String(describing: Identifier.tecumsehCubeTestTask),
+            intendedUseDescription: exampleDescription,
+            options: []
+        )
     }
 
     private var sixMinuteWalkTask: ORKTask {
