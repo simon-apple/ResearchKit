@@ -47,13 +47,16 @@ ORK_CLASS_AVAILABLE
 - (instancetype)initWithIdentifier:(NSString *)identifier steps:(nullable NSArray<ORKStep *> *)steps NS_UNAVAILABLE;
 
 - (instancetype)initWithIdentifier:(NSString *)identifier
-                  maxRecordingTime:(NSTimeInterval)maxRecordingtime
-    journalQuestionSetManifestPath:(NSString *)journalQuestionSetManifestPath NS_DESIGNATED_INITIALIZER;
+    journalQuestionSetManifestPath:(NSString *)journalQuestionSetManifestPath
+                      prependSteps:(nullable NSArray<ORKStep *> *)prependSteps
+                       appendSteps:(nullable NSArray<ORKStep *> *)appendSteps NS_DESIGNATED_INITIALIZER;;
         
 @property (nonatomic, readonly) NSString *journalQuestionSetManifestPath;
 
-@property (nonatomic, readonly) NSTimeInterval maxRecordingTime;
- 
+@property (nonatomic, readonly, nullable) NSArray<ORKStep *> *prependSteps;
+
+@property (nonatomic, readonly, nullable) NSArray<ORKStep *> *appendSteps;
+
 @end
 
 NS_ASSUME_NONNULL_END

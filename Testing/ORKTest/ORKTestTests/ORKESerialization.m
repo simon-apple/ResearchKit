@@ -859,12 +859,14 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
            ENTRY(ORKAVJournalingPredefinedTask,
             ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                return [[ORKAVJournalingPredefinedTask alloc] initWithIdentifier:GETPROP(dict, identifier)
-                                                               maxRecordingTime:((NSNumber *)GETPROP(dict, maxRecordingTime)).doubleValue
-                                                 journalQuestionSetManifestPath:GETPROP(dict, journalQuestionSetManifestPath)];
+                                                 journalQuestionSetManifestPath:GETPROP(dict, journalQuestionSetManifestPath)
+                                                                   prependSteps:GETPROP(dict, prependSteps)
+                                                                    appendSteps:GETPROP(dict, appendSteps)];
            },
             (@{
                PROPERTY(journalQuestionSetManifestPath, NSString, NSObject, NO, nil, nil),
-               PROPERTY(maxRecordingTime, NSNumber, NSObject, NO, nil, nil),
+               PROPERTY(prependSteps, ORKStep, NSArray, NO, nil, nil),
+               PROPERTY(appendSteps, ORKStep, NSArray, NO, nil, nil),
                SKIP_PROPERTY(steps, ORKStep, NSArray, NO, nil, nil)
            })),
            ENTRY(ORKStep,
@@ -1296,8 +1298,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                         },
                         (@{
                             PROPERTY(maximumRecordingLimit, NSNumber, NSObject, YES, nil, nil),
-                            PROPERTY(allowsReview, NSNumber, NSObject, YES, nil, nil),
-                            PROPERTY(allowsRetry, NSNumber, NSObject, YES, nil, nil),
+                            PROPERTY(saveDepthDataIfAvailable, NSNumber, NSObject, YES, nil, nil),
                         })),
            ENTRY(ORKTappingIntervalStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {

@@ -32,7 +32,7 @@
 #import "ORKAVJournalingStepViewController.h"
 #import "ORKHelpers_Internal.h"
 
-static const NSTimeInterval MIN_RECORDING_DURATION = 10.0;
+static const NSTimeInterval MIN_RECORDING_DURATION = 30.0;
 static const NSTimeInterval MAX_RECORDING_DURATION = 300.0;
 
 @implementation ORKAVJournalingStep
@@ -49,8 +49,7 @@ static const NSTimeInterval MAX_RECORDING_DURATION = 300.0;
     self = [super initWithIdentifier:identifier];
     if (self) {
         _maximumRecordingLimit = 60.0;
-        _allowsRetry = NO;
-        _allowsReview = NO;
+        _saveDepthDataIfAvailable = YES;
     }
     return self;
 }
@@ -78,8 +77,7 @@ static const NSTimeInterval MAX_RECORDING_DURATION = 300.0;
 - (instancetype)copyWithZone:(NSZone *)zone {
     ORKAVJournalingStep *step = [super copyWithZone:zone];
     step.maximumRecordingLimit = self.maximumRecordingLimit;
-    step.allowsRetry = self.allowsRetry;
-    step.allowsReview = self.allowsReview;
+    step.saveDepthDataIfAvailable = self.saveDepthDataIfAvailable;
     return step;
 }
 
@@ -88,8 +86,7 @@ static const NSTimeInterval MAX_RECORDING_DURATION = 300.0;
     if (self )
     {
         ORK_DECODE_DOUBLE(aDecoder, maximumRecordingLimit);
-        ORK_DECODE_BOOL(aDecoder, allowsRetry);
-        ORK_DECODE_BOOL(aDecoder, allowsReview);
+        ORK_DECODE_BOOL(aDecoder, saveDepthDataIfAvailable);
     }
     return self;
 }
@@ -97,8 +94,7 @@ static const NSTimeInterval MAX_RECORDING_DURATION = 300.0;
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [super encodeWithCoder:aCoder];
     ORK_ENCODE_DOUBLE(aCoder, maximumRecordingLimit);
-    ORK_ENCODE_BOOL(aCoder, allowsRetry);
-    ORK_ENCODE_BOOL(aCoder, allowsReview);
+    ORK_ENCODE_BOOL(aCoder, saveDepthDataIfAvailable);
 }
 
 - (BOOL)isEqual:(id)object {
@@ -107,8 +103,7 @@ static const NSTimeInterval MAX_RECORDING_DURATION = 300.0;
     
     return (isParentSame &&
             (self.maximumRecordingLimit == castObject.maximumRecordingLimit) &&
-            (self.allowsRetry == castObject.allowsRetry) &&
-            (self.allowsReview == castObject.allowsReview));
+            (self.saveDepthDataIfAvailable == castObject.saveDepthDataIfAvailable));
 }
 
 @end
