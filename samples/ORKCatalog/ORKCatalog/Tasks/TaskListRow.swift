@@ -1677,7 +1677,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         realistic durations might be several minutes each.
     */
     private var fitnessTask: ORKTask {
-        return ORKOrderedTask.fitnessCheck(withIdentifier: String(describing: Identifier.fitnessTask), intendedUseDescription: exampleDescription, walkDuration: 360, restDuration: 0, options: [])
+        return ORKOrderedTask.fitnessCheck(withIdentifier: String(describing: Identifier.fitnessTask), intendedUseDescription: exampleDescription, walkDuration: 20, restDuration: 20, options: [])
     }
 
     private var tecumsehCubeTask: ORKTask {
@@ -1689,11 +1689,21 @@ enum TaskListRow: Int, CustomStringConvertible {
     }
 
     private var sixMinuteWalkTask: ORKTask {
-        return ORKOrderedTask.sixMinuteWalk(
-            withIdentifier: String(describing: Identifier.sixMinuteWalkTask),
-            intendedUseDescription: exampleDescription,
-            options: []
-        )
+        if #available(iOS 14, *) {
+            return ORKOrderedTask.sixMinuteWalk(
+                withIdentifier: String(describing: Identifier.sixMinuteWalkTask),
+                intendedUseDescription: exampleDescription,
+                options: []
+            )
+        } else {
+            return ORKOrderedTask.fitnessCheck(
+                withIdentifier: String(describing: Identifier.sixMinuteWalkTask),
+                intendedUseDescription: exampleDescription,
+                walkDuration: 360,
+                restDuration: 0,
+                options: []
+            )
+        }
     }
     
     /// This task presents the Hole Peg Test pre-defined active task.
@@ -1753,7 +1763,7 @@ enum TaskListRow: Int, CustomStringConvertible {
             return ORKOrderedTask(identifier: "\(Identifier.predefinedSpeechInNoiseTask)", steps: [completionStep])
         }
         
-        return ORKAVJournalingPredefinedTask(identifier: "\(Identifier.predefinedSpeechInNoiseTask)", maxRecordingTime: 60, journalQuestionSetManifestPath: path)
+        return ORKAVJournalingPredefinedTask(identifier: "\(Identifier.predefinedSpeechInNoiseTask)", journalQuestionSetManifestPath: path, prepend: nil, append: nil)
     }
     
     /// This task presents the Stroop pre-defined active task.

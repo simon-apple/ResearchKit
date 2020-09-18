@@ -36,11 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class ARSCNView;
 
 typedef NS_ENUM(NSUInteger, ORKAVJournalingStepContentViewEvent) {
-    ORKAVJournalingStepContentViewEventStartRecording = 0,
-    ORKAVJournalingStepContentViewEventStopRecording,
-    ORKAVJournalingStepContentViewEventReviewRecording,
-    ORKAVJournalingStepContentViewEventRetryRecording,
-    ORKAVJournalingStepContentViewEventSubmitRecording,
+    ORKAVJournalingStepContentViewEventStopAndSubmitRecording,
     ORKAVJournalingStepContentViewEventError
 };
 
@@ -52,17 +48,11 @@ typedef void (^ORKAVJournalingStepContentViewEventHandler)(ORKAVJournalingStepCo
 
 - (void)setViewEventHandler:(ORKAVJournalingStepContentViewEventHandler)handler;
 
-- (void)setPreviewLayerWithSession:(AVCaptureSession *)session;
-
 - (void)startTimerWithMaximumRecordingLimit:(NSTimeInterval)maximumRecordingLimit;
-
-- (void)presentReviewOptionsAllowingReview:(BOOL)allowReview allowRetry:(BOOL)allowRetry;
 
 - (void)setFaceDetected:(BOOL)detected;
 
 - (void)handleError:(NSError *)error;
-
-- (ARSCNView *)ARSceneView;
 
 @end
 NS_ASSUME_NONNULL_END
