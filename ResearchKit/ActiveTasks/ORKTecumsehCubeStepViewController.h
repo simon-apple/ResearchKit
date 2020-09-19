@@ -30,10 +30,11 @@
  */
 
 #import <ResearchKit/ResearchKit.h>
+#import <ResearchKit/ORKFitnessStepViewController.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ORKTecumsehCubeStepViewController : ORKActiveStepViewController
+@interface ORKTecumsehCubeStepViewController : ORKFitnessStepViewController
 
 @end
 

@@ -30,11 +30,12 @@
  */
 
 #import <ResearchKit/ResearchKit.h>
+#import <ResearchKit/ORKFitnessStep.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 ORK_CLASS_AVAILABLE
-@interface ORKTecumsehCubeStep : ORKActiveStep
+@interface ORKTecumsehCubeStep : ORKFitnessStep
 
 /**
  A URL to audio that should be played during the Tecumseh Cube Test.
