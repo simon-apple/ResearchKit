@@ -39,6 +39,7 @@
     self = [super initWithIdentifier:identifier];
     if (self) {
         self.audioURL = audioURL;
+        self.stepDuration = 180; // 3 minutes
     }
     return self;
 }

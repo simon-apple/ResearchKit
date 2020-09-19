@@ -539,3 +539,23 @@
 }
 
 @end
+
+@interface ORKTecumsehCubeStepTests : XCTestCase
+
+@end
+
+@implementation ORKTecumsehCubeStepTests
+
+- (void)testAttributes {
+    NSString *identifier = @"STEP";
+    NSURL *audioURL = [NSURL fileURLWithPath:@"some/file/path.wav"];
+    ORKTecumsehCubeStep *step = [[ORKTecumsehCubeStep alloc] initWithIdentifier:identifier audioURL:audioURL];
+
+    XCTAssertEqual(step.identifier, identifier);
+    XCTAssertEqual(step.audioURL, audioURL);
+    XCTAssertEqual(step.stepDuration, 180);
+    XCTAssertEqual(step.shouldShowDefaultTimer, NO);
+    XCTAssert([step isEqual:step]);
+}
+
+@end
