@@ -1685,6 +1685,7 @@ enum TaskListRow: Int, CustomStringConvertible {
             return ORKOrderedTask.tecumsehCubeTask(
                 withIdentifier: String(describing: Identifier.tecumsehCubeTestTask),
                 intendedUseDescription: exampleDescription,
+                audioURL: nil,
                 options: []
             )
         } else {

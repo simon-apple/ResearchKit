@@ -165,6 +165,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (ORKOrderedTask *)tecumsehCubeTaskWithIdentifier:(NSString *)identifier
                             intendedUseDescription:(nullable NSString *)intendedUseDescription
+                                          audioURL:(nullable NSURL *)audioURL
                                            options:(ORKPredefinedTaskOption)options API_AVAILABLE(ios(14.0));
 
 /**

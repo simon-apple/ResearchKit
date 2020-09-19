@@ -68,6 +68,7 @@
 #import "ORKStep_Private.h"
 #import "ORKStroopStep.h"
 #import "ORKTappingIntervalStep.h"
+#import "ORKTecumsehCubeStep.h"
 #import "ORKTimedWalkStep.h"
 #import "ORKToneAudiometryStep.h"
 #import "ORKTowerOfHanoiStep.h"
@@ -936,7 +937,8 @@ NSString *const ORKSixMinuteWalkFatigueIdentifier = @"6mwt.fatigue";
 NSString *const ORKTecumsehCubeStepIdentifier = @"tecumseh";
 
 + (ORKOrderedTask *)tecumsehCubeTaskWithIdentifier:(NSString *)identifier
-                            intendedUseDescription:(NSString *)intendedUseDescription
+                            intendedUseDescription:(nullable NSString *)intendedUseDescription
+                                          audioURL:(nullable NSURL *)audioURL
                                            options:(ORKPredefinedTaskOption)options {
 
     NSTimeInterval stepDuration = 180; // 3 minutes
@@ -1008,22 +1010,23 @@ NSString *const ORKTecumsehCubeStepIdentifier = @"tecumseh";
     }
 
     // Fitness Step
-    ORKFitnessStep *fitnessStep = [[ORKFitnessStep alloc] initWithIdentifier:ORKTecumsehCubeStepIdentifier];
-    fitnessStep.stepDuration = stepDuration;
-    fitnessStep.title = ORKLocalizedString(@"TC_TEST_IN_PROGRESS", nil);
-    fitnessStep.text = ORKLocalizedString(@"TC_TEST_IN_PROGRESS_DETAIL", nil);
-    fitnessStep.spokenInstruction = fitnessStep.text;
-    fitnessStep.recorderConfigurations = [self makeRecorderConfigurationsWithOptions:options];
-    fitnessStep.shouldContinueOnFinish = YES;
-    fitnessStep.optional = NO;
-    fitnessStep.shouldStartTimerAutomatically = YES;
-    fitnessStep.shouldVibrateOnStart = YES;
-    fitnessStep.shouldVibrateOnFinish = YES;
-    fitnessStep.shouldPlaySoundOnStart = YES;
-    fitnessStep.shouldPlaySoundOnFinish = YES;
-    fitnessStep.shouldSpeakRemainingTimeAtHalfway = YES;
-    fitnessStep.shouldSpeakCountDown = YES;
-    ORKStepArrayAddStep(steps, fitnessStep);
+    ORKTecumsehCubeStep *cubeStep = [[ORKTecumsehCubeStep alloc] initWithIdentifier:ORKTecumsehCubeStepIdentifier];
+    cubeStep.audioURL = audioURL;
+    cubeStep.stepDuration = stepDuration;
+    cubeStep.title = ORKLocalizedString(@"TC_TEST_IN_PROGRESS", nil);
+    cubeStep.text = ORKLocalizedString(@"TC_TEST_IN_PROGRESS_DETAIL", nil);
+    cubeStep.spokenInstruction = cubeStep.text;
+    cubeStep.recorderConfigurations = [self makeRecorderConfigurationsWithOptions:options];
+    cubeStep.shouldContinueOnFinish = YES;
+    cubeStep.optional = NO;
+    cubeStep.shouldStartTimerAutomatically = YES;
+    cubeStep.shouldVibrateOnStart = YES;
+    cubeStep.shouldVibrateOnFinish = YES;
+    cubeStep.shouldPlaySoundOnStart = YES;
+    cubeStep.shouldPlaySoundOnFinish = YES;
+    cubeStep.shouldSpeakRemainingTimeAtHalfway = YES;
+    cubeStep.shouldSpeakCountDown = YES;
+    ORKStepArrayAddStep(steps, cubeStep);
 
     // Rest Step
     ORKFitnessStep *stillStep = [[ORKFitnessStep alloc] initWithIdentifier:ORKFitnessRestStepIdentifier];
