@@ -831,7 +831,7 @@ NSString *const ORKSixMinuteWalkFatigueIdentifier = @"6mwt.fatigue";
 
         // Instructions Step
         ORKInstructionStep *instructStep = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction1StepIdentifier];
-        instructStep.iconImage = [UIImage imageNamed:@"person.fill"]; // FIXME: Placeholder
+        instructStep.iconImage = [UIImage systemImageNamed:@"figure.walk"];
         instructStep.title = ORKLocalizedString(@"6MWT_INSTRUCTIONS_TITLE", nil);
 
         instructStep.bodyItems = @[
