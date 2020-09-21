@@ -1010,8 +1010,7 @@ NSString *const ORKTecumsehCubeStepIdentifier = @"tecumseh";
     }
 
     // Fitness Step
-    ORKAudioFitnessStep *cubeStep = [[ORKAudioFitnessStep alloc] initWithIdentifier:ORKTecumsehCubeStepIdentifier];
-    cubeStep.audioURL = audioURL;
+    ORKAudioFitnessStep *cubeStep = [[ORKAudioFitnessStep alloc] initWithIdentifier:ORKTecumsehCubeStepIdentifier audioURL:audioURL];
     cubeStep.stepDuration = stepDuration;
     cubeStep.title = ORKLocalizedString(@"TC_TEST_IN_PROGRESS", nil);
     cubeStep.text = ORKLocalizedString(@"TC_TEST_IN_PROGRESS_DETAIL", nil);

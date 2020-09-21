@@ -39,7 +39,7 @@
 }
 
 - (instancetype)initWithIdentifier:(NSString *)identifier
-                          audioURL:(NSURL *)audioURL {
+                          audioURL:(nullable NSURL *)audioURL {
     self = [super initWithIdentifier:identifier];
     if (self) {
         self.audioURL = audioURL;

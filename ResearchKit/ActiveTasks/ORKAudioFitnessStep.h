@@ -41,7 +41,7 @@ ORK_CLASS_AVAILABLE
  */
 @property (nonatomic, copy, nullable) NSURL *audioURL;
 
-- (instancetype)initWithIdentifier:(NSString *)identifier audioURL:(NSURL*)audioURL;
+- (instancetype)initWithIdentifier:(NSString *)identifier audioURL:(nullable NSURL*)audioURL;
 
 @end
 
