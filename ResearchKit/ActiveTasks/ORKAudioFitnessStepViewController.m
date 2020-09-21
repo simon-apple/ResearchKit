@@ -43,12 +43,12 @@
 @implementation ORKAudioFitnessStepViewController
 
 - (id<ORKAudioPlayer>)audioPlayer {
-    if (!self.audioPlayer) {
+    if (!_audioPlayer) {
         ORKAudioFitnessStep *step = (ORKAudioFitnessStep *)self.step;
         NSBundle *bundle = [NSBundle bundleWithIdentifier: step.audioBundleIdentifier];
         NSURL *url = [bundle URLForResource:step.audioResourceName withExtension:step.audioFileExtension];
         NSError *error;
-        self.audioPlayer = [[ORKAVAudioPlayer alloc] initWithContentsOfURL:url error:&error];
+        _audioPlayer = [[ORKAVAudioPlayer alloc] initWithContentsOfURL:url error:&error];
         if (error) {
             ORK_Log_Error("Failed to load audio file: %@", error.localizedFailureReason);
         }
