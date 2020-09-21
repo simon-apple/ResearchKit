@@ -30,8 +30,13 @@
 
 #import "ORKAudioFitnessStep.h"
 #import "ORKAudioFitnessStepViewController.h"
+#import "ORKHelpers_Internal.h"
 
 @implementation ORKAudioFitnessStep
+
+- (Class)stepViewControllerClass {
+    return [ORKAudioFitnessStepViewController class];
+}
 
 - (instancetype)initWithIdentifier:(NSString *)identifier
                           audioURL:(NSURL *)audioURL {
@@ -43,8 +48,42 @@
     return self;
 }
 
-- (Class)stepViewControllerClass {
-    return [ORKAudioFitnessStepViewController class];
+- (instancetype)initWithCoder:(NSCoder *)coder
+{
+    self = [super initWithCoder:coder];
+    if (self) {
+        ORK_DECODE_URL(coder, audioURL);
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder
+{
+    [super encodeWithCoder:coder];
+    ORK_ENCODE_URL(coder, audioURL);
+}
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
+- (instancetype)copyWithZone:(NSZone *)zone {
+    ORKAudioFitnessStep *step = [super copyWithZone:zone];
+    step.audioURL = [self.audioURL copy];
+    return step;
+}
+
+- (BOOL)isEqual:(id)other
+{
+    BOOL superIsEqual = [super isEqual:other];
+
+    __typeof(self) castObject = other;
+    return (superIsEqual&& ORKEqualObjects(self.audioURL, castObject.audioURL));
+}
+
+- (NSUInteger)hash
+{
+    return super.hash ^ self.audioURL.hash;
 }
 
 @end

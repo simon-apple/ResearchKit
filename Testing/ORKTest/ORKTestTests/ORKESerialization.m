@@ -1441,6 +1441,17 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                  },
                  (@{
                     })),
+           ENTRY(ORKAudioFitnessStep,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+                     return [[ORKAudioFitnessStep alloc]
+                             initWithIdentifier:GETPROP(dict, identifier)
+                             audioURL: GETPROP(dict, audioURL)];
+                 },
+                 (@{
+                     PROPERTY(audioURL, NSURL, NSObject, YES,
+                              ^id(id url, __unused ORKESerializationContext *context) { return [(NSURL *)url absoluteString]; },
+                              ^id(id string, __unused ORKESerializationContext *context) { return [NSURL URLWithString:string]; })
+                    })),
            ENTRY(ORKConsentSection,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      return [[ORKConsentSection alloc] initWithType:((NSNumber *)GETPROP(dict, type)).integerValue];
