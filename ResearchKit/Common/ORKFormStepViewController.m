@@ -991,9 +991,6 @@ static const CGFloat DelayBeforeAutoScroll = 0.25;
 
             if ([nextCell isKindOfClass:[ORKFormItemCell class]]) {
                 [nextCell becomeFirstResponder];
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, DelayBeforeAutoScroll * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-                    [_tableView scrollToRowAtIndexPath:nextIndexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
-                });
             }
 
         } else {
