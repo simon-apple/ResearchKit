@@ -29,59 +29,63 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "ORKTecumsehCubeStep.h"
-#import "ORKTecumsehCubeStepViewController.h"
+#import "ORKAudioFitnessStep.h"
+#import "ORKAudioFitnessStepViewController.h"
 #import "ORKHelpers_Internal.h"
 
 #import <AVFoundation/AVFoundation.h>
 
-@interface ORKTecumsehCubeStepViewController ()
-
-@property (nonatomic, nullable) AVAudioPlayer *player;
-
+@interface ORKAVAudioPlayer : AVAudioPlayer <ORKAudioPlayer>
 @end
 
-@implementation ORKTecumsehCubeStepViewController
+@implementation ORKAVAudioPlayer
+@end
 
-- (ORKTecumsehCubeStep *)cubeStep {
-    return (ORKTecumsehCubeStep *)self.step;
+@interface ORKAudioFitnessStepViewController ()
+@property (nonatomic) id<ORKAudioPlayer> audioPlayer;
+@end
+
+@implementation ORKAudioFitnessStepViewController
+
+- (ORKAudioFitnessStep *)cubeStep {
+    return (ORKAudioFitnessStep *)self.step;
 }
 
-- (AVAudioPlayer *)player {
-    if (!_player) {
+- (id<ORKAudioPlayer>)audioPlayer {
+    if (!_audioPlayer) {
         NSError *error;
         NSURL *url = [self cubeStep].audioURL;
-        _player = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:&error];
+        _audioPlayer = [[ORKAVAudioPlayer alloc] initWithContentsOfURL:url error:&error];
         if (error) {
             ORK_Log_Error("Failed to load audio file: %@", error.localizedFailureReason);
         }
     }
-    return _player;
+    return _audioPlayer;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.player prepareToPlay];
+    [self.audioPlayer prepareToPlay];
 }
 
 - (void)start {
     [super start];
-    [self.player play];
+    [self.audioPlayer play];
 }
 
 - (void)suspend {
     [super suspend];
-    [self.player pause];
+    [self.audioPlayer pause];
 }
 
 - (void)resume {
     [super resume];
-    [self.player play];
+    [self.audioPlayer play];
 }
 
 - (void)finish {
     [super finish];
-    [self.player stop];
+    [self.audioPlayer stop];
 }
 
 @end

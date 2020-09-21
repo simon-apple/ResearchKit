@@ -30,19 +30,21 @@
  */
 
 #import <ResearchKit/ResearchKit.h>
-#import <ResearchKit/ORKFitnessStep.h>
+#import <ResearchKit/ORKFitnessStepViewController.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-ORK_CLASS_AVAILABLE
-@interface ORKTecumsehCubeStep : ORKFitnessStep
+// Test Seam
+@protocol ORKAudioPlayer
+- (BOOL)prepareToPlay;
+- (BOOL)play;
+- (void)pause;
+- (void)stop;
+@end
 
-/**
- A URL to audio that should be played during the Tecumseh Cube Test.
- */
-@property (nonatomic, copy, nullable) NSURL *audioURL;
+@interface ORKAudioFitnessStepViewController : ORKFitnessStepViewController
 
-- (instancetype)initWithIdentifier:(NSString *)identifier audioURL:(NSURL*)audioURL;
+@property (nonatomic, readonly) id<ORKAudioPlayer> audioPlayer;
 
 @end
 

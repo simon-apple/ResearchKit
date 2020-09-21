@@ -29,23 +29,21 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "ORKTecumsehCubeStep.h"
-#import "ORKTecumsehCubeStepViewController.h"
+#import <ResearchKit/ResearchKit.h>
+#import <ResearchKit/ORKFitnessStep.h>
 
-@implementation ORKTecumsehCubeStep
+NS_ASSUME_NONNULL_BEGIN
 
-- (instancetype)initWithIdentifier:(NSString *)identifier
-                          audioURL:(NSURL *)audioURL {
-    self = [super initWithIdentifier:identifier];
-    if (self) {
-        self.audioURL = audioURL;
-        self.stepDuration = 180; // 3 minutes
-    }
-    return self;
-}
+ORK_CLASS_AVAILABLE
+@interface ORKAudioFitnessStep : ORKFitnessStep
 
-- (Class)stepViewControllerClass {
-    return [ORKTecumsehCubeStepViewController class];
-}
+/**
+ A URL to audio that should be played during the Tecumseh Cube Test.
+ */
+@property (nonatomic, copy, nullable) NSURL *audioURL;
+
+- (instancetype)initWithIdentifier:(NSString *)identifier audioURL:(NSURL*)audioURL;
 
 @end
+
+NS_ASSUME_NONNULL_END

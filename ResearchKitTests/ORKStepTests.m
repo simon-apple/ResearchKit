@@ -540,16 +540,16 @@
 
 @end
 
-@interface ORKTecumsehCubeStepTests : XCTestCase
+@interface ORKAudioFitnessStepTests : XCTestCase
 
 @end
 
-@implementation ORKTecumsehCubeStepTests
+@implementation ORKAudioFitnessStepTests
 
 - (void)testAttributes {
     NSString *identifier = @"STEP";
     NSURL *audioURL = [NSURL fileURLWithPath:@"some/file/path.wav"];
-    ORKTecumsehCubeStep *step = [[ORKTecumsehCubeStep alloc] initWithIdentifier:identifier audioURL:audioURL];
+    ORKAudioFitnessStep *step = [[ORKAudioFitnessStep alloc] initWithIdentifier:identifier audioURL:audioURL];
 
     XCTAssertEqual(step.identifier, identifier);
     XCTAssertEqual(step.audioURL, audioURL);

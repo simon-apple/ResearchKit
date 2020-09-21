@@ -29,13 +29,23 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ResearchKit/ResearchKit.h>
-#import <ResearchKit/ORKFitnessStepViewController.h>
+#import "ORKAudioFitnessStep.h"
+#import "ORKAudioFitnessStepViewController.h"
 
-NS_ASSUME_NONNULL_BEGIN
+@implementation ORKAudioFitnessStep
 
-@interface ORKTecumsehCubeStepViewController : ORKFitnessStepViewController
+- (instancetype)initWithIdentifier:(NSString *)identifier
+                          audioURL:(NSURL *)audioURL {
+    self = [super initWithIdentifier:identifier];
+    if (self) {
+        self.audioURL = audioURL;
+        self.stepDuration = 180; // 3 minutes
+    }
+    return self;
+}
+
+- (Class)stepViewControllerClass {
+    return [ORKAudioFitnessStepViewController class];
+}
 
 @end
-
-NS_ASSUME_NONNULL_END

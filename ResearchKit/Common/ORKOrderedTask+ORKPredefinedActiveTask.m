@@ -68,7 +68,7 @@
 #import "ORKStep_Private.h"
 #import "ORKStroopStep.h"
 #import "ORKTappingIntervalStep.h"
-#import "ORKTecumsehCubeStep.h"
+#import "ORKAudioFitnessStep.h"
 #import "ORKTimedWalkStep.h"
 #import "ORKToneAudiometryStep.h"
 #import "ORKTowerOfHanoiStep.h"
@@ -1010,7 +1010,7 @@ NSString *const ORKTecumsehCubeStepIdentifier = @"tecumseh";
     }
 
     // Fitness Step
-    ORKTecumsehCubeStep *cubeStep = [[ORKTecumsehCubeStep alloc] initWithIdentifier:ORKTecumsehCubeStepIdentifier];
+    ORKAudioFitnessStep *cubeStep = [[ORKAudioFitnessStep alloc] initWithIdentifier:ORKTecumsehCubeStepIdentifier];
     cubeStep.audioURL = audioURL;
     cubeStep.stepDuration = stepDuration;
     cubeStep.title = ORKLocalizedString(@"TC_TEST_IN_PROGRESS", nil);

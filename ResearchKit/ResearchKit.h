@@ -34,6 +34,7 @@
 
 #import <ResearchKit/ORKStep.h>
 #import <ResearchKit/ORKActiveStep.h>
+#import <ResearchKit/ORKAudioFitnessStep.h>
 #import <ResearchKit/ORKConsentReviewStep.h>
 #import <ResearchKit/ORKConsentSharingStep.h>
 #import <ResearchKit/ORKFormStep.h>
@@ -98,6 +99,7 @@
 
 #import <ResearchKit/ORKStepViewController.h>
 #import <ResearchKit/ORKActiveStepViewController.h>
+#import <ResearchKit/ORKAudioFitnessStepViewController.h>
 #import <ResearchKit/ORKCompletionStepViewController.h>
 #import <ResearchKit/ORKFormStepViewController.h>
 #import <ResearchKit/ORKInstructionStepViewController.h>
