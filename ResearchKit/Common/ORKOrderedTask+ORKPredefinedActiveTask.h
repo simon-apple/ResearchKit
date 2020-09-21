@@ -159,13 +159,18 @@ NS_ASSUME_NONNULL_BEGIN
  @param intendedUseDescription  A localized string describing the intended use of the data
                                     collected. If the value of this parameter is `nil`, the default
                                     localized text is displayed.
+ @param audioBundleIdentifier   The identifier for the bundle in which the audio file can be found.
+ @param audioResourceName   The name of the audio file to be played.
+ @param audioFileExtension  The file extension for the audio file to be played.
  @param options                 Options that affect the features of the predefined task.
 
  @return An active Tecumseh Cube Test task that can be presented with an `ORKTaskViewController` object.
  */
 + (ORKOrderedTask *)tecumsehCubeTaskWithIdentifier:(NSString *)identifier
                             intendedUseDescription:(nullable NSString *)intendedUseDescription
-                                          audioURL:(nullable NSURL *)audioURL
+                             audioBundleIdentifier:(NSString *)audioBundleIdentifier
+                                 audioResourceName:(NSString *)audioResourceName
+                                audioFileExtension:(nullable NSString*)audioFileExtension
                                            options:(ORKPredefinedTaskOption)options API_AVAILABLE(ios(14.0));
 
 /**

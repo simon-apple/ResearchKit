@@ -36,12 +36,16 @@ NS_ASSUME_NONNULL_BEGIN
 ORK_CLASS_AVAILABLE
 @interface ORKAudioFitnessStep : ORKFitnessStep
 
-/**
- A URL to audio that should be played during the Tecumseh Cube Test.
- */
-@property (nonatomic, copy, nullable) NSURL *audioURL;
+@property (nonatomic, copy) NSString *audioBundleIdentifier;
 
-- (instancetype)initWithIdentifier:(NSString *)identifier audioURL:(nullable NSURL*)audioURL;
+@property (nonatomic, copy) NSString *audioResourceName;
+
+@property (nonatomic, copy, nullable) NSString *audioFileExtension;
+
+- (instancetype)initWithIdentifier:(NSString *)identifier
+             audioBundleIdentifier:(NSString*) bundleIdentifier
+                 audioResourceName:(NSString*) audioResourceName
+                audioFileExtension:(nullable NSString*) audioFileExtension;
 
 @end
 

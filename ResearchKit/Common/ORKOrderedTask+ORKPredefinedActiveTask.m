@@ -938,7 +938,9 @@ NSString *const ORKTecumsehCubeStepIdentifier = @"tecumseh";
 
 + (ORKOrderedTask *)tecumsehCubeTaskWithIdentifier:(NSString *)identifier
                             intendedUseDescription:(nullable NSString *)intendedUseDescription
-                                          audioURL:(nullable NSURL *)audioURL
+                             audioBundleIdentifier:(NSString *)audioBundleIdentifier
+                                 audioResourceName:(NSString *)audioResourceName
+                                audioFileExtension:(nullable NSString*)audioFileExtension
                                            options:(ORKPredefinedTaskOption)options {
 
     NSTimeInterval stepDuration = 180; // 3 minutes
@@ -1010,7 +1012,10 @@ NSString *const ORKTecumsehCubeStepIdentifier = @"tecumseh";
     }
 
     // Fitness Step
-    ORKAudioFitnessStep *cubeStep = [[ORKAudioFitnessStep alloc] initWithIdentifier:ORKTecumsehCubeStepIdentifier audioURL:audioURL];
+    ORKAudioFitnessStep *cubeStep = [[ORKAudioFitnessStep alloc] initWithIdentifier:identifier
+                                                              audioBundleIdentifier:audioBundleIdentifier
+                                                                  audioResourceName:audioResourceName
+                                                                 audioFileExtension:audioFileExtension];
     cubeStep.stepDuration = stepDuration;
     cubeStep.title = ORKLocalizedString(@"TC_TEST_IN_PROGRESS", nil);
     cubeStep.text = ORKLocalizedString(@"TC_TEST_IN_PROGRESS_DETAIL", nil);

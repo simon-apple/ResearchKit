@@ -40,21 +40,15 @@
 @implementation ORKAVAudioPlayer
 @end
 
-@interface ORKAudioFitnessStepViewController ()
-@property (nonatomic) id<ORKAudioPlayer> audioPlayer;
-@end
-
 @implementation ORKAudioFitnessStepViewController
 
-- (ORKAudioFitnessStep *)cubeStep {
-    return (ORKAudioFitnessStep *)self.step;
-}
-
 - (id<ORKAudioPlayer>)audioPlayer {
-    if (!_audioPlayer) {
+    if (!self.audioPlayer) {
+        ORKAudioFitnessStep *step = (ORKAudioFitnessStep *)self.step;
+        NSBundle *bundle = [NSBundle bundleWithIdentifier: step.audioBundleIdentifier];
+        NSURL *url = [bundle URLForResource:step.audioResourceName withExtension:step.audioFileExtension];
         NSError *error;
-        NSURL *url = [self cubeStep].audioURL;
-        _audioPlayer = [[ORKAVAudioPlayer alloc] initWithContentsOfURL:url error:&error];
+        self.audioPlayer = [[ORKAVAudioPlayer alloc] initWithContentsOfURL:url error:&error];
         if (error) {
             ORK_Log_Error("Failed to load audio file: %@", error.localizedFailureReason);
         }

@@ -39,11 +39,16 @@
 }
 
 - (instancetype)initWithIdentifier:(NSString *)identifier
-                          audioURL:(nullable NSURL *)audioURL {
+             audioBundleIdentifier:(NSString *)bundleIdentifier
+                 audioResourceName:(NSString *)audioResourceName
+                audioFileExtension:(NSString *)audioFileExtension {
     self = [super initWithIdentifier:identifier];
     if (self) {
-        self.audioURL = audioURL;
-        self.stepDuration = 180; // 3 minutes
+        self.stepDuration = 180;
+        self.shouldShowDefaultTimer = NO;
+        self.audioBundleIdentifier = bundleIdentifier;
+        self.audioResourceName = audioResourceName;
+        self.audioFileExtension = audioFileExtension;
     }
     return self;
 }
@@ -52,7 +57,9 @@
 {
     self = [super initWithCoder:coder];
     if (self) {
-        ORK_DECODE_URL(coder, audioURL);
+        ORK_DECODE_OBJ(coder, audioBundleIdentifier);
+        ORK_DECODE_OBJ(coder, audioResourceName);
+        ORK_DECODE_OBJ(coder, audioFileExtension);
     }
     return self;
 }
@@ -60,7 +67,9 @@
 - (void)encodeWithCoder:(NSCoder *)coder
 {
     [super encodeWithCoder:coder];
-    ORK_ENCODE_URL(coder, audioURL);
+    ORK_ENCODE_OBJ(coder, audioBundleIdentifier);
+    ORK_ENCODE_OBJ(coder, audioResourceName);
+    ORK_ENCODE_OBJ(coder, audioFileExtension);
 }
 
 + (BOOL)supportsSecureCoding {
@@ -69,7 +78,9 @@
 
 - (instancetype)copyWithZone:(NSZone *)zone {
     ORKAudioFitnessStep *step = [super copyWithZone:zone];
-    step.audioURL = [self.audioURL copy];
+    step.audioBundleIdentifier = [self.audioBundleIdentifier copy];
+    step.audioResourceName = [self.audioResourceName copy];
+    step.audioFileExtension = [self.audioFileExtension copy];
     return step;
 }
 
@@ -78,12 +89,15 @@
     BOOL superIsEqual = [super isEqual:other];
 
     __typeof(self) castObject = other;
-    return (superIsEqual&& ORKEqualObjects(self.audioURL, castObject.audioURL));
+    return (superIsEqual &&
+            ORKEqualObjects(self.audioBundleIdentifier, castObject.audioBundleIdentifier) &&
+            ORKEqualObjects(self.audioResourceName, castObject.audioResourceName) &&
+            ORKEqualObjects(self.audioFileExtension, castObject.audioFileExtension));
 }
 
 - (NSUInteger)hash
 {
-    return super.hash ^ self.audioURL.hash;
+    return super.hash ^ self.audioBundleIdentifier.hash ^ self.audioResourceName.hash ^ self.audioFileExtension.hash;
 }
 
 @end

@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ORKAudioFitnessStepViewController : ORKFitnessStepViewController
 
-@property (nonatomic, readonly) id<ORKAudioPlayer> audioPlayer;
+@property (nonatomic) id<ORKAudioPlayer> audioPlayer;
 
 @end
 
