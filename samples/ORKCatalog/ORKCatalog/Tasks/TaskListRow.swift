@@ -1685,9 +1685,12 @@ enum TaskListRow: Int, CustomStringConvertible {
             return ORKOrderedTask.tecumsehCubeTask(
                 withIdentifier: String(describing: Identifier.tecumsehCubeTestTask),
                 intendedUseDescription: exampleDescription,
-                audioURL: nil,
+                audioBundleIdentifier: Bundle.main.bundleIdentifier!,
+                audioResourceName: "",
+                audioFileExtension: "",
                 options: []
             )
+
         } else {
             return ORKOrderedTask.fitnessCheck(
                 withIdentifier: String(describing: Identifier.tecumsehCubeTestTask),
