@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, Apple Inc. All rights reserved.
+ Copyright (c) 2020, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,16 +28,22 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
-@import Foundation;
-#import <ResearchKit/ORKDefines.h>
-#import <ResearchKit/ORKActiveStep.h>
-
+#import <ResearchKit/ResearchKit.h>
+#import <ResearchKit/ORKFitnessStepViewController.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-ORK_CLASS_AVAILABLE
-@interface ORKFitnessStep : ORKActiveStep
+// Test Seam
+@protocol ORKAudioPlayer
+- (BOOL)prepareToPlay;
+- (BOOL)play;
+- (void)pause;
+- (void)stop;
+@end
+
+@interface ORKAudioFitnessStepViewController : ORKFitnessStepViewController
+
+@property (nonatomic) id<ORKAudioPlayer> audioPlayer;
 
 @end
 

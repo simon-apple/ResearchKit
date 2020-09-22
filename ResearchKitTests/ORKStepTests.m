@@ -539,3 +539,31 @@
 }
 
 @end
+
+@interface ORKAudioFitnessStepTests : XCTestCase
+
+@end
+
+@implementation ORKAudioFitnessStepTests
+
+- (void)testAttributes {
+
+    NSString *identifier = @"abc";
+    NSString *bundleID = @"com.fake.bundle";
+    NSString *name = @"song";
+    NSString *extension = @".mp3";
+
+    ORKAudioFitnessStep *step = [[ORKAudioFitnessStep alloc] initWithIdentifier:identifier
+                                                          audioBundleIdentifier:bundleID
+                                                              audioResourceName:name
+                                                             audioFileExtension:extension];
+    XCTAssertEqual(step.identifier, identifier);
+    XCTAssertEqual(step.audioBundleIdentifier, bundleID);
+    XCTAssertEqual(step.audioResourceName, name);
+    XCTAssertEqual(step.audioFileExtension, extension);
+    XCTAssertEqual(step.stepDuration, 180);
+    XCTAssertEqual(step.shouldShowDefaultTimer, NO);
+    XCTAssert([step isEqual:step]);
+}
+
+@end
