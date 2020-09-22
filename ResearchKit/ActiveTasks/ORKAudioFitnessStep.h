@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, Apple Inc. All rights reserved.
+ Copyright (c) 2020, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,16 +28,24 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
-@import Foundation;
-#import <ResearchKit/ORKDefines.h>
-#import <ResearchKit/ORKActiveStep.h>
-
+#import <ResearchKit/ResearchKit.h>
+#import <ResearchKit/ORKFitnessStep.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 ORK_CLASS_AVAILABLE
-@interface ORKFitnessStep : ORKActiveStep
+@interface ORKAudioFitnessStep : ORKFitnessStep
+
+@property (nonatomic, copy) NSString *audioBundleIdentifier;
+
+@property (nonatomic, copy) NSString *audioResourceName;
+
+@property (nonatomic, copy, nullable) NSString *audioFileExtension;
+
+- (instancetype)initWithIdentifier:(NSString *)identifier
+             audioBundleIdentifier:(NSString*) bundleIdentifier
+                 audioResourceName:(NSString*) audioResourceName
+                audioFileExtension:(nullable NSString*) audioFileExtension;
 
 @end
 

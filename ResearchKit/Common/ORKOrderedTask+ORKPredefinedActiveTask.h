@@ -144,6 +144,36 @@ NS_ASSUME_NONNULL_BEGIN
                                             options:(ORKPredefinedTaskOption)options API_AVAILABLE(ios(14.0));
 
 /**
+ Returns a predefined task that consists of a Tecumseh Cube Test.
+
+ In a Tecumseh Cube Task task, the participant is asked to step up and down onto 20cm high
+ step or block for 3 minutes, and then prompted to result for 3 minutes. During this period,
+ various sensor data is collected and returned by the task view controller's delegate. Sensor
+ data can include accelerometer, device motion, pedometer, location, and heart rate data
+ where available.
+
+ By default, the task includes an instruction step that explains what the user needs to do during
+ the task, but this can be excluded with `ORKPredefinedTaskOptionExcludeInstructions`.
+
+ @param identifier              The task identifier to use for this task, appropriate to the study.
+ @param intendedUseDescription  A localized string describing the intended use of the data
+                                    collected. If the value of this parameter is `nil`, the default
+                                    localized text is displayed.
+ @param audioBundleIdentifier   The identifier for the bundle in which the audio file can be found.
+ @param audioResourceName   The name of the audio file to be played.
+ @param audioFileExtension  The file extension for the audio file to be played.
+ @param options                 Options that affect the features of the predefined task.
+
+ @return An active Tecumseh Cube Test task that can be presented with an `ORKTaskViewController` object.
+ */
++ (ORKOrderedTask *)tecumsehCubeTaskWithIdentifier:(NSString *)identifier
+                            intendedUseDescription:(nullable NSString *)intendedUseDescription
+                             audioBundleIdentifier:(NSString *)audioBundleIdentifier
+                                 audioResourceName:(NSString *)audioResourceName
+                                audioFileExtension:(nullable NSString*)audioFileExtension
+                                           options:(ORKPredefinedTaskOption)options API_AVAILABLE(ios(14.0));
+
+/**
  Returns a predefined task that consists of a short walk.
  
  In a short walk task, the participant is asked to walk a short distance, which may be indoors.

@@ -68,6 +68,7 @@
 #import "ORKStep_Private.h"
 #import "ORKStroopStep.h"
 #import "ORKTappingIntervalStep.h"
+#import "ORKAudioFitnessStep.h"
 #import "ORKTimedWalkStep.h"
 #import "ORKToneAudiometryStep.h"
 #import "ORKTowerOfHanoiStep.h"
@@ -830,7 +831,7 @@ NSString *const ORKSixMinuteWalkFatigueIdentifier = @"6mwt.fatigue";
 
         // Instructions Step
         ORKInstructionStep *instructStep = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction1StepIdentifier];
-        instructStep.iconImage = [UIImage imageNamed:@"person.fill"]; // FIXME: Placeholder
+        instructStep.iconImage = [UIImage systemImageNamed:@"figure.walk"];
         instructStep.title = ORKLocalizedString(@"6MWT_INSTRUCTIONS_TITLE", nil);
 
         instructStep.bodyItems = @[
@@ -923,6 +924,133 @@ NSString *const ORKSixMinuteWalkFatigueIdentifier = @"6mwt.fatigue";
         ORKStepArrayAddStep(steps, formStep);
 
         // Completion Step
+        ORKInstructionStep *completionStep = [self makeCompletionStep];
+        ORKStepArrayAddStep(steps, completionStep);
+    }
+
+    ORKOrderedTask *task = [[ORKOrderedTask alloc] initWithIdentifier:identifier steps:steps];
+    return task;
+}
+
+#pragma mark - tecusehCubeTask
+
+NSString *const ORKTecumsehCubeStepIdentifier = @"tecumseh";
+
++ (ORKOrderedTask *)tecumsehCubeTaskWithIdentifier:(NSString *)identifier
+                            intendedUseDescription:(nullable NSString *)intendedUseDescription
+                             audioBundleIdentifier:(NSString *)audioBundleIdentifier
+                                 audioResourceName:(NSString *)audioResourceName
+                                audioFileExtension:(nullable NSString*)audioFileExtension
+                                           options:(ORKPredefinedTaskOption)options {
+
+    NSTimeInterval stepDuration = 180; // 3 minutes
+    NSTimeInterval restDuration = 180; // 3 minutes
+
+    NSMutableArray *steps = [NSMutableArray array];
+
+    if (!(options & ORKPredefinedTaskOptionExcludeInstructions)) {
+
+        // Explanation Step
+        ORKInstructionStep *explainStep = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction0StepIdentifier];
+        explainStep.iconImage = [UIImage systemImageNamed:@"cube"];
+        explainStep.title = ORKLocalizedString(@"TC_TASK_TITLE", nil);
+        explainStep.text = intendedUseDescription ? : ORKLocalizedString(@"TC_INTRO", nil);
+        explainStep.bodyItems = @[
+            [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"TC_INTRO_DETAILS", nil)
+                                   detailText:nil
+                                        image:nil
+                                learnMoreItem:nil
+                                bodyItemStyle:ORKBodyItemStyleText],
+
+            [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"TC_INTRO_DETAIL_TIME", nil)
+                                   detailText:nil
+                                        image:[UIImage systemImageNamed:@"stopwatch"]
+                                learnMoreItem:nil
+                                bodyItemStyle:ORKBodyItemStyleImage],
+
+            [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"TC_INTRO_DETAIL_WATCH", nil)
+                                   detailText:nil
+                                        image:[UIImage systemImageNamed:@"applewatch"]
+                                learnMoreItem:nil
+                                bodyItemStyle:ORKBodyItemStyleImage],
+
+            [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"TC_INTRO_DETAIL_DANGER", nil)
+                                   detailText:nil
+                                        image:[UIImage systemImageNamed:@"exclamationmark.triangle"]
+                                learnMoreItem:nil
+                                bodyItemStyle:ORKBodyItemStyleImage]
+        ];
+
+        ORKStepArrayAddStep(steps, explainStep);
+
+        // Instructions Step
+        ORKInstructionStep *instructStep = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction1StepIdentifier];
+        instructStep.iconImage = [UIImage systemImageNamed:@"cube"];
+        instructStep.title = ORKLocalizedString(@"TC_INSTRUCTIONS_TITLE", nil);
+
+        instructStep.bodyItems = @[
+            [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"TC_INSTRUCTIONS_1", nil)
+                                   detailText:nil
+                                        image:[UIImage systemImageNamed:@"1.circle"]
+                                learnMoreItem:nil
+                                bodyItemStyle:ORKBodyItemStyleImage],
+
+            [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"TC_INSTRUCTIONS_2", nil)
+                                   detailText:nil
+                                        image:[UIImage systemImageNamed:@"2.circle"]
+                                learnMoreItem:nil
+                                bodyItemStyle:ORKBodyItemStyleImage],
+
+            [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"TC_INSTRUCTIONS_3", nil)
+                                   detailText:nil
+                                        image:[UIImage systemImageNamed:@"3.circle"]
+                                learnMoreItem:nil
+                                bodyItemStyle:ORKBodyItemStyleImage]
+        ];
+
+        ORKStepArrayAddStep(steps, instructStep);
+    }
+
+    // Fitness Step
+    ORKAudioFitnessStep *cubeStep = [[ORKAudioFitnessStep alloc] initWithIdentifier:identifier
+                                                              audioBundleIdentifier:audioBundleIdentifier
+                                                                  audioResourceName:audioResourceName
+                                                                 audioFileExtension:audioFileExtension];
+    cubeStep.stepDuration = stepDuration;
+    cubeStep.title = ORKLocalizedString(@"TC_TEST_IN_PROGRESS", nil);
+    cubeStep.text = ORKLocalizedString(@"TC_TEST_IN_PROGRESS_DETAIL", nil);
+    cubeStep.spokenInstruction = cubeStep.text;
+    cubeStep.recorderConfigurations = [self makeRecorderConfigurationsWithOptions:options];
+    cubeStep.shouldContinueOnFinish = YES;
+    cubeStep.optional = NO;
+    cubeStep.shouldStartTimerAutomatically = YES;
+    cubeStep.shouldVibrateOnStart = YES;
+    cubeStep.shouldVibrateOnFinish = YES;
+    cubeStep.shouldPlaySoundOnStart = YES;
+    cubeStep.shouldPlaySoundOnFinish = YES;
+    cubeStep.shouldSpeakRemainingTimeAtHalfway = YES;
+    cubeStep.shouldSpeakCountDown = YES;
+    ORKStepArrayAddStep(steps, cubeStep);
+
+    // Rest Step
+    ORKFitnessStep *stillStep = [[ORKFitnessStep alloc] initWithIdentifier:ORKFitnessRestStepIdentifier];
+    stillStep.stepDuration = restDuration;
+    stillStep.title = ORKLocalizedString(@"TC_REST_IN_PROGRESS", nil);
+    stillStep.text = ORKLocalizedString(@"TC_REST_IN_PROGRESS_DETAIL", nil);
+    stillStep.spokenInstruction = stillStep.text;
+    stillStep.recorderConfigurations = [self makeRecorderConfigurationsWithOptions:options];
+    stillStep.shouldContinueOnFinish = YES;
+    stillStep.optional = NO;
+    stillStep.shouldStartTimerAutomatically = YES;
+    stillStep.shouldVibrateOnStart = YES;
+    stillStep.shouldVibrateOnFinish = YES;
+    stillStep.shouldPlaySoundOnStart = YES;
+    stillStep.shouldPlaySoundOnFinish = YES;
+    stillStep.shouldSpeakRemainingTimeAtHalfway = YES;
+    stillStep.shouldSpeakCountDown = YES;
+    ORKStepArrayAddStep(steps, stillStep);
+
+    if (!(options & ORKPredefinedTaskOptionExcludeConclusion)) {
         ORKInstructionStep *completionStep = [self makeCompletionStep];
         ORKStepArrayAddStep(steps, completionStep);
     }

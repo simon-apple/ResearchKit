@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, Apple Inc. All rights reserved.
+ Copyright (c) 2020, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,17 +28,57 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import "ORKAudioFitnessStep.h"
+#import "ORKAudioFitnessStepViewController.h"
+#import "ORKHelpers_Internal.h"
 
-@import Foundation;
-#import <ResearchKit/ORKDefines.h>
-#import <ResearchKit/ORKActiveStep.h>
+#import <AVFoundation/AVFoundation.h>
 
-
-NS_ASSUME_NONNULL_BEGIN
-
-ORK_CLASS_AVAILABLE
-@interface ORKFitnessStep : ORKActiveStep
-
+@interface ORKAVAudioPlayer : AVAudioPlayer <ORKAudioPlayer>
 @end
 
-NS_ASSUME_NONNULL_END
+@implementation ORKAVAudioPlayer
+@end
+
+@implementation ORKAudioFitnessStepViewController
+
+- (id<ORKAudioPlayer>)audioPlayer {
+    if (!_audioPlayer) {
+        ORKAudioFitnessStep *step = (ORKAudioFitnessStep *)self.step;
+        NSBundle *bundle = [NSBundle bundleWithIdentifier: step.audioBundleIdentifier];
+        NSURL *url = [bundle URLForResource:step.audioResourceName withExtension:step.audioFileExtension];
+        NSError *error;
+        _audioPlayer = [[ORKAVAudioPlayer alloc] initWithContentsOfURL:url error:&error];
+        if (error) {
+            ORK_Log_Error("Failed to load audio file: %@", error.localizedFailureReason);
+        }
+    }
+    return _audioPlayer;
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [self.audioPlayer prepareToPlay];
+}
+
+- (void)start {
+    [super start];
+    [self.audioPlayer play];
+}
+
+- (void)suspend {
+    [super suspend];
+    [self.audioPlayer pause];
+}
+
+- (void)resume {
+    [super resume];
+    [self.audioPlayer play];
+}
+
+- (void)finish {
+    [super finish];
+    [self.audioPlayer stop];
+}
+
+@end
