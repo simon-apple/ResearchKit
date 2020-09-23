@@ -45,6 +45,8 @@ ORK_CLASS_AVAILABLE
 - (instancetype)initWithDelegate:(id<ORKHeadphoneDetectorDelegate>)delegate
        supportedHeadphoneChipsetTypes:(NSSet<ORKHeadphoneChipsetIdentifier> *)supportedHeadphoneChipsetTypes;
 
+- (void)discard;
+
 @end
 
 @protocol ORKHeadphoneDetectorDelegate <NSObject>
