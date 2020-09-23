@@ -813,7 +813,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    _headphoneDetector.delegate = nil;
+    [_headphoneDetector discard];
     _headphoneDetector = nil;
 }
 
