@@ -46,8 +46,6 @@
 
 static const CGFloat FaceDetectionDetailLabelTopPadding = 12.0;
 static const CGFloat ContentLeftRightPadding = 16.0;
-static const CGFloat ContinueButtonBottomPadding = 20.0;
-static const CGFloat ContinueButtonHeight = 50.0;
 
 @interface ORKFaceDetectionStepContentView ()
 @property (nonatomic, copy, nullable) ORKFaceDetectionStepContentViewEventHandler viewEventhandler;
@@ -66,8 +64,6 @@ static const CGFloat ContinueButtonHeight = 50.0;
     
     UILabel *_faceDetectionTitleLabel;
     UILabel *_faceDetectionDetailLabel;
-    
-    UIButton *_continueButton;
     
     NSTimer *_timer;
     NSTimeInterval _maxRecordingTime;
@@ -133,19 +129,6 @@ static const CGFloat ContinueButtonHeight = 50.0;
     _faceDetectionDetailLabel.lineBreakMode = NSLineBreakByWordWrapping;
     [_faceDetectionDetailLabel setText:ORKLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TEXT", "")];
     [_bottomContentView addSubview:_faceDetectionDetailLabel];
-    
-    _continueButton = [UIButton new];
-    _continueButton.layer.cornerRadius = 14.0;
-    _continueButton.clipsToBounds = YES;
-    _continueButton.contentEdgeInsets = (UIEdgeInsets){.left = 6, .right = 6};
-    UIFontDescriptor *descriptorOne = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleHeadline];
-    _continueButton.titleLabel.font = [UIFont boldSystemFontOfSize:[[descriptorOne objectForKey: UIFontDescriptorSizeAttribute] doubleValue] + 1.0];
-    [_continueButton setBackgroundColor:UIColor.systemGrayColor];
-    [_continueButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [_continueButton setTitle:ORKLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_NEXT_BUTTON_TEXT", "") forState:UIControlStateNormal];
-    _continueButton.enabled = NO;
-    [_continueButton addTarget:self action:@selector(continueButtonPressed) forControlEvents:UIControlEventTouchUpInside];
-    [_bottomContentView addSubview:_continueButton];
         
     UIImage *calibrationImage = [UIImage imageNamed:@"Guide" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
     _calibrationBoxImageView = [UIImageView new];
@@ -168,7 +151,6 @@ static const CGFloat ContinueButtonHeight = 50.0;
     _bottomContentView.translatesAutoresizingMaskIntoConstraints = NO;
     _faceDetectionTitleLabel.translatesAutoresizingMaskIntoConstraints = NO;
     _faceDetectionDetailLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    _continueButton.translatesAutoresizingMaskIntoConstraints = NO;
     
     [[_cameraView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor] setActive:YES];
     [[_cameraView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor] setActive:YES];
@@ -186,11 +168,6 @@ static const CGFloat ContinueButtonHeight = 50.0;
     [[_faceDetectionDetailLabel.leadingAnchor constraintEqualToAnchor:_bottomContentView.leadingAnchor constant:ContentLeftRightPadding] setActive:YES];
     [[_faceDetectionDetailLabel.trailingAnchor constraintEqualToAnchor:_bottomContentView.trailingAnchor constant:-ContentLeftRightPadding] setActive:YES];
     [[_faceDetectionDetailLabel.topAnchor constraintEqualToAnchor:_faceDetectionTitleLabel.bottomAnchor constant:FaceDetectionDetailLabelTopPadding] setActive:YES];
-    
-    [[_continueButton.leadingAnchor constraintEqualToAnchor:_bottomContentView.leadingAnchor constant:ContentLeftRightPadding] setActive:YES];
-    [[_continueButton.trailingAnchor constraintEqualToAnchor:_bottomContentView.trailingAnchor constant:-ContentLeftRightPadding] setActive:YES];
-    [[_continueButton.bottomAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.bottomAnchor constant:-ContinueButtonBottomPadding] setActive:YES];
-    [[_continueButton.heightAnchor constraintEqualToConstant:ContinueButtonHeight] setActive:YES];
 }
 
 - (void)layoutFacePositionViews {
@@ -246,8 +223,7 @@ static const CGFloat ContinueButtonHeight = 50.0;
             [self updateDetectionTitleLabelAttributedText];
             [_faceDetectionDetailLabel setText:ORKLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_FACE_DETECTED_TEXT", "")];
             [_calibrationBoxImageView setTintColor:[UIColor greenColor]];
-            [_continueButton setBackgroundColor:UIColor.systemBlueColor];
-            _continueButton.enabled = YES;
+          
             _faceDetected = YES;
             _noFaceDetectedYet = NO;
             
@@ -265,8 +241,7 @@ static const CGFloat ContinueButtonHeight = 50.0;
             [_faceDetectionTitleLabel setText:ORKLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TITLE", "")];
             [_faceDetectionDetailLabel setText:ORKLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TEXT", "")];
             [_calibrationBoxImageView setTintColor:[UIColor systemGrayColor]];
-            [_continueButton setBackgroundColor:UIColor.systemGrayColor];
-            _continueButton.enabled = NO;
+            
             _faceDetected = NO;
             
             if (_faceIconIsShowing && !_animateFaceOutTimer) {
@@ -309,25 +284,25 @@ static const CGFloat ContinueButtonHeight = 50.0;
 
 - (void)animateInFaceIcon {
     dispatch_async(dispatch_get_main_queue(), ^(void) {
-       
+
         UISpringTimingParameters *springTimingParametersForOpacity = [[UISpringTimingParameters alloc] initWithMass:2.0 stiffness:300 damping:50 initialVelocity:CGVectorMake(0, 0)];
         UIViewPropertyAnimator *propertyAnimatorForOpacity = [[UIViewPropertyAnimator alloc] initWithDuration:0.8 timingParameters:springTimingParametersForOpacity];
-                
+
         [propertyAnimatorForOpacity addAnimations:^{
             [_facePositionImageView.layer setOpacity:1.0];
         }];
-        
+
         UISpringTimingParameters *springTimingParametersForSize = [[UISpringTimingParameters alloc] initWithMass:2.0 stiffness:300 damping:20 initialVelocity:CGVectorMake(0, 0)];
         UIViewPropertyAnimator *propertyAnimatorForSize = [[UIViewPropertyAnimator alloc] initWithDuration:1.2 timingParameters:springTimingParametersForSize];
-        
+
         [propertyAnimatorForSize addAnimations:^{
             CGRect currentFrame = _facePositionImageView.layer.frame;
             currentFrame.size.height = _facePositionImageHeightWidth;
             currentFrame.size.width = _facePositionImageHeightWidth;
-            
+
             [_facePositionImageView.layer setFrame:currentFrame];
         }];
-        
+
         [propertyAnimatorForOpacity startAnimation];
         [propertyAnimatorForSize startAnimation];
         _faceIconIsShowing = YES;
@@ -336,25 +311,25 @@ static const CGFloat ContinueButtonHeight = 50.0;
 
 - (void)animateOutFaceIcon {
     dispatch_async(dispatch_get_main_queue(), ^(void) {
-       
+
         UISpringTimingParameters *springTimingParametersForOpacity = [[UISpringTimingParameters alloc] initWithMass:2.0 stiffness:300 damping:50 initialVelocity:CGVectorMake(0, 0)];
         UIViewPropertyAnimator *propertyAnimatorForOpacity = [[UIViewPropertyAnimator alloc] initWithDuration:0.8 timingParameters:springTimingParametersForOpacity];
-                
+
         [propertyAnimatorForOpacity addAnimations:^{
             [_facePositionImageView.layer setOpacity:0.0];
         }];
-        
+
         UISpringTimingParameters *springTimingParametersForSize = [[UISpringTimingParameters alloc] initWithMass:2.0 stiffness:300 damping:50 initialVelocity:CGVectorMake(0, 0)];
         UIViewPropertyAnimator *propertyAnimatorForSize = [[UIViewPropertyAnimator alloc] initWithDuration:0.8 timingParameters:springTimingParametersForSize];
-        
+
         [propertyAnimatorForSize addAnimations:^{
             CGRect currentFrame = _facePositionImageView.layer.frame;
             currentFrame.size.height = _facePositionImageSmallerHeightWidth;
             currentFrame.size.width = _facePositionImageSmallerHeightWidth;
-            
+
             [_facePositionImageView.layer setFrame:currentFrame];
         }];
-        
+
         [propertyAnimatorForOpacity startAnimation];
         [propertyAnimatorForSize startAnimation];
         _faceIconIsShowing = NO;
@@ -372,10 +347,6 @@ static const CGFloat ContinueButtonHeight = 50.0;
             [self setNeedsLayout];
         }];
     });
-}
-
-- (void)continueButtonPressed {
-    [self invokeViewEventHandlerWithEvent:ORKFaceDetectionStepContentViewEventContinueButtonPressed];
 }
 
 - (void)handleError:(NSError *)error {
@@ -434,27 +405,29 @@ static const CGFloat ContinueButtonHeight = 50.0;
 }
 
 - (CGPoint)getFaceCirclePositionWithFaceRect:(CGRect)faceRect originalSize:(CGSize)originalSize {
+    CGRect updatedFaceRect = [self updateFaceRectToPortrait:faceRect originalSize:originalSize];
+    CGSize updatedFrameSize = CGSizeMake(originalSize.height, originalSize.width);
+    
     CGFloat newWidth = _cameraView.bounds.size.width;
-    CGFloat widthAdjustment = originalSize.width / newWidth;
+    CGFloat widthAdjustment = updatedFrameSize.width / newWidth;
     
     CGFloat newHeight = _cameraView.bounds.size.height;
-    CGFloat heightAdjustment = originalSize.height / newHeight;
+    CGFloat heightAdjustment = updatedFrameSize.height / newHeight;
 
-    CGFloat faceOriginX = originalSize.width - faceRect.origin.x;
-    CGFloat faceOriginY = originalSize.height - faceRect.origin.y;
+    CGFloat faceOriginX = updatedFaceRect.origin.x / widthAdjustment;
+    CGFloat faceOriginY = updatedFaceRect.origin.y / heightAdjustment;
     
-    CGFloat faceCenterX = faceOriginX - ((faceRect.size.width) / 2);
-    CGFloat faceCenterY = faceOriginY - ((faceRect.size.height) / 2);
+    CGFloat faceRectWidth = updatedFaceRect.size.width / widthAdjustment;
+    CGFloat faceRectHeight = updatedFaceRect.size.height / heightAdjustment;
     
-    CGFloat adjustedFaceCenterX = faceCenterX / widthAdjustment;
-    CGFloat adjustedFaceCenterY = faceCenterY / heightAdjustment;
-    
-    return CGPointMake(adjustedFaceCenterX, adjustedFaceCenterY);
+    CGFloat faceCenterX = faceOriginX + (faceRectWidth / 2);
+    CGFloat faceCenterY = faceOriginY + (faceRectHeight / 2);
+       
+    return CGPointMake(faceCenterX, faceCenterY);
 }
 
 - (BOOL)isFacePositionCircleWithinBox:(CGRect)rect originalSize:(CGSize)originalSize {
     CGPoint circlePosition = [self getFaceCirclePositionWithFaceRect:rect originalSize:originalSize];
-    
     CGFloat circleRadius = _facePositionImageView.frame.size.width / 2;
     CGFloat viewCenterX = _cameraView.frame.size.width / 2;
     CGFloat viewCenterY = _cameraView.frame.size.height / 2;
@@ -463,6 +436,14 @@ static const CGFloat ContinueButtonHeight = 50.0;
     BOOL circleIsVerticallyWithinBox = (circlePosition.y - circleRadius) >  viewCenterY - ((_calibrationBoxImageView.frame.size.height) / 2) && (circlePosition.y + circleRadius) < viewCenterY + ((_calibrationBoxImageView.frame.size.height) / 2);
     
     return (circleIsHorizontallyWithinBox && circleIsVerticallyWithinBox);
+}
+
+- (CGRect)updateFaceRectToPortrait:(CGRect)faceRect originalSize:(CGSize)originalSize {
+    CGRect updatedFaceRect = CGRectMake(faceRect.origin.y * originalSize.height,
+                                        faceRect.origin.x * originalSize.width,
+                                        faceRect.size.height * originalSize.height,
+                                        faceRect.size.width * originalSize.width);
+    return updatedFaceRect;
 }
 
 - (UIFont *)titleLabelFont {

@@ -37,8 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class AVCaptureSession;
 
 typedef NS_ENUM(NSUInteger, ORKFaceDetectionStepContentViewEvent) {
-    ORKFaceDetectionStepContentViewEventTimeLimitHit = 0,
-    ORKFaceDetectionStepContentViewEventContinueButtonPressed
+    ORKFaceDetectionStepContentViewEventTimeLimitHit = 0
 };
 
 typedef void (^ORKFaceDetectionStepContentViewEventHandler)(ORKFaceDetectionStepContentViewEvent);
