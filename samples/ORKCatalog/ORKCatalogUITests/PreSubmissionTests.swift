@@ -161,7 +161,7 @@ class PreSubmissionTests: XCTestCase {
         XCTAssert(helpers.verifyElement(taskScreen.mainTaskScreen))
         return
     }
-  
+    
     func testSQPickerWheel() throws {
         XCTAssert(helpers.verifyElement(taskScreen.mainTaskScreen))
         
@@ -222,6 +222,59 @@ class PreSubmissionTests: XCTestCase {
         skip.tap()
         XCTAssert(helpers.verifyElement(taskScreen.mainTaskScreen))
     
+        return
+    }
+    
+    func testSQSliders() throws {
+        
+        XCTAssert(app.staticTexts["Scale Question"].waitForExistence(timeout: 5))
+        app.staticTexts["Scale Question"].tap()
+        
+        XCTAssert(helpers.sliderScreenCheck(.Slider1))
+        XCTAssert(helpers.sliderScreenCheck(.Slider2))
+        XCTAssert(helpers.sliderScreenCheck(.Slider3))
+        XCTAssert(helpers.sliderScreenCheck(.Slider4))
+        XCTAssert(helpers.sliderScreenCheck(.Slider5))
+        XCTAssert(helpers.sliderScreenCheck(.Slider6))
+        
+        XCTAssert(taskScreen.mainTaskScreen.waitForExistence(timeout: 5))
+        return
+    }
+    
+    func testSQTextEntry() throws {
+        let testString = "The wonderful thing about tiggers is tiggers are wonderful things! Their tops are made out of rubber, their bottoms are made out of springs!"
+        
+        XCTAssert(helpers.verifyElement(taskScreen.mainTaskScreen))
+        XCTAssert(helpers.verifyElementByText("Text Question", true))
+        guard let done = commonElements.doneButton else {
+            XCTFail("Unable to locate done button")
+            return
+        }
+        XCTAssertFalse(done.isEnabled)
+        XCTAssert(helpers.verifyElementByText("Text"))
+        XCTAssert(helpers.verifyElementByText("Additional text can go here."))
+        
+        let textView = app.textViews.element(boundBy: 0)
+        XCTAssert(textView.waitForExistence(timeout: 5))
+        textView.tap()
+        
+        app.typeText(testString)
+        XCTAssert(helpers.verifyElementByText("140/280"))
+        
+        let clear = app.buttons["Clear"]
+        XCTAssert(clear.waitForExistence(timeout: 3))
+        clear.tap()
+        
+        XCTAssert(helpers.verifyElementByText("0/280"))
+        app.typeText(testString)
+        
+        XCTAssert(commonElements.doneButton!.firstMatch.exists)
+        commonElements.doneButton!.firstMatch.tap()
+        
+        done.tap()
+        
+        XCTAssert(helpers.verifyElement(taskScreen.mainTaskScreen))
+        
         return
     }
 }
