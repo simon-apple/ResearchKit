@@ -36,6 +36,22 @@ class Helpers: XCTestCase {
     let commonElements = CommonElements()
     let taskScreen = TaskScreen()
     
+    enum SliderTesting {
+        case Slider1
+        case Slider2
+        case Slider3
+        case Slider4
+        case Slider5
+        case Slider6
+    }
+    enum SwipeDirection {
+        case Up
+        case Down
+        case Left
+        case Right
+        case Skip
+    }
+    
     func verifyElement(_ element: XCUIElement) -> Bool {
         if element.exists {
             return true
@@ -79,6 +95,91 @@ class Helpers: XCTestCase {
                 }
     }
     
+    func scalePage(_ pageNumber: Int) -> XCUIElement? {
+        return app.navigationBars["\(String(pageNumber)) of 6"]
+    }
+    
+    func scaleTitle(_ pageNumber: Int) -> XCUIElement? {
+        let titles: [Int:String] = [1:"Discrete Scale", 2:"Continuous Scale", 3:"Discrete Vertical Scale", 4:"Continuous Vertical Scale", 5:"Text Scale", 6:"Text Vertical Scale"]
+        return app.scrollViews.otherElements.staticTexts[titles[pageNumber] ?? "Invalid Page Number"]
+    }
+    
+    func pickSlider() -> XCUIElement? {
+        let predicate = NSPredicate(format: "label BEGINSWITH 'Response slider.'")
+        return app.sliders.element(matching: predicate)
+    }
+    
+    func sliderValuesCheck(_ sliderScreen:SliderTesting, _ screenNum: Int, _ direction:SwipeDirection) -> Bool {
+        let sliderValues: [SliderTesting:String] = [
+            .Slider1:"8",
+            .Slider2:"91%",
+            .Slider3:"8",
+            .Slider4:"4.23",
+            .Slider5:"Above Average",
+            .Slider6:"Above Average"
+        ]
+        
+        guard let slider = pickSlider() else {
+            XCTFail("Unable to locate Scale Slider")
+            return false
+        }
+        XCTAssert(slider.waitForExistence(timeout: 2), "Unable to locate slider on page \(screenNum)")
+        XCTAssert(scalePage(screenNum)!.waitForExistence(timeout: 2), "Unable to locate \"\(screenNum) of 6\"")
+        XCTAssert(scaleTitle(screenNum)!.waitForExistence(timeout: 2), "Unable to locate \(scaleTitle(screenNum)!)")
+       
+        switch direction {
+        case .Up:
+            slider.swipeUp()
+        case .Right:
+            slider.swipeRight()
+        case .Left:
+            XCTFail("Unexpected Swipe Direction of Left Entered")
+        case .Down:
+            XCTFail("Unexpected Swipe Direction of Down Entered")
+        case .Skip:
+            XCTAssert(commonElements.skipButton!.waitForExistence(timeout: 2))
+            commonElements.skipButton!.tap()
+
+        }
+        
+        if sliderScreen != .Slider2 {
+            let predicate = NSPredicate(format: "value CONTAINS '\(sliderValues[sliderScreen] ?? "Unknown Error Occurred")'")
+            XCTAssert(app.sliders.element(matching: predicate).exists)
+            if commonElements.doneButton!.exists {
+                commonElements.doneButton!.tap()
+                return true
+            }
+            XCTAssert(commonElements.nextButton!.waitForExistence(timeout: 2))
+            commonElements.nextButton!.tap()
+            return true
+        }
+        return true
+    }
+    
+    func sliderScreenCheck(_ sliderScreen:SliderTesting) -> Bool {
+        let taskTitle = app.scrollViews.otherElements.staticTexts["Scale"]
+        let theQuestion = app.scrollViews.otherElements.staticTexts["Your question here."]
+        
+        XCTAssert(taskTitle.waitForExistence(timeout: 2), "Unable to locate the taskTitle element")
+        XCTAssert(theQuestion.waitForExistence(timeout: 2), "Unable to locate theQuestion element")
+        
+        switch sliderScreen {
+        case .Slider1:
+            XCTAssert(sliderValuesCheck(sliderScreen, 1, .Right), "Slider1 Values Check Failed")
+        case .Slider2:
+            XCTAssert(sliderValuesCheck(sliderScreen, 2, .Skip), "Slider2 Values Check Failed")
+        case .Slider3:
+            XCTAssert(sliderValuesCheck(sliderScreen, 3, .Up), "Slider3 Values Check Failed")
+        case .Slider4:
+            XCTAssert(sliderValuesCheck(sliderScreen, 4, .Up), "Slider4 Values Check Failed")
+        case .Slider5:
+            XCTAssert(sliderValuesCheck(sliderScreen, 5, .Right), "Slider5 Values Check Failed")
+        case .Slider6:
+            XCTAssert(sliderValuesCheck(sliderScreen, 6, .Up), "Slider6 Values Check Failed")
+        }
+        return true
+    }
+    
     func monitorAlerts() {
         addUIInterruptionMonitor(withDescription: "Alert") { element in
             do {
@@ -111,5 +212,14 @@ class Helpers: XCTestCase {
               }
           return false
         }
+    }
+    
+    func verifyElementByText(_ text: String, _ tap: Bool = false) -> Bool {
+        let item = app.staticTexts["\(text)"]
+        XCTAssert(item.waitForExistence(timeout: 3))
+        if tap && item.isEnabled {
+            item.tap()
+        }
+        return true
     }
 }
