@@ -178,8 +178,8 @@
 		511987AC24608443004FC2C7 /* ORKAVJournalingStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 511987AA24608443004FC2C7 /* ORKAVJournalingStepViewController.m */; };
 		511987AF246085E5004FC2C7 /* ORKAVJournalingStepContentView.h in Headers */ = {isa = PBXBuildFile; fileRef = 511987AD246085E5004FC2C7 /* ORKAVJournalingStepContentView.h */; };
 		511987B0246085E5004FC2C7 /* ORKAVJournalingStepContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 511987AE246085E5004FC2C7 /* ORKAVJournalingStepContentView.m */; };
-		511987B3246087C5004FC2C7 /* ORKAVJournalingStepResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 511987B1246087C5004FC2C7 /* ORKAVJournalingStepResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		511987B4246087C5004FC2C7 /* ORKAVJournalingStepResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 511987B2246087C5004FC2C7 /* ORKAVJournalingStepResult.m */; };
+		511987B3246087C5004FC2C7 /* ORKAVJournalingResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 511987B1246087C5004FC2C7 /* ORKAVJournalingResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		511987B4246087C5004FC2C7 /* ORKAVJournalingResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 511987B2246087C5004FC2C7 /* ORKAVJournalingResult.m */; };
 		511987C3246330CA004FC2C7 /* ORKRequestPermissionsStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 511987C1246330CA004FC2C7 /* ORKRequestPermissionsStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		511987C4246330CA004FC2C7 /* ORKRequestPermissionsStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 511987C2246330CA004FC2C7 /* ORKRequestPermissionsStep.m */; };
 		511987C72463316E004FC2C7 /* ORKRequestPermissionsStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 511987C52463316E004FC2C7 /* ORKRequestPermissionsStepViewController.h */; };
@@ -1145,8 +1145,8 @@
 		511987AA24608443004FC2C7 /* ORKAVJournalingStepViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKAVJournalingStepViewController.m; sourceTree = "<group>"; };
 		511987AD246085E5004FC2C7 /* ORKAVJournalingStepContentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKAVJournalingStepContentView.h; sourceTree = "<group>"; };
 		511987AE246085E5004FC2C7 /* ORKAVJournalingStepContentView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKAVJournalingStepContentView.m; sourceTree = "<group>"; };
-		511987B1246087C5004FC2C7 /* ORKAVJournalingStepResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKAVJournalingStepResult.h; sourceTree = "<group>"; };
-		511987B2246087C5004FC2C7 /* ORKAVJournalingStepResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKAVJournalingStepResult.m; sourceTree = "<group>"; };
+		511987B1246087C5004FC2C7 /* ORKAVJournalingResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKAVJournalingResult.h; sourceTree = "<group>"; };
+		511987B2246087C5004FC2C7 /* ORKAVJournalingResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKAVJournalingResult.m; sourceTree = "<group>"; };
 		511987C1246330CA004FC2C7 /* ORKRequestPermissionsStep.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKRequestPermissionsStep.h; sourceTree = "<group>"; };
 		511987C2246330CA004FC2C7 /* ORKRequestPermissionsStep.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKRequestPermissionsStep.m; sourceTree = "<group>"; };
 		511987C52463316E004FC2C7 /* ORKRequestPermissionsStepViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKRequestPermissionsStepViewController.h; sourceTree = "<group>"; };
@@ -2477,8 +2477,8 @@
 				5192C28824536A9A0097DB41 /* Face Detection Step */,
 				511987A5246080CE004FC2C7 /* ORKAVJournalingStep.h */,
 				511987A6246080CE004FC2C7 /* ORKAVJournalingStep.m */,
-				511987B1246087C5004FC2C7 /* ORKAVJournalingStepResult.h */,
-				511987B2246087C5004FC2C7 /* ORKAVJournalingStepResult.m */,
+				511987B1246087C5004FC2C7 /* ORKAVJournalingResult.h */,
+				511987B2246087C5004FC2C7 /* ORKAVJournalingResult.m */,
 				511987AD246085E5004FC2C7 /* ORKAVJournalingStepContentView.h */,
 				511987AE246085E5004FC2C7 /* ORKAVJournalingStepContentView.m */,
 				511987A924608443004FC2C7 /* ORKAVJournalingStepViewController.h */,
@@ -4437,7 +4437,7 @@
 				86C40DBE1A8D7C5C00081FAC /* ORKTableViewCell.h in Headers */,
 				BCB6E64A1B7D531C000D5B34 /* ORKPieChartView.h in Headers */,
 				E27743AC23A7AA8F00AA0C9F /* AVOutputContext.h in Headers */,
-				511987B3246087C5004FC2C7 /* ORKAVJournalingStepResult.h in Headers */,
+				511987B3246087C5004FC2C7 /* ORKAVJournalingResult.h in Headers */,
 				BA8C066F22ECF87900ACDE6B /* ORKSecondaryTaskStepViewController.h in Headers */,
 				86C40C2E1A8D7C5C00081FAC /* ORKFitnessStep.h in Headers */,
 				86C40C821A8D7C5C00081FAC /* ORKActiveStep_Internal.h in Headers */,
@@ -4948,7 +4948,7 @@
 				2489F7B61D65214D008DEF20 /* ORKVideoCaptureView.m in Sources */,
 				861D11AE1AA7951F003C98A7 /* ORKChoiceAnswerFormatHelper.m in Sources */,
 				106FF2AB1B690FD7004EACF2 /* ORKHolePegTestPlacePegView.m in Sources */,
-				511987B4246087C5004FC2C7 /* ORKAVJournalingStepResult.m in Sources */,
+				511987B4246087C5004FC2C7 /* ORKAVJournalingResult.m in Sources */,
 				BF91559D1BDE8D7D007FA459 /* ORKReviewStep.m in Sources */,
 				86C40C381A8D7C5C00081FAC /* ORKSpatialSpanGame.m in Sources */,
 				86C40C481A8D7C5C00081FAC /* ORKSpatialSpanMemoryStepViewController.m in Sources */,

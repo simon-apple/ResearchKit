@@ -88,7 +88,7 @@
 #import <ResearchKit/ORKEnvironmentSPLMeterResult.h>
 #import <ResearchKit/ORKResultPredicate.h>
 #import <ResearchKit/ORKHeadphoneDetectResult.h>
-#import <ResearchKit/ORKAVJournalingStepResult.h>
+#import <ResearchKit/ORKAVJournalingResult.h>
 #import <ResearchKit/ORKUSDZModelManagerResult.h>
 
 #import <ResearchKit/ORKTextButton.h>

@@ -30,10 +30,12 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreMedia/CoreMedia.h>
+#import <AVFoundation/AVFoundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @class ARFrame;
+
 
 @protocol ORKAVJournalingSessionHelperDelegate <NSObject>
 
@@ -50,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, weak) id<ORKAVJournalingSessionHelperDelegate> delegate;
 
-- (BOOL)startSessionWithDelegate:(id)delegate error:(NSError **)error;
+- (BOOL)startSessionWithDelegate:(id<AVCaptureAudioDataOutputSampleBufferDelegate>)delegate error:(NSError **)error;
 - (BOOL)startCapturing:(NSError **)error;
 - (void)stopCapturing;
 - (void)tearDownSession;

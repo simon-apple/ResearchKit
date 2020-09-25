@@ -28,25 +28,25 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "ORKAVJournalingStepResult.h"
+#import "ORKAVJournalingResult.h"
 #import "ORKResult_Private.h"
 #import "ORKHelpers_Internal.h"
 
-@implementation ORKAVJournalingStepResult
+@implementation ORKAVJournalingResult
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [super encodeWithCoder:aCoder];
-    ORK_ENCODE_OBJ(aCoder, fileName);
+    ORK_ENCODE_OBJ(aCoder, fileNameArray);
+    ORK_ENCODE_OBJ(aCoder, recalibrationStartTimestamps);
     ORK_ENCODE_OBJ(aCoder, cameraIntrinsics);
-    ORK_ENCODE_INTEGER(aCoder, retryCount);
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        ORK_DECODE_OBJ_CLASS(aDecoder, fileName, NSString);
+        ORK_DECODE_OBJ_ARRAY(aDecoder, fileNameArray, NSString);
+        ORK_DECODE_OBJ_ARRAY(aDecoder, recalibrationStartTimestamps, NSString);
         ORK_DECODE_OBJ_CLASS(aDecoder, cameraIntrinsics, NSMutableArray);
-        ORK_DECODE_INTEGER(aDecoder, retryCount);
     }
     return self;
 }
@@ -60,16 +60,18 @@
     
     __typeof(self) castObject = object;
     return (isParentSame &&
-            ORKEqualObjects(self.fileName, castObject.fileName) &&
             ORKEqualObjects(self.cameraIntrinsics, castObject.cameraIntrinsics) &&
-            (castObject.retryCount == self.retryCount));
+            [self.fileNameArray isEqualToArray:castObject.fileNameArray] &&
+            [self.recalibrationStartTimestamps isEqualToArray:castObject.recalibrationStartTimestamps]);
 }
 
 - (instancetype)copyWithZone:(NSZone *)zone {
-    ORKAVJournalingStepResult *result = [super copyWithZone:zone];
-    result.fileName = [self.fileName copy];
+    ORKAVJournalingResult *result = [super copyWithZone:zone];
+
+    result.fileNameArray = [self.fileNameArray copy];
+    result.recalibrationStartTimestamps = [self.recalibrationStartTimestamps copy];
     result.cameraIntrinsics = [self.cameraIntrinsics copy];
-    result.retryCount = self.retryCount;
+
     return result;
 }
 
