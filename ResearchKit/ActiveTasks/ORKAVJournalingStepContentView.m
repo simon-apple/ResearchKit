@@ -29,6 +29,7 @@
  */
 
 #import "ORKAVJournalingStepContentView.h"
+#import "ORKFaceDetectionStepContentView.h"
 #import "ORKUnitLabel.h"
 #import "ORKHelpers_Internal.h"
 #import "ORKSkin.h"
@@ -48,6 +49,7 @@ static const CGFloat CountDownLabelTopPadding = 12.0;
 static const CGFloat QuestionNumberLabelTopPadding = 36.0;
 static const CGFloat QuestionLabelTopPadding = 6.0;
 static const CGFloat ContentLeftRightPadding = 36.0;
+static const CGFloat RecalibrationViewTopConstraint = 30.0;
 
 
 @interface ORKAVJournalingStepContentView ()
@@ -62,13 +64,14 @@ static const CGFloat ContentLeftRightPadding = 36.0;
     UILabel *_recordingLabel;
     UIImageView *_recordingIconImageView;
     
-    BOOL _badgeIsSystemRed;
-    
     UILabel *_countDownLabel;
 
     UILabel *_questionNumberLabel;
     UILabel *_questionLabel;
     
+    ORKFaceDetectionStepContentView *_faceDetectionContentView;
+    
+    NSTimer *_faceCalibrationTimer;
     NSTimer *_timer;
     NSTimer *_badgeColorChangeTimer;
     NSTimeInterval _maxRecordingTime;
@@ -80,8 +83,11 @@ static const CGFloat ContentLeftRightPadding = 36.0;
     
     NSMutableArray<NSLayoutConstraint *> *_constraints;
     NSLayoutConstraint *_questionNumberLabelTopConstraint;
+    NSLayoutConstraint *_recalibrationViewTopConstraint;
     
+    BOOL _badgeIsSystemRed;
     BOOL _countDownLabelShowing;
+    BOOL _recalibrationViewPresented;
 }
 
 - (instancetype)initWithTitle:(nullable NSString *)title text:(NSString *)text {
@@ -93,6 +99,7 @@ static const CGFloat ContentLeftRightPadding = 36.0;
         _titleText = title;
         _bodyText = text;
         _countDownLabelShowing = NO;
+        _recalibrationViewPresented = NO;
         
         [self setUpSubviews];
         [self setUpConstraints];
@@ -212,10 +219,32 @@ static const CGFloat ContentLeftRightPadding = 36.0;
                                              repeats:YES];
 }
 
-- (void)setFaceDetected:(BOOL)detected {
-    dispatch_async(dispatch_get_main_queue(), ^(void) {
-        //TODO: display face calibration view
-    });
+- (void)setFaceDetected:(BOOL)detected faceBound:(CGRect)faceBounds originalSize:(CGSize)originalSize {
+    if (detected) {
+        if (_recalibrationViewPresented) {
+            [_faceDetectionContentView updateFacePositionCircleWithCGRect:faceBounds originalSize:originalSize];
+            
+            //if face icon is within the calibration box, start timer to remove recalibration view
+            if ([_faceDetectionContentView isFacePositionCircleWithinBox:faceBounds originalSize:originalSize]) {
+                [self startFaceCalibrationTimer];
+            }
+        }
+    } else {
+        //present recalibration view if no face is detected
+        if (!_recalibrationViewPresented) {
+            [self presentRecalibrationView];
+        }
+    }
+
+    if (_recalibrationViewPresented) {
+        [_faceDetectionContentView setFaceDetected:detected faceRect:faceBounds originalSize:originalSize];
+        
+        //stop recalibration timer if no face detected or the face isn't within the calibration box
+        if (!detected || ![_faceDetectionContentView isFacePositionCircleWithinBox:faceBounds originalSize:originalSize]) {
+            [_faceCalibrationTimer invalidate];
+            _faceCalibrationTimer = nil;
+        }
+    }
 }
 
 - (void)handleError:(NSError *)error {
@@ -305,6 +334,12 @@ static const CGFloat ContentLeftRightPadding = 36.0;
             _questionNumberLabelTopConstraint = [_questionNumberLabel.topAnchor constraintEqualToAnchor:_countDownLabel.bottomAnchor constant:QuestionNumberLabelTopPadding];
             [_questionNumberLabelTopConstraint setActive:YES];
             
+            if (_recalibrationViewPresented) {
+                [_recalibrationViewTopConstraint setActive:NO];
+                _recalibrationViewTopConstraint = [_faceDetectionContentView.topAnchor constraintEqualToAnchor:_countDownLabel.bottomAnchor constant:RecalibrationViewTopConstraint];
+                [_recalibrationViewTopConstraint setActive:YES];
+            }
+            
             [self layoutIfNeeded];
         }];
      });
@@ -351,6 +386,89 @@ static const CGFloat ContentLeftRightPadding = 36.0;
     UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleTitle1];
     UIFontDescriptor *fontDescriptor = [descriptor fontDescriptorWithSymbolicTraits:(UIFontDescriptorTraitBold)];
     return [UIFont fontWithDescriptor:fontDescriptor size:[[fontDescriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]];
+}
+
+#pragma mark - Recalibration View Methods (Private)
+
+- (void)presentRecalibrationView {
+    _recalibrationViewPresented = YES;
+    
+    dispatch_async(dispatch_get_main_queue(), ^(void) {
+        [self layoutIfNeeded];
+        [self setupFaceDetectionContentView];
+        
+        [UIView animateWithDuration:0.5
+                         animations:^{
+            
+            _questionNumberLabel.layer.opacity = 0;
+            _questionLabel.layer.opacity = 0;
+            _faceDetectionContentView.layer.opacity = 1.0;
+            
+            [self setNeedsLayout];
+        } completion:^(BOOL finished) {
+            [_faceDetectionContentView layoutSubviews];
+            
+            //next button should say disabled while recalibration view is presented
+            [self invokeViewEventHandlerWithEvent:ORKAVJournalingStepContentViewEventDisableContinueButton];
+        }];
+    });
+    
+}
+
+- (void)removeRecalibrationView {
+    if (_recalibrationViewPresented) {
+        _recalibrationViewPresented = NO;
+
+        dispatch_async(dispatch_get_main_queue(), ^(void) {
+            [self layoutIfNeeded];
+
+            [UIView animateWithDuration:0.5
+                             animations:^{
+
+                _questionNumberLabel.layer.opacity = 1;
+                _questionLabel.layer.opacity = 1;
+                _faceDetectionContentView.layer.opacity = 0;
+
+                [self setNeedsLayout];
+            } completion:^(BOOL finished) {
+                [_faceDetectionContentView removeFromSuperview];
+                _faceDetectionContentView = nil;
+                
+                //next button should say disabled while recalibration view is presented
+                [self invokeViewEventHandlerWithEvent:ORKAVJournalingStepContentViewEventEnableContinueButton];
+            }];
+        });
+    }
+}
+
+- (void)setupFaceDetectionContentView {
+    _faceDetectionContentView = [[ORKFaceDetectionStepContentView alloc] initForRecalibration:YES];
+    _faceDetectionContentView.layer.opacity = 0;
+    [self addSubview:_faceDetectionContentView];
+    
+    [[_faceDetectionContentView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor] setActive:YES];
+    [[_faceDetectionContentView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor] setActive:YES];
+    [[_faceDetectionContentView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor] setActive:YES];
+    
+    if (_countDownLabelShowing) {
+        _recalibrationViewTopConstraint = [_faceDetectionContentView.topAnchor constraintEqualToAnchor:_countDownLabel.bottomAnchor constant:RecalibrationViewTopConstraint];
+    } else {
+        _recalibrationViewTopConstraint = [_faceDetectionContentView.topAnchor constraintEqualToAnchor:_recordingView.bottomAnchor constant:RecalibrationViewTopConstraint];
+    }
+    
+    [_recalibrationViewTopConstraint setActive:YES];
+}
+
+- (void)startFaceCalibrationTimer {
+    if (_faceCalibrationTimer) {
+        return;
+    }
+    
+    _faceCalibrationTimer = [NSTimer scheduledTimerWithTimeInterval:2.0
+                                                             target:self
+                                                           selector:@selector(removeRecalibrationView)
+                                                           userInfo:nil
+                                                            repeats:NO];
 }
 
 @end

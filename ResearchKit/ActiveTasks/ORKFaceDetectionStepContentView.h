@@ -44,6 +44,12 @@ typedef void (^ORKFaceDetectionStepContentViewEventHandler)(ORKFaceDetectionStep
 
 @interface ORKFaceDetectionStepContentView : ORKActiveStepCustomView
 
++ (instancetype)new NS_UNAVAILABLE;
+
+- (instancetype)init NS_UNAVAILABLE;
+
+- (instancetype)initForRecalibration:(BOOL)forRecalibration;
+
 - (void)setViewEventHandler:(ORKFaceDetectionStepContentViewEventHandler)handler;
 
 - (void)setPreviewLayerWithSession:(AVCaptureSession *)session;
@@ -51,6 +57,8 @@ typedef void (^ORKFaceDetectionStepContentViewEventHandler)(ORKFaceDetectionStep
 - (void)setFaceDetected:(BOOL)detected faceRect:(CGRect)faceRect originalSize:(CGSize)originalSize;
 
 - (void)updateFacePositionCircleWithCGRect:(CGRect)rect originalSize:(CGSize)originalSize;
+
+- (BOOL)isFacePositionCircleWithinBox:(CGRect)rect originalSize:(CGSize)originalSize;
 
 - (void)handleError:(NSError *)error;
 

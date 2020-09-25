@@ -64,6 +64,8 @@
     AVCaptureDevice *_audioCaptureDevice;
     AVCaptureDevice *_frontCameraCaptureDevice;
     
+    CGSize _originalFrameSize;
+    
     dispatch_queue_t _dataOutputQueue;
     
     BOOL _capturing;
@@ -82,6 +84,7 @@
     if (self) {
         _dataOutputQueue = dispatch_queue_create("com.apple.hrs.captureOutput", nil);
         _capturing = NO;
+        _originalFrameSize = CGSizeZero;
         
         if ([sampleBufferDelegate conformsToProtocol:@protocol(AVCaptureDataOutputSynchronizerDelegate)]) {
             _synchronizerDelegate = sampleBufferDelegate;
@@ -222,6 +225,26 @@
         if (!_startTimeSet) {
             [self saveSampleBuffer:syncedVideoSampleBufferData.sampleBuffer];
         } else {
+            
+            if (_originalFrameSize.height == 0 && _originalFrameSize.width == 0) {
+                CVImageBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(syncedVideoSampleBufferData.sampleBuffer);
+                 _originalFrameSize = CVImageBufferGetDisplaySize(pixelBuffer);
+            }
+            
+            //switch face rect and frame width/height to fit portrait mode
+            CGRect updatedFaceRect = CGRectMake(facebounds.origin.y * _originalFrameSize.height,
+                                                facebounds.origin.x * _originalFrameSize.width,
+                                                facebounds.size.height * _originalFrameSize.height,
+                                                facebounds.size.width * _originalFrameSize.width);
+            
+            CGSize updatedSize = CGSizeMake(_originalFrameSize.height, _originalFrameSize.width);
+            
+            //let delegate know if face was detected
+            BOOL faceDetected = (CGRectGetHeight(updatedFaceRect) > 0 && CGRectGetWidth(updatedFaceRect) > 0) ? YES : NO;
+            if (_sessionHelperDelegate != nil && [_sessionHelperDelegate respondsToSelector:@selector(faceDetected:faceBounds:originalSize:)]) {
+                [_sessionHelperDelegate faceDetected:faceDetected faceBounds:updatedFaceRect originalSize:updatedSize];
+            }
+            
             CMTime presentationTime = CMSampleBufferGetPresentationTimeStamp(syncedVideoSampleBufferData.sampleBuffer);
             CVPixelBufferRef pixelBufferRef = [self blurSampleBuffer:syncedVideoSampleBufferData.sampleBuffer faceBounds:facebounds];
             CMSampleBufferRef sbuf = NULL;
@@ -460,7 +483,7 @@
         CGFloat faceOriginX = (imageSize.width) - (faceBounds.origin.x * imageSize.width) - faceHeight;
         CGFloat faceOriginY = (faceBounds.origin.y * imageSize.height);
     
-        CGRect updatedFaceBounds = CGRectMake(faceOriginX, faceOriginY, faceWidth, faceHeight);
+        CGRect updatedFaceBounds = CGRectMake(faceOriginX * 0.90, faceOriginY, faceWidth * 1.25, faceHeight);
         
         CIImage *croppedImage = [image imageByCroppingToRect:updatedFaceBounds];
         combinedImage = [croppedImage imageByCompositingOverImage:imageWithFilter];

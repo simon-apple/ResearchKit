@@ -106,26 +106,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    dispatch_async(dispatch_get_main_queue(), ^(void) {
-        [_navigationFooterView.skipButton setTitle:ORKLocalizedString(@"AV_JOURNALING_STEP_FINISH_LATER_BUTTON_TEXT", "") forState:UIControlStateNormal];
-        
-        [_navigationFooterView.continueButton removeTarget:nil
-                                                    action:NULL
-                                          forControlEvents:UIControlEventAllEvents];
-        
-        [_navigationFooterView.skipButton removeTarget:nil
-                                                action:NULL
-                                      forControlEvents:UIControlEventAllEvents];
-        
-        
-        [_navigationFooterView.continueButton addTarget:self
-                                                 action:@selector(nextButtonPressed)
-                                       forControlEvents:UIControlEventTouchUpInside];
-        
-        [_navigationFooterView.skipButton addTarget:self
-                                             action:@selector(finishLaterButtonPressed)
-                                   forControlEvents:UIControlEventTouchUpInside];
-    });
+    [self updateNavFooterText];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -187,6 +168,15 @@
             [self stopVideoRecording];
             break;
             
+        case ORKAVJournalingStepContentViewEventEnableContinueButton:
+            [_navigationFooterView setContinueEnabled:YES];
+            [self updateNavFooterText];
+            break;
+            
+        case ORKAVJournalingStepContentViewEventDisableContinueButton:
+            [_navigationFooterView setContinueEnabled:NO];
+            [self updateNavFooterText];
+            break;
         case ORKAVJournalingStepContentViewEventError:
             break;
     }
@@ -196,6 +186,29 @@
     [[_contentView.topAnchor constraintEqualToAnchor:self.activeStepView.topAnchor] setActive:YES];
     [[_contentView.leadingAnchor constraintEqualToAnchor:self.activeStepView.leadingAnchor] setActive:YES];
     [[_contentView.trailingAnchor constraintEqualToAnchor:self.activeStepView.trailingAnchor] setActive:YES];
+}
+
+- (void)updateNavFooterText {
+    dispatch_async(dispatch_get_main_queue(), ^(void) {
+        [_navigationFooterView.skipButton setTitle:ORKLocalizedString(@"AV_JOURNALING_STEP_FINISH_LATER_BUTTON_TEXT", "") forState:UIControlStateNormal];
+        
+        [_navigationFooterView.continueButton removeTarget:nil
+                                                    action:NULL
+                                          forControlEvents:UIControlEventAllEvents];
+        
+        [_navigationFooterView.skipButton removeTarget:nil
+                                                action:NULL
+                                      forControlEvents:UIControlEventAllEvents];
+        
+        
+        [_navigationFooterView.continueButton addTarget:self
+                                                 action:@selector(nextButtonPressed)
+                                       forControlEvents:UIControlEventTouchUpInside];
+        
+        [_navigationFooterView.skipButton addTarget:self
+                                             action:@selector(finishLaterButtonPressed)
+                                   forControlEvents:UIControlEventTouchUpInside];
+    });
 }
 
 - (void)startSession {
@@ -391,6 +404,14 @@
     _waitingOnUserToStartRecording = YES;
     if (_submitVideoAfterStopping) {
         [self submitVideo];
+    }
+}
+
+- (void)faceDetected:(BOOL)faceDetected faceBounds:(CGRect)faceBounds originalSize:(CGSize)originalSize {
+    if (_contentView) {
+        dispatch_async(dispatch_get_main_queue(), ^(void) {
+            [_contentView setFaceDetected:faceDetected faceBound:faceBounds originalSize:originalSize];
+        });
     }
 }
 
