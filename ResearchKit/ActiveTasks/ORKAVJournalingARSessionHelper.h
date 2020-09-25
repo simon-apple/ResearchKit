@@ -40,6 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 @required
 
 - (void)capturingEndedWithTemporaryURL:(nullable NSURL *)tempURL;
+- (void)faceDetected:(BOOL)faceDetected faceBounds:(CGRect)faceBounds originalSize:(CGSize)originalSize;
 
 @end
 

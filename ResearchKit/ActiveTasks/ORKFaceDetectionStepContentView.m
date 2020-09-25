@@ -78,9 +78,10 @@ static const CGFloat ContentLeftRightPadding = 16.0;
     BOOL _faceDetected;
     BOOL _noFaceDetectedYet;
     BOOL _faceIconIsShowing;
+    BOOL _showingForRecalibration;
 }
 
-- (instancetype)init {
+- (instancetype)initForRecalibration:(BOOL)forRecalibration {
     self = [super initWithFrame:CGRectZero];
     self.layoutMargins = ORKStandardFullScreenLayoutMarginsForView(self);
     
@@ -90,6 +91,7 @@ static const CGFloat ContentLeftRightPadding = 16.0;
         _faceDetected = NO;
         _noFaceDetectedYet = YES;
         _faceIconIsShowing = NO;
+        _showingForRecalibration = forRecalibration;
         
         [self setUpSubviews];
         [self setUpConstraints];
@@ -119,7 +121,12 @@ static const CGFloat ContentLeftRightPadding = 16.0;
     _faceDetectionTitleLabel = [UILabel new];
     _faceDetectionTitleLabel.font = [self titleLabelFont];
     _faceDetectionTitleLabel.textAlignment = NSTextAlignmentCenter;
-    [_faceDetectionTitleLabel setText:ORKLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TITLE", "")];
+    if (!_showingForRecalibration) {
+        [_faceDetectionTitleLabel setText:ORKLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TITLE", "")];
+    } else {
+        [_faceDetectionTitleLabel setText:ORKLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TITLE_RECALIBRATION", "")];
+    }
+    
     [_bottomContentView addSubview:_faceDetectionTitleLabel];
     
     _faceDetectionDetailLabel = [UILabel new];
@@ -127,7 +134,13 @@ static const CGFloat ContentLeftRightPadding = 16.0;
     _faceDetectionDetailLabel.textAlignment = NSTextAlignmentCenter;
     _faceDetectionDetailLabel.numberOfLines = 0;
     _faceDetectionDetailLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    [_faceDetectionDetailLabel setText:ORKLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TEXT", "")];
+
+    if (!_showingForRecalibration) {
+        [_faceDetectionDetailLabel setText:ORKLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TEXT", "")];
+    } else {
+        [_faceDetectionDetailLabel setText:ORKLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TEXT_RECALIBRATION", "")];
+    }
+    
     [_bottomContentView addSubview:_faceDetectionDetailLabel];
         
     UIImage *calibrationImage = [UIImage imageNamed:@"Guide" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
@@ -238,8 +251,13 @@ static const CGFloat ContentLeftRightPadding = 16.0;
         } else if (!_noFaceDetectedYet) {
             
             _faceDetectionTitleLabel.attributedText = nil;
-            [_faceDetectionTitleLabel setText:ORKLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TITLE", "")];
-            [_faceDetectionDetailLabel setText:ORKLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TEXT", "")];
+            if (!_showingForRecalibration) {
+                [_faceDetectionTitleLabel setText:ORKLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TITLE", "")];
+                [_faceDetectionDetailLabel setText:ORKLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TEXT", "")];
+            } else {
+                [_faceDetectionTitleLabel setText:ORKLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TITLE_RECALIBRATION", "")];
+                [_faceDetectionDetailLabel setText:ORKLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TEXT_RECALIBRATION", "")];
+            }
             [_calibrationBoxImageView setTintColor:[UIColor systemGrayColor]];
             
             _faceDetected = NO;
@@ -258,7 +276,7 @@ static const CGFloat ContentLeftRightPadding = 16.0;
 
 - (void)updateDetectionTitleLabelAttributedText {
     NSString *separatorString = @":";
-    NSString *stringtoParse = ORKLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_FACE_DETECTED_TITLE", "");
+    NSString *stringtoParse =  !_showingForRecalibration ? ORKLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_FACE_DETECTED_TITLE", "") : ORKLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_FACE_DETECTED_TITLE_RECALIBRATION", "");
     NSString *parsedString = [stringtoParse componentsSeparatedByString:separatorString].firstObject;
     
     if (@available(iOS 13.0, *)) {
@@ -405,20 +423,17 @@ static const CGFloat ContentLeftRightPadding = 16.0;
 }
 
 - (CGPoint)getFaceCirclePositionWithFaceRect:(CGRect)faceRect originalSize:(CGSize)originalSize {
-    CGRect updatedFaceRect = [self updateFaceRectToPortrait:faceRect originalSize:originalSize];
-    CGSize updatedFrameSize = CGSizeMake(originalSize.height, originalSize.width);
-    
     CGFloat newWidth = _cameraView.bounds.size.width;
-    CGFloat widthAdjustment = updatedFrameSize.width / newWidth;
+    CGFloat widthAdjustment = originalSize.width / newWidth;
     
     CGFloat newHeight = _cameraView.bounds.size.height;
-    CGFloat heightAdjustment = updatedFrameSize.height / newHeight;
+    CGFloat heightAdjustment = originalSize.height / newHeight;
 
-    CGFloat faceOriginX = updatedFaceRect.origin.x / widthAdjustment;
-    CGFloat faceOriginY = updatedFaceRect.origin.y / heightAdjustment;
+    CGFloat faceOriginX = faceRect.origin.x / widthAdjustment;
+    CGFloat faceOriginY = faceRect.origin.y / heightAdjustment;
     
-    CGFloat faceRectWidth = updatedFaceRect.size.width / widthAdjustment;
-    CGFloat faceRectHeight = updatedFaceRect.size.height / heightAdjustment;
+    CGFloat faceRectWidth = faceRect.size.width / widthAdjustment;
+    CGFloat faceRectHeight = faceRect.size.height / heightAdjustment;
     
     CGFloat faceCenterX = faceOriginX + (faceRectWidth / 2);
     CGFloat faceCenterY = faceOriginY + (faceRectHeight / 2);

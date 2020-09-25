@@ -37,6 +37,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSUInteger, ORKAVJournalingStepContentViewEvent) {
     ORKAVJournalingStepContentViewEventStopAndSubmitRecording,
+    ORKAVJournalingStepContentViewEventEnableContinueButton,
+    ORKAVJournalingStepContentViewEventDisableContinueButton,
     ORKAVJournalingStepContentViewEventError
 };
 
@@ -50,7 +52,7 @@ typedef void (^ORKAVJournalingStepContentViewEventHandler)(ORKAVJournalingStepCo
 
 - (void)startTimerWithMaximumRecordingLimit:(NSTimeInterval)maximumRecordingLimit;
 
-- (void)setFaceDetected:(BOOL)detected;
+- (void)setFaceDetected:(BOOL)detected faceBound:(CGRect)faceBounds originalSize:(CGSize)originalSize;
 
 - (void)handleError:(NSError *)error;
 

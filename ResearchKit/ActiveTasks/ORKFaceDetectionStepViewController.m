@@ -118,7 +118,7 @@
 }
 
 - (void)setupContentView {
-    _contentView = [[ORKFaceDetectionStepContentView alloc] init];
+    _contentView = [[ORKFaceDetectionStepContentView alloc] initForRecalibration:NO];
     __weak typeof(self) weakSelf = self;
     [_contentView setViewEventHandler:^(ORKFaceDetectionStepContentViewEvent event) {
         [weakSelf handleContentViewEvent:event];
@@ -221,6 +221,7 @@
             
             [_metaDataOutput setMetadataObjectTypes:@[AVMetadataObjectTypeFace]];
         }
+
     }
     
     if (!_outputSynchronizer) {
@@ -294,10 +295,19 @@
             _frameSize = CVImageBufferGetDisplaySize(pixelBuffer);
         }
         
+        //switch face rect and frame width/height to fit portrait mode
+        CGRect updatedFaceRect = CGRectMake(facebounds.origin.y * _frameSize.height,
+                                            facebounds.origin.x * _frameSize.width,
+                                            facebounds.size.height * _frameSize.height,
+                                            facebounds.size.width * _frameSize.width);
+        
+        CGSize updatedSize = CGSizeMake(_frameSize.height, _frameSize.width);
+        
+        
         dispatch_async(dispatch_get_main_queue(), ^(void) {
-            if (CGRectGetHeight(facebounds) > 0 && CGRectGetWidth(facebounds) > 0) {
-                [_contentView setFaceDetected:YES faceRect:facebounds originalSize:_frameSize];
-                [_contentView updateFacePositionCircleWithCGRect:facebounds originalSize:_frameSize];
+            if (CGRectGetHeight(updatedFaceRect) > 0 && CGRectGetWidth(updatedFaceRect) > 0) {
+                [_contentView setFaceDetected:YES faceRect:updatedFaceRect originalSize:updatedSize];
+                [_contentView updateFacePositionCircleWithCGRect:updatedFaceRect originalSize:updatedSize];
                 [_navigationFooterView setContinueEnabled:YES];
                 
             } else {
@@ -306,7 +316,6 @@
             }
         });
     }
-    
 }
 
 @end

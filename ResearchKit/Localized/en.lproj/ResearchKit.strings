@@ -636,6 +636,9 @@
 "AV_JOURNALING_FACE_DETECTION_STEP_FACE_DETECTED_TEXT" = "While recording your answers, try to keep your face in this position.";
 "AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TITLE" = "Stay Centered";
 "AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TEXT" = "Hold your iPhone so your face is centered in the dashed area above.";
+"AV_JOURNALING_FACE_DETECTION_STEP_FACE_DETECTED_TITLE_RECALIBRATION" = "Hello Again ";
+"AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TITLE_RECALIBRATION" = "We Lost You";
+"AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TEXT_RECALIBRATION" = "Try adjusting the position of your iPhone to bring your face back into view.";
 "AV_JOURNALING_FACE_DETECTION_STEP_TIME_LIMIT_REACHED_TITLE" = "Video Journal Incomplete";
 "AV_JOURNALING_FACE_DETECTION_STEP_TIME_LIMIT_REACHED_TEXT" = "You finished 2 of 3 journal entries. You can finish the remaining entry when you're ready.";
 "AV_JOURNALING_FACE_DETECTION_START_TIME" = "00:00";
