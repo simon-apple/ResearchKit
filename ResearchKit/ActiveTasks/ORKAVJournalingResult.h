@@ -33,11 +33,11 @@
 NS_ASSUME_NONNULL_BEGIN
 
 ORK_CLASS_AVAILABLE
-@interface ORKAVJournalingStepResult : ORKFileResult
+@interface ORKAVJournalingResult : ORKFileResult
 
-@property (nonatomic, copy, nullable) NSString *fileName;
+@property (nonatomic, nullable) NSArray<NSString *> *fileNameArray;
+@property (nonatomic, nullable) NSArray<NSString *> *recalibrationStartTimestamps;
 @property (nonatomic, nullable) NSMutableArray *cameraIntrinsics;
-@property (nonatomic, assign) NSInteger retryCount;
 
 @end
 

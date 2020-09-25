@@ -2027,12 +2027,12 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                              ^id(id url, __unused ORKESerializationContext *context) { return [url absoluteString]; },
                              ^id(id string, __unused ORKESerializationContext *context) { return [NSURL URLWithString:string]; })
                     })),
-           ENTRY(ORKAVJournalingStepResult,
+           ENTRY(ORKAVJournalingResult,
                 nil,
                 (@{
                     PROPERTY(contentType, NSString, NSObject, NO, nil, nil),
-                    PROPERTY(fileName, NSString, NSObject, NO, nil, nil),
-                    PROPERTY(retryCount, NSNumber, NSObject, NO, nil, nil),
+                    PROPERTY(fileNameArray, NSString, NSArray, NO, nil, nil),
+                    PROPERTY(recalibrationStartTimestamps, NSString, NSArray, NO, nil, nil),
                     PROPERTY(cameraIntrinsics, NSString, NSArray, NO, nil, nil),
                     PROPERTY(fileURL, NSURL, NSObject, NO,
                              ^id(id url, __unused ORKESerializationContext *context) { return [url absoluteString]; },

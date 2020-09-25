@@ -34,7 +34,7 @@
 #import "ORKActiveStepViewController_Internal.h"
 #import "ORKStepViewController_Internal.h"
 #import "ORKStepContainerView_Private.h"
-#import "ORKAVJournalingStepResult.h"
+#import "ORKAVJournalingResult.h"
 #import "ORKResult_Private.h"
 #import "ORKCollectionResult_Private.h"
 #import "ORKAVJournalingStep.h"
@@ -50,9 +50,10 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import "ORKAVJournalingARSessionHelper.h"
 #import "ORKAVJournalingSessionHelper.h"
+#import "ORKTaskViewController_Internal.h"
 
 
-@interface ORKAVJournalingStepViewController () <AVCaptureDataOutputSynchronizerDelegate, ARSCNViewDelegate, ARSessionDelegate, ORKAVJournalingSessionHelperDelegate>
+@interface ORKAVJournalingStepViewController () <AVCaptureDataOutputSynchronizerDelegate, ARSCNViewDelegate, ARSessionDelegate, ORKAVJournalingSessionHelperDelegate, AVCaptureAudioDataOutputSampleBufferDelegate>
 @end
 
 @implementation ORKAVJournalingStepViewController {
@@ -70,6 +71,8 @@
     
     NSURL *_tempFileURL;
     NSURL *_savedFileURL;
+    
+    NSMutableArray<NSString *> *_fileNames;
     
     BOOL _waitingOnUserToStartRecording;
     BOOL _submitVideoAfterStopping;
@@ -95,6 +98,7 @@
     [super viewDidLoad];
     
     _results = [NSMutableArray new];
+    _fileNames = [NSMutableArray new];
     _waitingOnUserToStartRecording = YES;
     _submitVideoAfterStopping = NO;
     
@@ -303,10 +307,15 @@
 - (void)submitVideo {
     if ([self tempVideoFileExists]) {
         //Save video to permanant file
-        NSString *outputFileName = [NSUUID new].UUIDString;
+        NSString *outputFileName = [NSString stringWithFormat:@"%@_%@_rgb", self.step.identifier, self.taskViewController.taskRunUUID.UUIDString];
         _savedFileName = [outputFileName stringByAppendingPathExtension:@"mov"];
         
-        NSURL *docURL = [NSFileManager.defaultManager URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask].lastObject;
+        NSURL *docURL = self.taskViewController.outputDirectory;
+        
+        if (!docURL) {
+            @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"The presented ORKTaskViewController must provide an outputDirectory for the ORKAVJournalingStep to save it's videos within." userInfo:nil];
+        }
+        
         docURL = [docURL URLByAppendingPathComponent:_savedFileName];
         
         NSData *data = [NSData dataWithContentsOfURL:_tempFileURL];
@@ -315,6 +324,7 @@
         if (wasDataSavedToURL) {
             //remove video saved to temp directory if it was saved successfully in the document directory
             _savedFileURL = docURL;
+            [_fileNames addObject:_savedFileName];
             [self deleteTempVideoFile];
             [self finish];
         }
@@ -350,14 +360,11 @@
     NSDate *now = stepResult.endDate;
     
     NSMutableArray *results = [NSMutableArray arrayWithArray:stepResult.results];
-    ORKAVJournalingStepResult *videoJournalResult = [[ORKAVJournalingStepResult alloc] initWithIdentifier:self.step.identifier];
+    ORKAVJournalingResult *videoJournalResult = [[ORKAVJournalingResult alloc] initWithIdentifier:self.step.identifier];
     videoJournalResult.startDate = stepResult.startDate;
     videoJournalResult.endDate = now;
-    videoJournalResult.contentType = @"video/quicktime";
-    videoJournalResult.fileName = _savedFileName;
-    videoJournalResult.fileURL = _savedFileURL;
+    videoJournalResult.fileNameArray = [_fileNames copy];
     videoJournalResult.cameraIntrinsics = _cameraIntrinsics;
-    videoJournalResult.retryCount = _retryCount;
     [results addObject:videoJournalResult];
     
     stepResult.results = [results copy];
@@ -403,7 +410,9 @@
     _tempFileURL = tempURL;
     _waitingOnUserToStartRecording = YES;
     if (_submitVideoAfterStopping) {
-        [self submitVideo];
+        dispatch_async(dispatch_get_main_queue(), ^(void) {
+            [self submitVideo];
+        });
     }
 }
 
@@ -421,12 +430,12 @@
     if (_waitingOnUserToStartRecording) {
         return;
     }
-    
+
     if ([ARFaceTrackingConfiguration isSupported]) {
         if (_arSessionHelper) {
             [_arSessionHelper saveAudioSampleBuffer:sampleBuffer];
         }
-        
+
         return;
     }
 }

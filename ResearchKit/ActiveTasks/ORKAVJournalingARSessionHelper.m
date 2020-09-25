@@ -77,8 +77,10 @@ static const CGFloat AudioSampleRate = 44100;
 
 #pragma mark Methods
 
-- (BOOL)startSessionWithDelegate:(id)delegate error:(NSError **)error {
-    error = nil;
+- (BOOL)startSessionWithDelegate:(id<AVCaptureAudioDataOutputSampleBufferDelegate>)delegate error:(NSError **)error {
+    if (error != NULL) {
+        error = nil;
+    }
     
     if ([delegate conformsToProtocol:@protocol(AVCaptureAudioDataOutputSampleBufferDelegate)]) {
         _sampleBufferDelegate = delegate;
