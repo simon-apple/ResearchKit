@@ -51,6 +51,8 @@
 #import "ORKAVJournalingARSessionHelper.h"
 #import "ORKAVJournalingSessionHelper.h"
 #import "ORKTaskViewController_Internal.h"
+#import "ORKContext.h"
+
 
 
 @interface ORKAVJournalingStepViewController () <AVCaptureDataOutputSynchronizerDelegate, ARSCNViewDelegate, ARSessionDelegate, ORKAVJournalingSessionHelperDelegate, AVCaptureAudioDataOutputSampleBufferDelegate>
@@ -285,7 +287,34 @@
 }
 
 - (void)finishLaterButtonPressed {
-    //TODO: add finish later functionality
+    UIAlertController * alert = [UIAlertController
+                                 alertControllerWithTitle:ORKLocalizedString(@"AV_JOURNALING_STEP_ALERT_TITLE", "")
+                                 message:ORKLocalizedString(@"AV_JOURNALING_STEP_ALERT_MESSAGE", "")
+                                 preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction* finishLaterButton = [UIAlertAction
+                                actionWithTitle:ORKLocalizedString(@"AV_JOURNALING_STEP_ALERT_FINISH_LATER_BUTTON_TEXT", "")
+                                style:UIAlertActionStyleDefault
+                                handler:^(UIAlertAction * action) {
+        
+        if ([self.step.context isKindOfClass:[ORKAVJournalingPredfinedTaskContext class]]) {
+            [(ORKAVJournalingPredfinedTaskContext *)self.step.context finishLaterWasPressedForTask:self.step.task currentStepIdentifier:self.step.identifier];
+        }
+        
+        [self cleanupSession];
+        [[self taskViewController] flipToPageWithIdentifier:@"ORKAVJournalingFinishLaterCompletionStepIdentifier" forward:YES animated:NO];
+    }];
+    
+    UIAlertAction* cancelButton = [UIAlertAction
+                               actionWithTitle:ORKLocalizedString(@"AV_JOURNALING_STEP_ALERT_CANCEL_BUTTON_TEXT", "")
+                               style:UIAlertActionStyleDefault
+                               handler:nil];
+    
+    [alert addAction:finishLaterButton];
+    [alert addAction:cancelButton];
+
+    [self presentViewController:alert animated:YES completion:nil];
+    
 }
 
 - (void)tearDownSession {

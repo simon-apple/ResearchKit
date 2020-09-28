@@ -64,7 +64,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ORKAVJournalingPredfinedTaskContext : NSObject <ORKContext>
 
-- (void)didReachDetectionTimeLimitForTask:(id<ORKTask>)task;
+- (void)didReachDetectionTimeLimitForTask:(id<ORKTask>)task currentStepIdentifier:(NSString *)currentStepIdentifier;
+
+- (void)finishLaterWasPressedForTask:(id<ORKTask>)task currentStepIdentifier:(NSString *)currentStepIdentifier;
 
 @end
 
