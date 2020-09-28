@@ -47,6 +47,7 @@
 static const CGFloat FaceDetectionDetailLabelTopPadding = 12.0;
 static const CGFloat ContentLeftRightPadding = 16.0;
 static const CGFloat FaceDetectionTimeLimit = 60.0;
+static const CGFloat FaceDetectionRecalibrationTimeLimit = 30.0;
 
 @interface ORKFaceDetectionStepContentView ()
 @property (nonatomic, copy, nullable) ORKFaceDetectionStepContentViewEventHandler viewEventhandler;
@@ -96,7 +97,7 @@ static const CGFloat FaceDetectionTimeLimit = 60.0;
         
         [self setUpSubviews];
         [self setUpConstraints];
-        [self startTimerWithMaximumRecordingLimit:FaceDetectionTimeLimit];
+        [self startTimerWithMaximumRecordingLimit: _showingForRecalibration ? FaceDetectionRecalibrationTimeLimit : FaceDetectionTimeLimit];
     }
     
     return self;
@@ -366,6 +367,13 @@ static const CGFloat FaceDetectionTimeLimit = 60.0;
             [self setNeedsLayout];
         }];
     });
+}
+
+- (void)cleanUpView {
+    [_timer invalidate];
+    _timer = nil;
+    [_animateFaceOutTimer invalidate];
+    _animateFaceOutTimer = nil;
 }
 
 - (void)handleError:(NSError *)error {

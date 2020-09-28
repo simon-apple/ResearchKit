@@ -431,6 +431,7 @@ static const CGFloat RecalibrationViewTopConstraint = 30.0;
 
                 [self setNeedsLayout];
             } completion:^(BOOL finished) {
+                [_faceDetectionContentView cleanUpView];
                 [_faceDetectionContentView removeFromSuperview];
                 _faceDetectionContentView = nil;
                 
@@ -443,6 +444,10 @@ static const CGFloat RecalibrationViewTopConstraint = 30.0;
 
 - (void)setupFaceDetectionContentView {
     _faceDetectionContentView = [[ORKFaceDetectionStepContentView alloc] initForRecalibration:YES];
+    __weak typeof(self) weakSelf = self;
+    [_faceDetectionContentView setViewEventHandler:^(ORKFaceDetectionStepContentViewEvent event) {
+        [weakSelf handleFaceDetectionContentViewEvent:event];
+    }];
     _faceDetectionContentView.layer.opacity = 0;
     [self addSubview:_faceDetectionContentView];
     
@@ -457,6 +462,14 @@ static const CGFloat RecalibrationViewTopConstraint = 30.0;
     }
     
     [_recalibrationViewTopConstraint setActive:YES];
+}
+
+- (void)handleFaceDetectionContentViewEvent:(ORKFaceDetectionStepContentViewEvent)event {
+    switch (event) {
+        case ORKFaceDetectionStepContentViewEventTimeLimitHit:
+            [self invokeViewEventHandlerWithEvent:ORKAVJournalingStepContentViewEventRecalibrationTimeLimitHit];
+            break;
+    }
 }
 
 - (void)startFaceCalibrationTimer {
