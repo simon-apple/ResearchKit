@@ -627,8 +627,8 @@
 "AV_JOURNALING_PREDEFINED_TASK_FACE_DETECTION_STEP_TITLE" = "Video Journal";
 "AV_JOURNALING_PREDEFINED_TASK_INSTRUCTION_STEP_TITLE" = "Video Journal";
 "AV_JOURNALING_PREDEFINED_TASK_INSTRUCTION_STEP_TEXT" = "You will be asked %lu questions. Think about each question as long as needed and then speak your answer out loud";
-"AV_JOURNALING_PREDEFINED_TASK_COMPLETION_TITLE" = "Task Complete";
-"AV_JOURNALING_PREDEFINED_TASK_COMPLETION_TEXT" = "Thank you for completing this task";
+"AV_JOURNALING_PREDEFINED_TASK_COMPLETION_TITLE" = "Video Journal Complete";
+"AV_JOURNALING_PREDEFINED_TASK_COMPLETION_TEXT" = "Thank you for participating.";
 
 /* AV Journaling Face Detection Step */
 "AV_JOURNALING_FACE_DETECTION_STEP_NEXT_BUTTON_TEXT" = "Continue";
@@ -640,7 +640,7 @@
 "AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TITLE_RECALIBRATION" = "We Lost You";
 "AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TEXT_RECALIBRATION" = "Try adjusting the position of your iPhone to bring your face back into view.";
 "AV_JOURNALING_FACE_DETECTION_STEP_TIME_LIMIT_REACHED_TITLE" = "Video Journal Incomplete";
-"AV_JOURNALING_FACE_DETECTION_STEP_TIME_LIMIT_REACHED_TEXT" = "You finished 2 of 3 journal entries. You can finish the remaining entry when you're ready.";
+"AV_JOURNALING_FACE_DETECTION_STEP_TIME_LIMIT_REACHED_TEXT" = "You finished %lu of %lu journal entries. You can finish the remaining entry when you're ready.";
 "AV_JOURNALING_FACE_DETECTION_START_TIME" = "00:00";
 
 /* AV Journaling Step */
@@ -655,6 +655,12 @@
 "AV_JOURNALING_STEP_AUDIO_ERROR" = "Can't access audio. This step cannot be completed.";
 "AV_JOURNALING_STEP_NEXT_QUESTION_MESSAGE" = "NEXT QUESTION IN %@";
 "AV_JOURNALING_STEP_QUESTION_NUMBER_TEXT" = "Question %lu of %lu";
+"AV_JOURNALING_STEP_ALERT_TITLE" = "Finish Later";
+"AV_JOURNALING_STEP_ALERT_MESSAGE" = "Your response to the current question will be discarded and can be re-recorded at a later time.";
+"AV_JOURNALING_STEP_ALERT_FINISH_LATER_BUTTON_TEXT" = "Finish Later";
+"AV_JOURNALING_STEP_ALERT_CANCEL_BUTTON_TEXT" = "Cancel";
+"AV_JOURNALING_STEP_FINISH_LATER_TITLE" = "You’ve stopped this task";
+"AV_JOURNALING_STEP_FINISH_LATER_TEXT" = "You finished %lu of %lu journal entries. You can finish the remaining entry when you're ready.";
 
 /* ORKRecordButton */
 "PLAY" = "Play";

@@ -43,12 +43,14 @@ typedef NSString * ORKAVJournalingStepIdentifier NS_STRING_ENUM;
 ORKAVJournalingStepIdentifier const FaceDetectionStepIdentifier = @"ORKAVJournalingFaceDetectionStepIdentifier";
 ORKAVJournalingStepIdentifier const InstructionStepIdentifier = @"ORKAVJournalingInstructionStepIdentifier";
 ORKAVJournalingStepIdentifier const CompletionStepIdentifier = @"ORKAVJournalingCompletionStepIdentifier";
-ORKAVJournalingStepIdentifier const MaxLimitHitCompletionStepIdentifier = @"ORKAVJournalingMaxLimitHitCompletionStepIdentifierHeadphonesRequired";
+ORKAVJournalingStepIdentifier const MaxLimitHitCompletionStepIdentifier = @"ORKAVJournalingMaxLimitHitCompletionStepIdentifier";
+ORKAVJournalingStepIdentifier const FinishLaterCompletionStepIdentifier = @"ORKAVJournalingFinishLaterCompletionStepIdentifier";
+
 
 
 @implementation ORKAVJournalingPredfinedTaskContext
 
-- (void)didReachDetectionTimeLimitForTask:(id<ORKTask>)task {
+- (void)didReachDetectionTimeLimitForTask:(id<ORKTask>)task currentStepIdentifier:(NSString *)currentStepIdentifier {
     
     if ([task isKindOfClass:[ORKNavigableOrderedTask class]]) {
         // If the user reaches the max limit for face detection, append a new step to the end of the task and skip to the end.
@@ -56,9 +58,12 @@ ORKAVJournalingStepIdentifier const MaxLimitHitCompletionStepIdentifier = @"ORKA
         // Add a navigation rule to end the current task.
         ORKNavigableOrderedTask *currentTask = (ORKNavigableOrderedTask *)task;
         
+        int completedStepCount = currentStepIdentifier == FaceDetectionStepIdentifier ? 0 : [self numberOfCompletedAVJournalingStepsFromTask:currentTask currentStepIdentifier:currentStepIdentifier];
+        int totalAVJournalingSteps = [self totalAVJournalingStepsWithinTask:currentTask];
+        
         ORKCompletionStep *step = [[ORKCompletionStep alloc] initWithIdentifier:MaxLimitHitCompletionStepIdentifier];
         step.title = ORKLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_TIME_LIMIT_REACHED_TITLE", nil);
-        step.text = ORKLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_TIME_LIMIT_REACHED_TEXT", nil);
+        step.text = [NSString stringWithFormat:ORKLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_TIME_LIMIT_REACHED_TEXT", nil), completedStepCount, totalAVJournalingSteps];
         step.optional = NO;
         step.reasonForCompletion = ORKTaskViewControllerFinishReasonDiscarded;
         [currentTask addStep:step];
@@ -66,6 +71,55 @@ ORKAVJournalingStepIdentifier const MaxLimitHitCompletionStepIdentifier = @"ORKA
         ORKDirectStepNavigationRule *endNavigationRule = [[ORKDirectStepNavigationRule alloc] initWithDestinationStepIdentifier:ORKNullStepIdentifier];
         [currentTask setNavigationRule:endNavigationRule forTriggerStepIdentifier:step.identifier];
     }
+}
+
+- (void)finishLaterWasPressedForTask:(id<ORKTask>)task currentStepIdentifier:(NSString *)currentStepIdentifier {
+    if ([task isKindOfClass:[ORKNavigableOrderedTask class]]) {
+        // If the user reaches the max limit for face detection, append a new step to the end of the task and skip to the end.
+        
+        // Add a navigation rule to end the current task.
+        ORKNavigableOrderedTask *currentTask = (ORKNavigableOrderedTask *)task;
+        
+        int completedStepCount = [self numberOfCompletedAVJournalingStepsFromTask:currentTask currentStepIdentifier:currentStepIdentifier];
+        int totalAVJournalingSteps = [self totalAVJournalingStepsWithinTask:currentTask];
+        
+        ORKCompletionStep *step = [[ORKCompletionStep alloc] initWithIdentifier:FinishLaterCompletionStepIdentifier];
+        step.title = ORKLocalizedString(@"AV_JOURNALING_STEP_FINISH_LATER_TITLE", nil);
+        step.text = [NSString stringWithFormat:ORKLocalizedString(@"AV_JOURNALING_STEP_FINISH_LATER_TEXT", nil), completedStepCount, totalAVJournalingSteps];
+        step.optional = NO;
+        [currentTask addStep:step];
+
+        ORKDirectStepNavigationRule *endNavigationRule = [[ORKDirectStepNavigationRule alloc] initWithDestinationStepIdentifier:ORKNullStepIdentifier];
+        [currentTask setNavigationRule:endNavigationRule forTriggerStepIdentifier:step.identifier];
+    }
+}
+
+- (int)numberOfCompletedAVJournalingStepsFromTask:(ORKNavigableOrderedTask *)task currentStepIdentifier:(NSString *)currentStepIdentifier {
+    int numberOfCompleted = 0;
+    
+    for(ORKStep *step in task.steps) {
+        if ([step isKindOfClass:[ORKAVJournalingStep class]]) {
+            if (step.identifier == currentStepIdentifier) {
+                break;
+            } else {
+                numberOfCompleted += 1;
+            }
+        }
+    }
+    
+    return numberOfCompleted;
+}
+
+- (int)totalAVJournalingStepsWithinTask:(ORKNavigableOrderedTask *)task {
+    int total = 0;
+    
+    for(ORKStep *step in task.steps) {
+        if ([step isKindOfClass:[ORKAVJournalingStep class]]) {
+            total += 1;
+        }
+    }
+    
+    return total;
 }
 
 @end
@@ -133,6 +187,7 @@ ORKAVJournalingStepIdentifier const MaxLimitHitCompletionStepIdentifier = @"ORKA
         
     //add AVJournalSteps
     for (ORKAVJournalingStep* avJournalingStep in avJournalingSteps) {
+        avJournalingStep.context = avJournalingPredefinedContext;
         [steps addObject:avJournalingStep];
     }
     

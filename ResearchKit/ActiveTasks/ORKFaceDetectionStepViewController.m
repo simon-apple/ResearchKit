@@ -139,11 +139,11 @@
     switch (event) {
         case ORKFaceDetectionStepContentViewEventTimeLimitHit:
             if ([self.step.context isKindOfClass:[ORKAVJournalingPredfinedTaskContext class]]) {
-                [(ORKAVJournalingPredfinedTaskContext *)self.step.context didReachDetectionTimeLimitForTask:self.step.task];
+                [(ORKAVJournalingPredfinedTaskContext *)self.step.context didReachDetectionTimeLimitForTask:self.step.task currentStepIdentifier:self.step.identifier];
             }
             
             [self clearSession];
-            [[self taskViewController] flipToPageWithIdentifier:@"ORKAVJournalingMaxLimitHitCompletionStepIdentifierHeadphonesRequired" forward:YES animated:NO];
+            [[self taskViewController] flipToPageWithIdentifier:@"ORKAVJournalingMaxLimitHitCompletionStepIdentifier" forward:YES animated:NO];
             break;
     }
 }

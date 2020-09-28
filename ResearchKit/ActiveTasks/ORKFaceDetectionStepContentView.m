@@ -46,6 +46,7 @@
 
 static const CGFloat FaceDetectionDetailLabelTopPadding = 12.0;
 static const CGFloat ContentLeftRightPadding = 16.0;
+static const CGFloat FaceDetectionTimeLimit = 60.0;
 
 @interface ORKFaceDetectionStepContentView ()
 @property (nonatomic, copy, nullable) ORKFaceDetectionStepContentViewEventHandler viewEventhandler;
@@ -95,6 +96,7 @@ static const CGFloat ContentLeftRightPadding = 16.0;
         
         [self setUpSubviews];
         [self setUpConstraints];
+        [self startTimerWithMaximumRecordingLimit:FaceDetectionTimeLimit];
     }
     
     return self;
@@ -226,7 +228,6 @@ static const CGFloat ContentLeftRightPadding = 16.0;
     _previewLayer.connection.videoOrientation = AVCaptureVideoOrientationPortrait;
     
     [_cameraView.layer addSublayer:_previewLayer];
-    [self startTimerWithMaximumRecordingLimit:60.0];
 }
 
 - (void)setFaceDetected:(BOOL)detected faceRect:(CGRect)faceRect originalSize:(CGSize)originalSize {
