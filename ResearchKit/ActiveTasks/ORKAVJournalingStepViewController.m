@@ -54,7 +54,6 @@
 #import "ORKContext.h"
 
 
-
 @interface ORKAVJournalingStepViewController () <AVCaptureDataOutputSynchronizerDelegate, ARSCNViewDelegate, ARSessionDelegate, ORKAVJournalingSessionHelperDelegate, AVCaptureAudioDataOutputSampleBufferDelegate>
 @end
 
@@ -183,6 +182,10 @@
             [_navigationFooterView setContinueEnabled:NO];
             [self updateNavFooterText];
             break;
+            
+        case ORKAVJournalingStepContentViewEventRecalibrationTimeLimitHit:
+            [self invokeFinishLaterContext];
+            break;
         case ORKAVJournalingStepContentViewEventError:
             break;
     }
@@ -293,16 +296,10 @@
                                  preferredStyle:UIAlertControllerStyleAlert];
     
     UIAlertAction* finishLaterButton = [UIAlertAction
-                                actionWithTitle:ORKLocalizedString(@"AV_JOURNALING_STEP_ALERT_FINISH_LATER_BUTTON_TEXT", "")
-                                style:UIAlertActionStyleDefault
-                                handler:^(UIAlertAction * action) {
-        
-        if ([self.step.context isKindOfClass:[ORKAVJournalingPredfinedTaskContext class]]) {
-            [(ORKAVJournalingPredfinedTaskContext *)self.step.context finishLaterWasPressedForTask:self.step.task currentStepIdentifier:self.step.identifier];
-        }
-        
-        [self cleanupSession];
-        [[self taskViewController] flipToPageWithIdentifier:@"ORKAVJournalingFinishLaterCompletionStepIdentifier" forward:YES animated:NO];
+                                        actionWithTitle:ORKLocalizedString(@"AV_JOURNALING_STEP_ALERT_FINISH_LATER_BUTTON_TEXT", "")
+                                        style:UIAlertActionStyleDefault
+                                        handler:^(UIAlertAction * action) {
+        [self invokeFinishLaterContext];
     }];
     
     UIAlertAction* cancelButton = [UIAlertAction
@@ -314,7 +311,14 @@
     [alert addAction:cancelButton];
 
     [self presentViewController:alert animated:YES completion:nil];
-    
+}
+
+- (void)invokeFinishLaterContext {
+    if ([self.step.context isKindOfClass:[ORKAVJournalingPredfinedTaskContext class]]) {
+        [(ORKAVJournalingPredfinedTaskContext *)self.step.context finishLaterWasPressedForTask:self.step.task currentStepIdentifier:self.step.identifier];
+        [self cleanupSession];
+        [[self taskViewController] flipToPageWithIdentifier:@"ORKAVJournalingFinishLaterCompletionStepIdentifier" forward:YES animated:NO];
+    }
 }
 
 - (void)tearDownSession {

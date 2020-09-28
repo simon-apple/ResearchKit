@@ -265,6 +265,7 @@
     if (_captureSession) {
         [_captureSession stopRunning];
         _captureSession = nil;
+        [_contentView cleanUpView];
     }
 }
 

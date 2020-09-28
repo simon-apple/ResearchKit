@@ -60,6 +60,8 @@ typedef void (^ORKFaceDetectionStepContentViewEventHandler)(ORKFaceDetectionStep
 
 - (BOOL)isFacePositionCircleWithinBox:(CGRect)rect originalSize:(CGSize)originalSize;
 
+- (void)cleanUpView;
+
 - (void)handleError:(NSError *)error;
 
 @end
