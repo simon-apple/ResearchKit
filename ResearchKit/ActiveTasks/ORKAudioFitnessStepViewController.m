@@ -40,21 +40,11 @@
 @implementation ORKAVAudioPlayer
 @end
 
-@implementation ORKAudioFitnessStepViewController
+@interface ORKAudioFitnessStepViewController ()
+@property (nonatomic) BOOL appHasAudioBackgroundMode;
+@end
 
-- (id<ORKAudioPlayer>)audioPlayer {
-    if (!_audioPlayer) {
-        ORKAudioFitnessStep *step = (ORKAudioFitnessStep *)self.step;
-        NSBundle *bundle = [NSBundle bundleWithIdentifier: step.audioBundleIdentifier];
-        NSURL *url = [bundle URLForResource:step.audioResourceName withExtension:step.audioFileExtension];
-        NSError *error;
-        _audioPlayer = [[ORKAVAudioPlayer alloc] initWithContentsOfURL:url error:&error];
-        if (error) {
-            ORK_Log_Error("Failed to load audio file: %@", error.localizedFailureReason);
-        }
-    }
-    return _audioPlayer;
-}
+@implementation ORKAudioFitnessStepViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -63,6 +53,11 @@
 
 - (void)start {
     [super start];
+
+    if (self.appHasAudioBackgroundMode) {
+        [self enableBackgroundAudioSession:YES];
+    }
+
     [self.audioPlayer play];
 }
 
@@ -79,6 +74,49 @@
 - (void)finish {
     [super finish];
     [self.audioPlayer stop];
+
+    if (self.appHasAudioBackgroundMode) {
+        [self enableBackgroundAudioSession:NO];
+    }
+}
+
+- (BOOL)appHasAudioBackgroundMode {
+    NSArray<NSString*> *backgroundModes = (NSArray<NSString*> *)[[NSBundle mainBundle] objectForInfoDictionaryKey:@"UIBackgroundModes"];
+    BOOL hasBackgroundAudioMode = [backgroundModes containsObject:@"audio"];
+    return hasBackgroundAudioMode;
+}
+
+- (void)enableBackgroundAudioSession:(BOOL)enabled {
+    NSError *error;
+    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback
+                                            mode:AVAudioSessionModeDefault
+                              routeSharingPolicy:AVAudioSessionRouteSharingPolicyLongForm
+                                         options:0
+                                           error:&error];
+    if (error) {
+        ORK_Log_Error("ORKAudioFitnessStepViewController failed to setup audio session: %@", error);
+        return;
+    }
+
+    [[AVAudioSession sharedInstance] setActive:enabled error:&error];
+    if (error) {
+        ORK_Log_Error("ORKAudioFitnessViewController failed to start audio session: %@", error);
+        return;
+    }
+}
+
+- (id<ORKAudioPlayer>)audioPlayer {
+    if (!_audioPlayer) {
+        ORKAudioFitnessStep *step = (ORKAudioFitnessStep *)self.step;
+        NSBundle *bundle = [NSBundle bundleWithIdentifier: step.audioBundleIdentifier];
+        NSURL *url = [bundle URLForResource:step.audioResourceName withExtension:step.audioFileExtension];
+        NSError *error;
+        _audioPlayer = [[ORKAVAudioPlayer alloc] initWithContentsOfURL:url error:&error];
+        if (error) {
+            ORK_Log_Error("ORKAudioFitnessStepViewController Failed to load audio file: %@", error.localizedFailureReason);
+        }
+    }
+    return _audioPlayer;
 }
 
 @end
