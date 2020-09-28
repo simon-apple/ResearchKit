@@ -799,7 +799,12 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKUpdateConstraintSequence) {
     
     else if (_textLabel && ![_stepText isEqualToString:@""]) {
         topItem = _textLabel;
-        topPadding = ORKBodyToBodyPaddingStandard;
+        if (_bodyItems.firstObject.bodyItemStyle == ORKBodyItemStyleTag ||
+            _bodyItems.firstObject.bodyItemStyle == ORKBodyItemStyleHorizontalRule) {
+            topPadding = ORKBodyToBodyParagraphPaddingStandard;
+        } else {
+            topPadding = ORKBodyToBodyPaddingStandard;
+        }
         attribute = NSLayoutAttributeBottom;
     }
     

@@ -580,7 +580,11 @@ static NSString *ORKBulletUnicode = @"\u2981";
     } else if (aboveStyle == ORKBodyItemStyleText) {
         return belowStyle == ORKBodyItemStyleText ? (_bodyItems[belowItemIndex].text ? ORKBodyToBodyParagraphPaddingStandard : ORKBodyToBodyPaddingStandard) : ORKBodyToBulletPaddingStandard;
     } else if (aboveStyle == ORKBodyItemStyleTag) {
-        return ORKTagLabelBottomPadding;
+        if (belowStyle == ORKBodyItemStyleBulletPoint) {
+            return ORKBulletToBulletPaddingStandard;
+        } else {
+            return ORKTagLabelBottomPadding;
+        }
     } else {
         return belowStyle == ORKBodyItemStyleText ? ORKBodyToBulletPaddingStandard : ORKBulletToBulletPaddingStandard;
     }
