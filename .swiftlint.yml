@@ -12,6 +12,10 @@ number_separator:
 
 force_cast: warning
 
+identifier_name:
+  excluded:
+    - up
+
 large_tuple:
   warning: 4
   error: 5
