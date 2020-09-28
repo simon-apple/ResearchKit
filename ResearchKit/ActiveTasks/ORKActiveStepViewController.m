@@ -343,9 +343,7 @@
 - (void)stopRecorders {
     [self recordersWillStop];
     for (ORKRecorder *recorder in self.recorders) {
-        dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
-            [recorder stop];
-        });
+        [recorder stop];
     }
 }
 
