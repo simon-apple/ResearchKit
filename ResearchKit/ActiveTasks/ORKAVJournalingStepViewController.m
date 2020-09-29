@@ -59,7 +59,6 @@
 
 @implementation ORKAVJournalingStepViewController {
     NSMutableArray *_results;
-    NSMutableArray *_cameraIntrinsics;
     
     NSInteger _retryCount;
     
@@ -303,13 +302,13 @@
     }];
     
     UIAlertAction* cancelButton = [UIAlertAction
-                               actionWithTitle:ORKLocalizedString(@"AV_JOURNALING_STEP_ALERT_CANCEL_BUTTON_TEXT", "")
-                               style:UIAlertActionStyleDefault
-                               handler:nil];
+                                   actionWithTitle:ORKLocalizedString(@"AV_JOURNALING_STEP_ALERT_CANCEL_BUTTON_TEXT", "")
+                                   style:UIAlertActionStyleDefault
+                                   handler:nil];
     
     [alert addAction:finishLaterButton];
     [alert addAction:cancelButton];
-
+    
     [self presentViewController:alert animated:YES completion:nil];
 }
 
@@ -397,7 +396,9 @@
     videoJournalResult.startDate = stepResult.startDate;
     videoJournalResult.endDate = now;
     videoJournalResult.fileNameArray = [_fileNames copy];
-    videoJournalResult.cameraIntrinsics = _cameraIntrinsics;
+    videoJournalResult.cameraIntrinsics = [_sessionHelper.cameraIntrinsicsArray copy];
+    videoJournalResult.recalibrationStartTimestamps = [_contentView fetchRecalibrationTimeStamps];
+    
     [results addObject:videoJournalResult];
     
     stepResult.results = [results copy];
@@ -415,26 +416,6 @@
     }
     
     [self tearDownSession];
-}
-
-- (void)extractDataFromCurrentFrame:(ARFrame *)frame {
-    NSMutableDictionary *dict = [[NSMutableDictionary alloc]initWithCapacity:15];
-    [dict setObject:[NSString stringWithFormat:@"%f", frame.timestamp] forKey:@"timeStamp"];
-    [dict setObject:@{@"width": [NSString stringWithFormat:@"%f", frame.camera.imageResolution.width], @"height": [NSString stringWithFormat:@"%f", frame.camera.imageResolution.height]} forKey:@"imageResolution"];
-    [dict setObject:[NSString stringWithFormat:@"%f", frame.lightEstimate.ambientIntensity] forKey:@"lightEstimate"];
-    [dict setObject:[self arrayFromTransform:frame.camera.intrinsics] forKey:@"cameraIntrinsics"];
-}
-
-- (NSMutableArray *)arrayFromTransform:(simd_float3x3)transform {
-    NSMutableArray *array = [NSMutableArray new];
-
-    [array addObject:[[NSMutableArray alloc] initWithObjects:[NSNumber numberWithFloat:transform.columns[0].x], [NSNumber numberWithFloat:transform.columns[1].x], [NSNumber numberWithFloat:transform.columns[2].x], nil]];
-
-    [array addObject:[[NSMutableArray alloc] initWithObjects:[NSNumber numberWithFloat:transform.columns[0].y], [NSNumber numberWithFloat:transform.columns[1].y], [NSNumber numberWithFloat:transform.columns[2].y], nil]];
-
-    [array addObject:[[NSMutableArray alloc] initWithObjects:[NSNumber numberWithFloat:transform.columns[0].z], [NSNumber numberWithFloat:transform.columns[1].z], [NSNumber numberWithFloat:transform.columns[2].z], nil]];
-
-    return array;
 }
 
 #pragma mark - ORKAVJournalingSessionHelperDelegate
@@ -494,10 +475,6 @@
 
     if (_arSessionHelper) {
         [_arSessionHelper savePixelBufferFromARFrame:frame];
-    }
-        
-    if (!_cameraIntrinsics) {
-        _cameraIntrinsics = [self arrayFromTransform:frame.camera.intrinsics];
     }
 }
 

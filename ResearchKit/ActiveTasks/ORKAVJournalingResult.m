@@ -45,8 +45,8 @@
     self = [super initWithCoder:aDecoder];
     if (self) {
         ORK_DECODE_OBJ_ARRAY(aDecoder, fileNameArray, NSString);
-        ORK_DECODE_OBJ_ARRAY(aDecoder, recalibrationStartTimestamps, NSString);
-        ORK_DECODE_OBJ_CLASS(aDecoder, cameraIntrinsics, NSMutableArray);
+        ORK_DECODE_OBJ_ARRAY(aDecoder, recalibrationStartTimestamps, NSDictionary);
+        ORK_DECODE_OBJ_CLASS(aDecoder, cameraIntrinsics, NSArray);
     }
     return self;
 }
