@@ -222,6 +222,18 @@
     AVCaptureSynchronizedSampleBufferData *syncedVideoSampleBufferData = (AVCaptureSynchronizedSampleBufferData *)[dataCollection synchronizedDataForCaptureOutput:_videoDataOutput];
     
     if (syncedVideoSampleBufferData && !syncedVideoSampleBufferData.sampleBufferWasDropped) {
+        
+        //capture camera intrinsics data
+        if (!_cameraIntrinsicsArray) {
+            CFTypeRef cameraIntrinsicData = CMGetAttachment(syncedVideoSampleBufferData.sampleBuffer, kCMSampleBufferAttachmentKey_CameraIntrinsicMatrix, nil);
+            if (cameraIntrinsicData != nil){
+                CFDataRef cfdr = (CFDataRef)(cameraIntrinsicData);
+                matrix_float3x3 cameraIntrinsics = *(matrix_float3x3 *)(CFDataGetBytePtr(cfdr));
+                //todo: store camera intriniscs
+                _cameraIntrinsicsArray = [self arrayFromTransform:cameraIntrinsics];
+            }
+        }
+        
         if (!_startTimeSet) {
             [self saveSampleBuffer:syncedVideoSampleBufferData.sampleBuffer];
         } else {
@@ -389,6 +401,10 @@
         if ([connection isVideoMirroringSupported]) {
             [connection setVideoMirrored:NO];
         }
+        
+        if ([connection isCameraIntrinsicMatrixDeliverySupported]) {
+            [connection setCameraIntrinsicMatrixDeliveryEnabled:YES];
+        }
     }
     
     if (!_metaDataOutput) {
@@ -500,6 +516,18 @@
     }
 
     return newBuffer;
+}
+
+- (NSMutableArray *)arrayFromTransform:(simd_float3x3)transform {
+    NSMutableArray *array = [NSMutableArray new];
+
+    [array addObject:[[NSMutableArray alloc] initWithObjects:[NSNumber numberWithFloat:transform.columns[0].x], [NSNumber numberWithFloat:transform.columns[1].x], [NSNumber numberWithFloat:transform.columns[2].x], nil]];
+
+    [array addObject:[[NSMutableArray alloc] initWithObjects:[NSNumber numberWithFloat:transform.columns[0].y], [NSNumber numberWithFloat:transform.columns[1].y], [NSNumber numberWithFloat:transform.columns[2].y], nil]];
+
+    [array addObject:[[NSMutableArray alloc] initWithObjects:[NSNumber numberWithFloat:transform.columns[0].z], [NSNumber numberWithFloat:transform.columns[1].z], [NSNumber numberWithFloat:transform.columns[2].z], nil]];
+
+    return array;
 }
 
 static CVReturn CreatePixelBufferPool(size_t width, size_t height, OSType format, CVPixelBufferPoolRef *pool) {

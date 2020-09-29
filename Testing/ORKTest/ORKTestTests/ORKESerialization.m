@@ -2019,8 +2019,8 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                 (@{
                     PROPERTY(contentType, NSString, NSObject, NO, nil, nil),
                     PROPERTY(fileNameArray, NSString, NSArray, NO, nil, nil),
-                    PROPERTY(recalibrationStartTimestamps, NSString, NSArray, NO, nil, nil),
-                    PROPERTY(cameraIntrinsics, NSString, NSArray, NO, nil, nil),
+                    PROPERTY(recalibrationStartTimestamps, NSDictionary, NSArray, NO, nil, nil),
+                    PROPERTY(cameraIntrinsics, NSArray, NSArray, NO, nil, nil),
                     PROPERTY(fileURL, NSURL, NSObject, NO,
                              ^id(id url, __unused ORKESerializationContext *context) { return [url absoluteString]; },
                              ^id(id string, __unused ORKESerializationContext *context) { return [NSURL URLWithString:string]; })

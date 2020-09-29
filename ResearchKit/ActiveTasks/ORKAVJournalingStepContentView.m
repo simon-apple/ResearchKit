@@ -85,6 +85,10 @@ static const CGFloat RecalibrationViewTopConstraint = 30.0;
     NSLayoutConstraint *_questionNumberLabelTopConstraint;
     NSLayoutConstraint *_recalibrationViewTopConstraint;
     
+    NSMutableArray<NSDictionary *> * _recalibrationTimeStamps;
+    NSString *_currentStartRecalibrationTimeStamp;
+    NSString *_currentEndRecalibrationTimeStamp;
+    
     BOOL _badgeIsSystemRed;
     BOOL _countDownLabelShowing;
     BOOL _recalibrationViewPresented;
@@ -100,6 +104,7 @@ static const CGFloat RecalibrationViewTopConstraint = 30.0;
         _bodyText = text;
         _countDownLabelShowing = NO;
         _recalibrationViewPresented = NO;
+        _recalibrationTimeStamps = [NSMutableArray new];
         
         [self setUpSubviews];
         [self setUpConstraints];
@@ -266,6 +271,10 @@ static const CGFloat RecalibrationViewTopConstraint = 30.0;
     [self invokeViewEventHandlerWithEvent:ORKAVJournalingStepContentViewEventError];
 }
 
+- (NSArray<NSDictionary *> *)fetchRecalibrationTimeStamps {
+    return [_recalibrationTimeStamps copy];
+}
+
 #pragma mark - Helper Methods (Private)
 
 - (void)startTimerForBadgeColorChange {
@@ -406,6 +415,9 @@ static const CGFloat RecalibrationViewTopConstraint = 30.0;
             
             [self setNeedsLayout];
         } completion:^(BOOL finished) {
+            _currentStartRecalibrationTimeStamp = [NSDateFormatter localizedStringFromDate:[NSDate date]
+                                                                                 dateStyle:NSDateFormatterShortStyle
+                                                                                 timeStyle:NSDateFormatterFullStyle];
             [_faceDetectionContentView layoutSubviews];
             
             //next button should say disabled while recalibration view is presented
@@ -431,6 +443,10 @@ static const CGFloat RecalibrationViewTopConstraint = 30.0;
 
                 [self setNeedsLayout];
             } completion:^(BOOL finished) {
+                _currentEndRecalibrationTimeStamp = [NSDateFormatter localizedStringFromDate:[NSDate date]
+                                                                                   dateStyle:NSDateFormatterShortStyle
+                                                                                   timeStyle:NSDateFormatterFullStyle];
+                [self storeRecalibrationTimeStamps];
                 [_faceDetectionContentView cleanUpView];
                 [_faceDetectionContentView removeFromSuperview];
                 _faceDetectionContentView = nil;
@@ -482,6 +498,14 @@ static const CGFloat RecalibrationViewTopConstraint = 30.0;
                                                            selector:@selector(removeRecalibrationView)
                                                            userInfo:nil
                                                             repeats:NO];
+}
+
+- (void)storeRecalibrationTimeStamps {
+    if (_currentStartRecalibrationTimeStamp && _currentEndRecalibrationTimeStamp) {
+        [_recalibrationTimeStamps addObject:@{ @"start_timestamp" : _currentStartRecalibrationTimeStamp, @"end_timestamp" : _currentEndRecalibrationTimeStamp}];
+        _currentStartRecalibrationTimeStamp = nil;
+        _currentEndRecalibrationTimeStamp = nil;
+    }
 }
 
 @end

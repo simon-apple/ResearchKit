@@ -57,5 +57,7 @@ typedef void (^ORKAVJournalingStepContentViewEventHandler)(ORKAVJournalingStepCo
 
 - (void)handleError:(NSError *)error;
 
+- (NSArray<NSDictionary *> *)fetchRecalibrationTimeStamps;
+
 @end
 NS_ASSUME_NONNULL_END
