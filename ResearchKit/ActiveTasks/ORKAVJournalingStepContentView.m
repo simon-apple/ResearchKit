@@ -92,6 +92,7 @@ static const CGFloat RecalibrationViewTopConstraint = 30.0;
     BOOL _badgeIsSystemRed;
     BOOL _countDownLabelShowing;
     BOOL _recalibrationViewPresented;
+    BOOL _stepTimerEndedDuringRecalibration;
 }
 
 - (instancetype)initWithTitle:(nullable NSString *)title text:(NSString *)text {
@@ -104,6 +105,7 @@ static const CGFloat RecalibrationViewTopConstraint = 30.0;
         _bodyText = text;
         _countDownLabelShowing = NO;
         _recalibrationViewPresented = NO;
+        _stepTimerEndedDuringRecalibration = NO;
         _recalibrationTimeStamps = [NSMutableArray new];
         
         [self setUpSubviews];
@@ -320,13 +322,22 @@ static const CGFloat RecalibrationViewTopConstraint = 30.0;
 - (void)updateRecordingTime {
     _recordingTime -= _timer.timeInterval;
     
+    if (_countDownLabelShowing) {
+        [self updateCountDownLabelWithTime:[self formattedTimeFromSeconds:_recordingTime]];
+    }
+    
     if (_recordingTime <= 0) {
-        [self stopAndSubmitVideo];
+        if (_recalibrationViewPresented) {
+            _stepTimerEndedDuringRecalibration = YES;
+            [_timer invalidate];
+            _timer = nil;
+        } else {
+            [self stopAndSubmitVideo];
+        }
+
     } else if (_recordingTime <= 30) {
         if (!_countDownLabelShowing) {
             [self showCountDownLabel];
-        } else {
-            [self updateCountDownLabelWithTime:[self formattedTimeFromSeconds:_recordingTime]];
         }
     }
 }
@@ -447,12 +458,17 @@ static const CGFloat RecalibrationViewTopConstraint = 30.0;
                                                                                    dateStyle:NSDateFormatterShortStyle
                                                                                    timeStyle:NSDateFormatterFullStyle];
                 [self storeRecalibrationTimeStamps];
+
                 [_faceDetectionContentView cleanUpView];
                 [_faceDetectionContentView removeFromSuperview];
                 _faceDetectionContentView = nil;
                 
                 //next button should say disabled while recalibration view is presented
                 [self invokeViewEventHandlerWithEvent:ORKAVJournalingStepContentViewEventEnableContinueButton];
+                
+                if (_stepTimerEndedDuringRecalibration) {
+                    [self stopAndSubmitVideo];
+                }
             }];
         });
     }
