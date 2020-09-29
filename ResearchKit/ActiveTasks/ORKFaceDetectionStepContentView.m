@@ -146,7 +146,7 @@ static const CGFloat FaceDetectionRecalibrationTimeLimit = 30.0;
     
     [_bottomContentView addSubview:_faceDetectionDetailLabel];
         
-    UIImage *calibrationImage = [UIImage imageNamed:@"Guide" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+    UIImage *calibrationImage = [UIImage imageNamed:@"GuideCorners" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
     _calibrationBoxImageView = [UIImageView new];
     _calibrationBoxImageView.image = [calibrationImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     [_calibrationBoxImageView setTintColor:[UIColor systemGrayColor]];
@@ -194,14 +194,20 @@ static const CGFloat FaceDetectionRecalibrationTimeLimit = 30.0;
         _facePositionImageView.translatesAutoresizingMaskIntoConstraints = NO;
         [_cameraView addSubview:_facePositionImageView];
         
-        CGFloat calibrationBoxHeightAndWidth = _cameraView.frame.size.height * 0.78;
-        _facePositionImageHeightWidth = calibrationBoxHeightAndWidth * 0.38;
+        CGFloat calibrationBoxWidth = _cameraView.frame.size.width * 0.70;
+        CGFloat calibrationBoxHeight = _cameraView.frame.size.height * 0.70;
+        _facePositionImageHeightWidth = calibrationBoxHeight * 0.45;
         _facePositionImageSmallerHeightWidth = _facePositionImageHeightWidth * 0.70;
         
-        [[_calibrationBoxImageView.heightAnchor constraintEqualToConstant:calibrationBoxHeightAndWidth] setActive:YES];
-        [[_calibrationBoxImageView.widthAnchor constraintEqualToConstant:calibrationBoxHeightAndWidth] setActive:YES];
+        [[_calibrationBoxImageView.heightAnchor constraintEqualToConstant:calibrationBoxHeight] setActive:YES];
+        [[_calibrationBoxImageView.widthAnchor constraintEqualToConstant:calibrationBoxWidth] setActive:YES];
         [[_calibrationBoxImageView.centerXAnchor constraintEqualToAnchor:_cameraView.centerXAnchor] setActive:YES];
-        [[_calibrationBoxImageView.centerYAnchor constraintEqualToAnchor:_cameraView.centerYAnchor] setActive:YES];
+        
+        if (_showingForRecalibration) {
+            [[_calibrationBoxImageView.topAnchor constraintEqualToAnchor:_cameraView.topAnchor] setActive:YES];
+        } else {
+            [[_calibrationBoxImageView.centerYAnchor constraintEqualToAnchor:_cameraView.centerYAnchor] setActive:YES];
+        }
         
         [[_facePositionImageView.heightAnchor constraintEqualToConstant:_facePositionImageSmallerHeightWidth] setActive:YES];
         [[_facePositionImageView.widthAnchor constraintEqualToConstant:_facePositionImageSmallerHeightWidth] setActive:YES];
@@ -453,8 +459,8 @@ static const CGFloat FaceDetectionRecalibrationTimeLimit = 30.0;
 - (BOOL)isFacePositionCircleWithinBox:(CGRect)rect originalSize:(CGSize)originalSize {
     CGPoint circlePosition = [self getFaceCirclePositionWithFaceRect:rect originalSize:originalSize];
     CGFloat circleRadius = _facePositionImageView.frame.size.width / 2;
-    CGFloat viewCenterX = _cameraView.frame.size.width / 2;
-    CGFloat viewCenterY = _cameraView.frame.size.height / 2;
+    CGFloat viewCenterX = _calibrationBoxImageView.center.x;
+    CGFloat viewCenterY = _calibrationBoxImageView.center.y;
     
     BOOL circleIsHorizontallyWithinBox = (circlePosition.x - circleRadius) > viewCenterX - ((_calibrationBoxImageView.frame.size.width) / 2) && (circlePosition.x + circleRadius) < viewCenterX + ((_calibrationBoxImageView.frame.size.width) / 2);
     BOOL circleIsVerticallyWithinBox = (circlePosition.y - circleRadius) >  viewCenterY - ((_calibrationBoxImageView.frame.size.height) / 2) && (circlePosition.y + circleRadius) < viewCenterY + ((_calibrationBoxImageView.frame.size.height) / 2);
