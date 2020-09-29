@@ -220,64 +220,26 @@
 }
 
 - (void)startSession {
-    if ([ARFaceTrackingConfiguration isSupported]) {
-        //Setup ARSession to record video/audio & depth map data
-        _arSceneView = [ARSCNView new];
-        _arSceneView.delegate = self;
-        [_arSceneView.session setDelegate:self];
-        
-        ARFaceTrackingConfiguration *faceTrackingConfiguration = [ARFaceTrackingConfiguration new];
-        [faceTrackingConfiguration setLightEstimationEnabled:YES];
-        faceTrackingConfiguration.providesAudioData = YES;
-        [_arSceneView.session runWithConfiguration:faceTrackingConfiguration options:ARSessionRunOptionResetTracking | ARSessionRunOptionRemoveExistingAnchors];
-        
-        //Setup ARSessionHelper
-        _arSessionHelper = [[ORKAVJournalingARSessionHelper alloc] init];
-        _arSessionHelper.delegate = self;
-        NSError *error = nil;
-        
-        BOOL success = [_arSessionHelper startSessionWithDelegate:self error:&error];
-        
-        if (!success) {
-            [self handleError:error];
-            return;
-        }
-        
-    } else {
-        //Setup SessionHelper
-        _sessionHelper = [[ORKAVJournalingSessionHelper alloc] initWithSampleBufferDelegate:self
-                                                                      sessionHelperDelegate:self];
-        
-        NSError *error = nil;
-        
-        BOOL success = [_sessionHelper startSession:&error];
-        
-        if (!success) {
-            [self handleError:error];
-        } else {
-            [_contentView layoutSubviews];
-        }
-    }
+    //Setup SessionHelper
+    _sessionHelper = [[ORKAVJournalingSessionHelper alloc] initWithSampleBufferDelegate:self
+                                                                  sessionHelperDelegate:self];
     
+    NSError *error = nil;
+    
+    BOOL success = [_sessionHelper startSession:&error];
+    
+    if (!success) {
+        [self handleError:error];
+    } else {
+        [_contentView layoutSubviews];
+    }
+
     [self startVideoRecording];
 }
 
-- (void)startVideoRecording {
-    if ([ARFaceTrackingConfiguration isSupported]) {
-        NSError *error = nil;
-        BOOL success = [_arSessionHelper startCapturing:&error];
-        
-        if (!success) {
-            [self handleError:error];
-            return;
-        }
-        _waitingOnUserToStartRecording = NO;
-        
-    } else {
-        
-       [_sessionHelper startCapturing];
-       _waitingOnUserToStartRecording = NO;
-    }
+- (void)startVideoRecording {   
+    [_sessionHelper startCapturing];
+    _waitingOnUserToStartRecording = NO;
     
     [_contentView startTimerWithMaximumRecordingLimit:_avJournalingStep.maximumRecordingLimit];
     [_contentView layoutSubviews];
@@ -321,19 +283,11 @@
 }
 
 - (void)tearDownSession {
-    if ([ARFaceTrackingConfiguration isSupported]) {
-        [_arSessionHelper tearDownSession];
-    } else {
-        [_sessionHelper tearDownSession];
-    }
+    [_sessionHelper tearDownSession];
 }
 
 - (void)stopVideoRecording {
-    if ([ARFaceTrackingConfiguration isSupported]) {
-        [_arSessionHelper stopCapturing];
-    } else {
-        [_sessionHelper stopCapturing];
-    }
+    [_sessionHelper stopCapturing];
 }
 
 - (void)submitVideo {
@@ -442,14 +396,6 @@
 
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection {
     if (_waitingOnUserToStartRecording) {
-        return;
-    }
-
-    if ([ARFaceTrackingConfiguration isSupported]) {
-        if (_arSessionHelper) {
-            [_arSessionHelper saveAudioSampleBuffer:sampleBuffer];
-        }
-
         return;
     }
 }

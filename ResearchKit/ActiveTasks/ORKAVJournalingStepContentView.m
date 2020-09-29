@@ -42,14 +42,12 @@
 #import <ARKit/ARKit.h>
 
 static const CGFloat RecordingViewCornerRadius = 8.0;
-static const CGFloat RecordingViewTopPadding = 24.0;
 static const CGFloat RecordingViewInsidePadding = 9.0;
 static const CGFloat RecordingImageViewRightPadding = 4.0;
 static const CGFloat CountDownLabelTopPadding = 12.0;
 static const CGFloat QuestionNumberLabelTopPadding = 36.0;
 static const CGFloat QuestionLabelTopPadding = 6.0;
 static const CGFloat ContentLeftRightPadding = 36.0;
-static const CGFloat RecalibrationViewTopConstraint = 30.0;
 
 
 @interface ORKAVJournalingStepContentView ()
@@ -175,7 +173,7 @@ static const CGFloat RecalibrationViewTopConstraint = 30.0;
     _questionNumberLabelTopConstraint = nil;
     
     [_constraints addObject:[_recordingView.centerXAnchor constraintEqualToAnchor:self.centerXAnchor]];
-    [_constraints addObject:[_recordingView.topAnchor constraintEqualToAnchor:self.topAnchor constant:RecordingViewTopPadding]];
+    [_constraints addObject:[_recordingView.topAnchor constraintEqualToAnchor:self.topAnchor]];
     
     if (_recordingIconImageView) {
         [_constraints addObject:[_recordingIconImageView.topAnchor constraintEqualToAnchor:_recordingView.topAnchor constant:RecordingViewInsidePadding]];
@@ -356,7 +354,7 @@ static const CGFloat RecalibrationViewTopConstraint = 30.0;
             
             if (_recalibrationViewPresented) {
                 [_recalibrationViewTopConstraint setActive:NO];
-                _recalibrationViewTopConstraint = [_faceDetectionContentView.topAnchor constraintEqualToAnchor:_countDownLabel.bottomAnchor constant:RecalibrationViewTopConstraint];
+                _recalibrationViewTopConstraint = [_faceDetectionContentView.topAnchor constraintEqualToAnchor:_countDownLabel.bottomAnchor];
                 [_recalibrationViewTopConstraint setActive:YES];
             }
             
@@ -488,9 +486,9 @@ static const CGFloat RecalibrationViewTopConstraint = 30.0;
     [[_faceDetectionContentView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor] setActive:YES];
     
     if (_countDownLabelShowing) {
-        _recalibrationViewTopConstraint = [_faceDetectionContentView.topAnchor constraintEqualToAnchor:_countDownLabel.bottomAnchor constant:RecalibrationViewTopConstraint];
+        _recalibrationViewTopConstraint = [_faceDetectionContentView.topAnchor constraintEqualToAnchor:_countDownLabel.bottomAnchor];
     } else {
-        _recalibrationViewTopConstraint = [_faceDetectionContentView.topAnchor constraintEqualToAnchor:_recordingView.bottomAnchor constant:RecalibrationViewTopConstraint];
+        _recalibrationViewTopConstraint = [_faceDetectionContentView.topAnchor constraintEqualToAnchor:_recordingView.bottomAnchor];
     }
     
     [_recalibrationViewTopConstraint setActive:YES];
