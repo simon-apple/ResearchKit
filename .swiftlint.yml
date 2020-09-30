@@ -1,61 +1,77 @@
-# Apple sample code swiftlint configuration.
+line_length:
+    warning: 100
 
-excluded: # paths to ignore during linting.
-  - build
+# paths to include during linting. `--path` is ignored if present.
+included:
+  - ResearchKitUI
+  - ResearchKitUI/StepViews
 
-line_length: 200
+excluded:
 
-function_body_length: 1000
+identifier_name:
+  excluded:
+    - id
+    - dx
+    - up
+    - in
+    - d
 
-number_separator:
-  minimum_length: 5
-
-force_cast: warning
-
-large_tuple:
-  warning: 4
-  error: 5
-
-cyclomatic_complexity:
-  warning: 35
-  error: 40
-
-trailing_whitespace:
-  ignores_empty_lines: true
-
-maxEmptyLines: 4
+disabled_rules:
+  - no_space_in_method_call
+  - multiple_closures_with_trailing_closure
+  - let_var_whitespace
+  - todo
+  - type_name
+  - attributes
+  - trailing_whitespace
   
 opt_in_rules:
-  - attributes
-  
+  - anyobject_protocol
+  - array_init
   - closure_end_indentation
   - closure_spacing
-  
+  - collection_alignment
+  - contains_over_first_not_nil
   - empty_count
+  - empty_string
+  - empty_xctest_method
   - explicit_init
-  
+  - extension_access_modifier
+  - fallthrough
+  - fatal_error_message
   - first_where
-  
+  - identical_operands
+  - joined_default_parameter
+  - last_where
+  - literal_expression_end_indentation
+  - lower_acl_than_parent
+  - modifier_order
   - nimble_operator
   - number_separator
-  
-  - overridden_super_call
+  - object_literal
   - operator_usage_whitespace
-  - object_literal
-  
+  - overridden_super_call
+  - override_in_extension
+  - pattern_matching_keywords
+  - private_action
+  - private_outlet
+  - prohibited_interface_builder
   - prohibited_super_call
-  
+  - quick_discouraged_call
+  - quick_discouraged_focused_test
+  - quick_discouraged_pending_test
   - redundant_nil_coalescing
-  
-disabled_rules:
-  - trailing_newline
-  - operator_whitespace
-  - fallthrough
-  - multiple_closures_with_trailing_closure
-  - empty_parentheses_with_trailing_closure
-  - switch_case_alignment
-  - type_body_length
-  - file_length
-  - line_length
-  - vertical_whitespace
-  - object_literal
+  - redundant_type_annotation
+  - single_test_class
+  - sorted_first_last
+  - sorted_imports
+  - static_operator
+  - unavailable_function
+  - unneeded_parentheses_in_closure_argument
+  - untyped_error_in_catch
+  - unused_import
+  - unused_private_declaration
+  - vertical_parameter_alignment_on_call
+  - xct_specific_matcher
+  - xctfail_message
+  - yoda_condition

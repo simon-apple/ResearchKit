@@ -28,29 +28,30 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
+import ResearchKitCore
+import SwiftUI
 
-#if TARGET_OS_IOS
-#import <ResearchKit/ORKDefines.h>
-#elif TARGET_OS_WATCH
-#import <ResearchKitCore/ORKDefines.h>
-#endif
-
-NS_ASSUME_NONNULL_BEGIN
-
-@class ORKStep;
-
-ORK_CLASS_AVAILABLE
-@interface ORKEarlyTerminationConfiguration : NSObject <NSSecureCoding, NSCopying>
-
-- (instancetype)init NS_UNAVAILABLE;
-
-- (instancetype)initWithButtonText:(NSString *)buttonText earlyTerminationStep:(ORKStep *)earlyTerminationStep;
-
-@property (nonatomic, readonly, copy) NSString *buttonText;
-
-@property (nonatomic, readonly, copy) ORKStep *earlyTerminationStep;
-
-@end
-
-NS_ASSUME_NONNULL_END
+@available(watchOS 6.0, *)
+public struct CompletionStepView: View {
+    
+    @ObservedObject
+    public private(set) var step: ORKCompletionStep
+    
+    @ObservedObject
+    public private(set) var result: ORKStepResult
+    
+    init(_ step: ORKCompletionStep, result: ORKStepResult) {
+        self.step = step
+        self.result = result
+    }
+    
+    public var body: some View {
+        VStack {
+            Text(step.title!)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .font(Font.system(.headline))
+            Text(step.detailText!)
+                .frame(maxWidth: .infinity, alignment: .leading)
+        }
+    }
+}

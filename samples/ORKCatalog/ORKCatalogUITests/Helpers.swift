@@ -37,19 +37,19 @@ class Helpers: XCTestCase {
     let taskScreen = TaskScreen()
     
     enum SliderTesting {
-        case Slider1
-        case Slider2
-        case Slider3
-        case Slider4
-        case Slider5
-        case Slider6
+        case slider1
+        case slider2
+        case slider3
+        case slider4
+        case slider5
+        case slider6
     }
     enum SwipeDirection {
-        case Up
-        case Down
-        case Left
-        case Right
-        case Skip
+        case up
+        case down
+        case left
+        case right
+        case skip
     }
     
     func verifyElement(_ element: XCUIElement) -> Bool {
@@ -100,7 +100,7 @@ class Helpers: XCTestCase {
     }
     
     func scaleTitle(_ pageNumber: Int) -> XCUIElement? {
-        let titles: [Int:String] = [1:"Discrete Scale", 2:"Continuous Scale", 3:"Discrete Vertical Scale", 4:"Continuous Vertical Scale", 5:"Text Scale", 6:"Text Vertical Scale"]
+        let titles: [Int: String] = [1: "Discrete Scale", 2: "Continuous Scale", 3: "Discrete Vertical Scale", 4: "Continuous Vertical Scale", 5: "Text Scale", 6: "Text Vertical Scale"]
         return app.scrollViews.otherElements.staticTexts[titles[pageNumber] ?? "Invalid Page Number"]
     }
     
@@ -109,14 +109,14 @@ class Helpers: XCTestCase {
         return app.sliders.element(matching: predicate)
     }
     
-    func sliderValuesCheck(_ sliderScreen:SliderTesting, _ screenNum: Int, _ direction:SwipeDirection) -> Bool {
-        let sliderValues: [SliderTesting:String] = [
-            .Slider1:"8",
-            .Slider2:"91%",
-            .Slider3:"8",
-            .Slider4:"4.23",
-            .Slider5:"Above Average",
-            .Slider6:"Above Average"
+    func sliderValuesCheck(_ sliderScreen: SliderTesting, _ screenNum: Int, _ direction: SwipeDirection) -> Bool {
+        let sliderValues: [SliderTesting: String] = [
+            .slider1: "8",
+            .slider2: "91%",
+            .slider3: "8",
+            .slider4: "4.23",
+            .slider5: "Above Average",
+            .slider6: "Above Average"
         ]
         
         guard let slider = pickSlider() else {
@@ -128,15 +128,15 @@ class Helpers: XCTestCase {
         XCTAssert(scaleTitle(screenNum)!.waitForExistence(timeout: 2), "Unable to locate \(scaleTitle(screenNum)!)")
        
         switch direction {
-        case .Up:
+        case .up:
             slider.swipeUp()
-        case .Right:
+        case .right:
             slider.swipeRight()
-        case .Left:
+        case .left:
             XCTFail("Unexpected Swipe Direction of Left Entered")
-        case .Down:
+        case .down:
             XCTFail("Unexpected Swipe Direction of Down Entered")
-        case .Skip:
+        case .skip:
             XCTAssert(commonElements.skipButton!.waitForExistence(timeout: 2))
             commonElements.skipButton!.tap()
 
@@ -156,7 +156,7 @@ class Helpers: XCTestCase {
         return true
     }
     
-    func sliderScreenCheck(_ sliderScreen:SliderTesting) -> Bool {
+    func sliderScreenCheck(_ sliderScreen: SliderTesting) -> Bool {
         let taskTitle = app.scrollViews.otherElements.staticTexts["Scale"]
         let theQuestion = app.scrollViews.otherElements.staticTexts["Your question here."]
         
@@ -164,26 +164,24 @@ class Helpers: XCTestCase {
         XCTAssert(theQuestion.waitForExistence(timeout: 2), "Unable to locate theQuestion element")
         
         switch sliderScreen {
-        case .Slider1:
+        case .slider1:
             XCTAssert(sliderValuesCheck(sliderScreen, 1, .Right), "Slider1 Values Check Failed")
-        case .Slider2:
+        case .slider2:
             XCTAssert(sliderValuesCheck(sliderScreen, 2, .Skip), "Slider2 Values Check Failed")
-        case .Slider3:
+        case .slider3:
             XCTAssert(sliderValuesCheck(sliderScreen, 3, .Up), "Slider3 Values Check Failed")
-        case .Slider4:
+        case .slider4:
             XCTAssert(sliderValuesCheck(sliderScreen, 4, .Up), "Slider4 Values Check Failed")
-        case .Slider5:
+        case .slider5:
             XCTAssert(sliderValuesCheck(sliderScreen, 5, .Right), "Slider5 Values Check Failed")
-        case .Slider6:
+        case .slider6:
             XCTAssert(sliderValuesCheck(sliderScreen, 6, .Up), "Slider6 Values Check Failed")
         }
         return true
     }
     
     func monitorAlerts() {
-        addUIInterruptionMonitor(withDescription: "Alert") {
-            
-            element in
+        addUIInterruptionMonitor(withDescription: "Alert") { element in
             do {
             // Push Notification
                 let button = element.buttons["Allow"]

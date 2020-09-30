@@ -28,29 +28,56 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
+import ResearchKitCore
+import SwiftUI
 
-#if TARGET_OS_IOS
-#import <ResearchKit/ORKDefines.h>
-#elif TARGET_OS_WATCH
-#import <ResearchKitCore/ORKDefines.h>
-#endif
-
-NS_ASSUME_NONNULL_BEGIN
-
-@class ORKStep;
-
-ORK_CLASS_AVAILABLE
-@interface ORKEarlyTerminationConfiguration : NSObject <NSSecureCoding, NSCopying>
-
-- (instancetype)init NS_UNAVAILABLE;
-
-- (instancetype)initWithButtonText:(NSString *)buttonText earlyTerminationStep:(ORKStep *)earlyTerminationStep;
-
-@property (nonatomic, readonly, copy) NSString *buttonText;
-
-@property (nonatomic, readonly, copy) ORKStep *earlyTerminationStep;
-
-@end
-
-NS_ASSUME_NONNULL_END
+internal struct TaskContentView<Content>: View where Content: View {
+    
+    @EnvironmentObject
+    private var taskManager: TaskManager
+    
+    @State
+    private var goNext: Bool = false
+    
+    private let index: Int
+    
+    private let content: (ORKStep, ORKStepResult) -> Content
+    
+    init(index: Int, @ViewBuilder _ content: @escaping (ORKStep, ORKStepResult) -> Content) {
+        self.index = index
+        self.content = content
+    }
+    
+    var body: some View {
+        
+        let currentStep = taskManager.task.steps[index]
+        let currentResult = taskManager.getOrCreateResult(for: currentStep)
+        let stepView = content(currentStep, currentResult)
+        
+        ScrollView {
+            stepView.onAppear {
+                currentResult.startDate = Date()
+            }
+            if index >= taskManager.task.steps.count - 1 {
+                Button(action: {
+                    currentResult.endDate = Date()
+                    taskManager.finishReason = .completed
+                    
+                }) {
+                    Text("Done")
+                }
+            } else {
+                Button(action: {
+                    currentResult.endDate = Date()
+                    goNext = true
+                }) {
+                    Text("Continue")
+                }
+                
+                let nextStep = TaskContentView(index: index + 1, content)
+                    .environmentObject(taskManager)
+                NavigationLink(destination: nextStep, isActive: $goNext, label: { EmptyView() })
+            }
+        }
+    }
+}
