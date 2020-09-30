@@ -28,29 +28,36 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
+import ResearchKitCore
+import SwiftUI
 
-#if TARGET_OS_IOS
-#import <ResearchKit/ORKDefines.h>
-#elif TARGET_OS_WATCH
-#import <ResearchKitCore/ORKDefines.h>
-#endif
+@available(watchOS 6.0, *)
+public extension View {
 
-NS_ASSUME_NONNULL_BEGIN
+    @ViewBuilder
+    func task(isPresented: Binding<Bool>, taskManager: TaskManager) -> some View {
 
-@class ORKStep;
+        if #available(watchOS 7.0, *) {
+            fullScreenCover(isPresented: isPresented) { TaskView(taskManager: taskManager) }
+        } else {
+            sheet(isPresented: isPresented) { TaskView(taskManager: taskManager) }
+        }
+    }
 
-ORK_CLASS_AVAILABLE
-@interface ORKEarlyTerminationConfiguration : NSObject <NSSecureCoding, NSCopying>
+    @ViewBuilder
+    func task<Content>(isPresented: Binding<Bool>,
+                       taskManager: TaskManager,
+                       @ViewBuilder content: @escaping (ORKStep, ORKStepResult) -> Content) ->
+    some View where Content: View {
 
-- (instancetype)init NS_UNAVAILABLE;
-
-- (instancetype)initWithButtonText:(NSString *)buttonText earlyTerminationStep:(ORKStep *)earlyTerminationStep;
-
-@property (nonatomic, readonly, copy) NSString *buttonText;
-
-@property (nonatomic, readonly, copy) ORKStep *earlyTerminationStep;
-
-@end
-
-NS_ASSUME_NONNULL_END
+        if #available(watchOS 7.0, *) {
+            fullScreenCover(isPresented: isPresented) {
+                TaskView(taskManager: taskManager, content)
+            }
+        } else {
+            sheet(isPresented: isPresented) {
+                TaskView(taskManager: taskManager, content)
+            }
+        }
+    }
+}

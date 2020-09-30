@@ -243,7 +243,6 @@
 
 #pragma mark - ORKStepResult
 
-#if TARGET_OS_IOS
 @implementation ORKStepResult
 
 - (instancetype)initWithStepIdentifier:(NSString *)stepIdentifier results:(NSArray *)results {
@@ -311,7 +310,7 @@
 @end
 
 #pragma mark - ORKPageResult
-
+#if TARGET_OS_IOS
 @implementation ORKPageResult
 
 - (instancetype)initWithPageStep:(ORKPageStep *)step stepResult:(ORKStepResult*)result {

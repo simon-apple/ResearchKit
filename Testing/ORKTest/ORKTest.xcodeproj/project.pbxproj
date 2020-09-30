@@ -9,12 +9,13 @@
 /* Begin PBXBuildFile section */
 		24D002781BA2268D001BF82F /* ORKKeychainWrapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 24D002771BA2268D001BF82F /* ORKKeychainWrapperTests.m */; };
 		335418E91B118EAD00A38F5E /* SAMPLE_PDF_TEST.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 335418E81B118EAD00A38F5E /* SAMPLE_PDF_TEST.pdf */; };
+		5D169A682502DA7200C3B75E /* ResearchKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D169A672502DA7200C3B75E /* ResearchKitUI.framework */; };
+		5D169A692502DA7200C3B75E /* ResearchKitUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5D169A672502DA7200C3B75E /* ResearchKitUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5D2DEA6324DB618B000A2A5B /* ORKESerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D2DEA5D24DB618A000A2A5B /* ORKESerialization.m */; };
 		5DABE56824D9CCDC00570C57 /* ORKTest (watchOS) WatchKit App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 5DABE56724D9CCDC00570C57 /* ORKTest (watchOS) WatchKit App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		5DABE56D24D9CCDF00570C57 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5DABE56C24D9CCDF00570C57 /* Assets.xcassets */; };
 		5DABE57424D9CCDF00570C57 /* ORKTest (watchOS) WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 5DABE57324D9CCDF00570C57 /* ORKTest (watchOS) WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		5DABE57924D9CCDF00570C57 /* ORKTestApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DABE57824D9CCDF00570C57 /* ORKTestApp.swift */; };
-		5DABE57B24D9CCDF00570C57 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DABE57A24D9CCDF00570C57 /* ContentView.swift */; };
 		5DABE57D24D9CCDF00570C57 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DABE57C24D9CCDF00570C57 /* NotificationController.swift */; };
 		5DABE57F24D9CCDF00570C57 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DABE57E24D9CCDF00570C57 /* NotificationView.swift */; };
 		5DABE58124D9CCDF00570C57 /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DABE58024D9CCDF00570C57 /* ComplicationController.swift */; };
@@ -58,6 +59,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		5D169A662502DA7200C3B75E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7129779F22B091500049213B /* ResearchKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5D06632D24FEF272005D9B40;
+			remoteInfo = ResearchKitUI;
+		};
 		5DABE55A24D8C17C00570C57 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7129779F22B091500049213B /* ResearchKit.xcodeproj */;
@@ -103,6 +111,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		5D169A6A2502DA7200C3B75E /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				5D169A692502DA7200C3B75E /* ResearchKitUI.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		5DABE58C24D9CCE000570C57 /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -159,7 +178,6 @@
 		5DABE56E24D9CCDF00570C57 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5DABE57324D9CCDF00570C57 /* ORKTest (watchOS) WatchKit Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "ORKTest (watchOS) WatchKit Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5DABE57824D9CCDF00570C57 /* ORKTestApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ORKTestApp.swift; sourceTree = "<group>"; };
-		5DABE57A24D9CCDF00570C57 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		5DABE57C24D9CCDF00570C57 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
 		5DABE57E24D9CCDF00570C57 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		5DABE58024D9CCDF00570C57 /* ComplicationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplicationController.swift; sourceTree = "<group>"; };
@@ -267,6 +285,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5D169A682502DA7200C3B75E /* ResearchKitUI.framework in Frameworks */,
 				5DABE59724D9E55C00570C57 /* ResearchKitCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -304,7 +323,6 @@
 			isa = PBXGroup;
 			children = (
 				5DABE57824D9CCDF00570C57 /* ORKTestApp.swift */,
-				5DABE57A24D9CCDF00570C57 /* ContentView.swift */,
 				5DABE57C24D9CCDF00570C57 /* NotificationController.swift */,
 				5DABE57E24D9CCDF00570C57 /* NotificationView.swift */,
 				5DABE58024D9CCDF00570C57 /* ComplicationController.swift */,
@@ -330,6 +348,7 @@
 				712977A622B091500049213B /* ResearchKit.framework */,
 				712977A822B091500049213B /* ResearchKitTests.xctest */,
 				5DABE55B24D8C17C00570C57 /* ResearchKitCore.framework */,
+				5D169A672502DA7200C3B75E /* ResearchKitUI.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -527,6 +546,7 @@
 				5DABE56F24D9CCDF00570C57 /* Sources */,
 				5DABE57024D9CCDF00570C57 /* Frameworks */,
 				5DABE57124D9CCDF00570C57 /* Resources */,
+				5D169A6A2502DA7200C3B75E /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -693,6 +713,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		5D169A672502DA7200C3B75E /* ResearchKitUI.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = ResearchKitUI.framework;
+			remoteRef = 5D169A662502DA7200C3B75E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		5DABE55B24D8C17C00570C57 /* ResearchKitCore.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -772,7 +799,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5DABE57D24D9CCDF00570C57 /* NotificationController.swift in Sources */,
-				5DABE57B24D9CCDF00570C57 /* ContentView.swift in Sources */,
 				5DABE58124D9CCDF00570C57 /* ComplicationController.swift in Sources */,
 				5DABE57924D9CCDF00570C57 /* ORKTestApp.swift in Sources */,
 				5DABE57F24D9CCDF00570C57 /* NotificationView.swift in Sources */,
@@ -995,7 +1021,7 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 7.0;
+				WATCHOS_DEPLOYMENT_TARGET = 6.0;
 			};
 			name = Debug;
 		};
@@ -1026,7 +1052,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 7.0;
+				WATCHOS_DEPLOYMENT_TARGET = 6.0;
 			};
 			name = Release;
 		};

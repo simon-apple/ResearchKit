@@ -132,14 +132,12 @@ static NSMutableDictionary *colors() {
     static NSMutableDictionary *colors = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        UIColor *backgroundColor;
-        if (@available(iOS 13.0, *)) {
+        UIColor *backgroundColor = [UIColor colorWithRed:239.0 / 255.0 green:239.0 / 255.0 blue:244.0 / 255.0 alpha:1.0];
 #if TARGET_OS_IOS
+        if (@available(iOS 13.0, *)) {
             backgroundColor = [UIColor secondarySystemBackgroundColor];
-#endif
-        } else {
-            backgroundColor = [UIColor colorWithRed:239.0 / 255.0 green:239.0 / 255.0 blue:244.0 / 255.0 alpha:1.0];
         }
+#endif
 
         colors = [@{
                     ORKSignatureColorKey: ORKRGB(0x000000),

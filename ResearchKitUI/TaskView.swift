@@ -28,12 +28,35 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import ResearchKitCore
 import SwiftUI
+import UIKit
 
 @available(watchOS 6.0, *)
-public struct TaskView: View {
-    
+public struct TaskView<Content>: View where Content: View {
+
+    @ObservedObject
+    private var taskManager: TaskManager
+
+    private let content: (ORKStep, ORKStepResult) -> Content
+
+    public init(taskManager: TaskManager,
+                @ViewBuilder _ content: @escaping (ORKStep, ORKStepResult) -> Content) {
+        self.taskManager = taskManager
+        self.content = content
+    }
+
     public var body: some View {
-        Text("Hello World!")
+        TaskContentView(index: 0, content).environmentObject(self.taskManager).onAppear {
+            taskManager.result.startDate = Date()
+        }
+    }
+}
+
+@available(watchOS 6.0, *)
+public extension TaskView where Content == DefaultStepView {
+
+    init(taskManager: TaskManager) {
+        self.init(taskManager: taskManager) { DefaultStepView($0, result: $1) }
     }
 }

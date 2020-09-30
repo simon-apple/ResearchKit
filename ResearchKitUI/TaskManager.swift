@@ -28,29 +28,48 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
+import ResearchKitCore
+import SwiftUI
 
-#if TARGET_OS_IOS
-#import <ResearchKit/ORKDefines.h>
-#elif TARGET_OS_WATCH
-#import <ResearchKitCore/ORKDefines.h>
-#endif
+extension ORKStep: ObservableObject {}
+extension ORKOrderedTask: ObservableObject {}
+extension ORKResult: ObservableObject {}
 
-NS_ASSUME_NONNULL_BEGIN
+@available(watchOS 6.0, *)
+open class TaskManager: ObservableObject {
 
-@class ORKStep;
+    public enum FinishReason {
+        case saved
+        case discarded
+        case completed
+        case failed
+        case terminated
+    }
 
-ORK_CLASS_AVAILABLE
-@interface ORKEarlyTerminationConfiguration : NSObject <NSSecureCoding, NSCopying>
+    @Published
+    public internal(set) var finishReason: FinishReason?
 
-- (instancetype)init NS_UNAVAILABLE;
+    @Published
+    public private(set) var result: ORKTaskResult
 
-- (instancetype)initWithButtonText:(NSString *)buttonText earlyTerminationStep:(ORKStep *)earlyTerminationStep;
+    private(set) var task: ORKOrderedTask
 
-@property (nonatomic, readonly, copy) NSString *buttonText;
+    public init(task: ORKOrderedTask) {
+        self.task = task
+        self.result = ORKTaskResult(taskIdentifier: self.task.identifier,
+                                    taskRun: UUID(),
+                                    outputDirectory: nil)
+    }
 
-@property (nonatomic, readonly, copy) ORKStep *earlyTerminationStep;
+    func getOrCreateResult(for step: ORKStep) -> ORKStepResult {
 
-@end
-
-NS_ASSUME_NONNULL_END
+        if let currentStepResult = self.result.results?
+            .first(where: { $0.identifier == step.identifier }) as? ORKStepResult {
+            return currentStepResult
+        } else {
+            let result = ORKStepResult(identifier: step.identifier)
+            self.result.results?.append(result)
+            return result
+        }
+    }
+}
