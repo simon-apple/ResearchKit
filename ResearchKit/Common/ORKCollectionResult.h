@@ -183,7 +183,7 @@ ORK_CLASS_AVAILABLE
  The `results` property of the `ORKCollectionResult` object contains the step results
  for the task.
  */
-#if TARGET_OS_IOS
+
 ORK_CLASS_AVAILABLE
 @interface ORKStepResult : ORKCollectionResult
 
@@ -217,6 +217,5 @@ ORK_CLASS_AVAILABLE
 @property (nonatomic, copy, readonly, nullable) NSString *enabledAssistiveTechnology;
 
 @end
-#endif // TARGET_OS_IOS
 
 NS_ASSUME_NONNULL_END

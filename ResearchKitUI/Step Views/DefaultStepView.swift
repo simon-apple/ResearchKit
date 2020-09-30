@@ -28,29 +28,33 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
+import ResearchKitCore
+import SwiftUI
 
-#if TARGET_OS_IOS
-#import <ResearchKit/ORKDefines.h>
-#elif TARGET_OS_WATCH
-#import <ResearchKitCore/ORKDefines.h>
-#endif
+@available(watchOS 6.0, *)
+public struct DefaultStepView: View {
 
-NS_ASSUME_NONNULL_BEGIN
+    @ObservedObject
+    public private(set) var step: ORKStep
 
-@class ORKStep;
+    @ObservedObject
+    public private(set) var result: ORKStepResult
 
-ORK_CLASS_AVAILABLE
-@interface ORKEarlyTerminationConfiguration : NSObject <NSSecureCoding, NSCopying>
+    init(_ step: ORKStep, result: ORKStepResult) {
+        self.step = step
+        self.result = result
+    }
 
-- (instancetype)init NS_UNAVAILABLE;
-
-- (instancetype)initWithButtonText:(NSString *)buttonText earlyTerminationStep:(ORKStep *)earlyTerminationStep;
-
-@property (nonatomic, readonly, copy) NSString *buttonText;
-
-@property (nonatomic, readonly, copy) ORKStep *earlyTerminationStep;
-
-@end
-
-NS_ASSUME_NONNULL_END
+    @ViewBuilder
+    public var body: some View {
+        if let instructionStep = step as? ORKInstructionStep {
+            InstructionStepView(instructionStep, result: result)
+        } else if let questionStep = step as? ORKQuestionStep {
+            QuestionStepView(questionStep, result: result)
+        } else if let completionStep = step as? ORKCompletionStep {
+            CompletionStepView(completionStep, result: result)
+        } else {
+            fatalError("Not Supported")
+        }
+    }
+}

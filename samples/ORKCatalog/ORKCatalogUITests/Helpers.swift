@@ -165,17 +165,17 @@ class Helpers: XCTestCase {
         
         switch sliderScreen {
         case .slider1:
-            XCTAssert(sliderValuesCheck(sliderScreen, 1, .right), "Slider1 Values Check Failed")
+            XCTAssert(sliderValuesCheck(sliderScreen, 1, .Right), "Slider1 Values Check Failed")
         case .slider2:
-            XCTAssert(sliderValuesCheck(sliderScreen, 2, .skip), "Slider2 Values Check Failed")
+            XCTAssert(sliderValuesCheck(sliderScreen, 2, .Skip), "Slider2 Values Check Failed")
         case .slider3:
-            XCTAssert(sliderValuesCheck(sliderScreen, 3, .up), "Slider3 Values Check Failed")
+            XCTAssert(sliderValuesCheck(sliderScreen, 3, .Up), "Slider3 Values Check Failed")
         case .slider4:
-            XCTAssert(sliderValuesCheck(sliderScreen, 4, .up), "Slider4 Values Check Failed")
+            XCTAssert(sliderValuesCheck(sliderScreen, 4, .Up), "Slider4 Values Check Failed")
         case .slider5:
-            XCTAssert(sliderValuesCheck(sliderScreen, 5, .right), "Slider5 Values Check Failed")
+            XCTAssert(sliderValuesCheck(sliderScreen, 5, .Right), "Slider5 Values Check Failed")
         case .slider6:
-            XCTAssert(sliderValuesCheck(sliderScreen, 6, .up), "Slider6 Values Check Failed")
+            XCTAssert(sliderValuesCheck(sliderScreen, 6, .Up), "Slider6 Values Check Failed")
         }
         return true
     }

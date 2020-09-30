@@ -165,10 +165,10 @@ class PreSubmissionTests: XCTestCase {
     func testSQPickerWheel() throws {
         XCTAssert(helpers.verifyElement(taskScreen.mainTaskScreen))
         
-        let dateTimeElement = app.tables.staticTexts["Date and Time Question"]
+        let dateAndTime = app.tables.staticTexts["Date and Time Question"]
         let elementsQuery = app.scrollViews.otherElements.staticTexts
         
-        dateTimeElement.tap()
+        dateAndTime.tap()
         XCTAssert(elementsQuery["Date and Time"].exists)
         XCTAssert(elementsQuery["Additional text can go here."].exists)
         XCTAssert(elementsQuery["Your question here."].exists)

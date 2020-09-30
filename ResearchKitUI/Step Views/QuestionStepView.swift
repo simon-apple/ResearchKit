@@ -28,29 +28,47 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
+import ResearchKitCore
+import SwiftUI
 
-#if TARGET_OS_IOS
-#import <ResearchKit/ORKDefines.h>
-#elif TARGET_OS_WATCH
-#import <ResearchKitCore/ORKDefines.h>
-#endif
+@available(watchOS 6.0, *)
+public struct QuestionStepView: View {
 
-NS_ASSUME_NONNULL_BEGIN
+    @ObservedObject
+    public private(set) var step: ORKQuestionStep
 
-@class ORKStep;
+    @ObservedObject
+    public private(set) var result: ORKStepResult
 
-ORK_CLASS_AVAILABLE
-@interface ORKEarlyTerminationConfiguration : NSObject <NSSecureCoding, NSCopying>
+    init(_ step: ORKQuestionStep, result: ORKStepResult) {
+        self.step = step
+        self.result = result
+    }
 
-- (instancetype)init NS_UNAVAILABLE;
-
-- (instancetype)initWithButtonText:(NSString *)buttonText earlyTerminationStep:(ORKStep *)earlyTerminationStep;
-
-@property (nonatomic, readonly, copy) NSString *buttonText;
-
-@property (nonatomic, readonly, copy) ORKStep *earlyTerminationStep;
-
-@end
-
-NS_ASSUME_NONNULL_END
+    public var body: some View {
+        VStack {
+            if let stepTitle = step.title {
+                Text(stepTitle)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .font(Font.system(.headline))
+            }
+            if let stepQuestion = step.question {
+                Text(stepQuestion)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            if let textChoiceAnswerFormat = step.answerFormat as? ORKTextChoiceAnswerFormat {
+                ForEach(textChoiceAnswerFormat.textChoices, id: \.self) { textChoice in
+                    Button(action: {
+                        let choiceResult = ORKChoiceQuestionResult(identifier: step.identifier)
+                        choiceResult.choiceAnswers = [textChoice]
+                        choiceResult.startDate = result.startDate
+                        choiceResult.endDate = Date()
+                        result.results = [choiceResult]
+                    }) {
+                        Text(textChoice.text)
+                    }
+                }
+            }
+        }
+    }
+}

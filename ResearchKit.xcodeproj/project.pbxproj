@@ -25,6 +25,10 @@
 		003BC2BF24FD585B00BC7CDF /* ORKCollectionResult.h in Headers */ = {isa = PBXBuildFile; fileRef = FF919A511E81BEB5005C2A1E /* ORKCollectionResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		005C065424FC5B5200325A31 /* ORKCollectionResult.m in Sources */ = {isa = PBXBuildFile; fileRef = FF919A521E81BEB5005C2A1E /* ORKCollectionResult.m */; };
 		00B1F7852241503900D022FE /* Speech.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B1F7842241503900D022FE /* Speech.framework */; };
+		00C19CBE25094B5F00DCFB7A /* TaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D06633924FEF2CE005D9B40 /* TaskView.swift */; };
+		00C19CC22509520900DCFB7A /* ResearchKitUI.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D06632F24FEF272005D9B40 /* ResearchKitUI.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		00C19CC32509522000DCFB7A /* ResearchKitCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DABE54824D8BF2400570C57 /* ResearchKitCore.framework */; };
+		00C19CC42509522000DCFB7A /* ResearchKitCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5DABE54824D8BF2400570C57 /* ResearchKitCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		00C2668A2302244300337E0B /* ORKCustomStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 00C266882302244300337E0B /* ORKCustomStepViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		00C2668B2302244300337E0B /* ORKCustomStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00C266892302244300337E0B /* ORKCustomStepViewController.m */; };
 		00C2668E23022CD400337E0B /* ORKCustomStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 00C2668C23022CD400337E0B /* ORKCustomStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -233,10 +237,7 @@
 		51E03D692491A601008F8406 /* ORKHealthKitPermissionType.m in Sources */ = {isa = PBXBuildFile; fileRef = 51E03D672491A601008F8406 /* ORKHealthKitPermissionType.m */; };
 		51E03D6D2491B6DB008F8406 /* ORKRequestPermissionView.h in Headers */ = {isa = PBXBuildFile; fileRef = 51E03D6B2491B6DB008F8406 /* ORKRequestPermissionView.h */; };
 		51E03D6E2491B6DB008F8406 /* ORKRequestPermissionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 51E03D6C2491B6DB008F8406 /* ORKRequestPermissionView.m */; };
-		5D06633124FEF272005D9B40 /* ResearchKitUI.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D06632F24FEF272005D9B40 /* ResearchKitUI.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5D06633A24FEF2CE005D9B40 /* TaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D06633924FEF2CE005D9B40 /* TaskView.swift */; };
 		5D16A7B424E5FE2F00B2A5B4 /* ORKContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D58803B24109B60005B3D91 /* ORKContext.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5D16A7B524E5FE7100B2A5B4 /* ORKContext.m in Sources */ = {isa = PBXBuildFile; fileRef = AE66938524E59CC700DDC9CE /* ORKContext.m */; };
 		5D1CE42523F497D5004CB416 /* SUICFlamesShaderTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D1CE41723F497D3004CB416 /* SUICFlamesShaderTypes.h */; };
 		5D1CE42623F497D5004CB416 /* SUICFlamesView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D1CE41823F497D3004CB416 /* SUICFlamesView.h */; };
 		5D1CE42723F497D5004CB416 /* SUICAudioLevelSmoother.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1CE41923F497D3004CB416 /* SUICAudioLevelSmoother.m */; };
@@ -273,8 +274,15 @@
 		5D58800B24007140005B3D91 /* ORKPlaybackButton_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D58800A24007140005B3D91 /* ORKPlaybackButton_Internal.h */; };
 		5D5880392410394F005B3D91 /* ORKSpeechInNoiseResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D5880372410394E005B3D91 /* ORKSpeechInNoiseResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D58803A2410394F005B3D91 /* ORKSpeechInNoiseResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D5880382410394E005B3D91 /* ORKSpeechInNoiseResult.m */; };
-		5D58803C24109B60005B3D91 /* ORKContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D58803B24109B60005B3D91 /* ORKContext.h */; };
+		5D58803C24109B60005B3D91 /* ORKContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D58803B24109B60005B3D91 /* ORKContext.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D5C907F23D91FD8007AD5FC /* ORKSpeechInNoisePredefinedTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D5C907D23D91FD8007AD5FC /* ORKSpeechInNoisePredefinedTask.m */; };
+		5D8D87B0251919480030E058 /* View+Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8D87AF251919480030E058 /* View+Task.swift */; };
+		5D8D87B325191A0F0030E058 /* InstructionStepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8D87B225191A0F0030E058 /* InstructionStepView.swift */; };
+		5D8D87B525191A5D0030E058 /* QuestionStepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8D87B425191A5D0030E058 /* QuestionStepView.swift */; };
+		5D8D87B725191AA60030E058 /* CompletionStepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8D87B625191AA60030E058 /* CompletionStepView.swift */; };
+		5D8D87B925191B100030E058 /* DefaultStepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8D87B825191B100030E058 /* DefaultStepView.swift */; };
+		5D8D87BB25191B520030E058 /* TaskContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8D87BA25191B520030E058 /* TaskContentView.swift */; };
+		5D8D87BD25191B920030E058 /* TaskManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8D87BC25191B920030E058 /* TaskManager.swift */; };
 		5DABE54C24D8BF2400570C57 /* ResearchKitCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DABE54A24D8BF2400570C57 /* ResearchKitCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5DABE55C24D8C33800570C57 /* ORKStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40BB91A8D7C5C00081FAC /* ORKStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5DABE55D24D8C34B00570C57 /* ORKTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = BCB8133B1C98367A00346561 /* ORKTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -980,6 +988,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		00C19CC52509522000DCFB7A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3FFF18351829DB1D00167070 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5DABE54724D8BF2400570C57;
+			remoteInfo = "ResearchKitCore (watchOS)";
+		};
 		86CC8EA11AC09332001CCD89 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 3FFF18351829DB1D00167070 /* Project object */;
@@ -995,6 +1010,20 @@
 			remoteInfo = OpenResearchKit;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		00C19CC72509522000DCFB7A /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				00C19CC42509522000DCFB7A /* ResearchKitCore.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		00B1F7842241503900D022FE /* Speech.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Speech.framework; path = System/Library/Frameworks/Speech.framework; sourceTree = SDKROOT; };
@@ -1249,6 +1278,13 @@
 		5D58803B24109B60005B3D91 /* ORKContext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKContext.h; sourceTree = "<group>"; };
 		5D5C907C23D91FD8007AD5FC /* ORKSpeechInNoisePredefinedTask.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKSpeechInNoisePredefinedTask.h; sourceTree = "<group>"; };
 		5D5C907D23D91FD8007AD5FC /* ORKSpeechInNoisePredefinedTask.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKSpeechInNoisePredefinedTask.m; sourceTree = "<group>"; };
+		5D8D87AF251919480030E058 /* View+Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Task.swift"; sourceTree = "<group>"; };
+		5D8D87B225191A0F0030E058 /* InstructionStepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionStepView.swift; sourceTree = "<group>"; };
+		5D8D87B425191A5D0030E058 /* QuestionStepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionStepView.swift; sourceTree = "<group>"; };
+		5D8D87B625191AA60030E058 /* CompletionStepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionStepView.swift; sourceTree = "<group>"; };
+		5D8D87B825191B100030E058 /* DefaultStepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultStepView.swift; sourceTree = "<group>"; };
+		5D8D87BA25191B520030E058 /* TaskContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskContentView.swift; sourceTree = "<group>"; };
+		5D8D87BC25191B920030E058 /* TaskManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskManager.swift; sourceTree = "<group>"; };
 		5DABE54824D8BF2400570C57 /* ResearchKitCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ResearchKitCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5DABE54A24D8BF2400570C57 /* ResearchKitCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResearchKitCore.h; sourceTree = "<group>"; };
 		5DABE55424D8C02F00570C57 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -1976,6 +2012,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				00C19CC32509522000DCFB7A /* ResearchKitCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2556,6 +2593,10 @@
 				5D06632F24FEF272005D9B40 /* ResearchKitUI.h */,
 				5D06633024FEF272005D9B40 /* Info.plist */,
 				5D06633924FEF2CE005D9B40 /* TaskView.swift */,
+				5D8D87BC25191B920030E058 /* TaskManager.swift */,
+				5D8D87BA25191B520030E058 /* TaskContentView.swift */,
+				5D8D87AF251919480030E058 /* View+Task.swift */,
+				5D8D87B1251919EF0030E058 /* Step Views */,
 			);
 			path = ResearchKitUI;
 			sourceTree = "<group>";
@@ -2603,6 +2644,17 @@
 				5D43C5D024217393006F4084 /* ORKRecordButton.m */,
 			);
 			name = ORKRecordButton;
+			sourceTree = "<group>";
+		};
+		5D8D87B1251919EF0030E058 /* Step Views */ = {
+			isa = PBXGroup;
+			children = (
+				5D8D87B225191A0F0030E058 /* InstructionStepView.swift */,
+				5D8D87B425191A5D0030E058 /* QuestionStepView.swift */,
+				5D8D87B625191AA60030E058 /* CompletionStepView.swift */,
+				5D8D87B825191B100030E058 /* DefaultStepView.swift */,
+			);
+			path = "Step Views";
 			sourceTree = "<group>";
 		};
 		5DABE54924D8BF2400570C57 /* ResearchKitCore */ = {
@@ -4060,7 +4112,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5D06633124FEF272005D9B40 /* ResearchKitUI.h in Headers */,
+				00C19CC22509520900DCFB7A /* ResearchKitUI.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4570,10 +4622,13 @@
 				5D06632924FEF272005D9B40 /* Sources */,
 				5D06632A24FEF272005D9B40 /* Frameworks */,
 				5D06632B24FEF272005D9B40 /* Resources */,
+				00C19CC72509522000DCFB7A /* Embed Frameworks */,
+				5D8D87BF251C2A690030E058 /* Run SwiftLint */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				00C19CC62509522000DCFB7A /* PBXTargetDependency */,
 			);
 			name = ResearchKitUI;
 			productName = ResearchKitUI;
@@ -4802,6 +4857,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		5D8D87BF251C2A690030E058 /* Run SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run SwiftLint";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n    if ${CI} == true; then\n        echo \"Running Strict SwiftLint\"\n        swiftlint --strict\n    else\n        echo \"Running SwiftLint\"\n        swiftlint\n    fi\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n\n";
+		};
 		714174B5227ADF87005DD5E4 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -4855,7 +4928,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5D06633A24FEF2CE005D9B40 /* TaskView.swift in Sources */,
+				5D8D87B525191A5D0030E058 /* QuestionStepView.swift in Sources */,
+				00C19CBE25094B5F00DCFB7A /* TaskView.swift in Sources */,
+				5D8D87BD25191B920030E058 /* TaskManager.swift in Sources */,
+				5D8D87B325191A0F0030E058 /* InstructionStepView.swift in Sources */,
+				5D8D87BB25191B520030E058 /* TaskContentView.swift in Sources */,
+				5D8D87B725191AA60030E058 /* CompletionStepView.swift in Sources */,
+				5D8D87B925191B100030E058 /* DefaultStepView.swift in Sources */,
+				5D8D87B0251919480030E058 /* View+Task.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4869,7 +4949,6 @@
 				5DABE5AA24D9EFB000570C57 /* ORKErrors.m in Sources */,
 				5DABE5B124DA1A4F00570C57 /* ORKChoiceAnswerFormatHelper.m in Sources */,
 				5DABE5A124D9EB1C00570C57 /* ORKSkin.m in Sources */,
-				5D16A7B524E5FE7100B2A5B4 /* ORKContext.m in Sources */,
 				5DABE5A324D9EC4800570C57 /* ORKQuestionResult.m in Sources */,
 				5DABE59C24D9E9E300570C57 /* ORKQuestionStep.m in Sources */,
 				5DABE59F24D9EA3200570C57 /* ORKAnswerFormat.m in Sources */,
@@ -5311,6 +5390,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		00C19CC62509522000DCFB7A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5DABE54724D8BF2400570C57 /* ResearchKitCore (watchOS) */;
+			targetProxy = 00C19CC52509522000DCFB7A /* PBXContainerItemProxy */;
+		};
 		86CC8EA21AC09332001CCD89 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = B183A4731A8535D100C76870 /* ResearchKit */;
@@ -6008,6 +6092,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
+				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -6023,6 +6108,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = ResearchKitUI/Info.plist;
@@ -6040,7 +6126,7 @@
 				TARGETED_DEVICE_FAMILY = 4;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
-				WATCHOS_DEPLOYMENT_TARGET = 7.0;
+				WATCHOS_DEPLOYMENT_TARGET = 6.1;
 			};
 			name = Debug;
 		};
@@ -6048,6 +6134,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
+				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -6064,6 +6151,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = ResearchKitUI/Info.plist;
@@ -6080,7 +6168,7 @@
 				TARGETED_DEVICE_FAMILY = 4;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
-				WATCHOS_DEPLOYMENT_TARGET = 7.0;
+				WATCHOS_DEPLOYMENT_TARGET = 6.1;
 			};
 			name = "Skywagon Stable";
 		};
@@ -6088,6 +6176,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
+				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -6104,6 +6193,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = ResearchKitUI/Info.plist;
@@ -6120,7 +6210,7 @@
 				TARGETED_DEVICE_FAMILY = 4;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
-				WATCHOS_DEPLOYMENT_TARGET = 7.0;
+				WATCHOS_DEPLOYMENT_TARGET = 6.1;
 			};
 			name = ATP;
 		};
@@ -6128,6 +6218,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
+				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -6144,6 +6235,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = ResearchKitUI/Info.plist;
@@ -6159,7 +6251,7 @@
 				TARGETED_DEVICE_FAMILY = 4;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
-				WATCHOS_DEPLOYMENT_TARGET = 7.0;
+				WATCHOS_DEPLOYMENT_TARGET = 6.1;
 			};
 			name = Release;
 		};
@@ -6167,6 +6259,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
+				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -6183,6 +6276,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = ResearchKitUI/Info.plist;
@@ -6198,7 +6292,7 @@
 				TARGETED_DEVICE_FAMILY = 4;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
-				WATCHOS_DEPLOYMENT_TARGET = 7.0;
+				WATCHOS_DEPLOYMENT_TARGET = 6.1;
 			};
 			name = "Skywagon Internal Release";
 		};
@@ -6206,6 +6300,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
+				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -6222,6 +6317,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = ResearchKitUI/Info.plist;
@@ -6237,7 +6333,7 @@
 				TARGETED_DEVICE_FAMILY = 4;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
-				WATCHOS_DEPLOYMENT_TARGET = 7.0;
+				WATCHOS_DEPLOYMENT_TARGET = 6.1;
 			};
 			name = "Skywagon Public Release";
 		};
@@ -6261,6 +6357,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ResearchKit/ResearchKit_Prefix.pch;
@@ -6279,6 +6376,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -6307,6 +6405,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ResearchKit/ResearchKit_Prefix.pch;
@@ -6324,6 +6423,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -6352,6 +6452,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ResearchKit/ResearchKit_Prefix.pch;
@@ -6369,6 +6470,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -6397,6 +6499,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ResearchKit/ResearchKit_Prefix.pch;
@@ -6414,6 +6517,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -6442,6 +6546,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ResearchKit/ResearchKit_Prefix.pch;
@@ -6459,6 +6564,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -6487,6 +6593,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ResearchKit/ResearchKit_Prefix.pch;
@@ -6504,6 +6611,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";

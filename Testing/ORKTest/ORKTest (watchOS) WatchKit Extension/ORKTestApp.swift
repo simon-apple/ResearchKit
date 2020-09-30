@@ -8,36 +8,48 @@
 
 import SwiftUI
 import ResearchKitCore
+import ResearchKitUI
 
 @main
 struct ORKTestApp: App {
     
-    let sampleTask: ORKOrderedTask
+    @State var isTaskPresented: Bool = false
+    
+    let taskManager: TaskManager
     
     init() {
-        
-        let instructionStep = ORKInstructionStep(identifier: "instructionStep")
-        instructionStep.title = "Welcome To Watch OS!"
-        instructionStep.detailText = "You will be asked a question."
-        
-        let leftHanded = ORKTextChoice(text: "Left Hand", detailText: nil, value: NSString(string: "L"), exclusive: true)
-        let rightHanded = ORKTextChoice(text: "Right Hand", detailText: nil, value: NSString(string: "R"), exclusive: true)
-        let ambidextrous = ORKTextChoice(text: "Both", detailText: nil, value: NSString(string: "A"), exclusive: true)
+
+        let leftHanded = ORKTextChoice(text: "Somewhat", detailText: nil, value: NSString(string: "L"), exclusive: true)
+        let rightHanded = ORKTextChoice(text: "A lot", detailText: nil, value: NSString(string: "R"), exclusive: true)
+        let ambidextrous = ORKTextChoice(text: "Not at all", detailText: nil, value: NSString(string: "A"), exclusive: true)
         let answerFormat = ORKTextChoiceAnswerFormat(style: .singleChoice, textChoices: [leftHanded, rightHanded, ambidextrous])
-        let questionStep = ORKQuestionStep(identifier: "questionStep", title: "Handedness", question: "Which is your dominant hand?", answer: answerFormat)
+        let questionStep = ORKQuestionStep(identifier: "questionStep", title: "Are you feeling stressed right now?", question: nil, answer: answerFormat)
         
-        let completionStep = ORKCompletionStep(identifier: "completionStep")
-        completionStep.title = "Thank You"
-        completionStep.detailText = "You have completed this task."
-        
-        sampleTask = ORKOrderedTask(identifier: "task", steps: [instructionStep, questionStep, completionStep])
+        let sampleTask = ORKOrderedTask(identifier: "task", steps: [questionStep])
+        taskManager = TaskManager(task: sampleTask)
     }
     
     @SceneBuilder var body: some Scene {
         WindowGroup {
-            NavigationView {
-                ContentView()
-            }
+                Button(action: {
+                    isTaskPresented = true
+                }) {
+                    Text("Test Task")
+                }
+                .task(isPresented: $isTaskPresented, taskManager: taskManager)
+                .onReceive(taskManager.$finishReason) { finishReason in
+                    
+                    isTaskPresented = false
+                    
+                    if let finishReason = finishReason {
+                        switch finishReason {
+                        case .completed:
+                            print("Task Completed: Results: \(String(describing: taskManager.result.results))")
+                        default:
+                            break
+                        }
+                    }
+                }
         }
 
         WKNotificationScene(controller: NotificationController.self, category: "myCategory")
