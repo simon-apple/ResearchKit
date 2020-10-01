@@ -28,7 +28,6 @@
 		00C19CBE25094B5F00DCFB7A /* TaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D06633924FEF2CE005D9B40 /* TaskView.swift */; };
 		00C19CC22509520900DCFB7A /* ResearchKitUI.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D06632F24FEF272005D9B40 /* ResearchKitUI.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		00C19CC32509522000DCFB7A /* ResearchKitCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DABE54824D8BF2400570C57 /* ResearchKitCore.framework */; };
-		00C19CC42509522000DCFB7A /* ResearchKitCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5DABE54824D8BF2400570C57 /* ResearchKitCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		00C2668A2302244300337E0B /* ORKCustomStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 00C266882302244300337E0B /* ORKCustomStepViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		00C2668B2302244300337E0B /* ORKCustomStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00C266892302244300337E0B /* ORKCustomStepViewController.m */; };
 		00C2668E23022CD400337E0B /* ORKCustomStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 00C2668C23022CD400337E0B /* ORKCustomStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1003,20 +1002,6 @@
 			remoteInfo = OpenResearchKit;
 		};
 /* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		00C19CC72509522000DCFB7A /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				00C19CC42509522000DCFB7A /* ResearchKitCore.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		00B1F7842241503900D022FE /* Speech.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Speech.framework; path = System/Library/Frameworks/Speech.framework; sourceTree = SDKROOT; };
@@ -4598,7 +4583,6 @@
 				5D06632924FEF272005D9B40 /* Sources */,
 				5D06632A24FEF272005D9B40 /* Frameworks */,
 				5D06632B24FEF272005D9B40 /* Resources */,
-				00C19CC72509522000DCFB7A /* Embed Frameworks */,
 				5D8D87BF251C2A690030E058 /* Run SwiftLint */,
 			);
 			buildRules = (
