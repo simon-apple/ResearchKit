@@ -2593,7 +2593,7 @@ static id jsonObjectForObject(id object, ORKESerializationContext *context) {
 
 + (NSData *)JSONDataForObject:(id)object error:(NSError * __autoreleasing *)error {
     id json = jsonObjectForObject(object, [[ORKESerializationContext alloc] initWithLocalizer:nil imageProvider:nil stringInterpolator:nil propertyInjector:nil]);
-    return [NSJSONSerialization dataWithJSONObject:json options:(NSJSONWritingOptions)0 error:error];
+    return [NSJSONSerialization dataWithJSONObject:json options:NSJSONWritingSortedKeys error:error];
 }
 
 + (id)objectFromJSONData:(NSData *)data error:(NSError * __autoreleasing *)error {
