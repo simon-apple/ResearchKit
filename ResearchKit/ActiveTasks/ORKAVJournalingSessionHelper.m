@@ -498,11 +498,15 @@
         CGFloat faceHeight = faceBounds.size.height * imageSize.height;
         CGFloat faceOriginX = (imageSize.width) - (faceBounds.origin.x * imageSize.width) - faceHeight;
         CGFloat faceOriginY = (faceBounds.origin.y * imageSize.height);
-    
-        CGRect updatedFaceBounds = CGRectMake(faceOriginX * 0.90, faceOriginY, faceWidth * 1.25, faceHeight);
         
+        CGRect updatedFaceBounds = CGRectMake(faceOriginX * 0.80, faceOriginY * 0.75, faceWidth * 1.60, faceHeight * 1.15);
         CIImage *croppedImage = [image imageByCroppingToRect:updatedFaceBounds];
+        
+        CGRect shoulderBounds = CGRectMake(updatedFaceBounds.origin.x * 0.80, 0, (updatedFaceBounds.origin.x * 0.40), imageSize.height);
+        CIImage *croppedShouldersImage = [image imageByCroppingToRect:shoulderBounds];
+        
         combinedImage = [croppedImage imageByCompositingOverImage:imageWithFilter];
+        combinedImage = [croppedShouldersImage imageByCompositingOverImage:combinedImage];
     }
     
     //Use CIContext to create a CGImageRef
