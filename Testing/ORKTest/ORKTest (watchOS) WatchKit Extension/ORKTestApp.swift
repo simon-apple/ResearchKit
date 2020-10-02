@@ -25,7 +25,10 @@ struct ORKTestApp: App {
         let answerFormat = ORKTextChoiceAnswerFormat(style: .singleChoice, textChoices: [leftHanded, rightHanded, ambidextrous])
         let questionStep = ORKQuestionStep(identifier: "questionStep", title: "Are you feeling stressed right now?", question: nil, answer: answerFormat)
         
-        let sampleTask = ORKOrderedTask(identifier: "task", steps: [questionStep])
+        let completionStep = ORKCompletionStep(identifier: "completionStep")
+        completionStep.title = "Thank you for your time"
+        
+        let sampleTask = ORKOrderedTask(identifier: "task", steps: [questionStep, completionStep])
         taskManager = TaskManager(task: sampleTask)
     }
     

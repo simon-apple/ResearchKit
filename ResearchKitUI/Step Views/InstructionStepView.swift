@@ -39,7 +39,10 @@ public struct InstructionStepView: View {
 
     @ObservedObject
     public private(set) var result: ORKStepResult
-
+    
+    @EnvironmentObject
+    private var completion: CompletionObject
+    
     init(_ step: ORKInstructionStep, result: ORKStepResult) {
         self.step = step
         self.result = result
@@ -47,11 +50,21 @@ public struct InstructionStepView: View {
 
     public var body: some View {
         VStack(alignment: .center) {
-            Text(step.title!)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .font(Font.system(.headline))
-            Text(step.detailText!)
-                .frame(maxWidth: .infinity, alignment: .leading)
+            
+            if let title = step.title {
+                Text(title)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .font(Font.system(.headline))
+            }
+            if let detailText = step.detailText {
+                Text(detailText)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            Button(action: {
+                completion.run()
+            }) {
+                Text("Done")
+            }
         }
     }
 }

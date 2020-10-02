@@ -31,6 +31,19 @@
 import ResearchKitCore
 import SwiftUI
 
+internal class CompletionObject: ObservableObject {
+    
+    private var block: () -> Void
+    
+    init(_ block: @escaping () -> Void) {
+        self.block = block
+    }
+    
+    func run() {
+        block()
+    }
+}
+
 internal struct TaskContentView<Content>: View where Content: View {
     
     @EnvironmentObject
@@ -53,30 +66,23 @@ internal struct TaskContentView<Content>: View where Content: View {
         let currentStep = taskManager.task.steps[index]
         let currentResult = taskManager.getOrCreateResult(for: currentStep)
         let stepView = content(currentStep, currentResult)
+        let nextStep = index >= taskManager.task.steps.count - 1 ?
+            nil : TaskContentView(index: index + 1, content).environmentObject(taskManager)
         
         ScrollView {
             stepView.onAppear {
                 currentResult.startDate = Date()
             }
-            if index >= taskManager.task.steps.count - 1 {
-                Button(action: {
+            .environmentObject(CompletionObject({
+                if nextStep != nil {
+                        goNext = true
+                } else {
                     currentResult.endDate = Date()
                     taskManager.finishReason = .completed
-                    
-                }) {
-                    Text("Done")
                 }
-            } else {
-                Button(action: {
-                    currentResult.endDate = Date()
-                    goNext = true
-                }) {
-                    Text("Continue")
-                }
-                
-                let nextStep = TaskContentView(index: index + 1, content)
-                    .environmentObject(taskManager)
-                NavigationLink(destination: nextStep, isActive: $goNext, label: { EmptyView() })
+            }))
+            if let nextStepView = nextStep {
+                NavigationLink(destination: nextStepView, isActive: $goNext, label: { EmptyView() })
             }
         }
     }
