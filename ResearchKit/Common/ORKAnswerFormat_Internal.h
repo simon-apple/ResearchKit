@@ -117,10 +117,10 @@ ORK_DESIGNATE_CODING_AND_SERIALIZATION_INITIALIZERS(ORKTextChoice)
 /**
  The value to be returned if this option is selected.
 
- Expected to be a scalar type serializable to JSON, e.g. `NSNumber` or `NSString`.
+ Expected to be a`NSNumber`, `NSString` or `NSDate` (a JSON-serializable value).
  If no value is provided, the index of the option in the `ORK*ChoiceAnswerFormat` options list will be used.
  */
-- (nullable id)value;
+- (nullable NSObject<NSCopying, NSSecureCoding> *)value;
 
 @end
 
@@ -154,7 +154,7 @@ ORK_DESIGNATE_CODING_AND_SERIALIZATION_INITIALIZERS(ORKTextChoice)
 
 - (NSArray<ORKTextChoice *> *)textChoices;
 - (nullable ORKTextChoice *)textChoiceAtIndex:(NSUInteger)index;
-- (NSUInteger)textChoiceIndexForValue:(id<NSCopying, NSCoding, NSObject>)value;
+- (NSUInteger)textChoiceIndexForValue:(NSObject<NSCopying, NSSecureCoding> *)value;
 
 @end
 
@@ -180,6 +180,8 @@ ORK_DESIGNATE_CODING_AND_SERIALIZATION_INITIALIZERS(ORKTextChoice)
 
 @end
 #endif
+
+NSArray<Class> *ORKAllowableValueClasses(void);
 
 @interface ORKTextChoice () <ORKAnswerOption>
 

@@ -757,7 +757,7 @@ static const CGFloat kMargin = 25.0;
     }
 }
 
-- (void)setCurrentTextChoiceValue:(id<NSCopying, NSCoding, NSObject>)currentTextChoiceValue {
+- (void)setCurrentTextChoiceValue:(NSObject<NSCopying, NSSecureCoding> *)currentTextChoiceValue {
     
     if (currentTextChoiceValue) {
         NSUInteger index = [[self textScaleFormatProvider] textChoiceIndexForValue:currentTextChoiceValue];
@@ -771,8 +771,8 @@ static const CGFloat kMargin = 25.0;
     }
 }
 
-- (id<NSCopying, NSCoding, NSObject>)currentTextChoiceValue {
-    id<NSCopying, NSCoding, NSObject> value = [[self textScaleFormatProvider] textChoiceAtIndex:[self currentTextChoiceIndex]].value;
+- (NSObject<NSCopying, NSSecureCoding> *)currentTextChoiceValue {
+    NSObject<NSCopying, NSSecureCoding> *value = [[self textScaleFormatProvider] textChoiceAtIndex:[self currentTextChoiceIndex]].value;
     return value;
 }
 
@@ -781,7 +781,7 @@ static const CGFloat kMargin = 25.0;
         return [ORKDontKnowAnswer answer];
     }
     if ([self textScaleFormatProvider]) {
-        id<NSCopying, NSCoding, NSObject> value = [self currentTextChoiceValue];
+        NSObject<NSCopying, NSSecureCoding> *value = [self currentTextChoiceValue];
         return value ? @[value] : @[];
     } else {
         return _currentNumberValue;
