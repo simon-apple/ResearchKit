@@ -69,6 +69,7 @@
         [_containerView setPinNavigationContainer:self.customStep.pinNavigationContainer];
         [_containerView setCustomContentView:[self customStep].contentView withTopPadding:0.0 sidePadding:0.0];
         [_containerView setUseExtendedPadding:self.step.useExtendedPadding];
+        _containerView.navigationFooterView.hidden = self.customStep.hideNavigationContainer;
         [self.view addSubview:_containerView];
         [self setupConstraints];
     }
@@ -129,6 +130,7 @@
     [_containerView setStepTitle:self.customStep.title];
     [_containerView setStepText:self.customStep.text];
     [_containerView setStepDetailText:self.customStep.detailText];
+    [_containerView setStepHeaderTextAlignment:self.customStep.headerTextAlignment];
 }
 
 - (void)setStepHeaderTextAlignment:(NSTextAlignment)stepHeaderTextAlignment {
