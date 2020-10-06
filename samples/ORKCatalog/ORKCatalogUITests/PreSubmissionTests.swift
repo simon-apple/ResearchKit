@@ -166,7 +166,7 @@ class PreSubmissionTests: XCTestCase {
         done.tap()
         XCTAssert(helpers.verifyElement(taskScreen.mainTaskScreen))
         
-        dateTimeElement.tap()
+        dt.tap()
         skip.tap()
         XCTAssert(helpers.verifyElement(taskScreen.mainTaskScreen))
     
