@@ -51,19 +51,96 @@ class Helpers: XCTestCase {
         case right
         case skip
     }
-    
-    func verifyElement(_ element: XCUIElement) -> Bool {
+  
+    //Verify existence of any XCUIElement with an option to tap that element
+    func verifyElement(_ element: XCUIElement, _ tap: Bool = false) -> Bool {
         if element.exists {
+            if tap && element.isEnabled {
+                element.tap()
+            }
             return true
         }
         XCTFail("Unable to confirm \(element) exists")
         return false
     }
     
+    //Verify an element exists based on static text label, option to tap the element after verification
+    func verifyElementByText(identifier: String, _ tap: Bool = false) -> Bool {
+        let item = app.staticTexts["\(identifier)"]
+        if item.exists {
+            if tap && item.isEnabled {
+                item.tap()
+            }
+            return true
+        }
+        XCTFail("Unable to locate Element based on text \(identifier)")
+        return false
+    }
+    
+    //Verify an element matching XCUIElement.ElementType exists based on an identifying string existing in the label or value of the element.
+    func verifyElementByType(_ elementType: XCUIElement.ElementType, _ identifier: String, _ tap: Bool = false) -> Bool {
+        let identifyingOptions = ["label", "value"]
+        for option in identifyingOptions {
+            let predicate = NSPredicate(format: "\(option) CONTAINS '\(identifier)'")
+            let target = app.descendants(matching: elementType).element(matching: predicate)
+            if target.exists {
+                if tap && target.isEnabled {
+                    target.tap()
+                }
+                return true
+            }
+        }
+        XCTFail("Unable to locate Element based on text \(identifier)")
+        return false
+    }
+    
+    //Verify any XCUIElement exists and return that element for assignment, option to tap available
+    func verifyAndAssign(_ element: XCUIElement, _ tap: Bool = false) -> XCUIElement? {
+        if element.exists {
+            if tap && element.isEnabled {
+                element.tap()
+            }
+            return element
+        }
+        XCTFail("Unable to confirm \(element) exists")
+        return nil
+    }
+    
+    //Verify an element exists based on static text label, option to tap the element after verification. Element returned for assignment.
+    func verifyAndAssignByText(_ identifier: String, _ tap: Bool = false) -> XCUIElement? {
+        let item = app.staticTexts["\(identifier)"]
+        if item.exists {
+            if tap && item.isEnabled {
+                item.tap()
+            }
+        return item
+        }
+        XCTFail("Unable to locate Element based on text \(identifier)")
+        return nil
+    }
+    
+    //Verify an element matching XCUIElement.ElementType exists based on an identifying string existing in the label or value of the element.
+    //Element returned for assignment.
+    func verifyAndAssignByType(_ elementType: XCUIElement.ElementType, _ identifier: String, _ tap: Bool = false) -> XCUIElement? {
+        let identifyingOptions = ["label", "value"]
+        for option in identifyingOptions {
+            let predicate = NSPredicate(format: "\(option) CONTAINS '\(identifier)'")
+            let target = app.descendants(matching: elementType).element(matching: predicate)
+            if target.exists {
+                if tap && target.isEnabled {
+                    target.tap()
+                }
+                return target
+            }
+        }
+        XCTFail("Unable to locate Element based on text \(identifier)")
+        return nil
+    }
+    
+    //Enter any ORKCatalog task based on the name of the task and leave without taking action
     func launchAndLeave(_ task: String) -> Bool {
         XCTAssert(verifyElement(taskScreen.mainTaskScreen))
-        XCTAssert(app.tables.staticTexts[task].exists, "Unable to find \(task) element")
-        let currentTask = app.tables.staticTexts[task]
+        let currentTask = verifyAndAssignByText(task)!
         currentTask.tap()
         
         sleep(1)
@@ -83,6 +160,7 @@ class Helpers: XCTestCase {
         return verifyElement(taskScreen.mainTaskScreen)
     }
     
+    //Deletes the ORKCatalog app from the simulator instance. 
     func deleteORKCatalog() {
         app.terminate()
         let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard")
@@ -95,36 +173,32 @@ class Helpers: XCTestCase {
                 }
     }
     
-    func scalePage(_ pageNumber: Int) -> XCUIElement? {
-        return app.navigationBars["\(String(pageNumber)) of 6"]
+    //Verify that the Navigation bar includes a page count in the form of "pageNumber of pageTotal"
+    func verifyPageByCount(_ pageNumber: Int, _ pageTotal: Int) -> Bool {
+        let pageCount = app.navigationBars["\(String(pageNumber)) of \(String(pageTotal))"]
+        XCTAssert(pageCount.exists)
+        return true
     }
     
+    //Return an XCUIElement based on page number of the Scale test
     func scaleTitle(_ pageNumber: Int) -> XCUIElement? {
         let titles: [Int: String] = [1: "Discrete Scale", 2: "Continuous Scale", 3: "Discrete Vertical Scale", 4: "Continuous Vertical Scale", 5: "Text Scale", 6: "Text Vertical Scale"]
         return app.scrollViews.otherElements.staticTexts[titles[pageNumber] ?? "Invalid Page Number"]
     }
     
-    func pickSlider() -> XCUIElement? {
-        let predicate = NSPredicate(format: "label BEGINSWITH 'Response slider.'")
-        return app.sliders.element(matching: predicate)
-    }
-    
-    func sliderValuesCheck(_ sliderScreen: SliderTesting, _ screenNum: Int, _ direction: SwipeDirection) -> Bool {
-        let sliderValues: [SliderTesting: String] = [
-            .slider1: "8",
-            .slider2: "91%",
-            .slider3: "8",
-            .slider4: "4.23",
-            .slider5: "Above Average",
-            .slider6: "Above Average"
+    //Select and interact with sliders in the Scale Question task. Function verifies expected outputs of each slider.
+    func sliderValuesCheck(_ sliderScreen:SliderTesting, _ screenNum: Int, _ direction:SwipeDirection) -> Bool {
+        let sliderValues: [SliderTesting:String] = [
+            .slider1:"8",
+            .slider3:"8",
+            .slider4:"4.23",
+            .slider5:"Above Average",
+            .slider6:"Above Average"
         ]
         
-        guard let slider = pickSlider() else {
-            XCTFail("Unable to locate Scale Slider")
-            return false
-        }
+        let slider = verifyAndAssignByType(.slider, "Response slider")!
         XCTAssert(slider.waitForExistence(timeout: 2), "Unable to locate slider on page \(screenNum)")
-        XCTAssert(scalePage(screenNum)!.waitForExistence(timeout: 2), "Unable to locate \"\(screenNum) of 6\"")
+        XCTAssert(verifyPageByCount(screenNum, 6), "Unable to locate \"\(screenNum) of 6\"")
         XCTAssert(scaleTitle(screenNum)!.waitForExistence(timeout: 2), "Unable to locate \(scaleTitle(screenNum)!)")
        
         switch direction {
@@ -142,9 +216,8 @@ class Helpers: XCTestCase {
 
         }
         
-        if sliderScreen != .Slider2 {
-            let predicate = NSPredicate(format: "value CONTAINS '\(sliderValues[sliderScreen] ?? "Unknown Error Occurred")'")
-            XCTAssert(app.sliders.element(matching: predicate).exists)
+        if sliderScreen != .slider2 {
+            XCTAssert(verifyElementByType(.slider, sliderValues[sliderScreen]!))
             if commonElements.doneButton!.exists {
                 commonElements.doneButton!.tap()
                 return true
@@ -156,30 +229,29 @@ class Helpers: XCTestCase {
         return true
     }
     
-    func sliderScreenCheck(_ sliderScreen: SliderTesting) -> Bool {
-        let taskTitle = app.scrollViews.otherElements.staticTexts["Scale"]
-        let theQuestion = app.scrollViews.otherElements.staticTexts["Your question here."]
-        
-        XCTAssert(taskTitle.waitForExistence(timeout: 2), "Unable to locate the taskTitle element")
-        XCTAssert(theQuestion.waitForExistence(timeout: 2), "Unable to locate theQuestion element")
+    //Returns true if sliders behave as expected on any given screen in the Scale Question task.
+    func sliderScreenCheck(_ sliderScreen:SliderTesting) -> Bool {
+        XCTAssert(verifyElement(app.scrollViews.otherElements.staticTexts["Scale"]))
+        XCTAssert(verifyElement(app.scrollViews.otherElements.staticTexts["Your question here."]))
         
         switch sliderScreen {
         case .slider1:
-            XCTAssert(sliderValuesCheck(sliderScreen, 1, .Right), "Slider1 Values Check Failed")
+            XCTAssert(sliderValuesCheck(sliderScreen, 1, .right), "Slider1 Values Check Failed")
         case .slider2:
-            XCTAssert(sliderValuesCheck(sliderScreen, 2, .Skip), "Slider2 Values Check Failed")
+            XCTAssert(sliderValuesCheck(sliderScreen, 2, .skip), "Slider2 Values Check Failed")
         case .slider3:
-            XCTAssert(sliderValuesCheck(sliderScreen, 3, .Up), "Slider3 Values Check Failed")
+            XCTAssert(sliderValuesCheck(sliderScreen, 3, .up), "Slider3 Values Check Failed")
         case .slider4:
-            XCTAssert(sliderValuesCheck(sliderScreen, 4, .Up), "Slider4 Values Check Failed")
+            XCTAssert(sliderValuesCheck(sliderScreen, 4, .up), "Slider4 Values Check Failed")
         case .slider5:
-            XCTAssert(sliderValuesCheck(sliderScreen, 5, .Right), "Slider5 Values Check Failed")
+            XCTAssert(sliderValuesCheck(sliderScreen, 5, .right), "Slider5 Values Check Failed")
         case .slider6:
-            XCTAssert(sliderValuesCheck(sliderScreen, 6, .Up), "Slider6 Values Check Failed")
+            XCTAssert(sliderValuesCheck(sliderScreen, 6, .up), "Slider6 Values Check Failed")
         }
         return true
     }
     
+    //Monitors for any alerts that may appear and interupt the normal flow of the applicaiton.
     func monitorAlerts() {
         addUIInterruptionMonitor(withDescription: "Alert") { element in
             do {
