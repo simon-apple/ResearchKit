@@ -474,7 +474,7 @@
 - (void)bluetoothModeChanged:(ORKBluetoothMode)bluetoothMode {
     if ([[[self dBHLToneAudiometryStep].headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsPro]) {
         if (bluetoothMode != ORKBluetoothModeNoiseCancellation) {
-            [self showAlertWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE_TEST_INTERRUPTED", nil) andMessage:ORKLocalizedString(@"dBHL_NOISE_CANCELLING_ALERT_TEXT", nil)];
+            [self showAlertWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE3_TEST_INTERRUPTED", nil) andMessage:ORKLocalizedString(@"dBHL_NOISE_CANCELLING_ALERT_TEXT", nil)];
         }
     }
 }
