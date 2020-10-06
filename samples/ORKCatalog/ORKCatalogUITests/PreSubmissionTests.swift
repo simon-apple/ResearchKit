@@ -41,14 +41,11 @@ class PreSubmissionTests: XCTestCase {
         continueAfterFailure = false
         helpers.monitorAlerts()
         app.launch()
-        
-        
-        // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
+
     }
 
     override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        //helpers.deleteORKCatalog()
+
     }
     
     func testAccessSurveyTasks() throws {
@@ -82,82 +79,46 @@ class PreSubmissionTests: XCTestCase {
     func testWrittenMultipleChoice() throws {
         XCTAssert(helpers.verifyElement(taskScreen.mainTaskScreen))
         let options = ["Choice 1", "Choice 2", "Choice 3", "Other"]
-        let task = app.tables.staticTexts["Text Choice Question"]
         let required = ["Text Choice", "Additional text can go here.", "Your question here."]
         
-        XCTAssert(task.exists, "Unable to find \(task) element")
-        task.tap()
+        XCTAssert(helpers.verifyElementByText("Text Choice Question", true))
         
         for item in required {
             XCTAssert(app.tables.staticTexts[item].exists, "Unable to locate the \(item) element.")
         }
         
-        let choice = app.tables.staticTexts[options.randomElement()!]
-        XCTAssert(choice.exists, "Unable to find \(choice) element")
-        choice.tap()
-
-        guard let done = commonElements.doneButton else {
-            XCTFail("Unable to find the Done button")
-            return
-        }
-        done.tap()
+        XCTAssert(helpers.verifyElementByText(options.randomElement()!, true))
+        
+        XCTAssert(helpers.verifyElementByType(.button, "Done", true))
         return
     }
     
     func testImageMultipleChoice() throws {
         XCTAssert(helpers.verifyElement(taskScreen.mainTaskScreen))
-        
-        let task = app.tables.staticTexts["Image Choice Question"]
-        XCTAssert(task.exists, "Unable to find \(task) element")
-        task.tap()
+        XCTAssert(helpers.verifyElementByText("Image Choice Question", true))
         
         let required = ["Image Choice", "Additional text can go here."]
         for item in required {
-            XCTAssert(app.scrollViews.staticTexts[item].exists, "Unable to locate the \(item) element.")
+            XCTAssert(helpers.verifyElementByText(item))
         }
         
-        let square = app.buttons["Square Shape"]
-        let circle = app.buttons["Round Shape"]
-        
-        XCTAssert(square.exists)
-        XCTAssert(circle.exists)
-        
+        let square = helpers.verifyAndAssignByType(.button, "Square Shape")!
+        let circle = helpers.verifyAndAssignByType(.button, "Round Shape")!
+    
         square.tap()
         
-        guard let next = commonElements.nextButton else {
-            XCTFail("Unable to locate the Next button")
-            return
-        }
-        
-        next.tap()
-        
-        XCTAssert(app.navigationBars["2 of 2"].exists)
-        
-        guard let back = commonElements.backButton else {
-            XCTFail("Unable to locate the Back Button")
-            return
-        }
-        back.tap()
-        
-        XCTAssert(app.navigationBars["1 of 2"].exists)
-        square.tap()
-        next.tap()
-        XCTAssertFalse(app.navigationBars["2 of 2"].exists)
-        
-        circle.tap()
-        next.tap()
-        
-        XCTAssert(app.navigationBars["2 of 2"].exists)
-        
+        XCTAssert(helpers.verifyElementByType(.button, "Next", true))
+        XCTAssert(helpers.verifyPageByCount(2, 2))
+        XCTAssert(helpers.verifyElementByType(.button, "Back", true))
+        XCTAssert(helpers.verifyPageByCount(1, 2))
         square.tap()
         circle.tap()
         
-        guard let done = commonElements.doneButton else {
-            XCTFail("Unable to locate Done button")
-            return
-        }
-        done.tap()
+        XCTAssert(helpers.verifyElementByType(.button, "Next", true))
+        XCTAssert(helpers.verifyPageByCount(2, 2))
+        circle.tap()
         
+        XCTAssert(helpers.verifyElementByType(.button, "Done", true))
         XCTAssert(helpers.verifyElement(taskScreen.mainTaskScreen))
         return
     }
@@ -165,38 +126,30 @@ class PreSubmissionTests: XCTestCase {
     func testSQPickerWheel() throws {
         XCTAssert(helpers.verifyElement(taskScreen.mainTaskScreen))
         
-        let dateAndTime = app.tables.staticTexts["Date and Time Question"]
+        let dt = helpers.verifyAndAssignByText("Date and Time Question")!
         let elementsQuery = app.scrollViews.otherElements.staticTexts
         
-        dateAndTime.tap()
+        dt.tap()
         XCTAssert(elementsQuery["Date and Time"].exists)
         XCTAssert(elementsQuery["Additional text can go here."].exists)
         XCTAssert(elementsQuery["Your question here."].exists)
         
-        guard let skip = commonElements.skipButton else {
-            XCTFail("Unable to locate Skip butotn")
-            return
-        }
+        let skip = helpers.verifyAndAssignByText("Skip")!
         XCTAssert(skip.isEnabled)
         
-        guard let done = commonElements.doneButton else {
-            XCTFail("Unable to locate Done button")
-            return
-        }
+        let done = helpers.verifyAndAssignByType(.button, "Done")!
         XCTAssert(done.isEnabled)
         
-        let firstPredicate = NSPredicate(format: "value BEGINSWITH 'Today'")
-        let firstPicker = app.pickerWheels.element(matching: firstPredicate)
+
+        let firstPicker = helpers.verifyAndAssignByType(.pickerWheel, "Today")!
         XCTAssert(firstPicker.isEnabled)
         firstPicker.adjust(toPickerWheelValue: "Aug 25")
         
-        let secondPredicate = NSPredicate(format: "value CONTAINS 'clock'")
-        let secondPicker = app.pickerWheels.element(matching: secondPredicate)
+        let secondPicker = helpers.verifyAndAssignByType(.pickerWheel, "clock")!
         XCTAssert((secondPicker.isEnabled))
         secondPicker.adjust(toPickerWheelValue: "5")
         
-        let thirdPredicatre = NSPredicate(format: "value CONTAINS 'minute'")
-        let thirdPicker = app.pickerWheels.element(matching: thirdPredicatre)
+        let thirdPicker = helpers.verifyAndAssignByType(.pickerWheel, "minute")!
         XCTAssert(thirdPicker.isEnabled)
         thirdPicker.adjust(toPickerWheelValue: "23")
         
@@ -205,14 +158,9 @@ class PreSubmissionTests: XCTestCase {
         formatter.setLocalizedDateFormatFromTemplate("a")
         let datetime = formatter.string(from: now)
         
-        let fourthPredicate = NSPredicate(format: "value CONTAINS '\(datetime)'")
-        let fourthPicker = app.pickerWheels.element(matching: fourthPredicate)
+        let fourthPicker = helpers.verifyAndAssignByType(.pickerWheel, "\(datetime)")!
         XCTAssert(fourthPicker.isEnabled)
-        if datetime == "AM" {
-            fourthPicker.adjust(toPickerWheelValue: "PM")
-        } else {
-            fourthPicker.adjust(toPickerWheelValue: "AM")
-        }
+        datetime == "AM" ? fourthPicker.adjust(toPickerWheelValue: "PM") : fourthPicker.adjust(toPickerWheelValue: "AM")
         
         XCTAssert(done.isEnabled)
         done.tap()
@@ -226,9 +174,14 @@ class PreSubmissionTests: XCTestCase {
     }
     
     func testSQSliders() throws {
+        XCTAssert(helpers.verifyElementByText("Scale Question", true))
         
-        XCTAssert(app.staticTexts["Scale Question"].waitForExistence(timeout: 5))
-        app.staticTexts["Scale Question"].tap()
+        XCTAssert(helpers.sliderScreenCheck(.slider1))
+        XCTAssert(helpers.sliderScreenCheck(.slider2))
+        XCTAssert(helpers.sliderScreenCheck(.slider3))
+        XCTAssert(helpers.sliderScreenCheck(.slider4))
+        XCTAssert(helpers.sliderScreenCheck(.slider5))
+        XCTAssert(helpers.sliderScreenCheck(.slider6))
         
         XCTAssert(helpers.sliderScreenCheck(.slider1))
         XCTAssert(helpers.sliderScreenCheck(.slider2))
@@ -277,4 +230,5 @@ class PreSubmissionTests: XCTestCase {
         
         return
     }
+
 }
