@@ -95,7 +95,7 @@ static const CGFloat DelayBeforeAutoScroll = 0.25;
 @property (nonatomic, strong) ORKQuestionStepView *questionView;
 
 @property (nonatomic, strong) ORKAnswerFormat *answerFormat;
-@property (nonatomic, copy) id<NSCopying, NSObject, NSCoding> answer;
+@property (nonatomic, copy) NSObject<NSCopying, NSSecureCoding> *answer;
 
 @property (nonatomic, strong) ORKContinueButton *continueActionButton;
 
@@ -107,7 +107,7 @@ static const CGFloat DelayBeforeAutoScroll = 0.25;
 // If `hasChangedAnswer`, then a new `defaultAnswer` should not change the answer
 @property (nonatomic, assign) BOOL hasChangedAnswer;
 
-@property (nonatomic, copy) id<NSCopying, NSObject, NSCoding> originalAnswer;
+@property (nonatomic, copy) NSObject<NSCopying, NSSecureCoding> *originalAnswer;
 
 @end
 
@@ -620,7 +620,7 @@ static const CGFloat DelayBeforeAutoScroll = 0.25;
     [self.tableView reloadData];
 }
 
-- (id<NSCopying, NSCoding, NSObject>)answer {
+- (NSObject<NSCopying, NSSecureCoding> *)answer {
     if (self.questionStep.questionType == ORKQuestionTypeMultipleChoice && (_answer == nil || _answer == ORKNullAnswerValue())) {
         _answer = [NSMutableArray array];
     }
