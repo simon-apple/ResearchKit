@@ -43,7 +43,7 @@ ORK_CLASS_AVAILABLE
 - (instancetype)init NS_UNAVAILABLE;
 
 - (instancetype)initWithTime:(NSTimeInterval) time
-                  spokenText:(NSString*) spokenText;
+                  spokenText:(NSString *) spokenText;
 @end
 
 ORK_CLASS_AVAILABLE
