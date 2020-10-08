@@ -28,8 +28,12 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import "ORKActiveStepTimer.h"
 #import "ORKAudioFitnessStep.h"
 #import "ORKAudioFitnessStepViewController.h"
+#import "ORKVoiceEngine.h"
+
+#import "ORKActiveStepViewController_Internal.h"
 #import "ORKHelpers_Internal.h"
 
 #import <AVFoundation/AVFoundation.h>
@@ -42,9 +46,21 @@
 
 @interface ORKAudioFitnessStepViewController ()
 @property (nonatomic) BOOL appHasAudioBackgroundMode;
+@property (nonatomic) NSMutableSet<ORKVocalCue*> *playedCues;
 @end
 
 @implementation ORKAudioFitnessStepViewController
+
+- (ORKAudioFitnessStep *)audioStep {
+    return (ORKAudioFitnessStep *)self.step;
+}
+
+- (NSMutableSet *)playedCues {
+    if (!_playedCues) {
+        _playedCues = [NSMutableSet new];
+    }
+    return _playedCues;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -80,6 +96,20 @@
     }
 }
 
+- (void)countDownTimerFired:(ORKActiveStepTimer *)timer finished:(BOOL)finished {
+    [super countDownTimerFired:timer finished:finished];
+
+    ORKVoiceEngine *voice = [ORKVoiceEngine sharedVoiceEngine];
+    NSTimeInterval timeRemaining = [timer duration] - [timer runtime];
+
+    for (ORKVocalCue *cue in [self audioStep].vocalCues) {
+        if (cue.time >= timeRemaining && ![self.playedCues containsObject:cue]) {
+            [self.playedCues addObject:cue];
+            [voice speakText: cue.spokenText];
+        }
+    }
+}
+
 - (BOOL)appHasAudioBackgroundMode {
     NSArray<NSString*> *backgroundModes = (NSArray<NSString*> *)[[NSBundle mainBundle] objectForInfoDictionaryKey:@"UIBackgroundModes"];
     BOOL hasBackgroundAudioMode = [backgroundModes containsObject:@"audio"];
@@ -107,7 +137,7 @@
 
 - (id<ORKAudioPlayer>)audioPlayer {
     if (!_audioPlayer) {
-        ORKAudioFitnessStep *step = (ORKAudioFitnessStep *)self.step;
+        ORKAudioFitnessStep *step = [self audioStep];
         NSBundle *bundle = [NSBundle bundleWithIdentifier: step.audioBundleIdentifier];
         NSURL *url = [bundle URLForResource:step.audioResourceName withExtension:step.audioFileExtension];
         NSError *error;
