@@ -32,6 +32,54 @@
 #import "ORKAudioFitnessStepViewController.h"
 #import "ORKHelpers_Internal.h"
 
+@implementation ORKVocalCue
+
+- (instancetype)initWithTime:(NSTimeInterval)time
+                  spokenText:(NSString *)spokenText {
+    self = [super init];
+    if (self) {
+        self.time = time;
+        self.spokenText = spokenText;
+    }
+    return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)coder
+{
+    if (self) {
+        ORK_DECODE_DOUBLE(coder, time);
+        ORK_DECODE_OBJ(coder, spokenText);
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder
+{
+    ORK_ENCODE_DOUBLE(coder, time);
+    ORK_ENCODE_OBJ(coder, spokenText);
+}
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
+- (instancetype)copyWithZone:(NSZone *)zone {
+    return [[ORKVocalCue alloc] initWithTime:self.time spokenText:self.spokenText];
+}
+
+- (BOOL)isEqual:(id)other
+{
+    if ([self class] != [other class]) {
+        return NO;
+    }
+
+    __typeof(self) castObject = other;
+    return (self.time == castObject.time &&
+            ORKEqualObjects(self.spokenText, castObject.spokenText));
+}
+
+@end
+
 @implementation ORKAudioFitnessStep
 
 - (Class)stepViewControllerClass {

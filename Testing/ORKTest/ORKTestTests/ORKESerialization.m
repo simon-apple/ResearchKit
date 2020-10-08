@@ -1441,6 +1441,15 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                  },
                  (@{
                     })),
+           ENTRY(ORKVocalCue,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+                    return [[ORKVocalCue alloc] initWithTime:((NSNumber *)GETPROP(dict, time)).doubleValue
+                                                  spokenText:GETPROP(dict, spokenText)];
+                 },
+                 (@{
+                     PROPERTY(time, NSNumber, NSObject, NO, nil, nil),
+                     PROPERTY(spokenText, NSString, NSObject, NO, nil, nil)
+                    })),
            ENTRY(ORKAudioFitnessStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                     return [[ORKAudioFitnessStep alloc]

@@ -34,6 +34,19 @@
 NS_ASSUME_NONNULL_BEGIN
 
 ORK_CLASS_AVAILABLE
+@interface ORKVocalCue : NSObject <NSSecureCoding, NSCopying>
+
+@property (atomic) NSTimeInterval time;
+
+@property (atomic, copy) NSString *spokenText;
+
+- (instancetype)init NS_UNAVAILABLE;
+
+- (instancetype)initWithTime:(NSTimeInterval) time
+                  spokenText:(NSString*) spokenText;
+@end
+
+ORK_CLASS_AVAILABLE
 @interface ORKAudioFitnessStep : ORKFitnessStep
 
 @property (nonatomic, copy) NSString *audioBundleIdentifier;
@@ -42,7 +55,7 @@ ORK_CLASS_AVAILABLE
 
 @property (nonatomic, copy, nullable) NSString *audioFileExtension;
 
-- (instancetype)initWithIdentifier:(NSString *)identifier
+- (instancetype)initWithIdentifier:(NSString*) identifier
              audioBundleIdentifier:(NSString*) bundleIdentifier
                  audioResourceName:(NSString*) audioResourceName
                 audioFileExtension:(nullable NSString*) audioFileExtension;
