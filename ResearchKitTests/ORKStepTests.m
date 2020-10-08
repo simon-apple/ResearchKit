@@ -556,13 +556,15 @@
     ORKAudioFitnessStep *step = [[ORKAudioFitnessStep alloc] initWithIdentifier:identifier
                                                           audioBundleIdentifier:bundleID
                                                               audioResourceName:name
-                                                             audioFileExtension:extension];
+                                                             audioFileExtension:extension
+                                                                      vocalCues:nil];
     XCTAssertEqual(step.identifier, identifier);
     XCTAssertEqual(step.audioBundleIdentifier, bundleID);
     XCTAssertEqual(step.audioResourceName, name);
     XCTAssertEqual(step.audioFileExtension, extension);
     XCTAssertEqual(step.stepDuration, 180);
     XCTAssertEqual(step.shouldShowDefaultTimer, NO);
+    XCTAssertEqual(step.vocalCues.count, 0);
     XCTAssert([step isEqual:step]);
 }
 
