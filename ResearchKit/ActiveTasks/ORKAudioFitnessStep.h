@@ -55,13 +55,13 @@ ORK_CLASS_AVAILABLE
 
 @property (nonatomic, copy, nullable) NSString *audioFileExtension;
 
-@property (nonatomic, copy) NSArray<ORKVocalCue*> *vocalCues;
+@property (nonatomic, copy) NSArray<ORKVocalCue *> *vocalCues;
 
-- (instancetype)initWithIdentifier:(NSString*) identifier
-             audioBundleIdentifier:(NSString*) bundleIdentifier
-                 audioResourceName:(NSString*) audioResourceName
-                audioFileExtension:(nullable NSString*) audioFileExtension
-                         vocalCues:(nullable NSArray<ORKVocalCue*>*) vocalCues;
+- (instancetype)initWithIdentifier:(NSString *) identifier
+             audioBundleIdentifier:(NSString *) bundleIdentifier
+                 audioResourceName:(NSString *) audioResourceName
+                audioFileExtension:(nullable NSString *) audioFileExtension
+                         vocalCues:(nullable NSArray<ORKVocalCue *> *) vocalCues;
 
 @end
 
