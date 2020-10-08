@@ -683,7 +683,7 @@
 "AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TITLE_RECALIBRATION" = "We Lost You";
 "AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TEXT_RECALIBRATION" = "Try adjusting the position of your iPhone to bring your face back into view.";
 "AV_JOURNALING_FACE_DETECTION_STEP_TIME_LIMIT_REACHED_TITLE" = "Video Journal Incomplete";
-"AV_JOURNALING_FACE_DETECTION_STEP_TIME_LIMIT_REACHED_TEXT" = "You finished %lu of %lu journal entries. You can finish the remaining entry when you're ready.";
+"AV_JOURNALING_FACE_DETECTION_STEP_TIME_LIMIT_REACHED_TEXT" = "You finished %lu of %lu journal entries. You can finish the remaining entry when you’re ready.";
 "AV_JOURNALING_FACE_DETECTION_START_TIME" = "00:00";
 
 /* AV Journaling Step */
@@ -694,8 +694,8 @@
 "AV_JOURNALING_STEP_START_TIME" = "00:00";
 "AV_JOURNALING_STEP_NO_FACE_DETECTED_TITLE" = "No Face Detected";
 "AV_JOURNALING_STEP_NO_FACE_DETECTED_TEXT" = "Please center your face in the screen";
-"AV_JOURNALING_STEP_CAMERA_ERROR" = "Can't access front camera. This step cannot be completed.";
-"AV_JOURNALING_STEP_AUDIO_ERROR" = "Can't access audio. This step cannot be completed.";
+"AV_JOURNALING_STEP_CAMERA_ERROR" = "Can’t access front camera. This step cannot be completed.";
+"AV_JOURNALING_STEP_AUDIO_ERROR" = "Can’t access audio. This step cannot be completed.";
 "AV_JOURNALING_STEP_NEXT_QUESTION_MESSAGE" = "NEXT QUESTION IN %@";
 "AV_JOURNALING_STEP_QUESTION_NUMBER_TEXT" = "Question %lu of %lu";
 "AV_JOURNALING_STEP_ALERT_TITLE" = "Finish Later";
@@ -703,7 +703,7 @@
 "AV_JOURNALING_STEP_ALERT_FINISH_LATER_BUTTON_TEXT" = "Finish Later";
 "AV_JOURNALING_STEP_ALERT_CANCEL_BUTTON_TEXT" = "Cancel";
 "AV_JOURNALING_STEP_FINISH_LATER_TITLE" = "You’ve stopped this task";
-"AV_JOURNALING_STEP_FINISH_LATER_TEXT" = "You finished %lu of %lu journal entries. You can finish the remaining entry when you're ready.";
+"AV_JOURNALING_STEP_FINISH_LATER_TEXT" = "You finished %lu of %lu journal entries. You can finish the remaining entry when you’re ready.";
 
 /* ORKRecordButton */
 "PLAY" = "Play";
