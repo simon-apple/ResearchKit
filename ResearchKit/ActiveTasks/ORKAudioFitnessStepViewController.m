@@ -46,7 +46,7 @@
 
 @interface ORKAudioFitnessStepViewController ()
 @property (nonatomic) BOOL appHasAudioBackgroundMode;
-@property (nonatomic) NSMutableSet<ORKVocalCue*> *playedCues;
+@property (nonatomic) NSMutableSet<ORKVocalCue *> *playedCues;
 @end
 
 @implementation ORKAudioFitnessStepViewController
@@ -111,7 +111,7 @@
 }
 
 - (BOOL)appHasAudioBackgroundMode {
-    NSArray<NSString*> *backgroundModes = (NSArray<NSString*> *)[[NSBundle mainBundle] objectForInfoDictionaryKey:@"UIBackgroundModes"];
+    NSArray<NSString *> *backgroundModes = (NSArray<NSString *> *)[[NSBundle mainBundle] objectForInfoDictionaryKey:@"UIBackgroundModes"];
     BOOL hasBackgroundAudioMode = [backgroundModes containsObject:@"audio"];
     return hasBackgroundAudioMode;
 }
