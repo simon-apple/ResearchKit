@@ -32,6 +32,54 @@
 #import "ORKAudioFitnessStepViewController.h"
 #import "ORKHelpers_Internal.h"
 
+@implementation ORKVocalCue
+
+- (instancetype)initWithTime:(NSTimeInterval)time
+                  spokenText:(NSString *)spokenText {
+    self = [super init];
+    if (self) {
+        self.time = time;
+        self.spokenText = spokenText;
+    }
+    return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)coder
+{
+    if (self) {
+        ORK_DECODE_DOUBLE(coder, time);
+        ORK_DECODE_OBJ(coder, spokenText);
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder
+{
+    ORK_ENCODE_DOUBLE(coder, time);
+    ORK_ENCODE_OBJ(coder, spokenText);
+}
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
+- (instancetype)copyWithZone:(NSZone *)zone {
+    return [[ORKVocalCue alloc] initWithTime:self.time spokenText:self.spokenText];
+}
+
+- (BOOL)isEqual:(id)other
+{
+    if ([self class] != [other class]) {
+        return NO;
+    }
+
+    __typeof(self) castObject = other;
+    return (self.time == castObject.time &&
+            ORKEqualObjects(self.spokenText, castObject.spokenText));
+}
+
+@end
+
 @implementation ORKAudioFitnessStep
 
 - (Class)stepViewControllerClass {
@@ -41,7 +89,8 @@
 - (instancetype)initWithIdentifier:(NSString *)identifier
              audioBundleIdentifier:(NSString *)bundleIdentifier
                  audioResourceName:(NSString *)audioResourceName
-                audioFileExtension:(NSString *)audioFileExtension {
+                audioFileExtension:(NSString *)audioFileExtension
+                         vocalCues:(nullable NSArray<ORKVocalCue *> *)vocalCues {
     self = [super initWithIdentifier:identifier];
     if (self) {
         self.stepDuration = 180;
@@ -49,6 +98,7 @@
         self.audioBundleIdentifier = bundleIdentifier;
         self.audioResourceName = audioResourceName;
         self.audioFileExtension = audioFileExtension;
+        self.vocalCues = vocalCues == nil ? [NSArray new] : vocalCues;
     }
     return self;
 }
@@ -60,6 +110,7 @@
         ORK_DECODE_OBJ(coder, audioBundleIdentifier);
         ORK_DECODE_OBJ(coder, audioResourceName);
         ORK_DECODE_OBJ(coder, audioFileExtension);
+        ORK_DECODE_OBJ_ARRAY(coder, vocalCues, ORKVocalCue);
     }
     return self;
 }
@@ -70,6 +121,7 @@
     ORK_ENCODE_OBJ(coder, audioBundleIdentifier);
     ORK_ENCODE_OBJ(coder, audioResourceName);
     ORK_ENCODE_OBJ(coder, audioFileExtension);
+    ORK_ENCODE_OBJ(coder, vocalCues);
 }
 
 + (BOOL)supportsSecureCoding {
@@ -81,6 +133,7 @@
     step.audioBundleIdentifier = [self.audioBundleIdentifier copy];
     step.audioResourceName = [self.audioResourceName copy];
     step.audioFileExtension = [self.audioFileExtension copy];
+    step.vocalCues = [self.vocalCues copy];
     return step;
 }
 
@@ -92,12 +145,13 @@
     return (superIsEqual &&
             ORKEqualObjects(self.audioBundleIdentifier, castObject.audioBundleIdentifier) &&
             ORKEqualObjects(self.audioResourceName, castObject.audioResourceName) &&
-            ORKEqualObjects(self.audioFileExtension, castObject.audioFileExtension));
+            ORKEqualObjects(self.audioFileExtension, castObject.audioFileExtension) &&
+            ORKEqualObjects(self.vocalCues, castObject.vocalCues));
 }
 
 - (NSUInteger)hash
 {
-    return super.hash ^ self.audioBundleIdentifier.hash ^ self.audioResourceName.hash ^ self.audioFileExtension.hash;
+    return super.hash ^ self.audioBundleIdentifier.hash ^ self.audioResourceName.hash ^ self.audioFileExtension.hash ^ self.vocalCues.hash;
 }
 
 @end
