@@ -53,14 +53,13 @@
 #import "ORKTaskViewController_Internal.h"
 #import "ORKContext.h"
 
+static const CGFloat FramesToSkipTotal = 5.0;
 
 @interface ORKAVJournalingStepViewController () <AVCaptureDataOutputSynchronizerDelegate, ARSCNViewDelegate, ARSessionDelegate, ORKAVJournalingSessionHelperDelegate, AVCaptureAudioDataOutputSampleBufferDelegate>
 @end
 
 @implementation ORKAVJournalingStepViewController {
     NSMutableArray *_results;
-    
-    NSInteger _retryCount;
     
     ORKAVJournalingStepContentView *_contentView;
     ORKAVJournalingStep *_avJournalingStep;
@@ -79,14 +78,16 @@
     
     ORKAVJournalingARSessionHelper *_arSessionHelper;
     ORKAVJournalingSessionHelper *_sessionHelper;
+    
+    int _skippedFrameTotal;
 }
 
 - (instancetype)initWithStep:(ORKStep *)step {
     self = [super initWithStep:step];
     
     if (self) {
-        _retryCount = 0;
         _avJournalingStep = (ORKAVJournalingStep *)step;
+        _skippedFrameTotal = 0;
     }
     
     return self;
@@ -386,9 +387,13 @@
 
 - (void)faceDetected:(BOOL)faceDetected faceBounds:(CGRect)faceBounds originalSize:(CGSize)originalSize {
     if (_contentView) {
-        dispatch_async(dispatch_get_main_queue(), ^(void) {
-            [_contentView setFaceDetected:faceDetected faceBound:faceBounds originalSize:originalSize];
-        });
+        if (_skippedFrameTotal > FramesToSkipTotal) {
+            dispatch_async(dispatch_get_main_queue(), ^(void) {
+                [_contentView setFaceDetected:faceDetected faceBound:faceBounds originalSize:originalSize];
+            });
+        } else {
+            _skippedFrameTotal += 1;
+        }
     }
 }
 
