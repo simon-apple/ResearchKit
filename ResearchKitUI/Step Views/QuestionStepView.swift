@@ -92,7 +92,7 @@ public struct QuestionStepView: View {
                         if selected {
                             
                             let choiceResult = ORKChoiceQuestionResult(identifier: step.identifier)
-                            choiceResult.choiceAnswers = [textChoice]
+                            choiceResult.choiceAnswers = [textChoice.value]
                             choiceResult.startDate = result.startDate
                             choiceResult.endDate = Date()
                             result.results = [choiceResult]
