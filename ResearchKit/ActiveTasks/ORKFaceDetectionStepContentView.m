@@ -443,7 +443,7 @@ static const CGFloat FaceDetectionRecalibrationTimeLimit = 30.0;
     
     CGFloat newHeight = _cameraView.bounds.size.height;
     CGFloat heightAdjustment = originalSize.height / newHeight;
-
+    
     CGFloat faceOriginX = faceRect.origin.x / widthAdjustment;
     CGFloat faceOriginY = faceRect.origin.y / heightAdjustment;
     
@@ -452,6 +452,10 @@ static const CGFloat FaceDetectionRecalibrationTimeLimit = 30.0;
     
     CGFloat faceCenterX = faceOriginX + (faceRectWidth / 2);
     CGFloat faceCenterY = faceOriginY + (faceRectHeight / 2);
+    
+    if (_showingForRecalibration) {
+        faceCenterY -= ((newHeight - _calibrationBoxImageView.frame.size.height) / 2);
+    }
        
     return CGPointMake(faceCenterX, faceCenterY);
 }
