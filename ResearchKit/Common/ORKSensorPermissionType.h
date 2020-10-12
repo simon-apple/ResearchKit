@@ -34,6 +34,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 API_AVAILABLE(ios(14.0))
+ORK_CLASS_AVAILABLE
 @interface ORKSensorPermissionType : ORKPermissionType
 
 + (instancetype)new NS_UNAVAILABLE;
