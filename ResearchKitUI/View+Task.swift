@@ -38,9 +38,15 @@ public extension View {
     func task(isPresented: Binding<Bool>, taskManager: TaskManager) -> some View {
 
         if #available(watchOS 7.0, *) {
-            fullScreenCover(isPresented: isPresented) { TaskView(taskManager: taskManager) }
+            fullScreenCover(
+                isPresented: isPresented,
+                onDismiss: { taskManager.finishReason = .discarded },
+                content: { TaskView(taskManager: taskManager) })
         } else {
-            sheet(isPresented: isPresented) { TaskView(taskManager: taskManager) }
+            sheet(
+                isPresented: isPresented,
+                onDismiss: { taskManager.finishReason = .discarded },
+                content: { TaskView(taskManager: taskManager) })
         }
     }
 
@@ -51,13 +57,15 @@ public extension View {
     some View where Content: View {
 
         if #available(watchOS 7.0, *) {
-            fullScreenCover(isPresented: isPresented) {
-                TaskView(taskManager: taskManager, content)
-            }
+            fullScreenCover(
+                isPresented: isPresented,
+                onDismiss: { taskManager.finishReason = .discarded },
+                content: { TaskView(taskManager: taskManager, content) })
         } else {
-            sheet(isPresented: isPresented) {
-                TaskView(taskManager: taskManager, content)
-            }
+            sheet(
+                isPresented: isPresented,
+                onDismiss: { taskManager.finishReason = .discarded },
+                content: { TaskView(taskManager: taskManager, content) })
         }
     }
 }
