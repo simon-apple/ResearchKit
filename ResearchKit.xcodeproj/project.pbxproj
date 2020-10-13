@@ -43,6 +43,8 @@
 		03057F492518ECDC00C4EC5B /* ORKAudioStepViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 03057F482518ECDC00C4EC5B /* ORKAudioStepViewControllerTests.m */; };
 		031A0FC124CF4ECD000E4455 /* ORKSensorPermissionType.h in Headers */ = {isa = PBXBuildFile; fileRef = 031A0FBF24CF4ECD000E4455 /* ORKSensorPermissionType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		031A0FC224CF4ECD000E4455 /* ORKSensorPermissionType.m in Sources */ = {isa = PBXBuildFile; fileRef = 031A0FC024CF4ECD000E4455 /* ORKSensorPermissionType.m */; };
+		036B1E8D25351BAD008483DF /* ORKMotionActivityPermissionType.h in Headers */ = {isa = PBXBuildFile; fileRef = 036B1E8B25351BAD008483DF /* ORKMotionActivityPermissionType.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		036B1E8E25351BAD008483DF /* ORKMotionActivityPermissionType.m in Sources */ = {isa = PBXBuildFile; fileRef = 036B1E8C25351BAD008483DF /* ORKMotionActivityPermissionType.m */; };
 		03EDD58024CA6B1D006245E9 /* ORKNotificationPermissionType.h in Headers */ = {isa = PBXBuildFile; fileRef = 03EDD57E24CA6B1D006245E9 /* ORKNotificationPermissionType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		03EDD58124CA6B1D006245E9 /* ORKNotificationPermissionType.m in Sources */ = {isa = PBXBuildFile; fileRef = 03EDD57F24CA6B1D006245E9 /* ORKNotificationPermissionType.m */; };
 		106FF29E1B663FCE004EACF2 /* ORKHolePegTestPlaceStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 106FF29C1B663FCE004EACF2 /* ORKHolePegTestPlaceStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -1024,6 +1026,8 @@
 		03057F482518ECDC00C4EC5B /* ORKAudioStepViewControllerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKAudioStepViewControllerTests.m; sourceTree = "<group>"; };
 		031A0FBF24CF4ECD000E4455 /* ORKSensorPermissionType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKSensorPermissionType.h; sourceTree = "<group>"; };
 		031A0FC024CF4ECD000E4455 /* ORKSensorPermissionType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKSensorPermissionType.m; sourceTree = "<group>"; };
+		036B1E8B25351BAD008483DF /* ORKMotionActivityPermissionType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKMotionActivityPermissionType.h; sourceTree = "<group>"; };
+		036B1E8C25351BAD008483DF /* ORKMotionActivityPermissionType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKMotionActivityPermissionType.m; sourceTree = "<group>"; };
 		03EDD57E24CA6B1D006245E9 /* ORKNotificationPermissionType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKNotificationPermissionType.h; sourceTree = "<group>"; };
 		03EDD57F24CA6B1D006245E9 /* ORKNotificationPermissionType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKNotificationPermissionType.m; sourceTree = "<group>"; };
 		05F3765923C797930068E166 /* ResearchKit.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = ResearchKit.xctestplan; sourceTree = "<group>"; };
@@ -2554,6 +2558,8 @@
 			children = (
 				51E03D6124919711008F8406 /* ORKPermissionType.h */,
 				51E03D6224919711008F8406 /* ORKPermissionType.m */,
+				036B1E8B25351BAD008483DF /* ORKMotionActivityPermissionType.h */,
+				036B1E8C25351BAD008483DF /* ORKMotionActivityPermissionType.m */,
 				03EDD57E24CA6B1D006245E9 /* ORKNotificationPermissionType.h */,
 				03EDD57F24CA6B1D006245E9 /* ORKNotificationPermissionType.m */,
 				031A0FBF24CF4ECD000E4455 /* ORKSensorPermissionType.h */,
@@ -4188,6 +4194,7 @@
 				86C40D781A8D7C5C00081FAC /* ORKScaleSlider.h in Headers */,
 				BA0AA6981EAEC0B600671ACE /* ORKStroopStepViewController.h in Headers */,
 				861D2AE81B840991008C4CD0 /* ORKTimedWalkStep.h in Headers */,
+				036B1E8D25351BAD008483DF /* ORKMotionActivityPermissionType.h in Headers */,
 				5119879F245FE68D004FC2C7 /* ORKUSDZModelManager.h in Headers */,
 				86C40D241A8D7C5C00081FAC /* ORKFormStepViewController.h in Headers */,
 				5D1CE45F23FDE7BD004CB416 /* ORKVolumeCalibrationStep.h in Headers */,
@@ -5218,6 +5225,7 @@
 				51BF30BF247B330A00E2E669 /* ORKIconButton.m in Sources */,
 				03057F3E2515772E00C4EC5B /* ORKAudioFitnessStep.m in Sources */,
 				86C40D081A8D7C5C00081FAC /* ORKCountdownLabel.m in Sources */,
+				036B1E8E25351BAD008483DF /* ORKMotionActivityPermissionType.m in Sources */,
 				86C40E121A8D7C5C00081FAC /* ORKConsentSceneViewController.m in Sources */,
 				D442397E1AF17F7600559D96 /* ORKImageCaptureStepViewController.m in Sources */,
 				86C40CAE1A8D7C5C00081FAC /* ORKRecorder.m in Sources */,

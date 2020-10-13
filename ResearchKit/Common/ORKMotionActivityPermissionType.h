@@ -28,35 +28,12 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@import Foundation;
-
 #import <ResearchKit/ORKDefines.h>
-
+#import <ResearchKit/ORKPermissionType.h>
 NS_ASSUME_NONNULL_BEGIN
 
-@class ORKHealthKitPermissionType;
-@class ORKNotificationPermissionType;
-@class ORKSensorPermissionType;
-@class ORKMotionActivityPermissionType;
-@class ORKRequestPermissionView;
-@class HKSampleType, HKObjectType;
-
-typedef NS_OPTIONS(NSUInteger, UNAuthorizationOptions);
-typedef NSString * SRSensor NS_TYPED_ENUM API_AVAILABLE(ios(14.0));
-
 ORK_CLASS_AVAILABLE
-@interface ORKPermissionType : NSObject
-
-@property (nonatomic) ORKRequestPermissionView *cardView;
-
-+ (ORKHealthKitPermissionType *)healthKitPermissionTypeWithSampleTypesToWrite:(nullable NSSet<HKSampleType *> *)sampleTypesToWrite
-                                                            objectTypesToRead:(nullable NSSet<HKObjectType *> *)objectTypesToRead;
-
-+ (ORKNotificationPermissionType *) notificationPermissionType:(UNAuthorizationOptions)options;
-
-+ (ORKSensorPermissionType *) sensorPermissionType:(NSSet<SRSensor>*)sensors API_AVAILABLE(ios(14.0));
-
-+ (ORKMotionActivityPermissionType *) deviceMotionPermissionType;
+@interface ORKMotionActivityPermissionType : ORKPermissionType
 
 @end
 

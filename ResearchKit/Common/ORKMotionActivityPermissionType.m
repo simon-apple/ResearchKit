@@ -28,78 +28,66 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SensorKit/SensorKit.h>
-
-#import "ORKSensorPermissionType.h"
+#import "ORKMotionActivityPermissionType.h"
 #import "ORKRequestPermissionView.h"
 #import "ORKHelpers_Internal.h"
 
-@interface ORKSensorPermissionType ()
+@import CoreMotion;
 
-@property NSSet<SRSensor> *sensors;
-
+@interface ORKMotionActivityPermissionType()
+@property (nonatomic) CMMotionActivityManager *activityManager;
 @end
 
-@implementation ORKSensorPermissionType {
-    NSSet<SRSensorReader *> *_readers;
-}
+@implementation ORKMotionActivityPermissionType
 
 + (instancetype)new {
-    ORKThrowMethodUnavailableException();
+    return [[ORKMotionActivityPermissionType alloc] init];
 }
 
-- (instancetype)init {
-    ORKThrowMethodUnavailableException();
-}
-
-- (instancetype)initWithSensors:(nonnull NSSet<SRSensor> *)sensors {
-    NSAssert(sensors.count != 0, @"Sensors set must not be empty!");
+- (instancetype)init
+{
     self = [super init];
     if (self) {
-        self.sensors = sensors;
-        NSMutableSet *readers = [[NSMutableSet alloc] init];
-        for (SRSensor sensor in sensors) {
-            SRSensorReader *reader = [[SRSensorReader alloc] initWithSensor:sensor];
-            [readers addObject:reader];
-        }
-        _readers = [readers copy];
         [self setupCardView];
     }
     return self;
 }
 
-- (void)setupCardView {
-    UIImage *image = [UIImage systemImageNamed:@"gauge"];
+- (CMMotionActivityManager *)activityManager {
+    if (!_activityManager) {
+        _activityManager = [[CMMotionActivityManager alloc] init];
+    }
+    return _activityManager;
+}
 
-    self.cardView = [[ORKRequestPermissionView alloc] initWithIconImage:image
-                                                                  title:ORKLocalizedString(@"REQUEST_SENSOR_STEP_VIEW_TITLE", nil)
-                                                             detailText:ORKLocalizedString(@"REQUEST_SENSOR_STEP_VIEW_DESCRIPTION", nil)];
+- (void)setupCardView {
+    UIImage *image;
+
+    if (@available(iOS 14.0, *)) {
+        image = [UIImage systemImageNamed:@"figure.walk"];
+    }
+
+    self.cardView = [[ORKRequestPermissionView alloc]
+                     initWithIconImage:image
+                     title:ORKLocalizedString(@"REQUEST_MOTION_ACTIVITY_STEP_VIEW_TITLE", nil)
+                     detailText:ORKLocalizedString(@"REQUEST_MOTION_ACTIVITY_STEP_VIEW_DESCRIPTION", nil)];
 
     [self.cardView.requestPermissionButton setTitle:ORKLocalizedString(@"REQUEST_PERMISSION_BUTTON_STATE_DEFAULT", nil) forState:UIControlStateNormal];
     [self.cardView.requestPermissionButton setTitle:ORKLocalizedString(@"REQUEST_PERMISSION_BUTTON_STATE_CONNECTED", nil) forState:UIControlStateDisabled];
     [self.cardView.requestPermissionButton addTarget:self action:@selector(requestPermissionButtonPressed) forControlEvents:UIControlEventTouchUpInside];
-    [self.cardView updateIconTintColor:[UIColor systemGreenColor]];
+    [self.cardView updateIconTintColor:[UIColor systemOrangeColor]];
 
-    [self setRequestPermissionRequested:[self hasRequestedAllSensors]];
+    [self setRequestPermissionRequested:CMMotionActivityManager.authorizationStatus != CMAuthorizationStatusNotDetermined];
 }
 
-- (BOOL)hasRequestedAllSensors {
-    for (SRSensorReader *reader in _readers) {
-        if (reader.authorizationStatus == SRAuthorizationStatusNotDetermined) {
-            return NO;
-        }
-    }
-    return YES;
-}
-
+// There is no explicit API for requesting device motion permission.
+// It is requested automatically when you try read data for the first time.
+// This method tries to read data in order to trigger the permission dialogue.
 - (void)requestPermissionButtonPressed {
-    [SRSensorReader requestAuthorizationForSensors:self.sensors completion:^(NSError * _Nullable error) {
-        if (error) {
-            ORK_Log_Error("Error requesting sensor permissions: %@", error);
-            return;
-        }
-        [self setRequestPermissionRequested:YES];
-    }];
+    [self.activityManager startActivityUpdatesToQueue:[NSOperationQueue mainQueue]
+                                          withHandler:^(CMMotionActivity * _Nullable activity) {}];
+    [self.activityManager stopActivityUpdates];
+    [self setRequestPermissionRequested:YES];
 }
 
 - (void)setRequestPermissionRequested:(BOOL)state {

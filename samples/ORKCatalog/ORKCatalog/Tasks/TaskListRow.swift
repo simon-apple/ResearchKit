@@ -1421,6 +1421,8 @@ enum TaskListRow: Int, CustomStringConvertible {
 
         let notificationsPermissionType = ORKNotificationPermissionType(authorizationOptions: [.alert, .badge, .sound])
 
+        let motionActivityPermissionType = ORKMotionActivityPermissionType()
+
         let healthKitTypesToWrite: Set<HKSampleType> = [
             HKObjectType.quantityType(forIdentifier: .bodyMassIndex)!,
             HKObjectType.quantityType(forIdentifier: .activeEnergyBurned)!,
@@ -1437,7 +1439,7 @@ enum TaskListRow: Int, CustomStringConvertible {
 
         let requestPermissionsStep = ORKRequestPermissionsStep(
             identifier: String(describing: Identifier.requestPermissionsStep),
-            permissionTypes: [notificationsPermissionType, healthKitPermissionType])
+            permissionTypes: [notificationsPermissionType, motionActivityPermissionType, healthKitPermissionType])
 
         requestPermissionsStep.title = "Health Data Request"
         requestPermissionsStep.text = "Please review the health data types below and enable sharing to contribute to the study."
