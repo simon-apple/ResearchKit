@@ -1,0 +1,100 @@
+//
+/*
+ Copyright (c) 2020, Apple Inc. All rights reserved.
+ 
+ Redistribution and use in source and binary forms, with or without modification,
+ are permitted provided that the following conditions are met:
+ 
+ 1.  Redistributions of source code must retain the above copyright notice, this
+ list of conditions and the following disclaimer.
+ 
+ 2.  Redistributions in binary form must reproduce the above copyright notice,
+ this list of conditions and the following disclaimer in the documentation and/or
+ other materials provided with the distribution.
+ 
+ 3.  Neither the name of the copyright holder(s) nor the names of any contributors
+ may be used to endorse or promote products derived from this software without
+ specific prior written permission. No license is granted to the trademarks of
+ the copyright holders even if such marks are included in this software.
+ 
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
+ FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+#import "ORKDeviceMotionPermissionType.h"
+#import "ORKRequestPermissionView.h"
+#import "ORKHelpers_Internal.h"
+
+@import CoreMotion;
+
+@interface ORKDeviceMotionPermissionType()
+@property (nonatomic) CMMotionActivityManager *activityManager;
+@end
+
+@implementation ORKDeviceMotionPermissionType
+
++ (instancetype)new {
+    return [[ORKDeviceMotionPermissionType alloc] init];
+}
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        [self setupCardView];
+    }
+    return self;
+}
+
+- (CMMotionActivityManager *)activityManager {
+    if (!_activityManager) {
+        _activityManager = [[CMMotionActivityManager alloc] init];
+    }
+    return _activityManager;
+}
+
+- (void)setupCardView {
+    UIImage *image;
+
+    if (@available(iOS 14.0, *)) {
+        image = [UIImage systemImageNamed:@"figure.walk"];
+    }
+
+    self.cardView = [[ORKRequestPermissionView alloc]
+                     initWithIconImage:image
+                     title:ORKLocalizedString(@"REQUEST_DEVICE_MOTION_STEP_VIEW_TITLE", nil)
+                     detailText:ORKLocalizedString(@"REQUEST_DEVICE_MOTION_STEP_VIEW_DESCRIPTION", nil)];
+
+    [self.cardView.requestPermissionButton setTitle:ORKLocalizedString(@"REQUEST_DEVICE_MOTION_STEP_BUTTON_STATE_DEFAULT", nil) forState:UIControlStateNormal];
+    [self.cardView.requestPermissionButton setTitle:ORKLocalizedString(@"REQUEST_DEVICE_MOTION_STEP_BUTTON_STATE_CONNECTED", nil) forState:UIControlStateDisabled];
+    [self.cardView.requestPermissionButton addTarget:self action:@selector(requestPermissionButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+    [self.cardView updateIconTintColor:[UIColor systemOrangeColor]];
+
+    [self setRequestPermissionRequested:CMMotionActivityManager.authorizationStatus != CMAuthorizationStatusNotDetermined];
+}
+
+// There is no explicit API for requesting device motion permission.
+// It is requested automatically when you try read data for the first time.
+// This method tries to read data in order to trigger the permission dialogue.
+- (void)requestPermissionButtonPressed {
+    [self.activityManager startActivityUpdatesToQueue:[NSOperationQueue mainQueue]
+                                          withHandler:^(CMMotionActivity * _Nullable activity) {}];
+    [self.activityManager stopActivityUpdates];
+    [self setRequestPermissionRequested:YES];
+}
+
+- (void)setRequestPermissionRequested:(BOOL)state {
+    [self.cardView setEnableContinueButton:state];
+    [self.cardView.requestPermissionButton setEnabled:!state];
+    [self.cardView.requestPermissionButton setBackgroundColor: state ? [UIColor grayColor] : [UIColor systemBlueColor]];
+}
+
+@end
