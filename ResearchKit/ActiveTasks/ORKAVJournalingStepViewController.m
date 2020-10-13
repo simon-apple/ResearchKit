@@ -352,7 +352,7 @@ static const CGFloat FramesToSkipTotal = 5.0;
     videoJournalResult.endDate = now;
     videoJournalResult.fileNameArray = [_fileNames copy];
     videoJournalResult.cameraIntrinsics = [_sessionHelper.cameraIntrinsicsArray copy];
-    videoJournalResult.recalibrationStartTimestamps = [_contentView fetchRecalibrationTimeStamps];
+    videoJournalResult.recalibrationTimeStamps = [_contentView fetchRecalibrationTimeStamps];
     
     [results addObject:videoJournalResult];
     

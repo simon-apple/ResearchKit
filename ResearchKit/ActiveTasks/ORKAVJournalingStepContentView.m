@@ -423,10 +423,10 @@ static const CGFloat ContentLeftRightPadding = 36.0;
             _faceDetectionContentView.layer.opacity = 1.0;
             
             [self setNeedsLayout];
-        } completion:^(BOOL finished) {
-            _currentStartRecalibrationTimeStamp = [NSDateFormatter localizedStringFromDate:[NSDate date]
-                                                                                 dateStyle:NSDateFormatterShortStyle
-                                                                                 timeStyle:NSDateFormatterFullStyle];
+        } completion:^(BOOL finished) {            
+            NSDateFormatter *dfm = ORKResultDateTimeFormatter();
+            _currentStartRecalibrationTimeStamp = [dfm stringFromDate:[NSDate date]];
+            
             [_faceDetectionContentView layoutSubviews];
             
             //next button should say disabled while recalibration view is presented
@@ -452,9 +452,9 @@ static const CGFloat ContentLeftRightPadding = 36.0;
 
                 [self setNeedsLayout];
             } completion:^(BOOL finished) {
-                _currentEndRecalibrationTimeStamp = [NSDateFormatter localizedStringFromDate:[NSDate date]
-                                                                                   dateStyle:NSDateFormatterShortStyle
-                                                                                   timeStyle:NSDateFormatterFullStyle];
+                NSDateFormatter *dfm = ORKResultDateTimeFormatter();
+                _currentEndRecalibrationTimeStamp = [dfm stringFromDate:[NSDate date]];
+                
                 [self storeRecalibrationTimeStamps];
 
                 [_faceDetectionContentView cleanUpView];

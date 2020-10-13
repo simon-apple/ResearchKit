@@ -36,7 +36,7 @@ ORK_CLASS_AVAILABLE
 @interface ORKAVJournalingResult : ORKFileResult
 
 @property (nonatomic, nullable, copy) NSArray<NSString *> *fileNameArray;
-@property (nonatomic, nullable, copy) NSArray<NSDictionary *> *recalibrationStartTimestamps;
+@property (nonatomic, nullable, copy) NSArray<NSDictionary *> *recalibrationTimeStamps;
 @property (nonatomic, nullable, copy) NSArray<NSArray *> *cameraIntrinsics;
 
 @end
