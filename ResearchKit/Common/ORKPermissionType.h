@@ -37,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class ORKHealthKitPermissionType;
 @class ORKNotificationPermissionType;
 @class ORKSensorPermissionType;
-@class ORKDeviceMotionPermissionType;
+@class ORKMotionActivityPermissionType;
 @class ORKRequestPermissionView;
 @class HKSampleType, HKObjectType;
 
@@ -56,7 +56,7 @@ ORK_CLASS_AVAILABLE
 
 + (ORKSensorPermissionType *) sensorPermissionType:(NSSet<SRSensor>*)sensors API_AVAILABLE(ios(14.0));
 
-+ (ORKDeviceMotionPermissionType *) deviceMotionPermissionType;
++ (ORKMotionActivityPermissionType *) deviceMotionPermissionType;
 
 @end
 

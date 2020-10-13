@@ -28,20 +28,20 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "ORKDeviceMotionPermissionType.h"
+#import "ORKMotionActivityPermissionType.h"
 #import "ORKRequestPermissionView.h"
 #import "ORKHelpers_Internal.h"
 
 @import CoreMotion;
 
-@interface ORKDeviceMotionPermissionType()
+@interface ORKMotionActivityPermissionType()
 @property (nonatomic) CMMotionActivityManager *activityManager;
 @end
 
-@implementation ORKDeviceMotionPermissionType
+@implementation ORKMotionActivityPermissionType
 
 + (instancetype)new {
-    return [[ORKDeviceMotionPermissionType alloc] init];
+    return [[ORKMotionActivityPermissionType alloc] init];
 }
 
 - (instancetype)init

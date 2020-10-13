@@ -31,7 +31,7 @@
 #import "ORKHealthKitPermissionType.h"
 #import "ORKNotificationPermissionType.h"
 #import "ORKSensorPermissionType.h"
-#import "ORKDeviceMotionPermissionType.h"
+#import "ORKMotionActivityPermissionType.h"
 #import "ORKHelpers_Internal.h"
 #import "ORKPermissionType.h"
 
@@ -50,8 +50,8 @@
     return [[ORKSensorPermissionType alloc] initWithSensors:sensors];
 }
 
-+ (ORKDeviceMotionPermissionType *)deviceMotionPermissionType {
-    return [[ORKDeviceMotionPermissionType alloc] init];
++ (ORKMotionActivityPermissionType *)deviceMotionPermissionType {
+    return [[ORKMotionActivityPermissionType alloc] init];
 }
 @end
 

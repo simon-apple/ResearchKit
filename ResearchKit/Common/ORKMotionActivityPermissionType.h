@@ -33,7 +33,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 ORK_CLASS_AVAILABLE
-@interface ORKDeviceMotionPermissionType : ORKPermissionType
+@interface ORKMotionActivityPermissionType : ORKPermissionType
 
 @end
 
