@@ -755,31 +755,28 @@
 /* Review Step */
 "REVIEW_STEP_PAGE" = "Page";
 
+/* Request Permission Step */
+"REQUEST_PERMISSION_BUTTON_STATE_DEFAULT" = "Review Request";
+"REQUEST_PERMISSION_BUTTON_STATE_CONNECTED" = "Requested";
+"REQUEST_PERMISSION_BUTTON_STATE_ERROR" = "Encountered error";
+
 /* Request Health Data Step */
 "REQUEST_HEALTH_DATA_STEP_VIEW_TITLE" = "Health App Data";
 "REQUEST_HEALTH_DATA_STEP_VIEW_DESCRIPTION" = "The study is requesting data from the Health app";
-"REQUEST_HEALTH_DATA_STEP_BUTTON_STATE_DEFAULT" = "Review Request";
-"REQUEST_HEALTH_DATA_STEP_BUTTON_STATE_CONNECTED" = "Requested";
 "REQUEST_HEALTH_DATA_STEP_BUTTON_STATE_NOT_SUPPORTED" = "HealthKit not supported by this device";
 "REQUEST_HEALTH_DATA_STEP_BUTTON_STATE_ERROR" = "Encountered error";
 
 /* Request Notification Permission Step */
 "REQUEST_NOTIFICATIONS_STEP_VIEW_TITLE" = "Notifications";
 "REQUEST_NOTIFICATIONS_STEP_VIEW_DESCRIPTION" = "The study is requesting to send you notifications";
-"REQUEST_NOTIFICATIONS_STEP_BUTTON_STATE_DEFAULT" = "Review Request";
-"REQUEST_NOTIFICATIONS_STEP_BUTTON_STATE_CONNECTED" = "Requested";
 
 /* Request Sensor Permission Step */
 "REQUEST_SENSOR_STEP_VIEW_TITLE" = "Sensor Data";
 "REQUEST_SENSOR_STEP_VIEW_DESCRIPTION" = "The study is requesting access to sensor data";
-"REQUEST_SENSOR_STEP_BUTTON_STATE_DEFAULT" = "Review Request";
-"REQUEST_SENSOR_STEP_BUTTON_STATE_CONNECTED" = "Requested";
 
 /* Request Device Motion Permission Step */
 "REQUEST_MOTION_ACTIVITY_STEP_VIEW_TITLE" = "Device Motion";
 "REQUEST_MOTION_ACTIVITY_STEP_VIEW_DESCRIPTION" = "The study is requesting to access device motion";
-"REQUEST_MOTION_ACTIVITY_STEP_BUTTON_STATE_DEFAULT" = "Review Request";
-"REQUEST_MOTION_ACTIVITY_STEP_BUTTON_STATE_CONNECTED" = "Requested";
 
 /* Accessibility */
 "AX_BUTTON_BACK" = "Back";

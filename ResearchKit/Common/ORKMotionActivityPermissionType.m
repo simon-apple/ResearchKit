@@ -72,8 +72,8 @@
                      title:ORKLocalizedString(@"REQUEST_MOTION_ACTIVITY_STEP_VIEW_TITLE", nil)
                      detailText:ORKLocalizedString(@"REQUEST_MOTION_ACTIVITY_STEP_VIEW_DESCRIPTION", nil)];
 
-    [self.cardView.requestPermissionButton setTitle:ORKLocalizedString(@"REQUEST_MOTION_ACTIVITY_STEP_BUTTON_STATE_DEFAULT", nil) forState:UIControlStateNormal];
-    [self.cardView.requestPermissionButton setTitle:ORKLocalizedString(@"REQUEST_MOTION_ACTIVITY_STEP_BUTTON_STATE_CONNECTED", nil) forState:UIControlStateDisabled];
+    [self.cardView.requestPermissionButton setTitle:ORKLocalizedString(@"REQUEST_PERMISSION_BUTTON_STATE_DEFAULT", nil) forState:UIControlStateNormal];
+    [self.cardView.requestPermissionButton setTitle:ORKLocalizedString(@"REQUEST_PERMISSION_BUTTON_STATE_CONNECTED", nil) forState:UIControlStateDisabled];
     [self.cardView.requestPermissionButton addTarget:self action:@selector(requestPermissionButtonPressed) forControlEvents:UIControlEventTouchUpInside];
     [self.cardView updateIconTintColor:[UIColor systemOrangeColor]];
 

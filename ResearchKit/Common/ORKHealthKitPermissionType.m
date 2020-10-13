@@ -110,12 +110,12 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKRequestPermissionsButtonState) {
     dispatch_async(dispatch_get_main_queue(), ^{
         switch (state) {
             case ORKRequestPermissionsButtonStateDefault:
-                [self updateRequestButtonWithText:ORKLocalizedString(@"REQUEST_HEALTH_DATA_STEP_BUTTON_STATE_DEFAULT", nil) backgroundColor:[UIColor systemBlueColor]];
+                [self updateRequestButtonWithText:ORKLocalizedString(@"REQUEST_PERMISSION_BUTTON_STATE_DEFAULT", nil) backgroundColor:[UIColor systemBlueColor]];
                 [self setEnableContinue:NO];
                 break;
                 
             case ORKRequestPermissionsButtonStateConnected:
-                [self updateRequestButtonWithText:ORKLocalizedString(@"REQUEST_HEALTH_DATA_STEP_BUTTON_STATE_CONNECTED", nil) backgroundColor:[UIColor grayColor]];
+                [self updateRequestButtonWithText:ORKLocalizedString(@"REQUEST_PERMISSION_BUTTON_STATE_CONNECTED", nil) backgroundColor:[UIColor grayColor]];
                 [self setEnableContinue:YES];
                 break;
                 
