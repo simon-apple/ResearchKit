@@ -39,6 +39,8 @@ NS_ASSUME_NONNULL_BEGIN
 ORK_CLASS_AVAILABLE
 @interface ORKFitnessStep : ORKActiveStep
 
+@property (nonatomic, copy) NSDictionary *userInfo;
+
 @end
 
 NS_ASSUME_NONNULL_END

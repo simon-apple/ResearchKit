@@ -1440,6 +1440,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                      return [[ORKFitnessStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
                  },
                  (@{
+                    PROPERTY(userInfo, NSDictionary, NSObject, YES, nil, nil)
                     })),
            ENTRY(ORKVocalCue,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
