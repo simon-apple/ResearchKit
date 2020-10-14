@@ -133,9 +133,11 @@ static NSMutableDictionary *colors() {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         UIColor *backgroundColor = [UIColor colorWithRed:239.0 / 255.0 green:239.0 / 255.0 blue:244.0 / 255.0 alpha:1.0];
+        UIColor *fillColor = ORKRGB(0xD7D7D7);
 #if TARGET_OS_IOS
         if (@available(iOS 13.0, *)) {
             backgroundColor = [UIColor secondarySystemBackgroundColor];
+            fillColor = UIColor.quaternarySystemFillColor;
         }
 #endif
 
@@ -159,7 +161,7 @@ static NSMutableDictionary *colors() {
                     ORKNavigationContainerShadowColorKey: [UIColor blackColor],
                     ORKProgressLabelColorKey: [UIColor colorWithRed:142.0/255.0 green:142.0/255.0 blue:142.0/255.0 alpha:1.0],
                     ORKiPadBackgroundViewColorKey: [UIColor colorWithRed:249.0 / 255.0 green:249.0 / 255.0 blue:251.0 / 255.0 alpha:1.0],
-                    ORKTopContentImageViewBackgroundColorKey: (ORKRGB(0xD7D7D7)),
+                    ORKTopContentImageViewBackgroundColorKey: fillColor,
                     ORKBulletItemTextColorKey: [UIColor colorWithRed:0.56 green:0.56 blue:0.58 alpha:1.0]
                     } mutableCopy];
     });
