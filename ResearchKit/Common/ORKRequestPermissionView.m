@@ -35,12 +35,32 @@
 
 ORKRequestPermissionsNotification const ORKRequestPermissionsNotificationCardViewStatusChanged = @"ORKRequestPermissionsNotificationCardViewStatusChanged";
 
-static const CGFloat RequestHealthDataViewTopBottomPadding = 15.0;
-static const CGFloat StandardPadding = 8.0;
+static const CGFloat StandardPadding = 15.0;
 static const CGFloat IconImageViewWidthHeight = 48.0;
 static const CGFloat IconImageViewBottomPadding = 10.0;
+static const CGFloat TitleTextLabelBottomPadding = 4.0;
 static const CGFloat DetailTextLabelBottomPadding = 10.0;
-static const CGFloat RequestDataButtonWidth = 125.0;
+static const CGFloat CornerRadius = 10.0;
+
+/// A label whose intrinsic size matches the intrinsiz size of its `titleLabel`.
+@interface ORKLabelFittingButton : UIButton
+
+@end
+
+@implementation ORKLabelFittingButton
+
+-(CGSize)intrinsicContentSize {
+    CGSize titleLabelIntrinsicSize = [self.titleLabel intrinsicContentSize];
+    return CGSizeMake(titleLabelIntrinsicSize.width + self.titleEdgeInsets.left + self.titleEdgeInsets.right,
+                      titleLabelIntrinsicSize.height + self.titleEdgeInsets.top + self.titleEdgeInsets.bottom);
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    self.titleLabel.preferredMaxLayoutWidth = self.titleLabel.frame.size.width;
+}
+
+@end
 
 @implementation ORKRequestPermissionView {
     NSMutableArray *_constraints;
@@ -53,9 +73,6 @@ static const CGFloat RequestDataButtonWidth = 125.0;
     
     UILabel *_titleLabel;
     UILabel *_detailTextLabel;
-    UILabel *_buttonStateMessageLabel;
-    
-    UIImageView *_buttonStateImageView;
 }
 
 - (instancetype)initWithIconImage:(nullable UIImage *)iconImage title:(NSString *)title detailText:(NSString *)detailText {
@@ -75,32 +92,26 @@ static const CGFloat RequestDataButtonWidth = 125.0;
 - (void)commonInit {
     if (@available(iOS 13.0, *)) {
         self.layer.borderColor = [[UIColor separatorColor] CGColor];
+        [self setBackgroundColor:[UIColor systemBackgroundColor]];
     } else {
         self.layer.borderColor = [[UIColor ork_midGrayTintColor] CGColor];
+        [self setBackgroundColor:[UIColor whiteColor]];
     }
+
+    self.clipsToBounds = false;
+    self.layer.cornerRadius = CornerRadius;
 
     [self setupSubviews];
     [self setUpConstraints];
 }
 
-- (void)layoutSubviews {
-    self.translatesAutoresizingMaskIntoConstraints = NO;
-    if (@available(iOS 13.0, *)) {
-        [self setBackgroundColor:[UIColor systemBackgroundColor]];
-    } else {
-        [self setBackgroundColor:[UIColor whiteColor]];
-    }
-    
-    self.layer.cornerRadius = 10.0;
-    self.clipsToBounds = YES;
-}
-
 - (void)setupSubviews {
-
     [self setupIconImageView];
     [self setUpTitleLabel];
     [self setUpDetailTextLabel];
     [self setupRequestDataButton];
+
+    [self updateFonts];
 }
 
 - (void)setupIconImageView {
@@ -114,73 +125,74 @@ static const CGFloat RequestDataButtonWidth = 125.0;
 
 - (void)setUpTitleLabel {
     if (_title) {
-        _titleLabel = [UILabel new];
+        _titleLabel = [self makeMultilineLabel];
         _titleLabel.text = _title;
         _titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        _titleLabel.numberOfLines = 0;
-        if (@available(iOS 13.0, *)) {
-            _titleLabel.textColor = [UIColor labelColor];
-        } else {
-            _titleLabel.textColor = [UIColor blackColor];
-        }
-        _titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
-        _titleLabel.textAlignment = NSTextAlignmentNatural;
-        UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleBody];
-        UIFontDescriptor *fontDescriptor = [descriptor fontDescriptorWithSymbolicTraits:(UIFontDescriptorTraitBold)];
-        [_titleLabel setFont:[UIFont fontWithDescriptor:fontDescriptor size:[[fontDescriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]]];
         [self addSubview:_titleLabel];
     }
 }
 
 - (void)setUpDetailTextLabel {
     if (_detailText) {
-        _detailTextLabel = [UILabel new];
+        _detailTextLabel = [self makeMultilineLabel];
         _detailTextLabel.translatesAutoresizingMaskIntoConstraints = NO;
         _detailTextLabel.text = _detailText;
-        _detailTextLabel.numberOfLines = 0;
-        _detailTextLabel.lineBreakMode = NSLineBreakByWordWrapping;
-        _detailTextLabel.textAlignment = NSTextAlignmentNatural;
-        UIFontDescriptor *descriptorForDetailText = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleSubheadline];
-        [_detailTextLabel setFont:[UIFont fontWithDescriptor:descriptorForDetailText size:[[descriptorForDetailText objectForKey: UIFontDescriptorSizeAttribute] doubleValue]]];
+
+        [_detailTextLabel setFont:[UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline]];
+        _detailTextLabel.adjustsFontForContentSizeCategory = true;
+
         [self addSubview:_detailTextLabel];
     }
 }
 
 - (void)setupRequestDataButton {
     if (!_requestPermissionButton) {
-        _requestPermissionButton = [UIButton new];
+        _requestPermissionButton = [ORKLabelFittingButton new];
         _requestPermissionButton.translatesAutoresizingMaskIntoConstraints = NO;
-        _requestPermissionButton.layer.cornerRadius = 10.0;
-        _requestPermissionButton.clipsToBounds = YES;
-        _requestPermissionButton.titleLabel.font = [UIFont systemFontOfSize:12.0];
-        [_requestPermissionButton setTitleEdgeInsets:UIEdgeInsetsMake(5.0, 8.0, 5.0, 8.0)];
+        [_requestPermissionButton setTitleEdgeInsets:UIEdgeInsetsMake(5, 16, 5, 16)];
+
+        // The button's corner radius should match the corner radius of the parent.
+        // Equation: r_inner = r_inner - d
+        // r_inner = corner radius of the inner view
+        // r_outer = corner radius of the outer view
+        // d = Distance between the inner and outer view in pixels
+        _requestPermissionButton.clipsToBounds = false;
+        _requestPermissionButton.layer.cornerRadius =
+            CornerRadius -
+            (StandardPadding / [[UIScreen mainScreen] scale]);
+
         [self addSubview:_requestPermissionButton];
     }
 }
 
-- (void)setupMessageStateSubviews {
+- (UILabel *)makeMultilineLabel {
+    UILabel *label = [UILabel new];
+    label.numberOfLines = 0;
+    label.lineBreakMode = NSLineBreakByWordWrapping;
+    label.textAlignment = NSTextAlignmentNatural;
+    return label;
+}
+
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+    [super traitCollectionDidChange:previousTraitCollection];
+    if (previousTraitCollection.preferredContentSizeCategory != self.traitCollection.preferredContentSizeCategory) {
+        [self updateFonts];
+    }
+}
+
+- (void)updateFonts {
     if (_requestPermissionButton) {
-        [_requestPermissionButton removeFromSuperview];
+        [_requestPermissionButton.titleLabel setFont: [self fontWithTextStyle:UIFontTextStyleSubheadline weight:UIFontWeightMedium]];
     }
-    
-    if (!_buttonStateMessageLabel) {
-        _buttonStateMessageLabel = [UILabel new];
-        
-        _buttonStateMessageLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        _buttonStateMessageLabel.numberOfLines = 0;
-        _buttonStateMessageLabel.lineBreakMode = NSLineBreakByWordWrapping;
-        _buttonStateMessageLabel.textAlignment = NSTextAlignmentNatural;
-        UIFontDescriptor *descriptorForDetailText = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleSubheadline];
-        [_buttonStateMessageLabel setFont:[UIFont fontWithDescriptor:descriptorForDetailText size:[[descriptorForDetailText objectForKey: UIFontDescriptorSizeAttribute] doubleValue]]];
-        [self addSubview:_buttonStateMessageLabel];
-        
-        _buttonStateImageView = [UIImageView new];
-        _buttonStateImageView.contentMode = UIViewContentModeScaleAspectFit;
-        _buttonStateImageView.translatesAutoresizingMaskIntoConstraints = NO;
-        [self addSubview:_buttonStateImageView];
+
+    if (_titleLabel) {
+        _titleLabel.font = [self fontWithTextStyle:UIFontTextStyleBody weight:UIFontWeightBold];
     }
-    
-    [self setUpConstraints];
+}
+
+- (UIFont *)fontWithTextStyle:(UIFontTextStyle)textStyle weight:(UIFontWeight)weight {
+    UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:textStyle];
+    return [UIFont systemFontOfSize:descriptor.pointSize weight:weight];
 }
 
 - (void)setUpConstraints {
@@ -190,7 +202,7 @@ static const CGFloat RequestDataButtonWidth = 125.0;
     
     _constraints = [NSMutableArray array];
         
-    [_constraints addObject:[_iconImageView.topAnchor constraintEqualToAnchor:self.topAnchor constant:RequestHealthDataViewTopBottomPadding]];
+    [_constraints addObject:[_iconImageView.topAnchor constraintEqualToAnchor:self.topAnchor constant:StandardPadding]];
     [_constraints addObject:[_iconImageView.leftAnchor constraintEqualToAnchor:self.leftAnchor constant:StandardPadding]];
     [_constraints addObject:[_iconImageView.widthAnchor constraintEqualToConstant:IconImageViewWidthHeight]];
     [_constraints addObject:[_iconImageView.heightAnchor constraintEqualToConstant:IconImageViewWidthHeight]];
@@ -199,23 +211,14 @@ static const CGFloat RequestDataButtonWidth = 125.0;
     [_constraints addObject:[_titleLabel.leftAnchor constraintEqualToAnchor:self.leftAnchor constant:StandardPadding]];
     [_constraints addObject:[_titleLabel.rightAnchor constraintEqualToAnchor:self.rightAnchor constant:-StandardPadding]];
     
-    [_constraints addObject:[_detailTextLabel.topAnchor constraintEqualToAnchor:_titleLabel.bottomAnchor constant:StandardPadding]];
+    [_constraints addObject:[_detailTextLabel.topAnchor constraintEqualToAnchor:_titleLabel.bottomAnchor constant:TitleTextLabelBottomPadding]];
     [_constraints addObject:[_detailTextLabel.leftAnchor constraintEqualToAnchor:_titleLabel.leftAnchor]];
     [_constraints addObject:[_detailTextLabel.rightAnchor constraintEqualToAnchor:self.rightAnchor constant:-StandardPadding]];
-    
-    if (!_buttonStateMessageLabel) {
-        [_constraints addObject:[_requestPermissionButton.topAnchor constraintEqualToAnchor:_detailTextLabel.bottomAnchor constant:DetailTextLabelBottomPadding]];
-        [_constraints addObject:[_requestPermissionButton.leftAnchor constraintEqualToAnchor:_titleLabel.leftAnchor]];
-        [_constraints addObject:[_requestPermissionButton.widthAnchor constraintEqualToConstant:RequestDataButtonWidth]];
-        [_constraints addObject:[_requestPermissionButton.bottomAnchor constraintEqualToAnchor:self.bottomAnchor constant:-RequestHealthDataViewTopBottomPadding]];
-    } else {
-        [_constraints addObject:[_buttonStateMessageLabel.topAnchor constraintEqualToAnchor:_detailTextLabel.bottomAnchor constant:DetailTextLabelBottomPadding]];
-        [_constraints addObject:[_buttonStateMessageLabel.leftAnchor constraintEqualToAnchor:_titleLabel.leftAnchor]];
-        [_constraints addObject:[_buttonStateMessageLabel.bottomAnchor constraintEqualToAnchor:self.bottomAnchor constant:-RequestHealthDataViewTopBottomPadding]];
-        
-        [_constraints addObject:[_buttonStateImageView.leftAnchor constraintEqualToAnchor:_buttonStateMessageLabel.rightAnchor constant: StandardPadding]];
-        [_constraints addObject:[_buttonStateImageView.centerYAnchor constraintEqualToAnchor:_buttonStateMessageLabel.centerYAnchor]];
-    }
+
+    [_constraints addObject:[_requestPermissionButton.topAnchor constraintEqualToAnchor:_detailTextLabel.bottomAnchor constant:DetailTextLabelBottomPadding]];
+    [_constraints addObject:[_requestPermissionButton.leftAnchor constraintEqualToAnchor:_titleLabel.leftAnchor]];
+    [_constraints addObject:[_requestPermissionButton.rightAnchor constraintLessThanOrEqualToAnchor:self.rightAnchor constant: -StandardPadding]];
+    [_constraints addObject:[_requestPermissionButton.bottomAnchor constraintEqualToAnchor:self.bottomAnchor constant:-StandardPadding]];
    
     [NSLayoutConstraint activateConstraints:_constraints];
 }
@@ -232,4 +235,3 @@ static const CGFloat RequestDataButtonWidth = 125.0;
 }
 
 @end
-

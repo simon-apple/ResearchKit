@@ -64,7 +64,7 @@
     UIImage *image;
 
     if (@available(iOS 13.0, *)) {
-        image = [UIImage systemImageNamed:@"message.fill"];
+        image = [UIImage systemImageNamed:@"bell.fill"];
     }
 
     self.cardView = [[ORKRequestPermissionView alloc] initWithIconImage:image
@@ -74,7 +74,7 @@
     [self.cardView.requestPermissionButton setTitle:ORKLocalizedString(@"REQUEST_PERMISSION_BUTTON_STATE_DEFAULT", nil) forState:UIControlStateNormal];
     [self.cardView.requestPermissionButton setTitle:ORKLocalizedString(@"REQUEST_PERMISSION_BUTTON_STATE_CONNECTED", nil) forState:UIControlStateDisabled];
     [self.cardView.requestPermissionButton addTarget:self action:@selector(requestPermissionButtonPressed) forControlEvents:UIControlEventTouchUpInside];
-    [self.cardView updateIconTintColor:[UIColor systemBlueColor]];
+    [self.cardView updateIconTintColor:[UIColor systemPurpleColor]];
 
     [self setRequestPermissionRequested:NO];
     [[UNUserNotificationCenter currentNotificationCenter] getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings * _Nonnull settings) {

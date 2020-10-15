@@ -79,7 +79,7 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKRequestPermissionsButtonState) {
     _requestPermissionButton = self.cardView.requestPermissionButton;
     [_requestPermissionButton addTarget:self action:@selector(requestPermissionButtonPressed) forControlEvents:UIControlEventTouchUpInside];
     
-    [self.cardView updateIconTintColor:[UIColor redColor]];
+    [self.cardView updateIconTintColor:[UIColor systemPinkColor]];
 }
 
 - (void)checkHealthKitAuthorizationStatus {
