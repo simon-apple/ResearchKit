@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
                        sessionHelperDelegate:(id<ORKAVJournalingSessionHelperDelegate>)sessionHelperDelegate;
 
 @property (nonatomic, nullable, readonly) AVCaptureSession *captureSession;
-@property (nonatomic, nullable, copy) NSMutableArray *cameraIntrinsicsArray;
+@property (nonatomic, nullable) NSMutableArray *cameraIntrinsicsArray;
 
 - (BOOL)startSession:(NSError **)error;
 - (void)startCapturing;
