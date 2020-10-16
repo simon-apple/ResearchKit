@@ -273,7 +273,6 @@
 
 - (void)dataOutputSynchronizer:(AVCaptureDataOutputSynchronizer *)synchronizer didOutputSynchronizedDataCollection:(AVCaptureSynchronizedDataCollection *)synchronizedDataCollection {
     
-    
     //pull out meta data
     AVCaptureSynchronizedMetadataObjectData *syncedMetaData = (AVCaptureSynchronizedMetadataObjectData *)[synchronizedDataCollection synchronizedDataForCaptureOutput:_metaDataOutput];
     CGRect facebounds = CGRectZero;
@@ -306,13 +305,17 @@
         
         
         dispatch_async(dispatch_get_main_queue(), ^(void) {
-            if (CGRectGetHeight(updatedFaceRect) > 0 && CGRectGetWidth(updatedFaceRect) > 0) {
-                [_contentView setFaceDetected:YES faceRect:updatedFaceRect originalSize:updatedSize];
+            BOOL isFaceDetected = (CGRectGetHeight(updatedFaceRect) > 0 && CGRectGetWidth(updatedFaceRect) > 0);
+            
+            [_contentView setFaceDetected:isFaceDetected faceRect:updatedFaceRect originalSize:updatedSize];
+            
+            if (isFaceDetected) {
                 [_contentView updateFacePositionCircleWithCGRect:updatedFaceRect originalSize:updatedSize];
+            }
+            
+            if (isFaceDetected && [_contentView isFacePositionCircleWithinBox:updatedFaceRect originalSize:updatedSize]) {
                 [_navigationFooterView setContinueEnabled:YES];
-                
             } else {
-                [_contentView setFaceDetected:NO faceRect:CGRectNull originalSize:CGSizeZero];
                 [_navigationFooterView setContinueEnabled:NO];
             }
         });
