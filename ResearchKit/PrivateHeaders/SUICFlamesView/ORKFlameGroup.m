@@ -1,12 +1,12 @@
 //
-//  SUICFlameGroup.m
+//  ORKFlameGroup.m
 //  SiriUICore
 //
 //  Created by Peter Bohac on 5/26/19.
 //  Copyright © 2019 Apple Inc. All rights reserved.
 //
-#import "SUICFlameGroup.h"
-@implementation SUICFlameGroup
+#import "ORKFlameGroup.h"
+@implementation ORKFlameGroup
 - (id)init {
     self = [super init];
     if (!self) {
