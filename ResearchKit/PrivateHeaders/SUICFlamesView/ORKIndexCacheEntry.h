@@ -1,14 +1,14 @@
 //
-//  SUICIndexCacheEntry.h
+//  ORKIndexCacheEntry.h
 //  SiriUICore
 //
 //  Created by Tin Tran on 3/15/18.
 //  Copyright © 2018 Apple Inc. All rights reserved.
 //
-#import "SUICFlamesView.h"
+#import "ORKFlamesView.h"
 
-extern NSString *SUICGetIndexCacheEntryKey(CGRect activeFrame, SUICFlamesViewFidelity fidelity, CGFloat horizontalScaleFactor, SUICFlamesViewMode mode, int32_t viewWidth, int32_t viewHeight);
-@interface SUICIndexCacheEntry : NSObject
+extern NSString *ORKGetIndexCacheEntryKey(CGRect activeFrame, ORKFlamesViewFidelity fidelity, CGFloat horizontalScaleFactor, ORKFlamesViewMode mode, int32_t viewWidth, int32_t viewHeight);
+@interface ORKIndexCacheEntry : NSObject
 @property (nonatomic, assign) uint32_t numAuraIndices;
 @property (nonatomic, assign) uint32_t numAuraIndicesCulled;
 @property (nonatomic, assign) uint32_t numWaveIndices;

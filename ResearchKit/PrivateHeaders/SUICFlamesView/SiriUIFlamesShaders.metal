@@ -8,7 +8,7 @@
 #include <metal_stdlib>
 #include <simd/simd.h>
 
-#import "SUICFlamesShaderTypes.h"
+#import "ORKFlamesShaderTypes.h"
 
 using namespace metal;
 

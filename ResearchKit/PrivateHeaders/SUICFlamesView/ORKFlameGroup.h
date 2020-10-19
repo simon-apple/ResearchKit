@@ -1,5 +1,5 @@
 //
-//  SUICFlameGroup.h
+//  ORKFlameGroup.h
 //  SiriUICore
 //
 //  Created by Peter Bohac on 5/26/19.
@@ -8,7 +8,7 @@
 #import <Foundation/Foundation.h>
 #import <simd/simd.h>
 NS_ASSUME_NONNULL_BEGIN
-NS_CLASS_AVAILABLE_IOS(9_0) @interface SUICFlameGroup : NSObject
+NS_CLASS_AVAILABLE_IOS(9_0) @interface ORKFlameGroup : NSObject
 @property (nonatomic, assign) float stateTime;
 @property (nonatomic, assign) float zTime;
 @property (nonatomic, assign) float globalAlpha;

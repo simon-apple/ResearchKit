@@ -29,7 +29,7 @@
  */
 
 #import "ORKAudioDictationView.h"
-#import "SUICFlamesView.h"
+#import "ORKFlamesView.h"
 
 static float const ORKAudioDictationViewAveragePowerLevelMaximum = -10;
 static float const ORKAudioDictationViewAveragePowerLevelMinimum = -60;
@@ -41,8 +41,8 @@ static float TransformRange(float x, float a, float b, float c, float d)
     return (x - a) * ((d - c) / (b - a)) + c;
 }
 
-@interface ORKAudioDictationView () <SUICFlamesViewDelegate>
-@property (nonatomic, strong) SUICFlamesView *flamesView;
+@interface ORKAudioDictationView () <ORKFlamesViewDelegate>
+@property (nonatomic, strong) ORKFlamesView *flamesView;
 
 /// ORKAudioMetering
 @property (nonatomic, copy, nullable) NSArray<NSNumber *> *samples;
@@ -88,9 +88,9 @@ static float TransformRange(float x, float a, float b, float c, float d)
     _alertThreshold = CGFLOAT_MAX;
     
     if (!self.flamesView) {
-        self.flamesView = [[SUICFlamesView alloc] initWithFrame:CGRectZero screen:UIScreen.mainScreen fidelity:SUICFlamesViewFidelityHigh];
-        self.flamesView.mode = SUICFlamesViewModeDictation;
-        self.flamesView.state = SUICFlamesViewStateThinking;
+        self.flamesView = [[ORKFlamesView alloc] initWithFrame:CGRectZero screen:UIScreen.mainScreen fidelity:ORKFlamesViewFidelityHigh];
+        self.flamesView.mode = ORKFlamesViewModeDictation;
+        self.flamesView.state = ORKFlamesViewStateThinking;
         self.flamesView.flamesDelegate = self;
         self.flamesView.translatesAutoresizingMaskIntoConstraints = NO;
         [self addSubview:self.flamesView];
@@ -112,11 +112,11 @@ static float TransformRange(float x, float a, float b, float c, float d)
     
     if (!_samples || _samples.count == 0)
     {
-        [self.flamesView setState:SUICFlamesViewStateThinking];
+        [self.flamesView setState:ORKFlamesViewStateThinking];
     }
     else
     {
-        [self.flamesView setState:SUICFlamesViewStateListening];
+        [self.flamesView setState:ORKFlamesViewStateListening];
     }
 }
 
@@ -138,9 +138,9 @@ static float TransformRange(float x, float a, float b, float c, float d)
     _alertColor = alertColor;
 }
 
-#pragma mark - SUICFlamesDelegate
+#pragma mark - ORKFlamesDelegate
 
-- (float)audioLevelForFlamesView:(SUICFlamesView *)flamesView
+- (float)audioLevelForFlamesView:(ORKFlamesView *)flamesView
 {
     if (_samples.count > 0)
     {

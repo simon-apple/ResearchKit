@@ -1,5 +1,5 @@
 //
-//  SUICFlamesView.m
+//  ORKFlamesView.m
 //  SiriUICore
 //
 //  Created by Peter Bohac on 5/25/19.
@@ -7,15 +7,15 @@
 //
 
 #import <Metal/Metal.h>
-#import "SUICFlamesView.h"
-#import "SUICFlamesViewMetal.h"
-#import "SUICFlamesViewLegacy.h"
+#import "ORKFlamesView.h"
+#import "ORKFlamesViewMetal.h"
+#import "ORKFlamesViewLegacy.h"
 
-@interface SUICFlamesView () <SUICFlamesViewProvidingDelegate>
+@interface ORKFlamesView () <ORKFlamesViewProvidingDelegate>
 @end
-@implementation SUICFlamesView
+@implementation ORKFlamesView
 {
-    UIView<SUICFlamesViewProviding> *_flamesView;
+    UIView<ORKFlamesViewProviding> *_flamesView;
 };
 + (BOOL)_isMetalAvailable {
     // Always use Metal on real devices. On the simulator, perform a run-time check for Metal support.
@@ -26,24 +26,24 @@
     return (device != nil);
 #endif
 }
-- (instancetype)initWithFrame:(CGRect)frame screen:(UIScreen *)screen fidelity:(SUICFlamesViewFidelity)fidelity {
+- (instancetype)initWithFrame:(CGRect)frame screen:(UIScreen *)screen fidelity:(ORKFlamesViewFidelity)fidelity {
     self = [super initWithFrame:frame];
     if (self)
     {
-        if ([SUICFlamesView _isMetalAvailable])
+        if ([ORKFlamesView _isMetalAvailable])
         {
             if (@available(iOS 13.0, *))
             {
-                _flamesView = [[SUICFlamesViewMetal alloc] initWithFrame:frame screen:screen fidelity:fidelity];
+                _flamesView = [[ORKFlamesViewMetal alloc] initWithFrame:frame screen:screen fidelity:fidelity];
             }
             else
             {
-                _flamesView = [[SUICFlamesViewLegacy alloc] initWithFrame:frame screen:screen fidelity:fidelity];
+                _flamesView = [[ORKFlamesViewLegacy alloc] initWithFrame:frame screen:screen fidelity:fidelity];
             }
         }
         else
         {
-            _flamesView = [[SUICFlamesViewLegacy alloc] initWithFrame:frame screen:screen fidelity:fidelity];
+            _flamesView = [[ORKFlamesViewLegacy alloc] initWithFrame:frame screen:screen fidelity:fidelity];
         }
     }
     return self;
@@ -64,7 +64,7 @@
         [self addSubview:_flamesView];
     }
 }
-#pragma mark - SUICFlamesViewProviding
+#pragma mark - ORKFlamesViewProviding
 - (void)prewarmShadersForCurrentMode {
     [_flamesView prewarmShadersForCurrentMode];
 }
@@ -80,10 +80,10 @@
 - (void)resetAndReinitialize:(BOOL)initialize {
     [_flamesView resetAndReinitialize:initialize];
 }
-- (void)setDelegate:(id<SUICFlamesViewDelegate>)delegate {
+- (void)setDelegate:(id<ORKFlamesViewDelegate>)delegate {
     [self setFlamesDelegate:delegate];
 }
-- (void)setFlamesDelegate:(id<SUICFlamesViewDelegate>)flamesDelegate {
+- (void)setFlamesDelegate:(id<ORKFlamesViewDelegate>)flamesDelegate {
     _flamesDelegate = flamesDelegate;
     if (flamesDelegate) {
         [_flamesView setFlamesDelegate:self];
@@ -94,16 +94,16 @@
 - (BOOL)isRenderingEnabled {
     return [_flamesView isRenderingEnabled];
 }
-- (SUICFlamesViewMode)mode {
+- (ORKFlamesViewMode)mode {
     return [_flamesView mode];
 }
-- (void)setMode:(SUICFlamesViewMode)mode {
+- (void)setMode:(ORKFlamesViewMode)mode {
     [_flamesView setMode:mode];
 }
-- (SUICFlamesViewState)state {
+- (ORKFlamesViewState)state {
     return [_flamesView state];
 }
-- (void)setState:(SUICFlamesViewState)state {
+- (void)setState:(ORKFlamesViewState)state {
     [_flamesView setState:state];
 }
 - (BOOL)showAura {
@@ -172,11 +172,11 @@
 - (void)setAccelerateTransitions:(BOOL)accelerateTransitions {
     [_flamesView setAccelerateTransitions:accelerateTransitions];
 }
-#pragma mark - SUICFlamesViewProvidingDelegate
-- (float)audioLevelForFlamesView:(id<SUICFlamesViewProviding>)flamesView {
+#pragma mark - ORKFlamesViewProvidingDelegate
+- (float)audioLevelForFlamesView:(id<ORKFlamesViewProviding>)flamesView {
     return [[self flamesDelegate] audioLevelForFlamesView:self];
 }
-- (void)flamesViewAuraDidDisplay:(id<SUICFlamesViewProviding>)flamesView {
+- (void)flamesViewAuraDidDisplay:(id<ORKFlamesViewProviding>)flamesView {
     if ([[self flamesDelegate] respondsToSelector:@selector(flamesViewAuraDidDisplay:)]) {
         [[self flamesDelegate] flamesViewAuraDidDisplay:self];
     }
