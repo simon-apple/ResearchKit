@@ -71,6 +71,12 @@
     self.continueButtonTitle = ORKLocalizedString(@"BUTTON_STOP_TEST", nil);
 }
 
+- (void)finish {
+    [super finish];
+    _contentView.labelHidden = YES;
+    self.continueButtonTitle = ORKLocalizedString(@"BUTTON_NEXT", nil);
+}
+
 - (void)stepDidChange {
     [super stepDidChange];
     _contentView.duration = self.fitnessStep.stepDuration;
