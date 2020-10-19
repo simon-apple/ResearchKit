@@ -271,6 +271,23 @@ static const CGFloat ContentLeftRightPadding = 36.0;
     [self invokeViewEventHandlerWithEvent:ORKAVJournalingStepContentViewEventError];
 }
 
+- (void)tearDownContentView {
+    [_faceCalibrationTimer invalidate];
+    _faceCalibrationTimer = nil;
+    
+    [_timer invalidate];
+    _timer = nil;
+    
+    [_badgeColorChangeTimer invalidate];
+    _badgeColorChangeTimer = nil;
+    
+    _viewEventhandler = nil;
+    
+    if (_faceDetectionContentView) {
+        [_faceDetectionContentView cleanUpView];
+    }
+}
+
 - (NSArray<NSDictionary *> *)fetchRecalibrationTimeStamps {
     return [_recalibrationTimeStamps copy];
 }
