@@ -1,5 +1,5 @@
 //
-//  SUICAudioLevelSmoother.h
+//  ORKAudioLevelSmoother.h
 //  SiriUICore
 //
 //  Created by Noah Witherspoon on 6/17/14.
@@ -8,7 +8,7 @@
 
 @import Foundation;
 
-@interface SUICAudioLevelSmoother : NSObject
+@interface ORKAudioLevelSmoother : NSObject
 // minPower and maxPower are in dB; historyLength is the number of samples with which to calculate the current median to map power levels around (10 is a reasonable default)
 - (instancetype)initWithMinimumPower:(float)minPower maximumPower:(float)maxPower historyLength:(NSInteger)length;
 // dB is a logarithmic scale, so this option provides a more accurate mapping to the sound’s perceived amplitude: baseValue ^ (exponentMultiplier * micPower). historyLength is as above.

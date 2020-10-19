@@ -1,13 +1,13 @@
 //
-//  SUICFlamesViewLegacy.m
+//  ORKFlamesViewLegacy.m
 //
 //  Created by Brandon Newendorp on 3/5/13.
 //  Copyright (c) 2013-2014 Apple Inc. All rights reserved.
 //
-#import "SUICAudioLevelSmoother.h"
-#import "SUICFlameGroup.h"
-#import "SUICFlamesViewLegacy.h"
-#import "SUICIndexCacheEntry.h"
+#import "ORKAudioLevelSmoother.h"
+#import "ORKFlameGroup.h"
+#import "ORKFlamesViewLegacy.h"
+#import "ORKIndexCacheEntry.h"
 //#import <AssistantServices/AFLogging.h>
 //#import <MobileGestalt.h>
 //#import <OpenGLES/EAGLPrivate.h>
@@ -31,9 +31,9 @@
 #define USE_SIRI_GL_MSAA_FORMAT  GL_RGB5_A1
 //#define USE_SIRI_GL_MSAA_FORMAT  GL_RGBA8_OES
 
-#pragma mark - Shaders for SUICWaveViewMode 0
+#pragma mark - Shaders for ORKWaveViewMode 0
 #import <OpenGLES/ES2/gl.h>
-@interface SUICGLIndexCacheEntry : NSObject
+@interface ORKGLIndexCacheEntry : NSObject
 @property (nonatomic, assign) GLuint numAuraIndices;
 @property (nonatomic, assign) GLuint numAuraIndicesCulled;
 @property (nonatomic, assign) GLuint numWaveIndices;
@@ -41,7 +41,7 @@
 // free will be called on this pointer when the cache entry is dealloc'd.
 @property (nonatomic, assign) GLuint *gl_indices;
 @end
-@implementation SUICGLIndexCacheEntry
+@implementation ORKGLIndexCacheEntry
 - (void)dealloc {
     free(_gl_indices);
 }
@@ -495,7 +495,7 @@ static const GLchar*  siriAuraFragmentShader =
 "   gl_FragColor = vec4(out_ColorNoise, out_Alpha1f);\n"
 "}\n"
 "";
-#pragma mark - Shaders for SUICWaveViewMode 2
+#pragma mark - Shaders for ORKWaveViewMode 2
 static const GLchar*  siriTrainingVertexShader =
 "#version 100\n"
 "#extension GL_EXT_separate_shader_objects : enable\n"
@@ -716,7 +716,7 @@ static const GLchar*  siriTrainingFragmentShader =
 "   gl_FragColor = screen;\n"
 "}\n"
 "";
-#pragma mark - Shaders for SUICWaveViewMode 1
+#pragma mark - Shaders for ORKWaveViewMode 1
 static const GLchar*  siriDictationVertexShader =
 "#version 100\n"
 "#extension GL_EXT_separate_shader_objects : enable\n"
@@ -925,10 +925,10 @@ static const float kGlobalAlphaFadeSpeedIncrement = 0.03; // varies how fast the
 static const CGFloat kMinimumPowerLevel = 0.05; // determines the lowest the flames can go
 static const CGFloat kMaximumPowerLevel = 1.0; // determines the highest the flames can go
 static const int kNumPowerLevels = 5;
-static NSString * const kSUICFlamesViewUIApplicationNotificationReason = @"kSUICFlamesViewUIApplicationNotificationReason";
+static NSString * const kORKFlamesViewUIApplicationNotificationReason = @"kORKFlamesViewUIApplicationNotificationReason";
 static NSUInteger sIndexCacheSize = 5;
 #pragma mark - Implementation
-@implementation SUICFlamesViewLegacy {
+@implementation ORKFlamesViewLegacy {
     CADisplayLink *_displayLink;
     EAGLContext * _eaglContext;
     EAGLContext *_previousContext;
@@ -956,7 +956,7 @@ static NSUInteger sIndexCacheSize = 5;
     GLfloat _auraMaxSubdivisionLevel;
     
     NSMutableArray *_flameGroups;
-    SUICFlameGroup *_currentFlameGroup;
+    ORKFlameGroup *_currentFlameGroup;
     
     GLint _viewWidth;
     GLint _viewHeight;
@@ -969,8 +969,8 @@ static NSUInteger sIndexCacheSize = 5;
     
     CGFloat _dictationRedColor, _dictationGreenColor, _dictationBlueColor;
     
-    SUICAudioLevelSmoother *_levelSmoother;
-    SUICFlamesViewFidelity _fidelity;
+    ORKAudioLevelSmoother *_levelSmoother;
+    ORKFlamesViewFidelity _fidelity;
     
     CGFloat _frameRateScalingFactor;
         
@@ -996,10 +996,10 @@ static NSUInteger sIndexCacheSize = 5;
 @synthesize accelerateTransitions = _accelerateTransitions;
 @synthesize reduceFrameRate = _reduceFrameRate;
 @synthesize reduceThinkingFramerate = _reduceThinkingFramerate;
-- (void)_setValuesForFidelity:(SUICFlamesViewFidelity)fidelity {
+- (void)_setValuesForFidelity:(ORKFlamesViewFidelity)fidelity {
     
-    // forceably setting fidelity to needed fidelity for SUICWaveViewModeDictation
-    if (_mode == SUICFlamesViewModeDictation) {
+    // forceably setting fidelity to needed fidelity for ORKWaveViewModeDictation
+    if (_mode == ORKFlamesViewModeDictation) {
         _maxVertexCircles = 1;
         const CGFloat currentDisplayScale = [self _currentDisplayScale];
         float idealUnitSize = 6.0 * currentDisplayScale;
@@ -1019,7 +1019,7 @@ static NSUInteger sIndexCacheSize = 5;
         // elements in use for wave: (3*2^6 - 3*2^6) * 3 + (3*2^6 - 2) (fill verts)
         // vertices in use for aura: 3*2^3 - 3*2^1 +         (6 - 3 - 1) *     3*2^3
         // elements in use for aura: (3*2^3 - 3*2^1) * 3 +   (6 - 1 - 3 - 1) * 3*2^3 * 2 + (3*2^1 - 2) (fill verts)
-        case SUICFlamesViewFidelityLow:
+        case ORKFlamesViewFidelityLow:
             _maxVertexCircles = 6;
             _maxSubdivisionLevel = 6;
             _auraVertexCircles = _maxVertexCircles;
@@ -1031,7 +1031,7 @@ static NSUInteger sIndexCacheSize = 5;
         // elements in use for wave: (3*2^7 - 3*2^7) * 3 + (3*2^7 - 2) (fill verts)
         // vertices in use for aura: 3*2^3 - 3*2^1 +         (12 - 3 - 1) *     3*2^3
         // elements in use for aura: (3*2^3 - 3*2^1) * 3 +   (12 - 1 - 3 - 1) * 3*2^3 * 2 + (3*2^1 - 2) (fill verts)
-        case SUICFlamesViewFidelityMedium:
+        case ORKFlamesViewFidelityMedium:
             _maxVertexCircles = 12;
             _maxSubdivisionLevel = 7;
             _auraVertexCircles = _maxVertexCircles;
@@ -1043,7 +1043,7 @@ static NSUInteger sIndexCacheSize = 5;
         // elements in use for wave: (3*2^8 - 3*2^8) * 3 + (3*2^8 - 2) (fill verts)
         // vertices in use for aura: 3*2^4 - 3*2^1 +         (18 - 4 - 1) *     3*2^4
         // elements in use for aura: (3*2^4 - 3*2^1) * 3 +   (18 - 1 - 3 - 1) * 3*2^4 * 2 + (3*2^1 - 2) (fill verts)
-        case SUICFlamesViewFidelityHigh:
+        case ORKFlamesViewFidelityHigh:
             _maxVertexCircles = 18;
             _maxSubdivisionLevel = 8;
             _auraVertexCircles = _maxVertexCircles;
@@ -1052,7 +1052,7 @@ static NSUInteger sIndexCacheSize = 5;
             break;
     }
 }
-- (id)initWithFrame:(CGRect)frame screen:(UIScreen *)screen fidelity:(SUICFlamesViewFidelity)fidelity{
+- (id)initWithFrame:(CGRect)frame screen:(UIScreen *)screen fidelity:(ORKFlamesViewFidelity)fidelity{
     self = [super initWithFrame:frame];
     if (self) {
         _reduceMotionEnabled = UIAccessibilityIsReduceMotionEnabled();
@@ -1062,10 +1062,10 @@ static NSUInteger sIndexCacheSize = 5;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_applicationWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_applicationDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
         
-        _levelSmoother = [[SUICAudioLevelSmoother alloc] initWithMinimumPower:-60.0 maximumPower:-10.0 historyLength:kNumPowerLevels attackSpeed:0.35 decaySpeed:0.9];
+        _levelSmoother = [[ORKAudioLevelSmoother alloc] initWithMinimumPower:-60.0 maximumPower:-10.0 historyLength:kNumPowerLevels attackSpeed:0.35 decaySpeed:0.9];
         _screen = screen;
         _showAura = YES;
-        [self setMode:SUICFlamesViewModeSiri];
+        [self setMode:ORKFlamesViewModeSiri];
         _fidelity = fidelity;
         [self _setValuesForFidelity:fidelity];
         
@@ -1088,14 +1088,14 @@ static NSUInteger sIndexCacheSize = 5;
         }
         [self _restoreCurrentContext];
         
-        _state = SUICFlamesViewStateAboutToListen;
+        _state = ORKFlamesViewStateAboutToListen;
         
         _dictationRedColor = 1.0;
         _dictationGreenColor = 1.0;
         _dictationBlueColor = 1.0;
         
         _flameGroups = [[NSMutableArray alloc] init];
-        _currentFlameGroup = [[SUICFlameGroup alloc] init];
+        _currentFlameGroup = [[ORKFlameGroup alloc] init];
         [_flameGroups addObject:_currentFlameGroup];
         
         _renderingDisabledReasons = [NSMutableSet set];
@@ -1103,7 +1103,7 @@ static NSUInteger sIndexCacheSize = 5;
     
     return self;
 }
-- (id)initWithFrame:(CGRect)frame screenScale:(CGFloat)screenScale fidelity:(SUICFlamesViewFidelity)fidelity {
+- (id)initWithFrame:(CGRect)frame screenScale:(CGFloat)screenScale fidelity:(ORKFlamesViewFidelity)fidelity {
     return [self initWithFrame:frame screen:[UIScreen mainScreen] fidelity:fidelity];
 }
 - (void)dealloc {
@@ -1132,35 +1132,35 @@ static NSUInteger sIndexCacheSize = 5;
 + (Class)layerClass {
     return [CAEAGLLayer class];
 }
-- (void)setFlamesDelegate:(id<SUICFlamesViewProvidingDelegate>)delegate {
+- (void)setFlamesDelegate:(id<ORKFlamesViewProvidingDelegate>)delegate {
     if (delegate == nil && _displayLink) {
         [self _tearDownDisplayLink];
     }
     
     _flamesDelegate = delegate;
 }
-- (void)setState:(SUICFlamesViewState)state {
+- (void)setState:(ORKFlamesViewState)state {
     if (_state != state) {
         _transitionFinished = NO;
         _state = state;
         _currentFlameGroup.transitionPhase = _accelerateTransitions ? 0.25f : 0.0f;
         _currentFlameGroup.stateTime = 0.0f;
-        if (state == SUICFlamesViewStateSuccess) {
+        if (state == ORKFlamesViewStateSuccess) {
             if (_showAura) {
                 // set current to aura state before creating a new wave system
                 _currentFlameGroup.isAura = YES;
                 
                 // for all other flames, we know they must be Auras, so set them to die off since we have a new aura.
-                for (SUICFlameGroup *flames in _flameGroups) {
+                for (ORKFlameGroup *flames in _flameGroups) {
                     if (flames != _currentFlameGroup) {
                         flames.isDyingOff = YES;
                     }
                 }
-                _state = SUICFlamesViewStateAboutToListen;
-                _currentFlameGroup = [[SUICFlameGroup alloc] init];
+                _state = ORKFlamesViewStateAboutToListen;
+                _currentFlameGroup = [[ORKFlameGroup alloc] init];
                 [_flameGroups addObject:_currentFlameGroup];
             } else {
-                _state = SUICFlamesViewStateAboutToListen;
+                _state = ORKFlamesViewStateAboutToListen;
             }
         }
         
@@ -1169,7 +1169,7 @@ static NSUInteger sIndexCacheSize = 5;
     }
 }
 - (void)fadeOutCurrentAura {
-    for (SUICFlameGroup *flames in _flameGroups) {
+    for (ORKFlameGroup *flames in _flameGroups) {
         if ([flames isAura]) {
             [flames setIsDyingOff:YES];
         }
@@ -1195,19 +1195,19 @@ static NSUInteger sIndexCacheSize = 5;
         // on Perseus-enabled devices, reduce frame rate during certain states to save power
         if ([[self class] _supportsAdaptiveFramerate]) {
             switch (_state) {
-                case SUICFlamesViewStateAboutToListen:
-                case SUICFlamesViewStateSuccess:
-                case SUICFlamesViewStateDisabled:
+                case ORKFlamesViewStateAboutToListen:
+                case ORKFlamesViewStateSuccess:
+                case ORKFlamesViewStateDisabled:
                     preferredFramesPerSecond = 30;
                     break;
                     
-                case SUICFlamesViewStateThinking:
-                case SUICFlamesViewStateListening:
+                case ORKFlamesViewStateThinking:
+                case ORKFlamesViewStateListening:
                     break;
             }
         }
         
-        if (_mode == SUICFlamesViewModeSiri && _state == SUICFlamesViewStateThinking && _reduceThinkingFramerate) {
+        if (_mode == ORKFlamesViewModeSiri && _state == ORKFlamesViewStateThinking && _reduceThinkingFramerate) {
             preferredFramesPerSecond = 20;
             _frameRateScalingFactor = [_screen maximumFramesPerSecond] / preferredFramesPerSecond;
             
@@ -1218,14 +1218,14 @@ static NSUInteger sIndexCacheSize = 5;
             
         } else if (_reduceFrameRate) {
             switch (_mode) {
-                case SUICFlamesViewModeSiri:
-                case SUICFlamesViewModeHeySiriTraining:
-                    if (_state != SUICFlamesViewStateThinking) {
+                case ORKFlamesViewModeSiri:
+                case ORKFlamesViewModeHeySiriTraining:
+                    if (_state != ORKFlamesViewStateThinking) {
                         preferredFramesPerSecond = 30;
                     }
                     break;
                     
-                case SUICFlamesViewModeDictation:
+                case ORKFlamesViewModeDictation:
                     preferredFramesPerSecond = 30;
                     break;
                 default:
@@ -1239,24 +1239,24 @@ static NSUInteger sIndexCacheSize = 5;
     return [_displayLink preferredFramesPerSecond];
 }
 - (void)_updateDisplayLinkPausedState {
-    if (_state == SUICFlamesViewStateThinking || _state == SUICFlamesViewStateListening) {
+    if (_state == ORKFlamesViewStateThinking || _state == ORKFlamesViewStateListening) {
         // We don't really want to pause the display link in thinking or listening states
         [_displayLink setPaused:NO];
-    } else if ((!_showAura || _freezesAura) && _state == SUICFlamesViewStateAboutToListen && _transitionFinished) {
+    } else if ((!_showAura || _freezesAura) && _state == ORKFlamesViewStateAboutToListen && _transitionFinished) {
         // if the aura is disabled or frozen, there's no need to have the display link continue to fire needlessly.
         [_displayLink setPaused:YES];
     } else {
         [_displayLink setPaused:_flamesPaused];
     }
 }
--(void)setMode:(SUICFlamesViewMode)mode {
+-(void)setMode:(ORKFlamesViewMode)mode {
     if (_mode == mode) {
         return;
     }
     _shadersAreCompiled = NO;
     _mode = mode;
     
-    if (_mode == SUICFlamesViewModeDictation) {
+    if (_mode == ORKFlamesViewModeDictation) {
         [self _setValuesForFidelity:0];
     }
     // Anytime a mode changes, it requires re-initialization of GL data.
@@ -1289,7 +1289,7 @@ static NSUInteger sIndexCacheSize = 5;
     if (!_hasCustomActiveFrame) {
         _activeFrame = [self bounds];
     }
-    if (_mode == SUICFlamesViewModeDictation) {
+    if (_mode == ORKFlamesViewModeDictation) {
         [self _setValuesForFidelity:0]; // we need to reset the fidelity values since it relies on activeFrame width
         if (_isInitialized) {
             [self _initGLAndSetupDisplayLink:YES];
@@ -1311,7 +1311,7 @@ static NSUInteger sIndexCacheSize = 5;
     _hasCustomActiveFrame = YES;
     
     // when we're using dictation mode, we need to ensure that we're setting the fidelity according to the activeFrame's width. This requires re-initialization of GL data.
-    if (_mode == SUICFlamesViewModeDictation) {
+    if (_mode == ORKFlamesViewModeDictation) {
         [self _setValuesForFidelity:0]; // we need to reset the fidelity values since it relies on activeFrame width.
         if (_isInitialized) {
             [self _initGLAndSetupDisplayLink:YES];
@@ -1353,23 +1353,23 @@ static NSUInteger sIndexCacheSize = 5;
     [self _updateDisplayLinkPausedState];
 }
 + (void)prewarmShadersForScreen:(UIScreen *)screen size:(CGSize)size {
-    [self prewarmShadersForScreen:screen size:size fidelity:SUICFlamesViewFidelityHigh];
+    [self prewarmShadersForScreen:screen size:size fidelity:ORKFlamesViewFidelityHigh];
 }
-+ (void)prewarmShadersForScreen:(UIScreen *)screen size:(CGSize)size fidelity:(SUICFlamesViewFidelity)fidelity {
++ (void)prewarmShadersForScreen:(UIScreen *)screen size:(CGSize)size fidelity:(ORKFlamesViewFidelity)fidelity {
     [self prewarmShadersForScreen:screen size:size fidelity:fidelity prewarmInBackground:NO];
 }
-+ (void)prewarmShadersForScreen:(UIScreen *)screen size:(CGSize)size fidelity:(SUICFlamesViewFidelity)fidelity prewarmInBackground:(BOOL)prewarmInBackground {
++ (void)prewarmShadersForScreen:(UIScreen *)screen size:(CGSize)size fidelity:(ORKFlamesViewFidelity)fidelity prewarmInBackground:(BOOL)prewarmInBackground {
     CGRect frame = screen.bounds;
     frame.size.height = size.height;
     frame.size.width = size.width;
     
     [self prewarmShadersForScreen:screen initialFrame:frame activeFrame:frame fidelity:fidelity prewarmInBackground:prewarmInBackground];
 }
-+ (void)prewarmShadersForScreen:(UIScreen *)screen activeFrame:(CGRect)activeFrame fidelity:(SUICFlamesViewFidelity)fidelity {
++ (void)prewarmShadersForScreen:(UIScreen *)screen activeFrame:(CGRect)activeFrame fidelity:(ORKFlamesViewFidelity)fidelity {
     [self prewarmShadersForScreen:screen initialFrame:[screen bounds] activeFrame:activeFrame fidelity:fidelity prewarmInBackground:NO];
 }
-+ (void)prewarmShadersForScreen:(UIScreen *)screen initialFrame:(CGRect)initialFrame activeFrame:(CGRect)activeFrame fidelity:(SUICFlamesViewFidelity)fidelity prewarmInBackground:(BOOL)prewarmInBackground {
-    SUICFlamesViewLegacy *flamesView = [[SUICFlamesViewLegacy alloc] initWithFrame:initialFrame screen:screen fidelity:fidelity];
++ (void)prewarmShadersForScreen:(UIScreen *)screen initialFrame:(CGRect)initialFrame activeFrame:(CGRect)activeFrame fidelity:(ORKFlamesViewFidelity)fidelity prewarmInBackground:(BOOL)prewarmInBackground {
+    ORKFlamesViewLegacy *flamesView = [[ORKFlamesViewLegacy alloc] initWithFrame:initialFrame screen:screen fidelity:fidelity];
     
     [flamesView setRenderInBackground:prewarmInBackground];
     [flamesView setActiveFrame:activeFrame];
@@ -1401,7 +1401,7 @@ static NSUInteger sIndexCacheSize = 5;
     
     // always do this part
     NSMutableArray *discarded = [[NSMutableArray alloc] init];
-    for (SUICFlameGroup *flames in _flameGroups) {
+    for (ORKFlameGroup *flames in _flameGroups) {
         if (flames != _currentFlameGroup)
             [discarded addObject:flames];
     }
@@ -1440,19 +1440,19 @@ static NSUInteger sIndexCacheSize = 5;
 }
 - (void)_reduceMotionStatusChanged:(NSNotification *)notification {
     _reduceMotionEnabled = UIAccessibilityIsReduceMotionEnabled();
-    if (_mode == SUICFlamesViewModeSiri) {
+    if (_mode == ORKFlamesViewModeSiri) {
         _shadersAreCompiled = NO;
         [self resetAndReinitialize:YES];
     }
 }
 - (void)_applicationWillResignActive:(NSNotification *)notification {
-    [self setRenderingEnabled:NO forReason:kSUICFlamesViewUIApplicationNotificationReason];
+    [self setRenderingEnabled:NO forReason:kORKFlamesViewUIApplicationNotificationReason];
 }
 - (void)_applicationWillEnterForeground:(NSNotification *)notification {
-    [self setRenderingEnabled:YES forReason:kSUICFlamesViewUIApplicationNotificationReason];
+    [self setRenderingEnabled:YES forReason:kORKFlamesViewUIApplicationNotificationReason];
 }
 - (void)_applicationDidBecomeActive:(NSNotification *)notification {
-    [self setRenderingEnabled:YES forReason:kSUICFlamesViewUIApplicationNotificationReason];
+    [self setRenderingEnabled:YES forReason:kORKFlamesViewUIApplicationNotificationReason];
 }
 - (void)_setupDisplayLink {
     if (![self isHidden] && !_displayLink) {
@@ -1521,7 +1521,7 @@ static NSUInteger sIndexCacheSize = 5;
     GL_VALIDATE( glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA) );
     
     switch (_mode) {
-        case SUICFlamesViewModeSiri:
+        case ORKFlamesViewModeSiri:
             GL_VALIDATE( glShaderSource( vertShader, 1, _reduceMotionEnabled ? &siriFlameAccessibilityVertexShader : &siriFlameVertexShader, NULL ) );
             GL_VALIDATE( glCompileShader( vertShader ) );
             GL_VALIDATE( glGetShaderiv( vertShader, GL_COMPILE_STATUS, &status ) );
@@ -1539,7 +1539,7 @@ static NSUInteger sIndexCacheSize = 5;
             
             break;
             
-        case SUICFlamesViewModeDictation:
+        case ORKFlamesViewModeDictation:
             GL_VALIDATE( glShaderSource( vertShader, 1, &siriDictationVertexShader, NULL ) );
             GL_VALIDATE( glCompileShader( vertShader ) );
             GL_VALIDATE( glGetShaderiv( vertShader, GL_COMPILE_STATUS, &status ) );
@@ -1548,7 +1548,7 @@ static NSUInteger sIndexCacheSize = 5;
             GL_VALIDATE( glGetShaderiv( fragShader0, GL_COMPILE_STATUS, &status ) );
             break;
             
-        case SUICFlamesViewModeHeySiriTraining:
+        case ORKFlamesViewModeHeySiriTraining:
             GL_VALIDATE( glShaderSource( vertShader, 1, &siriTrainingVertexShader, NULL ) );
             GL_VALIDATE( glCompileShader( vertShader ) );
             GL_VALIDATE( glGetShaderiv( vertShader, GL_COMPILE_STATUS, &status ) );
@@ -1580,7 +1580,7 @@ static NSUInteger sIndexCacheSize = 5;
     glVertexAttrib4f(GLSL_VIEWPORTDIM_SCREENSCALE_UNITLENGTH, (GLfloat)_viewWidth, (GLfloat)_viewHeight, (GLfloat)[self _currentDisplayScale], (GLfloat)_dictationUnitSize);
     glVertexAttrib4f(GLSL_STATES, 0.0, 0.0, 0.0, 0.0);
     glVertexAttrib4f(GLSL_IN_TIME_ZTIME_HEIGHT_ALPHA, 0.0, 0.0, 0.0, 0.0);
-    if (_mode == SUICFlamesViewModeDictation) {
+    if (_mode == ORKFlamesViewModeDictation) {
         glVertexAttrib3f(GLSL_FRAGMENT_COLOR, _dictationRedColor, _dictationGreenColor, _dictationBlueColor);
     }
     
@@ -1614,7 +1614,7 @@ static NSUInteger sIndexCacheSize = 5;
     success &= (0 != ( GLSL_IN_TIME_ZTIME_HEIGHT_ALPHA == glGetAttribLocation( _flameProgramHandle, "in_Time_ZTime_Height_Alpha" ) ) );
     success &= (0 != ( GLSL_STATES == glGetAttribLocation( _flameProgramHandle, "in_States" ) ) );
     success &= (0 != ( GLSL_VIEWPORTDIM_SCREENSCALE_UNITLENGTH == glGetAttribLocation( _flameProgramHandle, "in_ViewportDim_ScreenScale_UnitLength" ) ) );
-    if (_mode == SUICFlamesViewModeDictation) {
+    if (_mode == ORKFlamesViewModeDictation) {
         success &= (0 != ( GLSL_FRAGMENT_COLOR == glGetAttribLocation( _flameProgramHandle, "in_FragmentColor" ) ) );
     }
     
@@ -1817,7 +1817,7 @@ static NSUInteger sIndexCacheSize = 5;
             // q: theta (radians)
             float q_geom;
             float q_noise;
-            if (_mode == SUICFlamesViewModeDictation) {
+            if (_mode == ORKFlamesViewModeDictation) {
                 q_geom  = M_PI * 2.0 * ((float)((j+1) - (j % 2)) / n);
                 q_noise = M_PI * 2.0 * vector_fract((float)((j+1) + ((j % 2) - 1.0)) / n);
             } else {
@@ -1833,9 +1833,9 @@ static NSUInteger sIndexCacheSize = 5;
     
     GLuint* indices = NULL;
     
-    NSString *cacheKey = SUICGetIndexCacheEntryKey(_activeFrame, _fidelity, _horizontalScaleFactor, _mode, _viewWidth, _viewHeight);
+    NSString *cacheKey = ORKGetIndexCacheEntryKey(_activeFrame, _fidelity, _horizontalScaleFactor, _mode, _viewWidth, _viewHeight);
     
-    SUICGLIndexCacheEntry *cacheEntry = [[[self class] _indexCache] objectForKey:cacheKey];
+    ORKGLIndexCacheEntry *cacheEntry = [[[self class] _indexCache] objectForKey:cacheKey];
     
     if (cacheEntry) {
         _numAuraIndices = [cacheEntry numAuraIndices];
@@ -1873,7 +1873,7 @@ static NSUInteger sIndexCacheSize = 5;
         _numWaveIndices -= _numAuraIndicesCulled;
         _numAuraIndicesCulled -= _numAuraIndices;
         
-        cacheEntry = [[SUICGLIndexCacheEntry alloc] init];
+        cacheEntry = [[ORKGLIndexCacheEntry alloc] init];
         [cacheEntry setNumAuraIndices:_numAuraIndices];
         [cacheEntry setNumAuraIndicesCulled:_numAuraIndicesCulled];
         [cacheEntry setNumWaveIndices:_numWaveIndices];
@@ -2081,15 +2081,15 @@ static NSUInteger sIndexCacheSize = 5;
     return (needsLowerQualityFlames && scale == 3.0);
 }
 - (void)_tearDownDisplayLink {
-    _state = SUICFlamesViewStateDisabled;
+    _state = ORKFlamesViewStateDisabled;
     [_displayLink invalidate];
     _displayLink = nil;
 }
 - (BOOL)inSiriMode {
-    return ([self mode] == SUICFlamesViewModeSiri);
+    return ([self mode] == ORKFlamesViewModeSiri);
 }
 - (BOOL)inDictationMode {
-    return ([self mode] == SUICFlamesViewModeDictation);
+    return ([self mode] == ORKFlamesViewModeDictation);
 }
 - (void)stopRenderingAndCleanupGL {
     [self _tearDownDisplayLink];
@@ -2137,27 +2137,27 @@ static NSUInteger sIndexCacheSize = 5;
         vector_float4 *states = _currentFlameGroup.stateModifiersPtr;
         if (*phase < 1.0) {
             switch (_state) {
-                case SUICFlamesViewStateAboutToListen:
+                case ORKFlamesViewStateAboutToListen:
                     *phase += (0.03 * _frameRateScalingFactor);
                     *phase = MIN(*phase, 1.0);
                     *states = vector_mix(*states, (vector_float4){1.0, 0.0, 0.0, 0.0}, (vector_float4){*phase, *phase, *phase, *phase});
                     [_levelSmoother setDecaySpeed:0.95];
                     break;
-                case SUICFlamesViewStateListening:
+                case ORKFlamesViewStateListening:
                     *phase += (0.03 * _frameRateScalingFactor);
                     *phase = MIN(*phase, 1.0);
                     *states = vector_mix(*states, (vector_float4){0.0, 1.0, 0.0, 0.0}, (vector_float4){*phase, *phase, *phase, *phase});
                     [_levelSmoother setDecaySpeed:0.9];
                     break;
-                case SUICFlamesViewStateThinking:
+                case ORKFlamesViewStateThinking:
                     *phase += (0.02 * _frameRateScalingFactor);
                     *phase = MIN(*phase, 1.0);
                     *states = vector_mix(*states, (vector_float4){0.0, 0.0, 1.0, 0.0}, (vector_float4){*phase, *phase, *phase, *phase});
                     break;
-                case SUICFlamesViewStateSuccess:
-                    // Since a new _currentFlameGroup is immediately allocated when this state is hit, and _currentFlameGroup becomes of state SUICFlamesViewStateAboutToListen, this switch case will never execute for any duration.
+                case ORKFlamesViewStateSuccess:
+                    // Since a new _currentFlameGroup is immediately allocated when this state is hit, and _currentFlameGroup becomes of state ORKFlamesViewStateAboutToListen, this switch case will never execute for any duration.
                     break;
-                case SUICFlamesViewStateDisabled:
+                case ORKFlamesViewStateDisabled:
                     *phase += (0.03 * _frameRateScalingFactor);
                     *phase = MIN(*phase, 1.0);
                     *states = vector_mix(*states, (vector_float4){0.0, 0.0, 0.0, 0.0}, (vector_float4){*phase, *phase, *phase, *phase});
@@ -2175,7 +2175,7 @@ static NSUInteger sIndexCacheSize = 5;
     
     // <rdar://problem/20979777> SpringBoard is checking power levels even when not recording
     float powerLevel = 0.0;
-    if (_state == SUICFlamesViewStateListening) {
+    if (_state == ORKFlamesViewStateListening) {
         powerLevel = [self _currentMicPowerLevel];
     }
     
@@ -2195,12 +2195,12 @@ static NSUInteger sIndexCacheSize = 5;
     const CGFloat activeFrameWidth = _activeFrame.size.width * _horizontalScaleFactor;
     glVertexAttrib4f(GLSL_IN_FITTED_BOUNDS, (GLfloat)activeFrameOriginX, (GLfloat)_activeFrame.origin.y, (GLfloat)activeFrameWidth, (GLfloat)_activeFrame.size.height);
     glVertexAttrib4f(GLSL_VIEWPORTDIM_SCREENSCALE_UNITLENGTH, (GLfloat)_viewWidth, (GLfloat)_viewHeight, (GLfloat)[self _currentDisplayScale], (GLfloat)_dictationUnitSize);
-    if (_mode == SUICFlamesViewModeDictation) {
+    if (_mode == ORKFlamesViewModeDictation) {
         glVertexAttrib3f(GLSL_FRAGMENT_COLOR, _dictationRedColor, _dictationGreenColor, _dictationBlueColor);
     }
     
     NSMutableArray *discarded = [[NSMutableArray alloc] init];
-    for (SUICFlameGroup *flames in _flameGroups) {
+    for (ORKFlameGroup *flames in _flameGroups) {
         vector_float4 *states = flames.stateModifiersPtr;
         // Don't animate the aura group if frozen.
         if (!(_freezesAura && flames.isAura)) {
@@ -2220,7 +2220,7 @@ static NSUInteger sIndexCacheSize = 5;
             flames.globalAlpha = MAX(flames.globalAlpha - kGlobalAlphaFadeSpeedIncrement, 0.0);
         }
         
-        if (flames.isAura && _mode == SUICFlamesViewModeSiri) {
+        if (flames.isAura && _mode == ORKFlamesViewModeSiri) {
             float *phase = flames.transitionPhasePtr;
             indicesLength = _numAuraIndicesCulled;
             indicesPosition = _numAuraIndices;
@@ -2304,8 +2304,8 @@ static NSUInteger sIndexCacheSize = 5;
 - (void)_didFinishTransition {
     [self _updateDisplayLinkPausedState];
 }
-+ (NSCache<NSString *, SUICGLIndexCacheEntry *> *)_indexCache {
-    static NSCache<NSString *, SUICGLIndexCacheEntry *> *sIndexCache;
++ (NSCache<NSString *, ORKGLIndexCacheEntry *> *)_indexCache {
+    static NSCache<NSString *, ORKGLIndexCacheEntry *> *sIndexCache;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sIndexCache = [[NSCache alloc] init];

@@ -239,22 +239,22 @@
 		51E03D6D2491B6DB008F8406 /* ORKRequestPermissionView.h in Headers */ = {isa = PBXBuildFile; fileRef = 51E03D6B2491B6DB008F8406 /* ORKRequestPermissionView.h */; };
 		51E03D6E2491B6DB008F8406 /* ORKRequestPermissionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 51E03D6C2491B6DB008F8406 /* ORKRequestPermissionView.m */; };
 		5D16A7B424E5FE2F00B2A5B4 /* ORKContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D58803B24109B60005B3D91 /* ORKContext.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5D1CE42523F497D5004CB416 /* SUICFlamesShaderTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D1CE41723F497D3004CB416 /* SUICFlamesShaderTypes.h */; };
-		5D1CE42623F497D5004CB416 /* SUICFlamesView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D1CE41823F497D3004CB416 /* SUICFlamesView.h */; };
-		5D1CE42723F497D5004CB416 /* SUICAudioLevelSmoother.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1CE41923F497D3004CB416 /* SUICAudioLevelSmoother.m */; };
-		5D1CE42823F497D5004CB416 /* SUICFlameGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1CE41A23F497D4004CB416 /* SUICFlameGroup.m */; };
-		5D1CE42923F497D5004CB416 /* SUICIndexCacheEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D1CE41B23F497D4004CB416 /* SUICIndexCacheEntry.h */; };
-		5D1CE42A23F497D5004CB416 /* SUICFlamesViewMetal.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1CE41C23F497D4004CB416 /* SUICFlamesViewMetal.m */; };
-		5D1CE42B23F497D5004CB416 /* SUICIndexCacheEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1CE41D23F497D4004CB416 /* SUICIndexCacheEntry.m */; };
-		5D1CE42C23F497D5004CB416 /* SUICAudioLevelSmoother.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D1CE41E23F497D4004CB416 /* SUICAudioLevelSmoother.h */; };
-		5D1CE42D23F497D5004CB416 /* SUICFlamesViewTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D1CE41F23F497D4004CB416 /* SUICFlamesViewTypes.h */; };
-		5D1CE42E23F497D5004CB416 /* SUICFlamesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1CE42023F497D4004CB416 /* SUICFlamesView.m */; };
-		5D1CE42F23F497D5004CB416 /* SUICFlamesViewProviding.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D1CE42123F497D4004CB416 /* SUICFlamesViewProviding.h */; };
-		5D1CE43023F497D5004CB416 /* SUICFlamesViewMetal.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D1CE42223F497D4004CB416 /* SUICFlamesViewMetal.h */; };
+		5D1CE42523F497D5004CB416 /* ORKFlamesShaderTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D1CE41723F497D3004CB416 /* ORKFlamesShaderTypes.h */; };
+		5D1CE42623F497D5004CB416 /* ORKFlamesView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D1CE41823F497D3004CB416 /* ORKFlamesView.h */; };
+		5D1CE42723F497D5004CB416 /* ORKAudioLevelSmoother.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1CE41923F497D3004CB416 /* ORKAudioLevelSmoother.m */; };
+		5D1CE42823F497D5004CB416 /* ORKFlameGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1CE41A23F497D4004CB416 /* ORKFlameGroup.m */; };
+		5D1CE42923F497D5004CB416 /* ORKIndexCacheEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D1CE41B23F497D4004CB416 /* ORKIndexCacheEntry.h */; };
+		5D1CE42A23F497D5004CB416 /* ORKFlamesViewMetal.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1CE41C23F497D4004CB416 /* ORKFlamesViewMetal.m */; };
+		5D1CE42B23F497D5004CB416 /* ORKIndexCacheEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1CE41D23F497D4004CB416 /* ORKIndexCacheEntry.m */; };
+		5D1CE42C23F497D5004CB416 /* ORKAudioLevelSmoother.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D1CE41E23F497D4004CB416 /* ORKAudioLevelSmoother.h */; };
+		5D1CE42D23F497D5004CB416 /* ORKFlamesViewTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D1CE41F23F497D4004CB416 /* ORKFlamesViewTypes.h */; };
+		5D1CE42E23F497D5004CB416 /* ORKFlamesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1CE42023F497D4004CB416 /* ORKFlamesView.m */; };
+		5D1CE42F23F497D5004CB416 /* ORKFlamesViewProviding.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D1CE42123F497D4004CB416 /* ORKFlamesViewProviding.h */; };
+		5D1CE43023F497D5004CB416 /* ORKFlamesViewMetal.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D1CE42223F497D4004CB416 /* ORKFlamesViewMetal.h */; };
 		5D1CE43123F497D5004CB416 /* SiriUIFlamesShaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 5D1CE42323F497D5004CB416 /* SiriUIFlamesShaders.metal */; };
-		5D1CE43223F497D5004CB416 /* SUICFlameGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D1CE42423F497D5004CB416 /* SUICFlameGroup.h */; };
-		5D1CE43523F49D6D004CB416 /* SUICFlamesViewLegacy.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D1CE43323F49D6D004CB416 /* SUICFlamesViewLegacy.h */; };
-		5D1CE43623F49D6D004CB416 /* SUICFlamesViewLegacy.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1CE43423F49D6D004CB416 /* SUICFlamesViewLegacy.m */; };
+		5D1CE43223F497D5004CB416 /* ORKFlameGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D1CE42423F497D5004CB416 /* ORKFlameGroup.h */; };
+		5D1CE43523F49D6D004CB416 /* ORKFlamesViewLegacy.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D1CE43323F49D6D004CB416 /* ORKFlamesViewLegacy.h */; };
+		5D1CE43623F49D6D004CB416 /* ORKFlamesViewLegacy.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1CE43423F49D6D004CB416 /* ORKFlamesViewLegacy.m */; };
 		5D1CE43923F4A79A004CB416 /* ORKAudioDictationView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D1CE43723F4A79A004CB416 /* ORKAudioDictationView.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5D1CE43A23F4A79A004CB416 /* ORKAudioDictationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1CE43823F4A79A004CB416 /* ORKAudioDictationView.m */; };
 		5D1CE45A23FC85F4004CB416 /* ORKAudioMeteringView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D1CE45823FC85F3004CB416 /* ORKAudioMeteringView.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -1229,22 +1229,22 @@
 		5D06632F24FEF272005D9B40 /* ResearchKitUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResearchKitUI.h; sourceTree = "<group>"; };
 		5D06633024FEF272005D9B40 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5D06633924FEF2CE005D9B40 /* TaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskView.swift; sourceTree = "<group>"; };
-		5D1CE41723F497D3004CB416 /* SUICFlamesShaderTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUICFlamesShaderTypes.h; sourceTree = "<group>"; };
-		5D1CE41823F497D3004CB416 /* SUICFlamesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUICFlamesView.h; sourceTree = "<group>"; };
-		5D1CE41923F497D3004CB416 /* SUICAudioLevelSmoother.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SUICAudioLevelSmoother.m; sourceTree = "<group>"; };
-		5D1CE41A23F497D4004CB416 /* SUICFlameGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SUICFlameGroup.m; sourceTree = "<group>"; };
-		5D1CE41B23F497D4004CB416 /* SUICIndexCacheEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUICIndexCacheEntry.h; sourceTree = "<group>"; };
-		5D1CE41C23F497D4004CB416 /* SUICFlamesViewMetal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SUICFlamesViewMetal.m; sourceTree = "<group>"; };
-		5D1CE41D23F497D4004CB416 /* SUICIndexCacheEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SUICIndexCacheEntry.m; sourceTree = "<group>"; };
-		5D1CE41E23F497D4004CB416 /* SUICAudioLevelSmoother.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUICAudioLevelSmoother.h; sourceTree = "<group>"; };
-		5D1CE41F23F497D4004CB416 /* SUICFlamesViewTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUICFlamesViewTypes.h; sourceTree = "<group>"; };
-		5D1CE42023F497D4004CB416 /* SUICFlamesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SUICFlamesView.m; sourceTree = "<group>"; };
-		5D1CE42123F497D4004CB416 /* SUICFlamesViewProviding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUICFlamesViewProviding.h; sourceTree = "<group>"; };
-		5D1CE42223F497D4004CB416 /* SUICFlamesViewMetal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUICFlamesViewMetal.h; sourceTree = "<group>"; };
+		5D1CE41723F497D3004CB416 /* ORKFlamesShaderTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKFlamesShaderTypes.h; sourceTree = "<group>"; };
+		5D1CE41823F497D3004CB416 /* ORKFlamesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKFlamesView.h; sourceTree = "<group>"; };
+		5D1CE41923F497D3004CB416 /* ORKAudioLevelSmoother.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKAudioLevelSmoother.m; sourceTree = "<group>"; };
+		5D1CE41A23F497D4004CB416 /* ORKFlameGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKFlameGroup.m; sourceTree = "<group>"; };
+		5D1CE41B23F497D4004CB416 /* ORKIndexCacheEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKIndexCacheEntry.h; sourceTree = "<group>"; };
+		5D1CE41C23F497D4004CB416 /* ORKFlamesViewMetal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKFlamesViewMetal.m; sourceTree = "<group>"; };
+		5D1CE41D23F497D4004CB416 /* ORKIndexCacheEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKIndexCacheEntry.m; sourceTree = "<group>"; };
+		5D1CE41E23F497D4004CB416 /* ORKAudioLevelSmoother.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKAudioLevelSmoother.h; sourceTree = "<group>"; };
+		5D1CE41F23F497D4004CB416 /* ORKFlamesViewTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKFlamesViewTypes.h; sourceTree = "<group>"; };
+		5D1CE42023F497D4004CB416 /* ORKFlamesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKFlamesView.m; sourceTree = "<group>"; };
+		5D1CE42123F497D4004CB416 /* ORKFlamesViewProviding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKFlamesViewProviding.h; sourceTree = "<group>"; };
+		5D1CE42223F497D4004CB416 /* ORKFlamesViewMetal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKFlamesViewMetal.h; sourceTree = "<group>"; };
 		5D1CE42323F497D5004CB416 /* SiriUIFlamesShaders.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = SiriUIFlamesShaders.metal; sourceTree = "<group>"; };
-		5D1CE42423F497D5004CB416 /* SUICFlameGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUICFlameGroup.h; sourceTree = "<group>"; };
-		5D1CE43323F49D6D004CB416 /* SUICFlamesViewLegacy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SUICFlamesViewLegacy.h; sourceTree = "<group>"; };
-		5D1CE43423F49D6D004CB416 /* SUICFlamesViewLegacy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SUICFlamesViewLegacy.m; sourceTree = "<group>"; };
+		5D1CE42423F497D5004CB416 /* ORKFlameGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKFlameGroup.h; sourceTree = "<group>"; };
+		5D1CE43323F49D6D004CB416 /* ORKFlamesViewLegacy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKFlamesViewLegacy.h; sourceTree = "<group>"; };
+		5D1CE43423F49D6D004CB416 /* ORKFlamesViewLegacy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKFlamesViewLegacy.m; sourceTree = "<group>"; };
 		5D1CE43723F4A79A004CB416 /* ORKAudioDictationView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKAudioDictationView.h; sourceTree = "<group>"; };
 		5D1CE43823F4A79A004CB416 /* ORKAudioDictationView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKAudioDictationView.m; sourceTree = "<group>"; };
 		5D1CE45823FC85F3004CB416 /* ORKAudioMeteringView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKAudioMeteringView.h; sourceTree = "<group>"; };
@@ -2596,21 +2596,21 @@
 			isa = PBXGroup;
 			children = (
 				5D1CE42323F497D5004CB416 /* SiriUIFlamesShaders.metal */,
-				5D1CE41E23F497D4004CB416 /* SUICAudioLevelSmoother.h */,
-				5D1CE41923F497D3004CB416 /* SUICAudioLevelSmoother.m */,
-				5D1CE42423F497D5004CB416 /* SUICFlameGroup.h */,
-				5D1CE41A23F497D4004CB416 /* SUICFlameGroup.m */,
-				5D1CE41723F497D3004CB416 /* SUICFlamesShaderTypes.h */,
-				5D1CE41823F497D3004CB416 /* SUICFlamesView.h */,
-				5D1CE42023F497D4004CB416 /* SUICFlamesView.m */,
-				5D1CE42223F497D4004CB416 /* SUICFlamesViewMetal.h */,
-				5D1CE41C23F497D4004CB416 /* SUICFlamesViewMetal.m */,
-				5D1CE42123F497D4004CB416 /* SUICFlamesViewProviding.h */,
-				5D1CE41F23F497D4004CB416 /* SUICFlamesViewTypes.h */,
-				5D1CE41B23F497D4004CB416 /* SUICIndexCacheEntry.h */,
-				5D1CE41D23F497D4004CB416 /* SUICIndexCacheEntry.m */,
-				5D1CE43323F49D6D004CB416 /* SUICFlamesViewLegacy.h */,
-				5D1CE43423F49D6D004CB416 /* SUICFlamesViewLegacy.m */,
+				5D1CE41E23F497D4004CB416 /* ORKAudioLevelSmoother.h */,
+				5D1CE41923F497D3004CB416 /* ORKAudioLevelSmoother.m */,
+				5D1CE42423F497D5004CB416 /* ORKFlameGroup.h */,
+				5D1CE41A23F497D4004CB416 /* ORKFlameGroup.m */,
+				5D1CE41723F497D3004CB416 /* ORKFlamesShaderTypes.h */,
+				5D1CE41823F497D3004CB416 /* ORKFlamesView.h */,
+				5D1CE42023F497D4004CB416 /* ORKFlamesView.m */,
+				5D1CE42223F497D4004CB416 /* ORKFlamesViewMetal.h */,
+				5D1CE41C23F497D4004CB416 /* ORKFlamesViewMetal.m */,
+				5D1CE42123F497D4004CB416 /* ORKFlamesViewProviding.h */,
+				5D1CE41F23F497D4004CB416 /* ORKFlamesViewTypes.h */,
+				5D1CE41B23F497D4004CB416 /* ORKIndexCacheEntry.h */,
+				5D1CE41D23F497D4004CB416 /* ORKIndexCacheEntry.m */,
+				5D1CE43323F49D6D004CB416 /* ORKFlamesViewLegacy.h */,
+				5D1CE43423F49D6D004CB416 /* ORKFlamesViewLegacy.m */,
 			);
 			path = SUICFlamesView;
 			sourceTree = "<group>";
@@ -4172,7 +4172,7 @@
 				86C40CE41A8D7C5C00081FAC /* ORKAnswerFormat.h in Headers */,
 				25ECC0951AFBD68300F3D63B /* ORKReactionTimeStep.h in Headers */,
 				2E8070FB1FAD217500E4FC7F /* ORKSpeechRecognitionStep.h in Headers */,
-				5D1CE43223F497D5004CB416 /* SUICFlameGroup.h in Headers */,
+				5D1CE43223F497D5004CB416 /* ORKFlameGroup.h in Headers */,
 				FF919A531E81BEB5005C2A1E /* ORKCollectionResult.h in Headers */,
 				86C40D0A1A8D7C5C00081FAC /* ORKCustomStepView.h in Headers */,
 				BCD192EE1B81255F00FCC08A /* ORKPieChartView_Internal.h in Headers */,
@@ -4206,7 +4206,7 @@
 				BABBB1BA2097EF3800CB29E5 /* ORKFreehandDrawingView.h in Headers */,
 				10FF9AD71B7A045E00ECB5B4 /* ORKSeparatorView.h in Headers */,
 				5D43C5D124217393006F4084 /* ORKRecordButton.h in Headers */,
-				5D1CE42F23F497D5004CB416 /* SUICFlamesViewProviding.h in Headers */,
+				5D1CE42F23F497D5004CB416 /* ORKFlamesViewProviding.h in Headers */,
 				FF72B1EF1F5F10CD004C6F15 /* ORKStroopResult.h in Headers */,
 				86C40D9C1A8D7C5C00081FAC /* ORKSubheadlineLabel.h in Headers */,
 				147503BB1AEE807C004B17F3 /* ORKToneAudiometryStepViewController.h in Headers */,
@@ -4327,7 +4327,7 @@
 				BAC2B65B22F25A2E0079304E /* ORKSESSelectionView.h in Headers */,
 				242C9E051BBDFDAC0088B7F4 /* ORKVerificationStep.h in Headers */,
 				5D26E77824997EA200E53D27 /* ORK3DModelManager_Internal.h in Headers */,
-				5D1CE42923F497D5004CB416 /* SUICIndexCacheEntry.h in Headers */,
+				5D1CE42923F497D5004CB416 /* ORKIndexCacheEntry.h in Headers */,
 				86C40D141A8D7C5C00081FAC /* ORKHelpers_Private.h in Headers */,
 				FF919A2E1E81AAD0005C2A1E /* ORKTowerOfHanoiResult.h in Headers */,
 				BAC2B65722F252F70079304E /* ORKSurveyAnswerCellForSES.h in Headers */,
@@ -4349,7 +4349,7 @@
 				86C40C121A8D7C5C00081FAC /* ORKActiveStepQuantityView.h in Headers */,
 				511987AB24608443004FC2C7 /* ORKAVJournalingStepViewController.h in Headers */,
 				86C40CCC1A8D7C5C00081FAC /* ORKImageSelectionView.h in Headers */,
-				5D1CE42D23F497D5004CB416 /* SUICFlamesViewTypes.h in Headers */,
+				5D1CE42D23F497D5004CB416 /* ORKFlamesViewTypes.h in Headers */,
 				BA2645E62301571800D00B73 /* ORKReviewViewController.h in Headers */,
 				866DA5251D63D04700C9AF3F /* ORKHealthSampleQueryOperation.h in Headers */,
 				2441034F1B966D4C00EEAB0C /* ORKPasscodeViewController.h in Headers */,
@@ -4367,7 +4367,7 @@
 				B183A4DD1A8535D100C76870 /* ResearchKit.h in Headers */,
 				95E11E551D73396300BF865B /* ORKShoulderRangeOfMotionStepViewController.h in Headers */,
 				86C40D101A8D7C5C00081FAC /* ORKDefaultFont.h in Headers */,
-				5D1CE43023F497D5004CB416 /* SUICFlamesViewMetal.h in Headers */,
+				5D1CE43023F497D5004CB416 /* ORKFlamesViewMetal.h in Headers */,
 				86C40E301A8D7C5C00081FAC /* ORKVisualConsentStepViewController.h in Headers */,
 				BAD9E9122255E9750014FA29 /* ORKLearnMoreInstructionStep.h in Headers */,
 				86C40DCA1A8D7C5C00081FAC /* ORKTaskViewController.h in Headers */,
@@ -4444,7 +4444,7 @@
 				D44239791AF17F5100559D96 /* ORKImageCaptureStep.h in Headers */,
 				86C40CB21A8D7C5C00081FAC /* ORKRecorder_Private.h in Headers */,
 				BCD192E71B81243900FCC08A /* ORKPieChartLegendView.h in Headers */,
-				5D1CE42523F497D5004CB416 /* SUICFlamesShaderTypes.h in Headers */,
+				5D1CE42523F497D5004CB416 /* ORKFlamesShaderTypes.h in Headers */,
 				BABBB1B22097E16700CB29E5 /* ORKPDFViewerStepViewController.h in Headers */,
 				86C40C881A8D7C5C00081FAC /* ORKActiveStepTimerView.h in Headers */,
 				517514522459EF5D009E8FFC /* ORK3DModelStepViewController.h in Headers */,
@@ -4484,8 +4484,8 @@
 				86C40C2A1A8D7C5C00081FAC /* ORKFitnessContentView.h in Headers */,
 				5D43C5D424255675006F4084 /* ORKBodyItem_Internal.h in Headers */,
 				BA43CCA822722C6E00F2A2D2 /* ORKStepContentView_Private.h in Headers */,
-				5D1CE42C23F497D5004CB416 /* SUICAudioLevelSmoother.h in Headers */,
-				5D1CE42623F497D5004CB416 /* SUICFlamesView.h in Headers */,
+				5D1CE42C23F497D5004CB416 /* ORKAudioLevelSmoother.h in Headers */,
+				5D1CE42623F497D5004CB416 /* ORKFlamesView.h in Headers */,
 				2E8071031FB0E6BE00E4FC7F /* ORKAudioGraphView.h in Headers */,
 				86C40DC21A8D7C5C00081FAC /* ORKTapCountLabel.h in Headers */,
 				86C40D301A8D7C5C00081FAC /* ORKHealthAnswerFormat.h in Headers */,
@@ -4552,7 +4552,7 @@
 				FF36A48D1D1A0ACA00DE8470 /* ORKAudioLevelNavigationRule.h in Headers */,
 				E2BC456422D76C70009DAAAE /* ORKHeadphoneDetectStep.h in Headers */,
 				86C40C5E1A8D7C5C00081FAC /* ORKWalkingTaskStepViewController.h in Headers */,
-				5D1CE43523F49D6D004CB416 /* SUICFlamesViewLegacy.h in Headers */,
+				5D1CE43523F49D6D004CB416 /* ORKFlamesViewLegacy.h in Headers */,
 				71897FA6228B3DB100B7CCEB /* ORKConsentSceneViewController_Internal.h in Headers */,
 				86C40D2C1A8D7C5C00081FAC /* ORKHeadlineLabel.h in Headers */,
 				5190141924759E6800E3A418 /* ORKFrontFacingCameraStepResult.h in Headers */,
@@ -5008,7 +5008,7 @@
 				FF919A2B1E81A94B005C2A1E /* ORKRangeOfMotionResult.m in Sources */,
 				86C40CA61A8D7C5C00081FAC /* ORKLocationRecorder.m in Sources */,
 				86C40CB61A8D7C5C00081FAC /* ORKTouchRecorder.m in Sources */,
-				5D1CE42E23F497D5004CB416 /* SUICFlamesView.m in Sources */,
+				5D1CE42E23F497D5004CB416 /* ORKFlamesView.m in Sources */,
 				BC2908BC1FBD628F0030AB89 /* ORKTypes.m in Sources */,
 				71D8EF1820B9EE1900EBCDC6 /* ORKHealthClinicalTypeRecorder.m in Sources */,
 				CBD34A5B1BB207FC00F204EA /* ORKSurveyAnswerCellForLocation.m in Sources */,
@@ -5052,10 +5052,10 @@
 				517514572459F0BE009E8FFC /* ORK3DModelStepContentView.m in Sources */,
 				5D1CE46023FDE7BD004CB416 /* ORKVolumeCalibrationStep.m in Sources */,
 				B8760F2C1AFBEFB0007FA16F /* ORKScaleRangeDescriptionLabel.m in Sources */,
-				5D1CE42B23F497D5004CB416 /* SUICIndexCacheEntry.m in Sources */,
+				5D1CE42B23F497D5004CB416 /* ORKIndexCacheEntry.m in Sources */,
 				86C40D821A8D7C5C00081FAC /* ORKSelectionSubTitleLabel.m in Sources */,
 				FF919A441E81B904005C2A1E /* ORKPSATResult.m in Sources */,
-				5D1CE42823F497D5004CB416 /* SUICFlameGroup.m in Sources */,
+				5D1CE42823F497D5004CB416 /* ORKFlameGroup.m in Sources */,
 				86C40DCC1A8D7C5C00081FAC /* ORKTaskViewController.m in Sources */,
 				511987A0245FE68D004FC2C7 /* ORKUSDZModelManager.m in Sources */,
 				86C40E061A8D7C5C00081FAC /* ORKConsentLearnMoreViewController.m in Sources */,
@@ -5216,7 +5216,7 @@
 				BF9155AA1BDE8DA9007FA459 /* ORKWaitStepView.m in Sources */,
 				86C40D261A8D7C5C00081FAC /* ORKFormStepViewController.m in Sources */,
 				BC5FAF851C6901A200057CF1 /* ORKChartTypes.m in Sources */,
-				5D1CE43623F49D6D004CB416 /* SUICFlamesViewLegacy.m in Sources */,
+				5D1CE43623F49D6D004CB416 /* ORKFlamesViewLegacy.m in Sources */,
 				866DA5261D63D04700C9AF3F /* ORKHealthSampleQueryOperation.m in Sources */,
 				FF5CA6131D2C2670001660A3 /* ORKTableStep.m in Sources */,
 				86C40C8A1A8D7C5C00081FAC /* ORKActiveStepTimerView.m in Sources */,
@@ -5234,7 +5234,7 @@
 				86C40DAC1A8D7C5C00081FAC /* ORKSurveyAnswerCellForNumber.m in Sources */,
 				51751468245A53D7009E8FFC /* ORKFrontFacingCameraStepContentView.m in Sources */,
 				5D1CE43A23F4A79A004CB416 /* ORKAudioDictationView.m in Sources */,
-				5D1CE42723F497D5004CB416 /* SUICAudioLevelSmoother.m in Sources */,
+				5D1CE42723F497D5004CB416 /* ORKAudioLevelSmoother.m in Sources */,
 				86C40C541A8D7C5C00081FAC /* ORKTappingIntervalStep.m in Sources */,
 				86C40D6C1A8D7C5C00081FAC /* ORKResult.m in Sources */,
 				781D54151DF886AB00223305 /* ORKTrailmakingStepViewController.m in Sources */,
@@ -5245,7 +5245,7 @@
 				BAC2B65C22F25A2F0079304E /* ORKSESSelectionView.m in Sources */,
 				24850E1A1BCDA9C7006E91FB /* ORKLoginStepViewController.m in Sources */,
 				25ECC09C1AFBD8B300F3D63B /* ORKReactionTimeViewController.m in Sources */,
-				5D1CE42A23F497D5004CB416 /* SUICFlamesViewMetal.m in Sources */,
+				5D1CE42A23F497D5004CB416 /* ORKFlamesViewMetal.m in Sources */,
 				5D43C5D224217393006F4084 /* ORKRecordButton.m in Sources */,
 				86C40DB01A8D7C5C00081FAC /* ORKSurveyAnswerCellForScale.m in Sources */,
 				BABBB1B72097E58300CB29E5 /* ORKPDFViewerStepView.m in Sources */,
