@@ -57,6 +57,8 @@ typedef void (^ORKAVJournalingStepContentViewEventHandler)(ORKAVJournalingStepCo
 
 - (void)handleError:(NSError *)error;
 
+- (void)tearDownContentView;
+
 - (NSArray<NSDictionary *> *)fetchRecalibrationTimeStamps;
 
 @end

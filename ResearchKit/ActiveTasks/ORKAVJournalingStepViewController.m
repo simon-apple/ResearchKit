@@ -111,6 +111,7 @@ static const CGFloat FramesToSkipTotal = 5.0;
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
+    [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     [self updateNavFooterText];
 }
 
@@ -123,6 +124,7 @@ static const CGFloat FramesToSkipTotal = 5.0;
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
+    [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
     [self cleanupSession];
 }
 
@@ -363,14 +365,10 @@ static const CGFloat FramesToSkipTotal = 5.0;
 
 - (void)cleanupSession {
     [self deleteTempVideoFile];
-    
-    if (_arSceneView) {
-        [_arSceneView.session pause];
-        [_arSceneView removeFromSuperview];
-        _arSceneView = nil;
-    }
-    
+    [_contentView tearDownContentView];
+    _contentView = nil;
     [self tearDownSession];
+    _sessionHelper = nil;
 }
 
 #pragma mark - ORKAVJournalingSessionHelperDelegate
