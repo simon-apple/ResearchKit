@@ -1442,6 +1442,18 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                  (@{
                     PROPERTY(userInfo, NSDictionary, NSObject, YES, nil, nil)
                     })),
+           ENTRY(ORKBundleAsset,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+                     return [[ORKBundleAsset alloc] initWithName:GETPROP(dict, name)
+                                                bundleIdentifier:GETPROP(dict, bundleIdentifier)
+                                                   fileExtension:GETPROP(dict, fileExtension)];
+                 },
+                 (@{
+                     PROPERTY(name, NSString, NSObject, NO, nil, nil),
+                     PROPERTY(bundleIdentifier, NSString, NSObject, NO, nil, nil),
+                     PROPERTY(fileExtension, NSString, NSObject, NO, nil, nil),
+                    })
+                 ),
            ENTRY(ORKVocalCue,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                     return [[ORKVocalCue alloc] initWithTime:((NSNumber *)GETPROP(dict, time)).doubleValue
