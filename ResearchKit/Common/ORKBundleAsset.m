@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2017, Oliver Schaefer.
+ Copyright (c) 2020, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,42 +28,37 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
-#import "ORKVideoInstructionStep.h"
-#import "ORKVideoInstructionStepViewController.h"
+#import "ORKBundleAsset.h"
 #import "ORKHelpers_Internal.h"
-#import <AVFoundation/AVFoundation.h>
 
+@implementation ORKBundleAsset
 
-@implementation ORKVideoInstructionStep
-
-+ (Class)stepViewControllerClass {
-    return [ORKVideoInstructionStepViewController class];
-}
-
-- (instancetype)initWithIdentifier:(NSString *)identifier {
-    self = [super initWithIdentifier:identifier];
+- (instancetype)initWithName:(NSString *)name
+            bundleIdentifier:(NSString *)bundleIdentifier
+               fileExtension:(NSString *)fileExtension {
+    self = [super init];
     if (self) {
-        _thumbnailTime = 0;
+        self.name = name;
+        self.bundleIdentifier = bundleIdentifier;
+        self.fileExtension = fileExtension;
     }
     return self;
 }
 
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
+- (instancetype)initWithCoder:(NSCoder *)coder {
+    self = [super init];
     if (self) {
-        ORK_DECODE_URL(aDecoder, videoURL);
-        ORK_DECODE_INTEGER(aDecoder, thumbnailTime);
-        ORK_DECODE_OBJ(aDecoder, bundleAsset);
+        ORK_DECODE_OBJ(coder, name);
+        ORK_DECODE_OBJ(coder, bundleIdentifier);
+        ORK_DECODE_OBJ(coder, fileExtension);
     }
     return self;
 }
 
-- (void)encodeWithCoder:(NSCoder *)aCoder {
-    [super encodeWithCoder:aCoder];
-    ORK_ENCODE_URL(aCoder, videoURL);
-    ORK_ENCODE_INTEGER(aCoder, thumbnailTime);
-    ORK_ENCODE_OBJ(aCoder, bundleAsset);
+- (void)encodeWithCoder:(NSCoder *)coder {
+    ORK_ENCODE_OBJ(coder, name);
+    ORK_ENCODE_OBJ(coder, bundleIdentifier);
+    ORK_ENCODE_OBJ(coder, fileExtension);
 }
 
 + (BOOL)supportsSecureCoding {
@@ -71,28 +66,28 @@
 }
 
 - (instancetype)copyWithZone:(NSZone *)zone {
-    ORKVideoInstructionStep *step = [super copyWithZone:zone];
-    step.videoURL = self.videoURL;
-    step.thumbnailTime = self.thumbnailTime;
-    step.bundleAsset = self.bundleAsset;
-    return step;
+    return [[ORKBundleAsset alloc] initWithName:self.name bundleIdentifier:self.bundleIdentifier fileExtension:self.fileExtension];
 }
 
-- (BOOL)isEqual:(id)object {
-    BOOL isParentSame = [super isEqual:object];
-    __typeof(self) castObject = object;
-    return isParentSame &&
-        ORKEqualObjects(castObject.videoURL, self.videoURL) &&
-        ORKEqualObjects(castObject.bundleAsset, self.bundleAsset) &&
-        castObject.thumbnailTime == self.thumbnailTime;
+- (BOOL)isEqual:(id)other {
+    if ([self class] != [other class]) {
+        return NO;
+    }
+
+    __typeof(self) castObject = other;
+    return (ORKEqualObjects(self.name, castObject.name) &&
+            ORKEqualObjects(self.bundleIdentifier, castObject.bundleIdentifier) &&
+            ORKEqualObjects(self.fileExtension, castObject.fileExtension));
 }
 
 - (NSUInteger)hash {
-    return super.hash ^ self.videoURL.hash ^ self.bundleAsset.hash;
+    return self.name.hash ^ self.bundleIdentifier.hash ^ self.fileExtension.hash;
 }
 
-- (void)setThumbnailTime:(NSUInteger)thumbnailTime {
-    _thumbnailTime = thumbnailTime;
+- (nullable NSURL *)url {
+    NSBundle *bundle = [NSBundle bundleWithIdentifier:self.bundleIdentifier];
+    NSURL *url = [bundle URLForResource:self.name withExtension:self.fileExtension];
+    return url;
 }
 
 @end
