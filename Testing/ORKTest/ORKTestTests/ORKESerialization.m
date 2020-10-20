@@ -1041,6 +1041,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                              ^id(id url, __unused ORKESerializationContext *context) { return [(NSURL *)url absoluteString]; },
                              ^id(id string, __unused ORKESerializationContext *context) { return [NSURL URLWithString:string]; }),
                     PROPERTY(thumbnailTime, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(bundleAsset, ORKBundleAsset, NSObject, YES, nil, nil)
                     })),
            ENTRY(ORKCompletionStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
@@ -1442,6 +1443,18 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                  (@{
                     PROPERTY(userInfo, NSDictionary, NSObject, YES, nil, nil)
                     })),
+           ENTRY(ORKBundleAsset,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+                     return [[ORKBundleAsset alloc] initWithName:GETPROP(dict, name)
+                                                bundleIdentifier:GETPROP(dict, bundleIdentifier)
+                                                   fileExtension:GETPROP(dict, fileExtension)];
+                 },
+                 (@{
+                     PROPERTY(name, NSString, NSObject, NO, nil, nil),
+                     PROPERTY(bundleIdentifier, NSString, NSObject, NO, nil, nil),
+                     PROPERTY(fileExtension, NSString, NSObject, NO, nil, nil),
+                    })
+                 ),
            ENTRY(ORKVocalCue,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                     return [[ORKVocalCue alloc] initWithTime:((NSNumber *)GETPROP(dict, time)).doubleValue
@@ -2042,13 +2055,9 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
            ENTRY(ORKAVJournalingResult,
                 nil,
                 (@{
-                    PROPERTY(contentType, NSString, NSObject, NO, nil, nil),
                     PROPERTY(fileNameArray, NSString, NSArray, NO, nil, nil),
                     PROPERTY(recalibrationTimeStamps, NSDictionary, NSArray, NO, nil, nil),
-                    PROPERTY(cameraIntrinsics, NSArray, NSArray, NO, nil, nil),
-                    PROPERTY(fileURL, NSURL, NSObject, NO,
-                             ^id(id url, __unused ORKESerializationContext *context) { return [url absoluteString]; },
-                             ^id(id string, __unused ORKESerializationContext *context) { return [NSURL URLWithString:string]; })
+                    PROPERTY(cameraIntrinsics, NSArray, NSArray, NO, nil, nil)
                  })),
            ENTRY(ORKToneAudiometrySample,
                  nil,

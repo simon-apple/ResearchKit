@@ -45,6 +45,8 @@
 		031A0FC224CF4ECD000E4455 /* ORKSensorPermissionType.m in Sources */ = {isa = PBXBuildFile; fileRef = 031A0FC024CF4ECD000E4455 /* ORKSensorPermissionType.m */; };
 		036B1E8D25351BAD008483DF /* ORKMotionActivityPermissionType.h in Headers */ = {isa = PBXBuildFile; fileRef = 036B1E8B25351BAD008483DF /* ORKMotionActivityPermissionType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		036B1E8E25351BAD008483DF /* ORKMotionActivityPermissionType.m in Sources */ = {isa = PBXBuildFile; fileRef = 036B1E8C25351BAD008483DF /* ORKMotionActivityPermissionType.m */; };
+		03BD9EA3253E62A0008ADBE1 /* ORKBundleAsset.h in Headers */ = {isa = PBXBuildFile; fileRef = 03BD9EA1253E62A0008ADBE1 /* ORKBundleAsset.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		03BD9EA4253E62A0008ADBE1 /* ORKBundleAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = 03BD9EA2253E62A0008ADBE1 /* ORKBundleAsset.m */; };
 		03EDD58024CA6B1D006245E9 /* ORKNotificationPermissionType.h in Headers */ = {isa = PBXBuildFile; fileRef = 03EDD57E24CA6B1D006245E9 /* ORKNotificationPermissionType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		03EDD58124CA6B1D006245E9 /* ORKNotificationPermissionType.m in Sources */ = {isa = PBXBuildFile; fileRef = 03EDD57F24CA6B1D006245E9 /* ORKNotificationPermissionType.m */; };
 		106FF29E1B663FCE004EACF2 /* ORKHolePegTestPlaceStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 106FF29C1B663FCE004EACF2 /* ORKHolePegTestPlaceStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -1028,6 +1030,8 @@
 		031A0FC024CF4ECD000E4455 /* ORKSensorPermissionType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKSensorPermissionType.m; sourceTree = "<group>"; };
 		036B1E8B25351BAD008483DF /* ORKMotionActivityPermissionType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKMotionActivityPermissionType.h; sourceTree = "<group>"; };
 		036B1E8C25351BAD008483DF /* ORKMotionActivityPermissionType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKMotionActivityPermissionType.m; sourceTree = "<group>"; };
+		03BD9EA1253E62A0008ADBE1 /* ORKBundleAsset.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKBundleAsset.h; sourceTree = "<group>"; };
+		03BD9EA2253E62A0008ADBE1 /* ORKBundleAsset.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKBundleAsset.m; sourceTree = "<group>"; };
 		03EDD57E24CA6B1D006245E9 /* ORKNotificationPermissionType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKNotificationPermissionType.h; sourceTree = "<group>"; };
 		03EDD57F24CA6B1D006245E9 /* ORKNotificationPermissionType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKNotificationPermissionType.m; sourceTree = "<group>"; };
 		05F3765923C797930068E166 /* ResearchKit.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = ResearchKit.xctestplan; sourceTree = "<group>"; };
@@ -3945,6 +3949,8 @@
 				BC4194271AE8453A00073D6B /* ORKObserver.h */,
 				BC4194281AE8453A00073D6B /* ORKObserver.m */,
 				5D58803B24109B60005B3D91 /* ORKContext.h */,
+				03BD9EA1253E62A0008ADBE1 /* ORKBundleAsset.h */,
+				03BD9EA2253E62A0008ADBE1 /* ORKBundleAsset.m */,
 			);
 			name = Misc;
 			sourceTree = "<group>";
@@ -4587,6 +4593,7 @@
 				BA8C5021226FFB04001896D0 /* ORKLearnMoreItem.h in Headers */,
 				2489F7B11D65214D008DEF20 /* ORKVideoCaptureStep.h in Headers */,
 				861D11AD1AA7951F003C98A7 /* ORKChoiceAnswerFormatHelper.h in Headers */,
+				03BD9EA3253E62A0008ADBE1 /* ORKBundleAsset.h in Headers */,
 				86C40C461A8D7C5C00081FAC /* ORKSpatialSpanMemoryStepViewController.h in Headers */,
 				51198769245CA50D004FC2C7 /* ORKUSDZModelManagerScene.h in Headers */,
 				86C40C521A8D7C5C00081FAC /* ORKTappingIntervalStep.h in Headers */,
@@ -5089,6 +5096,7 @@
 				1B4B95B81F5F012E006B629F /* ORKWeightPicker.m in Sources */,
 				250F94051B4C5A6600FA23EB /* ORKTowerOfHanoiStep.m in Sources */,
 				86C40E0A1A8D7C5C00081FAC /* ORKConsentReviewStep.m in Sources */,
+				03BD9EA4253E62A0008ADBE1 /* ORKBundleAsset.m in Sources */,
 				BCD192E81B81243900FCC08A /* ORKPieChartLegendView.m in Sources */,
 				FF919A481E81BA3D005C2A1E /* ORKHolePegTestResult.m in Sources */,
 				86C40D1E1A8D7C5C00081FAC /* ORKFormSectionTitleLabel.m in Sources */,

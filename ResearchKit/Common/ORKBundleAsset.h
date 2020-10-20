@@ -28,20 +28,30 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ResearchKit/ORKResult.h>
+#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-ORK_CLASS_AVAILABLE
-@interface ORKAVJournalingResult : ORKResult
+/**
+ Describes an asset available in a bundle, locally on the device.
+ */
+@interface ORKBundleAsset : NSObject<NSSecureCoding, NSCopying>
 
-@property (nonatomic, nullable, copy) NSArray<NSString *> *fileNameArray;
-@property (nonatomic, nullable, copy) NSArray<NSDictionary *> *recalibrationTimeStamps;
-@property (nonatomic, nullable, copy) NSArray<NSArray *> *cameraIntrinsics;
+/// The file name of the resource, excluding the file extension.
+@property (nonatomic, copy) NSString *name;
+
+/// The bundle identifier for the bundle that contains the asset.
+@property (nonatomic, copy) NSString *bundleIdentifier;
+
+/// An optional file extension that may be used for disambiguation.
+@property (nonatomic, copy, nullable) NSString *fileExtension;
+
+- (instancetype)initWithName:(NSString *) name
+            bundleIdentifier:(NSString *) bundleIdentifier
+               fileExtension:(nullable NSString *) fileExtension;
+
+- (nullable NSURL*)url;
 
 @end
 
 NS_ASSUME_NONNULL_END
-
-
-
