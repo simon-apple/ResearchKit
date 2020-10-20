@@ -28,12 +28,12 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ResearchKit/ORKFileResult.h>
+#import <ResearchKit/ORKResult.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 ORK_CLASS_AVAILABLE
-@interface ORKAVJournalingResult : ORKFileResult
+@interface ORKAVJournalingResult : ORKResult
 
 @property (nonatomic, nullable, copy) NSArray<NSString *> *fileNameArray;
 @property (nonatomic, nullable, copy) NSArray<NSDictionary *> *recalibrationTimeStamps;
