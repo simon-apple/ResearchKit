@@ -1041,6 +1041,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                              ^id(id url, __unused ORKESerializationContext *context) { return [(NSURL *)url absoluteString]; },
                              ^id(id string, __unused ORKESerializationContext *context) { return [NSURL URLWithString:string]; }),
                     PROPERTY(thumbnailTime, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(bundleAsset, ORKBundleAsset, NSObject, YES, nil, nil)
                     })),
            ENTRY(ORKCompletionStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
