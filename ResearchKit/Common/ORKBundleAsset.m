@@ -84,7 +84,7 @@
     return self.name.hash ^ self.bundleIdentifier.hash ^ self.fileExtension.hash;
 }
 
-- (NSURL *)url {
+- (nullable NSURL *)url {
     NSBundle *bundle = [NSBundle bundleWithIdentifier:self.bundleIdentifier];
     NSURL *url = [bundle URLForResource:self.name withExtension:self.fileExtension];
     return url;
