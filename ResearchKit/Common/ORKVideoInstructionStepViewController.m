@@ -103,19 +103,8 @@
 }
 
 - (nullable NSURL*)assetURL {
-
     ORKVideoInstructionStep *step = [self videoInstructionStep];
-    ORKBundleAsset *asset = step.bundleAsset;
-
-    if (step.videoURL) {
-        return step.videoURL;
-    } else if (step.bundleAsset) {
-        NSBundle* bundle = [NSBundle bundleWithIdentifier:asset.bundleIdentifier];
-        NSURL* url = [bundle URLForResource:asset.name withExtension:asset.fileExtension];
-        return url;
-    } else {
-        return nil;
-    }
+    return step.videoURL ?: step.bundleAsset.url;
 }
 
 - (void)setThumbnailImageFromAsset {

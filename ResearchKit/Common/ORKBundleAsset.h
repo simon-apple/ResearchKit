@@ -50,6 +50,8 @@ NS_ASSUME_NONNULL_BEGIN
             bundleIdentifier:(NSString *) bundleIdentifier
                fileExtension:(nullable NSString *) fileExtension;
 
+- (nullable NSURL*)url;
+
 @end
 
 NS_ASSUME_NONNULL_END
