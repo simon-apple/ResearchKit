@@ -33,6 +33,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class ORKBundleAsset;
+
 ORK_CLASS_AVAILABLE
 @interface ORKVocalCue : NSObject <NSSecureCoding, NSCopying>
 
@@ -49,18 +51,12 @@ ORK_CLASS_AVAILABLE
 ORK_CLASS_AVAILABLE
 @interface ORKAudioFitnessStep : ORKFitnessStep
 
-@property (nonatomic, copy) NSString *audioBundleIdentifier;
-
-@property (nonatomic, copy) NSString *audioResourceName;
-
-@property (nonatomic, copy, nullable) NSString *audioFileExtension;
+@property (nonatomic, copy) ORKBundleAsset *audioAsset;
 
 @property (nonatomic, copy) NSArray<ORKVocalCue *> *vocalCues;
 
 - (instancetype)initWithIdentifier:(NSString *) identifier
-             audioBundleIdentifier:(NSString *) bundleIdentifier
-                 audioResourceName:(NSString *) audioResourceName
-                audioFileExtension:(nullable NSString *) audioFileExtension
+                        audioAsset:(ORKBundleAsset *) audioAsset
                          vocalCues:(nullable NSArray<ORKVocalCue *> *) vocalCues;
 
 @end

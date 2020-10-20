@@ -30,6 +30,7 @@
 
 #import "ORKAudioFitnessStep.h"
 #import "ORKAudioFitnessStepViewController.h"
+#import "ORKBundleAsset.h"
 #import "ORKHelpers_Internal.h"
 
 @implementation ORKVocalCue
@@ -87,17 +88,13 @@
 }
 
 - (instancetype)initWithIdentifier:(NSString *)identifier
-             audioBundleIdentifier:(NSString *)bundleIdentifier
-                 audioResourceName:(NSString *)audioResourceName
-                audioFileExtension:(NSString *)audioFileExtension
+                        audioAsset:(ORKBundleAsset *)audioAsset
                          vocalCues:(nullable NSArray<ORKVocalCue *> *)vocalCues {
     self = [super initWithIdentifier:identifier];
     if (self) {
         self.stepDuration = 180;
         self.shouldShowDefaultTimer = NO;
-        self.audioBundleIdentifier = bundleIdentifier;
-        self.audioResourceName = audioResourceName;
-        self.audioFileExtension = audioFileExtension;
+        self.audioAsset = audioAsset;
         self.vocalCues = vocalCues == nil ? [NSArray new] : vocalCues;
     }
     return self;
@@ -107,9 +104,7 @@
 {
     self = [super initWithCoder:coder];
     if (self) {
-        ORK_DECODE_OBJ(coder, audioBundleIdentifier);
-        ORK_DECODE_OBJ(coder, audioResourceName);
-        ORK_DECODE_OBJ(coder, audioFileExtension);
+        ORK_DECODE_OBJ(coder, audioAsset);
         ORK_DECODE_OBJ_ARRAY(coder, vocalCues, ORKVocalCue);
     }
     return self;
@@ -118,9 +113,7 @@
 - (void)encodeWithCoder:(NSCoder *)coder
 {
     [super encodeWithCoder:coder];
-    ORK_ENCODE_OBJ(coder, audioBundleIdentifier);
-    ORK_ENCODE_OBJ(coder, audioResourceName);
-    ORK_ENCODE_OBJ(coder, audioFileExtension);
+    ORK_ENCODE_OBJ(coder, audioAsset);
     ORK_ENCODE_OBJ(coder, vocalCues);
 }
 
@@ -130,9 +123,7 @@
 
 - (instancetype)copyWithZone:(NSZone *)zone {
     ORKAudioFitnessStep *step = [super copyWithZone:zone];
-    step.audioBundleIdentifier = [self.audioBundleIdentifier copy];
-    step.audioResourceName = [self.audioResourceName copy];
-    step.audioFileExtension = [self.audioFileExtension copy];
+    step.audioAsset = [self.audioAsset copy];
     step.vocalCues = [self.vocalCues copy];
     return step;
 }
@@ -143,15 +134,13 @@
 
     __typeof(self) castObject = other;
     return (superIsEqual &&
-            ORKEqualObjects(self.audioBundleIdentifier, castObject.audioBundleIdentifier) &&
-            ORKEqualObjects(self.audioResourceName, castObject.audioResourceName) &&
-            ORKEqualObjects(self.audioFileExtension, castObject.audioFileExtension) &&
+            ORKEqualObjects(self.audioAsset, castObject.audioAsset) &&
             ORKEqualObjects(self.vocalCues, castObject.vocalCues));
 }
 
 - (NSUInteger)hash
 {
-    return super.hash ^ self.audioBundleIdentifier.hash ^ self.audioResourceName.hash ^ self.audioFileExtension.hash ^ self.vocalCues.hash;
+    return super.hash ^ self.audioAsset.hash ^ self.vocalCues.hash;
 }
 
 @end

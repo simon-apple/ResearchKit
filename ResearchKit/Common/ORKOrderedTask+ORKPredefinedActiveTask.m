@@ -1012,11 +1012,14 @@ NSString *const ORKTecumsehCubeStepIdentifier = @"tecumseh";
     }
 
     // Fitness Step
+    ORKBundleAsset *audio = [[ORKBundleAsset alloc] initWithName:audioResourceName
+                                                bundleIdentifier:audioBundleIdentifier
+                                                   fileExtension:audioFileExtension];
+
     ORKAudioFitnessStep *cubeStep = [[ORKAudioFitnessStep alloc] initWithIdentifier:identifier
-                                                              audioBundleIdentifier:audioBundleIdentifier
-                                                                  audioResourceName:audioResourceName
-                                                                 audioFileExtension:audioFileExtension
+                                                                         audioAsset:audio
                                                                           vocalCues:nil];
+
     cubeStep.stepDuration = stepDuration;
     cubeStep.title = ORKLocalizedString(@"TC_TEST_IN_PROGRESS", nil);
     cubeStep.text = ORKLocalizedString(@"TC_TEST_IN_PROGRESS_DETAIL", nil);
