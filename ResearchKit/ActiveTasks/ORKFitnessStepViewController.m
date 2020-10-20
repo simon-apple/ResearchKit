@@ -36,6 +36,7 @@
 #import "ORKActiveStepTimer.h"
 #import "ORKStepViewController_Internal.h"
 #import "ORKActiveStepViewController_Internal.h"
+#import "ORKHelpers_Internal.h"
 #import "ORKStepContainerView_Private.h"
 
 @interface ORKFitnessStepViewController () {
@@ -67,6 +68,17 @@
 
     self.activeStepView.activeCustomView = _contentView;
     self.activeStepView.customContentFillsAvailableSpace = YES;
+}
+
+- (void)start {
+    [super start];
+    self.continueButtonTitle = ORKLocalizedString(@"BUTTON_STOP_TEST", nil);
+}
+
+- (void)finish {
+    [super finish];
+    _contentView.labelHidden = YES;
+    self.continueButtonTitle = ORKLocalizedString(@"BUTTON_NEXT", nil);
 }
 
 - (void)stepDidChange {

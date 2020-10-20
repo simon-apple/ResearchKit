@@ -81,6 +81,14 @@
     [self setNeedsDisplay];
 }
 
+- (BOOL)labelHidden {
+    return _timerLabel.isHidden;
+}
+
+- (void)setLabelHidden:(BOOL)labelHidden {
+    [_timerLabel setHidden:labelHidden];
+}
+
 - (UIFont*) labelFont {
 
     UIFont* font = [UIFont preferredFontForTextStyle: UIFontTextStyleLargeTitle];

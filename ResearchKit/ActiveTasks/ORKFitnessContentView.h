@@ -58,6 +58,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// The amount of time that still remain.
 @property (nonatomic) NSTimeInterval timeLeft;
 
+/// Whether or not the text label is hidden.
+@property (nonatomic) BOOL labelHidden;
+
 + (instancetype)new NS_UNAVAILABLE;
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithFrame:(CGRect)frame NS_UNAVAILABLE;

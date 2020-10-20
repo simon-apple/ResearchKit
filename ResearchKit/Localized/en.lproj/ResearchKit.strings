@@ -219,6 +219,7 @@
 "BUTTON_SKIP" = "Skip";
 "BUTTON_SKIP_QUESTION" = "Skip this question";
 "BUTTON_START_TIMER" = "Start Timer";
+"BUTTON_STOP_TEST" = "Stop Test";
 "BUTTON_OPTION_SAVE" = "Save for Later";
 "BUTTON_OPTION_DISCARD" = "Discard Results";
 "BUTTON_OPTION_STOP_TASK" = "End Task";
