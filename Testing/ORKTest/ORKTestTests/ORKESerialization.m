@@ -1468,15 +1468,11 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                     return [[ORKAudioFitnessStep alloc]
                             initWithIdentifier:GETPROP(dict, identifier)
-                            audioBundleIdentifier:GETPROP(dict, audioBundleIdentifier)
-                            audioResourceName:GETPROP(dict, audioResourceName)
-                            audioFileExtension:GETPROP(dict, audioFileExtension)
+                            audioAsset:GETPROP(dict, audioAsset)
                             vocalCues:GETPROP(dict, vocalCues)];
                  },
                  (@{
-                     PROPERTY(audioBundleIdentifier, NSString, NSObject, NO, nil, nil),
-                     PROPERTY(audioResourceName, NSString, NSObject, NO, nil, nil),
-                     PROPERTY(audioFileExtension, NSString, NSObject, NO, nil, nil),
+                     PROPERTY(audioAsset, ORKBundleAsset, NSObject, NO, nil, nil),
                      PROPERTY(vocalCues, ORKVocalCue, NSArray, NO, nil, nil)
                     })),
            ENTRY(ORKConsentSection,

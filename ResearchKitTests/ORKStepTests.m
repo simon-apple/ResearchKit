@@ -553,15 +553,17 @@
     NSString *name = @"song";
     NSString *extension = @".mp3";
 
+    ORKBundleAsset *audio = [[ORKBundleAsset alloc] initWithName:name
+                                                bundleIdentifier:bundleID
+                                                   fileExtension:extension];
+
     ORKAudioFitnessStep *step = [[ORKAudioFitnessStep alloc] initWithIdentifier:identifier
-                                                          audioBundleIdentifier:bundleID
-                                                              audioResourceName:name
-                                                             audioFileExtension:extension
+                                                                     audioAsset:audio
                                                                       vocalCues:nil];
     XCTAssertEqual(step.identifier, identifier);
-    XCTAssertEqual(step.audioBundleIdentifier, bundleID);
-    XCTAssertEqual(step.audioResourceName, name);
-    XCTAssertEqual(step.audioFileExtension, extension);
+    XCTAssertEqual(step.audioAsset.bundleIdentifier, bundleID);
+    XCTAssertEqual(step.audioAsset.name, name);
+    XCTAssertEqual(step.audioAsset.fileExtension, extension);
     XCTAssertEqual(step.stepDuration, 180);
     XCTAssertEqual(step.shouldShowDefaultTimer, NO);
     XCTAssertEqual(step.vocalCues.count, 0);
