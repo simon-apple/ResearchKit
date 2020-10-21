@@ -352,7 +352,7 @@ static const CGFloat FramesToSkipTotal = 5.0;
     ORKAVJournalingResult *videoJournalResult = [[ORKAVJournalingResult alloc] initWithIdentifier:self.step.identifier];
     videoJournalResult.startDate = stepResult.startDate;
     videoJournalResult.endDate = now;
-    videoJournalResult.fileNameArray = [_fileNames copy];
+    videoJournalResult.filenames = [_fileNames copy];
     videoJournalResult.cameraIntrinsics = [_sessionHelper.cameraIntrinsicsArray copy];
     videoJournalResult.recalibrationTimeStamps = [_contentView fetchRecalibrationTimeStamps];
     
