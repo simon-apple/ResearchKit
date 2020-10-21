@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 ORK_CLASS_AVAILABLE
 @interface ORKAVJournalingResult : ORKResult
 
-@property (nonatomic, nullable, copy) NSArray<NSString *> *fileNameArray;
+@property (nonatomic, nullable, copy) NSArray<NSString *> *filenames;
 @property (nonatomic, nullable, copy) NSArray<NSDictionary *> *recalibrationTimeStamps;
 @property (nonatomic, nullable, copy) NSArray<NSArray *> *cameraIntrinsics;
 

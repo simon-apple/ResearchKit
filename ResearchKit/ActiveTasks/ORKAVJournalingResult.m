@@ -36,7 +36,7 @@
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [super encodeWithCoder:aCoder];
-    ORK_ENCODE_OBJ(aCoder, fileNameArray);
+    ORK_ENCODE_OBJ(aCoder, filenames);
     ORK_ENCODE_OBJ(aCoder, recalibrationTimeStamps);
     ORK_ENCODE_OBJ(aCoder, cameraIntrinsics);
 }
@@ -44,7 +44,7 @@
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        ORK_DECODE_OBJ_ARRAY(aDecoder, fileNameArray, NSString);
+        ORK_DECODE_OBJ_ARRAY(aDecoder, filenames, NSString);
         ORK_DECODE_OBJ_ARRAY(aDecoder, recalibrationTimeStamps, NSDictionary);
         ORK_DECODE_OBJ_CLASS(aDecoder, cameraIntrinsics, NSArray);
     }
@@ -61,14 +61,14 @@
     __typeof(self) castObject = object;
     return (isParentSame &&
             ORKEqualObjects(self.cameraIntrinsics, castObject.cameraIntrinsics) &&
-            [self.fileNameArray isEqualToArray:castObject.fileNameArray] &&
+            [self.filenames isEqualToArray:castObject.filenames] &&
             [self.recalibrationTimeStamps isEqualToArray:castObject.recalibrationTimeStamps]);
 }
 
 - (instancetype)copyWithZone:(NSZone *)zone {
     ORKAVJournalingResult *result = [super copyWithZone:zone];
 
-    result.fileNameArray = [self.fileNameArray copy];
+    result.filenames = [self.filenames copy];
     result.recalibrationTimeStamps = [self.recalibrationTimeStamps copy];
     result.cameraIntrinsics = [self.cameraIntrinsics copy];
 

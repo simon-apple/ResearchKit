@@ -2051,7 +2051,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
            ENTRY(ORKAVJournalingResult,
                 nil,
                 (@{
-                    PROPERTY(fileNameArray, NSString, NSArray, NO, nil, nil),
+                    PROPERTY(filenames, NSString, NSArray, NO, nil, nil),
                     PROPERTY(recalibrationTimeStamps, NSDictionary, NSArray, NO, nil, nil),
                     PROPERTY(cameraIntrinsics, NSArray, NSArray, NO, nil, nil)
                  })),
