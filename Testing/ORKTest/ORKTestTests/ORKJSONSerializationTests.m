@@ -462,7 +462,9 @@ ORK_MAKE_TEST_INIT(ORKNoAnswer, (^{ return [ORKDontKnowAnswer answer]; }));
                                    @"ORKSpeechRecognitionResult.transcription",
                                    @"ORKTextAnswerFormat.validationRegex",
                                    @"ORKSpeechInNoisePredefinedTask.steps",
-                                   @"ORKAVJournalingPredefinedTask.steps"
+                                   @"ORKAVJournalingPredefinedTask.steps",
+                                   @"ORKTaskResult.outputDirectory",
+                                   @"ORKPageResult.outputDirectory"
                                    ];
         
         _knownNotSerializedProperties = @[
