@@ -76,8 +76,10 @@ public struct QuestionStepView: View {
         VStack {
             if let stepTitle = step.title {
                 Text(stepTitle)
+                    .font(.body)
+                    .fontWeight(.semibold)
+                    .multilineTextAlignment(.center)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .font(Font.system(.headline))
             }
             if let stepQuestion = step.question {
                 Text(stepQuestion)
