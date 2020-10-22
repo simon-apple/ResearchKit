@@ -463,6 +463,8 @@ ORK_MAKE_TEST_INIT(ORKNoAnswer, (^{ return [ORKDontKnowAnswer answer]; }));
                                    @"ORKTextAnswerFormat.validationRegex",
                                    @"ORKSpeechInNoisePredefinedTask.steps",
                                    @"ORKAVJournalingPredefinedTask.steps",
+                                   @"ORKFileResult.fileURL",
+                                   @"ORKFrontFacingCameraTask.fileURL",
                                    @"ORKTaskResult.outputDirectory",
                                    @"ORKPageResult.outputDirectory"
                                    ];

@@ -2044,10 +2044,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                  nil,
                  (@{
                     PROPERTY(contentType, NSString, NSObject, NO, nil, nil),
-                    PROPERTY(fileName, NSString, NSObject, NO, nil, nil),
-                    PROPERTY(fileURL, NSURL, NSObject, NO,
-                             ^id(id url, __unused ORKESerializationContext *context) { return [url absoluteString]; },
-                             ^id(id string, __unused ORKESerializationContext *context) { return [NSURL URLWithString:string]; })
+                    PROPERTY(fileName, NSString, NSObject, NO, nil, nil)
                     })),
            ENTRY(ORKAVJournalingResult,
                 nil,
