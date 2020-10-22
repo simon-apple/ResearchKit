@@ -185,10 +185,18 @@ class PreSubmissionTests: XCTestCase {
         }
         XCTAssert(done.isEnabled)
         
+        let now = Date()
+        let formatter = DateFormatter()
+        formatter.setLocalizedDateFormatFromTemplate("a")
+        let datetime = formatter.string(from: now)
+        formatter.setLocalizedDateFormatFromTemplate("MMM dd")
+        let newDate = Calendar.current.date(byAdding: .day, value: 5, to: now)
+        let newDateString = formatter.string(from: newDate!)
+        
         let firstPredicate = NSPredicate(format: "value BEGINSWITH 'Today'")
         let firstPicker = app.pickerWheels.element(matching: firstPredicate)
         XCTAssert(firstPicker.isEnabled)
-        firstPicker.adjust(toPickerWheelValue: "Aug 25")
+        firstPicker.adjust(toPickerWheelValue: newDateString)
         
         let secondPredicate = NSPredicate(format: "value CONTAINS 'clock'")
         let secondPicker = app.pickerWheels.element(matching: secondPredicate)
@@ -199,12 +207,7 @@ class PreSubmissionTests: XCTestCase {
         let thirdPicker = app.pickerWheels.element(matching: thirdPredicatre)
         XCTAssert(thirdPicker.isEnabled)
         thirdPicker.adjust(toPickerWheelValue: "23")
-        
-        let now = Date()
-        let formatter = DateFormatter()
-        formatter.setLocalizedDateFormatFromTemplate("a")
-        let datetime = formatter.string(from: now)
-        
+                
         let fourthPredicate = NSPredicate(format: "value CONTAINS '\(datetime)'")
         let fourthPicker = app.pickerWheels.element(matching: fourthPredicate)
         XCTAssert(fourthPicker.isEnabled)
