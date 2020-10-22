@@ -295,14 +295,28 @@ static const CGFloat activityIndicatorPadding = 24.0;
     if (showActivityIndicator == YES) {
         if (_activityIndicatorView == nil) {
             _activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-            [_activityIndicatorView startAnimating];
             
             [_continueButton addSubview:_activityIndicatorView];
-            CGPoint center = CGPointMake(_continueButton.titleLabel.frame.origin.x - activityIndicatorPadding, _continueButton.titleLabel.center.y);
-            [_activityIndicatorView setCenter:center];
-        } else {
-            [_activityIndicatorView startAnimating];
+            _activityIndicatorView.translatesAutoresizingMaskIntoConstraints = NO;
+            [NSLayoutConstraint activateConstraints:@[
+                [NSLayoutConstraint constraintWithItem:_activityIndicatorView
+                                             attribute:NSLayoutAttributeCenterX
+                                             relatedBy:NSLayoutRelationEqual
+                                                toItem:_continueButton.titleLabel
+                                             attribute:NSLayoutAttributeLeft
+                                            multiplier:1.0
+                                              constant:-activityIndicatorPadding],
+                [NSLayoutConstraint constraintWithItem:_activityIndicatorView
+                                             attribute:NSLayoutAttributeCenterY
+                                             relatedBy:NSLayoutRelationEqual
+                                                toItem:_continueButton.titleLabel
+                                             attribute:NSLayoutAttributeCenterY
+                                            multiplier:1.0
+                                              constant:0]
+            ]];
+
         }
+        [_activityIndicatorView startAnimating];
     } else {
         [_activityIndicatorView stopAnimating];
     }
