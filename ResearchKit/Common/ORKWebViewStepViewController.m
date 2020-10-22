@@ -155,11 +155,7 @@ static const CGFloat ORKSignatureTopPadding = 37.0;
         _navigationFooterView.continueEnabled = NO;
     }
     
-    if ([self webViewStep].showSignatureAfterContent) {
-        [_scrollView addSubview:_navigationFooterView];
-    } else {
-        [self.view addSubview:_navigationFooterView];
-    }
+    [_scrollView addSubview:_navigationFooterView];
 }
 
 - (void)setupConstraints {
@@ -282,19 +278,19 @@ static const CGFloat ORKSignatureTopPadding = 37.0;
                                         multiplier:1.0
                                           constant:0.0],
         ]];
-    } else {
+    } else {        
         [_constraints addObjectsFromArray:@[
-            [NSLayoutConstraint constraintWithItem:_webView
-                                         attribute:NSLayoutAttributeBottom
-                                         relatedBy:NSLayoutRelationLessThanOrEqual
-                                            toItem:_scrollView
+            [NSLayoutConstraint constraintWithItem:_navigationFooterView
+                                         attribute:NSLayoutAttributeTop
+                                         relatedBy:NSLayoutRelationEqual
+                                            toItem:_webView
                                          attribute:NSLayoutAttributeBottom
                                         multiplier:1.0
-                                          constant:0.0],
+                                          constant:ORKSignatureTopPadding / 2.0],
             [NSLayoutConstraint constraintWithItem:_navigationFooterView
                                          attribute:NSLayoutAttributeBottom
                                          relatedBy:NSLayoutRelationEqual
-                                            toItem:viewForiPad ? : self.view
+                                            toItem:_scrollView
                                          attribute:NSLayoutAttributeBottom
                                         multiplier:1.0
                                           constant:0.0],
@@ -356,11 +352,7 @@ static const CGFloat ORKSignatureTopPadding = 37.0;
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
-    if (![[self webViewStep] showSignatureAfterContent]) {
-        [_scrollView setContentInset:UIEdgeInsetsMake(0, 0, _navigationFooterView.frame.size.height, 0)];
-    } else {
-        [_scrollView setContentInset:UIEdgeInsetsZero];
-    }
+    [_scrollView setContentInset:UIEdgeInsetsZero];
 }
 
 - (void)setContinueButtonItem:(UIBarButtonItem *)continueButtonItem {
