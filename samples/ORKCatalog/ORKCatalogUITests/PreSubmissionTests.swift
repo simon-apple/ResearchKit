@@ -140,10 +140,18 @@ class PreSubmissionTests: XCTestCase {
         let done = helpers.verifyAndAssignByType(.button, "Done")!
         XCTAssert(done.isEnabled)
         
-
-        let firstPicker = helpers.verifyAndAssignByType(.pickerWheel, "Today")!
+        let now = Date()
+        let formatter = DateFormatter()
+        formatter.setLocalizedDateFormatFromTemplate("a")
+        let datetime = formatter.string(from: now)
+        formatter.setLocalizedDateFormatFromTemplate("MMM dd")
+        let newDate = Calendar.current.date(byAdding: .day, value: 5, to: now)
+        let newDateString = formatter.string(from: newDate!)
+        
+        let firstPredicate = NSPredicate(format: "value BEGINSWITH 'Today'")
+        let firstPicker = app.pickerWheels.element(matching: firstPredicate)
         XCTAssert(firstPicker.isEnabled)
-        firstPicker.adjust(toPickerWheelValue: "Aug 25")
+        firstPicker.adjust(toPickerWheelValue: newDateString)
         
         let secondPicker = helpers.verifyAndAssignByType(.pickerWheel, "clock")!
         XCTAssert((secondPicker.isEnabled))
@@ -152,13 +160,8 @@ class PreSubmissionTests: XCTestCase {
         let thirdPicker = helpers.verifyAndAssignByType(.pickerWheel, "minute")!
         XCTAssert(thirdPicker.isEnabled)
         thirdPicker.adjust(toPickerWheelValue: "23")
-        
-        let now = Date()
-        let formatter = DateFormatter()
-        formatter.setLocalizedDateFormatFromTemplate("a")
-        let datetime = formatter.string(from: now)
-        
-        let fourthPicker = helpers.verifyAndAssignByType(.pickerWheel, "\(datetime)")!
+        let fourthPredicate = NSPredicate(format: "value CONTAINS '\(datetime)'")
+        let fourthPicker = app.pickerWheels.element(matching: fourthPredicate)
         XCTAssert(fourthPicker.isEnabled)
         datetime == "AM" ? fourthPicker.adjust(toPickerWheelValue: "PM") : fourthPicker.adjust(toPickerWheelValue: "AM")
         
