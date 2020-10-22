@@ -76,7 +76,6 @@ struct TaskScreen {
     "Speech Recognition",
     "Speech in Noise",
     "Predefined Speech In Noise",
-    "Predefined AVJournaling",
     "Stroop",
     "Timed Walk with Turn Around",
     "Tone Audiometry",

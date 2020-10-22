@@ -38,7 +38,6 @@
 
 // Predefined Tasks
 #import <ResearchKit/ORKSpeechInNoisePredefinedTask.h>
-#import <ResearchKit/ORKAVJournalingPredefinedTask.h>
 
 // Active step support
 #import <ResearchKit/ORKDataLogger.h>
@@ -87,7 +86,6 @@
 #import <ResearchKit/ORKSpeechRecognitionStep.h>
 #import <ResearchKit/ORKSpeechInNoiseStep.h>
 #import <ResearchKit/ORKVolumeCalibrationStep.h>
-#import <ResearchKit/ORKFaceDetectionStep.h>
 
 #import <ResearchKit/ORKTaskViewController_Private.h>
 #import <ResearchKit/ORKFormStepViewController_Private.h>

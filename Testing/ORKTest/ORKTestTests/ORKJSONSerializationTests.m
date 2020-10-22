@@ -248,15 +248,6 @@ ORK_MAKE_TEST_INIT(ORKSpeechInNoisePredefinedTask, ^{
                        prependSteps:@[stepA]
                         appendSteps:@[stepB]];
 });
-ORK_MAKE_TEST_INIT(ORKAVJournalingPredefinedTask, ^{
-    NSString *bundlePath = [[NSBundle bundleForClass:[ORKJSONSerializationTests class]] pathForResource:@"samples" ofType:@"bundle"];
-    return [self initWithIdentifier:@"test1"
-               maxRecordingTime:60
-     journalQuestionSetManifestPath:[bundlePath stringByAppendingPathComponent: @"PredefinedTaskResources/QuestionList1/manifest.json"]];
-});
-ORK_MAKE_TEST_INIT(ORKFaceDetectionStep, ^{
-    return [self initWithIdentifier:@"test1"];
-});
 ORK_MAKE_TEST_INIT(ORKImageChoice, ^{return [super init];});
 ORK_MAKE_TEST_INIT(ORKTextChoice, ^{return [super init];});
 ORK_MAKE_TEST_INIT(ORKTextChoiceOther, ^{return [self initWithText:@"test" primaryTextAttributedString:nil detailText:@"test1" detailTextAttributedString:nil value:@"value" exclusive:YES textViewPlaceholderText:@"test2" textViewInputOptional:NO textViewStartsHidden:YES];});
@@ -458,8 +449,7 @@ ORK_MAKE_TEST_INIT(ORKNoAnswer, (^{ return [ORKDontKnowAnswer answer]; }));
                                    @"ORKRegistrationStep.passcodeValidationRegex",
                                    @"ORKSpeechRecognitionResult.transcription",
                                    @"ORKTextAnswerFormat.validationRegex",
-                                   @"ORKSpeechInNoisePredefinedTask.steps",
-                                   @"ORKAVJournalingPredefinedTask.steps"
+                                   @"ORKSpeechInNoisePredefinedTask.steps"
                                    ];
         
         _knownNotSerializedProperties = @[
@@ -672,12 +662,8 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
                                                         value:@"PredefinedTaskResources/List1/manifest.json"
                                                         type:ORKESerializationPropertyModifierTypePath];
     
-    ORKESerializationPropertyModifier *modifier2 = [[ORKESerializationPropertyModifier alloc]
-                                                        initWithKeypath:@"ORKAVJournalingPredefinedTask._journalQuestionSetManifestPath"
-                                                        value:@"PredefinedTaskResources/QuestionList1/manifest.json"
-                                                        type:ORKESerializationPropertyModifierTypePath];
     ORKESerializationPropertyInjector *propertyInjector = [[ORKESerializationPropertyInjector alloc] initWithBundle:bundle
-                                                                                                          modifiers:@[modifier, modifier2]];
+                                                                                                          modifiers:@[modifier]];
     return propertyInjector;
 }
 
