@@ -406,6 +406,7 @@
     NSString *contentType = [NSString stringWithFormat:@"image/%@", _imageDataExtension];
     fileResult.contentType = contentType;
     fileResult.fileURL = _fileURL;
+    fileResult.fileName = [_fileURL lastPathComponent];
     [results addObject:fileResult];
     stepResult.results = [results copy];
     return stepResult;
