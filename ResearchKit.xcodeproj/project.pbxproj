@@ -43,6 +43,7 @@
 		03057F492518ECDC00C4EC5B /* ORKAudioStepViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 03057F482518ECDC00C4EC5B /* ORKAudioStepViewControllerTests.m */; };
 		031A0FC124CF4ECD000E4455 /* ORKSensorPermissionType.h in Headers */ = {isa = PBXBuildFile; fileRef = 031A0FBF24CF4ECD000E4455 /* ORKSensorPermissionType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		031A0FC224CF4ECD000E4455 /* ORKSensorPermissionType.m in Sources */ = {isa = PBXBuildFile; fileRef = 031A0FC024CF4ECD000E4455 /* ORKSensorPermissionType.m */; };
+		0324C1D825439E1800BBE77B /* ORKVideoInstructionStepViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0324C1D725439E1800BBE77B /* ORKVideoInstructionStepViewControllerTests.swift */; };
 		036B1E8D25351BAD008483DF /* ORKMotionActivityPermissionType.h in Headers */ = {isa = PBXBuildFile; fileRef = 036B1E8B25351BAD008483DF /* ORKMotionActivityPermissionType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		036B1E8E25351BAD008483DF /* ORKMotionActivityPermissionType.m in Sources */ = {isa = PBXBuildFile; fileRef = 036B1E8C25351BAD008483DF /* ORKMotionActivityPermissionType.m */; };
 		03BD9EA3253E62A0008ADBE1 /* ORKBundleAsset.h in Headers */ = {isa = PBXBuildFile; fileRef = 03BD9EA1253E62A0008ADBE1 /* ORKBundleAsset.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1028,6 +1029,7 @@
 		03057F482518ECDC00C4EC5B /* ORKAudioStepViewControllerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKAudioStepViewControllerTests.m; sourceTree = "<group>"; };
 		031A0FBF24CF4ECD000E4455 /* ORKSensorPermissionType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKSensorPermissionType.h; sourceTree = "<group>"; };
 		031A0FC024CF4ECD000E4455 /* ORKSensorPermissionType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKSensorPermissionType.m; sourceTree = "<group>"; };
+		0324C1D725439E1800BBE77B /* ORKVideoInstructionStepViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ORKVideoInstructionStepViewControllerTests.swift; sourceTree = "<group>"; };
 		036B1E8B25351BAD008483DF /* ORKMotionActivityPermissionType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKMotionActivityPermissionType.h; sourceTree = "<group>"; };
 		036B1E8C25351BAD008483DF /* ORKMotionActivityPermissionType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKMotionActivityPermissionType.m; sourceTree = "<group>"; };
 		03BD9EA1253E62A0008ADBE1 /* ORKBundleAsset.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKBundleAsset.h; sourceTree = "<group>"; };
@@ -2166,6 +2168,7 @@
 			children = (
 				14A92C6922444F93007547F2 /* ORKPasscodeViewControllerTests.swift */,
 				148E58BC227B36DB00EEF915 /* ORKCompletionStepViewControllerTests.swift */,
+				0324C1D725439E1800BBE77B /* ORKVideoInstructionStepViewControllerTests.swift */,
 			);
 			name = ORKViewControllerTests;
 			sourceTree = "<group>";
@@ -4989,6 +4992,7 @@
 				FA7A9D2B1B082688005A2BEA /* ORKConsentDocumentTests.m in Sources */,
 				FA7A9D371B09365F005A2BEA /* ORKConsentSectionFormatterTests.m in Sources */,
 				714151D0225C4A23002CA33B /* ORKPasscodeViewControllerTests.swift in Sources */,
+				0324C1D825439E1800BBE77B /* ORKVideoInstructionStepViewControllerTests.swift in Sources */,
 				14E79040226A5F72009D8083 /* ORKStepViewControllerHelpers.swift in Sources */,
 				86D348021AC161B0006DB02B /* ORKRecorderTests.m in Sources */,
 				1490DCFC224D4867003FEEDA /* ORKEnvironmentSPLMeterResultTests.swift in Sources */,
