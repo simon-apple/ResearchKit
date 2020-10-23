@@ -165,5 +165,16 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKRequestPermissionsButtonState) {
     }
 }
 
+- (BOOL)isEqual:(id)object {
+    if ([self class] != [object class]) {
+        return NO;
+    }
+
+    __typeof(self) castObject = object;
+    return
+        ORKEqualObjects(self.objectTypesToRead, castObject.objectTypesToRead) &&
+        ORKEqualObjects(self.sampleTypesToWrite, castObject.sampleTypesToWrite);
+}
+
 @end
 

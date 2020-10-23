@@ -108,4 +108,13 @@
     [self.cardView.requestPermissionButton setBackgroundColor: state ? [UIColor grayColor] : [UIColor systemBlueColor]];
 }
 
+- (BOOL)isEqual:(id)object {
+    if ([self class] != [object class]) {
+        return NO;
+    }
+
+    __typeof(self) castObject = object;
+    return ORKEqualObjects(self.sensors, castObject.sensors);
+}
+
 @end

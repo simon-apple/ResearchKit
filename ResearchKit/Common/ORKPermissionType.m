@@ -53,5 +53,6 @@
 + (ORKMotionActivityPermissionType *)deviceMotionPermissionType {
     return [[ORKMotionActivityPermissionType alloc] init];
 }
+
 @end
 
