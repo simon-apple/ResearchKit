@@ -44,7 +44,7 @@ ORK_CLASS_AVAILABLE
 @interface ORKVideoInstructionStepResult : ORKResult
 
 /**
- The time (in seconds) after video playback stopped, or FLT_MAX if the video was never played.
+ The time (in seconds) after video playback stopped, or DBL_MAX if the video was never played.
  */
 @property (nonatomic) Float64 playbackStoppedTime;
 
