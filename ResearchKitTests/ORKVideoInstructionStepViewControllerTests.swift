@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2016, Oliver Schaefer.
+ Copyright (c) 2020, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -27,32 +27,15 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+import ResearchKit
+import XCTest
 
+class ORKVideoInstructionStepViewControllerTests: XCTestCase {
 
-#import <ResearchKit/ORKResult.h>
-
-
-NS_ASSUME_NONNULL_BEGIN
-
-/**
- The `ORKVideoInstructionStepResult` class represents the result of a video instruction step (`ORKVideoInstructionStep`).
- 
- A video instruction result is produced by the task view controller when it presents a video instruction step.
- 
- */
-ORK_CLASS_AVAILABLE
-@interface ORKVideoInstructionStepResult : ORKResult
-
-/**
- The time (in seconds) after video playback stopped, or DBL_MAX if the video was never played.
- */
-@property (nonatomic) Float64 playbackStoppedTime;
-
-/**
- Returns 'YES' if the video was watched until the end, or 'NO' if video playback was stopped part way.
- */
-@property (nonatomic) BOOL playbackCompleted;
-
-@end
-
-NS_ASSUME_NONNULL_END
+    func testUnplayedResultHasPlayBackStoppedTimeEqualToFloatMax() {
+        let step = ORKVideoInstructionStep(identifier: "step")
+        let stepController = ORKVideoInstructionStepViewController(step: step)
+        let result = stepController.result!.results![0] as! ORKVideoInstructionStepResult
+        XCTAssert(result.playbackStoppedTime == Double.greatestFiniteMagnitude)
+    }
+}

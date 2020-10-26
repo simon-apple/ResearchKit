@@ -79,7 +79,7 @@
 - (void)stepDidChange {
     [self setThumbnailImageFromAsset];
     [super stepDidChange];
-    _playbackStoppedTime = NAN;
+    _playbackStoppedTime = DBL_MAX;
     _playbackCompleted = NO;
 
     if (self.step && [self isViewLoaded] && [self videoInstructionStep].image) {
