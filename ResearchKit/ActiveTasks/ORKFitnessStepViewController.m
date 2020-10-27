@@ -110,7 +110,7 @@
     }]];
 
     [alert addAction:[UIAlertAction actionWithTitle:ORKLocalizedString(@"BUTTON_STOP_TEST", nil)
-                                              style:UIAlertActionStyleDestructive
+                                              style:UIAlertActionStyleDefault
                                             handler:^(UIAlertAction * _Nonnull action) {
         [alert dismissViewControllerAnimated:YES completion:^{
             [super goForward];
