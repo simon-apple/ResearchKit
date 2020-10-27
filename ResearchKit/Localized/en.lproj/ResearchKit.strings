@@ -220,6 +220,7 @@
 "BUTTON_SKIP_QUESTION" = "Skip this question";
 "BUTTON_START_TIMER" = "Start Timer";
 "BUTTON_STOP_TEST" = "End Test";
+"BUTTON_STOP_TEST_EARLY" = "End Test Early";
 "BUTTON_OPTION_SAVE" = "Save for Later";
 "BUTTON_OPTION_DISCARD" = "Discard Results";
 "BUTTON_OPTION_STOP_TASK" = "End Task";

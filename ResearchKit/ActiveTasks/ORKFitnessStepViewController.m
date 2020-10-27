@@ -71,7 +71,7 @@
 
     self.activeStepView.activeCustomView = _contentView;
     self.activeStepView.customContentFillsAvailableSpace = YES;
-    self.continueButtonTitle = ORKLocalizedString(@"BUTTON_STOP_TEST", nil);
+    self.continueButtonTitle = ORKLocalizedString(@"BUTTON_STOP_TEST_EARLY", nil);
 }
 
 - (void)finish {
