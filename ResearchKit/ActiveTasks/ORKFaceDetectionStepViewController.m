@@ -42,6 +42,7 @@
 #import "ORKNavigationContainerView_Internal.h"
 #import "ORKContext.h"
 #import "ORKTaskViewController_Internal.h"
+#import "ORKAVJournalingPredefinedTask_Internal.h"
 #import <AVFoundation/AVFoundation.h>
 #import <CoreImage/CoreImage.h>
 
@@ -143,7 +144,9 @@
             }
             
             [self clearSession];
-            [[self taskViewController] flipToPageWithIdentifier:@"ORKAVJournalingMaxLimitHitCompletionStepIdentifier" forward:YES animated:NO];
+            [[self taskViewController] flipToPageWithIdentifier:ORKAVJournalingStepIdentifierMaxLimitHitCompletion forward:YES animated:NO];
+            
+            
             break;
     }
 }

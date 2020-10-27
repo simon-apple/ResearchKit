@@ -42,16 +42,18 @@
 #import "ORKBorderedButton.h"
 #import "ORKNavigationContainerView_Internal.h"
 #import "ORKAVJournalingStepContentView.h"
+#import "ORKAVJournalingARSessionHelper.h"
+#import "ORKAVJournalingSessionHelper.h"
+#import "ORKAVJournalingPredefinedTask_Internal.h"
+#import "ORKTaskViewController_Internal.h"
+#import "ORKContext.h"
+
 #import <AVFoundation/AVFoundation.h>
 #import <CoreImage/CoreImage.h>
 #import <SceneKit/SceneKit.h>
 #import <ARKit/ARKit.h>
 #import <AVKit/AVKit.h>
 #import <MediaPlayer/MediaPlayer.h>
-#import "ORKAVJournalingARSessionHelper.h"
-#import "ORKAVJournalingSessionHelper.h"
-#import "ORKTaskViewController_Internal.h"
-#import "ORKContext.h"
 
 static const CGFloat FramesToSkipTotal = 5.0;
 
@@ -281,7 +283,7 @@ static const CGFloat FramesToSkipTotal = 5.0;
     if ([self.step.context isKindOfClass:[ORKAVJournalingPredfinedTaskContext class]]) {
         [(ORKAVJournalingPredfinedTaskContext *)self.step.context finishLaterWasPressedForTask:self.step.task currentStepIdentifier:self.step.identifier];
         [self cleanupSession];
-        [[self taskViewController] flipToPageWithIdentifier:@"ORKAVJournalingFinishLaterCompletionStepIdentifier" forward:YES animated:NO];
+        [[self taskViewController] flipToPageWithIdentifier:ORKAVJournalingStepIdentifierFinishLaterCompletion forward:YES animated:NO];
     }
 }
 
