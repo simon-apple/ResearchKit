@@ -219,7 +219,7 @@
 "BUTTON_SKIP" = "Skip";
 "BUTTON_SKIP_QUESTION" = "Skip this question";
 "BUTTON_START_TIMER" = "Start Timer";
-"BUTTON_STOP_TEST" = "Stop Test";
+"BUTTON_STOP_TEST" = "End Test Early";
 "BUTTON_OPTION_SAVE" = "Save for Later";
 "BUTTON_OPTION_DISCARD" = "Discard Results";
 "BUTTON_OPTION_STOP_TASK" = "End Task";
@@ -260,6 +260,8 @@
 "FITNESS_WALK_INSTRUCTION_FORMAT" = "Walk as fast as you can for %@.";
 "FITNESS_INTRO_TEXT_FORMAT" = "This activity monitors your heart rate and measures how far you can walk in %1$@.";
 "FITNESS_INTRO_2_TEXT_FORMAT" = "Walk outdoors at your fastest possible pace for %1$@. When you’re done, sit and rest comfortably for %2$@. To begin, tap Get Started.";
+"FITNESS_STOP_TEST_CONFIRMATION" = "Are you sure you want to end this test early?";
+"FITNESS_STOP_TEST_DETAIL" = "Your progress will be saved.";
 
 /* 6 minute walk test task. */
 

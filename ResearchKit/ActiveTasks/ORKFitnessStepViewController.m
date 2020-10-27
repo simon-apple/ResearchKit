@@ -34,9 +34,12 @@
 #import "ORKFitnessStep.h"
 #import "ORKActiveStepView.h"
 #import "ORKActiveStepTimer.h"
+
 #import "ORKStepViewController_Internal.h"
+#import "ORKNavigationContainerView_Internal.h"
 #import "ORKActiveStepViewController_Internal.h"
 #import "ORKHelpers_Internal.h"
+
 #import "ORKStepContainerView_Private.h"
 
 @interface ORKFitnessStepViewController () {
@@ -68,10 +71,6 @@
 
     self.activeStepView.activeCustomView = _contentView;
     self.activeStepView.customContentFillsAvailableSpace = YES;
-}
-
-- (void)start {
-    [super start];
     self.continueButtonTitle = ORKLocalizedString(@"BUTTON_STOP_TEST", nil);
 }
 
@@ -91,6 +90,34 @@
     _contentView.timeLeft = finished ? 0 : (timer.duration - timer.runtime);
     _contentView.duration = self.fitnessStep.stepDuration;
     [super countDownTimerFired:timer finished:finished];
+}
+
+- (void)goForward {
+
+    if (self.finished) {
+        [super goForward];
+        return;
+    }
+
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:ORKLocalizedString(@"FITNESS_STOP_TEST_CONFIRMATION", nil)
+                                                                   message:ORKLocalizedString(@"FITNESS_STOP_TEST_DETAIL", nil)
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+
+    [alert addAction:[UIAlertAction actionWithTitle:ORKLocalizedString(@"BUTTON_CANCEL", nil)
+                                              style:UIAlertActionStyleCancel
+                                            handler:^(UIAlertAction * _Nonnull action) {
+        [alert dismissViewControllerAnimated:YES completion:nil];
+    }]];
+
+    [alert addAction:[UIAlertAction actionWithTitle:ORKLocalizedString(@"BUTTON_STOP_TEST", nil)
+                                              style:UIAlertActionStyleDestructive
+                                            handler:^(UIAlertAction * _Nonnull action) {
+        [alert dismissViewControllerAnimated:YES completion:^{
+            [super goForward];
+        }];
+    }]];
+
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 @end
