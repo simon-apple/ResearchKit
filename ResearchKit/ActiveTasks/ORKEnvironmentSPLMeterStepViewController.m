@@ -140,7 +140,8 @@
     self.activeStepView.navigationFooterView.continueEnabled = NO;
     [self.activeStepView.navigationFooterView updateContinueAndSkipEnabled];
     
-    ORKStep *nextStep = [self.taskViewController stepAfterStep:self.step];
+    ORKTaskViewController *taskViewController = self.taskViewController;
+    ORKStep *nextStep = [taskViewController.task stepAfterStep:self.step withResult:taskViewController.result];
     if (nextStep && [nextStep.context isKindOfClass:[ORKSpeechInNoisePredefinedTaskContext class]])
     {
         ORKSpeechInNoisePredefinedTaskContext *context = (ORKSpeechInNoisePredefinedTaskContext *)nextStep.context;

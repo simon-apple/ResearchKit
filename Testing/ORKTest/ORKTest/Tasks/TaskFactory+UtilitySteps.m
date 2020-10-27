@@ -46,7 +46,7 @@
 
 - (void)stepViewController:(ORKStepViewController *)stepViewController
 didFinishWithNavigationDirection:(ORKStepViewControllerNavigationDirection)direction {
-    ORKStep *nextStep = [self stepAfterStep:stepViewController.step];
+    ORKStep *nextStep = [self.task stepAfterStep:stepViewController.step withResult:self.result];
     if (direction == ORKStepViewControllerNavigationDirectionForward
         && [nextStep isKindOfClass:[ORKWebViewStep class]]) {
         ORKWebViewStepViewController *webStepViewController = ORKDynamicCast([self viewControllerForStep:nextStep], ORKWebViewStepViewController);
