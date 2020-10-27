@@ -219,8 +219,10 @@
 		5192C2A22453949B0097DB41 /* ORKDetectionOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5192C2A02453949B0097DB41 /* ORKDetectionOverlayView.m */; };
 		51BF30BE247B330900E2E669 /* ORKIconButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 51BF30BC247B330900E2E669 /* ORKIconButton.h */; };
 		51BF30BF247B330A00E2E669 /* ORKIconButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 51BF30BD247B330900E2E669 /* ORKIconButton.m */; };
-		51C3F78224500E4A00FFAC91 /* ORKAVJournalingPredefinedTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 51C3F78024500E4A00FFAC91 /* ORKAVJournalingPredefinedTask.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		51C3F78224500E4A00FFAC91 /* ORKAVJournalingPredefinedTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 51C3F78024500E4A00FFAC91 /* ORKAVJournalingPredefinedTask.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		51C3F78324500E4A00FFAC91 /* ORKAVJournalingPredefinedTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 51C3F78124500E4A00FFAC91 /* ORKAVJournalingPredefinedTask.m */; };
+		51CAB8BF252E396600007BDB /* ORKAVJournalingTaskViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 51CAB8BD252E396600007BDB /* ORKAVJournalingTaskViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		51CAB8C0252E396600007BDB /* ORKAVJournalingTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51CAB8BE252E396600007BDB /* ORKAVJournalingTaskViewController.m */; };
 		51D823052472FB9B00BF4F72 /* ORKRequestPermissionsStepContainerView.h in Headers */ = {isa = PBXBuildFile; fileRef = 51D823032472FB9B00BF4F72 /* ORKRequestPermissionsStepContainerView.h */; };
 		51D823062472FB9B00BF4F72 /* ORKRequestPermissionsStepContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 51D823042472FB9B00BF4F72 /* ORKRequestPermissionsStepContainerView.m */; };
 		51E03D6324919711008F8406 /* ORKPermissionType.h in Headers */ = {isa = PBXBuildFile; fileRef = 51E03D6124919711008F8406 /* ORKPermissionType.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -808,6 +810,7 @@
 		BC1C032C1CA301E300869355 /* ORKHeightPicker.h in Headers */ = {isa = PBXBuildFile; fileRef = BC1C032A1CA301E300869355 /* ORKHeightPicker.h */; };
 		BC1C032D1CA301E300869355 /* ORKHeightPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1C032B1CA301E300869355 /* ORKHeightPicker.m */; };
 		BC2908BC1FBD628F0030AB89 /* ORKTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = BC2908BB1FBD628F0030AB89 /* ORKTypes.m */; };
+		BC297884254632DC0061B239 /* ORKAVJournalingPredefinedTask_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = BC297883254632DC0061B239 /* ORKAVJournalingPredefinedTask_Internal.h */; };
 		BC37323222B76D1A0021F665 /* ORKTextButton_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = BC37323122B76D190021F665 /* ORKTextButton_Internal.h */; };
 		BC37323622B76DC70021F665 /* ORKFormStepViewController_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = BC37323522B76DC70021F665 /* ORKFormStepViewController_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		BC3FA7FA2310680000AD0DD6 /* AVSystemController.h in Headers */ = {isa = PBXBuildFile; fileRef = BC3FA7F92310680000AD0DD6 /* AVSystemController.h */; };
@@ -1199,6 +1202,8 @@
 		51BF30BD247B330900E2E669 /* ORKIconButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKIconButton.m; sourceTree = "<group>"; };
 		51C3F78024500E4A00FFAC91 /* ORKAVJournalingPredefinedTask.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKAVJournalingPredefinedTask.h; sourceTree = "<group>"; };
 		51C3F78124500E4A00FFAC91 /* ORKAVJournalingPredefinedTask.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKAVJournalingPredefinedTask.m; sourceTree = "<group>"; };
+		51CAB8BD252E396600007BDB /* ORKAVJournalingTaskViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKAVJournalingTaskViewController.h; sourceTree = "<group>"; };
+		51CAB8BE252E396600007BDB /* ORKAVJournalingTaskViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKAVJournalingTaskViewController.m; sourceTree = "<group>"; };
 		51D823032472FB9B00BF4F72 /* ORKRequestPermissionsStepContainerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKRequestPermissionsStepContainerView.h; sourceTree = "<group>"; };
 		51D823042472FB9B00BF4F72 /* ORKRequestPermissionsStepContainerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKRequestPermissionsStepContainerView.m; sourceTree = "<group>"; };
 		51E03D6124919711008F8406 /* ORKPermissionType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKPermissionType.h; sourceTree = "<group>"; };
@@ -1804,6 +1809,7 @@
 		BC1C032A1CA301E300869355 /* ORKHeightPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKHeightPicker.h; sourceTree = "<group>"; };
 		BC1C032B1CA301E300869355 /* ORKHeightPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKHeightPicker.m; sourceTree = "<group>"; };
 		BC2908BB1FBD628F0030AB89 /* ORKTypes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKTypes.m; sourceTree = "<group>"; };
+		BC297883254632DC0061B239 /* ORKAVJournalingPredefinedTask_Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKAVJournalingPredefinedTask_Internal.h; sourceTree = "<group>"; };
 		BC37323122B76D190021F665 /* ORKTextButton_Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKTextButton_Internal.h; sourceTree = "<group>"; };
 		BC37323522B76DC70021F665 /* ORKFormStepViewController_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKFormStepViewController_Private.h; sourceTree = "<group>"; };
 		BC3FA7F7231067F500AD0DD6 /* update-private-headers.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = "update-private-headers.py"; sourceTree = "<group>"; };
@@ -3064,24 +3070,27 @@
 		B12EFF331AB2110300A80147 /* Task */ = {
 			isa = PBXGroup;
 			children = (
+				BC297883254632DC0061B239 /* ORKAVJournalingPredefinedTask_Internal.h */,
+				51C3F78024500E4A00FFAC91 /* ORKAVJournalingPredefinedTask.h */,
+				51C3F78124500E4A00FFAC91 /* ORKAVJournalingPredefinedTask.m */,
+				51CAB8BD252E396600007BDB /* ORKAVJournalingTaskViewController.h */,
+				51CAB8BE252E396600007BDB /* ORKAVJournalingTaskViewController.m */,
 				BC13CE371B0660220044153C /* ORKNavigableOrderedTask.h */,
 				BC13CE381B0660220044153C /* ORKNavigableOrderedTask.m */,
-				86C40BD51A8D7C5C00081FAC /* ORKTask.h */,
+				10FF9AD91B7BA78400ECB5B4 /* ORKOrderedTask_Private.h */,
 				86C40B9D1A8D7C5C00081FAC /* ORKOrderedTask.h */,
 				86C40B9E1A8D7C5C00081FAC /* ORKOrderedTask.m */,
 				FF154FB21E82EF5E004ED908 /* ORKOrderedTask+ORKPredefinedActiveTask.h */,
 				FF154FB31E82EF5E004ED908 /* ORKOrderedTask+ORKPredefinedActiveTask.m */,
-				10FF9AD91B7BA78400ECB5B4 /* ORKOrderedTask_Private.h */,
-				86C40BD71A8D7C5C00081FAC /* ORKTaskViewController.h */,
-				86C40BD81A8D7C5C00081FAC /* ORKTaskViewController.m */,
-				86C40BD91A8D7C5C00081FAC /* ORKTaskViewController_Internal.h */,
-				86C40BDA1A8D7C5C00081FAC /* ORKTaskViewController_Private.h */,
-				BAC6F1A722AF535100E31C22 /* ORKTaskReviewViewController.h */,
-				BAC6F1A822AF535100E31C22 /* ORKTaskReviewViewController.m */,
 				5D5C907C23D91FD8007AD5FC /* ORKSpeechInNoisePredefinedTask.h */,
 				5D5C907D23D91FD8007AD5FC /* ORKSpeechInNoisePredefinedTask.m */,
-				51C3F78024500E4A00FFAC91 /* ORKAVJournalingPredefinedTask.h */,
-				51C3F78124500E4A00FFAC91 /* ORKAVJournalingPredefinedTask.m */,
+				86C40BD51A8D7C5C00081FAC /* ORKTask.h */,
+				BAC6F1A722AF535100E31C22 /* ORKTaskReviewViewController.h */,
+				BAC6F1A822AF535100E31C22 /* ORKTaskReviewViewController.m */,
+				86C40BD91A8D7C5C00081FAC /* ORKTaskViewController_Internal.h */,
+				86C40BDA1A8D7C5C00081FAC /* ORKTaskViewController_Private.h */,
+				86C40BD71A8D7C5C00081FAC /* ORKTaskViewController.h */,
+				86C40BD81A8D7C5C00081FAC /* ORKTaskViewController.m */,
 			);
 			name = Task;
 			sourceTree = "<group>";
@@ -4486,6 +4495,7 @@
 				86C40E341A8D7C5C00081FAC /* ORKVisualConsentStepViewController_Internal.h in Headers */,
 				86C40D381A8D7C5C00081FAC /* ORKHTMLPDFWriter.h in Headers */,
 				959A2BFC1D68B98700841B04 /* ORKRangeOfMotionStep.h in Headers */,
+				51CAB8BF252E396600007BDB /* ORKAVJournalingTaskViewController.h in Headers */,
 				86C40D561A8D7C5C00081FAC /* ORKOrderedTask.h in Headers */,
 				E2A676F3238DCB3E006193D7 /* AVOutputDevice.h in Headers */,
 				86C40C4E1A8D7C5C00081FAC /* ORKTappingContentView.h in Headers */,
@@ -4535,6 +4545,7 @@
 				86C40DDE1A8D7C5C00081FAC /* ORKVerticalContainerView.h in Headers */,
 				2E8071131FB0EEF900E4FC7F /* ORKSpeechRecognitionContentView.h in Headers */,
 				9550E67C1D58DD2000C691B8 /* ORKTouchAnywhereStepViewController.h in Headers */,
+				BC297884254632DC0061B239 /* ORKAVJournalingPredefinedTask_Internal.h in Headers */,
 				BC94EF311E962F7400143081 /* ORKDeprecated.h in Headers */,
 				86C40CB01A8D7C5C00081FAC /* ORKRecorder_Internal.h in Headers */,
 				86C40E101A8D7C5C00081FAC /* ORKConsentSceneViewController.h in Headers */,
@@ -5263,6 +5274,7 @@
 				86C40CC21A8D7C5C00081FAC /* ORKCompletionStep.m in Sources */,
 				86C40C301A8D7C5C00081FAC /* ORKFitnessStep.m in Sources */,
 				86C40C501A8D7C5C00081FAC /* ORKTappingContentView.m in Sources */,
+				51CAB8C0252E396600007BDB /* ORKAVJournalingTaskViewController.m in Sources */,
 				BABBB1B32097E16700CB29E5 /* ORKPDFViewerStepViewController.m in Sources */,
 				24A4DA191B8D13FE009C797A /* ORKPasscodeStepViewController.m in Sources */,
 				BF9155A81BDE8DA9007FA459 /* ORKWaitStep.m in Sources */,

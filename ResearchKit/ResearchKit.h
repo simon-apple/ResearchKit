@@ -107,6 +107,7 @@
 #import <ResearchKit/ORKPDFViewerStepViewController.h>
 #import <ResearchKit/ORKTableStepViewController.h>
 #import <ResearchKit/ORKTaskViewController.h>
+#import <ResearchKit/ORKAVJournalingTaskViewController.h>
 #import <ResearchKit/ORKTouchAnywhereStepViewController.h>
 #import <ResearchKit/ORKVerificationStepViewController.h>
 #import <ResearchKit/ORKWaitStepViewController.h>

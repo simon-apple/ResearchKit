@@ -35,6 +35,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class ORKStep;
 
+/**
+ Step identifiers used by ORKAVJornalingPredefinedTask.
+ */
+typedef NSString *ORKAVJournalingStepIdentifier NS_STRING_ENUM;
+ORK_EXTERN ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierFaceDetection;
+ORK_EXTERN ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierCompletion;
+ORK_EXTERN ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierMaxLimitHitCompletion;
+ORK_EXTERN ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierFinishLaterCompletion;
+ORK_EXTERN ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierFinishLaterFaceDetection;
+
 ORK_CLASS_AVAILABLE
 @interface ORKAVJournalingPredefinedTask : ORKNavigableOrderedTask
 

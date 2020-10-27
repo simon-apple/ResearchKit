@@ -39,14 +39,11 @@
 #import "ORKContext.h"
 #import "ORKStepNavigationRule.h"
 
-typedef NSString * ORKAVJournalingStepIdentifier NS_STRING_ENUM;
-ORKAVJournalingStepIdentifier const FaceDetectionStepIdentifier = @"ORKAVJournalingFaceDetectionStepIdentifier";
-ORKAVJournalingStepIdentifier const InstructionStepIdentifier = @"ORKAVJournalingInstructionStepIdentifier";
-ORKAVJournalingStepIdentifier const CompletionStepIdentifier = @"ORKAVJournalingCompletionStepIdentifier";
-ORKAVJournalingStepIdentifier const MaxLimitHitCompletionStepIdentifier = @"ORKAVJournalingMaxLimitHitCompletionStepIdentifier";
-ORKAVJournalingStepIdentifier const FinishLaterCompletionStepIdentifier = @"ORKAVJournalingFinishLaterCompletionStepIdentifier";
-
-
+ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierFaceDetection = @"ORKAVJournalingStepIdentifierFaceDetection";
+ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierCompletion = @"ORKAVJournalingStepIdentifierCompletion";
+ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierMaxLimitHitCompletion = @"ORKAVJournalingStepIdentifierMaxLimitHitCompletion";
+ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierFinishLaterCompletion = @"ORKAVJournalingStepIdentifierFinishLaterCompletion";
+ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierFinishLaterFaceDetection = @"ORKAVJournalingStepIdentifierFinishLaterFaceDetection";
 
 @implementation ORKAVJournalingPredfinedTaskContext
 
@@ -58,12 +55,11 @@ ORKAVJournalingStepIdentifier const FinishLaterCompletionStepIdentifier = @"ORKA
         // Add a navigation rule to end the current task.
         ORKNavigableOrderedTask *currentTask = (ORKNavigableOrderedTask *)task;
         
-        int completedStepCount = currentStepIdentifier == FaceDetectionStepIdentifier ? 0 : [self numberOfCompletedAVJournalingStepsFromTask:currentTask currentStepIdentifier:currentStepIdentifier];
+        int completedStepCount = currentStepIdentifier == ORKAVJournalingStepIdentifierFaceDetection ? 0 : [self numberOfCompletedAVJournalingStepsFromTask:currentTask currentStepIdentifier:currentStepIdentifier];
         int totalAVJournalingSteps = [self totalAVJournalingStepsWithinTask:currentTask];
-        
         NSString *entriesText = (totalAVJournalingSteps - completedStepCount) > 1 ? ORKLocalizedString(@"AV_JOURNALING_STEP_FINISH_LATER_ENTRIES_TEXT", nil) : ORKLocalizedString(@"AV_JOURNALING_STEP_FINISH_LATER_ENTRY_TEXT", nil);
         
-        ORKCompletionStep *step = [[ORKCompletionStep alloc] initWithIdentifier:MaxLimitHitCompletionStepIdentifier];
+        ORKCompletionStep *step = [[ORKCompletionStep alloc] initWithIdentifier:ORKAVJournalingStepIdentifierMaxLimitHitCompletion];
         step.title = ORKLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_TIME_LIMIT_REACHED_TITLE", nil);
         step.text = [NSString stringWithFormat:ORKLocalizedString(@"AV_JOURNALING_STEP_FINISH_LATER_TEXT", nil), completedStepCount, totalAVJournalingSteps, entriesText];
         step.optional = NO;
@@ -86,10 +82,11 @@ ORKAVJournalingStepIdentifier const FinishLaterCompletionStepIdentifier = @"ORKA
         int totalAVJournalingSteps = [self totalAVJournalingStepsWithinTask:currentTask];
         NSString *entriesText = (totalAVJournalingSteps - completedStepCount) > 1 ? ORKLocalizedString(@"AV_JOURNALING_STEP_FINISH_LATER_ENTRIES_TEXT", nil) : ORKLocalizedString(@"AV_JOURNALING_STEP_FINISH_LATER_ENTRY_TEXT", nil);
         
-        ORKCompletionStep *step = [[ORKCompletionStep alloc] initWithIdentifier:FinishLaterCompletionStepIdentifier];
+        ORKCompletionStep *step = [[ORKCompletionStep alloc] initWithIdentifier:ORKAVJournalingStepIdentifierFinishLaterCompletion];
         step.title = ORKLocalizedString(@"AV_JOURNALING_STEP_FINISH_LATER_TITLE", nil);
         step.text = [NSString stringWithFormat:ORKLocalizedString(@"AV_JOURNALING_STEP_FINISH_LATER_TEXT", nil), completedStepCount, totalAVJournalingSteps, entriesText];
         step.optional = NO;
+        step.reasonForCompletion = ORKTaskViewControllerFinishReasonDiscarded;
         [currentTask addStep:step];
 
         ORKDirectStepNavigationRule *endNavigationRule = [[ORKDirectStepNavigationRule alloc] initWithDestinationStepIdentifier:ORKNullStepIdentifier];
@@ -128,17 +125,20 @@ ORKAVJournalingStepIdentifier const FinishLaterCompletionStepIdentifier = @"ORKA
 @end
 
 
-@implementation ORKAVJournalingPredefinedTask
+@implementation ORKAVJournalingPredefinedTask {
+    NSSet<NSString *> *_prependStepIdentifiers;
+    NSSet<NSString *> *_appendStepIdentifiers;
+}
 
 - (instancetype)initWithIdentifier:(NSString *)identifier
     journalQuestionSetManifestPath:(NSString *)journalQuestionSetManifestPath
                       prependSteps:(nullable NSArray<ORKStep *> *)prependSteps
                        appendSteps:(nullable NSArray<ORKStep *> *)appendSteps  {
     NSError *error = nil;
-    NSArray<ORKStep *> *steps = [self setupStepsFromManifestPath:journalQuestionSetManifestPath
-                                                    prependSteps:prependSteps
-                                                     appendSteps:appendSteps
-                                                           error:&error];
+    NSArray<ORKStep *> *steps = [ORKAVJournalingPredefinedTask predefinedStepsWithManifestPath:journalQuestionSetManifestPath
+                                                                                  prependSteps:prependSteps
+                                                                                   appendSteps:appendSteps
+                                                                                         error:&error];
     
     if (error) {
         ORK_Log_Error("An error occurred while creating the predefined task. %@", error);
@@ -150,6 +150,18 @@ ORKAVJournalingStepIdentifier const FinishLaterCompletionStepIdentifier = @"ORKA
         _journalQuestionSetManifestPath = [journalQuestionSetManifestPath copy];
         _prependSteps = [prependSteps copy];
         _appendSteps = [appendSteps copy];
+        
+        NSMutableSet<NSString *> *prependStepIdentifiers = [NSMutableSet new];
+        for (ORKStep *step in prependSteps) {
+            [prependStepIdentifiers addObject:step.identifier];
+        }
+        _prependStepIdentifiers = [prependStepIdentifiers copy];
+        
+        NSMutableSet<NSString *> *appendStepIdentifiers = [NSMutableSet new];
+        for (ORKStep *step in appendSteps) {
+            [appendStepIdentifiers addObject:step.identifier];
+        }
+        _appendStepIdentifiers = [appendStepIdentifiers copy];
         
         for (ORKStep *step in self.steps) {
             if ([step isKindOfClass:[ORKStep class]]) {
@@ -166,10 +178,10 @@ ORKAVJournalingStepIdentifier const FinishLaterCompletionStepIdentifier = @"ORKA
     ORKThrowMethodUnavailableException();
 }
 
-- (nullable NSArray<ORKStep *> *)setupStepsFromManifestPath:(NSString *)manifestPath
-                                               prependSteps:(nullable NSArray<ORKStep *> *)prependSteps
-                                                appendSteps:(nullable NSArray<ORKStep *> *)appendSteps
-                                                      error:(NSError * _Nullable * _Nullable)error {
++ (nullable NSArray<ORKStep *> *)predefinedStepsWithManifestPath:(NSString *)manifestPath
+                                                    prependSteps:(nullable NSArray<ORKStep *> *)prependSteps
+                                                     appendSteps:(nullable NSArray<ORKStep *> *)appendSteps
+                                                           error:(NSError * _Nullable * _Nullable)error {
     
     NSMutableArray<ORKStep *> *steps = [[NSMutableArray alloc] init];
     
@@ -178,11 +190,11 @@ ORKAVJournalingStepIdentifier const FinishLaterCompletionStepIdentifier = @"ORKA
     }
     
     //Fetch AVJournalSteps from manifest file
-    NSArray<ORKAVJournalingStep *> *avJournalingSteps = [self prefetchJournalQuestionSetsFromManifestAtPath:manifestPath error:error];
+    NSArray<ORKAVJournalingStep *> *avJournalingSteps = [self journalingStepsWithManifestPath:manifestPath error:error];
     
     //Face Detection Step
     ORKAVJournalingPredfinedTaskContext *avJournalingPredefinedContext = [[ORKAVJournalingPredfinedTaskContext alloc] init];
-    ORKFaceDetectionStep *faceDetectionStep = [[ORKFaceDetectionStep alloc] initWithIdentifier:FaceDetectionStepIdentifier];
+    ORKFaceDetectionStep *faceDetectionStep = [[ORKFaceDetectionStep alloc] initWithIdentifier:ORKAVJournalingStepIdentifierFaceDetection];
     faceDetectionStep.title = ORKLocalizedString(@"AV_JOURNALING_PREDEFINED_TASK_FACE_DETECTION_STEP_TITLE", nil);
     faceDetectionStep.context = avJournalingPredefinedContext;
     
@@ -199,7 +211,7 @@ ORKAVJournalingStepIdentifier const FinishLaterCompletionStepIdentifier = @"ORKA
     }
     
     //Completion Step
-    ORKCompletionStep *completionStep = [[ORKCompletionStep alloc] initWithIdentifier:CompletionStepIdentifier];
+    ORKCompletionStep *completionStep = [[ORKCompletionStep alloc] initWithIdentifier:ORKAVJournalingStepIdentifierCompletion];
     completionStep.title = ORKLocalizedString(@"AV_JOURNALING_PREDEFINED_TASK_COMPLETION_TITLE", "");
     completionStep.text = ORKLocalizedString(@"AV_JOURNALING_PREDEFINED_TASK_COMPLETION_TEXT", "");
     
@@ -208,20 +220,20 @@ ORKAVJournalingStepIdentifier const FinishLaterCompletionStepIdentifier = @"ORKA
     return [steps copy];
 }
 
-- (nullable NSArray<ORKAVJournalingStep *> *)prefetchJournalQuestionSetsFromManifestAtPath:(nonnull NSString *)path error:(NSError * _Nullable * _Nullable)error {
++ (nullable NSArray<ORKAVJournalingStep *> *)journalingStepsWithManifestPath:(nonnull NSString *)manifestPath error:(NSError * _Nullable * _Nullable)error {
     
     NSFileManager *fileManager = [[NSFileManager alloc] init];
     
-    if (![fileManager fileExistsAtPath:path]) {
+    if (![fileManager fileExistsAtPath:manifestPath]) {
         if (error != NULL) {
             *error = [NSError errorWithDomain:ORKErrorDomain
                                          code:ORKErrorException
-                                     userInfo:@{NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:@"Could not locate file at path %@", path]}];
+                                     userInfo:@{NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:@"Could not locate file at path %@", manifestPath]}];
         }
         return nil;
     }
     
-    NSData *data = [NSData dataWithContentsOfFile:path options:0 error:error];
+    NSData *data = [NSData dataWithContentsOfFile:manifestPath options:0 error:error];
     if (!data) {
         return nil;
     }
@@ -231,7 +243,7 @@ ORKAVJournalingStepIdentifier const FinishLaterCompletionStepIdentifier = @"ORKA
         return nil;
     }
     
-    NSString *parentDirectory = [path stringByDeletingLastPathComponent];
+    NSString *parentDirectory = [manifestPath stringByDeletingLastPathComponent];
     BOOL isDir;
     if (![fileManager fileExistsAtPath:parentDirectory isDirectory:&isDir] || !isDir) {
         if (error != NULL) {
@@ -286,6 +298,26 @@ ORKAVJournalingStepIdentifier const FinishLaterCompletionStepIdentifier = @"ORKA
         }
         return nil;
     }
+}
+
+- (BOOL)isAppendStepIdentifier:(NSString *)stepIdentifier {
+    if (stepIdentifier == nil) {
+        return NO;
+    }
+    return [_appendStepIdentifiers containsObject:stepIdentifier];
+}
+
+- (BOOL)isVideoRecordingStepIdentifier:(NSString *)stepIdentifier {
+    if (stepIdentifier == nil) {
+        return NO;
+    }
+    return !([_prependStepIdentifiers containsObject:stepIdentifier] ||
+             [_appendStepIdentifiers containsObject:stepIdentifier] ||
+             [stepIdentifier isEqualToString:ORKAVJournalingStepIdentifierFaceDetection] ||
+             [stepIdentifier isEqualToString:ORKAVJournalingStepIdentifierCompletion] ||
+             [stepIdentifier isEqualToString:ORKAVJournalingStepIdentifierMaxLimitHitCompletion] ||
+             [stepIdentifier isEqualToString:ORKAVJournalingStepIdentifierFinishLaterCompletion] ||
+             [stepIdentifier isEqualToString:ORKAVJournalingStepIdentifierFinishLaterFaceDetection]);
 }
 
 #pragma mark - NSSecureCoding

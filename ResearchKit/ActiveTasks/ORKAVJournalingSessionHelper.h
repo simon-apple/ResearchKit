@@ -28,7 +28,7 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ResearchKit/ORKAVJournalingARSessionHelper.h>
+#import "ORKAVJournalingARSessionHelper.h"
 #import <AVFoundation/AVFoundation.h>
 
 
@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
                        sessionHelperDelegate:(id<ORKAVJournalingSessionHelperDelegate>)sessionHelperDelegate;
 
 @property (nonatomic, nullable, readonly) AVCaptureSession *captureSession;
-@property (nonatomic, nullable) NSMutableArray *cameraIntrinsicsArray;
+@property (nonatomic, nullable, copy) NSArray *cameraIntrinsicsArray;
 
 - (BOOL)startSession:(NSError **)error;
 - (void)startCapturing;

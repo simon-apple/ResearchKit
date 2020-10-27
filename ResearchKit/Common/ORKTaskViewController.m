@@ -137,8 +137,6 @@ typedef void (^_ORKLocationAuthorizationRequestHandler)(BOOL success);
 
 
 @interface ORKTaskViewController () <ORKTaskReviewViewControllerDelegate, UINavigationControllerDelegate> {
-    NSMutableDictionary *_managedResults;
-    NSMutableArray *_managedStepIdentifiers;
     ORKScrollViewObserver *_scrollViewObserver;
     BOOL _hasBeenPresented;
     BOOL _hasRequestedHealthData;
@@ -157,7 +155,6 @@ typedef void (^_ORKLocationAuthorizationRequestHandler)(BOOL success);
     BOOL _hasAudioSession; // does not need state restoration - temporary
     
     NSString *_restoredTaskIdentifier;
-    NSString *_restoredStepIdentifier;
     BOOL _hasLockedVolume;
     float _savedVolume;
     float _lockedVolume;
@@ -691,7 +688,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     }
 }
 
-- (NSArray *)managedResults {
+- (NSArray *)managedResultsArray {
     NSMutableArray *results = [NSMutableArray new];
     
     [_managedStepIdentifiers enumerateObjectsUsingBlock:^(NSString *identifier, NSUInteger idx, BOOL *stop) {
@@ -737,7 +734,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     // Update current step result
     [self setManagedResult:[self.currentStepViewController result] forKey:self.currentStepViewController.step.identifier];
     
-    result.results = [self managedResults];
+    result.results = [self managedResultsArray];
     
     return result;
 }
@@ -1450,7 +1447,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     }
     ORKStep *previousStep = stepViewController.parentReviewStep;
     if (!previousStep) {
-        previousStep = [self stepBeforeStep:thisStep];
+        previousStep = [self.task stepBeforeStep:thisStep withResult:self.result];
     }
     if ([previousStep isKindOfClass:[ORKActiveStep class]] || ([thisStep allowsBackNavigation] == NO)) {
         previousStep = nil; // Can't go back to an active step
@@ -1463,7 +1460,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     if (!thisStep) {
         return NO;
     }
-    ORKStep *nextStep = [self stepAfterStep:thisStep];
+    ORKStep *nextStep = [self.task stepAfterStep:thisStep withResult:self.result];
     return (nextStep != nil);
 }
 
@@ -1485,14 +1482,6 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     }
     
     return progressData;
-}
-
-- (ORKStep *)stepBeforeStep:(ORKStep *)step {
-    return [self.task stepBeforeStep:step withResult:[self result]];
-}
-
-- (nullable ORKStep *)stepAfterStep:(ORKStep *)step {
-    return [self.task stepAfterStep:step withResult:[self result]];
 }
 
 #pragma mark - ORKReviewStepViewControllerDelegate
