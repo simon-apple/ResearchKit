@@ -95,8 +95,13 @@
     UIFontMetrics* metrics = [UIFontMetrics metricsForTextStyle:UIFontTextStyleLargeTitle];
 
     if (@available(iOS 13, *)) {
-         UIFontDescriptor* round = [[font fontDescriptor] fontDescriptorWithDesign:UIFontDescriptorSystemDesignRounded];
-        font = [UIFont fontWithDescriptor:round size:80];
+        UIFontDescriptor* round = [[font fontDescriptor] fontDescriptorWithDesign:UIFontDescriptorSystemDesignRounded];
+        UIFontDescriptor* weighted = [round fontDescriptorByAddingAttributes:@{
+            UIFontDescriptorTraitsAttribute: @{
+                    UIFontWeightTrait: @1.5
+            }
+        }];
+        font = [UIFont fontWithDescriptor:weighted size:44];
     }
 
     UIFont* scaled = [metrics scaledFontForFont:font];
@@ -118,13 +123,13 @@
 
 - (void)drawRect:(CGRect)rect {
 
-    // The ring should be be centered and fill 2/3 of the view's width
+    // The ring should be be centered and fill 1/2 of the view's width
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGFloat strokeWidth = 12;
     CGFloat xCenter = self.bounds.size.width / 2;
     CGFloat yCenter = self.bounds.size.height / 2;
     CGFloat dimension = MIN(self.bounds.size.width, self.bounds.size.height);
-    CGFloat radius = (2.0/3.0) * dimension * (1.0/2.0);
+    CGFloat radius = 0.5 * (dimension * 0.5);
     CGFloat percentFilled = _timeLeft / _duration;
     CGFloat startAngle = -M_PI_2 - (percentFilled * 2 * M_PI);
     CGFloat stopAngle = -M_PI_2;
@@ -134,7 +139,12 @@
     CGContextSetLineCap(context, kCGLineCapRound);
 
     // Draw a circular track
-    [[UIColor lightGrayColor] setStroke];
+    if (@available(iOS 13.0, *)) {
+        [[UIColor systemGray5Color] setStroke];
+    } else {
+        [[UIColor lightGrayColor] setStroke];
+    }
+
     CGContextAddArc(context, xCenter, yCenter, radius, 0, 2 * M_PI, clockwise ? 1 : 0);
     CGContextStrokePath(context);
 
