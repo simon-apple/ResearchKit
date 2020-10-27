@@ -139,7 +139,12 @@
     CGContextSetLineCap(context, kCGLineCapRound);
 
     // Draw a circular track
-    [[UIColor lightGrayColor] setStroke];
+    if (@available(iOS 13.0, *)) {
+        [[UIColor systemGray5Color] setStroke];
+    } else {
+        [[UIColor lightGrayColor] setStroke];
+    }
+
     CGContextAddArc(context, xCenter, yCenter, radius, 0, 2 * M_PI, clockwise ? 1 : 0);
     CGContextStrokePath(context);
 
