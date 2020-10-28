@@ -397,6 +397,10 @@ static const CGFloat FramesToSkipTotal = 5.0;
     }
 }
 
+- (void)sessionWasInterrupted {
+    [self invokeFinishLaterContext];
+}
+
 #pragma mark AVCaptureVideoDataOutputSampleBufferDelegate
 
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection {
