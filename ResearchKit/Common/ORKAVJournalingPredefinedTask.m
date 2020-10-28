@@ -50,6 +50,7 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierMaxLimitHitComp
 ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierFinishLaterCompletion = @"ORKAVJournalingStepIdentifierFinishLaterCompletion";
 ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierFinishLaterFaceDetection = @"ORKAVJournalingStepIdentifierFinishLaterFaceDetection";
 ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierLowMemoryCompletion = @"ORKAVJournalingStepIdentifierLowMemoryCompletion";
+ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierVideoAudioAccessDeniedCompletion = @"ORKAVJournalingStepIdentifierVideoAudioAccessDeniedCompletion";
 
 @implementation ORKAVJournalingPredfinedTaskContext
 
@@ -79,7 +80,7 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierLowMemoryComple
 
 - (void)finishLaterWasPressedForTask:(id<ORKTask>)task currentStepIdentifier:(NSString *)currentStepIdentifier {
     if ([task isKindOfClass:[ORKNavigableOrderedTask class]]) {
-        // If the user reaches the max limit for face detection, append a new step to the end of the task and skip to the end.
+        // If the user presses finish later, append a new step to the end of the task and skip to the end.
         
         // Add a navigation rule to end the current task.
         ORKNavigableOrderedTask *currentTask = (ORKNavigableOrderedTask *)task;
@@ -99,6 +100,41 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierLowMemoryComple
         [currentTask setNavigationRule:endNavigationRule forTriggerStepIdentifier:step.identifier];
     }
 }
+
+- (void)videoOrAudioAccessDeniedForTask:(id<ORKTask>)task {
+    // If video or audio access is denied, append a new step to the end of the task and skip to the end.
+    
+    // Add a navigation rule to end the current task.
+    ORKNavigableOrderedTask *currentTask = (ORKNavigableOrderedTask *)task;
+    
+    ORKInstructionStep *instructionStep = [[ORKInstructionStep alloc] initWithIdentifier:ORKAVJournalingStepIdentifierVideoAudioAccessDeniedCompletion];
+    instructionStep.title = ORKLocalizedString(@"AV_JOURNALING_PREDEFINED_AUDIO_VIDEO_ACCESS_TITLE", nil);
+    instructionStep.text = ORKLocalizedString(@"AV_JOURNALING_PREDEFINED_AUDIO_VIDEO_ACCESS_TEXT", nil);
+    
+    if (@available(iOS 13.0, *)) {
+        instructionStep.iconImage = [UIImage systemImageNamed:@"video.slash"];
+    }
+    
+    ORKLearnMoreInstructionStep *learnMoreInstructionStep = [[ORKLearnMoreInstructionStep alloc] initWithIdentifier:@"InstructionStepPlaceHolderVideoAudioAccessDenied"];
+    ORKLearnMoreItem *learnMoreItem = [[ORKLearnMoreItem alloc] initWithText:ORKLocalizedString(@"AV_JOURNALING_PREDEFINED_AUDIO_VIDEO_ACCESS_SETTINGS_LINK_TEXT", nil)
+                                                    learnMoreInstructionStep:learnMoreInstructionStep];
+    
+    ORKBodyItem *settingsLinkBodyItem = [[ORKBodyItem alloc] initWithText:nil
+                                                               detailText:nil
+                                                                    image:nil
+                                                            learnMoreItem:learnMoreItem
+                                                            bodyItemStyle:ORKBodyItemStyleText];
+    
+    instructionStep.bodyItems = @[settingsLinkBodyItem];
+
+    
+    [currentTask addStep:instructionStep];
+
+    ORKDirectStepNavigationRule *endNavigationRule = [[ORKDirectStepNavigationRule alloc] initWithDestinationStepIdentifier:ORKNullStepIdentifier];
+    [currentTask setNavigationRule:endNavigationRule forTriggerStepIdentifier:instructionStep.identifier];
+}
+
+#pragma mark - Helper Methods (private)
 
 - (int)numberOfCompletedAVJournalingStepsFromTask:(ORKNavigableOrderedTask *)task currentStepIdentifier:(NSString *)currentStepIdentifier {
     int numberOfCompleted = 0;
@@ -155,7 +191,7 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierLowMemoryComple
             instructionStep.iconImage = [UIImage systemImageNamed:@"bin.xmark"];
         }
         
-        ORKLearnMoreInstructionStep *learnMoreInstructionStep = [[ORKLearnMoreInstructionStep alloc] initWithIdentifier:@"someID"];
+        ORKLearnMoreInstructionStep *learnMoreInstructionStep = [[ORKLearnMoreInstructionStep alloc] initWithIdentifier:@"InstructionStepPlaceHolderLowMemory"];
         ORKLearnMoreItem *learnMoreItem = [[ORKLearnMoreItem alloc] initWithText:ORKLocalizedString(@"AV_JOURNALING_PREDEFINED_LOW_MEMORY_SETTINGS_LINK_TEXT", nil)
                                                         learnMoreInstructionStep:learnMoreInstructionStep];
         
@@ -372,7 +408,8 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierLowMemoryComple
              [stepIdentifier isEqualToString:ORKAVJournalingStepIdentifierMaxLimitHitCompletion] ||
              [stepIdentifier isEqualToString:ORKAVJournalingStepIdentifierFinishLaterCompletion] ||
              [stepIdentifier isEqualToString:ORKAVJournalingStepIdentifierFinishLaterFaceDetection] ||
-             [stepIdentifier isEqualToString:ORKAVJournalingStepIdentifierLowMemoryCompletion]);
+             [stepIdentifier isEqualToString:ORKAVJournalingStepIdentifierLowMemoryCompletion] ||
+             [stepIdentifier isEqualToString:ORKAVJournalingStepIdentifierVideoAudioAccessDeniedCompletion]);
 }
 
 #pragma mark - NSSecureCoding
