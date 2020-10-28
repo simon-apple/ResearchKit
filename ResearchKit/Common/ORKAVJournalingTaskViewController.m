@@ -150,7 +150,8 @@
         NSString *stepIdentifier = stepResult.identifier;
         if (!([stepIdentifier isEqualToString:ORKAVJournalingStepIdentifierFinishLaterCompletion] ||
               [stepIdentifier isEqualToString:ORKAVJournalingStepIdentifierMaxLimitHitCompletion] ||
-              [stepIdentifier isEqualToString:ORKAVJournalingStepIdentifierFinishLaterFaceDetection])) {
+              [stepIdentifier isEqualToString:ORKAVJournalingStepIdentifierFinishLaterFaceDetection] ||
+              [stepIdentifier isEqualToString:ORKAVJournalingStepIdentifierVideoAudioAccessDeniedCompletion])) {
             [filteredStepResults addObject:stepResult];
         }
     }

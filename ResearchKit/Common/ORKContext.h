@@ -68,6 +68,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)finishLaterWasPressedForTask:(id<ORKTask>)task currentStepIdentifier:(NSString *)currentStepIdentifier;
 
+- (void)videoOrAudioAccessDeniedForTask:(id<ORKTask>)task;
+
 @end
 
 NS_ASSUME_NONNULL_END

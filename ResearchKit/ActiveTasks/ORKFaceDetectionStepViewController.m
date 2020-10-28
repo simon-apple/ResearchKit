@@ -95,9 +95,21 @@
         [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
     }
     
-    [self setupContentView];
-    [self setupContentViewConstraints];
-    [self startSession];
+    //Check for video authorization
+    [self checkAuthorizationForMediaType:AVMediaTypeVideo completion:^(BOOL granted, AVAuthorizationStatus authStatus) {
+        if (granted) {
+            //Check for audio authorization of video accces was granted
+            [self checkAuthorizationForMediaType:AVMediaTypeAudio completion:^(BOOL audioAccessGranted, AVAuthorizationStatus audioAuthStatus) {
+                if (audioAccessGranted) {
+                    [self setupContentAndSession];
+                } else {
+                    [self videoOrAudioAccessDenied];
+                }
+            }];
+        } else {
+            [self videoOrAudioAccessDenied];
+        }
+    }];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -118,6 +130,38 @@
                                    forControlEvents:UIControlEventTouchUpInside];
 }
 
+- (void)checkAuthorizationForMediaType:(AVMediaType)mediaType completion:(void(^)(BOOL granted,AVAuthorizationStatus authStatus))handler {
+    NSString *mediaTypeString = mediaType;
+    AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:mediaTypeString];
+    
+    switch (authStatus) {
+        case AVAuthorizationStatusAuthorized:
+            handler(YES, authStatus);
+            break;
+        case AVAuthorizationStatusDenied:
+        case AVAuthorizationStatusRestricted:
+            handler(NO, authStatus);
+            break;
+        case AVAuthorizationStatusNotDetermined:
+            [AVCaptureDevice requestAccessForMediaType:mediaType completionHandler:^(BOOL granted) {
+                if(granted){
+                    handler(YES, authStatus);
+                } else {
+                    handler(NO, authStatus);
+                }
+            }];
+            break;
+    }
+}
+
+- (void)setupContentAndSession {
+    dispatch_async(dispatch_get_main_queue(), ^(void) {
+        [self setupContentView];
+        [self setupContentViewConstraints];
+        [self startSession];
+    });
+}
+
 - (void)setupContentView {
     _contentView = [[ORKFaceDetectionStepContentView alloc] initForRecalibration:NO];
     __weak typeof(self) weakSelf = self;
@@ -135,6 +179,16 @@
     [_navigationFooterView setContinueEnabled:NO];
 }
 
+- (void)videoOrAudioAccessDenied {
+    dispatch_async(dispatch_get_main_queue(), ^(void) {
+        if ([self.step.context isKindOfClass:[ORKAVJournalingPredfinedTaskContext class]]) {
+            [(ORKAVJournalingPredfinedTaskContext *)self.step.context videoOrAudioAccessDeniedForTask:self.step.task];
+            [self clearSession];
+            [[self taskViewController] flipToPageWithIdentifier:ORKAVJournalingStepIdentifierVideoAudioAccessDeniedCompletion forward:YES animated:NO];
+        }
+    });
+}
+
 - (void)handleContentViewEvent:(ORKFaceDetectionStepContentViewEvent)event {
     
     switch (event) {
@@ -145,7 +199,6 @@
             
             [self clearSession];
             [[self taskViewController] flipToPageWithIdentifier:ORKAVJournalingStepIdentifierMaxLimitHitCompletion forward:YES animated:NO];
-            
             
             break;
     }
