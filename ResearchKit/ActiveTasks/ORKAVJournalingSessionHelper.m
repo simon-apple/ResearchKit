@@ -103,6 +103,10 @@
     return self;
 }
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 #pragma mark Methods
 
 - (BOOL)startSession:(NSError **)error {
@@ -141,6 +145,11 @@
     if (_sessionSetUp && _readyToRecord) {
         [_captureSession startRunning];
     }
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(sessionWasInterrupted:)
+                                                 name:AVCaptureSessionWasInterruptedNotification
+                                               object:_captureSession];
     
     return error;
 }
@@ -532,6 +541,12 @@
     [array addObject:[[NSMutableArray alloc] initWithObjects:[NSNumber numberWithFloat:transform.columns[0].z], [NSNumber numberWithFloat:transform.columns[1].z], [NSNumber numberWithFloat:transform.columns[2].z], nil]];
 
     return array;
+}
+
+- (void)sessionWasInterrupted:(NSNotification *)notification {
+    if (_sessionHelperDelegate != nil && [_sessionHelperDelegate respondsToSelector:@selector(sessionWasInterrupted)]) {
+        [_sessionHelperDelegate sessionWasInterrupted];
+    }
 }
 
 static CVReturn CreatePixelBufferPool(size_t width, size_t height, OSType format, CVPixelBufferPoolRef *pool) {
