@@ -38,12 +38,18 @@
 #import "ORKAVJournalingStep.h"
 #import "ORKContext.h"
 #import "ORKStepNavigationRule.h"
+#import "ORKLearnMoreItem.h"
+#import "ORKLearnMoreInstructionStep.h"
+
+static const CGFloat MinMBLimitForTask = 500;
+static const CGFloat MBConversionConstant = 1000000;
 
 ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierFaceDetection = @"ORKAVJournalingStepIdentifierFaceDetection";
 ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierCompletion = @"ORKAVJournalingStepIdentifierCompletion";
 ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierMaxLimitHitCompletion = @"ORKAVJournalingStepIdentifierMaxLimitHitCompletion";
 ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierFinishLaterCompletion = @"ORKAVJournalingStepIdentifierFinishLaterCompletion";
 ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierFinishLaterFaceDetection = @"ORKAVJournalingStepIdentifierFinishLaterFaceDetection";
+ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierLowMemoryCompletion = @"ORKAVJournalingStepIdentifierLowMemoryCompletion";
 
 @implementation ORKAVJournalingPredfinedTaskContext
 
@@ -134,16 +140,47 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierFinishLaterFace
     journalQuestionSetManifestPath:(NSString *)journalQuestionSetManifestPath
                       prependSteps:(nullable NSArray<ORKStep *> *)prependSteps
                        appendSteps:(nullable NSArray<ORKStep *> *)appendSteps  {
-    NSError *error = nil;
-    NSArray<ORKStep *> *steps = [ORKAVJournalingPredefinedTask predefinedStepsWithManifestPath:journalQuestionSetManifestPath
-                                                                                  prependSteps:prependSteps
-                                                                                   appendSteps:appendSteps
-                                                                                         error:&error];
     
-    if (error) {
-        ORK_Log_Error("An error occurred while creating the predefined task. %@", error);
-        return nil;
+    NSError *error = nil;
+    NSArray<ORKStep *> *steps = nil;
+    
+    uint64_t totalFreeSpace = [self getFreeDiskspaceInMB];
+    
+    if (totalFreeSpace < MinMBLimitForTask) {
+        ORKInstructionStep *instructionStep = [[ORKInstructionStep alloc] initWithIdentifier:ORKAVJournalingStepIdentifierLowMemoryCompletion];
+        instructionStep.title = ORKLocalizedString(@"AV_JOURNALING_PREDEFINED_LOW_MEMORY_TITLE", nil);
+        instructionStep.text = ORKLocalizedString(@"AV_JOURNALING_PREDEFINED_LOW_MEMORY_TEXT", nil);
+        
+        if (@available(iOS 13.0, *)) {
+            instructionStep.iconImage = [UIImage systemImageNamed:@"bin.xmark"];
+        }
+        
+        ORKLearnMoreInstructionStep *learnMoreInstructionStep = [[ORKLearnMoreInstructionStep alloc] initWithIdentifier:@"someID"];
+        ORKLearnMoreItem *learnMoreItem = [[ORKLearnMoreItem alloc] initWithText:ORKLocalizedString(@"AV_JOURNALING_PREDEFINED_LOW_MEMORY_SETTINGS_LINK_TEXT", nil)
+                                                        learnMoreInstructionStep:learnMoreInstructionStep];
+        
+        ORKBodyItem *settingsLinkBodyItem = [[ORKBodyItem alloc] initWithText:nil
+                                                                   detailText:nil
+                                                                        image:nil
+                                                                learnMoreItem:learnMoreItem
+                                                                bodyItemStyle:ORKBodyItemStyleText];
+        
+        instructionStep.bodyItems = @[settingsLinkBodyItem];
+
+        steps = [NSArray arrayWithObject:instructionStep];
+        
+    } else {
+       steps = [ORKAVJournalingPredefinedTask predefinedStepsWithManifestPath:journalQuestionSetManifestPath
+                                                                                      prependSteps:prependSteps
+                                                                                       appendSteps:appendSteps
+                                                                                             error:&error];
+        
+        if (error) {
+            ORK_Log_Error("An error occurred while creating the predefined task. %@", error);
+            return nil;
+        }
     }
+    
     
     self = [super initWithIdentifier:identifier steps:steps];
     if (self) {
@@ -300,10 +337,27 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierFinishLaterFace
     }
 }
 
+-(uint64_t)getFreeDiskspaceInMB {
+    uint64_t totalFreeSpace = 0;
+    NSError *error = nil;
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSDictionary *dictionary = [[NSFileManager defaultManager] attributesOfFileSystemForPath:[paths lastObject] error: &error];
+
+    if (dictionary) {
+        NSNumber *freeFileSystemSizeInBytes = [dictionary objectForKey:NSFileSystemFreeSize];
+        totalFreeSpace = [freeFileSystemSizeInBytes unsignedLongLongValue];
+    } else {
+        ORK_Log_Error("Error Obtaining System Memory Info: Domain = %@, Code = %ld", [error domain], (long)[error code]);
+    }
+
+    return totalFreeSpace / MBConversionConstant;
+}
+
 - (BOOL)isAppendStepIdentifier:(NSString *)stepIdentifier {
     if (stepIdentifier == nil) {
         return NO;
     }
+
     return [_appendStepIdentifiers containsObject:stepIdentifier];
 }
 
@@ -317,7 +371,8 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierFinishLaterFace
              [stepIdentifier isEqualToString:ORKAVJournalingStepIdentifierCompletion] ||
              [stepIdentifier isEqualToString:ORKAVJournalingStepIdentifierMaxLimitHitCompletion] ||
              [stepIdentifier isEqualToString:ORKAVJournalingStepIdentifierFinishLaterCompletion] ||
-             [stepIdentifier isEqualToString:ORKAVJournalingStepIdentifierFinishLaterFaceDetection]);
+             [stepIdentifier isEqualToString:ORKAVJournalingStepIdentifierFinishLaterFaceDetection] ||
+             [stepIdentifier isEqualToString:ORKAVJournalingStepIdentifierLowMemoryCompletion]);
 }
 
 #pragma mark - NSSecureCoding

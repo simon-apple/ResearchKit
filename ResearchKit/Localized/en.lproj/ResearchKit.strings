@@ -676,6 +676,9 @@
 "AV_JOURNALING_PREDEFINED_TASK_INSTRUCTION_STEP_TEXT" = "You will be asked %lu questions. Think about each question as long as needed and then speak your answer out loud";
 "AV_JOURNALING_PREDEFINED_TASK_COMPLETION_TITLE" = "Video Journal Complete";
 "AV_JOURNALING_PREDEFINED_TASK_COMPLETION_TEXT" = "Thank you for participating.";
+"AV_JOURNALING_PREDEFINED_LOW_MEMORY_TITLE" = "Additional storage is required to begin this task.";
+"AV_JOURNALING_PREDEFINED_LOW_MEMORY_TEXT" = "Your iPhone may need more available to begin this task. Please follow the recommendations in Settings and try again.";
+"AV_JOURNALING_PREDEFINED_LOW_MEMORY_SETTINGS_LINK_TEXT" = "Optimize Storage in Settings.";
 
 /* AV Journaling Face Detection Step */
 "AV_JOURNALING_FACE_DETECTION_STEP_NEXT_BUTTON_TEXT" = "Continue";
