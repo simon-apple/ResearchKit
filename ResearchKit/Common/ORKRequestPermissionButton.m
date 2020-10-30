@@ -113,12 +113,7 @@ static const CGFloat HighlightedOpacity = 0.5;
 
         case ORKRequestPermissionsButtonStateDefault:
             [self setBackgroundColor:self.tintColor];
-
-            if (@available(iOS 13.0, *)) {
-                _titleLabel.textColor = UIColor.systemBackgroundColor;
-            } else {
-                _titleLabel.textColor = UIColor.whiteColor;
-            }
+            _titleLabel.textColor = UIColor.whiteColor;
             [self setEnabled:YES];
             break;
 
