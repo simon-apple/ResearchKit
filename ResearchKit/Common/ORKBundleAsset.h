@@ -29,12 +29,14 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <ResearchKit/ORKDefines.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 /**
  Describes an asset available in a bundle, locally on the device.
  */
+ORK_CLASS_AVAILABLE
 @interface ORKBundleAsset : NSObject<NSSecureCoding, NSCopying>
 
 /// The file name of the resource, excluding the file extension.
