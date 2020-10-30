@@ -36,31 +36,13 @@
 ORKRequestPermissionsNotification const ORKRequestPermissionsNotificationCardViewStatusChanged = @"ORKRequestPermissionsNotificationCardViewStatusChanged";
 
 static const CGFloat StandardPadding = 15.0;
-static const CGFloat IconImageViewWidthHeight = 48.0;
+static const CGFloat IconImageViewWidthHeight = 40.0;
 static const CGFloat IconImageViewBottomPadding = 10.0;
-static const CGFloat TitleTextLabelBottomPadding = 4.0;
-static const CGFloat DetailTextLabelBottomPadding = 10.0;
+static const CGFloat TitleTextLabelBottomPadding = 6.0;
+static const CGFloat DetailTextLabelBottomPadding = 12;
+static const CGFloat ContentStackViewBottomPadding = 12;
 static const CGFloat CornerRadius = 10.0;
-
-/// A label whose intrinsic size matches the intrinsiz size of its `titleLabel`.
-@interface ORKLabelFittingButton : UIButton
-
-@end
-
-@implementation ORKLabelFittingButton
-
--(CGSize)intrinsicContentSize {
-    CGSize titleLabelIntrinsicSize = [self.titleLabel intrinsicContentSize];
-    return CGSizeMake(titleLabelIntrinsicSize.width + self.titleEdgeInsets.left + self.titleEdgeInsets.right,
-                      titleLabelIntrinsicSize.height + self.titleEdgeInsets.top + self.titleEdgeInsets.bottom);
-}
-
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    self.titleLabel.preferredMaxLayoutWidth = self.titleLabel.frame.size.width;
-}
-
-@end
+static const CGFloat ButtonWidth = 150;
 
 @implementation ORKRequestPermissionView {
     NSMutableArray *_constraints;
@@ -73,6 +55,10 @@ static const CGFloat CornerRadius = 10.0;
     
     UILabel *_titleLabel;
     UILabel *_detailTextLabel;
+
+    UIStackView *_contentStackView;
+
+    NSLayoutConstraint *_buttonWidthConstraint;
 }
 
 - (instancetype)initWithIconImage:(nullable UIImage *)iconImage title:(NSString *)title detailText:(NSString *)detailText {
@@ -110,16 +96,44 @@ static const CGFloat CornerRadius = 10.0;
     [self setUpTitleLabel];
     [self setUpDetailTextLabel];
     [self setupRequestDataButton];
+    [self setupContentStackView];
 
     [self updateFonts];
+}
+
+- (void)setupContentStackView {
+    if (!_contentStackView) {
+        _contentStackView = [UIStackView new];
+
+        if (_iconImageView) {
+            [_contentStackView addArrangedSubview:_iconImageView];
+            [_contentStackView setCustomSpacing:IconImageViewBottomPadding afterView:_iconImageView];
+        }
+
+        if (_titleLabel) {
+            [_contentStackView addArrangedSubview:_titleLabel];
+            [_contentStackView setCustomSpacing:TitleTextLabelBottomPadding afterView:_titleLabel];
+        }
+
+        if (_detailTextLabel) {
+            [_contentStackView addArrangedSubview:_detailTextLabel];
+            [_contentStackView setCustomSpacing:DetailTextLabelBottomPadding afterView:_detailTextLabel];
+        }
+
+        if (_requestPermissionButton) {
+            [_contentStackView addArrangedSubview:_requestPermissionButton];
+        }
+
+        _contentStackView.alignment = UIStackViewAlignmentCenter;
+        _contentStackView.axis = UILayoutConstraintAxisVertical;
+        [self addSubview:_contentStackView];
+    }
 }
 
 - (void)setupIconImageView {
     if (_iconImage) {
         _iconImageView = [[UIImageView alloc] initWithImage:_iconImage];
         _iconImageView.contentMode = UIViewContentModeScaleAspectFit;
-        _iconImageView.translatesAutoresizingMaskIntoConstraints = NO;
-        [self addSubview:_iconImageView];
     }
 }
 
@@ -127,29 +141,24 @@ static const CGFloat CornerRadius = 10.0;
     if (_title) {
         _titleLabel = [self makeMultilineLabel];
         _titleLabel.text = _title;
-        _titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        [self addSubview:_titleLabel];
+        _titleLabel.textAlignment = NSTextAlignmentCenter;
     }
 }
 
 - (void)setUpDetailTextLabel {
     if (_detailText) {
         _detailTextLabel = [self makeMultilineLabel];
-        _detailTextLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        _detailTextLabel.textAlignment = NSTextAlignmentCenter;
         _detailTextLabel.text = _detailText;
 
-        [_detailTextLabel setFont:[UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline]];
+        [_detailTextLabel setFont:[UIFont preferredFontForTextStyle:UIFontTextStyleBody]];
         _detailTextLabel.adjustsFontForContentSizeCategory = true;
-
-        [self addSubview:_detailTextLabel];
     }
 }
 
 - (void)setupRequestDataButton {
     if (!_requestPermissionButton) {
-        _requestPermissionButton = [ORKLabelFittingButton new];
-        _requestPermissionButton.translatesAutoresizingMaskIntoConstraints = NO;
-        [_requestPermissionButton setTitleEdgeInsets:UIEdgeInsetsMake(5, 16, 5, 16)];
+        _requestPermissionButton = [ORKRequestPermissionButton new];
 
         // The button's corner radius should match the corner radius of the parent.
         // Equation: r_inner = r_inner - d
@@ -159,9 +168,7 @@ static const CGFloat CornerRadius = 10.0;
         _requestPermissionButton.clipsToBounds = false;
         _requestPermissionButton.layer.cornerRadius =
             CornerRadius -
-            (StandardPadding / [[UIScreen mainScreen] scale]);
-
-        [self addSubview:_requestPermissionButton];
+            (ContentStackViewBottomPadding / [[UIScreen mainScreen] scale]);
     }
 }
 
@@ -177,14 +184,13 @@ static const CGFloat CornerRadius = 10.0;
     [super traitCollectionDidChange:previousTraitCollection];
     if (previousTraitCollection.preferredContentSizeCategory != self.traitCollection.preferredContentSizeCategory) {
         [self updateFonts];
+
+        // Scale the button width for the AX size
+        _buttonWidthConstraint.constant = [[UIFontMetrics defaultMetrics] scaledValueForValue:ButtonWidth];
     }
 }
 
 - (void)updateFonts {
-    if (_requestPermissionButton) {
-        [_requestPermissionButton.titleLabel setFont: [self fontWithTextStyle:UIFontTextStyleSubheadline weight:UIFontWeightMedium]];
-    }
-
     if (_titleLabel) {
         _titleLabel.font = [self fontWithTextStyle:UIFontTextStyleBody weight:UIFontWeightBold];
     }
@@ -199,27 +205,35 @@ static const CGFloat CornerRadius = 10.0;
     if (_constraints) {
         [NSLayoutConstraint deactivateConstraints:_constraints];
     }
-    
-    _constraints = [NSMutableArray array];
-        
-    [_constraints addObject:[_iconImageView.topAnchor constraintEqualToAnchor:self.topAnchor constant:StandardPadding]];
-    [_constraints addObject:[_iconImageView.leftAnchor constraintEqualToAnchor:self.leftAnchor constant:StandardPadding]];
-    [_constraints addObject:[_iconImageView.widthAnchor constraintEqualToConstant:IconImageViewWidthHeight]];
-    [_constraints addObject:[_iconImageView.heightAnchor constraintEqualToConstant:IconImageViewWidthHeight]];
-    
-    [_constraints addObject:[_titleLabel.topAnchor constraintEqualToAnchor:_iconImageView.bottomAnchor constant:IconImageViewBottomPadding]];
-    [_constraints addObject:[_titleLabel.leftAnchor constraintEqualToAnchor:self.leftAnchor constant:StandardPadding]];
-    [_constraints addObject:[_titleLabel.rightAnchor constraintEqualToAnchor:self.rightAnchor constant:-StandardPadding]];
-    
-    [_constraints addObject:[_detailTextLabel.topAnchor constraintEqualToAnchor:_titleLabel.bottomAnchor constant:TitleTextLabelBottomPadding]];
-    [_constraints addObject:[_detailTextLabel.leftAnchor constraintEqualToAnchor:_titleLabel.leftAnchor]];
-    [_constraints addObject:[_detailTextLabel.rightAnchor constraintEqualToAnchor:self.rightAnchor constant:-StandardPadding]];
 
-    [_constraints addObject:[_requestPermissionButton.topAnchor constraintEqualToAnchor:_detailTextLabel.bottomAnchor constant:DetailTextLabelBottomPadding]];
-    [_constraints addObject:[_requestPermissionButton.leftAnchor constraintEqualToAnchor:_titleLabel.leftAnchor]];
-    [_constraints addObject:[_requestPermissionButton.rightAnchor constraintLessThanOrEqualToAnchor:self.rightAnchor constant: -StandardPadding]];
-    [_constraints addObject:[_requestPermissionButton.bottomAnchor constraintEqualToAnchor:self.bottomAnchor constant:-StandardPadding]];
-   
+    _contentStackView.translatesAutoresizingMaskIntoConstraints = NO;
+    _requestPermissionButton.translatesAutoresizingMaskIntoConstraints = NO;
+
+    _constraints = [NSMutableArray array];
+
+    if (@available(iOS 13.0, *)) {
+        [_iconImageView setPreferredSymbolConfiguration:[UIImageSymbolConfiguration configurationWithTextStyle:UIFontTextStyleLargeTitle]];
+    } else {
+        _iconImageView.translatesAutoresizingMaskIntoConstraints = NO;
+        [_constraints addObjectsFromArray:@[
+            [_iconImageView.widthAnchor constraintEqualToConstant:IconImageViewWidthHeight],
+            [_iconImageView.heightAnchor constraintEqualToConstant:IconImageViewWidthHeight]
+        ]];
+    }
+
+    // Note, the button width is updated when the AX size changes
+    _buttonWidthConstraint = [_requestPermissionButton.widthAnchor constraintGreaterThanOrEqualToConstant:ButtonWidth];
+    // Lower the priority in case the width is too large for the screen
+    _buttonWidthConstraint.priority = UILayoutPriorityDefaultLow;
+
+    [_constraints addObjectsFromArray:@[
+        _buttonWidthConstraint,
+        [_contentStackView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:StandardPadding],
+        [_contentStackView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-StandardPadding],
+        [_contentStackView.topAnchor constraintEqualToAnchor:self.topAnchor constant:StandardPadding],
+        [_contentStackView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor constant:-ContentStackViewBottomPadding]
+    ]];
+
     [NSLayoutConstraint activateConstraints:_constraints];
 }
 

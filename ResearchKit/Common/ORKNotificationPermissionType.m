@@ -34,6 +34,10 @@
 #import "ORKRequestPermissionView.h"
 #import "ORKHelpers_Internal.h"
 
+static NSString *const Symbol = @"app.badge";
+static const uint32_t IconLightTintColor = 0xFBD00B;
+static const uint32_t IconDarkTintColor = 0xFFD005;
+
 @interface ORKNotificationPermissionType ()
 
 @property UNAuthorizationOptions options;
@@ -64,22 +68,43 @@
     UIImage *image;
 
     if (@available(iOS 13.0, *)) {
-        image = [UIImage systemImageNamed:@"bell.fill"];
+        image = [UIImage systemImageNamed:Symbol];
     }
 
     self.cardView = [[ORKRequestPermissionView alloc] initWithIconImage:image
                                                                   title:ORKLocalizedString(@"REQUEST_NOTIFICATIONS_STEP_VIEW_TITLE", nil)
                                                              detailText:ORKLocalizedString(@"REQUEST_NOTIFICATIONS_STEP_VIEW_DESCRIPTION", nil)];
 
-    [self.cardView.requestPermissionButton setTitle:ORKLocalizedString(@"REQUEST_PERMISSION_BUTTON_STATE_DEFAULT", nil) forState:UIControlStateNormal];
-    [self.cardView.requestPermissionButton setTitle:ORKLocalizedString(@"REQUEST_PERMISSION_BUTTON_STATE_CONNECTED", nil) forState:UIControlStateDisabled];
     [self.cardView.requestPermissionButton addTarget:self action:@selector(requestPermissionButtonPressed) forControlEvents:UIControlEventTouchUpInside];
-    [self.cardView updateIconTintColor:[UIColor systemPurpleColor]];
 
-    [self setRequestPermissionRequested:NO];
+    // Set the tint color for the icon
+    if (@available(iOS 13, *)) {
+        UIColor *dynamicTint = [[UIColor alloc] initWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
+            return traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? ORKRGB(IconDarkTintColor) : ORKRGB(IconLightTintColor);
+        }];
+        [self.cardView updateIconTintColor:dynamicTint];
+    } else {
+        [self.cardView updateIconTintColor:ORKRGB(IconLightTintColor)];
+    }
+
+    [self setState:ORKRequestPermissionsButtonStateDefault canContinue:NO];
+
     [[UNUserNotificationCenter currentNotificationCenter] getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings * _Nonnull settings) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self setRequestPermissionRequested: settings.authorizationStatus != UNAuthorizationStatusNotDetermined];
+
+            switch (settings.authorizationStatus) {
+
+                case UNAuthorizationStatusNotDetermined:
+                    [self setState:ORKRequestPermissionsButtonStateDefault canContinue:NO];
+                    break;
+
+                case UNAuthorizationStatusEphemeral:
+                case UNAuthorizationStatusAuthorized:
+                case UNAuthorizationStatusProvisional:
+                case UNAuthorizationStatusDenied:
+                    [self setState:ORKRequestPermissionsButtonStateConnected canContinue:YES];
+                    break;
+            }
         });
     }];
 }
@@ -89,15 +114,18 @@
      requestAuthorizationWithOptions: self.options
      completionHandler:^(BOOL granted, NSError * _Nullable error) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self setRequestPermissionRequested:YES];
+            if (error) {
+                [self setState:ORKRequestPermissionsButtonStateError canContinue:YES];
+                return;
+            }
+            [self setState:ORKRequestPermissionsButtonStateConnected canContinue:YES];
         });
     }];
 }
 
-- (void)setRequestPermissionRequested:(BOOL)state {
-    [self.cardView setEnableContinueButton:state];
-    [self.cardView.requestPermissionButton setEnabled:!state];
-    [self.cardView.requestPermissionButton setBackgroundColor: state ? [UIColor grayColor] : [UIColor systemBlueColor]];
+- (void)setState:(ORKRequestPermissionsButtonState)state canContinue:(BOOL)canContinue {
+    [self.cardView setEnableContinueButton:canContinue];
+    [self.cardView.requestPermissionButton setState:state];
 }
 
 - (BOOL)isEqual:(id)object {

@@ -207,6 +207,8 @@
 		515B347B24B3D2F4009CF844 /* ORKAVJournalingSessionHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 515B347924B3D2F4009CF844 /* ORKAVJournalingSessionHelper.m */; };
 		5166E49F247355D500151C57 /* ORKUSDZModelManagerResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 5166E49D247355D500151C57 /* ORKUSDZModelManagerResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5166E4A0247355D500151C57 /* ORKUSDZModelManagerResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 5166E49E247355D500151C57 /* ORKUSDZModelManagerResult.m */; };
+		5170009D254A197300CACE12 /* ORKRequestPermissionButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5170009C254A197300CACE12 /* ORKRequestPermissionButton.m */; };
+		5170009E254A255F00CACE12 /* ORKRequestPermissionButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 5170009B254A191F00CACE12 /* ORKRequestPermissionButton.h */; };
 		5175144E2459EBF0009E8FFC /* ORK3DModelStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 5175144C2459EBF0009E8FFC /* ORK3DModelStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5175144F2459EBF0009E8FFC /* ORK3DModelStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 5175144D2459EBF0009E8FFC /* ORK3DModelStep.m */; };
 		517514522459EF5D009E8FFC /* ORK3DModelStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 517514502459EF5D009E8FFC /* ORK3DModelStepViewController.h */; };
@@ -1200,6 +1202,8 @@
 		515B347924B3D2F4009CF844 /* ORKAVJournalingSessionHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKAVJournalingSessionHelper.m; sourceTree = "<group>"; };
 		5166E49D247355D500151C57 /* ORKUSDZModelManagerResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKUSDZModelManagerResult.h; sourceTree = "<group>"; };
 		5166E49E247355D500151C57 /* ORKUSDZModelManagerResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKUSDZModelManagerResult.m; sourceTree = "<group>"; };
+		5170009B254A191F00CACE12 /* ORKRequestPermissionButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKRequestPermissionButton.h; sourceTree = "<group>"; };
+		5170009C254A197300CACE12 /* ORKRequestPermissionButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKRequestPermissionButton.m; sourceTree = "<group>"; };
 		5175144C2459EBF0009E8FFC /* ORK3DModelStep.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORK3DModelStep.h; sourceTree = "<group>"; };
 		5175144D2459EBF0009E8FFC /* ORK3DModelStep.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORK3DModelStep.m; sourceTree = "<group>"; };
 		517514502459EF5D009E8FFC /* ORK3DModelStepViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORK3DModelStepViewController.h; sourceTree = "<group>"; };
@@ -2488,6 +2492,8 @@
 				51D823042472FB9B00BF4F72 /* ORKRequestPermissionsStepContainerView.m */,
 				51E03D6B2491B6DB008F8406 /* ORKRequestPermissionView.h */,
 				51E03D6C2491B6DB008F8406 /* ORKRequestPermissionView.m */,
+				5170009B254A191F00CACE12 /* ORKRequestPermissionButton.h */,
+				5170009C254A197300CACE12 /* ORKRequestPermissionButton.m */,
 			);
 			name = "Request Permissions Step";
 			sourceTree = "<group>";
@@ -4182,6 +4188,7 @@
 				E27743AE23A7AC8800AA0C9F /* AVOutputDeviceDiscoverySession.h in Headers */,
 				BAC6F1A922AF535100E31C22 /* ORKTaskReviewViewController.h in Headers */,
 				FFF65AB81E318F2D0043FB40 /* ORKMultipleValuePicker.h in Headers */,
+				5170009E254A255F00CACE12 /* ORKRequestPermissionButton.h in Headers */,
 				515B347A24B3D2F4009CF844 /* ORKAVJournalingSessionHelper.h in Headers */,
 				86B781BB1AA668ED00688151 /* ORKTimeIntervalPicker.h in Headers */,
 				24C296751BD052F800B42EF1 /* ORKVerificationStep_Internal.h in Headers */,
@@ -5245,6 +5252,7 @@
 				86C40C8A1A8D7C5C00081FAC /* ORKActiveStepTimerView.m in Sources */,
 				86AD91111AB7B8A600361FEB /* ORKActiveStepView.m in Sources */,
 				86C40C201A8D7C5C00081FAC /* ORKAudioStepViewController.m in Sources */,
+				5170009D254A197300CACE12 /* ORKRequestPermissionButton.m in Sources */,
 				51BF30BF247B330A00E2E669 /* ORKIconButton.m in Sources */,
 				03057F3E2515772E00C4EC5B /* ORKAudioFitnessStep.m in Sources */,
 				86C40D081A8D7C5C00081FAC /* ORKCountdownLabel.m in Sources */,

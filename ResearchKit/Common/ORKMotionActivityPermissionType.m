@@ -34,6 +34,10 @@
 
 @import CoreMotion;
 
+static NSString *const Symbol = @"arrow.right.arrow.left.circle";
+static const uint32_t IconLightTintColor = 0xEF72D8;
+static const uint32_t IconDarkTintColor = 0xEF6FD8;
+
 @interface ORKMotionActivityPermissionType()
 @property (nonatomic) CMMotionActivityManager *activityManager;
 @end
@@ -61,10 +65,10 @@
 }
 
 - (void)setupCardView {
-    UIImage *image;
 
-    if (@available(iOS 14.0, *)) {
-        image = [UIImage systemImageNamed:@"figure.walk"];
+    UIImage *image;
+    if (@available(iOS 13, *)) {
+        image = [UIImage systemImageNamed:Symbol];
     }
 
     self.cardView = [[ORKRequestPermissionView alloc]
@@ -72,12 +76,33 @@
                      title:ORKLocalizedString(@"REQUEST_MOTION_ACTIVITY_STEP_VIEW_TITLE", nil)
                      detailText:ORKLocalizedString(@"REQUEST_MOTION_ACTIVITY_STEP_VIEW_DESCRIPTION", nil)];
 
-    [self.cardView.requestPermissionButton setTitle:ORKLocalizedString(@"REQUEST_PERMISSION_BUTTON_STATE_DEFAULT", nil) forState:UIControlStateNormal];
-    [self.cardView.requestPermissionButton setTitle:ORKLocalizedString(@"REQUEST_PERMISSION_BUTTON_STATE_CONNECTED", nil) forState:UIControlStateDisabled];
     [self.cardView.requestPermissionButton addTarget:self action:@selector(requestPermissionButtonPressed) forControlEvents:UIControlEventTouchUpInside];
-    [self.cardView updateIconTintColor:[UIColor systemOrangeColor]];
 
-    [self setRequestPermissionRequested:CMMotionActivityManager.authorizationStatus != CMAuthorizationStatusNotDetermined];
+    // Set the tint color for the icon
+    if (@available(iOS 13, *)) {
+        UIColor *dynamicTint = [[UIColor alloc] initWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
+            return traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? ORKRGB(IconDarkTintColor) : ORKRGB(IconLightTintColor);
+        }];
+        [self.cardView updateIconTintColor:dynamicTint];
+    } else {
+        [self.cardView updateIconTintColor:ORKRGB(IconLightTintColor)];
+    }
+
+    [self checkMotionAuthStatus];
+}
+
+-(void)checkMotionAuthStatus {
+    switch (CMMotionActivityManager.authorizationStatus) {
+        case CMAuthorizationStatusNotDetermined:
+            [self setState:ORKRequestPermissionsButtonStateDefault canContinue:NO];
+            break;
+
+        case CMAuthorizationStatusDenied:
+        case CMAuthorizationStatusAuthorized:
+        case CMAuthorizationStatusRestricted:
+            [self setState:ORKRequestPermissionsButtonStateConnected canContinue:YES];
+            break;
+    }
 }
 
 // There is no explicit API for requesting device motion permission.
@@ -87,13 +112,12 @@
     [self.activityManager startActivityUpdatesToQueue:[NSOperationQueue mainQueue]
                                           withHandler:^(CMMotionActivity * _Nullable activity) {}];
     [self.activityManager stopActivityUpdates];
-    [self setRequestPermissionRequested:YES];
+    [self setState:ORKRequestPermissionsButtonStateConnected canContinue:YES];
 }
 
-- (void)setRequestPermissionRequested:(BOOL)state {
-    [self.cardView setEnableContinueButton:state];
-    [self.cardView.requestPermissionButton setEnabled:!state];
-    [self.cardView.requestPermissionButton setBackgroundColor: state ? [UIColor grayColor] : [UIColor systemBlueColor]];
+- (void)setState:(ORKRequestPermissionsButtonState)state canContinue:(BOOL)canContinue {
+    [self.cardView setEnableContinueButton:canContinue];
+    [self.cardView.requestPermissionButton setState:state];
 }
 
 - (BOOL)isEqual:(id)object {
