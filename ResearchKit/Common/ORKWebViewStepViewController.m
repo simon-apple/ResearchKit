@@ -99,13 +99,11 @@ static const CGFloat ORKSignatureTopPadding = 37.0;
         
         _leftRightPadding = self.step.useExtendedPadding ? ORKStepContainerExtendedLeftRightPaddingForWindow(self.view.window) : ORKStepContainerLeftRightPaddingForWindow(self.view.window);
         
-        UIColor *backgroundColor;
+        UIColor *backgroundColor = ORKColor(ORKBackgroundColorKey);
         UIColor *textColor;
         if (@available(iOS 13.0, *)) {
-            backgroundColor = [UIColor systemBackgroundColor];
             textColor = [UIColor labelColor];
         } else {
-            backgroundColor = [UIColor whiteColor];
             textColor = [UIColor blackColor];
         }
         
@@ -137,6 +135,18 @@ static const CGFloat ORKSignatureTopPadding = 37.0;
         [self setupNavigationFooterView];
         [self setupConstraints];
         [_webView loadHTMLString:[self webViewStep].html baseURL:nil];
+    }
+}
+
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+    [super traitCollectionDidChange:previousTraitCollection];
+
+    // We need to re-render the HTML if the interface style has changed
+    // so that the CSS adopts the new color scheme.
+    if (@available(iOS 13, *)) {
+        if (self.traitCollection.userInterfaceStyle != previousTraitCollection.userInterfaceStyle) {
+            [self stepDidChange];
+        }
     }
 }
 
