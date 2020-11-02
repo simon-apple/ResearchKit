@@ -71,13 +71,13 @@
 
     self.activeStepView.activeCustomView = _contentView;
     self.activeStepView.customContentFillsAvailableSpace = YES;
-    self.continueButtonTitle = ORKLocalizedString(@"BUTTON_STOP_TEST_EARLY", nil);
+    self.continueButtonTitle = ORKLocalizedString(@"BUTTON_SKIP_STEP", nil);
 }
 
 - (void)finish {
     [super finish];
     _contentView.labelHidden = YES;
-    self.continueButtonTitle = ORKLocalizedString(@"BUTTON_NEXT", nil);
+    self.continueButtonTitle = ORKLocalizedString(@"BUTTON_SKIP_STEP", nil);
 }
 
 - (void)stepDidChange {
