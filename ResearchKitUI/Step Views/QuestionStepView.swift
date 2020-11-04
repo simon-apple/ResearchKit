@@ -58,6 +58,10 @@ struct TextChoiceCell: View {
 @available(watchOS 6.0, *)
 public struct QuestionStepView: View {
 
+    enum Constants {
+        static let textToQuestionPadding: CGFloat = 12.0
+    }
+    
     @ObservedObject
     public private(set) var step: ORKQuestionStep
 
@@ -71,6 +75,10 @@ public struct QuestionStepView: View {
         self.step = step
         self.result = result
     }
+    
+    var titlePadding: CGFloat {
+        return step.question == nil ? Constants.textToQuestionPadding : 0
+    }
 
     public var body: some View {
         VStack {
@@ -79,11 +87,13 @@ public struct QuestionStepView: View {
                     .font(.body)
                     .fontWeight(.semibold)
                     .multilineTextAlignment(.center)
-                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .padding(.bottom, titlePadding)
             }
             if let stepQuestion = step.question {
                 Text(stepQuestion)
-                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .padding(.bottom, Constants.textToQuestionPadding)
             }
             if let textChoiceAnswerFormat = step.answerFormat as? ORKTextChoiceAnswerFormat {
                 
