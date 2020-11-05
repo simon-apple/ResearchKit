@@ -138,8 +138,12 @@ static CGFloat const ORKSpeechInNoiseContentViewVerticalMargin = 44;
         [NSLayoutConstraint deactivateConstraints:self.constraints];
     }
     
+    NSLayoutConstraint *centeredYLayoutConstaint = [_graphView.centerYAnchor constraintLessThanOrEqualToAnchor:self.centerYAnchor constant:-ORKSpeechInNoiseContentFlamesViewVerticalSpacing];
+    centeredYLayoutConstaint.priority = UILayoutPriorityDefaultLow;
+    
     self.constraints = @[
-        [_graphView.centerYAnchor constraintLessThanOrEqualToAnchor:self.centerYAnchor constant:-ORKSpeechInNoiseContentFlamesViewVerticalSpacing],
+        [_graphView.topAnchor constraintGreaterThanOrEqualToAnchor:self.topAnchor],
+        centeredYLayoutConstaint,
         [_graphView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor],
         [_graphView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor],
         [_graphView.heightAnchor constraintEqualToConstant:ORKSpeechInNoiseContentFlamesViewHeightConstant],

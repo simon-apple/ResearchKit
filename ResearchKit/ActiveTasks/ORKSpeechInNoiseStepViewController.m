@@ -81,7 +81,7 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
     _installedTap = NO;
     self.speechInNoiseContentView = [[ORKSpeechInNoiseContentView alloc] init];
     self.activeStepView.activeCustomView = self.speechInNoiseContentView;
-    self.activeStepView.customContentFillsAvailableSpace = YES;
+    self.activeStepView.customContentFillsAvailableSpace = NO;
     _speechInNoiseContentView.alertColor = [UIColor blueColor];
     [self.speechInNoiseContentView.playButton addTarget:self action:@selector(tapButtonPressed) forControlEvents:UIControlEventTouchDown];
     [_speechInNoiseContentView setGraphViewHidden:[self speechInNoiseStep].hideGraphView];
