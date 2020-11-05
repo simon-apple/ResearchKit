@@ -276,25 +276,34 @@ static CGFloat const ORKSpeechRecognitionContentBottomLayoutMargin = 44.0;
     {
         [NSLayoutConstraint deactivateConstraints:self.constraints];
     }
-        
+      
+    NSLayoutConstraint *centeredGraphOnScreenLayoutConstraint = [_graphView.centerYAnchor constraintLessThanOrEqualToAnchor:self.centerYAnchor constant:-ORKSpeechRecognitionContentFlamesViewMaxOffset];
+    centeredGraphOnScreenLayoutConstraint.priority = UILayoutPriorityDefaultLow;
+    
     self.constraints = @[
+        
         [_imageView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor],
         [_imageView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor],
         [_imageView.topAnchor constraintEqualToAnchor:self.topAnchor],
+        
         [_textLabel.topAnchor constraintEqualToAnchor:_imageView.bottomAnchor],
         [_textLabel.leadingAnchor constraintEqualToAnchor:self.leadingAnchor],
         [_textLabel.trailingAnchor constraintEqualToAnchor:self.trailingAnchor],
+        
         [_graphView.topAnchor constraintGreaterThanOrEqualToAnchor:_textLabel.bottomAnchor],
-        [_graphView.centerYAnchor constraintLessThanOrEqualToAnchor:self.centerYAnchor constant:-ORKSpeechRecognitionContentFlamesViewMaxOffset],
+        centeredGraphOnScreenLayoutConstraint,
         [_graphView.heightAnchor constraintEqualToConstant:ORKSpeechRecognitionContentFlamesViewHeightConstant],
         [_graphView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor],
         [_graphView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor],
+        
         [_transcriptLabel.leadingAnchor constraintEqualToAnchor:self.leadingAnchor],
         [_transcriptLabel.trailingAnchor constraintEqualToAnchor:self.trailingAnchor],
         [_transcriptLabel.topAnchor constraintGreaterThanOrEqualToAnchor:_graphView.bottomAnchor],
         [_transcriptLabel.bottomAnchor constraintEqualToAnchor:_recordButton.topAnchor constant:-ORKSpeechRecognitionContentRecordButtonVerticalSpacing],
         [_recordButton.topAnchor constraintGreaterThanOrEqualToAnchor:_transcriptLabel.bottomAnchor constant:ORKSpeechRecognitionContentRecordButtonVerticalSpacing],
+        
         [_recordButton.centerXAnchor constraintEqualToAnchor:self.centerXAnchor],
+        
         [_useKeyboardButton.leadingAnchor constraintEqualToAnchor:self.leadingAnchor],
         [_useKeyboardButton.trailingAnchor constraintEqualToAnchor:self.trailingAnchor],
         [_useKeyboardButton.topAnchor constraintEqualToAnchor:_recordButton.bottomAnchor constant:ORKSpeechRecognitionContentRecordButtonVerticalSpacing],
