@@ -966,12 +966,17 @@ ORK_CLASS_AVAILABLE
  @param primaryTextAttributedString  The primary text that describes the choice in an attributed string. Setting this will override `text`.
  @param detailText                   The detail text to display below the primary text, in a localized string.
  @param detailTextAttributedString   The detail text to display below the primary text, in an attributed string. Setting this will override `detailText`.
- @param value                        The value to record in a result object when this item is selected.
+ @param value                        The value to record in a result object when this item is selected. Only `NSString`, `NSNumber`, and `NSDate` values are supported.
  @param exclusive                    Whether this choice is to be considered exclusive within the set of choices.
  
  @return A text choice instance.
  */
-+ (instancetype)choiceWithText:(nullable NSString *)text primaryTextAttributedString:(nullable NSAttributedString *)primaryTextAttributedString detailText:(nullable NSString *)detailText detailTextAttributedString:(nullable NSAttributedString *)detailTextAttributedString value:(id<NSCopying, NSCoding, NSObject>)value exclusive:(BOOL)exclusive;
++ (instancetype)choiceWithText:(nullable NSString *)text
+   primaryTextAttributedString:(nullable NSAttributedString *)primaryTextAttributedString
+                    detailText:(nullable NSString *)detailText
+    detailTextAttributedString:(nullable NSAttributedString *)detailTextAttributedString
+                         value:(NSObject<NSCopying, NSSecureCoding> *)value
+                     exclusive:(BOOL)exclusive;
 
 /**
  Returns a text choice object that includes the specified primary text, detail text,
@@ -979,22 +984,25 @@ ORK_CLASS_AVAILABLE
  
  @param text        The primary text that describes the choice in a localized string.
  @param detailText  The detail text to display below the primary text, in a localized string.
- @param value       The value to record in a result object when this item is selected.
+ @param value       The value to record in a result object when this item is selected. Only `NSString`, `NSNumber`, and `NSDate` values are supported.
  @param exclusive   Whether this choice is to be considered exclusive within the set of choices.
  
  @return A text choice instance.
  */
-+ (instancetype)choiceWithText:(NSString *)text detailText:(nullable NSString *)detailText value:(id<NSCopying, NSCoding, NSObject>)value exclusive:(BOOL)exclusive;
++ (instancetype)choiceWithText:(NSString *)text
+                    detailText:(nullable NSString *)detailText
+                         value:(NSObject<NSCopying, NSSecureCoding> *)value
+                     exclusive:(BOOL)exclusive;
 
 /**
  Returns a choice object that includes the specified primary text.
  
  @param text        The primary text that describes the choice in a localized string.
- @param value       The value to record in a result object when this item is selected.
+ @param value       The value to record in a result object when this item is selected. Only `NSString`, `NSNumber`, and `NSDate` values are supported.
  
  @return A text choice instance.
  */
-+ (instancetype)choiceWithText:(NSString *)text value:(id<NSCopying, NSCoding, NSObject>)value;
++ (instancetype)choiceWithText:(NSString *)text value:(NSObject<NSCopying, NSSecureCoding> *)value;
 
 /**
  Returns an initialized text choice object using the specified primary text, detail text,
@@ -1002,14 +1010,14 @@ ORK_CLASS_AVAILABLE
  
  @param text        The primary text that describes the choice in a localized string.
  @param detailText  The detail text to display below the primary text, in a localized string.
- @param value       The value to record in a result object when this item is selected.
+ @param value       The value to record in a result object when this item is selected. Only `NSString`, `NSNumber`, and `NSDate` values are supported.
  @param exclusive   Whether this choice is to be considered exclusive within the set of choices.
  
  @return An initialized text choice.
  */
 - (instancetype)initWithText:(NSString *)text
                   detailText:(nullable NSString *)detailText
-                       value:(id<NSCopying, NSCoding, NSObject>)value
+                       value:(NSObject<NSCopying, NSSecureCoding> *)value
                     exclusive:(BOOL)exclusive;
 
 /**
@@ -1021,7 +1029,7 @@ ORK_CLASS_AVAILABLE
  @param primaryTextAttributedString  The primary text that describes the choice in an attributed string. Setting this will override `text`.
  @param detailText                   The detail text to display below the primary text, in a localized string.
  @param detailTextAttributedString   The detail text to display below the primary text, in an attributed string. Setting this will override `detailText`.
- @param value                        The value to record in a result object when this item is selected.
+ @param value                        The value to record in a result object when this item is selected. Only `NSString`, `NSNumber`, and `NSDate` values are supported.
  @param exclusive                    Whether this choice is to be considered exclusive within the set of choices.
  
  @return An initialized text choice.
@@ -1030,7 +1038,7 @@ ORK_CLASS_AVAILABLE
  primaryTextAttributedString:(nullable NSAttributedString *)primaryTextAttributedString
                   detailText:(nullable NSString *)detailText
   detailTextAttributedString:(nullable NSAttributedString *)detailTextAttributedString
-                       value:(id<NSCopying, NSCoding, NSObject>)value
+                       value:(NSObject<NSCopying, NSSecureCoding> *)value
                    exclusive:(BOOL)exclusive NS_DESIGNATED_INITIALIZER;
 
 /**
@@ -1050,11 +1058,10 @@ ORK_CLASS_AVAILABLE
 /**
  The value to return when this choice is selected.
  
- The value of this property is expected to be a scalar property list type, such as `NSNumber`
- or `NSString`. If no value is provided, the index of the option in the options list in the
+ The value of this property is expected to be a `NSNumber`, `NSString` or `NSDate`. If no value is provided, the index of the option in the options list in the
  answer format is used.
  */
-@property (copy, readonly) id<NSCopying, NSCoding, NSObject> value;
+@property (copy, readonly) NSObject<NSCopying, NSSecureCoding> *value;
 
 /**
  The text that provides additional details about the choice in a localized string.
@@ -1100,7 +1107,7 @@ ORK_CLASS_AVAILABLE
  
  @param text                         The primary text that describes the choice in a localized string.
  @param detailText                   The detail text to display below the primary text, in a localized string.
- @param value                        The value to record in a result object when this item is selected.
+ @param value                        The value to record in a result object when this item is selected.  Only `NSString`, `NSNumber`, and `NSDate` values are supported.
  @param exclusive                    Whether this choice is to be considered exclusive within the set of choices.
  @param textViewPlaceholderText      The placeholder text for the text view.
  
@@ -1108,7 +1115,7 @@ ORK_CLASS_AVAILABLE
  */
 + (instancetype)choiceWithText:(nullable NSString *)text
                     detailText:(nullable NSString *)detailText
-                         value:(id<NSCopying, NSCoding, NSObject>)value
+                         value:(NSObject<NSCopying, NSSecureCoding> *)value
                      exclusive:(BOOL)exclusive
        textViewPlaceholderText:(NSString *)textViewPlaceholderText;
 
@@ -1121,7 +1128,7 @@ ORK_CLASS_AVAILABLE
  @param primaryTextAttributedString  The primary text that describes the choice in an attributed string. Setting this will override `text`.
  @param detailText                   The detail text to display below the primary text, in a localized string.
  @param detailTextAttributedString   The detail text to display below the primary text, in an attributed string. Setting this will override `detailText`.
- @param value                        The value to record in a result object when this item is selected.
+ @param value                        The value to record in a result object when this item is selected. Only `NSString`, `NSNumber`, and `NSDate` values are supported.
  @param exclusive                    Whether this choice is to be considered exclusive within the set of choices.
  @param textViewPlaceholderText      The placeholder text for the text view.
  @param textViewInputOptional        Whether the user is required to provide additional text when selecting this choice.
@@ -1133,7 +1140,7 @@ ORK_CLASS_AVAILABLE
  primaryTextAttributedString:(nullable NSAttributedString *)primaryTextAttributedString
                   detailText:(nullable NSString *)detailText
   detailTextAttributedString:(nullable NSAttributedString *)detailTextAttributedString
-                       value:(id<NSCopying, NSCoding, NSObject>)value
+                       value:(NSObject<NSCopying, NSSecureCoding> *)value
                    exclusive:(BOOL)exclusive
      textViewPlaceholderText:(NSString *)textViewPlaceholderText
        textViewInputOptional:(BOOL)textViewInputOptional
@@ -1172,14 +1179,14 @@ ORK_CLASS_AVAILABLE
  @param normal      The image to display in the unselected state.
  @param selected    The image to display in the selected state.
  @param text        The text to display when the image is selected.
- @param value       The value to record in a result object when the image is selected.
+ @param value       The value to record in a result object when the image is selected. Only `NSString`, `NSNumber`, and `NSDate` values are supported.
  
  @return An image choice instance.
  */
 + (instancetype)choiceWithNormalImage:(nullable UIImage *)normal
                         selectedImage:(nullable UIImage *)selected
                                  text:(nullable NSString *)text
-                                value:(id<NSCopying, NSCoding, NSObject>)value;
+                                value:(NSObject<NSCopying, NSSecureCoding> *)value;
 
 /**
  Returns an initialized image choice using the specified images and text.
@@ -1189,14 +1196,14 @@ ORK_CLASS_AVAILABLE
  @param normal      The image to display in the unselected state.
  @param selected    The image to display in the selected state.
  @param text        The text to display when the image is selected.
- @param value       The value to record in a result object when the image is selected.
+ @param value       The value to record in a result object when the image is selected. Only `NSString`, `NSNumber`, and `NSDate` values are supported.
  
  @return An initialized image choice.
  */
 - (instancetype)initWithNormalImage:(nullable UIImage *)normal
                       selectedImage:(nullable UIImage *)selected
                                text:(nullable NSString *)text
-                              value:(id<NSCopying, NSCoding, NSObject>)value NS_DESIGNATED_INITIALIZER;
+                              value:(NSObject<NSCopying, NSSecureCoding> *)value NS_DESIGNATED_INITIALIZER;
 
 /**
  The image to display when the choice is not selected. (read-only)
@@ -1227,11 +1234,11 @@ ORK_CLASS_AVAILABLE
 /**
  The value to return when the image is selected. (read-only)
  
- The value of this property is expected to be a scalar property list type, such as `NSNumber` or
- `NSString`. If no value is provided, the index of the option in the `ORKImageChoiceAnswerFormat`
+ Expected to be a `NSNumber`, `NSString` or `NSDate` (a JSON-serializable value).
+ If no value is provided, the index of the option in the `ORKImageChoiceAnswerFormat`
  options list is used.
  */
-@property (copy, readonly) id<NSCopying, NSCoding, NSObject> value;
+@property (copy, readonly) NSObject<NSCopying, NSSecureCoding> *value;
 
 @end
 

@@ -234,16 +234,15 @@
 }
 
 + (Class)answerClass {
-    return [NSArray<NSObject<NSCopying,NSSecureCoding> *> class];
+    return [NSArray<NSObject<NSCopying, NSSecureCoding> *> class];
 }
 
 + (NSArray<Class> *)answerClassesIncludingNoAnswer {
-    // rdar://66021083 (Fix NSSecureCoding objects that use NSObject as the class)
-    NSArray *classes = [[super answerClassesIncludingNoAnswer] arrayByAddingObject:[NSObject class]];
+    NSArray *classes = [[super answerClassesIncludingNoAnswer] arrayByAddingObjectsFromArray:ORKAllowableValueClasses()];
     return classes;
 }
 
-- (void)setChoiceAnswers:(NSArray<id<NSCopying,NSCoding,NSObject>> *)choiceAnswers {
+- (void)setChoiceAnswers:(NSArray<NSObject<NSCopying, NSSecureCoding> *> *)choiceAnswers {
     self.answer = choiceAnswers;
 }
 
@@ -544,8 +543,7 @@ static NSString *const RegionIdentifierKey = @"region.identifier";
 }
 
 + (NSArray<Class> *)answerClassesIncludingNoAnswer {
-    // rdar://66021083 (Fix NSSecureCoding objects that use NSObject as the class)
-    NSArray *classes = [[super answerClassesIncludingNoAnswer] arrayByAddingObject:[NSObject class]];
+    NSArray *classes = [[super answerClassesIncludingNoAnswer] arrayByAddingObjectsFromArray:ORKAllowableValueClasses()];
     return classes;
 }
 

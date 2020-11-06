@@ -1035,9 +1035,13 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
 
 #pragma mark - ORKTextChoice
 
+NSArray<Class> *ORKAllowableValueClasses(void) {
+    return @[[NSString class], [NSNumber class], [NSDate class], [NSNull class]];
+}
+
 @implementation ORKTextChoice {
     NSString *_text;
-    id<NSCopying, NSCoding, NSObject> _value;
+    NSObject<NSCopying, NSSecureCoding> *_value;
 }
 
 + (instancetype)new {
@@ -1048,26 +1052,66 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
     ORKThrowMethodUnavailableException();
 }
 
-+ (instancetype)choiceWithText:(NSString *)text primaryTextAttributedString:(NSAttributedString *)primaryTextAttributedString detailText:(NSString *)detailText detailTextAttributedString:(NSAttributedString *)detailTextAttributedString value:(id<NSCopying,NSCoding,NSObject>)value exclusive:(BOOL)exclusive {
-    return [[ORKTextChoice alloc] initWithText:text primaryTextAttributedString:primaryTextAttributedString detailText:detailText detailTextAttributedString:detailTextAttributedString value:value exclusive:exclusive];
++ (instancetype)choiceWithText:(NSString *)text
+   primaryTextAttributedString:(NSAttributedString *)primaryTextAttributedString
+                    detailText:(NSString *)detailText
+    detailTextAttributedString:(NSAttributedString *)detailTextAttributedString
+                         value:(NSObject<NSCopying, NSSecureCoding> *)value exclusive:(BOOL)exclusive {
+    return [[ORKTextChoice alloc] initWithText:text
+                   primaryTextAttributedString:primaryTextAttributedString
+                                    detailText:detailText
+                    detailTextAttributedString:detailTextAttributedString
+                                         value:value
+                                     exclusive:exclusive];
 }
 
-+ (instancetype)choiceWithText:(NSString *)text detailText:(NSString *)detailText value:(id<NSCopying, NSCoding, NSObject>)value exclusive:(BOOL)exclusive {
-    ORKTextChoice *option = [[ORKTextChoice alloc] initWithText:text detailText:detailText value:value exclusive:exclusive];
++ (instancetype)choiceWithText:(NSString *)text
+                    detailText:(NSString *)detailText
+                         value:(NSObject<NSCopying, NSSecureCoding> *)value exclusive:(BOOL)exclusive {
+    ORKTextChoice *option = [[ORKTextChoice alloc] initWithText:text
+                                                     detailText:detailText
+                                                          value:value
+                                                      exclusive:exclusive];
     return option;
 }
 
-+ (instancetype)choiceWithText:(NSString *)text value:(id<NSCopying, NSCoding, NSObject>)value {
++ (instancetype)choiceWithText:(NSString *)text value:(NSObject<NSCopying, NSSecureCoding> *)value {
     return [ORKTextChoice choiceWithText:text detailText:nil value:value exclusive:NO];
 }
 
-- (instancetype)initWithText:(NSString *)text detailText:(NSString *)detailText value:(id<NSCopying,NSCoding,NSObject>)value exclusive:(BOOL)exclusive {
-    return [self initWithText:text primaryTextAttributedString:nil detailText:detailText detailTextAttributedString:nil value:value exclusive:exclusive];
+- (instancetype)initWithText:(NSString *)text
+                  detailText:(NSString *)detailText
+                       value:(NSObject<NSCopying, NSSecureCoding> *)value
+                   exclusive:(BOOL)exclusive {
+    return [self initWithText:text
+  primaryTextAttributedString:nil
+                   detailText:detailText
+   detailTextAttributedString:nil
+                        value:value
+                    exclusive:exclusive];
 }
 
-- (instancetype)initWithText:(NSString *)text primaryTextAttributedString:(NSAttributedString *)primaryTextAttributedString detailText:(NSString *)detailText detailTextAttributedString:(NSAttributedString *)detailTextAttributedString value:(id<NSCopying,NSCoding,NSObject>)value exclusive:(BOOL)exclusive {
+- (instancetype)initWithText:(NSString *)text
+ primaryTextAttributedString:(NSAttributedString *)primaryTextAttributedString
+                  detailText:(NSString *)detailText
+  detailTextAttributedString:(NSAttributedString *)detailTextAttributedString
+                       value:(NSObject<NSCopying, NSSecureCoding> *)value exclusive:(BOOL)exclusive {
     if (!text && !primaryTextAttributedString && !detailText && !detailTextAttributedString) {
-        NSAssert(NO, @"All the input parameters cannot be nil, please provide at least one non-nil value.");
+        @throw [NSException exceptionWithName:NSInvalidArgumentException
+                                       reason:@"All the input parameters cannot be nil, please provide at least one non-nil value."
+                                     userInfo:nil];
+    }
+    BOOL isValueAnAllowedClass = NO;
+    for (Class c in ORKAllowableValueClasses()) {
+        if ([value isKindOfClass:c]) {
+            isValueAnAllowedClass = YES;
+            break;
+        }
+    }
+    if (!isValueAnAllowedClass) {
+        @throw [NSException exceptionWithName:NSInvalidArgumentException
+                                       reason:@"'value' must be an NSString, NSNumber or NSDate"
+                                     userInfo:nil];
     }
     self = [super init];
     if (self) {
@@ -1116,7 +1160,7 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
         ORK_DECODE_OBJ_CLASS(aDecoder, primaryTextAttributedString, NSAttributedString);
         ORK_DECODE_OBJ_CLASS(aDecoder, detailText, NSString);
         ORK_DECODE_OBJ_CLASS(aDecoder, detailTextAttributedString, NSAttributedString);
-        ORK_DECODE_OBJ(aDecoder, value);
+        ORK_DECODE_OBJ_CLASSES(aDecoder, value, ORKAllowableValueClasses());
         ORK_DECODE_BOOL(aDecoder, exclusive);
     }
     return self;
@@ -1152,10 +1196,18 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
 
 + (instancetype)choiceWithText:(NSString *)text
                     detailText:(NSString *)detailText
-                         value:(id<NSCopying, NSCoding, NSObject>)value
+                         value:(NSObject<NSCopying, NSSecureCoding> *)value
                      exclusive:(BOOL)exclusive
        textViewPlaceholderText:(NSString *)textViewPlaceholderText {
-    ORKTextChoiceOther *option = [[ORKTextChoiceOther alloc] initWithText:text primaryTextAttributedString:nil detailText:detailText detailTextAttributedString:nil value:value exclusive:exclusive textViewPlaceholderText:textViewPlaceholderText textViewInputOptional:YES textViewStartsHidden:YES];
+    ORKTextChoiceOther *option = [[ORKTextChoiceOther alloc] initWithText:text
+                                              primaryTextAttributedString:nil
+                                                               detailText:detailText
+                                               detailTextAttributedString:nil
+                                                                    value:value
+                                                                exclusive:exclusive
+                                                  textViewPlaceholderText:textViewPlaceholderText
+                                                    textViewInputOptional:YES
+                                                     textViewStartsHidden:YES];
     return option;
 }
 
@@ -1163,7 +1215,7 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
  primaryTextAttributedString:(NSAttributedString *)primaryTextAttributedString
                   detailText:(NSString *)detailText
   detailTextAttributedString:(NSAttributedString *)detailTextAttributedString
-                       value:(id<NSCopying,NSCoding,NSObject>)value
+                       value:(NSObject<NSCopying, NSSecureCoding> *)value
                    exclusive:(BOOL)exclusive
      textViewPlaceholderText:(NSString *)textViewPlaceholderText
        textViewInputOptional:(BOOL)textViewInputOptional
@@ -1251,10 +1303,13 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
 
 @implementation ORKImageChoice {
     NSString *_text;
-    id<NSCopying, NSCoding, NSObject> _value;
+    NSObject<NSCopying, NSSecureCoding> *_value;
 }
 
-+ (instancetype)choiceWithNormalImage:(UIImage *)normal selectedImage:(UIImage *)selected text:(NSString *)text value:(id<NSCopying, NSCoding, NSObject>)value {
++ (instancetype)choiceWithNormalImage:(UIImage *)normal
+                        selectedImage:(UIImage *)selected
+                                 text:(NSString *)text
+                                value:(NSObject<NSCopying, NSSecureCoding> *)value {
     return [[ORKImageChoice alloc] initWithNormalImage:normal selectedImage:selected text:text value:value];
 }
 
@@ -1266,7 +1321,22 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
     ORKThrowMethodUnavailableException();
 }
 
-- (instancetype)initWithNormalImage:(UIImage *)normal selectedImage:(UIImage *)selected text:(NSString *)text value:(id<NSCopying,NSCoding,NSObject>)value {
+- (instancetype)initWithNormalImage:(UIImage *)normal
+                      selectedImage:(UIImage *)selected
+                               text:(NSString *)text
+                              value:(NSObject<NSCopying, NSSecureCoding> *)value {
+    BOOL isValueAnAllowedClass = NO;
+    for (Class c in ORKAllowableValueClasses()) {
+        if ([value isKindOfClass:c]) {
+            isValueAnAllowedClass = YES;
+            break;
+        }
+    }
+    if (!isValueAnAllowedClass) {
+        @throw [NSException exceptionWithName:NSInvalidArgumentException
+                                       reason:@"'value' must be an NSString, NSNumber or NSDate"
+                                     userInfo:nil];
+    }
     self = [super init];
     if (self) {
         _text = [text copy];
@@ -1289,7 +1359,7 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
     return _text;
 }
 
-- (id<NSCopying, NSCoding>)value {
+- (NSObject<NSCopying, NSSecureCoding> *)value {
     return _value;
 }
 
@@ -1316,7 +1386,7 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
     self = [super init];
     if (self) {
         ORK_DECODE_OBJ_CLASS(aDecoder, text, NSString);
-        ORK_DECODE_OBJ(aDecoder, value);
+        ORK_DECODE_OBJ_CLASSES(aDecoder, value, ORKAllowableValueClasses());
         ORK_DECODE_IMAGE(aDecoder, normalStateImage);
         ORK_DECODE_IMAGE(aDecoder, selectedStateImage);
     }
@@ -1546,15 +1616,15 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
     
     if ((_minimumDate && _maximumDate) ? ([_minimumDate compare:_maximumDate] == NSOrderedDescending) : false) {
         @throw [NSException exceptionWithName:NSInvalidArgumentException
-                                       reason:[NSString stringWithFormat:@"Minimum date should be before the maximum date"]
+                                       reason:@"Minimum date should be before the maximum date"
                                      userInfo:nil];
     } else if((_defaultDate && _minimumDate) ? ([_defaultDate compare:_minimumDate] == NSOrderedAscending) : false) {
         @throw [NSException exceptionWithName:NSInvalidArgumentException
-                                       reason:[NSString stringWithFormat:@"Default date should not be less than the minumum date"]
+                                       reason:@"Default date should not be less than the minumum date"
                                      userInfo:nil];
     } else if ((_defaultDate && _maximumDate) ? ([_defaultDate compare:_maximumDate] == NSOrderedDescending) : false) {
         @throw [NSException exceptionWithName:NSInvalidArgumentException
-                                       reason:[NSString stringWithFormat:@"Default date should not be more than the maximum date"]
+                                       reason:@"Default date should not be more than the maximum date"
                                      userInfo:nil];
     }
 }
@@ -2447,11 +2517,11 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
 - (NSNumber *)maximumNumber {
     return @(_textChoices.count);
 }
-- (id<NSObject, NSCopying, NSCoding>)defaultAnswer {
+- (NSObject<NSCopying, NSSecureCoding> *)defaultAnswer {
     if (_defaultIndex < 0 || _defaultIndex >= _textChoices.count) {
         return nil;
     }
-    id<NSCopying, NSCoding, NSObject> value = [self textChoiceAtIndex:_defaultIndex].value;
+    NSObject<NSCopying, NSSecureCoding> *value = [self textChoiceAtIndex:_defaultIndex].value;
     return value ? @[value] : nil;
 }
 - (NSString *)localizedStringForNumber:(NSNumber *)number {
@@ -2496,7 +2566,7 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
     return _textChoices[index];
 }
 
-- (ORKTextChoice *)textChoiceForValue:(id<NSCopying, NSCoding, NSObject>)value {
+- (ORKTextChoice *)textChoiceForValue:(NSObject<NSCopying, NSSecureCoding> *)value {
     __block ORKTextChoice *choice = nil;
     
     [_textChoices enumerateObjectsUsingBlock:^(ORKTextChoice * _Nonnull textChoice, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -2509,7 +2579,7 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
     return choice;
 }
 
-- (NSUInteger)textChoiceIndexForValue:(id<NSCopying, NSCoding, NSObject>)value {
+- (NSUInteger)textChoiceIndexForValue:(NSObject<NSCopying, NSSecureCoding> *)value {
     ORKTextChoice *choice = [self textChoiceForValue:value];
     return choice ? [_textChoices indexOfObject:choice] : NSNotFound;
 }
