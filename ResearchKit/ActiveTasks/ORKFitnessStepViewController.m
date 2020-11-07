@@ -109,7 +109,7 @@
         [alert dismissViewControllerAnimated:YES completion:nil];
     }]];
 
-    [alert addAction:[UIAlertAction actionWithTitle:ORKLocalizedString(@"BUTTON_STOP_TEST", nil)
+    [alert addAction:[UIAlertAction actionWithTitle:ORKLocalizedString(@"BUTTON_SKIP_STEP", nil)
                                               style:UIAlertActionStyleDefault
                                             handler:^(UIAlertAction * _Nonnull action) {
         [alert dismissViewControllerAnimated:YES completion:^{
