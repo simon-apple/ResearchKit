@@ -325,15 +325,16 @@ static CGFloat const ORKSpeechRecognitionContentBottomLayoutMargin = 44.0;
 }
 
 - (void)addSample:(NSNumber *)sample {
+    
     NSAssert(sample != nil, @"Sample should be non-nil");
+    
     if (!_samples) {
         _samples = [NSMutableArray array];
     }
     [_samples addObject:sample];
-    // Try to keep around 250 samples
-    if (_samples.count > 500) {
-        _samples = [[_samples subarrayWithRange:(NSRange){250, _samples.count - 250}] mutableCopy];
-    }
+    
+    _samples = [ORKLastSamples(_samples, 1) mutableCopy];
+    
     [self updateGraphSamples];
 }
 

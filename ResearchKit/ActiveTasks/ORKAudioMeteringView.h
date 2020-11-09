@@ -32,6 +32,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+extern NSArray<NSNumber *> * ORKLastSamples(NSArray<NSNumber *> *samples, NSInteger limit);
+
 @protocol ORKAudioMetering <NSObject>
 
 - (void)setSamples:(nullable NSArray<NSNumber *> *)samples;
