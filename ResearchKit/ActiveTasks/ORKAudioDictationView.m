@@ -160,7 +160,7 @@ static float TransformRange(float x, float a, float b, float c, float d)
         }
         else if (level > ORKAudioDictationViewAveragePowerLevelMaximum)
         {
-            level = ORKAudioDictationViewAveragePowerLevelMinimum;
+            level = ORKAudioDictationViewAveragePowerLevelMaximum;
         }
 
         if (level > _alertThreshold && _alertColor)
