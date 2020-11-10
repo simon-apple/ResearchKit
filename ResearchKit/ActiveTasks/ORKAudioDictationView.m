@@ -144,23 +144,26 @@ static float TransformRange(float x, float a, float b, float c, float d)
 {
     if (_samples.count > 0)
     {
-        NSMutableArray *mutableSamples = [_samples mutableCopy];
-        float currentSample = [[mutableSamples lastObject] floatValue];
-        [mutableSamples removeLastObject];
-        _samples = [mutableSamples copy];
-
-        currentSample = TRANSFORM_RANGE_TO_POWER_LEVEL(currentSample);
-
-        if (currentSample < ORKAudioDictationViewAveragePowerLevelMinimum)
-        {
-            currentSample = ORKAudioDictationViewAveragePowerLevelMinimum;
+        float level = 0;
+        
+        for (NSNumber *sample in _samples) {
+            level += [sample floatValue];
         }
-        else if (currentSample > ORKAudioDictationViewAveragePowerLevelMaximum)
+        
+        level = level / [_samples count];
+        
+        level = TRANSFORM_RANGE_TO_POWER_LEVEL(level);
+        
+        if (level < ORKAudioDictationViewAveragePowerLevelMinimum)
         {
-            currentSample = ORKAudioDictationViewAveragePowerLevelMinimum;
+            level = ORKAudioDictationViewAveragePowerLevelMinimum;
+        }
+        else if (level > ORKAudioDictationViewAveragePowerLevelMaximum)
+        {
+            level = ORKAudioDictationViewAveragePowerLevelMaximum;
         }
 
-        if (currentSample > _alertThreshold && _alertColor)
+        if (level > _alertThreshold && _alertColor)
         {
             [self.flamesView setDictationColor:_alertColor];
         }
@@ -168,8 +171,8 @@ static float TransformRange(float x, float a, float b, float c, float d)
         {
             [self.flamesView setDictationColor:_meterColor];
         }
-
-        return currentSample;
+        
+        return level;
     }
     else
     {
