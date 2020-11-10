@@ -77,7 +77,7 @@
 - (void)finish {
     [super finish];
     _contentView.labelHidden = YES;
-    self.continueButtonTitle = ORKLocalizedString(@"BUTTON_SKIP_STEP", nil);
+    self.continueButtonTitle = ORKLocalizedString(@"BUTTON_NEXT", nil);
 }
 
 - (void)stepDidChange {
