@@ -59,7 +59,7 @@ struct TextChoiceCell: View {
 public struct QuestionStepView: View {
 
     enum Constants {
-        static let textToQuestionPadding: CGFloat = 12.0
+        static let questionToAnswerPadding: CGFloat = 12.0
     }
     
     @ObservedObject
@@ -76,25 +76,22 @@ public struct QuestionStepView: View {
         self.result = result
     }
     
-    var titlePadding: CGFloat {
-        return step.question == nil ? Constants.textToQuestionPadding : 0
-    }
-
     public var body: some View {
         VStack {
-            if let stepTitle = step.title {
+            if let stepTitle = step.title, !stepTitle.isEmpty {
                 Text(stepTitle)
                     .font(.body)
                     .fontWeight(.semibold)
                     .multilineTextAlignment(.center)
                     .frame(maxWidth: .infinity, alignment: .center)
-                    .padding(.bottom, titlePadding)
             }
-            if let stepQuestion = step.question {
+            if let stepQuestion = step.question, !stepQuestion.isEmpty {
                 Text(stepQuestion)
                     .frame(maxWidth: .infinity, alignment: .center)
-                    .padding(.bottom, Constants.textToQuestionPadding)
             }
+            Spacer()
+                .frame(height: Constants.questionToAnswerPadding)
+            
             if let textChoiceAnswerFormat = step.answerFormat as? ORKTextChoiceAnswerFormat {
                 
                 ForEach(textChoiceAnswerFormat.textChoices, id: \.self) { textChoice in
