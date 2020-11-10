@@ -34,6 +34,16 @@
 
 #define USE_DICTATION_VIEW 1
 
+NSArray<NSNumber *> * ORKLastNSamples(NSArray<NSNumber *> *samples, NSInteger limit) {
+    
+    if (samples.count > limit) {
+        
+        return [samples subarrayWithRange:(NSRange){samples.count - limit, samples.count - 1}];
+    }
+    
+    return [samples copy];
+}
+
 @interface ORKAudioMeteringView ()
 @property (nonatomic, strong) UIView<ORKAudioMetering, ORKAudioMeteringDisplay> *meteringView;
 @end
