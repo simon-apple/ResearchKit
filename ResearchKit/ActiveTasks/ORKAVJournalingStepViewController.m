@@ -74,6 +74,8 @@ static const CGFloat FramesToSkipTotal = 5.0;
     NSURL *_savedFileURL;
     
     NSMutableArray<NSString *> *_fileNames;
+    NSArray *_cameraIntrinsicsArray;
+    NSArray<NSDictionary *> *_recalibrationTimeStamps;
     
     BOOL _waitingOnUserToStartRecording;
     BOOL _submitVideoAfterStopping;
@@ -316,6 +318,8 @@ static const CGFloat FramesToSkipTotal = 5.0;
             //remove video saved to temp directory if it was saved successfully in the document directory
             _savedFileURL = docURL;
             [_fileNames addObject:_savedFileName];
+            _cameraIntrinsicsArray = [[_sessionHelper cameraIntrinsicsArray] copy];
+            _recalibrationTimeStamps = [[_contentView fetchRecalibrationTimeStamps] copy];
             [self deleteTempVideoFile];
             [self finish];
         }
@@ -355,8 +359,8 @@ static const CGFloat FramesToSkipTotal = 5.0;
     videoJournalResult.startDate = stepResult.startDate;
     videoJournalResult.endDate = now;
     videoJournalResult.filenames = [_fileNames copy];
-    videoJournalResult.cameraIntrinsics = [_sessionHelper.cameraIntrinsicsArray copy];
-    videoJournalResult.recalibrationTimeStamps = [_contentView fetchRecalibrationTimeStamps];
+    videoJournalResult.cameraIntrinsics = _cameraIntrinsicsArray;
+    videoJournalResult.recalibrationTimeStamps = _recalibrationTimeStamps;
     
     [results addObject:videoJournalResult];
     
