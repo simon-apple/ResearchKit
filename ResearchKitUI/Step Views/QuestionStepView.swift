@@ -104,9 +104,10 @@ public struct QuestionStepView: View {
             
             if let textChoiceAnswerFormat = step.answerFormat as? ORKTextChoiceAnswerFormat {
                 
-                ForEach(textChoiceAnswerFormat.textChoices.indices) { index in
-                    
-                    let textChoice = textChoiceAnswerFormat.textChoices[index]
+                let textChoices = Array(zip(textChoiceAnswerFormat.textChoices.indices,
+                                            textChoiceAnswerFormat.textChoices))
+                
+                ForEach(textChoices, id: \.0) { index, textChoice in
                     
                     TextChoiceCell(title: textChoice.text,
                                    selected: index == selectedIndex) { selected in
