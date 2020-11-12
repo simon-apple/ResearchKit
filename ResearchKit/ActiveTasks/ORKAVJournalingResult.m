@@ -46,7 +46,7 @@
     if (self) {
         ORK_DECODE_OBJ_ARRAY(aDecoder, filenames, NSString);
         ORK_DECODE_OBJ_ARRAY(aDecoder, recalibrationTimeStamps, NSDictionary);
-        ORK_DECODE_OBJ_CLASS(aDecoder, cameraIntrinsics, NSArray);
+        ORK_DECODE_OBJ_ARRAY(aDecoder, cameraIntrinsics, NSArray);
     }
     return self;
 }
