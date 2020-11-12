@@ -671,6 +671,83 @@
 "AV_JOURNALING_STEP_FINISH_LATER_ENTRY_TEXT" = "entry";
 "AV_JOURNALING_STEP_FINISH_LATER_ENTRIES_TEXT" = "entries";
 
+/* Tinnitus Predefined Task */
+"TINNITUS_INTRO_TITLE" = "Introduction";
+"TINNITUS_INTRO_TEXT_2" = "Thank you for participating in the Apple Tinnitus Study.\n\nThis test aims to evaluate tinnitus type and the effectiveness of various masking sounds.\n";
+"TINNITUS_BODY_ITEM_TEXT_1" = "You will be asked to fill a questionnaire.";
+"TINNITUS_BODY_ITEM_TEXT_2" = "You will be asked to identify the sound type, pitch and loudness of your tinnitus.";
+"TINNITUS_BODY_ITEM_TEXT_3" = "You will be asked to choose your preferred tinnitus masking sounds.";
+
+"TINNITUS_SURVEY_TITLE" = "Survey";
+
+"TINNITUS_SURVEY_YES" = "Yes";
+"TINNITUS_SURVEY_NO" = "No";
+"TINNITUS_SURVEY_IPNTA" = "I prefer not to answer";
+"TINNITUS_SURVEY_OTHER" = "Other (specify)";
+
+"TINNITUS_SURVEY_QUESTION1_TEXT" = "How often do you hear tinnitus?";
+"TINNITUS_SURVEY_QUESTION1_ITEM1" = "Never";
+"TINNITUS_SURVEY_QUESTION1_ITEM2" = "Rarely";
+"TINNITUS_SURVEY_QUESTION1_ITEM3" = "Sometimes";
+"TINNITUS_SURVEY_QUESTION1_ITEM4" = "Often";
+"TINNITUS_SURVEY_QUESTION1_ITEM5" = "Always";
+
+"TINNITUS_SURVEY_QUESTION2_TEXT" = "Are you experiencing tinnitus right now?";
+
+"TINNITUS_SURVEY_QUESTION3_TEXT" = "Where do you perceive your tinnitus?";
+"TINNITUS_SURVEY_QUESTION3_ITEM1" = "Left side";
+"TINNITUS_SURVEY_QUESTION3_ITEM2" = "Right side";
+"TINNITUS_SURVEY_QUESTION3_ITEM3" = "Both";
+
+"TINNITUS_SURVEY_QUESTION4_TEXT" = "How loud is your tinnitus?";
+"TINNITUS_SURVEY_QUESTION4_ITEM1" = "Extremely loud";
+"TINNITUS_SURVEY_QUESTION4_ITEM2" = "Very loud";
+"TINNITUS_SURVEY_QUESTION4_ITEM3" = "Moderately loud";
+"TINNITUS_SURVEY_QUESTION4_ITEM4" = "Not very loud";
+"TINNITUS_SURVEY_QUESTION4_ITEM5" = "Barely noticeable";
+
+"TINNITUS_SURVEY_QUESTION5_TEXT" = "Have you ever used any type of masker (such as white noise generators, music, nature sounds) to cover your tinnitus?";
+
+"TINNITUS_SURVEY_QUESTION6_TEXT" = "Which type of masking device have you used?";
+"TINNITUS_SURVEY_QUESTION6_ITEM1" = "Mobile Apps";
+"TINNITUS_SURVEY_QUESTION6_ITEM2" = "Fan";
+"TINNITUS_SURVEY_QUESTION6_ITEM3" = "Noise / Sound Machines";
+"TINNITUS_SURVEY_QUESTION6_ITEM4" = "Hearing Aids";
+"TINNITUS_SURVEY_QUESTION6_ITEM4_PLACEHOLDER_TEXT" = "Type the masking device that you used.";
+
+"TINNITUS_SURVEY_QUESTION7_TEXT" = "How did you find out about the concept of tinnitus masking?";
+"TINNITUS_SURVEY_QUESTION7_ITEM1" = "Blog or online forum";
+"TINNITUS_SURVEY_QUESTION7_ITEM2" = "Research publication";
+"TINNITUS_SURVEY_QUESTION7_ITEM3" = "Through my Audiologist / Doctor";
+"TINNITUS_SURVEY_QUESTION7_ITEM4" = "Word of mouth";
+
+"TINNITUS_SURVEY_QUESTION8_TEXT" = "Which type of tinnitus masking sounds have you used?";
+"TINNITUS_SURVEY_QUESTION8_ITEM1" = "Music";
+"TINNITUS_SURVEY_QUESTION8_ITEM2" = "Speech / Audio books";
+"TINNITUS_SURVEY_QUESTION8_ITEM3" = "White noise or static noise";
+"TINNITUS_SURVEY_QUESTION8_ITEM4" = "Nature Sounds (rain, ocean, etc.)";
+"TINNITUS_SURVEY_QUESTION8_ITEM5" = "Modulated tones";
+
+"TINNITUS_SURVEY_QUESTION9_TEXT" = "In which situations have you used tinnitus masking sounds?";
+"TINNITUS_SURVEY_QUESTION9_ITEM1" = "To focus";
+"TINNITUS_SURVEY_QUESTION9_ITEM2" = "To fall asleep";
+"TINNITUS_SURVEY_QUESTION9_ITEM3" = "While exercising";
+"TINNITUS_SURVEY_QUESTION9_ITEM4" = "To relax";
+
+"TINNITUS_SURVEY_QUESTION10_TEXT" = "What do you think the reason is for why you have never tried masking?";
+"TINNITUS_SURVEY_QUESTION10_ITEM1" = "I did not know about masking before";
+"TINNITUS_SURVEY_QUESTION10_ITEM2" = "I do not need it to manage my tinnitus";
+"TINNITUS_SURVEY_QUESTION10_ITEM3" = "My audiologist / doctor advised against it";
+
+"TINNITUS_COMPLETION_NO_TINNITUS_TITLE" = "Thanks";
+"TINNITUS_COMPLETION_NO_TINNITUS_TEXT" = "Please take the test again when you're experiencing tinnitus.";
+
+"TINNITUS_TESTING_INTRO_TITLE" = "Tinnitus Matching";
+"TINNITUS_TESTING_INTRO_TEXT" = "This test identifies the sound quality and loudness of your tinnitus.\n";
+"TINNITUS_TESTING_BODY_ITEM_TEXT_1" = "You will hear a series of tones.";
+"TINNITUS_TESTING_BODY_ITEM_TEXT_2" = "You will adjust the device’s volume.";
+"TINNITUS_TESTING_BODY_ITEM_TEXT_3" = "This should take about 5 minutes.";
+
 /* ORKRecordButton */
 "PLAY" = "Play";
 "RECORD" = "Record";
