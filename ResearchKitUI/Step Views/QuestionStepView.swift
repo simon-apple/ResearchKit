@@ -107,7 +107,7 @@ public struct QuestionStepView: View {
                 let textChoices = Array(zip(textChoiceAnswerFormat.textChoices.indices,
                                             textChoiceAnswerFormat.textChoices))
                 
-                ForEach(textChoices, id: \.0) { index, textChoice in
+                ForEach(textChoices, id: \.1) { index, textChoice in
                     
                     TextChoiceCell(title: textChoice.text,
                                    selected: index == selectedIndex) { selected in
