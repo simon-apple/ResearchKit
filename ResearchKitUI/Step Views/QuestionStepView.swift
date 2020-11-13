@@ -81,8 +81,7 @@ public struct QuestionStepView: View {
     @EnvironmentObject
     private var completion: CompletionObject
     
-    @EnvironmentObject
-    private var progress: Progress
+    @Environment(\.progress) var progress
     
     init(_ step: ORKQuestionStep, result: ORKStepResult, progress: Progress? = nil) {
         self.step = step
@@ -93,7 +92,7 @@ public struct QuestionStepView: View {
         
         VStack {
             
-            if let progress = progress.value {
+            if let progress = progress {
                 Text("\(progress.index) OF \(progress.count)".uppercased())
                     .foregroundColor(.gray)
                     .frame(maxWidth: .infinity, alignment: .leading)

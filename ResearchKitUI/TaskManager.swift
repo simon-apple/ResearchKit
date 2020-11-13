@@ -53,7 +53,7 @@ open class TaskManager: ObservableObject {
     public private(set) var result: ORKTaskResult
 
     private(set) var task: ORKOrderedTask
-
+    
     public init(task: ORKOrderedTask) {
         self.task = task
         self.result = ORKTaskResult(taskIdentifier: self.task.identifier,
@@ -81,15 +81,15 @@ extension TaskManager {
         return task.steps.filter { $0 is ORKQuestionStep } as? [ORKQuestionStep]
     }
     
-    func progressForQuestionStep(_ step: ORKStep) -> Progress {
+    func progressForQuestionStep(_ step: ORKStep) -> Progress? {
         
         guard let questionStep = step as? ORKQuestionStep,
               let index = questionSteps?.firstIndex(of: questionStep),
               let count = questionSteps?.count else {
             
-            return Progress(value: nil)
+            return nil
         }
         
-        return Progress(value: (index + 1, count))
+        return (index + 1, count)
     }
 }
