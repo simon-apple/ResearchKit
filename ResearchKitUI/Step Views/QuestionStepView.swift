@@ -33,23 +33,30 @@ import SwiftUI
 
 struct TextChoiceCell: View {
     
+    private var selected: Bool = false
+    
     var title: String
     
     var selection: (Bool) -> Void
     
-    init(title: String, selection: @escaping (Bool) -> Void) {
+    init(title: String, selected: Bool = false, selection: @escaping (Bool) -> Void) {
         self.title = title
         self.selection = selection
+        self.selected = selected
     }
     
     @ViewBuilder
     var body: some View {
         Button(action: {
-            selection(true)
+            selection(!selected)
         }) {
             HStack {
                 Text(title)
                     .frame(maxWidth: .infinity, alignment: .leading)
+                Image(systemName: selected ? "checkmark.circle.fill" : "circle")
+                    .frame(alignment: .trailing)
+                    .imageScale(.large)
+                    .foregroundColor(selected ? .blue : .white)
             }
         }
     }
@@ -61,6 +68,9 @@ public struct QuestionStepView: View {
     enum Constants {
         static let questionToAnswerPadding: CGFloat = 12.0
     }
+    
+    @State
+    private var selectedIndex: Int = -1
     
     @ObservedObject
     public private(set) var step: ORKQuestionStep
@@ -94,11 +104,17 @@ public struct QuestionStepView: View {
             
             if let textChoiceAnswerFormat = step.answerFormat as? ORKTextChoiceAnswerFormat {
                 
-                ForEach(textChoiceAnswerFormat.textChoices, id: \.self) { textChoice in
+                let textChoices = Array(zip(textChoiceAnswerFormat.textChoices.indices,
+                                            textChoiceAnswerFormat.textChoices))
+                
+                ForEach(textChoices, id: \.1) { index, textChoice in
                     
-                    TextChoiceCell(title: textChoice.text) { selected in
+                    TextChoiceCell(title: textChoice.text,
+                                   selected: index == selectedIndex) { selected in
                         
                         if selected {
+                            
+                            selectedIndex = index
                             
                             let choiceResult = ORKChoiceQuestionResult(identifier: step.identifier)
                             choiceResult.choiceAnswers = [textChoice.value]
@@ -106,7 +122,15 @@ public struct QuestionStepView: View {
                             choiceResult.endDate = Date()
                             result.results = [choiceResult]
                             
-                            completion.run()
+                            // 250 ms delay
+                            DispatchQueue
+                                .main
+                                .asyncAfter(deadline: DispatchTime
+                                                .now()
+                                                .advanced(by: .milliseconds(250))) {
+                                    
+                                    completion.run()
+                                }
                         }
                     }
                 }
