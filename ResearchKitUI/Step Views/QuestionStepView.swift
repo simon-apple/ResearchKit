@@ -83,7 +83,7 @@ public struct QuestionStepView: View {
     
     @Environment(\.progress) var progress
     
-    init(_ step: ORKQuestionStep, result: ORKStepResult, progress: Progress? = nil) {
+    init(_ step: ORKQuestionStep, result: ORKStepResult) {
         self.step = step
         self.result = result
     }
