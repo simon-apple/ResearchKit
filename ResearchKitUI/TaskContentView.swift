@@ -44,6 +44,17 @@ internal class CompletionObject: ObservableObject {
     }
 }
 
+internal class Progress: ObservableObject {
+    
+    typealias Value = (index: Int, count: Int)
+    
+    private(set) var value: Value? = nil
+     
+    init(value: Value?) {
+        self.value = value
+    }
+}
+
 internal struct TaskContentView<Content>: View where Content: View {
     
     @EnvironmentObject
@@ -73,6 +84,7 @@ internal struct TaskContentView<Content>: View where Content: View {
             stepView.onAppear {
                 currentResult.startDate = Date()
             }
+            .environmentObject(taskManager.progressForQuestionStep(currentStep))
             .environmentObject(CompletionObject({
                 if nextStep != nil {
                         goNext = true

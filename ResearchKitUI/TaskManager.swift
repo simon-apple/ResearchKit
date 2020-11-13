@@ -73,3 +73,23 @@ open class TaskManager: ObservableObject {
         }
     }
 }
+
+extension TaskManager {
+    
+    var questionSteps: [ORKQuestionStep]? {
+        
+        return task.steps.filter { $0 is ORKQuestionStep } as? [ORKQuestionStep]
+    }
+    
+    func progressForQuestionStep(_ step: ORKStep) -> Progress {
+        
+        guard let questionStep = step as? ORKQuestionStep,
+              let index = questionSteps?.firstIndex(of: questionStep),
+              let count = questionSteps?.count else {
+            
+            return Progress(value: nil)
+        }
+        
+        return Progress(value: (index + 1, count))
+    }
+}
