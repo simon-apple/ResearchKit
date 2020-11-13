@@ -44,6 +44,22 @@ internal class CompletionObject: ObservableObject {
     }
 }
 
+typealias Progress = (index: Int, count: Int)
+
+struct ProgressKey: EnvironmentKey {
+    static let defaultValue: Progress? = nil
+}
+
+// swiftlint:disable implicit_getter
+extension EnvironmentValues {
+    
+    var progress: Progress? {
+        get { self[ProgressKey] }
+        set { self[ProgressKey] = newValue }
+    }
+}
+// swiftlint:enable implicit_getter
+
 internal struct TaskContentView<Content>: View where Content: View {
     
     @EnvironmentObject
@@ -73,6 +89,7 @@ internal struct TaskContentView<Content>: View where Content: View {
             stepView.onAppear {
                 currentResult.startDate = Date()
             }
+            .environment(\.progress, taskManager.progressForQuestionStep(currentStep))
             .environmentObject(CompletionObject({
                 if nextStep != nil {
                         goNext = true

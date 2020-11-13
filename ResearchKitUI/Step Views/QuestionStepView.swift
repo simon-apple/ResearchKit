@@ -81,23 +81,33 @@ public struct QuestionStepView: View {
     @EnvironmentObject
     private var completion: CompletionObject
     
+    @Environment(\.progress) var progress
+    
     init(_ step: ORKQuestionStep, result: ORKStepResult) {
         self.step = step
         self.result = result
     }
-    
+     
     public var body: some View {
+        
         VStack {
+            
+            if let progress = progress {
+                Text("\(progress.index) OF \(progress.count)".uppercased())
+                    .foregroundColor(.gray)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            
             if let stepTitle = step.title, !stepTitle.isEmpty {
                 Text(stepTitle)
                     .font(.body)
                     .fontWeight(.semibold)
-                    .multilineTextAlignment(.center)
-                    .frame(maxWidth: .infinity, alignment: .center)
+                    .multilineTextAlignment(.leading)
+                    .frame(maxWidth: .infinity, alignment: .leading)
             }
             if let stepQuestion = step.question, !stepQuestion.isEmpty {
                 Text(stepQuestion)
-                    .frame(maxWidth: .infinity, alignment: .center)
+                    .frame(maxWidth: .infinity, alignment: .leading)
             }
             Spacer()
                 .frame(height: Constants.questionToAnswerPadding)

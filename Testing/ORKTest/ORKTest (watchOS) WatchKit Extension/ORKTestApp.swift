@@ -24,11 +24,13 @@ struct ORKTestApp: App {
         let ambidextrous = ORKTextChoice(text: "Not at all", detailText: nil, value: NSString(string: "A"), exclusive: true)
         let answerFormat = ORKTextChoiceAnswerFormat(style: .singleChoice, textChoices: [leftHanded, rightHanded, ambidextrous])
         let questionStep = ORKQuestionStep(identifier: "questionStep", title: "Are you feeling stressed right now?", question: nil, answer: answerFormat)
+        let questionStep2 = ORKQuestionStep(identifier: "questionStep2", title: "Are you feeling calm right now?", question: nil, answer: answerFormat)
+        let questionStep3 = ORKQuestionStep(identifier: "questionStep3", title: "Are you feeling tired right now?", question: nil, answer: answerFormat)
         
         let completionStep = ORKCompletionStep(identifier: "completionStep")
         completionStep.title = "Thank you for your time"
         
-        let sampleTask = ORKOrderedTask(identifier: "task", steps: [questionStep, completionStep])
+        let sampleTask = ORKOrderedTask(identifier: "task", steps: [questionStep, questionStep2, questionStep3, completionStep])
         taskManager = TaskManager(task: sampleTask)
     }
     
