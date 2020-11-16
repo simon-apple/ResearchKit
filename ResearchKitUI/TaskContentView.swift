@@ -62,11 +62,20 @@ extension EnvironmentValues {
 
 internal struct TaskContentView<Content>: View where Content: View {
     
+    class StateObject: ObservableObject {
+        
+        @Published
+        var hasPreviousResult: Bool = false
+    }
+    
     @EnvironmentObject
     private var taskManager: TaskManager
     
     @State
     private var goNext: Bool = false
+    
+    @ObservedObject
+    private var stateObject = StateObject()
     
     private let index: Int
     
@@ -80,8 +89,11 @@ internal struct TaskContentView<Content>: View where Content: View {
     var body: some View {
         
         let currentStep = taskManager.task.steps[index]
+        
         let currentResult = taskManager.getOrCreateResult(for: currentStep)
+        
         let stepView = content(currentStep, currentResult)
+        
         let nextStep = index >= taskManager.task.steps.count - 1 ?
             nil : TaskContentView(index: index + 1, content).environmentObject(taskManager)
         
@@ -92,14 +104,22 @@ internal struct TaskContentView<Content>: View where Content: View {
             .environment(\.progress, taskManager.progressForQuestionStep(currentStep))
             .environmentObject(CompletionObject({
                 if nextStep != nil {
+                    if !stateObject.hasPreviousResult {
                         goNext = true
+                        stateObject.hasPreviousResult = true
+                    }
                 } else {
                     currentResult.endDate = Date()
                     taskManager.finishReason = .completed
                 }
             }))
             if let nextStepView = nextStep {
-                NavigationLink(destination: nextStepView, isActive: $goNext, label: { EmptyView() })
+                NavigationLink(destination: nextStepView, isActive: $goNext) { EmptyView() }
+                    .frame(height: .zero)
+                
+                if stateObject.hasPreviousResult {
+                    Button("Next") { goNext = true }
+                }
             }
         }
     }
