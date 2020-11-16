@@ -45,7 +45,6 @@
 @property (nonatomic, strong) ORKInstructionStep *instruction1;
 @property (nonatomic, strong) ORKQuestionStep *surveyQuestion1;
 @property (nonatomic, strong) ORKQuestionStep *surveyQuestion2;
-@property (nonatomic, strong) ORKCompletionStep *surveyCompletion;
 @property (nonatomic, strong) ORKQuestionStep *surveyQuestion3;
 @property (nonatomic, strong) ORKQuestionStep *surveyQuestion4;
 @property (nonatomic, strong) ORKQuestionStep *surveyQuestion5;
@@ -54,6 +53,8 @@
 @property (nonatomic, strong) ORKQuestionStep *surveyQuestion8;
 @property (nonatomic, strong) ORKQuestionStep *surveyQuestion9;
 @property (nonatomic, strong) ORKQuestionStep *surveyQuestion10;
+@property (nonatomic, strong) ORKCompletionStep *surveyCompletion;
+
 @property (nonatomic, strong) ORKInstructionStep *testingInstruction;
 
 @end
@@ -162,11 +163,13 @@
     if (self.cachedBGColor == nil) {
         self.cachedBGColor = ORKColor(ORKBackgroundColorKey);
         if (@available(iOS 13.0, *)) {
-            if ([[[UIScreen mainScreen] traitCollection] userInterfaceStyle] == UIUserInterfaceStyleDark) {
-                ORKColorSetColorForKey(ORKBackgroundColorKey, [UIColor colorWithRed:18/255.0 green:18/255.0 blue:20/255.0 alpha:1.0]);
-            } else {
-                ORKColorSetColorForKey(ORKBackgroundColorKey, UIColor.whiteColor);
-            }
+            UIColor *adaptativeColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
+                if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+                    return [UIColor colorWithRed:18/255.0 green:18/255.0 blue:20/255.0 alpha:1.0];
+                }
+                return UIColor.whiteColor;
+            }];
+            ORKColorSetColorForKey(ORKBackgroundColorKey, adaptativeColor);
         } else {
             ORKColorSetColorForKey(ORKBackgroundColorKey, UIColor.whiteColor);
         }
@@ -194,16 +197,26 @@
         _instruction1.imageContentMode = UIViewContentModeTopLeft;
         _instruction1.shouldTintImages = YES;
         
+        UIImage *img1;
+        UIImage *img2;
+        UIImage *img3;
+
         if (@available(iOS 13.0, *)) {
-            ORKBodyItem * item1 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"TINNITUS_BODY_ITEM_TEXT_1", nil) detailText:nil image:[UIImage systemImageNamed:@"1.circle.fill"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
-            ORKBodyItem * item2 = [[ORKBodyItem alloc] initWithHorizontalRule];
-            ORKBodyItem * item3 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"TINNITUS_BODY_ITEM_TEXT_2", nil) detailText:nil image:[UIImage systemImageNamed:@"2.circle.fill"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
-            ORKBodyItem * item4 = [[ORKBodyItem alloc] initWithHorizontalRule];
-            ORKBodyItem * item5 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"TINNITUS_BODY_ITEM_TEXT_3", nil) detailText:nil image:[UIImage systemImageNamed:@"3.circle.fill"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
-            _instruction1.bodyItems = @[item1,item2, item3, item4, item5];
+            img1 = [UIImage systemImageNamed:@"1.circle.fill"];
+            img2 = [UIImage systemImageNamed:@"2.circle.fill"];
+            img3 = [UIImage systemImageNamed:@"3.circle.fill"];
         } else {
-            // Fallback on earlier versions
+            img1 = [[UIImage imageNamed:@"1.circle.fill" inBundle:ORKBundle() compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+            img2 = [[UIImage imageNamed:@"2.circle.fill" inBundle:ORKBundle() compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+            img3 = [[UIImage imageNamed:@"3.circle.fill" inBundle:ORKBundle() compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         }
+        
+        ORKBodyItem * item1 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"TINNITUS_BODY_ITEM_TEXT_1", nil) detailText:nil image:img1 learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
+        ORKBodyItem * item2 = [[ORKBodyItem alloc] initWithHorizontalRule];
+        ORKBodyItem * item3 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"TINNITUS_BODY_ITEM_TEXT_2", nil) detailText:nil image:img2 learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
+        ORKBodyItem * item4 = [[ORKBodyItem alloc] initWithHorizontalRule];
+        ORKBodyItem * item5 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"TINNITUS_BODY_ITEM_TEXT_3", nil) detailText:nil image:img3 learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
+        _instruction1.bodyItems = @[item1,item2, item3, item4, item5];
     }
     return _instruction1;
 }
@@ -469,16 +482,27 @@
         _testingInstruction.detailText = ORKLocalizedString(@"TINNITUS_TESTING_INTRO_TEXT", nil);
         _testingInstruction.shouldTintImages = YES;
         
+        UIImage *img1;
+        UIImage *img2;
+        UIImage *img3;
+        
         if (@available(iOS 13.0, *)) {
-            ORKBodyItem * item1 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"TINNITUS_TESTING_BODY_ITEM_TEXT_1", nil) detailText:nil image:[UIImage systemImageNamed:@"ear"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
-            ORKBodyItem * item2 = [[ORKBodyItem alloc] initWithHorizontalRule];
-            ORKBodyItem * item3 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"TINNITUS_TESTING_BODY_ITEM_TEXT_2", nil) detailText:nil image:[UIImage systemImageNamed:@"volume.2"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
-            ORKBodyItem * item4 = [[ORKBodyItem alloc] initWithHorizontalRule];
-            ORKBodyItem * item5 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"TINNITUS_TESTING_BODY_ITEM_TEXT_3", nil) detailText:nil image:[UIImage systemImageNamed:@"stopwatch"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
-            _testingInstruction.bodyItems = @[item1,item2, item3, item4, item5];
+            img1 = [UIImage systemImageNamed:@"ear"];
+            img2 = [UIImage systemImageNamed:@"volume.2"];
+            img3 = [UIImage systemImageNamed:@"stopwatch"];
         } else {
-            // Fallback on earlier versions
+            img1 = [[UIImage imageNamed:@"ear" inBundle:ORKBundle() compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+            img2 = [[UIImage imageNamed:@"speaker.2" inBundle:ORKBundle() compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+            img3 = [[UIImage imageNamed:@"stopwatch" inBundle:ORKBundle() compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         }
+        
+        ORKBodyItem * item1 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"TINNITUS_TESTING_BODY_ITEM_TEXT_1", nil) detailText:nil image:img1 learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
+        ORKBodyItem * item2 = [[ORKBodyItem alloc] initWithHorizontalRule];
+        ORKBodyItem * item3 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"TINNITUS_TESTING_BODY_ITEM_TEXT_2", nil) detailText:nil image:img2 learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
+        ORKBodyItem * item4 = [[ORKBodyItem alloc] initWithHorizontalRule];
+        ORKBodyItem * item5 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"TINNITUS_TESTING_BODY_ITEM_TEXT_3", nil) detailText:nil image:img3 learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
+        
+        _testingInstruction.bodyItems = @[item1,item2, item3, item4, item5];
     }
     return _testingInstruction;
 }
