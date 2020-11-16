@@ -36,7 +36,10 @@
 #import "ORKFaceDetectionStep.h"
 
 
-@implementation ORKAVJournalingTaskViewController
+@implementation ORKAVJournalingTaskViewController {
+    ORKStepResult *_removedManagedVideoRecordingStepResult;
+    
+}
 
 - (instancetype)initWithTask:(id<ORKTask>)task restorationData:(NSData *)data delegate:(id<ORKTaskViewControllerDelegate>)delegate error:(NSError* __autoreleasing *)errorOut {
     
@@ -91,18 +94,11 @@
     }
     NSString *restoredStepIdentifier = self.restoredStepIdentifier;
     ORKAVJournalingPredefinedTask *avJournalingTask = (ORKAVJournalingPredefinedTask *)self.task;
-    // If video step
-    if ([avJournalingTask isVideoRecordingStepIdentifier:restoredStepIdentifier]) {
-        // Remove last ongoing video step
-        if (![self.managedStepIdentifiers.lastObject isEqualToString:restoredStepIdentifier]) {
-            @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"Something has gone wrong when updating the task for resumption, the restoredStepIdentifier should be the last managed step identifier." userInfo:nil];
-        }
-        [self.managedStepIdentifiers removeObject:restoredStepIdentifier];
-        self.managedResults[restoredStepIdentifier] = nil;
-    } else if ([avJournalingTask isAppendStepIdentifier:restoredStepIdentifier]) {
+
+    if ([avJournalingTask isAppendStepIdentifier:restoredStepIdentifier]) {
         // If restoring to an appendStep, all the video recordings have been done, resume task normally
         return;
-    } else {
+    } else if (![avJournalingTask isVideoRecordingStepIdentifier:restoredStepIdentifier]) {
         // If restoring to non video step (prepend or face detection), start task from scratch)
         [self.managedStepIdentifiers removeAllObjects];
         [self.managedResults removeAllObjects];
@@ -110,6 +106,19 @@
         return;
     }
     
+    // Restoring to a video recording step
+    if (self.managedStepIdentifiers.count <= 1) {
+        @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"Something has gone wrong when updating the task for resumption, the restoredStepIdentifier is a video step, but less than 2 managedStepIdentifiers found." userInfo:nil];
+    }
+    
+    // Store and remove last ongoing video step result
+    if (![self.managedStepIdentifiers.lastObject isEqualToString:restoredStepIdentifier]) {
+        @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"Something has gone wrong when updating the task for resumption, the restoredStepIdentifier should be the last managed step identifier." userInfo:nil];
+    }
+    _removedManagedVideoRecordingStepResult = self.managedResults[restoredStepIdentifier];
+    [self.managedStepIdentifiers removeObject:restoredStepIdentifier];
+    self.managedResults[restoredStepIdentifier] = nil;
+
     // Current video step was removed from managedStepIdentifiers and managedResults
     NSString *updatedLastStepIdentifier = self.managedStepIdentifiers.lastObject;
     if ([updatedLastStepIdentifier isEqualToString:ORKAVJournalingStepIdentifierFaceDetection]) {
@@ -145,17 +154,26 @@
 - (ORKTaskResult *)result {
     // Remove all synthetic task-flow controlling results
     ORKTaskResult *taskResult = [super result];
-    NSMutableArray *filteredStepResults = [NSMutableArray new];
+    NSMutableArray *updatedStepResults = [NSMutableArray new];
+    BOOL removedResultFound = NO;
     for (ORKStepResult *stepResult in taskResult.results) {
         NSString *stepIdentifier = stepResult.identifier;
+        if ([stepIdentifier isEqualToString:_removedManagedVideoRecordingStepResult.identifier]) {
+            removedResultFound = YES;
+        }
         if (!([stepIdentifier isEqualToString:ORKAVJournalingStepIdentifierFinishLaterCompletion] ||
               [stepIdentifier isEqualToString:ORKAVJournalingStepIdentifierMaxLimitHitCompletion] ||
               [stepIdentifier isEqualToString:ORKAVJournalingStepIdentifierFinishLaterFaceDetection] ||
               [stepIdentifier isEqualToString:ORKAVJournalingStepIdentifierVideoAudioAccessDeniedCompletion])) {
-            [filteredStepResults addObject:stepResult];
+            [updatedStepResults addObject:stepResult];
         }
     }
-    taskResult.results = [filteredStepResults copy];
+    // The following ensures the removed result is re-added if not seen in the newest task run.
+    // It keeps state restoration working if you resume the task, and then cancel on the face calibration step.
+    if (_removedManagedVideoRecordingStepResult != nil && !removedResultFound) {
+        [updatedStepResults addObject:_removedManagedVideoRecordingStepResult];
+    }
+    taskResult.results = [updatedStepResults copy];
     return taskResult;
 }
 
