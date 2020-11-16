@@ -103,7 +103,7 @@
                                                                    message:ORKLocalizedString(@"FITNESS_STOP_TEST_DETAIL", nil)
                                                             preferredStyle:UIAlertControllerStyleAlert];
 
-    [alert addAction:[UIAlertAction actionWithTitle:ORKLocalizedString(@"BUTTON_CANCEL", nil)
+    [alert addAction:[UIAlertAction actionWithTitle:ORKLocalizedString(@"FITNESS_RESUME_TEST", nil)
                                               style:UIAlertActionStyleCancel
                                             handler:^(UIAlertAction * _Nonnull action) {
         [alert dismissViewControllerAnimated:YES completion:nil];
