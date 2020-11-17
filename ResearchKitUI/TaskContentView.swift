@@ -84,28 +84,18 @@ internal struct TaskContentView<Content>: View where Content: View {
         return !taskManager.completedSteps.contains(currentStep)
     }
     
-    func completion() -> () -> Void {
+    func completion() {
         
-        return { [self] in
-
-            // Date the end of this result
-            currentResult.endDate = Date()
+        // Date the end of this result
+        currentResult.endDate = Date()
             
-            if hasNextStep {
-                goNext = shouldAutoAdvance
-            } else {
-                taskManager.finishReason = .completed
-            }
-            
-            // 100ms buffer to not show the "Next" button until the transition is close to finishing
-            DispatchQueue
-                .main
-                .asyncAfter(deadline: DispatchTime
-                                .now()
-                                .advanced(by: .milliseconds(100))) {
-                    taskManager.markStepComplete(currentStep)
-                }
+        if hasNextStep {
+            goNext = shouldAutoAdvance
+        } else {
+            taskManager.finishReason = .completed
         }
+            
+        taskManager.markStepComplete(currentStep)
     }
     
     init(index: Int, @ViewBuilder _ content: @escaping (ORKStep, ORKStepResult) -> Content) {
@@ -125,7 +115,7 @@ internal struct TaskContentView<Content>: View where Content: View {
                     currentResult.startDate = Date()
                 }
                 .environment(\.progress, taskManager.progressForQuestionStep(currentStep))
-                .environment((\.completion), completion())
+                .environment((\.completion), completion)
             
             if let nextStepView = nextStep {
                 NavigationLink(destination: nextStepView, isActive: $goNext) { EmptyView() }
