@@ -80,14 +80,6 @@ internal struct TaskContentView<Content>: View where Content: View {
         return index < taskManager.task.steps.count - 1
     }
     
-    private var hasPreviousResult: Bool {
-        guard let count = currentResult.results?.count, count >= 1 else {
-            return false
-        }
-        
-        return true
-    }
-    
     private var shouldAutoAdvance: Bool {
         return !taskManager.completedSteps.contains(currentStep)
     }
