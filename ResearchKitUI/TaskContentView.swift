@@ -103,14 +103,16 @@ internal struct TaskContentView<Content>: View where Content: View {
             }
             .environment(\.progress, taskManager.progressForQuestionStep(currentStep))
             .environmentObject(CompletionObject({
+                
                 if nextStep != nil {
-                    if !stateObject.hasPreviousResult {
-                        goNext = true
-                        stateObject.hasPreviousResult = true
-                    }
+                    goNext = stateObject.hasPreviousResult ? false : true
                 } else {
                     currentResult.endDate = Date()
                     taskManager.finishReason = .completed
+                }
+                
+                if !stateObject.hasPreviousResult {
+                    stateObject.hasPreviousResult = true
                 }
             }))
             if let nextStepView = nextStep {

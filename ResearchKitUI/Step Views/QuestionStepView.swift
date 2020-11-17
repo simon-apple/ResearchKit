@@ -117,10 +117,20 @@ public struct QuestionStepView: View {
                 let textChoices = Array(zip(textChoiceAnswerFormat.textChoices.indices,
                                             textChoiceAnswerFormat.textChoices))
                 
+                // Find the current result
+                // Match the current result to the existing options
+                // If found, set the selected index for UI
+                let currentChoice = (result.results?.first as? ORKChoiceQuestionResult)?
+                    .choiceAnswers?
+                    .first as? String
+                let someIndex = selectedIndex == -1 ?
+                    textChoices.first(where: { ($1.value as? String) == currentChoice })?.0 :
+                    selectedIndex
+                
                 ForEach(textChoices, id: \.1) { index, textChoice in
                     
                     TextChoiceCell(title: textChoice.text,
-                                   selected: index == selectedIndex) { selected in
+                                   selected: index == someIndex) { selected in
                         
                         if selected {
                             
