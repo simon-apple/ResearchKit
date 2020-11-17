@@ -41,7 +41,7 @@
 #import "ORKLearnMoreItem.h"
 #import "ORKLearnMoreInstructionStep.h"
 
-static const CGFloat MinMBLimitForTask = 500;
+static const CGFloat MinMBLimitForTask = 3000;
 static const CGFloat MBConversionConstant = 1000000;
 
 ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierFaceDetection = @"ORKAVJournalingStepIdentifierFaceDetection";
