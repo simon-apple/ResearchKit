@@ -118,7 +118,7 @@ internal struct TaskContentView<Content>: View where Content: View {
                 .environment((\.completion), completion)
             
             if let nextStepView = nextStep {
-                NavigationLink(destination: nextStepView, isActive: $goNext) { EmptyView() }
+                NavigationLink(destination: nextStepView, isActive: $goNext) { }
                     .frame(height: .zero)
                 
                 if !shouldAutoAdvance {
