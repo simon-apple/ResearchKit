@@ -38,7 +38,7 @@ struct ProgressKey: EnvironmentKey {
 }
 
 struct CompletionKey: EnvironmentKey {
-    static let defaultValue: (() -> Void)? = nil
+    static let defaultValue: () -> Void = {}
 }
 
 // swiftlint:disable implicit_getter
@@ -49,7 +49,7 @@ extension EnvironmentValues {
         set { self[ProgressKey] = newValue }
     }
     
-    var completion: (() -> Void)? {
+    var completion: () -> Void {
         get { self[CompletionKey] }
         set { self[CompletionKey] = newValue }
     }

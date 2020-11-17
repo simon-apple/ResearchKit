@@ -148,7 +148,7 @@ public struct QuestionStepView: View {
                                                 .now()
                                                 .advanced(by: .milliseconds(250))) {
                                     
-                                    completion?()
+                                    completion()
                                 }
                         }
                     }

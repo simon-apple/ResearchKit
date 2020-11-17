@@ -60,7 +60,7 @@ public struct InstructionStepView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
             Button(action: {
-                completion?()
+                completion()
             }) {
                 Text("Done")
             }
