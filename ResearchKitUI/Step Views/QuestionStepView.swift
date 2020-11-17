@@ -78,8 +78,7 @@ public struct QuestionStepView: View {
     @ObservedObject
     public private(set) var result: ORKStepResult
     
-    @EnvironmentObject
-    private var completion: CompletionObject
+    @Environment(\.completion) var completion
     
     @Environment(\.progress) var progress
     
@@ -149,7 +148,7 @@ public struct QuestionStepView: View {
                                                 .now()
                                                 .advanced(by: .milliseconds(250))) {
                                     
-                                    completion.run()
+                                    completion?()
                                 }
                         }
                     }

@@ -31,23 +31,14 @@
 import ResearchKitCore
 import SwiftUI
 
-internal class CompletionObject: ObservableObject {
-    
-    private var block: () -> Void
-    
-    init(_ block: @escaping () -> Void) {
-        self.block = block
-    }
-    
-    func run() {
-        block()
-    }
-}
-
 typealias Progress = (index: Int, count: Int)
 
 struct ProgressKey: EnvironmentKey {
     static let defaultValue: Progress? = nil
+}
+
+struct CompletionKey: EnvironmentKey {
+    static let defaultValue: (() -> Void)? = nil
 }
 
 // swiftlint:disable implicit_getter
@@ -57,16 +48,15 @@ extension EnvironmentValues {
         get { self[ProgressKey] }
         set { self[ProgressKey] = newValue }
     }
+    
+    var completion: (() -> Void)? {
+        get { self[CompletionKey] }
+        set { self[CompletionKey] = newValue }
+    }
 }
 // swiftlint:enable implicit_getter
 
 internal struct TaskContentView<Content>: View where Content: View {
-    
-    class StateObject: ObservableObject {
-        
-        @Published
-        var hasPreviousResult: Bool = false
-    }
     
     @EnvironmentObject
     private var taskManager: TaskManager
@@ -74,12 +64,57 @@ internal struct TaskContentView<Content>: View where Content: View {
     @State
     private var goNext: Bool = false
     
-    @ObservedObject
-    private var stateObject = StateObject()
-    
     private let index: Int
     
     private let content: (ORKStep, ORKStepResult) -> Content
+    
+    private var currentStep: ORKStep {
+        return taskManager.task.steps[index]
+    }
+    
+    private var currentResult: ORKStepResult {
+        return taskManager.getOrCreateResult(for: currentStep)
+    }
+    
+    private var hasNextStep: Bool {
+        return index < taskManager.task.steps.count - 1
+    }
+    
+    private var hasPreviousResult: Bool {
+        guard let count = currentResult.results?.count, count >= 1 else {
+            return false
+        }
+        
+        return true
+    }
+    
+    private var shouldAutoAdvance: Bool {
+        return !taskManager.completedSteps.contains(currentStep)
+    }
+    
+    func completion() -> () -> Void {
+        
+        return { [self] in
+
+            // Date the end of this result
+            currentResult.endDate = Date()
+            
+            if hasNextStep {
+                goNext = shouldAutoAdvance
+            } else {
+                taskManager.finishReason = .completed
+            }
+            
+            // 100ms buffer to not show the "Next" button until the transition is close to finishing
+            DispatchQueue
+                .main
+                .asyncAfter(deadline: DispatchTime
+                                .now()
+                                .advanced(by: .milliseconds(100))) {
+                    taskManager.markStepComplete(currentStep)
+                }
+        }
+    }
     
     init(index: Int, @ViewBuilder _ content: @escaping (ORKStep, ORKStepResult) -> Content) {
         self.index = index
@@ -88,38 +123,23 @@ internal struct TaskContentView<Content>: View where Content: View {
     
     var body: some View {
         
-        let currentStep = taskManager.task.steps[index]
-        
-        let currentResult = taskManager.getOrCreateResult(for: currentStep)
-        
-        let stepView = content(currentStep, currentResult)
-        
-        let nextStep = index >= taskManager.task.steps.count - 1 ?
-            nil : TaskContentView(index: index + 1, content).environmentObject(taskManager)
+        let nextStep = hasNextStep ?
+            TaskContentView(index: index + 1, content).environmentObject(taskManager) : nil
         
         ScrollView {
-            stepView.onAppear {
-                currentResult.startDate = Date()
-            }
-            .environment(\.progress, taskManager.progressForQuestionStep(currentStep))
-            .environmentObject(CompletionObject({
-                
-                if nextStep != nil {
-                    goNext = stateObject.hasPreviousResult ? false : true
-                } else {
-                    currentResult.endDate = Date()
-                    taskManager.finishReason = .completed
+            
+            content(currentStep, currentResult)
+                .onAppear {
+                    currentResult.startDate = Date()
                 }
-                
-                if !stateObject.hasPreviousResult {
-                    stateObject.hasPreviousResult = true
-                }
-            }))
+                .environment(\.progress, taskManager.progressForQuestionStep(currentStep))
+                .environment((\.completion), completion())
+            
             if let nextStepView = nextStep {
                 NavigationLink(destination: nextStepView, isActive: $goNext) { EmptyView() }
                     .frame(height: .zero)
                 
-                if stateObject.hasPreviousResult {
+                if !shouldAutoAdvance {
                     Button("Next") { goNext = true }
                 }
             }

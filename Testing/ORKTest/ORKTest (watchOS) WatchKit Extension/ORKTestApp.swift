@@ -20,9 +20,9 @@ struct ORKTestApp: App {
     private var taskManager: TaskManager = ORKTestApp.newTaskManager()
     
     static func newTaskManager() -> TaskManager {
-        let leftHanded = ORKTextChoice(text: "Somewhat", detailText: nil, value: NSString(string: "L"), exclusive: true)
-        let rightHanded = ORKTextChoice(text: "A lot", detailText: nil, value: NSString(string: "R"), exclusive: true)
-        let ambidextrous = ORKTextChoice(text: "Not at all", detailText: nil, value: NSString(string: "A"), exclusive: true)
+        let leftHanded = ORKTextChoice(text: "Somewhat", detailText: nil, value: NSString(string: "somewhat"), exclusive: true)
+        let rightHanded = ORKTextChoice(text: "A lot", detailText: nil, value: NSString(string: "a lot"), exclusive: true)
+        let ambidextrous = ORKTextChoice(text: "Not at all", detailText: nil, value: NSString(string: "none"), exclusive: true)
         let answerFormat = ORKTextChoiceAnswerFormat(style: .singleChoice, textChoices: [leftHanded, rightHanded, ambidextrous])
         let questionStep = ORKQuestionStep(identifier: "questionStep", title: "Are you feeling stressed right now?", question: nil, answer: answerFormat)
         let questionStep2 = ORKQuestionStep(identifier: "questionStep2", title: "Are you feeling calm right now?", question: nil, answer: answerFormat)
@@ -47,7 +47,7 @@ struct ORKTestApp: App {
                     
                     if let finishReason = finishReason {
                         
-                        taskManager = ORKTestApp.newTaskManager()
+                        
                         
                         switch finishReason {
                         case .completed:
@@ -56,6 +56,8 @@ struct ORKTestApp: App {
                         default:
                             break
                         }
+                        
+                        taskManager = ORKTestApp.newTaskManager()
                     }
                 }
         }

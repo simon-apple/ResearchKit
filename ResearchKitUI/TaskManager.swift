@@ -54,6 +54,9 @@ open class TaskManager: ObservableObject {
 
     private(set) var task: ORKOrderedTask
     
+    @Published
+    internal private(set) var completedSteps: Set<ORKStep> = []
+    
     public init(task: ORKOrderedTask) {
         self.task = task
         self.result = ORKTaskResult(taskIdentifier: self.task.identifier,
@@ -87,5 +90,12 @@ extension TaskManager {
         }
         
         return (index + 1, questionSteps.count)
+    }
+}
+
+internal extension TaskManager {
+    
+    func markStepComplete(_ step: ORKStep) {
+        completedSteps.insert(step)
     }
 }
