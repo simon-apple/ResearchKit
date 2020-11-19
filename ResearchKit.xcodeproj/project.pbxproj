@@ -894,7 +894,7 @@
 		E27743AB23A7AA8F00AA0C9F /* AVOutputContext_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = E27743A923A7AA8F00AA0C9F /* AVOutputContext_Private.h */; };
 		E27743AC23A7AA8F00AA0C9F /* AVOutputContext.h in Headers */ = {isa = PBXBuildFile; fileRef = E27743AA23A7AA8F00AA0C9F /* AVOutputContext.h */; };
 		E27743AE23A7AC8800AA0C9F /* AVOutputDeviceDiscoverySession.h in Headers */ = {isa = PBXBuildFile; fileRef = E27743AD23A7AC8500AA0C9F /* AVOutputDeviceDiscoverySession.h */; };
-		E2880B82255D656900D9BAA7 /* ORKTinnitusPredefinedTask.h in Headers */ = {isa = PBXBuildFile; fileRef = E2880B7F255D656900D9BAA7 /* ORKTinnitusPredefinedTask.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		E2880B82255D656900D9BAA7 /* ORKTinnitusPredefinedTask.h in Headers */ = {isa = PBXBuildFile; fileRef = E2880B7F255D656900D9BAA7 /* ORKTinnitusPredefinedTask.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E2880B83255D656900D9BAA7 /* ORKTinnitusPredefinedTask.m in Sources */ = {isa = PBXBuildFile; fileRef = E2880B80255D656900D9BAA7 /* ORKTinnitusPredefinedTask.m */; };
 		E2880B84255D656900D9BAA7 /* ORKTinnitusPredefinedTaskConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = E2880B81255D656900D9BAA7 /* ORKTinnitusPredefinedTaskConstants.h */; };
 		E29189B923855B97001AFF0F /* frequency_dBSPL_AIRPODSPRO.plist in Resources */ = {isa = PBXBuildFile; fileRef = E29189B823855B96001AFF0F /* frequency_dBSPL_AIRPODSPRO.plist */; };

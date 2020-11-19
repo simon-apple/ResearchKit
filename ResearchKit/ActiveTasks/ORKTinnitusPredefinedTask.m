@@ -36,26 +36,26 @@
 
 #import <ResearchKit/ResearchKit_Private.h>
 
-@interface ORKTinnitusPredefinedTask ()
-
-@property (nonatomic, strong) UIColor *cachedBGColor;
-@property (nonatomic, copy) NSDictionary *stepAfterStepDict;
-@property (nonatomic, copy) NSDictionary *stepBeforeStepDict;
-
-@property (nonatomic, strong) ORKInstructionStep *instruction1;
-@property (nonatomic, strong) ORKQuestionStep *surveyQuestion1;
-@property (nonatomic, strong) ORKQuestionStep *surveyQuestion2;
-@property (nonatomic, strong) ORKQuestionStep *surveyQuestion3;
-@property (nonatomic, strong) ORKQuestionStep *surveyQuestion4;
-@property (nonatomic, strong) ORKQuestionStep *surveyQuestion5;
-@property (nonatomic, strong) ORKQuestionStep *surveyQuestion6;
-@property (nonatomic, strong) ORKQuestionStep *surveyQuestion7;
-@property (nonatomic, strong) ORKQuestionStep *surveyQuestion8;
-@property (nonatomic, strong) ORKQuestionStep *surveyQuestion9;
-@property (nonatomic, strong) ORKQuestionStep *surveyQuestion10;
-@property (nonatomic, strong) ORKCompletionStep *surveyCompletion;
-
-@property (nonatomic, strong) ORKInstructionStep *testingInstruction;
+@interface ORKTinnitusPredefinedTask () {
+    UIColor *_cachedBGColor;
+    NSDictionary *_stepAfterStepDict;
+    NSDictionary *_stepBeforeStepDict;
+    
+    ORKInstructionStep *_instruction1;
+    ORKQuestionStep *_surveyQuestion1;
+    ORKQuestionStep *_surveyQuestion2;
+    ORKQuestionStep *_surveyQuestion3;
+    ORKQuestionStep *_surveyQuestion4;
+    ORKQuestionStep *_surveyQuestion5;
+    ORKQuestionStep *_surveyQuestion6;
+    ORKQuestionStep *_surveyQuestion7;
+    ORKQuestionStep *_surveyQuestion8;
+    ORKQuestionStep *_surveyQuestion9;
+    ORKQuestionStep *_surveyQuestion10;
+    ORKCompletionStep *_surveyCompletion;
+    
+    ORKInstructionStep *_testingInstruction;
+}
 
 @end
 
@@ -160,8 +160,8 @@
 }
 
 - (void)setupBGColor {
-    if (self.cachedBGColor == nil) {
-        self.cachedBGColor = ORKColor(ORKBackgroundColorKey);
+    if (_cachedBGColor == nil) {
+        _cachedBGColor = ORKColor(ORKBackgroundColorKey);
         if (@available(iOS 13.0, *)) {
             UIColor *adaptativeColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
                 if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {

@@ -869,6 +869,12 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                PROPERTY(appendSteps, ORKStep, NSArray, NO, nil, nil),
                SKIP_PROPERTY(steps, ORKStep, NSArray, NO, nil, nil)
            })),
+           ENTRY(ORKTinnitusPredefinedTask,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+               return [[ORKTinnitusPredefinedTask alloc] initWithIdentifier:GETPROP(dict, identifier)];
+           },
+                 (@{
+                  })),
            ENTRY(ORKStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      ORKStep *step = [[ORKStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
