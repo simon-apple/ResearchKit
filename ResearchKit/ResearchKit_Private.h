@@ -80,6 +80,7 @@
 #import <ResearchKit/ORKTimedWalkStep.h>
 #import <ResearchKit/ORKToneAudiometryStep.h>
 #import <ResearchKit/ORKdBHLToneAudiometryStep.h>
+#import <ResearchKit/ORKdBHLToneAudiometryCompletionStep.h>
 #import <ResearchKit/ORKdBHLToneAudiometryOnboardingStep.h>
 #import <ResearchKit/ORKTowerOfHanoiStep.h>
 #import <ResearchKit/ORKTrailmakingStep.h>

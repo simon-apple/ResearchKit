@@ -889,11 +889,16 @@
 		D458520B1AF6CCFA00A2DE13 /* ORKImageCaptureCameraPreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = D45852091AF6CCFA00A2DE13 /* ORKImageCaptureCameraPreviewView.m */; };
 		E21D345F22D916E000CCB022 /* ORKHeadphoneDetectResult.h in Headers */ = {isa = PBXBuildFile; fileRef = E21D345D22D916E000CCB022 /* ORKHeadphoneDetectResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E21D346022D916E000CCB022 /* ORKHeadphoneDetectResult.m in Sources */ = {isa = PBXBuildFile; fileRef = E21D345E22D916E000CCB022 /* ORKHeadphoneDetectResult.m */; };
+		E2471305252B991B00FF5431 /* ORKdBHLToneAudiometryCompletionStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = E2471301252B991A00FF5431 /* ORKdBHLToneAudiometryCompletionStepViewController.h */; };
+		E2471306252B991B00FF5431 /* ORKdBHLToneAudiometryCompletionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = E2471302252B991A00FF5431 /* ORKdBHLToneAudiometryCompletionStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		E2471307252B991B00FF5431 /* ORKdBHLToneAudiometryCompletionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = E2471303252B991A00FF5431 /* ORKdBHLToneAudiometryCompletionStep.m */; };
+		E2471308252B991B00FF5431 /* ORKdBHLToneAudiometryCompletionStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2471304252B991B00FF5431 /* ORKdBHLToneAudiometryCompletionStepViewController.m */; };
 		E26E32D622E75FB7004F42EC /* Noise.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7118AC5920BF6A0000D7A6BB /* Noise.wav */; };
 		E26E32D722E75FBF004F42EC /* Window.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7118AC5B20BF6A1200D7A6BB /* Window.wav */; };
 		E27743AB23A7AA8F00AA0C9F /* AVOutputContext_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = E27743A923A7AA8F00AA0C9F /* AVOutputContext_Private.h */; };
 		E27743AC23A7AA8F00AA0C9F /* AVOutputContext.h in Headers */ = {isa = PBXBuildFile; fileRef = E27743AA23A7AA8F00AA0C9F /* AVOutputContext.h */; };
 		E27743AE23A7AC8800AA0C9F /* AVOutputDeviceDiscoverySession.h in Headers */ = {isa = PBXBuildFile; fileRef = E27743AD23A7AC8500AA0C9F /* AVOutputDeviceDiscoverySession.h */; };
+		E2880B8C255DAFC200D9BAA7 /* ORKdBHLTaskContext.m in Sources */ = {isa = PBXBuildFile; fileRef = E2880B8A255DAFC100D9BAA7 /* ORKdBHLTaskContext.m */; };
 		E29189B923855B97001AFF0F /* frequency_dBSPL_AIRPODSPRO.plist in Resources */ = {isa = PBXBuildFile; fileRef = E29189B823855B96001AFF0F /* frequency_dBSPL_AIRPODSPRO.plist */; };
 		E29189BB23855BA2001AFF0F /* volume_curve_AIRPODSPRO.plist in Resources */ = {isa = PBXBuildFile; fileRef = E29189BA23855BA2001AFF0F /* volume_curve_AIRPODSPRO.plist */; };
 		E29189BD23855BAE001AFF0F /* retspl_AIRPODSPRO.plist in Resources */ = {isa = PBXBuildFile; fileRef = E29189BC23855BAE001AFF0F /* retspl_AIRPODSPRO.plist */; };
@@ -1890,9 +1895,14 @@
 		D45852091AF6CCFA00A2DE13 /* ORKImageCaptureCameraPreviewView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKImageCaptureCameraPreviewView.m; sourceTree = "<group>"; };
 		E21D345D22D916E000CCB022 /* ORKHeadphoneDetectResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKHeadphoneDetectResult.h; sourceTree = "<group>"; };
 		E21D345E22D916E000CCB022 /* ORKHeadphoneDetectResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKHeadphoneDetectResult.m; sourceTree = "<group>"; };
+		E2471301252B991A00FF5431 /* ORKdBHLToneAudiometryCompletionStepViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKdBHLToneAudiometryCompletionStepViewController.h; sourceTree = "<group>"; };
+		E2471302252B991A00FF5431 /* ORKdBHLToneAudiometryCompletionStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKdBHLToneAudiometryCompletionStep.h; sourceTree = "<group>"; };
+		E2471303252B991A00FF5431 /* ORKdBHLToneAudiometryCompletionStep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKdBHLToneAudiometryCompletionStep.m; sourceTree = "<group>"; };
+		E2471304252B991B00FF5431 /* ORKdBHLToneAudiometryCompletionStepViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKdBHLToneAudiometryCompletionStepViewController.m; sourceTree = "<group>"; };
 		E27743A923A7AA8F00AA0C9F /* AVOutputContext_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVOutputContext_Private.h; sourceTree = "<group>"; };
 		E27743AA23A7AA8F00AA0C9F /* AVOutputContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVOutputContext.h; sourceTree = "<group>"; };
 		E27743AD23A7AC8500AA0C9F /* AVOutputDeviceDiscoverySession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVOutputDeviceDiscoverySession.h; sourceTree = "<group>"; };
+		E2880B8A255DAFC100D9BAA7 /* ORKdBHLTaskContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKdBHLTaskContext.m; sourceTree = "<group>"; };
 		E29189B823855B96001AFF0F /* frequency_dBSPL_AIRPODSPRO.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = frequency_dBSPL_AIRPODSPRO.plist; sourceTree = "<group>"; };
 		E29189BA23855BA2001AFF0F /* volume_curve_AIRPODSPRO.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = volume_curve_AIRPODSPRO.plist; sourceTree = "<group>"; };
 		E29189BC23855BAE001AFF0F /* retspl_AIRPODSPRO.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = retspl_AIRPODSPRO.plist; sourceTree = "<group>"; };
@@ -2705,8 +2715,13 @@
 				71769E342088291B00A19914 /* ORKdBHLToneAudiometryContentView.m */,
 				71769E3720882CED00A19914 /* ORKdBHLToneAudiometryStep.h */,
 				71769E3820882CED00A19914 /* ORKdBHLToneAudiometryStep.m */,
+				E2880B8A255DAFC100D9BAA7 /* ORKdBHLTaskContext.m */,
 				71769E3B20884DB800A19914 /* ORKdBHLToneAudiometryStepViewController.h */,
 				71769E3C20884DB800A19914 /* ORKdBHLToneAudiometryStepViewController.m */,
+				E2471302252B991A00FF5431 /* ORKdBHLToneAudiometryCompletionStep.h */,
+				E2471303252B991A00FF5431 /* ORKdBHLToneAudiometryCompletionStep.m */,
+				E2471301252B991A00FF5431 /* ORKdBHLToneAudiometryCompletionStepViewController.h */,
+				E2471304252B991B00FF5431 /* ORKdBHLToneAudiometryCompletionStepViewController.m */,
 				E29189B823855B96001AFF0F /* frequency_dBSPL_AIRPODSPRO.plist */,
 				71B7B4D820AA91D400C5768A /* frequency_dBSPL_AIRPODS.plist */,
 				713D4B1B20FE5464002BE28D /* frequency_dBSPL_EARPODS.plist */,
@@ -4462,6 +4477,7 @@
 				86C40C2A1A8D7C5C00081FAC /* ORKFitnessContentView.h in Headers */,
 				5D43C5D424255675006F4084 /* ORKBodyItem_Internal.h in Headers */,
 				BA43CCA822722C6E00F2A2D2 /* ORKStepContentView_Private.h in Headers */,
+				E2471306252B991B00FF5431 /* ORKdBHLToneAudiometryCompletionStep.h in Headers */,
 				5D1CE42C23F497D5004CB416 /* ORKAudioLevelSmoother.h in Headers */,
 				5D1CE42623F497D5004CB416 /* ORKFlamesView.h in Headers */,
 				2E8071031FB0E6BE00E4FC7F /* ORKAudioGraphView.h in Headers */,
@@ -4553,6 +4569,7 @@
 				10864C9E1B27146B000F4158 /* ORKPSATStep.h in Headers */,
 				86C40D6E1A8D7C5C00081FAC /* ORKResult_Private.h in Headers */,
 				E21D345F22D916E000CCB022 /* ORKHeadphoneDetectResult.h in Headers */,
+				E2471305252B991B00FF5431 /* ORKdBHLToneAudiometryCompletionStepViewController.h in Headers */,
 				781D54121DF886AB00223305 /* ORKTrailmakingStep.h in Headers */,
 				86C40D161A8D7C5C00081FAC /* ORKErrors.h in Headers */,
 				866DA5291D63D04700C9AF3F /* ORKOperation.h in Headers */,
@@ -5107,6 +5124,7 @@
 				51E03D692491A601008F8406 /* ORKHealthKitPermissionType.m in Sources */,
 				86C40D321A8D7C5C00081FAC /* ORKHealthAnswerFormat.m in Sources */,
 				10FF9AC41B79EF2800ECB5B4 /* ORKHolePegTestRemoveStep.m in Sources */,
+				E2471308252B991B00FF5431 /* ORKdBHLToneAudiometryCompletionStepViewController.m in Sources */,
 				5175144F2459EBF0009E8FFC /* ORK3DModelStep.m in Sources */,
 				03EDD58124CA6B1D006245E9 /* ORKNotificationPermissionType.m in Sources */,
 				10BAA2CB1B5FCB4F004FE478 /* ORKProgressView.m in Sources */,
@@ -5161,6 +5179,7 @@
 				95E11E561D73396300BF865B /* ORKShoulderRangeOfMotionStepViewController.m in Sources */,
 				BA2CFBB12342935800B71919 /* ORKCompletionCheckmarkView.m in Sources */,
 				86C40DC01A8D7C5C00081FAC /* ORKTableViewCell.m in Sources */,
+				E2471307252B991B00FF5431 /* ORKdBHLToneAudiometryCompletionStep.m in Sources */,
 				24A4DA111B8D0F21009C797A /* ORKPasscodeStepView.m in Sources */,
 				BC41942A1AE8453A00073D6B /* ORKObserver.m in Sources */,
 				5D1CE45B23FC85F4004CB416 /* ORKAudioMeteringView.m in Sources */,
@@ -5196,6 +5215,7 @@
 				BC5FAF851C6901A200057CF1 /* ORKChartTypes.m in Sources */,
 				5D1CE43623F49D6D004CB416 /* ORKFlamesViewLegacy.m in Sources */,
 				866DA5261D63D04700C9AF3F /* ORKHealthSampleQueryOperation.m in Sources */,
+				E2880B8C255DAFC200D9BAA7 /* ORKdBHLTaskContext.m in Sources */,
 				FF5CA6131D2C2670001660A3 /* ORKTableStep.m in Sources */,
 				86C40C8A1A8D7C5C00081FAC /* ORKActiveStepTimerView.m in Sources */,
 				86AD91111AB7B8A600361FEB /* ORKActiveStepView.m in Sources */,

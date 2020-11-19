@@ -72,4 +72,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+@interface ORKdBHLTaskContext : NSObject <ORKContext>
+
+- (void)didSkipHeadphoneDetectionStepForTask:(id<ORKTask>)task;
+
++ (NSString *)dBHLToneAudiometryCompletionStepIdentifier;
+
+@end
+
 NS_ASSUME_NONNULL_END
