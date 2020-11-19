@@ -57,6 +57,9 @@ open class TaskManager: ObservableObject {
     @Published
     internal private(set) var completedSteps: Set<ORKStep> = []
     
+    @Published
+    var viewModels: [String: ViewModel] = [:]
+    
     public init(task: ORKOrderedTask) {
         self.task = task
         self.result = ORKTaskResult(taskIdentifier: self.task.identifier,
@@ -97,5 +100,23 @@ internal extension TaskManager {
     
     func markStepComplete(_ step: ORKStep) {
         completedSteps.insert(step)
+    }
+}
+
+internal extension TaskManager {
+    
+    func viewModelForStep(_ step: ORKStep) -> ViewModel {
+        
+        if let viewModel = viewModels[step.identifier] {
+            return viewModel
+        } else if let questionStep = step as? ORKQuestionStep {
+            let viewModel = QuestionStepViewModel(step: questionStep,
+                                                  result: getOrCreateResult(for: step))
+            viewModel.progress = progressForQuestionStep(step)
+            viewModels[step.identifier] = .questionStep(viewModel)
+            return .questionStep(viewModel)
+        }
+        
+        return .none
     }
 }

@@ -31,6 +31,11 @@
 import ResearchKitCore
 import SwiftUI
 
+enum ViewModel {
+    case none
+    case questionStep(QuestionStepViewModel)
+}
+
 typealias Progress = (index: Int, count: Int)
 
 struct ProgressKey: EnvironmentKey {
@@ -86,7 +91,6 @@ internal struct TaskContentView<Content>: View where Content: View {
     
     func completion() {
         
-        // Date the end of this result
         currentResult.endDate = Date()
             
         if hasNextStep {
