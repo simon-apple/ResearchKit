@@ -62,13 +62,9 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierVideoAudioAcces
         // Add a navigation rule to end the current task.
         ORKNavigableOrderedTask *currentTask = (ORKNavigableOrderedTask *)task;
         
-        int completedStepCount = currentStepIdentifier == ORKAVJournalingStepIdentifierFaceDetection ? 0 : [self numberOfCompletedAVJournalingStepsFromTask:currentTask currentStepIdentifier:currentStepIdentifier];
-        int totalAVJournalingSteps = [self totalAVJournalingStepsWithinTask:currentTask];
-        NSString *entriesText = (totalAVJournalingSteps - completedStepCount) > 1 ? ORKLocalizedString(@"AV_JOURNALING_STEP_FINISH_LATER_ENTRIES_TEXT", nil) : ORKLocalizedString(@"AV_JOURNALING_STEP_FINISH_LATER_ENTRY_TEXT", nil);
-        
         ORKCompletionStep *step = [[ORKCompletionStep alloc] initWithIdentifier:ORKAVJournalingStepIdentifierMaxLimitHitCompletion];
         step.title = ORKLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_TIME_LIMIT_REACHED_TITLE", nil);
-        step.text = [NSString stringWithFormat:ORKLocalizedString(@"AV_JOURNALING_STEP_FINISH_LATER_TEXT", nil), completedStepCount, totalAVJournalingSteps, entriesText];
+        step.text = ORKLocalizedString(@"AV_JOURNALING_STEP_FINISH_LATER_TEXT", nil);
         step.optional = NO;
         step.reasonForCompletion = ORKTaskViewControllerFinishReasonDiscarded;
         [currentTask addStep:step];
@@ -85,13 +81,9 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierVideoAudioAcces
         // Add a navigation rule to end the current task.
         ORKNavigableOrderedTask *currentTask = (ORKNavigableOrderedTask *)task;
         
-        int completedStepCount = [self numberOfCompletedAVJournalingStepsFromTask:currentTask currentStepIdentifier:currentStepIdentifier];
-        int totalAVJournalingSteps = [self totalAVJournalingStepsWithinTask:currentTask];
-        NSString *entriesText = (totalAVJournalingSteps - completedStepCount) > 1 ? ORKLocalizedString(@"AV_JOURNALING_STEP_FINISH_LATER_ENTRIES_TEXT", nil) : ORKLocalizedString(@"AV_JOURNALING_STEP_FINISH_LATER_ENTRY_TEXT", nil);
-        
         ORKCompletionStep *step = [[ORKCompletionStep alloc] initWithIdentifier:ORKAVJournalingStepIdentifierFinishLaterCompletion];
         step.title = ORKLocalizedString(@"AV_JOURNALING_STEP_FINISH_LATER_TITLE", nil);
-        step.text = [NSString stringWithFormat:ORKLocalizedString(@"AV_JOURNALING_STEP_FINISH_LATER_TEXT", nil), completedStepCount, totalAVJournalingSteps, entriesText];
+        step.text = ORKLocalizedString(@"AV_JOURNALING_STEP_FINISH_LATER_TEXT", nil);
         step.optional = NO;
         step.reasonForCompletion = ORKTaskViewControllerFinishReasonDiscarded;
         [currentTask addStep:step];
