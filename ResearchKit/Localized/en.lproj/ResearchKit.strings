@@ -406,6 +406,10 @@
 "dBHL_PROGRESS_COMPLETION_%@" = "%@ Complete";
 "dBHL_TONE_AUDIOMETRY_TESTING_IN_PROGRESS" = "TEST IN PROGRESS";
 "dBHL_TONE_AUDIOMETRY_TESTING_IN_PROGRESS_FMT" = "TEST IN PROGRESS \U2022 %@";
+"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_TITLE" = "This Test Requires Compatible Headphones";
+"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_TEXT" = "Thank you for participating in the Apple Hearing Study.\n\nTo do this task at a later time, connect Apple EarPods, AirPods, or AirPods Pro to your device.";
+"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_DO_LATER" = "Finish task later";
+"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_SKIP" = "Skip this task";
 
 /* Headphones. */
 "AIRPODS" = "AirPods";
@@ -422,7 +426,7 @@
 "NOISE_CANCELLATION_REQUIRED" = "Noise cancellation required";
 "BOTH_BUDS_IN_EAR_REQUIRED" = "Put both AirPods in to proceed.";
 "HEADPHONE_DETECT_TEXT" = "To ensure accurate results, this task requires Apple EarPods, AirPods, or AirPods Pro.";
-"SKIP_TO_END_TEXT" = "No Compatible Headphones";
+"DBHL_HEADPHONES_DETECT_SKIP" = "No Compatible Headphones";
 "SHARED_AUDIO_ALERT" = "Shared audio must be turned off.%@To turn off shared audio, open Control Center and tap %@. Then tap the %@ to turn off sharing a particular set of headphones.";
 
 /* Spatial span memory active task. */
