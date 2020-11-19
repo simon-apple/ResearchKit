@@ -676,8 +676,6 @@
 
 /* AV Journaling Predefined Task */
 "AV_JOURNALING_PREDEFINED_TASK_FACE_DETECTION_STEP_TITLE" = "Video Journal";
-"AV_JOURNALING_PREDEFINED_TASK_INSTRUCTION_STEP_TITLE" = "Video Journal";
-"AV_JOURNALING_PREDEFINED_TASK_INSTRUCTION_STEP_TEXT" = "You will be asked %lu questions. Think about each question as long as needed and then speak your answer out loud";
 "AV_JOURNALING_PREDEFINED_TASK_COMPLETION_TITLE" = "Video Journal Complete";
 "AV_JOURNALING_PREDEFINED_TASK_COMPLETION_TEXT" = "Thank you for participating.";
 "AV_JOURNALING_PREDEFINED_LOW_MEMORY_TITLE" = "Additional storage is required to begin this task.";
@@ -688,7 +686,6 @@
 "AV_JOURNALING_PREDEFINED_AUDIO_VIDEO_ACCESS_SETTINGS_LINK_TEXT" = "Enable Access in Settings.";
 
 /* AV Journaling Face Detection Step */
-"AV_JOURNALING_FACE_DETECTION_STEP_NEXT_BUTTON_TEXT" = "Continue";
 "AV_JOURNALING_FACE_DETECTION_STEP_FACE_DETECTED_TITLE" = "Ready to Go ";
 "AV_JOURNALING_FACE_DETECTION_STEP_FACE_DETECTED_TEXT" = "While recording your answers, try to keep your face in this position.";
 "AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TITLE" = "Stay Centered";
@@ -697,16 +694,10 @@
 "AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TITLE_RECALIBRATION" = "We Lost You";
 "AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TEXT_RECALIBRATION" = "Try adjusting the position of your iPhone to bring your face back into view.";
 "AV_JOURNALING_FACE_DETECTION_STEP_TIME_LIMIT_REACHED_TITLE" = "Video Journal Incomplete";
-"AV_JOURNALING_FACE_DETECTION_START_TIME" = "00:00";
 
 /* AV Journaling Step */
-"AV_JOURNALING_STEP_NEXT_BUTTON_TEXT" = "Next Question";
 "AV_JOURNALING_STEP_FINISH_LATER_BUTTON_TEXT" = "Finish Later";
 "AV_JOURNALING_STEP_RECORDING_LABEL_TEXT" = "RECORDING";
-"AV_JOURNALING_STEP_TITLE" = "Video Journal";
-"AV_JOURNALING_STEP_START_TIME" = "00:00";
-"AV_JOURNALING_STEP_NO_FACE_DETECTED_TITLE" = "No Face Detected";
-"AV_JOURNALING_STEP_NO_FACE_DETECTED_TEXT" = "Please center your face in the screen";
 "AV_JOURNALING_STEP_CAMERA_ERROR" = "Can’t access front camera. This step cannot be completed.";
 "AV_JOURNALING_STEP_AUDIO_ERROR" = "Can’t access audio. This step cannot be completed.";
 "AV_JOURNALING_STEP_NEXT_QUESTION_MESSAGE" = "NEXT QUESTION IN %@";
