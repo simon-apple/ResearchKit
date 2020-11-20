@@ -52,6 +52,7 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierFinishLaterComp
 ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierFinishLaterFaceDetection = @"ORKAVJournalingStepIdentifierFinishLaterFaceDetection";
 ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierLowMemoryCompletion = @"ORKAVJournalingStepIdentifierLowMemoryCompletion";
 ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierVideoAudioAccessDeniedCompletion = @"ORKAVJournalingStepIdentifierVideoAudioAccessDeniedCompletion";
+ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierLowStorageLearnMore = @"ORKAVJournalingStepIdentifierLowStorageLearnMore";
 ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierInstructionStepPlaceHolderVideoAudioAccessDenied = @"ORKAVJournalingStepIdentifierInstructionStepPlaceHolderVideoAudioAccessDenied";
 
 @interface ORKAVJournalingPredfinedTaskContext()<ORKLearnMoreViewDelegate>
@@ -199,7 +200,7 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierInstructionStep
             completionStep.iconImage = [UIImage systemImageNamed:@"bin.xmark"];
         }
         
-        ORKLearnMoreInstructionStep *learnMoreInstructionStep = [[ORKLearnMoreInstructionStep alloc] initWithIdentifier:@"InstructionStepPlaceHolderLowMemory"];
+        ORKLearnMoreInstructionStep *learnMoreInstructionStep = [[ORKLearnMoreInstructionStep alloc] initWithIdentifier:ORKAVJournalingStepIdentifierLowStorageLearnMore];
         ORKLearnMoreItem *learnMoreItem = [[ORKLearnMoreItem alloc] initWithText:ORKLocalizedString(@"AV_JOURNALING_PREDEFINED_LOW_MEMORY_SETTINGS_LINK_TEXT", nil)
                                                         learnMoreInstructionStep:learnMoreInstructionStep];
         
