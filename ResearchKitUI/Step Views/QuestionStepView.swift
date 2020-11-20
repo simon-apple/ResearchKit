@@ -62,75 +62,98 @@ struct TextChoiceCell: View {
     }
 }
 
-@available(watchOS 6.0, *)
-public struct QuestionStepView: View {
+class QuestionStepViewModel: ObservableObject {
+    
+    @ObservedObject
+    private(set) var step: ORKQuestionStep
+    
+    @ObservedObject
+    private(set) var result: ORKStepResult
+      
+    @Published
+    var selectedIndex: Int = -1
+    
+    var progress: Progress?
+    
+    lazy var textChoiceAnswers: [(Int, ORKTextChoice)] = {
+        
+        if let textChoiceAnswerFormat = step.answerFormat as? ORKTextChoiceAnswerFormat {
+            return Array(zip(textChoiceAnswerFormat.textChoices.indices,
+                             textChoiceAnswerFormat.textChoices))
+        } else {
+            return []
+        }
+        
+    }()
+    
+    init(step: ORKQuestionStep, result: ORKStepResult) {
+        self.step = step
+        self.result = result
+    }
+    
+    func setChildResult(_ res: ORKResult) {
+        res.startDate = result.startDate
+        res.endDate = Date()
+        result.results = [res]
+    }
+}
 
+internal struct _QuestionStepView: View {
+    
     enum Constants {
         static let questionToAnswerPadding: CGFloat = 12.0
     }
     
-    @State
-    private var selectedIndex: Int = -1
-    
     @ObservedObject
-    public private(set) var step: ORKQuestionStep
-
-    @ObservedObject
-    public private(set) var result: ORKStepResult
+    private var viewModel: QuestionStepViewModel
     
-    @EnvironmentObject
-    private var completion: CompletionObject
+    @Environment(\.completion) var completion
     
-    @Environment(\.progress) var progress
-    
-    init(_ step: ORKQuestionStep, result: ORKStepResult) {
-        self.step = step
-        self.result = result
+    init(viewModel: QuestionStepViewModel) {
+        self.viewModel = viewModel
     }
-     
-    public var body: some View {
+    
+    var body: some View {
         
         VStack {
             
-            if let progress = progress {
+            if let progress = viewModel.progress {
                 Text("\(progress.index) OF \(progress.count)".uppercased())
                     .foregroundColor(.gray)
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
             
-            if let stepTitle = step.title, !stepTitle.isEmpty {
+            if let stepTitle = viewModel.step.title, !stepTitle.isEmpty {
                 Text(stepTitle)
                     .font(.body)
                     .fontWeight(.semibold)
                     .multilineTextAlignment(.leading)
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
-            if let stepQuestion = step.question, !stepQuestion.isEmpty {
+            
+            if let stepQuestion = viewModel.step.question, !stepQuestion.isEmpty {
                 Text(stepQuestion)
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
+            
             Spacer()
                 .frame(height: Constants.questionToAnswerPadding)
             
-            if let textChoiceAnswerFormat = step.answerFormat as? ORKTextChoiceAnswerFormat {
-                
-                let textChoices = Array(zip(textChoiceAnswerFormat.textChoices.indices,
-                                            textChoiceAnswerFormat.textChoices))
+            if let textChoices = viewModel.textChoiceAnswers {
                 
                 ForEach(textChoices, id: \.1) { index, textChoice in
                     
                     TextChoiceCell(title: textChoice.text,
-                                   selected: index == selectedIndex) { selected in
+                                   selected: index == viewModel.selectedIndex) { selected in
                         
                         if selected {
                             
-                            selectedIndex = index
+                            viewModel.selectedIndex = index
                             
-                            let choiceResult = ORKChoiceQuestionResult(identifier: step.identifier)
+                            let choiceResult = ORKChoiceQuestionResult(identifier:
+                                                                        viewModel.step.identifier)
                             choiceResult.choiceAnswers = [textChoice.value]
-                            choiceResult.startDate = result.startDate
-                            choiceResult.endDate = Date()
-                            result.results = [choiceResult]
+                            viewModel.setChildResult(choiceResult)
                             
                             // 250 ms delay
                             DispatchQueue
@@ -138,13 +161,49 @@ public struct QuestionStepView: View {
                                 .asyncAfter(deadline: DispatchTime
                                                 .now()
                                                 .advanced(by: .milliseconds(250))) {
-                                    
-                                    completion.run()
+
+                                    completion()
                                 }
                         }
                     }
                 }
             }
+        }
+    }
+}
+
+@available(watchOS 6.0, *)
+public struct QuestionStepView: View {
+
+    @EnvironmentObject
+    private var taskManager: TaskManager
+    
+    @ObservedObject
+    public private(set) var step: ORKQuestionStep
+
+    @ObservedObject
+    public private(set) var result: ORKStepResult
+    
+    @Environment(\.completion) var completion
+    
+    init(_ step: ORKQuestionStep, result: ORKStepResult) {
+        self.step = step
+        self.result = result
+    }
+    
+    private var model: QuestionStepViewModel? {
+        
+        if case let ViewModel.questionStep(model) = taskManager.viewModelForStep(step) {
+            return model
+        } else {
+            return nil
+        }
+    }
+     
+    public var body: some View {
+        if let viewModel = model {
+            _QuestionStepView(viewModel: viewModel)
+                .environment(\.completion, completion)
         }
     }
 }

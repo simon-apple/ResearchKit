@@ -31,17 +31,9 @@
 import ResearchKitCore
 import SwiftUI
 
-internal class CompletionObject: ObservableObject {
-    
-    private var block: () -> Void
-    
-    init(_ block: @escaping () -> Void) {
-        self.block = block
-    }
-    
-    func run() {
-        block()
-    }
+enum ViewModel {
+    case none
+    case questionStep(QuestionStepViewModel)
 }
 
 typealias Progress = (index: Int, count: Int)
@@ -50,12 +42,21 @@ struct ProgressKey: EnvironmentKey {
     static let defaultValue: Progress? = nil
 }
 
+struct CompletionKey: EnvironmentKey {
+    static let defaultValue: () -> Void = {}
+}
+
 // swiftlint:disable implicit_getter
 extension EnvironmentValues {
     
     var progress: Progress? {
         get { self[ProgressKey] }
         set { self[ProgressKey] = newValue }
+    }
+    
+    var completion: () -> Void {
+        get { self[CompletionKey] }
+        set { self[CompletionKey] = newValue }
     }
 }
 // swiftlint:enable implicit_getter
@@ -72,6 +73,35 @@ internal struct TaskContentView<Content>: View where Content: View {
     
     private let content: (ORKStep, ORKStepResult) -> Content
     
+    private var currentStep: ORKStep {
+        return taskManager.task.steps[index]
+    }
+    
+    private var currentResult: ORKStepResult {
+        return taskManager.getOrCreateResult(for: currentStep)
+    }
+    
+    private var hasNextStep: Bool {
+        return index < taskManager.task.steps.count - 1
+    }
+    
+    private var shouldAutoAdvance: Bool {
+        return !taskManager.completedSteps.contains(currentStep)
+    }
+    
+    func completion() {
+        
+        currentResult.endDate = Date()
+            
+        if hasNextStep {
+            goNext = shouldAutoAdvance
+        } else {
+            taskManager.finishReason = .completed
+        }
+            
+        taskManager.markStepComplete(currentStep)
+    }
+    
     init(index: Int, @ViewBuilder _ content: @escaping (ORKStep, ORKStepResult) -> Content) {
         self.index = index
         self.content = content
@@ -79,27 +109,25 @@ internal struct TaskContentView<Content>: View where Content: View {
     
     var body: some View {
         
-        let currentStep = taskManager.task.steps[index]
-        let currentResult = taskManager.getOrCreateResult(for: currentStep)
-        let stepView = content(currentStep, currentResult)
-        let nextStep = index >= taskManager.task.steps.count - 1 ?
-            nil : TaskContentView(index: index + 1, content).environmentObject(taskManager)
+        let nextStep = hasNextStep ?
+            TaskContentView(index: index + 1, content).environmentObject(taskManager) : nil
         
         ScrollView {
-            stepView.onAppear {
-                currentResult.startDate = Date()
-            }
-            .environment(\.progress, taskManager.progressForQuestionStep(currentStep))
-            .environmentObject(CompletionObject({
-                if nextStep != nil {
-                        goNext = true
-                } else {
-                    currentResult.endDate = Date()
-                    taskManager.finishReason = .completed
+            
+            content(currentStep, currentResult)
+                .onAppear {
+                    currentResult.startDate = Date()
                 }
-            }))
+                .environment(\.progress, taskManager.progressForQuestionStep(currentStep))
+                .environment((\.completion), completion)
+            
             if let nextStepView = nextStep {
-                NavigationLink(destination: nextStepView, isActive: $goNext, label: { EmptyView() })
+                NavigationLink(destination: nextStepView, isActive: $goNext) { }
+                    .frame(height: .zero)
+                
+                if !shouldAutoAdvance {
+                    Button("Next") { goNext = true }
+                }
             }
         }
     }

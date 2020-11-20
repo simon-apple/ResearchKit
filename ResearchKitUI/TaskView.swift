@@ -47,9 +47,11 @@ public struct TaskView<Content>: View where Content: View {
     }
 
     public var body: some View {
-        TaskContentView(index: 0, content).environmentObject(self.taskManager).onAppear {
-            taskManager.result.startDate = Date()
-        }
+        TaskContentView(index: 0, content)
+            .environmentObject(self.taskManager)
+            .onAppear {
+                taskManager.result.startDate = Date()
+            }
     }
 }
 
