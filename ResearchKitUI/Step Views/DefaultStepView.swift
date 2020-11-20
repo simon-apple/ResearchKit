@@ -39,7 +39,7 @@ public struct DefaultStepView: View {
 
     @ObservedObject
     public private(set) var result: ORKStepResult
-
+    
     init(_ step: ORKStep, result: ORKStepResult) {
         self.step = step
         self.result = result

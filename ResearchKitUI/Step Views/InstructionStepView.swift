@@ -40,8 +40,7 @@ public struct InstructionStepView: View {
     @ObservedObject
     public private(set) var result: ORKStepResult
     
-    @EnvironmentObject
-    private var completion: CompletionObject
+    @Environment(\.completion) var completion
     
     init(_ step: ORKInstructionStep, result: ORKStepResult) {
         self.step = step
@@ -61,7 +60,7 @@ public struct InstructionStepView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
             Button(action: {
-                completion.run()
+                completion()
             }) {
                 Text("Done")
             }
