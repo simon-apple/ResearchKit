@@ -268,7 +268,7 @@ static NSString *ORKBulletUnicode = @"\u2981";
         ORKLearnMoreView *learnMoreView = _bodyItem.learnMoreItem.text ? [ORKLearnMoreView learnMoreCustomButtonViewWithText:_bodyItem.learnMoreItem.text LearnMoreInstructionStep:_bodyItem.learnMoreItem.learnMoreInstructionStep] : [ORKLearnMoreView learnMoreDetailDisclosureButtonViewWithLearnMoreInstructionStep:_bodyItem.learnMoreItem.learnMoreInstructionStep];
         [learnMoreView setLearnMoreButtonFont:[ORKBodyItemView bodyTextFont]];
         [learnMoreView setLearnMoreButtonTextAlignment:_textAlignment];
-        learnMoreView.delegate = self;
+        learnMoreView.delegate = _bodyItem.learnMoreItem.delegate ? : self;
         learnMoreView.translatesAutoresizingMaskIntoConstraints = NO;
         [self addArrangedSubview:learnMoreView];
         if (detailTextLabel) {
