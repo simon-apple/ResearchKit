@@ -30,6 +30,7 @@
 
 #import <Foundation/Foundation.h>
 #import <ResearchKit/ORKDefines.h>
+#import <ResearchKit/ORKLearnMoreView.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -68,6 +69,8 @@ ORK_CLASS_AVAILABLE
  The `ORKLearnMoreInstructionStep` to be presented when the button is pressed.
  */
 @property (nonatomic, nonnull) ORKLearnMoreInstructionStep *learnMoreInstructionStep;
+
+@property (nonatomic, weak) id<ORKLearnMoreViewDelegate> delegate;
 
 @end
 

@@ -40,6 +40,7 @@
 #import "ORKStepNavigationRule.h"
 #import "ORKLearnMoreItem.h"
 #import "ORKLearnMoreInstructionStep.h"
+#import "ORKLearnMoreView.h"
 
 static const CGFloat MinMBLimitForTask = 3000;
 static const CGFloat MBConversionConstant = 1000000;
@@ -51,6 +52,10 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierFinishLaterComp
 ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierFinishLaterFaceDetection = @"ORKAVJournalingStepIdentifierFinishLaterFaceDetection";
 ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierLowMemoryCompletion = @"ORKAVJournalingStepIdentifierLowMemoryCompletion";
 ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierVideoAudioAccessDeniedCompletion = @"ORKAVJournalingStepIdentifierVideoAudioAccessDeniedCompletion";
+ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierInstructionStepPlaceHolderVideoAudioAccessDenied = @"ORKAVJournalingStepIdentifierInstructionStepPlaceHolderVideoAudioAccessDenied";
+
+@interface ORKAVJournalingPredfinedTaskContext()<ORKLearnMoreViewDelegate>
+@end
 
 @implementation ORKAVJournalingPredfinedTaskContext
 
@@ -108,9 +113,10 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierVideoAudioAcces
         completionStep.iconImage = [UIImage systemImageNamed:@"video.slash"];
     }
     
-    ORKLearnMoreInstructionStep *learnMoreInstructionStep = [[ORKLearnMoreInstructionStep alloc] initWithIdentifier:@"InstructionStepPlaceHolderVideoAudioAccessDenied"];
+    ORKLearnMoreInstructionStep *learnMoreInstructionStep = [[ORKLearnMoreInstructionStep alloc] initWithIdentifier:ORKAVJournalingStepIdentifierInstructionStepPlaceHolderVideoAudioAccessDenied];
     ORKLearnMoreItem *learnMoreItem = [[ORKLearnMoreItem alloc] initWithText:ORKLocalizedString(@"AV_JOURNALING_PREDEFINED_AUDIO_VIDEO_ACCESS_SETTINGS_LINK_TEXT", nil)
                                                     learnMoreInstructionStep:learnMoreInstructionStep];
+    learnMoreItem.delegate = self;
     
     ORKBodyItem *settingsLinkBodyItem = [[ORKBodyItem alloc] initWithText:nil
                                                                detailText:nil
@@ -155,6 +161,14 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierVideoAudioAcces
     }
     
     return total;
+}
+
+#pragma mark - ORKLearnMoreViewDelegate
+
+- (void)learnMoreButtonPressedWithStep:(ORKLearnMoreInstructionStep *)learnMoreStep {
+    if ([learnMoreStep.identifier isEqual:ORKAVJournalingStepIdentifierInstructionStepPlaceHolderVideoAudioAccessDenied]) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString] options:@{} completionHandler:^(BOOL success) {}];
+    }
 }
 
 @end
@@ -452,6 +466,5 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierVideoAudioAcces
 - (NSUInteger)hash {
     return [super hash] ^ [_journalQuestionSetManifestPath hash] ^ [_prependSteps hash] ^ [_appendSteps hash];
 }
-
 
 @end
