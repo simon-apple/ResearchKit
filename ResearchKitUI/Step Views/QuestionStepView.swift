@@ -98,7 +98,7 @@ class QuestionStepViewModel: ObservableObject {
     }
 }
 
-internal struct QuestionStepView_Internal: View {
+internal struct _QuestionStepView: View {
     
     enum Constants {
         static let questionToAnswerPadding: CGFloat = 12.0
@@ -202,7 +202,7 @@ public struct QuestionStepView: View {
      
     public var body: some View {
         if let viewModel = model {
-            QuestionStepView_Internal(viewModel: viewModel)
+            _QuestionStepView(viewModel: viewModel)
                 .environment(\.completion, completion)
         }
     }
