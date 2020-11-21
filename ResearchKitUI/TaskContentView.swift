@@ -95,10 +95,8 @@ internal struct TaskContentView<Content>: View where Content: View {
             
         if hasNextStep {
             goNext = shouldAutoAdvance
-        } else {
-            taskManager.finishReason = .completed
         }
-            
+
         taskManager.markStepComplete(currentStep)
     }
     
@@ -128,6 +126,12 @@ internal struct TaskContentView<Content>: View where Content: View {
                 if !shouldAutoAdvance {
                     Button("Next") { goNext = true }
                 }
+            } else {
+                Button("Done") {
+                    taskManager.finishReason = .completed
+                }
+                .disabled(shouldAutoAdvance)
+                .padding(.top, 5)
             }
         }
     }
