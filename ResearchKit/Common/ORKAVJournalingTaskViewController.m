@@ -38,7 +38,8 @@
 
 @implementation ORKAVJournalingTaskViewController {
     ORKStepResult *_removedManagedVideoRecordingStepResult;
-    
+    BOOL _lowMemoryStepDetected;
+    NSMutableArray *_internalManagedResults;
 }
 
 - (instancetype)initWithTask:(id<ORKTask>)task restorationData:(NSData *)data delegate:(id<ORKTaskViewControllerDelegate>)delegate error:(NSError* __autoreleasing *)errorOut {
@@ -76,10 +77,24 @@
         @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"task must be of ORKAVJournalingPredefinedTask class." userInfo:nil];
     }
     
-    self = [super initWithTask:task
-                 ongoingResult:ongoingResult
-           defaultResultSource:defaultResultSource
-                      delegate:delegate];
+    if ([task stepWithIdentifier:ORKAVJournalingStepIdentifierLowMemoryCompletion] != nil) {
+        self = [[super initWithNibName:nil bundle:nil] commonInitWithTask:task taskRunUUID:nil];
+        
+        if (self) {
+            _lowMemoryStepDetected = YES;
+            self.delegate = delegate;
+            self.defaultResultSource = defaultResultSource;
+            _internalManagedResults = ongoingResult ? [ongoingResult.results copy] : nil;
+        }
+        
+    } else {
+        self = [super initWithTask:task
+                     ongoingResult:ongoingResult
+               defaultResultSource:defaultResultSource
+                          delegate:delegate];
+    }
+    
+    
     
     if (self) {
         [self updateAVJournalingTaskArrayForResumption];
@@ -89,7 +104,7 @@
 
 
 - (void)updateAVJournalingTaskArrayForResumption {
-    if (self.restoredStepIdentifier == nil) {
+    if (_lowMemoryStepDetected || self.restoredStepIdentifier == nil) {
         return;
     }
     NSString *restoredStepIdentifier = self.restoredStepIdentifier;
@@ -154,26 +169,35 @@
 - (ORKTaskResult *)result {
     // Remove all synthetic task-flow controlling results
     ORKTaskResult *taskResult = [super result];
-    NSMutableArray *updatedStepResults = [NSMutableArray new];
-    BOOL removedResultFound = NO;
-    for (ORKStepResult *stepResult in taskResult.results) {
-        NSString *stepIdentifier = stepResult.identifier;
-        if ([stepIdentifier isEqualToString:_removedManagedVideoRecordingStepResult.identifier]) {
-            removedResultFound = YES;
+    
+    if (_lowMemoryStepDetected) {
+        if (_internalManagedResults) {
+            taskResult.results = [_internalManagedResults copy];
         }
-        if (!([stepIdentifier isEqualToString:ORKAVJournalingStepIdentifierFinishLaterCompletion] ||
-              [stepIdentifier isEqualToString:ORKAVJournalingStepIdentifierMaxLimitHitCompletion] ||
-              [stepIdentifier isEqualToString:ORKAVJournalingStepIdentifierFinishLaterFaceDetection] ||
-              [stepIdentifier isEqualToString:ORKAVJournalingStepIdentifierVideoAudioAccessDeniedCompletion])) {
-            [updatedStepResults addObject:stepResult];
+    } else {
+        NSMutableArray *updatedStepResults = [NSMutableArray new];
+        BOOL removedResultFound = NO;
+        for (ORKStepResult *stepResult in taskResult.results) {
+            NSString *stepIdentifier = stepResult.identifier;
+            if ([stepIdentifier isEqualToString:_removedManagedVideoRecordingStepResult.identifier]) {
+                removedResultFound = YES;
+            }
+            if (!([stepIdentifier isEqualToString:ORKAVJournalingStepIdentifierFinishLaterCompletion] ||
+                  [stepIdentifier isEqualToString:ORKAVJournalingStepIdentifierMaxLimitHitCompletion] ||
+                  [stepIdentifier isEqualToString:ORKAVJournalingStepIdentifierFinishLaterFaceDetection] ||
+                  [stepIdentifier isEqualToString:ORKAVJournalingStepIdentifierVideoAudioAccessDeniedCompletion] ||
+                  [stepIdentifier isEqualToString:ORKAVJournalingStepIdentifierLowMemoryCompletion])) {
+                [updatedStepResults addObject:stepResult];
+            }
         }
+        // The following ensures the removed result is re-added if not seen in the newest task run.
+        // It keeps state restoration working if you resume the task, and then cancel on the face calibration step.
+        if (_removedManagedVideoRecordingStepResult != nil && !removedResultFound) {
+            [updatedStepResults addObject:_removedManagedVideoRecordingStepResult];
+        }
+        taskResult.results = [updatedStepResults copy];
     }
-    // The following ensures the removed result is re-added if not seen in the newest task run.
-    // It keeps state restoration working if you resume the task, and then cancel on the face calibration step.
-    if (_removedManagedVideoRecordingStepResult != nil && !removedResultFound) {
-        [updatedStepResults addObject:_removedManagedVideoRecordingStepResult];
-    }
-    taskResult.results = [updatedStepResults copy];
+    
     return taskResult;
 }
 
