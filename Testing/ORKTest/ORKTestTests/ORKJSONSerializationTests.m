@@ -559,6 +559,7 @@ ORK_MAKE_TEST_INIT(ORKNoAnswer, (^{ return [ORKDontKnowAnswer answer]; }));
                                           @"ORKWebViewStep.customViewProvider",
                                           @"ORKFaceDetectionBlurFooterView.startStopButton",
                                           @"ORKFaceDetectionBlurFooterView.timerLabel",
+                                          @"ORKLearnMoreItem.delegate"
                                           ];
         _allowedUnTouchedKeys = @[@"_class"];
         _mutuallyExclusiveProperties = @{
@@ -1349,7 +1350,7 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
                                                                              @"ORKWalkingTaskStepViewController" : @"ORKWalkingTaskStep",
                                                                              @"ORKTableStepViewController" : @"ORKTableStep",
                                                                              @"ORKdBHLToneAudiometryStepViewController" : @"ORKdBHLToneAudiometryStep",
-
+                                                                             @"ORKdBHLToneAudiometryCompletionStepViewController" : @"ORKdBHLToneAudiometryCompletionStep",
                                                                              @"ORKSecondaryTaskStepViewController" : @"ORKSecondaryTaskStep",
                                                                              @"ORKHeadphoneDetectStepViewController" : @"ORKHeadphoneDetectStep",
                                                                              @"ORKWebViewStepViewController": @"ORKWebViewStep",

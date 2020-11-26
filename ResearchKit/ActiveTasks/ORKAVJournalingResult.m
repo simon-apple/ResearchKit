@@ -44,9 +44,11 @@
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
+        NSArray<Class> *recalibrationTimestampClasses = @[[NSArray class], [NSDictionary class], [NSString class]];
+        NSArray<Class> *cameraIntrinsicsClasses = @[[NSArray class], [NSNumber class]];
         ORK_DECODE_OBJ_ARRAY(aDecoder, filenames, NSString);
-        ORK_DECODE_OBJ_ARRAY(aDecoder, recalibrationTimeStamps, NSDictionary);
-        ORK_DECODE_OBJ_ARRAY(aDecoder, cameraIntrinsics, NSArray);
+        ORK_DECODE_OBJ_CLASSES(aDecoder, recalibrationTimeStamps, recalibrationTimestampClasses);
+        ORK_DECODE_OBJ_CLASSES(aDecoder, cameraIntrinsics, cameraIntrinsicsClasses);
     }
     return self;
 }

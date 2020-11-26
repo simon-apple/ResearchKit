@@ -361,6 +361,10 @@
 "dBHL_PROGRESS_COMPLETION_%@" = "%@ Complete";
 "dBHL_TONE_AUDIOMETRY_TESTING_IN_PROGRESS" = "TEST IN PROGRESS";
 "dBHL_TONE_AUDIOMETRY_TESTING_IN_PROGRESS_FMT" = "TEST IN PROGRESS \U2022 %@";
+"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_TITLE" = "This Test Requires Compatible Headphones";
+"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_TEXT" = "Thank you for participating in the Apple Hearing Study.\n\nTo do this task at a later time, connect Apple EarPods, AirPods, or AirPods Pro to your device.";
+"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_DO_LATER" = "Finish task later";
+"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_SKIP" = "Skip this task";
 
 /* Headphones. */
 "AIRPODS" = "AirPods";
@@ -377,7 +381,7 @@
 "NOISE_CANCELLATION_REQUIRED" = "Noise cancellation required";
 "BOTH_BUDS_IN_EAR_REQUIRED" = "Put both AirPods in to proceed.";
 "HEADPHONE_DETECT_TEXT" = "To ensure accurate results, this task requires Apple EarPods, AirPods, or AirPods Pro.";
-"SKIP_TO_END_TEXT" = "No Compatible Headphones";
+"DBHL_HEADPHONES_DETECT_SKIP" = "No Compatible Headphones";
 "SHARED_AUDIO_ALERT" = "Shared audio must be turned off.%@To turn off shared audio, open Control Center and tap %@. Then tap the %@ to turn off sharing a particular set of headphones.";
 
 /* Spatial span memory active task. */
@@ -627,19 +631,16 @@
 
 /* AV Journaling Predefined Task */
 "AV_JOURNALING_PREDEFINED_TASK_FACE_DETECTION_STEP_TITLE" = "Video Journal";
-"AV_JOURNALING_PREDEFINED_TASK_INSTRUCTION_STEP_TITLE" = "Video Journal";
-"AV_JOURNALING_PREDEFINED_TASK_INSTRUCTION_STEP_TEXT" = "You will be asked %lu questions. Think about each question as long as needed and then speak your answer out loud";
 "AV_JOURNALING_PREDEFINED_TASK_COMPLETION_TITLE" = "Video Journal Complete";
 "AV_JOURNALING_PREDEFINED_TASK_COMPLETION_TEXT" = "Thank you for participating.";
 "AV_JOURNALING_PREDEFINED_LOW_MEMORY_TITLE" = "Additional storage is required to begin this task.";
 "AV_JOURNALING_PREDEFINED_LOW_MEMORY_TEXT" = "Your iPhone may need more available storage to begin this task. Please follow the recommendations in Settings and try again.";
 "AV_JOURNALING_PREDEFINED_LOW_MEMORY_SETTINGS_LINK_TEXT" = "Optimize Storage in Settings.";
 "AV_JOURNALING_PREDEFINED_AUDIO_VIDEO_ACCESS_TITLE" = "Camera and Microphone access not enabled.";
-"AV_JOURNALING_PREDEFINED_AUDIO_VIDEO_ACCESS_TEXT" = "Research app needs Camera and Microphone access to begin your video journal. Please allow access in settings and try again.";
+"AV_JOURNALING_PREDEFINED_AUDIO_VIDEO_ACCESS_TEXT" = "Research app needs Camera and Microphone access to begin your video journal. Please allow access in Settings and try again.";
 "AV_JOURNALING_PREDEFINED_AUDIO_VIDEO_ACCESS_SETTINGS_LINK_TEXT" = "Enable Access in Settings.";
 
 /* AV Journaling Face Detection Step */
-"AV_JOURNALING_FACE_DETECTION_STEP_NEXT_BUTTON_TEXT" = "Continue";
 "AV_JOURNALING_FACE_DETECTION_STEP_FACE_DETECTED_TITLE" = "Ready to Go ";
 "AV_JOURNALING_FACE_DETECTION_STEP_FACE_DETECTED_TEXT" = "While recording your answers, try to keep your face in this position.";
 "AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TITLE" = "Stay Centered";
@@ -648,16 +649,10 @@
 "AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TITLE_RECALIBRATION" = "We Lost You";
 "AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TEXT_RECALIBRATION" = "Try adjusting the position of your iPhone to bring your face back into view.";
 "AV_JOURNALING_FACE_DETECTION_STEP_TIME_LIMIT_REACHED_TITLE" = "Video Journal Incomplete";
-"AV_JOURNALING_FACE_DETECTION_START_TIME" = "00:00";
 
 /* AV Journaling Step */
-"AV_JOURNALING_STEP_NEXT_BUTTON_TEXT" = "Next Question";
 "AV_JOURNALING_STEP_FINISH_LATER_BUTTON_TEXT" = "Finish Later";
 "AV_JOURNALING_STEP_RECORDING_LABEL_TEXT" = "RECORDING";
-"AV_JOURNALING_STEP_TITLE" = "Video Journal";
-"AV_JOURNALING_STEP_START_TIME" = "00:00";
-"AV_JOURNALING_STEP_NO_FACE_DETECTED_TITLE" = "No Face Detected";
-"AV_JOURNALING_STEP_NO_FACE_DETECTED_TEXT" = "Please center your face in the screen";
 "AV_JOURNALING_STEP_CAMERA_ERROR" = "Can’t access front camera. This step cannot be completed.";
 "AV_JOURNALING_STEP_AUDIO_ERROR" = "Can’t access audio. This step cannot be completed.";
 "AV_JOURNALING_STEP_NEXT_QUESTION_MESSAGE" = "NEXT QUESTION IN %@";
@@ -667,9 +662,7 @@
 "AV_JOURNALING_STEP_ALERT_FINISH_LATER_BUTTON_TEXT" = "Finish Later";
 "AV_JOURNALING_STEP_ALERT_CANCEL_BUTTON_TEXT" = "Cancel";
 "AV_JOURNALING_STEP_FINISH_LATER_TITLE" = "You’ve stopped this task";
-"AV_JOURNALING_STEP_FINISH_LATER_TEXT" = "You finished %lu of %lu journal entries. You can finish the remaining %@ when you’re ready.";
-"AV_JOURNALING_STEP_FINISH_LATER_ENTRY_TEXT" = "entry";
-"AV_JOURNALING_STEP_FINISH_LATER_ENTRIES_TEXT" = "entries";
+"AV_JOURNALING_STEP_FINISH_LATER_TEXT" = "You can finish the rest of this task when you’re ready.";
 
 /* Tinnitus Predefined Task */
 "TINNITUS_INTRO_TITLE" = "Introduction";

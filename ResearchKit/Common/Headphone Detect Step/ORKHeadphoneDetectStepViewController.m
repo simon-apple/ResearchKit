@@ -41,6 +41,7 @@
 #import "ORKNavigationContainerView_Internal.h"
 #import "ORKStepHeaderView_Internal.h"
 #import "ORKStepContainerView_Private.h"
+#import "ORKdBHLToneAudiometryCompletionStep.h"
 
 #import "ORKInstructionStepViewController_Internal.h"
 #import "ORKStepViewController_Internal.h"
@@ -709,6 +710,10 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     NSUInteger _wirelessSplitterNumberOfDevices;
 }
 
+- (BOOL)isDetectingAppleHeadphones {
+    return [[[self detectStep] supportedHeadphoneChipsetTypes] isEqualToSet:[ORKHeadphoneDetector appleHeadphoneSet]];
+}
+
 - (ORKHeadphoneDetectStep *)detectStep {
     return (ORKHeadphoneDetectStep *)[self step];
 }
@@ -727,16 +732,18 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
 
 - (void)noHeadphonesButtonPressed:(id)sender
 {
+    NSString *stepIdentifier = @"";
     if ([self.step.context isKindOfClass:[ORKSpeechInNoisePredefinedTaskContext class]])
     {
         [(ORKSpeechInNoisePredefinedTaskContext *)self.step.context didSkipHeadphoneDetectionStepForTask:self.step.task];
+        stepIdentifier = @"ORKSpeechInNoiseStepIdentifierHeadphonesRequired";
+    }
+    else if ([self isDetectingAppleHeadphones]) {
+        [(ORKdBHLTaskContext *)self.step.context didSkipHeadphoneDetectionStepForTask:self.taskViewController.task];
+        stepIdentifier = [ORKdBHLTaskContext dBHLToneAudiometryCompletionStepIdentifier];
     }
     
-    [[self taskViewController] flipToPageWithIdentifier:@"ORKSpeechInNoiseStepIdentifierHeadphonesRequired" forward:YES animated:NO];
-}
-
-- (void)goToEnd:(id)sender {
-    [[self taskViewController] flipToLastPage];
+    [[self taskViewController] flipToPageWithIdentifier:stepIdentifier forward:YES animated:NO];
 }
 
 - (void)viewDidLoad {
@@ -765,11 +772,11 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
         skipButtonItem.target = self;
         skipButtonItem.action = @selector(noHeadphonesButtonPressed:);
     }
-    else
-    {
-        [skipButtonItem setTitle:ORKLocalizedString(@"SKIP_TO_END_TEXT", nil)];
+    else if ([self isDetectingAppleHeadphones] && !self.step.context) {
+        self.step.context = [[ORKdBHLTaskContext alloc] init];
+        [skipButtonItem setTitle:ORKLocalizedString(@"DBHL_HEADPHONES_DETECT_SKIP", nil)];
         skipButtonItem.target = self;
-        skipButtonItem.action = @selector(goToEnd:);
+        skipButtonItem.action = @selector(noHeadphonesButtonPressed:);
     }
 }
 

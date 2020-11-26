@@ -33,23 +33,140 @@ import SwiftUI
 
 struct TextChoiceCell: View {
     
+    private var selected: Bool = false
+    
     var title: String
     
     var selection: (Bool) -> Void
     
-    init(title: String, selection: @escaping (Bool) -> Void) {
+    init(title: String, selected: Bool = false, selection: @escaping (Bool) -> Void) {
         self.title = title
         self.selection = selection
+        self.selected = selected
     }
     
     @ViewBuilder
     var body: some View {
         Button(action: {
-            selection(true)
+            selection(!selected)
         }) {
             HStack {
                 Text(title)
                     .frame(maxWidth: .infinity, alignment: .leading)
+                Image(systemName: selected ? "checkmark.circle.fill" : "circle")
+                    .frame(alignment: .trailing)
+                    .imageScale(.large)
+                    .foregroundColor(selected ? .blue : .white)
+            }
+        }
+    }
+}
+
+class QuestionStepViewModel: ObservableObject {
+    
+    @ObservedObject
+    private(set) var step: ORKQuestionStep
+    
+    @ObservedObject
+    private(set) var result: ORKStepResult
+      
+    @Published
+    var selectedIndex: Int = -1
+    
+    var progress: Progress?
+    
+    lazy var textChoiceAnswers: [(Int, ORKTextChoice)] = {
+        
+        if let textChoiceAnswerFormat = step.answerFormat as? ORKTextChoiceAnswerFormat {
+            return Array(zip(textChoiceAnswerFormat.textChoices.indices,
+                             textChoiceAnswerFormat.textChoices))
+        } else {
+            return []
+        }
+        
+    }()
+    
+    init(step: ORKQuestionStep, result: ORKStepResult) {
+        self.step = step
+        self.result = result
+    }
+    
+    func setChildResult(_ res: ORKResult) {
+        res.startDate = result.startDate
+        res.endDate = Date()
+        result.results = [res]
+    }
+}
+
+internal struct _QuestionStepView: View {
+    
+    enum Constants {
+        static let questionToAnswerPadding: CGFloat = 12.0
+    }
+    
+    @ObservedObject
+    private var viewModel: QuestionStepViewModel
+    
+    @Environment(\.completion) var completion
+    
+    init(viewModel: QuestionStepViewModel) {
+        self.viewModel = viewModel
+    }
+    
+    var body: some View {
+        
+        VStack {
+            
+            if let progress = viewModel.progress {
+                Text("\(progress.index) OF \(progress.count)".uppercased())
+                    .foregroundColor(.gray)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            
+            if let stepTitle = viewModel.step.title, !stepTitle.isEmpty {
+                Text(stepTitle)
+                    .font(.body)
+                    .fontWeight(.semibold)
+                    .multilineTextAlignment(.leading)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            
+            if let stepQuestion = viewModel.step.question, !stepQuestion.isEmpty {
+                Text(stepQuestion)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            
+            Spacer()
+                .frame(height: Constants.questionToAnswerPadding)
+            
+            if let textChoices = viewModel.textChoiceAnswers {
+                
+                ForEach(textChoices, id: \.1) { index, textChoice in
+                    
+                    TextChoiceCell(title: textChoice.text,
+                                   selected: index == viewModel.selectedIndex) { selected in
+                        
+                        if selected {
+                            
+                            viewModel.selectedIndex = index
+                            
+                            let choiceResult = ORKChoiceQuestionResult(identifier:
+                                                                        viewModel.step.identifier)
+                            choiceResult.choiceAnswers = [textChoice.value]
+                            viewModel.setChildResult(choiceResult)
+                            
+                            // 250 ms delay
+                            DispatchQueue
+                                .main
+                                .asyncAfter(deadline: DispatchTime
+                                                .now()
+                                                .advanced(by: .milliseconds(250))) {
+
+                                    completion()
+                                }
+                        }
+                    }
+                }
             }
         }
     }
@@ -58,9 +175,8 @@ struct TextChoiceCell: View {
 @available(watchOS 6.0, *)
 public struct QuestionStepView: View {
 
-    enum Constants {
-        static let questionToAnswerPadding: CGFloat = 12.0
-    }
+    @EnvironmentObject
+    private var taskManager: TaskManager
     
     @ObservedObject
     public private(set) var step: ORKQuestionStep
@@ -68,49 +184,26 @@ public struct QuestionStepView: View {
     @ObservedObject
     public private(set) var result: ORKStepResult
     
-    @EnvironmentObject
-    private var completion: CompletionObject
+    @Environment(\.completion) var completion
     
     init(_ step: ORKQuestionStep, result: ORKStepResult) {
         self.step = step
         self.result = result
     }
     
+    private var model: QuestionStepViewModel? {
+        
+        if case let ViewModel.questionStep(model) = taskManager.viewModelForStep(step) {
+            return model
+        } else {
+            return nil
+        }
+    }
+     
     public var body: some View {
-        VStack {
-            if let stepTitle = step.title, !stepTitle.isEmpty {
-                Text(stepTitle)
-                    .font(.body)
-                    .fontWeight(.semibold)
-                    .multilineTextAlignment(.center)
-                    .frame(maxWidth: .infinity, alignment: .center)
-            }
-            if let stepQuestion = step.question, !stepQuestion.isEmpty {
-                Text(stepQuestion)
-                    .frame(maxWidth: .infinity, alignment: .center)
-            }
-            Spacer()
-                .frame(height: Constants.questionToAnswerPadding)
-            
-            if let textChoiceAnswerFormat = step.answerFormat as? ORKTextChoiceAnswerFormat {
-                
-                ForEach(textChoiceAnswerFormat.textChoices, id: \.self) { textChoice in
-                    
-                    TextChoiceCell(title: textChoice.text) { selected in
-                        
-                        if selected {
-                            
-                            let choiceResult = ORKChoiceQuestionResult(identifier: step.identifier)
-                            choiceResult.choiceAnswers = [textChoice.value]
-                            choiceResult.startDate = result.startDate
-                            choiceResult.endDate = Date()
-                            result.results = [choiceResult]
-                            
-                            completion.run()
-                        }
-                    }
-                }
-            }
+        if let viewModel = model {
+            _QuestionStepView(viewModel: viewModel)
+                .environment(\.completion, completion)
         }
     }
 }

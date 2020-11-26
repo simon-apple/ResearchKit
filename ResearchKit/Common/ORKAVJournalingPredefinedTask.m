@@ -40,8 +40,9 @@
 #import "ORKStepNavigationRule.h"
 #import "ORKLearnMoreItem.h"
 #import "ORKLearnMoreInstructionStep.h"
+#import "ORKLearnMoreView.h"
 
-static const CGFloat MinMBLimitForTask = 500;
+static const CGFloat MinMBLimitForTask = 3000;
 static const CGFloat MBConversionConstant = 1000000;
 
 ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierFaceDetection = @"ORKAVJournalingStepIdentifierFaceDetection";
@@ -51,6 +52,11 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierFinishLaterComp
 ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierFinishLaterFaceDetection = @"ORKAVJournalingStepIdentifierFinishLaterFaceDetection";
 ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierLowMemoryCompletion = @"ORKAVJournalingStepIdentifierLowMemoryCompletion";
 ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierVideoAudioAccessDeniedCompletion = @"ORKAVJournalingStepIdentifierVideoAudioAccessDeniedCompletion";
+ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierLowStorageLearnMore = @"ORKAVJournalingStepIdentifierLowStorageLearnMore";
+ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierInstructionStepPlaceHolderVideoAudioAccessDenied = @"ORKAVJournalingStepIdentifierInstructionStepPlaceHolderVideoAudioAccessDenied";
+
+@interface ORKAVJournalingPredfinedTaskContext()<ORKLearnMoreViewDelegate>
+@end
 
 @implementation ORKAVJournalingPredfinedTaskContext
 
@@ -62,13 +68,9 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierVideoAudioAcces
         // Add a navigation rule to end the current task.
         ORKNavigableOrderedTask *currentTask = (ORKNavigableOrderedTask *)task;
         
-        int completedStepCount = currentStepIdentifier == ORKAVJournalingStepIdentifierFaceDetection ? 0 : [self numberOfCompletedAVJournalingStepsFromTask:currentTask currentStepIdentifier:currentStepIdentifier];
-        int totalAVJournalingSteps = [self totalAVJournalingStepsWithinTask:currentTask];
-        NSString *entriesText = (totalAVJournalingSteps - completedStepCount) > 1 ? ORKLocalizedString(@"AV_JOURNALING_STEP_FINISH_LATER_ENTRIES_TEXT", nil) : ORKLocalizedString(@"AV_JOURNALING_STEP_FINISH_LATER_ENTRY_TEXT", nil);
-        
         ORKCompletionStep *step = [[ORKCompletionStep alloc] initWithIdentifier:ORKAVJournalingStepIdentifierMaxLimitHitCompletion];
         step.title = ORKLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_TIME_LIMIT_REACHED_TITLE", nil);
-        step.text = [NSString stringWithFormat:ORKLocalizedString(@"AV_JOURNALING_STEP_FINISH_LATER_TEXT", nil), completedStepCount, totalAVJournalingSteps, entriesText];
+        step.text = ORKLocalizedString(@"AV_JOURNALING_STEP_FINISH_LATER_TEXT", nil);
         step.optional = NO;
         step.reasonForCompletion = ORKTaskViewControllerFinishReasonDiscarded;
         [currentTask addStep:step];
@@ -85,13 +87,9 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierVideoAudioAcces
         // Add a navigation rule to end the current task.
         ORKNavigableOrderedTask *currentTask = (ORKNavigableOrderedTask *)task;
         
-        int completedStepCount = [self numberOfCompletedAVJournalingStepsFromTask:currentTask currentStepIdentifier:currentStepIdentifier];
-        int totalAVJournalingSteps = [self totalAVJournalingStepsWithinTask:currentTask];
-        NSString *entriesText = (totalAVJournalingSteps - completedStepCount) > 1 ? ORKLocalizedString(@"AV_JOURNALING_STEP_FINISH_LATER_ENTRIES_TEXT", nil) : ORKLocalizedString(@"AV_JOURNALING_STEP_FINISH_LATER_ENTRY_TEXT", nil);
-        
         ORKCompletionStep *step = [[ORKCompletionStep alloc] initWithIdentifier:ORKAVJournalingStepIdentifierFinishLaterCompletion];
         step.title = ORKLocalizedString(@"AV_JOURNALING_STEP_FINISH_LATER_TITLE", nil);
-        step.text = [NSString stringWithFormat:ORKLocalizedString(@"AV_JOURNALING_STEP_FINISH_LATER_TEXT", nil), completedStepCount, totalAVJournalingSteps, entriesText];
+        step.text = ORKLocalizedString(@"AV_JOURNALING_STEP_FINISH_LATER_TEXT", nil);
         step.optional = NO;
         step.reasonForCompletion = ORKTaskViewControllerFinishReasonDiscarded;
         [currentTask addStep:step];
@@ -107,17 +105,19 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierVideoAudioAcces
     // Add a navigation rule to end the current task.
     ORKNavigableOrderedTask *currentTask = (ORKNavigableOrderedTask *)task;
     
-    ORKInstructionStep *instructionStep = [[ORKInstructionStep alloc] initWithIdentifier:ORKAVJournalingStepIdentifierVideoAudioAccessDeniedCompletion];
-    instructionStep.title = ORKLocalizedString(@"AV_JOURNALING_PREDEFINED_AUDIO_VIDEO_ACCESS_TITLE", nil);
-    instructionStep.text = ORKLocalizedString(@"AV_JOURNALING_PREDEFINED_AUDIO_VIDEO_ACCESS_TEXT", nil);
+    ORKCompletionStep *completionStep = [[ORKCompletionStep alloc] initWithIdentifier:ORKAVJournalingStepIdentifierVideoAudioAccessDeniedCompletion];
+    completionStep.title = ORKLocalizedString(@"AV_JOURNALING_PREDEFINED_AUDIO_VIDEO_ACCESS_TITLE", nil);
+    completionStep.text = ORKLocalizedString(@"AV_JOURNALING_PREDEFINED_AUDIO_VIDEO_ACCESS_TEXT", nil);
+    completionStep.reasonForCompletion = ORKTaskViewControllerFinishReasonDiscarded;
     
     if (@available(iOS 13.0, *)) {
-        instructionStep.iconImage = [UIImage systemImageNamed:@"video.slash"];
+        completionStep.iconImage = [UIImage systemImageNamed:@"video.slash"];
     }
     
-    ORKLearnMoreInstructionStep *learnMoreInstructionStep = [[ORKLearnMoreInstructionStep alloc] initWithIdentifier:@"InstructionStepPlaceHolderVideoAudioAccessDenied"];
+    ORKLearnMoreInstructionStep *learnMoreInstructionStep = [[ORKLearnMoreInstructionStep alloc] initWithIdentifier:ORKAVJournalingStepIdentifierInstructionStepPlaceHolderVideoAudioAccessDenied];
     ORKLearnMoreItem *learnMoreItem = [[ORKLearnMoreItem alloc] initWithText:ORKLocalizedString(@"AV_JOURNALING_PREDEFINED_AUDIO_VIDEO_ACCESS_SETTINGS_LINK_TEXT", nil)
                                                     learnMoreInstructionStep:learnMoreInstructionStep];
+    learnMoreItem.delegate = self;
     
     ORKBodyItem *settingsLinkBodyItem = [[ORKBodyItem alloc] initWithText:nil
                                                                detailText:nil
@@ -125,13 +125,13 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierVideoAudioAcces
                                                             learnMoreItem:learnMoreItem
                                                             bodyItemStyle:ORKBodyItemStyleText];
     
-    instructionStep.bodyItems = @[settingsLinkBodyItem];
+    completionStep.bodyItems = @[settingsLinkBodyItem];
 
     
-    [currentTask addStep:instructionStep];
+    [currentTask addStep:completionStep];
 
     ORKDirectStepNavigationRule *endNavigationRule = [[ORKDirectStepNavigationRule alloc] initWithDestinationStepIdentifier:ORKNullStepIdentifier];
-    [currentTask setNavigationRule:endNavigationRule forTriggerStepIdentifier:instructionStep.identifier];
+    [currentTask setNavigationRule:endNavigationRule forTriggerStepIdentifier:completionStep.identifier];
 }
 
 #pragma mark - Helper Methods (private)
@@ -164,6 +164,14 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierVideoAudioAcces
     return total;
 }
 
+#pragma mark - ORKLearnMoreViewDelegate
+
+- (void)learnMoreButtonPressedWithStep:(ORKLearnMoreInstructionStep *)learnMoreStep {
+    if ([learnMoreStep.identifier isEqual:ORKAVJournalingStepIdentifierInstructionStepPlaceHolderVideoAudioAccessDenied]) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString] options:@{} completionHandler:^(BOOL success) {}];
+    }
+}
+
 @end
 
 
@@ -183,15 +191,16 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierVideoAudioAcces
     uint64_t totalFreeSpace = [self getFreeDiskspaceInMB];
     
     if (totalFreeSpace < MinMBLimitForTask) {
-        ORKInstructionStep *instructionStep = [[ORKInstructionStep alloc] initWithIdentifier:ORKAVJournalingStepIdentifierLowMemoryCompletion];
-        instructionStep.title = ORKLocalizedString(@"AV_JOURNALING_PREDEFINED_LOW_MEMORY_TITLE", nil);
-        instructionStep.text = ORKLocalizedString(@"AV_JOURNALING_PREDEFINED_LOW_MEMORY_TEXT", nil);
+        ORKCompletionStep *completionStep = [[ORKCompletionStep alloc] initWithIdentifier:ORKAVJournalingStepIdentifierLowMemoryCompletion];
+        completionStep.title = ORKLocalizedString(@"AV_JOURNALING_PREDEFINED_LOW_MEMORY_TITLE", nil);
+        completionStep.text = ORKLocalizedString(@"AV_JOURNALING_PREDEFINED_LOW_MEMORY_TEXT", nil);
+        completionStep.reasonForCompletion = ORKTaskViewControllerFinishReasonDiscarded;
         
         if (@available(iOS 13.0, *)) {
-            instructionStep.iconImage = [UIImage systemImageNamed:@"bin.xmark"];
+            completionStep.iconImage = [UIImage systemImageNamed:@"bin.xmark"];
         }
         
-        ORKLearnMoreInstructionStep *learnMoreInstructionStep = [[ORKLearnMoreInstructionStep alloc] initWithIdentifier:@"InstructionStepPlaceHolderLowMemory"];
+        ORKLearnMoreInstructionStep *learnMoreInstructionStep = [[ORKLearnMoreInstructionStep alloc] initWithIdentifier:ORKAVJournalingStepIdentifierLowStorageLearnMore];
         ORKLearnMoreItem *learnMoreItem = [[ORKLearnMoreItem alloc] initWithText:ORKLocalizedString(@"AV_JOURNALING_PREDEFINED_LOW_MEMORY_SETTINGS_LINK_TEXT", nil)
                                                         learnMoreInstructionStep:learnMoreInstructionStep];
         
@@ -201,9 +210,9 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierVideoAudioAcces
                                                                 learnMoreItem:learnMoreItem
                                                                 bodyItemStyle:ORKBodyItemStyleText];
         
-        instructionStep.bodyItems = @[settingsLinkBodyItem];
+        completionStep.bodyItems = @[settingsLinkBodyItem];
 
-        steps = [NSArray arrayWithObject:instructionStep];
+        steps = [NSArray arrayWithObject:completionStep];
         
     } else {
        steps = [ORKAVJournalingPredefinedTask predefinedStepsWithManifestPath:journalQuestionSetManifestPath
@@ -458,6 +467,5 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierVideoAudioAcces
 - (NSUInteger)hash {
     return [super hash] ^ [_journalQuestionSetManifestPath hash] ^ [_prependSteps hash] ^ [_appendSteps hash];
 }
-
 
 @end

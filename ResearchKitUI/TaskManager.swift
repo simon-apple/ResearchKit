@@ -53,7 +53,13 @@ open class TaskManager: ObservableObject {
     public private(set) var result: ORKTaskResult
 
     private(set) var task: ORKOrderedTask
-
+    
+    @Published
+    internal private(set) var completedSteps: Set<ORKStep> = []
+    
+    @Published
+    var viewModels: [String: ViewModel] = [:]
+    
     public init(task: ORKOrderedTask) {
         self.task = task
         self.result = ORKTaskResult(taskIdentifier: self.task.identifier,
@@ -71,5 +77,49 @@ open class TaskManager: ObservableObject {
             self.result.results?.append(result)
             return result
         }
+    }
+}
+
+extension TaskManager {
+    
+    func progressForQuestionStep(_ step: ORKStep) -> Progress? {
+        
+        let questionSteps = task.steps.compactMap { $0 as? ORKQuestionStep }
+        
+        guard let questionStep = step as? ORKQuestionStep,
+              let index = questionSteps.firstIndex(of: questionStep) else {
+            
+            return nil
+        }
+        
+        return (index + 1, questionSteps.count)
+    }
+}
+
+internal extension TaskManager {
+    
+    func markStepComplete(_ step: ORKStep) {
+        completedSteps.insert(step)
+    }
+}
+
+internal extension TaskManager {
+    
+    // Since we are supporting watchOS 6.0, we do not have access to use @StateObject (watchOS 7.0 +) to support views having thier own models.
+    // Instead, we opt to use the TaskManager as the source of truth, and therefore supply the views with a view model.
+    
+    func viewModelForStep(_ step: ORKStep) -> ViewModel {
+        
+        if let viewModel = viewModels[step.identifier] {
+            return viewModel
+        } else if let questionStep = step as? ORKQuestionStep {
+            let viewModel = QuestionStepViewModel(step: questionStep,
+                                                  result: getOrCreateResult(for: step))
+            viewModel.progress = progressForQuestionStep(step)
+            viewModels[step.identifier] = .questionStep(viewModel)
+            return .questionStep(viewModel)
+        }
+        
+        return .none
     }
 }

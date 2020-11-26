@@ -56,6 +56,12 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
     NSUInteger                          _wirelessSplitterNumberOfDevices;
 }
 
++ (NSSet<ORKHeadphoneChipsetIdentifier> *)appleHeadphoneSet {
+    return [NSSet setWithArray:@[ORKHeadphoneChipsetIdentifierLightningEarPods,
+                                ORKHeadphoneChipsetIdentifierAudioJackEarPods,
+                                ORKHeadphoneChipsetIdentifierAirPods]];
+}
+
 - (instancetype)initWithDelegate:(id<ORKHeadphoneDetectorDelegate>)delegate
   supportedHeadphoneChipsetTypes:(NSSet<ORKHeadphoneChipsetIdentifier> *)supportedHeadphoneChipsetTypes {
     self = [super init];
@@ -284,9 +290,7 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
     // If we are supporting any type of headphones, we can still try to classify them!
     if (_supportedHeadphoneChipsetTypes == nil)
     {
-        supportedChipsetTypes = [NSSet setWithArray:@[ORKHeadphoneChipsetIdentifierLightningEarPods,
-                                                      ORKHeadphoneChipsetIdentifierAudioJackEarPods,
-                                                      ORKHeadphoneChipsetIdentifierAirPods]];
+        supportedChipsetTypes = [ORKHeadphoneDetector appleHeadphoneSet];
     }
     
     NSSet *supportedRoutes = [supportedChipsetTypes objectsPassingTest:^BOOL(NSString * _Nonnull obj, BOOL * _Nonnull routesStop) {
