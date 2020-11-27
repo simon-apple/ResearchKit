@@ -49,6 +49,10 @@ static const CGFloat activityIndicatorPadding = 24.0;
     BOOL _continueOrSkipButtonJustTapped;
     BOOL _removeVisualEffect;
     NSMutableArray *_regularConstraints;
+    
+    CGFloat _savedHeight;
+    BOOL _shrinked;
+    NSLayoutConstraint *_heightConstraint;
 }
 
 - (instancetype)init {
@@ -61,6 +65,7 @@ static const CGFloat activityIndicatorPadding = 24.0;
         self.preservesSuperviewLayoutMargins = NO;
         _appTintColor = nil;
         self.skipButtonStyle = ORKNavigationContainerButtonStyleTextBold;
+        _shrinked = NO;
         [self updateContinueAndSkipEnabled];
     }
     return self;
@@ -340,6 +345,18 @@ static const CGFloat activityIndicatorPadding = 24.0;
 - (void)setContinueButtonItem:(UIBarButtonItem *)continueButtonItem {
     _continueButtonItem = continueButtonItem;
     [self updateContinueAndSkipEnabled];
+}
+
+- (void)setShrinked:(BOOL)shrinked {
+    if (!_heightConstraint) {
+        _heightConstraint = [self.heightAnchor constraintEqualToConstant:0];
+    }
+    _shrinked = shrinked;
+    _heightConstraint.active = _shrinked;
+}
+
+- (BOOL)isShrinked {
+    return _shrinked;
 }
 
 - (void)setUpConstraints {

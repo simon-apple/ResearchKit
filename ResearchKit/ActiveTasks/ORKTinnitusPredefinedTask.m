@@ -34,6 +34,11 @@
 #import "ORKCompletionStep.h"
 #import "ORKQuestionStep.h"
 
+#import "ORKTinnitusPureToneInstructionStep.h"
+#import "ORKTinnitusPureToneStep.h"
+#import "ORKTinnitusCalibrationStep.h"
+#import "ORKTinnitusTypeStep.h"
+
 #import <ResearchKit/ResearchKit_Private.h>
 
 @interface ORKTinnitusPredefinedTask () {
@@ -55,6 +60,13 @@
     ORKCompletionStep *_surveyCompletion;
     
     ORKInstructionStep *_testingInstruction;
+    ORKInstructionStep *_beforeStart;
+    ORKInstructionStep *_understanding;
+    ORKHeadphoneDetectStep *_headphone;
+    ORKEnvironmentSPLMeterStep *_splmeter;
+    ORKTinnitusTypeStep *_tinnitusType;
+    ORKTinnitusCalibrationStep *_calibration;
+    ORKTinnitusPureToneInstructionStep *_pitchMatching;
 }
 
 @end
@@ -99,6 +111,12 @@
             }
             // If user answers ‘No’ or ‘I prefer not to answer’ we jump the other survey questions
             return self.surveyQuestion10;
+        } else if ([identifier isEqualToString:ORKTinnitusBeforeStartStepIdentifier]) {
+#if TARGET_IPHONE_SIMULATOR
+            return self.tinnitusType;
+#else
+            return self.headphone;
+#endif
         }
     }
 
@@ -141,6 +159,11 @@
         ORKTinnitusSurvey8StepIdentifier: self.testingInstruction,
         ORKTinnitusSurvey9StepIdentifier: self.surveyQuestion10,
         ORKTinnitusSurvey10StepIdentifier: self.testingInstruction,
+        ORKTinnitusTestingInstructionStepIdentifier: self.beforeStart,
+        ORKTinnitusUnderstandingStepIdentifier: self.headphone,
+        ORKTinnitusHeadphoneDetectStepIdentifier: self.splmeter,
+        ORKTinnitusSPLMeterStepIdentifier: self.tinnitusType,
+        ORKTinnitusTypeStepIdentifier: self.calibration,
     };
 }
 
@@ -505,6 +528,101 @@
         _testingInstruction.bodyItems = @[item1,item2, item3, item4, item5];
     }
     return _testingInstruction;
+}
+
+- (ORKInstructionStep *)beforeStart {
+    if (_beforeStart == nil) {
+        _beforeStart = [[ORKInstructionStep alloc] initWithIdentifier:ORKTinnitusBeforeStartStepIdentifier];
+        _beforeStart.title = ORKLocalizedString(@"TINNITUS_BEFORE_TITLE", nil);
+        _beforeStart.detailText = ORKLocalizedString(@"TINNITUS_BEFORE_TEXT", nil);
+        _beforeStart.shouldTintImages = YES;
+        
+        UIImage *img1;
+        UIImage *img2;
+        
+        if (@available(iOS 13.0, *)) {
+            img1 = [UIImage systemImageNamed:@"1.circle.fill"];
+            img2 = [UIImage systemImageNamed:@"2.circle.fill"];
+        } else {
+            img1 = [[UIImage imageNamed:@"1.circle.fill" inBundle:ORKBundle() compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+            img2 = [[UIImage imageNamed:@"2.circle.fill" inBundle:ORKBundle() compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        }
+        
+        ORKBodyItem * item1 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"TINNITUS_BEFORE_BODY_ITEM_TEXT_1", nil) detailText:nil image:img1 learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
+        ORKBodyItem * item2 = [[ORKBodyItem alloc] initWithHorizontalRule];
+        ORKBodyItem * item3 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"TINNITUS_BEFORE_BODY_ITEM_TEXT_2", nil) detailText:nil image:img2 learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
+        _beforeStart.bodyItems = @[item1,item2, item3];
+    }
+    return _beforeStart;
+}
+
+- (ORKHeadphoneDetectStep *)headphone {
+    if (_headphone == nil) {
+        _headphone= [[ORKHeadphoneDetectStep alloc] initWithIdentifier:ORKTinnitusHeadphoneDetectStepIdentifier headphoneTypes:ORKHeadphoneTypesSupported];
+        _headphone.title = ORKLocalizedString(@"HEADPHONE_DETECT_TITLE", nil);
+        _headphone.detailText = ORKLocalizedString(@"HEADPHONE_DETECT_TEXT", nil);
+    }
+    return _headphone;
+}
+
+- (ORKEnvironmentSPLMeterStep *)splmeter {
+    if (_splmeter == nil) {
+        _splmeter = [[ORKEnvironmentSPLMeterStep alloc] initWithIdentifier:ORKTinnitusSPLMeterStepIdentifier];
+        _splmeter.requiredContiguousSamples = 5;
+        _splmeter.thresholdValue = 45;//27.9; TODO: review the value with engineers.
+        _splmeter.title = ORKLocalizedString(@"ENVIRONMENTSPL_TITLE_2", nil);
+        _splmeter.text = ORKLocalizedString(@"ENVIRONMENTSPL_INTRO_TEXT_2", nil);
+    }
+    return _splmeter;
+}
+
+- (ORKInstructionStep *)understanding {
+    if (_understanding == nil) {
+        _understanding = [[ORKInstructionStep alloc] initWithIdentifier:ORKTinnitusUnderstandingStepIdentifier];
+        _understanding.title = ORKLocalizedString(@"TINNITUS_UNDERSTANDING_TITLE", nil);
+        
+        ORKBodyItem * item1 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"TINNITUS_UNDERSTANDING_WHITENOISE_TITLE", nil)
+                                                     detailText:ORKLocalizedString(@"TINNITUS_UNDERSTANDING_BODY_ITEM_TEXT_1", nil)
+                                                          image:nil
+                                                  learnMoreItem:nil
+                                                  bodyItemStyle:ORKBodyItemStyleText];
+        ORKBodyItem * item2 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"TINNITUS_PURETONE_TITLE", nil)
+                                                     detailText:ORKLocalizedString(@"TINNITUS_UNDERSTANDING_BODY_ITEM_TEXT_2", nil)
+                                                          image:nil
+                                                  learnMoreItem:nil
+                                                  bodyItemStyle:ORKBodyItemStyleText];
+        _understanding.bodyItems = @[item1,item2];
+    }
+    return _understanding;
+}
+
+- (ORKTinnitusTypeStep *)tinnitusType {
+    if (_tinnitusType == nil) {
+        _tinnitusType = [ORKTinnitusTypeStep stepWithIdentifier:ORKTinnitusTypeStepIdentifier
+                                                          title:ORKLocalizedString(@"TINNITUS_KIND_TITLE", nil)
+                                                      frequency:1000.0];
+        _tinnitusType.text = ORKLocalizedString(@"TINNITUS_KIND_DETAIL", nil);
+        _tinnitusType.optional = NO;
+    }
+    return _tinnitusType;
+}
+
+- (ORKTinnitusCalibrationStep *)calibration {
+    if (_calibration == nil) {
+        _calibration = [[ORKTinnitusCalibrationStep alloc] initWithIdentifier:ORKTinnitusVolumeCalibrationStepIdentifier];
+        _calibration.title = ORKLocalizedString(@"TINNITUS_CALIBRATION_TITLE", nil);
+        _calibration.text = ORKLocalizedString(@"TINNITUS_CALIBRATION_TEXT", nil);
+    }
+    return _calibration;
+}
+
+- (ORKTinnitusPureToneInstructionStep *)pitchMatching {
+    if (_pitchMatching == nil) {
+        _pitchMatching = [[ORKTinnitusPureToneInstructionStep alloc] initWithIdentifier:ORKTinnitusPitchMatchingStepIdentifier];
+        _pitchMatching.title = ORKLocalizedString(@"TINNITUS_FREQUENCY_MATCHING_TITLE", nil);
+        _pitchMatching.text = ORKLocalizedString(@"TINNITUS_FREQUENCY_MATCHING_DETAIL", nil);
+    }
+    return _pitchMatching;
 }
 
 @end

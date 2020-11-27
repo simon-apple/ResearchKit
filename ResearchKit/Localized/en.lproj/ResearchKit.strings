@@ -741,6 +741,98 @@
 "TINNITUS_TESTING_BODY_ITEM_TEXT_2" = "You will adjust the device’s volume.";
 "TINNITUS_TESTING_BODY_ITEM_TEXT_3" = "This should take about 5 minutes.";
 
+"TINNITUS_BEFORE_TITLE" = "Before you start";
+"TINNITUS_BEFORE_TEXT" = "To take this test, you will need to do the following:\n";
+"TINNITUS_BEFORE_BODY_ITEM_TEXT_1" = "Connect Apple EarPods, AirPods, or AirPods Pro.";
+"TINNITUS_BEFORE_BODY_ITEM_TEXT_2" = "Look for a quite environment.";
+
+"TINNITUS_UNDERSTANDING_TITLE" = "Understanding Tinnitus Types";
+"TINNITUS_UNDERSTANDING_WHITENOISE_TITLE" = "\nWhite Noise";
+"TINNITUS_UNDERSTANDING_BODY_ITEM_TEXT_1" = "Et voluptas alias quam voluptatem et animi et. Consequatur ut qui officia temporibus itaque ab quidem perferendis. Eius non beatae repellendus porro.";
+"TINNITUS_UNDERSTANDING_BODY_ITEM_TEXT_2" = "Et voluptas alias quam voluptatem et animi et. Consequatur ut qui officia temporibus itaque ab quidem perferendis. Eius non beatae repellendus porro.";
+
+/* Tinnitus Kind and Calibration step. */
+"TINNITUS_WHITENOISE_TITLE" = "White Noise";
+"TINNITUS_WHITENOISE_DETAIL" = "Sounds like the static from a radio";
+"TINNITUS_PURETONE_TITLE" = "Pure Tone";
+"TINNITUS_PURETONE_DETAIL" = "Sounds like a clean whistling";
+
+"TINNITUS_KIND_TITLE" = "Tinnitus Type";
+"TINNITUS_KIND_DETAIL" = "Listen to the samples and choose the option that best represents the sound quality of your tinnitus.";
+"TINNITUS_INTRO_TITLE" = "Introduction";
+"TINNITUS_FREQUENCY_MATCHING_TITLE" = "Pitch Matching";
+"TINNITUS_FREQUENCY_MATCHING_DETAIL" = "\nThe next step will run in three rounds, to find the best approximation of your tinnitus pitch.\n\nIn each round you will need to identify the tone that better matches the pitch of your tinnitus — there isn’t a correct answer, just choose the best matching.";
+
+"TINNITUS_PURETONE_TITLE2" = "\nPitch Matching";
+"TINNITUS_PURETONE_ROUND_X" = "Round %lu of 3";
+"TINNITUS_PURETONE_TEXT" = "Listen to all samples then select the sound that most resembles your tinnitus experience.";
+
+"TINNITUS_INTRO_TEXT_2" = "Thank you for participating in the Apple Tinnitus Study.\n\nThis test aims to evaluate tinnitus type and the effectiveness of various masking sounds.\n";
+"TINNITUS_BODY_ITEM_TEXT_1" = "You will be asked to fill a questionnaire.";
+"TINNITUS_BODY_ITEM_TEXT_4" = "You will be asked to identify the sound type, pitch and loudness of your tinnitus.";
+"TINNITUS_BODY_ITEM_TEXT_5" = "You will be asked to choose your preferred tinnitus masking sounds.";
+
+"TINNITUS_ROUND_COMPLETE_TITLE" = "Round Completed";
+"TINNITUS_ROUND_COMPLETE_TEXT" = "Thank you for completing this task. Your tinnitus pitch has been saved.";
+"TINNITUS_ROUND_COMPLETE_DETAIL" = "Go through the next rounds to complete the study.";
+
+"TINNITUS_CALIBRATION_TITLE" = "Volume Calibration";
+"TINNITUS_CALIBRATION_TEXT" = "Listen to the sample and adjust the volume to a comfortable level.";
+"TINNITUS_CALIBRATION_TEXT2" = "Use the volume buttons to adjust the levels.";
+
+"TINNITUS_PURETONE_MASKINGSOUND_CAMPFIRE_TITLE" = "Camp Fire";
+"TINNITUS_PURETONE_MASKINGSOUND_RAIN_TITLE" = "Rain";
+"TINNITUS_PURETONE_MASKINGSOUND_OCEAN_TITLE" = "Ocean";
+"TINNITUS_PURETONE_MASKINGSOUND_FOREST_TITLE" = "Forest";
+"TINNITUS_PURETONE_MASKINGSOUND_CROWD_TITLE" = "Crowd Noise";
+"TINNITUS_PURETONE_MASKINGSOUND_AUDIOBOOK_TITLE" = "Audiobook";
+
+"TINNITUS_WHITENOISE_INTRODUCTION_DETAIL" = "Et voluptas alias quam voluptatem et animi et. Consequatur ut qui officia temporibus itaque ab quidem perferendis. Eius non beatae repellendus porro.";
+"TINNITUS_WHITENOISE_MATCHINGSOUND_TITLE" = "Tinnitus Sound Matching";
+"TINNITUS_WHITENOISE_MATCHINGSOUND_TEXT" = "Listen to the samples and choose the sound that most resembles your tinnitus experience.";
+"TINNITUS_WHITENOISE_MATCHINGSOUND_CICACAS_TITLE" = "Cicadas";
+"TINNITUS_WHITENOISE_MATCHINGSOUND_CRICKETS_TITLE" = "Crickets";
+"TINNITUS_WHITENOISE_MATCHINGSOUND_TEAKETTLE_TITLE" = "Tea Kettle";
+
+"TINNITUS_VOLUME_ADJUST_TEXT" = "      Note that you might need to adjust your device's volume if you're unable to hear a tone during the test.";
+
+/* Tinnitus Pure Tone step. */
+"TINNITUS_BUTTON_UPPERPITCH_TITLE" = "Upper Pitch";
+"TINNITUS_BUTTON_LOWERPITCH_TITLE" = "Lower Pitch";
+"TINNITUS_BUTTON_A_TITLE" = "Low-Pitch";
+"TINNITUS_BUTTON_A_DETAIL" = "Sounds like a bass instrument";
+"TINNITUS_BUTTON_B_TITLE" = "Medium-Pitch";
+"TINNITUS_BUTTON_B_DETAIL" = "Sounds like a horn-like quality";
+"TINNITUS_BUTTON_C_TITLE" = "High-Pitch";
+"TINNITUS_BUTTON_C_DETAIL" = "Sounds like chirping birds";
+"TINNITUS_BUTTON_FINE_TUNING_TITLE" = "Select and Begin Fine Tuning";
+"TINNITUS_BUTTON_CONTINUE_FINE_TUNING_TITLE" = "Select and Continue Fine Tuning";
+"TINNITUS_BUTTON_FINISH_FINE_TUNING_TITLE" = "Select and Finish Fine Tuning";
+"TINNITUS_MIDTEST_TEXT" = "Round 1 complete, now let’s try that again.";
+"TINNITUS_MIDTEST2_TEXT" = "Round 2 complete, just one more time.";
+"TINNITUS_ENDTEST_TEXT" = "Step completed.";
+
+"TINNITUS_FINAL_CALIBRATION_TITLE" = "Loudness Matching";
+"TINNITUS_FINAL_CALIBRATION_TEXT" = "Listen to the sample and adjust the volume to match the loudness of your tinnitus.";
+"TINNITUS_FINAL_CALIBRATION_BUTTON_TITLE" = "Tinnitus Sample";
+"TINNITUS_PURETONE_NO_SUCCESS_TITLE" = "Tinnitus Result";
+"TINNITUS_PURETONE_NO_SUCCESS_TEXT" = "Thank you for completing the task. It was not possible to exactly determine your tinnitus pitch at this time.";
+"TINNITUS_PURETONE_SUCCESS_TITLE" = "Tinnitus Result";
+"TINNITUS_PURETONE_SUCCESS_TEXT" = "Thank you for completing this task. Your tinnitus pitch has been saved.";
+
+"TINNITUS_WHITENOISE_SUCCESS_TITLE" = "Test Completed";
+"TINNITUS_WHITENOISE_SUCCESS_TEXT" = "Thanks for your collaboration in the Apple Tinnitus Study.\n\nThis information will help researches gain valuable insights into the impact of tinnitus on hearing health.";
+
+"TINNITUS_MASKING_TITLE" = "Masking Sound";
+"TINNITUS_MASKING_TEXT" = "Listen to the sample and answer the following question. Feel free to use the volume buttons to adjust the level.";
+"TINNITUS_MASKING_QUESTION" = "Would you use the sound above to mask your tinnitus while completing a task (for example to focus, relax or fall asleep)?";
+"TINNITUS_MASKING_ANSWER_DEFINITELY" = "Definitely";
+"TINNITUS_MASKING_ANSWER_PROBABLY" = "Probably";
+"TINNITUS_MASKING_ANSWER_POSSIBLY" = "Possibly";
+"TINNITUS_MASKING_ANSWER_PROBABLYNOT" = "Probably not";
+"TINNITUS_MASKING_ANSWER_DEFINITELYNOT" = "Definitely not";
+"TINNITUS_MASKING_ANSWER_NOTA" = "None of the above";
+
 /* ORKRecordButton */
 "PLAY" = "Play";
 "RECORD" = "Record";

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, Apple Inc. All rights reserved.
+ Copyright (c) 2020, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,39 +28,53 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ResearchKit/ORKTypes.h>
-#import <ResearchKit/ORKContinueButton.h>
-#import <ResearchKit/ORKNavigationContainerView.h>
-#import <ResearchKit/ORKFootnoteLabel.h>
-
+@import UIKit;
+#import "ORKCustomStepView_Internal.h"
+#import "ORKTinnitusButtonView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ORKBorderedButton ()
+@class ORKTinnitusPureToneContentView;
 
-- (void)setAppearanceAsTextButton;
-- (void)setAppearanceAsBoldTextButton;
-- (void)resetAppearanceAsBorderedButton;
+typedef NS_ENUM(NSUInteger, ORKTinnitusSelectedPureTonePosition) {
+    ORKTinnitusSelectedPureTonePositionNone,
+    ORKTinnitusSelectedPureTonePositionA,
+    ORKTinnitusSelectedPureTonePositionB,
+    ORKTinnitusSelectedPureTonePositionC
+};
+
+typedef NS_ENUM(NSUInteger, PureToneButtonsStage) {
+    PureToneButtonsStageOne,
+    PureToneButtonsStageTwo,
+    PureToneButtonsStageThree
+};
+
+@protocol ORKTinnitusPureToneContentViewDelegate <NSObject>
+
+@required
+
+- (void)playButtonPressedWithNewPosition:(ORKTinnitusSelectedPureTonePosition)newPosition;
+- (void)fineTunePressed;
 
 @end
 
-@interface ORKNavigationContainerView ()
+@interface ORKTinnitusPureToneContentView : ORKActiveStepCustomView
 
-@property (nonatomic, strong, readonly) ORKContinueButton *continueButton;
-@property (nonatomic, strong, readonly) ORKBorderedButton *skipButton;
-@property (nonatomic, strong, readonly) ORKFootnoteLabel *footnoteLabel;
-@property (nonatomic, strong, readonly) ORKBorderedButton *cancelButton;
+@property (nonatomic, weak)id<ORKTinnitusPureToneContentViewDelegate> delegate;
 
-@property (nonatomic) BOOL useNextForSkip;
-@property (nonatomic, getter=isOptional) BOOL optional;
-@property (nonatomic, readonly) BOOL isShrinked;
-
-@property (nonatomic) ORKNavigationContainerButtonStyle skipButtonStyle;
-@property (nonatomic) ORKNavigationContainerButtonStyle cancelButtonStyle;
-
-- (void)updateContinueAndSkipEnabled;
-- (void)setShrinked:(BOOL)shrinked;
+- (ORKTinnitusSelectedPureTonePosition)currentSelectedPosition;
+- (PureToneButtonsStage)currentStage;
+- (void)animateButtonsSetting:(BOOL)isLastStep;
+- (void)enableFineTuneButton:(BOOL)enable;
+- (void)enablePlayButtons:(BOOL)enable;
+- (void)resetPlayButtons;
+- (BOOL)allCurrentVisibleButtonsPlayed;
+- (BOOL)thirdButtonIsHidden;
+- (void)toggleCurrentSelectPlayButton;
+- (BOOL)hasPlayingButton;
 
 @end
 
 NS_ASSUME_NONNULL_END
+
+

@@ -126,6 +126,58 @@ ORKCachedColorMethod(ork_borderGrayColor, 239.0 / 255.0, 239.0 / 255.0, 244.0 / 
 
 #undef ORKCachedColorMethod
 
+#define ORKSystemCachedColorMethod(m, r, g, b, a) \
++ (UIColor *)ork_##m { \
+    static UIColor *cork_##m = nil; \
+    static dispatch_once_t onceToken##m; \
+    dispatch_once(&onceToken##m, ^{ \
+        if (@available(iOS 13.0, *)) { \
+            cork_##m = [UIColor m]; \
+        } else { \
+            cork_##m = [[UIColor alloc] initWithRed:r green:g blue:b alpha:a]; \
+        } \
+    }); \
+    return cork_##m; \
+}
+
+ORKSystemCachedColorMethod(labelColor, 0.0 / 255.0, 0.0 / 255.0, 0.0 / 255.0, 1.0)
+ORKSystemCachedColorMethod(secondaryLabelColor, 60.0 / 255.0, 60.0 / 255.0, 67.0 / 255.0, 0.6)
+ORKSystemCachedColorMethod(tertiaryLabelColor, 60.0 / 255.0, 60.0 / 255.0, 67.0 / 255.0, 0.3)
+ORKSystemCachedColorMethod(quaternaryLabelColor, 60.0 / 255.0, 60.0 / 255.0, 67.0 / 255.0, 0.18)
+ORKSystemCachedColorMethod(systemFillColor, 120.0 / 255.0, 120.0 / 255.0, 128.0 / 255.0, 0.2)
+ORKSystemCachedColorMethod(secondarySystemFillColor, 120.0 / 255.0, 120.0 / 255.0, 128.0 / 255.0, 0.16)
+ORKSystemCachedColorMethod(tertiarySystemFillColor, 118.0 / 255.0, 118.0 / 255.0, 128.0 / 255.0, 0.12)
+ORKSystemCachedColorMethod(quaternarySystemFillColor, 116.0 / 255.0, 116.0 / 255.0, 128.0 / 255.0, 0.08)
+ORKSystemCachedColorMethod(placeholderTextColor, 60.0 / 255.0, 60.0 / 255.0, 67.0 / 255.0, 0.3)
+ORKSystemCachedColorMethod(systemBackgroundColor, 255.0 / 255.0, 255.0 / 255.0, 255.0 / 255.0, 1.0)
+ORKSystemCachedColorMethod(secondarySystemBackgroundColor, 242.0 / 255.0, 242.0 / 255.0, 247.0 / 255.0, 1.0)
+ORKSystemCachedColorMethod(tertiarySystemBackgroundColor, 255.0 / 255.0, 255.0 / 255.0, 255.0 / 255.0, 1.0)
+ORKSystemCachedColorMethod(systemGroupedBackgroundColor, 242.0 / 255.0, 242.0 / 255.0, 247.0 / 255.0, 1.0)
+ORKSystemCachedColorMethod(secondarySystemGroupedBackgroundColor, 255.0 / 255.0, 255.0 / 255.0, 255.0 / 255.0, 1.0)
+ORKSystemCachedColorMethod(tertiarySystemGroupedBackgroundColor, 242.0 / 255.0, 242.0 / 255.0, 247.0 / 255.0, 1.0)
+ORKSystemCachedColorMethod(separatorColor, 60.0 / 255.0, 60.0 / 255.0, 67.0 / 255.0, 0.29)
+ORKSystemCachedColorMethod(opaqueSeparatorColor, 198.0 / 255.0, 198.0 / 255.0, 200.0 / 255.0, 1.0)
+ORKSystemCachedColorMethod(linkColor, 0.0 / 255.0, 122.0 / 255.0, 255.0 / 255.0, 1.0)
+ORKSystemCachedColorMethod(darkTextColor, 0.0 / 255.0, 0.0 / 255.0, 0.0 / 255.0, 1.0)
+ORKSystemCachedColorMethod(lightTextColor, 255.0 / 255.0, 255.0 / 255.0, 255.0 / 255.0, 0.6)
+ORKSystemCachedColorMethod(systemBlueColor, 0.0 / 255.0, 122.0 / 255.0, 255.0 / 255.0, 1.0)
+ORKSystemCachedColorMethod(systemGreenColor, 52.0 / 199.0, 255.0 / 89.0, 255.0 / 255.0, 1.0)
+ORKSystemCachedColorMethod(systemIndigoColor, 88.0 / 255.0, 86.0 / 255.0, 214.0 / 255.0, 1.0)
+ORKSystemCachedColorMethod(systemOrangeColor, 255.0 / 255.0, 149.0 / 255.0, 0.0 / 255.0, 1.0)
+ORKSystemCachedColorMethod(systemPinkColor, 255.0 / 255.0, 45.0 / 255.0, 85.0 / 255.0, 1.0)
+ORKSystemCachedColorMethod(systemPurpleColor, 175 / 255.0, 82.0 / 255.0, 222.0 / 255.0, 1.0)
+ORKSystemCachedColorMethod(systemRedColor, 255.0 / 255.0, 59.0 / 255.0, 48.0 / 255.0, 1.0)
+ORKSystemCachedColorMethod(systemTealColor, 90.0 / 255.0, 200.0 / 255.0, 250.0 / 255.0, 1.0)
+ORKSystemCachedColorMethod(systemYellowColor, 255.0 / 255.0, 204.0 / 255.0, 0.0 / 255.0, 1.0)
+ORKSystemCachedColorMethod(systemGrayColor, 142.0 / 255.0, 142.0 / 255.0, 147.0 / 255.0, 1.0)
+ORKSystemCachedColorMethod(systemGray2Color, 174.0 / 255.0, 174.0 / 255.0, 178.0 / 255.0, 1.0)
+ORKSystemCachedColorMethod(systemGray3Color, 199.0 / 255.0, 199.0 / 255.0, 204.0 / 255.0, 1.0)
+ORKSystemCachedColorMethod(systemGray4Color, 209.0 / 255.0, 209.0 / 255.0, 214.0 / 255.0, 1.0)
+ORKSystemCachedColorMethod(systemGray5Color, 229.0 / 255.0, 229.0 / 255.0, 234.0 / 255.0, 1.0)
+ORKSystemCachedColorMethod(systemGray6Color, 242.0 / 255.0, 242.0 / 255.0, 247.0 / 255.0, 1.0)
+
+#undef ORKSystemCachedColorMethod
+
 @end
 
 static NSMutableDictionary *colors() {

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, Apple Inc. All rights reserved.
+ Copyright (c) 2020, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,39 +28,13 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ResearchKit/ORKTypes.h>
-#import <ResearchKit/ORKContinueButton.h>
-#import <ResearchKit/ORKNavigationContainerView.h>
-#import <ResearchKit/ORKFootnoteLabel.h>
+#import "ORKTinnitusPureToneInstructionStep.h"
+#import "ORKTinnitusPureToneInstructionStepViewController.h"
 
+@implementation ORKTinnitusPureToneInstructionStep
 
-NS_ASSUME_NONNULL_BEGIN
-
-@interface ORKBorderedButton ()
-
-- (void)setAppearanceAsTextButton;
-- (void)setAppearanceAsBoldTextButton;
-- (void)resetAppearanceAsBorderedButton;
++ (Class)stepViewControllerClass {
+    return [ORKTinnitusPureToneInstructionStepViewController class];
+}
 
 @end
-
-@interface ORKNavigationContainerView ()
-
-@property (nonatomic, strong, readonly) ORKContinueButton *continueButton;
-@property (nonatomic, strong, readonly) ORKBorderedButton *skipButton;
-@property (nonatomic, strong, readonly) ORKFootnoteLabel *footnoteLabel;
-@property (nonatomic, strong, readonly) ORKBorderedButton *cancelButton;
-
-@property (nonatomic) BOOL useNextForSkip;
-@property (nonatomic, getter=isOptional) BOOL optional;
-@property (nonatomic, readonly) BOOL isShrinked;
-
-@property (nonatomic) ORKNavigationContainerButtonStyle skipButtonStyle;
-@property (nonatomic) ORKNavigationContainerButtonStyle cancelButtonStyle;
-
-- (void)updateContinueAndSkipEnabled;
-- (void)setShrinked:(BOOL)shrinked;
-
-@end
-
-NS_ASSUME_NONNULL_END

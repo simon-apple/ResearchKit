@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, Apple Inc. All rights reserved.
+ Copyright (c) 2020, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,39 +28,53 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ResearchKit/ORKTypes.h>
-#import <ResearchKit/ORKContinueButton.h>
-#import <ResearchKit/ORKNavigationContainerView.h>
-#import <ResearchKit/ORKFootnoteLabel.h>
+#import "ORKTinnitusTypeResult.h"
 
+#import "ORKResult_Private.h"
+#import "ORKHelpers_Internal.h"
 
-NS_ASSUME_NONNULL_BEGIN
+@implementation ORKTinnitusTypeResult
 
-@interface ORKBorderedButton ()
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [super encodeWithCoder:aCoder];
+    ORK_ENCODE_OBJ(aCoder, type);
+}
 
-- (void)setAppearanceAsTextButton;
-- (void)setAppearanceAsBoldTextButton;
-- (void)resetAppearanceAsBorderedButton;
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        ORK_DECODE_OBJ(aDecoder, type);
+    }
+    return self;
+}
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
+- (BOOL)isEqual:(id)object {
+    BOOL isParentSame = [super isEqual:object];
+
+    __typeof(self) castObject = object;
+    return (isParentSame &&
+            ORKEqualObjects(self.type, castObject.type)) ;
+}
+
+- (NSUInteger)hash {
+    return super.hash ^ self.type.hash;
+}
+
+- (instancetype)copyWithZone:(NSZone *)zone {
+    ORKTinnitusTypeResult *result = [super copyWithZone:zone];
+    result.type = [self.type copy];
+    return result;
+}
+
+- (NSString *)descriptionWithNumberOfPaddingSpaces:(NSUInteger)numberOfPaddingSpaces {
+    return [NSString stringWithFormat:@"%@; Type: %.@;",
+            [self descriptionPrefixWithNumberOfPaddingSpaces:numberOfPaddingSpaces],
+            self.type];
+}
+
 
 @end
-
-@interface ORKNavigationContainerView ()
-
-@property (nonatomic, strong, readonly) ORKContinueButton *continueButton;
-@property (nonatomic, strong, readonly) ORKBorderedButton *skipButton;
-@property (nonatomic, strong, readonly) ORKFootnoteLabel *footnoteLabel;
-@property (nonatomic, strong, readonly) ORKBorderedButton *cancelButton;
-
-@property (nonatomic) BOOL useNextForSkip;
-@property (nonatomic, getter=isOptional) BOOL optional;
-@property (nonatomic, readonly) BOOL isShrinked;
-
-@property (nonatomic) ORKNavigationContainerButtonStyle skipButtonStyle;
-@property (nonatomic) ORKNavigationContainerButtonStyle cancelButtonStyle;
-
-- (void)updateContinueAndSkipEnabled;
-- (void)setShrinked:(BOOL)shrinked;
-
-@end
-
-NS_ASSUME_NONNULL_END
