@@ -264,6 +264,9 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
                             {
                                 routeSupported = YES;
                                 _lastDetectedDevice = ORKHeadphoneTypeIdentifierEarPods;
+                            } else {
+                                routeSupported = _supportedHeadphoneChipsetTypes == nil;
+                                _lastDetectedDevice = ORKHeadphoneTypeIdentifierUnknown;
                             }
                         } else {
                             routeSupported = YES;
