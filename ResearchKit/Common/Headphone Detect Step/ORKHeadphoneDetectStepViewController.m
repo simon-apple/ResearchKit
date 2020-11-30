@@ -772,8 +772,10 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
         skipButtonItem.target = self;
         skipButtonItem.action = @selector(noHeadphonesButtonPressed:);
     }
-    else if ([self isDetectingAppleHeadphones] && !self.step.context) {
-        self.step.context = [[ORKdBHLTaskContext alloc] init];
+    else if ([self isDetectingAppleHeadphones]) {
+        if (!self.step.context){
+            self.step.context = [[ORKdBHLTaskContext alloc] init];
+        }
         [skipButtonItem setTitle:ORKLocalizedString(@"DBHL_HEADPHONES_DETECT_SKIP", nil)];
         skipButtonItem.target = self;
         skipButtonItem.action = @selector(noHeadphonesButtonPressed:);
