@@ -48,8 +48,8 @@ public struct InstructionStepView: View {
     }
 
     public var body: some View {
+        
         VStack(alignment: .center) {
-            
             if let title = step.title {
                 Text(title)
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -58,11 +58,6 @@ public struct InstructionStepView: View {
             if let detailText = step.detailText {
                 Text(detailText)
                     .frame(maxWidth: .infinity, alignment: .leading)
-            }
-            Button(action: {
-                completion()
-            }) {
-                Text("Done")
             }
         }
     }
