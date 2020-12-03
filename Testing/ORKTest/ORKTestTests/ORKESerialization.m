@@ -1164,6 +1164,22 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                  (@{
                      PROPERTY(headphoneTypes, NSNumber, NSObject, YES, nil, nil),
                  })),
+           ENTRY(ORKTinnitusPureToneInstructionStep,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+               return [[ORKTinnitusPureToneInstructionStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
+           },
+                 (@{
+                     PROPERTY(detailText, NSString, NSObject, YES, nil, nil),
+                     PROPERTY(footnote, NSString, NSObject, YES, nil, nil),
+                     PROPERTY(centerImageVertically, NSNumber, NSObject, YES, nil, nil),
+                  })),
+           ENTRY(ORKTinnitusTypeStep,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+               return [ORKTinnitusTypeStep stepWithIdentifier:GETPROP(dict, identifier) title:GETPROP(dict, title)];
+           },
+                 (@{
+                     PROPERTY(frequency, NSNumber, NSObject, YES, nil, nil),
+                  })),
            ENTRY(ORKHolePegTestPlaceStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      return [[ORKHolePegTestPlaceStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
@@ -2079,6 +2095,40 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                      PROPERTY(productID, NSString, NSObject, NO, nil, nil),
                      PROPERTY(deviceSubType, NSNumber, NSObject, NO, nil, nil),
                  })),
+           ENTRY(ORKTinnitusPureToneResult,
+                 nil,
+                 (@{
+                     PROPERTY(errorMessage, NSString, NSObject, NO, nil, nil),
+                     PROPERTY(chosenFrequency, NSNumber, NSObject, NO, nil, nil),
+                     PROPERTY(samples, ORKTinnitusUnit, NSArray, NO, nil, nil),
+                  })),
+           ENTRY(ORKTinnitusUnit,
+                 nil,
+                 (@{
+                     PROPERTY(availableFrequencies, NSNumber, NSArray, NO, nil, nil),
+                     PROPERTY(chosenFrequency, NSNumber, NSObject, NO, nil, nil),
+                     PROPERTY(elapsedTime, NSNumber, NSObject, NO, nil, nil),
+                  })),
+           ENTRY(ORKTinnitusTypeResult,
+                 nil,
+                 (@{
+                     PROPERTY(type, NSString, NSObject, NO, nil, nil),
+                  })),
+           ENTRY(ORKTinnitusCalibrationResult,
+                 nil,
+                 (@{
+                     PROPERTY(type, NSString, NSObject, NO, nil, nil),
+                     PROPERTY(amplitude, NSNumber, NSObject, NO, nil, nil),
+                     PROPERTY(frequency, NSNumber, NSObject, NO, nil, nil),
+                  })),
+           ENTRY(ORKTinnitusLoudnessMatchingResult,
+                 nil,
+                 (@{
+                     PROPERTY(type, NSString, NSObject, NO, nil, nil),
+                     PROPERTY(amplitude, NSNumber, NSObject, NO, nil, nil),
+                     PROPERTY(frequency, NSNumber, NSObject, NO, nil, nil),
+                     PROPERTY(noiseType, NSString, NSObject, NO, nil, nil),
+                  })),
            ENTRY(ORKReactionTimeResult,
                  nil,
                  (@{

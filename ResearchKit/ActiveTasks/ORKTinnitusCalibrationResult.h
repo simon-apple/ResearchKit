@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 ORK_CLASS_AVAILABLE
 @interface ORKTinnitusCalibrationResult : ORKResult
 
-@property (nonatomic, copy, nullable) ORKTinnitusType type;
+@property (nonatomic, copy) ORKTinnitusType type;
 @property (nonatomic, assign) double amplitude;
 @property (nonatomic, assign) double frequency;
 

@@ -42,10 +42,6 @@
 #import "ORKTinnitusCalibrationStep.h"
 #import "ORKStepContainerView_Private.h"
 #import "ORKNavigationContainerView_Internal.h"
-#import "ORKHelpers_Internal.h"
-#import "ORKSkin.h"
-
-#import <MediaPlayer/MediaPlayer.h>
 
 @interface ORKTinnitusCalibrationStepViewController () <ORKTinnitusButtonViewDelegate>
 
@@ -106,8 +102,8 @@
                 self.type = tinnitusTypeResult.type;
             }
             if ([firstResult isKindOfClass:[ORKHeadphoneDetectResult class]]) {
-                ORKHeadphoneDetectResult *hedphoneResult = (ORKHeadphoneDetectResult *)firstResult;
-                headphoneType = hedphoneResult.headphoneType;
+                ORKHeadphoneDetectResult *headphoneResult = (ORKHeadphoneDetectResult *)firstResult;
+                headphoneType = headphoneResult.headphoneType;
             }
         }
     }

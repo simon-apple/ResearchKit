@@ -30,7 +30,7 @@
 
 @import UIKit;
 @import AVFoundation;
-#import "ORKTypes.h"
+#import <ResearchKit/ORKTypes.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -48,7 +48,7 @@ ORK_CLASS_AVAILABLE
 - (instancetype)init NS_UNAVAILABLE;
 
 - (instancetype)initWithType:(ORKTinnitusType)type headphoneType:(ORKHeadphoneTypeIdentifier)headphoneType;
-- (instancetype)initWithType:(ORKTinnitusType)type headphoneType:(ORKHeadphoneTypeIdentifier)headphoneType fadeInDuration:(double) fadeInDuration;
+- (instancetype)initWithType:(ORKTinnitusType)type headphoneType:(ORKHeadphoneTypeIdentifier)headphoneType fadeInDuration:(NSTimeInterval) fadeInDuration;
 
 /**
  Plays a tone at a specific frequency in stereo. Only works if instantiated with pure tone kind.
@@ -100,14 +100,14 @@ Returns the system audio volume in decibels.
 /**
  Returns the system volume in decibels adjusted with dbSPL table for puretone sounds.
  
- @return the current volume with the frequency and dbSPL table applyed
+ @return the current volume with the frequency and dbSPL table applied
  */
 - (float)getPuretoneSystemVolumeIndBSPL;
 
 /**
  Returns the system volume in decibels adjusted with dbSPL table for white noise types sounds.
  
- @return the current volume with the frequency and dbSPL table applyed
+ @return the current volume with the frequency and dbSPL table applied
  */
 - (float)getWhiteNoiseSystemVolumeIndBSPL:(ORKTinnitusNoiseType)noiseType;
 

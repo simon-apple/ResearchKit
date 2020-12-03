@@ -34,6 +34,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+#define ORKTinnitusTypeMinimumFrequency 300.0
+#define ORKTinnitusTypeMaximumFrequency 12500.0
+#define ORKTinnitusTypeDefaultFrequency 1000.0
+
 ORK_CLASS_AVAILABLE
 @interface ORKTinnitusTypeStep : ORKActiveStep
 

@@ -30,13 +30,74 @@
 
 #import "ORKTinnitusButtonView.h"
 #import "ORKHelpers_Internal.h"
-#import <ResearchKit/ResearchKit_Private.h>
+#import "ResearchKit_Private.h"
 
 static const CGFloat ORKTinnitusButtonViewButtonViewHeight = 90.0;
 static const CGFloat ORKTinnitusButtonViewImageWidth = 40.0;
 static const CGFloat ORKTinnitusButtonViewAdditionalHeightPadding = 40.0;
 static const CGFloat ORKTinnitusButtonViewImageHeight = 42.0;
 static const CGFloat ORKTinnitusButtonViewPadding = 16.0;
+
+@interface UIColor (ORKTinnitusButtonView)
+
+@property (class, nonatomic, readonly) UIColor *selectedBackgroundColor;
+@property (class, nonatomic, readonly) UIColor *selectedLayerBorderColor;
+@property (class, nonatomic, readonly) UIColor *unselectedBackgroundColor;
+@property (class, nonatomic, readonly) UIColor *unselectedLayerBorderColor;
+
+@end
+
+@implementation UIColor (ORKTinnitusButtonView)
+
++ (UIColor *)selectedBackgroundColor {
+    if (@available(iOS 13.0, *)) {
+        return [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traits) {
+            return traits.userInterfaceStyle == UIUserInterfaceStyleDark ?
+            [self colorWithRed:0.0/255.0 green:122.0/255.0 blue:1 alpha:0.05] :
+            [self colorWithRed:242.0/255.0 green:248.0/255.0 blue:1 alpha:1];
+        }];
+    } else {
+        return [self colorWithRed:242.0/255.0 green:248.0/255.0 blue:1 alpha:1];
+    }
+}
+
++ (UIColor *)selectedLayerBorderColor {
+    if (@available(iOS 13.0, *)) {
+        return [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traits) {
+            return traits.userInterfaceStyle == UIUserInterfaceStyleDark ?
+            [self colorWithRed:9.0/255.0 green:107.0/255.0 blue:205.0/255.0 alpha:1] :
+            [self ork_systemBlueColor];
+        }];
+    } else {
+        return [self ork_systemBlueColor];
+    }
+}
+
++ (UIColor *)unselectedBackgroundColor {
+    if (@available(iOS 13.0, *)) {
+        return [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traits) {
+            return traits.userInterfaceStyle == UIUserInterfaceStyleDark ?
+            [self ork_systemGray6Color] :
+            [self colorWithRed:251.0/255.0 green:251.0/255.0 blue:252.0/255.0 alpha:1];
+        }];
+    } else {
+        return [self colorWithRed:251.0/255.0 green:251.0/255.0 blue:252.0/255.0 alpha:1];
+    }
+}
+
++ (UIColor *)unselectedLayerBorderColor {
+    if (@available(iOS 13.0, *)) {
+        return [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traits) {
+            return traits.userInterfaceStyle == UIUserInterfaceStyleDark ?
+            [self ork_systemGray5Color]:
+            [self colorWithRed:229.0/255.0 green:229.0/255.0 blue: 234.0 / 255.0 alpha:1];
+        }];
+    } else {
+        return [self colorWithRed:229.0/255.0 green:229.0/255.0 blue: 234.0 / 255.0 alpha:1];
+    }
+}
+
+@end
 
 @interface ORKTinnitusButtonView () <UIGestureRecognizerDelegate> {
     NSString *_titleText;
@@ -66,8 +127,7 @@ static const CGFloat ORKTinnitusButtonViewPadding = 16.0;
 
 @implementation ORKTinnitusButtonView
 
-- (instancetype)initWithTitle:(NSString *)title detail:(NSString *)detail
-{
+- (instancetype)initWithTitle:(NSString *)title detail:(NSString *)detail {
     self = [super init];
     if (self) {
         [self commonInit];
@@ -79,8 +139,7 @@ static const CGFloat ORKTinnitusButtonViewPadding = 16.0;
     return self;
 }
 
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super init];
     if (self) {
         [self commonInit];
@@ -90,8 +149,7 @@ static const CGFloat ORKTinnitusButtonViewPadding = 16.0;
     return self;
 }
 
-- (void)commonInit
-{
+- (void)commonInit {
     _titleText = @"";
     _detailText = nil;
     _playedOnce = NO;
@@ -100,15 +158,13 @@ static const CGFloat ORKTinnitusButtonViewPadding = 16.0;
     _firstLayoutTime = YES;
 }
 
-- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection
-{
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
     [super traitCollectionDidChange:previousTraitCollection];
-    
+
     [self setSelected:_selected];
 }
 
-- (void)setupView
-{
+- (void)setupView {
     self.opaque = YES;
     self.layer.masksToBounds = NO;
     
@@ -194,8 +250,7 @@ static const CGFloat ORKTinnitusButtonViewPadding = 16.0;
     [self setSelected:NO];
 }
 
-- (void)tapAction:(UITapGestureRecognizer *)recognizer
-{
+- (void)tapAction:(UITapGestureRecognizer *)recognizer {
     dispatch_async(dispatch_get_main_queue(), ^{
         [_hapticFeedback impactOccurred];
         if (!_selected) {
@@ -213,95 +268,72 @@ static const CGFloat ORKTinnitusButtonViewPadding = 16.0;
     });
 }
 
-+ (UIFont *)headlineFont
-{
++ (UIFont *)headlineFont {
     UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleHeadline];
     return [UIFont systemFontOfSize:[[descriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue] + 1.0 weight:UIFontWeightSemibold];
 }
 
-+ (UIFont *)subheadlineFont
-{
++ (UIFont *)subheadlineFont {
     UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleSubheadline];
     return [UIFont systemFontOfSize:((NSNumber *)[descriptor objectForKey:UIFontDescriptorSizeAttribute]).doubleValue + 1.0];
 }
 
-- (void)togglePlayButton
-{
+- (void)togglePlayButton {
     dispatch_async(dispatch_get_main_queue(), ^{
         _imageView.highlighted = !_imageView.highlighted;
         _barLevelsView.hidden = !_barLevelsView.hidden;
     });
 }
 
-- (BOOL)isShowingPause
-{
+- (BOOL)isShowingPause {
     return _imageView.highlighted;
 }
 
-- (void)restoreButton
-{
+- (void)restoreButton {
     _imageView.highlighted = NO;
     _barLevelsView.hidden = YES;
     [self setSelected:NO];
 }
 
-- (void)resetButton
-{
+- (void)resetButton {
     [self restoreButton];
     _playedOnce = NO;
 }
 
-- (BOOL)isSelected
-{
+- (BOOL)isSelected {
     return _selected;
 }
 
--(void)setSelected:(BOOL)isSelected
-{
+-(void)setSelected:(BOOL)isSelected {
     _selected = isSelected;
     dispatch_async(dispatch_get_main_queue(), ^{
         if (isSelected) {
             self.layer.shadowColor = [UIColor ork_systemBlueColor].CGColor;
-            self.backgroundColor = [UIColor colorWithRed:242.0/255.0 green:248.0/255.0 blue:1 alpha:1];
-            self.layer.borderColor = [UIColor ork_systemBlueColor].CGColor;
-            if (@available(iOS 13.0, *)) {
-                if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
-                    self.backgroundColor = [UIColor colorWithRed:2.0/255.0 green:20.0/255.0 blue:38.0/255.0 alpha:1];
-                    self.layer.borderColor = [UIColor colorWithRed:9.0/255.0 green:107.0/255.0 blue:205.0/255.0 alpha:1].CGColor;
-                }
-            }
+            self.backgroundColor = [UIColor selectedBackgroundColor];
+            self.layer.borderColor = [UIColor selectedLayerBorderColor].CGColor;
             _imageView.tintColor = [UIColor ork_systemBlueColor];
             
         } else {
             self.layer.shadowColor = [UIColor clearColor].CGColor;
-            self.backgroundColor = UIColor.ork_secondarySystemBackgroundColor;
-            self.layer.borderColor = [UIColor ork_systemGray5Color].CGColor;
-            if (@available(iOS 13.0, *)) {
-                if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
-                    self.backgroundColor = [UIColor colorWithRed:28.0/255.0 green:28.0/255.0 blue:30.0/255.0 alpha:1];
-                    self.layer.borderColor = [UIColor colorWithRed:44.0/255.0 green:44.0/255.0 blue:46.0/255.0 alpha:1].CGColor;
-                }
-            }
+            self.backgroundColor = [UIColor unselectedBackgroundColor];
+            self.layer.borderColor = [UIColor unselectedLayerBorderColor].CGColor;
             _imageView.tintColor = [UIColor ork_systemGray3Color];
         }
     });
 }
 
-- (void)enableIteraction:(BOOL)enabled
-{
+- (void)enableInteraction:(BOOL)enabled {
     dispatch_async(dispatch_get_main_queue(), ^{
         self.userInteractionEnabled = enabled;
         self.alpha = enabled ? 1.0 : 0.5;
     });
 }
 
-- (BOOL)isEnabled
-{
+- (BOOL)isEnabled {
     return self.userInteractionEnabled;
 }
 
-- (void)setEnabled:(BOOL)enabled
-{
+- (void)setEnabled:(BOOL)enabled {
     self.userInteractionEnabled = enabled;
     self.alpha = enabled ? 1.0 : 0.5;
 }
@@ -328,8 +360,7 @@ static const CGFloat ORKTinnitusButtonViewPadding = 16.0;
     }
 }
 
-- (BOOL)buttonFinishedAutoLayout
-{
+- (BOOL)buttonFinishedAutoLayout {
     return _subViewsAutoLayoutFinished;
 }
 

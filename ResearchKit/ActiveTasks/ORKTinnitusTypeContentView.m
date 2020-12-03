@@ -30,7 +30,6 @@
 
 #import "ORKTinnitusTypeContentView.h"
 #import "ORKHelpers_Internal.h"
-#import "ORKSkin.h"
 
 @implementation ORKTinnitusTypeContentView
 

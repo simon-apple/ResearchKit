@@ -1354,7 +1354,10 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
                                                                              @"ORKSecondaryTaskStepViewController" : @"ORKSecondaryTaskStep",
                                                                              @"ORKHeadphoneDetectStepViewController" : @"ORKHeadphoneDetectStep",
                                                                              @"ORKWebViewStepViewController": @"ORKWebViewStep",
-                                                                             
+                                                                             @"ORKTinnitusCalibrationStepViewController":@"ORKTinnitusCalibrationStep",
+                                                                             @"ORKTinnitusLoudnessMatchingStepViewController":@"ORKTinnitusLoudnessMatchingStep",
+                                                                             @"ORKTinnitusTypeStepViewController":@"ORKTinnitusTypeStep",
+                                                                             @"ORKTinnitusPureToneStepViewController":@"ORKTinnitusPureToneStep",
                                                                              @"ORKCustomStepViewController":@"ORKCustomStep",
                                                                              @"ORKRequestPermissionsStepViewController":@"ORKRequestPermissionsStep"
                                                                              };

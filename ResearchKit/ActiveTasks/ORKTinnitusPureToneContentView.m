@@ -98,7 +98,7 @@ static const CGFloat ORKTinnitusButtonTopAdjustment = 8.0;
     
     _hintLabel = [UILabel new];
     _hintLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    _hintLabel.text = @"You will be presented a series of tones to fine tune the sound selected above.";
+    _hintLabel.text = ORKLocalizedString(@"TINNITUS_FINETUNE_TEXT", nil);
     _hintLabel.textAlignment = NSTextAlignmentCenter;
     _hintLabel.textColor = UIColor.ork_systemGrayColor;
     _hintLabel.numberOfLines = 0;

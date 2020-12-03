@@ -42,16 +42,11 @@
 #import "ORKTinnitusTypeStep.h"
 #import "ORKStepContainerView_Private.h"
 #import "ORKNavigationContainerView_Internal.h"
-#import "ORKHelpers_Internal.h"
-#import "ORKSkin.h"
-
-#import <MediaPlayer/MediaPlayer.h>
 
 @interface ORKTinnitusTypeStepViewController () <ORKTinnitusButtonViewDelegate>
 
 @property (nonatomic, strong) ORKTinnitusTypeContentView *contentView;
 @property (nonatomic, strong) ORKTinnitusAudioGenerator *pureToneGenerator;
-//@property (nonatomic, strong) ORKTinnitusAudioGenerator *noiseGenerator;
 
 @property (nonatomic, strong) AVAudioEngine *audioEngine;
 @property (nonatomic, strong) AVAudioPlayerNode *playerNode;
@@ -130,26 +125,20 @@
     self.audioEngine = [[AVAudioEngine alloc] init];
     self.playerNode = [[AVAudioPlayerNode alloc] init];
     [self.audioEngine attachNode:self.playerNode];
-    
-    //self.noiseGenerator = [[ORKTinnitusAudioGenerator alloc] initWithType: ORKTinnitusTypeWhiteNoise headphoneType:headphoneType];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
     [self.pureToneGenerator stop];
-    //[self.noiseGenerator stop];
 }
 
-- (void)tearDownAudioEngine
-{
+- (void)tearDownAudioEngine {
     [self.playerNode stop];
     [self.audioEngine stop];
 }
 
 - (void)playWhiteNoise {
-    //[self tearDownAudioEngine];
-    
     NSURL *path = [[NSBundle bundleForClass:[self class]] URLForResource:ORKTinnitusFilenameWhitenoise withExtension:ORKTinnitusDefaultFilenameExtension];
     AVAudioFile *file = [[AVAudioFile alloc] initForReading:path error:nil];
     if (file)
@@ -170,11 +159,9 @@
     [super viewDidDisappear: animated];
     
     self.pureToneGenerator = nil;
-    //self.noiseGenerator = nil;
 }
 
-- (ORKStepResult *)result
-{
+- (ORKStepResult *)result {
     ORKStepResult *parentResult = [super result];
     
     NSMutableArray *results = [NSMutableArray arrayWithArray:parentResult.results];
@@ -191,11 +178,10 @@
 }
 
 // ORKTinnitusButtonViewDelegate
-- (void)tinnitusButtonViewPressed:(nonnull ORKTinnitusButtonView *)tinnitusButtonView
-{
+- (void)tinnitusButtonViewPressed:(nonnull ORKTinnitusButtonView *)tinnitusButtonView {
     [self.pureToneGenerator stop];
     [self tearDownAudioEngine];
-    //[self.noiseGenerator stop];
+
     if (tinnitusButtonView == _contentView.pureToneButtonView) {
         [_contentView.whiteNoiseButtonView restoreButton];
         if (tinnitusButtonView.isShowingPause) {
@@ -211,7 +197,6 @@
         if (tinnitusButtonView.isShowingPause) {
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((_pureToneGenerator.fadeDuration + 0.05) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [self playWhiteNoise];
-               // [self.noiseGenerator playWhiteNoise];
             });
         }
         if (_contentView.pureToneButtonView.playedOnce) {

@@ -37,10 +37,6 @@
 
 #import "ORKHelpers_Internal.h"
 
-#define ORKTinnitusTypeMinimumFrequency 300.0
-#define ORKTinnitusTypeMaximumFrequency 12500.0
-#define ORKTinnitusTypeDefaultFrequency 1000.0
-
 @implementation ORKTinnitusTypeStep
 
 + (Class)stepViewControllerClass {
@@ -79,11 +75,11 @@
     [super validateParameters];
     
     if (self.frequency < ORKTinnitusTypeMinimumFrequency) {
-        @throw [NSException exceptionWithName:NSInvalidArgumentException reason:[NSString stringWithFormat:@"frequency cannot be lower than %@ hertz.", @(ORKTinnitusTypeMinimumFrequency)]  userInfo:@{@"frequency": [NSNumber numberWithDouble:self.frequency]}];
+        @throw [NSException exceptionWithName:NSInvalidArgumentException reason:[NSString stringWithFormat:@"frequency cannot be lower than %@ hertz.", @(ORKTinnitusTypeMinimumFrequency)] userInfo:@{@"frequency": [NSNumber numberWithDouble:self.frequency]}];
     }
     
     if (self.frequency > ORKTinnitusTypeMaximumFrequency) {
-        @throw [NSException exceptionWithName:NSInvalidArgumentException reason:[NSString stringWithFormat:@"frequency cannot be higher than %@ hertz.", @(ORKTinnitusTypeMaximumFrequency)]  userInfo:@{@"frequency": [NSNumber numberWithDouble:self.frequency]}];
+        @throw [NSException exceptionWithName:NSInvalidArgumentException reason:[NSString stringWithFormat:@"frequency cannot be higher than %@ hertz.", @(ORKTinnitusTypeMaximumFrequency)] userInfo:@{@"frequency": [NSNumber numberWithDouble:self.frequency]}];
     }
 }
 

@@ -41,10 +41,6 @@
 #import "ORKStepViewController_Internal.h"
 #import "ORKStepContainerView_Private.h"
 #import "ORKNavigationContainerView_Internal.h"
-#import "ORKHelpers_Internal.h"
-#import "ORKSkin.h"
-
-#import <MediaPlayer/MediaPlayer.h>
 
 @interface ORKTinnitusLoudnessMatchingStepViewController () <ORKTinnitusButtonViewDelegate>
 

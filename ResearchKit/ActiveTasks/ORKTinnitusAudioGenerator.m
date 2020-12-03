@@ -87,6 +87,7 @@
 const double ORKTinnitusFadeInDuration = 0.05;
 const double ORKTinnitusAudioGeneratorAmplitudeDefault = 0.03f;
 const double ORKTinnitusAudioGeneratorSampleRateDefault = 44100.0f;
+const double ORKTinnitusAudioGeneratorIncrementVolumeDefault = 0.0625f;
 
 static OSStatus ORKTinnitusAudioGeneratorRenderTone(void *inRefCon,
                                             AudioUnitRenderActionFlags *ioActionFlags,
@@ -166,7 +167,7 @@ static OSStatus ORKTinnitusAudioGeneratorRenderTone(void *inRefCon,
 }
 
 - (instancetype)initWithType:(ORKTinnitusType)type
-               headphoneType:(ORKHeadphoneTypeIdentifier)headphoneType fadeInDuration:(double) fadeInDuration
+               headphoneType:(ORKHeadphoneTypeIdentifier)headphoneType fadeInDuration:(NSTimeInterval) fadeInDuration
 {
     self = [super init];
     if (self) {
@@ -280,7 +281,7 @@ static OSStatus ORKTinnitusAudioGeneratorRenderTone(void *inRefCon,
 }
 
 - (float)getCurrentSystemVolume {
-    return [[AVAudioSession sharedInstance] outputVolume];
+    return (int)([[AVAudioSession sharedInstance] outputVolume] / ORKTinnitusAudioGeneratorIncrementVolumeDefault) * ORKTinnitusAudioGeneratorIncrementVolumeDefault;
 }
 
 - (float)getCurrentSystemVolumeInDecibels {
@@ -289,7 +290,7 @@ static OSStatus ORKTinnitusAudioGeneratorRenderTone(void *inRefCon,
 }
 
 - (float)getPuretoneSystemVolumeIndBSPL {
-    _systemVolume = (int)([self getCurrentSystemVolume] / 0.0625) * 0.0625;
+    _systemVolume = [self getCurrentSystemVolume];
     NSDecimalNumber *offsetDueToVolume = [NSDecimalNumber decimalNumberWithString:_volumeCurve[[NSString stringWithFormat:@"%.4f",_systemVolume]]];
     NSDecimalNumber *dbSPLAmplitudePerFrequency =  [NSDecimalNumber decimalNumberWithString:_dbSPLAmplitudePerFrequency[[NSString stringWithFormat:@"%.0f",_frequency]]];
     NSDecimalNumber *equalLoudness =  [NSDecimalNumber decimalNumberWithString:_dbAmplitudePerFrequency[[NSString stringWithFormat:@"%.0f",_frequency]]];
@@ -307,7 +308,7 @@ static OSStatus ORKTinnitusAudioGeneratorRenderTone(void *inRefCon,
 }
 
 - (float)getWhiteNoiseSystemVolumeIndBSPL:(ORKTinnitusNoiseType)noiseType {
-    _systemVolume = (int)([self getCurrentSystemVolume] / 0.0625) * 0.0625;
+    _systemVolume = [self getCurrentSystemVolume];
     NSDecimalNumber *offsetDueToVolume = [NSDecimalNumber decimalNumberWithString:_volumeCurve[[NSString stringWithFormat:@"%.4f",_systemVolume]]];
     NSDecimalNumber *dbSPLNoiseType =  [NSDecimalNumber decimalNumberWithString:_dbSPLNoiseType[[NSString stringWithFormat:@"%@",noiseType]]];
     
@@ -331,7 +332,7 @@ static OSStatus ORKTinnitusAudioGeneratorRenderTone(void *inRefCon,
     if (!_unit) {
         [self createUnit];
 
-        _systemVolume = (int)([self getCurrentSystemVolume] / 0.0625) * 0.0625;
+        _systemVolume = [self getCurrentSystemVolume];
 
         // Stop changing parameters on the unit
         OSErr error = AudioUnitInitialize(_unit);

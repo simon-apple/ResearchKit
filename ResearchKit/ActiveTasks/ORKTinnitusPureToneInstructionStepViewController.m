@@ -48,8 +48,6 @@
 @implementation ORKTinnitusPureToneInstructionStepView {
     UILabel *_infoLabel;
     UIView *_infolabelContainer;
-    
-    UIImageView *_imageView;
 }
 
 - (instancetype)init {
@@ -74,30 +72,33 @@
         _infoLabel = [UILabel new];
     }
     
+    NSMutableAttributedString *infoString = [NSMutableAttributedString new];
+    
+    UIColor *infoLabelColor = UIColor.ork_systemGrayColor;
+    NSDictionary *infoLabelAttrs = @{ NSForegroundColorAttributeName : infoLabelColor };
+    NSTextAttachment *infoAttachment = [NSTextAttachment new];
+    
+    
     if (@available(iOS 13.0, *)) {
         UIImageConfiguration *configuration = [UIImageSymbolConfiguration configurationWithFont:[UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline] scale:UIImageSymbolScaleDefault];
-        UIImage *infoImage = [[UIImage systemImageNamed:@"info.circle" withConfiguration:configuration] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-        _imageView = [[UIImageView alloc] initWithImage: infoImage];
-        _imageView.tintColor = UIColor.ork_systemGrayColor;
-        _imageView.contentMode = UIViewContentModeScaleAspectFit;
+        
+        UIImage *infoImg = [[UIImage systemImageNamed:@"info.circle"
+                                           withConfiguration:configuration] imageWithTintColor:infoLabelColor];
+        infoAttachment.image = infoImg;
     }
-    [_imageView sizeToFit];
-    _imageView.translatesAutoresizingMaskIntoConstraints = NO;
     
-    _infoLabel.text = ORKLocalizedString(@"TINNITUS_VOLUME_ADJUST_TEXT", nil);
-    _infoLabel.textColor = UIColor.ork_systemGrayColor;
+    [infoString appendAttributedString:[NSAttributedString attributedStringWithAttachment:infoAttachment]];
+    [infoString appendAttributedString:
+     [[NSAttributedString alloc] initWithString:
+      [NSString stringWithFormat:@" %@", ORKLocalizedString(@"TINNITUS_VOLUME_ADJUST_TEXT", nil)] attributes:infoLabelAttrs]];
     
+    _infoLabel.attributedText = infoString;
     _infoLabel.numberOfLines = 0;
-    _infoLabel.font = [self subheadlineFontBold];
     _infoLabel.textAlignment = NSTextAlignmentLeft;
     _infoLabel.translatesAutoresizingMaskIntoConstraints = NO;
     
     _infolabelContainer.translatesAutoresizingMaskIntoConstraints = NO;
-    [_infolabelContainer addSubview:_imageView];
     [_infolabelContainer addSubview:_infoLabel];
-    
-    [[_imageView.topAnchor constraintEqualToAnchor:_infolabelContainer.topAnchor] setActive:YES];
-    [[_imageView.leadingAnchor constraintEqualToAnchor:_infolabelContainer.leadingAnchor] setActive:YES];
     
     [[_infoLabel.topAnchor constraintEqualToAnchor:_infolabelContainer.topAnchor] setActive:YES];
     [[_infoLabel.leadingAnchor constraintEqualToAnchor:_infolabelContainer.leadingAnchor] setActive:YES];

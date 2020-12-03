@@ -36,10 +36,10 @@ ORK_CLASS_AVAILABLE
 @interface ORKTinnitusLoudnessMatchingResult : ORKResult
 
 // The type of tinnitus matched
-@property (nonatomic, copy, nullable) ORKTinnitusType type;
+@property (nonatomic, copy) ORKTinnitusType type;
 
 // The type of tinnitus noise matched
-@property (nonatomic, copy, nullable) ORKTinnitusNoiseType noiseType;
+@property (nonatomic, copy) ORKTinnitusNoiseType noiseType;
 
 // The amplitude of the matched tone (dB SPL)
 @property (nonatomic, assign) double amplitude;

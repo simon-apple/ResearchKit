@@ -84,8 +84,6 @@
         _textLabel.translatesAutoresizingMaskIntoConstraints = NO;
         
         [self setUpConstraints];
-        
-        //self.backgroundColor = UIColor.ork_systemBackgroundColor;
     }
     
     return self;
@@ -93,9 +91,6 @@
 
 - (UIFont *)subheadlineFontBold {
     return [UIFont systemFontOfSize:14.0 weight:UIFontWeightRegular];
-//    UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleSubheadline];
-//    UIFontDescriptor *fontDescriptor = [descriptor fontDescriptorWithSymbolicTraits:(UIFontDescriptorTrait)];
-//    return [UIFont fontWithDescriptor:fontDescriptor size:[[fontDescriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]];
 }
 
 - (void)setUpConstraints {

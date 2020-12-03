@@ -51,7 +51,7 @@ static const CGFloat activityIndicatorPadding = 24.0;
     NSMutableArray *_regularConstraints;
     
     CGFloat _savedHeight;
-    BOOL _shrinked;
+    BOOL _shrunk;
     NSLayoutConstraint *_heightConstraint;
 }
 
@@ -65,7 +65,7 @@ static const CGFloat activityIndicatorPadding = 24.0;
         self.preservesSuperviewLayoutMargins = NO;
         _appTintColor = nil;
         self.skipButtonStyle = ORKNavigationContainerButtonStyleTextBold;
-        _shrinked = NO;
+        _shrunk = NO;
         [self updateContinueAndSkipEnabled];
     }
     return self;
@@ -347,16 +347,16 @@ static const CGFloat activityIndicatorPadding = 24.0;
     [self updateContinueAndSkipEnabled];
 }
 
-- (void)setShrinked:(BOOL)shrinked {
+- (void)setShrunk:(BOOL)shrunk {
     if (!_heightConstraint) {
         _heightConstraint = [self.heightAnchor constraintEqualToConstant:0];
     }
-    _shrinked = shrinked;
-    _heightConstraint.active = _shrinked;
+    _shrunk = shrunk;
+    _heightConstraint.active = _shrunk;
 }
 
-- (BOOL)isShrinked {
-    return _shrinked;
+- (BOOL)isShrunk {
+    return _shrunk;
 }
 
 - (void)setUpConstraints {

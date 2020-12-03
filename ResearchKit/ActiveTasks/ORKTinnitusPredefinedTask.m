@@ -38,6 +38,7 @@
 #import "ORKTinnitusPureToneStep.h"
 #import "ORKTinnitusCalibrationStep.h"
 #import "ORKTinnitusTypeStep.h"
+#import "ORKTinnitusTypeResult.h"
 
 #import <ResearchKit/ResearchKit_Private.h>
 
@@ -61,12 +62,13 @@
     
     ORKInstructionStep *_testingInstruction;
     ORKInstructionStep *_beforeStart;
-    ORKInstructionStep *_understanding;
     ORKHeadphoneDetectStep *_headphone;
     ORKEnvironmentSPLMeterStep *_splmeter;
     ORKTinnitusTypeStep *_tinnitusType;
     ORKTinnitusCalibrationStep *_calibration;
     ORKTinnitusPureToneInstructionStep *_pitchMatching;
+    
+    ORKTinnitusType _type;
 }
 
 @end
@@ -117,6 +119,15 @@
 #else
             return self.headphone;
 #endif
+        } else if ([identifier isEqualToString:ORKTinnitusVolumeCalibrationStepIdentifier]) {
+            ORKStepResult *stepResult = [result stepResultForStepIdentifier:ORKTinnitusTypeStepIdentifier];
+            ORKTinnitusTypeResult *questionResult = (ORKTinnitusTypeResult *)(stepResult.results.count > 0 ? stepResult.results.firstObject : nil);
+            if (questionResult.type != nil) {
+                _type = questionResult.type;
+                if ([questionResult.type isEqualToString:ORKTinnitusTypePureTone]) {
+                    return self.pitchMatching;
+                }
+            }
         }
     }
 
@@ -160,7 +171,6 @@
         ORKTinnitusSurvey9StepIdentifier: self.surveyQuestion10,
         ORKTinnitusSurvey10StepIdentifier: self.testingInstruction,
         ORKTinnitusTestingInstructionStepIdentifier: self.beforeStart,
-        ORKTinnitusUnderstandingStepIdentifier: self.headphone,
         ORKTinnitusHeadphoneDetectStepIdentifier: self.splmeter,
         ORKTinnitusSPLMeterStepIdentifier: self.tinnitusType,
         ORKTinnitusTypeStepIdentifier: self.calibration,
@@ -576,31 +586,11 @@
     return _splmeter;
 }
 
-- (ORKInstructionStep *)understanding {
-    if (_understanding == nil) {
-        _understanding = [[ORKInstructionStep alloc] initWithIdentifier:ORKTinnitusUnderstandingStepIdentifier];
-        _understanding.title = ORKLocalizedString(@"TINNITUS_UNDERSTANDING_TITLE", nil);
-        
-        ORKBodyItem * item1 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"TINNITUS_UNDERSTANDING_WHITENOISE_TITLE", nil)
-                                                     detailText:ORKLocalizedString(@"TINNITUS_UNDERSTANDING_BODY_ITEM_TEXT_1", nil)
-                                                          image:nil
-                                                  learnMoreItem:nil
-                                                  bodyItemStyle:ORKBodyItemStyleText];
-        ORKBodyItem * item2 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"TINNITUS_PURETONE_TITLE", nil)
-                                                     detailText:ORKLocalizedString(@"TINNITUS_UNDERSTANDING_BODY_ITEM_TEXT_2", nil)
-                                                          image:nil
-                                                  learnMoreItem:nil
-                                                  bodyItemStyle:ORKBodyItemStyleText];
-        _understanding.bodyItems = @[item1,item2];
-    }
-    return _understanding;
-}
-
 - (ORKTinnitusTypeStep *)tinnitusType {
     if (_tinnitusType == nil) {
         _tinnitusType = [ORKTinnitusTypeStep stepWithIdentifier:ORKTinnitusTypeStepIdentifier
                                                           title:ORKLocalizedString(@"TINNITUS_KIND_TITLE", nil)
-                                                      frequency:1000.0];
+                                                      frequency:ORKTinnitusTypeDefaultFrequency];
         _tinnitusType.text = ORKLocalizedString(@"TINNITUS_KIND_DETAIL", nil);
         _tinnitusType.optional = NO;
     }
