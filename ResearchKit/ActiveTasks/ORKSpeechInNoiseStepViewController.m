@@ -339,19 +339,19 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
 
 - (void)headphoneTypeDetected:(nonnull ORKHeadphoneTypeIdentifier)headphoneType vendorID:(nonnull NSString *)vendorID productID:(nonnull NSString *)productID deviceSubType:(NSInteger)deviceSubType isSupported:(BOOL)isSupported {
     if (![headphoneType isEqualToString:_headphoneType]) {
-        [self showAlertWithTitle:ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_DISCONNECTED_TITLE", nil)
-                      andMessage:ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_DISCONNECTED_TEXT", nil)];
+        [self showAlertWithTitle:ORKLocalizedString(@"HEADPHONES_DISCONNECTED_TITLE", nil)
+                      andMessage:ORKLocalizedString(@"HEADPHONES_DISCONNECTED_TEXT", nil)];
     }
 }
 
 - (void)oneAirPodRemoved {
-    [self showAlertWithTitle:ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_BOTH_TITLE", nil)
-                  andMessage:ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_BOTH_TEXT", nil)];
+    [self showAlertWithTitle:ORKLocalizedString(@"HEADPHONES_BOTH_TITLE", nil)
+                  andMessage:ORKLocalizedString(@"HEADPHONES_BOTH_TEXT", nil)];
 }
 
 - (void)podLowBatteryLevelDetected {
-    [self showAlertWithTitle:ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_LOW_BATTERY_TITLE", nil)
-                  andMessage:ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_LOW_BATTERY_TEXT", nil)];
+    [self showAlertWithTitle:ORKLocalizedString(@"HEADPHONES_LOW_BATTERY_TITLE", nil)
+                  andMessage:ORKLocalizedString(@"HEADPHONES_LOW_BATTERY_TEXT", nil)];
 }
 
 - (void)showAlertWithTitle:(NSString*)title andMessage:(NSString*)message {
