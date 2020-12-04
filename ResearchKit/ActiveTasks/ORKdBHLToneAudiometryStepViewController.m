@@ -467,7 +467,7 @@
 
 - (void)headphoneTypeDetected:(nonnull ORKHeadphoneTypeIdentifier)headphoneType vendorID:(nonnull NSString *)vendorID productID:(nonnull NSString *)productID deviceSubType:(NSInteger)deviceSubType isSupported:(BOOL)isSupported {
     if (![headphoneType isEqualToString:[[self dBHLToneAudiometryStep].headphoneType uppercaseString]]) {
-        [self showAlertWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE_TEST_INTERRUPTED", nil) andMessage:ORKLocalizedString(@"dBHL_ALERT_TEXT", nil)];
+        [self showAlertWithTitle:ORKLocalizedString(@"HEADPHONES_DISCONNECTED_TITLE", nil) andMessage:ORKLocalizedString(@"HEADPHONES_DISCONNECTED_TEXT", nil)];
     }
 }
 
@@ -480,7 +480,11 @@
 }
 
 - (void)podLowBatteryLevelDetected {
-    [self showAlertWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE2_TEST_INTERRUPTED", nil) andMessage:ORKLocalizedString(@"dBHL_POD_LOW_LEVEL_ALERT_TEXT", nil)];
+    [self showAlertWithTitle:ORKLocalizedString(@"HEADPHONES_LOW_BATTERY_TITLE", nil) andMessage:ORKLocalizedString(@"HEADPHONES_LOW_BATTERY_TEXT", nil)];
+}
+
+- (void)oneAirPodRemoved {
+    [self showAlertWithTitle:ORKLocalizedString(@"HEADPHONES_BOTH_TITLE", nil) andMessage:ORKLocalizedString(@"HEADPHONES_BOTH_TEXT", nil)];
 }
 
 - (void)showAlertWithTitle:(NSString*)title andMessage:(NSString*)message {
