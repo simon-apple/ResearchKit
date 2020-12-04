@@ -69,6 +69,9 @@ internal struct TaskContentView<Content>: View where Content: View {
     @State
     private var goNext: Bool = false
     
+    @State
+    private var selectionChanged: Bool = false
+    
     private let index: Int
     
     private let content: (ORKStep, ORKStepResult) -> Content
@@ -91,6 +94,10 @@ internal struct TaskContentView<Content>: View where Content: View {
     
     func completion() {
         
+        if !hasNextStep || (hasNextStep && !shouldAutoAdvance) {
+            selectionChanged.toggle()
+        }
+        
         currentResult.endDate = Date()
             
         if hasNextStep {
@@ -104,34 +111,50 @@ internal struct TaskContentView<Content>: View where Content: View {
         self.index = index
         self.content = content
     }
-    
+      
     var body: some View {
-        
+
         let nextStep = hasNextStep ?
             TaskContentView(index: index + 1, content).environmentObject(taskManager) : nil
         
         ScrollView {
             
-            content(currentStep, currentResult)
-                .onAppear {
-                    currentResult.startDate = Date()
-                }
-                .environment(\.progress, taskManager.progressForQuestionStep(currentStep))
-                .environment((\.completion), completion)
-            
-            if let nextStepView = nextStep {
-                NavigationLink(destination: nextStepView, isActive: $goNext) { }
-                    .frame(height: .zero)
+            ORKScrollViewReader { value in
                 
-                if !shouldAutoAdvance {
-                    Button("Next") { goNext = true }
+                content(currentStep, currentResult)
+                    .onAppear {
+                        currentResult.startDate = Date()
+                        
+                        if !hasNextStep && !shouldAutoAdvance {
+                            withAnimation(Animation.easeInOut(duration: 1)) {
+                                value.scrollToID("CTA", anchor: nil)
+                            }
+                        }
+                    }
+                    .environment(\.progress, taskManager.progressForQuestionStep(currentStep))
+                    .environment((\.completion), completion)
+                    .whenChanged(selectionChanged) { _ in
+                        withAnimation(Animation.easeInOut(duration: 1)) {
+                            value.scrollToID("CTA", anchor: nil)
+                        }
+                    }
+                
+                if let nextStepView = nextStep {
+                    NavigationLink(destination: nextStepView, isActive: $goNext) { }
+                        .frame(height: .zero)
+                    
+                    if !shouldAutoAdvance {
+                        Button("Next") { goNext = true }
+                            .id("CTA")
+                    }
+                } else {
+                    Button("Done") {
+                        taskManager.finishReason = .completed
+                    }
+                    .id("CTA")
+                    .disabled(shouldAutoAdvance)
+                    .padding(.top, 5)
                 }
-            } else {
-                Button("Done") {
-                    taskManager.finishReason = .completed
-                }
-                .disabled(shouldAutoAdvance)
-                .padding(.top, 5)
             }
         }
     }

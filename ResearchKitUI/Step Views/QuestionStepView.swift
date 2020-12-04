@@ -48,7 +48,7 @@ struct TextChoiceCell: View {
     @ViewBuilder
     var body: some View {
         Button(action: {
-            selection(!selected)
+            selection(true)
         }) {
             HStack {
                 Text(title)
@@ -115,55 +115,59 @@ internal struct _QuestionStepView: View {
     
     var body: some View {
         
-        VStack {
-            
-            if let progress = viewModel.progress {
-                Text("\(progress.index) OF \(progress.count)".uppercased())
-                    .foregroundColor(.gray)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-            }
-            
-            if let stepTitle = viewModel.step.title, !stepTitle.isEmpty {
-                Text(stepTitle)
-                    .font(.body)
-                    .fontWeight(.semibold)
-                    .multilineTextAlignment(.leading)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-            }
-            
-            if let stepQuestion = viewModel.step.question, !stepQuestion.isEmpty {
-                Text(stepQuestion)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-            }
-            
-            Spacer()
-                .frame(height: Constants.questionToAnswerPadding)
-            
-            if let textChoices = viewModel.textChoiceAnswers {
+        ORKScrollViewReader { value in
+        
+            VStack {
                 
-                ForEach(textChoices, id: \.1) { index, textChoice in
+                if let progress = viewModel.progress {
+                    Text("\(progress.index) OF \(progress.count)".uppercased())
+                        .foregroundColor(.gray)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                
+                if let stepTitle = viewModel.step.title, !stepTitle.isEmpty {
+                    Text(stepTitle)
+                        .font(.body)
+                        .fontWeight(.semibold)
+                        .multilineTextAlignment(.leading)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                
+                if let stepQuestion = viewModel.step.question, !stepQuestion.isEmpty {
+                    Text(stepQuestion)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                
+                Spacer()
+                    .frame(height: Constants.questionToAnswerPadding)
+                
+                if let textChoices = viewModel.textChoiceAnswers {
                     
-                    TextChoiceCell(title: textChoice.text,
-                                   selected: index == viewModel.selectedIndex) { selected in
+                    ForEach(textChoices, id: \.1) { index, textChoice in
                         
-                        if selected {
+                        TextChoiceCell(title: textChoice.text,
+                                       selected: index == viewModel.selectedIndex) { selected in
                             
-                            viewModel.selectedIndex = index
-                            
-                            let choiceResult = ORKChoiceQuestionResult(identifier:
-                                                                        viewModel.step.identifier)
-                            choiceResult.choiceAnswers = [textChoice.value]
-                            viewModel.setChildResult(choiceResult)
-                            
-                            // 250 ms delay
-                            DispatchQueue
-                                .main
-                                .asyncAfter(deadline: DispatchTime
-                                                .now()
-                                                .advanced(by: .milliseconds(250))) {
+                            if selected {
+                                
+                                viewModel.selectedIndex = index
+                                
+                                let choiceResult =
+                                    ORKChoiceQuestionResult(identifier: viewModel.step.identifier)
+                                
+                                choiceResult.choiceAnswers = [textChoice.value]
+                                viewModel.setChildResult(choiceResult)
+                                
+                                // 250 ms delay
+                                DispatchQueue
+                                    .main
+                                    .asyncAfter(deadline: DispatchTime
+                                                    .now()
+                                                    .advanced(by: .milliseconds(250))) {
 
-                                    completion()
-                                }
+                                        completion()
+                                    }
+                            }
                         }
                     }
                 }
