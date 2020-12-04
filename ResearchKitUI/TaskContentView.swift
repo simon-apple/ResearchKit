@@ -63,6 +63,10 @@ extension EnvironmentValues {
 
 internal struct TaskContentView<Content>: View where Content: View {
     
+    enum Constants: String {
+        case CTA
+    }
+    
     @EnvironmentObject
     private var taskManager: TaskManager
     
@@ -127,7 +131,7 @@ internal struct TaskContentView<Content>: View where Content: View {
                         
                         if !hasNextStep && !shouldAutoAdvance {
                             withAnimation(Animation.easeInOut(duration: 1)) {
-                                value.scrollToID("CTA", anchor: nil)
+                                value.scrollToID(Constants.CTA, anchor: nil)
                             }
                         }
                     }
@@ -135,7 +139,7 @@ internal struct TaskContentView<Content>: View where Content: View {
                     .environment((\.completion), completion)
                     .whenChanged(selectionChanged) { _ in
                         withAnimation(Animation.easeInOut(duration: 1)) {
-                            value.scrollToID("CTA", anchor: nil)
+                            value.scrollToID(Constants.CTA, anchor: nil)
                         }
                     }
                 
@@ -145,13 +149,13 @@ internal struct TaskContentView<Content>: View where Content: View {
                     
                     if !shouldAutoAdvance {
                         Button("Next") { goNext = true }
-                            .id("CTA")
+                            .id(Constants.CTA)
                     }
                 } else {
                     Button("Done") {
                         taskManager.finishReason = .completed
                     }
-                    .id("CTA")
+                    .id(Constants.CTA)
                     .disabled(shouldAutoAdvance)
                     .padding(.top, 5)
                 }
