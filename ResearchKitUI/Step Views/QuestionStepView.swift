@@ -48,7 +48,7 @@ struct TextChoiceCell: View {
     @ViewBuilder
     var body: some View {
         Button(action: {
-            selection(true)
+            selection(!selected)
         }) {
             HStack {
                 Text(title)
@@ -91,10 +91,16 @@ class QuestionStepViewModel: ObservableObject {
         self.result = result
     }
     
-    func setChildResult(_ res: ORKResult) {
-        res.startDate = result.startDate
-        res.endDate = Date()
-        result.results = [res]
+    func setChildResult(_ res: ORKResult?) {
+        
+        guard let childResult = res else {
+            result.results = nil
+            return
+        }
+        
+        childResult.startDate = result.startDate
+        childResult.endDate = Date()
+        result.results = [childResult]
     }
 }
 
@@ -165,8 +171,15 @@ internal struct _QuestionStepView: View {
                                                     .now()
                                                     .advanced(by: .milliseconds(250))) {
 
-                                        completion()
+                                        completion(true)
                                     }
+                                
+                            } else {
+                                
+                                viewModel.selectedIndex = -1
+                                viewModel.setChildResult(nil)
+
+                                completion(false)
                             }
                         }
                     }

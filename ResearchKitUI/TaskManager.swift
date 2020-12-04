@@ -101,6 +101,10 @@ internal extension TaskManager {
     func markStepComplete(_ step: ORKStep) {
         completedSteps.insert(step)
     }
+    
+    func markStepIncomplete(_ step: ORKStep) {
+        completedSteps.remove(step)
+    }
 }
 
 internal extension TaskManager {

@@ -43,7 +43,7 @@ struct ProgressKey: EnvironmentKey {
 }
 
 struct CompletionKey: EnvironmentKey {
-    static let defaultValue: () -> Void = {}
+    static let defaultValue: (Bool) -> Void = { _ in }
 }
 
 // swiftlint:disable implicit_getter
@@ -54,7 +54,7 @@ extension EnvironmentValues {
         set { self[ProgressKey] = newValue }
     }
     
-    var completion: () -> Void {
+    var completion: (Bool) -> Void {
         get { self[CompletionKey] }
         set { self[CompletionKey] = newValue }
     }
@@ -92,13 +92,16 @@ internal struct TaskContentView<Content>: View where Content: View {
         return index < taskManager.task.steps.count - 1
     }
     
-    private var shouldAutoAdvance: Bool {
-        return !taskManager.completedSteps.contains(currentStep)
+    private var canAutoAdvance: Bool {
+        return !taskManager.completedSteps.contains(currentStep) && currentResult.results != nil
     }
     
-    func completion() {
+    @State
+    private var shouldAutoAdvance: Bool = false
+    
+    func completion(_ complete: Bool) {
         
-        if !hasNextStep || (hasNextStep && !shouldAutoAdvance) {
+        if !hasNextStep || (hasNextStep && !canAutoAdvance) && currentResult.results != nil {
             selectionChanged.toggle()
         }
         
@@ -108,7 +111,13 @@ internal struct TaskContentView<Content>: View where Content: View {
             goNext = shouldAutoAdvance
         }
 
-        taskManager.markStepComplete(currentStep)
+        if complete {
+            taskManager.markStepComplete(currentStep)
+        } else {
+            taskManager.markStepIncomplete(currentStep)
+        }
+        
+        shouldAutoAdvance = canAutoAdvance
     }
     
     init(index: Int, @ViewBuilder _ content: @escaping (ORKStep, ORKStepResult) -> Content) {
@@ -127,6 +136,9 @@ internal struct TaskContentView<Content>: View where Content: View {
                 
                 content(currentStep, currentResult)
                     .onAppear {
+                        
+                        shouldAutoAdvance = canAutoAdvance
+                        
                         currentResult.startDate = Date()
                         
                         if !hasNextStep && !shouldAutoAdvance {
