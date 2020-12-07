@@ -30,14 +30,38 @@
 
 import SwiftUI
 
-// swiftlint:disable line_length colon
+// swiftlint:disable line_length
 extension View {
     
     @ViewBuilder
-    @inlinable func whenChanged<V>(_ value: V, perform action: @escaping (V) -> Void) -> some View where V : Equatable {
+    func whenChanged<V>(_ value: V, perform action: @escaping (V) -> Void) -> some View where V: Equatable {
         if #available(watchOSApplicationExtension 7.0, *) {
             onChange(of: value, perform: action)
+        } else {
+            modifier(OnChangedModifier(value: value, action: action))
         }
     }
 }
-// swiftlint:enable line_length colon
+
+private struct OnChangedModifier<T>: ViewModifier where T: Equatable {
+    
+    let value: T
+    
+    let action: (T) -> Void
+    
+    func body(content: Content) -> some View {
+        content
+            .onPreferenceChange(OnChangeKey<T>.self, perform: { action($0!) })
+            .preference(key: OnChangeKey<T>.self, value: value)
+    }
+}
+
+private struct OnChangeKey<T>: PreferenceKey {
+    
+    static var defaultValue: T? { nil }
+    
+    static func reduce(value: inout T?, nextValue: () -> T?) {
+        value = nextValue() ?? value
+    }
+}
+// swiftlint:enable line_length
