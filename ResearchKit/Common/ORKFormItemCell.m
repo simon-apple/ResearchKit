@@ -1270,8 +1270,13 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
             textView.textColor = [UIColor blackColor];
         }
     }
-    // Ask table view to adjust scrollview's position
+}
+
+- (BOOL)textViewShouldBeginEditing:(UITextView *)textView {
+    //Ask table view to adjust scrollview's position
     [self.delegate formItemCellDidBecomeFirstResponder:self];
+    
+    return YES;
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView {
