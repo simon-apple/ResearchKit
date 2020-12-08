@@ -43,7 +43,7 @@ struct ProgressKey: EnvironmentKey {
 }
 
 struct CompletionKey: EnvironmentKey {
-    static let defaultValue: () -> Void = {}
+    static let defaultValue: (Bool) -> Void = { _ in }
 }
 
 // swiftlint:disable implicit_getter
@@ -54,7 +54,7 @@ extension EnvironmentValues {
         set { self[ProgressKey] = newValue }
     }
     
-    var completion: () -> Void {
+    var completion: (Bool) -> Void {
         get { self[CompletionKey] }
         set { self[CompletionKey] = newValue }
     }
@@ -63,11 +63,18 @@ extension EnvironmentValues {
 
 internal struct TaskContentView<Content>: View where Content: View {
     
+    enum Constants: String {
+        case CTA
+    }
+    
     @EnvironmentObject
     private var taskManager: TaskManager
     
     @State
     private var goNext: Bool = false
+    
+    @State
+    private var selectionChanged: Bool = false
     
     private let index: Int
     
@@ -85,11 +92,18 @@ internal struct TaskContentView<Content>: View where Content: View {
         return index < taskManager.task.steps.count - 1
     }
     
-    private var shouldAutoAdvance: Bool {
-        return !taskManager.completedSteps.contains(currentStep)
+    private var canAutoAdvance: Bool {
+        return !taskManager.completedSteps.contains(currentStep) && currentResult.results != nil
     }
     
-    func completion() {
+    @State
+    private var shouldAutoAdvance: Bool = false
+    
+    func completion(_ complete: Bool) {
+        
+        if !hasNextStep || (hasNextStep && !canAutoAdvance) && currentResult.results != nil {
+            selectionChanged.toggle()
+        }
         
         currentResult.endDate = Date()
             
@@ -97,41 +111,66 @@ internal struct TaskContentView<Content>: View where Content: View {
             goNext = shouldAutoAdvance
         }
 
-        taskManager.markStepComplete(currentStep)
+        if complete {
+            taskManager.markStepComplete(currentStep)
+        } else {
+            taskManager.markStepIncomplete(currentStep)
+        }
+        
+        shouldAutoAdvance = canAutoAdvance
     }
     
     init(index: Int, @ViewBuilder _ content: @escaping (ORKStep, ORKStepResult) -> Content) {
         self.index = index
         self.content = content
     }
-    
+      
     var body: some View {
-        
+
         let nextStep = hasNextStep ?
             TaskContentView(index: index + 1, content).environmentObject(taskManager) : nil
         
         ScrollView {
             
-            content(currentStep, currentResult)
-                .onAppear {
-                    currentResult.startDate = Date()
-                }
-                .environment(\.progress, taskManager.progressForQuestionStep(currentStep))
-                .environment((\.completion), completion)
-            
-            if let nextStepView = nextStep {
-                NavigationLink(destination: nextStepView, isActive: $goNext) { }
-                    .frame(height: .zero)
+            ORKScrollViewReader { value in
                 
-                if !shouldAutoAdvance {
-                    Button("Next") { goNext = true }
+                content(currentStep, currentResult)
+                    .onAppear {
+                        
+                        shouldAutoAdvance = canAutoAdvance
+                        
+                        currentResult.startDate = Date()
+                        
+                        if !hasNextStep && !shouldAutoAdvance {
+                            withAnimation(Animation.easeInOut(duration: 1)) {
+                                value.scrollToID(Constants.CTA, anchor: nil)
+                            }
+                        }
+                    }
+                    .environment(\.progress, taskManager.progressForQuestionStep(currentStep))
+                    .environment((\.completion), completion)
+                    .whenChanged(selectionChanged) { _ in
+                        withAnimation(Animation.easeInOut(duration: 1)) {
+                            value.scrollToID(Constants.CTA, anchor: nil)
+                        }
+                    }
+                
+                if let nextStepView = nextStep {
+                    NavigationLink(destination: nextStepView, isActive: $goNext) { }
+                        .frame(height: .zero)
+                    
+                    if !shouldAutoAdvance {
+                        Button("Next") { goNext = true }
+                            .id(Constants.CTA)
+                    }
+                } else {
+                    Button("Done") {
+                        taskManager.finishReason = .completed
+                    }
+                    .id(Constants.CTA)
+                    .disabled(shouldAutoAdvance)
+                    .padding(.top, 5)
                 }
-            } else {
-                Button("Done") {
-                    taskManager.finishReason = .completed
-                }
-                .disabled(shouldAutoAdvance)
-                .padding(.top, 5)
             }
         }
     }
