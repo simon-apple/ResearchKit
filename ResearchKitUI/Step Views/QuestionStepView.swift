@@ -75,6 +75,21 @@ class QuestionStepViewModel: ObservableObject {
     
     var progress: Progress?
     
+    var childResult: ORKResult? {
+        get {
+            return result.results?.first
+        }
+        set {
+            if let value = newValue {
+                value.startDate = result.startDate
+                value.endDate = Date()
+                result.results = [value]
+            } else {
+                result.results = nil
+            }
+        }
+    }
+    
     lazy var textChoiceAnswers: [(Int, ORKTextChoice)] = {
         
         if let textChoiceAnswerFormat = step.answerFormat as? ORKTextChoiceAnswerFormat {
@@ -89,18 +104,6 @@ class QuestionStepViewModel: ObservableObject {
     init(step: ORKQuestionStep, result: ORKStepResult) {
         self.step = step
         self.result = result
-    }
-    
-    func setChildResult(_ res: ORKResult?) {
-        
-        guard let childResult = res else {
-            result.results = nil
-            return
-        }
-        
-        childResult.startDate = result.startDate
-        childResult.endDate = Date()
-        result.results = [childResult]
     }
 }
 
@@ -162,7 +165,7 @@ internal struct _QuestionStepView: View {
                                     ORKChoiceQuestionResult(identifier: viewModel.step.identifier)
                                 
                                 choiceResult.choiceAnswers = [textChoice.value]
-                                viewModel.setChildResult(choiceResult)
+                                viewModel.childResult = choiceResult
                                 
                                 // 250 ms delay
                                 DispatchQueue
@@ -177,7 +180,7 @@ internal struct _QuestionStepView: View {
                             } else {
                                 
                                 viewModel.selectedIndex = -1
-                                viewModel.setChildResult(nil)
+                                viewModel.childResult = nil
 
                                 completion(false)
                             }
