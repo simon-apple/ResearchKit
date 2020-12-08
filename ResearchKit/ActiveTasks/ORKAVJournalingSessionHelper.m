@@ -508,7 +508,7 @@
         CGFloat faceOriginX = (imageSize.width) - (faceBounds.origin.x * imageSize.width) - faceHeight;
         CGFloat faceOriginY = (faceBounds.origin.y * imageSize.height);
         
-        CGRect updatedFaceBounds = CGRectMake(faceOriginX * 0.80, faceOriginY * 0.75, faceWidth * 1.60, faceHeight * 1.15);
+        CGRect updatedFaceBounds = CGRectMake(faceOriginX, faceOriginY * 0.70, faceWidth * 1.6, faceHeight * 1.40);
         CIImage *croppedImage = [image imageByCroppingToRect:updatedFaceBounds];
         
         CGRect shoulderBounds = CGRectMake(updatedFaceBounds.origin.x * 0.80, 0, (updatedFaceBounds.origin.x * 0.40), imageSize.height);
