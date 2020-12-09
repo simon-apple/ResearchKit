@@ -214,6 +214,9 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
             if ([modelId containsString:ORKHeadphoneVendorAndProductIdIdentifierAirPodsPro]) {
                 return ORKHeadphoneTypeIdentifierAirPodsPro;
             }
+            if ([modelId containsString:ORKHeadphoneVendorAndProductIdIdentifierAirPodsMax]) {
+                return ORKHeadphoneTypeIdentifierAirPodsMax;
+            }
         }
     }
     return nil;
@@ -234,8 +237,7 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
     return NO;
 }
 
-- (void)updateDeviceInformationForRoute:(NSDictionary *)routeDict
-{
+- (void)updateDeviceInformationForRoute:(NSDictionary *)routeDict {
     _deviceSubType = [[[getAVOutputContextClass() sharedSystemAudioContext] outputDevice] deviceSubType];
     NSString *btDetails = [routeDict valueForKey:getAVSystemController_RouteDescriptionKey_BTDetails_ProductID()];
     NSArray *productIDComponents = [btDetails componentsSeparatedByString:@","];
@@ -333,6 +335,14 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
     });
 }
 
+- (BOOL)headphoneHasNoiseCancellingFeature {
+    ORKHeadphoneTypeIdentifier currentHeadphone = [self getCurrentBTHeadphoneType];
+    return (currentHeadphone == ORKHeadphoneTypeIdentifierAirPodsPro ||
+            currentHeadphone == ORKHeadphoneTypeIdentifierAirPodsMax) &&
+            (_lastDetectedDevice == ORKHeadphoneTypeIdentifierAirPodsPro ||
+             _lastDetectedDevice == ORKHeadphoneTypeIdentifierAirPodsMax);
+}
+
 - (void)checkTick:(NSNotification *)notification {
     ORKWeakTypeOf(self) weakSelf = self;
     
@@ -359,8 +369,7 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
             }
         }
         if (@available(iOS 13.0, *)) {
-            if ([strongSelf getCurrentBTHeadphoneType] == ORKHeadphoneTypeIdentifierAirPodsPro &&
-                _lastDetectedDevice == ORKHeadphoneTypeIdentifierAirPodsPro &&
+            if ([strongSelf headphoneHasNoiseCancellingFeature] &&
                 strongDelegate && [strongDelegate respondsToSelector:@selector(bluetoothModeChanged:)]) {
                 
                 NSString* listeningMode = [[[getAVOutputContextClass() sharedSystemAudioContext] outputDevice] currentBluetoothListeningMode];
