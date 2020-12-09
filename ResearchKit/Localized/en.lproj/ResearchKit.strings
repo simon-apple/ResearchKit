@@ -375,7 +375,7 @@
 "HEADPHONE_CONNECTED_%@" = "Connected - %@";
 "HEADPHONE_DETECT_TITLE" = "Connect your Headphones";
 "NOISE_CANCELLATION_EXPLANATION_AIRPODSPRO" = "Press and hold one of your AirPods Pro to turn on Noise Cancellation";
-"NOISE_CANCELLATION_EXPLANATION_AIRPODSMAX" = "Press the noise control button to enable noise cancellation";
+"NOISE_CANCELLATION_EXPLANATION_AIRPODSMAX" = "Press the noise control button to enable Noise Cancellation";
 "NOISE_CANCELLATION_REQUIRED" = "Noise cancellation required";
 "BOTH_BUDS_IN_EAR_REQUIRED" = "Put both AirPods in to proceed.";
 "HEADPHONE_DETECT_TEXT" = "To ensure accurate results, this task requires Apple AirPods, AirPods Pro, AirPods Max or EarPods.";
