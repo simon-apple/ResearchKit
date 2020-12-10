@@ -101,23 +101,22 @@ internal struct TaskContentView<Content>: View where Content: View {
     
     func completion(_ complete: Bool) {
         
-        if !hasNextStep || (hasNextStep && !canAutoAdvance) && currentResult.results != nil {
-            selectionChanged.toggle()
+        if currentStep is ORKQuestionStep {
+            
+            if !hasNextStep || (hasNextStep && !canAutoAdvance) && currentResult.results != nil {
+                selectionChanged.toggle()
+            }
+            
+            currentResult.endDate = Date()
         }
         
-        currentResult.endDate = Date()
-            
+        shouldAutoAdvance = currentStep is ORKQuestionStep ? canAutoAdvance : false
+        
         if hasNextStep {
             goNext = shouldAutoAdvance
         }
-
-        if complete {
-            taskManager.markStepComplete(currentStep)
-        } else {
-            taskManager.markStepIncomplete(currentStep)
-        }
         
-        shouldAutoAdvance = canAutoAdvance
+        taskManager.mark(currentStep, complete: complete)
     }
     
     init(index: Int, @ViewBuilder _ content: @escaping (ORKStep, ORKStepResult) -> Content) {
