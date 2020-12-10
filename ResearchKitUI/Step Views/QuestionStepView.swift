@@ -131,15 +131,13 @@ internal struct _QuestionStepView: View {
         
             VStack {
                 
-                Spacer()
-                    .frame(height: Constants.topToProgressPadding)
-                
                 Group {
                     
                     if let progress = viewModel.progress {
                         Text("\(progress.index) OF \(progress.count)".uppercased())
                             .foregroundColor(.gray)
                             .font(.footnote)
+                            .padding(.top, Constants.topToProgressPadding)
                     }
                     
                     if let stepTitle = viewModel.step.title, !stepTitle.isEmpty {
@@ -147,6 +145,7 @@ internal struct _QuestionStepView: View {
                             .font(.body)
                             .fontWeight(.semibold)
                             .multilineTextAlignment(.leading)
+                            .padding(.bottom, Constants.questionToAnswerPadding)
                     }
                     
                     if let stepQuestion = viewModel.step.question, !stepQuestion.isEmpty {
@@ -154,13 +153,11 @@ internal struct _QuestionStepView: View {
                             .font(.body)
                             .fontWeight(.semibold)
                             .multilineTextAlignment(.leading)
+                            .padding(.bottom, Constants.questionToAnswerPadding)
                     }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.leading)
-                
-                Spacer()
-                    .frame(height: Constants.questionToAnswerPadding)
                 
                 if let textChoices = viewModel.textChoiceAnswers {
                     
