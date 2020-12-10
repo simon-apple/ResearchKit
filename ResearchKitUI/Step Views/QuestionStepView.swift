@@ -56,7 +56,7 @@ struct TextChoiceCell: View {
                 Image(systemName: selected ? "checkmark.circle.fill" : "circle")
                     .frame(alignment: .trailing)
                     .imageScale(.large)
-                    .foregroundColor(selected ? .blue : .white)
+                    .foregroundColor(selected ? .blue : .gray)
             }
         }
     }
@@ -127,25 +127,27 @@ internal struct _QuestionStepView: View {
         ORKScrollViewReader { value in
         
             VStack {
-                
-                if let progress = viewModel.progress {
-                    Text("\(progress.index) OF \(progress.count)".uppercased())
-                        .foregroundColor(.gray)
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                Spacer()
+                Group {
+                    if let progress = viewModel.progress {
+                        Text("\(progress.index) OF \(progress.count)".uppercased())
+                            .foregroundColor(.gray)
+                    }
+                    
+                    if let stepTitle = viewModel.step.title, !stepTitle.isEmpty {
+                        Text(stepTitle)
+                            .font(.body)
+                            .fontWeight(.semibold)
+                            .multilineTextAlignment(.leading)
+                    }
+                    
+                    if let stepQuestion = viewModel.step.question, !stepQuestion.isEmpty {
+                        Text(stepQuestion)
+                    }
                 }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.leading)
                 
-                if let stepTitle = viewModel.step.title, !stepTitle.isEmpty {
-                    Text(stepTitle)
-                        .font(.body)
-                        .fontWeight(.semibold)
-                        .multilineTextAlignment(.leading)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                }
-                
-                if let stepQuestion = viewModel.step.question, !stepQuestion.isEmpty {
-                    Text(stepQuestion)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                }
                 
                 Spacer()
                     .frame(height: Constants.questionToAnswerPadding)
