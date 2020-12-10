@@ -112,6 +112,7 @@ class QuestionStepViewModel: ObservableObject {
 internal struct _QuestionStepView: View {
     
     enum Constants {
+        static let topToProgressPadding: CGFloat = 4.0
         static let questionToAnswerPadding: CGFloat = 12.0
     }
     
@@ -129,6 +130,9 @@ internal struct _QuestionStepView: View {
         ORKScrollViewReader { value in
         
             VStack {
+                
+                Spacer()
+                    .frame(height: Constants.topToProgressPadding)
                 
                 Group {
                     
