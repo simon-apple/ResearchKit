@@ -53,10 +53,12 @@ struct TextChoiceCell: View {
             HStack {
                 Text(title)
                     .frame(maxWidth: .infinity, alignment: .leading)
+                    .font(.body)
                 Image(systemName: selected ? "checkmark.circle.fill" : "circle")
                     .frame(alignment: .trailing)
                     .imageScale(.large)
                     .foregroundColor(selected ? .blue : .gray)
+                    .font(.body)
             }
         }
     }
@@ -127,11 +129,13 @@ internal struct _QuestionStepView: View {
         ORKScrollViewReader { value in
         
             VStack {
-                Spacer()
+                
                 Group {
+                    
                     if let progress = viewModel.progress {
                         Text("\(progress.index) OF \(progress.count)".uppercased())
                             .foregroundColor(.gray)
+                            .font(.footnote)
                     }
                     
                     if let stepTitle = viewModel.step.title, !stepTitle.isEmpty {
@@ -143,11 +147,13 @@ internal struct _QuestionStepView: View {
                     
                     if let stepQuestion = viewModel.step.question, !stepQuestion.isEmpty {
                         Text(stepQuestion)
+                            .font(.body)
+                            .fontWeight(.semibold)
+                            .multilineTextAlignment(.leading)
                     }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.leading)
-                
                 
                 Spacer()
                     .frame(height: Constants.questionToAnswerPadding)
