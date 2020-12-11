@@ -53,10 +53,12 @@ struct TextChoiceCell: View {
             HStack {
                 Text(title)
                     .frame(maxWidth: .infinity, alignment: .leading)
+                    .font(.body)
                 Image(systemName: selected ? "checkmark.circle.fill" : "circle")
                     .frame(alignment: .trailing)
                     .imageScale(.large)
-                    .foregroundColor(selected ? .blue : .white)
+                    .foregroundColor(selected ? .blue : .gray)
+                    .font(.body)
             }
         }
     }
@@ -110,6 +112,7 @@ class QuestionStepViewModel: ObservableObject {
 internal struct _QuestionStepView: View {
     
     enum Constants {
+        static let topToProgressPadding: CGFloat = 4.0
         static let questionToAnswerPadding: CGFloat = 12.0
     }
     
@@ -128,27 +131,33 @@ internal struct _QuestionStepView: View {
         
             VStack {
                 
-                if let progress = viewModel.progress {
-                    Text("\(progress.index) OF \(progress.count)".uppercased())
-                        .foregroundColor(.gray)
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                Group {
+                    
+                    if let progress = viewModel.progress {
+                        Text("\(progress.index) OF \(progress.count)".uppercased())
+                            .foregroundColor(.gray)
+                            .font(.footnote)
+                            .padding(.top, Constants.topToProgressPadding)
+                    }
+                    
+                    if let stepTitle = viewModel.step.title, !stepTitle.isEmpty {
+                        Text(stepTitle)
+                            .font(.body)
+                            .fontWeight(.semibold)
+                            .multilineTextAlignment(.leading)
+                            .padding(.bottom, Constants.questionToAnswerPadding)
+                    }
+                    
+                    if let stepQuestion = viewModel.step.question, !stepQuestion.isEmpty {
+                        Text(stepQuestion)
+                            .font(.body)
+                            .fontWeight(.semibold)
+                            .multilineTextAlignment(.leading)
+                            .padding(.bottom, Constants.questionToAnswerPadding)
+                    }
                 }
-                
-                if let stepTitle = viewModel.step.title, !stepTitle.isEmpty {
-                    Text(stepTitle)
-                        .font(.body)
-                        .fontWeight(.semibold)
-                        .multilineTextAlignment(.leading)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                }
-                
-                if let stepQuestion = viewModel.step.question, !stepQuestion.isEmpty {
-                    Text(stepQuestion)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                }
-                
-                Spacer()
-                    .frame(height: Constants.questionToAnswerPadding)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.leading)
                 
                 if let textChoices = viewModel.textChoiceAnswers {
                     
