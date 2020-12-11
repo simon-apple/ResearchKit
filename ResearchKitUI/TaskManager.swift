@@ -55,7 +55,7 @@ open class TaskManager: ObservableObject {
     private(set) var task: ORKOrderedTask
     
     @Published
-    internal private(set) var completedSteps: Set<ORKStep> = []
+    internal private(set) var answeredSteps: Set<ORKStep> = []
     
     @Published
     var viewModels: [String: ViewModel] = [:]
@@ -98,11 +98,11 @@ extension TaskManager {
 
 internal extension TaskManager {
     
-    func mark(_ step: ORKStep, complete: Bool) {
-        if complete {
-            completedSteps.insert(step)
+    func mark(_ step: ORKStep, answered: Bool) {
+        if answered {
+            answeredSteps.insert(step)
         } else {
-            completedSteps.remove(step)
+            answeredSteps.remove(step)
         }
     }
 }
