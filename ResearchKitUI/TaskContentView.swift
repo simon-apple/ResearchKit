@@ -101,21 +101,19 @@ internal struct TaskContentView<Content>: View where Content: View {
     
     func completion(_ complete: Bool) {
         
-        if currentStep is ORKQuestionStep {
+        if complete && currentStep is ORKQuestionStep {
             
-            if complete && !hasNextStep || (hasNextStep && currentStepWasAnsweredOnce) {
+            if !hasNextStep || (hasNextStep && currentStepWasAnsweredOnce) {
                 shouldScrollToCTA = true
                 forceScrollToggle.toggle()
-            } else if complete && hasNextStep {
+            } else if hasNextStep {
                 shouldScrollToCTA = false
                 goNext = true
             }
             
             currentResult.endDate = Date()
             
-            if complete {
-                taskManager.mark(currentStep, answered: true)
-            }
+            taskManager.mark(currentStep, answered: true)
         }
     }
     
