@@ -74,7 +74,7 @@ internal struct TaskContentView<Content>: View where Content: View {
     private var goNext: Bool = false
     
     @State
-    private var selectionChanged: Bool = false
+    private var forceScrollToggle: Bool = false
     
     private let index: Int
     
@@ -92,32 +92,29 @@ internal struct TaskContentView<Content>: View where Content: View {
         return index < taskManager.task.steps.count - 1
     }
     
-    private var canAutoAdvance: Bool {
-        return !taskManager.completedSteps.contains(currentStep) && currentResult.results != nil
+    private var currentStepWasAnsweredOnce: Bool {
+        return taskManager.answeredSteps.contains(currentStep)
     }
     
     @State
-    private var shouldAutoAdvance: Bool = false
+    private var shouldScrollToCTA: Bool = false
     
     func completion(_ complete: Bool) {
         
-        if !hasNextStep || (hasNextStep && !canAutoAdvance) && currentResult.results != nil {
-            selectionChanged.toggle()
-        }
-        
-        currentResult.endDate = Date()
+        if complete && currentStep is ORKQuestionStep {
             
-        if hasNextStep {
-            goNext = shouldAutoAdvance
+            if !hasNextStep || (hasNextStep && currentStepWasAnsweredOnce) {
+                shouldScrollToCTA = true
+                forceScrollToggle.toggle()
+            } else if hasNextStep {
+                shouldScrollToCTA = false
+                goNext = true
+            }
+            
+            currentResult.endDate = Date()
+            
+            taskManager.mark(currentStep, answered: true)
         }
-
-        if complete {
-            taskManager.markStepComplete(currentStep)
-        } else {
-            taskManager.markStepIncomplete(currentStep)
-        }
-        
-        shouldAutoAdvance = canAutoAdvance
     }
     
     init(index: Int, @ViewBuilder _ content: @escaping (ORKStep, ORKStepResult) -> Content) {
@@ -136,20 +133,11 @@ internal struct TaskContentView<Content>: View where Content: View {
                 
                 content(currentStep, currentResult)
                     .onAppear {
-                        
-                        shouldAutoAdvance = canAutoAdvance
-                        
                         currentResult.startDate = Date()
-                        
-                        if !hasNextStep && !shouldAutoAdvance {
-                            withAnimation(Animation.easeInOut(duration: 1)) {
-                                value.scrollToID(Constants.CTA, anchor: nil)
-                            }
-                        }
                     }
                     .environment(\.progress, taskManager.progressForQuestionStep(currentStep))
                     .environment((\.completion), completion)
-                    .whenChanged(selectionChanged) { _ in
+                    .whenChanged(forceScrollToggle) { _ in
                         withAnimation(Animation.easeInOut(duration: 1)) {
                             value.scrollToID(Constants.CTA, anchor: nil)
                         }
@@ -159,7 +147,7 @@ internal struct TaskContentView<Content>: View where Content: View {
                     NavigationLink(destination: nextStepView, isActive: $goNext) { }
                         .frame(height: .zero)
                     
-                    if !shouldAutoAdvance {
+                    if shouldScrollToCTA || !(currentStep is ORKQuestionStep) {
                         Button("Next") { goNext = true }
                             .id(Constants.CTA)
                     }
@@ -168,7 +156,7 @@ internal struct TaskContentView<Content>: View where Content: View {
                         taskManager.finishReason = .completed
                     }
                     .id(Constants.CTA)
-                    .disabled(shouldAutoAdvance)
+                    .disabled(!shouldScrollToCTA && currentStep is ORKQuestionStep)
                     .padding(.top, 5)
                 }
             }
