@@ -28,7 +28,15 @@ struct ORKTestApp: App {
         let questionStep2 = ORKQuestionStep(identifier: "questionStep2", title: "Are you feeling calm right now?", question: nil, answer: answerFormat)
         let questionStep3 = ORKQuestionStep(identifier: "questionStep3", title: "Are you feeling tired right now?", question: nil, answer: answerFormat)
         
-        let sampleTask = ORKOrderedTask(identifier: "task", steps: [questionStep, questionStep2, questionStep3])
+        
+        let instructionStep = ORKInstructionStep(identifier: "instruction")
+        instructionStep.title = "You can do it!"
+        let completionStep = ORKCompletionStep(identifier: "completion")
+        completionStep.title = "You did it!"
+        
+        
+        
+        let sampleTask = ORKOrderedTask(identifier: "task", steps: [instructionStep, questionStep, questionStep2, questionStep3, completionStep])
         return TaskManager(task: sampleTask)
     }
     

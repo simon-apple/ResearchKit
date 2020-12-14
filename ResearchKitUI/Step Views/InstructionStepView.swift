@@ -59,6 +59,8 @@ public struct InstructionStepView: View {
                 Text(detailText)
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
+        }.onAppear {
+            completion(true)
         }
     }
 }
