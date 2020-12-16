@@ -28,20 +28,58 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ResearchKit/ResearchKit.h>
+#import "ORKTinnitusMaskingSoundResult.h"
 
-NS_ASSUME_NONNULL_BEGIN
+#import "ORKResult_Private.h"
+#import "ORKHelpers_Internal.h"
 
-ORK_CLASS_AVAILABLE
-@interface ORKTinnitusPredefinedTask : ORKOrderedTask
 
-/*
- This value will update if we have a converged pure tone frequency otherwise will be 0.0
- */
-@property (readonly) double predominantFrequency;
+@implementation ORKTinnitusMaskingSoundResult
 
-- (instancetype)initWithIdentifier:(NSString *)identifier;
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [super encodeWithCoder:aCoder];
+    ORK_ENCODE_OBJ(aCoder, answer);
+    ORK_ENCODE_OBJ(aCoder, maskingSoundType);
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        ORK_DECODE_OBJ(aDecoder, answer);
+        ORK_DECODE_OBJ(aDecoder, maskingSoundType);
+    }
+    return self;
+}
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
+- (BOOL)isEqual:(id)object {
+    BOOL isParentSame = [super isEqual:object];
+    
+    __typeof(self) castObject = object;
+    return (isParentSame
+            && ORKEqualObjects(self.answer, castObject.answer)
+            && ORKEqualObjects(self.maskingSoundType, castObject.maskingSoundType)
+            ) ;
+}
+
+- (NSUInteger)hash {
+    return super.hash ^ self.answer.hash ^ self.maskingSoundType.hash;
+}
+
+- (instancetype)copyWithZone:(NSZone *)zone {
+    ORKTinnitusMaskingSoundResult *result = [super copyWithZone:zone];
+    result.answer = [self.answer copy];
+    result.maskingSoundType = [self.maskingSoundType copy];
+    return result;
+}
+
+- (NSString *)descriptionWithNumberOfPaddingSpaces:(NSUInteger)numberOfPaddingSpaces {
+    return [NSString stringWithFormat:@"%@; Masking sound type: %@; answer: %@;",
+            [self descriptionPrefixWithNumberOfPaddingSpaces:numberOfPaddingSpaces],
+            self.maskingSoundType, self.answer];
+}
 
 @end
-
-NS_ASSUME_NONNULL_END

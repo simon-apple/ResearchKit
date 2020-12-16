@@ -1,6 +1,5 @@
 /*
- Copyright (c) 2015, Apple Inc. All rights reserved.
- Copyright (c) 2017, Sage Bionetworks
+ Copyright (c) 2020, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -29,26 +28,23 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+@import UIKit;
+#import "ORKCustomStepView_Internal.h"
+#import "ORKTinnitusButtonView.h"
 
-#import <ResearchKit/ORKAmslerGridResult.h>
-#import <ResearchKit/ORKFileResult.h>
-#import <ResearchKit/ORKHolePegTestResult.h>
-#import <ResearchKit/ORKPSATResult.h>
-#import <ResearchKit/ORKRangeOfMotionResult.h>
-#import <ResearchKit/ORKReactionTimeResult.h>
-#import <ResearchKit/ORKSpatialSpanMemoryResult.h>
-#import <ResearchKit/ORKSpeechRecognitionResult.h>
-#import <ResearchKit/ORKSpeechInNoiseResult.h>
-#import <ResearchKit/ORKStroopResult.h>
-#import <ResearchKit/ORKTappingIntervalResult.h>
-#import <ResearchKit/ORKTimedWalkResult.h>
-#import <ResearchKit/ORKToneAudiometryResult.h>
-#import <ResearchKit/ORKdBHLToneAudiometryResult.h>
-#import <ResearchKit/ORKTowerOfHanoiResult.h>
-#import <ResearchKit/ORKTrailmakingResult.h>
-#import <ResearchKit/ORKTinnitusPureToneResult.h>
-#import <ResearchKit/ORKTinnitusWhitenoiseMatchingSoundResult.h>
-#import <ResearchKit/ORKTinnitusMaskingSoundResult.h>
-#import <ResearchKit/ORKTinnitusCalibrationResult.h>
-#import <ResearchKit/ORKTinnitusLoudnessMatchingResult.h>
-#import <ResearchKit/ORKTinnitusTypeResult.h>
+NS_ASSUME_NONNULL_BEGIN
+
+@interface ORKTinnitusWhitenoiseMatchingSoundContentView : ORKActiveStepCustomView
+
+@property (nonatomic, strong, readonly) ORKTinnitusButtonView *whitenoiseButtonView;
+@property (nonatomic, strong, readonly) ORKTinnitusButtonView *cicadasButtonView;
+@property (nonatomic, strong, readonly) ORKTinnitusButtonView *cricketsButtonView;
+@property (nonatomic, strong, readonly) ORKTinnitusButtonView *teakettleButtonView;
+
+- (void)unselectAllExcept:(ORKTinnitusButtonView *)buttonView;
+//- (void)unselectAllExceptOther;
+- (nullable NSString *)getAnswer;
+
+@end
+
+NS_ASSUME_NONNULL_END

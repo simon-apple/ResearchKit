@@ -1,6 +1,5 @@
 /*
- Copyright (c) 2015, Apple Inc. All rights reserved.
- Copyright (c) 2017, Sage Bionetworks
+ Copyright (c) 2020, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -29,26 +28,45 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+@import Foundation;
+#import <ResearchKit/ORKDefines.h>
+#import <ResearchKit/ORKActiveStep.h>
+#import "ORKTypes.h"
 
-#import <ResearchKit/ORKAmslerGridResult.h>
-#import <ResearchKit/ORKFileResult.h>
-#import <ResearchKit/ORKHolePegTestResult.h>
-#import <ResearchKit/ORKPSATResult.h>
-#import <ResearchKit/ORKRangeOfMotionResult.h>
-#import <ResearchKit/ORKReactionTimeResult.h>
-#import <ResearchKit/ORKSpatialSpanMemoryResult.h>
-#import <ResearchKit/ORKSpeechRecognitionResult.h>
-#import <ResearchKit/ORKSpeechInNoiseResult.h>
-#import <ResearchKit/ORKStroopResult.h>
-#import <ResearchKit/ORKTappingIntervalResult.h>
-#import <ResearchKit/ORKTimedWalkResult.h>
-#import <ResearchKit/ORKToneAudiometryResult.h>
-#import <ResearchKit/ORKdBHLToneAudiometryResult.h>
-#import <ResearchKit/ORKTowerOfHanoiResult.h>
-#import <ResearchKit/ORKTrailmakingResult.h>
-#import <ResearchKit/ORKTinnitusPureToneResult.h>
-#import <ResearchKit/ORKTinnitusWhitenoiseMatchingSoundResult.h>
-#import <ResearchKit/ORKTinnitusMaskingSoundResult.h>
-#import <ResearchKit/ORKTinnitusCalibrationResult.h>
-#import <ResearchKit/ORKTinnitusLoudnessMatchingResult.h>
-#import <ResearchKit/ORKTinnitusTypeResult.h>
+NS_ASSUME_NONNULL_BEGIN
+
+ORK_CLASS_AVAILABLE
+@interface ORKTinnitusMaskingSoundStep : ORKActiveStep
+
+@property (nonatomic, strong) ORKTinnitusMaskingSoundType maskingSoundType;
+
+/**
+ The tinnitus frequency in Hertz that will be subtracted by the notch filter
+ */
+@property (nonatomic, assign) double notchFrequency;
+
+/**
+ Bandwidth in octaves (defaults to 0.17).
+ */
+@property (nonatomic) float bandwidth;
+
+/**
+ Gain in dB (defaults to -96).
+ */
+@property (nonatomic) float gain;
+
+- (instancetype)initWithIdentifier:(NSString *)identifier __attribute__((unavailable("initWithIdentifier not available. Use initWithIdentifier: soundFilename: instead.")));
+
+/**
+ Initialize the ORKTinnitusMaskingSoundStep. The value of notchFrequency will be set to 0.0
+ */
+- (instancetype)initWithIdentifier:(NSString *)identifier maskingSoundType:(ORKTinnitusMaskingSoundType)maskingSoundType;
+
+/**
+ Initialize the ORKTinnitusMaskingSoundStep. Side effect:  To enable the notch filter, the value of notchFrequency must be greater then 0.0
+ */
+- (instancetype)initWithIdentifier:(NSString *)identifier maskingSoundType:(ORKTinnitusMaskingSoundType)maskingSoundType notchFrequency:(double)notchFrequency;
+
+@end
+
+NS_ASSUME_NONNULL_END

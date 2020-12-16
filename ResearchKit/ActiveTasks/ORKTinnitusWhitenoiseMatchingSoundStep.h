@@ -1,6 +1,5 @@
 /*
- Copyright (c) 2015, Apple Inc. All rights reserved.
- Copyright (c) 2017, Sage Bionetworks
+ Copyright (c) 2020, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -29,26 +28,32 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+@import Foundation;
+#import <ResearchKit/ORKDefines.h>
+#import <ResearchKit/ORKActiveStep.h>
+#import "ORKTypes.h"
 
-#import <ResearchKit/ORKAmslerGridResult.h>
-#import <ResearchKit/ORKFileResult.h>
-#import <ResearchKit/ORKHolePegTestResult.h>
-#import <ResearchKit/ORKPSATResult.h>
-#import <ResearchKit/ORKRangeOfMotionResult.h>
-#import <ResearchKit/ORKReactionTimeResult.h>
-#import <ResearchKit/ORKSpatialSpanMemoryResult.h>
-#import <ResearchKit/ORKSpeechRecognitionResult.h>
-#import <ResearchKit/ORKSpeechInNoiseResult.h>
-#import <ResearchKit/ORKStroopResult.h>
-#import <ResearchKit/ORKTappingIntervalResult.h>
-#import <ResearchKit/ORKTimedWalkResult.h>
-#import <ResearchKit/ORKToneAudiometryResult.h>
-#import <ResearchKit/ORKdBHLToneAudiometryResult.h>
-#import <ResearchKit/ORKTowerOfHanoiResult.h>
-#import <ResearchKit/ORKTrailmakingResult.h>
-#import <ResearchKit/ORKTinnitusPureToneResult.h>
-#import <ResearchKit/ORKTinnitusWhitenoiseMatchingSoundResult.h>
-#import <ResearchKit/ORKTinnitusMaskingSoundResult.h>
-#import <ResearchKit/ORKTinnitusCalibrationResult.h>
-#import <ResearchKit/ORKTinnitusLoudnessMatchingResult.h>
-#import <ResearchKit/ORKTinnitusTypeResult.h>
+NS_ASSUME_NONNULL_BEGIN
+
+@interface ORKTinnitusWhitenoiseMatchingSoundStep : ORKActiveStep
+
+/*
+ The extension for the soundFilename.
+ 
+ Defaults:     "wav"
+ */
+@property (nonatomic, copy) NSString *filenameExtension;
+
+/*
+ The sound filename that will be played (does not include the extension)
+ 
+ The file must be on RK bundle.
+ */
+@property (nonatomic, copy, nullable) NSString *soundFilename;
+
+- (instancetype)initWithIdentifier:(NSString *)identifier soundFilename:(NSString *)soundFilename;
+- (instancetype)initWithIdentifier:(NSString *)identifier soundFilename:(NSString *)soundFilename extension:(NSString *)extension;
+
+@end
+
+NS_ASSUME_NONNULL_END
