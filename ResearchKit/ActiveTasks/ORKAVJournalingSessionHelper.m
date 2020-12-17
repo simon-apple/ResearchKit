@@ -32,6 +32,26 @@
 #import "ORKHelpers_Internal.h"
 #import <ARKit/ARKit.h>
 
+// FigFormat metadata keys
+NSString *const CMMetadataFormatDescriptionMetadataSpecificationKey_Identifier = @"MetadataIdentifier";
+NSString *const CMMetadataFormatDescriptionMetadataSpecificationKey_DataType = @"MetadataDataType";
+
+NSString *const TrackStreamTypeIdentifierKey              = @"mdta/com.apple.trackStreamType"; // metadata key to store track id
+NSString *const RawSampleBufferAttachmentDictionary    = @"mdta/com.apple.rawSampleBufferAttachmentDict"; // metadata key to store CVPixelBuffer attachments
+NSString *const MIOFrameAttachmentSerializationMode = @"FrameMetadataFormat";
+NSString *const MIOTimestampWhenWrittenToFileKey = @"OriginalTimestampWhenWrittenToFile";
+
+NSString *const TrackStreamTypeIdentifierFrontColor = @"FrontColor";
+NSString *const TrackStreamTypeIdentifierFrontDepth = @"FrontDepth";
+
+
+CMPixelFormatType const DepthCapturePixelFormatType = kCMPixelFormat_24RGB;
+
+typedef struct __attribute__((__packed__)) DepthPacket {
+    uint8_t padding;
+    uint16_t depth;
+} DepthPacket;
+
 @interface ORKAVJournalingSessionHelper ()
 
 @property (nonatomic, weak) id<AVCaptureDataOutputSynchronizerDelegate> synchronizerDelegate;
@@ -48,6 +68,7 @@
     
     AVCaptureAudioDataOutput *_audioDataOutput;
     AVCaptureVideoDataOutput *_videoDataOutput;
+    AVCaptureDepthDataOutput *_depthDataOutput;
     AVCaptureMetadataOutput *_metaDataOutput;
     
     AVCaptureDataOutputSynchronizer *_outputSynchronizer;
@@ -60,6 +81,13 @@
     
     AVAssetWriterInput *_audioAssetWriterInput;
     AVAssetWriterInput *_videoAssetWriterInput;
+    AVAssetWriterInput *_depthAssetWriterInput;
+    AVAssetWriterInput *_videoMetadataAssetWriterInput;
+    AVAssetWriterInput *_depthMetadataAssetWriterInput;
+
+    AVAssetWriterInputPixelBufferAdaptor *_depthPixelBufferAdaptor;
+    AVAssetWriterInputMetadataAdaptor *_videoMetadataAdaptor;
+    AVAssetWriterInputMetadataAdaptor *_depthMetadataAdaptor;
     
     AVCaptureDevice *_audioCaptureDevice;
     AVCaptureDevice *_frontCameraCaptureDevice;
@@ -72,6 +100,7 @@
     BOOL _startTimeSet;
     BOOL _sessionSetUp;
     BOOL _readyToRecord;
+    BOOL _storeDepthData;
     
     CMTime _startTime;
     
@@ -79,12 +108,14 @@
 }
 
 - (instancetype)initWithSampleBufferDelegate:(id<AVCaptureDataOutputSynchronizerDelegate>)sampleBufferDelegate
-                       sessionHelperDelegate:(id<ORKAVJournalingSessionHelperDelegate>)sessionHelperDelegate {
+                       sessionHelperDelegate:(id<ORKAVJournalingSessionHelperDelegate>)sessionHelperDelegate
+                   storeDepthDataIfAvailable:(BOOL)storeDepthData{
     self = [super init];
     if (self) {
         _dataOutputQueue = dispatch_queue_create("com.apple.hrs.captureOutput", nil);
         _capturing = NO;
         _originalFrameSize = CGSizeZero;
+        _storeDepthData = storeDepthData;
         
         if ([sampleBufferDelegate conformsToProtocol:@protocol(AVCaptureDataOutputSynchronizerDelegate)]) {
             _synchronizerDelegate = sampleBufferDelegate;
@@ -190,6 +221,13 @@
         if ([_videoAssetWriter canAddInput:_audioAssetWriterInput]) {
             [_videoAssetWriter addInput:_audioAssetWriterInput];
         }
+
+        // create depth asset writer input
+        [self setupAssetWriterInputDepth];
+
+        // create metadata asset writer input for depth and video
+        [self setupAssetWriterInputVideoMetadata];
+        [self setupAssetWriterInputDepthMetadata];
         
         _capturing = YES;
     });
@@ -274,6 +312,8 @@
             if (err == noErr) {
                 [self saveSampleBuffer:sbuf];
             }
+
+            [self attachMetadataVideoForPixelBuffer:pixelBufferRef presentationTime:presentationTime];
             
             if (sbuf != NULL) {
                 CFRelease(sbuf);
@@ -282,6 +322,50 @@
             CVPixelBufferRelease(pixelBufferRef);
         }
     }
+
+    // pull out depth data
+    AVCaptureSynchronizedDepthData *syncedDepthSampleBufferData = (AVCaptureSynchronizedDepthData *) [dataCollection synchronizedDataForCaptureOutput:_depthDataOutput];
+    if (_depthAssetWriterInput && syncedDepthSampleBufferData && !syncedDepthSampleBufferData.depthDataWasDropped && _storeDepthData) {
+        
+        AVDepthData *depthData = syncedDepthSampleBufferData.depthData;
+        if (depthData.depthDataType != kCVPixelFormatType_DepthFloat32) {
+            depthData = [depthData depthDataByConvertingToDepthDataType:kCVPixelFormatType_DepthFloat32];
+        }
+
+        CVPixelBufferRef depthImage = depthData.depthDataMap;
+
+        if (depthImage) {
+            CMTime depthPresentationTime = syncedDepthSampleBufferData.timestamp;
+            CVPixelBufferRef quantizedPixelBuffer = [self quantizeDepthPixelBuffer:depthImage];
+
+            CMVideoFormatDescriptionRef formatDesc = NULL;
+
+            CMVideoFormatDescriptionCreateForImageBuffer(kCFAllocatorDefault, quantizedPixelBuffer, &formatDesc);
+
+            if (formatDesc) {
+                CMSampleBufferRef depthSampleBuffer = nil;
+
+                CMSampleTimingInfo sampleTiming;
+
+                sampleTiming.presentationTimeStamp = depthPresentationTime;
+                sampleTiming.decodeTimeStamp    = kCMTimeInvalid;
+                sampleTiming.duration       = kCMTimeInvalid;
+
+                CMSampleBufferCreateReadyWithImageBuffer(kCFAllocatorDefault, quantizedPixelBuffer, formatDesc, &sampleTiming, &depthSampleBuffer);
+
+                if (depthSampleBuffer && _depthAssetWriterInput.isReadyForMoreMediaData) {
+                    [_depthPixelBufferAdaptor appendPixelBuffer:quantizedPixelBuffer withPresentationTime:sampleTiming.presentationTimeStamp];
+
+                    CFRelease(depthSampleBuffer);
+                }
+                CFRelease(formatDesc);
+                CFRelease(quantizedPixelBuffer);
+            }
+
+            [self attachMetadataDepthForPixelBuffer:quantizedPixelBuffer presentationTime:depthPresentationTime];
+        }
+    }
+
     
     //pull out audio data
     AVCaptureSynchronizedSampleBufferData *syncedAudioSampleBufferData = (AVCaptureSynchronizedSampleBufferData *)[dataCollection synchronizedDataForCaptureOutput:_audioDataOutput];
@@ -289,6 +373,8 @@
     if (syncedAudioSampleBufferData && syncedAudioSampleBufferData.sampleBuffer) {
         [self saveSampleBuffer:syncedAudioSampleBufferData.sampleBuffer];
     }
+
+
 }
 
 - (void)tearDownSession {
@@ -300,9 +386,123 @@
 
 #pragma mark Helper Methods (private)
 
-- (BOOL)setupFrontCameraOnSession:(NSError **)error {
+- (BOOL)setupAssetWriterInputDepth {
+    NSMutableDictionary *depthOutputSettings = [[_videoDataOutput
+                            recommendedVideoSettingsForAssetWriterWithOutputFileType:AVFileTypeQuickTimeMovie] mutableCopy];
+    depthOutputSettings[AVVideoCompressionPropertiesKey][AVVideoMaxKeyFrameIntervalKey] = @(1);
+    depthOutputSettings[AVVideoWidthKey] = @((NSInteger)640);
+    depthOutputSettings[AVVideoHeightKey] = @((NSInteger)360);
     
-    _frontCameraCaptureDevice = [AVCaptureDevice defaultDeviceWithDeviceType:AVCaptureDeviceTypeBuiltInWideAngleCamera mediaType:AVMediaTypeVideo position:AVCaptureDevicePositionFront];
+    // create depth asset writer input
+    _depthAssetWriterInput = [AVAssetWriterInput assetWriterInputWithMediaType:AVMediaTypeVideo
+                                                                outputSettings:depthOutputSettings];
+
+    [_depthAssetWriterInput setExpectsMediaDataInRealTime:YES];
+    
+    // add track-level metadata
+    NSMutableArray* metadata = [@[[self getTrackMetadataForStream:TrackStreamTypeIdentifierFrontDepth]] mutableCopy];
+    _depthAssetWriterInput.metadata = [metadata copy];
+
+    _depthPixelBufferAdaptor = [AVAssetWriterInputPixelBufferAdaptor assetWriterInputPixelBufferAdaptorWithAssetWriterInput:_depthAssetWriterInput
+                                                                                                sourcePixelBufferAttributes:@{
+                                                                                                    (__bridge NSString*)kCVPixelBufferIOSurfacePropertiesKey : @{},
+                                                                                                    (id)kCVPixelBufferPixelFormatTypeKey : @(DepthCapturePixelFormatType),
+                                                                                                    (id)kCVPixelBufferWidthKey              : @(640),
+                                                                                                    (id)kCVPixelBufferHeightKey             : @(360)}];
+
+    if (!_depthPixelBufferAdaptor) {
+        ORK_Log_Error("could not create depth pixel buffer adaptor");
+        return NO;
+    }
+
+    if ([_videoAssetWriter canAddInput:_depthAssetWriterInput]) {
+        [_videoAssetWriter addInput:_depthAssetWriterInput];
+    }
+
+    return YES;
+}
+
+- (BOOL)setupAssetWriterInputDepthMetadata {
+    // create metadata asset writer input
+    CMFormatDescriptionRef metadataFormat;
+    NSArray *specs = @[@{(__bridge NSString *)kCMMetadataFormatDescriptionMetadataSpecificationKey_Identifier : RawSampleBufferAttachmentDictionary,
+                         (__bridge NSString *)kCMMetadataFormatDescriptionMetadataSpecificationKey_DataType : (__bridge NSString *)kCMMetadataBaseDataType_RawData}];
+
+    OSStatus err = CMMetadataFormatDescriptionCreateWithMetadataSpecifications(kCFAllocatorDefault,
+                                                                               kCMMetadataFormatType_Boxed,
+                                                                               (__bridge CFArrayRef)specs,
+                                                                               &metadataFormat);
+    if (err) {
+        ORK_Log_Error("Error: Can't create metadata format description. Error status: %d", (int)err);
+        CFRelease(metadataFormat);
+        metadataFormat = nil;
+        return NO;
+    }
+
+    _depthMetadataAssetWriterInput = [AVAssetWriterInput assetWriterInputWithMediaType:AVMediaTypeMetadata outputSettings:nil sourceFormatHint:metadataFormat];
+    if ([_videoAssetWriter canAddInput:_depthMetadataAssetWriterInput]) {
+        [_videoAssetWriter addInput:_depthMetadataAssetWriterInput];
+    }
+
+    _depthAssetWriterInput.mediaTimeScale = 600;
+    _depthMetadataAssetWriterInput.expectsMediaDataInRealTime = YES;
+    [_depthMetadataAssetWriterInput addTrackAssociationWithTrackOfInput:_depthAssetWriterInput type:AVTrackAssociationTypeMetadataReferent];
+
+    _depthMetadataAdaptor = [AVAssetWriterInputMetadataAdaptor assetWriterInputMetadataAdaptorWithAssetWriterInput:_depthMetadataAssetWriterInput];
+    
+    CFRelease(metadataFormat);
+    
+    return YES;
+}
+
+- (BOOL)setupAssetWriterInputVideoMetadata {
+    CMFormatDescriptionRef metadataFormat;
+    NSArray *specs = @[@{CMMetadataFormatDescriptionMetadataSpecificationKey_Identifier : RawSampleBufferAttachmentDictionary,
+                         CMMetadataFormatDescriptionMetadataSpecificationKey_DataType : (__bridge NSString *)kCMMetadataBaseDataType_RawData}];
+
+    OSStatus err = CMMetadataFormatDescriptionCreateWithMetadataSpecifications(kCFAllocatorDefault,
+                                                                               kCMMetadataFormatType_Boxed,
+                                                                               (__bridge CFArrayRef)specs,
+                                                                               &metadataFormat);
+    if (err) {
+        ORK_Log_Error("Error: Can't create metadata format description. Error status: %d", (int)err);
+        
+        CFRelease(metadataFormat);
+        metadataFormat = nil;
+        return NO;
+    }
+
+    _videoMetadataAssetWriterInput = [AVAssetWriterInput assetWriterInputWithMediaType:AVMediaTypeMetadata outputSettings:nil sourceFormatHint:metadataFormat];
+    
+    NSMutableArray* metadata = [@[[self getTrackMetadataForStream:TrackStreamTypeIdentifierFrontColor]] mutableCopy];
+    _videoAssetWriterInput.metadata = [metadata copy];
+    
+    _videoMetadataAssetWriterInput.mediaTimeScale = 600;
+    _videoMetadataAssetWriterInput.expectsMediaDataInRealTime = YES;
+    [_videoMetadataAssetWriterInput addTrackAssociationWithTrackOfInput:_videoAssetWriterInput type:AVTrackAssociationTypeMetadataReferent];
+
+    _videoMetadataAdaptor = [AVAssetWriterInputMetadataAdaptor assetWriterInputMetadataAdaptorWithAssetWriterInput:_videoMetadataAssetWriterInput];
+    
+    if ([_videoAssetWriter canAddInput:_videoMetadataAssetWriterInput]) {
+        [_videoAssetWriter addInput:_videoMetadataAssetWriterInput];
+    }
+    
+    CFRelease(metadataFormat);
+
+    return YES;
+}
+
+- (BOOL)setupFrontCameraOnSession:(NSError **)error {
+
+    if (@available(iOS 11.1, *)) {
+        _frontCameraCaptureDevice = [AVCaptureDevice defaultDeviceWithDeviceType:AVCaptureDeviceTypeBuiltInTrueDepthCamera mediaType:AVMediaTypeVideo position:AVCaptureDevicePositionFront];
+
+        [self configureDepthMapCameraFormatFor: _frontCameraCaptureDevice];
+    } else {
+        // Fallback on earlier versions
+        _frontCameraCaptureDevice = [AVCaptureDevice defaultDeviceWithDeviceType:AVCaptureDeviceTypeBuiltInWideAngleCamera mediaType:AVMediaTypeVideo position:AVCaptureDevicePositionFront];
+    }
+
     AVCaptureDeviceInput *frontCameraInput = [AVCaptureDeviceInput deviceInputWithDevice: _frontCameraCaptureDevice error: error];
     if (frontCameraInput) {
         if ([_captureSession canAddInput: frontCameraInput]) {
@@ -351,6 +551,27 @@
             [device unlockForConfiguration];
         }
     }
+}
+
+- (void)configureDepthMapCameraFormatFor:(AVCaptureDevice *)device {
+    AVCaptureDeviceFormat *selectFormat = nil;
+
+    for (AVCaptureDeviceFormat *format in [device.activeFormat supportedDepthDataFormats]) {
+        FourCharCode mediaSubtype = CMFormatDescriptionGetMediaSubType(format.formatDescription);
+        if (mediaSubtype == kCVPixelFormatType_DepthFloat32 && format.highResolutionStillImageDimensions.height == 360) {
+            selectFormat = format;
+        }
+    }
+
+    NSError *error;
+
+    [device lockForConfiguration:&error];
+
+    if (!error) {
+        device.activeDepthDataFormat = selectFormat;
+    }
+
+    [device unlockForConfiguration];
 }
 
 - (BOOL)setupAudioOnSession:(NSError **)error {
@@ -425,9 +646,17 @@
             [_metaDataOutput setMetadataObjectTypes:@[AVMetadataObjectTypeFace]];
         }
     }
+
+    if (!_depthDataOutput) {
+        _depthDataOutput = [[AVCaptureDepthDataOutput alloc] init];
+
+        if ([_captureSession canAddOutput:_depthDataOutput]) {
+            [_captureSession addOutput:_depthDataOutput];
+        }
+    }
     
     if (!_outputSynchronizer) {
-        _outputSynchronizer = [[AVCaptureDataOutputSynchronizer alloc] initWithDataOutputs:@[_videoDataOutput, _audioDataOutput, _metaDataOutput]];
+        _outputSynchronizer = [[AVCaptureDataOutputSynchronizer alloc] initWithDataOutputs:@[_videoDataOutput, _audioDataOutput, _metaDataOutput, _depthDataOutput]];
     }
     
     [_outputSynchronizer setDelegate:_synchronizerDelegate queue:_dataOutputQueue];
@@ -466,6 +695,9 @@
             _startTimeSet = NO;
             
             [_videoAssetWriterInput markAsFinished];
+            [_videoMetadataAssetWriterInput markAsFinished];
+            [_depthAssetWriterInput markAsFinished];
+            [_depthMetadataAssetWriterInput markAsFinished];
             [_audioAssetWriterInput markAsFinished];
             
             CMTime time = CMSampleBufferGetPresentationTimeStamp(sampleBuffer);
@@ -593,6 +825,75 @@ bail:
     return err;
 }
 
+- (void)attachMetadataVideoForPixelBuffer:(CVPixelBufferRef)pixelBufferRef presentationTime:(CMTime)presentationTime {
+    if (_videoMetadataAssetWriterInput && [_videoMetadataAssetWriterInput isReadyForMoreMediaData]) {
+    // encode special metadata for SaveFrames
+        AVMutableMetadataItem *rawAttachmentMetadata = [AVMutableMetadataItem metadataItem];
+        rawAttachmentMetadata.identifier = RawSampleBufferAttachmentDictionary;
+        rawAttachmentMetadata.dataType = (__bridge NSString *)kCMMetadataBaseDataType_RawData;
+        rawAttachmentMetadata.extraAttributes = nil;
+        NSMutableDictionary* attachmentsToSave = [NSMutableDictionary new];
+        NSData* rawAttachmentData = nil;
+        NSDictionary* origTimestamp = (NSDictionary*)CFBridgingRelease(CMTimeCopyAsDictionary(presentationTime, kCFAllocatorDefault));
+        [attachmentsToSave setObject:origTimestamp
+                              forKey:MIOTimestampWhenWrittenToFileKey];
+
+        // Serialize the metadata dictionary to plist if possible, else error out.
+        NSError* error = nil;
+        rawAttachmentData = [NSPropertyListSerialization dataWithPropertyList:(id)attachmentsToSave
+                                                                       format:NSPropertyListBinaryFormat_v1_0
+                                                                      options:0
+                                                                        error:&error];
+        if (![NSPropertyListSerialization propertyList: (id)rawAttachmentData isValidForFormat: NSPropertyListBinaryFormat_v1_0] || error != nil) {
+            ORK_Log_Error("Error: The metadata dictionary is not valid for XML v1.0 plist Format. Error: %@", error);
+        }
+
+        rawAttachmentMetadata.value = rawAttachmentData;
+
+        AVTimedMetadataGroup *metadataGroup = [[AVTimedMetadataGroup alloc] initWithItems:@[rawAttachmentMetadata]
+                                                                                timeRange:CMTimeRangeMake(presentationTime, kCMTimeInvalid)];
+
+        if (![_videoMetadataAdaptor appendTimedMetadataGroup:metadataGroup]) {
+            ORK_Log_Error("Could not append timed video metadata. Error: %@", _videoAssetWriter.error);
+        }
+    }
+}
+
+- (void)attachMetadataDepthForPixelBuffer:(CVPixelBufferRef)pixelBufferRef presentationTime:(CMTime)presentationTime {
+    if (_depthMetadataAssetWriterInput && [_depthMetadataAssetWriterInput isReadyForMoreMediaData]) {
+        AVMutableMetadataItem *rawAttachmentMetadata = [AVMutableMetadataItem metadataItem];
+        rawAttachmentMetadata.identifier = RawSampleBufferAttachmentDictionary;
+        rawAttachmentMetadata.dataType = (__bridge NSString *)kCMMetadataBaseDataType_RawData;
+        rawAttachmentMetadata.extraAttributes = nil;
+        NSMutableDictionary* attachmentsToSave = [NSMutableDictionary new];
+        NSData* rawAttachmentData = nil;
+        NSDictionary* origTimestamp = (NSDictionary*)CFBridgingRelease(CMTimeCopyAsDictionary(presentationTime, kCFAllocatorDefault));
+        [attachmentsToSave setObject:origTimestamp
+                              forKey:MIOTimestampWhenWrittenToFileKey];
+
+        // Serialize the metadata dictionary to plist if possible, else error out.
+        NSError* error = nil;
+        rawAttachmentData = [NSPropertyListSerialization dataWithPropertyList:(id)attachmentsToSave
+                                                                       format:NSPropertyListBinaryFormat_v1_0
+                                                                      options:0
+                                                                        error:&error];
+        if (![NSPropertyListSerialization
+              propertyList: (id)rawAttachmentData
+              isValidForFormat: NSPropertyListBinaryFormat_v1_0]) {
+            ORK_Log_Error("Error: The metadata dictionary is not valid for XML v1.0 plist Format");
+        }
+
+        rawAttachmentMetadata.value = rawAttachmentData;
+
+        AVTimedMetadataGroup *metadataGroup = [[AVTimedMetadataGroup alloc] initWithItems:@[rawAttachmentMetadata]
+                                                                                timeRange:CMTimeRangeMake(presentationTime, kCMTimeInvalid)];
+
+        if (![_depthMetadataAdaptor appendTimedMetadataGroup:metadataGroup]) {
+            ORK_Log_Error("Error: Could not append timed depth metadata. Error: %@", _videoAssetWriter.error);
+        }
+    }
+}
+
 - (void)capturedFileHasFinishedWriting {
     _readyToRecord = YES;
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -605,5 +906,62 @@ bail:
     });
 }
 
-@end
+- (CVPixelBufferRef)quantizeDepthPixelBuffer:(CVPixelBufferRef)src {
+    CVPixelBufferRef dst = NULL;
+    if (src && _depthPixelBufferAdaptor) {
+        CVPixelBufferCreate(kCFAllocatorDefault, CVPixelBufferGetWidth(src), CVPixelBufferGetHeight(src), DepthCapturePixelFormatType, NULL, &dst);
+        if (dst) {
+            size_t width  = CVPixelBufferGetWidth(src);
+            size_t height = CVPixelBufferGetHeight(src);
+            size_t dstStride = CVPixelBufferGetBytesPerRow(dst);
 
+            CVPixelBufferLockBaseAddress(src, kCVPixelBufferLock_ReadOnly);
+            CVPixelBufferLockBaseAddress(dst, 0);
+
+            float *pSrc = (float *)CVPixelBufferGetBaseAddress(src);
+            DepthPacket *pDst = (DepthPacket *) CVPixelBufferGetBaseAddress(dst);
+
+            DepthPacket tmp[dstStride];
+            DepthPacket *pTmp = tmp;
+
+            for (size_t h = 0; h < height; h++) {
+                float *pSrcRowStep = (float *)pSrc;
+                DepthPacket *pTmpRowStep = pTmp;
+
+                for (size_t w = 0; w < width; w++) {
+                    float sourceValue = *pSrcRowStep;
+                    sourceValue = (sourceValue / 8.125) * 16383; // normalize to [0, 1.0] and scale [0, 16383]
+                    pTmpRowStep->padding = (uint8_t) 0;
+                    pTmpRowStep->depth = sourceValue;
+
+                    pTmpRowStep++;
+                    pSrcRowStep++;
+                }
+
+                memcpy(pDst, pTmp, width * sizeof(pTmp));
+
+                pSrc += width;
+                pDst += width;
+            }
+
+            CVPixelBufferUnlockBaseAddress(src, kCVPixelBufferLock_ReadOnly);
+            CVPixelBufferUnlockBaseAddress(dst, 0);
+        }
+    }
+
+    return dst;
+}
+
+- (AVMetadataItem*)getTrackMetadataForStream:(NSString*)streamId
+{
+    AVMutableMetadataItem *trackMetadata = [AVMutableMetadataItem metadataItem];
+    trackMetadata.identifier = TrackStreamTypeIdentifierKey;
+    trackMetadata.dataType = (__bridge NSString *)kCMMetadataBaseDataType_UTF8;
+    trackMetadata.extraAttributes = nil;
+    trackMetadata.value = streamId;
+    
+    return trackMetadata;
+}
+
+
+@end

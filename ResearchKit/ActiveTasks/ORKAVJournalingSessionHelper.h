@@ -37,7 +37,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ORKAVJournalingSessionHelper : NSObject
 
 - (instancetype)initWithSampleBufferDelegate:(id<AVCaptureDataOutputSynchronizerDelegate>)sampleBufferDelegate
-                       sessionHelperDelegate:(id<ORKAVJournalingSessionHelperDelegate>)sessionHelperDelegate;
+                       sessionHelperDelegate:(id<ORKAVJournalingSessionHelperDelegate>)sessionHelperDelegate
+                   storeDepthDataIfAvailable:(BOOL)storeDepthData;
 
 @property (nonatomic, nullable, readonly) AVCaptureSession *captureSession;
 @property (nonatomic, nullable, copy) NSArray *cameraIntrinsicsArray;
