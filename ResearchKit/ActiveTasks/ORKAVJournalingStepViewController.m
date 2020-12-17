@@ -229,7 +229,8 @@ static const CGFloat FramesToSkipTotal = 5.0;
 - (void)startSession {
     //Setup SessionHelper
     _sessionHelper = [[ORKAVJournalingSessionHelper alloc] initWithSampleBufferDelegate:self
-                                                                  sessionHelperDelegate:self];
+                                                                  sessionHelperDelegate:self
+                                                              storeDepthDataIfAvailable:_avJournalingStep.saveDepthDataIfAvailable];
     
     NSError *error = nil;
     
@@ -300,7 +301,13 @@ static const CGFloat FramesToSkipTotal = 5.0;
 - (void)submitVideo {
     if ([self tempVideoFileExists]) {
         //Save video to permanant file
-        NSString *outputFileName = [NSString stringWithFormat:@"%@_%@_rgb", self.step.identifier, self.taskViewController.taskRunUUID.UUIDString];
+        NSString *fileNameFormat = @"%@_%@_rgb";
+        
+        if ([ARFaceTrackingConfiguration isSupported] && _avJournalingStep.saveDepthDataIfAvailable) {
+            fileNameFormat = @"%@_%@_rgb_depth";
+        }
+        
+        NSString *outputFileName = [NSString stringWithFormat:fileNameFormat, self.step.identifier, self.taskViewController.taskRunUUID.UUIDString];
         _savedFileName = [outputFileName stringByAppendingPathExtension:@"mov"];
         
         NSURL *docURL = self.taskViewController.outputDirectory;
