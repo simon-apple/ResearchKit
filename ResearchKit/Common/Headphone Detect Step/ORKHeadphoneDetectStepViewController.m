@@ -940,8 +940,8 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     _headphoneDetector.delegate = nil;
     dispatch_async(dispatch_get_main_queue(), ^{
         UIAlertController *alertController = [UIAlertController
-                                              alertControllerWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE2_TEST_INTERRUPTED", nil)
-                                              message:ORKLocalizedString(@"dBHL_POD_LOW_LEVEL_ALERT_TEXT", nil)
+                                              alertControllerWithTitle:ORKLocalizedString(@"HEADPHONES_LOW_BATTERY_TITLE", nil)
+                                              message:ORKLocalizedString(@"HEADPHONES_LOW_BATTERY_TEXT", nil)
                                               preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *startOver = [UIAlertAction
                                     actionWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE_START_OVER", nil)
