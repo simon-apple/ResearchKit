@@ -76,6 +76,8 @@ static NSString *const ORKTinnitusSurveyAnswerFocus = @"FOCUS";
 static NSString *const ORKTinnitusSurveyAnswerAsleep = @"ASLEEP";
 static NSString *const ORKTinnitusSurveyAnswerExercising = @"EXERCISING";
 static NSString *const ORKTinnitusSurveyAnswerRelax = @"RELAX";
+
+
 // Masking matching sounds
 static NSString *const ORKTinnitusFilenameFire = @"camp_fire_5s";
 static NSString *const ORKTinnitusFilenameRain = @"rain_5s";
