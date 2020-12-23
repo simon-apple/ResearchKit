@@ -36,8 +36,6 @@
 
 #import <ResearchKit/ResearchKit_Private.h>
 
-<<<<<<< Updated upstream
-=======
 static NSString *const ORKTinnitusSurvey1StepIdentifier = @"tinnitus.survey.1";
 static NSString *const ORKTinnitusSurvey2StepIdentifier = @"tinnitus.survey.2";
 static NSString *const ORKTinnitusSurveyEndStepIdentifier = @"tinnitus.completion.survey";
@@ -110,7 +108,6 @@ static NSString *const ORKTinnitusWhitenoiseMatchingIdentifier = @"tinnitus.whit
 
 @end
 
->>>>>>> Stashed changes
 @interface ORKTinnitusPredefinedTask () {
     UIColor *_cachedBGColor;
     NSDictionary *_stepAfterStepDict;

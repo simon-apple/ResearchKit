@@ -77,8 +77,6 @@ static NSString *const ORKTinnitusSurveyAnswerAsleep = @"ASLEEP";
 static NSString *const ORKTinnitusSurveyAnswerExercising = @"EXERCISING";
 static NSString *const ORKTinnitusSurveyAnswerRelax = @"RELAX";
 
-<<<<<<< Updated upstream
-=======
 // Masking matching sounds
 static NSString *const ORKTinnitusFilenameFire = @"camp_fire_5s";
 static NSString *const ORKTinnitusFilenameRain = @"rain_5s";
@@ -94,5 +92,4 @@ static NSString *const ORKTinnitusFilenameAudiobook = @"audiobook_6s";
 
 static NSString *const ORKTinnitusDefaultFilenameExtension = @"wav";
 
->>>>>>> Stashed changes
 #endif /* ORKTinnitusTaskConstants_h */
