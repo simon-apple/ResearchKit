@@ -31,27 +31,6 @@
 #ifndef ORKTinnitusPredefinedTaskConstants_h
 #define ORKTinnitusPredefinedTaskConstants_h
 
-// Survey
-static NSString *const ORKTinnitusSurvey1StepIdentifier = @"tinnitus.survey.1";
-static NSString *const ORKTinnitusSurvey2StepIdentifier = @"tinnitus.survey.2";
-static NSString *const ORKTinnitusSurveyEndStepIdentifier = @"tinnitus.completion.survey";
-static NSString *const ORKTinnitusSurvey3StepIdentifier = @"tinnitus.survey.3";
-static NSString *const ORKTinnitusSurvey4StepIdentifier = @"tinnitus.survey.4";
-static NSString *const ORKTinnitusSurvey5StepIdentifier = @"tinnitus.survey.5";
-static NSString *const ORKTinnitusSurvey6StepIdentifier = @"tinnitus.survey.6";
-static NSString *const ORKTinnitusSurvey7StepIdentifier = @"tinnitus.survey.7";
-static NSString *const ORKTinnitusSurvey8StepIdentifier = @"tinnitus.survey.8";
-static NSString *const ORKTinnitusSurvey9StepIdentifier = @"tinnitus.survey.9";
-static NSString *const ORKTinnitusSurvey10StepIdentifier = @"tinnitus.survey.10";
-
-static NSString *const ORKTinnitusInstruction1StepIdentifier = @"tinnitus.instruction.1";
-static NSString *const ORKTinnitusTestingInstructionStepIdentifier = @"tinnitus.instruction.2";
-static NSString *const ORKTinnitusBeforeStartStepIdentifier = @"tinnitus.instruction.3";
-static NSString *const ORKTinnitusUnderstandingStepIdentifier = @"tinnitus.instruction.4";
-static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instruction.5";
-static NSString *const ORKTinnitusInstruction6StepIdentifier = @"tinnitus.instruction.6";
-static NSString *const ORKTinnitusInstruction7StepIdentifier = @"tinnitus.instruction.7";
-
 // Survey answer values
 static NSString *const ORKTinnitusSurveyAnswerYes = @"YES";
 static NSString *const ORKTinnitusSurveyAnswerNo = @"NO";
@@ -97,7 +76,6 @@ static NSString *const ORKTinnitusSurveyAnswerFocus = @"FOCUS";
 static NSString *const ORKTinnitusSurveyAnswerAsleep = @"ASLEEP";
 static NSString *const ORKTinnitusSurveyAnswerExercising = @"EXERCISING";
 static NSString *const ORKTinnitusSurveyAnswerRelax = @"RELAX";
-
 // Masking matching sounds
 static NSString *const ORKTinnitusFilenameFire = @"camp_fire_5s";
 static NSString *const ORKTinnitusFilenameRain = @"rain_5s";
@@ -112,40 +90,5 @@ static NSString *const ORKTinnitusFilenameCrowd = @"crowd_noise_5s";
 static NSString *const ORKTinnitusFilenameAudiobook = @"audiobook_6s";
 
 static NSString *const ORKTinnitusDefaultFilenameExtension = @"wav";
-
-static NSString *const ORKTinnitusHeadphoneDetectStepIdentifier = @"tinnitus.headphonedetect";
-static NSString *const ORKTinnitusSPLMeterStepIdentifier = @"tinnitus.splmeter";
-static NSString *const ORKTinnitusTypeStepIdentifier = @"tinnitus.type";
-static NSString *const ORKTinnitusVolumeCalibrationStepIdentifier = @"tinnitus.volume.calibration";
-// Pure tone steps
-static NSString *const ORKTinnitusRound1StepIdentifier = @"tinnitus.puretone.1";
-static NSString *const ORKTinnitusRound1SuccessCompletedStepIdentifier = @"tinnitus.puretone.success.roundcomplete.1";
-static NSString *const ORKTinnitusRound1NoSuccessCompletedStepIdentifier = @"tinnitus.puretone.no.success.roundcomplete.1";
-static NSString *const ORKTinnitusRound2StepIdentifier = @"tinnitus.puretone.2";
-static NSString *const ORKTinnitusRound2SuccessCompletedStepIdentifier = @"tinnitus.puretone.success.roundcomplete.2";
-static NSString *const ORKTinnitusRound2NoSuccessCompletedStepIdentifier = @"tinnitus.puretone.no.success.roundcomplete.2";
-static NSString *const ORKTinnitusRound3StepIdentifier = @"tinnitus.puretone.3";
-static NSString *const ORKTinnitusPuretoneNoSuccessStepIdentifier = @"tinnitus.puretone.no.success";
-static NSString *const ORKTinnitusPuretoneSuccessStepIdentifier = @"tinnitus.puretone.success";
-
-static NSString *const ORKTinnitusLoudnessMatchingStepIdentifier = @"tinnitus.loudness.matching";
-static NSString *const ORKTinnitusSoundLoudnessMatchingStepIdentifier = @"tinnitus.soundloudness.matching";
-
-static NSString *const ORKTinnitusMaskingCampfireIdentifier = @"tinnitus.masking.fire";
-static NSString *const ORKTinnitusMaskingCampfireNotchIdentifier = @"tinnitus.masking.fire.notch";
-static NSString *const ORKTinnitusMaskingWhitenoiseIdentifier = @"tinnitus.masking.whitenoise";
-static NSString *const ORKTinnitusMaskingWhitenoiseNotchIdentifier = @"tinnitus.masking.whitenoise.notch";
-static NSString *const ORKTinnitusMaskingRainIdentifier = @"tinnitus.masking.rain";
-static NSString *const ORKTinnitusMaskingRainNotchIdentifier = @"tinnitus.masking.rain.notch";
-static NSString *const ORKTinnitusMaskingForestIdentifier = @"tinnitus.masking.forest";
-static NSString *const ORKTinnitusMaskingForestNotchIdentifier = @"tinnitus.masking.forest.notch";
-static NSString *const ORKTinnitusMaskingOceanIdentifier = @"tinnitus.masking.ocean";
-static NSString *const ORKTinnitusMaskingOceanNotchIdentifier = @"tinnitus.masking.ocean.notch";
-static NSString *const ORKTinnitusMaskingCrowdIdentifier = @"tinnitus.masking.crowd";
-static NSString *const ORKTinnitusMaskingCrowdNotchIdentifier = @"tinnitus.masking.crowd.notch";
-static NSString *const ORKTinnitusMaskingAudiobookIdentifier = @"tinnitus.masking.audiobook";
-static NSString *const ORKTinnitusMaskingAudiobookNotchIdentifier = @"tinnitus.masking.audiobook.notch";
-// Whitenoise steps
-static NSString *const ORKTinnitusWhitenoiseMatchingIdentifier = @"tinnitus.whitenoise.matching";
 
 #endif /* ORKTinnitusTaskConstants_h */
