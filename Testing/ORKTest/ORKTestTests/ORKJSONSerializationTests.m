@@ -690,7 +690,7 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
                                                         initWithKeypath:@"ORKAVJournalingPredefinedTask.journalQuestionSetManifestPath"
                                                         value:@"PredefinedTaskResources/QuestionList1/manifest.json"
                                                         type:ORKESerializationPropertyModifierTypePath];
-    ORKESerializationPropertyInjector *propertyInjector = [[ORKESerializationPropertyInjector alloc] initWithBundle:bundle
+    ORKESerializationPropertyInjector *propertyInjector = [[ORKESerializationPropertyInjector alloc] initWithBasePath:bundle.bundlePath
                                                                                                           modifiers:@[modifier, modifier2]];
     return propertyInjector;
 }
