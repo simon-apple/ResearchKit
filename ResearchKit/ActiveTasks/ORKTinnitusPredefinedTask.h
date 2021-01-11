@@ -51,6 +51,12 @@ ORK_CLASS_AVAILABLE
                       prependSteps:(nullable NSArray<ORKStep *> *)prependSteps
                        appendSteps:(nullable NSArray<ORKStep *> *)appendSteps NS_DESIGNATED_INITIALIZER;
 
+@property (nonatomic, readonly, nonnull) NSString *audioSetManifestPath;
+
+@property (nonatomic, readonly, nullable) NSArray<ORKStep *> *prependSteps;
+
+@property (nonatomic, readonly, nullable) NSArray<ORKStep *> *appendSteps;
+
 @end
 
 NS_ASSUME_NONNULL_END

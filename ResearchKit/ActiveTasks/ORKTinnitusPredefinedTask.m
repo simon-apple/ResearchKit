@@ -31,9 +31,6 @@
 #import "ORKTinnitusPredefinedTask.h"
 #import "ORKTinnitusPredefinedTaskConstants.h"
 
-#import "ORKCompletionStep.h"
-#import "ORKQuestionStep.h"
-
 #import <ResearchKit/ResearchKit_Private.h>
 
 static NSString *const ORKTinnitusSurvey1StepIdentifier = @"tinnitus.survey.1";
@@ -90,488 +87,104 @@ static NSString *const ORKTinnitusMaskingAudiobookIdentifier = @"tinnitus.maskin
 static NSString *const ORKTinnitusMaskingAudiobookNotchIdentifier = @"tinnitus.masking.audiobook.notch";
 static NSString *const ORKTinnitusWhitenoiseMatchingIdentifier = @"tinnitus.whitenoise.matching";
 
-@interface NSMutableArray (Shuffling)
-- (void)shuffle;
-@end
-
-@implementation NSMutableArray (Shuffling)
-
-- (void)shuffle {
-    NSUInteger count = [self count];
-    if (count <= 1) return;
-    for (NSUInteger i = 0; i < count - 1; ++i) {
-        NSInteger remainingCount = count - i;
-        NSInteger exchangeIndex = i + arc4random_uniform((u_int32_t )remainingCount);
-        [self exchangeObjectAtIndex:i withObjectAtIndex:exchangeIndex];
-    }
-}
-
-@end
-
-@interface ORKTinnitusPredefinedTask () {
-    UIColor *_cachedBGColor;
-    NSDictionary *_stepAfterStepDict;
-    NSDictionary *_stepBeforeStepDict;
-    
-    ORKInstructionStep *_instruction1;
-    ORKQuestionStep *_surveyQuestion1;
-    ORKQuestionStep *_surveyQuestion2;
-    ORKQuestionStep *_surveyQuestion3;
-    ORKQuestionStep *_surveyQuestion4;
-    ORKQuestionStep *_surveyQuestion5;
-    ORKQuestionStep *_surveyQuestion6;
-    ORKQuestionStep *_surveyQuestion7;
-    ORKQuestionStep *_surveyQuestion8;
-    ORKQuestionStep *_surveyQuestion9;
-    ORKQuestionStep *_surveyQuestion10;
-    ORKCompletionStep *_surveyCompletion;
-    
-    ORKInstructionStep *_testingInstruction;
-}
-
-@end
-
 @implementation ORKTinnitusPredefinedTask
 
-- (instancetype)initWithIdentifier:(NSString *)identifier {
-    ORKTinnitusPredefinedTask *task = [[ORKTinnitusPredefinedTask alloc] initWithIdentifier:identifier steps:nil];
-    return task;
-}
+#pragma mark - Initialization
 
-- (ORKStep *)stepAfterStep:(ORKStep *)step withResult:(id<ORKTaskResultSource>)result {
-    NSString *identifier = step.identifier;
-    if (step == nil) {
-        [self setupStraightStepAfterStepDict];
-        [self setupBGColor];
-        
-        return self.instruction1;
-    }
-    
-    ORKStep *nextStep = _stepAfterStepDict[identifier];
+- (instancetype)initWithIdentifier:(nonnull NSString *)identifier
+              audioSetManifestPath:(nonnull NSString *)audioSetManifestPath
+                      prependSteps:(nullable NSArray<ORKStep *> *)prependSteps
+                       appendSteps:(nullable NSArray<ORKStep *> *)appendSteps {
 
-    // cases that treats changes of flow
-    if (!nextStep) {
-        if ([identifier isEqualToString:ORKTinnitusSurvey1StepIdentifier]) {
-            // Special case, the user never heard tinnitus
-            ORKStepResult *stepResult = [result stepResultForStepIdentifier:ORKTinnitusSurvey1StepIdentifier];
-            ORKQuestionResult *questionResult = (ORKQuestionResult *)(stepResult.results.count > 0 ? stepResult.results.firstObject : nil);
-            if (questionResult.answer != nil) {
-                if ([((NSArray *)questionResult.answer).firstObject isEqualToString:ORKTinnitusSurveyAnswerNever]) {
-                    return self.surveyCompletion;
-                }
-            }
-            return self.surveyQuestion2;
-        } else if ([identifier isEqualToString:ORKTinnitusSurvey5StepIdentifier]) {
-            ORKStepResult *stepResult = [result stepResultForStepIdentifier:ORKTinnitusSurvey5StepIdentifier];
-            ORKQuestionResult *questionResult = (ORKQuestionResult *)(stepResult.results.count > 0 ? stepResult.results.firstObject : nil);
-            if (questionResult.answer != nil) {
-                if ([((NSArray *)questionResult.answer).firstObject isEqualToString:ORKTinnitusSurveyAnswerYes]) {
-                    return self.surveyQuestion6;
-                }
-            }
-            // If user answers ‘No’ or ‘I prefer not to answer’ we jump the other survey questions
-            return self.surveyQuestion10;
-        }
-    }
-
-    return nextStep;
-}
-
-- (ORKStep *)stepBeforeStep:(ORKStep *)step withResult:(ORKTaskResult *)result {
-    NSString *identifier = step.identifier;
-    if (identifier == nil || [identifier isEqualToString: ORKTinnitusInstruction1StepIdentifier]) {
-        [self setupStraightStepBeforeStepDict];
+    NSError *error = nil;
+    NSArray<ORKStep *> *steps = [ORKTinnitusPredefinedTask tinnitusPredefinedStepsWithAudioSetManifestPath:audioSetManifestPath
+                                                                                              prependSteps:prependSteps
+                                                                                               appendSteps:appendSteps
+                                                                                                     error:&error];
+    if (error)
+    {
+        ORK_Log_Error("An error occurred while creating the predefined task. %@", error);
         return nil;
     }
-    
-    ORKStep *previousStep = _stepBeforeStepDict[identifier];
-    
-    if (!previousStep) {
-        if ([identifier isEqualToString:ORKTinnitusTestingInstructionStepIdentifier]) {
-            ORKStepResult *stepResult = [result stepResultForStepIdentifier:ORKTinnitusSurvey5StepIdentifier];
-            ORKQuestionResult *questionResult = (ORKQuestionResult *)(stepResult.results.count > 0 ? stepResult.results.firstObject : nil);
-            if (questionResult.answer != nil) {
-                if ([((NSArray *)questionResult.answer).firstObject isEqualToString:ORKTinnitusSurveyAnswerYes]) {
-                    return self.surveyQuestion5;
-                }
+
+    self = [super initWithIdentifier:identifier steps:steps];
+    if (self) {
+        _audioSetManifestPath = [audioSetManifestPath copy];
+        _prependSteps = [prependSteps copy];
+        _appendSteps = [appendSteps copy];
+
+        for (ORKStep *step in self.steps)
+        {
+            if ([step isKindOfClass:[ORKStep class]])
+            {
+                [step setTask:self];
             }
-            return self.surveyQuestion10;
         }
     }
-
-    return previousStep;
+    return self;
+    
 }
 
-- (void)setupStraightStepAfterStepDict {
-    _stepAfterStepDict = @{
-        ORKTinnitusInstruction1StepIdentifier: self.surveyQuestion1,
-        ORKTinnitusSurvey2StepIdentifier: self.surveyQuestion3,
-        ORKTinnitusSurvey3StepIdentifier: self.surveyQuestion4,
-        ORKTinnitusSurvey4StepIdentifier: self.surveyQuestion5,
-        ORKTinnitusSurvey6StepIdentifier: self.surveyQuestion7,
-        ORKTinnitusSurvey7StepIdentifier: self.surveyQuestion8,
-        ORKTinnitusSurvey8StepIdentifier: self.testingInstruction,
-        ORKTinnitusSurvey9StepIdentifier: self.surveyQuestion10,
-        ORKTinnitusSurvey10StepIdentifier: self.testingInstruction,
-    };
+- (instancetype)initWithIdentifier:(NSString *)identifier steps:(nullable NSArray<ORKStep *> *)steps
+{
+    ORKThrowMethodUnavailableException();
 }
 
-- (void)setupStraightStepBeforeStepDict {
-    _stepBeforeStepDict = @{
-        ORKTinnitusSurvey1StepIdentifier: self.instruction1,
-        ORKTinnitusSurvey2StepIdentifier: self.surveyQuestion1,
-        ORKTinnitusSurvey3StepIdentifier: self.surveyQuestion2,
-        ORKTinnitusSurvey4StepIdentifier: self.surveyQuestion3,
-        ORKTinnitusSurvey5StepIdentifier: self.surveyQuestion4,
-        ORKTinnitusSurvey6StepIdentifier: self.surveyQuestion5,
-        ORKTinnitusSurvey7StepIdentifier: self.surveyQuestion6,
-        ORKTinnitusSurvey8StepIdentifier: self.surveyQuestion7,
-        ORKTinnitusSurvey10StepIdentifier: self.surveyQuestion5,
-        ORKTinnitusBeforeStartStepIdentifier: self.testingInstruction
-    };
+#pragma mark - NSSecureCoding
+
++ (BOOL)supportsSecureCoding {
+    return YES;
 }
 
-- (void)setupBGColor {
-    if (_cachedBGColor == nil) {
-        _cachedBGColor = ORKColor(ORKBackgroundColorKey);
-        if (@available(iOS 13.0, *)) {
-            UIColor *adaptativeColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
-                if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
-                    return [UIColor colorWithRed:18/255.0 green:18/255.0 blue:20/255.0 alpha:1.0];
-                }
-                return UIColor.whiteColor;
-            }];
-            ORKColorSetColorForKey(ORKBackgroundColorKey, adaptativeColor);
-        } else {
-            ORKColorSetColorForKey(ORKBackgroundColorKey, UIColor.whiteColor);
-        }
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+    [super encodeWithCoder:aCoder];
+    ORK_ENCODE_OBJ(aCoder, audioSetManifestPath);
+    ORK_ENCODE_OBJ(aCoder, prependSteps);
+    ORK_ENCODE_OBJ(aCoder, appendSteps);
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        ORK_DECODE_OBJ_CLASS(aDecoder, audioSetManifestPath, NSString);
+        ORK_DECODE_OBJ_ARRAY(aDecoder, prependSteps, ORKStep);
+        ORK_DECODE_OBJ_ARRAY(aDecoder, appendSteps, ORKStep);
     }
+    return self;
 }
 
-- (void)dealloc {
-    if (_cachedBGColor != nil) {
-        ORKColorSetColorForKey(ORKBackgroundColorKey, _cachedBGColor);
-        _cachedBGColor = nil;
+#pragma mark - ORKTinnitus Predefined Task Creation
+
++ (NSArray<ORKStep *> *)tinnitusPredefinedStepsWithAudioSetManifestPath:(nonnull NSString *)audioSetManifestPath
+                                                           prependSteps:(NSArray<ORKStep *> *)prependSteps
+                                                            appendSteps:(NSArray<ORKStep *> *)appendSteps
+                                                                  error:(NSError * _Nullable * _Nullable)error
+{
+    NSMutableArray<ORKStep *> *steps = [[NSMutableArray alloc] init];
+    
+    if (prependSteps.count > 0)
+    {
+        [steps addObjectsFromArray:[prependSteps copy]];
     }
-}
+    
+    NSArray *predefinedSteps = [ORKTinnitusPredefinedTask tinnitusPredefinedTaskStepsWithAudioSetManifestPath:audioSetManifestPath error:error];
 
-// Explicitly hide progress indication for all steps in this dynamic task.
-- (ORKTaskProgress)progressOfCurrentStep:(ORKStep *)step withResultProvider:(NSArray *)surveyResults {
-    return (ORKTaskProgress){.total = 0, .current = 0};
-}
-
-- (ORKInstructionStep *)instruction1 {
-    if (_instruction1 == nil) {
-        _instruction1 = [[ORKInstructionStep alloc] initWithIdentifier:ORKTinnitusInstruction1StepIdentifier];
-        _instruction1.title = ORKLocalizedString(@"TINNITUS_INTRO_TITLE", nil);
-        _instruction1.detailText = ORKLocalizedString(@"TINNITUS_INTRO_TEXT_2", nil);
-        _instruction1.imageContentMode = UIViewContentModeTopLeft;
-        _instruction1.shouldTintImages = YES;
-        
-        UIImage *img1;
-        UIImage *img2;
-        UIImage *img3;
-
-        if (@available(iOS 13.0, *)) {
-            img1 = [UIImage systemImageNamed:@"1.circle.fill"];
-            img2 = [UIImage systemImageNamed:@"2.circle.fill"];
-            img3 = [UIImage systemImageNamed:@"3.circle.fill"];
-        } else {
-            // not implemeted
-        }
-        
-        ORKBodyItem * item1 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"TINNITUS_BODY_ITEM_TEXT_1", nil) detailText:nil image:img1 learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
-        ORKBodyItem * item2 = [[ORKBodyItem alloc] initWithHorizontalRule];
-        ORKBodyItem * item3 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"TINNITUS_BODY_ITEM_TEXT_2", nil) detailText:nil image:img2 learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
-        ORKBodyItem * item4 = [[ORKBodyItem alloc] initWithHorizontalRule];
-        ORKBodyItem * item5 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"TINNITUS_BODY_ITEM_TEXT_3", nil) detailText:nil image:img3 learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
-        _instruction1.bodyItems = @[item1,item2, item3, item4, item5];
+    if (predefinedSteps != nil)
+    {
+        [steps addObjectsFromArray:predefinedSteps];
     }
-    return _instruction1;
+    if (appendSteps.count > 0)
+    {
+        [steps addObjectsFromArray:[appendSteps copy]];
+    }
+    
+    return [steps copy];
 }
 
-- (ORKQuestionStep *)surveyQuestion1 {
-    if (_surveyQuestion1 == nil) {
-        ORKTextChoice *never = [ORKTextChoice choiceWithText:ORKLocalizedString(@"TINNITUS_SURVEY_QUESTION1_ITEM1", nil)
-                                                       value:ORKTinnitusSurveyAnswerNever];
-        ORKTextChoice *rarely = [ORKTextChoice choiceWithText:ORKLocalizedString(@"TINNITUS_SURVEY_QUESTION1_ITEM2", nil)
-                                                        value:ORKTinnitusSurveyAnswerRarely];
-        ORKTextChoice *sometimes = [ORKTextChoice choiceWithText:ORKLocalizedString(@"TINNITUS_SURVEY_QUESTION1_ITEM3", nil)
-                                                           value:ORKTinnitusSurveyAnswerSometimes];
-        ORKTextChoice *often = [ORKTextChoice choiceWithText:ORKLocalizedString(@"TINNITUS_SURVEY_QUESTION1_ITEM4", nil)
-                                                       value:ORKTinnitusSurveyAnswerOften];
-        ORKTextChoice *always = [ORKTextChoice choiceWithText:ORKLocalizedString(@"TINNITUS_SURVEY_QUESTION1_ITEM5", nil)
-                                                        value:ORKTinnitusSurveyAnswerAlways];
-        ORKTextChoice *pnta = [ORKTextChoice choiceWithText:ORKLocalizedString(@"TINNITUS_SURVEY_IPNTA", nil)
-                                                      value:ORKTinnitusSurveyAnswerPNTA];
-        
-        ORKAnswerFormat *answerFormat = [ORKAnswerFormat choiceAnswerFormatWithStyle:ORKChoiceAnswerStyleSingleChoice
-                                                                         textChoices:@[never, rarely, sometimes, often, always, pnta]];
-        _surveyQuestion1 = [ORKQuestionStep questionStepWithIdentifier:ORKTinnitusSurvey1StepIdentifier
-                                                                 title:ORKLocalizedString(@"TINNITUS_SURVEY_TITLE", nil)
-                                                              question:ORKLocalizedString(@"TINNITUS_SURVEY_QUESTION1_TEXT", nil)
-                                                                answer:answerFormat];
-        _surveyQuestion1.optional = NO;
-    }
-    return _surveyQuestion1;
-}
-
-- (ORKQuestionStep *)surveyQuestion2 {
-    if (_surveyQuestion2 == nil) {
-        ORKTextChoice *yes = [ORKTextChoice choiceWithText:ORKLocalizedString(@"TINNITUS_SURVEY_YES", nil)
-                                                     value:ORKTinnitusSurveyAnswerYes];
-        ORKTextChoice *no = [ORKTextChoice choiceWithText:ORKLocalizedString(@"TINNITUS_SURVEY_NO", nil)
-                                                    value:ORKTinnitusSurveyAnswerNo];
-        ORKTextChoice *pnta = [ORKTextChoice choiceWithText:ORKLocalizedString(@"TINNITUS_SURVEY_IPNTA", nil)
-                                                      value:ORKTinnitusSurveyAnswerPNTA];
-        
-        ORKAnswerFormat *answerFormat = [ORKAnswerFormat choiceAnswerFormatWithStyle:ORKChoiceAnswerStyleSingleChoice
-                                                                         textChoices:@[yes, no, pnta]];
-        _surveyQuestion2 = [ORKQuestionStep questionStepWithIdentifier:ORKTinnitusSurvey2StepIdentifier
-                                                                 title:ORKLocalizedString(@"TINNITUS_SURVEY_TITLE", nil)
-                                                              question:ORKLocalizedString(@"TINNITUS_SURVEY_QUESTION2_TEXT", nil)
-                                                                answer:answerFormat];
-        _surveyQuestion2.optional = NO;
-    }
-    return _surveyQuestion2;
-}
-
-- (ORKCompletionStep *)surveyCompletion {
-    if (_surveyCompletion == nil) {
-        _surveyCompletion = [[ORKCompletionStep alloc] initWithIdentifier:ORKTinnitusSurveyEndStepIdentifier];
-        _surveyCompletion.title = ORKLocalizedString(@"TINNITUS_COMPLETION_NO_TINNITUS_TITLE", nil);
-        _surveyCompletion.text = ORKLocalizedString(@"TINNITUS_COMPLETION_NO_TINNITUS_TEXT", nil);
-        _surveyCompletion.shouldTintImages = YES;
-    }
-    return _surveyCompletion;
-}
-
-- (ORKQuestionStep *)surveyQuestion3 {
-    if (_surveyQuestion3 == nil) {
-        ORKTextChoice *leftSide = [ORKTextChoice choiceWithText:ORKLocalizedString(@"TINNITUS_SURVEY_QUESTION3_ITEM1", nil)
-                                                          value:ORKTinnitusSurveyAnswerLeft];
-        ORKTextChoice *rightSide = [ORKTextChoice choiceWithText:ORKLocalizedString(@"TINNITUS_SURVEY_QUESTION3_ITEM2", nil)
-                                                           value:ORKTinnitusSurveyAnswerRight];
-        ORKTextChoice *center = [ORKTextChoice choiceWithText:ORKLocalizedString(@"TINNITUS_SURVEY_QUESTION3_ITEM3", nil)
-                                                        value:ORKTinnitusSurveyAnswerBoth];
-        ORKTextChoice *pnta = [ORKTextChoice choiceWithText:ORKLocalizedString(@"TINNITUS_SURVEY_IPNTA", nil)
-                                                      value:ORKTinnitusSurveyAnswerPNTA];
-        
-        ORKAnswerFormat *answerFormat = [ORKAnswerFormat choiceAnswerFormatWithStyle:ORKChoiceAnswerStyleSingleChoice
-                                                                         textChoices:@[leftSide, rightSide, center, pnta]];
-        _surveyQuestion3 = [ORKQuestionStep questionStepWithIdentifier:ORKTinnitusSurvey3StepIdentifier
-                                                                 title:ORKLocalizedString(@"TINNITUS_SURVEY_TITLE", nil)
-                                                              question:ORKLocalizedString(@"TINNITUS_SURVEY_QUESTION3_TEXT", nil)
-                                                                answer:answerFormat];
-        _surveyQuestion3.optional = NO;
-    }
-    return _surveyQuestion3;
-}
-
-- (ORKQuestionStep *)surveyQuestion4 {
-    if (_surveyQuestion4 == nil) {
-        ORKTextChoice *extremely = [ORKTextChoice choiceWithText:ORKLocalizedString(@"TINNITUS_SURVEY_QUESTION4_ITEM1", nil)
-                                                     value:ORKTinnitusSurveyAnswerExtremely];
-        ORKTextChoice *very = [ORKTextChoice choiceWithText:ORKLocalizedString(@"TINNITUS_SURVEY_QUESTION4_ITEM2", nil)
-                                                    value:ORKTinnitusSurveyAnswerVery];
-        ORKTextChoice *moderately = [ORKTextChoice choiceWithText:ORKLocalizedString(@"TINNITUS_SURVEY_QUESTION4_ITEM3", nil)
-                                                           value:ORKTinnitusSurveyAnswerModerately];
-        ORKTextChoice *notvery = [ORKTextChoice choiceWithText:ORKLocalizedString(@"TINNITUS_SURVEY_QUESTION4_ITEM4", nil)
-                                                      value:ORKTinnitusSurveyAnswerNotVery];
-        ORKTextChoice *barely = [ORKTextChoice choiceWithText:ORKLocalizedString(@"TINNITUS_SURVEY_QUESTION4_ITEM5", nil)
-                                                      value:ORKTinnitusSurveyAnswerBarely];
-        
-        ORKTextChoice *pnta = [ORKTextChoice choiceWithText:ORKLocalizedString(@"TINNITUS_SURVEY_IPNTA", nil)
-                                                      value:ORKTinnitusSurveyAnswerPNTA];
-        
-        ORKAnswerFormat *answerFormat = [ORKAnswerFormat choiceAnswerFormatWithStyle:ORKChoiceAnswerStyleSingleChoice
-                                                                         textChoices:@[extremely, very, moderately, notvery, barely, pnta]];
-        _surveyQuestion4 = [ORKQuestionStep questionStepWithIdentifier:ORKTinnitusSurvey4StepIdentifier
-                                                                 title:ORKLocalizedString(@"TINNITUS_SURVEY_TITLE", nil)
-                                                              question:ORKLocalizedString(@"TINNITUS_SURVEY_QUESTION4_TEXT", nil)
-                                                                answer:answerFormat];
-        _surveyQuestion4.optional = NO;
-    }
-    return _surveyQuestion4;
-}
-
-- (ORKQuestionStep *)surveyQuestion5 {
-    if (_surveyQuestion5 == nil) {
-        ORKTextChoice *yes = [ORKTextChoice choiceWithText:ORKLocalizedString(@"TINNITUS_SURVEY_YES", nil)
-                                                     value:ORKTinnitusSurveyAnswerYes];
-        ORKTextChoice *no = [ORKTextChoice choiceWithText:ORKLocalizedString(@"TINNITUS_SURVEY_NO", nil)
-                                                    value:ORKTinnitusSurveyAnswerNo];
-        ORKTextChoice *pnta = [ORKTextChoice choiceWithText:ORKLocalizedString(@"TINNITUS_SURVEY_IPNTA", nil)
-                                                      value:ORKTinnitusSurveyAnswerPNTA];
-        
-        ORKAnswerFormat *answerFormat = [ORKAnswerFormat choiceAnswerFormatWithStyle:ORKChoiceAnswerStyleSingleChoice
-                                                                         textChoices:@[yes, no, pnta]];
-        _surveyQuestion5 = [ORKQuestionStep questionStepWithIdentifier:ORKTinnitusSurvey5StepIdentifier
-                                                                 title:ORKLocalizedString(@"TINNITUS_SURVEY_TITLE", nil)
-                                                              question:ORKLocalizedString(@"TINNITUS_SURVEY_QUESTION5_TEXT", nil)
-                                                                answer:answerFormat];
-        _surveyQuestion5.optional = NO;
-    }
-    return _surveyQuestion5;
-}
-
-- (ORKQuestionStep *)surveyQuestion6 {
-    if (_surveyQuestion6 == nil) {
-        ORKTextChoice *app = [ORKTextChoice choiceWithText:ORKLocalizedString(@"TINNITUS_SURVEY_QUESTION6_ITEM1", nil)
-                                                     value:ORKTinnitusSurveyAnswerApp];
-        ORKTextChoice *fan = [ORKTextChoice choiceWithText:ORKLocalizedString(@"TINNITUS_SURVEY_QUESTION6_ITEM2", nil)
-                                                     value:ORKTinnitusSurveyAnswerFan];
-        ORKTextChoice *noise = [ORKTextChoice choiceWithText:ORKLocalizedString(@"TINNITUS_SURVEY_QUESTION6_ITEM3", nil)
-                                                       value:ORKTinnitusSurveyAnswerNoise];
-        ORKTextChoice *hearingAids = [ORKTextChoice choiceWithText:ORKLocalizedString(@"TINNITUS_SURVEY_QUESTION6_ITEM4", nil)
-                                                       value:ORKTinnitusSurveyAnswerHearingAid];
-        ORKTextChoice *pnta = [ORKTextChoice choiceWithText:ORKLocalizedString(@"TINNITUS_SURVEY_IPNTA", nil)
-                                                 detailText:nil value:ORKTinnitusSurveyAnswerPNTA exclusive:YES];
-        
-        ORKAnswerFormat *answerFormat = [ORKAnswerFormat choiceAnswerFormatWithStyle:ORKChoiceAnswerStyleMultipleChoice
-                                                                         textChoices:@[app, fan, noise, hearingAids, pnta]];
-        
-        _surveyQuestion6 = [ORKQuestionStep questionStepWithIdentifier:ORKTinnitusSurvey6StepIdentifier
-                                                                 title:ORKLocalizedString(@"TINNITUS_SURVEY_TITLE", nil)
-                                                              question:ORKLocalizedString(@"TINNITUS_SURVEY_QUESTION6_TEXT", nil)
-                                                                answer:answerFormat];
-        _surveyQuestion6.optional = NO;
-    }
-    return _surveyQuestion6;
-}
-
-- (ORKQuestionStep *)surveyQuestion7 {
-    if (_surveyQuestion7 == nil) {
-        ORKTextChoice *blog = [ORKTextChoice choiceWithText:ORKLocalizedString(@"TINNITUS_SURVEY_QUESTION7_ITEM1", nil)
-                                                       value:ORKTinnitusSurveyAnswerBlog];
-        ORKTextChoice *research = [ORKTextChoice choiceWithText:ORKLocalizedString(@"TINNITUS_SURVEY_QUESTION7_ITEM2", nil)
-                                                        value:ORKTinnitusSurveyAnswerResearch];
-        ORKTextChoice *audiologist = [ORKTextChoice choiceWithText:ORKLocalizedString(@"TINNITUS_SURVEY_QUESTION7_ITEM3", nil)
-                                                       value:ORKTinnitusSurveyAnswerAudiologist];
-        ORKTextChoice *word = [ORKTextChoice choiceWithText:ORKLocalizedString(@"TINNITUS_SURVEY_QUESTION7_ITEM4", nil)
-                                                        value:ORKTinnitusSurveyAnswerWord];
-        ORKTextChoice *pnta = [ORKTextChoice choiceWithText:ORKLocalizedString(@"TINNITUS_SURVEY_IPNTA", nil)
-                                                 detailText:nil
-                                                      value:ORKTinnitusSurveyAnswerPNTA
-                                                  exclusive:YES];
-        ORKAnswerFormat *answerFormat = [ORKAnswerFormat choiceAnswerFormatWithStyle:ORKChoiceAnswerStyleMultipleChoice
-                                                                         textChoices:@[blog, research, audiologist, word, pnta]];
-        
-        _surveyQuestion7 = [ORKQuestionStep questionStepWithIdentifier:ORKTinnitusSurvey7StepIdentifier
-                                                                 title:ORKLocalizedString(@"TINNITUS_SURVEY_TITLE", nil)
-                                                              question:ORKLocalizedString(@"TINNITUS_SURVEY_QUESTION7_TEXT", nil)
-                                                                answer:answerFormat];
-        _surveyQuestion7.optional = NO;
-    }
-    return _surveyQuestion7;
-}
-
-- (ORKQuestionStep *)surveyQuestion8 {
-    if (_surveyQuestion8 == nil) {
-        ORKTextChoice *music = [ORKTextChoice choiceWithText:ORKLocalizedString(@"TINNITUS_SURVEY_QUESTION8_ITEM1", nil)
-                                                       value:ORKTinnitusSurveyAnswerMusic];
-        ORKTextChoice *speech = [ORKTextChoice choiceWithText:ORKLocalizedString(@"TINNITUS_SURVEY_QUESTION8_ITEM2", nil)
-                                                        value:ORKTinnitusSurveyAnswerSpeech];
-        ORKTextChoice *noise = [ORKTextChoice choiceWithText:ORKLocalizedString(@"TINNITUS_SURVEY_QUESTION8_ITEM3", nil)
-                                                       value:ORKTinnitusSurveyAnswerNoise];
-        ORKTextChoice *nature = [ORKTextChoice choiceWithText:ORKLocalizedString(@"TINNITUS_SURVEY_QUESTION8_ITEM4", nil)
-                                                        value:ORKTinnitusSurveyAnswerNature];
-        ORKTextChoice *tones = [ORKTextChoice choiceWithText:ORKLocalizedString(@"TINNITUS_SURVEY_QUESTION8_ITEM5", nil)
-                                                       value:ORKTinnitusSurveyAnswerModulatedTones];
-        ORKTextChoice *pnta = [ORKTextChoice choiceWithText:ORKLocalizedString(@"TINNITUS_SURVEY_IPNTA", nil)
-                                                 detailText:nil
-                                                      value:ORKTinnitusSurveyAnswerPNTA
-                                                  exclusive:YES];
-        ORKAnswerFormat *answerFormat = [ORKAnswerFormat choiceAnswerFormatWithStyle:ORKChoiceAnswerStyleMultipleChoice
-                                                                         textChoices:@[music, speech, noise, nature, tones, pnta]];
-        
-        _surveyQuestion8 = [ORKQuestionStep questionStepWithIdentifier:ORKTinnitusSurvey8StepIdentifier
-                                                                 title:ORKLocalizedString(@"TINNITUS_SURVEY_TITLE", nil)
-                                                              question:ORKLocalizedString(@"TINNITUS_SURVEY_QUESTION8_TEXT", nil)
-                                                                answer:answerFormat];
-        _surveyQuestion8.optional = NO;
-    }
-    return _surveyQuestion8;
-}
-
-- (ORKQuestionStep *)surveyQuestion9 {
-    if (_surveyQuestion9 == nil) {
-        ORKTextChoice *focus = [ORKTextChoice choiceWithText:ORKLocalizedString(@"TINNITUS_SURVEY_QUESTION9_ITEM1", nil)
-                                                       value:ORKTinnitusSurveyAnswerFocus];
-        ORKTextChoice *asleep = [ORKTextChoice choiceWithText:ORKLocalizedString(@"TINNITUS_SURVEY_QUESTION9_ITEM2", nil)
-                                                        value:ORKTinnitusSurveyAnswerAsleep];
-        ORKTextChoice *exercising = [ORKTextChoice choiceWithText:ORKLocalizedString(@"TINNITUS_SURVEY_QUESTION9_ITEM3", nil)
-                                                            value:ORKTinnitusSurveyAnswerExercising];
-        ORKTextChoice *relax = [ORKTextChoice choiceWithText:ORKLocalizedString(@"TINNITUS_SURVEY_QUESTION9_ITEM4", nil)
-                                                       value:ORKTinnitusSurveyAnswerRelax];
-        ORKTextChoice *pnta = [ORKTextChoice choiceWithText:ORKLocalizedString(@"TINNITUS_SURVEY_IPNTA", nil)
-                                                 detailText:nil
-                                                      value:ORKTinnitusSurveyAnswerPNTA
-                                                  exclusive:YES];
-        ORKAnswerFormat *answerFormat = [ORKAnswerFormat choiceAnswerFormatWithStyle:ORKChoiceAnswerStyleMultipleChoice
-                                                                         textChoices:@[focus, asleep, exercising, relax, pnta]];
-        
-        _surveyQuestion9 = [ORKQuestionStep questionStepWithIdentifier:ORKTinnitusSurvey9StepIdentifier
-                                                                 title:ORKLocalizedString(@"TINNITUS_SURVEY_TITLE", nil)
-                                                              question:ORKLocalizedString(@"TINNITUS_SURVEY_QUESTION9_TEXT", nil)
-                                                                answer:answerFormat];
-        _surveyQuestion9.optional = NO;
-    }
-    return _surveyQuestion9;
-}
-
-- (ORKQuestionStep *)surveyQuestion10 {
-    if (_surveyQuestion10 == nil) {
-        ORKTextChoice *didNotKnow = [ORKTextChoice choiceWithText:ORKLocalizedString(@"TINNITUS_SURVEY_QUESTION10_ITEM1", nil)
-                                                       value:ORKTinnitusSurveyAnswerDidNotKnow];
-        ORKTextChoice *doNotNeed = [ORKTextChoice choiceWithText:ORKLocalizedString(@"TINNITUS_SURVEY_QUESTION10_ITEM2", nil)
-                                                           value:ORKTinnitusSurveyAnswerDidNotKnow];
-        ORKTextChoice *doctorAgainst = [ORKTextChoice choiceWithText:ORKLocalizedString(@"TINNITUS_SURVEY_QUESTION10_ITEM3", nil)
-                                                            value:ORKTinnitusSurveyAnswerDoctorAgainst];
-        ORKTextChoice *pnta = [ORKTextChoice choiceWithText:ORKLocalizedString(@"TINNITUS_SURVEY_IPNTA", nil)
-                                                 detailText:nil
-                                                      value:ORKTinnitusSurveyAnswerPNTA
-                                                  exclusive:YES];
-        ORKAnswerFormat *answerFormat = [ORKAnswerFormat choiceAnswerFormatWithStyle:ORKChoiceAnswerStyleMultipleChoice
-                                                                         textChoices:@[didNotKnow, doNotNeed, doctorAgainst, pnta]];
-        
-        _surveyQuestion10 = [ORKQuestionStep questionStepWithIdentifier:ORKTinnitusSurvey10StepIdentifier
-                                                                 title:ORKLocalizedString(@"TINNITUS_SURVEY_TITLE", nil)
-                                                              question:ORKLocalizedString(@"TINNITUS_SURVEY_QUESTION10_TEXT", nil)
-                                                                answer:answerFormat];
-        _surveyQuestion10.optional = NO;
-    }
-    return _surveyQuestion10;
-}
-
-- (ORKInstructionStep *)testingInstruction {
-    if (_testingInstruction == nil) {
-        _testingInstruction = [[ORKInstructionStep alloc] initWithIdentifier:ORKTinnitusTestingInstructionStepIdentifier];
-        _testingInstruction.title = ORKLocalizedString(@"TINNITUS_TESTING_INTRO_TITLE", nil);
-        _testingInstruction.detailText = ORKLocalizedString(@"TINNITUS_TESTING_INTRO_TEXT", nil);
-        _testingInstruction.shouldTintImages = YES;
-        
-        UIImage *img1;
-        UIImage *img2;
-        UIImage *img3;
-        
-        if (@available(iOS 13.0, *)) {
-            img1 = [UIImage systemImageNamed:@"ear"];
-            img2 = [UIImage systemImageNamed:@"volume.2"];
-            img3 = [UIImage systemImageNamed:@"stopwatch"];
-        } else {
-            // not implemeted
-        }
-        
-        ORKBodyItem * item1 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"TINNITUS_TESTING_BODY_ITEM_TEXT_1", nil) detailText:nil image:img1 learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
-        ORKBodyItem * item2 = [[ORKBodyItem alloc] initWithHorizontalRule];
-        ORKBodyItem * item3 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"TINNITUS_TESTING_BODY_ITEM_TEXT_2", nil) detailText:nil image:img2 learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
-        ORKBodyItem * item4 = [[ORKBodyItem alloc] initWithHorizontalRule];
-        ORKBodyItem * item5 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"TINNITUS_TESTING_BODY_ITEM_TEXT_3", nil) detailText:nil image:img3 learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
-        
-        _testingInstruction.bodyItems = @[item1,item2, item3, item4, item5];
-    }
-    return _testingInstruction;
++ (NSArray<ORKStep *> *)tinnitusPredefinedTaskStepsWithAudioSetManifestPath:(nonnull NSString *)manifestPath error:(NSError * _Nullable * _Nullable)error {
+    return nil;
 }
 
 @end
