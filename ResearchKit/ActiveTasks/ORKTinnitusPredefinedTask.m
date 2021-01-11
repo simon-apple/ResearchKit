@@ -187,4 +187,30 @@ static NSString *const ORKTinnitusWhitenoiseMatchingIdentifier = @"tinnitus.whit
     return nil;
 }
 
+#pragma mark - NSCopying
+
+- (instancetype)copyWithZone:(NSZone *)zone
+{
+    return [[[self class] allocWithZone:zone] initWithIdentifier:[self.identifier copy]
+                                            audioSetManifestPath:[self.audioSetManifestPath copy]
+                                                     prependSteps:[[NSArray alloc] initWithArray:self.prependSteps copyItems:YES]
+                                                      appendSteps:[[NSArray alloc] initWithArray:self.appendSteps copyItems:YES]];
+}
+
+- (BOOL)isEqual:(id)object
+{
+    __typeof(self) castObject = object;
+    
+    return
+    [super isEqual:object] &&
+    [self.audioSetManifestPath isEqualToString:castObject.audioSetManifestPath] &&
+    [self.prependSteps isEqualToArray:castObject.prependSteps] &&
+    [self.appendSteps isEqualToArray:castObject.appendSteps];
+}
+
+- (NSUInteger)hash
+{
+    return [super hash] ^ [_audioSetManifestPath hash] ^ [_prependSteps hash] ^ [_appendSteps hash];
+}
+
 @end
