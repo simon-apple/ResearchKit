@@ -466,7 +466,6 @@ static NSString *const ORKTinnitusWhitenoiseMatchingIdentifier = @"tinnitus.whit
         _instruction1 = [[ORKInstructionStep alloc] initWithIdentifier:ORKTinnitusInstruction1StepIdentifier];
         _instruction1.title = ORKLocalizedString(@"TINNITUS_INTRO_TITLE", nil);
         _instruction1.detailText = ORKLocalizedString(@"TINNITUS_INTRO_TEXT_2", nil);
-        _instruction1.iconImage = [UIImage imageNamed:@"tinnitus-icon" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
         _instruction1.imageContentMode = UIViewContentModeTopLeft;
         _instruction1.shouldTintImages = YES;
         
