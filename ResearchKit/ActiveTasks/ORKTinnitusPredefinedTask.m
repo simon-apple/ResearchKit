@@ -70,6 +70,72 @@ static NSString *const ORKTinnitusMaskingAudiobookNotchIdentifier = @"tinnitus.m
 static NSString *const ORKTinnitusWhitenoiseMatchingIdentifier = @"tinnitus.whitenoise.matching";
 static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instruction.5";
 
+@interface ORKTinnitusAudioSample : NSObject
+
+@property (nonatomic, readonly, nonnull) NSString *path;
+
+@property (nonatomic, readonly, nonnull) NSString *type;
+
++ (instancetype)new NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
+
++ (instancetype)sampleWithPath:(nonnull NSString *)path type:(nonnull NSString *)type;
+- (instancetype)initWithPath:(nonnull NSString *)path type:(nonnull NSString *)type;
+
+@end
+
+@implementation ORKTinnitusAudioSample
+
++ (instancetype)sampleWithPath:(nonnull NSString *)path type:(nonnull NSString *)type
+{
+    return [[ORKTinnitusAudioSample alloc] initWithPath:path type:type];
+}
+
+- (instancetype)initWithPath:(nonnull NSString *)path type:(nonnull NSString *)type
+{
+    self = [super init];
+    if (self)
+    {
+        _path = [path copy];
+        _type = [type copy];
+    }
+    return self;
+}
+
+@end
+
+@interface ORKTinnitusAudioManifest : NSObject
+
+@property (nonatomic, readonly, nonnull) NSArray<ORKTinnitusAudioSample *> *samples;
+
++ (instancetype)new NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
+
++ (instancetype)manifestWithSamples:(NSArray<ORKTinnitusAudioSample *> *)samples;
+
+- (instancetype)initWithSamples:(NSArray<ORKTinnitusAudioSample *> *)samples;
+
+@end
+
+@implementation ORKTinnitusAudioManifest
+
++ (instancetype)manifestWithSamples:(NSArray<ORKTinnitusAudioSample *> *)samples
+{
+    return [[ORKTinnitusAudioManifest alloc] initWithSamples:samples];
+}
+
+- (instancetype)initWithSamples:(NSArray<ORKTinnitusAudioSample *> *)samples
+{
+    self = [super init];
+    if (self)
+    {
+        _samples = [samples copy];
+    }
+    return self;
+}
+
+@end
+
 @implementation ORKTinnitusPredefinedTask
 
 #pragma mark - Initialization
@@ -167,7 +233,21 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
 }
 
 + (NSArray<ORKStep *> *)tinnitusPredefinedTaskStepsWithAudioSetManifestPath:(nonnull NSString *)manifestPath error:(NSError * _Nullable * _Nullable)error {
-      
+        
+    NSError *localError = nil;
+    
+    // TODO: Joey
+    //ORKTinnitusAudioManifest *manifest = [ORKTinnitusPredefinedTask prefetchAudioSamplesFromManifest:manifestPath error:error];
+    
+    if (localError)
+    {
+        if (error != NULL)
+        {
+            *error = localError;
+        }
+        return nil;
+    }
+    
     NSMutableArray<ORKStep *> *steps = [[NSMutableArray alloc] init];
     
     [steps addObjectsFromArray:@[[self beforeStart],
@@ -178,6 +258,100 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
                                  [self pitchMatching]]];
     
     return [steps copy];
+}
+
++ (nullable ORKTinnitusAudioManifest *)prefetchAudioSamplesFromManifest:(nonnull NSString *)path error:(NSError * _Nullable * _Nullable)error
+{
+    NSArray *samples = [ORKTinnitusPredefinedTask prefetchAudioSamplesFromManifestAtPath:path error:error];
+    
+    if (samples)
+    {
+        return [ORKTinnitusAudioManifest manifestWithSamples:samples];
+    }
+    
+    return nil;
+}
+
++ (nullable NSArray<ORKTinnitusAudioSample *> *)prefetchAudioSamplesFromManifestAtPath:(nonnull NSString *)path error:(NSError * _Nullable * _Nullable)error
+{
+    NSFileManager *fileManager = [[NSFileManager alloc] init];
+    
+    if (![fileManager fileExistsAtPath:path])
+    {
+        if (error != NULL)
+        {
+            *error = [NSError errorWithDomain:ORKErrorDomain
+                                         code:ORKErrorException
+                                     userInfo:@{NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:@"Could not locate file at path %@", path]}];
+        }
+        return nil;
+    }
+    
+    NSData *data = [NSData dataWithContentsOfFile:path options:0 error:error];
+    if (!data)
+    {
+        return nil;
+    }
+    
+    NSArray<NSDictionary *> *manifest = [NSJSONSerialization JSONObjectWithData:data options:0 error:error];
+    if (!manifest)
+    {
+        return nil;
+    }
+    
+    NSString *parentDirectory = [path stringByDeletingLastPathComponent];
+    BOOL isDir;
+    if (![fileManager fileExistsAtPath:parentDirectory isDirectory:&isDir] || !isDir)
+    {
+        if (error != NULL)
+        {
+            *error = [NSError errorWithDomain:ORKErrorDomain
+                                         code:ORKErrorException
+                                     userInfo:@{NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:@"Could not locate parent directory at path %@", parentDirectory]}];
+        }
+        return nil;
+    }
+    
+    NSString * const ManifestJSONKeyAudioFilename = @"filename";
+    NSString * const ManifestJSONKeyType = @"type";
+    
+    NSMutableArray<ORKTinnitusAudioSample *> *audioFileSamples = [[NSMutableArray alloc] init];
+    
+    __block BOOL success;
+    __block NSError *err;
+    [manifest enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        
+        NSString *audioFilename = (NSString *)[obj objectForKey:ManifestJSONKeyAudioFilename];
+        NSString *audioFilePath = [parentDirectory stringByAppendingPathComponent:audioFilename];
+        NSString *audioFileType = (NSString *)[obj objectForKey:ManifestJSONKeyType];
+        
+        if ([fileManager fileExistsAtPath:audioFilePath])
+        {
+            [audioFileSamples addObject:[ORKTinnitusAudioSample sampleWithPath:audioFilePath type:audioFileType]];
+            success = YES;
+        }
+        else
+        {
+            *stop = YES;
+            err = [NSError errorWithDomain:ORKErrorDomain
+                                      code:ORKErrorException
+                                  userInfo:@{NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:@"Could not locate file at path %@", audioFilePath]}];
+            success = NO;
+        }
+    }];
+    
+    if (success)
+    {
+        return [audioFileSamples copy];
+    }
+    else
+    {
+        if (error != NULL)
+        {
+            *error = err;
+        }
+        return nil;
+    }
 }
 
 #pragma mark - NSCopying
