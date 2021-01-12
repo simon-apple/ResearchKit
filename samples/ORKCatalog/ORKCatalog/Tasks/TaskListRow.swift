@@ -102,6 +102,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     case speechInNoise
     case predefinedSpeechInNoiseTask
     case predefinedAVJournalingTask
+    case predefinedTinnitusTask
     case stroop
     case timedWalkWithTurnAround
     case toneAudiometry
@@ -188,6 +189,7 @@ enum TaskListRow: Int, CustomStringConvertible {
                     .speechInNoise,
                     .predefinedSpeechInNoiseTask,
                     .predefinedAVJournalingTask,
+                    .predefinedTinnitusTask,
                     .stroop,
                     .timedWalkWithTurnAround,
                     .toneAudiometry,
@@ -343,6 +345,9 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .predefinedAVJournalingTask:
             return NSLocalizedString("Predefined AVJournaling", comment: "")
+            
+        case .predefinedTinnitusTask:
+            return NSLocalizedString("Predefined Tinnitus", comment: "")
             
         case .stroop:
             return NSLocalizedString("Stroop", comment: "")
@@ -564,6 +569,8 @@ enum TaskListRow: Int, CustomStringConvertible {
         case speechRecognitionTask
         case speechInNoiseTask
         case predefinedSpeechInNoiseTask
+        case predefinedAVJournalingTask
+        case predefinedTinnitusTask
         case stroopTask
         case timedWalkWithTurnAroundTask
         case toneAudiometryTask
@@ -723,6 +730,9 @@ enum TaskListRow: Int, CustomStringConvertible {
         
         case .predefinedAVJournalingTask:
             return predefinedAVJournalingTask
+            
+        case .predefinedTinnitusTask:
+            return predefinedTinnitusTask
             
         case .stroop:
             return stroopTask
@@ -1775,10 +1785,24 @@ enum TaskListRow: Int, CustomStringConvertible {
             completionStep.title = NSLocalizedString("Task Complete", comment: "")
             completionStep.text = NSLocalizedString("Was unable to locate the manifest.json file", comment: "")
             
-            return ORKOrderedTask(identifier: "\(Identifier.predefinedSpeechInNoiseTask)", steps: [completionStep])
+            return ORKOrderedTask(identifier: "\(Identifier.predefinedAVJournalingTask)", steps: [completionStep])
         }
         
-        return ORKAVJournalingPredefinedTask(identifier: "\(Identifier.predefinedSpeechInNoiseTask)", journalQuestionSetManifestPath: path, prepend: nil, append: nil)
+        return ORKAVJournalingPredefinedTask(identifier: "\(Identifier.predefinedAVJournalingTask)", journalQuestionSetManifestPath: path, prepend: nil, append: nil)
+    }
+    
+    private var predefinedTinnitusTask: ORKTask {
+        
+        guard let path = Bundle.main.path(forResource: "manifest", ofType: "json", inDirectory: "List1") else {
+            
+            let completionStep = ORKCompletionStep(identifier: "CompletionStepIdentifier")
+            completionStep.title = NSLocalizedString("Task Complete", comment: "")
+            completionStep.text = NSLocalizedString("Was unable to locate the manifest.json file", comment: "")
+            
+            return ORKOrderedTask(identifier: "\(Identifier.predefinedTinnitusTask)", steps: [completionStep])
+        }
+        
+        return ORKTinnitusPredefinedTask(identifier: "\(Identifier.predefinedTinnitusTask)", audioSetManifestPath: path, prepend: nil, append: nil)
     }
     
     /// This task presents the Stroop pre-defined active task.

@@ -715,6 +715,8 @@
 "AV_JOURNALING_STEP_FINISH_LATER_TITLE" = "You’ve stopped this task";
 "AV_JOURNALING_STEP_FINISH_LATER_TEXT" = "You can finish the rest of this task when you’re ready.";
 
+/* Tinnitus Predefined Task */
+
 /* ORKRecordButton */
 "PLAY" = "Play";
 "RECORD" = "Record";
