@@ -234,7 +234,7 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
 
 + (ORKHeadphoneDetectStep *)headphone {
     
-    ORKHeadphoneDetectStep *headphone = [[ORKHeadphoneDetectStep alloc] initWithIdentifier:ORKTinnitusHeadphoneDetectStepIdentifier headphoneTypes:ORKHeadphoneTypesSupported]
+    ORKHeadphoneDetectStep *headphone = [[ORKHeadphoneDetectStep alloc] initWithIdentifier:ORKTinnitusHeadphoneDetectStepIdentifier headphoneTypes:ORKHeadphoneTypesSupported];
     headphone.title = ORKLocalizedString(@"HEADPHONE_DETECT_TITLE", nil);
     headphone.detailText = ORKLocalizedString(@"HEADPHONE_DETECT_TEXT", nil);
     
