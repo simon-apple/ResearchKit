@@ -258,7 +258,13 @@ ORK_MAKE_TEST_INIT(ORKAVJournalingPredefinedTask, ^{
                         appendSteps:@[stepB]];
 });
 ORK_MAKE_TEST_INIT(ORKTinnitusPredefinedTask, ^{
-    return [self initWithIdentifier:@"test1"];
+    ORKStep *stepA = [[ORKStep alloc] initWithIdentifier:[NSUUID UUID].UUIDString];
+    ORKStep *stepB = [[ORKStep alloc] initWithIdentifier:[NSUUID UUID].UUIDString];
+    NSString *bundlePath = [[NSBundle bundleForClass:[ORKJSONSerializationTests class]] pathForResource:@"samples" ofType:@"bundle"];
+    return [self initWithIdentifier:@"test1"
+               audioSetManifestPath:[bundlePath stringByAppendingPathComponent:@""]
+                       prependSteps:@[stepA]
+                        appendSteps:@[stepB]];
 });
 ORK_MAKE_TEST_INIT(ORKFaceDetectionStep, ^{
     return [self initWithIdentifier:@"test1"];
@@ -694,7 +700,7 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
                                                         initWithKeypath:@"ORKAVJournalingPredefinedTask.journalQuestionSetManifestPath"
                                                         value:@"PredefinedTaskResources/QuestionList1/manifest.json"
                                                         type:ORKESerializationPropertyModifierTypePath];
-    ORKESerializationPropertyInjector *propertyInjector = [[ORKESerializationPropertyInjector alloc] initWithBundle:bundle
+    ORKESerializationPropertyInjector *propertyInjector = [[ORKESerializationPropertyInjector alloc] initWithBasePath:bundle.bundlePath
                                                                                                           modifiers:@[modifier, modifier2]];
     return propertyInjector;
 }

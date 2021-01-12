@@ -349,12 +349,8 @@
 "dBHL_TONE_AUDIOMETRY_OPTION_LEFT" = "left";
 "dBHL_TONE_AUDIOMETRY_OPTION_RIGHT" = "right";
 "dBHL_TONE_AUDIOMETRY_OPTION_NO_PREFERENCE" = "no preference";
-"dBHL_ALERT_TITLE_TEST_INTERRUPTED" = "Headphones Disconnected";
-"dBHL_ALERT_TEXT" = "Reconnect your AirPods or EarPods to take this test.";
-"dBHL_ALERT_TITLE2_TEST_INTERRUPTED" = "Low Battery";
-"dBHL_POD_LOW_LEVEL_ALERT_TEXT" = "To make sure you can complete the test, charge your headphones first.";
-"dBHL_ALERT_TITLE3_TEST_INTERRUPTED" = "Noise Canceling Disabled";
-"dBHL_NOISE_CANCELLING_ALERT_TEXT" = "Turn on AirPods Pro Noise Cancellation mode to take this test.";
+"dBHL_ALERT_TITLE3_TEST_INTERRUPTED" = "Noise Cancellation Turned Off";
+"dBHL_NOISE_CANCELLING_ALERT_TEXT" = "Turn on Noise Cancellation to take this test.";
 "dBHL_ALERT_TITLE_START_OVER" = "Start Again";
 "dBHL_ALERT_TITLE_CANCEL_TEST" = "Cancel Test";
 
@@ -369,6 +365,7 @@
 /* Headphones. */
 "AIRPODS" = "AirPods";
 "AIRPODSPRO" = "AirPods Pro";
+"AIRPODSMAX" = "AirPods Max";
 "EARPODS" = "EarPods";
 "HEADPHONES" = "Headphones";
 "HEADPHONES_UNKNOWN" = "Unknown";
@@ -377,10 +374,11 @@
 "NOT_CONNECTED" = "Not Connected";
 "HEADPHONE_CONNECTED_%@" = "Connected - %@";
 "HEADPHONE_DETECT_TITLE" = "Connect your Headphones";
-"NOISE_CANCELLATION_EXPLANATION" = "Press and hold one of your AirPods Pro to turn on Noise Cancellation";
+"NOISE_CANCELLATION_EXPLANATION_AIRPODSPRO" = "Press and hold one of your AirPods Pro to turn on Noise Cancellation";
+"NOISE_CANCELLATION_EXPLANATION_AIRPODSMAX" = "Press the noise control button to enable Noise Cancellation";
 "NOISE_CANCELLATION_REQUIRED" = "Noise cancellation required";
 "BOTH_BUDS_IN_EAR_REQUIRED" = "Put both AirPods in to proceed.";
-"HEADPHONE_DETECT_TEXT" = "To ensure accurate results, this task requires Apple EarPods, AirPods, or AirPods Pro.";
+"HEADPHONE_DETECT_TEXT" = "To ensure accurate results, this task requires Apple AirPods, AirPods Pro, AirPods Max or EarPods.";
 "DBHL_HEADPHONES_DETECT_SKIP" = "No Compatible Headphones";
 "SHARED_AUDIO_ALERT" = "Shared audio must be turned off.%@To turn off shared audio, open Control Center and tap %@. Then tap the %@ to turn off sharing a particular set of headphones.";
 
@@ -628,6 +626,14 @@
 "SPEECH_IN_NOISE_PREDEFINED_STOP_AUDIO_SAMPLE" = "Stop Sample";
 "SPEECH_IN_NOISE_PREDEFINED_USE_KEYBOARD_INSTEAD" = "Use Keyboard Instead";
 "SPEECH_IN_NOISE_PREDEFINED_PRACTICE_COMPLETION_TITLE" = "Practice Complete";
+"HEADPHONES_DISCONNECTED_TITLE" = "Headphones Disconnected";
+"HEADPHONES_DISCONNECTED_TEXT" = "Reconnect your headphones to take this test.";
+"HEADPHONES_LOW_BATTERY_TITLE" = "Low Battery";
+"HEADPHONES_LOW_BATTERY_TEXT" = "Charge your headphones to be sure you can complete the test.";
+"HEADPHONES_BOTH_TITLE" = "Both Headphones Required";
+"HEADPHONES_BOTH_TEXT" = "For accurate results, use both headphones not just one.";
+"SPEECH_IN_NOISE_PREDEFINED_START_OVER" = "Start Again";
+"SPEECH_IN_NOISE_PREDEFINED_CANCEL_TEST" = "Cancel Test";
 
 /* AV Journaling Predefined Task */
 "AV_JOURNALING_PREDEFINED_TASK_FACE_DETECTION_STEP_TITLE" = "Video Journal";

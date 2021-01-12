@@ -39,6 +39,8 @@
 @import MapKit;
 @import Speech;
 
+ORKESerializationKey const ORKESerializationKeyImageName = @"imageName";
+
 static NSString *_ClassKey = @"_class";
 
 static NSString *ORKEStringFromDateISO8601(NSDate *date) {
@@ -424,11 +426,8 @@ __unused static NSInteger const SerializationVersion = 1; // Will be used moving
 
 @end
 
-static NSString * const _SerializedBundleImageNameKey = @"imageName";
 
-@implementation ORKESerializationBundleImageProvider {
-    NSBundle *_bundle;
-}
+@implementation ORKESerializationBundleImageProvider
 
 - (instancetype)initWithBundle:(NSBundle *)bundle {
     self = [super init];
@@ -438,32 +437,23 @@ static NSString * const _SerializedBundleImageNameKey = @"imageName";
     return self;
 }
 
-- (NSBundle *)bundle {
-    return _bundle;
-}
-
 - (UIImage *)imageForReference:(NSDictionary *)reference {
-    NSString *imageName = [reference objectForKey:_SerializedBundleImageNameKey];
-    
-    /*
-     * Serialization should support the use of SFSymbols as a provided imageName.
-     * If the imageName can be converted to an SFSymbol, the symbol will be used,
-     * otherwise it will attempt to find the image name in the specified bundle.
-     */
-    UIImage *symbolImage = [UIImage systemImageNamed:imageName];
-    if (symbolImage != nil) {
-        return symbolImage;
+    NSString *imageName = [reference objectForKey:ORKESerializationKeyImageName];
+    // Try to get a system symbol image first
+    UIImage *image = [UIImage systemImageNamed:imageName];
+    if (image == nil) {
+        image = [UIImage imageNamed:imageName inBundle:_bundle compatibleWithTraitCollection:[UITraitCollection traitCollectionWithUserInterfaceIdiom:[UIDevice currentDevice].userInterfaceIdiom]];
     }
-    
-    return [UIImage imageNamed:imageName inBundle:_bundle compatibleWithTraitCollection:[UITraitCollection traitCollectionWithUserInterfaceIdiom:[UIDevice currentDevice].userInterfaceIdiom]];
+    return image;
 }
 
 // Writing to bundle is not supported: supply a placeholder
 - (nullable NSDictionary *)referenceBySavingImage:(UIImage __unused *)image {
-    return @{_SerializedBundleImageNameKey : @""};
+    return @{ORKESerializationKeyImageName : @""};
 }
 
 @end
+
 
 @implementation ORKESerializationPropertyModifier
 
@@ -481,15 +471,14 @@ static NSString * const _SerializedBundleImageNameKey = @"imageName";
 
 @implementation ORKESerializationPropertyInjector
 
-- (instancetype)initWithBundle:(NSBundle *)bundle modifiers:(NSArray<ORKESerializationPropertyModifier *> *)modifiers {
+- (instancetype)initWithBasePath:(NSString *)basePath modifiers:(NSArray<ORKESerializationPropertyModifier *> *)modifiers {
     self = [super init];
     if (self) {
-        _bundle = bundle;
+        _basePath = [basePath copy];
         NSMutableDictionary *propertyValues = [NSMutableDictionary dictionary];
-        NSString *bundlePath = bundle.bundlePath;
         [modifiers enumerateObjectsUsingBlock:^(ORKESerializationPropertyModifier * _Nonnull obj, __unused NSUInteger idx, __unused BOOL * _Nonnull stop) {
             if (obj.type == ORKESerializationPropertyModifierTypePath && [obj.value isKindOfClass:[NSString class]]) {
-                propertyValues[obj.keypath] = [bundlePath stringByAppendingPathComponent:(NSString *)obj.value];
+                propertyValues[obj.keypath] = [_basePath stringByAppendingPathComponent:(NSString *)obj.value];
             } else {
                 propertyValues[obj.keypath] = obj.value;
             }
@@ -597,7 +586,7 @@ static ORKESerializableProperty *imagePropertyObject(NSString *propertyName,
 
 @implementation ORKESerializationContext
 
-- (instancetype)initWithLocalizer:(nullable ORKESerializationLocalizer *)localizer
+- (instancetype)initWithLocalizer:(nullable id<ORKESerializationLocalizer>)localizer
                     imageProvider:(nullable id<ORKESerializationImageProvider>)imageProvider
                stringInterpolator:(nullable id<ORKESerializationStringInterpolator>)stringInterpolator
                  propertyInjector:(nullable ORKESerializationPropertyInjector *)propertyInjector {
@@ -609,22 +598,6 @@ static ORKESerializableProperty *imagePropertyObject(NSString *propertyName,
         _propertyInjector = propertyInjector;
     }
     return self;
-}
-
-- (instancetype)initWithBundle:(NSBundle *)bundle
-         localizationTableName:(NSString *)localizationTableName
-            stringInterpolator:(nullable id<ORKESerializationStringInterpolator>)stringInterpolator
-             propertyModifiers:(NSArray<ORKESerializationPropertyModifier *> *)modifiers {
-    ORKESerializationLocalizer *localizer = [[ORKESerializationLocalizer alloc] initWithBundle:bundle tableName:localizationTableName];
-    ORKESerializationBundleImageProvider *imageProvider = [[ORKESerializationBundleImageProvider alloc] initWithBundle:bundle];
-    ORKESerializationPropertyInjector *propertyInjector = [[ORKESerializationPropertyInjector alloc] initWithBundle:bundle modifiers:modifiers];
-    return [self initWithLocalizer:localizer imageProvider:imageProvider stringInterpolator:stringInterpolator propertyInjector:propertyInjector];
-}
-
-- (instancetype)initWithBundle:(NSBundle *)bundle
-         localizationTableName:(NSString *)localizationTableName
-             propertyModifiers:(NSArray<ORKESerializationPropertyModifier *> *)modifiers {
-    return [self initWithBundle:bundle localizationTableName:localizationTableName stringInterpolator:nil propertyModifiers:modifiers];
 }
 
 @end
@@ -675,11 +648,11 @@ static id propFromDict(NSDictionary *dict, NSString *propName, ORKESerialization
             //
             // Remaining localization/interpolication is done in `objectForJsonObject`.
             if ([output isKindOfClass:[NSString class]] && ![propName isEqualToString:@"identifier"]) {
-                ORKESerializationLocalizer *localizer = context.localizer;
+                id<ORKESerializationLocalizer> localizer = context.localizer;
                 id<ORKESerializationStringInterpolator> stringInterpolator = context.stringInterpolator;
 
                 if (localizer != nil) {
-                    output =  [localizer localizedStringForString:output];
+                    output =  [localizer localizedStringForKey:output];
                 }
 
                 if (stringInterpolator != nil) {
@@ -691,7 +664,7 @@ static id propFromDict(NSDictionary *dict, NSString *propName, ORKESerialization
     return output;
 }
 
-@implementation ORKESerializationLocalizer
+@implementation ORKESerializationBundleLocalizer
 
 - (instancetype)initWithBundle:(NSBundle *)bundle tableName:(NSString *)tableName {
     self = [super init];
@@ -702,7 +675,7 @@ static id propFromDict(NSDictionary *dict, NSString *propName, ORKESerialization
     return self;
 }
 
-- (NSString *)localizedStringForString:(NSString *)string
+- (NSString *)localizedStringForKey:(NSString *)string
 {
     // Keys that exist in the localization table will be localized.
     //
@@ -871,9 +844,16 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
            })),
            ENTRY(ORKTinnitusPredefinedTask,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-               return [[ORKTinnitusPredefinedTask alloc] initWithIdentifier:GETPROP(dict, identifier)];
+               return [[ORKTinnitusPredefinedTask alloc] initWithIdentifier:GETPROP(dict, identifier)
+                                                       audioSetManifestPath:GETPROP(dict, audioSetManifestPath)
+                                                               prependSteps:GETPROP(dict, prependSteps)
+                                                                appendSteps:GETPROP(dict, appendSteps)];
            },
                  (@{
+                     PROPERTY(audioSetManifestPath, NSString, NSObject, NO, nil, nil),
+                     PROPERTY(prependSteps, ORKStep, NSArray, NO, nil, nil),
+                     PROPERTY(appendSteps, ORKStep, NSArray, NO, nil, nil),
+                     SKIP_PROPERTY(steps, ORKStep, NSArray, NO, nil, nil)
                   })),
            ENTRY(ORKStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
@@ -2464,7 +2444,7 @@ static id objectForJsonObject(id input,
         }
     }
     
-    ORKESerializationLocalizer *localizer = context.localizer;
+    id<ORKESerializationLocalizer> localizer = context.localizer;
     id<ORKESerializationStringInterpolator> stringInterpolator = context.stringInterpolator;
 
     if (expectedClass != nil && [input isKindOfClass:expectedClass]) {
@@ -2514,7 +2494,7 @@ static id objectForJsonObject(id input,
                         id property = propFromDict(dict, key, context);
                         if ([property isKindOfClass: [NSString class]] && ![key isEqualToString:@"identifier"]) {
                             if (localizer != nil) {
-                                property = [localizer localizedStringForString:property];
+                                property = [localizer localizedStringForKey:property];
                             }
 
                             if (stringInterpolator != nil) {

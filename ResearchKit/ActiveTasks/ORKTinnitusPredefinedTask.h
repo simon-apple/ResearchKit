@@ -28,19 +28,36 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ResearchKit/ResearchKit.h>
+@import Foundation;
+#import <ResearchKit/ORKNavigableOrderedTask.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-ORK_CLASS_AVAILABLE
-@interface ORKTinnitusPredefinedTask : ORKOrderedTask
+@class ORKStep;
 
-/*
- This value will update if we have a converged pure tone frequency otherwise will be 0.0
- */
+ORK_CLASS_AVAILABLE
+@interface ORKTinnitusPredefinedTask : ORKNavigableOrderedTask
+
++ (instancetype)new NS_UNAVAILABLE;
+
+- (instancetype)init NS_UNAVAILABLE;
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder NS_DESIGNATED_INITIALIZER;
+
+- (instancetype)initWithIdentifier:(NSString *)identifier steps:(nullable NSArray<ORKStep *> *)steps NS_UNAVAILABLE;
+
+- (instancetype)initWithIdentifier:(nonnull NSString *)identifier
+              audioSetManifestPath:(nonnull NSString *)audioSetManifestPath
+                      prependSteps:(nullable NSArray<ORKStep *> *)prependSteps
+                       appendSteps:(nullable NSArray<ORKStep *> *)appendSteps NS_DESIGNATED_INITIALIZER;
+
+@property (nonatomic, readonly, nonnull) NSString *audioSetManifestPath;
+
+@property (nonatomic, readonly, nullable) NSArray<ORKStep *> *prependSteps;
+
 @property (readonly) double predominantFrequency;
 
-- (instancetype)initWithIdentifier:(NSString *)identifier;
+@property (nonatomic, readonly, nullable) NSArray<ORKStep *> *appendSteps;
 
 @end
 

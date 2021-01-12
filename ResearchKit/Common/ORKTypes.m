@@ -45,11 +45,17 @@ ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIde
 
 ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsPro = @"76,8206";
 
+ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsMax = @"76,8202";
+
+ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierAirPods = @"AIRPODS";
+
 ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierAirPodsGen1 = @"AIRPODSV1";
 
 ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierAirPodsGen2 = @"AIRPODSV2";
 
 ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierAirPodsPro = @"AIRPODSPRO";
+
+ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierAirPodsMax = @"AIRPODSMAX";
 
 ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierEarPods = @"EARPODS";
 

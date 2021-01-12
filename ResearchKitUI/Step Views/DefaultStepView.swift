@@ -47,12 +47,12 @@ public struct DefaultStepView: View {
 
     @ViewBuilder
     public var body: some View {
-        if let instructionStep = step as? ORKInstructionStep {
+        if let completionStep = step as? ORKCompletionStep {
+            CompletionStepView(completionStep, result: result)
+        } else if let instructionStep = step as? ORKInstructionStep {
             InstructionStepView(instructionStep, result: result)
         } else if let questionStep = step as? ORKQuestionStep {
             QuestionStepView(questionStep, result: result)
-        } else if let completionStep = step as? ORKCompletionStep {
-            CompletionStepView(completionStep, result: result)
         } else {
             fatalError("Not Supported")
         }

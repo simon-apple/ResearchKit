@@ -33,6 +33,7 @@
 
 #import "ORKCelestialSoftLink.h"
 #import "ORKAVFoundationSoftLink.h"
+#import <MediaPlayer/MediaPlayer.h>
 
 static const NSTimeInterval ORKBTListeningModeCheckInterval = 0.1;
 static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
@@ -128,9 +129,23 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
     [center addObserver:self selector:@selector(headphoneStateChangedNotification:) name:@"AVSystemController_ActiveAudioRouteDidChangeNotification" object:nil];
     [center addObserver:self selector:@selector(mediaServerDied) name:@"AVSystemController_ServerConnectionDiedNotification" object:nil];
     
+    [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
+    [[[MPRemoteCommandCenter sharedCommandCenter] pauseCommand] addTarget:self action:@selector(pauseDetected:)];
+    
     [center addObserver:self selector:@selector(appWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
     [center addObserver:self selector:@selector(appWillTerminate:) name:UIApplicationWillTerminateNotification object:nil];
     [center addObserver:self selector:@selector(appDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
+}
+
+-(MPRemoteCommandHandlerStatus)pauseDetected:(MPRemoteCommandEvent*)event {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        ORKStrongTypeOf(self.delegate) strongDelegate = self.delegate;
+        if (strongDelegate &&
+            [strongDelegate respondsToSelector:@selector(oneAirPodRemoved)]) {
+            [strongDelegate oneAirPodRemoved];
+        }
+    });
+    return MPRemoteCommandHandlerStatusSuccess;
 }
 
 - (void)mediaServerDied {
@@ -151,6 +166,9 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
     [center removeObserver:self name:@"AVAudioSessionRouteChangeNotification" object:nil];
     [center removeObserver:self name:@"AVSystemController_ActiveAudioRouteDidChangeNotification" object:nil];
     [center removeObserver:self name:@"AVSystemController_ServerConnectionDiedNotification" object:nil];
+    
+    [[UIApplication sharedApplication] endReceivingRemoteControlEvents];
+    [[[MPRemoteCommandCenter sharedCommandCenter] pauseCommand] removeTarget:self];
     
     [center removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
     [center removeObserver:self name:UIApplicationWillTerminateNotification object:nil];
@@ -196,6 +214,9 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
             if ([modelId containsString:ORKHeadphoneVendorAndProductIdIdentifierAirPodsPro]) {
                 return ORKHeadphoneTypeIdentifierAirPodsPro;
             }
+            if ([modelId containsString:ORKHeadphoneVendorAndProductIdIdentifierAirPodsMax]) {
+                return ORKHeadphoneTypeIdentifierAirPodsMax;
+            }
         }
     }
     return nil;
@@ -216,8 +237,7 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
     return NO;
 }
 
-- (void)updateDeviceInformationForRoute:(NSDictionary *)routeDict
-{
+- (void)updateDeviceInformationForRoute:(NSDictionary *)routeDict {
     _deviceSubType = [[[getAVOutputContextClass() sharedSystemAudioContext] outputDevice] deviceSubType];
     NSString *btDetails = [routeDict valueForKey:getAVSystemController_RouteDescriptionKey_BTDetails_ProductID()];
     NSArray *productIDComponents = [btDetails componentsSeparatedByString:@","];
@@ -264,6 +284,9 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
                             {
                                 routeSupported = YES;
                                 _lastDetectedDevice = ORKHeadphoneTypeIdentifierEarPods;
+                            } else {
+                                routeSupported = _supportedHeadphoneChipsetTypes == nil;
+                                _lastDetectedDevice = ORKHeadphoneTypeIdentifierUnknown;
                             }
                         } else {
                             routeSupported = YES;
@@ -312,6 +335,14 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
     });
 }
 
+- (BOOL)headphoneHasNoiseCancellingFeature {
+    ORKHeadphoneTypeIdentifier currentHeadphone = [self getCurrentBTHeadphoneType];
+    return (currentHeadphone == ORKHeadphoneTypeIdentifierAirPodsPro ||
+            currentHeadphone == ORKHeadphoneTypeIdentifierAirPodsMax) &&
+            (_lastDetectedDevice == ORKHeadphoneTypeIdentifierAirPodsPro ||
+             _lastDetectedDevice == ORKHeadphoneTypeIdentifierAirPodsMax);
+}
+
 - (void)checkTick:(NSNotification *)notification {
     ORKWeakTypeOf(self) weakSelf = self;
     
@@ -338,8 +369,7 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
             }
         }
         if (@available(iOS 13.0, *)) {
-            if ([strongSelf getCurrentBTHeadphoneType] == ORKHeadphoneTypeIdentifierAirPodsPro &&
-                _lastDetectedDevice == ORKHeadphoneTypeIdentifierAirPodsPro &&
+            if ([strongSelf headphoneHasNoiseCancellingFeature] &&
                 strongDelegate && [strongDelegate respondsToSelector:@selector(bluetoothModeChanged:)]) {
                 
                 NSString* listeningMode = [[[getAVOutputContextClass() sharedSystemAudioContext] outputDevice] currentBluetoothListeningMode];

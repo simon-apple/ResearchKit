@@ -15,7 +15,7 @@ pipeline {
                     steps {
                             setBuildStatus("In progress", "PENDING")
 							// Select Azul SDK
-							sh 'set +x && echo $(< ~/.PRIVATE_JenkinsfilePwd) | sudo -S xcode-select -s /Applications/XcodeAzul.app && set -x'
+							sh 'set +x && echo $(< ~/.PRIVATE_JenkinsfilePwd) | sudo -S xcode-select -s /Applications/XcodeAzulC.app && set -x'
                             sh 'xcrun --kill-cache'
 
                             // create directories for output

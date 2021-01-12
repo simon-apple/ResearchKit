@@ -3,12 +3,12 @@
     "identifier" : "AVJournalStepIdentifier1",
     "question" : "Some question",
     "maxRecordingTime" : 45,
-    "saveDepthDataIfAvailable" : "false"
+    "saveDepthDataIfAvailable" : true
   },
   {
     "identifier" : "AVJournalStepIdentifier2",
     "question" : "Some question",
     "maxRecordingTime" : 45,
-    "saveDepthDataIfAvailable" : "false"
+    "saveDepthDataIfAvailable" : false
   }
 ]
