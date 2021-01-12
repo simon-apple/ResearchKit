@@ -1733,7 +1733,17 @@ enum TaskListRow: Int, CustomStringConvertible {
     }
     
     private var predefinedTinnitusTask: ORKTask {
-        return ORKTinnitusPredefinedTask(identifier: "\(Identifier.predefinedTinnitusTask)")
+        
+        guard let path = Bundle.main.path(forResource: "manifest", ofType: "json", inDirectory: "List1") else {
+            
+            let completionStep = ORKCompletionStep(identifier: "CompletionStepIdentifier")
+            completionStep.title = NSLocalizedString("Task Complete", comment: "")
+            completionStep.text = NSLocalizedString("Was unable to locate the manifest.json file", comment: "")
+            
+            return ORKOrderedTask(identifier: "\(Identifier.predefinedTinnitusTask)", steps: [completionStep])
+        }
+        
+        return ORKTinnitusPredefinedTask(identifier: "\(Identifier.predefinedTinnitusTask)", audioSetManifestPath: path, prepend: nil, append: nil)
     }
     
     /// This task presents the Stroop pre-defined active task.
