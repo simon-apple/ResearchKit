@@ -257,6 +257,15 @@ ORK_MAKE_TEST_INIT(ORKAVJournalingPredefinedTask, ^{
                        prependSteps:@[stepA]
                         appendSteps:@[stepB]];
 });
+ORK_MAKE_TEST_INIT(ORKTinnitusPredefinedTask, ^{
+    ORKStep *stepA = [[ORKStep alloc] initWithIdentifier:[NSUUID UUID].UUIDString];
+    ORKStep *stepB = [[ORKStep alloc] initWithIdentifier:[NSUUID UUID].UUIDString];
+    NSString *bundlePath = [[NSBundle bundleForClass:[ORKJSONSerializationTests class]] pathForResource:@"samples" ofType:@"bundle"];
+    return [self initWithIdentifier:@"test1"
+               audioSetManifestPath:[bundlePath stringByAppendingPathComponent:@""]
+                       prependSteps:@[stepA]
+                        appendSteps:@[stepB]];
+});
 ORK_MAKE_TEST_INIT(ORKFaceDetectionStep, ^{
     return [self initWithIdentifier:@"test1"];
 });
@@ -463,6 +472,7 @@ ORK_MAKE_TEST_INIT(ORKNoAnswer, (^{ return [ORKDontKnowAnswer answer]; }));
                                    @"ORKTextAnswerFormat.validationRegex",
                                    @"ORKSpeechInNoisePredefinedTask.steps",
                                    @"ORKAVJournalingPredefinedTask.steps",
+                                   @"ORKTinnitusPredefinedTask.steps",
                                    @"ORKFileResult.fileURL",
                                    @"ORKFrontFacingCameraTask.fileURL",
                                    @"ORKTaskResult.outputDirectory",

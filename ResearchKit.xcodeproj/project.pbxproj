@@ -900,6 +900,9 @@
 		E27743AB23A7AA8F00AA0C9F /* AVOutputContext_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = E27743A923A7AA8F00AA0C9F /* AVOutputContext_Private.h */; };
 		E27743AC23A7AA8F00AA0C9F /* AVOutputContext.h in Headers */ = {isa = PBXBuildFile; fileRef = E27743AA23A7AA8F00AA0C9F /* AVOutputContext.h */; };
 		E27743AE23A7AC8800AA0C9F /* AVOutputDeviceDiscoverySession.h in Headers */ = {isa = PBXBuildFile; fileRef = E27743AD23A7AC8500AA0C9F /* AVOutputDeviceDiscoverySession.h */; };
+		E2880B82255D656900D9BAA7 /* ORKTinnitusPredefinedTask.h in Headers */ = {isa = PBXBuildFile; fileRef = E2880B7F255D656900D9BAA7 /* ORKTinnitusPredefinedTask.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E2880B83255D656900D9BAA7 /* ORKTinnitusPredefinedTask.m in Sources */ = {isa = PBXBuildFile; fileRef = E2880B80255D656900D9BAA7 /* ORKTinnitusPredefinedTask.m */; };
+		E2880B84255D656900D9BAA7 /* ORKTinnitusPredefinedTaskConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = E2880B81255D656900D9BAA7 /* ORKTinnitusPredefinedTaskConstants.h */; };
 		E2880B8C255DAFC200D9BAA7 /* ORKdBHLTaskContext.m in Sources */ = {isa = PBXBuildFile; fileRef = E2880B8A255DAFC100D9BAA7 /* ORKdBHLTaskContext.m */; };
 		E29189B923855B97001AFF0F /* frequency_dBSPL_AIRPODSPRO.plist in Resources */ = {isa = PBXBuildFile; fileRef = E29189B823855B96001AFF0F /* frequency_dBSPL_AIRPODSPRO.plist */; };
 		E29189BB23855BA2001AFF0F /* volume_curve_AIRPODSPRO.plist in Resources */ = {isa = PBXBuildFile; fileRef = E29189BA23855BA2001AFF0F /* volume_curve_AIRPODSPRO.plist */; };
@@ -1909,6 +1912,9 @@
 		E27743A923A7AA8F00AA0C9F /* AVOutputContext_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVOutputContext_Private.h; sourceTree = "<group>"; };
 		E27743AA23A7AA8F00AA0C9F /* AVOutputContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVOutputContext.h; sourceTree = "<group>"; };
 		E27743AD23A7AC8500AA0C9F /* AVOutputDeviceDiscoverySession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVOutputDeviceDiscoverySession.h; sourceTree = "<group>"; };
+		E2880B7F255D656900D9BAA7 /* ORKTinnitusPredefinedTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ORKTinnitusPredefinedTask.h; path = ../ActiveTasks/ORKTinnitusPredefinedTask.h; sourceTree = "<group>"; };
+		E2880B80255D656900D9BAA7 /* ORKTinnitusPredefinedTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ORKTinnitusPredefinedTask.m; path = ../ActiveTasks/ORKTinnitusPredefinedTask.m; sourceTree = "<group>"; };
+		E2880B81255D656900D9BAA7 /* ORKTinnitusPredefinedTaskConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ORKTinnitusPredefinedTaskConstants.h; path = ../ActiveTasks/ORKTinnitusPredefinedTaskConstants.h; sourceTree = "<group>"; };
 		E2880B8A255DAFC100D9BAA7 /* ORKdBHLTaskContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKdBHLTaskContext.m; sourceTree = "<group>"; };
 		E29189B823855B96001AFF0F /* frequency_dBSPL_AIRPODSPRO.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = frequency_dBSPL_AIRPODSPRO.plist; sourceTree = "<group>"; };
 		E29189BA23855BA2001AFF0F /* volume_curve_AIRPODSPRO.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = volume_curve_AIRPODSPRO.plist; sourceTree = "<group>"; };
@@ -2847,6 +2853,7 @@
 		86C40AF91A8D7C5B00081FAC /* Active Tasks */ = {
 			isa = PBXGroup;
 			children = (
+				E2880B85255D656D00D9BAA7 /* Tinnitus */,
 				5175144B2459EBD3009E8FFC /* 3D Model */,
 				5192C28724536A690097DB41 /* AV Journaling */,
 				7118AC5820BF69C200D7A6BB /* Speech in Noise */,
@@ -3100,6 +3107,9 @@
 		B12EFF331AB2110300A80147 /* Task */ = {
 			isa = PBXGroup;
 			children = (
+				E2880B7F255D656900D9BAA7 /* ORKTinnitusPredefinedTask.h */,
+				E2880B80255D656900D9BAA7 /* ORKTinnitusPredefinedTask.m */,
+				E2880B81255D656900D9BAA7 /* ORKTinnitusPredefinedTaskConstants.h */,
 				BC297883254632DC0061B239 /* ORKAVJournalingPredefinedTask_Internal.h */,
 				51C3F78024500E4A00FFAC91 /* ORKAVJournalingPredefinedTask.h */,
 				51C3F78124500E4A00FFAC91 /* ORKAVJournalingPredefinedTask.m */,
@@ -4015,6 +4025,13 @@
 			name = "Image Capture Step";
 			sourceTree = "<group>";
 		};
+		E2880B85255D656D00D9BAA7 /* Tinnitus */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Tinnitus;
+			sourceTree = "<group>";
+		};
 		E2A676ED238DCB3D006193D7 /* AVFoundation */ = {
 			isa = PBXGroup;
 			children = (
@@ -4158,6 +4175,7 @@
 			files = (
 				D3C8072A21891EBE00F9A231 /* ORKEnvironmentSPLMeterResult.h in Headers */,
 				BF1D43851D4904C6007EE90B /* ORKVideoInstructionStep.h in Headers */,
+				E2880B84255D656900D9BAA7 /* ORKTinnitusPredefinedTaskConstants.h in Headers */,
 				BF5161501BE9C53D00174DDD /* ORKWaitStep.h in Headers */,
 				244EFAD21BCEFD83001850D9 /* ORKAnswerFormat_Private.h in Headers */,
 				BCA5C0351AEC05F20092AC8D /* ORKStepNavigationRule.h in Headers */,
@@ -4296,6 +4314,7 @@
 				515310CF233570CF007BCA58 /* ORKDontKnowButton.h in Headers */,
 				781D54101DF886AB00223305 /* ORKTrailmakingContentView.h in Headers */,
 				86C40C761A8D7C5C00081FAC /* HKSample+ORKJSONDictionary.h in Headers */,
+				E2880B82255D656900D9BAA7 /* ORKTinnitusPredefinedTask.h in Headers */,
 				BA0AA6961EAEC0B600671ACE /* ORKStroopStep.h in Headers */,
 				E2BC456C22D79081009DAAAE /* ORKHeadphoneDetector.h in Headers */,
 				71769E2920880C4500A19914 /* ORKdBHLToneAudiometryResult.h in Headers */,
@@ -5160,6 +5179,7 @@
 				D42FEFB91AF7557000A124F8 /* ORKImageCaptureView.m in Sources */,
 				BA8C067922EEB84B00ACDE6B /* ORKPlaybackButton.m in Sources */,
 				86C40C401A8D7C5C00081FAC /* ORKSpatialSpanMemoryContentView.m in Sources */,
+				E2880B83255D656900D9BAA7 /* ORKTinnitusPredefinedTask.m in Sources */,
 				BAC6F1AA22AF535100E31C22 /* ORKTaskReviewViewController.m in Sources */,
 				BCB6E6671B7D535F000D5B34 /* ORKXAxisView.m in Sources */,
 				00C2668B2302244300337E0B /* ORKCustomStepViewController.m in Sources */,
