@@ -28,28 +28,40 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "ORKAVJournalingARSessionHelper.h"
-#import <AVFoundation/AVFoundation.h>
+import SwiftUI
 
+// swiftlint:disable line_length
+extension View {
+    
+    @ViewBuilder
+    func whenChanged<V>(_ value: V, perform action: @escaping (V) -> Void) -> some View where V: Equatable {
+        if #available(watchOSApplicationExtension 7.0, *) {
+            onChange(of: value, perform: action)
+        } else {
+            modifier(OnChangedModifier(value: value, action: action))
+        }
+    }
+}
 
-NS_ASSUME_NONNULL_BEGIN
+private struct OnChangedModifier<T>: ViewModifier where T: Equatable {
+    
+    let value: T
+    
+    let action: (T) -> Void
+    
+    func body(content: Content) -> some View {
+        content
+            .onPreferenceChange(OnChangeKey<T>.self, perform: { action($0!) })
+            .preference(key: OnChangeKey<T>.self, value: value)
+    }
+}
 
-@interface ORKAVJournalingSessionHelper : NSObject
-
-- (instancetype)initWithSampleBufferDelegate:(id<AVCaptureDataOutputSynchronizerDelegate>)sampleBufferDelegate
-                       sessionHelperDelegate:(id<ORKAVJournalingSessionHelperDelegate>)sessionHelperDelegate
-                   storeDepthDataIfAvailable:(BOOL)storeDepthData;
-
-@property (nonatomic, nullable, readonly) AVCaptureSession *captureSession;
-@property (nonatomic, nullable, copy) NSArray *cameraIntrinsicsArray;
-
-- (BOOL)startSession:(NSError **)error;
-- (void)startCapturing;
-- (void)stopCapturing;
-- (void)tearDownSession;
-- (void)saveSampleBuffer:(CMSampleBufferRef)sampleBuffer;
-- (void)saveOutputsFromDataCollection:(AVCaptureSynchronizedDataCollection *)dataCollection;
-
-@end
-
-NS_ASSUME_NONNULL_END
+private struct OnChangeKey<T>: PreferenceKey {
+    
+    static var defaultValue: T? { nil }
+    
+    static func reduce(value: inout T?, nextValue: () -> T?) {
+        value = nextValue() ?? value
+    }
+}
+// swiftlint:enable line_length

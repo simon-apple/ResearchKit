@@ -46,13 +46,16 @@
 #import "ORKSkin.h"
 #import "ORKContext.h"
 #import "ORKTaskViewController.h"
+#import "ORKTaskViewController_Internal.h"
+#import "ORKHeadphoneDetector.h"
+#import "ORKHeadphoneDetectResult.h"
 
 #import <AVFoundation/AVFoundation.h>
 @import Accelerate;
 
 static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
 
-@interface ORKSpeechInNoiseStepViewController () {
+@interface ORKSpeechInNoiseStepViewController () <ORKHeadphoneDetectorDelegate> {
     AVAudioEngine *_audioEngine;
     AVAudioPlayerNode *_playerNode;
     AVAudioMixerNode *_mixerNode;
@@ -64,6 +67,10 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
     AVAudioFrameCount _speechToneCapacity;
     AVAudioFrameCount _noiseToneCapacity;
     BOOL _installedTap;
+    
+    ORKHeadphoneDetector *_headphoneDetector;
+    ORKHeadphoneTypeIdentifier _headphoneType;
+    BOOL _showingAlert;
 }
 
 @property (nonatomic, strong) ORKSpeechInNoiseContentView *speechInNoiseContentView;
@@ -79,6 +86,22 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
     _speechAudioBuffer = [[AVAudioPCMBuffer alloc] init];
     _filterAudioBuffer = [[AVAudioPCMBuffer alloc] init];
     _installedTap = NO;
+    _showingAlert = NO;
+    _headphoneDetector = [[ORKHeadphoneDetector alloc] initWithDelegate:self
+                                         supportedHeadphoneChipsetTypes:nil];
+    
+    ORKTaskResult *taskResults = [[self taskViewController] result];
+    
+    for (ORKStepResult *result in taskResults.results) {
+        if (result.results > 0) {
+            ORKStepResult *firstResult = (ORKStepResult *)[result.results firstObject];
+            if ([firstResult isKindOfClass:[ORKHeadphoneDetectResult class]]) {
+                ORKHeadphoneDetectResult *headphoneDetectResult = (ORKHeadphoneDetectResult *)firstResult;
+                _headphoneType = headphoneDetectResult.headphoneType;
+            }
+        }
+    }
+    
     self.speechInNoiseContentView = [[ORKSpeechInNoiseContentView alloc] init];
     self.activeStepView.activeCustomView = self.speechInNoiseContentView;
     self.activeStepView.customContentFillsAvailableSpace = NO;
@@ -176,7 +199,7 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
 }
 
 - (void)installTap {
-
+    
     AVAudioFormat *mainMixerFormat = [[_audioEngine mainMixerNode] outputFormatForBus:0];
     
     [_mixerNode installTapOnBus:0 bufferSize:64 format:mainMixerFormat block:^(AVAudioPCMBuffer * _Nonnull buffer5, AVAudioTime * _Nonnull when) {
@@ -209,7 +232,7 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
         [_playerNode play];
         if ([self speechInNoiseStep].willAudioLoop) {
             [_speechInNoiseContentView.playButton setTitle:ORKLocalizedString(@"SPEECH_IN_NOISE_STOP_AUDIO_LABEL", nil)
-                             forState:UIControlStateNormal];
+                                                  forState:UIControlStateNormal];
             [_speechInNoiseContentView.playButton setTintColor:[UIColor ork_redColor]];
         } else {
             ORKWeakTypeOf(self) weakSelf = self;
@@ -218,7 +241,9 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
                 ORKStrongTypeOf(weakSelf) strongSelf = weakSelf;
                 [_playerNode stop];
                 [_mixerNode removeTapOnBus:0];
-                [strongSelf finish];
+                if (!_showingAlert) {
+                    [strongSelf finish];
+                };
             });
         }
     }
@@ -295,6 +320,9 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
 {
     [_speechInNoiseContentView removeAllSamples];
     
+    [_headphoneDetector discard];
+    _headphoneDetector = nil;
+    
     ORKSpeechInNoisePredefinedTaskContext *context = [self predefinedSpeechInNoiseContext];
     if (context)
     {
@@ -303,6 +331,57 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
     else
     {
         [super finish];
+    }
+}
+
+
+#pragma mark - Headphone Monitoring
+
+- (void)headphoneTypeDetected:(nonnull ORKHeadphoneTypeIdentifier)headphoneType vendorID:(nonnull NSString *)vendorID productID:(nonnull NSString *)productID deviceSubType:(NSInteger)deviceSubType isSupported:(BOOL)isSupported {
+    if (![headphoneType isEqualToString:_headphoneType]) {
+        [self showAlertWithTitle:ORKLocalizedString(@"HEADPHONES_DISCONNECTED_TITLE", nil)
+                      andMessage:ORKLocalizedString(@"HEADPHONES_DISCONNECTED_TEXT", nil)];
+    }
+}
+
+- (void)oneAirPodRemoved {
+    [self showAlertWithTitle:ORKLocalizedString(@"HEADPHONES_BOTH_TITLE", nil)
+                  andMessage:ORKLocalizedString(@"HEADPHONES_BOTH_TEXT", nil)];
+}
+
+- (void)podLowBatteryLevelDetected {
+    [self showAlertWithTitle:ORKLocalizedString(@"HEADPHONES_LOW_BATTERY_TITLE", nil)
+                  andMessage:ORKLocalizedString(@"HEADPHONES_LOW_BATTERY_TEXT", nil)];
+}
+
+- (void)showAlertWithTitle:(NSString*)title andMessage:(NSString*)message {
+    if (!_showingAlert) {
+        _showingAlert = YES;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            UIAlertController *alertController = [UIAlertController
+                                                  alertControllerWithTitle:title
+                                                  message:message
+                                                  preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *startOver = [UIAlertAction
+                                        actionWithTitle:ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_START_OVER", nil)
+                                        style:UIAlertActionStyleDefault
+                                        handler:^(UIAlertAction *action) {
+                [[self taskViewController] flipToFirstPage];
+            }];
+            [alertController addAction:startOver];
+            [alertController addAction:[UIAlertAction
+                                        actionWithTitle:ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_CANCEL_TEST", nil)
+                                        style:UIAlertActionStyleDefault
+                                        handler:^(UIAlertAction *action) {
+                ORKStrongTypeOf(self.taskViewController.delegate) strongDelegate = self.taskViewController.delegate;
+                if ([strongDelegate respondsToSelector:@selector(taskViewController:didFinishWithReason:error:)]) {
+                    [strongDelegate taskViewController:self.taskViewController didFinishWithReason:ORKTaskViewControllerFinishReasonDiscarded error:nil];
+                    [self finish];
+                }
+            }]];
+            alertController.preferredAction = startOver;
+            [self presentViewController:alertController animated:YES completion:nil];
+        });
     }
 }
 

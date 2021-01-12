@@ -43,7 +43,7 @@ ORK_CLASS_AVAILABLE
 @property (nonatomic, readonly, nullable) NSSet<ORKHeadphoneChipsetIdentifier> *supportedHeadphoneChipsetTypes;
 
 - (instancetype)initWithDelegate:(id<ORKHeadphoneDetectorDelegate>)delegate
-       supportedHeadphoneChipsetTypes:(NSSet<ORKHeadphoneChipsetIdentifier> *)supportedHeadphoneChipsetTypes;
+       supportedHeadphoneChipsetTypes:(nullable NSSet<ORKHeadphoneChipsetIdentifier> *)supportedHeadphoneChipsetTypes;
 
 - (void)discard;
 
@@ -60,6 +60,7 @@ ORK_CLASS_AVAILABLE
 - (void)bluetoothModeChanged:(ORKBluetoothMode)bluetoothMode;
 - (void)podLowBatteryLevelDetected;
 - (void)wirelessSplitterMoreThanOneDeviceDetected:(BOOL)moreThanOne;
+- (void)oneAirPodRemoved;
 
 @end
 

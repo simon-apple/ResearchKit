@@ -55,7 +55,7 @@ open class TaskManager: ObservableObject {
     private(set) var task: ORKOrderedTask
     
     @Published
-    internal private(set) var completedSteps: Set<ORKStep> = []
+    internal private(set) var answeredSteps: Set<ORKStep> = []
     
     @Published
     var viewModels: [String: ViewModel] = [:]
@@ -98,15 +98,21 @@ extension TaskManager {
 
 internal extension TaskManager {
     
-    func markStepComplete(_ step: ORKStep) {
-        completedSteps.insert(step)
+    func mark(_ step: ORKStep, answered: Bool) {
+        if answered {
+            answeredSteps.insert(step)
+        } else {
+            answeredSteps.remove(step)
+        }
     }
 }
 
 internal extension TaskManager {
     
+    //swiftlint:disable line_length
     // Since we are supporting watchOS 6.0, we do not have access to use @StateObject (watchOS 7.0 +) to support views having thier own models.
     // Instead, we opt to use the TaskManager as the source of truth, and therefore supply the views with a view model.
+    //swiftlint:enable line_length
     
     func viewModelForStep(_ step: ORKStep) -> ViewModel {
         

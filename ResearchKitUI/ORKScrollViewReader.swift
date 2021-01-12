@@ -28,28 +28,47 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "ORKAVJournalingARSessionHelper.h"
-#import <AVFoundation/AVFoundation.h>
+import Foundation
+import SwiftUI
 
+//swiftlint:disable line_length
+// Support ScrollViewReader for only the software that supports it without having to duplicate the view hierarchy.
+// Abstract unavailable APIs behind a protocol to get support in watchOS 7.0 devices.
+//swiftlint:enable line_length
 
-NS_ASSUME_NONNULL_BEGIN
+protocol ScrollViewProxyProtocol {
+    
+    func scrollToID<ID>(_ id: ID, anchor: UnitPoint?) where ID: Hashable
+}
 
-@interface ORKAVJournalingSessionHelper : NSObject
+struct ORKScrollViewProxy: ScrollViewProxyProtocol {
+    
+    func scrollToID<ID>(_ id: ID, anchor: UnitPoint? = nil) where ID: Hashable {
+        // Do nothing
+    }
+}
 
-- (instancetype)initWithSampleBufferDelegate:(id<AVCaptureDataOutputSynchronizerDelegate>)sampleBufferDelegate
-                       sessionHelperDelegate:(id<ORKAVJournalingSessionHelperDelegate>)sessionHelperDelegate
-                   storeDepthDataIfAvailable:(BOOL)storeDepthData;
+@available(watchOSApplicationExtension 7.0, *)
+extension ScrollViewProxy: ScrollViewProxyProtocol {
+    
+    func scrollToID<ID>(_ id: ID, anchor: UnitPoint? = nil) where ID: Hashable {
+        scrollTo(id, anchor: anchor)
+    }
+}
 
-@property (nonatomic, nullable, readonly) AVCaptureSession *captureSession;
-@property (nonatomic, nullable, copy) NSArray *cameraIntrinsicsArray;
-
-- (BOOL)startSession:(NSError **)error;
-- (void)startCapturing;
-- (void)stopCapturing;
-- (void)tearDownSession;
-- (void)saveSampleBuffer:(CMSampleBufferRef)sampleBuffer;
-- (void)saveOutputsFromDataCollection:(AVCaptureSynchronizedDataCollection *)dataCollection;
-
-@end
-
-NS_ASSUME_NONNULL_END
+struct ORKScrollViewReader<Content>: View where Content: View {
+    
+    var content: (ScrollViewProxyProtocol) -> Content
+    
+    init(@ViewBuilder content: @escaping (ScrollViewProxyProtocol) -> Content) {
+        self.content = content
+    }
+    
+    var body: some View {
+        if #available(watchOSApplicationExtension 7.0, *) {
+            ScrollViewReader(content: content)
+        } else {
+            content(ORKScrollViewProxy())
+        }
+    }
+}

@@ -478,8 +478,10 @@
 
 - (void)sendHapticEvent:(UINotificationFeedbackType)eventType
 {
-    [_notificationFeedbackGenerator notificationOccurred:eventType];
-    [_notificationFeedbackGenerator prepare];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [_notificationFeedbackGenerator notificationOccurred:eventType];
+        [_notificationFeedbackGenerator prepare];
+    });
 }
 
 #pragma mark - ORKEnvironmentSPLMeterContentViewVoiceOverDelegate
