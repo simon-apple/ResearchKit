@@ -272,15 +272,54 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
     return [super hash] ^ [_audioSetManifestPath hash] ^ [_prependSteps hash] ^ [_appendSteps hash];
 }
 
+- (ORKStep *)prependedStepAfterStep:(ORKStep *)step {
+    if (step == nil) {
+        ORKStep *firstPrependedStep = [_prependSteps firstObject];
+        if (firstPrependedStep) {
+            return firstPrependedStep;
+        }
+        return self.instruction1;
+    } else {
+        NSUInteger currentPrependedStepIndex = [_prependSteps indexOfObject:step];
+        if (_prependSteps && currentPrependedStepIndex != NSNotFound) {
+            if (currentPrependedStepIndex+1 < [_prependSteps count]) {
+                return [_prependSteps objectAtIndex:currentPrependedStepIndex+1];
+            } else {
+                return self.instruction1;
+            }
+        }
+        return nil;
+    }
+}
+
+- (ORKStep *)apendedStepAfterStep:(ORKStep *)step {
+    NSUInteger currentApendedStepIndex = [_appendSteps indexOfObject:step];
+    if (_appendSteps && currentApendedStepIndex == NSNotFound) {
+        ORKStep *firstApendedStep = [_appendSteps firstObject];
+        if (firstApendedStep) {
+            return firstApendedStep;
+        }
+        return self.completionSuccess;
+    } else {
+        if (currentApendedStepIndex+1 < [_appendSteps count]) {
+            return [_prependSteps objectAtIndex:currentApendedStepIndex+1];
+        }
+        return self.completionSuccess;
+    }
+}
+
 - (ORKStep *)stepAfterStep:(ORKStep *)step withResult:(id<ORKTaskResultSource>)result {
     NSString *identifier = step.identifier;
     if (step == nil) {
         [self setupStraightStepAfterStepDict];
         [self setupBGColor];
-        
-        return self.instruction1;
     }
     
+    ORKStep *prependedStep = [self prependedStepAfterStep:step];
+    if (prependedStep) {
+        return prependedStep;
+    }
+
     ORKStep *nextStep = _stepAfterStepDict[identifier];
 
     // cases that treats changes of flow
@@ -332,7 +371,7 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
         nextStep = [self nextMaskingStepForIdentifier:identifier];
         
         if (!nextStep) {
-            return self.completionSuccess;
+            return [self apendedStepAfterStep:step];
         }
     }
 

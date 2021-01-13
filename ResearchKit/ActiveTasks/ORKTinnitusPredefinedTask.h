@@ -55,9 +55,9 @@ ORK_CLASS_AVAILABLE
 
 @property (nonatomic, readonly, nullable) NSArray<ORKStep *> *prependSteps;
 
-@property (readonly) double predominantFrequency;
-
 @property (nonatomic, readonly, nullable) NSArray<ORKStep *> *appendSteps;
+
+@property (readonly) double predominantFrequency;
 
 @end
 
