@@ -29,6 +29,7 @@
  */
 
 #import "ORKTinnitusPredefinedTask.h"
+#import "ORKContext.h"
 #import "ORKTinnitusPredefinedTaskConstants.h"
 #import "ORKTinnitusPureToneInstructionStep.h"
 #import "ORKTinnitusPureToneStep.h"
@@ -136,6 +137,10 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
 
 @end
 
+@implementation ORKTinnitusPredefinedTaskContext
+
+@end
+
 @implementation ORKTinnitusPredefinedTask
 
 #pragma mark - Initialization
@@ -146,15 +151,16 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
                        appendSteps:(nullable NSArray<ORKStep *> *)appendSteps {
 
     NSError *error = nil;
-    NSArray<ORKStep *> *steps = [ORKTinnitusPredefinedTask tinnitusPredefinedStepsWithAudioSetManifestPath:audioSetManifestPath
-                                                                                              prependSteps:prependSteps
-                                                                                               appendSteps:appendSteps
-                                                                                                     error:&error];
+    
+    ORKTinnitusAudioManifest *manifest = [ORKTinnitusPredefinedTask prefetchAudioSamplesFromManifest:audioSetManifestPath error:&error];
+    
     if (error)
     {
-        ORK_Log_Error("An error occurred while creating the predefined task. %@", error);
+        ORK_Log_Error("An error occurred while fetching audio assets. %@", error);
         return nil;
     }
+    
+    NSArray<ORKStep *> *steps = [ORKTinnitusPredefinedTask tinnitusPredefinedStepsWithPrependSteps:prependSteps appendSteps:appendSteps];
 
     self = [super initWithIdentifier:identifier steps:steps];
     if (self) {
@@ -162,11 +168,15 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
         _prependSteps = [prependSteps copy];
         _appendSteps = [appendSteps copy];
 
+        ORKTinnitusPredefinedTaskContext *context = [[ORKTinnitusPredefinedTaskContext alloc] init];
+        context.audioManifest = manifest;
+        
         for (ORKStep *step in self.steps)
         {
             if ([step isKindOfClass:[ORKStep class]])
             {
                 [step setTask:self];
+                [step setContext:context];
             }
         }
     }
@@ -206,10 +216,8 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
 
 #pragma mark - ORKTinnitus Predefined Task Creation
 
-+ (NSArray<ORKStep *> *)tinnitusPredefinedStepsWithAudioSetManifestPath:(nonnull NSString *)audioSetManifestPath
-                                                           prependSteps:(NSArray<ORKStep *> *)prependSteps
-                                                            appendSteps:(NSArray<ORKStep *> *)appendSteps
-                                                                  error:(NSError * _Nullable * _Nullable)error
++ (NSArray<ORKStep *> *)tinnitusPredefinedStepsWithPrependSteps:(NSArray<ORKStep *> *)prependSteps
+                                                    appendSteps:(NSArray<ORKStep *> *)appendSteps
 {
     NSMutableArray<ORKStep *> *steps = [[NSMutableArray alloc] init];
     
@@ -218,7 +226,7 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
         [steps addObjectsFromArray:[prependSteps copy]];
     }
     
-    NSArray *predefinedSteps = [ORKTinnitusPredefinedTask tinnitusPredefinedTaskStepsWithAudioSetManifestPath:audioSetManifestPath error:error];
+    NSArray *predefinedSteps = [ORKTinnitusPredefinedTask tinnitusPredefinedTaskSteps];
 
     if (predefinedSteps != nil)
     {
@@ -232,22 +240,8 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
     return [steps copy];
 }
 
-+ (NSArray<ORKStep *> *)tinnitusPredefinedTaskStepsWithAudioSetManifestPath:(nonnull NSString *)manifestPath error:(NSError * _Nullable * _Nullable)error {
++ (NSArray<ORKStep *> *)tinnitusPredefinedTaskSteps {
         
-    NSError *localError = nil;
-    
-    // TODO: Joey
-    //ORKTinnitusAudioManifest *manifest = [ORKTinnitusPredefinedTask prefetchAudioSamplesFromManifest:manifestPath error:error];
-    
-    if (localError)
-    {
-        if (error != NULL)
-        {
-            *error = localError;
-        }
-        return nil;
-    }
-    
     NSMutableArray<ORKStep *> *steps = [[NSMutableArray alloc] init];
     
     [steps addObjectsFromArray:@[[self beforeStart],
