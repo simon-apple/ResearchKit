@@ -92,6 +92,8 @@ typedef struct __attribute__((__packed__)) DepthPacket {
     AVCaptureDevice *_audioCaptureDevice;
     AVCaptureDevice *_frontCameraCaptureDevice;
     
+    UIInterfaceOrientation _interfaceOrientation;
+    
     CGSize _originalFrameSize;
     
     dispatch_queue_t _dataOutputQueue;
@@ -115,6 +117,7 @@ typedef struct __attribute__((__packed__)) DepthPacket {
         _dataOutputQueue = dispatch_queue_create("com.apple.hrs.captureOutput", nil);
         _capturing = NO;
         _originalFrameSize = CGSizeZero;
+        _interfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
         _storeDepthData = storeDepthData;
         
         if ([sampleBufferDelegate conformsToProtocol:@protocol(AVCaptureDataOutputSynchronizerDelegate)]) {
@@ -290,13 +293,9 @@ typedef struct __attribute__((__packed__)) DepthPacket {
                  _originalFrameSize = CVImageBufferGetDisplaySize(pixelBuffer);
             }
             
-            //switch face rect and frame width/height to fit portrait mode
-            CGRect updatedFaceRect = CGRectMake(facebounds.origin.y * _originalFrameSize.height,
-                                                facebounds.origin.x * _originalFrameSize.width,
-                                                facebounds.size.height * _originalFrameSize.height,
-                                                facebounds.size.width * _originalFrameSize.width);
             
-            CGSize updatedSize = CGSizeMake(_originalFrameSize.height, _originalFrameSize.width);
+            CGRect updatedFaceRect = [self getUpdatedFaceBounds:facebounds];
+            CGSize updatedSize = [self getUpdatedSize];
             
             //let delegate know if face was detected
             BOOL faceDetected = (CGRectGetHeight(updatedFaceRect) > 0 && CGRectGetWidth(updatedFaceRect) > 0) ? YES : NO;
@@ -711,6 +710,41 @@ typedef struct __attribute__((__packed__)) DepthPacket {
     }
 }
 
+- (CGRect)getUpdatedFaceBounds:(CGRect)faceBounds {
+    
+    //updated bounds for when the phone's orientation is in portrait
+    CGRect updatedFaceBounds = CGRectMake(faceBounds.origin.y * _originalFrameSize.height,
+                                          faceBounds.origin.x * _originalFrameSize.width,
+                                          faceBounds.size.height * _originalFrameSize.height,
+                                          faceBounds.size.width * _originalFrameSize.width);
+    
+    //updated bounds for when the phone's orientation is in landscape
+    if ([self interfaceIsLandscape]) {
+        updatedFaceBounds = CGRectMake(faceBounds.origin.x * _originalFrameSize.width,
+                                       faceBounds.origin.y * _originalFrameSize.height,
+                                       faceBounds.size.width * _originalFrameSize.width,
+                                       faceBounds.size.height * _originalFrameSize.height);
+
+    }
+    
+    return updatedFaceBounds;
+}
+
+- (CGSize)getUpdatedSize {
+    //updated size for portrait
+    CGSize size = CGSizeMake(_originalFrameSize.height, _originalFrameSize.width);
+    
+    if ([self interfaceIsLandscape]) {
+        return _originalFrameSize;
+    }
+    
+    return size;
+}
+
+- (BOOL)interfaceIsLandscape {
+    return _interfaceOrientation == UIInterfaceOrientationLandscapeLeft || _interfaceOrientation == UIInterfaceOrientationLandscapeRight;
+}
+
 - (CVPixelBufferRef)blurSampleBuffer:(CMSampleBufferRef)sampleBuffer faceBounds:(CGRect)faceBounds {
     //Create Get CVImageBufferRef from sampleBuffer
     CVImageBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
@@ -734,18 +768,40 @@ typedef struct __attribute__((__packed__)) DepthPacket {
     CIImage *combinedImage;
     
     if (faceBounds.size.height > 0 && faceBounds.size.width > 0) {
-        //landscape left
+        CIImage *croppedImage;
+        CIImage *croppedShouldersImage;
+        CGRect shoulderBounds = CGRectZero;
+        
         CGFloat faceWidth = faceBounds.size.width * imageSize.width;
         CGFloat faceHeight = faceBounds.size.height * imageSize.height;
         CGFloat faceOriginX = (imageSize.width) - (faceBounds.origin.x * imageSize.width) - faceHeight;
         CGFloat faceOriginY = (faceBounds.origin.y * imageSize.height);
         
-        CGRect updatedFaceBounds = CGRectMake(faceOriginX, faceOriginY * 0.70, faceWidth * 1.6, faceHeight * 1.40);
-        CIImage *croppedImage = [image imageByCroppingToRect:updatedFaceBounds];
+        if (_interfaceOrientation == UIInterfaceOrientationLandscapeRight) {
+            CGRect updatedFaceBounds = CGRectMake(faceOriginX * 0.8,
+                                                  faceOriginY * 0.8,
+                                                  faceWidth * 1.5,
+                                                  faceHeight * 1.6);
+            
+            croppedImage = [image imageByCroppingToRect:updatedFaceBounds];
+            shoulderBounds = CGRectMake(0,
+                                        updatedFaceBounds.origin.y * 0.4,
+                                        imageSize.width,
+                                        (updatedFaceBounds.origin.y * 0.80));
+        } else {
+            CGRect updatedFaceBounds = CGRectMake(faceOriginX,
+                                                  faceOriginY * 0.70,
+                                                  faceWidth * 1.6,
+                                                  faceHeight * 1.40);
+            
+            croppedImage = [image imageByCroppingToRect:updatedFaceBounds];
+            shoulderBounds = CGRectMake(updatedFaceBounds.origin.x * 0.80,
+                                        0,
+                                        (updatedFaceBounds.origin.x * 0.40),
+                                        imageSize.height);
+        }
         
-        CGRect shoulderBounds = CGRectMake(updatedFaceBounds.origin.x * 0.80, 0, (updatedFaceBounds.origin.x * 0.40), imageSize.height);
-        CIImage *croppedShouldersImage = [image imageByCroppingToRect:shoulderBounds];
-        
+        croppedShouldersImage = [image imageByCroppingToRect:shoulderBounds];
         combinedImage = [croppedImage imageByCompositingOverImage:imageWithFilter];
         combinedImage = [croppedShouldersImage imageByCompositingOverImage:combinedImage];
     }
@@ -759,7 +815,7 @@ typedef struct __attribute__((__packed__)) DepthPacket {
     } else {
         [_context render:imageWithFilter toCVPixelBuffer:newBuffer];
     }
-
+    
     return newBuffer;
 }
 
