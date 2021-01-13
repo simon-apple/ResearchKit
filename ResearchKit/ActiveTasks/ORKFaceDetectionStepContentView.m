@@ -94,6 +94,12 @@ static const CGFloat FaceDetectionRecalibrationTimeLimit = 30.0;
         _noFaceDetectedYet = YES;
         _faceIconIsShowing = NO;
         _showingForRecalibration = forRecalibration;
+
+        if ([UIApplication sharedApplication].statusBarOrientation == UIDeviceOrientationLandscapeLeft) {
+            _videoOrientation = AVCaptureVideoOrientationLandscapeLeft;
+        } else {
+            _videoOrientation = AVCaptureVideoOrientationLandscapeRight;
+        }
         
         [self setUpSubviews];
         [self setUpConstraints];
@@ -456,7 +462,11 @@ static const CGFloat FaceDetectionRecalibrationTimeLimit = 30.0;
     if (_showingForRecalibration) {
         faceCenterY -= ((newHeight - _calibrationBoxImageView.frame.size.height) / 2);
     }
-       
+        
+    if (_videoOrientation == AVCaptureVideoOrientationLandscapeLeft) {
+        return CGPointMake(faceCenterX, newHeight - faceCenterY);
+    }
+    
     return CGPointMake(faceCenterX, faceCenterY);
 }
 
