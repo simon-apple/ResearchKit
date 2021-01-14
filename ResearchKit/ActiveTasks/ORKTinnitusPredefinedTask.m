@@ -38,7 +38,6 @@
 #import "ORKTinnitusTypeResult.h"
 #import <ResearchKit/ResearchKit_Private.h>
 
-static NSString *const ORKTinnitusBeforeStartStepIdentifier = @"tinnitus.instruction.3";
 static NSString *const ORKTinnitusHeadphoneDetectStepIdentifier = @"tinnitus.headphonedetect";
 static NSString *const ORKTinnitusSPLMeterStepIdentifier = @"tinnitus.splmeter";
 static NSString *const ORKTinnitusTypeStepIdentifier = @"tinnitus.type";
@@ -244,8 +243,7 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
         
     NSMutableArray<ORKStep *> *steps = [[NSMutableArray alloc] init];
     
-    [steps addObjectsFromArray:@[[self beforeStart],
-                                 [self headphone],
+    [steps addObjectsFromArray:@[[self headphone],
                                  [self splmeter],
                                  [self tinnitusType],
                                  [self calibration],
@@ -372,32 +370,6 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
 - (NSUInteger)hash
 {
     return [super hash] ^ [_audioSetManifestPath hash] ^ [_prependSteps hash] ^ [_appendSteps hash];
-}
-
-+ (ORKInstructionStep *)beforeStart {
-    
-    ORKInstructionStep *beforeStart = [[ORKInstructionStep alloc] initWithIdentifier:ORKTinnitusBeforeStartStepIdentifier];
-    beforeStart.title = ORKLocalizedString(@"TINNITUS_BEFORE_TITLE", nil);
-    beforeStart.detailText = ORKLocalizedString(@"TINNITUS_BEFORE_TEXT", nil);
-    beforeStart.shouldTintImages = YES;
-        
-    UIImage *img1;
-    UIImage *img2;
-        
-    if (@available(iOS 13.0, *)) {
-        img1 = [UIImage systemImageNamed:@"1.circle.fill"];
-        img2 = [UIImage systemImageNamed:@"2.circle.fill"];
-    } else {
-        img1 = [[UIImage imageNamed:@"1.circle.fill" inBundle:ORKBundle() compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-        img2 = [[UIImage imageNamed:@"2.circle.fill" inBundle:ORKBundle() compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    }
-        
-    ORKBodyItem *item1 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"TINNITUS_BEFORE_BODY_ITEM_TEXT_1", nil) detailText:nil image:img1 learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
-    ORKBodyItem *item2 = [[ORKBodyItem alloc] initWithHorizontalRule];
-    ORKBodyItem *item3 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"TINNITUS_BEFORE_BODY_ITEM_TEXT_2", nil) detailText:nil image:img2 learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
-    beforeStart.bodyItems = @[item1, item2, item3];
-
-    return [beforeStart copy];
 }
 
 + (ORKHeadphoneDetectStep *)headphone {
