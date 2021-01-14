@@ -185,3 +185,9 @@
 
 #import <ResearchKit/ORKLearnMoreView.h>
 #import <ResearchKit/ORKBodyContainerView.h>
+
+// Tinnitus Predefined Task Result Objects
+#import <ResearchKit/ORKTinnitusPureToneResult.h>
+#import <ResearchKit/ORKTinnitusTypeResult.h>
+#import <ResearchKit/ORKTinnitusCalibrationResult.h>
+#import <ResearchKit/ORKTinnitusLoudnessMatchingResult.h>

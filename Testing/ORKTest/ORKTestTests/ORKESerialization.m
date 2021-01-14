@@ -1137,29 +1137,13 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
            },
                  (@{
                   })),
-           ENTRY(ORKHeadphoneDetectStep,
-                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-               return [[ORKHeadphoneDetectStep alloc] initWithIdentifier:GETPROP(dict, identifier) headphoneTypes:(NSUInteger)[GETPROP(dict, headphoneTypes) integerValue]];
-           },
+           ENTRY(ORKHeadphoneDetectStep, ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+            return [[ORKHeadphoneDetectStep alloc] initWithIdentifier:GETPROP(dict, identifier)
+                                                       headphoneTypes:(NSUInteger)[GETPROP(dict, headphoneTypes) integerValue]];
+        },
                  (@{
                      PROPERTY(headphoneTypes, NSNumber, NSObject, YES, nil, nil),
                  })),
-           ENTRY(ORKTinnitusPureToneInstructionStep,
-                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-               return [[ORKTinnitusPureToneInstructionStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
-           },
-                 (@{
-                     PROPERTY(detailText, NSString, NSObject, YES, nil, nil),
-                     PROPERTY(footnote, NSString, NSObject, YES, nil, nil),
-                     PROPERTY(centerImageVertically, NSNumber, NSObject, YES, nil, nil),
-                  })),
-           ENTRY(ORKTinnitusTypeStep,
-                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-               return [ORKTinnitusTypeStep stepWithIdentifier:GETPROP(dict, identifier) title:GETPROP(dict, title)];
-           },
-                 (@{
-                     PROPERTY(frequency, NSNumber, NSObject, YES, nil, nil),
-                  })),
            ENTRY(ORKHolePegTestPlaceStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      return [[ORKHolePegTestPlaceStep alloc] initWithIdentifier:GETPROP(dict, identifier)];

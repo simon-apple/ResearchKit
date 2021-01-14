@@ -75,30 +75,30 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
 
 @property (nonatomic, readonly, nonnull) NSString *path;
 
-@property (nonatomic, readonly, nonnull) NSString *type;
+@property (nonatomic, readonly, nonnull) NSString *name;
 
 + (instancetype)new NS_UNAVAILABLE;
 - (instancetype)init NS_UNAVAILABLE;
 
-+ (instancetype)sampleWithPath:(nonnull NSString *)path type:(nonnull NSString *)type;
-- (instancetype)initWithPath:(nonnull NSString *)path type:(nonnull NSString *)type;
++ (instancetype)sampleWithPath:(nonnull NSString *)path name:(nonnull NSString *)name;
+- (instancetype)initWithPath:(nonnull NSString *)path name:(nonnull NSString *)name;
 
 @end
 
 @implementation ORKTinnitusAudioSample
 
-+ (instancetype)sampleWithPath:(nonnull NSString *)path type:(nonnull NSString *)type
++ (instancetype)sampleWithPath:(nonnull NSString *)path name:(nonnull NSString *)name
 {
-    return [[ORKTinnitusAudioSample alloc] initWithPath:path type:type];
+    return [[ORKTinnitusAudioSample alloc] initWithPath:path name:name];
 }
 
-- (instancetype)initWithPath:(nonnull NSString *)path type:(nonnull NSString *)type
+- (instancetype)initWithPath:(nonnull NSString *)path name:(nonnull NSString *)name
 {
     self = [super init];
     if (self)
     {
         _path = [path copy];
-        _type = [type copy];
+        _name = [name copy];
     }
     return self;
 }
@@ -307,7 +307,7 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
     }
     
     NSString * const ManifestJSONKeyAudioFilename = @"filename";
-    NSString * const ManifestJSONKeyType = @"type";
+    NSString * const ManifestJSONKeyName = @"name";
     
     NSMutableArray<ORKTinnitusAudioSample *> *audioFileSamples = [[NSMutableArray alloc] init];
     
@@ -317,11 +317,11 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
         
         NSString *audioFilename = (NSString *)[obj objectForKey:ManifestJSONKeyAudioFilename];
         NSString *audioFilePath = [parentDirectory stringByAppendingPathComponent:audioFilename];
-        NSString *audioFileType = (NSString *)[obj objectForKey:ManifestJSONKeyType];
+        NSString *audioFileName = (NSString *)[obj objectForKey:ManifestJSONKeyName];
         
         if ([fileManager fileExistsAtPath:audioFilePath])
         {
-            [audioFileSamples addObject:[ORKTinnitusAudioSample sampleWithPath:audioFilePath type:audioFileType]];
+            [audioFileSamples addObject:[ORKTinnitusAudioSample sampleWithPath:audioFilePath name:audioFileName]];
             success = YES;
         }
         else
