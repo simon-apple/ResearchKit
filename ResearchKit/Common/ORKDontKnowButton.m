@@ -30,6 +30,7 @@
 
 #import "ORKDontKnowButton.h"
 #import "ORKHelpers_Internal.h"
+#import "ORKBorderedButton.h"
 
 static const CGFloat DontKnowButtonCornerRadius = 10.0;
 static const CGFloat DontKnowButtonEdgeInsetHorizontalSpacing = 10.0;
@@ -71,11 +72,14 @@ static const CGFloat CheckMarkImageTrailingPadding = 2.0;
     
     if (self.frame.size.width > 0) {
         self.layer.cornerRadius = self.frame.size.height / 2;
+        [self.layer setCornerCurveContinuous];
     }
 }
 
 - (void)updateAppearance {
     self.layer.cornerRadius = DontKnowButtonCornerRadius;
+    [self.layer setCornerCurveContinuous];
+    
     self.clipsToBounds = YES;
     
     if (_dontKnowButtonCustomView) {
