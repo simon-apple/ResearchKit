@@ -113,7 +113,7 @@
     ORK_ENCODE_OBJ(aCoder, detailText);
     ORK_ENCODE_OBJ(aCoder, learnMoreItem);
     ORK_ENCODE_INTEGER(aCoder, bodyItemStyle);
-    ORK_ENCODE_IMAGE(aCoder, image);
+    ORK_ENCODE_OBJ(aCoder, image);
     ORK_ENCODE_BOOL(aCoder, useCardStyle);
     ORK_ENCODE_BOOL(aCoder, useSecondaryColor);
 }
