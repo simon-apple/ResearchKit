@@ -39,28 +39,12 @@
     return [ORKTinnitusWhitenoiseMatchingSoundStepViewController class];
 }
 
-- (instancetype)initWithIdentifier:(NSString *)identifier soundFilename:(NSString *)soundFilename {
+- (instancetype)initWithIdentifier:(NSString *)identifier soundName:(NSString *)soundName {
     self = [super initWithIdentifier:identifier];
     if (self) {
-        [self commonInit];
-        self.soundFilename = soundFilename;
+        self.soundName = soundName;
     }
     return self;
-}
-
-- (instancetype)initWithIdentifier:(NSString *)identifier soundFilename:(NSString *)soundFilename extension:(NSString *)extension {
-    self = [super initWithIdentifier:identifier];
-    if (self) {
-        [self commonInit];
-        self.soundFilename = soundFilename;
-        self.filenameExtension = extension;
-    }
-    return self;
-}
-
-- (void)commonInit {
-    self.soundFilename = nil;
-    self.filenameExtension = ORKTinnitusDefaultFilenameExtension;
 }
 
 - (void)validateParameters {
@@ -69,24 +53,21 @@
 
 - (instancetype)copyWithZone:(NSZone *)zone {
     ORKTinnitusWhitenoiseMatchingSoundStep *step = [super copyWithZone:zone];
-    step.soundFilename = [self.soundFilename copy];
-    step.filenameExtension = [self.filenameExtension copy];
+    step.soundName = [self.soundName copy];
     return step;
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        ORK_DECODE_OBJ(aDecoder, soundFilename);
-        ORK_DECODE_OBJ(aDecoder, filenameExtension);
+        ORK_DECODE_OBJ(aDecoder, soundName);
     }
     return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [super encodeWithCoder:aCoder];
-    ORK_ENCODE_OBJ(aCoder, soundFilename);
-    ORK_ENCODE_OBJ(aCoder, filenameExtension);
+    ORK_ENCODE_OBJ(aCoder, soundName);
 }
 
 + (BOOL)supportsSecureCoding {
@@ -98,8 +79,7 @@
     
     __typeof(self) castObject = object;
     return (isParentSame
-            && [self.soundFilename isEqual:castObject.soundFilename]
-            && [self.filenameExtension isEqual:castObject.filenameExtension]
+            && [self.soundName isEqual:castObject.soundName]
             );
 }
 

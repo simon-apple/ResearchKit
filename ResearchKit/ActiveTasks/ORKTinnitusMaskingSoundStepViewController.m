@@ -40,6 +40,8 @@
 #import "ORKTinnitusMaskingSoundResult.h"
 #import "ORKTinnitusMaskingSoundStep.h"
 #import "ORKTinnitusMaskingSoundContentView.h"
+#import "ORKTinnitusAudioSample.h"
+
 #import "ORKStepContainerView_Private.h"
 #import "ORKNavigationContainerView_Internal.h"
 #import "ORKHelpers_Internal.h"
@@ -77,29 +79,29 @@ NSString *const ORKTinnitusPuretoneMaskSoundNameExtension = @"wav";
     NSString *maskingSoundType = [[self tinnitusMaskingSoundStep] maskingSoundType];
     
     NSString *buttonTitle = @"";
-    NSString *filename = @"";
+    NSString *soundName = @"";
     
     if ([maskingSoundType isEqualToString:ORKTinnitusMaskingSoundTypeCampfire]) {
         buttonTitle = ORKLocalizedString(@"TINNITUS_PURETONE_MASKINGSOUND_CAMPFIRE_TITLE", nil);
-        filename = ORKTinnitusFilenameFire;
+        soundName = ORKTinnitusMaskingSoundFire;
     } else if([maskingSoundType isEqualToString:ORKTinnitusMaskingSoundTypeRain]) {
         buttonTitle = ORKLocalizedString(@"TINNITUS_PURETONE_MASKINGSOUND_RAIN_TITLE", nil);
-        filename = ORKTinnitusFilenameRain;
+        soundName = ORKTinnitusMaskingSoundRain;
     } else if([maskingSoundType isEqualToString:ORKTinnitusMaskingSoundTypeOcean]) {
         buttonTitle = ORKLocalizedString(@"TINNITUS_PURETONE_MASKINGSOUND_OCEAN_TITLE", nil);
-        filename = ORKTinnitusFilenameOcean;
+        soundName = ORKTinnitusMaskingSoundOcean;
     } else if([maskingSoundType isEqualToString:ORKTinnitusMaskingSoundTypeForest]) {
         buttonTitle = ORKLocalizedString(@"TINNITUS_PURETONE_MASKINGSOUND_FOREST_TITLE", nil);
-        filename = ORKTinnitusFilenameForest;
+        soundName = ORKTinnitusMaskingSoundForest;
     } else if([maskingSoundType isEqualToString:ORKTinnitusMaskingSoundTypeWhitenoise]) {
         buttonTitle = ORKLocalizedString(@"TINNITUS_WHITENOISE_TITLE", nil);
-        filename = ORKTinnitusFilenameWhitenoise;
+        soundName = ORKTinnitusMaskingSoundWhiteNoise;
     } else if([maskingSoundType isEqualToString:ORKTinnitusMaskingSoundTypeCrowd]) {
         buttonTitle = ORKLocalizedString(@"TINNITUS_PURETONE_MASKINGSOUND_CROWD_TITLE", nil);
-        filename = ORKTinnitusFilenameCrowd;
+        soundName = ORKTinnitusMaskingSoundCrowd;
     } else if([maskingSoundType isEqualToString:ORKTinnitusMaskingSoundTypeAudiobook]) {
         buttonTitle = ORKLocalizedString(@"TINNITUS_PURETONE_MASKINGSOUND_AUDIOBOOK_TITLE", nil);
-        filename = ORKTinnitusFilenameAudiobook;
+        soundName = ORKTinnitusMaskingSoundAudiobook;
     }
     
     BOOL notchFilterEnabled = [[self tinnitusMaskingSoundStep] notchFrequency] > 0.0;
@@ -153,20 +155,28 @@ NSString *const ORKTinnitusPuretoneMaskSoundNameExtension = @"wav";
     [_audioEngine attachNode:_unitEq];
     [_audioEngine attachNode:_playerNode];
     
-    NSURL *path = [[NSBundle bundleForClass:[self class]] URLForResource:filename withExtension:ORKTinnitusPuretoneMaskSoundNameExtension];
-    AVAudioFile *file = [[AVAudioFile alloc] initForReading:path error:nil];
-    if (file)
-    {
-        _audioBuffer = [[AVAudioPCMBuffer alloc] initWithPCMFormat:file.processingFormat frameCapacity:(AVAudioFrameCount)file.length];
-        [file readIntoBuffer:_audioBuffer error:nil];
-    }
+    ORKTinnitusPredefinedTaskContext *context = (ORKTinnitusPredefinedTaskContext *)[self.step context];
+    NSArray *samples = context.audioManifest.samples;
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name ==[c] %@", soundName];
+    ORKTinnitusAudioSample *audioSample = [[samples filteredArrayUsingPredicate:predicate] firstObject];
     
-    _mixerNode = _audioEngine.mainMixerNode;
-    [_audioEngine connect:_playerNode to:_unitEq format:file.processingFormat];
-    [_audioEngine connect:_unitEq to:_mixerNode format:file.processingFormat];
-    [_playerNode scheduleBuffer:_audioBuffer atTime:nil options:AVAudioPlayerNodeBufferLoops completionHandler:nil];
-    [_audioEngine prepare];
-    [_audioEngine startAndReturnError:nil];
+    if (audioSample) {
+        NSURL *path = [NSURL fileURLWithPath:audioSample.path];
+        AVAudioFile *file = [[AVAudioFile alloc] initForReading:path error:nil];
+        
+        if (file)
+        {
+            _audioBuffer = [[AVAudioPCMBuffer alloc] initWithPCMFormat:file.processingFormat frameCapacity:(AVAudioFrameCount)file.length];
+            [file readIntoBuffer:_audioBuffer error:nil];
+        }
+        
+        _mixerNode = _audioEngine.mainMixerNode;
+        [_audioEngine connect:_playerNode to:_unitEq format:file.processingFormat];
+        [_audioEngine connect:_unitEq to:_mixerNode format:file.processingFormat];
+        [_playerNode scheduleBuffer:_audioBuffer atTime:nil options:AVAudioPlayerNodeBufferLoops completionHandler:nil];
+        [_audioEngine prepare];
+        [_audioEngine startAndReturnError:nil];
+    }
     
     [self setNavigationFooterView];
 }

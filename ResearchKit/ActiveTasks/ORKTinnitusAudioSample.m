@@ -1,5 +1,6 @@
+//
 /*
- Copyright (c) 2020, Apple Inc. All rights reserved.
+ Copyright (c) 2021, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,24 +29,44 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@import Foundation;
-#import <ResearchKit/ORKDefines.h>
-#import <ResearchKit/ORKActiveStep.h>
-#import "ORKTypes.h"
+#import "ORKTinnitusAudioSample.h"
 
-NS_ASSUME_NONNULL_BEGIN
+@implementation ORKTinnitusAudioSample
 
-@interface ORKTinnitusWhitenoiseMatchingSoundStep : ORKActiveStep
++ (instancetype)sampleWithPath:(nonnull NSString *)path name:(nonnull NSString *)name
+{
+    return [[ORKTinnitusAudioSample alloc] initWithPath:path name:name];
+}
 
-/*
- The sound filename that will be played (does not include the extension)
- 
- The file must be on RK bundle.
- */
-@property (nonatomic, copy, nullable) NSString *soundName;
-
-- (instancetype)initWithIdentifier:(NSString *)identifier soundName:(NSString *)soundName;
+- (instancetype)initWithPath:(nonnull NSString *)path name:(nonnull NSString *)name
+{
+    self = [super init];
+    if (self)
+    {
+        _path = [path copy];
+        _name = [name copy];
+    }
+    return self;
+}
 
 @end
 
-NS_ASSUME_NONNULL_END
+
+@implementation ORKTinnitusAudioManifest
+
++ (instancetype)manifestWithSamples:(NSArray<ORKTinnitusAudioSample *> *)samples
+{
+    return [[ORKTinnitusAudioManifest alloc] initWithSamples:samples];
+}
+
+- (instancetype)initWithSamples:(NSArray<ORKTinnitusAudioSample *> *)samples
+{
+    self = [super init];
+    if (self)
+    {
+        _samples = [samples copy];
+    }
+    return self;
+}
+
+@end

@@ -33,6 +33,7 @@
 #import "ORKTinnitusWhitenoiseMatchingSoundContentView.h"
 #import "ORKTinnitusPredefinedTaskConstants.h"
 #import "ORKTinnitusWhitenoiseMatchingSoundResult.h"
+#import "ORKTinnitusAudioSample.h"
 
 #import "ORKActiveStepView.h"
 #import "ORKActiveStepViewController_Internal.h"
@@ -82,23 +83,31 @@
     [self.audioEngine stop];
 }
 
-- (void)playFile:(NSString *)filename {
+- (void)playSound:(NSString *)soundName {
     [self tearDownAudioEngine];
     
-    NSURL *path = [[NSBundle bundleForClass:[self class]] URLForResource:filename withExtension:ORKTinnitusDefaultFilenameExtension];
-    AVAudioFile *file = [[AVAudioFile alloc] initForReading:path error:nil];
-    if (file)
-    {
-        self.audioBuffer = [[AVAudioPCMBuffer alloc] initWithPCMFormat:file.processingFormat frameCapacity:(AVAudioFrameCount)file.length];
-        [file readIntoBuffer:self.audioBuffer error:nil];
+    ORKTinnitusPredefinedTaskContext *context = (ORKTinnitusPredefinedTaskContext *)[self.step context];
+    NSArray *samples = context.audioManifest.samples;
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name ==[c] %@", soundName];
+    ORKTinnitusAudioSample *audioSample = [[samples filteredArrayUsingPredicate:predicate] firstObject];
+    
+    if (audioSample) {
+        NSURL *path = [NSURL fileURLWithPath:audioSample.path];
+        AVAudioFile *file = [[AVAudioFile alloc] initForReading:path error:nil];
+        
+        if (file)
+        {
+            self.audioBuffer = [[AVAudioPCMBuffer alloc] initWithPCMFormat:file.processingFormat frameCapacity:(AVAudioFrameCount)file.length];
+            [file readIntoBuffer:self.audioBuffer error:nil];
+        }
+        
+        [self.audioEngine connect:self.playerNode to:self.audioEngine.outputNode format:self.audioBuffer.format];
+        [self.playerNode scheduleBuffer:self.audioBuffer atTime:nil options:AVAudioPlayerNodeBufferLoops completionHandler:nil];
+        [self.audioEngine prepare];
+        [self.audioEngine startAndReturnError:nil];
+        
+        [self.playerNode play];
     }
-    
-    [self.audioEngine connect:self.playerNode to:self.audioEngine.outputNode format:self.audioBuffer.format];
-    [self.playerNode scheduleBuffer:self.audioBuffer atTime:nil options:AVAudioPlayerNodeBufferLoops completionHandler:nil];
-    [self.audioEngine prepare];
-    [self.audioEngine startAndReturnError:nil];
-    
-    [self.playerNode play];
 }
 
 - (void)setNavigationFooterView
@@ -115,13 +124,13 @@
     if (tinnitusButtonView.isShowingPause) {
         dispatch_async(dispatch_get_main_queue(), ^{
             if (tinnitusButtonView == _maskingContentView.cicadasButtonView) {
-                [self playFile:ORKTinnitusFilenameCicadas];
+                [self playSound:ORKTinnitusMaskingSoundCicadas];
             } else if (tinnitusButtonView == _maskingContentView.cricketsButtonView) {
-                [self playFile:ORKTinnitusFilenameCrickets];
+                [self playSound:ORKTinnitusMaskingSoundCrickets];
             } else if (tinnitusButtonView == _maskingContentView.whitenoiseButtonView) {
-                [self playFile:ORKTinnitusFilenameWhitenoise];
+                [self playSound:ORKTinnitusMaskingSoundWhiteNoise];
             } else if (tinnitusButtonView == _maskingContentView.teakettleButtonView) {
-                [self playFile:ORKTinnitusFilenameTeakettle];
+                [self playSound:ORKTinnitusMaskingSoundTeakettle];
             }
         });
     }
