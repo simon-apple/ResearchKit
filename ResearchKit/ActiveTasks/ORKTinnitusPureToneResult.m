@@ -46,7 +46,7 @@
     self = [super initWithCoder:aDecoder];
     if (self) {
         ORK_DECODE_DOUBLE(aDecoder, chosenFrequency);
-        ORK_DECODE_OBJ(aDecoder, samples);
+        ORK_DECODE_OBJ_ARRAY(aDecoder, samples, ORKTinnitusUnit);
         ORK_DECODE_OBJ(aDecoder, errorMessage);
     }
     return self;

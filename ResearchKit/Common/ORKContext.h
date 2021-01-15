@@ -80,4 +80,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+
+@class ORKTinnitusAudioManifest;
+@interface ORKTinnitusPredefinedTaskContext : NSObject <ORKContext>
+
+@property (nonatomic) ORKTinnitusAudioManifest *audioManifest;
+
+@end
+
 NS_ASSUME_NONNULL_END

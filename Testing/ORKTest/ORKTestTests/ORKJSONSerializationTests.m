@@ -262,7 +262,7 @@ ORK_MAKE_TEST_INIT(ORKTinnitusPredefinedTask, ^{
     ORKStep *stepB = [[ORKStep alloc] initWithIdentifier:[NSUUID UUID].UUIDString];
     NSString *bundlePath = [[NSBundle bundleForClass:[ORKJSONSerializationTests class]] pathForResource:@"samples" ofType:@"bundle"];
     return [self initWithIdentifier:@"test1"
-               audioSetManifestPath:[bundlePath stringByAppendingPathComponent:@""]
+               audioSetManifestPath:[bundlePath stringByAppendingPathComponent: @"PredefinedTaskResources/TinnitusSounds1/manifest.json"]
                        prependSteps:@[stepA]
                         appendSteps:@[stepB]];
 });
@@ -700,8 +700,14 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
                                                         initWithKeypath:@"ORKAVJournalingPredefinedTask.journalQuestionSetManifestPath"
                                                         value:@"PredefinedTaskResources/QuestionList1/manifest.json"
                                                         type:ORKESerializationPropertyModifierTypePath];
+    
+    ORKESerializationPropertyModifier *modifier3 = [[ORKESerializationPropertyModifier alloc]
+                                                        initWithKeypath:@"ORKTinnitusPredefinedTask.audioSetManifestPath"
+                                                        value:@"PredefinedTaskResources/TinnitusSounds1/manifest.json"
+                                                        type:ORKESerializationPropertyModifierTypePath];
+    
     ORKESerializationPropertyInjector *propertyInjector = [[ORKESerializationPropertyInjector alloc] initWithBasePath:bundle.bundlePath
-                                                                                                          modifiers:@[modifier, modifier2]];
+                                                                                                          modifiers:@[modifier, modifier2, modifier3]];
     return propertyInjector;
 }
 
