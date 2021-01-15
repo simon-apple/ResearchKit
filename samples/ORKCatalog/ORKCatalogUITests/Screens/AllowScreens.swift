@@ -71,7 +71,7 @@ struct AllowScreens {
                 allowHealthAccess()
             }
             
-            sleep(1)
+            sleep(2)
             guard let cancelButton = commonElements.cancelButton else {
                 XCTFail("Unable to locate Cancel Button")
                 return false
