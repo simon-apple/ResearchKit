@@ -36,9 +36,9 @@
 		00F189CC24F5B46100371E9C /* ORKAnswerFormat_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 244EFAD11BCEFD83001850D9 /* ORKAnswerFormat_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		00F189CD24F5B46800371E9C /* ORKFormStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40B821A8D7C5C00081FAC /* ORKFormStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		00F189CE24F5B46F00371E9C /* ORKQuestionResult_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = FF919A5B1E81C63B005C2A1E /* ORKQuestionResult_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		03057F392515771800C4EC5B /* ORKAudioFitnessStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 03057F372515771800C4EC5B /* ORKAudioFitnessStepViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		03057F392515771800C4EC5B /* ORKAudioFitnessStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 03057F372515771800C4EC5B /* ORKAudioFitnessStepViewController.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		03057F3A2515771800C4EC5B /* ORKAudioFitnessStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03057F382515771800C4EC5B /* ORKAudioFitnessStepViewController.m */; };
-		03057F3D2515772E00C4EC5B /* ORKAudioFitnessStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 03057F3B2515772E00C4EC5B /* ORKAudioFitnessStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		03057F3D2515772E00C4EC5B /* ORKAudioFitnessStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 03057F3B2515772E00C4EC5B /* ORKAudioFitnessStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		03057F3E2515772E00C4EC5B /* ORKAudioFitnessStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 03057F3C2515772E00C4EC5B /* ORKAudioFitnessStep.m */; };
 		03057F492518ECDC00C4EC5B /* ORKAudioStepViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 03057F482518ECDC00C4EC5B /* ORKAudioStepViewControllerTests.m */; };
 		031A0FC124CF4ECD000E4455 /* ORKSensorPermissionType.h in Headers */ = {isa = PBXBuildFile; fileRef = 031A0FBF24CF4ECD000E4455 /* ORKSensorPermissionType.h */; settings = {ATTRIBUTES = (Public, ); }; };

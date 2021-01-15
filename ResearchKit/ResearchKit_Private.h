@@ -63,6 +63,7 @@
 #import <ResearchKit/ORKStepContainerView_Private.h>
 
 #import <ResearchKit/ORKAudioStep.h>
+#import <ResearchKit/ORKAudioFitnessStep.h>
 #import <ResearchKit/ORKAmslerGridStep.h>
 #import <ResearchKit/ORKCountdownStep.h>
 #import <ResearchKit/ORKFitnessStep.h>
@@ -96,6 +97,7 @@
 #import <ResearchKit/ORKInstructionStepViewController_Internal.h>
 
 #import <ResearchKit/ORKAudioStepViewController.h>
+#import <ResearchKit/ORKAudioFitnessStepViewController.h>
 #import <ResearchKit/ORKAmslerGridStepViewController.h>
 #import <ResearchKit/ORKConsentReviewStepViewController.h>
 #import <ResearchKit/ORKConsentSharingStepViewController.h>
