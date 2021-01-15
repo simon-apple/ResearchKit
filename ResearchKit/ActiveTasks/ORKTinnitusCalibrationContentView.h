@@ -29,11 +29,13 @@
  */
 
 #import <UIKit/UIKit.h>
+#import <ResearchKit/ORKTypes.h>
 #import "ORKCustomStepView_Internal.h"
-#import "ORKTinnitusButtonView.h"
 #import <ResearchKit/ORKBorderedButton.h>
 
 NS_ASSUME_NONNULL_BEGIN
+
+@class ORKTinnitusButtonView;
 
 @interface ORKTinnitusCalibrationContentView : ORKActiveStepCustomView
 

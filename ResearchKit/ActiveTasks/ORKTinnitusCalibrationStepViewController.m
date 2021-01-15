@@ -42,6 +42,7 @@
 #import "ORKTinnitusCalibrationStep.h"
 #import "ORKStepContainerView_Private.h"
 #import "ORKNavigationContainerView_Internal.h"
+#import "ORKTinnitusButtonView.h"
 
 @interface ORKTinnitusCalibrationStepViewController () <ORKTinnitusButtonViewDelegate>
 

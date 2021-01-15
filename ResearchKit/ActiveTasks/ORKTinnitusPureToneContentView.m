@@ -31,6 +31,7 @@
 #import "ORKTinnitusPureToneContentView.h"
 #import "ORKHelpers_Internal.h"
 #import "ORKSkin.h"
+#import "ORKTinnitusButtonView.h"
 
 static const CGFloat ORKTinnitusStandardSpacing = 12.0;
 static const CGFloat ORKTinnitusGlowAdjustment = 16.0;

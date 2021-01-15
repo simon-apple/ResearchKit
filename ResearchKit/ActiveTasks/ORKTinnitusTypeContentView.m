@@ -30,6 +30,8 @@
 
 #import "ORKTinnitusTypeContentView.h"
 #import "ORKHelpers_Internal.h"
+#import "ORKCustomStepView_Internal.h"
+#import "ORKTinnitusButtonView.h"
 
 @implementation ORKTinnitusTypeContentView
 

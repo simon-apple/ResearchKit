@@ -30,7 +30,6 @@
 
 @import UIKit;
 #import "ORKCustomStepView_Internal.h"
-#import "ORKTinnitusButtonView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
