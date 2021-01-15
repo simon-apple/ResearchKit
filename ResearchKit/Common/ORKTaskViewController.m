@@ -161,6 +161,8 @@ typedef void (^_ORKLocationAuthorizationRequestHandler)(BOOL success);
     
     UINavigationController *_childNavigationController;
     UIViewController *_previousToTopControllerInNavigationStack;
+    
+    NSString *_forcedNextStepIdentifier;
 }
 
 @property (nonatomic, strong) ORKStepViewController *currentStepViewController;
@@ -812,6 +814,15 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     [_childNavigationController popViewControllerAnimated:YES];
 }
 
+- (void)goToStepWithIdentifier:(NSString *)identifier {
+    if ([self.task stepWithIdentifier:_forcedNextStepIdentifier] == nil) {
+        ORK_Log_Info("goToStepWithIdentifier: step for %@ identifier not found, ignoring navigation", _forcedNextStepIdentifier);
+    }
+    _forcedNextStepIdentifier = [identifier copy];
+    [self goForward];
+    _forcedNextStepIdentifier = nil;
+}
+
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     UIInterfaceOrientationMask supportedOrientations;
     if (self.currentStepViewController) {
@@ -983,8 +994,10 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
 
 - (ORKStep *)nextStep {
     ORKStep *step = nil;
-    
-    if ([self.task respondsToSelector:@selector(stepAfterStep:withResult:)]) {
+    if (_forcedNextStepIdentifier != nil) {
+        step = [self.task stepWithIdentifier:_forcedNextStepIdentifier];
+    }
+    if (step == nil && [self.task respondsToSelector:@selector(stepAfterStep:withResult:)]) {
         step = [self.task stepAfterStep:self.currentStepViewController.step withResult:[self result]];
     }
     
