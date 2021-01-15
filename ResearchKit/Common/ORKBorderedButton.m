@@ -32,6 +32,17 @@
 #import "ORKBorderedButton.h"
 #import "ORKTextButton_Internal.h"
 
+
+@implementation CALayer (ORKCornerCurveContinuousCategory)
+
+- (void)setCornerCurveContinuous {
+    if (@available(iOS 13.0, *)) {
+        self.cornerCurve = kCACornerCurveContinuous;
+    }
+}
+
+@end
+
 static const CGFloat ORKBorderedButtonCornerRadii = 14.0;
 
 @implementation ORKBorderedButton {
@@ -49,6 +60,8 @@ static const CGFloat ORKBorderedButtonCornerRadii = 14.0;
 
 - (void)setLayerAndFadeDelay {
     self.layer.cornerRadius = ORKBorderedButtonCornerRadii;
+    [self.layer setCornerCurveContinuous];
+    
     self.fadeDelay = 0.0;
 }
 

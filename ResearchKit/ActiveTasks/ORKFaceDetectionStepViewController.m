@@ -67,6 +67,9 @@
     AVCaptureVideoDataOutput *_videoDataOutput;
     AVCaptureMetadataOutput *_metaDataOutput;
     
+    AVCaptureVideoOrientation _videoOrientation;
+    UIInterfaceOrientation _interfaceOrientation;
+    
     CGSize _frameSize;
     
     ORKFaceDetectionStepContentView *_contentView;
@@ -212,6 +215,41 @@
     [[_contentView.trailingAnchor constraintEqualToAnchor:self.activeStepView.trailingAnchor] setActive:YES];
 }
 
+- (BOOL)interfaceIsLandscape {
+    return _interfaceOrientation == UIInterfaceOrientationLandscapeLeft || _interfaceOrientation == UIInterfaceOrientationLandscapeRight;
+}
+
+- (CGRect)getUpdatedFaceRectFromFaceBounds:(CGRect)faceBounds {
+    
+    //updated bounds for when the phone's orientation is in portrait
+    CGRect updatedFaceBounds = CGRectMake(faceBounds.origin.y * _frameSize.height,
+                                          faceBounds.origin.x * _frameSize.width,
+                                          faceBounds.size.height * _frameSize.height,
+                                          faceBounds.size.width * _frameSize.width);
+    
+    //updated bounds for when the phone's orientation is in landscape
+    if ([self interfaceIsLandscape]) {
+        updatedFaceBounds = CGRectMake(faceBounds.origin.x * _frameSize.width,
+                                       faceBounds.origin.y * _frameSize.height,
+                                       faceBounds.size.width * _frameSize.width,
+                                       faceBounds.size.height * _frameSize.height);
+
+    }
+    
+    return updatedFaceBounds;
+}
+
+- (CGSize)getUpdatedSize {
+    //updated size for portrait
+    CGSize size = CGSizeMake(_frameSize.height, _frameSize.width);
+    
+    if ([self interfaceIsLandscape]) {
+        return _frameSize;
+    }
+    
+    return size;
+}
+
 - (void)nextButtonPressed {
     [self clearSession];
     [self finish];
@@ -260,8 +298,17 @@
         AVCaptureConnection *connection = [_videoDataOutput connectionWithMediaType: AVMediaTypeVideo];
         connection.cameraIntrinsicMatrixDeliveryEnabled = YES;
         
+        _interfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
+        
+        if (_interfaceOrientation == UIDeviceOrientationLandscapeLeft) {
+            _videoOrientation = AVCaptureVideoOrientationLandscapeLeft;
+        } else {
+            _videoOrientation = AVCaptureVideoOrientationLandscapeRight;
+        }
+        
         if ([connection isVideoOrientationSupported]) {
-            connection.videoOrientation = AVCaptureVideoOrientationLandscapeRight;
+            connection.videoOrientation = _videoOrientation;
+            _contentView.videoOrientation = _videoOrientation;
         }
         
         if ([connection isVideoMirroringSupported]) {
@@ -351,14 +398,8 @@
             _frameSize = CVImageBufferGetDisplaySize(pixelBuffer);
         }
         
-        //switch face rect and frame width/height to fit portrait mode
-        CGRect updatedFaceRect = CGRectMake(facebounds.origin.y * _frameSize.height,
-                                            facebounds.origin.x * _frameSize.width,
-                                            facebounds.size.height * _frameSize.height,
-                                            facebounds.size.width * _frameSize.width);
-        
-        CGSize updatedSize = CGSizeMake(_frameSize.height, _frameSize.width);
-        
+        CGRect updatedFaceRect = [self getUpdatedFaceRectFromFaceBounds: facebounds];
+        CGSize updatedSize = [self getUpdatedSize];
         
         dispatch_async(dispatch_get_main_queue(), ^(void) {
             BOOL isFaceDetected = (CGRectGetHeight(updatedFaceRect) > 0 && CGRectGetWidth(updatedFaceRect) > 0);

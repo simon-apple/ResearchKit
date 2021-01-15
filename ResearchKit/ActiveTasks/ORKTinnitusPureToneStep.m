@@ -84,7 +84,7 @@
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        ORK_DECODE_OBJ(aDecoder, listOfChoosableFrequencies);
+        ORK_DECODE_OBJ_ARRAY(aDecoder, listOfChoosableFrequencies, NSNumber);
         ORK_DECODE_INTEGER(aDecoder, lowFrequencyIndex);
         ORK_DECODE_INTEGER(aDecoder, mediumFrequencyIndex);
         ORK_DECODE_INTEGER(aDecoder, highFrequencyIndex);
