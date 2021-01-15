@@ -146,7 +146,7 @@ extension TaskListViewController: UITableViewDelegate, UITableViewDataSource {
                 let significantEventAnswerFormat = ORKBooleanAnswerFormat(yesString: "Yes", noString: "No")
                 let significantEventQStep = ORKQuestionStep(identifier: "significantEventQuestion", title: "Basic Survey", question: "Have you experienced any falls or significant events that have limited your mobility in the past three months?", answer: significantEventAnswerFormat)
                 
-                let nonmotorSymptomsAnswerFormat = ORKTextChoiceAnswerFormat(style: .multipleChoice, textChoices: [ORKTextChoice(text: "Pain", value: 1 as NSCoding & NSCopying & NSObjectProtocol), ORKTextChoice(text: "Fatigue", value: 2 as NSCoding & NSCopying & NSObjectProtocol), ORKTextChoice(text: "Cognitive impairments", value: 3 as NSCoding & NSCopying & NSObjectProtocol), ORKTextChoice(text: "Digestive or Bowel issues", value: 4 as NSCoding & NSCopying & NSObjectProtocol), ORKTextChoice(text: "Gait Impairments", value: 5 as NSCoding & NSCopying & NSObjectProtocol), ORKTextChoice(text: "Other", value: 6 as NSCoding & NSCopying & NSObjectProtocol)])
+                let nonmotorSymptomsAnswerFormat = ORKTextChoiceAnswerFormat(style: .multipleChoice, textChoices: [ORKTextChoice(text: "Pain", value: 1 as NSNumber), ORKTextChoice(text: "Fatigue", value: 2 as NSNumber), ORKTextChoice(text: "Cognitive impairments", value: 3 as NSNumber), ORKTextChoice(text: "Digestive or Bowel issues", value: 4 as NSNumber), ORKTextChoice(text: "Gait Impairments", value: 5 as NSNumber), ORKTextChoice(text: "Other", value: 6 as NSNumber)])
                 
                 let nonmotorSymptomsQStep = ORKQuestionStep(identifier: "nonmotorSymptomsQuestion", title: "Basic Survey", question: "Which of the following non-motor symptoms do you feel", answer: nonmotorSymptomsAnswerFormat)
                 task = ORKOrderedTask(identifier: "task", steps: [significantEventQStep, nonmotorSymptomsQStep])
@@ -201,7 +201,7 @@ extension TaskListViewController: ORKTaskViewControllerDelegate {
     
     public func taskViewController(_ taskViewController: ORKTaskViewController, didFinishWith reason: ORKTaskViewControllerFinishReason, error: Error?) {
         switch reason {
-        case .completed, .discarded, .failed, .saved:
+        case .completed, .discarded, .failed, .saved, .earlyTermination:
             self.dismiss(animated: false, completion: nil)
         }
     }

@@ -31,7 +31,7 @@
 
 #import "DynamicTask.h"
 
-@import ResearchKit.Private;
+@import ResearchKit_Private;
 
 
 @interface DynamicTask ()

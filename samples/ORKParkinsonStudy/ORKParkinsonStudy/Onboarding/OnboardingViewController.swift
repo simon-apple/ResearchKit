@@ -148,7 +148,7 @@ class OnboardingViewController: ORKTaskViewController, ORKTaskViewControllerDele
         didFinishWith reason: ORKTaskViewControllerFinishReason, error: Error?) {
         
         switch reason {
-        case .discarded, .failed, .saved:
+        case .discarded, .failed, .saved, .earlyTermination:
             
             self.presentingViewController?.dismiss(animated: false, completion: nil)
             
