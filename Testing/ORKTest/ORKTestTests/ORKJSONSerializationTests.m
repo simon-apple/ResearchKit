@@ -31,7 +31,7 @@
 
 
 @import XCTest;
-@import ResearchKit.Private;
+@import ResearchKit_Private;
 
 #import "ORKESerialization.h"
 
