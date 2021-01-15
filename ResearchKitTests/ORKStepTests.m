@@ -31,7 +31,7 @@
 
 @import XCTest;
 @import ResearchKit;
-@import ResearchKit.Private;
+@import ResearchKit_Private;
 @import UIKit;
 
 @interface ORKStepTests : XCTestCase
