@@ -598,12 +598,7 @@ ORK_MAKE_TEST_INIT(ORKNoAnswer, (^{ return [ORKDontKnowAnswer answer]; }));
         @"ORKNoAnswer",
         @"ORKAVJournalingStepOptionsView",
         @"ORKFaceDetectionBlurFooterView",
-        @"ORKAVJournalingBlurFooterView",
-        @"ORKTinnitusPureToneInstructionStep",
-        @"ORKTinnitusCalibrationStep",
-        @"ORKTinnitusLoudnessMatchingStep",
-        @"ORKTinnitusPureToneStep",
-        @"ORKTinnitusTypeStep"
+        @"ORKAVJournalingBlurFooterView"
     ];
     
     // Find all classes that conform to NSSecureCoding
