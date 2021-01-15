@@ -30,11 +30,12 @@
 
 #import <Foundation/Foundation.h>
 #import <ResearchKit/ORKDefines.h>
-#import <ResearchKit/ORKLearnMoreView.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @class ORKLearnMoreInstructionStep;
+@class ORKLearnMoreView;
+@protocol ORKLearnMoreViewDelegate;
 
 ORK_CLASS_AVAILABLE
 @interface ORKLearnMoreItem : NSObject <NSCopying, NSSecureCoding>

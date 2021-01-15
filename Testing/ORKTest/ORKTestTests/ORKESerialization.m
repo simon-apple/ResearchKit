@@ -34,7 +34,7 @@
 #import "ORKESerialization.h"
 
 @import ResearchKit;
-@import ResearchKit.Private;
+@import ResearchKit_Private;
 
 @import MapKit;
 @import Speech;
