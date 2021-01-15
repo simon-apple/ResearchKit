@@ -31,6 +31,7 @@
 #import "ORKTinnitusCalibrationContentView.h"
 #import "ORKHelpers_Internal.h"
 #import "ORKSkin.h"
+#import "ORKTinnitusButtonView.h"
 
 @interface ORKTinnitusCalibrationContentView () {
     UIImageView *_imageView;

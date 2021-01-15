@@ -175,7 +175,7 @@
 		5119879C245FC33C004FC2C7 /* ORK3DModelManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5119879A245FC33C004FC2C7 /* ORK3DModelManager.m */; };
 		5119879F245FE68D004FC2C7 /* ORKUSDZModelManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5119879D245FE68D004FC2C7 /* ORKUSDZModelManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		511987A0245FE68D004FC2C7 /* ORKUSDZModelManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5119879E245FE68D004FC2C7 /* ORKUSDZModelManager.m */; };
-		511987A7246080CE004FC2C7 /* ORKAVJournalingStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 511987A5246080CE004FC2C7 /* ORKAVJournalingStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		511987A7246080CE004FC2C7 /* ORKAVJournalingStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 511987A5246080CE004FC2C7 /* ORKAVJournalingStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		511987A8246080CE004FC2C7 /* ORKAVJournalingStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 511987A6246080CE004FC2C7 /* ORKAVJournalingStep.m */; };
 		511987AB24608443004FC2C7 /* ORKAVJournalingStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 511987A924608443004FC2C7 /* ORKAVJournalingStepViewController.h */; };
 		511987AC24608443004FC2C7 /* ORKAVJournalingStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 511987AA24608443004FC2C7 /* ORKAVJournalingStepViewController.m */; };
@@ -209,7 +209,7 @@
 		51751468245A53D7009E8FFC /* ORKFrontFacingCameraStepContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 51751466245A53D7009E8FFC /* ORKFrontFacingCameraStepContentView.m */; };
 		5190141924759E6800E3A418 /* ORKFrontFacingCameraStepResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 5190141724759E6800E3A418 /* ORKFrontFacingCameraStepResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5190141A24759E6800E3A418 /* ORKFrontFacingCameraStepResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 5190141824759E6800E3A418 /* ORKFrontFacingCameraStepResult.m */; };
-		5192C28B24536ACF0097DB41 /* ORKFaceDetectionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 5192C28924536ACF0097DB41 /* ORKFaceDetectionStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5192C28B24536ACF0097DB41 /* ORKFaceDetectionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 5192C28924536ACF0097DB41 /* ORKFaceDetectionStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5192C28C24536ACF0097DB41 /* ORKFaceDetectionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 5192C28A24536ACF0097DB41 /* ORKFaceDetectionStep.m */; };
 		5192C29324536B360097DB41 /* ORKFaceDetectionStepContentView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5192C29124536B360097DB41 /* ORKFaceDetectionStepContentView.h */; };
 		5192C29424536B360097DB41 /* ORKFaceDetectionStepContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5192C29224536B360097DB41 /* ORKFaceDetectionStepContentView.m */; };
@@ -219,7 +219,7 @@
 		5192C2A22453949B0097DB41 /* ORKDetectionOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5192C2A02453949B0097DB41 /* ORKDetectionOverlayView.m */; };
 		51BF30BE247B330900E2E669 /* ORKIconButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 51BF30BC247B330900E2E669 /* ORKIconButton.h */; };
 		51BF30BF247B330A00E2E669 /* ORKIconButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 51BF30BD247B330900E2E669 /* ORKIconButton.m */; };
-		51C3F78224500E4A00FFAC91 /* ORKAVJournalingPredefinedTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 51C3F78024500E4A00FFAC91 /* ORKAVJournalingPredefinedTask.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		51C3F78224500E4A00FFAC91 /* ORKAVJournalingPredefinedTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 51C3F78024500E4A00FFAC91 /* ORKAVJournalingPredefinedTask.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		51C3F78324500E4A00FFAC91 /* ORKAVJournalingPredefinedTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 51C3F78124500E4A00FFAC91 /* ORKAVJournalingPredefinedTask.m */; };
 		51CAB8BF252E396600007BDB /* ORKAVJournalingTaskViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 51CAB8BD252E396600007BDB /* ORKAVJournalingTaskViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		51CAB8C0252E396600007BDB /* ORKAVJournalingTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51CAB8BE252E396600007BDB /* ORKAVJournalingTaskViewController.m */; };
@@ -333,7 +333,7 @@
 		7118AC7620BF6A7800D7A6BB /* ORKSpeechInNoiseContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118AC7020BF6A7700D7A6BB /* ORKSpeechInNoiseContentView.m */; };
 		7118AC7720BF6A7800D7A6BB /* ORKSpeechInNoiseContentView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7118AC7120BF6A7800D7A6BB /* ORKSpeechInNoiseContentView.h */; };
 		7118AC7820BF6A7800D7A6BB /* ORKSpeechInNoiseStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118AC7220BF6A7800D7A6BB /* ORKSpeechInNoiseStep.m */; };
-		7118AC7920BF6A7800D7A6BB /* ORKSpeechInNoiseStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 7118AC7320BF6A7800D7A6BB /* ORKSpeechInNoiseStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7118AC7920BF6A7800D7A6BB /* ORKSpeechInNoiseStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 7118AC7320BF6A7800D7A6BB /* ORKSpeechInNoiseStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		713D4B1020FE4702002BE28D /* volume_curve_WIRED.plist in Resources */ = {isa = PBXBuildFile; fileRef = 713D4B0F20FE4702002BE28D /* volume_curve_WIRED.plist */; };
 		713D4B1C20FE5464002BE28D /* frequency_dBSPL_EARPODS.plist in Resources */ = {isa = PBXBuildFile; fileRef = 713D4B1B20FE5464002BE28D /* frequency_dBSPL_EARPODS.plist */; };
 		713D4B1E20FE5480002BE28D /* retspl_EARPODS.plist in Resources */ = {isa = PBXBuildFile; fileRef = 713D4B1D20FE5480002BE28D /* retspl_EARPODS.plist */; };
@@ -344,7 +344,7 @@
 		716B126520A78C6B00590264 /* ORKEnvironmentSPLMeterResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 716B126320A78C6B00590264 /* ORKEnvironmentSPLMeterResult.m */; };
 		716B126820A7A40400590264 /* ORKdBHLToneAudiometryAudioGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 716B126620A7A40400590264 /* ORKdBHLToneAudiometryAudioGenerator.h */; };
 		716B126920A7A40400590264 /* ORKdBHLToneAudiometryAudioGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 716B126720A7A40400590264 /* ORKdBHLToneAudiometryAudioGenerator.m */; };
-		71769E2920880C4500A19914 /* ORKdBHLToneAudiometryResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 71769E2720880C4500A19914 /* ORKdBHLToneAudiometryResult.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		71769E2920880C4500A19914 /* ORKdBHLToneAudiometryResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 71769E2720880C4500A19914 /* ORKdBHLToneAudiometryResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		71769E2A20880C4500A19914 /* ORKdBHLToneAudiometryResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 71769E2820880C4500A19914 /* ORKdBHLToneAudiometryResult.m */; };
 		71769E2D208824D100A19914 /* ORKdBHLToneAudiometryOnboardingStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 71769E2B208824D100A19914 /* ORKdBHLToneAudiometryOnboardingStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		71769E2E208824D100A19914 /* ORKdBHLToneAudiometryOnboardingStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 71769E2C208824D100A19914 /* ORKdBHLToneAudiometryOnboardingStep.m */; };
@@ -513,7 +513,7 @@
 		86C40CBA1A8D7C5C00081FAC /* ORKVoiceEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40B4E1A8D7C5B00081FAC /* ORKVoiceEngine.m */; };
 		86C40CBC1A8D7C5C00081FAC /* UITouch+ORKJSONDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40B4F1A8D7C5B00081FAC /* UITouch+ORKJSONDictionary.h */; };
 		86C40CBE1A8D7C5C00081FAC /* UITouch+ORKJSONDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40B501A8D7C5B00081FAC /* UITouch+ORKJSONDictionary.m */; };
-		86C40CC01A8D7C5C00081FAC /* ORKCompletionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40B521A8D7C5B00081FAC /* ORKCompletionStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		86C40CC01A8D7C5C00081FAC /* ORKCompletionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40B521A8D7C5B00081FAC /* ORKCompletionStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		86C40CC21A8D7C5C00081FAC /* ORKCompletionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40B531A8D7C5B00081FAC /* ORKCompletionStep.m */; };
 		86C40CC41A8D7C5C00081FAC /* ORKCompletionStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40B541A8D7C5B00081FAC /* ORKCompletionStepViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		86C40CC81A8D7C5C00081FAC /* ORKFormItemCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40B561A8D7C5B00081FAC /* ORKFormItemCell.h */; };
@@ -777,7 +777,7 @@
 		BAB96755226E5D67006AAC56 /* ORKStepContainerViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BAB96754226E5D67006AAC56 /* ORKStepContainerViewTests.m */; };
 		BABBB19D2093299A00CB29E5 /* ORKSurveyCardHeaderView.h in Headers */ = {isa = PBXBuildFile; fileRef = BABBB19B2093299A00CB29E5 /* ORKSurveyCardHeaderView.h */; };
 		BABBB19E2093299A00CB29E5 /* ORKSurveyCardHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = BABBB19C2093299A00CB29E5 /* ORKSurveyCardHeaderView.m */; };
-		BABBB1AE2097D97200CB29E5 /* ORKPDFViewerStep.h in Headers */ = {isa = PBXBuildFile; fileRef = BABBB1AC2097D97200CB29E5 /* ORKPDFViewerStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		BABBB1AE2097D97200CB29E5 /* ORKPDFViewerStep.h in Headers */ = {isa = PBXBuildFile; fileRef = BABBB1AC2097D97200CB29E5 /* ORKPDFViewerStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BABBB1AF2097D97200CB29E5 /* ORKPDFViewerStep.m in Sources */ = {isa = PBXBuildFile; fileRef = BABBB1AD2097D97200CB29E5 /* ORKPDFViewerStep.m */; };
 		BABBB1B22097E16700CB29E5 /* ORKPDFViewerStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = BABBB1B02097E16700CB29E5 /* ORKPDFViewerStepViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BABBB1B32097E16700CB29E5 /* ORKPDFViewerStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BABBB1B12097E16700CB29E5 /* ORKPDFViewerStepViewController.m */; };
@@ -798,7 +798,7 @@
 		BAD6FAB22332A2FD006647E7 /* ORKCheckmarkView.m in Sources */ = {isa = PBXBuildFile; fileRef = BAD6FAB02332A2FD006647E7 /* ORKCheckmarkView.m */; };
 		BAD9E9122255E9750014FA29 /* ORKLearnMoreInstructionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = BAD9E9102255E9750014FA29 /* ORKLearnMoreInstructionStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BAD9E9132255E9750014FA29 /* ORKLearnMoreInstructionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = BAD9E9112255E9750014FA29 /* ORKLearnMoreInstructionStep.m */; };
-		BAD9E9162255E9CE0014FA29 /* ORKLearnMoreStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = BAD9E9142255E9CE0014FA29 /* ORKLearnMoreStepViewController.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		BAD9E9162255E9CE0014FA29 /* ORKLearnMoreStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = BAD9E9142255E9CE0014FA29 /* ORKLearnMoreStepViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BAD9E9172255E9CE0014FA29 /* ORKLearnMoreStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BAD9E9152255E9CE0014FA29 /* ORKLearnMoreStepViewController.m */; };
 		BADA2F26225DA54B005D2255 /* ORKInstructionStepContainerView.h in Headers */ = {isa = PBXBuildFile; fileRef = BADA2F24225DA54B005D2255 /* ORKInstructionStepContainerView.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		BADA2F27225DA54B005D2255 /* ORKInstructionStepContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = BADA2F25225DA54B005D2255 /* ORKInstructionStepContainerView.m */; };
@@ -891,29 +891,19 @@
 		D458520B1AF6CCFA00A2DE13 /* ORKImageCaptureCameraPreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = D45852091AF6CCFA00A2DE13 /* ORKImageCaptureCameraPreviewView.m */; };
 		E21D345F22D916E000CCB022 /* ORKHeadphoneDetectResult.h in Headers */ = {isa = PBXBuildFile; fileRef = E21D345D22D916E000CCB022 /* ORKHeadphoneDetectResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E21D346022D916E000CCB022 /* ORKHeadphoneDetectResult.m in Sources */ = {isa = PBXBuildFile; fileRef = E21D345E22D916E000CCB022 /* ORKHeadphoneDetectResult.m */; };
-		E220A03025711D2700C3C211 /* tea_kettle_5s.wav in Resources */ = {isa = PBXBuildFile; fileRef = E220A01D25711D2500C3C211 /* tea_kettle_5s.wav */; };
-		E220A03125711D2700C3C211 /* crowd_noise_5s.wav in Resources */ = {isa = PBXBuildFile; fileRef = E220A01E25711D2500C3C211 /* crowd_noise_5s.wav */; };
 		E220A03225711D2700C3C211 /* dbSPLNoiseTypes_AIRPODSPRO.plist in Resources */ = {isa = PBXBuildFile; fileRef = E220A01F25711D2500C3C211 /* dbSPLNoiseTypes_AIRPODSPRO.plist */; };
 		E220A03325711D2700C3C211 /* dbSPLAmplitudePerFrequency_AIRPODSPRO.plist in Resources */ = {isa = PBXBuildFile; fileRef = E220A02025711D2500C3C211 /* dbSPLAmplitudePerFrequency_AIRPODSPRO.plist */; };
 		E220A03425711D2700C3C211 /* dbAmplitudePerFrequency_AIRPODSPRO.plist in Resources */ = {isa = PBXBuildFile; fileRef = E220A02125711D2500C3C211 /* dbAmplitudePerFrequency_AIRPODSPRO.plist */; };
 		E220A03525711D2700C3C211 /* dbSPLAmplitudePerFrequency_EARPODS.plist in Resources */ = {isa = PBXBuildFile; fileRef = E220A02225711D2500C3C211 /* dbSPLAmplitudePerFrequency_EARPODS.plist */; };
-		E220A03625711D2700C3C211 /* camp_fire_5s.wav in Resources */ = {isa = PBXBuildFile; fileRef = E220A02325711D2500C3C211 /* camp_fire_5s.wav */; };
 		E220A03725711D2700C3C211 /* dbSPLNoiseTypes_EARPODS.plist in Resources */ = {isa = PBXBuildFile; fileRef = E220A02425711D2600C3C211 /* dbSPLNoiseTypes_EARPODS.plist */; };
-		E220A03825711D2700C3C211 /* forest_5s.wav in Resources */ = {isa = PBXBuildFile; fileRef = E220A02525711D2600C3C211 /* forest_5s.wav */; };
-		E220A03925711D2700C3C211 /* ocean_5s.wav in Resources */ = {isa = PBXBuildFile; fileRef = E220A02625711D2600C3C211 /* ocean_5s.wav */; };
-		E220A03A25711D2700C3C211 /* rain_5s.wav in Resources */ = {isa = PBXBuildFile; fileRef = E220A02725711D2600C3C211 /* rain_5s.wav */; };
-		E220A03B25711D2700C3C211 /* white_noise_5s.wav in Resources */ = {isa = PBXBuildFile; fileRef = E220A02825711D2600C3C211 /* white_noise_5s.wav */; };
 		E220A03C25711D2700C3C211 /* dbSPLAmplitudePerFrequency_AIRPODS.plist in Resources */ = {isa = PBXBuildFile; fileRef = E220A02925711D2600C3C211 /* dbSPLAmplitudePerFrequency_AIRPODS.plist */; };
-		E220A03D25711D2700C3C211 /* audiobook_6s.wav in Resources */ = {isa = PBXBuildFile; fileRef = E220A02A25711D2600C3C211 /* audiobook_6s.wav */; };
 		E220A03E25711D2700C3C211 /* dbSPLNoiseTypes_AIRPODS.plist in Resources */ = {isa = PBXBuildFile; fileRef = E220A02B25711D2600C3C211 /* dbSPLNoiseTypes_AIRPODS.plist */; };
 		E220A03F25711D2700C3C211 /* dbAmplitudePerFrequency_AIRPODS.plist in Resources */ = {isa = PBXBuildFile; fileRef = E220A02C25711D2600C3C211 /* dbAmplitudePerFrequency_AIRPODS.plist */; };
-		E220A04025711D2700C3C211 /* cicadas_5s.wav in Resources */ = {isa = PBXBuildFile; fileRef = E220A02D25711D2600C3C211 /* cicadas_5s.wav */; };
-		E220A04125711D2700C3C211 /* crickets_5s.wav in Resources */ = {isa = PBXBuildFile; fileRef = E220A02E25711D2700C3C211 /* crickets_5s.wav */; };
 		E220A04225711D2700C3C211 /* dbAmplitudePerFrequency_EARPODS.plist in Resources */ = {isa = PBXBuildFile; fileRef = E220A02F25711D2700C3C211 /* dbAmplitudePerFrequency_EARPODS.plist */; };
 		E220A35125711F1400C3C211 /* ORKTinnitusTypeStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E220A34925711F1300C3C211 /* ORKTinnitusTypeStepViewController.m */; };
 		E220A35225711F1400C3C211 /* ORKTinnitusTypeResult.h in Headers */ = {isa = PBXBuildFile; fileRef = E220A34A25711F1300C3C211 /* ORKTinnitusTypeResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E220A35325711F1400C3C211 /* ORKTinnitusTypeResult.m in Sources */ = {isa = PBXBuildFile; fileRef = E220A34B25711F1300C3C211 /* ORKTinnitusTypeResult.m */; };
-		E220A35425711F1400C3C211 /* ORKTinnitusTypeStep.h in Headers */ = {isa = PBXBuildFile; fileRef = E220A34C25711F1300C3C211 /* ORKTinnitusTypeStep.h */; };
+		E220A35425711F1400C3C211 /* ORKTinnitusTypeStep.h in Headers */ = {isa = PBXBuildFile; fileRef = E220A34C25711F1300C3C211 /* ORKTinnitusTypeStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		E220A35525711F1400C3C211 /* ORKTinnitusTypeContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = E220A34D25711F1300C3C211 /* ORKTinnitusTypeContentView.m */; };
 		E220A35625711F1400C3C211 /* ORKTinnitusTypeContentView.h in Headers */ = {isa = PBXBuildFile; fileRef = E220A34E25711F1400C3C211 /* ORKTinnitusTypeContentView.h */; };
 		E220A35725711F1400C3C211 /* ORKTinnitusTypeStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = E220A34F25711F1400C3C211 /* ORKTinnitusTypeStepViewController.h */; };
@@ -924,14 +914,14 @@
 		E220A36B25711F4300C3C211 /* ORKTinnitusCalibrationContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = E220A35D25711F4100C3C211 /* ORKTinnitusCalibrationContentView.m */; };
 		E220A36C25711F4300C3C211 /* ORKTinnitusCalibrationStep.m in Sources */ = {isa = PBXBuildFile; fileRef = E220A35E25711F4100C3C211 /* ORKTinnitusCalibrationStep.m */; };
 		E220A36D25711F4300C3C211 /* ORKTinnitusCalibrationStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = E220A35F25711F4100C3C211 /* ORKTinnitusCalibrationStepViewController.h */; };
-		E220A36E25711F4300C3C211 /* ORKTinnitusCalibrationStep.h in Headers */ = {isa = PBXBuildFile; fileRef = E220A36025711F4200C3C211 /* ORKTinnitusCalibrationStep.h */; };
+		E220A36E25711F4300C3C211 /* ORKTinnitusCalibrationStep.h in Headers */ = {isa = PBXBuildFile; fileRef = E220A36025711F4200C3C211 /* ORKTinnitusCalibrationStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		E220A36F25711F4300C3C211 /* ORKTinnitusLoudnessMatchingStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = E220A36125711F4200C3C211 /* ORKTinnitusLoudnessMatchingStepViewController.h */; };
 		E220A37025711F4300C3C211 /* ORKTinnitusCalibrationResult.m in Sources */ = {isa = PBXBuildFile; fileRef = E220A36225711F4200C3C211 /* ORKTinnitusCalibrationResult.m */; };
 		E220A37125711F4300C3C211 /* ORKTinnitusCalibrationResult.h in Headers */ = {isa = PBXBuildFile; fileRef = E220A36325711F4200C3C211 /* ORKTinnitusCalibrationResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E220A37225711F4300C3C211 /* ORKTinnitusLoudnessMatchingStep.m in Sources */ = {isa = PBXBuildFile; fileRef = E220A36425711F4200C3C211 /* ORKTinnitusLoudnessMatchingStep.m */; };
 		E220A37325711F4300C3C211 /* ORKTinnitusLoudnessMatchingResult.m in Sources */ = {isa = PBXBuildFile; fileRef = E220A36525711F4200C3C211 /* ORKTinnitusLoudnessMatchingResult.m */; };
 		E220A37425711F4300C3C211 /* ORKTinnitusCalibrationContentView.h in Headers */ = {isa = PBXBuildFile; fileRef = E220A36625711F4300C3C211 /* ORKTinnitusCalibrationContentView.h */; };
-		E220A37525711F4300C3C211 /* ORKTinnitusLoudnessMatchingStep.h in Headers */ = {isa = PBXBuildFile; fileRef = E220A36725711F4300C3C211 /* ORKTinnitusLoudnessMatchingStep.h */; };
+		E220A37525711F4300C3C211 /* ORKTinnitusLoudnessMatchingStep.h in Headers */ = {isa = PBXBuildFile; fileRef = E220A36725711F4300C3C211 /* ORKTinnitusLoudnessMatchingStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		E220A37C25711F9600C3C211 /* ORKTinnitusButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = E220A37825711F9500C3C211 /* ORKTinnitusButtonView.m */; };
 		E220A37D25711F9600C3C211 /* ORKTinnitusButtonView.h in Headers */ = {isa = PBXBuildFile; fileRef = E220A37925711F9500C3C211 /* ORKTinnitusButtonView.h */; };
 		E220A37E25711F9600C3C211 /* ORKTinnitusAudioGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = E220A37A25711F9600C3C211 /* ORKTinnitusAudioGenerator.h */; };
@@ -941,11 +931,11 @@
 		E220A38E2571252900C3C211 /* ORKTinnitusPureToneResult.m in Sources */ = {isa = PBXBuildFile; fileRef = E220A3822571252800C3C211 /* ORKTinnitusPureToneResult.m */; };
 		E220A38F2571252900C3C211 /* ORKTinnitusPureToneInstructionStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E220A3832571252800C3C211 /* ORKTinnitusPureToneInstructionStepViewController.m */; };
 		E220A3902571252900C3C211 /* ORKTinnitusPureToneInstructionStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = E220A3842571252800C3C211 /* ORKTinnitusPureToneInstructionStepViewController.h */; };
-		E220A3912571252900C3C211 /* ORKTinnitusPureToneInstructionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = E220A3852571252800C3C211 /* ORKTinnitusPureToneInstructionStep.h */; };
+		E220A3912571252900C3C211 /* ORKTinnitusPureToneInstructionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = E220A3852571252800C3C211 /* ORKTinnitusPureToneInstructionStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		E220A3922571252900C3C211 /* ORKTinnitusPureToneResult.h in Headers */ = {isa = PBXBuildFile; fileRef = E220A3862571252800C3C211 /* ORKTinnitusPureToneResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E220A3932571252900C3C211 /* ORKTinnitusPureToneStep.m in Sources */ = {isa = PBXBuildFile; fileRef = E220A3872571252900C3C211 /* ORKTinnitusPureToneStep.m */; };
 		E220A3942571252900C3C211 /* ORKTinnitusPureToneInstructionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = E220A3882571252900C3C211 /* ORKTinnitusPureToneInstructionStep.m */; };
-		E220A3952571252900C3C211 /* ORKTinnitusPureToneStep.h in Headers */ = {isa = PBXBuildFile; fileRef = E220A3892571252900C3C211 /* ORKTinnitusPureToneStep.h */; };
+		E220A3952571252900C3C211 /* ORKTinnitusPureToneStep.h in Headers */ = {isa = PBXBuildFile; fileRef = E220A3892571252900C3C211 /* ORKTinnitusPureToneStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		E220A3962571252900C3C211 /* ORKTinnitusPureToneStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = E220A38A2571252900C3C211 /* ORKTinnitusPureToneStepViewController.h */; };
 		E220A3972571252900C3C211 /* ORKTinnitusPureToneStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E220A38B2571252900C3C211 /* ORKTinnitusPureToneStepViewController.m */; };
 		E2471305252B991B00FF5431 /* ORKdBHLToneAudiometryCompletionStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = E2471301252B991A00FF5431 /* ORKdBHLToneAudiometryCompletionStepViewController.h */; };
@@ -973,7 +963,7 @@
 		E27743AB23A7AA8F00AA0C9F /* AVOutputContext_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = E27743A923A7AA8F00AA0C9F /* AVOutputContext_Private.h */; };
 		E27743AC23A7AA8F00AA0C9F /* AVOutputContext.h in Headers */ = {isa = PBXBuildFile; fileRef = E27743AA23A7AA8F00AA0C9F /* AVOutputContext.h */; };
 		E27743AE23A7AC8800AA0C9F /* AVOutputDeviceDiscoverySession.h in Headers */ = {isa = PBXBuildFile; fileRef = E27743AD23A7AC8500AA0C9F /* AVOutputDeviceDiscoverySession.h */; };
-		E2880B82255D656900D9BAA7 /* ORKTinnitusPredefinedTask.h in Headers */ = {isa = PBXBuildFile; fileRef = E2880B7F255D656900D9BAA7 /* ORKTinnitusPredefinedTask.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E2880B82255D656900D9BAA7 /* ORKTinnitusPredefinedTask.h in Headers */ = {isa = PBXBuildFile; fileRef = E2880B7F255D656900D9BAA7 /* ORKTinnitusPredefinedTask.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		E2880B83255D656900D9BAA7 /* ORKTinnitusPredefinedTask.m in Sources */ = {isa = PBXBuildFile; fileRef = E2880B80255D656900D9BAA7 /* ORKTinnitusPredefinedTask.m */; };
 		E2880B84255D656900D9BAA7 /* ORKTinnitusPredefinedTaskConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = E2880B81255D656900D9BAA7 /* ORKTinnitusPredefinedTaskConstants.h */; };
 		E2880B8C255DAFC200D9BAA7 /* ORKdBHLTaskContext.m in Sources */ = {isa = PBXBuildFile; fileRef = E2880B8A255DAFC100D9BAA7 /* ORKdBHLTaskContext.m */; };
@@ -1978,24 +1968,14 @@
 		D45852091AF6CCFA00A2DE13 /* ORKImageCaptureCameraPreviewView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKImageCaptureCameraPreviewView.m; sourceTree = "<group>"; };
 		E21D345D22D916E000CCB022 /* ORKHeadphoneDetectResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKHeadphoneDetectResult.h; sourceTree = "<group>"; };
 		E21D345E22D916E000CCB022 /* ORKHeadphoneDetectResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKHeadphoneDetectResult.m; sourceTree = "<group>"; };
-		E220A01D25711D2500C3C211 /* tea_kettle_5s.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = tea_kettle_5s.wav; sourceTree = "<group>"; };
-		E220A01E25711D2500C3C211 /* crowd_noise_5s.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = crowd_noise_5s.wav; sourceTree = "<group>"; };
 		E220A01F25711D2500C3C211 /* dbSPLNoiseTypes_AIRPODSPRO.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = dbSPLNoiseTypes_AIRPODSPRO.plist; sourceTree = "<group>"; };
 		E220A02025711D2500C3C211 /* dbSPLAmplitudePerFrequency_AIRPODSPRO.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = dbSPLAmplitudePerFrequency_AIRPODSPRO.plist; sourceTree = "<group>"; };
 		E220A02125711D2500C3C211 /* dbAmplitudePerFrequency_AIRPODSPRO.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = dbAmplitudePerFrequency_AIRPODSPRO.plist; sourceTree = "<group>"; };
 		E220A02225711D2500C3C211 /* dbSPLAmplitudePerFrequency_EARPODS.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = dbSPLAmplitudePerFrequency_EARPODS.plist; sourceTree = "<group>"; };
-		E220A02325711D2500C3C211 /* camp_fire_5s.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = camp_fire_5s.wav; sourceTree = "<group>"; };
 		E220A02425711D2600C3C211 /* dbSPLNoiseTypes_EARPODS.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = dbSPLNoiseTypes_EARPODS.plist; sourceTree = "<group>"; };
-		E220A02525711D2600C3C211 /* forest_5s.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = forest_5s.wav; sourceTree = "<group>"; };
-		E220A02625711D2600C3C211 /* ocean_5s.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = ocean_5s.wav; sourceTree = "<group>"; };
-		E220A02725711D2600C3C211 /* rain_5s.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = rain_5s.wav; sourceTree = "<group>"; };
-		E220A02825711D2600C3C211 /* white_noise_5s.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = white_noise_5s.wav; sourceTree = "<group>"; };
 		E220A02925711D2600C3C211 /* dbSPLAmplitudePerFrequency_AIRPODS.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = dbSPLAmplitudePerFrequency_AIRPODS.plist; sourceTree = "<group>"; };
-		E220A02A25711D2600C3C211 /* audiobook_6s.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = audiobook_6s.wav; sourceTree = "<group>"; };
 		E220A02B25711D2600C3C211 /* dbSPLNoiseTypes_AIRPODS.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = dbSPLNoiseTypes_AIRPODS.plist; sourceTree = "<group>"; };
 		E220A02C25711D2600C3C211 /* dbAmplitudePerFrequency_AIRPODS.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = dbAmplitudePerFrequency_AIRPODS.plist; sourceTree = "<group>"; };
-		E220A02D25711D2600C3C211 /* cicadas_5s.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = cicadas_5s.wav; sourceTree = "<group>"; };
-		E220A02E25711D2700C3C211 /* crickets_5s.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = crickets_5s.wav; sourceTree = "<group>"; };
 		E220A02F25711D2700C3C211 /* dbAmplitudePerFrequency_EARPODS.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = dbAmplitudePerFrequency_EARPODS.plist; sourceTree = "<group>"; };
 		E220A34925711F1300C3C211 /* ORKTinnitusTypeStepViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKTinnitusTypeStepViewController.m; sourceTree = "<group>"; };
 		E220A34A25711F1300C3C211 /* ORKTinnitusTypeResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKTinnitusTypeResult.h; sourceTree = "<group>"; };
@@ -4174,11 +4154,6 @@
 		E220A04325711D3500C3C211 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
-				E220A02A25711D2600C3C211 /* audiobook_6s.wav */,
-				E220A02325711D2500C3C211 /* camp_fire_5s.wav */,
-				E220A02D25711D2600C3C211 /* cicadas_5s.wav */,
-				E220A02E25711D2700C3C211 /* crickets_5s.wav */,
-				E220A01E25711D2500C3C211 /* crowd_noise_5s.wav */,
 				E220A02C25711D2600C3C211 /* dbAmplitudePerFrequency_AIRPODS.plist */,
 				E220A02125711D2500C3C211 /* dbAmplitudePerFrequency_AIRPODSPRO.plist */,
 				E220A02F25711D2700C3C211 /* dbAmplitudePerFrequency_EARPODS.plist */,
@@ -4188,11 +4163,6 @@
 				E220A02B25711D2600C3C211 /* dbSPLNoiseTypes_AIRPODS.plist */,
 				E220A01F25711D2500C3C211 /* dbSPLNoiseTypes_AIRPODSPRO.plist */,
 				E220A02425711D2600C3C211 /* dbSPLNoiseTypes_EARPODS.plist */,
-				E220A02525711D2600C3C211 /* forest_5s.wav */,
-				E220A02625711D2600C3C211 /* ocean_5s.wav */,
-				E220A02725711D2600C3C211 /* rain_5s.wav */,
-				E220A01D25711D2500C3C211 /* tea_kettle_5s.wav */,
-				E220A02825711D2600C3C211 /* white_noise_5s.wav */,
 			);
 			name = Assets;
 			sourceTree = "<group>";
@@ -5135,16 +5105,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				7118AC6A20BF6A3A00D7A6BB /* Sentence5.wav in Resources */,
-				E220A04025711D2700C3C211 /* cicadas_5s.wav in Resources */,
 				B1A860EE1A9693C400EA57B7 /* consent_05@2x.m4v in Resources */,
 				E220A03C25711D2700C3C211 /* dbSPLAmplitudePerFrequency_AIRPODS.plist in Resources */,
-				E220A03125711D2700C3C211 /* crowd_noise_5s.wav in Resources */,
 				86C40DFA1A8D7C5C00081FAC /* MovieTintShader.fsh in Resources */,
-				E220A03A25711D2700C3C211 /* rain_5s.wav in Resources */,
 				E220A03425711D2700C3C211 /* dbAmplitudePerFrequency_AIRPODSPRO.plist in Resources */,
 				E2EE530022E7735700F34987 /* VolumeCalibration.wav in Resources */,
 				B1A860EA1A9693C400EA57B7 /* consent_01@2x.m4v in Resources */,
-				E220A03B25711D2700C3C211 /* white_noise_5s.wav in Resources */,
 				E293656025757E6100092A7C /* retspl_AIRPODSMAX.plist in Resources */,
 				E29189BB23855BA2001AFF0F /* volume_curve_AIRPODSPRO.plist in Resources */,
 				168EEAB6230B6F9E003FD2FA /* plist-to-strings.py in Resources */,
@@ -5161,12 +5127,9 @@
 				713D4B1020FE4702002BE28D /* volume_curve_WIRED.plist in Resources */,
 				713D4B1C20FE5464002BE28D /* frequency_dBSPL_EARPODS.plist in Resources */,
 				B1A860F21A9693C400EA57B7 /* consent_02@3x.m4v in Resources */,
-				E220A03025711D2700C3C211 /* tea_kettle_5s.wav in Resources */,
 				E220A03E25711D2700C3C211 /* dbSPLNoiseTypes_AIRPODS.plist in Resources */,
-				E220A04125711D2700C3C211 /* crickets_5s.wav in Resources */,
 				E220A03525711D2700C3C211 /* dbSPLAmplitudePerFrequency_EARPODS.plist in Resources */,
 				E220A03225711D2700C3C211 /* dbSPLNoiseTypes_AIRPODSPRO.plist in Resources */,
-				E220A03D25711D2700C3C211 /* audiobook_6s.wav in Resources */,
 				E220A03325711D2700C3C211 /* dbSPLAmplitudePerFrequency_AIRPODSPRO.plist in Resources */,
 				E29189BD23855BAE001AFF0F /* retspl_AIRPODSPRO.plist in Resources */,
 				B1A860EB1A9693C400EA57B7 /* consent_02@2x.m4v in Resources */,
@@ -5177,11 +5140,9 @@
 				B1A860EC1A9693C400EA57B7 /* consent_03@2x.m4v in Resources */,
 				E29189B923855B97001AFF0F /* frequency_dBSPL_AIRPODSPRO.plist in Resources */,
 				B1A860F41A9693C400EA57B7 /* consent_04@3x.m4v in Resources */,
-				E220A03925711D2700C3C211 /* ocean_5s.wav in Resources */,
 				E220A03F25711D2700C3C211 /* dbAmplitudePerFrequency_AIRPODS.plist in Resources */,
 				71B7B4DF20AA91D400C5768A /* volume_curve_AIRPODS.plist in Resources */,
 				B1A860ED1A9693C400EA57B7 /* consent_04@2x.m4v in Resources */,
-				E220A03825711D2700C3C211 /* forest_5s.wav in Resources */,
 				7118AC6820BF6A3A00D7A6BB /* Sentence4.wav in Resources */,
 				E293655E25757CC700092A7C /* frequency_dBSPL_AIRPODSMAX.plist in Resources */,
 				BA22F76D20C4F884006E6E11 /* SentencesList.txt in Resources */,
@@ -5190,7 +5151,6 @@
 				B1C0F4E41A9BA65F0022C153 /* ResearchKit.strings in Resources */,
 				86C40DFC1A8D7C5C00081FAC /* MovieTintShader.vsh in Resources */,
 				E220A03725711D2700C3C211 /* dbSPLNoiseTypes_EARPODS.plist in Resources */,
-				E220A03625711D2700C3C211 /* camp_fire_5s.wav in Resources */,
 				714080DB235FD14700281E04 /* ResearchKit.stringsdict in Resources */,
 				7118AC6B20BF6A3A00D7A6BB /* Sentence3.wav in Resources */,
 				71B7B4DE20AA91D400C5768A /* frequency_dBSPL_AIRPODS.plist in Resources */,

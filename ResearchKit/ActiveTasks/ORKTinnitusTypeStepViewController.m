@@ -35,6 +35,7 @@
 #import "ORKTinnitusTypeContentView.h"
 #import "ORKTinnitusTypeResult.h"
 #import "ORKTinnitusPredefinedTaskConstants.h"
+#import "ORKTinnitusButtonView.h"
 
 #import "ORKActiveStepViewController_Internal.h"
 #import "ORKStepViewController_Internal.h"

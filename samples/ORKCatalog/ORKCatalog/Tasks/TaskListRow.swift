@@ -30,7 +30,7 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-import ResearchKit
+import ResearchKit_Private
 import AudioToolbox
 
 /**
@@ -1734,7 +1734,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     
     private var predefinedTinnitusTask: ORKTask {
         
-        guard let path = Bundle.main.path(forResource: "manifest", ofType: "json", inDirectory: "List1") else {
+        guard let path = Bundle.main.path(forResource: "manifest", ofType: "json", inDirectory: "TinnitusSounds1") else {
             
             let completionStep = ORKCompletionStep(identifier: "CompletionStepIdentifier")
             completionStep.title = NSLocalizedString("Task Complete", comment: "")

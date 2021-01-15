@@ -41,6 +41,7 @@
 #import "ORKStepViewController_Internal.h"
 #import "ORKStepContainerView_Private.h"
 #import "ORKNavigationContainerView_Internal.h"
+#import "ORKTinnitusButtonView.h"
 
 @interface ORKTinnitusLoudnessMatchingStepViewController () <ORKTinnitusButtonViewDelegate>
 
