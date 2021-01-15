@@ -78,19 +78,17 @@ static NSString *const ORKTinnitusSurveyAnswerExercising = @"EXERCISING";
 static NSString *const ORKTinnitusSurveyAnswerRelax = @"RELAX";
 
 
-// Masking matching sounds
-static NSString *const ORKTinnitusFilenameFire = @"camp_fire_5s";
-static NSString *const ORKTinnitusFilenameRain = @"rain_5s";
-static NSString *const ORKTinnitusFilenameForest = @"forest_5s";
-static NSString *const ORKTinnitusFilenameOcean = @"ocean_5s";
-// White noise matching sounds
-static NSString *const ORKTinnitusFilenameWhitenoise = @"white_noise_5s";
-static NSString *const ORKTinnitusFilenameCicadas = @"cicadas_5s";
-static NSString *const ORKTinnitusFilenameCrickets = @"crickets_5s";
-static NSString *const ORKTinnitusFilenameTeakettle = @"tea_kettle_5s";
-static NSString *const ORKTinnitusFilenameCrowd = @"crowd_noise_5s";
-static NSString *const ORKTinnitusFilenameAudiobook = @"audiobook_6s";
-
-static NSString *const ORKTinnitusDefaultFilenameExtension = @"wav";
+//// Masking matching sounds
+static NSString *const ORKTinnitusMaskingSoundFire = @"campfire";
+static NSString *const ORKTinnitusMaskingSoundRain = @"rain";
+static NSString *const ORKTinnitusMaskingSoundForest = @"forest";
+static NSString *const ORKTinnitusMaskingSoundOcean = @"ocean";
+//// White noise matching sounds
+static NSString *const ORKTinnitusMaskingSoundWhiteNoise = @"whitenoise";
+static NSString *const ORKTinnitusMaskingSoundCicadas = @"cicadas";
+static NSString *const ORKTinnitusMaskingSoundCrickets = @"crickets";
+static NSString *const ORKTinnitusMaskingSoundTeakettle = @"tea kettle";
+static NSString *const ORKTinnitusMaskingSoundCrowd = @"crowd noise";
+static NSString *const ORKTinnitusMaskingSoundAudiobook = @"audiobook";
 
 #endif /* ORKTinnitusTaskConstants_h */
