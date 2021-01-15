@@ -31,6 +31,7 @@
 @import UIKit;
 
 #import <ResearchKit/ORKCustomStepView_Internal.h>
+#import <AVFoundation/AVFoundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -49,6 +50,8 @@ typedef void (^ORKFaceDetectionStepContentViewEventHandler)(ORKFaceDetectionStep
 - (instancetype)init NS_UNAVAILABLE;
 
 - (instancetype)initForRecalibration:(BOOL)forRecalibration;
+
+@property (nonatomic) AVCaptureVideoOrientation videoOrientation;
 
 - (void)setViewEventHandler:(ORKFaceDetectionStepContentViewEventHandler)handler;
 

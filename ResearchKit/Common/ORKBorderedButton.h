@@ -36,6 +36,13 @@
 NS_ASSUME_NONNULL_BEGIN
 
 ORK_CLASS_AVAILABLE
+
+@interface CALayer (ORKCornerCurveContinuousCategory)
+
+- (void)setCornerCurveContinuous;
+
+@end
+
 @interface ORKBorderedButton : ORKTextButton
 
 /**
