@@ -29,14 +29,14 @@
  */
 
 #import "ORKTinnitusWhiteNoiseMatchingSoundStep.h"
-#import "ORKTinnitusWhitenoiseMatchingSoundStepViewController.h"
+#import "ORKTinnitusWhiteNoiseMatchingSoundStepViewController.h"
 #import "ORKTinnitusPredefinedTaskConstants.h"
 #import "ORKHelpers_Internal.h"
 
 @implementation ORKTinnitusWhiteNoiseMatchingSoundStep
 
 + (Class)stepViewControllerClass {
-    return [ORKTinnitusWhitenoiseMatchingSoundStepViewController class];
+    return [ORKTinnitusWhiteNoiseMatchingSoundStepViewController class];
 }
 
 - (instancetype)initWithIdentifier:(NSString *)identifier soundName:(NSString *)soundName {

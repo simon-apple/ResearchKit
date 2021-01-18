@@ -47,7 +47,7 @@
 #import <ResearchKit/ORKTowerOfHanoiResult.h>
 #import <ResearchKit/ORKTrailmakingResult.h>
 #import <ResearchKit/ORKTinnitusPureToneResult.h>
-#import <ResearchKit/ORKTinnitusWhitenoiseMatchingSoundResult.h>
+#import <ResearchKit/ORKTinnitusWhiteNoiseMatchingSoundResult.h>
 #import <ResearchKit/ORKTinnitusMaskingSoundResult.h>
 #import <ResearchKit/ORKTinnitusCalibrationResult.h>
 #import <ResearchKit/ORKTinnitusLoudnessMatchingResult.h>

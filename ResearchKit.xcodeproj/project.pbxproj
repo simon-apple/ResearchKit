@@ -944,14 +944,14 @@
 		E2471306252B991B00FF5431 /* ORKdBHLToneAudiometryCompletionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = E2471302252B991A00FF5431 /* ORKdBHLToneAudiometryCompletionStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		E2471307252B991B00FF5431 /* ORKdBHLToneAudiometryCompletionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = E2471303252B991A00FF5431 /* ORKdBHLToneAudiometryCompletionStep.m */; };
 		E2471308252B991B00FF5431 /* ORKdBHLToneAudiometryCompletionStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2471304252B991B00FF5431 /* ORKdBHLToneAudiometryCompletionStepViewController.m */; };
-		E26626AF2588E47D005A0FF8 /* ORKTinnitusWhitenoiseMatchingSoundStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = E26626A72588E47B005A0FF8 /* ORKTinnitusWhitenoiseMatchingSoundStepViewController.h */; };
-		E26626B02588E47D005A0FF8 /* ORKTinnitusWhitenoiseMatchingSoundContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = E26626A82588E47B005A0FF8 /* ORKTinnitusWhitenoiseMatchingSoundContentView.m */; };
-		E26626B12588E47D005A0FF8 /* ORKTinnitusWhitenoiseMatchingSoundResult.m in Sources */ = {isa = PBXBuildFile; fileRef = E26626A92588E47C005A0FF8 /* ORKTinnitusWhitenoiseMatchingSoundResult.m */; };
-		E26626B22588E47D005A0FF8 /* ORKTinnitusWhitenoiseMatchingSoundResult.h in Headers */ = {isa = PBXBuildFile; fileRef = E26626AA2588E47C005A0FF8 /* ORKTinnitusWhitenoiseMatchingSoundResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E26626AF2588E47D005A0FF8 /* ORKTinnitusWhiteNoiseMatchingSoundStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = E26626A72588E47B005A0FF8 /* ORKTinnitusWhiteNoiseMatchingSoundStepViewController.h */; };
+		E26626B02588E47D005A0FF8 /* ORKTinnitusWhiteNoiseMatchingSoundContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = E26626A82588E47B005A0FF8 /* ORKTinnitusWhiteNoiseMatchingSoundContentView.m */; };
+		E26626B12588E47D005A0FF8 /* ORKTinnitusWhiteNoiseMatchingSoundResult.m in Sources */ = {isa = PBXBuildFile; fileRef = E26626A92588E47C005A0FF8 /* ORKTinnitusWhiteNoiseMatchingSoundResult.m */; };
+		E26626B22588E47D005A0FF8 /* ORKTinnitusWhiteNoiseMatchingSoundResult.h in Headers */ = {isa = PBXBuildFile; fileRef = E26626AA2588E47C005A0FF8 /* ORKTinnitusWhiteNoiseMatchingSoundResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E26626B32588E47D005A0FF8 /* ORKTinnitusWhiteNoiseMatchingSoundStep.h in Headers */ = {isa = PBXBuildFile; fileRef = E26626AB2588E47C005A0FF8 /* ORKTinnitusWhiteNoiseMatchingSoundStep.h */; };
 		E26626B42588E47D005A0FF8 /* ORKTinnitusWhiteNoiseMatchingSoundStep.m in Sources */ = {isa = PBXBuildFile; fileRef = E26626AC2588E47C005A0FF8 /* ORKTinnitusWhiteNoiseMatchingSoundStep.m */; };
-		E26626B52588E47D005A0FF8 /* ORKTinnitusWhitenoiseMatchingSoundStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E26626AD2588E47C005A0FF8 /* ORKTinnitusWhitenoiseMatchingSoundStepViewController.m */; };
-		E26626B62588E47D005A0FF8 /* ORKTinnitusWhitenoiseMatchingSoundContentView.h in Headers */ = {isa = PBXBuildFile; fileRef = E26626AE2588E47C005A0FF8 /* ORKTinnitusWhitenoiseMatchingSoundContentView.h */; };
+		E26626B52588E47D005A0FF8 /* ORKTinnitusWhiteNoiseMatchingSoundStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E26626AD2588E47C005A0FF8 /* ORKTinnitusWhiteNoiseMatchingSoundStepViewController.m */; };
+		E26626B62588E47D005A0FF8 /* ORKTinnitusWhiteNoiseMatchingSoundContentView.h in Headers */ = {isa = PBXBuildFile; fileRef = E26626AE2588E47C005A0FF8 /* ORKTinnitusWhiteNoiseMatchingSoundContentView.h */; };
 		E26626C02588E6D4005A0FF8 /* ORKTinnitusMaskingSoundStep.m in Sources */ = {isa = PBXBuildFile; fileRef = E26626B82588E6D3005A0FF8 /* ORKTinnitusMaskingSoundStep.m */; };
 		E26626C12588E6D4005A0FF8 /* ORKTinnitusMaskingSoundStep.h in Headers */ = {isa = PBXBuildFile; fileRef = E26626B92588E6D3005A0FF8 /* ORKTinnitusMaskingSoundStep.h */; };
 		E26626C22588E6D4005A0FF8 /* ORKTinnitusMaskingSoundResult.m in Sources */ = {isa = PBXBuildFile; fileRef = E26626BA2588E6D3005A0FF8 /* ORKTinnitusMaskingSoundResult.m */; };
@@ -2023,14 +2023,14 @@
 		E2471302252B991A00FF5431 /* ORKdBHLToneAudiometryCompletionStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKdBHLToneAudiometryCompletionStep.h; sourceTree = "<group>"; };
 		E2471303252B991A00FF5431 /* ORKdBHLToneAudiometryCompletionStep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKdBHLToneAudiometryCompletionStep.m; sourceTree = "<group>"; };
 		E2471304252B991B00FF5431 /* ORKdBHLToneAudiometryCompletionStepViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKdBHLToneAudiometryCompletionStepViewController.m; sourceTree = "<group>"; };
-		E26626A72588E47B005A0FF8 /* ORKTinnitusWhitenoiseMatchingSoundStepViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKTinnitusWhitenoiseMatchingSoundStepViewController.h; sourceTree = "<group>"; };
-		E26626A82588E47B005A0FF8 /* ORKTinnitusWhitenoiseMatchingSoundContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKTinnitusWhitenoiseMatchingSoundContentView.m; sourceTree = "<group>"; };
-		E26626A92588E47C005A0FF8 /* ORKTinnitusWhitenoiseMatchingSoundResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKTinnitusWhitenoiseMatchingSoundResult.m; sourceTree = "<group>"; };
-		E26626AA2588E47C005A0FF8 /* ORKTinnitusWhitenoiseMatchingSoundResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKTinnitusWhitenoiseMatchingSoundResult.h; sourceTree = "<group>"; };
+		E26626A72588E47B005A0FF8 /* ORKTinnitusWhiteNoiseMatchingSoundStepViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKTinnitusWhiteNoiseMatchingSoundStepViewController.h; sourceTree = "<group>"; };
+		E26626A82588E47B005A0FF8 /* ORKTinnitusWhiteNoiseMatchingSoundContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKTinnitusWhiteNoiseMatchingSoundContentView.m; sourceTree = "<group>"; };
+		E26626A92588E47C005A0FF8 /* ORKTinnitusWhiteNoiseMatchingSoundResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKTinnitusWhiteNoiseMatchingSoundResult.m; sourceTree = "<group>"; };
+		E26626AA2588E47C005A0FF8 /* ORKTinnitusWhiteNoiseMatchingSoundResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKTinnitusWhiteNoiseMatchingSoundResult.h; sourceTree = "<group>"; };
 		E26626AB2588E47C005A0FF8 /* ORKTinnitusWhiteNoiseMatchingSoundStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKTinnitusWhiteNoiseMatchingSoundStep.h; sourceTree = "<group>"; };
 		E26626AC2588E47C005A0FF8 /* ORKTinnitusWhiteNoiseMatchingSoundStep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKTinnitusWhiteNoiseMatchingSoundStep.m; sourceTree = "<group>"; };
-		E26626AD2588E47C005A0FF8 /* ORKTinnitusWhitenoiseMatchingSoundStepViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKTinnitusWhitenoiseMatchingSoundStepViewController.m; sourceTree = "<group>"; };
-		E26626AE2588E47C005A0FF8 /* ORKTinnitusWhitenoiseMatchingSoundContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKTinnitusWhitenoiseMatchingSoundContentView.h; sourceTree = "<group>"; };
+		E26626AD2588E47C005A0FF8 /* ORKTinnitusWhiteNoiseMatchingSoundStepViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKTinnitusWhiteNoiseMatchingSoundStepViewController.m; sourceTree = "<group>"; };
+		E26626AE2588E47C005A0FF8 /* ORKTinnitusWhiteNoiseMatchingSoundContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKTinnitusWhiteNoiseMatchingSoundContentView.h; sourceTree = "<group>"; };
 		E26626B82588E6D3005A0FF8 /* ORKTinnitusMaskingSoundStep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKTinnitusMaskingSoundStep.m; sourceTree = "<group>"; };
 		E26626B92588E6D3005A0FF8 /* ORKTinnitusMaskingSoundStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKTinnitusMaskingSoundStep.h; sourceTree = "<group>"; };
 		E26626BA2588E6D3005A0FF8 /* ORKTinnitusMaskingSoundResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKTinnitusMaskingSoundResult.m; sourceTree = "<group>"; };
@@ -4236,14 +4236,14 @@
 		E26626B72588E485005A0FF8 /* Matching */ = {
 			isa = PBXGroup;
 			children = (
-				E26626AE2588E47C005A0FF8 /* ORKTinnitusWhitenoiseMatchingSoundContentView.h */,
-				E26626A82588E47B005A0FF8 /* ORKTinnitusWhitenoiseMatchingSoundContentView.m */,
-				E26626AA2588E47C005A0FF8 /* ORKTinnitusWhitenoiseMatchingSoundResult.h */,
-				E26626A92588E47C005A0FF8 /* ORKTinnitusWhitenoiseMatchingSoundResult.m */,
+				E26626AE2588E47C005A0FF8 /* ORKTinnitusWhiteNoiseMatchingSoundContentView.h */,
+				E26626A82588E47B005A0FF8 /* ORKTinnitusWhiteNoiseMatchingSoundContentView.m */,
+				E26626AA2588E47C005A0FF8 /* ORKTinnitusWhiteNoiseMatchingSoundResult.h */,
+				E26626A92588E47C005A0FF8 /* ORKTinnitusWhiteNoiseMatchingSoundResult.m */,
 				E26626AB2588E47C005A0FF8 /* ORKTinnitusWhiteNoiseMatchingSoundStep.h */,
 				E26626AC2588E47C005A0FF8 /* ORKTinnitusWhiteNoiseMatchingSoundStep.m */,
-				E26626A72588E47B005A0FF8 /* ORKTinnitusWhitenoiseMatchingSoundStepViewController.h */,
-				E26626AD2588E47C005A0FF8 /* ORKTinnitusWhitenoiseMatchingSoundStepViewController.m */,
+				E26626A72588E47B005A0FF8 /* ORKTinnitusWhiteNoiseMatchingSoundStepViewController.h */,
+				E26626AD2588E47C005A0FF8 /* ORKTinnitusWhiteNoiseMatchingSoundStepViewController.m */,
 			);
 			name = Matching;
 			sourceTree = "<group>";
@@ -4797,7 +4797,7 @@
 				861D2AF01B8409D9008C4CD0 /* ORKTimedWalkContentView.h in Headers */,
 				2489F7B31D65214D008DEF20 /* ORKVideoCaptureStepViewController.h in Headers */,
 				86C40E0C1A8D7C5C00081FAC /* ORKConsentReviewStepViewController.h in Headers */,
-				E26626B62588E47D005A0FF8 /* ORKTinnitusWhitenoiseMatchingSoundContentView.h in Headers */,
+				E26626B62588E47D005A0FF8 /* ORKTinnitusWhiteNoiseMatchingSoundContentView.h in Headers */,
 				86C40C321A8D7C5C00081FAC /* ORKFitnessStepViewController.h in Headers */,
 				515B347524AD3BB6009CF844 /* ORKAVJournalingARSessionHelper.h in Headers */,
 				FF5CA6121D2C2670001660A3 /* ORKTableStep.h in Headers */,
@@ -4835,7 +4835,7 @@
 				86C40C901A8D7C5C00081FAC /* ORKActiveStepViewController_Internal.h in Headers */,
 				86C40CD81A8D7C5C00081FAC /* ORKTextFieldView.h in Headers */,
 				5D3196A523DA204000A27087 /* ORKSpeechInNoisePredefinedTask.h in Headers */,
-				E26626B22588E47D005A0FF8 /* ORKTinnitusWhitenoiseMatchingSoundResult.h in Headers */,
+				E26626B22588E47D005A0FF8 /* ORKTinnitusWhiteNoiseMatchingSoundResult.h in Headers */,
 				5192C2A12453949B0097DB41 /* ORKDetectionOverlayView.h in Headers */,
 				E26626B32588E47D005A0FF8 /* ORKTinnitusWhiteNoiseMatchingSoundStep.h in Headers */,
 				86C40DD01A8D7C5C00081FAC /* ORKTaskViewController_Private.h in Headers */,
@@ -4862,7 +4862,7 @@
 				86C40D2C1A8D7C5C00081FAC /* ORKHeadlineLabel.h in Headers */,
 				5190141924759E6800E3A418 /* ORKFrontFacingCameraStepResult.h in Headers */,
 				86C40D1C1A8D7C5C00081FAC /* ORKFormSectionTitleLabel.h in Headers */,
-				E26626AF2588E47D005A0FF8 /* ORKTinnitusWhitenoiseMatchingSoundStepViewController.h in Headers */,
+				E26626AF2588E47D005A0FF8 /* ORKTinnitusWhiteNoiseMatchingSoundStepViewController.h in Headers */,
 				5175145E245A4FF1009E8FFC /* ORKFrontFacingCameraStep.h in Headers */,
 				86C40CBC1A8D7C5C00081FAC /* UITouch+ORKJSONDictionary.h in Headers */,
 				5D1CE46823FDED92004CB416 /* ORKVolumeCalibrationContentView.h in Headers */,
@@ -5440,7 +5440,7 @@
 				BCD192E01B81240400FCC08A /* ORKPieChartPieView.m in Sources */,
 				515310D0233570CF007BCA58 /* ORKDontKnowButton.m in Sources */,
 				FF919A6E1E81D3B0005C2A1E /* ORKPasscodeResult.m in Sources */,
-				E26626B52588E47D005A0FF8 /* ORKTinnitusWhitenoiseMatchingSoundStepViewController.m in Sources */,
+				E26626B52588E47D005A0FF8 /* ORKTinnitusWhiteNoiseMatchingSoundStepViewController.m in Sources */,
 				E26626C22588E6D4005A0FF8 /* ORKTinnitusMaskingSoundResult.m in Sources */,
 				959A2C0E1D68C91400841B04 /* ORKShoulderRangeOfMotionStep.m in Sources */,
 				866F86011A96CBF3007B282C /* ORKSurveyAnswerCell.m in Sources */,
@@ -5570,7 +5570,7 @@
 				E220A36925711F4300C3C211 /* ORKTinnitusLoudnessMatchingStepViewController.m in Sources */,
 				86C40D081A8D7C5C00081FAC /* ORKCountdownLabel.m in Sources */,
 				86C40E121A8D7C5C00081FAC /* ORKConsentSceneViewController.m in Sources */,
-				E26626B02588E47D005A0FF8 /* ORKTinnitusWhitenoiseMatchingSoundContentView.m in Sources */,
+				E26626B02588E47D005A0FF8 /* ORKTinnitusWhiteNoiseMatchingSoundContentView.m in Sources */,
 				D442397E1AF17F7600559D96 /* ORKImageCaptureStepViewController.m in Sources */,
 				86C40CAE1A8D7C5C00081FAC /* ORKRecorder.m in Sources */,
 				E220A37225711F4300C3C211 /* ORKTinnitusLoudnessMatchingStep.m in Sources */,
@@ -5665,7 +5665,7 @@
 				86C40CE61A8D7C5C00081FAC /* ORKAnswerFormat.m in Sources */,
 				25ECC0961AFBD68300F3D63B /* ORKReactionTimeStep.m in Sources */,
 				BC13CE3A1B0660220044153C /* ORKNavigableOrderedTask.m in Sources */,
-				E26626B12588E47D005A0FF8 /* ORKTinnitusWhitenoiseMatchingSoundResult.m in Sources */,
+				E26626B12588E47D005A0FF8 /* ORKTinnitusWhiteNoiseMatchingSoundResult.m in Sources */,
 				5D58803A2410394F005B3D91 /* ORKSpeechInNoiseResult.m in Sources */,
 				2E8070FC1FAD217500E4FC7F /* ORKSpeechRecognitionStep.m in Sources */,
 				BA0AA6991EAEC0B600671ACE /* ORKStroopStepViewController.m in Sources */,

@@ -213,7 +213,7 @@ ORKTinnitusError const ORKTinnitusErrorTooHigh = @"TooHighFrequency";
 
 ORKTinnitusError const ORKTinnitusErrorTooLow = @"TooLowFrequency";
 
-ORKTinnitusMaskingSoundType const ORKTinnitusMaskingSoundTypeWhitenoise = @"WHITENOISE";
+ORKTinnitusMaskingSoundType const ORKTinnitusMaskingSoundTypeWhiteNoise = @"WHITENOISE";
 
 ORKTinnitusMaskingSoundType const ORKTinnitusMaskingSoundTypeCampfire = @"CAMPFIRE";
 
@@ -227,7 +227,7 @@ ORKTinnitusMaskingSoundType const ORKTinnitusMaskingSoundTypeCrowd = @"CROWDNOIS
 
 ORKTinnitusMaskingSoundType const ORKTinnitusMaskingSoundTypeAudiobook = @"AUDIOBOOK";
 
-ORKTinnitusNoiseType const ORKTinnitusNoiseTypeWhitenoise = @"WHITENOISE";
+ORKTinnitusNoiseType const ORKTinnitusNoiseTypeWhiteNoise = @"WHITENOISE";
 
 ORKTinnitusNoiseType const ORKTinnitusNoiseTypeCicadas = @"CICADAS";
 

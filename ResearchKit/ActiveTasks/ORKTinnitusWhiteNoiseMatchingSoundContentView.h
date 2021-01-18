@@ -28,13 +28,22 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ResearchKit/ResearchKit.h>
+@import UIKit;
+#import "ORKCustomStepView_Internal.h"
+#import "ORKTinnitusButtonView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ORKTinnitusWhitenoiseMatchingSoundResult : ORKResult
+@interface ORKTinnitusWhiteNoiseMatchingSoundContentView : ORKActiveStepCustomView
 
-@property (nonatomic, copy, nullable) NSString *answer;
+@property (nonatomic, strong, readonly) ORKTinnitusButtonView *whitenoiseButtonView;
+@property (nonatomic, strong, readonly) ORKTinnitusButtonView *cicadasButtonView;
+@property (nonatomic, strong, readonly) ORKTinnitusButtonView *cricketsButtonView;
+@property (nonatomic, strong, readonly) ORKTinnitusButtonView *teakettleButtonView;
+
+- (void)unselectAllExcept:(ORKTinnitusButtonView *)buttonView;
+//- (void)unselectAllExceptOther;
+- (nullable NSString *)getAnswer;
 
 @end
 

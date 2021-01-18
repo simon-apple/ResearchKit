@@ -28,7 +28,7 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "ORKTinnitusWhitenoiseMatchingSoundContentView.h"
+#import "ORKTinnitusWhiteNoiseMatchingSoundContentView.h"
 #import "ORKTinnitusPredefinedTaskConstants.h"
 #import "ORKHelpers_Internal.h"
 #import "ORKAnswerTextField.h"
@@ -38,7 +38,7 @@
 
 static const CGFloat ORKTinnitusGlowAdjustment = 16.0;
 
-@interface ORKTinnitusWhitenoiseMatchingSoundContentView () {
+@interface ORKTinnitusWhiteNoiseMatchingSoundContentView () {
     NSArray *_buttonsViewArray;
     UIScrollView *_scrollView;
 }
@@ -50,7 +50,7 @@ static const CGFloat ORKTinnitusGlowAdjustment = 16.0;
 
 @end
 
-@implementation ORKTinnitusWhitenoiseMatchingSoundContentView
+@implementation ORKTinnitusWhiteNoiseMatchingSoundContentView
 
 - (instancetype)init {
     self = [super init];
@@ -161,7 +161,7 @@ static const CGFloat ORKTinnitusGlowAdjustment = 16.0;
     } else if (_cricketsButtonView.isSelected) {
         return ORKTinnitusNoiseTypeCrickets;
     } else if (_whitenoiseButtonView.isSelected) {
-        return ORKTinnitusNoiseTypeWhitenoise;
+        return ORKTinnitusNoiseTypeWhiteNoise;
     } else if (_teakettleButtonView.isSelected) {
         return ORKTinnitusNoiseTypeTeakettle;
     }

@@ -152,7 +152,7 @@
         tinnitusCalibrationResult.amplitude = [self.audioGenerator getPuretoneSystemVolumeIndBSPL];
         tinnitusCalibrationResult.frequency = _frequency;
     } else {
-        tinnitusCalibrationResult.amplitude = [self.audioGenerator getWhiteNoiseSystemVolumeIndBSPL:ORKTinnitusNoiseTypeWhitenoise];
+        tinnitusCalibrationResult.amplitude = [self.audioGenerator getWhiteNoiseSystemVolumeIndBSPL:ORKTinnitusNoiseTypeWhiteNoise];
         tinnitusCalibrationResult.frequency = 0.0;
     }
     

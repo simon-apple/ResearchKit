@@ -93,7 +93,7 @@ NSString *const ORKTinnitusPuretoneMaskSoundNameExtension = @"wav";
     } else if([maskingSoundType isEqualToString:ORKTinnitusMaskingSoundTypeForest]) {
         buttonTitle = ORKLocalizedString(@"TINNITUS_PURETONE_MASKINGSOUND_FOREST_TITLE", nil);
         soundName = ORKTinnitusMaskingSoundForest;
-    } else if([maskingSoundType isEqualToString:ORKTinnitusMaskingSoundTypeWhitenoise]) {
+    } else if([maskingSoundType isEqualToString:ORKTinnitusMaskingSoundTypeWhiteNoise]) {
         buttonTitle = ORKLocalizedString(@"TINNITUS_WHITENOISE_TITLE", nil);
         soundName = ORKTinnitusMaskingSoundWhiteNoise;
     } else if([maskingSoundType isEqualToString:ORKTinnitusMaskingSoundTypeCrowd]) {

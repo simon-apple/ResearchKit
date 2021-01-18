@@ -395,7 +395,7 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
         if ([identifier isEqualToString:ORKTinnitusWhiteNoiseMatchingIdentifier]) {
             if ([_type isEqualToString:ORKTinnitusTypeWhiteNoise]) {
                 ORKStepResult *stepResult = [result stepResultForStepIdentifier:ORKTinnitusWhiteNoiseMatchingIdentifier];
-                ORKTinnitusWhitenoiseMatchingSoundResult *questionResult = (ORKTinnitusWhitenoiseMatchingSoundResult *)(stepResult.results.count > 0 ? stepResult.results.firstObject : nil);
+                ORKTinnitusWhiteNoiseMatchingSoundResult *questionResult = (ORKTinnitusWhiteNoiseMatchingSoundResult *)(stepResult.results.count > 0 ? stepResult.results.firstObject : nil);
                 NSString *answer = questionResult.answer;
                 if (answer != nil) {
                     _noiseType = answer;
@@ -566,7 +566,7 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
 - (BOOL)checkValidMaskingSound:(ORKTinnitusNoiseType)type {
     return [type isEqualToString:ORKTinnitusNoiseTypeCicadas]
     || [type isEqualToString:ORKTinnitusNoiseTypeCrickets]
-    || [type isEqualToString:ORKTinnitusNoiseTypeWhitenoise]
+    || [type isEqualToString:ORKTinnitusNoiseTypeWhiteNoise]
     || [type isEqualToString:ORKTinnitusNoiseTypeTeakettle];
 }
 
@@ -775,7 +775,7 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
 - (ORKTinnitusMaskingSoundStep *)whitenoiseMasking {
     ORKTinnitusMaskingSoundStep *whitenoiseMasking = [[ORKTinnitusMaskingSoundStep alloc]
                                                       initWithIdentifier:ORKTinnitusMaskingWhiteNoiseIdentifier
-                                                      maskingSoundType:ORKTinnitusMaskingSoundTypeWhitenoise];
+                                                      maskingSoundType:ORKTinnitusMaskingSoundTypeWhiteNoise];
     whitenoiseMasking.title = ORKLocalizedString(@"TINNITUS_MASKING_TITLE", nil);
     whitenoiseMasking.text = ORKLocalizedString(@"TINNITUS_MASKING_TEXT", nil);
     whitenoiseMasking.shouldTintImages = YES;
@@ -785,7 +785,7 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
 - (ORKTinnitusMaskingSoundStep *)whitenoiseMaskingNotch {
     ORKTinnitusMaskingSoundStep *whitenoiseMaskingNotch = [[ORKTinnitusMaskingSoundStep alloc]
                                                            initWithIdentifier:ORKTinnitusMaskingWhiteNoiseNotchIdentifier
-                                                           maskingSoundType:ORKTinnitusMaskingSoundTypeWhitenoise
+                                                           maskingSoundType:ORKTinnitusMaskingSoundTypeWhiteNoise
                                                            notchFrequency:_predominantFrequency];
     whitenoiseMaskingNotch.title = ORKLocalizedString(@"TINNITUS_MASKING_TITLE", nil);
     whitenoiseMaskingNotch.text = ORKLocalizedString(@"TINNITUS_MASKING_TEXT", nil);

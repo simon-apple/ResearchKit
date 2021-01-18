@@ -108,7 +108,7 @@
         [self setupAudioEngineForFilename:ORKTinnitusMaskingSoundCrickets];
     } else if ([noiseType isEqualToString:ORKTinnitusNoiseTypeCicadas]) {
         [self setupAudioEngineForFilename:ORKTinnitusMaskingSoundCicadas];
-    } else if ([noiseType isEqualToString:ORKTinnitusNoiseTypeWhitenoise]) {
+    } else if ([noiseType isEqualToString:ORKTinnitusNoiseTypeWhiteNoise]) {
         [self setupAudioEngineForFilename:ORKTinnitusMaskingSoundWhiteNoise];
     }
 }

@@ -28,23 +28,52 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@import UIKit;
-#import "ORKCustomStepView_Internal.h"
-#import "ORKTinnitusButtonView.h"
+#import "ORKTinnitusWhiteNoiseMatchingSoundResult.h"
 
-NS_ASSUME_NONNULL_BEGIN
+#import "ORKResult_Private.h"
+#import "ORKHelpers_Internal.h"
 
-@interface ORKTinnitusWhitenoiseMatchingSoundContentView : ORKActiveStepCustomView
+@implementation ORKTinnitusWhiteNoiseMatchingSoundResult
 
-@property (nonatomic, strong, readonly) ORKTinnitusButtonView *whitenoiseButtonView;
-@property (nonatomic, strong, readonly) ORKTinnitusButtonView *cicadasButtonView;
-@property (nonatomic, strong, readonly) ORKTinnitusButtonView *cricketsButtonView;
-@property (nonatomic, strong, readonly) ORKTinnitusButtonView *teakettleButtonView;
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [super encodeWithCoder:aCoder];
+    ORK_ENCODE_OBJ(aCoder, answer);
+}
 
-- (void)unselectAllExcept:(ORKTinnitusButtonView *)buttonView;
-//- (void)unselectAllExceptOther;
-- (nullable NSString *)getAnswer;
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        ORK_DECODE_OBJ(aDecoder, answer);
+    }
+    return self;
+}
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
+- (BOOL)isEqual:(id)object {
+    BOOL isParentSame = [super isEqual:object];
+    
+    __typeof(self) castObject = object;
+    return (isParentSame &&
+            ORKEqualObjects(self.answer, castObject.answer)) ;
+}
+
+- (NSUInteger)hash {
+    return super.hash ^ self.answer.hash;
+}
+
+- (instancetype)copyWithZone:(NSZone *)zone {
+    ORKTinnitusWhiteNoiseMatchingSoundResult *result = [super copyWithZone:zone];
+    result.answer = [self.answer copy];
+    return result;
+}
+
+- (NSString *)descriptionWithNumberOfPaddingSpaces:(NSUInteger)numberOfPaddingSpaces {
+    return [NSString stringWithFormat:@"%@; Answer: %.@;",
+            [self descriptionPrefixWithNumberOfPaddingSpaces:numberOfPaddingSpaces],
+            self.answer];
+}
 
 @end
-
-NS_ASSUME_NONNULL_END

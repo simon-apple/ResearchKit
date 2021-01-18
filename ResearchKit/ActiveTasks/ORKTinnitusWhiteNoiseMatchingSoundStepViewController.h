@@ -32,7 +32,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ORKTinnitusWhitenoiseMatchingSoundStepViewController : ORKActiveStepViewController
+@interface ORKTinnitusWhiteNoiseMatchingSoundStepViewController : ORKActiveStepViewController
 
 @end
 

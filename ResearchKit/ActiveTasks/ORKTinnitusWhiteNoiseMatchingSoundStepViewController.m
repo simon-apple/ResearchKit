@@ -28,11 +28,11 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "ORKTinnitusWhitenoiseMatchingSoundStepViewController.h"
+#import "ORKTinnitusWhiteNoiseMatchingSoundStepViewController.h"
 #import "ORKTinnitusWhiteNoiseMatchingSoundStep.h"
-#import "ORKTinnitusWhitenoiseMatchingSoundContentView.h"
+#import "ORKTinnitusWhiteNoiseMatchingSoundContentView.h"
 #import "ORKTinnitusPredefinedTaskConstants.h"
-#import "ORKTinnitusWhitenoiseMatchingSoundResult.h"
+#import "ORKTinnitusWhiteNoiseMatchingSoundResult.h"
 #import "ORKTinnitusAudioSample.h"
 
 #import "ORKActiveStepView.h"
@@ -45,8 +45,8 @@
 
 #import "ORKSkin.h"
 
-@interface ORKTinnitusWhitenoiseMatchingSoundStepViewController () <ORKTinnitusButtonViewDelegate> {
-    ORKTinnitusWhitenoiseMatchingSoundContentView *_maskingContentView;
+@interface ORKTinnitusWhiteNoiseMatchingSoundStepViewController () <ORKTinnitusButtonViewDelegate> {
+    ORKTinnitusWhiteNoiseMatchingSoundContentView *_maskingContentView;
 }
 
 @property (nonatomic, strong) AVAudioEngine *audioEngine;
@@ -55,14 +55,14 @@
 
 @end
 
-@implementation ORKTinnitusWhitenoiseMatchingSoundStepViewController
+@implementation ORKTinnitusWhiteNoiseMatchingSoundStepViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     [self setNavigationFooterView];
     
-    _maskingContentView = [[ORKTinnitusWhitenoiseMatchingSoundContentView alloc] init];
+    _maskingContentView = [[ORKTinnitusWhiteNoiseMatchingSoundContentView alloc] init];
     self.activeStepView.activeCustomView = _maskingContentView;
     self.activeStepView.customContentFillsAvailableSpace = YES;
     _maskingContentView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -145,7 +145,7 @@
     
     NSMutableArray *results = [NSMutableArray arrayWithArray:parentResult.results];
     
-    ORKTinnitusWhitenoiseMatchingSoundResult *maskingResult = [[ORKTinnitusWhitenoiseMatchingSoundResult alloc] initWithIdentifier:self.step.identifier];
+    ORKTinnitusWhiteNoiseMatchingSoundResult *maskingResult = [[ORKTinnitusWhiteNoiseMatchingSoundResult alloc] initWithIdentifier:self.step.identifier];
     
     maskingResult.answer = [_maskingContentView getAnswer];
     

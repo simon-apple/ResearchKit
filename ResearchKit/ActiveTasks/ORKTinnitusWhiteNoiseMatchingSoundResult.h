@@ -28,52 +28,14 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "ORKTinnitusWhitenoiseMatchingSoundResult.h"
+#import <ResearchKit/ResearchKit.h>
 
-#import "ORKResult_Private.h"
-#import "ORKHelpers_Internal.h"
+NS_ASSUME_NONNULL_BEGIN
 
-@implementation ORKTinnitusWhitenoiseMatchingSoundResult
+@interface ORKTinnitusWhiteNoiseMatchingSoundResult : ORKResult
 
-- (void)encodeWithCoder:(NSCoder *)aCoder {
-    [super encodeWithCoder:aCoder];
-    ORK_ENCODE_OBJ(aCoder, answer);
-}
-
-- (id)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    if (self) {
-        ORK_DECODE_OBJ(aDecoder, answer);
-    }
-    return self;
-}
-
-+ (BOOL)supportsSecureCoding {
-    return YES;
-}
-
-- (BOOL)isEqual:(id)object {
-    BOOL isParentSame = [super isEqual:object];
-    
-    __typeof(self) castObject = object;
-    return (isParentSame &&
-            ORKEqualObjects(self.answer, castObject.answer)) ;
-}
-
-- (NSUInteger)hash {
-    return super.hash ^ self.answer.hash;
-}
-
-- (instancetype)copyWithZone:(NSZone *)zone {
-    ORKTinnitusWhitenoiseMatchingSoundResult *result = [super copyWithZone:zone];
-    result.answer = [self.answer copy];
-    return result;
-}
-
-- (NSString *)descriptionWithNumberOfPaddingSpaces:(NSUInteger)numberOfPaddingSpaces {
-    return [NSString stringWithFormat:@"%@; Answer: %.@;",
-            [self descriptionPrefixWithNumberOfPaddingSpaces:numberOfPaddingSpaces],
-            self.answer];
-}
+@property (nonatomic, copy, nullable) NSString *answer;
 
 @end
+
+NS_ASSUME_NONNULL_END
