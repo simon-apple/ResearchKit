@@ -47,6 +47,7 @@ struct AllowScreens {
     func allowHealthAccess() {
         if healthAccessScreen.exists {
             app.tables.staticTexts["Turn All Categories On"].tap()
+            sleep(1)
             app.navigationBars["Health Access"].buttons["Allow"].tap()
         }
     }
@@ -65,12 +66,12 @@ struct AllowScreens {
             let healthTask = app.tables.staticTexts[task]
             healthTask.tap()
             
-            sleep(2)
+            sleep(3)
             if healthAccessScreen.exists {
                 allowHealthAccess()
             }
             
-            sleep(1)
+            sleep(2)
             guard let cancelButton = commonElements.cancelButton else {
                 XCTFail("Unable to locate Cancel Button")
                 return false
