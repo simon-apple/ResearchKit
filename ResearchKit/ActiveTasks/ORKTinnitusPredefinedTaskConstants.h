@@ -31,53 +31,6 @@
 #ifndef ORKTinnitusPredefinedTaskConstants_h
 #define ORKTinnitusPredefinedTaskConstants_h
 
-// Survey answer values
-static NSString *const ORKTinnitusSurveyAnswerYes = @"YES";
-static NSString *const ORKTinnitusSurveyAnswerNo = @"NO";
-static NSString *const ORKTinnitusSurveyAnswerPNTA = @"PNTA";
-static NSString *const ORKTinnitusSurveyAnswerOther = @"OTHER";
-
-static NSString *const ORKTinnitusSurveyAnswerNever = @"NEVER";
-static NSString *const ORKTinnitusSurveyAnswerRarely = @"RARELY";
-static NSString *const ORKTinnitusSurveyAnswerSometimes = @"SOMETIMES";
-static NSString *const ORKTinnitusSurveyAnswerOften = @"OFTEN";
-static NSString *const ORKTinnitusSurveyAnswerAlways = @"ALWAYS";
-
-static NSString *const ORKTinnitusSurveyAnswerLeft = @"LEFT";
-static NSString *const ORKTinnitusSurveyAnswerRight = @"RIGHT";
-static NSString *const ORKTinnitusSurveyAnswerBoth = @"BOTH";
-
-static NSString *const ORKTinnitusSurveyAnswerExtremely = @"EXTREMELY";
-static NSString *const ORKTinnitusSurveyAnswerVery = @"VERY";
-static NSString *const ORKTinnitusSurveyAnswerModerately = @"MODERATELY";
-static NSString *const ORKTinnitusSurveyAnswerNotVery = @"NOTVERY";
-static NSString *const ORKTinnitusSurveyAnswerBarely = @"BARELY";
-
-static NSString *const ORKTinnitusSurveyAnswerApp = @"APP";
-static NSString *const ORKTinnitusSurveyAnswerFan = @"FAN";
-static NSString *const ORKTinnitusSurveyAnswerNoise = @"NOISE";
-static NSString *const ORKTinnitusSurveyAnswerHearingAid = @"HEARING_AID";
-
-static NSString *const ORKTinnitusSurveyAnswerBlog = @"BLOG";
-static NSString *const ORKTinnitusSurveyAnswerResearch = @"RESEARCH";
-static NSString *const ORKTinnitusSurveyAnswerAudiologist = @"AUDIOLOGIST";
-static NSString *const ORKTinnitusSurveyAnswerWord = @"WORD_OF_MOUTH";
-
-static NSString *const ORKTinnitusSurveyAnswerDidNotKnow = @"DID_NOT_KNOW";
-static NSString *const ORKTinnitusSurveyAnswerDoNotNeed = @"DO_NOT_NEED";
-static NSString *const ORKTinnitusSurveyAnswerDoctorAgainst = @"DOCTOR_AGAINST";
-
-static NSString *const ORKTinnitusSurveyAnswerMusic = @"MUSIC";
-static NSString *const ORKTinnitusSurveyAnswerSpeech = @"SPEECH";
-static NSString *const ORKTinnitusSurveyAnswerNature = @"NATURE";
-static NSString *const ORKTinnitusSurveyAnswerModulatedTones = @"MODULATED_TONES";
-
-static NSString *const ORKTinnitusSurveyAnswerFocus = @"FOCUS";
-static NSString *const ORKTinnitusSurveyAnswerAsleep = @"ASLEEP";
-static NSString *const ORKTinnitusSurveyAnswerExercising = @"EXERCISING";
-static NSString *const ORKTinnitusSurveyAnswerRelax = @"RELAX";
-
-
 //// Masking matching sounds
 static NSString *const ORKTinnitusMaskingSoundFire = @"campfire";
 static NSString *const ORKTinnitusMaskingSoundRain = @"rain";

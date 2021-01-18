@@ -28,12 +28,12 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "ORKTinnitusWhitenoiseMatchingSoundStep.h"
+#import "ORKTinnitusWhiteNoiseMatchingSoundStep.h"
 #import "ORKTinnitusWhitenoiseMatchingSoundStepViewController.h"
 #import "ORKTinnitusPredefinedTaskConstants.h"
 #import "ORKHelpers_Internal.h"
 
-@implementation ORKTinnitusWhitenoiseMatchingSoundStep
+@implementation ORKTinnitusWhiteNoiseMatchingSoundStep
 
 + (Class)stepViewControllerClass {
     return [ORKTinnitusWhitenoiseMatchingSoundStepViewController class];
@@ -52,7 +52,7 @@
 }
 
 - (instancetype)copyWithZone:(NSZone *)zone {
-    ORKTinnitusWhitenoiseMatchingSoundStep *step = [super copyWithZone:zone];
+    ORKTinnitusWhiteNoiseMatchingSoundStep *step = [super copyWithZone:zone];
     step.soundName = [self.soundName copy];
     return step;
 }

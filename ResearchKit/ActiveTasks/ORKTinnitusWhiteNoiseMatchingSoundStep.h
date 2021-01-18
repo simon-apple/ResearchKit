@@ -35,7 +35,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ORKTinnitusWhitenoiseMatchingSoundStep : ORKActiveStep
+@interface ORKTinnitusWhiteNoiseMatchingSoundStep : ORKActiveStep
 
 /*
  The sound filename that will be played (does not include the extension)

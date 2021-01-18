@@ -29,7 +29,7 @@
  */
 
 #import "ORKTinnitusWhitenoiseMatchingSoundStepViewController.h"
-#import "ORKTinnitusWhitenoiseMatchingSoundStep.h"
+#import "ORKTinnitusWhiteNoiseMatchingSoundStep.h"
 #import "ORKTinnitusWhitenoiseMatchingSoundContentView.h"
 #import "ORKTinnitusPredefinedTaskConstants.h"
 #import "ORKTinnitusWhitenoiseMatchingSoundResult.h"
