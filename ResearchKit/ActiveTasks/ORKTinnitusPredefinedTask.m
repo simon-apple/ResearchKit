@@ -42,6 +42,7 @@
 #import "ORKTinnitusAudioSample.h"
 #import <ResearchKit/ResearchKit_Private.h>
 
+static NSString *const ORKTinnitusTestingInstructionStepIdentifier = @"tinnitus.instruction.2";
 static NSString *const ORKTinnitusHeadphoneDetectStepIdentifier = @"tinnitus.headphonedetect";
 static NSString *const ORKTinnitusSPLMeterStepIdentifier = @"tinnitus.splmeter";
 static NSString *const ORKTinnitusTypeStepIdentifier = @"tinnitus.type";
@@ -345,12 +346,7 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
 #pragma mark - Task Methods
 
 - (ORKStep *)prependedStepAfterStep:(ORKStep *)step {
-#if TARGET_IPHONE_SIMULATOR
-    ORKStep *firstPredefinedStep = [ORKTinnitusPredefinedTask tinnitusType];
-#else
-    ORKStep *firstPredefinedStep = [ORKTinnitusPredefinedTask headphone];
-#endif
-
+    ORKStep *firstPredefinedStep = [ORKTinnitusPredefinedTask testingInstruction];
     if (step == nil) {
         ORKStep *firstPrependedStep = [_prependSteps firstObject];
         if (firstPrependedStep) {
@@ -407,6 +403,12 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
                 return [self soundLoudnessMatching];
             }
             return [self fireMasking];
+        } else if ([identifier isEqualToString:ORKTinnitusTestingInstructionStepIdentifier]) {
+#if TARGET_IPHONE_SIMULATOR
+            return [ORKTinnitusPredefinedTask tinnitusType];
+#else
+            return [ORKTinnitusPredefinedTask headphone];
+#endif
         } else if ([identifier isEqualToString:ORKTinnitusVolumeCalibrationStepIdentifier]) {
             ORKStepResult *stepResult = [result stepResultForStepIdentifier:ORKTinnitusTypeStepIdentifier];
             ORKTinnitusTypeResult *questionResult = (ORKTinnitusTypeResult *)(stepResult.results.count > 0 ? stepResult.results.firstObject : nil);
@@ -633,6 +635,32 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
     tinnitusType.text = ORKLocalizedString(@"TINNITUS_KIND_DETAIL", nil);
     tinnitusType.optional = NO;
     return [tinnitusType copy];
+}
+
++ (ORKInstructionStep *)testingInstruction {
+    ORKInstructionStep *testingInstruction = [[ORKInstructionStep alloc] initWithIdentifier:ORKTinnitusTestingInstructionStepIdentifier];
+    testingInstruction.title = ORKLocalizedString(@"TINNITUS_TESTING_INTRO_TITLE", nil);
+    testingInstruction.detailText = ORKLocalizedString(@"TINNITUS_TESTING_INTRO_TEXT", nil);
+    testingInstruction.shouldTintImages = YES;
+    
+    UIImage *img1;
+    UIImage *img2;
+    UIImage *img3;
+    
+    if (@available(iOS 13.0, *)) {
+        img1 = [UIImage systemImageNamed:@"ear"];
+        img2 = [UIImage systemImageNamed:@"volume.2"];
+        img3 = [UIImage systemImageNamed:@"stopwatch"];
+    }
+    
+    ORKBodyItem * item1 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"TINNITUS_TESTING_BODY_ITEM_TEXT_1", nil) detailText:nil image:img1 learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
+    ORKBodyItem * item2 = [[ORKBodyItem alloc] initWithHorizontalRule];
+    ORKBodyItem * item3 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"TINNITUS_TESTING_BODY_ITEM_TEXT_2", nil) detailText:nil image:img2 learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
+    ORKBodyItem * item4 = [[ORKBodyItem alloc] initWithHorizontalRule];
+    ORKBodyItem * item5 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"TINNITUS_TESTING_BODY_ITEM_TEXT_3", nil) detailText:nil image:img3 learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
+    
+    testingInstruction.bodyItems = @[item1,item2, item3, item4, item5];
+    return [testingInstruction copy];
 }
 
 + (ORKTinnitusCalibrationStep *)calibration {
