@@ -487,7 +487,8 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
 - (void)setupStraightStepAfterStepDict {
     [self initMaskingSteps];
     _stepAfterStepDict = @{
-        ORKTinnitusHeadphoneDetectStepIdentifier: [ORKTinnitusPredefinedTask tinnitusType],
+        ORKTinnitusHeadphoneDetectStepIdentifier: [ORKTinnitusPredefinedTask splmeter],
+        ORKTinnitusSPLMeterStepIdentifier: [ORKTinnitusPredefinedTask tinnitusType],
         ORKTinnitusTypeStepIdentifier: [ORKTinnitusPredefinedTask calibration],
         ORKTinnitusPitchMatchingStepIdentifier: [ORKTinnitusPredefinedTask round1],
         ORKTinnitusRound1StepIdentifier: [ORKTinnitusPredefinedTask round1SuccessCompleted],
