@@ -814,9 +814,13 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     [_childNavigationController popViewControllerAnimated:YES];
 }
 
+// Note that this method respects logic related to Review mode, Task termination,
+// earlyTerminationConfiguration, and the -shouldPresentStep: check implemented in
+// -flipToNextPageFrom:animated:
 - (void)goToStepWithIdentifier:(NSString *)identifier {
     if ([self.task stepWithIdentifier:_forcedNextStepIdentifier] == nil) {
         ORK_Log_Info("goToStepWithIdentifier: step for %@ identifier not found, ignoring navigation", _forcedNextStepIdentifier);
+        return;
     }
     _forcedNextStepIdentifier = [identifier copy];
     [self goForward];
@@ -1382,27 +1386,15 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     }
 }
 
+// Note that this method skips logic related to Review mode, Task termination,
+// earlyTerminationConfiguration, and the -shouldPresentStep: check implemented in
+// -flipToNextPageFrom:animated: and -flipToPreviousPageFrom:animated:
 - (void)flipToPageWithIdentifier:(NSString *)identifier forward:(BOOL)forward animated:(BOOL)animated
 {
-    NSUInteger index =
-    [[(ORKOrderedTask *)self.task steps] indexOfObjectPassingTest:^BOOL(ORKStep * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop)
-    {
-            if ([obj.identifier isEqualToString:identifier])
-            {
-                *stop = YES;
-                return YES;
-            }
-            
-            return NO;
-    }];
-        
-        if (index == NSNotFound) { return; }
-        
-        ORKStep *step = [[(ORKOrderedTask *)self.task steps] objectAtIndex:index];
-        if (step)
-        {
-            [self showStepViewController:[self viewControllerForStep:step] goForward:forward animated:animated];
-        }
+    ORKStep *step = [self.task stepWithIdentifier:identifier];
+    if (step) {
+        [self showStepViewController:[self viewControllerForStep:step] goForward:forward animated:animated];
+    }
 }
 
 #pragma mark -  ORKStepViewControllerDelegate

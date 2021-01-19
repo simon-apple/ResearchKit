@@ -42,6 +42,7 @@
 #import "ORKFormStepViewController.h"
 #import "ORKFormItem_Internal.h"
 #import "ORKActiveStep_Internal.h"
+#import "ORKEarlyTerminationConfiguration.h"
 #endif
 
 @implementation ORKOrderedTask {
@@ -108,9 +109,19 @@
 #pragma mark - ORKTask
 
 - (void)validateParameters {
-    NSArray *uniqueIdentifiers = [self.steps valueForKeyPath:@"@distinctUnionOfObjects.identifier"];
-    BOOL itemsHaveNonUniqueIdentifiers = ( self.steps.count != uniqueIdentifiers.count );
-    
+    NSInteger stepCount = 0;
+    NSMutableSet<NSString *> *uniqueStepIdentifiers = [NSMutableSet new];
+    for (ORKStep *step in self.steps) {
+        [uniqueStepIdentifiers addObject:step.identifier];
+        stepCount++;
+        #if TARGET_OS_IOS
+        if (step.earlyTerminationConfiguration.earlyTerminationStep != nil) {
+            [uniqueStepIdentifiers addObject:step.earlyTerminationConfiguration.earlyTerminationStep.identifier];
+            stepCount++;
+        }
+        #endif
+    }
+    BOOL itemsHaveNonUniqueIdentifiers = ( stepCount != uniqueStepIdentifiers.count );
     if (itemsHaveNonUniqueIdentifiers) {
         @throw [NSException exceptionWithName:NSGenericException reason:@"Each step should have a unique identifier" userInfo:nil];
     }
@@ -143,21 +154,25 @@
     NSMutableArray *newSteps = [_steps mutableCopy];
     [newSteps addObjectsFromArray:stepsToAdd];
     _steps = [newSteps copy];
+    [self validateParameters];
 }
 
 - (void)addStep:(ORKStep *)stepToAdd {
     [self addStepsFromArray:@[stepToAdd]];
+    [self validateParameters];
 }
 
 - (void)insertSteps:(NSArray<ORKStep *> *)stepsToInsert atIndexes:(NSIndexSet *)indexSet {
     NSMutableArray *newSteps = [_steps mutableCopy];
     [newSteps insertObjects:stepsToInsert atIndexes:indexSet];
     _steps = [newSteps copy];
+    [self validateParameters];
 }
 
 - (void)insertStep:(ORKStep *)stepToInsert atIndex:(NSUInteger)index {
     NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndex:index];
     [self insertSteps:@[stepToInsert] atIndexes:indexSet];
+    [self validateParameters];
 }
 
 - (NSUInteger)indexOfStep:(ORKStep *)step {
@@ -220,6 +235,11 @@
         if ([obj.identifier isEqualToString:identifier]) {
             step = obj;
             *stop = YES;
+        #if TARGET_OS_IOS
+        } else if ([obj.earlyTerminationConfiguration.earlyTerminationStep.identifier isEqualToString:identifier]) {
+            step = obj.earlyTerminationConfiguration.earlyTerminationStep;
+            *stop = YES;
+        #endif
         }
     }];
     return step;
