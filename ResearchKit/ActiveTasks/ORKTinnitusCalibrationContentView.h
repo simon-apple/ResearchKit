@@ -30,8 +30,9 @@
 
 #import <UIKit/UIKit.h>
 #import <ResearchKit/ORKTypes.h>
-#import "ORKCustomStepView_Internal.h"
+#import <ResearchKit/ORKTinnitusTypes.h>
 #import <ResearchKit/ORKBorderedButton.h>
+#import "ORKCustomStepView_Internal.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
