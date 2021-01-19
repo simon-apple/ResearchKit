@@ -99,7 +99,7 @@
 - (void)setNavigationFooterView {
     self.activeStepView.navigationFooterView.continueButtonItem = self.continueButtonItem;
     [self.activeStepView.navigationFooterView updateContinueAndSkipEnabled];
-    [self.activeStepView.navigationFooterView setShrunk:YES];
+    [self.activeStepView.navigationFooterView setHidden:YES];
 }
 
 - (void)viewDidLoad {
@@ -208,7 +208,7 @@
             if (_lastChosenFrequency != chosenFrequency) {
                 // user is confused the test ends
                 _lastChosenFrequency = chosenFrequency;
-                [self.activeStepView.navigationFooterView setShrunk:NO];
+                [self.activeStepView.navigationFooterView setHidden:NO];
             } else if (_aFrequencyIndex >= 6) {
                 // we can test lower octave
                 _bFrequencyIndex = _aFrequencyIndex;
@@ -217,12 +217,12 @@
                 _isLastIteraction = YES;
             } else {
                 _lastChosenFrequency = chosenFrequency;
-                [self.activeStepView.navigationFooterView setShrunk:NO];
+                [self.activeStepView.navigationFooterView setHidden:NO];
             }
             break;
         case 2:
             _lastChosenFrequency = chosenFrequency;
-            [self.activeStepView.navigationFooterView setShrunk:NO];
+            [self.activeStepView.navigationFooterView setHidden:NO];
             break;
     }
 }
@@ -411,22 +411,22 @@
         if (_lowerThresholdIndex > 0) {
             if (_aFrequencyIndex < _lowerThresholdIndex) {
                 _lastError = ORKTinnitusErrorInconsistency;
-                [self.activeStepView.navigationFooterView setShrunk:NO];
+                [self.activeStepView.navigationFooterView setHidden:NO];
             }
         }
         if (_higherThresholdIndex < _frequencies.count - 1) {
             if (_bFrequencyIndex > _higherThresholdIndex) {
                 _lastError = ORKTinnitusErrorInconsistency;
-                [self.activeStepView.navigationFooterView setShrunk:NO];
+                [self.activeStepView.navigationFooterView setHidden:NO];
             }
         }
         if (_aFrequencyIndex < 0 ) {
             _lastError = ORKTinnitusErrorTooLow;
-            [self.activeStepView.navigationFooterView setShrunk:NO];
+            [self.activeStepView.navigationFooterView setHidden:NO];
         }
         if (_bFrequencyIndex > _frequencies.count - 1) {
             _lastError = ORKTinnitusErrorTooHigh;
-            [self.activeStepView.navigationFooterView setShrunk:NO];
+            [self.activeStepView.navigationFooterView setHidden:NO];
         }
     }
     
@@ -438,7 +438,7 @@
     
     [_tinnitusContentView resetPlayButtons];
     
-    if (![self.activeStepView.navigationFooterView isShrunk]) {
+    if (![self.activeStepView.navigationFooterView isHidden]) {
         self.activeStepView.navigationFooterView.continueEnabled = YES;
         [_tinnitusContentView enablePlayButtons:NO];
     } else {
