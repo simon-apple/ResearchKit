@@ -347,6 +347,7 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
 
 - (ORKStep *)prependedStepAfterStep:(ORKStep *)step {
     ORKStep *firstPredefinedStep = [ORKTinnitusPredefinedTask testingInstruction];
+    
     if (step == nil) {
         ORKStep *firstPrependedStep = [_prependSteps firstObject];
         if (firstPrependedStep) {
@@ -367,18 +368,22 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
 }
 
 - (ORKStep *)apendedStepAfterStep:(ORKStep *)step {
+    ORKStep *completionStep = [self completionSuccess];
     NSUInteger currentApendedStepIndex = [_appendSteps indexOfObject:step];
+    
     if (_appendSteps && currentApendedStepIndex == NSNotFound) {
         ORKStep *firstApendedStep = [_appendSteps firstObject];
         if (firstApendedStep) {
             return firstApendedStep;
         }
-        return self.completionSuccess;
+        return completionStep;
     } else {
         if (currentApendedStepIndex+1 < [_appendSteps count]) {
             return [_prependSteps objectAtIndex:currentApendedStepIndex+1];
+        } else if (![step.identifier isEqualToString:ORKTinnitusPuretoneSuccessStepIdentifier]) {
+            return completionStep;
         }
-        return self.completionSuccess;
+        return nil;
     }
 }
 
@@ -452,11 +457,11 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
     ORKStep *nextStep = [self dinamicStepAfterStep:step withResult:result];
     nextStep.context = _context;
 
-    if (!nextStep) {
-        return [self apendedStepAfterStep:step];
+    if (nextStep) {
+        return nextStep;
     }
-
-    return nextStep;
+    
+    return [self apendedStepAfterStep:step];
 }
 
 - (ORKStep *)stepBeforeStep:(ORKStep *)step withResult:(ORKTaskResult *)result {
@@ -487,8 +492,7 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
 - (void)setupStraightStepAfterStepDict {
     [self initMaskingSteps];
     _stepAfterStepDict = @{
-        ORKTinnitusHeadphoneDetectStepIdentifier: [ORKTinnitusPredefinedTask splmeter],
-        ORKTinnitusSPLMeterStepIdentifier: [ORKTinnitusPredefinedTask tinnitusType],
+        ORKTinnitusHeadphoneDetectStepIdentifier: [ORKTinnitusPredefinedTask tinnitusType],
         ORKTinnitusTypeStepIdentifier: [ORKTinnitusPredefinedTask calibration],
         ORKTinnitusPitchMatchingStepIdentifier: [ORKTinnitusPredefinedTask round1],
         ORKTinnitusRound1StepIdentifier: [ORKTinnitusPredefinedTask round1SuccessCompleted],
