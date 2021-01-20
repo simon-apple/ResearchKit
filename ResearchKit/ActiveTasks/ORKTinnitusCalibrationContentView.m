@@ -59,9 +59,11 @@
         [self addSubview:_playButtonView];
         self.translatesAutoresizingMaskIntoConstraints = NO;
         
+        _imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
         if (@available(iOS 13.0, *)) {
             UIImageConfiguration *configuration = [UIImageSymbolConfiguration configurationWithFont:[UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline] scale:UIImageSymbolScaleDefault];
             UIImage *speaker = [[UIImage systemImageNamed:@"speaker.2" withConfiguration:configuration] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+            _imageView.image = speaker;
         }
         _imageView.tintColor = UIColor.systemGrayColor;
         [self addSubview:_imageView];
