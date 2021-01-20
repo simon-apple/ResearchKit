@@ -74,12 +74,7 @@
     
     NSMutableAttributedString *infoString = [NSMutableAttributedString new];
     
-    UIColor *infoLabelColor;
-    if (@available(iOS 13.0, *)) {
-        infoLabelColor = [UIColor systemGrayColor];
-    } else {
-        infoLabelColor = [UIColor colorWithRed:142.0/255.0 green:142.0/255.0 blue:147.0/255.0 alpha:1];
-    }
+    UIColor *infoLabelColor = [UIColor systemGrayColor];
     NSDictionary *infoLabelAttrs = @{ NSForegroundColorAttributeName : infoLabelColor };
     NSTextAttachment *infoAttachment = [NSTextAttachment new];    
     

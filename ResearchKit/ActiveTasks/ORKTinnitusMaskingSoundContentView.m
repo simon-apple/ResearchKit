@@ -96,12 +96,16 @@ ORK_CLASS_AVAILABLE
     _titleLabel.numberOfLines = 1;
     _titleLabel.text = self.title;
     _titleLabel.textAlignment = NSTextAlignmentLeft;
-    _titleLabel.textColor = UIColor.ork_labelColor;
     _titleLabel.font = [UIFont systemFontOfSize:17.0 weight:UIFontWeightRegular];
+    if (@available(iOS 13.0, *)) {
+        _titleLabel.textColor = [UIColor labelColor];
+    } else {
+        _titleLabel.textColor = [UIColor blackColor];
+    }
     [self addSubview:_titleLabel];
     
     _separatorView = [UIView new];
-    _separatorView.backgroundColor = [[UIColor ork_systemGrayColor] colorWithAlphaComponent:0.5];
+    _separatorView.backgroundColor = [[UIColor systemGrayColor] colorWithAlphaComponent:0.5];
     _separatorView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:_separatorView];
     
@@ -187,15 +191,19 @@ ORK_CLASS_AVAILABLE
     _questionLabel.numberOfLines = 0;
     _questionLabel.text = ORKLocalizedString(@"TINNITUS_MASKING_QUESTION", nil);
     _questionLabel.textAlignment = NSTextAlignmentLeft;
-    _questionLabel.textColor = UIColor.ork_labelColor;
     _questionLabel.font = [UIFont systemFontOfSize:17.0 weight:UIFontWeightSemibold];
+    if (@available(iOS 13.0, *)) {
+        _questionLabel.textColor = [UIColor labelColor];
+    } else {
+        _questionLabel.textColor = [UIColor blackColor];
+    }
     [_scrollView addSubview:_questionLabel];
     [_questionLabel.leadingAnchor constraintEqualToAnchor:_scrollView.leadingAnchor constant:36.0].active = YES;
     [_questionLabel.trailingAnchor constraintEqualToAnchor:_scrollView.trailingAnchor constant:-36.0].active = YES;
     [_questionLabel.topAnchor constraintEqualToAnchor:_playButtonView.bottomAnchor constant:ORKTinnitusGlowAdjustment].active = YES;
     
     _separatorView = [UIView new];
-    _separatorView.backgroundColor = [[UIColor ork_systemGrayColor] colorWithAlphaComponent:0.5];
+    _separatorView.backgroundColor = [[UIColor systemGrayColor] colorWithAlphaComponent:0.5];
     _separatorView.translatesAutoresizingMaskIntoConstraints = NO;
     [_scrollView addSubview:_separatorView];
     [_separatorView.leadingAnchor constraintEqualToAnchor:_scrollView.leadingAnchor constant:ORKTinnitusGlowAdjustment].active = YES;

@@ -62,11 +62,8 @@
         if (@available(iOS 13.0, *)) {
             UIImageConfiguration *configuration = [UIImageSymbolConfiguration configurationWithFont:[UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline] scale:UIImageSymbolScaleDefault];
             UIImage *speaker = [[UIImage systemImageNamed:@"speaker.2" withConfiguration:configuration] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-            _imageView = [[UIImageView alloc] initWithImage:speaker];
-            _imageView.tintColor = UIColor.systemGrayColor;
-        } else {
-            _imageView.tintColor = UIColor.grayColor;
         }
+        _imageView.tintColor = UIColor.systemGrayColor;
         [self addSubview:_imageView];
         _imageView.translatesAutoresizingMaskIntoConstraints = NO;
         
@@ -74,11 +71,7 @@
         _textLabel.text = ORKLocalizedString(@"TINNITUS_CALIBRATION_TEXT2", nil);
         _textLabel.numberOfLines = 0;
         _textLabel.lineBreakMode = NSLineBreakByClipping;
-        if (@available(iOS 13.0, *)) {
-            _textLabel.textColor = UIColor.systemGrayColor;
-        } else {
-            _textLabel.textColor = UIColor.grayColor;
-        }
+        _textLabel.textColor = UIColor.systemGrayColor;
         _textLabel.font = [self subheadlineFontBold];
         _textLabel.textAlignment = NSTextAlignmentLeft;
         [self addSubview:_textLabel];

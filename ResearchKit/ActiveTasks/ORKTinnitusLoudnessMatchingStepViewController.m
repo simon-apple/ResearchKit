@@ -44,6 +44,8 @@
 #import "ORKNavigationContainerView_Internal.h"
 #import "ORKTinnitusButtonView.h"
 
+#import <ResearchKit/ORKTinnitusTypes.h>
+
 @interface ORKTinnitusLoudnessMatchingStepViewController () <ORKTinnitusButtonViewDelegate>
 
 @property (nonatomic, strong) ORKTinnitusCalibrationContentView *contentView;
