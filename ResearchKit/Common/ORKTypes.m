@@ -189,52 +189,6 @@ ORKSpeechRecognizerLocale const ORKSpeechRecognizerLocaleChineseHK = @"zh-HK";
 
 ORKSpeechRecognizerLocale const ORKSpeechRecognizerLocaleChineseTW = @"zh-TW";
 
-ORKTinnitusType const ORKTinnitusTypeWhiteNoise = @"whiteNoise";
-
-ORKTinnitusType const ORKTinnitusTypePureTone = @"pureTone";
-
-ORKTinnitusMaskingAnswer const ORKTinnitusMaskingAnswerDefinitely = @"DEFINITELY";
-
-ORKTinnitusMaskingAnswer const ORKTinnitusMaskingAnswerProbably = @"PROBABLY";
-
-ORKTinnitusMaskingAnswer const ORKTinnitusMaskingAnswerProbablyNot = @"PROBABLY_NOT";
-
-ORKTinnitusMaskingAnswer const ORKTinnitusMaskingAnswerPossibly = @"POSSIBLY";
-
-ORKTinnitusMaskingAnswer const ORKTinnitusMaskingAnswerDefinitelyNot = @"DEFINITELY_NOT";
-
-ORKTinnitusMaskingAnswer const ORKTinnitusMaskingAnswerNoneOfTheAbove = @"NOTA";
-
-ORKTinnitusError const ORKTinnitusErrorNone = @"-";
-
-ORKTinnitusError const ORKTinnitusErrorInconsistency = @"Inconsistency";
-
-ORKTinnitusError const ORKTinnitusErrorTooHigh = @"TooHighFrequency";
-
-ORKTinnitusError const ORKTinnitusErrorTooLow = @"TooLowFrequency";
-
-ORKTinnitusMaskingSoundType const ORKTinnitusMaskingSoundTypeWhiteNoise = @"WHITENOISE";
-
-ORKTinnitusMaskingSoundType const ORKTinnitusMaskingSoundTypeCampfire = @"CAMPFIRE";
-
-ORKTinnitusMaskingSoundType const ORKTinnitusMaskingSoundTypeRain = @"RAIN";
-
-ORKTinnitusMaskingSoundType const ORKTinnitusMaskingSoundTypeOcean = @"OCEAN";
-
-ORKTinnitusMaskingSoundType const ORKTinnitusMaskingSoundTypeForest = @"FOREST";
-
-ORKTinnitusMaskingSoundType const ORKTinnitusMaskingSoundTypeCrowd = @"CROWDNOISE";
-
-ORKTinnitusMaskingSoundType const ORKTinnitusMaskingSoundTypeAudiobook = @"AUDIOBOOK";
-
-ORKTinnitusNoiseType const ORKTinnitusNoiseTypeWhiteNoise = @"WHITENOISE";
-
-ORKTinnitusNoiseType const ORKTinnitusNoiseTypeCicadas = @"CICADAS";
-
-ORKTinnitusNoiseType const ORKTinnitusNoiseTypeCrickets = @"CRICKETS";
-
-ORKTinnitusNoiseType const ORKTinnitusNoiseTypeTeakettle = @"TEAKETTLE";
-
 const double ORKDoubleDefaultValue = DBL_MAX;
 
 const CGFloat ORKCGFloatDefaultValue = CGFLOAT_MAX;

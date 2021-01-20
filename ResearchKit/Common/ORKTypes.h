@@ -368,54 +368,6 @@ typedef NS_ENUM(NSInteger, ORKMeasurementSystem) {
 } ORK_ENUM_AVAILABLE;
 
 /**
- Type of tinnitus.
- */
-typedef NSString *ORKTinnitusType NS_STRING_ENUM;
-ORK_EXTERN ORKTinnitusType const ORKTinnitusTypeWhiteNoise;
-ORK_EXTERN ORKTinnitusType const ORKTinnitusTypePureTone;
-
-/**
- Types of tinnitus masking sounds.
- */
-typedef NSString *ORKTinnitusMaskingSoundType NS_STRING_ENUM;
-ORK_EXTERN ORKTinnitusMaskingSoundType const ORKTinnitusMaskingSoundTypeWhiteNoise;
-ORK_EXTERN ORKTinnitusMaskingSoundType const ORKTinnitusMaskingSoundTypeCampfire;
-ORK_EXTERN ORKTinnitusMaskingSoundType const ORKTinnitusMaskingSoundTypeRain;
-ORK_EXTERN ORKTinnitusMaskingSoundType const ORKTinnitusMaskingSoundTypeOcean;
-ORK_EXTERN ORKTinnitusMaskingSoundType const ORKTinnitusMaskingSoundTypeForest;
-ORK_EXTERN ORKTinnitusMaskingSoundType const ORKTinnitusMaskingSoundTypeCrowd;
-ORK_EXTERN ORKTinnitusMaskingSoundType const ORKTinnitusMaskingSoundTypeAudiobook;
-
-/**
- Types of tinnitus noise types.
- */
-typedef NSString *ORKTinnitusNoiseType NS_STRING_ENUM;
-ORK_EXTERN ORKTinnitusNoiseType const ORKTinnitusNoiseTypeWhiteNoise;
-ORK_EXTERN ORKTinnitusNoiseType const ORKTinnitusNoiseTypeCicadas;
-ORK_EXTERN ORKTinnitusNoiseType const ORKTinnitusNoiseTypeCrickets;
-ORK_EXTERN ORKTinnitusNoiseType const ORKTinnitusNoiseTypeTeakettle;
-
-/**
- Possible answers for probability of using a specific tinnitus masking sound.
- */
-typedef NSString *ORKTinnitusMaskingAnswer NS_STRING_ENUM;
-ORK_EXTERN ORKTinnitusMaskingAnswer const ORKTinnitusMaskingAnswerDefinitely;
-ORK_EXTERN ORKTinnitusMaskingAnswer const ORKTinnitusMaskingAnswerProbably;
-ORK_EXTERN ORKTinnitusMaskingAnswer const ORKTinnitusMaskingAnswerPossibly;
-ORK_EXTERN ORKTinnitusMaskingAnswer const ORKTinnitusMaskingAnswerProbablyNot;
-ORK_EXTERN ORKTinnitusMaskingAnswer const ORKTinnitusMaskingAnswerDefinitelyNot;
-ORK_EXTERN ORKTinnitusMaskingAnswer const ORKTinnitusMaskingAnswerNoneOfTheAbove;
-
-/**
- A set of error types associated with tinnitus pure tone results.
- */
-typedef NSString *ORKTinnitusError NS_STRING_ENUM;
-ORK_EXTERN ORKTinnitusError const ORKTinnitusErrorNone;                 // @"-"
-ORK_EXTERN ORKTinnitusError const ORKTinnitusErrorInconsistency;        // @"Inconsistency"
-ORK_EXTERN ORKTinnitusError const ORKTinnitusErrorTooHigh;              // @"TooHighFrequency"
-ORK_EXTERN ORKTinnitusError const ORKTinnitusErrorTooLow;               // @"TooLowFrequency"
-
-/**
  Route Identifiers for supported headphones chipset types.
  */
 typedef NSString * ORKHeadphoneChipsetIdentifier NS_STRING_ENUM;

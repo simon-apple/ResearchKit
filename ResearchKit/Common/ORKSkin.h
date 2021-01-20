@@ -169,43 +169,6 @@ void ORKColorSetColorForKey(NSString *key, UIColor *color);
 + (UIColor *)ork_darkGrayColor;
 + (UIColor *)ork_borderGrayColor;
 
-/// System colors when running iOS 13+  or the equivalent color in previous versions
-+ (UIColor *)ork_labelColor;
-+ (UIColor *)ork_secondaryLabelColor;
-+ (UIColor *)ork_tertiaryLabelColor;
-+ (UIColor *)ork_quaternaryLabelColor;
-+ (UIColor *)ork_systemFillColor;
-+ (UIColor *)ork_secondarySystemFillColor;
-+ (UIColor *)ork_tertiarySystemFillColor;
-+ (UIColor *)ork_quaternarySystemFillColor;
-+ (UIColor *)ork_placeholderTextColor;
-+ (UIColor *)ork_systemBackgroundColor;
-+ (UIColor *)ork_secondarySystemBackgroundColor;
-+ (UIColor *)ork_tertiarySystemBackgroundColor;
-+ (UIColor *)ork_systemGroupedBackgroundColor;
-+ (UIColor *)ork_secondarySystemGroupedBackgroundColor;
-+ (UIColor *)ork_tertiarySystemGroupedBackgroundColor;
-+ (UIColor *)ork_separatorColor;
-+ (UIColor *)ork_opaqueSeparatorColor;
-+ (UIColor *)ork_linkColor;
-+ (UIColor *)ork_darkTextColor;
-+ (UIColor *)ork_lightTextColor;
-+ (UIColor *)ork_systemBlueColor;
-+ (UIColor *)ork_systemGreenColor;
-+ (UIColor *)ork_systemIndigoColor;
-+ (UIColor *)ork_systemOrangeColor;
-+ (UIColor *)ork_systemPinkColor;
-+ (UIColor *)ork_systemPurpleColor;
-+ (UIColor *)ork_systemRedColor;
-+ (UIColor *)ork_systemTealColor;
-+ (UIColor *)ork_systemYellowColor;
-+ (UIColor *)ork_systemGrayColor;
-+ (UIColor *)ork_systemGray2Color;
-+ (UIColor *)ork_systemGray3Color;
-+ (UIColor *)ork_systemGray4Color;
-+ (UIColor *)ork_systemGray5Color;
-+ (UIColor *)ork_systemGray6Color;
-
 @end
 
 extern const CGFloat ORKScreenMetricMaxDimension;

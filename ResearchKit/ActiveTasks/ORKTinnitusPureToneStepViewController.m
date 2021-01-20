@@ -99,7 +99,7 @@
 - (void)setNavigationFooterView {
     self.activeStepView.navigationFooterView.continueButtonItem = self.continueButtonItem;
     [self.activeStepView.navigationFooterView updateContinueAndSkipEnabled];
-    [self.activeStepView.navigationFooterView setShrunk:YES];
+    [self.activeStepView.navigationFooterView setHidden:YES];
 }
 
 - (void)viewDidLoad {
@@ -114,7 +114,6 @@
     _roundLabel.text = [NSString stringWithFormat:ORKLocalizedString(@"TINNITUS_PURETONE_ROUND_X", nil), [[self tinnitusStep] roundNumber]];
     _roundLabel.numberOfLines = 0;
     _roundLabel.lineBreakMode = NSLineBreakByClipping;
-    _roundLabel.textColor = UIColor.ork_systemGrayColor;
     UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleHeadline];
     _roundLabel.font = [UIFont systemFontOfSize:[[descriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue] + 1.0 weight:UIFontWeightSemibold];
     _roundLabel.textAlignment = NSTextAlignmentLeft;
@@ -123,7 +122,12 @@
     [_roundLabel.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor constant:20.0].active = YES;
     [_roundLabel.topAnchor constraintEqualToAnchor:self.view.topAnchor constant:20.0].active = YES;
     [_roundLabel.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor constant:-20.0].active = YES;
-
+    if (@available(iOS 13.0, *)) {
+        _roundLabel.textColor = [UIColor systemGrayColor];
+    } else {
+        _roundLabel.textColor = [UIColor colorWithRed:142.0/255.0 green:142.0/255.0 blue:147.0/255.0 alpha:1];
+    }
+    
     [self resetVariables];
     
     self.tinnitusContentView = [[ORKTinnitusPureToneContentView alloc] init];
@@ -208,7 +212,7 @@
             if (_lastChosenFrequency != chosenFrequency) {
                 // user is confused the test ends
                 _lastChosenFrequency = chosenFrequency;
-                [self.activeStepView.navigationFooterView setShrunk:NO];
+                [self.activeStepView.navigationFooterView setHidden:NO];
             } else if (_aFrequencyIndex >= 6) {
                 // we can test lower octave
                 _bFrequencyIndex = _aFrequencyIndex;
@@ -217,12 +221,12 @@
                 _isLastIteraction = YES;
             } else {
                 _lastChosenFrequency = chosenFrequency;
-                [self.activeStepView.navigationFooterView setShrunk:NO];
+                [self.activeStepView.navigationFooterView setHidden:NO];
             }
             break;
         case 2:
             _lastChosenFrequency = chosenFrequency;
-            [self.activeStepView.navigationFooterView setShrunk:NO];
+            [self.activeStepView.navigationFooterView setHidden:NO];
             break;
     }
 }
@@ -411,22 +415,22 @@
         if (_lowerThresholdIndex > 0) {
             if (_aFrequencyIndex < _lowerThresholdIndex) {
                 _lastError = ORKTinnitusErrorInconsistency;
-                [self.activeStepView.navigationFooterView setShrunk:NO];
+                [self.activeStepView.navigationFooterView setHidden:NO];
             }
         }
         if (_higherThresholdIndex < _frequencies.count - 1) {
             if (_bFrequencyIndex > _higherThresholdIndex) {
                 _lastError = ORKTinnitusErrorInconsistency;
-                [self.activeStepView.navigationFooterView setShrunk:NO];
+                [self.activeStepView.navigationFooterView setHidden:NO];
             }
         }
         if (_aFrequencyIndex < 0 ) {
             _lastError = ORKTinnitusErrorTooLow;
-            [self.activeStepView.navigationFooterView setShrunk:NO];
+            [self.activeStepView.navigationFooterView setHidden:NO];
         }
         if (_bFrequencyIndex > _frequencies.count - 1) {
             _lastError = ORKTinnitusErrorTooHigh;
-            [self.activeStepView.navigationFooterView setShrunk:NO];
+            [self.activeStepView.navigationFooterView setHidden:NO];
         }
     }
     
@@ -438,7 +442,7 @@
     
     [_tinnitusContentView resetPlayButtons];
     
-    if (![self.activeStepView.navigationFooterView isShrunk]) {
+    if (![self.activeStepView.navigationFooterView isHidden]) {
         self.activeStepView.navigationFooterView.continueEnabled = YES;
         [_tinnitusContentView enablePlayButtons:NO];
     } else {

@@ -29,6 +29,7 @@
  */
 
 #import <ResearchKit/ORKResult.h>
+#import <ResearchKit/ORKTinnitusTypes.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

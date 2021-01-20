@@ -53,13 +53,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic) BOOL useNextForSkip;
 @property (nonatomic, getter=isOptional) BOOL optional;
-@property (nonatomic, readonly) BOOL isShrunk;
 
 @property (nonatomic) ORKNavigationContainerButtonStyle skipButtonStyle;
 @property (nonatomic) ORKNavigationContainerButtonStyle cancelButtonStyle;
 
 - (void)updateContinueAndSkipEnabled;
-- (void)setShrunk:(BOOL)shrunk;
 
 @end
 
