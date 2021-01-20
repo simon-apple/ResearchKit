@@ -114,7 +114,6 @@
     _roundLabel.text = [NSString stringWithFormat:ORKLocalizedString(@"TINNITUS_PURETONE_ROUND_X", nil), [[self tinnitusStep] roundNumber]];
     _roundLabel.numberOfLines = 0;
     _roundLabel.lineBreakMode = NSLineBreakByClipping;
-    _roundLabel.textColor = UIColor.ork_systemGrayColor;
     UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleHeadline];
     _roundLabel.font = [UIFont systemFontOfSize:[[descriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue] + 1.0 weight:UIFontWeightSemibold];
     _roundLabel.textAlignment = NSTextAlignmentLeft;
@@ -123,7 +122,12 @@
     [_roundLabel.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor constant:20.0].active = YES;
     [_roundLabel.topAnchor constraintEqualToAnchor:self.view.topAnchor constant:20.0].active = YES;
     [_roundLabel.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor constant:-20.0].active = YES;
-
+    if (@available(iOS 13.0, *)) {
+        _roundLabel.textColor = [UIColor systemGrayColor];
+    } else {
+        _roundLabel.textColor = [UIColor colorWithRed:142.0/255.0 green:142.0/255.0 blue:147.0/255.0 alpha:1];
+    }
+    
     [self resetVariables];
     
     self.tinnitusContentView = [[ORKTinnitusPureToneContentView alloc] init];

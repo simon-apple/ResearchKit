@@ -66,10 +66,10 @@ static const CGFloat ORKTinnitusButtonViewPadding = 16.0;
         return [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traits) {
             return traits.userInterfaceStyle == UIUserInterfaceStyleDark ?
             [self colorWithRed:9.0/255.0 green:107.0/255.0 blue:205.0/255.0 alpha:1] :
-            [self ork_systemBlueColor];
+            [self systemBlueColor];
         }];
     } else {
-        return [self ork_systemBlueColor];
+        return [self colorWithRed:0.0/255.0 green:122.0/255.0 blue:255.0/255.0 alpha:1];
     }
 }
 
@@ -77,7 +77,7 @@ static const CGFloat ORKTinnitusButtonViewPadding = 16.0;
     if (@available(iOS 13.0, *)) {
         return [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traits) {
             return traits.userInterfaceStyle == UIUserInterfaceStyleDark ?
-            [self ork_systemGray6Color] :
+            [self systemGray6Color] :
             [self colorWithRed:251.0/255.0 green:251.0/255.0 blue:252.0/255.0 alpha:1];
         }];
     } else {
@@ -89,7 +89,7 @@ static const CGFloat ORKTinnitusButtonViewPadding = 16.0;
     if (@available(iOS 13.0, *)) {
         return [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traits) {
             return traits.userInterfaceStyle == UIUserInterfaceStyleDark ?
-            [self ork_systemGray5Color]:
+            [self systemGray5Color]:
             [self colorWithRed:229.0/255.0 green:229.0/255.0 blue: 234.0 / 255.0 alpha:1];
         }];
     } else {
@@ -187,12 +187,16 @@ static const CGFloat ORKTinnitusButtonViewPadding = 16.0;
     _titleLabel.font = [[self class] headlineFont];
     _titleLabel.numberOfLines = 1;
     _titleLabel.textAlignment = NSTextAlignmentNatural;
-    _titleLabel.textColor = [UIColor ork_labelColor];
     [self addSubview:_titleLabel];
     _titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
     _titleLabel.text = _titleText;
     _titleLabel.minimumScaleFactor = 0.5;
     _titleLabel.adjustsFontSizeToFitWidth = YES;
+    if (@available(iOS 13.0, *)) {
+        _titleLabel.textColor = [UIColor labelColor];
+    } else {
+        _titleLabel.textColor = [UIColor blackColor];
+    }
     
     _detailLabel = [[UILabel alloc] init];
     _detailLabel.font = [[self class] subheadlineFont];
@@ -241,9 +245,15 @@ static const CGFloat ORKTinnitusButtonViewPadding = 16.0;
     _tapOffGestureRecognizer.delegate = self;
     [self addGestureRecognizer:_tapOffGestureRecognizer];
     
-    self.backgroundColor = UIColor.ork_secondarySystemBackgroundColor;
-    self.layer.borderColor = [UIColor ork_systemGray5Color].CGColor;
-    _imageView.tintColor = [UIColor ork_systemGray3Color];
+    if (@available(iOS 13.0, *)) {
+        self.backgroundColor = [UIColor secondarySystemBackgroundColor];
+        self.layer.borderColor = [UIColor systemGray5Color].CGColor;
+        _imageView.tintColor = [UIColor systemGray3Color];
+    } else {
+        self.backgroundColor = [UIColor colorWithRed:242.0/255.0 green:242.0/255.0 blue:247.0/255.0 alpha:1];
+        self.layer.borderColor = [UIColor colorWithRed:229.0/255.0 green:229.0/255.0 blue: 234.0 / 255.0 alpha:1].CGColor;
+        _imageView.tintColor = [UIColor colorWithRed:199.0/255.0 green:199.0/255.0 blue:204.0/255.0 alpha:1];
+    }
     
     _hapticFeedback = [[UIImpactFeedbackGenerator alloc] initWithStyle: UIImpactFeedbackStyleMedium];
     
@@ -308,16 +318,26 @@ static const CGFloat ORKTinnitusButtonViewPadding = 16.0;
     _selected = isSelected;
     dispatch_async(dispatch_get_main_queue(), ^{
         if (isSelected) {
-            self.layer.shadowColor = [UIColor ork_systemBlueColor].CGColor;
+            UIColor *systemBlueColor;
+            if (@available(iOS 13.0, *)) {
+                systemBlueColor = [UIColor systemBlueColor];
+            } else {
+                systemBlueColor = [UIColor colorWithRed:0.0/255.0 green:122.0/255.0 blue:255.0/255.0 alpha:1];
+            }
+            self.layer.shadowColor = systemBlueColor.CGColor;
             self.backgroundColor = [UIColor selectedBackgroundColor];
             self.layer.borderColor = [UIColor selectedLayerBorderColor].CGColor;
-            _imageView.tintColor = [UIColor ork_systemBlueColor];
+            _imageView.tintColor = systemBlueColor;
             
         } else {
             self.layer.shadowColor = [UIColor clearColor].CGColor;
             self.backgroundColor = [UIColor unselectedBackgroundColor];
             self.layer.borderColor = [UIColor unselectedLayerBorderColor].CGColor;
-            _imageView.tintColor = [UIColor ork_systemGray3Color];
+            if (@available(iOS 13.0, *)) {
+                _imageView.tintColor = [UIColor systemGray3Color];
+            } else {
+                _imageView.tintColor = [UIColor colorWithRed:199.0/255.0 green:199.0/255.0 blue:204.0/255.0 alpha:1];
+            }
         }
     });
 }
