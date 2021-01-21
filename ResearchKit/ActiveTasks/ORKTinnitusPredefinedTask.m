@@ -31,7 +31,6 @@
 #import "ORKTinnitusPredefinedTask.h"
 #import "ORKContext.h"
 #import "ORKTinnitusPredefinedTaskConstants.h"
-#import "ORKTinnitusPureToneInstructionStep.h"
 #import "ORKTinnitusPureToneStep.h"
 #import "ORKTinnitusCalibrationStep.h"
 #import "ORKTinnitusTypeStep.h"
@@ -410,11 +409,14 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
     return [calibration copy];
 }
 
-+ (ORKTinnitusPureToneInstructionStep *)pitchMatching {
-    
-    ORKTinnitusPureToneInstructionStep *pitchMatching = [[ORKTinnitusPureToneInstructionStep alloc] initWithIdentifier:ORKTinnitusPitchMatchingStepIdentifier];
++ (ORKInstructionStep *)pitchMatching {
+    ORKInstructionStep *pitchMatching = [[ORKInstructionStep alloc] initWithIdentifier:ORKTinnitusPitchMatchingStepIdentifier];
     pitchMatching.title = ORKLocalizedString(@"TINNITUS_FREQUENCY_MATCHING_TITLE", nil);
     pitchMatching.text = ORKLocalizedString(@"TINNITUS_FREQUENCY_MATCHING_DETAIL", nil);
+    
+    ORKBodyItem *item = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"TINNITUS_VOLUME_ADJUST_TEXT", nil) detailText:nil image:nil learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleBulletPoint];
+    pitchMatching.bodyItems = @[item];
+
     return [pitchMatching copy];
 }
 
