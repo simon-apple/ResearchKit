@@ -37,7 +37,7 @@ struct AllowScreens {
     let taskScreen = TaskScreen()
     
     var healthAccessScreen: XCUIElement {
-        app.navigationBars["Health Access"]
+        app.navigationBars.staticTexts["Health Access"]
     }
     
     var locationAccessAlert: XCUIElement {
@@ -67,9 +67,7 @@ struct AllowScreens {
             healthTask.tap()
             
             sleep(3)
-            if healthAccessScreen.exists {
-                allowHealthAccess()
-            }
+            allowHealthAccess()
             
             sleep(2)
             guard let cancelButton = commonElements.cancelButton else {
