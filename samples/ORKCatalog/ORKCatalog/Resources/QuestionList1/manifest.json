@@ -3,12 +3,14 @@
     "identifier" : "AVJournalStepIdentifier1",
     "question" : "Some question",
     "maxRecordingTime" : 45,
+    "countDownStartTime" : 40,
     "saveDepthDataIfAvailable" : true
   },
   {
     "identifier" : "AVJournalStepIdentifier2",
     "question" : "Some question",
     "maxRecordingTime" : 45,
+    "countDownStartTime" : 30,
     "saveDepthDataIfAvailable" : false
   }
 ]

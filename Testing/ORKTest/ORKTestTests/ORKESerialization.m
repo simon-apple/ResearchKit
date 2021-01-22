@@ -1291,6 +1291,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                         },
                         (@{
                             PROPERTY(maximumRecordingLimit, NSNumber, NSObject, YES, nil, nil),
+                            PROPERTY(countDownStartTime, NSNumber, NSObject, YES, nil, nil),
                             PROPERTY(saveDepthDataIfAvailable, NSNumber, NSObject, YES, nil, nil),
                         })),
            ENTRY(ORKTappingIntervalStep,

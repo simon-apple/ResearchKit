@@ -51,7 +51,7 @@ typedef void (^ORKAVJournalingStepContentViewEventHandler)(ORKAVJournalingStepCo
 
 - (void)setViewEventHandler:(ORKAVJournalingStepContentViewEventHandler)handler;
 
-- (void)startTimerWithMaximumRecordingLimit:(NSTimeInterval)maximumRecordingLimit;
+- (void)startTimerWithMaximumRecordingLimit:(NSTimeInterval)maximumRecordingLimit countDownStartTime:(NSInteger)countDownStartTime;
 
 - (void)setFaceDetected:(BOOL)detected faceBound:(CGRect)faceBounds originalSize:(CGSize)originalSize;
 
