@@ -36,6 +36,7 @@ ORK_CLASS_AVAILABLE
 @interface ORKAVJournalingStep : ORKActiveStep
 
 @property (nonatomic, assign) NSTimeInterval maximumRecordingLimit;
+@property (nonatomic, assign) NSInteger countDownStartTime;
 @property (nonatomic, assign) BOOL saveDepthDataIfAvailable;
 
 @end

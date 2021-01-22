@@ -158,6 +158,7 @@ static const CGFloat FramesToSkipTotal = 5.0;
     _contentView.layer.cornerRadius = 10.0;
     _contentView.layer.maskedCorners = kCALayerMinXMinYCorner | kCALayerMaxXMinYCorner;
     _contentView.clipsToBounds = YES;
+    
     __weak typeof(self) weakSelf = self;
     [_contentView setViewEventHandler:^(ORKAVJournalingStepContentViewEvent event) {
         [weakSelf handleContentViewEvent:event];
@@ -249,7 +250,9 @@ static const CGFloat FramesToSkipTotal = 5.0;
     [_sessionHelper startCapturing];
     _waitingOnUserToStartRecording = NO;
     
-    [_contentView startTimerWithMaximumRecordingLimit:_avJournalingStep.maximumRecordingLimit];
+    [_contentView startTimerWithMaximumRecordingLimit:_avJournalingStep.maximumRecordingLimit
+                                   countDownStartTime:_avJournalingStep.countDownStartTime];
+    
     [_contentView layoutSubviews];
 }
 

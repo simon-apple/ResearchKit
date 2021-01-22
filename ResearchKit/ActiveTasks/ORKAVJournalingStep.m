@@ -49,6 +49,7 @@ static const NSTimeInterval MAX_RECORDING_DURATION = 7260.0;
     self = [super initWithIdentifier:identifier];
     if (self) {
         _maximumRecordingLimit = 60.0;
+        _countDownStartTime = 30;
         _saveDepthDataIfAvailable = YES;
     }
     return self;
@@ -64,6 +65,12 @@ static const NSTimeInterval MAX_RECORDING_DURATION = 7260.0;
                                                MAX_RECORDING_DURATION]
                                      userInfo:nil];
     }
+    
+    if (self.countDownStartTime > self.maximumRecordingLimit) {
+        @throw [NSException exceptionWithName:NSInvalidArgumentException
+                                       reason:@"countDownStartTime must be less than or equal to the maximumRecordingLimit"
+                                     userInfo: nil];
+    }
 }
 
 - (BOOL)startsFinished {
@@ -77,6 +84,7 @@ static const NSTimeInterval MAX_RECORDING_DURATION = 7260.0;
 - (instancetype)copyWithZone:(NSZone *)zone {
     ORKAVJournalingStep *step = [super copyWithZone:zone];
     step.maximumRecordingLimit = self.maximumRecordingLimit;
+    step.countDownStartTime = self.countDownStartTime;
     step.saveDepthDataIfAvailable = self.saveDepthDataIfAvailable;
     return step;
 }
@@ -86,6 +94,7 @@ static const NSTimeInterval MAX_RECORDING_DURATION = 7260.0;
     if (self )
     {
         ORK_DECODE_DOUBLE(aDecoder, maximumRecordingLimit);
+        ORK_DECODE_INTEGER(aDecoder, countDownStartTime);
         ORK_DECODE_BOOL(aDecoder, saveDepthDataIfAvailable);
     }
     return self;
@@ -94,6 +103,7 @@ static const NSTimeInterval MAX_RECORDING_DURATION = 7260.0;
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [super encodeWithCoder:aCoder];
     ORK_ENCODE_DOUBLE(aCoder, maximumRecordingLimit);
+    ORK_ENCODE_INTEGER(aCoder, countDownStartTime);
     ORK_ENCODE_BOOL(aCoder, saveDepthDataIfAvailable);
 }
 
@@ -103,6 +113,7 @@ static const NSTimeInterval MAX_RECORDING_DURATION = 7260.0;
     
     return (isParentSame &&
             (self.maximumRecordingLimit == castObject.maximumRecordingLimit) &&
+            (self.countDownStartTime == castObject.countDownStartTime) &&
             (self.saveDepthDataIfAvailable == castObject.saveDepthDataIfAvailable));
 }
 

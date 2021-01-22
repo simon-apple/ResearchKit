@@ -215,10 +215,10 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierInstructionStep
         steps = [NSArray arrayWithObject:completionStep];
         
     } else {
-       steps = [ORKAVJournalingPredefinedTask predefinedStepsWithManifestPath:journalQuestionSetManifestPath
-                                                                                      prependSteps:prependSteps
-                                                                                       appendSteps:appendSteps
-                                                                                             error:&error];
+        steps = [ORKAVJournalingPredefinedTask predefinedStepsWithManifestPath:journalQuestionSetManifestPath
+                                                                  prependSteps:prependSteps
+                                                                   appendSteps:appendSteps
+                                                                         error:&error];
         
         if (error) {
             ORK_Log_Error("An error occurred while creating the predefined task. %@", error);
@@ -339,6 +339,7 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierInstructionStep
     NSString * const ManifestJSONKeyIdentifier = @"identifier";
     NSString * const ManifestJSONKeyQuestion = @"question";
     NSString * const ManifestJSONKeyMaxRecordingTime = @"maxRecordingTime";
+    NSString * const ManifestJSONKeyCountDownStartTime = @"countDownStartTime";
     NSString * const ManifestJSONKeySaveDepthDataIfAvailable = @"saveDepthDataIfAvailable";
     
     NSMutableArray<ORKAVJournalingStep *> *avJournalingSteps = [[NSMutableArray alloc] init];
@@ -351,14 +352,17 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierInstructionStep
         NSString *avJournalStepQuestion = (NSString *)[obj objectForKey:ManifestJSONKeyQuestion];
         NSString *avJournalStepSaveDepthDataIfAvailable = (NSString *)[obj objectForKey:ManifestJSONKeySaveDepthDataIfAvailable];
         NSString *avJournalStepMaxRecordingTime = (NSString *)[obj objectForKey:ManifestJSONKeyMaxRecordingTime];
+        NSString *avJournalStepCountDownStartTime = (NSString *)[obj objectForKey:ManifestJSONKeyCountDownStartTime];
         
         NSTimeInterval maxRecordingtime = [avJournalStepMaxRecordingTime doubleValue];
+        NSTimeInterval countDownStartTime = avJournalStepCountDownStartTime ? [avJournalStepCountDownStartTime integerValue] : 30;
         
         if (avJournalStepIdentifier && avJournalStepQuestion && [obj objectForKey:ManifestJSONKeyMaxRecordingTime] && [obj objectForKey:ManifestJSONKeySaveDepthDataIfAvailable]) {
             ORKAVJournalingStep *avJournalingStep = [[ORKAVJournalingStep alloc] initWithIdentifier:avJournalStepIdentifier];
             avJournalingStep.title = [NSString stringWithFormat:ORKLocalizedString(@"AV_JOURNALING_STEP_QUESTION_NUMBER_TEXT", nil), avJournalingSteps.count + 1, manifest.count];
             avJournalingStep.text = avJournalStepQuestion;
             avJournalingStep.maximumRecordingLimit = maxRecordingtime;
+            avJournalingStep.countDownStartTime = countDownStartTime;
             avJournalingStep.saveDepthDataIfAvailable = [avJournalStepSaveDepthDataIfAvailable boolValue];
             
             [avJournalingSteps addObject: avJournalingStep];

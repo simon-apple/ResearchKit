@@ -75,6 +75,7 @@ static const CGFloat ContentLeftRightPadding = 36.0;
     NSTimeInterval _maxRecordingTime;
     CGFloat _recordingTime;
     NSDateComponentsFormatter *_dateComponentsFormatter;
+    NSInteger _countDownStartTime;
     
     NSString *_titleText;
     NSString *_bodyText;
@@ -140,7 +141,6 @@ static const CGFloat ContentLeftRightPadding = 36.0;
     _countDownLabel.layer.opacity = 0;
     [_countDownLabel setFont:[self countDownLabelFont]];
     [_countDownLabel setTextColor:[UIColor systemRedColor]];
-    [_countDownLabel setText:[NSString stringWithFormat:ORKLocalizedString(@"AV_JOURNALING_STEP_NEXT_QUESTION_MESSAGE", nil), [self formattedTimeFromSeconds:30.0]]];
     [self addSubview:_countDownLabel];
     
     _questionNumberLabel = [UILabel new];
@@ -210,13 +210,15 @@ static const CGFloat ContentLeftRightPadding = 36.0;
     self.viewEventhandler = [handler copy];
 }
 
-- (void)startTimerWithMaximumRecordingLimit:(NSTimeInterval)maximumRecordingLimit {
+- (void)startTimerWithMaximumRecordingLimit:(NSTimeInterval)maximumRecordingLimit countDownStartTime:(NSInteger)countDownStartTime {
     if (_timer) {
         [_timer invalidate];
     }
     
     _maxRecordingTime = maximumRecordingLimit;
     _recordingTime = _maxRecordingTime;
+    _countDownStartTime = countDownStartTime;
+    
     _timer = [NSTimer scheduledTimerWithTimeInterval:1.0
                                               target:self
                                             selector:@selector(updateRecordingTime)
@@ -350,7 +352,7 @@ static const CGFloat ContentLeftRightPadding = 36.0;
             [self stopAndSubmitVideo];
         }
 
-    } else if (_recordingTime <= 30) {
+    } else if (_recordingTime <= _countDownStartTime) {
         if (!_countDownLabelShowing) {
             [self showCountDownLabel];
         }
@@ -363,6 +365,9 @@ static const CGFloat ContentLeftRightPadding = 36.0;
     dispatch_async(dispatch_get_main_queue(), ^(void) {
         [UIView animateWithDuration:0.8
                          animations:^{
+            
+            [_countDownLabel setText:[NSString stringWithFormat:ORKLocalizedString(@"AV_JOURNALING_STEP_NEXT_QUESTION_MESSAGE", nil), [self formattedTimeFromSeconds:_countDownStartTime]]];
+            
             _countDownLabel.layer.opacity = 1.0;
             
             [_questionNumberLabelTopConstraint setActive:NO];
