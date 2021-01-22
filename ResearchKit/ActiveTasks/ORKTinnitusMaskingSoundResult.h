@@ -32,6 +32,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NSString *ORKTinnitusMaskingSoundType NS_STRING_ENUM;
+
 @interface ORKTinnitusMaskingSoundResult : ORKResult
 
 @property (nonatomic, copy) ORKTinnitusMaskingSoundType maskingSoundType;

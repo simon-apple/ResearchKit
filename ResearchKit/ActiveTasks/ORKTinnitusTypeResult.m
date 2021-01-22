@@ -32,7 +32,7 @@
 
 #import "ORKResult_Private.h"
 #import "ORKHelpers_Internal.h"
-#import <ResearchKit/ORKTinnitusTypes.h>
+#import "ORKTinnitusTypes.h"
 
 @implementation ORKTinnitusTypeResult
 

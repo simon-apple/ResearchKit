@@ -43,8 +43,7 @@
 #import "ORKStepContainerView_Private.h"
 #import "ORKNavigationContainerView_Internal.h"
 #import "ORKTinnitusButtonView.h"
-
-#import <ResearchKit/ORKTinnitusTypes.h>
+#import "ORKTinnitusTypes.h"
 
 @interface ORKTinnitusLoudnessMatchingStepViewController () <ORKTinnitusButtonViewDelegate>
 

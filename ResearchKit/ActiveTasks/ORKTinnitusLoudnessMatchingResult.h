@@ -29,9 +29,11 @@
  */
 
 #import <ResearchKit/ResearchKit.h>
-#import <ResearchKit/ORKTinnitusTypes.h>
 
 NS_ASSUME_NONNULL_BEGIN
+
+typedef NSString *ORKTinnitusType NS_STRING_ENUM;
+typedef NSString *ORKTinnitusNoiseType NS_STRING_ENUM;
 
 ORK_CLASS_AVAILABLE
 @interface ORKTinnitusLoudnessMatchingResult : ORKResult

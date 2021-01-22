@@ -32,6 +32,7 @@
 #import "ORKTinnitusLoudnessMatchingStepViewController.h"
 #import "ORKTinnitusPredefinedTaskConstants.h"
 #import "ORKHelpers_Internal.h"
+#import "ORKTinnitusTypes.h"
 #include <math.h>
 
 #define ORKTinnitusCalibrationMinimumFrequency 300.0

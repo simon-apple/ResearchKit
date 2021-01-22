@@ -29,7 +29,7 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <ResearchKit/ORKTinnitusTypes.h>
+#import "ORKTinnitusTypes.h"
 
 ORKTinnitusType const ORKTinnitusTypeWhiteNoise = @"whiteNoise";
 

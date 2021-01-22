@@ -31,7 +31,7 @@
 @import Foundation;
 #import <ResearchKit/ORKDefines.h>
 #import <ResearchKit/ORKActiveStep.h>
-#import <ResearchKit/ORKTinnitusTypes.h>
+#import "ORKTinnitusTypes.h"
 #import "ORKTypes.h"
 
 NS_ASSUME_NONNULL_BEGIN

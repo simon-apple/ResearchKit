@@ -31,6 +31,7 @@
 #import "ORKTinnitusMaskingSoundContentView.h"
 #import "ORKTinnitusPredefinedTaskConstants.h"
 #import "ORKHelpers_Internal.h"
+#import "ORKTinnitusTypes.h"
 #import "ORKSkin.h"
 
 #import "ORKCheckmarkView.h"
