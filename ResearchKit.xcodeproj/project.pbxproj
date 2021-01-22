@@ -100,7 +100,7 @@
 		16A24B70230B70890094C4C2 /* Celestial_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 16A24B6F230B70890094C4C2 /* Celestial_Private.h */; };
 		1B4B95B81F5F012E006B629F /* ORKWeightPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B4B95B71F5F012E006B629F /* ORKWeightPicker.m */; };
 		1B4B95BA1F5F014E006B629F /* ORKWeightPicker.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B4B95B91F5F014E006B629F /* ORKWeightPicker.h */; };
-		22BFDF5E25B792BF0015D1E1 /* ORKTinnitusTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 22BFDF5D25B792BF0015D1E1 /* ORKTinnitusTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		22BFDF5E25B792BF0015D1E1 /* ORKTinnitusTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 22BFDF5D25B792BF0015D1E1 /* ORKTinnitusTypes.h */; };
 		22BFDF6A25B792D20015D1E1 /* ORKTinnitusTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 22BFDF6925B792D20015D1E1 /* ORKTinnitusTypes.m */; };
 		22BFE13C25BB73310015D1E1 /* ORKTinnitusAudioSample.m in Sources */ = {isa = PBXBuildFile; fileRef = 223AE98B25B235CB0080FE13 /* ORKTinnitusAudioSample.m */; };
 		22BFE14225BB73380015D1E1 /* ORKTinnitusAudioSample.h in Headers */ = {isa = PBXBuildFile; fileRef = 223AE98A25B235CB0080FE13 /* ORKTinnitusAudioSample.h */; };
