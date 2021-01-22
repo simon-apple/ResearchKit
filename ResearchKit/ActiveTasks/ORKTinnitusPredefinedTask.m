@@ -29,15 +29,18 @@
  */
 
 #import "ORKTinnitusPredefinedTask.h"
+#import "ORKContext.h"
 #import "ORKTinnitusPredefinedTaskConstants.h"
-
+#import "ORKTinnitusPureToneStep.h"
+#import "ORKTinnitusCalibrationStep.h"
+#import "ORKTinnitusTypeStep.h"
+#import "ORKTinnitusTypeResult.h"
 #import <ResearchKit/ResearchKit_Private.h>
 
 static NSString *const ORKTinnitusHeadphoneDetectStepIdentifier = @"tinnitus.headphonedetect";
 static NSString *const ORKTinnitusSPLMeterStepIdentifier = @"tinnitus.splmeter";
 static NSString *const ORKTinnitusTypeStepIdentifier = @"tinnitus.type";
 static NSString *const ORKTinnitusVolumeCalibrationStepIdentifier = @"tinnitus.volume.calibration";
-
 static NSString *const ORKTinnitusRound1StepIdentifier = @"tinnitus.puretone.1";
 static NSString *const ORKTinnitusRound1SuccessCompletedStepIdentifier = @"tinnitus.puretone.success.roundcomplete.1";
 static NSString *const ORKTinnitusRound1NoSuccessCompletedStepIdentifier = @"tinnitus.puretone.no.success.roundcomplete.1";
@@ -47,10 +50,8 @@ static NSString *const ORKTinnitusRound2NoSuccessCompletedStepIdentifier = @"tin
 static NSString *const ORKTinnitusRound3StepIdentifier = @"tinnitus.puretone.3";
 static NSString *const ORKTinnitusPuretoneNoSuccessStepIdentifier = @"tinnitus.puretone.no.success";
 static NSString *const ORKTinnitusPuretoneSuccessStepIdentifier = @"tinnitus.puretone.success";
-
 static NSString *const ORKTinnitusLoudnessMatchingStepIdentifier = @"tinnitus.loudness.matching";
 static NSString *const ORKTinnitusSoundLoudnessMatchingStepIdentifier = @"tinnitus.soundloudness.matching";
-
 static NSString *const ORKTinnitusMaskingCampfireIdentifier = @"tinnitus.masking.fire";
 static NSString *const ORKTinnitusMaskingCampfireNotchIdentifier = @"tinnitus.masking.fire.notch";
 static NSString *const ORKTinnitusMaskingWhitenoiseIdentifier = @"tinnitus.masking.whitenoise";
@@ -66,6 +67,77 @@ static NSString *const ORKTinnitusMaskingCrowdNotchIdentifier = @"tinnitus.maski
 static NSString *const ORKTinnitusMaskingAudiobookIdentifier = @"tinnitus.masking.audiobook";
 static NSString *const ORKTinnitusMaskingAudiobookNotchIdentifier = @"tinnitus.masking.audiobook.notch";
 static NSString *const ORKTinnitusWhitenoiseMatchingIdentifier = @"tinnitus.whitenoise.matching";
+static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instruction.5";
+
+@interface ORKTinnitusAudioSample : NSObject
+
+@property (nonatomic, readonly, nonnull) NSString *path;
+
+@property (nonatomic, readonly, nonnull) NSString *name;
+
++ (instancetype)new NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
+
++ (instancetype)sampleWithPath:(nonnull NSString *)path name:(nonnull NSString *)name;
+- (instancetype)initWithPath:(nonnull NSString *)path name:(nonnull NSString *)name;
+
+@end
+
+@implementation ORKTinnitusAudioSample
+
++ (instancetype)sampleWithPath:(nonnull NSString *)path name:(nonnull NSString *)name
+{
+    return [[ORKTinnitusAudioSample alloc] initWithPath:path name:name];
+}
+
+- (instancetype)initWithPath:(nonnull NSString *)path name:(nonnull NSString *)name
+{
+    self = [super init];
+    if (self)
+    {
+        _path = [path copy];
+        _name = [name copy];
+    }
+    return self;
+}
+
+@end
+
+@interface ORKTinnitusAudioManifest : NSObject
+
+@property (nonatomic, readonly, nonnull) NSArray<ORKTinnitusAudioSample *> *samples;
+
++ (instancetype)new NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
+
++ (instancetype)manifestWithSamples:(NSArray<ORKTinnitusAudioSample *> *)samples;
+
+- (instancetype)initWithSamples:(NSArray<ORKTinnitusAudioSample *> *)samples;
+
+@end
+
+@implementation ORKTinnitusAudioManifest
+
++ (instancetype)manifestWithSamples:(NSArray<ORKTinnitusAudioSample *> *)samples
+{
+    return [[ORKTinnitusAudioManifest alloc] initWithSamples:samples];
+}
+
+- (instancetype)initWithSamples:(NSArray<ORKTinnitusAudioSample *> *)samples
+{
+    self = [super init];
+    if (self)
+    {
+        _samples = [samples copy];
+    }
+    return self;
+}
+
+@end
+
+@implementation ORKTinnitusPredefinedTaskContext
+
+@end
 
 @implementation ORKTinnitusPredefinedTask
 
@@ -77,15 +149,16 @@ static NSString *const ORKTinnitusWhitenoiseMatchingIdentifier = @"tinnitus.whit
                        appendSteps:(nullable NSArray<ORKStep *> *)appendSteps {
 
     NSError *error = nil;
-    NSArray<ORKStep *> *steps = [ORKTinnitusPredefinedTask tinnitusPredefinedStepsWithAudioSetManifestPath:audioSetManifestPath
-                                                                                              prependSteps:prependSteps
-                                                                                               appendSteps:appendSteps
-                                                                                                     error:&error];
+    
+    ORKTinnitusAudioManifest *manifest = [ORKTinnitusPredefinedTask prefetchAudioSamplesFromManifest:audioSetManifestPath error:&error];
+    
     if (error)
     {
-        ORK_Log_Error("An error occurred while creating the predefined task. %@", error);
+        ORK_Log_Error("An error occurred while fetching audio assets. %@", error);
         return nil;
     }
+    
+    NSArray<ORKStep *> *steps = [ORKTinnitusPredefinedTask tinnitusPredefinedStepsWithPrependSteps:prependSteps appendSteps:appendSteps];
 
     self = [super initWithIdentifier:identifier steps:steps];
     if (self) {
@@ -93,11 +166,15 @@ static NSString *const ORKTinnitusWhitenoiseMatchingIdentifier = @"tinnitus.whit
         _prependSteps = [prependSteps copy];
         _appendSteps = [appendSteps copy];
 
+        ORKTinnitusPredefinedTaskContext *context = [[ORKTinnitusPredefinedTaskContext alloc] init];
+        context.audioManifest = manifest;
+        
         for (ORKStep *step in self.steps)
         {
             if ([step isKindOfClass:[ORKStep class]])
             {
                 [step setTask:self];
+                [step setContext:context];
             }
         }
     }
@@ -137,10 +214,8 @@ static NSString *const ORKTinnitusWhitenoiseMatchingIdentifier = @"tinnitus.whit
 
 #pragma mark - ORKTinnitus Predefined Task Creation
 
-+ (NSArray<ORKStep *> *)tinnitusPredefinedStepsWithAudioSetManifestPath:(nonnull NSString *)audioSetManifestPath
-                                                           prependSteps:(NSArray<ORKStep *> *)prependSteps
-                                                            appendSteps:(NSArray<ORKStep *> *)appendSteps
-                                                                  error:(NSError * _Nullable * _Nullable)error
++ (NSArray<ORKStep *> *)tinnitusPredefinedStepsWithPrependSteps:(NSArray<ORKStep *> *)prependSteps
+                                                    appendSteps:(NSArray<ORKStep *> *)appendSteps
 {
     NSMutableArray<ORKStep *> *steps = [[NSMutableArray alloc] init];
     
@@ -149,7 +224,7 @@ static NSString *const ORKTinnitusWhitenoiseMatchingIdentifier = @"tinnitus.whit
         [steps addObjectsFromArray:[prependSteps copy]];
     }
     
-    NSArray *predefinedSteps = [ORKTinnitusPredefinedTask tinnitusPredefinedTaskStepsWithAudioSetManifestPath:audioSetManifestPath error:error];
+    NSArray *predefinedSteps = [ORKTinnitusPredefinedTask tinnitusPredefinedTaskSteps];
 
     if (predefinedSteps != nil)
     {
@@ -163,8 +238,111 @@ static NSString *const ORKTinnitusWhitenoiseMatchingIdentifier = @"tinnitus.whit
     return [steps copy];
 }
 
-+ (NSArray<ORKStep *> *)tinnitusPredefinedTaskStepsWithAudioSetManifestPath:(nonnull NSString *)manifestPath error:(NSError * _Nullable * _Nullable)error {
++ (NSArray<ORKStep *> *)tinnitusPredefinedTaskSteps {
+        
+    NSMutableArray<ORKStep *> *steps = [[NSMutableArray alloc] init];
+    
+    [steps addObjectsFromArray:@[[self headphone],
+                                 [self splmeter],
+                                 [self tinnitusType],
+                                 [self calibration],
+                                 [self pitchMatching]]];
+    
+    return [steps copy];
+}
+
++ (nullable ORKTinnitusAudioManifest *)prefetchAudioSamplesFromManifest:(nonnull NSString *)path error:(NSError * _Nullable * _Nullable)error
+{
+    NSArray *samples = [ORKTinnitusPredefinedTask prefetchAudioSamplesFromManifestAtPath:path error:error];
+    
+    if (samples)
+    {
+        return [ORKTinnitusAudioManifest manifestWithSamples:samples];
+    }
+    
     return nil;
+}
+
++ (nullable NSArray<ORKTinnitusAudioSample *> *)prefetchAudioSamplesFromManifestAtPath:(nonnull NSString *)path error:(NSError * _Nullable * _Nullable)error
+{
+    NSFileManager *fileManager = [[NSFileManager alloc] init];
+    
+    if (![fileManager fileExistsAtPath:path])
+    {
+        if (error != NULL)
+        {
+            *error = [NSError errorWithDomain:ORKErrorDomain
+                                         code:ORKErrorException
+                                     userInfo:@{NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:@"Could not locate file at path %@", path]}];
+        }
+        return nil;
+    }
+    
+    NSData *data = [NSData dataWithContentsOfFile:path options:0 error:error];
+    if (!data)
+    {
+        return nil;
+    }
+    
+    NSArray<NSDictionary *> *manifest = [NSJSONSerialization JSONObjectWithData:data options:0 error:error];
+    if (!manifest)
+    {
+        return nil;
+    }
+    
+    NSString *parentDirectory = [path stringByDeletingLastPathComponent];
+    BOOL isDir;
+    if (![fileManager fileExistsAtPath:parentDirectory isDirectory:&isDir] || !isDir)
+    {
+        if (error != NULL)
+        {
+            *error = [NSError errorWithDomain:ORKErrorDomain
+                                         code:ORKErrorException
+                                     userInfo:@{NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:@"Could not locate parent directory at path %@", parentDirectory]}];
+        }
+        return nil;
+    }
+    
+    NSString * const ManifestJSONKeyAudioFilename = @"filename";
+    NSString * const ManifestJSONKeyName = @"name";
+    
+    NSMutableArray<ORKTinnitusAudioSample *> *audioFileSamples = [[NSMutableArray alloc] init];
+    
+    __block BOOL success;
+    __block NSError *err;
+    [manifest enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        
+        NSString *audioFilename = (NSString *)[obj objectForKey:ManifestJSONKeyAudioFilename];
+        NSString *audioFilePath = [parentDirectory stringByAppendingPathComponent:audioFilename];
+        NSString *audioFileName = (NSString *)[obj objectForKey:ManifestJSONKeyName];
+        
+        if ([fileManager fileExistsAtPath:audioFilePath])
+        {
+            [audioFileSamples addObject:[ORKTinnitusAudioSample sampleWithPath:audioFilePath name:audioFileName]];
+            success = YES;
+        }
+        else
+        {
+            *stop = YES;
+            err = [NSError errorWithDomain:ORKErrorDomain
+                                      code:ORKErrorException
+                                  userInfo:@{NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:@"Could not locate file at path %@", audioFilePath]}];
+            success = NO;
+        }
+    }];
+    
+    if (success)
+    {
+        return [audioFileSamples copy];
+    }
+    else
+    {
+        if (error != NULL)
+        {
+            *error = err;
+        }
+        return nil;
+    }
 }
 
 #pragma mark - NSCopying
@@ -191,6 +369,55 @@ static NSString *const ORKTinnitusWhitenoiseMatchingIdentifier = @"tinnitus.whit
 - (NSUInteger)hash
 {
     return [super hash] ^ [_audioSetManifestPath hash] ^ [_prependSteps hash] ^ [_appendSteps hash];
+}
+
++ (ORKHeadphoneDetectStep *)headphone {
+    
+    ORKHeadphoneDetectStep *headphone = [[ORKHeadphoneDetectStep alloc] initWithIdentifier:ORKTinnitusHeadphoneDetectStepIdentifier headphoneTypes:ORKHeadphoneTypesSupported];
+    headphone.title = ORKLocalizedString(@"HEADPHONE_DETECT_TITLE", nil);
+    headphone.detailText = ORKLocalizedString(@"HEADPHONE_DETECT_TEXT", nil);
+    
+    return [headphone copy];
+}
+
++ (ORKEnvironmentSPLMeterStep *)splmeter {
+    
+    ORKEnvironmentSPLMeterStep *splmeter = [[ORKEnvironmentSPLMeterStep alloc] initWithIdentifier:ORKTinnitusSPLMeterStepIdentifier];
+    splmeter.requiredContiguousSamples = 5;
+    splmeter.thresholdValue = 45;//27.9; TODO: review the value with engineers.
+    splmeter.title = ORKLocalizedString(@"ENVIRONMENTSPL_TITLE_2", nil);
+    splmeter.text = ORKLocalizedString(@"ENVIRONMENTSPL_INTRO_TEXT_2", nil);
+    
+    return [splmeter copy];
+}
+
++ (ORKTinnitusTypeStep *)tinnitusType {
+    
+    ORKTinnitusTypeStep *tinnitusType = [ORKTinnitusTypeStep stepWithIdentifier:ORKTinnitusTypeStepIdentifier
+                                                                          title:ORKLocalizedString(@"TINNITUS_KIND_TITLE", nil)
+                                                                      frequency:ORKTinnitusTypeDefaultFrequency];
+    tinnitusType.text = ORKLocalizedString(@"TINNITUS_KIND_DETAIL", nil);
+    tinnitusType.optional = NO;
+    return [tinnitusType copy];
+}
+
++ (ORKTinnitusCalibrationStep *)calibration {
+    
+    ORKTinnitusCalibrationStep *calibration = [[ORKTinnitusCalibrationStep alloc] initWithIdentifier:ORKTinnitusVolumeCalibrationStepIdentifier];
+    calibration.title = ORKLocalizedString(@"TINNITUS_CALIBRATION_TITLE", nil);
+    calibration.text = ORKLocalizedString(@"TINNITUS_CALIBRATION_TEXT", nil);
+    return [calibration copy];
+}
+
++ (ORKInstructionStep *)pitchMatching {
+    ORKInstructionStep *pitchMatching = [[ORKInstructionStep alloc] initWithIdentifier:ORKTinnitusPitchMatchingStepIdentifier];
+    pitchMatching.title = ORKLocalizedString(@"TINNITUS_FREQUENCY_MATCHING_TITLE", nil);
+    pitchMatching.text = ORKLocalizedString(@"TINNITUS_FREQUENCY_MATCHING_DETAIL", nil);
+    
+    ORKBodyItem *item = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"TINNITUS_VOLUME_ADJUST_TEXT", nil) detailText:nil image:nil learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleBulletPoint];
+    pitchMatching.bodyItems = @[item];
+
+    return [pitchMatching copy];
 }
 
 @end

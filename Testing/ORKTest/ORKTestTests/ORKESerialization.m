@@ -1138,10 +1138,10 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
            },
                  (@{
                   })),
-           ENTRY(ORKHeadphoneDetectStep,
-                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-               return [[ORKHeadphoneDetectStep alloc] initWithIdentifier:GETPROP(dict, identifier) headphoneTypes:(NSUInteger)[GETPROP(dict, headphoneTypes) integerValue]];
-           },
+           ENTRY(ORKHeadphoneDetectStep, ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+            return [[ORKHeadphoneDetectStep alloc] initWithIdentifier:GETPROP(dict, identifier)
+                                                       headphoneTypes:(NSUInteger)[GETPROP(dict, headphoneTypes) integerValue]];
+        },
                  (@{
                      PROPERTY(headphoneTypes, NSNumber, NSObject, YES, nil, nil),
                  })),
@@ -2093,6 +2093,40 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                      PROPERTY(productID, NSString, NSObject, NO, nil, nil),
                      PROPERTY(deviceSubType, NSNumber, NSObject, NO, nil, nil),
                  })),
+           ENTRY(ORKTinnitusPureToneResult,
+                 nil,
+                 (@{
+                     PROPERTY(errorMessage, NSString, NSObject, NO, nil, nil),
+                     PROPERTY(chosenFrequency, NSNumber, NSObject, NO, nil, nil),
+                     PROPERTY(samples, ORKTinnitusUnit, NSArray, NO, nil, nil),
+                  })),
+           ENTRY(ORKTinnitusUnit,
+                 nil,
+                 (@{
+                     PROPERTY(availableFrequencies, NSNumber, NSArray, NO, nil, nil),
+                     PROPERTY(chosenFrequency, NSNumber, NSObject, NO, nil, nil),
+                     PROPERTY(elapsedTime, NSNumber, NSObject, NO, nil, nil),
+                  })),
+           ENTRY(ORKTinnitusTypeResult,
+                 nil,
+                 (@{
+                     PROPERTY(type, NSString, NSObject, NO, nil, nil),
+                  })),
+           ENTRY(ORKTinnitusCalibrationResult,
+                 nil,
+                 (@{
+                     PROPERTY(type, NSString, NSObject, NO, nil, nil),
+                     PROPERTY(amplitude, NSNumber, NSObject, NO, nil, nil),
+                     PROPERTY(frequency, NSNumber, NSObject, NO, nil, nil),
+                  })),
+           ENTRY(ORKTinnitusLoudnessMatchingResult,
+                 nil,
+                 (@{
+                     PROPERTY(type, NSString, NSObject, NO, nil, nil),
+                     PROPERTY(amplitude, NSNumber, NSObject, NO, nil, nil),
+                     PROPERTY(frequency, NSNumber, NSObject, NO, nil, nil),
+                     PROPERTY(noiseType, NSString, NSObject, NO, nil, nil),
+                  })),
            ENTRY(ORKReactionTimeResult,
                  nil,
                  (@{
@@ -2379,7 +2413,39 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                  (@{
                      PROPERTY(retryCount, NSNumber, NSObject, NO, nil, nil)
                   })),
-
+           ENTRY(ORKTinnitusTypeStep,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+               return [[ORKTinnitusTypeStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
+           },
+                 (@{
+                     PROPERTY(frequency, NSNumber, NSObject, YES, nil, nil)
+                  })),
+           ENTRY(ORKTinnitusPureToneStep,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+               return [[ORKTinnitusPureToneStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
+           },
+                 (@{
+                     PROPERTY(listOfChoosableFrequencies, NSNumber, NSArray, YES, nil, nil),
+                     PROPERTY(roundNumber, NSNumber, NSObject, YES, nil, nil),
+                     PROPERTY(lowFrequencyIndex, NSNumber, NSObject, YES, nil, nil),
+                     PROPERTY(mediumFrequencyIndex, NSNumber, NSObject, YES, nil, nil),
+                     PROPERTY(highFrequencyIndex, NSNumber, NSObject, YES, nil, nil)
+                  })),
+           ENTRY(ORKTinnitusLoudnessMatchingStep,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+               return [[ORKTinnitusLoudnessMatchingStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
+           },
+                 (@{
+                     PROPERTY(frequency, NSNumber, NSObject, YES, nil, nil),
+                     PROPERTY(noiseType, NSString, NSObject, YES, nil, nil)
+                  })),
+           ENTRY(ORKTinnitusCalibrationStep,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+               return [[ORKTinnitusCalibrationStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
+           },
+                 (@{
+                     PROPERTY(frequency, NSNumber, NSObject, YES, nil, nil)
+                  }))
            } mutableCopy];
         if (@available(iOS 12.0, *)) {
             [internalEncodingTable addEntriesFromDictionary:@{ ENTRY(ORKHealthClinicalTypeRecorderConfiguration,
