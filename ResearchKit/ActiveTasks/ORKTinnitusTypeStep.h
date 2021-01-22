@@ -29,62 +29,23 @@
  */
 
 @import Foundation;
-
-#if TARGET_OS_IOS
-#import <ResearchKit/ORKStep.h>
-#elif TARGET_OS_WATCH
-#import <ResearchKitCore/ORKStep.h>
-#endif
+#import <ResearchKit/ORKDefines.h>
+#import <ResearchKit/ORKActiveStep.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol ORKContext <NSObject>
+#define ORKTinnitusTypeMinimumFrequency 300.0
+#define ORKTinnitusTypeMaximumFrequency 12500.0
+#define ORKTinnitusTypeDefaultFrequency 1000.0
 
-@end
+ORK_CLASS_AVAILABLE
+@interface ORKTinnitusTypeStep : ORKActiveStep
 
-@interface ORKStep ()
+@property (nonatomic, assign) double frequency;
 
-@property (nonatomic, strong, nullable) id<ORKContext> context;
++ (instancetype)stepWithIdentifier:(NSString *)identifier title:(nullable NSString *)title;
 
-@end
-
-@interface ORKSpeechInNoisePredefinedTaskContext : NSObject <ORKContext>
-
-@property (nonatomic, copy) NSString *practiceAgainStepIdentifier;
-
-@property (nonatomic, assign, getter=isPracticeTest) BOOL practiceTest;
-
-@property (nonatomic, assign) BOOL prefersKeyboard;
-
-- (void)didSkipHeadphoneDetectionStepForTask:(id<ORKTask>)task;
-
-- (NSString *)didNotAllowRequiredHealthPermissionsForTask:(id<ORKTask>)task;
-
-@end
-
-@interface ORKAVJournalingPredfinedTaskContext : NSObject <ORKContext>
-
-- (void)didReachDetectionTimeLimitForTask:(id<ORKTask>)task currentStepIdentifier:(NSString *)currentStepIdentifier;
-
-- (void)finishLaterWasPressedForTask:(id<ORKTask>)task currentStepIdentifier:(NSString *)currentStepIdentifier;
-
-- (void)videoOrAudioAccessDeniedForTask:(id<ORKTask>)task;
-
-@end
-
-@interface ORKdBHLTaskContext : NSObject <ORKContext>
-
-- (void)didSkipHeadphoneDetectionStepForTask:(id<ORKTask>)task;
-
-+ (NSString *)dBHLToneAudiometryCompletionStepIdentifier;
-
-@end
-
-
-@class ORKTinnitusAudioManifest;
-@interface ORKTinnitusPredefinedTaskContext : NSObject <ORKContext>
-
-@property (nonatomic) ORKTinnitusAudioManifest *audioManifest;
++ (instancetype)stepWithIdentifier:(NSString *)identifier title:(nullable NSString *)title frequency:(double)frequency;
 
 @end
 

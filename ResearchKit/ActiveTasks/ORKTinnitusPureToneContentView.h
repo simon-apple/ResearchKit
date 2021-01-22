@@ -28,64 +28,52 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@import Foundation;
-
-#if TARGET_OS_IOS
-#import <ResearchKit/ORKStep.h>
-#elif TARGET_OS_WATCH
-#import <ResearchKitCore/ORKStep.h>
-#endif
+@import UIKit;
+#import "ORKCustomStepView_Internal.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol ORKContext <NSObject>
+@class ORKTinnitusPureToneContentView;
+
+typedef NS_ENUM(NSUInteger, ORKTinnitusSelectedPureTonePosition) {
+    ORKTinnitusSelectedPureTonePositionNone,
+    ORKTinnitusSelectedPureTonePositionA,
+    ORKTinnitusSelectedPureTonePositionB,
+    ORKTinnitusSelectedPureTonePositionC
+};
+
+typedef NS_ENUM(NSUInteger, PureToneButtonsStage) {
+    PureToneButtonsStageOne,
+    PureToneButtonsStageTwo,
+    PureToneButtonsStageThree
+};
+
+@protocol ORKTinnitusPureToneContentViewDelegate <NSObject>
+
+@required
+
+- (void)playButtonPressedWithNewPosition:(ORKTinnitusSelectedPureTonePosition)newPosition;
+- (void)fineTunePressed;
 
 @end
 
-@interface ORKStep ()
+@interface ORKTinnitusPureToneContentView : ORKActiveStepCustomView
 
-@property (nonatomic, strong, nullable) id<ORKContext> context;
+@property (nonatomic, weak)id<ORKTinnitusPureToneContentViewDelegate> delegate;
 
-@end
-
-@interface ORKSpeechInNoisePredefinedTaskContext : NSObject <ORKContext>
-
-@property (nonatomic, copy) NSString *practiceAgainStepIdentifier;
-
-@property (nonatomic, assign, getter=isPracticeTest) BOOL practiceTest;
-
-@property (nonatomic, assign) BOOL prefersKeyboard;
-
-- (void)didSkipHeadphoneDetectionStepForTask:(id<ORKTask>)task;
-
-- (NSString *)didNotAllowRequiredHealthPermissionsForTask:(id<ORKTask>)task;
-
-@end
-
-@interface ORKAVJournalingPredfinedTaskContext : NSObject <ORKContext>
-
-- (void)didReachDetectionTimeLimitForTask:(id<ORKTask>)task currentStepIdentifier:(NSString *)currentStepIdentifier;
-
-- (void)finishLaterWasPressedForTask:(id<ORKTask>)task currentStepIdentifier:(NSString *)currentStepIdentifier;
-
-- (void)videoOrAudioAccessDeniedForTask:(id<ORKTask>)task;
-
-@end
-
-@interface ORKdBHLTaskContext : NSObject <ORKContext>
-
-- (void)didSkipHeadphoneDetectionStepForTask:(id<ORKTask>)task;
-
-+ (NSString *)dBHLToneAudiometryCompletionStepIdentifier;
-
-@end
-
-
-@class ORKTinnitusAudioManifest;
-@interface ORKTinnitusPredefinedTaskContext : NSObject <ORKContext>
-
-@property (nonatomic) ORKTinnitusAudioManifest *audioManifest;
+- (ORKTinnitusSelectedPureTonePosition)currentSelectedPosition;
+- (PureToneButtonsStage)currentStage;
+- (void)animateButtonsSetting:(BOOL)isLastStep;
+- (void)enableFineTuneButton:(BOOL)enable;
+- (void)enablePlayButtons:(BOOL)enable;
+- (void)resetPlayButtons;
+- (BOOL)allCurrentVisibleButtonsPlayed;
+- (BOOL)thirdButtonIsHidden;
+- (void)toggleCurrentSelectPlayButton;
+- (BOOL)hasPlayingButton;
 
 @end
 
 NS_ASSUME_NONNULL_END
+
+
