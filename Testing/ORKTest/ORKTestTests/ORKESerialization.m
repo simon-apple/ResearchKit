@@ -2411,12 +2411,6 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
            },
                  (@{
                      PROPERTY(frequency, NSNumber, NSObject, YES, nil, nil)
-                  })),
-           ENTRY(ORKTinnitusPureToneInstructionStep,
-                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-               return [[ORKTinnitusPureToneInstructionStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
-           },
-                 (@{
                   }))
            } mutableCopy];
         if (@available(iOS 12.0, *)) {

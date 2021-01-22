@@ -100,10 +100,10 @@
 		16A24B70230B70890094C4C2 /* Celestial_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 16A24B6F230B70890094C4C2 /* Celestial_Private.h */; };
 		1B4B95B81F5F012E006B629F /* ORKWeightPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B4B95B71F5F012E006B629F /* ORKWeightPicker.m */; };
 		1B4B95BA1F5F014E006B629F /* ORKWeightPicker.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B4B95B91F5F014E006B629F /* ORKWeightPicker.h */; };
-		223AE98C25B235CB0080FE13 /* ORKTinnitusAudioSample.h in Headers */ = {isa = PBXBuildFile; fileRef = 223AE98A25B235CB0080FE13 /* ORKTinnitusAudioSample.h */; };
-		223AE98D25B235CB0080FE13 /* ORKTinnitusAudioSample.m in Sources */ = {isa = PBXBuildFile; fileRef = 223AE98B25B235CB0080FE13 /* ORKTinnitusAudioSample.m */; };
 		22BFDF5E25B792BF0015D1E1 /* ORKTinnitusTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 22BFDF5D25B792BF0015D1E1 /* ORKTinnitusTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		22BFDF6A25B792D20015D1E1 /* ORKTinnitusTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 22BFDF6925B792D20015D1E1 /* ORKTinnitusTypes.m */; };
+		22BFE13C25BB73310015D1E1 /* ORKTinnitusAudioSample.m in Sources */ = {isa = PBXBuildFile; fileRef = 223AE98B25B235CB0080FE13 /* ORKTinnitusAudioSample.m */; };
+		22BFE14225BB73380015D1E1 /* ORKTinnitusAudioSample.h in Headers */ = {isa = PBXBuildFile; fileRef = 223AE98A25B235CB0080FE13 /* ORKTinnitusAudioSample.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		241A2E871B94FD8800ED3B39 /* ORKPasscodeStepViewController_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 241A2E861B94FD8800ED3B39 /* ORKPasscodeStepViewController_Internal.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		2429D5721BBB5397003A512F /* ORKRegistrationStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 2429D5701BBB5397003A512F /* ORKRegistrationStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2429D5731BBB5397003A512F /* ORKRegistrationStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 2429D5711BBB5397003A512F /* ORKRegistrationStep.m */; };
@@ -933,12 +933,8 @@
 		E220A38C2571252900C3C211 /* ORKTinnitusPureToneContentView.h in Headers */ = {isa = PBXBuildFile; fileRef = E220A3802571252800C3C211 /* ORKTinnitusPureToneContentView.h */; };
 		E220A38D2571252900C3C211 /* ORKTinnitusPureToneContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = E220A3812571252800C3C211 /* ORKTinnitusPureToneContentView.m */; };
 		E220A38E2571252900C3C211 /* ORKTinnitusPureToneResult.m in Sources */ = {isa = PBXBuildFile; fileRef = E220A3822571252800C3C211 /* ORKTinnitusPureToneResult.m */; };
-		E220A38F2571252900C3C211 /* ORKTinnitusPureToneInstructionStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E220A3832571252800C3C211 /* ORKTinnitusPureToneInstructionStepViewController.m */; };
-		E220A3902571252900C3C211 /* ORKTinnitusPureToneInstructionStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = E220A3842571252800C3C211 /* ORKTinnitusPureToneInstructionStepViewController.h */; };
-		E220A3912571252900C3C211 /* ORKTinnitusPureToneInstructionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = E220A3852571252800C3C211 /* ORKTinnitusPureToneInstructionStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		E220A3922571252900C3C211 /* ORKTinnitusPureToneResult.h in Headers */ = {isa = PBXBuildFile; fileRef = E220A3862571252800C3C211 /* ORKTinnitusPureToneResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E220A3932571252900C3C211 /* ORKTinnitusPureToneStep.m in Sources */ = {isa = PBXBuildFile; fileRef = E220A3872571252900C3C211 /* ORKTinnitusPureToneStep.m */; };
-		E220A3942571252900C3C211 /* ORKTinnitusPureToneInstructionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = E220A3882571252900C3C211 /* ORKTinnitusPureToneInstructionStep.m */; };
 		E220A3952571252900C3C211 /* ORKTinnitusPureToneStep.h in Headers */ = {isa = PBXBuildFile; fileRef = E220A3892571252900C3C211 /* ORKTinnitusPureToneStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		E220A3962571252900C3C211 /* ORKTinnitusPureToneStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = E220A38A2571252900C3C211 /* ORKTinnitusPureToneStepViewController.h */; };
 		E220A3972571252900C3C211 /* ORKTinnitusPureToneStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E220A38B2571252900C3C211 /* ORKTinnitusPureToneStepViewController.m */; };
@@ -2014,12 +2010,8 @@
 		E220A3802571252800C3C211 /* ORKTinnitusPureToneContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKTinnitusPureToneContentView.h; sourceTree = "<group>"; };
 		E220A3812571252800C3C211 /* ORKTinnitusPureToneContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKTinnitusPureToneContentView.m; sourceTree = "<group>"; };
 		E220A3822571252800C3C211 /* ORKTinnitusPureToneResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKTinnitusPureToneResult.m; sourceTree = "<group>"; };
-		E220A3832571252800C3C211 /* ORKTinnitusPureToneInstructionStepViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKTinnitusPureToneInstructionStepViewController.m; sourceTree = "<group>"; };
-		E220A3842571252800C3C211 /* ORKTinnitusPureToneInstructionStepViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKTinnitusPureToneInstructionStepViewController.h; sourceTree = "<group>"; };
-		E220A3852571252800C3C211 /* ORKTinnitusPureToneInstructionStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKTinnitusPureToneInstructionStep.h; sourceTree = "<group>"; };
 		E220A3862571252800C3C211 /* ORKTinnitusPureToneResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKTinnitusPureToneResult.h; sourceTree = "<group>"; };
 		E220A3872571252900C3C211 /* ORKTinnitusPureToneStep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKTinnitusPureToneStep.m; sourceTree = "<group>"; };
-		E220A3882571252900C3C211 /* ORKTinnitusPureToneInstructionStep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKTinnitusPureToneInstructionStep.m; sourceTree = "<group>"; };
 		E220A3892571252900C3C211 /* ORKTinnitusPureToneStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKTinnitusPureToneStep.h; sourceTree = "<group>"; };
 		E220A38A2571252900C3C211 /* ORKTinnitusPureToneStepViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKTinnitusPureToneStepViewController.h; sourceTree = "<group>"; };
 		E220A38B2571252900C3C211 /* ORKTinnitusPureToneStepViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKTinnitusPureToneStepViewController.m; sourceTree = "<group>"; };
@@ -4223,10 +4215,6 @@
 			children = (
 				E220A3802571252800C3C211 /* ORKTinnitusPureToneContentView.h */,
 				E220A3812571252800C3C211 /* ORKTinnitusPureToneContentView.m */,
-				E220A3852571252800C3C211 /* ORKTinnitusPureToneInstructionStep.h */,
-				E220A3882571252900C3C211 /* ORKTinnitusPureToneInstructionStep.m */,
-				E220A3842571252800C3C211 /* ORKTinnitusPureToneInstructionStepViewController.h */,
-				E220A3832571252800C3C211 /* ORKTinnitusPureToneInstructionStepViewController.m */,
 				E220A3862571252800C3C211 /* ORKTinnitusPureToneResult.h */,
 				E220A3822571252800C3C211 /* ORKTinnitusPureToneResult.m */,
 				E220A3892571252900C3C211 /* ORKTinnitusPureToneStep.h */,
@@ -4543,7 +4531,6 @@
 				CBD34A561BB1FB9000F204EA /* ORKLocationSelectionView.h in Headers */,
 				E220A3922571252900C3C211 /* ORKTinnitusPureToneResult.h in Headers */,
 				71BD9EA520969BE1007B436E /* ORKEnvironmentSPLMeterStep.h in Headers */,
-				223AE98C25B235CB0080FE13 /* ORKTinnitusAudioSample.h in Headers */,
 				E26626C12588E6D4005A0FF8 /* ORKTinnitusMaskingSoundStep.h in Headers */,
 				BAD6FAB12332A2FD006647E7 /* ORKCheckmarkView.h in Headers */,
 				BA8078F3224AC8AA0013B554 /* ORKStepContainerView.h in Headers */,
@@ -4676,6 +4663,7 @@
 				1B4B95BA1F5F014E006B629F /* ORKWeightPicker.h in Headers */,
 				86C40C7E1A8D7C5C00081FAC /* ORKActiveStep.h in Headers */,
 				E26626C32588E6D4005A0FF8 /* ORKTinnitusMaskingSoundResult.h in Headers */,
+				22BFE14225BB73380015D1E1 /* ORKTinnitusAudioSample.h in Headers */,
 				BCB6E65E1B7D534C000D5B34 /* ORKGraphChartView.h in Headers */,
 				86C40DD21A8D7C5C00081FAC /* ORKTextButton.h in Headers */,
 				BA95AA9A20ACD0BD00E7FF8E /* ORKAmslerGridStepViewController.h in Headers */,
@@ -4738,7 +4726,6 @@
 				FFDDD8491D3555EA00446806 /* ORKPageStep.h in Headers */,
 				147503AF1AEE8071004B17F3 /* ORKAudioGenerator.h in Headers */,
 				71769E352088291B00A19914 /* ORKdBHLToneAudiometryContentView.h in Headers */,
-				E220A3912571252900C3C211 /* ORKTinnitusPureToneInstructionStep.h in Headers */,
 				86AD91141AB7B97E00361FEB /* ORKQuestionStepView.h in Headers */,
 				86C40C621A8D7C5C00081FAC /* CLLocation+ORKJSONDictionary.h in Headers */,
 				86C40D801A8D7C5C00081FAC /* ORKSelectionSubTitleLabel.h in Headers */,
@@ -4822,7 +4809,6 @@
 				FA7A9D2F1B083DD3005A2BEA /* ORKConsentSectionFormatter.h in Headers */,
 				E27743AB23A7AA8F00AA0C9F /* AVOutputContext_Private.h in Headers */,
 				86C40E341A8D7C5C00081FAC /* ORKVisualConsentStepViewController_Internal.h in Headers */,
-				E220A3902571252900C3C211 /* ORKTinnitusPureToneInstructionStepViewController.h in Headers */,
 				86C40D381A8D7C5C00081FAC /* ORKHTMLPDFWriter.h in Headers */,
 				E220A3962571252900C3C211 /* ORKTinnitusPureToneStepViewController.h in Headers */,
 				959A2BFC1D68B98700841B04 /* ORKRangeOfMotionStep.h in Headers */,
@@ -5367,7 +5353,6 @@
 				7118AC7820BF6A7800D7A6BB /* ORKSpeechInNoiseStep.m in Sources */,
 				BA2FE3EF20B109C600AAC231 /* ORKAmslerGridResult.m in Sources */,
 				10FF9ACC1B79F22900ECB5B4 /* ORKHolePegTestRemoveStepViewController.m in Sources */,
-				E220A3942571252900C3C211 /* ORKTinnitusPureToneInstructionStep.m in Sources */,
 				517514532459EF5D009E8FFC /* ORK3DModelStepViewController.m in Sources */,
 				86C40CD61A8D7C5C00081FAC /* ORKTableContainerView.m in Sources */,
 				2429D5731BBB5397003A512F /* ORKRegistrationStep.m in Sources */,
@@ -5386,7 +5371,6 @@
 				5D1CE46023FDE7BD004CB416 /* ORKVolumeCalibrationStep.m in Sources */,
 				B8760F2C1AFBEFB0007FA16F /* ORKScaleRangeDescriptionLabel.m in Sources */,
 				5D1CE42B23F497D5004CB416 /* ORKIndexCacheEntry.m in Sources */,
-				223AE98D25B235CB0080FE13 /* ORKTinnitusAudioSample.m in Sources */,
 				86C40D821A8D7C5C00081FAC /* ORKSelectionSubTitleLabel.m in Sources */,
 				FF919A441E81B904005C2A1E /* ORKPSATResult.m in Sources */,
 				5D1CE42823F497D5004CB416 /* ORKFlameGroup.m in Sources */,
@@ -5425,7 +5409,6 @@
 				511987C4246330CA004FC2C7 /* ORKRequestPermissionsStep.m in Sources */,
 				BA8C067022ECF87900ACDE6B /* ORKSecondaryTaskStepViewController.m in Sources */,
 				86C40CF01A8D7C5C00081FAC /* ORKAnswerTextView.m in Sources */,
-				E220A38F2571252900C3C211 /* ORKTinnitusPureToneInstructionStepViewController.m in Sources */,
 				86C40D3E1A8D7C5C00081FAC /* ORKImageChoiceLabel.m in Sources */,
 				1B4B95B81F5F012E006B629F /* ORKWeightPicker.m in Sources */,
 				250F94051B4C5A6600FA23EB /* ORKTowerOfHanoiStep.m in Sources */,
@@ -5530,6 +5513,7 @@
 				716B126920A7A40400590264 /* ORKdBHLToneAudiometryAudioGenerator.m in Sources */,
 				86C40CA21A8D7C5C00081FAC /* ORKHealthQuantityTypeRecorder.m in Sources */,
 				95E11E561D73396300BF865B /* ORKShoulderRangeOfMotionStepViewController.m in Sources */,
+				22BFE13C25BB73310015D1E1 /* ORKTinnitusAudioSample.m in Sources */,
 				BA2CFBB12342935800B71919 /* ORKCompletionCheckmarkView.m in Sources */,
 				86C40DC01A8D7C5C00081FAC /* ORKTableViewCell.m in Sources */,
 				E2471307252B991B00FF5431 /* ORKdBHLToneAudiometryCompletionStep.m in Sources */,

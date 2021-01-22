@@ -161,6 +161,8 @@ typedef void (^_ORKLocationAuthorizationRequestHandler)(BOOL success);
     
     UINavigationController *_childNavigationController;
     UIViewController *_previousToTopControllerInNavigationStack;
+    
+    NSString *_forcedNextStepIdentifier;
 }
 
 @property (nonatomic, strong) ORKStepViewController *currentStepViewController;
@@ -812,6 +814,19 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     [_childNavigationController popViewControllerAnimated:YES];
 }
 
+// Note that this method respects logic related to Review mode, Task termination,
+// earlyTerminationConfiguration, and the -shouldPresentStep: check implemented in
+// -flipToNextPageFrom:animated:
+- (void)goToStepWithIdentifier:(NSString *)identifier {
+    if ([self.task stepWithIdentifier:_forcedNextStepIdentifier] == nil) {
+        ORK_Log_Info("goToStepWithIdentifier: step for %@ identifier not found, ignoring navigation", _forcedNextStepIdentifier);
+        return;
+    }
+    _forcedNextStepIdentifier = [identifier copy];
+    [self goForward];
+    _forcedNextStepIdentifier = nil;
+}
+
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     UIInterfaceOrientationMask supportedOrientations;
     if (self.currentStepViewController) {
@@ -983,8 +998,10 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
 
 - (ORKStep *)nextStep {
     ORKStep *step = nil;
-    
-    if ([self.task respondsToSelector:@selector(stepAfterStep:withResult:)]) {
+    if (_forcedNextStepIdentifier != nil) {
+        step = [self.task stepWithIdentifier:_forcedNextStepIdentifier];
+    }
+    if (step == nil && [self.task respondsToSelector:@selector(stepAfterStep:withResult:)]) {
         step = [self.task stepAfterStep:self.currentStepViewController.step withResult:[self result]];
     }
     
@@ -1369,27 +1386,15 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     }
 }
 
+// Note that this method skips logic related to Review mode, Task termination,
+// earlyTerminationConfiguration, and the -shouldPresentStep: check implemented in
+// -flipToNextPageFrom:animated: and -flipToPreviousPageFrom:animated:
 - (void)flipToPageWithIdentifier:(NSString *)identifier forward:(BOOL)forward animated:(BOOL)animated
 {
-    NSUInteger index =
-    [[(ORKOrderedTask *)self.task steps] indexOfObjectPassingTest:^BOOL(ORKStep * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop)
-    {
-            if ([obj.identifier isEqualToString:identifier])
-            {
-                *stop = YES;
-                return YES;
-            }
-            
-            return NO;
-    }];
-        
-        if (index == NSNotFound) { return; }
-        
-        ORKStep *step = [[(ORKOrderedTask *)self.task steps] objectAtIndex:index];
-        if (step)
-        {
-            [self showStepViewController:[self viewControllerForStep:step] goForward:forward animated:animated];
-        }
+    ORKStep *step = [self.task stepWithIdentifier:identifier];
+    if (step) {
+        [self showStepViewController:[self viewControllerForStep:step] goForward:forward animated:animated];
+    }
 }
 
 #pragma mark -  ORKStepViewControllerDelegate

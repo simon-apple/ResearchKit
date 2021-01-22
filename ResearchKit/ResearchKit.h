@@ -149,5 +149,3 @@
 #import <ResearchKit/ORKDeprecated.h>
 
 #import <ResearchKit/ORKEarlyTerminationConfiguration.h>
-
-#import <ResearchKit/ORKTinnitusTypes.h>

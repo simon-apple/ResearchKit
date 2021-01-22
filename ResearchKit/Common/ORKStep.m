@@ -38,9 +38,9 @@
 #import "ORKBodyItem.h"
 #import "ORKStepViewController.h"
 #import "ORKStepViewController_Internal.h"
+#import "ORKEarlyTerminationConfiguration.h"
 #endif
 
-#import "ORKEarlyTerminationConfiguration.h"
 @implementation ORKStep
 @synthesize context;
 
@@ -117,8 +117,8 @@
     step.auxiliaryImage = self.auxiliaryImage;
     step.iconImage = self.iconImage;
     step.bodyItems = [_bodyItems copy];
-#endif
     step.earlyTerminationConfiguration = self.earlyTerminationConfiguration;
+#endif
     return step;
 }
 

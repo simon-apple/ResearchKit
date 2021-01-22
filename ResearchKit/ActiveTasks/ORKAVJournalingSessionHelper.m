@@ -45,11 +45,11 @@ NSString *const TrackStreamTypeIdentifierFrontColor = @"FrontColor";
 NSString *const TrackStreamTypeIdentifierFrontDepth = @"FrontDepth";
 
 
-CMPixelFormatType const DepthCapturePixelFormatType = kCMPixelFormat_24RGB;
+CMPixelFormatType const DepthCapturePixelFormatType = kCVPixelFormatType_32BGRA;
 
 typedef struct __attribute__((__packed__)) DepthPacket {
-    uint8_t padding;
     uint16_t depth;
+    uint16_t padding;
 } DepthPacket;
 
 @interface ORKAVJournalingSessionHelper ()
@@ -386,15 +386,9 @@ typedef struct __attribute__((__packed__)) DepthPacket {
 #pragma mark Helper Methods (private)
 
 - (BOOL)setupAssetWriterInputDepth {
-    NSMutableDictionary *depthOutputSettings = [[_videoDataOutput
-                            recommendedVideoSettingsForAssetWriterWithOutputFileType:AVFileTypeQuickTimeMovie] mutableCopy];
-    depthOutputSettings[AVVideoCompressionPropertiesKey][AVVideoMaxKeyFrameIntervalKey] = @(1);
-    depthOutputSettings[AVVideoWidthKey] = @((NSInteger)640);
-    depthOutputSettings[AVVideoHeightKey] = @((NSInteger)360);
-    
     // create depth asset writer input
     _depthAssetWriterInput = [AVAssetWriterInput assetWriterInputWithMediaType:AVMediaTypeVideo
-                                                                outputSettings:depthOutputSettings];
+                                                                outputSettings:nil];
 
     [_depthAssetWriterInput setExpectsMediaDataInRealTime:YES];
     
@@ -986,9 +980,9 @@ bail:
 
                 for (size_t w = 0; w < width; w++) {
                     float sourceValue = *pSrcRowStep;
-                    sourceValue = (sourceValue / 8.125) * 16383; // normalize to [0, 1.0] and scale [0, 16383]
-                    pTmpRowStep->padding = (uint8_t) 0;
+                    sourceValue = (sourceValue / 20.0) * 65535; // normalize to [0, 1.0] and scale to 16-bit
                     pTmpRowStep->depth = sourceValue;
+                    pTmpRowStep->padding = 0;
 
                     pTmpRowStep++;
                     pSrcRowStep++;
