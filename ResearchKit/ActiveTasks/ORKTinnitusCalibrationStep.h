@@ -29,62 +29,20 @@
  */
 
 @import Foundation;
-
-#if TARGET_OS_IOS
-#import <ResearchKit/ORKStep.h>
-#elif TARGET_OS_WATCH
-#import <ResearchKitCore/ORKStep.h>
-#endif
+#import <ResearchKit/ORKDefines.h>
+#import <ResearchKit/ORKActiveStep.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol ORKContext <NSObject>
+ORK_CLASS_AVAILABLE
+@interface ORKTinnitusCalibrationStep : ORKActiveStep
 
-@end
+/**
+ The frequency that will be played. If the value is not passed the default frequency that will be used is 1000.0 hz
+ */
+@property (nonatomic, assign) double frequency;
 
-@interface ORKStep ()
-
-@property (nonatomic, strong, nullable) id<ORKContext> context;
-
-@end
-
-@interface ORKSpeechInNoisePredefinedTaskContext : NSObject <ORKContext>
-
-@property (nonatomic, copy) NSString *practiceAgainStepIdentifier;
-
-@property (nonatomic, assign, getter=isPracticeTest) BOOL practiceTest;
-
-@property (nonatomic, assign) BOOL prefersKeyboard;
-
-- (void)didSkipHeadphoneDetectionStepForTask:(id<ORKTask>)task;
-
-- (NSString *)didNotAllowRequiredHealthPermissionsForTask:(id<ORKTask>)task;
-
-@end
-
-@interface ORKAVJournalingPredfinedTaskContext : NSObject <ORKContext>
-
-- (void)didReachDetectionTimeLimitForTask:(id<ORKTask>)task currentStepIdentifier:(NSString *)currentStepIdentifier;
-
-- (void)finishLaterWasPressedForTask:(id<ORKTask>)task currentStepIdentifier:(NSString *)currentStepIdentifier;
-
-- (void)videoOrAudioAccessDeniedForTask:(id<ORKTask>)task;
-
-@end
-
-@interface ORKdBHLTaskContext : NSObject <ORKContext>
-
-- (void)didSkipHeadphoneDetectionStepForTask:(id<ORKTask>)task;
-
-+ (NSString *)dBHLToneAudiometryCompletionStepIdentifier;
-
-@end
-
-
-@class ORKTinnitusAudioManifest;
-@interface ORKTinnitusPredefinedTaskContext : NSObject <ORKContext>
-
-@property (nonatomic) ORKTinnitusAudioManifest *audioManifest;
+- (instancetype)initWithIdentifier:(NSString *)identifier frequency:(double)freq;
 
 @end
 

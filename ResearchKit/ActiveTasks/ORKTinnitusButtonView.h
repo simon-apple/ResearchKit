@@ -28,64 +28,64 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@import Foundation;
+@import UIKit;
+#import <ResearchKit/ResearchKit.h>
 
-#if TARGET_OS_IOS
-#import <ResearchKit/ORKStep.h>
-#elif TARGET_OS_WATCH
-#import <ResearchKitCore/ORKStep.h>
-#endif
+typedef void (^ORKTinnitusButtonFinishedLayoutBlock)(void);
+
+@class ORKTinnitusButtonView;
+
+@protocol ORKTinnitusButtonViewDelegate <NSObject>
+
+@required
+- (void)tinnitusButtonViewPressed:(ORKTinnitusButtonView *_Nonnull)tinnitusButtonView;
+
+@end
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol ORKContext <NSObject>
+ORK_CLASS_AVAILABLE
+@interface ORKTinnitusButtonView : UIView
+
+@property (nonatomic, weak, nullable)id<ORKTinnitusButtonViewDelegate> delegate;
+
+@property (nonatomic, copy) ORKTinnitusButtonFinishedLayoutBlock didFinishLayoutBlock;
+
+@property (readonly) BOOL isSelected;
+@property (readonly) BOOL isShowingPause;
+
+/**
+ Indicates if that button was tapped at least once
+ */
+@property (readonly) BOOL playedOnce;
+
+/**
+ If not enabled: user interaction disabled and alpha = 0.5.
+ */
+@property (getter = isEnabled, readonly) BOOL enabled;
+
+- (instancetype _Nonnull )initWithTitle:(nonnull NSString *)title detail:(nullable NSString *)detail;
+
+/**
+ Restores the button to unselected state (gray color, and play button image)
+ */
+- (void)restoreButton;
+
+/**
+ Restores the button and sets played once to NO).
+ */
+- (void)resetButton;
+
+- (void)togglePlayButton;
+
+- (void)setSelected:(BOOL)isSelected;
+
+- (BOOL)buttonFinishedAutoLayout;
 
 @end
 
-@interface ORKStep ()
-
-@property (nonatomic, strong, nullable) id<ORKContext> context;
-
-@end
-
-@interface ORKSpeechInNoisePredefinedTaskContext : NSObject <ORKContext>
-
-@property (nonatomic, copy) NSString *practiceAgainStepIdentifier;
-
-@property (nonatomic, assign, getter=isPracticeTest) BOOL practiceTest;
-
-@property (nonatomic, assign) BOOL prefersKeyboard;
-
-- (void)didSkipHeadphoneDetectionStepForTask:(id<ORKTask>)task;
-
-- (NSString *)didNotAllowRequiredHealthPermissionsForTask:(id<ORKTask>)task;
-
-@end
-
-@interface ORKAVJournalingPredfinedTaskContext : NSObject <ORKContext>
-
-- (void)didReachDetectionTimeLimitForTask:(id<ORKTask>)task currentStepIdentifier:(NSString *)currentStepIdentifier;
-
-- (void)finishLaterWasPressedForTask:(id<ORKTask>)task currentStepIdentifier:(NSString *)currentStepIdentifier;
-
-- (void)videoOrAudioAccessDeniedForTask:(id<ORKTask>)task;
-
-@end
-
-@interface ORKdBHLTaskContext : NSObject <ORKContext>
-
-- (void)didSkipHeadphoneDetectionStepForTask:(id<ORKTask>)task;
-
-+ (NSString *)dBHLToneAudiometryCompletionStepIdentifier;
-
-@end
-
-
-@class ORKTinnitusAudioManifest;
-@interface ORKTinnitusPredefinedTaskContext : NSObject <ORKContext>
-
-@property (nonatomic) ORKTinnitusAudioManifest *audioManifest;
-
+@interface ORKTinnitusButtonView(NSArrayUtils)
+- (void)setEnabledWithNSNumber:(NSNumber *)boolNum;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -28,63 +28,38 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@import Foundation;
-
-#if TARGET_OS_IOS
-#import <ResearchKit/ORKStep.h>
-#elif TARGET_OS_WATCH
-#import <ResearchKitCore/ORKStep.h>
-#endif
+#import <ResearchKit/ORKResult.h>
+#import <ResearchKit/ORKTinnitusTypes.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol ORKContext <NSObject>
+@class ORKTinnitusUnit;
+
+ORK_CLASS_AVAILABLE
+@interface ORKTinnitusPureToneResult : ORKResult
+
+// Array of units chosen by the user.
+@property (nonatomic, copy, nullable) NSArray <ORKTinnitusUnit *> *samples;
+
+// An error type associated with this result.
+@property (nonatomic, copy, nullable) ORKTinnitusError errorMessage;
+
+// Chosen frequency (Hz)
+@property (nonatomic, assign) double chosenFrequency;
 
 @end
 
-@interface ORKStep ()
+ORK_CLASS_AVAILABLE
+@interface ORKTinnitusUnit : NSObject <NSCopying, NSSecureCoding>
 
-@property (nonatomic, strong, nullable) id<ORKContext> context;
+// The frequencies shown to the user represented as doubles, in Hz.
+@property (nonatomic, copy, nullable) NSArray <NSNumber *> *availableFrequencies;
 
-@end
+// The chosen frequency in Hz.
+@property (nonatomic, assign) double chosenFrequency;
 
-@interface ORKSpeechInNoisePredefinedTaskContext : NSObject <ORKContext>
-
-@property (nonatomic, copy) NSString *practiceAgainStepIdentifier;
-
-@property (nonatomic, assign, getter=isPracticeTest) BOOL practiceTest;
-
-@property (nonatomic, assign) BOOL prefersKeyboard;
-
-- (void)didSkipHeadphoneDetectionStepForTask:(id<ORKTask>)task;
-
-- (NSString *)didNotAllowRequiredHealthPermissionsForTask:(id<ORKTask>)task;
-
-@end
-
-@interface ORKAVJournalingPredfinedTaskContext : NSObject <ORKContext>
-
-- (void)didReachDetectionTimeLimitForTask:(id<ORKTask>)task currentStepIdentifier:(NSString *)currentStepIdentifier;
-
-- (void)finishLaterWasPressedForTask:(id<ORKTask>)task currentStepIdentifier:(NSString *)currentStepIdentifier;
-
-- (void)videoOrAudioAccessDeniedForTask:(id<ORKTask>)task;
-
-@end
-
-@interface ORKdBHLTaskContext : NSObject <ORKContext>
-
-- (void)didSkipHeadphoneDetectionStepForTask:(id<ORKTask>)task;
-
-+ (NSString *)dBHLToneAudiometryCompletionStepIdentifier;
-
-@end
-
-
-@class ORKTinnitusAudioManifest;
-@interface ORKTinnitusPredefinedTaskContext : NSObject <ORKContext>
-
-@property (nonatomic) ORKTinnitusAudioManifest *audioManifest;
+// The time in seconds for the user to select the frequency.
+@property (nonatomic, assign) NSTimeInterval elapsedTime;
 
 @end
 
