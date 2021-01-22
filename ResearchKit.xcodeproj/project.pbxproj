@@ -103,7 +103,7 @@
 		22BFDF5E25B792BF0015D1E1 /* ORKTinnitusTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 22BFDF5D25B792BF0015D1E1 /* ORKTinnitusTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		22BFDF6A25B792D20015D1E1 /* ORKTinnitusTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 22BFDF6925B792D20015D1E1 /* ORKTinnitusTypes.m */; };
 		22BFE13C25BB73310015D1E1 /* ORKTinnitusAudioSample.m in Sources */ = {isa = PBXBuildFile; fileRef = 223AE98B25B235CB0080FE13 /* ORKTinnitusAudioSample.m */; };
-		22BFE14225BB73380015D1E1 /* ORKTinnitusAudioSample.h in Headers */ = {isa = PBXBuildFile; fileRef = 223AE98A25B235CB0080FE13 /* ORKTinnitusAudioSample.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		22BFE14225BB73380015D1E1 /* ORKTinnitusAudioSample.h in Headers */ = {isa = PBXBuildFile; fileRef = 223AE98A25B235CB0080FE13 /* ORKTinnitusAudioSample.h */; };
 		241A2E871B94FD8800ED3B39 /* ORKPasscodeStepViewController_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 241A2E861B94FD8800ED3B39 /* ORKPasscodeStepViewController_Internal.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		2429D5721BBB5397003A512F /* ORKRegistrationStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 2429D5701BBB5397003A512F /* ORKRegistrationStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2429D5731BBB5397003A512F /* ORKRegistrationStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 2429D5711BBB5397003A512F /* ORKRegistrationStep.m */; };
