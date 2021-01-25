@@ -155,27 +155,29 @@ NSString *const ORKTinnitusPuretoneMaskSoundNameExtension = @"wav";
     [_audioEngine attachNode:_unitEq];
     [_audioEngine attachNode:_playerNode];
     
-    ORKTinnitusPredefinedTaskContext *context = (ORKTinnitusPredefinedTaskContext *)[self.step context];
-    NSArray *samples = context.audioManifest.samples;
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name ==[c] %@", soundName];
-    ORKTinnitusAudioSample *audioSample = [[samples filteredArrayUsingPredicate:predicate] firstObject];
-    
-    if (audioSample) {
-        NSURL *path = [NSURL fileURLWithPath:audioSample.path];
-        AVAudioFile *file = [[AVAudioFile alloc] initForReading:path error:nil];
+    if (self.step.context && [self.step.context isKindOfClass:[ORKTinnitusPredefinedTaskContext class]]) {
+        ORKTinnitusPredefinedTaskContext *context = (ORKTinnitusPredefinedTaskContext *)self.step.context;
+        NSArray *samples = context.audioManifest.samples;
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name ==[c] %@", soundName];
+        ORKTinnitusAudioSample *audioSample = [[samples filteredArrayUsingPredicate:predicate] firstObject];
         
-        if (file)
-        {
-            _audioBuffer = [[AVAudioPCMBuffer alloc] initWithPCMFormat:file.processingFormat frameCapacity:(AVAudioFrameCount)file.length];
-            [file readIntoBuffer:_audioBuffer error:nil];
+        if (audioSample) {
+            NSURL *path = [NSURL fileURLWithPath:audioSample.path];
+            AVAudioFile *file = [[AVAudioFile alloc] initForReading:path error:nil];
+            
+            if (file)
+            {
+                _audioBuffer = [[AVAudioPCMBuffer alloc] initWithPCMFormat:file.processingFormat frameCapacity:(AVAudioFrameCount)file.length];
+                [file readIntoBuffer:_audioBuffer error:nil];
+            }
+            
+            _mixerNode = _audioEngine.mainMixerNode;
+            [_audioEngine connect:_playerNode to:_unitEq format:file.processingFormat];
+            [_audioEngine connect:_unitEq to:_mixerNode format:file.processingFormat];
+            [_playerNode scheduleBuffer:_audioBuffer atTime:nil options:AVAudioPlayerNodeBufferLoops completionHandler:nil];
+            [_audioEngine prepare];
+            [_audioEngine startAndReturnError:nil];
         }
-        
-        _mixerNode = _audioEngine.mainMixerNode;
-        [_audioEngine connect:_playerNode to:_unitEq format:file.processingFormat];
-        [_audioEngine connect:_unitEq to:_mixerNode format:file.processingFormat];
-        [_playerNode scheduleBuffer:_audioBuffer atTime:nil options:AVAudioPlayerNodeBufferLoops completionHandler:nil];
-        [_audioEngine prepare];
-        [_audioEngine startAndReturnError:nil];
     }
     
     [self setNavigationFooterView];

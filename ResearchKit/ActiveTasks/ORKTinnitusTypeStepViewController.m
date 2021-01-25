@@ -141,26 +141,28 @@
 }
 
 - (void)playWhiteNoise {
-    ORKTinnitusPredefinedTaskContext *context = (ORKTinnitusPredefinedTaskContext *)[self.step context];
-    NSArray *samples = context.audioManifest.samples;
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name ==[c] %@", ORKTinnitusMaskingSoundWhiteNoise];
-    ORKTinnitusAudioSample *whiteNoise = [[samples filteredArrayUsingPredicate:predicate] firstObject];
-
-    if (whiteNoise) {
-        NSURL *path = [NSURL fileURLWithPath:whiteNoise.path];
-        AVAudioFile *file = [[AVAudioFile alloc] initForReading:path error:nil];
-        if (file)
-        {
-            self.audioBuffer = [[AVAudioPCMBuffer alloc] initWithPCMFormat:file.processingFormat frameCapacity:(AVAudioFrameCount)file.length];
-            [file readIntoBuffer:self.audioBuffer error:nil];
+    if (self.step.context && [self.step.context isKindOfClass:[ORKTinnitusPredefinedTaskContext class]]) {
+        ORKTinnitusPredefinedTaskContext *context = (ORKTinnitusPredefinedTaskContext *)self.step.context;
+        NSArray *samples = context.audioManifest.samples;
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name ==[c] %@", ORKTinnitusMaskingSoundWhiteNoise];
+        ORKTinnitusAudioSample *whiteNoise = [[samples filteredArrayUsingPredicate:predicate] firstObject];
+        
+        if (whiteNoise) {
+            NSURL *path = [NSURL fileURLWithPath:whiteNoise.path];
+            AVAudioFile *file = [[AVAudioFile alloc] initForReading:path error:nil];
+            if (file)
+            {
+                self.audioBuffer = [[AVAudioPCMBuffer alloc] initWithPCMFormat:file.processingFormat frameCapacity:(AVAudioFrameCount)file.length];
+                [file readIntoBuffer:self.audioBuffer error:nil];
+            }
+            
+            [self.audioEngine connect:self.playerNode to:self.audioEngine.outputNode format:self.audioBuffer.format];
+            [self.playerNode scheduleBuffer:self.audioBuffer atTime:nil options:AVAudioPlayerNodeBufferLoops completionHandler:nil];
+            [self.audioEngine prepare];
+            [self.audioEngine startAndReturnError:nil];
+            
+            [self.playerNode play];
         }
-        
-        [self.audioEngine connect:self.playerNode to:self.audioEngine.outputNode format:self.audioBuffer.format];
-        [self.playerNode scheduleBuffer:self.audioBuffer atTime:nil options:AVAudioPlayerNodeBufferLoops completionHandler:nil];
-        [self.audioEngine prepare];
-        [self.audioEngine startAndReturnError:nil];
-        
-        [self.playerNode play];
     }
 }
 
