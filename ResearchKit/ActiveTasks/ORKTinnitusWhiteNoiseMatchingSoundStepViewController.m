@@ -41,7 +41,7 @@
 #import "ORKStepContainerView_Private.h"
 #import "ORKNavigationContainerView_Internal.h"
 #import "ORKHelpers_Internal.h"
-#import <ResearchKit/ResearchKit_Private.h>
+#import "ResearchKit_Private.h"
 
 #import "ORKSkin.h"
 
