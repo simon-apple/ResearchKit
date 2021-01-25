@@ -47,7 +47,6 @@ static const CGFloat ORKTinnitusGlowAdjustment = 16.0;
 
 @end
 
-ORK_CLASS_AVAILABLE
 @interface ORKTinnitusMaskingSoundButtonView : UIView <UIGestureRecognizerDelegate>
 
 @property (nonatomic) NSString *title;

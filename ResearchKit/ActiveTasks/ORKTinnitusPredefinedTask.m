@@ -386,7 +386,7 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
     }
 }
 
-- (ORKStep *)dinamicStepAfterStep:(ORKStep *)step withResult:(id<ORKTaskResultSource>)result {
+- (ORKStep *)dynamicStepAfterStep:(ORKStep *)step withResult:(id<ORKTaskResultSource>)result {
     NSString *identifier = step.identifier;
     ORKStep *nextStep = _stepAfterStepDict[identifier];
 
@@ -453,7 +453,7 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
         return prependedStep;
     }
     
-    ORKStep *nextStep = [self dinamicStepAfterStep:step withResult:result];
+    ORKStep *nextStep = [self dynamicStepAfterStep:step withResult:result];
     nextStep.context = _context;
 
     if (nextStep) {
