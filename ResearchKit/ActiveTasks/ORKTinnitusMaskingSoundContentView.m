@@ -92,7 +92,7 @@ ORK_CLASS_AVAILABLE
 - (void)setupView {
     self.backgroundColor = [UIColor clearColor];
     
-    _titleLabel = [UILabel new];
+    _titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     _titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
     _titleLabel.numberOfLines = 1;
     _titleLabel.text = self.title;
@@ -105,7 +105,7 @@ ORK_CLASS_AVAILABLE
     }
     [self addSubview:_titleLabel];
     
-    _separatorView = [UIView new];
+    _separatorView = [[UIView alloc] initWithFrame:CGRectZero];
     _separatorView.backgroundColor = [[UIColor systemGrayColor] colorWithAlphaComponent:0.5];
     _separatorView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:_separatorView];
@@ -187,7 +187,7 @@ ORK_CLASS_AVAILABLE
     [_playButtonView.widthAnchor constraintEqualToAnchor:_scrollView.widthAnchor constant:-2*ORKTinnitusGlowAdjustment].active = YES;
     [_playButtonView.topAnchor constraintEqualToAnchor:_scrollView.topAnchor].active = YES;
     
-    _questionLabel = [UILabel new];
+    _questionLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     _questionLabel.translatesAutoresizingMaskIntoConstraints = NO;
     _questionLabel.numberOfLines = 0;
     _questionLabel.text = ORKLocalizedString(@"TINNITUS_MASKING_QUESTION", nil);
@@ -203,7 +203,7 @@ ORK_CLASS_AVAILABLE
     [_questionLabel.trailingAnchor constraintEqualToAnchor:_scrollView.trailingAnchor constant:-36.0].active = YES;
     [_questionLabel.topAnchor constraintEqualToAnchor:_playButtonView.bottomAnchor constant:ORKTinnitusGlowAdjustment].active = YES;
     
-    _separatorView = [UIView new];
+    _separatorView = [[UIView alloc] initWithFrame:CGRectZero];
     _separatorView.backgroundColor = [[UIColor systemGrayColor] colorWithAlphaComponent:0.5];
     _separatorView.translatesAutoresizingMaskIntoConstraints = NO;
     [_scrollView addSubview:_separatorView];
@@ -254,7 +254,7 @@ ORK_CLASS_AVAILABLE
 
 - (void)setupScrollView {
     if (!_scrollView) {
-        _scrollView = [UIScrollView new];
+        _scrollView = [[UIScrollView alloc] initWithFrame:CGRectZero];
     }
     [self addSubview:_scrollView];
     _scrollView.translatesAutoresizingMaskIntoConstraints = NO;
