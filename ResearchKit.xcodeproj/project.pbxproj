@@ -23,7 +23,6 @@
 
 /* Begin PBXBuildFile section */
 		003BC2BF24FD585B00BC7CDF /* ORKCollectionResult.h in Headers */ = {isa = PBXBuildFile; fileRef = FF919A511E81BEB5005C2A1E /* ORKCollectionResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		005C065424FC5B5200325A31 /* ORKCollectionResult.m in Sources */ = {isa = PBXBuildFile; fileRef = FF919A521E81BEB5005C2A1E /* ORKCollectionResult.m */; };
 		00B1F7852241503900D022FE /* Speech.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B1F7842241503900D022FE /* Speech.framework */; };
 		00C19CBE25094B5F00DCFB7A /* TaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D06633924FEF2CE005D9B40 /* TaskView.swift */; };
 		00C19CC22509520900DCFB7A /* ResearchKitUI.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D06632F24FEF272005D9B40 /* ResearchKitUI.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -314,7 +313,6 @@
 		5DABE5B124DA1A4F00570C57 /* ORKChoiceAnswerFormatHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 861D11AC1AA7951F003C98A7 /* ORKChoiceAnswerFormatHelper.m */; };
 		5DD838F4257AD74C006CFD84 /* View+OnChange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DD838F3257AD74C006CFD84 /* View+OnChange.swift */; };
 		5DD838F6257AD831006CFD84 /* ORKScrollViewReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DD838F5257AD831006CFD84 /* ORKScrollViewReader.swift */; };
-		5DFD11D024F7354200744C69 /* ORKCollectionResult.h in Headers */ = {isa = PBXBuildFile; fileRef = FF919A511E81BEB5005C2A1E /* ORKCollectionResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5DFD11D124F73A6F00744C69 /* ORKCollectionResult.m in Sources */ = {isa = PBXBuildFile; fileRef = FF919A521E81BEB5005C2A1E /* ORKCollectionResult.m */; };
 		6146D0A31B84A91E0068491D /* ORKGraphChartAccessibilityElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 6146D0A11B84A91E0068491D /* ORKGraphChartAccessibilityElement.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6146D0A41B84A91E0068491D /* ORKGraphChartAccessibilityElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 6146D0A21B84A91E0068491D /* ORKGraphChartAccessibilityElement.m */; };
@@ -4327,7 +4325,6 @@
 				5DABE55F24D8C92000570C57 /* ORKInstructionStep.h in Headers */,
 				5DABE5A024D9EAFE00570C57 /* ORKSkin.h in Headers */,
 				5DABE5A224D9EC4200570C57 /* ORKQuestionResult.h in Headers */,
-				5DFD11D024F7354200744C69 /* ORKCollectionResult.h in Headers */,
 				5DABE56024D8C94500570C57 /* ORKCompletionStep.h in Headers */,
 				5DABE55C24D8C33800570C57 /* ORKStep.h in Headers */,
 				5DABE55D24D8C34B00570C57 /* ORKTypes.h in Headers */,
@@ -5172,7 +5169,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				005C065424FC5B5200325A31 /* ORKCollectionResult.m in Sources */,
 				5DABE5A524D9ECB500570C57 /* ORKResult.m in Sources */,
 				5DFD11D124F73A6F00744C69 /* ORKCollectionResult.m in Sources */,
 				5DABE5AA24D9EFB000570C57 /* ORKErrors.m in Sources */,
