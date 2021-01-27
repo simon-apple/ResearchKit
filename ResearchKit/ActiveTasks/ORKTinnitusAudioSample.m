@@ -29,6 +29,7 @@
  */
 
 #import "ORKTinnitusAudioSample.h"
+#import "ORKHelpers_Internal.h"
 #import <AVFoundation/AVFoundation.h>
 
 @implementation ORKTinnitusAudioSample
@@ -86,9 +87,20 @@
     return self;
 }
 
-- (ORKTinnitusAudioSample *)sampleNamed:(NSString *)sampleName {
+- (ORKTinnitusAudioSample *)sampleNamed:(NSString *)sampleName error:(NSError **)outError {
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name ==[c] %@", sampleName];
-    return [[_samples filteredArrayUsingPredicate:predicate] firstObject];
+    ORKTinnitusAudioSample *audioSample = [[_samples filteredArrayUsingPredicate:predicate] firstObject];
+    
+    if (!audioSample) {
+        if (outError != NULL) {
+            *outError = [NSError errorWithDomain:NSCocoaErrorDomain
+                                            code:NSFeatureUnsupportedError
+                                        userInfo:@{NSLocalizedDescriptionKey:[NSString stringWithFormat:ORKLocalizedString(@"TINNITUS_SAMPLE_NOT_FOUND_ERROR", nil), sampleName]}];
+        }
+        return nil;
+    }
+    
+    return audioSample;
 }
 
 @end

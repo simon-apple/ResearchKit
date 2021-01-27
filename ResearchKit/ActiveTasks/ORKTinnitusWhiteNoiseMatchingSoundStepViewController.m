@@ -88,25 +88,20 @@
     
     if (self.step.context && [self.step.context isKindOfClass:[ORKTinnitusPredefinedTaskContext class]]) {
         ORKTinnitusPredefinedTaskContext *context = (ORKTinnitusPredefinedTaskContext *)self.step.context;
-        ORKTinnitusAudioSample *audioSample = [context.audioManifest sampleNamed:soundName];
+        ORKTinnitusAudioSample *audioSample = [context.audioManifest sampleNamed:soundName error:outError];
         
-        if (!audioSample) {
-            if (outError != NULL) {
-                *outError = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFeatureUnsupportedError userInfo:@{NSLocalizedDescriptionKey:ORKLocalizedString(@"TINNITUS_SAMPLE_NOT_FOUND_ERROR", nil)}];
-            }
-            return NO;
-        }
-        
-        AVAudioPCMBuffer *buffer = [audioSample getBuffer:outError];
-
-        if (buffer) {
-            self.audioBuffer = buffer;
-            [self.audioEngine connect:self.playerNode to:self.audioEngine.outputNode format:self.audioBuffer.format];
-            [self.playerNode scheduleBuffer:self.audioBuffer atTime:nil options:AVAudioPlayerNodeBufferLoops completionHandler:nil];
-            [self.audioEngine prepare];
-            if ([self.audioEngine startAndReturnError:outError]) {
-                [self.playerNode play];
-                return YES;
+        if (audioSample) {
+            AVAudioPCMBuffer *buffer = [audioSample getBuffer:outError];
+            
+            if (buffer) {
+                self.audioBuffer = buffer;
+                [self.audioEngine connect:self.playerNode to:self.audioEngine.outputNode format:self.audioBuffer.format];
+                [self.playerNode scheduleBuffer:self.audioBuffer atTime:nil options:AVAudioPlayerNodeBufferLoops completionHandler:nil];
+                [self.audioEngine prepare];
+                if ([self.audioEngine startAndReturnError:outError]) {
+                    [self.playerNode play];
+                    return YES;
+                }
             }
         }
     }

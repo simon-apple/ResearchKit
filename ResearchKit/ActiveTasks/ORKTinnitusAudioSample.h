@@ -61,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)manifestWithSamples:(NSArray<ORKTinnitusAudioSample *> *)samples;
 - (instancetype)initWithSamples:(NSArray<ORKTinnitusAudioSample *> *)samples;
 
-- (nullable ORKTinnitusAudioSample *)sampleNamed:(NSString *)sampleName;
+- (nullable ORKTinnitusAudioSample *)sampleNamed:(NSString *)sampleName error:(NSError **)outError;
 
 @end
 

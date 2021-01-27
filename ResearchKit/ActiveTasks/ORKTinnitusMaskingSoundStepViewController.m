@@ -166,25 +166,20 @@ NSString *const ORKTinnitusPuretoneMaskSoundNameExtension = @"wav";
 - (BOOL)setupAudioEngineForSoundName:(NSString *)soundName error:(NSError **)outError {
     if (self.step.context && [self.step.context isKindOfClass:[ORKTinnitusPredefinedTaskContext class]]) {
         ORKTinnitusPredefinedTaskContext *context = (ORKTinnitusPredefinedTaskContext *)self.step.context;
-        ORKTinnitusAudioSample *audioSample = [context.audioManifest sampleNamed:soundName];
+        ORKTinnitusAudioSample *audioSample = [context.audioManifest sampleNamed:soundName error:outError];
         
-        if (!audioSample) {
-            if (outError != NULL) {
-                *outError = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFeatureUnsupportedError userInfo:@{NSLocalizedDescriptionKey:ORKLocalizedString(@"TINNITUS_SAMPLE_NOT_FOUND_ERROR", nil)}];
+        if (audioSample) {
+            AVAudioPCMBuffer *buffer = [audioSample getBuffer:outError];
+            
+            if (buffer) {
+                _audioBuffer = buffer;
+                _mixerNode = _audioEngine.mainMixerNode;
+                [_audioEngine connect:_playerNode to:_unitEq format:_audioBuffer.format];
+                [_audioEngine connect:_unitEq to:_mixerNode format:_audioBuffer.format];
+                [_playerNode scheduleBuffer:_audioBuffer atTime:nil options:AVAudioPlayerNodeBufferLoops completionHandler:nil];
+                [_audioEngine prepare];
+                return [_audioEngine startAndReturnError:outError];
             }
-            return NO;
-        }
-        
-        AVAudioPCMBuffer *buffer = [audioSample getBuffer:outError];
-
-        if (buffer) {
-            _audioBuffer = buffer;
-            _mixerNode = _audioEngine.mainMixerNode;
-            [_audioEngine connect:_playerNode to:_unitEq format:_audioBuffer.format];
-            [_audioEngine connect:_unitEq to:_mixerNode format:_audioBuffer.format];
-            [_playerNode scheduleBuffer:_audioBuffer atTime:nil options:AVAudioPlayerNodeBufferLoops completionHandler:nil];
-            [_audioEngine prepare];
-            return [_audioEngine startAndReturnError:outError];
         }
     }
     return NO;
