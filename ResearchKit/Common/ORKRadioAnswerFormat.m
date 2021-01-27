@@ -1,5 +1,6 @@
+//
 /*
- Copyright (c) 2019, Apple Inc. All rights reserved.
+ Copyright (c) 2021, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,28 +29,8 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <UIKit/UIKit.h>
+#import "ORKRadioAnswerFormat.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
-typedef NS_ENUM(NSUInteger, ORKCheckmarkViewStyle) {
-    ORKCheckmarkViewStyleDefault,
-    ORKCheckmarkViewStyleRadio
-};
-
-@interface ORKCheckmarkView : UIImageView;
-
-- (instancetype)initWithRadius:(CGFloat)radius checkedImage:(nullable UIImage *)checkedImage uncheckedImage:(nullable UIImage *)uncheckedImage;
-- (instancetype)initWithDefaults;
-- (instancetype)initWithDefaultsWithoutCircle;
-- (instancetype)initWithStyle:(ORKCheckmarkViewStyle)style;
-
-@property (nonatomic, nullable) UIImage *checkedImage;
-@property (nonatomic, nullable) UIImage *uncheckedImage;
-@property (nonatomic) BOOL checked;
-
-- (CGFloat)getDimension;
+@implementation ORKRadioAnswerFormat
 
 @end
-
-NS_ASSUME_NONNULL_END

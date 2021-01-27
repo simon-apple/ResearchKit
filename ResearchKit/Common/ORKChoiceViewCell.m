@@ -411,27 +411,14 @@ static const CGFloat LabelCheckViewPadding = 10.0;
     }
 }
 
-- (UIImage *)unCheckedImage {
-    if (@available(iOS 13.0, *)) {
-        UIImageConfiguration *configuration = [UIImageSymbolConfiguration configurationWithFont:[UIFont preferredFontForTextStyle:UIFontTextStyleBody] scale:UIImageSymbolScaleLarge];
-        return [UIImage systemImageNamed:@"circle" withConfiguration:configuration];
-    } else {
-        return nil;
-    }
-}
-
-- (UIImage *)checkedImage {
-    if (@available(iOS 13.0, *)) {
-        UIImageConfiguration *configuration = [UIImageSymbolConfiguration configurationWithFont:[UIFont preferredFontForTextStyle:UIFontTextStyleBody] scale:UIImageSymbolScaleLarge];
-        return [UIImage systemImageNamed:@"checkmark.circle.fill" withConfiguration:configuration];
-    } else {
-        return [[UIImage imageNamed:@"checkmark" inBundle:ORKBundle() compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    }
-}
-
 - (void)setupCheckView {
     if (!_checkView) {
-        _checkView = [[ORKCheckmarkView alloc] initWithDefaults];
+        switch (_customAccessoryType) {
+            case ORKChoiceViewCellAccessoryTypeRadio:
+                _checkView = [[ORKCheckmarkView alloc] initWithStyle:ORKCheckmarkViewStyleRadio];
+            case ORKChoiceViewCellAccessoryTypeDefault:
+                _checkView = [[ORKCheckmarkView alloc] initWithDefaults];
+        }
     }
     [_checkView setChecked:NO];
     [self.containerView addSubview:_checkView];

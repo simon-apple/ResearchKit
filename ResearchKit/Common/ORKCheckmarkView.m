@@ -71,6 +71,18 @@ static const CGFloat CheckmarkViewBorderWidth = 2.0;
                shouldShowCircle:NO];
 }
 
+- (instancetype)initWithStyle:(ORKCheckmarkViewStyle)style {
+    switch (style) {
+    case ORKCheckmarkViewStyleDefault:
+        return [self initWithDefaults];
+    case ORKCheckmarkViewStyleRadio:
+            return [self initWithRadius:CheckmarkViewDimension*0.5
+                           checkedImage:[ORKCheckmarkView radioSelectedImage]
+                         uncheckedImage:[ORKCheckmarkView radioDeselectedImage]
+                       shouldShowCircle:NO];
+    }
+}
+
 - (CGFloat)getDimension {
     return _dimension;
 }
@@ -99,6 +111,24 @@ static const CGFloat CheckmarkViewBorderWidth = 2.0;
         return [UIImage systemImageNamed:@"checkmark" withConfiguration:configuration];
     } else {
         return [[UIImage imageNamed:@"checkmark" inBundle:ORKBundle() compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    }
+}
+
++ (UIImage *)radioSelectedImage {
+    if (@available(iOS 13.0, *)) {
+        UIImageConfiguration *configuration = [UIImageSymbolConfiguration configurationWithFont:[UIFont preferredFontForTextStyle:UIFontTextStyleBody] scale:UIImageSymbolScaleLarge];
+        return [UIImage systemImageNamed:@"" withConfiguration:configuration];
+    } else {
+        return [[UIImage imageNamed:@"" inBundle:ORKBundle() compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    }
+}
+
++ (UIImage *)radioDeselectedImage {
+    if (@available(iOS 13.0, *)) {
+        UIImageConfiguration *configuration = [UIImageSymbolConfiguration configurationWithFont:[UIFont preferredFontForTextStyle:UIFontTextStyleBody] scale:UIImageSymbolScaleLarge];
+        return [UIImage systemImageNamed:@"" withConfiguration:configuration];
+    } else {
+        return [[UIImage imageNamed:@"" inBundle:ORKBundle() compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     }
 }
 

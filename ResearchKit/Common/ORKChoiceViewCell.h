@@ -34,6 +34,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NS_ENUM(NSUInteger, ORKChoiceViewCellAccessoryType) {
+    ORKChoiceViewCellAccessoryTypeDefault,
+    ORKChoiceViewCellAccessoryTypeRadio
+};
+
 @class ORKAnswerTextView;
 
 @interface ORKChoiceViewCell : UITableViewCell
@@ -49,6 +54,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) BOOL isFirstItemInSectionWithoutTitle;
 
 @property (nonatomic) BOOL isExclusive;
+
+@property (nonatomic, assign) ORKChoiceViewCellAccessoryType customAccessoryType;
 
 @property (nonatomic) ORKCardViewStyle cardViewStyle;
 

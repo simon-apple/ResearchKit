@@ -38,6 +38,7 @@
 #import "ORKAnswerTextView.h"
 
 #import "ORKAnswerFormat_Internal.h"
+#import "ORKRadioAnswerFormat.h"
 #import "ORKChoiceAnswerFormatHelper.h"
 
 #import "ORKHelpers_Internal.h"
@@ -100,6 +101,10 @@
             cell = choiceOtherViewCell;
         } else {
             cell = [[ORKChoiceViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+        }
+        
+        if ([_answerFormat isKindOfClass:[ORKRadioAnswerFormat class]]) {
+            cell.customAccessoryType = ORKChoiceViewCellAccessoryTypeRadio;
         }
         cell.isExclusive = textChoice.exclusive;
         cell.immediateNavigation = _immediateNavigation;
