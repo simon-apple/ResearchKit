@@ -733,6 +733,7 @@
 "TINNITUS_MASKING_ANSWER_PROBABLYNOT" = "Probably not";
 "TINNITUS_MASKING_ANSWER_DEFINITELYNOT" = "Definitely not";
 "TINNITUS_MASKING_ANSWER_NOTA" = "None of the above";
+"TINNITUS_SAMPLE_NOT_FOUND_ERROR" = "Audio sample was not found";
 
 /* ORKRecordButton */
 "PLAY" = "Play";

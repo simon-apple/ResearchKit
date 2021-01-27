@@ -29,9 +29,10 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <AVFoundation/AVFoundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
+
+@class AVAudioPCMBuffer;
 
 @interface ORKTinnitusAudioSample : NSObject
 
@@ -58,8 +59,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)init NS_UNAVAILABLE;
 
 + (instancetype)manifestWithSamples:(NSArray<ORKTinnitusAudioSample *> *)samples;
-
 - (instancetype)initWithSamples:(NSArray<ORKTinnitusAudioSample *> *)samples;
+
+- (nullable ORKTinnitusAudioSample *)sampleNamed:(NSString *)sampleName;
 
 @end
 

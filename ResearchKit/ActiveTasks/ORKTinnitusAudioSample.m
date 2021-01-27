@@ -29,6 +29,7 @@
  */
 
 #import "ORKTinnitusAudioSample.h"
+#import <AVFoundation/AVFoundation.h>
 
 @implementation ORKTinnitusAudioSample
 
@@ -83,6 +84,11 @@
         _samples = [samples copy];
     }
     return self;
+}
+
+- (ORKTinnitusAudioSample *)sampleNamed:(NSString *)sampleName {
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name ==[c] %@", sampleName];
+    return [[_samples filteredArrayUsingPredicate:predicate] firstObject];
 }
 
 @end

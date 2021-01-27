@@ -166,9 +166,15 @@ NSString *const ORKTinnitusPuretoneMaskSoundNameExtension = @"wav";
 - (BOOL)setupAudioEngineForSoundName:(NSString *)soundName error:(NSError **)outError {
     if (self.step.context && [self.step.context isKindOfClass:[ORKTinnitusPredefinedTaskContext class]]) {
         ORKTinnitusPredefinedTaskContext *context = (ORKTinnitusPredefinedTaskContext *)self.step.context;
-        NSArray *samples = context.audioManifest.samples;
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name ==[c] %@", soundName];
-        ORKTinnitusAudioSample *audioSample = [[samples filteredArrayUsingPredicate:predicate] firstObject];
+        ORKTinnitusAudioSample *audioSample = [context.audioManifest sampleNamed:soundName];
+        
+        if (!audioSample) {
+            if (outError != NULL) {
+                *outError = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFeatureUnsupportedError userInfo:@{NSLocalizedDescriptionKey:ORKLocalizedString(@"TINNITUS_SAMPLE_NOT_FOUND_ERROR", nil)}];
+            }
+            return NO;
+        }
+        
         AVAudioPCMBuffer *buffer = [audioSample getBuffer:outError];
 
         if (buffer) {

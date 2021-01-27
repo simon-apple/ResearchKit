@@ -116,9 +116,15 @@
 - (BOOL)setupAudioEngineForFilename:(NSString *)filename error:(NSError **)outError {
     if (self.step.context && [self.step.context isKindOfClass:[ORKTinnitusPredefinedTaskContext class]]) {
         ORKTinnitusPredefinedTaskContext *context = (ORKTinnitusPredefinedTaskContext *)self.step.context;
-        NSArray *samples = context.audioManifest.samples;
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name ==[c] %@", filename];
-        ORKTinnitusAudioSample *audioSample = [[samples filteredArrayUsingPredicate:predicate] firstObject];
+        ORKTinnitusAudioSample *audioSample = [context.audioManifest sampleNamed:filename];
+        
+        if (!audioSample) {
+            if (outError != NULL) {
+                *outError = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFeatureUnsupportedError userInfo:@{NSLocalizedDescriptionKey:ORKLocalizedString(@"TINNITUS_SAMPLE_NOT_FOUND_ERROR", nil)}];
+            }
+            return NO;
+        }
+        
         AVAudioPCMBuffer *buffer = [audioSample getBuffer:outError];
 
         if (buffer) {
@@ -129,6 +135,7 @@
             [self.audioEngine connect:self.playerNode to:self.audioEngine.outputNode format:self.audioBuffer.format];
             [self.playerNode scheduleBuffer:self.audioBuffer atTime:nil options:AVAudioPlayerNodeBufferLoops completionHandler:nil];
             [self.audioEngine prepare];
+            
             return [self.audioEngine startAndReturnError:outError];
         }
     }
