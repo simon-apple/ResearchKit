@@ -95,7 +95,6 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
 @interface ORKTinnitusPredefinedTask () {
     ORKTinnitusPredefinedTaskContext *_context;
     
-    UIColor *_cachedBGColor;
     NSDictionary *_stepAfterStepDict;
     NSArray<NSArray <ORKTinnitusMaskingSoundStep*>*> *_maskingSteps;
 
@@ -444,7 +443,6 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
 - (ORKStep *)stepAfterStep:(ORKStep *)step withResult:(id<ORKTaskResultSource>)result {
     if (step == nil) {
         [self setupStraightStepAfterStepDict];
-        [self setupBGColor];
     }
     
     ORKStep *prependedStep = [self prependedStepAfterStep:step];
@@ -525,30 +523,6 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
         return [self stepForMaskingSoundNumber:index+1];
     }
     return nil;
-}
-
-- (void)setupBGColor {
-    if (_cachedBGColor == nil) {
-        _cachedBGColor = ORKColor(ORKBackgroundColorKey);
-        if (@available(iOS 13.0, *)) {
-            UIColor *adaptativeColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
-                if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
-                    return [UIColor colorWithRed:18/255.0 green:18/255.0 blue:20/255.0 alpha:1.0];
-                }
-                return UIColor.whiteColor;
-            }];
-            ORKColorSetColorForKey(ORKBackgroundColorKey, adaptativeColor);
-        } else {
-            ORKColorSetColorForKey(ORKBackgroundColorKey, UIColor.whiteColor);
-        }
-    }
-}
-
-- (void)dealloc {
-    if (_cachedBGColor != nil) {
-        ORKColorSetColorForKey(ORKBackgroundColorKey, _cachedBGColor);
-        _cachedBGColor = nil;
-    }
 }
 
 - (BOOL)checkValidMaskingSound:(ORKTinnitusNoiseType)type {
