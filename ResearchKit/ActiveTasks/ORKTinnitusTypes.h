@@ -81,3 +81,5 @@ ORK_EXTERN ORKTinnitusError const ORKTinnitusErrorTooHigh;              // @"Too
 ORK_EXTERN ORKTinnitusError const ORKTinnitusErrorTooLow;               // @"TooLowFrequency"
 
 #endif /* ORKTinnitusTypes_h */
+
+NSString * ORKTinnitusMaskingSoundForNoiseType(ORKTinnitusNoiseType noiseType);

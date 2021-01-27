@@ -29,6 +29,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <AVFoundation/AVFoundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -43,6 +44,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)sampleWithPath:(nonnull NSString *)path name:(nonnull NSString *)name;
 - (instancetype)initWithPath:(nonnull NSString *)path name:(nonnull NSString *)name;
+
+- (nullable AVAudioPCMBuffer *)getBuffer:(NSError **)outError;
 
 @end
 

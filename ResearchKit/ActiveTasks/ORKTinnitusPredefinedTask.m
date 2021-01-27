@@ -97,7 +97,6 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
     
     UIColor *_cachedBGColor;
     NSDictionary *_stepAfterStepDict;
-    NSDictionary *_stepBeforeStepDict;
     NSArray<NSArray <ORKTinnitusMaskingSoundStep*>*> *_maskingSteps;
 
     ORKTinnitusType _type;
@@ -463,17 +462,6 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
     return [self apendedStepAfterStep:step];
 }
 
-- (ORKStep *)stepBeforeStep:(ORKStep *)step withResult:(ORKTaskResult *)result {
-    NSString *identifier = step.identifier;
-    if (identifier == nil || [identifier isEqualToString: ORKTinnitusHeadphoneDetectStepIdentifier]) {
-        [self setupStraightStepBeforeStepDict];
-        return nil;
-    }
-    
-    ORKStep *previousStep = _stepBeforeStepDict[identifier];
-    return previousStep;
-}
-
 - (void)initMaskingSteps {
     NSMutableArray<ORKStep *> *steps = [[NSMutableArray alloc] initWithObjects:
                                         @[self.fireMasking, self.fireMaskingNotch],
@@ -498,12 +486,6 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
         ORKTinnitusRound1SuccessCompletedStepIdentifier: [ORKTinnitusPredefinedTask round2],
         ORKTinnitusRound2StepIdentifier: [ORKTinnitusPredefinedTask round2SuccessCompleted],
         ORKTinnitusRound2SuccessCompletedStepIdentifier: [ORKTinnitusPredefinedTask round3]
-    };
-}
-
-- (void)setupStraightStepBeforeStepDict {
-    _stepBeforeStepDict = @{
-//        ORKTinnitusBeforeStartStepIdentifier: self.testingInstruction
     };
 }
 

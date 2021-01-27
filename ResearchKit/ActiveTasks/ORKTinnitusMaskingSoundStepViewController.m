@@ -155,33 +155,35 @@ NSString *const ORKTinnitusPuretoneMaskSoundNameExtension = @"wav";
     [_audioEngine attachNode:_unitEq];
     [_audioEngine attachNode:_playerNode];
     
+    NSError *error;
+    if (![self setupAudioEngineForSoundName:soundName error:&error]) {
+        ORK_Log_Error("Error fetching audioSample: %@", error);
+    }
+    
+    [self setNavigationFooterView];
+}
+
+- (BOOL)setupAudioEngineForSoundName:(NSString *)soundName error:(NSError **)outError {
     if (self.step.context && [self.step.context isKindOfClass:[ORKTinnitusPredefinedTaskContext class]]) {
         ORKTinnitusPredefinedTaskContext *context = (ORKTinnitusPredefinedTaskContext *)self.step.context;
         NSArray *samples = context.audioManifest.samples;
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name ==[c] %@", soundName];
         ORKTinnitusAudioSample *audioSample = [[samples filteredArrayUsingPredicate:predicate] firstObject];
-        
-        if (audioSample) {
-            NSURL *path = [NSURL fileURLWithPath:audioSample.path];
-            AVAudioFile *file = [[AVAudioFile alloc] initForReading:path error:nil];
-            
-            if (file)
-            {
-                _audioBuffer = [[AVAudioPCMBuffer alloc] initWithPCMFormat:file.processingFormat frameCapacity:(AVAudioFrameCount)file.length];
-                [file readIntoBuffer:_audioBuffer error:nil];
-            }
-            
+        AVAudioPCMBuffer *buffer = [audioSample getBuffer:outError];
+
+        if (buffer) {
+            _audioBuffer = buffer;
             _mixerNode = _audioEngine.mainMixerNode;
-            [_audioEngine connect:_playerNode to:_unitEq format:file.processingFormat];
-            [_audioEngine connect:_unitEq to:_mixerNode format:file.processingFormat];
+            [_audioEngine connect:_playerNode to:_unitEq format:_audioBuffer.format];
+            [_audioEngine connect:_unitEq to:_mixerNode format:_audioBuffer.format];
             [_playerNode scheduleBuffer:_audioBuffer atTime:nil options:AVAudioPlayerNodeBufferLoops completionHandler:nil];
             [_audioEngine prepare];
-            [_audioEngine startAndReturnError:nil];
+            return [_audioEngine startAndReturnError:outError];
         }
     }
-    
-    [self setNavigationFooterView];
+    return NO;
 }
+
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];

@@ -252,7 +252,7 @@ static const CGFloat ORKTinnitusButtonTopAdjustment = 8.0;
     return [selectedButtonsArray firstObject];
 }
 
-- (void)unselectAllExcept:(ORKTinnitusButtonView *)buttonView
+- (void)selectButton:(ORKTinnitusButtonView *)buttonView
 {
     NSArray *unselectArray = [_buttonViewsArray
                               filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id object, NSDictionary *bindings) {
@@ -545,7 +545,7 @@ static const CGFloat ORKTinnitusButtonTopAdjustment = 8.0;
 }
 
 - (void)tinnitusButtonViewPressed:(nonnull ORKTinnitusButtonView *)tinnitusButtonView {
-    [self unselectAllExcept:tinnitusButtonView];
+    [self selectButton:tinnitusButtonView];
     if (_delegate && [_delegate respondsToSelector:@selector(playButtonPressedWithNewPosition:)]) {
         [_delegate playButtonPressedWithNewPosition:[self currentSelectedPosition]];
     }

@@ -83,7 +83,7 @@
     [self.audioEngine stop];
 }
 
-- (void)playSound:(NSString *)soundName {
+- (BOOL)playSound:(NSString *)soundName error:(NSError **)outError {
     [self tearDownAudioEngine];
     
     if (self.step.context && [self.step.context isKindOfClass:[ORKTinnitusPredefinedTaskContext class]]) {
@@ -91,25 +91,20 @@
         NSArray *samples = context.audioManifest.samples;
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name ==[c] %@", soundName];
         ORKTinnitusAudioSample *audioSample = [[samples filteredArrayUsingPredicate:predicate] firstObject];
-        
-        if (audioSample) {
-            NSURL *path = [NSURL fileURLWithPath:audioSample.path];
-            AVAudioFile *file = [[AVAudioFile alloc] initForReading:path error:nil];
-            
-            if (file)
-            {
-                self.audioBuffer = [[AVAudioPCMBuffer alloc] initWithPCMFormat:file.processingFormat frameCapacity:(AVAudioFrameCount)file.length];
-                [file readIntoBuffer:self.audioBuffer error:nil];
-            }
-            
+        AVAudioPCMBuffer *buffer = [audioSample getBuffer:outError];
+
+        if (buffer) {
+            self.audioBuffer = buffer;
             [self.audioEngine connect:self.playerNode to:self.audioEngine.outputNode format:self.audioBuffer.format];
             [self.playerNode scheduleBuffer:self.audioBuffer atTime:nil options:AVAudioPlayerNodeBufferLoops completionHandler:nil];
             [self.audioEngine prepare];
-            [self.audioEngine startAndReturnError:nil];
-            
-            [self.playerNode play];
+            if ([self.audioEngine startAndReturnError:outError]) {
+                [self.playerNode play];
+                return YES;
+            }
         }
     }
+    return NO;
 }
 
 - (void)setNavigationFooterView
@@ -120,19 +115,24 @@
 }
 
 - (void)tinnitusButtonViewPressed:(ORKTinnitusButtonView * _Nonnull)tinnitusButtonView {
-    [_maskingContentView unselectAllExcept:tinnitusButtonView];
+    [_maskingContentView selectButton:tinnitusButtonView];
     [self tearDownAudioEngine];
     
     if (tinnitusButtonView.isShowingPause) {
         dispatch_async(dispatch_get_main_queue(), ^{
+            NSError *error;
             if (tinnitusButtonView == _maskingContentView.cicadasButtonView) {
-                [self playSound:ORKTinnitusMaskingSoundCicadas];
+                [self playSound:ORKTinnitusMaskingSoundCicadas error:&error];
             } else if (tinnitusButtonView == _maskingContentView.cricketsButtonView) {
-                [self playSound:ORKTinnitusMaskingSoundCrickets];
+                [self playSound:ORKTinnitusMaskingSoundCrickets error:&error];
             } else if (tinnitusButtonView == _maskingContentView.whitenoiseButtonView) {
-                [self playSound:ORKTinnitusMaskingSoundWhiteNoise];
+                [self playSound:ORKTinnitusMaskingSoundWhiteNoise error:&error];
             } else if (tinnitusButtonView == _maskingContentView.teakettleButtonView) {
-                [self playSound:ORKTinnitusMaskingSoundTeakettle];
+                [self playSound:ORKTinnitusMaskingSoundTeakettle error:&error];
+            }
+            
+            if (error) {
+                ORK_Log_Error("Error fetching audioSample: %@", error);
             }
         });
     }

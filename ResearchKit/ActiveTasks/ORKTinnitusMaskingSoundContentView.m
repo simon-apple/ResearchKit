@@ -290,7 +290,5 @@ static const CGFloat ORKTinnitusGlowAdjustment = 16.0;
     }
 }
 
-
-
 @end
 

@@ -113,11 +113,6 @@ static const CGFloat ORKTinnitusGlowAdjustment = 16.0;
     [self layoutIfNeeded];
 }
 
-//- (void)dealloc {
-//    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
-//    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
-//}
-
 - (void)layoutSubviews {
     [super layoutSubviews];
     
@@ -138,16 +133,7 @@ static const CGFloat ORKTinnitusGlowAdjustment = 16.0;
     _scrollView.scrollEnabled = YES;
 }
 
-//- (void)unselectAllExceptOther {
-//    NSPredicate *predicate = [NSPredicate predicateWithFormat:
-//                              @"self isKindOfClass: %@",
-//                              [ORKTinnitusButtonView class]];
-//
-//    NSArray *playButtons = [_buttonsViewArray filteredArrayUsingPredicate:predicate];
-//    [playButtons makeObjectsPerformSelector:@selector(restoreButton)];
-//}
-
-- (void)unselectAllExcept:(ORKTinnitusButtonView *)buttonView
+- (void)selectButton:(ORKTinnitusButtonView *)buttonView
 {
     NSArray *unselectArray = [_buttonsViewArray
                               filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id object, NSDictionary *bindings) {

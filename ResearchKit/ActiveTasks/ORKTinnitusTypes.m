@@ -30,6 +30,7 @@
 
 #import <Foundation/Foundation.h>
 #import "ORKTinnitusTypes.h"
+#import "ORKTinnitusPredefinedTaskConstants.h"
 
 ORKTinnitusType const ORKTinnitusTypeWhiteNoise = @"whiteNoise";
 
@@ -76,3 +77,17 @@ ORKTinnitusNoiseType const ORKTinnitusNoiseTypeCicadas = @"CICADAS";
 ORKTinnitusNoiseType const ORKTinnitusNoiseTypeCrickets = @"CRICKETS";
 
 ORKTinnitusNoiseType const ORKTinnitusNoiseTypeTeakettle = @"TEAKETTLE";
+
+NSString * ORKTinnitusMaskingSoundForNoiseType(ORKTinnitusNoiseType noiseType) {
+    if ([noiseType isEqualToString:ORKTinnitusNoiseTypeTeakettle]) {
+        return ORKTinnitusMaskingSoundTeakettle;
+    } else if ([noiseType isEqualToString:ORKTinnitusNoiseTypeCrickets]) {
+        return ORKTinnitusMaskingSoundCrickets;
+    } else if ([noiseType isEqualToString:ORKTinnitusNoiseTypeCicadas]) {
+        return ORKTinnitusMaskingSoundCicadas;
+    } else if ([noiseType isEqualToString:ORKTinnitusNoiseTypeWhiteNoise]) {
+        return ORKTinnitusMaskingSoundWhiteNoise;
+    }
+    return nil;
+}
+

@@ -44,6 +44,7 @@
 #import "ORKTinnitusTypeStep.h"
 #import "ORKStepContainerView_Private.h"
 #import "ORKNavigationContainerView_Internal.h"
+#import "ORKHelpers_Internal.h"
 
 @interface ORKTinnitusTypeStepViewController () <ORKTinnitusButtonViewDelegate>
 
@@ -140,30 +141,27 @@
     [self.audioEngine stop];
 }
 
-- (void)playWhiteNoise {
+- (BOOL)playWhiteNoise:(NSError **)outError {
     if (self.step.context && [self.step.context isKindOfClass:[ORKTinnitusPredefinedTaskContext class]]) {
         ORKTinnitusPredefinedTaskContext *context = (ORKTinnitusPredefinedTaskContext *)self.step.context;
         NSArray *samples = context.audioManifest.samples;
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name ==[c] %@", ORKTinnitusMaskingSoundWhiteNoise];
         ORKTinnitusAudioSample *whiteNoise = [[samples filteredArrayUsingPredicate:predicate] firstObject];
-        
-        if (whiteNoise) {
-            NSURL *path = [NSURL fileURLWithPath:whiteNoise.path];
-            AVAudioFile *file = [[AVAudioFile alloc] initForReading:path error:nil];
-            if (file)
-            {
-                self.audioBuffer = [[AVAudioPCMBuffer alloc] initWithPCMFormat:file.processingFormat frameCapacity:(AVAudioFrameCount)file.length];
-                [file readIntoBuffer:self.audioBuffer error:nil];
-            }
-            
+        AVAudioPCMBuffer *buffer = [whiteNoise getBuffer:outError];
+
+        if (buffer) {
+            self.audioBuffer = buffer;
             [self.audioEngine connect:self.playerNode to:self.audioEngine.outputNode format:self.audioBuffer.format];
             [self.playerNode scheduleBuffer:self.audioBuffer atTime:nil options:AVAudioPlayerNodeBufferLoops completionHandler:nil];
             [self.audioEngine prepare];
-            [self.audioEngine startAndReturnError:nil];
             
-            [self.playerNode play];
+            if ([self.audioEngine startAndReturnError:outError]) {
+                [self.playerNode play];
+                return YES;
+            }
         }
     }
+    return NO;
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -207,7 +205,10 @@
         [_contentView.pureToneButtonView restoreButton];
         if (tinnitusButtonView.isShowingPause) {
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((_pureToneGenerator.fadeDuration + 0.05) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [self playWhiteNoise];
+                NSError *error;
+                if (![self playWhiteNoise:&error]) {
+                    ORK_Log_Error("Error fetching audioSample: %@", error);
+                }
             });
         }
         if (_contentView.pureToneButtonView.playedOnce) {

@@ -48,6 +48,23 @@
     return self;
 }
 
+- (AVAudioFile *)getFile:(NSError **)outError {
+    NSURL *path = [NSURL fileURLWithPath:self.path];
+    AVAudioFile *file = [[AVAudioFile alloc] initForReading:path error:outError];
+    return file;
+}
+
+- (AVAudioPCMBuffer *)getBuffer:(NSError **)outError {
+    AVAudioFile *file = [self getFile:outError];
+    if (file) {
+        AVAudioPCMBuffer *buffer = [[AVAudioPCMBuffer alloc] initWithPCMFormat:file.processingFormat frameCapacity:(AVAudioFrameCount)file.length];
+        if ([file readIntoBuffer:buffer error:outError]) {
+            return buffer;
+        }
+    }
+    return nil;
+}
+
 @end
 
 

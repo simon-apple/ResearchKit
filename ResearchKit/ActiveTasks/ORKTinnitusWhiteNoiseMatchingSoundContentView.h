@@ -41,8 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly) ORKTinnitusButtonView *cricketsButtonView;
 @property (nonatomic, strong, readonly) ORKTinnitusButtonView *teakettleButtonView;
 
-- (void)unselectAllExcept:(ORKTinnitusButtonView *)buttonView;
-//- (void)unselectAllExceptOther;
+- (void)selectButton:(ORKTinnitusButtonView *)buttonView;
 - (nullable NSString *)getAnswer;
 
 @end
