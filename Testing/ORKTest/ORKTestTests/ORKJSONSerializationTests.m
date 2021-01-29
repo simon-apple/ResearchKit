@@ -335,6 +335,7 @@ ORK_MAKE_TEST_INIT(NSRegularExpression, (^{
 }));
 ORK_MAKE_TEST_INIT(UIColor, (^{ return [self initWithRed:1 green:1 blue:1 alpha:1]; }));
 ORK_MAKE_TEST_INIT(ORKNoAnswer, (^{ return [ORKDontKnowAnswer answer]; }));
+ORK_MAKE_TEST_INIT(ORKTinnitusMaskingSoundStep, (^{ return [[ORKTinnitusMaskingSoundStep alloc] initWithIdentifier:[NSUUID UUID].UUIDString maskingSoundType:ORKTinnitusMaskingSoundTypeWhiteNoise]; }));
 
 
 @interface ORKJSONTestImageSerialization : NSObject<ORKESerializationImageProvider>
@@ -1370,6 +1371,7 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
                                                                              @"ORKTinnitusLoudnessMatchingStepViewController":@"ORKTinnitusLoudnessMatchingStep",
                                                                              @"ORKTinnitusTypeStepViewController":@"ORKTinnitusTypeStep",
                                                                              @"ORKTinnitusPureToneStepViewController":@"ORKTinnitusPureToneStep",
+                                                                             @"ORKTinnitusMaskingSoundStepViewController":@"ORKTinnitusMaskingSoundStep",
                                                                              @"ORKCustomStepViewController":@"ORKCustomStep",
                                                                              @"ORKRequestPermissionsStepViewController":@"ORKRequestPermissionsStep"
                                                                              };

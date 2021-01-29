@@ -98,8 +98,8 @@
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        [aDecoder decodeFloatForKey:@"bandwidth"];
-        [aDecoder decodeFloatForKey:@"gain"];
+        ORK_DECODE_FLOAT(aDecoder, bandwidth);
+        ORK_DECODE_FLOAT(aDecoder, gain);
         ORK_DECODE_OBJ(aDecoder, maskingSoundType);
         ORK_DECODE_DOUBLE(aDecoder, notchFrequency);
     }
@@ -108,8 +108,8 @@
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [super encodeWithCoder:aCoder];
-    [aCoder encodeFloat:self.bandwidth forKey:@"bandwidth"];
-    [aCoder encodeFloat:self.gain forKey:@"gain"];
+    ORK_ENCODE_FLOAT(aCoder, bandwidth);
+    ORK_ENCODE_FLOAT(aCoder, gain);
     ORK_ENCODE_OBJ(aCoder, maskingSoundType);
     ORK_ENCODE_DOUBLE(aCoder, notchFrequency);
 }

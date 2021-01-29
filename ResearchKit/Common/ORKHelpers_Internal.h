@@ -108,6 +108,9 @@ ORK_EXTERN BOOL ORKLoggingEnabled;
 #define ORK_DECODE_BOOL(d,x)  _ ## x = [d decodeBoolForKey:@ORK_STRINGIFY(x)]
 #define ORK_ENCODE_BOOL(c,x)  [c encodeBool:_ ## x forKey:@ORK_STRINGIFY(x)]
 
+#define ORK_DECODE_FLOAT(d,x)  _ ## x = [d decodeFloatForKey:@ORK_STRINGIFY(x)]
+#define ORK_ENCODE_FLOAT(c,x)  [c encodeFloat:_ ## x forKey:@ORK_STRINGIFY(x)]
+
 #define ORK_DECODE_DOUBLE(d,x)  _ ## x = [d decodeDoubleForKey:@ORK_STRINGIFY(x)]
 #define ORK_ENCODE_DOUBLE(c,x)  [c encodeDouble:_ ## x forKey:@ORK_STRINGIFY(x)]
 
