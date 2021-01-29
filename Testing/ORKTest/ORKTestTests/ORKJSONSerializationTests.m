@@ -566,7 +566,8 @@ ORK_MAKE_TEST_INIT(ORKTinnitusMaskingSoundStep, (^{ return [[ORKTinnitusMaskingS
                                           @"ORKWebViewStep.customViewProvider",
                                           @"ORKFaceDetectionBlurFooterView.startStopButton",
                                           @"ORKFaceDetectionBlurFooterView.timerLabel",
-                                          @"ORKLearnMoreItem.delegate"
+                                          @"ORKLearnMoreItem.delegate",
+                                          @"ORKTinnitusPredefinedTask.predominantFrequency"
                                           ];
         _allowedUnTouchedKeys = @[@"_class"];
         _mutuallyExclusiveProperties = @{
