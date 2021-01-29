@@ -100,7 +100,7 @@
 		16A24B70230B70890094C4C2 /* Celestial_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 16A24B6F230B70890094C4C2 /* Celestial_Private.h */; };
 		1B4B95B81F5F012E006B629F /* ORKWeightPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B4B95B71F5F012E006B629F /* ORKWeightPicker.m */; };
 		1B4B95BA1F5F014E006B629F /* ORKWeightPicker.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B4B95B91F5F014E006B629F /* ORKWeightPicker.h */; };
-		22BFDF5E25B792BF0015D1E1 /* ORKTinnitusTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 22BFDF5D25B792BF0015D1E1 /* ORKTinnitusTypes.h */; };
+		22BFDF5E25B792BF0015D1E1 /* ORKTinnitusTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 22BFDF5D25B792BF0015D1E1 /* ORKTinnitusTypes.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		22BFDF6A25B792D20015D1E1 /* ORKTinnitusTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 22BFDF6925B792D20015D1E1 /* ORKTinnitusTypes.m */; };
 		22BFE13C25BB73310015D1E1 /* ORKTinnitusAudioSample.m in Sources */ = {isa = PBXBuildFile; fileRef = 223AE98B25B235CB0080FE13 /* ORKTinnitusAudioSample.m */; };
 		22BFE14225BB73380015D1E1 /* ORKTinnitusAudioSample.h in Headers */ = {isa = PBXBuildFile; fileRef = 223AE98A25B235CB0080FE13 /* ORKTinnitusAudioSample.h */; };
@@ -946,12 +946,12 @@
 		E26626B02588E47D005A0FF8 /* ORKTinnitusWhiteNoiseMatchingSoundContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = E26626A82588E47B005A0FF8 /* ORKTinnitusWhiteNoiseMatchingSoundContentView.m */; };
 		E26626B12588E47D005A0FF8 /* ORKTinnitusWhiteNoiseMatchingSoundResult.m in Sources */ = {isa = PBXBuildFile; fileRef = E26626A92588E47C005A0FF8 /* ORKTinnitusWhiteNoiseMatchingSoundResult.m */; };
 		E26626B22588E47D005A0FF8 /* ORKTinnitusWhiteNoiseMatchingSoundResult.h in Headers */ = {isa = PBXBuildFile; fileRef = E26626AA2588E47C005A0FF8 /* ORKTinnitusWhiteNoiseMatchingSoundResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E26626B32588E47D005A0FF8 /* ORKTinnitusWhiteNoiseMatchingSoundStep.h in Headers */ = {isa = PBXBuildFile; fileRef = E26626AB2588E47C005A0FF8 /* ORKTinnitusWhiteNoiseMatchingSoundStep.h */; };
+		E26626B32588E47D005A0FF8 /* ORKTinnitusWhiteNoiseMatchingSoundStep.h in Headers */ = {isa = PBXBuildFile; fileRef = E26626AB2588E47C005A0FF8 /* ORKTinnitusWhiteNoiseMatchingSoundStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		E26626B42588E47D005A0FF8 /* ORKTinnitusWhiteNoiseMatchingSoundStep.m in Sources */ = {isa = PBXBuildFile; fileRef = E26626AC2588E47C005A0FF8 /* ORKTinnitusWhiteNoiseMatchingSoundStep.m */; };
 		E26626B52588E47D005A0FF8 /* ORKTinnitusWhiteNoiseMatchingSoundStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E26626AD2588E47C005A0FF8 /* ORKTinnitusWhiteNoiseMatchingSoundStepViewController.m */; };
 		E26626B62588E47D005A0FF8 /* ORKTinnitusWhiteNoiseMatchingSoundContentView.h in Headers */ = {isa = PBXBuildFile; fileRef = E26626AE2588E47C005A0FF8 /* ORKTinnitusWhiteNoiseMatchingSoundContentView.h */; };
 		E26626C02588E6D4005A0FF8 /* ORKTinnitusMaskingSoundStep.m in Sources */ = {isa = PBXBuildFile; fileRef = E26626B82588E6D3005A0FF8 /* ORKTinnitusMaskingSoundStep.m */; };
-		E26626C12588E6D4005A0FF8 /* ORKTinnitusMaskingSoundStep.h in Headers */ = {isa = PBXBuildFile; fileRef = E26626B92588E6D3005A0FF8 /* ORKTinnitusMaskingSoundStep.h */; };
+		E26626C12588E6D4005A0FF8 /* ORKTinnitusMaskingSoundStep.h in Headers */ = {isa = PBXBuildFile; fileRef = E26626B92588E6D3005A0FF8 /* ORKTinnitusMaskingSoundStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		E26626C22588E6D4005A0FF8 /* ORKTinnitusMaskingSoundResult.m in Sources */ = {isa = PBXBuildFile; fileRef = E26626BA2588E6D3005A0FF8 /* ORKTinnitusMaskingSoundResult.m */; };
 		E26626C32588E6D4005A0FF8 /* ORKTinnitusMaskingSoundResult.h in Headers */ = {isa = PBXBuildFile; fileRef = E26626BB2588E6D3005A0FF8 /* ORKTinnitusMaskingSoundResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E26626C42588E6D4005A0FF8 /* ORKTinnitusMaskingSoundStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E26626BC2588E6D3005A0FF8 /* ORKTinnitusMaskingSoundStepViewController.m */; };
