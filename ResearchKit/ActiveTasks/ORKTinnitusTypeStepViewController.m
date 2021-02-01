@@ -144,20 +144,21 @@
 - (BOOL)playWhiteNoise:(NSError **)outError {
     if (self.step.context && [self.step.context isKindOfClass:[ORKTinnitusPredefinedTaskContext class]]) {
         ORKTinnitusPredefinedTaskContext *context = (ORKTinnitusPredefinedTaskContext *)self.step.context;
-        NSArray *samples = context.audioManifest.samples;
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name ==[c] %@", ORKTinnitusMaskingSoundWhiteNoise];
-        ORKTinnitusAudioSample *whiteNoise = [[samples filteredArrayUsingPredicate:predicate] firstObject];
-        AVAudioPCMBuffer *buffer = [whiteNoise getBuffer:outError];
-
-        if (buffer) {
-            self.audioBuffer = buffer;
-            [self.audioEngine connect:self.playerNode to:self.audioEngine.outputNode format:self.audioBuffer.format];
-            [self.playerNode scheduleBuffer:self.audioBuffer atTime:nil options:AVAudioPlayerNodeBufferLoops completionHandler:nil];
-            [self.audioEngine prepare];
+        ORKTinnitusAudioSample *audioSample = [context.audioManifest noiseTypeSampleNamed:ORKTinnitusMaskingSoundWhiteNoise error:outError];
+        
+        if (audioSample) {
+            AVAudioPCMBuffer *buffer = [audioSample getBuffer:outError];
             
-            if ([self.audioEngine startAndReturnError:outError]) {
-                [self.playerNode play];
-                return YES;
+            if (buffer) {
+                self.audioBuffer = buffer;
+                [self.audioEngine connect:self.playerNode to:self.audioEngine.outputNode format:self.audioBuffer.format];
+                [self.playerNode scheduleBuffer:self.audioBuffer atTime:nil options:AVAudioPlayerNodeBufferLoops completionHandler:nil];
+                [self.audioEngine prepare];
+                
+                if ([self.audioEngine startAndReturnError:outError]) {
+                    [self.playerNode play];
+                    return YES;
+                }
             }
         }
     }

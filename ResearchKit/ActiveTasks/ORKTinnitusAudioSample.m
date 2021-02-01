@@ -91,7 +91,7 @@
 
 - (ORKTinnitusAudioSample *)sampleNamed:(NSString *)sampleName onArray:(NSArray<ORKTinnitusAudioSample *> *)sampleArray error:(NSError **)outError {
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name ==[c] %@", sampleName];
-    ORKTinnitusAudioSample *audioSample = [[_noiseTypeSamples filteredArrayUsingPredicate:predicate] firstObject];
+    ORKTinnitusAudioSample *audioSample = [[sampleArray filteredArrayUsingPredicate:predicate] firstObject];
     
     if (!audioSample) {
         if (outError != NULL) {
