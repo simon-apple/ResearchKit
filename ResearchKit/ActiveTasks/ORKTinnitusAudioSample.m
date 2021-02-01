@@ -89,15 +89,15 @@
     return self;
 }
 
-- (ORKTinnitusAudioSample *)sampleNamed:(NSString *)sampleName onArray:(NSArray<ORKTinnitusAudioSample *> *)sampleArray error:(NSError **)outError {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name ==[c] %@", sampleName];
+- (ORKTinnitusAudioSample *)sampleWithIdentifier:(NSString *)identifier onArray:(NSArray<ORKTinnitusAudioSample *> *)sampleArray error:(NSError **)outError {
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"identifier ==[c] %@", identifier];
     ORKTinnitusAudioSample *audioSample = [[sampleArray filteredArrayUsingPredicate:predicate] firstObject];
     
     if (!audioSample) {
         if (outError != NULL) {
             *outError = [NSError errorWithDomain:NSCocoaErrorDomain
                                             code:NSFeatureUnsupportedError
-                                        userInfo:@{NSLocalizedDescriptionKey:[NSString stringWithFormat:ORKLocalizedString(@"TINNITUS_SAMPLE_NOT_FOUND_ERROR", nil), sampleName]}];
+                                        userInfo:@{NSLocalizedDescriptionKey:[NSString stringWithFormat:ORKLocalizedString(@"TINNITUS_SAMPLE_NOT_FOUND_ERROR", nil), identifier]}];
         }
         return nil;
     }
@@ -105,12 +105,12 @@
     return audioSample;
 }
 
-- (ORKTinnitusAudioSample *)noiseTypeSampleNamed:(NSString *)sampleName error:(NSError **)outError {
-    return [self sampleNamed:sampleName onArray:_noiseTypeSamples error:outError];
+- (ORKTinnitusAudioSample *)noiseTypeSampleWithIdentifier:(NSString *)identifier error:(NSError **)outError {
+    return [self sampleWithIdentifier:identifier onArray:_noiseTypeSamples error:outError];
 }
 
-- (ORKTinnitusAudioSample *)maskingSampleNamed:(NSString *)sampleName error:(NSError **)outError {
-    return [self sampleNamed:sampleName onArray:_maskingSamples error:outError];
+- (ORKTinnitusAudioSample *)maskingSampleWithIdentifier:(NSString *)identifier error:(NSError **)outError {
+    return [self sampleWithIdentifier:identifier onArray:_maskingSamples error:outError];
 }
 
 @end

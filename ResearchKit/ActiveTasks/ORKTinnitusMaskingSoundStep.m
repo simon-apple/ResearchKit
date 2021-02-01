@@ -44,25 +44,25 @@
 
 - (instancetype)initWithIdentifier:(NSString *)identifier
                               name:(NSString *)name
-                              path:(NSString *)path {
+                   soundIdentifier:(NSString *)soundIdentifier {
     self = [super initWithIdentifier:identifier];
     if (self) {
         [self commonInit];
         self.name = name;
-        self.path = path;
+        self.soundIdentifier = soundIdentifier;
     }
     return self;
 }
 
 - (instancetype)initWithIdentifier:(NSString *)identifier
                               name:(NSString *)name
-                              path:(NSString *)path
+                   soundIdentifier:(NSString *)soundIdentifier
                     notchFrequency:(double)notchFrequency {
     self = [super initWithIdentifier:identifier];
     if (self) {
         [self commonInit];
         self.name = name;
-        self.path = path;
+        self.soundIdentifier = soundIdentifier;
         self.notchFrequency = notchFrequency;
     }
     return self;
@@ -77,8 +77,8 @@
 - (void)validateParameters {
     [super validateParameters];
     
-    if ( !self.path || self.path.length == 0) {
-        @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"Matching sound filename cannot be nil or empty" userInfo:nil];
+    if ( !self.soundIdentifier || self.soundIdentifier.length == 0) {
+        @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"Matching sound identifier cannot be nil or empty" userInfo:nil];
     }
 }
 
@@ -93,7 +93,7 @@
 - (instancetype)copyWithZone:(NSZone *)zone {
     ORKTinnitusMaskingSoundStep *step = [super copyWithZone:zone];
     step.name = [self.name copy];
-    step.path = [self.path copy];
+    step.soundIdentifier = [self.soundIdentifier copy];
     step.notchFrequency = self.notchFrequency;
     step.bandwidth = self.bandwidth;
     step.gain = self.gain;
@@ -106,7 +106,7 @@
         ORK_DECODE_DOUBLE(aDecoder, bandwidth);
         ORK_DECODE_DOUBLE(aDecoder, gain);
         ORK_DECODE_OBJ(aDecoder, name);
-        ORK_DECODE_OBJ(aDecoder, path);
+        ORK_DECODE_OBJ(aDecoder, soundIdentifier);
         ORK_DECODE_DOUBLE(aDecoder, notchFrequency);
     }
     return self;
@@ -117,7 +117,7 @@
     ORK_ENCODE_DOUBLE(aCoder, bandwidth);
     ORK_ENCODE_DOUBLE(aCoder, gain);
     ORK_ENCODE_OBJ(aCoder, name);
-    ORK_ENCODE_OBJ(aCoder, path);
+    ORK_ENCODE_OBJ(aCoder, soundIdentifier);
     ORK_ENCODE_DOUBLE(aCoder, notchFrequency);
 }
 
@@ -125,7 +125,7 @@
     return YES;
 }
 - (NSUInteger)hash {
-    return super.hash ^ self.name.hash ^ self.path.hash;
+    return super.hash ^ self.name.hash ^ self.soundIdentifier.hash;
 }
 
 - (BOOL)isEqual:(id)object {
@@ -134,7 +134,7 @@
     __typeof(self) castObject = object;
     return (isParentSame
             && (self.name == castObject.name)
-            && (self.path == castObject.path)
+            && (self.soundIdentifier == castObject.soundIdentifier)
             && (self.notchFrequency == castObject.notchFrequency)
             && (self.bandwidth == castObject.bandwidth)
             && (self.gain == castObject.gain)

@@ -1,59 +1,59 @@
 {
     "noiseTypes" : [
         {
-            "name": "cicadas",
+            "name": "Cicadas",
             "identifier": "CICADAS",
             "filename": "white_noise_5s.wav"
         },
         {
-            "name": "crickets",
+            "name": "Crickets",
             "identifier": "CRICKETS",
             "filename": "white_noise_5s.wav"
         },
         {
-            "name": "teakettle",
+            "name": "Tea Kettle",
             "identifier": "TEAKETTLE",
             "filename": "white_noise_5s.wav"
         },
         {
-            "name": "whitenoise",
+            "name": "White Noise",
             "identifier": "WHITENOISE",
             "filename": "white_noise_5s.wav"
         }
     ],
     "maskingSounds" : [
         {
-            "name": "audiobook",
+            "name": "Audiobook",
             "identifier": "tinnitus.masking.audiobook",
             "filename": "white_noise_5s.wav"
         },
         {
-            "name": "campfire",
+            "name": "Campfire",
             "identifier": "tinnitus.masking.fire",
             "filename": "white_noise_5s.wav"
         },
         {
-            "name": "crowdnoise",
+            "name": "Crowd Noise",
             "identifier": "tinnitus.masking.crowd",
             "filename": "white_noise_5s.wav"
         },
         {
-            "name": "forest",
+            "name": "Forest",
             "identifier": "tinnitus.masking.forest",
             "filename": "white_noise_5s.wav"
         },
         {
-            "name": "ocean",
+            "name": "Ocean",
             "identifier": "tinnitus.masking.ocean",
             "filename": "white_noise_5s.wav"
         },
         {
-            "name": "rain",
+            "name": "Rain",
             "identifier": "tinnitus.masking.rain",
             "filename": "white_noise_5s.wav"
         },
         {
-            "name": "whitenoise",
+            "name": "White Noise",
             "identifier": "tinnitus.masking.whitenoise",
             "filename": "white_noise_5s.wav"
         }

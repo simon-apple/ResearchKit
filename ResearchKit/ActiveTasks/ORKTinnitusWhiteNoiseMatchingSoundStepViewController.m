@@ -83,12 +83,12 @@
     [self.audioEngine stop];
 }
 
-- (BOOL)playSound:(NSString *)soundName error:(NSError **)outError {
+- (BOOL)playSound:(NSString *)identifier error:(NSError **)outError {
     [self tearDownAudioEngine];
     
     if (self.step.context && [self.step.context isKindOfClass:[ORKTinnitusPredefinedTaskContext class]]) {
         ORKTinnitusPredefinedTaskContext *context = (ORKTinnitusPredefinedTaskContext *)self.step.context;
-        ORKTinnitusAudioSample *audioSample = [context.audioManifest noiseTypeSampleNamed:soundName error:outError];
+        ORKTinnitusAudioSample *audioSample = [context.audioManifest noiseTypeSampleWithIdentifier:identifier error:outError];
         
         if (audioSample) {
             AVAudioPCMBuffer *buffer = [audioSample getBuffer:outError];
