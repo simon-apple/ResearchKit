@@ -75,34 +75,9 @@ NSString *const ORKTinnitusPuretoneMaskSoundNameExtension = @"wav";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    NSString *maskingSoundType = [[self tinnitusMaskingSoundStep] maskingSoundType];
-    
-    NSString *buttonTitle = @"";
-    NSString *soundName = @"";
-    
-    if ([maskingSoundType isEqualToString:ORKTinnitusMaskingSoundTypeCampfire]) {
-        buttonTitle = ORKLocalizedString(@"TINNITUS_PURETONE_MASKINGSOUND_CAMPFIRE_TITLE", nil);
-        soundName = ORKTinnitusMaskingSoundFire;
-    } else if([maskingSoundType isEqualToString:ORKTinnitusMaskingSoundTypeRain]) {
-        buttonTitle = ORKLocalizedString(@"TINNITUS_PURETONE_MASKINGSOUND_RAIN_TITLE", nil);
-        soundName = ORKTinnitusMaskingSoundRain;
-    } else if([maskingSoundType isEqualToString:ORKTinnitusMaskingSoundTypeOcean]) {
-        buttonTitle = ORKLocalizedString(@"TINNITUS_PURETONE_MASKINGSOUND_OCEAN_TITLE", nil);
-        soundName = ORKTinnitusMaskingSoundOcean;
-    } else if([maskingSoundType isEqualToString:ORKTinnitusMaskingSoundTypeForest]) {
-        buttonTitle = ORKLocalizedString(@"TINNITUS_PURETONE_MASKINGSOUND_FOREST_TITLE", nil);
-        soundName = ORKTinnitusMaskingSoundForest;
-    } else if([maskingSoundType isEqualToString:ORKTinnitusMaskingSoundTypeWhiteNoise]) {
-        buttonTitle = ORKLocalizedString(@"TINNITUS_WHITENOISE_TITLE", nil);
-        soundName = ORKTinnitusMaskingSoundWhiteNoise;
-    } else if([maskingSoundType isEqualToString:ORKTinnitusMaskingSoundTypeCrowd]) {
-        buttonTitle = ORKLocalizedString(@"TINNITUS_PURETONE_MASKINGSOUND_CROWD_TITLE", nil);
-        soundName = ORKTinnitusMaskingSoundCrowd;
-    } else if([maskingSoundType isEqualToString:ORKTinnitusMaskingSoundTypeAudiobook]) {
-        buttonTitle = ORKLocalizedString(@"TINNITUS_PURETONE_MASKINGSOUND_AUDIOBOOK_TITLE", nil);
-        soundName = ORKTinnitusMaskingSoundAudiobook;
-    }
+
+    NSString *buttonTitle = [[self tinnitusMaskingSoundStep] name];
+    NSString *soundName = [[self tinnitusMaskingSoundStep] path];
     
     BOOL notchFilterEnabled = [[self tinnitusMaskingSoundStep] notchFrequency] > 0.0;
     
@@ -222,7 +197,7 @@ NSString *const ORKTinnitusPuretoneMaskSoundNameExtension = @"wav";
     ORKTinnitusMaskingSoundResult *matchingSoundResult = [[ORKTinnitusMaskingSoundResult alloc] initWithIdentifier:self.step.identifier];
     matchingSoundResult.startDate = sResult.startDate;
     matchingSoundResult.endDate = now;
-    matchingSoundResult.maskingSoundType = [[self tinnitusMaskingSoundStep] maskingSoundType];
+    //matchingSoundResult.maskingSoundType = [[self tinnitusMaskingSoundStep] maskingSoundType];
     matchingSoundResult.answer = [_matchingSoundContentView getAnswer];
 
     [results addObject:matchingSoundResult];

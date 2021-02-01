@@ -57,20 +57,20 @@ static NSString *const ORKTinnitusPuretoneNoSuccessStepIdentifier = @"tinnitus.p
 static NSString *const ORKTinnitusPuretoneSuccessStepIdentifier = @"tinnitus.puretone.success";
 static NSString *const ORKTinnitusLoudnessMatchingStepIdentifier = @"tinnitus.loudness.matching";
 static NSString *const ORKTinnitusSoundLoudnessMatchingStepIdentifier = @"tinnitus.soundloudness.matching";
-static NSString *const ORKTinnitusMaskingCampfireIdentifier = @"tinnitus.masking.fire";
-static NSString *const ORKTinnitusMaskingCampfireNotchIdentifier = @"tinnitus.masking.fire.notch";
-static NSString *const ORKTinnitusMaskingWhiteNoiseIdentifier = @"tinnitus.masking.whitenoise";
-static NSString *const ORKTinnitusMaskingWhiteNoiseNotchIdentifier = @"tinnitus.masking.whitenoise.notch";
-static NSString *const ORKTinnitusMaskingRainIdentifier = @"tinnitus.masking.rain";
-static NSString *const ORKTinnitusMaskingRainNotchIdentifier = @"tinnitus.masking.rain.notch";
-static NSString *const ORKTinnitusMaskingForestIdentifier = @"tinnitus.masking.forest";
-static NSString *const ORKTinnitusMaskingForestNotchIdentifier = @"tinnitus.masking.forest.notch";
-static NSString *const ORKTinnitusMaskingOceanIdentifier = @"tinnitus.masking.ocean";
-static NSString *const ORKTinnitusMaskingOceanNotchIdentifier = @"tinnitus.masking.ocean.notch";
-static NSString *const ORKTinnitusMaskingCrowdIdentifier = @"tinnitus.masking.crowd";
-static NSString *const ORKTinnitusMaskingCrowdNotchIdentifier = @"tinnitus.masking.crowd.notch";
-static NSString *const ORKTinnitusMaskingAudiobookIdentifier = @"tinnitus.masking.audiobook";
-static NSString *const ORKTinnitusMaskingAudiobookNotchIdentifier = @"tinnitus.masking.audiobook.notch";
+//static NSString *const ORKTinnitusMaskingCampfireIdentifier = @"tinnitus.masking.fire";
+//static NSString *const ORKTinnitusMaskingCampfireNotchIdentifier = @"tinnitus.masking.fire.notch";
+//static NSString *const ORKTinnitusMaskingWhiteNoiseIdentifier = @"tinnitus.masking.whitenoise";
+//static NSString *const ORKTinnitusMaskingWhiteNoiseNotchIdentifier = @"tinnitus.masking.whitenoise.notch";
+//static NSString *const ORKTinnitusMaskingRainIdentifier = @"tinnitus.masking.rain";
+//static NSString *const ORKTinnitusMaskingRainNotchIdentifier = @"tinnitus.masking.rain.notch";
+//static NSString *const ORKTinnitusMaskingForestIdentifier = @"tinnitus.masking.forest";
+//static NSString *const ORKTinnitusMaskingForestNotchIdentifier = @"tinnitus.masking.forest.notch";
+//static NSString *const ORKTinnitusMaskingOceanIdentifier = @"tinnitus.masking.ocean";
+//static NSString *const ORKTinnitusMaskingOceanNotchIdentifier = @"tinnitus.masking.ocean.notch";
+//static NSString *const ORKTinnitusMaskingCrowdIdentifier = @"tinnitus.masking.crowd";
+//static NSString *const ORKTinnitusMaskingCrowdNotchIdentifier = @"tinnitus.masking.crowd.notch";
+//static NSString *const ORKTinnitusMaskingAudiobookIdentifier = @"tinnitus.masking.audiobook";
+//static NSString *const ORKTinnitusMaskingAudiobookNotchIdentifier = @"tinnitus.masking.audiobook.notch";
 static NSString *const ORKTinnitusWhiteNoiseMatchingIdentifier = @"tinnitus.whitenoise.matching";
 static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instruction.5";
 
@@ -465,50 +465,14 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
 }
 
 - (void)initMaskingSteps {
-    NSMutableArray<ORKStep *> *steps =
-        [[NSMutableArray alloc] initWithObjects:
-            @[[self maskingSoundStepForIdentifier:ORKTinnitusMaskingCampfireIdentifier
-                                   maskingSoundType:ORKTinnitusMaskingSoundTypeCampfire
-                                            isNotch:NO],
-                [self maskingSoundStepForIdentifier:ORKTinnitusMaskingCampfireNotchIdentifier
-                                   maskingSoundType:ORKTinnitusMaskingSoundTypeCampfire
-                                            isNotch:YES]],
-             @[[self maskingSoundStepForIdentifier:ORKTinnitusMaskingWhiteNoiseIdentifier
-                                  maskingSoundType:ORKTinnitusMaskingSoundTypeWhiteNoise
-                                           isNotch:NO],
-               [self maskingSoundStepForIdentifier:ORKTinnitusMaskingWhiteNoiseNotchIdentifier
-                                  maskingSoundType:ORKTinnitusMaskingSoundTypeWhiteNoise
-                                           isNotch:YES]],
-             @[[self maskingSoundStepForIdentifier:ORKTinnitusMaskingRainIdentifier
-                                  maskingSoundType:ORKTinnitusMaskingSoundTypeRain
-                                           isNotch:NO],
-               [self maskingSoundStepForIdentifier:ORKTinnitusMaskingRainNotchIdentifier
-                                  maskingSoundType:ORKTinnitusMaskingSoundTypeRain
-                                           isNotch:YES]],
-             @[[self maskingSoundStepForIdentifier:ORKTinnitusMaskingForestIdentifier
-                                  maskingSoundType:ORKTinnitusMaskingSoundTypeForest
-                                           isNotch:NO],
-               [self maskingSoundStepForIdentifier:ORKTinnitusMaskingForestNotchIdentifier
-                                  maskingSoundType:ORKTinnitusMaskingSoundTypeForest
-                                           isNotch:YES]],
-             @[[self maskingSoundStepForIdentifier:ORKTinnitusMaskingOceanIdentifier
-                                  maskingSoundType:ORKTinnitusMaskingSoundTypeOcean
-                                           isNotch:NO],
-               [self maskingSoundStepForIdentifier:ORKTinnitusMaskingOceanNotchIdentifier
-                                  maskingSoundType:ORKTinnitusMaskingSoundTypeOcean
-                                           isNotch:YES]],
-             @[[self maskingSoundStepForIdentifier:ORKTinnitusMaskingCrowdIdentifier
-                                  maskingSoundType:ORKTinnitusMaskingSoundTypeCrowd
-                                           isNotch:NO],
-               [self maskingSoundStepForIdentifier:ORKTinnitusMaskingCrowdNotchIdentifier
-                                  maskingSoundType:ORKTinnitusMaskingSoundTypeCrowd
-                                           isNotch:YES]],
-             @[[self maskingSoundStepForIdentifier:ORKTinnitusMaskingAudiobookIdentifier
-                                  maskingSoundType:ORKTinnitusMaskingSoundTypeAudiobook
-                                           isNotch:NO],
-               [self maskingSoundStepForIdentifier:ORKTinnitusMaskingAudiobookNotchIdentifier
-                                  maskingSoundType:ORKTinnitusMaskingSoundTypeAudiobook
-                                           isNotch:YES]], nil];
+    NSMutableArray *steps = [[NSMutableArray alloc] init];
+    
+    for (ORKTinnitusAudioSample *sample in _context.audioManifest.maskingSamples) {
+        ORKTinnitusMaskingSoundStep *step = [self maskingSoundStepForIdentifier:sample.identifier name:sample.name path:sample.path isNotch:NO];
+        ORKTinnitusMaskingSoundStep *notchStep = [self maskingSoundStepForIdentifier:[NSString stringWithFormat:@"%@.notch", sample.identifier] name:sample.name path:sample.path isNotch:YES];
+        [steps addObject:@[step, notchStep]];
+    }
+    
     [steps shuffle];
     
     _maskingSteps = [steps copy];
@@ -761,17 +725,16 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
 #pragma mark - Masking Sounds Steps
 
 - (ORKTinnitusMaskingSoundStep *)maskingSoundStepForIdentifier:(NSString *)identifier
-                                              maskingSoundType:(NSString *)maskingSoundType isNotch:(BOOL)isNotch {
+                                                          name:(NSString *)name
+                                                          path:(NSString *)path isNotch:(BOOL)isNotch {
     ORKTinnitusMaskingSoundStep *maskingSoundStep;
     if (isNotch) {
         maskingSoundStep = [[ORKTinnitusMaskingSoundStep alloc]
                             initWithIdentifier:identifier
-                            maskingSoundType:maskingSoundType
-                            notchFrequency:_predominantFrequency];
+                            name:name
+                            path:path notchFrequency:_predominantFrequency];
     } else {
-        maskingSoundStep = [[ORKTinnitusMaskingSoundStep alloc]
-                                                    initWithIdentifier:identifier
-                                                    maskingSoundType:maskingSoundType];
+        maskingSoundStep = [[ORKTinnitusMaskingSoundStep alloc] initWithIdentifier:identifier name:name path:path];
     }
     maskingSoundStep.title = ORKLocalizedString(@"TINNITUS_MASKING_TITLE", nil);
     maskingSoundStep.text = ORKLocalizedString(@"TINNITUS_MASKING_TEXT", nil);

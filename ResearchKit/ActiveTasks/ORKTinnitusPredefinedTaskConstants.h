@@ -40,7 +40,7 @@ static NSString *const ORKTinnitusMaskingSoundOcean = @"ocean";
 static NSString *const ORKTinnitusMaskingSoundWhiteNoise = @"whitenoise";
 static NSString *const ORKTinnitusMaskingSoundCicadas = @"cicadas";
 static NSString *const ORKTinnitusMaskingSoundCrickets = @"crickets";
-static NSString *const ORKTinnitusMaskingSoundTeakettle = @"tea kettle";
+static NSString *const ORKTinnitusMaskingSoundTeakettle = @"teakettle";
 static NSString *const ORKTinnitusMaskingSoundCrowd = @"crowd noise";
 static NSString *const ORKTinnitusMaskingSoundAudiobook = @"audiobook";
 

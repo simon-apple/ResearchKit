@@ -56,19 +56,19 @@ ORKTinnitusError const ORKTinnitusErrorTooHigh = @"TooHighFrequency";
 
 ORKTinnitusError const ORKTinnitusErrorTooLow = @"TooLowFrequency";
 
-ORKTinnitusMaskingSoundType const ORKTinnitusMaskingSoundTypeWhiteNoise = @"WHITENOISE";
-
-ORKTinnitusMaskingSoundType const ORKTinnitusMaskingSoundTypeCampfire = @"CAMPFIRE";
-
-ORKTinnitusMaskingSoundType const ORKTinnitusMaskingSoundTypeRain = @"RAIN";
-
-ORKTinnitusMaskingSoundType const ORKTinnitusMaskingSoundTypeOcean = @"OCEAN";
-
-ORKTinnitusMaskingSoundType const ORKTinnitusMaskingSoundTypeForest = @"FOREST";
-
-ORKTinnitusMaskingSoundType const ORKTinnitusMaskingSoundTypeCrowd = @"CROWDNOISE";
-
-ORKTinnitusMaskingSoundType const ORKTinnitusMaskingSoundTypeAudiobook = @"AUDIOBOOK";
+//ORKTinnitusMaskingSoundType const ORKTinnitusMaskingSoundTypeWhiteNoise = @"WHITENOISE";
+//
+//ORKTinnitusMaskingSoundType const ORKTinnitusMaskingSoundTypeCampfire = @"CAMPFIRE";
+//
+//ORKTinnitusMaskingSoundType const ORKTinnitusMaskingSoundTypeRain = @"RAIN";
+//
+//ORKTinnitusMaskingSoundType const ORKTinnitusMaskingSoundTypeOcean = @"OCEAN";
+//
+//ORKTinnitusMaskingSoundType const ORKTinnitusMaskingSoundTypeForest = @"FOREST";
+//
+//ORKTinnitusMaskingSoundType const ORKTinnitusMaskingSoundTypeCrowd = @"CROWDNOISE";
+//
+//ORKTinnitusMaskingSoundType const ORKTinnitusMaskingSoundTypeAudiobook = @"AUDIOBOOK";
 
 ORKTinnitusNoiseType const ORKTinnitusNoiseTypeWhiteNoise = @"WHITENOISE";
 

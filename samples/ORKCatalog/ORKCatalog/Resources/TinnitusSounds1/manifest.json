@@ -2,48 +2,59 @@
     "noiseTypes" : [
         {
             "name": "cicadas",
+            "identifier": "CICADAS",
             "filename": "white_noise_5s.wav"
         },
         {
             "name": "crickets",
+            "identifier": "CRICKETS",
             "filename": "white_noise_5s.wav"
         },
         {
             "name": "teakettle",
+            "identifier": "TEAKETTLE",
             "filename": "white_noise_5s.wav"
         },
         {
             "name": "whitenoise",
+            "identifier": "WHITENOISE",
             "filename": "white_noise_5s.wav"
         }
     ],
     "maskingSounds" : [
         {
             "name": "audiobook",
+            "identifier": "tinnitus.masking.audiobook",
             "filename": "white_noise_5s.wav"
         },
         {
             "name": "campfire",
+            "identifier": "tinnitus.masking.fire",
             "filename": "white_noise_5s.wav"
         },
         {
             "name": "crowdnoise",
+            "identifier": "tinnitus.masking.crowd",
             "filename": "white_noise_5s.wav"
         },
         {
             "name": "forest",
+            "identifier": "tinnitus.masking.forest",
             "filename": "white_noise_5s.wav"
         },
         {
             "name": "ocean",
+            "identifier": "tinnitus.masking.ocean",
             "filename": "white_noise_5s.wav"
         },
         {
             "name": "rain",
+            "identifier": "tinnitus.masking.rain",
             "filename": "white_noise_5s.wav"
         },
         {
             "name": "whitenoise",
+            "identifier": "tinnitus.masking.whitenoise",
             "filename": "white_noise_5s.wav"
         }
     ]
