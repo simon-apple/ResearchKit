@@ -405,7 +405,7 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
             if ([self checkValidMaskingSound:_noiseType]) {
                 return [self soundLoudnessMatching];
             }
-            return [self fireMasking];
+            return nil;
         } else if ([identifier isEqualToString:ORKTinnitusSPLMeterStepIdentifier]) {
 #if TARGET_IPHONE_SIMULATOR
             return [ORKTinnitusPredefinedTask tinnitusType];
@@ -462,14 +462,50 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
 }
 
 - (void)initMaskingSteps {
-    NSMutableArray<ORKStep *> *steps = [[NSMutableArray alloc] initWithObjects:
-                                        @[self.fireMasking, self.fireMaskingNotch],
-                                        @[self.whitenoiseMasking, self.whitenoiseMaskingNotch],
-                                        @[self.rainMasking, self.rainMaskingNotch],
-                                        @[self.forestMasking, self.forestMaskingNotch],
-                                        @[self.oceanMasking, self.oceanMaskingNotch],
-                                        @[self.crowdMasking, self.crowdMaskingNotch],
-                                        @[self.audiobookMasking, self.audiobookMaskingNotch], nil];
+    NSMutableArray<ORKStep *> *steps =
+        [[NSMutableArray alloc] initWithObjects:
+            @[[self maskingSoundStepForIdentifier:ORKTinnitusMaskingCampfireIdentifier
+                                   maskingSoundType:ORKTinnitusMaskingSoundTypeCampfire
+                                            isNotch:NO],
+                [self maskingSoundStepForIdentifier:ORKTinnitusMaskingCampfireNotchIdentifier
+                                   maskingSoundType:ORKTinnitusMaskingSoundTypeCampfire
+                                            isNotch:YES]],
+             @[[self maskingSoundStepForIdentifier:ORKTinnitusMaskingWhiteNoiseIdentifier
+                                  maskingSoundType:ORKTinnitusMaskingSoundTypeWhiteNoise
+                                           isNotch:NO],
+               [self maskingSoundStepForIdentifier:ORKTinnitusMaskingWhiteNoiseNotchIdentifier
+                                  maskingSoundType:ORKTinnitusMaskingSoundTypeWhiteNoise
+                                           isNotch:YES]],
+             @[[self maskingSoundStepForIdentifier:ORKTinnitusMaskingRainIdentifier
+                                  maskingSoundType:ORKTinnitusMaskingSoundTypeRain
+                                           isNotch:NO],
+               [self maskingSoundStepForIdentifier:ORKTinnitusMaskingRainNotchIdentifier
+                                  maskingSoundType:ORKTinnitusMaskingSoundTypeRain
+                                           isNotch:YES]],
+             @[[self maskingSoundStepForIdentifier:ORKTinnitusMaskingForestIdentifier
+                                  maskingSoundType:ORKTinnitusMaskingSoundTypeForest
+                                           isNotch:NO],
+               [self maskingSoundStepForIdentifier:ORKTinnitusMaskingForestNotchIdentifier
+                                  maskingSoundType:ORKTinnitusMaskingSoundTypeForest
+                                           isNotch:YES]],
+             @[[self maskingSoundStepForIdentifier:ORKTinnitusMaskingOceanIdentifier
+                                  maskingSoundType:ORKTinnitusMaskingSoundTypeOcean
+                                           isNotch:NO],
+               [self maskingSoundStepForIdentifier:ORKTinnitusMaskingOceanNotchIdentifier
+                                  maskingSoundType:ORKTinnitusMaskingSoundTypeOcean
+                                           isNotch:YES]],
+             @[[self maskingSoundStepForIdentifier:ORKTinnitusMaskingCrowdIdentifier
+                                  maskingSoundType:ORKTinnitusMaskingSoundTypeCrowd
+                                           isNotch:NO],
+               [self maskingSoundStepForIdentifier:ORKTinnitusMaskingCrowdNotchIdentifier
+                                  maskingSoundType:ORKTinnitusMaskingSoundTypeCrowd
+                                           isNotch:YES]],
+             @[[self maskingSoundStepForIdentifier:ORKTinnitusMaskingAudiobookIdentifier
+                                  maskingSoundType:ORKTinnitusMaskingSoundTypeAudiobook
+                                           isNotch:NO],
+               [self maskingSoundStepForIdentifier:ORKTinnitusMaskingAudiobookNotchIdentifier
+                                  maskingSoundType:ORKTinnitusMaskingSoundTypeAudiobook
+                                           isNotch:YES]], nil];
     [steps shuffle];
     
     _maskingSteps = [steps copy];
@@ -721,151 +757,23 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
 
 #pragma mark - Masking Sounds Steps
 
-- (ORKTinnitusMaskingSoundStep *)fireMasking {
-    ORKTinnitusMaskingSoundStep *fireMasking = [[ORKTinnitusMaskingSoundStep alloc]
-                                                initWithIdentifier:ORKTinnitusMaskingCampfireIdentifier
-                                                maskingSoundType:ORKTinnitusMaskingSoundTypeCampfire];
-    fireMasking.title = ORKLocalizedString(@"TINNITUS_MASKING_TITLE", nil);
-    fireMasking.text = ORKLocalizedString(@"TINNITUS_MASKING_TEXT", nil);
-    fireMasking.shouldTintImages = YES;
-    return [fireMasking copy];
-}
-
-- (ORKTinnitusMaskingSoundStep *)fireMaskingNotch {
-    ORKTinnitusMaskingSoundStep *fireMaskingNotch = [[ORKTinnitusMaskingSoundStep alloc]
-                                                     initWithIdentifier:ORKTinnitusMaskingCampfireNotchIdentifier
-                                                     maskingSoundType:ORKTinnitusMaskingSoundTypeCampfire
-                                                     notchFrequency:_predominantFrequency];
-    fireMaskingNotch.title = ORKLocalizedString(@"TINNITUS_MASKING_TITLE", nil);
-    fireMaskingNotch.text = ORKLocalizedString(@"TINNITUS_MASKING_TEXT", nil);
-    fireMaskingNotch.shouldTintImages = YES;
-    return [fireMaskingNotch copy];
-}
-
-- (ORKTinnitusMaskingSoundStep *)whitenoiseMasking {
-    ORKTinnitusMaskingSoundStep *whitenoiseMasking = [[ORKTinnitusMaskingSoundStep alloc]
-                                                      initWithIdentifier:ORKTinnitusMaskingWhiteNoiseIdentifier
-                                                      maskingSoundType:ORKTinnitusMaskingSoundTypeWhiteNoise];
-    whitenoiseMasking.title = ORKLocalizedString(@"TINNITUS_MASKING_TITLE", nil);
-    whitenoiseMasking.text = ORKLocalizedString(@"TINNITUS_MASKING_TEXT", nil);
-    whitenoiseMasking.shouldTintImages = YES;
-    return [whitenoiseMasking copy];
-}
-
-- (ORKTinnitusMaskingSoundStep *)whitenoiseMaskingNotch {
-    ORKTinnitusMaskingSoundStep *whitenoiseMaskingNotch = [[ORKTinnitusMaskingSoundStep alloc]
-                                                           initWithIdentifier:ORKTinnitusMaskingWhiteNoiseNotchIdentifier
-                                                           maskingSoundType:ORKTinnitusMaskingSoundTypeWhiteNoise
-                                                           notchFrequency:_predominantFrequency];
-    whitenoiseMaskingNotch.title = ORKLocalizedString(@"TINNITUS_MASKING_TITLE", nil);
-    whitenoiseMaskingNotch.text = ORKLocalizedString(@"TINNITUS_MASKING_TEXT", nil);
-    whitenoiseMaskingNotch.shouldTintImages = YES;
-    return [whitenoiseMaskingNotch copy];
-}
-
-- (ORKTinnitusMaskingSoundStep *)rainMasking {
-    ORKTinnitusMaskingSoundStep *rainMasking = [[ORKTinnitusMaskingSoundStep alloc]
-                                                initWithIdentifier:ORKTinnitusMaskingRainIdentifier
-                                                maskingSoundType:ORKTinnitusMaskingSoundTypeRain];
-    rainMasking.title = ORKLocalizedString(@"TINNITUS_MASKING_TITLE", nil);
-    rainMasking.text = ORKLocalizedString(@"TINNITUS_MASKING_TEXT", nil);
-    rainMasking.shouldTintImages = YES;
-    return [rainMasking copy];
-}
-
-- (ORKTinnitusMaskingSoundStep *)rainMaskingNotch {
-    ORKTinnitusMaskingSoundStep *rainMaskingNotch = [[ORKTinnitusMaskingSoundStep alloc]
-                                                     initWithIdentifier:ORKTinnitusMaskingRainNotchIdentifier
-                                                     maskingSoundType:ORKTinnitusMaskingSoundTypeRain
-                                                     notchFrequency:_predominantFrequency];
-    rainMaskingNotch.title = ORKLocalizedString(@"TINNITUS_MASKING_TITLE", nil);
-    rainMaskingNotch.text = ORKLocalizedString(@"TINNITUS_MASKING_TEXT", nil);
-    rainMaskingNotch.shouldTintImages = YES;
-    return [rainMaskingNotch copy];
-}
-
-- (ORKTinnitusMaskingSoundStep *)forestMasking {
-    ORKTinnitusMaskingSoundStep *forestMasking = [[ORKTinnitusMaskingSoundStep alloc]
-                                                  initWithIdentifier:ORKTinnitusMaskingForestIdentifier
-                                                  maskingSoundType:ORKTinnitusMaskingSoundTypeForest];
-    forestMasking.title = ORKLocalizedString(@"TINNITUS_MASKING_TITLE", nil);
-    forestMasking.text = ORKLocalizedString(@"TINNITUS_MASKING_TEXT", nil);
-    forestMasking.shouldTintImages = YES;
-    return [forestMasking copy];
-}
-
-- (ORKTinnitusMaskingSoundStep *)forestMaskingNotch {
-    ORKTinnitusMaskingSoundStep *forestMaskingNotch = [[ORKTinnitusMaskingSoundStep alloc]
-                                                       initWithIdentifier:ORKTinnitusMaskingForestNotchIdentifier
-                                                       maskingSoundType:ORKTinnitusMaskingSoundTypeForest
-                                                       notchFrequency:_predominantFrequency];
-    forestMaskingNotch.title = ORKLocalizedString(@"TINNITUS_MASKING_TITLE", nil);
-    forestMaskingNotch.text = ORKLocalizedString(@"TINNITUS_MASKING_TEXT", nil);
-    forestMaskingNotch.shouldTintImages = YES;
-    return [forestMaskingNotch copy];
-}
-
-- (ORKTinnitusMaskingSoundStep *)oceanMasking {
-    ORKTinnitusMaskingSoundStep *oceanMasking = [[ORKTinnitusMaskingSoundStep alloc]
-                                                 initWithIdentifier:ORKTinnitusMaskingOceanIdentifier
-                                                 maskingSoundType:ORKTinnitusMaskingSoundTypeOcean];
-    oceanMasking.title = ORKLocalizedString(@"TINNITUS_MASKING_TITLE", nil);
-    oceanMasking.text = ORKLocalizedString(@"TINNITUS_MASKING_TEXT", nil);
-    oceanMasking.shouldTintImages = YES;
-    return [oceanMasking copy];
-}
-
-- (ORKTinnitusMaskingSoundStep *)oceanMaskingNotch {
-    ORKTinnitusMaskingSoundStep *oceanMaskingNotch = [[ORKTinnitusMaskingSoundStep alloc]
-                                                      initWithIdentifier:ORKTinnitusMaskingOceanNotchIdentifier
-                                                      maskingSoundType:ORKTinnitusMaskingSoundTypeOcean
-                                                      notchFrequency:_predominantFrequency];
-    oceanMaskingNotch.title = ORKLocalizedString(@"TINNITUS_MASKING_TITLE", nil);
-    oceanMaskingNotch.text = ORKLocalizedString(@"TINNITUS_MASKING_TEXT", nil);
-    oceanMaskingNotch.shouldTintImages = YES;
-    return [oceanMaskingNotch copy];
-}
-
-- (ORKTinnitusMaskingSoundStep *)crowdMasking {
-    ORKTinnitusMaskingSoundStep *crowdMasking = [[ORKTinnitusMaskingSoundStep alloc]
-                         initWithIdentifier:ORKTinnitusMaskingCrowdIdentifier
-                         maskingSoundType:ORKTinnitusMaskingSoundTypeCrowd];
-    crowdMasking.title = ORKLocalizedString(@"TINNITUS_MASKING_TITLE", nil);
-    crowdMasking.text = ORKLocalizedString(@"TINNITUS_MASKING_TEXT", nil);
-    crowdMasking.shouldTintImages = YES;
-    return [crowdMasking copy];
-}
-
-- (ORKTinnitusMaskingSoundStep *)crowdMaskingNotch {
-    ORKTinnitusMaskingSoundStep *crowdMaskingNotch = [[ORKTinnitusMaskingSoundStep alloc]
-                                                      initWithIdentifier:ORKTinnitusMaskingCrowdNotchIdentifier
-                                                      maskingSoundType:ORKTinnitusMaskingSoundTypeCrowd
-                                                      notchFrequency:_predominantFrequency];
-    crowdMaskingNotch.title = ORKLocalizedString(@"TINNITUS_MASKING_TITLE", nil);
-    crowdMaskingNotch.text = ORKLocalizedString(@"TINNITUS_MASKING_TEXT", nil);
-    crowdMaskingNotch.shouldTintImages = YES;
-    return [crowdMaskingNotch copy];
-}
-
-- (ORKTinnitusMaskingSoundStep *)audiobookMasking {
-    ORKTinnitusMaskingSoundStep *audiobookMasking = [[ORKTinnitusMaskingSoundStep alloc]
-                                                     initWithIdentifier:ORKTinnitusMaskingAudiobookIdentifier
-                                                     maskingSoundType:ORKTinnitusMaskingSoundTypeAudiobook];
-    audiobookMasking.title = ORKLocalizedString(@"TINNITUS_MASKING_TITLE", nil);
-    audiobookMasking.text = ORKLocalizedString(@"TINNITUS_MASKING_TEXT", nil);
-    audiobookMasking.shouldTintImages = YES;
-    return [audiobookMasking copy];
-}
-
-- (ORKTinnitusMaskingSoundStep *)audiobookMaskingNotch {
-    ORKTinnitusMaskingSoundStep *audiobookMaskingNotch = [[ORKTinnitusMaskingSoundStep alloc]
-                                                          initWithIdentifier:ORKTinnitusMaskingAudiobookNotchIdentifier
-                                                          maskingSoundType:ORKTinnitusMaskingSoundTypeAudiobook
-                                                          notchFrequency:_predominantFrequency];
-    audiobookMaskingNotch.title = ORKLocalizedString(@"TINNITUS_MASKING_TITLE", nil);
-    audiobookMaskingNotch.text = ORKLocalizedString(@"TINNITUS_MASKING_TEXT", nil);
-    audiobookMaskingNotch.shouldTintImages = YES;
-    return [audiobookMaskingNotch copy];
+- (ORKTinnitusMaskingSoundStep *)maskingSoundStepForIdentifier:(NSString *)identifier
+                                              maskingSoundType:(NSString *)maskingSoundType isNotch:(BOOL)isNotch {
+    ORKTinnitusMaskingSoundStep *maskingSoundStep;
+    if (isNotch) {
+        maskingSoundStep = [[ORKTinnitusMaskingSoundStep alloc]
+                            initWithIdentifier:identifier
+                            maskingSoundType:maskingSoundType
+                            notchFrequency:_predominantFrequency];
+    } else {
+        maskingSoundStep = [[ORKTinnitusMaskingSoundStep alloc]
+                                                    initWithIdentifier:identifier
+                                                    maskingSoundType:maskingSoundType];
+    }
+    maskingSoundStep.title = ORKLocalizedString(@"TINNITUS_MASKING_TITLE", nil);
+    maskingSoundStep.text = ORKLocalizedString(@"TINNITUS_MASKING_TEXT", nil);
+    maskingSoundStep.shouldTintImages = YES;
+    return [maskingSoundStep copy];
 }
 
 @end
