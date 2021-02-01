@@ -100,6 +100,7 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
 
     ORKTinnitusType _type;
     ORKTinnitusNoiseType _noiseType;
+    double _predominantFrequency;
 }
 
 @end
@@ -405,7 +406,7 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
                 return [self soundLoudnessMatching];
             }
             return [self fireMasking];
-        } else if ([identifier isEqualToString:ORKTinnitusTestingInstructionStepIdentifier]) {
+        } else if ([identifier isEqualToString:ORKTinnitusSPLMeterStepIdentifier]) {
 #if TARGET_IPHONE_SIMULATOR
             return [ORKTinnitusPredefinedTask tinnitusType];
 #else
@@ -477,7 +478,6 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
 - (void)setupStraightStepAfterStepDict {
     [self initMaskingSteps];
     _stepAfterStepDict = @{
-        ORKTinnitusSPLMeterStepIdentifier: [ORKTinnitusPredefinedTask headphone],
         ORKTinnitusHeadphoneDetectStepIdentifier: [ORKTinnitusPredefinedTask tinnitusType],
         ORKTinnitusTypeStepIdentifier: [ORKTinnitusPredefinedTask calibration],
         ORKTinnitusPitchMatchingStepIdentifier: [ORKTinnitusPredefinedTask round1],
@@ -486,6 +486,10 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
         ORKTinnitusRound2StepIdentifier: [ORKTinnitusPredefinedTask round2SuccessCompleted],
         ORKTinnitusRound2SuccessCompletedStepIdentifier: [ORKTinnitusPredefinedTask round3]
     };
+}
+
+- (double)predominantFrequency {
+    return _predominantFrequency;
 }
 
 - (nullable ORKTinnitusMaskingSoundStep *)stepForMaskingSoundNumber:(NSUInteger)index {
