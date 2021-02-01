@@ -49,12 +49,12 @@ ORK_CLASS_AVAILABLE
 /**
  Bandwidth in octaves (defaults to 0.17).
  */
-@property (nonatomic) float bandwidth;
+@property (nonatomic) double bandwidth;
 
 /**
  Gain in dB (defaults to -96).
  */
-@property (nonatomic) float gain;
+@property (nonatomic) double gain;
 
 - (instancetype)initWithIdentifier:(NSString *)identifier __attribute__((unavailable("initWithIdentifier not available. Use initWithIdentifier: soundFilename: instead.")));
 
