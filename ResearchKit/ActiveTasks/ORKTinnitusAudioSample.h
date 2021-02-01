@@ -53,7 +53,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ORKTinnitusAudioManifest : NSObject
 
-@property (nonatomic, readonly, nonnull) NSArray<ORKTinnitusAudioSample *> *samples;
 @property (nonatomic, readonly, nonnull) NSArray<ORKTinnitusAudioSample *> *maskingSamples;
 @property (nonatomic, readonly, nonnull) NSArray<ORKTinnitusAudioSample *> *noiseTypeSamples;
 
@@ -63,8 +62,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)manifestWithMaskingSamples:(NSArray<ORKTinnitusAudioSample *> *)maskingSamples noiseTypeSamples:(NSArray<ORKTinnitusAudioSample *> *)noiseTypeSamples;
 - (instancetype)initWithMaskingSamples:(NSArray<ORKTinnitusAudioSample *> *)maskingSamples noiseTypeSamples:(NSArray<ORKTinnitusAudioSample *> *)noiseTypeSamples;
 
-- (nullable ORKTinnitusAudioSample *)noiseTypeSampleNamed:(NSString *)sampleName error:(NSError **)outError;
-- (nullable ORKTinnitusAudioSample *)maskingSampleNamed:(NSString *)sampleName error:(NSError **)outError;
+- (nullable ORKTinnitusAudioSample *)noiseTypeSampleWithIdentifier:(NSString *)identifier error:(NSError **)outError;
+- (nullable ORKTinnitusAudioSample *)maskingSampleWithIdentifier:(NSString *)identifier error:(NSError **)outError;
 
 @end
 

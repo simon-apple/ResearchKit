@@ -40,7 +40,7 @@ ORK_CLASS_AVAILABLE
 @interface ORKTinnitusMaskingSoundStep : ORKActiveStep
 
 @property (nonatomic, copy) NSString *name;
-@property (nonatomic, copy) NSString *path;
+@property (nonatomic, copy) NSString *soundIdentifier;
 
 /**
  The tinnitus frequency in Hertz that will be subtracted by the notch filter
@@ -62,12 +62,12 @@ ORK_CLASS_AVAILABLE
 /**
  Initialize the ORKTinnitusMaskingSoundStep. The value of notchFrequency will be set to 0.0
  */
-- (instancetype)initWithIdentifier:(NSString *)identifier name:(NSString *)name path:(NSString *)path;
+- (instancetype)initWithIdentifier:(NSString *)identifier name:(NSString *)name soundIdentifier:(NSString *)soundIdentifier;
 
 /**
  Initialize the ORKTinnitusMaskingSoundStep. Side effect:  To enable the notch filter, the value of notchFrequency must be greater then 0.0
  */
-- (instancetype)initWithIdentifier:(NSString *)identifier name:(NSString *)name path:(NSString *)path notchFrequency:(double)notchFrequency;
+- (instancetype)initWithIdentifier:(NSString *)identifier name:(NSString *)name soundIdentifier:(NSString *)soundIdentifier notchFrequency:(double)notchFrequency;
 
 @end
 

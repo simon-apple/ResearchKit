@@ -144,7 +144,7 @@
 - (BOOL)playWhiteNoise:(NSError **)outError {
     if (self.step.context && [self.step.context isKindOfClass:[ORKTinnitusPredefinedTaskContext class]]) {
         ORKTinnitusPredefinedTaskContext *context = (ORKTinnitusPredefinedTaskContext *)self.step.context;
-        ORKTinnitusAudioSample *audioSample = [context.audioManifest noiseTypeSampleNamed:ORKTinnitusMaskingSoundWhiteNoise error:outError];
+        ORKTinnitusAudioSample *audioSample = [context.audioManifest noiseTypeSampleWithIdentifier:ORKTinnitusMaskingSoundWhiteNoise error:outError];
         
         if (audioSample) {
             AVAudioPCMBuffer *buffer = [audioSample getBuffer:outError];

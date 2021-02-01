@@ -105,18 +105,16 @@
     ORKTinnitusNoiseType noiseType = self.loudnessStep.noiseType;
     self.audioGenerator = [[ORKTinnitusAudioGenerator alloc] initWithType:self.type headphoneType:headphoneType];
     
-    NSError *error;
-    NSString *fileName = ORKTinnitusMaskingSoundForNoiseType(noiseType);
-    
-    if (![self setupAudioEngineForFilename:fileName error:nil]) {
+    NSError *error;    
+    if (![self setupAudioEngineForSound:noiseType error:nil]) {
         ORK_Log_Error("Error fetching audioSample: %@", error);
     }
 }
 
-- (BOOL)setupAudioEngineForFilename:(NSString *)filename error:(NSError **)outError {
+- (BOOL)setupAudioEngineForSound:(NSString *)identifier error:(NSError **)outError {
     if (self.step.context && [self.step.context isKindOfClass:[ORKTinnitusPredefinedTaskContext class]]) {
         ORKTinnitusPredefinedTaskContext *context = (ORKTinnitusPredefinedTaskContext *)self.step.context;
-        ORKTinnitusAudioSample *audioSample = [context.audioManifest noiseTypeSampleNamed:filename error:outError];
+        ORKTinnitusAudioSample *audioSample = [context.audioManifest noiseTypeSampleWithIdentifier:identifier error:outError];
         
         if (audioSample) {
             AVAudioPCMBuffer *buffer = [audioSample getBuffer:outError];

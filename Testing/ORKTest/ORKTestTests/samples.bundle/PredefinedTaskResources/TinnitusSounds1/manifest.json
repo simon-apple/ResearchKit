@@ -1,42 +1,61 @@
-[
-    {
-        "name": "audiobook",
-        "filename": "white_noise_5s.wav"
-    },
-    {
-        "name": "campfire",
-        "filename": "white_noise_5s.wav"
-    },
-    {
-        "name": "cicadas",
-        "filename": "white_noise_5s.wav"
-    },
-    {
-        "name": "crickets",
-        "filename": "white_noise_5s.wav"
-    },
-    {
-        "name": "crowd noise",
-        "filename": "white_noise_5s.wav"
-    },
-    {
-        "name": "forest",
-        "filename": "white_noise_5s.wav"
-    },
-    {
-        "name": "ocean",
-        "filename": "white_noise_5s.wav"
-    },
-    {
-        "name": "rain",
-        "filename": "white_noise_5s.wav"
-    },
-    {
-        "name": "tea kettle",
-        "filename": "white_noise_5s.wav"
-    },
-    {
-        "name": "whitenoise",
-        "filename": "white_noise_5s.wav"
-    }
-]
+{
+    "noiseTypes" : [
+        {
+            "name": "Cicadas",
+            "identifier": "CICADAS",
+            "filename": "white_noise_5s.wav"
+        },
+        {
+            "name": "Crickets",
+            "identifier": "CRICKETS",
+            "filename": "white_noise_5s.wav"
+        },
+        {
+            "name": "Tea Kettle",
+            "identifier": "TEAKETTLE",
+            "filename": "white_noise_5s.wav"
+        },
+        {
+            "name": "WhiteNoise",
+            "identifier": "WHITENOISE",
+            "filename": "white_noise_5s.wav"
+        }
+    ],
+    "maskingSounds" : [
+        {
+            "name": "Audiobook",
+            "identifier": "tinnitus.masking.audiobook",
+            "filename": "white_noise_5s.wav"
+        },
+        {
+            "name": "Campfire",
+            "identifier": "tinnitus.masking.fire",
+            "filename": "white_noise_5s.wav"
+        },
+        {
+            "name": "Crowd Noise",
+            "identifier": "tinnitus.masking.crowd",
+            "filename": "white_noise_5s.wav"
+        },
+        {
+            "name": "Forest",
+            "identifier": "tinnitus.masking.forest",
+            "filename": "white_noise_5s.wav"
+        },
+        {
+            "name": "Ocean",
+            "identifier": "tinnitus.masking.ocean",
+            "filename": "white_noise_5s.wav"
+        },
+        {
+            "name": "Rain",
+            "identifier": "tinnitus.masking.rain",
+            "filename": "white_noise_5s.wav"
+        },
+        {
+            "name": "WhiteNoise",
+            "identifier": "tinnitus.masking.whitenoise",
+            "filename": "white_noise_5s.wav"
+        }
+    ]
+}

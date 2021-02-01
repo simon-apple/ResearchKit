@@ -77,7 +77,7 @@ NSString *const ORKTinnitusPuretoneMaskSoundNameExtension = @"wav";
     [super viewDidLoad];
 
     NSString *buttonTitle = [[self tinnitusMaskingSoundStep] name];
-    NSString *soundName = [[self tinnitusMaskingSoundStep] path];
+    NSString *soundIdentifier = [[self tinnitusMaskingSoundStep] soundIdentifier];
     
     BOOL notchFilterEnabled = [[self tinnitusMaskingSoundStep] notchFrequency] > 0.0;
     
@@ -131,17 +131,17 @@ NSString *const ORKTinnitusPuretoneMaskSoundNameExtension = @"wav";
     [_audioEngine attachNode:_playerNode];
     
     NSError *error;
-    if (![self setupAudioEngineForSoundName:soundName error:&error]) {
+    if (![self setupAudioEngineForSound:soundIdentifier error:&error]) {
         ORK_Log_Error("Error fetching audioSample: %@", error);
     }
     
     [self setNavigationFooterView];
 }
 
-- (BOOL)setupAudioEngineForSoundName:(NSString *)soundName error:(NSError **)outError {
+- (BOOL)setupAudioEngineForSound:(NSString *)identifier error:(NSError **)outError {
     if (self.step.context && [self.step.context isKindOfClass:[ORKTinnitusPredefinedTaskContext class]]) {
         ORKTinnitusPredefinedTaskContext *context = (ORKTinnitusPredefinedTaskContext *)self.step.context;
-        ORKTinnitusAudioSample *audioSample = [context.audioManifest maskingSampleNamed:soundName error:outError];
+        ORKTinnitusAudioSample *audioSample = [context.audioManifest maskingSampleWithIdentifier:identifier error:outError];
         
         if (audioSample) {
             AVAudioPCMBuffer *buffer = [audioSample getBuffer:outError];

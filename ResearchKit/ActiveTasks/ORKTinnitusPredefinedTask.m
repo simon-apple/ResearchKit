@@ -454,8 +454,8 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
     NSMutableArray *steps = [[NSMutableArray alloc] init];
     
     for (ORKTinnitusAudioSample *sample in _context.audioManifest.maskingSamples) {
-        ORKTinnitusMaskingSoundStep *step = [self maskingSoundStepForIdentifier:sample.identifier name:sample.name path:sample.path isNotch:NO];
-        ORKTinnitusMaskingSoundStep *notchStep = [self maskingSoundStepForIdentifier:[NSString stringWithFormat:@"%@.notch", sample.identifier] name:sample.name path:sample.path isNotch:YES];
+        ORKTinnitusMaskingSoundStep *step = [self maskingSoundStepForIdentifier:sample.identifier name:sample.name soundIdentifier:sample.identifier isNotch:NO];
+        ORKTinnitusMaskingSoundStep *notchStep = [self maskingSoundStepForIdentifier:[NSString stringWithFormat:@"%@.notch", sample.identifier] name:sample.name soundIdentifier:sample.identifier isNotch:YES];
         [steps addObject:@[step, notchStep]];
     }
     
@@ -712,15 +712,15 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
 
 - (ORKTinnitusMaskingSoundStep *)maskingSoundStepForIdentifier:(NSString *)identifier
                                                           name:(NSString *)name
-                                                          path:(NSString *)path isNotch:(BOOL)isNotch {
+                                               soundIdentifier:(NSString *)soundIdentifier isNotch:(BOOL)isNotch {
     ORKTinnitusMaskingSoundStep *maskingSoundStep;
     if (isNotch) {
         maskingSoundStep = [[ORKTinnitusMaskingSoundStep alloc]
                             initWithIdentifier:identifier
-                            name:name
-                            path:path notchFrequency:_predominantFrequency];
+                            name:soundIdentifier
+                            soundIdentifier:soundIdentifier notchFrequency:_predominantFrequency];
     } else {
-        maskingSoundStep = [[ORKTinnitusMaskingSoundStep alloc] initWithIdentifier:identifier name:name path:path];
+        maskingSoundStep = [[ORKTinnitusMaskingSoundStep alloc] initWithIdentifier:identifier name:name soundIdentifier:soundIdentifier];
     }
     maskingSoundStep.title = ORKLocalizedString(@"TINNITUS_MASKING_TITLE", nil);
     maskingSoundStep.text = ORKLocalizedString(@"TINNITUS_MASKING_TEXT", nil);
