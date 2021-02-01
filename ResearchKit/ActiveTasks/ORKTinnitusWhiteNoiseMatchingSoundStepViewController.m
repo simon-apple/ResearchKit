@@ -88,7 +88,7 @@
     
     if (self.step.context && [self.step.context isKindOfClass:[ORKTinnitusPredefinedTaskContext class]]) {
         ORKTinnitusPredefinedTaskContext *context = (ORKTinnitusPredefinedTaskContext *)self.step.context;
-        ORKTinnitusAudioSample *audioSample = [context.audioManifest sampleNamed:soundName error:outError];
+        ORKTinnitusAudioSample *audioSample = [context.audioManifest noiseTypeSampleNamed:soundName error:outError];
         
         if (audioSample) {
             AVAudioPCMBuffer *buffer = [audioSample getBuffer:outError];

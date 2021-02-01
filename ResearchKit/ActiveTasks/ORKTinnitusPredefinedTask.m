@@ -223,17 +223,18 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
 
 + (nullable ORKTinnitusAudioManifest *)prefetchAudioSamplesFromManifest:(nonnull NSString *)path error:(NSError * _Nullable * _Nullable)error
 {
-    NSArray *samples = [ORKTinnitusPredefinedTask prefetchAudioSamplesFromManifestAtPath:path error:error];
-    
-    if (samples)
+    NSArray *maskingSoundSamples = [ORKTinnitusPredefinedTask prefetchAudioSamplesFromManifestAtPath:path withKey:@"maskingSounds" error:error];
+    NSArray *noiseTypeSamples = [ORKTinnitusPredefinedTask prefetchAudioSamplesFromManifestAtPath:path withKey:@"noiseTypes" error:error];
+
+    if (maskingSoundSamples && noiseTypeSamples)
     {
-        return [ORKTinnitusAudioManifest manifestWithSamples:samples];
+        return [ORKTinnitusAudioManifest manifestWithMaskingSamples:maskingSoundSamples noiseTypeSamples:noiseTypeSamples];
     }
     
     return nil;
 }
 
-+ (nullable NSArray<ORKTinnitusAudioSample *> *)prefetchAudioSamplesFromManifestAtPath:(nonnull NSString *)path error:(NSError * _Nullable * _Nullable)error
++ (nullable NSArray<ORKTinnitusAudioSample *> *)prefetchAudioSamplesFromManifestAtPath:(nonnull NSString *)path withKey:(nonnull NSString *)key error:(NSError * _Nullable * _Nullable)error
 {
     NSFileManager *fileManager = [[NSFileManager alloc] init];
     
@@ -254,7 +255,7 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
         return nil;
     }
     
-    NSArray<NSDictionary *> *manifest = [NSJSONSerialization JSONObjectWithData:data options:0 error:error];
+    NSDictionary *manifest = [NSJSONSerialization JSONObjectWithData:data options:0 error:error];
     if (!manifest)
     {
         return nil;
@@ -273,46 +274,47 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
         return nil;
     }
     
-    NSString * const ManifestJSONKeyAudioFilename = @"filename";
-    NSString * const ManifestJSONKeyName = @"name";
-    
-    NSMutableArray<ORKTinnitusAudioSample *> *audioFileSamples = [[NSMutableArray alloc] init];
-    
-    __block BOOL success;
-    __block NSError *err;
-    [manifest enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        
-        NSString *audioFilename = (NSString *)[obj objectForKey:ManifestJSONKeyAudioFilename];
-        NSString *audioFilePath = [parentDirectory stringByAppendingPathComponent:audioFilename];
-        NSString *audioFileName = (NSString *)[obj objectForKey:ManifestJSONKeyName];
-        
-        if ([fileManager fileExistsAtPath:audioFilePath])
-        {
-            [audioFileSamples addObject:[ORKTinnitusAudioSample sampleWithPath:audioFilePath name:audioFileName]];
-            success = YES;
-        }
-        else
-        {
-            *stop = YES;
-            err = [NSError errorWithDomain:ORKErrorDomain
-                                      code:ORKErrorException
-                                  userInfo:@{NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:@"Could not locate file at path %@", audioFilePath]}];
-            success = NO;
-        }
-    }];
-    
-    if (success)
-    {
-        return [audioFileSamples copy];
-    }
-    else
-    {
-        if (error != NULL)
-        {
-            *error = err;
-        }
-        return nil;
-    }
+//    NSString * const ManifestJSONKeyAudioFilename = @"filename";
+//    NSString * const ManifestJSONKeyName = @"name";
+//
+//    NSMutableArray<ORKTinnitusAudioSample *> *audioFileSamples = [[NSMutableArray alloc] init];
+//
+//    __block BOOL success;
+//    __block NSError *err;
+//    [manifest enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//
+//        NSString *audioFilename = (NSString *)[obj objectForKey:ManifestJSONKeyAudioFilename];
+//        NSString *audioFilePath = [parentDirectory stringByAppendingPathComponent:audioFilename];
+//        NSString *audioFileName = (NSString *)[obj objectForKey:ManifestJSONKeyName];
+//
+//        if ([fileManager fileExistsAtPath:audioFilePath])
+//        {
+//            [audioFileSamples addObject:[ORKTinnitusAudioSample sampleWithPath:audioFilePath name:audioFileName]];
+//            success = YES;
+//        }
+//        else
+//        {
+//            *stop = YES;
+//            err = [NSError errorWithDomain:ORKErrorDomain
+//                                      code:ORKErrorException
+//                                  userInfo:@{NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:@"Could not locate file at path %@", audioFilePath]}];
+//            success = NO;
+//        }
+//    }];
+//
+//    if (success)
+//    {
+//        return [audioFileSamples copy];
+//    }
+//    else
+//    {
+//        if (error != NULL)
+//        {
+//            *error = err;
+//        }
+//        return nil;
+//    }
+    return nil;
 }
 
 #pragma mark - NSCopying

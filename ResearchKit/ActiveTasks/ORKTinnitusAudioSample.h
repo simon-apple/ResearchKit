@@ -37,14 +37,14 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ORKTinnitusAudioSample : NSObject
 
 @property (nonatomic, readonly, nonnull) NSString *path;
-
 @property (nonatomic, readonly, nonnull) NSString *name;
+@property (nonatomic, readonly, nonnull) NSString *identifier;
 
 + (instancetype)new NS_UNAVAILABLE;
 - (instancetype)init NS_UNAVAILABLE;
 
-+ (instancetype)sampleWithPath:(nonnull NSString *)path name:(nonnull NSString *)name;
-- (instancetype)initWithPath:(nonnull NSString *)path name:(nonnull NSString *)name;
++ (instancetype)sampleWithPath:(nonnull NSString *)path name:(nonnull NSString *)name identifier:(nonnull NSString *)identifier;
+- (instancetype)initWithPath:(nonnull NSString *)path name:(nonnull NSString *)name identifier:(nonnull NSString *)identifier;;
 
 - (nullable AVAudioPCMBuffer *)getBuffer:(NSError **)outError;
 
@@ -54,14 +54,17 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ORKTinnitusAudioManifest : NSObject
 
 @property (nonatomic, readonly, nonnull) NSArray<ORKTinnitusAudioSample *> *samples;
+@property (nonatomic, readonly, nonnull) NSArray<ORKTinnitusAudioSample *> *maskingSamples;
+@property (nonatomic, readonly, nonnull) NSArray<ORKTinnitusAudioSample *> *noiseTypeSamples;
 
 + (instancetype)new NS_UNAVAILABLE;
 - (instancetype)init NS_UNAVAILABLE;
 
-+ (instancetype)manifestWithSamples:(NSArray<ORKTinnitusAudioSample *> *)samples;
-- (instancetype)initWithSamples:(NSArray<ORKTinnitusAudioSample *> *)samples;
++ (instancetype)manifestWithMaskingSamples:(NSArray<ORKTinnitusAudioSample *> *)maskingSamples noiseTypeSamples:(NSArray<ORKTinnitusAudioSample *> *)noiseTypeSamples;
+- (instancetype)initWithMaskingSamples:(NSArray<ORKTinnitusAudioSample *> *)maskingSamples noiseTypeSamples:(NSArray<ORKTinnitusAudioSample *> *)noiseTypeSamples;
 
-- (nullable ORKTinnitusAudioSample *)sampleNamed:(NSString *)sampleName error:(NSError **)outError;
+- (nullable ORKTinnitusAudioSample *)noiseTypeSampleNamed:(NSString *)sampleName error:(NSError **)outError;
+- (nullable ORKTinnitusAudioSample *)maskingSampleNamed:(NSString *)sampleName error:(NSError **)outError;
 
 @end
 

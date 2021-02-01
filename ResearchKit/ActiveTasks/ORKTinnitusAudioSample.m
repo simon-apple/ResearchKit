@@ -34,18 +34,19 @@
 
 @implementation ORKTinnitusAudioSample
 
-+ (instancetype)sampleWithPath:(nonnull NSString *)path name:(nonnull NSString *)name
++ (instancetype)sampleWithPath:(nonnull NSString *)path name:(nonnull NSString *)name identifier:(nonnull NSString *)identifier
 {
-    return [[ORKTinnitusAudioSample alloc] initWithPath:path name:name];
+    return [[ORKTinnitusAudioSample alloc] initWithPath:path name:name identifier:identifier];
 }
 
-- (instancetype)initWithPath:(nonnull NSString *)path name:(nonnull NSString *)name
+- (instancetype)initWithPath:(nonnull NSString *)path name:(nonnull NSString *)name identifier:(nonnull NSString *)identifier
 {
     self = [super init];
     if (self)
     {
         _path = [path copy];
         _name = [name copy];
+        _identifier = [identifier copy];
     }
     return self;
 }
@@ -72,24 +73,25 @@
 
 @implementation ORKTinnitusAudioManifest
 
-+ (instancetype)manifestWithSamples:(NSArray<ORKTinnitusAudioSample *> *)samples
++ (instancetype)manifestWithMaskingSamples:(NSArray<ORKTinnitusAudioSample *> *)maskingSamples noiseTypeSamples:(NSArray<ORKTinnitusAudioSample *> *)noiseTypeSamples
 {
-    return [[ORKTinnitusAudioManifest alloc] initWithSamples:samples];
+    return [[ORKTinnitusAudioManifest alloc] initWithMaskingSamples:maskingSamples noiseTypeSamples:noiseTypeSamples];
 }
 
-- (instancetype)initWithSamples:(NSArray<ORKTinnitusAudioSample *> *)samples
+- (instancetype)initWithMaskingSamples:(NSArray<ORKTinnitusAudioSample *> *)maskingSamples noiseTypeSamples:(NSArray<ORKTinnitusAudioSample *> *)noiseTypeSamples
 {
     self = [super init];
     if (self)
     {
-        _samples = [samples copy];
+        _maskingSamples = [maskingSamples copy];
+        _noiseTypeSamples = [noiseTypeSamples copy];
     }
     return self;
 }
 
-- (ORKTinnitusAudioSample *)sampleNamed:(NSString *)sampleName error:(NSError **)outError {
+- (ORKTinnitusAudioSample *)sampleNamed:(NSString *)sampleName onArray:(NSArray<ORKTinnitusAudioSample *> *)sampleArray error:(NSError **)outError {
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name ==[c] %@", sampleName];
-    ORKTinnitusAudioSample *audioSample = [[_samples filteredArrayUsingPredicate:predicate] firstObject];
+    ORKTinnitusAudioSample *audioSample = [[_noiseTypeSamples filteredArrayUsingPredicate:predicate] firstObject];
     
     if (!audioSample) {
         if (outError != NULL) {
@@ -101,6 +103,14 @@
     }
     
     return audioSample;
+}
+
+- (ORKTinnitusAudioSample *)noiseTypeSampleNamed:(NSString *)sampleName error:(NSError **)outError {
+    return [self sampleNamed:sampleName onArray:_noiseTypeSamples error:outError];
+}
+
+- (ORKTinnitusAudioSample *)maskingSampleNamed:(NSString *)sampleName error:(NSError **)outError {
+    return [self sampleNamed:sampleName onArray:_maskingSamples error:outError];
 }
 
 @end
