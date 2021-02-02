@@ -45,13 +45,8 @@ static NSString *const ORKTinnitusHeadphoneDetectStepIdentifier = @"tinnitus.hea
 static NSString *const ORKTinnitusSPLMeterStepIdentifier = @"tinnitus.splmeter";
 static NSString *const ORKTinnitusTypeStepIdentifier = @"tinnitus.type";
 static NSString *const ORKTinnitusVolumeCalibrationStepIdentifier = @"tinnitus.volume.calibration";
-static NSString *const ORKTinnitusRound1StepIdentifier = @"tinnitus.puretone.1";
-static NSString *const ORKTinnitusRound1SuccessCompletedStepIdentifier = @"tinnitus.puretone.success.roundcomplete.1";
-static NSString *const ORKTinnitusRound1NoSuccessCompletedStepIdentifier = @"tinnitus.puretone.no.success.roundcomplete.1";
-static NSString *const ORKTinnitusRound2StepIdentifier = @"tinnitus.puretone.2";
-static NSString *const ORKTinnitusRound2SuccessCompletedStepIdentifier = @"tinnitus.puretone.success.roundcomplete.2";
-static NSString *const ORKTinnitusRound2NoSuccessCompletedStepIdentifier = @"tinnitus.puretone.no.success.roundcomplete.2";
-static NSString *const ORKTinnitusRound3StepIdentifier = @"tinnitus.puretone.3";
+static NSString *const ORKTinnitusRoundStepIdentifier = @"tinnitus.puretone";
+static NSString *const ORKTinnitusRoundSuccessCompletedStepIdentifier = @"tinnitus.puretone.success.roundcomplete";
 static NSString *const ORKTinnitusPuretoneNoSuccessStepIdentifier = @"tinnitus.puretone.no.success";
 static NSString *const ORKTinnitusPuretoneSuccessStepIdentifier = @"tinnitus.puretone.success";
 static NSString *const ORKTinnitusLoudnessMatchingStepIdentifier = @"tinnitus.loudness.matching";
@@ -410,7 +405,7 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
                 }
             }
             return [ORKTinnitusPredefinedTask whiteNoiseMatching];
-        } else if ([identifier isEqualToString:ORKTinnitusRound3StepIdentifier]) {
+        } else if ([identifier isEqualToString:[self getRoundIdentifierForNumber:3]]) {
             _predominantFrequency = [self predominantFrequencyForResult:result];
             if (_predominantFrequency > 0.0) {
                 return [self loudnessMatching];
@@ -465,14 +460,19 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
 
 - (void)setupStraightStepAfterStepDict {
     [self initMaskingSteps];
+    NSString *round1Identifier = [self getRoundIdentifierForNumber:1];
+    NSString *round2Identifier = [self getRoundIdentifierForNumber:2];
+    NSString *round1SuccessIdentifier = [self getRoundSuccessIdentifierForNumber:1];
+    NSString *round2SuccessIdentifier = [self getRoundSuccessIdentifierForNumber:2];
+    
     _stepAfterStepDict = @{
         ORKTinnitusHeadphoneDetectStepIdentifier: [ORKTinnitusPredefinedTask tinnitusType],
         ORKTinnitusTypeStepIdentifier: [ORKTinnitusPredefinedTask calibration],
-        ORKTinnitusPitchMatchingStepIdentifier: [ORKTinnitusPredefinedTask round1],
-        ORKTinnitusRound1StepIdentifier: [ORKTinnitusPredefinedTask round1SuccessCompleted],
-        ORKTinnitusRound1SuccessCompletedStepIdentifier: [ORKTinnitusPredefinedTask round2],
-        ORKTinnitusRound2StepIdentifier: [ORKTinnitusPredefinedTask round2SuccessCompleted],
-        ORKTinnitusRound2SuccessCompletedStepIdentifier: [ORKTinnitusPredefinedTask round3]
+        ORKTinnitusPitchMatchingStepIdentifier: [self getPureToneRound:1],
+        round1Identifier: [self getPureToneRoundComplete:1],
+        round1SuccessIdentifier: [self getPureToneRound:2],
+        round2Identifier: [self getPureToneRoundComplete:2],
+        round2SuccessIdentifier: [self getPureToneRound:3]
     };
 }
 
@@ -529,11 +529,11 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
 }
 
 - (double)predominantFrequencyForResult:(id<ORKTaskResultSource>)result {
-    ORKStepResult *stepResult = [result stepResultForStepIdentifier:ORKTinnitusRound1StepIdentifier];
+    ORKStepResult *stepResult = [result stepResultForStepIdentifier:[self getRoundIdentifierForNumber:1]];
     ORKTinnitusPureToneResult *round1Result = (ORKTinnitusPureToneResult *)(stepResult.results.count > 0 ? stepResult.results.firstObject : nil);
-    stepResult = [result stepResultForStepIdentifier:ORKTinnitusRound2StepIdentifier];
+    stepResult = [result stepResultForStepIdentifier:[self getRoundIdentifierForNumber:2]];
     ORKTinnitusPureToneResult *round2Result = (ORKTinnitusPureToneResult *)(stepResult.results.count > 0 ? stepResult.results.firstObject : nil);
-    stepResult = [result stepResultForStepIdentifier:ORKTinnitusRound3StepIdentifier];
+    stepResult = [result stepResultForStepIdentifier:[self getRoundIdentifierForNumber:3]];
     ORKTinnitusPureToneResult *round3Result = (ORKTinnitusPureToneResult *)(stepResult.results.count > 0 ? stepResult.results.firstObject : nil);
     
     NSNumber *predominantFrequency;
@@ -612,19 +612,29 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
     return [pitchMatching copy];
 }
 
-+ (ORKTinnitusPureToneStep *)round1 {
-    ORKTinnitusPureToneStep *round1 = [[ORKTinnitusPureToneStep alloc] initWithIdentifier:ORKTinnitusRound1StepIdentifier];
-    round1.title = ORKLocalizedString(@"TINNITUS_PURETONE_TITLE2", nil);
-    round1.detailText = ORKLocalizedString(@"TINNITUS_PURETONE_TEXT", nil);
-    round1.roundNumber = 1;
-    return [round1 copy];
+- (NSString *)getRoundIdentifierForNumber:(NSInteger)roundNumber {
+    return [NSString stringWithFormat:@"%@.%li",ORKTinnitusRoundStepIdentifier,(long)roundNumber];
 }
 
-+ (ORKInstructionStep *)round1SuccessCompleted {
-    ORKInstructionStep *round1SuccessCompleted = [[ORKInstructionStep alloc] initWithIdentifier:ORKTinnitusRound1SuccessCompletedStepIdentifier];
-    round1SuccessCompleted.title = ORKLocalizedString(@"TINNITUS_ROUND_COMPLETE_TITLE", nil);
-    round1SuccessCompleted.text = ORKLocalizedString(@"TINNITUS_ROUND_COMPLETE_TEXT", nil);
-    round1SuccessCompleted.detailText = ORKLocalizedString(@"TINNITUS_ROUND_COMPLETE_DETAIL", nil);
+- (NSString *)getRoundSuccessIdentifierForNumber:(NSInteger)roundNumber {
+    return [NSString stringWithFormat:@"%@.%li",ORKTinnitusRoundSuccessCompletedStepIdentifier,(long)roundNumber];
+}
+
+- (ORKTinnitusPureToneStep *)getPureToneRound:(NSInteger)roundNumber {
+    NSString *identifier = [self getRoundIdentifierForNumber:roundNumber];
+    ORKTinnitusPureToneStep *round = [[ORKTinnitusPureToneStep alloc] initWithIdentifier:identifier];
+    round.title = ORKLocalizedString(@"TINNITUS_PURETONE_TITLE2", nil);
+    round.detailText = ORKLocalizedString(@"TINNITUS_PURETONE_TEXT", nil);
+    round.roundNumber = roundNumber;
+    return [round copy];
+}
+
+- (ORKInstructionStep *)getPureToneRoundComplete:(NSInteger)roundNumber {
+    NSString *identifier = [self getRoundSuccessIdentifierForNumber:roundNumber];
+    ORKInstructionStep *roundSuccessCompleted = [[ORKInstructionStep alloc] initWithIdentifier:identifier];
+    roundSuccessCompleted.title = ORKLocalizedString(@"TINNITUS_ROUND_COMPLETE_TITLE", nil);
+    roundSuccessCompleted.text = ORKLocalizedString(@"TINNITUS_ROUND_COMPLETE_TEXT", nil);
+    roundSuccessCompleted.detailText = ORKLocalizedString(@"TINNITUS_ROUND_COMPLETE_DETAIL", nil);
     
     UIImage *iconImage;
     if (@available(iOS 13.0, *)) {
@@ -633,44 +643,10 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
     } else {
         iconImage = [[UIImage imageNamed:@"checkmark" inBundle:ORKBundle() compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     }
-    round1SuccessCompleted.iconImage = iconImage;
-    round1SuccessCompleted.imageContentMode = UIViewContentModeTopLeft;
-    round1SuccessCompleted.shouldTintImages = YES;
-    return [round1SuccessCompleted copy];
-}
-
-+ (ORKTinnitusPureToneStep *)round2 {
-    ORKTinnitusPureToneStep *round2 = [[ORKTinnitusPureToneStep alloc] initWithIdentifier:ORKTinnitusRound2StepIdentifier];
-    round2.title = ORKLocalizedString(@"TINNITUS_PURETONE_TITLE2", nil);
-    round2.detailText = ORKLocalizedString(@"TINNITUS_PURETONE_TEXT", nil);
-    round2.roundNumber = 2;
-    return [round2 copy];
-}
-
-+ (ORKInstructionStep *)round2SuccessCompleted {
-    ORKInstructionStep *round2SuccessCompleted = [[ORKInstructionStep alloc] initWithIdentifier:ORKTinnitusRound2SuccessCompletedStepIdentifier];
-    round2SuccessCompleted.title = ORKLocalizedString(@"TINNITUS_ROUND_COMPLETE_TITLE", nil);
-    round2SuccessCompleted.text = ORKLocalizedString(@"TINNITUS_ROUND_COMPLETE_TEXT", nil);
-    round2SuccessCompleted.detailText = ORKLocalizedString(@"TINNITUS_ROUND_COMPLETE_DETAIL", nil);
-    UIImage *iconImage;
-    if (@available(iOS 13.0, *)) {
-        UIImageConfiguration *configuration = [UIImageSymbolConfiguration configurationWithFont:[UIFont preferredFontForTextStyle:UIFontTextStyleBody] scale:UIImageSymbolScaleLarge];
-        iconImage = [UIImage systemImageNamed:@"checkmark.circle.fill" withConfiguration:configuration];
-    } else {
-        iconImage = [[UIImage imageNamed:@"checkmark" inBundle:ORKBundle() compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    }
-    round2SuccessCompleted.iconImage = iconImage;
-    round2SuccessCompleted.imageContentMode = UIViewContentModeTopLeft;
-    round2SuccessCompleted.shouldTintImages = YES;
-    return [round2SuccessCompleted copy];
-}
-
-+ (ORKTinnitusPureToneStep *)round3 {
-    ORKTinnitusPureToneStep *round3 = [[ORKTinnitusPureToneStep alloc] initWithIdentifier:ORKTinnitusRound3StepIdentifier];
-    round3.title = ORKLocalizedString(@"TINNITUS_PURETONE_TITLE2", nil);
-    round3.detailText = ORKLocalizedString(@"TINNITUS_PURETONE_TEXT", nil);
-    round3.roundNumber = 3;
-    return [round3 copy];
+    roundSuccessCompleted.iconImage = iconImage;
+    roundSuccessCompleted.imageContentMode = UIViewContentModeTopLeft;
+    roundSuccessCompleted.shouldTintImages = YES;
+    return [roundSuccessCompleted copy];
 }
 
 - (ORKTinnitusLoudnessMatchingStep *)loudnessMatching {
