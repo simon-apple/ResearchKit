@@ -133,8 +133,8 @@
     
     __typeof(self) castObject = object;
     return (isParentSame
-            && [self.name isEqual:castObject.name]
-            && [self.soundIdentifier isEqual:castObject.soundIdentifier]
+            && ORKEqualObjects(self.name, castObject.name)
+            && ORKEqualObjects(self.soundIdentifier, castObject.soundIdentifier)
             && (self.notchFrequency == castObject.notchFrequency)
             && (self.bandwidth == castObject.bandwidth)
             && (self.gain == castObject.gain)
