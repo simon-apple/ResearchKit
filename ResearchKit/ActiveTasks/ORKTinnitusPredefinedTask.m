@@ -376,11 +376,11 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
                 if (answer != nil) {
                     _noiseTypeIdentifier = answer;
                 } else {
-                    return [self loudnessMatching];
+                    return [self loudnessMatchingForType:ORKTinnitusTypePureTone];
                 }
             }
             if ([self checkValidMatchingSound:_noiseTypeIdentifier]) {
-                return [self soundLoudnessMatching];
+                return [self loudnessMatchingForType:ORKTinnitusTypeWhiteNoise];
             }
             return nil;
         } else if ([identifier isEqualToString:ORKTinnitusSPLMeterStepIdentifier]) {
@@ -402,7 +402,7 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
         } else if ([identifier isEqualToString:[self getRoundIdentifierForNumber:3]]) {
             _predominantFrequency = [self predominantFrequencyForResult:result];
             if (_predominantFrequency > 0.0) {
-                return [self loudnessMatching];
+                return [self loudnessMatchingForType:ORKTinnitusTypePureTone];
             }
             return [self stepForMaskingSoundNumber:0];
         } else if ([identifier isEqualToString:ORKTinnitusLoudnessMatchingStepIdentifier] ||
@@ -643,18 +643,16 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
     return [roundSuccessCompleted copy];
 }
 
-- (ORKTinnitusLoudnessMatchingStep *)loudnessMatching {
-    ORKTinnitusLoudnessMatchingStep *loudnessMatching = [[ORKTinnitusLoudnessMatchingStep alloc] initWithIdentifier:ORKTinnitusLoudnessMatchingStepIdentifier frequency:_predominantFrequency];
+- (ORKTinnitusLoudnessMatchingStep *)loudnessMatchingForType:(ORKTinnitusType)tinnitusType {
+    ORKTinnitusLoudnessMatchingStep *loudnessMatching;
+    if (tinnitusType == ORKTinnitusTypePureTone) {
+        loudnessMatching = [[ORKTinnitusLoudnessMatchingStep alloc] initWithIdentifier:ORKTinnitusLoudnessMatchingStepIdentifier frequency:_predominantFrequency];
+    } else {
+        loudnessMatching = [[ORKTinnitusLoudnessMatchingStep alloc] initWithIdentifier:ORKTinnitusSoundLoudnessMatchingStepIdentifier noiseType:_noiseTypeIdentifier];
+    }
     loudnessMatching.title = ORKLocalizedString(@"TINNITUS_FINAL_CALIBRATION_TITLE", nil);
     loudnessMatching.text = ORKLocalizedString(@"TINNITUS_FINAL_CALIBRATION_TEXT", nil);
     return [loudnessMatching copy];
-}
-
-- (ORKTinnitusLoudnessMatchingStep *)soundLoudnessMatching {
-    ORKTinnitusLoudnessMatchingStep *soundLoudnessMatching = [[ORKTinnitusLoudnessMatchingStep alloc] initWithIdentifier:ORKTinnitusSoundLoudnessMatchingStepIdentifier noiseType:_noiseTypeIdentifier];
-    soundLoudnessMatching.title = ORKLocalizedString(@"TINNITUS_FINAL_CALIBRATION_TITLE", nil);
-    soundLoudnessMatching.text = ORKLocalizedString(@"TINNITUS_FINAL_CALIBRATION_TEXT", nil);
-    return [soundLoudnessMatching copy];
 }
 
 + (ORKTinnitusWhiteNoiseMatchingSoundStep *)whiteNoiseMatching {
