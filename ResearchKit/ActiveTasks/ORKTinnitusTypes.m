@@ -30,7 +30,6 @@
 
 #import <Foundation/Foundation.h>
 #import "ORKTinnitusTypes.h"
-#import "ORKTinnitusPredefinedTaskConstants.h"
 
 ORKTinnitusType const ORKTinnitusTypeWhiteNoise = @"whiteNoise";
 
@@ -56,24 +55,10 @@ ORKTinnitusError const ORKTinnitusErrorTooHigh = @"TooHighFrequency";
 
 ORKTinnitusError const ORKTinnitusErrorTooLow = @"TooLowFrequency";
 
-//ORKTinnitusMaskingSoundType const ORKTinnitusMaskingSoundTypeWhiteNoise = @"WHITENOISE";
-//
-//ORKTinnitusMaskingSoundType const ORKTinnitusMaskingSoundTypeCampfire = @"CAMPFIRE";
-//
-//ORKTinnitusMaskingSoundType const ORKTinnitusMaskingSoundTypeRain = @"RAIN";
-//
-//ORKTinnitusMaskingSoundType const ORKTinnitusMaskingSoundTypeOcean = @"OCEAN";
-//
-//ORKTinnitusMaskingSoundType const ORKTinnitusMaskingSoundTypeForest = @"FOREST";
-//
-//ORKTinnitusMaskingSoundType const ORKTinnitusMaskingSoundTypeCrowd = @"CROWDNOISE";
-//
-//ORKTinnitusMaskingSoundType const ORKTinnitusMaskingSoundTypeAudiobook = @"AUDIOBOOK";
+ORKTinnitusNoiseType const ORKTinnitusNoiseTypeWhiteNoise = @"tinnitus.noisetype.whitenoise";
 
-ORKTinnitusNoiseType const ORKTinnitusNoiseTypeWhiteNoise = @"WHITENOISE";
+ORKTinnitusNoiseType const ORKTinnitusNoiseTypeCicadas = @"tinnitus.noisetype.cicadas";
 
-ORKTinnitusNoiseType const ORKTinnitusNoiseTypeCicadas = @"CICADAS";
+ORKTinnitusNoiseType const ORKTinnitusNoiseTypeCrickets = @"tinnitus.noisetype.crickets";
 
-ORKTinnitusNoiseType const ORKTinnitusNoiseTypeCrickets = @"CRICKETS";
-
-ORKTinnitusNoiseType const ORKTinnitusNoiseTypeTeakettle = @"TEAKETTLE";
+ORKTinnitusNoiseType const ORKTinnitusNoiseTypeTeakettle = @"tinnitus.noisetype.teakettle";

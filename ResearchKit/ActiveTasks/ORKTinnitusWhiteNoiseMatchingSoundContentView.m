@@ -29,7 +29,6 @@
  */
 
 #import "ORKTinnitusWhiteNoiseMatchingSoundContentView.h"
-#import "ORKTinnitusPredefinedTaskConstants.h"
 #import "ORKHelpers_Internal.h"
 #import "ORKAnswerTextField.h"
 #import "ORKTinnitusTypes.h"

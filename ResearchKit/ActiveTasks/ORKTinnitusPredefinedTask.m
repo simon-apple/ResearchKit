@@ -30,7 +30,6 @@
 
 #import "ORKTinnitusPredefinedTask.h"
 #import "ORKContext.h"
-#import "ORKTinnitusPredefinedTaskConstants.h"
 #import "ORKTinnitusPureToneStep.h"
 #import "ORKTinnitusCalibrationStep.h"
 #import "ORKTinnitusTypeStep.h"
@@ -717,7 +716,7 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
     if (isNotch) {
         maskingSoundStep = [[ORKTinnitusMaskingSoundStep alloc]
                             initWithIdentifier:identifier
-                            name:soundIdentifier
+                            name:name
                             soundIdentifier:soundIdentifier notchFrequency:_predominantFrequency];
     } else {
         maskingSoundStep = [[ORKTinnitusMaskingSoundStep alloc] initWithIdentifier:identifier name:name soundIdentifier:soundIdentifier];

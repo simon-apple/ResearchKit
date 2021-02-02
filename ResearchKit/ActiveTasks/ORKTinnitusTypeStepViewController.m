@@ -34,7 +34,6 @@
 #import "ORKTinnitusAudioGenerator.h"
 #import "ORKTinnitusTypeContentView.h"
 #import "ORKTinnitusTypeResult.h"
-#import "ORKTinnitusPredefinedTaskConstants.h"
 #import "ORKTinnitusButtonView.h"
 #import "ORKTinnitusAudioSample.h"
 
@@ -144,7 +143,7 @@
 - (BOOL)playWhiteNoise:(NSError **)outError {
     if (self.step.context && [self.step.context isKindOfClass:[ORKTinnitusPredefinedTaskContext class]]) {
         ORKTinnitusPredefinedTaskContext *context = (ORKTinnitusPredefinedTaskContext *)self.step.context;
-        ORKTinnitusAudioSample *audioSample = [context.audioManifest noiseTypeSampleWithIdentifier:ORKTinnitusMaskingSoundWhiteNoise error:outError];
+        ORKTinnitusAudioSample *audioSample = [context.audioManifest noiseTypeSampleWithIdentifier:ORKTinnitusNoiseTypeWhiteNoise error:outError];
         
         if (audioSample) {
             AVAudioPCMBuffer *buffer = [audioSample getBuffer:outError];

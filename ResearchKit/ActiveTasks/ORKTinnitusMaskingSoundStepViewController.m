@@ -31,7 +31,6 @@
 #import "ORKTinnitusMaskingSoundStepViewController.h"
 
 #import "ORKActiveStepView.h"
-#import "ORKTinnitusPredefinedTaskConstants.h"
 #import "ORKTinnitusPredefinedTask.h"
 
 #import "ORKActiveStepViewController_Internal.h"

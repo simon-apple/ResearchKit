@@ -34,7 +34,6 @@
 #import "ORKTinnitusTypeResult.h"
 #import "ORKTinnitusAudioGenerator.h"
 #import "ORKTinnitusLoudnessMatchingResult.h"
-#import "ORKTinnitusPredefinedTaskConstants.h"
 #import "ORKTinnitusAudioSample.h"
 
 #import "ORKActiveStepView.h"

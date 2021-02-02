@@ -2424,11 +2424,11 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                   })),
            ENTRY(ORKTinnitusMaskingSoundStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-               return [[ORKTinnitusMaskingSoundStep alloc] initWithIdentifier:GETPROP(dict, identifier) name:GETPROP(dict, name) path:GETPROP(dict, path) notchFrequency:((NSNumber *)GETPROP(dict, notchFrequency)).doubleValue];
+               return [[ORKTinnitusMaskingSoundStep alloc] initWithIdentifier:GETPROP(dict, identifier) name:GETPROP(dict, name) soundIdentifier:GETPROP(dict, soundIdentifier) notchFrequency:((NSNumber *)GETPROP(dict, notchFrequency)).doubleValue];
             },
                  (@{
                      PROPERTY(name, NSString, NSObject, NO, nil, nil),
-                     PROPERTY(path, NSString, NSObject, NO, nil, nil),
+                     PROPERTY(soundIdentifier, NSString, NSObject, NO, nil, nil),
                      PROPERTY(notchFrequency, NSNumber, NSObject, NO, nil, nil),
                      PROPERTY(bandwidth, NSNumber, NSObject, YES, nil, nil),
                      PROPERTY(gain, NSNumber, NSObject, YES, nil, nil)

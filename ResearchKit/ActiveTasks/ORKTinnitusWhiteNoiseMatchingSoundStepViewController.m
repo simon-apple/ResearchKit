@@ -31,7 +31,6 @@
 #import "ORKTinnitusWhiteNoiseMatchingSoundStepViewController.h"
 #import "ORKTinnitusWhiteNoiseMatchingSoundStep.h"
 #import "ORKTinnitusWhiteNoiseMatchingSoundContentView.h"
-#import "ORKTinnitusPredefinedTaskConstants.h"
 #import "ORKTinnitusWhiteNoiseMatchingSoundResult.h"
 #import "ORKTinnitusAudioSample.h"
 
@@ -123,13 +122,13 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             NSError *error;
             if (tinnitusButtonView == _maskingContentView.cicadasButtonView) {
-                [self playSound:ORKTinnitusMaskingSoundCicadas error:&error];
+                [self playSound:ORKTinnitusNoiseTypeCicadas error:&error];
             } else if (tinnitusButtonView == _maskingContentView.cricketsButtonView) {
-                [self playSound:ORKTinnitusMaskingSoundCrickets error:&error];
+                [self playSound:ORKTinnitusNoiseTypeCrickets error:&error];
             } else if (tinnitusButtonView == _maskingContentView.whitenoiseButtonView) {
-                [self playSound:ORKTinnitusMaskingSoundWhiteNoise error:&error];
+                [self playSound:ORKTinnitusNoiseTypeWhiteNoise error:&error];
             } else if (tinnitusButtonView == _maskingContentView.teakettleButtonView) {
-                [self playSound:ORKTinnitusMaskingSoundTeakettle error:&error];
+                [self playSound:ORKTinnitusNoiseTypeTeakettle error:&error];
             }
             
             if (error) {

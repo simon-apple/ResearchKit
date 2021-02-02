@@ -30,7 +30,6 @@
 
 #import "ORKTinnitusWhiteNoiseMatchingSoundStep.h"
 #import "ORKTinnitusWhiteNoiseMatchingSoundStepViewController.h"
-#import "ORKTinnitusPredefinedTaskConstants.h"
 #import "ORKHelpers_Internal.h"
 
 @implementation ORKTinnitusWhiteNoiseMatchingSoundStep

@@ -30,7 +30,6 @@
 
 #import "ORKTinnitusLoudnessMatchingStep.h"
 #import "ORKTinnitusLoudnessMatchingStepViewController.h"
-#import "ORKTinnitusPredefinedTaskConstants.h"
 #import "ORKHelpers_Internal.h"
 #import "ORKTinnitusTypes.h"
 #include <math.h>
