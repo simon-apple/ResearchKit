@@ -310,9 +310,11 @@ static OSStatus ORKTinnitusAudioGeneratorRenderTone(void *inRefCon,
 - (float)getWhiteNoiseSystemVolumeIndBSPL:(ORKTinnitusNoiseType)noiseType {
     _systemVolume = [self getCurrentSystemVolume];
     NSDecimalNumber *offsetDueToVolume = [NSDecimalNumber decimalNumberWithString:_volumeCurve[[NSString stringWithFormat:@"%.4f",_systemVolume]]];
-    NSDecimalNumber *dbSPLNoiseType =  [NSDecimalNumber decimalNumberWithString:_dbSPLNoiseType[[NSString stringWithFormat:@"%@",noiseType]]];
-    
-    NSDecimalNumber *resultNumber = [offsetDueToVolume decimalNumberByAdding:dbSPLNoiseType];
+    NSDecimalNumber *dbSPLNoiseType = [NSDecimalNumber decimalNumberWithString:_dbSPLNoiseType[[NSString stringWithFormat:@"%@",noiseType]]];
+    NSDecimalNumber *resultNumber = offsetDueToVolume;
+    if (!isnan(dbSPLNoiseType.floatValue)) {
+        resultNumber = [offsetDueToVolume decimalNumberByAdding:dbSPLNoiseType];
+    }
     
     return [resultNumber floatValue];
 }
