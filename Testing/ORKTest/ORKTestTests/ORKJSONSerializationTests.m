@@ -335,7 +335,7 @@ ORK_MAKE_TEST_INIT(NSRegularExpression, (^{
 }));
 ORK_MAKE_TEST_INIT(UIColor, (^{ return [self initWithRed:1 green:1 blue:1 alpha:1]; }));
 ORK_MAKE_TEST_INIT(ORKNoAnswer, (^{ return [ORKDontKnowAnswer answer]; }));
-ORK_MAKE_TEST_INIT(ORKTinnitusMaskingSoundStep, (^{ return [[ORKTinnitusMaskingSoundStep alloc] initWithIdentifier:[NSUUID UUID].UUIDString name:@"White Noise" soundIdentifier:@"tinnitus.noisetype.whitenoise" notchFrequency:0]; }));
+ORK_MAKE_TEST_INIT(ORKTinnitusMaskingSoundStep, (^{ return [[ORKTinnitusMaskingSoundStep alloc] initWithIdentifier:[NSUUID UUID].UUIDString name:@"White Noise" soundIdentifier:@"WHITENOISE" notchFrequency:0]; }));
 
 
 @interface ORKJSONTestImageSerialization : NSObject<ORKESerializationImageProvider>

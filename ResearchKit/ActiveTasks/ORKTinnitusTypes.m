@@ -55,10 +55,10 @@ ORKTinnitusError const ORKTinnitusErrorTooHigh = @"TooHighFrequency";
 
 ORKTinnitusError const ORKTinnitusErrorTooLow = @"TooLowFrequency";
 
-ORKTinnitusNoiseType const ORKTinnitusNoiseTypeWhiteNoise = @"tinnitus.noisetype.whitenoise";
+ORKTinnitusNoiseType const ORKTinnitusNoiseTypeWhiteNoise = @"WHITENOISE";
 
-ORKTinnitusNoiseType const ORKTinnitusNoiseTypeCicadas = @"tinnitus.noisetype.cicadas";
+ORKTinnitusNoiseType const ORKTinnitusNoiseTypeCicadas = @"CICADAS";
 
-ORKTinnitusNoiseType const ORKTinnitusNoiseTypeCrickets = @"tinnitus.noisetype.crickets";
+ORKTinnitusNoiseType const ORKTinnitusNoiseTypeCrickets = @"CRICKETS";
 
-ORKTinnitusNoiseType const ORKTinnitusNoiseTypeTeakettle = @"tinnitus.noisetype.teakettle";
+ORKTinnitusNoiseType const ORKTinnitusNoiseTypeTeakettle = @"TEAKETTLE";
