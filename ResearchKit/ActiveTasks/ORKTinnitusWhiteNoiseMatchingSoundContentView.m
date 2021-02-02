@@ -32,6 +32,8 @@
 #import "ORKHelpers_Internal.h"
 #import "ORKAnswerTextField.h"
 #import "ORKTinnitusTypes.h"
+#import "ORKTinnitusPredefinedTask.h"
+#import "ORKTinnitusAudioSample.h"
 #import "ORKSkin.h"
 
 #import "ORKCheckmarkView.h"
@@ -39,23 +41,19 @@
 static const CGFloat ORKTinnitusGlowAdjustment = 16.0;
 
 @interface ORKTinnitusWhiteNoiseMatchingSoundContentView () {
-    NSArray *_buttonsViewArray;
     UIScrollView *_scrollView;
     ORKTinnitusButtonView *_selectedButtonView;
+    ORKTinnitusPredefinedTaskContext *_context;
 }
-
-@property (nonatomic, strong) ORKTinnitusButtonView *whitenoiseButtonView;
-@property (nonatomic, strong) ORKTinnitusButtonView *cicadasButtonView;
-@property (nonatomic, strong) ORKTinnitusButtonView *cricketsButtonView;
-@property (nonatomic, strong) ORKTinnitusButtonView *teakettleButtonView;
 
 @end
 
 @implementation ORKTinnitusWhiteNoiseMatchingSoundContentView
 
-- (instancetype)init {
+- (instancetype)initWithContext:(ORKTinnitusPredefinedTaskContext *)context {
     self = [super init];
     if (self) {
+        _context = context;
         [self commonInit];
     }
     
@@ -66,49 +64,33 @@ static const CGFloat ORKTinnitusGlowAdjustment = 16.0;
 {
     [self setupScrollView];
     _selectedButtonView = nil;
-    _whitenoiseButtonView = [[ORKTinnitusButtonView alloc]
-                             initWithTitle:ORKLocalizedString(@"TINNITUS_WHITENOISE_TITLE", nil)
-                             detail:nil
-                             answer:ORKTinnitusNoiseTypeWhiteNoise];
-    _whitenoiseButtonView.translatesAutoresizingMaskIntoConstraints = NO;
-    [_scrollView addSubview:_whitenoiseButtonView];
-    [_whitenoiseButtonView.leadingAnchor constraintEqualToAnchor:_scrollView.leadingAnchor constant:ORKTinnitusGlowAdjustment].active = YES;
-    [_whitenoiseButtonView.trailingAnchor constraintEqualToAnchor:_scrollView.trailingAnchor constant:-ORKTinnitusGlowAdjustment].active = YES;
-    [_whitenoiseButtonView.widthAnchor constraintEqualToAnchor:_scrollView.widthAnchor constant:-2*ORKTinnitusGlowAdjustment].active = YES;
-    [_whitenoiseButtonView.topAnchor constraintEqualToAnchor:_scrollView.topAnchor constant:5.0].active = YES;
     
-    _cicadasButtonView = [[ORKTinnitusButtonView alloc]
-                          initWithTitle:ORKLocalizedString(@"TINNITUS_WHITENOISE_MATCHINGSOUND_CICACAS_TITLE", nil)
-                          detail:nil
-                          answer:ORKTinnitusNoiseTypeCicadas];
-    _cicadasButtonView.translatesAutoresizingMaskIntoConstraints = NO;
-    [_scrollView addSubview:_cicadasButtonView];
-    [_cicadasButtonView.leadingAnchor constraintEqualToAnchor:_scrollView.leadingAnchor constant:ORKTinnitusGlowAdjustment].active = YES;
-    [_cicadasButtonView.trailingAnchor constraintEqualToAnchor:_scrollView.trailingAnchor constant:-ORKTinnitusGlowAdjustment].active = YES;
-    [_cicadasButtonView.topAnchor constraintEqualToAnchor:_whitenoiseButtonView.bottomAnchor constant: 16.0].active = YES;
-    
-    _cricketsButtonView = [[ORKTinnitusButtonView alloc]
-                           initWithTitle:ORKLocalizedString(@"TINNITUS_WHITENOISE_MATCHINGSOUND_CRICKETS_TITLE", nil)
-                           detail:nil
-                           answer:ORKTinnitusNoiseTypeCrickets];
-    _cricketsButtonView.translatesAutoresizingMaskIntoConstraints = NO;
-    [_scrollView addSubview:_cricketsButtonView];
-    [_cricketsButtonView.leadingAnchor constraintEqualToAnchor:_scrollView.leadingAnchor constant:ORKTinnitusGlowAdjustment].active = YES;
-    [_cricketsButtonView.trailingAnchor constraintEqualToAnchor:_scrollView.trailingAnchor constant:-ORKTinnitusGlowAdjustment].active = YES;
-    [_cricketsButtonView.topAnchor constraintEqualToAnchor:_cicadasButtonView.bottomAnchor constant: 16.0].active = YES;
-    
-    _teakettleButtonView = [[ORKTinnitusButtonView alloc]
-                            initWithTitle:ORKLocalizedString(@"TINNITUS_WHITENOISE_MATCHINGSOUND_TEAKETTLE_TITLE", nil)
-                            detail:nil
-                            answer:ORKTinnitusNoiseTypeTeakettle];
-    _teakettleButtonView.translatesAutoresizingMaskIntoConstraints = NO;
-    [_scrollView addSubview:_teakettleButtonView];
-    [_teakettleButtonView.leadingAnchor constraintEqualToAnchor:_scrollView.leadingAnchor constant:ORKTinnitusGlowAdjustment].active = YES;
-    [_teakettleButtonView.trailingAnchor constraintEqualToAnchor:_scrollView.trailingAnchor constant:-ORKTinnitusGlowAdjustment].active = YES;
-    [_teakettleButtonView.topAnchor constraintEqualToAnchor:_cricketsButtonView.bottomAnchor constant: 16.0].active = YES;
-    [_teakettleButtonView.bottomAnchor constraintEqualToAnchor:_scrollView.bottomAnchor].active = YES;
-    
-    _buttonsViewArray = @[_whitenoiseButtonView, _cicadasButtonView, _cricketsButtonView, _teakettleButtonView];
+    NSMutableArray *buttons = [[NSMutableArray alloc] init];
+    ORKTinnitusButtonView *latestButtonView = nil;
+    ORKTinnitusButtonView *sampleButton = nil;
+    for (ORKTinnitusAudioSample *noiseTypeSample in _context.audioManifest.noiseTypeSamples) {
+        sampleButton = [[ORKTinnitusButtonView alloc]
+                        initWithTitle:noiseTypeSample.name
+                        detail:nil answer:noiseTypeSample.identifier];
+        if (latestButtonView == nil) {
+            sampleButton.translatesAutoresizingMaskIntoConstraints = NO;
+            [_scrollView addSubview:sampleButton];
+            [sampleButton.leadingAnchor constraintEqualToAnchor:_scrollView.leadingAnchor constant:ORKTinnitusGlowAdjustment].active = YES;
+            [sampleButton.trailingAnchor constraintEqualToAnchor:_scrollView.trailingAnchor constant:-ORKTinnitusGlowAdjustment].active = YES;
+            [sampleButton.widthAnchor constraintEqualToAnchor:_scrollView.widthAnchor constant:-2*ORKTinnitusGlowAdjustment].active = YES;
+            [sampleButton.topAnchor constraintEqualToAnchor:_scrollView.topAnchor constant:5.0].active = YES;
+        } else {
+            sampleButton.translatesAutoresizingMaskIntoConstraints = NO;
+            [_scrollView addSubview:sampleButton];
+            [sampleButton.leadingAnchor constraintEqualToAnchor:_scrollView.leadingAnchor constant:ORKTinnitusGlowAdjustment].active = YES;
+            [sampleButton.trailingAnchor constraintEqualToAnchor:_scrollView.trailingAnchor constant:-ORKTinnitusGlowAdjustment].active = YES;
+            [sampleButton.topAnchor constraintEqualToAnchor:latestButtonView.bottomAnchor constant: 16.0].active = YES;
+        }
+        [buttons addObject:sampleButton];
+        latestButtonView = sampleButton;
+    }
+
+    _buttonsViewArray = [buttons copy];
     
     self.translatesAutoresizingMaskIntoConstraints = NO;
     
@@ -121,7 +103,10 @@ static const CGFloat ORKTinnitusGlowAdjustment = 16.0;
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    _scrollView.contentSize = CGSizeMake(_scrollView.frame.size.width, _teakettleButtonView.frame.origin.y + _teakettleButtonView.frame.size.height + 32.0);
+    ORKTinnitusButtonView *lastButton = [_buttonsViewArray lastObject];
+    if (lastButton != nil) {
+        _scrollView.contentSize = CGSizeMake(_scrollView.frame.size.width, lastButton.frame.origin.y + lastButton.frame.size.height + 32.0);
+    }
 }
 
 - (void)setupScrollView {

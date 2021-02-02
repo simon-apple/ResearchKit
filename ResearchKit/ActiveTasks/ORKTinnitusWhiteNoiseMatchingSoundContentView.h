@@ -36,11 +36,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ORKTinnitusWhiteNoiseMatchingSoundContentView : ORKActiveStepCustomView
 
-@property (nonatomic, strong, readonly) ORKTinnitusButtonView *whitenoiseButtonView;
-@property (nonatomic, strong, readonly) ORKTinnitusButtonView *cicadasButtonView;
-@property (nonatomic, strong, readonly) ORKTinnitusButtonView *cricketsButtonView;
-@property (nonatomic, strong, readonly) ORKTinnitusButtonView *teakettleButtonView;
+@property (nonnull, readonly) NSArray *buttonsViewArray;
 
+- (instancetype)initWithContext:(ORKTinnitusPredefinedTaskContext *)context;
 - (void)selectButton:(ORKTinnitusButtonView *)buttonView;
 - (nullable NSString *)getAnswer;
 

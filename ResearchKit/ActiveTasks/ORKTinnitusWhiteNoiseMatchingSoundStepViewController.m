@@ -61,15 +61,14 @@
     
     [self setNavigationFooterView];
     
-    _maskingContentView = [[ORKTinnitusWhiteNoiseMatchingSoundContentView alloc] init];
+    ORKTinnitusPredefinedTaskContext *context = (ORKTinnitusPredefinedTaskContext *)self.step.context;
+    
+    _maskingContentView = [[ORKTinnitusWhiteNoiseMatchingSoundContentView alloc] initWithContext:context];
     self.activeStepView.activeCustomView = _maskingContentView;
     self.activeStepView.customContentFillsAvailableSpace = YES;
     _maskingContentView.translatesAutoresizingMaskIntoConstraints = NO;
-
-    _maskingContentView.whitenoiseButtonView.delegate = self;
-    _maskingContentView.cicadasButtonView.delegate = self;
-    _maskingContentView.cricketsButtonView.delegate = self;
-    _maskingContentView.teakettleButtonView.delegate = self;
+    
+    [_maskingContentView.buttonsViewArray makeObjectsPerformSelector:@selector(setDelegate:) withObject:self];
     
     self.audioEngine = [[AVAudioEngine alloc] init];
     self.playerNode = [[AVAudioPlayerNode alloc] init];
@@ -121,22 +120,24 @@
     if (tinnitusButtonView.isShowingPause) {
         dispatch_async(dispatch_get_main_queue(), ^{
             NSError *error;
-            if (tinnitusButtonView == _maskingContentView.cicadasButtonView) {
-                [self playSound:ORKTinnitusNoiseTypeCicadas error:&error];
-            } else if (tinnitusButtonView == _maskingContentView.cricketsButtonView) {
-                [self playSound:ORKTinnitusNoiseTypeCrickets error:&error];
-            } else if (tinnitusButtonView == _maskingContentView.whitenoiseButtonView) {
-                [self playSound:ORKTinnitusNoiseTypeWhiteNoise error:&error];
-            } else if (tinnitusButtonView == _maskingContentView.teakettleButtonView) {
-                [self playSound:ORKTinnitusNoiseTypeTeakettle error:&error];
-            }
+            [self playSound:tinnitusButtonView.answer error:&error];
             
             if (error) {
                 ORK_Log_Error("Error fetching audioSample: %@", error);
             }
         });
     }
-    if (_maskingContentView.cicadasButtonView.playedOnce && _maskingContentView.cricketsButtonView.playedOnce && _maskingContentView.whitenoiseButtonView.playedOnce && _maskingContentView.teakettleButtonView.playedOnce) {
+    
+    __block BOOL allPlayedAtLeastOnce = YES;
+    [_maskingContentView.buttonsViewArray indexOfObjectPassingTest:^BOOL(ORKTinnitusButtonView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if (!obj.playedOnce) {
+            allPlayedAtLeastOnce = NO;
+            *stop = YES;
+            return YES;
+        }
+        return NO;
+    }];
+    if (allPlayedAtLeastOnce) {
         self.activeStepView.navigationFooterView.continueEnabled = YES;
     }
 }
