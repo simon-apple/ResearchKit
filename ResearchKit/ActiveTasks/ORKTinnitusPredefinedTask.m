@@ -40,14 +40,12 @@
 #import "ORKTinnitusAudioSample.h"
 #import <ResearchKit/ResearchKit_Private.h>
 
-static NSString *const ORKTinnitusTestingInstructionStepIdentifier = @"tinnitus.instruction.2";
 static NSString *const ORKTinnitusHeadphoneDetectStepIdentifier = @"tinnitus.headphonedetect";
 static NSString *const ORKTinnitusSPLMeterStepIdentifier = @"tinnitus.splmeter";
 static NSString *const ORKTinnitusTypeStepIdentifier = @"tinnitus.type";
 static NSString *const ORKTinnitusVolumeCalibrationStepIdentifier = @"tinnitus.volume.calibration";
 static NSString *const ORKTinnitusRoundStepIdentifier = @"tinnitus.puretone";
 static NSString *const ORKTinnitusRoundSuccessCompletedStepIdentifier = @"tinnitus.puretone.success.roundcomplete";
-static NSString *const ORKTinnitusPuretoneNoSuccessStepIdentifier = @"tinnitus.puretone.no.success";
 static NSString *const ORKTinnitusPuretoneSuccessStepIdentifier = @"tinnitus.puretone.success";
 static NSString *const ORKTinnitusLoudnessMatchingStepIdentifier = @"tinnitus.loudness.matching";
 static NSString *const ORKTinnitusSoundLoudnessMatchingStepIdentifier = @"tinnitus.soundloudness.matching";
@@ -349,23 +347,19 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
 }
 
 - (ORKStep *)apendedStepAfterStep:(ORKStep *)step {
-    ORKStep *completionStep = [self completionSuccess];
-    NSUInteger currentApendedStepIndex = [_appendSteps indexOfObject:step];
-    
-    if (_appendSteps && currentApendedStepIndex == NSNotFound) {
-        ORKStep *firstApendedStep = [_appendSteps firstObject];
-        if (firstApendedStep) {
-            return firstApendedStep;
+    if (_appendSteps) {
+        NSUInteger currentApendedStepIndex = [_appendSteps indexOfObject:step];
+
+        if (currentApendedStepIndex == NSNotFound) {
+            ORKStep *firstApendedStep = [_appendSteps firstObject];
+            if (firstApendedStep) {
+                return firstApendedStep;
+            }
+        } else if (currentApendedStepIndex+1 < [_appendSteps count]) {
+            return [_appendSteps objectAtIndex:currentApendedStepIndex+1];
         }
-        return completionStep;
-    } else {
-        if (currentApendedStepIndex+1 < [_appendSteps count]) {
-            return [_prependSteps objectAtIndex:currentApendedStepIndex+1];
-        } else if (![step.identifier isEqualToString:ORKTinnitusPuretoneSuccessStepIdentifier]) {
-            return completionStep;
-        }
-        return nil;
     }
+    return nil;
 }
 
 - (ORKStep *)dynamicStepAfterStep:(ORKStep *)step withResult:(id<ORKTaskResultSource>)result {
@@ -670,20 +664,6 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
     whitenoiseMatching.text = ORKLocalizedString(@"TINNITUS_WHITENOISE_MATCHINGSOUND_TEXT", nil);
     whitenoiseMatching.shouldTintImages = YES;
     return [whitenoiseMatching copy];
-}
-
-- (ORKCompletionStep *)completionSuccess {
-    ORKCompletionStep *completionSuccess = [[ORKCompletionStep alloc] initWithIdentifier:ORKTinnitusPuretoneSuccessStepIdentifier];
-    NSString *title = ORKLocalizedString(@"TINNITUS_WHITENOISE_SUCCESS_TITLE", nil);
-    NSString *text = ORKLocalizedString(@"TINNITUS_WHITENOISE_SUCCESS_TEXT", nil);
-    if ([_type isEqualToString:ORKTinnitusTypePureTone]) {
-        title = ORKLocalizedString(@"TINNITUS_PURETONE_SUCCESS_TITLE", nil);
-        text = ORKLocalizedString(@"TINNITUS_PURETONE_SUCCESS_TEXT", nil);
-    }
-    completionSuccess.title = title;
-    completionSuccess.text = text;
-    completionSuccess.shouldTintImages = YES;
-    return [completionSuccess copy];
 }
 
 #pragma mark - Masking Sounds Steps
