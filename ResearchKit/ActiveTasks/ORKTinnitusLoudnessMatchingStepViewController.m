@@ -105,7 +105,7 @@
     self.audioGenerator = [[ORKTinnitusAudioGenerator alloc] initWithType:self.type headphoneType:headphoneType];
     
     NSError *error;    
-    if (![self setupAudioEngineForSound:noiseType error:nil]) {
+    if (![self setupAudioEngineForSound:noiseType error:&error]) {
         ORK_Log_Error("Error fetching audioSample: %@", error);
     }
 }
