@@ -63,7 +63,7 @@
 #import "ORKSkin.h"
 
 static const CGFloat TableViewYOffsetStandard = 30.0;
-static const CGFloat DelayBeforeAutoScroll = 0.25;
+static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
 
 @interface ORKTableCellItem : NSObject
 
@@ -1115,7 +1115,7 @@ static const CGFloat DelayBeforeAutoScroll = 0.25;
         } else {
             CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
             
-            if ((_currentFirstResponderCell.frame.origin.y + _currentFirstResponderCell.frame.size.height) >= (self.view.frame.size.height - keyboardSize.height)) {
+            if ((_currentFirstResponderCell.frame.origin.y + CGRectGetHeight(_currentFirstResponderCell.frame)) >= (CGRectGetHeight(self.view.frame) - keyboardSize.height)) {
                 _tableView.contentInset = UIEdgeInsetsMake(0, 0, keyboardSize.height + TableViewYOffsetStandard, 0);
             }
         }

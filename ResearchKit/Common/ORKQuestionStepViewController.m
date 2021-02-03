@@ -70,7 +70,8 @@ typedef NS_ENUM(NSInteger, ORKQuestionSection) {
     ORKQuestionSection_COUNT
 };
 
-static const CGFloat DelayBeforeAutoScroll = 0.25;
+static const CGFloat TableViewYOffsetStandard = 30.0;
+static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
 
 @interface ORKQuestionStepViewController () <UITableViewDataSource, UITableViewDelegate, ORKSurveyAnswerCellDelegate, ORKTextChoiceCellGroupDelegate, ORKChoiceOtherViewCellDelegate, ORKTableContainerViewDelegate, ORKLearnMoreViewDelegate> {
     id _answer;
@@ -662,18 +663,29 @@ static const CGFloat DelayBeforeAutoScroll = 0.25;
 #pragma mark NSNotification methods
 
 - (void)keyboardWillShow:(NSNotification *)notification {
-    
     CGRect keyboardFrame = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
     CGRect convertedKeyboardFrame = [self.view convertRect:keyboardFrame fromView:nil];
     
-    if (CGRectGetMaxY(_currentFirstResponderCell.frame) >= CGRectGetMinY(convertedKeyboardFrame)) {
+    if (_currentFirstResponderCell && CGRectGetMaxY(_currentFirstResponderCell.frame) >= CGRectGetMinY(convertedKeyboardFrame)) {
         
-        [self.tableView setContentInset:UIEdgeInsetsMake(0, 0, CGRectGetHeight(convertedKeyboardFrame) - CGRectGetHeight(_currentFirstResponderCell.frame), 0)];
-        
-        NSIndexPath *currentFirstResponderCellIndex = [self.tableView indexPathForCell:_currentFirstResponderCell];
-        
-        if (currentFirstResponderCellIndex) {
-            [self.tableView scrollToRowAtIndexPath:currentFirstResponderCellIndex atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+        if ([_currentFirstResponderCell isKindOfClass:[ORKChoiceOtherViewCell class]]) {
+            
+            if (CGRectGetMaxY(_currentFirstResponderCell.frame) >= CGRectGetMinY(convertedKeyboardFrame)) {
+                
+                [self.tableView setContentInset:UIEdgeInsetsMake(0, 0, CGRectGetHeight(convertedKeyboardFrame), 0)];
+                
+                NSIndexPath *currentFirstResponderCellIndex = [self.tableView indexPathForCell:_currentFirstResponderCell];
+                
+                if (currentFirstResponderCellIndex) {
+                    [self.tableView scrollToRowAtIndexPath:currentFirstResponderCellIndex atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+                }
+            }
+        } else {
+            CGSize keyboardSize = keyboardFrame.size;
+            
+            if ((_currentFirstResponderCell.frame.origin.y + CGRectGetHeight(_currentFirstResponderCell.frame)) >= (CGRectGetHeight(self.view.frame) - keyboardSize.height)) {
+                _tableView.contentInset = UIEdgeInsetsMake(0, 0, keyboardSize.height + TableViewYOffsetStandard, 0);
+            }
         }
     }
 }
