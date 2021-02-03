@@ -2412,7 +2412,36 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
            },
                  (@{
                      PROPERTY(frequency, NSNumber, NSObject, YES, nil, nil)
+                  })),
+           ENTRY(ORKTinnitusWhiteNoiseMatchingSoundResult,
+                 nil,
+                 (@{
+                     PROPERTY(answer, NSString, NSObject, NO, nil, nil)
+                  })),
+           ENTRY(ORKTinnitusMaskingSoundResult,
+                 nil,
+                 (@{
+                     PROPERTY(answer, NSString, NSObject, NO, nil, nil)
+                  })),
+           ENTRY(ORKTinnitusMaskingSoundStep,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+               return [[ORKTinnitusMaskingSoundStep alloc] initWithIdentifier:GETPROP(dict, identifier) name:GETPROP(dict, name) soundIdentifier:GETPROP(dict, soundIdentifier) notchFrequency:((NSNumber *)GETPROP(dict, notchFrequency)).doubleValue];
+            },
+                 (@{
+                     PROPERTY(name, NSString, NSObject, NO, nil, nil),
+                     PROPERTY(soundIdentifier, NSString, NSObject, NO, nil, nil),
+                     PROPERTY(notchFrequency, NSNumber, NSObject, NO, nil, nil),
+                     PROPERTY(bandwidth, NSNumber, NSObject, YES, nil, nil),
+                     PROPERTY(gain, NSNumber, NSObject, YES, nil, nil)
+                  })),
+           ENTRY(ORKTinnitusWhiteNoiseMatchingSoundStep,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+               return [[ORKTinnitusWhiteNoiseMatchingSoundStep alloc] initWithIdentifier:GETPROP(dict, identifier) soundName:GETPROP(dict, soundName)];
+            },
+                 (@{
+                     PROPERTY(soundName, NSString, NSObject, NO, nil, nil)
                   }))
+           
            } mutableCopy];
         if (@available(iOS 12.0, *)) {
             [internalEncodingTable addEntriesFromDictionary:@{ ENTRY(ORKHealthClinicalTypeRecorderConfiguration,

@@ -31,6 +31,7 @@
 #import "ORKTinnitusLoudnessMatchingResult.h"
 #import "ORKResult_Private.h"
 #import "ORKHelpers_Internal.h"
+#import "ORKTinnitusTypes.h"
 
 @implementation ORKTinnitusLoudnessMatchingResult
 

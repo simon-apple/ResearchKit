@@ -28,60 +28,25 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "ORKTinnitusCalibrationResult.h"
+@import Foundation;
+#import <ResearchKit/ORKDefines.h>
+#import <ResearchKit/ORKActiveStep.h>
+#import <ResearchKit/ORKTypes.h>
 
-#import "ORKResult_Private.h"
-#import "ORKHelpers_Internal.h"
-#import "ORKTinnitusTypes.h"
+NS_ASSUME_NONNULL_BEGIN
 
-@implementation ORKTinnitusCalibrationResult
+ORK_CLASS_AVAILABLE
+@interface ORKTinnitusWhiteNoiseMatchingSoundStep : ORKActiveStep
 
-- (void)encodeWithCoder:(NSCoder *)aCoder {
-    [super encodeWithCoder:aCoder];
-    ORK_ENCODE_DOUBLE(aCoder, amplitude);
-    ORK_ENCODE_DOUBLE(aCoder, frequency);
-    ORK_ENCODE_OBJ(aCoder, type);
-}
+/*
+ The sound filename that will be played (does not include the extension)
+ 
+ The file must be on RK bundle.
+ */
+@property (nonatomic, copy, nullable) NSString *soundName;
 
-- (id)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    if (self) {
-        ORK_DECODE_DOUBLE(aDecoder, amplitude);
-        ORK_DECODE_DOUBLE(aDecoder, frequency);
-        ORK_DECODE_OBJ(aDecoder, type);
-    }
-    return self;
-}
-
-+ (BOOL)supportsSecureCoding {
-    return YES;
-}
-
-- (BOOL)isEqual:(id)object {
-    BOOL isParentSame = [super isEqual:object];
-    
-    __typeof(self) castObject = object;
-    return (isParentSame &&
-            (self.amplitude == castObject.amplitude) &&
-            (self.frequency == castObject.frequency) &&
-            ORKEqualObjects(self.type, castObject.type)) ;
-}
-
-- (NSUInteger)hash {
-    return super.hash ^ self.type.hash;
-}
-
-- (instancetype)copyWithZone:(NSZone *)zone {
-    ORKTinnitusCalibrationResult *result = [super copyWithZone:zone];
-    result.amplitude = self.amplitude;
-    result.frequency = self.frequency;
-    result.type = [self.type copy];
-    return result;
-}
-
-- (NSString *)descriptionWithNumberOfPaddingSpaces:(NSUInteger)numberOfPaddingSpaces {
-    return [NSString stringWithFormat:@"%@; Type: %@; Amplitude: %0.6f; Frequency: %0.1f", [self descriptionPrefixWithNumberOfPaddingSpaces:numberOfPaddingSpaces], self.type, self.amplitude,
-            self.frequency];
-}
+- (instancetype)initWithIdentifier:(NSString *)identifier soundName:(NSString *)soundName;
 
 @end
+
+NS_ASSUME_NONNULL_END

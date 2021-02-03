@@ -64,6 +64,9 @@ ORK_CLASS_AVAILABLE
  */
 @property (getter = isEnabled, readonly) BOOL enabled;
 
+@property (nonatomic, copy, nullable) id answer;
+
+- (instancetype _Nonnull )initWithTitle:(nonnull NSString *)title detail:(nullable NSString *)detail answer:(nullable id)answer;
 - (instancetype _Nonnull )initWithTitle:(nonnull NSString *)title detail:(nullable NSString *)detail;
 
 /**
