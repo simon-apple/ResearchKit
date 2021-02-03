@@ -28,27 +28,23 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "ORKTinnitusCalibrationResult.h"
+#import "ORKTinnitusMaskingSoundResult.h"
 
 #import "ORKResult_Private.h"
 #import "ORKHelpers_Internal.h"
-#import "ORKTinnitusTypes.h"
 
-@implementation ORKTinnitusCalibrationResult
+
+@implementation ORKTinnitusMaskingSoundResult
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [super encodeWithCoder:aCoder];
-    ORK_ENCODE_DOUBLE(aCoder, amplitude);
-    ORK_ENCODE_DOUBLE(aCoder, frequency);
-    ORK_ENCODE_OBJ(aCoder, type);
+    ORK_ENCODE_OBJ(aCoder, answer);
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        ORK_DECODE_DOUBLE(aDecoder, amplitude);
-        ORK_DECODE_DOUBLE(aDecoder, frequency);
-        ORK_DECODE_OBJ(aDecoder, type);
+        ORK_DECODE_OBJ(aDecoder, answer);
     }
     return self;
 }
@@ -61,27 +57,24 @@
     BOOL isParentSame = [super isEqual:object];
     
     __typeof(self) castObject = object;
-    return (isParentSame &&
-            (self.amplitude == castObject.amplitude) &&
-            (self.frequency == castObject.frequency) &&
-            ORKEqualObjects(self.type, castObject.type)) ;
+    return (isParentSame
+            && ORKEqualObjects(self.answer, castObject.answer)
+            ) ;
 }
 
 - (NSUInteger)hash {
-    return super.hash ^ self.type.hash;
+    return super.hash ^ self.answer.hash;
 }
 
 - (instancetype)copyWithZone:(NSZone *)zone {
-    ORKTinnitusCalibrationResult *result = [super copyWithZone:zone];
-    result.amplitude = self.amplitude;
-    result.frequency = self.frequency;
-    result.type = [self.type copy];
+    ORKTinnitusMaskingSoundResult *result = [super copyWithZone:zone];
+    result.answer = [self.answer copy];
     return result;
 }
 
 - (NSString *)descriptionWithNumberOfPaddingSpaces:(NSUInteger)numberOfPaddingSpaces {
-    return [NSString stringWithFormat:@"%@; Type: %@; Amplitude: %0.6f; Frequency: %0.1f", [self descriptionPrefixWithNumberOfPaddingSpaces:numberOfPaddingSpaces], self.type, self.amplitude,
-            self.frequency];
+    return [NSString stringWithFormat:@"%@; answer: %@;",
+            [self descriptionPrefixWithNumberOfPaddingSpaces:numberOfPaddingSpaces], self.answer];
 }
 
 @end

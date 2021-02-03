@@ -724,9 +724,17 @@
 "TINNITUS_KIND_DETAIL" = "Listen to the samples and choose the option that best represents the sound quality of your tinnitus.";
 "TINNITUS_FREQUENCY_MATCHING_TITLE" = "Pitch Matching";
 "TINNITUS_FREQUENCY_MATCHING_DETAIL" = "\nThe next step will run in three rounds, to find the best approximation of your tinnitus pitch.\n\nIn each round you will need to identify the tone that better matches the pitch of your tinnitus — there isn’t a correct answer, just choose the best matching.";
+"TINNITUS_PURETONE_TITLE2" = "\nPitch Matching";
 "TINNITUS_PURETONE_ROUND_X" = "Round %lu of 3";
+"TINNITUS_PURETONE_TEXT" = "Listen to all samples then select the sound that most resembles your tinnitus experience.";
+"TINNITUS_ROUND_COMPLETE_TITLE" = "Round Completed";
+"TINNITUS_ROUND_COMPLETE_TEXT" = "Thank you for completing this task. Your tinnitus pitch has been saved.";
+"TINNITUS_ROUND_COMPLETE_DETAIL" = "Go through the next rounds to complete the study.";
+"TINNITUS_CALIBRATION_TITLE" = "Volume Calibration";
 "TINNITUS_CALIBRATION_TEXT" = "Listen to the sample and adjust the volume to a comfortable level.";
 "TINNITUS_CALIBRATION_TEXT2" = "Use the volume buttons to adjust the levels.";
+"TINNITUS_WHITENOISE_MATCHINGSOUND_TITLE" = "Tinnitus Sound Matching";
+"TINNITUS_WHITENOISE_MATCHINGSOUND_TEXT" = "Listen to the samples and choose the sound that most resembles your tinnitus experience.";
 "TINNITUS_VOLUME_ADJUST_TEXT" = "Note that you might need to adjust your device's volume if you're unable to hear a tone during the test.";
 "TINNITUS_BUTTON_UPPERPITCH_TITLE" = "Upper Pitch";
 "TINNITUS_BUTTON_LOWERPITCH_TITLE" = "Lower Pitch";
@@ -739,8 +747,20 @@
 "TINNITUS_BUTTON_FINE_TUNING_TITLE" = "Select and Begin Fine Tuning";
 "TINNITUS_BUTTON_CONTINUE_FINE_TUNING_TITLE" = "Select and Continue Fine Tuning";
 "TINNITUS_BUTTON_FINISH_FINE_TUNING_TITLE" = "Select and Finish Fine Tuning";
+"TINNITUS_FINAL_CALIBRATION_TITLE" = "Loudness Matching";
+"TINNITUS_FINAL_CALIBRATION_TEXT" = "Listen to the sample and adjust the volume to match the loudness of your tinnitus.";
 "TINNITUS_FINAL_CALIBRATION_BUTTON_TITLE" = "Tinnitus Sample";
 "TINNITUS_FINETUNE_TEXT" = "You will be presented a series of tones to fine tune the sound selected above.";
+"TINNITUS_MASKING_TITLE" = "Masking Sound";
+"TINNITUS_MASKING_TEXT" = "Listen to the sample and answer the following question. Feel free to use the volume buttons to adjust the level.";
+"TINNITUS_MASKING_QUESTION" = "Would you use the sound above to mask your tinnitus while completing a task (for example to focus, relax or fall asleep)?";
+"TINNITUS_MASKING_ANSWER_DEFINITELY" = "Definitely";
+"TINNITUS_MASKING_ANSWER_PROBABLY" = "Probably";
+"TINNITUS_MASKING_ANSWER_POSSIBLY" = "Possibly";
+"TINNITUS_MASKING_ANSWER_PROBABLYNOT" = "Probably not";
+"TINNITUS_MASKING_ANSWER_DEFINITELYNOT" = "Definitely not";
+"TINNITUS_MASKING_ANSWER_NOTA" = "None of the above";
+"TINNITUS_SAMPLE_NOT_FOUND_ERROR" = "Audio sample %@ not found on manifest";
 
 /* ORKRecordButton */
 "PLAY" = "Play";

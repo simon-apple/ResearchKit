@@ -29,7 +29,7 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <ResearchKit/ORKTinnitusTypes.h>
+#import "ORKTinnitusTypes.h"
 
 ORKTinnitusType const ORKTinnitusTypeWhiteNoise = @"whiteNoise";
 
@@ -55,21 +55,7 @@ ORKTinnitusError const ORKTinnitusErrorTooHigh = @"TooHighFrequency";
 
 ORKTinnitusError const ORKTinnitusErrorTooLow = @"TooLowFrequency";
 
-ORKTinnitusMaskingSoundType const ORKTinnitusMaskingSoundTypeWhitenoise = @"WHITENOISE";
-
-ORKTinnitusMaskingSoundType const ORKTinnitusMaskingSoundTypeCampfire = @"CAMPFIRE";
-
-ORKTinnitusMaskingSoundType const ORKTinnitusMaskingSoundTypeRain = @"RAIN";
-
-ORKTinnitusMaskingSoundType const ORKTinnitusMaskingSoundTypeOcean = @"OCEAN";
-
-ORKTinnitusMaskingSoundType const ORKTinnitusMaskingSoundTypeForest = @"FOREST";
-
-ORKTinnitusMaskingSoundType const ORKTinnitusMaskingSoundTypeCrowd = @"CROWDNOISE";
-
-ORKTinnitusMaskingSoundType const ORKTinnitusMaskingSoundTypeAudiobook = @"AUDIOBOOK";
-
-ORKTinnitusNoiseType const ORKTinnitusNoiseTypeWhitenoise = @"WHITENOISE";
+ORKTinnitusNoiseType const ORKTinnitusNoiseTypeWhiteNoise = @"WHITENOISE";
 
 ORKTinnitusNoiseType const ORKTinnitusNoiseTypeCicadas = @"CICADAS";
 

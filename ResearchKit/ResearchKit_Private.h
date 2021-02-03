@@ -189,6 +189,8 @@
 #import <ResearchKit/ORKTinnitusPureToneStep.h>
 #import <ResearchKit/ORKTinnitusLoudnessMatchingStep.h>
 #import <ResearchKit/ORKTinnitusCalibrationStep.h>
+#import <ResearchKit/ORKTinnitusMaskingSoundStep.h>
+#import <ResearchKit/ORKTinnitusWhiteNoiseMatchingSoundStep.h>
 
 #import <ResearchKit/ORKTinnitusPureToneResult.h>
 #import <ResearchKit/ORKTinnitusTypeResult.h>

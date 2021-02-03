@@ -127,16 +127,21 @@ static const CGFloat ORKTinnitusButtonViewPadding = 16.0;
 
 @implementation ORKTinnitusButtonView
 
-- (instancetype)initWithTitle:(NSString *)title detail:(NSString *)detail {
+- (instancetype _Nonnull )initWithTitle:(NSString *)title detail:(NSString *)detail answer:(id)answer {
     self = [super init];
     if (self) {
         [self commonInit];
         _titleText = title;
         _detailText = detail;
+        _answer = answer;
         [self setupView];
         [self setUpConstraints];
     }
     return self;
+}
+
+- (instancetype)initWithTitle:(NSString *)title detail:(NSString *)detail {
+    return [self initWithTitle:title detail:detail answer:nil];
 }
 
 - (instancetype)init {

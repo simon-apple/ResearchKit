@@ -29,9 +29,10 @@
  */
 
 #import <ResearchKit/ORKResult.h>
-#import <ResearchKit/ORKTinnitusTypes.h>
 
 NS_ASSUME_NONNULL_BEGIN
+
+typedef NSString *ORKTinnitusError NS_STRING_ENUM;
 
 @class ORKTinnitusUnit;
 

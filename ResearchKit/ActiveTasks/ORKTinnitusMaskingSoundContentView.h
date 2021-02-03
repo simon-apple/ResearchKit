@@ -28,54 +28,31 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "ORKTinnitusTypeResult.h"
+@import UIKit;
+#import "ORKCustomStepView_Internal.h"
+#import "ORKTinnitusButtonView.h"
 
-#import "ORKResult_Private.h"
-#import "ORKHelpers_Internal.h"
-#import "ORKTinnitusTypes.h"
+NS_ASSUME_NONNULL_BEGIN
 
-@implementation ORKTinnitusTypeResult
+@protocol ORKTinnitusMaskingSoundContentViewDelegate <NSObject>
 
-- (void)encodeWithCoder:(NSCoder *)aCoder {
-    [super encodeWithCoder:aCoder];
-    ORK_ENCODE_OBJ(aCoder, type);
-}
-
-- (id)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    if (self) {
-        ORK_DECODE_OBJ(aDecoder, type);
-    }
-    return self;
-}
-
-+ (BOOL)supportsSecureCoding {
-    return YES;
-}
-
-- (BOOL)isEqual:(id)object {
-    BOOL isParentSame = [super isEqual:object];
-
-    __typeof(self) castObject = object;
-    return (isParentSame &&
-            ORKEqualObjects(self.type, castObject.type)) ;
-}
-
-- (NSUInteger)hash {
-    return super.hash ^ self.type.hash;
-}
-
-- (instancetype)copyWithZone:(NSZone *)zone {
-    ORKTinnitusTypeResult *result = [super copyWithZone:zone];
-    result.type = [self.type copy];
-    return result;
-}
-
-- (NSString *)descriptionWithNumberOfPaddingSpaces:(NSUInteger)numberOfPaddingSpaces {
-    return [NSString stringWithFormat:@"%@; Type: %.@;",
-            [self descriptionPrefixWithNumberOfPaddingSpaces:numberOfPaddingSpaces],
-            self.type];
-}
-
+@required
+- (void)buttonCheckedWithValue:(NSString *)value;
 
 @end
+
+@interface ORKTinnitusMaskingSoundContentView : ORKActiveStepCustomView
+
+@property (nonatomic, weak) id<ORKTinnitusMaskingSoundContentViewDelegate> delegate;
+@property (nonatomic, strong, readonly) ORKTinnitusButtonView *playButtonView;
+
++ (instancetype)new NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
+- (instancetype)initWithButtonTitle:(NSString *)title;
+
+- (void)enableButtons;
+- (nullable NSString *)getAnswer;
+
+@end
+
+NS_ASSUME_NONNULL_END

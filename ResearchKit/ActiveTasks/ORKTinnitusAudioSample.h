@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020, Apple Inc. All rights reserved.
+ Copyright (c) 2021, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,27 +28,42 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ResearchKit/ResearchKit.h>
+#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NSString *ORKTinnitusType NS_STRING_ENUM;
-typedef NSString *ORKTinnitusNoiseType NS_STRING_ENUM;
+@class AVAudioPCMBuffer;
 
-ORK_CLASS_AVAILABLE
-@interface ORKTinnitusLoudnessMatchingResult : ORKResult
+@interface ORKTinnitusAudioSample : NSObject
 
-// The type of tinnitus matched
-@property (nonatomic, copy) ORKTinnitusType type;
+@property (nonatomic, readonly, nonnull) NSString *path;
+@property (nonatomic, readonly, nonnull) NSString *name;
+@property (nonatomic, readonly, nonnull) NSString *identifier;
 
-// The type of tinnitus noise matched
-@property (nonatomic, copy) ORKTinnitusNoiseType noiseType;
++ (instancetype)new NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
 
-// The amplitude of the matched tone (dB SPL)
-@property (nonatomic, assign) double amplitude;
++ (instancetype)sampleWithPath:(nonnull NSString *)path name:(nonnull NSString *)name identifier:(nonnull NSString *)identifier;
+- (instancetype)initWithPath:(nonnull NSString *)path name:(nonnull NSString *)name identifier:(nonnull NSString *)identifier;;
 
-// The frequency of the matched tone (Hz)
-@property (nonatomic, assign) double frequency;
+- (nullable AVAudioPCMBuffer *)getBuffer:(NSError **)outError;
+
+@end
+
+
+@interface ORKTinnitusAudioManifest : NSObject
+
+@property (nonatomic, readonly, nonnull) NSArray<ORKTinnitusAudioSample *> *maskingSamples;
+@property (nonatomic, readonly, nonnull) NSArray<ORKTinnitusAudioSample *> *noiseTypeSamples;
+
++ (instancetype)new NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
+
++ (instancetype)manifestWithMaskingSamples:(NSArray<ORKTinnitusAudioSample *> *)maskingSamples noiseTypeSamples:(NSArray<ORKTinnitusAudioSample *> *)noiseTypeSamples;
+- (instancetype)initWithMaskingSamples:(NSArray<ORKTinnitusAudioSample *> *)maskingSamples noiseTypeSamples:(NSArray<ORKTinnitusAudioSample *> *)noiseTypeSamples;
+
+- (nullable ORKTinnitusAudioSample *)noiseTypeSampleWithIdentifier:(NSString *)identifier error:(NSError **)outError;
+- (nullable ORKTinnitusAudioSample *)maskingSampleWithIdentifier:(NSString *)identifier error:(NSError **)outError;
 
 @end
 
