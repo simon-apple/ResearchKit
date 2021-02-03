@@ -32,6 +32,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+ORK_CLASS_AVAILABLE
 @interface ORKTinnitusMaskingSoundResult : ORKResult
 
 @property (nonatomic, copy) NSString *answer;
