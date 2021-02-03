@@ -196,7 +196,6 @@ NSString *const ORKTinnitusPuretoneMaskSoundNameExtension = @"wav";
     ORKTinnitusMaskingSoundResult *matchingSoundResult = [[ORKTinnitusMaskingSoundResult alloc] initWithIdentifier:self.step.identifier];
     matchingSoundResult.startDate = sResult.startDate;
     matchingSoundResult.endDate = now;
-    //matchingSoundResult.maskingSoundType = [[self tinnitusMaskingSoundStep] maskingSoundType];
     matchingSoundResult.answer = [_matchingSoundContentView getAnswer];
 
     [results addObject:matchingSoundResult];
