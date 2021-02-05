@@ -33,7 +33,6 @@
 NS_ASSUME_NONNULL_BEGIN
 
 typedef NSString *ORKTinnitusType NS_STRING_ENUM;
-typedef NSString *ORKTinnitusNoiseType NS_STRING_ENUM;
 
 ORK_CLASS_AVAILABLE
 @interface ORKTinnitusLoudnessMatchingResult : ORKResult
@@ -42,7 +41,7 @@ ORK_CLASS_AVAILABLE
 @property (nonatomic, copy) ORKTinnitusType type;
 
 // The type of tinnitus noise matched
-@property (nonatomic, copy) ORKTinnitusNoiseType noiseType;
+@property (nonatomic, copy) NSString *noiseType;
 
 // The amplitude of the matched tone (dB SPL)
 @property (nonatomic, assign) double amplitude;

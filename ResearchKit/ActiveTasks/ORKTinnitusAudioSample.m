@@ -34,21 +34,28 @@
 
 @implementation ORKTinnitusAudioSample
 
-+ (instancetype)sampleWithPath:(nonnull NSString *)path name:(nonnull NSString *)name identifier:(nonnull NSString *)identifier
-{
-    return [[ORKTinnitusAudioSample alloc] initWithPath:path name:name identifier:identifier];
++ (instancetype)sampleWithPath:(nonnull NSString *)path name:(nonnull NSString *)name identifier:(nonnull NSString *)identifier dbSPLTable:(nullable NSDictionary *)dbSPLTable {
+    return [[ORKTinnitusAudioSample alloc] initWithPath:path name:name identifier:identifier dbSPLTable:dbSPLTable];
 }
 
-- (instancetype)initWithPath:(nonnull NSString *)path name:(nonnull NSString *)name identifier:(nonnull NSString *)identifier
-{
+- (instancetype)initWithPath:(nonnull NSString *)path name:(nonnull NSString *)name identifier:(nonnull NSString *)identifier dbSPLTable:(nullable NSDictionary *)dbSPLTable {
     self = [super init];
     if (self)
     {
         _path = [path copy];
         _name = [name copy];
         _identifier = [identifier copy];
+        _dbSPLTable = [dbSPLTable copy];
     }
     return self;
+}
+
+- (NSDecimalNumber *)getdbSPLForHeadphoneType:(ORKHeadphoneTypeIdentifier)headphoneType {
+    NSString *adjustedHeadphoneType = headphoneType;
+    if ([headphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsGen1] || [headphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsGen2]) {
+        adjustedHeadphoneType = ORKHeadphoneTypeIdentifierAirPods;
+    }
+    return [NSDecimalNumber decimalNumberWithString:_dbSPLTable[[NSString stringWithFormat:@"%@",adjustedHeadphoneType]]];
 }
 
 - (AVAudioFile *)getFile:(NSError **)outError {

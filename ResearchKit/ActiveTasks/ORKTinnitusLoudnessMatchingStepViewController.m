@@ -46,7 +46,9 @@
 
 #import "ORKHelpers_Internal.h"
 
-@interface ORKTinnitusLoudnessMatchingStepViewController () <ORKTinnitusButtonViewDelegate>
+@interface ORKTinnitusLoudnessMatchingStepViewController () <ORKTinnitusButtonViewDelegate> {
+    ORKHeadphoneTypeIdentifier _headphoneType;
+}
 
 @property (nonatomic, strong) ORKTinnitusCalibrationContentView *contentView;
 @property (nonatomic, strong) ORKTinnitusAudioGenerator *audioGenerator;
@@ -73,7 +75,7 @@
     ORKTaskResult *taskResults = [[self taskViewController] result];
     
     // defining a default value here because headphone detect step is bypassed when testing on simulator
-    ORKHeadphoneTypeIdentifier headphoneType = ORKHeadphoneTypeIdentifierAirPodsPro;
+    _headphoneType = ORKHeadphoneTypeIdentifierAirPodsPro;
     
     for (ORKStepResult *result in taskResults.results) {
         if (result.results > 0) {
@@ -84,7 +86,7 @@
             }
             if ([firstResult isKindOfClass:[ORKHeadphoneDetectResult class]]) {
                 ORKHeadphoneDetectResult *hedphoneResult = (ORKHeadphoneDetectResult *)firstResult;
-                headphoneType = hedphoneResult.headphoneType;
+                _headphoneType = hedphoneResult.headphoneType;
             }
         }
     }
@@ -101,8 +103,8 @@
     
     self.contentView.playButtonView.delegate = self;
     
-    ORKTinnitusNoiseType noiseType = self.loudnessStep.noiseType;
-    self.audioGenerator = [[ORKTinnitusAudioGenerator alloc] initWithType:self.type headphoneType:headphoneType];
+    NSString *noiseType = self.loudnessStep.noiseType;
+    self.audioGenerator = [[ORKTinnitusAudioGenerator alloc] initWithType:self.type headphoneType:_headphoneType];
     
     NSError *error;    
     if (![self setupAudioEngineForSound:noiseType error:&error]) {
@@ -174,7 +176,7 @@
         result.amplitude = [self.audioGenerator getPuretoneSystemVolumeIndBSPL];
         result.frequency = _frequency;
     } else {
-        result.amplitude = [self.audioGenerator getWhiteNoiseSystemVolumeIndBSPL:self.loudnessStep.noiseType];
+        result.amplitude = [self.audioGenerator getWhiteNoiseSystemVolumeForContext:self.step.context noiseType:self.loudnessStep.noiseType];
         result.frequency = 0.0;
     }
 

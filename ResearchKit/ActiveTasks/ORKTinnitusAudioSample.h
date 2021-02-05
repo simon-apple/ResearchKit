@@ -29,6 +29,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "ORKTypes.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -39,13 +40,15 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, nonnull) NSString *path;
 @property (nonatomic, readonly, nonnull) NSString *name;
 @property (nonatomic, readonly, nonnull) NSString *identifier;
+@property (nonatomic, readonly, nullable) NSDictionary *dbSPLTable;
 
 + (instancetype)new NS_UNAVAILABLE;
 - (instancetype)init NS_UNAVAILABLE;
 
-+ (instancetype)sampleWithPath:(nonnull NSString *)path name:(nonnull NSString *)name identifier:(nonnull NSString *)identifier;
-- (instancetype)initWithPath:(nonnull NSString *)path name:(nonnull NSString *)name identifier:(nonnull NSString *)identifier;;
++ (instancetype)sampleWithPath:(nonnull NSString *)path name:(nonnull NSString *)name identifier:(nonnull NSString *)identifier dbSPLTable:(nullable NSDictionary *)dbSPLTable;
+- (instancetype)initWithPath:(nonnull NSString *)path name:(nonnull NSString *)name identifier:(nonnull NSString *)identifier dbSPLTable:(nullable NSDictionary *)dbSPLTable;
 
+- (nullable NSDecimalNumber *)getdbSPLForHeadphoneType:(ORKHeadphoneTypeIdentifier)headphoneType;
 - (nullable AVAudioPCMBuffer *)getBuffer:(NSError **)outError;
 
 @end

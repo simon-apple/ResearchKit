@@ -34,8 +34,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NSString *ORKTinnitusNoiseType NS_STRING_ENUM;
-
 ORK_CLASS_AVAILABLE
 @interface ORKTinnitusLoudnessMatchingStep : ORKActiveStep
 
@@ -43,11 +41,11 @@ ORK_CLASS_AVAILABLE
  The frequency that will be played.
  */
 @property (nonatomic, assign) double frequency;
-@property (nonatomic, strong) ORKTinnitusNoiseType noiseType;
+@property (nonatomic, strong) NSString *noiseType;
 
 
 - (instancetype)initWithIdentifier:(NSString *)identifier frequency:(double)freq;
-- (instancetype)initWithIdentifier:(NSString *)identifier noiseType:(ORKTinnitusNoiseType)noiseType;
+- (instancetype)initWithIdentifier:(NSString *)identifier noiseType:(NSString *)noiseType;
 
 @end
 

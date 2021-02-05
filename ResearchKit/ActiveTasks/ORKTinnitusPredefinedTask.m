@@ -255,6 +255,7 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
     NSString * const ManifestJSONKeyAudioFilename = @"filename";
     NSString * const ManifestJSONKeyIdentifier = @"identifier";
     NSString * const ManifestJSONKeyName = @"name";
+    NSString * const ManifestJSONKeydbSPLTable = @"dbSPLTable";
 
     NSMutableArray<ORKTinnitusAudioSample *> *audioFileSamples = [[NSMutableArray alloc] init];
 
@@ -266,10 +267,11 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
         NSString *audioFilePath = [parentDirectory stringByAppendingPathComponent:audioFilename];
         NSString *audioIdentifier = (NSString *)[obj objectForKey:ManifestJSONKeyIdentifier];
         NSString *audioFileName = (NSString *)[obj objectForKey:ManifestJSONKeyName];
+        NSDictionary *audioDictionary = (NSDictionary *)[obj objectForKey:ManifestJSONKeydbSPLTable];
 
         if ([fileManager fileExistsAtPath:audioFilePath])
         {
-            [audioFileSamples addObject:[ORKTinnitusAudioSample sampleWithPath:audioFilePath name:audioFileName identifier:audioIdentifier]];
+            [audioFileSamples addObject:[ORKTinnitusAudioSample sampleWithPath:audioFilePath name:audioFileName identifier:audioIdentifier dbSPLTable:audioDictionary]];
             success = YES;
         }
         else
