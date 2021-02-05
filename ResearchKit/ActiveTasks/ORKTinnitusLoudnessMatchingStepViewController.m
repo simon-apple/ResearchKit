@@ -34,7 +34,7 @@
 #import "ORKTinnitusTypeResult.h"
 #import "ORKTinnitusAudioGenerator.h"
 #import "ORKTinnitusLoudnessMatchingResult.h"
-#import "ORKTinnitusPredefinedTaskConstants.h"
+#import "ORKTinnitusAudioSample.h"
 
 #import "ORKActiveStepView.h"
 #import "ORKActiveStepViewController_Internal.h"
@@ -42,6 +42,9 @@
 #import "ORKStepContainerView_Private.h"
 #import "ORKNavigationContainerView_Internal.h"
 #import "ORKTinnitusButtonView.h"
+#import "ORKTinnitusTypes.h"
+
+#import "ORKHelpers_Internal.h"
 
 @interface ORKTinnitusLoudnessMatchingStepViewController () <ORKTinnitusButtonViewDelegate>
 
@@ -101,36 +104,34 @@
     ORKTinnitusNoiseType noiseType = self.loudnessStep.noiseType;
     self.audioGenerator = [[ORKTinnitusAudioGenerator alloc] initWithType:self.type headphoneType:headphoneType];
     
-    if ([noiseType isEqualToString:ORKTinnitusNoiseTypeTeakettle]) {
-        [self setupAudioEngineForFilename:ORKTinnitusFilenameTeakettle];
-    } else if ([noiseType isEqualToString:ORKTinnitusNoiseTypeCrickets]) {
-        [self setupAudioEngineForFilename:ORKTinnitusFilenameCrickets];
-    } else if ([noiseType isEqualToString:ORKTinnitusNoiseTypeCicadas]) {
-        [self setupAudioEngineForFilename:ORKTinnitusFilenameCicadas];
-    } else if ([noiseType isEqualToString:ORKTinnitusNoiseTypeWhitenoise]) {
-        [self setupAudioEngineForFilename:ORKTinnitusFilenameWhitenoise];
+    NSError *error;    
+    if (![self setupAudioEngineForSound:noiseType error:&error]) {
+        ORK_Log_Error("Error fetching audioSample: %@", error);
     }
 }
 
-- (void)setupAudioEngineForFilename:(NSString *)filename
-{
-    NSURL *path = [[NSBundle bundleForClass:[self class]]
-                   URLForResource:filename
-                   withExtension:ORKTinnitusDefaultFilenameExtension];
-    AVAudioFile *file = [[AVAudioFile alloc] initForReading:path error:nil];
-    if (file)
-    {
-        self.audioBuffer = [[AVAudioPCMBuffer alloc] initWithPCMFormat:file.processingFormat frameCapacity:(AVAudioFrameCount)file.length];
-        [file readIntoBuffer:self.audioBuffer error:nil];
+- (BOOL)setupAudioEngineForSound:(NSString *)identifier error:(NSError **)outError {
+    if (self.step.context && [self.step.context isKindOfClass:[ORKTinnitusPredefinedTaskContext class]]) {
+        ORKTinnitusPredefinedTaskContext *context = (ORKTinnitusPredefinedTaskContext *)self.step.context;
+        ORKTinnitusAudioSample *audioSample = [context.audioManifest noiseTypeSampleWithIdentifier:identifier error:outError];
+        
+        if (audioSample) {
+            AVAudioPCMBuffer *buffer = [audioSample getBuffer:outError];
+            
+            if (buffer) {
+                self.audioBuffer = buffer;
+                self.audioEngine = [[AVAudioEngine alloc] init];
+                self.playerNode = [[AVAudioPlayerNode alloc] init];
+                [self.audioEngine attachNode:self.playerNode];
+                [self.audioEngine connect:self.playerNode to:self.audioEngine.outputNode format:self.audioBuffer.format];
+                [self.playerNode scheduleBuffer:self.audioBuffer atTime:nil options:AVAudioPlayerNodeBufferLoops completionHandler:nil];
+                [self.audioEngine prepare];
+                
+                return [self.audioEngine startAndReturnError:outError];
+            }
+        }
     }
-    
-    self.audioEngine = [[AVAudioEngine alloc] init];
-    self.playerNode = [[AVAudioPlayerNode alloc] init];
-    [self.audioEngine attachNode:self.playerNode];
-    [self.audioEngine connect:self.playerNode to:self.audioEngine.outputNode format:self.audioBuffer.format];
-    [self.playerNode scheduleBuffer:self.audioBuffer atTime:nil options:AVAudioPlayerNodeBufferLoops completionHandler:nil];
-    [self.audioEngine prepare];
-    [self.audioEngine startAndReturnError:nil];
+    return NO;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

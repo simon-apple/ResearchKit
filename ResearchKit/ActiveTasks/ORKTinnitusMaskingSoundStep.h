@@ -28,54 +28,47 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "ORKTinnitusTypeResult.h"
+@import Foundation;
+#import <ResearchKit/ORKDefines.h>
+#import <ResearchKit/ORKActiveStep.h>
+#import <ResearchKit/ORKTinnitusTypes.h>
+#import <ResearchKit/ORKTypes.h>
 
-#import "ORKResult_Private.h"
-#import "ORKHelpers_Internal.h"
-#import "ORKTinnitusTypes.h"
+NS_ASSUME_NONNULL_BEGIN
 
-@implementation ORKTinnitusTypeResult
+ORK_CLASS_AVAILABLE
+@interface ORKTinnitusMaskingSoundStep : ORKActiveStep
 
-- (void)encodeWithCoder:(NSCoder *)aCoder {
-    [super encodeWithCoder:aCoder];
-    ORK_ENCODE_OBJ(aCoder, type);
-}
+@property (nonatomic, copy) NSString *name;
+@property (nonatomic, copy) NSString *soundIdentifier;
 
-- (id)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    if (self) {
-        ORK_DECODE_OBJ(aDecoder, type);
-    }
-    return self;
-}
+/**
+ The tinnitus frequency in Hertz that will be subtracted by the notch filter
+ */
+@property (nonatomic, assign) double notchFrequency;
 
-+ (BOOL)supportsSecureCoding {
-    return YES;
-}
+/**
+ Bandwidth in octaves (defaults to 0.17).
+ */
+@property (nonatomic) double bandwidth;
 
-- (BOOL)isEqual:(id)object {
-    BOOL isParentSame = [super isEqual:object];
+/**
+ Gain in dB (defaults to -96).
+ */
+@property (nonatomic) double gain;
 
-    __typeof(self) castObject = object;
-    return (isParentSame &&
-            ORKEqualObjects(self.type, castObject.type)) ;
-}
+- (instancetype)initWithIdentifier:(NSString *)identifier __attribute__((unavailable("initWithIdentifier not available. Use initWithIdentifier: soundFilename: instead.")));
 
-- (NSUInteger)hash {
-    return super.hash ^ self.type.hash;
-}
+/**
+ Initialize the ORKTinnitusMaskingSoundStep. The value of notchFrequency will be set to 0.0
+ */
+- (instancetype)initWithIdentifier:(NSString *)identifier name:(NSString *)name soundIdentifier:(NSString *)soundIdentifier;
 
-- (instancetype)copyWithZone:(NSZone *)zone {
-    ORKTinnitusTypeResult *result = [super copyWithZone:zone];
-    result.type = [self.type copy];
-    return result;
-}
-
-- (NSString *)descriptionWithNumberOfPaddingSpaces:(NSUInteger)numberOfPaddingSpaces {
-    return [NSString stringWithFormat:@"%@; Type: %.@;",
-            [self descriptionPrefixWithNumberOfPaddingSpaces:numberOfPaddingSpaces],
-            self.type];
-}
-
+/**
+ Initialize the ORKTinnitusMaskingSoundStep. Side effect:  To enable the notch filter, the value of notchFrequency must be greater then 0.0
+ */
+- (instancetype)initWithIdentifier:(NSString *)identifier name:(NSString *)name soundIdentifier:(NSString *)soundIdentifier notchFrequency:(double)notchFrequency;
 
 @end
+
+NS_ASSUME_NONNULL_END

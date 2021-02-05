@@ -28,79 +28,104 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "ORKTinnitusLoudnessMatchingStep.h"
-#import "ORKTinnitusLoudnessMatchingStepViewController.h"
+#import "ORKTinnitusMaskingSoundStep.h"
+#import "ORKTinnitusMaskingSoundStepViewController.h"
+
 #import "ORKHelpers_Internal.h"
-#import "ORKTinnitusTypes.h"
-#include <math.h>
 
-#define ORKTinnitusCalibrationMinimumFrequency 300.0
-#define ORKTinnitusCalibrationMaximumFrequency 12500.0
+#define ORKTinnitusTaskMaskingBandwidth 0.34
+#define ORKTinnitusTaskMaskingGain -96.0
 
-@implementation ORKTinnitusLoudnessMatchingStep
+@implementation ORKTinnitusMaskingSoundStep
 
 + (Class)stepViewControllerClass {
-    return [ORKTinnitusLoudnessMatchingStepViewController class];
+    return [ORKTinnitusMaskingSoundStepViewController class];
 }
 
-- (instancetype)initWithIdentifier:(NSString *)identifier frequency:(double)freq {
+- (instancetype)initWithIdentifier:(NSString *)identifier
+                              name:(NSString *)name
+                   soundIdentifier:(NSString *)soundIdentifier {
     self = [super initWithIdentifier:identifier];
     if (self) {
         [self commonInit];
-        self.frequency = freq;
+        self.name = name;
+        self.soundIdentifier = soundIdentifier;
     }
     return self;
 }
 
-- (instancetype)initWithIdentifier:(NSString *)identifier noiseType:(ORKTinnitusNoiseType)noiseType {
+- (instancetype)initWithIdentifier:(NSString *)identifier
+                              name:(NSString *)name
+                   soundIdentifier:(NSString *)soundIdentifier
+                    notchFrequency:(double)notchFrequency {
     self = [super initWithIdentifier:identifier];
     if (self) {
         [self commonInit];
-        self.noiseType = noiseType;
+        self.name = name;
+        self.soundIdentifier = soundIdentifier;
+        self.notchFrequency = notchFrequency;
     }
     return self;
 }
 
 - (void)commonInit {
-    self.frequency = -ORKDoubleInvalidValue;
+    self.notchFrequency = 0.0;
+    self.bandwidth = ORKTinnitusTaskMaskingBandwidth;
+    self.gain = ORKTinnitusTaskMaskingGain;
 }
 
 - (void)validateParameters {
     [super validateParameters];
     
-    if (self.frequency > 0 && self.frequency < ORKTinnitusCalibrationMinimumFrequency) {
-        @throw [NSException exceptionWithName:NSInvalidArgumentException reason:[NSString stringWithFormat:@"frequency cannot be lower than %@ hertz.", @(ORKTinnitusCalibrationMinimumFrequency)]  userInfo:@{@"frequency": [NSNumber numberWithDouble:self.frequency]}];
-    }
-    
-    if (self.frequency > ORKTinnitusCalibrationMaximumFrequency) {
-        @throw [NSException exceptionWithName:NSInvalidArgumentException reason:[NSString stringWithFormat:@"frequency cannot be higher than %@ hertz.", @(ORKTinnitusCalibrationMaximumFrequency)]  userInfo:@{@"frequency": [NSNumber numberWithDouble:self.frequency]}];
+    if ( !self.soundIdentifier || self.soundIdentifier.length == 0) {
+        @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"Matching sound identifier cannot be nil or empty" userInfo:nil];
     }
 }
 
+- (BOOL)startsFinished {
+    return NO;
+}
+
+- (BOOL)shouldContinueOnFinish {
+    return YES;
+}
+
 - (instancetype)copyWithZone:(NSZone *)zone {
-    ORKTinnitusLoudnessMatchingStep *step = [super copyWithZone:zone];
-    step.frequency = self.frequency;
-    step.noiseType = [self.noiseType copy];
+    ORKTinnitusMaskingSoundStep *step = [super copyWithZone:zone];
+    step.name = [self.name copy];
+    step.soundIdentifier = [self.soundIdentifier copy];
+    step.notchFrequency = self.notchFrequency;
+    step.bandwidth = self.bandwidth;
+    step.gain = self.gain;
     return step;
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        ORK_DECODE_OBJ(aDecoder, noiseType);
-        ORK_DECODE_DOUBLE(aDecoder, frequency);
+        ORK_DECODE_DOUBLE(aDecoder, bandwidth);
+        ORK_DECODE_DOUBLE(aDecoder, gain);
+        ORK_DECODE_OBJ(aDecoder, name);
+        ORK_DECODE_OBJ(aDecoder, soundIdentifier);
+        ORK_DECODE_DOUBLE(aDecoder, notchFrequency);
     }
     return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [super encodeWithCoder:aCoder];
-    ORK_ENCODE_OBJ(aCoder, noiseType);
-    ORK_ENCODE_DOUBLE(aCoder, frequency);
+    ORK_ENCODE_DOUBLE(aCoder, bandwidth);
+    ORK_ENCODE_DOUBLE(aCoder, gain);
+    ORK_ENCODE_OBJ(aCoder, name);
+    ORK_ENCODE_OBJ(aCoder, soundIdentifier);
+    ORK_ENCODE_DOUBLE(aCoder, notchFrequency);
 }
 
 + (BOOL)supportsSecureCoding {
     return YES;
+}
+- (NSUInteger)hash {
+    return super.hash ^ self.name.hash ^ self.soundIdentifier.hash;
 }
 
 - (BOOL)isEqual:(id)object {
@@ -108,8 +133,11 @@
     
     __typeof(self) castObject = object;
     return (isParentSame
-            && [self.noiseType isEqual:castObject.noiseType]
-            && self.frequency == self.frequency
+            && ORKEqualObjects(self.name, castObject.name)
+            && ORKEqualObjects(self.soundIdentifier, castObject.soundIdentifier)
+            && (self.notchFrequency == castObject.notchFrequency)
+            && (self.bandwidth == castObject.bandwidth)
+            && (self.gain == castObject.gain)
             );
 }
 

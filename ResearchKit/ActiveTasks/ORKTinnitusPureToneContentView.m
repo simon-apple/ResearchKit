@@ -101,13 +101,9 @@ static const CGFloat ORKTinnitusButtonTopAdjustment = 8.0;
     _hintLabel.translatesAutoresizingMaskIntoConstraints = NO;
     _hintLabel.text = ORKLocalizedString(@"TINNITUS_FINETUNE_TEXT", nil);
     _hintLabel.textAlignment = NSTextAlignmentCenter;
+    _hintLabel.textColor = UIColor.systemGrayColor;
     _hintLabel.numberOfLines = 0;
     _hintLabel.font = [self bodyTextFont];
-    if (@available(iOS 13.0, *)) {
-        _hintLabel.textColor = [UIColor systemGrayColor];
-    } else {
-        _hintLabel.textColor = [UIColor colorWithRed:142.0/255.0 green:142.0/255.0 blue:147.0/255.0 alpha:1];
-    }
     [_scrollView addSubview:_hintLabel];
     
     _firstAButtonView = [[ORKTinnitusButtonView alloc]
@@ -256,7 +252,7 @@ static const CGFloat ORKTinnitusButtonTopAdjustment = 8.0;
     return [selectedButtonsArray firstObject];
 }
 
-- (void)unselectAllExcept:(ORKTinnitusButtonView *)buttonView
+- (void)selectButton:(ORKTinnitusButtonView *)buttonView
 {
     NSArray *unselectArray = [_buttonViewsArray
                               filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id object, NSDictionary *bindings) {
@@ -549,7 +545,7 @@ static const CGFloat ORKTinnitusButtonTopAdjustment = 8.0;
 }
 
 - (void)tinnitusButtonViewPressed:(nonnull ORKTinnitusButtonView *)tinnitusButtonView {
-    [self unselectAllExcept:tinnitusButtonView];
+    [self selectButton:tinnitusButtonView];
     if (_delegate && [_delegate respondsToSelector:@selector(playButtonPressedWithNewPosition:)]) {
         [_delegate playButtonPressedWithNewPosition:[self currentSelectedPosition]];
     }

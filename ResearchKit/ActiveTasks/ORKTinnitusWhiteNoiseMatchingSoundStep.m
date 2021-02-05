@@ -28,29 +28,45 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "ORKTinnitusCalibrationResult.h"
-
-#import "ORKResult_Private.h"
+#import "ORKTinnitusWhiteNoiseMatchingSoundStep.h"
+#import "ORKTinnitusWhiteNoiseMatchingSoundStepViewController.h"
 #import "ORKHelpers_Internal.h"
-#import "ORKTinnitusTypes.h"
 
-@implementation ORKTinnitusCalibrationResult
+@implementation ORKTinnitusWhiteNoiseMatchingSoundStep
+
++ (Class)stepViewControllerClass {
+    return [ORKTinnitusWhiteNoiseMatchingSoundStepViewController class];
+}
+
+- (instancetype)initWithIdentifier:(NSString *)identifier soundName:(NSString *)soundName {
+    self = [super initWithIdentifier:identifier];
+    if (self) {
+        self.soundName = soundName;
+    }
+    return self;
+}
+
+- (void)validateParameters {
+    [super validateParameters];
+}
+
+- (instancetype)copyWithZone:(NSZone *)zone {
+    ORKTinnitusWhiteNoiseMatchingSoundStep *step = [super copyWithZone:zone];
+    step.soundName = [self.soundName copy];
+    return step;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        ORK_DECODE_OBJ(aDecoder, soundName);
+    }
+    return self;
+}
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [super encodeWithCoder:aCoder];
-    ORK_ENCODE_DOUBLE(aCoder, amplitude);
-    ORK_ENCODE_DOUBLE(aCoder, frequency);
-    ORK_ENCODE_OBJ(aCoder, type);
-}
-
-- (id)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    if (self) {
-        ORK_DECODE_DOUBLE(aDecoder, amplitude);
-        ORK_DECODE_DOUBLE(aDecoder, frequency);
-        ORK_DECODE_OBJ(aDecoder, type);
-    }
-    return self;
+    ORK_ENCODE_OBJ(aCoder, soundName);
 }
 
 + (BOOL)supportsSecureCoding {
@@ -61,27 +77,9 @@
     BOOL isParentSame = [super isEqual:object];
     
     __typeof(self) castObject = object;
-    return (isParentSame &&
-            (self.amplitude == castObject.amplitude) &&
-            (self.frequency == castObject.frequency) &&
-            ORKEqualObjects(self.type, castObject.type)) ;
-}
-
-- (NSUInteger)hash {
-    return super.hash ^ self.type.hash;
-}
-
-- (instancetype)copyWithZone:(NSZone *)zone {
-    ORKTinnitusCalibrationResult *result = [super copyWithZone:zone];
-    result.amplitude = self.amplitude;
-    result.frequency = self.frequency;
-    result.type = [self.type copy];
-    return result;
-}
-
-- (NSString *)descriptionWithNumberOfPaddingSpaces:(NSUInteger)numberOfPaddingSpaces {
-    return [NSString stringWithFormat:@"%@; Type: %@; Amplitude: %0.6f; Frequency: %0.1f", [self descriptionPrefixWithNumberOfPaddingSpaces:numberOfPaddingSpaces], self.type, self.amplitude,
-            self.frequency];
+    return (isParentSame
+            && [self.soundName isEqual:castObject.soundName]
+            );
 }
 
 @end
