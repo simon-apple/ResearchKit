@@ -145,10 +145,33 @@ static const CGFloat activityIndicatorPadding = 24.0;
     [self setUpConstraints];
 }
 
-- (void)didMoveToWindow {
-    _appTintColor = self.window.tintColor ? : ORKColor(ORKBlueHighlightColorKey);
+- (void)didMoveToWindow {    
+    if (self.window.tintColor && ![self isWindowTintColorClear]) {
+        _appTintColor = self.window.tintColor;
+    } else {
+        _appTintColor = ORKColor(ORKBlueHighlightColorKey);
+    }
+    
     _continueButton.normalTintColor = _appTintColor;
     _skipButton.normalTintColor = _appTintColor;
+}
+
+- (BOOL)isWindowTintColorClear {
+    if (!self.window.tintColor) {
+        return false;
+    }
+    
+    CGFloat redColor;
+    CGFloat blueColor;
+    CGFloat greenColor;
+    CGFloat alpha;
+    
+    [self.window.tintColor getRed:&redColor
+                            green:&greenColor
+                             blue:&blueColor
+                            alpha:&alpha];
+    
+    return (redColor == 0 && blueColor == 0 && greenColor == 0 && alpha == 0);
 }
 
 - (void)setSkipButtonStyle:(ORKNavigationContainerButtonStyle)skipButtonStyle {
