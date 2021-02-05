@@ -33,6 +33,7 @@
 #import "ORKActiveStepView.h"
 #import "ORKTinnitusCalibrationContentView.h"
 #import "ORKTinnitusAudioGenerator.h"
+#import "ORKTinnitusAudioSample.h"
 
 #import "ORKActiveStepViewController_Internal.h"
 #import "ORKStepViewController_Internal.h"
@@ -45,7 +46,9 @@
 #import "ORKTinnitusButtonView.h"
 #import "ORKTinnitusTypes.h"
 
-@interface ORKTinnitusCalibrationStepViewController () <ORKTinnitusButtonViewDelegate>
+@interface ORKTinnitusCalibrationStepViewController () <ORKTinnitusButtonViewDelegate> {
+    ORKHeadphoneTypeIdentifier _headphoneType;
+}
 
 @property (nonatomic, strong) ORKTinnitusCalibrationContentView *contentView;
 @property (nonatomic, strong) ORKTinnitusAudioGenerator *audioGenerator;
@@ -94,7 +97,7 @@
     ORKTaskResult *taskResults = [[self taskViewController] result];
     
     // defining a default value here because headphone detect step is bypassed when testing on simulator
-    ORKHeadphoneTypeIdentifier headphoneType = ORKHeadphoneTypeIdentifierAirPodsGen1;
+    _headphoneType = ORKHeadphoneTypeIdentifierAirPodsGen1;
     
     for (ORKStepResult *result in taskResults.results) {
         if (result.results > 0) {
@@ -105,7 +108,7 @@
             }
             if ([firstResult isKindOfClass:[ORKHeadphoneDetectResult class]]) {
                 ORKHeadphoneDetectResult *headphoneResult = (ORKHeadphoneDetectResult *)firstResult;
-                headphoneType = headphoneResult.headphoneType;
+                _headphoneType = headphoneResult.headphoneType;
             }
         }
     }
@@ -122,7 +125,7 @@
     
     self.contentView.playButtonView.delegate = self;
     
-    self.audioGenerator = [[ORKTinnitusAudioGenerator alloc] initWithType:self.type headphoneType:headphoneType];
+    self.audioGenerator = [[ORKTinnitusAudioGenerator alloc] initWithType:self.type headphoneType:_headphoneType];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -153,7 +156,7 @@
         tinnitusCalibrationResult.amplitude = [self.audioGenerator getPuretoneSystemVolumeIndBSPL];
         tinnitusCalibrationResult.frequency = _frequency;
     } else {
-        tinnitusCalibrationResult.amplitude = [self.audioGenerator getWhiteNoiseSystemVolumeIndBSPL:ORKTinnitusNoiseTypeWhiteNoise];
+        tinnitusCalibrationResult.amplitude = [self.audioGenerator getWhiteNoiseSystemVolumeForContext:self.step.context noiseType:ORKTinnitusTypeWhiteNoise];
         tinnitusCalibrationResult.frequency = 0.0;
     }
     

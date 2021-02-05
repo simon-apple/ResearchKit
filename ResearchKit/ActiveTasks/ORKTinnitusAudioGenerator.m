@@ -50,6 +50,8 @@
  */
 
 #import "ORKTinnitusAudioGenerator.h"
+#import "ORKTinnitusAudioSample.h"
+#import "ORKHelpers_Internal.h"
 
 @import AudioToolbox;
 
@@ -67,7 +69,6 @@
     NSTimeInterval _fadeInDuration;
     NSDictionary *_dbAmplitudePerFrequency;
     NSDictionary *_dbSPLAmplitudePerFrequency;
-    NSDictionary *_dbSPLNoiseType;
     NSDictionary *_volumeCurve;
     NSNumberFormatter *_numberFormatter;
     ORKTinnitusType _type;
@@ -195,24 +196,20 @@ static OSStatus ORKTinnitusAudioGeneratorRenderTone(void *inRefCon,
     NSString *headphoneTypeUppercased = [_headphoneType uppercaseString];
     NSString *dbAmplitudePerFrequencyFilename;
     NSString *dbSPLAmplitudePerFrequencyFilename;
-    NSString *dbSPLNoiseTypeFilename;
     NSString *volumeCurveFilename;
     
     if ([headphoneTypeUppercased isEqualToString:ORKHeadphoneTypeIdentifierAirPodsGen1] ||
         [headphoneTypeUppercased isEqualToString:ORKHeadphoneTypeIdentifierAirPodsGen2]) {
         dbAmplitudePerFrequencyFilename = @"dbAmplitudePerFrequency_AIRPODS";
         dbSPLAmplitudePerFrequencyFilename = @"dbSPLAmplitudePerFrequency_AIRPODS";
-        dbSPLNoiseTypeFilename = @"dbSPLNoiseTypes_AIRPODS";
         volumeCurveFilename = @"volume_curve_AIRPODS";
     } else if ([headphoneTypeUppercased isEqualToString:ORKHeadphoneTypeIdentifierAirPodsPro]) {
         dbAmplitudePerFrequencyFilename = @"dbAmplitudePerFrequency_AIRPODSPRO";
         dbSPLAmplitudePerFrequencyFilename = @"dbSPLAmplitudePerFrequency_AIRPODSPRO";
-        dbSPLNoiseTypeFilename = @"dbSPLNoiseTypes_AIRPODSPRO";
         volumeCurveFilename = @"volume_curve_AIRPODSPRO";
     } else if ([headphoneTypeUppercased isEqualToString:ORKHeadphoneTypeIdentifierEarPods]) {
         dbAmplitudePerFrequencyFilename = @"dbAmplitudePerFrequency_EARPODS";
         dbSPLAmplitudePerFrequencyFilename = @"dbSPLAmplitudePerFrequency_EARPODS";
-        dbSPLNoiseTypeFilename = @"dbSPLNoiseTypes_EARPODS";
         volumeCurveFilename = @"volume_curve_WIRED";
     } else {
         @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"A valid headphone route identifier must be provided" userInfo:nil];
@@ -232,11 +229,6 @@ static OSStatus ORKTinnitusAudioGeneratorRenderTone(void *inRefCon,
                                    dictionaryWithContentsOfFile:[[NSBundle bundleForClass:[self class]]
                                                                  pathForResource:dbSPLAmplitudePerFrequencyFilename
                                                                  ofType:@"plist"]];
-    
-    _dbSPLNoiseType = [NSDictionary
-                       dictionaryWithContentsOfFile:[[NSBundle bundleForClass:[self class]]
-                                                     pathForResource:dbSPLNoiseTypeFilename
-                                                     ofType:@"plist"]];
     
     _numberFormatter = [[NSNumberFormatter alloc] init];
     _numberFormatter.numberStyle = NSNumberFormatterDecimalStyle;
@@ -307,13 +299,27 @@ static OSStatus ORKTinnitusAudioGeneratorRenderTone(void *inRefCon,
     return [resultNumber floatValue];
 }
 
-- (float)getWhiteNoiseSystemVolumeIndBSPL:(ORKTinnitusNoiseType)noiseType {
+- (float)getWhiteNoiseSystemVolumeForContext:(id<ORKContext>)context noiseType:(NSString *)noiseType {
     _systemVolume = [self getCurrentSystemVolume];
-    NSDecimalNumber *offsetDueToVolume = [NSDecimalNumber decimalNumberWithString:_volumeCurve[[NSString stringWithFormat:@"%.4f",_systemVolume]]];
-    NSDecimalNumber *dbSPLNoiseType = [NSDecimalNumber decimalNumberWithString:_dbSPLNoiseType[[NSString stringWithFormat:@"%@",noiseType]]];
-    NSDecimalNumber *resultNumber = offsetDueToVolume;
-    if (!isnan(dbSPLNoiseType.floatValue)) {
-        resultNumber = [offsetDueToVolume decimalNumberByAdding:dbSPLNoiseType];
+    
+    NSDecimalNumber *dbSPLNoiseTypeValue;
+    NSError *error;
+    if (context && [context isKindOfClass:[ORKTinnitusPredefinedTaskContext class]]) {
+        ORKTinnitusPredefinedTaskContext *tinnitusContext = (ORKTinnitusPredefinedTaskContext *)context;
+        ORKTinnitusAudioSample *audioSample = [tinnitusContext.audioManifest noiseTypeSampleWithIdentifier:noiseType error:&error];
+        if (audioSample) {
+            dbSPLNoiseTypeValue = [audioSample getdbSPLForHeadphoneType:_headphoneType];
+        }
+    }
+    
+    if (error != nil) {
+        ORK_Log_Error("Error getting dbSPLTable for audio sample: %@", error);
+    }
+    
+    NSDecimalNumber *resultNumber = [NSDecimalNumber decimalNumberWithString:_volumeCurve[[NSString stringWithFormat:@"%.4f",_systemVolume]]];
+    
+    if (!isnan(dbSPLNoiseTypeValue.floatValue)) {
+        resultNumber = [resultNumber decimalNumberByAdding:dbSPLNoiseTypeValue];
     }
     
     return [resultNumber floatValue];
