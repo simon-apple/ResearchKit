@@ -80,7 +80,7 @@ static const CGFloat LabelCheckViewPadding = 10.0;
     return self;
 }
 
-- (void) drawRect:(CGRect)rect {
+- (void)drawRect:(CGRect)rect {
     [super drawRect:rect];
     [self setMaskLayers];
 }
@@ -159,12 +159,19 @@ static const CGFloat LabelCheckViewPadding = 10.0;
             _foreLayer.path = [UIBezierPath bezierPathWithRect:_foreLayerBounds].CGPath;
             _contentMaskLayer.path = [UIBezierPath bezierPathWithRect:self.containerView.bounds].CGPath;
             
+            
+        }
+        
+        
+        if (!_isLastItem)
+        {
             CGRect lineBounds = CGRectMake(ORKSurveyItemMargin, self.containerView.bounds.size.height - 1.0, self.containerView.bounds.size.width - ORKSurveyItemMargin, 0.5);
             lineLayer.path = [UIBezierPath bezierPathWithRect:lineBounds].CGPath;
             lineLayer.zPosition = 0.0f;
         }
         
         lineLayer.fillColor = borderColor.CGColor;
+        
         if (_cardViewStyle == ORKCardViewStyleBordered) {
             _contentMaskLayer.fillColor = borderColor.CGColor;
         }
@@ -413,12 +420,7 @@ static const CGFloat LabelCheckViewPadding = 10.0;
 
 - (void)setupCheckView {
     if (!_checkView) {
-        switch (_customAccessoryType) {
-            case ORKChoiceViewCellAccessoryTypeRadio:
-                _checkView = [[ORKCheckmarkView alloc] initWithStyle:ORKCheckmarkViewStyleRadio];
-            case ORKChoiceViewCellAccessoryTypeDefault:
-                _checkView = [[ORKCheckmarkView alloc] initWithDefaults];
-        }
+        _checkView = [[ORKCheckmarkView alloc] initWithDefaults];
     }
     [_checkView setChecked:NO];
     [self.containerView addSubview:_checkView];

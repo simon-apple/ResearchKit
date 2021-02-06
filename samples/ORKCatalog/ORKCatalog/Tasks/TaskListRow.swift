@@ -63,6 +63,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     case form = 0
     case groupedForm
     case survey
+    case radioQuestion
     case booleanQuestion
     case customBooleanQuestion
     case dateQuestion
@@ -140,6 +141,7 @@ enum TaskListRow: Int, CustomStringConvertible {
                 ]),
             TaskListRowSection(title: "Survey Questions", rows:
                 [
+                    .radioQuestion,
                     .booleanQuestion,
                     .customBooleanQuestion,
                     .dateQuestion,
@@ -218,6 +220,9 @@ enum TaskListRow: Int, CustomStringConvertible {
 
         case .survey:
             return NSLocalizedString("Simple Survey Example", comment: "")
+            
+        case .radioQuestion:
+            return NSLocalizedString("Radio Question", comment: "")
             
         case .booleanQuestion:
             return NSLocalizedString("Boolean Question", comment: "")
@@ -415,6 +420,10 @@ enum TaskListRow: Int, CustomStringConvertible {
         case birthdayQuestion
         case summaryStep
         
+        // Task with a Radio Question
+        case radioQuestionTask
+        case radioQuestionStep
+        
         // Task with a Boolean question.
         case booleanQuestionTask
         case booleanQuestionStep
@@ -595,6 +604,9 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .survey:
             return surveyTask
+            
+        case .radioQuestion:
+            return radioQuestionTask
             
         case .booleanQuestion:
             return booleanQuestionTask
@@ -934,6 +946,30 @@ enum TaskListRow: Int, CustomStringConvertible {
             question2Step,
             summaryStep
             ])
+    }
+    
+    private var radioQuestionTask: ORKTask {
+        
+        let textChoiceOneText = NSLocalizedString("Choice 1", comment: "")
+        let textChoiceTwoText = NSLocalizedString("Choice 2", comment: "")
+        let textChoiceThreeText = NSLocalizedString("Choice 3", comment: "")
+        let textChoiceFourText = NSLocalizedString("Other", comment: "")
+        
+        // The text to display can be separate from the value coded for each choice:
+        let textChoices = [
+            ORKTextChoice(text: textChoiceOneText, value: "choice_1" as NSString),
+            ORKTextChoice(text: textChoiceTwoText, value: "choice_2" as NSString),
+            ORKTextChoice(text: textChoiceThreeText, value: "choice_3" as NSString),
+            ORKTextChoiceOther.choice(withText: textChoiceFourText, detailText: nil, value: "choice_4" as NSString, exclusive: true, textViewPlaceholderText: "enter additional information")
+        ]
+        
+        let answerFormat = ORKAnswerFormat.choiceAnswerFormat(with: .singleChoice, textChoices: textChoices)
+        answerFormat.presentationStyle = .platter
+        let questionStep = ORKQuestionStep(identifier: String(describing: Identifier.radioQuestionStep), title: NSLocalizedString("Text Choice", comment: ""), question: nil, answer: answerFormat)
+        
+        questionStep.text = exampleDetailText
+        
+        return ORKOrderedTask(identifier: String(describing: Identifier.radioQuestionTask), steps: [questionStep])
     }
 
     /// This task presents just a single "Yes" / "No" question.

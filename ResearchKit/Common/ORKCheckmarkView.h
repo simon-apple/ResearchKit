@@ -32,17 +32,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSUInteger, ORKCheckmarkViewStyle) {
-    ORKCheckmarkViewStyleDefault,
-    ORKCheckmarkViewStyleRadio
-};
-
 @interface ORKCheckmarkView : UIImageView;
 
 - (instancetype)initWithRadius:(CGFloat)radius checkedImage:(nullable UIImage *)checkedImage uncheckedImage:(nullable UIImage *)uncheckedImage;
 - (instancetype)initWithDefaults;
 - (instancetype)initWithDefaultsWithoutCircle;
-- (instancetype)initWithStyle:(ORKCheckmarkViewStyle)style;
 
 @property (nonatomic, nullable) UIImage *checkedImage;
 @property (nonatomic, nullable) UIImage *uncheckedImage;

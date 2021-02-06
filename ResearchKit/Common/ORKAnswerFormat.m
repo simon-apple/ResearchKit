@@ -275,6 +275,9 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
 
 @implementation ORKAnswerFormat
 
+// ORKAnswerFormatPresentation
+@synthesize presentationStyle;
+
 #if TARGET_OS_IOS
 
 + (ORKScaleAnswerFormat *)scaleAnswerFormatWithMaximumValue:(NSInteger)scaleMaximum

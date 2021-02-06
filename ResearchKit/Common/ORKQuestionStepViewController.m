@@ -742,7 +742,8 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
     
     if (section == ORKQuestionSectionAnswer) {
         if (!_choiceCellGroup) {
-            _choiceCellGroup = [[ORKTextChoiceCellGroup alloc] initWithTextChoiceAnswerFormat:(ORKTextChoiceAnswerFormat *)impliedAnswerFormat
+            ORKTextChoiceCellGroup *extractedExpr = [ORKTextChoiceCellGroup alloc];
+            _choiceCellGroup = [extractedExpr initWithTextChoiceAnswerFormat:(ORKTextChoiceAnswerFormat *)impliedAnswerFormat
                                                                                        answer:self.answer
                                                                            beginningIndexPath:[NSIndexPath indexPathForRow:0 inSection:section]
                                                                           immediateNavigation:[self isStepImmediateNavigation]];

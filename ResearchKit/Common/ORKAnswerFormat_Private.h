@@ -38,6 +38,22 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NS_ENUM(NSUInteger, ORKAnswerFormatPresentationStyle) {
+    ORKAnswerFormatPresentationStyleDefault = 0,
+    ORKAnswerFormatPresentationStylePlatter
+};
+
+ORK_EXTERN
+@protocol ORKAnswerFormatPresentation <NSObject>
+
+@property (nonatomic, assign) ORKAnswerFormatPresentationStyle presentationStyle;
+
+@end
+
+@interface ORKAnswerFormat () <ORKAnswerFormatPresentation>
+
+@end
+
 ORK_EXTERN id ORKNullAnswerValue(void) ORK_AVAILABLE_DECL;
 
 @class ORKQuestionResult;

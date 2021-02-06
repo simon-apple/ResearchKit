@@ -34,9 +34,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSUInteger, ORKChoiceViewCellAccessoryType) {
-    ORKChoiceViewCellAccessoryTypeDefault,
-    ORKChoiceViewCellAccessoryTypeRadio
+typedef NS_ENUM(NSUInteger, ORKChoiceViewCellStyle) {
+    ORKChoiceViewCellStyleDefault,
+    ORKChoiceViewCellStylePlatter
 };
 
 @class ORKAnswerTextView;
@@ -55,7 +55,7 @@ typedef NS_ENUM(NSUInteger, ORKChoiceViewCellAccessoryType) {
 
 @property (nonatomic) BOOL isExclusive;
 
-@property (nonatomic, assign) ORKChoiceViewCellAccessoryType customAccessoryType;
+@property (nonatomic, assign) ORKChoiceViewCellStyle style;
 
 @property (nonatomic) ORKCardViewStyle cardViewStyle;
 

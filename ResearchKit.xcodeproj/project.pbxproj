@@ -273,8 +273,6 @@
 		5D58803A2410394F005B3D91 /* ORKSpeechInNoiseResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D5880382410394E005B3D91 /* ORKSpeechInNoiseResult.m */; };
 		5D58803C24109B60005B3D91 /* ORKContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D58803B24109B60005B3D91 /* ORKContext.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D5C907F23D91FD8007AD5FC /* ORKSpeechInNoisePredefinedTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D5C907D23D91FD8007AD5FC /* ORKSpeechInNoisePredefinedTask.m */; };
-		5D7D5A2E25C22781006D889D /* ORKRadioAnswerFormat.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D7D5A2C25C22781006D889D /* ORKRadioAnswerFormat.h */; };
-		5D7D5A2F25C22781006D889D /* ORKRadioAnswerFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D7D5A2D25C22781006D889D /* ORKRadioAnswerFormat.m */; };
 		5D8D87B0251919480030E058 /* View+Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8D87AF251919480030E058 /* View+Task.swift */; };
 		5D8D87B325191A0F0030E058 /* InstructionStepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8D87B225191A0F0030E058 /* InstructionStepView.swift */; };
 		5D8D87B525191A5D0030E058 /* QuestionStepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8D87B425191A5D0030E058 /* QuestionStepView.swift */; };
@@ -1333,8 +1331,6 @@
 		5D58803B24109B60005B3D91 /* ORKContext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKContext.h; sourceTree = "<group>"; };
 		5D5C907C23D91FD8007AD5FC /* ORKSpeechInNoisePredefinedTask.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKSpeechInNoisePredefinedTask.h; sourceTree = "<group>"; };
 		5D5C907D23D91FD8007AD5FC /* ORKSpeechInNoisePredefinedTask.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKSpeechInNoisePredefinedTask.m; sourceTree = "<group>"; };
-		5D7D5A2C25C22781006D889D /* ORKRadioAnswerFormat.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKRadioAnswerFormat.h; sourceTree = "<group>"; };
-		5D7D5A2D25C22781006D889D /* ORKRadioAnswerFormat.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKRadioAnswerFormat.m; sourceTree = "<group>"; };
 		5D8D87AF251919480030E058 /* View+Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Task.swift"; sourceTree = "<group>"; };
 		5D8D87B225191A0F0030E058 /* InstructionStepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionStepView.swift; sourceTree = "<group>"; };
 		5D8D87B425191A5D0030E058 /* QuestionStepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionStepView.swift; sourceTree = "<group>"; };
@@ -3390,8 +3386,6 @@
 				B12EFF3E1AB2123000A80147 /* Form Step Views */,
 				B12EFF3F1AB2125E00A80147 /* Question Step Views */,
 				86C40B641A8D7C5B00081FAC /* ORKAnswerFormat.h */,
-				5D7D5A2C25C22781006D889D /* ORKRadioAnswerFormat.h */,
-				5D7D5A2D25C22781006D889D /* ORKRadioAnswerFormat.m */,
 				86C40B651A8D7C5B00081FAC /* ORKAnswerFormat.m */,
 				86C40B661A8D7C5B00081FAC /* ORKAnswerFormat_Internal.h */,
 				244EFAD11BCEFD83001850D9 /* ORKAnswerFormat_Private.h */,
@@ -4675,7 +4669,6 @@
 				866DA5271D63D04700C9AF3F /* ORKMotionActivityQueryOperation.h in Headers */,
 				106FF2B41B71F18E004EACF2 /* ORKHolePegTestPlaceHoleView.h in Headers */,
 				BC45F81A2304DDE50007540A /* ORKSoftLinking.h in Headers */,
-				5D7D5A2E25C22781006D889D /* ORKRadioAnswerFormat.h in Headers */,
 				51BF30BE247B330900E2E669 /* ORKIconButton.h in Headers */,
 				86C40D921A8D7C5C00081FAC /* ORKStep_Private.h in Headers */,
 				86C40CC41A8D7C5C00081FAC /* ORKCompletionStepViewController.h in Headers */,
@@ -5711,7 +5704,6 @@
 				E220A38E2571252900C3C211 /* ORKTinnitusPureToneResult.m in Sources */,
 				BCC1CD9B1B7ED64F00D86886 /* ORKYAxisView.m in Sources */,
 				FF919A541E81BEB5005C2A1E /* ORKCollectionResult.m in Sources */,
-				5D7D5A2F25C22781006D889D /* ORKRadioAnswerFormat.m in Sources */,
 				86C40D581A8D7C5C00081FAC /* ORKOrderedTask.m in Sources */,
 				5D38006C2437E53500E7D2BD /* ORKAudioStreamer.m in Sources */,
 				2E8070F91FAD217500E4FC7F /* ORKSpeechRecognitionStepViewController.m in Sources */,
