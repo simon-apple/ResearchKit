@@ -32,6 +32,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+ORK_CLASS_AVAILABLE
 @interface ORKTinnitusWhiteNoiseMatchingSoundResult : ORKResult
 
 @property (nonatomic, copy, nullable) NSString *answer;
