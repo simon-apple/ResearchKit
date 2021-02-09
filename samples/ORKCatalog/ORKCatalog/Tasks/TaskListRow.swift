@@ -954,9 +954,14 @@ enum TaskListRow: Int, CustomStringConvertible {
         let textChoiceTwoText = NSLocalizedString("Choice 2", comment: "")
         let textChoiceThreeText = NSLocalizedString("Choice 3", comment: "")
         
-        let primaryAttributes = [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 32.0, weight: .black)]
+        let descriptor = UIFontDescriptor.preferredFontDescriptor(withTextStyle: .headline)
+        let font = UIFont(descriptor: descriptor, size: descriptor.pointSize)
+        
+        let primaryAttributes = [NSAttributedString.Key.font:font]
         
         let textChoiceOnePrimaryAttributedString = NSAttributedString(string: textChoiceOneText, attributes:primaryAttributes)
+        let textChoiceTwoPrimaryAttributedString = NSAttributedString(string: textChoiceTwoText, attributes: primaryAttributes)
+        let textChoiceThreePrimaryAttributedString = NSAttributedString(string: textChoiceThreeText, attributes: primaryAttributes)
         
         let textChoices = [
             ORKTextChoice(text: nil,
@@ -965,9 +970,18 @@ enum TaskListRow: Int, CustomStringConvertible {
                           detailTextAttributedString: nil,
                           value: "choice 1" as NSString,
                           exclusive: true),
-            ORKTextChoice(text: textChoiceOneText, detailText: "Detail", value: "choice_1" as NSString, exclusive: true),
-            ORKTextChoice(text: textChoiceTwoText, detailText: "Detail", value: "choice_2" as NSString, exclusive: true),
-            ORKTextChoice(text: textChoiceThreeText, detailText: "Detail", value: "choice_3" as NSString, exclusive: true)
+            ORKTextChoice(text: nil,
+                          primaryTextAttributedString: textChoiceTwoPrimaryAttributedString,
+                          detailText: "Detail",
+                          detailTextAttributedString: nil,
+                          value: "choice 2" as NSString,
+                          exclusive: true),
+            ORKTextChoice(text: nil,
+                          primaryTextAttributedString: textChoiceThreePrimaryAttributedString,
+                          detailText: "Detail",
+                          detailTextAttributedString: nil,
+                          value: "choice 3" as NSString,
+                          exclusive: true)
         ]
         
         let answerFormat = ORKAnswerFormat.choiceAnswerFormat(with: .singleChoice,
