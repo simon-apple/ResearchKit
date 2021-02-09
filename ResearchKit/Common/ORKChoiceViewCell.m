@@ -57,17 +57,10 @@ static const CGFloat LabelCheckViewPadding = 10.0;
 
 @end
 
-// Platter UI Changes
-//static CGFloat IntraCellVerticalMarginPadding_Default = 0.0f;
+static CGFloat IntraCellVerticalMarginPadding_Default = 0.0f;
 static CGFloat IntraCellVerticalMarginPadding_Platter = 10.0f;
 static CGFloat IntraCellVerticalMarginPadding(BOOL usesPlatterUI) {
-    // TODO: Joey
-    return IntraCellVerticalMarginPadding_Platter;
-}
-
-static BOOL ShouldRoundAllCorners() {
-    // TODO: Joey
-    return YES;
+    return usesPlatterUI ? IntraCellVerticalMarginPadding_Platter : IntraCellVerticalMarginPadding_Default;
 }
 
 @implementation ORKChoiceViewCell {
@@ -101,6 +94,10 @@ static BOOL ShouldRoundAllCorners() {
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
     [super traitCollectionDidChange:previousTraitCollection];
     _fillColor = [self __fillColor];
+}
+
+- (BOOL)usePlatterUI {
+    return _style == ORKChoiceViewCellStylePlatter;
 }
 
 - (void)clearLayerIfNeeded:(CALayer *)layer {
@@ -145,7 +142,7 @@ static BOOL ShouldRoundAllCorners() {
 
 - (UIRectCorner)roundedCorners {
     
-    if (ShouldRoundAllCorners()) { return UIRectCornerAllCorners; }
+    if ([self usePlatterUI]) { return UIRectCornerAllCorners; }
     
     if (_isLastItem && !_isFirstItemInSectionWithoutTitle) {
         
@@ -177,7 +174,7 @@ static BOOL ShouldRoundAllCorners() {
         [_foreLayer setFillColor:[_fillColor CGColor]];
         _foreLayer.zPosition = 0.0f;
         
-        if (_isLastItem || _isFirstItemInSectionWithoutTitle || ShouldRoundAllCorners()) {
+        if (_isLastItem || _isFirstItemInSectionWithoutTitle || [self usePlatterUI]) {
             
             UIRectCorner rectCorners = [self roundedCorners];
             
@@ -207,7 +204,7 @@ static BOOL ShouldRoundAllCorners() {
           
         // Cell Separator
         CAShapeLayer *lineLayer = [CAShapeLayer layer];
-        if (!_isLastItem && !ShouldRoundAllCorners())
+        if (!_isLastItem && ![self usePlatterUI])
         {
             CGRect lineBounds = CGRectMake(ORKSurveyItemMargin, self.containerView.bounds.size.height - 1.0, self.containerView.bounds.size.width - ORKSurveyItemMargin, 0.5);
             lineLayer.path = [UIBezierPath bezierPathWithRect:lineBounds].CGPath;
@@ -236,7 +233,7 @@ static BOOL ShouldRoundAllCorners() {
                                         toItem:self.contentView
                                      attribute:NSLayoutAttributeTop
                                     multiplier:1.0
-                                      constant:IntraCellVerticalMarginPadding(_style == ORKChoiceViewCellStylePlatter)],
+                                      constant:IntraCellVerticalMarginPadding([self usePlatterUI])],
         [NSLayoutConstraint constraintWithItem:_containerView
                                      attribute:NSLayoutAttributeLeft
                                      relatedBy:NSLayoutRelationEqual
@@ -257,7 +254,7 @@ static BOOL ShouldRoundAllCorners() {
                                         toItem:self.contentView
                                      attribute:NSLayoutAttributeBottom
                                     multiplier:1.0
-                                      constant:-IntraCellVerticalMarginPadding(_style == ORKChoiceViewCellStylePlatter)],
+                                      constant:-IntraCellVerticalMarginPadding([self usePlatterUI])],
     ]];
 }
 
