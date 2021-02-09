@@ -63,7 +63,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     case form = 0
     case groupedForm
     case survey
-    case radioQuestion
+    case platterUIQuestion
     case booleanQuestion
     case customBooleanQuestion
     case dateQuestion
@@ -141,7 +141,7 @@ enum TaskListRow: Int, CustomStringConvertible {
                 ]),
             TaskListRowSection(title: "Survey Questions", rows:
                 [
-                    .radioQuestion,
+                    .platterUIQuestion,
                     .booleanQuestion,
                     .customBooleanQuestion,
                     .dateQuestion,
@@ -221,8 +221,8 @@ enum TaskListRow: Int, CustomStringConvertible {
         case .survey:
             return NSLocalizedString("Simple Survey Example", comment: "")
             
-        case .radioQuestion:
-            return NSLocalizedString("Radio Question", comment: "")
+        case .platterUIQuestion:
+            return NSLocalizedString("Platter UI Question", comment: "")
             
         case .booleanQuestion:
             return NSLocalizedString("Boolean Question", comment: "")
@@ -420,9 +420,9 @@ enum TaskListRow: Int, CustomStringConvertible {
         case birthdayQuestion
         case summaryStep
         
-        // Task with a Radio Question
-        case radioQuestionTask
-        case radioQuestionStep
+        // Task with a Platter UI Question
+        case platterQuestionTask
+        case platterQuestionStep
         
         // Task with a Boolean question.
         case booleanQuestionTask
@@ -605,8 +605,8 @@ enum TaskListRow: Int, CustomStringConvertible {
         case .survey:
             return surveyTask
             
-        case .radioQuestion:
-            return radioQuestionTask
+        case .platterUIQuestion:
+            return platterQuestionTask
             
         case .booleanQuestion:
             return booleanQuestionTask
@@ -948,28 +948,40 @@ enum TaskListRow: Int, CustomStringConvertible {
             ])
     }
     
-    private var radioQuestionTask: ORKTask {
+    private var platterQuestionTask: ORKTask {
         
         let textChoiceOneText = NSLocalizedString("Choice 1", comment: "")
         let textChoiceTwoText = NSLocalizedString("Choice 2", comment: "")
         let textChoiceThreeText = NSLocalizedString("Choice 3", comment: "")
-        let textChoiceFourText = NSLocalizedString("Other", comment: "")
         
-        // The text to display can be separate from the value coded for each choice:
+        let primaryAttributes = [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 32.0, weight: .black)]
+        
+        let textChoiceOnePrimaryAttributedString = NSAttributedString(string: textChoiceOneText, attributes:primaryAttributes)
+        
         let textChoices = [
-            ORKTextChoice(text: textChoiceOneText, value: "choice_1" as NSString),
-            ORKTextChoice(text: textChoiceTwoText, value: "choice_2" as NSString),
-            ORKTextChoice(text: textChoiceThreeText, value: "choice_3" as NSString),
-            ORKTextChoiceOther.choice(withText: textChoiceFourText, detailText: nil, value: "choice_4" as NSString, exclusive: true, textViewPlaceholderText: "enter additional information")
+            ORKTextChoice(text: nil,
+                          primaryTextAttributedString: textChoiceOnePrimaryAttributedString,
+                          detailText: "Detail",
+                          detailTextAttributedString: nil,
+                          value: "choice 1" as NSString,
+                          exclusive: true),
+            ORKTextChoice(text: textChoiceOneText, detailText: "Detail", value: "choice_1" as NSString, exclusive: true),
+            ORKTextChoice(text: textChoiceTwoText, detailText: "Detail", value: "choice_2" as NSString, exclusive: true),
+            ORKTextChoice(text: textChoiceThreeText, detailText: "Detail", value: "choice_3" as NSString, exclusive: true)
         ]
         
-        let answerFormat = ORKAnswerFormat.choiceAnswerFormat(with: .singleChoice, textChoices: textChoices)
+        let answerFormat = ORKAnswerFormat.choiceAnswerFormat(with: .singleChoice,
+                                                              textChoices: textChoices)
         answerFormat.presentationStyle = .platter
-        let questionStep = ORKQuestionStep(identifier: String(describing: Identifier.radioQuestionStep), title: NSLocalizedString("Text Choice", comment: ""), question: nil, answer: answerFormat)
+        
+        let questionStep = ORKQuestionStep(identifier: String(describing: Identifier.platterQuestionStep),
+                                           title: NSLocalizedString("Text Choice", comment: ""),
+                                           question: nil,
+                                           answer: answerFormat)
         
         questionStep.text = exampleDetailText
         
-        return ORKOrderedTask(identifier: String(describing: Identifier.radioQuestionTask), steps: [questionStep])
+        return ORKOrderedTask(identifier: String(describing: Identifier.platterQuestionTask), steps: [questionStep])
     }
 
     /// This task presents just a single "Yes" / "No" question.

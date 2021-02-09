@@ -57,6 +57,19 @@ static const CGFloat LabelCheckViewPadding = 10.0;
 
 @end
 
+// Platter UI Changes
+//static CGFloat IntraCellVerticalMarginPadding_Default = 0.0f;
+static CGFloat IntraCellVerticalMarginPadding_Platter = 10.0f;
+static CGFloat IntraCellVerticalMarginPadding(BOOL usesPlatterUI) {
+    // TODO: Joey
+    return IntraCellVerticalMarginPadding_Platter;
+}
+
+static BOOL ShouldRoundAllCorners() {
+    // TODO: Joey
+    return YES;
+}
+
 @implementation ORKChoiceViewCell {
     
     CGFloat _leftRightMargin;
@@ -87,65 +100,91 @@ static const CGFloat LabelCheckViewPadding = 10.0;
 
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
     [super traitCollectionDidChange:previousTraitCollection];
+    _fillColor = [self __fillColor];
+}
+
+- (void)clearLayerIfNeeded:(CALayer *)layer {
+    
+    if (layer) {
+        for (CALayer *sublayer in [layer.sublayers mutableCopy]) {
+            [sublayer removeFromSuperlayer];
+        }
+        
+        [layer removeFromSuperlayer];
+        layer = nil;
+    }
+}
+
+- (UIColor *)__fillColor {
+    
+    UIColor *color;
+    
     if (@available(iOS 13.0, *)) {
-        _fillColor = [UIColor secondarySystemGroupedBackgroundColor];
+        
+        color = [UIColor secondarySystemGroupedBackgroundColor];
+        
         // FIXME:- dark mode color displays solid black after animation ends if the views are stacked
         if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
-            _fillColor = [UIColor colorWithRed:0.173 green:0.173 blue:0.180 alpha:1.0];
+            color = [UIColor colorWithRed:0.173 green:0.173 blue:0.180 alpha:1.0];
         }
+        
     } else {
-        _fillColor = [UIColor ork_borderGrayColor];
+        color = [UIColor ork_borderGrayColor];
+    }
+    
+    return color;
+}
+
+- (UIColor *)__borderColor {
+    if (@available(iOS 13.0, *)) {
+        return UIColor.separatorColor;
+    } else {
+        return [UIColor ork_midGrayTintColor];
+    }
+}
+
+- (UIRectCorner)roundedCorners {
+    
+    if (ShouldRoundAllCorners()) { return UIRectCornerAllCorners; }
+    
+    if (_isLastItem && !_isFirstItemInSectionWithoutTitle) {
+        
+        return UIRectCornerBottomLeft | UIRectCornerBottomRight;
+        
+    } else if (!_isLastItem && _isFirstItemInSectionWithoutTitle) {
+        
+        return UIRectCornerTopLeft | UIRectCornerTopRight;
+        
+    } else {
+        
+        return UIRectCornerAllCorners;
     }
 }
 
 - (void)setMaskLayers {
+    
     if (_useCardView && !_animationLayer) {
-        if (_contentMaskLayer) {
-            for (CALayer *sublayer in [_contentMaskLayer.sublayers mutableCopy]) {
-                [sublayer removeFromSuperlayer];
-            }
-            [_contentMaskLayer removeFromSuperlayer];
-            _contentMaskLayer = nil;
-        }
+        
+        UIColor *borderColor = [self __borderColor];
+        _fillColor = [self __fillColor];
+        
+        [self clearLayerIfNeeded:_contentMaskLayer];
         _contentMaskLayer = [[CAShapeLayer alloc] init];
-        UIColor *borderColor;
-        if (@available(iOS 13.0, *)) {
-            _fillColor = [UIColor secondarySystemGroupedBackgroundColor];
-            // FIXME:- dark mode color displays solid black after animation ends if the views are stacked
-            if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
-                _fillColor = [UIColor colorWithRed:0.173 green:0.173 blue:0.180 alpha:1.0];
-            }
-            borderColor = UIColor.separatorColor;
-        } else {
-            _fillColor = [UIColor ork_borderGrayColor];
-            borderColor = [UIColor ork_midGrayTintColor];
-        }
         [_contentMaskLayer setFillColor:[_fillColor CGColor]];
         
-        [_foreLayer removeFromSuperlayer];
-        _foreLayer = nil;
+        [self clearLayerIfNeeded:_foreLayer];
         _foreLayer = [CAShapeLayer layer];
         [_foreLayer setFillColor:[_fillColor CGColor]];
         _foreLayer.zPosition = 0.0f;
         
-        CAShapeLayer *lineLayer = [CAShapeLayer layer];
-        
-        if (_isLastItem || _isFirstItemInSectionWithoutTitle) {
-            NSUInteger rectCorners;
-            if (_isLastItem && !_isFirstItemInSectionWithoutTitle) {
-                rectCorners = UIRectCornerBottomLeft | UIRectCornerBottomRight;
-            }
-            else if (!_isLastItem && _isFirstItemInSectionWithoutTitle) {
-                rectCorners = UIRectCornerTopLeft | UIRectCornerTopRight;
-            }
-            else {
-                rectCorners = UIRectCornerTopLeft | UIRectCornerTopRight | UIRectCornerBottomLeft | UIRectCornerBottomRight;
-            }
+        if (_isLastItem || _isFirstItemInSectionWithoutTitle || ShouldRoundAllCorners()) {
+            
+            UIRectCorner rectCorners = [self roundedCorners];
             
             _foreLayerBounds = CGRectMake(ORKCardDefaultBorderWidth, 0, self.containerView.bounds.size.width - 2 * ORKCardDefaultBorderWidth, self.containerView.bounds.size.height - ORKCardDefaultBorderWidth);
             
             _contentMaskLayer.path = [UIBezierPath bezierPathWithRoundedRect: self.containerView.bounds
-                                                           byRoundingCorners: rectCorners
+                                                           byRoundingCorners:rectCorners
                                                                  cornerRadii: (CGSize){ORKCardDefaultCornerRadii, ORKCardDefaultCornerRadii}].CGPath;
             
             CGFloat foreLayerCornerRadii = ORKCardDefaultCornerRadii >= ORKCardDefaultBorderWidth ? ORKCardDefaultCornerRadii - ORKCardDefaultBorderWidth : ORKCardDefaultCornerRadii;
@@ -153,17 +192,22 @@ static const CGFloat LabelCheckViewPadding = 10.0;
             _foreLayer.path = [UIBezierPath bezierPathWithRoundedRect: _foreLayerBounds
                                                    byRoundingCorners: rectCorners
                                                          cornerRadii: (CGSize){foreLayerCornerRadii, foreLayerCornerRadii}].CGPath;
-        }
-        else {
+        } else {
+            
             _foreLayerBounds = CGRectMake(ORKCardDefaultBorderWidth, 0, self.containerView.bounds.size.width - 2 * ORKCardDefaultBorderWidth, self.containerView.bounds.size.height);
             _foreLayer.path = [UIBezierPath bezierPathWithRect:_foreLayerBounds].CGPath;
             _contentMaskLayer.path = [UIBezierPath bezierPathWithRect:self.containerView.bounds].CGPath;
-            
-            
         }
         
+        if (_cardViewStyle == ORKCardViewStyleBordered) {
+            _contentMaskLayer.fillColor = borderColor.CGColor;
+        }
         
-        if (!_isLastItem)
+        [_contentMaskLayer addSublayer:_foreLayer];
+          
+        // Cell Separator
+        CAShapeLayer *lineLayer = [CAShapeLayer layer];
+        if (!_isLastItem && !ShouldRoundAllCorners())
         {
             CGRect lineBounds = CGRectMake(ORKSurveyItemMargin, self.containerView.bounds.size.height - 1.0, self.containerView.bounds.size.width - ORKSurveyItemMargin, 0.5);
             lineLayer.path = [UIBezierPath bezierPathWithRect:lineBounds].CGPath;
@@ -171,14 +215,8 @@ static const CGFloat LabelCheckViewPadding = 10.0;
         }
         
         lineLayer.fillColor = borderColor.CGColor;
-        
-        if (_cardViewStyle == ORKCardViewStyleBordered) {
-            _contentMaskLayer.fillColor = borderColor.CGColor;
-        }
-        
-        [_contentMaskLayer addSublayer:_foreLayer];
-        
         [_contentMaskLayer addSublayer:lineLayer];
+        
         [_containerView.layer insertSublayer:_contentMaskLayer atIndex:0];
     }
 }
@@ -198,7 +236,7 @@ static const CGFloat LabelCheckViewPadding = 10.0;
                                         toItem:self.contentView
                                      attribute:NSLayoutAttributeTop
                                     multiplier:1.0
-                                      constant:0],
+                                      constant:IntraCellVerticalMarginPadding(_style == ORKChoiceViewCellStylePlatter)],
         [NSLayoutConstraint constraintWithItem:_containerView
                                      attribute:NSLayoutAttributeLeft
                                      relatedBy:NSLayoutRelationEqual
@@ -219,7 +257,7 @@ static const CGFloat LabelCheckViewPadding = 10.0;
                                         toItem:self.contentView
                                      attribute:NSLayoutAttributeBottom
                                     multiplier:1.0
-                                      constant:0],
+                                      constant:-IntraCellVerticalMarginPadding(_style == ORKChoiceViewCellStylePlatter)],
     ]];
 }
 
@@ -477,8 +515,10 @@ static const CGFloat LabelCheckViewPadding = 10.0;
 }
 
 - (void)setPrimaryLabelFont {
-    UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleSubheadline];
-    [_primaryLabel setFont:[UIFont fontWithDescriptor:descriptor size:[[descriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]]];
+    if (!_primaryLabel.attributedText) {
+        UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleSubheadline];
+        [_primaryLabel setFont:[UIFont fontWithDescriptor:descriptor size:[[descriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]]];
+    }
 }
 
 - (void)updateCheckView {
