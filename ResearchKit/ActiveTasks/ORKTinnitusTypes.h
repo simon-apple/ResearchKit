@@ -40,15 +40,6 @@ ORK_EXTERN ORKTinnitusType const ORKTinnitusTypeWhiteNoise;
 ORK_EXTERN ORKTinnitusType const ORKTinnitusTypePureTone;
 
 /**
- Types of tinnitus noise types.
- */
-typedef NSString *ORKTinnitusNoiseType NS_STRING_ENUM;
-ORK_EXTERN ORKTinnitusNoiseType const ORKTinnitusNoiseTypeWhiteNoise;
-ORK_EXTERN ORKTinnitusNoiseType const ORKTinnitusNoiseTypeCicadas;
-ORK_EXTERN ORKTinnitusNoiseType const ORKTinnitusNoiseTypeCrickets;
-ORK_EXTERN ORKTinnitusNoiseType const ORKTinnitusNoiseTypeTeakettle;
-
-/**
  Possible answers for probability of using a specific tinnitus masking sound.
  */
 typedef NSString *ORKTinnitusMaskingAnswer NS_STRING_ENUM;

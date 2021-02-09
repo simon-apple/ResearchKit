@@ -52,7 +52,7 @@
     return self;
 }
 
-- (instancetype)initWithIdentifier:(NSString *)identifier noiseType:(ORKTinnitusNoiseType)noiseType {
+- (instancetype)initWithIdentifier:(NSString *)identifier noiseType:(NSString *)noiseType {
     self = [super initWithIdentifier:identifier];
     if (self) {
         [self commonInit];

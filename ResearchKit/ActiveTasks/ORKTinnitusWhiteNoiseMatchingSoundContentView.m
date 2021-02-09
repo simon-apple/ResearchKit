@@ -133,8 +133,8 @@ static const CGFloat ORKTinnitusGlowAdjustment = 16.0;
     _selectedButtonView = buttonView;
 }
 
-- (nullable ORKTinnitusNoiseType)getAnswer {
-    return (ORKTinnitusNoiseType)_selectedButtonView.answer;
+- (nullable NSString *)getAnswer {
+    return _selectedButtonView.answer;
 }
 
 @end

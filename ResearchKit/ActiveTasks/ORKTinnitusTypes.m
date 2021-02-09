@@ -31,9 +31,9 @@
 #import <Foundation/Foundation.h>
 #import "ORKTinnitusTypes.h"
 
-ORKTinnitusType const ORKTinnitusTypeWhiteNoise = @"whiteNoise";
+ORKTinnitusType const ORKTinnitusTypeWhiteNoise = @"WHITENOISE";
 
-ORKTinnitusType const ORKTinnitusTypePureTone = @"pureTone";
+ORKTinnitusType const ORKTinnitusTypePureTone = @"PURETONE";
 
 ORKTinnitusMaskingAnswer const ORKTinnitusMaskingAnswerDefinitely = @"DEFINITELY";
 
@@ -54,11 +54,3 @@ ORKTinnitusError const ORKTinnitusErrorInconsistency = @"Inconsistency";
 ORKTinnitusError const ORKTinnitusErrorTooHigh = @"TooHighFrequency";
 
 ORKTinnitusError const ORKTinnitusErrorTooLow = @"TooLowFrequency";
-
-ORKTinnitusNoiseType const ORKTinnitusNoiseTypeWhiteNoise = @"WHITENOISE";
-
-ORKTinnitusNoiseType const ORKTinnitusNoiseTypeCicadas = @"CICADAS";
-
-ORKTinnitusNoiseType const ORKTinnitusNoiseTypeCrickets = @"CRICKETS";
-
-ORKTinnitusNoiseType const ORKTinnitusNoiseTypeTeakettle = @"TEAKETTLE";

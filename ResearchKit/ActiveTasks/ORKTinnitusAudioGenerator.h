@@ -32,12 +32,13 @@
 @import AVFoundation;
 #import <ResearchKit/ORKTypes.h>
 #import "ORKTinnitusTypes.h"
+#import "ORKContext.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 /**
  The `ORKTinnitusAudioGenerator` class represents an audio tone generator or white noise generator.
- The `kind` will define what kind of sound will be generated.
+ The `type` will define what type of sound will be generated.
  */
 ORK_CLASS_AVAILABLE
 @interface ORKTinnitusAudioGenerator : NSObject
@@ -106,11 +107,14 @@ Returns the system audio volume in decibels.
 - (float)getPuretoneSystemVolumeIndBSPL;
 
 /**
- Returns the system volume in decibels adjusted with dbSPL table for white noise types sounds.
+ Returns the system volume in decibels adjusted with dbSPL.
  
- @return the current volume with the frequency and dbSPL table applied
+ @param context                    The ORKContext that carries the manifest information
+ @param noiseType                NSString reference of the noise type to search for the values
+ 
+ @return                The current volume with the frequency and dbSPL table applied
  */
-- (float)getWhiteNoiseSystemVolumeIndBSPL:(ORKTinnitusNoiseType)noiseType;
+- (float)getWhiteNoiseSystemVolumeForContext:(id<ORKContext>)context noiseType:(NSString *)noiseType;
 
 /**
 Adjusts the maximum audio buffer amplitude (the default amplitude value is 0.03). This value will be campled between 0.0 and 1.0
