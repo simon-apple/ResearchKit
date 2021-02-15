@@ -56,6 +56,12 @@ static const CGFloat ORKHeadphoneDetectCellStepSize = 40;
 static const CGFloat ORKHeadphoneDetectExtraLabelsSpacing = 10.0;
 static const NSTimeInterval ORKHeadphoneCellAnimationDuration = 0.2;
 
+static NSString *const ORKHeadphoneGlyphNameHeadphones = @"headphones";
+static NSString *const ORKHeadphoneGlyphNameAirpods = @"airpods";
+static NSString *const ORKHeadphoneGlyphNameAirpodsPro = @"airpods_pro";
+static NSString *const ORKHeadphoneGlyphNameAirpodsMax = @"airpods_max";
+static NSString *const ORKHeadphoneGlyphNameEarpods = @"earpods";
+
 @interface ORKHeadphoneDetectedView : UIStackView
 
 @property (nonatomic) BOOL connected;
@@ -120,23 +126,23 @@ static const NSTimeInterval ORKHeadphoneCellAnimationDuration = 0.2;
 }
 
 - (instancetype)initWithAirpodsMax {
-    return [self initWithTitle:ORKLocalizedString(@"AIRPODSMAX", nil) image:[[UIImage imageNamed:@"airpods_max" inBundle:ORKBundle() compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]];
+    return [self initWithTitle:ORKLocalizedString(@"AIRPODSMAX", nil) image:[[UIImage imageNamed:ORKHeadphoneGlyphNameAirpodsMax inBundle:ORKBundle() compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]];
 }
 
 - (instancetype)initWithAirpodsPro {
-    return [self initWithTitle:ORKLocalizedString(@"AIRPODSPRO", nil) image:[[UIImage imageNamed:@"airpods_pro" inBundle:ORKBundle() compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]];
+    return [self initWithTitle:ORKLocalizedString(@"AIRPODSPRO", nil) image:[[UIImage imageNamed:ORKHeadphoneGlyphNameAirpodsPro inBundle:ORKBundle() compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]];
 }
 
 - (instancetype)initWithAirpods {
-    return [self initWithTitle:ORKLocalizedString(@"AIRPODS", nil) image:[[UIImage imageNamed:@"airpods" inBundle:ORKBundle() compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]];
+    return [self initWithTitle:ORKLocalizedString(@"AIRPODS", nil) image:[[UIImage imageNamed:ORKHeadphoneGlyphNameAirpods inBundle:ORKBundle() compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]];
 }
 
 - (instancetype)initWithEarpods {
-    return [self initWithTitle:ORKLocalizedString(@"EARPODS", nil) image:[[UIImage imageNamed:@"earpods" inBundle:ORKBundle() compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]];
+    return [self initWithTitle:ORKLocalizedString(@"EARPODS", nil) image:[[UIImage imageNamed:ORKHeadphoneGlyphNameEarpods inBundle:ORKBundle() compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]];
 }
 
 - (instancetype)initWithAnyHeadphones {
-    return [self initWithTitle:ORKLocalizedString(@"HEADPHONES", nil) image:[[UIImage imageNamed:@"headphones" inBundle:ORKBundle() compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]];
+    return [self initWithTitle:ORKLocalizedString(@"HEADPHONES", nil) image:[[UIImage imageNamed:ORKHeadphoneGlyphNameHeadphones inBundle:ORKBundle() compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]];
 }
 
 - (void)setupImageView {
@@ -345,16 +351,22 @@ static const NSTimeInterval ORKHeadphoneCellAnimationDuration = 0.2;
     [self updateAccessibilityElements];
 }
 
-- (void)anyHeadphoneDetected:(NSString * _Nullable)headphoneName
-{
+- (void)anyHeadphoneDetected:(NSString * _Nullable)headphoneName {
     if (!_textLabel) { return; }
-    
-    if (headphoneName)
-    {
+    if (headphoneName) {
+        NSString *glyphName = ORKHeadphoneGlyphNameHeadphones;
+        if ([headphoneName isEqualToString:ORKLocalizedString(@"AIRPODS", nil)]) {
+            glyphName = ORKHeadphoneGlyphNameAirpods;
+        } else if ([headphoneName isEqualToString:ORKLocalizedString(@"AIRPODSPRO", nil)]) {
+            glyphName = ORKHeadphoneGlyphNameAirpodsPro;
+        } else if ([headphoneName isEqualToString:ORKLocalizedString(@"AIRPODSMAX", nil)]) {
+            glyphName = ORKHeadphoneGlyphNameAirpodsMax;
+        } else if ([headphoneName isEqualToString:ORKLocalizedString(@"EARPODS", nil)]) {
+            glyphName = ORKHeadphoneGlyphNameEarpods;
+        }
         [_textLabel setText:[NSString localizedStringWithFormat:ORKLocalizedString(@"HEADPHONE_CONNECTED_%@", nil),headphoneName]];
-    }
-    else
-    {
+        _imageView.image = [[UIImage imageNamed:glyphName inBundle:ORKBundle() compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    } else {
         [_textLabel setText:ORKLocalizedString(@"CONNECTED", nil)];
     }
     
