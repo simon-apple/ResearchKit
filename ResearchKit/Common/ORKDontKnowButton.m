@@ -203,7 +203,7 @@ static const CGFloat CheckMarkImageTrailingPadding = 2.0;
         [_dontKnowButtonTextLabel setTextColor:[UIColor whiteColor]];
     }
     
-    [_dontKnowButtonCustomView setBackgroundColor:[UIColor systemBlueColor]];
+    [_dontKnowButtonCustomView setBackgroundColor:ORKWindowTintcolor(self.window) ? : [UIColor systemBlueColor]];
 }
 
 - (void)setCustomDontKnowButtonText:(NSString *)customDontKnowButtonText {
