@@ -168,6 +168,8 @@ NSBundle *ORKDefaultLocaleBundle(void);
 UIColor *ORKRGB(uint32_t x);
 UIColor *ORKRGBA(uint32_t x, CGFloat alpha);
 
+UIColor * _Nullable ORKWindowTintcolor(UIWindow *window);
+
 _Nullable id ORKFindInArrayByKey(NSArray *array, NSString *key, id value);
 
 NSString *ORKSignatureStringFromDate(NSDate *date);
