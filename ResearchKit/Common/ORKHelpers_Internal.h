@@ -168,8 +168,6 @@ NSBundle *ORKDefaultLocaleBundle(void);
 UIColor *ORKRGB(uint32_t x);
 UIColor *ORKRGBA(uint32_t x, CGFloat alpha);
 
-UIColor * _Nullable ORKWindowTintcolor(UIWindow *window);
-
 _Nullable id ORKFindInArrayByKey(NSArray *array, NSString *key, id value);
 
 NSString *ORKSignatureStringFromDate(NSDate *date);
@@ -180,7 +178,11 @@ NSURL *ORKCreateRandomBaseURL(void);
 ORK_EXTERN NSString *ORKFileProtectionFromMode(ORKFileProtectionMode mode);
 
 #if TARGET_OS_IOS
+
 CGFloat ORKExpectedLabelHeight(UILabel *label);
+
+UIColor * _Nullable ORKWindowTintcolor(UIWindow *window);
+
 #endif
 
 // build a image with color
