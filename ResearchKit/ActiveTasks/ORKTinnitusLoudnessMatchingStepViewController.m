@@ -33,7 +33,7 @@
 #import "ORKTinnitusLoudnessMatchingStep.h"
 #import "ORKTinnitusTypeResult.h"
 #import "ORKTinnitusAudioGenerator.h"
-#import "ORKTinnitusLoudnessMatchingResult.h"
+#import "ORKTinnitusVolumeResult.h"
 #import "ORKTinnitusAudioSample.h"
 
 #import "ORKActiveStepView.h"
@@ -166,18 +166,20 @@
 
     NSMutableArray *results = [NSMutableArray arrayWithArray:sResult.results];
 
-    ORKTinnitusLoudnessMatchingResult *result = [[ORKTinnitusLoudnessMatchingResult alloc] initWithIdentifier:self.step.identifier];
+    ORKTinnitusVolumeResult *result = [[ORKTinnitusVolumeResult alloc] initWithIdentifier:self.step.identifier];
     result.startDate = sResult.startDate;
     result.endDate = now;
     result.type = self.type;
-    result.noiseType = self.loudnessStep.noiseType;
+    result.volumeCurve = [self.audioGenerator gainFromCurrentSystemVolume];
 
     if ([self.type isEqualToString: ORKTinnitusTypePureTone]) {
         result.amplitude = [self.audioGenerator getPuretoneSystemVolumeIndBSPL];
         result.frequency = _frequency;
+        result.noiseType = @"none";
     } else {
-        result.amplitude = [self.audioGenerator getWhiteNoiseSystemVolumeForContext:self.step.context noiseType:self.loudnessStep.noiseType];
+        result.amplitude = [self.audioGenerator gainFromCurrentSystemVolume];
         result.frequency = 0.0;
+        result.noiseType = self.loudnessStep.noiseType;
     }
 
     [results addObject:result];

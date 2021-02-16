@@ -28,17 +28,28 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ResearchKit/ORKResult.h>
+#import <ResearchKit/ResearchKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 typedef NSString *ORKTinnitusType NS_STRING_ENUM;
 
 ORK_CLASS_AVAILABLE
-@interface ORKTinnitusCalibrationResult : ORKResult
+@interface ORKTinnitusVolumeResult : ORKResult
 
+// The type of tinnitus matched
 @property (nonatomic, copy) ORKTinnitusType type;
+
+// The type of tinnitus noise matched. This value will be "none" if 'type' == ORKTinnitusTypePureTone
+@property (nonatomic, copy) NSString *noiseType;
+
+// The amplitude of the matched tone (dB SPL)
 @property (nonatomic, assign) double amplitude;
+
+// The gain of the current system volume. Value changes based on the headphone type (dB)
+@property (nonatomic, assign) double volumeCurve;
+
+// The frequency of the matched tone (Hz). Will be 0.0 if 'type' == ORKTinnitusTypeWhiteNoise
 @property (nonatomic, assign) double frequency;
 
 @end

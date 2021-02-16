@@ -28,27 +28,30 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "ORKTinnitusCalibrationResult.h"
-
+#import "ORKTinnitusVolumeResult.h"
 #import "ORKResult_Private.h"
 #import "ORKHelpers_Internal.h"
 #import "ORKTinnitusTypes.h"
 
-@implementation ORKTinnitusCalibrationResult
+@implementation ORKTinnitusVolumeResult
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [super encodeWithCoder:aCoder];
     ORK_ENCODE_DOUBLE(aCoder, amplitude);
     ORK_ENCODE_DOUBLE(aCoder, frequency);
+    ORK_ENCODE_DOUBLE(aCoder, volumeCurve);
     ORK_ENCODE_OBJ(aCoder, type);
+    ORK_ENCODE_OBJ(aCoder, noiseType);
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
         ORK_DECODE_DOUBLE(aDecoder, amplitude);
+        ORK_DECODE_DOUBLE(aDecoder, volumeCurve);
         ORK_DECODE_DOUBLE(aDecoder, frequency);
         ORK_DECODE_OBJ(aDecoder, type);
+        ORK_DECODE_OBJ(aDecoder, noiseType);
     }
     return self;
 }
@@ -64,24 +67,28 @@
     return (isParentSame &&
             (self.amplitude == castObject.amplitude) &&
             (self.frequency == castObject.frequency) &&
-            ORKEqualObjects(self.type, castObject.type)) ;
+            (self.volumeCurve == castObject.volumeCurve) &&
+            ORKEqualObjects(self.type, castObject.type) &&
+            ORKEqualObjects(self.noiseType, castObject.noiseType)) ;
 }
 
 - (NSUInteger)hash {
-    return super.hash ^ self.type.hash;
+    return super.hash ^ self.type.hash ^ self.noiseType.hash;
 }
 
 - (instancetype)copyWithZone:(NSZone *)zone {
-    ORKTinnitusCalibrationResult *result = [super copyWithZone:zone];
+    ORKTinnitusVolumeResult *result = [super copyWithZone:zone];
     result.amplitude = self.amplitude;
     result.frequency = self.frequency;
+    result.volumeCurve = self.volumeCurve;
     result.type = [self.type copy];
+    result.noiseType = [self.noiseType copy];
     return result;
 }
 
 - (NSString *)descriptionWithNumberOfPaddingSpaces:(NSUInteger)numberOfPaddingSpaces {
-    return [NSString stringWithFormat:@"%@; Type: %@; Amplitude: %0.6f; Frequency: %0.1f", [self descriptionPrefixWithNumberOfPaddingSpaces:numberOfPaddingSpaces], self.type, self.amplitude,
-            self.frequency];
+    return [NSString stringWithFormat:@"%@; Type: %@; Amplitude: %0.6f; VolumeCurve: %0.6f; Frequency: %0.1f; NoiseType: %@;", [self descriptionPrefixWithNumberOfPaddingSpaces:numberOfPaddingSpaces], self.type, self.amplitude, self.volumeCurve, self.frequency, self.noiseType];
 }
+
 
 @end
