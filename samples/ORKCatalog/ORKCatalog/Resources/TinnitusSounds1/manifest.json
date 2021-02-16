@@ -3,42 +3,22 @@
         {
             "name": "Cicadas",
             "identifier": "CICADAS",
-            "filename": "white_noise_5s.wav",
-            "dbSPLTable" : {
-                "AIRPODS": "88.61",
-                "AIRPODSPRO": "87.49",
-                "EARPODS": "89.32"
-            }
+            "filename": "white_noise_5s.wav"
         },
         {
             "name": "Crickets",
             "identifier": "CRICKETS",
-            "filename": "white_noise_5s.wav",
-            "dbSPLTable" : {
-                "AIRPODS": "86.13",
-                "AIRPODSPRO": "85.46",
-                "EARPODS": "87.50"
-            }
+            "filename": "white_noise_5s.wav"
         },
         {
             "name": "Tea Kettle",
             "identifier": "TEAKETTLE",
-            "filename": "white_noise_5s.wav",
-            "dbSPLTable" : {
-                "AIRPODS": "84.36",
-                "AIRPODSPRO": "83.54",
-                "EARPODS": "85.24"
-            }
+            "filename": "white_noise_5s.wav"
         },
         {
             "name": "White Noise",
             "identifier": "WHITENOISE",
-            "filename": "white_noise_5s.wav",
-            "dbSPLTable" : {
-                "AIRPODS": "84.27",
-                "AIRPODSPRO": "83.15",
-                "EARPODS": "85.00"
-            }
+            "filename": "white_noise_5s.wav"
         }
     ],
     "maskingSounds" : [

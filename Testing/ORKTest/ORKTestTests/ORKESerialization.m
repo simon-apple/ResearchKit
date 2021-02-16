@@ -2079,19 +2079,13 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                  (@{
                      PROPERTY(type, NSString, NSObject, NO, nil, nil),
                   })),
-           ENTRY(ORKTinnitusCalibrationResult,
+           ENTRY(ORKTinnitusVolumeResult,
                  nil,
                  (@{
                      PROPERTY(type, NSString, NSObject, NO, nil, nil),
                      PROPERTY(amplitude, NSNumber, NSObject, NO, nil, nil),
                      PROPERTY(frequency, NSNumber, NSObject, NO, nil, nil),
-                  })),
-           ENTRY(ORKTinnitusLoudnessMatchingResult,
-                 nil,
-                 (@{
-                     PROPERTY(type, NSString, NSObject, NO, nil, nil),
-                     PROPERTY(amplitude, NSNumber, NSObject, NO, nil, nil),
-                     PROPERTY(frequency, NSNumber, NSObject, NO, nil, nil),
+                     PROPERTY(volumeCurve, NSNumber, NSObject, NO, nil, nil),
                      PROPERTY(noiseType, NSString, NSObject, NO, nil, nil),
                   })),
            ENTRY(ORKReactionTimeResult,

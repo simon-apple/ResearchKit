@@ -299,29 +299,9 @@ static OSStatus ORKTinnitusAudioGeneratorRenderTone(void *inRefCon,
     return [resultNumber floatValue];
 }
 
-- (float)getWhiteNoiseSystemVolumeForContext:(id<ORKContext>)context noiseType:(NSString *)noiseType {
+- (float)gainFromCurrentSystemVolume {
     _systemVolume = [self getCurrentSystemVolume];
-    
-    NSDecimalNumber *dbSPLNoiseTypeValue;
-    NSError *error;
-    if (context && [context isKindOfClass:[ORKTinnitusPredefinedTaskContext class]]) {
-        ORKTinnitusPredefinedTaskContext *tinnitusContext = (ORKTinnitusPredefinedTaskContext *)context;
-        ORKTinnitusAudioSample *audioSample = [tinnitusContext.audioManifest noiseTypeSampleWithIdentifier:noiseType error:&error];
-        if (audioSample) {
-            dbSPLNoiseTypeValue = [audioSample getdbSPLForHeadphoneType:_headphoneType];
-        }
-    }
-    
-    if (error != nil) {
-        ORK_Log_Error("Error getting dbSPLTable for audio sample: %@", error);
-    }
-    
     NSDecimalNumber *resultNumber = [NSDecimalNumber decimalNumberWithString:_volumeCurve[[NSString stringWithFormat:@"%.4f",_systemVolume]]];
-    
-    if (!isnan(dbSPLNoiseTypeValue.floatValue)) {
-        resultNumber = [resultNumber decimalNumberByAdding:dbSPLNoiseTypeValue];
-    }
-    
     return [resultNumber floatValue];
 }
 
