@@ -728,8 +728,8 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     //    TODO: update current implementation.
     //    setManagedResult for currentStepViewController should not be called every single time this method is called.
     ORKTaskResult *result = [[ORKTaskResult alloc] initWithTaskIdentifier:[self.task identifier] taskRunUUID:self.taskRunUUID outputDirectory:self.outputDirectory];
-    result.startDate = _presentedDate;
-    result.endDate = _dismissedDate ? :[NSDate date];
+    result.startDate = _presentedDate ? : [NSDate date];
+    result.endDate = _dismissedDate ? : [NSDate date];
     
     // Update current step result
     [self setManagedResult:[self.currentStepViewController result] forKey:self.currentStepViewController.step.identifier];
