@@ -802,6 +802,7 @@
 "AX_UNSELECTED" = "Un-selected";
 "AX_SELECT_ALL_THAT_APPLY" = "SELECT ALL THAT APPLY";
 "AX_BUTTON" = "Button";
+"AX_PAGE_NUMBER_FORMAT" = "Page %1$ld of %2$ld";
 
 "AX_SLIDER_LABEL" = "Response slider. Range from %@ to %@";
 "AX_UNLABELED_IMAGE" = "Unlabeled image";
