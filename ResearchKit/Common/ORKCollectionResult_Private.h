@@ -89,6 +89,22 @@ ORK_CLASS_AVAILABLE
  */
 @property (nonatomic, copy, readonly, nullable) NSString *systemName;
 
+/**
+ 
+ The build number of the current OS.
+ 
+ e.g. "18A365"
+ */
+@property (nonatomic, copy, readonly, nullable) NSString *osVersion;
+
+/**
+ 
+ The product identifier of the device.
+ 
+ e.g. "iPhone11,2"
+ */
+@property (nonatomic, copy, readonly, nullable) NSString *hwProduct;
+
 @end
 
 NS_ASSUME_NONNULL_END

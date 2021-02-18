@@ -2345,6 +2345,8 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                              ^id(id uuid, __unused ORKESerializationContext *context) { return [uuid UUIDString]; },
                              ^id(id string, __unused ORKESerializationContext *context) { return [[NSUUID alloc] initWithUUIDString:string]; }),
                     PROPERTY(systemName, NSString, NSObject, YES, nil, nil),
+                    PROPERTY(osVersion, NSString, NSObject, YES, nil, nil),
+                    PROPERTY(hwProduct, NSString, NSObject, YES, nil, nil)
                     })),
            ENTRY(ORKStepResult,
                  nil,

@@ -38,6 +38,47 @@
 
 #import <CoreText/CoreText.h>
 
+#import <sys/types.h>
+#import <sys/sysctl.h>
+
+#if !TARGET_OS_SIMULATOR
+static NSString * ORK_SYSCTL(int tl, int sl) {
+    
+    int mib[] = { tl, sl };
+    size_t size;
+    
+    sysctl(mib, 2, NULL, &size, NULL, 0);
+    
+    char *cStr = malloc(size);
+    
+    sysctl(mib, 2, cStr, &size, NULL, 0);
+    
+    NSString *str = [NSString stringWithCString:cStr encoding:NSASCIIStringEncoding];
+    
+    free(cStr);
+    
+    return [str copy];
+}
+#endif
+
+NSString *ORKHWProduct(void) {
+     
+#if !TARGET_OS_SIMULATOR
+    return ORK_SYSCTL(CTL_HW, HW_PRODUCT);
+#else
+    return nil;
+#endif
+}
+
+NSString *ORKOSVersion(void) {
+    
+#if !TARGET_OS_SIMULATOR
+    return ORK_SYSCTL(CTL_KERN, KERN_OSVERSION);
+#else
+    return nil;
+#endif
+}
+
 BOOL ORKLoggingEnabled = YES;
 
 NSURL *ORKCreateRandomBaseURL() {
