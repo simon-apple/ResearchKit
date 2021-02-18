@@ -30,6 +30,7 @@
 
 @import UIKit;
 #import "ORKDefines.h"
+#import "ORKTypes.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -41,6 +42,7 @@ ORK_CLASS_AVAILABLE
 
 @property (nonatomic) BOOL isDontKnowButtonActive;
 @property (nonatomic, nullable) NSString *customDontKnowButtonText;
+@property (nonatomic) ORKDontKnowButtonStyle dontKnowButtonStyle;
 
 @end
 

@@ -477,6 +477,7 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
     if (self) {
         _showDontKnowButton = NO;
         _customDontKnowButtonText = nil;
+        _dontKnowButtonStyle = ORKDontKnowButtonStyleStandard;
     }
     return self;
 }
@@ -487,6 +488,7 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
     if (self) {
         ORK_DECODE_BOOL(aDecoder, showDontKnowButton);
         ORK_DECODE_OBJ(aDecoder, customDontKnowButtonText);
+        ORK_DECODE_ENUM(aDecoder, dontKnowButtonStyle);
     }
     return self;
 }
@@ -494,6 +496,7 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     ORK_ENCODE_BOOL(aCoder, showDontKnowButton);
     ORK_ENCODE_OBJ(aCoder, customDontKnowButtonText);
+    ORK_ENCODE_ENUM(aCoder, dontKnowButtonStyle);
 }
 
 - (instancetype)copyWithZone:(NSZone *)zone {
@@ -1643,6 +1646,7 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
         _maximumDate = [maximum copy];
         _calendar = [calendar copy];
         _minuteInterval = 1;
+        self.dontKnowButtonStyle = ORKDontKnowButtonStyleCircleChoice;
         [self validateParameters];
     }
     return self;
@@ -1814,6 +1818,7 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
         _maximumFractionDigits = [maximumFractionDigits copy];
         _hideUnitWhenAnswerIsEmpty = YES;
         _placeholder = nil;
+        self.dontKnowButtonStyle = ORKDontKnowButtonStyleCircleChoice;
         
         [self validateParameters];
     }
@@ -1870,6 +1875,7 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
     answerFormat->_placeholder = [_placeholder copy];
     answerFormat.showDontKnowButton = self.showDontKnowButton;
     answerFormat.customDontKnowButtonText = [self.customDontKnowButtonText copy];
+    answerFormat.dontKnowButtonStyle = self.dontKnowButtonStyle;
     return answerFormat;
 }
 
@@ -2724,6 +2730,7 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
     _autocorrectionType = UITextAutocorrectionTypeDefault;
     _spellCheckingType = UITextSpellCheckingTypeDefault;
     _keyboardType = UIKeyboardTypeDefault;
+    self.dontKnowButtonStyle = ORKDontKnowButtonStyleCircleChoice;
 #endif
     _multipleLines = NO;
     _hideClearButton = NO;
@@ -2784,6 +2791,7 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
     answerFormat->_placeholder = _placeholder;
     answerFormat.showDontKnowButton = self.showDontKnowButton;
     answerFormat.customDontKnowButtonText = [self.customDontKnowButtonText copy];
+    answerFormat.dontKnowButtonStyle = self.dontKnowButtonStyle;
 #if TARGET_OS_IOS
     answerFormat->_autocapitalizationType = _autocapitalizationType;
     answerFormat->_autocorrectionType = _autocorrectionType;
@@ -3229,6 +3237,7 @@ static NSString *const kSecureTextEntryEscapeString = @"*";
     self = [super init];
     if (self) {
         _measurementSystem = measurementSystem;
+        self.dontKnowButtonStyle = ORKDontKnowButtonStyleCircleChoice;
     }
     return self;
 }
@@ -3355,6 +3364,7 @@ static NSString *const kSecureTextEntryEscapeString = @"*";
         _minimumValue = minimumValue;
         _maximumValue = maximumValue;
         _defaultValue = defaultValue;
+        self.dontKnowButtonStyle = ORKDontKnowButtonStyleCircleChoice;
     }
     return self;
 }

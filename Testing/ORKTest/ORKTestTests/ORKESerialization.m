@@ -1628,7 +1628,8 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                  nil,
                  (@{
                      PROPERTY(showDontKnowButton, NSNumber, NSObject, YES, nil, nil),
-                     PROPERTY(customDontKnowButtonText, NSString, NSObject, YES, nil, nil)
+                     PROPERTY(customDontKnowButtonText, NSString, NSObject, YES, nil, nil),
+                     PROPERTY(dontKnowButtonStyle, NSNumber, NSObject, YES, nil, nil),
                     })),
            ENTRY(ORKDontKnowAnswer,
                  ^id(__unused NSDictionary *dict, __unused ORKESerializationPropertyGetter getter) {
