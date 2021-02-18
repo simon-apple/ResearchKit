@@ -114,6 +114,9 @@ ORK_CLASS_AVAILABLE
  */
 @property (nonatomic, nullable) NSString *customDontKnowButtonText;
 
+
+@property (nonatomic) ORKDontKnowButtonStyle dontKnowButtonStyle;
+
 + (ORKBooleanAnswerFormat *)booleanAnswerFormat;
 
 + (ORKBooleanAnswerFormat *)booleanAnswerFormatWithYesString:(NSString *)yes
