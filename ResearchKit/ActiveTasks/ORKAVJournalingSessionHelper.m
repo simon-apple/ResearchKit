@@ -64,7 +64,7 @@ typedef struct __attribute__((__packed__)) DepthPacket {
     AVCaptureSessionPreset _sessionPreset;
     NSDictionary *_videoSettings;
     
-    NSURL *_tempOutputURL;
+    NSURL *_outputURL;
     
     AVCaptureAudioDataOutput *_audioDataOutput;
     AVCaptureVideoDataOutput *_videoDataOutput;
@@ -188,17 +188,15 @@ typedef struct __attribute__((__packed__)) DepthPacket {
     return error;
 }
 
-- (void)startCapturing {
-    
-    NSString *tempVideoFilePath = [[NSTemporaryDirectory() stringByAppendingPathComponent:[NSUUID new].UUIDString] stringByAppendingPathExtension:@"mov"];
-    _tempOutputURL = [NSURL fileURLWithPath:tempVideoFilePath];
-    
+- (void)startCapturingWithURL:(NSURL *)url {
+    _outputURL = url;
+        
     // Writer input needs to be synched so we don't have issues starting/stopping video capture.
     dispatch_async(_dataOutputQueue, ^{
         
         NSError *error = nil;
         
-        _videoAssetWriter = [AVAssetWriter assetWriterWithURL:_tempOutputURL fileType:AVFileTypeQuickTimeMovie error:&error];
+        _videoAssetWriter = [AVAssetWriter assetWriterWithURL:_outputURL fileType:AVFileTypeQuickTimeMovie error:&error];
         
         //create video asset writer input
         _videoAssetWriterInput = [AVAssetWriterInput assetWriterInputWithMediaType:AVMediaTypeVideo
@@ -239,7 +237,7 @@ typedef struct __attribute__((__packed__)) DepthPacket {
 - (void)stopCapturing {
     [self stopCaptureTaskWithCompletion:^{
         if (_sessionHelperDelegate) {
-            [_sessionHelperDelegate capturingEndedWithTemporaryURL:_tempOutputURL];
+            [_sessionHelperDelegate capturingEndedWithURL:_outputURL];
         }
     }];
 }

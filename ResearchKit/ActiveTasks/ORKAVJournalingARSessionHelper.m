@@ -223,7 +223,7 @@ static const CGFloat AudioSampleRate = 44100;
                 //video has finished writing on background thread
                 _videoAssetWriter = nil;
                 if (_delegate) {
-                    [_delegate capturingEndedWithTemporaryURL:_tempOutputURL];
+                    [_delegate capturingEndedWithURL:_tempOutputURL];
                 }
                 
             }];

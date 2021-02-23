@@ -44,7 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, nullable, copy) NSArray *cameraIntrinsicsArray;
 
 - (BOOL)startSession:(NSError **)error;
-- (void)startCapturing;
+- (void)startCapturingWithURL:(NSURL *)url;
 - (void)stopCapturing;
 - (void)tearDownSession;
 - (void)saveSampleBuffer:(CMSampleBufferRef)sampleBuffer;
