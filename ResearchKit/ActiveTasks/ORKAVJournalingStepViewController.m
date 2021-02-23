@@ -70,7 +70,6 @@ static const CGFloat FramesToSkipTotal = 5.0;
     
     NSString *_savedFileName;
     
-    NSURL *_tempFileURL;
     NSURL *_savedFileURL;
     
     NSMutableArray<NSString *> *_fileNames;
@@ -79,6 +78,7 @@ static const CGFloat FramesToSkipTotal = 5.0;
     
     BOOL _waitingOnUserToStartRecording;
     BOOL _submitVideoAfterStopping;
+    BOOL _shouldDeleteVideoFile;
     
     ORKAVJournalingARSessionHelper *_arSessionHelper;
     ORKAVJournalingSessionHelper *_sessionHelper;
@@ -92,6 +92,7 @@ static const CGFloat FramesToSkipTotal = 5.0;
     if (self) {
         _avJournalingStep = (ORKAVJournalingStep *)step;
         _skippedFrameTotal = 0;
+        _shouldDeleteVideoFile = YES;
     }
     
     return self;
@@ -144,7 +145,7 @@ static const CGFloat FramesToSkipTotal = 5.0;
 - (void)handleError:(NSError *)error {
     // Shut down the session, if running
     [self tearDownSession];
-    [self deleteTempVideoFile];
+    [self deleteVideoFile];
     
     _savedFileURL = nil;
     
@@ -246,8 +247,26 @@ static const CGFloat FramesToSkipTotal = 5.0;
     [self startVideoRecording];
 }
 
-- (void)startVideoRecording {   
-    [_sessionHelper startCapturing];
+- (void)startVideoRecording {
+    //Save video to permanant file
+    NSString *fileNameFormat = @"%@_%@_rgb";
+    
+    if ([ARFaceTrackingConfiguration isSupported] && _avJournalingStep.saveDepthDataIfAvailable) {
+        fileNameFormat = @"%@_%@_rgb_depth";
+    }
+    
+    NSString *outputFileName = [NSString stringWithFormat:fileNameFormat, self.step.identifier, self.taskViewController.taskRunUUID.UUIDString];
+    _savedFileName = [outputFileName stringByAppendingPathExtension:@"mov"];
+    
+    NSURL *docURL = self.taskViewController.outputDirectory;
+    
+    if (!docURL) {
+        @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"The presented ORKTaskViewController must provide an outputDirectory for the ORKAVJournalingStep to save it's videos within." userInfo:nil];
+    }
+    
+    docURL = [docURL URLByAppendingPathComponent:_savedFileName];
+    
+    [_sessionHelper startCapturingWithURL:docURL];
     _waitingOnUserToStartRecording = NO;
     
     [_contentView startTimerWithMaximumRecordingLimit:_avJournalingStep.maximumRecordingLimit
@@ -302,58 +321,36 @@ static const CGFloat FramesToSkipTotal = 5.0;
 }
 
 - (void)submitVideo {
-    if ([self tempVideoFileExists]) {
-        //Save video to permanant file
-        NSString *fileNameFormat = @"%@_%@_rgb";
-        
-        if ([ARFaceTrackingConfiguration isSupported] && _avJournalingStep.saveDepthDataIfAvailable) {
-            fileNameFormat = @"%@_%@_rgb_depth";
-        }
-        
-        NSString *outputFileName = [NSString stringWithFormat:fileNameFormat, self.step.identifier, self.taskViewController.taskRunUUID.UUIDString];
-        _savedFileName = [outputFileName stringByAppendingPathExtension:@"mov"];
-        
-        NSURL *docURL = self.taskViewController.outputDirectory;
-        
-        if (!docURL) {
-            @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"The presented ORKTaskViewController must provide an outputDirectory for the ORKAVJournalingStep to save it's videos within." userInfo:nil];
-        }
-        
-        docURL = [docURL URLByAppendingPathComponent:_savedFileName];
-        
-        NSData *data = [NSData dataWithContentsOfURL:_tempFileURL];
-        BOOL wasDataSavedToURL = [data writeToURL:docURL atomically:YES];
-        
-        if (wasDataSavedToURL) {
-            //remove video saved to temp directory if it was saved successfully in the document directory
-            _savedFileURL = docURL;
-            [_fileNames addObject:_savedFileName];
-            _cameraIntrinsicsArray = [[_sessionHelper cameraIntrinsicsArray] copy];
-            _recalibrationTimeStamps = [[_contentView fetchRecalibrationTimeStamps] copy];
-            [self deleteTempVideoFile];
+    if ([self videoFileExists]) {
+        _shouldDeleteVideoFile = NO;
+        [_fileNames addObject:_savedFileName];
+        _cameraIntrinsicsArray = [[_sessionHelper cameraIntrinsicsArray] copy];
+        _recalibrationTimeStamps = [[_contentView fetchRecalibrationTimeStamps] copy];
+
+        dispatch_async(dispatch_get_main_queue(), ^(void) {
             [self finish];
-        }
+        });
     }
 }
 
-- (void)deleteTempVideoFile {
-    if ([self tempVideoFileExists]) {
+- (void)deleteVideoFile {
+    if ([self videoFileExists] && _shouldDeleteVideoFile) {
         NSError *error;
         
-        [NSFileManager.defaultManager removeItemAtPath:_tempFileURL.relativePath error:&error];
+        [NSFileManager.defaultManager removeItemAtPath:_savedFileURL.relativePath error:&error];
         
         if (!error) {
-            _tempFileURL = nil;
+            _savedFileURL = nil;
         } else {
-            @throw [NSException exceptionWithName:NSGenericException reason:[NSString stringWithFormat:@"There was an error encountered while attempting to remove the saved video from the temp directory at path: %@", _tempFileURL.path]  userInfo:nil];
+            @throw [NSException exceptionWithName:NSGenericException reason:[NSString stringWithFormat:@"There was an error encountered while attempting to remove the saved video at path: %@", _savedFileURL.path]  userInfo:nil];
         }
     }
     
-    _tempFileURL = nil;
+    _savedFileURL = nil;
 }
 
-- (BOOL)tempVideoFileExists {
-    if (_tempFileURL && [NSFileManager.defaultManager fileExistsAtPath:_tempFileURL.relativePath]) {
+- (BOOL)videoFileExists {
+    if (_savedFileURL && [NSFileManager.defaultManager fileExistsAtPath:_savedFileURL.relativePath]) {
         return YES;
     } else {
         return NO;
@@ -380,7 +377,7 @@ static const CGFloat FramesToSkipTotal = 5.0;
 }
 
 - (void)cleanupSession {
-    [self deleteTempVideoFile];
+    [self deleteVideoFile];
     [_contentView tearDownContentView];
     _contentView = nil;
     [self tearDownSession];
@@ -389,8 +386,8 @@ static const CGFloat FramesToSkipTotal = 5.0;
 
 #pragma mark - ORKAVJournalingSessionHelperDelegate
 
-- (void)capturingEndedWithTemporaryURL:(NSURL *)tempURL {
-    _tempFileURL = tempURL;
+- (void)capturingEndedWithURL:(nullable NSURL *)url {
+    _savedFileURL = url;
     _waitingOnUserToStartRecording = YES;
     if (_submitVideoAfterStopping) {
         dispatch_async(dispatch_get_main_queue(), ^(void) {
