@@ -18,18 +18,18 @@ pipeline {
 							sh 'set +x && echo $(< ~/.PRIVATE_JenkinsfilePwd) | sudo -S xcode-select -s /Applications/XcodeAzulC.app && set -x'
                             sh 'xcrun --kill-cache'
 
+                            // Reset the simulators
+                            sh './scripts/reset_simulators.sh'
+
+                            // print out sdk version
+                            sh 'xcodebuild -sdk iphoneos -version'
+
                             // create directories for output
                             sh 'mkdir -p output/ResearchKit/ios output/DiagnosticLogs'
                             sh 'rm -rf output/ResearchKit/ios/* output/DiagnosticLogs/*'
 
-                            // Reset content from all the simulators
-                            sh 'killall "Simulator" 2> /dev/null || true; xcrun simctl erase all'
-
                             // create a sentinel file to use for its modification date later
                             sh 'touch ./tests-began'
-
-                            // print out sdk version
-                            sh 'xcodebuild -sdk iphoneos -version'
                     }
             }
             stage('Build (ResearchKit iOS)') {
