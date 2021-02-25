@@ -118,7 +118,7 @@
     ORKStepResult *stepResult = [super result];
     
     if (_modelManager) {
-        NSArray<ORKResult *> *managerResults = [_modelManager provideResults];
+        NSArray<ORKResult *> *managerResults = [_modelManager provideResultsWithIdentifier:self.step.identifier];
         if (managerResults) {
             stepResult.results = [managerResults copy];
         }
