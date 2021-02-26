@@ -114,7 +114,7 @@ ORK_CLASS_AVAILABLE
  Note that for instantaneous items, `startDate` and `endDate` can have the same value, and should
  generally correspond to the end of the instantaneous data collection period. 
  */
-@property (nonatomic, copy) NSDate *endDate;
+@property (nonatomic, copy, nullable) NSDate *endDate;
 
 /**
  Metadata that describes the conditions under which the result was acquired.
