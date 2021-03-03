@@ -182,6 +182,8 @@
 #elif TARGET_OS_WATCH
         self->_systemName = [WKInterfaceDevice.currentDevice.systemName copy];
 #endif
+        self->_osVersion = ORKOSVersion();
+        self->_hwProduct = ORKHWProduct();
     }
     return self;
 }
@@ -191,6 +193,8 @@
     ORK_ENCODE_OBJ(aCoder, taskRunUUID);
     ORK_ENCODE_URL(aCoder, outputDirectory);
     ORK_ENCODE_OBJ(aCoder, systemName);
+    ORK_ENCODE_OBJ(aCoder, osVersion);
+    ORK_ENCODE_OBJ(aCoder, hwProduct);
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
@@ -199,6 +203,8 @@
         ORK_DECODE_OBJ_CLASS(aDecoder, taskRunUUID, NSUUID);
         ORK_DECODE_URL(aDecoder, outputDirectory);
         ORK_DECODE_OBJ(aDecoder, systemName);
+        ORK_DECODE_OBJ(aDecoder, osVersion);
+        ORK_DECODE_OBJ(aDecoder, hwProduct);
     }
     return self;
 }
@@ -218,11 +224,13 @@
     return (isParentSame &&
             ORKEqualObjects(self.taskRunUUID, castObject.taskRunUUID) &&
             ORKEqualFileURLs(self.outputDirectory, castObject.outputDirectory) &&
-            ORKEqualObjects(self.systemName, castObject.systemName));
+            ORKEqualObjects(self.systemName, castObject.systemName) &&
+            ORKEqualObjects(self.osVersion, castObject.osVersion) &&
+            ORKEqualObjects(self.hwProduct, castObject.hwProduct));
 }
 
 - (NSUInteger)hash {
-    return super.hash ^ self.taskRunUUID.hash ^ self.outputDirectory.hash ^ self.systemName.hash;
+    return super.hash ^ self.taskRunUUID.hash ^ self.outputDirectory.hash ^ self.systemName.hash ^ self.osVersion.hash ^ self.hwProduct.hash;
 }
 
 
@@ -231,6 +239,8 @@
     result->_taskRunUUID = [self.taskRunUUID copy];
     result->_outputDirectory =  [self.outputDirectory copy];
     result->_systemName = [self.systemName copy];
+    result->_osVersion = [self.osVersion copy];
+    result->_hwProduct = [self.hwProduct copy];
     return result;
 }
 

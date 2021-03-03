@@ -18,25 +18,25 @@ pipeline {
 							sh 'set +x && echo $(< ~/.PRIVATE_JenkinsfilePwd) | sudo -S xcode-select -s /Applications/XcodeAzulC.app && set -x'
                             sh 'xcrun --kill-cache'
 
+                            // Reset the simulators
+                            sh './scripts/reset_simulators.sh'
+
+                            // print out sdk version
+                            sh 'xcodebuild -sdk iphoneos -version'
+
                             // create directories for output
                             sh 'mkdir -p output/ResearchKit/ios output/DiagnosticLogs'
                             sh 'rm -rf output/ResearchKit/ios/* output/DiagnosticLogs/*'
 
-                            // Reset content from all the simulators
-                            sh 'killall "Simulator" 2> /dev/null || true; xcrun simctl erase all'
-
                             // create a sentinel file to use for its modification date later
                             sh 'touch ./tests-began'
-
-                            // print out sdk version
-                            sh 'xcodebuild -sdk iphoneos -version'
                     }
             }
             stage('Build (ResearchKit iOS)') {
                     steps {
                             timeout(time: 20, unit: 'MINUTES') {
                                     sh 'echo "Build (ResearchKit iOS)"'
-                                    sh 'set -o pipefail && xcodebuild clean build-for-testing -project ./ResearchKit.xcodeproj -scheme "ResearchKit" -destination "name=iPhone Xs" | tee output/ResearchKit/ios/build.log | /usr/local/bin/xcpretty'
+                                    sh 'set -o pipefail && xcodebuild clean build-for-testing -project ./ResearchKit.xcodeproj -scheme "ResearchKit" -destination "name=iPhone" | tee output/ResearchKit/ios/build.log | /usr/local/bin/xcpretty'
                             }
                     }
             }
@@ -44,7 +44,7 @@ pipeline {
                     steps {
                             timeout(time: 20, unit: 'MINUTES') {
                                     sh 'echo "Test (ResearchKit iOS)"'
-                                    sh 'set -o pipefail && xcodebuild test-without-building -project ./ResearchKit.xcodeproj -scheme "ResearchKit" -destination "name=iPhone Xs" -resultBundlePath output/ResearchKit/ios/RKTestResult | tee output/ResearchKit/ios/test.log | /usr/local/bin/xcpretty -r junit'
+                                    sh 'set -o pipefail && xcodebuild test-without-building -project ./ResearchKit.xcodeproj -scheme "ResearchKit" -destination "name=iPhone" -resultBundlePath output/ResearchKit/ios/RKTestResult | tee output/ResearchKit/ios/test.log | /usr/local/bin/xcpretty -r junit'
 									sh 'set -o pipefail && xcrun xccov view --report --json output/ResearchKit/ios/RKTestResult.xcresult > output/ResearchKit/ios/CodeCoverage.json'
 									// sh 'set -o pipefail && swift ./scripts/xccov-json-to-cobertura-xml.swift output/ResearchKit/ios/CodeCoverage.json -targetsToExclude ResearchKitTests.xctest > output/ResearchKit/ios/CoberturaCodeCoverage.xml'
                             }
@@ -54,7 +54,7 @@ pipeline {
                     steps {
                             timeout(time: 20, unit: 'MINUTES') {
                                     sh 'echo "Build (ORKTest iOS)"'
-                                    sh 'set -o pipefail && xcodebuild clean build-for-testing -project ./Testing/ORKTest/ORKTest.xcodeproj -scheme "ORKTest" -destination "name=iPhone Xs" | tee output/ResearchKit/ios/buildORKTest.log | /usr/local/bin/xcpretty'
+                                    sh 'set -o pipefail && xcodebuild clean build-for-testing -project ./Testing/ORKTest/ORKTest.xcodeproj -scheme "ORKTest" -destination "name=iPhone" | tee output/ResearchKit/ios/buildORKTest.log | /usr/local/bin/xcpretty'
                             }
                     }
             }
@@ -62,7 +62,7 @@ pipeline {
                     steps {
                             timeout(time: 20, unit: 'MINUTES') {
                                     sh 'echo "Test (ORKTest iOS)"'
-                                    sh 'set -o pipefail && xcodebuild test-without-building -project ./Testing/ORKTest/ORKTest.xcodeproj -scheme "ORKTest" -destination "name=iPhone Xs" -resultBundlePath output/ResearchKit/ios/ORKTestResult | tee output/ResearchKit/ios/testORKTest.log | /usr/local/bin/xcpretty -r junit'
+                                    sh 'set -o pipefail && xcodebuild test-without-building -project ./Testing/ORKTest/ORKTest.xcodeproj -scheme "ORKTest" -destination "name=iPhone" -resultBundlePath output/ResearchKit/ios/ORKTestResult | tee output/ResearchKit/ios/testORKTest.log | /usr/local/bin/xcpretty -r junit'
                             }
                     }
             }

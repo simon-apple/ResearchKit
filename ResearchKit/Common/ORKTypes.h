@@ -544,6 +544,14 @@ typedef NS_ENUM(NSInteger, ORKNavigationContainerButtonStyle) {
     ORKNavigationContainerButtonStyleRoundedRect
 } ORK_ENUM_AVAILABLE;
 
+/**
+ An enumeration of the types of button styles for the ORKDontKnowButton.
+ */
+typedef NS_ENUM(NSInteger, ORKDontKnowButtonStyle) {
+    ORKDontKnowButtonStyleStandard = 0,
+    ORKDontKnowButtonStyleCircleChoice,
+} ORK_ENUM_AVAILABLE;
+
 extern const double ORKDoubleDefaultValue ORK_AVAILABLE_DECL;
 
 extern const CGFloat ORKCGFloatDefaultValue ORK_AVAILABLE_DECL;

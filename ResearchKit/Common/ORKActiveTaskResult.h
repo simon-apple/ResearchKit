@@ -49,6 +49,5 @@
 #import <ResearchKit/ORKTinnitusPureToneResult.h>
 #import <ResearchKit/ORKTinnitusWhiteNoiseMatchingSoundResult.h>
 #import <ResearchKit/ORKTinnitusMaskingSoundResult.h>
-#import <ResearchKit/ORKTinnitusCalibrationResult.h>
-#import <ResearchKit/ORKTinnitusLoudnessMatchingResult.h>
+#import <ResearchKit/ORKTinnitusVolumeResult.h>
 #import <ResearchKit/ORKTinnitusTypeResult.h>

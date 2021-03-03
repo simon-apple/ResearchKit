@@ -39,7 +39,7 @@
 #import "ORKStepViewController_Internal.h"
 
 #import "ORKTinnitusTypeResult.h"
-#import "ORKTinnitusCalibrationResult.h"
+#import "ORKTinnitusVolumeResult.h"
 #import "ORKTinnitusCalibrationStep.h"
 #import "ORKStepContainerView_Private.h"
 #import "ORKNavigationContainerView_Internal.h"
@@ -147,17 +147,20 @@
  
     NSMutableArray *results = [NSMutableArray arrayWithArray:sResult.results];
     
-    ORKTinnitusCalibrationResult *tinnitusCalibrationResult = [[ORKTinnitusCalibrationResult alloc] initWithIdentifier:self.step.identifier];
+    ORKTinnitusVolumeResult *tinnitusCalibrationResult = [[ORKTinnitusVolumeResult alloc] initWithIdentifier:self.step.identifier];
     tinnitusCalibrationResult.startDate = sResult.startDate;
     tinnitusCalibrationResult.endDate = now;
     tinnitusCalibrationResult.type = self.type;
+    tinnitusCalibrationResult.volumeCurve = [self.audioGenerator gainFromCurrentSystemVolume];
     
     if ([self.type isEqualToString: ORKTinnitusTypePureTone]) {
         tinnitusCalibrationResult.amplitude = [self.audioGenerator getPuretoneSystemVolumeIndBSPL];
         tinnitusCalibrationResult.frequency = _frequency;
+        tinnitusCalibrationResult.noiseType = @"none";
     } else {
-        tinnitusCalibrationResult.amplitude = [self.audioGenerator getWhiteNoiseSystemVolumeForContext:self.step.context noiseType:ORKTinnitusTypeWhiteNoise];
+        tinnitusCalibrationResult.amplitude = [self.audioGenerator gainFromCurrentSystemVolume];
         tinnitusCalibrationResult.frequency = 0.0;
+        tinnitusCalibrationResult.noiseType = ORKTinnitusTypeWhiteNoise;
     }
     
     [results addObject:tinnitusCalibrationResult];

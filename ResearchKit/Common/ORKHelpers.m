@@ -38,6 +38,47 @@
 
 #import <CoreText/CoreText.h>
 
+#import <sys/types.h>
+#import <sys/sysctl.h>
+
+#if !TARGET_OS_SIMULATOR
+static NSString * ORK_SYSCTL(int tl, int sl) {
+    
+    int mib[] = { tl, sl };
+    size_t size;
+    
+    sysctl(mib, 2, NULL, &size, NULL, 0);
+    
+    char *cStr = malloc(size);
+    
+    sysctl(mib, 2, cStr, &size, NULL, 0);
+    
+    NSString *str = [NSString stringWithCString:cStr encoding:NSASCIIStringEncoding];
+    
+    free(cStr);
+    
+    return [str copy];
+}
+#endif
+
+NSString *ORKHWProduct(void) {
+     
+#if !TARGET_OS_SIMULATOR
+    return ORK_SYSCTL(CTL_HW, HW_PRODUCT);
+#else
+    return nil;
+#endif
+}
+
+NSString *ORKOSVersion(void) {
+    
+#if !TARGET_OS_SIMULATOR
+    return ORK_SYSCTL(CTL_KERN, KERN_OSVERSION);
+#else
+    return nil;
+#endif
+}
+
 BOOL ORKLoggingEnabled = YES;
 
 NSURL *ORKCreateRandomBaseURL() {
@@ -178,6 +219,28 @@ CGFloat ORKExpectedLabelHeight(UILabel *label) {
                                                         context:nil].size;
     return expectedLabelSize.height;
 }
+
+UIColor *ORKWindowTintcolor(UIWindow *window) {
+    UIColor *windowTintColor = window.tintColor;
+    if (!windowTintColor) {
+        return nil;
+    }
+    
+    //Return nil if the window tint color is clear
+    CGFloat redColor;
+    CGFloat blueColor;
+    CGFloat greenColor;
+    CGFloat alpha;
+    
+    [window.tintColor getRed:&redColor green:&greenColor blue:&blueColor alpha:&alpha];
+    
+    if (redColor == 0 && blueColor == 0 && greenColor == 0 && alpha == 0) {
+        return nil;
+    }
+    
+    return windowTintColor;
+}
+
 #endif
 
 UIImage *ORKImageWithColor(UIColor *color) {

@@ -107,18 +107,15 @@ Returns the system audio volume in decibels.
 - (float)getPuretoneSystemVolumeIndBSPL;
 
 /**
- Returns the system volume in decibels adjusted with dbSPL.
+ Returns the current system volume gain using the volume curve for the initialized headphone type
  
- @param context                    The ORKContext that carries the manifest information
- @param noiseType                NSString reference of the noise type to search for the values
- 
- @return                The current volume with the frequency and dbSPL table applied
+@return The current system volume gain (dB)
  */
-- (float)getWhiteNoiseSystemVolumeForContext:(id<ORKContext>)context noiseType:(NSString *)noiseType;
+- (float)gainFromCurrentSystemVolume;
 
 /**
-Adjusts the maximum audio buffer amplitude (the default amplitude value is 0.03). This value will be campled between 0.0 and 1.0
-*/
+ Adjusts the maximum audio buffer amplitude (the default amplitude value is 0.03). This value will be clamped between 0.0 and 1.0
+ */
 - (void)adjustBufferAmplitude:(double)newAmplitude;
 
 @end

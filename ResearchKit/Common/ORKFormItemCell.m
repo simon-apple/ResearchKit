@@ -519,6 +519,7 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     if (!_dontKnowButton) {
         _dontKnowButton = [ORKDontKnowButton new];
         _dontKnowButton.customDontKnowButtonText = self.formItem.answerFormat.customDontKnowButtonText;
+        _dontKnowButton.dontKnowButtonStyle = self.formItem.answerFormat.dontKnowButtonStyle;
         _dontKnowButton.translatesAutoresizingMaskIntoConstraints = NO;
         [_dontKnowButton addTarget:self action:@selector(dontKnowButtonWasPressed) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -583,7 +584,7 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
 
 - (void)updateConstraints {
     CGFloat labelWidth = self.maxLabelWidth;
-
+    
     NSString *contentSize = [[UIApplication sharedApplication] preferredContentSizeCategory];
     NSArray *largeSizes = @[
         UIContentSizeCategoryExtraExtraLarge,
@@ -647,7 +648,16 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
         constraint1.priority = UILayoutPriorityRequired - 1;
         constraint1.active = YES;
         [[_dontKnowButton.topAnchor constraintEqualToAnchor:_dividerView.bottomAnchor constant:DontKnowButtonTopBottomPadding] setActive:YES];
-        [[_dontKnowButton.centerXAnchor constraintEqualToAnchor:self.containerView.centerXAnchor] setActive:YES];
+        
+        if (_dontKnowButton.dontKnowButtonStyle == ORKDontKnowButtonStyleStandard) {
+            [[_dontKnowButton.centerXAnchor constraintEqualToAnchor:self.containerView.centerXAnchor] setActive:YES];
+            [[_dontKnowButton.leadingAnchor constraintGreaterThanOrEqualToAnchor:self.containerView.leadingAnchor constant:StandardSpacing] setActive:YES];
+            [[_dontKnowButton.trailingAnchor constraintLessThanOrEqualToAnchor:self.containerView.trailingAnchor constant:-StandardSpacing] setActive:YES];
+        } else {
+            [[_dontKnowButton.leadingAnchor constraintEqualToAnchor:self.containerView.leadingAnchor constant:StandardSpacing] setActive:YES];
+            [[_dontKnowButton.trailingAnchor constraintEqualToAnchor:self.containerView.trailingAnchor constant:-StandardSpacing] setActive:YES];
+        }
+        
         NSLayoutConstraint *constraint2 = [NSLayoutConstraint constraintWithItem:self.containerView
                                                                       attribute:NSLayoutAttributeBottom
                                                                       relatedBy:NSLayoutRelationEqual

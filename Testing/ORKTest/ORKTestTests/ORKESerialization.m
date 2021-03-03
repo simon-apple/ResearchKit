@@ -1594,7 +1594,8 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                  nil,
                  (@{
                      PROPERTY(showDontKnowButton, NSNumber, NSObject, YES, nil, nil),
-                     PROPERTY(customDontKnowButtonText, NSString, NSObject, YES, nil, nil)
+                     PROPERTY(customDontKnowButtonText, NSString, NSObject, YES, nil, nil),
+                     PROPERTY(dontKnowButtonStyle, NSNumber, NSObject, YES, nil, nil),
                     })),
            ENTRY(ORKDontKnowAnswer,
                  ^id(__unused NSDictionary *dict, __unused ORKESerializationPropertyGetter getter) {
@@ -2079,19 +2080,13 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                  (@{
                      PROPERTY(type, NSString, NSObject, NO, nil, nil),
                   })),
-           ENTRY(ORKTinnitusCalibrationResult,
+           ENTRY(ORKTinnitusVolumeResult,
                  nil,
                  (@{
                      PROPERTY(type, NSString, NSObject, NO, nil, nil),
                      PROPERTY(amplitude, NSNumber, NSObject, NO, nil, nil),
                      PROPERTY(frequency, NSNumber, NSObject, NO, nil, nil),
-                  })),
-           ENTRY(ORKTinnitusLoudnessMatchingResult,
-                 nil,
-                 (@{
-                     PROPERTY(type, NSString, NSObject, NO, nil, nil),
-                     PROPERTY(amplitude, NSNumber, NSObject, NO, nil, nil),
-                     PROPERTY(frequency, NSNumber, NSObject, NO, nil, nil),
+                     PROPERTY(volumeCurve, NSNumber, NSObject, NO, nil, nil),
                      PROPERTY(noiseType, NSString, NSObject, NO, nil, nil),
                   })),
            ENTRY(ORKReactionTimeResult,
@@ -2316,6 +2311,8 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                              ^id(id uuid, __unused ORKESerializationContext *context) { return [uuid UUIDString]; },
                              ^id(id string, __unused ORKESerializationContext *context) { return [[NSUUID alloc] initWithUUIDString:string]; }),
                     PROPERTY(systemName, NSString, NSObject, YES, nil, nil),
+                    PROPERTY(osVersion, NSString, NSObject, YES, nil, nil),
+                    PROPERTY(hwProduct, NSString, NSObject, YES, nil, nil)
                     })),
            ENTRY(ORKStepResult,
                  nil,

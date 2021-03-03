@@ -38,6 +38,7 @@
 #import "ORKActiveStep.h"
 #import "ORKNavigationContainerView_Internal.h"
 #import "ORKTypes.h"
+#import "ORKHelpers_Internal.h"
 
 /*
  +-----------------------------------------+
@@ -80,6 +81,11 @@
  | |  |  | | |   |--LearnMore  | | |  |  | |
  | |  |  | | |___|_____________| | |  |  | |
  | |  |  | |_____________________| |  |  | |
+ | |  |  |                         |  |  | |
+ | |  |  | +---------------------+ |  |  | |
+ | |  |  | | _centeredVertically-| |  |  | |
+ | |  |  | |     ImageView       | |  |  | |
+ | |  |  | |_____________________| |  |  | |
  | |  |  |_________________________|  |  | |
  | |  |                               |  | |
  | |  |  +-------------------------+  |  | |
@@ -106,6 +112,31 @@ static NSString *scrollContentChangedNotification = @"scrollContentChanged";
 - (void)setContentSize:(CGSize)contentSize {
     [super setContentSize:contentSize];
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:scrollContentChangedNotification object:nil]];
+}
+
+- (BOOL)accessibilityScroll:(UIAccessibilityScrollDirection)direction {
+    // Workarround to make VO scroll work when the scrollview is scrollable because the added contentInset.bottom
+    if (self.contentInset.bottom > 0 && self.contentSize.height <= self.bounds.size.height) {
+        switch (direction) {
+            case UIAccessibilityScrollDirectionUp: {
+                [self setContentOffset:CGPointMake(self.contentOffset.x, 0) animated:YES];
+                NSString *announceString = [NSString stringWithFormat:ORKLocalizedString(@"AX_PAGE_NUMBER_FORMAT", nil), 1, 2];
+                UIAccessibilityPostNotification(UIAccessibilityPageScrolledNotification, announceString);
+                return YES;
+            }
+            case UIAccessibilityScrollDirectionDown: {
+                CGFloat offsetY = self.contentSize.height - self.bounds.size.height + self.contentInset.bottom;
+                [self setContentOffset:CGPointMake(self.contentOffset.x, offsetY) animated:YES];
+                
+                NSString *announceString = [NSString stringWithFormat:ORKLocalizedString(@"AX_PAGE_NUMBER_FORMAT", nil), 2, 2];
+                UIAccessibilityPostNotification(UIAccessibilityPageScrolledNotification, announceString);
+                return YES;
+            }
+            default:
+                break;
+        }
+    }
+    return NO;
 }
 
 @end

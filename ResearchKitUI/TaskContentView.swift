@@ -146,6 +146,7 @@ internal struct TaskContentView<Content>: View where Content: View {
                 if let nextStepView = nextStep {
                     NavigationLink(destination: nextStepView, isActive: $goNext) { }
                         .frame(height: .zero)
+                        .disabled(true)
                     
                     if shouldScrollToCTA || !(currentStep is ORKQuestionStep) {
                         Button("Next") { goNext = true }
