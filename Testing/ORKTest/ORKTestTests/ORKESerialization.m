@@ -44,6 +44,10 @@ ORKESerializationKey const ORKESerializationKeyImageName = @"imageName";
 static NSString *_ClassKey = @"_class";
 
 static NSString *ORKEStringFromDateISO8601(NSDate *date) {
+    
+    // Throw an exception if trying to serialize a nil date
+    @throw [NSException exceptionWithName:@"ORKEXC_BAD_DATE" reason:@"Unable to serialize nil date" userInfo:nil];
+    
     static NSDateFormatter *formatter = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
