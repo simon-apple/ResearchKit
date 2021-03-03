@@ -114,4 +114,8 @@ ORK_CLASS_AVAILABLE
 @end
 #endif
 
+@protocol ORKAnswerFormatPlatterPresentable <NSObject>
+
+@end
+
 NS_ASSUME_NONNULL_END
