@@ -28,11 +28,12 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 @import AVFoundation;
 @import Speech;
 
-@protocol ORKSpeechRecognitionDelegate
+@class ORKSpeechRecognizer;
+
+@protocol ORKSpeechRecognitionDelegate <NSObject>
 
 @optional
 /**
@@ -44,6 +45,11 @@
  Tells the delegate that a hypothesized transcription is available.
  */
 - (void)didHypothesizeTranscription:(null_unspecified SFTranscription *)transcription;
+
+/**
+ Tells the delegate the recognizer finished recognition, and passes back the full result.
+ */
+- (void)didFinishRecognition:(nonnull SFSpeechRecognitionResult *)recognitionResult;
 
 /**
  Tells the delegate when the availability of the speech recognizer has changed

@@ -42,7 +42,6 @@
 #import "ORKHelpers_Internal.h"
 #import "ORKSpeechRecognitionError.h"
 
-
 @interface ORKSpeechRecognizer() <SFSpeechRecognitionTaskDelegate, SFSpeechRecognizerDelegate>
 @property(nonatomic, weak) id<ORKSpeechRecognitionDelegate> responseDelegate;
 @end
@@ -135,7 +134,9 @@
 - (void)speechRecognizer:(SFSpeechRecognizer *)speechRecognizer availabilityDidChange:(BOOL)available {
     dispatch_async(_responseQueue, ^{
         ORK_Log_Debug("Availability did change = %d", available);
-        [_responseDelegate availabilityDidChange:available];
+        if (_responseDelegate && [_responseDelegate respondsToSelector:@selector(availabilityDidChange:)]) {
+            [_responseDelegate availabilityDidChange:available];
+        }
     });
 }
 
@@ -144,23 +145,31 @@
 - (void)speechRecognitionTask:(SFSpeechRecognitionTask *)task didFinishRecognition:(SFSpeechRecognitionResult *)recognitionResult {
     dispatch_async(_responseQueue, ^{
         ORK_Log_Debug("did produce final result %@", [[recognitionResult bestTranscription] formattedString]);
-        [_responseDelegate didHypothesizeTranscription:[recognitionResult bestTranscription]];
+        if (@available(iOS 14.5, *)) {
+            if (_responseDelegate && [_responseDelegate respondsToSelector:@selector(didFinishRecognition:)]) {
+                [_responseDelegate didFinishRecognition:recognitionResult];
+            } else if (_responseDelegate && [_responseDelegate respondsToSelector:@selector(didHypothesizeTranscription:)]) {
+                [_responseDelegate didHypothesizeTranscription:recognitionResult.bestTranscription];
+            }
+        } else if (_responseDelegate && [_responseDelegate respondsToSelector:@selector(didHypothesizeTranscription:)]) {
+            [_responseDelegate didHypothesizeTranscription:recognitionResult.bestTranscription];
+        }
     });
 }
 - (void)speechRecognitionTask:(SFSpeechRecognitionTask *)task didHypothesizeTranscription:(SFTranscription *)transcription {
     dispatch_async(_responseQueue, ^{
         // Produces transcription if shouldReportPartialResults is true
         ORK_Log_Debug("did produce partial results %@", [transcription formattedString]);
-        [_responseDelegate didHypothesizeTranscription:transcription];
+        if (_responseDelegate && [_responseDelegate respondsToSelector:@selector(didHypothesizeTranscription:)]) {
+            [_responseDelegate didHypothesizeTranscription:transcription];
+        }
     });
 }
 
 - (void)speechRecognitionTask:(SFSpeechRecognitionTask *)task didFinishSuccessfully:(BOOL)successfully {
     dispatch_async(_responseQueue, ^{
-        if (!successfully) {
-            [_responseDelegate didFinishRecognitionWithError:task.error];
-        } else {
-            [_responseDelegate didFinishRecognitionWithError:nil];
+        if (_responseDelegate && [_responseDelegate respondsToSelector:@selector(didFinishRecognitionWithError:)]) {
+            [_responseDelegate didFinishRecognitionWithError:successfully ? nil : task.error];
         }
     });
 }
@@ -168,7 +177,9 @@
 - (void)speechRecognitionTaskWasCancelled:(SFSpeechRecognitionTask *)task {
     dispatch_async(_responseQueue, ^{
         ORK_Log_Debug("Request cancelled");
-        [_responseDelegate didFinishRecognitionWithError:nil];
+        if (_responseDelegate && [_responseDelegate respondsToSelector:@selector(didFinishRecognitionWithError:)]) {
+            [_responseDelegate didFinishRecognitionWithError:nil];
+        }
     });
 }
 

@@ -113,6 +113,7 @@ static NSDictionary *dictionaryFromNSRange(NSRange r) {
     return @{ @"location": @(r.location) , @"length": @(r.length) };
 }
 
+API_AVAILABLE(ios(13.0))
 static NSDictionary *dictionaryFromSFAcousticFeature(SFAcousticFeature *acousticFeature) {
     if (acousticFeature == nil) { return @{}; }
     return @{ @"acousticFeatureValuePerFrame" : acousticFeature.acousticFeatureValuePerFrame,
@@ -120,6 +121,7 @@ static NSDictionary *dictionaryFromSFAcousticFeature(SFAcousticFeature *acoustic
               };
 }
 
+API_AVAILABLE(ios(13.0))
 static NSDictionary *dictionaryFromSFVoiceAnalytics(SFVoiceAnalytics *voiceAnalytics) {
     if (voiceAnalytics == nil) { return @{}; }
     return @{
@@ -132,15 +134,25 @@ static NSDictionary *dictionaryFromSFVoiceAnalytics(SFVoiceAnalytics *voiceAnaly
 
 static NSDictionary *dictionaryFromSFTranscriptionSegment(SFTranscriptionSegment *segment) {
     if (segment == nil) { return @{}; }
-    return @{
-             @"substring" : segment.substring,
-             @"substringRange" : dictionaryFromNSRange(segment.substringRange),
-             @"timestamp" : @(segment.timestamp),
-             @"duration" : @(segment.duration),
-             @"confidence" : @(segment.confidence),
-             @"alternativeSubstrings" : segment.alternativeSubstrings.copy,
-             @"voiceAnalytics" : dictionaryFromSFVoiceAnalytics(segment.voiceAnalytics)
-             };
+    
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+    
+    [dict setObject:segment.substring forKey:@"substring"];
+    [dict setObject:dictionaryFromNSRange(segment.substringRange) forKey:@"substringRange"];
+    [dict setObject:@(segment.timestamp) forKey:@"timestamp"];
+    [dict setObject:@(segment.duration) forKey:@"duration"];
+    [dict setObject:@(segment.confidence) forKey:@"confidence"];
+    [dict setObject:segment.alternativeSubstrings.copy forKey:@"alternativeSubstrings"];
+    
+    if (@available(iOS 14.5, *)) { }
+    else if (@available(iOS 13.0, *)) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        [dict setObject:dictionaryFromSFVoiceAnalytics(segment.voiceAnalytics) forKey:@"voiceAnalytics"];
+#pragma clang diagnostic pop
+    }
+    
+    return [dict copy];
 }
 
 typedef id (*mapFunction)(id);
@@ -153,14 +165,39 @@ static NSArray *mapArray(NSArray *input, mapFunction function) {
 }
 
 static NSDictionary *dictionaryFromSFTranscription(SFTranscription *transcription) {
+    
     if (transcription == nil) { return @{}; };
-    return @{
-             @"formattedString": transcription.formattedString,
-             @"speakingRate" : @(transcription.speakingRate),
-             @"averagePauseDuration" : @(transcription.averagePauseDuration),
-             @"segments" : mapArray(transcription.segments, dictionaryFromSFTranscriptionSegment)
-             };
+    
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+    
+    [dict setObject:transcription.formattedString forKey:@"formattedString"];
+    [dict setObject:mapArray(transcription.segments, dictionaryFromSFTranscriptionSegment) forKey:@"segments"];
+    
+    if (@available(iOS 14.5, *)) { }
+    else {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        [dict setObject:@(transcription.speakingRate) forKey:@"speakingRate"];
+        [dict setObject:@(transcription.averagePauseDuration) forKey:@"averagePauseDuration"];
+#pragma clang diagnostic pop
+    }
+    
+    return [dict copy];
 }
+
+#if defined(__IPHONE_14_5) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_14_5
+API_AVAILABLE(ios(14.5))
+static NSDictionary *dictionaryFromSFSpeechRecognitionMetadata(SFSpeechRecognitionMetadata *metadata) {
+    if (metadata == nil) { return @{}; }
+    return @{
+        @"speakingRate": @(metadata.speakingRate),
+        @"averagePauseDuration": @(metadata.averagePauseDuration),
+        @"speechStartTimestamp": @(metadata.speechStartTimestamp),
+        @"speechDuration": @(metadata.speechDuration),
+        @"voiceAnalytics": dictionaryFromSFVoiceAnalytics(metadata.voiceAnalytics)
+    };
+}
+#endif
 
 static NSDictionary *dictionaryFromCGSize(CGSize s) {
     return @{ @"h": @(s.height), @"w": @(s.width) };
@@ -742,6 +779,25 @@ static NSArray *numberFormattingStyleTable() {
     return table;
 }
 
+static NSDictionary *dictionaryForORKSpeechRecognitionResult(void) {
+    
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+    
+    [dict addEntriesFromDictionary:@{PROPERTY(transcription, SFTranscription, NSObject, NO,
+                                                 (^id(id transcription, __unused ORKESerializationContext *context) { return dictionaryFromSFTranscription(transcription); }),
+                                                 // Decode not supported: SFTranscription is immmutable
+                                              (^id(id __unused transcriptionDict, __unused ORKESerializationContext *context) { return nil; }))}];
+#if defined(__IPHONE_14_5) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_14_5
+    if (@available(iOS 14.5, *)) {
+        [dict addEntriesFromDictionary:@{PROPERTY(recognitionMetadata, SFSpeechRecognitionMetadata, NSObject, NO,
+                                                  (^id(id recognitionMetadata, __unused ORKESerializationContext *context) { return dictionaryFromSFSpeechRecognitionMetadata(recognitionMetadata); }),
+                                                  (^id(id __unused recognitionMetadataDict, __unused ORKESerializationContext *context) { return nil; }))}];
+    }
+#endif
+    
+    return [dict copy];
+}
+
 #define GETPROP(d,x) getter(d, @ESTRINGIFY(x))
 static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerializationEncodingTable() {
     static dispatch_once_t onceToken;
@@ -999,14 +1055,6 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                      return [[ORKLearnMoreInstructionStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
                  },
                  (@{
-                    })),
-           ENTRY(ORKLearnMoreItem,
-                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-                     return [[ORKLearnMoreItem alloc] initWithText:GETPROP(dict, text) learnMoreInstructionStep:GETPROP(dict, learnMoreInstructionStep)];
-                 },
-                 (@{
-                    PROPERTY(text, NSString, NSObject, YES, nil, nil),
-                    PROPERTY(learnMoreInstructionStep, ORKLearnMoreInstructionStep, NSObject, YES, nil, nil),
                     })),
            ENTRY(ORKSecondaryTaskStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
@@ -2103,12 +2151,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
               })),
            ENTRY(ORKSpeechRecognitionResult,
                  nil,
-                 (@{
-                    PROPERTY(transcription, SFTranscription, NSObject, NO,
-                             (^id(id transcription, __unused ORKESerializationContext *context) { return dictionaryFromSFTranscription(transcription); }),
-                             // Decode not supported: SFTranscription is immmutable
-                             (^id(id __unused transcriptionDict, __unused ORKESerializationContext *context) { return nil; })),
-                    })),
+                 dictionaryForORKSpeechRecognitionResult()),
            ENTRY(ORKStroopResult,
                  nil,
                  (@{
