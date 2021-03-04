@@ -55,9 +55,12 @@
 
 
 static const CGFloat VerticalMargin = 10.0;
+static const CGFloat TextViewVerticalMargin = 10.0;
+static const CGFloat TextViewMinHeight = 140.0;
 static const CGFloat StandardSpacing = 8.0;
 static const CGFloat ErrorLabelTopPadding = 4.0;
 static const CGFloat ErrorLabelBottomPadding = 10.0;
+static const CGFloat WordCountViewElementsLeftRightPadding = 16.0;
 static const CGFloat DontKnowButtonTopBottomPadding = 16.0;
 static const CGFloat DividerViewTopPadding = 10.0;
 static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
@@ -1129,9 +1132,16 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
 
 @implementation ORKFormItemTextCell {
     ORKFormTextView *_textView;
+    UIView *_maxLengthView;
+    UIView *_dontKnowBackgroundView;
+    UIView *_dividerView;
+    UILabel *_textCountLabel;
+    UIButton *_clearTextViewButton;
+    ORKDontKnowButton *_dontKnowButton;
     CGFloat _lastSeenLineCount;
     NSInteger _maxLength;
     NSString *_defaultTextAnswer;
+    BOOL _shouldShowDontKnow;
 }
 
 - (void)cellInit {
@@ -1152,6 +1162,17 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
         _textView.backgroundColor = [UIColor secondarySystemGroupedBackgroundColor];
     }
     
+    ORKTextAnswerFormat *textAnswerFormat = [self textAnswerFormat];
+    
+    if ((_maxLength > 0 && !textAnswerFormat.hideCharacterCountLabel) || !textAnswerFormat.hideClearButton) {
+        [self setupMaxLengthView];
+    }
+    
+    _shouldShowDontKnow = [textAnswerFormat shouldShowDontKnowButton];
+    if (_shouldShowDontKnow) {
+        [self setupDontKnowButton];
+    }
+    
     [self applyAnswerFormat];
     [self answerDidChange];
     
@@ -1166,17 +1187,95 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     
     NSMutableArray *constraints = [NSMutableArray new];
     
+    UIView *topViewToConstrainTo = _textView;
+    UIView *bottomViewToConstrainTo = nil;
+    
+    //TextView Horizontal constraints
     [constraints addObjectsFromArray:
      [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-hMargin-[textView]-hMargin-|"
                                              options:NSLayoutFormatDirectionLeadingToTrailing
                                              metrics:metrics
                                                views:views]];
     
-    [constraints addObjectsFromArray:
-     [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-vMargin-[textView]-vMargin-|"
-                                             options:NSLayoutFormatDirectionLeadingToTrailing
-                                             metrics:metrics
-                                               views:views]];
+    //TextCountLabel and ClearTextViewButton constraints
+    if (_maxLengthView) {
+        [[_maxLengthView.topAnchor constraintEqualToAnchor:_textView.bottomAnchor] setActive:YES];
+        [[_maxLengthView.leadingAnchor constraintEqualToAnchor:self.containerView.leadingAnchor] setActive:YES];
+        [[_maxLengthView.trailingAnchor constraintEqualToAnchor:self.containerView.trailingAnchor] setActive:YES];
+    
+        if (_textCountLabel) {
+            [[_textCountLabel.topAnchor constraintEqualToAnchor:_maxLengthView.topAnchor constant:StandardSpacing] setActive:YES];
+            [[_textCountLabel.leadingAnchor constraintEqualToAnchor:self.containerView.leadingAnchor constant:WordCountViewElementsLeftRightPadding] setActive:YES];
+        }
+        
+        if (_clearTextViewButton) {
+            [[_clearTextViewButton.topAnchor constraintEqualToAnchor:_maxLengthView.topAnchor constant:StandardSpacing] setActive:YES];
+            [[_clearTextViewButton.trailingAnchor constraintEqualToAnchor:self.containerView.trailingAnchor constant:-WordCountViewElementsLeftRightPadding] setActive:YES];
+        }
+        
+        NSLayoutYAxisAnchor *bottomAnchor = _textCountLabel ? _textCountLabel.bottomAnchor : _clearTextViewButton.bottomAnchor;
+        [[_maxLengthView.bottomAnchor constraintEqualToAnchor: bottomAnchor constant:StandardSpacing] setActive:YES];
+        
+        topViewToConstrainTo = _maxLengthView;
+        bottomViewToConstrainTo = _maxLengthView;
+    }
+    
+    //DontKnowButton constraints
+    if (_shouldShowDontKnow) {
+        [[_dontKnowBackgroundView.topAnchor constraintEqualToAnchor:_dividerView.topAnchor] setActive:YES];
+        [[_dontKnowBackgroundView.leadingAnchor constraintEqualToAnchor:self.containerView.leadingAnchor] setActive:YES];
+        [[_dontKnowBackgroundView.trailingAnchor constraintEqualToAnchor:self.containerView.trailingAnchor] setActive:YES];
+        [[_dontKnowBackgroundView.bottomAnchor constraintEqualToAnchor:self.containerView.bottomAnchor] setActive:YES];
+        
+        CGFloat separatorHeight = 1.0 / [UIScreen mainScreen].scale;
+        [[_dividerView.topAnchor constraintEqualToAnchor:topViewToConstrainTo.bottomAnchor constant:DividerViewTopPadding] setActive:YES];
+        [[_dividerView.leadingAnchor constraintEqualToAnchor:self.containerView.leadingAnchor] setActive:YES];
+        [[_dividerView.trailingAnchor constraintEqualToAnchor:self.containerView.trailingAnchor] setActive:YES];
+        NSLayoutConstraint *constraint1 = [NSLayoutConstraint constraintWithItem:_dividerView
+                                                                      attribute:NSLayoutAttributeHeight
+                                                                      relatedBy:NSLayoutRelationEqual
+                                                                         toItem:nil
+                                                                      attribute:NSLayoutAttributeNotAnAttribute
+                                                                     multiplier:1.0
+                                                                       constant:separatorHeight];
+        constraint1.priority = UILayoutPriorityRequired - 1;
+        constraint1.active = YES;
+        [[_dontKnowButton.topAnchor constraintEqualToAnchor:_dividerView.bottomAnchor constant:DontKnowButtonTopBottomPadding] setActive:YES];
+        
+        if (_dontKnowButton.dontKnowButtonStyle == ORKDontKnowButtonStyleStandard) {
+            [[_dontKnowButton.centerXAnchor constraintEqualToAnchor:self.containerView.centerXAnchor] setActive:YES];
+            [[_dontKnowButton.leadingAnchor constraintGreaterThanOrEqualToAnchor:self.containerView.leadingAnchor constant:StandardSpacing] setActive:YES];
+            [[_dontKnowButton.trailingAnchor constraintLessThanOrEqualToAnchor:self.containerView.trailingAnchor constant:-StandardSpacing] setActive:YES];
+        } else {
+            [[_dontKnowButton.leadingAnchor constraintEqualToAnchor:self.containerView.leadingAnchor constant:StandardSpacing] setActive:YES];
+            [[_dontKnowButton.trailingAnchor constraintEqualToAnchor:self.containerView.trailingAnchor constant:-StandardSpacing] setActive:YES];
+        }
+        
+        bottomViewToConstrainTo = _dontKnowButton;
+    }
+    
+    
+    //TextView vertical constraints
+    if (_maxLengthView || _shouldShowDontKnow) {
+        [[_textView.topAnchor constraintEqualToAnchor:self.containerView.topAnchor constant:TextViewVerticalMargin] setActive:YES];
+        [[_textView.heightAnchor constraintGreaterThanOrEqualToConstant:TextViewMinHeight] setActive:YES];
+        
+        NSLayoutConstraint *constraint2 = [NSLayoutConstraint constraintWithItem:self.containerView
+                                                                      attribute:NSLayoutAttributeBottom
+                                                                      relatedBy:NSLayoutRelationEqual
+                                                                         toItem:bottomViewToConstrainTo
+                                                                      attribute:NSLayoutAttributeBottom
+                                                                     multiplier:1.0
+                                                                       constant:DontKnowButtonTopBottomPadding];
+        constraint2.priority = UILayoutPriorityRequired - 1;
+        constraint2.active = YES;
+    } else {
+        [constraints addObjectsFromArray:
+         [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-vMargin-[textView]-vMargin-|"
+                                                 options:NSLayoutFormatDirectionLeadingToTrailing
+                                                 metrics:metrics
+                                                   views:views]];
+    }
     
     NSLayoutConstraint *heightConstraint = [NSLayoutConstraint constraintWithItem:self.contentView
                                                                         attribute:NSLayoutAttributeHeight
@@ -1189,6 +1288,113 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     [constraints addObject:heightConstraint];
     
     [NSLayoutConstraint activateConstraints:constraints];
+}
+
+- (void)setupMaxLengthView {
+    _maxLengthView = [UIView new];
+    _maxLengthView.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    ORKTextAnswerFormat *textAnswerFormat = [self textAnswerFormat];
+    
+    if (_maxLength > 0 && !textAnswerFormat.hideCharacterCountLabel) {
+        _textCountLabel = [UILabel new];
+        if (@available(iOS 13.0, *)) {
+            [_textCountLabel setTextColor:[UIColor labelColor]];
+        } else {
+            [_textCountLabel setTextColor:[UIColor grayColor]];
+        }
+        
+        [self updateTextCountLabel];
+        
+        _textCountLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        [_maxLengthView addSubview: _textCountLabel];
+    }
+    
+    if (!textAnswerFormat.hideClearButton) {
+        _clearTextViewButton = [UIButton new];
+        [_clearTextViewButton setTitle:ORKLocalizedString(@"BUTTON_CLEAR", nil) forState:UIControlStateNormal];
+        [_clearTextViewButton setBackgroundColor:[UIColor clearColor]];
+        [_clearTextViewButton setTitleColor:self.tintColor forState:UIControlStateNormal];
+        [_clearTextViewButton addTarget:self action:@selector(clearTextView) forControlEvents:UIControlEventTouchUpInside];
+        _clearTextViewButton.translatesAutoresizingMaskIntoConstraints = NO;
+        [_maxLengthView addSubview: _clearTextViewButton];
+    }
+    
+    [self.containerView addSubview:_maxLengthView];
+}
+
+- (void)setupDontKnowButton {
+    if(!_dontKnowBackgroundView) {
+        _dontKnowBackgroundView = [UIView new];
+        _dontKnowBackgroundView.userInteractionEnabled = YES;
+        UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                            action:@selector(dontKnowBackgroundViewPressed)];
+        [_dontKnowBackgroundView addGestureRecognizer:gestureRecognizer];
+        _dontKnowBackgroundView.translatesAutoresizingMaskIntoConstraints = NO;
+    }
+    
+    if (!_dontKnowButton) {
+        _dontKnowButton = [ORKDontKnowButton new];
+        _dontKnowButton.customDontKnowButtonText = self.formItem.answerFormat.customDontKnowButtonText;
+        _dontKnowButton.dontKnowButtonStyle = self.formItem.answerFormat.dontKnowButtonStyle;
+        _dontKnowButton.translatesAutoresizingMaskIntoConstraints = NO;
+        [_dontKnowButton addTarget:self action:@selector(dontKnowButtonWasPressed) forControlEvents:UIControlEventTouchUpInside];
+    }
+    
+    if (!_dividerView) {
+        _dividerView = [UIView new];
+        _dividerView.translatesAutoresizingMaskIntoConstraints = NO;
+        if (@available(iOS 13.0, *)) {
+            [_dividerView setBackgroundColor:[UIColor separatorColor]];
+        } else {
+            [_dividerView setBackgroundColor:[UIColor lightGrayColor]];
+        }
+    }
+    
+    [self.containerView addSubview:_dontKnowBackgroundView];
+    [self.containerView addSubview:_dontKnowButton];
+    [self.containerView addSubview:_dividerView];
+    
+    if (self.answer == [ORKDontKnowAnswer answer]) {
+        [self dontKnowButtonWasPressed];
+    }
+}
+
+- (void)updateTextCountLabel {
+    if (_maxLength > 0) {
+        NSString *text = [[_textView.text componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]] componentsJoinedByString:@""];
+        NSString *textCountLabelText = [[NSString alloc] initWithFormat:@"%lu/%li", (unsigned long)text.length, (long)_maxLength];
+        _textCountLabel.text = textCountLabelText;
+    }
+}
+
+- (void)clearTextView {
+    _textView.text = @"";
+    [self inputValueDidChange];
+    [self updateTextCountLabel];
+}
+
+- (void)dontKnowButtonWasPressed {
+    if (![_dontKnowButton isDontKnowButtonActive]) {
+        [_dontKnowButton setButtonActive];
+        [_textView setText:nil];
+        
+        if (![_textView isFirstResponder]) {
+            if (self.delegate) {
+                [self.delegate formItemCellDidResignFirstResponder:self];
+            }
+        } else {
+            [_textView endEditing:YES];
+        }
+        
+        [self inputValueDidChange];
+    }
+}
+
+- (void)dontKnowBackgroundViewPressed {
+    if (_dontKnowButton && self.formItem.answerFormat.dontKnowButtonStyle == ORKDontKnowButtonStyleCircleChoice) {
+        [self dontKnowButtonWasPressed];
+    }
 }
 
 - (void)applyAnswerFormat {
@@ -1228,11 +1434,18 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
 
 - (void)answerDidChange {
     id answer = self.answer;
-    if (answer == ORKNullAnswerValue()) {
-        answer = nil;
+    
+    if (answer == [ORKDontKnowAnswer answer] && ![_dontKnowButton isDontKnowButtonActive]) {
+        [self dontKnowButtonWasPressed];
+    } else if (answer != [ORKDontKnowAnswer answer]) {
+        if (answer == ORKNullAnswerValue()) {
+            answer = nil;
+        }
+        _textView.text = (NSString *)answer;
+        [self assignDefaultAnswer];
     }
-    _textView.text = (NSString *)answer;
-    [self assignDefaultAnswer];
+    
+    [self updateTextCountLabel];
 }
 
 - (BOOL)becomeFirstResponder {
@@ -1245,13 +1458,31 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
 }
 
 - (void)inputValueDidChange {
-    NSString *text = _textView.text;
-    [self ork_setAnswer:text.length ? text : ORKNullAnswerValue()];
-    [super inputValueDidChange];
+    if (_dontKnowButton && [_dontKnowButton isDontKnowButtonActive]) {
+        [self ork_setAnswer: [ORKDontKnowAnswer answer]];
+    } else {
+        NSString *text = _textView.text;
+        [self ork_setAnswer:text.length ? text : ORKNullAnswerValue()];
+        [super inputValueDidChange];
+    }
+    
+    [self updateTextCountLabel];
 }
 
 - (UIColor *)placeholderColor {
     return [UIColor ork_midGrayTintColor];
+}
+
+- (ORKTextAnswerFormat *)textAnswerFormat {
+    ORKTextAnswerFormat *textAnswerFormat = (ORKTextAnswerFormat *)self.formItem.answerFormat;
+    
+    if (![textAnswerFormat isKindOfClass:[ORKTextAnswerFormat class]]) {
+        @throw [NSException exceptionWithName:@"Invalid Answer Format"
+                                       reason:@"the ORKFormItemTextCell's answerFormat must be a ORKTextAnswerFormat"
+                                     userInfo:nil];
+    }
+    
+    return textAnswerFormat;
 }
 
 #pragma mark UITextViewDelegate
@@ -1279,11 +1510,15 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
 - (void)textViewDidBeginEditing:(UITextView *)textView {
     if (textView.textColor == [self placeholderColor]) {
         textView.text = nil;
-        if (@available(iOS 13.0, *)) {
-            textView.textColor = [UIColor labelColor];
-        } else {
-            textView.textColor = [UIColor blackColor];
-        }
+        textView.textColor = [UIColor blackColor];
+    }
+    
+    // Ask table view to adjust scrollview's position
+    [self.delegate formItemCellDidBecomeFirstResponder:self];
+    
+    if (_dontKnowButton && [_dontKnowButton isDontKnowButtonActive]) {
+        [_dontKnowButton setButtonInactive];
+        [self inputValueDidChange];
     }
 }
 
