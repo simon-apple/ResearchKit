@@ -57,7 +57,7 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierPracticeCompl
 
 @implementation ORKSpeechInNoisePredefinedTaskContext
 
-- (void)didSkipHeadphoneDetectionStepForTask:(id<ORKTask>)task
+- (NSString *)didSkipHeadphoneDetectionStepForTask:(id<ORKTask>)task
 {
     if ([task isKindOfClass:[ORKNavigableOrderedTask class]])
     {
@@ -76,7 +76,11 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierPracticeCompl
         
         ORKDirectStepNavigationRule *endNavigationRule = [[ORKDirectStepNavigationRule alloc] initWithDestinationStepIdentifier:ORKNullStepIdentifier];
         [currentTask setNavigationRule:endNavigationRule forTriggerStepIdentifier:ORKSpeechInNoiseStepIdentifierHeadphonesRequired];
+        
+        return ORKSpeechInNoiseStepIdentifierHeadphonesRequired;
     }
+    
+    return nil;
 }
 
 - (NSString *)didNotAllowRequiredHealthPermissionsForTask:(id<ORKTask>)task

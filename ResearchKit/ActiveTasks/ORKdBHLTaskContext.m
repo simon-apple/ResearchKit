@@ -35,20 +35,24 @@
 
 @implementation ORKdBHLTaskContext
 
-+ (NSString *)dBHLToneAudiometryCompletionStepIdentifier {
-    return @"ORKdBHLCompletionStepIdentifierHeadphonesRequired";;
-}
-
-- (void)didSkipHeadphoneDetectionStepForTask:(id<ORKTask>)task {
+- (NSString *)didSkipHeadphoneDetectionStepForTask:(id<ORKTask>)task {
+    
     if ([task isKindOfClass:[ORKOrderedTask class]]) {
+        
+        static NSString * dBHLToneAudiometryCompletionStepIdentifier = @"ORKdBHLCompletionStepIdentifierHeadphonesRequired";
+        
         ORKOrderedTask *currentTask = (ORKNavigableOrderedTask *)task;
         
-        ORKdBHLToneAudiometryCompletionStep *step = [[ORKdBHLToneAudiometryCompletionStep alloc] initWithIdentifier:[ORKdBHLTaskContext dBHLToneAudiometryCompletionStepIdentifier]];
+        ORKdBHLToneAudiometryCompletionStep *step = [[ORKdBHLToneAudiometryCompletionStep alloc] initWithIdentifier:dBHLToneAudiometryCompletionStepIdentifier];
         step.title = ORKLocalizedString(@"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_TITLE", nil);
         step.text = ORKLocalizedString(@"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_TEXT", nil);
         
         [currentTask addStep:step];
+        
+        return dBHLToneAudiometryCompletionStepIdentifier;
     }
+    
+    return nil;
 }
 
 @end

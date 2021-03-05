@@ -88,6 +88,7 @@
 #import <ResearchKit/ORKVolumeCalibrationStep.h>
 #import <ResearchKit/ORKFaceDetectionStep.h>
 #import <ResearchKit/ORKAVJournalingStep.h>
+#import <ResearchKit/ORKHeadphonesRequiredCompletionStep.h>
 
 #import <ResearchKit/ORKTaskViewController_Private.h>
 #import <ResearchKit/ORKFormStepViewController_Private.h>
