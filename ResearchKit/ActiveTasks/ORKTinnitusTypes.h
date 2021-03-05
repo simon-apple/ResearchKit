@@ -35,9 +35,11 @@
 /**
  Type of tinnitus.
  */
-typedef NSString *ORKTinnitusType NS_STRING_ENUM;
-ORK_EXTERN ORKTinnitusType const ORKTinnitusTypeWhiteNoise;
-ORK_EXTERN ORKTinnitusType const ORKTinnitusTypePureTone;
+typedef NS_ENUM(NSInteger, ORKTinnitusType) {
+    ORKTinnitusTypeUnknown = 0,
+    ORKTinnitusTypeWhiteNoise,
+    ORKTinnitusTypePureTone
+} ORK_ENUM_AVAILABLE;
 
 /**
  Possible answers for probability of using a specific tinnitus masking sound.
@@ -54,7 +56,7 @@ ORK_EXTERN ORKTinnitusMaskingAnswer const ORKTinnitusMaskingAnswerNoneOfTheAbove
  A set of error types associated with tinnitus pure tone results.
  */
 typedef NSString *ORKTinnitusError NS_STRING_ENUM;
-ORK_EXTERN ORKTinnitusError const ORKTinnitusErrorNone;                 // @"-"
+ORK_EXTERN ORKTinnitusError const ORKTinnitusErrorNone;                 // @"None"
 ORK_EXTERN ORKTinnitusError const ORKTinnitusErrorInconsistency;        // @"Inconsistency"
 ORK_EXTERN ORKTinnitusError const ORKTinnitusErrorTooHigh;              // @"TooHighFrequency"
 ORK_EXTERN ORKTinnitusError const ORKTinnitusErrorTooLow;               // @"TooLowFrequency"

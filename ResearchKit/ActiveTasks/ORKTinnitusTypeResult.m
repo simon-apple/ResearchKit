@@ -38,13 +38,13 @@
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [super encodeWithCoder:aCoder];
-    ORK_ENCODE_OBJ(aCoder, type);
+    ORK_ENCODE_ENUM(aCoder, type);
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        ORK_DECODE_OBJ(aDecoder, type);
+        ORK_DECODE_ENUM(aDecoder, type);
     }
     return self;
 }
@@ -58,23 +58,23 @@
 
     __typeof(self) castObject = object;
     return (isParentSame &&
-            ORKEqualObjects(self.type, castObject.type)) ;
+            self.type == castObject.type);
 }
 
 - (NSUInteger)hash {
-    return super.hash ^ self.type.hash;
+    return super.hash ;
 }
 
 - (instancetype)copyWithZone:(NSZone *)zone {
     ORKTinnitusTypeResult *result = [super copyWithZone:zone];
-    result.type = [self.type copy];
+    result.type = self.type;
     return result;
 }
 
 - (NSString *)descriptionWithNumberOfPaddingSpaces:(NSUInteger)numberOfPaddingSpaces {
-    return [NSString stringWithFormat:@"%@; Type: %.@;",
+    return [NSString stringWithFormat:@"%@; Type: %li;",
             [self descriptionPrefixWithNumberOfPaddingSpaces:numberOfPaddingSpaces],
-            self.type];
+            (long)self.type];
 }
 
 

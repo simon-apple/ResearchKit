@@ -148,7 +148,7 @@
         }
     }
     
-    self.audioGenerator = [[ORKTinnitusAudioGenerator alloc] initWithType:ORKTinnitusTypePureTone headphoneType:headphoneType];
+    self.audioGenerator = [[ORKTinnitusAudioGenerator alloc] initWithHeadphoneType:headphoneType];
 }
 
 - (void)viewDidAppear:(BOOL)animated {

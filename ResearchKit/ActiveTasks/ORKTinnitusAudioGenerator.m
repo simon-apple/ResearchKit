@@ -55,7 +55,6 @@
 
 @import AudioToolbox;
 
-
 @interface ORKTinnitusAudioGenerator () {
   @public
     AudioComponentInstance _unit;
@@ -65,8 +64,8 @@
     float _systemVolume;
     ORKAudioChannel _activeChannel;
     BOOL _rampUp;
-    double _fadeInFactor;
-    NSTimeInterval _fadeInDuration;
+    double _fadeFactor;
+    NSTimeInterval _fadeDuration;
     NSDictionary *_dbAmplitudePerFrequency;
     NSDictionary *_dbSPLAmplitudePerFrequency;
     NSDictionary *_volumeCurve;
@@ -76,7 +75,7 @@
 }
 
 @property (assign) NSTimeInterval fadeDuration;
-@property (nonatomic, copy) ORKTinnitusType type;
+@property (nonatomic, assign) ORKTinnitusType type;
 
 - (void)setupAudioSession;
 - (void)createUnit;
@@ -85,7 +84,7 @@
 
 @end
 
-const double ORKTinnitusFadeInDuration = 0.05;
+const double ORKTinnitusFadeDuration = 0.05;
 const double ORKTinnitusAudioGeneratorAmplitudeDefault = 0.03f;
 const double ORKTinnitusAudioGeneratorSampleRateDefault = 44100.0f;
 const double ORKTinnitusAudioGeneratorIncrementVolumeDefault = 0.0625f;
@@ -101,7 +100,7 @@ static OSStatus ORKTinnitusAudioGeneratorRenderTone(void *inRefCon,
     ORKTinnitusAudioGenerator *audioGenerator = (__bridge ORKTinnitusAudioGenerator *)inRefCon;
     double attenuation = 0.0;
 
-    if ([audioGenerator->_type isEqualToString:ORKTinnitusTypePureTone]) {
+    if (audioGenerator->_type == ORKTinnitusTypePureTone) {
         NSDecimalNumber *dbAmplitudePerFrequency =  [NSDecimalNumber decimalNumberWithString:audioGenerator->_dbAmplitudePerFrequency[[NSString stringWithFormat:@"%.0f",audioGenerator->_frequency]]];
         NSDecimalNumber *offsetDueToVolume = [NSDecimalNumber decimalNumberWithString:audioGenerator->_volumeCurve[[NSString stringWithFormat:@"%.4f",audioGenerator->_systemVolume]]];
         NSDecimalNumber *attenuationOffset = [dbAmplitudePerFrequency decimalNumberByAdding:offsetDueToVolume];
@@ -111,7 +110,7 @@ static OSStatus ORKTinnitusAudioGeneratorRenderTone(void *inRefCon,
     double theta = audioGenerator->_theta;
     double theta_increment = 2.0 * M_PI * audioGenerator->_frequency / ORKTinnitusAudioGeneratorSampleRateDefault;
 
-    double fadeInFactor = audioGenerator->_fadeInFactor;
+    double fadeFactor = audioGenerator->_fadeFactor;
 
     Float32 *bufferActive    = (Float32 *)ioData->mBuffers[audioGenerator->_activeChannel].mData;
     Float32 *bufferNonActive = (Float32 *)ioData->mBuffers[1 - audioGenerator->_activeChannel].mData;
@@ -119,11 +118,11 @@ static OSStatus ORKTinnitusAudioGeneratorRenderTone(void *inRefCon,
     // Generate the samples
     for (UInt32 frame = 0; frame < inNumberFrames; frame++) {
         double bufferValue;
-        if ([audioGenerator->_type isEqualToString:ORKTinnitusTypePureTone]) {
-            bufferValue = sin(theta) * amplitude * pow(10, 2 * fadeInFactor - 2);
+        if (audioGenerator->_type == ORKTinnitusTypePureTone) {
+            bufferValue = sin(theta) * amplitude * pow(10, 2 * fadeFactor - 2);
         } else {
             // white noise
-            bufferValue = ((((double) (arc4random() % ((unsigned)RAND_MAX + 1)) / RAND_MAX) * (2 * audioGenerator->_bufferAmplitude)) - audioGenerator->_bufferAmplitude) * fadeInFactor;
+            bufferValue = ((((double) (arc4random() % ((unsigned)RAND_MAX + 1)) / RAND_MAX) * (2 * audioGenerator->_bufferAmplitude)) - audioGenerator->_bufferAmplitude) * fadeFactor;
         }
         bufferActive[frame] = bufferValue;
         bufferNonActive[frame] = bufferValue;
@@ -134,21 +133,21 @@ static OSStatus ORKTinnitusAudioGeneratorRenderTone(void *inRefCon,
         }
 
         if (audioGenerator->_rampUp) {
-            fadeInFactor += 1.0 / (ORKTinnitusAudioGeneratorSampleRateDefault * audioGenerator->_fadeInDuration);
-            if (fadeInFactor >= 1) {
-                fadeInFactor = 1;
+            fadeFactor += 1.0 / (ORKTinnitusAudioGeneratorSampleRateDefault * audioGenerator->_fadeDuration);
+            if (fadeFactor >= 1) {
+                fadeFactor = 1;
             }
         } else {
-            fadeInFactor -= 1.0 / (ORKTinnitusAudioGeneratorSampleRateDefault * audioGenerator->_fadeInDuration);
-            if (fadeInFactor <= 0) {
-                fadeInFactor = 0;
+            fadeFactor -= 1.0 / (ORKTinnitusAudioGeneratorSampleRateDefault * audioGenerator->_fadeDuration);
+            if (fadeFactor <= 0) {
+                fadeFactor = 0;
             }
         }
     }
 
     // Store the theta back in the view controller
     audioGenerator->_theta = theta;
-    audioGenerator->_fadeInFactor = fadeInFactor;
+    audioGenerator->_fadeFactor = fadeFactor;
 
     return noErr;
 }
@@ -156,26 +155,23 @@ static OSStatus ORKTinnitusAudioGeneratorRenderTone(void *inRefCon,
 
 @implementation ORKTinnitusAudioGenerator
 
-- (instancetype)initWithType:(ORKTinnitusType)type headphoneType:(ORKHeadphoneTypeIdentifier)headphoneType
+- (instancetype)initWithHeadphoneType:(ORKHeadphoneTypeIdentifier)headphoneType
 {
     self = [super init];
     if (self) {
         _headphoneType = headphoneType;
         [self commonInit];
-        self.type = type;
     }
     return self;
 }
 
-- (instancetype)initWithType:(ORKTinnitusType)type
-               headphoneType:(ORKHeadphoneTypeIdentifier)headphoneType fadeInDuration:(NSTimeInterval) fadeInDuration
+- (instancetype)initWithHeadphoneType:(ORKHeadphoneTypeIdentifier)headphoneType fadeDuration:(NSTimeInterval)fadeDuration
 {
     self = [super init];
     if (self) {
         _headphoneType = headphoneType;
         [self commonInit];
-        self.type = type;
-        self.fadeDuration = fadeInDuration;
+        self.fadeDuration = fadeDuration;
     }
     return self;
 }
@@ -189,8 +185,9 @@ static OSStatus ORKTinnitusAudioGeneratorRenderTone(void *inRefCon,
 }
 
 - (void)commonInit {
-    self.fadeDuration = ORKTinnitusFadeInDuration;
+    self.fadeDuration = ORKTinnitusFadeDuration;
     
+    _type = ORKTinnitusTypeUnknown;
     _bufferAmplitude = ORKTinnitusAudioGeneratorAmplitudeDefault;
     
     NSString *headphoneTypeUppercased = [_headphoneType uppercaseString];
@@ -269,7 +266,7 @@ static OSStatus ORKTinnitusAudioGeneratorRenderTone(void *inRefCon,
 }
 
 - (double)volumeAmplitude {
-    return _bufferAmplitude * pow(10, 2 * _fadeInFactor - 2);
+    return _bufferAmplitude * pow(10, 2 * _fadeFactor - 2);
 }
 
 - (float)getCurrentSystemVolume {
@@ -306,14 +303,13 @@ static OSStatus ORKTinnitusAudioGeneratorRenderTone(void *inRefCon,
 }
 
 - (void)playSoundAtFrequency:(double)playFrequency {
-    if ([_type isEqualToString:ORKTinnitusTypePureTone]) {
-        _frequency = playFrequency;
-        _fadeInFactor = self.fadeDuration;
-        _fadeInDuration = self.fadeDuration;
-        _rampUp = YES;
-
-        [self play];
-    }
+    _type = ORKTinnitusTypePureTone;
+    _frequency = playFrequency;
+    _fadeFactor = self.fadeDuration;
+    _fadeDuration = self.fadeDuration;
+    _rampUp = YES;
+    
+    [self play];
 }
 
 - (void)play {
@@ -333,8 +329,9 @@ static OSStatus ORKTinnitusAudioGeneratorRenderTone(void *inRefCon,
 }
 
 - (void)playWhiteNoise {
-    _fadeInFactor = self.fadeDuration;
-    _fadeInDuration = self.fadeDuration;
+    _type = ORKTinnitusTypeWhiteNoise;
+    _fadeFactor = self.fadeDuration;
+    _fadeDuration = self.fadeDuration;
     _rampUp = YES;
 
     if (!_unit) {
@@ -353,7 +350,7 @@ static OSStatus ORKTinnitusAudioGeneratorRenderTone(void *inRefCon,
 - (void)stop {
     if (_unit) {
         _rampUp = NO;
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(_fadeInDuration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(_fadeDuration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 dispatch_async(dispatch_get_main_queue(), ^{
                     AudioOutputUnitStop(_unit);
                     AudioUnitUninitialize(_unit);

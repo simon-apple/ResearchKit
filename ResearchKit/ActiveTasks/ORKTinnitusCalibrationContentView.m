@@ -51,8 +51,8 @@
         if (isLoudnessMatching) {
             buttonTitle = ORKLocalizedString(@"TINNITUS_FINAL_CALIBRATION_BUTTON_TITLE", nil);
         } else {
-            buttonTitle = [type isEqualToString:ORKTinnitusTypeWhiteNoise] ? ORKLocalizedString(@"TINNITUS_WHITENOISE_TITLE", nil) : ORKLocalizedString(@"TINNITUS_PURETONE_TITLE", nil);
-            buttonDetail = [type isEqualToString:ORKTinnitusTypeWhiteNoise] ? ORKLocalizedString(@"TINNITUS_WHITENOISE_DETAIL", nil) : ORKLocalizedString(@"TINNITUS_PURETONE_DETAIL", nil);
+            buttonTitle = (type == ORKTinnitusTypeWhiteNoise) ? ORKLocalizedString(@"TINNITUS_WHITENOISE_TITLE", nil) : ORKLocalizedString(@"TINNITUS_PURETONE_TITLE", nil);
+            buttonDetail = (type == ORKTinnitusTypeWhiteNoise) ? ORKLocalizedString(@"TINNITUS_WHITENOISE_DETAIL", nil) : ORKLocalizedString(@"TINNITUS_PURETONE_DETAIL", nil);
         }
         _playButtonView = [[ORKTinnitusButtonView alloc] initWithTitle: buttonTitle detail:buttonDetail];
         _playButtonView.translatesAutoresizingMaskIntoConstraints = NO;

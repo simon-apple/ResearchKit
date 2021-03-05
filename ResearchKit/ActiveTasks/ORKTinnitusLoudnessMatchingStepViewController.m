@@ -52,7 +52,7 @@
 
 @property (nonatomic, strong) ORKTinnitusCalibrationContentView *contentView;
 @property (nonatomic, strong) ORKTinnitusAudioGenerator *audioGenerator;
-@property (nonatomic, copy) ORKTinnitusType type;
+@property (nonatomic, assign) ORKTinnitusType type;
 @property (nonatomic, assign) double frequency;
 @property (nonatomic, strong) AVAudioEngine *audioEngine;
 @property (nonatomic, strong) AVAudioPlayerNode *playerNode;
@@ -104,7 +104,7 @@
     self.contentView.playButtonView.delegate = self;
     
     NSString *noiseType = self.loudnessStep.noiseType;
-    self.audioGenerator = [[ORKTinnitusAudioGenerator alloc] initWithType:self.type headphoneType:_headphoneType];
+    self.audioGenerator = [[ORKTinnitusAudioGenerator alloc] initWithHeadphoneType:_headphoneType];
     
     NSError *error;    
     if (![self setupAudioEngineForSound:noiseType error:&error]) {
@@ -172,14 +172,12 @@
     result.type = self.type;
     result.volumeCurve = [self.audioGenerator gainFromCurrentSystemVolume];
 
-    if ([self.type isEqualToString: ORKTinnitusTypePureTone]) {
+    if (self.type == ORKTinnitusTypePureTone) {
         result.amplitude = [self.audioGenerator getPuretoneSystemVolumeIndBSPL];
         result.frequency = _frequency;
-        result.noiseType = @"none";
     } else {
         result.amplitude = [self.audioGenerator gainFromCurrentSystemVolume];
         result.frequency = 0.0;
-        result.noiseType = self.loudnessStep.noiseType;
     }
 
     [results addObject:result];
@@ -207,7 +205,7 @@
             int64_t delay = (int64_t)((_audioGenerator.fadeDuration + 0.05) * NSEC_PER_SEC);
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay), dispatch_get_main_queue(), ^{
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    if ([self.type isEqualToString:ORKTinnitusTypePureTone]) {
+                    if (self.type == ORKTinnitusTypePureTone) {
                         [self.audioGenerator playSoundAtFrequency:_frequency];
                     } else {
                         [self.audioGenerator playWhiteNoise];

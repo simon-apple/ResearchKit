@@ -2167,16 +2167,15 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
            ENTRY(ORKTinnitusTypeResult,
                  nil,
                  (@{
-                     PROPERTY(type, NSString, NSObject, NO, nil, nil),
+                     PROPERTY(type, NSNumber, NSObject, NO, nil, nil),
                   })),
            ENTRY(ORKTinnitusVolumeResult,
                  nil,
                  (@{
-                     PROPERTY(type, NSString, NSObject, NO, nil, nil),
+                     PROPERTY(type, NSNumber, NSObject, NO, nil, nil),
                      PROPERTY(amplitude, NSNumber, NSObject, NO, nil, nil),
                      PROPERTY(frequency, NSNumber, NSObject, NO, nil, nil),
                      PROPERTY(volumeCurve, NSNumber, NSObject, NO, nil, nil),
-                     PROPERTY(noiseType, NSString, NSObject, NO, nil, nil),
                   })),
            ENTRY(ORKReactionTimeResult,
                  nil,

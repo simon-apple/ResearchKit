@@ -40,8 +40,7 @@
     ORK_ENCODE_DOUBLE(aCoder, amplitude);
     ORK_ENCODE_DOUBLE(aCoder, frequency);
     ORK_ENCODE_DOUBLE(aCoder, volumeCurve);
-    ORK_ENCODE_OBJ(aCoder, type);
-    ORK_ENCODE_OBJ(aCoder, noiseType);
+    ORK_ENCODE_ENUM(aCoder, type);
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
@@ -50,8 +49,7 @@
         ORK_DECODE_DOUBLE(aDecoder, amplitude);
         ORK_DECODE_DOUBLE(aDecoder, volumeCurve);
         ORK_DECODE_DOUBLE(aDecoder, frequency);
-        ORK_DECODE_OBJ(aDecoder, type);
-        ORK_DECODE_OBJ(aDecoder, noiseType);
+        ORK_DECODE_ENUM(aDecoder, type);
     }
     return self;
 }
@@ -68,12 +66,11 @@
             (self.amplitude == castObject.amplitude) &&
             (self.frequency == castObject.frequency) &&
             (self.volumeCurve == castObject.volumeCurve) &&
-            ORKEqualObjects(self.type, castObject.type) &&
-            ORKEqualObjects(self.noiseType, castObject.noiseType)) ;
+            (self.type == castObject.type) ) ;
 }
 
 - (NSUInteger)hash {
-    return super.hash ^ self.type.hash ^ self.noiseType.hash;
+    return super.hash;
 }
 
 - (instancetype)copyWithZone:(NSZone *)zone {
@@ -81,13 +78,12 @@
     result.amplitude = self.amplitude;
     result.frequency = self.frequency;
     result.volumeCurve = self.volumeCurve;
-    result.type = [self.type copy];
-    result.noiseType = [self.noiseType copy];
+    result.type = self.type;
     return result;
 }
 
 - (NSString *)descriptionWithNumberOfPaddingSpaces:(NSUInteger)numberOfPaddingSpaces {
-    return [NSString stringWithFormat:@"%@; Type: %@; Amplitude: %0.6f; VolumeCurve: %0.6f; Frequency: %0.1f; NoiseType: %@;", [self descriptionPrefixWithNumberOfPaddingSpaces:numberOfPaddingSpaces], self.type, self.amplitude, self.volumeCurve, self.frequency, self.noiseType];
+    return [NSString stringWithFormat:@"%@; Type: %li; Amplitude: %0.6f; VolumeCurve: %0.6f; Frequency: %0.1f;", [self descriptionPrefixWithNumberOfPaddingSpaces:numberOfPaddingSpaces], (long)self.type, self.amplitude, self.volumeCurve, self.frequency];
 }
 
 
