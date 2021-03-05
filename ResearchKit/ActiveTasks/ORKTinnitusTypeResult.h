@@ -32,13 +32,13 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NSString *ORKTinnitusType NS_STRING_ENUM;
+typedef NS_ENUM(NSInteger, ORKTinnitusType);
 
 ORK_CLASS_AVAILABLE
 @interface ORKTinnitusTypeResult : ORKResult
 
 // The type of tinnitus
-@property (nonatomic, copy, nullable) ORKTinnitusType type;
+@property (nonatomic, assign) ORKTinnitusType type;
 
 @end
 

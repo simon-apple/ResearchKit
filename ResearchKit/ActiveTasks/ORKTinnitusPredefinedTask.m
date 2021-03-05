@@ -395,7 +395,7 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
     // cases that treats changes of flow
     if (!nextStep) {
         if ([identifier isEqualToString:ORKTinnitusWhiteNoiseMatchingIdentifier]) {
-            if ([_type isEqualToString:ORKTinnitusTypeWhiteNoise]) {
+            if (_type == ORKTinnitusTypeWhiteNoise) {
                 ORKStepResult *stepResult = [result stepResultForStepIdentifier:ORKTinnitusWhiteNoiseMatchingIdentifier];
                 ORKTinnitusWhiteNoiseMatchingSoundResult *questionResult = (ORKTinnitusWhiteNoiseMatchingSoundResult *)(stepResult.results.count > 0 ? stepResult.results.firstObject : nil);
                 NSString *answer = questionResult.answer;
@@ -418,11 +418,9 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
         } else if ([identifier isEqualToString:ORKTinnitusVolumeCalibrationStepIdentifier]) {
             ORKStepResult *stepResult = [result stepResultForStepIdentifier:ORKTinnitusTypeStepIdentifier];
             ORKTinnitusTypeResult *questionResult = (ORKTinnitusTypeResult *)(stepResult.results.count > 0 ? stepResult.results.firstObject : nil);
-            if (questionResult.type != nil) {
-                _type = questionResult.type;
-                if ([questionResult.type isEqualToString:ORKTinnitusTypePureTone]) {
-                    return [ORKTinnitusPredefinedTask pitchMatching];
-                }
+            _type = questionResult.type;
+            if (questionResult.type == ORKTinnitusTypePureTone) {
+                return [ORKTinnitusPredefinedTask pitchMatching];
             }
             return [ORKTinnitusPredefinedTask whiteNoiseMatching];
         } else if ([identifier isEqualToString:[self getRoundIdentifierForNumber:3]]) {

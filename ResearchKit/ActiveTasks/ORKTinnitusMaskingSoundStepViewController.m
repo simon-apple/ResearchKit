@@ -32,6 +32,7 @@
 
 #import "ORKActiveStepView.h"
 #import "ORKTinnitusPredefinedTask.h"
+#import "ORKTinnitusTypes.h"
 
 #import "ORKActiveStepViewController_Internal.h"
 #import "ORKStepViewController_Internal.h"

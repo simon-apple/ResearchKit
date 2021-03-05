@@ -43,21 +43,11 @@
 #import "ORKTinnitusTypeStep.h"
 #import "ORKStepContainerView_Private.h"
 #import "ORKNavigationContainerView_Internal.h"
-#import "ORKHelpers_Internal.h"
 
 @interface ORKTinnitusTypeStepViewController () <ORKTinnitusButtonViewDelegate>
 
 @property (nonatomic, strong) ORKTinnitusTypeContentView *contentView;
-@property (nonatomic, strong) ORKTinnitusAudioGenerator *pureToneGenerator;
-
-@property (nonatomic, strong) AVAudioEngine *audioEngine;
-@property (nonatomic, strong) AVAudioPlayerNode *playerNode;
-@property (nonatomic, strong) AVAudioPCMBuffer *audioBuffer;
-
-@property (nonatomic, assign) BOOL expired;
-
-@property (nonatomic, strong) ORKAnswerFormat *answerFormat;
-@property (nonatomic, strong) NSString *answer;
+@property (nonatomic, strong) ORKTinnitusAudioGenerator *audioGenerator;
 
 - (ORKTinnitusTypeStep *)tinnitusTypeStep;
 
@@ -97,8 +87,6 @@
     [self setNavigationFooterView];
     [self setupButtons];
     
-    self.expired = NO;
-    
     self.contentView = [[ORKTinnitusTypeContentView alloc] init];
     self.activeStepView.activeCustomView = self.contentView;
     self.activeStepView.customContentFillsAvailableSpace = YES;
@@ -122,52 +110,19 @@
         }
     }
     
-    self.pureToneGenerator = [[ORKTinnitusAudioGenerator alloc] initWithType: ORKTinnitusTypePureTone headphoneType:headphoneType];
-    
-    self.audioEngine = [[AVAudioEngine alloc] init];
-    self.playerNode = [[AVAudioPlayerNode alloc] init];
-    [self.audioEngine attachNode:self.playerNode];
+    self.audioGenerator = [[ORKTinnitusAudioGenerator alloc] initWithHeadphoneType:headphoneType];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
-    [self.pureToneGenerator stop];
-}
-
-- (void)tearDownAudioEngine {
-    [self.playerNode stop];
-    [self.audioEngine stop];
-}
-
-- (BOOL)playWhiteNoise:(NSError **)outError {
-    if (self.step.context && [self.step.context isKindOfClass:[ORKTinnitusPredefinedTaskContext class]]) {
-        ORKTinnitusPredefinedTaskContext *context = (ORKTinnitusPredefinedTaskContext *)self.step.context;
-        ORKTinnitusAudioSample *audioSample = [context.audioManifest noiseTypeSampleWithIdentifier:ORKTinnitusTypeWhiteNoise error:outError];
-        
-        if (audioSample) {
-            AVAudioPCMBuffer *buffer = [audioSample getBuffer:outError];
-            
-            if (buffer) {
-                self.audioBuffer = buffer;
-                [self.audioEngine connect:self.playerNode to:self.audioEngine.outputNode format:self.audioBuffer.format];
-                [self.playerNode scheduleBuffer:self.audioBuffer atTime:nil options:AVAudioPlayerNodeBufferLoops completionHandler:nil];
-                [self.audioEngine prepare];
-                
-                if ([self.audioEngine startAndReturnError:outError]) {
-                    [self.playerNode play];
-                    return YES;
-                }
-            }
-        }
-    }
-    return NO;
+    [self.audioGenerator stop];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear: animated];
     
-    self.pureToneGenerator = nil;
+    self.audioGenerator = nil;
 }
 
 - (ORKStepResult *)result {
@@ -188,14 +143,13 @@
 
 // ORKTinnitusButtonViewDelegate
 - (void)tinnitusButtonViewPressed:(nonnull ORKTinnitusButtonView *)tinnitusButtonView {
-    [self.pureToneGenerator stop];
-    [self tearDownAudioEngine];
+    [self.audioGenerator stop];
 
     if (tinnitusButtonView == _contentView.pureToneButtonView) {
         [_contentView.whiteNoiseButtonView restoreButton];
         if (tinnitusButtonView.isShowingPause) {
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((_pureToneGenerator.fadeDuration + 0.05) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [self.pureToneGenerator playSoundAtFrequency:ORKTinnitusTypeDefaultFrequency];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((_audioGenerator.fadeDuration + 0.05) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self.audioGenerator playSoundAtFrequency:ORKTinnitusTypeDefaultFrequency];
             });
         }
         if (_contentView.whiteNoiseButtonView.playedOnce) {
@@ -204,11 +158,8 @@
     } else {
         [_contentView.pureToneButtonView restoreButton];
         if (tinnitusButtonView.isShowingPause) {
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((_pureToneGenerator.fadeDuration + 0.05) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                NSError *error;
-                if (![self playWhiteNoise:&error]) {
-                    ORK_Log_Error("Error fetching audioSample: %@", error);
-                }
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((_audioGenerator.fadeDuration + 0.05) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self.audioGenerator playWhiteNoise];
             });
         }
         if (_contentView.pureToneButtonView.playedOnce) {
