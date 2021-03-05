@@ -248,6 +248,10 @@
 		51E03D692491A601008F8406 /* ORKHealthKitPermissionType.m in Sources */ = {isa = PBXBuildFile; fileRef = 51E03D672491A601008F8406 /* ORKHealthKitPermissionType.m */; };
 		51E03D6D2491B6DB008F8406 /* ORKRequestPermissionView.h in Headers */ = {isa = PBXBuildFile; fileRef = 51E03D6B2491B6DB008F8406 /* ORKRequestPermissionView.h */; };
 		51E03D6E2491B6DB008F8406 /* ORKRequestPermissionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 51E03D6C2491B6DB008F8406 /* ORKRequestPermissionView.m */; };
+		5D04884525EED08D0006C68B /* ORKHeadphonesRequiredCompletionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D04884425EED08D0006C68B /* ORKHeadphonesRequiredCompletionStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		5D04884825EEDB6F0006C68B /* ORKHeadphonesRequiredCompletionStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D04884625EEDB6F0006C68B /* ORKHeadphonesRequiredCompletionStepViewController.h */; };
+		5D04884925EEDB6F0006C68B /* ORKHeadphonesRequiredCompletionStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D04884725EEDB6F0006C68B /* ORKHeadphonesRequiredCompletionStepViewController.m */; };
+		5D04885025F0308C0006C68B /* ORKHeadphonesRequiredCompletionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D04884F25F0308C0006C68B /* ORKHeadphonesRequiredCompletionStep.m */; };
 		5D16A7B424E5FE2F00B2A5B4 /* ORKContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D58803B24109B60005B3D91 /* ORKContext.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D1CE42523F497D5004CB416 /* ORKFlamesShaderTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D1CE41723F497D3004CB416 /* ORKFlamesShaderTypes.h */; };
 		5D1CE42623F497D5004CB416 /* ORKFlamesView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D1CE41823F497D3004CB416 /* ORKFlamesView.h */; };
@@ -1314,6 +1318,10 @@
 		51E03D672491A601008F8406 /* ORKHealthKitPermissionType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKHealthKitPermissionType.m; sourceTree = "<group>"; };
 		51E03D6B2491B6DB008F8406 /* ORKRequestPermissionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKRequestPermissionView.h; sourceTree = "<group>"; };
 		51E03D6C2491B6DB008F8406 /* ORKRequestPermissionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKRequestPermissionView.m; sourceTree = "<group>"; };
+		5D04884425EED08D0006C68B /* ORKHeadphonesRequiredCompletionStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKHeadphonesRequiredCompletionStep.h; sourceTree = "<group>"; };
+		5D04884625EEDB6F0006C68B /* ORKHeadphonesRequiredCompletionStepViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKHeadphonesRequiredCompletionStepViewController.h; sourceTree = "<group>"; };
+		5D04884725EEDB6F0006C68B /* ORKHeadphonesRequiredCompletionStepViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKHeadphonesRequiredCompletionStepViewController.m; sourceTree = "<group>"; };
+		5D04884F25F0308C0006C68B /* ORKHeadphonesRequiredCompletionStep.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKHeadphonesRequiredCompletionStep.m; sourceTree = "<group>"; };
 		5D06632D24FEF272005D9B40 /* ResearchKitUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ResearchKitUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D06632F24FEF272005D9B40 /* ResearchKitUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResearchKitUI.h; sourceTree = "<group>"; };
 		5D06633024FEF272005D9B40 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -4334,9 +4342,13 @@
 				E2BC456A22D79081009DAAAE /* ORKHeadphoneDetector.h */,
 				E2BC456B22D79081009DAAAE /* ORKHeadphoneDetector.m */,
 				E2BC456222D76C70009DAAAE /* ORKHeadphoneDetectStep.h */,
+				5D04884425EED08D0006C68B /* ORKHeadphonesRequiredCompletionStep.h */,
+				5D04884F25F0308C0006C68B /* ORKHeadphonesRequiredCompletionStep.m */,
 				E2BC456322D76C70009DAAAE /* ORKHeadphoneDetectStep.m */,
 				E2BC456622D76F04009DAAAE /* ORKHeadphoneDetectStepViewController.h */,
 				E2BC456722D76F04009DAAAE /* ORKHeadphoneDetectStepViewController.m */,
+				5D04884625EEDB6F0006C68B /* ORKHeadphonesRequiredCompletionStepViewController.h */,
+				5D04884725EEDB6F0006C68B /* ORKHeadphonesRequiredCompletionStepViewController.m */,
 			);
 			path = "Headphone Detect Step";
 			sourceTree = "<group>";
@@ -4561,6 +4573,7 @@
 				E220A3922571252900C3C211 /* ORKTinnitusPureToneResult.h in Headers */,
 				71BD9EA520969BE1007B436E /* ORKEnvironmentSPLMeterStep.h in Headers */,
 				E26626C12588E6D4005A0FF8 /* ORKTinnitusMaskingSoundStep.h in Headers */,
+				5D04884825EEDB6F0006C68B /* ORKHeadphonesRequiredCompletionStepViewController.h in Headers */,
 				BAD6FAB12332A2FD006647E7 /* ORKCheckmarkView.h in Headers */,
 				BA8078F3224AC8AA0013B554 /* ORKStepContainerView.h in Headers */,
 				E220A36D25711F4300C3C211 /* ORKTinnitusCalibrationStepViewController.h in Headers */,
@@ -4612,6 +4625,7 @@
 				AE75433A24E32CCC00E4C7CF /* ORKEarlyTerminationConfiguration.h in Headers */,
 				242C9E111BBE06DE0088B7F4 /* ORKVerificationStepView.h in Headers */,
 				E220A35225711F1400C3C211 /* ORKTinnitusTypeResult.h in Headers */,
+				5D04884525EED08D0006C68B /* ORKHeadphonesRequiredCompletionStep.h in Headers */,
 				86C40CE81A8D7C5C00081FAC /* ORKAnswerFormat_Internal.h in Headers */,
 				106FF29E1B663FCE004EACF2 /* ORKHolePegTestPlaceStep.h in Headers */,
 				BC94EF361E96394C00143081 /* ORKRegistrationStep_Internal.h in Headers */,
@@ -5646,6 +5660,7 @@
 				86AD91151AB7B97E00361FEB /* ORKQuestionStepView.m in Sources */,
 				71769E2A20880C4500A19914 /* ORKdBHLToneAudiometryResult.m in Sources */,
 				10864CA11B27146B000F4158 /* ORKPSATStepViewController.m in Sources */,
+				5D04884925EEDB6F0006C68B /* ORKHeadphonesRequiredCompletionStepViewController.m in Sources */,
 				AE2CF2C223231C5A00FDD733 /* ORKTagLabel.m in Sources */,
 				FF919A6A1E81D255005C2A1E /* ORKConsentSignatureResult.m in Sources */,
 				86C40C5C1A8D7C5C00081FAC /* ORKWalkingTaskStep.m in Sources */,
@@ -5730,6 +5745,7 @@
 				242C9E121BBE06DE0088B7F4 /* ORKVerificationStepView.m in Sources */,
 				2489F7B01D65214D008DEF20 /* ORKVideoCaptureCameraPreviewView.m in Sources */,
 				2E8070FF1FAD256A00E4FC7F /* ORKSpeechRecognitionContentView.m in Sources */,
+				5D04885025F0308C0006C68B /* ORKHeadphonesRequiredCompletionStep.m in Sources */,
 				F7EC216724787338000C1F46 /* ORKCustomSignatureFooterView.m in Sources */,
 				BA0AA6951EAEC0B600671ACE /* ORKStroopContentView.m in Sources */,
 				E220A36B25711F4300C3C211 /* ORKTinnitusCalibrationContentView.m in Sources */,
