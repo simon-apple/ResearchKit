@@ -1170,7 +1170,30 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
 
 #pragma mark - internal action Handlers
 
+- (void)validateTaskEndDate:(NSDate *)date withFinishReason:(ORKTaskViewControllerFinishReason)reason {
+
+    BOOL (^reasonRequiresNonSentinel)(void) = ^BOOL {
+        switch (reason) {
+            case ORKTaskViewControllerFinishReasonSaved:
+            case ORKTaskViewControllerFinishReasonCompleted:
+                return YES;
+
+            case ORKTaskViewControllerFinishReasonDiscarded:
+            case ORKTaskViewControllerFinishReasonFailed:
+            case ORKTaskViewControllerFinishReasonEarlyTermination:
+                return NO;
+        }
+    };
+    
+    if ([date isEqualToDate:ORKTASKRESULT_END_DATE_SENTINEL] && reasonRequiresNonSentinel) {
+        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"ORKTaskResult must have a valid endDate" userInfo:nil];
+    }
+}
+
 - (void)finishWithReason:(ORKTaskViewControllerFinishReason)reason error:(NSError *)error {
+    
+    [self validateTaskEndDate:self.result.endDate withFinishReason:reason];
+    
     ORKStrongTypeOf(self.delegate) strongDelegate = self.delegate;
     if ([strongDelegate respondsToSelector:@selector(taskViewController:didFinishWithReason:error:)]) {
         [strongDelegate taskViewController:self didFinishWithReason:reason error:error];

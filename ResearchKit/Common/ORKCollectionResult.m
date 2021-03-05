@@ -43,6 +43,10 @@
 
 #import "ORKHelpers_Internal.h"
 
+NSDate *ORKTaskResultEndDateSentinel(void) {
+    return [NSDate dateWithTimeIntervalSince1970:0];
+}
+
 @interface ORKCollectionResult ()
 
 - (void)setResultsCopyObjects:(NSArray *)results;
@@ -175,6 +179,7 @@
                        outputDirectory:(NSURL *)outputDirectory {
     self = [super initWithIdentifier:identifier];
     if (self) {
+        self.endDate = ORKTASKRESULT_END_DATE_SENTINEL;
         self->_taskRunUUID = [taskRunUUID copy];
         self->_outputDirectory = [outputDirectory copy];
 #if TARGET_OS_IOS

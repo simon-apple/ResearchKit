@@ -43,6 +43,7 @@ const NSUInteger NumberOfPaddingSpacesForIndentationLevel = 4;
     if (self) {
         self.identifier = identifier;
         self.startDate = [NSDate date];
+        self.endDate = [NSDate date];
     }
     return self;
 }
