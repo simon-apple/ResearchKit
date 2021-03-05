@@ -255,6 +255,13 @@ NSDate *ORKTaskResultEndDateSentinel(void) {
 
 @end
 
+@implementation ORKTaskResult (ORKTaskEndDateSentinel)
+
++ (NSDate *)sentinelEndDate {
+    return ORKTASKRESULT_END_DATE_SENTINEL;
+}
+
+@end
 
 #pragma mark - ORKStepResult
 

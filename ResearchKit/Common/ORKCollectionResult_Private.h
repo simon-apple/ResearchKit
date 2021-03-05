@@ -110,4 +110,10 @@ ORK_CLASS_AVAILABLE
 
 @end
 
+@interface ORKTaskResult (ORKTaskEndDateSentinel)
+
++ (NSDate *)sentinelEndDate;
+
+@end
+
 NS_ASSUME_NONNULL_END

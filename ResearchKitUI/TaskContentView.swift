@@ -154,6 +154,11 @@ internal struct TaskContentView<Content>: View where Content: View {
                     }
                 } else {
                     Button("Done") {
+                        
+                        guard taskManager.result.endDate != ORKTaskResult.sentinelEndDate() else {
+                            fatalError("ORKTaskResult must have a valid `endDate`")
+                        }
+                        
                         taskManager.finishReason = .completed
                     }
                     .id(Constants.CTA)
