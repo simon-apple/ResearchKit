@@ -426,6 +426,7 @@ ORK_MAKE_TEST_INIT(ORKTinnitusMaskingSoundStep, (^{ return [[ORKTinnitusMaskingS
 @property (nonatomic, readonly) NSArray<NSString *> *knownNotSerializedProperties;
 @property (nonatomic, readonly) NSArray<NSString *> *allowedUnTouchedKeys;
 @property (nonatomic, readonly) NSDictionary<NSString *, NSArray<NSString *> *> *mutuallyExclusiveProperties;
+@property (nonatomic, readonly) NSArray<NSString *> *versionedProperties;
 
 + (NSArray<Class> *)_classesWithSecureCoding;
 
@@ -470,6 +471,7 @@ ORK_MAKE_TEST_INIT(ORKTinnitusMaskingSoundStep, (^{ return [[ORKTinnitusMaskingS
                                    @"ORKPageStep.steps",
                                    @"ORKRegistrationStep.passcodeValidationRegex",
                                    @"ORKSpeechRecognitionResult.transcription",
+                                   @"ORKSpeechRecognitionResult.recognitionMetadata",
                                    @"ORKTextAnswerFormat.validationRegex",
                                    @"ORKSpeechInNoisePredefinedTask.steps",
                                    @"ORKAVJournalingPredefinedTask.steps",
@@ -567,6 +569,7 @@ ORK_MAKE_TEST_INIT(ORKTinnitusMaskingSoundStep, (^{ return [[ORKTinnitusMaskingS
                                           @"ORKFaceDetectionBlurFooterView.startStopButton",
                                           @"ORKFaceDetectionBlurFooterView.timerLabel",
                                           @"ORKLearnMoreItem.delegate",
+                                          @"ORKSpeechRecognitionResult.recognitionMetadata"
                                           ];
         _allowedUnTouchedKeys = @[@"_class"];
         _mutuallyExclusiveProperties = @{
@@ -582,6 +585,11 @@ ORK_MAKE_TEST_INIT(ORKTinnitusMaskingSoundStep, (^{ return [[ORKTinnitusMaskingS
             @"ORKTimeOfDayQuestionResult": @[@"noAnswerType", @"dateComponentsAnswer"],
             @"ORKSESQuestionResult": @[@"noAnswerType", @"rungPicked"],
         };
+        
+        _versionedProperties = @[];
+        if (@available(iOS 14.5, *)) { /* Do Nothing */ } else {
+            _versionedProperties = [_versionedProperties arrayByAddingObject:@"ORKSpeechRecognitionResult.recognitionMetadata"];
+        }
     }
     return self;
 }
@@ -728,6 +736,7 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
     
     NSArray *classesWithORKSerialization = testConfiguration.classesWithORKSerialization;
     NSDictionary *mutuallyExclusiveProperties = testConfiguration.mutuallyExclusiveProperties;
+    NSArray *versionedProperties = testConfiguration.versionedProperties;
     
     for (Class c in classesWithORKSerialization) {
         XCTAssertNotNil([bundle pathForResource:NSStringFromClass(c) ofType:@"json"], @"Missing JSON serialization example for %@", NSStringFromClass(c));
@@ -742,7 +751,7 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
     // Decode where images are "decoded"
     for (NSString *path in paths) {
         
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:path] options:0 error:NULL];
+        NSMutableDictionary *dict = [[NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:path] options:0 error:NULL] mutableCopy];
         NSString *className = filenamePathToClassName(path);
         NSMutableArray<NSString *> *knownProperties = [[ORKESerializer serializedPropertiesForClass:NSClassFromString(className)] mutableCopy];
         NSMutableArray<NSString *> *loadedProperties = [[dict allKeys] mutableCopy];
@@ -766,7 +775,16 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
             }
         }
         
-        
+        // Exception for properties that are versioned
+        for (NSString *propertyName in [extraLoadedProps allObjects]) {
+            
+            NSString *classProperty = [NSString stringWithFormat:@"%@.%@", className, propertyName];
+            
+            if ([versionedProperties containsObject:classProperty]) {
+                [extraLoadedProps removeObject:propertyName];
+                [dict removeObjectForKey:propertyName];
+            }
+        }
         
         XCTAssertEqualObjects(extraKnownProps, [NSSet set], @"Extra properties registered but not in example for %@", className);
         XCTAssertEqualObjects(extraLoadedProps, [NSSet set], @"Extra properties in sample but not registered for %@ on %@", className, path);
@@ -782,8 +800,21 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
         if ([[path lastPathComponent] hasPrefix:@"DontKnow"]) {
             continue;
         }
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:path] options:0 error:NULL];
+        NSMutableDictionary *dict = [[NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:path] options:0 error:NULL] mutableCopy];
         NSString *className = filenamePathToClassName(path);
+        
+        // Exception for properties that are versioned
+        for (NSString *versionedProperty in versionedProperties) {
+            NSArray<NSString *> *versionedClassAndProperty = [versionedProperty componentsSeparatedByString:@"."];
+            NSString *class = [versionedClassAndProperty firstObject];
+            NSString *property = [versionedClassAndProperty lastObject];
+            if ([className isEqualToString:class])
+            {
+                [dict removeObjectForKey:property];
+            }
+        }
+        
+        
         id instance = [ORKESerializer objectFromJSONObject:dict context:context error:NULL];
         XCTAssertNotNil(instance);
         XCTAssertEqualObjects(NSStringFromClass([instance class]), className);

@@ -811,17 +811,8 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
 
 - (void)noHeadphonesButtonPressed:(id)sender
 {
-    NSString *stepIdentifier = @"";
-    if ([self.step.context isKindOfClass:[ORKSpeechInNoisePredefinedTaskContext class]])
-    {
-        [(ORKSpeechInNoisePredefinedTaskContext *)self.step.context didSkipHeadphoneDetectionStepForTask:self.step.task];
-        stepIdentifier = @"ORKSpeechInNoiseStepIdentifierHeadphonesRequired";
-    }
-    else if ([self isDetectingAppleHeadphones]) {
-        [(ORKdBHLTaskContext *)self.step.context didSkipHeadphoneDetectionStepForTask:self.taskViewController.task];
-        stepIdentifier = [ORKdBHLTaskContext dBHLToneAudiometryCompletionStepIdentifier];
-    }
-    
+    NSString *stepIdentifier = [self.step.context didSkipHeadphoneDetectionStepForTask:self.taskViewController.task];
+    NSAssert(stepIdentifier != nil, @"Cannot flip to page with no identifier");
     [[self taskViewController] flipToPageWithIdentifier:stepIdentifier forward:YES animated:NO];
 }
 
@@ -850,9 +841,8 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
         [skipButtonItem setTitle:ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_DETECT_SKIP", nil)];
         skipButtonItem.target = self;
         skipButtonItem.action = @selector(noHeadphonesButtonPressed:);
-    }
-    else if ([self isDetectingAppleHeadphones]) {
-        if (!self.step.context){
+    } else if ([self isDetectingAppleHeadphones]) {
+        if (!self.step.context) {
             self.step.context = [[ORKdBHLTaskContext alloc] init];
         }
         [skipButtonItem setTitle:ORKLocalizedString(@"DBHL_HEADPHONES_DETECT_SKIP", nil)];
@@ -983,4 +973,3 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
 }
 
 @end
-

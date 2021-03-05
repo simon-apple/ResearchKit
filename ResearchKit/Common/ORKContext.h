@@ -40,6 +40,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol ORKContext <NSObject>
 
+- (nullable NSString *)didSkipHeadphoneDetectionStepForTask:(id<ORKTask>)task;
+
 @end
 
 @interface ORKStep ()
@@ -55,8 +57,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign, getter=isPracticeTest) BOOL practiceTest;
 
 @property (nonatomic, assign) BOOL prefersKeyboard;
-
-- (void)didSkipHeadphoneDetectionStepForTask:(id<ORKTask>)task;
 
 - (NSString *)didNotAllowRequiredHealthPermissionsForTask:(id<ORKTask>)task;
 
@@ -74,14 +74,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ORKdBHLTaskContext : NSObject <ORKContext>
 
-- (void)didSkipHeadphoneDetectionStepForTask:(id<ORKTask>)task;
-
-+ (NSString *)dBHLToneAudiometryCompletionStepIdentifier;
-
 @end
 
-
 @class ORKTinnitusAudioManifest;
+
 @interface ORKTinnitusPredefinedTaskContext : NSObject <ORKContext>
 
 @property (nonatomic) ORKTinnitusAudioManifest *audioManifest;

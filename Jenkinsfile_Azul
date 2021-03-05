@@ -8,14 +8,22 @@ void setBuildStatus(String message, String state) {
   ]);
 }
 
+node('ResearchApp-status') {
+    stage('Set parameters') {
+        def sdk = "AzulE169HunterET174"
+        env.RA_BUILD_LABEL = "ResearchApp-${sdk}"
+        env.RA_XCODE_APP = "/Applications/Xcode${sdk}.app"
+    }
+}
+
 pipeline {
-    agent { label 'ResearchKitAzul' }
+    agent { label "${RA_BUILD_LABEL}" }
     stages {
             stage('Environment Setup') {
                     steps {
                             setBuildStatus("In progress", "PENDING")
 							// Select Azul SDK
-							sh 'set +x && echo $(< ~/.PRIVATE_JenkinsfilePwd) | sudo -S xcode-select -s /Applications/XcodeAzulC.app && set -x'
+							sh 'set +x && echo $(< ~/.PRIVATE_JenkinsfilePwd) | sudo -S xcode-select -s ${RA_XCODE_APP} && set -x'
                             sh 'xcrun --kill-cache'
 
                             // Reset the simulators
