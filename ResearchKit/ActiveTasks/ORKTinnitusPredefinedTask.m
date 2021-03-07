@@ -38,9 +38,11 @@
 #import "ORKTinnitusWhiteNoiseMatchingSoundStep.h"
 #import "ORKTinnitusTypeResult.h"
 #import "ORKTinnitusAudioSample.h"
-#import <ResearchKit/ResearchKit_Private.h>
+#import "ORKHeadphonesRequiredCompletionStep.h"
+#import "ResearchKit_Private.h"
 
 static NSString *const ORKTinnitusHeadphoneDetectStepIdentifier = @"tinnitus.headphonedetect";
+static NSString *const ORKTinnitusHeadphonesRequiredStepIdentifier = @"tinnitus.headphone.required";
 static NSString *const ORKTinnitusSPLMeterStepIdentifier = @"tinnitus.splmeter";
 static NSString *const ORKTinnitusTypeStepIdentifier = @"tinnitus.type";
 static NSString *const ORKTinnitusVolumeCalibrationStepIdentifier = @"tinnitus.volume.calibration";
@@ -84,6 +86,24 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
 @end
 
 @implementation ORKTinnitusPredefinedTaskContext
+
+- (NSString *)didSkipHeadphoneDetectionStepForTask:(id<ORKTask>)task
+{
+    if ([task isKindOfClass:[ORKNavigableOrderedTask class]])
+    {
+        ORKHeadphonesRequiredCompletionStep *step = [[ORKHeadphonesRequiredCompletionStep alloc] initWithIdentifier:ORKTinnitusHeadphonesRequiredStepIdentifier requiredHeadphoneTypes:ORKHeadphoneTypesSupported];
+        
+        ORKNavigableOrderedTask *currentTask = (ORKNavigableOrderedTask *)task;
+        [currentTask addStep:step];
+        
+        ORKDirectStepNavigationRule *endNavigationRule = [[ORKDirectStepNavigationRule alloc] initWithDestinationStepIdentifier:ORKNullStepIdentifier];
+        [currentTask setNavigationRule:endNavigationRule forTriggerStepIdentifier:ORKTinnitusHeadphonesRequiredStepIdentifier];
+        
+        return ORKTinnitusHeadphonesRequiredStepIdentifier;
+    }
+    
+    return nil;
+}
 
 @end
 
@@ -325,6 +345,7 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
 #pragma mark - Task Methods
 
 - (ORKStep *)prependedStepAfterStep:(ORKStep *)step {
+    
     ORKStep *firstPredefinedStep = [ORKTinnitusPredefinedTask splmeter];
     
     if (step == nil) {
@@ -332,9 +353,13 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
         if (firstPrependedStep) {
             return firstPrependedStep;
         }
+        
         return firstPredefinedStep;
+        
     } else {
+        
         NSUInteger currentPrependedStepIndex = [_prependSteps indexOfObject:step];
+        
         if (_prependSteps && currentPrependedStepIndex != NSNotFound) {
             if (currentPrependedStepIndex+1 < [_prependSteps count]) {
                 return [_prependSteps objectAtIndex:currentPrependedStepIndex+1];
@@ -342,6 +367,7 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
                 return firstPredefinedStep;
             }
         }
+        
         return nil;
     }
 }
@@ -369,7 +395,7 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
     // cases that treats changes of flow
     if (!nextStep) {
         if ([identifier isEqualToString:ORKTinnitusWhiteNoiseMatchingIdentifier]) {
-            if ([_type isEqualToString:ORKTinnitusTypeWhiteNoise]) {
+            if (_type == ORKTinnitusTypeWhiteNoise) {
                 ORKStepResult *stepResult = [result stepResultForStepIdentifier:ORKTinnitusWhiteNoiseMatchingIdentifier];
                 ORKTinnitusWhiteNoiseMatchingSoundResult *questionResult = (ORKTinnitusWhiteNoiseMatchingSoundResult *)(stepResult.results.count > 0 ? stepResult.results.firstObject : nil);
                 NSString *answer = questionResult.answer;
@@ -392,11 +418,9 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
         } else if ([identifier isEqualToString:ORKTinnitusVolumeCalibrationStepIdentifier]) {
             ORKStepResult *stepResult = [result stepResultForStepIdentifier:ORKTinnitusTypeStepIdentifier];
             ORKTinnitusTypeResult *questionResult = (ORKTinnitusTypeResult *)(stepResult.results.count > 0 ? stepResult.results.firstObject : nil);
-            if (questionResult.type != nil) {
-                _type = questionResult.type;
-                if ([questionResult.type isEqualToString:ORKTinnitusTypePureTone]) {
-                    return [ORKTinnitusPredefinedTask pitchMatching];
-                }
+            _type = questionResult.type;
+            if (questionResult.type == ORKTinnitusTypePureTone) {
+                return [ORKTinnitusPredefinedTask pitchMatching];
             }
             return [ORKTinnitusPredefinedTask whiteNoiseMatching];
         } else if ([identifier isEqualToString:[self getRoundIdentifierForNumber:3]]) {
@@ -424,18 +448,23 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instr
     }
     
     ORKStep *prependedStep = [self prependedStepAfterStep:step];
+    [prependedStep setTask:self];
+    [prependedStep setContext:_context];
     if (prependedStep) {
         return prependedStep;
     }
     
     ORKStep *nextStep = [self dynamicStepAfterStep:step withResult:result];
-    nextStep.context = _context;
-
+    [nextStep setTask:self];
+    [nextStep setContext:_context];
     if (nextStep) {
         return nextStep;
     }
     
-    return [self apendedStepAfterStep:step];
+    ORKStep *returnStep = [self apendedStepAfterStep:step];
+    [returnStep setTask:self];
+    [returnStep setContext:_context];
+    return returnStep;
 }
 
 - (void)initMaskingSteps {

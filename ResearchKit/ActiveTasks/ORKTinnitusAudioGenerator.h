@@ -44,13 +44,12 @@ ORK_CLASS_AVAILABLE
 @interface ORKTinnitusAudioGenerator : NSObject
 
 @property (readonly) NSTimeInterval fadeDuration;
-@property (readonly, nonatomic, nonnull) ORKTinnitusType type;
 
 + (instancetype)new NS_UNAVAILABLE;
 - (instancetype)init NS_UNAVAILABLE;
 
-- (instancetype)initWithType:(ORKTinnitusType)type headphoneType:(ORKHeadphoneTypeIdentifier)headphoneType;
-- (instancetype)initWithType:(ORKTinnitusType)type headphoneType:(ORKHeadphoneTypeIdentifier)headphoneType fadeInDuration:(NSTimeInterval) fadeInDuration;
+- (instancetype)initWithHeadphoneType:(ORKHeadphoneTypeIdentifier)headphoneType;
+- (instancetype)initWithHeadphoneType:(ORKHeadphoneTypeIdentifier)headphoneType fadeDuration:(NSTimeInterval)fadeDuration;
 
 /**
  Plays a tone at a specific frequency in stereo. Only works if instantiated with pure tone kind.

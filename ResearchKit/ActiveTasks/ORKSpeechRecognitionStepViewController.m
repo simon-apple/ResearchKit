@@ -521,6 +521,24 @@
     });
 }
 
+- (void)didFinishRecognition:(SFSpeechRecognitionResult *)recognitionResult {
+    if (_errorState) {
+        return;
+    }
+    dispatch_sync(_speechRecognitionQueue, ^{
+        _localResult.transcription = recognitionResult.bestTranscription;
+#if defined(__IPHONE_14_5) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_14_5
+        if (@available(iOS 14.5, *)) {
+            _localResult.recognitionMetadata = recognitionResult.speechRecognitionMetadata;
+        }
+#endif
+    });
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [_speechRecognitionContentView updateRecognitionText:[recognitionResult.bestTranscription formattedString]];
+    });
+}
+
 - (void)didHypothesizeTranscription:(SFTranscription *)transcription {
     if (_errorState) {
         return;
@@ -528,7 +546,7 @@
     dispatch_sync(_speechRecognitionQueue, ^{
         _localResult.transcription = transcription;
     });
-    
+
     dispatch_async(dispatch_get_main_queue(), ^{
         [_speechRecognitionContentView updateRecognitionText:[transcription formattedString]];
     });

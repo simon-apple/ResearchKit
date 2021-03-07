@@ -806,7 +806,9 @@ static ORKStepResult *(^getConsentStepResult)(NSString *, NSString *, BOOL) = ^O
     
     {
         // Predicate matching, no additional task results, matching
-        taskResult = [ORKTaskResult new];
+        taskResult = [[ORKTaskResult alloc] initWithTaskIdentifier:@"foo"
+                                                       taskRunUUID:[NSUUID new]
+                                                   outputDirectory:nil];
         taskResult.identifier = OrderedTaskIdentifier;
         
         resultSelector = [[ORKResultSelector alloc] initWithResultIdentifier:TextStepIdentifier];
@@ -853,7 +855,9 @@ static ORKStepResult *(^getConsentStepResult)(NSString *, NSString *, BOOL) = ^O
                                                               destinationStepIdentifiers:@[ MatchedDestinationStepIdentifier ]
                                                                    defaultStepIdentifier:DefaultDestinationStepIdentifier];
         
-        taskResult = [ORKTaskResult new];
+        taskResult = [[ORKTaskResult alloc] initWithTaskIdentifier:@"foo"
+                                                       taskRunUUID:[NSUUID new]
+                                                   outputDirectory:nil];
         taskResult.identifier = OrderedTaskIdentifier;
         XCTAssertEqualObjects([predicateRule identifierForDestinationStepWithTaskResult:taskResult], DefaultDestinationStepIdentifier);
         
@@ -974,7 +978,9 @@ static ORKStepResult *(^getConsentStepResult)(NSString *, NSString *, BOOL) = ^O
     
     {
         // Predicate matching, no additional task results, matching
-        taskResult = [ORKTaskResult new];
+        taskResult = [[ORKTaskResult alloc] initWithTaskIdentifier:@"foo"
+                                                       taskRunUUID:[NSUUID new]
+                                                   outputDirectory:nil];
         taskResult.identifier = OrderedTaskIdentifier;
         
         resultSelector = [[ORKResultSelector alloc] initWithResultIdentifier:TextStepIdentifier];
@@ -1015,7 +1021,9 @@ static ORKStepResult *(^getConsentStepResult)(NSString *, NSString *, BOOL) = ^O
         predicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[currentPredicate, additionalPredicate]];
         predicateRule = [[ORKPredicateSkipStepNavigationRule alloc] initWithResultPredicate:predicate];
         
-        taskResult = [ORKTaskResult new];
+        taskResult = [[ORKTaskResult alloc] initWithTaskIdentifier:@"foo"
+                                                       taskRunUUID:[NSUUID new]
+                                                   outputDirectory:nil];
         taskResult.identifier = OrderedTaskIdentifier;
         XCTAssertFalse([predicateRule stepShouldSkipWithTaskResult:taskResult]);
         
@@ -1112,7 +1120,9 @@ static ORKStepResult *(^getConsentStepResult)(NSString *, NSString *, BOOL) = ^O
 
 - (void)testDirectStepNavigationRule {
     ORKDirectStepNavigationRule *directRule = nil;
-    ORKTaskResult *mockTaskResult = [ORKTaskResult new];
+    ORKTaskResult *mockTaskResult = [[ORKTaskResult alloc] initWithTaskIdentifier:@"foo"
+                                                                      taskRunUUID:[NSUUID new]
+                                                                  outputDirectory:nil];
     
     directRule = [[ORKDirectStepNavigationRule alloc] initWithDestinationStepIdentifier:MatchedDestinationStepIdentifier];
     XCTAssertEqualObjects(directRule.destinationStepIdentifier, [MatchedDestinationStepIdentifier copy] );

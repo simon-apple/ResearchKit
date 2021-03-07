@@ -31,10 +31,6 @@
 #import <Foundation/Foundation.h>
 #import "ORKTinnitusTypes.h"
 
-ORKTinnitusType const ORKTinnitusTypeWhiteNoise = @"WHITENOISE";
-
-ORKTinnitusType const ORKTinnitusTypePureTone = @"PURETONE";
-
 ORKTinnitusMaskingAnswer const ORKTinnitusMaskingAnswerDefinitely = @"DEFINITELY";
 
 ORKTinnitusMaskingAnswer const ORKTinnitusMaskingAnswerProbably = @"PROBABLY";

@@ -1,7 +1,6 @@
 {
     "_class":"ORKTinnitusVolumeResult",
-    "type":"whiteNoise",
-    "noiseType":"WHITENOISE",
+    "type":1,
     "amplitude":0,
     "frequency":1000,
     "volumeCurve":0,
