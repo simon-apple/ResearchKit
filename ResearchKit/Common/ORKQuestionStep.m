@@ -30,6 +30,7 @@
 
 #import "ORKQuestionStep.h"
 #import "ORKAnswerFormat_Internal.h"
+#import "ORKAnswerFormat_Private.h"
 #import "ORKStep_Private.h"
 #import "ORKHelpers_Internal.h"
 #import "ORKQuestionStep_Private.h"
@@ -57,12 +58,13 @@
 + (instancetype)platterQuestionWithIdentifier:(NSString *)identifier
                                      question:(NSString *)question
                                    detailText:(NSString *)detailText
-                                 answerFormat:(ORKAnswerFormat *)answerFormat {
+                                 answerFormat:(ORKAnswerFormat<ORKAnswerFormatPlatterPresentable> *)answerFormat {
     
     ORKQuestionStep *step = [[ORKQuestionStep alloc] initWithIdentifier:identifier];
     step.title = question;
     step.detailText = detailText;
     step.presentationStyle = ORKQuestionStepPresentationStylePlatter;
+    step.answerFormat = answerFormat;
     step.tagText = nil;
     return step;
 }
@@ -132,6 +134,12 @@
                                      userInfo:nil];
     }
 #endif
+    
+    if (self.presentationStyle == ORKQuestionStepPresentationStylePlatter && ![self.answerFormat conformsToProtocol:@protocol(ORKAnswerFormatPlatterPresentable)]) {
+        @throw [NSException exceptionWithName:NSInvalidArgumentException
+                                       reason:@"ORKQuestionStepPresentationStylePlatter must be paired with an ORKAnswerFormat which conforms to ORKAnswerFormatPlatterPresentable"
+                                     userInfo:nil];
+    }
     
     [[self impliedAnswerFormat] validateParameters];
 }
