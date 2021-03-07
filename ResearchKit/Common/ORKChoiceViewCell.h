@@ -34,11 +34,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSUInteger, ORKChoiceViewCellStyle) {
-    ORKChoiceViewCellStyleDefault,
-    ORKChoiceViewCellStylePlatter
-};
-
 @class ORKAnswerTextView;
 
 @interface ORKChoiceViewCell : UITableViewCell
@@ -54,8 +49,6 @@ typedef NS_ENUM(NSUInteger, ORKChoiceViewCellStyle) {
 @property (nonatomic) BOOL isFirstItemInSectionWithoutTitle;
 
 @property (nonatomic) BOOL isExclusive;
-
-@property (nonatomic, assign) ORKChoiceViewCellStyle style;
 
 @property (nonatomic) ORKCardViewStyle cardViewStyle;
 

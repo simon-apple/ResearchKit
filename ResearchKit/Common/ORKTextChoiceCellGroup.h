@@ -31,6 +31,7 @@
 
 @import Foundation;
 @import UIKit;
+#import <ResearchKit/ORKQuestionStep_Private.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -52,6 +53,8 @@ NS_ASSUME_NONNULL_BEGIN
                                         answer:(nullable id)answer
                             beginningIndexPath:(NSIndexPath *)indexPath
                            immediateNavigation:(BOOL)immediateNavigation;
+
+@property (nonatomic, assign) ORKQuestionStepPresentationStyle presentationStyle;
 
 @property (nonatomic, strong, nullable) id answer;
 

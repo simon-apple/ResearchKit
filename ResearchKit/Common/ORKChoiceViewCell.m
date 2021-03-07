@@ -57,12 +57,6 @@ static const CGFloat LabelCheckViewPadding = 10.0;
 
 @end
 
-static CGFloat IntraCellVerticalMarginPadding_Default = 0.0f;
-static CGFloat IntraCellVerticalMarginPadding_Platter = 10.0f;
-static CGFloat IntraCellVerticalMarginPadding(BOOL usesPlatterUI) {
-    return usesPlatterUI ? IntraCellVerticalMarginPadding_Platter : IntraCellVerticalMarginPadding_Default;
-}
-
 @implementation ORKChoiceViewCell {
     
     CGFloat _leftRightMargin;
@@ -94,10 +88,6 @@ static CGFloat IntraCellVerticalMarginPadding(BOOL usesPlatterUI) {
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
     [super traitCollectionDidChange:previousTraitCollection];
     _fillColor = [self __fillColor];
-}
-
-- (BOOL)usePlatterUI {
-    return _style == ORKChoiceViewCellStylePlatter;
 }
 
 - (void)clearLayerIfNeeded:(CALayer *)layer {
@@ -141,9 +131,7 @@ static CGFloat IntraCellVerticalMarginPadding(BOOL usesPlatterUI) {
 }
 
 - (UIRectCorner)roundedCorners {
-    
-    if ([self usePlatterUI]) { return UIRectCornerAllCorners; }
-    
+        
     if (_isLastItem && !_isFirstItemInSectionWithoutTitle) {
         
         return UIRectCornerBottomLeft | UIRectCornerBottomRight;
@@ -174,7 +162,7 @@ static CGFloat IntraCellVerticalMarginPadding(BOOL usesPlatterUI) {
         [_foreLayer setFillColor:[_fillColor CGColor]];
         _foreLayer.zPosition = 0.0f;
         
-        if (_isLastItem || _isFirstItemInSectionWithoutTitle || [self usePlatterUI]) {
+        if (_isLastItem || _isFirstItemInSectionWithoutTitle) {
             
             UIRectCorner rectCorners = [self roundedCorners];
             
@@ -204,7 +192,7 @@ static CGFloat IntraCellVerticalMarginPadding(BOOL usesPlatterUI) {
           
         // Cell Separator
         CAShapeLayer *lineLayer = [CAShapeLayer layer];
-        if (!_isLastItem && ![self usePlatterUI])
+        if (!_isLastItem)
         {
             CGRect lineBounds = CGRectMake(ORKSurveyItemMargin, self.containerView.bounds.size.height - 1.0, self.containerView.bounds.size.width - ORKSurveyItemMargin, 0.5);
             lineLayer.path = [UIBezierPath bezierPathWithRect:lineBounds].CGPath;
@@ -233,7 +221,7 @@ static CGFloat IntraCellVerticalMarginPadding(BOOL usesPlatterUI) {
                                         toItem:self.contentView
                                      attribute:NSLayoutAttributeTop
                                     multiplier:1.0
-                                      constant:IntraCellVerticalMarginPadding([self usePlatterUI])],
+                                      constant:0],
         [NSLayoutConstraint constraintWithItem:_containerView
                                      attribute:NSLayoutAttributeLeft
                                      relatedBy:NSLayoutRelationEqual
@@ -254,7 +242,7 @@ static CGFloat IntraCellVerticalMarginPadding(BOOL usesPlatterUI) {
                                         toItem:self.contentView
                                      attribute:NSLayoutAttributeBottom
                                     multiplier:1.0
-                                      constant:-IntraCellVerticalMarginPadding([self usePlatterUI])],
+                                      constant:0],
     ]];
 }
 

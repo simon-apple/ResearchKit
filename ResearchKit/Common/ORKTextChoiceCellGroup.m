@@ -100,10 +100,6 @@
             cell = choiceOtherViewCell;
         } else {
             cell = [[ORKChoiceViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-            
-            if (_answerFormat.presentationStyle == ORKAnswerFormatPresentationStylePlatter) {
-                cell.style = ORKChoiceViewCellStylePlatter;
-            }
         }
         cell.isExclusive = textChoice.exclusive;
         cell.immediateNavigation = _immediateNavigation;

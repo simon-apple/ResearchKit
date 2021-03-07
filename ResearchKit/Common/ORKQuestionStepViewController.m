@@ -56,6 +56,7 @@
 #import "ORKCollectionResult_Private.h"
 #import "ORKQuestionResult_Private.h"
 #import "ORKQuestionStep_Internal.h"
+#import "ORKQuestionStep_Private.h"
 #import "ORKResult_Private.h"
 #import "ORKStep_Private.h"
 #import "ORKStepContentView.h"
@@ -748,6 +749,8 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
                                                                            beginningIndexPath:[NSIndexPath indexPathForRow:0 inSection:section]
                                                                           immediateNavigation:[self isStepImmediateNavigation]];
             _choiceCellGroup.delegate = self;
+            
+            _choiceCellGroup.presentationStyle = [[self questionStep] presentationStyle];
         }
         return _choiceCellGroup.size;
     }
