@@ -1185,7 +1185,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
         }
     };
     
-    if ([date isEqualToDate:ORKTASKRESULT_END_DATE_SENTINEL] && reasonRequiresNonSentinel) {
+    if ([date isEqualToDate:ORKTaskResultEndDateSentinel()] && reasonRequiresNonSentinel) {
         @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"ORKTaskResult must have a valid endDate" userInfo:nil];
     }
 }
