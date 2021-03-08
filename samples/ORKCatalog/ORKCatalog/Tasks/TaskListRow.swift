@@ -986,7 +986,6 @@ enum TaskListRow: Int, CustomStringConvertible {
         
         let answerFormat = ORKAnswerFormat.choiceAnswerFormat(with: .singleChoice,
                                                               textChoices: textChoices)
-        answerFormat.presentationStyle = .platter
         
         let questionStep = ORKQuestionStep.platterQuestion(withIdentifier: String(describing: Identifier.platterQuestionStep),
                                                            question: "How many fingers am I holding up?", detailText: "Answer to the best of your knowledge.",

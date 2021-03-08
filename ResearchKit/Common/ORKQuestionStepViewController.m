@@ -841,9 +841,8 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
         cell = otherCell;
     }
 
-    cell.useCardView = self.questionStep.useCardView;
     cell.userInteractionEnabled = !self.readOnlyMode;
-    
+    cell.useCardView = self.questionStep.useCardView;
     cell.isLastItem = indexPath.row == _choiceCellGroup.size - 1;
     cell.isFirstItemInSectionWithoutTitle = (indexPath.row == 0 && ![self questionStep].question);
     return cell;

@@ -68,4 +68,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+@interface ORKChoiceViewPlatterCell : ORKChoiceViewCell
+
+@end
+
 NS_ASSUME_NONNULL_END

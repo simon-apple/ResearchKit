@@ -54,12 +54,13 @@ static const CGFloat LabelCheckViewPadding = 10.0;
 @property (nonatomic) ORKSelectionSubTitleLabel *detailLabel;
 @property (nonatomic) ORKCheckmarkView *checkView;
 @property (nonatomic) NSMutableArray<NSLayoutConstraint *> *containerConstraints;
+@property (nonatomic, readonly) CGFloat leftRightMargin;
+@property (nonatomic, readonly) CGFloat intraCellSpacing;
 
 @end
 
 @implementation ORKChoiceViewCell {
     
-    CGFloat _leftRightMargin;
     CGFloat _topBottomMargin;
     CAShapeLayer *_contentMaskLayer;
     UIColor *_fillColor;
@@ -72,7 +73,6 @@ static const CGFloat LabelCheckViewPadding = 10.0;
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.clipsToBounds = YES;
-        _leftRightMargin = 0.0;
         _topBottomMargin = 0.0;
         [self setupContainerView];
         [self setupCheckView];
@@ -83,6 +83,14 @@ static const CGFloat LabelCheckViewPadding = 10.0;
 - (void)drawRect:(CGRect)rect {
     [super drawRect:rect];
     [self setMaskLayers];
+}
+
+- (CGFloat)leftRightMargin {
+    return self.useCardView ? ORKCardLeftRightMarginForWindow(self.window) : 0.0;
+}
+
+- (CGFloat)intraCellSpacing {
+    return 0;
 }
 
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
@@ -146,6 +154,10 @@ static const CGFloat LabelCheckViewPadding = 10.0;
     }
 }
 
+- (BOOL)shouldApplyMaskLayers {
+    return _isLastItem || _isFirstItemInSectionWithoutTitle;
+}
+
 - (void)setMaskLayers {
     
     if (_useCardView && !_animationLayer) {
@@ -162,7 +174,7 @@ static const CGFloat LabelCheckViewPadding = 10.0;
         [_foreLayer setFillColor:[_fillColor CGColor]];
         _foreLayer.zPosition = 0.0f;
         
-        if (_isLastItem || _isFirstItemInSectionWithoutTitle) {
+        if ([self shouldApplyMaskLayers]) {
             
             UIRectCorner rectCorners = [self roundedCorners];
             
@@ -190,20 +202,22 @@ static const CGFloat LabelCheckViewPadding = 10.0;
         
         [_contentMaskLayer addSublayer:_foreLayer];
           
-        // Cell Separator
-        CAShapeLayer *lineLayer = [CAShapeLayer layer];
-        if (!_isLastItem)
-        {
-            CGRect lineBounds = CGRectMake(ORKSurveyItemMargin, self.containerView.bounds.size.height - 1.0, self.containerView.bounds.size.width - ORKSurveyItemMargin, 0.5);
-            lineLayer.path = [UIBezierPath bezierPathWithRect:lineBounds].CGPath;
-            lineLayer.zPosition = 0.0f;
-        }
-        
-        lineLayer.fillColor = borderColor.CGColor;
-        [_contentMaskLayer addSublayer:lineLayer];
+        [_contentMaskLayer addSublayer:[self lineLayer]];
         
         [_containerView.layer insertSublayer:_contentMaskLayer atIndex:0];
     }
+}
+
+- (nullable CAShapeLayer *)lineLayer {
+    CAShapeLayer *lineLayer = [CAShapeLayer layer];
+    if (!_isLastItem) {
+        CGRect lineBounds = CGRectMake(ORKSurveyItemMargin, self.containerView.bounds.size.height - 1.0, self.containerView.bounds.size.width - ORKSurveyItemMargin, 0.5);
+        lineLayer.path = [UIBezierPath bezierPathWithRect:lineBounds].CGPath;
+        lineLayer.zPosition = 0.0f;
+    }
+    lineLayer.fillColor = [self __borderColor].CGColor;
+    
+    return lineLayer;
 }
 
 - (void)setupContainerView {
@@ -228,21 +242,21 @@ static const CGFloat LabelCheckViewPadding = 10.0;
                                         toItem:self.contentView
                                      attribute:NSLayoutAttributeLeft
                                     multiplier:1.0
-                                      constant:_leftRightMargin],
+                                      constant:self.leftRightMargin],
         [NSLayoutConstraint constraintWithItem:_containerView
                                      attribute:NSLayoutAttributeRight
                                      relatedBy:NSLayoutRelationEqual
                                         toItem:self.contentView
                                      attribute:NSLayoutAttributeRight
                                     multiplier:1.0
-                                      constant:-_leftRightMargin],
+                                      constant:-self.leftRightMargin],
         [NSLayoutConstraint constraintWithItem:_containerView
                                      attribute:NSLayoutAttributeBottom
                                      relatedBy:NSLayoutRelationEqual
                                         toItem:self.contentView
                                      attribute:NSLayoutAttributeBottom
                                     multiplier:1.0
-                                      constant:0],
+                                      constant:-self.intraCellSpacing],
     ]];
 }
 
@@ -335,7 +349,7 @@ static const CGFloat LabelCheckViewPadding = 10.0;
                                                                      toItem:_containerView
                                                                   attribute:NSLayoutAttributeBottom
                                                                  multiplier:1.0
-                                                                   constant:0.0]];
+                                                                   constant:self.intraCellSpacing]];
     
     [NSLayoutConstraint activateConstraints:_containerConstraints];
 }
@@ -349,7 +363,6 @@ static const CGFloat LabelCheckViewPadding = 10.0;
 
 - (void)setUseCardView:(bool)useCardView {
     _useCardView = useCardView;
-    _leftRightMargin = ORKCardLeftRightMarginForWindow(self.window);
     _topBottomMargin = CardTopBottomMargin;
     [self setBackgroundColor:[UIColor clearColor]];
     self.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -362,7 +375,7 @@ static const CGFloat LabelCheckViewPadding = 10.0;
 }
 
 - (void)updateSelectedItem {
-        [self updateCheckView];
+    [self updateCheckView];
 }
 
 - (void)setImmediateNavigation:(BOOL)immediateNavigation {
@@ -658,6 +671,30 @@ static const CGFloat LabelCheckViewPadding = 10.0;
     if (self.delegate && [self.delegate respondsToSelector:@selector(textChoiceOtherCellDidResignFirstResponder:)]) {
         [self.delegate textChoiceOtherCellDidResignFirstResponder:self];
     }
+}
+
+@end
+
+#pragma mark - ORKChoiceViewPlatterCell
+
+@implementation ORKChoiceViewPlatterCell
+
+#pragma mark - ORKTextChoiceCell Overrides
+
+- (BOOL)shouldApplyMaskLayers {
+    return YES;
+}
+
+- (UIRectCorner)roundedCorners {
+    return UIRectCornerAllCorners;
+}
+
+- (CGFloat)intraCellSpacing {
+    return 10;
+}
+
+- (nullable CAShapeLayer *)lineLayer {
+    return nil;
 }
 
 @end

@@ -99,7 +99,15 @@
             [choiceOtherViewCell hideTextView:textChoiceOther.textViewStartsHidden];
             cell = choiceOtherViewCell;
         } else {
-            cell = [[ORKChoiceViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+            
+            switch (self.presentationStyle) {
+                case ORKQuestionStepPresentationStyleDefault:
+                    cell = [[ORKChoiceViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+                    break;
+                case ORKQuestionStepPresentationStylePlatter:
+                    cell = [[ORKChoiceViewPlatterCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+                    break;
+            }
         }
         cell.isExclusive = textChoice.exclusive;
         cell.immediateNavigation = _immediateNavigation;
