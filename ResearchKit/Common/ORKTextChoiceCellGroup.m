@@ -63,6 +63,7 @@
         _singleChoice = answerFormat.style == ORKChoiceAnswerStyleSingleChoice;
         _immediateNavigation = immediateNavigation;
         _cells = [NSMutableDictionary new];
+        _presentationStyle = ORKQuestionStepPresentationStyleDefault;
         [self setAnswer:answer];
     }
     return self;
