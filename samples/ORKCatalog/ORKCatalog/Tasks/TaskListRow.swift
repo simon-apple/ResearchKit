@@ -988,7 +988,8 @@ enum TaskListRow: Int, CustomStringConvertible {
                                                               textChoices: textChoices)
         
         let questionStep = ORKQuestionStep.platterQuestion(withIdentifier: String(describing: Identifier.platterQuestionStep),
-                                                           question: "How many fingers am I holding up?", detailText: "Answer to the best of your knowledge.",
+                                                           question: "How many fingers am I holding up?",
+                                                           text: "Answer to the best of your knowledge.",
                                                            answerFormat: answerFormat)
         
         return ORKOrderedTask(identifier: String(describing: Identifier.platterQuestionTask), steps: [questionStep])

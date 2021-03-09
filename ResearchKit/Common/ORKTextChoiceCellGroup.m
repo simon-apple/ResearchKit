@@ -100,13 +100,10 @@
             cell = choiceOtherViewCell;
         } else {
             
-            switch (self.presentationStyle) {
-                case ORKQuestionStepPresentationStyleDefault:
-                    cell = [[ORKChoiceViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-                    break;
-                case ORKQuestionStepPresentationStylePlatter:
-                    cell = [[ORKChoiceViewPlatterCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-                    break;
+            if ([self.presentationStyle isEqualToString:ORKQuestionStepPresentationStyleDefault]) {
+                cell = [[ORKChoiceViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+            } else if ([self.presentationStyle isEqualToString:ORKQuestionStepPresentationStylePlatter]) {
+                cell = [[ORKChoiceViewPlatterCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
             }
         }
         cell.isExclusive = textChoice.exclusive;

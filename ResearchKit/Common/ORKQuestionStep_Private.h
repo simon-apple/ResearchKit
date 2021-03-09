@@ -33,22 +33,39 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSUInteger, ORKQuestionStepPresentationStyle) {
-    ORKQuestionStepPresentationStyleDefault = 0,
-    ORKQuestionStepPresentationStylePlatter
-};
+/// Available presentation styles to apply to the question
+typedef NSString *ORKQuestionStepPresentationStyle NS_STRING_ENUM;
+
+/// The default presentation style.
+ORK_EXTERN ORKQuestionStepPresentationStyle const ORKQuestionStepPresentationStyleDefault;
+
+/// Uses an intracell spacing, rounds all corners and removes any cell separators.
+ORK_EXTERN ORKQuestionStepPresentationStyle const ORKQuestionStepPresentationStylePlatter;
 
 @protocol ORKQuestionStepPresentation <NSObject>
 
-@property (nonatomic, assign) ORKQuestionStepPresentationStyle presentationStyle;
+@property (nonatomic, copy) ORKQuestionStepPresentationStyle presentationStyle;
 
 @end
 
 @interface ORKQuestionStep () <ORKQuestionStepPresentation>
 
+/**
+ 
+ Platter presentation style initializer. Since this uses a custom layout for step details, this is the recommended way use the ORKQuestionStepPresentationStylePlatter.
+ 
+ In scenarios where the question step is being initialized via JSON, it is recommended to use the default initializer and set the following properties:
+ 
+ @property title will be used to display the question. Using the `question` property with `ORKQuestionStepPresentationStylePlatter` is not supported
+ 
+ @property text will be used to display additional text below the title and above the tableView.
+ 
+ Using configurations other than what is specified above will cause a runtime exception.
+ 
+ */
 + (instancetype)platterQuestionWithIdentifier:(NSString *)identifier
                                      question:(NSString *)question
-                                   detailText:(NSString *)detailText
+                                         text:(NSString *)text
                                  answerFormat:(ORKAnswerFormat<ORKAnswerFormatPlatterPresentable> *)answerFormat;
 
 @end
