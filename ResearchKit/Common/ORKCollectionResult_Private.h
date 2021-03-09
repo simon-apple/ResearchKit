@@ -38,7 +38,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-ORK_EXTERN NSDate *ORKTaskResultEndDateSentinel(void);
+ORK_EXTERN NSDate *ORKTaskResultSentinelEndDate(void);
 
 @class ORKPageStep;
 
@@ -106,12 +106,6 @@ ORK_CLASS_AVAILABLE
  e.g. "iPhone11,2"
  */
 @property (nonatomic, copy, readonly, nullable) NSString *hwProduct;
-
-@end
-
-@interface ORKTaskResult (ORKTaskEndDateSentinel)
-
-+ (NSDate *)sentinelEndDate;
 
 @end
 
