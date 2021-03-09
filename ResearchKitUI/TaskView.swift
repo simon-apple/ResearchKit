@@ -52,6 +52,12 @@ public struct TaskView<Content>: View where Content: View {
             .onAppear {
                 taskManager.result.startDate = Date()
             }
+            .onDisappear() {
+                if taskManager.result.endDate == ORKTaskResultSentinelEndDate() {
+                    assertionFailure("ORKTaskResult must have a valid endDate!")
+                    taskManager.result.endDate = Date()
+                }
+            }
     }
 }
 

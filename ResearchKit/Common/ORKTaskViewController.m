@@ -1170,29 +1170,12 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
 
 #pragma mark - internal action Handlers
 
-- (void)validateTaskEndDate:(NSDate *)date withFinishReason:(ORKTaskViewControllerFinishReason)reason {
-
-    BOOL (^reasonRequiresNonSentinel)(void) = ^BOOL {
-        switch (reason) {
-            case ORKTaskViewControllerFinishReasonSaved:
-            case ORKTaskViewControllerFinishReasonCompleted:
-                return YES;
-
-            case ORKTaskViewControllerFinishReasonDiscarded:
-            case ORKTaskViewControllerFinishReasonFailed:
-            case ORKTaskViewControllerFinishReasonEarlyTermination:
-                return NO;
-        }
-    };
-    
-    if ([date isEqualToDate:ORKTaskResultSentinelEndDate()] && reasonRequiresNonSentinel) {
-        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"ORKTaskResult must have a valid endDate" userInfo:nil];
-    }
-}
-
 - (void)finishWithReason:(ORKTaskViewControllerFinishReason)reason error:(NSError *)error {
     
-    [self validateTaskEndDate:self.result.endDate withFinishReason:reason];
+    if ([self.result.endDate isEqualToDate:ORKTaskResultSentinelEndDate()]) {
+        // If we encounter the sentinel end date, the task result is corrupted.
+        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"ORKTaskResult must have a valid endDate" userInfo:nil];
+    }
     
     ORKStrongTypeOf(self.delegate) strongDelegate = self.delegate;
     if ([strongDelegate respondsToSelector:@selector(taskViewController:didFinishWithReason:error:)]) {
