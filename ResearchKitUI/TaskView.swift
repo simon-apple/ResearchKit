@@ -44,20 +44,12 @@ public struct TaskView<Content>: View where Content: View {
                 @ViewBuilder _ content: @escaping (ORKStep, ORKStepResult) -> Content) {
         self.taskManager = taskManager
         self.content = content
+        self.taskManager.result.startDate = Date()
     }
 
     public var body: some View {
         TaskContentView(index: 0, content)
             .environmentObject(self.taskManager)
-            .onAppear {
-                taskManager.result.startDate = Date()
-            }
-            .onDisappear() {
-                if taskManager.result.endDate == ORKTaskResultSentinelEndDate() {
-                    assertionFailure("ORKTaskResult must have a valid endDate!")
-                    taskManager.result.endDate = Date()
-                }
-            }
     }
 }
 

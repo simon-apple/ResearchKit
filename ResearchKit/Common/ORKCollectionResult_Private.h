@@ -38,8 +38,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-ORK_EXTERN NSDate *ORKTaskResultSentinelEndDate(void);
-
 @class ORKPageStep;
 
 /**

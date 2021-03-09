@@ -40,12 +40,12 @@ public extension View {
         if #available(watchOS 7.0, *) {
             fullScreenCover(
                 isPresented: isPresented,
-                onDismiss: { taskManager.finishReason = .discarded },
+                onDismiss: { setDiscardedIfNeeded(taskManager: taskManager) },
                 content: { TaskView(taskManager: taskManager) })
         } else {
             sheet(
                 isPresented: isPresented,
-                onDismiss: { taskManager.finishReason = .discarded },
+                onDismiss: { setDiscardedIfNeeded(taskManager: taskManager) },
                 content: { TaskView(taskManager: taskManager) })
         }
     }
@@ -59,13 +59,17 @@ public extension View {
         if #available(watchOS 7.0, *) {
             fullScreenCover(
                 isPresented: isPresented,
-                onDismiss: { taskManager.finishReason = .discarded },
+                onDismiss: { setDiscardedIfNeeded(taskManager: taskManager) },
                 content: { TaskView(taskManager: taskManager, content) })
         } else {
             sheet(
                 isPresented: isPresented,
-                onDismiss: { taskManager.finishReason = .discarded },
+                onDismiss: { setDiscardedIfNeeded(taskManager: taskManager) },
                 content: { TaskView(taskManager: taskManager, content) })
         }
+    }
+    
+    internal func setDiscardedIfNeeded(taskManager: TaskManager) {
+        if taskManager.finishReason == nil { taskManager.finishReason = .discarded }
     }
 }
