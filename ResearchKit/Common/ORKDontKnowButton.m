@@ -300,7 +300,11 @@ static const CGFloat CheckMarkImageTrailingPadding = 2.0;
     //add checkmark view here
     [_dontKnowButtonCustomView addSubview:_checkmarkView];
     
-    [_dontKnowButtonCustomView setBackgroundColor:[UIColor whiteColor]];
+    if (@available(iOS 13.0, *)) {
+        [_dontKnowButtonCustomView setBackgroundColor:[UIColor secondarySystemGroupedBackgroundColor]];
+    } else {
+        [_dontKnowButtonCustomView setBackgroundColor:[UIColor whiteColor]];
+    }
 
     CGSize neededSize = [_dontKnowButtonTextLabel sizeThatFits:CGSizeMake(_dontKnowButtonTextLabel.frame.size.width, CGFLOAT_MAX)];
     
