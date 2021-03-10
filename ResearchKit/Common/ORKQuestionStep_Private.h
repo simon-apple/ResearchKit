@@ -28,47 +28,45 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
-@import UIKit;
-#import <ResearchKit/ORKFormStep.h>
+#import <ResearchKit/ORKQuestionStep.h>
+#import <ResearchKit/ORKAnswerFormat_Private.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class ORKAnswerTextView;
+/// Available presentation styles to apply to the question
+typedef NSString *ORKQuestionStepPresentationStyle NS_STRING_ENUM;
 
-@interface ORKChoiceViewCell : UITableViewCell
+/// The default presentation style.
+ORK_EXTERN ORKQuestionStepPresentationStyle const ORKQuestionStepPresentationStyleDefault;
 
-@property (nonatomic, assign, getter=isImmediateNavigation) BOOL immediateNavigation;
+/// Uses an intracell spacing, rounds all corners and removes any cell separators.
+ORK_EXTERN ORKQuestionStepPresentationStyle const ORKQuestionStepPresentationStylePlatter;
 
-@property (nonatomic, assign, getter=isCellSelected) BOOL cellSelected;
+@protocol ORKQuestionStepPresentation <NSObject>
 
-@property (nonatomic) bool useCardView;
-
-@property (nonatomic) bool isLastItem;
-
-@property (nonatomic) BOOL isFirstItemInSectionWithoutTitle;
-
-@property (nonatomic) BOOL isExclusive;
-
-@property (nonatomic) ORKCardViewStyle cardViewStyle;
-
-- (void)setPrimaryText:(NSString *)primaryText;
-- (void)setPrimaryAttributedText: (NSAttributedString *)primaryAttributedText;
-- (void)setDetailText:(NSString *)detailText;
-- (void)setDetailAttributedText:(NSAttributedString *)detailAttributedText;
-- (void)setCellSelected:(BOOL)cellSelected highlight:(BOOL)highlight;
+@property (nonatomic, copy) ORKQuestionStepPresentationStyle presentationStyle;
 
 @end
 
-@interface ORKChoiceOtherViewCell : ORKChoiceViewCell <UITextViewDelegate>
+@interface ORKQuestionStep () <ORKQuestionStepPresentation>
 
-@property (nonatomic, strong, readonly) ORKAnswerTextView *textView;
-
-@property (nonatomic, assign, setter=hideTextView:) BOOL textViewHidden;
-
-@end
-
-@interface ORKChoiceViewPlatterCell : ORKChoiceViewCell
+/**
+ 
+ Platter presentation style initializer. Since this uses a custom layout for step details, this is the recommended way use the ORKQuestionStepPresentationStylePlatter.
+ 
+ In scenarios where the question step is being initialized via JSON, it is recommended to use the default initializer and set the following properties:
+ 
+ @property title will be used to display the question. Using the `question` property with `ORKQuestionStepPresentationStylePlatter` is not supported
+ 
+ @property text will be used to display additional text below the title and above the tableView.
+ 
+ Using configurations other than what is specified above will cause a runtime exception.
+ 
+ */
++ (instancetype)platterQuestionWithIdentifier:(NSString *)identifier
+                                     question:(NSString *)question
+                                         text:(NSString *)text
+                                 answerFormat:(ORKAnswerFormat<ORKAnswerFormatPlatterPresentable> *)answerFormat;
 
 @end
 

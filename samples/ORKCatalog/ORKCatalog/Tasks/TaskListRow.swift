@@ -63,6 +63,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     case form = 0
     case groupedForm
     case survey
+    case platterUIQuestion
     case booleanQuestion
     case customBooleanQuestion
     case dateQuestion
@@ -140,6 +141,7 @@ enum TaskListRow: Int, CustomStringConvertible {
                 ]),
             TaskListRowSection(title: "Survey Questions", rows:
                 [
+                    .platterUIQuestion,
                     .booleanQuestion,
                     .customBooleanQuestion,
                     .dateQuestion,
@@ -218,6 +220,9 @@ enum TaskListRow: Int, CustomStringConvertible {
 
         case .survey:
             return NSLocalizedString("Simple Survey Example", comment: "")
+            
+        case .platterUIQuestion:
+            return NSLocalizedString("Platter UI Question", comment: "")
             
         case .booleanQuestion:
             return NSLocalizedString("Boolean Question", comment: "")
@@ -415,6 +420,10 @@ enum TaskListRow: Int, CustomStringConvertible {
         case birthdayQuestion
         case summaryStep
         
+        // Task with a Platter UI Question
+        case platterQuestionTask
+        case platterQuestionStep
+        
         // Task with a Boolean question.
         case booleanQuestionTask
         case booleanQuestionStep
@@ -595,6 +604,9 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .survey:
             return surveyTask
+            
+        case .platterUIQuestion:
+            return platterQuestionTask
             
         case .booleanQuestion:
             return booleanQuestionTask
@@ -934,6 +946,53 @@ enum TaskListRow: Int, CustomStringConvertible {
             question2Step,
             summaryStep
             ])
+    }
+    
+    private var platterQuestionTask: ORKTask {
+        
+        let textChoiceOneText = NSLocalizedString("Choice 1", comment: "")
+        let textChoiceTwoText = NSLocalizedString("Choice 2", comment: "")
+        let textChoiceThreeText = NSLocalizedString("Choice 3", comment: "")
+        
+        let descriptor = UIFontDescriptor.preferredFontDescriptor(withTextStyle: .headline)
+        let font = UIFont(descriptor: descriptor, size: descriptor.pointSize)
+        
+        let primaryAttributes = [NSAttributedString.Key.font:font]
+        
+        let textChoiceOnePrimaryAttributedString = NSAttributedString(string: textChoiceOneText, attributes:primaryAttributes)
+        let textChoiceTwoPrimaryAttributedString = NSAttributedString(string: textChoiceTwoText, attributes: primaryAttributes)
+        let textChoiceThreePrimaryAttributedString = NSAttributedString(string: textChoiceThreeText, attributes: primaryAttributes)
+        
+        let textChoices = [
+            ORKTextChoice(text: nil,
+                          primaryTextAttributedString: textChoiceOnePrimaryAttributedString,
+                          detailText: "Detail",
+                          detailTextAttributedString: nil,
+                          value: "choice 1" as NSString,
+                          exclusive: true),
+            ORKTextChoice(text: nil,
+                          primaryTextAttributedString: textChoiceTwoPrimaryAttributedString,
+                          detailText: "Detail",
+                          detailTextAttributedString: nil,
+                          value: "choice 2" as NSString,
+                          exclusive: true),
+            ORKTextChoice(text: nil,
+                          primaryTextAttributedString: textChoiceThreePrimaryAttributedString,
+                          detailText: "Detail",
+                          detailTextAttributedString: nil,
+                          value: "choice 3" as NSString,
+                          exclusive: true)
+        ]
+        
+        let answerFormat = ORKAnswerFormat.choiceAnswerFormat(with: .singleChoice,
+                                                              textChoices: textChoices)
+        
+        let questionStep = ORKQuestionStep.platterQuestion(withIdentifier: String(describing: Identifier.platterQuestionStep),
+                                                           question: "How many fingers am I holding up?",
+                                                           text: "Answer to the best of your knowledge.",
+                                                           answerFormat: answerFormat)
+        
+        return ORKOrderedTask(identifier: String(describing: Identifier.platterQuestionTask), steps: [questionStep])
     }
 
     /// This task presents just a single "Yes" / "No" question.

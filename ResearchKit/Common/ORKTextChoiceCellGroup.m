@@ -63,6 +63,7 @@
         _singleChoice = answerFormat.style == ORKChoiceAnswerStyleSingleChoice;
         _immediateNavigation = immediateNavigation;
         _cells = [NSMutableDictionary new];
+        _presentationStyle = ORKQuestionStepPresentationStyleDefault;
         [self setAnswer:answer];
     }
     return self;
@@ -99,7 +100,12 @@
             [choiceOtherViewCell hideTextView:textChoiceOther.textViewStartsHidden];
             cell = choiceOtherViewCell;
         } else {
-            cell = [[ORKChoiceViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+            
+            if ([self.presentationStyle isEqualToString:ORKQuestionStepPresentationStyleDefault]) {
+                cell = [[ORKChoiceViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+            } else if ([self.presentationStyle isEqualToString:ORKQuestionStepPresentationStylePlatter]) {
+                cell = [[ORKChoiceViewPlatterCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+            }
         }
         cell.isExclusive = textChoice.exclusive;
         cell.immediateNavigation = _immediateNavigation;

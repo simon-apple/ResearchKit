@@ -237,6 +237,7 @@
 		5D04884525EED08D0006C68B /* ORKHeadphonesRequiredCompletionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D04884425EED08D0006C68B /* ORKHeadphonesRequiredCompletionStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5D04884825EEDB6F0006C68B /* ORKHeadphonesRequiredCompletionStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D04884625EEDB6F0006C68B /* ORKHeadphonesRequiredCompletionStepViewController.h */; };
 		5D04884925EEDB6F0006C68B /* ORKHeadphonesRequiredCompletionStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D04884725EEDB6F0006C68B /* ORKHeadphonesRequiredCompletionStepViewController.m */; };
+		5D04884C25EF4CC30006C68B /* ORKQuestionStep_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D04884B25EF4CC30006C68B /* ORKQuestionStep_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5D04885025F0308C0006C68B /* ORKHeadphonesRequiredCompletionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D04884F25F0308C0006C68B /* ORKHeadphonesRequiredCompletionStep.m */; };
 		5D16A7B424E5FE2F00B2A5B4 /* ORKContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D58803B24109B60005B3D91 /* ORKContext.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D1CE42523F497D5004CB416 /* ORKFlamesShaderTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D1CE41723F497D3004CB416 /* ORKFlamesShaderTypes.h */; };
@@ -1293,6 +1294,7 @@
 		5D04884425EED08D0006C68B /* ORKHeadphonesRequiredCompletionStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKHeadphonesRequiredCompletionStep.h; sourceTree = "<group>"; };
 		5D04884625EEDB6F0006C68B /* ORKHeadphonesRequiredCompletionStepViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKHeadphonesRequiredCompletionStepViewController.h; sourceTree = "<group>"; };
 		5D04884725EEDB6F0006C68B /* ORKHeadphonesRequiredCompletionStepViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKHeadphonesRequiredCompletionStepViewController.m; sourceTree = "<group>"; };
+		5D04884B25EF4CC30006C68B /* ORKQuestionStep_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKQuestionStep_Private.h; sourceTree = "<group>"; };
 		5D04884F25F0308C0006C68B /* ORKHeadphonesRequiredCompletionStep.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKHeadphonesRequiredCompletionStep.m; sourceTree = "<group>"; };
 		5D06632D24FEF272005D9B40 /* ResearchKitUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ResearchKitUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D06632F24FEF272005D9B40 /* ResearchKitUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResearchKitUI.h; sourceTree = "<group>"; };
@@ -3326,6 +3328,7 @@
 				86C40BA11A8D7C5C00081FAC /* ORKQuestionStep.h */,
 				86C40BA21A8D7C5C00081FAC /* ORKQuestionStep.m */,
 				86C40BA31A8D7C5C00081FAC /* ORKQuestionStep_Internal.h */,
+				5D04884B25EF4CC30006C68B /* ORKQuestionStep_Private.h */,
 				86C40BA41A8D7C5C00081FAC /* ORKQuestionStepViewController.h */,
 				86C40BA51A8D7C5C00081FAC /* ORKQuestionStepViewController.m */,
 				86C40BA61A8D7C5C00081FAC /* ORKQuestionStepViewController_Private.h */,
@@ -4642,6 +4645,7 @@
 				2441034F1B966D4C00EEAB0C /* ORKPasscodeViewController.h in Headers */,
 				B11C549F1A9EF4A700265E61 /* ORKConsentSharingStepViewController.h in Headers */,
 				BC4A213F1C85FC0000BFC271 /* ORKBarGraphChartView.h in Headers */,
+				5D04884C25EF4CC30006C68B /* ORKQuestionStep_Private.h in Headers */,
 				5D58803C24109B60005B3D91 /* ORKContext.h in Headers */,
 				86C40D621A8D7C5C00081FAC /* ORKQuestionStep_Internal.h in Headers */,
 				86C40D641A8D7C5C00081FAC /* ORKQuestionStepViewController.h in Headers */,

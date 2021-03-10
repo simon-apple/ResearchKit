@@ -39,6 +39,8 @@
 #import <ResearchKit/ORKAVJournalingPredefinedTask.h>
 #import <ResearchKit/ORKTinnitusPredefinedTask.h>
 
+#import <ResearchKit/ORKQuestionStep_Private.h>
+
 // Active step support
 #import <ResearchKit/ORKDataLogger.h>
 #import <ResearchKit/ORKErrors.h>

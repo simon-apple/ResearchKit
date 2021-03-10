@@ -56,6 +56,7 @@
 #import "ORKCollectionResult_Private.h"
 #import "ORKQuestionResult_Private.h"
 #import "ORKQuestionStep_Internal.h"
+#import "ORKQuestionStep_Private.h"
 #import "ORKResult_Private.h"
 #import "ORKStep_Private.h"
 #import "ORKStepContentView.h"
@@ -742,11 +743,14 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
     
     if (section == ORKQuestionSectionAnswer) {
         if (!_choiceCellGroup) {
-            _choiceCellGroup = [[ORKTextChoiceCellGroup alloc] initWithTextChoiceAnswerFormat:(ORKTextChoiceAnswerFormat *)impliedAnswerFormat
+            ORKTextChoiceCellGroup *extractedExpr = [ORKTextChoiceCellGroup alloc];
+            _choiceCellGroup = [extractedExpr initWithTextChoiceAnswerFormat:(ORKTextChoiceAnswerFormat *)impliedAnswerFormat
                                                                                        answer:self.answer
                                                                            beginningIndexPath:[NSIndexPath indexPathForRow:0 inSection:section]
                                                                           immediateNavigation:[self isStepImmediateNavigation]];
             _choiceCellGroup.delegate = self;
+            
+            _choiceCellGroup.presentationStyle = [[self questionStep] presentationStyle];
         }
         return _choiceCellGroup.size;
     }
@@ -837,9 +841,8 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
         cell = otherCell;
     }
 
-    cell.useCardView = self.questionStep.useCardView;
     cell.userInteractionEnabled = !self.readOnlyMode;
-    
+    cell.useCardView = self.questionStep.useCardView;
     cell.isLastItem = indexPath.row == _choiceCellGroup.size - 1;
     cell.isFirstItemInSectionWithoutTitle = (indexPath.row == 0 && ![self questionStep].question);
     return cell;
