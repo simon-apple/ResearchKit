@@ -744,9 +744,6 @@
 "TINNITUS_BUTTON_B_DETAIL" = "Sounds like a horn-like quality";
 "TINNITUS_BUTTON_C_TITLE" = "High-Pitch";
 "TINNITUS_BUTTON_C_DETAIL" = "Sounds like chirping birds";
-"TINNITUS_BUTTON_FINE_TUNING_TITLE" = "Select and Begin Fine Tuning";
-"TINNITUS_BUTTON_CONTINUE_FINE_TUNING_TITLE" = "Select and Continue Fine Tuning";
-"TINNITUS_BUTTON_FINISH_FINE_TUNING_TITLE" = "Select and Finish Fine Tuning";
 "TINNITUS_FINAL_CALIBRATION_TITLE" = "Loudness Matching";
 "TINNITUS_FINAL_CALIBRATION_TEXT" = "Listen to the sample and adjust the volume to match the loudness of your tinnitus.";
 "TINNITUS_FINAL_CALIBRATION_BUTTON_TITLE" = "Tinnitus Sample";

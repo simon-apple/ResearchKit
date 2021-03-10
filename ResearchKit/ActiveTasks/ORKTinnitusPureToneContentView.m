@@ -45,7 +45,6 @@ static const CGFloat ORKTinnitusButtonTopAdjustment = 8.0;
     NSLayoutConstraint *_thirdATopConstraint;
     NSLayoutConstraint *_thirdBTopConstraint;
     NSLayoutConstraint *_cTopConstraint;
-    NSLayoutConstraint *_fineTuneTopConstraint;
     
     UILabel *_hintLabel;
     
@@ -65,7 +64,6 @@ static const CGFloat ORKTinnitusButtonTopAdjustment = 8.0;
 @property (nonatomic, strong, readonly) ORKTinnitusButtonView *secondBButtonView;
 @property (nonatomic, strong, readonly) ORKTinnitusButtonView *thirdAButtonView;
 @property (nonatomic, strong, readonly) ORKTinnitusButtonView *thirdBButtonView;
-@property (nonatomic, strong, readonly) UIButton *fineTuneButton;
 
 @end
 
@@ -86,16 +84,6 @@ static const CGFloat ORKTinnitusButtonTopAdjustment = 8.0;
     [self setupScrollView];
     _constraintsDefined = NO;
     _buttonsStage = PureToneButtonsStageOne;
-    
-    _fineTuneButton = [[UIButton alloc] init];
-    [_fineTuneButton setTitle:ORKLocalizedString(@"TINNITUS_BUTTON_FINE_TUNING_TITLE", nil)
-                     forState:UIControlStateNormal];
-    _fineTuneButton.translatesAutoresizingMaskIntoConstraints = NO;
-    [_fineTuneButton setTitleColor:[UIColor systemBlueColor] forState:UIControlStateNormal];
-    _fineTuneButton.alpha = 0.5;
-    _fineTuneButton.userInteractionEnabled = NO;
-    _fineTuneButton.accessibilityTraits = UIAccessibilityTraitButton | UIAccessibilityTraitStartsMediaSession;
-    _fineTuneButton.accessibilityHint = ORKLocalizedString(@"TINNITUS_BUTTON_FINE_TUNING_TITLE", nil);
     
     _hintLabel = [UILabel new];
     _hintLabel.translatesAutoresizingMaskIntoConstraints = NO;
@@ -152,7 +140,6 @@ static const CGFloat ORKTinnitusButtonTopAdjustment = 8.0;
     _cButtonView.translatesAutoresizingMaskIntoConstraints = NO;
     [self setDidFinishLayoutBlockFor:_cButtonView];
     
-    [_scrollView addSubview:_fineTuneButton];
     [_scrollView addSubview:_firstAButtonView];
     [_scrollView addSubview:_firstBButtonView];
     [_scrollView addSubview:_cButtonView];
@@ -183,8 +170,6 @@ static const CGFloat ORKTinnitusButtonTopAdjustment = 8.0;
     _secondBButtonView.delegate = self;
     _thirdAButtonView.delegate = self;
     _thirdBButtonView.delegate = self;
-    
-    [_fineTuneButton addTarget:self action:@selector(fineTunePressed:forEvent:) forControlEvents:UIControlEventTouchDown];
 }
 
 - (UIFont *)bodyTextFont {
@@ -266,14 +251,7 @@ static const CGFloat ORKTinnitusButtonTopAdjustment = 8.0;
     [_buttonViewsArray makeObjectsPerformSelector:@selector(setEnabled:) withObject:[NSNumber numberWithBool:enabled]];
 }
 
-- (void)enableFineTuneButton:(BOOL)enable
-{
-    _fineTuneButton.userInteractionEnabled = enable;
-    _fineTuneButton.alpha = enable ? 1.0 : 0.5;
-}
-
-- (void)animateButtonsSetting:(BOOL)isLastStep
-{
+- (void)animateButtons {
     if (_buttonsStage == PureToneButtonsStageOne) {
         CGFloat firstAHeight = _firstAButtonView.bounds.size.height;
         CGFloat firstBHeight = _firstBButtonView.bounds.size.height;
@@ -313,14 +291,9 @@ static const CGFloat ORKTinnitusButtonTopAdjustment = 8.0;
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             _secondATopConstraint.constant = ORKTinnitusStandardSpacing/2;
             _secondAButtonView.hidden = NO;
-            NSLayoutConstraint *newFineTuneConstraint = [_fineTuneButton.topAnchor constraintEqualToAnchor:_secondBButtonView.bottomAnchor constant:ORKTinnitusStandardSpacing];
             [_scrollView setNeedsUpdateConstraints];
             [UIView animateWithDuration:0.2 delay:0.0 options:(UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionAllowUserInteraction) animations:^{
                 _secondAButtonView.alpha = 1.0;
-                [_scrollView removeConstraint:_fineTuneTopConstraint];
-                [_scrollView addConstraint:newFineTuneConstraint];
-                _fineTuneTopConstraint = newFineTuneConstraint;
-                [_fineTuneButton setTitle:ORKLocalizedString(@"TINNITUS_BUTTON_CONTINUE_FINE_TUNING_TITLE", nil) forState:UIControlStateNormal];
                 [_scrollView layoutIfNeeded];
             } completion:nil];
         });
@@ -333,7 +306,7 @@ static const CGFloat ORKTinnitusButtonTopAdjustment = 8.0;
                 [_scrollView layoutIfNeeded];
             } completion:^(BOOL finished) {
                 _buttonsStage = PureToneButtonsStageTwo;
-                CGFloat newContentSizeHeight = _secondAButtonView.bounds.size.height + _secondBButtonView.bounds.size.height + 2 * ORKTinnitusStandardSpacing + ORKTinnitusStandardSpacing/2 + _fineTuneButton.frame.size.height + ORKTinnitusStandardSpacing;
+                CGFloat newContentSizeHeight = _secondAButtonView.bounds.size.height + _secondBButtonView.bounds.size.height + 2 * ORKTinnitusStandardSpacing + ORKTinnitusStandardSpacing/2 + ORKTinnitusStandardSpacing;
                 _scrollView.contentSize = CGSizeMake(self.frame.size.width, newContentSizeHeight);
                 [_scrollView setContentOffset:CGPointMake(0, 0) animated:YES];
             }];
@@ -377,14 +350,8 @@ static const CGFloat ORKTinnitusButtonTopAdjustment = 8.0;
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             hiddenATopConstraint.constant = ORKTinnitusStandardSpacing/2;
             hiddenAButtonView.hidden = NO;
-            NSLayoutConstraint *newFineTuneConstraint = [_fineTuneButton.topAnchor constraintEqualToAnchor:hiddenBButtonView.bottomAnchor constant:ORKTinnitusStandardSpacing];
             [_scrollView setNeedsUpdateConstraints];
             [UIView animateWithDuration:0.2 delay:0.0 options:(UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionAllowUserInteraction) animations:^{
-                [_scrollView removeConstraint:_fineTuneTopConstraint];
-                [_scrollView addConstraint:newFineTuneConstraint];
-                _fineTuneTopConstraint = newFineTuneConstraint;
-                NSString *fineTunningTitle = isLastStep ? ORKLocalizedString(@"TINNITUS_BUTTON_FINISH_FINE_TUNING_TITLE", nil) : ORKLocalizedString(@"TINNITUS_BUTTON_CONTINUE_FINE_TUNING_TITLE", nil);
-                [_fineTuneButton setTitle:fineTunningTitle forState:UIControlStateNormal];
                 hiddenAButtonView.alpha = 1.0;
                 [_scrollView layoutIfNeeded];
             } completion:nil];
@@ -461,7 +428,7 @@ static const CGFloat ORKTinnitusButtonTopAdjustment = 8.0;
         
         _scrollView.contentSize = CGSizeMake(self.frame.size.width,
                                              cPosition + _cButtonView.frame.size.height
-                                             + _fineTuneButton.frame.size.height + 2 * ORKTinnitusStandardSpacing + _hintLabel.frame.size.height + ORKTinnitusButtonTopAdjustment);
+                                             + 2 * ORKTinnitusStandardSpacing + _hintLabel.frame.size.height + ORKTinnitusButtonTopAdjustment);
     }
 }
 
@@ -480,13 +447,9 @@ static const CGFloat ORKTinnitusButtonTopAdjustment = 8.0;
     [_cButtonView.widthAnchor constraintEqualToAnchor:_scrollView.widthAnchor constant:-2*ORKTinnitusGlowAdjustment].active = YES;
     _cTopConstraint = [_cButtonView.topAnchor constraintEqualToAnchor:_scrollView.topAnchor];
     _cTopConstraint.active = YES;
-    
-    [_fineTuneButton.centerXAnchor constraintEqualToAnchor:_scrollView.centerXAnchor].active = YES;
-    _fineTuneTopConstraint = [_fineTuneButton.topAnchor constraintEqualToAnchor:_cButtonView.bottomAnchor constant:ORKTinnitusStandardSpacing + ORKTinnitusButtonTopAdjustment];
-    _fineTuneTopConstraint.active = YES;
-    
+
     [_hintLabel.centerXAnchor constraintEqualToAnchor:_scrollView.centerXAnchor].active = YES;
-    [_hintLabel.topAnchor constraintEqualToAnchor:_fineTuneButton.bottomAnchor constant:ORKTinnitusStandardSpacing].active = YES;
+    [_hintLabel.topAnchor constraintEqualToAnchor:_cButtonView.bottomAnchor constant:ORKTinnitusStandardSpacing].active = YES;
     [_hintLabel.widthAnchor constraintEqualToAnchor:_scrollView.widthAnchor constant:-3*ORKTinnitusGlowAdjustment].active = YES;
 
     [_secondAButtonView.leadingAnchor constraintEqualToAnchor:_scrollView.leadingAnchor constant:ORKTinnitusGlowAdjustment].active = YES;
@@ -535,13 +498,6 @@ static const CGFloat ORKTinnitusButtonTopAdjustment = 8.0;
         return ORKTinnitusSelectedPureTonePositionC;
     }
     return ORKTinnitusSelectedPureTonePositionNone;
-}
-
-- (void)fineTunePressed:(id)button forEvent:(UIEvent *)event
-{
-    if (_delegate && [_delegate respondsToSelector:@selector(fineTunePressed)]) {
-        [_delegate fineTunePressed];
-    }
 }
 
 - (void)tinnitusButtonViewPressed:(nonnull ORKTinnitusButtonView *)tinnitusButtonView {
