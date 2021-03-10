@@ -24,37 +24,37 @@
     "maskingSounds" : [
         {
             "name": "Audiobook",
-            "identifier": "tinnitus.masking.audiobook",
+            "identifier": "tinnitus_masking_audiobook",
             "filename": "white_noise_5s.wav"
         },
         {
             "name": "Campfire",
-            "identifier": "tinnitus.masking.fire",
+            "identifier": "tinnitus_masking_fire",
             "filename": "white_noise_5s.wav"
         },
         {
             "name": "Crowd Noise",
-            "identifier": "tinnitus.masking.crowd",
+            "identifier": "tinnitus_masking_crowd",
             "filename": "white_noise_5s.wav"
         },
         {
             "name": "Forest",
-            "identifier": "tinnitus.masking.forest",
+            "identifier": "tinnitus_masking_forest",
             "filename": "white_noise_5s.wav"
         },
         {
             "name": "Ocean",
-            "identifier": "tinnitus.masking.ocean",
+            "identifier": "tinnitus_masking_ocean",
             "filename": "white_noise_5s.wav"
         },
         {
             "name": "Rain",
-            "identifier": "tinnitus.masking.rain",
+            "identifier": "tinnitus_masking_rain",
             "filename": "white_noise_5s.wav"
         },
         {
             "name": "White Noise",
-            "identifier": "tinnitus.masking.whitenoise",
+            "identifier": "tinnitus_masking_whitenoise",
             "filename": "white_noise_5s.wav"
         }
     ]
