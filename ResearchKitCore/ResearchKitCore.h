@@ -44,5 +44,4 @@
 
 #import <ResearchKitCore/ORKResult.h>
 #import <ResearchKitCore/ORKCollectionResult.h>
-#import <ResearchKitCore/ORKCollectionResult_Private.h>
 #import <ResearchKitCore/ORKQuestionResult.h>
