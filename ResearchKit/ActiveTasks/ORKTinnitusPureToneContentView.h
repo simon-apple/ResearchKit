@@ -53,7 +53,6 @@ typedef NS_ENUM(NSUInteger, PureToneButtonsStage) {
 @required
 
 - (void)playButtonPressedWithNewPosition:(ORKTinnitusSelectedPureTonePosition)newPosition;
-- (void)fineTunePressed;
 
 @end
 
@@ -63,8 +62,7 @@ typedef NS_ENUM(NSUInteger, PureToneButtonsStage) {
 
 - (ORKTinnitusSelectedPureTonePosition)currentSelectedPosition;
 - (PureToneButtonsStage)currentStage;
-- (void)animateButtonsSetting:(BOOL)isLastStep;
-- (void)enableFineTuneButton:(BOOL)enable;
+- (void)animateButtons;
 - (void)enablePlayButtons:(BOOL)enable;
 - (void)resetPlayButtons;
 - (BOOL)allCurrentVisibleButtonsPlayed;
