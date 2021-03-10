@@ -41,18 +41,18 @@
 #import "ORKHeadphonesRequiredCompletionStep.h"
 #import "ResearchKit_Private.h"
 
-static NSString *const ORKTinnitusHeadphoneDetectStepIdentifier = @"tinnitus.headphonedetect";
-static NSString *const ORKTinnitusHeadphonesRequiredStepIdentifier = @"tinnitus.headphone.required";
-static NSString *const ORKTinnitusSPLMeterStepIdentifier = @"tinnitus.splmeter";
-static NSString *const ORKTinnitusTypeStepIdentifier = @"tinnitus.type";
-static NSString *const ORKTinnitusVolumeCalibrationStepIdentifier = @"tinnitus.volume.calibration";
-static NSString *const ORKTinnitusRoundStepIdentifier = @"tinnitus.puretone";
-static NSString *const ORKTinnitusRoundSuccessCompletedStepIdentifier = @"tinnitus.puretone.success.roundcomplete";
-static NSString *const ORKTinnitusPuretoneSuccessStepIdentifier = @"tinnitus.puretone.success";
-static NSString *const ORKTinnitusLoudnessMatchingStepIdentifier = @"tinnitus.loudness.matching";
-static NSString *const ORKTinnitusSoundLoudnessMatchingStepIdentifier = @"tinnitus.soundloudness.matching";
-static NSString *const ORKTinnitusWhiteNoiseMatchingIdentifier = @"tinnitus.whitenoise.matching";
-static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus.instruction.5";
+static NSString *const ORKTinnitusHeadphoneDetectStepIdentifier = @"tinnitus_headphonedetect";
+static NSString *const ORKTinnitusHeadphonesRequiredStepIdentifier = @"tinnitus_headphone_required";
+static NSString *const ORKTinnitusSPLMeterStepIdentifier = @"tinnitus_splmeter";
+static NSString *const ORKTinnitusTypeStepIdentifier = @"tinnitus_type";
+static NSString *const ORKTinnitusVolumeCalibrationStepIdentifier = @"tinnitus_volume_calibration";
+static NSString *const ORKTinnitusRoundStepIdentifier = @"tinnitus_puretone";
+static NSString *const ORKTinnitusRoundSuccessCompletedStepIdentifier = @"tinnitus_puretone_success_roundcomplete";
+static NSString *const ORKTinnitusPuretoneSuccessStepIdentifier = @"tinnitus_puretone_success";
+static NSString *const ORKTinnitusLoudnessMatchingStepIdentifier = @"tinnitus_loudness_matching";
+static NSString *const ORKTinnitusSoundLoudnessMatchingStepIdentifier = @"tinnitus_soundloudness_matching";
+static NSString *const ORKTinnitusWhiteNoiseMatchingIdentifier = @"tinnitus_whitenoise_matching";
+static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus_pitch_matching";
 
 @interface NSMutableArray (Shuffling)
 - (void)shuffle;
