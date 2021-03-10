@@ -1040,6 +1040,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(useCardView, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(learnMoreItem, ORKLearnMoreItem, NSObject, YES, nil, nil),
                     PROPERTY(tagText, NSString, NSObject, YES, nil, nil),
+                    PROPERTY(presentationStyle, NSString, NSObject, YES, nil, nil)
                     })),
            ENTRY(ORKInstructionStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
