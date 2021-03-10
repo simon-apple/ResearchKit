@@ -49,7 +49,6 @@ open class TaskManager: ObservableObject {
     @Published
     public internal(set) var finishReason: FinishReason? {
         willSet {
-            // Update the task's end date
             result.endDate = Date()
         }
     }
