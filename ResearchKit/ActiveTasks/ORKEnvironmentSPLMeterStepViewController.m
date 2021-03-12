@@ -97,6 +97,8 @@
         _requiredContiguousSamples = 1;
         _sensitivityOffset = -23.3;
         _recordedSamples = [NSMutableArray new];
+        _audioEngine = [[AVAudioEngine alloc] init];
+        _eqUnit = [[AVAudioUnitEQ alloc] initWithNumberOfBands:6];
     }
     
     return self;
@@ -114,16 +116,6 @@
     self.activeStepView.customContentFillsAvailableSpace = YES;
     [self requestRecordPermissionIfNeeded];
     [self configureAudioSession];
-    _audioEngine = [[AVAudioEngine alloc] init];
-    _eqUnit = [[AVAudioUnitEQ alloc] initWithNumberOfBands:6];
-    _inputNode = [_audioEngine inputNode];
-    _inputNodeOutputFormat = [_inputNode inputFormatForBus:0];
-    _sampleRate = (uint32_t)_inputNodeOutputFormat.sampleRate;
-    _bufferSize = _sampleRate/10;
-    _countToFetch = _sampleRate/(int)_bufferSize;
-    [self configureEQ];
-    [_audioEngine attachNode:_eqUnit];
-    [_audioEngine connect:_inputNode to:_eqUnit format:_inputNodeOutputFormat];
     [self setupFeedbackGenerator];
 }
 
@@ -159,6 +151,11 @@
 - (void)setContinueButtonItem:(UIBarButtonItem *)continueButtonItem {
     [super setContinueButtonItem:continueButtonItem];
     _navigationFooterView.continueButtonItem = continueButtonItem;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self configureInputNode];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -292,6 +289,17 @@
     if (error) {
         ORK_Log_Error("Activating AVAudioSession failed with error message: \"%@\"", error.localizedDescription);
     }
+}
+
+- (void)configureInputNode {
+    _inputNode = [_audioEngine inputNode];
+    _inputNodeOutputFormat = [_inputNode inputFormatForBus:0];
+    _sampleRate = (uint32_t)_inputNodeOutputFormat.sampleRate;
+    _bufferSize = _sampleRate/10;
+    _countToFetch = _sampleRate/(int)_bufferSize;
+    [self configureEQ];
+    [_audioEngine attachNode:_eqUnit];
+    [_audioEngine connect:_inputNode to:_eqUnit format:_inputNodeOutputFormat];
 }
 
 - (void)configureEQ {
