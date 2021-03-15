@@ -972,6 +972,8 @@
 		E293655E25757CC700092A7C /* frequency_dBSPL_AIRPODSMAX.plist in Resources */ = {isa = PBXBuildFile; fileRef = E293655D25757CC700092A7C /* frequency_dBSPL_AIRPODSMAX.plist */; };
 		E293656025757E6100092A7C /* retspl_AIRPODSMAX.plist in Resources */ = {isa = PBXBuildFile; fileRef = E293655F25757E6100092A7C /* retspl_AIRPODSMAX.plist */; };
 		E293656225757E7700092A7C /* volume_curve_AIRPODSMAX.plist in Resources */ = {isa = PBXBuildFile; fileRef = E293656125757E7700092A7C /* volume_curve_AIRPODSMAX.plist */; };
+		E293668525EE67C200EB7F24 /* ORKEnvironmentSPLMeterBarView.h in Headers */ = {isa = PBXBuildFile; fileRef = E293668325EE67C200EB7F24 /* ORKEnvironmentSPLMeterBarView.h */; };
+		E293668625EE67C200EB7F24 /* ORKEnvironmentSPLMeterBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = E293668425EE67C200EB7F24 /* ORKEnvironmentSPLMeterBarView.m */; };
 		E2A676F3238DCB3E006193D7 /* AVOutputDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = E2A676F0238DCB3E006193D7 /* AVOutputDevice.h */; };
 		E2A676F4238DCB3E006193D7 /* AVFoundation_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = E2A676F1238DCB3E006193D7 /* AVFoundation_Private.h */; };
 		E2A676F6238DCCCA006193D7 /* AVOutputDeviceModelSpecificKeys.h in Headers */ = {isa = PBXBuildFile; fileRef = E2A676F5238DCCCA006193D7 /* AVOutputDeviceModelSpecificKeys.h */; };
@@ -2048,6 +2050,8 @@
 		E293655D25757CC700092A7C /* frequency_dBSPL_AIRPODSMAX.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = frequency_dBSPL_AIRPODSMAX.plist; sourceTree = "<group>"; };
 		E293655F25757E6100092A7C /* retspl_AIRPODSMAX.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = retspl_AIRPODSMAX.plist; sourceTree = "<group>"; };
 		E293656125757E7700092A7C /* volume_curve_AIRPODSMAX.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = volume_curve_AIRPODSMAX.plist; sourceTree = "<group>"; };
+		E293668325EE67C200EB7F24 /* ORKEnvironmentSPLMeterBarView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKEnvironmentSPLMeterBarView.h; sourceTree = "<group>"; };
+		E293668425EE67C200EB7F24 /* ORKEnvironmentSPLMeterBarView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKEnvironmentSPLMeterBarView.m; sourceTree = "<group>"; };
 		E2A676DC238DA4BB006193D7 /* ORKAVFoundationSoftLink.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKAVFoundationSoftLink.h; sourceTree = "<group>"; };
 		E2A676F0238DCB3E006193D7 /* AVOutputDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVOutputDevice.h; sourceTree = "<group>"; };
 		E2A676F1238DCB3E006193D7 /* AVFoundation_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVFoundation_Private.h; sourceTree = "<group>"; };
@@ -2891,6 +2895,8 @@
 				71BD9EA820969EED007B436E /* ORKEnvironmentSPLMeterStepViewController.m */,
 				716B126220A78C6B00590264 /* ORKEnvironmentSPLMeterResult.h */,
 				716B126320A78C6B00590264 /* ORKEnvironmentSPLMeterResult.m */,
+				E293668325EE67C200EB7F24 /* ORKEnvironmentSPLMeterBarView.h */,
+				E293668425EE67C200EB7F24 /* ORKEnvironmentSPLMeterBarView.m */,
 				71BD9EAB2096A26C007B436E /* ORKEnvironmentSPLMeterContentView.h */,
 				71BD9EAC2096A26C007B436E /* ORKEnvironmentSPLMeterContentView.m */,
 				71F3B27F21001DEC00FB1C41 /* splMeter_sensitivity_offset.plist */,
@@ -4586,6 +4592,7 @@
 				5D04884525EED08D0006C68B /* ORKHeadphonesRequiredCompletionStep.h in Headers */,
 				86C40CE81A8D7C5C00081FAC /* ORKAnswerFormat_Internal.h in Headers */,
 				106FF29E1B663FCE004EACF2 /* ORKHolePegTestPlaceStep.h in Headers */,
+				E293668525EE67C200EB7F24 /* ORKEnvironmentSPLMeterBarView.h in Headers */,
 				BC94EF361E96394C00143081 /* ORKRegistrationStep_Internal.h in Headers */,
 				5119879B245FC33C004FC2C7 /* ORK3DModelManager.h in Headers */,
 				86C40D021A8D7C5C00081FAC /* ORKContinueButton.h in Headers */,
@@ -5556,6 +5563,7 @@
 				86AD91111AB7B8A600361FEB /* ORKActiveStepView.m in Sources */,
 				86C40C201A8D7C5C00081FAC /* ORKAudioStepViewController.m in Sources */,
 				E220A37F25711F9600C3C211 /* ORKTinnitusAudioGenerator.m in Sources */,
+				E293668625EE67C200EB7F24 /* ORKEnvironmentSPLMeterBarView.m in Sources */,
 				51BF30BF247B330A00E2E669 /* ORKIconButton.m in Sources */,
 				E220A36925711F4300C3C211 /* ORKTinnitusLoudnessMatchingStepViewController.m in Sources */,
 				86C40D081A8D7C5C00081FAC /* ORKCountdownLabel.m in Sources */,

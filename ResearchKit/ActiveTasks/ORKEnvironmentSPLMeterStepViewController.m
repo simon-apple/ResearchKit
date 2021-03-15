@@ -389,6 +389,13 @@
                                            });
                                            [self evaluateThreshold:_spl];
                                            [_rmsBuffer removeAllObjects];
+                                       } else {
+                                           if (rms > 0.0) {
+                                               float spl = (20 * log10f(sqrtf(rms/(float)_sampleRate))) - _sensitivityOffset + 94;
+                                               dispatch_async(dispatch_get_main_queue(), ^{
+                                                   [self.environmentSPLMeterContentView setProgressBar:(spl/_thresholdValue)];
+                                               });
+                                           }
                                        }
                                        dispatch_semaphore_signal(_semaphoreRms);
                                    });

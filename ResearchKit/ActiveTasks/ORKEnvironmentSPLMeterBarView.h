@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018, Apple Inc. All rights reserved.
+ Copyright (c) 2021, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,43 +28,15 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@import UIKit;
-#import "ORKCustomStepView_Internal.h"
+#import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class ORKEnvironmentSPLMeterBarView;
-@class ORKRingView;
-@class ORKRoundTappingButton;
-@class ORKNavigationContainerView;
-@class ORKEnvironmentSPLMeterContentView;
-
-@protocol ORKEnvironmentSPLMeterContentViewVoiceOverDelegate <NSObject>
-
-- (void)contentView:(ORKEnvironmentSPLMeterContentView * _Nonnull)contentView shouldAnnounce:(NSString * _Nonnull)inAnnouncement;
-
-@end
-
-@interface ORKEnvironmentSPLMeterContentView : ORKActiveStepCustomView
-
-@property (nonatomic, strong) ORKNavigationContainerView *navigationFooterView;
-
-@property (nonatomic, weak) id<ORKEnvironmentSPLMeterContentViewVoiceOverDelegate> voiceOverDelegate;
-
-- (ORKEnvironmentSPLMeterBarView *)barView;
-
-- (ORKRingView *)ringView;
+@interface ORKEnvironmentSPLMeterBarView : UIView
 
 - (void)setProgress:(CGFloat)progress;
-
-- (void)setProgressCircle:(CGFloat)progress;
-
-- (void)setProgressBar:(CGFloat)progress;
-
-- (void)reachedOptimumNoiseLevel;
+- (void)stopAnimation;
 
 @end
 
 NS_ASSUME_NONNULL_END
-
-
