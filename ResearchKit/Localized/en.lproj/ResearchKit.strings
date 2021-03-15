@@ -631,7 +631,7 @@
 "HEADPHONES_LOW_BATTERY_TITLE" = "Low Battery";
 "HEADPHONES_LOW_BATTERY_TEXT" = "Charge your headphones to be sure you can complete the test.";
 "HEADPHONES_BOTH_TITLE" = "Both Headphones Required";
-"HEADPHONES_BOTH_TEXT" = "For accurate results, use both headphones not just one.";
+"HEADPHONES_BOTH_TEXT" = "For accurate results use both headphones, not just one.";
 "SPEECH_IN_NOISE_PREDEFINED_START_OVER" = "Start Again";
 "SPEECH_IN_NOISE_PREDEFINED_CANCEL_TEST" = "Cancel Test";
 
