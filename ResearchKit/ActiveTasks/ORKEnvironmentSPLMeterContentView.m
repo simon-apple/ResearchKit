@@ -30,6 +30,7 @@
 
 
 #import "ORKEnvironmentSPLMeterContentView.h"
+#import "ORKEnvironmentSPLMeterBarView.h"
 
 #import "ORKRoundTappingButton.h"
 #import "ORKUnitLabel.h"
@@ -39,63 +40,22 @@
 #import "ORKProgressView.h"
 #import "ORKCompletionCheckmarkView.h"
 
-static const CGFloat CircleIndicatorMaxDiameter = 150.0;
-static const CGFloat RingViewTopPadding = 24.0;
-static const CGFloat InstructionLabelTopPadding = 50.0;
-static const CGFloat InstructionLabelBottomPadding = 10.0;
-
-static CGFloat CircleIndicatorViewScaleFactorForProgress(CGFloat progress) {
-    
-    CGFloat y1 = 0.5, x1 = 0.8, y2 = 1.4, x2 = 1.2;
-
-    if (progress < x1)      // lower limit for diameter
-    {
-        return y1;
-    }
-    else if (progress > x2) // upper limit for diameter
-    {
-        return y2;
-    }
-    else                    // linear interpolation
-    {
-        return y1 + (y2 - y1)/(x2 - x1) * (progress - x1);
-    }
-}
-
-static CGFloat CircleIndicatorPulseVarianceForProgress(CGFloat progress) {
-    
-    // Linear Interpolation
-    // kMin: Lower bound of interpolation. (Matches above)
-    // kMax: Higher bound of interpolation. (Matches above)
-    // min: Lower bound of variance.
-    // max: Higher bound of variance.
-    CGFloat min = 0.0075, max = 0.025;
-    CGFloat kMin = 0.8, kMax = 1.2;
-    
-    if (progress < kMin)
-    {
-        return min;
-    }
-    else if (progress > kMax)
-    {
-        return max;
-    }
-    else
-    {
-        return min + (max - min)/(kMax - kMin) * (progress - kMin);
-    }
-}
+static const CGFloat RingViewBottomPadding = -18.0;
+static const CGFloat InstructionLabelLeftPadding = 8.0;
+static const CGFloat HalfCircleSize = 14.0;
 
 @interface ORKEnvironmentSPLMeterContentView ()
 @property(nonatomic, strong) ORKRingView *ringView;
+@property(nonatomic, strong) ORKEnvironmentSPLMeterBarView *barView;
 @end
 
 @implementation ORKEnvironmentSPLMeterContentView {
-    UIView *_circleIndicatorView;
     UILabel *_DBInstructionLabel;
+    UIImage *_checkmarkImage;
+    UIImage *_xmarkImage;
+    UIImageView *_xmarkView;
     CGFloat preValue;
     CGFloat currentValue;
-    UIColor *_circleIndicatorNoiseColor;
 }
 
 - (instancetype)init {
@@ -103,15 +63,49 @@ static CGFloat CircleIndicatorPulseVarianceForProgress(CGFloat progress) {
     if (self) {
         preValue = -M_PI_2;
         currentValue = 0.0;
-        _circleIndicatorNoiseColor = UIColor.systemOrangeColor;
         self.translatesAutoresizingMaskIntoConstraints = NO;
+        [self setupBarView];
         [self setupRingView];
-        [self setupCircleIndicatorView];
+        [self setupXmarkView];
         [self setProgressCircle:0.0];
         [self setupDBInstructionLabel];
     }
 
     return self;
+}
+
+- (void)setupXmarkView {
+    if (!_xmarkView) {
+        if (@available(iOS 13.0, *)) {
+            UIImageConfiguration *configuration = [UIImageSymbolConfiguration configurationWithPointSize:HalfCircleSize weight:UIImageSymbolWeightBold scale:UIImageSymbolScaleDefault];
+            _xmarkImage = [[UIImage systemImageNamed:@"xmark" withConfiguration:configuration] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+            _checkmarkImage = [[UIImage systemImageNamed:@"checkmark" withConfiguration:configuration] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        }
+        _xmarkView = [[UIImageView alloc] initWithImage: _xmarkImage];
+        _xmarkView.tintColor = UIColor.systemOrangeColor;
+    }
+    _xmarkView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self addSubview:_xmarkView];
+    
+    [[_xmarkView.centerYAnchor constraintEqualToAnchor:_ringView.centerYAnchor] setActive:YES];
+    [[_xmarkView.centerXAnchor constraintEqualToAnchor:_ringView.centerXAnchor] setActive:YES];
+    _xmarkView.hidden = YES;
+}
+
+- (void)setupBarView {
+    if (!_barView) {
+        _barView = [[ORKEnvironmentSPLMeterBarView alloc] initWithFrame:CGRectZero];
+    }
+    
+    _barView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self addSubview:_barView];
+    
+    UILayoutGuide *margins = self.layoutMarginsGuide;
+    
+    [[_barView.leadingAnchor constraintEqualToAnchor:margins.leadingAnchor] setActive:YES];
+    [[_barView.trailingAnchor constraintEqualToAnchor:margins.trailingAnchor] setActive:YES];
+    [[_barView.centerYAnchor constraintEqualToAnchor:self.centerYAnchor] setActive:YES];
+    [[_barView.heightAnchor constraintEqualToConstant:50.0] setActive:YES];
 }
 
 - (void)setupRingView {
@@ -121,95 +115,51 @@ static CGFloat CircleIndicatorPulseVarianceForProgress(CGFloat progress) {
     _ringView.animationDuration = 0.0;
     _ringView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:_ringView];
-    
-    [[_ringView.centerXAnchor constraintEqualToAnchor:self.centerXAnchor] setActive:YES];
-    [[_ringView.topAnchor constraintEqualToAnchor:self.topAnchor constant:RingViewTopPadding] setActive:YES];
-    [_ringView setColor:UIColor.grayColor];
-}
 
-- (void)setupCircleIndicatorView {
-    if (!_circleIndicatorView) {
-        _circleIndicatorView = [UIView new];
+    [[_ringView.leadingAnchor constraintEqualToAnchor:_barView.leadingAnchor constant:14.0] setActive:YES];
+    [[_ringView.bottomAnchor constraintEqualToAnchor:_barView.topAnchor constant:RingViewBottomPadding] setActive:YES];
+    if (@available(iOS 13.0, *)) {
+        [_ringView setColor:UIColor.systemGray6Color];
     }
-    _circleIndicatorView.translatesAutoresizingMaskIntoConstraints = NO;
-    [self insertSubview:_circleIndicatorView belowSubview:_ringView];
-    
-    [[_circleIndicatorView.centerXAnchor constraintEqualToAnchor:_ringView.centerXAnchor] setActive:YES];
-    [[_circleIndicatorView.centerYAnchor constraintEqualToAnchor:_ringView.centerYAnchor] setActive:YES];
-    [[_circleIndicatorView.heightAnchor constraintEqualToConstant:CircleIndicatorMaxDiameter] setActive:YES];
-    [[_circleIndicatorView.widthAnchor constraintEqualToConstant:CircleIndicatorMaxDiameter] setActive:YES];
-    _circleIndicatorView.layer.cornerRadius = CircleIndicatorMaxDiameter * 0.5;
 }
 
 - (void)setupDBInstructionLabel {
     if (!_DBInstructionLabel) {
         _DBInstructionLabel = [ORKLabel new];
         _DBInstructionLabel.numberOfLines = 0;
-        _DBInstructionLabel.textColor = UIColor.systemGrayColor;
-        _DBInstructionLabel.text = ORKLocalizedString(@"ENVIRONMENTSPL_OK", nil);
+        UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleTitle3];
+        UIFontDescriptor *fontDescriptor = [descriptor fontDescriptorWithSymbolicTraits:UIFontDescriptorTraitBold];
+        _DBInstructionLabel.font = [UIFont fontWithDescriptor:fontDescriptor size:0];
+        if (@available(iOS 13.0, *)) {
+            _DBInstructionLabel.textColor = UIColor.labelColor;
+        }
+        _DBInstructionLabel.text = ORKLocalizedString(@"ENVIRONMENTSPL_MEASURING", nil);
     }
     _DBInstructionLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:_DBInstructionLabel];
-    
-    [[_DBInstructionLabel.centerXAnchor constraintEqualToAnchor:self.centerXAnchor] setActive:YES];
-    [[_DBInstructionLabel.topAnchor constraintEqualToAnchor:_circleIndicatorView.bottomAnchor constant:InstructionLabelTopPadding] setActive:YES];
-    [[_DBInstructionLabel.bottomAnchor constraintLessThanOrEqualToAnchor:self.bottomAnchor constant:-InstructionLabelBottomPadding] setActive:YES];
+
+    [[_DBInstructionLabel.centerYAnchor constraintEqualToAnchor:_ringView.centerYAnchor] setActive:YES];
+    [[_DBInstructionLabel.leadingAnchor constraintEqualToAnchor:_ringView.trailingAnchor constant:InstructionLabelLeftPadding] setActive:YES];
+}
+
+- (void)setProgressBar:(CGFloat)progress {
+    [_barView setProgress:progress];
 }
 
 - (void)setProgressCircle:(CGFloat)progress {
-    
-    CGFloat circleDiameter = CircleIndicatorViewScaleFactorForProgress(progress);
-    CGFloat variance = CircleIndicatorPulseVarianceForProgress(progress);
-    
-    [self startPulsingWithTranformScaleFactor:circleDiameter variance:variance];
-    
-    if (progress >= ORKRingViewMaximumValue)
-    {
-        
-        [_ringView setBackgroundLayerStrokeColor:[UIColor.whiteColor colorWithAlphaComponent:0.3] circleStrokeColor:UIColor.whiteColor withAnimationDuration:0.8];
-    }
-    else
-    {
+    if (progress >= ORKRingViewMaximumValue) {
+        if (@available(iOS 13.0, *)) {
+            [_ringView setBackgroundLayerStrokeColor:UIColor.systemOrangeColor circleStrokeColor:UIColor.systemGray6Color withAnimationDuration:0.8];
+        }
+    } else {
         [_ringView resetLayerColors];
     }
-    
-    [UIView animateWithDuration:0.8
-                          delay:0
-                        options:UIViewAnimationOptionCurveLinear
-                     animations:^{
-        _circleIndicatorView.transform = CGAffineTransformMakeScale(circleDiameter, circleDiameter);
-        _circleIndicatorView.backgroundColor = progress >= ORKRingViewMaximumValue ? _circleIndicatorNoiseColor : self.tintColor;
-    } completion:nil];
-    
+
     [self updateInstructionForValue:progress];
 }
 
-- (ORKRingView *)ringView
-{
+- (ORKRingView *)ringView {
     return _ringView;
-}
-
-- (void)startPulsingWithTranformScaleFactor:(CGFloat)transformScaleFactor variance:(CGFloat)variance {
-    
-    [self stopPulsing];
-    
-    CAKeyframeAnimation *pulse = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale.xy"];
-    pulse.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-    pulse.repeatCount = MAXFLOAT;
-    pulse.duration = 0.6;
-    pulse.values = @[
-        @(transformScaleFactor),
-        @(transformScaleFactor * (1 - variance)),
-        @(transformScaleFactor),
-        @(transformScaleFactor * (1 + variance)),
-        @(transformScaleFactor)
-    ];
-    
-    [_circleIndicatorView.layer addAnimation:pulse forKey:@"pulse"];
-}
-
-- (void)stopPulsing {
-    [_circleIndicatorView.layer removeAnimationForKey:@"pulse"];
 }
 
 - (void)setProgress:(CGFloat)progress {
@@ -217,19 +167,16 @@ static CGFloat CircleIndicatorPulseVarianceForProgress(CGFloat progress) {
     [_ringView setValue:value];
 }
 
-- (void)updateInstructionForValue:(CGFloat)progress
-{
+- (void)updateInstructionForValue:(CGFloat)progress {
     dispatch_async(dispatch_get_main_queue(), ^{
-        
         NSString *currentInstruction = [_DBInstructionLabel.text copy];
-        NSString *newInstruction = progress >= ORKRingViewMaximumValue ? ORKLocalizedString(@"ENVIRONMENTSPL_NOISE", nil) : ORKLocalizedString(@"ENVIRONMENTSPL_OK", nil);
-        
-        if (![newInstruction isEqualToString:currentInstruction])
-        {
+        BOOL isNoise = (progress >= ORKRingViewMaximumValue);
+        NSString *newInstruction = isNoise ? ORKLocalizedString(@"ENVIRONMENTSPL_NOISE", nil) : ORKLocalizedString(@"ENVIRONMENTSPL_MEASURING", nil);
+        _xmarkView.hidden = !isNoise;
+
+        if (![newInstruction isEqualToString:currentInstruction]) {
             _DBInstructionLabel.text = newInstruction;
-            
-            if (UIAccessibilityIsVoiceOverRunning() && [self.voiceOverDelegate respondsToSelector:@selector(contentView:shouldAnnounce:)])
-            {
+            if (UIAccessibilityIsVoiceOverRunning() && [self.voiceOverDelegate respondsToSelector:@selector(contentView:shouldAnnounce:)]) {
                 [self.voiceOverDelegate contentView:self shouldAnnounce:_DBInstructionLabel.text];
             }
         }
@@ -241,15 +188,19 @@ static CGFloat CircleIndicatorPulseVarianceForProgress(CGFloat progress) {
 }
 
 - (void)reachedOptimumNoiseLevel {
-    [self stopPulsing];
-    _ringView.hidden = YES;
-    _circleIndicatorView.hidden = YES;
-    ORKCompletionCheckmarkView *checkmarkView = [[ORKCompletionCheckmarkView alloc] initWithDimension:_ringView.bounds.size.width];
-    checkmarkView.translatesAutoresizingMaskIntoConstraints = NO;
-    [self insertSubview:checkmarkView aboveSubview:_ringView];
-    [[checkmarkView.centerXAnchor constraintEqualToAnchor:_ringView.centerXAnchor] setActive:YES];
-    [[checkmarkView.centerYAnchor constraintEqualToAnchor:_ringView.centerYAnchor] setActive:YES];
-    [checkmarkView setAnimationPoint:1 animated:YES];
+    _xmarkView.hidden = NO;
+    _xmarkView.image = _checkmarkImage;
+    _xmarkView.tintColor = UIColor.systemGreenColor;
+
+    _DBInstructionLabel.text = ORKLocalizedString(@"ENVIRONMENTSPL_OK", nil);
+    
+    if (UIAccessibilityIsVoiceOverRunning() && [self.voiceOverDelegate respondsToSelector:@selector(contentView:shouldAnnounce:)]) {
+        [self.voiceOverDelegate contentView:self shouldAnnounce:_DBInstructionLabel.text];
+    }
+    
+    [_ringView setBackgroundLayerStrokeColor:UIColor.systemGreenColor circleStrokeColor:UIColor.systemGreenColor withAnimationDuration:0.0];
+    
+    [_barView stopAnimation];
 }
 
 @end

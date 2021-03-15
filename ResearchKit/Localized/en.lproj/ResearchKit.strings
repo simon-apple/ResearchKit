@@ -791,9 +791,10 @@
 "ENVIRONMENTSPL_CALCULATING" = "Calculating";
 "ENVIRONMENTSPL_THRESHOLD" = "Threshold: %@ dBA";
 "ENVIRONMENTSPL_OK" = "Background Noise OK";
-"ENVIRONMENTSPL_NOISE" = "Too Much Background Noise";
+"ENVIRONMENTSPL_MEASURING" = "Measuring...";
+"ENVIRONMENTSPL_NOISE" = "Too Loud";
 "ENVIRONMENTSPL_TITLE_2" = "Find a Quiet Place";
-"ENVIRONMENTSPL_INTRO_TEXT_2" = "To ensure accuracy, this test should be taken in a quiet environment.";
+"ENVIRONMENTSPL_INTRO_TEXT_2" = "For accurate results, this task should be completed in a quiet location. Once the background noise measurement reading is completed, you may continue.";
 
 /* Secondary Task Step*/
 "SECONDARY_TASK_START_BUTTON" = "Start Task";
