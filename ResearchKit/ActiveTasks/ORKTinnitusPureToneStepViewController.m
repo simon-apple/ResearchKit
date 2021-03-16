@@ -58,8 +58,6 @@
     
     NSString *_lastError;
     
-    UILabel *_roundLabel;
-    
     NSDate *_choseStepStartTime;
 }
 
@@ -125,20 +123,6 @@
     
     self.expired = NO;
     
-    _roundLabel = [UILabel new];
-    _roundLabel.text = [NSString stringWithFormat:ORKLocalizedString(@"TINNITUS_PURETONE_ROUND_X", nil), [[self tinnitusStep] roundNumber]];
-    _roundLabel.numberOfLines = 0;
-    _roundLabel.lineBreakMode = NSLineBreakByClipping;
-    _roundLabel.textColor = UIColor.systemGrayColor;
-    UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleHeadline];
-    _roundLabel.font = [UIFont systemFontOfSize:[[descriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue] + 1.0 weight:UIFontWeightSemibold];
-    _roundLabel.textAlignment = NSTextAlignmentLeft;
-    [self.view addSubview:_roundLabel];
-    _roundLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    [_roundLabel.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor constant:20.0].active = YES;
-    [_roundLabel.topAnchor constraintEqualToAnchor:self.view.topAnchor constant:20.0].active = YES;
-    [_roundLabel.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor constant:-20.0].active = YES;
-
     [self resetVariables];
     
     self.tinnitusContentView = [[ORKTinnitusPureToneContentView alloc] init];

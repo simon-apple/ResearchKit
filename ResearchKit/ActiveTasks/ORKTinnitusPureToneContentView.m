@@ -46,8 +46,6 @@ static const CGFloat ORKTinnitusButtonTopAdjustment = 8.0;
     NSLayoutConstraint *_thirdBTopConstraint;
     NSLayoutConstraint *_cTopConstraint;
     
-    UILabel *_hintLabel;
-    
     BOOL _constraintsDefined;
     
     NSArray *_buttonViewsArray;
@@ -84,15 +82,6 @@ static const CGFloat ORKTinnitusButtonTopAdjustment = 8.0;
     [self setupScrollView];
     _constraintsDefined = NO;
     _buttonsStage = PureToneButtonsStageOne;
-    
-    _hintLabel = [UILabel new];
-    _hintLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    _hintLabel.text = ORKLocalizedString(@"TINNITUS_FINETUNE_TEXT", nil);
-    _hintLabel.textAlignment = NSTextAlignmentCenter;
-    _hintLabel.textColor = UIColor.systemGrayColor;
-    _hintLabel.numberOfLines = 0;
-    _hintLabel.font = [self bodyTextFont];
-    [_scrollView addSubview:_hintLabel];
     
     _firstAButtonView = [[ORKTinnitusButtonView alloc]
                          initWithTitle:ORKLocalizedString(@"TINNITUS_BUTTON_A_TITLE", nil)
@@ -270,7 +259,6 @@ static const CGFloat ORKTinnitusButtonTopAdjustment = 8.0;
             [_scrollView setNeedsUpdateConstraints];
             [UIView animateWithDuration:0.20 delay:0.0 options:(UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionAllowUserInteraction) animations:^{
                 _firstBButtonView.alpha = 0.0;
-                _hintLabel.alpha = 0.0;
                 [_scrollView layoutIfNeeded];
             } completion:^(BOOL finished) {
                 _firstBButtonView.hidden = YES;
@@ -428,7 +416,7 @@ static const CGFloat ORKTinnitusButtonTopAdjustment = 8.0;
         
         _scrollView.contentSize = CGSizeMake(self.frame.size.width,
                                              cPosition + _cButtonView.frame.size.height
-                                             + 2 * ORKTinnitusStandardSpacing + _hintLabel.frame.size.height + ORKTinnitusButtonTopAdjustment);
+                                             + 2 * ORKTinnitusStandardSpacing + ORKTinnitusButtonTopAdjustment);
     }
 }
 
@@ -447,10 +435,6 @@ static const CGFloat ORKTinnitusButtonTopAdjustment = 8.0;
     [_cButtonView.widthAnchor constraintEqualToAnchor:_scrollView.widthAnchor constant:-2*ORKTinnitusGlowAdjustment].active = YES;
     _cTopConstraint = [_cButtonView.topAnchor constraintEqualToAnchor:_scrollView.topAnchor];
     _cTopConstraint.active = YES;
-
-    [_hintLabel.centerXAnchor constraintEqualToAnchor:_scrollView.centerXAnchor].active = YES;
-    [_hintLabel.topAnchor constraintEqualToAnchor:_cButtonView.bottomAnchor constant:ORKTinnitusStandardSpacing].active = YES;
-    [_hintLabel.widthAnchor constraintEqualToAnchor:_scrollView.widthAnchor constant:-3*ORKTinnitusGlowAdjustment].active = YES;
 
     [_secondAButtonView.leadingAnchor constraintEqualToAnchor:_scrollView.leadingAnchor constant:ORKTinnitusGlowAdjustment].active = YES;
     [_secondAButtonView.widthAnchor constraintEqualToAnchor:_scrollView.widthAnchor constant:-2*ORKTinnitusGlowAdjustment].active = YES;

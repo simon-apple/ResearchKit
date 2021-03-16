@@ -95,7 +95,7 @@
         if (outError != NULL) {
             *outError = [NSError errorWithDomain:NSCocoaErrorDomain
                                             code:NSFeatureUnsupportedError
-                                        userInfo:@{NSLocalizedDescriptionKey:[NSString stringWithFormat:ORKLocalizedString(@"TINNITUS_SAMPLE_NOT_FOUND_ERROR", nil), identifier]}];
+                                        userInfo:@{NSLocalizedDescriptionKey:[NSString stringWithFormat:@"Audio sample %@ not found on manifest", identifier]}];
         }
         return nil;
     }

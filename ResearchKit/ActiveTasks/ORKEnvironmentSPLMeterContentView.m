@@ -133,7 +133,7 @@ static const CGFloat HalfCircleSize = 14.0;
         if (@available(iOS 13.0, *)) {
             _DBInstructionLabel.textColor = UIColor.labelColor;
         }
-        _DBInstructionLabel.text = ORKLocalizedString(@"ENVIRONMENTSPL_MEASURING", nil);
+        _DBInstructionLabel.text = ORKLocalizedString(@"ENVIRONMENTSPL_CALCULATING", nil);
     }
     _DBInstructionLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:_DBInstructionLabel];
@@ -171,7 +171,7 @@ static const CGFloat HalfCircleSize = 14.0;
     dispatch_async(dispatch_get_main_queue(), ^{
         NSString *currentInstruction = [_DBInstructionLabel.text copy];
         BOOL isNoise = (progress >= ORKRingViewMaximumValue);
-        NSString *newInstruction = isNoise ? ORKLocalizedString(@"ENVIRONMENTSPL_NOISE", nil) : ORKLocalizedString(@"ENVIRONMENTSPL_MEASURING", nil);
+        NSString *newInstruction = isNoise ? ORKLocalizedString(@"ENVIRONMENTSPL_NOISE", nil) : ORKLocalizedString(@"ENVIRONMENTSPL_CALCULATING", nil);
         _xmarkView.hidden = !isNoise;
 
         if (![newInstruction isEqualToString:currentInstruction]) {
