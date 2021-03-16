@@ -446,10 +446,10 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     if (self != nil) {
         UILabel *label = self.labelLabel;
         label.isAccessibilityElement = NO;
-        UITextField *textField = self.textFieldView.textField;
-        textField.isAccessibilityElement = YES;
-        textField.accessibilityLabel = label.text;
+        self.textFieldView.isAccessibilityElement = YES;
+        self.textFieldView.accessibilityLabel = label.text;
         _doneButtonWasPressed = NO;
+        
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(orkDoneButtonPressed:)
                                                      name:ORKDoneButtonPressedKey
