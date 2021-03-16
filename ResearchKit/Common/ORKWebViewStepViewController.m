@@ -194,6 +194,7 @@ static const CGFloat ORKSignatureTopPadding = 37.0;
     
     _navigationFooterView.continueButtonItem = self.continueButtonItem;
     _navigationFooterView.continueEnabled = YES;
+    _navigationFooterView.optional = [self webViewStep].isOptional;
     [_navigationFooterView updateContinueAndSkipEnabled];
     [_navigationFooterView setUseExtendedPadding:[self.step useExtendedPadding]];
     
@@ -220,6 +221,11 @@ static const CGFloat ORKSignatureTopPadding = 37.0;
     if (_signatureFooterView) {
         [_signatureFooterView removeFromSuperview];
     }
+}
+
+- (void)setSkipButtonItem:(UIBarButtonItem *)skipButtonItem {
+    [super setSkipButtonItem:skipButtonItem];
+    _navigationFooterView.skipButtonItem = self.skipButtonItem;
 }
 
 - (void)setupConstraints {
