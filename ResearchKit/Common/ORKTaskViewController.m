@@ -619,6 +619,10 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     }
 }
 
+- (void)saveVolume {
+    _savedVolume = [[AVAudioSession sharedInstance] outputVolume];
+}
+
 - (void)registerNotifications
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(volumeDidChange:) name:@"AVSystemController_SystemVolumeDidChangeNotification" object:nil];
@@ -678,7 +682,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     [super viewDidDisappear:animated];
 
     // restore saved volume
-    if (_hasLockedVolume) {
+    if (_hasLockedVolume || (!_hasLockedVolume && _savedVolume > 0)) {
         [[NSNotificationCenter defaultCenter] removeObserver:self];
         [[getAVSystemControllerClass() sharedAVSystemController] setActiveCategoryVolumeTo:_savedVolume];
     }

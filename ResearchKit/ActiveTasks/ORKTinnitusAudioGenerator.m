@@ -186,7 +186,8 @@ static OSStatus ORKTinnitusAudioGeneratorRenderTone(void *inRefCon,
 
 - (void)commonInit {
     self.fadeDuration = ORKTinnitusFadeDuration;
-    
+	
+    _playing = NO;
     _type = ORKTinnitusTypeUnknown;
     _bufferAmplitude = ORKTinnitusAudioGeneratorAmplitudeDefault;
     
@@ -351,12 +352,11 @@ static OSStatus ORKTinnitusAudioGeneratorRenderTone(void *inRefCon,
     if (_unit) {
         _rampUp = NO;
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(_fadeDuration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    AudioOutputUnitStop(_unit);
-                    AudioUnitUninitialize(_unit);
-                    AudioComponentInstanceDispose(_unit);
-                    _unit = nil;
-                });
+            AudioOutputUnitStop(_unit);
+            AudioUnitUninitialize(_unit);
+            AudioComponentInstanceDispose(_unit);
+            _unit = nil;
+            _playing = NO;
         });
         
     }
@@ -421,6 +421,8 @@ static OSStatus ORKTinnitusAudioGeneratorRenderTone(void *inRefCon,
                                 &streamFormat,
                                 sizeof(AudioStreamBasicDescription));
     NSAssert1(error == noErr, @"Error setting stream format: %hd", error);
+    
+    _playing = YES;
 }
 
 - (void)handleInterruption:(id)sender {

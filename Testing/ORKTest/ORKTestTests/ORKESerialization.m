@@ -1414,6 +1414,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     return [[ORKVolumeCalibrationStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
                 },
                 (@{
+                   PROPERTY(isLoudnessMatching, NSNumber, NSObject, YES, nil, nil),
                    })),
            ENTRY(ORKStreamingAudioRecorderConfiguration,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
@@ -2139,9 +2140,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
            ENTRY(ORKTinnitusVolumeResult,
                  nil,
                  (@{
-                     PROPERTY(type, NSNumber, NSObject, NO, nil, nil),
                      PROPERTY(amplitude, NSNumber, NSObject, NO, nil, nil),
-                     PROPERTY(frequency, NSNumber, NSObject, NO, nil, nil),
                      PROPERTY(volumeCurve, NSNumber, NSObject, NO, nil, nil),
                   })),
            ENTRY(ORKReactionTimeResult,
@@ -2444,21 +2443,6 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                      PROPERTY(lowFrequencyIndex, NSNumber, NSObject, YES, nil, nil),
                      PROPERTY(mediumFrequencyIndex, NSNumber, NSObject, YES, nil, nil),
                      PROPERTY(highFrequencyIndex, NSNumber, NSObject, YES, nil, nil)
-                  })),
-           ENTRY(ORKTinnitusLoudnessMatchingStep,
-                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-               return [[ORKTinnitusLoudnessMatchingStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
-           },
-                 (@{
-                     PROPERTY(frequency, NSNumber, NSObject, YES, nil, nil),
-                     PROPERTY(noiseType, NSString, NSObject, YES, nil, nil)
-                  })),
-           ENTRY(ORKTinnitusCalibrationStep,
-                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-               return [[ORKTinnitusCalibrationStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
-           },
-                 (@{
-                     PROPERTY(frequency, NSNumber, NSObject, YES, nil, nil)
                   })),
            ENTRY(ORKTinnitusWhiteNoiseMatchingSoundResult,
                  nil,

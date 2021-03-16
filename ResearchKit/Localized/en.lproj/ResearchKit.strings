@@ -622,8 +622,6 @@
 "SPEECH_IN_NOISE_PREDEFINED_MICROPHONE_SPEECH_RECOGNITION_REQUIRED_TEXT" = "You can take the task again when you give access.";
 "SPEECH_IN_NOISE_PREDEFINED_VOLUME_CALIBRATION_TITLE" = "Adjust Volume to a Comfortable Level";
 "SPEECH_IN_NOISE_PREDEFINED_VOLUME_CALIBRATION_TEXT" = "Make sure your ears and headphones are clear of any obstructions.\r\n\r\nAdjust the volume so you can clearly hear the sample.";
-"SPEECH_IN_NOISE_PREDEFINED_PLAY_AUDIO_SAMPLE" = "Play Sample";
-"SPEECH_IN_NOISE_PREDEFINED_STOP_AUDIO_SAMPLE" = "Stop Sample";
 "SPEECH_IN_NOISE_PREDEFINED_USE_KEYBOARD_INSTEAD" = "Use Keyboard Instead";
 "SPEECH_IN_NOISE_PREDEFINED_PRACTICE_COMPLETION_TITLE" = "Practice Complete";
 "HEADPHONES_DISCONNECTED_TITLE" = "Headphones Disconnected";
@@ -685,9 +683,8 @@
 "TINNITUS_ROUND_COMPLETE_TITLE" = "Round Completed";
 "TINNITUS_ROUND_COMPLETE_TEXT" = "Thank you for completing this task. Your tinnitus pitch has been saved.";
 "TINNITUS_ROUND_COMPLETE_DETAIL" = "Go through the next rounds to complete the study.";
-"TINNITUS_CALIBRATION_TITLE" = "Volume Calibration";
-"TINNITUS_CALIBRATION_TEXT" = "Listen to the sample and adjust the volume to a comfortable level.";
-"TINNITUS_CALIBRATION_TEXT2" = "Use the volume buttons to adjust the levels.";
+"TINNITUS_CALIBRATION_TITLE" = "Adjust Volume to a Comfortable Level";
+"TINNITUS_CALIBRATION_TEXT" = "Move the slider so you can clearly hear the sample.";
 "TINNITUS_WHITENOISE_MATCHINGSOUND_TITLE" = "Tinnitus Sound Matching";
 "TINNITUS_WHITENOISE_MATCHINGSOUND_TEXT" = "Listen to the samples and choose the sound that most resembles your tinnitus experience.";
 "TINNITUS_VOLUME_ADJUST_TEXT" = "Note that you might need to adjust your device’s volume if you’re unable to hear a tone during the test.";
@@ -699,8 +696,8 @@
 "TINNITUS_BUTTON_B_DETAIL" = "Sounds like a horn-like quality";
 "TINNITUS_BUTTON_C_TITLE" = "High-Pitch";
 "TINNITUS_BUTTON_C_DETAIL" = "Sounds like chirping birds";
-"TINNITUS_FINAL_CALIBRATION_TITLE" = "Loudness Matching";
-"TINNITUS_FINAL_CALIBRATION_TEXT" = "Listen to the sample and adjust the volume to match the loudness of your tinnitus.";
+"TINNITUS_FINAL_CALIBRATION_TITLE" = "Volume Matching";
+"TINNITUS_FINAL_CALIBRATION_TEXT" = "While listening to the sample, move the slider until it matches the loudness of the tinnitus you are experiencing.";
 "TINNITUS_FINAL_CALIBRATION_BUTTON_TITLE" = "Tinnitus Sample";
 "TINNITUS_FINETUNE_TEXT" = "You will be presented a series of tones to fine tune the sound selected above.";
 "TINNITUS_MASKING_TITLE" = "Masking Sound";
