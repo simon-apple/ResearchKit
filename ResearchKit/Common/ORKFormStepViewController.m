@@ -405,6 +405,12 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
     
     // Reset skipped flag - result can now be non-empty
     _skipped = NO;
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, nil);
+    _autoScrollCancelled = NO;
     
     if (_tableContainer) {
         [_tableContainer sizeHeaderToFit];
@@ -415,12 +421,6 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
     if (_tableView) {
         [_tableView reloadData];
     }
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, nil);
-    _autoScrollCancelled = NO;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
