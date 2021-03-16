@@ -31,73 +31,11 @@
 #import "ORKTinnitusButtonView.h"
 #import "ORKHelpers_Internal.h"
 #import "ResearchKit_Private.h"
+#import <QuartzCore/QuartzCore.h>
 
-static const CGFloat ORKTinnitusButtonViewButtonViewHeight = 90.0;
-static const CGFloat ORKTinnitusButtonViewImageWidth = 40.0;
-static const CGFloat ORKTinnitusButtonViewAdditionalHeightPadding = 40.0;
-static const CGFloat ORKTinnitusButtonViewImageHeight = 42.0;
+static const CGFloat ORKTinnitusButtonViewHeight = 82.0;
+static const CGFloat ORKTinnitusButtonViewImageSize = 40.0;
 static const CGFloat ORKTinnitusButtonViewPadding = 16.0;
-
-@interface UIColor (ORKTinnitusButtonView)
-
-@property (class, nonatomic, readonly) UIColor *selectedBackgroundColor;
-@property (class, nonatomic, readonly) UIColor *selectedLayerBorderColor;
-@property (class, nonatomic, readonly) UIColor *unselectedBackgroundColor;
-@property (class, nonatomic, readonly) UIColor *unselectedLayerBorderColor;
-
-@end
-
-@implementation UIColor (ORKTinnitusButtonView)
-
-+ (UIColor *)selectedBackgroundColor {
-    if (@available(iOS 13.0, *)) {
-        return [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traits) {
-            return traits.userInterfaceStyle == UIUserInterfaceStyleDark ?
-            [self colorWithRed:0.0/255.0 green:122.0/255.0 blue:1 alpha:0.05] :
-            [self colorWithRed:242.0/255.0 green:248.0/255.0 blue:1 alpha:1];
-        }];
-    } else {
-        return [self colorWithRed:242.0/255.0 green:248.0/255.0 blue:1 alpha:1];
-    }
-}
-
-+ (UIColor *)selectedLayerBorderColor {
-    if (@available(iOS 13.0, *)) {
-        return [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traits) {
-            return traits.userInterfaceStyle == UIUserInterfaceStyleDark ?
-            [self colorWithRed:9.0/255.0 green:107.0/255.0 blue:205.0/255.0 alpha:1] :
-            [self systemBlueColor];
-        }];
-    } else {
-        return [self colorWithRed:0.0/255.0 green:122.0/255.0 blue:255.0/255.0 alpha:1];
-    }
-}
-
-+ (UIColor *)unselectedBackgroundColor {
-    if (@available(iOS 13.0, *)) {
-        return [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traits) {
-            return traits.userInterfaceStyle == UIUserInterfaceStyleDark ?
-            [self systemGray6Color] :
-            [self colorWithRed:251.0/255.0 green:251.0/255.0 blue:252.0/255.0 alpha:1];
-        }];
-    } else {
-        return [self colorWithRed:251.0/255.0 green:251.0/255.0 blue:252.0/255.0 alpha:1];
-    }
-}
-
-+ (UIColor *)unselectedLayerBorderColor {
-    if (@available(iOS 13.0, *)) {
-        return [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traits) {
-            return traits.userInterfaceStyle == UIUserInterfaceStyleDark ?
-            [self systemGray5Color]:
-            [self colorWithRed:229.0/255.0 green:229.0/255.0 blue: 234.0 / 255.0 alpha:1];
-        }];
-    } else {
-        return [self colorWithRed:229.0/255.0 green:229.0/255.0 blue: 234.0 / 255.0 alpha:1];
-    }
-}
-
-@end
 
 @interface ORKTinnitusButtonView () <UIGestureRecognizerDelegate> {
     NSString *_titleText;
@@ -107,12 +45,11 @@ static const CGFloat ORKTinnitusButtonViewPadding = 16.0;
     UIImageView *_barLevelsView;
     UILabel * _titleLabel;
     UILabel * _detailLabel;
-    UIView * _shadowView;
     UIView *_middleSeparatorView;
     
     NSLayoutConstraint *_middlePosition;
     NSLayoutConstraint *_heightConstraint;
-
+    
     BOOL _subViewsAutoLayoutFinished;
     BOOL _firstLayoutTime;
     BOOL _selected;
@@ -165,7 +102,7 @@ static const CGFloat ORKTinnitusButtonViewPadding = 16.0;
 
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
     [super traitCollectionDidChange:previousTraitCollection];
-
+    
     [self setSelected:_selected];
 }
 
@@ -174,12 +111,7 @@ static const CGFloat ORKTinnitusButtonViewPadding = 16.0;
     self.layer.masksToBounds = NO;
     
     self.layer.cornerRadius = 10.0;
-    self.layer.borderWidth = 2.0;
-    
-    self.layer.shadowColor = [UIColor clearColor].CGColor;
-    self.layer.shadowRadius = 5.0;
-    self.layer.shadowOffset = CGSizeZero;
-    self.layer.shadowOpacity = 0.35;
+    self.layer.borderWidth = 3.0;
     
     self.contentMode = UIViewContentModeCenter;
     
@@ -189,7 +121,7 @@ static const CGFloat ORKTinnitusButtonViewPadding = 16.0;
     _middleSeparatorView.translatesAutoresizingMaskIntoConstraints = NO;
     
     _titleLabel = [[UILabel alloc] init];
-    _titleLabel.font = [[self class] headlineFont];
+    _titleLabel.font = [[self class] titleFont];
     _titleLabel.numberOfLines = 1;
     _titleLabel.textAlignment = NSTextAlignmentNatural;
     [self addSubview:_titleLabel];
@@ -199,15 +131,14 @@ static const CGFloat ORKTinnitusButtonViewPadding = 16.0;
     _titleLabel.adjustsFontSizeToFitWidth = YES;
     if (@available(iOS 13.0, *)) {
         _titleLabel.textColor = [UIColor labelColor];
-    } else {
-        _titleLabel.textColor = [UIColor blackColor];
     }
-    
     _detailLabel = [[UILabel alloc] init];
-    _detailLabel.font = [[self class] subheadlineFont];
+    _detailLabel.font = [[self class] detailFont];
     _detailLabel.numberOfLines = 0;
     _detailLabel.textAlignment = NSTextAlignmentNatural;
-    _detailLabel.textColor = [UIColor systemGrayColor];
+    if (@available(iOS 13.0, *)) {
+        _detailLabel.textColor = [UIColor secondaryLabelColor];
+    }
     [self addSubview:_detailLabel];
     _detailLabel.translatesAutoresizingMaskIntoConstraints = NO;
     _detailLabel.text = _detailText;
@@ -217,47 +148,50 @@ static const CGFloat ORKTinnitusButtonViewPadding = 16.0;
     UIImage *stopImage;
     
     if (@available(iOS 13.0, *)) {
-        UIImageSymbolConfiguration *imageConfig = [UIImageSymbolConfiguration configurationWithPointSize:64 weight:UIImageSymbolWeightLight scale:UIImageSymbolScaleMedium];
-        playImage = [[[UIImage systemImageNamed:@"play.circle"] imageByApplyingSymbolConfiguration:imageConfig] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-        stopImage = [[[UIImage systemImageNamed:@"pause.circle"] imageByApplyingSymbolConfiguration:imageConfig] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    } else {
-        // Fallback on earlier versions //
+        UIImageSymbolConfiguration *imageConfig = [UIImageSymbolConfiguration configurationWithPointSize:17.0 weight:UIImageSymbolWeightMedium scale:UIImageSymbolScaleMedium];
+        playImage = [[[UIImage systemImageNamed:@"play.fill"] imageByApplyingSymbolConfiguration:imageConfig] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        stopImage = [[[UIImage systemImageNamed:@"pause.fill"] imageByApplyingSymbolConfiguration:imageConfig] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     }
     
     _imageView = [[UIImageView alloc] initWithImage:playImage highlightedImage:stopImage];
-    _imageView.backgroundColor = [UIColor clearColor];
+    _imageView.contentMode = UIViewContentModeCenter;
+    _imageView.layer.cornerRadius = ORKTinnitusButtonViewImageSize/2;
+    _imageView.clipsToBounds = YES;
+    if (@available(iOS 13.0, *)) {
+        _imageView.backgroundColor = [UIColor systemGray6Color];
+    }
+    _imageView.tintColor = UIColor.systemBlueColor;
     [self addSubview:_imageView];
     _imageView.translatesAutoresizingMaskIntoConstraints = NO;
     
-    NSMutableArray *barImages = [[NSMutableArray alloc] initWithCapacity:15];
-    UIImage *barLevelsImage;
-    for (int i = 0 ; i < 15 ; i ++) {
-        barLevelsImage = [UIImage imageNamed:[NSString stringWithFormat:@"tinnitus_bar_levels_%i", i] inBundle:ORKBundle() compatibleWithTraitCollection:nil];
-        [barImages addObject:barLevelsImage];
+    NSMutableArray *barImages = [[NSMutableArray alloc] init];
+    for (int i = 0 ; i < 21 ; i ++) {
+        // workaround to fix no tint color on animated images bug
+        UIImage *blackImage = [UIImage imageNamed:[NSString stringWithFormat:@"tinnitus_bar_levels_%i", i] inBundle:ORKBundle() compatibleWithTraitCollection:nil];
+        UIImage *newImage = [blackImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        UIGraphicsBeginImageContextWithOptions(blackImage.size, NO, blackImage.scale);
+        [UIColor.systemBlueColor set];
+        [newImage drawInRect:CGRectMake(0, 0, blackImage.size.width, blackImage.size.height)];
+        newImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        [barImages addObject:newImage];
     }
     _barLevelsView = [[UIImageView alloc] init];
-    [_barLevelsView setAnimationImages:barImages] ;
+    [_barLevelsView setAnimationImages:barImages];
     _barLevelsView.animationDuration = 0.5;
     _barLevelsView.animationRepeatCount = 0;
     
-    _barLevelsView.backgroundColor = [UIColor clearColor];
     [self addSubview:_barLevelsView];
     _barLevelsView.translatesAutoresizingMaskIntoConstraints = NO;
     [_barLevelsView startAnimating];
     _barLevelsView.hidden = YES;
-
+    
     _tapOffGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction:)];
     _tapOffGestureRecognizer.delegate = self;
     [self addGestureRecognizer:_tapOffGestureRecognizer];
     
     if (@available(iOS 13.0, *)) {
-        self.backgroundColor = [UIColor secondarySystemBackgroundColor];
-        self.layer.borderColor = [UIColor systemGray5Color].CGColor;
-        _imageView.tintColor = [UIColor systemGray3Color];
-    } else {
-        self.backgroundColor = [UIColor colorWithRed:242.0/255.0 green:242.0/255.0 blue:247.0/255.0 alpha:1];
-        self.layer.borderColor = [UIColor colorWithRed:229.0/255.0 green:229.0/255.0 blue: 234.0 / 255.0 alpha:1].CGColor;
-        _imageView.tintColor = [UIColor colorWithRed:199.0/255.0 green:199.0/255.0 blue:204.0/255.0 alpha:1];
+        self.backgroundColor = UIColor.systemBackgroundColor;
     }
     
     _hapticFeedback = [[UIImpactFeedbackGenerator alloc] initWithStyle: UIImpactFeedbackStyleMedium];
@@ -283,13 +217,13 @@ static const CGFloat ORKTinnitusButtonViewPadding = 16.0;
     });
 }
 
-+ (UIFont *)headlineFont {
-    UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleHeadline];
-    return [UIFont systemFontOfSize:[[descriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue] + 1.0 weight:UIFontWeightSemibold];
++ (UIFont *)titleFont {
+    UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleTitle3];
+    return [UIFont systemFontOfSize:[[descriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue] + 1.0 weight:UIFontWeightBold];
 }
 
-+ (UIFont *)subheadlineFont {
-    UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleSubheadline];
++ (UIFont *)detailFont {
+    UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleBody];
     return [UIFont systemFontOfSize:((NSNumber *)[descriptor objectForKey:UIFontDescriptorSizeAttribute]).doubleValue + 1.0];
 }
 
@@ -322,28 +256,7 @@ static const CGFloat ORKTinnitusButtonViewPadding = 16.0;
 -(void)setSelected:(BOOL)isSelected {
     _selected = isSelected;
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (isSelected) {
-            UIColor *systemBlueColor;
-            if (@available(iOS 13.0, *)) {
-                systemBlueColor = [UIColor systemBlueColor];
-            } else {
-                systemBlueColor = [UIColor colorWithRed:0.0/255.0 green:122.0/255.0 blue:255.0/255.0 alpha:1];
-            }
-            self.layer.shadowColor = systemBlueColor.CGColor;
-            self.backgroundColor = [UIColor selectedBackgroundColor];
-            self.layer.borderColor = [UIColor selectedLayerBorderColor].CGColor;
-            _imageView.tintColor = systemBlueColor;
-            
-        } else {
-            self.layer.shadowColor = [UIColor clearColor].CGColor;
-            self.backgroundColor = [UIColor unselectedBackgroundColor];
-            self.layer.borderColor = [UIColor unselectedLayerBorderColor].CGColor;
-            if (@available(iOS 13.0, *)) {
-                _imageView.tintColor = [UIColor systemGray3Color];
-            } else {
-                _imageView.tintColor = [UIColor colorWithRed:199.0/255.0 green:199.0/255.0 blue:204.0/255.0 alpha:1];
-            }
-        }
+        self.layer.borderColor = isSelected ? [UIColor systemBlueColor].CGColor : [UIColor clearColor].CGColor;
     });
 }
 
@@ -368,12 +281,10 @@ static const CGFloat ORKTinnitusButtonViewPadding = 16.0;
     
     if (_firstLayoutTime) {
         _firstLayoutTime = NO;
-        CGFloat buttonHeight = ORKExpectedLabelHeight(_titleLabel) + ORKExpectedLabelHeight(_detailLabel) + ORKTinnitusButtonViewAdditionalHeightPadding;
         
         CGFloat detailHeight = ORKExpectedLabelHeight(_detailLabel);
         CGFloat titleHeight = ORKExpectedLabelHeight(_titleLabel);
         
-        _heightConstraint.constant = buttonHeight;
         _middlePosition.constant = (titleHeight - detailHeight)/2;
         
         [self setNeedsLayout];
@@ -390,32 +301,32 @@ static const CGFloat ORKTinnitusButtonViewPadding = 16.0;
 }
 
 - (void)setUpConstraints {
-    _heightConstraint = [self.heightAnchor constraintEqualToConstant:ORKTinnitusButtonViewButtonViewHeight];
+    _heightConstraint = [self.heightAnchor constraintEqualToConstant:ORKTinnitusButtonViewHeight];
     _heightConstraint.active = YES;
-
+    
     _middlePosition = [_middleSeparatorView.centerYAnchor constraintEqualToAnchor:self.centerYAnchor];
     _middlePosition.active = YES;
     
-    [_middleSeparatorView.heightAnchor constraintEqualToConstant:1.0].active = YES;
+    [_middleSeparatorView.heightAnchor constraintEqualToConstant:2.0].active = YES;
     [_middleSeparatorView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor].active = YES;
     [_middleSeparatorView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor].active = YES;
     
-    [_titleLabel.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:ORKTinnitusButtonViewPadding].active = YES;
+    [_imageView.heightAnchor constraintEqualToConstant:ORKTinnitusButtonViewImageSize].active = YES;
+    [_imageView.widthAnchor constraintEqualToConstant:ORKTinnitusButtonViewImageSize].active = YES;
+    [_imageView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:ORKTinnitusButtonViewPadding].active = YES;
+    [_imageView.centerYAnchor constraintEqualToAnchor:self.centerYAnchor].active = YES;
+    
+    [_titleLabel.leadingAnchor constraintEqualToAnchor:_imageView.trailingAnchor constant:ORKTinnitusButtonViewPadding].active = YES;
     [_titleLabel.bottomAnchor constraintEqualToAnchor:_middleSeparatorView.topAnchor].active = YES;
     
     [_barLevelsView.leadingAnchor constraintEqualToAnchor:_titleLabel.trailingAnchor constant:2.0].active = YES;
-    [_barLevelsView.centerYAnchor constraintEqualToAnchor:_titleLabel.centerYAnchor constant:-4.0].active = YES;
-    [_barLevelsView.widthAnchor constraintEqualToConstant:25.0].active = YES;
+    [_barLevelsView.centerYAnchor constraintEqualToAnchor:_titleLabel.centerYAnchor constant:3.0].active = YES;
+    [_barLevelsView.widthAnchor constraintEqualToConstant:30.0].active = YES;
     [_barLevelsView.heightAnchor constraintEqualToConstant:21.0].active = YES;
     
-    [_detailLabel.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:ORKTinnitusButtonViewPadding].active = YES;
-    [_detailLabel.trailingAnchor constraintEqualToAnchor:_imageView.leadingAnchor].active = YES;
+    [_detailLabel.leadingAnchor constraintEqualToAnchor:_imageView.trailingAnchor constant:ORKTinnitusButtonViewPadding].active = YES;
+    [_detailLabel.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:ORKTinnitusButtonViewPadding].active = YES;
     [_detailLabel.topAnchor constraintEqualToAnchor:_middleSeparatorView.bottomAnchor].active = YES;
-    
-    [_imageView.heightAnchor constraintEqualToConstant:ORKTinnitusButtonViewImageHeight].active = YES;
-    [_imageView.widthAnchor constraintEqualToConstant:ORKTinnitusButtonViewImageWidth].active = YES;
-    [_imageView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-ORKTinnitusButtonViewPadding].active = YES;
-    [_imageView.centerYAnchor constraintEqualToAnchor:self.centerYAnchor].active = YES;
 }
 
 @end
