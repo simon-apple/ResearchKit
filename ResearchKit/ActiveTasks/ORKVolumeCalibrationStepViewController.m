@@ -29,15 +29,26 @@
  */
 
 #import "ORKVolumeCalibrationStepViewController.h"
-#import "ORKActiveStepViewController_Internal.h"
-#import "ORKActiveStepView.h"
-#import "ORKVolumeCalibrationContentView.h"
-#import "ORKStepContainerView_Private.h"
 
-#import <AVFoundation/AVFoundation.h>
+#import "ORKVolumeCalibrationStep.h"
+#import "ORKVolumeCalibrationContentView.h"
+#import "ORKTinnitusAudioGenerator.h"
+#import "ORKTinnitusVolumeResult.h"
+#import "ORKTinnitusAudioSample.h"
+#import "ORKActiveStepView.h"
+
+#import "ORKStepContainerView_Private.h"
+#import "ORKActiveStepViewController_Internal.h"
+#import "ORKNavigationContainerView_Internal.h"
+#import "ORKTaskViewController_Internal.h"
+#import "ORKStepViewController_Internal.h"
+#import "ORKHelpers_Internal.h"
+
+#import "ORKCelestialSoftLink.h"
 
 @interface ORKVolumeCalibrationStepViewController () <ORKVolumeCalibrationContentViewDelegate>
-@property (nonatomic, strong) ORKVolumeCalibrationContentView *volumeCalibrationContentView;
+@property (nonatomic, strong) ORKVolumeCalibrationContentView *contentView;
+@property (nonatomic, strong) ORKTinnitusAudioGenerator *audioGenerator;
 @property (nonatomic, strong) AVAudioEngine *audioEngine;
 @property (nonatomic, strong) AVAudioPlayerNode *playerNode;
 @property (nonatomic, strong) AVAudioPCMBuffer *audioBuffer;
@@ -47,90 +58,226 @@
 
 #pragma mark - ORKActiveStepViewController
 
-- (instancetype)initWithStep:(ORKStep *)step
-{
+- (instancetype)initWithStep:(ORKStep *)step {
     self = [super initWithStep:step];
     if (self)
     {
-        [self setupAudioEngine];
+        self.suspendIfInactive = YES;
     }
     return self;
 }
 
-- (void)setupAudioEngine
-{
-    NSURL *path = [[NSBundle bundleForClass:[self class]] URLForResource:@"VolumeCalibration" withExtension:@"wav"];
-    AVAudioFile *file = [[AVAudioFile alloc] initForReading:path error:nil];
-    if (file)
-    {
-        self.audioBuffer = [[AVAudioPCMBuffer alloc] initWithPCMFormat:file.processingFormat frameCapacity:(AVAudioFrameCount)file.length];
-        [file readIntoBuffer:self.audioBuffer error:nil];
-    }
-    
-#if !(TARGET_OS_SIMULATOR)
+- (BOOL)setupAudioEngineWithError:(NSError **)outError {
     self.audioEngine = [[AVAudioEngine alloc] init];
     self.playerNode = [[AVAudioPlayerNode alloc] init];
     [self.audioEngine attachNode:self.playerNode];
     [self.audioEngine connect:self.playerNode to:self.audioEngine.outputNode format:self.audioBuffer.format];
     [self.playerNode scheduleBuffer:self.audioBuffer atTime:nil options:AVAudioPlayerNodeBufferLoops completionHandler:nil];
     [self.audioEngine prepare];
-    [self.audioEngine startAndReturnError:nil];
-#endif
+    return [self.audioEngine startAndReturnError:outError];
 }
 
-- (void)tearDownAudioEngine
-{
+- (BOOL)setupAudioEngineForFile:(NSString *)fileName withExtension:(NSString *)extension error:(NSError **)outError {
+    NSURL *path = [[NSBundle bundleForClass:[self class]] URLForResource:fileName withExtension:extension];
+    AVAudioFile *file = [[AVAudioFile alloc] initForReading:path error:nil];
+    
+    if (file) {
+        self.audioBuffer = [[AVAudioPCMBuffer alloc] initWithPCMFormat:file.processingFormat frameCapacity:(AVAudioFrameCount)file.length];
+        [file readIntoBuffer:self.audioBuffer error:outError];
+        return [self setupAudioEngineWithError:outError];
+    }
+    return NO;
+}
+
+- (BOOL)setupAudioEngineForSound:(NSString *)identifier error:(NSError **)outError {
+    if (self.tinnitusPredefinedTaskContext) {
+        ORKTinnitusAudioSample *audioSample = [self.tinnitusPredefinedTaskContext.audioManifest
+                                               noiseTypeSampleWithIdentifier:identifier
+                                               error:outError];
+        if (audioSample) {
+            self.audioBuffer = [audioSample getBuffer:outError];
+            
+            if (self.audioBuffer) {
+                return [self setupAudioEngineWithError:outError];
+            }
+        }
+    }
+    return NO;
+}
+
+- (void)tearDownAudioEngine {
     [self.playerNode stop];
     [self.audioEngine stop];
 }
 
-- (void)start
-{
-    [super start];
+- (ORKStepResult *)result {
+    ORKStepResult *sResult = [super result];
+    
+    if (self.tinnitusPredefinedTaskContext) {
+        ORKTinnitusType type = self.tinnitusPredefinedTaskContext.type;
+        NSMutableArray *results = [NSMutableArray arrayWithArray:sResult.results];
+        
+        ORKTinnitusVolumeResult *tinnitusCalibrationResult = [[ORKTinnitusVolumeResult alloc] initWithIdentifier:self.step.identifier];
+        tinnitusCalibrationResult.startDate = sResult.startDate;
+        tinnitusCalibrationResult.endDate = sResult.endDate;
+        tinnitusCalibrationResult.volumeCurve = [self.audioGenerator gainFromCurrentSystemVolume];
+        
+        if (type == ORKTinnitusTypePureTone) {
+            tinnitusCalibrationResult.amplitude = [self.audioGenerator getPuretoneSystemVolumeIndBSPL];
+        } else if (type == ORKTinnitusTypeWhiteNoise) {
+            tinnitusCalibrationResult.amplitude = [self.audioGenerator gainFromCurrentSystemVolume];
+        }
+        
+        [results addObject:tinnitusCalibrationResult];
+        sResult.results = [results copy];
+    }
+    
+    return sResult;
 }
 
-- (ORKStepResult *)result
-{
-    return [super result];
-}
-
-- (void)goForward
-{
-    [self tearDownAudioEngine];
-    [super goForward];
-}
-
-- (void)finish
-{
+- (void)finish {
     [super finish];
     [super goForward];
 }
+
 #pragma mark - UIViewController
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
+    [self.taskViewController saveVolume];
+    [[getAVSystemControllerClass() sharedAVSystemController] setActiveCategoryVolumeTo:0];
     
-    self.volumeCalibrationContentView = [[ORKVolumeCalibrationContentView alloc] init];
-    self.volumeCalibrationContentView.delegate = self;
-    self.activeStepView.activeCustomView = _volumeCalibrationContentView;
+    NSString *sampleTitle =  @"Sample";
+    if (self.tinnitusPredefinedTaskContext) {
+        ORKTinnitusPredefinedTaskContext *context = self.tinnitusPredefinedTaskContext;
+        BOOL isLoudnessMatching = self.volumeCalibrationStep.isLoudnessMatching;
+
+        if (isLoudnessMatching) {
+            sampleTitle = @"Tinnitus Sample";
+        }
+        
+        self.audioGenerator = [[ORKTinnitusAudioGenerator alloc] initWithHeadphoneType:context.headphoneType];
+        
+        if (context.type == ORKTinnitusTypeWhiteNoise && isLoudnessMatching) {
+            NSError *error;
+            NSString *noiseType = context.whiteNoiseType;
+            if (![self setupAudioEngineForSound:noiseType error:&error]) {
+                ORK_Log_Error("Error fetching audioSample: %@", error);
+            }
+        }
+    } else {
+        NSError *error;
+        NSString *audioFile = @"VolumeCalibration";
+        if (![self setupAudioEngineForFile:audioFile withExtension:@"wav" error:&error]) {
+            ORK_Log_Error("Error fetching audio file %@: %@", audioFile, error);
+        }
+    }
+    
+    self.contentView = [[ORKVolumeCalibrationContentView alloc] initWithTitle:sampleTitle];
+    self.contentView.delegate = self;
+
+    [self setNavigationFooterView];
+    [self setupButtons];
+        
+    self.activeStepView.activeCustomView = self.contentView;
+    self.activeStepView.customContentFillsAvailableSpace = YES;
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    [self.audioGenerator stop];
+    [self tearDownAudioEngine];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear: animated];
+    
+    self.audioGenerator = nil;
+}
+
+- (void)setNavigationFooterView {
+    self.activeStepView.navigationFooterView.continueButtonItem = self.continueButtonItem;
+    self.activeStepView.navigationFooterView.continueEnabled = NO;
+    [self.activeStepView.navigationFooterView updateContinueAndSkipEnabled];
+}
+
+- (void)setupButtons {
+    self.continueButtonItem  = self.internalContinueButtonItem;
 }
 
 #pragma mark - ORKVolumeCalibrationContentViewDelegate
 
-- (BOOL)contentView:(ORKVolumeCalibrationContentView *)contentView didPressPlaybackButton:(ORKPlaybackButton *)playbackButton
-{
-    if (self.audioEngine.isRunning && !self.playerNode.isPlaying)
-    {
-        [self.playerNode play];
-        return YES;
-    }
-    else
-    {
+- (BOOL)contentView:(ORKVolumeCalibrationContentView *)contentView didPressPlaybackButton:(UIButton *)playbackButton {
+    if (self.tinnitusPredefinedTaskContext) {
+        ORKTinnitusPredefinedTaskContext *context = self.tinnitusPredefinedTaskContext;
+        ORKTinnitusType type = context.type;
+
+        int64_t delay = (int64_t)((_audioGenerator.fadeDuration + 0.05) * NSEC_PER_SEC);
+        if (type == ORKTinnitusTypePureTone) {
+            if (!self.audioGenerator.isPlaying) {
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay), dispatch_get_main_queue(), ^{
+                    double frequency = context.predominantFrequency > 0 ? context.predominantFrequency : ORKTinnitusCalibrationDefaultFrequency;
+                    [self.audioGenerator playSoundAtFrequency:frequency];
+                });
+                return YES;
+            }
+        } else if (type == ORKTinnitusTypeWhiteNoise) {
+            if (self.volumeCalibrationStep.isLoudnessMatching) {
+                if (self.audioEngine.isRunning && !self.playerNode.isPlaying) {
+                    [self.playerNode play];
+                    return YES;
+                }
+            } else {
+                if (!self.audioGenerator.isPlaying) {
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay), dispatch_get_main_queue(), ^{
+                        [self.audioGenerator playWhiteNoise];
+                    });
+                    return YES;
+                }
+            }
+        }
+        [self.audioGenerator stop];
         [self tearDownAudioEngine];
-        [self finish];
-        return NO;
+    } else {
+        if (self.audioEngine.isRunning && !self.playerNode.isPlaying) {
+            [self.playerNode play];
+            return YES;
+        } else {
+            if (self.activeStepView.navigationFooterView.continueEnabled) {
+                [self finish];
+                [self tearDownAudioEngine];
+            } else {
+                [self.playerNode pause];
+            }
+        }
     }
+    
+    return NO;
+}
+
+- (void)contentView:(ORKVolumeCalibrationContentView *)contentView didRaisedVolume:(float)volume {
+    [[getAVSystemControllerClass() sharedAVSystemController] setActiveCategoryVolumeTo:volume];
+}
+
+- (void)contentView:(ORKVolumeCalibrationContentView *)contentView shouldEnableContinue:(BOOL)enable {
+    self.activeStepView.navigationFooterView.continueEnabled = enable;
+}
+
+#pragma mark - ORKTinnitusPredefinedTask
+
+- (ORKVolumeCalibrationStep *)volumeCalibrationStep {
+    if (self.step && [self.step isKindOfClass:[ORKVolumeCalibrationStep class]]) {
+        return (ORKVolumeCalibrationStep *)self.step;
+    }
+    return nil;
+}
+
+- (ORKTinnitusPredefinedTaskContext *)tinnitusPredefinedTaskContext {
+    if (self.step.context && [self.step.context isKindOfClass:[ORKTinnitusPredefinedTaskContext class]]) {
+        return (ORKTinnitusPredefinedTaskContext *)self.step.context;
+    }
+    return nil;
 }
 
 @end

@@ -131,6 +131,7 @@ static const CGFloat ORKTinnitusGlowAdjustment = 16.0;
     }]];
     [unselectArray makeObjectsPerformSelector:@selector(restoreButton)];
     _selectedButtonView = buttonView;
+    _context.whiteNoiseType = buttonView.answer;
 }
 
 - (nullable NSString *)getAnswer {

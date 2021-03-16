@@ -34,8 +34,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+#define ORKTinnitusCalibrationDefaultFrequency 1000.0
+
 ORK_CLASS_AVAILABLE
 @interface ORKVolumeCalibrationStep : ORKActiveStep
+
+@property (nonatomic, assign) BOOL isLoudnessMatching;
 
 @end
 

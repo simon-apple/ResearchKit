@@ -917,6 +917,10 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
         }  else {
             _headphoneDetectStepView.headphoneDetected = ORKHeadphoneDetectedUnknown;
         }
+        
+        if (self.step.context && [self.step.context isKindOfClass:[ORKTinnitusPredefinedTaskContext class]]) {
+            [(ORKTinnitusPredefinedTaskContext *)self.step.context setHeadphoneType:headphoneType];
+        }
     } else {
         _lastDetectedHeadphoneType = nil;
         _headphoneDetectStepView.headphoneDetected = ORKHeadphoneDetectedNone;

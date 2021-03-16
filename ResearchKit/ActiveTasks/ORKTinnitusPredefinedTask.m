@@ -31,10 +31,9 @@
 #import "ORKTinnitusPredefinedTask.h"
 #import "ORKContext.h"
 #import "ORKTinnitusPureToneStep.h"
-#import "ORKTinnitusCalibrationStep.h"
+#import "ORKVolumeCalibrationStep.h"
 #import "ORKTinnitusTypeStep.h"
 #import "ORKTinnitusMaskingSoundStep.h"
-#import "ORKTinnitusLoudnessMatchingStep.h"
 #import "ORKTinnitusWhiteNoiseMatchingSoundStep.h"
 #import "ORKTinnitusTypeResult.h"
 #import "ORKTinnitusAudioSample.h"
@@ -576,6 +575,7 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus_pitch
         }
     }
     
+    _context.predominantFrequency = predominantFrequency ? [predominantFrequency doubleValue] : 0.0;
     return predominantFrequency ? [predominantFrequency doubleValue] : 0.0;
 }
 
@@ -616,9 +616,8 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus_pitch
     return [tinnitusType copy];
 }
 
-+ (ORKTinnitusCalibrationStep *)calibration {
-    
-    ORKTinnitusCalibrationStep *calibration = [[ORKTinnitusCalibrationStep alloc] initWithIdentifier:ORKTinnitusVolumeCalibrationStepIdentifier];
++ (ORKVolumeCalibrationStep *)calibration {
+    ORKVolumeCalibrationStep *calibration = [[ORKVolumeCalibrationStep alloc] initWithIdentifier:ORKTinnitusVolumeCalibrationStepIdentifier];
     calibration.title = ORKLocalizedString(@"TINNITUS_CALIBRATION_TITLE", nil);
     calibration.text = ORKLocalizedString(@"TINNITUS_CALIBRATION_TEXT", nil);
     return [calibration copy];
@@ -672,13 +671,14 @@ static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus_pitch
     return [roundSuccessCompleted copy];
 }
 
-- (ORKTinnitusLoudnessMatchingStep *)loudnessMatchingForType:(ORKTinnitusType)tinnitusType {
-    ORKTinnitusLoudnessMatchingStep *loudnessMatching;
+- (ORKVolumeCalibrationStep *)loudnessMatchingForType:(ORKTinnitusType)tinnitusType {
+    ORKVolumeCalibrationStep *loudnessMatching;
     if (tinnitusType == ORKTinnitusTypePureTone) {
-        loudnessMatching = [[ORKTinnitusLoudnessMatchingStep alloc] initWithIdentifier:ORKTinnitusLoudnessMatchingStepIdentifier frequency:_predominantFrequency];
+        loudnessMatching = [[ORKVolumeCalibrationStep alloc] initWithIdentifier:ORKTinnitusLoudnessMatchingStepIdentifier];
     } else {
-        loudnessMatching = [[ORKTinnitusLoudnessMatchingStep alloc] initWithIdentifier:ORKTinnitusSoundLoudnessMatchingStepIdentifier noiseType:_noiseTypeIdentifier];
+        loudnessMatching = [[ORKVolumeCalibrationStep alloc] initWithIdentifier:ORKTinnitusSoundLoudnessMatchingStepIdentifier];
     }
+    loudnessMatching.isLoudnessMatching = YES;
     loudnessMatching.title = ORKLocalizedString(@"TINNITUS_FINAL_CALIBRATION_TITLE", nil);
     loudnessMatching.text = ORKLocalizedString(@"TINNITUS_FINAL_CALIBRATION_TEXT", nil);
     return [loudnessMatching copy];
