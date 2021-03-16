@@ -166,6 +166,11 @@
             self.activeStepView.navigationFooterView.continueEnabled = YES;
         }
     }
+    
+    if (self.step.context && [self.step.context isKindOfClass:[ORKTinnitusPredefinedTaskContext class]]) {
+        ORKTinnitusPredefinedTaskContext *context = (ORKTinnitusPredefinedTaskContext *)self.step.context;
+        context.type = _contentView.pureToneButtonView.isSelected ? ORKTinnitusTypePureTone : ORKTinnitusTypeWhiteNoise;
+    }
 }
 
 @end

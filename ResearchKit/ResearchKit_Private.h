@@ -190,8 +190,6 @@
 // Tinnitus Predefined Task Steps & Result Objects
 #import <ResearchKit/ORKTinnitusTypeStep.h>
 #import <ResearchKit/ORKTinnitusPureToneStep.h>
-#import <ResearchKit/ORKTinnitusLoudnessMatchingStep.h>
-#import <ResearchKit/ORKTinnitusCalibrationStep.h>
 #import <ResearchKit/ORKTinnitusMaskingSoundStep.h>
 #import <ResearchKit/ORKTinnitusWhiteNoiseMatchingSoundStep.h>
 

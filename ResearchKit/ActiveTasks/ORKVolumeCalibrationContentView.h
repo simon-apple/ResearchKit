@@ -34,17 +34,22 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @class ORKVolumeCalibrationContentView;
-@class ORKPlaybackButton;
 
 @protocol ORKVolumeCalibrationContentViewDelegate <NSObject>
 
-- (BOOL)contentView:(ORKVolumeCalibrationContentView *)contentView didPressPlaybackButton:(ORKPlaybackButton *)playbackButton;
+- (BOOL)contentView:(ORKVolumeCalibrationContentView *)contentView didPressPlaybackButton:(UIButton *)playbackButton;
+- (void)contentView:(ORKVolumeCalibrationContentView *)contentView didRaisedVolume:(float)volume;
+- (void)contentView:(ORKVolumeCalibrationContentView *)contentView shouldEnableContinue:(BOOL)enable;
 
 @end
 
 @interface ORKVolumeCalibrationContentView : ORKActiveStepCustomView
 
 @property (nonatomic, weak, nullable) id<ORKVolumeCalibrationContentViewDelegate> delegate;
+
+- (instancetype)init __attribute__((unavailable("init not available. Use initWithTitle: instead.")));
+
+- (instancetype)initWithTitle:(NSString *)title;
 
 @end
 

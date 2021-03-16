@@ -36,6 +36,8 @@
 #import <ResearchKitCore/ORKStep.h>
 #endif
 
+#import <ResearchKit/ORKDefines.h>
+
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol ORKContext <NSObject>
@@ -77,10 +79,19 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @class ORKTinnitusAudioManifest;
+typedef NS_ENUM(NSInteger, ORKTinnitusType);
 
 @interface ORKTinnitusPredefinedTaskContext : NSObject <ORKContext>
 
 @property (nonatomic) ORKTinnitusAudioManifest *audioManifest;
+
+@property (nonatomic, copy, nullable) ORKHeadphoneTypeIdentifier headphoneType;
+
+@property (nonatomic, copy, nullable) NSString *whiteNoiseType;
+
+@property (nonatomic, assign) ORKTinnitusType type;
+
+@property (nonatomic, assign) double predominantFrequency;
 
 @end
 

@@ -38,9 +38,7 @@
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [super encodeWithCoder:aCoder];
     ORK_ENCODE_DOUBLE(aCoder, amplitude);
-    ORK_ENCODE_DOUBLE(aCoder, frequency);
     ORK_ENCODE_DOUBLE(aCoder, volumeCurve);
-    ORK_ENCODE_ENUM(aCoder, type);
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
@@ -48,8 +46,6 @@
     if (self) {
         ORK_DECODE_DOUBLE(aDecoder, amplitude);
         ORK_DECODE_DOUBLE(aDecoder, volumeCurve);
-        ORK_DECODE_DOUBLE(aDecoder, frequency);
-        ORK_DECODE_ENUM(aDecoder, type);
     }
     return self;
 }
@@ -64,27 +60,22 @@
     __typeof(self) castObject = object;
     return (isParentSame &&
             (self.amplitude == castObject.amplitude) &&
-            (self.frequency == castObject.frequency) &&
-            (self.volumeCurve == castObject.volumeCurve) &&
-            (self.type == castObject.type) ) ;
+            (self.volumeCurve == castObject.volumeCurve));
 }
 
 - (NSUInteger)hash {
-    return super.hash;
+    return super.hash ^ @(self.amplitude).hash ^ @(self.volumeCurve).hash;
 }
 
 - (instancetype)copyWithZone:(NSZone *)zone {
     ORKTinnitusVolumeResult *result = [super copyWithZone:zone];
     result.amplitude = self.amplitude;
-    result.frequency = self.frequency;
     result.volumeCurve = self.volumeCurve;
-    result.type = self.type;
     return result;
 }
 
 - (NSString *)descriptionWithNumberOfPaddingSpaces:(NSUInteger)numberOfPaddingSpaces {
-    return [NSString stringWithFormat:@"%@; Type: %li; Amplitude: %0.6f; VolumeCurve: %0.6f; Frequency: %0.1f;", [self descriptionPrefixWithNumberOfPaddingSpaces:numberOfPaddingSpaces], (long)self.type, self.amplitude, self.volumeCurve, self.frequency];
+    return [NSString stringWithFormat:@"%@; Amplitude: %0.6f; VolumeCurve: %0.6f;", [self descriptionPrefixWithNumberOfPaddingSpaces:numberOfPaddingSpaces], self.amplitude, self.volumeCurve];
 }
-
 
 @end

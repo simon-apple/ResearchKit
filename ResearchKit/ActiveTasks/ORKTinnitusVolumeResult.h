@@ -35,17 +35,11 @@ NS_ASSUME_NONNULL_BEGIN
 ORK_CLASS_AVAILABLE
 @interface ORKTinnitusVolumeResult : ORKResult
 
-// The type of tinnitus matched
-@property (nonatomic, assign) NSInteger type;
-
 // The amplitude of the matched tone (dB SPL)
 @property (nonatomic, assign) double amplitude;
 
 // The gain of the current system volume. Value changes based on the headphone type (dB)
 @property (nonatomic, assign) double volumeCurve;
-
-// The frequency of the matched tone (Hz). Will be 0.0 if 'type' == ORKTinnitusTypeWhiteNoise
-@property (nonatomic, assign) double frequency;
 
 @end
 

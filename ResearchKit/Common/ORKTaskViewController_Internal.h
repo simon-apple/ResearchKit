@@ -61,6 +61,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)flipToLastPage;
 
+// Save the current system volume for restoration after the task end
+- (void)saveVolume;
+
 @end
 
 NS_ASSUME_NONNULL_END

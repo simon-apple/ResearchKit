@@ -44,6 +44,7 @@ ORK_CLASS_AVAILABLE
 @interface ORKTinnitusAudioGenerator : NSObject
 
 @property (readonly) NSTimeInterval fadeDuration;
+@property (readonly, getter=isPlaying) BOOL playing;
 
 + (instancetype)new NS_UNAVAILABLE;
 - (instancetype)init NS_UNAVAILABLE;

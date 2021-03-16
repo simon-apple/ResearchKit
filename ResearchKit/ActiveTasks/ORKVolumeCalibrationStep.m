@@ -31,13 +31,51 @@
 #import "ORKVolumeCalibrationStep.h"
 #import "ORKVolumeCalibrationStepViewController.h"
 
+#import "ORKHelpers_Internal.h"
+
 @implementation ORKVolumeCalibrationStep
 
-#pragma mark - ORKStep
-
-+ (Class)stepViewControllerClass
-{
++ (Class)stepViewControllerClass {
     return [ORKVolumeCalibrationStepViewController class];
+}
+
+- (BOOL)shouldContinueOnFinish {
+    return YES;
+}
+
+- (BOOL)startsFinished {
+    return NO;
+}
+
+- (instancetype)copyWithZone:(NSZone *)zone {
+    ORKVolumeCalibrationStep *step = [super copyWithZone:zone];
+    step.isLoudnessMatching = self.isLoudnessMatching;
+    return step;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        ORK_DECODE_BOOL(aDecoder, isLoudnessMatching);
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [super encodeWithCoder:aCoder];
+    ORK_ENCODE_BOOL(aCoder, isLoudnessMatching);
+}
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
+- (BOOL)isEqual:(id)object {
+    BOOL isParentSame = [super isEqual:object];
+    
+    __typeof(self) castObject = object;
+    return (isParentSame
+            && (self.isLoudnessMatching == castObject.isLoudnessMatching));
 }
 
 @end
