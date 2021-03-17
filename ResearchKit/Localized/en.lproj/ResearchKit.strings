@@ -745,7 +745,7 @@
 "TINNITUS_FINAL_CALIBRATION_BUTTON_TITLE" = "Tinnitus Sample";
 "TINNITUS_MASKING_INSTRUCTION_TITLE" = "Sound Masking";
 "TINNITUS_MASKING_INSTRUCTION_TEXT" = "Listen to different sounds and indicate how effective they are at masking the tinnitus you are experiencing.";
-"TINNITUS_MASKING_INSTRUCTION_BODY1" = "Some ambient sounds can lessen or relieve tinnitus. You will rate these sounds based on their efficacy.";
+"TINNITUS_MASKING_INSTRUCTION_BODY1" = "Some ambient sounds can lessen or relieve tinnitus. You will rate these sounds based on their effectiveness.";
 "TINNITUS_MASKING_INSTRUCTION_BODY2" = "This task will take about 3 minutes to complete.";
 "TINNITUS_MASKING_TITLE" = "Masking Sound";
 "TINNITUS_MASKING_TEXT" = "Listen to the sample and answer the following question. Feel free to use the volume buttons to adjust the level.";
