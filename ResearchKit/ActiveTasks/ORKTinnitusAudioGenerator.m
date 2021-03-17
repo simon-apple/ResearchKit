@@ -205,6 +205,10 @@ static OSStatus ORKTinnitusAudioGeneratorRenderTone(void *inRefCon,
         dbAmplitudePerFrequencyFilename = @"dbAmplitudePerFrequency_AIRPODSPRO";
         dbSPLAmplitudePerFrequencyFilename = @"dbSPLAmplitudePerFrequency_AIRPODSPRO";
         volumeCurveFilename = @"volume_curve_AIRPODSPRO";
+    } else if ([headphoneTypeUppercased isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMax]) {
+        dbAmplitudePerFrequencyFilename = @"dbAmplitudePerFrequency_AIRPODSMAX";
+        dbSPLAmplitudePerFrequencyFilename = @"dbSPLAmplitudePerFrequency_AIRPODSMAX";
+        volumeCurveFilename = @"volume_curve_AIRPODSMAX";
     } else if ([headphoneTypeUppercased isEqualToString:ORKHeadphoneTypeIdentifierEarPods]) {
         dbAmplitudePerFrequencyFilename = @"dbAmplitudePerFrequency_EARPODS";
         dbSPLAmplitudePerFrequencyFilename = @"dbSPLAmplitudePerFrequency_EARPODS";
