@@ -744,16 +744,12 @@
 "TINNITUS_MASKING_INSTRUCTION_TEXT" = "Listen to different sounds and indicate how effective they are at masking the tinnitus you are experiencing.";
 "TINNITUS_MASKING_INSTRUCTION_BODY1" = "Some ambient sounds can lessen or relieve tinnitus. You will rate these sounds based on their effectiveness.";
 "TINNITUS_MASKING_INSTRUCTION_BODY2" = "This task will take about 3 minutes to complete.";
-
-"TINNITUS_MASKING_TITLE" = "Masking Sound";
-"TINNITUS_MASKING_TEXT" = "Listen to the sample and answer the following question. Feel free to use the volume buttons to adjust the level.";
-"TINNITUS_MASKING_QUESTION" = "Would you use the sound above to mask your tinnitus while completing a task (for example to focus, relax or fall asleep)?";
-"TINNITUS_MASKING_ANSWER_DEFINITELY" = "Definitely";
-"TINNITUS_MASKING_ANSWER_PROBABLY" = "Probably";
-"TINNITUS_MASKING_ANSWER_POSSIBLY" = "Possibly";
-"TINNITUS_MASKING_ANSWER_PROBABLYNOT" = "Probably not";
-"TINNITUS_MASKING_ANSWER_DEFINITELYNOT" = "Definitely not";
-"TINNITUS_MASKING_ANSWER_NOTA" = "None of the above";
+"TINNITUS_MASKING_TITLE" = "Sound Masking";
+"TINNITUS_MASKING_TEXT" = "Listen to the sample and indicate how effective it is at masking the tinnitus you are experiencing.";
+"TINNITUS_MASKING_ANSWER_VERY_EFFECTIVE" = "Very effective";
+"TINNITUS_MASKING_ANSWER_SOMEWHAT_EFFECTIVE" = "Somewhat effective";
+"TINNITUS_MASKING_ANSWER_NOT_EFFECTIVE" = "Not effective";
+"TINNITUS_MASKING_ANSWER_NOTA" = "I prefer not to answer";
 
 /* ORKRecordButton */
 "PLAY" = "Play";

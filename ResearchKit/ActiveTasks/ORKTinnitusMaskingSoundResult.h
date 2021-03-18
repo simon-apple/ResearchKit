@@ -37,6 +37,8 @@ ORK_CLASS_AVAILABLE
 
 @property (nonatomic, copy) NSString *answer;
 
+@property (nonatomic, assign) double volumeCurve;
+
 @end
 
 NS_ASSUME_NONNULL_END

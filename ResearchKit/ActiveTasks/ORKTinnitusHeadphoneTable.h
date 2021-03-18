@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020, Apple Inc. All rights reserved.
+ Copyright (c) 2021, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,31 +28,26 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@import UIKit;
-#import "ORKCustomStepView_Internal.h"
-#import "ORKTinnitusButtonView.h"
+@import Foundation;
+#import <ResearchKit/ORKTypes.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol ORKTinnitusMaskingSoundContentViewDelegate <NSObject>
+@interface ORKTinnitusHeadphoneTable : NSObject
 
-@required
-- (void)buttonCheckedWithValue:(NSString *)value;
-- (BOOL)pressedPlaybackButton:(UIButton *)playbackButton;
-- (void)raisedVolume:(float)volume;
+@property (nonatomic, strong) ORKHeadphoneTypeIdentifier headphoneType;
+@property (nonatomic, strong) NSDictionary *dbAmplitudePerFrequency;
+@property (nonatomic, strong) NSDictionary *dbSPLAmplitudePerFrequency;
+@property (nonatomic, strong) NSDictionary *volumeCurve;
 
-@end
+- (instancetype)initWithHeadphoneType:(ORKHeadphoneTypeIdentifier)headphoneType;
 
-@interface ORKTinnitusMaskingSoundContentView : ORKActiveStepCustomView
-
-@property (nonatomic, weak) id<ORKTinnitusMaskingSoundContentViewDelegate> delegate;
-
-+ (instancetype)new NS_UNAVAILABLE;
-- (instancetype)init NS_UNAVAILABLE;
-- (instancetype)initWithButtonTitle:(NSString *)title;
-
-- (void)displayChoices;
-- (nullable NSString *)getAnswer;
+/**
+ Returns the gain for volume using the volume curve for the initialized headphone type
+ 
+@return The volume gain (dB)
+ */
+- (float)gainForSystemVolume:(float)systemVolume;
 
 @end
 

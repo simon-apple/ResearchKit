@@ -30,7 +30,6 @@
 
 #import "ORKVolumeCalibrationContentView.h"
 #import "ORKHelpers_Internal.h"
-#import "ORKPlaybackButton_Internal.h"
 #import "ORKSkin.h"
 
 static float const ORKVolumeCalibrationVolumeStep = 0.0625;

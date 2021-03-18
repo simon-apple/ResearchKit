@@ -41,6 +41,7 @@
 #import "ORKTinnitusMaskingSoundStep.h"
 #import "ORKTinnitusMaskingSoundContentView.h"
 #import "ORKTinnitusAudioSample.h"
+#import "ORKTinnitusHeadphoneTable.h"
 
 #import "ORKStepContainerView_Private.h"
 #import "ORKNavigationContainerView_Internal.h"
@@ -49,15 +50,19 @@
 
 #import <AVFoundation/AVFoundation.h>
 
-NSString *const ORKTinnitusPuretoneMaskSoundNameExtension = @"wav";
+#import "ORKCelestialSoftLink.h"
 
-@interface ORKTinnitusMaskingSoundStepViewController () <ORKTinnitusButtonViewDelegate, ORKTinnitusMaskingSoundContentViewDelegate> {
+NSString *const ORKTinnitusPuretoneMaskSoundNameExtension = @"wav";
+const double ORKTinnitusMaskingIncrementVolumeDefault = 0.0625f;
+
+@interface ORKTinnitusMaskingSoundStepViewController () <ORKTinnitusMaskingSoundContentViewDelegate> {
     AVAudioEngine *_audioEngine;
     AVAudioPlayerNode *_playerNode;
     AVAudioMixerNode *_mixerNode;
     AVAudioPCMBuffer *_audioBuffer;
     
     NSString *_selectedValue;
+    BOOL _isLastIteraction;
 }
 
 @property (nonatomic, strong) ORKTinnitusMaskingSoundContentView *matchingSoundContentView;
@@ -74,12 +79,13 @@ NSString *const ORKTinnitusPuretoneMaskSoundNameExtension = @"wav";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    [self.taskViewController saveVolume];
+    [[getAVSystemControllerClass() sharedAVSystemController] setActiveCategoryVolumeTo:0];
+
     NSString *buttonTitle = [[self tinnitusMaskingSoundStep] name];
     NSString *soundIdentifier = [[self tinnitusMaskingSoundStep] soundIdentifier];
     
     self.matchingSoundContentView = [[ORKTinnitusMaskingSoundContentView alloc] initWithButtonTitle:buttonTitle];
-    self.matchingSoundContentView.playButtonView.delegate = self;
     self.activeStepView.activeCustomView = self.matchingSoundContentView;
     self.matchingSoundContentView.delegate = self;
     
@@ -96,7 +102,26 @@ NSString *const ORKTinnitusPuretoneMaskSoundNameExtension = @"wav";
         ORK_Log_Error("Error fetching audioSample: %@", error);
     }
     
+    _isLastIteraction = NO;
+    self.continueButtonItem = self.internalContinueButtonItem;
     [self setNavigationFooterView];
+}
+
+- (void)setContinueButtonItem:(UIBarButtonItem *)continueButtonItem {
+    continueButtonItem.target = self;
+    continueButtonItem.action = @selector(continueButtonTapped:);
+    
+    [super setContinueButtonItem:continueButtonItem];
+}
+
+- (void)continueButtonTapped:(id)sender {
+    if (!_isLastIteraction) {
+        [self.matchingSoundContentView displayChoices];
+        self.activeStepView.navigationFooterView.continueEnabled = NO;
+        _isLastIteraction = YES;
+    } else {
+        [self finish];
+    }
 }
 
 - (BOOL)setupAudioEngineForSound:(NSString *)identifier error:(NSError **)outError {
@@ -119,11 +144,6 @@ NSString *const ORKTinnitusPuretoneMaskSoundNameExtension = @"wav";
     return NO;
 }
 
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-}
-
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     if (_playerNode) {
@@ -139,12 +159,7 @@ NSString *const ORKTinnitusPuretoneMaskSoundNameExtension = @"wav";
 
 - (void)setNavigationFooterView {
     self.activeStepView.navigationFooterView.continueButtonItem = self.internalContinueButtonItem;
-    self.activeStepView.navigationFooterView.continueEnabled = NO;
     [self.activeStepView.navigationFooterView updateContinueAndSkipEnabled];
-}
-
-- (void)start {
-    [super start];
 }
 
 - (ORKStepResult *)result {
@@ -157,6 +172,13 @@ NSString *const ORKTinnitusPuretoneMaskSoundNameExtension = @"wav";
     matchingSoundResult.startDate = sResult.startDate;
     matchingSoundResult.endDate = now;
     matchingSoundResult.answer = [_matchingSoundContentView getAnswer];
+    
+    if (self.step.context && [self.step.context isKindOfClass:[ORKTinnitusPredefinedTaskContext class]]) {
+        ORKTinnitusPredefinedTaskContext *context = (ORKTinnitusPredefinedTaskContext *)self.step.context;
+        ORKTinnitusHeadphoneTable *table = [[ORKTinnitusHeadphoneTable alloc] initWithHeadphoneType:context.headphoneType];
+        
+        matchingSoundResult.volumeCurve = [table gainForSystemVolume:[self getCurrentSystemVolume]];
+    }
 
     [results addObject:matchingSoundResult];
     sResult.results = [results copy];
@@ -164,18 +186,31 @@ NSString *const ORKTinnitusPuretoneMaskSoundNameExtension = @"wav";
     return sResult;
 }
 
-- (void)tinnitusButtonViewPressed:(ORKTinnitusButtonView * _Nonnull)tinnitusButtonView {
-    [self.matchingSoundContentView enableButtons];
-    if (_playerNode.isPlaying) {
-        [_playerNode pause];
-    } else {
-        [_playerNode play];
-    }
+- (float)getCurrentSystemVolume {
+    return (int)([[AVAudioSession sharedInstance] outputVolume] / ORKTinnitusMaskingIncrementVolumeDefault) * ORKTinnitusMaskingIncrementVolumeDefault;
 }
 
 - (void)buttonCheckedWithValue:(nonnull NSString *)value {
     _selectedValue = value;
     self.activeStepView.navigationFooterView.continueEnabled = YES;
+}
+
+- (BOOL)pressedPlaybackButton:(nonnull UIButton *)playbackButton {
+    if (_playerNode.isPlaying) {
+        [_playerNode pause];
+        return NO;
+    } else {
+        [_playerNode play];
+        return YES;
+    }
+}
+
+- (void)raisedVolume:(float)volume {
+    [[getAVSystemControllerClass() sharedAVSystemController] setActiveCategoryVolumeTo:volume];
+    
+    if (!_isLastIteraction) {
+        self.activeStepView.navigationFooterView.continueEnabled = (volume > 0.0);
+    }
 }
 
 @end

@@ -31,19 +31,15 @@
 #import <Foundation/Foundation.h>
 #import "ORKTinnitusTypes.h"
 
-ORKTinnitusMaskingAnswer const ORKTinnitusMaskingAnswerDefinitely = @"DEFINITELY";
+ORKTinnitusMaskingAnswer const ORKTinnitusMaskingAnswerVeryEffective = @"VERY_EFFECTIVE";
 
-ORKTinnitusMaskingAnswer const ORKTinnitusMaskingAnswerProbably = @"PROBABLY";
+ORKTinnitusMaskingAnswer const ORKTinnitusMaskingAnswerSomewhatEffective = @"SOMEWHAT_EFFECTIVE";
 
-ORKTinnitusMaskingAnswer const ORKTinnitusMaskingAnswerProbablyNot = @"PROBABLY_NOT";
-
-ORKTinnitusMaskingAnswer const ORKTinnitusMaskingAnswerPossibly = @"POSSIBLY";
-
-ORKTinnitusMaskingAnswer const ORKTinnitusMaskingAnswerDefinitelyNot = @"DEFINITELY_NOT";
+ORKTinnitusMaskingAnswer const ORKTinnitusMaskingAnswerNotEffective = @"NOT_EFFECTIVE";
 
 ORKTinnitusMaskingAnswer const ORKTinnitusMaskingAnswerNoneOfTheAbove = @"NOTA";
 
-ORKTinnitusError const ORKTinnitusErrorNone = @"-";
+ORKTinnitusError const ORKTinnitusErrorNone = @"None";
 
 ORKTinnitusError const ORKTinnitusErrorInconsistency = @"Inconsistency";
 
