@@ -33,6 +33,7 @@
 
 #import <ResearchKit/ORKHelpers_Private.h>
 #import <ResearchKit/ORKHelpers_Internal.h>
+#import <ResearchKit/ORKDevice_Private.h>
 
 // Predefined Tasks
 #import <ResearchKit/ORKSpeechInNoisePredefinedTask.h>
