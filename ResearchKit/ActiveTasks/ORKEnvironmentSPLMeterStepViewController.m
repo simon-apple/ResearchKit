@@ -390,10 +390,14 @@
                                            [self evaluateThreshold:_spl];
                                            [_rmsBuffer removeAllObjects];
                                        } else {
-                                           if (rms > 0.0) {
+                                           if (rms > 0.0 && _sampleRate > 0.0) {
                                                float spl = (20 * log10f(sqrtf(rms/(float)_sampleRate))) - _sensitivityOffset + 94;
                                                dispatch_async(dispatch_get_main_queue(), ^{
                                                    [self.environmentSPLMeterContentView setProgressBar:(spl/_thresholdValue)];
+                                               });
+                                           } else {
+                                               dispatch_async(dispatch_get_main_queue(), ^{
+                                                   [self.environmentSPLMeterContentView setProgressBar:(_spl/_thresholdValue)];
                                                });
                                            }
                                        }
