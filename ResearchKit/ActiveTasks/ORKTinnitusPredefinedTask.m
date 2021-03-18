@@ -34,7 +34,6 @@
 #import "ORKVolumeCalibrationStep.h"
 #import "ORKTinnitusTypeStep.h"
 #import "ORKTinnitusMaskingSoundStep.h"
-#import "ORKTinnitusWhiteNoiseMatchingSoundStep.h"
 #import "ORKTinnitusTypeResult.h"
 #import "ORKTinnitusAudioSample.h"
 #import "ORKHeadphonesRequiredCompletionStep.h"
@@ -48,10 +47,9 @@ static NSString *const ORKTinnitusVolumeCalibrationStepIdentifier = @"tinnitus_v
 static NSString *const ORKTinnitusRoundStepIdentifier = @"tinnitus_puretone";
 static NSString *const ORKTinnitusRoundSuccessCompletedStepIdentifier = @"tinnitus_puretone_success_roundcomplete";
 static NSString *const ORKTinnitusPuretoneSuccessStepIdentifier = @"tinnitus_puretone_success";
-static NSString *const ORKTinnitusLoudnessMatchingStepIdentifier = @"tinnitus_loudness_matching";
-static NSString *const ORKTinnitusSoundLoudnessMatchingStepIdentifier = @"tinnitus_soundloudness_matching";
-static NSString *const ORKTinnitusWhiteNoiseMatchingIdentifier = @"tinnitus_whitenoise_matching";
-static NSString *const ORKTinnitusPitchMatchingStepIdentifier = @"tinnitus_pitch_matching";
+static NSString *const ORKTinnitusPuretoneLoudnessMatchingStepIdentifier = @"tinnitus_loudness_matching";
+static NSString *const ORKTinnitusWhitenoiseLoudnessMatchingStepIdentifier = @"tinnitus_whitenoise_loudness_matching";
+static NSString *const ORKTinnitusPitchMatchingInstructionStepIdentifier = @"tinnitus_pitch_matching_instruction";
 static NSString *const ORKTinnitusMaskingSoundInstructionStepIdentifier = @"tinnitus_masking_sound_instruction";
 
 @interface NSMutableArray (Shuffling)
@@ -76,11 +74,7 @@ static NSString *const ORKTinnitusMaskingSoundInstructionStepIdentifier = @"tinn
     ORKTinnitusPredefinedTaskContext *_context;
     
     NSDictionary *_stepAfterStepDict;
-    NSArray<NSArray <ORKTinnitusMaskingSoundStep*>*> *_maskingSteps;
-
-    ORKTinnitusType _type;
-    NSString *_noiseTypeIdentifier;
-    double _predominantFrequency;
+    NSArray<ORKTinnitusMaskingSoundStep*> *_maskingSteps;
 }
 
 @end
@@ -236,6 +230,7 @@ static NSString *const ORKTinnitusMaskingSoundInstructionStepIdentifier = @"tinn
     NSString * const ManifestJSONKeyAudioFilename = @"filename";
     NSString * const ManifestJSONKeyIdentifier = @"identifier";
     NSString * const ManifestJSONKeyName = @"name";
+    NSString * const ManifestJSONKeyTinnitusType = @"tinnitusType";
 
     NSMutableArray<ORKTinnitusAudioSample *> *audioFileSamples = [[NSMutableArray alloc] init];
 
@@ -247,10 +242,11 @@ static NSString *const ORKTinnitusMaskingSoundInstructionStepIdentifier = @"tinn
         NSString *audioFilePath = [parentDirectory stringByAppendingPathComponent:audioFilename];
         NSString *audioIdentifier = (NSString *)[obj objectForKey:ManifestJSONKeyIdentifier];
         NSString *audioFileName = (NSString *)[obj objectForKey:ManifestJSONKeyName];
+        ORKTinnitusType audioType = (ORKTinnitusType)[[obj valueForKey:ManifestJSONKeyTinnitusType] integerValue];
 
         if ([fileManager fileExistsAtPath:audioFilePath])
         {
-            [audioFileSamples addObject:[ORKTinnitusAudioSample sampleWithPath:audioFilePath name:audioFileName identifier:audioIdentifier]];
+            [audioFileSamples addObject:[ORKTinnitusAudioSample sampleWithPath:audioFilePath name:audioFileName identifier:audioIdentifier type:audioType]];
             success = YES;
         }
         else
@@ -307,7 +303,11 @@ static NSString *const ORKTinnitusMaskingSoundInstructionStepIdentifier = @"tinn
 
 - (ORKStep *)prependedStepAfterStep:(ORKStep *)step {
     
+#if TARGET_IPHONE_SIMULATOR
     ORKStep *firstPredefinedStep = [ORKTinnitusPredefinedTask splmeter];
+#else
+    ORKStep *firstPredefinedStep = [ORKTinnitusPredefinedTask headphone];
+#endif
     
     if (step == nil) {
         ORKStep *firstPrependedStep = [_prependSteps firstObject];
@@ -352,52 +352,47 @@ static NSString *const ORKTinnitusMaskingSoundInstructionStepIdentifier = @"tinn
 - (ORKStep *)dynamicStepAfterStep:(ORKStep *)step withResult:(id<ORKTaskResultSource>)result {
     NSString *identifier = step.identifier;
     ORKStep *nextStep = _stepAfterStepDict[identifier];
-
+    
     // cases that treats changes of flow
     if (!nextStep) {
-        if ([identifier isEqualToString:ORKTinnitusWhiteNoiseMatchingIdentifier]) {
-            if (_type == ORKTinnitusTypeWhiteNoise) {
-                ORKStepResult *stepResult = [result stepResultForStepIdentifier:ORKTinnitusWhiteNoiseMatchingIdentifier];
-                ORKTinnitusWhiteNoiseMatchingSoundResult *questionResult = (ORKTinnitusWhiteNoiseMatchingSoundResult *)(stepResult.results.count > 0 ? stepResult.results.firstObject : nil);
-                NSString *answer = questionResult.answer;
-                if (answer != nil) {
-                    _noiseTypeIdentifier = answer;
-                } else {
-                    return [self loudnessMatchingForType:ORKTinnitusTypePureTone];
-                }
+        if ([identifier isEqualToString:ORKTinnitusHeadphoneDetectStepIdentifier]) {
+            ORKStepResult *stepResult = [result stepResultForStepIdentifier:ORKTinnitusHeadphoneDetectStepIdentifier];
+            ORKHeadphoneDetectResult *headphoneResult = (ORKHeadphoneDetectResult *)(stepResult.results.count > 0 ? stepResult.results.firstObject : nil);
+            ORKHeadphoneTypeIdentifier headphoneType = headphoneResult.headphoneType;
+            if (headphoneType) {
+                _context.headphoneType = headphoneType;
             }
-            if ([self checkValidMatchingSound:_noiseTypeIdentifier]) {
-                return [self loudnessMatchingForType:ORKTinnitusTypeWhiteNoise];
-            }
-            return nil;
-        } else if ([identifier isEqualToString:ORKTinnitusSPLMeterStepIdentifier]) {
-#if TARGET_IPHONE_SIMULATOR
-            return [ORKTinnitusPredefinedTask tinnitusType];
-#else
-            return [ORKTinnitusPredefinedTask headphone];
-#endif
-        } else if ([identifier isEqualToString:ORKTinnitusVolumeCalibrationStepIdentifier]) {
+            return [ORKTinnitusPredefinedTask splmeter];
+        } else if ([identifier isEqualToString:ORKTinnitusTypeStepIdentifier]) {
             ORKStepResult *stepResult = [result stepResultForStepIdentifier:ORKTinnitusTypeStepIdentifier];
-            ORKTinnitusTypeResult *questionResult = (ORKTinnitusTypeResult *)(stepResult.results.count > 0 ? stepResult.results.firstObject : nil);
-            _type = questionResult.type;
-            if (questionResult.type == ORKTinnitusTypePureTone) {
-                return [self pitchMatching];
+            ORKTinnitusTypeResult *typeResult = (ORKTinnitusTypeResult *)(stepResult.results.count > 0 ? stepResult.results.firstObject : nil);
+            NSString *tinnitusIdentifier = typeResult.tinnitusIdentifier;
+            ORKTinnitusType type = typeResult.type;
+            if (tinnitusIdentifier != nil) {
+                _context.type = type;
+                _context.tinnitusIdentifier = tinnitusIdentifier;
+                ORKStepResult *roundResult = [result stepResultForStepIdentifier:[self getRoundIdentifierForNumber:3]];
+                if (_context.type == ORKTinnitusTypePureTone && !roundResult) {
+                    return [self pitchMatchingInstruction];
+                }
+            } else {
+                return nil;
             }
-            return [ORKTinnitusPredefinedTask whiteNoiseMatching];
+            return [self maskingSoundInstructionStep];
         } else if ([identifier isEqualToString:[self getRoundIdentifierForNumber:3]]) {
-            _predominantFrequency = [self predominantFrequencyForResult:result];
-            if (_predominantFrequency > 0.0) {
-                return [self loudnessMatchingForType:ORKTinnitusTypePureTone];
-            }
-            return [self maskingSoundInstructionStep];
-        } else if ([identifier isEqualToString:ORKTinnitusLoudnessMatchingStepIdentifier] ||
-                   [identifier isEqualToString:ORKTinnitusSoundLoudnessMatchingStepIdentifier]) {
-            return [self maskingSoundInstructionStep];
-        } else if ([identifier isEqualToString:ORKTinnitusMaskingSoundInstructionStepIdentifier]) {
-            return [self stepForMaskingSoundNumber:0];
-        } else if ([identifier isEqualToString:ORKTinnitusPuretoneSuccessStepIdentifier]) {
-            return nil;
-        }
+              _context.predominantFrequency = [self predominantFrequencyForResult:result];
+              if (_context.predominantFrequency > 0.0) {
+                  return [ORKTinnitusPredefinedTask puretoneLoudnessMatching];
+              }
+              return [self maskingSoundInstructionStep];
+          } else if ([identifier isEqualToString:ORKTinnitusPuretoneLoudnessMatchingStepIdentifier] ||
+                     [identifier isEqualToString:ORKTinnitusWhitenoiseLoudnessMatchingStepIdentifier]) {
+              return [self maskingSoundInstructionStep];
+          } else if ([identifier isEqualToString:ORKTinnitusMaskingSoundInstructionStepIdentifier]) {
+              return [self stepForMaskingSoundNumber:0];
+          } else if ([identifier isEqualToString:ORKTinnitusPuretoneSuccessStepIdentifier]) {
+              return nil;
+          }
         
         nextStep = [self nextMaskingStepForIdentifier:identifier];
     }
@@ -434,9 +429,7 @@ static NSString *const ORKTinnitusMaskingSoundInstructionStepIdentifier = @"tinn
     NSMutableArray *steps = [[NSMutableArray alloc] init];
     
     for (ORKTinnitusAudioSample *sample in _context.audioManifest.maskingSamples) {
-        ORKTinnitusMaskingSoundStep *step = [self maskingSoundStepForIdentifier:sample.identifier name:sample.name soundIdentifier:sample.identifier isNotch:NO];
-        ORKTinnitusMaskingSoundStep *notchStep = [self maskingSoundStepForIdentifier:[NSString stringWithFormat:@"%@.notch", sample.identifier] name:sample.name soundIdentifier:sample.identifier isNotch:YES];
-        [steps addObject:@[step, notchStep]];
+        [steps addObject:[self maskingSoundStepForIdentifier:sample.identifier name:sample.name soundIdentifier:sample.identifier ]];
     }
     
     [steps shuffle];
@@ -452,9 +445,9 @@ static NSString *const ORKTinnitusMaskingSoundInstructionStepIdentifier = @"tinn
     NSString *round2SuccessIdentifier = [self getRoundSuccessIdentifierForNumber:2];
     
     _stepAfterStepDict = @{
-        ORKTinnitusHeadphoneDetectStepIdentifier: [ORKTinnitusPredefinedTask tinnitusType],
-        ORKTinnitusTypeStepIdentifier: [ORKTinnitusPredefinedTask calibration],
-        ORKTinnitusPitchMatchingStepIdentifier: [self getPureToneRound:1],
+        ORKTinnitusSPLMeterStepIdentifier: [ORKTinnitusPredefinedTask calibration],
+        ORKTinnitusVolumeCalibrationStepIdentifier: [ORKTinnitusPredefinedTask tinnitusType],
+        ORKTinnitusPitchMatchingInstructionStepIdentifier: [self getPureToneRound:1],
         round1Identifier: [self getPureToneRoundComplete:1],
         round1SuccessIdentifier: [self getPureToneRound:2],
         round2Identifier: [self getPureToneRoundComplete:2],
@@ -463,28 +456,20 @@ static NSString *const ORKTinnitusMaskingSoundInstructionStepIdentifier = @"tinn
 }
 
 - (double)predominantFrequency {
-    return _predominantFrequency;
+    return _context.predominantFrequency;
 }
 
 - (nullable ORKTinnitusMaskingSoundStep *)stepForMaskingSoundNumber:(NSUInteger)index {
     if (index < _maskingSteps.count) {
-        return _maskingSteps[index][0];
-    }
-    return nil;
-}
-
-- (nullable ORKTinnitusMaskingSoundStep *)stepForNotchMaskingSoundNumber:(NSUInteger)index {
-    if (index < _maskingSteps.count) {
-        return _maskingSteps[index][1];
+        return _maskingSteps[index];
     }
     return nil;
 }
 
 - (nullable ORKTinnitusMaskingSoundStep *)nextMaskingStepForIdentifier:(NSString *)identifier {
     __block NSUInteger index = 0;
-    [_maskingSteps objectsAtIndexes:[_maskingSteps indexesOfObjectsPassingTest:^BOOL(NSArray <ORKTinnitusMaskingSoundStep *> *steps, NSUInteger idx, BOOL *stop) {
-        if ([steps[0].identifier isEqualToString:identifier] ||
-            [steps[1].identifier isEqualToString:identifier]) {
+    [_maskingSteps objectsAtIndexes:[_maskingSteps indexesOfObjectsPassingTest:^BOOL(ORKTinnitusMaskingSoundStep *step, NSUInteger idx, BOOL *stop) {
+        if ([step.identifier isEqualToString:identifier]) {
             index = idx;
             *stop = YES;
             return YES;
@@ -492,13 +477,6 @@ static NSString *const ORKTinnitusMaskingSoundInstructionStepIdentifier = @"tinn
         return NO;
     }]];
     if ([identifier isEqualToString:[self stepForMaskingSoundNumber:index].identifier]) {
-        if (_predominantFrequency > 0.0) {
-            ORKTinnitusMaskingSoundStep *maskingSoundStep = [self stepForNotchMaskingSoundNumber:index];
-            maskingSoundStep.notchFrequency = _predominantFrequency;
-            return maskingSoundStep;
-        }
-        return [self stepForMaskingSoundNumber:index+1];
-    } else if ([identifier isEqualToString:[self stepForNotchMaskingSoundNumber:index].identifier]) {
         return [self stepForMaskingSoundNumber:index+1];
     }
     return nil;
@@ -571,11 +549,9 @@ static NSString *const ORKTinnitusMaskingSoundInstructionStepIdentifier = @"tinn
 }
 
 + (ORKTinnitusTypeStep *)tinnitusType {
-    
-    ORKTinnitusTypeStep *tinnitusType = [ORKTinnitusTypeStep stepWithIdentifier:ORKTinnitusTypeStepIdentifier
-                                                                          title:ORKLocalizedString(@"TINNITUS_KIND_TITLE", nil)
-                                                                      frequency:ORKTinnitusTypeDefaultFrequency];
-    tinnitusType.text = ORKLocalizedString(@"TINNITUS_KIND_DETAIL", nil);
+    ORKTinnitusTypeStep *tinnitusType = [[ORKTinnitusTypeStep alloc] initWithIdentifier:ORKTinnitusTypeStepIdentifier];
+    tinnitusType.title = ORKLocalizedString(@"TINNITUS_TYPE_TITLE", nil);
+    tinnitusType.text = ORKLocalizedString(@"TINNITUS_TYPE_DETAIL", nil);
     tinnitusType.optional = NO;
     return [tinnitusType copy];
 }
@@ -587,17 +563,31 @@ static NSString *const ORKTinnitusMaskingSoundInstructionStepIdentifier = @"tinn
     return [calibration copy];
 }
 
-- (ORKInstructionStep *)pitchMatching {
-    ORKInstructionStep *pitchMatching = [[ORKInstructionStep alloc] initWithIdentifier:ORKTinnitusPitchMatchingStepIdentifier];
-    pitchMatching.title = ORKLocalizedString(@"TINNITUS_FREQUENCY_MATCHING_TITLE", nil);
-    pitchMatching.text = ORKLocalizedString(@"TINNITUS_FREQUENCY_MATCHING_DETAIL", nil);
++ (ORKVolumeCalibrationStep *)puretoneLoudnessMatching {
+    ORKVolumeCalibrationStep *puretoneLoudnessMatching = [[ORKVolumeCalibrationStep alloc] initWithIdentifier:ORKTinnitusPuretoneLoudnessMatchingStepIdentifier];
+    puretoneLoudnessMatching.title = ORKLocalizedString(@"TINNITUS_FINAL_CALIBRATION_TITLE", nil);
+    puretoneLoudnessMatching.text = ORKLocalizedString(@"TINNITUS_FINAL_CALIBRATION_TEXT", nil);
+    return [puretoneLoudnessMatching copy];
+}
+
++ (ORKVolumeCalibrationStep *)whitenoiseLoudnessMatching {
+    ORKVolumeCalibrationStep *whitenoiseLoudnessMatching = [[ORKVolumeCalibrationStep alloc] initWithIdentifier:ORKTinnitusWhitenoiseLoudnessMatchingStepIdentifier];
+    whitenoiseLoudnessMatching.title = ORKLocalizedString(@"TINNITUS_FINAL_CALIBRATION_TITLE", nil);
+    whitenoiseLoudnessMatching.text = ORKLocalizedString(@"TINNITUS_FINAL_CALIBRATION_TEXT", nil);
+    return [whitenoiseLoudnessMatching copy];
+}
+
+- (ORKInstructionStep *)pitchMatchingInstruction {
+    ORKInstructionStep *pitchMatchingInstruction = [[ORKInstructionStep alloc] initWithIdentifier:ORKTinnitusPitchMatchingInstructionStepIdentifier];
+    pitchMatchingInstruction.title = ORKLocalizedString(@"TINNITUS_FREQUENCY_MATCHING_TITLE", nil);
+    pitchMatchingInstruction.text = ORKLocalizedString(@"TINNITUS_FREQUENCY_MATCHING_DETAIL", nil);
     
     if (@available(iOS 13.0, *)) {
         ORKBodyItem *item = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"TINNITUS_VOLUME_ADJUST_TEXT", nil) detailText:nil image:[UIImage systemImageNamed:@"timer"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
-        pitchMatching.bodyItems = @[item];
+        pitchMatchingInstruction.bodyItems = @[item];
     }
 
-    return [pitchMatching copy];
+    return [pitchMatchingInstruction copy];
 }
 
 - (NSString *)getRoundIdentifierForNumber:(NSInteger)roundNumber {
@@ -611,7 +601,7 @@ static NSString *const ORKTinnitusMaskingSoundInstructionStepIdentifier = @"tinn
 - (ORKTinnitusPureToneStep *)getPureToneRound:(NSInteger)roundNumber {
     NSString *identifier = [self getRoundIdentifierForNumber:roundNumber];
     ORKTinnitusPureToneStep *round = [[ORKTinnitusPureToneStep alloc] initWithIdentifier:identifier];
-    round.title = ORKLocalizedString(@"TINNITUS_PURETONE_TITLE2", nil);
+    round.title = ORKLocalizedString(@"TINNITUS_PURETONE_TITLE", nil);
     round.detailText = ORKLocalizedString(@"TINNITUS_PURETONE_TEXT", nil);
     round.roundNumber = roundNumber;
     return [round copy];
@@ -637,28 +627,6 @@ static NSString *const ORKTinnitusMaskingSoundInstructionStepIdentifier = @"tinn
     return [roundSuccessCompleted copy];
 }
 
-- (ORKVolumeCalibrationStep *)loudnessMatchingForType:(ORKTinnitusType)tinnitusType {
-    ORKVolumeCalibrationStep *loudnessMatching;
-    if (tinnitusType == ORKTinnitusTypePureTone) {
-        loudnessMatching = [[ORKVolumeCalibrationStep alloc] initWithIdentifier:ORKTinnitusLoudnessMatchingStepIdentifier];
-    } else {
-        loudnessMatching = [[ORKVolumeCalibrationStep alloc] initWithIdentifier:ORKTinnitusSoundLoudnessMatchingStepIdentifier];
-    }
-    loudnessMatching.isLoudnessMatching = YES;
-    loudnessMatching.title = ORKLocalizedString(@"TINNITUS_FINAL_CALIBRATION_TITLE", nil);
-    loudnessMatching.text = ORKLocalizedString(@"TINNITUS_FINAL_CALIBRATION_TEXT", nil);
-    return [loudnessMatching copy];
-}
-
-+ (ORKTinnitusWhiteNoiseMatchingSoundStep *)whiteNoiseMatching {
-    ORKTinnitusWhiteNoiseMatchingSoundStep *whitenoiseMatching = [[ORKTinnitusWhiteNoiseMatchingSoundStep alloc]
-                                                       initWithIdentifier:ORKTinnitusWhiteNoiseMatchingIdentifier];
-    whitenoiseMatching.title = ORKLocalizedString(@"TINNITUS_WHITENOISE_MATCHINGSOUND_TITLE", nil);
-    whitenoiseMatching.text = ORKLocalizedString(@"TINNITUS_WHITENOISE_MATCHINGSOUND_TEXT", nil);
-    whitenoiseMatching.shouldTintImages = YES;
-    return [whitenoiseMatching copy];
-}
-
 #pragma mark - Masking Sounds Steps
 
 - (ORKInstructionStep *)maskingSoundInstructionStep {
@@ -677,16 +645,8 @@ static NSString *const ORKTinnitusMaskingSoundInstructionStepIdentifier = @"tinn
 
 - (ORKTinnitusMaskingSoundStep *)maskingSoundStepForIdentifier:(NSString *)identifier
                                                           name:(NSString *)name
-                                               soundIdentifier:(NSString *)soundIdentifier isNotch:(BOOL)isNotch {
-    ORKTinnitusMaskingSoundStep *maskingSoundStep;
-    if (isNotch) {
-        maskingSoundStep = [[ORKTinnitusMaskingSoundStep alloc]
-                            initWithIdentifier:identifier
-                            name:name
-                            soundIdentifier:soundIdentifier notchFrequency:_predominantFrequency];
-    } else {
-        maskingSoundStep = [[ORKTinnitusMaskingSoundStep alloc] initWithIdentifier:identifier name:name soundIdentifier:soundIdentifier];
-    }
+                                               soundIdentifier:(NSString *)soundIdentifier {
+    ORKTinnitusMaskingSoundStep *maskingSoundStep = [[ORKTinnitusMaskingSoundStep alloc] initWithIdentifier:identifier name:name soundIdentifier:soundIdentifier];
     maskingSoundStep.title = ORKLocalizedString(@"TINNITUS_MASKING_TITLE", nil);
     maskingSoundStep.text = ORKLocalizedString(@"TINNITUS_MASKING_TEXT", nil);
     maskingSoundStep.shouldTintImages = YES;

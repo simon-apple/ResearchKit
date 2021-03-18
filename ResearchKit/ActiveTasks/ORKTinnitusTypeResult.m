@@ -39,12 +39,14 @@
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [super encodeWithCoder:aCoder];
     ORK_ENCODE_ENUM(aCoder, type);
+    ORK_ENCODE_OBJ(aCoder, tinnitusIdentifier);
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
         ORK_DECODE_ENUM(aDecoder, type);
+        ORK_DECODE_OBJ(aDecoder, tinnitusIdentifier);
     }
     return self;
 }
@@ -55,26 +57,28 @@
 
 - (BOOL)isEqual:(id)object {
     BOOL isParentSame = [super isEqual:object];
-
+    
     __typeof(self) castObject = object;
     return (isParentSame &&
-            self.type == castObject.type);
+            self.type == castObject.type &&
+            ORKEqualObjects(self.tinnitusIdentifier, castObject.tinnitusIdentifier));
 }
 
 - (NSUInteger)hash {
-    return super.hash ;
+    return super.hash ^ self.tinnitusIdentifier.hash;
 }
 
 - (instancetype)copyWithZone:(NSZone *)zone {
     ORKTinnitusTypeResult *result = [super copyWithZone:zone];
     result.type = self.type;
+    result.tinnitusIdentifier = [self.tinnitusIdentifier copy];
     return result;
 }
 
 - (NSString *)descriptionWithNumberOfPaddingSpaces:(NSUInteger)numberOfPaddingSpaces {
-    return [NSString stringWithFormat:@"%@; Type: %li;",
+    return [NSString stringWithFormat:@"%@; Type: %li; Tinnitus Identifier: %.@;",
             [self descriptionPrefixWithNumberOfPaddingSpaces:numberOfPaddingSpaces],
-            (long)self.type];
+            (long)self.type, self.tinnitusIdentifier];
 }
 
 

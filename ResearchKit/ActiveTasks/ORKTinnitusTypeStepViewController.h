@@ -28,13 +28,10 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@import Foundation;
-#import <ResearchKit/ORKDefines.h>
-#import <ResearchKit/ORKActiveStepViewController.h>
+#import "ORKActiveStepViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-ORK_CLASS_AVAILABLE
 @interface ORKTinnitusTypeStepViewController : ORKActiveStepViewController
 
 @end

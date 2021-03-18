@@ -31,10 +31,6 @@
 
 #import "ORKTinnitusTypeStep.h"
 #import "ORKTinnitusTypeStepViewController.h"
-#import "ORKLearnMoreItem.h"
-#import "ORKAnswerFormat_Internal.h"
-#import "ORKStep_Private.h"
-
 #import "ORKHelpers_Internal.h"
 
 @implementation ORKTinnitusTypeStep
@@ -43,77 +39,8 @@
     return [ORKTinnitusTypeStepViewController class];
 }
 
-- (instancetype)initWithIdentifier:(NSString *)identifier {
-    self = [super initWithIdentifier:identifier];
-    if (self) {
-        [self commonInit];
-    }
-    return self;
-}
-
-+ (instancetype)stepWithIdentifier:(NSString *)identifier title:(nullable NSString *)title
-{
-    ORKTinnitusTypeStep *step = [[ORKTinnitusTypeStep alloc] initWithIdentifier:identifier];
-    [step commonInit];
-    step.title = title;
-    return step;
-}
-
-+ (instancetype)stepWithIdentifier:(NSString *)identifier title:(nullable NSString *)title frequency:(double)frequency {
-    ORKTinnitusTypeStep *step = [[ORKTinnitusTypeStep alloc] initWithIdentifier:identifier];
-    [step commonInit];
-    step.title = title;
-    step.frequency = frequency;
-    return step;
-}
-
-- (void)commonInit {
-    self.frequency = ORKTinnitusTypeDefaultFrequency;
-}
-
-- (void)validateParameters {
-    [super validateParameters];
-    
-    if (self.frequency < ORKTinnitusTypeMinimumFrequency) {
-        @throw [NSException exceptionWithName:NSInvalidArgumentException reason:[NSString stringWithFormat:@"frequency cannot be lower than %@ hertz.", @(ORKTinnitusTypeMinimumFrequency)] userInfo:@{@"frequency": [NSNumber numberWithDouble:self.frequency]}];
-    }
-    
-    if (self.frequency > ORKTinnitusTypeMaximumFrequency) {
-        @throw [NSException exceptionWithName:NSInvalidArgumentException reason:[NSString stringWithFormat:@"frequency cannot be higher than %@ hertz.", @(ORKTinnitusTypeMaximumFrequency)] userInfo:@{@"frequency": [NSNumber numberWithDouble:self.frequency]}];
-    }
-}
-
-
-- (instancetype)copyWithZone:(NSZone *)zone {
-    ORKTinnitusTypeStep *step = [super copyWithZone:zone];
-    step.frequency = self.frequency;
-    return step;
-}
-
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    if (self) {
-        ORK_DECODE_DOUBLE(aDecoder, frequency);
-    }
-    return self;
-}
-
-- (void)encodeWithCoder:(NSCoder *)aCoder {
-    [super encodeWithCoder:aCoder];
-    ORK_ENCODE_DOUBLE(aCoder, frequency);
-}
-
 + (BOOL)supportsSecureCoding {
     return YES;
 }
-
-- (BOOL)isEqual:(id)object {
-    BOOL isParentSame = [super isEqual:object];
-    
-    __typeof(self) castObject = object;
-    return (isParentSame
-            && (self.frequency == castObject.frequency));
-}
-
 
 @end

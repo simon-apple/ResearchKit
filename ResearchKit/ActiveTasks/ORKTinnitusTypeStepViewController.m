@@ -29,100 +29,182 @@
  */
 
 #import "ORKTinnitusTypeStepViewController.h"
-
-#import "ORKActiveStepView.h"
-#import "ORKTinnitusAudioGenerator.h"
+#import "ORKTinnitusTypeStep.h"
 #import "ORKTinnitusTypeContentView.h"
-#import "ORKTinnitusTypeResult.h"
 #import "ORKTinnitusButtonView.h"
+#import "ORKTinnitusTypeResult.h"
 #import "ORKTinnitusAudioSample.h"
 
+#import "ORKActiveStepView.h"
 #import "ORKActiveStepViewController_Internal.h"
 #import "ORKStepViewController_Internal.h"
-
-#import "ORKTinnitusTypeStep.h"
 #import "ORKStepContainerView_Private.h"
 #import "ORKNavigationContainerView_Internal.h"
+#import "ORKHelpers_Internal.h"
+#import "ResearchKit_Private.h"
 
-@interface ORKTinnitusTypeStepViewController () <ORKTinnitusButtonViewDelegate>
+#import "ORKSkin.h"
 
-@property (nonatomic, strong) ORKTinnitusTypeContentView *contentView;
-@property (nonatomic, strong) ORKTinnitusAudioGenerator *audioGenerator;
+static const NSTimeInterval PLAY_DELAY = 0.5;
+static const NSTimeInterval PLAY_DURATION = 2.0;
 
-- (ORKTinnitusTypeStep *)tinnitusTypeStep;
+@interface ORKTinnitusTypeStepViewController () <ORKTinnitusButtonViewDelegate> {
+    ORKTinnitusTypeContentView *_tinnitusTypeContentView;
+    int _sampleIndex;
+    NSTimer *_timer;
+    BOOL _noneAreSimilarFlag;
+}
+
+@property (nonatomic, strong) AVAudioEngine *audioEngine;
+@property (nonatomic, strong) AVAudioPlayerNode *playerNode;
+@property (nonatomic, strong) AVAudioPCMBuffer *audioBuffer;
 
 @end
 
-#define ORKTinnitusTypeDefaultFrequency 1000.0
-
 @implementation ORKTinnitusTypeStepViewController
-
-- (instancetype)initWithStep:(ORKStep *)step {
-    self = [super initWithStep:step];
-    
-    if (self) {
-        self.suspendIfInactive = YES;
-    }
-    
-    return self;
-}
-
-- (ORKTinnitusTypeStep *)tinnitusTypeStep {
-    return (ORKTinnitusTypeStep *)self.step;
-}
-
-- (void)setNavigationFooterView {
-    self.activeStepView.navigationFooterView.continueButtonItem = self.continueButtonItem;
-    self.activeStepView.navigationFooterView.continueEnabled = NO;
-    [self.activeStepView.navigationFooterView updateContinueAndSkipEnabled];
-}
-
-- (void)setupButtons {
-    self.continueButtonItem  = self.internalContinueButtonItem;
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _sampleIndex = 0;
+    _noneAreSimilarFlag = NO;
     
     [self setNavigationFooterView];
-    [self setupButtons];
     
-    self.contentView = [[ORKTinnitusTypeContentView alloc] init];
-    self.activeStepView.activeCustomView = self.contentView;
+    ORKTinnitusPredefinedTaskContext *context = (ORKTinnitusPredefinedTaskContext *)self.step.context;
+    
+    _tinnitusTypeContentView = [[ORKTinnitusTypeContentView alloc] initWithContext:context];
+    self.activeStepView.activeCustomView = _tinnitusTypeContentView;
     self.activeStepView.customContentFillsAvailableSpace = YES;
+    _tinnitusTypeContentView.translatesAutoresizingMaskIntoConstraints = NO;
     
-    self.contentView.pureToneButtonView.delegate = self;
-    self.contentView.whiteNoiseButtonView.delegate = self;
+    [_tinnitusTypeContentView.buttonsViewArray makeObjectsPerformSelector:@selector(setDelegate:) withObject:self];
     
-    ORKTaskResult *taskResults = [[self taskViewController] result];
+    self.audioEngine = [[AVAudioEngine alloc] init];
+    self.playerNode = [[AVAudioPlayerNode alloc] init];
+    [self.audioEngine attachNode:self.playerNode];
     
-    // if no headphone is detected (simulator) this will be used for debugging purposes
-    ORKHeadphoneTypeIdentifier headphoneType = ORKHeadphoneTypeIdentifierAirPodsGen1;
+    self.activeStepView.navigationFooterView.optional = YES;
     
-    for (ORKStepResult *result in taskResults.results) {
-        if (result.results > 0) {
-            ORKStepResult *firstResult = (ORKStepResult *)[result.results firstObject];
-            if ([firstResult isKindOfClass:[ORKHeadphoneDetectResult class]]) {
-                ORKHeadphoneDetectResult *hedphoneResult = (ORKHeadphoneDetectResult *)firstResult;
-                headphoneType = hedphoneResult.headphoneType;
-                break;
-            }
-        }
+    [self performSelector:@selector(startAutomaticPlay) withObject:nil afterDelay:PLAY_DELAY];
+}
+
+- (void)setSkipButtonItem:(UIBarButtonItem *)skipButtonItem {
+    [skipButtonItem setTitle:ORKLocalizedString(@"TINNITUS_TYPE_SKIP_BUTTON_TITLE", nil)];
+    skipButtonItem.target = self;
+    skipButtonItem.action = @selector(skipTaskAction);
+    
+    self.activeStepView.navigationFooterView.skipButtonItem = skipButtonItem;
+    self.activeStepView.navigationFooterView.skipEnabled = NO;
+    
+    [super setSkipButtonItem:skipButtonItem];
+}
+
+- (void)skipTaskAction {
+    _noneAreSimilarFlag = YES;
+    [self finish];
+}
+
+- (void)startAutomaticPlay {
+    _sampleIndex = 0;
+    _timer = [NSTimer scheduledTimerWithTimeInterval:PLAY_DURATION
+                                              target:self
+                                            selector:@selector(playNextSample)
+                                            userInfo:nil
+                                             repeats:YES];
+}
+
+- (void)playNextSample {
+    if (_sampleIndex > _tinnitusTypeContentView.buttonsViewArray.count - 1) {
+        [_tinnitusTypeContentView.buttonsViewArray[_sampleIndex - 1] simulateTap];
+        [self stopAutomaticPlay];
+    } else {
+        [_tinnitusTypeContentView.buttonsViewArray[_sampleIndex] simulateTap];
     }
+    _sampleIndex = _sampleIndex + 1;
     
-    self.audioGenerator = [[ORKTinnitusAudioGenerator alloc] initWithHeadphoneType:headphoneType];
+}
+
+- (void)stopAutomaticPlay {
+    [NSObject cancelPreviousPerformRequestsWithTarget:self
+                                             selector:@selector(startAutomaticPlay)
+                                               object:nil];
+    [_timer invalidate];
+    _timer = nil;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
-    [self.audioGenerator stop];
+    [self tearDownAudioEngine];
 }
 
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear: animated];
+- (void)tearDownAudioEngine {
+    [self.playerNode stop];
+    [self.audioEngine stop];
+}
+
+- (BOOL)playSound:(NSString *)identifier error:(NSError **)outError {
+    [self tearDownAudioEngine];
     
-    self.audioGenerator = nil;
+    if (self.step.context && [self.step.context isKindOfClass:[ORKTinnitusPredefinedTaskContext class]]) {
+        ORKTinnitusPredefinedTaskContext *context = (ORKTinnitusPredefinedTaskContext *)self.step.context;
+        ORKTinnitusAudioSample *audioSample = [context.audioManifest noiseTypeSampleWithIdentifier:identifier error:outError];
+        
+        if (audioSample) {
+            AVAudioPCMBuffer *buffer = [audioSample getBuffer:outError];
+            
+            if (buffer) {
+                self.audioBuffer = buffer;
+                [self.audioEngine connect:self.playerNode to:self.audioEngine.outputNode format:self.audioBuffer.format];
+                [self.playerNode scheduleBuffer:self.audioBuffer atTime:nil options:AVAudioPlayerNodeBufferLoops completionHandler:nil];
+                [self.audioEngine prepare];
+                if ([self.audioEngine startAndReturnError:outError]) {
+                    [self.playerNode play];
+                    return YES;
+                }
+            }
+        }
+    }
+    return NO;
+}
+
+- (void)setNavigationFooterView {
+    self.activeStepView.navigationFooterView.continueButtonItem = self.internalContinueButtonItem;
+    self.activeStepView.navigationFooterView.continueEnabled = NO;
+    [self.activeStepView.navigationFooterView updateContinueAndSkipEnabled];
+}
+
+- (void)tinnitusButtonViewPressed:(ORKTinnitusButtonView * _Nonnull)tinnitusButtonView {
+    if (!tinnitusButtonView.isSimulatedTap) {
+        [self stopAutomaticPlay];
+    }
+    [_tinnitusTypeContentView selectButton:tinnitusButtonView];
+    [self tearDownAudioEngine];
+    
+    if (tinnitusButtonView.isShowingPause) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSError *error;
+            [self playSound:tinnitusButtonView.answer error:&error];
+            
+            if (error) {
+                ORK_Log_Error("Error fetching audioSample: %@", error);
+            }
+        });
+    }
+    
+    __block BOOL allPlayedAtLeastOnce = YES;
+    [_tinnitusTypeContentView.buttonsViewArray indexOfObjectPassingTest:^BOOL(ORKTinnitusButtonView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if (!obj.playedOnce) {
+            allPlayedAtLeastOnce = NO;
+            *stop = YES;
+            return YES;
+        }
+        return NO;
+    }];
+    if (allPlayedAtLeastOnce) {
+        self.activeStepView.navigationFooterView.continueEnabled = YES;
+        self.activeStepView.navigationFooterView.skipEnabled = YES;
+    }
 }
 
 - (ORKStepResult *)result {
@@ -132,7 +214,9 @@
     
     ORKTinnitusTypeResult *typeResult = [[ORKTinnitusTypeResult alloc] initWithIdentifier:self.step.identifier];
     
-    typeResult.type = _contentView.pureToneButtonView.isSelected ? ORKTinnitusTypePureTone : ORKTinnitusTypeWhiteNoise;
+    typeResult.type = [_tinnitusTypeContentView getType];
+    
+    typeResult.tinnitusIdentifier = _noneAreSimilarFlag ? @"NONEARESIMILAR" : [_tinnitusTypeContentView getAnswer];
     
     [results addObject:typeResult];
     
@@ -141,36 +225,11 @@
     return parentResult;
 }
 
-// ORKTinnitusButtonViewDelegate
-- (void)tinnitusButtonViewPressed:(nonnull ORKTinnitusButtonView *)tinnitusButtonView {
-    [self.audioGenerator stop];
-
-    if (tinnitusButtonView == _contentView.pureToneButtonView) {
-        [_contentView.whiteNoiseButtonView restoreButton];
-        if (tinnitusButtonView.isShowingPause) {
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((_audioGenerator.fadeDuration + 0.05) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [self.audioGenerator playSoundAtFrequency:ORKTinnitusTypeDefaultFrequency];
-            });
-        }
-        if (_contentView.whiteNoiseButtonView.playedOnce) {
-            self.activeStepView.navigationFooterView.continueEnabled = YES;
-        }
-    } else {
-        [_contentView.pureToneButtonView restoreButton];
-        if (tinnitusButtonView.isShowingPause) {
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((_audioGenerator.fadeDuration + 0.05) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [self.audioGenerator playWhiteNoise];
-            });
-        }
-        if (_contentView.pureToneButtonView.playedOnce) {
-            self.activeStepView.navigationFooterView.continueEnabled = YES;
-        }
-    }
+- (void)finish {
+    [super finish];
     
-    if (self.step.context && [self.step.context isKindOfClass:[ORKTinnitusPredefinedTaskContext class]]) {
-        ORKTinnitusPredefinedTaskContext *context = (ORKTinnitusPredefinedTaskContext *)self.step.context;
-        context.type = _contentView.pureToneButtonView.isSelected ? ORKTinnitusTypePureTone : ORKTinnitusTypeWhiteNoise;
-    }
+    [self tearDownAudioEngine];
+    [self goForward];
 }
 
 @end

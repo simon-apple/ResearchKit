@@ -34,17 +34,20 @@
 
 @implementation ORKTinnitusAudioSample
 
-+ (instancetype)sampleWithPath:(nonnull NSString *)path name:(nonnull NSString *)name identifier:(nonnull NSString *)identifier {
-    return [[ORKTinnitusAudioSample alloc] initWithPath:path name:name identifier:identifier];
++ (instancetype)sampleWithPath:(nonnull NSString *)path
+                          name:(nonnull NSString *)name identifier:(nonnull NSString *)identifier type:(ORKTinnitusType)type {
+    return [[ORKTinnitusAudioSample alloc] initWithPath:path name:name identifier:identifier type:type];
 }
 
-- (instancetype)initWithPath:(nonnull NSString *)path name:(nonnull NSString *)name identifier:(nonnull NSString *)identifier {
+- (instancetype)initWithPath:(nonnull NSString *)path
+                        name:(nonnull NSString *)name identifier:(nonnull NSString *)identifier type:(ORKTinnitusType)type {
     self = [super init];
     if (self)
     {
         _path = [path copy];
         _name = [name copy];
         _identifier = [identifier copy];
+        _type = type;
     }
     return self;
 }

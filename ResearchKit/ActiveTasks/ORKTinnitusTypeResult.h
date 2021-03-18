@@ -39,6 +39,7 @@ ORK_CLASS_AVAILABLE
 
 // The type of tinnitus
 @property (nonatomic, assign) ORKTinnitusType type;
+@property (nonatomic, copy, nullable) NSString *tinnitusIdentifier;
 
 @end
 

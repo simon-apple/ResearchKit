@@ -29,19 +29,22 @@
  */
 
 #import <UIKit/UIKit.h>
-#import <ResearchKit/ORKCustomStepView_Internal.h>
-#import <ResearchKit/ORKBorderedButton.h>
+#import "ORKCustomStepView_Internal.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @class ORKTinnitusButtonView;
+@class ORKTinnitusPredefinedTaskContext;
+typedef NS_ENUM(NSInteger, ORKTinnitusType);
 
 @interface ORKTinnitusTypeContentView : ORKActiveStepCustomView
 
-@property (nonatomic, strong, readonly) ORKTinnitusButtonView *pureToneButtonView;
-@property (nonatomic, strong, readonly) ORKTinnitusButtonView *whiteNoiseButtonView;
+@property (nonnull, readonly) NSArray *buttonsViewArray;
 
-- (void)unselectButtons;
+- (instancetype)initWithContext:(ORKTinnitusPredefinedTaskContext *)context;
+- (void)selectButton:(ORKTinnitusButtonView *)buttonView;
+- (nullable NSString *)getAnswer;
+- (ORKTinnitusType)getType;
 
 @end
 

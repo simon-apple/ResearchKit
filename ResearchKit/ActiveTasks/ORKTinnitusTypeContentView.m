@@ -30,53 +30,116 @@
 
 #import "ORKTinnitusTypeContentView.h"
 #import "ORKHelpers_Internal.h"
-#import "ORKCustomStepView_Internal.h"
+#import "ORKAnswerTextField.h"
+#import "ORKTinnitusTypes.h"
+#import "ORKTinnitusPredefinedTask.h"
 #import "ORKTinnitusButtonView.h"
+#import "ORKTinnitusAudioSample.h"
+#import "ORKSkin.h"
+
+#import "ORKCheckmarkView.h"
+
+static const CGFloat ORKTinnitusGlowAdjustment = 16.0;
+
+@interface ORKTinnitusTypeContentView () {
+    UIScrollView *_scrollView;
+    ORKTinnitusButtonView *_selectedButtonView;
+    ORKTinnitusPredefinedTaskContext *_context;
+}
+
+@end
 
 @implementation ORKTinnitusTypeContentView
 
-- (instancetype)init
-{
+- (instancetype)initWithContext:(ORKTinnitusPredefinedTaskContext *)context {
     self = [super init];
     if (self) {
-        _pureToneButtonView = [[ORKTinnitusButtonView alloc]
-                               initWithTitle:ORKLocalizedString(@"TINNITUS_PURETONE_TITLE", nil)
-                               detail:ORKLocalizedString(@"TINNITUS_PURETONE_DETAIL", nil)];
-        _pureToneButtonView.translatesAutoresizingMaskIntoConstraints = NO;
-      
-        [self addSubview:_pureToneButtonView];
-        
-        _whiteNoiseButtonView = [[ORKTinnitusButtonView alloc]
-                                 initWithTitle:ORKLocalizedString(@"TINNITUS_WHITENOISE_TITLE", nil)
-                                 detail:ORKLocalizedString(@"TINNITUS_WHITENOISE_DETAIL", nil)];
-        
-        _whiteNoiseButtonView.translatesAutoresizingMaskIntoConstraints = NO;
-        
-        [self addSubview:_whiteNoiseButtonView];
-          
-        self.translatesAutoresizingMaskIntoConstraints = NO;
-        
-        [self setUpConstraints];
+        _context = context;
+        [self commonInit];
     }
     
     return self;
 }
 
-- (void)unselectButtons
+- (void)commonInit
 {
-    [_whiteNoiseButtonView setSelected:NO];
-    [_pureToneButtonView setSelected:NO];
+    [self setupScrollView];
+    _selectedButtonView = nil;
+    
+    NSMutableArray *buttons = [[NSMutableArray alloc] init];
+    ORKTinnitusButtonView *latestButtonView = nil;
+    ORKTinnitusButtonView *sampleButton = nil;
+    for (ORKTinnitusAudioSample *noiseTypeSample in _context.audioManifest.noiseTypeSamples) {
+        sampleButton = [[ORKTinnitusButtonView alloc]
+                        initWithTitle:noiseTypeSample.name
+                        detail:nil answer:noiseTypeSample.identifier];
+        if (latestButtonView == nil) {
+            sampleButton.translatesAutoresizingMaskIntoConstraints = NO;
+            [_scrollView addSubview:sampleButton];
+            [sampleButton.leadingAnchor constraintEqualToAnchor:_scrollView.leadingAnchor constant:ORKTinnitusGlowAdjustment].active = YES;
+            [sampleButton.trailingAnchor constraintEqualToAnchor:_scrollView.trailingAnchor constant:-ORKTinnitusGlowAdjustment].active = YES;
+            [sampleButton.widthAnchor constraintEqualToAnchor:_scrollView.widthAnchor constant:-2*ORKTinnitusGlowAdjustment].active = YES;
+            [sampleButton.topAnchor constraintEqualToAnchor:_scrollView.topAnchor constant:5.0].active = YES;
+        } else {
+            sampleButton.translatesAutoresizingMaskIntoConstraints = NO;
+            [_scrollView addSubview:sampleButton];
+            [sampleButton.leadingAnchor constraintEqualToAnchor:_scrollView.leadingAnchor constant:ORKTinnitusGlowAdjustment].active = YES;
+            [sampleButton.trailingAnchor constraintEqualToAnchor:_scrollView.trailingAnchor constant:-ORKTinnitusGlowAdjustment].active = YES;
+            [sampleButton.topAnchor constraintEqualToAnchor:latestButtonView.bottomAnchor constant: 16.0].active = YES;
+        }
+        [buttons addObject:sampleButton];
+        latestButtonView = sampleButton;
+    }
+    
+    _buttonsViewArray = [buttons copy];
+    
+    self.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    self.clipsToBounds = NO;
+    
+    [self setNeedsLayout];
+    [self layoutIfNeeded];
 }
 
-- (void)setUpConstraints
-{
-    [_whiteNoiseButtonView.topAnchor constraintEqualToAnchor:self.topAnchor].active = YES;
-    [_whiteNoiseButtonView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:0.0].active = YES;
-    [_whiteNoiseButtonView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:0.0].active = YES;
+- (void)layoutSubviews {
+    [super layoutSubviews];
     
-    [_pureToneButtonView.topAnchor constraintEqualToAnchor:_whiteNoiseButtonView.bottomAnchor constant:12.0].active = YES;
-    [_pureToneButtonView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:0.0].active = YES;
-    [_pureToneButtonView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:0.0].active = YES;
+    ORKTinnitusButtonView *lastButton = [_buttonsViewArray lastObject];
+    if (lastButton != nil) {
+        _scrollView.contentSize = CGSizeMake(_scrollView.frame.size.width, lastButton.frame.origin.y + lastButton.frame.size.height + 32.0);
+    }
+}
+
+- (void)setupScrollView {
+    if (!_scrollView) {
+        _scrollView = [UIScrollView new];
+    }
+    [self addSubview:_scrollView];
+    _scrollView.translatesAutoresizingMaskIntoConstraints = NO;
+    [[_scrollView.topAnchor constraintEqualToAnchor:self.topAnchor] setActive:YES];
+    [[_scrollView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:-ORKTinnitusGlowAdjustment] setActive:YES];
+    [[_scrollView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:ORKTinnitusGlowAdjustment] setActive:YES];
+    [[_scrollView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor] setActive:YES];
+    
+    _scrollView.scrollEnabled = YES;
+}
+
+- (void)selectButton:(ORKTinnitusButtonView *)buttonView
+{
+    NSArray *unselectArray = [_buttonsViewArray
+                              filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id object, NSDictionary *bindings) {
+        return (object != buttonView);
+    }]];
+    [unselectArray makeObjectsPerformSelector:@selector(restoreButton)];
+    _selectedButtonView = buttonView;
+}
+
+- (nullable NSString *)getAnswer {
+    return _selectedButtonView.answer;
+}
+
+- (ORKTinnitusType)getType {
+    return [_context.audioManifest noiseTypeSampleWithIdentifier:_selectedButtonView.answer error:nil].type;
 }
 
 @end

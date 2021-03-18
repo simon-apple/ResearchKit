@@ -56,7 +56,6 @@ NSString *const ORKTinnitusPuretoneMaskSoundNameExtension = @"wav";
     AVAudioPlayerNode *_playerNode;
     AVAudioMixerNode *_mixerNode;
     AVAudioPCMBuffer *_audioBuffer;
-    AVAudioUnitEQ *_unitEq;
     
     NSString *_selectedValue;
 }
@@ -75,34 +74,9 @@ NSString *const ORKTinnitusPuretoneMaskSoundNameExtension = @"wav";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
     NSString *buttonTitle = [[self tinnitusMaskingSoundStep] name];
     NSString *soundIdentifier = [[self tinnitusMaskingSoundStep] soundIdentifier];
-    
-    BOOL notchFilterEnabled = [[self tinnitusMaskingSoundStep] notchFrequency] > 0.0;
-    
-    ORKTaskResult *taskResults = [[self taskViewController] result];
-    ORKTinnitusType type = ORKTinnitusTypeWhiteNoise;
-    for (ORKStepResult *result in taskResults.results) {
-        if (result.results > 0) {
-            ORKStepResult *firstResult = (ORKStepResult *)[result.results firstObject];
-            if ([firstResult isKindOfClass:[ORKTinnitusTypeResult class]]) {
-                ORKTinnitusTypeResult *tinnitusTypeResult = (ORKTinnitusTypeResult *)firstResult;
-                type = tinnitusTypeResult.type;
-            }
-        }
-    }
-    
-    ORKTinnitusPredefinedTask *task = (ORKTinnitusPredefinedTask *)[[self taskViewController] task];
-    BOOL hasPredominantFrequency = ([task predominantFrequency] > 0.0);
-    
-    if (notchFilterEnabled) {
-        buttonTitle = [NSString stringWithFormat:@"%@ 2",buttonTitle];
-    } else {
-        if (type == ORKTinnitusTypePureTone && hasPredominantFrequency) {
-            buttonTitle = [NSString stringWithFormat:@"%@ 1",buttonTitle];
-        }
-    }
     
     self.matchingSoundContentView = [[ORKTinnitusMaskingSoundContentView alloc] initWithButtonTitle:buttonTitle];
     self.matchingSoundContentView.playButtonView.delegate = self;
@@ -115,19 +89,6 @@ NSString *const ORKTinnitusPuretoneMaskSoundNameExtension = @"wav";
     _audioEngine = [[AVAudioEngine alloc] init];
     _playerNode = [[AVAudioPlayerNode alloc] init];
     
-    _unitEq = [[AVAudioUnitEQ alloc] initWithNumberOfBands:1];
-    
-    AVAudioUnitEQFilterParameters *filterParameters;
-    filterParameters = _unitEq.bands[0];
-    filterParameters.filterType = AVAudioUnitEQFilterTypeBandStop;
-    filterParameters.frequency = [[self tinnitusMaskingSoundStep] notchFrequency];
-    filterParameters.bandwidth = [[self tinnitusMaskingSoundStep] bandwidth];
-    filterParameters.gain = [[self tinnitusMaskingSoundStep] gain];
-    
-    _unitEq.bypass = notchFilterEnabled;
-    filterParameters.bypass = NO;
-    
-    [_audioEngine attachNode:_unitEq];
     [_audioEngine attachNode:_playerNode];
     
     NSError *error;
@@ -148,9 +109,7 @@ NSString *const ORKTinnitusPuretoneMaskSoundNameExtension = @"wav";
             
             if (buffer) {
                 _audioBuffer = buffer;
-                _mixerNode = _audioEngine.mainMixerNode;
-                [_audioEngine connect:_playerNode to:_unitEq format:_audioBuffer.format];
-                [_audioEngine connect:_unitEq to:_mixerNode format:_audioBuffer.format];
+                [_audioEngine connect:_playerNode to:_audioEngine.outputNode format:_audioBuffer.format];
                 [_playerNode scheduleBuffer:_audioBuffer atTime:nil options:AVAudioPlayerNodeBufferLoops completionHandler:nil];
                 [_audioEngine prepare];
                 return [_audioEngine startAndReturnError:outError];

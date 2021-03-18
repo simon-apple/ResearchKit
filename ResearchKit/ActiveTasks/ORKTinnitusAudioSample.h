@@ -30,6 +30,7 @@
 
 #import <Foundation/Foundation.h>
 #import "ORKTypes.h"
+#import "ORKTinnitusTypes.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -40,12 +41,15 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, nonnull) NSString *path;
 @property (nonatomic, readonly, nonnull) NSString *name;
 @property (nonatomic, readonly, nonnull) NSString *identifier;
+@property (nonatomic, assign) ORKTinnitusType type;
 
 + (instancetype)new NS_UNAVAILABLE;
 - (instancetype)init NS_UNAVAILABLE;
 
-+ (instancetype)sampleWithPath:(nonnull NSString *)path name:(nonnull NSString *)name identifier:(nonnull NSString *)identifier;
-- (instancetype)initWithPath:(nonnull NSString *)path name:(nonnull NSString *)name identifier:(nonnull NSString *)identifier;
++ (instancetype)sampleWithPath:(nonnull NSString *)path
+                          name:(nonnull NSString *)name identifier:(nonnull NSString *)identifier type:(ORKTinnitusType)type;
+- (instancetype)initWithPath:(nonnull NSString *)path
+                        name:(nonnull NSString *)name identifier:(nonnull NSString *)identifier type:(ORKTinnitusType)type;
 
 - (nullable AVAudioPCMBuffer *)getBuffer:(NSError **)outError;
 

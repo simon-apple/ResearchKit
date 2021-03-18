@@ -91,6 +91,15 @@ static const CGFloat ORKTinnitusButtonViewPadding = 16.0;
     return self;
 }
 
+- (BOOL)isAccessibilityElement {
+    return YES;
+}
+
+- (void)accessibilityElementDidBecomeFocused {
+    [super accessibilityElementDidBecomeFocused];
+    [self tapAction:_tapOffGestureRecognizer];
+}
+
 - (void)commonInit {
     _titleText = @"";
     _detailText = nil;
@@ -100,8 +109,20 @@ static const CGFloat ORKTinnitusButtonViewPadding = 16.0;
     _firstLayoutTime = YES;
 }
 
+- (void)setPlatterBackgroundColor {
+    if (@available(iOS 12.0, *)) {
+        if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+            self.backgroundColor = UIColor.blackColor;
+        } else {
+            self.backgroundColor = UIColor.whiteColor;
+        }
+    }
+}
+
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
     [super traitCollectionDidChange:previousTraitCollection];
+    
+    [self setPlatterBackgroundColor];
     
     [self setSelected:_selected];
 }
@@ -178,7 +199,7 @@ static const CGFloat ORKTinnitusButtonViewPadding = 16.0;
     }
     _barLevelsView = [[UIImageView alloc] init];
     [_barLevelsView setAnimationImages:barImages];
-    _barLevelsView.animationDuration = 0.5;
+    _barLevelsView.animationDuration = 1.33;
     _barLevelsView.animationRepeatCount = 0;
     
     [self addSubview:_barLevelsView];
@@ -190,22 +211,26 @@ static const CGFloat ORKTinnitusButtonViewPadding = 16.0;
     _tapOffGestureRecognizer.delegate = self;
     [self addGestureRecognizer:_tapOffGestureRecognizer];
     
-    if (@available(iOS 13.0, *)) {
-        self.backgroundColor = UIColor.systemBackgroundColor;
-    }
+    [self setPlatterBackgroundColor];
     
     _hapticFeedback = [[UIImpactFeedbackGenerator alloc] initWithStyle: UIImpactFeedbackStyleMedium];
     
     [self setSelected:NO];
 }
 
+- (void)simulateTap {
+    [self tapAction:nil];
+}
+
 - (void)tapAction:(UITapGestureRecognizer *)recognizer {
     dispatch_async(dispatch_get_main_queue(), ^{
         [_hapticFeedback impactOccurred];
+        _simulatedTap = (recognizer == nil);
         if (!_selected) {
             [self setSelected:!_selected];
             _imageView.highlighted = YES;
             _barLevelsView.hidden = NO;
+            UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, _titleText);
         } else {
             _imageView.highlighted = !_imageView.highlighted;
             _barLevelsView.hidden = !_barLevelsView.hidden;
