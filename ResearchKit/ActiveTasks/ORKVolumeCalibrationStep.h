@@ -39,8 +39,6 @@ NS_ASSUME_NONNULL_BEGIN
 ORK_CLASS_AVAILABLE
 @interface ORKVolumeCalibrationStep : ORKActiveStep
 
-@property (nonatomic, assign) BOOL isLoudnessMatching;
-
 @end
 
 NS_ASSUME_NONNULL_END

@@ -75,11 +75,11 @@ static int const ORKVolumeCalibrationStepPlaybackButtonSize = 36;
 {
     UIView *roundedView = [[UIView alloc] init];
     roundedView.layer.cornerRadius = 10;
-    
+
     UIView *separatorView = [[UIView alloc] init];
-    
+
     self.playbackButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    
+
     UIImage *playImage;
     UIImage *sliderFullImage;
     UIImage *sliderEmptyImage;
@@ -90,7 +90,7 @@ static int const ORKVolumeCalibrationStepPlaybackButtonSize = 36;
 
         roundedView.backgroundColor = [UIColor tertiarySystemBackgroundColor];
         separatorView.backgroundColor = [UIColor systemGray5Color];
-        
+
         _playbackButton.tintColor = [UIColor systemBlueColor];
         _playbackButton.backgroundColor = [UIColor systemGray6Color];
         _playbackButton.layer.cornerRadius = ORKVolumeCalibrationStepPlaybackButtonSize/2;
@@ -99,15 +99,15 @@ static int const ORKVolumeCalibrationStepPlaybackButtonSize = 36;
         roundedView.backgroundColor = [UIColor whiteColor];
         separatorView.backgroundColor = [UIColor lightGrayColor];
     }
-    
+
     [_playbackButton setImage:playImage forState:UIControlStateNormal];
     [roundedView addSubview:_playbackButton];
-    
+
     self.titleLabel = [[UILabel alloc] init];
     UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleHeadline];
     _titleLabel.font = [UIFont systemFontOfSize:[[descriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue] + 1.0 weight:UIFontWeightSemibold];
     [roundedView addSubview:_titleLabel];
-    
+
     self.barLevelsView = [[UIImageView alloc] init];
     NSMutableArray *barImages = [[NSMutableArray alloc] init];
     for (int i = 0 ; i < 21 ; i ++) {
@@ -122,7 +122,7 @@ static int const ORKVolumeCalibrationStepPlaybackButtonSize = 36;
         [barImages addObject:newImage];
     }
     [_barLevelsView setAnimationImages:barImages];
-    _barLevelsView.animationDuration = 0.5;
+    _barLevelsView.animationDuration = 1.33;
     _barLevelsView.animationRepeatCount = 0;
     _barLevelsView.backgroundColor = [UIColor clearColor];
     _barLevelsView.hidden = YES;
@@ -133,7 +133,7 @@ static int const ORKVolumeCalibrationStepPlaybackButtonSize = 36;
 
     UIImageView *sliderFull = [[UIImageView alloc] initWithImage:sliderFullImage];
     UIImageView *sliderEmpty = [[UIImageView alloc] initWithImage:sliderEmptyImage];
-    
+
     UIColor *tintColor = [UIColor grayColor];
     if (@available(iOS 13.0, *)) {
         tintColor = [UIColor secondaryLabelColor];
@@ -142,23 +142,23 @@ static int const ORKVolumeCalibrationStepPlaybackButtonSize = 36;
     sliderEmpty.tintColor = tintColor;
     [roundedView addSubview:sliderEmpty];
     [roundedView addSubview:sliderFull];
-    
+
     self.volumeSlider = [[UISlider alloc] init];
     [roundedView addSubview:_volumeSlider];
 
     [self addSubview:roundedView];
-    
+
     [roundedView setTranslatesAutoresizingMaskIntoConstraints:NO];
     [[roundedView.topAnchor constraintGreaterThanOrEqualToAnchor:self.topAnchor constant:ORKStepContainerTopPaddingForWindow(self.window)] setActive:YES];
     [[roundedView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-ORKVolumeCalibrationStepPadding] setActive:YES];
     [[roundedView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:ORKVolumeCalibrationStepPadding] setActive:YES];
-    
+
     [_playbackButton setTranslatesAutoresizingMaskIntoConstraints:NO];
     [[_playbackButton.topAnchor constraintEqualToAnchor:roundedView.topAnchor constant:ORKVolumeCalibrationStepMargin] setActive:YES];
     [[_playbackButton.heightAnchor constraintEqualToConstant:ORKVolumeCalibrationStepPlaybackButtonSize] setActive:YES];
     [[_playbackButton.widthAnchor constraintEqualToConstant:ORKVolumeCalibrationStepPlaybackButtonSize] setActive:YES];
     [[_playbackButton.leadingAnchor constraintEqualToAnchor:roundedView.leadingAnchor constant:ORKVolumeCalibrationStepMargin] setActive:YES];
-    
+
     [_titleLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
     [[_titleLabel.centerYAnchor constraintEqualToAnchor:_playbackButton.centerYAnchor] setActive:YES];
     [[_titleLabel.leadingAnchor constraintEqualToAnchor:_playbackButton.trailingAnchor constant:ORKVolumeCalibrationStepMargin] setActive:YES];
@@ -168,28 +168,28 @@ static int const ORKVolumeCalibrationStepPlaybackButtonSize = 36;
     [_barLevelsView.centerYAnchor constraintEqualToAnchor:_titleLabel.centerYAnchor constant:3.0].active = YES;
     [_barLevelsView.widthAnchor constraintEqualToConstant:30.0].active = YES;
     [_barLevelsView.heightAnchor constraintEqualToConstant:21.0].active = YES;
-    
+
     [separatorView setTranslatesAutoresizingMaskIntoConstraints:NO];
     [[separatorView.topAnchor constraintEqualToAnchor:_playbackButton.bottomAnchor constant:ORKVolumeCalibrationStepMargin] setActive:YES];
     [[separatorView.heightAnchor constraintEqualToConstant:1] setActive:YES];
     [[separatorView.widthAnchor constraintEqualToAnchor:roundedView.widthAnchor] setActive:YES];
     [[separatorView.centerXAnchor constraintEqualToAnchor:roundedView.centerXAnchor] setActive:YES];
-    
+
     [_volumeSlider setTranslatesAutoresizingMaskIntoConstraints:NO];
     [[_volumeSlider.topAnchor constraintEqualToAnchor:separatorView.topAnchor constant:ORKVolumeCalibrationStepSliderSpacing] setActive:YES];
     [[_volumeSlider.heightAnchor constraintEqualToConstant:ORKVolumeCalibrationStepPlaybackButtonSize] setActive:YES];
     [[_volumeSlider.widthAnchor constraintEqualToAnchor:roundedView.widthAnchor multiplier:0.62] setActive:YES];
     [[_volumeSlider.centerXAnchor constraintEqualToAnchor:roundedView.centerXAnchor] setActive:YES];
     [[_volumeSlider.bottomAnchor constraintEqualToAnchor:roundedView.bottomAnchor constant:-ORKVolumeCalibrationStepSliderSpacing] setActive:YES];
-    
+
     [sliderEmpty setTranslatesAutoresizingMaskIntoConstraints:NO];
     [[sliderEmpty.centerYAnchor constraintEqualToAnchor:_volumeSlider.centerYAnchor constant:1] setActive:YES];
     [[sliderEmpty.leadingAnchor constraintEqualToAnchor:roundedView.leadingAnchor constant:ORKVolumeCalibrationStepSliderMargin] setActive:YES];
-    
+
     [sliderFull setTranslatesAutoresizingMaskIntoConstraints:NO];
     [[sliderFull.centerYAnchor constraintEqualToAnchor:_volumeSlider.centerYAnchor constant:1] setActive:YES];
     [[sliderFull.trailingAnchor constraintEqualToAnchor:roundedView.trailingAnchor constant:-ORKVolumeCalibrationStepSliderMargin] setActive:YES];
-    
+
     [_volumeSlider addTarget:self action:@selector(volumeSliderChanged:) forControlEvents:UIControlEventValueChanged];
     [_playbackButton addTarget:self action:@selector(playbackButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
 
@@ -201,7 +201,7 @@ static int const ORKVolumeCalibrationStepPlaybackButtonSize = 36;
     {
         BOOL isPlaying = [self.delegate contentView:self didPressPlaybackButton:self.playbackButton];
         [self.barLevelsView setHidden:!isPlaying];
-        
+
         UIImage *image;
         if (@available(iOS 13.0, *)) {
             image = isPlaying?
@@ -215,11 +215,11 @@ static int const ORKVolumeCalibrationStepPlaybackButtonSize = 36;
 - (void)volumeSliderChanged:(UISlider *)sender {
     float volume = (int)(sender.value / ORKVolumeCalibrationVolumeStep) * ORKVolumeCalibrationVolumeStep;
     [self.volumeSlider setValue:volume];
-    
+
     if ([self.delegate respondsToSelector:@selector(contentView:didRaisedVolume:)]) {
         [self.delegate contentView:self didRaisedVolume:volume];
     }
-    
+
     if ([self.delegate respondsToSelector:@selector(contentView:shouldEnableContinue:)]) {
         [self.delegate contentView:self shouldEnableContinue:(volume > 0)];
     }
@@ -242,7 +242,7 @@ static int const ORKVolumeCalibrationStepPlaybackButtonSize = 36;
     if (volume.doubleValue > 0 && _barLevelsView.isHidden) {
         [self playbackButtonPressed:_playbackButton];
     }
-    
+
     if ([self.delegate respondsToSelector:@selector(contentView:shouldEnableContinue:)]) {
         [self.delegate contentView:self shouldEnableContinue:(volume.doubleValue > 0)];
     }

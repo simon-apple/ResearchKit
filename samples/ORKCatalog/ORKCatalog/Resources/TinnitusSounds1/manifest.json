@@ -1,24 +1,34 @@
 {
     "noiseTypes" : [
         {
-            "name": "Cicadas",
-            "identifier": "CICADAS",
-            "filename": "white_noise_5s.wav"
-        },
-        {
-            "name": "Crickets",
-            "identifier": "CRICKETS",
-            "filename": "white_noise_5s.wav"
+            "name": "Pure Tone",
+            "identifier": "PURETONE",
+            "filename": "white_noise_5s.wav",
+            "tinnitusType": 2
         },
         {
             "name": "Tea Kettle",
             "identifier": "TEAKETTLE",
-            "filename": "white_noise_5s.wav"
+            "filename": "white_noise_5s.wav",
+            "tinnitusType": 2
         },
         {
             "name": "White Noise",
             "identifier": "WHITENOISE",
-            "filename": "white_noise_5s.wav"
+            "filename": "white_noise_5s.wav",
+            "tinnitusType": 1
+        },
+        {
+            "name": "Cicadas",
+            "identifier": "CICADAS",
+            "filename": "white_noise_5s.wav",
+            "tinnitusType": 1
+        },
+        {
+            "name": "Crickets",
+            "identifier": "CRICKETS",
+            "filename": "white_noise_5s.wav",
+            "tinnitusType": 1
         }
     ],
     "maskingSounds" : [

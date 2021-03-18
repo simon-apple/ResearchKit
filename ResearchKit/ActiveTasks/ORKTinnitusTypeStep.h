@@ -31,21 +31,12 @@
 @import Foundation;
 #import <ResearchKit/ORKDefines.h>
 #import <ResearchKit/ORKActiveStep.h>
+#import <ResearchKit/ORKTypes.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-#define ORKTinnitusTypeMinimumFrequency 300.0
-#define ORKTinnitusTypeMaximumFrequency 12500.0
-#define ORKTinnitusTypeDefaultFrequency 1000.0
-
 ORK_CLASS_AVAILABLE
 @interface ORKTinnitusTypeStep : ORKActiveStep
-
-@property (nonatomic, assign) double frequency;
-
-+ (instancetype)stepWithIdentifier:(NSString *)identifier title:(nullable NSString *)title;
-
-+ (instancetype)stepWithIdentifier:(NSString *)identifier title:(nullable NSString *)title frequency:(double)frequency;
 
 @end
 

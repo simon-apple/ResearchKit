@@ -66,6 +66,8 @@ ORK_CLASS_AVAILABLE
 
 @property (nonatomic, copy, nullable) id answer;
 
+@property (getter = isSimulatedTap, readonly) BOOL simulatedTap;
+
 - (instancetype _Nonnull )initWithTitle:(nonnull NSString *)title detail:(nullable NSString *)detail answer:(nullable id)answer;
 - (instancetype _Nonnull )initWithTitle:(nonnull NSString *)title detail:(nullable NSString *)detail;
 
@@ -84,6 +86,8 @@ ORK_CLASS_AVAILABLE
 - (void)setSelected:(BOOL)isSelected;
 
 - (BOOL)buttonFinishedAutoLayout;
+
+- (void)simulateTap;
 
 @end
 

@@ -244,9 +244,9 @@
     _frequencies = [tinnitusStep listOfChoosableFrequencies];
     _indexOffset = 2;
     NSUInteger round = [tinnitusStep roundNumber] - 1;
-    _aFrequencyIndex = ([tinnitusStep lowFrequencyIndex] * _indexOffset) + round;
+    _cFrequencyIndex = ([tinnitusStep lowFrequencyIndex] * _indexOffset) + round;
     _bFrequencyIndex = ([tinnitusStep mediumFrequencyIndex] * _indexOffset) + round;
-    _cFrequencyIndex = ([tinnitusStep highFrequencyIndex] * _indexOffset) + round;
+    _aFrequencyIndex = ([tinnitusStep highFrequencyIndex] * _indexOffset) + round;
     _higherThresholdIndex = -1;
     _lowerThresholdIndex = -1;
     _lastChosenFrequency = 0;
@@ -326,21 +326,21 @@
         // first step, we have no idea of the frequency match yet, so we offer frequencies values that are far from each other
         if (currentSelectedPosition == ORKTinnitusSelectedPureTonePositionA) {
             chosenFrequency = aFreq;
-            _higherThresholdIndex = _bFrequencyIndex;
-            _lowerThresholdIndex = 0;
+            _higherThresholdIndex = _frequencies.count - 1;
+            _lowerThresholdIndex = _bFrequencyIndex;
             _bFrequencyIndex = _aFrequencyIndex + _indexOffset;
         } else if (currentSelectedPosition == ORKTinnitusSelectedPureTonePositionB) {
             chosenFrequency = bFreq;
-            _higherThresholdIndex = _cFrequencyIndex;
-            _lowerThresholdIndex = _aFrequencyIndex;
+            _higherThresholdIndex = _aFrequencyIndex;
+            _lowerThresholdIndex = _cFrequencyIndex;
             _aFrequencyIndex = _bFrequencyIndex;
-            _bFrequencyIndex = _aFrequencyIndex + _indexOffset;
+            _bFrequencyIndex = _bFrequencyIndex + _indexOffset;
         } else {
             chosenFrequency = cFreq;
-            _higherThresholdIndex = _frequencies.count - 1;
-            _lowerThresholdIndex = _bFrequencyIndex;
+            _higherThresholdIndex = _bFrequencyIndex;
+            _lowerThresholdIndex = 0;
             _aFrequencyIndex = _cFrequencyIndex;
-            _bFrequencyIndex = _aFrequencyIndex + _indexOffset;
+            _bFrequencyIndex = _cFrequencyIndex + _indexOffset;
         }
         [self addUnitForFrequencies:@[[NSNumber numberWithDouble:aFreq],
                                       [NSNumber numberWithDouble:bFreq],
@@ -421,11 +421,13 @@
         }
         if (_aFrequencyIndex < 0 ) {
             _lastError = ORKTinnitusErrorTooLow;
-            self.activeStepView.navigationFooterView.continueEnabled = YES;
+            _lastChosenFrequency = chosenFrequency;
+            [self finish];
         }
-        if (_bFrequencyIndex > _frequencies.count - 1) {
+        if (_bFrequencyIndex > _higherThresholdIndex) {
             _lastError = ORKTinnitusErrorTooHigh;
-            self.activeStepView.navigationFooterView.continueEnabled = YES;
+            _lastChosenFrequency = chosenFrequency;
+            [self finish];
         }
     }
     
@@ -434,12 +436,7 @@
     _interactionCounter = _interactionCounter + 1;
     
     [_tinnitusContentView resetPlayButtons];
-    
-    if (self.activeStepView.navigationFooterView.continueEnabled) {
-        [_tinnitusContentView enablePlayButtons:NO];
-    } else {
-        [_tinnitusContentView animateButtons];
-    }
+    [_tinnitusContentView animateButtons];
 }
 
 

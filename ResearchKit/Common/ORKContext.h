@@ -87,7 +87,7 @@ typedef NS_ENUM(NSInteger, ORKTinnitusType);
 
 @property (nonatomic, copy, nullable) ORKHeadphoneTypeIdentifier headphoneType;
 
-@property (nonatomic, copy, nullable) NSString *whiteNoiseType;
+@property (nonatomic, copy, nullable) NSString *tinnitusIdentifier;
 
 @property (nonatomic, assign) ORKTinnitusType type;
 

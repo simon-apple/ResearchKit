@@ -51,8 +51,6 @@ ORK_CLASS_AVAILABLE
                       prependSteps:(nullable NSArray<ORKStep *> *)prependSteps
                        appendSteps:(nullable NSArray<ORKStep *> *)appendSteps NS_DESIGNATED_INITIALIZER;
 
-- (double)predominantFrequency;
-
 @property (nonatomic, readonly, nonnull) NSString *audioSetManifestPath;
 
 @property (nonatomic, readonly, nullable) NSArray<ORKStep *> *prependSteps;
