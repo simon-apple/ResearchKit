@@ -82,7 +82,7 @@ ORK_CLASS_AVAILABLE
 @interface ORKTaskResult ()
 
 // To support serialization
-- (instancetype)initWithTaskIdentifier:(NSString *)identifier taskRunUUID:(NSUUID *)taskRunUUID outputDirectory:(NSURL *)outputDirectory device:(ORKDevice *)device NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithTaskIdentifier:(NSString *)identifier taskRunUUID:(NSUUID *)taskRunUUID outputDirectory:(nullable NSURL *)outputDirectory device:(ORKDevice *)device NS_DESIGNATED_INITIALIZER;
 
 @property (nonatomic, readonly) ORKDevice *device;
 
