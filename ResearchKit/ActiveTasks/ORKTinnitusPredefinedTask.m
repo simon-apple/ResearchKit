@@ -305,6 +305,7 @@ static NSString *const ORKTinnitusMaskingSoundInstructionStepIdentifier = @"tinn
     
 #if TARGET_IPHONE_SIMULATOR
     ORKStep *firstPredefinedStep = [ORKTinnitusPredefinedTask splmeter];
+    _context.headphoneType = ORKHeadphoneTypeIdentifierAirPodsMax;
 #else
     ORKStep *firstPredefinedStep = [ORKTinnitusPredefinedTask headphone];
 #endif

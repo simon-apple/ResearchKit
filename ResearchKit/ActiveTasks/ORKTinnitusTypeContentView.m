@@ -132,6 +132,8 @@ static const CGFloat ORKTinnitusGlowAdjustment = 16.0;
     }]];
     [unselectArray makeObjectsPerformSelector:@selector(restoreButton)];
     _selectedButtonView = buttonView;
+    
+    [_scrollView scrollRectToVisible:[_scrollView convertRect:buttonView.bounds fromView:buttonView] animated:YES];
 }
 
 - (nullable NSString *)getAnswer {
