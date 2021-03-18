@@ -214,7 +214,7 @@ static const NSTimeInterval PLAY_DURATION = 2.0;
     
     ORKTinnitusTypeResult *typeResult = [[ORKTinnitusTypeResult alloc] initWithIdentifier:self.step.identifier];
     
-    typeResult.type = [_tinnitusTypeContentView getType];
+    typeResult.type = _noneAreSimilarFlag ? ORKTinnitusTypeUnknown : [_tinnitusTypeContentView getType];
     
     typeResult.tinnitusIdentifier = _noneAreSimilarFlag ? @"NONEARESIMILAR" : [_tinnitusTypeContentView getAnswer];
     
