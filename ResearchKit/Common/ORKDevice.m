@@ -75,14 +75,15 @@ static NSString * ORK_SYSCTL(int tl, int sl) {
 }
 
 - (void)_init {
-    NSOperatingSystemVersion version = [[NSProcessInfo processInfo] operatingSystemVersion];
-    self->_osVersion = [NSString stringWithFormat:@"%li.%li.%li", version.majorVersion, version.minorVersion, version.patchVersion];
     self->_product = [self _product];
     self->_osBuild = [self _osBuild];
+    NSOperatingSystemVersion version = [[NSProcessInfo processInfo] operatingSystemVersion];
 #if TARGET_OS_IOS
     self->_platform = [[UIDevice currentDevice] systemName];
+    self->_osVersion = [NSString stringWithFormat:@"%ld.%ld.%ld", (long)version.majorVersion, (long)version.minorVersion, (long)version.patchVersion];
 #elif TARGET_OS_WATCH
     self->_platform = [[WKInterfaceDevice currentDevice] systemName];
+    self->_osVersion = [NSString stringWithFormat:@"%d.%d.%d", (int)version.majorVersion, (int)version.minorVersion, (int)version.patchVersion];
 #endif
 }
 
