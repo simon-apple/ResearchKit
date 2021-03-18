@@ -77,7 +77,4 @@ ORK_EXTERN NSDateFormatter *ORKResultDateTimeFormatter(void) ORK_AVAILABLE_DECL;
 ORK_EXTERN NSDateFormatter *ORKResultTimeFormatter(void) ORK_AVAILABLE_DECL;
 ORK_EXTERN NSDateFormatter *ORKResultDateFormatter(void) ORK_AVAILABLE_DECL;
 
-ORK_EXTERN NSString * _Nullable ORKHWProduct(void) ORK_AVAILABLE_DECL;
-ORK_EXTERN NSString * _Nullable ORKOSVersion(void) ORK_AVAILABLE_DECL;
-
 NS_ASSUME_NONNULL_END

@@ -1,6 +1,5 @@
 /*
- Copyright (c) 2015, Apple Inc. All rights reserved.
- Copyright (c) 2016-2017, Sage Bionetworks
+ Copyright (c) 2021, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -29,62 +28,27 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
-#if TARGET_OS_WATCH
-#import <ResearchKitCore/ORKCollectionResult.h>
-#elif TARGET_OS_IOS
-#import <ResearchKit/ORKCollectionResult.h>
+#import <Foundation/Foundation.h>
+#if TARGET_OS_IOS
+#import <ResearchKit/ORKDefines.h>
+#elif TARGET_OS_WATCH
+#import <ResearchKitCore/ORKDefines.h>
 #endif
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class ORKPageStep;
-
-/**
- The `ORKPageResult` is an `ORKTaskResult` subclass of a collection of `ORKStepResult`
- objects. This is considered private, and it is used internally by `ORKPageStepViewController`
- to track the result set.
- */
 ORK_CLASS_AVAILABLE
-@interface ORKPageResult : ORKTaskResult
+@interface ORKDevice : NSObject<NSSecureCoding, NSCopying>
 
-- (instancetype)initWithPageStep:(ORKPageStep *)step stepResult:(ORKStepResult*)result;
++ (instancetype)currentDevice;
 
-- (void)addStepResult:(nullable ORKStepResult *)stepResult;
+@property (nonatomic, copy, readonly, nullable) NSString *product;
 
-- (void)removeStepResultWithIdentifier:(NSString *)identifier;
+@property (nonatomic, copy, readonly, nullable) NSString *osVersion;
 
-- (void)removeStepResultsAfterStepWithIdentifier:(NSString *)identifier;
+@property (nonatomic, copy, readonly, nullable) NSString *osBuild;
 
-- (NSArray <ORKResult *> *)flattenResults;
-
-- (instancetype)copyWithOutputDirectory:(NSURL *)outputDirectory;
-
-@end
-
-
-#if TARGET_OS_IOS
-@interface ORKStepResult ()
-
-@property (nonatomic) BOOL isPreviousResult;
-
-@end
-#endif // TARGET_OS_IOS
-
-@interface ORKTaskResult ()
-
-- (void)setTaskRunUUID:(NSUUID * _Nonnull)taskRunUUID;
-
-@end
-
-@class ORKDevice;
-
-@interface ORKTaskResult ()
-
-// To support serialization
-- (instancetype)initWithTaskIdentifier:(NSString *)identifier taskRunUUID:(NSUUID *)taskRunUUID outputDirectory:(NSURL *)outputDirectory device:(ORKDevice *)device NS_DESIGNATED_INITIALIZER;
-
-@property (nonatomic, readonly) ORKDevice *device;
+@property (nonatomic, copy, readonly, nullable) NSString *platform;
 
 @end
 

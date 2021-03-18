@@ -2353,15 +2353,13 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     })),
            ENTRY(ORKTaskResult,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-               return [[ORKTaskResult alloc] initWithTaskIdentifier:GETPROP(dict, identifier) taskRunUUID:GETPROP(dict, taskRunUUID) outputDirectory:nil];
+               return [[ORKTaskResult alloc] initWithTaskIdentifier:GETPROP(dict, identifier) taskRunUUID:GETPROP(dict, taskRunUUID) outputDirectory:nil device:GETPROP(dict, device)];
                  },
                  (@{
                     PROPERTY(taskRunUUID, NSUUID, NSObject, NO,
                              ^id(id uuid, __unused ORKESerializationContext *context) { return [uuid UUIDString]; },
                              ^id(id string, __unused ORKESerializationContext *context) { return [[NSUUID alloc] initWithUUIDString:string]; }),
-                    PROPERTY(systemName, NSString, NSObject, YES, nil, nil),
-                    PROPERTY(osVersion, NSString, NSObject, YES, nil, nil),
-                    PROPERTY(hwProduct, NSString, NSObject, YES, nil, nil)
+                    PROPERTY(device, ORKDevice, NSObject, NO, nil, nil)
                     })),
            ENTRY(ORKStepResult,
                  nil,
@@ -2458,7 +2456,19 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                      PROPERTY(notchFrequency, NSNumber, NSObject, NO, nil, nil),
                      PROPERTY(bandwidth, NSNumber, NSObject, YES, nil, nil),
                      PROPERTY(gain, NSNumber, NSObject, YES, nil, nil)
-                  })) } mutableCopy];
+                  })),
+           ENTRY(ORKDevice, ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+            return [[ORKDevice alloc] initWithProduct:GETPROP(dict, product)
+                                            osVersion:GETPROP(dict, osVersion)
+                                              osBuild:GETPROP(dict, osBuild)
+                                             platform:GETPROP(dict, platform)];},
+                 (@{
+                     PROPERTY(product, NSString, NSObject, NO, nil, nil),
+                     PROPERTY(osVersion, NSString, NSObject, NO, nil, nil),
+                     PROPERTY(osBuild, NSString, NSObject, NO, nil, nil),
+                     PROPERTY(platform, NSString, NSObject, NO, nil, nil)
+                  }))
+           } mutableCopy];
         if (@available(iOS 12.0, *)) {
             [internalEncodingTable addEntriesFromDictionary:@{ ENTRY(ORKHealthClinicalTypeRecorderConfiguration,
                    ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
