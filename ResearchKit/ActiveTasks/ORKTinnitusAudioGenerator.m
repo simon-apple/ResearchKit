@@ -51,6 +51,7 @@
 
 #import "ORKTinnitusAudioGenerator.h"
 #import "ORKTinnitusAudioSample.h"
+#import "ORKTinnitusHeadphoneTable.h"
 #import "ORKHelpers_Internal.h"
 
 @import AudioToolbox;
@@ -66,16 +67,13 @@
     BOOL _rampUp;
     double _fadeFactor;
     NSTimeInterval _fadeDuration;
-    NSDictionary *_dbAmplitudePerFrequency;
-    NSDictionary *_dbSPLAmplitudePerFrequency;
-    NSDictionary *_volumeCurve;
     NSNumberFormatter *_numberFormatter;
     ORKTinnitusType _type;
-    ORKHeadphoneTypeIdentifier _headphoneType;
 }
 
 @property (assign) NSTimeInterval fadeDuration;
 @property (nonatomic, assign) ORKTinnitusType type;
+@property (nonatomic, strong) ORKTinnitusHeadphoneTable *headphoneTable;
 
 - (void)setupAudioSession;
 - (void)createUnit;
@@ -98,11 +96,12 @@ static OSStatus ORKTinnitusAudioGeneratorRenderTone(void *inRefCon,
     
     // Get the tone parameters out of the view controller
     ORKTinnitusAudioGenerator *audioGenerator = (__bridge ORKTinnitusAudioGenerator *)inRefCon;
+    ORKTinnitusHeadphoneTable *table = audioGenerator.headphoneTable;
     double attenuation = 0.0;
 
     if (audioGenerator->_type == ORKTinnitusTypePureTone) {
-        NSDecimalNumber *dbAmplitudePerFrequency =  [NSDecimalNumber decimalNumberWithString:audioGenerator->_dbAmplitudePerFrequency[[NSString stringWithFormat:@"%.0f",audioGenerator->_frequency]]];
-        NSDecimalNumber *offsetDueToVolume = [NSDecimalNumber decimalNumberWithString:audioGenerator->_volumeCurve[[NSString stringWithFormat:@"%.4f",audioGenerator->_systemVolume]]];
+        NSDecimalNumber *dbAmplitudePerFrequency =  [NSDecimalNumber decimalNumberWithString:table.dbAmplitudePerFrequency[[NSString stringWithFormat:@"%.0f",audioGenerator->_frequency]]];
+        NSDecimalNumber *offsetDueToVolume = [NSDecimalNumber decimalNumberWithString:table.volumeCurve[[NSString stringWithFormat:@"%.4f",audioGenerator->_systemVolume]]];
         NSDecimalNumber *attenuationOffset = [dbAmplitudePerFrequency decimalNumberByAdding:offsetDueToVolume];
         attenuation =  (powf(10, 0.05 * attenuationOffset.doubleValue));
     }
@@ -159,7 +158,7 @@ static OSStatus ORKTinnitusAudioGeneratorRenderTone(void *inRefCon,
 {
     self = [super init];
     if (self) {
-        _headphoneType = headphoneType;
+        self.headphoneTable = [[ORKTinnitusHeadphoneTable alloc] initWithHeadphoneType:headphoneType];
         [self commonInit];
     }
     return self;
@@ -169,7 +168,7 @@ static OSStatus ORKTinnitusAudioGeneratorRenderTone(void *inRefCon,
 {
     self = [super init];
     if (self) {
-        _headphoneType = headphoneType;
+        self.headphoneTable = [[ORKTinnitusHeadphoneTable alloc] initWithHeadphoneType:headphoneType];
         [self commonInit];
         self.fadeDuration = fadeDuration;
     }
@@ -190,48 +189,7 @@ static OSStatus ORKTinnitusAudioGeneratorRenderTone(void *inRefCon,
     _playing = NO;
     _type = ORKTinnitusTypeUnknown;
     _bufferAmplitude = ORKTinnitusAudioGeneratorAmplitudeDefault;
-    
-    NSString *headphoneTypeUppercased = [_headphoneType uppercaseString];
-    NSString *dbAmplitudePerFrequencyFilename;
-    NSString *dbSPLAmplitudePerFrequencyFilename;
-    NSString *volumeCurveFilename;
-    
-    if ([headphoneTypeUppercased isEqualToString:ORKHeadphoneTypeIdentifierAirPodsGen1] ||
-        [headphoneTypeUppercased isEqualToString:ORKHeadphoneTypeIdentifierAirPodsGen2]) {
-        dbAmplitudePerFrequencyFilename = @"dbAmplitudePerFrequency_AIRPODS";
-        dbSPLAmplitudePerFrequencyFilename = @"dbSPLAmplitudePerFrequency_AIRPODS";
-        volumeCurveFilename = @"volume_curve_AIRPODS";
-    } else if ([headphoneTypeUppercased isEqualToString:ORKHeadphoneTypeIdentifierAirPodsPro]) {
-        dbAmplitudePerFrequencyFilename = @"dbAmplitudePerFrequency_AIRPODSPRO";
-        dbSPLAmplitudePerFrequencyFilename = @"dbSPLAmplitudePerFrequency_AIRPODSPRO";
-        volumeCurveFilename = @"volume_curve_AIRPODSPRO";
-    } else if ([headphoneTypeUppercased isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMax]) {
-        dbAmplitudePerFrequencyFilename = @"dbAmplitudePerFrequency_AIRPODSMAX";
-        dbSPLAmplitudePerFrequencyFilename = @"dbSPLAmplitudePerFrequency_AIRPODSMAX";
-        volumeCurveFilename = @"volume_curve_AIRPODSMAX";
-    } else if ([headphoneTypeUppercased isEqualToString:ORKHeadphoneTypeIdentifierEarPods]) {
-        dbAmplitudePerFrequencyFilename = @"dbAmplitudePerFrequency_EARPODS";
-        dbSPLAmplitudePerFrequencyFilename = @"dbSPLAmplitudePerFrequency_EARPODS";
-        volumeCurveFilename = @"volume_curve_WIRED";
-    } else {
-        @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"A valid headphone route identifier must be provided" userInfo:nil];
-    }
-    
-    _volumeCurve = [NSDictionary
-                    dictionaryWithContentsOfFile:[[NSBundle bundleForClass:[self class]]
-                                                  pathForResource:volumeCurveFilename
-                                                  ofType:@"plist"]];
-    
-    _dbAmplitudePerFrequency = [NSDictionary
-                                dictionaryWithContentsOfFile:[[NSBundle bundleForClass:[self class]]
-                                                              pathForResource:dbAmplitudePerFrequencyFilename
-                                                              ofType:@"plist"]];
-    
-    _dbSPLAmplitudePerFrequency = [NSDictionary
-                                   dictionaryWithContentsOfFile:[[NSBundle bundleForClass:[self class]]
-                                                                 pathForResource:dbSPLAmplitudePerFrequencyFilename
-                                                                 ofType:@"plist"]];
-    
+
     _numberFormatter = [[NSNumberFormatter alloc] init];
     _numberFormatter.numberStyle = NSNumberFormatterDecimalStyle;
     
@@ -285,9 +243,9 @@ static OSStatus ORKTinnitusAudioGeneratorRenderTone(void *inRefCon,
 
 - (float)getPuretoneSystemVolumeIndBSPL {
     _systemVolume = [self getCurrentSystemVolume];
-    NSDecimalNumber *offsetDueToVolume = [NSDecimalNumber decimalNumberWithString:_volumeCurve[[NSString stringWithFormat:@"%.4f",_systemVolume]]];
-    NSDecimalNumber *dbSPLAmplitudePerFrequency =  [NSDecimalNumber decimalNumberWithString:_dbSPLAmplitudePerFrequency[[NSString stringWithFormat:@"%.0f",_frequency]]];
-    NSDecimalNumber *equalLoudness =  [NSDecimalNumber decimalNumberWithString:_dbAmplitudePerFrequency[[NSString stringWithFormat:@"%.0f",_frequency]]];
+    NSDecimalNumber *offsetDueToVolume = [NSDecimalNumber decimalNumberWithString:_headphoneTable.volumeCurve[[NSString stringWithFormat:@"%.4f",_systemVolume]]];
+    NSDecimalNumber *dbSPLAmplitudePerFrequency =  [NSDecimalNumber decimalNumberWithString:_headphoneTable.dbSPLAmplitudePerFrequency[[NSString stringWithFormat:@"%.0f",_frequency]]];
+    NSDecimalNumber *equalLoudness =  [NSDecimalNumber decimalNumberWithString:_headphoneTable.dbAmplitudePerFrequency[[NSString stringWithFormat:@"%.0f",_frequency]]];
     
     NSDecimalNumberHandler *behavior = [NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundPlain
                                                                                               scale:2
@@ -303,8 +261,7 @@ static OSStatus ORKTinnitusAudioGeneratorRenderTone(void *inRefCon,
 
 - (float)gainFromCurrentSystemVolume {
     _systemVolume = [self getCurrentSystemVolume];
-    NSDecimalNumber *resultNumber = [NSDecimalNumber decimalNumberWithString:_volumeCurve[[NSString stringWithFormat:@"%.4f",_systemVolume]]];
-    return [resultNumber floatValue];
+    return [_headphoneTable gainForSystemVolume:_systemVolume];
 }
 
 - (void)playSoundAtFrequency:(double)playFrequency {

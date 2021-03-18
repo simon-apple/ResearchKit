@@ -45,11 +45,9 @@ typedef NS_ENUM(NSInteger, ORKTinnitusType) {
  Possible answers for probability of using a specific tinnitus masking sound.
  */
 typedef NSString *ORKTinnitusMaskingAnswer NS_STRING_ENUM;
-ORK_EXTERN ORKTinnitusMaskingAnswer const ORKTinnitusMaskingAnswerDefinitely;
-ORK_EXTERN ORKTinnitusMaskingAnswer const ORKTinnitusMaskingAnswerProbably;
-ORK_EXTERN ORKTinnitusMaskingAnswer const ORKTinnitusMaskingAnswerPossibly;
-ORK_EXTERN ORKTinnitusMaskingAnswer const ORKTinnitusMaskingAnswerProbablyNot;
-ORK_EXTERN ORKTinnitusMaskingAnswer const ORKTinnitusMaskingAnswerDefinitelyNot;
+ORK_EXTERN ORKTinnitusMaskingAnswer const ORKTinnitusMaskingAnswerVeryEffective;
+ORK_EXTERN ORKTinnitusMaskingAnswer const ORKTinnitusMaskingAnswerSomewhatEffective;
+ORK_EXTERN ORKTinnitusMaskingAnswer const ORKTinnitusMaskingAnswerNotEffective;
 ORK_EXTERN ORKTinnitusMaskingAnswer const ORKTinnitusMaskingAnswerNoneOfTheAbove;
 
 /**

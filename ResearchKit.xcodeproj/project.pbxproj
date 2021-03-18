@@ -99,6 +99,8 @@
 		16A24B70230B70890094C4C2 /* Celestial_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 16A24B6F230B70890094C4C2 /* Celestial_Private.h */; };
 		1B4B95B81F5F012E006B629F /* ORKWeightPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B4B95B71F5F012E006B629F /* ORKWeightPicker.m */; };
 		1B4B95BA1F5F014E006B629F /* ORKWeightPicker.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B4B95B91F5F014E006B629F /* ORKWeightPicker.h */; };
+		22A1C407260269440003F75E /* ORKTinnitusHeadphoneTable.h in Headers */ = {isa = PBXBuildFile; fileRef = 22A1C405260269440003F75E /* ORKTinnitusHeadphoneTable.h */; };
+		22A1C408260269440003F75E /* ORKTinnitusHeadphoneTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 22A1C406260269440003F75E /* ORKTinnitusHeadphoneTable.m */; };
 		22BFDF5E25B792BF0015D1E1 /* ORKTinnitusTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 22BFDF5D25B792BF0015D1E1 /* ORKTinnitusTypes.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		22BFDF6A25B792D20015D1E1 /* ORKTinnitusTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 22BFDF6925B792D20015D1E1 /* ORKTinnitusTypes.m */; };
 		22BFE13C25BB73310015D1E1 /* ORKTinnitusAudioSample.m in Sources */ = {isa = PBXBuildFile; fileRef = 223AE98B25B235CB0080FE13 /* ORKTinnitusAudioSample.m */; };
@@ -1148,6 +1150,8 @@
 		1B4B95B91F5F014E006B629F /* ORKWeightPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKWeightPicker.h; sourceTree = "<group>"; };
 		223AE98A25B235CB0080FE13 /* ORKTinnitusAudioSample.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKTinnitusAudioSample.h; sourceTree = "<group>"; };
 		223AE98B25B235CB0080FE13 /* ORKTinnitusAudioSample.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKTinnitusAudioSample.m; sourceTree = "<group>"; };
+		22A1C405260269440003F75E /* ORKTinnitusHeadphoneTable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKTinnitusHeadphoneTable.h; sourceTree = "<group>"; };
+		22A1C406260269440003F75E /* ORKTinnitusHeadphoneTable.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKTinnitusHeadphoneTable.m; sourceTree = "<group>"; };
 		22BFDF5D25B792BF0015D1E1 /* ORKTinnitusTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKTinnitusTypes.h; sourceTree = "<group>"; };
 		22BFDF6925B792D20015D1E1 /* ORKTinnitusTypes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKTinnitusTypes.m; sourceTree = "<group>"; };
 		241A2E861B94FD8800ED3B39 /* ORKPasscodeStepViewController_Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKPasscodeStepViewController_Internal.h; sourceTree = "<group>"; };
@@ -4203,6 +4207,8 @@
 				22BFDF6925B792D20015D1E1 /* ORKTinnitusTypes.m */,
 				E220A37A25711F9600C3C211 /* ORKTinnitusAudioGenerator.h */,
 				E220A37B25711F9600C3C211 /* ORKTinnitusAudioGenerator.m */,
+				22A1C405260269440003F75E /* ORKTinnitusHeadphoneTable.h */,
+				22A1C406260269440003F75E /* ORKTinnitusHeadphoneTable.m */,
 				E220A37925711F9500C3C211 /* ORKTinnitusButtonView.h */,
 				E220A37825711F9500C3C211 /* ORKTinnitusButtonView.m */,
 				E220A35A25711F4100C3C211 /* ORKTinnitusVolumeResult.h */,
@@ -4364,6 +4370,7 @@
 			files = (
 				D3C8072A21891EBE00F9A231 /* ORKEnvironmentSPLMeterResult.h in Headers */,
 				BF1D43851D4904C6007EE90B /* ORKVideoInstructionStep.h in Headers */,
+				22A1C407260269440003F75E /* ORKTinnitusHeadphoneTable.h in Headers */,
 				BF5161501BE9C53D00174DDD /* ORKWaitStep.h in Headers */,
 				244EFAD21BCEFD83001850D9 /* ORKAnswerFormat_Private.h in Headers */,
 				BCA5C0351AEC05F20092AC8D /* ORKStepNavigationRule.h in Headers */,
@@ -5256,6 +5263,7 @@
 				86C40C341A8D7C5C00081FAC /* ORKFitnessStepViewController.m in Sources */,
 				71769E2E208824D100A19914 /* ORKdBHLToneAudiometryOnboardingStep.m in Sources */,
 				71769E3A20882CED00A19914 /* ORKdBHLToneAudiometryStep.m in Sources */,
+				22A1C408260269440003F75E /* ORKTinnitusHeadphoneTable.m in Sources */,
 				BA43CCA52271741C00F2A2D2 /* ORKStepContentView.m in Sources */,
 				86C40E2E1A8D7C5C00081FAC /* ORKVisualConsentStep.m in Sources */,
 				2433C9E41B9A506F0052D375 /* ORKKeychainWrapper.m in Sources */,

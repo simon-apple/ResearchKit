@@ -2444,6 +2444,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
            ENTRY(ORKTinnitusMaskingSoundResult,
                  nil,
                  (@{
+                     PROPERTY(volumeCurve, NSNumber, NSObject, YES, nil, nil),
                      PROPERTY(answer, NSString, NSObject, NO, nil, nil)
                   })),
            ENTRY(ORKTinnitusMaskingSoundStep,
