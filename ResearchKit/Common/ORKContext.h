@@ -32,11 +32,11 @@
 
 #if TARGET_OS_IOS
 #import <ResearchKit/ORKStep.h>
+#import <ResearchKit/ORKDefines.h>
 #elif TARGET_OS_WATCH
 #import <ResearchKitCore/ORKStep.h>
+#import <ResearchKitCore/ORKDefines.h>
 #endif
-
-#import <ResearchKit/ORKDefines.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
