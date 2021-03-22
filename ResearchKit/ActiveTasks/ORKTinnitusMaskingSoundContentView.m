@@ -279,7 +279,7 @@ static int const ORKTinnitusMaskingSoundStepSliderSpacing = 30;
     self.translatesAutoresizingMaskIntoConstraints = NO;
 
     [_roundedView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [[_roundedView.topAnchor constraintGreaterThanOrEqualToAnchor:self.topAnchor constant:ORKTinnitusMaskingSoundStepPadding] setActive:YES];
+    [[_roundedView.topAnchor constraintGreaterThanOrEqualToAnchor:_scrollView.topAnchor constant:ORKTinnitusMaskingSoundStepPadding] setActive:YES];
     [[_roundedView.widthAnchor constraintEqualToAnchor:_scrollView.widthAnchor constant:-2*ORKTinnitusMaskingSoundStepPadding] setActive:YES];
     [[_roundedView.centerXAnchor constraintEqualToAnchor:_scrollView.centerXAnchor] setActive:YES];
 
@@ -400,6 +400,8 @@ static int const ORKTinnitusMaskingSoundStepSliderSpacing = 30;
             for (UIView *button in _buttons) {
                 [button setAlpha:1];
             }
+        } completion:^(BOOL _) {
+            [_scrollView setContentSize:CGSizeMake(CGRectGetWidth(_scrollView.frame), CGRectGetMaxY(_roundedView.frame))];
         }];
     }];
 }

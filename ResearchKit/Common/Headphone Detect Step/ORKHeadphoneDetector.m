@@ -129,7 +129,10 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
     [center addObserver:self selector:@selector(headphoneStateChangedNotification:) name:@"AVSystemController_ActiveAudioRouteDidChangeNotification" object:nil];
     [center addObserver:self selector:@selector(mediaServerDied) name:@"AVSystemController_ServerConnectionDiedNotification" object:nil];
     
-    [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
+    });
+    
     [[[MPRemoteCommandCenter sharedCommandCenter] pauseCommand] addTarget:self action:@selector(pauseDetected:)];
     
     [center addObserver:self selector:@selector(appWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
@@ -167,7 +170,11 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
     [center removeObserver:self name:@"AVSystemController_ActiveAudioRouteDidChangeNotification" object:nil];
     [center removeObserver:self name:@"AVSystemController_ServerConnectionDiedNotification" object:nil];
     
-    [[UIApplication sharedApplication] endReceivingRemoteControlEvents];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        // must be called on main thread
+        [[UIApplication sharedApplication] endReceivingRemoteControlEvents];
+    });
+    
     [[[MPRemoteCommandCenter sharedCommandCenter] pauseCommand] removeTarget:self];
     
     [center removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];

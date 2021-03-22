@@ -238,15 +238,15 @@ static NSString *const ORKTinnitusMaskingSoundInstructionStepIdentifier = @"tinn
     __block NSError *err;
     [[manifest objectForKey:key] enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 
-        NSString *audioFilename = (NSString *)[obj objectForKey:ManifestJSONKeyAudioFilename];
-        NSString *audioFilePath = [parentDirectory stringByAppendingPathComponent:audioFilename];
         NSString *audioIdentifier = (NSString *)[obj objectForKey:ManifestJSONKeyIdentifier];
-        NSString *audioFileName = (NSString *)[obj objectForKey:ManifestJSONKeyName];
+        NSString *audioName = (NSString *)[obj objectForKey:ManifestJSONKeyName];
+        NSString *audioFileName = (NSString *)[obj objectForKey:ManifestJSONKeyAudioFilename];
+        NSString *audioFilePath = [parentDirectory stringByAppendingPathComponent:audioFileName];
         ORKTinnitusType audioType = (ORKTinnitusType)[[obj valueForKey:ManifestJSONKeyTinnitusType] integerValue];
 
         if ([fileManager fileExistsAtPath:audioFilePath])
         {
-            [audioFileSamples addObject:[ORKTinnitusAudioSample sampleWithPath:audioFilePath name:audioFileName identifier:audioIdentifier type:audioType]];
+            [audioFileSamples addObject:[ORKTinnitusAudioSample sampleWithPath:audioFilePath name:audioName identifier:audioIdentifier type:audioType]];
             success = YES;
         }
         else
@@ -611,9 +611,8 @@ static NSString *const ORKTinnitusMaskingSoundInstructionStepIdentifier = @"tinn
 - (ORKInstructionStep *)getPureToneRoundComplete:(NSInteger)roundNumber {
     NSString *identifier = [self getRoundSuccessIdentifierForNumber:roundNumber];
     ORKInstructionStep *roundSuccessCompleted = [[ORKInstructionStep alloc] initWithIdentifier:identifier];
-    roundSuccessCompleted.title = ORKLocalizedString(@"TINNITUS_ROUND_COMPLETE_TITLE", nil);
-    roundSuccessCompleted.text = ORKLocalizedString(@"TINNITUS_ROUND_COMPLETE_TEXT", nil);
-    roundSuccessCompleted.detailText = ORKLocalizedString(@"TINNITUS_ROUND_COMPLETE_DETAIL", nil);
+    roundSuccessCompleted.title = [NSString localizedStringWithFormat:ORKLocalizedString(@"TINNITUS_ROUND_COMPLETE_TITLE", nil),(long)roundNumber];
+    roundSuccessCompleted.text = roundNumber == 1 ?  ORKLocalizedString(@"TINNITUS_ROUND_COMPLETE_TEXT", nil) : ORKLocalizedString(@"TINNITUS_FINAL_ROUND_COMPLETE_TEXT", nil) ;
     
     UIImage *iconImage;
     if (@available(iOS 13.0, *)) {

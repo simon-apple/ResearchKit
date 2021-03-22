@@ -52,7 +52,6 @@
 
 #import "ORKCelestialSoftLink.h"
 
-NSString *const ORKTinnitusPuretoneMaskSoundNameExtension = @"wav";
 const double ORKTinnitusMaskingIncrementVolumeDefault = 0.0625f;
 
 @interface ORKTinnitusMaskingSoundStepViewController () <ORKTinnitusMaskingSoundContentViewDelegate> {
