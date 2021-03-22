@@ -676,9 +676,9 @@
 "TINNITUS_FREQUENCY_MATCHING_TITLE" = "Pitch Matching";
 "TINNITUS_FREQUENCY_MATCHING_DETAIL" = "You will listen to a variety of sounds and select the one that is most similar to the tinnitus you are experiencing.";
 "TINNITUS_PURETONE_TEXT" = "Choose the frequency range that sounds the most similar to the tinnitus you are experiencing.";
-"TINNITUS_ROUND_COMPLETE_TITLE" = "Round Completed";
-"TINNITUS_ROUND_COMPLETE_TEXT" = "Thank you for completing this task. Your tinnitus pitch has been saved.";
-"TINNITUS_ROUND_COMPLETE_DETAIL" = "Go through the next rounds to complete the study.";
+"TINNITUS_ROUND_COMPLETE_TITLE" = "Round %li Completed";
+"TINNITUS_ROUND_COMPLETE_TEXT" = "Thank you for for your responses. Proceed through the next 2 rounds to complete the Pitch Matching exercise.";
+"TINNITUS_FINAL_ROUND_COMPLETE_TEXT" = "Thank you for for your responses. Proceed through the next round to complete the Pitch Matching exercise.";
 "TINNITUS_CALIBRATION_TITLE" = "Adjust the Volume to a Comfortable Level";
 "TINNITUS_CALIBRATION_TEXT" = "Move the slider until you can clearly hear the sample.";
 "TINNITUS_FINAL_CALIBRATION_TITLE" = "Volume Matching";

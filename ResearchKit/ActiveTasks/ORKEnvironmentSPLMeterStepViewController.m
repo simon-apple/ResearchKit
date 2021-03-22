@@ -296,7 +296,7 @@
     _inputNodeOutputFormat = [_inputNode inputFormatForBus:0];
     _sampleRate = (uint32_t)_inputNodeOutputFormat.sampleRate;
     _bufferSize = _sampleRate/10;
-    _countToFetch = _sampleRate/(int)_bufferSize;
+    _countToFetch = _sampleRate > 0 ? _sampleRate/(int)_bufferSize : 0;
     [self configureEQ];
     [_audioEngine attachNode:_eqUnit];
     [_audioEngine connect:_inputNode to:_eqUnit format:_inputNodeOutputFormat];

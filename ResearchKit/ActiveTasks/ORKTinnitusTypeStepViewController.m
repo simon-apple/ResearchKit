@@ -135,6 +135,7 @@ static const NSTimeInterval PLAY_DURATION = 2.0;
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
+    [self stopAutomaticPlay];
     [self tearDownAudioEngine];
 }
 
@@ -178,14 +179,14 @@ static const NSTimeInterval PLAY_DURATION = 2.0;
     if (!tinnitusButtonView.isSimulatedTap) {
         [self stopAutomaticPlay];
     }
-    [_tinnitusTypeContentView selectButton:tinnitusButtonView];
+    
     [self tearDownAudioEngine];
     
     if (tinnitusButtonView.isShowingPause) {
         dispatch_async(dispatch_get_main_queue(), ^{
             NSError *error;
             [self playSound:tinnitusButtonView.answer error:&error];
-            
+            [_tinnitusTypeContentView selectButton:tinnitusButtonView];
             if (error) {
                 ORK_Log_Error("Error fetching audioSample: %@", error);
             }
