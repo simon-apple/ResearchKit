@@ -39,10 +39,19 @@
 #endif
 #import <sys/types.h>
 #import <sys/sysctl.h>
+#import <errno.h>
+#import <string.h>
 
 #if !TARGET_OS_SIMULATOR
+#ifndef ORK_SYS_CTL_DEBUG
+#define ORK_SYST_CTL_DEBUG(t,s) ORK_SYSCTL_DEBUG_STRING(t, s)
+#endif
+static NSString * ORK_SYSCTL_DEBUG_STRING(int tl, int sl);
+
 static NSString * ORK_SYSCTL(int tl, int sl) {
 
+    ORK_Log_Info("Fetching %@", ORK_SYST_CTL_DEBUG(tl, sl));
+    
     int mib[] = { tl, sl };
     size_t size;
 
@@ -50,7 +59,16 @@ static NSString * ORK_SYSCTL(int tl, int sl) {
 
     char *cStr = malloc(size);
 
-    sysctl(mib, 2, cStr, &size, NULL, 0);
+    int kErr = sysctl(mib, 2, cStr, &size, NULL, 0);
+    
+    if (kErr != KERN_SUCCESS || cStr == NULL) {
+        
+        ORK_Log_Error("ORKDevice encountered an error fetching %@. %s", ORK_SYST_CTL_DEBUG(tl, sl), strerror(errno));
+        
+        free(cStr);
+        
+        return nil;
+    }
 
     NSString *str = [NSString stringWithCString:cStr encoding:NSASCIIStringEncoding];
 
@@ -58,6 +76,38 @@ static NSString * ORK_SYSCTL(int tl, int sl) {
 
     return [str copy];
 }
+
+static NSString * ORK_SYSCTL_DEBUG_STRING(int tl, int sl) {
+    
+    struct ctlname ctl_name[] = CTL_NAMES;
+    char *tlaC = ctl_name[tl].ctl_name;
+    NSString *tla = [NSString stringWithCString:tlaC encoding:NSASCIIStringEncoding];
+    NSString *sla;
+    
+    switch (tl) {
+        case CTL_HW:
+        {
+            struct ctlname ctl_hw_name[] = CTL_HW_NAMES;
+            char *slaC = ctl_hw_name[sl].ctl_name;
+            sla = [NSString stringWithCString:slaC encoding:NSASCIIStringEncoding];
+            break;
+        }
+            
+        case CTL_KERN:
+        {
+            struct ctlname ctl_kern_name[] = CTL_KERN_NAMES;
+            char *slaC = ctl_kern_name[sl].ctl_name;
+            sla = [NSString stringWithCString:slaC encoding:NSASCIIStringEncoding];
+            break;
+        }
+        default:
+            // Not supported
+            return nil;
+    }
+    
+    return [NSString stringWithFormat:@"%@.%@", tla, sla];
+}
+
 #endif
 
 @implementation ORKDevice
