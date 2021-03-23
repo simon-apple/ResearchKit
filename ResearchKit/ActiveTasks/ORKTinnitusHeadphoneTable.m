@@ -84,9 +84,54 @@
                                                                  ofType:@"plist"]];
 }
 
-- (float)gainForSystemVolume:(float)systemVolume {
-    NSDecimalNumber *resultNumber = [NSDecimalNumber decimalNumberWithString:_volumeCurve[[NSString stringWithFormat:@"%.4f",systemVolume]]];
-    return [resultNumber floatValue];
+- (float)gainForSystemVolume:(float)systemVolume interpolated:(BOOL)isInterpolated {
+    NSNumber *volume = [[NSNumber alloc] initWithFloat:systemVolume];
+
+    NSMutableDictionary *decimalVolumeCurve = [[NSMutableDictionary alloc] init];
+    for (NSString *key in self.volumeCurve.allKeys) {
+        NSDecimalNumber *fKey = [NSDecimalNumber decimalNumberWithString:key];
+        NSDecimalNumber *fValue = [NSDecimalNumber decimalNumberWithString:self.volumeCurve[key]];
+        [decimalVolumeCurve setObject:fValue forKey:fKey];
+    }
+    
+    if ([decimalVolumeCurve.allKeys containsObject:volume]) {
+        // Value included on the table, no interpolation needed
+        return [[decimalVolumeCurve objectForKey:volume] floatValue];
+    }
+    
+    NSArray *sortedKeys = [decimalVolumeCurve.allKeys sortedArrayUsingSelector:@selector(compare:)];
+    NSUInteger topIndex = [sortedKeys indexOfObjectPassingTest:^BOOL(NSNumber *obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        return [obj compare:volume] == NSOrderedDescending;
+    }];
+
+    // The smallest volume key that is bigger than systemVolume
+    NSNumber *topKey = [sortedKeys objectAtIndex:topIndex];
+    NSNumber *topValue = [decimalVolumeCurve objectForKey:topKey];
+
+    if (topIndex == 0 || !isInterpolated) {
+        // No interpolation or bottomValue available, returning topValue
+        return [topValue floatValue];
+    }
+    
+    // The biggest volume key that is smaller than systemVolume
+    NSNumber *bottomKey = [sortedKeys objectAtIndex:topIndex-1];
+    NSNumber *bottomValue = [decimalVolumeCurve objectForKey:bottomKey];
+
+    // Convert top and botton gains to linear scale
+    double topLinear = pow(10.0, ([topValue doubleValue]/20.0));
+    double bottomLinear = pow(10.0, ([bottomValue doubleValue]/20.0));
+    
+    // Calculate baselined keys based on bottomKey
+    double baselinedTopVolume = [topKey doubleValue] - [bottomKey doubleValue];
+    double baselinedSystemVolume = systemVolume - [bottomKey doubleValue];
+    
+    // Calculate the volume linear offset, apply over the bottomLinear and convert again to dB scale
+    double linearRange = (topLinear - bottomLinear);
+    double volumeLinearOffset = (baselinedSystemVolume/baselinedTopVolume) * linearRange;
+    double adjustedLinearVolume = bottomLinear + volumeLinearOffset;
+    double adjustedGain = 20 * log10(adjustedLinearVolume);
+
+    return adjustedGain;
 }
 
 @end

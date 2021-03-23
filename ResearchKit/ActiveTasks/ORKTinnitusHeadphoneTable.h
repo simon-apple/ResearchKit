@@ -47,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
  
 @return The volume gain (dB)
  */
-- (float)gainForSystemVolume:(float)systemVolume;
+- (float)gainForSystemVolume:(float)systemVolume interpolated:(BOOL)isInterpolated;
 
 @end
 

@@ -35,6 +35,7 @@
 #import "ORKTinnitusAudioGenerator.h"
 #import "ORKTinnitusVolumeResult.h"
 #import "ORKTinnitusAudioSample.h"
+#import "ORKTinnitusHeadphoneTable.h"
 #import "ORKActiveStepView.h"
 
 #import "ORKStepContainerView_Private.h"
@@ -114,26 +115,26 @@
     ORKStepResult *sResult = [super result];
     
     if (self.tinnitusPredefinedTaskContext) {
-        ORKTinnitusType type = self.tinnitusPredefinedTaskContext.type;
+        ORKTinnitusPredefinedTaskContext *context = self.tinnitusPredefinedTaskContext;
+        float systemVolume = [[AVAudioSession sharedInstance] outputVolume];
+        
         NSMutableArray *results = [NSMutableArray arrayWithArray:sResult.results];
         
         ORKTinnitusVolumeResult *tinnitusCalibrationResult = [[ORKTinnitusVolumeResult alloc] initWithIdentifier:self.step.identifier];
         tinnitusCalibrationResult.startDate = sResult.startDate;
         tinnitusCalibrationResult.endDate = sResult.endDate;
-        tinnitusCalibrationResult.volumeCurve = [self.audioGenerator gainFromCurrentSystemVolume];
         
-        if (self.tinnitusPredefinedTaskContext.predominantFrequency > 0.0) {
+        ORKTinnitusHeadphoneTable *table = [[ORKTinnitusHeadphoneTable alloc] initWithHeadphoneType:context.headphoneType];
+        tinnitusCalibrationResult.volumeCurve = [table gainForSystemVolume:systemVolume interpolated:YES];
+
+        if (context.predominantFrequency > 0.0) {
 #if TARGET_IPHONE_SIMULATOR
             tinnitusCalibrationResult.amplitude = 0.0;
 #else
             tinnitusCalibrationResult.amplitude = [self.audioGenerator getPuretoneSystemVolumeIndBSPL];
 #endif
         } else {
-            if (type == ORKTinnitusTypePureTone) {
-                tinnitusCalibrationResult.amplitude = [self.audioGenerator getPuretoneSystemVolumeIndBSPL];
-            } else if (type == ORKTinnitusTypeWhiteNoise) {
-                tinnitusCalibrationResult.amplitude = [self.audioGenerator gainFromCurrentSystemVolume];
-            }
+            tinnitusCalibrationResult.amplitude = systemVolume;
         }
         
         [results addObject:tinnitusCalibrationResult];

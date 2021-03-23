@@ -32,8 +32,6 @@
 #import "ORKHelpers_Internal.h"
 #import "ORKSkin.h"
 
-static float const ORKVolumeCalibrationVolumeStep = 0.0625;
-
 static int const ORKVolumeCalibrationStepPadding = 8;
 static int const ORKVolumeCalibrationStepMargin = 16;
 static int const ORKVolumeCalibrationStepSliderMargin = 22;
@@ -212,7 +210,7 @@ static int const ORKVolumeCalibrationStepPlaybackButtonSize = 36;
 }
 
 - (void)volumeSliderChanged:(UISlider *)sender {
-    float volume = (int)(sender.value / ORKVolumeCalibrationVolumeStep) * ORKVolumeCalibrationVolumeStep;
+    float volume = sender.value;
     [self.volumeSlider setValue:volume];
 
     if ([self.delegate respondsToSelector:@selector(contentView:didRaisedVolume:)]) {

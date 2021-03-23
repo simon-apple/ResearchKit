@@ -36,6 +36,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class ORKTinnitusHeadphoneTable;
+
 /**
  The `ORKTinnitusAudioGenerator` class represents an audio tone generator or white noise generator.
  The `type` will define what type of sound will be generated.
@@ -45,6 +47,7 @@ ORK_CLASS_AVAILABLE
 
 @property (readonly) NSTimeInterval fadeDuration;
 @property (readonly, getter=isPlaying) BOOL playing;
+@property (nonatomic, strong) ORKTinnitusHeadphoneTable *headphoneTable;
 
 + (instancetype)new NS_UNAVAILABLE;
 - (instancetype)init NS_UNAVAILABLE;
@@ -105,13 +108,6 @@ Returns the system audio volume in decibels.
  @return the current volume with the frequency and dbSPL table applied
  */
 - (float)getPuretoneSystemVolumeIndBSPL;
-
-/**
- Returns the current system volume gain using the volume curve for the initialized headphone type
- 
-@return The current system volume gain (dB)
- */
-- (float)gainFromCurrentSystemVolume;
 
 /**
  Adjusts the maximum audio buffer amplitude (the default amplitude value is 0.03). This value will be clamped between 0.0 and 1.0

@@ -72,8 +72,6 @@
 }
 
 @property (assign) NSTimeInterval fadeDuration;
-@property (nonatomic, assign) ORKTinnitusType type;
-@property (nonatomic, strong) ORKTinnitusHeadphoneTable *headphoneTable;
 
 - (void)setupAudioSession;
 - (void)createUnit;
@@ -243,7 +241,7 @@ static OSStatus ORKTinnitusAudioGeneratorRenderTone(void *inRefCon,
 
 - (float)getPuretoneSystemVolumeIndBSPL {
     _systemVolume = [self getCurrentSystemVolume];
-    NSDecimalNumber *offsetDueToVolume = [NSDecimalNumber decimalNumberWithString:_headphoneTable.volumeCurve[[NSString stringWithFormat:@"%.4f",_systemVolume]]];
+    NSDecimalNumber *offsetDueToVolume = [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%.1f", [_headphoneTable gainForSystemVolume:_systemVolume interpolated:YES]]];
     NSDecimalNumber *dbSPLAmplitudePerFrequency =  [NSDecimalNumber decimalNumberWithString:_headphoneTable.dbSPLAmplitudePerFrequency[[NSString stringWithFormat:@"%.0f",_frequency]]];
     NSDecimalNumber *equalLoudness =  [NSDecimalNumber decimalNumberWithString:_headphoneTable.dbAmplitudePerFrequency[[NSString stringWithFormat:@"%.0f",_frequency]]];
     
@@ -257,11 +255,6 @@ static OSStatus ORKTinnitusAudioGeneratorRenderTone(void *inRefCon,
     NSDecimalNumber *resultNumber = [offsetDueToVolume decimalNumberByAdding:dbSPLAmplitudePerFrequency];
     resultNumber = [resultNumber decimalNumberByAdding:equalLoudness withBehavior:behavior];
     return [resultNumber floatValue];
-}
-
-- (float)gainFromCurrentSystemVolume {
-    _systemVolume = [self getCurrentSystemVolume];
-    return [_headphoneTable gainForSystemVolume:_systemVolume];
 }
 
 - (void)playSoundAtFrequency:(double)playFrequency {
