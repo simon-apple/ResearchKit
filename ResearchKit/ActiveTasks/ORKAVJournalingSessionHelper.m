@@ -118,7 +118,12 @@ typedef struct __attribute__((__packed__)) DepthPacket {
         _capturing = NO;
         _originalFrameSize = CGSizeZero;
         _interfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
-        _storeDepthData = storeDepthData;
+        
+        if (@available(iOS 11.1, *)) {
+            _storeDepthData =  [ARFaceTrackingConfiguration isSupported] && storeDepthData;
+        } else {
+            _storeDepthData = NO;
+        }
         
         if ([sampleBufferDelegate conformsToProtocol:@protocol(AVCaptureDataOutputSynchronizerDelegate)]) {
             _synchronizerDelegate = sampleBufferDelegate;
@@ -484,12 +489,17 @@ typedef struct __attribute__((__packed__)) DepthPacket {
 }
 
 - (BOOL)setupFrontCameraOnSession:(NSError **)error {
-
+    _frontCameraCaptureDevice = nil;
+    
     if (@available(iOS 11.1, *)) {
-        _frontCameraCaptureDevice = [AVCaptureDevice defaultDeviceWithDeviceType:AVCaptureDeviceTypeBuiltInTrueDepthCamera mediaType:AVMediaTypeVideo position:AVCaptureDevicePositionFront];
+        if (_storeDepthData) {
+            _frontCameraCaptureDevice = [AVCaptureDevice defaultDeviceWithDeviceType:AVCaptureDeviceTypeBuiltInTrueDepthCamera mediaType:AVMediaTypeVideo position:AVCaptureDevicePositionFront];
 
-        [self configureDepthMapCameraFormatFor: _frontCameraCaptureDevice];
-    } else {
+            [self configureDepthMapCameraFormatFor: _frontCameraCaptureDevice];
+        }
+    }
+    
+    if (!_frontCameraCaptureDevice) {
         // Fallback on earlier versions
         _frontCameraCaptureDevice = [AVCaptureDevice defaultDeviceWithDeviceType:AVCaptureDeviceTypeBuiltInWideAngleCamera mediaType:AVMediaTypeVideo position:AVCaptureDevicePositionFront];
     }
@@ -633,12 +643,12 @@ typedef struct __attribute__((__packed__)) DepthPacket {
         
         if ([_captureSession canAddOutput:_metaDataOutput]) {
             [_captureSession addOutput:_metaDataOutput];
-            
+
             [_metaDataOutput setMetadataObjectTypes:@[AVMetadataObjectTypeFace]];
         }
     }
 
-    if (!_depthDataOutput) {
+    if (!_depthDataOutput && _storeDepthData) {
         _depthDataOutput = [[AVCaptureDepthDataOutput alloc] init];
 
         if ([_captureSession canAddOutput:_depthDataOutput]) {
@@ -647,7 +657,11 @@ typedef struct __attribute__((__packed__)) DepthPacket {
     }
     
     if (!_outputSynchronizer) {
-        _outputSynchronizer = [[AVCaptureDataOutputSynchronizer alloc] initWithDataOutputs:@[_videoDataOutput, _audioDataOutput, _metaDataOutput, _depthDataOutput]];
+        if (_storeDepthData) {
+            _outputSynchronizer = [[AVCaptureDataOutputSynchronizer alloc] initWithDataOutputs:@[_videoDataOutput, _audioDataOutput, _metaDataOutput, _depthDataOutput]];
+        } else {
+            _outputSynchronizer = [[AVCaptureDataOutputSynchronizer alloc] initWithDataOutputs:@[_videoDataOutput, _audioDataOutput, _metaDataOutput]];
+        }
     }
     
     [_outputSynchronizer setDelegate:_synchronizerDelegate queue:_dataOutputQueue];
