@@ -39,7 +39,9 @@ NS_ASSUME_NONNULL_BEGIN
 @required
 - (void)buttonCheckedWithValue:(NSString *)value;
 - (BOOL)pressedPlaybackButton:(UIButton *)playbackButton;
-- (void)raisedVolume:(float)volume;
+- (void)volumeSliderChanged:(float)volume;
+- (void)shouldEnableContinue:(BOOL)enable;
+
 
 @end
 

@@ -52,8 +52,6 @@
 
 #import "ORKCelestialSoftLink.h"
 
-const double ORKTinnitusMaskingIncrementVolumeDefault = 0.0625f;
-
 @interface ORKTinnitusMaskingSoundStepViewController () <ORKTinnitusMaskingSoundContentViewDelegate> {
     AVAudioEngine *_audioEngine;
     AVAudioPlayerNode *_playerNode;
@@ -176,7 +174,7 @@ const double ORKTinnitusMaskingIncrementVolumeDefault = 0.0625f;
         ORKTinnitusPredefinedTaskContext *context = (ORKTinnitusPredefinedTaskContext *)self.step.context;
         ORKTinnitusHeadphoneTable *table = [[ORKTinnitusHeadphoneTable alloc] initWithHeadphoneType:context.headphoneType];
         
-        matchingSoundResult.volumeCurve = [table gainForSystemVolume:[self getCurrentSystemVolume]];
+        matchingSoundResult.volumeCurve = [table gainForSystemVolume:[self getCurrentSystemVolume] interpolated:YES];
     }
 
     [results addObject:matchingSoundResult];
@@ -186,12 +184,11 @@ const double ORKTinnitusMaskingIncrementVolumeDefault = 0.0625f;
 }
 
 - (float)getCurrentSystemVolume {
-    return (int)([[AVAudioSession sharedInstance] outputVolume] / ORKTinnitusMaskingIncrementVolumeDefault) * ORKTinnitusMaskingIncrementVolumeDefault;
+    return [[AVAudioSession sharedInstance] outputVolume];
 }
 
 - (void)buttonCheckedWithValue:(nonnull NSString *)value {
     _selectedValue = value;
-    self.activeStepView.navigationFooterView.continueEnabled = YES;
 }
 
 - (BOOL)pressedPlaybackButton:(nonnull UIButton *)playbackButton {
@@ -204,12 +201,12 @@ const double ORKTinnitusMaskingIncrementVolumeDefault = 0.0625f;
     }
 }
 
-- (void)raisedVolume:(float)volume {
+- (void)volumeSliderChanged:(float)volume {
     [[getAVSystemControllerClass() sharedAVSystemController] setActiveCategoryVolumeTo:volume];
-    
-    if (!_isLastIteraction) {
-        self.activeStepView.navigationFooterView.continueEnabled = (volume > 0.0);
-    }
+}
+
+- (void)shouldEnableContinue:(BOOL)enable {
+    self.activeStepView.navigationFooterView.continueEnabled = enable;
 }
 
 @end

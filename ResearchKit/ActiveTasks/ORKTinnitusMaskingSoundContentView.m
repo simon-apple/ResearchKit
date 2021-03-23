@@ -431,8 +431,8 @@ static int const ORKTinnitusMaskingSoundStepSliderSpacing = 30;
     float volume = sender.value;
     [self.volumeSlider setValue:volume];
 
-    if ([self.delegate respondsToSelector:@selector(raisedVolume:)]) {
-        [self.delegate raisedVolume:volume];
+    if ([self.delegate respondsToSelector:@selector(volumeSliderChanged:)]) {
+        [self.delegate volumeSliderChanged:volume];
     }
 }
 
@@ -441,8 +441,13 @@ static int const ORKTinnitusMaskingSoundStepSliderSpacing = 30;
 - (void)pressed:(ORKTinnitusMaskingSoundButtonView *)matchingButtonView {
     [_buttons makeObjectsPerformSelector:@selector(setChecked:) withObject:@NO];
     [matchingButtonView setChecked:@YES];
+    
     if (_delegate && [_delegate respondsToSelector:@selector(buttonCheckedWithValue:)]) {
         [_delegate buttonCheckedWithValue:matchingButtonView.value];
+    }
+    
+    if ([self.delegate respondsToSelector:@selector(shouldEnableContinue:)]) {
+        [self.delegate shouldEnableContinue:YES];
     }
 }
 
@@ -459,8 +464,11 @@ static int const ORKTinnitusMaskingSoundStepSliderSpacing = 30;
     if (volume.doubleValue > 0 && _barLevelsView.isHidden) {
         [self playButtonTapped:_playButtonView];
     }
+    
+    if ([self.delegate respondsToSelector:@selector(shouldEnableContinue:)]) {
+        [self.delegate shouldEnableContinue:(volume.doubleValue > 0)];
+    }
 }
-
 
 @end
 
