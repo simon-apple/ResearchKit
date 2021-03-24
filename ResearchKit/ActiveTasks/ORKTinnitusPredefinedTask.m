@@ -584,8 +584,9 @@ static NSString *const ORKTinnitusMaskingSoundInstructionStepIdentifier = @"tinn
     pitchMatchingInstruction.text = ORKLocalizedString(@"TINNITUS_FREQUENCY_MATCHING_DETAIL", nil);
     
     if (@available(iOS 13.0, *)) {
-        ORKBodyItem *item = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"TINNITUS_VOLUME_ADJUST_TEXT", nil) detailText:nil image:[UIImage systemImageNamed:@"timer"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
-        pitchMatchingInstruction.bodyItems = @[item];
+        ORKBodyItem *item = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"TINNITUS_VOLUME_ADJUST_TEXT", nil) detailText:nil image:[UIImage systemImageNamed:@"speaker.wave.3.fill"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
+        ORKBodyItem *item2 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"TINNITUS_VOLUME_ADJUST_TEXT2", nil) detailText:nil image:[UIImage systemImageNamed:@"timer"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
+        pitchMatchingInstruction.bodyItems = @[item,item2];
     }
 
     return [pitchMatchingInstruction copy];

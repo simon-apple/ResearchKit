@@ -729,7 +729,8 @@
 "TINNITUS_FINAL_CALIBRATION_TITLE" = "Volume Matching";
 "TINNITUS_FINAL_CALIBRATION_TEXT" = "While listening to the sample, move the slider until it matches the loudness of the tinnitus you are experiencing.";
 "TINNITUS_FINAL_CALIBRATION_BUTTON_TITLE" = "Tinnitus Sample";
-"TINNITUS_VOLUME_ADJUST_TEXT" = "This task will take about 5 minutes to complete";
+"TINNITUS_VOLUME_ADJUST_TEXT" = "You will adjust your iPhone volume to a comfortable listening level for each sound you hear.";
+"TINNITUS_VOLUME_ADJUST_TEXT2" = "This task will take about 5 minutes to complete";
 "TINNITUS_BUTTON_UPPERPITCH_TITLE" = "Option A";
 "TINNITUS_BUTTON_LOWERPITCH_TITLE" = "Option B";
 "TINNITUS_BUTTON_A_TITLE" = "High Range";
