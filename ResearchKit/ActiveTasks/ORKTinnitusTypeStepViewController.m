@@ -45,8 +45,8 @@
 
 #import "ORKSkin.h"
 
-static const NSTimeInterval PLAY_DELAY = 0.5;
-static const NSTimeInterval PLAY_DURATION = 2.0;
+static const NSTimeInterval PLAY_DELAY = 0.3;
+static const NSTimeInterval PLAY_DURATION = 3.0;
 
 @interface ORKTinnitusTypeStepViewController () <ORKTinnitusButtonViewDelegate> {
     ORKTinnitusTypeContentView *_tinnitusTypeContentView;
@@ -65,7 +65,6 @@ static const NSTimeInterval PLAY_DURATION = 2.0;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _sampleIndex = 0;
     _noneAreSimilarFlag = NO;
     
     [self setNavigationFooterView];

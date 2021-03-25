@@ -34,6 +34,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @class ORKTinnitusPureToneContentView;
+@class ORKTinnitusButtonView;
 
 typedef NS_ENUM(NSUInteger, ORKTinnitusSelectedPureTonePosition) {
     ORKTinnitusSelectedPureTonePositionNone,
@@ -60,6 +61,8 @@ typedef NS_ENUM(NSUInteger, PureToneButtonsStage) {
 
 @property (nonatomic, weak)id<ORKTinnitusPureToneContentViewDelegate> delegate;
 
+- (void)simulateTapForPosition:(ORKTinnitusSelectedPureTonePosition)position;
+
 - (ORKTinnitusSelectedPureTonePosition)currentSelectedPosition;
 - (PureToneButtonsStage)currentStage;
 - (void)animateButtons;
@@ -69,6 +72,7 @@ typedef NS_ENUM(NSUInteger, PureToneButtonsStage) {
 - (BOOL)thirdButtonIsHidden;
 - (void)toggleCurrentSelectPlayButton;
 - (BOOL)hasPlayingButton;
+- (nullable ORKTinnitusButtonView *)currentSelectedButtonView;
 
 @end
 

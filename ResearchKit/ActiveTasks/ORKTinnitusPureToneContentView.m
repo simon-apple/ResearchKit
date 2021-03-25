@@ -38,13 +38,13 @@ static const CGFloat ORKTinnitusGlowAdjustment = 16.0;
 static const CGFloat ORKTinnitusButtonTopAdjustment = 8.0;
 
 @interface ORKTinnitusPureToneContentView () <ORKTinnitusButtonViewDelegate> {
-    NSLayoutConstraint *_firstATopConstraint;
-    NSLayoutConstraint *_firstBTopConstraint;
-    NSLayoutConstraint *_secondATopConstraint;
-    NSLayoutConstraint *_secondBTopConstraint;
-    NSLayoutConstraint *_thirdATopConstraint;
-    NSLayoutConstraint *_thirdBTopConstraint;
-    NSLayoutConstraint *_cTopConstraint;
+    NSLayoutConstraint *_firstALeadingConstraint;
+    NSLayoutConstraint *_firstBLeadingConstraint;
+    NSLayoutConstraint *_secondALeadingConstraint;
+    NSLayoutConstraint *_secondBLeadingConstraint;
+    NSLayoutConstraint *_thirdALeadingConstraint;
+    NSLayoutConstraint *_thirdBLeadingConstraint;
+    NSLayoutConstraint *_cLeadingConstraint;
     
     BOOL _constraintsDefined;
     
@@ -242,122 +242,75 @@ static const CGFloat ORKTinnitusButtonTopAdjustment = 8.0;
 
 - (void)animateButtons {
     if (_buttonsStage == PureToneButtonsStageOne) {
-        CGFloat firstAHeight = _firstAButtonView.bounds.size.height;
-        CGFloat firstBHeight = _firstBButtonView.bounds.size.height;
+        CGFloat firstAWidth = _firstAButtonView.bounds.size.width;
         [_scrollView setNeedsUpdateConstraints];
         
-        // hide animations
-        _firstATopConstraint.constant = -firstAHeight;
-        [UIView animateWithDuration:0.25 delay:0.0 options:(UIViewAnimationOptionCurveEaseIn | UIViewAnimationOptionAllowUserInteraction) animations:^{
-            _firstAButtonView.alpha = 0.0;
+        _secondAButtonView.hidden = NO;
+        _secondBButtonView.hidden = NO;
+        
+        [UIView animateWithDuration:0.8
+                              delay:0.0
+             usingSpringWithDamping:50.0
+              initialSpringVelocity:0.0
+                            options:UIViewAnimationOptionCurveEaseIn|UIViewAnimationOptionAllowUserInteraction
+                         animations:^{
+            _firstALeadingConstraint.constant = -firstAWidth;
+            _firstBLeadingConstraint.constant = -firstAWidth;
+            _cLeadingConstraint.constant = -firstAWidth;
+            _secondALeadingConstraint.constant = ORKTinnitusGlowAdjustment;
+            _secondBLeadingConstraint.constant = ORKTinnitusGlowAdjustment;
+            _secondAButtonView.alpha = 1.0;
+            _secondBButtonView.alpha = 1.0;
+            
             [_scrollView layoutIfNeeded];
         } completion:^(BOOL finished) {
-            _firstAButtonView.hidden = YES;
+            _cButtonView.hidden = YES;
+            _buttonsStage = PureToneButtonsStageTwo;
+            CGFloat newContentSizeHeight = _secondAButtonView.bounds.size.height + _secondBButtonView.bounds.size.height + 2 * ORKTinnitusStandardSpacing + ORKTinnitusStandardSpacing/2 + ORKTinnitusStandardSpacing;
+            _scrollView.contentSize = CGSizeMake(self.frame.size.width, newContentSizeHeight);
+            [_scrollView setContentOffset:CGPointMake(0, 0) animated:YES];
         }];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.05 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            _firstBTopConstraint.constant = 0;
-            [_scrollView setNeedsUpdateConstraints];
-            [UIView animateWithDuration:0.20 delay:0.0 options:(UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionAllowUserInteraction) animations:^{
-                _firstBButtonView.alpha = 0.0;
-                [_scrollView layoutIfNeeded];
-            } completion:^(BOOL finished) {
-                _firstBButtonView.hidden = YES;
-            }];
-        });
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            _cTopConstraint.constant = firstBHeight + ORKTinnitusStandardSpacing;
-            [_scrollView setNeedsUpdateConstraints];
-            [UIView animateWithDuration:0.15 delay:0.0 options:(UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionAllowUserInteraction) animations:^{
-                _cButtonView.alpha = 0.0;
-                [_scrollView layoutIfNeeded];
-            } completion:^(BOOL finished) {
-                _cButtonView.hidden = finished;
-            }];
-        });
-        
-        // show animations
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            _secondATopConstraint.constant = ORKTinnitusStandardSpacing/2;
-            _secondAButtonView.hidden = NO;
-            [_scrollView setNeedsUpdateConstraints];
-            [UIView animateWithDuration:0.2 delay:0.0 options:(UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionAllowUserInteraction) animations:^{
-                _secondAButtonView.alpha = 1.0;
-                [_scrollView layoutIfNeeded];
-            } completion:nil];
-        });
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.15 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            _secondBTopConstraint.constant = _secondAButtonView.bounds.size.height + ORKTinnitusStandardSpacing + ORKTinnitusStandardSpacing/2;
-            _secondBButtonView.hidden = NO;
-            [_scrollView setNeedsUpdateConstraints];
-            [UIView animateWithDuration:0.15 delay:0.0 options:(UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionAllowUserInteraction) animations:^{
-                _secondBButtonView.alpha = 1.0;
-                [_scrollView layoutIfNeeded];
-            } completion:^(BOOL finished) {
-                _buttonsStage = PureToneButtonsStageTwo;
-                CGFloat newContentSizeHeight = _secondAButtonView.bounds.size.height + _secondBButtonView.bounds.size.height + 2 * ORKTinnitusStandardSpacing + ORKTinnitusStandardSpacing/2 + ORKTinnitusStandardSpacing;
-                _scrollView.contentSize = CGSizeMake(self.frame.size.width, newContentSizeHeight);
-                [_scrollView setContentOffset:CGPointMake(0, 0) animated:YES];
-            }];
-        });
     } else {
         BOOL isStageTwo = (_buttonsStage == PureToneButtonsStageTwo);
-        NSLayoutConstraint *showedATopConstraint = isStageTwo ? _secondATopConstraint : _thirdATopConstraint;
+        NSLayoutConstraint *showedALeadingConstraint = isStageTwo ? _secondALeadingConstraint : _thirdALeadingConstraint;
         ORKTinnitusButtonView *showedAButtonView = isStageTwo ? _secondAButtonView    : _thirdAButtonView;
-        NSLayoutConstraint *showedBTopConstraint = isStageTwo ? _secondBTopConstraint : _thirdBTopConstraint;
+        NSLayoutConstraint *showedBLeadingConstraint = isStageTwo ? _secondBLeadingConstraint : _thirdBLeadingConstraint;
         ORKTinnitusButtonView *showedBButtonView = isStageTwo ? _secondBButtonView    : _thirdBButtonView;
-        
-        NSLayoutConstraint *hiddenATopConstraint = isStageTwo ? _thirdATopConstraint  : _secondATopConstraint;
+
+        NSLayoutConstraint *hiddenALeadingConstraint = isStageTwo ? _thirdALeadingConstraint  : _secondALeadingConstraint;
         ORKTinnitusButtonView *hiddenAButtonView = isStageTwo ? _thirdAButtonView     : _secondAButtonView;
-        NSLayoutConstraint *hiddenBTopConstraint = isStageTwo ? _thirdBTopConstraint  : _secondBTopConstraint;
+        NSLayoutConstraint *hiddenBLeadingConstraint = isStageTwo ? _thirdBLeadingConstraint  : _secondBLeadingConstraint;
         ORKTinnitusButtonView *hiddenBButtonView = isStageTwo ? _thirdBButtonView     : _secondBButtonView;
+
+        CGFloat aButtonViewWidth = showedAButtonView.bounds.size.width;
         
-        CGFloat aButtonViewHeight = showedAButtonView.bounds.size.height;
-        
+        hiddenAButtonView.hidden = NO;
+        hiddenBButtonView.hidden = NO;
+
         [_scrollView setNeedsUpdateConstraints];
         
-        // hide animations
-        showedATopConstraint.constant = -aButtonViewHeight;
-        [UIView animateWithDuration:0.25 delay:0.0 options:(UIViewAnimationOptionCurveEaseIn | UIViewAnimationOptionAllowUserInteraction) animations:^{
-            showedAButtonView.alpha = 0.0;
+        [UIView animateWithDuration:0.8
+                              delay:0.0
+             usingSpringWithDamping:50.0
+              initialSpringVelocity:0.0
+                            options:UIViewAnimationOptionCurveEaseOut
+                         animations:^{
+            showedALeadingConstraint.constant = -aButtonViewWidth;
+            showedAButtonView.alpha = 0.01;
+            showedBLeadingConstraint.constant = -aButtonViewWidth;
+            showedBButtonView.alpha = 0.01;
+            hiddenALeadingConstraint.constant = ORKTinnitusGlowAdjustment;
+            hiddenBLeadingConstraint.constant = ORKTinnitusGlowAdjustment;
+            hiddenAButtonView.alpha = 1.0;
+            hiddenBButtonView.alpha = 1.0;
+            
             [_scrollView layoutIfNeeded];
         } completion:^(BOOL finished) {
-            showedAButtonView.hidden = YES;
+            _buttonsStage = (_buttonsStage == PureToneButtonsStageTwo) ? PureToneButtonsStageThree : PureToneButtonsStageTwo;
+            // repositioning the buttons after animation
+            showedALeadingConstraint.constant = aButtonViewWidth + 2 * ORKTinnitusGlowAdjustment;
+            showedBLeadingConstraint.constant = aButtonViewWidth + 2 * ORKTinnitusGlowAdjustment;
         }];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.05 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            showedBTopConstraint.constant = 0;
-            [_scrollView setNeedsUpdateConstraints];
-            [UIView animateWithDuration:0.20 delay:0.0 options:(UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionAllowUserInteraction) animations:^{
-                showedBButtonView.alpha = 0.0;
-                [_scrollView layoutIfNeeded];
-            } completion:^(BOOL finished) {
-                showedBButtonView.hidden = YES;
-            }];
-        });
-        
-        // show animations
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            hiddenATopConstraint.constant = ORKTinnitusStandardSpacing/2;
-            hiddenAButtonView.hidden = NO;
-            [_scrollView setNeedsUpdateConstraints];
-            [UIView animateWithDuration:0.2 delay:0.0 options:(UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionAllowUserInteraction) animations:^{
-                hiddenAButtonView.alpha = 1.0;
-                [_scrollView layoutIfNeeded];
-            } completion:nil];
-        });
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.15 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            hiddenBTopConstraint.constant = hiddenBButtonView.bounds.size.height + ORKTinnitusStandardSpacing + ORKTinnitusStandardSpacing/2;
-            hiddenBButtonView.hidden = NO;
-            [_scrollView setNeedsUpdateConstraints];
-            [UIView animateWithDuration:0.15 delay:0.0 options:(UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionAllowUserInteraction) animations:^{
-                hiddenBButtonView.alpha = 1.0;
-                [_scrollView layoutIfNeeded];
-            } completion:^(BOOL finished) {
-                _buttonsStage = (_buttonsStage == PureToneButtonsStageTwo) ? PureToneButtonsStageThree : PureToneButtonsStageTwo;
-                // repositioning the buttons after animation
-                showedATopConstraint.constant = showedBButtonView.bounds.size.height + ORKTinnitusStandardSpacing + ORKTinnitusStandardSpacing/2;
-                showedBTopConstraint.constant = showedAButtonView.bounds.size.height + showedBButtonView.bounds.size.height + ORKTinnitusStandardSpacing/2 + 2 * ORKTinnitusStandardSpacing;
-            }];
-        });
     }
 }
 
@@ -405,14 +358,10 @@ static const CGFloat ORKTinnitusButtonTopAdjustment = 8.0;
         _cButtonView.buttonFinishedAutoLayout) {
         CGFloat bPosition = _firstAButtonView.bounds.size.height + ORKTinnitusStandardSpacing + ORKTinnitusStandardSpacing/2;
         CGFloat cPosition = bPosition + _firstBButtonView.bounds.size.height + ORKTinnitusStandardSpacing;
-        _firstBTopConstraint.constant = bPosition;
-        _cTopConstraint.constant = cPosition;
-        
-        _secondATopConstraint.constant = bPosition;
-        _secondBTopConstraint.constant = cPosition;
-        
-        _thirdATopConstraint.constant = bPosition;
-        _thirdBTopConstraint.constant = cPosition;
+        _secondALeadingConstraint.constant = _firstAButtonView.bounds.size.width + 2 * ORKTinnitusGlowAdjustment;
+        _secondBLeadingConstraint.constant = _firstBButtonView.bounds.size.width + 2 * ORKTinnitusGlowAdjustment;
+        _thirdALeadingConstraint.constant = _firstAButtonView.bounds.size.width + 2 * ORKTinnitusGlowAdjustment;
+        _thirdBLeadingConstraint.constant = _firstBButtonView.bounds.size.width + 2 * ORKTinnitusGlowAdjustment;
         
         _scrollView.contentSize = CGSizeMake(self.frame.size.width,
                                              cPosition + _cButtonView.frame.size.height
@@ -421,44 +370,40 @@ static const CGFloat ORKTinnitusButtonTopAdjustment = 8.0;
 }
 
 - (void)setUpConstraints {
-    [_firstAButtonView.leadingAnchor constraintEqualToAnchor:_scrollView.leadingAnchor constant:ORKTinnitusGlowAdjustment].active = YES;
+    _firstALeadingConstraint = [_firstAButtonView.leadingAnchor constraintEqualToAnchor:_scrollView.leadingAnchor constant:ORKTinnitusGlowAdjustment];
+    _firstALeadingConstraint.active = YES;
     [_firstAButtonView.widthAnchor constraintEqualToAnchor:_scrollView.widthAnchor constant:-2*ORKTinnitusGlowAdjustment].active = YES;
-    _firstATopConstraint = [_firstAButtonView.topAnchor constraintEqualToAnchor:_scrollView.topAnchor constant:ORKTinnitusGlowAdjustment/2];
-    _firstATopConstraint.active = YES;
+    [_firstAButtonView.topAnchor constraintEqualToAnchor:_scrollView.topAnchor constant:ORKTinnitusGlowAdjustment/2].active = YES;
     
-    [_firstBButtonView.leadingAnchor constraintEqualToAnchor:_scrollView.leadingAnchor constant:ORKTinnitusGlowAdjustment].active = YES;
+    _firstBLeadingConstraint = [_firstBButtonView.leadingAnchor constraintEqualToAnchor:_scrollView.leadingAnchor constant:ORKTinnitusGlowAdjustment];
+    _firstBLeadingConstraint.active = YES;
     [_firstBButtonView.widthAnchor constraintEqualToAnchor:_scrollView.widthAnchor constant:-2*ORKTinnitusGlowAdjustment].active = YES;
-    _firstBTopConstraint = [_firstBButtonView.topAnchor constraintEqualToAnchor:_scrollView.topAnchor];
-    _firstBTopConstraint.active = YES;
+    [_firstBButtonView.topAnchor constraintEqualToAnchor:_firstAButtonView.bottomAnchor constant:ORKTinnitusStandardSpacing].active = YES;
     
-    [_cButtonView.leadingAnchor constraintEqualToAnchor:_scrollView.leadingAnchor constant:ORKTinnitusGlowAdjustment].active = YES;
+    _cLeadingConstraint = [_cButtonView.leadingAnchor constraintEqualToAnchor:_scrollView.leadingAnchor constant:ORKTinnitusGlowAdjustment];
+    _cLeadingConstraint.active = YES;
     [_cButtonView.widthAnchor constraintEqualToAnchor:_scrollView.widthAnchor constant:-2*ORKTinnitusGlowAdjustment].active = YES;
-    _cTopConstraint = [_cButtonView.topAnchor constraintEqualToAnchor:_scrollView.topAnchor];
-    _cTopConstraint.active = YES;
+    [_cButtonView.topAnchor constraintEqualToAnchor:_firstBButtonView.bottomAnchor constant:ORKTinnitusStandardSpacing].active = YES;
 
-    [_secondAButtonView.leadingAnchor constraintEqualToAnchor:_scrollView.leadingAnchor constant:ORKTinnitusGlowAdjustment].active = YES;
+    _secondALeadingConstraint = [_secondAButtonView.leadingAnchor constraintEqualToAnchor:_scrollView.leadingAnchor constant:ORKTinnitusGlowAdjustment];
+    _secondALeadingConstraint.active = YES;
     [_secondAButtonView.widthAnchor constraintEqualToAnchor:_scrollView.widthAnchor constant:-2*ORKTinnitusGlowAdjustment].active = YES;
-
-    _secondATopConstraint = [_secondAButtonView.topAnchor constraintEqualToAnchor:_scrollView.topAnchor];
-    _secondATopConstraint.active = YES;
+    [_secondAButtonView.topAnchor constraintEqualToAnchor:_scrollView.topAnchor].active = YES;
     
-    [_secondBButtonView.leadingAnchor constraintEqualToAnchor:_scrollView.leadingAnchor constant:ORKTinnitusGlowAdjustment].active = YES;
+    _secondBLeadingConstraint = [_secondBButtonView.leadingAnchor constraintEqualToAnchor:_scrollView.leadingAnchor constant:ORKTinnitusGlowAdjustment];
+    _secondBLeadingConstraint.active = YES;
     [_secondBButtonView.widthAnchor constraintEqualToAnchor:_scrollView.widthAnchor constant:-2*ORKTinnitusGlowAdjustment].active = YES;
-
-    _secondBTopConstraint = [_secondBButtonView.topAnchor constraintEqualToAnchor:_scrollView.topAnchor];
-    _secondBTopConstraint.active = YES;
+    [_secondBButtonView.topAnchor constraintEqualToAnchor:_secondAButtonView.bottomAnchor constant:ORKTinnitusStandardSpacing].active = YES;
     
-    [_thirdAButtonView.leadingAnchor constraintEqualToAnchor:_scrollView.leadingAnchor constant:ORKTinnitusGlowAdjustment].active = YES;
+    _thirdALeadingConstraint = [_thirdAButtonView.leadingAnchor constraintEqualToAnchor:_scrollView.leadingAnchor constant:ORKTinnitusGlowAdjustment];
+    _thirdALeadingConstraint.active = YES;
     [_thirdAButtonView.widthAnchor constraintEqualToAnchor:_scrollView.widthAnchor constant:-2*ORKTinnitusGlowAdjustment].active = YES;
-
-    _thirdATopConstraint = [_thirdAButtonView.topAnchor constraintEqualToAnchor:_scrollView.topAnchor];
-    _thirdATopConstraint.active = YES;
+    [_thirdAButtonView.topAnchor constraintEqualToAnchor:_scrollView.topAnchor].active = YES;
     
-    [_thirdBButtonView.leadingAnchor constraintEqualToAnchor:_scrollView.leadingAnchor constant:ORKTinnitusGlowAdjustment].active = YES;
+    _thirdBLeadingConstraint = [_thirdBButtonView.leadingAnchor constraintEqualToAnchor:_scrollView.leadingAnchor constant:ORKTinnitusGlowAdjustment];
+    _thirdBLeadingConstraint.active = YES;
     [_thirdBButtonView.widthAnchor constraintEqualToAnchor:_scrollView.widthAnchor constant:-2*ORKTinnitusGlowAdjustment].active = YES;
-
-    _thirdBTopConstraint = [_thirdBButtonView.topAnchor constraintEqualToAnchor:_scrollView.topAnchor];
-    _thirdBTopConstraint.active = YES;
+    [_thirdBButtonView.topAnchor constraintEqualToAnchor:_thirdAButtonView.bottomAnchor constant:ORKTinnitusStandardSpacing].active = YES;
     
 }
 
@@ -470,6 +415,55 @@ static const CGFloat ORKTinnitusButtonTopAdjustment = 8.0;
 - (BOOL)thirdButtonIsHidden
 {
     return _cButtonView.isHidden;
+}
+
+- (void)simulateTapForPosition:(ORKTinnitusSelectedPureTonePosition)position {
+    switch (_buttonsStage) {
+        case PureToneButtonsStageOne:
+            switch (position) {
+                case ORKTinnitusSelectedPureTonePositionA:
+                    [_firstAButtonView simulateTap];
+                    break;
+                case ORKTinnitusSelectedPureTonePositionB:
+                    [_firstBButtonView simulateTap];
+                    break;
+                case ORKTinnitusSelectedPureTonePositionC:
+                    [_cButtonView simulateTap];
+                    break;
+                default:
+                    break;
+            }
+            break;
+        case PureToneButtonsStageTwo:
+            switch (position) {
+                case ORKTinnitusSelectedPureTonePositionA:
+                    [_secondAButtonView simulateTap];
+                    break;
+                case ORKTinnitusSelectedPureTonePositionB:
+                    [_secondBButtonView simulateTap];
+                    break;
+                default:
+                    break;
+            }
+            break;
+        case PureToneButtonsStageThree:
+            switch (position) {
+                case ORKTinnitusSelectedPureTonePositionA:
+                    [_thirdAButtonView simulateTap];
+                    break;
+                case ORKTinnitusSelectedPureTonePositionB:
+                    [_thirdBButtonView simulateTap];
+                    break;
+                default:
+                    break;
+            }
+            break;
+        default:
+            break;
+    }
+    if (_buttonsStage == PureToneButtonsStageOne) {
+        
+    }
 }
 
 - (ORKTinnitusSelectedPureTonePosition)positionForButton:(ORKTinnitusButtonView *)buttonView
