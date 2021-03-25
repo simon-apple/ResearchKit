@@ -41,7 +41,7 @@ static const CGFloat ORKTinnitusButtonViewPadding = 16.0;
     NSString *_titleText;
     NSString *_detailText;
     
-    UIImageView *_imageView;
+    UIImageView *_playView;
     UIImageView *_barLevelsView;
     UILabel * _titleLabel;
     UILabel * _detailLabel;
@@ -109,20 +109,8 @@ static const CGFloat ORKTinnitusButtonViewPadding = 16.0;
     _firstLayoutTime = YES;
 }
 
-- (void)setPlatterBackgroundColor {
-    if (@available(iOS 12.0, *)) {
-        if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
-            self.backgroundColor = UIColor.blackColor;
-        } else {
-            self.backgroundColor = UIColor.whiteColor;
-        }
-    }
-}
-
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
     [super traitCollectionDidChange:previousTraitCollection];
-    
-    [self setPlatterBackgroundColor];
     
     [self setSelected:_selected];
 }
@@ -174,16 +162,12 @@ static const CGFloat ORKTinnitusButtonViewPadding = 16.0;
         stopImage = [[[UIImage systemImageNamed:@"pause.fill"] imageByApplyingSymbolConfiguration:imageConfig] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     }
     
-    _imageView = [[UIImageView alloc] initWithImage:playImage highlightedImage:stopImage];
-    _imageView.contentMode = UIViewContentModeCenter;
-    _imageView.layer.cornerRadius = ORKTinnitusButtonViewImageSize/2;
-    _imageView.clipsToBounds = YES;
-    if (@available(iOS 13.0, *)) {
-        _imageView.backgroundColor = [UIColor systemGray6Color];
-    }
-    _imageView.tintColor = UIColor.systemBlueColor;
-    [self addSubview:_imageView];
-    _imageView.translatesAutoresizingMaskIntoConstraints = NO;
+    _playView = [[UIImageView alloc] initWithImage:playImage highlightedImage:stopImage];
+    _playView.contentMode = UIViewContentModeCenter;
+    _playView.layer.cornerRadius = ORKTinnitusButtonViewImageSize/2;
+    _playView.clipsToBounds = YES;
+    [self addSubview:_playView];
+    _playView.translatesAutoresizingMaskIntoConstraints = NO;
     
     NSMutableArray *barImages = [[NSMutableArray alloc] init];
     for (int i = 0 ; i < 21 ; i ++) {
@@ -199,7 +183,7 @@ static const CGFloat ORKTinnitusButtonViewPadding = 16.0;
     }
     _barLevelsView = [[UIImageView alloc] init];
     [_barLevelsView setAnimationImages:barImages];
-    _barLevelsView.animationDuration = 1.33;
+    _barLevelsView.animationDuration = 1.5;
     _barLevelsView.animationRepeatCount = 0;
     
     [self addSubview:_barLevelsView];
@@ -211,7 +195,14 @@ static const CGFloat ORKTinnitusButtonViewPadding = 16.0;
     _tapOffGestureRecognizer.delegate = self;
     [self addGestureRecognizer:_tapOffGestureRecognizer];
     
-    [self setPlatterBackgroundColor];
+    if (@available(iOS 13.0, *)) {
+        self.backgroundColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traits) {
+            return traits.userInterfaceStyle == UIUserInterfaceStyleDark ? UIColor.systemGray5Color : UIColor.systemGray6Color;
+        }];
+        _playView.backgroundColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traits) {
+            return traits.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor systemGray3Color] : [UIColor systemGray5Color];
+        }];
+    }
     
     _hapticFeedback = [[UIImpactFeedbackGenerator alloc] initWithStyle: UIImpactFeedbackStyleMedium];
     
@@ -228,11 +219,11 @@ static const CGFloat ORKTinnitusButtonViewPadding = 16.0;
         _simulatedTap = (recognizer == nil);
         if (!_selected) {
             [self setSelected:!_selected];
-            _imageView.highlighted = YES;
+            _playView.highlighted = YES;
             _barLevelsView.hidden = NO;
             UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, _titleText);
         } else {
-            _imageView.highlighted = !_imageView.highlighted;
+            _playView.highlighted = !_playView.highlighted;
             _barLevelsView.hidden = !_barLevelsView.hidden;
         }
         _playedOnce = YES;
@@ -254,17 +245,17 @@ static const CGFloat ORKTinnitusButtonViewPadding = 16.0;
 
 - (void)togglePlayButton {
     dispatch_async(dispatch_get_main_queue(), ^{
-        _imageView.highlighted = !_imageView.highlighted;
+        _playView.highlighted = !_playView.highlighted;
         _barLevelsView.hidden = !_barLevelsView.hidden;
     });
 }
 
 - (BOOL)isShowingPause {
-    return _imageView.highlighted;
+    return _playView.highlighted;
 }
 
 - (void)restoreButton {
-    _imageView.highlighted = NO;
+    _playView.highlighted = NO;
     _barLevelsView.hidden = YES;
     [self setSelected:NO];
 }
@@ -336,12 +327,12 @@ static const CGFloat ORKTinnitusButtonViewPadding = 16.0;
     [_middleSeparatorView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor].active = YES;
     [_middleSeparatorView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor].active = YES;
     
-    [_imageView.heightAnchor constraintEqualToConstant:ORKTinnitusButtonViewImageSize].active = YES;
-    [_imageView.widthAnchor constraintEqualToConstant:ORKTinnitusButtonViewImageSize].active = YES;
-    [_imageView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:ORKTinnitusButtonViewPadding].active = YES;
-    [_imageView.centerYAnchor constraintEqualToAnchor:self.centerYAnchor].active = YES;
+    [_playView.heightAnchor constraintEqualToConstant:ORKTinnitusButtonViewImageSize].active = YES;
+    [_playView.widthAnchor constraintEqualToConstant:ORKTinnitusButtonViewImageSize].active = YES;
+    [_playView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:ORKTinnitusButtonViewPadding].active = YES;
+    [_playView.centerYAnchor constraintEqualToAnchor:self.centerYAnchor].active = YES;
     
-    [_titleLabel.leadingAnchor constraintEqualToAnchor:_imageView.trailingAnchor constant:ORKTinnitusButtonViewPadding].active = YES;
+    [_titleLabel.leadingAnchor constraintEqualToAnchor:_playView.trailingAnchor constant:ORKTinnitusButtonViewPadding].active = YES;
     [_titleLabel.bottomAnchor constraintEqualToAnchor:_middleSeparatorView.topAnchor].active = YES;
     
     [_barLevelsView.leadingAnchor constraintEqualToAnchor:_titleLabel.trailingAnchor constant:2.0].active = YES;
@@ -349,7 +340,7 @@ static const CGFloat ORKTinnitusButtonViewPadding = 16.0;
     [_barLevelsView.widthAnchor constraintEqualToConstant:30.0].active = YES;
     [_barLevelsView.heightAnchor constraintEqualToConstant:21.0].active = YES;
     
-    [_detailLabel.leadingAnchor constraintEqualToAnchor:_imageView.trailingAnchor constant:ORKTinnitusButtonViewPadding].active = YES;
+    [_detailLabel.leadingAnchor constraintEqualToAnchor:_playView.trailingAnchor constant:ORKTinnitusButtonViewPadding].active = YES;
     [_detailLabel.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:ORKTinnitusButtonViewPadding].active = YES;
     [_detailLabel.topAnchor constraintEqualToAnchor:_middleSeparatorView.bottomAnchor].active = YES;
 }

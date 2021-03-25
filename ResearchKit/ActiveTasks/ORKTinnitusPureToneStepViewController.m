@@ -29,7 +29,7 @@
  */
 
 #import "ORKTinnitusPureToneStepViewController.h"
-
+#import "ORKTinnitusButtonView.h"
 #import "ORKActiveStepView.h"
 #import "ORKTinnitusAudioGenerator.h"
 #import "ORKTinnitusPureToneContentView.h"
@@ -46,6 +46,8 @@
 
 #define ORKTinnitusFadeInDuration 0.1
 
+static const NSTimeInterval PLAY_DELAY = 0.1;
+static const NSTimeInterval PLAY_DURATION = 1.0;
 
 @interface ORKTinnitusPureToneStepViewController () <ORKTinnitusPureToneContentViewDelegate> {
     ORKTinnitusSelectedPureTonePosition _currentSelectedPosition;
@@ -55,6 +57,8 @@
     int _indexOffset;
     int _interactionCounter;
     BOOL _isLastIteraction;
+    int _sampleIndex;
+    NSTimer *_timer;
     
     NSString *_lastError;
     
@@ -99,6 +103,83 @@
     continueButtonItem.action = @selector(continueButtonTapped:);
     
     [super setContinueButtonItem:continueButtonItem];
+}
+
+- (void)startAutomaticPlay {
+    _sampleIndex = 0;
+    _timer = [NSTimer scheduledTimerWithTimeInterval:PLAY_DURATION
+                                              target:self
+                                            selector:@selector(playNextSample)
+                                            userInfo:nil
+                                             repeats:YES];
+}
+
+- (void)playNextSample {
+    switch (_tinnitusContentView.currentStage) {
+        case PureToneButtonsStageOne:
+            switch (_sampleIndex) {
+                case 0:
+                    [_tinnitusContentView simulateTapForPosition:ORKTinnitusSelectedPureTonePositionA];
+                    break;
+                case 1:
+                    [_tinnitusContentView simulateTapForPosition:ORKTinnitusSelectedPureTonePositionB];
+                    break;
+                case 2:
+                case 3:
+                    [_tinnitusContentView simulateTapForPosition:ORKTinnitusSelectedPureTonePositionC];
+                    break;
+                default:
+                    break;
+            }
+            if (_sampleIndex == 3) {
+                [self stopAutomaticPlay];
+            }
+            break;
+        case PureToneButtonsStageTwo:
+            switch (_sampleIndex) {
+                case 0:
+                    [_tinnitusContentView simulateTapForPosition:ORKTinnitusSelectedPureTonePositionA];
+                    break;
+                case 1:
+                case 2:
+                    [_tinnitusContentView simulateTapForPosition:ORKTinnitusSelectedPureTonePositionB];
+                    break;
+                default:
+                    break;
+            }
+            if (_sampleIndex == 2) {
+                [self stopAutomaticPlay];
+            }
+            break;
+        case PureToneButtonsStageThree:
+            switch (_sampleIndex) {
+                case 0:
+                    [_tinnitusContentView simulateTapForPosition:ORKTinnitusSelectedPureTonePositionA];
+                    break;
+                case 1:
+                case 2:
+                    [_tinnitusContentView simulateTapForPosition:ORKTinnitusSelectedPureTonePositionB];
+                    break;
+                default:
+                    break;
+            }
+            if (_sampleIndex == 2) {
+                [self stopAutomaticPlay];
+            }
+            break;
+        default:
+            break;
+    }
+    
+    _sampleIndex = _sampleIndex + 1;
+}
+
+- (void)stopAutomaticPlay {
+    [NSObject cancelPreviousPerformRequestsWithTarget:self
+                                             selector:@selector(startAutomaticPlay)
+                                               object:nil];
+    [_timer invalidate];
+    _timer = nil;
 }
 
 - (void)setNavigationFooterView {
@@ -148,6 +229,8 @@
     }
     
     self.audioGenerator = [[ORKTinnitusAudioGenerator alloc] initWithHeadphoneType:headphoneType];
+    
+    [self performSelector:@selector(startAutomaticPlay) withObject:nil afterDelay:PLAY_DELAY];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -157,6 +240,7 @@
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
+    [self stopAutomaticPlay];
     [self.audioGenerator stop];
 }
 
@@ -297,6 +381,10 @@
 
 #pragma mark - ORKTinnitusContentViewDelegate
 - (void)playButtonPressedWithNewPosition:(ORKTinnitusSelectedPureTonePosition)newPosition {
+    ORKTinnitusButtonView *currentSelectedButtonView = _tinnitusContentView.currentSelectedButtonView;
+    if (![currentSelectedButtonView isSimulatedTap]) {
+        [self stopAutomaticPlay];
+    }
     [self.audioGenerator stop];
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((_audioGenerator.fadeDuration + 0.05) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -314,6 +402,7 @@
 }
 
 - (void)fineTunePressed {
+    [self performSelector:@selector(startAutomaticPlay) withObject:nil afterDelay:PLAY_DELAY];
     [_audioGenerator stop];
     ORKTinnitusSelectedPureTonePosition currentSelectedPosition = [_tinnitusContentView currentSelectedPosition];
     

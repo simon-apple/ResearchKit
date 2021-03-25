@@ -593,11 +593,11 @@ static NSString *const ORKTinnitusMaskingSoundInstructionStepIdentifier = @"tinn
 }
 
 - (NSString *)getRoundIdentifierForNumber:(NSInteger)roundNumber {
-    return [NSString stringWithFormat:@"%@.%li",ORKTinnitusRoundStepIdentifier,(long)roundNumber];
+    return [NSString stringWithFormat:@"%@_%li",ORKTinnitusRoundStepIdentifier,(long)roundNumber];
 }
 
 - (NSString *)getRoundSuccessIdentifierForNumber:(NSInteger)roundNumber {
-    return [NSString stringWithFormat:@"%@.%li",ORKTinnitusRoundSuccessCompletedStepIdentifier,(long)roundNumber];
+    return [NSString stringWithFormat:@"%@_%li",ORKTinnitusRoundSuccessCompletedStepIdentifier,(long)roundNumber];
 }
 
 - (ORKTinnitusPureToneStep *)getPureToneRound:(NSInteger)roundNumber {
