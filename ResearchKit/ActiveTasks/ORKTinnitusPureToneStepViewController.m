@@ -199,6 +199,8 @@ static const NSTimeInterval PLAY_DURATION = 1.0;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.navigationItem.title = [NSString stringWithFormat:ORKLocalizedString(@"TINNITUS_PURETONE_BAR_TITLE1", nil), self.tinnitusStep.roundNumber];
+    
     [self setNavigationFooterView];
     [self setupButtons];
     
@@ -526,6 +528,8 @@ static const NSTimeInterval PLAY_DURATION = 1.0;
     
     [_tinnitusContentView resetPlayButtons];
     [_tinnitusContentView animateButtons];
+    
+    self.navigationItem.title = [NSString stringWithFormat:ORKLocalizedString(@"TINNITUS_PURETONE_BAR_TITLE2", nil), _interactionCounter];
 }
 
 
