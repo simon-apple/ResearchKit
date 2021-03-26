@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2021, Apple Inc. All rights reserved.
+ Copyright (c) 2020, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,29 +28,12 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
-#import "ORKTinnitusTypes.h"
+#import <ResearchKit/ORKActiveStepViewController.h>
 
-ORKTinnitusMaskingAnswer const ORKTinnitusMaskingAnswerVeryEffective = @"VERY_EFFECTIVE";
+NS_ASSUME_NONNULL_BEGIN
 
-ORKTinnitusMaskingAnswer const ORKTinnitusMaskingAnswerSomewhatEffective = @"SOMEWHAT_EFFECTIVE";
+@interface ORKTinnitusOverallAssessmentStepViewController : ORKActiveStepViewController
 
-ORKTinnitusMaskingAnswer const ORKTinnitusMaskingAnswerNotEffective = @"NOT_EFFECTIVE";
+@end
 
-ORKTinnitusMaskingAnswer const ORKTinnitusMaskingAnswerNoneOfTheAbove = @"NOTA";
-
-ORKTinnitusAssessmentAnswer const ORKTinnitusAssessmentAnswerVerySimilar = @"VERY_SIMILAR";
-
-ORKTinnitusAssessmentAnswer const ORKTinnitusAssessmentAnswerSomewhatSimilar = @"SOMEWHAT_SIMILAR";
-
-ORKTinnitusAssessmentAnswer const ORKTinnitusAssessmentAnswerNotSimilar = @"NOT_SIMILAR";
-
-ORKTinnitusAssessmentAnswer const ORKTinnitusAssessmentAnswerNoneOfTheAbove = @"NOTA";
-
-ORKTinnitusError const ORKTinnitusErrorNone = @"None";
-
-ORKTinnitusError const ORKTinnitusErrorInconsistency = @"Inconsistency";
-
-ORKTinnitusError const ORKTinnitusErrorTooHigh = @"TooHighFrequency";
-
-ORKTinnitusError const ORKTinnitusErrorTooLow = @"TooLowFrequency";
+NS_ASSUME_NONNULL_END

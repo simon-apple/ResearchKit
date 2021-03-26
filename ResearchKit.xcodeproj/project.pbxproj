@@ -101,6 +101,12 @@
 		1B4B95BA1F5F014E006B629F /* ORKWeightPicker.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B4B95B91F5F014E006B629F /* ORKWeightPicker.h */; };
 		22A1C407260269440003F75E /* ORKTinnitusHeadphoneTable.h in Headers */ = {isa = PBXBuildFile; fileRef = 22A1C405260269440003F75E /* ORKTinnitusHeadphoneTable.h */; };
 		22A1C408260269440003F75E /* ORKTinnitusHeadphoneTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 22A1C406260269440003F75E /* ORKTinnitusHeadphoneTable.m */; };
+		22A1C5592609010F0003F75E /* ORKTinnitusOverallAssessmentResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 22A1C5572609010F0003F75E /* ORKTinnitusOverallAssessmentResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		22A1C55A2609010F0003F75E /* ORKTinnitusOverallAssessmentResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 22A1C5582609010F0003F75E /* ORKTinnitusOverallAssessmentResult.m */; };
+		22A1C5622609012A0003F75E /* ORKTinnitusOverallAssessmentStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 22A1C560260901290003F75E /* ORKTinnitusOverallAssessmentStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		22A1C5632609012A0003F75E /* ORKTinnitusOverallAssessmentStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 22A1C5612609012A0003F75E /* ORKTinnitusOverallAssessmentStep.m */; };
+		22A1C56B260901490003F75E /* ORKTinnitusOverallAssessmentStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 22A1C569260901490003F75E /* ORKTinnitusOverallAssessmentStepViewController.h */; };
+		22A1C56C260901490003F75E /* ORKTinnitusOverallAssessmentStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22A1C56A260901490003F75E /* ORKTinnitusOverallAssessmentStepViewController.m */; };
 		22BFDF5E25B792BF0015D1E1 /* ORKTinnitusTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 22BFDF5D25B792BF0015D1E1 /* ORKTinnitusTypes.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		22BFDF6A25B792D20015D1E1 /* ORKTinnitusTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 22BFDF6925B792D20015D1E1 /* ORKTinnitusTypes.m */; };
 		22BFE13C25BB73310015D1E1 /* ORKTinnitusAudioSample.m in Sources */ = {isa = PBXBuildFile; fileRef = 223AE98B25B235CB0080FE13 /* ORKTinnitusAudioSample.m */; };
@@ -944,8 +950,8 @@
 		E26626C22588E6D4005A0FF8 /* ORKTinnitusMaskingSoundResult.m in Sources */ = {isa = PBXBuildFile; fileRef = E26626BA2588E6D3005A0FF8 /* ORKTinnitusMaskingSoundResult.m */; };
 		E26626C32588E6D4005A0FF8 /* ORKTinnitusMaskingSoundResult.h in Headers */ = {isa = PBXBuildFile; fileRef = E26626BB2588E6D3005A0FF8 /* ORKTinnitusMaskingSoundResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E26626C42588E6D4005A0FF8 /* ORKTinnitusMaskingSoundStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E26626BC2588E6D3005A0FF8 /* ORKTinnitusMaskingSoundStepViewController.m */; };
-		E26626C52588E6D4005A0FF8 /* ORKTinnitusMaskingSoundContentView.h in Headers */ = {isa = PBXBuildFile; fileRef = E26626BD2588E6D3005A0FF8 /* ORKTinnitusMaskingSoundContentView.h */; };
-		E26626C62588E6D4005A0FF8 /* ORKTinnitusMaskingSoundContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = E26626BE2588E6D4005A0FF8 /* ORKTinnitusMaskingSoundContentView.m */; };
+		E26626C52588E6D4005A0FF8 /* ORKTinnitusAssessmentContentView.h in Headers */ = {isa = PBXBuildFile; fileRef = E26626BD2588E6D3005A0FF8 /* ORKTinnitusAssessmentContentView.h */; };
+		E26626C62588E6D4005A0FF8 /* ORKTinnitusAssessmentContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = E26626BE2588E6D4005A0FF8 /* ORKTinnitusAssessmentContentView.m */; };
 		E26626C72588E6D4005A0FF8 /* ORKTinnitusMaskingSoundStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = E26626BF2588E6D4005A0FF8 /* ORKTinnitusMaskingSoundStepViewController.h */; };
 		E266AC3A25D465E200F96130 /* dbAmplitudePerFrequency_AIRPODSMAX.plist in Resources */ = {isa = PBXBuildFile; fileRef = E266AC3825D465E200F96130 /* dbAmplitudePerFrequency_AIRPODSMAX.plist */; };
 		E266AC3B25D465E200F96130 /* dbSPLAmplitudePerFrequency_AIRPODSMAX.plist in Resources */ = {isa = PBXBuildFile; fileRef = E266AC3925D465E200F96130 /* dbSPLAmplitudePerFrequency_AIRPODSMAX.plist */; };
@@ -1152,6 +1158,12 @@
 		223AE98B25B235CB0080FE13 /* ORKTinnitusAudioSample.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKTinnitusAudioSample.m; sourceTree = "<group>"; };
 		22A1C405260269440003F75E /* ORKTinnitusHeadphoneTable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKTinnitusHeadphoneTable.h; sourceTree = "<group>"; };
 		22A1C406260269440003F75E /* ORKTinnitusHeadphoneTable.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKTinnitusHeadphoneTable.m; sourceTree = "<group>"; };
+		22A1C5572609010F0003F75E /* ORKTinnitusOverallAssessmentResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKTinnitusOverallAssessmentResult.h; sourceTree = "<group>"; };
+		22A1C5582609010F0003F75E /* ORKTinnitusOverallAssessmentResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKTinnitusOverallAssessmentResult.m; sourceTree = "<group>"; };
+		22A1C560260901290003F75E /* ORKTinnitusOverallAssessmentStep.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKTinnitusOverallAssessmentStep.h; sourceTree = "<group>"; };
+		22A1C5612609012A0003F75E /* ORKTinnitusOverallAssessmentStep.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKTinnitusOverallAssessmentStep.m; sourceTree = "<group>"; };
+		22A1C569260901490003F75E /* ORKTinnitusOverallAssessmentStepViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKTinnitusOverallAssessmentStepViewController.h; sourceTree = "<group>"; };
+		22A1C56A260901490003F75E /* ORKTinnitusOverallAssessmentStepViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKTinnitusOverallAssessmentStepViewController.m; sourceTree = "<group>"; };
 		22BFDF5D25B792BF0015D1E1 /* ORKTinnitusTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKTinnitusTypes.h; sourceTree = "<group>"; };
 		22BFDF6925B792D20015D1E1 /* ORKTinnitusTypes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKTinnitusTypes.m; sourceTree = "<group>"; };
 		241A2E861B94FD8800ED3B39 /* ORKPasscodeStepViewController_Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKPasscodeStepViewController_Internal.h; sourceTree = "<group>"; };
@@ -2011,8 +2023,8 @@
 		E26626BA2588E6D3005A0FF8 /* ORKTinnitusMaskingSoundResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKTinnitusMaskingSoundResult.m; sourceTree = "<group>"; };
 		E26626BB2588E6D3005A0FF8 /* ORKTinnitusMaskingSoundResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKTinnitusMaskingSoundResult.h; sourceTree = "<group>"; };
 		E26626BC2588E6D3005A0FF8 /* ORKTinnitusMaskingSoundStepViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKTinnitusMaskingSoundStepViewController.m; sourceTree = "<group>"; };
-		E26626BD2588E6D3005A0FF8 /* ORKTinnitusMaskingSoundContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKTinnitusMaskingSoundContentView.h; sourceTree = "<group>"; };
-		E26626BE2588E6D4005A0FF8 /* ORKTinnitusMaskingSoundContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKTinnitusMaskingSoundContentView.m; sourceTree = "<group>"; };
+		E26626BD2588E6D3005A0FF8 /* ORKTinnitusAssessmentContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKTinnitusAssessmentContentView.h; sourceTree = "<group>"; };
+		E26626BE2588E6D4005A0FF8 /* ORKTinnitusAssessmentContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKTinnitusAssessmentContentView.m; sourceTree = "<group>"; };
 		E26626BF2588E6D4005A0FF8 /* ORKTinnitusMaskingSoundStepViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKTinnitusMaskingSoundStepViewController.h; sourceTree = "<group>"; };
 		E266AC3825D465E200F96130 /* dbAmplitudePerFrequency_AIRPODSMAX.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = dbAmplitudePerFrequency_AIRPODSMAX.plist; sourceTree = "<group>"; };
 		E266AC3925D465E200F96130 /* dbSPLAmplitudePerFrequency_AIRPODSMAX.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = dbSPLAmplitudePerFrequency_AIRPODSMAX.plist; sourceTree = "<group>"; };
@@ -2326,6 +2338,32 @@
 				16A24B6F230B70890094C4C2 /* Celestial_Private.h */,
 			);
 			path = Celestial;
+			sourceTree = "<group>";
+		};
+		22A1C5502608FFD30003F75E /* Masking */ = {
+			isa = PBXGroup;
+			children = (
+				E26626BB2588E6D3005A0FF8 /* ORKTinnitusMaskingSoundResult.h */,
+				E26626BA2588E6D3005A0FF8 /* ORKTinnitusMaskingSoundResult.m */,
+				E26626B92588E6D3005A0FF8 /* ORKTinnitusMaskingSoundStep.h */,
+				E26626B82588E6D3005A0FF8 /* ORKTinnitusMaskingSoundStep.m */,
+				E26626BF2588E6D4005A0FF8 /* ORKTinnitusMaskingSoundStepViewController.h */,
+				E26626BC2588E6D3005A0FF8 /* ORKTinnitusMaskingSoundStepViewController.m */,
+			);
+			name = Masking;
+			sourceTree = "<group>";
+		};
+		22A1C5512608FFE90003F75E /* Overall */ = {
+			isa = PBXGroup;
+			children = (
+				22A1C5572609010F0003F75E /* ORKTinnitusOverallAssessmentResult.h */,
+				22A1C5582609010F0003F75E /* ORKTinnitusOverallAssessmentResult.m */,
+				22A1C560260901290003F75E /* ORKTinnitusOverallAssessmentStep.h */,
+				22A1C5612609012A0003F75E /* ORKTinnitusOverallAssessmentStep.m */,
+				22A1C569260901490003F75E /* ORKTinnitusOverallAssessmentStepViewController.h */,
+				22A1C56A260901490003F75E /* ORKTinnitusOverallAssessmentStepViewController.m */,
+			);
+			name = Overall;
 			sourceTree = "<group>";
 		};
 		2429D56D1BBB52E4003A512F /* Onboarding */ = {
@@ -4183,19 +4221,15 @@
 			name = PureTone;
 			sourceTree = "<group>";
 		};
-		E26626C82588E6DA005A0FF8 /* Masking */ = {
+		E26626C82588E6DA005A0FF8 /* Assessment */ = {
 			isa = PBXGroup;
 			children = (
-				E26626BD2588E6D3005A0FF8 /* ORKTinnitusMaskingSoundContentView.h */,
-				E26626BE2588E6D4005A0FF8 /* ORKTinnitusMaskingSoundContentView.m */,
-				E26626BB2588E6D3005A0FF8 /* ORKTinnitusMaskingSoundResult.h */,
-				E26626BA2588E6D3005A0FF8 /* ORKTinnitusMaskingSoundResult.m */,
-				E26626B92588E6D3005A0FF8 /* ORKTinnitusMaskingSoundStep.h */,
-				E26626B82588E6D3005A0FF8 /* ORKTinnitusMaskingSoundStep.m */,
-				E26626BF2588E6D4005A0FF8 /* ORKTinnitusMaskingSoundStepViewController.h */,
-				E26626BC2588E6D3005A0FF8 /* ORKTinnitusMaskingSoundStepViewController.m */,
+				E26626BD2588E6D3005A0FF8 /* ORKTinnitusAssessmentContentView.h */,
+				E26626BE2588E6D4005A0FF8 /* ORKTinnitusAssessmentContentView.m */,
+				22A1C5512608FFE90003F75E /* Overall */,
+				22A1C5502608FFD30003F75E /* Masking */,
 			);
-			name = Masking;
+			name = Assessment;
 			sourceTree = "<group>";
 		};
 		E2880B85255D656D00D9BAA7 /* Tinnitus */ = {
@@ -4215,7 +4249,7 @@
 				E220A36525711F4200C3C211 /* ORKTinnitusVolumeResult.m */,
 				E220A35925711F2500C3C211 /* Type */,
 				E220A3982571253300C3C211 /* PureTone */,
-				E26626C82588E6DA005A0FF8 /* Masking */,
+				E26626C82588E6DA005A0FF8 /* Assessment */,
 				E220A04325711D3500C3C211 /* Assets */,
 			);
 			name = Tinnitus;
@@ -4496,10 +4530,11 @@
 				86C40DB61A8D7C5C00081FAC /* ORKSurveyAnswerCellForText.h in Headers */,
 				86C40E281A8D7C5C00081FAC /* ORKSignatureView.h in Headers */,
 				BC37323622B76DC70021F665 /* ORKFormStepViewController_Private.h in Headers */,
+				22A1C5622609012A0003F75E /* ORKTinnitusOverallAssessmentStep.h in Headers */,
 				00C2668E23022CD400337E0B /* ORKCustomStep.h in Headers */,
 				5D5880392410394F005B3D91 /* ORKSpeechInNoiseResult.h in Headers */,
 				51751467245A53D7009E8FFC /* ORKFrontFacingCameraStepContentView.h in Headers */,
-				E26626C52588E6D4005A0FF8 /* ORKTinnitusMaskingSoundContentView.h in Headers */,
+				E26626C52588E6D4005A0FF8 /* ORKTinnitusAssessmentContentView.h in Headers */,
 				2489F7AF1D65214D008DEF20 /* ORKVideoCaptureCameraPreviewView.h in Headers */,
 				E220A37E25711F9600C3C211 /* ORKTinnitusAudioGenerator.h in Headers */,
 				BCB6E65D1B7D534C000D5B34 /* ORKGraphChartView_Internal.h in Headers */,
@@ -4773,6 +4808,7 @@
 				BC13CE401B0666FD0044153C /* ORKResultPredicate.h in Headers */,
 				242C9E0D1BBE03F90088B7F4 /* ORKVerificationStepViewController.h in Headers */,
 				AEFE0AC1230DB857004D0519 /* ORKReviewIncompleteCell.h in Headers */,
+				22A1C56B260901490003F75E /* ORKTinnitusOverallAssessmentStepViewController.h in Headers */,
 				86C40CFA1A8D7C5C00081FAC /* ORKCaption1Label.h in Headers */,
 				FF919A361E81AD9C005C2A1E /* ORKSpatialSpanMemoryResult.h in Headers */,
 				86C40E081A8D7C5C00081FAC /* ORKConsentReviewStep.h in Headers */,
@@ -4846,6 +4882,7 @@
 				D442397D1AF17F7600559D96 /* ORKImageCaptureStepViewController.h in Headers */,
 				86C40C4A1A8D7C5C00081FAC /* ORKSpatialSpanTargetView.h in Headers */,
 				BADA2F26225DA54B005D2255 /* ORKInstructionStepContainerView.h in Headers */,
+				22A1C5592609010F0003F75E /* ORKTinnitusOverallAssessmentResult.h in Headers */,
 				E2A676F4238DCB3E006193D7 /* AVFoundation_Private.h in Headers */,
 				866DA5221D63D04700C9AF3F /* ORKDataCollectionManager_Internal.h in Headers */,
 				86C40C1A1A8D7C5C00081FAC /* ORKAudioStep.h in Headers */,
@@ -5285,7 +5322,7 @@
 				FFF65AB91E318F2D0043FB40 /* ORKMultipleValuePicker.m in Sources */,
 				86C40D961A8D7C5C00081FAC /* ORKStepViewController.m in Sources */,
 				2489F7B21D65214D008DEF20 /* ORKVideoCaptureStep.m in Sources */,
-				E26626C62588E6D4005A0FF8 /* ORKTinnitusMaskingSoundContentView.m in Sources */,
+				E26626C62588E6D4005A0FF8 /* ORKTinnitusAssessmentContentView.m in Sources */,
 				51D823062472FB9B00BF4F72 /* ORKRequestPermissionsStepContainerView.m in Sources */,
 				86C40DF81A8D7C5C00081FAC /* ORKSignatureStepViewController.m in Sources */,
 				FF919A601E81CF07005C2A1E /* ORKVideoInstructionStepResult.m in Sources */,
@@ -5314,11 +5351,13 @@
 				8419D6731FB73EC60088D7E5 /* ORKWebViewStepViewController.m in Sources */,
 				517514572459F0BE009E8FFC /* ORK3DModelStepContentView.m in Sources */,
 				5D1CE46023FDE7BD004CB416 /* ORKVolumeCalibrationStep.m in Sources */,
+				22A1C56C260901490003F75E /* ORKTinnitusOverallAssessmentStepViewController.m in Sources */,
 				B8760F2C1AFBEFB0007FA16F /* ORKScaleRangeDescriptionLabel.m in Sources */,
 				5D1CE42B23F497D5004CB416 /* ORKIndexCacheEntry.m in Sources */,
 				86C40D821A8D7C5C00081FAC /* ORKSelectionSubTitleLabel.m in Sources */,
 				FF919A441E81B904005C2A1E /* ORKPSATResult.m in Sources */,
 				5D1CE42823F497D5004CB416 /* ORKFlameGroup.m in Sources */,
+				22A1C5632609012A0003F75E /* ORKTinnitusOverallAssessmentStep.m in Sources */,
 				86C40DCC1A8D7C5C00081FAC /* ORKTaskViewController.m in Sources */,
 				511987A0245FE68D004FC2C7 /* ORKUSDZModelManager.m in Sources */,
 				86C40E061A8D7C5C00081FAC /* ORKConsentLearnMoreViewController.m in Sources */,
@@ -5578,6 +5617,7 @@
 				86C40E261A8D7C5C00081FAC /* ORKEAGLMoviePlayerView.m in Sources */,
 				86C40CC21A8D7C5C00081FAC /* ORKCompletionStep.m in Sources */,
 				86C40C301A8D7C5C00081FAC /* ORKFitnessStep.m in Sources */,
+				22A1C55A2609010F0003F75E /* ORKTinnitusOverallAssessmentResult.m in Sources */,
 				86C40C501A8D7C5C00081FAC /* ORKTappingContentView.m in Sources */,
 				51CAB8C0252E396600007BDB /* ORKAVJournalingTaskViewController.m in Sources */,
 				BABBB1B32097E16700CB29E5 /* ORKPDFViewerStepViewController.m in Sources */,

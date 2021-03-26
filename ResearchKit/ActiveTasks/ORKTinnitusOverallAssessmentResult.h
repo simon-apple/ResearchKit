@@ -28,33 +28,14 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@import UIKit;
-#import "ORKCustomStepView_Internal.h"
-#import "ORKTinnitusButtonView.h"
+#import <ResearchKit/ORKResult.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol ORKTinnitusMaskingSoundContentViewDelegate <NSObject>
+ORK_CLASS_AVAILABLE
+@interface ORKTinnitusOverallAssessmentResult : ORKResult
 
-@required
-- (void)buttonCheckedWithValue:(NSString *)value;
-- (BOOL)pressedPlaybackButton:(UIButton *)playbackButton;
-- (void)volumeSliderChanged:(float)volume;
-- (void)shouldEnableContinue:(BOOL)enable;
-
-
-@end
-
-@interface ORKTinnitusMaskingSoundContentView : ORKActiveStepCustomView
-
-@property (nonatomic, weak) id<ORKTinnitusMaskingSoundContentViewDelegate> delegate;
-
-+ (instancetype)new NS_UNAVAILABLE;
-- (instancetype)init NS_UNAVAILABLE;
-- (instancetype)initWithButtonTitle:(NSString *)title;
-
-- (void)displayChoices;
-- (nullable NSString *)getAnswer;
+@property (nonatomic, copy) NSString *answer;
 
 @end
 

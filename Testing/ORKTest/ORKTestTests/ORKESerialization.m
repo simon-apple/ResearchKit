@@ -2441,6 +2441,17 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                      PROPERTY(mediumFrequencyIndex, NSNumber, NSObject, YES, nil, nil),
                      PROPERTY(highFrequencyIndex, NSNumber, NSObject, YES, nil, nil)
                   })),
+           ENTRY(ORKTinnitusOverallAssessmentResult,
+                 nil,
+                 (@{
+                     PROPERTY(answer, NSString, NSObject, NO, nil, nil)
+                  })),
+           ENTRY(ORKTinnitusOverallAssessmentStep,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+               return [[ORKTinnitusOverallAssessmentStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
+            },
+                 (@{
+                  })),
            ENTRY(ORKTinnitusMaskingSoundResult,
                  nil,
                  (@{
@@ -2449,14 +2460,11 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                   })),
            ENTRY(ORKTinnitusMaskingSoundStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-               return [[ORKTinnitusMaskingSoundStep alloc] initWithIdentifier:GETPROP(dict, identifier) name:GETPROP(dict, name) soundIdentifier:GETPROP(dict, soundIdentifier) notchFrequency:((NSNumber *)GETPROP(dict, notchFrequency)).doubleValue];
+               return [[ORKTinnitusMaskingSoundStep alloc] initWithIdentifier:GETPROP(dict, identifier) name:GETPROP(dict, name) soundIdentifier:GETPROP(dict, soundIdentifier)];
             },
                  (@{
                      PROPERTY(name, NSString, NSObject, NO, nil, nil),
-                     PROPERTY(soundIdentifier, NSString, NSObject, NO, nil, nil),
-                     PROPERTY(notchFrequency, NSNumber, NSObject, NO, nil, nil),
-                     PROPERTY(bandwidth, NSNumber, NSObject, YES, nil, nil),
-                     PROPERTY(gain, NSNumber, NSObject, YES, nil, nil)
+                     PROPERTY(soundIdentifier, NSString, NSObject, NO, nil, nil)
                   })),
            ENTRY(ORKDevice, ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
             return [[ORKDevice alloc] initWithProduct:GETPROP(dict, product)

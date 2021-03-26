@@ -698,6 +698,13 @@
 "TINNITUS_BUTTON_C_DETAIL" = "Sounds like a bass instrument";
 "TINNITUS_BUTTON_UPPERPITCH_TITLE" = "Option A";
 "TINNITUS_BUTTON_LOWERPITCH_TITLE" = "Option B";
+"TINNITUS_ASSESSMENT_TITLE" = "Overall Assessment";
+"TINNITUS_ASSESSMENT_TEXT" = "Listen to the sound and rate how similar its volume and pitch are to the tinnitus you are experiencing.";
+"TINNITUS_ASSESSMENT_SOUND_NAME" = "Sound";
+"TINNITUS_ASSESSMENT_ANSWER_VERY_SIMILAR" = "Very similar";
+"TINNITUS_ASSESSMENT_ANSWER_SOMEWHAT_SIMILAR" = "Somewhat similar";
+"TINNITUS_ASSESSMENT_ANSWER_NOT_SIMILAR" = "Not similar";
+"TINNITUS_ASSESSMENT_ANSWER_NOTA" = "I prefer not to answer";
 "TINNITUS_MASKING_INSTRUCTION_TITLE" = "Sound Masking";
 "TINNITUS_MASKING_INSTRUCTION_TEXT" = "Listen to different sounds and indicate how effective they are at masking the tinnitus you are experiencing.";
 "TINNITUS_MASKING_INSTRUCTION_BODY1" = "Some ambient sounds can lessen or relieve tinnitus. You will rate these sounds based on their effectiveness.";
@@ -707,7 +714,6 @@
 "TINNITUS_MASKING_ANSWER_VERY_EFFECTIVE" = "Very effective";
 "TINNITUS_MASKING_ANSWER_SOMEWHAT_EFFECTIVE" = "Somewhat effective";
 "TINNITUS_MASKING_ANSWER_NOT_EFFECTIVE" = "Not effective";
-"TINNITUS_MASKING_ANSWER_NOTA" = "I prefer not to answer";
 
 /* ORKRecordButton */
 "PLAY" = "Play";

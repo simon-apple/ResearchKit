@@ -51,6 +51,15 @@ ORK_EXTERN ORKTinnitusMaskingAnswer const ORKTinnitusMaskingAnswerNotEffective;
 ORK_EXTERN ORKTinnitusMaskingAnswer const ORKTinnitusMaskingAnswerNoneOfTheAbove;
 
 /**
+ Possible answers for tinnitus sound assessment.
+ */
+typedef NSString *ORKTinnitusAssessmentAnswer NS_STRING_ENUM;
+ORK_EXTERN ORKTinnitusAssessmentAnswer const ORKTinnitusAssessmentAnswerVerySimilar;
+ORK_EXTERN ORKTinnitusAssessmentAnswer const ORKTinnitusAssessmentAnswerSomewhatSimilar;
+ORK_EXTERN ORKTinnitusAssessmentAnswer const ORKTinnitusAssessmentAnswerNotSimilar;
+ORK_EXTERN ORKTinnitusAssessmentAnswer const ORKTinnitusAssessmentAnswerNoneOfTheAbove;
+
+/**
  A set of error types associated with tinnitus pure tone results.
  */
 typedef NSString *ORKTinnitusError NS_STRING_ENUM;
