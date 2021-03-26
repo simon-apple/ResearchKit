@@ -479,7 +479,7 @@ static NSString *const ORKTinnitusMaskingSoundInstructionStepIdentifier = @"tinn
 }
 
 - (void)initMaskingSteps {
-    if (_maskingSteps) {
+    if (!_maskingSteps) {
         NSMutableArray *maskingSteps = [[ORKTinnitusPredefinedTask createMaskingStepsForSamples:_context.audioManifest.maskingSamples] mutableCopy];
         [maskingSteps shuffle];
 

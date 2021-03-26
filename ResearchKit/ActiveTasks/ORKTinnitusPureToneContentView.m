@@ -235,7 +235,7 @@ static const CGFloat ORKTinnitusButtonTopAdjustment = 8.0;
     [unselectArray makeObjectsPerformSelector:@selector(restoreButton)];
 }
 
-- (void)enablePlayButtons:(BOOL)enabled
+- (void)enableButtons:(BOOL)enabled
 {
     [_buttonViewsArray makeObjectsPerformSelector:@selector(setEnabled:) withObject:[NSNumber numberWithBool:enabled]];
 }
@@ -333,7 +333,35 @@ static const CGFloat ORKTinnitusButtonTopAdjustment = 8.0;
     }
 }
 
-- (void)resetPlayButtons
+- (BOOL)isPlayingLastButton {
+    BOOL isPlayingLastButton = NO;
+    switch (_buttonsStage) {
+        case PureToneButtonsStageOne:
+            isPlayingLastButton = _cButtonView.isSelected;
+            break;
+        case PureToneButtonsStageTwo:
+            isPlayingLastButton = _secondBButtonView.isSelected;
+            break;
+        case PureToneButtonsStageThree:
+            isPlayingLastButton = _thirdBButtonView.isSelected;
+            break;
+        default:
+            break;
+    }
+    return isPlayingLastButton;
+}
+
+- (void)restoreButtons {
+    [_firstAButtonView restoreButton];
+    [_firstBButtonView restoreButton];
+    [_cButtonView restoreButton];
+    [_secondAButtonView restoreButton];
+    [_secondBButtonView restoreButton];
+    [_thirdAButtonView restoreButton];
+    [_thirdBButtonView restoreButton];
+}
+
+- (void)resetButtons
 {
     [_firstAButtonView resetButton];
     [_firstBButtonView resetButton];

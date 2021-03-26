@@ -120,7 +120,6 @@ static const NSTimeInterval PLAY_DURATION = 3.0;
         [_tinnitusTypeContentView.buttonsViewArray[_sampleIndex] simulateTap];
     }
     _sampleIndex = _sampleIndex + 1;
-    
 }
 
 - (void)stopAutomaticPlay {
@@ -174,6 +173,28 @@ static const NSTimeInterval PLAY_DURATION = 3.0;
     [self.activeStepView.navigationFooterView updateContinueAndSkipEnabled];
 }
 
+- (BOOL)atLeastOneButtonIsSelected {
+    __block BOOL atLeastOneButtonIsSelected = NO;
+    [_tinnitusTypeContentView.buttonsViewArray enumerateObjectsUsingBlock:^(ORKTinnitusButtonView*  _Nonnull buttonView, NSUInteger idx, BOOL * _Nonnull stop) {
+        if (buttonView.isSelected) {
+            atLeastOneButtonIsSelected = YES;
+            *stop = YES;
+        }
+    }];
+    return atLeastOneButtonIsSelected;
+}
+
+- (BOOL)allPlayedAtLeastOnce {
+    __block BOOL allPlayedAtLeastOnce = YES;
+    [_tinnitusTypeContentView.buttonsViewArray enumerateObjectsUsingBlock:^(ORKTinnitusButtonView*  _Nonnull buttonView, NSUInteger idx, BOOL * _Nonnull stop) {
+        if (!buttonView.playedOnce) {
+            allPlayedAtLeastOnce = NO;
+            *stop = YES;
+        }
+    }];
+    return allPlayedAtLeastOnce;
+}
+
 - (void)tinnitusButtonViewPressed:(ORKTinnitusButtonView * _Nonnull)tinnitusButtonView {
     if (!tinnitusButtonView.isSimulatedTap) {
         [self stopAutomaticPlay];
@@ -192,18 +213,15 @@ static const NSTimeInterval PLAY_DURATION = 3.0;
         });
     }
     
-    __block BOOL allPlayedAtLeastOnce = YES;
-    [_tinnitusTypeContentView.buttonsViewArray indexOfObjectPassingTest:^BOOL(ORKTinnitusButtonView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        if (!obj.playedOnce) {
-            allPlayedAtLeastOnce = NO;
-            *stop = YES;
-            return YES;
-        }
-        return NO;
-    }];
-    if (allPlayedAtLeastOnce) {
-        self.activeStepView.navigationFooterView.continueEnabled = YES;
+    BOOL isPlayingLastButton = (tinnitusButtonView == _tinnitusTypeContentView.buttonsViewArray[_tinnitusTypeContentView.buttonsViewArray.count - 1]);
+    
+    if (isPlayingLastButton && _timer == nil && tinnitusButtonView.isSimulatedTap) {
+        [tinnitusButtonView restoreButton];
+    }
+    
+    if (self.allPlayedAtLeastOnce) {
         self.activeStepView.navigationFooterView.skipEnabled = YES;
+        self.activeStepView.navigationFooterView.continueEnabled = (_timer == nil && self.atLeastOneButtonIsSelected);
     }
 }
 
