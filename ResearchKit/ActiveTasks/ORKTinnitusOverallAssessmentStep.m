@@ -28,29 +28,25 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
-#import "ORKTinnitusTypes.h"
+#import "ORKTinnitusOverallAssessmentStep.h"
+#import "ORKTinnitusOverallAssessmentStepViewController.h"
 
-ORKTinnitusMaskingAnswer const ORKTinnitusMaskingAnswerVeryEffective = @"VERY_EFFECTIVE";
+@implementation ORKTinnitusOverallAssessmentStep
 
-ORKTinnitusMaskingAnswer const ORKTinnitusMaskingAnswerSomewhatEffective = @"SOMEWHAT_EFFECTIVE";
++ (Class)stepViewControllerClass {
+    return [ORKTinnitusOverallAssessmentStepViewController class];
+}
 
-ORKTinnitusMaskingAnswer const ORKTinnitusMaskingAnswerNotEffective = @"NOT_EFFECTIVE";
+- (BOOL)startsFinished {
+    return NO;
+}
 
-ORKTinnitusMaskingAnswer const ORKTinnitusMaskingAnswerNoneOfTheAbove = @"NOTA";
+- (BOOL)shouldContinueOnFinish {
+    return YES;
+}
 
-ORKTinnitusAssessmentAnswer const ORKTinnitusAssessmentAnswerVerySimilar = @"VERY_SIMILAR";
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
 
-ORKTinnitusAssessmentAnswer const ORKTinnitusAssessmentAnswerSomewhatSimilar = @"SOMEWHAT_SIMILAR";
-
-ORKTinnitusAssessmentAnswer const ORKTinnitusAssessmentAnswerNotSimilar = @"NOT_SIMILAR";
-
-ORKTinnitusAssessmentAnswer const ORKTinnitusAssessmentAnswerNoneOfTheAbove = @"NOTA";
-
-ORKTinnitusError const ORKTinnitusErrorNone = @"None";
-
-ORKTinnitusError const ORKTinnitusErrorInconsistency = @"Inconsistency";
-
-ORKTinnitusError const ORKTinnitusErrorTooHigh = @"TooHighFrequency";
-
-ORKTinnitusError const ORKTinnitusErrorTooLow = @"TooLowFrequency";
+@end

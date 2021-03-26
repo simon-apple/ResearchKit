@@ -28,7 +28,7 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "ORKTinnitusMaskingSoundContentView.h"
+#import "ORKTinnitusAssessmentContentView.h"
 #import "ORKHelpers_Internal.h"
 #import "ORKTinnitusTypes.h"
 #import "ORKSkin.h"
@@ -41,16 +41,16 @@ static int const ORKTinnitusMaskingSoundStepMargin = 16;
 static int const ORKTinnitusMaskingSoundStepSliderMargin = 22;
 static int const ORKTinnitusMaskingSoundStepSliderSpacing = 30;
 
-@class ORKTinnitusMaskingSoundButtonView;
+@class ORKTinnitusAssessmentButtonView;
 
-@protocol ORKTinnitusMaskingSoundButtonViewDelegate <NSObject>
+@protocol ORKTinnitusAssessmentButtonViewDelegate <NSObject>
 
 @required
-- (void)pressed:(ORKTinnitusMaskingSoundButtonView *)maskingButtonView;
+- (void)pressed:(ORKTinnitusAssessmentButtonView *)maskingButtonView;
 
 @end
 
-@interface ORKTinnitusMaskingSoundButtonView : UIView <UIGestureRecognizerDelegate>
+@interface ORKTinnitusAssessmentButtonView : UIView <UIGestureRecognizerDelegate>
 
 @property (nonatomic) NSString *title;
 @property (nonatomic) NSString *value;
@@ -60,14 +60,14 @@ static int const ORKTinnitusMaskingSoundStepSliderSpacing = 30;
 @property (readonly) BOOL checked;
 @property (readonly) BOOL includeSeparator;
 
-@property (nonatomic, weak)id<ORKTinnitusMaskingSoundButtonViewDelegate> delegate;
+@property (nonatomic, weak)id<ORKTinnitusAssessmentButtonViewDelegate> delegate;
 
 - (instancetype)initWithTitle:(NSString *)title value:(NSString *)value includeSeparator:(BOOL)includeSeparator;
 - (void)setChecked:(NSNumber *)checked;
 
 @end
 
-@implementation ORKTinnitusMaskingSoundButtonView
+@implementation ORKTinnitusAssessmentButtonView
 
 - (instancetype)initWithTitle:(NSString *)title value:(NSString *)value includeSeparator:(BOOL)includeSeparator {
     self = [super init];
@@ -157,9 +157,10 @@ static int const ORKTinnitusMaskingSoundStepSliderSpacing = 30;
 
 @end
 
-@interface ORKTinnitusMaskingSoundContentView () <ORKTinnitusMaskingSoundButtonViewDelegate> {
+@interface ORKTinnitusAssessmentContentView () <ORKTinnitusAssessmentButtonViewDelegate> {
     NSMutableArray *_buttons;
     UIScrollView *_scrollView;
+    BOOL _isTinnitusAssessment;
 }
 @property (nonatomic, strong) NSString *buttonTitle;
 @property (nonatomic, strong) UIView *roundedView;
@@ -171,18 +172,29 @@ static int const ORKTinnitusMaskingSoundStepSliderSpacing = 30;
 @property (nonatomic, strong) UIImageView *sliderFull;
 @property (nonatomic, strong) UIImageView *sliderEmpty;
 @property (nonatomic, strong) UIView *choicesView;
+@property (nonatomic, strong) NSDictionary *buttonTitles;
 
 @end
 
-@implementation ORKTinnitusMaskingSoundContentView
+@implementation ORKTinnitusAssessmentContentView
 
-- (instancetype)initWithButtonTitle:(NSString *)title {
+- (instancetype)initForMaskingWithButtonTitle:(NSString *)title {
     self = [super init];
     if (self) {
+        _isTinnitusAssessment = NO;
         self.buttonTitle = title;
         [self commonInit];
     }
-    
+    return self;
+}
+
+- (instancetype)initForTinnitusOverallAssesment {
+    self = [super init];
+    if (self) {
+        _isTinnitusAssessment = YES;
+        self.buttonTitle = ORKLocalizedString(@"TINNITUS_ASSESSMENT_SOUND_NAME", nil);
+        [self commonInit];
+    }
     return self;
 }
 
@@ -197,19 +209,21 @@ static int const ORKTinnitusMaskingSoundStepSliderSpacing = 30;
     [_scrollView addSubview:_roundedView];
 
     self.playButtonView = [UIButton buttonWithType:UIButtonTypeCustom];
-    UIImage *playImage;
     if (@available(iOS 13.0, *)) {
-        playImage = [UIImage systemImageNamed:@"play.fill"];
+        UIImage *playImage = [UIImage systemImageNamed:@"play.fill"];
+        [_playButtonView setImage:playImage forState:UIControlStateNormal];
+
         _playButtonView.tintColor = [UIColor systemBlueColor];
-        _playButtonView.backgroundColor = [UIColor systemGray6Color];
         _playButtonView.layer.cornerRadius = ORKTinnitusMaskingSoundStepPlaybackButtonSize/2;
-        _roundedView.backgroundColor = [UIColor tertiarySystemBackgroundColor];
-    } else {
-        playImage = [UIImage imageNamed:@"play" inBundle:ORKBundle() compatibleWithTraitCollection:nil];
-        _roundedView.backgroundColor = [UIColor whiteColor];
+        
+        _playButtonView.backgroundColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traits) {
+            return traits.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor systemGray3Color] : [UIColor systemGray5Color];
+        }];
+        _roundedView.backgroundColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traits) {
+            return traits.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor systemGray5Color] : [UIColor systemGray6Color];
+        }];
     }
 
-    [_playButtonView setImage:playImage forState:UIControlStateNormal];
     [_playButtonView addTarget:self action:@selector(playButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     [_roundedView addSubview:_playButtonView];
     
@@ -280,7 +294,7 @@ static int const ORKTinnitusMaskingSoundStepSliderSpacing = 30;
 
     [_roundedView setTranslatesAutoresizingMaskIntoConstraints:NO];
     [[_roundedView.topAnchor constraintGreaterThanOrEqualToAnchor:_scrollView.topAnchor constant:ORKTinnitusMaskingSoundStepPadding] setActive:YES];
-    [[_roundedView.widthAnchor constraintEqualToAnchor:_scrollView.widthAnchor constant:-2*ORKTinnitusMaskingSoundStepPadding] setActive:YES];
+    [[_roundedView.widthAnchor constraintEqualToAnchor:_scrollView.widthAnchor] setActive:YES];
     [[_roundedView.centerXAnchor constraintEqualToAnchor:_scrollView.centerXAnchor] setActive:YES];
 
     [_playButtonView setTranslatesAutoresizingMaskIntoConstraints:NO];
@@ -327,8 +341,25 @@ static int const ORKTinnitusMaskingSoundStepSliderSpacing = 30;
     [[_sliderFull.trailingAnchor constraintEqualToAnchor:_roundedView.trailingAnchor constant:-ORKTinnitusMaskingSoundStepSliderMargin] setActive:YES];
 }
 
-- (ORKTinnitusMaskingSoundButtonView *)addButtonForTitle:(NSString *)title value:(NSString *)value topView:(UIView *)topView isLastButton:(BOOL)isLast {
-    ORKTinnitusMaskingSoundButtonView *button = [[ORKTinnitusMaskingSoundButtonView alloc] initWithTitle:title value:value includeSeparator:!isLast];
+- (NSString *)titleForValue:(NSString *)value {
+    if (!self.buttonTitles) {
+        self.buttonTitles = @{
+            ORKTinnitusMaskingAnswerVeryEffective: @"TINNITUS_MASKING_ANSWER_VERY_EFFECTIVE",
+            ORKTinnitusMaskingAnswerSomewhatEffective: @"TINNITUS_MASKING_ANSWER_SOMEWHAT_EFFECTIVE",
+            ORKTinnitusMaskingAnswerNotEffective: @"TINNITUS_MASKING_ANSWER_NOT_EFFECTIVE",
+            ORKTinnitusMaskingAnswerNoneOfTheAbove: @"TINNITUS_ASSESSMENT_ANSWER_NOTA",
+            ORKTinnitusAssessmentAnswerVerySimilar: @"TINNITUS_ASSESSMENT_ANSWER_VERY_SIMILAR",
+            ORKTinnitusAssessmentAnswerSomewhatSimilar: @"TINNITUS_ASSESSMENT_ANSWER_SOMEWHAT_SIMILAR",
+            ORKTinnitusAssessmentAnswerNotSimilar: @"TINNITUS_ASSESSMENT_ANSWER_NOT_SIMILAR",
+            ORKTinnitusAssessmentAnswerNoneOfTheAbove: @"TINNITUS_ASSESSMENT_ANSWER_NOTA"
+        };
+    }
+    return ORKLocalizedString(_buttonTitles[value], nil);
+}
+
+- (ORKTinnitusAssessmentButtonView *)addButtonForValue:(NSString *)value topView:(UIView *)topView isLastButton:(BOOL)isLast {
+    NSString *title = [self titleForValue:value];
+    ORKTinnitusAssessmentButtonView *button = [[ORKTinnitusAssessmentButtonView alloc] initWithTitle:title value:value includeSeparator:!isLast];
     button.translatesAutoresizingMaskIntoConstraints = NO;
     [_buttons addObject:button];
     [_choicesView addSubview:button];
@@ -356,8 +387,8 @@ static int const ORKTinnitusMaskingSoundStepSliderSpacing = 30;
 }
 
 - (nullable NSString *)getAnswer {
-    NSArray <ORKTinnitusMaskingSoundButtonView *>*checkedButton = [_buttons filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-        ORKTinnitusMaskingSoundButtonView *buttonView = (ORKTinnitusMaskingSoundButtonView *)evaluatedObject;
+    NSArray <ORKTinnitusAssessmentButtonView *>*checkedButton = [_buttons filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+        ORKTinnitusAssessmentButtonView *buttonView = (ORKTinnitusAssessmentButtonView *)evaluatedObject;
         return buttonView.checked;
     }]];
     if (checkedButton.count == 1) {
@@ -366,44 +397,42 @@ static int const ORKTinnitusMaskingSoundStepSliderSpacing = 30;
     return nil;
 }
 
-- (void)displayChoices {
+- (void)displayChoicesAnimated:(BOOL)animated {
     [self layoutIfNeeded];
 
     [_volumeSlider removeFromSuperview];
     [_sliderEmpty removeFromSuperview];
     [_sliderFull removeFromSuperview];
-        
-    ORKTinnitusMaskingSoundButtonView *btn = [self addButtonForTitle:ORKLocalizedString(@"TINNITUS_MASKING_ANSWER_VERY_EFFECTIVE", nil)
-                                                               value:ORKTinnitusMaskingAnswerVeryEffective
-                                                             topView:_separatorView
-                                                        isLastButton:NO];
     
-    btn = [self addButtonForTitle:ORKLocalizedString(@"TINNITUS_MASKING_ANSWER_SOMEWHAT_EFFECTIVE", nil)
-                            value:ORKTinnitusMaskingAnswerSomewhatEffective
-                          topView:btn
-                     isLastButton:NO];
-    btn = [self addButtonForTitle:ORKLocalizedString(@"TINNITUS_MASKING_ANSWER_NOT_EFFECTIVE", nil)
-                            value:ORKTinnitusMaskingAnswerNotEffective
-                          topView:btn
-                     isLastButton:NO];
-    btn = [self addButtonForTitle:ORKLocalizedString(@"TINNITUS_MASKING_ANSWER_NOTA", nil)
-                            value:ORKTinnitusMaskingAnswerNoneOfTheAbove
-                          topView:btn
-                     isLastButton:YES];
+    NSString *value = _isTinnitusAssessment ? ORKTinnitusAssessmentAnswerVerySimilar : ORKTinnitusMaskingAnswerVeryEffective;
+    ORKTinnitusAssessmentButtonView *btn = [self addButtonForValue:value topView:_separatorView isLastButton:NO];
+    
+    value = _isTinnitusAssessment ? ORKTinnitusAssessmentAnswerSomewhatSimilar : ORKTinnitusMaskingAnswerSomewhatEffective;
+    btn = [self addButtonForValue:value topView:btn isLastButton:NO];
+    
+    value = _isTinnitusAssessment ? ORKTinnitusAssessmentAnswerNotSimilar : ORKTinnitusMaskingAnswerNotEffective;
+    btn = [self addButtonForValue:value topView:btn isLastButton:NO];
+    
+    value = _isTinnitusAssessment ? ORKTinnitusAssessmentAnswerNoneOfTheAbove : ORKTinnitusMaskingAnswerNoneOfTheAbove;
+    btn = [self addButtonForValue:value topView:btn isLastButton:YES];
     
     [btn.bottomAnchor constraintEqualToAnchor:_choicesView.bottomAnchor].active = YES;
     
-    [UIView animateWithDuration:0.1 animations:^{
+    [UIView animateWithDuration:animated ? 0.1 : 0 animations:^{
         [self layoutIfNeeded];
     } completion:^(BOOL finished) {
-        [UIView animateWithDuration:0.2 animations:^{
-            for (UIView *button in _buttons) {
-                [button setAlpha:1];
-            }
+        [UIView animateWithDuration:animated ? 0.2 : 0 animations:^{
+            [self showChoicesButtons];
         } completion:^(BOOL _) {
             [_scrollView setContentSize:CGSizeMake(CGRectGetWidth(_scrollView.frame), CGRectGetMaxY(_roundedView.frame))];
         }];
     }];
+}
+
+- (void)showChoicesButtons {
+    for (UIView *button in _buttons) {
+        [button setAlpha:1];
+    }
 }
 
 - (void)dealloc {
@@ -438,7 +467,7 @@ static int const ORKTinnitusMaskingSoundStepSliderSpacing = 30;
 
 #pragma mark - ORKTinnitusMaskingSoundButtonViewDelegate
 
-- (void)pressed:(ORKTinnitusMaskingSoundButtonView *)matchingButtonView {
+- (void)pressed:(ORKTinnitusAssessmentButtonView *)matchingButtonView {
     [_buttons makeObjectsPerformSelector:@selector(setChecked:) withObject:@NO];
     [matchingButtonView setChecked:@YES];
     

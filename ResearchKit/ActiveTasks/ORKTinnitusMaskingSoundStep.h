@@ -42,32 +42,12 @@ ORK_CLASS_AVAILABLE
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *soundIdentifier;
 
-/**
- The tinnitus frequency in Hertz that will be subtracted by the notch filter
- */
-@property (nonatomic, assign) double notchFrequency;
-
-/**
- Bandwidth in octaves (defaults to 0.17).
- */
-@property (nonatomic) double bandwidth;
-
-/**
- Gain in dB (defaults to -96).
- */
-@property (nonatomic) double gain;
-
 - (instancetype)initWithIdentifier:(NSString *)identifier __attribute__((unavailable("initWithIdentifier not available. Use initWithIdentifier: soundFilename: instead.")));
 
 /**
  Initialize the ORKTinnitusMaskingSoundStep. The value of notchFrequency will be set to 0.0
  */
 - (instancetype)initWithIdentifier:(NSString *)identifier name:(NSString *)name soundIdentifier:(NSString *)soundIdentifier;
-
-/**
- Initialize the ORKTinnitusMaskingSoundStep. Side effect:  To enable the notch filter, the value of notchFrequency must be greater then 0.0
- */
-- (instancetype)initWithIdentifier:(NSString *)identifier name:(NSString *)name soundIdentifier:(NSString *)soundIdentifier notchFrequency:(double)notchFrequency;
 
 @end
 

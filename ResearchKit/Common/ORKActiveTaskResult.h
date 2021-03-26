@@ -50,3 +50,4 @@
 #import <ResearchKit/ORKTinnitusMaskingSoundResult.h>
 #import <ResearchKit/ORKTinnitusVolumeResult.h>
 #import <ResearchKit/ORKTinnitusTypeResult.h>
+#import <ResearchKit/ORKTinnitusOverallAssessmentResult.h>

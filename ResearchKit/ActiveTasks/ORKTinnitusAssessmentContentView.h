@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2021, Apple Inc. All rights reserved.
+ Copyright (c) 2020, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,29 +28,35 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
-#import "ORKTinnitusTypes.h"
+@import UIKit;
+#import "ORKCustomStepView_Internal.h"
 
-ORKTinnitusMaskingAnswer const ORKTinnitusMaskingAnswerVeryEffective = @"VERY_EFFECTIVE";
+NS_ASSUME_NONNULL_BEGIN
 
-ORKTinnitusMaskingAnswer const ORKTinnitusMaskingAnswerSomewhatEffective = @"SOMEWHAT_EFFECTIVE";
+@protocol ORKTinnitusAssessmentContentViewDelegate <NSObject>
 
-ORKTinnitusMaskingAnswer const ORKTinnitusMaskingAnswerNotEffective = @"NOT_EFFECTIVE";
+@required
+- (BOOL)pressedPlaybackButton:(UIButton *)playbackButton;
+- (void)buttonCheckedWithValue:(NSString *)value;
 
-ORKTinnitusMaskingAnswer const ORKTinnitusMaskingAnswerNoneOfTheAbove = @"NOTA";
+@optional
+- (void)volumeSliderChanged:(float)volume;
+- (void)shouldEnableContinue:(BOOL)enable;
 
-ORKTinnitusAssessmentAnswer const ORKTinnitusAssessmentAnswerVerySimilar = @"VERY_SIMILAR";
+@end
 
-ORKTinnitusAssessmentAnswer const ORKTinnitusAssessmentAnswerSomewhatSimilar = @"SOMEWHAT_SIMILAR";
+@interface ORKTinnitusAssessmentContentView : ORKActiveStepCustomView
 
-ORKTinnitusAssessmentAnswer const ORKTinnitusAssessmentAnswerNotSimilar = @"NOT_SIMILAR";
+@property (nonatomic, weak) id<ORKTinnitusAssessmentContentViewDelegate> delegate;
 
-ORKTinnitusAssessmentAnswer const ORKTinnitusAssessmentAnswerNoneOfTheAbove = @"NOTA";
++ (instancetype)new NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
+- (instancetype)initForMaskingWithButtonTitle:(NSString *)title;
+- (instancetype)initForTinnitusOverallAssesment;
 
-ORKTinnitusError const ORKTinnitusErrorNone = @"None";
+- (void)displayChoicesAnimated:(BOOL)animated;
+- (nullable NSString *)getAnswer;
 
-ORKTinnitusError const ORKTinnitusErrorInconsistency = @"Inconsistency";
+@end
 
-ORKTinnitusError const ORKTinnitusErrorTooHigh = @"TooHighFrequency";
-
-ORKTinnitusError const ORKTinnitusErrorTooLow = @"TooLowFrequency";
+NS_ASSUME_NONNULL_END
