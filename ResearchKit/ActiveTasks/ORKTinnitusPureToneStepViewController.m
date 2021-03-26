@@ -214,7 +214,7 @@ static const NSTimeInterval PLAY_DURATION = 1.0;
 
     self.tinnitusContentView.delegate = self;
     
-    [_tinnitusContentView resetPlayButtons];
+    [_tinnitusContentView resetButtons];
     
     
     ORKTaskResult *taskResults = [[self taskViewController] result];
@@ -399,6 +399,9 @@ static const NSTimeInterval PLAY_DURATION = 1.0;
         if ([_tinnitusContentView hasPlayingButton]) {
             [self playSoundAt:[_frequencies[frequencyIndex] doubleValue]];
         }
+        if ([_tinnitusContentView isPlayingLastButton] && _timer == nil && currentSelectedButtonView.isSimulatedTap) {
+            [_tinnitusContentView restoreButtons];
+        }
         self.activeStepView.navigationFooterView.continueEnabled = [self canEnableFineTune];
     });
 }
@@ -526,7 +529,7 @@ static const NSTimeInterval PLAY_DURATION = 1.0;
     _currentSelectedPosition = currentSelectedPosition;
     _interactionCounter = _interactionCounter + 1;
     
-    [_tinnitusContentView resetPlayButtons];
+    [_tinnitusContentView resetButtons];
     [_tinnitusContentView animateButtons];
     
     self.navigationItem.title = [NSString stringWithFormat:ORKLocalizedString(@"TINNITUS_PURETONE_BAR_TITLE2", nil), _interactionCounter];
@@ -534,8 +537,9 @@ static const NSTimeInterval PLAY_DURATION = 1.0;
 
 
 - (BOOL)canEnableFineTune {
-    return ([_tinnitusContentView currentSelectedPosition] != ORKTinnitusSelectedPureTonePositionNone) &&
-    [_tinnitusContentView allCurrentVisibleButtonsPlayed];
+    return ([_tinnitusContentView currentSelectedPosition] != ORKTinnitusSelectedPureTonePositionNone)
+    && [_tinnitusContentView allCurrentVisibleButtonsPlayed]
+    && _timer == nil;
 }
 
 #pragma mark - Utilities
