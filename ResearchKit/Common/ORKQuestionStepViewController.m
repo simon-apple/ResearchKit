@@ -416,12 +416,6 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
         [self refreshDefaults];
     }
     
-    if (_tableContainer) {
-        [_tableContainer sizeHeaderToFit];
-        [_tableContainer resizeFooterToFit];
-        [_tableContainer layoutIfNeeded];
-    }
-    
     if (_tableView) {
         [_tableView reloadData];
     }

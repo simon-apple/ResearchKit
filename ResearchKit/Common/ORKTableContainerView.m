@@ -192,6 +192,12 @@ static const CGFloat FooterViewHeightOffset = 20.0;
     [self updateTableViewBottomConstraint];
 }
 
+- (void)didMoveToWindow {
+    [self sizeHeaderToFit];
+    [self resizeFooterToFit];
+    [self layoutIfNeeded];
+}
+
 - (void)addStepContentView {
     _tableView.tableHeaderView = self.stepContentView;
 }
