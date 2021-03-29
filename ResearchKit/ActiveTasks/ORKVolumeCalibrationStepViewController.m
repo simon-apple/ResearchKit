@@ -45,6 +45,8 @@
 #import "ORKStepViewController_Internal.h"
 #import "ORKHelpers_Internal.h"
 
+#import <MediaPlayer/MPVolumeView.h>
+
 #import "ORKCelestialSoftLink.h"
 
 @interface ORKVolumeCalibrationStepViewController () <ORKVolumeCalibrationContentViewDelegate>
@@ -153,6 +155,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setupVolumeView];
     [self.taskViewController saveVolume];
     [[getAVSystemControllerClass() sharedAVSystemController] setActiveCategoryVolumeTo:0];
     
@@ -209,6 +212,13 @@
     self.activeStepView.navigationFooterView.continueButtonItem = self.continueButtonItem;
     self.activeStepView.navigationFooterView.continueEnabled = NO;
     [self.activeStepView.navigationFooterView updateContinueAndSkipEnabled];
+}
+
+- (void)setupVolumeView {
+    MPVolumeView *volumeView = [[MPVolumeView alloc] initWithFrame:CGRectNull];
+    [volumeView setAlpha:0.001];
+    [volumeView setIsAccessibilityElement:NO];
+    [self.view addSubview:volumeView];
 }
 
 - (void)setupButtons {
