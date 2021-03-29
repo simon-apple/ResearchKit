@@ -173,7 +173,7 @@
     [super viewDidLoad];
     [self setupVolumeView];
     [self.taskViewController saveVolume];
-    [[getAVSystemControllerClass() sharedAVSystemController] setActiveCategoryVolumeTo:0];
+    [[getAVSystemControllerClass() sharedAVSystemController] setActiveCategoryVolumeTo:UIAccessibilityIsVoiceOverRunning() ? 0.2 : 0];
     
     NSString *sampleTitle = @"Sample";
     ORKTinnitusPredefinedTaskContext *context = self.tinnitusPredefinedTaskContext;
