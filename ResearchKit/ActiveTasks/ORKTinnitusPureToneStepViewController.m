@@ -46,8 +46,10 @@
 
 #define ORKTinnitusFadeInDuration 0.1
 
-static const NSTimeInterval PLAY_DELAY = 0.1;
+static const NSTimeInterval PLAY_DELAY = 1.0;
+static const NSTimeInterval PLAY_DELAY_VOICEOVER = 1.3;
 static const NSTimeInterval PLAY_DURATION = 1.0;
+static const NSTimeInterval PLAY_DURATION_VOICEOVER = 4.0;
 
 @interface ORKTinnitusPureToneStepViewController () <ORKTinnitusPureToneContentViewDelegate> {
     ORKTinnitusSelectedPureTonePosition _currentSelectedPosition;
@@ -77,7 +79,7 @@ static const NSTimeInterval PLAY_DURATION = 1.0;
 @property (nonatomic, assign) NSInteger higherThresholdIndex;
 @property (nonatomic, assign) NSInteger lowerThresholdIndex;
 
-- (ORKTinnitusPureToneStep *)tinnitusStep;
+- (ORKTinnitusPureToneStep *)tinnitusPuretoneStep;
 
 @end
 
@@ -94,7 +96,7 @@ static const NSTimeInterval PLAY_DURATION = 1.0;
     return self;
 }
 
-- (ORKTinnitusPureToneStep *)tinnitusStep {
+- (ORKTinnitusPureToneStep *)tinnitusPuretoneStep {
     return (ORKTinnitusPureToneStep *)self.step;
 }
 
@@ -107,12 +109,16 @@ static const NSTimeInterval PLAY_DURATION = 1.0;
 
 - (void)startAutomaticPlay {
     _sampleIndex = 0;
-    _timer = [NSTimer scheduledTimerWithTimeInterval:PLAY_DURATION
-                                              target:self
-                                            selector:@selector(playNextSample)
-                                            userInfo:nil
-                                             repeats:YES];
+    _timer = [[NSTimer alloc] initWithFireDate:[NSDate date]
+                                      interval:UIAccessibilityIsVoiceOverRunning() ? PLAY_DURATION_VOICEOVER : PLAY_DURATION
+                                        target:self
+                                      selector:@selector(playNextSample)
+                                      userInfo:nil
+                                       repeats:YES];
+    NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
+    [runLoop addTimer:_timer forMode:NSRunLoopCommonModes];
 }
+
 
 - (void)playNextSample {
     switch (_tinnitusContentView.currentStage) {
@@ -175,6 +181,8 @@ static const NSTimeInterval PLAY_DURATION = 1.0;
 }
 
 - (void)stopAutomaticPlay {
+    [_tinnitusContentView enableButtonsAnnouncements:YES];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIAccessibilityAnnouncementDidFinishNotification object:nil];
     [NSObject cancelPreviousPerformRequestsWithTarget:self
                                              selector:@selector(startAutomaticPlay)
                                                object:nil];
@@ -199,7 +207,7 @@ static const NSTimeInterval PLAY_DURATION = 1.0;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.navigationItem.title = [NSString stringWithFormat:ORKLocalizedString(@"TINNITUS_PURETONE_BAR_TITLE1", nil), self.tinnitusStep.roundNumber];
+    self.navigationItem.title = [NSString stringWithFormat:ORKLocalizedString(@"TINNITUS_PURETONE_BAR_TITLE1", nil), self.tinnitusPuretoneStep.roundNumber];
     
     [self setNavigationFooterView];
     [self setupButtons];
@@ -232,7 +240,37 @@ static const NSTimeInterval PLAY_DURATION = 1.0;
     
     self.audioGenerator = [[ORKTinnitusAudioGenerator alloc] initWithHeadphoneType:headphoneType];
     
-    [self performSelector:@selector(startAutomaticPlay) withObject:nil afterDelay:PLAY_DELAY];
+    self.isAccessibilityElement = YES;
+    
+    if (UIAccessibilityIsVoiceOverRunning()) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(PLAY_DELAY_VOICEOVER * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self setupAutoPlay];
+        });
+    } else {
+        [self setupAutoPlay];
+    }
+}
+
+- (void)setupAutoPlay {
+    if (UIAccessibilityIsVoiceOverRunning()) {
+        UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, self.activeStepView.stepTitle);
+        UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, self.tinnitusPuretoneStep.title);
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(announcementFinished:) name:UIAccessibilityAnnouncementDidFinishNotification object:nil];
+    } else {
+        [self performSelector:@selector(startAutomaticPlay) withObject:nil afterDelay:PLAY_DELAY];
+    }
+}
+
+- (void)announcementFinished:(NSNotification*)notification {
+    BOOL success = [notification.userInfo[UIAccessibilityAnnouncementKeyWasSuccessful] boolValue];
+    if (success) {
+        if ([notification.userInfo[UIAccessibilityAnnouncementKeyStringValue] isEqualToString:self.tinnitusPuretoneStep.title]) {
+            UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, ORKLocalizedString(@"TINNITUS_TYPE_ACCESSIBILITY_ANNOUNCEMENT", nil));
+        } else {
+            [[NSNotificationCenter defaultCenter] removeObserver:self name:UIAccessibilityAnnouncementDidFinishNotification object:nil];
+            [self performSelector:@selector(startAutomaticPlay) withObject:nil afterDelay:PLAY_DELAY];
+        }
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -326,13 +364,13 @@ static const NSTimeInterval PLAY_DURATION = 1.0;
 }
 
 - (void)resetVariables {
-    ORKTinnitusPureToneStep *tinnitusStep = (ORKTinnitusPureToneStep *)self.step;
-    _frequencies = [tinnitusStep listOfChoosableFrequencies];
+    ORKTinnitusPureToneStep *tinnitusPuretoneStep = (ORKTinnitusPureToneStep *)self.step;
+    _frequencies = [tinnitusPuretoneStep listOfChoosableFrequencies];
     _indexOffset = 2;
-    NSUInteger round = [tinnitusStep roundNumber] - 1;
-    _cFrequencyIndex = ([tinnitusStep lowFrequencyIndex] * _indexOffset) + round;
-    _bFrequencyIndex = ([tinnitusStep mediumFrequencyIndex] * _indexOffset) + round;
-    _aFrequencyIndex = ([tinnitusStep highFrequencyIndex] * _indexOffset) + round;
+    NSUInteger round = [tinnitusPuretoneStep roundNumber] - 1;
+    _cFrequencyIndex = ([tinnitusPuretoneStep lowFrequencyIndex] * _indexOffset) + round;
+    _bFrequencyIndex = ([tinnitusPuretoneStep mediumFrequencyIndex] * _indexOffset) + round;
+    _aFrequencyIndex = ([tinnitusPuretoneStep highFrequencyIndex] * _indexOffset) + round;
     _higherThresholdIndex = -1;
     _lowerThresholdIndex = -1;
     _lastChosenFrequency = 0;
@@ -406,8 +444,16 @@ static const NSTimeInterval PLAY_DURATION = 1.0;
     });
 }
 
-- (void)fineTunePressed {
+- (void)animationFinishedForStage:(PureToneButtonsStage)stage {
+    if (UIAccessibilityIsVoiceOverRunning()) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((PLAY_DELAY - 0.05) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, _tinnitusContentView);
+        });
+    }
     [self performSelector:@selector(startAutomaticPlay) withObject:nil afterDelay:PLAY_DELAY];
+}
+
+- (void)fineTunePressed {
     [_audioGenerator stop];
     ORKTinnitusSelectedPureTonePosition currentSelectedPosition = [_tinnitusContentView currentSelectedPosition];
     
