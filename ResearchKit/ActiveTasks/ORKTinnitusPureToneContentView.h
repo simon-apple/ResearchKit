@@ -54,6 +54,7 @@ typedef NS_ENUM(NSUInteger, PureToneButtonsStage) {
 @required
 
 - (void)playButtonPressedWithNewPosition:(ORKTinnitusSelectedPureTonePosition)newPosition;
+- (void)animationFinishedForStage:(PureToneButtonsStage)stage;
 
 @end
 
@@ -62,6 +63,7 @@ typedef NS_ENUM(NSUInteger, PureToneButtonsStage) {
 @property (nonatomic, weak)id<ORKTinnitusPureToneContentViewDelegate> delegate;
 
 - (void)simulateTapForPosition:(ORKTinnitusSelectedPureTonePosition)position;
+- (void)enableButtonsAnnouncements:(BOOL)enable;
 
 - (ORKTinnitusSelectedPureTonePosition)currentSelectedPosition;
 - (PureToneButtonsStage)currentStage;

@@ -45,8 +45,10 @@
 
 #import "ORKSkin.h"
 
-static const NSTimeInterval PLAY_DELAY = 0.3;
+static const NSTimeInterval PLAY_DELAY = 0.5;
+static const NSTimeInterval PLAY_DELAY_VOICEOVER = 1.3;
 static const NSTimeInterval PLAY_DURATION = 3.0;
+static const NSTimeInterval PLAY_DURATION_VOICEOVER = 5.0;
 
 @interface ORKTinnitusTypeStepViewController () <ORKTinnitusButtonViewDelegate> {
     ORKTinnitusTypeContentView *_tinnitusTypeContentView;
@@ -62,6 +64,10 @@ static const NSTimeInterval PLAY_DURATION = 3.0;
 @end
 
 @implementation ORKTinnitusTypeStepViewController
+
+- (ORKTinnitusTypeStep *)tinnitusTypeStep {
+    return (ORKTinnitusTypeStep *)self.step;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -84,7 +90,38 @@ static const NSTimeInterval PLAY_DURATION = 3.0;
     
     self.activeStepView.navigationFooterView.optional = YES;
     
-    [self performSelector:@selector(startAutomaticPlay) withObject:nil afterDelay:PLAY_DELAY];
+    self.isAccessibilityElement = YES;
+    
+    if (UIAccessibilityIsVoiceOverRunning()) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(PLAY_DELAY_VOICEOVER * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self setupAutoPlay];
+        });
+    } else {
+        [self setupAutoPlay];
+    }
+}
+
+- (void)setupAutoPlay {
+    if (UIAccessibilityIsVoiceOverRunning()) {
+        UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, _tinnitusTypeContentView);
+        [_tinnitusTypeContentView.buttonsViewArray[0] enableAccessibilityAnnouncements:NO];
+        UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, self.tinnitusTypeStep.title);
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(announcementFinished:) name:UIAccessibilityAnnouncementDidFinishNotification object:nil];
+    } else {
+        [self performSelector:@selector(startAutomaticPlay) withObject:nil afterDelay:PLAY_DELAY];
+    }
+}
+
+- (void)announcementFinished:(NSNotification*)notification {
+    BOOL success = [notification.userInfo[UIAccessibilityAnnouncementKeyWasSuccessful] boolValue];
+    if (success) {
+        if ([notification.userInfo[UIAccessibilityAnnouncementKeyStringValue] isEqualToString:self.tinnitusTypeStep.title]) {
+            UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, ORKLocalizedString(@"TINNITUS_TYPE_ACCESSIBILITY_ANNOUNCEMENT", nil));
+        } else {
+            [[NSNotificationCenter defaultCenter] removeObserver:self name:UIAccessibilityAnnouncementDidFinishNotification object:nil];
+            [self performSelector:@selector(startAutomaticPlay) withObject:nil afterDelay:PLAY_DELAY];
+        }
+    }
 }
 
 - (void)setSkipButtonItem:(UIBarButtonItem *)skipButtonItem {
@@ -105,16 +142,20 @@ static const NSTimeInterval PLAY_DURATION = 3.0;
 
 - (void)startAutomaticPlay {
     _sampleIndex = 0;
-    _timer = [NSTimer scheduledTimerWithTimeInterval:PLAY_DURATION
-                                              target:self
-                                            selector:@selector(playNextSample)
-                                            userInfo:nil
-                                             repeats:YES];
+    _timer = [[NSTimer alloc] initWithFireDate:[NSDate date]
+                                      interval:UIAccessibilityIsVoiceOverRunning() ? PLAY_DURATION_VOICEOVER : PLAY_DURATION
+                                        target:self
+                                      selector:@selector(playNextSample)
+                                      userInfo:nil
+                                       repeats:YES];
+    NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
+    [runLoop addTimer:_timer forMode:NSRunLoopCommonModes];
 }
 
 - (void)playNextSample {
     if (_sampleIndex > _tinnitusTypeContentView.buttonsViewArray.count - 1) {
         [_tinnitusTypeContentView.buttonsViewArray[_sampleIndex - 1] simulateTap];
+        [_tinnitusTypeContentView.buttonsViewArray[0] enableAccessibilityAnnouncements:YES];
         [self stopAutomaticPlay];
     } else {
         [_tinnitusTypeContentView.buttonsViewArray[_sampleIndex] simulateTap];
@@ -123,6 +164,8 @@ static const NSTimeInterval PLAY_DURATION = 3.0;
 }
 
 - (void)stopAutomaticPlay {
+    [_tinnitusTypeContentView.buttonsViewArray[0] enableAccessibilityAnnouncements:YES];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIAccessibilityAnnouncementDidFinishNotification object:nil];
     [NSObject cancelPreviousPerformRequestsWithTarget:self
                                              selector:@selector(startAutomaticPlay)
                                                object:nil];

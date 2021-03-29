@@ -53,6 +53,7 @@ static const CGFloat ORKTinnitusButtonViewPadding = 16.0;
     BOOL _subViewsAutoLayoutFinished;
     BOOL _firstLayoutTime;
     BOOL _selected;
+    BOOL _announceEnabled;
     
     UITapGestureRecognizer *_tapOffGestureRecognizer;
     UIImpactFeedbackGenerator *_hapticFeedback;
@@ -91,15 +92,6 @@ static const CGFloat ORKTinnitusButtonViewPadding = 16.0;
     return self;
 }
 
-- (BOOL)isAccessibilityElement {
-    return YES;
-}
-
-- (void)accessibilityElementDidBecomeFocused {
-    [super accessibilityElementDidBecomeFocused];
-    [self tapAction:_tapOffGestureRecognizer];
-}
-
 - (void)commonInit {
     _titleText = @"";
     _detailText = nil;
@@ -107,6 +99,7 @@ static const CGFloat ORKTinnitusButtonViewPadding = 16.0;
     _selected = NO;
     _subViewsAutoLayoutFinished = NO;
     _firstLayoutTime = YES;
+    _announceEnabled = YES;
 }
 
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
@@ -207,10 +200,43 @@ static const CGFloat ORKTinnitusButtonViewPadding = 16.0;
     _hapticFeedback = [[UIImpactFeedbackGenerator alloc] initWithStyle: UIImpactFeedbackStyleMedium];
     
     [self setSelected:NO];
+    
+    self.accessibilityLabel = _titleText;
+    self.accessibilityHint = ORKLocalizedString(@"TINNITUS_BUTTON_ACCESSIBILITY_HINT", nil);
+}
+
+
+- (void)enableAccessibilityAnnouncements:(BOOL)shouldAnnouce {
+    if (shouldAnnouce) {
+        self.accessibilityLabel = _titleText;
+        self.accessibilityHint = !_selected ? ORKLocalizedString(@"TINNITUS_BUTTON_ACCESSIBILITY_HINT", nil) : nil;
+    } else {
+        self.accessibilityLabel = nil;
+        self.accessibilityHint = nil;
+    }
+    _announceEnabled = shouldAnnouce;
 }
 
 - (void)simulateTap {
     [self tapAction:nil];
+}
+
+#pragma mark - Accessibility
+
+- (UIAccessibilityTraits)accessibilityTraits {
+    if (_selected) {
+        self.accessibilityHint = nil;
+        return UIAccessibilityTraitSelected;
+    } else {
+        if (_announceEnabled) {
+            self.accessibilityHint = ORKLocalizedString(@"TINNITUS_BUTTON_ACCESSIBILITY_HINT", nil);
+        }
+        return UIAccessibilityTraitNone;
+    }
+}
+
+- (BOOL)isAccessibilityElement {
+    return YES;
 }
 
 - (void)tapAction:(UITapGestureRecognizer *)recognizer {
@@ -221,10 +247,13 @@ static const CGFloat ORKTinnitusButtonViewPadding = 16.0;
             [self setSelected:!_selected];
             _playView.highlighted = YES;
             _barLevelsView.hidden = NO;
-            UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, _titleText);
+            if (_simulatedTap) {
+                UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, [NSString stringWithFormat:ORKLocalizedString(@"TINNITUS_BUTTON_ACCESSIBILITY_ANNOUNCEMENT", nil), _titleText]);
+            }
         } else {
             _playView.highlighted = !_playView.highlighted;
             _barLevelsView.hidden = !_barLevelsView.hidden;
+            
         }
         _playedOnce = YES;
         if (_delegate && [_delegate respondsToSelector:@selector(tinnitusButtonViewPressed:)]) {

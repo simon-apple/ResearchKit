@@ -240,7 +240,13 @@ static const CGFloat ORKTinnitusButtonTopAdjustment = 8.0;
     [_buttonViewsArray makeObjectsPerformSelector:@selector(setEnabled:) withObject:[NSNumber numberWithBool:enabled]];
 }
 
+- (void)enableButtonsAnnouncements:(BOOL)enable {
+    [_secondAButtonView enableAccessibilityAnnouncements:enable];
+    [_thirdAButtonView enableAccessibilityAnnouncements:enable];
+}
+
 - (void)animateButtons {
+    [self enableButtonsAnnouncements:NO];
     if (_buttonsStage == PureToneButtonsStageOne) {
         CGFloat firstAWidth = _firstAButtonView.bounds.size.width;
         [_scrollView setNeedsUpdateConstraints];
@@ -265,6 +271,11 @@ static const CGFloat ORKTinnitusButtonTopAdjustment = 8.0;
             [_scrollView layoutIfNeeded];
         } completion:^(BOOL finished) {
             _cButtonView.hidden = YES;
+            _firstAButtonView.hidden = YES;
+            _firstBButtonView.hidden = YES;
+            if (_delegate && [_delegate respondsToSelector:@selector(animationFinishedForStage:)]) {
+                [_delegate animationFinishedForStage:_buttonsStage];
+            }
             _buttonsStage = PureToneButtonsStageTwo;
             CGFloat newContentSizeHeight = _secondAButtonView.bounds.size.height + _secondBButtonView.bounds.size.height + 2 * ORKTinnitusStandardSpacing + ORKTinnitusStandardSpacing/2 + ORKTinnitusStandardSpacing;
             _scrollView.contentSize = CGSizeMake(self.frame.size.width, newContentSizeHeight);
@@ -296,9 +307,9 @@ static const CGFloat ORKTinnitusButtonTopAdjustment = 8.0;
                             options:UIViewAnimationOptionCurveEaseOut
                          animations:^{
             showedALeadingConstraint.constant = -aButtonViewWidth;
-            showedAButtonView.alpha = 0.01;
+            showedAButtonView.alpha = 0.0;
             showedBLeadingConstraint.constant = -aButtonViewWidth;
-            showedBButtonView.alpha = 0.01;
+            showedBButtonView.alpha = 0.0;
             hiddenALeadingConstraint.constant = ORKTinnitusGlowAdjustment;
             hiddenBLeadingConstraint.constant = ORKTinnitusGlowAdjustment;
             hiddenAButtonView.alpha = 1.0;
@@ -306,6 +317,11 @@ static const CGFloat ORKTinnitusButtonTopAdjustment = 8.0;
             
             [_scrollView layoutIfNeeded];
         } completion:^(BOOL finished) {
+            showedAButtonView.hidden = YES;
+            showedBButtonView.hidden = YES;
+            if (_delegate && [_delegate respondsToSelector:@selector(animationFinishedForStage:)]) {
+                [_delegate animationFinishedForStage:_buttonsStage];
+            }
             _buttonsStage = (_buttonsStage == PureToneButtonsStageTwo) ? PureToneButtonsStageThree : PureToneButtonsStageTwo;
             // repositioning the buttons after animation
             showedALeadingConstraint.constant = aButtonViewWidth + 2 * ORKTinnitusGlowAdjustment;
@@ -508,6 +524,7 @@ static const CGFloat ORKTinnitusButtonTopAdjustment = 8.0;
 
 - (void)tinnitusButtonViewPressed:(nonnull ORKTinnitusButtonView *)tinnitusButtonView {
     [self selectButton:tinnitusButtonView];
+    [_scrollView scrollRectToVisible:[_scrollView convertRect:tinnitusButtonView.bounds fromView:tinnitusButtonView] animated:YES];
     if (_delegate && [_delegate respondsToSelector:@selector(playButtonPressedWithNewPosition:)]) {
         [_delegate playButtonPressedWithNewPosition:[self currentSelectedPosition]];
     }

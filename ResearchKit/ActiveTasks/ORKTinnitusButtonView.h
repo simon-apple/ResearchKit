@@ -89,6 +89,8 @@ ORK_CLASS_AVAILABLE
 
 - (void)simulateTap;
 
+- (void)enableAccessibilityAnnouncements:(BOOL)shouldAnnouce;
+
 @end
 
 @interface ORKTinnitusButtonView(NSArrayUtils)
