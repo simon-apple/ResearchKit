@@ -126,6 +126,8 @@ static int const ORKTinnitusAssessmentMargin = 16;
     [[UITapGestureRecognizer alloc] initWithTarget:self
                                             action:@selector(handleSingleTap:)];
     [self addGestureRecognizer:singleFingerTap];
+    
+    self.accessibilityLabel = self.title;
 }
 
 - (void)handleSingleTap:(UITapGestureRecognizer *)recognizer {
@@ -154,6 +156,20 @@ static int const ORKTinnitusAssessmentMargin = 16;
     CGSize intrinsic = [super intrinsicContentSize];
     return (CGSize){.width=intrinsic.width, self.frame.size.height == 0.0 ? ORKExpectedLabelHeight(_titleLabel) + 30.0 : self.frame.size.height};
 }
+
+- (UIAccessibilityTraits)accessibilityTraits {
+     if (_checkmarkView.checked) {
+         self.accessibilityHint = nil;
+         return UIAccessibilityTraitSelected;
+     } else {
+         self.accessibilityHint = ORKLocalizedString(@"TINNITUS_BUTTON_ACCESSIBILITY_HINT", nil);
+         return UIAccessibilityTraitNone;
+     }
+ }
+
+- (BOOL)isAccessibilityElement {
+     return YES;
+ }
 
 @end
 
