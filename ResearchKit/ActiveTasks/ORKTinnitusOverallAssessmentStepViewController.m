@@ -76,14 +76,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.assessmentContentView = [[ORKTinnitusAssessmentContentView alloc] initForTinnitusOverallAssesment];
-    self.activeStepView.activeCustomView = self.assessmentContentView;
-    self.assessmentContentView.delegate = self;
-    self.activeStepView.customContentFillsAvailableSpace = YES;
-            
-    [self setNavigationFooterView];
-    [self.assessmentContentView displayChoicesAnimated:NO];
-
     if (self.tinnitusPredefinedTaskContext) {
         ORKTinnitusPredefinedTaskContext *context = self.tinnitusPredefinedTaskContext;
         
@@ -101,6 +93,13 @@
             }
         }
     }
+    
+    self.assessmentContentView = [[ORKTinnitusAssessmentContentView alloc] initForTinnitusOverallAssesment];
+    self.activeStepView.activeCustomView = self.assessmentContentView;
+    self.assessmentContentView.delegate = self;
+    self.activeStepView.customContentFillsAvailableSpace = YES;
+            
+    [self setNavigationFooterView];
 }
 
 - (BOOL)setupAudioEngineForWhiteNoiseSound:(NSString *)identifier error:(NSError **)outError {

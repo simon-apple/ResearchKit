@@ -39,14 +39,12 @@
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [super encodeWithCoder:aCoder];
     ORK_ENCODE_OBJ(aCoder, answer);
-    ORK_ENCODE_DOUBLE(aCoder, volumeCurve);
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
         ORK_DECODE_OBJ(aDecoder, answer);
-        ORK_DECODE_DOUBLE(aDecoder, volumeCurve);
     }
     return self;
 }
@@ -61,24 +59,22 @@
     __typeof(self) castObject = object;
     return (isParentSame
             && ORKEqualObjects(self.answer, castObject.answer)
-            && self.volumeCurve == castObject.volumeCurve
             ) ;
 }
 
 - (NSUInteger)hash {
-    return super.hash ^ self.answer.hash ^ @(self.volumeCurve).hash;
+    return super.hash ^ self.answer.hash;
 }
 
 - (instancetype)copyWithZone:(NSZone *)zone {
     ORKTinnitusMaskingSoundResult *result = [super copyWithZone:zone];
     result.answer = [self.answer copy];
-    result.volumeCurve = self.volumeCurve;
     return result;
 }
 
 - (NSString *)descriptionWithNumberOfPaddingSpaces:(NSUInteger)numberOfPaddingSpaces {
-    return [NSString stringWithFormat:@"%@; answer: %@; volumeCurve: %f",
-            [self descriptionPrefixWithNumberOfPaddingSpaces:numberOfPaddingSpaces], self.answer, self.volumeCurve];
+    return [NSString stringWithFormat:@"%@; answer: %@",
+            [self descriptionPrefixWithNumberOfPaddingSpaces:numberOfPaddingSpaces], self.answer];
 }
 
 @end

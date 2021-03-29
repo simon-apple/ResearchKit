@@ -162,7 +162,7 @@ static int const ORKVolumeCalibrationStepPlaybackButtonSize = 36;
 
     [_barLevelsView setTranslatesAutoresizingMaskIntoConstraints:NO];
     [_barLevelsView.leadingAnchor constraintEqualToAnchor:_titleLabel.trailingAnchor constant:2.0].active = YES;
-    [_barLevelsView.centerYAnchor constraintEqualToAnchor:_titleLabel.centerYAnchor constant:3.0].active = YES;
+    [_barLevelsView.centerYAnchor constraintEqualToAnchor:_titleLabel.centerYAnchor constant:2.0].active = YES;
     [_barLevelsView.widthAnchor constraintEqualToConstant:30.0].active = YES;
     [_barLevelsView.heightAnchor constraintEqualToConstant:21.0].active = YES;
 

@@ -45,7 +45,7 @@ ORK_CLASS_AVAILABLE
 - (instancetype)initWithIdentifier:(NSString *)identifier __attribute__((unavailable("initWithIdentifier not available. Use initWithIdentifier: soundFilename: instead.")));
 
 /**
- Initialize the ORKTinnitusMaskingSoundStep. The value of notchFrequency will be set to 0.0
+ Initialize the ORKTinnitusMaskingSoundStep. 
  */
 - (instancetype)initWithIdentifier:(NSString *)identifier name:(NSString *)name soundIdentifier:(NSString *)soundIdentifier;
 

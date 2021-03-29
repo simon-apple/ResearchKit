@@ -39,6 +39,41 @@
     return [ORKVolumeCalibrationStepViewController class];
 }
 
+- (instancetype)initWithIdentifier:(NSString *)identifier maskingSoundName:(NSString *)name maskingSoundIdentifier:(NSString *)soundIdentifier {
+    self = [super initWithIdentifier:identifier];
+    if (self) {
+        self.maskingSoundName = name;
+        self.maskingSoundIdentifier = soundIdentifier;
+    }
+    return self;
+}
+
+- (instancetype)copyWithZone:(NSZone *)zone {
+    ORKVolumeCalibrationStep *step = [super copyWithZone:zone];
+    step.maskingSoundName = [self.maskingSoundName copy];
+    step.maskingSoundIdentifier = [self.maskingSoundIdentifier copy];
+    return step;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        ORK_DECODE_OBJ(aDecoder, maskingSoundName);
+        ORK_DECODE_OBJ(aDecoder, maskingSoundIdentifier);
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [super encodeWithCoder:aCoder];
+    ORK_ENCODE_OBJ(aCoder, maskingSoundName);
+    ORK_ENCODE_OBJ(aCoder, maskingSoundIdentifier);
+}
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
 - (BOOL)shouldContinueOnFinish {
     return YES;
 }
@@ -47,8 +82,18 @@
     return NO;
 }
 
-+ (BOOL)supportsSecureCoding {
-    return YES;
+- (NSUInteger)hash {
+    return super.hash ^ self.maskingSoundName.hash ^ self.maskingSoundIdentifier.hash;
+}
+
+- (BOOL)isEqual:(id)object {
+    BOOL isParentSame = [super isEqual:object];
+    
+    __typeof(self) castObject = object;
+    return (isParentSame
+            && ORKEqualObjects(self.maskingSoundName, castObject.maskingSoundName)
+            && ORKEqualObjects(self.maskingSoundIdentifier, castObject.maskingSoundIdentifier)
+            );
 }
 
 @end

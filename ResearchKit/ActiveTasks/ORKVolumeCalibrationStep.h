@@ -29,15 +29,20 @@
  */
 
 @import Foundation;
-#import <ResearchKit/ORKDefines.h>
 #import <ResearchKit/ORKActiveStep.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-#define ORKTinnitusCalibrationDefaultFrequency 1000.0
-
 ORK_CLASS_AVAILABLE
 @interface ORKVolumeCalibrationStep : ORKActiveStep
+
+@property (nonatomic, copy, nullable) NSString *maskingSoundName;
+@property (nonatomic, copy, nullable) NSString *maskingSoundIdentifier;
+
+/**
+ Initialize the ORKVolumeCalibrationStep with a tinnitus masking sound name and masking sound identifier.
+ */
+- (instancetype)initWithIdentifier:(NSString *)identifier maskingSoundName:(NSString *)name maskingSoundIdentifier:(NSString *)soundIdentifier;
 
 @end
 
