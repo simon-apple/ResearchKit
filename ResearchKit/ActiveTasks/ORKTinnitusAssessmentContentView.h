@@ -40,7 +40,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)buttonCheckedWithValue:(NSString *)value;
 
 @optional
-- (void)volumeSliderChanged:(float)volume;
 - (void)shouldEnableContinue:(BOOL)enable;
 
 @end
@@ -54,7 +53,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initForMaskingWithButtonTitle:(NSString *)title;
 - (instancetype)initForTinnitusOverallAssesment;
 
-- (void)displayChoicesAnimated:(BOOL)animated;
 - (nullable NSString *)getAnswer;
 
 @end

@@ -1414,6 +1414,8 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     return [[ORKVolumeCalibrationStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
                 },
                 (@{
+                    PROPERTY(maskingSoundName, NSString, NSObject, YES, nil, nil),
+                    PROPERTY(maskingSoundIdentifier, NSString, NSObject, YES, nil, nil)
                    })),
            ENTRY(ORKStreamingAudioRecorderConfiguration,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
@@ -2455,7 +2457,6 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
            ENTRY(ORKTinnitusMaskingSoundResult,
                  nil,
                  (@{
-                     PROPERTY(volumeCurve, NSNumber, NSObject, YES, nil, nil),
                      PROPERTY(answer, NSString, NSObject, NO, nil, nil)
                   })),
            ENTRY(ORKTinnitusMaskingSoundStep,

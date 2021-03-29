@@ -35,11 +35,9 @@
 
 #import "ORKCheckmarkView.h"
 
-static int const ORKTinnitusMaskingSoundStepPlaybackButtonSize = 36;
-static int const ORKTinnitusMaskingSoundStepPadding = 8;
-static int const ORKTinnitusMaskingSoundStepMargin = 16;
-static int const ORKTinnitusMaskingSoundStepSliderMargin = 22;
-static int const ORKTinnitusMaskingSoundStepSliderSpacing = 30;
+static int const ORKTinnitusAssessmentPlaybackButtonSize = 36;
+static int const ORKTinnitusAssessmentPadding = 8;
+static int const ORKTinnitusAssessmentMargin = 16;
 
 @class ORKTinnitusAssessmentButtonView;
 
@@ -108,9 +106,11 @@ static int const ORKTinnitusMaskingSoundStepSliderSpacing = 30;
     
     if (_includeSeparator) {
         _separatorView = [[UIView alloc] initWithFrame:CGRectZero];
-        _separatorView.backgroundColor = [[UIColor systemGrayColor] colorWithAlphaComponent:0.5];
+
         if (@available(iOS 13.0, *)) {
-            _separatorView.backgroundColor = [UIColor systemGray5Color];
+            _separatorView.backgroundColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traits) {
+                return traits.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor systemGray3Color] : [UIColor systemGray5Color];
+            }];
         }
         _separatorView.translatesAutoresizingMaskIntoConstraints = NO;
         [self addSubview:_separatorView];
@@ -168,9 +168,6 @@ static int const ORKTinnitusMaskingSoundStepSliderSpacing = 30;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UIImageView *barLevelsView;
 @property (nonatomic, strong) UIView *separatorView;
-@property (nonatomic, strong) UISlider *volumeSlider;
-@property (nonatomic, strong) UIImageView *sliderFull;
-@property (nonatomic, strong) UIImageView *sliderEmpty;
 @property (nonatomic, strong) UIView *choicesView;
 @property (nonatomic, strong) NSDictionary *buttonTitles;
 
@@ -200,8 +197,6 @@ static int const ORKTinnitusMaskingSoundStepSliderSpacing = 30;
 
 - (void)commonInit
 {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(volumeDidChange:) name:@"AVSystemController_SystemVolumeDidChangeNotification" object:nil];
-
     [self setupScrollView];
 
     self.roundedView = [[UIView alloc] init];
@@ -214,7 +209,7 @@ static int const ORKTinnitusMaskingSoundStepSliderSpacing = 30;
         [_playButtonView setImage:playImage forState:UIControlStateNormal];
 
         _playButtonView.tintColor = [UIColor systemBlueColor];
-        _playButtonView.layer.cornerRadius = ORKTinnitusMaskingSoundStepPlaybackButtonSize/2;
+        _playButtonView.layer.cornerRadius = ORKTinnitusAssessmentPlaybackButtonSize/2;
         
         _playButtonView.backgroundColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traits) {
             return traits.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor systemGray3Color] : [UIColor systemGray5Color];
@@ -257,88 +252,55 @@ static int const ORKTinnitusMaskingSoundStepSliderSpacing = 30;
     _separatorView = [[UIView alloc] initWithFrame:CGRectZero];
     _separatorView.backgroundColor = [[UIColor systemGrayColor] colorWithAlphaComponent:0.5];
     if (@available(iOS 13.0, *)) {
-        _separatorView.backgroundColor = [UIColor systemGray5Color];
+        _separatorView.backgroundColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traits) {
+            return traits.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor systemGray3Color] : [UIColor systemGray5Color];
+        }];
     }
     [_roundedView addSubview:_separatorView];
 
     self.choicesView = [[UIView alloc] init];
     [_roundedView addSubview:_choicesView];
-    
-    UIImage *sliderFullImage;
-    UIImage *sliderEmptyImage;
-    UIColor *tintColor = [UIColor grayColor];
-    if (@available(iOS 13.0, *)) {
-        sliderFullImage = [UIImage systemImageNamed:@"speaker.wave.3.fill"];
-        sliderEmptyImage = [UIImage systemImageNamed:@"speaker.fill"];
-        tintColor = [UIColor secondaryLabelColor];
-    }
-    
-    self.sliderFull = [[UIImageView alloc] initWithImage:sliderFullImage];
-    self.sliderEmpty = [[UIImageView alloc] initWithImage:sliderEmptyImage];
-    _sliderFull.tintColor = tintColor;
-    _sliderEmpty.tintColor = tintColor;
-    [_roundedView addSubview:_sliderEmpty];
-    [_roundedView addSubview:_sliderFull];
-    
-    self.volumeSlider = [[UISlider alloc] init];
-    [_volumeSlider addTarget:self action:@selector(volumeSliderChanged:) forControlEvents:UIControlEventValueChanged];
-    [_roundedView addSubview:_volumeSlider];
-    
-    _buttons = [[NSMutableArray alloc] init];
-    
+        
     [self setupConstraints];
+    [self setupChoices];
 }
 
 - (void)setupConstraints {
     self.translatesAutoresizingMaskIntoConstraints = NO;
 
     [_roundedView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [[_roundedView.topAnchor constraintGreaterThanOrEqualToAnchor:_scrollView.topAnchor constant:ORKTinnitusMaskingSoundStepPadding] setActive:YES];
+    [[_roundedView.topAnchor constraintGreaterThanOrEqualToAnchor:_scrollView.topAnchor constant:ORKTinnitusAssessmentPadding] setActive:YES];
     [[_roundedView.widthAnchor constraintEqualToAnchor:_scrollView.widthAnchor] setActive:YES];
     [[_roundedView.centerXAnchor constraintEqualToAnchor:_scrollView.centerXAnchor] setActive:YES];
+    [_roundedView.bottomAnchor constraintEqualToAnchor:_scrollView.bottomAnchor].active = YES;
 
     [_playButtonView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [[_playButtonView.topAnchor constraintEqualToAnchor:_roundedView.topAnchor constant:ORKTinnitusMaskingSoundStepMargin] setActive:YES];
-    [[_playButtonView.heightAnchor constraintEqualToConstant:ORKTinnitusMaskingSoundStepPlaybackButtonSize] setActive:YES];
-    [[_playButtonView.widthAnchor constraintEqualToConstant:ORKTinnitusMaskingSoundStepPlaybackButtonSize] setActive:YES];
-    [[_playButtonView.leadingAnchor constraintEqualToAnchor:_roundedView.leadingAnchor constant:ORKTinnitusMaskingSoundStepMargin] setActive:YES];
+    [[_playButtonView.topAnchor constraintEqualToAnchor:_roundedView.topAnchor constant:ORKTinnitusAssessmentMargin] setActive:YES];
+    [[_playButtonView.heightAnchor constraintEqualToConstant:ORKTinnitusAssessmentPlaybackButtonSize] setActive:YES];
+    [[_playButtonView.widthAnchor constraintEqualToConstant:ORKTinnitusAssessmentPlaybackButtonSize] setActive:YES];
+    [[_playButtonView.leadingAnchor constraintEqualToAnchor:_roundedView.leadingAnchor constant:ORKTinnitusAssessmentMargin] setActive:YES];
     
     [_titleLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
     [[_titleLabel.centerYAnchor constraintEqualToAnchor:_playButtonView.centerYAnchor] setActive:YES];
-    [[_titleLabel.leadingAnchor constraintEqualToAnchor:_playButtonView.trailingAnchor constant:ORKTinnitusMaskingSoundStepMargin] setActive:YES];
+    [[_titleLabel.leadingAnchor constraintEqualToAnchor:_playButtonView.trailingAnchor constant:ORKTinnitusAssessmentMargin] setActive:YES];
 
     [_barLevelsView setTranslatesAutoresizingMaskIntoConstraints:NO];
     [_barLevelsView.leadingAnchor constraintEqualToAnchor:_titleLabel.trailingAnchor constant:2.0].active = YES;
-    [_barLevelsView.centerYAnchor constraintEqualToAnchor:_titleLabel.centerYAnchor constant:3.0].active = YES;
+    [_barLevelsView.centerYAnchor constraintEqualToAnchor:_titleLabel.centerYAnchor constant:2.0].active = YES;
     [_barLevelsView.widthAnchor constraintEqualToConstant:30.0].active = YES;
     [_barLevelsView.heightAnchor constraintEqualToConstant:21.0].active = YES;
     
     _separatorView.translatesAutoresizingMaskIntoConstraints = NO;
-    [_separatorView.leadingAnchor constraintEqualToAnchor:_roundedView.leadingAnchor constant:ORKTinnitusMaskingSoundStepMargin].active = YES;
+    [_separatorView.leadingAnchor constraintEqualToAnchor:_roundedView.leadingAnchor constant:ORKTinnitusAssessmentMargin].active = YES;
     [_separatorView.trailingAnchor constraintEqualToAnchor:_roundedView.trailingAnchor].active = YES;
     [_separatorView.heightAnchor constraintEqualToConstant:1.0].active = YES;
-    [_separatorView.topAnchor constraintEqualToAnchor:_playButtonView.bottomAnchor constant:ORKTinnitusMaskingSoundStepMargin].active = YES;
+    [_separatorView.topAnchor constraintEqualToAnchor:_playButtonView.bottomAnchor constant:ORKTinnitusAssessmentMargin].active = YES;
     
     [_choicesView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [_choicesView.leadingAnchor constraintEqualToAnchor:_roundedView.leadingAnchor constant:ORKTinnitusMaskingSoundStepMargin].active = YES;
+    [_choicesView.leadingAnchor constraintEqualToAnchor:_roundedView.leadingAnchor constant:ORKTinnitusAssessmentMargin].active = YES;
     [_choicesView.trailingAnchor constraintEqualToAnchor:_roundedView.trailingAnchor].active = YES;
-    [_choicesView.topAnchor constraintEqualToAnchor:_separatorView.bottomAnchor constant:ORKTinnitusMaskingSoundStepMargin].active = YES;
+    [_choicesView.topAnchor constraintEqualToAnchor:_separatorView.bottomAnchor constant:ORKTinnitusAssessmentMargin].active = YES;
     [_choicesView.bottomAnchor constraintEqualToAnchor:_roundedView.bottomAnchor].active = YES;
-
-    [_volumeSlider setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [[_volumeSlider.topAnchor constraintEqualToAnchor:_separatorView.topAnchor constant:ORKTinnitusMaskingSoundStepSliderSpacing] setActive:YES];
-    [[_volumeSlider.heightAnchor constraintEqualToConstant:ORKTinnitusMaskingSoundStepPlaybackButtonSize] setActive:YES];
-    [[_volumeSlider.widthAnchor constraintEqualToAnchor:_roundedView.widthAnchor multiplier:0.62] setActive:YES];
-    [[_volumeSlider.centerXAnchor constraintEqualToAnchor:_roundedView.centerXAnchor] setActive:YES];
-    [[_volumeSlider.bottomAnchor constraintEqualToAnchor:_roundedView.bottomAnchor constant:-ORKTinnitusMaskingSoundStepSliderSpacing] setActive:YES];
-
-    [_sliderEmpty setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [[_sliderEmpty.centerYAnchor constraintEqualToAnchor:_volumeSlider.centerYAnchor constant:1] setActive:YES];
-    [[_sliderEmpty.leadingAnchor constraintEqualToAnchor:_roundedView.leadingAnchor constant:ORKTinnitusMaskingSoundStepSliderMargin] setActive:YES];
-    
-    [_sliderFull setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [[_sliderFull.centerYAnchor constraintEqualToAnchor:_volumeSlider.centerYAnchor constant:1] setActive:YES];
-    [[_sliderFull.trailingAnchor constraintEqualToAnchor:_roundedView.trailingAnchor constant:-ORKTinnitusMaskingSoundStepSliderMargin] setActive:YES];
 }
 
 - (NSString *)titleForValue:(NSString *)value {
@@ -367,7 +329,6 @@ static int const ORKTinnitusMaskingSoundStepSliderSpacing = 30;
     [button.leadingAnchor constraintEqualToAnchor:_roundedView.leadingAnchor].active = YES;
     [button.trailingAnchor constraintEqualToAnchor:_roundedView.trailingAnchor].active = YES;
     [button.topAnchor constraintEqualToAnchor:topView.bottomAnchor].active = YES;
-    [button setAlpha:0.0];
     
     return button;
 }
@@ -386,24 +347,9 @@ static int const ORKTinnitusMaskingSoundStepSliderSpacing = 30;
     _scrollView.scrollEnabled = YES;
 }
 
-- (nullable NSString *)getAnswer {
-    NSArray <ORKTinnitusAssessmentButtonView *>*checkedButton = [_buttons filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-        ORKTinnitusAssessmentButtonView *buttonView = (ORKTinnitusAssessmentButtonView *)evaluatedObject;
-        return buttonView.checked;
-    }]];
-    if (checkedButton.count == 1) {
-        return checkedButton[0].value;
-    }
-    return nil;
-}
+- (void)setupChoices {
+    _buttons = [[NSMutableArray alloc] init];
 
-- (void)displayChoicesAnimated:(BOOL)animated {
-    [self layoutIfNeeded];
-
-    [_volumeSlider removeFromSuperview];
-    [_sliderEmpty removeFromSuperview];
-    [_sliderFull removeFromSuperview];
-    
     NSString *value = _isTinnitusAssessment ? ORKTinnitusAssessmentAnswerVerySimilar : ORKTinnitusMaskingAnswerVeryEffective;
     ORKTinnitusAssessmentButtonView *btn = [self addButtonForValue:value topView:_separatorView isLastButton:NO];
     
@@ -417,26 +363,26 @@ static int const ORKTinnitusMaskingSoundStepSliderSpacing = 30;
     btn = [self addButtonForValue:value topView:btn isLastButton:YES];
     
     [btn.bottomAnchor constraintEqualToAnchor:_choicesView.bottomAnchor].active = YES;
-    
-    [UIView animateWithDuration:animated ? 0.1 : 0 animations:^{
-        [self layoutIfNeeded];
-    } completion:^(BOOL finished) {
-        [UIView animateWithDuration:animated ? 0.2 : 0 animations:^{
-            [self showChoicesButtons];
-        } completion:^(BOOL _) {
-            [_scrollView setContentSize:CGSizeMake(CGRectGetWidth(_scrollView.frame), CGRectGetMaxY(_roundedView.frame))];
-        }];
-    }];
 }
 
-- (void)showChoicesButtons {
-    for (UIView *button in _buttons) {
-        [button setAlpha:1];
+
+- (nullable NSString *)getAnswer {
+    NSArray <ORKTinnitusAssessmentButtonView *>*checkedButton = [_buttons filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+        ORKTinnitusAssessmentButtonView *buttonView = (ORKTinnitusAssessmentButtonView *)evaluatedObject;
+        return buttonView.checked;
+    }]];
+    if (checkedButton.count == 1) {
+        return checkedButton[0].value;
     }
+    return nil;
 }
 
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+- (void)setDelegate:(id<ORKTinnitusAssessmentContentViewDelegate>)delegate {
+    _delegate = delegate;
+    
+    if (_delegate) {
+        [self playButtonTapped:_playButtonView];
+    }
 }
 
 #pragma mark - Actions
@@ -456,15 +402,6 @@ static int const ORKTinnitusMaskingSoundStepSliderSpacing = 30;
     }
 }
 
-- (void)volumeSliderChanged:(UISlider *)sender {
-    float volume = sender.value;
-    [self.volumeSlider setValue:volume];
-
-    if ([self.delegate respondsToSelector:@selector(volumeSliderChanged:)]) {
-        [self.delegate volumeSliderChanged:volume];
-    }
-}
-
 #pragma mark - ORKTinnitusMaskingSoundButtonViewDelegate
 
 - (void)pressed:(ORKTinnitusAssessmentButtonView *)matchingButtonView {
@@ -480,24 +417,4 @@ static int const ORKTinnitusMaskingSoundStepSliderSpacing = 30;
     }
 }
 
-#pragma mark - Volume notifications
-
-- (void)volumeDidChange:(NSNotification *)note {
-    NSDictionary *userInfo = note.userInfo;
-    NSNumber *volume = userInfo[@"AVSystemController_AudioVolumeNotificationParameter"];
-
-    if (!_volumeSlider.isTracking) {
-        [_volumeSlider setValue:volume.doubleValue];
-    }
-
-    if (volume.doubleValue > 0 && _barLevelsView.isHidden) {
-        [self playButtonTapped:_playButtonView];
-    }
-    
-    if ([self.delegate respondsToSelector:@selector(shouldEnableContinue:)]) {
-        [self.delegate shouldEnableContinue:(volume.doubleValue > 0)];
-    }
-}
-
 @end
-

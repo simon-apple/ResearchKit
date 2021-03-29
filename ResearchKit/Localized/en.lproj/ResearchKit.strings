@@ -717,6 +717,7 @@
 "TINNITUS_MASKING_ANSWER_VERY_EFFECTIVE" = "Very effective";
 "TINNITUS_MASKING_ANSWER_SOMEWHAT_EFFECTIVE" = "Somewhat effective";
 "TINNITUS_MASKING_ANSWER_NOT_EFFECTIVE" = "Not effective";
+"TINNITUS_MASKING_VOLUME_CALIBRATION_TEXT" = "Listen to the sample and move the slider to find the minimum volume required to mask the tinnitus you are experiencing.";
 
 /* ORKRecordButton */
 "PLAY" = "Play";
