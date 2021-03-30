@@ -273,8 +273,9 @@ static const NSTimeInterval PLAY_DURATION_VOICEOVER = 5.0;
     
     if (self.allPlayedAtLeastOnce) {
         self.activeStepView.navigationFooterView.skipEnabled = YES;
-        self.activeStepView.navigationFooterView.continueEnabled = (_timer == nil && self.atLeastOneButtonIsSelected);
     }
+    
+    self.activeStepView.navigationFooterView.continueEnabled = (_timer == nil && self.atLeastOneButtonIsSelected);
 }
 
 - (ORKStepResult *)result {

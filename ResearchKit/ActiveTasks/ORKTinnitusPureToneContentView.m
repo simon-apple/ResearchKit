@@ -340,13 +340,21 @@ static const CGFloat ORKTinnitusButtonTopAdjustment = 8.0;
     return playingButtonsArray.count > 0;
 }
 
-- (BOOL)allCurrentVisibleButtonsPlayed
-{
-    if (_cButtonView.isHidden) {
-        return (_secondAButtonView.playedOnce && _secondBButtonView.playedOnce) || (_thirdAButtonView.playedOnce && _thirdBButtonView.playedOnce);
-    } else {
-        return _firstAButtonView.playedOnce && _firstBButtonView.playedOnce && _cButtonView.playedOnce;
+- (BOOL)atLeastOneButtonIsSelected {
+    switch (_buttonsStage) {
+        case PureToneButtonsStageOne:
+            return _firstAButtonView.isSelected || _firstBButtonView.isSelected || _cButtonView.isSelected;
+            break;
+        case PureToneButtonsStageTwo:
+            return _secondAButtonView.isSelected || _secondBButtonView.isSelected;
+            break;
+        case PureToneButtonsStageThree:
+            return _thirdAButtonView.isSelected || _thirdBButtonView.isSelected;
+            break;
+        default:
+            break;
     }
+    return NO;
 }
 
 - (BOOL)isPlayingLastButton {

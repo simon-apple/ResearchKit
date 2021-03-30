@@ -70,7 +70,7 @@ typedef NS_ENUM(NSUInteger, PureToneButtonsStage) {
 - (void)animateButtons;
 - (void)enableButtons:(BOOL)enable;
 - (void)resetButtons;
-- (BOOL)allCurrentVisibleButtonsPlayed;
+- (BOOL)atLeastOneButtonIsSelected;
 - (BOOL)thirdButtonIsHidden;
 - (void)toggleCurrentSelectPlayButton;
 - (BOOL)hasPlayingButton;
@@ -81,5 +81,3 @@ typedef NS_ENUM(NSUInteger, PureToneButtonsStage) {
 @end
 
 NS_ASSUME_NONNULL_END
-
-

@@ -593,7 +593,7 @@ static const NSTimeInterval PLAY_DURATION_VOICEOVER = 4.0;
 
 - (BOOL)canEnableFineTune {
     return ([_tinnitusContentView currentSelectedPosition] != ORKTinnitusSelectedPureTonePositionNone)
-    && [_tinnitusContentView allCurrentVisibleButtonsPlayed]
+    && [_tinnitusContentView atLeastOneButtonIsSelected]
     && _timer == nil;
 }
 
