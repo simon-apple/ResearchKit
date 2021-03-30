@@ -31,6 +31,7 @@
 #import "ORKTinnitusButtonView.h"
 #import "ORKHelpers_Internal.h"
 #import "ResearchKit_Private.h"
+#import "UIColor+Custom.h"
 #import <QuartzCore/QuartzCore.h>
 
 static const CGFloat ORKTinnitusButtonViewHeight = 82.0;
@@ -188,14 +189,8 @@ static const CGFloat ORKTinnitusButtonViewPadding = 16.0;
     _tapOffGestureRecognizer.delegate = self;
     [self addGestureRecognizer:_tapOffGestureRecognizer];
     
-    if (@available(iOS 13.0, *)) {
-        self.backgroundColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traits) {
-            return traits.userInterfaceStyle == UIUserInterfaceStyleDark ? UIColor.systemGray5Color : UIColor.systemGray6Color;
-        }];
-        _playView.backgroundColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traits) {
-            return traits.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor systemGray3Color] : [UIColor systemGray5Color];
-        }];
-    }
+    self.backgroundColor = UIColor.tinnitusButtonBackgroundColor;
+    _playView.backgroundColor = UIColor.tinnitusPlayBackgroundColor;
     
     _hapticFeedback = [[UIImpactFeedbackGenerator alloc] initWithStyle: UIImpactFeedbackStyleMedium];
     

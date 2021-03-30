@@ -432,7 +432,7 @@ static const CGFloat ORKTinnitusButtonTopAdjustment = 8.0;
     _secondALeadingConstraint = [_secondAButtonView.leadingAnchor constraintEqualToAnchor:_scrollView.leadingAnchor constant:ORKTinnitusGlowAdjustment];
     _secondALeadingConstraint.active = YES;
     [_secondAButtonView.widthAnchor constraintEqualToAnchor:_scrollView.widthAnchor constant:-2*ORKTinnitusGlowAdjustment].active = YES;
-    [_secondAButtonView.topAnchor constraintEqualToAnchor:_scrollView.topAnchor].active = YES;
+    [_secondAButtonView.topAnchor constraintEqualToAnchor:_scrollView.topAnchor constant:ORKTinnitusGlowAdjustment/2].active = YES;
     
     _secondBLeadingConstraint = [_secondBButtonView.leadingAnchor constraintEqualToAnchor:_scrollView.leadingAnchor constant:ORKTinnitusGlowAdjustment];
     _secondBLeadingConstraint.active = YES;
@@ -442,7 +442,7 @@ static const CGFloat ORKTinnitusButtonTopAdjustment = 8.0;
     _thirdALeadingConstraint = [_thirdAButtonView.leadingAnchor constraintEqualToAnchor:_scrollView.leadingAnchor constant:ORKTinnitusGlowAdjustment];
     _thirdALeadingConstraint.active = YES;
     [_thirdAButtonView.widthAnchor constraintEqualToAnchor:_scrollView.widthAnchor constant:-2*ORKTinnitusGlowAdjustment].active = YES;
-    [_thirdAButtonView.topAnchor constraintEqualToAnchor:_scrollView.topAnchor].active = YES;
+    [_thirdAButtonView.topAnchor constraintEqualToAnchor:_scrollView.topAnchor constant:ORKTinnitusGlowAdjustment/2].active = YES;
     
     _thirdBLeadingConstraint = [_thirdBButtonView.leadingAnchor constraintEqualToAnchor:_scrollView.leadingAnchor constant:ORKTinnitusGlowAdjustment];
     _thirdBLeadingConstraint.active = YES;

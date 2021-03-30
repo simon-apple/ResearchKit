@@ -31,6 +31,7 @@
 #import "ORKVolumeCalibrationContentView.h"
 #import "ORKHelpers_Internal.h"
 #import "ORKSkin.h"
+#import "UIColor+Custom.h"
 
 static int const ORKVolumeCalibrationStepPadding = 8;
 static int const ORKVolumeCalibrationStepMargin = 16;
@@ -85,11 +86,11 @@ static int const ORKVolumeCalibrationStepPlaybackButtonSize = 36;
         sliderEmptyImage = [UIImage systemImageNamed:@"speaker.fill"];
         playImage = [UIImage systemImageNamed:@"play.fill"];
 
-        roundedView.backgroundColor = [UIColor tertiarySystemBackgroundColor];
-        separatorView.backgroundColor = [UIColor systemGray5Color];
-
+        separatorView.backgroundColor = UIColor.tinnitusBackgroundColor;
         _playbackButton.tintColor = [UIColor systemBlueColor];
-        _playbackButton.backgroundColor = [UIColor systemGray6Color];
+        _playbackButton.backgroundColor = UIColor.tinnitusPlayBackgroundColor;
+        roundedView.backgroundColor = UIColor.tinnitusButtonBackgroundColor;
+        
         _playbackButton.layer.cornerRadius = ORKVolumeCalibrationStepPlaybackButtonSize/2;
     } else {
         playImage = [UIImage imageNamed:@"play" inBundle:ORKBundle() compatibleWithTraitCollection:nil];

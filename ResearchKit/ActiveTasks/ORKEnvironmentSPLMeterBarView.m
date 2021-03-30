@@ -29,6 +29,7 @@
  */
 
 #import "ORKEnvironmentSPLMeterBarView.h"
+#import "UIColor+Custom.h"
 #import <QuartzCore/QuartzCore.h>
 
 static const CGFloat ORKEnvironmentSPLMeterSquareSize = 8.0;
@@ -230,7 +231,7 @@ static const int ORKEnvironmentSPLMeterNumberOfRows = 4;
         UIColor *greenColor;
         UIColor *orangeColor;
         if (@available(iOS 13.0, *)) {
-            grayColor = [UIColor systemGray6Color];
+            grayColor = UIColor.splGrayColor;
             greenColor = [UIColor systemGreenColor];
             orangeColor = [UIColor systemOrangeColor];
         } else {
