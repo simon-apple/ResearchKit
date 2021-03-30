@@ -31,7 +31,7 @@
 
 #import "ORKEnvironmentSPLMeterContentView.h"
 #import "ORKEnvironmentSPLMeterBarView.h"
-
+#import "UIColor+Custom.h"
 #import "ORKRoundTappingButton.h"
 #import "ORKUnitLabel.h"
 #import "ORKHelpers_Internal.h"
@@ -148,9 +148,7 @@ static const CGFloat HalfCircleSize = 14.0;
 
 - (void)setProgressCircle:(CGFloat)progress {
     if (progress >= ORKRingViewMaximumValue) {
-        if (@available(iOS 13.0, *)) {
-            [_ringView setBackgroundLayerStrokeColor:UIColor.systemOrangeColor circleStrokeColor:UIColor.systemGray6Color withAnimationDuration:0.8];
-        }
+        [_ringView setBackgroundLayerStrokeColor:UIColor.systemOrangeColor circleStrokeColor:UIColor.splGrayColor withAnimationDuration:0.8];
     } else {
         [_ringView resetLayerColors];
     }

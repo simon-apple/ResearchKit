@@ -32,7 +32,7 @@
 #import "ORKHelpers_Internal.h"
 #import "ORKTinnitusTypes.h"
 #import "ORKSkin.h"
-
+#import "UIColor+Custom.h"
 #import "ORKCheckmarkView.h"
 
 static int const ORKTinnitusAssessmentPlaybackButtonSize = 36;
@@ -227,12 +227,8 @@ static int const ORKTinnitusAssessmentMargin = 16;
         _playButtonView.tintColor = [UIColor systemBlueColor];
         _playButtonView.layer.cornerRadius = ORKTinnitusAssessmentPlaybackButtonSize/2;
         
-        _playButtonView.backgroundColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traits) {
-            return traits.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor systemGray3Color] : [UIColor systemGray5Color];
-        }];
-        _roundedView.backgroundColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traits) {
-            return traits.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor systemGray5Color] : [UIColor systemGray6Color];
-        }];
+        _playButtonView.backgroundColor = UIColor.tinnitusPlayBackgroundColor;
+        _roundedView.backgroundColor = UIColor.tinnitusButtonBackgroundColor;
     }
 
     [_playButtonView addTarget:self action:@selector(playButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
@@ -266,12 +262,7 @@ static int const ORKTinnitusAssessmentMargin = 16;
     [_roundedView addSubview:_barLevelsView];
 
     _separatorView = [[UIView alloc] initWithFrame:CGRectZero];
-    _separatorView.backgroundColor = [[UIColor systemGrayColor] colorWithAlphaComponent:0.5];
-    if (@available(iOS 13.0, *)) {
-        _separatorView.backgroundColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traits) {
-            return traits.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor systemGray3Color] : [UIColor systemGray5Color];
-        }];
-    }
+    _separatorView.backgroundColor = UIColor.tinnitusBackgroundColor;
     [_roundedView addSubview:_separatorView];
 
     self.choicesView = [[UIView alloc] init];

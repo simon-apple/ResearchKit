@@ -173,6 +173,15 @@ static const NSTimeInterval PLAY_DURATION_VOICEOVER = 5.0;
     _timer = nil;
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    if (@available(iOS 13.0, *)) {
+        self.view.backgroundColor = UIColor.systemGroupedBackgroundColor;
+        self.taskViewController.navigationBar.barTintColor = UIColor.systemGroupedBackgroundColor;
+        [self.taskViewController.navigationBar setTranslucent:NO];
+    }
+}
+
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
