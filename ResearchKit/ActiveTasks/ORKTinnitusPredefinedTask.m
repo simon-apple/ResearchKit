@@ -29,7 +29,6 @@
  */
 
 #import "ORKTinnitusPredefinedTask.h"
-#import "ORKContext.h"
 #import "ORKTinnitusPureToneStep.h"
 #import "ORKVolumeCalibrationStep.h"
 #import "ORKTinnitusTypeStep.h"
@@ -38,6 +37,9 @@
 #import "ORKTinnitusTypeResult.h"
 #import "ORKTinnitusAudioSample.h"
 #import "ORKHeadphonesRequiredCompletionStep.h"
+
+#import "ORKContext.h"
+#import "ORKStepNavigationRule.h"
 #import "ResearchKit_Private.h"
 
 static NSString *const ORKTinnitusHeadphoneDetectStepIdentifier = @"tinnitus_headphonedetect";
@@ -450,29 +452,36 @@ static NSString *const ORKTinnitusMaskingSoundInstructionStepIdentifier = @"tinn
     return nextStep;
 }
 
-- (ORKStep *)stepAfterStep:(ORKStep *)step withResult:(id<ORKTaskResultSource>)result {
+- (ORKStep *)stepAfterStep:(ORKStep *)step withResult:(ORKTaskResult *)result {
     if (step == nil) {
         [self setupStraightStepAfterStepDict];
     }
-    
-    ORKStep *prependedStep = [self prependedStepAfterStep:step];
-    [prependedStep setTask:self];
-    [prependedStep setContext:_context];
-    if (prependedStep) {
-        return prependedStep;
+        
+    ORKStep *nextStep = [self prependedStepAfterStep:step];
+
+    if (!nextStep) {
+        nextStep = [self dynamicStepAfterStep:step withResult:result];
+    }
+
+    if (!nextStep) {
+        nextStep = [self apendedStepAfterStep:step];
     }
     
-    ORKStep *nextStep = [self dynamicStepAfterStep:step withResult:result];
+    if (nextStep) {
+        ORKSkipStepNavigationRule *skipNavigationRule = self.skipStepNavigationRules[nextStep.identifier];
+        if ([skipNavigationRule stepShouldSkipWithTaskResult:result]) {
+            nextStep = [self stepAfterStep:nextStep withResult:result];
+        }
+    }
+    
+    if (nextStep) {
+        ORKStepModifier *stepModifier = [self stepModifierForStepIdentifier:nextStep.identifier];
+        [stepModifier modifyStep:nextStep withTaskResult:result];
+    }
+    
     [nextStep setTask:self];
     [nextStep setContext:_context];
-    if (nextStep) {
-        return nextStep;
-    }
-    
-    ORKStep *returnStep = [self apendedStepAfterStep:step];
-    [returnStep setTask:self];
-    [returnStep setContext:_context];
-    return returnStep;
+    return nextStep;
 }
 
 - (void)setupStraightStepAfterStepDict {
