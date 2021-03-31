@@ -123,7 +123,7 @@ static const CGFloat DontKnowButtonTopBottomPadding = 16.0;
         [self addSubview:_dividerView];
         
         if (self.answer == [ORKDontKnowAnswer answer]) {
-            [_dontKnowButton setButtonActive];
+            [_dontKnowButton setActive:YES];
         }
     }
    
@@ -147,8 +147,8 @@ static const CGFloat DontKnowButtonTopBottomPadding = 16.0;
 }
 
 - (void)dontKnowButtonWasPressed {
-    if (![_dontKnowButton isDontKnowButtonActive]) {
-        [_dontKnowButton setButtonActive];
+    if (![_dontKnowButton active]) {
+        [_dontKnowButton setActive:YES];
         [_textFieldView.textField setText:nil];
         [_textFieldView endEditing:YES];
         [self textFieldShouldClear:_textFieldView.textField];
@@ -254,7 +254,7 @@ static const CGFloat DontKnowButtonTopBottomPadding = 16.0;
 
     if (answer == [ORKDontKnowAnswer answer]) {
         [self dontKnowButtonWasPressed];
-    } else if (answer != ORKNullAnswerValue() && ![_dontKnowButton isDontKnowButtonActive]) {
+    } else if (answer != ORKNullAnswerValue() && ![_dontKnowButton active]) {
         if (!answer) {
             [self assignDefaultAnswer];
         }
@@ -313,13 +313,13 @@ static const CGFloat DontKnowButtonTopBottomPadding = 16.0;
         [self setUpConstraints];
     }
     
-    if (_dontKnowButton && [_dontKnowButton isDontKnowButtonActive]) {
-        [_dontKnowButton setButtonInactive];
+    if (_dontKnowButton && [_dontKnowButton active]) {
+        [_dontKnowButton setActive:NO];
    }
 }
 
 - (BOOL)textFieldShouldClear:(UITextField *)textField {
-    if ([_dontKnowButton isDontKnowButtonActive]) {
+    if ([_dontKnowButton active]) {
         [self ork_setAnswer:[ORKDontKnowAnswer answer]];
     } else {
         [self ork_setAnswer:ORKNullAnswerValue()];
@@ -375,8 +375,8 @@ static const CGFloat DontKnowButtonTopBottomPadding = 16.0;
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
-    if (_dontKnowButton && [_dontKnowButton isDontKnowButtonActive]) {
-        [_dontKnowButton setButtonInactive];
+    if (_dontKnowButton && [_dontKnowButton active]) {
+        [_dontKnowButton setActive:NO];
     }
 }
 @end

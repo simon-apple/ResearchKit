@@ -701,7 +701,7 @@ static const CGFloat kMargin = 25.0;
     }
     
     if (_dontKnowButton) {
-        [_dontKnowButton setButtonInactive];
+        [_dontKnowButton setActive:NO];
     }
     
     _currentNumberValue = [_formatProvider normalizedValueForNumber:@(_slider.value)];
@@ -723,9 +723,9 @@ static const CGFloat kMargin = 25.0;
 
 - (void)dontKnowButtonWasPressed {
 
-    if (_dontKnowButton && ![_dontKnowButton isDontKnowButtonActive]) {
+    if (_dontKnowButton && ![_dontKnowButton active]) {
         [_slider setShowThumb:YES];
-        [_dontKnowButton setButtonActive];
+        [_dontKnowButton setActive:YES];
         _currentNumberValue = nil;
         [self notifyDelegate];
     }
@@ -777,7 +777,7 @@ static const CGFloat kMargin = 25.0;
 }
 
 - (id)currentAnswerValue {
-    if ([_dontKnowButton isDontKnowButtonActive]) {
+    if ([_dontKnowButton active]) {
         return [ORKDontKnowAnswer answer];
     }
     if ([self textScaleFormatProvider]) {
