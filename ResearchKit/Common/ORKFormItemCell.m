@@ -547,8 +547,8 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
 }
 
 - (void)dontKnowButtonWasPressed {
-    if (![_dontKnowButton isDontKnowButtonActive]) {
-        [_dontKnowButton setButtonActive];
+    if (![_dontKnowButton active]) {
+        [_dontKnowButton setActive:YES];
         [_textFieldView.textField setText:nil];
         
         if (![_textFieldView.textField isFirstResponder]) {
@@ -740,7 +740,7 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
 }
 
 - (void)inputValueDidClear {
-    if ([_dontKnowButton isDontKnowButtonActive]) {
+    if ([_dontKnowButton active]) {
         [self ork_setAnswer:[ORKDontKnowAnswer answer]];
     } else {
         [self ork_setAnswer:ORKNullAnswerValue()];
@@ -751,7 +751,7 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
 - (void)inputValueDidChange {
     [super inputValueDidChange];
     
-    if (_dontKnowButton && [_dontKnowButton isDontKnowButtonActive] && self.answer != [ORKDontKnowAnswer answer]) {
+    if (_dontKnowButton && [_dontKnowButton active] && self.answer != [ORKDontKnowAnswer answer]) {
         [self ork_setAnswer:[ORKDontKnowAnswer answer]];
         self.textField.text = @"";
     }
@@ -778,8 +778,8 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     [self.delegate formItemCellDidBecomeFirstResponder:self];
     UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, nil);
     
-    if (_dontKnowButton && [_dontKnowButton isDontKnowButtonActive]) {
-        [_dontKnowButton setButtonInactive];
+    if (_dontKnowButton && [_dontKnowButton active]) {
+        [_dontKnowButton setActive:NO];
         [self ork_setAnswer:ORKNullAnswerValue()];
         [self inputValueDidChange];
     }
@@ -970,7 +970,7 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     
     ORKTextAnswerFormat *answerFormat = (ORKTextAnswerFormat *)[self.formItem impliedAnswerFormat];
     if (answer == [ORKDontKnowAnswer answer]) {
-        [self.dontKnowButton setButtonActive];
+        [self.dontKnowButton setActive:YES];
         self.textField.text = nil;
     } else if (answer != ORKNullAnswerValue()) {
         if (!answer) {
@@ -1080,7 +1080,7 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
 - (void)answerDidChange {
     id answer = self.answer;
     if (answer == [ORKDontKnowAnswer answer]) {
-        [self.dontKnowButton setButtonActive];
+        [self.dontKnowButton setActive:YES];
         self.textField.text = nil;
     } else if (answer != ORKNullAnswerValue()) {
         if (!answer) {
@@ -1375,8 +1375,8 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
 }
 
 - (void)dontKnowButtonWasPressed {
-    if (![_dontKnowButton isDontKnowButtonActive]) {
-        [_dontKnowButton setButtonActive];
+    if (![_dontKnowButton active]) {
+        [_dontKnowButton setActive:YES];
         [_textView setText:nil];
         
         if (![_textView isFirstResponder]) {
@@ -1435,7 +1435,7 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
 - (void)answerDidChange {
     id answer = self.answer;
     
-    if (answer == [ORKDontKnowAnswer answer] && ![_dontKnowButton isDontKnowButtonActive]) {
+    if (answer == [ORKDontKnowAnswer answer] && ![_dontKnowButton active]) {
         [self dontKnowButtonWasPressed];
     } else if (answer != [ORKDontKnowAnswer answer]) {
         if (answer == ORKNullAnswerValue()) {
@@ -1458,7 +1458,7 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
 }
 
 - (void)inputValueDidChange {
-    if (_dontKnowButton && [_dontKnowButton isDontKnowButtonActive]) {
+    if (_dontKnowButton && [_dontKnowButton active]) {
         [self ork_setAnswer: [ORKDontKnowAnswer answer]];
     } else {
         NSString *text = _textView.text;
@@ -1516,8 +1516,8 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     // Ask table view to adjust scrollview's position
     [self.delegate formItemCellDidBecomeFirstResponder:self];
     
-    if (_dontKnowButton && [_dontKnowButton isDontKnowButtonActive]) {
-        [_dontKnowButton setButtonInactive];
+    if (_dontKnowButton && [_dontKnowButton active]) {
+        [_dontKnowButton setActive:NO];
         [self inputValueDidChange];
     }
 }

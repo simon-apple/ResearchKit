@@ -112,8 +112,8 @@ static const CGFloat DontKnowButtonBottomPaddingOffset = 10.0;
 }
 
 - (void)dontKnowButtonWasPressed {
-    if (![_dontKnowButton isDontKnowButtonActive]) {
-        [_dontKnowButton setButtonActive];
+    if (![_dontKnowButton active]) {
+        [_dontKnowButton setActive:YES];
         [self ork_setAnswer:[ORKDontKnowAnswer answer]];
         if (_picker) {
             [_picker setAnswer:nil];
@@ -154,8 +154,8 @@ static const CGFloat DontKnowButtonBottomPaddingOffset = 10.0;
 - (void)valueChangedDueUserAction:(BOOL)userAction {
     if (userAction) {
         _valueChangedDueUserAction = userAction;
-        if (_dontKnowButton && [_dontKnowButton isDontKnowButtonActive]) {
-            [_dontKnowButton setButtonInactive];
+        if (_dontKnowButton && [_dontKnowButton active]) {
+            [_dontKnowButton setActive:NO];
         }
     }
     
