@@ -54,6 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initForTinnitusOverallAssesment;
 
 - (nullable NSString *)getAnswer;
+- (void)setPlaybackButtonPlaying:(BOOL)isPlaying;
 
 @end
 

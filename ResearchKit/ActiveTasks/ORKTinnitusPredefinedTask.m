@@ -41,6 +41,8 @@
 #import "ORKContext.h"
 #import "ORKStepNavigationRule.h"
 #import "ResearchKit_Private.h"
+#import "ORKHeadphoneDetector.h"
+#import "ORKTypes.h"
 
 static NSString *const ORKTinnitusHeadphoneDetectStepIdentifier = @"tinnitus_headphonedetect";
 static NSString *const ORKTinnitusHeadphonesRequiredStepIdentifier = @"tinnitus_headphone_required";
@@ -73,11 +75,8 @@ static NSString *const ORKTinnitusMaskingSoundInstructionStepIdentifier = @"tinn
 
 @end
 
-@interface ORKTinnitusPredefinedTask () {
-    ORKTinnitusPredefinedTaskContext *_context;
-    
-    NSDictionary *_stepAfterStepDict;
-    NSArray<NSString *> *_maskingIdentifiers;
+@interface ORKTinnitusPredefinedTaskContext ()  <ORKHeadphoneDetectorDelegate> {
+    ORKHeadphoneDetector *_headphoneDetector;
 }
 
 @end
@@ -100,6 +99,77 @@ static NSString *const ORKTinnitusMaskingSoundInstructionStepIdentifier = @"tinn
     }
     
     return nil;
+}
+
+#pragma mark - Headphone Detector
+
+- (void)startMonitoringHeadphoneChanges {
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_global_queue(QOS_CLASS_DEFAULT, 0), ^{
+        _headphoneDetector = [[ORKHeadphoneDetector alloc] initWithDelegate:self
+                                             supportedHeadphoneChipsetTypes:[ORKHeadphoneDetectStep dBHLTypes]];
+    });
+}
+
+- (void)headphoneTypeDetected:(nonnull ORKHeadphoneTypeIdentifier)headphoneType vendorID:(nonnull NSString *)vendorID productID:(nonnull NSString *)productID deviceSubType:(NSInteger)deviceSubType isSupported:(BOOL)isSupported {
+    if (![_headphoneType isEqualToString:headphoneType]) {
+        [[NSNotificationCenter defaultCenter]
+         postNotificationName:ORKHeadphoneNotificationSuspendActivity
+         object:self
+         userInfo:@{ORKHeadphoneNotificationTitleKey:ORKLocalizedString(@"HEADPHONES_DISCONNECTED_TITLE", nil),ORKHeadphoneNotificationMessageKey:ORKLocalizedString(@"HEADPHONES_DISCONNECTED_TEXT", nil)}];
+    }
+}
+
+- (void)bluetoothModeChanged:(ORKBluetoothMode)bluetoothMode {
+    if ([[_headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsPro] ||
+        [[_headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMax]) {
+        if (_bluetoothMode == ORKBluetoothModeNone) {
+            // save bluetooth mode for the first time
+            _bluetoothMode = bluetoothMode;
+        } else {
+            if (bluetoothMode != ORKBluetoothModeNoiseCancellation && _bluetoothMode == ORKBluetoothModeNoiseCancellation) {
+                [[NSNotificationCenter defaultCenter]
+                 postNotificationName:ORKHeadphoneNotificationSuspendActivity
+                 object:self
+                 userInfo:@{ORKHeadphoneNotificationTitleKey:ORKLocalizedString(@"dBHL_ALERT_TITLE3_TEST_INTERRUPTED", nil),ORKHeadphoneNotificationMessageKey:ORKLocalizedString(@"dBHL_NOISE_CANCELLING_ALERT_TEXT", nil)}];
+            }
+        }
+    }
+}
+
+- (void)podLowBatteryLevelDetected {
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:ORKHeadphoneNotificationSuspendActivity
+     object:self
+     userInfo:@{ORKHeadphoneNotificationTitleKey:ORKLocalizedString(@"HEADPHONES_LOW_BATTERY_TITLE", nil),ORKHeadphoneNotificationMessageKey:ORKLocalizedString(@"HEADPHONES_LOW_BATTERY_TEXT", nil)}];
+}
+
+- (void)oneAirPodRemoved {
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:ORKHeadphoneNotificationSuspendActivity
+     object:self
+     userInfo:@{ORKHeadphoneNotificationTitleKey:ORKLocalizedString(@"HEADPHONES_BOTH_TITLE", nil),ORKHeadphoneNotificationMessageKey:ORKLocalizedString(@"HEADPHONES_BOTH_TEXT", nil)}];
+}
+
+- (void)resetVariables {
+    _headphoneType = nil;
+    _bluetoothMode = ORKBluetoothModeNone;
+    _type = ORKTinnitusTypeUnknown;
+    _tinnitusIdentifier = nil;
+    [_headphoneDetector discard];
+    _headphoneDetector = nil;
+}
+
+- (void)dealloc {
+    [self resetVariables];
+}
+
+@end
+
+@interface ORKTinnitusPredefinedTask () {
+    ORKTinnitusPredefinedTaskContext *_context;
+    
+    NSDictionary *_stepAfterStepDict;
+    NSArray<NSString *> *_maskingIdentifiers;
 }
 
 @end
@@ -362,6 +432,7 @@ static NSString *const ORKTinnitusMaskingSoundInstructionStepIdentifier = @"tinn
 #if TARGET_IPHONE_SIMULATOR
     ORKStep *firstPredefinedStep = [self stepWithIdentifier:ORKTinnitusSPLMeterStepIdentifier];
     _context.headphoneType = ORKHeadphoneTypeIdentifierAirPodsMax;
+    _context.bluetoothMode = ORKBluetoothModeNoiseCancellation;
 #else
     ORKStep *firstPredefinedStep = [self stepWithIdentifier:ORKTinnitusHeadphoneDetectStepIdentifier];
 #endif
@@ -420,6 +491,9 @@ static NSString *const ORKTinnitusMaskingSoundInstructionStepIdentifier = @"tinn
                 _context.headphoneType = headphoneType;
             }
             return [self stepWithIdentifier:ORKTinnitusSPLMeterStepIdentifier];
+        } else if ([identifier isEqualToString:ORKTinnitusVolumeCalibrationStepIdentifier]) {
+            [_context startMonitoringHeadphoneChanges];
+            return [self stepWithIdentifier:ORKTinnitusTypeStepIdentifier];
         } else if ([identifier isEqualToString:ORKTinnitusTypeStepIdentifier]) {
             ORKStepResult *stepResult = [result stepResultForStepIdentifier:ORKTinnitusTypeStepIdentifier];
             ORKTinnitusTypeResult *typeResult = (ORKTinnitusTypeResult *)(stepResult.results.count > 0 ? stepResult.results.firstObject : nil);
@@ -494,7 +568,6 @@ static NSString *const ORKTinnitusMaskingSoundInstructionStepIdentifier = @"tinn
     
     _stepAfterStepDict = @{
         ORKTinnitusSPLMeterStepIdentifier: [self stepWithIdentifier:ORKTinnitusVolumeCalibrationStepIdentifier],
-        ORKTinnitusVolumeCalibrationStepIdentifier: [self stepWithIdentifier:ORKTinnitusTypeStepIdentifier],
         ORKTinnitusPitchMatchingInstructionStepIdentifier: [self stepWithIdentifier:round1Identifier],
         round1Identifier: [self stepWithIdentifier:round1SuccessIdentifier],
         round1SuccessIdentifier: [self stepWithIdentifier:round2Identifier],

@@ -189,6 +189,18 @@ static const NSTimeInterval PLAY_DURATION_VOICEOVER = 5.0;
     [self tearDownAudioEngine];
 }
 
+- (void)headphoneChanged:(NSNotification *)note {
+    if (self.step.context && [self.step.context isKindOfClass:[ORKTinnitusPredefinedTaskContext class]]) {
+        [super headphoneChanged:note];
+        [self stopAutomaticPlay];
+        [self tearDownAudioEngine];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_tinnitusTypeContentView.buttonsViewArray makeObjectsPerformSelector:@selector(restoreButton)];
+        });
+    }
+}
+
 - (void)tearDownAudioEngine {
     [self.playerNode stop];
     [self.audioEngine stop];

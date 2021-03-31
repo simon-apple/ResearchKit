@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020, Apple Inc. All rights reserved.
+ Copyright (c) 2021, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,12 +28,21 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ResearchKit/ORKHeadphoneActiveStepViewController.h>
+#import <ResearchKit/ORKActiveStepViewController.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ORKTinnitusTypeStepViewController : ORKHeadphoneActiveStepViewController
+ORK_EXTERN NSString *const ORKHeadphoneNotificationSuspendActivity;
+ORK_EXTERN NSString *const ORKHeadphoneNotificationTitleKey;
+ORK_EXTERN NSString *const ORKHeadphoneNotificationMessageKey;
+
+
+// This class handles the alerts that are commomn to some classes.
+@interface ORKHeadphoneActiveStepViewController : ORKActiveStepViewController
+
+- (void)headphoneChanged:(NSNotification *)note;
 
 @end
 
 NS_ASSUME_NONNULL_END
+

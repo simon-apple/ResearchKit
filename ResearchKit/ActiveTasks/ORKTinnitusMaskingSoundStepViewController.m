@@ -128,14 +128,30 @@
     }
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
+- (void)stopAudio {
     if (_playerNode) {
         [_playerNode stop];
         [_audioEngine stop];
         _audioBuffer = nil;
         _audioEngine = nil;
         _playerNode = nil;
+    }
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self stopAudio];
+}
+
+- (void)headphoneChanged:(NSNotification *)note {
+    if (self.step.context && [self.step.context isKindOfClass:[ORKTinnitusPredefinedTaskContext class]]) {
+        [super headphoneChanged:note];
+        [self stopAudio];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.assessmentContentView setPlaybackButtonPlaying:NO];
+            self.assessmentContentView.delegate = nil;
+        });
     }
 }
 

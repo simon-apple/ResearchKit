@@ -87,11 +87,15 @@ typedef NS_ENUM(NSInteger, ORKTinnitusType);
 
 @property (nonatomic, copy, nullable) ORKHeadphoneTypeIdentifier headphoneType;
 
+@property (nonatomic, assign) ORKBluetoothMode bluetoothMode;
+
 @property (nonatomic, copy, nullable) NSString *tinnitusIdentifier;
 
 @property (nonatomic, assign) ORKTinnitusType type;
 
 @property (nonatomic, assign) double predominantFrequency;
+
+- (void)resetVariables;
 
 @end
 

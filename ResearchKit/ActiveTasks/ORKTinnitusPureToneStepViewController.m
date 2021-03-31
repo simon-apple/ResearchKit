@@ -100,6 +100,18 @@ static const NSTimeInterval PLAY_DURATION_VOICEOVER = 4.0;
     return (ORKTinnitusPureToneStep *)self.step;
 }
 
+- (void)headphoneChanged:(NSNotification *)note {
+    if (self.step.context && [self.step.context isKindOfClass:[ORKTinnitusPredefinedTaskContext class]]) {
+        [super headphoneChanged:note];
+        [self stopAutomaticPlay];
+        [self.audioGenerator stop];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_tinnitusContentView restoreButtons];
+        });
+    }
+}
+
 - (void)setContinueButtonItem:(UIBarButtonItem *)continueButtonItem {
     continueButtonItem.target = self;
     continueButtonItem.action = @selector(continueButtonTapped:);
