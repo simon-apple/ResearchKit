@@ -857,7 +857,8 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
         
         self.stepView.navigationFooterView.continueEnabled = connected;
         
-        if ([self.step.context isKindOfClass:[ORKSpeechInNoisePredefinedTaskContext class]])
+        if ([self.step.context isKindOfClass:[ORKSpeechInNoisePredefinedTaskContext class]] ||
+            [self.step.context isKindOfClass:[ORKTinnitusPredefinedTaskContext class]])
         {
             self.stepView.navigationFooterView.skipEnabled = !connected;
         }

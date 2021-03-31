@@ -28,11 +28,11 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ResearchKit/ORKActiveStepViewController.h>
+#import <ResearchKit/ORKHeadphoneActiveStepViewController.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ORKTinnitusOverallAssessmentStepViewController : ORKActiveStepViewController
+@interface ORKTinnitusOverallAssessmentStepViewController : ORKHeadphoneActiveStepViewController
 
 @end
 

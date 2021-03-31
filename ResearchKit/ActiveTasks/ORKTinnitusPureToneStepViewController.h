@@ -30,12 +30,12 @@
 
 @import Foundation;
 #import <ResearchKit/ORKDefines.h>
-#import <ResearchKit/ORKActiveStepViewController.h>
+#import <ResearchKit/ORKHeadphoneActiveStepViewController.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 ORK_CLASS_AVAILABLE
-@interface ORKTinnitusPureToneStepViewController : ORKActiveStepViewController
+@interface ORKTinnitusPureToneStepViewController : ORKHeadphoneActiveStepViewController
 
 @end
 

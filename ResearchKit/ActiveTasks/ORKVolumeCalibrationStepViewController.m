@@ -37,7 +37,6 @@
 #import "ORKTinnitusAudioSample.h"
 #import "ORKTinnitusHeadphoneTable.h"
 #import "ORKActiveStepView.h"
-
 #import "ORKStepContainerView_Private.h"
 #import "ORKActiveStepViewController_Internal.h"
 #import "ORKNavigationContainerView_Internal.h"
@@ -227,6 +226,15 @@
         self.view.backgroundColor = UIColor.systemGroupedBackgroundColor;
         self.taskViewController.navigationBar.barTintColor = UIColor.systemGroupedBackgroundColor;
         [self.taskViewController.navigationBar setTranslucent:NO];
+    }
+}
+
+- (void)headphoneChanged:(NSNotification *)note {
+    if (self.tinnitusPredefinedTaskContext != nil) {
+        [super headphoneChanged:note];
+        [self.contentView setPlaybackButtonPlaying:NO];
+        self.contentView.delegate = nil;
+        [self tearDownAudioEngine];
     }
 }
 

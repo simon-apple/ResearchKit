@@ -194,19 +194,22 @@ static int const ORKVolumeCalibrationStepPlaybackButtonSize = 36;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(volumeDidChange:) name:@"AVSystemController_SystemVolumeDidChangeNotification" object:nil];
 }
 
+- (void)setPlaybackButtonPlaying:(BOOL)isPlaying {
+    [self.barLevelsView setHidden:!isPlaying];
+    
+    UIImage *image;
+    if (@available(iOS 13.0, *)) {
+        image = isPlaying?
+        [UIImage systemImageNamed:@"pause.fill"]:
+        [UIImage systemImageNamed:@"play.fill"];
+        [self.playbackButton setImage:image forState:UIControlStateNormal];
+    }
+}
+
 - (void)playbackButtonPressed:(UIButton *)sender {
     if ([self.delegate respondsToSelector:@selector(contentView:didPressPlaybackButton:)])
     {
-        BOOL isPlaying = [self.delegate contentView:self didPressPlaybackButton:self.playbackButton];
-        [self.barLevelsView setHidden:!isPlaying];
-
-        UIImage *image;
-        if (@available(iOS 13.0, *)) {
-            image = isPlaying?
-            [UIImage systemImageNamed:@"pause.fill"]:
-            [UIImage systemImageNamed:@"play.fill"];
-            [self.playbackButton setImage:image forState:UIControlStateNormal];
-        }
+        [self setPlaybackButtonPlaying:[self.delegate contentView:self didPressPlaybackButton:self.playbackButton]];
     }
 }
 

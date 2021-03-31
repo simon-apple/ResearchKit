@@ -391,7 +391,7 @@
                                            [_rmsBuffer removeAllObjects];
                                        } else {
                                            if (rms > 0.0 && _sampleRate > 0.0) {
-                                               float spl = (20 * log10f(sqrtf(rms/(float)_sampleRate))) - _sensitivityOffset + 94;
+                                               float spl = (20 * log10f(sqrtf(rms/(float)_sampleRate))) - _sensitivityOffset + 96;
                                                dispatch_async(dispatch_get_main_queue(), ^{
                                                    [self.environmentSPLMeterContentView setProgressBar:(spl/_thresholdValue)];
                                                });

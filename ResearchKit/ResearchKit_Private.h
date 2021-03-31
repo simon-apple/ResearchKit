@@ -169,6 +169,7 @@
 #import <ResearchKit/ORKActiveStep_Internal.h>
 #import <ResearchKit/ORKStep_Private.h>
 #import <ResearchKit/ORKActiveStepViewController_Internal.h>
+#import <ResearchKit/ORKHeadphoneActiveStepViewController.h>
 #import <ResearchKit/ORKStepViewController_Internal.h>
 #import <ResearchKit/ORKTaskViewController_Internal.h>
 

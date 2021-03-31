@@ -392,20 +392,23 @@ static int const ORKTinnitusAssessmentMargin = 16;
     }
 }
 
+- (void)setPlaybackButtonPlaying:(BOOL)isPlaying {
+    [self.barLevelsView setHidden:!isPlaying];
+    
+    UIImage *image;
+    if (@available(iOS 13.0, *)) {
+        image = isPlaying?
+        [UIImage systemImageNamed:@"pause.fill"]:
+        [UIImage systemImageNamed:@"play.fill"];
+        [_playButtonView setImage:image forState:UIControlStateNormal];
+    }
+}
+
 #pragma mark - Actions
 
 - (void)playButtonTapped:(UIButton *)sender {
     if (_delegate && [_delegate respondsToSelector:@selector(pressedPlaybackButton:)]) {
-        BOOL isPlaying = [_delegate pressedPlaybackButton:sender];
-        [self.barLevelsView setHidden:!isPlaying];
-        
-        UIImage *image;
-        if (@available(iOS 13.0, *)) {
-            image = isPlaying?
-            [UIImage systemImageNamed:@"pause.fill"]:
-            [UIImage systemImageNamed:@"play.fill"];
-            [_playButtonView setImage:image forState:UIControlStateNormal];
-        }
+        [self setPlaybackButtonPlaying:[_delegate pressedPlaybackButton:sender]];
     }
 }
 
