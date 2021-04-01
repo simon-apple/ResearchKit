@@ -70,6 +70,9 @@
 }
 
 - (BOOL)setupAudioEngineWithError:(NSError **)outError {
+#if TARGET_IPHONE_SIMULATOR
+    return NO;
+#else
     self.audioEngine = [[AVAudioEngine alloc] init];
     self.playerNode = [[AVAudioPlayerNode alloc] init];
     [self.audioEngine attachNode:self.playerNode];
@@ -77,6 +80,7 @@
     [self.playerNode scheduleBuffer:self.audioBuffer atTime:nil options:AVAudioPlayerNodeBufferLoops completionHandler:nil];
     [self.audioEngine prepare];
     return [self.audioEngine startAndReturnError:outError];
+#endif
 }
 
 - (BOOL)setupAudioEngineForFile:(NSString *)fileName withExtension:(NSString *)extension error:(NSError **)outError {
@@ -216,7 +220,6 @@
     [self setupButtons];
     
     self.activeStepView.activeCustomView = self.contentView;
-    self.activeStepView.customContentFillsAvailableSpace = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated {

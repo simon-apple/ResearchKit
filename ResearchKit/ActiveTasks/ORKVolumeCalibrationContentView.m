@@ -147,9 +147,10 @@ static int const ORKVolumeCalibrationStepPlaybackButtonSize = 36;
     [self addSubview:roundedView];
 
     [roundedView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [[roundedView.topAnchor constraintGreaterThanOrEqualToAnchor:self.topAnchor constant:ORKStepContainerTopPaddingForWindow(self.window)] setActive:YES];
+    [[roundedView.topAnchor constraintEqualToAnchor:self.topAnchor constant:ORKVolumeCalibrationStepPadding] setActive:YES];
     [[roundedView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-ORKVolumeCalibrationStepPadding] setActive:YES];
     [[roundedView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:ORKVolumeCalibrationStepPadding] setActive:YES];
+    [[roundedView.bottomAnchor constraintLessThanOrEqualToAnchor:self.bottomAnchor constant:-ORKVolumeCalibrationStepPadding] setActive:YES];
 
     [_playbackButton setTranslatesAutoresizingMaskIntoConstraints:NO];
     [[_playbackButton.topAnchor constraintEqualToAnchor:roundedView.topAnchor constant:ORKVolumeCalibrationStepMargin] setActive:YES];
