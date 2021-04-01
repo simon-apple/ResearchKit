@@ -188,6 +188,7 @@ static const CGFloat FooterViewHeightOffset = 20.0;
 
 - (void)layoutSubviews {
     [super layoutSubviews];
+    [self sizeHeaderToFit];
     [self resizeFooterToFit];
     [self updateTableViewBottomConstraint];
 }
