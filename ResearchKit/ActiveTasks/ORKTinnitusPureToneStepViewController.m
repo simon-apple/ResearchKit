@@ -50,6 +50,7 @@ static const NSTimeInterval PLAY_DELAY = 1.0;
 static const NSTimeInterval PLAY_DELAY_VOICEOVER = 1.3;
 static const NSTimeInterval PLAY_DURATION = 1.0;
 static const NSTimeInterval PLAY_DURATION_VOICEOVER = 4.0;
+static const NSInteger LOWER_FREQUENCY_OCTAVE_CONFUSION_MINIMUM_INDEX = 6;
 
 @interface ORKTinnitusPureToneStepViewController () <ORKTinnitusPureToneContentViewDelegate> {
     ORKTinnitusSelectedPureTonePosition _currentSelectedPosition;
@@ -353,7 +354,7 @@ static const NSTimeInterval PLAY_DURATION_VOICEOVER = 4.0;
                 // user is confused the test ends
                 _lastChosenFrequency = chosenFrequency;
                 self.activeStepView.navigationFooterView.continueEnabled = YES;
-            } else if (_aFrequencyIndex >= 6) {
+            } else if (_aFrequencyIndex >= LOWER_FREQUENCY_OCTAVE_CONFUSION_MINIMUM_INDEX) {
                 // we can test lower octave
                 _bFrequencyIndex = _aFrequencyIndex;
                 _aFrequencyIndex = _aFrequencyIndex - 6;
@@ -361,6 +362,7 @@ static const NSTimeInterval PLAY_DURATION_VOICEOVER = 4.0;
                 _isLastIteraction = YES;
             } else {
                 _lastChosenFrequency = chosenFrequency;
+                _isLastIteraction = YES;
                 self.activeStepView.navigationFooterView.continueEnabled = YES;
             }
             break;
@@ -588,6 +590,11 @@ static const NSTimeInterval PLAY_DURATION_VOICEOVER = 4.0;
         if (_bFrequencyIndex > _higherThresholdIndex) {
             _lastError = ORKTinnitusErrorTooHigh;
             _lastChosenFrequency = chosenFrequency;
+            [self finish];
+        }
+    } else {
+        // on octave confusion test check possibility to finish on lower frequencies
+        if (_aFrequencyIndex < LOWER_FREQUENCY_OCTAVE_CONFUSION_MINIMUM_INDEX && _isLastIteraction) {
             [self finish];
         }
     }
