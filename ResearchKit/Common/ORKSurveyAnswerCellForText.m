@@ -222,7 +222,7 @@ static const CGFloat DividerViewTopPadding = 10.0;
 - (void)answerDidChange {
     id answer = self.answer;
 
-    if (answer == [ORKDontKnowAnswer answer] && ![_dontKnowButton isDontKnowButtonActive]) {
+    if (answer == [ORKDontKnowAnswer answer] && ![_dontKnowButton active]) {
         [self dontKnowButtonWasPressed];
     } else if (answer != [ORKDontKnowAnswer answer]) {
         if (answer == ORKNullAnswerValue()) {
@@ -405,8 +405,8 @@ static const CGFloat DividerViewTopPadding = 10.0;
 - (void)textDidChange {
     [self ork_setAnswer:(self.textView.text.length > 0) ? self.textView.text : ORKNullAnswerValue()];
     
-    if (self.textView.text.length > 0 && _dontKnowButton && [_dontKnowButton isDontKnowButtonActive]) {
-        [_dontKnowButton setButtonInactive];
+    if (self.textView.text.length > 0 && _dontKnowButton && [_dontKnowButton active]) {
+        [_dontKnowButton setActive:NO];
     }
 }
 
@@ -423,7 +423,7 @@ static const CGFloat DividerViewTopPadding = 10.0;
 }
 
 - (void)clearTextView {
-    if (_dontKnowButton && ![_dontKnowButton isDontKnowButtonActive]) {
+    if (_dontKnowButton && ![_dontKnowButton active]) {
         self.textView.text = @"";
         [self textDidChange];
         [self updateTextCountLabel];
@@ -431,8 +431,8 @@ static const CGFloat DividerViewTopPadding = 10.0;
 }
 
 - (void)dontKnowButtonWasPressed {
-    if (![_dontKnowButton isDontKnowButtonActive]) {
-        [_dontKnowButton setButtonActive];
+    if (![_dontKnowButton active]) {
+        [_dontKnowButton setActive:YES];
         
         [_textView setText:nil];
         [_textView endEditing:YES];
@@ -752,7 +752,7 @@ static const CGFloat DividerViewTopPadding = 10.0;
 
 - (BOOL)shouldContinue {
     ORKTextAnswerFormat *answerFormat = (ORKTextAnswerFormat *)[self.step impliedAnswerFormat];
-    if (![_dontKnowButton isDontKnowButtonActive] && ![answerFormat isAnswerValidWithString:self.textField.text]) {
+    if (![_dontKnowButton active] && ![answerFormat isAnswerValidWithString:self.textField.text]) {
         [self updateErrorLabelWithMessage:[[self.step impliedAnswerFormat] localizedInvalidValueStringWithAnswerString:self.textField.text]];
         return NO;
     }
@@ -762,8 +762,8 @@ static const CGFloat DividerViewTopPadding = 10.0;
 
 - (void)dontKnowButtonWasPressed {
 
-    if (![_dontKnowButton isDontKnowButtonActive]) {
-        [_dontKnowButton setButtonActive];
+    if (![_dontKnowButton active]) {
+        [_dontKnowButton setActive:YES];
         [_textField setText:nil];
         [_textField endEditing:YES];
         [self ork_setAnswer:[ORKDontKnowAnswer answer]];
@@ -797,7 +797,7 @@ static const CGFloat DividerViewTopPadding = 10.0;
         }
     }
     
-    if (answer == [ORKDontKnowAnswer answer] && ![_dontKnowButton isDontKnowButtonActive]) {
+    if (answer == [ORKDontKnowAnswer answer] && ![_dontKnowButton active]) {
         [self dontKnowButtonWasPressed];
     } else if (answer != [ORKDontKnowAnswer answer]) {
         NSString *displayValue = (answer && answer != ORKNullAnswerValue()) ? answer : nil;
@@ -825,8 +825,8 @@ static const CGFloat DividerViewTopPadding = 10.0;
         [self removeErrorMessage];
     }
     
-    if (_dontKnowButton && [_dontKnowButton isDontKnowButtonActive]) {
-        [_dontKnowButton setButtonInactive];
+    if (_dontKnowButton && [_dontKnowButton active]) {
+        [_dontKnowButton setActive:NO];
     }
 }
 
