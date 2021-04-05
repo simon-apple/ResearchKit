@@ -46,7 +46,6 @@ struct CompletionKey: EnvironmentKey {
     static let defaultValue: (Bool) -> Void = { _ in }
 }
 
-// swiftlint:disable implicit_getter
 extension EnvironmentValues {
     
     var progress: Progress? {
@@ -59,7 +58,6 @@ extension EnvironmentValues {
         set { self[CompletionKey] = newValue }
     }
 }
-// swiftlint:enable implicit_getter
 
 internal struct TaskContentView<Content>: View where Content: View {
     
