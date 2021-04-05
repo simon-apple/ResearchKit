@@ -34,7 +34,6 @@
 #import "ORKHelpers_Internal.h"
 #import "ORKSkin.h"
 #import "ORKBorderedButton.h"
-#import "ORKDetectionOverlayView.h"
 #import "ORKTitleLabel.h"
 #import "ORKBodyLabel.h"
 #import "ORKIconButton.h"

@@ -91,7 +91,7 @@ def delete_internal_folders():
 # helper function to that determines if a specific folder should be deleted along with its contents
 def is_a_folder_to_delete(current_folder):
     # hardcoded list of folders that need to be removed before pushing to public
-    folders_to_delete = ["PrivateHeaders"]
+    folders_to_delete = ["PrivateHeaders", "ORKAVJournaling", "ORKFaceDetectionStep"]
     for folder in folders_to_delete:
         if folder == current_folder:
             return True
