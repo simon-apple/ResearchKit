@@ -97,7 +97,6 @@
     self.assessmentContentView = [[ORKTinnitusAssessmentContentView alloc] initForTinnitusOverallAssesment];
     self.activeStepView.activeCustomView = self.assessmentContentView;
     self.assessmentContentView.delegate = self;
-    self.activeStepView.customContentFillsAvailableSpace = YES;
             
     [self setNavigationFooterView];
 }

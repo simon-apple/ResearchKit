@@ -175,7 +175,6 @@ static int const ORKTinnitusAssessmentMargin = 16;
 
 @interface ORKTinnitusAssessmentContentView () <ORKTinnitusAssessmentButtonViewDelegate> {
     NSMutableArray *_buttons;
-    UIScrollView *_scrollView;
     BOOL _isTinnitusAssessment;
 }
 @property (nonatomic, strong) NSString *buttonTitle;
@@ -213,11 +212,9 @@ static int const ORKTinnitusAssessmentMargin = 16;
 
 - (void)commonInit
 {
-    [self setupScrollView];
-
     self.roundedView = [[UIView alloc] init];
     _roundedView.layer.cornerRadius = 10;
-    [_scrollView addSubview:_roundedView];
+    [self addSubview:_roundedView];
 
     self.playButtonView = [UIButton buttonWithType:UIButtonTypeCustom];
     if (@available(iOS 13.0, *)) {
@@ -276,10 +273,10 @@ static int const ORKTinnitusAssessmentMargin = 16;
     self.translatesAutoresizingMaskIntoConstraints = NO;
 
     [_roundedView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [[_roundedView.topAnchor constraintGreaterThanOrEqualToAnchor:_scrollView.topAnchor constant:ORKTinnitusAssessmentPadding] setActive:YES];
-    [[_roundedView.widthAnchor constraintEqualToAnchor:_scrollView.widthAnchor] setActive:YES];
-    [[_roundedView.centerXAnchor constraintEqualToAnchor:_scrollView.centerXAnchor] setActive:YES];
-    [_roundedView.bottomAnchor constraintEqualToAnchor:_scrollView.bottomAnchor].active = YES;
+    [[_roundedView.topAnchor constraintGreaterThanOrEqualToAnchor:self.topAnchor constant:ORKTinnitusAssessmentPadding] setActive:YES];
+    [[_roundedView.widthAnchor constraintEqualToAnchor:self.widthAnchor] setActive:YES];
+    [[_roundedView.centerXAnchor constraintEqualToAnchor:self.centerXAnchor] setActive:YES];
+    [_roundedView.bottomAnchor constraintLessThanOrEqualToAnchor:self.bottomAnchor].active = YES;
 
     [_playButtonView setTranslatesAutoresizingMaskIntoConstraints:NO];
     [[_playButtonView.topAnchor constraintEqualToAnchor:_roundedView.topAnchor constant:ORKTinnitusAssessmentMargin] setActive:YES];
@@ -338,20 +335,6 @@ static int const ORKTinnitusAssessmentMargin = 16;
     [button.topAnchor constraintEqualToAnchor:topView.bottomAnchor].active = YES;
     
     return button;
-}
-
-- (void)setupScrollView {
-    if (!_scrollView) {
-        _scrollView = [[UIScrollView alloc] initWithFrame:CGRectZero];
-    }
-    [self addSubview:_scrollView];
-    _scrollView.translatesAutoresizingMaskIntoConstraints = NO;
-    [[_scrollView.topAnchor constraintEqualToAnchor:self.topAnchor] setActive:YES];
-    [[_scrollView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor] setActive:YES];
-    [[_scrollView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor] setActive:YES];
-    [[_scrollView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor] setActive:YES];
-    
-    _scrollView.scrollEnabled = YES;
 }
 
 - (void)setupChoices {

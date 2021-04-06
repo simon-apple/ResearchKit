@@ -93,7 +93,6 @@
     self.assessmentContentView = [[ORKTinnitusAssessmentContentView alloc] initForMaskingWithButtonTitle:self.tinnitusMaskingSoundStep.name];
     self.activeStepView.activeCustomView = self.assessmentContentView;
     self.assessmentContentView.delegate = self;
-    self.activeStepView.customContentFillsAvailableSpace = YES;
     
     self.continueButtonItem = self.internalContinueButtonItem;
     [self setNavigationFooterView];
