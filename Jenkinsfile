@@ -9,7 +9,7 @@ def lib = library (
 
 node('ResearchApp-status') {
     stage('Set Environment Variables') {
-        limeInitEnvironmentVariables(this, "ResearchKit Unit Tests", "AzulE169HunterET174", "HealthSPG/ResearchKit")
+        limeInitEnvironmentVariables(this, "ResearchKit Unit Tests", "LatestAzulE", "HealthSPG/ResearchKit")
         limeSetBuildStatus(this, "PENDING")
     }
 }
