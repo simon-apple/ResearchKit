@@ -273,7 +273,7 @@ static int const ORKTinnitusAssessmentMargin = 16;
     self.translatesAutoresizingMaskIntoConstraints = NO;
 
     [_roundedView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [[_roundedView.topAnchor constraintGreaterThanOrEqualToAnchor:self.topAnchor constant:ORKTinnitusAssessmentPadding] setActive:YES];
+    [[_roundedView.topAnchor constraintEqualToAnchor:self.topAnchor constant:ORKTinnitusAssessmentPadding] setActive:YES];
     [[_roundedView.widthAnchor constraintEqualToAnchor:self.widthAnchor] setActive:YES];
     [[_roundedView.centerXAnchor constraintEqualToAnchor:self.centerXAnchor] setActive:YES];
     [_roundedView.bottomAnchor constraintLessThanOrEqualToAnchor:self.bottomAnchor].active = YES;
