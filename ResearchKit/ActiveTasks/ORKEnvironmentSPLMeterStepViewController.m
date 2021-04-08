@@ -113,7 +113,6 @@
     _environmentSPLMeterContentView.voiceOverDelegate = self;
     _environmentSPLMeterContentView.ringView.delegate = self;
     self.activeStepView.activeCustomView = _environmentSPLMeterContentView;
-    self.activeStepView.customContentFillsAvailableSpace = YES;
     [self requestRecordPermissionIfNeeded];
     [self configureAudioSession];
     [self setupFeedbackGenerator];

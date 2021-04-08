@@ -40,9 +40,10 @@
 #import "ORKProgressView.h"
 #import "ORKCompletionCheckmarkView.h"
 
-static const CGFloat RingViewBottomPadding = -18.0;
+static const CGFloat RingViewBottomPadding = 18.0;
 static const CGFloat InstructionLabelLeftPadding = 8.0;
 static const CGFloat HalfCircleSize = 14.0;
+static const CGFloat BarViewHeight = 50.0;
 
 @interface ORKEnvironmentSPLMeterContentView ()
 @property(nonatomic, strong) ORKRingView *ringView;
@@ -64,8 +65,8 @@ static const CGFloat HalfCircleSize = 14.0;
         preValue = -M_PI_2;
         currentValue = 0.0;
         self.translatesAutoresizingMaskIntoConstraints = NO;
-        [self setupBarView];
         [self setupRingView];
+        [self setupBarView];
         [self setupXmarkView];
         [self setProgressCircle:0.0];
         [self setupDBInstructionLabel];
@@ -100,12 +101,13 @@ static const CGFloat HalfCircleSize = 14.0;
     _barView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:_barView];
     
-    UILayoutGuide *margins = self.layoutMarginsGuide;
+    [[_barView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor] setActive:YES];
+    [[_barView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor] setActive:YES];
+
+    [[_barView.heightAnchor constraintEqualToConstant:BarViewHeight] setActive:YES];
+    [[_barView.topAnchor constraintEqualToAnchor:_ringView.bottomAnchor constant:RingViewBottomPadding] setActive:YES];
     
-    [[_barView.leadingAnchor constraintEqualToAnchor:margins.leadingAnchor] setActive:YES];
-    [[_barView.trailingAnchor constraintEqualToAnchor:margins.trailingAnchor] setActive:YES];
-    [[_barView.centerYAnchor constraintEqualToAnchor:self.centerYAnchor] setActive:YES];
-    [[_barView.heightAnchor constraintEqualToConstant:50.0] setActive:YES];
+    [[_barView.bottomAnchor constraintLessThanOrEqualToAnchor:self.bottomAnchor constant:RingViewBottomPadding] setActive:YES];
 }
 
 - (void)setupRingView {
@@ -116,8 +118,11 @@ static const CGFloat HalfCircleSize = 14.0;
     _ringView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:_ringView];
 
-    [[_ringView.leadingAnchor constraintEqualToAnchor:_barView.leadingAnchor constant:14.0] setActive:YES];
-    [[_ringView.bottomAnchor constraintEqualToAnchor:_barView.topAnchor constant:RingViewBottomPadding] setActive:YES];
+    [[_ringView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor] setActive:YES];
+    [[_ringView.centerYAnchor constraintEqualToAnchor:self.centerYAnchor constant:-BarViewHeight] setActive:YES];
+    
+    [[_ringView.topAnchor constraintGreaterThanOrEqualToAnchor:self.topAnchor] setActive:YES];
+
     if (@available(iOS 13.0, *)) {
         [_ringView setColor:UIColor.systemGray6Color];
     }

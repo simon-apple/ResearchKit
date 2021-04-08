@@ -126,20 +126,19 @@ static const int ORKEnvironmentSPLMeterNumberOfRows = 4;
 - (void)setupView {
     CGFloat width = CGRectGetWidth(self.frame);
     CGFloat dotSpacing = (ORKEnvironmentSPLMeterSquareSize + ORKEnvironmentSPLMeterSquareDistance);
-    _maximumNumberOfDots = (int) (floor(width/dotSpacing));
+    _maximumNumberOfDots = (int) (floor(width/dotSpacing)) + 1;
     NSMutableArray<ORKEnvironmentSPLMeterColumnView*> *columnViews = [[NSMutableArray alloc] init];
-    CGFloat spaceAdjustment = width - (_maximumNumberOfDots * dotSpacing);
     _greenIndexLimit = _maximumNumberOfDots * 0.66;
     _currentIndex = _greenIndexLimit;
     _targetIndex = _greenIndexLimit;
     
-    for (int i = 0 ; i < _maximumNumberOfDots; i++) {
-        CGRect columnRect = CGRectMake( spaceAdjustment + i * (dotSpacing),
+    for (int i = 1 ; i <= _maximumNumberOfDots; i++) {
+        CGRect columnRect = CGRectMake((i - 1) * dotSpacing,
                                        0, ORKEnvironmentSPLMeterSquareSize, ORKEnvironmentSPLMeterSquareSize);
         
         ORKEnvironmentSPLMeterColumnView *columnView = [[ORKEnvironmentSPLMeterColumnView alloc] initWithFrame:columnRect];
         
-        if (i <= _greenIndexLimit) {
+        if (i <= _greenIndexLimit - 1) {
             [columnView setColor:[UIColor systemGreenColor]];
         } else {
             [columnView setColor:[UIColor systemOrangeColor]];
@@ -182,7 +181,7 @@ static const int ORKEnvironmentSPLMeterNumberOfRows = 4;
         normalizedIndexValue = outMin + (outMax - outMin) * (resultProgress - inMin) / (inMax - inMin);
     }
     
-    int newTargetIndex = (int) (floor(normalizedIndexValue * _maximumNumberOfDots));
+    int newTargetIndex = (int) (floor(normalizedIndexValue * _maximumNumberOfDots) + 1);
     
     if (newTargetIndex != _targetIndex) {
         [self stopAnimation];
