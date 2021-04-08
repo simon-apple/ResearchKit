@@ -240,7 +240,7 @@ static const CGFloat CheckMarkImageTrailingPadding = 2.0;
         [_dontKnowButtonTextLabel.topAnchor constraintEqualToAnchor:_dontKnowButtonCustomView.topAnchor],
         [_dontKnowButtonTextLabel.bottomAnchor constraintEqualToAnchor:_dontKnowButtonCustomView.bottomAnchor],
         [_dontKnowButtonTextLabel.leadingAnchor constraintEqualToAnchor:_dontKnowButtonCustomView.leadingAnchor constant:8.0],
-        [_dontKnowButtonTextLabel.trailingAnchor constraintEqualToAnchor:_checkmarkView.trailingAnchor constant:-8.0],
+        [_dontKnowButtonTextLabel.trailingAnchor constraintEqualToAnchor:_checkmarkView.leadingAnchor constant:-8.0],
         
         [_checkmarkView.trailingAnchor constraintEqualToAnchor:_dontKnowButtonCustomView.trailingAnchor constant:-ORKSurveyItemMargin],
         [_checkmarkView.centerYAnchor constraintEqualToAnchor:_dontKnowButtonCustomView.centerYAnchor],
