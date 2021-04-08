@@ -88,6 +88,12 @@
         }
         
     } else {
+        
+        // TODO: remove this check in Nectarine
+        if ([self resultContainLowMemoryIdentifier:ongoingResult]) {
+            ongoingResult.results = [self removeLowMemoryResultFromArray:ongoingResult];
+        }
+        
         self = [super initWithTask:task
                      ongoingResult:ongoingResult
                defaultResultSource:defaultResultSource
@@ -102,6 +108,28 @@
     return self;
 }
 
+- (BOOL)resultContainLowMemoryIdentifier:(nullable ORKTaskResult *)taskResult {
+    if (!taskResult) {
+        return NO;
+    }
+    
+    NSArray *identifiers = [taskResult.results valueForKey:@"identifier"];
+    return [identifiers containsObject:ORKAVJournalingStepIdentifierLowMemoryCompletion];
+}
+
+- (NSMutableArray *)removeLowMemoryResultFromArray:(ORKTaskResult *)taskResult {
+    NSMutableArray *updatedStepResults = [NSMutableArray new];
+    
+    for (ORKStepResult *stepResult in taskResult.results) {
+        NSString *stepIdentifier = stepResult.identifier;
+        
+        if (!([stepIdentifier isEqualToString:ORKAVJournalingStepIdentifierLowMemoryCompletion])) {
+            [updatedStepResults addObject:stepResult];
+        }
+    }
+    
+    return [updatedStepResults copy];
+}
 
 - (void)updateAVJournalingTaskArrayForResumption {
     if (_lowMemoryStepDetected || self.restoredStepIdentifier == nil) {
@@ -174,6 +202,11 @@
         if (_internalManagedResults) {
             taskResult.results = [_internalManagedResults copy];
         }
+        
+        if ([self resultContainLowMemoryIdentifier:taskResult]) {
+            taskResult.results = [self removeLowMemoryResultFromArray:taskResult];
+        }
+        
     } else {
         NSMutableArray *updatedStepResults = [NSMutableArray new];
         BOOL removedResultFound = NO;
