@@ -199,8 +199,7 @@ static const CGFloat ORKTinnitusButtonTopAdjustment = 8.0;
     return [UIFont fontWithDescriptor:fontDescriptor size:[[fontDescriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]];
 }
 
-- (ORKTinnitusSelectedPureTonePosition)currentSelectedPosition
-{
+- (ORKTinnitusSelectedPureTonePosition)currentSelectedPosition {
     if (_firstAButtonView.isSelected) {
         return ORKTinnitusSelectedPureTonePositionA;
     } else if (_firstBButtonView.isSelected) {
@@ -208,9 +207,9 @@ static const CGFloat ORKTinnitusButtonTopAdjustment = 8.0;
     } else if (_cButtonView.isSelected) {
         return ORKTinnitusSelectedPureTonePositionC;
     } else if (_secondBButtonView.isSelected || _thirdBButtonView.isSelected) {
-        return ORKTinnitusSelectedPureTonePositionA;
-    } else if (_secondAButtonView.isSelected || _thirdAButtonView.isSelected) {
         return ORKTinnitusSelectedPureTonePositionB;
+    } else if (_secondAButtonView.isSelected || _thirdAButtonView.isSelected) {
+        return ORKTinnitusSelectedPureTonePositionA;
     }
     return ORKTinnitusSelectedPureTonePositionNone;
 }

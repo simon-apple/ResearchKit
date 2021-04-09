@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020, Apple Inc. All rights reserved.
+ Copyright (c) 2021, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,41 +28,26 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@import UIKit;
-#import "ORKTinnitusTypes.h"
-#import "ORKCustomStepView_Internal.h"
+#import <ResearchKit/ORKTinnitusPureToneStepViewController.h>
+
+// Will be used by the unit tests
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class ORKTinnitusPureToneContentView;
-@class ORKTinnitusButtonView;
+@interface ORKTinnitusPureToneStepViewController ()
 
-@protocol ORKTinnitusPureToneContentViewDelegate <NSObject>
+@property (nonatomic) NSArray<NSNumber *> *frequencies;
+@property (nonatomic) NSMutableArray<ORKTinnitusUnit *> *chosenUnits;
+@property (nonatomic, assign) NSInteger aFrequencyIndex;
+@property (nonatomic, assign) NSInteger bFrequencyIndex;
+@property (nonatomic, assign) NSInteger cFrequencyIndex;
+@property (nonatomic, assign) NSInteger higherThresholdIndex;
+@property (nonatomic, assign) NSInteger lowerThresholdIndex;
+@property (nonatomic, assign) NSInteger indexOffset;
+@property (nonatomic, copy) NSString *lastError;
+@property (nonatomic, assign) double lastChosenFrequency;
 
-@required
-
-- (void)playButtonPressedWithNewPosition:(ORKTinnitusSelectedPureTonePosition)newPosition;
-- (void)animationFinishedForStage:(PureToneButtonsStage)stage;
-
-@end
-
-@interface ORKTinnitusPureToneContentView : ORKActiveStepCustomView
-
-@property (nonatomic, weak)id<ORKTinnitusPureToneContentViewDelegate> delegate;
-
-- (void)simulateTapForPosition:(ORKTinnitusSelectedPureTonePosition)position;
-- (void)enableButtonsAnnouncements:(BOOL)enable;
-
-- (ORKTinnitusSelectedPureTonePosition)currentSelectedPosition;
-- (PureToneButtonsStage)currentStage;
-- (void)animateButtons;
-- (void)enableButtons:(BOOL)enable;
-- (void)resetButtons;
-- (BOOL)atLeastOneButtonIsSelected;
-- (BOOL)hasPlayingButton;
-- (void)restoreButtons;
-- (BOOL)isPlayingLastButton;
-- (nullable ORKTinnitusButtonView *)currentSelectedButtonView;
+- (void)getFrequencyAndCalculateIndexesFor:(ORKTinnitusSelectedPureTonePosition)position;
 
 @end
 
