@@ -235,18 +235,21 @@ static int const ORKVolumeCalibrationStepPlaybackButtonSize = 36;
 
 - (void)volumeDidChange:(NSNotification *)note {
     NSDictionary *userInfo = note.userInfo;
+    NSString *reason = userInfo[@"AVSystemController_AudioVolumeChangeReasonNotificationParameter"];
     NSNumber *volume = userInfo[@"AVSystemController_AudioVolumeNotificationParameter"];
 
-    if (!_volumeSlider.isTracking) {
-        [_volumeSlider setValue:volume.doubleValue];
-    }
-
-    if (volume.doubleValue > 0 && _barLevelsView.isHidden) {
-        [self playbackButtonPressed:_playbackButton];
-    }
-
-    if ([self.delegate respondsToSelector:@selector(contentView:shouldEnableContinue:)]) {
-        [self.delegate contentView:self shouldEnableContinue:(volume.doubleValue > 0)];
+    if ([reason isEqualToString:@"ExplicitVolumeChange"]) {
+        if (!_volumeSlider.isTracking) {
+            [_volumeSlider setValue:volume.doubleValue];
+        }
+        
+        if (volume.doubleValue > 0 && _barLevelsView.isHidden) {
+            [self playbackButtonPressed:_playbackButton];
+        }
+        
+        if ([self.delegate respondsToSelector:@selector(contentView:shouldEnableContinue:)]) {
+            [self.delegate contentView:self shouldEnableContinue:(volume.doubleValue > 0)];
+        }
     }
 }
 

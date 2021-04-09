@@ -111,6 +111,8 @@
 		16A24B70230B70890094C4C2 /* Celestial_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 16A24B6F230B70890094C4C2 /* Celestial_Private.h */; };
 		1B4B95B81F5F012E006B629F /* ORKWeightPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B4B95B71F5F012E006B629F /* ORKWeightPicker.m */; };
 		1B4B95BA1F5F014E006B629F /* ORKWeightPicker.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B4B95B91F5F014E006B629F /* ORKWeightPicker.h */; };
+		2212EE66261FE55300DE9BEA /* AVAudioMixerNode+Fade.m in Sources */ = {isa = PBXBuildFile; fileRef = 2212EE64261FE55200DE9BEA /* AVAudioMixerNode+Fade.m */; };
+		2212EE67261FE55300DE9BEA /* AVAudioMixerNode+Fade.h in Headers */ = {isa = PBXBuildFile; fileRef = 2212EE65261FE55200DE9BEA /* AVAudioMixerNode+Fade.h */; };
 		22A1C407260269440003F75E /* ORKTinnitusHeadphoneTable.h in Headers */ = {isa = PBXBuildFile; fileRef = 22A1C405260269440003F75E /* ORKTinnitusHeadphoneTable.h */; };
 		22A1C408260269440003F75E /* ORKTinnitusHeadphoneTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 22A1C406260269440003F75E /* ORKTinnitusHeadphoneTable.m */; };
 		22A1C5592609010F0003F75E /* ORKTinnitusOverallAssessmentResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 22A1C5572609010F0003F75E /* ORKTinnitusOverallAssessmentResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1182,6 +1184,8 @@
 		16A24B6F230B70890094C4C2 /* Celestial_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Celestial_Private.h; sourceTree = "<group>"; };
 		1B4B95B71F5F012E006B629F /* ORKWeightPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKWeightPicker.m; sourceTree = "<group>"; };
 		1B4B95B91F5F014E006B629F /* ORKWeightPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKWeightPicker.h; sourceTree = "<group>"; };
+		2212EE64261FE55200DE9BEA /* AVAudioMixerNode+Fade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AVAudioMixerNode+Fade.m"; sourceTree = "<group>"; };
+		2212EE65261FE55200DE9BEA /* AVAudioMixerNode+Fade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AVAudioMixerNode+Fade.h"; sourceTree = "<group>"; };
 		223AE98A25B235CB0080FE13 /* ORKTinnitusAudioSample.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKTinnitusAudioSample.h; sourceTree = "<group>"; };
 		223AE98B25B235CB0080FE13 /* ORKTinnitusAudioSample.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKTinnitusAudioSample.m; sourceTree = "<group>"; };
 		22A1C405260269440003F75E /* ORKTinnitusHeadphoneTable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKTinnitusHeadphoneTable.h; sourceTree = "<group>"; };
@@ -4271,6 +4275,8 @@
 		E2880B85255D656D00D9BAA7 /* Tinnitus */ = {
 			isa = PBXGroup;
 			children = (
+				2212EE65261FE55200DE9BEA /* AVAudioMixerNode+Fade.h */,
+				2212EE64261FE55200DE9BEA /* AVAudioMixerNode+Fade.m */,
 				E25BEF6F2612876E00372483 /* UIColor+Custom.h */,
 				E25BEF702612876E00372483 /* UIColor+Custom.m */,
 				E22CD6AD26135FB7001FB6DD /* ORKHeadphoneActiveStepViewController.h */,
@@ -4591,6 +4597,7 @@
 				FF5E3CCB1D23444400ECE4B7 /* ORKPageStepViewController.h in Headers */,
 				517514562459F0BE009E8FFC /* ORK3DModelStepContentView.h in Headers */,
 				BCCE9EC121104B2200B809F8 /* ORKConsentDocument_Private.h in Headers */,
+				2212EE67261FE55300DE9BEA /* AVAudioMixerNode+Fade.h in Headers */,
 				86C40C721A8D7C5C00081FAC /* CMPedometerData+ORKJSONDictionary.h in Headers */,
 				106FF2A61B665CF5004EACF2 /* ORKHolePegTestPlaceContentView.h in Headers */,
 				86C40CA41A8D7C5C00081FAC /* ORKLocationRecorder.h in Headers */,
@@ -5483,6 +5490,7 @@
 				865EA1691ABA1AA10037C68E /* ORKPicker.m in Sources */,
 				515B347B24B3D2F4009CF844 /* ORKAVJournalingSessionHelper.m in Sources */,
 				BCB6E6511B7D533B000D5B34 /* ORKPieChartLegendCollectionViewLayout.m in Sources */,
+				2212EE66261FE55300DE9BEA /* AVAudioMixerNode+Fade.m in Sources */,
 				51E03D692491A601008F8406 /* ORKHealthKitPermissionType.m in Sources */,
 				E26626C42588E6D4005A0FF8 /* ORKTinnitusMaskingSoundStepViewController.m in Sources */,
 				86C40D321A8D7C5C00081FAC /* ORKHealthAnswerFormat.m in Sources */,
