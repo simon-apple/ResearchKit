@@ -145,6 +145,7 @@ static const CGFloat BarViewHeight = 50.0;
 
     [[_DBInstructionLabel.centerYAnchor constraintEqualToAnchor:_ringView.centerYAnchor] setActive:YES];
     [[_DBInstructionLabel.leadingAnchor constraintEqualToAnchor:_ringView.trailingAnchor constant:InstructionLabelLeftPadding] setActive:YES];
+    [[_DBInstructionLabel.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-InstructionLabelLeftPadding] setActive:YES];
 }
 
 - (void)setProgressBar:(CGFloat)progress {
