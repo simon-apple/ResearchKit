@@ -209,6 +209,7 @@ static const NSInteger LOWER_FREQUENCY_OCTAVE_CONFUSION_MINIMUM_INDEX = 6;
 }
 
 - (void)continueButtonTapped:(id)sender {
+    [self.navigationItem setHidesBackButton:YES];
     if (!_isLastIteraction) {
         self.activeStepView.navigationFooterView.continueEnabled = NO;
         [self fineTunePressed];
