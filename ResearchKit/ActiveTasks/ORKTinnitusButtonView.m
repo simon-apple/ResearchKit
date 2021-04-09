@@ -36,7 +36,10 @@
 
 static const CGFloat ORKTinnitusButtonViewHeight = 82.0;
 static const CGFloat ORKTinnitusButtonViewImageSize = 40.0;
+static const CGFloat ORKTinnitusButtonViewAdditionalHeightPadding = 40.0;
 static const CGFloat ORKTinnitusButtonViewPadding = 16.0;
+static const CGFloat ORKTinnitusButtonViewBarLevelsHeight = 21.0;
+static const CGFloat ORKTinnitusButtonViewBarLevelsWidth = 30.0;
 
 @interface ORKTinnitusButtonView () <UIGestureRecognizerDelegate> {
     NSString *_titleText;
@@ -52,7 +55,7 @@ static const CGFloat ORKTinnitusButtonViewPadding = 16.0;
     NSLayoutConstraint *_heightConstraint;
     
     BOOL _subViewsAutoLayoutFinished;
-    BOOL _firstLayoutTime;
+    BOOL _shouldLayout;
     BOOL _selected;
     BOOL _announceEnabled;
     
@@ -99,14 +102,20 @@ static const CGFloat ORKTinnitusButtonViewPadding = 16.0;
     _playedOnce = NO;
     _selected = NO;
     _subViewsAutoLayoutFinished = NO;
-    _firstLayoutTime = YES;
+    _shouldLayout = YES;
     _announceEnabled = YES;
 }
 
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
     [super traitCollectionDidChange:previousTraitCollection];
     
+    _shouldLayout = YES;
+
+    _titleLabel.font = [[self class] titleFont];
+    _detailLabel.font = [[self class] detailFont];
+    
     [self setSelected:_selected];
+    [self layoutIfNeeded];
 }
 
 - (void)setupView {
@@ -125,7 +134,7 @@ static const CGFloat ORKTinnitusButtonViewPadding = 16.0;
     
     _titleLabel = [[UILabel alloc] init];
     _titleLabel.font = [[self class] titleFont];
-    _titleLabel.numberOfLines = 1;
+    _titleLabel.numberOfLines = 0;
     _titleLabel.textAlignment = NSTextAlignmentNatural;
     [self addSubview:_titleLabel];
     _titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
@@ -319,14 +328,13 @@ static const CGFloat ORKTinnitusButtonViewPadding = 16.0;
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    if (_firstLayoutTime) {
-        _firstLayoutTime = NO;
-        
+    if (_shouldLayout) {
+        _shouldLayout = NO;
+        CGFloat buttonHeight = ORKExpectedLabelHeight(_titleLabel) + ORKExpectedLabelHeight(_detailLabel) + ORKTinnitusButtonViewAdditionalHeightPadding;
         CGFloat detailHeight = ORKExpectedLabelHeight(_detailLabel);
         CGFloat titleHeight = ORKExpectedLabelHeight(_titleLabel);
-        
+        _heightConstraint.constant = (buttonHeight > ORKTinnitusButtonViewHeight) ? buttonHeight : ORKTinnitusButtonViewHeight;
         _middlePosition.constant = (titleHeight - detailHeight)/2;
-        
         [self setNeedsLayout];
     } else {
         _subViewsAutoLayoutFinished = YES;
@@ -357,15 +365,16 @@ static const CGFloat ORKTinnitusButtonViewPadding = 16.0;
     [_playView.centerYAnchor constraintEqualToAnchor:self.centerYAnchor].active = YES;
     
     [_titleLabel.leadingAnchor constraintEqualToAnchor:_playView.trailingAnchor constant:ORKTinnitusButtonViewPadding].active = YES;
+    [_titleLabel.trailingAnchor constraintLessThanOrEqualToAnchor:self.trailingAnchor constant:-(ORKTinnitusButtonViewBarLevelsWidth+ORKTinnitusButtonViewPadding)].active = YES;
     [_titleLabel.bottomAnchor constraintEqualToAnchor:_middleSeparatorView.topAnchor].active = YES;
     
     [_barLevelsView.leadingAnchor constraintEqualToAnchor:_titleLabel.trailingAnchor constant:2.0].active = YES;
     [_barLevelsView.centerYAnchor constraintEqualToAnchor:_titleLabel.centerYAnchor constant:2.0].active = YES;
-    [_barLevelsView.widthAnchor constraintEqualToConstant:30.0].active = YES;
-    [_barLevelsView.heightAnchor constraintEqualToConstant:21.0].active = YES;
+    [_barLevelsView.widthAnchor constraintEqualToConstant:ORKTinnitusButtonViewBarLevelsWidth].active = YES;
+    [_barLevelsView.heightAnchor constraintEqualToConstant:ORKTinnitusButtonViewBarLevelsHeight].active = YES;
     
     [_detailLabel.leadingAnchor constraintEqualToAnchor:_playView.trailingAnchor constant:ORKTinnitusButtonViewPadding].active = YES;
-    [_detailLabel.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:ORKTinnitusButtonViewPadding].active = YES;
+    [_detailLabel.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-ORKTinnitusButtonViewPadding].active = YES;
     [_detailLabel.topAnchor constraintEqualToAnchor:_middleSeparatorView.bottomAnchor].active = YES;
 }
 
