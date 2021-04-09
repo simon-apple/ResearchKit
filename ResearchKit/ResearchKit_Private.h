@@ -198,3 +198,6 @@
 #import <ResearchKit/ORKTinnitusPureToneResult.h>
 #import <ResearchKit/ORKTinnitusTypeResult.h>
 #import <ResearchKit/ORKTinnitusVolumeResult.h>
+
+#import <ResearchKit/ORKTinnitusPureToneStepViewController_Private.h>
+#import <ResearchKit/ORKTinnitusTypes.h>

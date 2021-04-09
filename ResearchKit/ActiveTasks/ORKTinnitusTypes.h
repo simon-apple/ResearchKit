@@ -68,4 +68,17 @@ ORK_EXTERN ORKTinnitusError const ORKTinnitusErrorInconsistency;        // @"Inc
 ORK_EXTERN ORKTinnitusError const ORKTinnitusErrorTooHigh;              // @"TooHighFrequency"
 ORK_EXTERN ORKTinnitusError const ORKTinnitusErrorTooLow;               // @"TooLowFrequency"
 
+typedef NS_ENUM(NSUInteger, ORKTinnitusSelectedPureTonePosition) {
+    ORKTinnitusSelectedPureTonePositionNone,
+    ORKTinnitusSelectedPureTonePositionA,
+    ORKTinnitusSelectedPureTonePositionB,
+    ORKTinnitusSelectedPureTonePositionC
+};
+
+typedef NS_ENUM(NSUInteger, PureToneButtonsStage) {
+    PureToneButtonsStageOne,
+    PureToneButtonsStageTwo,
+    PureToneButtonsStageThree
+};
+
 #endif /* ORKTinnitusTypes_h */

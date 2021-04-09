@@ -39,6 +39,7 @@
 
 #import "ORKTinnitusPureToneResult.h"
 #import "ORKTinnitusPureToneStep.h"
+#import "ORKTinnitusPureToneStepViewController_Private.h"
 #import "ORKStepContainerView_Private.h"
 #import "ORKNavigationContainerView_Internal.h"
 #import "ORKHelpers_Internal.h"
@@ -50,20 +51,15 @@ static const NSTimeInterval PLAY_DELAY = 1.0;
 static const NSTimeInterval PLAY_DELAY_VOICEOVER = 1.3;
 static const NSTimeInterval PLAY_DURATION = 1.0;
 static const NSTimeInterval PLAY_DURATION_VOICEOVER = 4.0;
-static const NSInteger LOWER_FREQUENCY_OCTAVE_CONFUSION_MINIMUM_INDEX = 6;
+static const NSUInteger OCTAVE_CONFUSION_THRESHOLD_INDEX = 6;
 
 @interface ORKTinnitusPureToneStepViewController () <ORKTinnitusPureToneContentViewDelegate> {
-    ORKTinnitusSelectedPureTonePosition _currentSelectedPosition;
-
-    double _lastChosenFrequency;
     int _octaveConfusionIteration;
-    int _indexOffset;
-    int _interactionCounter;
+    int _iteractionCounter;
     BOOL _isLastIteraction;
+    BOOL _terminated;
     int _sampleIndex;
     NSTimer *_timer;
-    
-    NSString *_lastError;
     
     NSDate *_choseStepStartTime;
 }
@@ -71,14 +67,6 @@ static const NSInteger LOWER_FREQUENCY_OCTAVE_CONFUSION_MINIMUM_INDEX = 6;
 @property (nonatomic, strong) ORKTinnitusPureToneContentView *tinnitusContentView;
 @property (nonatomic, strong) ORKTinnitusAudioGenerator *audioGenerator;
 @property (nonatomic, assign) BOOL expired;
-
-@property (nonatomic) NSArray *frequencies;
-@property (nonatomic) NSMutableArray<ORKTinnitusUnit *> *chosenUnits;
-@property (nonatomic, assign) NSInteger aFrequencyIndex;
-@property (nonatomic, assign) NSInteger bFrequencyIndex;
-@property (nonatomic, assign) NSInteger cFrequencyIndex;
-@property (nonatomic, assign) NSInteger higherThresholdIndex;
-@property (nonatomic, assign) NSInteger lowerThresholdIndex;
 
 - (ORKTinnitusPureToneStep *)tinnitusPuretoneStep;
 
@@ -91,6 +79,7 @@ static const NSInteger LOWER_FREQUENCY_OCTAVE_CONFUSION_MINIMUM_INDEX = 6;
     self = [super initWithStep:step];
     
     if (self) {
+        _terminated = NO;
         self.suspendIfInactive = YES;
     }
     
@@ -104,6 +93,7 @@ static const NSInteger LOWER_FREQUENCY_OCTAVE_CONFUSION_MINIMUM_INDEX = 6;
 - (void)headphoneChanged:(NSNotification *)note {
     if (self.step.context && [self.step.context isKindOfClass:[ORKTinnitusPredefinedTaskContext class]]) {
         [super headphoneChanged:note];
+        _terminated = YES;
         [self stopAutomaticPlay];
         [self.audioGenerator stop];
         
@@ -194,13 +184,15 @@ static const NSInteger LOWER_FREQUENCY_OCTAVE_CONFUSION_MINIMUM_INDEX = 6;
 }
 
 - (void)stopAutomaticPlay {
-    [_tinnitusContentView enableButtonsAnnouncements:YES];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIAccessibilityAnnouncementDidFinishNotification object:nil];
-    [NSObject cancelPreviousPerformRequestsWithTarget:self
-                                             selector:@selector(startAutomaticPlay)
-                                               object:nil];
-    [_timer invalidate];
-    _timer = nil;
+    if (!_terminated) {
+        [_tinnitusContentView enableButtonsAnnouncements:YES];
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:UIAccessibilityAnnouncementDidFinishNotification object:nil];
+        [NSObject cancelPreviousPerformRequestsWithTarget:self
+                                                 selector:@selector(startAutomaticPlay)
+                                                   object:nil];
+        [_timer invalidate];
+        _timer = nil;
+    }
 }
 
 - (void)setNavigationFooterView {
@@ -212,7 +204,7 @@ static const NSInteger LOWER_FREQUENCY_OCTAVE_CONFUSION_MINIMUM_INDEX = 6;
     [self.navigationItem setHidesBackButton:YES];
     if (!_isLastIteraction) {
         self.activeStepView.navigationFooterView.continueEnabled = NO;
-        [self fineTunePressed];
+        [self fineTune];
     } else {
         [self finish];
     }
@@ -307,73 +299,6 @@ static const NSInteger LOWER_FREQUENCY_OCTAVE_CONFUSION_MINIMUM_INDEX = 6;
     [self.audioGenerator stop];
 }
 
-- (void)calculateIndexesWhenConverging {
-    ORKTinnitusSelectedPureTonePosition currentSelectedPosition = [_tinnitusContentView currentSelectedPosition];
-    
-    double chosenFrequency;
-    
-    if (currentSelectedPosition == ORKTinnitusSelectedPureTonePositionA) {
-        chosenFrequency = [_frequencies[_aFrequencyIndex] doubleValue];
-    } else {
-        chosenFrequency = [_frequencies[_bFrequencyIndex] doubleValue];
-    }
-    
-    switch (_octaveConfusionIteration) {
-        case 0:
-            if (currentSelectedPosition == ORKTinnitusSelectedPureTonePositionA) {
-                // the a button has the frequency that converged
-                if (_aFrequencyIndex < _frequencies.count - 6) {
-                    // we can test for higher octave
-                    _bFrequencyIndex = _aFrequencyIndex + 6;
-                } else {
-                    // frequency is too high testing the lower octave
-                    _bFrequencyIndex = _aFrequencyIndex;
-                    _aFrequencyIndex = _aFrequencyIndex - 6;
-                    // this will bypass phase 1
-                    _octaveConfusionIteration = _octaveConfusionIteration + 1;
-                    _isLastIteraction = YES;
-                }
-            } else {
-                // the b button has the frequency that converged
-                if (_bFrequencyIndex < _frequencies.count - 6) {
-                    // we can test for higher octave
-                    _aFrequencyIndex = _bFrequencyIndex;
-                    _bFrequencyIndex = _aFrequencyIndex + 6;
-                    _isLastIteraction = (_aFrequencyIndex <= 6);
-                } else {
-                    // frequency is too high testing the lower octave
-                    _aFrequencyIndex = _bFrequencyIndex - 6;
-                    // this will bypass phase 1
-                    _octaveConfusionIteration = _octaveConfusionIteration + 1;
-                     _isLastIteraction = YES;
-                }
-            }
-            _octaveConfusionIteration = _octaveConfusionIteration + 1;
-            break;
-        case 1:
-            if (_lastChosenFrequency != chosenFrequency) {
-                // user is confused the test ends
-                _lastChosenFrequency = chosenFrequency;
-                self.activeStepView.navigationFooterView.continueEnabled = YES;
-            } else if (_aFrequencyIndex >= LOWER_FREQUENCY_OCTAVE_CONFUSION_MINIMUM_INDEX) {
-                // we can test lower octave
-                _bFrequencyIndex = _aFrequencyIndex;
-                _aFrequencyIndex = _aFrequencyIndex - 6;
-                _octaveConfusionIteration = _octaveConfusionIteration + 1;
-                _isLastIteraction = YES;
-            } else {
-                _lastChosenFrequency = chosenFrequency;
-                _isLastIteraction = YES;
-                self.activeStepView.navigationFooterView.continueEnabled = YES;
-            }
-            break;
-        case 2:
-            _lastChosenFrequency = chosenFrequency;
-            self.activeStepView.navigationFooterView.continueEnabled = YES;
-            break;
-    }
-}
-
 - (void)addUnitForFrequencies: (NSArray *) frequencies chosen:(double)frequency {
     ORKTinnitusUnit *selectedUnit = [[ORKTinnitusUnit alloc] init];
     selectedUnit.availableFrequencies = frequencies;
@@ -387,19 +312,20 @@ static const NSInteger LOWER_FREQUENCY_OCTAVE_CONFUSION_MINIMUM_INDEX = 6;
     self.continueButtonItem  = self.internalContinueButtonItem;
 }
 
+#define roundIndexBypass 0
 - (void)resetVariables {
     ORKTinnitusPureToneStep *tinnitusPuretoneStep = (ORKTinnitusPureToneStep *)self.step;
     _frequencies = [tinnitusPuretoneStep listOfChoosableFrequencies];
     _indexOffset = 2;
-    NSUInteger round = [tinnitusPuretoneStep roundNumber] - 1;
-    _cFrequencyIndex = ([tinnitusPuretoneStep lowFrequencyIndex] * _indexOffset) + round;
-    _bFrequencyIndex = ([tinnitusPuretoneStep mediumFrequencyIndex] * _indexOffset) + round;
-    _aFrequencyIndex = ([tinnitusPuretoneStep highFrequencyIndex] * _indexOffset) + round;
+    NSUInteger round = [tinnitusPuretoneStep roundNumber] - 1 + roundIndexBypass;
+    _aFrequencyIndex = ([tinnitusPuretoneStep highFrequencyIndex] * _indexOffset) + round * 2;
+    _bFrequencyIndex = ([tinnitusPuretoneStep mediumFrequencyIndex] * _indexOffset) + round * 2;
+    _cFrequencyIndex = ([tinnitusPuretoneStep lowFrequencyIndex] * _indexOffset) + round * 2;
     _higherThresholdIndex = -1;
     _lowerThresholdIndex = -1;
     _lastChosenFrequency = 0;
     _octaveConfusionIteration = 0;
-    _interactionCounter = 0;
+    _iteractionCounter = 0;
     _isLastIteraction = NO;
     
     _choseStepStartTime = [NSDate date];
@@ -477,90 +403,115 @@ static const NSInteger LOWER_FREQUENCY_OCTAVE_CONFUSION_MINIMUM_INDEX = 6;
     [self performSelector:@selector(startAutomaticPlay) withObject:nil afterDelay:PLAY_DELAY];
 }
 
-- (void)fineTunePressed {
+- (void)fineTune {
     [_audioGenerator stop];
     ORKTinnitusSelectedPureTonePosition currentSelectedPosition = [_tinnitusContentView currentSelectedPosition];
     
+    [self getFrequencyAndCalculateIndexesFor:currentSelectedPosition];
+    
+    if (![_lastError isEqualToString:ORKTinnitusErrorNone] || _octaveConfusionIteration == 3) {
+        [self finish];
+    } else {
+        [_tinnitusContentView resetButtons];
+        [_tinnitusContentView animateButtons];
+        
+        self.navigationItem.title = [NSString stringWithFormat:ORKLocalizedString(@"TINNITUS_PURETONE_BAR_TITLE2", nil), _iteractionCounter];
+    }
+    self.activeStepView.navigationFooterView.continueEnabled = [self canEnableFineTune];
+    
+}
+
+- (void)getFrequencyAndCalculateIndexesFor:(ORKTinnitusSelectedPureTonePosition)position {
     double aFreq = [_frequencies[_aFrequencyIndex] doubleValue];
     double bFreq = [_frequencies[_bFrequencyIndex] doubleValue];
-    double cFreq = [_frequencies[_cFrequencyIndex] doubleValue];
+    double cFreq = -1;
+    if (_cFrequencyIndex >= 0) {
+        cFreq = [_frequencies[_cFrequencyIndex] doubleValue];
+    }
     double chosenFrequency;
     
-    if ([_tinnitusContentView currentStage] == PureToneButtonsStageOne) {
+    if (_bFrequencyIndex <= 0 && _lowerThresholdIndex == 0 && position == ORKTinnitusSelectedPureTonePositionB) {
+        _lastError = ORKTinnitusErrorTooLow;
+    }
+    
+    if (_aFrequencyIndex >= _frequencies.count - 1 && _higherThresholdIndex == _frequencies.count - 1 && position == ORKTinnitusSelectedPureTonePositionA) {
+        _lastError = ORKTinnitusErrorTooHigh;
+    }
+    
+    if (cFreq >= 0) {
         // first step, we have no idea of the frequency match yet, so we offer frequencies values that are far from each other
-        if (currentSelectedPosition == ORKTinnitusSelectedPureTonePositionA) {
+        if (position == ORKTinnitusSelectedPureTonePositionA) {
             chosenFrequency = aFreq;
             _higherThresholdIndex = _frequencies.count - 1;
             _lowerThresholdIndex = _bFrequencyIndex;
-            _bFrequencyIndex = _aFrequencyIndex + _indexOffset;
-        } else if (currentSelectedPosition == ORKTinnitusSelectedPureTonePositionB) {
+            _bFrequencyIndex = _aFrequencyIndex;
+            _aFrequencyIndex = _aFrequencyIndex + _indexOffset;
+        } else if (position == ORKTinnitusSelectedPureTonePositionB) {
             chosenFrequency = bFreq;
             _higherThresholdIndex = _aFrequencyIndex;
             _lowerThresholdIndex = _cFrequencyIndex;
-            _aFrequencyIndex = _bFrequencyIndex;
-            _bFrequencyIndex = _bFrequencyIndex + _indexOffset;
+            _aFrequencyIndex = _bFrequencyIndex + _indexOffset;
         } else {
             chosenFrequency = cFreq;
             _higherThresholdIndex = _bFrequencyIndex;
             _lowerThresholdIndex = 0;
-            _aFrequencyIndex = _cFrequencyIndex;
-            _bFrequencyIndex = _cFrequencyIndex + _indexOffset;
+            _bFrequencyIndex = _cFrequencyIndex;
+            _aFrequencyIndex = _cFrequencyIndex + _indexOffset;
         }
         [self addUnitForFrequencies:@[[NSNumber numberWithDouble:aFreq],
                                       [NSNumber numberWithDouble:bFreq],
                                       [NSNumber numberWithDouble:cFreq]]
                              chosen:chosenFrequency];
+        _cFrequencyIndex = -1;
     } else {
-        if (currentSelectedPosition == ORKTinnitusSelectedPureTonePositionA) {
+        if (position == ORKTinnitusSelectedPureTonePositionA) {
             chosenFrequency = aFreq;
-            if (_lastChosenFrequency == chosenFrequency && _interactionCounter > 1) {
+            if (_lastChosenFrequency == chosenFrequency && _iteractionCounter > 1) {
                 if (_indexOffset == 2) {
                     // changing to 1/6
                     _indexOffset = 1;
-                    _bFrequencyIndex = _aFrequencyIndex + _indexOffset;
+                    _bFrequencyIndex = _aFrequencyIndex;
+                    _aFrequencyIndex = _aFrequencyIndex + _indexOffset;
                 } else {
-                    // converge
-                    if (_aFrequencyIndex == _bFrequencyIndex - _indexOffset) {
-                        // we tested the 1/6 up, let's test it down
-                        _bFrequencyIndex = _aFrequencyIndex;
-                        _aFrequencyIndex = _bFrequencyIndex - _indexOffset;
-                    } else {
-                        // testing confusionn
-                        [self calculateIndexesWhenConverging];
-                    }
+                    [self calculateIndexesWhenConvergingForPosition:position];
                 }
             } else if (_octaveConfusionIteration > 0) {
                 // it's already converging continue...
-                [self calculateIndexesWhenConverging];
+                [self calculateIndexesWhenConvergingForPosition:position];
             } else {
                 if (_indexOffset == 1) {
-                    [self calculateIndexesWhenConverging];
+                    [self calculateIndexesWhenConvergingForPosition:position];
                 } else {
-                    _aFrequencyIndex = _aFrequencyIndex - _indexOffset;
-                    _bFrequencyIndex = _aFrequencyIndex + _indexOffset;
+                    _bFrequencyIndex = _aFrequencyIndex;
+                    _aFrequencyIndex = _bFrequencyIndex + _indexOffset;
                 }
             }
         } else {
             chosenFrequency = bFreq;
-            if (_lastChosenFrequency == chosenFrequency && _interactionCounter > 1) {
+            if (_lastChosenFrequency == chosenFrequency && _iteractionCounter > 1) {
                 if (_indexOffset == 2) {
-                    // fine tuning
+                    // start fine tuning up
                     _indexOffset = 1;
-                    _aFrequencyIndex = _bFrequencyIndex;
-                    _bFrequencyIndex = _aFrequencyIndex + _indexOffset;
+                    _aFrequencyIndex = _bFrequencyIndex + _indexOffset;
                 } else {
-                    // converge
-                    [self calculateIndexesWhenConverging];
+                    // See if we can fine tune down
+                    if (_octaveConfusionIteration > 0) {
+                        // was converging
+                        [self calculateIndexesWhenConvergingForPosition:position];
+                    } else if (_bFrequencyIndex - _indexOffset > _lowerThresholdIndex) {
+                        _aFrequencyIndex = _bFrequencyIndex;
+                        _bFrequencyIndex = _aFrequencyIndex - _indexOffset;
+                    }
                 }
             } else if (_octaveConfusionIteration > 0) {
                 // it's already converging continue...
-                [self calculateIndexesWhenConverging];
+                [self calculateIndexesWhenConvergingForPosition:position];
             }  else {
                 if (_indexOffset == 1) {
-                    [self calculateIndexesWhenConverging];
+                    [self calculateIndexesWhenConvergingForPosition:position];
                 } else {
                     _aFrequencyIndex = _bFrequencyIndex;
-                    _bFrequencyIndex = _aFrequencyIndex + _indexOffset;
+                    _bFrequencyIndex = _aFrequencyIndex - _indexOffset;
                 }
             }
         }
@@ -570,44 +521,85 @@ static const NSInteger LOWER_FREQUENCY_OCTAVE_CONFUSION_MINIMUM_INDEX = 6;
                              chosen:chosenFrequency];
     }
     
-    if (_lowerThresholdIndex != -1 && _octaveConfusionIteration == 0) {
-        if (_lowerThresholdIndex > 0) {
-            if (_aFrequencyIndex < _lowerThresholdIndex) {
-                _lastError = ORKTinnitusErrorInconsistency;
-                self.activeStepView.navigationFooterView.continueEnabled = YES;
-            }
+    if (_lowerThresholdIndex != -1 && _bFrequencyIndex < _lowerThresholdIndex) {
+        // we have a defined the thresholds and the user goes down too much
+        if (_octaveConfusionIteration == 0 && [_lastError isEqualToString:ORKTinnitusErrorNone]) {
+            // we are not testing convergence
+            _lastError = ORKTinnitusErrorInconsistency;
         }
-        if (_higherThresholdIndex < _frequencies.count - 1) {
-            if (_bFrequencyIndex > _higherThresholdIndex) {
-                _lastError = ORKTinnitusErrorInconsistency;
-                self.activeStepView.navigationFooterView.continueEnabled = YES;
-            }
-        }
-        if (_aFrequencyIndex < 0 ) {
-            _lastError = ORKTinnitusErrorTooLow;
-            _lastChosenFrequency = chosenFrequency;
-            [self finish];
-        }
-        if (_bFrequencyIndex > _higherThresholdIndex) {
-            _lastError = ORKTinnitusErrorTooHigh;
-            _lastChosenFrequency = chosenFrequency;
-            [self finish];
-        }
-    } else {
-        // on octave confusion test check possibility to finish on lower frequencies
-        if (_aFrequencyIndex < LOWER_FREQUENCY_OCTAVE_CONFUSION_MINIMUM_INDEX && _isLastIteraction) {
-            [self finish];
+    }
+    
+    
+    
+    if (_lowerThresholdIndex != -1 && _aFrequencyIndex > _higherThresholdIndex) {
+        // we have a defined the thresholds and the user goes up too much
+        if (_octaveConfusionIteration == 0 && [_lastError isEqualToString:ORKTinnitusErrorNone]) {
+            // we are not testing convergence
+            _lastError = ORKTinnitusErrorInconsistency;
         }
     }
     
     _lastChosenFrequency = chosenFrequency;
-    _currentSelectedPosition = currentSelectedPosition;
-    _interactionCounter = _interactionCounter + 1;
+    _iteractionCounter = _iteractionCounter + 1;
+}
+
+- (void)calculateIndexesWhenConvergingForPosition:(ORKTinnitusSelectedPureTonePosition)position {
+    double chosenFrequency;
     
-    [_tinnitusContentView resetButtons];
-    [_tinnitusContentView animateButtons];
+    if (position == ORKTinnitusSelectedPureTonePositionA) {
+        chosenFrequency = [_frequencies[_aFrequencyIndex] doubleValue];
+    } else {
+        chosenFrequency = [_frequencies[_bFrequencyIndex] doubleValue];
+    }
     
-    self.navigationItem.title = [NSString stringWithFormat:ORKLocalizedString(@"TINNITUS_PURETONE_BAR_TITLE2", nil), _interactionCounter];
+    switch (_octaveConfusionIteration) {
+        case 0:
+            // first test
+            if (_aFrequencyIndex < _frequencies.count - OCTAVE_CONFUSION_THRESHOLD_INDEX) {
+                // We can test one octave up
+                if (position == ORKTinnitusSelectedPureTonePositionA) {
+                    _bFrequencyIndex = _aFrequencyIndex;
+                }
+                _aFrequencyIndex = _bFrequencyIndex + OCTAVE_CONFUSION_THRESHOLD_INDEX;
+            } else {
+                // Can't test one octave up but we can test one octave down
+                if (position == ORKTinnitusSelectedPureTonePositionB) {
+                    _aFrequencyIndex = _bFrequencyIndex;
+                }
+                _bFrequencyIndex = _aFrequencyIndex - OCTAVE_CONFUSION_THRESHOLD_INDEX;
+                _octaveConfusionIteration = _octaveConfusionIteration + 1; // bypassing case 1
+                _isLastIteraction = YES;
+            }
+            _octaveConfusionIteration = _octaveConfusionIteration + 1;
+            break;
+        case 1:
+            // second test (only if we could test one octave up)
+            if (_lastChosenFrequency != chosenFrequency) {
+                // user is confused the test ends
+                if (chosenFrequency < [_frequencies[_higherThresholdIndex] doubleValue]) {
+                    _lastError = ORKTinnitusErrorInconsistency;
+                } else {
+                    _lastError = ORKTinnitusErrorTooHigh;
+                }
+                _lastChosenFrequency = chosenFrequency;
+            } else {
+                // Let's try one octave down if possible
+                if (_bFrequencyIndex - OCTAVE_CONFUSION_THRESHOLD_INDEX < 0) {
+                    // we can't go down and is the same frequency as before
+                    _lastChosenFrequency = chosenFrequency;
+                    _octaveConfusionIteration = _octaveConfusionIteration + 1;
+                } else {
+                    _aFrequencyIndex = _bFrequencyIndex;
+                    _bFrequencyIndex = _aFrequencyIndex - OCTAVE_CONFUSION_THRESHOLD_INDEX;
+                }
+            }
+            _octaveConfusionIteration = _octaveConfusionIteration + 1;
+            break;
+        case 2:
+            _lastChosenFrequency = chosenFrequency;
+            _octaveConfusionIteration = _octaveConfusionIteration + 1;
+            break;
+    }
 }
 
 
