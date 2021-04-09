@@ -247,6 +247,7 @@ static const CGFloat ORKTinnitusButtonTopAdjustment = 8.0;
 
 - (void)animateButtons {
     [self enableButtonsAnnouncements:NO];
+    [_scrollView setContentOffset:CGPointMake(0, 0) animated:YES];
     if (_buttonsStage == PureToneButtonsStageOne) {
         CGFloat firstAWidth = _firstAButtonView.bounds.size.width;
         [_scrollView setNeedsUpdateConstraints];
@@ -279,7 +280,6 @@ static const CGFloat ORKTinnitusButtonTopAdjustment = 8.0;
             _buttonsStage = PureToneButtonsStageTwo;
             CGFloat newContentSizeHeight = _secondAButtonView.bounds.size.height + _secondBButtonView.bounds.size.height + 2 * ORKTinnitusStandardSpacing + ORKTinnitusStandardSpacing/2 + ORKTinnitusStandardSpacing;
             _scrollView.contentSize = CGSizeMake(self.frame.size.width, newContentSizeHeight);
-            [_scrollView setContentOffset:CGPointMake(0, 0) animated:YES];
         }];
     } else {
         BOOL isStageTwo = (_buttonsStage == PureToneButtonsStageTwo);
@@ -407,18 +407,19 @@ static const CGFloat ORKTinnitusButtonTopAdjustment = 8.0;
         _secondBButtonView.buttonFinishedAutoLayout &&
         _thirdAButtonView.buttonFinishedAutoLayout &&
         _thirdBButtonView.buttonFinishedAutoLayout &&
-        _cButtonView.buttonFinishedAutoLayout) {
-        CGFloat bPosition = _firstAButtonView.bounds.size.height + ORKTinnitusStandardSpacing + ORKTinnitusStandardSpacing/2;
-        CGFloat cPosition = bPosition + _firstBButtonView.bounds.size.height + ORKTinnitusStandardSpacing;
+        _cButtonView.buttonFinishedAutoLayout &&
+        !_constraintsDefined) {
+        _constraintsDefined = YES;
         _secondALeadingConstraint.constant = _firstAButtonView.bounds.size.width + 2 * ORKTinnitusGlowAdjustment;
         _secondBLeadingConstraint.constant = _firstBButtonView.bounds.size.width + 2 * ORKTinnitusGlowAdjustment;
         _thirdALeadingConstraint.constant = _firstAButtonView.bounds.size.width + 2 * ORKTinnitusGlowAdjustment;
         _thirdBLeadingConstraint.constant = _firstBButtonView.bounds.size.width + 2 * ORKTinnitusGlowAdjustment;
-        
-        _scrollView.contentSize = CGSizeMake(self.frame.size.width,
-                                             cPosition + _cButtonView.frame.size.height
-                                             + 2 * ORKTinnitusStandardSpacing + ORKTinnitusButtonTopAdjustment);
     }
+    CGFloat bPosition = _firstAButtonView.bounds.size.height + ORKTinnitusStandardSpacing + ORKTinnitusStandardSpacing/2;
+    CGFloat cPosition = bPosition + _firstBButtonView.bounds.size.height + ORKTinnitusStandardSpacing;
+    _scrollView.contentSize = CGSizeMake(self.frame.size.width,
+                                         cPosition + _cButtonView.frame.size.height
+                                         + 2 * ORKTinnitusStandardSpacing + ORKTinnitusButtonTopAdjustment);
 }
 
 - (void)setUpConstraints {
@@ -457,16 +458,6 @@ static const CGFloat ORKTinnitusButtonTopAdjustment = 8.0;
     [_thirdBButtonView.widthAnchor constraintEqualToAnchor:_scrollView.widthAnchor constant:-2*ORKTinnitusGlowAdjustment].active = YES;
     [_thirdBButtonView.topAnchor constraintEqualToAnchor:_thirdAButtonView.bottomAnchor constant:ORKTinnitusStandardSpacing].active = YES;
     
-}
-
-- (void)toggleCurrentSelectPlayButton
-{
-    [[self currentSelectedButtonView] togglePlayButton];
-}
-
-- (BOOL)thirdButtonIsHidden
-{
-    return _cButtonView.isHidden;
 }
 
 - (void)simulateTapForPosition:(ORKTinnitusSelectedPureTonePosition)position {

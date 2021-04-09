@@ -71,8 +71,6 @@ typedef NS_ENUM(NSUInteger, PureToneButtonsStage) {
 - (void)enableButtons:(BOOL)enable;
 - (void)resetButtons;
 - (BOOL)atLeastOneButtonIsSelected;
-- (BOOL)thirdButtonIsHidden;
-- (void)toggleCurrentSelectPlayButton;
 - (BOOL)hasPlayingButton;
 - (void)restoreButtons;
 - (BOOL)isPlayingLastButton;
