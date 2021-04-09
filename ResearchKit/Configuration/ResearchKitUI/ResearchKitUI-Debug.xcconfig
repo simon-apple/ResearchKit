@@ -1,0 +1,7 @@
+//
+// ResearchKitUI-Debug.xcconfig
+//
+
+#include "ResearchKitUI-Shared.xcconfig"
+
+SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG

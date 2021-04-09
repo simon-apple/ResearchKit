@@ -1,0 +1,8 @@
+//
+// ResearchKit-Skywagon-Public-Release.xcconfig
+//
+
+#include "ResearchKit-Shared.xcconfig"
+
+GCC_SYMBOLS_PRIVATE_EXTERN = YES
+TARGETED_DEVICE_FAMILY = 1,2
