@@ -34,6 +34,7 @@
 #import "ORKTinnitusButtonView.h"
 #import "ORKTinnitusTypeResult.h"
 #import "ORKTinnitusAudioSample.h"
+#import "AVAudioMixerNode+Fade.h"
 
 #import "ORKActiveStepView.h"
 #import "ORKActiveStepViewController_Internal.h"
@@ -50,14 +51,19 @@ static const NSTimeInterval PLAY_DELAY_VOICEOVER = 1.3;
 static const NSTimeInterval PLAY_DURATION = 3.0;
 static const NSTimeInterval PLAY_DURATION_VOICEOVER = 5.0;
 
+const NSTimeInterval ORKTinnitusTypeFadeDuration = 0.1;
+const NSTimeInterval ORKTinnitusTypeFadeStep = 0.01;
+
 @interface ORKTinnitusTypeStepViewController () <ORKTinnitusButtonViewDelegate> {
     ORKTinnitusTypeContentView *_tinnitusTypeContentView;
     int _sampleIndex;
     NSTimer *_timer;
     BOOL _noneAreSimilarFlag;
+    BOOL _mixerConnected;
 }
 
 @property (nonatomic, strong) AVAudioEngine *audioEngine;
+@property (nonatomic, strong) AVAudioMixerNode *mixerNode;
 @property (nonatomic, strong) AVAudioPlayerNode *playerNode;
 @property (nonatomic, strong) AVAudioPCMBuffer *audioBuffer;
 
@@ -72,6 +78,7 @@ static const NSTimeInterval PLAY_DURATION_VOICEOVER = 5.0;
 - (void)viewDidLoad {
     [super viewDidLoad];
     _noneAreSimilarFlag = NO;
+    _mixerConnected = NO;
     
     [self setNavigationFooterView];
     
@@ -87,7 +94,8 @@ static const NSTimeInterval PLAY_DURATION_VOICEOVER = 5.0;
     self.audioEngine = [[AVAudioEngine alloc] init];
     self.playerNode = [[AVAudioPlayerNode alloc] init];
     [self.audioEngine attachNode:self.playerNode];
-    
+    self.mixerNode = self.audioEngine.mainMixerNode;
+
     self.activeStepView.navigationFooterView.optional = YES;
     
     self.isAccessibilityElement = YES;
@@ -186,6 +194,12 @@ static const NSTimeInterval PLAY_DURATION_VOICEOVER = 5.0;
     [super viewWillDisappear:animated];
     
     [self stopAutomaticPlay];
+    [self stopSample:nil];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    
     [self tearDownAudioEngine];
 }
 
@@ -193,7 +207,7 @@ static const NSTimeInterval PLAY_DURATION_VOICEOVER = 5.0;
     if (self.step.context && [self.step.context isKindOfClass:[ORKTinnitusPredefinedTaskContext class]]) {
         [super headphoneChanged:note];
         [self stopAutomaticPlay];
-        [self tearDownAudioEngine];
+        [self stopSample:nil];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [_tinnitusTypeContentView.buttonsViewArray makeObjectsPerformSelector:@selector(restoreButton)];
@@ -204,11 +218,10 @@ static const NSTimeInterval PLAY_DURATION_VOICEOVER = 5.0;
 - (void)tearDownAudioEngine {
     [self.playerNode stop];
     [self.audioEngine stop];
+    [self.mixerNode removeTapOnBus:0];
 }
 
 - (BOOL)playSound:(NSString *)identifier error:(NSError **)outError {
-    [self tearDownAudioEngine];
-    
     if (self.step.context && [self.step.context isKindOfClass:[ORKTinnitusPredefinedTaskContext class]]) {
         ORKTinnitusPredefinedTaskContext *context = (ORKTinnitusPredefinedTaskContext *)self.step.context;
         ORKTinnitusAudioSample *audioSample = [context.audioManifest noiseTypeSampleWithIdentifier:identifier error:outError];
@@ -218,17 +231,37 @@ static const NSTimeInterval PLAY_DURATION_VOICEOVER = 5.0;
             
             if (buffer) {
                 self.audioBuffer = buffer;
-                [self.audioEngine connect:self.playerNode to:self.audioEngine.outputNode format:self.audioBuffer.format];
+                
+                if (!_mixerConnected) {
+                    [self.audioEngine connect:self.playerNode to:self.mixerNode format:self.audioBuffer.format];
+                    _mixerConnected = YES;
+                }
+                
                 [self.playerNode scheduleBuffer:self.audioBuffer atTime:nil options:AVAudioPlayerNodeBufferLoops completionHandler:nil];
                 [self.audioEngine prepare];
                 if ([self.audioEngine startAndReturnError:outError]) {
-                    [self.playerNode play];
+                    [self playSample];
                     return YES;
                 }
             }
         }
     }
     return NO;
+}
+- (void)playSample {
+    _mixerNode.outputVolume = 0.0;
+    [_playerNode play];
+
+    [_mixerNode fadeInWithDuration:ORKTinnitusTypeFadeDuration stepInterval:ORKTinnitusTypeFadeStep completion:nil];
+}
+
+- (void)stopSample:(void (^ __nullable)(void))completion {
+    [_mixerNode fadeOutWithDuration:ORKTinnitusTypeFadeDuration stepInterval:ORKTinnitusTypeFadeStep completion:^{
+        [_playerNode pause];
+        if (completion) {
+            completion();
+        }
+    }];
 }
 
 - (void)setNavigationFooterView {
@@ -263,19 +296,19 @@ static const NSTimeInterval PLAY_DURATION_VOICEOVER = 5.0;
     if (!tinnitusButtonView.isSimulatedTap) {
         [self stopAutomaticPlay];
     }
-    
-    [self tearDownAudioEngine];
-    
-    if (tinnitusButtonView.isShowingPause) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            NSError *error;
-            [self playSound:tinnitusButtonView.answer error:&error];
-            [_tinnitusTypeContentView selectButton:tinnitusButtonView];
-            if (error) {
-                ORK_Log_Error("Error fetching audioSample: %@", error);
-            }
-        });
-    }
+     
+    [self stopSample:^{
+        if (tinnitusButtonView.isShowingPause) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSError *error;
+                [self playSound:tinnitusButtonView.answer error:&error];
+                [_tinnitusTypeContentView selectButton:tinnitusButtonView];
+                if (error) {
+                    ORK_Log_Error("Error fetching audioSample: %@", error);
+                }
+            });
+        }
+    }];
     
     BOOL isPlayingLastButton = (tinnitusButtonView == _tinnitusTypeContentView.buttonsViewArray[_tinnitusTypeContentView.buttonsViewArray.count - 1]);
     

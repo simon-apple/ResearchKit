@@ -36,6 +36,7 @@
 #import "ORKTinnitusVolumeResult.h"
 #import "ORKTinnitusAudioSample.h"
 #import "ORKTinnitusHeadphoneTable.h"
+#import "AVAudioMixerNode+Fade.h"
 #import "ORKActiveStepView.h"
 #import "ORKStepContainerView_Private.h"
 #import "ORKActiveStepViewController_Internal.h"
@@ -48,10 +49,14 @@
 
 #import "ORKCelestialSoftLink.h"
 
+const NSTimeInterval ORKVolumeCalibrationFadeDuration = 0.1;
+const NSTimeInterval ORKVolumeCalibrationFadeStep = 0.01;
+
 @interface ORKVolumeCalibrationStepViewController () <ORKVolumeCalibrationContentViewDelegate>
 @property (nonatomic, strong) ORKVolumeCalibrationContentView *contentView;
 @property (nonatomic, strong) ORKTinnitusAudioGenerator *audioGenerator;
 @property (nonatomic, strong) AVAudioEngine *audioEngine;
+@property (nonatomic, strong) AVAudioMixerNode *mixerNode;
 @property (nonatomic, strong) AVAudioPlayerNode *playerNode;
 @property (nonatomic, strong) AVAudioPCMBuffer *audioBuffer;
 @end
@@ -76,7 +81,8 @@
     self.audioEngine = [[AVAudioEngine alloc] init];
     self.playerNode = [[AVAudioPlayerNode alloc] init];
     [self.audioEngine attachNode:self.playerNode];
-    [self.audioEngine connect:self.playerNode to:self.audioEngine.outputNode format:self.audioBuffer.format];
+    self.mixerNode = self.audioEngine.mainMixerNode;
+    [self.audioEngine connect:self.playerNode to:self.mixerNode format:self.audioBuffer.format];
     [self.playerNode scheduleBuffer:self.audioBuffer atTime:nil options:AVAudioPlayerNodeBufferLoops completionHandler:nil];
     [self.audioEngine prepare];
     return [self.audioEngine startAndReturnError:outError];
@@ -130,6 +136,7 @@
 - (void)tearDownAudioEngine {
     [self.playerNode stop];
     [self.audioEngine stop];
+    [self.mixerNode removeTapOnBus:0];
 }
 
 - (ORKStepResult *)result {
@@ -175,8 +182,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupVolumeView];
-    [self.taskViewController saveVolume];
-    [[getAVSystemControllerClass() sharedAVSystemController] setActiveCategoryVolumeTo:UIAccessibilityIsVoiceOverRunning() ? 0.2 : 0];
     
     NSString *sampleTitle = @"Sample";
     ORKTinnitusPredefinedTaskContext *context = self.tinnitusPredefinedTaskContext;
@@ -232,18 +237,30 @@
     }
 }
 
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    [self.taskViewController saveVolume];
+    [[getAVSystemControllerClass() sharedAVSystemController] setActiveCategoryVolumeTo:UIAccessibilityIsVoiceOverRunning() ? 0.2 : 0];
+}
+
 - (void)headphoneChanged:(NSNotification *)note {
     if (self.tinnitusPredefinedTaskContext != nil) {
         [super headphoneChanged:note];
         [self.contentView setPlaybackButtonPlaying:NO];
         self.contentView.delegate = nil;
-        [self tearDownAudioEngine];
+        [self stopSample];
     }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [self.audioGenerator stop];
+    [self stopSample];
+}
+
+-(void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
     [self tearDownAudioEngine];
 }
 
@@ -264,6 +281,18 @@
     self.continueButtonItem  = self.internalContinueButtonItem;
 }
 
+- (void)playSample {
+    _mixerNode.outputVolume = 0.0;
+    [_playerNode play];
+    [_mixerNode fadeInWithDuration:ORKVolumeCalibrationFadeDuration stepInterval:ORKVolumeCalibrationFadeStep completion:nil];
+}
+
+- (void)stopSample {
+    [_mixerNode fadeOutWithDuration:ORKVolumeCalibrationFadeDuration stepInterval:ORKVolumeCalibrationFadeStep completion:^{
+        [_playerNode pause];
+    }];
+}
+
 #pragma mark - ORKVolumeCalibrationContentViewDelegate
 
 - (BOOL)contentView:(ORKVolumeCalibrationContentView *)contentView didPressPlaybackButton:(UIButton *)playbackButton {
@@ -271,10 +300,10 @@
     
     if ([self isMaskingSound]) {
         if (self.audioEngine.isRunning && !self.playerNode.isPlaying) {
-            [self.playerNode play];
+            [self playSample];
             return YES;
         } else {
-            [self.playerNode pause];
+            [self stopSample];
         }
     } else if ([self isTinnitusSoundCalibration]) {
         ORKTinnitusType type = context.type;
@@ -286,25 +315,27 @@
                     [self.audioGenerator playSoundAtFrequency:context.predominantFrequency];
                 });
                 return YES;
+            } else {
+                [self.audioGenerator stop];
             }
         } else {
             if (self.audioEngine.isRunning && !self.playerNode.isPlaying) {
-                [self.playerNode play];
+                [self playSample];
                 return YES;
+            } else {
+                [self stopSample];
             }
         }
-        [self.audioGenerator stop];
-        [self tearDownAudioEngine];
     } else {
         if (self.audioEngine.isRunning && !self.playerNode.isPlaying) {
-            [self.playerNode play];
+            [self playSample];
             return YES;
         } else {
             if (self.activeStepView.navigationFooterView.continueEnabled) {
                 [self finish];
                 [self tearDownAudioEngine];
             } else {
-                [self.playerNode pause];
+                [self stopSample];
             }
         }
     }

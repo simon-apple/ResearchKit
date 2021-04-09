@@ -42,6 +42,7 @@
 #import "ORKTinnitusAssessmentContentView.h"
 #import "ORKTinnitusAudioSample.h"
 #import "ORKTinnitusHeadphoneTable.h"
+#import "AVAudioMixerNode+Fade.h"
 
 #import "ORKStepContainerView_Private.h"
 #import "ORKNavigationContainerView_Internal.h"
@@ -50,8 +51,12 @@
 
 @import AVFoundation;
 
+const NSTimeInterval ORKTinnitusMaskingSoundFadeDuration = 0.1;
+const NSTimeInterval ORKTinnitusMaskingSoundFadeStep = 0.01;
+
 @interface ORKTinnitusMaskingSoundStepViewController () <ORKTinnitusAssessmentContentViewDelegate> {
     AVAudioEngine *_audioEngine;
+    AVAudioMixerNode *_mixerNode;
     AVAudioPlayerNode *_playerNode;
     AVAudioPCMBuffer *_audioBuffer;
     
@@ -107,8 +112,9 @@
             AVAudioPCMBuffer *buffer = [audioSample getBuffer:outError];
             
             if (buffer) {
+                _mixerNode = _audioEngine.mainMixerNode;
                 _audioBuffer = buffer;
-                [_audioEngine connect:_playerNode to:_audioEngine.outputNode format:_audioBuffer.format];
+                [_audioEngine connect:_playerNode to:_mixerNode format:buffer.format];
                 [_playerNode scheduleBuffer:_audioBuffer atTime:nil options:AVAudioPlayerNodeBufferLoops completionHandler:nil];
                 [_audioEngine prepare];
                 return [_audioEngine startAndReturnError:outError];
@@ -127,25 +133,32 @@
     }
 }
 
-- (void)stopAudio {
+- (void)tearDownAudioEngine {
     if (_playerNode) {
         [_playerNode stop];
+        [_mixerNode removeTapOnBus:0];
         [_audioEngine stop];
         _audioBuffer = nil;
         _audioEngine = nil;
         _playerNode = nil;
+        _mixerNode = nil;
     }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [self stopAudio];
+    [self stopSample];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [self tearDownAudioEngine];
 }
 
 - (void)headphoneChanged:(NSNotification *)note {
     if (self.step.context && [self.step.context isKindOfClass:[ORKTinnitusPredefinedTaskContext class]]) {
         [super headphoneChanged:note];
-        [self stopAudio];
+        [self stopSample];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.assessmentContentView setPlaybackButtonPlaying:NO];
@@ -176,16 +189,30 @@
     return sResult;
 }
 
+- (void)playSample {
+    _mixerNode.outputVolume = 0.0;
+    [_playerNode play];
+    [_mixerNode fadeInWithDuration:ORKTinnitusMaskingSoundFadeDuration stepInterval:ORKTinnitusMaskingSoundFadeStep completion:nil];
+}
+
+- (void)stopSample {
+    [_mixerNode fadeOutWithDuration:ORKTinnitusMaskingSoundFadeDuration stepInterval:ORKTinnitusMaskingSoundFadeStep completion:^{
+        [_playerNode pause];
+    }];
+}
+
+#pragma mark - ORKTinnitusAssessmentContentViewDelegate
+
 - (void)buttonCheckedWithValue:(nonnull NSString *)value {
     _selectedValue = value;
 }
 
 - (BOOL)pressedPlaybackButton:(nonnull UIButton *)playbackButton {
     if (_playerNode.isPlaying) {
-        [_playerNode pause];
+        [self stopSample];
         return NO;
     } else {
-        [_playerNode play];
+        [self playSample];
         return YES;
     }
 }
