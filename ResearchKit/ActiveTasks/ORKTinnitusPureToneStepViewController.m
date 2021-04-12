@@ -49,7 +49,7 @@
 
 static const NSTimeInterval PLAY_DELAY = 1.0;
 static const NSTimeInterval PLAY_DELAY_VOICEOVER = 1.3;
-static const NSTimeInterval PLAY_DURATION = 1.0;
+static const NSTimeInterval PLAY_DURATION = 1.3;
 static const NSTimeInterval PLAY_DURATION_VOICEOVER = 4.0;
 static const NSUInteger OCTAVE_CONFUSION_THRESHOLD_INDEX = 6;
 
