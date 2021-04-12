@@ -100,7 +100,7 @@ static OSStatus ORKTinnitusAudioGeneratorRenderTone(void *inRefCon,
         NSDecimalNumber *dbAmplitudePerFrequency =  [NSDecimalNumber decimalNumberWithString:table.dbAmplitudePerFrequency[[NSString stringWithFormat:@"%.0f",audioGenerator->_frequency]]];
         attenuation =  (powf(10, 0.05 * dbAmplitudePerFrequency.doubleValue));
     }
-    double amplitude = audioGenerator->_bufferAmplitude + attenuation;
+    double amplitude = audioGenerator->_bufferAmplitude * attenuation;
     double theta = audioGenerator->_theta;
     double theta_increment = 2.0 * M_PI * audioGenerator->_frequency / ORKTinnitusAudioGeneratorSampleRateDefault;
 
@@ -244,7 +244,6 @@ static OSStatus ORKTinnitusAudioGeneratorRenderTone(void *inRefCon,
     
     NSDecimalNumber *offsetDueToVolume = [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%.1f", [_headphoneTable gainForSystemVolume:_systemVolume interpolated:YES]]];
     NSDecimalNumber *dbSPLAmplitudePerFrequency =  [NSDecimalNumber decimalNumberWithString:_headphoneTable.dbSPLAmplitudePerFrequency[[NSString stringWithFormat:@"%.0f",_frequency]]];
-    NSDecimalNumber *dBFSCalibration = [NSDecimalNumber decimalNumberWithString:@"30"];
 
     NSDecimalNumberHandler *behavior = [NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundPlain
                                                                                               scale:2
@@ -254,8 +253,7 @@ static OSStatus ORKTinnitusAudioGeneratorRenderTone(void *inRefCon,
                                                                                 raiseOnDivideByZero:NO];
     
     NSDecimalNumber *updated_dBSPLForVolumeCurve = [dbSPLAmplitudePerFrequency decimalNumberByAdding:offsetDueToVolume withBehavior:behavior];
-    NSDecimalNumber *updated_dBSPLFor_dBFS = [updated_dBSPLForVolumeCurve decimalNumberByAdding:dBFSCalibration withBehavior:behavior];
-    return [updated_dBSPLFor_dBFS floatValue];
+    return [updated_dBSPLForVolumeCurve floatValue];
 }
 
 - (void)playSoundAtFrequency:(double)playFrequency {
