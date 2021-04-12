@@ -59,7 +59,6 @@ const NSTimeInterval ORKTinnitusTypeFadeStep = 0.01;
     int _sampleIndex;
     NSTimer *_timer;
     BOOL _noneAreSimilarFlag;
-    BOOL _mixerConnected;
 }
 
 @property (nonatomic, strong) AVAudioEngine *audioEngine;
@@ -78,7 +77,6 @@ const NSTimeInterval ORKTinnitusTypeFadeStep = 0.01;
 - (void)viewDidLoad {
     [super viewDidLoad];
     _noneAreSimilarFlag = NO;
-    _mixerConnected = NO;
     
     [self setNavigationFooterView];
     
@@ -91,10 +89,7 @@ const NSTimeInterval ORKTinnitusTypeFadeStep = 0.01;
     
     [_tinnitusTypeContentView.buttonsViewArray makeObjectsPerformSelector:@selector(setDelegate:) withObject:self];
     
-    self.audioEngine = [[AVAudioEngine alloc] init];
-    self.playerNode = [[AVAudioPlayerNode alloc] init];
-    [self.audioEngine attachNode:self.playerNode];
-    self.mixerNode = self.audioEngine.mainMixerNode;
+    [self setupAudioEngine];
 
     self.activeStepView.navigationFooterView.optional = YES;
     
@@ -107,6 +102,13 @@ const NSTimeInterval ORKTinnitusTypeFadeStep = 0.01;
     } else {
         [self setupAutoPlay];
     }
+}
+
+- (void)setupAudioEngine {
+    self.audioEngine = [[AVAudioEngine alloc] init];
+    self.playerNode = [[AVAudioPlayerNode alloc] init];
+    [self.audioEngine attachNode:self.playerNode];
+    self.mixerNode = self.audioEngine.mainMixerNode;
 }
 
 - (void)setupAutoPlay {
@@ -222,6 +224,9 @@ const NSTimeInterval ORKTinnitusTypeFadeStep = 0.01;
 }
 
 - (BOOL)playSound:(NSString *)identifier error:(NSError **)outError {
+    [self tearDownAudioEngine];
+    [self setupAudioEngine];
+
     if (self.step.context && [self.step.context isKindOfClass:[ORKTinnitusPredefinedTaskContext class]]) {
         ORKTinnitusPredefinedTaskContext *context = (ORKTinnitusPredefinedTaskContext *)self.step.context;
         ORKTinnitusAudioSample *audioSample = [context.audioManifest noiseTypeSampleWithIdentifier:identifier error:outError];
@@ -231,12 +236,7 @@ const NSTimeInterval ORKTinnitusTypeFadeStep = 0.01;
             
             if (buffer) {
                 self.audioBuffer = buffer;
-                
-                if (!_mixerConnected) {
-                    [self.audioEngine connect:self.playerNode to:self.mixerNode format:self.audioBuffer.format];
-                    _mixerConnected = YES;
-                }
-                
+                [self.audioEngine connect:self.playerNode to:self.mixerNode format:self.audioBuffer.format];
                 [self.playerNode scheduleBuffer:self.audioBuffer atTime:nil options:AVAudioPlayerNodeBufferLoops completionHandler:nil];
                 [self.audioEngine prepare];
                 if ([self.audioEngine startAndReturnError:outError]) {
@@ -257,7 +257,7 @@ const NSTimeInterval ORKTinnitusTypeFadeStep = 0.01;
 
 - (void)stopSample:(void (^ __nullable)(void))completion {
     [_mixerNode fadeOutWithDuration:ORKTinnitusTypeFadeDuration stepInterval:ORKTinnitusTypeFadeStep completion:^{
-        [_playerNode pause];
+        [_playerNode stop];
         if (completion) {
             completion();
         }
