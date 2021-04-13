@@ -78,13 +78,10 @@ const NSTimeInterval ORKTinnitusTypeFadeStep = 0.01;
     [super viewDidLoad];
     _noneAreSimilarFlag = NO;
     
-    [self setNavigationFooterView];
-    
     ORKTinnitusPredefinedTaskContext *context = (ORKTinnitusPredefinedTaskContext *)self.step.context;
     
     _tinnitusTypeContentView = [[ORKTinnitusTypeContentView alloc] initWithContext:context];
     self.activeStepView.activeCustomView = _tinnitusTypeContentView;
-    self.activeStepView.customContentFillsAvailableSpace = YES;
     _tinnitusTypeContentView.translatesAutoresizingMaskIntoConstraints = NO;
     
     [_tinnitusTypeContentView.buttonsViewArray makeObjectsPerformSelector:@selector(setDelegate:) withObject:self];
@@ -248,26 +245,25 @@ const NSTimeInterval ORKTinnitusTypeFadeStep = 0.01;
     }
     return NO;
 }
+
 - (void)playSample {
     _mixerNode.outputVolume = 0.0;
     [_playerNode play];
 
-    [_mixerNode fadeInWithDuration:ORKTinnitusTypeFadeDuration stepInterval:ORKTinnitusTypeFadeStep completion:nil];
+    [_mixerNode fadeInWithDuration:ORKTinnitusTypeFadeDuration stepInterval:ORKTinnitusTypeFadeStep completion:^{
+        [_tinnitusTypeContentView enableButtons:YES];
+    }];
 }
 
 - (void)stopSample:(void (^ __nullable)(void))completion {
+    [_tinnitusTypeContentView enableButtons:NO];
+
     [_mixerNode fadeOutWithDuration:ORKTinnitusTypeFadeDuration stepInterval:ORKTinnitusTypeFadeStep completion:^{
         [_playerNode stop];
         if (completion) {
             completion();
         }
     }];
-}
-
-- (void)setNavigationFooterView {
-    self.activeStepView.navigationFooterView.continueButtonItem = self.internalContinueButtonItem;
-    self.activeStepView.navigationFooterView.continueEnabled = NO;
-    [self.activeStepView.navigationFooterView updateContinueAndSkipEnabled];
 }
 
 - (BOOL)atLeastOneButtonIsSelected {
@@ -296,19 +292,24 @@ const NSTimeInterval ORKTinnitusTypeFadeStep = 0.01;
     if (!tinnitusButtonView.isSimulatedTap) {
         [self stopAutomaticPlay];
     }
-     
-    [self stopSample:^{
-        if (tinnitusButtonView.isShowingPause) {
+
+    if (tinnitusButtonView.isShowingPause) {
+        [_tinnitusTypeContentView selectButton:tinnitusButtonView];
+        
+        [self stopSample:^{
             dispatch_async(dispatch_get_main_queue(), ^{
                 NSError *error;
                 [self playSound:tinnitusButtonView.answer error:&error];
-                [_tinnitusTypeContentView selectButton:tinnitusButtonView];
                 if (error) {
                     ORK_Log_Error("Error fetching audioSample: %@", error);
                 }
             });
-        }
-    }];
+        }];
+    } else {
+        [self stopSample:^{
+            [_tinnitusTypeContentView enableButtons:YES];
+        }];
+    }
     
     BOOL isPlayingLastButton = (tinnitusButtonView == _tinnitusTypeContentView.buttonsViewArray[_tinnitusTypeContentView.buttonsViewArray.count - 1]);
     
