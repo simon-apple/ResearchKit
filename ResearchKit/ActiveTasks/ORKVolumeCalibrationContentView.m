@@ -102,8 +102,8 @@ static int const ORKVolumeCalibrationStepPlaybackButtonSize = 36;
     [roundedView addSubview:_playbackButton];
 
     self.titleLabel = [[UILabel alloc] init];
-    UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleHeadline];
-    _titleLabel.font = [UIFont systemFontOfSize:[[descriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue] + 1.0 weight:UIFontWeightSemibold];
+    _titleLabel.numberOfLines = 0;
+    _titleLabel.font = [self headlineTextFont];
     [roundedView addSubview:_titleLabel];
 
     self.barLevelsView = [[UIImageView alloc] init];
@@ -148,17 +148,18 @@ static int const ORKVolumeCalibrationStepPlaybackButtonSize = 36;
 
     [roundedView setTranslatesAutoresizingMaskIntoConstraints:NO];
     [[roundedView.topAnchor constraintEqualToAnchor:self.topAnchor constant:ORKVolumeCalibrationStepPadding] setActive:YES];
-    [[roundedView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-ORKVolumeCalibrationStepPadding] setActive:YES];
-    [[roundedView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:ORKVolumeCalibrationStepPadding] setActive:YES];
+    [[roundedView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor] setActive:YES];
+    [[roundedView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor] setActive:YES];
     [[roundedView.bottomAnchor constraintLessThanOrEqualToAnchor:self.bottomAnchor constant:-ORKVolumeCalibrationStepPadding] setActive:YES];
 
     [_playbackButton setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [[_playbackButton.topAnchor constraintEqualToAnchor:roundedView.topAnchor constant:ORKVolumeCalibrationStepMargin] setActive:YES];
+    [[_playbackButton.centerYAnchor constraintEqualToAnchor:_titleLabel.centerYAnchor] setActive:YES];
     [[_playbackButton.heightAnchor constraintEqualToConstant:ORKVolumeCalibrationStepPlaybackButtonSize] setActive:YES];
     [[_playbackButton.widthAnchor constraintEqualToConstant:ORKVolumeCalibrationStepPlaybackButtonSize] setActive:YES];
     [[_playbackButton.leadingAnchor constraintEqualToAnchor:roundedView.leadingAnchor constant:ORKVolumeCalibrationStepMargin] setActive:YES];
 
     [_titleLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [[_titleLabel.topAnchor constraintEqualToAnchor:roundedView.topAnchor constant:ORKVolumeCalibrationStepMargin] setActive:YES];
     [[_titleLabel.centerYAnchor constraintEqualToAnchor:_playbackButton.centerYAnchor] setActive:YES];
     [[_titleLabel.leadingAnchor constraintEqualToAnchor:_playbackButton.trailingAnchor constant:ORKVolumeCalibrationStepMargin] setActive:YES];
 
@@ -167,9 +168,10 @@ static int const ORKVolumeCalibrationStepPlaybackButtonSize = 36;
     [_barLevelsView.centerYAnchor constraintEqualToAnchor:_titleLabel.centerYAnchor constant:2.0].active = YES;
     [_barLevelsView.widthAnchor constraintEqualToConstant:30.0].active = YES;
     [_barLevelsView.heightAnchor constraintEqualToConstant:21.0].active = YES;
+    [[_barLevelsView.trailingAnchor constraintLessThanOrEqualToAnchor:roundedView.trailingAnchor constant:-ORKVolumeCalibrationStepMargin] setActive:YES];
 
     [separatorView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [[separatorView.topAnchor constraintEqualToAnchor:_playbackButton.bottomAnchor constant:ORKVolumeCalibrationStepMargin] setActive:YES];
+    [[separatorView.topAnchor constraintEqualToAnchor:_titleLabel.bottomAnchor constant:ORKVolumeCalibrationStepMargin] setActive:YES];
     [[separatorView.heightAnchor constraintEqualToConstant:1] setActive:YES];
     [[separatorView.widthAnchor constraintEqualToAnchor:roundedView.widthAnchor] setActive:YES];
     [[separatorView.centerXAnchor constraintEqualToAnchor:roundedView.centerXAnchor] setActive:YES];
@@ -193,6 +195,16 @@ static int const ORKVolumeCalibrationStepPlaybackButtonSize = 36;
     [_playbackButton addTarget:self action:@selector(playbackButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(volumeDidChange:) name:@"AVSystemController_SystemVolumeDidChangeNotification" object:nil];
+}
+
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+    [super traitCollectionDidChange:previousTraitCollection];
+    _titleLabel.font = [self headlineTextFont];
+}
+
+- (UIFont *)headlineTextFont {
+    UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleHeadline];
+    return[UIFont systemFontOfSize:[[descriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue] + 1.0 weight:UIFontWeightSemibold];
 }
 
 - (void)setPlaybackButtonPlaying:(BOOL)isPlaying {

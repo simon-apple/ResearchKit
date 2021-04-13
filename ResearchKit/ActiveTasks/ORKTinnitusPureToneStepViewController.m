@@ -224,12 +224,9 @@ static const NSUInteger OCTAVE_CONFUSION_THRESHOLD_INDEX = 6;
     
     self.tinnitusContentView = [[ORKTinnitusPureToneContentView alloc] init];
     self.activeStepView.activeCustomView = self.tinnitusContentView;
-    self.activeStepView.customContentFillsAvailableSpace = YES;
-
     self.tinnitusContentView.delegate = self;
     
     [_tinnitusContentView resetButtons];
-    
     
     ORKTaskResult *taskResults = [[self taskViewController] result];
     ORKHeadphoneTypeIdentifier headphoneType = ORKHeadphoneTypeIdentifierAirPodsGen1;

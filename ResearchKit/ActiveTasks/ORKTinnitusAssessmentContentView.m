@@ -91,17 +91,25 @@ static int const ORKTinnitusAssessmentMargin = 16;
     self.alpha = [alpha floatValue];
 }
 
+- (UIFont *)titleTextFont {
+    UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleBody];
+    return [UIFont systemFontOfSize:[[descriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue] weight:UIFontWeightRegular];
+}
+
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+    [super traitCollectionDidChange:previousTraitCollection];
+    _titleLabel.font = [self titleTextFont];
+}
+
 - (void)setupView {
     self.backgroundColor = [UIColor clearColor];
     
     _titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     _titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    _titleLabel.numberOfLines = 1;
+    _titleLabel.numberOfLines = 0;
     _titleLabel.text = self.title;
     _titleLabel.textAlignment = NSTextAlignmentLeft;
-    
-    UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleBody];
-    _titleLabel.font = [UIFont systemFontOfSize:[[descriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue] weight:UIFontWeightRegular];
+    _titleLabel.font = [self titleTextFont];
     [self addSubview:_titleLabel];
     
     if (_includeSeparator) {
@@ -137,8 +145,9 @@ static int const ORKTinnitusAssessmentMargin = 16;
 }
 
 - (void)setUpConstraints {
+    [_titleLabel.topAnchor constraintEqualToAnchor:self.topAnchor].active = YES;
     [_titleLabel.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:20.0].active = YES;
-    [_titleLabel.centerYAnchor constraintEqualToAnchor:self.centerYAnchor].active = YES;
+    [_titleLabel.bottomAnchor constraintEqualToAnchor:self.bottomAnchor].active = YES;
     
     if (_includeSeparator) {
         [_separatorView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:20.0].active = YES;
@@ -233,8 +242,8 @@ static int const ORKTinnitusAssessmentMargin = 16;
     
     self.titleLabel = [[UILabel alloc] init];
     _titleLabel.text = self.buttonTitle;
-    UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleHeadline];
-    _titleLabel.font = [UIFont systemFontOfSize:[[descriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue] + 1.0 weight:UIFontWeightSemibold];
+    _titleLabel.numberOfLines = 0;
+    _titleLabel.font = [self headlineTextFont];
     [_roundedView addSubview:_titleLabel];
     
     self.barLevelsView = [[UIImageView alloc] init];
@@ -279,13 +288,13 @@ static int const ORKTinnitusAssessmentMargin = 16;
     [_roundedView.bottomAnchor constraintLessThanOrEqualToAnchor:self.bottomAnchor].active = YES;
 
     [_playButtonView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [[_playButtonView.topAnchor constraintEqualToAnchor:_roundedView.topAnchor constant:ORKTinnitusAssessmentMargin] setActive:YES];
+    [[_playButtonView.centerYAnchor constraintEqualToAnchor:_titleLabel.centerYAnchor] setActive:YES];
     [[_playButtonView.heightAnchor constraintEqualToConstant:ORKTinnitusAssessmentPlaybackButtonSize] setActive:YES];
     [[_playButtonView.widthAnchor constraintEqualToConstant:ORKTinnitusAssessmentPlaybackButtonSize] setActive:YES];
     [[_playButtonView.leadingAnchor constraintEqualToAnchor:_roundedView.leadingAnchor constant:ORKTinnitusAssessmentMargin] setActive:YES];
     
     [_titleLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [[_titleLabel.centerYAnchor constraintEqualToAnchor:_playButtonView.centerYAnchor] setActive:YES];
+    [[_titleLabel.topAnchor constraintEqualToAnchor:_roundedView.topAnchor constant:ORKTinnitusAssessmentMargin] setActive:YES];
     [[_titleLabel.leadingAnchor constraintEqualToAnchor:_playButtonView.trailingAnchor constant:ORKTinnitusAssessmentMargin] setActive:YES];
 
     [_barLevelsView setTranslatesAutoresizingMaskIntoConstraints:NO];
@@ -293,18 +302,29 @@ static int const ORKTinnitusAssessmentMargin = 16;
     [_barLevelsView.centerYAnchor constraintEqualToAnchor:_titleLabel.centerYAnchor constant:2.0].active = YES;
     [_barLevelsView.widthAnchor constraintEqualToConstant:30.0].active = YES;
     [_barLevelsView.heightAnchor constraintEqualToConstant:21.0].active = YES;
-    
+    [[_barLevelsView.trailingAnchor constraintLessThanOrEqualToAnchor:_roundedView.trailingAnchor constant:-ORKTinnitusAssessmentMargin] setActive:YES];
+
     _separatorView.translatesAutoresizingMaskIntoConstraints = NO;
     [_separatorView.leadingAnchor constraintEqualToAnchor:_roundedView.leadingAnchor constant:ORKTinnitusAssessmentMargin].active = YES;
     [_separatorView.trailingAnchor constraintEqualToAnchor:_roundedView.trailingAnchor].active = YES;
     [_separatorView.heightAnchor constraintEqualToConstant:1.0].active = YES;
-    [_separatorView.topAnchor constraintEqualToAnchor:_playButtonView.bottomAnchor constant:ORKTinnitusAssessmentMargin].active = YES;
+    [_separatorView.topAnchor constraintEqualToAnchor:_titleLabel.bottomAnchor constant:ORKTinnitusAssessmentMargin].active = YES;
     
     [_choicesView setTranslatesAutoresizingMaskIntoConstraints:NO];
     [_choicesView.leadingAnchor constraintEqualToAnchor:_roundedView.leadingAnchor constant:ORKTinnitusAssessmentMargin].active = YES;
     [_choicesView.trailingAnchor constraintEqualToAnchor:_roundedView.trailingAnchor].active = YES;
     [_choicesView.topAnchor constraintEqualToAnchor:_separatorView.bottomAnchor constant:ORKTinnitusAssessmentMargin].active = YES;
     [_choicesView.bottomAnchor constraintEqualToAnchor:_roundedView.bottomAnchor].active = YES;
+}
+
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+    [super traitCollectionDidChange:previousTraitCollection];
+    _titleLabel.font = [self headlineTextFont];
+}
+
+- (UIFont *)headlineTextFont {
+    UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleHeadline];
+    return [UIFont systemFontOfSize:[[descriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue] + 1.0 weight:UIFontWeightSemibold];
 }
 
 - (NSString *)titleForValue:(NSString *)value {
