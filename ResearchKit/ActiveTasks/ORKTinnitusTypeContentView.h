@@ -43,6 +43,7 @@ typedef NS_ENUM(NSInteger, ORKTinnitusType);
 
 - (instancetype)initWithContext:(ORKTinnitusPredefinedTaskContext *)context;
 - (void)selectButton:(ORKTinnitusButtonView *)buttonView;
+- (void)enableButtons:(BOOL)enable;
 - (nullable NSString *)getAnswer;
 - (ORKTinnitusType)getType;
 

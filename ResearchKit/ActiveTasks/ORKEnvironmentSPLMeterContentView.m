@@ -40,8 +40,8 @@
 #import "ORKProgressView.h"
 #import "ORKCompletionCheckmarkView.h"
 
-static const CGFloat RingViewBottomPadding = 18.0;
-static const CGFloat InstructionLabelLeftPadding = 8.0;
+static const CGFloat RingViewPadding = 18.0;
+static const CGFloat InstructionLabelPadding = 8.0;
 static const CGFloat HalfCircleSize = 14.0;
 static const CGFloat BarViewHeight = 50.0;
 
@@ -51,6 +51,7 @@ static const CGFloat BarViewHeight = 50.0;
 @end
 
 @implementation ORKEnvironmentSPLMeterContentView {
+    UIView *_containerView;
     UILabel *_DBInstructionLabel;
     UIImage *_checkmarkImage;
     UIImage *_xmarkImage;
@@ -65,14 +66,40 @@ static const CGFloat BarViewHeight = 50.0;
         preValue = -M_PI_2;
         currentValue = 0.0;
         self.translatesAutoresizingMaskIntoConstraints = NO;
+        [self setupContainerView];
+        [self setupDBInstructionLabel];
         [self setupRingView];
         [self setupBarView];
         [self setupXmarkView];
         [self setProgressCircle:0.0];
-        [self setupDBInstructionLabel];
     }
 
     return self;
+}
+
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+    [super traitCollectionDidChange:previousTraitCollection];
+    _DBInstructionLabel.font = [self title3TextFont];
+}
+
+- (UIFont *)title3TextFont {
+    UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleTitle3];
+    UIFontDescriptor *fontDescriptor = [descriptor fontDescriptorWithSymbolicTraits:UIFontDescriptorTraitBold];
+    return [UIFont fontWithDescriptor:fontDescriptor size:[[descriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]];
+}
+
+- (void)setupContainerView {
+    if (!_containerView) {
+        _containerView = [UIView new];
+    }
+    _containerView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self addSubview:_containerView];
+    
+    [[_containerView.centerYAnchor constraintEqualToAnchor:self.centerYAnchor constant:-RingViewPadding] setActive:YES];
+    [[_containerView.topAnchor constraintGreaterThanOrEqualToAnchor:self.topAnchor] setActive:YES];
+    [[_containerView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor] setActive:YES];
+    [[_containerView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor] setActive:YES];
+    [[_containerView.topAnchor constraintLessThanOrEqualToAnchor:self.bottomAnchor] setActive:YES];
 }
 
 - (void)setupXmarkView {
@@ -86,7 +113,7 @@ static const CGFloat BarViewHeight = 50.0;
         _xmarkView.tintColor = UIColor.systemOrangeColor;
     }
     _xmarkView.translatesAutoresizingMaskIntoConstraints = NO;
-    [self addSubview:_xmarkView];
+    [_containerView addSubview:_xmarkView];
     
     [[_xmarkView.centerYAnchor constraintEqualToAnchor:_ringView.centerYAnchor] setActive:YES];
     [[_xmarkView.centerXAnchor constraintEqualToAnchor:_ringView.centerXAnchor] setActive:YES];
@@ -99,15 +126,14 @@ static const CGFloat BarViewHeight = 50.0;
     }
     
     _barView.translatesAutoresizingMaskIntoConstraints = NO;
-    [self addSubview:_barView];
+    [_containerView addSubview:_barView];
     
-    [[_barView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor] setActive:YES];
-    [[_barView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor] setActive:YES];
+    [[_barView.leadingAnchor constraintEqualToAnchor:_containerView.leadingAnchor] setActive:YES];
+    [[_barView.trailingAnchor constraintEqualToAnchor:_containerView.trailingAnchor] setActive:YES];
 
     [[_barView.heightAnchor constraintEqualToConstant:BarViewHeight] setActive:YES];
-    [[_barView.topAnchor constraintEqualToAnchor:_ringView.bottomAnchor constant:RingViewBottomPadding] setActive:YES];
-    
-    [[_barView.bottomAnchor constraintLessThanOrEqualToAnchor:self.bottomAnchor constant:RingViewBottomPadding] setActive:YES];
+    [[_barView.topAnchor constraintEqualToAnchor:_DBInstructionLabel.bottomAnchor constant:RingViewPadding] setActive:YES];
+    [[_barView.bottomAnchor constraintEqualToAnchor:_containerView.bottomAnchor constant:RingViewPadding] setActive:YES];
 }
 
 - (void)setupRingView {
@@ -116,12 +142,11 @@ static const CGFloat BarViewHeight = 50.0;
     }
     _ringView.animationDuration = 0.0;
     _ringView.translatesAutoresizingMaskIntoConstraints = NO;
-    [self addSubview:_ringView];
+    [_containerView addSubview:_ringView];
 
-    [[_ringView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor] setActive:YES];
-    [[_ringView.centerYAnchor constraintEqualToAnchor:self.centerYAnchor constant:-BarViewHeight] setActive:YES];
-    
-    [[_ringView.topAnchor constraintGreaterThanOrEqualToAnchor:self.topAnchor] setActive:YES];
+    [[_ringView.leadingAnchor constraintEqualToAnchor:_containerView.leadingAnchor] setActive:YES];
+    [[_ringView.centerYAnchor constraintEqualToAnchor:_DBInstructionLabel.centerYAnchor] setActive:YES];
+    [[_ringView.trailingAnchor constraintEqualToAnchor:_DBInstructionLabel.leadingAnchor constant:-InstructionLabelPadding] setActive:YES];
 
     if (@available(iOS 13.0, *)) {
         [_ringView setColor:UIColor.systemGray6Color];
@@ -132,20 +157,17 @@ static const CGFloat BarViewHeight = 50.0;
     if (!_DBInstructionLabel) {
         _DBInstructionLabel = [ORKLabel new];
         _DBInstructionLabel.numberOfLines = 0;
-        UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleTitle3];
-        UIFontDescriptor *fontDescriptor = [descriptor fontDescriptorWithSymbolicTraits:UIFontDescriptorTraitBold];
-        _DBInstructionLabel.font = [UIFont fontWithDescriptor:fontDescriptor size:0];
+        _DBInstructionLabel.font = [self title3TextFont];
         if (@available(iOS 13.0, *)) {
             _DBInstructionLabel.textColor = UIColor.labelColor;
         }
         _DBInstructionLabel.text = ORKLocalizedString(@"ENVIRONMENTSPL_CALCULATING", nil);
     }
     _DBInstructionLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    [self addSubview:_DBInstructionLabel];
+    [_containerView addSubview:_DBInstructionLabel];
 
-    [[_DBInstructionLabel.centerYAnchor constraintEqualToAnchor:_ringView.centerYAnchor] setActive:YES];
-    [[_DBInstructionLabel.leadingAnchor constraintEqualToAnchor:_ringView.trailingAnchor constant:InstructionLabelLeftPadding] setActive:YES];
-    [[_DBInstructionLabel.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-InstructionLabelLeftPadding] setActive:YES];
+    [[_DBInstructionLabel.topAnchor constraintEqualToAnchor:_containerView.topAnchor constant:InstructionLabelPadding] setActive:YES];
+    [[_DBInstructionLabel.trailingAnchor constraintEqualToAnchor:_containerView.trailingAnchor constant:-InstructionLabelPadding] setActive:YES];
 }
 
 - (void)setProgressBar:(CGFloat)progress {

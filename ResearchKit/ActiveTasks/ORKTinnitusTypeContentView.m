@@ -39,10 +39,7 @@
 
 #import "ORKCheckmarkView.h"
 
-static const CGFloat ORKTinnitusGlowAdjustment = 16.0;
-
 @interface ORKTinnitusTypeContentView () {
-    UIScrollView *_scrollView;
     ORKTinnitusButtonView *_selectedButtonView;
     ORKTinnitusPredefinedTaskContext *_context;
 }
@@ -63,7 +60,6 @@ static const CGFloat ORKTinnitusGlowAdjustment = 16.0;
 
 - (void)commonInit
 {
-    [self setupScrollView];
     _selectedButtonView = nil;
     
     NSMutableArray *buttons = [[NSMutableArray alloc] init];
@@ -75,21 +71,21 @@ static const CGFloat ORKTinnitusGlowAdjustment = 16.0;
                         detail:nil answer:noiseTypeSample.identifier];
         if (latestButtonView == nil) {
             sampleButton.translatesAutoresizingMaskIntoConstraints = NO;
-            [_scrollView addSubview:sampleButton];
-            [sampleButton.leadingAnchor constraintEqualToAnchor:_scrollView.leadingAnchor constant:ORKTinnitusGlowAdjustment].active = YES;
-            [sampleButton.trailingAnchor constraintEqualToAnchor:_scrollView.trailingAnchor constant:-ORKTinnitusGlowAdjustment].active = YES;
-            [sampleButton.widthAnchor constraintEqualToAnchor:_scrollView.widthAnchor constant:-2*ORKTinnitusGlowAdjustment].active = YES;
-            [sampleButton.topAnchor constraintEqualToAnchor:_scrollView.topAnchor constant:5.0].active = YES;
+            [self addSubview:sampleButton];
+            [sampleButton.leadingAnchor constraintEqualToAnchor:self.leadingAnchor].active = YES;
+            [sampleButton.trailingAnchor constraintEqualToAnchor:self.trailingAnchor].active = YES;
+            [sampleButton.topAnchor constraintEqualToAnchor:self.topAnchor constant:5.0].active = YES;
         } else {
             sampleButton.translatesAutoresizingMaskIntoConstraints = NO;
-            [_scrollView addSubview:sampleButton];
-            [sampleButton.leadingAnchor constraintEqualToAnchor:_scrollView.leadingAnchor constant:ORKTinnitusGlowAdjustment].active = YES;
-            [sampleButton.trailingAnchor constraintEqualToAnchor:_scrollView.trailingAnchor constant:-ORKTinnitusGlowAdjustment].active = YES;
+            [self addSubview:sampleButton];
+            [sampleButton.leadingAnchor constraintEqualToAnchor:self.leadingAnchor].active = YES;
+            [sampleButton.trailingAnchor constraintEqualToAnchor:self.trailingAnchor].active = YES;
             [sampleButton.topAnchor constraintEqualToAnchor:latestButtonView.bottomAnchor constant: 16.0].active = YES;
         }
         [buttons addObject:sampleButton];
         latestButtonView = sampleButton;
     }
+    [latestButtonView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor].active = YES;
     
     _buttonsViewArray = [buttons copy];
     
@@ -101,29 +97,6 @@ static const CGFloat ORKTinnitusGlowAdjustment = 16.0;
     [self layoutIfNeeded];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
-    ORKTinnitusButtonView *lastButton = [_buttonsViewArray lastObject];
-    if (lastButton != nil) {
-        _scrollView.contentSize = CGSizeMake(_scrollView.frame.size.width, lastButton.frame.origin.y + lastButton.frame.size.height + 32.0);
-    }
-}
-
-- (void)setupScrollView {
-    if (!_scrollView) {
-        _scrollView = [UIScrollView new];
-    }
-    [self addSubview:_scrollView];
-    _scrollView.translatesAutoresizingMaskIntoConstraints = NO;
-    [[_scrollView.topAnchor constraintEqualToAnchor:self.topAnchor] setActive:YES];
-    [[_scrollView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:-ORKTinnitusGlowAdjustment] setActive:YES];
-    [[_scrollView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:ORKTinnitusGlowAdjustment] setActive:YES];
-    [[_scrollView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor] setActive:YES];
-    
-    _scrollView.scrollEnabled = YES;
-}
-
 - (void)selectButton:(ORKTinnitusButtonView *)buttonView
 {
     NSArray *unselectArray = [_buttonsViewArray
@@ -133,7 +106,23 @@ static const CGFloat ORKTinnitusGlowAdjustment = 16.0;
     [unselectArray makeObjectsPerformSelector:@selector(restoreButton)];
     _selectedButtonView = buttonView;
     
-    [_scrollView scrollRectToVisible:[_scrollView convertRect:buttonView.bounds fromView:buttonView] animated:YES];
+    UIScrollView *scrollView = [self getScrollSuperviewFor:self];
+
+    if (_selectedButtonView.isSimulatedTap) {
+        CGRect buttonRect = [scrollView convertRect:_selectedButtonView.bounds fromView:_selectedButtonView];
+        CGRect buttonCenterRect = CGRectMake(buttonRect.origin.x,
+                                             buttonRect.origin.y - ((scrollView.bounds.size.height - buttonRect.size.height)/2),
+                                             buttonRect.size.width,
+                                             scrollView.bounds.size.height);
+        
+        [scrollView scrollRectToVisible:buttonCenterRect animated:YES];
+    }
+}
+
+- (void)enableButtons:(BOOL)enable {
+    for (ORKTinnitusButtonView *button in _buttonsViewArray) {
+        [button setUserInteractionEnabled:enable];
+    }
 }
 
 - (nullable NSString *)getAnswer {
@@ -142,6 +131,17 @@ static const CGFloat ORKTinnitusGlowAdjustment = 16.0;
 
 - (ORKTinnitusType)getType {
     return [_context.audioManifest noiseTypeSampleWithIdentifier:_selectedButtonView.answer error:nil].type;
+}
+
+-(UIScrollView *)getScrollSuperviewFor:(UIView *)view {
+    UIView *superview = view.superview;
+    if (superview) {
+        if ([superview isKindOfClass:[UIScrollView class]]) {
+            return (UIScrollView *)superview;
+        }
+        return [self getScrollSuperviewFor:superview];
+    }
+    return nil;
 }
 
 @end
