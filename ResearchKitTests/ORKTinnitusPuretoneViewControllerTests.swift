@@ -1406,6 +1406,73 @@ class ORKTinnitusPuretoneViewControllerTests: XCTestCase {
         
     }
     
+    func testMissingLowerOctaveConfusionWithoutErrors() {
+        step.roundNumber = 1
+        puretoneController = ORKTinnitusPureToneStepViewController(step: step, result: result)
+        
+        utilities.setupTopLevelUI(withViewController: puretoneController)
+        
+        var lowerFrequencyLimit:Double = Double(truncating: possibleFrequencies[puretoneController.cFrequencyIndex])
+        
+        /*
+         Low
+         Option B (lower)
+         Option A (upper)
+         Option B (lower)
+         Option A (upper)
+         Option B (lower)
+         */
+        puretoneController.getFrequencyAndCalculateIndexes(for: .C)
+        XCTAssertEqual(puretoneController.lastChosenFrequency, 400.0)
+        XCTAssertEqual(puretoneController.lastError, "None")
+        puretoneController.getFrequencyAndCalculateIndexes(for: .B)
+        XCTAssertEqual(puretoneController.lastChosenFrequency, 400.0)
+        XCTAssertEqual(puretoneController.lastError, "None")
+        puretoneController.getFrequencyAndCalculateIndexes(for: .A)
+        XCTAssertEqual(puretoneController.lastChosenFrequency, 400.0)
+        XCTAssertEqual(puretoneController.lastError, "None")
+        puretoneController.getFrequencyAndCalculateIndexes(for: .B)
+        XCTAssertEqual(puretoneController.lastChosenFrequency, 400.0)
+        XCTAssertEqual(puretoneController.lastError, "None")
+        puretoneController.getFrequencyAndCalculateIndexes(for: .A)
+        XCTAssertEqual(puretoneController.lastChosenFrequency, 400.0)
+        XCTAssertEqual(puretoneController.lastError, "None")
+        puretoneController.getFrequencyAndCalculateIndexes(for: .B)
+        XCTAssertEqual(puretoneController.lastChosenFrequency, 400.0)
+        XCTAssertEqual(puretoneController.lastError, "None")
+        let firstChosenFrequency = puretoneController.lastChosenFrequency;
+        XCTAssertEqual(firstChosenFrequency, lowerFrequencyLimit)
+        
+        puretoneController = ORKTinnitusPureToneStepViewController(step: step, result: result)
+        
+        utilities.setupTopLevelUI(withViewController: puretoneController)
+        
+        lowerFrequencyLimit = Double(truncating: possibleFrequencies[puretoneController.cFrequencyIndex])
+        
+        /*
+         Low
+         Option A (upper)
+         Option B (lower)
+         Option A (upper)
+         Option B (lower)
+         */
+        puretoneController.getFrequencyAndCalculateIndexes(for: .C)
+        XCTAssertEqual(puretoneController.lastChosenFrequency, 400.0)
+        XCTAssertEqual(puretoneController.lastError, "None")
+        puretoneController.getFrequencyAndCalculateIndexes(for: .A)
+        XCTAssertEqual(puretoneController.lastChosenFrequency, 500.0)
+        XCTAssertEqual(puretoneController.lastError, "None")
+        puretoneController.getFrequencyAndCalculateIndexes(for: .B)
+        XCTAssertEqual(puretoneController.lastChosenFrequency, 500.0)
+        XCTAssertEqual(puretoneController.lastError, "None")
+        puretoneController.getFrequencyAndCalculateIndexes(for: .A)
+        XCTAssertEqual(puretoneController.lastChosenFrequency, 561.0)
+        XCTAssertEqual(puretoneController.lastError, "None")
+        puretoneController.getFrequencyAndCalculateIndexes(for: .B)
+        XCTAssertEqual(puretoneController.lastChosenFrequency, 561.0)
+        XCTAssertEqual(puretoneController.lastError, "None")
+    }
+    
     func testInitialVariables() {
         step.roundNumber = 1;
         puretoneController = ORKTinnitusPureToneStepViewController(step: step, result: result)
