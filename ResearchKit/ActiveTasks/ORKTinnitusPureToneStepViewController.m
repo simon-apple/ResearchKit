@@ -526,6 +526,9 @@ static const NSUInteger OCTAVE_CONFUSION_THRESHOLD_INDEX = 6;
         if (_octaveConfusionIteration == 0 && [_lastError isEqualToString:ORKTinnitusErrorNone]) {
             // we are not testing convergence
             _lastError = ORKTinnitusErrorInconsistency;
+        } else if (_bFrequencyIndex < 0){
+            // no error but can't go to octave down
+            _octaveConfusionIteration = 3;
         }
     }
     
@@ -536,6 +539,9 @@ static const NSUInteger OCTAVE_CONFUSION_THRESHOLD_INDEX = 6;
         if (_octaveConfusionIteration == 0 && [_lastError isEqualToString:ORKTinnitusErrorNone]) {
             // we are not testing convergence
             _lastError = ORKTinnitusErrorInconsistency;
+        } else if (_aFrequencyIndex > _frequencies.count -1){
+            // no error but can't go to octave up
+            _octaveConfusionIteration = 3;
         }
     }
     
