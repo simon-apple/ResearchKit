@@ -88,7 +88,7 @@ static const CGFloat kMargin = 25.0;
         _slider = [[ORKScaleSlider alloc] initWithFrame:CGRectZero];
         _slider.hideValueMarkers = [formatProvider shouldHideValueMarkers];
         _slider.isWaitingForUserFeedback = ([formatProvider defaultAnswer] == nil && ![formatProvider isVertical]) ? YES : NO;
-        _slider.minimumTrackTintColor = [UIColor systemBlueColor];
+        _slider.minimumTrackTintColor = self.tintColor;
         _slider.userInteractionEnabled = YES;
         _slider.contentMode = UIViewContentModeRedraw;
         self.accessibilityElements = [self.accessibilityElements arrayByAddingObject:_slider];
@@ -237,7 +237,7 @@ static const CGFloat kMargin = 25.0;
     UIFontDescriptor *valueLabelDescriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleTitle2];
     UIFontDescriptor *valueLabelFontDescriptor = [valueLabelDescriptor fontDescriptorWithSymbolicTraits:(UIFontDescriptorTraitBold)];
     [_valueLabel setFont: [UIFont fontWithDescriptor:valueLabelFontDescriptor size:[[valueLabelFontDescriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]]];
-    [_valueLabel setTextColor:[UIColor systemBlueColor]];
+    [_valueLabel setTextColor:self.tintColor];
 }
 
 - (void)setUpSliderAndRangeLabels {
@@ -652,6 +652,11 @@ static const CGFloat kMargin = 25.0;
     }
        
     [NSLayoutConstraint activateConstraints:constraints];
+}
+
+- (void)tintColorDidChange {
+    _valueLabel.textColor = self.tintColor;
+    _slider.minimumTrackTintColor = self.tintColor;
 }
 
 - (id<ORKTextScaleAnswerFormatProvider>)textScaleFormatProvider {
