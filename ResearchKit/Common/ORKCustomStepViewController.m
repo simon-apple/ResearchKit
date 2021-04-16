@@ -131,6 +131,7 @@
     [_containerView setStepText:self.customStep.text];
     [_containerView setStepDetailText:self.customStep.detailText];
     [_containerView setStepHeaderTextAlignment:self.customStep.headerTextAlignment];
+    [_containerView setTitleIconImage:self.step.iconImage];
 }
 
 - (void)setStepHeaderTextAlignment:(NSTextAlignment)stepHeaderTextAlignment {
