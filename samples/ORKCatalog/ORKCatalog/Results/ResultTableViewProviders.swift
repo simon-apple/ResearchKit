@@ -172,6 +172,21 @@ func resultTableViewProviderForResult(_ result: ORKResult?) -> UITableViewDataSo
     case is ORKEnvironmentSPLMeterResult:
         providerType = SPLMeterStepResultTableViewProvider.self
         
+    case is ORKTinnitusTypeResult:
+        providerType = TinnitusTypeResultTableViewProvider.self
+
+    case is ORKTinnitusVolumeResult:
+        providerType = TinnitusVolumeResultTableViewProvider.self
+        
+    case is ORKTinnitusOverallAssessmentResult:
+        providerType = TinnitusOverallAssessmentResultTableViewProvider.self
+    
+    case is ORKTinnitusPureToneResult:
+        providerType = TinnitusPureToneResultTableViewProvider.self
+        
+    case is ORKTinnitusMaskingSoundResult:
+        providerType = TinnitusMaskingSoundResultTableViewProvider.self
+            
     default:
         fatalError("No ResultTableViewProvider defined for \(type(of: result)).")
     }
@@ -1343,4 +1358,121 @@ class SPLMeterStepResultTableViewProvider: ResultTableViewProvider {
         return rows
     }
 }
+
+/// Table view provider specific to an `ORKTinnitusTypeResult` instance.
+class TinnitusTypeResultTableViewProvider: ResultTableViewProvider {
+    // MARK: ResultTableViewProvider
+    
+    override func resultRowsForSection(_ section: Int) -> [ResultRow] {
+        let tinnitusTypeResult = result as! ORKTinnitusTypeResult
+        
+        let rows = super.resultRowsForSection(section)
+        
+        if section == 0 {
+            return rows + [
+                ResultRow(text: "type", detail: "\(tinnitusTypeResult.type)"),
+                ResultRow(text: "tinnitusIdentifier", detail: tinnitusTypeResult.tinnitusIdentifier)
+            ]
+        }
+        
+        return rows
+    }
+}
+
+/// Table view provider specific to an `ORKTinnitusVolumeResult` instance.
+class TinnitusVolumeResultTableViewProvider: ResultTableViewProvider {
+    // MARK: ResultTableViewProvider
+    
+    override func resultRowsForSection(_ section: Int) -> [ResultRow] {
+        let tinnitusVolumeResult = result as! ORKTinnitusVolumeResult
+        
+        let rows = super.resultRowsForSection(section)
+        
+        if section == 0 {
+            return rows + [
+                ResultRow(text: "amplitude", detail: "\(tinnitusVolumeResult.amplitude)"),
+                ResultRow(text: "volumeCurve", detail: "\(tinnitusVolumeResult.volumeCurve)")
+            ]
+        }
+        
+        return rows
+    }
+}
+
+/// Table view provider specific to an `ORKTinnitusOverallAssessmentResult` instance.
+class TinnitusOverallAssessmentResultTableViewProvider: ResultTableViewProvider {
+    // MARK: ResultTableViewProvider
+    
+    override func resultRowsForSection(_ section: Int) -> [ResultRow] {
+        let overallAssessmentResult = result as! ORKTinnitusOverallAssessmentResult
+        
+        let rows = super.resultRowsForSection(section)
+        
+        if section == 0 {
+            return rows + [
+                ResultRow(text: "answer", detail: "\(overallAssessmentResult.answer)"),
+            ]
+        }
+        
+        return rows
+    }
+}
+
+/// Table view provider specific to an `ORKTinnitusPureToneResult` instance.
+class TinnitusPureToneResultTableViewProvider: ResultTableViewProvider {
+    // MARK: UITableViewDataSource
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 1 {
+            return "ChosenUnits"
+        }
+        return super.tableView(tableView, titleForHeaderInSection: 0)
+    }
+    
+    // MARK: ResultTableViewProvider
+    
+    override func resultRowsForSection(_ section: Int) -> [ResultRow] {
+        let pureToneResult = result as! ORKTinnitusPureToneResult
+        
+        let rows = super.resultRowsForSection(section)
+        
+        if section == 0 {
+            return rows + [
+                ResultRow(text: "errorMessage", detail: pureToneResult.errorMessage),
+                ResultRow(text: "chosenFrequency", detail: "\(pureToneResult.chosenFrequency)"),
+            ]
+        } else if section == 1 {
+            guard let samples = pureToneResult.samples else { return rows }
+            return rows + samples.map { sample in
+                return ResultRow(text: "chosen: \(sample.chosenFrequency)", detail: "From: \(sample.availableFrequencies!.description), Elapsed: \(String(format: "%.3f", sample.elapsedTime))", selectable: false)
+            }
+        }
+        
+        return rows
+    }
+}
+
+/// Table view provider specific to an `ORKTinnitusMaskingSoundResult` instance.
+class TinnitusMaskingSoundResultTableViewProvider: ResultTableViewProvider {
+    // MARK: ResultTableViewProvider
+    
+    override func resultRowsForSection(_ section: Int) -> [ResultRow] {
+        let maskingAssessmentResult = result as! ORKTinnitusMaskingSoundResult
+        
+        let rows = super.resultRowsForSection(section)
+        
+        if section == 0 {
+            return rows + [
+                ResultRow(text: "answer", detail: "\(maskingAssessmentResult.answer)"),
+            ]
+        }
+        
+        return rows
+    }
+}
+
+
 //swiftlint:enable force_cast
