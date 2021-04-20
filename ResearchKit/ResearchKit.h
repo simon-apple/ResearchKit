@@ -89,7 +89,6 @@
 #import <ResearchKit/ORKEnvironmentSPLMeterResult.h>
 #import <ResearchKit/ORKResultPredicate.h>
 #import <ResearchKit/ORKHeadphoneDetectResult.h>
-#import <ResearchKit/ORKAVJournalingResult.h>
 #import <ResearchKit/ORKUSDZModelManagerResult.h>
 
 #import <ResearchKit/ORKTextButton.h>
@@ -109,7 +108,6 @@
 #import <ResearchKit/ORKPDFViewerStepViewController.h>
 #import <ResearchKit/ORKTableStepViewController.h>
 #import <ResearchKit/ORKTaskViewController.h>
-#import <ResearchKit/ORKAVJournalingTaskViewController.h>
 #import <ResearchKit/ORKTouchAnywhereStepViewController.h>
 #import <ResearchKit/ORKVerificationStepViewController.h>
 #import <ResearchKit/ORKWaitStepViewController.h>
@@ -152,3 +150,8 @@
 
 #import <ResearchKit/ORKEarlyTerminationConfiguration.h>
 #import <ResearchKit/ORKBundleAsset.h>
+
+//start-omit-internal-code
+#import <ResearchKit/ORKAVJournalingTaskViewController.h>
+#import <ResearchKit/ORKAVJournalingResult.h>
+//end-omit-internal-code

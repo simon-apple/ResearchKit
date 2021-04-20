@@ -64,6 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+//start-omit-internal-code
 @interface ORKAVJournalingPredfinedTaskContext : NSObject <ORKContext>
 
 - (void)didReachDetectionTimeLimitForTask:(id<ORKTask>)task currentStepIdentifier:(NSString *)currentStepIdentifier;
@@ -73,6 +74,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)videoOrAudioAccessDeniedForTask:(id<ORKTask>)task;
 
 @end
+//end-omit-internal-code
 
 @interface ORKdBHLTaskContext : NSObject <ORKContext>
 

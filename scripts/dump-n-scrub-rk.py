@@ -9,7 +9,8 @@ class File(object):
         self.name = os.path.basename(path)
 
     def delete(self):
-        os.remove(self.path)
+        if os.path.exists(self.path):
+            os.remove(self.path)
 
     def contains_text(self, text):
         try:
@@ -64,11 +65,9 @@ class File(object):
         if should_skip:
             raise Exception(f"Encountered unpaired delimeter {start_delimeter} in file {self.name}")
 
-
-
 def recursively_read_files():
     all_files = []
-    for root, _, files in os.walk("."):
+    for root, _, files in os.walk("../ResearchKit"):
         if ".git" not in root:
             for name in files:
                 if name != os.path.basename(__file__) \
@@ -79,26 +78,86 @@ def recursively_read_files():
                     all_files.append(File(path))
     return all_files
 
-# recursive function that parses all RK folders and deletes all internal folders and their content
-def delete_internal_folders():
+def fetch_folders_to_delete():
+    folders_to_delete = []
     for root, folders, _ in os.walk("../ResearchKit"):
         for folder in folders:
                 if is_a_folder_to_delete(folder):
                     path = os.path.join(root, folder)
-                    print(f"Deleting folder and its contents at path: {path}")
-                    rmtree(path)
+                    folders_to_delete.append(path)
 
-# helper function to that determines if a specific folder should be deleted along with its contents
+    return folders_to_delete
+
+def gather_files_from_internal_folders(folders):
+    internal_files = []
+
+    for folder in folders:
+        internal_files = internal_files + fetch_files_from_folder(folder)
+
+    return internal_files
+
 def is_a_folder_to_delete(current_folder):
     # hardcoded list of folders that need to be removed before pushing to public
-    folders_to_delete = ["PrivateHeaders", "ORKAVJournaling", "ORKFaceDetectionStep"]
-    for folder in folders_to_delete:
+    folders_to_remove = ["PrivateHeaders", "ORKAVJournaling", "ORKFaceDetectionStep"]
+    for folder in folders_to_remove:
         if folder == current_folder:
             return True
 
     return False
 
+def fetch_files_from_folder(folder_path):
+    folder_files = []
+    for root, _, files in os.walk(folder_path):
+        for name in files:
+            path = os.path.join(root, name)
+            folder_files.append(File(path))
+
+    return folder_files
+
 if __name__ == "__main__":
 
-    # delete all internal folders
-    delete_internal_folders()
+    # paths to internal folders that need to be deleted
+    folders_to_delete = fetch_folders_to_delete()
+
+    # files from within internal folders
+    files_to_delete = gather_files_from_internal_folders(folders_to_delete)
+
+    special_comment = "apple-internal"
+
+    # gather all files from project
+    files = recursively_read_files()
+
+    # filter out files with special 'apple-internal' comment
+    files_with_special_comment = [f for f in files if f.contains_text(special_comment)]
+
+    # combine fiels with special comment with files fetched from internal folders
+    files_to_delete = files_to_delete + files_with_special_comment
+
+    for file in files_to_delete:
+        print(f"File to be scrubbed: {file.path}")
+
+    pbx_file = File("../ResearchKit/ResearchKit.xcodeproj/project.pbxproj")
+    for f in files_to_delete:
+        pbx_file.remove_lines_containing(f.name)
+
+    print(f"Finished removing references in ResearchKit project file")
+
+    for f in files:
+        start_comment = "start-omit-internal-code"
+        end_comment = "end-omit-internal-code"
+        f.remove_internal_code(start_delimeter=start_comment, end_delimeter=end_comment)
+        f.remove_lines_containing("swiftlint")
+        f.remove_lines_containing("// TODO:")
+        f.remove_lines_containing("// FIXME:")
+        f.remove_lines_containing("rdar://")
+    print("Done!")
+
+    for f in files_to_delete:
+        f.delete()
+        print(f"\tDeleted file {f.name}")
+
+    for folder in folders_to_delete:
+         rmtree(folder)
+         print(f"\tDeleted filder {folder}")
+
+    print("Success!")

@@ -37,7 +37,6 @@
 
 // Predefined Tasks
 #import <ResearchKit/ORKSpeechInNoisePredefinedTask.h>
-#import <ResearchKit/ORKAVJournalingPredefinedTask.h>
 #import <ResearchKit/ORKTinnitusPredefinedTask.h>
 
 #import <ResearchKit/ORKQuestionStep_Private.h>
@@ -91,7 +90,6 @@
 #import <ResearchKit/ORKSpeechInNoiseStep.h>
 #import <ResearchKit/ORKVolumeCalibrationStep.h>
 #import <ResearchKit/ORKFaceDetectionStep.h>
-#import <ResearchKit/ORKAVJournalingStep.h>
 #import <ResearchKit/ORKHeadphonesRequiredCompletionStep.h>
 
 #import <ResearchKit/ORKTaskViewController_Private.h>
@@ -201,3 +199,8 @@
 
 #import <ResearchKit/ORKTinnitusPureToneStepViewController_Private.h>
 #import <ResearchKit/ORKTinnitusTypes.h>
+
+//start-omit-internal-code
+#import <ResearchKit/ORKAVJournalingPredefinedTask.h>
+#import <ResearchKit/ORKAVJournalingStep.h>
+//end-omit-internal-code
