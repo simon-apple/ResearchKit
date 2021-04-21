@@ -960,6 +960,7 @@
 		E2471306252B991B00FF5431 /* ORKdBHLToneAudiometryCompletionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = E2471302252B991A00FF5431 /* ORKdBHLToneAudiometryCompletionStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		E2471307252B991B00FF5431 /* ORKdBHLToneAudiometryCompletionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = E2471303252B991A00FF5431 /* ORKdBHLToneAudiometryCompletionStep.m */; };
 		E2471308252B991B00FF5431 /* ORKdBHLToneAudiometryCompletionStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2471304252B991B00FF5431 /* ORKdBHLToneAudiometryCompletionStepViewController.m */; };
+		E24AFECA262F53F500C043A2 /* No-Localization.strings in Resources */ = {isa = PBXBuildFile; fileRef = E24AFECC262F53F500C043A2 /* No-Localization.strings */; };
 		E25BEF712612876E00372483 /* UIColor+Custom.h in Headers */ = {isa = PBXBuildFile; fileRef = E25BEF6F2612876E00372483 /* UIColor+Custom.h */; };
 		E25BEF722612876E00372483 /* UIColor+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = E25BEF702612876E00372483 /* UIColor+Custom.m */; };
 		E26626C02588E6D4005A0FF8 /* ORKTinnitusMaskingSoundStep.m in Sources */ = {isa = PBXBuildFile; fileRef = E26626B82588E6D3005A0FF8 /* ORKTinnitusMaskingSoundStep.m */; };
@@ -2076,6 +2077,7 @@
 		E2471302252B991A00FF5431 /* ORKdBHLToneAudiometryCompletionStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKdBHLToneAudiometryCompletionStep.h; sourceTree = "<group>"; };
 		E2471303252B991A00FF5431 /* ORKdBHLToneAudiometryCompletionStep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKdBHLToneAudiometryCompletionStep.m; sourceTree = "<group>"; };
 		E2471304252B991B00FF5431 /* ORKdBHLToneAudiometryCompletionStepViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKdBHLToneAudiometryCompletionStepViewController.m; sourceTree = "<group>"; };
+		E24AFECB262F53F500C043A2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = "en.lproj/No-Localization.strings"; sourceTree = "<group>"; };
 		E25BEF6F2612876E00372483 /* UIColor+Custom.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+Custom.h"; sourceTree = "<group>"; };
 		E25BEF702612876E00372483 /* UIColor+Custom.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Custom.m"; sourceTree = "<group>"; };
 		E26626B82588E6D3005A0FF8 /* ORKTinnitusMaskingSoundStep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKTinnitusMaskingSoundStep.m; sourceTree = "<group>"; };
@@ -4106,6 +4108,7 @@
 			children = (
 				B1C0F4E11A9BA65F0022C153 /* ResearchKit.strings */,
 				714080D9235FD14700281E04 /* ResearchKit.stringsdict */,
+				E24AFECC262F53F500C043A2 /* No-Localization.strings */,
 			);
 			path = Localized;
 			sourceTree = "<group>";
@@ -5273,6 +5276,7 @@
 				713D4B1020FE4702002BE28D /* volume_curve_WIRED.plist in Resources */,
 				713D4B1C20FE5464002BE28D /* frequency_dBSPL_EARPODS.plist in Resources */,
 				B1A860F21A9693C400EA57B7 /* consent_02@3x.m4v in Resources */,
+				E24AFECA262F53F500C043A2 /* No-Localization.strings in Resources */,
 				E220A03525711D2700C3C211 /* dbSPLAmplitudePerFrequency_EARPODS.plist in Resources */,
 				E220A03325711D2700C3C211 /* dbSPLAmplitudePerFrequency_AIRPODSPRO.plist in Resources */,
 				E29189BD23855BAE001AFF0F /* retspl_AIRPODSPRO.plist in Resources */,
@@ -5948,6 +5952,14 @@
 				C72B9DF42356960F00B982B7 /* pt_BR */,
 			);
 			name = ResearchKit.strings;
+			sourceTree = "<group>";
+		};
+		E24AFECC262F53F500C043A2 /* No-Localization.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E24AFECB262F53F500C043A2 /* en */,
+			);
+			name = "No-Localization.strings";
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
