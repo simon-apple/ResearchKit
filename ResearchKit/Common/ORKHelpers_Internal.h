@@ -390,11 +390,21 @@ ORK_INLINE UIColor *ORKOpaqueColorWithReducedAlphaFromBaseColor(UIColor *baseCol
 ORK_EXTERN NSBundle *ORKBundle(void) ORK_AVAILABLE_DECL;
 ORK_EXTERN NSBundle *ORKDefaultLocaleBundle(void);
 
+ORK_INLINE NSString *ORKLocalizedHiddenString(NSString *key) {
+    // try to find on hidden table
+    NSString *value = [ORKDefaultLocaleBundle() localizedStringForKey:key value:@"" table:@"No-Localization"];
+    if ([value isEqualToString:key]) {
+        // If it fails try to find on default table
+        value = [ORKDefaultLocaleBundle() localizedStringForKey:key value:@"" table:@"ResearchKit"];
+    }
+    return value;
+}
+
 #define ORKDefaultLocalizedValue(key) \
 [ORKDefaultLocaleBundle() localizedStringForKey:key value:@"" table:@"ResearchKit"]
 
 #define ORKLocalizedString(key, comment) \
-[ORKBundle() localizedStringForKey:(key) value:ORKDefaultLocalizedValue(key) table:@"ResearchKit"]
+ORKLocalizedHiddenString(key)
 
 #define ORKLocalizedStringFromNumber(number) \
 [NSNumberFormatter localizedStringFromNumber:number numberStyle:NSNumberFormatterNoStyle]
