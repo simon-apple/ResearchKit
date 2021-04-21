@@ -104,10 +104,12 @@ static NSString *const ORKTinnitusMaskingSoundInstructionStepIdentifier = @"tinn
 #pragma mark - Headphone Detector
 
 - (void)startMonitoringHeadphoneChanges {
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_global_queue(QOS_CLASS_DEFAULT, 0), ^{
-        _headphoneDetector = [[ORKHeadphoneDetector alloc] initWithDelegate:self
-                                             supportedHeadphoneChipsetTypes:[ORKHeadphoneDetectStep dBHLTypes]];
-    });
+    if (_headphoneDetector == nil) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            _headphoneDetector = [[ORKHeadphoneDetector alloc] initWithDelegate:self
+                                                 supportedHeadphoneChipsetTypes:[ORKHeadphoneDetectStep dBHLTypes]];
+        });
+    }
 }
 
 - (void)headphoneTypeDetected:(nonnull ORKHeadphoneTypeIdentifier)headphoneType vendorID:(nonnull NSString *)vendorID productID:(nonnull NSString *)productID deviceSubType:(NSInteger)deviceSubType isSupported:(BOOL)isSupported {
