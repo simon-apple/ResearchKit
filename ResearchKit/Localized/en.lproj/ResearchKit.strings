@@ -725,8 +725,8 @@
 "TINNITUS_PURETONE_BAR_TITLE1" = "Round %li";
 "TINNITUS_PURETONE_BAR_TITLE2" = "Step %li";
 "TINNITUS_ROUND_COMPLETE_TITLE" = "Round %li Completed";
-"TINNITUS_ROUND_COMPLETE_TEXT" = "Thank you for for your responses. Proceed through the next 2 rounds to complete the Pitch Matching exercise.";
-"TINNITUS_FINAL_ROUND_COMPLETE_TEXT" = "Thank you for for your responses. Proceed through the next round to complete the Pitch Matching exercise.";
+"TINNITUS_ROUND_COMPLETE_TEXT" = "Thank you for your responses. Proceed through the next 2 rounds to complete the Pitch Matching exercise.";
+"TINNITUS_FINAL_ROUND_COMPLETE_TEXT" = "Thank you for your responses. Proceed through the next round to complete the Pitch Matching exercise.";
 "TINNITUS_CALIBRATION_TITLE" = "Adjust the Volume to a Comfortable Level";
 "TINNITUS_CALIBRATION_TEXT" = "Move the slider until you can clearly hear the sample.";
 "TINNITUS_FINAL_CALIBRATION_TITLE" = "Volume Matching";
