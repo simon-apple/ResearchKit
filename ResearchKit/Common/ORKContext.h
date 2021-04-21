@@ -95,6 +95,8 @@ typedef NS_ENUM(NSInteger, ORKTinnitusType);
 
 @property (nonatomic, assign) double predominantFrequency;
 
+@property (nonatomic, assign) float userVolume;
+
 - (void)resetVariables;
 
 @end

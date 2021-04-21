@@ -153,6 +153,7 @@ static NSString *const ORKTinnitusMaskingSoundInstructionStepIdentifier = @"tinn
 }
 
 - (void)resetVariables {
+    _userVolume = 0.0;
     _headphoneType = nil;
     _bluetoothMode = ORKBluetoothModeNone;
     _type = ORKTinnitusTypeUnknown;

@@ -145,7 +145,8 @@ const NSTimeInterval ORKVolumeCalibrationFadeStep = 0.01;
    if (self.tinnitusPredefinedTaskContext) {
         ORKTinnitusPredefinedTaskContext *context = self.tinnitusPredefinedTaskContext;
         float systemVolume = [[AVAudioSession sharedInstance] outputVolume];
-        
+        context.userVolume = systemVolume;
+       
         NSMutableArray *results = [NSMutableArray arrayWithArray:sResult.results];
         
         ORKTinnitusVolumeResult *tinnitusCalibrationResult = [[ORKTinnitusVolumeResult alloc] initWithIdentifier:self.step.identifier];
