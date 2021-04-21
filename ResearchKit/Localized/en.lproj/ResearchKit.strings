@@ -721,9 +721,14 @@
 "TINNITUS_TYPE_SKIP_BUTTON_TITLE" = "None Are Similar";
 "TINNITUS_FREQUENCY_MATCHING_TITLE" = "Pitch Matching";
 "TINNITUS_FREQUENCY_MATCHING_DETAIL" = "You will listen to a variety of sounds and select the one that is most similar to the tinnitus you are experiencing.";
-"TINNITUS_PURETONE_TEXT" = "Choose the frequency range that sounds the most similar to the tinnitus you are experiencing.";
+"TINNITUS_PURETONE_TEXT" = "Choose the frequency range that sounds the most similar to the tinnitus you are experiencing.\nAdjust the volume on your device if you do not hear the tone.";
 "TINNITUS_PURETONE_BAR_TITLE1" = "Round %li";
 "TINNITUS_PURETONE_BAR_TITLE2" = "Step %li";
+"TINNITUS_PURETONE_SKIP" = "Cannot hear the tone";
+"TINNITUS_PURETONE_SKIP_ALERT_TITLE" = "Skip This Step";
+"TINNITUS_PURETONE_SKIP_ALERT_DETAIL" = "If you do not hear a tone, try to adjust the volume on your device.";
+"TINNITUS_PURETONE_SKIP_ALERT_CANCEL" = "Cancel";
+"TINNITUS_PURETONE_SKIP_ALERT_SKIP" = "Skip";
 "TINNITUS_ROUND_COMPLETE_TITLE" = "Round %li Completed";
 "TINNITUS_ROUND_COMPLETE_TEXT" = "Thank you for your responses. Proceed through the next 2 rounds to complete the Pitch Matching exercise.";
 "TINNITUS_FINAL_ROUND_COMPLETE_TEXT" = "Thank you for your responses. Proceed through the next round to complete the Pitch Matching exercise.";

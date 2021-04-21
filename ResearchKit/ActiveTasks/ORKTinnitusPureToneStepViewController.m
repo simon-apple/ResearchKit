@@ -71,6 +71,7 @@ static const NSUInteger OCTAVE_CONFUSION_THRESHOLD_INDEX = 6;
 
 @property (nonatomic, strong) ORKTinnitusPureToneContentView *tinnitusContentView;
 @property (nonatomic, strong) ORKTinnitusAudioGenerator *audioGenerator;
+@property (nonatomic, assign) BOOL wasSkipped;
 @property (nonatomic, assign) BOOL expired;
 @property (nonatomic, assign, setter=setVolumeHUDHidden:) BOOL shouldHideVolumeHUD;
 
@@ -81,12 +82,15 @@ static const NSUInteger OCTAVE_CONFUSION_THRESHOLD_INDEX = 6;
 
 @implementation ORKTinnitusPureToneStepViewController
 
+@synthesize wasSkipped;
+
 - (instancetype)initWithStep:(ORKStep *)step {
     self = [super initWithStep:step];
     
     if (self) {
         _terminated = NO;
         self.suspendIfInactive = YES;
+        self.wasSkipped = NO;
     }
     
     return self;
@@ -114,6 +118,19 @@ static const NSUInteger OCTAVE_CONFUSION_THRESHOLD_INDEX = 6;
             [_tinnitusContentView restoreButtons];
         });
     }
+}
+
+- (void)setSkipButtonItem:(UIBarButtonItem *)skipButtonItem
+{
+    [skipButtonItem setTitle:ORKLocalizedString(@"TINNITUS_PURETONE_SKIP", nil)];
+    skipButtonItem.target = self;
+    skipButtonItem.action = @selector(skipButtonTapped:);
+    
+    self.activeStepView.navigationFooterView.optional = YES;
+    self.activeStepView.navigationFooterView.skipButtonItem = skipButtonItem;
+    self.activeStepView.navigationFooterView.skipEnabled = NO;
+
+    [super setSkipButtonItem:skipButtonItem];
 }
 
 - (void)setContinueButtonItem:(UIBarButtonItem *)continueButtonItem {
@@ -227,6 +244,27 @@ static const NSUInteger OCTAVE_CONFUSION_THRESHOLD_INDEX = 6;
 - (void)setNavigationFooterView {
     self.activeStepView.navigationFooterView.continueButtonItem = self.continueButtonItem;
     [self.activeStepView.navigationFooterView updateContinueAndSkipEnabled];
+}
+
+- (void)skipButtonTapped:(id)sender {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:ORKLocalizedString(@"TINNITUS_PURETONE_SKIP_ALERT_TITLE", nil)
+                                                                             message:ORKLocalizedString(@"TINNITUS_PURETONE_SKIP_ALERT_DETAIL", nil)
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *continueAction = [UIAlertAction actionWithTitle:ORKLocalizedString(@"TINNITUS_PURETONE_SKIP_ALERT_CANCEL", nil)
+                                                             style:UIAlertActionStyleDefault handler:nil];
+    [alertController addAction:continueAction];
+    
+    [alertController addAction:[UIAlertAction actionWithTitle:ORKLocalizedString(@"TINNITUS_PURETONE_SKIP_ALERT_SKIP", nil)
+                                                        style:UIAlertActionStyleDestructive
+                                                      handler:^(UIAlertAction *action) {
+        self.wasSkipped = YES;
+        [[self taskViewController] flipToPageWithIdentifier:ORKTinnitusMaskingSoundInstructionStepIdentifier forward:YES animated:YES];
+    }]];
+    
+    alertController.preferredAction = continueAction;
+    [self presentViewController:alertController animated:YES completion:nil];
+
 }
 
 - (void)continueButtonTapped:(id)sender {
@@ -344,6 +382,7 @@ static const NSUInteger OCTAVE_CONFUSION_THRESHOLD_INDEX = 6;
 }
 
 - (void)setupButtons {
+    self.skipButtonItem = self.internalSkipButtonItem;
     self.continueButtonItem  = self.internalContinueButtonItem;
 }
 
@@ -387,7 +426,7 @@ static const NSUInteger OCTAVE_CONFUSION_THRESHOLD_INDEX = 6;
     tinnitusResult.startDate = sResult.startDate;
     tinnitusResult.endDate = now;
     tinnitusResult.samples = [_chosenUnits copy];
-    tinnitusResult.chosenFrequency = _lastChosenFrequency;
+    tinnitusResult.chosenFrequency = self.wasSkipped ? 0.0 : _lastChosenFrequency;
     tinnitusResult.errorMessage = [_lastError copy];
     
     [results addObject:tinnitusResult];
@@ -426,6 +465,7 @@ static const NSUInteger OCTAVE_CONFUSION_THRESHOLD_INDEX = 6;
             [_tinnitusContentView restoreButtons];
         }
         self.activeStepView.navigationFooterView.continueEnabled = [self canEnableFineTune];
+        self.activeStepView.navigationFooterView.skipEnabled = [self canEnableFineTune];
     });
 }
 
@@ -450,11 +490,11 @@ static const NSUInteger OCTAVE_CONFUSION_THRESHOLD_INDEX = 6;
     } else {
         [_tinnitusContentView resetButtons];
         [_tinnitusContentView animateButtons];
-        
+
         self.navigationItem.title = [NSString stringWithFormat:ORKLocalizedString(@"TINNITUS_PURETONE_BAR_TITLE2", nil), _iteractionCounter];
     }
     self.activeStepView.navigationFooterView.continueEnabled = [self canEnableFineTune];
-    
+    self.activeStepView.navigationFooterView.skipEnabled = [self canEnableFineTune];    
 }
 
 - (void)getFrequencyAndCalculateIndexesFor:(ORKTinnitusSelectedPureTonePosition)position {
