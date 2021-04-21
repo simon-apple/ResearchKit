@@ -32,6 +32,8 @@
 #define ORKTinnitusTypes_h
 #import <ResearchKit/ORKDefines.h>
 
+static NSString *const ORKTinnitusMaskingSoundInstructionStepIdentifier = @"tinnitus_masking_sound_instruction";
+
 /**
  Type of tinnitus.
  */

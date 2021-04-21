@@ -55,7 +55,6 @@ static NSString *const ORKTinnitusPuretoneLoudnessMatchingStepIdentifier = @"tin
 static NSString *const ORKTinnitusWhitenoiseLoudnessMatchingStepIdentifier = @"tinnitus_whitenoise_loudness_matching";
 static NSString *const ORKTinnitusPitchMatchingInstructionStepIdentifier = @"tinnitus_pitch_matching_instruction";
 static NSString *const ORKTinnitusOverallAssessmentStepIdentifier = @"tinnitus_overall_assessment";
-static NSString *const ORKTinnitusMaskingSoundInstructionStepIdentifier = @"tinnitus_masking_sound_instruction";
 
 @interface NSMutableArray (Shuffling)
 - (void)shuffle;
