@@ -45,6 +45,10 @@
 #import "ORKHelpers_Internal.h"
 #import <ResearchKit/ResearchKit_Private.h>
 
+#import <MediaPlayer/MPVolumeView.h>
+
+#import "ORKCelestialSoftLink.h"
+
 #define ORKTinnitusFadeInDuration 0.1
 
 static const NSTimeInterval PLAY_DELAY = 1.0;
@@ -62,16 +66,18 @@ static const NSUInteger OCTAVE_CONFUSION_THRESHOLD_INDEX = 6;
     NSTimer *_timer;
     
     NSDate *_choseStepStartTime;
+    MPVolumeView *_volumeView;
 }
 
 @property (nonatomic, strong) ORKTinnitusPureToneContentView *tinnitusContentView;
 @property (nonatomic, strong) ORKTinnitusAudioGenerator *audioGenerator;
 @property (nonatomic, assign) BOOL expired;
+@property (nonatomic, assign, setter=setVolumeHUDHidden:) BOOL shouldHideVolumeHUD;
 
 - (ORKTinnitusPureToneStep *)tinnitusPuretoneStep;
+- (ORKTinnitusPredefinedTaskContext *)tinnitusPredefinedTaskContext;
 
 @end
-
 
 @implementation ORKTinnitusPureToneStepViewController
 
@@ -88,6 +94,13 @@ static const NSUInteger OCTAVE_CONFUSION_THRESHOLD_INDEX = 6;
 
 - (ORKTinnitusPureToneStep *)tinnitusPuretoneStep {
     return (ORKTinnitusPureToneStep *)self.step;
+}
+
+- (ORKTinnitusPredefinedTaskContext *)tinnitusPredefinedTaskContext {
+    if (self.step.context && [self.step.context isKindOfClass:[ORKTinnitusPredefinedTaskContext class]]) {
+        return (ORKTinnitusPredefinedTaskContext *)self.step.context;
+    }
+    return nil;
 }
 
 - (void)headphoneChanged:(NSNotification *)note {
@@ -108,6 +121,22 @@ static const NSUInteger OCTAVE_CONFUSION_THRESHOLD_INDEX = 6;
     continueButtonItem.action = @selector(continueButtonTapped:);
     
     [super setContinueButtonItem:continueButtonItem];
+}
+
+- (BOOL)getShouldHideVolumeHUD {
+    return (_volumeView != nil);
+}
+
+- (void)setVolumeHUDHidden:(BOOL)hide {
+    if (hide) {
+        _volumeView = [[MPVolumeView alloc] initWithFrame:CGRectNull];
+        [_volumeView setAlpha:0.001];
+        [_volumeView setIsAccessibilityElement:NO];
+        [self.view addSubview:_volumeView];
+    } else {
+        [_volumeView removeFromSuperview];
+        _volumeView = nil;
+    }
 }
 
 - (void)startAutomaticPlay {
@@ -203,7 +232,16 @@ static const NSUInteger OCTAVE_CONFUSION_THRESHOLD_INDEX = 6;
 - (void)continueButtonTapped:(id)sender {
     [self.navigationItem setHidesBackButton:YES];
     if (!_isLastIteraction) {
+        self.shouldHideVolumeHUD = YES;
         self.activeStepView.navigationFooterView.continueEnabled = NO;
+        if (self.tinnitusPredefinedTaskContext) {
+            ORKTinnitusPredefinedTaskContext *context = self.tinnitusPredefinedTaskContext;
+            // small delay waiting for the volume hud hide trick be effective
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.05 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [[getAVSystemControllerClass() sharedAVSystemController] setActiveCategoryVolumeTo:context.userVolume];
+            });
+        }
+        
         [self fineTune];
     } else {
         [self finish];
@@ -392,6 +430,7 @@ static const NSUInteger OCTAVE_CONFUSION_THRESHOLD_INDEX = 6;
 }
 
 - (void)animationFinishedForStage:(PureToneButtonsStage)stage {
+    self.shouldHideVolumeHUD = NO;
     if (UIAccessibilityIsVoiceOverRunning()) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((PLAY_DELAY - 0.05) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, _tinnitusContentView);
