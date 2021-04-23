@@ -257,34 +257,39 @@
 
 - (void)configureAudioSession {
     NSError *error = nil;
+    AVAudioSession * session = [AVAudioSession sharedInstance];
     
     // Stop any existing audio
-    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategorySoloAmbient error:&error];
+    [session setCategory:AVAudioSessionCategorySoloAmbient error:&error];
     if (error) {
         ORK_Log_Error("Setting AVAudioSessionCategory failed with error message: \"%@\"", error.localizedDescription);
     }
     
-    [[AVAudioSession sharedInstance] setActive:YES error:&error];
+    [session setActive:YES error:&error];
     if (error) {
         ORK_Log_Error("Activating AVAudioSession failed with error message: \"%@\"", error.localizedDescription);
     }
     
     // Force input/output from iOS device
-    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord mode:AVAudioSessionModeMeasurement options:AVAudioSessionCategoryOptionDuckOthers | AVAudioSessionCategoryOptionMixWithOthers | AVAudioSessionCategoryOptionAllowBluetoothA2DP error:&error];
+    [session setCategory:AVAudioSessionCategoryPlayAndRecord mode:AVAudioSessionModeMeasurement options:AVAudioSessionCategoryOptionDuckOthers | AVAudioSessionCategoryOptionMixWithOthers | AVAudioSessionCategoryOptionAllowBluetoothA2DP error:&error];
     if (error) {
         ORK_Log_Error("Setting AVAudioSessionCategory failed with error message: \"%@\"", error.localizedDescription);
     }
     
-    // Override Output (and Input) to use built-in mic and speaker.
-    // We need to make sure audio output is to the Headphones and Audio Input is uing the built-in mic.
-    // Although this forces both to the built-in mic AND Speaker, we need to also override the speaker.
-    [[AVAudioSession sharedInstance] overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:&error];
-    if (error)
-    {
-        ORK_Log_Error("Setting AVAudioSessionPortOverrideSpeaker failed with error message: \"%@\"", error.localizedDescription);
+    // When setting the input like this, we do not need to set the input AND the output to the iPhone.
+    NSArray<AVAudioSessionPortDescription *> * inputs = [session availableInputs];
+    for (AVAudioSessionPortDescription* desc in inputs) {
+        if ([desc.portType isEqualToString:AVAudioSessionPortBuiltInMic]) {
+            // go ahead and set our preferred input to the built-in mic
+            [session setPreferredInput:desc error:&error];
+            
+            if (error) {
+                ORK_Log_Error("Setting AVAudioSession preferred input failed with error message: \"%@\"", error.localizedDescription);
+            }
+        }
     }
     
-    [[AVAudioSession sharedInstance] setActive:YES error:&error];
+    [session setActive:YES error:&error];
     if (error) {
         ORK_Log_Error("Activating AVAudioSession failed with error message: \"%@\"", error.localizedDescription);
     }
