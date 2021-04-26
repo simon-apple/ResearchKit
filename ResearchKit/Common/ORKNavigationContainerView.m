@@ -243,7 +243,7 @@ static const CGFloat activityIndicatorPadding = 24.0;
 }
 
 - (BOOL)skipButtonHidden {
-    return (!_skipButtonItem) || _useNextForSkip || !self.optional;
+    return (!_skipButtonItem) || _useNextForSkip || !self.optional || _skipButtonItem.title == nil;
 }
 
 - (CGFloat)skipButtonAlpha {
