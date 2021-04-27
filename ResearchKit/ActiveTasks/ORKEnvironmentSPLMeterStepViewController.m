@@ -53,6 +53,8 @@
 #import <AVFoundation/AVFoundation.h>
 #include <sys/sysctl.h>
 
+static const NSTimeInterval SPL_METER_PLAY_DELAY_VOICEOVER = 3.0;
+
 @interface ORKEnvironmentSPLMeterStepViewController ()<ORKRingViewDelegate, ORKEnvironmentSPLMeterContentViewVoiceOverDelegate> {
     AVAudioEngine *_audioEngine;
     AVAudioInputNode *_inputNode;
@@ -166,6 +168,12 @@
     _requiredContiguousSamples = [self environmentSPLMeterStep].requiredContiguousSamples;
     _thresholdValue = [self environmentSPLMeterStep].thresholdValue;
     [self splWorkBlock];
+    
+    if (UIAccessibilityIsVoiceOverRunning()) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(SPL_METER_PLAY_DELAY_VOICEOVER * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, ORKLocalizedString(@"ENVIRONMENTSPL_CALCULATING", nil));
+        });
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -511,11 +519,7 @@
 
 - (void)contentView:(ORKEnvironmentSPLMeterContentView *)contentView shouldAnnounce:(NSString *)inAnnouncement
 {
-    if ([_audioEngine isRunning] == NO)
-    {
-        // Only make this announcement if the audio engine is not running.
-        UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, inAnnouncement);
-    }
+    UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, inAnnouncement);
 }
 
 @end
