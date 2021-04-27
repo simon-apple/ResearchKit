@@ -948,7 +948,6 @@
 		E2471306252B991B00FF5431 /* ORKdBHLToneAudiometryCompletionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = E2471302252B991A00FF5431 /* ORKdBHLToneAudiometryCompletionStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		E2471307252B991B00FF5431 /* ORKdBHLToneAudiometryCompletionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = E2471303252B991A00FF5431 /* ORKdBHLToneAudiometryCompletionStep.m */; };
 		E2471308252B991B00FF5431 /* ORKdBHLToneAudiometryCompletionStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2471304252B991B00FF5431 /* ORKdBHLToneAudiometryCompletionStepViewController.m */; };
-		E24AFECA262F53F500C043A2 /* No-Localization.strings in Resources */ = {isa = PBXBuildFile; fileRef = E24AFECC262F53F500C043A2 /* No-Localization.strings */; };
 		E25BEF712612876E00372483 /* UIColor+Custom.h in Headers */ = {isa = PBXBuildFile; fileRef = E25BEF6F2612876E00372483 /* UIColor+Custom.h */; };
 		E25BEF722612876E00372483 /* UIColor+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = E25BEF702612876E00372483 /* UIColor+Custom.m */; };
 		E26626C02588E6D4005A0FF8 /* ORKTinnitusMaskingSoundStep.m in Sources */ = {isa = PBXBuildFile; fileRef = E26626B82588E6D3005A0FF8 /* ORKTinnitusMaskingSoundStep.m */; };
@@ -990,6 +989,7 @@
 		E2BC456C22D79081009DAAAE /* ORKHeadphoneDetector.h in Headers */ = {isa = PBXBuildFile; fileRef = E2BC456A22D79081009DAAAE /* ORKHeadphoneDetector.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E2BC456D22D79081009DAAAE /* ORKHeadphoneDetector.m in Sources */ = {isa = PBXBuildFile; fileRef = E2BC456B22D79081009DAAAE /* ORKHeadphoneDetector.m */; };
 		E2EE530022E7735700F34987 /* VolumeCalibration.wav in Resources */ = {isa = PBXBuildFile; fileRef = E2EE52FF22E7735600F34987 /* VolumeCalibration.wav */; };
+		E2FF51F32638A33A0082825F /* No-Localization.strings in Resources */ = {isa = PBXBuildFile; fileRef = E2FF51F22638A33A0082825F /* No-Localization.strings */; };
 		F7EC216624787338000C1F46 /* ORKCustomSignatureFooterView.h in Headers */ = {isa = PBXBuildFile; fileRef = F7EC216424787338000C1F46 /* ORKCustomSignatureFooterView.h */; };
 		F7EC216724787338000C1F46 /* ORKCustomSignatureFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = F7EC216524787338000C1F46 /* ORKCustomSignatureFooterView.m */; };
 		FA7A9D2B1B082688005A2BEA /* ORKConsentDocumentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7A9D2A1B082688005A2BEA /* ORKConsentDocumentTests.m */; };
@@ -2053,7 +2053,6 @@
 		E2471302252B991A00FF5431 /* ORKdBHLToneAudiometryCompletionStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKdBHLToneAudiometryCompletionStep.h; sourceTree = "<group>"; };
 		E2471303252B991A00FF5431 /* ORKdBHLToneAudiometryCompletionStep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKdBHLToneAudiometryCompletionStep.m; sourceTree = "<group>"; };
 		E2471304252B991B00FF5431 /* ORKdBHLToneAudiometryCompletionStepViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKdBHLToneAudiometryCompletionStepViewController.m; sourceTree = "<group>"; };
-		E24AFECB262F53F500C043A2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = "en.lproj/No-Localization.strings"; sourceTree = "<group>"; };
 		E25BEF6F2612876E00372483 /* UIColor+Custom.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+Custom.h"; sourceTree = "<group>"; };
 		E25BEF702612876E00372483 /* UIColor+Custom.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Custom.m"; sourceTree = "<group>"; };
 		E26626B82588E6D3005A0FF8 /* ORKTinnitusMaskingSoundStep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKTinnitusMaskingSoundStep.m; sourceTree = "<group>"; };
@@ -2094,6 +2093,7 @@
 		E2BC456B22D79081009DAAAE /* ORKHeadphoneDetector.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKHeadphoneDetector.m; sourceTree = "<group>"; };
 		E2BC458222D8A0DD009DAAAE /* Celestial.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Celestial.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS13.0.Internal.sdk/System/Library/PrivateFrameworks/Celestial.framework; sourceTree = DEVELOPER_DIR; };
 		E2EE52FF22E7735600F34987 /* VolumeCalibration.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = VolumeCalibration.wav; sourceTree = "<group>"; };
+		E2FF51F22638A33A0082825F /* No-Localization.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = "No-Localization.strings"; sourceTree = "<group>"; };
 		F7C022F8248EEAAC00782A61 /* ORKCustomSignatureFooterView_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKCustomSignatureFooterView_Private.h; sourceTree = "<group>"; };
 		F7EC216424787338000C1F46 /* ORKCustomSignatureFooterView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKCustomSignatureFooterView.h; sourceTree = "<group>"; };
 		F7EC216524787338000C1F46 /* ORKCustomSignatureFooterView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKCustomSignatureFooterView.m; sourceTree = "<group>"; };
@@ -4082,7 +4082,7 @@
 			children = (
 				B1C0F4E11A9BA65F0022C153 /* ResearchKit.strings */,
 				714080D9235FD14700281E04 /* ResearchKit.stringsdict */,
-				E24AFECC262F53F500C043A2 /* No-Localization.strings */,
+				E2FF51F22638A33A0082825F /* No-Localization.strings */,
 			);
 			path = Localized;
 			sourceTree = "<group>";
@@ -5221,6 +5221,7 @@
 				7118AC6A20BF6A3A00D7A6BB /* Sentence5.wav in Resources */,
 				B1A860EE1A9693C400EA57B7 /* consent_05@2x.m4v in Resources */,
 				E220A03C25711D2700C3C211 /* dbSPLAmplitudePerFrequency_AIRPODS.plist in Resources */,
+				E2FF51F32638A33A0082825F /* No-Localization.strings in Resources */,
 				86C40DFA1A8D7C5C00081FAC /* MovieTintShader.fsh in Resources */,
 				E220A03425711D2700C3C211 /* dbAmplitudePerFrequency_AIRPODSPRO.plist in Resources */,
 				E2EE530022E7735700F34987 /* VolumeCalibration.wav in Resources */,
@@ -5243,7 +5244,6 @@
 				713D4B1020FE4702002BE28D /* volume_curve_WIRED.plist in Resources */,
 				713D4B1C20FE5464002BE28D /* frequency_dBSPL_EARPODS.plist in Resources */,
 				B1A860F21A9693C400EA57B7 /* consent_02@3x.m4v in Resources */,
-				E24AFECA262F53F500C043A2 /* No-Localization.strings in Resources */,
 				E220A03525711D2700C3C211 /* dbSPLAmplitudePerFrequency_EARPODS.plist in Resources */,
 				E220A03325711D2700C3C211 /* dbSPLAmplitudePerFrequency_AIRPODSPRO.plist in Resources */,
 				E29189BD23855BAE001AFF0F /* retspl_AIRPODSPRO.plist in Resources */,
@@ -5912,14 +5912,6 @@
 				C72B9DF42356960F00B982B7 /* pt_BR */,
 			);
 			name = ResearchKit.strings;
-			sourceTree = "<group>";
-		};
-		E24AFECC262F53F500C043A2 /* No-Localization.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				E24AFECB262F53F500C043A2 /* en */,
-			);
-			name = "No-Localization.strings";
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
