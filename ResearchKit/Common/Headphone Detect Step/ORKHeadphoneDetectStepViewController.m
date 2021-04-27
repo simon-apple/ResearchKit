@@ -339,6 +339,11 @@ static NSString *const ORKHeadphoneGlyphNameEarpods = @"earpods";
     [self updateAccessibilityElements];
 }
 
+- (void)reset {
+    [self setSelected:NO];
+    [self setConnected:NO];
+}
+
 - (void)setSelected:(BOOL)selected {
     _selected = selected;
     [self updateCheckView];
@@ -424,6 +429,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     ORKHeadphoneDetectedView *_airpodMaxSupportView;
     ORKHeadphoneDetectedView *_earpodSupportView;
     ORKHeadphoneDetectedView *_anyHeadphoneView;
+    NSArray <ORKHeadphoneDetectedView*> *_supportViews;
     
     ORKHeadphoneTypes _headphoneTypes;
     
@@ -438,14 +444,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
         _headphoneTypes = headphoneTypes;
         [self setupView];
         if (headphoneTypes == ORKHeadphoneTypesSupported) {
-            _airpodProSupportView.selected = NO;
-            _airpodProSupportView.connected = NO;
-            _airpodSupportView.selected = NO;
-            _airpodSupportView.connected = NO;
-            _airpodMaxSupportView.selected = NO;
-            _airpodMaxSupportView.connected = NO;
-            _earpodSupportView.selected = NO;
-            _earpodSupportView.connected = NO;
+            [_supportViews makeObjectsPerformSelector:@selector(reset)];
         } else if (headphoneTypes == ORKHeadphoneTypesAny) {
             _anyHeadphoneView.selected = NO;
             [_anyHeadphoneView anyHeadphoneDetected:ORKLocalizedString(@"HEADPHONES_NONE", nil)];
@@ -521,6 +520,8 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     UIView *hr5 = [self horizontalRuleView];
     [self addArrangedSubview:hr5];
     [[hr5.leadingAnchor constraintEqualToAnchor:self.leadingAnchor] setActive:YES];
+    
+    _supportViews = @[_airpodMaxSupportView,_airpodProSupportView,_airpodSupportView,_earpodSupportView];
 }
 
 - (void)addAnyHeadphoneDetectedView {
@@ -675,53 +676,34 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
 - (void)updateAppearanceWithExpandedCell:(BOOL)isExpanded {
     switch (_headphoneTypes) {
         case ORKHeadphoneTypesSupported:
+            [_supportViews makeObjectsPerformSelector:@selector(reset)];
             switch (_headphoneDetected) {
                 case ORKHeadphoneDetectedAirpodsGen1:
                 case ORKHeadphoneDetectedAirpodsGen2:
                     _airpodSupportView.selected = YES;
                     _airpodSupportView.connected = YES;
-                    _earpodSupportView.selected = NO;
-                    _airpodProSupportView.selected = NO;
-                    _airpodMaxSupportView.selected = NO;
                     [self setAirpodProCellExpanded: NO];
                     [self setAirpodMaxCellExpanded: NO];
                     break;
                 case ORKHeadphoneDetectedAirpodsPro:
                     _airpodProSupportView.selected = YES;
                     _airpodProSupportView.connected = YES;
-                    _earpodSupportView.selected = NO;
-                    _airpodSupportView.selected = NO;
-                    _airpodMaxSupportView.selected = NO;
                     [self setAirpodProCellExpanded: isExpanded];
                     [self setAirpodMaxCellExpanded: NO];
                     break;
                 case ORKHeadphoneDetectedAirpodsMax:
                     _airpodMaxSupportView.selected = YES;
                     _airpodMaxSupportView.connected = YES;
-                    _earpodSupportView.selected = NO;
-                    _airpodSupportView.selected = NO;
-                    _airpodProSupportView.selected = NO;
                     [self setAirpodProCellExpanded: NO];
                     [self setAirpodMaxCellExpanded: isExpanded];
                     break;
                 case ORKHeadphoneDetectedEarpods:
                     _earpodSupportView.selected = YES;
                     _earpodSupportView.connected = YES;
-                    _airpodProSupportView.selected = NO;
-                    _airpodSupportView.selected = NO;
-                    _airpodMaxSupportView.selected = NO;
                     [self setAirpodProCellExpanded: NO];
                     [self setAirpodMaxCellExpanded: NO];
                     break;
                 default:
-                    _airpodProSupportView.selected = NO;
-                    _airpodProSupportView.connected = NO;
-                    _airpodSupportView.selected = NO;
-                    _airpodSupportView.connected = NO;
-                    _earpodSupportView.selected = NO;
-                    _earpodSupportView.connected = NO;
-                    _airpodMaxSupportView.selected = NO;
-                    _airpodMaxSupportView.connected = NO;
                     [self setAirpodProCellExpanded: NO];
                     [self setAirpodMaxCellExpanded: NO];
                     break;
