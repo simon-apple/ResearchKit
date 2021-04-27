@@ -392,7 +392,7 @@ ORK_EXTERN NSBundle *ORKDefaultLocaleBundle(void);
 
 ORK_INLINE NSString *ORKLocalizedHiddenString(NSString *key) {
     // try to find on hidden table
-    NSString *value = [ORKDefaultLocaleBundle() localizedStringForKey:key value:@"" table:@"No-Localization"];
+    NSString *value = [ORKBundle() localizedStringForKey:key value:@"" table:@"No-Localization"];
     if ([value isEqualToString:key]) {
         // If it fails try to find on default table
         value = [ORKDefaultLocaleBundle() localizedStringForKey:key value:@"" table:@"ResearchKit"];
