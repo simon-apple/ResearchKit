@@ -49,6 +49,7 @@
 #import <ResearchKit/ORKRegistrationStep.h>
 #import <ResearchKit/ORKReviewStep.h>
 #import <ResearchKit/ORKSignatureStep.h>
+#import <ResearchKit/ORKAccuracyStroopStep.h>
 #import <ResearchKit/ORKTableStep.h>
 #import <ResearchKit/ORKTouchAnywhereStep.h>
 #import <ResearchKit/ORKVerificationStep.h>

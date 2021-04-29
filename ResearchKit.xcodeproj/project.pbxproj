@@ -256,6 +256,8 @@
 		51E03D692491A601008F8406 /* ORKHealthKitPermissionType.m in Sources */ = {isa = PBXBuildFile; fileRef = 51E03D672491A601008F8406 /* ORKHealthKitPermissionType.m */; };
 		51E03D6D2491B6DB008F8406 /* ORKRequestPermissionView.h in Headers */ = {isa = PBXBuildFile; fileRef = 51E03D6B2491B6DB008F8406 /* ORKRequestPermissionView.h */; };
 		51E03D6E2491B6DB008F8406 /* ORKRequestPermissionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 51E03D6C2491B6DB008F8406 /* ORKRequestPermissionView.m */; };
+		5D003DA126377E7400A6439B /* ORKAccuracyStroopResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D003D9F26377E7400A6439B /* ORKAccuracyStroopResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5D003DA226377E7400A6439B /* ORKAccuracyStroopResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D003DA026377E7400A6439B /* ORKAccuracyStroopResult.m */; };
 		5D04884525EED08D0006C68B /* ORKHeadphonesRequiredCompletionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D04884425EED08D0006C68B /* ORKHeadphonesRequiredCompletionStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5D04884825EEDB6F0006C68B /* ORKHeadphonesRequiredCompletionStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D04884625EEDB6F0006C68B /* ORKHeadphonesRequiredCompletionStepViewController.h */; };
 		5D04884925EEDB6F0006C68B /* ORKHeadphonesRequiredCompletionStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D04884725EEDB6F0006C68B /* ORKHeadphonesRequiredCompletionStepViewController.m */; };
@@ -732,6 +734,12 @@
 		959A2C0E1D68C91400841B04 /* ORKShoulderRangeOfMotionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 959A2C0C1D68C91400841B04 /* ORKShoulderRangeOfMotionStep.m */; };
 		95E11E551D73396300BF865B /* ORKShoulderRangeOfMotionStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 95E11E531D73396300BF865B /* ORKShoulderRangeOfMotionStepViewController.h */; };
 		95E11E561D73396300BF865B /* ORKShoulderRangeOfMotionStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95E11E541D73396300BF865B /* ORKShoulderRangeOfMotionStepViewController.m */; };
+		A659C53A262E0A3200E920DA /* ORKAccuracyStroopStep.h in Headers */ = {isa = PBXBuildFile; fileRef = A659C538262E0A3200E920DA /* ORKAccuracyStroopStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A659C53B262E0A3200E920DA /* ORKAccuracyStroopStep.m in Sources */ = {isa = PBXBuildFile; fileRef = A659C539262E0A3200E920DA /* ORKAccuracyStroopStep.m */; };
+		A659C53E262E0ABE00E920DA /* ORKAccuracyStroopStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = A659C53C262E0ABE00E920DA /* ORKAccuracyStroopStepViewController.h */; };
+		A659C53F262E0ABE00E920DA /* ORKAccuracyStroopStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A659C53D262E0ABE00E920DA /* ORKAccuracyStroopStepViewController.m */; };
+		A659C546262E0F5600E920DA /* UIColor+String.h in Headers */ = {isa = PBXBuildFile; fileRef = A659C544262E0F5600E920DA /* UIColor+String.h */; };
+		A659C547262E0F5600E920DA /* UIColor+String.m in Sources */ = {isa = PBXBuildFile; fileRef = A659C545262E0F5600E920DA /* UIColor+String.m */; };
 		AE2CF2C123231C5A00FDD733 /* ORKTagLabel.h in Headers */ = {isa = PBXBuildFile; fileRef = AE2CF2BF23231C5A00FDD733 /* ORKTagLabel.h */; };
 		AE2CF2C223231C5A00FDD733 /* ORKTagLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = AE2CF2C023231C5A00FDD733 /* ORKTagLabel.m */; };
 		AE75433A24E32CCC00E4C7CF /* ORKEarlyTerminationConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = AE75433824E32CCC00E4C7CF /* ORKEarlyTerminationConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1355,6 +1363,8 @@
 		5D000EDC2620F27100E5442A /* ResearchKitCore-(watchOS)-Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "ResearchKitCore-(watchOS)-Shared.xcconfig"; sourceTree = "<group>"; };
 		5D000EDE2620F27100E5442A /* ResearchKitUI-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "ResearchKitUI-Debug.xcconfig"; sourceTree = "<group>"; };
 		5D000EDF2620F27100E5442A /* ResearchKitUI-Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "ResearchKitUI-Shared.xcconfig"; sourceTree = "<group>"; };
+		5D003D9F26377E7400A6439B /* ORKAccuracyStroopResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKAccuracyStroopResult.h; sourceTree = "<group>"; };
+		5D003DA026377E7400A6439B /* ORKAccuracyStroopResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKAccuracyStroopResult.m; sourceTree = "<group>"; };
 		5D04884425EED08D0006C68B /* ORKHeadphonesRequiredCompletionStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKHeadphonesRequiredCompletionStep.h; sourceTree = "<group>"; };
 		5D04884625EEDB6F0006C68B /* ORKHeadphonesRequiredCompletionStepViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKHeadphonesRequiredCompletionStepViewController.h; sourceTree = "<group>"; };
 		5D04884725EEDB6F0006C68B /* ORKHeadphonesRequiredCompletionStepViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKHeadphonesRequiredCompletionStepViewController.m; sourceTree = "<group>"; };
@@ -1808,6 +1818,12 @@
 		959A2C0C1D68C91400841B04 /* ORKShoulderRangeOfMotionStep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKShoulderRangeOfMotionStep.m; sourceTree = "<group>"; };
 		95E11E531D73396300BF865B /* ORKShoulderRangeOfMotionStepViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKShoulderRangeOfMotionStepViewController.h; sourceTree = "<group>"; };
 		95E11E541D73396300BF865B /* ORKShoulderRangeOfMotionStepViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKShoulderRangeOfMotionStepViewController.m; sourceTree = "<group>"; };
+		A659C538262E0A3200E920DA /* ORKAccuracyStroopStep.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKAccuracyStroopStep.h; sourceTree = "<group>"; };
+		A659C539262E0A3200E920DA /* ORKAccuracyStroopStep.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKAccuracyStroopStep.m; sourceTree = "<group>"; };
+		A659C53C262E0ABE00E920DA /* ORKAccuracyStroopStepViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKAccuracyStroopStepViewController.h; sourceTree = "<group>"; };
+		A659C53D262E0ABE00E920DA /* ORKAccuracyStroopStepViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKAccuracyStroopStepViewController.m; sourceTree = "<group>"; };
+		A659C544262E0F5600E920DA /* UIColor+String.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+String.h"; sourceTree = "<group>"; };
+		A659C545262E0F5600E920DA /* UIColor+String.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+String.m"; sourceTree = "<group>"; };
 		AE2CF2BF23231C5A00FDD733 /* ORKTagLabel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKTagLabel.h; sourceTree = "<group>"; };
 		AE2CF2C023231C5A00FDD733 /* ORKTagLabel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKTagLabel.m; sourceTree = "<group>"; };
 		AE75433824E32CCC00E4C7CF /* ORKEarlyTerminationConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKEarlyTerminationConfiguration.h; sourceTree = "<group>"; };
@@ -4124,6 +4140,14 @@
 				BA0AA6911EAEC0B600671ACE /* ORKStroopStep.m */,
 				BA0AA6921EAEC0B600671ACE /* ORKStroopStepViewController.h */,
 				BA0AA6931EAEC0B600671ACE /* ORKStroopStepViewController.m */,
+				A659C538262E0A3200E920DA /* ORKAccuracyStroopStep.h */,
+				A659C539262E0A3200E920DA /* ORKAccuracyStroopStep.m */,
+				A659C53C262E0ABE00E920DA /* ORKAccuracyStroopStepViewController.h */,
+				A659C53D262E0ABE00E920DA /* ORKAccuracyStroopStepViewController.m */,
+				A659C544262E0F5600E920DA /* UIColor+String.h */,
+				A659C545262E0F5600E920DA /* UIColor+String.m */,
+				5D003D9F26377E7400A6439B /* ORKAccuracyStroopResult.h */,
+				5D003DA026377E7400A6439B /* ORKAccuracyStroopResult.m */,
 			);
 			name = Stroop;
 			sourceTree = "<group>";
@@ -4566,6 +4590,7 @@
 				2E8070F71FAD217500E4FC7F /* ORKSpeechRecognizer.h in Headers */,
 				BF91559C1BDE8D7D007FA459 /* ORKReviewStep.h in Headers */,
 				BC13CE391B0660220044153C /* ORKNavigableOrderedTask.h in Headers */,
+				A659C546262E0F5600E920DA /* UIColor+String.h in Headers */,
 				71BD9EA920969EED007B436E /* ORKEnvironmentSPLMeterStepViewController.h in Headers */,
 				16A24B70230B70890094C4C2 /* Celestial_Private.h in Headers */,
 				86C40C921A8D7C5C00081FAC /* ORKAudioRecorder.h in Headers */,
@@ -4602,6 +4627,7 @@
 				86C40CAC1A8D7C5C00081FAC /* ORKRecorder.h in Headers */,
 				03057F3D2515772E00C4EC5B /* ORKAudioFitnessStep.h in Headers */,
 				E2A676F6238DCCCA006193D7 /* AVOutputDeviceModelSpecificKeys.h in Headers */,
+				5D003DA126377E7400A6439B /* ORKAccuracyStroopResult.h in Headers */,
 				865EA1681ABA1AA10037C68E /* ORKPicker.h in Headers */,
 				86C40CC81A8D7C5C00081FAC /* ORKFormItemCell.h in Headers */,
 				86C40DF21A8D7C5C00081FAC /* ORKConsentReviewController.h in Headers */,
@@ -4870,6 +4896,7 @@
 				BC37323222B76D1A0021F665 /* ORKTextButton_Internal.h in Headers */,
 				86C40DE21A8D7C5C00081FAC /* ORKVerticalContainerView_Internal.h in Headers */,
 				BC01B0FB1B0EB99700863803 /* ORKTintedImageView_Internal.h in Headers */,
+				A659C53A262E0A3200E920DA /* ORKAccuracyStroopStep.h in Headers */,
 				FF919A591E81C628005C2A1E /* ORKQuestionResult.h in Headers */,
 				86B89ABE1AB3BFDB001626A4 /* ORKStepHeaderView_Internal.h in Headers */,
 				8419D66E1FB73CC80088D7E5 /* ORKWebViewStep.h in Headers */,
@@ -5018,6 +5045,7 @@
 				86C40DAA1A8D7C5C00081FAC /* ORKSurveyAnswerCellForNumber.h in Headers */,
 				10864C9E1B27146B000F4158 /* ORKPSATStep.h in Headers */,
 				86C40D6E1A8D7C5C00081FAC /* ORKResult_Private.h in Headers */,
+				A659C53E262E0ABE00E920DA /* ORKAccuracyStroopStepViewController.h in Headers */,
 				E21D345F22D916E000CCB022 /* ORKHeadphoneDetectResult.h in Headers */,
 				E2471305252B991B00FF5431 /* ORKdBHLToneAudiometryCompletionStepViewController.h in Headers */,
 				781D54121DF886AB00223305 /* ORKTrailmakingStep.h in Headers */,
@@ -5531,6 +5559,7 @@
 				86C40E061A8D7C5C00081FAC /* ORKConsentLearnMoreViewController.m in Sources */,
 				BABBB19E2093299A00CB29E5 /* ORKSurveyCardHeaderView.m in Sources */,
 				86C40D7A1A8D7C5C00081FAC /* ORKScaleSlider.m in Sources */,
+				A659C547262E0F5600E920DA /* UIColor+String.m in Sources */,
 				244103501B966D4C00EEAB0C /* ORKPasscodeViewController.m in Sources */,
 				71BD9EAE2096A26C007B436E /* ORKEnvironmentSPLMeterContentView.m in Sources */,
 				86C40C801A8D7C5C00081FAC /* ORKActiveStep.m in Sources */,
@@ -5604,6 +5633,7 @@
 				2212EE66261FE55300DE9BEA /* AVAudioMixerNode+Fade.m in Sources */,
 				51E03D692491A601008F8406 /* ORKHealthKitPermissionType.m in Sources */,
 				E26626C42588E6D4005A0FF8 /* ORKTinnitusMaskingSoundStepViewController.m in Sources */,
+				A659C53B262E0A3200E920DA /* ORKAccuracyStroopStep.m in Sources */,
 				86C40D321A8D7C5C00081FAC /* ORKHealthAnswerFormat.m in Sources */,
 				10FF9AC41B79EF2800ECB5B4 /* ORKHolePegTestRemoveStep.m in Sources */,
 				E2471308252B991B00FF5431 /* ORKdBHLToneAudiometryCompletionStepViewController.m in Sources */,
@@ -5777,6 +5807,7 @@
 				86C40CF41A8D7C5C00081FAC /* ORKBodyLabel.m in Sources */,
 				FF919A4C1E81BB7E005C2A1E /* ORKTimedWalkResult.m in Sources */,
 				106FF29F1B663FCE004EACF2 /* ORKHolePegTestPlaceStep.m in Sources */,
+				A659C53F262E0ABE00E920DA /* ORKAccuracyStroopStepViewController.m in Sources */,
 				FFAE71411DAEC66200AE82B4 /* ORKFootnoteLabel.m in Sources */,
 				86C40C941A8D7C5C00081FAC /* ORKAudioRecorder.m in Sources */,
 				FF5E3CCC1D23444400ECE4B7 /* ORKPageStepViewController.m in Sources */,
@@ -5867,6 +5898,7 @@
 				FF5CA61C1D2C6453001660A3 /* ORKSignatureStep.m in Sources */,
 				86C40C1C1A8D7C5C00081FAC /* ORKAudioStep.m in Sources */,
 				E220A38E2571252900C3C211 /* ORKTinnitusPureToneResult.m in Sources */,
+				5D003DA226377E7400A6439B /* ORKAccuracyStroopResult.m in Sources */,
 				BCC1CD9B1B7ED64F00D86886 /* ORKYAxisView.m in Sources */,
 				FF919A541E81BEB5005C2A1E /* ORKCollectionResult.m in Sources */,
 				86C40D581A8D7C5C00081FAC /* ORKOrderedTask.m in Sources */,

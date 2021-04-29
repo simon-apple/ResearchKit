@@ -336,6 +336,7 @@ ORK_MAKE_TEST_INIT(NSRegularExpression, (^{
 ORK_MAKE_TEST_INIT(UIColor, (^{ return [self initWithRed:1 green:1 blue:1 alpha:1]; }));
 ORK_MAKE_TEST_INIT(ORKNoAnswer, (^{ return [ORKDontKnowAnswer answer]; }));
 ORK_MAKE_TEST_INIT(ORKTinnitusMaskingSoundStep, (^{ return [[ORKTinnitusMaskingSoundStep alloc] initWithIdentifier:[NSUUID UUID].UUIDString name:@"White Noise" soundIdentifier:@"WHITENOISE"]; }));
+ORK_MAKE_TEST_INIT(ORKAccuracyStroopStep, (^{ return [[ORKAccuracyStroopStep alloc] initWithIdentifier:[NSUUID UUID].UUIDString]; }));
 
 
 @interface ORKJSONTestImageSerialization : NSObject<ORKESerializationImageProvider>
@@ -479,7 +480,10 @@ ORK_MAKE_TEST_INIT(ORKTinnitusMaskingSoundStep, (^{ return [[ORKTinnitusMaskingS
                                    @"ORKFileResult.fileURL",
                                    @"ORKFrontFacingCameraTask.fileURL",
                                    @"ORKTaskResult.outputDirectory",
-                                   @"ORKPageResult.outputDirectory"
+                                   @"ORKPageResult.outputDirectory",
+                                   @"ORKAccuracyStroopStep.actualDisplayColor",
+                                   @"ORKAccuracyStroopResult.didSelectCorrectColor",
+                                   @"ORKAccuracyStroopResult.timeTakenToSelect"
                                    ];
         
         _knownNotSerializedProperties = @[
@@ -569,7 +573,8 @@ ORK_MAKE_TEST_INIT(ORKTinnitusMaskingSoundStep, (^{ return [[ORKTinnitusMaskingS
                                           @"ORKFaceDetectionBlurFooterView.startStopButton",
                                           @"ORKFaceDetectionBlurFooterView.timerLabel",
                                           @"ORKLearnMoreItem.delegate",
-                                          @"ORKSpeechRecognitionResult.recognitionMetadata"
+                                          @"ORKSpeechRecognitionResult.recognitionMetadata",
+                                          @"ORKAccuracyStroopStep.actualDisplayColor"
                                           ];
         _allowedUnTouchedKeys = @[@"_class"];
         _mutuallyExclusiveProperties = @{
@@ -1263,7 +1268,10 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
                                        @"ORKTableStep.isBulleted",
                                        @"ORKTableStep.allowsSelection",
                                        @"ORKPDFViewerStep.actionBarOption",
-                                       @"ORKBodyItem.customButtonConfigurationHandler"
+                                       @"ORKBodyItem.customButtonConfigurationHandler",
+                                       @"ORKAccuracyStroopStep.actualDisplayColor",
+                                       @"ORKAccuracyStroopResult.didSelectCorrectColor",
+                                       @"ORKAccuracyStroopResult.timeTakenToSelect"
                                        ];
     
     NSArray *hashExclusionList = @[
@@ -1403,7 +1411,8 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
                                                                              @"ORKTinnitusPureToneStepViewController":@"ORKTinnitusPureToneStep",
                                                                              @"ORKTinnitusMaskingSoundStepViewController":@"ORKTinnitusMaskingSoundStep",
                                                                              @"ORKCustomStepViewController":@"ORKCustomStep",
-                                                                             @"ORKRequestPermissionsStepViewController":@"ORKRequestPermissionsStep"
+                                                                             @"ORKRequestPermissionsStepViewController":@"ORKRequestPermissionsStep",
+                                                                             @"ORKAccuracyStroopStepViewController":@"ORKAccuracyStroopStep"
                                                                              };
     
     NSDictionary <NSString *, NSDictionary *> *kvMapForStep = @{ // Steps that require modification to validate

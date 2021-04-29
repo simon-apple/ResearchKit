@@ -1,6 +1,5 @@
 /*
- Copyright (c) 2015, Apple Inc. All rights reserved.
- Copyright (c) 2017, Sage Bionetworks
+ Copyright (c) 2021, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -29,26 +28,29 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
-#import <ResearchKit/ORKAmslerGridResult.h>
-#import <ResearchKit/ORKFileResult.h>
-#import <ResearchKit/ORKHolePegTestResult.h>
-#import <ResearchKit/ORKPSATResult.h>
-#import <ResearchKit/ORKRangeOfMotionResult.h>
-#import <ResearchKit/ORKReactionTimeResult.h>
-#import <ResearchKit/ORKSpatialSpanMemoryResult.h>
-#import <ResearchKit/ORKSpeechRecognitionResult.h>
-#import <ResearchKit/ORKSpeechInNoiseResult.h>
 #import <ResearchKit/ORKStroopResult.h>
-#import <ResearchKit/ORKAccuracyStroopResult.h>
-#import <ResearchKit/ORKTappingIntervalResult.h>
-#import <ResearchKit/ORKTimedWalkResult.h>
-#import <ResearchKit/ORKToneAudiometryResult.h>
-#import <ResearchKit/ORKdBHLToneAudiometryResult.h>
-#import <ResearchKit/ORKTowerOfHanoiResult.h>
-#import <ResearchKit/ORKTrailmakingResult.h>
-#import <ResearchKit/ORKTinnitusPureToneResult.h>
-#import <ResearchKit/ORKTinnitusMaskingSoundResult.h>
-#import <ResearchKit/ORKTinnitusVolumeResult.h>
-#import <ResearchKit/ORKTinnitusTypeResult.h>
-#import <ResearchKit/ORKTinnitusOverallAssessmentResult.h>
+
+NS_ASSUME_NONNULL_BEGIN
+
+ORK_CLASS_AVAILABLE
+@interface ORKAccuracyStroopResult : ORKStroopResult
+
+/**
+ A value that indicates whether the user selected the correct color (i.e. the base display color).
+ */
+@property (nonatomic, readonly) BOOL didSelectCorrectColor;
+
+/**
+ A value that indicates how long it took for the user to make a selection.
+ */
+@property (nonatomic, readonly) NSTimeInterval timeTakenToSelect;
+
+/**
+ A value that indicates how far away (in pixels) that the user selected away from the center
+ of the correct circle.
+ */
+@property (nonatomic) double distanceToClosestCenter;
+
+@end
+
+NS_ASSUME_NONNULL_END
