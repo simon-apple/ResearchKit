@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2017, Apple Inc. All rights reserved.
+ Copyright (c) 2021, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,35 +28,45 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "ORKStroopResult.h"
+#import "ORKAccuracyStroopResult.h"
 #import "ORKResult_Private.h"
 #import "ORKHelpers_Internal.h"
 
-@implementation ORKStroopResult
+@interface ORKAccuracyStroopResult ()
+@property (readwrite) BOOL didSelectCorrectColor;
+@property (readwrite) NSTimeInterval timeTakenToSelect;
+@end
 
-- (void)encodeWithCoder:(NSCoder *)aCoder {
-    [super encodeWithCoder:aCoder];
-    ORK_ENCODE_DOUBLE(aCoder, startTime);
-    ORK_ENCODE_DOUBLE(aCoder, endTime);
-    ORK_ENCODE_OBJ(aCoder, color);
-    ORK_ENCODE_OBJ(aCoder, text);
-    ORK_ENCODE_OBJ(aCoder, colorSelected);
+@implementation ORKAccuracyStroopResult
+
+#pragma mark - NSSecureCoding
+
++ (BOOL)supportsSecureCoding {
+    return YES;
 }
 
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
+- (instancetype)initWithCoder:(NSCoder *)coder {
+    self = [super initWithCoder:coder];
     if (self) {
-        ORK_DECODE_DOUBLE(aDecoder, startTime);
-        ORK_DECODE_DOUBLE(aDecoder, endTime);
-        ORK_DECODE_OBJ_CLASS(aDecoder, color, NSString);
-        ORK_DECODE_OBJ_CLASS(aDecoder, text, NSString);
-        ORK_DECODE_OBJ_CLASS(aDecoder, colorSelected, NSString);
+        ORK_DECODE_DOUBLE(coder, distanceToClosestCenter);
     }
     return self;
 }
 
-+ (BOOL)supportsSecureCoding {
-    return YES;
+- (void)encodeWithCoder:(NSCoder *)coder {
+    [super encodeWithCoder:coder];
+    ORK_ENCODE_BOOL(coder, didSelectCorrectColor);
+    ORK_ENCODE_DOUBLE(coder, timeTakenToSelect);
+    ORK_ENCODE_DOUBLE(coder, distanceToClosestCenter);
+}
+
+
+#pragma mark - NSCopying
+
+- (instancetype)copyWithZone:(NSZone *)zone {
+    ORKAccuracyStroopResult *result = [super copyWithZone:zone];
+    result.distanceToClosestCenter = self.distanceToClosestCenter;
+    return result;
 }
 
 - (BOOL)isEqual:(id)object {
@@ -64,26 +74,36 @@
     
     __typeof(self) castObject = object;
     return (isParentSame &&
-            (self.startTime == castObject.startTime) &&
-            (self.endTime == castObject.endTime) &&
-            ORKEqualObjects(self.color, castObject.color) &&
-            ORKEqualObjects(self.text, castObject.text) &&
-            ORKEqualObjects(self.colorSelected, castObject.colorSelected));
+            self.distanceToClosestCenter == castObject.distanceToClosestCenter);
 }
 
-- (instancetype)copyWithZone:(NSZone *)zone {
-    ORKStroopResult *result = [super copyWithZone:zone];
-    result.startTime = self.startTime;
-    result.endTime = self.endTime;
-    result -> _color = [self.color copy];
-    result -> _text = [self.text copy];
-    result -> _colorSelected = [self.colorSelected copy];
+- (NSUInteger)hash {
+    return [super hash] ^ @(self.didSelectCorrectColor).hash ^ @(self.timeTakenToSelect).hash ^ @(self.distanceToClosestCenter).hash;
+}
 
-    return result;
+#pragma mark - ResearchKit
+
+- (BOOL)didSelectCorrectColor {
+    
+    _didSelectCorrectColor = [self.color isEqualToString:self.colorSelected];
+    
+    return _didSelectCorrectColor;
+}
+
+- (NSTimeInterval)timeTakenToSelect {
+    
+    _timeTakenToSelect = self.endTime - self.startTime;
+    
+    return _timeTakenToSelect;
 }
 
 - (NSString *)descriptionWithNumberOfPaddingSpaces:(NSUInteger)numberOfPaddingSpaces {
-    return [NSString stringWithFormat:@"%@; color: %@; text: %@; colorselected: %@ %@", [self descriptionPrefixWithNumberOfPaddingSpaces:numberOfPaddingSpaces], self.color, self.text, self.colorSelected, self.descriptionSuffix];
+    return [NSString stringWithFormat:@"%@; didSelectCorrectColor: %i; timeTakenToSelect: %.3f; distanceToClosestCenter: %.0f %@",
+            [self descriptionPrefixWithNumberOfPaddingSpaces:numberOfPaddingSpaces],
+            self.didSelectCorrectColor,
+            self.timeTakenToSelect,
+            self.distanceToClosestCenter,
+            self.descriptionSuffix];
 }
 
 @end

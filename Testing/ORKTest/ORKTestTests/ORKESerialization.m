@@ -1334,6 +1334,16 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                  },
                  (@{
                     PROPERTY(numberOfAttempts, NSNumber, NSObject, YES, nil, nil)})),
+           ENTRY(ORKAccuracyStroopStep,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+                     return [[ORKAccuracyStroopStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
+                 },
+                 (@{
+                     PROPERTY(isColorMatching, NSNumber, NSObject, YES, nil, nil),
+                     PROPERTY(baseDisplayColor, UIColor, NSObject, YES,
+                              ^id(id color, __unused ORKESerializationContext *context) { return dictionaryFromColor(color); },
+                              ^id(id dict, __unused ORKESerializationContext *context) { return  colorFromDictionary(dict); })
+                  })),
            ENTRY(ORKFaceDetectionStep,
                            ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                                return [[ORKFaceDetectionStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
@@ -2169,6 +2179,13 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(text, NSString, NSObject, NO, nil, nil),
                     PROPERTY(colorSelected, NSString, NSObject, NO, nil, nil)
                     })),
+           ENTRY(ORKAccuracyStroopResult,
+                 nil,
+                 (@{
+                     PROPERTY(didSelectCorrectColor, NSNumber, NSObject, NO, nil, ^id(id jsonObject, __unused ORKESerializationContext *context) { return @(NO); }),
+                     PROPERTY(timeTakenToSelect, NSNumber, NSObject, NO, nil, ^id(id jsonObject, __unused ORKESerializationContext *context) { return @(0); }),
+                     PROPERTY(distanceToClosestCenter, NSNumber, NSObject, NO, nil, nil)
+                  })),
            ENTRY(ORKTimedWalkResult,
                  nil,
                  (@{

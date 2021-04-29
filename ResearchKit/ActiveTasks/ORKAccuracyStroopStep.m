@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2017, Apple Inc. All rights reserved.
+ Copyright (c) 2021, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,62 +28,80 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "ORKStroopResult.h"
-#import "ORKResult_Private.h"
+#import "ORKAccuracyStroopStep.h"
+#import "ORKAccuracyStroopStepViewController.h"
 #import "ORKHelpers_Internal.h"
 
-@implementation ORKStroopResult
+@implementation ORKAccuracyStroopStep
 
-- (void)encodeWithCoder:(NSCoder *)aCoder {
-    [super encodeWithCoder:aCoder];
-    ORK_ENCODE_DOUBLE(aCoder, startTime);
-    ORK_ENCODE_DOUBLE(aCoder, endTime);
-    ORK_ENCODE_OBJ(aCoder, color);
-    ORK_ENCODE_OBJ(aCoder, text);
-    ORK_ENCODE_OBJ(aCoder, colorSelected);
-}
-
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    if (self) {
-        ORK_DECODE_DOUBLE(aDecoder, startTime);
-        ORK_DECODE_DOUBLE(aDecoder, endTime);
-        ORK_DECODE_OBJ_CLASS(aDecoder, color, NSString);
-        ORK_DECODE_OBJ_CLASS(aDecoder, text, NSString);
-        ORK_DECODE_OBJ_CLASS(aDecoder, colorSelected, NSString);
-    }
-    return self;
++ (Class)stepViewControllerClass {
+    return ORKAccuracyStroopStepViewController.class;
 }
 
 + (BOOL)supportsSecureCoding {
     return YES;
 }
 
-- (BOOL)isEqual:(id)object {
-    BOOL isParentSame = [super isEqual:object];
+- (instancetype)initWithIdentifier:(NSString *)identifier {
+    self = [super initWithIdentifier:identifier];
+    if (self) {
+        self.baseDisplayColor = UIColor.redColor;
+        self.isColorMatching = YES;
+    }
     
-    __typeof(self) castObject = object;
-    return (isParentSame &&
-            (self.startTime == castObject.startTime) &&
-            (self.endTime == castObject.endTime) &&
-            ORKEqualObjects(self.color, castObject.color) &&
-            ORKEqualObjects(self.text, castObject.text) &&
-            ORKEqualObjects(self.colorSelected, castObject.colorSelected));
+    return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        ORK_DECODE_BOOL(aDecoder, isColorMatching);
+        ORK_DECODE_OBJ_CLASS(aDecoder, baseDisplayColor, UIColor);
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [super encodeWithCoder:aCoder];
+    ORK_ENCODE_BOOL(aCoder, isColorMatching);
+    ORK_ENCODE_OBJ(aCoder, baseDisplayColor);
 }
 
 - (instancetype)copyWithZone:(NSZone *)zone {
-    ORKStroopResult *result = [super copyWithZone:zone];
-    result.startTime = self.startTime;
-    result.endTime = self.endTime;
-    result -> _color = [self.color copy];
-    result -> _text = [self.text copy];
-    result -> _colorSelected = [self.colorSelected copy];
-
-    return result;
+    ORKAccuracyStroopStep *step = [super copyWithZone:zone];
+    step.isColorMatching = self.isColorMatching;
+    step.baseDisplayColor = [self.baseDisplayColor copy];
+    return step;
 }
 
-- (NSString *)descriptionWithNumberOfPaddingSpaces:(NSUInteger)numberOfPaddingSpaces {
-    return [NSString stringWithFormat:@"%@; color: %@; text: %@; colorselected: %@ %@", [self descriptionPrefixWithNumberOfPaddingSpaces:numberOfPaddingSpaces], self.color, self.text, self.colorSelected, self.descriptionSuffix];
+- (BOOL)isEqual:(id)object {
+    BOOL isParentSame = [super isEqual:object];
+
+    __typeof(self) castObject = object;
+    
+    return isParentSame
+    && self.isColorMatching == castObject.isColorMatching
+    && ORKEqualObjects(self.baseDisplayColor, castObject.baseDisplayColor);
+}
+
+- (NSUInteger)hash {
+    return super.hash
+    ^ (self.isColorMatching ? 0xf : 0x0)
+    ^ (self.baseDisplayColor ? 0xf : 0x0);
+}
+
++ (NSArray<UIColor *> *)colors {
+    return @[ UIColor.redColor,
+              UIColor.greenColor,
+              UIColor.blueColor,
+              UIColor.yellowColor,
+              UIColor.orangeColor ];
+}
+
+- (UIColor *)actualDisplayColor {
+    return self.isColorMatching ?
+    self.baseDisplayColor :
+    ORKAccuracyStroopStep.colors[arc4random_uniform(ORKAccuracyStroopStep.colors.count)];
 }
 
 @end

@@ -1,6 +1,5 @@
 /*
- Copyright (c) 2015, Apple Inc. All rights reserved.
- Copyright (c) 2017, Sage Bionetworks
+ Copyright (c) 2021, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -29,26 +28,41 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <ResearchKit/ORKActiveStep.h>
 
-#import <ResearchKit/ORKAmslerGridResult.h>
-#import <ResearchKit/ORKFileResult.h>
-#import <ResearchKit/ORKHolePegTestResult.h>
-#import <ResearchKit/ORKPSATResult.h>
-#import <ResearchKit/ORKRangeOfMotionResult.h>
-#import <ResearchKit/ORKReactionTimeResult.h>
-#import <ResearchKit/ORKSpatialSpanMemoryResult.h>
-#import <ResearchKit/ORKSpeechRecognitionResult.h>
-#import <ResearchKit/ORKSpeechInNoiseResult.h>
-#import <ResearchKit/ORKStroopResult.h>
-#import <ResearchKit/ORKAccuracyStroopResult.h>
-#import <ResearchKit/ORKTappingIntervalResult.h>
-#import <ResearchKit/ORKTimedWalkResult.h>
-#import <ResearchKit/ORKToneAudiometryResult.h>
-#import <ResearchKit/ORKdBHLToneAudiometryResult.h>
-#import <ResearchKit/ORKTowerOfHanoiResult.h>
-#import <ResearchKit/ORKTrailmakingResult.h>
-#import <ResearchKit/ORKTinnitusPureToneResult.h>
-#import <ResearchKit/ORKTinnitusMaskingSoundResult.h>
-#import <ResearchKit/ORKTinnitusVolumeResult.h>
-#import <ResearchKit/ORKTinnitusTypeResult.h>
-#import <ResearchKit/ORKTinnitusOverallAssessmentResult.h>
+NS_ASSUME_NONNULL_BEGIN
+
+ORK_CLASS_AVAILABLE
+@interface ORKAccuracyStroopStep : ORKActiveStep
+
+/**
+ The color of the label.
+
+ The base display color is the color that the user must tap on to be correct. The text of
+ the label may match the base display color depending on the `isColorMatching` property.
+*/
+@property (nonatomic) UIColor *baseDisplayColor;
+
+/**
+ Whether the text and base display color are matching.
+
+ If this value is true, the text of the label will spell out the same color as the base display
+ color, making the task easier for the user. If this value is false, the label color and label text
+ will represent different colors, which adds complexity to the puzzle task.
+*/
+@property (nonatomic) BOOL isColorMatching;
+
+/**
+ The text of the label. (read-only)
+
+ The value of this property is generated based on the `baseDisplayColor` and `isColorMatching`
+ properties. If `isColorMatching` is false, the actual display color will be randomly generated
+ to be a color that is not the base display color.
+*/
+@property (nonatomic, readonly) UIColor *actualDisplayColor;
+
++ (NSArray <UIColor *> *)colors;
+
+@end
+
+NS_ASSUME_NONNULL_END
