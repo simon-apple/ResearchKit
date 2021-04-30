@@ -54,7 +54,7 @@
     if (self) {
         ORK_DECODE_URL(aDecoder, videoURL);
         ORK_DECODE_INTEGER(aDecoder, thumbnailTime);
-        ORK_DECODE_OBJ(aDecoder, bundleAsset);
+        ORK_DECODE_OBJ_CLASS(aDecoder, bundleAsset, ORKBundleAsset);
     }
     return self;
 }

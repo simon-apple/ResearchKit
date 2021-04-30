@@ -48,9 +48,9 @@
 - (instancetype)initWithCoder:(NSCoder *)coder {
     self = [super init];
     if (self) {
-        ORK_DECODE_OBJ(coder, name);
-        ORK_DECODE_OBJ(coder, bundleIdentifier);
-        ORK_DECODE_OBJ(coder, fileExtension);
+        ORK_DECODE_OBJ_CLASS(coder, name, NSString);
+        ORK_DECODE_OBJ_CLASS(coder, bundleIdentifier, NSString);
+        ORK_DECODE_OBJ_CLASS(coder, fileExtension, NSString);
     }
     return self;
 }

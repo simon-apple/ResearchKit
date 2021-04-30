@@ -49,7 +49,7 @@
 {
     if (self) {
         ORK_DECODE_DOUBLE(coder, time);
-        ORK_DECODE_OBJ(coder, spokenText);
+        ORK_DECODE_OBJ_CLASS(coder, spokenText, NSString);
     }
     return self;
 }
@@ -104,7 +104,7 @@
 {
     self = [super initWithCoder:coder];
     if (self) {
-        ORK_DECODE_OBJ(coder, audioAsset);
+        ORK_DECODE_OBJ_CLASS(coder, audioAsset, ORKBundleAsset);
         ORK_DECODE_OBJ_ARRAY(coder, vocalCues, ORKVocalCue);
     }
     return self;
