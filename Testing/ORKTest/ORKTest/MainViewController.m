@@ -901,7 +901,7 @@ stepViewControllerWillAppear:(ORKStepViewController *)stepViewController {
     [super decodeRestorableStateWithCoder:coder];
     
     _taskViewController = [coder decodeObjectOfClass:[UIViewController class] forKey:@"taskVC"];
-    _lastRouteResult = [coder decodeObjectForKey:@"lastRouteResult"];
+    _lastRouteResult = [coder decodeObjectOfClass:[ORKTaskResult class] forKey:@"lastRouteResult"];
     
     // Need to give the task VC back a copy of its task, so it can restore itself.
     

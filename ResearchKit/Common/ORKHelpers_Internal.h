@@ -84,7 +84,6 @@ ORK_EXTERN BOOL ORKLoggingEnabled;
 #define ORK_ARG_N( _1, _2, _3, _4, _5, _6, _7, _8, _9,_10, N, ...) N
 #define ORK_RSEQ_N()   10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0
 
-#define ORK_DECODE_OBJ(d,x)  _ ## x = [d decodeObjectForKey:@ORK_STRINGIFY(x)]
 #define ORK_ENCODE_OBJ(c,x)  [c encodeObject:_ ## x forKey:@ORK_STRINGIFY(x)]
 #define ORK_ENCODE_URL(c,x)  [c encodeObject:ORKRelativePathForURL(_ ## x) forKey:@ORK_STRINGIFY(x)]
 #define ORK_ENCODE_URL_BOOKMARK(c, x) [c encodeObject:ORKBookmarkDataFromURL(_ ## x) forKey:@ORK_STRINGIFY(x)]
@@ -115,7 +114,7 @@ ORK_EXTERN BOOL ORKLoggingEnabled;
 #define ORK_ENCODE_INTEGER(c,x)  [c encodeInteger:_ ## x forKey:@ORK_STRINGIFY(x)]
 
 #define ORK_ENCODE_UINT32(c,x)  [c encodeObject:[NSNumber numberWithUnsignedLongLong:_ ## x] forKey:@ORK_STRINGIFY(x)]
-#define ORK_DECODE_UINT32(d,x)  _ ## x = (uint32_t)[(NSNumber *)[d decodeObjectForKey:@ORK_STRINGIFY(x)] unsignedLongValue]
+#define ORK_DECODE_UINT32(d,x) _ ## x = (uint32_t)[(NSNumber *)[d decodeObjectOfClass:[NSNumber class] forKey:@ORK_STRINGIFY(x)] unsignedLongValue]
 
 #define ORK_DECODE_ENUM(d,x)  _ ## x = [d decodeIntegerForKey:@ORK_STRINGIFY(x)]
 #define ORK_ENCODE_ENUM(c,x)  [c encodeInteger:(NSInteger)_ ## x forKey:@ORK_STRINGIFY(x)]

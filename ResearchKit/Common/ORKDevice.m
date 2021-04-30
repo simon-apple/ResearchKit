@@ -198,10 +198,10 @@ static NSString * ORK_SYSCTL_DEBUG_STRING(int tl, int sl) {
 - (instancetype)initWithCoder:(NSCoder *)coder {
     self = [super init];
     if (self) {
-        ORK_DECODE_OBJ(coder, product);
-        ORK_DECODE_OBJ(coder, platform);
-        ORK_DECODE_OBJ(coder, osBuild);
-        ORK_DECODE_OBJ(coder, osVersion);
+        ORK_DECODE_OBJ_CLASS(coder, product, NSString);
+        ORK_DECODE_OBJ_CLASS(coder, platform, NSString);
+        ORK_DECODE_OBJ_CLASS(coder, osBuild, NSString);
+        ORK_DECODE_OBJ_CLASS(coder, osVersion, NSString);
     }
     return self;
 }

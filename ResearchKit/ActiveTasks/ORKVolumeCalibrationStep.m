@@ -58,8 +58,8 @@
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        ORK_DECODE_OBJ(aDecoder, maskingSoundName);
-        ORK_DECODE_OBJ(aDecoder, maskingSoundIdentifier);
+        ORK_DECODE_OBJ_CLASS(aDecoder, maskingSoundName, NSString);
+        ORK_DECODE_OBJ_CLASS(aDecoder, maskingSoundIdentifier, NSString);
     }
     return self;
 }

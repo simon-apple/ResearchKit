@@ -487,7 +487,7 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
     
     if (self) {
         ORK_DECODE_BOOL(aDecoder, showDontKnowButton);
-        ORK_DECODE_OBJ(aDecoder, customDontKnowButtonText);
+        ORK_DECODE_OBJ_CLASS(aDecoder, customDontKnowButtonText, NSString);
         ORK_DECODE_ENUM(aDecoder, dontKnowButtonStyle);
     }
     return self;
@@ -2198,8 +2198,8 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
         ORK_DECODE_BOOL(aDecoder, hideRanges);
         ORK_DECODE_BOOL(aDecoder, hideLabels);
         ORK_DECODE_BOOL(aDecoder, hideValueMarkers);
-        ORK_DECODE_OBJ(aDecoder, maximumValueDescription);
-        ORK_DECODE_OBJ(aDecoder, minimumValueDescription);
+        ORK_DECODE_OBJ_CLASS(aDecoder, maximumValueDescription, NSString);
+        ORK_DECODE_OBJ_CLASS(aDecoder, minimumValueDescription, NSString);
         ORK_DECODE_IMAGE(aDecoder, maximumImage);
         ORK_DECODE_IMAGE(aDecoder, minimumImage);
         ORK_DECODE_OBJ_ARRAY(aDecoder, gradientColors, UIColor);
@@ -2425,8 +2425,8 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
         ORK_DECODE_BOOL(aDecoder, hideSelectedValue);
         ORK_DECODE_BOOL(aDecoder, hideLabels);
         ORK_DECODE_BOOL(aDecoder, hideRanges);
-        ORK_DECODE_OBJ(aDecoder, maximumValueDescription);
-        ORK_DECODE_OBJ(aDecoder, minimumValueDescription);
+        ORK_DECODE_OBJ_CLASS(aDecoder, maximumValueDescription, NSString);
+        ORK_DECODE_OBJ_CLASS(aDecoder, minimumValueDescription, NSString);
         ORK_DECODE_IMAGE(aDecoder, maximumImage);
         ORK_DECODE_IMAGE(aDecoder, minimumImage);
         ORK_DECODE_OBJ_ARRAY(aDecoder, gradientColors, UIColor);

@@ -46,9 +46,9 @@
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        ORK_DECODE_OBJ(aDecoder, headphoneType);
-        ORK_DECODE_OBJ(aDecoder, vendorID);
-        ORK_DECODE_OBJ(aDecoder, productID);
+        ORK_DECODE_OBJ_CLASS(aDecoder, headphoneType, NSString);
+        ORK_DECODE_OBJ_CLASS(aDecoder, vendorID, NSString);
+        ORK_DECODE_OBJ_CLASS(aDecoder, productID, NSString);
         ORK_DECODE_INTEGER(aDecoder, deviceSubType);
     }
     return self;
