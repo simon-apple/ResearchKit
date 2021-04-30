@@ -44,7 +44,7 @@
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        ORK_DECODE_OBJ(aDecoder, answer);
+        ORK_DECODE_OBJ_CLASS(aDecoder, answer, NSString);
     }
     return self;
 }
