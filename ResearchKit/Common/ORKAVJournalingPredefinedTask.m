@@ -42,8 +42,6 @@
 #import "ORKLearnMoreInstructionStep.h"
 #import "ORKLearnMoreView.h"
 
-static const CGFloat MinMBLimitForTask = 3000;
-static const CGFloat MBConversionConstant = 1000000;
 
 ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierFaceDetection = @"ORKAVJournalingStepIdentifierFaceDetection";
 ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierCompletion = @"ORKAVJournalingStepIdentifierCompletion";
@@ -193,44 +191,15 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierInstructionStep
     NSError *error = nil;
     NSArray<ORKStep *> *steps = nil;
     
-    uint64_t totalFreeSpace = [self getFreeDiskspaceInMB];
+    steps = [ORKAVJournalingPredefinedTask predefinedStepsWithManifestPath:journalQuestionSetManifestPath
+                                                              prependSteps:prependSteps
+                                                               appendSteps:appendSteps
+                                                                     error:&error];
     
-    if (totalFreeSpace < MinMBLimitForTask) {
-        ORKCompletionStep *completionStep = [[ORKCompletionStep alloc] initWithIdentifier:ORKAVJournalingStepIdentifierLowMemoryCompletion];
-        completionStep.title = ORKLocalizedString(@"AV_JOURNALING_PREDEFINED_LOW_MEMORY_TITLE", nil);
-        completionStep.text = ORKLocalizedString(@"AV_JOURNALING_PREDEFINED_LOW_MEMORY_TEXT", nil);
-        completionStep.reasonForCompletion = ORKTaskViewControllerFinishReasonDiscarded;
-        
-        if (@available(iOS 13.0, *)) {
-            completionStep.iconImage = [UIImage systemImageNamed:@"bin.xmark"];
-        }
-        
-        ORKLearnMoreInstructionStep *learnMoreInstructionStep = [[ORKLearnMoreInstructionStep alloc] initWithIdentifier:ORKAVJournalingStepIdentifierLowStorageLearnMore];
-        ORKLearnMoreItem *learnMoreItem = [[ORKLearnMoreItem alloc] initWithText:ORKLocalizedString(@"AV_JOURNALING_PREDEFINED_LOW_MEMORY_SETTINGS_LINK_TEXT", nil)
-                                                        learnMoreInstructionStep:learnMoreInstructionStep];
-        
-        ORKBodyItem *settingsLinkBodyItem = [[ORKBodyItem alloc] initWithText:nil
-                                                                   detailText:nil
-                                                                        image:nil
-                                                                learnMoreItem:learnMoreItem
-                                                                bodyItemStyle:ORKBodyItemStyleText];
-        
-        completionStep.bodyItems = @[settingsLinkBodyItem];
-
-        steps = [NSArray arrayWithObject:completionStep];
-        
-    } else {
-        steps = [ORKAVJournalingPredefinedTask predefinedStepsWithManifestPath:journalQuestionSetManifestPath
-                                                                  prependSteps:prependSteps
-                                                                   appendSteps:appendSteps
-                                                                         error:&error];
-        
-        if (error) {
-            ORK_Log_Error("An error occurred while creating the predefined task. %@", error);
-            return nil;
-        }
+    if (error) {
+        ORK_Log_Error("An error occurred while creating the predefined task. %@", error);
+        return nil;
     }
-    
     
     self = [super initWithIdentifier:identifier steps:steps];
     if (self) {
@@ -389,22 +358,6 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierInstructionStep
         }
         return nil;
     }
-}
-
--(uint64_t)getFreeDiskspaceInMB {
-    uint64_t totalFreeSpace = 0;
-    NSError *error = nil;
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSDictionary *dictionary = [[NSFileManager defaultManager] attributesOfFileSystemForPath:[paths lastObject] error: &error];
-
-    if (dictionary) {
-        NSNumber *freeFileSystemSizeInBytes = [dictionary objectForKey:NSFileSystemFreeSize];
-        totalFreeSpace = [freeFileSystemSizeInBytes unsignedLongLongValue];
-    } else {
-        ORK_Log_Error("Error Obtaining System Memory Info: Domain = %@, Code = %ld", [error domain], (long)[error code]);
-    }
-
-    return totalFreeSpace / MBConversionConstant;
 }
 
 - (BOOL)isAppendStepIdentifier:(NSString *)stepIdentifier {
