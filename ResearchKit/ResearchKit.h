@@ -54,7 +54,6 @@
 #import <ResearchKit/ORKTouchAnywhereStep.h>
 #import <ResearchKit/ORKVerificationStep.h>
 #import <ResearchKit/ORKVideoCaptureStep.h>
-#import <ResearchKit/ORKVisualConsentStep.h>
 #import <ResearchKit/ORKWaitStep.h>
 #import <ResearchKit/ORKVideoInstructionStep.h>
 #import <ResearchKit/ORKFrontFacingCameraStep.h>

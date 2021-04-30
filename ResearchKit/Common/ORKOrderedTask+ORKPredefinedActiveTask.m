@@ -73,7 +73,6 @@
 #import "ORKToneAudiometryStep.h"
 #import "ORKTowerOfHanoiStep.h"
 #import "ORKTrailmakingStep.h"
-#import "ORKVisualConsentStep.h"
 #import "ORKRangeOfMotionStep.h"
 #import "ORKShoulderRangeOfMotionStep.h"
 #import "ORKWaitStep.h"
