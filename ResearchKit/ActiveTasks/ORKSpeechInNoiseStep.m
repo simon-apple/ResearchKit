@@ -89,11 +89,11 @@
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        ORK_DECODE_OBJ(aDecoder, speechFilePath);
-        ORK_DECODE_OBJ(aDecoder, targetSentence);
-        ORK_DECODE_OBJ(aDecoder, speechFileNameWithExtension);
-        ORK_DECODE_OBJ(aDecoder, noiseFileNameWithExtension);
-        ORK_DECODE_OBJ(aDecoder, filterFileNameWithExtension);
+        ORK_DECODE_OBJ_CLASS(aDecoder, speechFilePath, NSString);
+        ORK_DECODE_OBJ_CLASS(aDecoder, targetSentence, NSString);
+        ORK_DECODE_OBJ_CLASS(aDecoder, speechFileNameWithExtension, NSString);
+        ORK_DECODE_OBJ_CLASS(aDecoder, noiseFileNameWithExtension, NSString);
+        ORK_DECODE_OBJ_CLASS(aDecoder, filterFileNameWithExtension, NSString);
         ORK_DECODE_DOUBLE(aDecoder, gainAppliedToNoise);
         ORK_DECODE_BOOL(aDecoder, willAudioLoop);
         ORK_DECODE_BOOL(aDecoder, hideGraphView);

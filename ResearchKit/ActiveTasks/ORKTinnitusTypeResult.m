@@ -46,7 +46,7 @@
     self = [super initWithCoder:aDecoder];
     if (self) {
         ORK_DECODE_ENUM(aDecoder, type);
-        ORK_DECODE_OBJ(aDecoder, tinnitusIdentifier);
+        ORK_DECODE_OBJ_CLASS(aDecoder, tinnitusIdentifier, NSString);
     }
     return self;
 }
