@@ -33,6 +33,10 @@ import ResearchKit
 import MapKit
 import Speech
 
+protocol ResultProviderDelegate {
+    func presentShareSheet(shareSheet: UIActivityViewController)
+}
+
 /**
     Create a `protocol<UITableViewDataSource, UITableViewDelegate>` that knows
     how to present the metadata for an `ORKResult` instance. Extra metadata is
@@ -50,7 +54,7 @@ import Speech
     of the properties / content are localized.
 */
 //swiftlint:disable force_cast
-func resultTableViewProviderForResult(_ result: ORKResult?) -> UITableViewDataSource & UITableViewDelegate {
+func resultTableViewProviderForResult(_ result: ORKResult?, delegate: ResultProviderDelegate?) -> UITableViewDataSource & UITableViewDelegate {
     guard let result = result else {
         /*
             Use a table view provider that shows that there hasn't been a recently
@@ -192,7 +196,7 @@ func resultTableViewProviderForResult(_ result: ORKResult?) -> UITableViewDataSo
     }
     
     // Return a new instance of the specific `ResultTableViewProvider`.
-    return providerType.init(result: result)
+    return providerType.init(result: result, delegate: delegate)
 }
 
 /**
@@ -269,10 +273,13 @@ class ResultTableViewProvider: NSObject, UITableViewDataSource, UITableViewDeleg
     
     let result: ORKResult
     
+    var delegate: ResultProviderDelegate?
+    
     // MARK: Initializers
     
-    required init(result: ORKResult) {
+    required init(result: ORKResult, delegate: ResultProviderDelegate?) {
         self.result = result
+        self.delegate = delegate
     }
     
     // MARK: UITableViewDataSource
@@ -355,6 +362,23 @@ class ResultTableViewProvider: NSObject, UITableViewDataSource, UITableViewDeleg
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return section == 0 ? "Result" : nil
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath)
+        
+        if indexPath.section == 0 && cell?.textLabel?.text == "fileURL" {
+            
+            let fileURL = NSURL(fileURLWithPath: (cell?.detailTextLabel!.text)!)
+            let filesToShare = [fileURL]
+
+            let activityViewController = UIActivityViewController(activityItems: filesToShare, applicationActivities: nil)
+
+            if let resultProviderDelegate = delegate {
+                resultProviderDelegate.presentShareSheet(shareSheet: activityViewController)
+            }
+        }
+        
     }
     
     // MARK: Overridable Methods
