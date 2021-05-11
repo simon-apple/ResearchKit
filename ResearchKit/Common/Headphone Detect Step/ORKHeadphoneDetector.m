@@ -57,6 +57,7 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
     NSUInteger                          _wirelessSplitterNumberOfDevices;
     
     AVAudioPlayer                       *_workaroundPlayer;
+    NSUInteger                          _workaroundPoolingCounter;
 }
 
 + (NSSet<ORKHeadphoneChipsetIdentifier> *)appleHeadphoneSet {
@@ -82,6 +83,7 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
         [self startBTListeningModeCheckTimer];
         
         [self initializeSmartRouteWorkaround];
+        _workaroundPoolingCounter = 0;
     }
     return self;
 }
@@ -376,6 +378,20 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
     
     if (!_tickQueue) {
         _tickQueue = dispatch_queue_create("HeadphoneDetectorTickQueue", DISPATCH_QUEUE_SERIAL);
+    }
+
+    _workaroundPoolingCounter = _workaroundPoolingCounter + 1;
+    
+    if (_workaroundPoolingCounter == 10) {
+        if ([_workaroundPlayer isPlaying]) {
+            [_workaroundPlayer stop];
+            _workaroundPlayer = nil;
+            // will be faster to start tha audio again
+            _workaroundPoolingCounter = 5;
+        } else {
+            [self initializeSmartRouteWorkaround];
+            _workaroundPoolingCounter = 0;
+        }
     }
 
     dispatch_async(_tickQueue, ^{
