@@ -500,7 +500,7 @@
                                         actionWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE_START_OVER", nil)
                                         style:UIAlertActionStyleDefault
                                         handler:^(UIAlertAction *action) {
-                [[self taskViewController] flipToFirstPage];
+                [[self taskViewController] restartTask];
             }];
             [alertController addAction:startOver];
             [alertController addAction:[UIAlertAction

@@ -79,7 +79,7 @@ NSString *const ORKHeadphoneNotificationMessageKey = @"ORKHeadphoneNotificationM
                                         actionWithTitle:ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_START_OVER", nil)
                                         style:UIAlertActionStyleDefault
                                         handler:^(UIAlertAction *action) {
-                [[self taskViewController] flipToFirstPage];
+                [[self taskViewController] restartTask];
                 if (self.step.context && [self.step.context isKindOfClass:[ORKTinnitusPredefinedTaskContext class]]) {
                     ORKTinnitusPredefinedTaskContext *context = (ORKTinnitusPredefinedTaskContext *)self.step.context;
                     [context resetVariables];
