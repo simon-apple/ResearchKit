@@ -1342,9 +1342,12 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     }
 }
 
-- (void)flipToFirstPage {
+- (void)restartTask {
     ORKStep *firstStep = [_task stepAfterStep:nil withResult:[self result]];
     if (firstStep) {
+        [self.managedStepIdentifiers removeAllObjects];
+        [self.managedResults removeAllObjects];
+        self.restoredStepIdentifier = nil;
         [self showStepViewController:[self viewControllerForStep:firstStep] goForward:YES animated:NO];
     }
 }

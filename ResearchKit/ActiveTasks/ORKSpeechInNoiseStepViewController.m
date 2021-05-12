@@ -366,7 +366,7 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
                                         actionWithTitle:ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_START_OVER", nil)
                                         style:UIAlertActionStyleDefault
                                         handler:^(UIAlertAction *action) {
-                [[self taskViewController] flipToFirstPage];
+                [[self taskViewController] restartTask];
             }];
             [alertController addAction:startOver];
             [alertController addAction:[UIAlertAction
