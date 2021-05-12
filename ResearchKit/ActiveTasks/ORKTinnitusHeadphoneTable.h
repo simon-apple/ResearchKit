@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSDictionary *dbSPLAmplitudePerFrequency;
 @property (nonatomic, strong) NSDictionary *volumeCurve;
 
-- (instancetype)initWithHeadphoneType:(ORKHeadphoneTypeIdentifier)headphoneType;
+- (nullable instancetype)initWithHeadphoneType:(ORKHeadphoneTypeIdentifier)headphoneType;
 
 /**
  Returns the gain for volume using the volume curve for the initialized headphone type

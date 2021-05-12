@@ -36,12 +36,14 @@
     self = [super init];
     if (self) {
         self.headphoneType = headphoneType;
-        [self commonInit];
+        if (![self commonInit]) {
+            return nil;
+        }
     }
     return self;
 }
 
-- (void)commonInit {
+- (BOOL)commonInit {
     NSString *headphoneTypeUppercased = [_headphoneType uppercaseString];
     NSString *dbAmplitudePerFrequencyFilename;
     NSString *dbSPLAmplitudePerFrequencyFilename;
@@ -65,7 +67,7 @@
         dbSPLAmplitudePerFrequencyFilename = @"dbSPLAmplitudePerFrequency_EARPODS";
         volumeCurveFilename = @"volume_curve_WIRED";
     } else {
-        @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"A valid headphone route identifier must be provided" userInfo:nil];
+        NSAssert(NO, @"A valid headphone route identifier must be provided");
     }
     
     self.volumeCurve = [NSDictionary
@@ -82,6 +84,8 @@
                                    dictionaryWithContentsOfFile:[[NSBundle bundleForClass:[self class]]
                                                                  pathForResource:dbSPLAmplitudePerFrequencyFilename
                                                                  ofType:@"plist"]];
+    
+    return (_headphoneType && _volumeCurve && _dbAmplitudePerFrequency && _dbSPLAmplitudePerFrequency);
 }
 
 - (float)gainForSystemVolume:(float)systemVolume interpolated:(BOOL)isInterpolated {
