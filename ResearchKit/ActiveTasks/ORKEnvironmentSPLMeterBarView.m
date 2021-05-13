@@ -129,7 +129,7 @@ static const int ORKEnvironmentSPLMeterNumberOfRows = 4;
     _maximumNumberOfDots = (int) (floor(width/dotSpacing)) + 1;
     NSMutableArray<ORKEnvironmentSPLMeterColumnView*> *columnViews = [[NSMutableArray alloc] init];
     _greenIndexLimit = _maximumNumberOfDots * 0.66;
-    _currentIndex = _greenIndexLimit;
+    _currentIndex = 0;
     _targetIndex = _greenIndexLimit;
     
     for (int i = 1 ; i <= _maximumNumberOfDots; i++) {
@@ -151,7 +151,7 @@ static const int ORKEnvironmentSPLMeterNumberOfRows = 4;
     
     _columnViews = [columnViews copy];
     
-    [self updateViewForIndex:_greenIndexLimit];
+    [self updateViewForIndex:_currentIndex];
     
     [self animateColumns];
 }
