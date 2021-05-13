@@ -35,7 +35,8 @@
 #import <QuartzCore/QuartzCore.h>
 
 static const CGFloat ORKTinnitusButtonViewHeight = 82.0;
-static const CGFloat ORKTinnitusButtonViewImageSize = 40.0;
+static const CGFloat ORKTinnitusButtonViewImageSize = 36.0;
+static const CGFloat ORKTinnitusButtonViewInsetAdjustment = 4.0;
 static const CGFloat ORKTinnitusButtonViewPadding = 16.0;
 static const CGFloat ORKTinnitusButtonViewBarLevelsHeight = 21.0;
 static const CGFloat ORKTinnitusButtonViewBarLevelsWidth = 30.0;
@@ -150,15 +151,17 @@ static const CGFloat ORKTinnitusButtonViewBarLevelsWidth = 30.0;
     UIImage *stopImage;
     
     if (@available(iOS 13.0, *)) {
-        UIImageSymbolConfiguration *imageConfig = [UIImageSymbolConfiguration configurationWithPointSize:17.0 weight:UIImageSymbolWeightMedium scale:UIImageSymbolScaleMedium];
-        playImage = [[[UIImage systemImageNamed:@"play.fill"] imageByApplyingSymbolConfiguration:imageConfig] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-        stopImage = [[[UIImage systemImageNamed:@"pause.fill"] imageByApplyingSymbolConfiguration:imageConfig] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        UIImageSymbolConfiguration *imageConfig = [UIImageSymbolConfiguration configurationWithPointSize:ORKTinnitusButtonViewImageSize weight:UIImageSymbolWeightRegular scale:UIImageSymbolScaleDefault];
+        playImage = [[[UIImage systemImageNamed:@"play.circle.fill"] imageByApplyingSymbolConfiguration:imageConfig] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        stopImage = [[[UIImage systemImageNamed:@"pause.circle.fill"] imageByApplyingSymbolConfiguration:imageConfig] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     }
     
     _playView = [[UIImageView alloc] initWithImage:playImage highlightedImage:stopImage];
     _playView.contentMode = UIViewContentModeCenter;
     _playView.layer.cornerRadius = ORKTinnitusButtonViewImageSize/2;
-    _playView.clipsToBounds = YES;
+    _playView.clipsToBounds = NO;
+    _playView.tintColor = UIColor.tinnitusPlayBackgroundColor;
+    _playView.backgroundColor = UIColor.systemBlueColor;
     [self addSubview:_playView];
     _playView.translatesAutoresizingMaskIntoConstraints = NO;
     
@@ -189,7 +192,6 @@ static const CGFloat ORKTinnitusButtonViewBarLevelsWidth = 30.0;
     [self addGestureRecognizer:_tapOffGestureRecognizer];
     
     self.backgroundColor = UIColor.tinnitusButtonBackgroundColor;
-    _playView.backgroundColor = UIColor.tinnitusPlayBackgroundColor;
     
     _hapticFeedback = [[UIImpactFeedbackGenerator alloc] initWithStyle: UIImpactFeedbackStyleMedium];
     
@@ -335,13 +337,13 @@ static const CGFloat ORKTinnitusButtonViewBarLevelsWidth = 30.0;
     [_middleSeparatorView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor].active = YES;
     [_middleSeparatorView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor].active = YES;
     
-    [_playView.heightAnchor constraintEqualToConstant:ORKTinnitusButtonViewImageSize].active = YES;
-    [_playView.widthAnchor constraintEqualToConstant:ORKTinnitusButtonViewImageSize].active = YES;
-    [_playView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:ORKTinnitusButtonViewPadding].active = YES;
+    [_playView.heightAnchor constraintEqualToConstant:ORKTinnitusButtonViewImageSize - ORKTinnitusButtonViewInsetAdjustment].active = YES;
+    [_playView.widthAnchor constraintEqualToConstant:ORKTinnitusButtonViewImageSize - ORKTinnitusButtonViewInsetAdjustment].active = YES;
+    [_playView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:ORKTinnitusButtonViewPadding + ORKTinnitusButtonViewInsetAdjustment / 2].active = YES;
     [_playView.centerYAnchor constraintEqualToAnchor:self.centerYAnchor].active = YES;
     
     [_titleLabel.topAnchor constraintEqualToAnchor:self.topAnchor constant:ORKTinnitusButtonViewPadding].active = YES;
-    [_titleLabel.leadingAnchor constraintEqualToAnchor:_playView.trailingAnchor constant:ORKTinnitusButtonViewPadding].active = YES;
+    [_titleLabel.leadingAnchor constraintEqualToAnchor:_playView.trailingAnchor constant:ORKTinnitusButtonViewPadding + ORKTinnitusButtonViewInsetAdjustment / 2].active = YES;
     [_titleLabel.trailingAnchor constraintLessThanOrEqualToAnchor:self.trailingAnchor constant:-(ORKTinnitusButtonViewBarLevelsWidth+ORKTinnitusButtonViewPadding)].active = YES;
     if (_detailText) {
         [_titleLabel.bottomAnchor constraintEqualToAnchor:_middleSeparatorView.topAnchor].active = YES;
@@ -354,7 +356,7 @@ static const CGFloat ORKTinnitusButtonViewBarLevelsWidth = 30.0;
     [_barLevelsView.widthAnchor constraintEqualToConstant:ORKTinnitusButtonViewBarLevelsWidth].active = YES;
     [_barLevelsView.heightAnchor constraintEqualToConstant:ORKTinnitusButtonViewBarLevelsHeight].active = YES;
     
-    [_detailLabel.leadingAnchor constraintEqualToAnchor:_playView.trailingAnchor constant:ORKTinnitusButtonViewPadding].active = YES;
+    [_detailLabel.leadingAnchor constraintEqualToAnchor:_playView.trailingAnchor constant:ORKTinnitusButtonViewPadding + ORKTinnitusButtonViewInsetAdjustment / 2].active = YES;
     [_detailLabel.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-ORKTinnitusButtonViewPadding].active = YES;
     [_detailLabel.topAnchor constraintEqualToAnchor:_middleSeparatorView.bottomAnchor].active = YES;
     [_detailLabel.bottomAnchor constraintEqualToAnchor:self.bottomAnchor constant:-ORKTinnitusButtonViewPadding].active = YES;

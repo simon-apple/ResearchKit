@@ -34,6 +34,7 @@
 #import "UIColor+Custom.h"
 
 static int const ORKVolumeCalibrationStepPadding = 8;
+static int const ORKVolumeCalibrationStepInsetAdjustment = 4;
 static int const ORKVolumeCalibrationStepMargin = 16;
 static int const ORKVolumeCalibrationStepSliderMargin = 22;
 static int const ORKVolumeCalibrationStepSliderSpacing = 30;
@@ -84,21 +85,21 @@ static int const ORKVolumeCalibrationStepPlaybackButtonSize = 36;
     if (@available(iOS 13.0, *)) {
         sliderFullImage = [UIImage systemImageNamed:@"speaker.wave.3.fill"];
         sliderEmptyImage = [UIImage systemImageNamed:@"speaker.fill"];
-        playImage = [UIImage systemImageNamed:@"play.fill"];
+        UIImageSymbolConfiguration *imageConfig = [UIImageSymbolConfiguration configurationWithPointSize:ORKVolumeCalibrationStepPlaybackButtonSize weight:UIImageSymbolWeightRegular scale:UIImageSymbolScaleDefault];
+        playImage = [[[UIImage systemImageNamed:@"play.circle.fill"] imageByApplyingSymbolConfiguration:imageConfig] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
 
         separatorView.backgroundColor = UIColor.tinnitusBackgroundColor;
-        _playbackButton.tintColor = [UIColor systemBlueColor];
-        _playbackButton.backgroundColor = UIColor.tinnitusPlayBackgroundColor;
+        _playbackButton.tintColor = UIColor.tinnitusPlayBackgroundColor;
+        _playbackButton.backgroundColor = [UIColor systemBlueColor];
         roundedView.backgroundColor = UIColor.tinnitusButtonBackgroundColor;
         
-        _playbackButton.layer.cornerRadius = ORKVolumeCalibrationStepPlaybackButtonSize/2;
-    } else {
-        playImage = [UIImage imageNamed:@"play" inBundle:ORKBundle() compatibleWithTraitCollection:nil];
-        roundedView.backgroundColor = [UIColor whiteColor];
-        separatorView.backgroundColor = [UIColor lightGrayColor];
+        _playbackButton.layer.cornerRadius = ORKVolumeCalibrationStepPlaybackButtonSize/2.2;
     }
 
     [_playbackButton setImage:playImage forState:UIControlStateNormal];
+    _playbackButton.imageEdgeInsets = UIEdgeInsetsMake(-2, -2, -2, -2);
+    _playbackButton.imageView.contentMode = UIViewContentModeCenter;
+    _playbackButton.clipsToBounds = YES;
     [roundedView addSubview:_playbackButton];
 
     self.titleLabel = [[UILabel alloc] init];
@@ -154,8 +155,8 @@ static int const ORKVolumeCalibrationStepPlaybackButtonSize = 36;
 
     [_playbackButton setTranslatesAutoresizingMaskIntoConstraints:NO];
     [[_playbackButton.centerYAnchor constraintEqualToAnchor:_titleLabel.centerYAnchor] setActive:YES];
-    [[_playbackButton.heightAnchor constraintEqualToConstant:ORKVolumeCalibrationStepPlaybackButtonSize] setActive:YES];
-    [[_playbackButton.widthAnchor constraintEqualToConstant:ORKVolumeCalibrationStepPlaybackButtonSize] setActive:YES];
+    [[_playbackButton.heightAnchor constraintEqualToConstant:ORKVolumeCalibrationStepPlaybackButtonSize - ORKVolumeCalibrationStepInsetAdjustment] setActive:YES];
+    [[_playbackButton.widthAnchor constraintEqualToConstant:ORKVolumeCalibrationStepPlaybackButtonSize - ORKVolumeCalibrationStepInsetAdjustment] setActive:YES];
     [[_playbackButton.leadingAnchor constraintEqualToAnchor:roundedView.leadingAnchor constant:ORKVolumeCalibrationStepMargin] setActive:YES];
 
     [_titleLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
@@ -210,11 +211,10 @@ static int const ORKVolumeCalibrationStepPlaybackButtonSize = 36;
 - (void)setPlaybackButtonPlaying:(BOOL)isPlaying {
     [self.barLevelsView setHidden:!isPlaying];
     
-    UIImage *image;
     if (@available(iOS 13.0, *)) {
-        image = isPlaying?
-        [UIImage systemImageNamed:@"pause.fill"]:
-        [UIImage systemImageNamed:@"play.fill"];
+        UIImageSymbolConfiguration *imageConfig = [UIImageSymbolConfiguration configurationWithPointSize:ORKVolumeCalibrationStepPlaybackButtonSize weight:UIImageSymbolWeightRegular scale:UIImageSymbolScaleDefault];
+        NSString *imageName = isPlaying ? @"pause.circle.fill" : @"play.circle.fill";
+        UIImage *image = [[[UIImage systemImageNamed:imageName] imageByApplyingSymbolConfiguration:imageConfig] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         [self.playbackButton setImage:image forState:UIControlStateNormal];
     }
 }

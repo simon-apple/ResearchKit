@@ -36,6 +36,7 @@
 #import "ORKCheckmarkView.h"
 
 static int const ORKTinnitusAssessmentPlaybackButtonSize = 36;
+static int const ORKTinnitusAssessmentPlaybackButtonInsetAdjustment = 4;
 static int const ORKTinnitusAssessmentPadding = 8;
 static int const ORKTinnitusAssessmentMargin = 16;
 
@@ -227,17 +228,23 @@ static int const ORKTinnitusAssessmentMargin = 16;
 
     self.playButtonView = [UIButton buttonWithType:UIButtonTypeCustom];
     if (@available(iOS 13.0, *)) {
-        UIImage *playImage = [UIImage systemImageNamed:@"play.fill"];
+        UIImageSymbolConfiguration *imageConfig = [UIImageSymbolConfiguration configurationWithPointSize:ORKTinnitusAssessmentPlaybackButtonSize weight:UIImageSymbolWeightRegular scale:UIImageSymbolScaleDefault];
+        UIImage *playImage = [[[UIImage systemImageNamed:@"play.circle.fill"] imageByApplyingSymbolConfiguration:imageConfig] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         [_playButtonView setImage:playImage forState:UIControlStateNormal];
 
-        _playButtonView.tintColor = [UIColor systemBlueColor];
-        _playButtonView.layer.cornerRadius = ORKTinnitusAssessmentPlaybackButtonSize/2;
+        _playButtonView.tintColor = UIColor.tinnitusPlayBackgroundColor;
+        _playButtonView.layer.cornerRadius = ORKTinnitusAssessmentPlaybackButtonSize/2.2;
         
-        _playButtonView.backgroundColor = UIColor.tinnitusPlayBackgroundColor;
+        _playButtonView.backgroundColor = [UIColor systemBlueColor];
         _roundedView.backgroundColor = UIColor.tinnitusButtonBackgroundColor;
     }
 
     [_playButtonView addTarget:self action:@selector(playButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    
+    _playButtonView.imageEdgeInsets = UIEdgeInsetsMake(-2, -2, -2, -2);
+    _playButtonView.imageView.contentMode = UIViewContentModeCenter;
+    _playButtonView.clipsToBounds = YES;
+    
     [_roundedView addSubview:_playButtonView];
     
     self.titleLabel = [[UILabel alloc] init];
@@ -289,8 +296,8 @@ static int const ORKTinnitusAssessmentMargin = 16;
 
     [_playButtonView setTranslatesAutoresizingMaskIntoConstraints:NO];
     [[_playButtonView.centerYAnchor constraintEqualToAnchor:_titleLabel.centerYAnchor] setActive:YES];
-    [[_playButtonView.heightAnchor constraintEqualToConstant:ORKTinnitusAssessmentPlaybackButtonSize] setActive:YES];
-    [[_playButtonView.widthAnchor constraintEqualToConstant:ORKTinnitusAssessmentPlaybackButtonSize] setActive:YES];
+    [[_playButtonView.heightAnchor constraintEqualToConstant:ORKTinnitusAssessmentPlaybackButtonSize - ORKTinnitusAssessmentPlaybackButtonInsetAdjustment] setActive:YES];
+    [[_playButtonView.widthAnchor constraintEqualToConstant:ORKTinnitusAssessmentPlaybackButtonSize - ORKTinnitusAssessmentPlaybackButtonInsetAdjustment] setActive:YES];
     [[_playButtonView.leadingAnchor constraintEqualToAnchor:_roundedView.leadingAnchor constant:ORKTinnitusAssessmentMargin] setActive:YES];
     
     [_titleLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
@@ -398,11 +405,10 @@ static int const ORKTinnitusAssessmentMargin = 16;
 - (void)setPlaybackButtonPlaying:(BOOL)isPlaying {
     [self.barLevelsView setHidden:!isPlaying];
     
-    UIImage *image;
     if (@available(iOS 13.0, *)) {
-        image = isPlaying?
-        [UIImage systemImageNamed:@"pause.fill"]:
-        [UIImage systemImageNamed:@"play.fill"];
+        UIImageSymbolConfiguration *imageConfig = [UIImageSymbolConfiguration configurationWithPointSize:ORKTinnitusAssessmentPlaybackButtonSize weight:UIImageSymbolWeightRegular scale:UIImageSymbolScaleDefault];
+        NSString *imageName = isPlaying ? @"pause.circle.fill" : @"play.circle.fill";
+        UIImage *image = [[[UIImage systemImageNamed:imageName] imageByApplyingSymbolConfiguration:imageConfig] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         [_playButtonView setImage:image forState:UIControlStateNormal];
     }
 }
