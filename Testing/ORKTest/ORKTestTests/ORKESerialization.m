@@ -2182,8 +2182,8 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
            ENTRY(ORKAccuracyStroopResult,
                  nil,
                  (@{
-                     PROPERTY(didSelectCorrectColor, NSNumber, NSObject, NO, nil, ^id(id jsonObject, __unused ORKESerializationContext *context) { return @(NO); }),
-                     PROPERTY(timeTakenToSelect, NSNumber, NSObject, NO, nil, ^id(id jsonObject, __unused ORKESerializationContext *context) { return @(0); }),
+                     PROPERTY(didSelectCorrectColor, NSNumber, NSObject, NO, nil, ^id(__unused id jsonObject, __unused ORKESerializationContext *context) { return @(NO); }),
+                     PROPERTY(timeTakenToSelect, NSNumber, NSObject, NO, nil, ^id(__unused id jsonObject, __unused ORKESerializationContext *context) { return @(0); }),
                      PROPERTY(distanceToClosestCenter, NSNumber, NSObject, NO, nil, nil)
                   })),
            ENTRY(ORKTimedWalkResult,
