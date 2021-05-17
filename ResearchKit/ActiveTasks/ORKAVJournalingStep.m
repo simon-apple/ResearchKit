@@ -50,7 +50,7 @@ static const NSTimeInterval MAX_RECORDING_DURATION = 7260.0;
     if (self) {
         _maximumRecordingLimit = 60.0;
         _countDownStartTime = 30;
-        _saveDepthDataIfAvailable = YES;
+        _saveDepthDataIfAvailable = NO;
     }
     return self;
 }
