@@ -40,7 +40,9 @@
 #import "ORKTappingIntervalStepViewController.h"
 #import "ORKTaskViewController_Internal.h"
 #import "ORKLearnMoreStepViewController.h"
+//start-omit-internal-code
 #import "ORKSpeechInNoisePredefinedTask.h"
+//end-omit-internal-code
 
 #import "ORKActiveStep.h"
 #import "ORKCollectionResult_Private.h"
@@ -901,11 +903,14 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
                 // be highly unexpected.
                 if ([self grantedAtLeastOnePermission] == NO) {
                     
+                    //start-omit-internal-code
+                    
                     // We need to check if this is the SIN Predefined Task
                     // If they select to not allow required permissions, we need to show them to the door.
                     ORKNavigableOrderedTask *speechInNoiseTask = nil;
                     if ([self.task isKindOfClass:[ORKNavigableOrderedTask class]])
                     {
+                        
                         speechInNoiseTask = (ORKNavigableOrderedTask *)self.task;
                         __block ORKSpeechInNoisePredefinedTaskContext *context = nil;
                         [speechInNoiseTask.steps indexOfObjectPassingTest:^BOOL(ORKStep * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -926,6 +931,8 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
                             return;
                         }
                     }
+                    
+                    //end-omit-internal-code
                     
                     [self reportError:[NSError errorWithDomain:NSCocoaErrorDomain
                                                           code:NSUserCancelledError

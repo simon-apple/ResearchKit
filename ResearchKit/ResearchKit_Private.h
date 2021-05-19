@@ -35,10 +35,6 @@
 #import <ResearchKit/ORKHelpers_Internal.h>
 #import <ResearchKit/ORKDevice_Private.h>
 
-// Predefined Tasks
-#import <ResearchKit/ORKSpeechInNoisePredefinedTask.h>
-#import <ResearchKit/ORKTinnitusPredefinedTask.h>
-
 #import <ResearchKit/ORKQuestionStep_Private.h>
 
 // Active step support
@@ -87,9 +83,6 @@
 #import <ResearchKit/ORKTrailmakingStep.h>
 #import <ResearchKit/ORKWalkingTaskStep.h>
 #import <ResearchKit/ORKSpeechRecognitionStep.h>
-#import <ResearchKit/ORKSpeechInNoiseStep.h>
-#import <ResearchKit/ORKVolumeCalibrationStep.h>
-#import <ResearchKit/ORKFaceDetectionStep.h>
 #import <ResearchKit/ORKHeadphonesRequiredCompletionStep.h>
 
 #import <ResearchKit/ORKTaskViewController_Private.h>
@@ -120,7 +113,6 @@
 #import <ResearchKit/ORKWalkingTaskStepViewController.h>
 #import <ResearchKit/ORKVideoInstructionStepViewController.h>
 #import <ResearchKit/ORKSpeechRecognitionStepViewController.h>
-#import <ResearchKit/ORKVolumeCalibrationStepViewController.h>
 
 #import <ResearchKit/ORKAccelerometerRecorder.h>
 #import <ResearchKit/ORKAudioRecorder.h>
@@ -168,7 +160,6 @@
 #import <ResearchKit/ORKActiveStep_Internal.h>
 #import <ResearchKit/ORKStep_Private.h>
 #import <ResearchKit/ORKActiveStepViewController_Internal.h>
-#import <ResearchKit/ORKHeadphoneActiveStepViewController.h>
 #import <ResearchKit/ORKStepViewController_Internal.h>
 #import <ResearchKit/ORKTaskViewController_Internal.h>
 
@@ -186,6 +177,17 @@
 #import <ResearchKit/ORKLearnMoreView.h>
 #import <ResearchKit/ORKBodyContainerView.h>
 
+//start-omit-internal-code
+#import <ResearchKit/ORKHeadphoneActiveStepViewController.h>
+
+#import <ResearchKit/ORKFaceDetectionStep.h>
+
+#import <ResearchKit/ORKVolumeCalibrationStep.h>
+#import <ResearchKit/ORKVolumeCalibrationStepViewController.h>
+
+#import <ResearchKit/ORKAVJournalingPredefinedTask.h>
+#import <ResearchKit/ORKAVJournalingStep.h>
+
 // Tinnitus Predefined Task Steps & Result Objects
 #import <ResearchKit/ORKTinnitusTypeStep.h>
 #import <ResearchKit/ORKTinnitusPureToneStep.h>
@@ -199,7 +201,9 @@
 #import <ResearchKit/ORKTinnitusPureToneStepViewController_Private.h>
 #import <ResearchKit/ORKTinnitusTypes.h>
 
-//start-omit-internal-code
-#import <ResearchKit/ORKAVJournalingPredefinedTask.h>
-#import <ResearchKit/ORKAVJournalingStep.h>
+#import <ResearchKit/ORKSpeechInNoiseStep.h>
+
+#import <ResearchKit/ORKSpeechInNoisePredefinedTask.h>
+#import <ResearchKit/ORKTinnitusPredefinedTask.h>
+
 //end-omit-internal-code

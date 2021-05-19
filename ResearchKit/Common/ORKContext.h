@@ -52,6 +52,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+
+@interface ORKdBHLTaskContext : NSObject <ORKContext>
+
+@end
+
+
+//start-omit-internal-code
+
 @interface ORKSpeechInNoisePredefinedTaskContext : NSObject <ORKContext>
 
 @property (nonatomic, copy) NSString *practiceAgainStepIdentifier;
@@ -64,7 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-//start-omit-internal-code
+
 @interface ORKAVJournalingPredfinedTaskContext : NSObject <ORKContext>
 
 - (void)didReachDetectionTimeLimitForTask:(id<ORKTask>)task currentStepIdentifier:(NSString *)currentStepIdentifier;
@@ -74,11 +82,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)videoOrAudioAccessDeniedForTask:(id<ORKTask>)task;
 
 @end
-//end-omit-internal-code
 
-@interface ORKdBHLTaskContext : NSObject <ORKContext>
-
-@end
 
 @class ORKTinnitusAudioManifest;
 typedef NS_ENUM(NSInteger, ORKTinnitusType);
@@ -102,5 +106,7 @@ typedef NS_ENUM(NSInteger, ORKTinnitusType);
 - (void)resetVariables;
 
 @end
+
+//end-omit-internal-code
 
 NS_ASSUME_NONNULL_END

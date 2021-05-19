@@ -38,7 +38,6 @@
 #import <ResearchKit/ORKReactionTimeResult.h>
 #import <ResearchKit/ORKSpatialSpanMemoryResult.h>
 #import <ResearchKit/ORKSpeechRecognitionResult.h>
-#import <ResearchKit/ORKSpeechInNoiseResult.h>
 #import <ResearchKit/ORKStroopResult.h>
 #import <ResearchKit/ORKAccuracyStroopResult.h>
 #import <ResearchKit/ORKTappingIntervalResult.h>
@@ -47,8 +46,13 @@
 #import <ResearchKit/ORKdBHLToneAudiometryResult.h>
 #import <ResearchKit/ORKTowerOfHanoiResult.h>
 #import <ResearchKit/ORKTrailmakingResult.h>
+
+//start-omit-internal-code
+#import <ResearchKit/ORKSpeechInNoiseResult.h>
+
 #import <ResearchKit/ORKTinnitusPureToneResult.h>
 #import <ResearchKit/ORKTinnitusMaskingSoundResult.h>
 #import <ResearchKit/ORKTinnitusVolumeResult.h>
 #import <ResearchKit/ORKTinnitusTypeResult.h>
 #import <ResearchKit/ORKTinnitusOverallAssessmentResult.h>
+//end-omit-internal-code

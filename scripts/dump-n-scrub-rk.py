@@ -94,11 +94,13 @@ def gather_files_from_internal_folders(folders):
     for folder in folders:
         internal_files = internal_files + fetch_files_from_folder(folder)
 
+
+
     return internal_files
 
 def is_a_folder_to_delete(current_folder):
     # hardcoded list of folders that need to be removed before pushing to public
-    folders_to_remove = ["PrivateHeaders", "ORKAVJournaling", "ORKFaceDetectionStep"]
+    folders_to_remove = ["PrivateHeaders", "ORKAVJournaling", "ORKFaceDetectionStep", "Tinnitus", "ORKVolumeCalibration", "ORKSpeechInNoise", "InternalPredefinedTasks"]
     for folder in folders_to_remove:
         if folder == current_folder:
             return True
@@ -106,13 +108,15 @@ def is_a_folder_to_delete(current_folder):
     return False
 
 def fetch_files_from_folder(folder_path):
-    folder_files = []
-    for root, _, files in os.walk(folder_path):
-        for name in files:
-            path = os.path.join(root, name)
-            folder_files.append(File(path))
+    filelist = []
 
-    return folder_files
+    for root, dirs, files in os.walk(folder_path):
+
+    	for file in files:
+            #append the file name to the list
+    		filelist.append(File(os.path.join(root,file)))
+
+    return filelist
 
 if __name__ == "__main__":
 
@@ -157,7 +161,8 @@ if __name__ == "__main__":
         print(f"\tDeleted file {f.name}")
 
     for folder in folders_to_delete:
-         rmtree(folder)
-         print(f"\tDeleted filder {folder}")
+        if os.path.exists(folder):
+            rmtree(folder)
+            print(f"\tDeleted filder {folder}")
 
     print("Success!")
