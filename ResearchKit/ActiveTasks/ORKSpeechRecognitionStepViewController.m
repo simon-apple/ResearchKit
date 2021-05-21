@@ -455,9 +455,16 @@
 }
 
 - (nullable ORKQuestionStep *)nextStep {
+    
     ORKOrderedTask *task = (ORKOrderedTask *)[self.taskViewController task];
+    
     NSUInteger nextStepIndex = [task indexOfStep:[self step]] + 1;
-    ORKStep *nextStep = [task steps][nextStepIndex];
+    
+    ORKStep *nextStep = nil;
+    
+    if ([[task steps] count] > nextStepIndex) {
+        nextStep = [[task steps] objectAtIndex:nextStepIndex];
+    }
     
     if ([nextStep isKindOfClass:[ORKQuestionStep class]]) {
         return (ORKQuestionStep *)nextStep;
