@@ -1358,7 +1358,7 @@ NSString *const ORKKneeRangeOfMotionStepIdentifier = @"knee.range.of.motion";
             instructionStep.title = ORKLocalizedString(@"RANGE_OF_MOTION_TITLE", nil);
             instructionStep.text = intendedUseDescription;
             instructionStep.shouldTintImages = YES;
-            instructionStep.iconImage = [UIImage systemImageNamed:@"ruler.fill"];
+            instructionStep.iconImage = kneeStartImage;
             instructionStep.imageContentMode = UIViewContentModeCenter;
             instructionStep.bodyItems = @[
 
