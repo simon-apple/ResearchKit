@@ -32,6 +32,7 @@
 #import "ORKHelpers_Internal.h"
 #import "ORKSkin.h"
 #import "UIColor+Custom.h"
+#import "ORKCelestialSoftLink.h"
 
 static int const ORKVolumeCalibrationStepPadding = 8;
 static int const ORKVolumeCalibrationStepInsetAdjustment = 4;
@@ -195,7 +196,7 @@ static int const ORKVolumeCalibrationStepPlaybackButtonSize = 36;
     [_volumeSlider addTarget:self action:@selector(volumeSliderChanged:) forControlEvents:UIControlEventValueChanged];
     [_playbackButton addTarget:self action:@selector(playbackButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(volumeDidChange:) name:@"AVSystemController_SystemVolumeDidChangeNotification" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(volumeDidChange:) name:getAVSystemController_SystemVolumeDidChangeNotification() object:nil];
 }
 
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
@@ -247,21 +248,23 @@ static int const ORKVolumeCalibrationStepPlaybackButtonSize = 36;
 
 - (void)volumeDidChange:(NSNotification *)note {
     NSDictionary *userInfo = note.userInfo;
-    NSString *reason = userInfo[@"AVSystemController_AudioVolumeChangeReasonNotificationParameter"];
-    NSNumber *volume = userInfo[@"AVSystemController_AudioVolumeNotificationParameter"];
+    NSString *reason = userInfo[getAVSystemController_AudioVolumeChangeReasonNotificationParameter()];
+    NSNumber *volume = userInfo[getAVSystemController_AudioVolumeNotificationParameter()];
 
     if ([reason isEqualToString:@"ExplicitVolumeChange"]) {
-        if (!_volumeSlider.isTracking) {
-            [_volumeSlider setValue:volume.doubleValue];
-        }
-        
-        if (volume.doubleValue > 0 && _barLevelsView.isHidden) {
-            [self playbackButtonPressed:_playbackButton];
-        }
-        
-        if ([self.delegate respondsToSelector:@selector(contentView:shouldEnableContinue:)]) {
-            [self.delegate contentView:self shouldEnableContinue:(volume.doubleValue > 0)];
-        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (!_volumeSlider.isTracking) {
+                [_volumeSlider setValue:volume.doubleValue];
+            }
+            
+            if (volume.doubleValue > 0 && _barLevelsView.isHidden) {
+                [self playbackButtonPressed:_playbackButton];
+            }
+            
+            if ([self.delegate respondsToSelector:@selector(contentView:shouldEnableContinue:)]) {
+                [self.delegate contentView:self shouldEnableContinue:(volume.doubleValue > 0)];
+            }
+        });
     }
 }
 
