@@ -608,14 +608,12 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
 
 - (void)lockDeviceVolume:(float)volume {
     if (!_hasLockedVolume) {
-        [[NSNotificationCenter defaultCenter] removeObserver:self];
         _hasLockedVolume = YES;
         _lockedVolume = volume;
         _savedVolume = [[AVAudioSession sharedInstance] outputVolume];
         
-        [[getAVSystemControllerClass() sharedAVSystemController] setActiveCategoryVolumeTo:_lockedVolume];
-        
         [self registerNotifications];
+        [[getAVSystemControllerClass() sharedAVSystemController] setActiveCategoryVolumeTo:_lockedVolume];
     }
 }
 
@@ -625,7 +623,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
 
 - (void)registerNotifications
 {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(volumeDidChange:) name:@"AVSystemController_SystemVolumeDidChangeNotification" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(volumeDidChange:) name:getAVSystemController_SystemVolumeDidChangeNotification() object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -1755,7 +1753,7 @@ static NSString *const _ORKProgressMode = @"progressMode";
 {
     if ([[AVAudioSession sharedInstance] outputVolume] != _lockedVolume) {
         NSDictionary *userInfo = note.userInfo;
-        NSString *reason = userInfo[@"AVSystemController_AudioVolumeChangeReasonNotificationParameter"];
+        NSString *reason = userInfo[getAVSystemController_AudioVolumeChangeReasonNotificationParameter()];
         if ([reason isEqualToString:@"ExplicitVolumeChange"]) {
             [[getAVSystemControllerClass() sharedAVSystemController] setActiveCategoryVolumeTo:_lockedVolume];
         };
