@@ -802,6 +802,10 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     [super viewDidLoad];
     self.stepView.navigationFooterView.optional = YES;
     self.stepView.navigationFooterView.continueEnabled = NO;
+    
+    if (self.step.context && [self.step.context isKindOfClass:[ORKTinnitusPredefinedTaskContext class]]) {
+        [(ORKTinnitusPredefinedTaskContext *)self.step.context insertTaskViewController:[self taskViewController]];
+    }
 }
 
 - (void)setContinueButtonItem:(UIBarButtonItem *)continueButtonItem

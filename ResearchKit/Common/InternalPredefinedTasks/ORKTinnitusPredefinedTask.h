@@ -33,6 +33,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+ORK_EXTERN NSString *const ORKHeadphoneNotificationSuspendActivity;
+
 @class ORKStep;
 
 ORK_CLASS_AVAILABLE

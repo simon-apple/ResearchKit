@@ -30,11 +30,11 @@
 
 @import Foundation;
 #import <ResearchKit/ORKDefines.h>
-#import <ResearchKit/ORKHeadphoneActiveStepViewController.h>
+#import <ResearchKit/ORKActiveStepViewController.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ORKVolumeCalibrationStepViewController : ORKHeadphoneActiveStepViewController
+@interface ORKVolumeCalibrationStepViewController : ORKActiveStepViewController
 
 @end
 

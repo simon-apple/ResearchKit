@@ -33,6 +33,7 @@
 #if TARGET_OS_IOS
 #import <ResearchKit/ORKStep.h>
 #import <ResearchKit/ORKDefines.h>
+@class ORKTaskViewController;
 #elif TARGET_OS_WATCH
 #import <ResearchKitCore/ORKStep.h>
 #import <ResearchKitCore/ORKDefines.h>
@@ -42,7 +43,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol ORKContext <NSObject>
 
+#if TARGET_OS_IOS
+@optional
 - (nullable NSString *)didSkipHeadphoneDetectionStepForTask:(id<ORKTask>)task;
+- (void)insertTaskViewController:(ORKTaskViewController*)viewController;
+#endif
 
 @end
 

@@ -49,6 +49,8 @@
 
 #import "ORKCelestialSoftLink.h"
 
+ORK_EXTERN NSString *const ORKHeadphoneNotificationSuspendActivity;
+
 const NSTimeInterval ORKVolumeCalibrationFadeDuration = 0.1;
 const NSTimeInterval ORKVolumeCalibrationFadeStep = 0.01;
 
@@ -226,6 +228,14 @@ const NSTimeInterval ORKVolumeCalibrationFadeStep = 0.01;
     [self setupButtons];
     
     self.activeStepView.activeCustomView = self.contentView;
+    
+#if !TARGET_IPHONE_SIMULATOR
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(headphoneChanged:) name:ORKHeadphoneNotificationSuspendActivity object:nil];
+#endif
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:ORKHeadphoneNotificationSuspendActivity object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -247,7 +257,6 @@ const NSTimeInterval ORKVolumeCalibrationFadeStep = 0.01;
 
 - (void)headphoneChanged:(NSNotification *)note {
     if (self.tinnitusPredefinedTaskContext != nil) {
-        [super headphoneChanged:note];
         [self.contentView setPlaybackButtonPlaying:NO];
         self.contentView.delegate = nil;
         [self stopSample];
