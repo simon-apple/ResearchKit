@@ -99,6 +99,14 @@
     self.assessmentContentView.delegate = self;
             
     [self setNavigationFooterView];
+    
+#if !TARGET_IPHONE_SIMULATOR
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(headphoneChanged:) name:ORKHeadphoneNotificationSuspendActivity object:nil];
+#endif
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:ORKHeadphoneNotificationSuspendActivity object:nil];
 }
 
 - (BOOL)setupAudioEngineForWhiteNoiseSound:(NSString *)identifier error:(NSError **)outError {
@@ -131,10 +139,8 @@
 }
 
 - (void)headphoneChanged:(NSNotification *)note {
-    if (self.step.context && [self.step.context isKindOfClass:[ORKTinnitusPredefinedTaskContext class]]) {
-        [super headphoneChanged:note];
+    if (self.tinnitusPredefinedTaskContext != nil) {
         [self stopAudio];
-        
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.assessmentContentView setPlaybackButtonPlaying:NO];
             self.assessmentContentView.delegate = nil;
