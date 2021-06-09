@@ -99,6 +99,14 @@ const NSTimeInterval ORKTinnitusTypeFadeStep = 0.01;
     } else {
         [self setupAutoPlay];
     }
+    
+#if !TARGET_IPHONE_SIMULATOR
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(headphoneChanged:) name:ORKHeadphoneNotificationSuspendActivity object:nil];
+#endif
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:ORKHeadphoneNotificationSuspendActivity object:nil];
 }
 
 - (void)setupAudioEngine {
@@ -187,6 +195,7 @@ const NSTimeInterval ORKTinnitusTypeFadeStep = 0.01;
         self.taskViewController.navigationBar.barTintColor = UIColor.systemGroupedBackgroundColor;
         [self.taskViewController.navigationBar setTranslucent:NO];
     }
+    
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -202,9 +211,15 @@ const NSTimeInterval ORKTinnitusTypeFadeStep = 0.01;
     [self tearDownAudioEngine];
 }
 
-- (void)headphoneChanged:(NSNotification *)note {
+- (ORKTinnitusPredefinedTaskContext *)tinnitusPredefinedTaskContext {
     if (self.step.context && [self.step.context isKindOfClass:[ORKTinnitusPredefinedTaskContext class]]) {
-        [super headphoneChanged:note];
+        return (ORKTinnitusPredefinedTaskContext *)self.step.context;
+    }
+    return nil;
+}
+
+- (void)headphoneChanged:(NSNotification *)note {
+    if (self.tinnitusPredefinedTaskContext != nil) {
         [self stopAutomaticPlay];
         [self stopSample:nil];
         

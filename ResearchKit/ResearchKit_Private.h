@@ -178,7 +178,6 @@
 #import <ResearchKit/ORKBodyContainerView.h>
 
 //start-omit-internal-code
-#import <ResearchKit/ORKHeadphoneActiveStepViewController.h>
 
 #import <ResearchKit/ORKFaceDetectionStep.h>
 

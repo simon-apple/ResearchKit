@@ -108,8 +108,7 @@ static const NSUInteger OCTAVE_CONFUSION_THRESHOLD_INDEX = 6;
 }
 
 - (void)headphoneChanged:(NSNotification *)note {
-    if (self.step.context && [self.step.context isKindOfClass:[ORKTinnitusPredefinedTaskContext class]]) {
-        [super headphoneChanged:note];
+    if (self.tinnitusPredefinedTaskContext != nil) {
         _terminated = YES;
         [self stopAutomaticPlay];
         [self.audioGenerator stop];
@@ -328,6 +327,14 @@ static const NSUInteger OCTAVE_CONFUSION_THRESHOLD_INDEX = 6;
     } else {
         [self setupAutoPlay];
     }
+    
+#if !TARGET_IPHONE_SIMULATOR
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(headphoneChanged:) name:ORKHeadphoneNotificationSuspendActivity object:nil];
+#endif
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:ORKHeadphoneNotificationSuspendActivity object:nil];
 }
 
 - (void)setupAutoPlay {

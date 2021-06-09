@@ -952,8 +952,6 @@
 		E220A3932571252900C3C211 /* ORKTinnitusPureToneStep.m in Sources */ = {isa = PBXBuildFile; fileRef = E220A3872571252900C3C211 /* ORKTinnitusPureToneStep.m */; };
 		E220A3952571252900C3C211 /* ORKTinnitusPureToneStep.h in Headers */ = {isa = PBXBuildFile; fileRef = E220A3892571252900C3C211 /* ORKTinnitusPureToneStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		E220A3962571252900C3C211 /* ORKTinnitusPureToneStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = E220A38A2571252900C3C211 /* ORKTinnitusPureToneStepViewController.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		E22CD6AF26135FB7001FB6DD /* ORKHeadphoneActiveStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = E22CD6AD26135FB7001FB6DD /* ORKHeadphoneActiveStepViewController.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		E22CD6B026135FB7001FB6DD /* ORKHeadphoneActiveStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E22CD6AE26135FB7001FB6DD /* ORKHeadphoneActiveStepViewController.m */; };
 		E2471305252B991B00FF5431 /* ORKdBHLToneAudiometryCompletionStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = E2471301252B991A00FF5431 /* ORKdBHLToneAudiometryCompletionStepViewController.h */; };
 		E2471306252B991B00FF5431 /* ORKdBHLToneAudiometryCompletionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = E2471302252B991A00FF5431 /* ORKdBHLToneAudiometryCompletionStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		E2471307252B991B00FF5431 /* ORKdBHLToneAudiometryCompletionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = E2471303252B991A00FF5431 /* ORKdBHLToneAudiometryCompletionStep.m */; };
@@ -2067,8 +2065,6 @@
 		E220A3892571252900C3C211 /* ORKTinnitusPureToneStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKTinnitusPureToneStep.h; sourceTree = "<group>"; };
 		E220A38A2571252900C3C211 /* ORKTinnitusPureToneStepViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKTinnitusPureToneStepViewController.h; sourceTree = "<group>"; };
 		E220A38B2571252900C3C211 /* ORKTinnitusPureToneStepViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKTinnitusPureToneStepViewController.m; sourceTree = "<group>"; };
-		E22CD6AD26135FB7001FB6DD /* ORKHeadphoneActiveStepViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKHeadphoneActiveStepViewController.h; sourceTree = "<group>"; };
-		E22CD6AE26135FB7001FB6DD /* ORKHeadphoneActiveStepViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKHeadphoneActiveStepViewController.m; sourceTree = "<group>"; };
 		E2471301252B991A00FF5431 /* ORKdBHLToneAudiometryCompletionStepViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKdBHLToneAudiometryCompletionStepViewController.h; sourceTree = "<group>"; };
 		E2471302252B991A00FF5431 /* ORKdBHLToneAudiometryCompletionStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKdBHLToneAudiometryCompletionStep.h; sourceTree = "<group>"; };
 		E2471303252B991A00FF5431 /* ORKdBHLToneAudiometryCompletionStep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKdBHLToneAudiometryCompletionStep.m; sourceTree = "<group>"; };
@@ -5045,7 +5041,6 @@
 				D442397D1AF17F7600559D96 /* ORKImageCaptureStepViewController.h in Headers */,
 				86C40C4A1A8D7C5C00081FAC /* ORKSpatialSpanTargetView.h in Headers */,
 				BADA2F26225DA54B005D2255 /* ORKInstructionStepContainerView.h in Headers */,
-				E22CD6AF26135FB7001FB6DD /* ORKHeadphoneActiveStepViewController.h in Headers */,
 				22A1C5592609010F0003F75E /* ORKTinnitusOverallAssessmentResult.h in Headers */,
 				E2A676F4238DCB3E006193D7 /* AVFoundation_Private.h in Headers */,
 				866DA5221D63D04700C9AF3F /* ORKDataCollectionManager_Internal.h in Headers */,
@@ -5824,7 +5819,6 @@
 				BA95AA9720ACD07A00E7FF8E /* ORKAmslerGridStep.m in Sources */,
 				FF919A331E81AC26005C2A1E /* ORKToneAudiometryResult.m in Sources */,
 				BCB6E6611B7D534C000D5B34 /* ORKLineGraphChartView.m in Sources */,
-				E22CD6B026135FB7001FB6DD /* ORKHeadphoneActiveStepViewController.m in Sources */,
 				BA95AA9B20ACD0BD00E7FF8E /* ORKAmslerGridStepViewController.m in Sources */,
 				86C40C7C1A8D7C5C00081FAC /* ORKAccelerometerRecorder.m in Sources */,
 				781D54111DF886AB00223305 /* ORKTrailmakingContentView.m in Sources */,
