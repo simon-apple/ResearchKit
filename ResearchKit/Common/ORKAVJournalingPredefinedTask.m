@@ -42,6 +42,7 @@
 #import "ORKLearnMoreInstructionStep.h"
 #import "ORKLearnMoreView.h"
 
+static const double MinByteLimitForTask = 3000000000; //3GB Min Available Storage Limit
 
 ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierFaceDetection = @"ORKAVJournalingStepIdentifierFaceDetection";
 ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierCompletion = @"ORKAVJournalingStepIdentifierCompletion";
@@ -241,37 +242,100 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierInstructionStep
     
     NSMutableArray<ORKStep *> *steps = [[NSMutableArray alloc] init];
     
-    if (prependSteps.count > 0) {
-        [steps addObjectsFromArray:[prependSteps copy]];
-    }
+    BOOL lowMemoryDetected = NO;
     
-    //Fetch AVJournalSteps from manifest file
-    NSArray<ORKAVJournalingStep *> *avJournalingSteps = [self journalingStepsWithManifestPath:manifestPath error:error];
+    NSFileManager *fileManager = NSFileManager.defaultManager;
+    NSString *filePath = [NSString stringWithFormat:@"%@/Documents/avjournaling_temp.txt", NSHomeDirectory()];
     
-    //Face Detection Step
-    ORKAVJournalingPredfinedTaskContext *avJournalingPredefinedContext = [[ORKAVJournalingPredfinedTaskContext alloc] init];
-    ORKFaceDetectionStep *faceDetectionStep = [[ORKFaceDetectionStep alloc] initWithIdentifier:ORKAVJournalingStepIdentifierFaceDetection];
-    faceDetectionStep.title = ORKLocalizedString(@"AV_JOURNALING_PREDEFINED_TASK_FACE_DETECTION_STEP_TITLE", nil);
-    faceDetectionStep.context = avJournalingPredefinedContext;
-    
-    [steps addObject:faceDetectionStep];
+    if ([fileManager createFileAtPath:filePath contents:nil attributes:nil]) {
+        // file was created successfully
+        NSError *availableCapacityError = nil;
+        NSURL *fileURL = [[NSURL alloc] initFileURLWithPath:filePath];
+        NSDictionary *results = [fileURL resourceValuesForKeys:@[NSURLVolumeAvailableCapacityForImportantUsageKey] error:&availableCapacityError];
         
-    //add AVJournalSteps
-    for (ORKAVJournalingStep* avJournalingStep in avJournalingSteps) {
-        avJournalingStep.context = avJournalingPredefinedContext;
-        [steps addObject:avJournalingStep];
+        if (!results) {
+            ORK_Log_Error("Error retrieving resource keys: %@\n%@", [availableCapacityError localizedDescription], [availableCapacityError userInfo]);
+        } else {
+            
+            double availableBytes = [((NSString *)results[NSURLVolumeAvailableCapacityForImportantUsageKey]) doubleValue];
+            
+            if (availableBytes < MinByteLimitForTask) {
+                lowMemoryDetected = YES;
+                
+                ORKCompletionStep *completionStep = [[ORKCompletionStep alloc] initWithIdentifier:ORKAVJournalingStepIdentifierLowMemoryCompletion];
+                completionStep.title = ORKLocalizedString(@"AV_JOURNALING_PREDEFINED_LOW_MEMORY_TITLE", nil);
+                completionStep.text = ORKLocalizedString(@"AV_JOURNALING_PREDEFINED_LOW_MEMORY_TEXT", nil);
+                completionStep.reasonForCompletion = ORKTaskViewControllerFinishReasonDiscarded;
+                
+                if (@available(iOS 13.0, *)) {
+                    completionStep.iconImage = [UIImage systemImageNamed:@"bin.xmark"];
+                }
+                
+                ORKLearnMoreInstructionStep *learnMoreInstructionStep = [[ORKLearnMoreInstructionStep alloc] initWithIdentifier:ORKAVJournalingStepIdentifierLowStorageLearnMore];
+                ORKLearnMoreItem *learnMoreItem = [[ORKLearnMoreItem alloc] initWithText:ORKLocalizedString(@"AV_JOURNALING_PREDEFINED_LOW_MEMORY_SETTINGS_LINK_TEXT", nil)
+                                                                learnMoreInstructionStep:learnMoreInstructionStep];
+                
+                ORKBodyItem *settingsLinkBodyItem = [[ORKBodyItem alloc] initWithText:nil
+                                                                           detailText:nil
+                                                                                image:nil
+                                                                        learnMoreItem:learnMoreItem
+                                                                        bodyItemStyle:ORKBodyItemStyleText];
+                
+                completionStep.bodyItems = @[settingsLinkBodyItem];
+                
+                steps = [NSMutableArray arrayWithObject:completionStep];
+            }
+        }
+        
+        
+    } else {
+        ORK_Log_Error("Unsuccessfully created avjournaling_temp.txt file");
     }
     
-    if (appendSteps.count > 0) {
-        [steps addObjectsFromArray:[appendSteps copy]];
+    // remove temp file if detected
+    if ([fileManager fileExistsAtPath:filePath]){
+        NSError *fileDeletionError = nil;
+        [fileManager removeItemAtPath:filePath error:&fileDeletionError];
+        
+        if (fileDeletionError) {
+            ORK_Log_Error("Error deleting avjournaling_temp.txt file: %@\n%@", [fileDeletionError localizedDescription], [fileDeletionError userInfo]);
+        }
     }
     
-    //Completion Step
-    ORKCompletionStep *completionStep = [[ORKCompletionStep alloc] initWithIdentifier:ORKAVJournalingStepIdentifierCompletion];
-    completionStep.title = ORKLocalizedString(@"AV_JOURNALING_PREDEFINED_TASK_COMPLETION_TITLE", "");
-    completionStep.text = ORKLocalizedString(@"AV_JOURNALING_PREDEFINED_TASK_COMPLETION_TEXT", "");
+    if (!lowMemoryDetected) {
+        if (prependSteps.count > 0) {
+            [steps addObjectsFromArray:[prependSteps copy]];
+        }
+        
+        //Fetch AVJournalSteps from manifest file
+        NSArray<ORKAVJournalingStep *> *avJournalingSteps = [self journalingStepsWithManifestPath:manifestPath error:error];
+        
+        //Face Detection Step
+        ORKAVJournalingPredfinedTaskContext *avJournalingPredefinedContext = [[ORKAVJournalingPredfinedTaskContext alloc] init];
+        ORKFaceDetectionStep *faceDetectionStep = [[ORKFaceDetectionStep alloc] initWithIdentifier:ORKAVJournalingStepIdentifierFaceDetection];
+        faceDetectionStep.title = ORKLocalizedString(@"AV_JOURNALING_PREDEFINED_TASK_FACE_DETECTION_STEP_TITLE", nil);
+        faceDetectionStep.context = avJournalingPredefinedContext;
+        
+        [steps addObject:faceDetectionStep];
+        
+        //add AVJournalSteps
+        for (ORKAVJournalingStep* avJournalingStep in avJournalingSteps) {
+            avJournalingStep.context = avJournalingPredefinedContext;
+            [steps addObject:avJournalingStep];
+        }
+        
+        if (appendSteps.count > 0) {
+            [steps addObjectsFromArray:[appendSteps copy]];
+        }
+        
+        //Completion Step
+        ORKCompletionStep *completionStep = [[ORKCompletionStep alloc] initWithIdentifier:ORKAVJournalingStepIdentifierCompletion];
+        completionStep.title = ORKLocalizedString(@"AV_JOURNALING_PREDEFINED_TASK_COMPLETION_TITLE", "");
+        completionStep.text = ORKLocalizedString(@"AV_JOURNALING_PREDEFINED_TASK_COMPLETION_TEXT", "");
+        
+        [steps addObject:completionStep];
+    }
     
-    [steps addObject:completionStep];
     
     return [steps copy];
 }
