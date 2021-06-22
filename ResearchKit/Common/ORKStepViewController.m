@@ -351,6 +351,14 @@ static const CGFloat iPadStepTitleLabelFontSize = 50.0;
     [_navigationFooterView showActivityIndicator:showActivityIndicator];
 }
 
+- (void)setContinueButtonEnabled:(BOOL)continueButtonEnabled {
+    _navigationFooterView.continueEnabled = continueButtonEnabled;
+}
+
+- (void)setNavigationDetailText:(NSString *)navigationDetailText {
+    _navigationFooterView.navigationDetailText = navigationDetailText;
+}
+
 - (void)setLearnMoreButtonTitle:(NSString *)learnMoreButtonTitle {
     self.learnMoreButtonItem.title = learnMoreButtonTitle;
     self.learnMoreButtonItem = self.learnMoreButtonItem;
