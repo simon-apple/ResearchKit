@@ -49,6 +49,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, assign) BOOL useExtendedPadding;
 
+@property (nonatomic, strong) NSString *navigationDetailText;
+
 - (BOOL)hasContinueOrSkip;
 - (BOOL)wasContinueOrSkipButtonJustPressed;
 - (void)removeStyling;

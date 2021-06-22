@@ -253,6 +253,14 @@ ORK_CLASS_AVAILABLE
 @property (nonatomic, copy, nullable) NSString *continueButtonTitle;
 
 /**
+ The enabled state of the continue button.
+ 
+ The default state is enabled. Setting the continue button to disabled will add a visual treatment
+ to the button, and prevent it from being selectable.
+ */
+@property (nonatomic, assign) BOOL continueButtonEnabled;
+
+/**
  A localized string that represents the title of the Learn More button.
  
  Many steps have a button that lets users view more information about the
@@ -269,6 +277,14 @@ ORK_CLASS_AVAILABLE
  has no effect if the Skip button is not visible, which is the case in a required question step.
  */
 @property (nonatomic, copy, nullable) NSString *skipButtonTitle;
+
+/**
+ Detail text to be displayed in the navigation container.
+ 
+ The text will appear above the continue button as part of the navigation container. The primary use case
+ is to display information about why the continue button may be disabled.
+ */
+@property (nonatomic, copy, nullable) NSString *navigationDetailText;
 
 /**
  The back button item.
