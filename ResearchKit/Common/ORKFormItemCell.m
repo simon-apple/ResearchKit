@@ -1154,7 +1154,7 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     _textView.delegate = self;
     _textView.contentInset = UIEdgeInsetsMake(-5.0, -4.0, -5.0, 0.0);
     _textView.textAlignment = NSTextAlignmentNatural;
-    _textView.scrollEnabled = NO;
+    _textView.scrollEnabled = YES;
     _textView.placeholder = self.formItem.placeholder;
     
     if (@available(iOS 13.0, *)) {
