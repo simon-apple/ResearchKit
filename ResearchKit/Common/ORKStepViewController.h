@@ -32,7 +32,7 @@
 @import UIKit;
 #import <ResearchKit/ORKDefines.h>
 #import <ResearchKit/ORKTask.h>
-
+#import <ResearchKit/ORKBorderedButton.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -285,6 +285,11 @@ ORK_CLASS_AVAILABLE
  is to display information about why the continue button may be disabled.
  */
 @property (nonatomic, copy, nullable) NSString *navigationDetailText;
+
+/**
+ The style of the continue button disabled state
+ */
+@property (nonatomic, assign) ORKBorderedButtonDisabledStyle continueButtonDisabledStyle;
 
 /**
  The back button item.
