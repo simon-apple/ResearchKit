@@ -38,6 +38,7 @@ static const CGFloat skipButtonHeight = 50.0;
 static const CGFloat topSpacing = 24.0;
 static const CGFloat bottomSpacing = 34.0;
 static const CGFloat activityIndicatorPadding = 24.0;
+static const CGFloat detailTextBottomSpacing = 16.0;
 
 @implementation ORKNavigationContainerView {
     UIActivityIndicatorView *_activityIndicatorView;
@@ -144,7 +145,7 @@ static const CGFloat activityIndicatorPadding = 24.0;
     _detailTextLabel = [[ORKLabel alloc] init];
     _detailTextLabel.numberOfLines = 0;
     _detailTextLabel.textAlignment = NSTextAlignmentCenter;
-    _detailTextLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
+    _detailTextLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption2];
     if (@available(iOS 13.0, *)) {
         _detailTextLabel.textColor = [UIColor secondaryLabelColor];
     } else {
@@ -198,6 +199,11 @@ static const CGFloat activityIndicatorPadding = 24.0;
 - (void)setNavigationDetailText:(NSString *)navigationDetailText {
     _navigationDetailText = navigationDetailText;
     _detailTextLabel.text = _navigationDetailText;
+}
+
+- (void)setContinueButtonDisabledStyle:(ORKBorderedButtonDisabledStyle)continueButtonDisabledStyle {
+    _continueButtonDisabledStyle = continueButtonDisabledStyle;
+    _continueButton.disabledButtonStyle = continueButtonDisabledStyle;
 }
 
 - (void)willMoveToWindow:(UIWindow *)newWindow {
@@ -297,6 +303,7 @@ static const CGFloat activityIndicatorPadding = 24.0;
     
     _continueButton.enabled = (_continueEnabled || (_useNextForSkip && _skipButtonItem));
     _continueButton.disableTintColor = [[self tintColor] colorWithAlphaComponent:0.5];
+    _continueButton.disabledButtonStyle = self.continueButtonDisabledStyle;
     
     // Do not modify _continueButton.userInteractionEnabled during continueButton disable period
     // or when the activity indicator is present
@@ -408,7 +415,7 @@ static const CGFloat activityIndicatorPadding = 24.0;
                                                 toItem:_detailTextLabel
                                              attribute:NSLayoutAttributeBottom
                                             multiplier:1.0
-                                              constant:topSpacing]
+                                              constant:detailTextBottomSpacing]
             ]];
         } else {
             [_regularConstraints addObjectsFromArray:@[
