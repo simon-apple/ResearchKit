@@ -68,7 +68,6 @@ static const CGFloat DontKnowButtonBottomPaddingOffset = 10.0;
 - (void)loadPicker {
     if (_picker == nil) {
         _picker = [ORKPicker pickerWithAnswerFormat:[self.step impliedAnswerFormat] answer:self.answer delegate:self];
-
         if (@available(iOS 13.0, *)) {
             _picker.pickerView.backgroundColor = UIColor.secondarySystemGroupedBackgroundColor;
         }
@@ -149,6 +148,10 @@ static const CGFloat DontKnowButtonBottomPaddingOffset = 10.0;
     if (self.answer != [ORKDontKnowAnswer answer]) {
       [_picker setAnswer:self.answer];
     }
+}
+
+- (BOOL)isOptional {
+    return self.step.isOptional;
 }
 
 - (void)valueChangedDueUserAction:(BOOL)userAction {
