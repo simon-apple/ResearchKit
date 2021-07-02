@@ -1,0 +1,11 @@
+//
+//  ResearchKit-Shared.xcconfig
+//  ORKTest
+//
+//  Created by Pariece McKinney on 6/16/21.
+//  Copyright © 2021 ResearchKit. All rights reserved.
+//
+
+// apple-internal
+
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) ORK_FEATURE_AV_JOURNALING=1

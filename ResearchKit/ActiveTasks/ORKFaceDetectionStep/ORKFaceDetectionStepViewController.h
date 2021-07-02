@@ -28,6 +28,9 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <ResearchKit/ORKFeatureFlags.h>
+
+#if ORK_FEATURE_AV_JOURNALING
 
 #import <ResearchKit/ORKActiveStepViewController.h>
 
@@ -41,3 +44,4 @@ ORK_CLASS_AVAILABLE
 
 NS_ASSUME_NONNULL_END
 
+#endif

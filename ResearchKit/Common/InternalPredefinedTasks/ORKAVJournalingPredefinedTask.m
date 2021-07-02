@@ -31,6 +31,9 @@
 //apple-internal
 
 #import "ORKAVJournalingPredefinedTask.h"
+
+#if ORK_FEATURE_AV_JOURNALING
+
 #import "ORKAnswerFormat.h"
 #import "ORKBodyItem.h"
 #import "ORKCompletionStep.h"
@@ -497,3 +500,5 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierInstructionStep
 }
 
 @end
+
+#endif

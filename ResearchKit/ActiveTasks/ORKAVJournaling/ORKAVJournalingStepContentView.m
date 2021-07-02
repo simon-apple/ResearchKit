@@ -29,6 +29,9 @@
  */
 
 #import "ORKAVJournalingStepContentView.h"
+
+#if ORK_FEATURE_AV_JOURNALING
+
 #import "ORKFaceDetectionStepContentView.h"
 #import "ORKUnitLabel.h"
 #import "ORKHelpers_Internal.h"
@@ -546,6 +549,4 @@ static const CGFloat ContentLeftRightPadding = 36.0;
 
 @end
 
-
-
-
+#endif

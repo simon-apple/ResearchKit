@@ -29,6 +29,9 @@
  */
 
 #import "ORKFaceDetectionStepViewController.h"
+
+#if ORK_FEATURE_AV_JOURNALING
+
 #import "ORKActiveStepView.h"
 #import "ORKFaceDetectionStepContentView.h"
 #import "ORKActiveStepViewController_Internal.h"
@@ -421,6 +424,4 @@
 
 @end
 
-
-
-
+#endif

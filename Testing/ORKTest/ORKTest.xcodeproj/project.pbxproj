@@ -170,6 +170,7 @@
 /* Begin PBXFileReference section */
 		24D002771BA2268D001BF82F /* ORKKeychainWrapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKKeychainWrapperTests.m; sourceTree = "<group>"; };
 		335418E81B118EAD00A38F5E /* SAMPLE_PDF_TEST.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = SAMPLE_PDF_TEST.pdf; sourceTree = "<group>"; };
+		5154FB4D267A86B9007AA5A9 /* ResearchKit-Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "ResearchKit-Shared.xcconfig"; sourceTree = "<group>"; };
 		5D2DEA5D24DB618A000A2A5B /* ORKESerialization.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKESerialization.m; sourceTree = "<group>"; };
 		5D2DEA6224DB618B000A2A5B /* ORKESerialization.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKESerialization.h; sourceTree = "<group>"; };
 		5DABE56424D9CCDC00570C57 /* ORKTest (watchOS).app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ORKTest (watchOS).app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -356,6 +357,7 @@
 		86717A811AC0C0FE00AC2A23 = {
 			isa = PBXGroup;
 			children = (
+				5154FB4D267A86B9007AA5A9 /* ResearchKit-Shared.xcconfig */,
 				7129779F22B091500049213B /* ResearchKit.xcodeproj */,
 				BC2A3CA01C58E85D00DA64B7 /* README.md */,
 				5DABE56B24D9CCDC00570C57 /* ORKTest (watchOS) WatchKit App */,
@@ -1110,6 +1112,7 @@
 		};
 		86717AAB1AC0C0FE00AC2A23 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5154FB4D267A86B9007AA5A9 /* ResearchKit-Shared.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;

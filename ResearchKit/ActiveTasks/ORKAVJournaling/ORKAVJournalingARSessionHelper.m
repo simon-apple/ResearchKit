@@ -29,6 +29,9 @@
  */
 
 #import "ORKAVJournalingARSessionHelper.h"
+
+#if ORK_FEATURE_AV_JOURNALING
+
 #import "ORKHelpers_Internal.h"
 #import <ARKit/ARKit.h>
 #import <VideoToolbox/VTCompressionSession.h>
@@ -344,3 +347,5 @@ bail:
 }
 
 @end
+
+#endif

@@ -30,6 +30,9 @@
 
 
 #import "ORKFaceDetectionStepContentView.h"
+
+#if ORK_FEATURE_AV_JOURNALING
+
 #import "ORKUnitLabel.h"
 #import "ORKHelpers_Internal.h"
 #import "ORKSkin.h"
@@ -501,3 +504,5 @@ static const CGFloat FaceDetectionRecalibrationTimeLimit = 30.0;
 }
 
 @end
+
+#endif

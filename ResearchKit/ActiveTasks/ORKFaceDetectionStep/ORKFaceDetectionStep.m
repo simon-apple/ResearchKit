@@ -29,6 +29,9 @@
  */
 
 #import "ORKFaceDetectionStep.h"
+
+#if ORK_FEATURE_AV_JOURNALING
+
 #import "ORKFaceDetectionStepViewController.h"
 #import "ORKHelpers_Internal.h"
 #import "ORKStep_Private.h"
@@ -77,4 +80,4 @@
 
 @end
 
-
+#endif

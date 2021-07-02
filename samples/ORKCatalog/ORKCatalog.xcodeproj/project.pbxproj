@@ -107,6 +107,7 @@
 		3E39B9FD1ABF683700C2ABE5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		3E39B9FF1ABF683F00C2ABE5 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		3ED967B91AC13D37007E2D83 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		5116D0BF2677FB780010FAB1 /* ResearchKit-Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "ResearchKit-Shared.xcconfig"; sourceTree = "<group>"; };
 		5D1CE45023FB1DFE004CB416 /* List1 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = List1; sourceTree = "<group>"; };
 		5D3800B42459F4FF00E7D2BD /* PracticeList */ = {isa = PBXFileReference; lastKnownFileType = folder; path = PracticeList; sourceTree = "<group>"; };
 		5DB068E925AE5940000F3170 /* TinnitusSounds1 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = TinnitusSounds1; sourceTree = "<group>"; };
@@ -192,6 +193,7 @@
 		869230B51AAA890A00BFE11B = {
 			isa = PBXGroup;
 			children = (
+				5116D0BF2677FB780010FAB1 /* ResearchKit-Shared.xcconfig */,
 				3E39B9E81ABF675000C2ABE5 /* README.md */,
 				9622282B24F04D780056E74D /* ORKCatalogUITests */,
 				BC2A3C9E1C58E81500DA64B7 /* Frameworks */,
@@ -606,6 +608,7 @@
 		};
 		050968F3236B73A8006F734C /* Skywagon Stable */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5116D0BF2677FB780010FAB1 /* ResearchKit-Shared.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -614,6 +617,10 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(ORK_GCC_PREPROCESSOR_DEFINITIONS)",
+					"$(inherited)",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/ORKCatalog/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -677,6 +684,7 @@
 		};
 		050968FB236B744C006F734C /* Skywagon Public Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5116D0BF2677FB780010FAB1 /* ResearchKit-Shared.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -685,6 +693,10 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(ORK_GCC_PREPROCESSOR_DEFINITIONS)",
+					"$(inherited)",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/ORKCatalog/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -748,6 +760,7 @@
 		};
 		050B7A0423ECA11400CC1719 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5116D0BF2677FB780010FAB1 /* ResearchKit-Shared.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -756,6 +769,10 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(ORK_GCC_PREPROCESSOR_DEFINITIONS)",
+					"$(inherited)",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/ORKCatalog/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -876,6 +893,7 @@
 		};
 		869230E01AAA890A00BFE11B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5116D0BF2677FB780010FAB1 /* ResearchKit-Shared.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -884,6 +902,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(ORK_GCC_PREPROCESSOR_DEFINITIONS)",
+					"$(inherited)",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/ORKCatalog/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -898,6 +920,7 @@
 		};
 		869230E11AAA890A00BFE11B /* Skywagon Internal Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5116D0BF2677FB780010FAB1 /* ResearchKit-Shared.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -906,6 +929,10 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(ORK_GCC_PREPROCESSOR_DEFINITIONS)",
+					"$(inherited)",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/ORKCatalog/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
