@@ -29,6 +29,9 @@
  */
 
 #import "ORKAVJournalingTaskViewController.h"
+
+#if ORK_FEATURE_AV_JOURNALING
+
 #import "ORKHelpers_Internal.h"
 #import "ORKTaskViewController_Internal.h"
 #import "ORKStepViewController_Internal.h"
@@ -242,3 +245,5 @@
 }
 
 @end
+
+#endif

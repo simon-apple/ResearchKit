@@ -28,6 +28,9 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+// start-omit-internal-code
+#import <ResearchKit/ORKFeatureFlags.h>
+// end-omit-internal-code
 
 #import <ResearchKit/ORKDefines.h>
 #import <ResearchKit/ORKTypes.h>

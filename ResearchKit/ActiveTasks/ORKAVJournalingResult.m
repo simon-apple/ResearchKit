@@ -29,6 +29,9 @@
  */
 
 #import "ORKAVJournalingResult.h"
+
+#if ORK_FEATURE_AV_JOURNALING
+
 #import "ORKResult_Private.h"
 #import "ORKHelpers_Internal.h"
 
@@ -79,4 +82,4 @@
 
 @end
 
-
+#endif

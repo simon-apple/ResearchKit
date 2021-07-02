@@ -29,6 +29,9 @@
  */
 
 #import "ORKAVJournalingStepViewController.h"
+
+#if ORK_FEATURE_AV_JOURNALING
+
 #import "ORKActiveStepView.h"
 #import "ORKAVJournalingStepContentView.h"
 #import "ORKActiveStepViewController_Internal.h"
@@ -450,6 +453,4 @@ static const CGFloat FramesToSkipTotal = 5.0;
 
 @end
 
-
-
-
+#endif

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020, Apple Inc. All rights reserved.
+ Copyright (c) 2021, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,19 +28,10 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+// apple-internal
+
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
-
-@interface ORKDetectionOverlayView : UIView
-
-- (void)createRectsAndLayersForJournalRecording;
-- (void)createRectsAndLayersForFaceDetection;
-- (void)wasFaceDetected:(BOOL)faceDetected;
-- (void)updateTimerLabelWithText:(NSString *)text;
-
-@end
-
-NS_ASSUME_NONNULL_END
+#ifndef ORK_FEATURE_AV_JOURNALING
+#define ORK_FEATURE_AV_JOURNALING 0
+#endif
