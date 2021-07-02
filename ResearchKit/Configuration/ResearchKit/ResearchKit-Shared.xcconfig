@@ -24,3 +24,8 @@ SWIFT_VERSION = 5.0
 SYSTEM_FRAMEWORK_SEARCH_PATHS = $(SRCROOT)/ResearchKit/PrivateHeaders $(inherited)
 SYSTEM_HEADER_SEARCH_PATHS = $(SRCROOT)/ResearchKit/PrivateHeaders $(inherited)
 CLANG_STATIC_ANALYZER_MODE = deep
+
+#include? "samples/ORKCatalog/ResearchKit-Shared.xcconfig"
+#include? "../xcconfig/ResearchKit-Shared.xcconfig"
+
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) $(ORK_GCC_PREPROCESSOR_DEFINITIONS)

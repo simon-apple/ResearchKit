@@ -30,6 +30,10 @@
 
 @import UIKit;
 
+#import <ResearchKit/ORKFeatureFlags.h>
+
+#if ORK_FEATURE_AV_JOURNALING
+
 #import <ResearchKit/ORKCustomStepView_Internal.h>
 #import <AVFoundation/AVFoundation.h>
 
@@ -70,4 +74,4 @@ typedef void (^ORKFaceDetectionStepContentViewEventHandler)(ORKFaceDetectionStep
 @end
 NS_ASSUME_NONNULL_END
 
-
+#endif
