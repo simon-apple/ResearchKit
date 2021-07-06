@@ -393,7 +393,6 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierInstructionStep
         
         NSString *avJournalStepIdentifier = (NSString *)[obj objectForKey:ManifestJSONKeyIdentifier];
         NSString *avJournalStepQuestion = (NSString *)[obj objectForKey:ManifestJSONKeyQuestion];
-        NSString *avJournalStepSaveDepthDataIfAvailable = (NSString *)[obj objectForKey:ManifestJSONKeySaveDepthDataIfAvailable];
         NSString *avJournalStepMaxRecordingTime = (NSString *)[obj objectForKey:ManifestJSONKeyMaxRecordingTime];
         NSString *avJournalStepCountDownStartTime = (NSString *)[obj objectForKey:ManifestJSONKeyCountDownStartTime];
         
@@ -406,7 +405,13 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierInstructionStep
             avJournalingStep.text = avJournalStepQuestion;
             avJournalingStep.maximumRecordingLimit = maxRecordingtime;
             avJournalingStep.countDownStartTime = countDownStartTime;
+            
+#if ORK_FEATURE_AV_JOURNALING_DEPTH_DATA_COLLECTION
+            NSString *avJournalStepSaveDepthDataIfAvailable = (NSString *)[obj objectForKey:ManifestJSONKeySaveDepthDataIfAvailable];
             avJournalingStep.saveDepthDataIfAvailable = [avJournalStepSaveDepthDataIfAvailable boolValue];
+#else
+            avJournalingStep.saveDepthDataIfAvailable = NO;
+#endif
             
             [avJournalingSteps addObject: avJournalingStep];
             success = YES;
