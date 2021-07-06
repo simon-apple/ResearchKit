@@ -32,11 +32,22 @@
 
 #if ORK_FEATURE_AV_JOURNALING
 
-#import "ORKAVJournalingARSessionHelper.h"
 #import <AVFoundation/AVFoundation.h>
 
 
 NS_ASSUME_NONNULL_BEGIN
+
+@protocol ORKAVJournalingSessionHelperDelegate <NSObject>
+
+@required
+
+- (void)capturingEndedWithURL:(nullable NSURL *)url;
+
+- (void)faceDetected:(BOOL)faceDetected faceBounds:(CGRect)faceBounds originalSize:(CGSize)originalSize;
+
+- (void)sessionWasInterrupted;
+
+@end
 
 @interface ORKAVJournalingSessionHelper : NSObject
 
