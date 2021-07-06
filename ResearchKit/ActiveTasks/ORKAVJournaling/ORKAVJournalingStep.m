@@ -53,7 +53,12 @@ static const NSTimeInterval MAX_RECORDING_DURATION = 7260.0;
     if (self) {
         _maximumRecordingLimit = 60.0;
         _countDownStartTime = 30;
+        
+#if ORK_FEATURE_AV_JOURNALING_DEPTH_DATA_COLLECTION
         _saveDepthDataIfAvailable = YES;
+#else
+        _saveDepthDataIfAvailable = NO;
+#endif
     }
     return self;
 }

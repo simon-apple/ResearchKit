@@ -45,7 +45,6 @@
 #import "ORKBorderedButton.h"
 #import "ORKNavigationContainerView_Internal.h"
 #import "ORKAVJournalingStepContentView.h"
-#import "ORKAVJournalingARSessionHelper.h"
 #import "ORKAVJournalingSessionHelper.h"
 #import "ORKAVJournalingPredefinedTask_Internal.h"
 #import "ORKTaskViewController_Internal.h"
@@ -83,7 +82,6 @@ static const CGFloat FramesToSkipTotal = 5.0;
     BOOL _submitVideoAfterStopping;
     BOOL _shouldDeleteVideoFile;
     
-    ORKAVJournalingARSessionHelper *_arSessionHelper;
     ORKAVJournalingSessionHelper *_sessionHelper;
     
     int _skippedFrameTotal;
@@ -440,10 +438,6 @@ static const CGFloat FramesToSkipTotal = 5.0;
 - (void)session:(ARSession *)session didUpdateFrame:(ARFrame *)frame {
     if (_waitingOnUserToStartRecording) {
         return;
-    }
-
-    if (_arSessionHelper) {
-        [_arSessionHelper savePixelBufferFromARFrame:frame];
     }
 }
 
