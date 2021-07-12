@@ -1761,6 +1761,10 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     [super inputValueDidChange];
 }
 
+- (BOOL)isOptional {
+    return self.formItem.optional;
+}
+
 #pragma mark ORKPickerDelegate
 
 - (void)picker:(id)picker answerDidChangeTo:(id)answer {
