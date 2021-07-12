@@ -178,10 +178,10 @@ static const NSTimeInterval SPL_METER_PLAY_DELAY_VOICEOVER = 3.0;
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [self resetAudioSession];
     [_eqUnit removeTapOnBus:0];
     [_audioEngine stop];
     [_rmsBuffer removeAllObjects];
+    [self resetAudioSession];
 }
 
 - (NSString *)deviceType {
@@ -474,8 +474,8 @@ static const NSTimeInterval SPL_METER_PLAY_DELAY_VOICEOVER = 3.0;
 }
 
 - (void)reachedOptimumNoiseLevel {
-    [self resetAudioSession];
     [_audioEngine stop];
+    [self resetAudioSession];
 }
 
 - (void)stepDidFinish {
