@@ -116,6 +116,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     case trailMaking
     case videoInstruction
     case webView
+    case ble
     
     //start-omit-internal-code
     case predefinedSpeechInNoiseTask
@@ -201,7 +202,6 @@ enum TaskListRow: Int, CustomStringConvertible {
                     .walkBackAndForth,
                     .kneeRangeOfMotion,
                     .shoulderRangeOfMotion,
-                    .trailMaking
                 ]),
             TaskListRowSection(title: "Miscellaneous", rows:
                 [
@@ -214,7 +214,8 @@ enum TaskListRow: Int, CustomStringConvertible {
                 [
                     .predefinedSpeechInNoiseTask,
                     .predefinedAVJournalingTask,
-                    .predefinedTinnitusTask
+                    .predefinedTinnitusTask,
+                    .ble
                 ]),
             //end-omit-internal-code
         ]}
@@ -400,8 +401,10 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .predefinedTinnitusTask:
             return NSLocalizedString("Predefined Tinnitus", comment: "")
-        //end-omit-internal-code
         
+        case .ble:
+            return NSLocalizedString("BLE", comment: "")
+        //end-omit-internal-code
         }
     }
     
@@ -787,8 +790,10 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .predefinedTinnitusTask:
             return predefinedTinnitusTask
-        //end-omit-internal-code
             
+        case .ble:
+            return ble
+        //end-omit-internal-code
         }
     }
 
@@ -1924,10 +1929,18 @@ enum TaskListRow: Int, CustomStringConvertible {
         
         return ORKTinnitusPredefinedTask(identifier: "\(Identifier.predefinedTinnitusTask)", audioSetManifestPath: path, prepend: nil, append: nil)
     }
+    
+    private var ble: ORKTask {
+        
+        let scanStep = ORKBLEScanPeripheralsStep(identifier: "BLE.scan")
+        scanStep.scanOptions = [
+            ORKBLEScanPeripheralsCapacityKey:3
+        ];
+        
+        return ORKOrderedTask(identifier: "BLE", steps: [scanStep])
+    }
     //end-omit-internal-code
     
-    
-   
     // MARK: `ORKTask` Reused Text Convenience
     
     private var exampleDescription: String {

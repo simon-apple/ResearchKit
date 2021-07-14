@@ -157,4 +157,6 @@
 //start-omit-internal-code
 #import <ResearchKit/ORKAVJournalingTaskViewController.h>
 #import <ResearchKit/ORKAVJournalingResult.h>
+
+#import <ResearchKit/ORKBLEScanPeripheralsStepResult.h>
 //end-omit-internal-code

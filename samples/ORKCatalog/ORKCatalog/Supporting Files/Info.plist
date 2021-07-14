@@ -85,5 +85,7 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>This app uses bluetooth during certain tasks.</string>
 </dict>
 </plist>

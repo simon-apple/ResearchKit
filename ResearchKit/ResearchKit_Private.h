@@ -205,4 +205,8 @@
 #import <ResearchKit/ORKSpeechInNoisePredefinedTask.h>
 #import <ResearchKit/ORKTinnitusPredefinedTask.h>
 
+// BLE Related Sources
+
+#import <ResearchKit/ORKBLEScanPeripheralsStep.h>
+
 //end-omit-internal-code

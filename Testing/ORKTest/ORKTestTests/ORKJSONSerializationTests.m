@@ -337,6 +337,7 @@ ORK_MAKE_TEST_INIT(UIColor, (^{ return [self initWithRed:1 green:1 blue:1 alpha:
 ORK_MAKE_TEST_INIT(ORKNoAnswer, (^{ return [ORKDontKnowAnswer answer]; }));
 ORK_MAKE_TEST_INIT(ORKTinnitusMaskingSoundStep, (^{ return [[ORKTinnitusMaskingSoundStep alloc] initWithIdentifier:[NSUUID UUID].UUIDString name:@"White Noise" soundIdentifier:@"WHITENOISE"]; }));
 ORK_MAKE_TEST_INIT(ORKAccuracyStroopStep, (^{ return [[ORKAccuracyStroopStep alloc] initWithIdentifier:[NSUUID UUID].UUIDString]; }));
+ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripheralsStep alloc] initWithIdentifier:[NSUUID UUID].UUIDString scanOptions:@{}]; }));
 
 
 @interface ORKJSONTestImageSerialization : NSObject<ORKESerializationImageProvider>
@@ -574,7 +575,9 @@ ORK_MAKE_TEST_INIT(ORKAccuracyStroopStep, (^{ return [[ORKAccuracyStroopStep all
                                           @"ORKFaceDetectionBlurFooterView.timerLabel",
                                           @"ORKLearnMoreItem.delegate",
                                           @"ORKSpeechRecognitionResult.recognitionMetadata",
-                                          @"ORKAccuracyStroopStep.actualDisplayColor"
+                                          @"ORKAccuracyStroopStep.actualDisplayColor",
+                                          @"ORKBLEScanPeripheralsStepResult.centralManager",
+                                          @"ORKBLEScanPeripheralsStepResult.connectedPeripherals"
                                           ];
         _allowedUnTouchedKeys = @[@"_class"];
         _mutuallyExclusiveProperties = @{

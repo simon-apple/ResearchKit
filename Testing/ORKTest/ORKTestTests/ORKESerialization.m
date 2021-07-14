@@ -2520,7 +2520,15 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                      PROPERTY(osVersion, NSString, NSObject, NO, nil, nil),
                      PROPERTY(osBuild, NSString, NSObject, NO, nil, nil),
                      PROPERTY(platform, NSString, NSObject, NO, nil, nil)
-                  }))
+                  })),
+           ENTRY(ORKBLEScanPeripheralsStep, ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+                return  [[ORKBLEScanPeripheralsStep alloc] initWithIdentifier:GETPROP(dict, identifier) scanOptions:GETPROP(dict, scanOptions)];},
+            (@{
+                PROPERTY(scanOptions, NSDictionary, NSObject, NO, nil, nil)
+            })),
+           ENTRY(ORKBLEScanPeripheralsStepResult, ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+            return [[ORKBLEScanPeripheralsStepResult alloc] initWithIdentifier:GETPROP(dict, identifier)];},
+            (@{}))
            } mutableCopy];
         if (@available(iOS 12.0, *)) {
             [internalEncodingTable addEntriesFromDictionary:@{ ENTRY(ORKHealthClinicalTypeRecorderConfiguration,

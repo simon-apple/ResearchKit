@@ -59,3 +59,16 @@
 "TINNITUS_MASKING_ANSWER_SOMEWHAT_EFFECTIVE" = "Somewhat effective";
 "TINNITUS_MASKING_ANSWER_NOT_EFFECTIVE" = "Not effective";
 "TINNITUS_MASKING_VOLUME_CALIBRATION_TEXT" = "Listen to the sample and move the slider to find the minimum volume required to mask the tinnitus you are experiencing.";
+
+/* BLE */
+"BLE_UNABLE_TO_SCAN_TITLE" = "Unable to Scan";
+"BLE_UNABLE_TO_SCAN_MSG" = "Make sure Bluetooth power is turned on and you have granted this application permission to use Bluetooth.";
+"BLE_SCANNING_TITLE" = "Scanning for Devices...";
+"BLE_SCANNING_MSG" = "Devices will appear below when they are discovered.";
+"BLE_DEVICES_AVAILABLE_TITLE" = "Devices Found";
+"BLE_DEVICES_AVAILABLE_MSG" = "Tap to connect a device. Swipe right on the device to disconnect.";
+"BLE_NO_DEVICES_TITLE" = "No Devices Found";
+"BLE_NO_DEVICES_MSG" = "No devices have been found. Make sure the device is turned on and nearby.";
+"BLE_NOT_CONNECTED_TITLE" = "Unable to Connect";
+"BLE_NOT_CONNECTED_MSG" = "Failed to connect to device.";
+"BLE_DISCONNECT" = "Disconnect";
