@@ -885,19 +885,6 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(appendSteps, ORKStep, NSArray, NO, nil, nil),
                     SKIP_PROPERTY(steps, ORKStep, NSArray, NO, nil, nil)
                 })),
-           ENTRY(ORKAVJournalingPredefinedTask,
-            ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-               return [[ORKAVJournalingPredefinedTask alloc] initWithIdentifier:GETPROP(dict, identifier)
-                                                 journalQuestionSetManifestPath:GETPROP(dict, journalQuestionSetManifestPath)
-                                                                   prependSteps:GETPROP(dict, prependSteps)
-                                                                    appendSteps:GETPROP(dict, appendSteps)];
-           },
-            (@{
-               PROPERTY(journalQuestionSetManifestPath, NSString, NSObject, NO, nil, nil),
-               PROPERTY(prependSteps, ORKStep, NSArray, NO, nil, nil),
-               PROPERTY(appendSteps, ORKStep, NSArray, NO, nil, nil),
-               SKIP_PROPERTY(steps, ORKStep, NSArray, NO, nil, nil)
-           })),
            ENTRY(ORKTinnitusPredefinedTask,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                return [[ORKTinnitusPredefinedTask alloc] initWithIdentifier:GETPROP(dict, identifier)
@@ -1337,21 +1324,6 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                               ^id(id color, __unused ORKESerializationContext *context) { return dictionaryFromColor(color); },
                               ^id(id dict, __unused ORKESerializationContext *context) { return  colorFromDictionary(dict); })
                   })),
-           ENTRY(ORKFaceDetectionStep,
-                           ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-                               return [[ORKFaceDetectionStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
-                           },
-                           (@{
-                            })),
-           ENTRY(ORKAVJournalingStep,
-                        ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-                            return [[ORKAVJournalingStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
-                        },
-                        (@{
-                            PROPERTY(maximumRecordingLimit, NSNumber, NSObject, YES, nil, nil),
-                            PROPERTY(countDownStartTime, NSNumber, NSObject, YES, nil, nil),
-                            PROPERTY(saveDepthDataIfAvailable, NSNumber, NSObject, YES, nil, nil),
-                        })),
            ENTRY(ORKTappingIntervalStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      return [[ORKTappingIntervalStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
@@ -2100,13 +2072,6 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(contentType, NSString, NSObject, NO, nil, nil),
                     PROPERTY(fileName, NSString, NSObject, NO, nil, nil)
                     })),
-           ENTRY(ORKAVJournalingResult,
-                nil,
-                (@{
-                    PROPERTY(filenames, NSString, NSArray, NO, nil, nil),
-                    PROPERTY(recalibrationTimeStamps, NSDictionary, NSArray, NO, nil, nil),
-                    PROPERTY(cameraIntrinsics, NSArray, NSArray, NO, nil, nil)
-                 })),
            ENTRY(ORKToneAudiometrySample,
                  nil,
                  (@{
@@ -2528,7 +2493,43 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
             })),
            ENTRY(ORKBLEScanPeripheralsStepResult, ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
             return [[ORKBLEScanPeripheralsStepResult alloc] initWithIdentifier:GETPROP(dict, identifier)];},
-            (@{}))
+            (@{})),
+#if ORK_FEATURE_AV_JOURNALING
+           ENTRY(ORKAVJournalingPredefinedTask,
+            ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+               return [[ORKAVJournalingPredefinedTask alloc] initWithIdentifier:GETPROP(dict, identifier)
+                                                 journalQuestionSetManifestPath:GETPROP(dict, journalQuestionSetManifestPath)
+                                                                   prependSteps:GETPROP(dict, prependSteps)
+                                                                    appendSteps:GETPROP(dict, appendSteps)];
+           },
+            (@{
+               PROPERTY(journalQuestionSetManifestPath, NSString, NSObject, NO, nil, nil),
+               PROPERTY(prependSteps, ORKStep, NSArray, NO, nil, nil),
+               PROPERTY(appendSteps, ORKStep, NSArray, NO, nil, nil),
+               SKIP_PROPERTY(steps, ORKStep, NSArray, NO, nil, nil)
+           })),
+           ENTRY(ORKAVJournalingStep,
+            ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+               return [[ORKAVJournalingStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
+           },
+           (@{
+                PROPERTY(maximumRecordingLimit, NSNumber, NSObject, YES, nil, nil),
+                PROPERTY(countDownStartTime, NSNumber, NSObject, YES, nil, nil),
+                PROPERTY(saveDepthDataIfAvailable, NSNumber, NSObject, YES, nil, nil),
+           })),
+           ENTRY(ORKAVJournalingResult,
+            nil,
+            (@{
+                PROPERTY(filenames, NSString, NSArray, NO, nil, nil),
+                PROPERTY(recalibrationTimeStamps, NSDictionary, NSArray, NO, nil, nil),
+                PROPERTY(cameraIntrinsics, NSArray, NSArray, NO, nil, nil)
+            })),
+           ENTRY(ORKFaceDetectionStep,
+            ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+               return [[ORKFaceDetectionStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
+            },
+            (@{ })),
+#endif
            } mutableCopy];
         if (@available(iOS 12.0, *)) {
             [internalEncodingTable addEntriesFromDictionary:@{ ENTRY(ORKHealthClinicalTypeRecorderConfiguration,
