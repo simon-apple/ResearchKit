@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020, Apple Inc. All rights reserved.
+ Copyright (c) 2021, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,36 +28,14 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "ORKHealthKitPermissionType.h"
-#import "ORKNotificationPermissionType.h"
-#import "ORKSensorPermissionType.h"
-#import "ORKMotionActivityPermissionType.h"
-#import "ORKLocationPermissionType.h"
-#import "ORKHelpers_Internal.h"
-#import "ORKPermissionType.h"
+#import <ResearchKit/ORKDefines.h>
+#import <ResearchKit/ORKPermissionType.h>
 
-@implementation ORKPermissionType
+NS_ASSUME_NONNULL_BEGIN
 
-+ (ORKHealthKitPermissionType *)healthKitPermissionTypeWithSampleTypesToWrite:(NSSet<HKSampleType *> *)sampleTypesToWrite objectTypesToRead:(NSSet<HKObjectType *> *)objectTypesToRead {
-    return [[ORKHealthKitPermissionType alloc] initWithSampleTypesToWrite:sampleTypesToWrite
-                                                        objectTypesToRead:objectTypesToRead];
-}
-
-+ (ORKNotificationPermissionType *)notificationPermissionType:(UNAuthorizationOptions) options {
-    return [[ORKNotificationPermissionType alloc] initWithAuthorizationOptions:options];
-}
-
-+ (ORKSensorPermissionType *)sensorPermissionType:(NSSet<SRSensor> *)sensors {
-    return [[ORKSensorPermissionType alloc] initWithSensors:sensors];
-}
-
-+ (ORKMotionActivityPermissionType *)deviceMotionPermissionType {
-    return [[ORKMotionActivityPermissionType alloc] init];
-}
-
-+ (ORKLocationPermissionType *) locationPermissionType {
-    return [[ORKLocationPermissionType alloc] init];
-}
+ORK_CLASS_AVAILABLE
+@interface ORKLocationPermissionType : ORKPermissionType
 
 @end
 
+NS_ASSUME_NONNULL_END

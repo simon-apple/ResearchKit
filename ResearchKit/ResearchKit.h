@@ -148,6 +148,7 @@
 #import <ResearchKit/ORKNotificationPermissionType.h>
 #import <ResearchKit/ORKSensorPermissionType.h>
 #import <ResearchKit/ORKMotionActivityPermissionType.h>
+#import <ResearchKit/ORKLocationPermissionType.h>
 
 #import <ResearchKit/ORKDeprecated.h>
 

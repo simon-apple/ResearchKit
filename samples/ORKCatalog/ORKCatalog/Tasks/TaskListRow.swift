@@ -1513,9 +1513,11 @@ enum TaskListRow: Int, CustomStringConvertible {
         let healthKitPermissionType = ORKHealthKitPermissionType(sampleTypesToWrite: healthKitTypesToWrite,
                                                                  objectTypesToRead: healthKitTypesToRead)
 
+        let locationPermissionType = ORKLocationPermissionType()
+        
         let requestPermissionsStep = ORKRequestPermissionsStep(
             identifier: String(describing: Identifier.requestPermissionsStep),
-            permissionTypes: [notificationsPermissionType, motionActivityPermissionType, healthKitPermissionType])
+            permissionTypes: [notificationsPermissionType, motionActivityPermissionType, healthKitPermissionType, locationPermissionType])
 
         requestPermissionsStep.title = "Health Data Request"
         requestPermissionsStep.text = "Please review the health data types below and enable sharing to contribute to the study."
