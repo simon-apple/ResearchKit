@@ -42,6 +42,8 @@ ORK_EXTERN NSString * const ORKBLEScanPeripheralsCapacityKey;
 
 ORK_EXTERN NSString * const ORKBLEScanPeripheralsFilterDeviceNameKey;
 
+ORK_EXTERN NSString * const ORKBLEScanPeripheralsFilterServiceUUIDKey;
+
 ORK_CLASS_AVAILABLE
 @interface ORKBLEScanPeripheralsStep : ORKInstructionStep
 

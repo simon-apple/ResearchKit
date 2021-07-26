@@ -69,6 +69,7 @@ API_AVAILABLE(ios(13.0))
 @property (nonatomic, assign) NSUInteger minConnections;
 @property (nonatomic, assign) NSUInteger maxAllowableConnections;
 @property (nonatomic, copy) NSString *deviceNameFilterArg;
+@property (nonatomic, copy) NSArray<CBUUID *> *serviceUUIDsFilterArg;
 @property (atomic, strong) NSMutableDictionary<CBPeripheral *, NSNumber *> *peripherals;
 
 @property (nonatomic, strong) UITableView *tableView;
@@ -139,6 +140,14 @@ API_AVAILABLE(ios(13.0))
     }
     
     self.deviceNameFilterArg = (NSString *)[[self scanStep] scanOptions][ORKBLEScanPeripheralsFilterDeviceNameKey];
+    
+    NSArray<NSString * > *serviceUUIDStrings = (NSArray<NSString *> *)[[[self scanStep] scanOptions][ORKBLEScanPeripheralsFilterServiceUUIDKey] copy];
+    NSMutableArray<CBUUID *> *serviceUUIDs = [[NSMutableArray alloc] init];
+    for (NSString *uuidString in serviceUUIDStrings) {
+        CBUUID *uuid = [CBUUID UUIDWithString:uuidString];
+        [serviceUUIDs addObject:uuid];
+    }
+    self.serviceUUIDsFilterArg = [serviceUUIDs copy];
     
     [self setContinueButtonEnabled:NO];
 }
@@ -250,7 +259,7 @@ API_AVAILABLE(ios(13.0))
 
 - (void)startScanningWithCentral:(CBCentralManager *)central {
     
-    [central scanForPeripheralsWithServices:nil options:nil];
+    [central scanForPeripheralsWithServices:self.serviceUUIDsFilterArg options:nil];
     dispatch_async(dispatch_get_main_queue(), ^{
         self.phase = ORKBLEScanPeripheralsStepPhaseScanning;
         [self loadTableView];

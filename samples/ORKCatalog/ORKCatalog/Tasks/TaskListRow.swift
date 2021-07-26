@@ -1936,7 +1936,8 @@ enum TaskListRow: Int, CustomStringConvertible {
         
         let scanStep = ORKBLEScanPeripheralsStep(identifier: "BLE.scan")
         scanStep.scanOptions = [
-            ORKBLEScanPeripheralsCapacityKey:3
+            ORKBLEScanPeripheralsCapacityKey:3,
+            ORKBLEScanPeripheralsFilterServiceUUIDKey:["6E400001-B5A3-F393-E0A9-E50E24DCCA9E"]
         ];
         
         return ORKOrderedTask(identifier: "BLE", steps: [scanStep])
