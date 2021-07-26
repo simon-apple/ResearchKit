@@ -42,7 +42,7 @@ NSString * const ORKBLEScanPeripheralsCapacityKey = @"ORKBLEScanPeripheralsCapac
 
 NSString * const ORKBLEScanPeripheralsFilterDeviceNameKey = @"ORKBLEScanPeripheralsFilterDeviceNameKey";
 
-NSString * const ORKBLEScanPeripheralsFilterServiceUUIDKey = @"NSString * const ORKBLEScanPeripheralsFilterServiceUUIDKey";
+NSString * const ORKBLEScanPeripheralsFilterServiceUUIDKey = @"ORKBLEScanPeripheralsFilterServiceUUIDKey";
 
 @implementation ORKBLEScanPeripheralsStep
 
