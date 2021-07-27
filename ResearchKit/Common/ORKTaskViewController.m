@@ -1786,4 +1786,20 @@ static NSString *const _ORKProgressMode = @"progressMode";
     [self finishWithReason:ORKTaskViewControllerFinishReasonDiscarded error:nil];
 }
 
+#pragma mark - UINavigationBarAppearance
+
+- (void)setNavigationBarColor:(UIColor *)color {
+    if (@available(iOS 13.0, *)) {
+        UINavigationBarAppearance *appearance = [[UINavigationBarAppearance alloc] init];
+        [appearance configureWithOpaqueBackground];
+        appearance.shadowColor = nil;
+        appearance.backgroundColor = color;
+        self.navigationBar.standardAppearance = appearance;
+        self.navigationBar.scrollEdgeAppearance = appearance;
+        self.navigationBar.compactAppearance = appearance;
+    } else {
+        [self.navigationBar setBarTintColor:color];
+    }
+}
+
 @end
