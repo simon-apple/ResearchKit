@@ -136,7 +136,7 @@
     }
     
     [super viewWillAppear:animated];
-    [self.taskViewController.navigationBar setBarTintColor:self.view.backgroundColor];
+    [self.taskViewController setNavigationBarColor:self.view.backgroundColor];
 }
 
 - (void)viewDidLoad {

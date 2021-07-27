@@ -552,6 +552,8 @@ ORK_CLASS_AVAILABLE
  */
 - (void)setNavigationBarHidden:(BOOL)hidden animated:(BOOL)animated;
 
+- (void)setNavigationBarColor:(UIColor *)color;
+
 /**
  Returns a learn more view controller for the given step.
  @param step The step needing a learn more view controller
