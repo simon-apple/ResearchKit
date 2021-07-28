@@ -127,18 +127,18 @@ static const CGFloat PickerMinimumHeight = 34.0;
 - (NSNumber *)selectedAnswerValue {
     NSNumber *answer = nil;
     if (_answerFormat.useMetricSystem) {
-        NSInteger row = [_pickerView selectedRowInComponent:0];
-        
-        if (![_pickerDelegate isOptional] && row == 0) {
+        NSInteger row = [self fetchSelectedRowInComponent:0];
+
+        if (![_pickerDelegate isOptional] && row == -1) {
             return nil;
         }
         
         answer = [self centimeterValues][row];
     } else {
-        NSInteger feetRow = [_pickerView selectedRowInComponent:0];
-        NSInteger inchesRow = [_pickerView selectedRowInComponent:1];
+        NSInteger feetRow = [self fetchSelectedRowInComponent:0];
+        NSInteger inchesRow = [self fetchSelectedRowInComponent:1];
         
-        if (![_pickerDelegate isOptional] && (feetRow == 0 || inchesRow == 0)) {
+        if (![_pickerDelegate isOptional] && (feetRow == -1 || inchesRow == -1)) {
             return nil;
         }
         
@@ -147,6 +147,13 @@ static const CGFloat PickerMinimumHeight = 34.0;
         answer = @( ORKFeetAndInchesToCentimeters(feet.doubleValue, inches.doubleValue) );
     }
     return answer;
+}
+
+- (NSInteger)fetchSelectedRowInComponent:(NSInteger)component {
+    NSInteger row = [_pickerView selectedRowInComponent:component];
+     
+    //subtract row by 1 to account for empty value added if step is not optional
+    return [_pickerDelegate isOptional] ? row : (row - 1);
 }
 
 - (NSString *)selectedLabelText {
