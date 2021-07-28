@@ -182,9 +182,9 @@ static const CGFloat PickerMinimumHeight = 34.0;
 - (NSNumber *)selectedAnswerValue {
     NSNumber *answer = nil;
     if (_answerFormat.useMetricSystem) {
-        NSInteger wholeRow = [_pickerView selectedRowInComponent:0];
+        NSInteger wholeRow = [self fetchSelectedRowInComponent:0];;
         
-        if (![_pickerDelegate isOptional] && wholeRow == 0) {
+        if (![_pickerDelegate isOptional] && wholeRow == -1) {
             return nil;
         }
         
@@ -192,9 +192,9 @@ static const CGFloat PickerMinimumHeight = 34.0;
         if (_answerFormat.numericPrecision != ORKNumericPrecisionHigh) {
             answer = @( whole.doubleValue );
         } else {
-            NSInteger fractionRow = [_pickerView selectedRowInComponent:1];
+            NSInteger fractionRow = [self fetchSelectedRowInComponent:1];
             
-            if (![_pickerDelegate isOptional] && fractionRow == 0) {
+            if (![_pickerDelegate isOptional] && fractionRow == -1) {
                 return nil;
             }
             
@@ -202,9 +202,9 @@ static const CGFloat PickerMinimumHeight = 34.0;
             answer = @( ORKWholeAndFractionToKilograms(whole.doubleValue, fraction.doubleValue) );
         }
     } else {
-        NSInteger poundsRow = [_pickerView selectedRowInComponent:0];
+        NSInteger poundsRow = [self fetchSelectedRowInComponent:0];
         
-        if (![_pickerDelegate isOptional] && poundsRow == 0) {
+        if (![_pickerDelegate isOptional] && poundsRow == -1) {
             return nil;
         }
         
@@ -212,9 +212,9 @@ static const CGFloat PickerMinimumHeight = 34.0;
         if (_answerFormat.numericPrecision != ORKNumericPrecisionHigh) {
             answer = @( ORKPoundsToKilograms(pounds.doubleValue) );
         } else {
-            NSInteger ouncesRow = [_pickerView selectedRowInComponent:1];
+            NSInteger ouncesRow = [self fetchSelectedRowInComponent:1];
             
-            if (![_pickerDelegate isOptional] && ouncesRow == 0) {
+            if (![_pickerDelegate isOptional] && ouncesRow == -1) {
                 return nil;
             }
             
@@ -224,6 +224,13 @@ static const CGFloat PickerMinimumHeight = 34.0;
     }
     
     return answer;
+}
+
+- (NSInteger)fetchSelectedRowInComponent:(NSInteger)component {
+    NSInteger row = [_pickerView selectedRowInComponent:component];
+     
+    //subtract row by 1 to account for empty value added if step is not optional
+    return [_pickerDelegate isOptional] ? row : (row - 1);
 }
 
 - (NSString *)selectedLabelText {
