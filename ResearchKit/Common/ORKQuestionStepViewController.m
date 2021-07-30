@@ -189,7 +189,7 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
                 } else {
                     [_tableView setBackgroundColor:ORKColor(ORKBackgroundColorKey)];
                 }
-                [self.taskViewController.navigationBar setBarTintColor:[_tableView backgroundColor]];
+                [self.taskViewController setNavigationBarColor:[_tableView backgroundColor]];
                 [self.view setBackgroundColor:[_tableView backgroundColor]];
             }
             
@@ -258,7 +258,7 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
                     } else {
                         [_questionView setBackgroundColor:ORKColor(ORKBackgroundColorKey)];
                     }
-                    [self.taskViewController.navigationBar setBarTintColor:[_questionView backgroundColor]];
+                    [self.taskViewController setNavigationBarColor:[_questionView backgroundColor]];
                     [self.view setBackgroundColor:[_questionView backgroundColor]];
                     ORKLearnMoreView *learnMoreView;
                     NSString *sectionProgressText = nil;
