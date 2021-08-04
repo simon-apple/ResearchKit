@@ -30,6 +30,10 @@
 
 // apple-internal
 
+#import <ResearchKit/ORKFeatureFlags.h>
+
+#if ORK_FEATURE_BLE_SCAN_PERIPHERALS
+
 #import "ORKBLEScanPeripheralsStepViewController.h"
 #import "ORKBLEScanPeripheralsStep.h"
 #import "ORKBLEScanPeripheralsStepResult.h"
@@ -549,3 +553,5 @@ API_AVAILABLE(ios(13.0))
 }
 
 @end
+
+#endif

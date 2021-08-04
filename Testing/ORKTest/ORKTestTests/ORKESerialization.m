@@ -2486,6 +2486,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                      PROPERTY(osBuild, NSString, NSObject, NO, nil, nil),
                      PROPERTY(platform, NSString, NSObject, NO, nil, nil)
                   })),
+#if ORK_FEATURE_BLE_SCAN_PERIPHERALS
            ENTRY(ORKBLEScanPeripheralsStep, ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                 return  [[ORKBLEScanPeripheralsStep alloc] initWithIdentifier:GETPROP(dict, identifier) scanOptions:GETPROP(dict, scanOptions)];},
             (@{
@@ -2494,6 +2495,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
            ENTRY(ORKBLEScanPeripheralsStepResult, ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
             return [[ORKBLEScanPeripheralsStepResult alloc] initWithIdentifier:GETPROP(dict, identifier)];},
             (@{})),
+#endif
 #if ORK_FEATURE_AV_JOURNALING
            ENTRY(ORKAVJournalingPredefinedTask,
             ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {

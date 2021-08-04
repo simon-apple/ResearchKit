@@ -30,8 +30,14 @@
 
 // apple-internal
 
+#import <ResearchKit/ORKFeatureFlags.h>
+
+#if ORK_FEATURE_BLE_SCAN_PERIPHERALS
+
 #import "ORKBLEScanPeripheralsStepResult.h"
 
 @implementation ORKBLEScanPeripheralsStepResult
 
 @end
+
+#endif

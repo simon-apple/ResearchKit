@@ -30,6 +30,10 @@
 
 // apple-internal
 
+#import <ResearchKit/ORKFeatureFlags.h>
+
+#if ORK_FEATURE_BLE_SCAN_PERIPHERALS
+
 #import <ResearchKit/ORKInstructionStepViewController.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -39,3 +43,5 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
+
+#endif
