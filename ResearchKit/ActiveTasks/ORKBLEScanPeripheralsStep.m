@@ -30,6 +30,10 @@
 
 // apple-internal
 
+#import <ResearchKit/ORKFeatureFlags.h>
+
+#if ORK_FEATURE_BLE_SCAN_PERIPHERALS
+
 #import "ORKBLEScanPeripheralsStep.h"
 #import "ORKBLEScanPeripheralsStepViewController.h"
 #import "ORKHelpers_Internal.h"
@@ -79,3 +83,5 @@ NSString * const ORKBLEScanPeripheralsFilterServiceUUIDKey = @"ORKBLEScanPeriphe
 }
 
 @end
+
+#endif

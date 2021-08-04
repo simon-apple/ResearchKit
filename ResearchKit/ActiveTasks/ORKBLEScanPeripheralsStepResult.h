@@ -30,6 +30,10 @@
 
 // apple-internal
 
+#import <ResearchKit/ORKFeatureFlags.h>
+
+#if ORK_FEATURE_BLE_SCAN_PERIPHERALS
+
 #import <ResearchKit/ORKResult.h>
 @import CoreBluetooth;
 
@@ -45,3 +49,5 @@ ORK_CLASS_AVAILABLE
 @end
 
 NS_ASSUME_NONNULL_END
+
+#endif
