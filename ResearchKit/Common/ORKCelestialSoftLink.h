@@ -43,6 +43,11 @@ ORK_SOFT_LINK_CONSTANT(Celestial, AVSystemController_RouteDescriptionKey_RouteSu
 ORK_SOFT_LINK_CONSTANT(Celestial, AVSystemController_RouteDescriptionKey_BTDetails_ProductID, NSString *)
 ORK_SOFT_LINK_CONSTANT(Celestial, AVSystemController_RouteDescriptionKey_AVAudioRouteName, NSString *)
 
+ORK_SOFT_LINK_CONSTANT(Celestial, AVSystemController_SubscribeToNotificationsAttribute, NSString *)
 ORK_SOFT_LINK_CONSTANT(Celestial, AVSystemController_SystemVolumeDidChangeNotification, NSString *)
 ORK_SOFT_LINK_CONSTANT(Celestial, AVSystemController_AudioVolumeChangeReasonNotificationParameter, NSString *)
 ORK_SOFT_LINK_CONSTANT(Celestial, AVSystemController_AudioVolumeNotificationParameter, NSString *)
+
+ORK_SOFT_LINK_CONSTANT(Celestial, AVSystemController_HeadphoneJackIsConnectedDidChangeNotification, NSString *)
+ORK_SOFT_LINK_CONSTANT(Celestial, AVSystemController_ActiveAudioRouteDidChangeNotification, NSString *)
+ORK_SOFT_LINK_CONSTANT(Celestial, AVSystemController_ServerConnectionDiedNotification, NSString *)
