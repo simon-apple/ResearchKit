@@ -146,11 +146,16 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
 #pragma mark - Headphone Monitoring
 
 - (void)registerNotifications {
+    [[getAVSystemControllerClass() sharedAVSystemController] setAttribute:@[getAVSystemController_HeadphoneJackIsConnectedDidChangeNotification(),
+                                                                            getAVSystemController_ActiveAudioRouteDidChangeNotification(),
+                                                                            getAVSystemController_ServerConnectionDiedNotification()]
+                                                                   forKey:getAVSystemController_SubscribeToNotificationsAttribute() error:nil];
+    
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-    [center addObserver:self selector:@selector(headphoneStateChangedNotification:) name:@"AVSystemController_HeadphoneJackIsConnectedDidChangeNotification" object:nil];
-    [center addObserver:self selector:@selector(headphoneStateChangedNotification:) name:@"AVAudioSessionRouteChangeNotification" object:nil];
-    [center addObserver:self selector:@selector(headphoneStateChangedNotification:) name:@"AVSystemController_ActiveAudioRouteDidChangeNotification" object:nil];
-    [center addObserver:self selector:@selector(mediaServerDied) name:@"AVSystemController_ServerConnectionDiedNotification" object:nil];
+    [center addObserver:self selector:@selector(headphoneStateChangedNotification:) name:AVAudioSessionRouteChangeNotification object:nil];
+    [center addObserver:self selector:@selector(headphoneStateChangedNotification:) name:getAVSystemController_HeadphoneJackIsConnectedDidChangeNotification() object:nil];
+    [center addObserver:self selector:@selector(headphoneStateChangedNotification:) name:getAVSystemController_ActiveAudioRouteDidChangeNotification() object:nil];
+    [center addObserver:self selector:@selector(mediaServerDied) name:getAVSystemController_ServerConnectionDiedNotification() object:nil];
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
@@ -188,10 +193,10 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
 
 - (void)removeObservers {
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-    [center removeObserver:self name:@"AVSystemController_HeadphoneJackIsConnectedDidChangeNotification" object:nil];
-    [center removeObserver:self name:@"AVAudioSessionRouteChangeNotification" object:nil];
-    [center removeObserver:self name:@"AVSystemController_ActiveAudioRouteDidChangeNotification" object:nil];
-    [center removeObserver:self name:@"AVSystemController_ServerConnectionDiedNotification" object:nil];
+    [center removeObserver:self name:AVAudioSessionRouteChangeNotification object:nil];
+    [center removeObserver:self name:getAVSystemController_HeadphoneJackIsConnectedDidChangeNotification() object:nil];
+    [center removeObserver:self name:getAVSystemController_ActiveAudioRouteDidChangeNotification() object:nil];
+    [center removeObserver:self name:getAVSystemController_ServerConnectionDiedNotification() object:nil];
     
     dispatch_async(dispatch_get_main_queue(), ^{
         // must be called on main thread
