@@ -146,10 +146,12 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
 #pragma mark - Headphone Monitoring
 
 - (void)registerNotifications {
-    [[getAVSystemControllerClass() sharedAVSystemController] setAttribute:@[getAVSystemController_HeadphoneJackIsConnectedDidChangeNotification(),
-                                                                            getAVSystemController_ActiveAudioRouteDidChangeNotification(),
-                                                                            getAVSystemController_ServerConnectionDiedNotification()]
-                                                                   forKey:getAVSystemController_SubscribeToNotificationsAttribute() error:nil];
+    if (@available(iOS 15.0, *)) {
+        [[getAVSystemControllerClass() sharedAVSystemController] setAttribute:@[getAVSystemController_HeadphoneJackIsConnectedDidChangeNotification(),
+                                                                                getAVSystemController_ActiveAudioRouteDidChangeNotification(),
+                                                                                getAVSystemController_ServerConnectionDiedNotification()]
+                                                                       forKey:getAVSystemController_SubscribeToNotificationsAttribute() error:nil];
+    }
     
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center addObserver:self selector:@selector(headphoneStateChangedNotification:) name:AVAudioSessionRouteChangeNotification object:nil];
