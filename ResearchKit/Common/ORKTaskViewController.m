@@ -621,12 +621,12 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     _savedVolume = [[AVAudioSession sharedInstance] outputVolume];
 }
 
-- (void)registerNotifications
-{
-    [[getAVSystemControllerClass() sharedAVSystemController] setAttribute:@[getAVSystemController_SystemVolumeDidChangeNotification()]
-                                                                   forKey:getAVSystemController_SubscribeToNotificationsAttribute()
-                                                                    error:nil];
-    
+- (void)registerNotifications {
+    if (@available(iOS 15.0, *)) {
+        [[getAVSystemControllerClass() sharedAVSystemController] setAttribute:@[getAVSystemController_SystemVolumeDidChangeNotification()]
+                                                                       forKey:getAVSystemController_SubscribeToNotificationsAttribute()
+                                                                        error:nil];
+    }
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(volumeDidChange:) name:getAVSystemController_SystemVolumeDidChangeNotification() object:nil];
 }
 
