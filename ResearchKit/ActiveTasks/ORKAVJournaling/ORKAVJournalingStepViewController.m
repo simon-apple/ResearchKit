@@ -252,9 +252,11 @@ static const CGFloat FramesToSkipTotal = 5.0;
     //Save video to permanant file
     NSString *fileNameFormat = @"%@_%@_rgb";
     
+#if ORK_FEATURE_AV_JOURNALING_DEPTH_DATA_COLLECTION
     if ([ARFaceTrackingConfiguration isSupported] && _avJournalingStep.saveDepthDataIfAvailable) {
         fileNameFormat = @"%@_%@_rgb_depth";
     }
+#endif
     
     NSString *outputFileName = [NSString stringWithFormat:fileNameFormat, self.step.identifier, self.taskViewController.taskRunUUID.UUIDString];
     _savedFileName = [outputFileName stringByAppendingPathExtension:@"mov"];
