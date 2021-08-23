@@ -436,7 +436,11 @@ static const CGFloat ORKSignatureTopPadding = 37.0;
 }
 
 - (void)startPreload {
-    [self loadViewIfNeeded];
+    if (self.viewLoaded) {
+        [self didFinishLoadingHTML];
+    } else {
+        [self loadViewIfNeeded];
+    }
 }
 
 - (void)userContentController:(WKUserContentController *)userContentController didReceiveScriptMessage:(WKScriptMessage *)message
