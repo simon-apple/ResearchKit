@@ -82,6 +82,8 @@
 		10FF9AD71B7A045E00ECB5B4 /* ORKSeparatorView.h in Headers */ = {isa = PBXBuildFile; fileRef = 10FF9AD51B7A045E00ECB5B4 /* ORKSeparatorView.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		10FF9AD81B7A045E00ECB5B4 /* ORKSeparatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 10FF9AD61B7A045E00ECB5B4 /* ORKSeparatorView.m */; };
 		10FF9ADB1B7BA78400ECB5B4 /* ORKOrderedTask_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 10FF9AD91B7BA78400ECB5B4 /* ORKOrderedTask_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		12CF7E4F26D6AB4A00829B24 /* ORKBluetoothPermissionType.h in Headers */ = {isa = PBXBuildFile; fileRef = 12CF7E4D26D6AB4A00829B24 /* ORKBluetoothPermissionType.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		12CF7E5026D6AB4A00829B24 /* ORKBluetoothPermissionType.m in Sources */ = {isa = PBXBuildFile; fileRef = 12CF7E4E26D6AB4A00829B24 /* ORKBluetoothPermissionType.m */; };
 		12F339BF26A1F09A000665E4 /* ORKLocationPermissionType.m in Sources */ = {isa = PBXBuildFile; fileRef = 12F339BD26A1F09A000665E4 /* ORKLocationPermissionType.m */; };
 		12F339C026A1F09A000665E4 /* ORKLocationPermissionType.h in Headers */ = {isa = PBXBuildFile; fileRef = 12F339BE26A1F09A000665E4 /* ORKLocationPermissionType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		147503AF1AEE8071004B17F3 /* ORKAudioGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 147503AD1AEE8071004B17F3 /* ORKAudioGenerator.h */; };
@@ -1159,6 +1161,8 @@
 		10FF9AD51B7A045E00ECB5B4 /* ORKSeparatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKSeparatorView.h; sourceTree = "<group>"; };
 		10FF9AD61B7A045E00ECB5B4 /* ORKSeparatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKSeparatorView.m; sourceTree = "<group>"; };
 		10FF9AD91B7BA78400ECB5B4 /* ORKOrderedTask_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKOrderedTask_Private.h; sourceTree = "<group>"; };
+		12CF7E4D26D6AB4A00829B24 /* ORKBluetoothPermissionType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKBluetoothPermissionType.h; sourceTree = "<group>"; };
+		12CF7E4E26D6AB4A00829B24 /* ORKBluetoothPermissionType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKBluetoothPermissionType.m; sourceTree = "<group>"; };
 		12F339BD26A1F09A000665E4 /* ORKLocationPermissionType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKLocationPermissionType.m; sourceTree = "<group>"; };
 		12F339BE26A1F09A000665E4 /* ORKLocationPermissionType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKLocationPermissionType.h; sourceTree = "<group>"; };
 		147503AD1AEE8071004B17F3 /* ORKAudioGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKAudioGenerator.h; sourceTree = "<group>"; };
@@ -2941,6 +2945,8 @@
 				031A0FC024CF4ECD000E4455 /* ORKSensorPermissionType.m */,
 				12F339BE26A1F09A000665E4 /* ORKLocationPermissionType.h */,
 				12F339BD26A1F09A000665E4 /* ORKLocationPermissionType.m */,
+				12CF7E4D26D6AB4A00829B24 /* ORKBluetoothPermissionType.h */,
+				12CF7E4E26D6AB4A00829B24 /* ORKBluetoothPermissionType.m */,
 				51E03D652491A5E0008F8406 /* HealthKit Permission Type */,
 			);
 			name = "Permission Types";
@@ -4637,6 +4643,7 @@
 				86C40CC81A8D7C5C00081FAC /* ORKFormItemCell.h in Headers */,
 				86C40DF21A8D7C5C00081FAC /* ORKConsentReviewController.h in Headers */,
 				BAD9E9162255E9CE0014FA29 /* ORKLearnMoreStepViewController.h in Headers */,
+				12CF7E4F26D6AB4A00829B24 /* ORKBluetoothPermissionType.h in Headers */,
 				86C40C961A8D7C5C00081FAC /* ORKDataLogger.h in Headers */,
 				22BFDF5E25B792BF0015D1E1 /* ORKTinnitusTypes.h in Headers */,
 				BC13CE421B066A990044153C /* ORKStepNavigationRule_Internal.h in Headers */,
@@ -5756,6 +5763,7 @@
 				86C40DAC1A8D7C5C00081FAC /* ORKSurveyAnswerCellForNumber.m in Sources */,
 				51751468245A53D7009E8FFC /* ORKFrontFacingCameraStepContentView.m in Sources */,
 				5D1CE43A23F4A79A004CB416 /* ORKAudioDictationView.m in Sources */,
+				12CF7E5026D6AB4A00829B24 /* ORKBluetoothPermissionType.m in Sources */,
 				5D04885825F19A7A0006C68B /* ORKDevice.m in Sources */,
 				5D1CE42723F497D5004CB416 /* ORKAudioLevelSmoother.m in Sources */,
 				86C40C541A8D7C5C00081FAC /* ORKTappingIntervalStep.m in Sources */,

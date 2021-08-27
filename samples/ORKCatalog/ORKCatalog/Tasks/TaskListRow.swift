@@ -1515,9 +1515,11 @@ enum TaskListRow: Int, CustomStringConvertible {
 
         let locationPermissionType = ORKLocationPermissionType()
         
+        let bluetoothPermissionType = ORKBluetoothPermissionType()
+        
         let requestPermissionsStep = ORKRequestPermissionsStep(
             identifier: String(describing: Identifier.requestPermissionsStep),
-            permissionTypes: [notificationsPermissionType, motionActivityPermissionType, healthKitPermissionType, locationPermissionType])
+            permissionTypes: [notificationsPermissionType, motionActivityPermissionType, healthKitPermissionType, locationPermissionType, bluetoothPermissionType])
 
         requestPermissionsStep.title = "Health Data Request"
         requestPermissionsStep.text = "Please review the health data types below and enable sharing to contribute to the study."

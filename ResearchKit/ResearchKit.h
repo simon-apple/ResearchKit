@@ -149,6 +149,7 @@
 #import <ResearchKit/ORKSensorPermissionType.h>
 #import <ResearchKit/ORKMotionActivityPermissionType.h>
 #import <ResearchKit/ORKLocationPermissionType.h>
+#import <ResearchKit/ORKBluetoothPermissionType.h>
 
 #import <ResearchKit/ORKDeprecated.h>
 
