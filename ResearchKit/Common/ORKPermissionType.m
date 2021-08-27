@@ -33,6 +33,7 @@
 #import "ORKSensorPermissionType.h"
 #import "ORKMotionActivityPermissionType.h"
 #import "ORKLocationPermissionType.h"
+#import "ORKBluetoothPermissionType.h"
 #import "ORKHelpers_Internal.h"
 #import "ORKPermissionType.h"
 
@@ -57,6 +58,10 @@
 
 + (ORKLocationPermissionType *) locationPermissionType {
     return [[ORKLocationPermissionType alloc] init];
+}
+
++ (ORKBluetoothPermissionType *) bluetoothPermissionType {
+    return [[ORKBluetoothPermissionType alloc] init];
 }
 
 @end

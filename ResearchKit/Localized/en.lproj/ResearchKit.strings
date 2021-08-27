@@ -790,6 +790,10 @@
 "REQUEST_LOCATION_DATA_STEP_VIEW_TITLE" = "Location Data";
 "REQUEST_LOCATION_DATA_STEP_VIEW_DESCRIPTION" = "The study is requesting access to location data from your device.";
 
+/* Request Bluetooth Permission Step */
+"REQUEST_BLUETOOTH_STEP_VIEW_TITLE" = "Bluetooth";
+"REQUEST_BLUETOOTH_STEP_VIEW_DESCRIPTION" = "The study is requesting access to the Bluetooth connection from your device.";
+
 /* Accessibility */
 "AX_BUTTON_BACK" = "Back";
 "AX_BUTTON_SHOW_PDF_THUMBNAIL" = "Show PDF Thumbnail";
