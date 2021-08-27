@@ -82,6 +82,8 @@ static const uint32_t IconDarkTintColor = 0x6495ED;
     } else {
         [self.cardView updateIconTintColor:ORKRGB(IconLightTintColor)];
     }
+    
+    [self checkBluetoothAuthStatus];
 }
 
 // Asks for permission when CBCentralManager is allocated.
@@ -91,13 +93,15 @@ static const uint32_t IconDarkTintColor = 0x6495ED;
         _bluetoothManager = [[CBCentralManager alloc] initWithDelegate:self queue:dispatch_get_main_queue()];
     }
     [self centralManagerDidUpdateState:_bluetoothManager];
-    NSLog(@"updating state");
 }
 
 
 - (void)centralManagerDidUpdateState:(CBCentralManager *)central {
-    NSLog(@"updating state: %ld", (long)central.state);
-    switch (central.state) {
+    [self checkBluetoothAuthStatus];
+}
+
+-(void)checkBluetoothAuthStatus {
+    switch (CBManager.authorization) {
         case CBManagerStateUnknown:
             [self setState:ORKRequestPermissionsButtonStateDefault canContinue:NO];
             break;
