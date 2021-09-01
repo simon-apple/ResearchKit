@@ -74,3 +74,81 @@
 "BLE_NOT_CONNECTED_TITLE" = "Unable to Connect";
 "BLE_NOT_CONNECTED_MSG" = "Failed to connect to device.";
 "BLE_DISCONNECT" = "Disconnect";
+
+"BUTTON_SKIP_STEP" = "Stop this Activity";
+
+"FITNESS_STOP_TEST_CONFIRMATION" = "Are you sure you want to end this activity early?";
+"FITNESS_STOP_TEST_DETAIL" = "Your progress will be saved and this test will be marked as completed.";
+"FITNESS_RESUME_TEST" = "Resume Activity";
+
+/* 6 minute walk test task. */
+
+"6MWT_TASK_TITLE" = "6 Minute Walk Test";
+"6MWT_INTRO" = "The goal of this test is to walk as far as possible at a comfortable pace for 6 minutes.";
+"6MWT_INTRO_DETAILS" = "Details";
+"6MWT_INTRO_DETAIL_TIME" = "This test will take about 6 minutes to complete.";
+"6MWT_INTRO_DETAIL_WATCH" = "You’ll need your Apple Watch to complete this test.";
+"6MWT_INTRO_DETAIL_CLOTHING" = "Wear comfortable clothes and properly fitting shoes. If you normally use a walking aid, you can use it while completing this test.";
+"6MWT_INTRO_DETAIL_LOCATION" = "If you are unable to walk outdoors, consider completing this test at a local shopping mall.";
+"6MWT_INSTRUCTIONS_TITLE" = "Getting Started";
+"6MWT_INSTRUCTIONS_1" = "Find a straight walking path at least 30 meters in length.";
+"6MWT_INSTRUCTIONS_2" = "Make sure you can stop and sit, if necessary, along the walking path.";
+"6MWT_INSTRUCTIONS_3" = "Turn your phone volume up to at least 50%.";
+"6MWT_INSTRUCTIONS_4" = "Start an Outdoor Walk (or Indoor Walk) workout on your Apple Watch by asking Siri, or by launching the Workouts app, then tapping Outdoor Walk (or Indoor Walk).";
+"6MWT_TEST_IN_PROGRESS" = "Test in Progress";
+"6MWT_TEST_IN_PROGRESS_DETAIL" = "Walk as far along the straight walking path as you can for 6 minutes. If you need to catch your breath, stop and sit down.";
+"6MWT_QUESTIONS_TITLE" = "Nicely Done";
+"6MWT_QUESTIONS_DETAIL" = "Congratulations on completing the 6 Minute Walk Test! Please rate how you’re feeling on the following dimensions.";
+"6MWT_QUESTIONS_BREATH" = "Shortness of Breath";
+"6MWT_QUESTIONS_FATIGUE" = "Fatigue";
+"6MWT_LOW_SCORE" = "1: Not Any";
+"6MWT_HIGH_SCORE" = "10: A Lot";
+
+/* Tecumseh cube active task. */
+"TC_TASK_TITLE" = "Tecumseh Cube Test";
+"TC_INTRO" = "The goal of this test is to raise your heart rate while you are stepping up and down for 3 minutes following a beat.";
+"TC_INTRO_DETAILS" = "Details";
+"TC_INTRO_DETAIL_TIME" = "This test will take about 6 minutes to complete.";
+"TC_INTRO_DETAIL_WATCH" = "You’ll need your Apple Watch to complete this test.";
+"TC_INTRO_DETAIL_DANGER" = "If you develop chest pain or discomfort, stop this test immediately.";
+"TC_INSTRUCTIONS_TITLE" = "Getting Started";
+"TC_INSTRUCTIONS_1" = "Find a step with about 20 cm (8 in) of elevation from the ground.";
+"TC_INSTRUCTIONS_2" = "Turn your iPhone volume up to at least 50%.";
+"TC_INSTRUCTIONS_3" = "Start a Stairs workout on your Apple Watch by asking Siri, or by launching the Workouts app, tapping on Add Workout, then choosing Stairs.";
+"TC_TEST_IN_PROGRESS" = "Test in Progress";
+"TC_TEST_IN_PROGRESS_DETAIL" = "Using the stair, step up and down in place with the beat";
+"TC_REST_IN_PROGRESS" = "Have a Rest";
+"TC_REST_IN_PROGRESS_DETAIL" = "Sit down and relax for 3 minutes while your Apple Watch records your resting heart rate.";
+"TC_COMPLETION_TITLE" = "Nicely Done";
+"TC_COMPLETION_DETAIL" = "Congratulation on completing the Tecumseh Cube Test!";
+
+"KNEE_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_LEFT" = "Place your device on your left knee.\n\nTap the screen and extend your left knee as far as you can.";
+"KNEE_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_RIGHT" = "Place your device on your right knee.\n\nTap the screen and extend your right knee as far as you can.\n";
+"KNEE_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_LEFT" = "When you are done, return your left knee to the start position.\n\nThen tap anywhere.";
+"KNEE_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_RIGHT" = "When you are done, return your right knee to the start position.\n\nThen tap anywhere.";
+
+/* Request Permission Step */
+"REQUEST_PERMISSION_BUTTON_STATE_DEFAULT" = "Review";
+"REQUEST_PERMISSION_BUTTON_STATE_CONNECTED" = "Reviewed";
+"REQUEST_PERMISSION_BUTTON_STATE_NOT_SUPPORTED" = "Not Supported";
+"REQUEST_PERMISSION_BUTTON_STATE_ERROR" = "Error";
+
+/* Request Health Data Step */
+"REQUEST_HEALTH_DATA_STEP_VIEW_TITLE" = "Health Data";
+"REQUEST_HEALTH_DATA_STEP_VIEW_DESCRIPTION" = "The study is requesting access to Health data.";
+
+/* Request Notification Permission Step */
+"REQUEST_NOTIFICATIONS_STEP_VIEW_TITLE" = "Notifications";
+"REQUEST_NOTIFICATIONS_STEP_VIEW_DESCRIPTION" = "The study is requesting to send you notifications.";
+
+/* Request Sensor Permission Step */
+"REQUEST_SENSOR_STEP_VIEW_TITLE" = "Sensor Data";
+"REQUEST_SENSOR_STEP_VIEW_DESCRIPTION" = "The study is requesting access to sensor data from your devices.";
+
+/* Request Device Motion Permission Step */
+"REQUEST_MOTION_ACTIVITY_STEP_VIEW_TITLE" = "Device Motion";
+"REQUEST_MOTION_ACTIVITY_STEP_VIEW_DESCRIPTION" = "The study is requesting access to motion data from your devices.";
+
+/* Request Location Permission Step */
+"REQUEST_LOCATION_DATA_STEP_VIEW_TITLE" = "Location Data";
+"REQUEST_LOCATION_DATA_STEP_VIEW_DESCRIPTION" = "The study is requesting access to location data from your device.";
