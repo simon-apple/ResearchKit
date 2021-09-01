@@ -240,10 +240,10 @@ static const NSTimeInterval SPL_METER_PLAY_DELAY_VOICEOVER = 3.0;
         case AVAudioSessionRecordPermissionDenied:
         {
             id<ORKTask> task = self.step.task;
-            ORKSpeechInNoisePredefinedTaskContext *context = [self speechInNoisePredefinedTaskContext];
-            if (context && task)
+            id<ORKContext> context = self.step.context;
+            if (context && task && [self.step.context respondsToSelector:@selector(didNotAllowRequiredHealthPermissionsForTask:)])
             {
-                NSString *identifier = [context didNotAllowRequiredHealthPermissionsForTask:task];
+                NSString *identifier = [self.step.context didNotAllowRequiredHealthPermissionsForTask:task];
                 [[self taskViewController] flipToPageWithIdentifier:identifier forward:YES animated:NO];
             }
             else

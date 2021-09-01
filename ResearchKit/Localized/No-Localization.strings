@@ -59,6 +59,8 @@
 "TINNITUS_MASKING_ANSWER_SOMEWHAT_EFFECTIVE" = "Somewhat effective";
 "TINNITUS_MASKING_ANSWER_NOT_EFFECTIVE" = "Not effective";
 "TINNITUS_MASKING_VOLUME_CALIBRATION_TEXT" = "Listen to the sample and move the slider to find the minimum volume required to mask the tinnitus you are experiencing.";
+"CONTEXT_MICROPHONE_REQUIRED_TITLE" = "This Test Requires Access To The Microphone";
+"CONTEXT_MICROPHONE_REQUIRED_TEXT" = "You can take the task again when you give access.";
 
 /* BLE */
 "BLE_UNABLE_TO_SCAN_TITLE" = "Unable to Scan";

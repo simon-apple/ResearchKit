@@ -909,24 +909,23 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
                     
                     // We need to check if this is the SIN Predefined Task
                     // If they select to not allow required permissions, we need to show them to the door.
-                    ORKNavigableOrderedTask *speechInNoiseTask = nil;
+                    ORKNavigableOrderedTask *navigableOrderedTask = nil;
                     if ([self.task isKindOfClass:[ORKNavigableOrderedTask class]])
                     {
-                        
-                        speechInNoiseTask = (ORKNavigableOrderedTask *)self.task;
-                        __block ORKSpeechInNoisePredefinedTaskContext *context = nil;
-                        [speechInNoiseTask.steps indexOfObjectPassingTest:^BOOL(ORKStep * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                           
-                            if ([obj.context isKindOfClass:[ORKSpeechInNoisePredefinedTaskContext class]])
+                        navigableOrderedTask = (ORKNavigableOrderedTask *)self.task;
+                        __block id<ORKContext> context = nil;
+                        [navigableOrderedTask.steps indexOfObjectPassingTest:^BOOL(ORKStep * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                            
+                            if (obj.context != nil)
                             {
-                                context = (ORKSpeechInNoisePredefinedTaskContext *)obj.context;
+                                context = obj.context;
                                 *stop = YES;
                                 return YES;
                             }
                             return NO;
                         }];
                         
-                        if (context)
+                        if (context && [context respondsToSelector:@selector(didNotAllowRequiredHealthPermissionsForTask:)])
                         {
                             NSString *identifier = [context didNotAllowRequiredHealthPermissionsForTask:self.task];
                             [self flipToPageWithIdentifier:identifier forward:YES animated:NO];
