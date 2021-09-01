@@ -55,4 +55,31 @@
     return nil;
 }
 
+- (NSString *)didNotAllowRequiredHealthPermissionsForTask:(id<ORKTask>)task
+{
+    NSAssert([task isKindOfClass:[ORKNavigableOrderedTask class]], @"Unexpected task type.");
+    if ([task isKindOfClass:[ORKNavigableOrderedTask class]])
+    {
+        // If the user opts out of health access, append a new step to the end of the task and skip to the end.
+        // Add a navigation rule to end the current task.
+        ORKNavigableOrderedTask *currentTask = (ORKNavigableOrderedTask *)task;
+        
+        NSString *healthPermissionsRequired = @"ORKdBHLStepIdentifierHealthPermissionsRequired";
+        
+        ORKCompletionStep *step = [[ORKCompletionStep alloc] initWithIdentifier:healthPermissionsRequired];
+        step.title = ORKLocalizedString(@"CONTEXT_MICROPHONE_REQUIRED_TITLE", nil);
+        step.text = ORKLocalizedString(@"CONTEXT_MICROPHONE_REQUIRED_TEXT", nil);
+        step.optional = NO;
+        step.reasonForCompletion = ORKTaskViewControllerFinishReasonDiscarded;
+        [currentTask addStep:step];
+        
+        ORKDirectStepNavigationRule *endNavigationRule = [[ORKDirectStepNavigationRule alloc] initWithDestinationStepIdentifier:ORKNullStepIdentifier];
+        [currentTask setNavigationRule:endNavigationRule forTriggerStepIdentifier:healthPermissionsRequired];
+        
+        return healthPermissionsRequired;
+    }
+    
+    return (NSString * _Nonnull)nil;
+}
+
 @end

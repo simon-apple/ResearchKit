@@ -46,6 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
 #if TARGET_OS_IOS
 @optional
 - (nullable NSString *)didSkipHeadphoneDetectionStepForTask:(id<ORKTask>)task;
+- (NSString *)didNotAllowRequiredHealthPermissionsForTask:(id<ORKTask>)task;
 - (void)insertTaskViewController:(ORKTaskViewController*)viewController;
 #endif
 
@@ -72,8 +73,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign, getter=isPracticeTest) BOOL practiceTest;
 
 @property (nonatomic, assign) BOOL prefersKeyboard;
-
-- (NSString *)didNotAllowRequiredHealthPermissionsForTask:(id<ORKTask>)task;
 
 @end
 
