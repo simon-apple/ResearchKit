@@ -243,6 +243,8 @@
 		5192C29424536B360097DB41 /* ORKFaceDetectionStepContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5192C29224536B360097DB41 /* ORKFaceDetectionStepContentView.m */; };
 		5192C29B24536DAD0097DB41 /* ORKFaceDetectionStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5192C29924536DAD0097DB41 /* ORKFaceDetectionStepViewController.h */; };
 		5192C29C24536DAD0097DB41 /* ORKFaceDetectionStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5192C29A24536DAD0097DB41 /* ORKFaceDetectionStepViewController.m */; };
+		519C298126D027AB00FD5F44 /* SwiftUIViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 519C298026D027AB00FD5F44 /* SwiftUIViewFactory.swift */; };
+		519C298E26D027E500FD5F44 /* TextChoiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 519C298D26D027E500FD5F44 /* TextChoiceView.swift */; };
 		51BF30BE247B330900E2E669 /* ORKIconButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 51BF30BC247B330900E2E669 /* ORKIconButton.h */; };
 		51BF30BF247B330A00E2E669 /* ORKIconButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 51BF30BD247B330900E2E669 /* ORKIconButton.m */; };
 		51C3F78224500E4A00FFAC91 /* ORKAVJournalingPredefinedTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 51C3F78024500E4A00FFAC91 /* ORKAVJournalingPredefinedTask.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -1323,6 +1325,8 @@
 		5192C29224536B360097DB41 /* ORKFaceDetectionStepContentView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKFaceDetectionStepContentView.m; sourceTree = "<group>"; };
 		5192C29924536DAD0097DB41 /* ORKFaceDetectionStepViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKFaceDetectionStepViewController.h; sourceTree = "<group>"; };
 		5192C29A24536DAD0097DB41 /* ORKFaceDetectionStepViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKFaceDetectionStepViewController.m; sourceTree = "<group>"; };
+		519C298026D027AB00FD5F44 /* SwiftUIViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIViewFactory.swift; sourceTree = "<group>"; };
+		519C298D26D027E500FD5F44 /* TextChoiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextChoiceView.swift; sourceTree = "<group>"; };
 		51BF30BC247B330900E2E669 /* ORKIconButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKIconButton.h; sourceTree = "<group>"; };
 		51BF30BD247B330900E2E669 /* ORKIconButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKIconButton.m; sourceTree = "<group>"; };
 		51C3F78024500E4A00FFAC91 /* ORKAVJournalingPredefinedTask.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKAVJournalingPredefinedTask.h; sourceTree = "<group>"; };
@@ -2693,8 +2697,6 @@
 		51414B492616317F0006CC13 /* ORKAVJournaling */ = {
 			isa = PBXGroup;
 			children = (
-				515B347324AD3BB6009CF844 /* ORKAVJournalingARSessionHelper.h */,
-				515B347424AD3BB6009CF844 /* ORKAVJournalingARSessionHelper.m */,
 				515B347824B3D2F4009CF844 /* ORKAVJournalingSessionHelper.h */,
 				515B347924B3D2F4009CF844 /* ORKAVJournalingSessionHelper.m */,
 				511987A5246080CE004FC2C7 /* ORKAVJournalingStep.h */,
@@ -2777,8 +2779,6 @@
 				2212EE64261FE55200DE9BEA /* AVAudioMixerNode+Fade.m */,
 				E25BEF6F2612876E00372483 /* UIColor+Custom.h */,
 				E25BEF702612876E00372483 /* UIColor+Custom.m */,
-				E22CD6AD26135FB7001FB6DD /* ORKHeadphoneActiveStepViewController.h */,
-				E22CD6AE26135FB7001FB6DD /* ORKHeadphoneActiveStepViewController.m */,
 				223AE98A25B235CB0080FE13 /* ORKTinnitusAudioSample.h */,
 				223AE98B25B235CB0080FE13 /* ORKTinnitusAudioSample.m */,
 				22BFDF5D25B792BF0015D1E1 /* ORKTinnitusTypes.h */,
@@ -2926,6 +2926,23 @@
 				E220A02225711D2500C3C211 /* dbSPLAmplitudePerFrequency_EARPODS.plist */,
 			);
 			name = Assets;
+			sourceTree = "<group>";
+		};
+		519C297F26D0278A00FD5F44 /* SwiftUI Views */ = {
+			isa = PBXGroup;
+			children = (
+				519C298C26D027B000FD5F44 /* Factory */,
+				519C298D26D027E500FD5F44 /* TextChoiceView.swift */,
+			);
+			name = "SwiftUI Views";
+			sourceTree = "<group>";
+		};
+		519C298C26D027B000FD5F44 /* Factory */ = {
+			isa = PBXGroup;
+			children = (
+				519C298026D027AB00FD5F44 /* SwiftUIViewFactory.swift */,
+			);
+			name = Factory;
 			sourceTree = "<group>";
 		};
 		51E03D60249196E0008F8406 /* Permission Types */ = {
@@ -3669,6 +3686,7 @@
 		B12EFF3B1AB211E000A80147 /* Answer Format */ = {
 			isa = PBXGroup;
 			children = (
+				519C297F26D0278A00FD5F44 /* SwiftUI Views */,
 				B12EFF421AB2134100A80147 /* Choice Format Helpers */,
 				B12EFF411AB212E100A80147 /* Control Views */,
 				B12EFF3E1AB2123000A80147 /* Form Step Views */,
@@ -4871,7 +4889,6 @@
 				BAD65E4B2284EFF9008A5DCE /* ORKStepView.h in Headers */,
 				250F94081B4C5AA400FA23EB /* ORKTowerOfHanoiStepViewController.h in Headers */,
 				5139A559266EDA3300537192 /* ORKFeatureFlags.h in Headers */,
-				86C40E2C1A8D7C5C00081FAC /* ORKVisualConsentStep.h in Headers */,
 				257FCE1F1B4D14E50001EF06 /* ORKTowerOfHanoiTowerView.h in Headers */,
 				24A4DA181B8D13FE009C797A /* ORKPasscodeStepViewController.h in Headers */,
 				5D1CE46323FDEA43004CB416 /* ORKVolumeCalibrationStepViewController.h in Headers */,
@@ -5623,6 +5640,7 @@
 				7118AC7420BF6A7800D7A6BB /* ORKSpeechInNoiseStepViewController.m in Sources */,
 				10FF9AD01B79F5CE00ECB5B4 /* ORKHolePegTestRemoveContentView.m in Sources */,
 				10FF9AD41B79F5EA00ECB5B4 /* ORKHolePegTestRemovePegView.m in Sources */,
+				519C298126D027AB00FD5F44 /* SwiftUIViewFactory.swift in Sources */,
 				618DA0561A93D0D600E63AA8 /* UIView+ORKAccessibility.m in Sources */,
 				8419D66F1FB73CC80088D7E5 /* ORKWebViewStep.m in Sources */,
 				E26626C02588E6D4005A0FF8 /* ORKTinnitusMaskingSoundStep.m in Sources */,
@@ -5840,6 +5858,7 @@
 				86C40DD81A8D7C5C00081FAC /* ORKUnitLabel.m in Sources */,
 				AE75433B24E32CCC00E4C7CF /* ORKEarlyTerminationConfiguration.m in Sources */,
 				86C40D361A8D7C5C00081FAC /* ORKHelpers.m in Sources */,
+				519C298E26D027E500FD5F44 /* TextChoiceView.swift in Sources */,
 				86C40C181A8D7C5C00081FAC /* ORKAudioContentView.m in Sources */,
 				5D1CE46423FDEA43004CB416 /* ORKVolumeCalibrationStepViewController.m in Sources */,
 				86C40C8E1A8D7C5C00081FAC /* ORKActiveStepViewController.m in Sources */,
@@ -6001,6 +6020,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5D000EC32620F27100E5442A /* ResearchKit-Skywagon-Stable.xcconfig */;
 			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 			};
 			name = "Skywagon Stable";
 		};
@@ -6029,6 +6049,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5D000EC82620F27100E5442A /* ResearchKit-Skywagon-Internal-Release.xcconfig */;
 			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 			};
 			name = "Skywagon Internal Release";
 		};
@@ -6057,6 +6078,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5D000EC52620F27100E5442A /* ResearchKit-Skywagon-Public-Release.xcconfig */;
 			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 			};
 			name = "Skywagon Public Release";
 		};
@@ -6176,6 +6198,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5D000EC22620F27100E5442A /* ResearchKit-Debug.xcconfig */;
 			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 			};
 			name = Debug;
 		};
@@ -6183,6 +6206,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5D000EC62620F27100E5442A /* ResearchKit-Release.xcconfig */;
 			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 			};
 			name = Release;
 		};

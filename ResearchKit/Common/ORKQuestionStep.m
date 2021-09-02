@@ -273,6 +273,11 @@ ORKQuestionStepPresentationStyle const ORKQuestionStepPresentationStylePlatter =
 }
 
 - (BOOL)isFormatFitsChoiceCells {
+    
+    if ([self formatRequiresSwiftUI]) {
+        return NO;
+    }
+    
 #if TARGET_OS_IOS
     return ((self.questionType == ORKQuestionTypeSingleChoice && ![self isFormatChoiceWithImageOptions] && ![self isFormatChoiceValuePicker]) ||
             (self.questionType == ORKQuestionTypeMultipleChoice && ![self isFormatChoiceWithImageOptions]) ||
@@ -287,6 +292,21 @@ ORKQuestionStepPresentationStyle const ORKQuestionStepPresentationStylePlatter =
 
 - (BOOL)formatRequiresTableView {
     return [self isFormatFitsChoiceCells];
+}
+
+- (BOOL)formatRequiresSwiftUI {
+    
+    if ([_answerFormat isKindOfClass:ORKTextChoiceAnswerFormat.class] && self.questionType != ORKQuestionTypeBoolean) {
+        ORKTextChoiceAnswerFormat *textChoiceAnswerFormat = (ORKTextChoiceAnswerFormat *)_answerFormat;
+        
+        for (ORKTextChoice* textChoice in textChoiceAnswerFormat.textChoices) {
+            if (textChoice.image != nil) {
+                return YES;
+            }
+        }
+    }
+    
+    return NO;
 }
 
 @end

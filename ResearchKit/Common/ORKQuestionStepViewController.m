@@ -65,6 +65,9 @@
 #import "ORKSkin.h"
 #import "ORKContext.h"
 
+#import <SwiftUI/SwiftUI.h>
+#import <ResearchKit/ResearchKit-Swift.h>
+
 
 typedef NS_ENUM(NSInteger, ORKQuestionSection) {
     ORKQuestionSectionAnswer = 0,
@@ -85,6 +88,7 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
     NSTimeZone *_savedSystemTimeZone;
     
     ORKTextChoiceCellGroup *_choiceCellGroup;
+    ORKQuestionStepSwiftUIViewHolder *_swiftUIViewHolder;
     ORKQuestionStepCellHolderView *_cellHolderView;
     
     id _defaultAnswer;
@@ -244,6 +248,53 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
                 _customQuestionView.delegate = self;
                 _customQuestionView.answer = [self answer];
                 _customQuestionView.userInteractionEnabled = !self.readOnlyMode;
+            } else if ([self.questionStep formatRequiresSwiftUI]) {
+                _swiftUIViewHolder = [ORKQuestionStepSwiftUIViewHolder new];
+                _swiftUIViewHolder.delegate = self;
+                
+                SwiftUIViewFactory *swiftUIViewFactory = [[SwiftUIViewFactory alloc] init];
+                [swiftUIViewFactory setAnswerDidUpdateClosure:^(id answer) {
+                    [self saveAnswer:answer];
+                }];
+                
+                _swiftUIViewHolder.swiftUIView = [swiftUIViewFactory makeSwiftUIViewWithAnswerFormat:self.answerFormat answer:[self answer]];
+                
+                _swiftUIViewHolder.answer = [self answer];
+                _swiftUIViewHolder.userInteractionEnabled = !self.readOnlyMode;
+                if (self.questionStep.useCardView) {
+                    if (@available(iOS 13.0, *)) {
+                        [_questionView setBackgroundColor:UIColor.systemGroupedBackgroundColor];
+                    } else {
+                        [_questionView setBackgroundColor:ORKColor(ORKBackgroundColorKey)];
+                    }
+                    [self.taskViewController setNavigationBarColor:[_questionView backgroundColor]];
+                    [self.view setBackgroundColor:[_questionView backgroundColor]];
+                    ORKLearnMoreView *learnMoreView;
+                    NSString *sectionProgressText = nil;
+                    
+                    if (self.step.showsProgress) {
+                        if ([self.delegate respondsToSelector:@selector(stepViewControllerTotalProgressInfoForStep:currentStep:)]) {
+                            ORKTaskTotalProgress progressInfo = [self.delegate stepViewControllerTotalProgressInfoForStep:self currentStep:self.step];
+                            if (progressInfo.stepShouldShowTotalProgress) {
+                                sectionProgressText = [NSString localizedStringWithFormat:ORKLocalizedString(@"FORM_ITEM_PROGRESS", nil) ,ORKLocalizedStringFromNumber(@(progressInfo.currentStepStartingProgressPosition)), ORKLocalizedStringFromNumber(@(progressInfo.total))];
+                            }
+                        }
+                    }
+                    
+                    if (self.questionStep.learnMoreItem) {
+                        learnMoreView = [ORKLearnMoreView learnMoreViewWithItem:self.questionStep.learnMoreItem];
+                        learnMoreView.delegate = self;
+                    }
+                    
+                    BOOL hasMultipleChoiceFormItem = NO;
+                    if (self.questionStep.impliedAnswerFormat != nil && self.questionStep.impliedAnswerFormat.questionType == ORKQuestionTypeMultipleChoice) {
+                        hasMultipleChoiceFormItem = YES;
+                    }
+                    
+                    [_swiftUIViewHolder useCardViewWithTitle:self.questionStep.question detailText:self.step.detailText learnMoreView:learnMoreView progressText:sectionProgressText tagText:self.questionStep.tagText hasMultipleChoiceFormItem:hasMultipleChoiceFormItem];
+                }
+                
+                _questionView.customContentView = _swiftUIViewHolder;
             } else {
                 _cellHolderView = [ORKQuestionStepCellHolderView new];
                 _cellHolderView.delegate = self;

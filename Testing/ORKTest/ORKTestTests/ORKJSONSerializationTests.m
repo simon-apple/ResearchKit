@@ -606,6 +606,8 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
                                           @"ORKTextChoice.detailTextAttributedString",
                                           @"ORKTextChoice.primaryTextAttributedString",
                                           @"ORKTextChoice.value",
+                                          @"ORKTextChoice.image",
+                                          @"ORKTextChoiceOther.image",
                                           @"ORKTimeIntervalAnswerFormat.defaultInterval",
                                           @"ORKTimeIntervalAnswerFormat.maximumInterval",
                                           @"ORKTimeIntervalAnswerFormat.step",

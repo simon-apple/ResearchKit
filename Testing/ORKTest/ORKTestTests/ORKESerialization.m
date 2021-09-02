@@ -1712,6 +1712,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(value, NSObject, NSObject, NO, nil, nil),
                     PROPERTY(detailText, NSString, NSObject, NO, nil, nil),
                     PROPERTY(exclusive, NSNumber, NSObject, NO, nil, nil),
+                    IMAGEPROPERTY(image, NSObject, YES)
                     })),
            ENTRY(ORKTextChoiceOther,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
