@@ -284,6 +284,17 @@ ORK_CLASS_AVAILABLE
 + (instancetype)choiceWithText:(NSString *)text value:(NSObject<NSCopying, NSSecureCoding> *)value;
 
 /**
+ Returns a choice object that includes the specified primary text.
+ 
+ @param text        The primary text that describes the choice in a localized string.
+ @param image       The image that will be presented to the left of the text provided.
+ @param value       The value to record in a result object when this item is selected. Only `NSString`, `NSNumber`, and `NSDate` values are supported.
+ 
+ @return A text choice instance.
+ */
++ (instancetype)choiceWithText:(NSString *)text image:(UIImage *)image value:(NSObject<NSCopying, NSSecureCoding> *)value;
+
+/**
  Returns an initialized text choice object using the specified primary text, detail text,
  and exclusivity.
  
@@ -357,6 +368,12 @@ ORK_CLASS_AVAILABLE
  text.
  */
 @property (copy, readonly, nullable) NSAttributedString *detailTextAttributedString;
+
+/**
+ The image that will be presented to the left of the text provided for the textChoice
+ */
+
+@property (strong, nullable) UIImage *image;
 
 /**
  In a multiple choice format, this indicates whether this choice requires all other choices to be

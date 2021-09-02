@@ -1118,6 +1118,13 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
     return [ORKTextChoice choiceWithText:text detailText:nil value:value exclusive:NO];
 }
 
++ (instancetype)choiceWithText:(NSString *)text image:(UIImage *)image value:(NSObject<NSCopying, NSSecureCoding> *)value {
+    ORKTextChoice *option = [ORKTextChoice choiceWithText:text detailText:nil value:value exclusive:NO];
+    option.image = image;
+    
+    return option;
+}
+
 - (instancetype)initWithText:(NSString *)text
                   detailText:(NSString *)detailText
                        value:(NSObject<NSCopying, NSSecureCoding> *)value
@@ -1184,6 +1191,7 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
             && ORKEqualObjects(self.detailText, castObject.detailText)
             && ORKEqualObjects(self.detailTextAttributedString, castObject.detailTextAttributedString)
             && ORKEqualObjects(self.value, castObject.value)
+            && ORKEqualObjects(self.image, castObject.image)
             && self.exclusive == castObject.exclusive);
 }
 
@@ -1201,6 +1209,7 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
         ORK_DECODE_OBJ_CLASS(aDecoder, detailTextAttributedString, NSAttributedString);
         ORK_DECODE_OBJ_CLASSES(aDecoder, value, ORKAllowableValueClasses());
         ORK_DECODE_BOOL(aDecoder, exclusive);
+        ORK_DECODE_IMAGE(aDecoder, image);
     }
     return self;
 }
@@ -1212,6 +1221,7 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
     ORK_ENCODE_OBJ(aCoder, detailTextAttributedString);
     ORK_ENCODE_OBJ(aCoder, value);
     ORK_ENCODE_BOOL(aCoder, exclusive);
+    ORK_ENCODE_IMAGE(aCoder, image);
 }
 
 - (BOOL)shouldShowDontKnowButton {
@@ -1307,7 +1317,8 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
             && self.exclusive == castObject.exclusive
             && ORKEqualObjects(self.textViewPlaceholderText, castObject.textViewPlaceholderText)
             && self.textViewInputOptional == castObject.textViewInputOptional
-            && self.textViewStartsHidden == castObject.textViewStartsHidden);
+            && self.textViewStartsHidden == castObject.textViewStartsHidden)
+            && ORKEqualObjects(self.image, castObject.image);
 }
 
 - (NSUInteger)hash {

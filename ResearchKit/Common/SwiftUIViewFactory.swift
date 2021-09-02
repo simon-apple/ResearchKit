@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, Apple Inc. All rights reserved.
+ Copyright (c) 2021, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,24 +28,37 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import Foundation
+import SwiftUI
 
-#import "ORKQuestionStep.h"
+@objc
+public class SwiftUIViewFactory: NSObject {
+    
+    @objc public var answerDidUpdateClosure: ((Any) -> Void)?
+    
+    @objc public func makeSwiftUIView(answerFormat: ORKAnswerFormat, answer: Any) -> UIView? {
+        
+        if #available(iOS 13.0, *) {
+            
+            // SwiftUI view for ORKTextChoiceAnswerFormat when atleast one of the textChoices has a image passed along with it
+            if let textChoiceAnswerFormat = answerFormat as? ORKTextChoiceAnswerFormat {
+                let textChoiceHelper = SwiftUITextChoiceHelper(answer: answer, answerFormat: textChoiceAnswerFormat)
+                var textChoiceView =  TextChoiceView(textChoiceHelper: textChoiceHelper)
+                textChoiceView.answerDidUpdateClosure = { answer in
 
+                    if let closure = self.answerDidUpdateClosure {
+                        closure(answer)
+                    }
+                }
 
-NS_ASSUME_NONNULL_BEGIN
+                let hostingController = UIHostingController(rootView: textChoiceView)
+                return hostingController.view
+            }
+            
+        }
+        
+        return nil
+    }
+    
+}
 
-@interface ORKQuestionStep ()
-
-- (BOOL)isFormatImmediateNavigation;
-- (BOOL)isFormatChoiceWithImageOptions;
-- (BOOL)isFormatFitsChoiceCells;
-- (BOOL)isFormatTextfield;
-
-- (BOOL)formatRequiresTableView;
-- (BOOL)formatRequiresSwiftUI;
-
-- (nullable ORKAnswerFormat *)impliedAnswerFormat;
-
-@end
-
-NS_ASSUME_NONNULL_END
