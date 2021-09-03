@@ -186,7 +186,7 @@ static NSString *scrollContentChangedNotification = @"scrollContentChanged";
         [self placeNavigationContainerView];
         _topContentImageShouldScroll = YES;
         _customContentTopPadding = ORKStepContainerTopCustomContentPaddingStandard;
-        [self setPinNavigationContainer:YES]; // Default behavior is to pin the navigation footer
+        _pinNavigationContainer = YES; // Default behavior is to pin the navigation footer
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(scrollContentChanged) name:scrollContentChangedNotification object:nil];
     }
     return self;
