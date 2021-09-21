@@ -69,10 +69,10 @@ internal struct TaskContentView<Content>: View where Content: View {
     private var taskManager: TaskManager
     
     @State
-    private var goNext: Bool = false
+    private var goNext = false
     
     @State
-    private var forceScrollToggle: Bool = false
+    private var forceScrollToggle = false
     
     private let index: Int
     
@@ -95,7 +95,7 @@ internal struct TaskContentView<Content>: View where Content: View {
     }
     
     @State
-    private var shouldScrollToCTA: Bool = false
+    private var shouldScrollToCTA = false
     
     func completion(_ complete: Bool) {
         

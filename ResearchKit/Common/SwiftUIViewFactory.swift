@@ -40,10 +40,12 @@ public class SwiftUIViewFactory: NSObject {
         
         if #available(iOS 13.0, *) {
             
-            // SwiftUI view for ORKTextChoiceAnswerFormat when atleast one of the textChoices has a image passed along with it
+            // SwiftUI view for ORKTextChoiceAnswerFormat when at least one of the textChoices
+            // has an image passed along with it
             if let textChoiceAnswerFormat = answerFormat as? ORKTextChoiceAnswerFormat {
-                let textChoiceHelper = SwiftUITextChoiceHelper(answer: answer, answerFormat: textChoiceAnswerFormat)
-                var textChoiceView =  TextChoiceView(textChoiceHelper: textChoiceHelper)
+                let textChoiceHelper = SwiftUITextChoiceHelper(answer: answer,
+                                                               answerFormat: textChoiceAnswerFormat)
+                var textChoiceView = TextChoiceView(textChoiceHelper: textChoiceHelper)
                 textChoiceView.answerDidUpdateClosure = { answer in
 
                     if let closure = self.answerDidUpdateClosure {
@@ -52,6 +54,7 @@ public class SwiftUIViewFactory: NSObject {
                 }
 
                 let hostingController = UIHostingController(rootView: textChoiceView)
+                hostingController.view.backgroundColor = .clear
                 return hostingController.view
             }
             
@@ -62,3 +65,41 @@ public class SwiftUIViewFactory: NSObject {
     
 }
 
+@available(iOS 13.0, *)
+struct WidthPreferenceKey: PreferenceKey {
+    static var defaultValue: CGFloat?
+
+    static func reduce(
+        value: inout CGFloat?,
+        nextValue: () -> CGFloat?
+    ) {
+        if value == nil {
+            value = nextValue()
+        }
+    }
+}
+
+@available(iOS 13.0, *)
+struct FullScreenModifier<V: View>: ViewModifier {
+    let isPresented: Binding<Bool>
+    let builder: () -> V
+
+    @ViewBuilder
+    func body(content: Content) -> some View {
+        if #available(iOS 14.0, *) {
+            content.fullScreenCover(isPresented: isPresented, content: builder)
+        } else {
+            content.sheet(isPresented: isPresented, content: builder)
+        }
+    }
+}
+
+@available(iOS 13.0, *)
+extension View {
+    // swiftlint:disable line_length
+    func compatibleFullScreen<Content: View>(isPresented: Binding<Bool>,
+                                             @ViewBuilder content: @escaping () -> Content) -> some View {
+        // swiftlint:enable line_length
+        self.modifier(FullScreenModifier(isPresented: isPresented, builder: content))
+    }
+}

@@ -16,13 +16,11 @@ cyclomatic_complexity:
     warning: 35
     error: 40
 
-trailing_whitespace:
-    ignores_empty_lines: true
-
 # paths to include during linting. `--path` is ignored if present.
 included:
   - ResearchKitUI
   - ResearchKitUI/StepViews
+  - ResearchKit
 
 excluded:
   - build
@@ -89,7 +87,6 @@ opt_in_rules:
   - unneeded_parentheses_in_closure_argument
   - untyped_error_in_catch
   - unused_import
-  - unused_private_declaration
   - vertical_parameter_alignment_on_call
   - xct_specific_matcher
   - xctfail_message
