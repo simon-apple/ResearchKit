@@ -31,10 +31,10 @@
 import Foundation
 import SwiftUI
 
-//swiftlint:disable line_length
+// swiftlint:disable line_length
 // Support ScrollViewReader for only the software that supports it without having to duplicate the view hierarchy.
 // Abstract unavailable APIs behind a protocol to get support in watchOS 7.0 devices.
-//swiftlint:enable line_length
+// swiftlint:enable line_length
 
 protocol ScrollViewProxyProtocol {
     

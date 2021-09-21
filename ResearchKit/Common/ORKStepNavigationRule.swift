@@ -31,14 +31,21 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 import ResearchKit_Private
 
 public extension ORKPredicateStepNavigationRule {
-
-    convenience init(resultPredicatesAndDestinationStepIdentifiers tuples: [ (resultPredicate: NSPredicate, destinationStepIdentifier: String) ], defaultStepIdentifierOrNil: String? = nil ) {
+    
+    // swiftlint:disable line_length
+    convenience init(resultPredicatesAndDestinationStepIdentifiers tuples: [ (resultPredicate: NSPredicate,
+                                                                              destinationStepIdentifier: String) ],
+                     defaultStepIdentifierOrNil: String? = nil ) {
+        // swiftlint:enable line_length
         var resultPredicates: [NSPredicate] = []
         var destinationStepIdentifiers: [String] = []
         for tuple in tuples {
             resultPredicates.append(tuple.resultPredicate)
             destinationStepIdentifiers.append(tuple.destinationStepIdentifier)
         }
-        self.init(resultPredicates: resultPredicates, destinationStepIdentifiers: destinationStepIdentifiers, defaultStepIdentifier: defaultStepIdentifierOrNil, validateArrays: true)
+        self.init(resultPredicates: resultPredicates,
+                  destinationStepIdentifiers: destinationStepIdentifiers,
+                  defaultStepIdentifier: defaultStepIdentifierOrNil,
+                  validateArrays: true)
     }
 }

@@ -39,10 +39,10 @@ struct TextChoiceView: View {
     @State private var width: CGFloat?
     
     var body: some View {
-        VStack() {
+        VStack {
             ForEach(textChoiceHelper.swiftUItextChoices) { textChoice in
                 let selected = textChoiceHelper.selectedIndexes.contains(textChoice.index)
-                let isLast = textChoice.index == textChoiceHelper.size - 1;
+                let isLast = textChoice.index == textChoiceHelper.size - 1
                 
                 VStack {
                     TextChoiceRow(text: textChoice.text,
@@ -53,9 +53,10 @@ struct TextChoiceView: View {
                                   isLast: isLast,
                                   width: width)
                     
-                    if (!isLast) {
+                    if !isLast {
                         Divider()
-                            .padding(.leading, getDividerPadding(imagePresent: textChoice.image != nil))
+                            .padding(.leading,
+                                     getDividerPadding(imagePresent: textChoice.image != nil))
                     }
                 }
             }
@@ -95,71 +96,87 @@ struct TextChoiceView: View {
         
         return dividerPadding
     }
-}
-
-@available(iOS 13.0, *)
-struct TextChoiceRow: View {
-    var text: String
-    var image: UIImage?
-    var buttonTapped: (Int) -> Void
-    var index: Int
-    var selected: Bool
-    var isLast: Bool
-    var width: CGFloat?
-    @State private var isPresented = false
     
-    var body: some View {
-        Button(action: {
-            buttonTapped(index)
-        }) {
-            HStack {
-                
-                if let img = image {
-                    Image(uiImage: img)
+    private struct TextChoiceRow: View {
+        var text: String
+        var image: UIImage?
+        var buttonTapped: (Int) -> Void
+        var index: Int
+        var selected: Bool
+        var isLast: Bool
+        var width: CGFloat?
+        @State private var isPresented = false
+        
+        var body: some View {
+            Button(action: {
+                buttonTapped(index)
+            }) {
+                HStack {
+                    
+                    if let img = image {
+                        Image(uiImage: img)
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: width.map { $0 * 0.30 })
+                            .overlay(RoundedRectangle(cornerRadius: 6).stroke(Color.clear,
+                                                                              lineWidth: 1))
+                            .overlay(ExpandImageOverlay().padding([.leading, .top],
+                                                                  5),
+                                     alignment: .topLeading)
+                            .shadow(radius: 6, x: 1, y: 1)
+                            .padding([.trailing], 16)
+                            .compatibleFullScreen(isPresented: $isPresented) {
+                                TextChoiceImageFullView(isPresented: $isPresented,
+                                                        text: text,
+                                                        image: img)
+                            }
+                            .onTapGesture {
+                                isPresented.toggle()
+                            }
+                    }
+                    
+                    Text(text)
+                        .foregroundColor(Color(.label))
+                        .font(.system(.subheadline))
+                        .fontWeight(.light)
+                        .fixedSize(horizontal: false, vertical: true)
+                    
+                    Spacer()
+
+                    Image(systemName: selected ?  "checkmark.circle.fill" : "circle")
                         .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: width.map { $0 * 0.30 })
-                        .overlay(RoundedRectangle(cornerRadius: 6).stroke(Color.clear, lineWidth: 1))
-                        .shadow(radius: 6, x: 1, y: 1)
-                        .padding([.trailing], 16)
-                        .compatibleFullScreen(isPresented: $isPresented) {
-                            TextChoiceImageFullView(isPresented: $isPresented, text: text, image: img)
-                        }
-                        .onTapGesture {
-                            isPresented.toggle()
-                        }
+                        .frame(width: 25, height: 25)
+                        .foregroundColor( selected ? Color(.systemBlue) : Color(.systemGray3))
+                    
                 }
-                
-                Text(text)
-                    .foregroundColor(Color.init(.label))
-                    .font(.system(.subheadline))
-                    .fontWeight(.light)
-                
-                Spacer()
-                
-                Image(systemName: selected ?  "checkmark.circle.fill" : "circle")
-                    .resizable()
-                    .frame(width: 25, height: 25)
-                    .foregroundColor( selected ? Color.init(UIColor.systemBlue) : Color.init(UIColor.systemGray3))
-                
+                .padding([.leading, .trailing], 20)
+                .padding([.top, .bottom], 12)
             }
-            .padding([.leading, .trailing], 20)
-            .padding([.top, .bottom], 12)
+        }
+
+    }
+    
+    private struct ExpandImageOverlay: View {
+        var body: some View {
+            ZStack {
+                Image(systemName: "arrow.up.left.and.arrow.down.right")
+                    .resizable()
+                    .frame(width: 15, height: 15)
+                    .foregroundColor(Color(.gray))
+            }
+            .padding([.leading, .top, .bottom, .trailing], 5)
+            .background(Color(.lightGray).opacity(0.4))
+            .cornerRadius(5.0)
         }
     }
-}
-
-@available(iOS 13.0, *)
-struct TextChoiceImageFullView: View {
-    @Binding var isPresented: Bool
-    var text: String
-    var image: UIImage
     
-    var body: some View {
-        NavigationView {
-            ZStack {
-                Color.black
-                
+    private struct TextChoiceImageFullView: View {
+        @Binding var isPresented: Bool
+        var text: String
+        var image: UIImage
+        
+        var body: some View {
+            NavigationView {
                 VStack {
                     Spacer()
                     
@@ -167,44 +184,45 @@ struct TextChoiceImageFullView: View {
                     
                     Spacer()
                     
-                    HStack {
-                        Text(text)
-                    }
-                    .frame(maxWidth: .infinity, minHeight: 100)
-                    .accentColor(.white)
-                    .background(Color.gray.opacity(0.23))
+                    Text(text)
+                        .multilineTextAlignment(.center)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .padding()
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity, minHeight: 100)
+                        .background(
+                            Color.gray.opacity(0.23).edgesIgnoringSafeArea(.bottom)
+                        )
                 }
+                .background(Color.black)
+                .edgesIgnoringSafeArea([.bottom, .top])
+                .modifier(
+                    CompatibleNavigationBarItems(
+                        trailingContent: {
+                            Button(action: {
+                                isPresented.toggle()
+                            }) {
+                                Text("Done")
+                            }
+                            .foregroundColor(.blue)
+                            
+                        }
+                    )
+                )
             }
-            .edgesIgnoringSafeArea([.bottom, .top])
-            
-            .navigationBarItems(trailing:
-                                    Button(action: {
-                                        isPresented.toggle()
-                                    }) {
-                                        Text("Done")
-                                    }
-                                    .foregroundColor(.blue)
-            )
         }
+        
     }
     
 }
 
 @available(iOS 13.0, *)
-struct SwiftUITextChoice: Identifiable {
-    var id: String
-    var text: String
-    var image: UIImage?
-    var index: Int
-}
-
-@available(iOS 13.0, *)
 class SwiftUITextChoiceHelper: ObservableObject {
-    var textChoices = [ORKTextChoice]()
-    var swiftUItextChoices = [SwiftUITextChoice]()
     var answer: Any
-    var answerFormat: ORKTextChoiceAnswerFormat
-    var size: Int
+    let answerFormat: ORKTextChoiceAnswerFormat
+    let textChoices: [ORKTextChoice]
+    let size: Int
+    fileprivate var swiftUItextChoices = [SwiftUITextChoice]()
     
     @Published var selectedIndexes = [Int]()
     
@@ -219,13 +237,13 @@ class SwiftUITextChoiceHelper: ObservableObject {
     
     func didSelectRowAtIndex(index: Int) {
         
-        if (!selectedIndexes.contains(index)) {
+        if !selectedIndexes.contains(index) {
             
-            if (answerFormat.style == .singleChoice) {
+            if answerFormat.style == .singleChoice {
                 selectedIndexes.removeAll()
             }
             selectedIndexes.append(index)
-        } else if (answerFormat.style == .multipleChoice) {
+        } else if answerFormat.style == .multipleChoice {
             selectedIndexes = selectedIndexes.filter { $0 != index }
         }
         
@@ -248,7 +266,10 @@ class SwiftUITextChoiceHelper: ObservableObject {
         
         for (index, textChoice) in textChoices.enumerated() {
             let choiceID = "\(textChoice.text)-\(DateFormatter().string(from: Date()))"
-            arr.append(SwiftUITextChoice(id: choiceID, text: textChoice.text, image: textChoice.image, index: index))
+            arr.append(SwiftUITextChoice(id: choiceID,
+                                         text: textChoice.text,
+                                         image: textChoice.image,
+                                         index: index))
         }
         
         swiftUItextChoices = arr
@@ -256,37 +277,61 @@ class SwiftUITextChoiceHelper: ObservableObject {
 }
 
 @available(iOS 13.0, *)
-struct WidthPreferenceKey: PreferenceKey {
-    static var defaultValue: CGFloat?
-
-    static func reduce(
-        value: inout CGFloat?,
-        nextValue: () -> CGFloat?
-    ) {
-        if value == nil {
-            value = nextValue()
-        }
-    }
+private struct SwiftUITextChoice: Identifiable {
+    var id: String
+    var text: String
+    var image: UIImage?
+    var index: Int
 }
 
 @available(iOS 13.0, *)
-struct FullScreenModifier<V: View>: ViewModifier {
-    let isPresented: Binding<Bool>
-    let builder: () -> V
+private struct CompatibleNavigationBarItems<
+    LeadingContent: View,
+    TrailingContent: View
+>: ViewModifier {
+
+    private let leadingContent: LeadingContent
+    private let trailingContent: TrailingContent
+
+    init(
+        @ViewBuilder leadingContent: () -> LeadingContent,
+        @ViewBuilder trailingContent: () -> TrailingContent
+    ) {
+        self.leadingContent = leadingContent()
+        self.trailingContent = trailingContent()
+    }
 
     @ViewBuilder
     func body(content: Content) -> some View {
-        if #available(iOS 14.0, *) {
-            content.fullScreenCover(isPresented: isPresented, content: builder)
+        if #available(iOS 14, *) {
+            content.toolbar {
+                ToolbarItem(placement: .navigationBarLeading) { leadingContent }
+                ToolbarItem(placement: .navigationBarTrailing) { trailingContent }
+            }
         } else {
-            content.sheet(isPresented: isPresented, content: builder)
+            content.navigationBarItems(leading: leadingContent, trailing: trailingContent)
         }
     }
 }
 
 @available(iOS 13.0, *)
-extension View {
-    func compatibleFullScreen<Content: View>(isPresented: Binding<Bool>, @ViewBuilder content: @escaping () -> Content) -> some View {
-        self.modifier(FullScreenModifier(isPresented: isPresented, builder: content))
+extension CompatibleNavigationBarItems where LeadingContent == EmptyView {
+
+    init(@ViewBuilder trailingContent: () -> TrailingContent) {
+        self.init(
+            leadingContent: { EmptyView() },
+            trailingContent: trailingContent
+        )
+    }
+}
+
+@available(iOS 13.0, *)
+extension CompatibleNavigationBarItems where TrailingContent == EmptyView {
+
+    init(@ViewBuilder leadingContent: () -> LeadingContent) {
+        self.init(
+            leadingContent: leadingContent,
+            trailingContent: { EmptyView() }
+        )
     }
 }

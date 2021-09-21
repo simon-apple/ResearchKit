@@ -113,10 +113,10 @@ internal extension TaskManager {
 
 internal extension TaskManager {
     
-    //swiftlint:disable line_length
+    // swiftlint:disable line_length
     // Since we are supporting watchOS 6.0, we do not have access to use @StateObject (watchOS 7.0 +) to support views having thier own models.
     // Instead, we opt to use the TaskManager as the source of truth, and therefore supply the views with a view model.
-    //swiftlint:enable line_length
+    // swiftlint:enable line_length
     
     func viewModelForStep(_ step: ORKStep) -> ViewModel {
         

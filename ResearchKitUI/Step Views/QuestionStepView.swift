@@ -33,7 +33,7 @@ import SwiftUI
 
 struct TextChoiceCell: View {
     
-    private var selected: Bool = false
+    private var selected = false
     
     var title: String
     
