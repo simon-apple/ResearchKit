@@ -186,7 +186,8 @@ static NSString *scrollContentChangedNotification = @"scrollContentChanged";
         [self placeNavigationContainerView];
         _topContentImageShouldScroll = YES;
         _customContentTopPadding = ORKStepContainerTopCustomContentPaddingStandard;
-        _pinNavigationContainer = YES; // Default behavior is to pin the navigation footer
+        [self setPinNavigationContainer:YES]; // Default behavior is to pin the navigation footer
+
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(scrollContentChanged) name:scrollContentChangedNotification object:nil];
     }
     return self;
@@ -504,14 +505,20 @@ static NSString *scrollContentChangedNotification = @"scrollContentChanged";
 - (void)updateNavigationContainerViewTopConstraint {
     BOOL shouldScrollNavigationContainer = (self.isNavigationContainerScrollable || !_pinNavigationContainer);
     if (self.navigationFooterView && shouldScrollNavigationContainer) {
-        if (_navigationContainerViewTopConstraint) {
-            [NSLayoutConstraint deactivateConstraints:@[_navigationContainerViewTopConstraint]];
-            if ([_updatedConstraints containsObject:_navigationContainerViewTopConstraint]) {
-                [_updatedConstraints removeObject:_navigationContainerViewTopConstraint];
-            }
-        }
+        [self removeNavigationContainerViewTopConstraint];
         [self setupNavigationContainerViewTopConstraint];
         [_updatedConstraints addObject:_navigationContainerViewTopConstraint];
+    } else  {
+        [self removeNavigationContainerViewTopConstraint];
+    }
+}
+
+- (void)removeNavigationContainerViewTopConstraint {
+    if (_navigationContainerViewTopConstraint) {
+        [NSLayoutConstraint deactivateConstraints:@[_navigationContainerViewTopConstraint]];
+        if ([_updatedConstraints containsObject:_navigationContainerViewTopConstraint]) {
+            [_updatedConstraints removeObject:_navigationContainerViewTopConstraint];
+        }
     }
 }
 
