@@ -252,6 +252,11 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
                 _swiftUIViewHolder = [ORKQuestionStepSwiftUIViewHolder new];
                 _swiftUIViewHolder.delegate = self;
                 
+                // unpin navigationFooter if the answerFormat is of type ORKTextChoiceAnswerFormat
+                if ([_answerFormat isKindOfClass:ORKTextChoiceAnswerFormat.class]) {
+                    [_questionView setPinNavigationContainer:NO];
+                }
+                
                 SwiftUIViewFactory *swiftUIViewFactory = [[SwiftUIViewFactory alloc] init];
                 [swiftUIViewFactory setAnswerDidUpdateClosure:^(id answer) {
                     [self saveAnswer:answer];
