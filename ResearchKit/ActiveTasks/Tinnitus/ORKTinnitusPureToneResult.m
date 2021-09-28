@@ -104,7 +104,7 @@
     if (self) {
         ORK_DECODE_DOUBLE(aDecoder, chosenFrequency);
         ORK_DECODE_DOUBLE(aDecoder, elapsedTime);
-        ORK_DECODE_OBJ_CLASS(aDecoder, availableFrequencies, NSArray);
+        ORK_DECODE_OBJ_ARRAY(aDecoder, availableFrequencies, NSNumber);
     }
     return self;
 }
