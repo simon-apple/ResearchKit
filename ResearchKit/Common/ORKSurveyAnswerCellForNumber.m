@@ -187,7 +187,7 @@ static const CGFloat DontKnowButtonTopBottomPadding = 16.0;
         [[_dividerView.topAnchor constraintEqualToAnchor:_errorLabel.bottomAnchor constant:ErrorLabelBottomPadding] setActive:YES];
         [[_dividerView.leftAnchor constraintEqualToAnchor:self.leftAnchor] setActive:YES];
         [[_dividerView.rightAnchor constraintEqualToAnchor:self.rightAnchor] setActive:YES];
-        [[_dividerView.heightAnchor constraintGreaterThanOrEqualToConstant:separatorHeight] setActive:YES];
+        [[_dividerView.heightAnchor constraintEqualToConstant:separatorHeight] setActive:YES];
 
         [[_dontKnowButton.topAnchor constraintEqualToAnchor:_dividerView.bottomAnchor constant:DontKnowButtonTopBottomPadding] setActive:YES];
         [[_dontKnowButton.centerXAnchor constraintEqualToAnchor:self.centerXAnchor] setActive:YES];
