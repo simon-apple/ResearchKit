@@ -85,6 +85,7 @@ static const CGFloat ORKStepContentIconImageViewToTitleLabelPadding = 15.0;
 static const CGFloat ORKStepContentIconToBodyTopPaddingStandard = 20.0;
 static const CGFloat ORKStepContentIconToBulletTopPaddingStandard = 20.0;
 static const CGFloat ORKStepContentTagPaddingTop = 15.0;
+static const CGFloat ORKStepContentBottomPadding = 35.0;
 
 typedef NS_CLOSED_ENUM(NSInteger, ORKUpdateConstraintSequence) {
     ORKUpdateConstraintSequenceTopContentImageView = 0,
@@ -1032,41 +1033,38 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKUpdateConstraintSequence) {
 - (void)setStepContentViewBottomConstraint {
     id bottomItem;
     NSLayoutAttribute attribute;
-    CGFloat constant;
+    CGFloat constant = 0.0;
+    
+    if (@available(iOS 15, *)) {
+        constant += ORKStepContentBottomPadding;
+    }
     
     if (_centeredVerticallyImageView) {
         bottomItem = _centeredVerticallyImageView;
         attribute = NSLayoutAttributeBottom;
-        constant = 0.0;
     } else if (_bodyContainerView) {
         bottomItem = _bodyContainerView;
         attribute = NSLayoutAttributeBottom;
-        constant = 0.0;
     }
     else if (_detailTextLabel && ![_stepDetailText isEqualToString:@""]) {
         bottomItem = _detailTextLabel;
         attribute = NSLayoutAttributeBottom;
-        constant = 0.0;
     }
     else if (_textLabel && ![_stepText isEqualToString:@""]) {
         bottomItem = _textLabel;
         attribute = NSLayoutAttributeBottom;
-        constant = 0.0;
     }
     else if (_titleLabel) {
         bottomItem = _titleLabel;
         attribute = NSLayoutAttributeBottom;
-        constant = 0.0;
     }
     else if (_iconImageView) {
         bottomItem = _iconImageView;
         attribute = NSLayoutAttributeBottom;
-        constant = 0.0;
     }
     else {
         bottomItem = nil;
         attribute = NSLayoutAttributeNotAnAttribute;
-        constant = 0.0;
     }
     
     _stepContentBottomConstraint = [NSLayoutConstraint constraintWithItem:self
