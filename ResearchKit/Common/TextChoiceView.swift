@@ -95,49 +95,54 @@ struct TextChoiceView: View {
         @State private var isPresented = false
         
         var body: some View {
-            Button(action: {
-                buttonTapped(index)
-            }) {
-                HStack {
-                    
-                    if let img = image {
-                        Image(uiImage: img)
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: imageWidth) // TODO: research stable path to fetch width of view in realtime
-                            .overlay(RoundedRectangle(cornerRadius: 6).stroke(Color.clear,
-                                                                              lineWidth: 1))
-                            .overlay(ExpandImageOverlay().padding([.leading, .top],
-                                                                  5),
-                                     alignment: .topLeading)
-                            .shadow(radius: 6, x: 1, y: 1)
-                            .padding([.trailing], 16)
-                            .compatibleFullScreen(isPresented: $isPresented) {
-                                TextChoiceImageFullView(isPresented: $isPresented,
-                                                        text: text,
-                                                        image: img)
-                            }
-                            .onTapGesture {
-                                isPresented.toggle()
-                            }
-                    }
-                    
-                    Text(text)
-                        .foregroundColor(Color(.label))
-                        .font(.system(.subheadline))
-                        .fontWeight(.light)
-                        .fixedSize(horizontal: false, vertical: true)
-                    
-                    Spacer()
-
-                    Image(systemName: selected ?  "checkmark.circle.fill" : "circle")
+            HStack {
+                
+                if let img = image {
+                    Image(uiImage: img)
                         .resizable()
-                        .frame(width: 25, height: 25)
-                        .foregroundColor( selected ? Color(.systemBlue) : Color(.systemGray3))
-                    
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 115) // TODO: research stable path to fetch width of view in realtime
+                        .overlay(RoundedRectangle(cornerRadius: 6).stroke(Color.clear,
+                                                                          lineWidth: 1))
+                        .overlay(ExpandImageOverlay().padding([.leading, .top],
+                                                              5),
+                                 alignment: .topLeading)
+                        .shadow(radius: 6, x: 1, y: 1)
+                        .padding([.trailing], 16)
+                        .padding([.leading], 20)
+                        .padding([.top, .bottom], 12)
+                        .compatibleFullScreen(isPresented: $isPresented) {
+                            TextChoiceImageFullView(isPresented: $isPresented,
+                                                    text: text,
+                                                    image: img)
+                        }
+                        .onTapGesture {
+                            isPresented.toggle()
+                        }
                 }
-                .padding([.leading, .trailing], 20)
-                .padding([.top, .bottom], 12)
+                
+                Button(action: {
+                    buttonTapped(index)
+                }) {
+                    HStack {
+                        
+                        Text(text)
+                            .foregroundColor(Color(.label))
+                            .font(.system(.subheadline))
+                            .fontWeight(.light)
+                            .fixedSize(horizontal: false, vertical: true)
+                        
+                        Spacer()
+
+                        Image(systemName: selected ?  "checkmark.circle.fill" : "circle")
+                            .resizable()
+                            .frame(width: 25, height: 25)
+                            .foregroundColor( selected ? Color(.systemBlue) : Color(.systemGray3))
+
+                    }
+                    .padding([.trailing], 20)
+                    .padding([.top, .bottom], 12)
+                }
             }
         }
 
