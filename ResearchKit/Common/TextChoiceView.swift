@@ -36,48 +36,36 @@ struct TextChoiceView: View {
     
     var answerDidUpdateClosure: ((Any) -> Void)?
     
-    @State private var width: CGFloat?
+    private let imageWidth: CGFloat = 115.0
     
     var body: some View {
         VStack {
-            ForEach(textChoiceHelper.swiftUItextChoices) { textChoice in
-                let selected = textChoiceHelper.selectedIndexes.contains(textChoice.index)
-                let isLast = textChoice.index == textChoiceHelper.size - 1
-                
-                VStack {
-                    TextChoiceRow(text: textChoice.text,
-                                  image: textChoice.image,
-                                  buttonTapped: buttonTapped(_:),
-                                  index: textChoice.index,
-                                  selected: selected,
-                                  isLast: isLast,
-                                  width: width)
+            ScrollView {
+                ForEach(textChoiceHelper.swiftUItextChoices) { textChoice in
+                    let selected = textChoiceHelper.selectedIndexes.contains(textChoice.index)
+                    let isLast = textChoice.index == textChoiceHelper.size - 1
                     
-                    if !isLast {
-                        Divider()
-                            .padding(.leading,
-                                     getDividerPadding(imagePresent: textChoice.image != nil))
+                    VStack {
+                        TextChoiceRow(text: textChoice.text,
+                                      image: textChoice.image,
+                                      buttonTapped: buttonTapped(_:),
+                                      index: textChoice.index,
+                                      selected: selected,
+                                      isLast: isLast,
+                                      imageWidth: imageWidth)
+                        
+                        if !isLast {
+                            Divider()
+                                .padding(.leading,
+                                         getDividerPadding(imagePresent: textChoice.image != nil))
+                        }
                     }
                 }
             }
         }
-        .background(
-                    GeometryReader { geo in
-                        Color.clear
-                            .preference(
-                                key: WidthPreferenceKey.self,
-                                value: geo.size.width
-                            )
-                    }
-                )
-                .onPreferenceChange(
-                    WidthPreferenceKey.self,
-                    perform: { geoWidth in
-                        self.width = geoWidth
-                    }
-                )
+        .background(Color.clear)
     }
-     
+    
     private func buttonTapped(_ index: Int) {
         
         if let closure = answerDidUpdateClosure {
@@ -89,10 +77,8 @@ struct TextChoiceView: View {
     
     private func getDividerPadding(imagePresent: Bool) -> CGFloat {
         var dividerPadding: CGFloat = 20
+        dividerPadding += (imageWidth + 16)
         
-        if let geoWidth = width, imagePresent {
-            dividerPadding += ((geoWidth * 0.30) + 16)
-        }
         
         return dividerPadding
     }
@@ -104,7 +90,8 @@ struct TextChoiceView: View {
         var index: Int
         var selected: Bool
         var isLast: Bool
-        var width: CGFloat?
+        var imageWidth: CGFloat
+
         @State private var isPresented = false
         
         var body: some View {
@@ -117,7 +104,7 @@ struct TextChoiceView: View {
                         Image(uiImage: img)
                             .resizable()
                             .aspectRatio(contentMode: .fill)
-                            .frame(width: width.map { $0 * 0.30 })
+                            .frame(width: imageWidth) // TODO: research stable path to fetch width of view in realtime
                             .overlay(RoundedRectangle(cornerRadius: 6).stroke(Color.clear,
                                                                               lineWidth: 1))
                             .overlay(ExpandImageOverlay().padding([.leading, .top],
