@@ -98,8 +98,10 @@ static const uint32_t IconDarkTintColor = 0x00A36C;
             [self setState:ORKRequestPermissionsButtonStateDefault canContinue:NO];
             break;
 
-        case kCLAuthorizationStatusAuthorizedAlways:
         case kCLAuthorizationStatusAuthorizedWhenInUse:
+            [self.locationManager requestAlwaysAuthorization];
+
+        case kCLAuthorizationStatusAuthorizedAlways:
         case kCLAuthorizationStatusRestricted:
         case kCLAuthorizationStatusDenied:
             [self setState:ORKRequestPermissionsButtonStateConnected canContinue:YES];
@@ -113,7 +115,7 @@ static const uint32_t IconDarkTintColor = 0x00A36C;
 
 // Request for always permission.
 - (void)requestPermissionButtonPressed {
-    [self.locationManager requestAlwaysAuthorization];
+    [self.locationManager requestWhenInUseAuthorization];
 }
 
 - (void)setState:(ORKRequestPermissionsButtonState)state canContinue:(BOOL)canContinue {
