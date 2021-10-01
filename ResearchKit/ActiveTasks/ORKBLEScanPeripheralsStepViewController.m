@@ -186,19 +186,12 @@ API_AVAILABLE(ios(13.0))
         
     if (self.tableView == nil) {
         self.tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+        [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:ORKBLEScanCellReuseIdentifier];
     }
-    
+
     self.stepView.customContentView = self.tableView;
-    self.stepView.customContentFillsAvailableSpace = NO;
+    self.stepView.customContentFillsAvailableSpace = YES;
     
-    self.tableView.translatesAutoresizingMaskIntoConstraints = NO;
-    // TODO: Make this more robust.
-    [NSLayoutConstraint activateConstraints:@[
-        [self.tableView.leftAnchor constraintEqualToAnchor:self.stepView.leftAnchor],
-        [self.tableView.rightAnchor constraintEqualToAnchor:self.stepView.rightAnchor]
-    ]];
-    
-    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:ORKBLEScanCellReuseIdentifier];
     if (@available(iOS 13.0, *)) {
         self.dataSource = [self diffableDataSource];
     }
