@@ -102,11 +102,6 @@ struct TextChoiceView: View {
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 115) // TODO: research stable path to fetch width of view in realtime
-                        .overlay(RoundedRectangle(cornerRadius: 6).stroke(Color.clear,
-                                                                          lineWidth: 1))
-                        .overlay(ExpandImageOverlay().padding([.leading, .top],
-                                                              5),
-                                 alignment: .topLeading)
                         .shadow(radius: 6, x: 1, y: 1)
                         .padding([.trailing], 16)
                         .padding([.leading], 20)
@@ -115,9 +110,6 @@ struct TextChoiceView: View {
                             TextChoiceImageFullView(isPresented: $isPresented,
                                                     text: text,
                                                     image: img)
-                        }
-                        .onTapGesture {
-                            isPresented.toggle()
                         }
                 }
                 
