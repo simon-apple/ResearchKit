@@ -94,6 +94,8 @@ struct TextChoiceView: View {
 
         @State private var isPresented = false
         
+        private let rowLeadingPadding: CGFloat = 20
+        
         var body: some View {
             HStack {
                 
@@ -109,7 +111,7 @@ struct TextChoiceView: View {
                                  alignment: .topLeading)
                         .shadow(radius: 6, x: 1, y: 1)
                         .padding([.trailing], 16)
-                        .padding([.leading], 20)
+                        .padding([.leading], rowLeadingPadding)
                         .padding([.top, .bottom], 12)
                         .compatibleFullScreen(isPresented: $isPresented) {
                             TextChoiceImageFullView(isPresented: $isPresented,
@@ -140,12 +142,13 @@ struct TextChoiceView: View {
                             .foregroundColor( selected ? Color(.systemBlue) : Color(.systemGray3))
 
                     }
+                    .padding([.leading], self.image != nil ? 0 : rowLeadingPadding)
                     .padding([.trailing], 20)
                     .padding([.top, .bottom], 12)
                 }
             }
         }
-
+        
     }
     
     private struct ExpandImageOverlay: View {
