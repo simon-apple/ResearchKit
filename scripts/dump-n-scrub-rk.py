@@ -140,7 +140,7 @@ if __name__ == "__main__":
     for file in files_to_delete:
         print(f"File to be scrubbed: {file.path}")
 
-    pbx_file = File("../ResearchKit/ResearchKit.xcodeproj/project.pbxproj")
+    pbx_file = File("../ResearchKit.xcodeproj/project.pbxproj")
     for f in files_to_delete:
         pbx_file.remove_lines_containing(f.name)
 
