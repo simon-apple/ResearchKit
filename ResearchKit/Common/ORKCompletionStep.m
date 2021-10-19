@@ -35,6 +35,9 @@
 #endif
 #import "ORKHelpers_Internal.h"
 
+//start-omit-internal-code
+ORKCompletionStepIdentifier const ORKCompletionStepIdentifierMicrophoneLearnMore = @"ORKCompletionStepIdentifierMicrophoneLearnMore";
+//end-omit-internal-code
 
 @implementation ORKCompletionStep
 #if TARGET_OS_IOS

@@ -61,6 +61,7 @@
 "TINNITUS_MASKING_VOLUME_CALIBRATION_TEXT" = "Listen to the sample and move the slider to find the minimum volume required to mask the tinnitus you are experiencing.";
 "CONTEXT_MICROPHONE_REQUIRED_TITLE" = "This Test Requires Access To The Microphone";
 "CONTEXT_MICROPHONE_REQUIRED_TEXT" = "You can take the task again when you give access.";
+"OPEN_MICROPHONE_SETTINGS" = "Enable Access in Settings";
 
 /* BLE */
 "BLE_UNABLE_TO_SCAN_TITLE" = "Unable to Scan";
@@ -152,3 +153,4 @@
 /* Request Location Permission Step */
 "REQUEST_LOCATION_DATA_STEP_VIEW_TITLE" = "Location Data";
 "REQUEST_LOCATION_DATA_STEP_VIEW_DESCRIPTION" = "The study is requesting access to location data from your device.";
+
