@@ -71,6 +71,24 @@
         step.text = ORKLocalizedString(@"CONTEXT_MICROPHONE_REQUIRED_TEXT", nil);
         step.optional = NO;
         step.reasonForCompletion = ORKTaskViewControllerFinishReasonDiscarded;
+        
+        if (@available(iOS 13.0, *)) {
+            step.iconImage = [UIImage systemImageNamed:@"mic.slash"];
+        }
+        //start-omit-internal-code
+        ORKLearnMoreInstructionStep *learnMoreInstructionStep = [[ORKLearnMoreInstructionStep alloc] initWithIdentifier:ORKCompletionStepIdentifierMicrophoneLearnMore];
+        ORKLearnMoreItem *learnMoreItem = [[ORKLearnMoreItem alloc]
+                                           initWithText:ORKLocalizedString(@"OPEN_MICROPHONE_SETTINGS", nil)
+                                           learnMoreInstructionStep:learnMoreInstructionStep];
+        
+        ORKBodyItem *settingsLinkBodyItem = [[ORKBodyItem alloc] initWithText:nil
+                                                                   detailText:nil
+                                                                        image:nil
+                                                                learnMoreItem:learnMoreItem
+                                                                bodyItemStyle:ORKBodyItemStyleText];
+        
+        step.bodyItems = @[settingsLinkBodyItem];
+        //end-omit-internal-code
         [currentTask addStep:step];
         
         ORKDirectStepNavigationRule *endNavigationRule = [[ORKDirectStepNavigationRule alloc] initWithDestinationStepIdentifier:ORKNullStepIdentifier];

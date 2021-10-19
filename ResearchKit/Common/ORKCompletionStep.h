@@ -40,6 +40,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+//start-omit-internal-code
+typedef NSString *ORKCompletionStepIdentifier NS_STRING_ENUM;
+ORK_EXTERN ORKCompletionStepIdentifier const ORKCompletionStepIdentifierMicrophoneLearnMore;
+//end-omit-internal-code
+
 /**
  The `ORKCompletionStep` class is a subclass of `ORKInstructionStep` which behaves like
  an instruction step, but includes animated imagery that thanks the user

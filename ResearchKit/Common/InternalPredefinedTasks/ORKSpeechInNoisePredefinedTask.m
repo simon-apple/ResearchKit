@@ -43,6 +43,7 @@
 #import "ORKStep.h"
 #import "ORKStepNavigationRule.h"
 #import "ORKVolumeCalibrationStep.h"
+#import "ORKLearnMoreInstructionStep.h"
 
 typedef NSString * ORKSpeechInNoiseStepIdentifier NS_STRING_ENUM;
 ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierHeadphoneDetectStep = @"ORKSpeechInNoiseStepIdentifierHeadphoneDetectStep";
@@ -99,6 +100,24 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierPracticeCompl
         step.text = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_MICROPHONE_SPEECH_RECOGNITION_REQUIRED_TEXT", nil);
         step.optional = NO;
         step.reasonForCompletion = ORKTaskViewControllerFinishReasonDiscarded;
+        
+        if (@available(iOS 13.0, *)) {
+            step.iconImage = [UIImage systemImageNamed:@"mic.slash"];
+        }
+        
+        ORKLearnMoreInstructionStep *learnMoreInstructionStep = [[ORKLearnMoreInstructionStep alloc] initWithIdentifier:ORKCompletionStepIdentifierMicrophoneLearnMore];
+        ORKLearnMoreItem *learnMoreItem = [[ORKLearnMoreItem alloc]
+                                           initWithText:ORKLocalizedString(@"OPEN_MICROPHONE_SETTINGS", nil)
+                                           learnMoreInstructionStep:learnMoreInstructionStep];
+        
+        ORKBodyItem *settingsLinkBodyItem = [[ORKBodyItem alloc] initWithText:nil
+                                                                   detailText:nil
+                                                                        image:nil
+                                                                learnMoreItem:learnMoreItem
+                                                                bodyItemStyle:ORKBodyItemStyleText];
+        
+        step.bodyItems = @[settingsLinkBodyItem];
+        
         [currentTask addStep:step];
         
         ORKDirectStepNavigationRule *endNavigationRule = [[ORKDirectStepNavigationRule alloc] initWithDestinationStepIdentifier:ORKNullStepIdentifier];
