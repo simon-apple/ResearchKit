@@ -45,7 +45,7 @@
 - (instancetype)initWithIdentifier:(NSString *)identifier {
     self = [super initWithIdentifier:identifier];
     if (self) {
-        self.baseDisplayColor = UIColor.redColor;
+        self.baseDisplayColor = ORKAccuracyStroopStep.colors[arc4random_uniform(ORKAccuracyStroopStep.colors.count)];
         self.isColorMatching = YES;
     }
     
@@ -91,11 +91,11 @@
 }
 
 + (NSArray<UIColor *> *)colors {
-    return @[ UIColor.redColor,
-              UIColor.greenColor,
-              UIColor.blueColor,
-              UIColor.yellowColor,
-              UIColor.orangeColor ];
+    return @[ UIColor.systemRedColor,
+              UIColor.systemGreenColor,
+              UIColor.systemBlueColor,
+              UIColor.systemYellowColor,
+              UIColor.systemOrangeColor ];
 }
 
 - (UIColor *)actualDisplayColor {

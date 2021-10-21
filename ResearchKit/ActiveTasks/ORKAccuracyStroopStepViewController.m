@@ -44,6 +44,7 @@
 @property (nonatomic) UIView *circlesView;
 @property (nonatomic) NSArray<NSLayoutConstraint *> *constraints;
 @property (nonatomic) double distanceToClosestCenter;
+@property (nonatomic) UIColor *selectedColor;
 
 @end
 
@@ -181,8 +182,8 @@
     
     for (int colorIndex = 0; colorIndex < ORKAccuracyStroopStep.colors.count; colorIndex++) {
         // Obtain random location for color circle within bounds
-        uint32_t randomR = arc4random_uniform(numRows);
-        uint32_t randomC = arc4random_uniform(numColumns);
+        int randomR = (int)arc4random_uniform(numRows);
+        int randomC = (int)arc4random_uniform(numColumns);
 
         ORK_Log_Debug("Trying placement for color: %d at (r, c): (%d, %d)", colorIndex, randomR, randomC);
         
@@ -237,6 +238,7 @@
         }
         
         if (CGRectContainsPoint(circle.frame, touchPoint)) {
+            self.selectedColor = ORKAccuracyStroopStep.colors[circle.tag];
             self.distanceToClosestCenter = distance;
             [super goForward];
             return;
@@ -256,10 +258,11 @@
     
     ORKAccuracyStroopResult *result = [[ORKAccuracyStroopResult alloc] initWithIdentifier:self.accuracyStroopStep.identifier];
     result.color = self.accuracyStroopStep.baseDisplayColor.textRepresentation;
-    result.colorSelected = self.accuracyStroopStep.actualDisplayColor.textRepresentation;
+    result.colorSelected = self.selectedColor.textRepresentation;
     result.distanceToClosestCenter = self.distanceToClosestCenter;
     result.startDate = stepResult.startDate;
     result.endDate = stepResult.endDate;
+    result.timeTakenToSelect = [result.endDate timeIntervalSinceDate:result.startDate];
 
     NSMutableArray *results = [[NSMutableArray alloc] init];
     if (stepResult.results) {

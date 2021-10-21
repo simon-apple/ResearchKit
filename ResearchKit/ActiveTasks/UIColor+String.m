@@ -34,16 +34,14 @@
 @implementation UIColor (String)
 
 - (NSString *)textRepresentation {
-    if (self == UIColor.redColor) {
-        return ORKLocalizedString(@"STROOP_COLOR_RED", nil);
-    } else if (self == UIColor.greenColor) {
+    if (self == UIColor.systemGreenColor) {
         return ORKLocalizedString(@"STROOP_COLOR_GREEN", nil);
-    } else if (self == UIColor.blueColor) {
+    } else if (self == UIColor.systemBlueColor) {
         return ORKLocalizedString(@"STROOP_COLOR_BLUE", nil);
-    } else if (self == UIColor.orangeColor) {
-        return ORKLocalizedString(@"STROOP_COLOR_YELLOW", nil);
-    } else if (self == UIColor.yellowColor) {
+    } else if (self == UIColor.systemOrangeColor) {
         return ORKLocalizedString(@"STROOP_COLOR_ORANGE", nil);
+    } else if (self == UIColor.systemYellowColor) {
+        return ORKLocalizedString(@"STROOP_COLOR_YELLOW", nil);
     } else {
         return ORKLocalizedString(@"STROOP_COLOR_RED", nil);
     }
