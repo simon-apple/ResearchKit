@@ -43,7 +43,7 @@ ORK_CLASS_AVAILABLE
 /**
  A value that indicates how long it took for the user to make a selection.
  */
-@property (nonatomic, readonly) NSTimeInterval timeTakenToSelect;
+@property (nonatomic, assign) NSTimeInterval timeTakenToSelect;
 
 /**
  A value that indicates how far away (in pixels) that the user selected away from the center

@@ -34,7 +34,6 @@
 
 @interface ORKAccuracyStroopResult ()
 @property (readwrite) BOOL didSelectCorrectColor;
-@property (readwrite) NSTimeInterval timeTakenToSelect;
 @end
 
 @implementation ORKAccuracyStroopResult
@@ -84,17 +83,8 @@
 #pragma mark - ResearchKit
 
 - (BOOL)didSelectCorrectColor {
-    
     _didSelectCorrectColor = [self.color isEqualToString:self.colorSelected];
-    
     return _didSelectCorrectColor;
-}
-
-- (NSTimeInterval)timeTakenToSelect {
-    
-    _timeTakenToSelect = self.endTime - self.startTime;
-    
-    return _timeTakenToSelect;
 }
 
 - (NSString *)descriptionWithNumberOfPaddingSpaces:(NSUInteger)numberOfPaddingSpaces {
