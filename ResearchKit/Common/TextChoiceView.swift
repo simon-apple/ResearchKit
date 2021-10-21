@@ -226,8 +226,9 @@ class SwiftUITextChoiceHelper: ObservableObject {
         self.answerFormat = answerFormat
         self.textChoices = answerFormat.textChoices
         self.size = textChoices.count
-        
+       
         setSwiftUITextChoices()
+        updateSelectedIndexes()
     }
     
     func didSelectRowAtIndex(index: Int) {
@@ -264,11 +265,38 @@ class SwiftUITextChoiceHelper: ObservableObject {
             arr.append(SwiftUITextChoice(id: choiceID,
                                          text: textChoice.text,
                                          image: textChoice.image,
-                                         index: index))
+                                         index: index,
+                                         value: textChoice.value))
         }
         
         swiftUItextChoices = arr
     }
+    
+    private func updateSelectedIndexes() {
+        var collectedTextChoices = [ORKTextChoice]()
+        
+        // check to see if any previous answers have been passed through
+        if let array = answer as? [Any] {
+            
+            for answer in array {
+                let value = self.textChoices.first(where: { $0.value.isEqual(answer) })
+                
+                if let val = value {
+                    collectedTextChoices.append(val)
+                }
+            }
+        }
+        
+        // iterate through collectedTextChoices and update the selectedIndexes array
+        for textChoice in collectedTextChoices {
+            let result = self.swiftUItextChoices.first(where: { $0.value.isEqual(textChoice.value) })
+            
+            if let swiftUITextChoice = result, !selectedIndexes.contains(swiftUITextChoice.index) {
+                self.selectedIndexes.append(swiftUITextChoice.index)
+            }
+        }
+    }
+    
 }
 
 @available(iOS 13.0, *)
@@ -277,6 +305,7 @@ private struct SwiftUITextChoice: Identifiable {
     var text: String
     var image: UIImage?
     var index: Int
+    var value: NSCopying & NSSecureCoding & NSObjectProtocol
 }
 
 @available(iOS 13.0, *)
