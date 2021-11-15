@@ -41,6 +41,12 @@
     }
 }
 
+- (void)setCornerCurveCircular {
+    if (@available(iOS 13.0, *)) {
+        self.cornerCurve = kCACornerCurveCircular;
+    }
+}
+
 @end
 
 static const CGFloat ORKBorderedButtonCornerRadii = 14.0;
@@ -61,15 +67,18 @@ static const CGFloat ORKBorderedButtonCornerRadii = 14.0;
 
 - (void)init_ORKTextButton {
     [super init_ORKTextButton];
-    [self setLayerAndFadeDelay];
+    [self setupLayer];
+    [self setFadeDelay];
     [self setEnabled:YES];
     [self setDefaultTintColors];
 }
 
-- (void)setLayerAndFadeDelay {
+- (void)setupLayer {
     self.layer.cornerRadius = ORKBorderedButtonCornerRadii;
     [self.layer setCornerCurveContinuous];
-    
+}
+
+- (void)setFadeDelay {
     self.fadeDelay = 0.0;
 }
 
@@ -77,7 +86,7 @@ static const CGFloat ORKBorderedButtonCornerRadii = 14.0;
     [super tintColorDidChange];
     
     if (!_appearsAsTextButton) {
-        [self setLayerAndFadeDelay];
+        [self setFadeDelay];
         [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [self setTitleColor:[[UIColor whiteColor] colorWithAlphaComponent:0.7f] forState:UIControlStateHighlighted];
         [self setTitleColor:[[UIColor whiteColor] colorWithAlphaComponent:0.7f] forState:UIControlStateSelected];

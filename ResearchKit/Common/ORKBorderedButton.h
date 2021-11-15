@@ -50,6 +50,7 @@ ORK_CLASS_AVAILABLE
 @interface CALayer (ORKCornerCurveContinuousCategory)
 
 - (void)setCornerCurveContinuous;
+- (void)setCornerCurveCircular;
 
 @end
 
