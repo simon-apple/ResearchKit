@@ -1752,15 +1752,19 @@ static NSString *const _ORKProgressMode = @"progressMode";
 #pragma mark Volume notifications
 - (void)volumeDidChange:(NSNotification *)note
 {
-    NSDictionary *userInfo = note.userInfo;
-    NSNumber *volume = userInfo[getAVSystemController_AudioVolumeNotificationParameter()];
-
-    if (volume.floatValue != _lockedVolume) {
-        NSString *reason = userInfo[getAVSystemController_AudioVolumeChangeReasonNotificationParameter()];
-        if ([reason isEqualToString:@"ExplicitVolumeChange"]) {
-            [[getAVSystemControllerClass() sharedAVSystemController] setActiveCategoryVolumeTo:_lockedVolume];
-        };
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if ([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive) {
+            NSDictionary *userInfo = note.userInfo;
+            NSNumber *volume = userInfo[getAVSystemController_AudioVolumeNotificationParameter()];
+            
+            if (volume.floatValue != _lockedVolume) {
+                NSString *reason = userInfo[getAVSystemController_AudioVolumeChangeReasonNotificationParameter()];
+                if ([reason isEqualToString:@"ExplicitVolumeChange"]) {
+                    [[getAVSystemControllerClass() sharedAVSystemController] setActiveCategoryVolumeTo:_lockedVolume];
+                };
+            }
+        }
+    });
 }
 
 #pragma mark - UINavigationController delegate
