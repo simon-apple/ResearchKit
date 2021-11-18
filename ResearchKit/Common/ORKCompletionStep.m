@@ -37,6 +37,7 @@
 
 //start-omit-internal-code
 ORKCompletionStepIdentifier const ORKCompletionStepIdentifierMicrophoneLearnMore = @"ORKCompletionStepIdentifierMicrophoneLearnMore";
+ORKCompletionStepIdentifier const ORKEnvironmentSPLMeterTimeoutIdentifier = @"ORKEnvironmentSPLMeterTimeoutIdentifier";
 //end-omit-internal-code
 
 @implementation ORKCompletionStep
