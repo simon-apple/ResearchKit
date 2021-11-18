@@ -195,12 +195,33 @@
     _audioGenerator = [[ORKdBHLToneAudiometryAudioGenerator alloc] initForHeadphoneType:dBHLTAStep.headphoneType];
     _audioGenerator.delegate = self;
     _hapticFeedback = [[UIImpactFeedbackGenerator alloc] initWithStyle: UIImpactFeedbackStyleHeavy];
+}
 
+- (void)addObservers {
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center addObserver:self selector:@selector(appWillTerminate:) name:UIApplicationWillTerminateNotification object:nil];
+    [center addObserver:self selector:@selector(appDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
+}
+
+- (void)removeObservers {
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center removeObserver:self name:UIApplicationWillTerminateNotification object:nil];
+    [center removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self start];
+    [self addObservers];
+}
+
+-(void)appDidBecomeActive:(NSNotification*)note {
+    [self showAlertWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE_TASK_INTERRUPTED", nil) andMessage:ORKLocalizedString(@"dBHL_ALERT_TEXT_TASK_INTERRUPTED", nil)];
+}
+
+-(void)appWillTerminate:(NSNotification*)note {
+    [self stopAudio];
+    [self removeObservers];
 }
 
 - (void)animatedBHLButton {
@@ -234,6 +255,7 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+    [self removeObservers];
     [self stopAudio];
 }
 
