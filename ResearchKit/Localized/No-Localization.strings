@@ -150,6 +150,10 @@
 "REQUEST_MOTION_ACTIVITY_STEP_VIEW_TITLE" = "Device Motion";
 "REQUEST_MOTION_ACTIVITY_STEP_VIEW_DESCRIPTION" = "The study is requesting access to motion data from your devices.";
 
+/* Alert For dBHL Task Interruption */
+"dBHL_ALERT_TITLE_TASK_INTERRUPTED" = "Task Interrupted";
+"dBHL_ALERT_TEXT_TASK_INTERRUPTED" = "To ensure accurate results, this task must be completed without interruption.";
+
 /* Request Location Permission Step */
 "REQUEST_LOCATION_DATA_STEP_VIEW_TITLE" = "Location Data";
 "REQUEST_LOCATION_DATA_STEP_VIEW_DESCRIPTION" = "The study is requesting access to location data from your device.";
