@@ -54,6 +54,7 @@
 #include <sys/sysctl.h>
 
 static const NSTimeInterval SPL_METER_PLAY_DELAY_VOICEOVER = 3.0;
+static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;
 
 @interface ORKEnvironmentSPLMeterStepViewController ()<ORKRingViewDelegate, ORKEnvironmentSPLMeterContentViewVoiceOverDelegate> {
     AVAudioEngine *_audioEngine;
@@ -78,6 +79,7 @@ static const NSTimeInterval SPL_METER_PLAY_DELAY_VOICEOVER = 3.0;
     AVAudioSessionCategoryOptions _savedSessionCategoryOptions;
     UINotificationFeedbackGenerator *_notificationFeedbackGenerator;
     dispatch_semaphore_t _voiceOverAnnouncementSemaphore;
+    NSTimer *_timeoutTimer;
 }
 
 @property (nonatomic, strong) ORKEnvironmentSPLMeterContentView *environmentSPLMeterContentView;
@@ -118,6 +120,91 @@ static const NSTimeInterval SPL_METER_PLAY_DELAY_VOICEOVER = 3.0;
     [self requestRecordPermissionIfNeeded];
     [self configureAudioSession];
     [self setupFeedbackGenerator];
+    [self registerNotifications];
+    [self startTimeoutTimer];
+}
+
+- (void)registerNotifications {
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center addObserver:self selector:@selector(appWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
+    [center addObserver:self selector:@selector(appWillTerminate:) name:UIApplicationWillTerminateNotification object:nil];
+    [center addObserver:self selector:@selector(appDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
+}
+
+-(void)appWillResignActive:(NSNotification*)note {
+    [self stopTimeoutTimer];
+}
+
+-(void)appDidBecomeActive:(NSNotification*)note {
+    [self startTimeoutTimer];
+}
+
+-(void)appWillTerminate:(NSNotification*)note {
+    [self stopTimeoutTimer];
+    [self removeObservers];
+}
+
+- (void)removeObservers {
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
+    [center removeObserver:self name:UIApplicationWillTerminateNotification object:nil];
+    [center removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
+}
+
+- (void)startTimeoutTimer {
+    if (_timeoutTimer != nil) {
+        [self stopTimeoutTimer];
+    }
+    _timeoutTimer = [NSTimer scheduledTimerWithTimeInterval:SPL_METER_TIMEOUT_IN_SECONDS target:self selector:@selector(timeoutCheck) userInfo:nil repeats:YES];
+}
+
+- (void)timeoutCheck {
+    [self stopTimeoutTimer];
+    [_audioEngine stop];
+    [self resetAudioSession];
+    
+    id<ORKTask> task = self.taskViewController.task;
+    
+    if ([task isKindOfClass:[ORKNavigableOrderedTask class]]) {
+        ORKNavigableOrderedTask *currentTask = (ORKNavigableOrderedTask *)task;
+        
+        ORKStep *timeoutStep = [currentTask stepWithIdentifier:ORKEnvironmentSPLMeterTimeoutIdentifier];
+        
+        if (timeoutStep == nil) {
+            NSUInteger nextStepIndex = [currentTask indexOfStep:[self step]] + 1;
+            ORKStep *nextStep = nil;
+            
+            if (currentTask.steps.count >= nextStepIndex) {
+                nextStep = [currentTask steps][nextStepIndex];
+                
+                ORKDirectStepNavigationRule *nextNavigationRule = [[ORKDirectStepNavigationRule alloc] initWithDestinationStepIdentifier:nextStep.identifier];
+                [currentTask setNavigationRule:nextNavigationRule forTriggerStepIdentifier:self.step.identifier];
+            }
+            
+            ORKCompletionStep *step = [[ORKCompletionStep alloc] initWithIdentifier:ORKEnvironmentSPLMeterTimeoutIdentifier];
+            step.title = ORKLocalizedString(@"ENVIRONMENTSPL_QUIET_LOCATION_REQUIRED_TITLE", nil);
+            step.text = ORKLocalizedString(@"ENVIRONMENTSPL_QUIET_LOCATION_REQUIRED_TEXT", nil);
+            step.optional = NO;
+            step.reasonForCompletion = ORKTaskViewControllerFinishReasonDiscarded;
+            
+            if (@available(iOS 13.0, *)) {
+                UIImageConfiguration *configuration = [UIImageSymbolConfiguration configurationWithFont:[UIFont preferredFontForTextStyle:UIFontTextStyleBody] scale:UIImageSymbolScaleLarge];
+                step.iconImage = [UIImage systemImageNamed:@"waveform.circle.fill" withConfiguration:configuration];
+            }
+            
+            [currentTask insertStep:step atIndex:[currentTask indexOfStep:self.step]];
+            
+            ORKDirectStepNavigationRule *endNavigationRule = [[ORKDirectStepNavigationRule alloc] initWithDestinationStepIdentifier:ORKNullStepIdentifier];
+            [currentTask setNavigationRule:endNavigationRule forTriggerStepIdentifier:ORKEnvironmentSPLMeterTimeoutIdentifier];
+        }
+
+        [[self taskViewController] flipToPageWithIdentifier:ORKEnvironmentSPLMeterTimeoutIdentifier forward:YES animated:YES];
+    }
+}
+
+- (void)stopTimeoutTimer {
+    [_timeoutTimer invalidate];
+    _timeoutTimer = nil;
 }
 
 - (void)saveAudioSession {
@@ -156,7 +243,6 @@ static const NSTimeInterval SPL_METER_PLAY_DELAY_VOICEOVER = 3.0;
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self configureInputNode];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -167,6 +253,7 @@ static const NSTimeInterval SPL_METER_PLAY_DELAY_VOICEOVER = 3.0;
     _samplingInterval = [self environmentSPLMeterStep].samplingInterval;
     _requiredContiguousSamples = [self environmentSPLMeterStep].requiredContiguousSamples;
     _thresholdValue = [self environmentSPLMeterStep].thresholdValue;
+    [self configureInputNode];
     [self splWorkBlock];
     
     if (UIAccessibilityIsVoiceOverRunning()) {
@@ -182,6 +269,7 @@ static const NSTimeInterval SPL_METER_PLAY_DELAY_VOICEOVER = 3.0;
     [_audioEngine stop];
     [_rmsBuffer removeAllObjects];
     [self resetAudioSession];
+    [self removeObservers];
 }
 
 - (NSString *)deviceType {
@@ -475,6 +563,7 @@ static const NSTimeInterval SPL_METER_PLAY_DELAY_VOICEOVER = 3.0;
 
 - (void)reachedOptimumNoiseLevel {
     [_audioEngine stop];
+    [self stopTimeoutTimer];
     [self resetAudioSession];
 }
 
