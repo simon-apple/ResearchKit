@@ -154,6 +154,10 @@
 "REQUEST_LOCATION_DATA_STEP_VIEW_TITLE" = "Location Data";
 "REQUEST_LOCATION_DATA_STEP_VIEW_DESCRIPTION" = "The study is requesting access to location data from your device.";
 
+/* SPLMeter No Quiet Location Step */
+"ENVIRONMENTSPL_QUIET_LOCATION_REQUIRED_TITLE" = "You'll need to be in a quiet location to complete this task.";
+"ENVIRONMENTSPL_QUIET_LOCATION_REQUIRED_TEXT" = "You can restart this task when you're at a quieter location.";
+
 /* Request Location Permission Step */
 "REQUEST_LOCATION_DATA_STEP_VIEW_TITLE" = "Location Data";
 "REQUEST_LOCATION_DATA_STEP_VIEW_DESCRIPTION" = "The study is requesting access to location data from your device.";

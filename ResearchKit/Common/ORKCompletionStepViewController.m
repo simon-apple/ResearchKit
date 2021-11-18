@@ -122,6 +122,15 @@
     }
 }
 
+//start-omit-internal-code
+- (BOOL)hasPreviousStep {
+    if ([self.step.identifier isEqualToString:ORKEnvironmentSPLMeterTimeoutIdentifier]) {
+        return YES;
+    }
+    return [super hasPreviousStep];
+}
+//end-omit-internal-code
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
