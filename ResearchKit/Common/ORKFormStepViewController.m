@@ -585,12 +585,12 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
                 [self.view setBackgroundColor:ORKColor(ORKBackgroundColorKey)];
             }
             else {
-                [self.taskViewController setNavigationBarColor:[_tableView backgroundColor]];
                 if (@available(iOS 13.0, *)) {
                     [_tableView setBackgroundColor:[UIColor systemGroupedBackgroundColor]];
                 } else {
                     [_tableView setBackgroundColor:ORKColor(ORKBackgroundColorKey)];
                 }
+                [self.taskViewController setNavigationBarColor:[_tableView backgroundColor]];
                 [self.view setBackgroundColor:[_tableView backgroundColor]];
             }
         } else {
