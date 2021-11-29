@@ -389,8 +389,6 @@ ORK_CLASS_AVAILABLE
  
  Call this method to start a task from a specific step. Additionally, you can supply a defaultResultSource to resume a
  partially completed task, or to provide your own prefilled results.
-
- if `startingStepIdentifier` is nil, the task starts from the first step.
  
  @param task                    The task to be presented.
  @param ongoingResult           An optional task result from a previous run of the task. If you provide an ongoingResult, the task will start at the step corresponding to the last result.
