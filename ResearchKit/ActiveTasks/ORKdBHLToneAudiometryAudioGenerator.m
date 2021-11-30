@@ -57,6 +57,7 @@
 
 typedef NSString * ORKVolumeCurveFilename NS_STRING_ENUM;
 ORKVolumeCurveFilename const ORKVolumeCurveFilenameAirPods = @"volume_curve_AIRPODS";
+ORKVolumeCurveFilename const ORKVolumeCurveFilenameAirPodsGen3 = @"volume_curve_AIRPODSV3";
 ORKVolumeCurveFilename const ORKVolumeCurveFilenameAirPodsPro = @"volume_curve_AIRPODSPRO";
 ORKVolumeCurveFilename const ORKVolumeCurveFilenameAirPodsMax = @"volume_curve_AIRPODSMAX";
 ORKVolumeCurveFilename const ORKVolumeCurveFilenameWired = @"volume_curve_WIRED";
@@ -189,6 +190,9 @@ static OSStatus ORKdBHLAudioGeneratorZeroTone(void *inRefCon,
             [headphoneTypeUppercased isEqualToString:ORKHeadphoneTypeIdentifierAirPodsGen2]) {
             headphoneTypeIdentifier = ORKHeadphoneTypeIdentifierAirPods;
             volumeCurveFilename = ORKVolumeCurveFilenameAirPods;
+        } else if ([headphoneTypeUppercased isEqualToString:ORKHeadphoneTypeIdentifierAirPodsGen3]) {
+            headphoneTypeIdentifier = ORKHeadphoneTypeIdentifierAirPodsGen3;
+            volumeCurveFilename = ORKVolumeCurveFilenameAirPodsGen3;
         } else if ([headphoneTypeUppercased isEqualToString:ORKHeadphoneTypeIdentifierAirPodsPro]) {
             headphoneTypeIdentifier = ORKHeadphoneTypeIdentifierAirPodsPro;
             volumeCurveFilename = ORKVolumeCurveFilenameAirPodsPro;

@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "earpods@1x.png",
+      "filename" : "airpods_3rd_gen@1x.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "earpods@2x.png",
+      "filename" : "airpods_3rd_gen@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "earpods@3x.png",
+      "filename" : "airpods_3rd_gen@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
