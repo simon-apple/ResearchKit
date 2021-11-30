@@ -75,10 +75,12 @@
     
     self.stepView.customContentFillsAvailableSpace = YES;
     
+    //start-omit-internal-code
     if ([self isSpeechInNoisePredefinedTaskPractice])
     {
         [self setContinueButtonTitle:ORKLocalizedString(@"BUTTON_START_TEST", nil)];
     }
+    //end-omit-internal-code
 }
 
 - (void)continueWasPressed {
@@ -87,6 +89,7 @@
         [strongDelegate taskViewController:self.taskViewController didFinishWithReason:_reasonForCompletion error:nil];
     }
 }
+//start-omit-internal-code
 
 - (nullable ORKSpeechInNoisePredefinedTaskContext *)speechInNoisePredefinedTaskContext
 {
@@ -122,7 +125,6 @@
     }
 }
 
-//start-omit-internal-code
 - (BOOL)hasPreviousStep {
     if ([self.step.identifier isEqualToString:ORKEnvironmentSPLMeterTimeoutIdentifier]) {
         return YES;

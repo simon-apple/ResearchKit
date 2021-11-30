@@ -66,7 +66,9 @@
 @import CoreMotion;
 #import <CoreLocation/CoreLocation.h>
 
+//start-omit-internal-code
 #import "ORKCelestialSoftLink.h"
+//end-omit-internal-code
 
 typedef void (^_ORKLocationAuthorizationRequestHandler)(BOOL success);
 

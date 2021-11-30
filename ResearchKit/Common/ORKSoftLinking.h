@@ -6,6 +6,8 @@
 //  Copyright © 2019 Apple, Inc. All rights reserved.
 //
 
+// apple-internal
+
 #include <dlfcn.h>
 
 #if defined(__OBJC__)
