@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "AirPodsMax.png",
+      "filename" : "airpods_max@1x.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "AirPodsMax@2x.png",
+      "filename" : "airpods_max@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "AirPodsMax@3x.png",
+      "filename" : "airpods_max@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

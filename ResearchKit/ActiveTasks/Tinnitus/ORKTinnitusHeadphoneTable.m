@@ -54,6 +54,10 @@
         dbAmplitudePerFrequencyFilename = @"dbAmplitudePerFrequency_AIRPODS";
         dbSPLAmplitudePerFrequencyFilename = @"dbSPLAmplitudePerFrequency_AIRPODS";
         volumeCurveFilename = @"volume_curve_AIRPODS";
+    } else if ([headphoneTypeUppercased isEqualToString:ORKHeadphoneTypeIdentifierAirPodsGen3]) {
+        dbAmplitudePerFrequencyFilename = @"dbAmplitudePerFrequency_AIRPODSV3";
+        dbSPLAmplitudePerFrequencyFilename = @"dbSPLAmplitudePerFrequency_AIRPODSV3";
+        volumeCurveFilename = @"volume_curve_AIRPODSV3";
     } else if ([headphoneTypeUppercased isEqualToString:ORKHeadphoneTypeIdentifierAirPodsPro]) {
         dbAmplitudePerFrequencyFilename = @"dbAmplitudePerFrequency_AIRPODSPRO";
         dbSPLAmplitudePerFrequencyFilename = @"dbSPLAmplitudePerFrequency_AIRPODSPRO";

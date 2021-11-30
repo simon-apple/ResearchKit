@@ -248,6 +248,9 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
             if ([modelId containsString:ORKHeadphoneVendorAndProductIdIdentifierAirPodsGen2]) {
                 return ORKHeadphoneTypeIdentifierAirPodsGen2;
             }
+            if ([modelId containsString:ORKHeadphoneVendorAndProductIdIdentifierAirPodsGen3]) {
+                return ORKHeadphoneTypeIdentifierAirPodsGen3;
+            }
             if ([modelId containsString:ORKHeadphoneVendorAndProductIdIdentifierAirPodsPro]) {
                 return ORKHeadphoneTypeIdentifierAirPodsPro;
             }
