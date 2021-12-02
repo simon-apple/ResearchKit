@@ -249,7 +249,7 @@ static OSStatus ORKdBHLAudioGeneratorZeroTone(void *inRefCon,
         NewAUGraph(&_mGraph);
         AudioComponentDescription mixer_desc;
         mixer_desc.componentType = kAudioUnitType_Mixer;
-        mixer_desc.componentSubType = kAudioUnitSubType_MultiChannelMixer;
+        mixer_desc.componentSubType = kAudioUnitSubType_SpatialMixer;
         mixer_desc.componentFlags = 0;
         mixer_desc.componentFlagsMask = 0;
         mixer_desc.componentManufacturer = kAudioUnitManufacturer_Apple;
@@ -302,20 +302,45 @@ static OSStatus ORKdBHLAudioGeneratorZeroTone(void *inRefCon,
             desc.mChannelsPerFrame = 2;
             desc.mBitsPerChannel = four_bytes_per_float * eight_bits_per_byte;
             
-            AudioUnitSetProperty(  _mMixer,
-                                    kAudioUnitProperty_StreamFormat,
-                                    kAudioUnitScope_Input,
-                                    i,
-                                    &desc,
-                                    sizeof(desc));
+            AudioUnitSetProperty(_mMixer,
+                                 kAudioUnitProperty_StreamFormat,
+                                 kAudioUnitScope_Input,
+                                 i,
+                                 &desc,
+                                 sizeof(desc));
+            
+            AUSpatialMixerOutputType outputType = kSpatialMixerOutputType_Headphones;
+            AudioUnitSetProperty(_mMixer,
+                                 kAudioUnitProperty_SpatialMixerOutputType,
+                                 kAudioUnitScope_Global,
+                                 i,
+                                 &outputType,
+                                 sizeof(outputType));
+            
+            AUSpatializationAlgorithm stereoPassThrough = kSpatializationAlgorithm_StereoPassThrough;
+            AudioUnitSetProperty(_mMixer,
+                                 kAudioUnitProperty_SpatializationAlgorithm,
+                                 kAudioUnitScope_Input,
+                                 i,
+                                 &stereoPassThrough,
+                                 sizeof(stereoPassThrough));
+            
+            UInt32 bypass = kSpatialMixerSourceMode_Bypass;
+            AudioUnitSetProperty(_mMixer,
+                                 kAudioUnitProperty_SpatialMixerSourceMode,
+                                 kAudioUnitScope_Input,
+                                 i,
+                                 &bypass,
+                                 sizeof(bypass));
         }
+
+        AudioUnitSetProperty(_mMixer,
+                             kAudioUnitProperty_StreamFormat,
+                             kAudioUnitScope_Output,
+                             0,
+                             &desc,
+                             sizeof(desc));
         
-        AudioUnitSetProperty(  _mMixer,
-                                kAudioUnitProperty_StreamFormat,
-                                kAudioUnitScope_Output,
-                                0,
-                                &desc,
-                                sizeof(desc));
         AUGraphInitialize(_mGraph);
         AUGraphStart(_mGraph);
     }
