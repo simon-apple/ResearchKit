@@ -1510,7 +1510,12 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
 - (void)textViewDidBeginEditing:(UITextView *)textView {
     if (textView.textColor == [self placeholderColor]) {
         textView.text = nil;
-        textView.textColor = [UIColor blackColor];
+        
+        if (@available(iOS 13.0, *)) {
+            _textView.textColor = [UIColor labelColor];
+        } else {
+            _textView.textColor = [UIColor blackColor];
+        }
     }
     
     // Ask table view to adjust scrollview's position
