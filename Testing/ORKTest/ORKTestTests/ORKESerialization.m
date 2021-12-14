@@ -1131,6 +1131,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                      return [[ORKAudioStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
                  },
                  (@{
+                    PROPERTY(useRecordButton, NSNumber, NSObject, YES, nil, nil),
                     })),
            ENTRY(ORKToneAudiometryStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {

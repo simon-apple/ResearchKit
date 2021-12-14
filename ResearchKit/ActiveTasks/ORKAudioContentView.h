@@ -35,6 +35,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class ORKRecordButton;
+
+typedef NS_ENUM(NSUInteger, ORKAudioContentViewEvent) {
+    ORKAudioContentViewEventStartRecording = 0,
+    ORKAudioContentViewEventStopRecording
+};
+
+typedef void (^ORKAudioStepContentViewEventHandler)(ORKAudioContentViewEvent);
+
 @interface ORKAudioContentView : ORKActiveStepCustomView
 
 @property (nonatomic, copy, nullable) UIColor *keyColor;
@@ -47,6 +56,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) CGFloat alertThreshold;
 
 @property (nonatomic, copy, nullable) NSArray *samples;
+
+@property (nonatomic) BOOL useRecordButton;
+
+- (void)setViewEventHandler:(ORKAudioStepContentViewEventHandler)handler;
 
 // Samples should be in the range of (0, 1).
 - (void)addSample:(NSNumber *)sample;
