@@ -70,6 +70,7 @@ ORKDefineStringKey(ORKBasicCellReuseIdentifier);
     [super viewWillAppear:animated];
 
     [self.taskViewController setRegisteredScrollView:_tableView];
+    [self.taskViewController setNavigationBarColor:self.view.backgroundColor];
     
     if (_tableContainer) {
         [_tableContainer sizeHeaderToFit];
