@@ -27,6 +27,9 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+// apple-internal
+
+#if APPLE_INTERNAL
 
 #import <UIKit/UIKit.h>
 #import "ORKCustomStepView_Internal.h"
@@ -50,3 +53,5 @@ typedef NS_ENUM(NSInteger, ORKTinnitusType);
 @end
 
 NS_ASSUME_NONNULL_END
+
+#endif

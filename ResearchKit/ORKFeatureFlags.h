@@ -30,6 +30,12 @@
 
 // apple-internal
 
+#ifndef APPLE_INTERNAL
+#define APPLE_INTERNAL 0
+#endif
+
+#if APPLE_INTERNAL
+
 #import <Foundation/Foundation.h>
 
 #ifndef ORK_FEATURE_AV_JOURNALING
@@ -42,4 +48,8 @@
 
 #ifndef ORK_FEATURE_BLE_SCAN_PERIPHERALS
 #define ORK_FEATURE_BLE_SCAN_PERIPHERALS 0
+#endif
+
+
+
 #endif

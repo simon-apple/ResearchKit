@@ -3598,7 +3598,7 @@
 				AE75433524E32C8A00E4C7CF /* Early Termination */,
 				5175145B245A4FCA009E8FFC /* Front Facing Camera */,
 				511987C024632E33004FC2C7 /* Request Permissions Step */,
-				E2BC456122D76C38009DAAAE /* Headphone Detect Step */,
+				E2BC456122D76C38009DAAAE /* HeadphoneDetectStep */,
 				B12EFF351AB2116400A80147 /* Instruction Step */,
 				B12EFF361AB2117B00A80147 /* Question Step */,
 				B12EFF3C1AB211FB00A80147 /* Form Step */,
@@ -4493,7 +4493,7 @@
 			path = PrivateHeaders;
 			sourceTree = "<group>";
 		};
-		E2BC456122D76C38009DAAAE /* Headphone Detect Step */ = {
+		E2BC456122D76C38009DAAAE /* HeadphoneDetectStep */ = {
 			isa = PBXGroup;
 			children = (
 				E21D345D22D916E000CCB022 /* ORKHeadphoneDetectResult.h */,
@@ -4509,7 +4509,7 @@
 				5D04884625EEDB6F0006C68B /* ORKHeadphonesRequiredCompletionStepViewController.h */,
 				5D04884725EEDB6F0006C68B /* ORKHeadphonesRequiredCompletionStepViewController.m */,
 			);
-			path = "Headphone Detect Step";
+			path = HeadphoneDetectStep;
 			sourceTree = "<group>";
 		};
 		FA7A9D2C1B083D90005A2BEA /* Formatters */ = {
@@ -6218,6 +6218,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5D000EC22620F27100E5442A /* ResearchKit-Debug.xcconfig */;
 			buildSettings = {
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"$(ORK_GCC_PREPROCESSOR_DEFINITIONS)",
+					"APPLE_INTERNAL=0",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 			};
 			name = Debug;

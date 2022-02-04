@@ -35,6 +35,8 @@
 
 @implementation ORKdBHLTaskContext
 
+//start-omit-internal-code
+#if APPLE_INTERNAL
 - (NSString *)didSkipHeadphoneDetectionStepForTask:(id<ORKTask>)task {
     
     if ([task isKindOfClass:[ORKOrderedTask class]]) {
@@ -54,6 +56,8 @@
     
     return nil;
 }
+#endif
+//end-omit-internal-code
 
 - (NSString *)didNotAllowRequiredHealthPermissionsForTask:(id<ORKTask>)task
 {
@@ -76,6 +80,7 @@
             step.iconImage = [UIImage systemImageNamed:@"mic.slash"];
         }
         //start-omit-internal-code
+#if APPLE_INTERNAL
         ORKLearnMoreInstructionStep *learnMoreInstructionStep = [[ORKLearnMoreInstructionStep alloc] initWithIdentifier:ORKCompletionStepIdentifierMicrophoneLearnMore];
         ORKLearnMoreItem *learnMoreItem = [[ORKLearnMoreItem alloc]
                                            initWithText:ORKLocalizedString(@"OPEN_MICROPHONE_SETTINGS", nil)
@@ -88,6 +93,7 @@
                                                                 bodyItemStyle:ORKBodyItemStyleText];
         
         step.bodyItems = @[settingsLinkBodyItem];
+#endif
         //end-omit-internal-code
         [currentTask addStep:step];
         

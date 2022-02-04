@@ -84,7 +84,7 @@ NSArray<NSNumber *> * ORKLastNSamples(NSArray<NSNumber *> *samples, NSInteger li
 {
     if (!_meteringView) {
 #if USE_DICTATION_VIEW
-        [self setMeteringView:[[ORKAudioDictationView alloc] init]];
+        [self setMeteringView:[[ORKAudioMeteringView alloc] init]];
 #else
         [self setMeteringView:[[ORKAudioGraphView alloc] init]];
 #endif
@@ -148,3 +148,4 @@ NSArray<NSNumber *> * ORKLastNSamples(NSArray<NSNumber *> *samples, NSInteger li
 }
 
 @end
+

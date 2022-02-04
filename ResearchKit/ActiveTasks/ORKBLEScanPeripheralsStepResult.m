@@ -29,6 +29,7 @@
  */
 
 // apple-internal
+#if APPLE_INTERNAL
 
 #import <ResearchKit/ORKFeatureFlags.h>
 
@@ -40,4 +41,5 @@
 
 @end
 
+#endif
 #endif

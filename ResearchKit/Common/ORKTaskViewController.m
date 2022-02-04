@@ -41,7 +41,9 @@
 #import "ORKTaskViewController_Internal.h"
 #import "ORKLearnMoreStepViewController.h"
 //start-omit-internal-code
+#if APPLE_INTERNAL
 #import "ORKSpeechInNoisePredefinedTask.h"
+#endif
 //end-omit-internal-code
 
 #import "ORKActiveStep.h"
@@ -67,7 +69,9 @@
 #import <CoreLocation/CoreLocation.h>
 
 //start-omit-internal-code
+#if APPLE_INTERNAL
 #import "ORKCelestialSoftLink.h"
+#endif
 //end-omit-internal-code
 
 typedef void (^_ORKLocationAuthorizationRequestHandler)(BOOL success);
@@ -608,6 +612,8 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     }
 }
 
+//start-omit-internal-code
+#if APPLE_INTERNAL
 - (void)lockDeviceVolume:(float)volume {
     if (!_hasLockedVolume) {
         _hasLockedVolume = YES;
@@ -615,6 +621,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
         _savedVolume = [[AVAudioSession sharedInstance] outputVolume];
         
         [self registerNotifications];
+        
         [[getAVSystemControllerClass() sharedAVSystemController] setActiveCategoryVolumeTo:_lockedVolume];
     }
 }
@@ -631,6 +638,8 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     }
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(volumeDidChange:) name:getAVSystemController_SystemVolumeDidChangeNotification() object:nil];
 }
+#endif
+//end-omit-internal-code
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -684,12 +693,18 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
+    
+    //start-omit-internal-code
+#if APPLE_INTERNAL
 
     // restore saved volume
     if (_hasLockedVolume || (!_hasLockedVolume && _savedVolume > 0)) {
         [[NSNotificationCenter defaultCenter] removeObserver:self];
+        
         [[getAVSystemControllerClass() sharedAVSystemController] setActiveCategoryVolumeTo:_savedVolume];
     }
+#endif
+    //end-omit-internal-code
     
     // Set endDate on TaskVC is dismissed,
     // because nextResponder is not nil when current TaskVC is covered by another modal view
@@ -908,7 +923,8 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
                 if ([self grantedAtLeastOnePermission] == NO) {
                     
                     //start-omit-internal-code
-                    
+#if APPLE_INTERNAL
+
                     // We need to check if this is the SIN Predefined Task
                     // If they select to not allow required permissions, we need to show them to the door.
                     ORKNavigableOrderedTask *navigableOrderedTask = nil;
@@ -935,8 +951,8 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
                         }
                     }
                     
+#endif
                     //end-omit-internal-code
-                    
                     [self reportError:[NSError errorWithDomain:NSCocoaErrorDomain
                                                           code:NSUserCancelledError
                                                       userInfo:@{@"reason": @"Required permissions not granted."}]
@@ -1140,9 +1156,13 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     
     stepViewController.outputDirectory = self.outputDirectory;
     if (!isPreviousViewController) {
+        // start-omit-internal-code
+#if APPLE_INTERNAL
         // Do not update the task's managed result if we are instantiating a previous view controllers for the
         // navigation stack. Some active view controllers such as `ORKHeadphoneDetectStepViewController` don't feature
         // a result retoration path on init and we don't want to overwrite the most current result stored by the task
+#endif
+        // end-omit-internal-code
         [self setManagedResult:stepViewController.result forKey:step.identifier];
     }
     
@@ -1753,6 +1773,8 @@ static NSString *const _ORKProgressMode = @"progressMode";
     [self showStepViewController:[self viewControllerForStep:[self.task stepWithIdentifier:stepIdentifier]] goForward:YES animated:YES];
 }
 
+//start-omit-internal-code
+#if APPLE_INTERNAL
 #pragma mark Volume notifications
 - (void)volumeDidChange:(NSNotification *)note
 {
@@ -1770,6 +1792,8 @@ static NSString *const _ORKProgressMode = @"progressMode";
         }
     });
 }
+#endif
+//end-omit-internal-code
 
 #pragma mark - UINavigationController delegate
 

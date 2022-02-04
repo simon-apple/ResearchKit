@@ -27,6 +27,9 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+// apple-internal
+
+#if APPLE_INTERNAL
 
 #import "ORKAVJournalingStepContentView.h"
 
@@ -70,8 +73,11 @@ static const CGFloat ContentLeftRightPadding = 36.0;
     UILabel *_questionNumberLabel;
     UILabel *_questionLabel;
     
+    //start-omit-internal-code
+            #if APPLE_INTERNAL
     ORKFaceDetectionStepContentView *_faceDetectionContentView;
-    
+#endif
+    //end-omit-internal-code
     NSTimer *_faceCalibrationTimer;
     NSTimer *_timer;
     NSTimer *_badgeColorChangeTimer;
@@ -548,5 +554,7 @@ static const CGFloat ContentLeftRightPadding = 36.0;
 }
 
 @end
+
+#endif
 
 #endif

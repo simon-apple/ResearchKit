@@ -81,7 +81,11 @@
 #import "ORKSpeechInNoiseStep.h"
 #import "ORKdBHLToneAudiometryStep.h"
 #import "ORKdBHLToneAudiometryOnboardingStep.h"
+// start-omit-internal-code
+#if APPLE_INTERNAL
 #import "ORKHeadphoneDetectStep.h"
+#endif
+// end-omit-internal-code
 #import "ORKSkin.h"
 
 #import "ORKHelpers_Internal.h"
@@ -1951,7 +1955,11 @@ NSString *const ORKdBHLToneAudiometryStep1Identifier = @"dBHL1.tone.audiometry";
 NSString *const ORKdBHLToneAudiometryStep2Identifier = @"dBHL2.tone.audiometry";
 NSString *const ORKdBHLToneAudiometryStep3Identifier = @"dBHL3.tone.audiometry";
 
+// start-omit-internal-code
+#if APPLE_INTERNAL
 NSString *const ORKdBHLToneAudiometryHeadphoneDetectStepIdentifier = @"dBHL.tone.audiometry.headphonedetect";
+#endif
+// end-omit-internal-code
 
 + (ORKNavigableOrderedTask *)dBHLToneAudiometryTaskWithIdentifier:(NSString *)identifier
                               intendedUseDescription:(nullable NSString *)intendedUseDescription
@@ -1990,12 +1998,17 @@ NSString *const ORKdBHLToneAudiometryHeadphoneDetectStepIdentifier = @"dBHL.tone
         
     }
     
+    // start-omit-internal-code
+#if APPLE_INTERNAL
+
     {
         ORKHeadphoneDetectStep *step = [[ORKHeadphoneDetectStep alloc] initWithIdentifier:ORKdBHLToneAudiometryHeadphoneDetectStepIdentifier headphoneTypes:ORKHeadphoneTypesSupported];
         step.title = ORKLocalizedString(@"HEADPHONE_DETECT_TITLE", nil);
         step.detailText = ORKLocalizedString(@"HEADPHONE_DETECT_TEXT", nil);
         [steps addObject:step];
     }
+#endif
+    // end-omit-internal-code
     
     if (!(options & ORKPredefinedTaskOptionExcludeInstructions)) {
         {

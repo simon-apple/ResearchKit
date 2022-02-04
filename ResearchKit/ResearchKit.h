@@ -29,7 +29,12 @@
  */
 
 // start-omit-internal-code
+#if APPLE_INTERNAL
 #import <ResearchKit/ORKFeatureFlags.h>
+#import <ResearchKit/ORKHeadphoneDetectResult.h>
+#import <ResearchKit/ORKHeadphoneDetector.h>
+#import <ResearchKit/ORKHeadphoneDetectStep.h>
+#endif
 // end-omit-internal-code
 
 #import <ResearchKit/ORKDefines.h>
@@ -65,7 +70,6 @@
 #import <ResearchKit/ORKEnvironmentSPLMeterStep.h>
 #import <ResearchKit/ORKLearnMoreInstructionStep.h>
 #import <ResearchKit/ORKSecondaryTaskStep.h>
-#import <ResearchKit/ORKHeadphoneDetectStep.h>
 #import <ResearchKit/ORKRequestPermissionsStep.h>
 #import <ResearchKit/ORK3DModelStep.h>
 
@@ -91,7 +95,6 @@
 #import <ResearchKit/ORKWebViewStepResult.h>
 #import <ResearchKit/ORKEnvironmentSPLMeterResult.h>
 #import <ResearchKit/ORKResultPredicate.h>
-#import <ResearchKit/ORKHeadphoneDetectResult.h>
 #import <ResearchKit/ORKUSDZModelManagerResult.h>
 
 #import <ResearchKit/ORKTextButton.h>
@@ -119,8 +122,6 @@
 #import <ResearchKit/ORKCustomStepViewController.h>
 
 #import <ResearchKit/ORKRecorder.h>
-
-#import <ResearchKit/ORKHeadphoneDetector.h>
 
 #import <ResearchKit/ORKConsentDocument.h>
 #import <ResearchKit/ORKConsentSection.h>
@@ -155,9 +156,12 @@
 #import <ResearchKit/ORKEarlyTerminationConfiguration.h>
 #import <ResearchKit/ORKBundleAsset.h>
 
+
 //start-omit-internal-code
+#if APPLE_INTERNAL
 #import <ResearchKit/ORKAVJournalingTaskViewController.h>
 #import <ResearchKit/ORKAVJournalingResult.h>
 
 #import <ResearchKit/ORKBLEScanPeripheralsStepResult.h>
+#endif
 //end-omit-internal-code

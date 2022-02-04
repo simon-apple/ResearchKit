@@ -5,6 +5,9 @@
 //  Created by Peter Bohac on 5/25/19.
 //  Copyright © 2019 Apple Inc. All rights reserved.
 //
+// apple-internal
+
+#if APPLE_INTERNAL
 
 #import <Metal/Metal.h>
 #import "ORKFlamesView.h"
@@ -182,3 +185,5 @@
     }
 }
 @end
+
+#endif

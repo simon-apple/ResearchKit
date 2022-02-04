@@ -6,6 +6,9 @@
 	Copyright 2015-2019 Apple Inc. All rights reserved.
  
  */
+// apple-internal
+
+#if APPLE_INTERNAL
 
 #import <Foundation/Foundation.h>
 #import "AVOutputDeviceDiscoverySession.h"
@@ -864,3 +867,5 @@ SPI_AVAILABLE(macos(10.13), ios(11.0), tvos(11.0), watchos(4.0))
 @end
 
 NS_ASSUME_NONNULL_END
+
+#endif

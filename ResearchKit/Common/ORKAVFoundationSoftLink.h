@@ -30,6 +30,8 @@
 
 // apple-internal
 
+#if APPLE_INTERNAL
+
 #import "ORKSoftLinking.h"
 
 #import "AVFoundation_Private.h"
@@ -42,3 +44,5 @@ ORK_SOFT_LINK_CONSTANT(AVFoundation, AVOutputDeviceBluetoothListeningModeAudioTr
 ORK_SOFT_LINK_CONSTANT(AVFoundation, AVOutputDeviceBluetoothListeningModeNormal, NSString *)
 ORK_SOFT_LINK_CONSTANT(AVFoundation, AVOutputDeviceBatteryLevelLeftKey, NSString *)
 ORK_SOFT_LINK_CONSTANT(AVFoundation, AVOutputDeviceBatteryLevelRightKey, NSString *)
+
+#endif

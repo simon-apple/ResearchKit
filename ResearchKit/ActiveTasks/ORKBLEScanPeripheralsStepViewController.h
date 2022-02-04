@@ -30,6 +30,8 @@
 
 // apple-internal
 
+#if APPLE_INTERNAL
+
 #import <ResearchKit/ORKFeatureFlags.h>
 
 #if ORK_FEATURE_BLE_SCAN_PERIPHERALS
@@ -43,5 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
+
+#endif
 
 #endif

@@ -5,6 +5,10 @@
 //  Created by Peter Bohac on 5/26/19.
 //  Copyright © 2019 Apple Inc. All rights reserved.
 //
+// apple-internal
+
+#if APPLE_INTERNAL
+
 #import <Foundation/Foundation.h>
 #import <simd/simd.h>
 NS_ASSUME_NONNULL_BEGIN
@@ -20,3 +24,4 @@ NS_CLASS_AVAILABLE_IOS(9_0) @interface ORKFlameGroup : NSObject
 @property (nonatomic, assign) BOOL isDyingOff;
 @end
 NS_ASSUME_NONNULL_END
+#endif

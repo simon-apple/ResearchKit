@@ -178,6 +178,7 @@
 #import <ResearchKit/ORKBodyContainerView.h>
 
 //start-omit-internal-code
+#if APPLE_INTERNAL
 
 #import <ResearchKit/ORKFaceDetectionStep.h>
 
@@ -209,4 +210,5 @@
 
 #import <ResearchKit/ORKBLEScanPeripheralsStep.h>
 
+#endif
 //end-omit-internal-code

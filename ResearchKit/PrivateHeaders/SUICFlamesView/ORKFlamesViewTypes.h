@@ -5,6 +5,9 @@
 //  Created by Peter Bohac on 5/28/19.
 //  Copyright © 2019 Apple Inc. All rights reserved.
 //
+// apple-internal
+
+#if APPLE_INTERNAL
 
 #ifndef ORKFlamesViewTypes_h
 #define ORKFlamesViewTypes_h
@@ -31,3 +34,4 @@ typedef NS_ENUM(NSInteger, ORKFlamesViewFidelity) {
 };
 
 #endif /* ORKFlamesViewTypes_h */
+#endif

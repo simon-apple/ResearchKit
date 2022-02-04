@@ -76,10 +76,12 @@
     self.stepView.customContentFillsAvailableSpace = YES;
     
     //start-omit-internal-code
+#if APPLE_INTERNAL
     if ([self isSpeechInNoisePredefinedTaskPractice])
     {
         [self setContinueButtonTitle:ORKLocalizedString(@"BUTTON_START_TEST", nil)];
     }
+#endif
     //end-omit-internal-code
 }
 
@@ -90,6 +92,7 @@
     }
 }
 //start-omit-internal-code
+#if APPLE_INTERNAL
 
 - (nullable ORKSpeechInNoisePredefinedTaskContext *)speechInNoisePredefinedTaskContext
 {
@@ -131,6 +134,7 @@
     }
     return [super hasPreviousStep];
 }
+#endif
 //end-omit-internal-code
 
 - (void)viewWillAppear:(BOOL)animated {

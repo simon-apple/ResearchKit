@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019, Apple Inc. All rights reserved.
+ Copyright (c) 2021, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -27,39 +27,35 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+// apple-internal
 
-#import "ORKHeadphoneDetectStep.h"
-#import "ORKHeadphoneDetectStepViewController.h"
-#import "ORKStep_Private.h"
+#if APPLE_INTERNAL
+
+#import "ORKHeadphonesRequiredCompletionStep.h"
+#import "ORKHeadphonesRequiredCompletionStepViewController.h"
 #import "ORKHelpers_Internal.h"
 
-@implementation ORKHeadphoneDetectStep
-
-+ (NSSet<NSString *> *)dBHLTypes {
-    static NSSet<ORKHeadphoneChipsetIdentifier> *audioChipsetRouteSubtypes = nil;
-    
-    if ( audioChipsetRouteSubtypes == nil )
-    {
-        audioChipsetRouteSubtypes = [[NSSet alloc] initWithObjects:ORKHeadphoneChipsetIdentifierAirPods,
-                              ORKHeadphoneChipsetIdentifierLightningEarPods,
-                              ORKHeadphoneChipsetIdentifierAudioJackEarPods,
-                              nil];
-    }
-    return audioChipsetRouteSubtypes;
-}
-
-+ (nullable NSSet<ORKHeadphoneChipsetIdentifier> *)supportedHeadphoneChipsetsForType:(ORKHeadphoneTypes)headphoneTypes {
-    return headphoneTypes == ORKHeadphoneTypesSupported ? [ORKHeadphoneDetectStep dBHLTypes] : nil;
-}
+@implementation ORKHeadphonesRequiredCompletionStep
 
 + (Class)stepViewControllerClass {
-    return [ORKHeadphoneDetectStepViewController class];
+    return [ORKHeadphonesRequiredCompletionStepViewController class];
 }
 
-- (instancetype)initWithIdentifier:(NSString *)identifier headphoneTypes:(ORKHeadphoneTypes)headphoneTypes {
+- (instancetype)initWithIdentifier:(NSString *)identifier requiredHeadphoneTypes:(ORKHeadphoneTypes)requiredHeadphoneTypes {
     self = [super initWithIdentifier:identifier];
     if (self) {
-        self.headphoneTypes = headphoneTypes;
+        self.requiredHeadphoneTypes = requiredHeadphoneTypes;
+        
+        switch (self.requiredHeadphoneTypes) {
+                
+            case ORKHeadphoneTypesAny:
+                self.title = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_REQUIRED_TITLE", nil);
+                self.text = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_REQUIRED_TEXT", nil);
+                
+            case ORKHeadphoneTypesSupported:
+                self.title = ORKLocalizedString(@"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_TITLE", nil);
+                self.text = ORKLocalizedString(@"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_TEXT", nil);
+        }
     }
     return self;
 }
@@ -67,14 +63,14 @@
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        ORK_DECODE_INTEGER(aDecoder, headphoneTypes);
+        ORK_DECODE_INTEGER(aDecoder, requiredHeadphoneTypes);
     }
     return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [super encodeWithCoder:aCoder];
-    ORK_ENCODE_INTEGER(aCoder, headphoneTypes);
+    ORK_ENCODE_INTEGER(aCoder, requiredHeadphoneTypes);
 }
 
 + (BOOL)supportsSecureCoding {
@@ -82,8 +78,8 @@
 }
 
 - (instancetype)copyWithZone:(NSZone *)zone {
-    ORKHeadphoneDetectStep *step = [super copyWithZone:zone];
-    step.headphoneTypes = self.headphoneTypes;
+    ORKHeadphonesRequiredCompletionStep *step = [super copyWithZone:zone];
+    step.requiredHeadphoneTypes = self.requiredHeadphoneTypes;
     return step;
 }
 
@@ -92,15 +88,13 @@
 
         __typeof(self) castObject = object;
         return (isParentSame
-                && (self.headphoneTypes == castObject.headphoneTypes));
+                && (self.requiredHeadphoneTypes == castObject.requiredHeadphoneTypes));
 }
 
 - (NSUInteger)hash {
-    return super.hash ^ self.headphoneTypes;
-}
-
-- (nullable NSSet<ORKHeadphoneChipsetIdentifier> *)supportedHeadphoneChipsetTypes {
-    return [[ORKHeadphoneDetectStep supportedHeadphoneChipsetsForType:self.headphoneTypes] copy];
+    return super.hash ^ self.requiredHeadphoneTypes;
 }
 
 @end
+
+#endif

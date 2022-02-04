@@ -27,20 +27,42 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+// apple-internal
 
-#import <ResearchKit/ORKResult.h>
+#if APPLE_INTERNAL
+
+@import Foundation;
+#import <ResearchKit/ORKInstructionStep.h>
 #import <ResearchKit/ORKDefines.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-ORK_CLASS_AVAILABLE
-@interface ORKHeadphoneDetectResult : ORKResult
+typedef NS_ENUM(NSUInteger, ORKHeadphoneTypes) {
+    /**
+     Supported
+     */
+    ORKHeadphoneTypesSupported=0,
+    
+    /**
+     Any
+     */
+    ORKHeadphoneTypesAny
+    
+} ORK_ENUM_AVAILABLE;
 
-@property (nonatomic, copy, nullable) ORKHeadphoneTypeIdentifier headphoneType;
-@property (nonatomic, copy, nullable) NSString *vendorID;
-@property (nonatomic, copy, nullable) NSString *productID;
-@property (assign) NSInteger deviceSubType;
+ORK_CLASS_AVAILABLE
+@interface ORKHeadphoneDetectStep : ORKInstructionStep
+
+@property (nonatomic, assign) ORKHeadphoneTypes headphoneTypes;
+
+- (instancetype)initWithIdentifier:(NSString *)identifier headphoneTypes:(ORKHeadphoneTypes)headphoneTypes;
+
++ (NSSet<ORKHeadphoneChipsetIdentifier> *)dBHLTypes;
+
+- (nullable NSSet<ORKHeadphoneChipsetIdentifier> *)supportedHeadphoneChipsetTypes;
 
 @end
 
 NS_ASSUME_NONNULL_END
+
+#endif

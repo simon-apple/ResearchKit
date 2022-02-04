@@ -5,6 +5,9 @@
 //  Created by Peter Bohac on 5/25/19.
 //  Copyright © 2019 Apple Inc. All rights reserved.
 //
+// apple-internal
+
+#if APPLE_INTERNAL
 
 #ifndef ORKFlamesView_h
 #define ORKFlamesView_h
@@ -138,3 +141,4 @@ NS_ASSUME_NONNULL_BEGIN
 NS_ASSUME_NONNULL_END
 
 #endif /* ORKFlamesView_h */
+#endif

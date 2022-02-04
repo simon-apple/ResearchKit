@@ -63,8 +63,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-
 //start-omit-internal-code
+#if APPLE_INTERNAL
 
 @interface ORKSpeechInNoisePredefinedTaskContext : NSObject <ORKContext>
 
@@ -111,6 +111,6 @@ typedef NS_ENUM(NSInteger, ORKTinnitusType);
 
 @end
 
+#endif
 //end-omit-internal-code
-
 NS_ASSUME_NONNULL_END

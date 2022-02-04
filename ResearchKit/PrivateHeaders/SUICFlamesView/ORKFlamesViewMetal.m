@@ -4,6 +4,9 @@
 //  Created by Brandon Newendorp on 3/5/13.
 //  Copyright (c) 2013-2014 Apple Inc. All rights reserved.
 //
+// apple-internal
+
+#if APPLE_INTERNAL
 
 #import <Metal/Metal.h>
 #import "ORKFlamesViewMetal.h"
@@ -1285,3 +1288,5 @@ static NSUInteger sIndexCacheSize = 5;
     }
 }
 @end
+
+#endif

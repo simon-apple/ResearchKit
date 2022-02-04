@@ -5,6 +5,9 @@
 //  Created by Noah Witherspoon on 6/17/14.
 //  Copyright (c) 2014 Apple Inc. All rights reserved.
 //
+// apple-internal
+
+#if APPLE_INTERNAL
 
 @import Foundation;
 
@@ -27,3 +30,4 @@
 @property (nonatomic, assign) float baseValue; // only applicable if you use the baseValue/exponentMultiplier initializer
 @property (nonatomic, assign) float exponentMultiplier; // only applicable if you use the baseValue/exponentMultiplier initializer
 @end
+#endif

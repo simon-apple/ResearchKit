@@ -5,6 +5,10 @@
 //  Created by Peter Bohac on 5/28/19.
 //  Copyright © 2019 Apple Inc. All rights reserved.
 //
+// apple-internal
+
+#if APPLE_INTERNAL
+
 #ifndef ORKFlamesViewProviding_h
 #define ORKFlamesViewProviding_h
 #import <UIKit/UIKit.h>
@@ -113,3 +117,5 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 NS_ASSUME_NONNULL_END
 #endif /* ORKFlamesViewProviding_h */
+
+#endif

@@ -30,6 +30,8 @@
 
 // apple-internal
 
+#if APPLE_INTERNAL
+
 #import <ResearchKit/ORKFeatureFlags.h>
 
 #if ORK_FEATURE_BLE_SCAN_PERIPHERALS
@@ -546,5 +548,7 @@ API_AVAILABLE(ios(13.0))
 }
 
 @end
+
+#endif
 
 #endif

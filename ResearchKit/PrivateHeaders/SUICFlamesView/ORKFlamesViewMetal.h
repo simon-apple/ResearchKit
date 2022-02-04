@@ -4,6 +4,9 @@
 //  Created by Brandon Newendorp on 3/5/13.
 //  Copyright (c) 2013-2014 Apple Inc. All rights reserved.
 //
+// apple-internal
+
+#if APPLE_INTERNAL
 
 #import <UIKit/UIKit.h>
 #import "ORKFlamesViewProviding.h"
@@ -24,3 +27,5 @@ NS_CLASS_AVAILABLE_IOS(13_0)
 - (id)initWithFrame:(CGRect)frame screen:(UIScreen *)screen fidelity:(ORKFlamesViewFidelity)fidelity;
 
 @end
+
+#endif

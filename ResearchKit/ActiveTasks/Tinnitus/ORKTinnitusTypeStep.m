@@ -28,6 +28,9 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+// apple-internal
+
+#if APPLE_INTERNAL
 
 #import "ORKTinnitusTypeStep.h"
 #import "ORKTinnitusTypeStepViewController.h"
@@ -44,3 +47,5 @@
 }
 
 @end
+
+#endif

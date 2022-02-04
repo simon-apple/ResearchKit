@@ -29,6 +29,7 @@
  */
 
 // apple-internal
+#if APPLE_INTERNAL
 
 #import <ResearchKit/ORKFeatureFlags.h>
 
@@ -81,5 +82,7 @@ NSString * const ORKBLEScanPeripheralsFilterDeviceNameKey = @"ORKBLEScanPeripher
 }
 
 @end
+
+#endif
 
 #endif

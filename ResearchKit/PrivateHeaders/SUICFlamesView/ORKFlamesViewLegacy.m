@@ -4,6 +4,10 @@
 //  Created by Brandon Newendorp on 3/5/13.
 //  Copyright (c) 2013-2014 Apple Inc. All rights reserved.
 //
+// apple-internal
+
+#if APPLE_INTERNAL
+
 #import "ORKAudioLevelSmoother.h"
 #import "ORKFlameGroup.h"
 #import "ORKFlamesViewLegacy.h"
@@ -2338,3 +2342,5 @@ static NSUInteger sIndexCacheSize = 5;
     }
 }
 @end
+
+#endif

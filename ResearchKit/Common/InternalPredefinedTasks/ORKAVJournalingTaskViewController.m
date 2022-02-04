@@ -29,6 +29,7 @@
  */
 
 //apple-internal
+#if APPLE_INTERNAL
 
 #import "ORKAVJournalingTaskViewController.h"
 
@@ -248,4 +249,5 @@
 
 @end
 
+#endif
 #endif

@@ -27,7 +27,9 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+// apple-internal
 
+#if APPLE_INTERNAL
 #import "ORKTinnitusOverallAssessmentStepViewController.h"
 
 #import "ORKActiveStepView.h"
@@ -219,3 +221,4 @@
 }
 
 @end
+#endif

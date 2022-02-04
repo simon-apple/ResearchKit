@@ -100,7 +100,7 @@ def gather_files_from_internal_folders(folders):
 
 def is_a_folder_to_delete(current_folder):
     # hardcoded list of folders that need to be removed before pushing to public
-    folders_to_remove = ["PrivateHeaders", "ORKAVJournaling", "ORKFaceDetectionStep", "Tinnitus", "ORKVolumeCalibration", "ORKSpeechInNoise", "InternalPredefinedTasks"]
+    folders_to_remove = ["PrivateHeaders", "ORKAVJournaling", "ORKFaceDetectionStep", "Tinnitus", "ORKVolumeCalibration", "HeadphoneDetectStep", "InternalPredefinedTasks"]
     for folder in folders_to_remove:
         if folder == current_folder:
             return True

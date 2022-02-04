@@ -27,20 +27,46 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+// apple-internal
 
-#import <ResearchKit/ORKInstructionStep.h>
-#import <ResearchKit/ORKHeadphoneDetectStep.h>
-#import <ResearchKit/ORKDefines.h>
+#if APPLE_INTERNAL
+
+@import UIKit;
+@import AVFoundation;
+#import <ResearchKit/ORKTypes.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol ORKHeadphoneDetectorDelegate;
+
 ORK_CLASS_AVAILABLE
-@interface ORKHeadphonesRequiredCompletionStep : ORKInstructionStep
+@interface ORKHeadphoneDetector : NSObject
 
-- (instancetype)initWithIdentifier:(NSString *)identifier requiredHeadphoneTypes:(ORKHeadphoneTypes)requiredHeadphoneTypes;
+@property (nonatomic, weak) id<ORKHeadphoneDetectorDelegate> delegate;
+@property (nonatomic, readonly, nullable) NSSet<ORKHeadphoneChipsetIdentifier> *supportedHeadphoneChipsetTypes;
 
-@property (nonatomic, assign) ORKHeadphoneTypes requiredHeadphoneTypes;
+- (instancetype)initWithDelegate:(id<ORKHeadphoneDetectorDelegate>)delegate
+       supportedHeadphoneChipsetTypes:(nullable NSSet<ORKHeadphoneChipsetIdentifier> *)supportedHeadphoneChipsetTypes;
+
+- (void)discard;
+
++ (NSSet<ORKHeadphoneChipsetIdentifier> *)appleHeadphoneSet;
+
+@end
+
+@protocol ORKHeadphoneDetectorDelegate <NSObject>
+
+@required
+- (void)headphoneTypeDetected:(ORKHeadphoneTypeIdentifier)headphoneType vendorID:(NSString *)vendorID productID:(NSString *)productID deviceSubType:(NSInteger)deviceSubType isSupported:(BOOL)isSupported;
+
+@optional
+- (void)bluetoothModeChanged:(ORKBluetoothMode)bluetoothMode;
+- (void)podLowBatteryLevelDetected;
+- (void)wirelessSplitterMoreThanOneDeviceDetected:(BOOL)moreThanOne;
+- (void)oneAirPodRemoved;
 
 @end
 
 NS_ASSUME_NONNULL_END
+
+#endif

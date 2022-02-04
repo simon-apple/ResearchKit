@@ -47,14 +47,21 @@
 #import "ORKContext.h"
 #import "ORKTaskViewController.h"
 #import "ORKTaskViewController_Internal.h"
+
+// start-omit-internal-code
+#if APPLE_INTERNAL
 #import "ORKHeadphoneDetector.h"
 #import "ORKHeadphoneDetectResult.h"
+#endif
+// end-omit-internal-code
 
 #import <AVFoundation/AVFoundation.h>
 @import Accelerate;
 
 static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
 
+// start-omit-internal-code
+#if APPLE_INTERNAL
 @interface ORKSpeechInNoiseStepViewController () <ORKHeadphoneDetectorDelegate> {
     AVAudioEngine *_audioEngine;
     AVAudioPlayerNode *_playerNode;
@@ -68,10 +75,33 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
     AVAudioFrameCount _noiseToneCapacity;
     BOOL _installedTap;
     
+
     ORKHeadphoneDetector *_headphoneDetector;
     ORKHeadphoneTypeIdentifier _headphoneType;
+
+    
     BOOL _showingAlert;
 }
+#else
+    // end-omit-internal-code
+
+@interface ORKSpeechInNoiseStepViewController ()  {
+    AVAudioEngine *_audioEngine;
+    AVAudioPlayerNode *_playerNode;
+    AVAudioMixerNode *_mixerNode;
+    float _peakPower;
+    float _toneDuration;
+    AVAudioPCMBuffer *_noiseAudioBuffer;
+    AVAudioPCMBuffer *_speechAudioBuffer;
+    AVAudioPCMBuffer *_filterAudioBuffer;
+    AVAudioFrameCount _speechToneCapacity;
+    AVAudioFrameCount _noiseToneCapacity;
+    BOOL _installedTap;
+    
+    
+    BOOL _showingAlert;
+}
+#endif
 
 @property (nonatomic, strong) ORKSpeechInNoiseContentView *speechInNoiseContentView;
 
@@ -87,18 +117,28 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
     _filterAudioBuffer = [[AVAudioPCMBuffer alloc] init];
     _installedTap = NO;
     _showingAlert = NO;
+    
+    // start-omit-internal-code
+#if APPLE_INTERNAL
     _headphoneDetector = [[ORKHeadphoneDetector alloc] initWithDelegate:self
                                          supportedHeadphoneChipsetTypes:nil];
+#endif
+    // end-omit-internal-code
+
     
     ORKTaskResult *taskResults = [[self taskViewController] result];
     
     for (ORKStepResult *result in taskResults.results) {
         if (result.results > 0) {
             ORKStepResult *firstResult = (ORKStepResult *)[result.results firstObject];
+            // start-omit-internal-code
+#if APPLE_INTERNAL
             if ([firstResult isKindOfClass:[ORKHeadphoneDetectResult class]]) {
                 ORKHeadphoneDetectResult *headphoneDetectResult = (ORKHeadphoneDetectResult *)firstResult;
                 _headphoneType = headphoneDetectResult.headphoneType;
             }
+#endif
+            // end-omit-internal-code
         }
     }
     
@@ -257,10 +297,14 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
 {
     NSString *filename = nil;
     
+    // start-omit-internal-code
+#if APPLE_INTERNAL
     ORKSpeechInNoisePredefinedTaskContext *context = [self predefinedSpeechInNoiseContext];
     
-    if (context)
-    {
+    if (context) {
+#endif
+    // end-omit-internal-code
+        
         BOOL (^validate)(NSString * _Nullable) = ^BOOL(NSString * _Nullable str) { return str && str.length > 0; };
         
         NSString *path = [[self speechInNoiseStep] speechFilePath];
@@ -270,11 +314,19 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
         {
             filename = [file copy];
         }
+        
+    // start-omit-internal-code
+#if APPLE_INTERNAL
+
     }
+#endif
+    // end-omit-internal-code
     
     return filename;
 }
 
+// start-omit-internal-code
+#if APPLE_INTERNAL
 - (ORKSpeechInNoisePredefinedTaskContext * _Nullable)predefinedSpeechInNoiseContext
 {
     if ([self.step.context isKindOfClass:[ORKSpeechInNoisePredefinedTaskContext class]])
@@ -284,17 +336,22 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
     
     return nil;
 }
+#endif
+// end-omit-internal-code
 
 - (ORKStepResult *)result
 {
     ORKStepResult *sResult = [super result];
     
+    // start-omit-internal-code
+#if APPLE_INTERNAL
     ORKSpeechInNoisePredefinedTaskContext *context = [self predefinedSpeechInNoiseContext];
     if (context && [context isPracticeTest])
     {
         return sResult;
     }
-    
+#endif
+    // end-omit-internal-code
     
     ORKSpeechInNoiseStep *currentStep = (ORKSpeechInNoiseStep *)self.step;
     
@@ -320,21 +377,30 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
 {
     [_speechInNoiseContentView removeAllSamples];
     
+    // start-omit-internal-code
+#if APPLE_INTERNAL
     [_headphoneDetector discard];
     _headphoneDetector = nil;
     
     ORKSpeechInNoisePredefinedTaskContext *context = [self predefinedSpeechInNoiseContext];
-    if (context)
-    {
+    if (context) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(ORKSpeechInNoiseStepFinishDelay * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{ [super finish]; });
     }
-    else
-    {
+    else {
+#endif
+    // end-omit-internal-code
         [super finish];
+    
+    // start-omit-internal-code
+#if APPLE_INTERNAL
+
     }
+#endif
+    // end-omit-internal-code
 }
 
-
+// start-omit-internal-code
+#if APPLE_INTERNAL
 #pragma mark - Headphone Monitoring
 
 - (void)headphoneTypeDetected:(nonnull ORKHeadphoneTypeIdentifier)headphoneType vendorID:(nonnull NSString *)vendorID productID:(nonnull NSString *)productID deviceSubType:(NSInteger)deviceSubType isSupported:(BOOL)isSupported {
@@ -384,5 +450,7 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
         });
     }
 }
+#endif
+// end-omit-internal-code
 
 @end
