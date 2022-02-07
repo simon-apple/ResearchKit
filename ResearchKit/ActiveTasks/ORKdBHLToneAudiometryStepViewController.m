@@ -437,9 +437,14 @@
         }
     }
     
-    if ((_currentdBHL - _dBHLStepDownSize >= _dBHLMinimumThreshold) && !falseResponseTap) {
+    if (!falseResponseTap) {
         _usingMissingList = NO;
-        _currentdBHL = _currentdBHL - _dBHLStepDownSize;
+        
+        if (_currentdBHL - _dBHLStepDownSize > _dBHLMinimumThreshold) {
+            _currentdBHL = _currentdBHL - _dBHLStepDownSize;
+        } else if (_currentdBHL - _dBHLStepDownSize < _dBHLMinimumThreshold) {
+            _currentdBHL = _dBHLMinimumThreshold;
+        }
     }
 
     [self estimatedBHLAndPlayToneWithFrequency:_freqLoopList[_indexOfFreqLoopList]];
