@@ -75,7 +75,7 @@ NSString * const ORKBLEScanPeripheralsFilterDeviceNameKey = @"ORKBLEScanPeripher
 {
     self = [super initWithCoder:coder];
     if (self) {
-        ORK_DECODE_OBJ_CLASS(coder, scanOptions, NSDictionary);
+        ORK_DECODE_OBJ_PLIST(coder, scanOptions);
     }
     return self;
 }
