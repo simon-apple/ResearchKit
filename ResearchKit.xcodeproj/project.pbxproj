@@ -870,6 +870,7 @@
 		BC45F81A2304DDE50007540A /* ORKSoftLinking.h in Headers */ = {isa = PBXBuildFile; fileRef = BC45F8192304DDE40007540A /* ORKSoftLinking.h */; };
 		BC4A213F1C85FC0000BFC271 /* ORKBarGraphChartView.h in Headers */ = {isa = PBXBuildFile; fileRef = BC4A213D1C85FC0000BFC271 /* ORKBarGraphChartView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BC4A21401C85FC0000BFC271 /* ORKBarGraphChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = BC4A213E1C85FC0000BFC271 /* ORKBarGraphChartView.m */; };
+		BC4D521F27B326EA0099DC18 /* ORKSecureCodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4D521E27B326EA0099DC18 /* ORKSecureCodingTests.swift */; };
 		BC5FAF841C6901A200057CF1 /* ORKChartTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = BC5FAF821C6901A200057CF1 /* ORKChartTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BC5FAF851C6901A200057CF1 /* ORKChartTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = BC5FAF831C6901A200057CF1 /* ORKChartTypes.m */; };
 		BC8FC6781CA9B17C00D12768 /* ORKVoiceEngine_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EBFE11E1AE1B68800CB8254 /* ORKVoiceEngine_Internal.h */; };
@@ -1995,6 +1996,7 @@
 		BC45F8192304DDE40007540A /* ORKSoftLinking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKSoftLinking.h; sourceTree = "<group>"; };
 		BC4A213D1C85FC0000BFC271 /* ORKBarGraphChartView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ORKBarGraphChartView.h; path = Charts/ORKBarGraphChartView.h; sourceTree = "<group>"; };
 		BC4A213E1C85FC0000BFC271 /* ORKBarGraphChartView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ORKBarGraphChartView.m; path = Charts/ORKBarGraphChartView.m; sourceTree = "<group>"; };
+		BC4D521E27B326EA0099DC18 /* ORKSecureCodingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ORKSecureCodingTests.swift; sourceTree = "<group>"; };
 		BC5FAF821C6901A200057CF1 /* ORKChartTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ORKChartTypes.h; path = Charts/ORKChartTypes.h; sourceTree = "<group>"; };
 		BC5FAF831C6901A200057CF1 /* ORKChartTypes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ORKChartTypes.m; path = Charts/ORKChartTypes.m; sourceTree = "<group>"; };
 		BC94EF2F1E962F7400143081 /* ORKDeprecated.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKDeprecated.h; sourceTree = "<group>"; };
@@ -3395,6 +3397,7 @@
 				1490DD03224D6A61003FEEDA /* ORKTestResultPredicateType.swift */,
 				14F7AC8A2269035200D52F41 /* ORKStepViewControllerTests.swift */,
 				14E7903F226A5F72009D8083 /* ORKStepViewControllerHelpers.swift */,
+				BC4D521E27B326EA0099DC18 /* ORKSecureCodingTests.swift */,
 			);
 			path = ResearchKitTests;
 			sourceTree = "<group>";
@@ -5517,6 +5520,7 @@
 				714151D0225C4A23002CA33B /* ORKPasscodeViewControllerTests.swift in Sources */,
 				0324C1D825439E1800BBE77B /* ORKVideoInstructionStepViewControllerTests.swift in Sources */,
 				14E79040226A5F72009D8083 /* ORKStepViewControllerHelpers.swift in Sources */,
+				BC4D521F27B326EA0099DC18 /* ORKSecureCodingTests.swift in Sources */,
 				86D348021AC161B0006DB02B /* ORKRecorderTests.m in Sources */,
 				1490DCFC224D4867003FEEDA /* ORKEnvironmentSPLMeterResultTests.swift in Sources */,
 				7141EA2222EFBC0C00650145 /* ORKLoggingTests.m in Sources */,
