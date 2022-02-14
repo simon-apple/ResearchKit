@@ -442,7 +442,7 @@
         
         if (_currentdBHL - _dBHLStepDownSize > _dBHLMinimumThreshold) {
             _currentdBHL = _currentdBHL - _dBHLStepDownSize;
-        } else if (_currentdBHL - _dBHLStepDownSize < _dBHLMinimumThreshold) {
+        } else if (_currentdBHL - _dBHLStepDownSize <= _dBHLMinimumThreshold) {
             _currentdBHL = _dBHLMinimumThreshold;
         }
     }
