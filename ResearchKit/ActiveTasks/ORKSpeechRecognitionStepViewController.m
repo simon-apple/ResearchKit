@@ -100,17 +100,14 @@
     
     _errorState = NO;
     
-    // start-omit-internal-code
 #if APPLE_INTERNAL
     [self requestSpeechRecognizerAuthorizationIfNeeded];
 #endif
-    // end-omit-internal-code
     
     _localResult = [[ORKSpeechRecognitionResult alloc] initWithIdentifier:self.step.identifier];
     _speechRecognitionQueue = dispatch_queue_create("SpeechRecognitionQueue", DISPATCH_QUEUE_SERIAL);
 }
 
-// start-omit-internal-code
 #if APPLE_INTERNAL
 
 - (void)requestSpeechRecognizerAuthorizationIfNeeded
@@ -160,7 +157,6 @@
     }
 }
 #endif
-// end-omit-internal-code
 
 - (void)initializeRecognizer {
     _speechRecognizer = [[ORKSpeechRecognizer alloc] init];
@@ -205,7 +201,6 @@
     [self goForward];
 }
 
-// start-omit-internal-code
 #if APPLE_INTERNAL
 - (ORKSpeechInNoisePredefinedTaskContext * _Nullable)currentSpeechInNoisePredefinedTaskContext
 {
@@ -217,13 +212,11 @@
     return nil;
 }
 #endif
-// end-omit-internal-code
 
 - (void)setAllowUserToRecordInsteadOnNextStep:(BOOL)allowUserToRecordInsteadOnNextStep
 {
     _allowUserToRecordInsteadOnNextStep = allowUserToRecordInsteadOnNextStep;
     
-    // start-omit-internal-code
 #if APPLE_INTERNAL
     ORKSpeechInNoisePredefinedTaskContext *currentContext = [self currentSpeechInNoisePredefinedTaskContext];
     if (currentContext)
@@ -231,7 +224,6 @@
         currentContext.prefersKeyboard = allowUserToRecordInsteadOnNextStep;
     }
 #endif
-    // end-omit-internal-code
 }
 
 - (CAShapeLayer *)recordingShapeLayer
@@ -273,7 +265,6 @@
 {
     ORKStepResult *sResult = [super result];
     
-    // start-omit-internal-code
 #if APPLE_INTERNAL
     ORKSpeechInNoisePredefinedTaskContext *currentContext = [self currentSpeechInNoisePredefinedTaskContext];
     
@@ -286,7 +277,6 @@
         }
     }
 #endif
-    // end-omit-internal-code
     
     if (_speechRecognitionQueue) {
         dispatch_sync(_speechRecognitionQueue, ^{
@@ -357,7 +347,7 @@
 
 - (void)setupNextStepForAllowingUserToRecordInstead:(BOOL)allowUserToRecordInsteadOnNextStep
 {
-    // start-omit-internal-code
+
 #if APPLE_INTERNAL
     ORKSpeechInNoisePredefinedTaskContext *currentContext = [self currentSpeechInNoisePredefinedTaskContext];
     if (currentContext)
@@ -422,7 +412,7 @@
         }
     } else {
 #endif
-        // end-omit-internal-code
+
         if ([[self nextStep] isKindOfClass:[ORKQuestionStep class]] && [[[self nextStep] answerFormat] isKindOfClass:[ORKTextAnswerFormat class]]) {
             
             NSString *substitutedTextAnswer = [self substitutedStringWithString:[_localResult.transcription formattedString]];
@@ -431,10 +421,9 @@
         }
 #if APPLE_INTERNAL
 
-    // start-omit-internal-code
     }
 #endif
-    // end-omit-internal-code
+    
 }
 
 - (nullable NSString *)substitutedStringWithString:(nullable NSString *)string

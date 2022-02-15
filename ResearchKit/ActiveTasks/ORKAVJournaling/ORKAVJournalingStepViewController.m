@@ -311,15 +311,14 @@ static const CGFloat FramesToSkipTotal = 5.0;
 }
 
 - (void)invokeFinishLaterContext {
-    //start-omit-internal-code
-            #if APPLE_INTERNAL
+    
+#if APPLE_INTERNAL
     if ([self.step.context isKindOfClass:[ORKAVJournalingPredfinedTaskContext class]]) {
         [(ORKAVJournalingPredfinedTaskContext *)self.step.context finishLaterWasPressedForTask:self.step.task currentStepIdentifier:self.step.identifier];
         [self cleanupSession];
         [[self taskViewController] flipToPageWithIdentifier:ORKAVJournalingStepIdentifierFinishLaterCompletion forward:YES animated:NO];
     }
 #endif
-    //end-omit-internal-code
 }
 
 - (void)tearDownSession {

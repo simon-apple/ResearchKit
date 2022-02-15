@@ -65,6 +65,46 @@ class File(object):
         if should_skip:
             raise Exception(f"Encountered unpaired delimeter {start_delimeter} in file {self.name}")
 
+    def remove_internal_flags_and_content(self):
+
+        start_delimeter = "#if APPLE_INTERNAL"
+        mid_delimiter = "#else"
+        end_delimeter = "#endif"
+
+        try:
+            with open(self.path, "r+") as file:
+                should_skip = False
+                is_else_block_content = False
+                new_content = []
+                for line in file.readlines():
+
+                    # begin skipping lines once the start_delimeter is found
+                    if start_delimeter in line:
+                        should_skip = True
+
+                    # turn is_else_block_content false if we hit a end_delimeter
+                    if end_delimeter in line and is_else_block_content:
+                        is_else_block_content = False
+
+                    if not should_skip or is_else_block_content:
+                        new_content.append(line)
+
+                    # if mid_delimiter is found begin collecting lines until end_delimeter is hit
+                    if mid_delimiter in line:
+                        is_else_block_content = True
+
+                    if end_delimeter in line:
+                        should_skip = False
+                        is_else_block_content = False
+
+                new_content = "".join(new_content)
+                file.truncate(0)
+                file.seek(0)
+                file.write(new_content)
+
+        except:
+            print(f"Warning: Unable to open or write to file {self.path}")
+
 def recursively_read_files():
     all_files = []
     for root, _, files in os.walk("../ResearchKit"):
@@ -147,9 +187,7 @@ if __name__ == "__main__":
     print(f"Finished removing references in ResearchKit project file")
 
     for f in files:
-        start_comment = "start-omit-internal-code"
-        end_comment = "end-omit-internal-code"
-        f.remove_internal_code(start_delimeter=start_comment, end_delimeter=end_comment)
+        f.remove_internal_flags_and_content()
         f.remove_lines_containing("swiftlint")
         f.remove_lines_containing("// TODO:")
         f.remove_lines_containing("// FIXME:")

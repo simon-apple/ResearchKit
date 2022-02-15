@@ -48,7 +48,6 @@
 #import <ResearchKit/ORKTrailmakingResult.h>
 
 #if APPLE_INTERNAL
-//start-omit-internal-code
 
 #import <ResearchKit/ORKSpeechInNoiseResult.h>
 
@@ -58,4 +57,3 @@
 #import <ResearchKit/ORKTinnitusTypeResult.h>
 #import <ResearchKit/ORKTinnitusOverallAssessmentResult.h>
 #endif
-//end-omit-internal-code

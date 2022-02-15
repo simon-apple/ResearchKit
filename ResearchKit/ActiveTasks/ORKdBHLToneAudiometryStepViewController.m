@@ -48,13 +48,11 @@
 #import "ORKCollectionResult_Private.h"
 #import "ORKdBHLToneAudiometryResult.h"
 #import "ORKdBHLToneAudiometryStep.h"
-//start-omit-internal-code
+
 #if APPLE_INTERNAL
 #import "ORKHeadphoneDetectStep.h"
 #import "ORKHeadphoneDetectResult.h"
 #endif
-//end-omit-internal-code
-
 
 #import "ORKHelpers_Internal.h"
 #import "ORKTaskViewController_Private.h"
@@ -110,11 +108,9 @@
     dispatch_block_t _pulseDurationWorkBlock;
     dispatch_block_t _postStimulusDelayWorkBlock;
     
-    //start-omit-internal-code
 #if APPLE_INTERNAL
     ORKHeadphoneDetector *_headphoneDetector;
 #endif
-    //end-omit-internal-code
     
     BOOL _showingAlert;
 }
@@ -184,19 +180,16 @@
 
     [self.dBHLToneAudiometryContentView.tapButton addTarget:self action:@selector(tapButtonPressed) forControlEvents:UIControlEventTouchDown];
     
-    //start-omit-internal-code
 #if APPLE_INTERNAL
     _headphoneDetector = [[ORKHeadphoneDetector alloc] initWithDelegate:self
                                                 supportedHeadphoneChipsetTypes:[ORKHeadphoneDetectStep dBHLTypes]];
 #endif
-    //end-omit-internal-code
     
     //TODO:- figure out where this call lives
     [[self taskViewController] lockDeviceVolume:0.5];
 
     ORKTaskResult *taskResults = [[self taskViewController] result];
 
-    //start-omit-internal-code
 #if APPLE_INTERNAL
     for (ORKStepResult *result in taskResults.results) {
         if (result.results > 0) {
@@ -208,7 +201,6 @@
         }
     }
 #endif
-    //end-omit-internal-code
 
     _audioChannel = dBHLTAStep.earPreference;
     _audioGenerator = [[ORKdBHLToneAudiometryAudioGenerator alloc] initForHeadphoneType:dBHLTAStep.headphoneType];
@@ -267,12 +259,12 @@
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    //start-omit-internal-code
+    
 #if APPLE_INTERNAL
     _headphoneDetector.delegate = nil;
     _headphoneDetector = nil;
 #endif
-    //end-omit-internal-code
+    
     _audioGenerator.delegate = nil;
 }
 

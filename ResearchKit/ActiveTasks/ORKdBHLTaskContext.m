@@ -35,7 +35,6 @@
 
 @implementation ORKdBHLTaskContext
 
-//start-omit-internal-code
 #if APPLE_INTERNAL
 - (NSString *)didSkipHeadphoneDetectionStepForTask:(id<ORKTask>)task {
     
@@ -57,7 +56,6 @@
     return nil;
 }
 #endif
-//end-omit-internal-code
 
 - (NSString *)didNotAllowRequiredHealthPermissionsForTask:(id<ORKTask>)task
 {
@@ -79,7 +77,7 @@
         if (@available(iOS 13.0, *)) {
             step.iconImage = [UIImage systemImageNamed:@"mic.slash"];
         }
-        //start-omit-internal-code
+        
 #if APPLE_INTERNAL
         ORKLearnMoreInstructionStep *learnMoreInstructionStep = [[ORKLearnMoreInstructionStep alloc] initWithIdentifier:ORKCompletionStepIdentifierMicrophoneLearnMore];
         ORKLearnMoreItem *learnMoreItem = [[ORKLearnMoreItem alloc]
@@ -94,7 +92,7 @@
         
         step.bodyItems = @[settingsLinkBodyItem];
 #endif
-        //end-omit-internal-code
+
         [currentTask addStep:step];
         
         ORKDirectStepNavigationRule *endNavigationRule = [[ORKDirectStepNavigationRule alloc] initWithDestinationStepIdentifier:ORKNullStepIdentifier];

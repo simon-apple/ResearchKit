@@ -176,11 +176,9 @@ static const CGFloat BarViewHeight = 50.0;
 
 - (void)setProgressCircle:(CGFloat)progress {
     if (progress >= ORKRingViewMaximumValue) {
-        //start-omit-internal-code
         #if APPLE_INTERNAL
         [_ringView setBackgroundLayerStrokeColor:UIColor.systemOrangeColor circleStrokeColor:UIColor.splGrayColor withAnimationDuration:0.8];
         #endif
-        //end-omit-internal-code
     } else {
         [_ringView resetLayerColors];
     }

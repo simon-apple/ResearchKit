@@ -28,14 +28,12 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-// start-omit-internal-code
 #if APPLE_INTERNAL
 #import <ResearchKit/ORKFeatureFlags.h>
 #import <ResearchKit/ORKHeadphoneDetectResult.h>
 #import <ResearchKit/ORKHeadphoneDetector.h>
 #import <ResearchKit/ORKHeadphoneDetectStep.h>
 #endif
-// end-omit-internal-code
 
 #import <ResearchKit/ORKDefines.h>
 #import <ResearchKit/ORKTypes.h>
@@ -157,11 +155,9 @@
 #import <ResearchKit/ORKBundleAsset.h>
 
 
-//start-omit-internal-code
 #if APPLE_INTERNAL
 #import <ResearchKit/ORKAVJournalingTaskViewController.h>
 #import <ResearchKit/ORKAVJournalingResult.h>
 
 #import <ResearchKit/ORKBLEScanPeripheralsStepResult.h>
 #endif
-//end-omit-internal-code

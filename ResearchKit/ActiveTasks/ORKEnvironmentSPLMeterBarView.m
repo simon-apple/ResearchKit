@@ -230,11 +230,9 @@ static const int ORKEnvironmentSPLMeterNumberOfRows = 4;
         UIColor *greenColor;
         UIColor *orangeColor;
         if (@available(iOS 13.0, *)) {
-            //start-omit-internal-code
             #if APPLE_INTERNAL
             grayColor = UIColor.splGrayColor;
             #endif
-            //end-omit-internal-code
 
             greenColor = [UIColor systemGreenColor];
             orangeColor = [UIColor systemOrangeColor];

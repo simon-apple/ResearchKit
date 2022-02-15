@@ -37,7 +37,7 @@
 
 #import <objc/runtime.h>
 
-// start-omit-internal-code
+
 @interface TestCompilerFlagHelper : NSObject
 + (NSArray<NSString *> *)_fetchExclusionList;
 @end
@@ -71,7 +71,7 @@
 }
 
 @end
-// end-omit-internal-code
+
 
 @interface ORKJSONSerializationTests : XCTestCase <NSKeyedUnarchiverDelegate>
 
@@ -662,9 +662,9 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
         @"ORKAVJournalingBlurFooterView"
     ];
     
-    // start-omit-internal-code
+    #if APPLE_INTERNAL
     excludedClassNames = [excludedClassNames arrayByAddingObjectsFromArray:[TestCompilerFlagHelper _fetchExclusionList]];
-    // end-omit-internal-code
+    #endif
     
     // Find all classes that conform to NSSecureCoding
     NSMutableArray<Class> *classesWithSecureCoding = [NSMutableArray new];
@@ -804,9 +804,9 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
         return filenameComponents.firstObject;
     };
     
-    // start-omit-internal-code
+    #if APPLE_INTERNAL
     NSArray *classesToExclude = [TestCompilerFlagHelper _fetchExclusionList];
-    // end-omit-internal-code
+    #endif
     
     // Decode where images are "decoded"
     for (NSString *path in paths) {
@@ -814,11 +814,12 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
         NSMutableDictionary *dict = [[NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:path] options:0 error:NULL] mutableCopy];
         NSString *className = filenamePathToClassName(path);
         
-        // start-omit-internal-code
+        
+        #if APPLE_INTERNAL
         if ([classesToExclude containsObject:className]) {
             continue;
         }
-        // end-omit-internal-code
+        #endif
         
         NSMutableArray<NSString *> *knownProperties = [[ORKESerializer serializedPropertiesForClass:NSClassFromString(className)] mutableCopy];
         NSMutableArray<NSString *> *loadedProperties = [[dict allKeys] mutableCopy];
@@ -871,11 +872,11 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
         NSMutableDictionary *dict = [[NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:path] options:0 error:NULL] mutableCopy];
         NSString *className = filenamePathToClassName(path);
         
-        // start-omit-internal-code
+        #if APPLE_INTERNAL
         if ([classesToExclude containsObject:className]) {
             continue;
         }
-        // end-omit-internal-code
+        #endif
         
         // Exception for properties that are versioned
         for (NSString *versionedProperty in versionedProperties) {
@@ -1361,7 +1362,7 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
     
     // Test Each class
     for (Class aClass in classesWithSecureCodingAndCopying) {
-        // start-omit-internal-code
+        #if APPLE_INTERNAL
         NSArray<NSString *> *excludedClassNames = [TestCompilerFlagHelper _fetchExclusionList];
         BOOL classToBeExcluded = NO;
         
@@ -1374,7 +1375,7 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
         if (classToBeExcluded) {
             continue;
         }
-        // end-omit-internal-code
+        #endif
         
         id instance = [self instanceForClass:aClass];
         

@@ -120,15 +120,13 @@ static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;
     [self requestRecordPermissionIfNeeded];
     [self configureAudioSession];
     [self setupFeedbackGenerator];
-    //start-omit-internal-code
+    
     #if APPLE_INTERNAL
     [self registerNotifications];
     [self startTimeoutTimer];
     #endif
-    //end-omit-internal-code
 }
 
-//start-omit-internal-code
 #if APPLE_INTERNAL
 - (void)registerNotifications {
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
@@ -214,7 +212,6 @@ static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;
 }
 
 #endif
-//end-omit-internal-code
 
 - (void)saveAudioSession {
     AVAudioSession *audioSession = [AVAudioSession sharedInstance];
@@ -232,7 +229,6 @@ static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;
     ORKTaskViewController *taskViewController = self.taskViewController;
     ORKStep *nextStep = [taskViewController.task stepAfterStep:self.step withResult:taskViewController.result];
     
-    //start-omit-internal-code
     #if APPLE_INTERNAL
     if (nextStep && [nextStep.context isKindOfClass:[ORKSpeechInNoisePredefinedTaskContext class]])
     {
@@ -247,7 +243,6 @@ static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;
         }
     }
     #endif
-    //end-omit-internal-code
 }
 
 - (void)setContinueButtonItem:(UIBarButtonItem *)continueButtonItem {
@@ -283,11 +278,10 @@ static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;
     [_audioEngine stop];
     [_rmsBuffer removeAllObjects];
     [self resetAudioSession];
-    //start-omit-internal-code
+    
     #if APPLE_INTERNAL
     [self removeObservers];
-#endif
-//end-omit-internal-code
+    #endif
 }
 
 - (NSString *)deviceType {
@@ -322,7 +316,6 @@ static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;
     return sResult;
 }
 
-//start-omit-internal-code
 #if APPLE_INTERNAL
 
 - (nullable ORKSpeechInNoisePredefinedTaskContext *)speechInNoisePredefinedTaskContext
@@ -334,7 +327,6 @@ static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;
     return nil;
 }
 #endif
-//end-omit-internal-code
 
 - (void)requestRecordPermissionIfNeeded
 {
@@ -586,11 +578,11 @@ static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;
 
 - (void)reachedOptimumNoiseLevel {
     [_audioEngine stop];
-    //start-omit-internal-code
+    
     #if APPLE_INTERNAL
     [self stopTimeoutTimer];
     #endif
-    //stop-omit-internal-code
+    
     [self resetAudioSession];
 }
 

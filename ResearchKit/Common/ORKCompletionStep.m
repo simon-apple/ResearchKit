@@ -35,12 +35,10 @@
 #endif
 #import "ORKHelpers_Internal.h"
 
-//start-omit-internal-code
 #if APPLE_INTERNAL
 ORKCompletionStepIdentifier const ORKCompletionStepIdentifierMicrophoneLearnMore = @"ORKCompletionStepIdentifierMicrophoneLearnMore";
 ORKCompletionStepIdentifier const ORKEnvironmentSPLMeterTimeoutIdentifier = @"ORKEnvironmentSPLMeterTimeoutIdentifier";
 #endif
-//end-omit-internal-code
 
 @implementation ORKCompletionStep
 #if TARGET_OS_IOS
