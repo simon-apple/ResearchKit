@@ -74,6 +74,7 @@ func resultTableViewProviderForResult(_ result: ORKResult?, delegate: ResultProv
         (e.g. the `ORKCollectionResult` guard against `result` being an
         `ORKTaskResult` instance).
     */
+
     switch result {
     // Survey Questions
     case is ORKBooleanQuestionResult:
@@ -169,7 +170,10 @@ func resultTableViewProviderForResult(_ result: ORKResult?, delegate: ResultProv
         
     case is ORKWebViewStepResult:
         providerType = WebViewStepResultTableViewProvider.self
-        
+
+    // start-omit-internal-code
+    #if APPLE_INTERNAL
+
     case is ORKHeadphoneDetectResult:
         providerType = HeadphoneDetectStepResultTableViewProvider.self
         
@@ -193,7 +197,8 @@ func resultTableViewProviderForResult(_ result: ORKResult?, delegate: ResultProv
         
     case is ORKBLEScanPeripheralsStepResult:
         providerType = BLEScanPeripheralsStepResultTableViewProvider.self
-            
+    #endif
+    // end-omit-internal-code
     default:
         fatalError("No ResultTableViewProvider defined for \(type(of: result)).")
     }
@@ -1325,6 +1330,10 @@ class VideoInstructionStepResultTableViewProvider: ResultTableViewProvider {
 
 /// Table view provider specific to an `ORKVideoInstructionStepResult` instance.
 // swiftlint:disable type_name
+
+// start-omit-internal-code
+#if APPLE_INTERNAL
+
 class HeadphoneDetectStepResultTableViewProvider: ResultTableViewProvider {
     // MARK: ResultTableViewProvider
     
@@ -1345,6 +1354,9 @@ class HeadphoneDetectStepResultTableViewProvider: ResultTableViewProvider {
         return rows
     }
 }
+#endif
+// end-omit-internal-code
+
 // swiftlint:enable type_name
 
 /// Table view provider specific to an `ORKWebViewStepResult` instance.
@@ -1386,6 +1398,9 @@ class SPLMeterStepResultTableViewProvider: ResultTableViewProvider {
     }
 }
 
+// start-omit-internal-code
+#if APPLE_INTERNAL
+
 /// Table view provider specific to an `ORKTinnitusTypeResult` instance.
 class TinnitusTypeResultTableViewProvider: ResultTableViewProvider {
     // MARK: ResultTableViewProvider
@@ -1405,6 +1420,7 @@ class TinnitusTypeResultTableViewProvider: ResultTableViewProvider {
         return rows
     }
 }
+
 
 /// Table view provider specific to an `ORKTinnitusVolumeResult` instance.
 class TinnitusVolumeResultTableViewProvider: ResultTableViewProvider {
@@ -1536,5 +1552,7 @@ class BLEScanPeripheralsStepResultTableViewProvider: ResultTableViewProvider {
     }
 }
 
+#endif
+// end-omit-internal-code
 
 //swiftlint:enable force_cast

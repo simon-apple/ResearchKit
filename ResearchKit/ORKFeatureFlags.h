@@ -30,13 +30,13 @@
 
 // apple-internal
 
+#import <Foundation/Foundation.h>
+
 #ifndef APPLE_INTERNAL
 #define APPLE_INTERNAL 0
 #endif
 
 #if APPLE_INTERNAL
-
-#import <Foundation/Foundation.h>
 
 #ifndef ORK_FEATURE_AV_JOURNALING
 #define ORK_FEATURE_AV_JOURNALING 0
