@@ -67,12 +67,12 @@ NS_ASSUME_NONNULL_BEGIN
  and, if applicable, prefills its results using the `defaultResultSource`.
  */
 - (ORKStepViewController *)viewControllerForStep:(ORKStep *)step;
-
+#if APPLE_INTERNAL
 /**
  Locks the device volume to a specific value. Will ignore a new locked value if the method was called before.
  */
 - (void)lockDeviceVolume:(float)volume;
-
+#endif
 - (void)stepViewController:(ORKStepViewController *)stepViewController didFinishWithNavigationDirection:(ORKStepViewControllerNavigationDirection)direction
                   animated:(BOOL)animated;
 

@@ -28,6 +28,8 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#if APPLE_INTERNAL
+
 #import <ResearchKit/ORKContext.h>
 #import "ORKdBHLToneAudiometryCompletionStep.h"
 #import "ORKHelpers_Internal.h"
@@ -35,7 +37,6 @@
 
 @implementation ORKdBHLTaskContext
 
-#if APPLE_INTERNAL
 - (NSString *)didSkipHeadphoneDetectionStepForTask:(id<ORKTask>)task {
     
     if ([task isKindOfClass:[ORKOrderedTask class]]) {
@@ -55,7 +56,6 @@
     
     return nil;
 }
-#endif
 
 - (NSString *)didNotAllowRequiredHealthPermissionsForTask:(id<ORKTask>)task
 {
@@ -77,8 +77,7 @@
         if (@available(iOS 13.0, *)) {
             step.iconImage = [UIImage systemImageNamed:@"mic.slash"];
         }
-        
-#if APPLE_INTERNAL
+
         ORKLearnMoreInstructionStep *learnMoreInstructionStep = [[ORKLearnMoreInstructionStep alloc] initWithIdentifier:ORKCompletionStepIdentifierMicrophoneLearnMore];
         ORKLearnMoreItem *learnMoreItem = [[ORKLearnMoreItem alloc]
                                            initWithText:ORKLocalizedString(@"OPEN_MICROPHONE_SETTINGS", nil)
@@ -91,7 +90,6 @@
                                                                 bodyItemStyle:ORKBodyItemStyleText];
         
         step.bodyItems = @[settingsLinkBodyItem];
-#endif
 
         [currentTask addStep:step];
         
@@ -105,3 +103,5 @@
 }
 
 @end
+
+#endif

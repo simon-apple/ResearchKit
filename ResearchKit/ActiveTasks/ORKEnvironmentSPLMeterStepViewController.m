@@ -54,7 +54,9 @@
 #include <sys/sysctl.h>
 
 static const NSTimeInterval SPL_METER_PLAY_DELAY_VOICEOVER = 3.0;
+#if APPLE_INTERNAL
 static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;
+#endif
 
 @interface ORKEnvironmentSPLMeterStepViewController ()<ORKRingViewDelegate, ORKEnvironmentSPLMeterContentViewVoiceOverDelegate> {
     AVAudioEngine *_audioEngine;
@@ -342,6 +344,7 @@ static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;
             
         case AVAudioSessionRecordPermissionDenied:
         {
+            #if APPLE_INTERNAL
             id<ORKTask> task = self.step.task;
             id<ORKContext> context = self.step.context;
             if (context && task && [self.step.context respondsToSelector:@selector(didNotAllowRequiredHealthPermissionsForTask:)])
@@ -354,6 +357,9 @@ static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;
                 ORK_Log_Error("User has denied record permission for a step which requires microphone access.");
                 // TODO: Error message to the user instructing them to enable microphone access.
             }
+            #else
+            ORK_Log_Error("User has denied record permission for a step which requires microphone access.");
+            #endif
             break;
         }
         case AVAudioSessionRecordPermissionUndetermined:

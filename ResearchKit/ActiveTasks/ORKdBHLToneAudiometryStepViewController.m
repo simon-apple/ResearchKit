@@ -183,14 +183,12 @@
 #if APPLE_INTERNAL
     _headphoneDetector = [[ORKHeadphoneDetector alloc] initWithDelegate:self
                                                 supportedHeadphoneChipsetTypes:[ORKHeadphoneDetectStep dBHLTypes]];
-#endif
     
     //TODO:- figure out where this call lives
     [[self taskViewController] lockDeviceVolume:0.5];
 
     ORKTaskResult *taskResults = [[self taskViewController] result];
 
-#if APPLE_INTERNAL
     for (ORKStepResult *result in taskResults.results) {
         if (result.results > 0) {
             ORKStepResult *firstResult = (ORKStepResult *)[result.results firstObject];
@@ -500,6 +498,7 @@
     }
 }
 
+#if APPLE_INTERNAL
 #pragma mark - Headphone Monitoring
 
 - (void)headphoneTypeDetected:(nonnull ORKHeadphoneTypeIdentifier)headphoneType vendorID:(nonnull NSString *)vendorID productID:(nonnull NSString *)productID deviceSubType:(NSInteger)deviceSubType isSupported:(BOOL)isSupported {
@@ -554,5 +553,6 @@
         });
     }
 }
+#endif
 
 @end
