@@ -187,6 +187,9 @@ if __name__ == "__main__":
     print(f"Finished removing references in ResearchKit project file")
 
     for f in files:
+        start_comment = "start-omit-internal-code"
+        end_comment = "end-omit-internal-code"
+        f.remove_internal_code(start_delimeter=start_comment, end_delimeter=end_comment)
         f.remove_internal_flags_and_content()
         f.remove_lines_containing("swiftlint")
         f.remove_lines_containing("// TODO:")
