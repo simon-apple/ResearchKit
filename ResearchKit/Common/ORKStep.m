@@ -42,7 +42,9 @@
 #endif
 
 @implementation ORKStep
+#if APPLE_INTERNAL
 @synthesize context;
+#endif
 
 #pragma mark - Common
 + (instancetype)new {

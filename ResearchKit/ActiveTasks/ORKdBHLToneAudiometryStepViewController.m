@@ -225,7 +225,9 @@
 }
 
 -(void)appDidBecomeActive:(NSNotification*)note {
+    #if APPLE_INTERNAL
     [self showAlertWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE_TASK_INTERRUPTED", nil) andMessage:ORKLocalizedString(@"dBHL_ALERT_TEXT_TASK_INTERRUPTED", nil)];
+    #endif
 }
 
 -(void)appWillTerminate:(NSNotification*)note {
