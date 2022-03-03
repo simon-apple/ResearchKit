@@ -417,7 +417,7 @@ static const CGFloat ORKSignatureTopPadding = 37.0;
 
 - (void)setBottomOffset:(CGFloat)bottomOffset {
     _bottomOffset = bottomOffset;
-    [_scrollView setContentSize:CGSizeMake(_scrollView.contentSize.width, _scrollView.contentSize.height + bottomOffset)];
+    [_scrollView setContentInset:UIEdgeInsetsMake(0, 0, bottomOffset, 0)];
 }
 
 - (CGFloat)bottomOffset {
@@ -427,7 +427,7 @@ static const CGFloat ORKSignatureTopPadding = 37.0;
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
-    [_scrollView setContentInset:UIEdgeInsetsZero];
+    [_scrollView setContentInset:UIEdgeInsetsMake(0, 0, _bottomOffset, 0)];
 }
 
 - (void)setContinueButtonItem:(UIBarButtonItem *)continueButtonItem {
