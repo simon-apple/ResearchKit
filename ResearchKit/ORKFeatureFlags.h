@@ -32,6 +32,12 @@
 
 #import <Foundation/Foundation.h>
 
+#ifndef RK_APPLE_INTERNAL
+#define RK_APPLE_INTERNAL 0
+#endif
+
+#if RK_APPLE_INTERNAL
+
 #ifndef ORK_FEATURE_AV_JOURNALING
 #define ORK_FEATURE_AV_JOURNALING 0
 #endif
@@ -42,4 +48,7 @@
 
 #ifndef ORK_FEATURE_BLE_SCAN_PERIPHERALS
 #define ORK_FEATURE_BLE_SCAN_PERIPHERALS 0
+#endif
+
+
 #endif
