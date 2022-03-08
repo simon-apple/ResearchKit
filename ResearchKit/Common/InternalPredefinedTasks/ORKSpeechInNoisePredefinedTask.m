@@ -44,6 +44,7 @@
 #import "ORKStepNavigationRule.h"
 #import "ORKVolumeCalibrationStep.h"
 #import "ORKLearnMoreInstructionStep.h"
+#import "ORKHeadphonesRequiredCompletionStep.h"
 
 typedef NSString * ORKSpeechInNoiseStepIdentifier NS_STRING_ENUM;
 ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierHeadphoneDetectStep = @"ORKSpeechInNoiseStepIdentifierHeadphoneDetectStep";
@@ -54,31 +55,36 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierSpeechRecogni
 ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierEditSpeechTranscriptStep = @"transcript";
 ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierSuffixPractice = @"practice";
 ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierPracticeCompletionStep = @"ORKSpeechInNoiseStepIdentifierPracticeCompletionStep";
+ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierHeadphonesRequired = @"ORKSpeechInNoiseStepIdentifierHeadphonesRequired";
 
 
 @implementation ORKSpeechInNoisePredefinedTaskContext
 
-- (NSString *)didSkipHeadphoneDetectionStepForTask:(id<ORKTask>)task
+- (NSString *)headphoneRequiredIdentifier {
+    return ORKSpeechInNoiseStepIdentifierHeadphonesRequired;
+}
+
+- (NSString *)didSkipHeadphoneDetectionStep:(ORKStep *)step forTask:(id<ORKTask>)task
 {
     if ([task isKindOfClass:[ORKNavigableOrderedTask class]])
     {
         // If the user selects to skip here, append a new step to the end of the task and skip to the end.
         // Add a navigation rule to end the current task.
         ORKNavigableOrderedTask *currentTask = (ORKNavigableOrderedTask *)task;
-        
-        ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierHeadphonesRequired = @"ORKSpeechInNoiseStepIdentifierHeadphonesRequired";
-                
-        ORKCompletionStep *step = [[ORKCompletionStep alloc] initWithIdentifier:ORKSpeechInNoiseStepIdentifierHeadphonesRequired];
-        step.title = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_REQUIRED_TITLE", nil);
-        step.text = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_REQUIRED_TEXT", nil);
-        step.optional = NO;
-        step.reasonForCompletion = ORKTaskViewControllerFinishReasonDiscarded;
-        [currentTask addStep:step];
-        
-        ORKDirectStepNavigationRule *endNavigationRule = [[ORKDirectStepNavigationRule alloc] initWithDestinationStepIdentifier:ORKNullStepIdentifier];
-        [currentTask setNavigationRule:endNavigationRule forTriggerStepIdentifier:ORKSpeechInNoiseStepIdentifierHeadphonesRequired];
-        
-        return ORKSpeechInNoiseStepIdentifierHeadphonesRequired;
+                                
+        ORKHeadphonesRequiredCompletionStep *completionStep = (ORKHeadphonesRequiredCompletionStep *)[task stepWithIdentifier:self.headphoneRequiredIdentifier];
+        if (completionStep) {
+            [currentTask removeSkipNavigationRuleForStepIdentifier:self.headphoneRequiredIdentifier];
+        } else {
+            completionStep = [[ORKHeadphonesRequiredCompletionStep alloc] initWithIdentifier:self.headphoneRequiredIdentifier requiredHeadphoneTypes: ORKHeadphoneTypesAny];
+            completionStep.title = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_REQUIRED_TITLE", nil);
+            completionStep.text = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_REQUIRED_TEXT", nil);
+            completionStep.optional = NO;
+            completionStep.reasonForCompletion = ORKTaskViewControllerFinishReasonDiscarded;
+            [currentTask insertStep:completionStep atIndex:[currentTask indexOfStep:step]+1];
+        }
+
+        return self.headphoneRequiredIdentifier;
     }
     
     return nil;
@@ -409,7 +415,7 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierPracticeCompl
     
     ORKSpeechInNoisePredefinedTaskContext *context = [[ORKSpeechInNoisePredefinedTaskContext alloc] init];
     context.practiceTest = isPractice;
-    
+
     [audioSamples enumerateObjectsUsingBlock:^(ORKSpeechInNoiseSample * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             
         NSString *fileName = [[obj.path stringByDeletingPathExtension] lastPathComponent];

@@ -59,6 +59,7 @@ static NSString *const ORKTinnitusPuretoneLoudnessMatchingStepIdentifier = @"tin
 static NSString *const ORKTinnitusWhitenoiseLoudnessMatchingStepIdentifier = @"tinnitus_whitenoise_loudness_matching";
 static NSString *const ORKTinnitusPitchMatchingInstructionStepIdentifier = @"tinnitus_pitch_matching_instruction";
 static NSString *const ORKTinnitusOverallAssessmentStepIdentifier = @"tinnitus_overall_assessment";
+static NSString *const ORKTinnitusHeadphoneRequiredStepIdentifier = @"ORKTinnitusHeadphoneRequiredStepIdentifier";
 
 @interface NSMutableArray (Shuffling)
 - (void)shuffle;
@@ -88,18 +89,24 @@ static NSString *const ORKTinnitusOverallAssessmentStepIdentifier = @"tinnitus_o
 
 @implementation ORKTinnitusPredefinedTaskContext
 
-- (NSString *)didSkipHeadphoneDetectionStepForTask:(id<ORKTask>)task {
-    if ([task isKindOfClass:[ORKNavigableOrderedTask class]])
-    {
-        ORKHeadphonesRequiredCompletionStep *step = [[ORKHeadphonesRequiredCompletionStep alloc] initWithIdentifier:ORKTinnitusHeadphonesRequiredStepIdentifier requiredHeadphoneTypes:ORKHeadphoneTypesSupported];
-        
+- (NSString *)headphoneRequiredIdentifier {
+    return ORKTinnitusHeadphoneRequiredStepIdentifier;
+}
+
+- (NSString *)didSkipHeadphoneDetectionStep:(ORKStep *)step forTask:(id<ORKTask>)task
+{
+    if ([task isKindOfClass:[ORKNavigableOrderedTask class]] && self.headphoneRequiredIdentifier != nil) {
         ORKNavigableOrderedTask *currentTask = (ORKNavigableOrderedTask *)task;
-        [currentTask addStep:step];
+        ORKHeadphonesRequiredCompletionStep *completionStep = (ORKHeadphonesRequiredCompletionStep *)[task stepWithIdentifier:self.headphoneRequiredIdentifier];
         
-        ORKDirectStepNavigationRule *endNavigationRule = [[ORKDirectStepNavigationRule alloc] initWithDestinationStepIdentifier:ORKNullStepIdentifier];
-        [currentTask setNavigationRule:endNavigationRule forTriggerStepIdentifier:ORKTinnitusHeadphonesRequiredStepIdentifier];
+        if (completionStep) {
+            [currentTask removeSkipNavigationRuleForStepIdentifier:self.headphoneRequiredIdentifier];
+        } else {
+            completionStep = [[ORKHeadphonesRequiredCompletionStep alloc] initWithIdentifier:self.headphoneRequiredIdentifier requiredHeadphoneTypes:ORKHeadphoneTypesSupported];
+            [currentTask insertStep:completionStep atIndex:[currentTask indexOfStep:step]+1];
+        }
         
-        return ORKTinnitusHeadphonesRequiredStepIdentifier;
+        return self.headphoneRequiredIdentifier;
     }
     
     return nil;

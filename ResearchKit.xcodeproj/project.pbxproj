@@ -973,6 +973,8 @@
 		E2471306252B991B00FF5431 /* ORKdBHLToneAudiometryCompletionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = E2471302252B991A00FF5431 /* ORKdBHLToneAudiometryCompletionStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		E2471307252B991B00FF5431 /* ORKdBHLToneAudiometryCompletionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = E2471303252B991A00FF5431 /* ORKdBHLToneAudiometryCompletionStep.m */; };
 		E2471308252B991B00FF5431 /* ORKdBHLToneAudiometryCompletionStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2471304252B991B00FF5431 /* ORKdBHLToneAudiometryCompletionStepViewController.m */; };
+		E22CD6AF26135FB7001FB6DD /* ORKHeadphoneActiveStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = E22CD6AD26135FB7001FB6DD /* ORKHeadphoneActiveStepViewController.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		E22CD6B026135FB7001FB6DD /* ORKHeadphoneActiveStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E22CD6AE26135FB7001FB6DD /* ORKHeadphoneActiveStepViewController.m */; };
 		E25BEF712612876E00372483 /* UIColor+Custom.h in Headers */ = {isa = PBXBuildFile; fileRef = E25BEF6F2612876E00372483 /* UIColor+Custom.h */; };
 		E25BEF722612876E00372483 /* UIColor+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = E25BEF702612876E00372483 /* UIColor+Custom.m */; };
 		E26626C02588E6D4005A0FF8 /* ORKTinnitusMaskingSoundStep.m in Sources */ = {isa = PBXBuildFile; fileRef = E26626B82588E6D3005A0FF8 /* ORKTinnitusMaskingSoundStep.m */; };
@@ -2103,6 +2105,8 @@
 		E2471302252B991A00FF5431 /* ORKdBHLToneAudiometryCompletionStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKdBHLToneAudiometryCompletionStep.h; sourceTree = "<group>"; };
 		E2471303252B991A00FF5431 /* ORKdBHLToneAudiometryCompletionStep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKdBHLToneAudiometryCompletionStep.m; sourceTree = "<group>"; };
 		E2471304252B991B00FF5431 /* ORKdBHLToneAudiometryCompletionStepViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKdBHLToneAudiometryCompletionStepViewController.m; sourceTree = "<group>"; };
+		E22CD6AD26135FB7001FB6DD /* ORKHeadphoneActiveStepViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKHeadphoneActiveStepViewController.h; sourceTree = "<group>"; };
+		E22CD6AE26135FB7001FB6DD /* ORKHeadphoneActiveStepViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKHeadphoneActiveStepViewController.m; sourceTree = "<group>"; };
 		E25BEF6F2612876E00372483 /* UIColor+Custom.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+Custom.h"; sourceTree = "<group>"; };
 		E25BEF702612876E00372483 /* UIColor+Custom.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Custom.m"; sourceTree = "<group>"; };
 		E26626B82588E6D3005A0FF8 /* ORKTinnitusMaskingSoundStep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKTinnitusMaskingSoundStep.m; sourceTree = "<group>"; };
@@ -3183,10 +3187,6 @@
 				E2880B8A255DAFC100D9BAA7 /* ORKdBHLTaskContext.m */,
 				71769E3B20884DB800A19914 /* ORKdBHLToneAudiometryStepViewController.h */,
 				71769E3C20884DB800A19914 /* ORKdBHLToneAudiometryStepViewController.m */,
-				E2471302252B991A00FF5431 /* ORKdBHLToneAudiometryCompletionStep.h */,
-				E2471303252B991A00FF5431 /* ORKdBHLToneAudiometryCompletionStep.m */,
-				E2471301252B991A00FF5431 /* ORKdBHLToneAudiometryCompletionStepViewController.h */,
-				E2471304252B991B00FF5431 /* ORKdBHLToneAudiometryCompletionStepViewController.m */,
 				E293655D25757CC700092A7C /* frequency_dBSPL_AIRPODSMAX.plist */,
 				E29189B823855B96001AFF0F /* frequency_dBSPL_AIRPODSPRO.plist */,
 				71B7B4D820AA91D400C5768A /* frequency_dBSPL_AIRPODS.plist */,
@@ -5002,7 +5002,6 @@
 				86C40C2A1A8D7C5C00081FAC /* ORKFitnessContentView.h in Headers */,
 				5D43C5D424255675006F4084 /* ORKBodyItem_Internal.h in Headers */,
 				BA43CCA822722C6E00F2A2D2 /* ORKStepContentView_Private.h in Headers */,
-				E2471306252B991B00FF5431 /* ORKdBHLToneAudiometryCompletionStep.h in Headers */,
 				5D1CE42C23F497D5004CB416 /* ORKAudioLevelSmoother.h in Headers */,
 				5D1CE42623F497D5004CB416 /* ORKFlamesView.h in Headers */,
 				2E8071031FB0E6BE00E4FC7F /* ORKAudioGraphView.h in Headers */,
@@ -5093,7 +5092,6 @@
 				86C40D6E1A8D7C5C00081FAC /* ORKResult_Private.h in Headers */,
 				A659C53E262E0ABE00E920DA /* ORKAccuracyStroopStepViewController.h in Headers */,
 				E21D345F22D916E000CCB022 /* ORKHeadphoneDetectResult.h in Headers */,
-				E2471305252B991B00FF5431 /* ORKdBHLToneAudiometryCompletionStepViewController.h in Headers */,
 				781D54121DF886AB00223305 /* ORKTrailmakingStep.h in Headers */,
 				86C40D161A8D7C5C00081FAC /* ORKErrors.h in Headers */,
 				866DA5291D63D04700C9AF3F /* ORKOperation.h in Headers */,
@@ -5688,7 +5686,6 @@
 				A659C53B262E0A3200E920DA /* ORKAccuracyStroopStep.m in Sources */,
 				86C40D321A8D7C5C00081FAC /* ORKHealthAnswerFormat.m in Sources */,
 				10FF9AC41B79EF2800ECB5B4 /* ORKHolePegTestRemoveStep.m in Sources */,
-				E2471308252B991B00FF5431 /* ORKdBHLToneAudiometryCompletionStepViewController.m in Sources */,
 				5175144F2459EBF0009E8FFC /* ORK3DModelStep.m in Sources */,
 				03EDD58124CA6B1D006245E9 /* ORKNotificationPermissionType.m in Sources */,
 				10BAA2CB1B5FCB4F004FE478 /* ORKProgressView.m in Sources */,
@@ -5749,7 +5746,6 @@
 				22BFE13C25BB73310015D1E1 /* ORKTinnitusAudioSample.m in Sources */,
 				BA2CFBB12342935800B71919 /* ORKCompletionCheckmarkView.m in Sources */,
 				86C40DC01A8D7C5C00081FAC /* ORKTableViewCell.m in Sources */,
-				E2471307252B991B00FF5431 /* ORKdBHLToneAudiometryCompletionStep.m in Sources */,
 				24A4DA111B8D0F21009C797A /* ORKPasscodeStepView.m in Sources */,
 				BC41942A1AE8453A00073D6B /* ORKObserver.m in Sources */,
 				5D1CE45B23FC85F4004CB416 /* ORKAudioMeteringView.m in Sources */,

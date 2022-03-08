@@ -93,19 +93,20 @@ struct ORKHeadphonesRequiredViewModel {
 
 - (void)stepDidChange {
     [super stepDidChange];
-    
-    [self.navigationItem setHidesBackButton:YES];
-    
+
     switch ([[self headphonesRequiredCompletionStep] requiredHeadphoneTypes]) {
-            // TODO: Figure out copy
         case ORKHeadphoneTypesAny:
-            viewModel.continueButtonTitle = ORKLocalizedString(@"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_DO_LATER", nil);
-            viewModel.skipButtonTitle = ORKLocalizedString(@"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_SKIP", nil);
-            
+            viewModel.continueButtonTitle = ORKLocalizedString(@"BUTTON_DONE", nil);
+            break;
         case ORKHeadphoneTypesSupported:
             viewModel.continueButtonTitle = ORKLocalizedString(@"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_DO_LATER", nil);
             viewModel.skipButtonTitle = ORKLocalizedString(@"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_SKIP", nil);
+            break;
     }
+}
+
+- (BOOL)hasPreviousStep {
+    return YES;
 }
 
 @end

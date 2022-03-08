@@ -54,7 +54,9 @@
 #import "ORKTaskViewController_Private.h"
 #import "ORKTaskViewController_Internal.h"
 #import "ORKOrderedTask.h"
+#import "ORKNavigableOrderedTask.h"
 #import "ORKHeadphoneDetectResult.h"
+#import "ORKStepNavigationRule.h"
 
 @interface ORKdBHLToneAudiometryTransitions: NSObject
 
