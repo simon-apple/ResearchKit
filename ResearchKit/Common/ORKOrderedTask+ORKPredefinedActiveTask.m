@@ -82,7 +82,7 @@
 #import "ORKdBHLToneAudiometryStep.h"
 #import "ORKdBHLToneAudiometryOnboardingStep.h"
 
-#if APPLE_INTERNAL
+#if RK_APPLE_INTERNAL
 #import "ORKHeadphoneDetectStep.h"
 #endif
 
@@ -1955,7 +1955,7 @@ NSString *const ORKdBHLToneAudiometryStep1Identifier = @"dBHL1.tone.audiometry";
 NSString *const ORKdBHLToneAudiometryStep2Identifier = @"dBHL2.tone.audiometry";
 NSString *const ORKdBHLToneAudiometryStep3Identifier = @"dBHL3.tone.audiometry";
 
-#if APPLE_INTERNAL
+#if RK_APPLE_INTERNAL
 NSString *const ORKdBHLToneAudiometryHeadphoneDetectStepIdentifier = @"dBHL.tone.audiometry.headphonedetect";
 #endif
 
@@ -1996,7 +1996,7 @@ NSString *const ORKdBHLToneAudiometryHeadphoneDetectStepIdentifier = @"dBHL.tone
         
     }
     
-#if APPLE_INTERNAL
+#if RK_APPLE_INTERNAL
 
     {
         ORKHeadphoneDetectStep *step = [[ORKHeadphoneDetectStep alloc] initWithIdentifier:ORKdBHLToneAudiometryHeadphoneDetectStepIdentifier headphoneTypes:ORKHeadphoneTypesSupported];

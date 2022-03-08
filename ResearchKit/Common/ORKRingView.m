@@ -30,7 +30,7 @@
 
 @import UIKit;
 
-#if APPLE_INTERNAL
+#if RK_APPLE_INTERNAL
 #import "UIColor+Custom.h"
 #endif
 
@@ -203,7 +203,7 @@ static const CGFloat CircleLineWidth = 3.0;
 }
 
 - (void)resetLayerColors {
-#if APPLE_INTERNAL
+#if RK_APPLE_INTERNAL
     _backgroundLayer.strokeColor = UIColor.splGrayColor.CGColor;
 #endif
     

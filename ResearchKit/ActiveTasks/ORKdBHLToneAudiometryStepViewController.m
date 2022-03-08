@@ -49,7 +49,7 @@
 #import "ORKdBHLToneAudiometryResult.h"
 #import "ORKdBHLToneAudiometryStep.h"
 
-#if APPLE_INTERNAL
+#if RK_APPLE_INTERNAL
 #import "ORKHeadphoneDetectStep.h"
 #import "ORKHeadphoneDetectResult.h"
 #endif
@@ -108,7 +108,7 @@
     dispatch_block_t _pulseDurationWorkBlock;
     dispatch_block_t _postStimulusDelayWorkBlock;
     
-#if APPLE_INTERNAL
+#if RK_APPLE_INTERNAL
     ORKHeadphoneDetector *_headphoneDetector;
 #endif
     
@@ -180,7 +180,7 @@
 
     [self.dBHLToneAudiometryContentView.tapButton addTarget:self action:@selector(tapButtonPressed) forControlEvents:UIControlEventTouchDown];
     
-#if APPLE_INTERNAL
+#if RK_APPLE_INTERNAL
     _headphoneDetector = [[ORKHeadphoneDetector alloc] initWithDelegate:self
                                                 supportedHeadphoneChipsetTypes:[ORKHeadphoneDetectStep dBHLTypes]];
     
@@ -225,7 +225,7 @@
 }
 
 -(void)appDidBecomeActive:(NSNotification*)note {
-    #if APPLE_INTERNAL
+    #if RK_APPLE_INTERNAL
     [self showAlertWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE_TASK_INTERRUPTED", nil) andMessage:ORKLocalizedString(@"dBHL_ALERT_TEXT_TASK_INTERRUPTED", nil)];
     #endif
 }
@@ -260,7 +260,7 @@
     [super viewDidDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
-#if APPLE_INTERNAL
+#if RK_APPLE_INTERNAL
     _headphoneDetector.delegate = nil;
     _headphoneDetector = nil;
 #endif
@@ -500,7 +500,7 @@
     }
 }
 
-#if APPLE_INTERNAL
+#if RK_APPLE_INTERNAL
 #pragma mark - Headphone Monitoring
 
 - (void)headphoneTypeDetected:(nonnull ORKHeadphoneTypeIdentifier)headphoneType vendorID:(nonnull NSString *)vendorID productID:(nonnull NSString *)productID deviceSubType:(NSInteger)deviceSubType isSupported:(BOOL)isSupported {

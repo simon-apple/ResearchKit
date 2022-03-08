@@ -8,7 +8,7 @@
 */
 // apple-internal
 
-#if APPLE_INTERNAL
+#if RK_APPLE_INTERNAL
 
 //#import <MediaExperience/MXBasePrivate.h>
 #import <Foundation/Foundation.h>

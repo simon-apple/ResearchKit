@@ -100,7 +100,7 @@
     
     _errorState = NO;
     
-#if APPLE_INTERNAL
+#if RK_APPLE_INTERNAL
     [self requestSpeechRecognizerAuthorizationIfNeeded];
 #endif
     
@@ -108,7 +108,7 @@
     _speechRecognitionQueue = dispatch_queue_create("SpeechRecognitionQueue", DISPATCH_QUEUE_SERIAL);
 }
 
-#if APPLE_INTERNAL
+#if RK_APPLE_INTERNAL
 
 - (void)requestSpeechRecognizerAuthorizationIfNeeded
 {
@@ -201,7 +201,7 @@
     [self goForward];
 }
 
-#if APPLE_INTERNAL
+#if RK_APPLE_INTERNAL
 - (ORKSpeechInNoisePredefinedTaskContext * _Nullable)currentSpeechInNoisePredefinedTaskContext
 {
     if (self.step.context && [self.step.context isKindOfClass:[ORKSpeechInNoisePredefinedTaskContext class]])
@@ -217,7 +217,7 @@
 {
     _allowUserToRecordInsteadOnNextStep = allowUserToRecordInsteadOnNextStep;
     
-#if APPLE_INTERNAL
+#if RK_APPLE_INTERNAL
     ORKSpeechInNoisePredefinedTaskContext *currentContext = [self currentSpeechInNoisePredefinedTaskContext];
     if (currentContext)
     {
@@ -265,7 +265,7 @@
 {
     ORKStepResult *sResult = [super result];
     
-#if APPLE_INTERNAL
+#if RK_APPLE_INTERNAL
     ORKSpeechInNoisePredefinedTaskContext *currentContext = [self currentSpeechInNoisePredefinedTaskContext];
     
     if (currentContext)
@@ -348,7 +348,7 @@
 - (void)setupNextStepForAllowingUserToRecordInstead:(BOOL)allowUserToRecordInsteadOnNextStep
 {
 
-#if APPLE_INTERNAL
+#if RK_APPLE_INTERNAL
     ORKSpeechInNoisePredefinedTaskContext *currentContext = [self currentSpeechInNoisePredefinedTaskContext];
     if (currentContext)
     {
@@ -419,7 +419,7 @@
             
             [((ORKTextAnswerFormat *)self.nextStep.answerFormat) setDefaultTextAnswer:substitutedTextAnswer];
         }
-#if APPLE_INTERNAL
+#if RK_APPLE_INTERNAL
 
     }
 #endif

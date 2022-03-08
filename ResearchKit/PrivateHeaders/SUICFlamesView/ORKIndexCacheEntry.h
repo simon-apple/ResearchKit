@@ -7,7 +7,7 @@
 //
 // apple-internal
 
-#if APPLE_INTERNAL
+#if RK_APPLE_INTERNAL
 #import "ORKFlamesView.h"
 
 extern NSString *ORKGetIndexCacheEntryKey(CGRect activeFrame, ORKFlamesViewFidelity fidelity, CGFloat horizontalScaleFactor, ORKFlamesViewMode mode, int32_t viewWidth, int32_t viewHeight);

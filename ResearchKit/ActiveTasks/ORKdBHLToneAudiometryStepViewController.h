@@ -33,12 +33,12 @@
 #import <ResearchKit/ORKDefines.h>
 #import <ResearchKit/ORKActiveStepViewController.h>
 
-#if APPLE_INTERNAL
+#if RK_APPLE_INTERNAL
 #import "ORKHeadphoneDetector.h"
 #endif
 
 
-#if APPLE_INTERNAL
+#if RK_APPLE_INTERNAL
 NS_ASSUME_NONNULL_BEGIN
 
 ORK_CLASS_AVAILABLE

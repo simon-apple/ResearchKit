@@ -32,11 +32,11 @@
 
 #import <Foundation/Foundation.h>
 
-#ifndef APPLE_INTERNAL
-#define APPLE_INTERNAL 0
+#ifndef RK_APPLE_INTERNAL
+#define RK_APPLE_INTERNAL 0
 #endif
 
-#if APPLE_INTERNAL
+#if RK_APPLE_INTERNAL
 
 #ifndef ORK_FEATURE_AV_JOURNALING
 #define ORK_FEATURE_AV_JOURNALING 0

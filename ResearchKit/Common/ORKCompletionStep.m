@@ -35,7 +35,7 @@
 #endif
 #import "ORKHelpers_Internal.h"
 
-#if APPLE_INTERNAL
+#if RK_APPLE_INTERNAL
 ORKCompletionStepIdentifier const ORKCompletionStepIdentifierMicrophoneLearnMore = @"ORKCompletionStepIdentifierMicrophoneLearnMore";
 ORKCompletionStepIdentifier const ORKEnvironmentSPLMeterTimeoutIdentifier = @"ORKEnvironmentSPLMeterTimeoutIdentifier";
 #endif

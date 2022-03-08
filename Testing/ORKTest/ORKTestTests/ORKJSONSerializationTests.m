@@ -662,7 +662,7 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
         @"ORKAVJournalingBlurFooterView"
     ];
     
-    #if APPLE_INTERNAL
+    #if RK_APPLE_INTERNAL
     excludedClassNames = [excludedClassNames arrayByAddingObjectsFromArray:[TestCompilerFlagHelper _fetchExclusionList]];
     #endif
     
@@ -804,7 +804,7 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
         return filenameComponents.firstObject;
     };
     
-    #if APPLE_INTERNAL
+    #if RK_APPLE_INTERNAL
     NSArray *classesToExclude = [TestCompilerFlagHelper _fetchExclusionList];
     #endif
     
@@ -815,7 +815,7 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
         NSString *className = filenamePathToClassName(path);
         
         
-        #if APPLE_INTERNAL
+        #if RK_APPLE_INTERNAL
         if ([classesToExclude containsObject:className]) {
             continue;
         }
@@ -872,7 +872,7 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
         NSMutableDictionary *dict = [[NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:path] options:0 error:NULL] mutableCopy];
         NSString *className = filenamePathToClassName(path);
         
-        #if APPLE_INTERNAL
+        #if RK_APPLE_INTERNAL
         if ([classesToExclude containsObject:className]) {
             continue;
         }
@@ -1362,7 +1362,7 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
     
     // Test Each class
     for (Class aClass in classesWithSecureCodingAndCopying) {
-        #if APPLE_INTERNAL
+        #if RK_APPLE_INTERNAL
         NSArray<NSString *> *excludedClassNames = [TestCompilerFlagHelper _fetchExclusionList];
         BOOL classToBeExcluded = NO;
         

@@ -29,7 +29,7 @@
  */
 // apple-internal
 
-#if APPLE_INTERNAL
+#if RK_APPLE_INTERNAL
 
 #import "ORKTinnitusTypeStepViewController.h"
 #import "ORKTinnitusTypeStep.h"

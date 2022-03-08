@@ -172,7 +172,7 @@ func resultTableViewProviderForResult(_ result: ORKResult?, delegate: ResultProv
         providerType = WebViewStepResultTableViewProvider.self
 
     // start-omit-internal-code
-    #if APPLE_INTERNAL
+    #if RK_APPLE_INTERNAL
 
     case is ORKHeadphoneDetectResult:
         providerType = HeadphoneDetectStepResultTableViewProvider.self
@@ -1332,7 +1332,7 @@ class VideoInstructionStepResultTableViewProvider: ResultTableViewProvider {
 // swiftlint:disable type_name
 
 // start-omit-internal-code
-#if APPLE_INTERNAL
+#if RK_APPLE_INTERNAL
 
 class HeadphoneDetectStepResultTableViewProvider: ResultTableViewProvider {
     // MARK: ResultTableViewProvider
@@ -1399,7 +1399,7 @@ class SPLMeterStepResultTableViewProvider: ResultTableViewProvider {
 }
 
 // start-omit-internal-code
-#if APPLE_INTERNAL
+#if RK_APPLE_INTERNAL
 
 /// Table view provider specific to an `ORKTinnitusTypeResult` instance.
 class TinnitusTypeResultTableViewProvider: ResultTableViewProvider {

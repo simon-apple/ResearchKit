@@ -7,7 +7,7 @@
 //
 // apple-internal
 
-#if APPLE_INTERNAL
+#if RK_APPLE_INTERNAL
 
 #import <Metal/Metal.h>
 #import "ORKFlamesView.h"

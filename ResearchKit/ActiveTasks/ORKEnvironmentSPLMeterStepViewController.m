@@ -54,7 +54,7 @@
 #include <sys/sysctl.h>
 
 static const NSTimeInterval SPL_METER_PLAY_DELAY_VOICEOVER = 3.0;
-#if APPLE_INTERNAL
+#if RK_APPLE_INTERNAL
 static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;
 #endif
 
@@ -123,13 +123,13 @@ static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;
     [self configureAudioSession];
     [self setupFeedbackGenerator];
     
-    #if APPLE_INTERNAL
+    #if RK_APPLE_INTERNAL
     [self registerNotifications];
     [self startTimeoutTimer];
     #endif
 }
 
-#if APPLE_INTERNAL
+#if RK_APPLE_INTERNAL
 - (void)registerNotifications {
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center addObserver:self selector:@selector(appWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
@@ -231,7 +231,7 @@ static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;
     ORKTaskViewController *taskViewController = self.taskViewController;
     ORKStep *nextStep = [taskViewController.task stepAfterStep:self.step withResult:taskViewController.result];
     
-    #if APPLE_INTERNAL
+    #if RK_APPLE_INTERNAL
     if (nextStep && [nextStep.context isKindOfClass:[ORKSpeechInNoisePredefinedTaskContext class]])
     {
         ORKSpeechInNoisePredefinedTaskContext *context = (ORKSpeechInNoisePredefinedTaskContext *)nextStep.context;
@@ -281,7 +281,7 @@ static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;
     [_rmsBuffer removeAllObjects];
     [self resetAudioSession];
     
-    #if APPLE_INTERNAL
+    #if RK_APPLE_INTERNAL
     [self removeObservers];
     #endif
 }
@@ -318,7 +318,7 @@ static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;
     return sResult;
 }
 
-#if APPLE_INTERNAL
+#if RK_APPLE_INTERNAL
 
 - (nullable ORKSpeechInNoisePredefinedTaskContext *)speechInNoisePredefinedTaskContext
 {
@@ -344,7 +344,7 @@ static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;
             
         case AVAudioSessionRecordPermissionDenied:
         {
-            #if APPLE_INTERNAL
+            #if RK_APPLE_INTERNAL
             id<ORKTask> task = self.step.task;
             id<ORKContext> context = self.step.context;
             if (context && task && [self.step.context respondsToSelector:@selector(didNotAllowRequiredHealthPermissionsForTask:)])
@@ -585,7 +585,7 @@ static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;
 - (void)reachedOptimumNoiseLevel {
     [_audioEngine stop];
     
-    #if APPLE_INTERNAL
+    #if RK_APPLE_INTERNAL
     [self stopTimeoutTimer];
     #endif
     

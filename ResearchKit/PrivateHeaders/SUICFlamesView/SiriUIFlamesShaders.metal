@@ -11,7 +11,7 @@
 #import "ORKFlamesShaderTypes.h"
 // apple-internal
 
-#if APPLE_INTERNAL
+#if RK_APPLE_INTERNAL
 
 using namespace metal;
 

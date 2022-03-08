@@ -29,7 +29,7 @@
  */
 // apple-internal
 
-#if APPLE_INTERNAL
+#if RK_APPLE_INTERNAL
 
 #import "ORKAVJournalingStepViewController.h"
 
@@ -312,7 +312,7 @@ static const CGFloat FramesToSkipTotal = 5.0;
 
 - (void)invokeFinishLaterContext {
     
-#if APPLE_INTERNAL
+#if RK_APPLE_INTERNAL
     if ([self.step.context isKindOfClass:[ORKAVJournalingPredfinedTaskContext class]]) {
         [(ORKAVJournalingPredfinedTaskContext *)self.step.context finishLaterWasPressedForTask:self.step.task currentStepIdentifier:self.step.identifier];
         [self cleanupSession];

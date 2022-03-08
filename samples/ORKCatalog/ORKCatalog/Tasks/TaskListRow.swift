@@ -119,7 +119,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     case webView
     
     //start-omit-internal-code
-    #if APPLE_INTERNAL
+    #if RK_APPLE_INTERNAL
     case predefinedSpeechInNoiseTask
     case predefinedAVJournalingTask
     case predefinedTinnitusTask
@@ -213,7 +213,7 @@ enum TaskListRow: Int, CustomStringConvertible {
                 ])]
         
             //start-omit-internal-code
-            #if APPLE_INTERNAL
+            #if RK_APPLE_INTERNAL
             let internalSections = [
 
             TaskListRowSection(title: "Internal", rows:
@@ -402,7 +402,7 @@ enum TaskListRow: Int, CustomStringConvertible {
             return NSLocalizedString("Web View", comment: "")
             
         //start-omit-internal-code
-        #if APPLE_INTERNAL
+        #if RK_APPLE_INTERNAL
         case .predefinedSpeechInNoiseTask:
             return NSLocalizedString("Predefined Speech In Noise", comment: "")
             
@@ -613,7 +613,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         case webViewStep
         
         //start-omit-internal-code
-        #if APPLE_INTERNAL
+        #if RK_APPLE_INTERNAL
         case predefinedSpeechInNoiseTask
         case predefinedAVJournalingTask
         case predefinedTinnitusTask
@@ -795,7 +795,7 @@ enum TaskListRow: Int, CustomStringConvertible {
             return webView
             
         //start-omit-internal-code
-        #if APPLE_INTERNAL
+        #if RK_APPLE_INTERNAL
         case .predefinedSpeechInNoiseTask:
             return predefinedSpeechInNoiseTask
         
@@ -1911,7 +1911,7 @@ enum TaskListRow: Int, CustomStringConvertible {
 
     
     //start-omit-internal-code
-    #if APPLE_INTERNAL
+    #if RK_APPLE_INTERNAL
     private var predefinedSpeechInNoiseTask: ORKTask {
         
         guard let path = Bundle.main.path(forResource: "manifest", ofType: "json", inDirectory: "List1") else {

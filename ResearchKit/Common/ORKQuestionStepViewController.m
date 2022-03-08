@@ -586,7 +586,7 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
 {
     ORKStepResult *parentResult = [super result];
 
-#if APPLE_INTERNAL
+#if RK_APPLE_INTERNAL
     if ([self.step.context isKindOfClass:[ORKSpeechInNoisePredefinedTaskContext class]])
     {
         ORKSpeechInNoisePredefinedTaskContext *speechInNoisePredefinedTaskContext = (ORKSpeechInNoisePredefinedTaskContext *)self.step.context;

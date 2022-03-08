@@ -8,7 +8,7 @@
  */
 // apple-internal
 
-#if APPLE_INTERNAL
+#if RK_APPLE_INTERNAL
 
 #import <Foundation/Foundation.h>
 #import "AVOutputDeviceDiscoverySession.h"

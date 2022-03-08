@@ -47,7 +47,7 @@
 #import <ResearchKit/ORKTowerOfHanoiResult.h>
 #import <ResearchKit/ORKTrailmakingResult.h>
 
-#if APPLE_INTERNAL
+#if RK_APPLE_INTERNAL
 
 #import <ResearchKit/ORKSpeechInNoiseResult.h>
 

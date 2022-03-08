@@ -177,7 +177,7 @@
 #import <ResearchKit/ORKLearnMoreView.h>
 #import <ResearchKit/ORKBodyContainerView.h>
 
-#if APPLE_INTERNAL
+#if RK_APPLE_INTERNAL
 
 #import <ResearchKit/ORKFaceDetectionStep.h>
 

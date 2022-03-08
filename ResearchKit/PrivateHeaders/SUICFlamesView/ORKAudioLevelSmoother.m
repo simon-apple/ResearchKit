@@ -8,7 +8,7 @@
 #import "ORKAudioLevelSmoother.h"
 // apple-internal
 
-#if APPLE_INTERNAL
+#if RK_APPLE_INTERNAL
 
 @interface ORKAudioLevelSmoother ()
 {

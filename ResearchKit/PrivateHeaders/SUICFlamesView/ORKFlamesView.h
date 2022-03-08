@@ -7,7 +7,7 @@
 //
 // apple-internal
 
-#if APPLE_INTERNAL
+#if RK_APPLE_INTERNAL
 
 #ifndef ORKFlamesView_h
 #define ORKFlamesView_h

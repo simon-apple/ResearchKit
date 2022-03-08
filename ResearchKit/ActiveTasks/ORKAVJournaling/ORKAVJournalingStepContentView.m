@@ -29,7 +29,7 @@
  */
 // apple-internal
 
-#if APPLE_INTERNAL
+#if RK_APPLE_INTERNAL
 
 #import "ORKAVJournalingStepContentView.h"
 
@@ -74,7 +74,7 @@ static const CGFloat ContentLeftRightPadding = 36.0;
     UILabel *_questionLabel;
     
     
-#if APPLE_INTERNAL
+#if RK_APPLE_INTERNAL
     ORKFaceDetectionStepContentView *_faceDetectionContentView;
 #endif
 

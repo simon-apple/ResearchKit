@@ -75,7 +75,7 @@
     
     self.stepView.customContentFillsAvailableSpace = YES;
     
-#if APPLE_INTERNAL
+#if RK_APPLE_INTERNAL
     if ([self isSpeechInNoisePredefinedTaskPractice])
     {
         [self setContinueButtonTitle:ORKLocalizedString(@"BUTTON_START_TEST", nil)];
@@ -90,7 +90,7 @@
     }
 }
 
-#if APPLE_INTERNAL
+#if RK_APPLE_INTERNAL
 
 - (nullable ORKSpeechInNoisePredefinedTaskContext *)speechInNoisePredefinedTaskContext
 {

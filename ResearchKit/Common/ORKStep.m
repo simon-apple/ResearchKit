@@ -42,7 +42,7 @@
 #endif
 
 @implementation ORKStep
-#if APPLE_INTERNAL
+#if RK_APPLE_INTERNAL
 @synthesize context;
 #endif
 

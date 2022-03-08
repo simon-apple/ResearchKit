@@ -40,7 +40,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-#if APPLE_INTERNAL
+#if RK_APPLE_INTERNAL
 typedef NSString *ORKCompletionStepIdentifier NS_STRING_ENUM;
 ORK_EXTERN ORKCompletionStepIdentifier const ORKCompletionStepIdentifierMicrophoneLearnMore;
 ORK_EXTERN ORKCompletionStepIdentifier const ORKEnvironmentSPLMeterTimeoutIdentifier;

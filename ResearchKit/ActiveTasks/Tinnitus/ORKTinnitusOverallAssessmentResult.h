@@ -29,7 +29,7 @@
  */
 // apple-internal
 
-#if APPLE_INTERNAL
+#if RK_APPLE_INTERNAL
 #import <ResearchKit/ORKResult.h>
 
 NS_ASSUME_NONNULL_BEGIN

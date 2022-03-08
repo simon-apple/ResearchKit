@@ -8,7 +8,7 @@
  */
 // apple-internal
 
-#if APPLE_INTERNAL
+#if RK_APPLE_INTERNAL
 
 
 typedef NSString * AVOutputDeviceModelSpecificKey NS_STRING_ENUM;

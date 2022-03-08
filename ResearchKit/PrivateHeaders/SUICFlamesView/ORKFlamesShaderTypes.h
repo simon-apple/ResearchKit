@@ -5,7 +5,7 @@ Header containing types and enum constants shared between Metal shaders and C/Ob
 */
 // apple-internal
 
-#if APPLE_INTERNAL
+#if RK_APPLE_INTERNAL
 
 #include <simd/simd.h>
 typedef struct {
