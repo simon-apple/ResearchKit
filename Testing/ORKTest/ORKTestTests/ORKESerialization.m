@@ -1161,12 +1161,6 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(earPreference, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(frequencyList, NSArray, NSObject, YES, nil, nil),
                     })),
-           ENTRY(ORKdBHLToneAudiometryCompletionStep,
-                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-               return [[ORKdBHLToneAudiometryCompletionStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
-           },
-                 (@{
-                  })),
            ENTRY(ORKHeadphoneDetectStep, ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
             return [[ORKHeadphoneDetectStep alloc] initWithIdentifier:GETPROP(dict, identifier)
                                                        headphoneTypes:(NSUInteger)[GETPROP(dict, headphoneTypes) integerValue]];
@@ -1179,7 +1173,8 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                return [[ORKHeadphonesRequiredCompletionStep alloc] initWithIdentifier:GETPROP(dict, identifier) requiredHeadphoneTypes:(NSUInteger)[GETPROP(dict, requiredHeadphoneTypes) integerValue]];
                 },
                  (@{
-                     PROPERTY(requiredHeadphoneTypes, NSNumber, NSObject, YES, nil, nil)
+                    PROPERTY(requiredHeadphoneTypes, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(reasonForCompletion, NSNumber, NSObject, YES, nil, nil),
                   })),
            ENTRY(ORKHolePegTestPlaceStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {

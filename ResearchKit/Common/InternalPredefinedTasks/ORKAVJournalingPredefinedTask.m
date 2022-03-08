@@ -64,11 +64,6 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierInstructionStep
 
 @implementation ORKAVJournalingPredfinedTaskContext
 
-- (NSString *)didSkipHeadphoneDetectionStepForTask:(id<ORKTask>)task {
-    NSAssert(NO, @"Not Implemented");
-    return nil;
-}
-
 - (void)didReachDetectionTimeLimitForTask:(id<ORKTask>)task currentStepIdentifier:(NSString *)currentStepIdentifier {
     
     if ([task isKindOfClass:[ORKNavigableOrderedTask class]]) {

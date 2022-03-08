@@ -29,27 +29,32 @@
  */
 
 #import <ResearchKit/ORKContext.h>
-#import "ORKdBHLToneAudiometryCompletionStep.h"
+#import "ORKNavigableOrderedTask.h"
+#import "ORKHeadphonesRequiredCompletionStep.h"
 #import "ORKHelpers_Internal.h"
+#import "ORKLearnMoreInstructionStep.h"
 
+static NSString *const ORKdBHLTaskHeadphoneRequiredStepIdentifier = @"ORKdBHLCompletionStepIdentifierHeadphonesRequired";
 
 @implementation ORKdBHLTaskContext
 
-- (NSString *)didSkipHeadphoneDetectionStepForTask:(id<ORKTask>)task {
-    
-    if ([task isKindOfClass:[ORKOrderedTask class]]) {
+- (NSString *)headphoneRequiredIdentifier {
+    return ORKdBHLTaskHeadphoneRequiredStepIdentifier;
+}
+
+- (NSString *)didSkipHeadphoneDetectionStep:(ORKStep *)step forTask:(id<ORKTask>)task {
+    if ([task isKindOfClass:[ORKNavigableOrderedTask class]] && self.headphoneRequiredIdentifier != nil) {
+        ORKNavigableOrderedTask *currentTask = (ORKNavigableOrderedTask *)task;
         
-        static NSString * dBHLToneAudiometryCompletionStepIdentifier = @"ORKdBHLCompletionStepIdentifierHeadphonesRequired";
+        ORKHeadphonesRequiredCompletionStep *completionStep = (ORKHeadphonesRequiredCompletionStep *)[task stepWithIdentifier:self.headphoneRequiredIdentifier];
+        if (completionStep) {
+            [currentTask removeSkipNavigationRuleForStepIdentifier:self.headphoneRequiredIdentifier];
+        } else {
+            completionStep = [[ORKHeadphonesRequiredCompletionStep alloc] initWithIdentifier:self.headphoneRequiredIdentifier requiredHeadphoneTypes:ORKHeadphoneTypesSupported];
+            [currentTask insertStep:completionStep atIndex:[currentTask indexOfStep:step]+1];
+        }
         
-        ORKOrderedTask *currentTask = (ORKNavigableOrderedTask *)task;
-        
-        ORKdBHLToneAudiometryCompletionStep *step = [[ORKdBHLToneAudiometryCompletionStep alloc] initWithIdentifier:dBHLToneAudiometryCompletionStepIdentifier];
-        step.title = ORKLocalizedString(@"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_TITLE", nil);
-        step.text = ORKLocalizedString(@"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_TEXT", nil);
-        
-        [currentTask addStep:step];
-        
-        return dBHLToneAudiometryCompletionStepIdentifier;
+        return self.headphoneRequiredIdentifier;
     }
     
     return nil;

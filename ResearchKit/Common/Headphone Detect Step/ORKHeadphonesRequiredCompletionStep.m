@@ -44,14 +44,14 @@
         self.requiredHeadphoneTypes = requiredHeadphoneTypes;
         
         switch (self.requiredHeadphoneTypes) {
-                
             case ORKHeadphoneTypesAny:
                 self.title = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_REQUIRED_TITLE", nil);
                 self.text = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_REQUIRED_TEXT", nil);
-                
+                break;
             case ORKHeadphoneTypesSupported:
                 self.title = ORKLocalizedString(@"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_TITLE", nil);
                 self.text = ORKLocalizedString(@"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_TEXT", nil);
+                break;
         }
     }
     return self;

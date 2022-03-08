@@ -527,7 +527,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @return An active dBHL tone audiometry task that can be presented with an `ORKTaskViewController` object.
  */
-+ (ORKOrderedTask *)dBHLToneAudiometryTaskWithIdentifier:(NSString *)identifier
++ (ORKNavigableOrderedTask *)dBHLToneAudiometryTaskWithIdentifier:(NSString *)identifier
                                   intendedUseDescription:(nullable NSString *)intendedUseDescription
                                                  options:(ORKPredefinedTaskOption)options;
 
