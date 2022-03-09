@@ -11,8 +11,6 @@
 #import "ORKFlamesShaderTypes.h"
 // apple-internal
 
-#if RK_APPLE_INTERNAL
-
 using namespace metal;
 
 // Vertex shader outputs and fragment shader inputs
@@ -618,4 +616,3 @@ siriDictationFragmentShader(RasterizerData in [[stage_in]])
     return float4(in.colorNoise.x, in.colorNoise.y, in.colorNoise.z, (x + d) * in.height_center_alpha_unitSize.z);
 }
 
-#endif

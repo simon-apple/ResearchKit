@@ -7,8 +7,6 @@
 //
 // apple-internal
 
-#if RK_APPLE_INTERNAL
-
 #ifndef ORKFlamesViewProviding_h
 #define ORKFlamesViewProviding_h
 #import <UIKit/UIKit.h>
@@ -117,5 +115,3 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 NS_ASSUME_NONNULL_END
 #endif /* ORKFlamesViewProviding_h */
-
-#endif

@@ -6,8 +6,6 @@
 //
 // apple-internal
 
-#if RK_APPLE_INTERNAL
-
 #import <UIKit/UIKit.h>
 #import "ORKFlamesViewProviding.h"
 
@@ -27,5 +25,3 @@ NS_CLASS_AVAILABLE_IOS(9_0)
 - (id)initWithFrame:(CGRect)frame screen:(UIScreen *)screen fidelity:(ORKFlamesViewFidelity)fidelity;
 
 @end
-
-#endif

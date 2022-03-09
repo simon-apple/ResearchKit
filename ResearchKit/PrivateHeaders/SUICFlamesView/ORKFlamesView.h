@@ -7,8 +7,6 @@
 //
 // apple-internal
 
-#if RK_APPLE_INTERNAL
-
 #ifndef ORKFlamesView_h
 #define ORKFlamesView_h
 
@@ -141,4 +139,3 @@ NS_ASSUME_NONNULL_BEGIN
 NS_ASSUME_NONNULL_END
 
 #endif /* ORKFlamesView_h */
-#endif

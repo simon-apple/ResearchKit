@@ -7,8 +7,6 @@
 //
 // apple-internal
 
-#if RK_APPLE_INTERNAL
-
 #ifndef ORKFlamesViewTypes_h
 #define ORKFlamesViewTypes_h
 
@@ -34,4 +32,3 @@ typedef NS_ENUM(NSInteger, ORKFlamesViewFidelity) {
 };
 
 #endif /* ORKFlamesViewTypes_h */
-#endif

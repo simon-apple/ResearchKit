@@ -6,8 +6,6 @@
 //
 // apple-internal
 
-#if RK_APPLE_INTERNAL
-
 #import "ORKAudioLevelSmoother.h"
 #import "ORKFlameGroup.h"
 #import "ORKFlamesViewLegacy.h"
@@ -2342,5 +2340,3 @@ static NSUInteger sIndexCacheSize = 5;
     }
 }
 @end
-
-#endif

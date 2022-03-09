@@ -8,8 +8,6 @@
 #import "ORKAudioLevelSmoother.h"
 // apple-internal
 
-#if RK_APPLE_INTERNAL
-
 @interface ORKAudioLevelSmoother ()
 {
     float _minimumPower;
@@ -134,4 +132,3 @@
     return result;
 }
 @end
-#endif

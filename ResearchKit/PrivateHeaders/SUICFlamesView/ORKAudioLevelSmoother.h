@@ -7,8 +7,6 @@
 //
 // apple-internal
 
-#if RK_APPLE_INTERNAL
-
 @import Foundation;
 
 @interface ORKAudioLevelSmoother : NSObject
@@ -30,4 +28,3 @@
 @property (nonatomic, assign) float baseValue; // only applicable if you use the baseValue/exponentMultiplier initializer
 @property (nonatomic, assign) float exponentMultiplier; // only applicable if you use the baseValue/exponentMultiplier initializer
 @end
-#endif

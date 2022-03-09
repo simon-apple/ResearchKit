@@ -7,8 +7,6 @@
 //
 // apple-internal
 
-#if RK_APPLE_INTERNAL
-
 #import <Foundation/Foundation.h>
 #import <simd/simd.h>
 NS_ASSUME_NONNULL_BEGIN
@@ -24,4 +22,3 @@ NS_CLASS_AVAILABLE_IOS(9_0) @interface ORKFlameGroup : NSObject
 @property (nonatomic, assign) BOOL isDyingOff;
 @end
 NS_ASSUME_NONNULL_END
-#endif

@@ -5,8 +5,6 @@ Header containing types and enum constants shared between Metal shaders and C/Ob
 */
 // apple-internal
 
-#if RK_APPLE_INTERNAL
-
 #include <simd/simd.h>
 typedef struct {
     vector_float4 vertexLocation;
@@ -21,5 +19,3 @@ enum {
     SiriFlames_VertexInput_Time_Ztime_Height_Alpha,
     SiriFlames_VertexInput_States,
 };
-
-#endif

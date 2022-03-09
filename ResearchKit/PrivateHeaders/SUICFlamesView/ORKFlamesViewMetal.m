@@ -6,8 +6,6 @@
 //
 // apple-internal
 
-#if RK_APPLE_INTERNAL
-
 #import <Metal/Metal.h>
 #import "ORKFlamesViewMetal.h"
 #import "ORKFlameGroup.h"
@@ -1288,5 +1286,3 @@ static NSUInteger sIndexCacheSize = 5;
     }
 }
 @end
-
-#endif

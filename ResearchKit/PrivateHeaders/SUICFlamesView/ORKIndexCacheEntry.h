@@ -7,7 +7,6 @@
 //
 // apple-internal
 
-#if RK_APPLE_INTERNAL
 #import "ORKFlamesView.h"
 
 extern NSString *ORKGetIndexCacheEntryKey(CGRect activeFrame, ORKFlamesViewFidelity fidelity, CGFloat horizontalScaleFactor, ORKFlamesViewMode mode, int32_t viewWidth, int32_t viewHeight);
@@ -19,4 +18,3 @@ extern NSString *ORKGetIndexCacheEntryKey(CGRect activeFrame, ORKFlamesViewFidel
 // free will be called on this pointer when the cache entry is dealloc'd.
 @property (nonatomic, assign) uint32_t *metal_indices;
 @end
-#endif

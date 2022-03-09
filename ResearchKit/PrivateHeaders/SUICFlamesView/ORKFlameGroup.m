@@ -7,8 +7,6 @@
 //
 // apple-internal
 
-#if RK_APPLE_INTERNAL
-
 #import "ORKFlameGroup.h"
 @implementation ORKFlameGroup
 - (id)init {
@@ -31,4 +29,3 @@
     return [NSString stringWithFormat:@"stateTime: %f  zTime: %f  transitionPhase: %f  stateModifiers: %f, %f, %f, %f  globalAlpha: %f  isAura: %@  isDyingOff: %@", _stateTime, _zTime, _transitionPhase, _stateModifiers.x, _stateModifiers.y, _stateModifiers.z, _stateModifiers.w, _globalAlpha, @(_isAura), @(_isDyingOff)];
 }
 @end
-#endif
