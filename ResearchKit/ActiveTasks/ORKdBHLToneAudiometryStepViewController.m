@@ -106,6 +106,7 @@
     dispatch_block_t _preStimulusDelayWorkBlock;
     dispatch_block_t _pulseDurationWorkBlock;
     dispatch_block_t _postStimulusDelayWorkBlock;
+    int _minimumThresholdCounter;
     
     ORKHeadphoneDetector *_headphoneDetector;
     BOOL _showingAlert;
@@ -128,6 +129,7 @@
         _ackOnce = NO;
         _usingMissingList = YES;
         _prevFreq = 0;
+        _minimumThresholdCounter = 0;
         _currentTestIndex = 0;
         _showingAlert = NO;
         _transitionsDictionary = [NSMutableDictionary dictionary];
@@ -321,6 +323,7 @@
         _ackOnce = NO;
         _usingMissingList = YES;
         _indexOfStepUpMissingList = 0;
+        _minimumThresholdCounter = 0;
         _transitionsDictionary = nil;
         _transitionsDictionary = [NSMutableDictionary dictionary];
         if (_resultSample) {
@@ -444,8 +447,11 @@
         
         if (_currentdBHL - _dBHLStepDownSize > _dBHLMinimumThreshold) {
             _currentdBHL = _currentdBHL - _dBHLStepDownSize;
-        } else if (_currentdBHL - _dBHLStepDownSize <= _dBHLMinimumThreshold) {
+        } else {
             _currentdBHL = _dBHLMinimumThreshold;
+            if (_initialDescent) {
+                _minimumThresholdCounter += 1;
+            }
         }
     }
 
@@ -471,6 +477,9 @@
                 return YES;
             }
         }
+    } else if (_minimumThresholdCounter > 2) {
+        _resultSample.calculatedThreshold = dBHL;
+        return YES;
     }
     return NO;
 }
