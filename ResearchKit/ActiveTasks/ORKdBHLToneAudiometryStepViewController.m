@@ -110,9 +110,8 @@
     
 #if RK_APPLE_INTERNAL
     ORKHeadphoneDetector *_headphoneDetector;
-#endif
-    
     BOOL _showingAlert;
+#endif
 }
 
 @property (nonatomic, strong) ORKdBHLToneAudiometryContentView *dBHLToneAudiometryContentView;
@@ -133,7 +132,9 @@
         _usingMissingList = YES;
         _prevFreq = 0;
         _currentTestIndex = 0;
+#if RK_APPLE_INTERNAL
         _showingAlert = NO;
+#endif
         _transitionsDictionary = [NSMutableDictionary dictionary];
         _arrayOfResultSamples = [NSMutableArray array];
         _arrayOfResultUnits = [NSMutableArray array];
@@ -209,7 +210,9 @@
 - (void)addObservers {
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center addObserver:self selector:@selector(appWillTerminate:) name:UIApplicationWillTerminateNotification object:nil];
+    #if RK_APPLE_INTERNAL
     [center addObserver:self selector:@selector(appDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
+    #endif
 }
 
 - (void)removeObservers {
@@ -223,13 +226,11 @@
     [self start];
     [self addObservers];
 }
-
+#if RK_APPLE_INTERNAL
 -(void)appDidBecomeActive:(NSNotification*)note {
-    #if RK_APPLE_INTERNAL
     [self showAlertWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE_TASK_INTERRUPTED", nil) andMessage:ORKLocalizedString(@"dBHL_ALERT_TEXT_TASK_INTERRUPTED", nil)];
-    #endif
 }
-
+#endif
 -(void)appWillTerminate:(NSNotification*)note {
     [self stopAudio];
     [self removeObservers];
@@ -320,9 +321,11 @@
 
 - (void)estimatedBHLAndPlayToneWithFrequency: (NSNumber *)freq {
     [self stopAudio];
+#if RK_APPLE_INTERNAL
     if (_showingAlert) {
         return;
     }
+#endif
     if (_prevFreq != [freq doubleValue]) {
         CGFloat progress = 0.001 + (CGFloat)_indexOfFreqLoopList / _freqLoopList.count;
         [self.dBHLToneAudiometryContentView setProgress:progress

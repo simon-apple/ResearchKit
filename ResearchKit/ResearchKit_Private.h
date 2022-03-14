@@ -77,7 +77,6 @@
 #import <ResearchKit/ORKTimedWalkStep.h>
 #import <ResearchKit/ORKToneAudiometryStep.h>
 #import <ResearchKit/ORKdBHLToneAudiometryStep.h>
-#import <ResearchKit/ORKdBHLToneAudiometryCompletionStep.h>
 #import <ResearchKit/ORKdBHLToneAudiometryOnboardingStep.h>
 #import <ResearchKit/ORKTowerOfHanoiStep.h>
 #import <ResearchKit/ORKTrailmakingStep.h>
@@ -186,6 +185,8 @@
 
 #import <ResearchKit/ORKAVJournalingPredefinedTask.h>
 #import <ResearchKit/ORKAVJournalingStep.h>
+
+#import <ResearchKit/ORKdBHLToneAudiometryCompletionStep.h>
 
 // Tinnitus Predefined Task Steps & Result Objects
 #import <ResearchKit/ORKTinnitusTypeStep.h>

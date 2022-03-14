@@ -100,15 +100,11 @@
     
     _errorState = NO;
     
-#if RK_APPLE_INTERNAL
     [self requestSpeechRecognizerAuthorizationIfNeeded];
-#endif
     
     _localResult = [[ORKSpeechRecognitionResult alloc] initWithIdentifier:self.step.identifier];
     _speechRecognitionQueue = dispatch_queue_create("SpeechRecognitionQueue", DISPATCH_QUEUE_SERIAL);
 }
-
-#if RK_APPLE_INTERNAL
 
 - (void)requestSpeechRecognizerAuthorizationIfNeeded
 {
@@ -127,6 +123,7 @@
         case SFSpeechRecognizerAuthorizationStatusRestricted:
         case SFSpeechRecognizerAuthorizationStatusDenied:
         {
+#if RK_APPLE_INTERNAL
             id<ORKTask> task = self.step.task;
             
             ORKSpeechInNoisePredefinedTaskContext *context = [self currentSpeechInNoisePredefinedTaskContext];
@@ -140,6 +137,9 @@
             {
                 [_speechRecognitionContentView.recordButton setButtonState:ORKRecordButtonStateDisabled];
             }
+#else
+            [_speechRecognitionContentView.recordButton setButtonState:ORKRecordButtonStateDisabled];
+#endif
             break;
         }
         case SFSpeechRecognizerAuthorizationStatusNotDetermined:
@@ -156,7 +156,6 @@
         }
     }
 }
-#endif
 
 - (void)initializeRecognizer {
     _speechRecognizer = [[ORKSpeechRecognizer alloc] init];

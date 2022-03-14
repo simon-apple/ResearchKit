@@ -158,9 +158,12 @@ typedef void (^_ORKLocationAuthorizationRequestHandler)(BOOL success);
     BOOL _hasAudioSession; // does not need state restoration - temporary
     
     NSString *_restoredTaskIdentifier;
+    
+#if RK_APPLE_INTERNAL
     BOOL _hasLockedVolume;
     float _savedVolume;
     float _lockedVolume;
+#endif
     
     UINavigationController *_childNavigationController;
     UIViewController *_previousToTopControllerInNavigationStack;
@@ -224,9 +227,9 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     // Ensure taskRunUUID has non-nil valuetaskRunUUID
     (void)[self taskRunUUID];
     self.restorationClass = [ORKTaskViewController class];
-    
+#if RK_APPLE_INTERNAL
     _hasLockedVolume = NO;
-    
+#endif
     return self;
 }
 

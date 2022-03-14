@@ -60,10 +60,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)restartTask;
 
 - (void)flipToLastPage;
-
+#if RK_APPLE_INTERNAL
 // Save the current system volume for restoration after the task end
 - (void)saveVolume;
-
+#endif
 @end
 
 NS_ASSUME_NONNULL_END

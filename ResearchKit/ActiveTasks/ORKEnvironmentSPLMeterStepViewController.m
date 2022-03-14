@@ -227,11 +227,10 @@ static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;
     self.activeStepView.navigationFooterView.continueButtonItem = self.continueButtonItem;
     self.activeStepView.navigationFooterView.continueEnabled = NO;
     [self.activeStepView.navigationFooterView updateContinueAndSkipEnabled];
-    
+    #if RK_APPLE_INTERNAL
     ORKTaskViewController *taskViewController = self.taskViewController;
     ORKStep *nextStep = [taskViewController.task stepAfterStep:self.step withResult:taskViewController.result];
     
-    #if RK_APPLE_INTERNAL
     if (nextStep && [nextStep.context isKindOfClass:[ORKSpeechInNoisePredefinedTaskContext class]])
     {
         ORKSpeechInNoisePredefinedTaskContext *context = (ORKSpeechInNoisePredefinedTaskContext *)nextStep.context;

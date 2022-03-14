@@ -56,9 +56,9 @@
 #import <AVFoundation/AVFoundation.h>
 @import Accelerate;
 
+#if RK_APPLE_INTERNAL
 static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
 
-#if RK_APPLE_INTERNAL
 @interface ORKSpeechInNoiseStepViewController () <ORKHeadphoneDetectorDelegate> {
     AVAudioEngine *_audioEngine;
     AVAudioPlayerNode *_playerNode;
@@ -71,17 +71,13 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
     AVAudioFrameCount _speechToneCapacity;
     AVAudioFrameCount _noiseToneCapacity;
     BOOL _installedTap;
-    
 
     ORKHeadphoneDetector *_headphoneDetector;
     ORKHeadphoneTypeIdentifier _headphoneType;
-
-    
     BOOL _showingAlert;
 }
 #else
-
-@interface ORKSpeechInNoiseStepViewController ()  {
+@interface ORKSpeechInNoiseStepViewController () {
     AVAudioEngine *_audioEngine;
     AVAudioPlayerNode *_playerNode;
     AVAudioMixerNode *_mixerNode;
@@ -93,9 +89,6 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
     AVAudioFrameCount _speechToneCapacity;
     AVAudioFrameCount _noiseToneCapacity;
     BOOL _installedTap;
-    
-    
-    BOOL _showingAlert;
 }
 #endif
 
@@ -112,27 +105,24 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
     _speechAudioBuffer = [[AVAudioPCMBuffer alloc] init];
     _filterAudioBuffer = [[AVAudioPCMBuffer alloc] init];
     _installedTap = NO;
-    _showingAlert = NO;
-    
 #if RK_APPLE_INTERNAL
+    _showingAlert = NO;
     _headphoneDetector = [[ORKHeadphoneDetector alloc] initWithDelegate:self
                                          supportedHeadphoneChipsetTypes:nil];
-#endif
-    
+
     ORKTaskResult *taskResults = [[self taskViewController] result];
     
     for (ORKStepResult *result in taskResults.results) {
         if (result.results > 0) {
             ORKStepResult *firstResult = (ORKStepResult *)[result.results firstObject];
-
-#if RK_APPLE_INTERNAL
             if ([firstResult isKindOfClass:[ORKHeadphoneDetectResult class]]) {
                 ORKHeadphoneDetectResult *headphoneDetectResult = (ORKHeadphoneDetectResult *)firstResult;
                 _headphoneType = headphoneDetectResult.headphoneType;
             }
-#endif
+
         }
     }
+#endif
     
     self.speechInNoiseContentView = [[ORKSpeechInNoiseContentView alloc] init];
     self.activeStepView.activeCustomView = self.speechInNoiseContentView;
@@ -273,9 +263,13 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
                 ORKStrongTypeOf(weakSelf) strongSelf = weakSelf;
                 [_playerNode stop];
                 [_mixerNode removeTapOnBus:0];
+#if RK_APPLE_INTERNAL
                 if (!_showingAlert) {
                     [strongSelf finish];
                 };
+#else
+                [strongSelf finish];
+#endif
             });
         }
     }
@@ -368,17 +362,12 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
     ORKSpeechInNoisePredefinedTaskContext *context = [self predefinedSpeechInNoiseContext];
     if (context) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(ORKSpeechInNoiseStepFinishDelay * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{ [super finish]; });
-    }
-    else {
-#endif
-    
+    } else {
         [super finish];
-    
-#if RK_APPLE_INTERNAL
-
     }
+#else
+    [super finish];
 #endif
-    
 }
 
 #if RK_APPLE_INTERNAL
