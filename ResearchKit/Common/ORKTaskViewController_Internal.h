@@ -31,6 +31,7 @@
 
 #import <ResearchKit/ORKTaskViewController_Private.h>
 #import <ResearchKit/ORKReviewStepViewController.h>
+#import <ResearchKit/ORKActiveStep_Internal.h>
 @import HealthKit;
 
 
@@ -63,7 +64,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 // Save the current system volume for restoration after the task end
 - (void)saveVolume;
-
+#if RK_APPLE_INTERNAL
+// will return YES if the sensitive URL step is shown
+- (BOOL)showSensitiveURLLearMoreStepViewControllerForStep:(ORKActiveStep *)step;
+#endif
 @end
 
 NS_ASSUME_NONNULL_END

@@ -40,9 +40,6 @@
 #import "ORKTappingIntervalStepViewController.h"
 #import "ORKTaskViewController_Internal.h"
 #import "ORKLearnMoreStepViewController.h"
-//start-omit-internal-code
-#import "ORKSpeechInNoisePredefinedTask.h"
-//end-omit-internal-code
 
 #import "ORKActiveStep.h"
 #import "ORKCollectionResult_Private.h"
@@ -66,9 +63,11 @@
 @import CoreMotion;
 #import <CoreLocation/CoreLocation.h>
 
-//start-omit-internal-code
+#if RK_APPLE_INTERNAL
+#import "ORKActiveStep_Internal.h"
+#import "ORKOrderedTask_Private.h"
 #import "ORKCelestialSoftLink.h"
-//end-omit-internal-code
+#endif
 
 typedef void (^_ORKLocationAuthorizationRequestHandler)(BOOL success);
 
@@ -142,6 +141,9 @@ typedef void (^_ORKLocationAuthorizationRequestHandler)(BOOL success);
     ORKScrollViewObserver *_scrollViewObserver;
     BOOL _hasBeenPresented;
     BOOL _hasRequestedHealthData;
+    #if RK_APPLE_INTERNAL
+    BOOL _hasMicrophoneAccess;
+    #endif
     BOOL _saveable;
     ORKPermissionMask _grantedPermissions;
     NSSet<HKObjectType *> *_requestedHealthTypesForRead;
@@ -317,6 +319,9 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     }
     
     _hasRequestedHealthData = NO;
+#if RK_APPLE_INTERNAL
+    _hasMicrophoneAccess = NO;
+#endif
     _task = task;
 }
 
@@ -481,6 +486,9 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
             dispatch_async(dispatch_get_main_queue(), ^{
                 ORK_Log_Debug("Requesting audio access");
                 [self requestAudioRecordingAccessWithHandler:^(BOOL success) {
+                    #if RK_APPLE_INTERNAL
+                    _hasMicrophoneAccess = success;
+                    #endif
                     if (success) {
                         _grantedPermissions |= ORKPermissionAudioRecording;
                     } else {
@@ -847,6 +855,49 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
 
 #pragma mark - internal helpers
 
+#if RK_APPLE_INTERNAL
+
+- (BOOL)showSensitiveURLLearMoreStepViewControllerForStep:(ORKActiveStep *)step {
+    // If they select to not allow required permissions, we need to show them to the door.
+    if ([self.task isKindOfClass:[ORKNavigableOrderedTask class]] &&
+        [step hasAudioRecording]) {
+        ORKNavigableOrderedTask *navigableOrderedTask = (ORKNavigableOrderedTask *)self.task;
+        
+        ORKCompletionStep *completionStep = [[ORKCompletionStep alloc] initWithIdentifier:ORKCompletionStepIdentifierMicrophoneLearnMore];
+        completionStep.title = ORKLocalizedString(@"CONTEXT_MICROPHONE_REQUIRED_TITLE", nil);
+        completionStep.text = ORKLocalizedString(@"CONTEXT_MICROPHONE_REQUIRED_TEXT", nil);
+        completionStep.optional = NO;
+        completionStep.reasonForCompletion = ORKTaskViewControllerFinishReasonDiscarded;
+        
+        if (@available(iOS 13.0, *)) {
+            completionStep.iconImage = [UIImage systemImageNamed:@"mic.slash"];
+        }
+        
+        ORKLearnMoreInstructionStep *learnMoreInstructionStep = [[ORKLearnMoreInstructionStep alloc] initWithIdentifier:ORKCompletionStepIdentifierMicrophoneLearnMore];
+        ORKLearnMoreItem *learnMoreItem = [[ORKLearnMoreItem alloc]
+                                           initWithText:ORKLocalizedString(@"OPEN_MICROPHONE_SETTINGS", nil)
+                                           learnMoreInstructionStep:learnMoreInstructionStep];
+        
+        ORKBodyItem *settingsLinkBodyItem = [[ORKBodyItem alloc] initWithText:nil
+                                                                   detailText:nil
+                                                                        image:nil
+                                                                learnMoreItem:learnMoreItem
+                                                                bodyItemStyle:ORKBodyItemStyleText];
+        
+        completionStep.bodyItems = @[settingsLinkBodyItem];
+        
+        [navigableOrderedTask addStep:completionStep];
+        
+        ORKDirectStepNavigationRule *endNavigationRule = [[ORKDirectStepNavigationRule alloc] initWithDestinationStepIdentifier:ORKNullStepIdentifier];
+        [navigableOrderedTask setNavigationRule:endNavigationRule forTriggerStepIdentifier:ORKCompletionStepIdentifierMicrophoneLearnMore];
+        
+        [self flipToPageWithIdentifier:ORKCompletionStepIdentifierMicrophoneLearnMore forward:YES animated:NO];
+        return YES;
+    }
+    return NO;
+}
+#endif
+
 - (void)updateLastBeginningInstructionStepIdentifierForStep:(ORKStep *)step
                                                   goForward:(BOOL)goForward {
     if (NO == goForward) {
@@ -906,37 +957,19 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
                 // can easily fail even if the user does not see a dialog, which would
                 // be highly unexpected.
                 if ([self grantedAtLeastOnePermission] == NO) {
+#if RK_APPLE_INTERNAL
+                    ORKActiveStep *activeStep = nil;
+                    if ([step isKindOfClass:[ORKActiveStep class]]) {
+                        activeStep = (ORKActiveStep *)step;
+                    }
                     
-                    //start-omit-internal-code
-                    
-                    // We need to check if this is the SIN Predefined Task
-                    // If they select to not allow required permissions, we need to show them to the door.
-                    ORKNavigableOrderedTask *navigableOrderedTask = nil;
-                    if ([self.task isKindOfClass:[ORKNavigableOrderedTask class]])
-                    {
-                        navigableOrderedTask = (ORKNavigableOrderedTask *)self.task;
-                        __block id<ORKContext> context = nil;
-                        [navigableOrderedTask.steps indexOfObjectPassingTest:^BOOL(ORKStep * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                            
-                            if (obj.context != nil)
-                            {
-                                context = obj.context;
-                                *stop = YES;
-                                return YES;
-                            }
-                            return NO;
-                        }];
-                        
-                        if (context && [context respondsToSelector:@selector(didNotAllowRequiredHealthPermissionsForTask:)])
-                        {
-                            NSString *identifier = [context didNotAllowRequiredHealthPermissionsForTask:self.task];
-                            [self flipToPageWithIdentifier:identifier forward:YES animated:NO];
+                    if (activeStep && [activeStep hasAudioRecording]
+                        && !_hasMicrophoneAccess && [self.task isKindOfClass:[ORKNavigableOrderedTask class]]) {
+                        if ([self showSensitiveURLLearMoreStepViewControllerForStep:activeStep]) {
                             return;
                         }
                     }
-                    
-                    //end-omit-internal-code
-                    
+#endif
                     [self reportError:[NSError errorWithDomain:NSCocoaErrorDomain
                                                           code:NSUserCancelledError
                                                       userInfo:@{@"reason": @"Required permissions not granted."}]
@@ -948,7 +981,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
             return;
         }
     }
-    
+
     if (step.identifier && ![_managedStepIdentifiers.lastObject isEqualToString:step.identifier]) {
         [_managedStepIdentifiers addObject:step.identifier];
     }
