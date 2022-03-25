@@ -42,7 +42,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)hasTitle;
 - (BOOL)hasText;
 - (BOOL)hasVoice;
-
+#if RK_APPLE_INTERNAL
+- (BOOL)hasAudioRecording; // extra flag, masks that this step will show a completion step with deeplink.
+#endif
 @end
 
 NS_ASSUME_NONNULL_END
