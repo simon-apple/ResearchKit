@@ -1551,6 +1551,13 @@ When the value of this property is `nil`, there is no minimum.
 @property (copy, readonly, nullable) NSDate *maximumDate;
 
 /**
+ A boolean property that determines if the max date should be set to the current time or not
+ 
+ When the value of this property is `true`, the max date is set to the current time
+ */
+@property (nonatomic, assign) BOOL isMaxDateCurrentTime;
+
+/**
  The calendar to use in the picker.
  
  When the value of this property is `nil`, the picker uses the default calendar for the current

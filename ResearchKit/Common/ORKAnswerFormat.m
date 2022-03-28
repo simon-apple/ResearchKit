@@ -1663,6 +1663,11 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
     return self;
 }
 
+- (void)setIsMaxDateCurrentTime:(BOOL)isMaxDateCurrentTime {
+    _isMaxDateCurrentTime = isMaxDateCurrentTime;
+    _maximumDate = [NSDate date];
+}
+
 - (void)validateParameters {
     [super validateParameters];
     
@@ -1689,6 +1694,7 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
             ORKEqualObjects(self.defaultDate, castObject.defaultDate) &&
             ORKEqualObjects(self.minimumDate, castObject.minimumDate) &&
             ORKEqualObjects(self.maximumDate, castObject.maximumDate) &&
+            self.isMaxDateCurrentTime == castObject.isMaxDateCurrentTime &&
             ORKEqualObjects(self.calendar, castObject.calendar) &&
             (self.minuteInterval == castObject.minuteInterval) &&
             (_style == castObject.style));
@@ -1756,6 +1762,7 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
         ORK_DECODE_OBJ_CLASS(aDecoder, minimumDate, NSDate);
         ORK_DECODE_OBJ_CLASS(aDecoder, maximumDate, NSDate);
         ORK_DECODE_OBJ_CLASS(aDecoder, defaultDate, NSDate);
+        ORK_DECODE_BOOL(aDecoder, isMaxDateCurrentTime);
         ORK_DECODE_OBJ_CLASS(aDecoder, calendar, NSCalendar);
         ORK_DECODE_INTEGER(aDecoder, minuteInterval);
     }
@@ -1768,6 +1775,7 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
     ORK_ENCODE_OBJ(aCoder, minimumDate);
     ORK_ENCODE_OBJ(aCoder, maximumDate);
     ORK_ENCODE_OBJ(aCoder, defaultDate);
+    ORK_ENCODE_BOOL(aCoder, isMaxDateCurrentTime);
     ORK_ENCODE_OBJ(aCoder, calendar);
     ORK_ENCODE_INTEGER(aCoder, minuteInterval);
 }
