@@ -1665,7 +1665,10 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
 
 - (void)setIsMaxDateCurrentTime:(BOOL)isMaxDateCurrentTime {
     _isMaxDateCurrentTime = isMaxDateCurrentTime;
-    _maximumDate = [NSDate date];
+    
+    if (isMaxDateCurrentTime) {
+        _maximumDate = [NSDate date];
+    }
 }
 
 - (void)validateParameters {
