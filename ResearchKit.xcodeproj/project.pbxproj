@@ -969,12 +969,6 @@
 		E220A3932571252900C3C211 /* ORKTinnitusPureToneStep.m in Sources */ = {isa = PBXBuildFile; fileRef = E220A3872571252900C3C211 /* ORKTinnitusPureToneStep.m */; };
 		E220A3952571252900C3C211 /* ORKTinnitusPureToneStep.h in Headers */ = {isa = PBXBuildFile; fileRef = E220A3892571252900C3C211 /* ORKTinnitusPureToneStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		E220A3962571252900C3C211 /* ORKTinnitusPureToneStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = E220A38A2571252900C3C211 /* ORKTinnitusPureToneStepViewController.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		E2471305252B991B00FF5431 /* ORKdBHLToneAudiometryCompletionStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = E2471301252B991A00FF5431 /* ORKdBHLToneAudiometryCompletionStepViewController.h */; };
-		E2471306252B991B00FF5431 /* ORKdBHLToneAudiometryCompletionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = E2471302252B991A00FF5431 /* ORKdBHLToneAudiometryCompletionStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		E2471307252B991B00FF5431 /* ORKdBHLToneAudiometryCompletionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = E2471303252B991A00FF5431 /* ORKdBHLToneAudiometryCompletionStep.m */; };
-		E2471308252B991B00FF5431 /* ORKdBHLToneAudiometryCompletionStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2471304252B991B00FF5431 /* ORKdBHLToneAudiometryCompletionStepViewController.m */; };
-		E22CD6AF26135FB7001FB6DD /* ORKHeadphoneActiveStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = E22CD6AD26135FB7001FB6DD /* ORKHeadphoneActiveStepViewController.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		E22CD6B026135FB7001FB6DD /* ORKHeadphoneActiveStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E22CD6AE26135FB7001FB6DD /* ORKHeadphoneActiveStepViewController.m */; };
 		E25BEF712612876E00372483 /* UIColor+Custom.h in Headers */ = {isa = PBXBuildFile; fileRef = E25BEF6F2612876E00372483 /* UIColor+Custom.h */; };
 		E25BEF722612876E00372483 /* UIColor+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = E25BEF702612876E00372483 /* UIColor+Custom.m */; };
 		E26626C02588E6D4005A0FF8 /* ORKTinnitusMaskingSoundStep.m in Sources */ = {isa = PBXBuildFile; fileRef = E26626B82588E6D3005A0FF8 /* ORKTinnitusMaskingSoundStep.m */; };
@@ -2101,12 +2095,6 @@
 		E220A3892571252900C3C211 /* ORKTinnitusPureToneStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKTinnitusPureToneStep.h; sourceTree = "<group>"; };
 		E220A38A2571252900C3C211 /* ORKTinnitusPureToneStepViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKTinnitusPureToneStepViewController.h; sourceTree = "<group>"; };
 		E220A38B2571252900C3C211 /* ORKTinnitusPureToneStepViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKTinnitusPureToneStepViewController.m; sourceTree = "<group>"; };
-		E2471301252B991A00FF5431 /* ORKdBHLToneAudiometryCompletionStepViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKdBHLToneAudiometryCompletionStepViewController.h; sourceTree = "<group>"; };
-		E2471302252B991A00FF5431 /* ORKdBHLToneAudiometryCompletionStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKdBHLToneAudiometryCompletionStep.h; sourceTree = "<group>"; };
-		E2471303252B991A00FF5431 /* ORKdBHLToneAudiometryCompletionStep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKdBHLToneAudiometryCompletionStep.m; sourceTree = "<group>"; };
-		E2471304252B991B00FF5431 /* ORKdBHLToneAudiometryCompletionStepViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKdBHLToneAudiometryCompletionStepViewController.m; sourceTree = "<group>"; };
-		E22CD6AD26135FB7001FB6DD /* ORKHeadphoneActiveStepViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKHeadphoneActiveStepViewController.h; sourceTree = "<group>"; };
-		E22CD6AE26135FB7001FB6DD /* ORKHeadphoneActiveStepViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKHeadphoneActiveStepViewController.m; sourceTree = "<group>"; };
 		E25BEF6F2612876E00372483 /* UIColor+Custom.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+Custom.h"; sourceTree = "<group>"; };
 		E25BEF702612876E00372483 /* UIColor+Custom.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Custom.m"; sourceTree = "<group>"; };
 		E26626B82588E6D3005A0FF8 /* ORKTinnitusMaskingSoundStep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKTinnitusMaskingSoundStep.m; sourceTree = "<group>"; };
@@ -6227,6 +6215,7 @@
 			baseConfigurationReference = 5D000EC22620F27100E5442A /* ResearchKit-Debug.xcconfig */;
 			buildSettings = {
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				"OTHER_SWIFT_FLAGS[arch=*]" = "-runtime-compatibility-version none";
 			};
 			name = Debug;
 		};
