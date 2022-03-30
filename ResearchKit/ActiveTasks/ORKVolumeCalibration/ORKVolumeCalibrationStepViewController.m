@@ -306,51 +306,30 @@ const NSTimeInterval ORKVolumeCalibrationFadeStep = 0.01;
 #pragma mark - ORKVolumeCalibrationContentViewDelegate
 
 - (BOOL)contentView:(ORKVolumeCalibrationContentView *)contentView didPressPlaybackButton:(UIButton *)playbackButton {
-    ORKTinnitusPredefinedTaskContext *context = self.tinnitusPredefinedTaskContext;
-    
-    if ([self isMaskingSound]) {
-        if (self.audioEngine.isRunning && !self.playerNode.isPlaying) {
-            [self playSample];
-            return YES;
-        } else {
-            [self stopSample];
-        }
-    } else if ([self isTinnitusSoundCalibration]) {
-        ORKTinnitusType type = context.type;
+    if ([self isTinnitusSoundCalibration]) {
+        ORKTinnitusPredefinedTaskContext *context = self.tinnitusPredefinedTaskContext;
         
-        int64_t delay = (int64_t)((_audioGenerator.fadeDuration + 0.05) * NSEC_PER_SEC);
-        if (type == ORKTinnitusTypePureTone && context.predominantFrequency > 0.0) {
+        if (context.type == ORKTinnitusTypePureTone && context.predominantFrequency > 0.0) {
             if (!self.audioGenerator.isPlaying) {
+                int64_t delay = (int64_t)((_audioGenerator.fadeDuration + 0.05) * NSEC_PER_SEC);
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay), dispatch_get_main_queue(), ^{
                     [self.audioGenerator playSoundAtFrequency:context.predominantFrequency];
                 });
                 return YES;
             } else {
                 [self.audioGenerator stop];
-            }
-        } else {
-            if (self.audioEngine.isRunning && !self.playerNode.isPlaying) {
-                [self playSample];
-                return YES;
-            } else {
-                [self stopSample];
-            }
-        }
-    } else {
-        if (self.audioEngine.isRunning && !self.playerNode.isPlaying) {
-            [self playSample];
-            return YES;
-        } else {
-            if (self.activeStepView.navigationFooterView.continueEnabled) {
-                [self finish];
-                [self tearDownAudioEngine];
-            } else {
-                [self stopSample];
+                return NO;
             }
         }
     }
     
-    return NO;
+    if (self.audioEngine.isRunning && !self.playerNode.isPlaying) {
+        [self playSample];
+        return YES;
+    } else {
+        [self stopSample];
+        return NO;
+    }
 }
 
 - (void)contentView:(ORKVolumeCalibrationContentView *)contentView didRaisedVolume:(float)volume {
@@ -383,7 +362,8 @@ const NSTimeInterval ORKVolumeCalibrationFadeStep = 0.01;
 
 - (BOOL)isTinnitusSoundCalibration {
     ORKTinnitusPredefinedTaskContext *context = self.tinnitusPredefinedTaskContext;
-    return (context && context.type != ORKTinnitusTypeUnknown);
+    BOOL hasType = (context && context.type != ORKTinnitusTypeUnknown);
+    return hasType && ![self isMaskingSound];
 }
 
 @end
