@@ -944,7 +944,12 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     [self updateLastBeginningInstructionStepIdentifierForStep:step goForward:goForward];
     
     ORKStepViewController *fromController = self.currentStepViewController;
+#if RK_APPLE_INTERNAL
+    if (fromController && animated) {
+        __block BOOL shouldReturn = NO;
+#else
     if (fromController && animated && [self isStepLastBeginningInstructionStep:fromController.step]) {
+#endif
         [self startAudioPromptSessionIfNeeded];
         
         if ( [self grantedAtLeastOnePermission] == NO) {
@@ -965,20 +970,27 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
                     
                     if (activeStep && [activeStep hasAudioRecording]
                         && !_hasMicrophoneAccess && [self.task isKindOfClass:[ORKNavigableOrderedTask class]]) {
-                        if ([self showSensitiveURLLearMoreStepViewControllerForStep:activeStep]) {
-                            return;
-                        }
+                        shouldReturn = [self showSensitiveURLLearMoreStepViewControllerForStep:activeStep];
                     }
-#endif
+                } else {
+                    [self showStepViewController:stepViewController goForward:goForward animated:animated];
+                }
+            }];
+            if (shouldReturn) {
+                return;
+            }
+#else
                     [self reportError:[NSError errorWithDomain:NSCocoaErrorDomain
                                                           code:NSUserCancelledError
                                                       userInfo:@{@"reason": @"Required permissions not granted."}]
                                onStep:fromController.step];
+
                 } else {
                     [self showStepViewController:stepViewController goForward:goForward animated:animated];
                 }
             }];
             return;
+#endif
         }
     }
 
