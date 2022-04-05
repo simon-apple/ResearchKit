@@ -1760,6 +1760,8 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                              ^id(id date, __unused ORKESerializationContext *context) { return [ORKResultDateTimeFormatter() stringFromDate:date]; },
                              ^id(id string, __unused ORKESerializationContext *context) { return [ORKResultDateTimeFormatter() dateFromString:string]; }),
                     PROPERTY(minuteInterval, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(daysBeforeCurrentDateToSetMinimumDate, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(daysAfterCurrentDateToSetMinimumDate, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(isMaxDateCurrentTime, NSNumber, NSObject, YES, nil, nil)
                  })),
            ENTRY(ORKNumericAnswerFormat,
