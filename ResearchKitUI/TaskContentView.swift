@@ -112,6 +112,9 @@ internal struct TaskContentView<Content>: View where Content: View {
             currentResult.endDate = Date()
             
             taskManager.mark(currentStep, answered: true)
+        } else if !complete && currentStep is ORKQuestionStep {
+            taskManager.mark(currentStep, answered: false)
+            shouldScrollToCTA = false
         }
     }
     
