@@ -28,7 +28,10 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#if RK_APPLE_INTERNAL
 #import "ORKContext.h"
+#endif
+
 #import "ORKHelpers_Internal.h"
 #import "ORKOrderedTask.h"
 #import "ORKStep.h"

@@ -45,9 +45,12 @@
 #import "ORKCompletionCheckmarkView.h"
 #import "ORKSkin.h"
 #import "ORKHelpers_Internal.h"
-#import "ORKContext.h"
 #import "ORKCompletionStep.h"
 #import "ORKTaskViewController.h"
+
+#if RK_APPLE_INTERNAL
+#import "ORKContext.h"
+#endif
 
 @implementation ORKCompletionStepViewController {
     ORKCompletionCheckmarkView *_completionCheckmarkView;

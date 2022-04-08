@@ -29,7 +29,11 @@
  */
 
 #import "ORKEnvironmentSPLMeterBarView.h"
+
+#if RK_APPLE_INTERNAL
 #import "UIColor+Custom.h"
+#endif
+
 #import <QuartzCore/QuartzCore.h>
 
 static const CGFloat ORKEnvironmentSPLMeterSquareSize = 8.0;

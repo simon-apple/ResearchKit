@@ -63,7 +63,10 @@
 
 #import "ORKHelpers_Internal.h"
 #import "ORKSkin.h"
+
+#if RK_APPLE_INTERNAL
 #import "ORKContext.h"
+#endif
 
 #import <SwiftUI/SwiftUI.h>
 #import <ResearchKit/ResearchKit-Swift.h>

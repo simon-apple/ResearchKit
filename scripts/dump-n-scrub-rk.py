@@ -67,7 +67,7 @@ class File(object):
 
     def remove_internal_flags_and_content(self):
 
-        start_delimeter = "#if APPLE_INTERNAL"
+        start_delimeter = "#if RK_APPLE_INTERNAL"
         mid_delimiter = "#else"
         end_delimeter = "#endif"
 

@@ -61,7 +61,10 @@
 #import "ORKSkin.h"
 #import "ORKBorderedButton.h"
 #import "ORKTaskReviewViewController.h"
+
+#if RK_APPLE_INTERNAL
 #import "ORKContext.h"
+#endif
 
 @import AVFoundation;
 @import CoreMotion;

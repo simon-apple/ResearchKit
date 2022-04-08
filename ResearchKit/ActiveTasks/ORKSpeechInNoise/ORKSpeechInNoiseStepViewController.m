@@ -44,9 +44,12 @@
 #import "ORKRoundTappingButton.h"
 #import "ORKPlaybackButton.h"
 #import "ORKSkin.h"
-#import "ORKContext.h"
 #import "ORKTaskViewController.h"
 #import "ORKTaskViewController_Internal.h"
+
+#if RK_APPLE_INTERNAL
+#import "ORKContext.h"
+#endif
 
 #if RK_APPLE_INTERNAL
 #import "ORKHeadphoneDetector.h"

@@ -82,7 +82,6 @@
 #import <ResearchKit/ORKTrailmakingStep.h>
 #import <ResearchKit/ORKWalkingTaskStep.h>
 #import <ResearchKit/ORKSpeechRecognitionStep.h>
-#import <ResearchKit/ORKHeadphonesRequiredCompletionStep.h>
 
 #import <ResearchKit/ORKTaskViewController_Private.h>
 #import <ResearchKit/ORKFormStepViewController_Private.h>
@@ -177,6 +176,8 @@
 #import <ResearchKit/ORKBodyContainerView.h>
 
 #if RK_APPLE_INTERNAL
+
+#import <ResearchKit/ORKHeadphonesRequiredCompletionStep.h>
 
 #import <ResearchKit/ORKFaceDetectionStep.h>
 

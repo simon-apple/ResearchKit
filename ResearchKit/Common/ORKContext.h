@@ -28,6 +28,9 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+//apple-internal
+
+
 #if RK_APPLE_INTERNAL
 
 @import Foundation;
