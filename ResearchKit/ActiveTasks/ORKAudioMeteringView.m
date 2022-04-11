@@ -29,7 +29,11 @@
  */
 
 #import "ORKAudioMeteringView.h"
+
+#if RK_APPLE_INTERNAL
 #import "ORKAudioDictationView.h"
+#endif
+
 #import "ORKAudioGraphView.h"
 
 NSArray<NSNumber *> * ORKLastNSamples(NSArray<NSNumber *> *samples, NSInteger limit) {

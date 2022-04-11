@@ -140,12 +140,15 @@ def gather_files_from_internal_folders(folders):
 
 def is_a_folder_to_delete(current_folder):
     # hardcoded list of folders that need to be removed before pushing to public
-    folders_to_remove = ["PrivateHeaders", "ORKAVJournaling", "ORKFaceDetectionStep", "Tinnitus", "ORKVolumeCalibration", "HeadphoneDetectStep", "InternalPredefinedTasks"]
-    for folder in folders_to_remove:
+    folders_to_delete = folders_to_remove()
+    for folder in folders_to_delete:
         if folder == current_folder:
             return True
 
     return False
+
+def folders_to_remove():
+    return ["PrivateHeaders", "ORKAVJournaling", "ORKFaceDetectionStep", "Tinnitus", "ORKVolumeCalibration", "HeadphoneDetectStep", "InternalPredefinedTasks"]
 
 def fetch_files_from_folder(folder_path):
     filelist = []
@@ -177,15 +180,16 @@ if __name__ == "__main__":
     # combine fiels with special comment with files fetched from internal folders
     files_to_delete = files_to_delete + files_with_special_comment
 
-    for file in files_to_delete:
-        print(f"File to be scrubbed: {file.path}")
+    print(f"=== Removing files from pbxproj file ===")
 
     pbx_file = File("../ResearchKit.xcodeproj/project.pbxproj")
     for f in files_to_delete:
+        print(f"Removing lines containing name: {f.name}")
         pbx_file.remove_lines_containing(f.name)
 
-    print(f"Finished removing references in ResearchKit project file")
+    print(f"=== Finished Removing files from pbxproj file ===")
 
+    print(f"=== Removing enclosed internal code and references from files ===")
     for f in files:
         start_comment = "start-omit-internal-code"
         end_comment = "end-omit-internal-code"
@@ -195,15 +199,19 @@ if __name__ == "__main__":
         f.remove_lines_containing("// TODO:")
         f.remove_lines_containing("// FIXME:")
         f.remove_lines_containing("rdar://")
-    print("Done!")
+    print(f"=== Finished removing enclosed internal code and references from files ===")
 
+    print(f"=== Deleting all idenitified internal files ===")
     for f in files_to_delete:
         f.delete()
         print(f"\tDeleted file {f.name}")
+    print(f"=== Finished deleting all idenitified internal files ===")
 
+    print(f"=== Deleting all idenitified internal folders ===")
     for folder in folders_to_delete:
         if os.path.exists(folder):
             rmtree(folder)
-            print(f"\tDeleted filder {folder}")
+            print(f"\tDeleted folder {folder}")
+    print(f"=== Finished deleting all idenitified internal references ===")
 
     print("Success!")

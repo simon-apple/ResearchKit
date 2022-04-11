@@ -145,7 +145,6 @@
 #import <ResearchKit/ORKFreehandDrawingView.h>
 #import <ResearchKit/ORKAudioMeteringView.h>
 #import <ResearchKit/ORKAudioGraphView.h>
-#import <ResearchKit/ORKAudioDictationView.h>
 #import <ResearchKit/ORKInstructionStepContainerView.h>
 
 #import <ResearchKit/ORKLabel.h>
@@ -176,6 +175,8 @@
 #import <ResearchKit/ORKBodyContainerView.h>
 
 #if RK_APPLE_INTERNAL
+
+#import <ResearchKit/ORKAudioDictationView.h>
 
 #import <ResearchKit/ORKHeadphonesRequiredCompletionStep.h>
 

@@ -46,10 +46,9 @@
 #import <ResearchKit/ORKdBHLToneAudiometryResult.h>
 #import <ResearchKit/ORKTowerOfHanoiResult.h>
 #import <ResearchKit/ORKTrailmakingResult.h>
+#import <ResearchKit/ORKSpeechInNoiseResult.h>
 
 #if RK_APPLE_INTERNAL
-
-#import <ResearchKit/ORKSpeechInNoiseResult.h>
 
 #import <ResearchKit/ORKTinnitusPureToneResult.h>
 #import <ResearchKit/ORKTinnitusMaskingSoundResult.h>
