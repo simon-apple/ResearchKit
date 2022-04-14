@@ -64,6 +64,7 @@
 #import <CoreLocation/CoreLocation.h>
 
 #if RK_APPLE_INTERNAL
+#import "ORKTinnitusPredefinedTask.h"
 #import "ORKActiveStep_Internal.h"
 #import "ORKOrderedTask_Private.h"
 #import "ORKSensitiveURLLearnMoreInstructionStep.h"
@@ -1235,6 +1236,25 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     ORKStrongTypeOf(self.delegate) strongDelegate = self.delegate;
     if ([strongDelegate respondsToSelector:@selector(taskViewController:didFinishWithReason:error:)]) {
         [strongDelegate taskViewController:self didFinishWithReason:reason error:error];
+#if RK_APPLE_INTERNAL
+        ORKNavigableOrderedTask *navigableOrderedTask = nil;
+        if ([self.task isKindOfClass:[ORKNavigableOrderedTask class]]) {
+            navigableOrderedTask = (ORKNavigableOrderedTask *)self.task;
+            __block id<ORKContext> context = nil;
+            [navigableOrderedTask.steps indexOfObjectPassingTest:^BOOL(ORKStep * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                if (obj.context != nil) {
+                    context = obj.context;
+                    *stop = YES;
+                    return YES;
+                }
+                return NO;
+            }];
+            if ([context isKindOfClass:[ORKTinnitusPredefinedTaskContext class]]) {
+                ORKTinnitusPredefinedTaskContext *tinnitusContext = (ORKTinnitusPredefinedTaskContext *)context;
+                [tinnitusContext resetVariables];
+            }
+        }
+#endif
     }
 }
 

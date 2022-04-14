@@ -161,6 +161,7 @@ const NSTimeInterval ORKTinnitusMaskingSoundFadeStep = 0.01;
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     [self tearDownAudioEngine];
+    self.assessmentContentView.delegate = nil;
 }
 
 - (void)headphoneChanged:(NSNotification *)note {
@@ -168,7 +169,6 @@ const NSTimeInterval ORKTinnitusMaskingSoundFadeStep = 0.01;
         [self stopSample];
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.assessmentContentView setPlaybackButtonPlaying:NO];
-            self.assessmentContentView.delegate = nil;
         });
     }
 }

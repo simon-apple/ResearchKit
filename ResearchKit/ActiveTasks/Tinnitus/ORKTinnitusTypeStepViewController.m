@@ -221,7 +221,9 @@ const NSTimeInterval ORKTinnitusTypeFadeStep = 0.01;
 - (void)headphoneChanged:(NSNotification *)note {
     if (self.tinnitusPredefinedTaskContext != nil) {
         [self stopAutomaticPlay];
-        [self stopSample:nil];
+        [self stopSample:^{
+            [_tinnitusTypeContentView enableButtons:YES];
+        }];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [_tinnitusTypeContentView.buttonsViewArray makeObjectsPerformSelector:@selector(restoreButton)];
