@@ -61,7 +61,6 @@ static const NSUInteger OCTAVE_CONFUSION_THRESHOLD_INDEX = 6;
     int _octaveConfusionIteration;
     int _iteractionCounter;
     BOOL _isLastIteraction;
-    BOOL _terminated;
     int _sampleIndex;
     NSTimer *_timer;
     
@@ -88,7 +87,6 @@ static const NSUInteger OCTAVE_CONFUSION_THRESHOLD_INDEX = 6;
     self = [super initWithStep:step];
     
     if (self) {
-        _terminated = NO;
         self.suspendIfInactive = YES;
         self.wasSkipped = NO;
     }
@@ -107,9 +105,8 @@ static const NSUInteger OCTAVE_CONFUSION_THRESHOLD_INDEX = 6;
     return nil;
 }
 
-- (void)headphoneChanged:(NSNotification *)note {
+- (void)suspend:(NSNotification *)note {
     if (self.tinnitusPredefinedTaskContext != nil) {
-        _terminated = YES;
         [self stopAutomaticPlay];
         [self.audioGenerator stop];
         
@@ -229,15 +226,13 @@ static const NSUInteger OCTAVE_CONFUSION_THRESHOLD_INDEX = 6;
 }
 
 - (void)stopAutomaticPlay {
-    if (!_terminated) {
-        [_tinnitusContentView enableButtonsAnnouncements:YES];
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:UIAccessibilityAnnouncementDidFinishNotification object:nil];
-        [NSObject cancelPreviousPerformRequestsWithTarget:self
-                                                 selector:@selector(startAutomaticPlay)
-                                                   object:nil];
-        [_timer invalidate];
-        _timer = nil;
-    }
+    [_tinnitusContentView enableButtonsAnnouncements:YES];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIAccessibilityAnnouncementDidFinishNotification object:nil];
+    [NSObject cancelPreviousPerformRequestsWithTarget:self
+                                             selector:@selector(startAutomaticPlay)
+                                               object:nil];
+    [_timer invalidate];
+    _timer = nil;
 }
 
 - (void)setNavigationFooterView {
@@ -329,13 +324,15 @@ static const NSUInteger OCTAVE_CONFUSION_THRESHOLD_INDEX = 6;
     }
     
 #if !TARGET_IPHONE_SIMULATOR
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(headphoneChanged:) name:ORKHeadphoneNotificationSuspendActivity object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(suspend:) name:ORKHeadphoneNotificationSuspendActivity object:nil];
 #endif
 }
 
+#if !TARGET_IPHONE_SIMULATOR
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:ORKHeadphoneNotificationSuspendActivity object:nil];
 }
+#endif
 
 - (void)setupAutoPlay {
     if (UIAccessibilityIsVoiceOverRunning()) {
