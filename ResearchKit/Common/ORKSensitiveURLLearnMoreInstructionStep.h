@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, Apple Inc. All rights reserved.
+ Copyright (c) 2021, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,42 +28,34 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
-@import Foundation;
-
-#if TARGET_OS_WATCH
-#import <ResearchKitCore/ORKInstructionStep.h>
-#else
-#import <ResearchKit/ORKInstructionStep.h>
-#import <ResearchKit/ORKTaskViewController.h>
-#endif
-
-NS_ASSUME_NONNULL_BEGIN
+// apple-internal
 
 #if RK_APPLE_INTERNAL
-typedef NSString *ORKCompletionStepIdentifier NS_STRING_ENUM;
-ORK_EXTERN ORKCompletionStepIdentifier const ORKCompletionStepIdentifierMicrophoneLearnMore;
-ORK_EXTERN ORKCompletionStepIdentifier const ORKEnvironmentSPLMeterTimeoutIdentifier;
-#endif
+
+#import <ResearchKit/ResearchKit.h>
+ 
+NS_ASSUME_NONNULL_BEGIN
+
+ORK_CLASS_AVAILABLE
+@interface ORKSensitiveURLLearnMoreInstructionStep : ORKLearnMoreInstructionStep
 
 /**
- The `ORKCompletionStep` class is a subclass of `ORKInstructionStep` which behaves like
- an instruction step, but includes animated imagery that thanks the user
- for participating in the task.
+ Defines the deep link path for a specific application
+ Ex: "prefs:root=Privacy&path=MICROPHONE"
  */
-ORK_CLASS_AVAILABLE API_AVAILABLE(ios(11.0), watchos(6.0))
-@interface ORKCompletionStep : ORKInstructionStep
+@property (nonatomic, copy) NSString *sensitiveURLString;
+
+/**
+ Defines the application bundle that will open.
+ Ex: "com.apple.Preferences"
+ */
+@property (nonatomic, copy) NSString *applicationString;
+
+- (instancetype)initWithIdentifier:(NSString *)identifier
+                sensitiveURLString:(NSString *)sensitiveURLString
+                 applicationString:(NSString *)applicationString;
 
 @end
-
-#if TARGET_OS_IOS
-
-@interface ORKCompletionStep ()
-
-@property (nonatomic) ORKTaskViewControllerFinishReason reasonForCompletion;
-
-@end
-
-#endif
 
 NS_ASSUME_NONNULL_END
+#endif

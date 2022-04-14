@@ -204,6 +204,8 @@
 #import <ResearchKit/ORKSpeechInNoisePredefinedTask.h>
 #import <ResearchKit/ORKTinnitusPredefinedTask.h>
 
+#import <ResearchKit/ORKSensitiveURLLearnMoreInstructionStep.h>
+
 // BLE Related Sources
 
 #import <ResearchKit/ORKBLEScanPeripheralsStep.h>

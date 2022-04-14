@@ -66,6 +66,7 @@
 #if RK_APPLE_INTERNAL
 #import "ORKActiveStep_Internal.h"
 #import "ORKOrderedTask_Private.h"
+#import "ORKSensitiveURLLearnMoreInstructionStep.h"
 #import "ORKCelestialSoftLink.h"
 #endif
 
@@ -871,7 +872,12 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
             completionStep.iconImage = [UIImage systemImageNamed:@"mic.slash"];
         }
         
-        ORKLearnMoreInstructionStep *learnMoreInstructionStep = [[ORKLearnMoreInstructionStep alloc] initWithIdentifier:ORKCompletionStepIdentifierMicrophoneLearnMore];
+        ORKSensitiveURLLearnMoreInstructionStep *learnMoreInstructionStep = [[ORKSensitiveURLLearnMoreInstructionStep alloc]
+                                                                             initWithIdentifier:ORKCompletionStepIdentifierMicrophoneLearnMore
+                                                                             sensitiveURLString:@ORKSensitiveMicrophoneURLString
+                                                                             applicationString:@ORKSensitiveMicrophoneApplicationString];
+        
+        
         ORKLearnMoreItem *learnMoreItem = [[ORKLearnMoreItem alloc]
                                            initWithText:ORKLocalizedString(@"OPEN_MICROPHONE_SETTINGS", nil)
                                            learnMoreInstructionStep:learnMoreInstructionStep];

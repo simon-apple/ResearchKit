@@ -492,6 +492,7 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
                                                  [ORKKeyValueStepModifier class],     // NSPredicate doesn't yet support JSON serialization
                                                  [ORKCollector class], // ORKCollector doesn't support JSON serialization
                                                  [ORKHealthCollector class],
+                                                 [ORKSensitiveURLLearnMoreInstructionStep class],
                                                  [ORKHealthCorrelationCollector class],
                                                  [ORKMotionActivityCollector class],
                                                  [ORKShoulderRangeOfMotionStep class]
