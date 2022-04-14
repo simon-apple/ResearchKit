@@ -167,7 +167,12 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
             })
         }
     }
-    
+#if RK_APPLE_INTERNAL
+    // Refers to rdar://85344999 (Remove the learnmore workaround current present in customized completion steps to reduce inter-dependent approach with the Research App)
+    func taskViewController(_ taskViewController: ORKTaskViewController, sensitiveURLLearnMoreButtonPressedWith sensitiveURLLearnMoreStep: ORKSensitiveURLLearnMoreInstructionStep, for stepViewController: ORKStepViewController) {
+        UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!, options: [:], completionHandler: nil)
+    }
+#endif
     func taskViewController(_ taskViewController: ORKTaskViewController, learnMoreButtonPressedWith learnMoreStep: ORKLearnMoreInstructionStep, for stepViewController: ORKStepViewController) {
         //        FIXME: Temporary fix. This method should not be called if it is only used to present the learnMoreStepViewController, the stepViewController should present the learnMoreStepViewController.
         stepViewController.present(UINavigationController(rootViewController: ORKLearnMoreStepViewController(step: learnMoreStep)), animated: true) {

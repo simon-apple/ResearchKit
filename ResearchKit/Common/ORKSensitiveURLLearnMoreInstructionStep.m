@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, Apple Inc. All rights reserved.
+ Copyright (c) 2021, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -27,45 +27,44 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
-
-#import "ORKCompletionStep.h"
-#if TARGET_OS_IOS
-#import "ORKCompletionStepViewController.h"
-#endif
-#import "ORKHelpers_Internal.h"
+// apple-internal
 
 #if RK_APPLE_INTERNAL
-ORKCompletionStepIdentifier const ORKCompletionStepIdentifierMicrophoneLearnMore = @"ORKCompletionStepIdentifierMicrophoneLearnMore";
-ORKCompletionStepIdentifier const ORKEnvironmentSPLMeterTimeoutIdentifier = @"ORKEnvironmentSPLMeterTimeoutIdentifier";
-#endif
 
-@implementation ORKCompletionStep
-#if TARGET_OS_IOS
+#import "ORKSensitiveURLLearnMoreInstructionStep.h"
+#import "ORKInstructionStepViewController.h"
+#import "ORKHelpers_Internal.h"
+
+@implementation ORKSensitiveURLLearnMoreInstructionStep
+
 + (Class)stepViewControllerClass {
-    return [ORKCompletionStepViewController class];
+    return [ORKInstructionStepViewController class];
 }
 
-- (instancetype)initWithIdentifier:(NSString *)identifier {
+- (instancetype)initWithIdentifier:(NSString *)identifier
+                sensitiveURLString:(NSString *)sensitiveURLString
+                 applicationString:(NSString *)applicationString {
     self = [super initWithIdentifier:identifier];
     if (self) {
-        _reasonForCompletion = ORKTaskViewControllerFinishReasonCompleted;
+        self.sensitiveURLString = sensitiveURLString;
+        self.applicationString = applicationString;
     }
-    
     return self;
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        ORK_DECODE_INTEGER(aDecoder, reasonForCompletion);
+        ORK_DECODE_OBJ_CLASS(aDecoder, sensitiveURLString, NSString);
+        ORK_DECODE_OBJ_CLASS(aDecoder, applicationString, NSString);
     }
     return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [super encodeWithCoder:aCoder];
-    ORK_ENCODE_INTEGER(aCoder, reasonForCompletion);
+    ORK_ENCODE_OBJ(aCoder, sensitiveURLString);
+    ORK_ENCODE_OBJ(aCoder, applicationString);
 }
 
 + (BOOL)supportsSecureCoding {
@@ -73,20 +72,24 @@ ORKCompletionStepIdentifier const ORKEnvironmentSPLMeterTimeoutIdentifier = @"OR
 }
 
 - (instancetype)copyWithZone:(NSZone *)zone {
-    ORKCompletionStep *step = [super copyWithZone:zone];
-    step.reasonForCompletion = self.reasonForCompletion;
+    ORKSensitiveURLLearnMoreInstructionStep *step = [super copyWithZone:zone];
+    step.sensitiveURLString = [_sensitiveURLString copy];
+    step.applicationString = [_applicationString copy];
     return step;
 }
 
 - (BOOL)isEqual:(id)object {
     BOOL isParentSame = [super isEqual:object];
-
+    
     __typeof(self) castObject = object;
-    return isParentSame && self.reasonForCompletion == castObject.reasonForCompletion;
+    return (isParentSame &&
+            ORKEqualObjects(self.sensitiveURLString, castObject.sensitiveURLString) &&
+            ORKEqualObjects(self.applicationString, castObject.applicationString));
 }
 
-- (BOOL)allowsBackNavigation {
-    return !(_reasonForCompletion == ORKTaskViewControllerFinishReasonDiscarded);
+- (NSUInteger)hash {
+    return [super hash] ^ _sensitiveURLString.hash ^ _applicationString.hash;
 }
-#endif
+
 @end
+#endif

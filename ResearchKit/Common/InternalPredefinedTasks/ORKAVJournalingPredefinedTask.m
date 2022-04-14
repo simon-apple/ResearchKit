@@ -46,8 +46,12 @@
 #import "ORKLearnMoreItem.h"
 #import "ORKLearnMoreInstructionStep.h"
 #import "ORKLearnMoreView.h"
+#import "ORKSensitiveURLLearnMoreInstructionStep.h"
 
 static const double MinByteLimitForTask = 3000000000; //3GB Min Available Storage Limit
+
+#define ORKAVJournalingPredefinedTaskContextSensitiveURLString "prefs:root=General&path=STORAGE_MGMT"
+#define ORKAVJournalingPredefinedTaskContextApplicationString "com.apple.Preferences"
 
 ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierFaceDetection = @"ORKAVJournalingStepIdentifierFaceDetection";
 ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierCompletion = @"ORKAVJournalingStepIdentifierCompletion";
@@ -271,9 +275,13 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierInstructionStep
                     completionStep.iconImage = [UIImage systemImageNamed:@"bin.xmark"];
                 }
                 
-                ORKLearnMoreInstructionStep *learnMoreInstructionStep = [[ORKLearnMoreInstructionStep alloc] initWithIdentifier:ORKAVJournalingStepIdentifierLowStorageLearnMore];
-                ORKLearnMoreItem *learnMoreItem = [[ORKLearnMoreItem alloc] initWithText:ORKLocalizedString(@"AV_JOURNALING_PREDEFINED_LOW_MEMORY_SETTINGS_LINK_TEXT", nil)
-                                                                learnMoreInstructionStep:learnMoreInstructionStep];
+                ORKSensitiveURLLearnMoreInstructionStep *learnMoreInstructionStep = [[ORKSensitiveURLLearnMoreInstructionStep alloc]
+                                                                                     initWithIdentifier:ORKCompletionStepIdentifierMicrophoneLearnMore
+                                                                                     sensitiveURLString:@ORKAVJournalingPredefinedTaskContextSensitiveURLString
+                                                                                     applicationString:@ORKAVJournalingPredefinedTaskContextApplicationString];
+                ORKLearnMoreItem *learnMoreItem = [[ORKLearnMoreItem alloc]
+                                                   initWithText:ORKLocalizedString(@"AV_JOURNALING_PREDEFINED_LOW_MEMORY_SETTINGS_LINK_TEXT", nil)
+                                                   learnMoreInstructionStep:learnMoreInstructionStep];
                 
                 ORKBodyItem *settingsLinkBodyItem = [[ORKBodyItem alloc] initWithText:nil
                                                                            detailText:nil
