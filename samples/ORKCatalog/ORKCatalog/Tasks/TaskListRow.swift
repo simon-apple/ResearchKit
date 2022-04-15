@@ -74,6 +74,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     case scaleQuestion
     case textQuestion
     case textChoiceQuestion
+    case textChoiceQuestionWithImageTask
     case timeIntervalQuestion
     case timeOfDayQuestion
     case valuePickerChoiceQuestion
@@ -159,6 +160,7 @@ enum TaskListRow: Int, CustomStringConvertible {
                     .scaleQuestion,
                     .textQuestion,
                     .textChoiceQuestion,
+                    .textChoiceQuestionWithImageTask,
                     .timeIntervalQuestion,
                     .timeOfDayQuestion,
                     .valuePickerChoiceQuestion,
@@ -271,6 +273,9 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .textChoiceQuestion:
             return NSLocalizedString("Text Choice Question", comment: "")
+        
+        case .textChoiceQuestionWithImageTask:
+            return NSLocalizedString("Text Choice Image Question", comment: "")
             
         case .timeIntervalQuestion:
             return NSLocalizedString("Time Interval Question", comment: "")
@@ -503,6 +508,8 @@ enum TaskListRow: Int, CustomStringConvertible {
         // Task with an example of a multiple choice question.
         case textChoiceQuestionTask
         case textChoiceQuestionStep
+        case textChoiceQuestionWithImageStep
+        case textChoiceQuestionWithImageTask
 
         // Task with an example of time of day entry.
         case timeOfDayQuestionTask
@@ -794,6 +801,8 @@ enum TaskListRow: Int, CustomStringConvertible {
         case .ble:
             return ble
         //end-omit-internal-code
+        case .textChoiceQuestionWithImageTask:
+            return textChoiceQuestionWithImageTask
         }
     }
 
@@ -1327,6 +1336,27 @@ enum TaskListRow: Int, CustomStringConvertible {
         return ORKOrderedTask(identifier: String(describing: Identifier.textChoiceQuestionTask), steps: [questionStep])
     }
 
+    
+    private var textChoiceQuestionWithImageTask: ORKTask {
+        let textChoiceOneText = NSLocalizedString("Choice 1", comment: "")
+        let textChoiceTwoText = NSLocalizedString("Choice 2", comment: "")
+        let textChoiceThreeText = NSLocalizedString("Choice 3", comment: "")
+        
+        // The text to display can be separate from the value coded for each choice:
+        let textChoices = [
+            ORKTextChoice(text: textChoiceOneText, image: UIImage(named: "Face")!, value: "tap 1" as NSString),
+            ORKTextChoice(text: textChoiceTwoText, image: UIImage(named: "Face")!, value: "tap 2" as NSString),
+            ORKTextChoice(text: textChoiceThreeText, image: UIImage(named: "Face")!, value: "tap 3" as NSString)
+        ]
+        
+        let answerFormat = ORKAnswerFormat.choiceAnswerFormat(with: .singleChoice, textChoices: textChoices)
+        let questionStep = ORKQuestionStep(identifier: String(describing: Identifier.textChoiceQuestionWithImageStep), title: NSLocalizedString("Text Choice", comment: ""), question: exampleQuestionText, answer: answerFormat)
+        
+        questionStep.text = exampleDetailText
+        
+        return ORKOrderedTask(identifier: String(describing: Identifier.textChoiceQuestionWithImageTask), steps: [questionStep])
+    }
+    
     /**
         This task demonstrates requesting a time interval. For example, this might
         be a suitable answer format for a question like "How long is your morning
