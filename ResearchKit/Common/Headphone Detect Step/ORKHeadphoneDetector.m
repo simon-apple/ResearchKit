@@ -164,7 +164,6 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
     });
     
     [[[MPRemoteCommandCenter sharedCommandCenter] pauseCommand] addTarget:self action:@selector(pauseDetected:)];
-    [[[MPRemoteCommandCenter sharedCommandCenter] playCommand] addTarget:self action:@selector(playDetected:)];
     
     [center addObserver:self selector:@selector(appWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
     [center addObserver:self selector:@selector(appWillTerminate:) name:UIApplicationWillTerminateNotification object:nil];
@@ -177,17 +176,6 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
         if (strongDelegate &&
             [strongDelegate respondsToSelector:@selector(oneAirPodRemoved)]) {
             [strongDelegate oneAirPodRemoved];
-        }
-    });
-    return MPRemoteCommandHandlerStatusSuccess;
-}
-
--(MPRemoteCommandHandlerStatus)playDetected:(MPRemoteCommandEvent*)event {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        ORKStrongTypeOf(self.delegate) strongDelegate = self.delegate;
-        if (strongDelegate &&
-            [strongDelegate respondsToSelector:@selector(oneAirPodInserted)]) {
-            [strongDelegate oneAirPodInserted];
         }
     });
     return MPRemoteCommandHandlerStatusSuccess;
@@ -218,7 +206,6 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
     });
     
     [[[MPRemoteCommandCenter sharedCommandCenter] pauseCommand] removeTarget:self];
-    [[[MPRemoteCommandCenter sharedCommandCenter] playCommand] removeTarget:self];
     
     [center removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
     [center removeObserver:self name:UIApplicationWillTerminateNotification object:nil];

@@ -62,12 +62,6 @@
 "CONTEXT_MICROPHONE_REQUIRED_TITLE" = "This Test Requires Access To The Microphone";
 "CONTEXT_MICROPHONE_REQUIRED_TEXT" = "You can take the task again when you give access.";
 "OPEN_MICROPHONE_SETTINGS" = "Enable Access in Settings";
-"TINNITUS_ALERT_TEXT_AIRPODS" = "To resume, securely wear your AirPods, make sure they’re connected, and turn off SharePlay.";
-"TINNITUS_ALERT_TEXT_AIRPODSPRO" = "To resume, securely wear your AirPods Pro and make sure they’re connected. Turn on Noise Cancelling and turn off SharePlay.";
-"TINNITUS_ALERT_TEXT_AIRPODSMAX" = "To resume, securely wear your AirPods Max and make sure they’re connected. Turn on Noise Cancelling and turn off SharePlay.";
-"TINNITUS_ALERT_TEXT_EARPODS" = "To resume, securely wear your EarPods and make sure they’re connected.";
-"TINNITUS_ALERT_BUTTON_CONTINUE" = "Continue";
-"TINNITUS_ALERT_BUTTON_CANCEL" = "Cancel Task";
 
 /* BLE */
 "BLE_UNABLE_TO_SCAN_TITLE" = "Unable to Scan";
