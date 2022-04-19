@@ -48,8 +48,15 @@ public struct TaskView<Content>: View where Content: View {
     }
 
     public var body: some View {
-        TaskContentView(index: 0, content)
-            .environmentObject(self.taskManager)
+        if #available(watchOSApplicationExtension 7.0, *) {
+            NavigationView {
+                TaskContentView(index: 0, content)
+                    .environmentObject(self.taskManager)
+            }
+        } else {
+            TaskContentView(index: 0, content)
+                .environmentObject(self.taskManager)
+        }
     }
 }
 
