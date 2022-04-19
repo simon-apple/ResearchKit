@@ -122,16 +122,26 @@ internal struct TaskContentView<Content>: View where Content: View {
         self.index = index
         self.content = content
     }
+    
+    // Note: This needs to be added to the top of the view, so in the case that cells are renedered
+    // lazily, the wrapping NavigationView can find it, and trigger it when `goNext` is called.
+    private var hiddenNavigationButton: some View {
+        NavigationLink(isActive: $goNext, destination: {
+            TaskContentView(index: index + 1, content)
+                .environmentObject(taskManager)
+        }, label: {
+            AnyView(EmptyView())
+        })
+        .frame(height: .zero)
+        .disabled(true)
+    }
       
     var body: some View {
-
-        let nextStep = hasNextStep ?
-            TaskContentView(index: index + 1, content).environmentObject(taskManager) : nil
-        
         ScrollView {
-            
+            if hasNextStep {
+                hiddenNavigationButton
+            }
             ORKScrollViewReader { value in
-                
                 content(currentStep, currentResult)
                     .onAppear {
                         currentResult.startDate = Date()
@@ -144,11 +154,7 @@ internal struct TaskContentView<Content>: View where Content: View {
                         }
                     }
                 
-                if let nextStepView = nextStep {
-                    NavigationLink(destination: nextStepView, isActive: $goNext) { }
-                        .frame(height: .zero)
-                        .disabled(true)
-                    
+                if hasNextStep {
                     if shouldScrollToCTA || !(currentStep is ORKQuestionStep) {
                         Button("Next") { goNext = true }
                             .id(Constants.CTA)
