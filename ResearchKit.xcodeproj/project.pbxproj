@@ -2984,6 +2984,19 @@
 			name = "HealthKit Permission Type";
 			sourceTree = "<group>";
 		};
+		51EE449C28186AA60051AB68 /* BLE */ = {
+			isa = PBXGroup;
+			children = (
+				5D77C89C2683BF920045A513 /* ORKBLEScanPeripheralsStep.h */,
+				5D77C89D2683BF920045A513 /* ORKBLEScanPeripheralsStep.m */,
+				5DE6CBD52683ED3300007536 /* ORKBLEScanPeripheralsStepViewController.h */,
+				5DE6CBD62683ED3300007536 /* ORKBLEScanPeripheralsStepViewController.m */,
+				5D5BD0652695099F003E2036 /* ORKBLEScanPeripheralsStepResult.h */,
+				5D5BD0662695099F003E2036 /* ORKBLEScanPeripheralsStepResult.m */,
+			);
+			path = BLE;
+			sourceTree = "<group>";
+		};
 		5D000EC02620F27100E5442A /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
@@ -3107,19 +3120,6 @@
 				5D43C5D024217393006F4084 /* ORKRecordButton.m */,
 			);
 			name = ORKRecordButton;
-			sourceTree = "<group>";
-		};
-		5D77C8972683BA5A0045A513 /* ORKBLE */ = {
-			isa = PBXGroup;
-			children = (
-				5D77C89C2683BF920045A513 /* ORKBLEScanPeripheralsStep.h */,
-				5D77C89D2683BF920045A513 /* ORKBLEScanPeripheralsStep.m */,
-				5DE6CBD52683ED3300007536 /* ORKBLEScanPeripheralsStepViewController.h */,
-				5DE6CBD62683ED3300007536 /* ORKBLEScanPeripheralsStepViewController.m */,
-				5D5BD0652695099F003E2036 /* ORKBLEScanPeripheralsStepResult.h */,
-				5D5BD0662695099F003E2036 /* ORKBLEScanPeripheralsStepResult.m */,
-			);
-			name = ORKBLE;
 			sourceTree = "<group>";
 		};
 		5D8D87B1251919EF0030E058 /* Step Views */ = {
@@ -3299,6 +3299,7 @@
 		86C40AF91A8D7C5B00081FAC /* Active Tasks */ = {
 			isa = PBXGroup;
 			children = (
+				51EE449C28186AA60051AB68 /* BLE */,
 				51814E6726432CFA009E8C98 /* ORKSpeechInNoise */,
 				51814E6626432BF0009E8C98 /* Tinnitus */,
 				51814E6026432ABC009E8C98 /* ORKVolumeCalibration */,
@@ -3323,7 +3324,6 @@
 				25F5CEDC1B4C3F1D0031E2A4 /* TowerOfHanoi */,
 				781D54091DF884C400223305 /* Trailmaking */,
 				10BAA2CC1B5FCDB1004FE478 /* Walking */,
-				5D77C8972683BA5A0045A513 /* ORKBLE */,
 			);
 			name = "Active Tasks";
 			path = ActiveTasks;

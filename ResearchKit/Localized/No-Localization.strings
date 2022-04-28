@@ -6,6 +6,8 @@
   Copyright © 2021 researchkit.org. All rights reserved.
 */
 
+//apple-internal
+
 /* Tinnitus Predefined Task */
 "TINNITUS_PURETONE_TITLE" = "Pitch Matching";
 "TINNITUS_TYPE_TITLE" = "Select a Tinnitus Type";

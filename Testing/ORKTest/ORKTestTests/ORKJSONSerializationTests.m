@@ -46,7 +46,8 @@
 
 + (NSArray<NSString *> *)_fetchExclusionList {
     NSArray<NSString *> *classesToExclude = @[];
-    
+
+#if RK_APPLE_INTERNAL
 #if !(ORK_FEATURE_AV_JOURNALING)
      NSArray<NSString *> *avJournalingClasses = @[
          @"ORKAVJournalingStep",
@@ -65,6 +66,8 @@
     ];
    
    classesToExclude = [classesToExclude arrayByAddingObjectsFromArray:blePeripheralsClasses];
+#endif
+    
 #endif
     
     return classesToExclude;
@@ -284,6 +287,7 @@ ORK_MAKE_TEST_INIT(ORKSpeechInNoisePredefinedTask, ^{
                         appendSteps:@[stepB]];
 });
 
+#if RK_APPLE_INTERNAL
 #if ORK_FEATURE_AV_JOURNALING
 ORK_MAKE_TEST_INIT(ORKAVJournalingPredefinedTask, ^{
     ORKStep *stepA = [[ORKStep alloc] initWithIdentifier:[NSUUID UUID].UUIDString];
@@ -309,6 +313,7 @@ ORK_MAKE_TEST_INIT(ORKTinnitusPredefinedTask, ^{
                        prependSteps:@[stepA]
                         appendSteps:@[stepB]];
 });
+#endif
 ORK_MAKE_TEST_INIT(ORKImageChoice, ^{return [super init];});
 ORK_MAKE_TEST_INIT(ORKTextChoice, ^{return [super init];});
 ORK_MAKE_TEST_INIT(ORKTextChoiceOther, ^{return [self initWithText:@"test" primaryTextAttributedString:nil detailText:@"test1" detailTextAttributedString:nil value:@"value" exclusive:YES textViewPlaceholderText:@"test2" textViewInputOptional:NO textViewStartsHidden:YES];});
@@ -375,11 +380,12 @@ ORK_MAKE_TEST_INIT(NSRegularExpression, (^{
 }));
 ORK_MAKE_TEST_INIT(UIColor, (^{ return [self initWithRed:1 green:1 blue:1 alpha:1]; }));
 ORK_MAKE_TEST_INIT(ORKNoAnswer, (^{ return [ORKDontKnowAnswer answer]; }));
-ORK_MAKE_TEST_INIT(ORKTinnitusMaskingSoundStep, (^{ return [[ORKTinnitusMaskingSoundStep alloc] initWithIdentifier:[NSUUID UUID].UUIDString name:@"White Noise" soundIdentifier:@"WHITENOISE"]; }));
 ORK_MAKE_TEST_INIT(ORKAccuracyStroopStep, (^{ return [[ORKAccuracyStroopStep alloc] initWithIdentifier:[NSUUID UUID].UUIDString]; }));
-
+#if RK_APPLE_INTERNAL
+ORK_MAKE_TEST_INIT(ORKTinnitusMaskingSoundStep, (^{ return [[ORKTinnitusMaskingSoundStep alloc] initWithIdentifier:[NSUUID UUID].UUIDString name:@"White Noise" soundIdentifier:@"WHITENOISE"]; }));
 #if ORK_FEATURE_BLE_SCAN_PERIPHERALS
 ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripheralsStep alloc] initWithIdentifier:[NSUUID UUID].UUIDString scanOptions:@{}]; }));
+#endif
 #endif
 
 @interface ORKJSONTestImageSerialization : NSObject<ORKESerializationImageProvider>
@@ -1467,7 +1473,7 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
                                                   @"ORKPasscodeStepViewController",
                                                   ];
     
-    NSDictionary <NSString *, NSString *> *mapStepClassForViewController = @{ // classes that require custom step class
+     NSDictionary <NSString *, NSString *> *mapStepClassForViewController = @{ // classes that require custom step class
                                                                              @"ORKActiveStepViewController" : @"ORKActiveStep",
                                                                              @"ORKCompletionStepViewController" : @"ORKCompletionStep",
                                                                              @"ORKConsentReviewStepViewController" : @"ORKConsentReviewStep",
@@ -1487,18 +1493,28 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
                                                                              @"ORKWalkingTaskStepViewController" : @"ORKWalkingTaskStep",
                                                                              @"ORKTableStepViewController" : @"ORKTableStep",
                                                                              @"ORKdBHLToneAudiometryStepViewController" : @"ORKdBHLToneAudiometryStep",
-                                                                             @"ORKdBHLToneAudiometryCompletionStepViewController" : @"ORKdBHLToneAudiometryCompletionStep",
                                                                              @"ORKSecondaryTaskStepViewController" : @"ORKSecondaryTaskStep",
-                                                                             @"ORKHeadphoneDetectStepViewController" : @"ORKHeadphoneDetectStep",
                                                                              @"ORKWebViewStepViewController": @"ORKWebViewStep",
-                                                                             @"ORKVolumeCalibrationStepViewController":@"ORKVolumeCalibrationStep",
-                                                                             @"ORKTinnitusTypeStepViewController":@"ORKTinnitusTypeStep",
-                                                                             @"ORKTinnitusPureToneStepViewController":@"ORKTinnitusPureToneStep",
-                                                                             @"ORKTinnitusMaskingSoundStepViewController":@"ORKTinnitusMaskingSoundStep",
                                                                              @"ORKCustomStepViewController":@"ORKCustomStep",
                                                                              @"ORKRequestPermissionsStepViewController":@"ORKRequestPermissionsStep",
                                                                              @"ORKAccuracyStroopStepViewController":@"ORKAccuracyStroopStep"
                                                                              };
+
+#if RK_APPLE_INTERNAL
+    NSMutableDictionary <NSString *, NSString *> *internalMapStepClassForViewController = [mapStepClassForViewController mutableCopy];
+    [internalMapStepClassForViewController addEntriesFromDictionary: @{
+        @"ORKVolumeCalibrationStepViewController":@"ORKVolumeCalibrationStep",
+        @"ORKTinnitusTypeStepViewController":@"ORKTinnitusTypeStep",
+        @"ORKTinnitusPureToneStepViewController":@"ORKTinnitusPureToneStep",
+        @"ORKTinnitusMaskingSoundStepViewController":@"ORKTinnitusMaskingSoundStep",
+        @"ORKdBHLToneAudiometryCompletionStepViewController" : @"ORKdBHLToneAudiometryCompletionStep",
+        @"ORKHeadphoneDetectStepViewController" : @"ORKHeadphoneDetectStep"
+    }];
+    
+    mapStepClassForViewController = [internalMapStepClassForViewController copy];
+#endif
+    
+
     
     NSDictionary <NSString *, NSDictionary *> *kvMapForStep = @{ // Steps that require modification to validate
                                                                 @"ORKHolePegTestPlaceStep" : @{@"numberOfPegs" : @2,
