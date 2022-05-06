@@ -130,6 +130,10 @@ class FileHelper(object):
 
         return collected_files
 
+    def fetch_files_with_special_comment(self, files):
+        special_comment = "apple-internal"
+        return [f for f in files if f.contains_text(special_comment)]
+
     def fetch_folders_to_delete(self, project_path, folders_to_delete):
         collected_folders = []
         for root, folders, _ in os.walk(project_path):
@@ -147,6 +151,44 @@ class FileHelper(object):
             internal_files = internal_files + self.__fetch_files_from_folder(folder)
 
         return internal_files
+
+    def remove_file_references_from_project_file(self, file_path, files_to_delete):
+        print(f"=== Removing files from pbxproj file ===")
+
+        pbx_file = File(file_path)
+        for f in files_to_delete:
+            print(f"Removing lines containing name: {f.name}")
+            pbx_file.remove_lines_containing(f.name)
+
+        print(f"=== Finished Removing files from pbxproj file ===")
+
+    def remove_internal_blocks_from_files(self, files):
+        print(f"=== Removing enclosed internal code and references from files ===")
+        for f in files:
+            start_comment = "start-omit-internal-code"
+            end_comment = "end-omit-internal-code"
+            f.remove_internal_code(start_delimeter=start_comment, end_delimeter=end_comment)
+            f.remove_internal_flags_and_content()
+            f.remove_lines_containing("swiftlint")
+            f.remove_lines_containing("// TODO:")
+            f.remove_lines_containing("// FIXME:")
+            f.remove_lines_containing("rdar://")
+        print(f"=== Finished removing enclosed internal code and references from files ===")
+
+    def delete_files(self, files_to_delete):
+        print(f"=== Deleting all idenitified internal files ===")
+        for f in files_to_delete:
+            f.delete()
+            print(f"\tDeleted file {f.name}")
+        print(f"=== Finished deleting all idenitified internal files ===")
+
+    def delete_folders(self, folders_to_delete):
+        print(f"=== Deleting all idenitified internal folders ===")
+        for folder in folders_to_delete:
+            if os.path.exists(folder):
+                rmtree(folder)
+                print(f"\tDeleted folder {folder}")
+        print(f"=== Finished deleting all idenitified internal references ===")
 
     def __is_a_folder_to_delete(self, current_folder, folders_to_delete):
 
@@ -174,59 +216,26 @@ class RKScrubber():
         self.project_path = "../ResearchKit"
         self.tests_project_path = "../ResearchKitTests"
         self.core_project_path = "../ResearchKitCore"
+        self.project_file_path = "../ResearchKit.xcodeproj/project.pbxproj"
         self.folders_to_remove = ["PrivateHeaders", "ORKAVJournaling", "ORKFaceDetectionStep", "Tinnitus", "ORKVolumeCalibration", "HeadphoneDetectStep", "InternalPredefinedTasks", "BLE"]
 
     def scrub_project(self):
-        # paths to internal folders that need to be deleted
+
         folders_to_delete = self.file_helper.fetch_folders_to_delete(self.project_path, self.folders_to_remove)
-
-        # files from within internal folders
         files_to_delete = self.file_helper.gather_files_from_internal_folders(folders_to_delete)
-
-        special_comment = "apple-internal"
 
         # gather all files from project
         files = self.file_helper.recursively_read_files(self.project_path) + self.file_helper.recursively_read_files(self.tests_project_path) + self.file_helper.recursively_read_files(self.core_project_path)
 
-        # filter out files with special 'apple-internal' comment
-        files_with_special_comment = [f for f in files if f.contains_text(special_comment)]
+        files_with_special_comment = self.file_helper.fetch_files_with_special_comment(files)
 
         # combine files with special comment with files fetched from internal folders
         files_to_delete = files_to_delete + files_with_special_comment
 
-        print(f"=== Removing files from pbxproj file ===")
-
-        pbx_file = File("../ResearchKit.xcodeproj/project.pbxproj")
-        for f in files_to_delete:
-            print(f"Removing lines containing name: {f.name}")
-            pbx_file.remove_lines_containing(f.name)
-
-        print(f"=== Finished Removing files from pbxproj file ===")
-
-        print(f"=== Removing enclosed internal code and references from files ===")
-        for f in files:
-            start_comment = "start-omit-internal-code"
-            end_comment = "end-omit-internal-code"
-            f.remove_internal_code(start_delimeter=start_comment, end_delimeter=end_comment)
-            f.remove_internal_flags_and_content()
-            f.remove_lines_containing("swiftlint")
-            f.remove_lines_containing("// TODO:")
-            f.remove_lines_containing("// FIXME:")
-            f.remove_lines_containing("rdar://")
-        print(f"=== Finished removing enclosed internal code and references from files ===")
-
-        print(f"=== Deleting all idenitified internal files ===")
-        for f in files_to_delete:
-            f.delete()
-            print(f"\tDeleted file {f.name}")
-        print(f"=== Finished deleting all idenitified internal files ===")
-
-        print(f"=== Deleting all idenitified internal folders ===")
-        for folder in folders_to_delete:
-            if os.path.exists(folder):
-                rmtree(folder)
-                print(f"\tDeleted folder {folder}")
-        print(f"=== Finished deleting all idenitified internal references ===")
+        self.file_helper.remove_file_references_from_project_file(self.project_file_path, files_to_delete)
+        self.file_helper.remove_internal_blocks_from_files(files)
+        self.file_helper.delete_files(files_to_delete)
+        self.file_helper.delete_folders(folders_to_delete)
 
         print("Success!")
 
@@ -237,64 +246,27 @@ class RKTestScrubber():
         self.project_path = "../Testing/ORKTest"
         self.project_file_path = "../Testing/ORKTest/ORKTest.xcodeproj/project.pbxproj"
         self.folders_to_remove = ["List1", "PracticeList", "QuestionList1", "TinnitusSounds1"]
-        self.json_files_to_remove = ["ORKAVJournalingStep.json", "ORKAVJournalingResult.json", "ORKAVJournalingPredefinedTask.json", "ORKTinnitusPredefinedTask.json", "ORKTinnitusUnit.json", "ORKTinnitusTypeStep.json", "ORKTinnitusTypeResult.json", "ORKTinnitusVolumeResult.json", "ORKTinnitusPureToneStep.json", "ORKTinnitusPureToneResult.json", "ORKTinnitusMaskingSoundStep.json", "ORKTinnitusMaskingSoundResult.json", "ORKTinnitusOverallAssessmentStep.json", "ORKTinnitusOverallAssessmentResult.json", "ORKBLEScanPeripheralsStep.json", "ORKBLEScanPeripheralsStepResult.json", "ORKSpeechInNoisePredefinedTask.json", "ORKHeadphoneDetectStep.json", "ORKHeadphoneDetectStepResult.json", "ORKHeadphoneRequiredCompletionStep.json"]
+        self.json_files_to_remove = ["ORKAVJournalingStep.json", "ORKAVJournalingResult.json", "ORKAVJournalingPredefinedTask.json", "ORKTinnitusPredefinedTask.json", "ORKTinnitusUnit.json", "ORKTinnitusTypeStep.json", "ORKTinnitusTypeResult.json", "ORKTinnitusVolumeResult.json", "ORKTinnitusPureToneStep.json", "ORKTinnitusPureToneResult.json", "ORKTinnitusMaskingSoundStep.json", "ORKTinnitusMaskingSoundResult.json", "ORKTinnitusOverallAssessmentStep.json", "ORKTinnitusOverallAssessmentResult.json", "ORKBLEScanPeripheralsStep.json", "ORKBLEScanPeripheralsStepResult.json", "ORKSpeechInNoisePredefinedTask.json", "ORKHeadphoneDetectStep.json", "ORKHeadphoneDetectResult.json", "ORKHeadphonesRequiredCompletionStep.json", "ORKFaceDetectionStep.json", "ORKVolumeCalibrationStep.json"]
 
     def scrub_project(self):
         files = self.file_helper.recursively_read_files(self.project_path)
 
         json_files_to_delete = self.file_helper.fetch_files_to_delete(files, self.json_files_to_remove)
 
-        print(f"=== Deleting all idenitified internal files ===")
-        for f in json_files_to_delete:
-            f.delete()
-            print(f"\tDeleted file {f.name}")
-        print(f"=== Finished deleting all idenitified internal files ===")
+        self.file_helper.delete_files(json_files_to_delete)
 
-        # paths to internal folders that need to be deleted
         folders_to_delete = self.file_helper.fetch_folders_to_delete(self.project_path, self.folders_to_remove)
 
-        # files from within internal folders
         files_to_delete = self.file_helper.gather_files_from_internal_folders(folders_to_delete)
 
-        special_comment = "apple-internal"
+        files_with_special_comment = self.file_helper.fetch_files_with_special_comment(files)
 
-        # filter out files with special 'apple-internal' comment
-        files_with_special_comment = [f for f in files if f.contains_text(special_comment)]
-
-        # combine fiels with special comment with files fetched from internal folders
         files_to_delete = files_to_delete + files_with_special_comment
 
-        print(f"=== Removing files from pbxproj file ===")
-        pbx_file = File(self.project_file_path)
-        for f in files_to_delete:
-            print(f"Removing lines containing name: {f.name}")
-            pbx_file.remove_lines_containing(f.name)
-
-
-        print(f"=== Removing enclosed internal code and references from files ===")
-        for f in files:
-            start_comment = "start-omit-internal-code"
-            end_comment = "end-omit-internal-code"
-            f.remove_internal_code(start_delimeter=start_comment, end_delimeter=end_comment)
-            f.remove_internal_flags_and_content()
-            f.remove_lines_containing("swiftlint")
-            f.remove_lines_containing("// TODO:")
-            f.remove_lines_containing("// FIXME:")
-            f.remove_lines_containing("rdar://")
-        print(f"=== Finished removing enclosed internal code and references from files ===")
-
-        print(f"=== Deleting all idenitified internal files ===")
-        for f in files_to_delete:
-            f.delete()
-            print(f"\tDeleted file {f.name}")
-        print(f"=== Finished deleting all idenitified internal files ===")
-
-        print(f"=== Deleting all idenitified internal folders ===")
-        for folder in folders_to_delete:
-            if os.path.exists(folder):
-                rmtree(folder)
-                print(f"\tDeleted folder {folder}")
-        print(f"=== Finished deleting all idenitified internal references ===")
+        self.file_helper.remove_file_references_from_project_file(self.project_file_path, files_to_delete)
+        self.file_helper.remove_internal_blocks_from_files(files)
+        self.file_helper.delete_files(files_to_delete)
+        self.file_helper.delete_folders(folders_to_delete)
 
 class RKCatalogScrubber():
 
@@ -307,51 +279,18 @@ class RKCatalogScrubber():
     def scrub_project(self):
         files = self.file_helper.recursively_read_files(self.project_path)
 
-        # paths to internal folders that need to be deleted
         folders_to_delete = self.file_helper.fetch_folders_to_delete(self.project_path, self.folders_to_remove)
 
-        # files from within internal folders
         files_to_delete = self.file_helper.gather_files_from_internal_folders(folders_to_delete)
 
-        special_comment = "apple-internal"
+        files_with_special_comment = self.file_helper.fetch_files_with_special_comment(files)
 
-        # filter out files with special 'apple-internal' comment
-        files_with_special_comment = [f for f in files if f.contains_text(special_comment)]
-
-        # combine fiels with special comment with files fetched from internal folders
         files_to_delete = files_to_delete + files_with_special_comment
 
-        print(f"=== Removing files from pbxproj file ===")
-        pbx_file = File(self.project_file_path)
-        for f in files_to_delete:
-            print(f"Removing lines containing name: {f.name}")
-            pbx_file.remove_lines_containing(f.name)
-
-
-        print(f"=== Removing enclosed internal code and references from files ===")
-        for f in files:
-            start_comment = "start-omit-internal-code"
-            end_comment = "end-omit-internal-code"
-            f.remove_internal_code(start_delimeter=start_comment, end_delimeter=end_comment)
-            f.remove_internal_flags_and_content()
-            f.remove_lines_containing("swiftlint")
-            f.remove_lines_containing("// TODO:")
-            f.remove_lines_containing("// FIXME:")
-            f.remove_lines_containing("rdar://")
-        print(f"=== Finished removing enclosed internal code and references from files ===")
-
-        print(f"=== Deleting all idenitified internal files ===")
-        for f in files_to_delete:
-            f.delete()
-            print(f"\tDeleted file {f.name}")
-        print(f"=== Finished deleting all idenitified internal files ===")
-
-        print(f"=== Deleting all idenitified internal folders ===")
-        for folder in folders_to_delete:
-            if os.path.exists(folder):
-                rmtree(folder)
-                print(f"\tDeleted folder {folder}")
-        print(f"=== Finished deleting all idenitified internal references ===")
+        self.file_helper.remove_file_references_from_project_file(self.project_file_path, files_to_delete)
+        self.file_helper.remove_internal_blocks_from_files(files)
+        self.file_helper.delete_files(files_to_delete)
+        self.file_helper.delete_folders(folders_to_delete)
 
 
 if __name__ == "__main__":

@@ -1135,12 +1135,6 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(earPreference, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(frequencyList, NSArray, NSObject, YES, nil, nil),
                     })),
-           ENTRY(ORKdBHLToneAudiometryCompletionStep,
-                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-               return [[ORKdBHLToneAudiometryCompletionStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
-           },
-                 (@{
-                  })),
            ENTRY(ORKHolePegTestPlaceStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      return [[ORKHolePegTestPlaceStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
@@ -2401,6 +2395,10 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
             (@{})),
 #endif
 #if RK_APPLE_INTERNAL
+          ENTRY(ORKdBHLToneAudiometryCompletionStep,
+                ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+              return [[ORKdBHLToneAudiometryCompletionStep alloc] initWithIdentifier:GETPROP(dict, identifier)];},
+                (@{})),
            ENTRY(ORKTinnitusTypeStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                return [[ORKTinnitusTypeStep alloc] initWithIdentifier:GETPROP(dict, identifier)];

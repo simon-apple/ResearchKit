@@ -64,32 +64,38 @@ struct TaskScreen {
     "Request Permissions Step"
     ]
     
-    var activeTasks = [
-    "Audio",
-    "Amsler Grid",
-    "Fitness Check",
-    "Hole Peg Test",
-    "PSAT",
-    "Reaction Time",
-    "Short Walk",
-    "Spatial Span Memory",
-    "Speech Recognition",
-    "Speech in Noise",
-    "Predefined Speech In Noise",
-    "Predefined AVJournaling",
-    "Stroop",
-    "Timed Walk with Turn Around",
-    "Tone Audiometry",
-    "dBHL Tone Audiometry",
-    //"Environment SPL Meter",
-    "Tower of Hanoi",
-    "Tremor Test",
-    "Two Finger Tapping Interval",
-    "Walk Back and Forth",
-    "Knee Range of Motion",
-    "Shoulder Range of Motion",
-    "Trail Making Test"
-    ]
+    var activeTasks: [String] {
+        var tasks = [
+            "Audio",
+            "Amsler Grid",
+            "Fitness Check",
+            "Hole Peg Test",
+            "PSAT",
+            "Reaction Time",
+            "Short Walk",
+            "Spatial Span Memory",
+            "Speech Recognition",
+            "Speech in Noise",
+            "Stroop",
+            "Timed Walk with Turn Around",
+            "Tone Audiometry",
+            "dBHL Tone Audiometry",
+            //"Environment SPL Meter",
+            "Tower of Hanoi",
+            "Tremor Test",
+            "Two Finger Tapping Interval",
+            "Walk Back and Forth",
+            "Knee Range of Motion",
+            "Shoulder Range of Motion",
+            "Trail Making Test"
+            ]
+        
+#if RK_APPLE_INTERNAL
+        tasks.append("Predefined Speech In Noise")
+        tasks.append("Predefined AVJournaling")
+#endif
+        return tasks
+    }
     
     var mainTaskScreen: XCUIElement {
         app.navigationBars["ORKCatalog"].staticTexts["ORKCatalog"]

@@ -82,6 +82,7 @@
 #import <ResearchKit/ORKTrailmakingStep.h>
 #import <ResearchKit/ORKWalkingTaskStep.h>
 #import <ResearchKit/ORKSpeechRecognitionStep.h>
+#import <ResearchKit/ORKSpeechInNoiseStep.h>
 
 #import <ResearchKit/ORKTaskViewController_Private.h>
 #import <ResearchKit/ORKFormStepViewController_Private.h>
@@ -202,8 +203,6 @@
 
 #import <ResearchKit/ORKTinnitusPureToneStepViewController_Private.h>
 #import <ResearchKit/ORKTinnitusTypes.h>
-
-#import <ResearchKit/ORKSpeechInNoiseStep.h>
 
 #import <ResearchKit/ORKSpeechInNoisePredefinedTask.h>
 #import <ResearchKit/ORKTinnitusPredefinedTask.h>

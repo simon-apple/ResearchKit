@@ -47,27 +47,27 @@
 + (NSArray<NSString *> *)_fetchExclusionList {
     NSArray<NSString *> *classesToExclude = @[];
 
-#if RK_APPLE_INTERNAL
-#if !(ORK_FEATURE_AV_JOURNALING)
+#if RK_APPLE_INTERNAL && !(ORK_FEATURE_AV_JOURNALING)
      NSArray<NSString *> *avJournalingClasses = @[
          @"ORKAVJournalingStep",
          @"ORKAVJournalingPredefinedTask",
          @"ORKAVJournalingResult",
-         @"ORKFaceDetectionStep"
+         @"ORKFaceDetectionStep",
+         @"ORKAVJournalingStepOptionsView",
+         @"ORKFaceDetectionBlurFooterView",
+         @"ORKAVJournalingBlurFooterView"
      ];
     
     classesToExclude = [classesToExclude arrayByAddingObjectsFromArray:avJournalingClasses];
 #endif
     
-#if !(ORK_FEATURE_BLE_SCAN_PERIPHERALS)
+#if RK_APPLE_INTERNAL && !(ORK_FEATURE_BLE_SCAN_PERIPHERALS)
     NSArray<NSString *> *blePeripheralsClasses = @[
         @"ORKBLEScanPeripheralsStep",
         @"ORKBLEScanPeripheralsStepResult"
     ];
    
    classesToExclude = [classesToExclude arrayByAddingObjectsFromArray:blePeripheralsClasses];
-#endif
-    
 #endif
     
     return classesToExclude;
@@ -277,18 +277,8 @@ ORK_MAKE_TEST_INIT(ORKVerificationStep, ^{return [self initWithIdentifier:[NSUUI
 ORK_MAKE_TEST_INIT(ORKStep, ^{return [self initWithIdentifier:[NSUUID UUID].UUIDString];});
 ORK_MAKE_TEST_INIT(ORKReviewStep, ^{return [[self class] standaloneReviewStepWithIdentifier:[NSUUID UUID].UUIDString steps:@[] resultSource:[[ORKTaskResult alloc] orktest_init]];});
 ORK_MAKE_TEST_INIT(ORKOrderedTask, ^{return [self initWithIdentifier:@"test1" steps:nil];});
-ORK_MAKE_TEST_INIT(ORKSpeechInNoisePredefinedTask, ^{
-    ORKStep *stepA = [[ORKStep alloc] initWithIdentifier:[NSUUID UUID].UUIDString];
-    ORKStep *stepB = [[ORKStep alloc] initWithIdentifier:[NSUUID UUID].UUIDString];
-    NSString *bundlePath = [[NSBundle bundleForClass:[ORKJSONSerializationTests class]] pathForResource:@"samples" ofType:@"bundle"];
-    return [self initWithIdentifier:@"test1"
-               audioSetManifestPath:[bundlePath stringByAppendingPathComponent: @"PredefinedTaskResources/List1/manifest.json"]
-                       prependSteps:@[stepA]
-                        appendSteps:@[stepB]];
-});
 
-#if RK_APPLE_INTERNAL
-#if ORK_FEATURE_AV_JOURNALING
+#if RK_APPLE_INTERNAL && ORK_FEATURE_AV_JOURNALING
 ORK_MAKE_TEST_INIT(ORKAVJournalingPredefinedTask, ^{
     ORKStep *stepA = [[ORKStep alloc] initWithIdentifier:[NSUUID UUID].UUIDString];
     ORKStep *stepB = [[ORKStep alloc] initWithIdentifier:[NSUUID UUID].UUIDString];
@@ -303,6 +293,17 @@ ORK_MAKE_TEST_INIT(ORKFaceDetectionStep, ^{
     return [self initWithIdentifier:@"test1"];
 });
 #endif
+
+#if RK_APPLE_INTERNAL
+ORK_MAKE_TEST_INIT(ORKSpeechInNoisePredefinedTask, ^{
+    ORKStep *stepA = [[ORKStep alloc] initWithIdentifier:[NSUUID UUID].UUIDString];
+    ORKStep *stepB = [[ORKStep alloc] initWithIdentifier:[NSUUID UUID].UUIDString];
+    NSString *bundlePath = [[NSBundle bundleForClass:[ORKJSONSerializationTests class]] pathForResource:@"samples" ofType:@"bundle"];
+    return [self initWithIdentifier:@"test1"
+               audioSetManifestPath:[bundlePath stringByAppendingPathComponent: @"PredefinedTaskResources/List1/manifest.json"]
+                       prependSteps:@[stepA]
+                        appendSteps:@[stepB]];
+});
 
 ORK_MAKE_TEST_INIT(ORKTinnitusPredefinedTask, ^{
     ORKStep *stepA = [[ORKStep alloc] initWithIdentifier:[NSUUID UUID].UUIDString];
@@ -383,9 +384,9 @@ ORK_MAKE_TEST_INIT(ORKNoAnswer, (^{ return [ORKDontKnowAnswer answer]; }));
 ORK_MAKE_TEST_INIT(ORKAccuracyStroopStep, (^{ return [[ORKAccuracyStroopStep alloc] initWithIdentifier:[NSUUID UUID].UUIDString]; }));
 #if RK_APPLE_INTERNAL
 ORK_MAKE_TEST_INIT(ORKTinnitusMaskingSoundStep, (^{ return [[ORKTinnitusMaskingSoundStep alloc] initWithIdentifier:[NSUUID UUID].UUIDString name:@"White Noise" soundIdentifier:@"WHITENOISE"]; }));
-#if ORK_FEATURE_BLE_SCAN_PERIPHERALS
-ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripheralsStep alloc] initWithIdentifier:[NSUUID UUID].UUIDString scanOptions:@{}]; }));
 #endif
+#if RK_APPLE_INTERNAL && ORK_FEATURE_BLE_SCAN_PERIPHERALS
+ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripheralsStep alloc] initWithIdentifier:[NSUUID UUID].UUIDString scanOptions:@{}]; }));
 #endif
 
 @interface ORKJSONTestImageSerialization : NSObject<ORKESerializationImageProvider>
@@ -523,9 +524,6 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
                                    @"ORKSpeechRecognitionResult.transcription",
                                    @"ORKSpeechRecognitionResult.recognitionMetadata",
                                    @"ORKTextAnswerFormat.validationRegex",
-                                   @"ORKSpeechInNoisePredefinedTask.steps",
-                                   @"ORKAVJournalingPredefinedTask.steps",
-                                   @"ORKTinnitusPredefinedTask.steps",
                                    @"ORKFileResult.fileURL",
                                    @"ORKFrontFacingCameraTask.fileURL",
                                    @"ORKTaskResult.outputDirectory",
@@ -534,6 +532,15 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
                                    @"ORKAccuracyStroopResult.didSelectCorrectColor",
                                    @"ORKAccuracyStroopResult.timeTakenToSelect"
                                    ];
+        
+#if RK_APPLE_INTERNAL
+        NSArray<NSString *> *internalPropertyExclusionList = @[
+            @"ORKSpeechInNoisePredefinedTask.steps",
+            @"ORKAVJournalingPredefinedTask.steps",
+            @"ORKTinnitusPredefinedTask.steps"
+        ];
+        _propertyExclusionList = [_propertyExclusionList arrayByAddingObjectsFromArray:internalPropertyExclusionList];
+#endif
         
         _knownNotSerializedProperties = @[
                                           @"ORKActiveStep.image",
@@ -621,14 +628,21 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
                                           @"ORKVideoCaptureStep.templateImage",
                                           @"ORKWeightAnswerFormat.useMetricSystem",
                                           @"ORKWebViewStep.customViewProvider",
-                                          @"ORKFaceDetectionBlurFooterView.startStopButton",
-                                          @"ORKFaceDetectionBlurFooterView.timerLabel",
                                           @"ORKLearnMoreItem.delegate",
                                           @"ORKSpeechRecognitionResult.recognitionMetadata",
-                                          @"ORKAccuracyStroopStep.actualDisplayColor",
-                                          @"ORKBLEScanPeripheralsStepResult.centralManager",
-                                          @"ORKBLEScanPeripheralsStepResult.connectedPeripherals"
+                                          @"ORKAccuracyStroopStep.actualDisplayColor"
                                           ];
+        
+#if RK_APPLE_INTERNAL
+        NSArray<NSString *> *internalKnownNotSerializedProperties = @[
+            @"ORKFaceDetectionBlurFooterView.startStopButton",
+            @"ORKFaceDetectionBlurFooterView.timerLabel",
+            @"ORKBLEScanPeripheralsStepResult.centralManager",
+            @"ORKBLEScanPeripheralsStepResult.connectedPeripherals"
+        ];
+        _knownNotSerializedProperties = [_knownNotSerializedProperties arrayByAddingObjectsFromArray:internalKnownNotSerializedProperties];
+#endif
+        
         _allowedUnTouchedKeys = @[@"_class"];
         _mutuallyExclusiveProperties = @{
             @"ORKBooleanQuestionResult": @[@"noAnswerType", @"booleanAnswer"],
@@ -662,10 +676,7 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
         @"ORKUSDZModelManagerScene",
         @"ORKBlurFooterView",
         @"ORKFrontFacingCameraStepOptionsView",
-        @"ORKNoAnswer",
-        @"ORKAVJournalingStepOptionsView",
-        @"ORKFaceDetectionBlurFooterView",
-        @"ORKAVJournalingBlurFooterView"
+        @"ORKNoAnswer"
     ];
     
     #if RK_APPLE_INTERNAL
@@ -757,6 +768,8 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
  Attempts a decode of the sample, twice: once with image decoding enabled and once with images mapped to nil.
  Provides special handling for dont know answers, verifying that they deserialize as expected.
  */
+
+#if RK_APPLE_INTERNAL
 ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector(void);
 
 ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
@@ -901,6 +914,8 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
         XCTAssertEqualObjects(NSStringFromClass([instance class]), className);
     }
 }
+#endif
+
 
 #define GENERATE_SAMPLES 0
 
