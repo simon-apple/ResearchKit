@@ -769,12 +769,14 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
  Provides special handling for dont know answers, verifying that they deserialize as expected.
  */
 
-#if RK_APPLE_INTERNAL
+
 ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector(void);
 
 ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
     NSString *bundlePath = [[NSBundle bundleForClass:[ORKJSONSerializationTests class]] pathForResource:@"samples" ofType:@"bundle"];
     NSBundle *bundle = [NSBundle bundleWithPath:bundlePath];
+    
+#if RK_APPLE_INTERNAL
     ORKESerializationPropertyModifier *modifier = [[ORKESerializationPropertyModifier alloc]
                                                         initWithKeypath:@"ORKSpeechInNoisePredefinedTask.audioSetManifestPath"
                                                         value:@"PredefinedTaskResources/List1/manifest.json"
@@ -793,6 +795,11 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
     ORKESerializationPropertyInjector *propertyInjector = [[ORKESerializationPropertyInjector alloc] initWithBasePath:bundle.bundlePath
                                                                                                           modifiers:@[modifier, modifier2, modifier3]];
     return propertyInjector;
+#else
+    ORKESerializationPropertyInjector *propertyInjector = [[ORKESerializationPropertyInjector alloc] initWithBasePath:bundle.bundlePath
+                                                                                                          modifiers:@[]];
+    return propertyInjector;
+#endif
 }
 
 - (void)testORKSampleDeserialization {
@@ -914,7 +921,6 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
         XCTAssertEqualObjects(NSStringFromClass([instance class]), className);
     }
 }
-#endif
 
 
 #define GENERATE_SAMPLES 0
