@@ -170,6 +170,12 @@ func resultTableViewProviderForResult(_ result: ORKResult?, delegate: ResultProv
         
     case is ORKWebViewStepResult:
         providerType = WebViewStepResultTableViewProvider.self
+        
+    case is ORKEnvironmentSPLMeterResult:
+        providerType = SPLMeterStepResultTableViewProvider.self
+        
+    case is ORKdBHLToneAudiometryResult:
+        providerType = dBHLToneAudiometryResultTableViewProvider.self
 
     // start-omit-internal-code
     #if RK_APPLE_INTERNAL
@@ -1372,6 +1378,43 @@ class WebViewStepResultTableViewProvider: ResultTableViewProvider {
             return rows + [
                 ResultRow(text: "result", detail: webViewStepResult.result)
             ]
+        }
+        
+        return rows
+    }
+}
+
+/// Table view provider specific to an `ORKdBHLToneAudiometryResult` instance.
+class dBHLToneAudiometryResultTableViewProvider: ResultTableViewProvider {
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 0 {
+            return super.tableView(tableView, titleForHeaderInSection: 0)
+        }
+        
+        return "Samples"
+    }
+    
+    override func resultRowsForSection(_ section: Int) -> [ResultRow] {
+        let dBHLToneAudiometryResult = result as! ORKdBHLToneAudiometryResult
+        
+        let rows = super.resultRowsForSection(section)
+        
+        if section == 0 {
+            return rows + [
+                ResultRow(text: "outputVolume", detail: dBHLToneAudiometryResult.outputVolume),
+                ResultRow(text: "tonePlaybackDuration", detail: dBHLToneAudiometryResult.tonePlaybackDuration),
+                ResultRow(text: "postStimulusDelay", detail: dBHLToneAudiometryResult.postStimulusDelay),
+                ResultRow(text: "headphoneType", detail: dBHLToneAudiometryResult.headphoneType)
+            ]
+        } else if section == 1 {
+            guard let samples = dBHLToneAudiometryResult.samples else { return rows }
+            return rows + samples.map { sample in
+                return ResultRow(text: "freq: \(String(format: "%.1f",sample.frequency))", detail: "threshold: \(String(format: "%.2f", sample.calculatedThreshold)), channel: \(sample.channel == .left ? "left" : "right")", selectable: false)
+            }
         }
         
         return rows
