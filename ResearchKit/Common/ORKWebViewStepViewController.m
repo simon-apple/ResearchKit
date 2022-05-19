@@ -66,6 +66,7 @@ static const CGFloat ORKSignatureTopPadding = 37.0;
 
 - (void)setupSubviews {
     [self setupScrollView];
+    [self setupNavigationBarView];
     [self setupNavigationFooterView];
     [self setupWebView];
     [self setupSignatureIfNeeded];
@@ -185,6 +186,15 @@ static const CGFloat ORKSignatureTopPadding = 37.0;
 
     if ([_signatureFooterView.customViewProvider respondsToSelector:@selector(keyboardDismissModeForCustomView)]) {
         [_scrollView setKeyboardDismissMode:[_signatureFooterView.customViewProvider keyboardDismissModeForCustomView]];
+    }
+}
+
+- (void)setupNavigationBarView {
+    if (@available(iOS 15.0, *)) {
+        UINavigationBarAppearance *navBarAppearance = [[UINavigationBarAppearance alloc] init];
+        [navBarAppearance configureWithOpaqueBackground];
+        [UINavigationBar appearance].standardAppearance = navBarAppearance;
+        [UINavigationBar appearance].scrollEdgeAppearance = navBarAppearance;
     }
 }
 
