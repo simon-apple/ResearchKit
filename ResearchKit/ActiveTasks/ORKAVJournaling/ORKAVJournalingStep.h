@@ -42,6 +42,7 @@ ORK_CLASS_AVAILABLE
 @property (nonatomic, assign) NSTimeInterval maximumRecordingLimit;
 @property (nonatomic, assign) NSInteger countDownStartTime;
 @property (nonatomic, assign) BOOL saveDepthDataIfAvailable;
+@property (nonatomic, assign) BOOL stopFaceDetectionExit;
 
 @end
 
