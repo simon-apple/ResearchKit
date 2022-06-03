@@ -51,7 +51,9 @@ typedef void (^ORKAVJournalingStepContentViewEventHandler)(ORKAVJournalingStepCo
 
 @interface ORKAVJournalingStepContentView : ORKActiveStepCustomView
 
-- (instancetype)initWithTitle:(nullable NSString *)title text:(nullable NSString *)text;
+- (instancetype)initWithTitle:(nullable NSString *)title
+                         text:(nullable NSString *)text
+        stopFaceDetectionExit:(BOOL)stopFaceDetectionExit;
 
 - (void)setViewEventHandler:(ORKAVJournalingStepContentViewEventHandler)handler;
 
