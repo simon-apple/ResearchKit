@@ -177,6 +177,7 @@
 #import <ResearchKit/ORKBodyContainerView.h>
 
 //start-omit-internal-code
+#import <ResearchKit/ORKTypingStepViewController.h>
 
 #import <ResearchKit/ORKFaceDetectionStep.h>
 

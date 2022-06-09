@@ -1,6 +1,5 @@
 /*
- Copyright (c) 2015, Apple Inc. All rights reserved.
- Copyright (c) 2017, Sage Bionetworks
+ Copyright (c) 2022, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -29,30 +28,43 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+// apple-internal
+#if RK_APPLE_INTERNAL
+#import <ResearchKit/ORKResult.h>
 
-#import <ResearchKit/ORKAmslerGridResult.h>
-#import <ResearchKit/ORKFileResult.h>
-#import <ResearchKit/ORKHolePegTestResult.h>
-#import <ResearchKit/ORKPSATResult.h>
-#import <ResearchKit/ORKRangeOfMotionResult.h>
-#import <ResearchKit/ORKReactionTimeResult.h>
-#import <ResearchKit/ORKSpatialSpanMemoryResult.h>
-#import <ResearchKit/ORKSpeechRecognitionResult.h>
-#import <ResearchKit/ORKStroopResult.h>
-#import <ResearchKit/ORKAccuracyStroopResult.h>
-#import <ResearchKit/ORKTappingIntervalResult.h>
-#import <ResearchKit/ORKTimedWalkResult.h>
-#import <ResearchKit/ORKToneAudiometryResult.h>
-#import <ResearchKit/ORKdBHLToneAudiometryResult.h>
-#import <ResearchKit/ORKTowerOfHanoiResult.h>
-#import <ResearchKit/ORKTrailmakingResult.h>
+NS_ASSUME_NONNULL_BEGIN
 
-//start-omit-internal-code
-#import <ResearchKit/ORKSpeechInNoiseResult.h>
-#import <ResearchKit/ORKTypingResult.h>
-#import <ResearchKit/ORKTinnitusPureToneResult.h>
-#import <ResearchKit/ORKTinnitusMaskingSoundResult.h>
-#import <ResearchKit/ORKTinnitusVolumeResult.h>
-#import <ResearchKit/ORKTinnitusTypeResult.h>
-#import <ResearchKit/ORKTinnitusOverallAssessmentResult.h>
-//end-omit-internal-code
+ORK_CLASS_AVAILABLE
+@interface ORKTypingResult : ORKResult
+
+/**
+ An array containing all of the individual character errors the user typed.
+ */
+@property (nonatomic) NSMutableArray <NSArray *> *errors;
+
+/**
+ A value that indicates the total differences in characters between the
+ user's text and the expected text.
+ */
+@property (nonatomic) NSInteger finalErrorCount;
+
+/**
+ A value that indicates how many times the user pressed delete.
+ */
+@property (nonatomic) NSInteger numDeletes;
+
+/**
+ A value that indicates how many characters were there in the expected text to type.
+ */
+@property (nonatomic) NSInteger totalCharacterCount;
+
+/**
+ A value that indicates how many seconds it took for the user to type.
+ */
+@property (nonatomic) NSTimeInterval timeTakenToType;
+
+
+@end
+
+NS_ASSUME_NONNULL_END
+#endif
