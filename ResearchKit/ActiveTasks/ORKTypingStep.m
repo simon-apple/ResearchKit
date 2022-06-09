@@ -1,6 +1,5 @@
 /*
- Copyright (c) 2015, Apple Inc. All rights reserved.
- Copyright (c) 2017, Sage Bionetworks
+ Copyright (c) 2022, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -29,30 +28,65 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+// apple-internal
+#if RK_APPLE_INTERNAL
 
-#import <ResearchKit/ORKAmslerGridResult.h>
-#import <ResearchKit/ORKFileResult.h>
-#import <ResearchKit/ORKHolePegTestResult.h>
-#import <ResearchKit/ORKPSATResult.h>
-#import <ResearchKit/ORKRangeOfMotionResult.h>
-#import <ResearchKit/ORKReactionTimeResult.h>
-#import <ResearchKit/ORKSpatialSpanMemoryResult.h>
-#import <ResearchKit/ORKSpeechRecognitionResult.h>
-#import <ResearchKit/ORKStroopResult.h>
-#import <ResearchKit/ORKAccuracyStroopResult.h>
-#import <ResearchKit/ORKTappingIntervalResult.h>
-#import <ResearchKit/ORKTimedWalkResult.h>
-#import <ResearchKit/ORKToneAudiometryResult.h>
-#import <ResearchKit/ORKdBHLToneAudiometryResult.h>
-#import <ResearchKit/ORKTowerOfHanoiResult.h>
-#import <ResearchKit/ORKTrailmakingResult.h>
+#import "ORKTypingStep.h"
+#import "ORKTypingStepViewController.h"
+#import "ORKHelpers_Internal.h"
 
-//start-omit-internal-code
-#import <ResearchKit/ORKSpeechInNoiseResult.h>
-#import <ResearchKit/ORKTypingResult.h>
-#import <ResearchKit/ORKTinnitusPureToneResult.h>
-#import <ResearchKit/ORKTinnitusMaskingSoundResult.h>
-#import <ResearchKit/ORKTinnitusVolumeResult.h>
-#import <ResearchKit/ORKTinnitusTypeResult.h>
-#import <ResearchKit/ORKTinnitusOverallAssessmentResult.h>
-//end-omit-internal-code
+@implementation ORKTypingStep
+
++ (Class)stepViewControllerClass {
+    return ORKTypingStepViewController.class;
+}
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
+- (instancetype)initWithIdentifier:(NSString *)identifier {
+    self = [super initWithIdentifier:identifier];
+    if (self) {
+        self.textToType = @"";
+    }
+    
+    return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        ORK_DECODE_OBJ_CLASS(aDecoder, textToType, NSString);
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [super encodeWithCoder:aCoder];
+    ORK_ENCODE_OBJ(aCoder, textToType);
+}
+
+- (instancetype)copyWithZone:(NSZone *)zone {
+    ORKTypingStep *step = [super copyWithZone:zone];
+    step.textToType = [self.textToType copy];
+    return step;
+}
+
+- (BOOL)isEqual:(id)object {
+    BOOL isParentSame = [super isEqual:object];
+
+    __typeof(self) castObject = object;
+    
+    return isParentSame
+    && ORKEqualObjects(self.textToType, castObject.textToType);
+}
+
+- (NSUInteger)hash {
+    return super.hash
+    ^ (self.textToType ? 0xf : 0x0);
+}
+
+@end
+
+#endif
