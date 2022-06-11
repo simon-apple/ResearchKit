@@ -24,7 +24,6 @@ SWIFT_VERSION = 5.0
 SYSTEM_FRAMEWORK_SEARCH_PATHS = $(SRCROOT)/ResearchKit/PrivateHeaders $(inherited)
 SYSTEM_HEADER_SEARCH_PATHS = $(SRCROOT)/ResearchKit/PrivateHeaders $(inherited)
 CLANG_STATIC_ANALYZER_MODE = deep
-ENABLE_BITCODE = YES
 
 #include? "samples/ORKCatalog/ResearchKit-Shared.xcconfig"
 #include? "../xcconfig/ResearchKit-Shared.xcconfig"
