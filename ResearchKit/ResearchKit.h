@@ -156,6 +156,7 @@
 #import <ResearchKit/ORKBundleAsset.h>
 
 //start-omit-internal-code
+#import <ResearchKit/ORKTypingStep.h>
 #import <ResearchKit/ORKAVJournalingTaskViewController.h>
 #import <ResearchKit/ORKAVJournalingResult.h>
 

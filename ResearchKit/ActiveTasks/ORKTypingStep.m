@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020, Apple Inc. All rights reserved.
+ Copyright (c) 2022, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,50 +28,65 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@import UIKit;
+// apple-internal
+#if RK_APPLE_INTERNAL
 
-#import <ResearchKit/ORKFeatureFlags.h>
+#import "ORKTypingStep.h"
+#import "ORKTypingStepViewController.h"
+#import "ORKHelpers_Internal.h"
 
-#if ORK_FEATURE_AV_JOURNALING
+@implementation ORKTypingStep
 
-#import <ResearchKit/ORKCustomStepView_Internal.h>
-#import <AVFoundation/AVFoundation.h>
++ (Class)stepViewControllerClass {
+    return ORKTypingStepViewController.class;
+}
 
-NS_ASSUME_NONNULL_BEGIN
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
 
-@class AVCaptureSession;
+- (instancetype)initWithIdentifier:(NSString *)identifier {
+    self = [super initWithIdentifier:identifier];
+    if (self) {
+        self.textToType = @"";
+    }
+    
+    return self;
+}
 
-typedef NS_ENUM(NSUInteger, ORKFaceDetectionStepContentViewEvent) {
-    ORKFaceDetectionStepContentViewEventTimeLimitHit = 0
-};
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        ORK_DECODE_OBJ_CLASS(aDecoder, textToType, NSString);
+    }
+    return self;
+}
 
-typedef void (^ORKFaceDetectionStepContentViewEventHandler)(ORKFaceDetectionStepContentViewEvent);
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [super encodeWithCoder:aCoder];
+    ORK_ENCODE_OBJ(aCoder, textToType);
+}
 
-@interface ORKFaceDetectionStepContentView : ORKActiveStepCustomView
+- (instancetype)copyWithZone:(NSZone *)zone {
+    ORKTypingStep *step = [super copyWithZone:zone];
+    step.textToType = [self.textToType copy];
+    return step;
+}
 
-+ (instancetype)new NS_UNAVAILABLE;
+- (BOOL)isEqual:(id)object {
+    BOOL isParentSame = [super isEqual:object];
 
-- (instancetype)init NS_UNAVAILABLE;
+    __typeof(self) castObject = object;
+    
+    return isParentSame
+    && ORKEqualObjects(self.textToType, castObject.textToType);
+}
 
-- (instancetype)initForRecalibration:(BOOL)forRecalibration stopFaceDetectionExit:(BOOL)stopFaceDetectionExit;
-
-@property (nonatomic) AVCaptureVideoOrientation videoOrientation;
-
-- (void)setViewEventHandler:(ORKFaceDetectionStepContentViewEventHandler)handler;
-
-- (void)setPreviewLayerWithSession:(AVCaptureSession *)session;
-
-- (void)setFaceDetected:(BOOL)detected faceRect:(CGRect)faceRect originalSize:(CGSize)originalSize;
-
-- (void)updateFacePositionCircleWithCGRect:(CGRect)rect originalSize:(CGSize)originalSize;
-
-- (BOOL)isFacePositionCircleWithinBox:(CGRect)rect originalSize:(CGSize)originalSize;
-
-- (void)cleanUpView;
-
-- (void)handleError:(NSError *)error;
+- (NSUInteger)hash {
+    return super.hash
+    ^ (self.textToType ? 0xf : 0x0);
+}
 
 @end
-NS_ASSUME_NONNULL_END
 
 #endif

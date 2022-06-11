@@ -1459,7 +1459,8 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
     // Classes for which tests are not currently implemented
     NSArray <NSString *> *excludedClassNames = @[
                                                  @"ORKVisualConsentStepViewController",     // Requires step with scenes
-                                                 @"ORKImageCaptureStepViewController"
+                                                 @"ORKImageCaptureStepViewController",
+                                                 @"ORKTypingStepViewController"
                                                  ];
     
     // Classes that do not allow adding a result should throw an exception

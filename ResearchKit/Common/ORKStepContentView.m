@@ -352,7 +352,12 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKUpdateConstraintSequence) {
     
     NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
     [paragraphStyle setHyphenationFactor:0.5];
-    
+    [paragraphStyle setLineBreakMode:NSLineBreakByWordWrapping];
+
+    if (@available(iOS 14.0, *)) {
+        [paragraphStyle setLineBreakStrategy:NSLineBreakStrategyPushOut];
+    }
+        
     NSDictionary *hyphenAttribute = @{NSParagraphStyleAttributeName : paragraphStyle};
     
     NSAttributedString *attributedStepTitle = [[NSAttributedString alloc] initWithString:stepTitle ?: @"" attributes:hyphenAttribute];

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020, Apple Inc. All rights reserved.
+ Copyright (c) 2022, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,50 +28,43 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@import UIKit;
-
-#import <ResearchKit/ORKFeatureFlags.h>
-
-#if ORK_FEATURE_AV_JOURNALING
-
-#import <ResearchKit/ORKCustomStepView_Internal.h>
-#import <AVFoundation/AVFoundation.h>
+// apple-internal
+#if RK_APPLE_INTERNAL
+#import <ResearchKit/ORKResult.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class AVCaptureSession;
+ORK_CLASS_AVAILABLE
+@interface ORKTypingResult : ORKResult
 
-typedef NS_ENUM(NSUInteger, ORKFaceDetectionStepContentViewEvent) {
-    ORKFaceDetectionStepContentViewEventTimeLimitHit = 0
-};
+/**
+ An array containing all of the individual character errors the user typed.
+ */
+@property (nonatomic) NSMutableArray <NSArray *> *errors;
 
-typedef void (^ORKFaceDetectionStepContentViewEventHandler)(ORKFaceDetectionStepContentViewEvent);
+/**
+ A value that indicates the total differences in characters between the
+ user's text and the expected text.
+ */
+@property (nonatomic) NSInteger finalErrorCount;
 
-@interface ORKFaceDetectionStepContentView : ORKActiveStepCustomView
+/**
+ A value that indicates how many times the user pressed delete.
+ */
+@property (nonatomic) NSInteger numDeletes;
 
-+ (instancetype)new NS_UNAVAILABLE;
+/**
+ A value that indicates how many characters were there in the expected text to type.
+ */
+@property (nonatomic) NSInteger totalCharacterCount;
 
-- (instancetype)init NS_UNAVAILABLE;
+/**
+ A value that indicates how many seconds it took for the user to type.
+ */
+@property (nonatomic) NSTimeInterval timeTakenToType;
 
-- (instancetype)initForRecalibration:(BOOL)forRecalibration stopFaceDetectionExit:(BOOL)stopFaceDetectionExit;
-
-@property (nonatomic) AVCaptureVideoOrientation videoOrientation;
-
-- (void)setViewEventHandler:(ORKFaceDetectionStepContentViewEventHandler)handler;
-
-- (void)setPreviewLayerWithSession:(AVCaptureSession *)session;
-
-- (void)setFaceDetected:(BOOL)detected faceRect:(CGRect)faceRect originalSize:(CGSize)originalSize;
-
-- (void)updateFacePositionCircleWithCGRect:(CGRect)rect originalSize:(CGSize)originalSize;
-
-- (BOOL)isFacePositionCircleWithinBox:(CGRect)rect originalSize:(CGSize)originalSize;
-
-- (void)cleanUpView;
-
-- (void)handleError:(NSError *)error;
 
 @end
-NS_ASSUME_NONNULL_END
 
+NS_ASSUME_NONNULL_END
 #endif

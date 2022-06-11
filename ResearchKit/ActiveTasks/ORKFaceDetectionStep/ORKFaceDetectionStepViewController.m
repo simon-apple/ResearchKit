@@ -169,7 +169,7 @@
 }
 
 - (void)setupContentView {
-    _contentView = [[ORKFaceDetectionStepContentView alloc] initForRecalibration:NO];
+    _contentView = [[ORKFaceDetectionStepContentView alloc] initForRecalibration:NO stopFaceDetectionExit:NO];
     __weak typeof(self) weakSelf = self;
     [_contentView setViewEventHandler:^(ORKFaceDetectionStepContentViewEvent event) {
         [weakSelf handleContentViewEvent:event];

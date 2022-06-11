@@ -49,7 +49,7 @@
 
 //start-omit-internal-code
 #import <ResearchKit/ORKSpeechInNoiseResult.h>
-
+#import <ResearchKit/ORKTypingResult.h>
 #import <ResearchKit/ORKTinnitusPureToneResult.h>
 #import <ResearchKit/ORKTinnitusMaskingSoundResult.h>
 #import <ResearchKit/ORKTinnitusVolumeResult.h>

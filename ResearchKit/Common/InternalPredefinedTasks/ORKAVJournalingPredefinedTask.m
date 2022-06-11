@@ -387,6 +387,7 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierInstructionStep
     NSString * const ManifestJSONKeyMaxRecordingTime = @"maxRecordingTime";
     NSString * const ManifestJSONKeyCountDownStartTime = @"countDownStartTime";
     NSString * const ManifestJSONKeySaveDepthDataIfAvailable = @"saveDepthDataIfAvailable";
+    NSString * const ManifestJSONKeyStopFaceDetectionExit = @"stopFaceDetectionExit";
     
     NSMutableArray<ORKAVJournalingStep *> *avJournalingSteps = [[NSMutableArray alloc] init];
     
@@ -401,6 +402,7 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierInstructionStep
         
         NSTimeInterval maxRecordingtime = [avJournalStepMaxRecordingTime doubleValue];
         NSTimeInterval countDownStartTime = avJournalStepCountDownStartTime ? [avJournalStepCountDownStartTime integerValue] : 30;
+        BOOL stopFaceDetectionExit = [obj objectForKey:ManifestJSONKeyStopFaceDetectionExit] ? [(NSString *)[obj objectForKey:ManifestJSONKeyStopFaceDetectionExit] boolValue] : NO;
         
         if (avJournalStepIdentifier && avJournalStepQuestion && [obj objectForKey:ManifestJSONKeyMaxRecordingTime] && [obj objectForKey:ManifestJSONKeySaveDepthDataIfAvailable]) {
             ORKAVJournalingStep *avJournalingStep = [[ORKAVJournalingStep alloc] initWithIdentifier:avJournalStepIdentifier];
@@ -415,6 +417,8 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierInstructionStep
 #else
             avJournalingStep.saveDepthDataIfAvailable = NO;
 #endif
+            
+            avJournalingStep.stopFaceDetectionExit = stopFaceDetectionExit;
             
             [avJournalingSteps addObject: avJournalingStep];
             success = YES;

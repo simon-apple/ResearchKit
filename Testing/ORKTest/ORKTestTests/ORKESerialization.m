@@ -1304,6 +1304,22 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(timeoutSound, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(failureSound, NSNumber, NSObject, YES, nil, nil),
                     })),
+           ENTRY(ORKTypingStep,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+                     return [[ORKTypingStep alloc]  initWithIdentifier:GETPROP(dict, identifier)];
+                 },
+                 (@{
+                    PROPERTY(textToType, NSString, NSObject, YES, nil, nil)})),
+           ENTRY(ORKTypingResult,
+                 nil,
+                 (@{
+                    PROPERTY(finalErrorCount, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(numDeletes, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(totalCharacterCount, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(timeTakenToType, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(identifier, NSString, NSObject, YES, nil, nil),
+                    PROPERTY(errors, NSObject, NSArray, YES, nil, nil)
+                    })),
            ENTRY(ORKStroopStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      return [[ORKStroopStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
@@ -2518,6 +2534,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                 PROPERTY(maximumRecordingLimit, NSNumber, NSObject, YES, nil, nil),
                 PROPERTY(countDownStartTime, NSNumber, NSObject, YES, nil, nil),
                 PROPERTY(saveDepthDataIfAvailable, NSNumber, NSObject, YES, nil, nil),
+                PROPERTY(stopFaceDetectionExit, NSNumber, NSObject, YES, nil, nil),
            })),
            ENTRY(ORKAVJournalingResult,
             nil,

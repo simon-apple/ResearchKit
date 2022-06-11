@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020, Apple Inc. All rights reserved.
+ Copyright (c) 2022, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,50 +28,17 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@import UIKit;
-
-#import <ResearchKit/ORKFeatureFlags.h>
-
-#if ORK_FEATURE_AV_JOURNALING
-
-#import <ResearchKit/ORKCustomStepView_Internal.h>
-#import <AVFoundation/AVFoundation.h>
+// apple-internal
+#if RK_APPLE_INTERNAL
+@import Foundation;
+#import <ResearchKit/ORKDefines.h>
+#import <ResearchKit/ORKStepViewController.h>
 
 NS_ASSUME_NONNULL_BEGIN
-
-@class AVCaptureSession;
-
-typedef NS_ENUM(NSUInteger, ORKFaceDetectionStepContentViewEvent) {
-    ORKFaceDetectionStepContentViewEventTimeLimitHit = 0
-};
-
-typedef void (^ORKFaceDetectionStepContentViewEventHandler)(ORKFaceDetectionStepContentViewEvent);
-
-@interface ORKFaceDetectionStepContentView : ORKActiveStepCustomView
-
-+ (instancetype)new NS_UNAVAILABLE;
-
-- (instancetype)init NS_UNAVAILABLE;
-
-- (instancetype)initForRecalibration:(BOOL)forRecalibration stopFaceDetectionExit:(BOOL)stopFaceDetectionExit;
-
-@property (nonatomic) AVCaptureVideoOrientation videoOrientation;
-
-- (void)setViewEventHandler:(ORKFaceDetectionStepContentViewEventHandler)handler;
-
-- (void)setPreviewLayerWithSession:(AVCaptureSession *)session;
-
-- (void)setFaceDetected:(BOOL)detected faceRect:(CGRect)faceRect originalSize:(CGSize)originalSize;
-
-- (void)updateFacePositionCircleWithCGRect:(CGRect)rect originalSize:(CGSize)originalSize;
-
-- (BOOL)isFacePositionCircleWithinBox:(CGRect)rect originalSize:(CGSize)originalSize;
-
-- (void)cleanUpView;
-
-- (void)handleError:(NSError *)error;
+ORK_CLASS_AVAILABLE
+@interface ORKTypingStepViewController : ORKStepViewController
 
 @end
-NS_ASSUME_NONNULL_END
 
+NS_ASSUME_NONNULL_END
 #endif
