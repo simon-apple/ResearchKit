@@ -1130,9 +1130,9 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
         ORKNoAnswer *value = (index ? [ORKDontKnowAnswer answer] : [_ORKTestNoAnswer answer]);
         [instance setValue:value forKey:p.propertyName];
     } else if (aClass == [ORKKeyValueStepModifier class] && [p.propertyName isEqual:@"keyValueMap"]) {
-        [instance setValue:@{@"prop": @"value"} forKey:p.propertyName];
+        [instance setValue:@{@"prop": index?@"value":@"value1"} forKey:p.propertyName];
     } else if (aClass == [ORKTableStep class] && [p.propertyName isEqual:@"items"]) {
-        [instance setValue:@[@"item"] forKey:p.propertyName];
+        [instance setValue:@[index?@"item":@"item2"] forKey:p.propertyName];
     } else {
         id instanceForChild = [self instanceForClass:p.propertyClass];
         [instance setValue:instanceForChild forKey:p.propertyName];
@@ -1361,7 +1361,9 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
                                    @"ORKNumericAnswerFormat.defaultNumericAnswer",
                                    @"ORKVideoCaptureStep.duration",
                                    @"ORKTextAnswerFormat.validationRegularExpression",
-                                   @"ORKPDFViewerStep.pdfURL"
+                                   @"ORKPDFViewerStep.pdfURL",
+                                   @"ORKTableStep.items",
+                                   @"ORKKeyValueStepModifier.keyValueMap"
                                    ];
     
     // Test Each class
