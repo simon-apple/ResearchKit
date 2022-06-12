@@ -1129,6 +1129,10 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
     } else if (p.propertyClass == [ORKNoAnswer class]) {
         ORKNoAnswer *value = (index ? [ORKDontKnowAnswer answer] : [_ORKTestNoAnswer answer]);
         [instance setValue:value forKey:p.propertyName];
+    } else if (aClass == [ORKKeyValueStepModifier class] && [p.propertyName isEqual:@"keyValueMap"]) {
+        [instance setValue:@{@"prop": @"value"} forKey:p.propertyName];
+    } else if (aClass == [ORKTableStep class] && [p.propertyName isEqual:@"items"]) {
+        [instance setValue:@[@"item"] forKey:p.propertyName];
     } else {
         id instanceForChild = [self instanceForClass:p.propertyClass];
         [instance setValue:instanceForChild forKey:p.propertyName];
@@ -1199,7 +1203,7 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
                             XCTAssertTrue([[newValue absoluteString] isEqualToString:[oldValue absoluteString]]);
                         }
                     } else {
-                        XCTAssertEqualObjects(newValue, oldValue);
+                        XCTAssertEqualObjects(newValue, oldValue, "Unexpected unequal objects of class %@ in property %@ in %@", NSStringFromClass(c), pName, NSStringFromClass(aClass));
                     }
                     break;
                 }
