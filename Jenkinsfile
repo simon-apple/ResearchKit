@@ -10,7 +10,7 @@ def lib = library (
 // node('ResearchApp-status') {
 node('health-10') {
     stage('Set Environment Variables') {
-        limeInitEnvironmentVariables(this, "ResearchKit Unit Tests", "LatestAzulE", "HealthSPG/ResearchKit")
+        limeInitEnvironmentVariables(this, "ResearchKit Unit Tests", "SummitDogfood14A6201dSydney20A303aKincaid20R308", "HealthSPG/ResearchKit")
         limeSetBuildStatus(this, "PENDING")
     }
 }
