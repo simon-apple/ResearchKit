@@ -1536,7 +1536,6 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
         @"ORKTinnitusTypeStepViewController":@"ORKTinnitusTypeStep",
         @"ORKTinnitusPureToneStepViewController":@"ORKTinnitusPureToneStep",
         @"ORKTinnitusMaskingSoundStepViewController":@"ORKTinnitusMaskingSoundStep",
-        @"ORKdBHLToneAudiometryCompletionStepViewController" : @"ORKdBHLToneAudiometryCompletionStep",
         @"ORKHeadphoneDetectStepViewController" : @"ORKHeadphoneDetectStep",
         @"ORKHeadphonesRequiredCompletionStepViewController" : @"ORKHeadphonesRequiredCompletionStep"
     }];

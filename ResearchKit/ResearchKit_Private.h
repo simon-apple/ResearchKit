@@ -192,7 +192,6 @@
 #import <ResearchKit/ORKAVJournalingPredefinedTask.h>
 #import <ResearchKit/ORKAVJournalingStep.h>
 
-#import <ResearchKit/ORKdBHLToneAudiometryCompletionStep.h>
 
 // Tinnitus Predefined Task Steps & Result Objects
 #import <ResearchKit/ORKTinnitusTypeStep.h>

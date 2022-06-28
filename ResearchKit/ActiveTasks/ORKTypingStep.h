@@ -31,9 +31,6 @@
 
 #if RK_APPLE_INTERNAL
 
-// apple-internal
-#if RK_APPLE_INTERNAL
-
 #import <ResearchKit/ORKActiveStep.h>
 
 NS_ASSUME_NONNULL_BEGIN
