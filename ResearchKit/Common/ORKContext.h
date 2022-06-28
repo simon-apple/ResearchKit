@@ -50,7 +50,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 #if TARGET_OS_IOS
 @optional
-- (nullable NSString *)didSkipHeadphoneDetectionStepForTask:(id<ORKTask>)task;
 - (NSString *)didNotAllowRequiredHealthPermissionsForTask:(id<ORKTask>)task;
 - (void)insertTaskViewController:(ORKTaskViewController*)viewController;
 #endif
@@ -63,13 +62,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+@protocol ORKHeadphoneRequiredTaskContext <NSObject>
 
-@interface ORKdBHLTaskContext : NSObject <ORKContext>
+- (NSString *)headphoneRequiredIdentifier;
+- (nullable NSString *)didSkipHeadphoneDetectionStep:(ORKStep *)step forTask:(id<ORKTask>)task;
 
 @end
 
+@interface ORKdBHLTaskContext : NSObject <ORKContext, ORKHeadphoneRequiredTaskContext>
 
-@interface ORKSpeechInNoisePredefinedTaskContext : NSObject <ORKContext>
+@end
+
+@interface ORKSpeechInNoisePredefinedTaskContext : NSObject <ORKContext, ORKHeadphoneRequiredTaskContext>
 
 @property (nonatomic, copy) NSString *practiceAgainStepIdentifier;
 
@@ -90,11 +94,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-
 @class ORKTinnitusAudioManifest;
 typedef NS_ENUM(NSInteger, ORKTinnitusType);
 
-@interface ORKTinnitusPredefinedTaskContext : NSObject <ORKContext>
+@interface ORKTinnitusPredefinedTaskContext : NSObject <ORKContext, ORKHeadphoneRequiredTaskContext>
 
 @property (nonatomic) ORKTinnitusAudioManifest *audioManifest;
 

@@ -31,31 +31,23 @@
 
 #if RK_APPLE_INTERNAL
 
-#import "ORKHeadphonesRequiredCompletionStep.h"
-#import "ORKHeadphonesRequiredCompletionStepViewController.h"
+#import "ORKSensitiveURLLearnMoreInstructionStep.h"
+#import "ORKInstructionStepViewController.h"
 #import "ORKHelpers_Internal.h"
 
-@implementation ORKHeadphonesRequiredCompletionStep
+@implementation ORKSensitiveURLLearnMoreInstructionStep
 
 + (Class)stepViewControllerClass {
-    return [ORKHeadphonesRequiredCompletionStepViewController class];
+    return [ORKInstructionStepViewController class];
 }
 
-- (instancetype)initWithIdentifier:(NSString *)identifier requiredHeadphoneTypes:(ORKHeadphoneTypes)requiredHeadphoneTypes {
+- (instancetype)initWithIdentifier:(NSString *)identifier
+                sensitiveURLString:(NSString *)sensitiveURLString
+                 applicationString:(NSString *)applicationString {
     self = [super initWithIdentifier:identifier];
     if (self) {
-        self.requiredHeadphoneTypes = requiredHeadphoneTypes;
-        
-        switch (self.requiredHeadphoneTypes) {
-            case ORKHeadphoneTypesAny:
-                self.title = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_REQUIRED_TITLE", nil);
-                self.text = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_REQUIRED_TEXT", nil);
-                break;
-            case ORKHeadphoneTypesSupported:
-                self.title = ORKLocalizedString(@"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_TITLE", nil);
-                self.text = ORKLocalizedString(@"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_TEXT", nil);
-                break;
-        }
+        self.sensitiveURLString = sensitiveURLString;
+        self.applicationString = applicationString;
     }
     return self;
 }
@@ -63,14 +55,16 @@
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        ORK_DECODE_INTEGER(aDecoder, requiredHeadphoneTypes);
+        ORK_DECODE_OBJ_CLASS(aDecoder, sensitiveURLString, NSString);
+        ORK_DECODE_OBJ_CLASS(aDecoder, applicationString, NSString);
     }
     return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [super encodeWithCoder:aCoder];
-    ORK_ENCODE_INTEGER(aCoder, requiredHeadphoneTypes);
+    ORK_ENCODE_OBJ(aCoder, sensitiveURLString);
+    ORK_ENCODE_OBJ(aCoder, applicationString);
 }
 
 + (BOOL)supportsSecureCoding {
@@ -78,23 +72,24 @@
 }
 
 - (instancetype)copyWithZone:(NSZone *)zone {
-    ORKHeadphonesRequiredCompletionStep *step = [super copyWithZone:zone];
-    step.requiredHeadphoneTypes = self.requiredHeadphoneTypes;
+    ORKSensitiveURLLearnMoreInstructionStep *step = [super copyWithZone:zone];
+    step.sensitiveURLString = [_sensitiveURLString copy];
+    step.applicationString = [_applicationString copy];
     return step;
 }
 
 - (BOOL)isEqual:(id)object {
     BOOL isParentSame = [super isEqual:object];
-
-        __typeof(self) castObject = object;
-        return (isParentSame
-                && (self.requiredHeadphoneTypes == castObject.requiredHeadphoneTypes));
+    
+    __typeof(self) castObject = object;
+    return (isParentSame &&
+            ORKEqualObjects(self.sensitiveURLString, castObject.sensitiveURLString) &&
+            ORKEqualObjects(self.applicationString, castObject.applicationString));
 }
 
 - (NSUInteger)hash {
-    return super.hash ^ self.requiredHeadphoneTypes;
+    return [super hash] ^ _sensitiveURLString.hash ^ _applicationString.hash;
 }
 
 @end
-
 #endif

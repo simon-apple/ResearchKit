@@ -59,6 +59,10 @@
 #import "ORKTaskViewController_Internal.h"
 #import "ORKOrderedTask.h"
 
+#import "ORKNavigableOrderedTask.h"
+#import "ORKStepNavigationRule.h"
+
+
 @interface ORKdBHLToneAudiometryTransitions: NSObject
 
 @property (nonatomic, assign) float userInitiated;
@@ -107,6 +111,7 @@
     dispatch_block_t _preStimulusDelayWorkBlock;
     dispatch_block_t _pulseDurationWorkBlock;
     dispatch_block_t _postStimulusDelayWorkBlock;
+    int _minimumThresholdCounter;
     
 #if RK_APPLE_INTERNAL
     ORKHeadphoneDetector *_headphoneDetector;
@@ -131,6 +136,7 @@
         _ackOnce = NO;
         _usingMissingList = YES;
         _prevFreq = 0;
+        _minimumThresholdCounter = 0;
         _currentTestIndex = 0;
 #if RK_APPLE_INTERNAL
         _showingAlert = NO;
@@ -337,6 +343,7 @@
         _ackOnce = NO;
         _usingMissingList = YES;
         _indexOfStepUpMissingList = 0;
+        _minimumThresholdCounter = 0;
         _transitionsDictionary = nil;
         _transitionsDictionary = [NSMutableDictionary dictionary];
         if (_resultSample) {
@@ -455,9 +462,17 @@
         }
     }
     
-    if ((_currentdBHL - _dBHLStepDownSize >= _dBHLMinimumThreshold) && !falseResponseTap) {
+    if (!falseResponseTap) {
         _usingMissingList = NO;
-        _currentdBHL = _currentdBHL - _dBHLStepDownSize;
+        
+        if (_currentdBHL - _dBHLStepDownSize > _dBHLMinimumThreshold) {
+            _currentdBHL = _currentdBHL - _dBHLStepDownSize;
+        } else {
+            _currentdBHL = _dBHLMinimumThreshold;
+            if (_initialDescent) {
+                _minimumThresholdCounter += 1;
+            }
+        }
     }
 
     [self estimatedBHLAndPlayToneWithFrequency:_freqLoopList[_indexOfFreqLoopList]];
@@ -469,7 +484,7 @@
     ORKdBHLToneAudiometryTransitions *currentTransitionObject = [_transitionsDictionary objectForKey:currentKey];
     if ((currentTransitionObject.userInitiated/currentTransitionObject.totalTransitions >= 0.5) && currentTransitionObject.totalTransitions >= 2) {
         ORKdBHLToneAudiometryTransitions *previousTransitionObject = [_transitionsDictionary objectForKey:[NSNumber numberWithFloat:(dBHL - _dBHLStepUpSize)]];
-        if ((previousTransitionObject.userInitiated/previousTransitionObject.totalTransitions <= 0.5) && (previousTransitionObject.totalTransitions >= 2)) {
+        if (((previousTransitionObject.userInitiated/previousTransitionObject.totalTransitions <= 0.5) && (previousTransitionObject.totalTransitions >= 2)) || dBHL == _dBHLMinimumThreshold) {
             if (currentTransitionObject.totalTransitions == 2) {
                 if (currentTransitionObject.userInitiated/currentTransitionObject.totalTransitions == 1.0) {
                     _resultSample.calculatedThreshold = dBHL;
@@ -482,6 +497,9 @@
                 return YES;
             }
         }
+    } else if (_minimumThresholdCounter > 2) {
+        _resultSample.calculatedThreshold = dBHL;
+        return YES;
     }
     return NO;
 }

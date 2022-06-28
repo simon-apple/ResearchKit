@@ -80,6 +80,11 @@
 - (BOOL)startsFinished {
     return NO;
 }
+#if RK_APPLE_INTERNAL
+- (BOOL)hasAudioRecording {
+    return YES;
+}
+#endif
 
 - (instancetype)copyWithZone:(NSZone *)zone {
     ORKEnvironmentSPLMeterStep *step = [super copyWithZone:zone];

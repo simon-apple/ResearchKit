@@ -433,11 +433,19 @@ ORK_CLASS_AVAILABLE
                                                  maximumDate:(nullable NSDate *)maximumDate
                                                     calendar:(nullable NSCalendar *)calendar;
 
++ (ORKDateAnswerFormat *)dateTimeAnswerFormatWithDaysBeforeCurrentDate:(NSInteger)daysBefore
+                                                  daysAfterCurrentDate:(NSInteger)daysAfter
+                                                              calendar:(nullable NSCalendar *)calendar;
+
 + (ORKDateAnswerFormat *)dateAnswerFormat;
 + (ORKDateAnswerFormat *)dateAnswerFormatWithDefaultDate:(nullable NSDate *)defaultDate
                                              minimumDate:(nullable NSDate *)minimumDate
                                              maximumDate:(nullable NSDate *)maximumDate
                                                 calendar:(nullable NSCalendar *)calendar;
+
++ (ORKDateAnswerFormat *)dateAnswerFormatWithDaysBeforeCurrentDate:(NSInteger)daysBefore
+                                              daysAfterCurrentDate:(NSInteger)daysAfter
+                                                          calendar:(nullable NSCalendar *)calendar;
 
 + (ORKTextAnswerFormat *)textAnswerFormat;
 
@@ -1549,6 +1557,26 @@ When the value of this property is `nil`, there is no minimum.
  When the value of this property is `nil`, there is no maximum.
  */
 @property (copy, readonly, nullable) NSDate *maximumDate;
+
+/**
+ This number passed to this property will set the minimum date to the relative amount of days
+ before the current date.
+ */
+@property (nonatomic) NSInteger daysBeforeCurrentDateToSetMinimumDate;
+
+/**
+ This number passed to this property will set the minimum date to the relative amount of days
+ after the current date.
+ */
+@property (nonatomic) NSInteger daysAfterCurrentDateToSetMinimumDate;
+
+
+/**
+ A boolean property that determines if the max date should be set to the current time or not
+ 
+ When the value of this property is `true`, the max date is set to the current time
+ */
+@property (nonatomic, assign) BOOL isMaxDateCurrentTime;
 
 /**
  The calendar to use in the picker.

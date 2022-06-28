@@ -47,8 +47,12 @@
 #import "ORKLearnMoreItem.h"
 #import "ORKLearnMoreInstructionStep.h"
 #import "ORKLearnMoreView.h"
+#import "ORKSensitiveURLLearnMoreInstructionStep.h"
 
 static const double MinByteLimitForTask = 3000000000; //3GB Min Available Storage Limit
+
+#define ORKAVJournalingPredefinedTaskContextSensitiveURLString "prefs:root=General&path=STORAGE_MGMT"
+#define ORKAVJournalingPredefinedTaskContextApplicationString "com.apple.Preferences"
 
 ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierFaceDetection = @"ORKAVJournalingStepIdentifierFaceDetection";
 ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierCompletion = @"ORKAVJournalingStepIdentifierCompletion";
@@ -64,11 +68,6 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierInstructionStep
 @end
 
 @implementation ORKAVJournalingPredfinedTaskContext
-
-- (NSString *)didSkipHeadphoneDetectionStepForTask:(id<ORKTask>)task {
-    NSAssert(NO, @"Not Implemented");
-    return nil;
-}
 
 - (void)didReachDetectionTimeLimitForTask:(id<ORKTask>)task currentStepIdentifier:(NSString *)currentStepIdentifier {
     
@@ -277,9 +276,13 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierInstructionStep
                     completionStep.iconImage = [UIImage systemImageNamed:@"bin.xmark"];
                 }
                 
-                ORKLearnMoreInstructionStep *learnMoreInstructionStep = [[ORKLearnMoreInstructionStep alloc] initWithIdentifier:ORKAVJournalingStepIdentifierLowStorageLearnMore];
-                ORKLearnMoreItem *learnMoreItem = [[ORKLearnMoreItem alloc] initWithText:ORKLocalizedString(@"AV_JOURNALING_PREDEFINED_LOW_MEMORY_SETTINGS_LINK_TEXT", nil)
-                                                                learnMoreInstructionStep:learnMoreInstructionStep];
+                ORKSensitiveURLLearnMoreInstructionStep *learnMoreInstructionStep = [[ORKSensitiveURLLearnMoreInstructionStep alloc]
+                                                                                     initWithIdentifier:ORKCompletionStepIdentifierMicrophoneLearnMore
+                                                                                     sensitiveURLString:@ORKAVJournalingPredefinedTaskContextSensitiveURLString
+                                                                                     applicationString:@ORKAVJournalingPredefinedTaskContextApplicationString];
+                ORKLearnMoreItem *learnMoreItem = [[ORKLearnMoreItem alloc]
+                                                   initWithText:ORKLocalizedString(@"AV_JOURNALING_PREDEFINED_LOW_MEMORY_SETTINGS_LINK_TEXT", nil)
+                                                   learnMoreInstructionStep:learnMoreInstructionStep];
                 
                 ORKBodyItem *settingsLinkBodyItem = [[ORKBodyItem alloc] initWithText:nil
                                                                            detailText:nil
@@ -385,6 +388,7 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierInstructionStep
     NSString * const ManifestJSONKeyMaxRecordingTime = @"maxRecordingTime";
     NSString * const ManifestJSONKeyCountDownStartTime = @"countDownStartTime";
     NSString * const ManifestJSONKeySaveDepthDataIfAvailable = @"saveDepthDataIfAvailable";
+    NSString * const ManifestJSONKeyStopFaceDetectionExit = @"stopFaceDetectionExit";
     
     NSMutableArray<ORKAVJournalingStep *> *avJournalingSteps = [[NSMutableArray alloc] init];
     
@@ -399,6 +403,7 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierInstructionStep
         
         NSTimeInterval maxRecordingtime = [avJournalStepMaxRecordingTime doubleValue];
         NSTimeInterval countDownStartTime = avJournalStepCountDownStartTime ? [avJournalStepCountDownStartTime integerValue] : 30;
+        BOOL stopFaceDetectionExit = [obj objectForKey:ManifestJSONKeyStopFaceDetectionExit] ? [(NSString *)[obj objectForKey:ManifestJSONKeyStopFaceDetectionExit] boolValue] : NO;
         
         if (avJournalStepIdentifier && avJournalStepQuestion && [obj objectForKey:ManifestJSONKeyMaxRecordingTime] && [obj objectForKey:ManifestJSONKeySaveDepthDataIfAvailable]) {
             ORKAVJournalingStep *avJournalingStep = [[ORKAVJournalingStep alloc] initWithIdentifier:avJournalStepIdentifier];
@@ -413,6 +418,8 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierInstructionStep
 #else
             avJournalingStep.saveDepthDataIfAvailable = NO;
 #endif
+            
+            avJournalingStep.stopFaceDetectionExit = stopFaceDetectionExit;
             
             [avJournalingSteps addObject: avJournalingStep];
             success = YES;

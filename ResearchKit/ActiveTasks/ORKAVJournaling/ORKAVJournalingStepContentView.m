@@ -54,6 +54,7 @@ static const CGFloat CountDownLabelTopPadding = 12.0;
 static const CGFloat QuestionNumberLabelTopPadding = 36.0;
 static const CGFloat QuestionLabelTopPadding = 6.0;
 static const CGFloat ContentLeftRightPadding = 36.0;
+static const NSInteger MaxRecalibrationViewPresentations = 4;
 
 
 @interface ORKAVJournalingStepContentView ()
@@ -85,6 +86,7 @@ static const CGFloat ContentLeftRightPadding = 36.0;
     CGFloat _recordingTime;
     NSDateComponentsFormatter *_dateComponentsFormatter;
     NSInteger _countDownStartTime;
+    NSInteger _recalibrationViewPresentedCount;
     
     NSString *_titleText;
     NSString *_bodyText;
@@ -101,9 +103,11 @@ static const CGFloat ContentLeftRightPadding = 36.0;
     BOOL _countDownLabelShowing;
     BOOL _recalibrationViewPresented;
     BOOL _stepTimerEndedDuringRecalibration;
+    BOOL _stopFaceDetectionExit;
+    BOOL _stopPresentingRecalibrationView;
 }
 
-- (instancetype)initWithTitle:(nullable NSString *)title text:(NSString *)text {
+- (instancetype)initWithTitle:(nullable NSString *)title text:(NSString *)text stopFaceDetectionExit:(BOOL)stopFaceDetectionExit {
     self = [super init];
     
     if (self) {
@@ -114,6 +118,9 @@ static const CGFloat ContentLeftRightPadding = 36.0;
         _countDownLabelShowing = NO;
         _recalibrationViewPresented = NO;
         _stepTimerEndedDuringRecalibration = NO;
+        _stopPresentingRecalibrationView = NO;
+        _recalibrationViewPresentedCount = 0;
+        _stopFaceDetectionExit = stopFaceDetectionExit;
         _recalibrationTimeStamps = [NSMutableArray new];
         
         [self setUpSubviews];
@@ -248,6 +255,11 @@ static const CGFloat ContentLeftRightPadding = 36.0;
     } else {
         //present recalibration view if no face is detected
         if (!_recalibrationViewPresented) {
+            
+            if ((_stopFaceDetectionExit && _recalibrationViewPresentedCount >= MaxRecalibrationViewPresentations) || _stopPresentingRecalibrationView) {
+                return;
+            }
+            
             [self presentRecalibrationView];
         }
     }
@@ -257,8 +269,10 @@ static const CGFloat ContentLeftRightPadding = 36.0;
         
         //stop recalibration timer if no face detected or the face isn't within the calibration box
         if (!detected || ![_faceDetectionContentView isFacePositionCircleWithinBox:faceBounds originalSize:originalSize]) {
-            [_faceCalibrationTimer invalidate];
-            _faceCalibrationTimer = nil;
+            if (!_stopPresentingRecalibrationView) {
+                [_faceCalibrationTimer invalidate];
+                _faceCalibrationTimer = nil;
+            }
         }
     }
 }
@@ -353,7 +367,7 @@ static const CGFloat ContentLeftRightPadding = 36.0;
     }
     
     if (_recordingTime <= 0) {
-        if (_recalibrationViewPresented) {
+        if (_recalibrationViewPresented && !_stopFaceDetectionExit) {
             _stepTimerEndedDuringRecalibration = YES;
             [_timer invalidate];
             _timer = nil;
@@ -441,6 +455,7 @@ static const CGFloat ContentLeftRightPadding = 36.0;
 
 - (void)presentRecalibrationView {
     _recalibrationViewPresented = YES;
+    _recalibrationViewPresentedCount += 1;
     
     dispatch_async(dispatch_get_main_queue(), ^(void) {
         [self layoutIfNeeded];
@@ -461,7 +476,9 @@ static const CGFloat ContentLeftRightPadding = 36.0;
             [_faceDetectionContentView layoutSubviews];
             
             //next button should say disabled while recalibration view is presented
-            [self invokeViewEventHandlerWithEvent:ORKAVJournalingStepContentViewEventDisableContinueButton];
+            if (!_stopFaceDetectionExit){
+                [self invokeViewEventHandlerWithEvent:ORKAVJournalingStepContentViewEventDisableContinueButton];
+            }
         }];
     });
     
@@ -504,7 +521,8 @@ static const CGFloat ContentLeftRightPadding = 36.0;
 }
 
 - (void)setupFaceDetectionContentView {
-    _faceDetectionContentView = [[ORKFaceDetectionStepContentView alloc] initForRecalibration:YES];
+    _faceDetectionContentView = [[ORKFaceDetectionStepContentView alloc] initForRecalibration:YES
+                                                                        stopFaceDetectionExit:_stopFaceDetectionExit];
     __weak typeof(self) weakSelf = self;
     [_faceDetectionContentView setViewEventHandler:^(ORKFaceDetectionStepContentViewEvent event) {
         [weakSelf handleFaceDetectionContentViewEvent:event];
@@ -528,7 +546,14 @@ static const CGFloat ContentLeftRightPadding = 36.0;
 - (void)handleFaceDetectionContentViewEvent:(ORKFaceDetectionStepContentViewEvent)event {
     switch (event) {
         case ORKFaceDetectionStepContentViewEventTimeLimitHit:
-            [self invokeViewEventHandlerWithEvent:ORKAVJournalingStepContentViewEventRecalibrationTimeLimitHit];
+            
+            if (_stopFaceDetectionExit) {
+                _stopPresentingRecalibrationView = YES;
+                [self startFaceCalibrationTimer];
+            } else {
+                [self invokeViewEventHandlerWithEvent:ORKAVJournalingStepContentViewEventRecalibrationTimeLimitHit];
+            }
+
             break;
     }
 }

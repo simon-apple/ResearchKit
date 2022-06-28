@@ -53,6 +53,7 @@ static const CGFloat FaceDetectionDetailLabelTopPadding = 12.0;
 static const CGFloat ContentLeftRightPadding = 16.0;
 static const CGFloat FaceDetectionTimeLimit = 60.0;
 static const CGFloat FaceDetectionRecalibrationTimeLimit = 30.0;
+static const CGFloat StopFaceDetectionTimeLimit = 10.0;
 
 @interface ORKFaceDetectionStepContentView ()
 @property (nonatomic, copy, nullable) ORKFaceDetectionStepContentViewEventHandler viewEventhandler;
@@ -86,9 +87,10 @@ static const CGFloat FaceDetectionRecalibrationTimeLimit = 30.0;
     BOOL _noFaceDetectedYet;
     BOOL _faceIconIsShowing;
     BOOL _showingForRecalibration;
+    BOOL _stopFaceDetectionExit;
 }
 
-- (instancetype)initForRecalibration:(BOOL)forRecalibration {
+- (instancetype)initForRecalibration:(BOOL)forRecalibration stopFaceDetectionExit:(BOOL)stopFaceDetectionExit {
     self = [super initWithFrame:CGRectZero];
     self.layoutMargins = ORKStandardFullScreenLayoutMarginsForView(self);
     
@@ -99,6 +101,7 @@ static const CGFloat FaceDetectionRecalibrationTimeLimit = 30.0;
         _noFaceDetectedYet = YES;
         _faceIconIsShowing = NO;
         _showingForRecalibration = forRecalibration;
+        _stopFaceDetectionExit = stopFaceDetectionExit;
 
         if ([UIApplication sharedApplication].statusBarOrientation == UIDeviceOrientationLandscapeLeft) {
             _videoOrientation = AVCaptureVideoOrientationLandscapeLeft;
@@ -417,11 +420,12 @@ static const CGFloat FaceDetectionRecalibrationTimeLimit = 30.0;
 }
 
 - (void)startTimerWithMaximumRecordingLimit:(NSTimeInterval)maximumRecordingLimit {
+    
     if (_timer) {
         [_timer invalidate];
     }
     
-    _maxRecordingTime = maximumRecordingLimit;
+    _maxRecordingTime = _stopFaceDetectionExit ? StopFaceDetectionTimeLimit:  maximumRecordingLimit;
     _recordingTime = 0.0;
     _timer = [NSTimer scheduledTimerWithTimeInterval:1.0
                                               target:self

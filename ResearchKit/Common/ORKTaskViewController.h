@@ -46,7 +46,9 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol ORKTask;
 @protocol ORKTaskResultSource;
 @class ORKInstructionStep;
-
+#if RK_APPLE_INTERNAL
+@class ORKSensitiveURLLearnMoreInstructionStep;
+#endif
 
 /**
  The `ORKTaskViewControllerReviewMode` value indicates how the task view controller reviews the task.
@@ -296,7 +298,11 @@ task view controller and pass that data to `initWithTask:restorationData:` when 
 /**
  */
 - (void)taskViewController:(ORKTaskViewController *)taskViewController learnMoreButtonPressedWithStep:(ORKLearnMoreInstructionStep *)learnMoreStep forStepViewController:(ORKStepViewController *)stepViewController;
-
+#if RK_APPLE_INTERNAL
+/**
+ */
+- (void)taskViewController:(ORKTaskViewController *)taskViewController sensitiveURLLearnMoreButtonPressedWithStep:(ORKSensitiveURLLearnMoreInstructionStep *)sensitiveURLLearnMoreStep forStepViewController:(ORKStepViewController *)stepViewController;
+#endif
 @end
 
 

@@ -365,6 +365,15 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
                                              calendar:calendar];
 }
 
++ (ORKDateAnswerFormat *)dateTimeAnswerFormatWithDaysBeforeCurrentDate:(NSInteger)daysBefore
+                                                  daysAfterCurrentDate:(NSInteger)daysAfter
+                                                              calendar:(nullable NSCalendar *)calendar {
+    return [ORKDateAnswerFormat dateAnswerFormatWithStyle:ORKDateAnswerStyleDateAndTime
+                                    daysBeforeCurrentDate:daysBefore
+                                     daysAfterCurrentDate:daysAfter
+                                                 calendar:calendar];
+}
+
 + (ORKDateAnswerFormat *)dateAnswerFormat {
     return [[ORKDateAnswerFormat alloc] initWithStyle:ORKDateAnswerStyleDate];
 }
@@ -377,6 +386,31 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
                                           minimumDate:minimumDate
                                           maximumDate:maximumDate
                                              calendar:calendar];
+}
+
++ (ORKDateAnswerFormat *)dateAnswerFormatWithDaysBeforeCurrentDate:(NSInteger)daysBefore
+                                              daysAfterCurrentDate:(NSInteger)daysAfter
+                                                          calendar:(nullable NSCalendar *)calendar {
+    return [ORKDateAnswerFormat dateAnswerFormatWithStyle:ORKDateAnswerStyleDate
+                                    daysBeforeCurrentDate:daysBefore
+                                     daysAfterCurrentDate:daysAfter
+                                                 calendar:calendar];
+}
+
++ (ORKDateAnswerFormat *)dateAnswerFormatWithStyle:(ORKDateAnswerStyle)style
+                             daysBeforeCurrentDate:(NSInteger)daysBefore
+                              daysAfterCurrentDate:(NSInteger)daysAfter
+                                          calendar:(nullable NSCalendar *)calendar {
+    NSDate *currentDate = [NSDate date];
+    ORKDateAnswerFormat *answerFormat = [[ORKDateAnswerFormat alloc] initWithStyle:style
+                                                                       defaultDate:currentDate
+                                                                       minimumDate:nil
+                                                                       maximumDate:nil
+                                                                          calendar:calendar];
+    [answerFormat setDaysBeforeCurrentDateToSetMinimumDate:daysBefore];
+    [answerFormat setDaysAfterCurrentDateToSetMinimumDate:daysAfter];
+    
+    return answerFormat;
 }
 
 + (ORKTextAnswerFormat *)textAnswerFormat {
@@ -1663,6 +1697,35 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
     return self;
 }
 
+- (void)setIsMaxDateCurrentTime:(BOOL)isMaxDateCurrentTime {
+    _isMaxDateCurrentTime = isMaxDateCurrentTime;
+    
+    if (isMaxDateCurrentTime) {
+        _maximumDate = [NSDate date];
+    }
+}
+
+- (void)setDaysBeforeCurrentDateToSetMinimumDate:(NSInteger)daysBefore {
+    _minimumDate = [self fetchDateBasedOnDays:daysBefore forBefore:YES];
+}
+
+- (void)setDaysAfterCurrentDateToSetMinimumDate:(NSInteger)daysAfter {
+    _maximumDate = [self fetchDateBasedOnDays:daysAfter forBefore:NO];
+}
+
+- (NSDate *)fetchDateBasedOnDays:(NSInteger)days forBefore:(BOOL)forBefore {
+    if (days < 0) {
+        @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"The value passed in for daysBeforeCurrentDateToSetMinimumDate must be greater than 0."  userInfo:nil];
+    }
+    
+    NSDate *currentDate = [NSDate date];
+    
+    NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
+    [dateComponents setDay:forBefore ? -days : days];
+    
+    return [[NSCalendar currentCalendar] dateByAddingComponents:dateComponents toDate:currentDate options:0];
+}
+
 - (void)validateParameters {
     [super validateParameters];
     
@@ -1689,6 +1752,7 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
             ORKEqualObjects(self.defaultDate, castObject.defaultDate) &&
             ORKEqualObjects(self.minimumDate, castObject.minimumDate) &&
             ORKEqualObjects(self.maximumDate, castObject.maximumDate) &&
+            self.isMaxDateCurrentTime == castObject.isMaxDateCurrentTime &&
             ORKEqualObjects(self.calendar, castObject.calendar) &&
             (self.minuteInterval == castObject.minuteInterval) &&
             (_style == castObject.style));
@@ -1756,6 +1820,7 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
         ORK_DECODE_OBJ_CLASS(aDecoder, minimumDate, NSDate);
         ORK_DECODE_OBJ_CLASS(aDecoder, maximumDate, NSDate);
         ORK_DECODE_OBJ_CLASS(aDecoder, defaultDate, NSDate);
+        ORK_DECODE_BOOL(aDecoder, isMaxDateCurrentTime);
         ORK_DECODE_OBJ_CLASS(aDecoder, calendar, NSCalendar);
         ORK_DECODE_INTEGER(aDecoder, minuteInterval);
     }
@@ -1768,6 +1833,7 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
     ORK_ENCODE_OBJ(aCoder, minimumDate);
     ORK_ENCODE_OBJ(aCoder, maximumDate);
     ORK_ENCODE_OBJ(aCoder, defaultDate);
+    ORK_ENCODE_BOOL(aCoder, isMaxDateCurrentTime);
     ORK_ENCODE_OBJ(aCoder, calendar);
     ORK_ENCODE_INTEGER(aCoder, minuteInterval);
 }

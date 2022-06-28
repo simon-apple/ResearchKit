@@ -94,7 +94,6 @@
 }
 
 #if RK_APPLE_INTERNAL
-
 - (nullable ORKSpeechInNoisePredefinedTaskContext *)speechInNoisePredefinedTaskContext
 {
     if (self.step.context && [self.step.context isKindOfClass:[ORKSpeechInNoisePredefinedTaskContext class]])

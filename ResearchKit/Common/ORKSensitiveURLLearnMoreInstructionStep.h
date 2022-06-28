@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020, Apple Inc. All rights reserved.
+ Copyright (c) 2021, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -31,26 +31,29 @@
 
 #if RK_APPLE_INTERNAL
 
-#import <ResearchKit/ORKFeatureFlags.h>
-
-#if ORK_FEATURE_AV_JOURNALING
-
-#import <ResearchKit/ORKActiveStep.h>
-
+#import <ResearchKit/ResearchKit.h>
+ 
 NS_ASSUME_NONNULL_BEGIN
 
 ORK_CLASS_AVAILABLE
-@interface ORKAVJournalingStep : ORKActiveStep
+@interface ORKSensitiveURLLearnMoreInstructionStep : ORKLearnMoreInstructionStep
 
-@property (nonatomic, assign) NSTimeInterval maximumRecordingLimit;
-@property (nonatomic, assign) NSInteger countDownStartTime;
-@property (nonatomic, assign) BOOL saveDepthDataIfAvailable;
-@property (nonatomic, assign) BOOL stopFaceDetectionExit;
+/**
+ Defines the deep link path for a specific application
+ Ex: "prefs:root=Privacy&path=MICROPHONE"
+ */
+@property (nonatomic, copy) NSString *sensitiveURLString;
+
+/**
+ Defines the application bundle that will open.
+ Ex: "com.apple.Preferences"
+ */
+@property (nonatomic, copy) NSString *applicationString;
+
+- (instancetype)initWithIdentifier:(NSString *)identifier
+                sensitiveURLString:(NSString *)sensitiveURLString
+                 applicationString:(NSString *)applicationString;
 
 @end
-
-NS_ASSUME_NONNULL_END
-
-#endif
 
 #endif

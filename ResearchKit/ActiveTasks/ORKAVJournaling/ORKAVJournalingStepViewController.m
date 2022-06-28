@@ -158,7 +158,9 @@ static const CGFloat FramesToSkipTotal = 5.0;
 }
 
 - (void)setupContentView {
-    _contentView = [[ORKAVJournalingStepContentView alloc] initWithTitle:_avJournalingStep.title text:_avJournalingStep.text];
+    _contentView = [[ORKAVJournalingStepContentView alloc] initWithTitle:_avJournalingStep.title
+                                                                    text:_avJournalingStep.text
+                                                   stopFaceDetectionExit:_avJournalingStep.stopFaceDetectionExit];
     _contentView.translatesAutoresizingMaskIntoConstraints = NO;
     _contentView.layer.cornerRadius = 10.0;
     _contentView.layer.maskedCorners = kCALayerMinXMinYCorner | kCALayerMaxXMinYCorner;

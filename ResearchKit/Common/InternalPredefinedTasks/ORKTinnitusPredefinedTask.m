@@ -62,6 +62,7 @@ static NSString *const ORKTinnitusPuretoneLoudnessMatchingStepIdentifier = @"tin
 static NSString *const ORKTinnitusWhitenoiseLoudnessMatchingStepIdentifier = @"tinnitus_whitenoise_loudness_matching";
 static NSString *const ORKTinnitusPitchMatchingInstructionStepIdentifier = @"tinnitus_pitch_matching_instruction";
 static NSString *const ORKTinnitusOverallAssessmentStepIdentifier = @"tinnitus_overall_assessment";
+static NSString *const ORKTinnitusHeadphoneRequiredStepIdentifier = @"ORKTinnitusHeadphoneRequiredStepIdentifier";
 
 @interface NSMutableArray (Shuffling)
 - (void)shuffle;
@@ -91,66 +92,27 @@ static NSString *const ORKTinnitusOverallAssessmentStepIdentifier = @"tinnitus_o
 
 @implementation ORKTinnitusPredefinedTaskContext
 
-- (NSString *)didSkipHeadphoneDetectionStepForTask:(id<ORKTask>)task {
-    if ([task isKindOfClass:[ORKNavigableOrderedTask class]])
-    {
-        ORKHeadphonesRequiredCompletionStep *step = [[ORKHeadphonesRequiredCompletionStep alloc] initWithIdentifier:ORKTinnitusHeadphonesRequiredStepIdentifier requiredHeadphoneTypes:ORKHeadphoneTypesSupported];
-        
+- (NSString *)headphoneRequiredIdentifier {
+    return ORKTinnitusHeadphoneRequiredStepIdentifier;
+}
+
+- (NSString *)didSkipHeadphoneDetectionStep:(ORKStep *)step forTask:(id<ORKTask>)task
+{
+    if ([task isKindOfClass:[ORKNavigableOrderedTask class]] && self.headphoneRequiredIdentifier != nil) {
         ORKNavigableOrderedTask *currentTask = (ORKNavigableOrderedTask *)task;
-        [currentTask addStep:step];
+        ORKHeadphonesRequiredCompletionStep *completionStep = (ORKHeadphonesRequiredCompletionStep *)[task stepWithIdentifier:self.headphoneRequiredIdentifier];
         
-        ORKDirectStepNavigationRule *endNavigationRule = [[ORKDirectStepNavigationRule alloc] initWithDestinationStepIdentifier:ORKNullStepIdentifier];
-        [currentTask setNavigationRule:endNavigationRule forTriggerStepIdentifier:ORKTinnitusHeadphonesRequiredStepIdentifier];
+        if (completionStep) {
+            [currentTask removeSkipNavigationRuleForStepIdentifier:self.headphoneRequiredIdentifier];
+        } else {
+            completionStep = [[ORKHeadphonesRequiredCompletionStep alloc] initWithIdentifier:self.headphoneRequiredIdentifier requiredHeadphoneTypes:ORKHeadphoneTypesSupported];
+            [currentTask insertStep:completionStep atIndex:[currentTask indexOfStep:step]+1];
+        }
         
-        return ORKTinnitusHeadphonesRequiredStepIdentifier;
+        return self.headphoneRequiredIdentifier;
     }
     
     return nil;
-}
-
-- (NSString *)didNotAllowRequiredHealthPermissionsForTask:(id<ORKTask>)task
-{
-    NSAssert([task isKindOfClass:[ORKNavigableOrderedTask class]], @"Unexpected task type.");
-    if ([task isKindOfClass:[ORKNavigableOrderedTask class]])
-    {
-        // If the user opts out of health access, append a new step to the end of the task and skip to the end.
-        // Add a navigation rule to end the current task.
-        ORKNavigableOrderedTask *currentTask = (ORKNavigableOrderedTask *)task;
-        
-        NSString *healthPermissionsRequired = @"ORKTinnitusStepIdentifierHealthPermissionsRequired";
-        
-        ORKCompletionStep *step = [[ORKCompletionStep alloc] initWithIdentifier:healthPermissionsRequired];
-        step.title = ORKLocalizedString(@"CONTEXT_MICROPHONE_REQUIRED_TITLE", nil);
-        step.text = ORKLocalizedString(@"CONTEXT_MICROPHONE_REQUIRED_TEXT", nil);
-        step.optional = NO;
-        step.reasonForCompletion = ORKTaskViewControllerFinishReasonDiscarded;
-        
-        if (@available(iOS 13.0, *)) {
-            step.iconImage = [UIImage systemImageNamed:@"mic.slash"];
-        }
-        
-        ORKLearnMoreInstructionStep *learnMoreInstructionStep = [[ORKLearnMoreInstructionStep alloc] initWithIdentifier:ORKCompletionStepIdentifierMicrophoneLearnMore];
-        ORKLearnMoreItem *learnMoreItem = [[ORKLearnMoreItem alloc]
-                                           initWithText:ORKLocalizedString(@"OPEN_MICROPHONE_SETTINGS", nil)
-                                           learnMoreInstructionStep:learnMoreInstructionStep];
-        
-        ORKBodyItem *settingsLinkBodyItem = [[ORKBodyItem alloc] initWithText:nil
-                                                                   detailText:nil
-                                                                        image:nil
-                                                                learnMoreItem:learnMoreItem
-                                                                bodyItemStyle:ORKBodyItemStyleText];
-        
-        step.bodyItems = @[settingsLinkBodyItem];
-        
-        [currentTask addStep:step];
-        
-        ORKDirectStepNavigationRule *endNavigationRule = [[ORKDirectStepNavigationRule alloc] initWithDestinationStepIdentifier:ORKNullStepIdentifier];
-        [currentTask setNavigationRule:endNavigationRule forTriggerStepIdentifier:healthPermissionsRequired];
-        
-        return healthPermissionsRequired;
-    }
-    
-    return (NSString * _Nonnull)nil;
 }
 
 -(void)insertTaskViewController:(ORKTaskViewController*)viewController {

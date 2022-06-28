@@ -499,6 +499,7 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
                                                  [ORKKeyValueStepModifier class],     // NSPredicate doesn't yet support JSON serialization
                                                  [ORKCollector class], // ORKCollector doesn't support JSON serialization
                                                  [ORKHealthCollector class],
+                                                 [ORKSensitiveURLLearnMoreInstructionStep class],
                                                  [ORKHealthCorrelationCollector class],
                                                  [ORKMotionActivityCollector class],
                                                  [ORKShoulderRangeOfMotionStep class]
@@ -1156,6 +1157,10 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
     } else if (p.propertyClass == [ORKNoAnswer class]) {
         ORKNoAnswer *value = (index ? [ORKDontKnowAnswer answer] : [_ORKTestNoAnswer answer]);
         [instance setValue:value forKey:p.propertyName];
+    } else if (aClass == [ORKKeyValueStepModifier class] && [p.propertyName isEqual:@"keyValueMap"]) {
+        [instance setValue:@{@"prop": index?@"value":@"value1"} forKey:p.propertyName];
+    } else if (aClass == [ORKTableStep class] && [p.propertyName isEqual:@"items"]) {
+        [instance setValue:@[index?@"item":@"item2"] forKey:p.propertyName];
     } else {
         id instanceForChild = [self instanceForClass:p.propertyClass];
         [instance setValue:instanceForChild forKey:p.propertyName];
@@ -1226,7 +1231,7 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
                             XCTAssertTrue([[newValue absoluteString] isEqualToString:[oldValue absoluteString]]);
                         }
                     } else {
-                        XCTAssertEqualObjects(newValue, oldValue);
+                        XCTAssertEqualObjects(newValue, oldValue, "Unexpected unequal objects of class %@ in property %@ in %@", NSStringFromClass(c), pName, NSStringFromClass(aClass));
                     }
                     break;
                 }
@@ -1384,7 +1389,9 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
                                    @"ORKNumericAnswerFormat.defaultNumericAnswer",
                                    @"ORKVideoCaptureStep.duration",
                                    @"ORKTextAnswerFormat.validationRegularExpression",
-                                   @"ORKPDFViewerStep.pdfURL"
+                                   @"ORKPDFViewerStep.pdfURL",
+                                   @"ORKTableStep.items",
+                                   @"ORKKeyValueStepModifier.keyValueMap"
                                    ];
     
     // Test Each class
@@ -1486,7 +1493,8 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
     // Classes for which tests are not currently implemented
     NSArray <NSString *> *excludedClassNames = @[
                                                  @"ORKVisualConsentStepViewController",     // Requires step with scenes
-                                                 @"ORKImageCaptureStepViewController"
+                                                 @"ORKImageCaptureStepViewController",
+                                                 @"ORKTypingStepViewController"
                                                  ];
     
     // Classes that do not allow adding a result should throw an exception
@@ -1529,7 +1537,8 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
         @"ORKTinnitusPureToneStepViewController":@"ORKTinnitusPureToneStep",
         @"ORKTinnitusMaskingSoundStepViewController":@"ORKTinnitusMaskingSoundStep",
         @"ORKdBHLToneAudiometryCompletionStepViewController" : @"ORKdBHLToneAudiometryCompletionStep",
-        @"ORKHeadphoneDetectStepViewController" : @"ORKHeadphoneDetectStep"
+        @"ORKHeadphoneDetectStepViewController" : @"ORKHeadphoneDetectStep",
+        @"ORKHeadphonesRequiredCompletionStepViewController" : @"ORKHeadphonesRequiredCompletionStep"
     }];
     
     mapStepClassForViewController = [internalMapStepClassForViewController copy];

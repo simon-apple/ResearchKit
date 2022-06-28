@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020, Apple Inc. All rights reserved.
+ Copyright (c) 2022, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -27,30 +27,66 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-// apple-internal
 
+// apple-internal
 #if RK_APPLE_INTERNAL
 
-#import <ResearchKit/ORKFeatureFlags.h>
+#import "ORKTypingStep.h"
+#import "ORKTypingStepViewController.h"
+#import "ORKHelpers_Internal.h"
 
-#if ORK_FEATURE_AV_JOURNALING
+@implementation ORKTypingStep
 
-#import <ResearchKit/ORKActiveStep.h>
++ (Class)stepViewControllerClass {
+    return ORKTypingStepViewController.class;
+}
 
-NS_ASSUME_NONNULL_BEGIN
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
 
-ORK_CLASS_AVAILABLE
-@interface ORKAVJournalingStep : ORKActiveStep
+- (instancetype)initWithIdentifier:(NSString *)identifier {
+    self = [super initWithIdentifier:identifier];
+    if (self) {
+        self.textToType = @"";
+    }
+    
+    return self;
+}
 
-@property (nonatomic, assign) NSTimeInterval maximumRecordingLimit;
-@property (nonatomic, assign) NSInteger countDownStartTime;
-@property (nonatomic, assign) BOOL saveDepthDataIfAvailable;
-@property (nonatomic, assign) BOOL stopFaceDetectionExit;
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        ORK_DECODE_OBJ_CLASS(aDecoder, textToType, NSString);
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [super encodeWithCoder:aCoder];
+    ORK_ENCODE_OBJ(aCoder, textToType);
+}
+
+- (instancetype)copyWithZone:(NSZone *)zone {
+    ORKTypingStep *step = [super copyWithZone:zone];
+    step.textToType = [self.textToType copy];
+    return step;
+}
+
+- (BOOL)isEqual:(id)object {
+    BOOL isParentSame = [super isEqual:object];
+
+    __typeof(self) castObject = object;
+    
+    return isParentSame
+    && ORKEqualObjects(self.textToType, castObject.textToType);
+}
+
+- (NSUInteger)hash {
+    return super.hash
+    ^ (self.textToType ? 0xf : 0x0);
+}
 
 @end
-
-NS_ASSUME_NONNULL_END
-
-#endif
 
 #endif

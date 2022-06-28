@@ -31,8 +31,13 @@
 
 #import <ResearchKit/ORKTaskViewController_Private.h>
 #import <ResearchKit/ORKReviewStepViewController.h>
+#import <ResearchKit/ORKActiveStep_Internal.h>
 @import HealthKit;
 
+#if RK_APPLE_INTERNAL
+#define ORKSensitiveMicrophoneURLString "prefs:root=Privacy&path=MICROPHONE"
+#define ORKSensitiveMicrophoneApplicationString "com.apple.Preferences"
+#endif
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -63,6 +68,9 @@ NS_ASSUME_NONNULL_BEGIN
 #if RK_APPLE_INTERNAL
 // Save the current system volume for restoration after the task end
 - (void)saveVolume;
+
+// will return YES if the sensitive URL step is shown
+- (BOOL)showSensitiveURLLearMoreStepViewControllerForStep:(ORKActiveStep *)step;
 #endif
 @end
 

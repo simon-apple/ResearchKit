@@ -175,11 +175,14 @@
 #import <ResearchKit/ORKLearnMoreView.h>
 #import <ResearchKit/ORKBodyContainerView.h>
 
+
 #if RK_APPLE_INTERNAL
 
 #import <ResearchKit/ORKAudioDictationView.h>
 
 #import <ResearchKit/ORKHeadphonesRequiredCompletionStep.h>
+
+#import <ResearchKit/ORKTypingStepViewController.h>
 
 #import <ResearchKit/ORKFaceDetectionStep.h>
 
@@ -207,8 +210,9 @@
 #import <ResearchKit/ORKSpeechInNoisePredefinedTask.h>
 #import <ResearchKit/ORKTinnitusPredefinedTask.h>
 
-// BLE Related Sources
+#import <ResearchKit/ORKSensitiveURLLearnMoreInstructionStep.h>
 
+// BLE Related Sources
 #import <ResearchKit/ORKBLEScanPeripheralsStep.h>
 
 #endif

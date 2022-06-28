@@ -56,7 +56,7 @@ typedef void (^ORKFaceDetectionStepContentViewEventHandler)(ORKFaceDetectionStep
 
 - (instancetype)init NS_UNAVAILABLE;
 
-- (instancetype)initForRecalibration:(BOOL)forRecalibration;
+- (instancetype)initForRecalibration:(BOOL)forRecalibration stopFaceDetectionExit:(BOOL)stopFaceDetectionExit;
 
 @property (nonatomic) AVCaptureVideoOrientation videoOrientation;
 

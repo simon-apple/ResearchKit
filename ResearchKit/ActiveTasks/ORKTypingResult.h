@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020, Apple Inc. All rights reserved.
+ Copyright (c) 2022, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -27,20 +27,44 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 // apple-internal
-
 #if RK_APPLE_INTERNAL
-
-@import UIKit;
-#import <ResearchKit/ORKDefines.h>
-#import <ResearchKit/ORKInstructionStepViewController.h>
+#import <ResearchKit/ORKResult.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ORKdBHLToneAudiometryCompletionStepViewController : ORKInstructionStepViewController
+ORK_CLASS_AVAILABLE
+@interface ORKTypingResult : ORKResult
+
+/**
+ An array containing all of the individual character errors the user typed.
+ */
+@property (nonatomic) NSMutableArray <NSArray *> *errors;
+
+/**
+ A value that indicates the total differences in characters between the
+ user's text and the expected text.
+ */
+@property (nonatomic) NSInteger finalErrorCount;
+
+/**
+ A value that indicates how many times the user pressed delete.
+ */
+@property (nonatomic) NSInteger numDeletes;
+
+/**
+ A value that indicates how many characters were there in the expected text to type.
+ */
+@property (nonatomic) NSInteger totalCharacterCount;
+
+/**
+ A value that indicates how many seconds it took for the user to type.
+ */
+@property (nonatomic) NSTimeInterval timeTakenToType;
+
 
 @end
 
 NS_ASSUME_NONNULL_END
-
 #endif

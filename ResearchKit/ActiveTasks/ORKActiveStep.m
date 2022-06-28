@@ -49,7 +49,11 @@
 - (BOOL)startsFinished {
     return (_stepDuration == 0);
 }
-
+#if RK_APPLE_INTERNAL
+- (BOOL)hasAudioRecording {
+    return NO;
+}
+#endif
 - (BOOL)hasCountDown {
     return (_stepDuration > 0) && _shouldShowDefaultTimer;
 }

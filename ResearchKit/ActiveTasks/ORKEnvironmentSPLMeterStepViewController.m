@@ -362,6 +362,7 @@ static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;
             #else
             ORK_Log_Error("User has denied record permission for a step which requires microphone access.");
             #endif
+            
             break;
         }
         case AVAudioSessionRecordPermissionUndetermined:

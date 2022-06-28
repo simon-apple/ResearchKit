@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020, Apple Inc. All rights reserved.
+ Copyright (c) 2022, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -31,12 +31,13 @@
 
 #if RK_APPLE_INTERNAL
 
-#import <ResearchKit/ResearchKit.h>
+@import Foundation;
+#import <ResearchKit/ORKDefines.h>
+#import <ResearchKit/ORKStepViewController.h>
 
 NS_ASSUME_NONNULL_BEGIN
-
 ORK_CLASS_AVAILABLE
-@interface ORKdBHLToneAudiometryCompletionStep : ORKInstructionStep
+@interface ORKTypingStepViewController : ORKStepViewController
 
 @end
 

@@ -92,8 +92,11 @@ ORK_EXTERN BOOL ORKLoggingEnabled;
 #define ORK_DECODE_OBJ_ARRAY(d,x,cl)  _ ## x = (NSArray *)[d decodeObjectOfClasses:[NSSet setWithObjects:[NSArray class],[cl class], nil] forKey:@ORK_STRINGIFY(x)]
 #define ORK_DECODE_OBJ_MUTABLE_ORDERED_SET(d,x,cl)  _ ## x = [(NSOrderedSet *)[d decodeObjectOfClasses:[NSSet setWithObjects:[NSOrderedSet class],[cl class], nil] forKey:@ORK_STRINGIFY(x)] mutableCopy]
 #define ORK_DECODE_OBJ_MUTABLE_DICTIONARY(d,x,kcl,cl)  _ ## x = [(NSDictionary *)[d decodeObjectOfClasses:[NSSet setWithObjects:[NSDictionary class],[kcl class],[cl class], nil] forKey:@ORK_STRINGIFY(x)] mutableCopy]
+#define ORK_DECODE_OBJ_ARRAY_PROPS(d,x)  _ ## x = (NSArray *)[d decodeObjectOfClasses:[NSSet setWithObjects:[NSArray class],[NSDictionary class],[NSNumber class],[NSString class],[NSData class], nil] forKey:@ORK_STRINGIFY(x)]
+#define ORK_DECODE_OBJ_MUTABLE_DICTIONARY_PROPS(d,x,kcl)  _ ## x = [(NSDictionary *)[d decodeObjectOfClasses:[NSSet setWithObjects:[kcl class],[NSDictionary class],[NSArray class],[NSNumber class],[NSString class],[NSData class],nil] forKey:@ORK_STRINGIFY(x)] mutableCopy]
 
 #define ORK_DECODE_OBJ_CLASSES(d,x,clsArray)  _ ## x = [d decodeObjectOfClasses:[NSSet setWithArray:clsArray] forKey:@ORK_STRINGIFY(x)]
+#define ORK_DECODE_OBJ_PLIST(d,x)  _ ## x = [d decodePropertyListForKey:@ORK_STRINGIFY(x)]
 #define ORK_DECODE_OBJ_CLASSES_FOR_KEY(d,x,clsArray,k)  _ ## x = [d decodeObjectOfClasses:[NSSet setWithArray:clsArray] forKey:@ORK_STRINGIFY(k)]
 
 #define ORK_ENCODE_COND_OBJ(c,x)  [c encodeConditionalObject:_ ## x forKey:@ORK_STRINGIFY(x)]

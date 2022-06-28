@@ -56,6 +56,7 @@ static const NSTimeInterval MAX_RECORDING_DURATION = 7260.0;
     if (self) {
         _maximumRecordingLimit = 60.0;
         _countDownStartTime = 30;
+        _stopFaceDetectionExit = NO;
         
 #if ORK_FEATURE_AV_JOURNALING_DEPTH_DATA_COLLECTION
         _saveDepthDataIfAvailable = YES;
@@ -97,6 +98,7 @@ static const NSTimeInterval MAX_RECORDING_DURATION = 7260.0;
     step.maximumRecordingLimit = self.maximumRecordingLimit;
     step.countDownStartTime = self.countDownStartTime;
     step.saveDepthDataIfAvailable = self.saveDepthDataIfAvailable;
+    step.stopFaceDetectionExit = self.stopFaceDetectionExit;
     return step;
 }
 
@@ -107,6 +109,7 @@ static const NSTimeInterval MAX_RECORDING_DURATION = 7260.0;
         ORK_DECODE_DOUBLE(aDecoder, maximumRecordingLimit);
         ORK_DECODE_INTEGER(aDecoder, countDownStartTime);
         ORK_DECODE_BOOL(aDecoder, saveDepthDataIfAvailable);
+        ORK_DECODE_BOOL(aDecoder, stopFaceDetectionExit);
     }
     return self;
 }
@@ -116,6 +119,7 @@ static const NSTimeInterval MAX_RECORDING_DURATION = 7260.0;
     ORK_ENCODE_DOUBLE(aCoder, maximumRecordingLimit);
     ORK_ENCODE_INTEGER(aCoder, countDownStartTime);
     ORK_ENCODE_BOOL(aCoder, saveDepthDataIfAvailable);
+    ORK_ENCODE_BOOL(aCoder, stopFaceDetectionExit);
 }
 
 - (BOOL)isEqual:(id)object {
@@ -125,7 +129,8 @@ static const NSTimeInterval MAX_RECORDING_DURATION = 7260.0;
     return (isParentSame &&
             (self.maximumRecordingLimit == castObject.maximumRecordingLimit) &&
             (self.countDownStartTime == castObject.countDownStartTime) &&
-            (self.saveDepthDataIfAvailable == castObject.saveDepthDataIfAvailable));
+            (self.saveDepthDataIfAvailable == castObject.saveDepthDataIfAvailable) &&
+            (self.stopFaceDetectionExit == castObject.stopFaceDetectionExit));
 }
 
 @end

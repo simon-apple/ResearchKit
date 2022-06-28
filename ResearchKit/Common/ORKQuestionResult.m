@@ -274,6 +274,11 @@
             // Backwards compatibility, do not change the key
             ORK_DECODE_OBJ_CLASSES_FOR_KEY(aDecoder, typedAnswerOrNoAnswer, [[self class] answerClassesIncludingNoAnswer], dateAnswer);
         }
+        // rdar://90503214 (AppleCare: D431 (15.3.1): value for key 'typedAnswerOrNoAnswer' was of unexpected class 'NSNumber' leads to a crash on launch.)
+        if (_typedAnswerOrNoAnswer != nil && ![_typedAnswerOrNoAnswer isKindOfClass:[NSDate class]] && ![_typedAnswerOrNoAnswer isKindOfClass:[ORKNoAnswer class]]) {
+            ORK_Log_Fault("ORKDateQuestionResult: Discarding answer of wrong class: %{public}@ (%@, identifier: %{public}@)", [_typedAnswerOrNoAnswer class], _typedAnswerOrNoAnswer, self.identifier);
+            _typedAnswerOrNoAnswer = nil;
+        }
     }
     return self;
 }
@@ -304,6 +309,13 @@
 
 + (Class)answerClass {
     return [NSDate class];
+}
+
+// rdar://90503214 (AppleCare: D431 (15.3.1): value for key 'typedAnswerOrNoAnswer' was of unexpected class 'NSNumber' leads to a crash on launch.)
+// Date answer sometimes gets a wrong NSNumber value
++ (NSArray<Class> *)answerClassesIncludingNoAnswer {
+    NSArray *classes = [[super answerClassesIncludingNoAnswer] arrayByAddingObjectsFromArray:ORKAllowableValueClasses()];
+    return classes;
 }
 
 - (void)setDateAnswer:(NSDate *)dateAnswer {

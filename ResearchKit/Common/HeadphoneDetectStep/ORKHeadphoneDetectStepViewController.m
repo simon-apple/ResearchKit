@@ -44,7 +44,6 @@
 #import "ORKNavigationContainerView_Internal.h"
 #import "ORKStepHeaderView_Internal.h"
 #import "ORKStepContainerView_Private.h"
-#import "ORKdBHLToneAudiometryCompletionStep.h"
 
 #import "ORKInstructionStepViewController_Internal.h"
 #import "ORKStepViewController_Internal.h"
@@ -803,11 +802,10 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     [self.stepView removeCustomContentPadding];
 }
 
-- (void)noHeadphonesButtonPressed:(id)sender
-{
-    NSString *stepIdentifier = [self.step.context didSkipHeadphoneDetectionStepForTask:self.taskViewController.task];
+- (void)noHeadphonesButtonPressed:(id)sender {
+    NSString *stepIdentifier = [(id<ORKHeadphoneRequiredTaskContext>)self.step.context didSkipHeadphoneDetectionStep:self.step forTask:self.taskViewController.task];
     NSAssert(stepIdentifier != nil, @"Cannot flip to page with no identifier");
-    [[self taskViewController] flipToPageWithIdentifier:stepIdentifier forward:YES animated:NO];
+    [[self taskViewController] flipToPageWithIdentifier:stepIdentifier forward:YES animated:YES];
 }
 
 - (void)viewDidLoad {
@@ -820,14 +818,24 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     }
 }
 
-- (void)setContinueButtonItem:(UIBarButtonItem *)continueButtonItem
-{
-    [super setContinueButtonItem:continueButtonItem];
-    
-    if ([self.step.context isKindOfClass:[ORKSpeechInNoisePredefinedTaskContext class]])
-    {
+- (void)setContinueButtonItem:(UIBarButtonItem *)continueButtonItem {
+    if ([self.step.context isKindOfClass:[ORKSpeechInNoisePredefinedTaskContext class]]) {
         continueButtonItem.title = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_DETECT_CONTINUE", nil);
     }
+    
+    continueButtonItem.target = self;
+    continueButtonItem.action = @selector(continueButtonTapped:);
+    [super setContinueButtonItem:continueButtonItem];
+}
+
+- (void)continueButtonTapped:(id)sender {
+    if ([self.step.context conformsToProtocol:@protocol(ORKHeadphoneRequiredTaskContext)]) {
+        NSString *completionStepIdentifierHeadphonesRequired = ((id<ORKHeadphoneRequiredTaskContext>)self.step.context).headphoneRequiredIdentifier;
+        ORKPredicateSkipStepNavigationRule *skipNavigationRule = [[ORKPredicateSkipStepNavigationRule alloc] initWithResultPredicate:[NSPredicate predicateWithValue:YES]];
+        [(ORKNavigableOrderedTask *)[[self taskViewController] task] setSkipNavigationRule:skipNavigationRule forStepIdentifier:completionStepIdentifierHeadphonesRequired];
+    }
+    
+    [self goForward];
 }
 
 - (void)setSkipButtonItem:(UIBarButtonItem *)skipButtonItem

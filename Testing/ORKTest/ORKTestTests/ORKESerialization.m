@@ -1263,6 +1263,22 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(timeoutSound, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(failureSound, NSNumber, NSObject, YES, nil, nil),
                     })),
+           ENTRY(ORKTypingStep,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+                     return [[ORKTypingStep alloc]  initWithIdentifier:GETPROP(dict, identifier)];
+                 },
+                 (@{
+                    PROPERTY(textToType, NSString, NSObject, YES, nil, nil)})),
+           ENTRY(ORKTypingResult,
+                 nil,
+                 (@{
+                    PROPERTY(finalErrorCount, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(numDeletes, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(totalCharacterCount, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(timeTakenToType, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(identifier, NSString, NSObject, YES, nil, nil),
+                    PROPERTY(errors, NSObject, NSArray, YES, nil, nil)
+                    })),
            ENTRY(ORKStroopStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      return [[ORKStroopStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
@@ -1711,7 +1727,10 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                              ^id(id date, __unused ORKESerializationContext *context) { return [ORKResultDateTimeFormatter() stringFromDate:date]; },
                              ^id(id string, __unused ORKESerializationContext *context) { return [ORKResultDateTimeFormatter() dateFromString:string]; }),
                     PROPERTY(minuteInterval, NSNumber, NSObject, YES, nil, nil),
-                    })),
+                    PROPERTY(daysBeforeCurrentDateToSetMinimumDate, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(daysAfterCurrentDateToSetMinimumDate, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(isMaxDateCurrentTime, NSNumber, NSObject, YES, nil, nil)
+                 })),
            ENTRY(ORKNumericAnswerFormat,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      ORKNumericAnswerFormat *format = [[ORKNumericAnswerFormat alloc] initWithStyle:((NSNumber *)GETPROP(dict, style)).integerValue

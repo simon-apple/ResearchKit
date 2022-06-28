@@ -31,14 +31,14 @@
 
 #if RK_APPLE_INTERNAL
 
-#import <ResearchKit/ORKInstructionStep.h>
+#import <ResearchKit/ORKCompletionStep.h>
 #import <ResearchKit/ORKHeadphoneDetectStep.h>
 #import <ResearchKit/ORKDefines.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 ORK_CLASS_AVAILABLE
-@interface ORKHeadphonesRequiredCompletionStep : ORKInstructionStep
+@interface ORKHeadphonesRequiredCompletionStep : ORKCompletionStep
 
 - (instancetype)initWithIdentifier:(NSString *)identifier requiredHeadphoneTypes:(ORKHeadphoneTypes)requiredHeadphoneTypes;
 

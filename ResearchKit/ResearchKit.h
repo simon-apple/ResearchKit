@@ -156,8 +156,8 @@
 
 
 #if RK_APPLE_INTERNAL
+#import <ResearchKit/ORKTypingStep.h>
 #import <ResearchKit/ORKAVJournalingTaskViewController.h>
 #import <ResearchKit/ORKAVJournalingResult.h>
-
 #import <ResearchKit/ORKBLEScanPeripheralsStepResult.h>
 #endif

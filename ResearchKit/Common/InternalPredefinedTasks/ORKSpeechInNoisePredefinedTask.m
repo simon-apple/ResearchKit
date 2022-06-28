@@ -47,6 +47,7 @@
 #import "ORKStepNavigationRule.h"
 #import "ORKVolumeCalibrationStep.h"
 #import "ORKLearnMoreInstructionStep.h"
+#import "ORKHeadphonesRequiredCompletionStep.h"
 
 typedef NSString * ORKSpeechInNoiseStepIdentifier NS_STRING_ENUM;
 ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierHeadphoneDetectStep = @"ORKSpeechInNoiseStepIdentifierHeadphoneDetectStep";
@@ -57,79 +58,39 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierSpeechRecogni
 ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierEditSpeechTranscriptStep = @"transcript";
 ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierSuffixPractice = @"practice";
 ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierPracticeCompletionStep = @"ORKSpeechInNoiseStepIdentifierPracticeCompletionStep";
+ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierHeadphonesRequired = @"ORKSpeechInNoiseStepIdentifierHeadphonesRequired";
 
 
 @implementation ORKSpeechInNoisePredefinedTaskContext
 
-- (NSString *)didSkipHeadphoneDetectionStepForTask:(id<ORKTask>)task
+- (NSString *)headphoneRequiredIdentifier {
+    return ORKSpeechInNoiseStepIdentifierHeadphonesRequired;
+}
+
+- (NSString *)didSkipHeadphoneDetectionStep:(ORKStep *)step forTask:(id<ORKTask>)task
 {
     if ([task isKindOfClass:[ORKNavigableOrderedTask class]])
     {
         // If the user selects to skip here, append a new step to the end of the task and skip to the end.
         // Add a navigation rule to end the current task.
         ORKNavigableOrderedTask *currentTask = (ORKNavigableOrderedTask *)task;
-        
-        ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierHeadphonesRequired = @"ORKSpeechInNoiseStepIdentifierHeadphonesRequired";
-                
-        ORKCompletionStep *step = [[ORKCompletionStep alloc] initWithIdentifier:ORKSpeechInNoiseStepIdentifierHeadphonesRequired];
-        step.title = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_REQUIRED_TITLE", nil);
-        step.text = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_REQUIRED_TEXT", nil);
-        step.optional = NO;
-        step.reasonForCompletion = ORKTaskViewControllerFinishReasonDiscarded;
-        [currentTask addStep:step];
-        
-        ORKDirectStepNavigationRule *endNavigationRule = [[ORKDirectStepNavigationRule alloc] initWithDestinationStepIdentifier:ORKNullStepIdentifier];
-        [currentTask setNavigationRule:endNavigationRule forTriggerStepIdentifier:ORKSpeechInNoiseStepIdentifierHeadphonesRequired];
-        
-        return ORKSpeechInNoiseStepIdentifierHeadphonesRequired;
+                                
+        ORKHeadphonesRequiredCompletionStep *completionStep = (ORKHeadphonesRequiredCompletionStep *)[task stepWithIdentifier:self.headphoneRequiredIdentifier];
+        if (completionStep) {
+            [currentTask removeSkipNavigationRuleForStepIdentifier:self.headphoneRequiredIdentifier];
+        } else {
+            completionStep = [[ORKHeadphonesRequiredCompletionStep alloc] initWithIdentifier:self.headphoneRequiredIdentifier requiredHeadphoneTypes: ORKHeadphoneTypesAny];
+            completionStep.title = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_REQUIRED_TITLE", nil);
+            completionStep.text = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_REQUIRED_TEXT", nil);
+            completionStep.optional = NO;
+            completionStep.reasonForCompletion = ORKTaskViewControllerFinishReasonDiscarded;
+            [currentTask insertStep:completionStep atIndex:[currentTask indexOfStep:step]+1];
+        }
+
+        return self.headphoneRequiredIdentifier;
     }
     
     return nil;
-}
-
-- (NSString *)didNotAllowRequiredHealthPermissionsForTask:(id<ORKTask>)task
-{
-    NSAssert([task isKindOfClass:[ORKNavigableOrderedTask class]], @"Unexpected task type.");
-    if ([task isKindOfClass:[ORKNavigableOrderedTask class]])
-    {
-        // If the user opts out of health access, append a new step to the end of the task and skip to the end.
-        // Add a navigation rule to end the current task.
-        ORKNavigableOrderedTask *currentTask = (ORKNavigableOrderedTask *)task;
-        
-        ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierHealthPermissionsRequired = @"ORKSpeechInNoiseStepIdentifierHealthPermissionsRequired";
-        
-        ORKCompletionStep *step = [[ORKCompletionStep alloc] initWithIdentifier:ORKSpeechInNoiseStepIdentifierHealthPermissionsRequired];
-        step.title = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_MICROPHONE_SPEECH_RECOGNITION_REQUIRED_TITLE", nil);
-        step.text = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_MICROPHONE_SPEECH_RECOGNITION_REQUIRED_TEXT", nil);
-        step.optional = NO;
-        step.reasonForCompletion = ORKTaskViewControllerFinishReasonDiscarded;
-        
-        if (@available(iOS 13.0, *)) {
-            step.iconImage = [UIImage systemImageNamed:@"mic.slash"];
-        }
-        
-        ORKLearnMoreInstructionStep *learnMoreInstructionStep = [[ORKLearnMoreInstructionStep alloc] initWithIdentifier:ORKCompletionStepIdentifierMicrophoneLearnMore];
-        ORKLearnMoreItem *learnMoreItem = [[ORKLearnMoreItem alloc]
-                                           initWithText:ORKLocalizedString(@"OPEN_MICROPHONE_SETTINGS", nil)
-                                           learnMoreInstructionStep:learnMoreInstructionStep];
-        
-        ORKBodyItem *settingsLinkBodyItem = [[ORKBodyItem alloc] initWithText:nil
-                                                                   detailText:nil
-                                                                        image:nil
-                                                                learnMoreItem:learnMoreItem
-                                                                bodyItemStyle:ORKBodyItemStyleText];
-        
-        step.bodyItems = @[settingsLinkBodyItem];
-        
-        [currentTask addStep:step];
-        
-        ORKDirectStepNavigationRule *endNavigationRule = [[ORKDirectStepNavigationRule alloc] initWithDestinationStepIdentifier:ORKNullStepIdentifier];
-        [currentTask setNavigationRule:endNavigationRule forTriggerStepIdentifier:ORKSpeechInNoiseStepIdentifierHealthPermissionsRequired];
-        
-        return ORKSpeechInNoiseStepIdentifierHealthPermissionsRequired;
-    }
-    
-    return (NSString * _Nonnull)nil;
 }
 
 @end
@@ -412,7 +373,7 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierPracticeCompl
     
     ORKSpeechInNoisePredefinedTaskContext *context = [[ORKSpeechInNoisePredefinedTaskContext alloc] init];
     context.practiceTest = isPractice;
-    
+
     [audioSamples enumerateObjectsUsingBlock:^(ORKSpeechInNoiseSample * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             
         NSString *fileName = [[obj.path stringByDeletingPathExtension] lastPathComponent];
