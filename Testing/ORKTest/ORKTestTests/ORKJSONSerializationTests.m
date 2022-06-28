@@ -622,7 +622,8 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
                                           @"ORKSpeechRecognitionResult.recognitionMetadata",
                                           @"ORKAccuracyStroopStep.actualDisplayColor",
                                           @"ORKBLEScanPeripheralsStepResult.centralManager",
-                                          @"ORKBLEScanPeripheralsStepResult.connectedPeripherals"
+                                          @"ORKBLEScanPeripheralsStepResult.connectedPeripherals",
+                                          @"ORKAudioStreamerConfiguration.bypassAudioEngineStart"
                                           ];
         _allowedUnTouchedKeys = @[@"_class"];
         _mutuallyExclusiveProperties = @{
