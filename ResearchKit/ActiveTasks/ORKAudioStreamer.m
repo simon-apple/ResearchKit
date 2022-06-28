@@ -39,19 +39,28 @@
 
 - (instancetype)initWithIdentifier:(NSString *)identifier {
     self = [super initWithIdentifier:identifier];
-    
+#if RK_APPLE_INTERNAL
+    _bypassAudioEngineStart = NO;
+#endif
     return self;
 }
 
 - (ORKRecorder *)recorderForStep:(ORKStep *)step outputDirectory:(NSURL *)outputDirectory {
-    
+#if RK_APPLE_INTERNAL
+    if (_bypassAudioEngineStart) {
+        return nil;
+    }
+#endif
     ORKAudioStreamer *obj = [[ORKAudioStreamer alloc] initWithIdentifier:self.identifier step:step];
-    
+
     return obj;
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
+#if RK_APPLE_INTERNAL
+    _bypassAudioEngineStart = NO;
+#endif
     return self;
 }
 
