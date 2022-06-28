@@ -639,7 +639,8 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
             @"ORKFaceDetectionBlurFooterView.startStopButton",
             @"ORKFaceDetectionBlurFooterView.timerLabel",
             @"ORKBLEScanPeripheralsStepResult.centralManager",
-            @"ORKBLEScanPeripheralsStepResult.connectedPeripherals"
+            @"ORKBLEScanPeripheralsStepResult.connectedPeripherals",
+            @"ORKAudioStreamerConfiguration.bypassAudioEngineStart"
         ];
         _knownNotSerializedProperties = [_knownNotSerializedProperties arrayByAddingObjectsFromArray:internalKnownNotSerializedProperties];
 #endif

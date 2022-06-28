@@ -83,7 +83,6 @@ static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;
     AVAudioSessionMode _savedSessionMode;
     AVAudioSessionCategoryOptions _savedSessionCategoryOptions;
     UINotificationFeedbackGenerator *_notificationFeedbackGenerator;
-    dispatch_semaphore_t _voiceOverAnnouncementSemaphore;
     NSTimer *_timeoutTimer;
 }
 
@@ -278,9 +277,7 @@ static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [_eqUnit removeTapOnBus:0];
-    [_audioEngine stop];
-    [_rmsBuffer removeAllObjects];
+    [self stopAudioEngine];
     [self resetAudioSession];
     
     #if RK_APPLE_INTERNAL
@@ -529,7 +526,7 @@ static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;
                                    });
                                    dispatch_semaphore_wait(_semaphoreRms, DISPATCH_TIME_FOREVER);
                                } else if ([AVAudioSession sharedInstance].recordPermission == AVAudioSessionRecordPermissionDenied) {
-                                   dispatch_async(dispatch_get_main_queue(), ^{
+                                   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                                        [_eqUnit removeTapOnBus:0];
                                        [_audioEngine stop];
                                        [_rmsBuffer removeAllObjects];
@@ -540,9 +537,7 @@ static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;
             NSError *error = nil;
             [_audioEngine startAndReturnError:&error];
         } else {
-            [_eqUnit removeTapOnBus:0];
-            [_audioEngine stop];
-            [_rmsBuffer removeAllObjects];
+            [self stopAudioEngine];
         }
     }
 }
@@ -554,13 +549,6 @@ static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;
         _counter += 1;
         
         [self.environmentSPLMeterContentView.ringView fillRingWithDuration:(double)_requiredContiguousSamples*_samplingInterval];
-        
-        if (_counter >= _requiredContiguousSamples)
-        {
-            [self reachedOptimumNoiseLevel];
-            
-            [self sendHapticEvent:UINotificationFeedbackTypeSuccess];
-        }
     }
     else
     {
@@ -585,10 +573,22 @@ static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;
     }
 }
 
+- (void)stopAudioEngine {
+    if ([_audioEngine isRunning]) {
+        dispatch_semaphore_signal(_semaphoreRms);
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            [_eqUnit removeTapOnBus:0];
+            [_audioEngine stop];
+            [_rmsBuffer removeAllObjects];
+        });
+    }
+}
+
 - (void)reachedOptimumNoiseLevel {
-    [_audioEngine stop];
     
     #if RK_APPLE_INTERNAL
+    [self stopAudioEngine];
+    [self sendHapticEvent:UINotificationFeedbackTypeSuccess];
     [self stopTimeoutTimer];
     #endif
     
@@ -612,6 +612,7 @@ static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;
 #pragma mark - ORKRingViewDelegate
 
 - (void)ringViewDidFinishFillAnimation {
+    [self reachedOptimumNoiseLevel];
     [self.environmentSPLMeterContentView reachedOptimumNoiseLevel];
     self.activeStepView.navigationFooterView.continueEnabled = YES;
 }
