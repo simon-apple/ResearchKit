@@ -75,9 +75,7 @@ static const NSInteger MaxRecalibrationViewPresentations = 4;
     UILabel *_questionLabel;
     
     
-#if RK_APPLE_INTERNAL
     ORKFaceDetectionStepContentView *_faceDetectionContentView;
-#endif
 
     NSTimer *_faceCalibrationTimer;
     NSTimer *_timer;
