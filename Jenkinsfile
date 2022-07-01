@@ -15,7 +15,6 @@ node('health-10') {
 }
 
 pipeline {
-    // agent { label "${LIME_BUILD_LABEL}" }
     agent { node "health-10" }
     options {
         // https://github.com/jenkinsci/jenkins/blob/master/core/src/main/java/hudson/tasks/LogRotator.java#L87
