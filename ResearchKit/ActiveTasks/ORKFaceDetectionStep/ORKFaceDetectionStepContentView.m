@@ -28,6 +28,9 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+// apple-internal
+
+#if RK_APPLE_INTERNAL
 
 #import "ORKFaceDetectionStepContentView.h"
 
@@ -508,5 +511,7 @@ static const CGFloat StopFaceDetectionTimeLimit = 10.0;
 }
 
 @end
+
+#endif
 
 #endif

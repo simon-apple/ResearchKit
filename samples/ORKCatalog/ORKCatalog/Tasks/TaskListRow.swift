@@ -32,6 +32,7 @@
 
 import ResearchKit_Private
 import AudioToolbox
+import ResearchKit
 
 /**
     Wraps a SystemSoundID.
@@ -116,12 +117,14 @@ enum TaskListRow: Int, CustomStringConvertible {
     case trailMaking
     case videoInstruction
     case webView
-    case ble
     
     //start-omit-internal-code
+    #if RK_APPLE_INTERNAL
     case predefinedSpeechInNoiseTask
     case predefinedAVJournalingTask
     case predefinedTinnitusTask
+    case ble
+    #endif
     //end-omit-internal-code
     
     class TaskListRowSection {
@@ -137,7 +140,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     /// Returns an array of all the task list row enum cases.
     static var sections: [ TaskListRowSection ] {
         
-        return [
+        let defaultSections = [
             TaskListRowSection(title: "Surveys", rows:
                 [
                     .form,
@@ -207,18 +210,24 @@ enum TaskListRow: Int, CustomStringConvertible {
                 [
                     .videoInstruction,
                     .webView
-                ]),
-            
+                ])]
+        
             //start-omit-internal-code
+            #if RK_APPLE_INTERNAL
+            let internalSections = [
+
             TaskListRowSection(title: "Internal", rows:
                 [
                     .predefinedSpeechInNoiseTask,
                     .predefinedAVJournalingTask,
                     .predefinedTinnitusTask,
                     .ble
-                ]),
+                ])]
+            return (defaultSections + internalSections)
+            #endif
             //end-omit-internal-code
-        ]}
+            return defaultSections
+        }
     
     // MARK: CustomStringConvertible
     
@@ -393,6 +402,7 @@ enum TaskListRow: Int, CustomStringConvertible {
             return NSLocalizedString("Web View", comment: "")
             
         //start-omit-internal-code
+        #if RK_APPLE_INTERNAL
         case .predefinedSpeechInNoiseTask:
             return NSLocalizedString("Predefined Speech In Noise", comment: "")
             
@@ -404,6 +414,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         
         case .ble:
             return NSLocalizedString("BLE", comment: "")
+        #endif
         //end-omit-internal-code
         }
     }
@@ -602,9 +613,11 @@ enum TaskListRow: Int, CustomStringConvertible {
         case webViewStep
         
         //start-omit-internal-code
+        #if RK_APPLE_INTERNAL
         case predefinedSpeechInNoiseTask
         case predefinedAVJournalingTask
         case predefinedTinnitusTask
+        #endif
         //end-omit-internal-code
     }
     
@@ -782,6 +795,7 @@ enum TaskListRow: Int, CustomStringConvertible {
             return webView
             
         //start-omit-internal-code
+        #if RK_APPLE_INTERNAL
         case .predefinedSpeechInNoiseTask:
             return predefinedSpeechInNoiseTask
         
@@ -793,6 +807,7 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .ble:
             return ble
+        #endif
         //end-omit-internal-code
         }
     }
@@ -1898,6 +1913,7 @@ enum TaskListRow: Int, CustomStringConvertible {
 
     
     //start-omit-internal-code
+    #if RK_APPLE_INTERNAL
     private var predefinedSpeechInNoiseTask: ORKTask {
         
         guard let path = Bundle.main.path(forResource: "manifest", ofType: "json", inDirectory: "List1") else {
@@ -1944,6 +1960,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         
         return ORKOrderedTask(identifier: "BLE", steps: [scanStep])
     }
+    #endif
     //end-omit-internal-code
     
     // MARK: `ORKTask` Reused Text Convenience

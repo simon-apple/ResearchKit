@@ -33,22 +33,6 @@
 #import "ORKTypes.h"
 #import "ORKHelpers_Internal.h"
 
-ORKHeadphoneChipsetIdentifier const ORKHeadphoneChipsetIdentifierAirPods = @"aa2d";
-
-ORKHeadphoneChipsetIdentifier const ORKHeadphoneChipsetIdentifierLightningEarPods = @"b225";
-
-ORKHeadphoneChipsetIdentifier const ORKHeadphoneChipsetIdentifierAudioJackEarPods = @"b60";
-
-ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsGen1 = @"76,8194";
-
-ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsGen2 = @"76,8207";
-
-ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsGen3 = @"76,8211";
-
-ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsPro = @"76,8206";
-
-ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsMax = @"76,8202";
-
 ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierAirPods = @"AIRPODS";
 
 ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierAirPodsGen1 = @"AIRPODSV1";
@@ -64,7 +48,23 @@ ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierAirPodsMax = @"AIRPOD
 ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierEarPods = @"EARPODS";
 
 ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierUnknown = @"UNKNOWN";
+#if RK_APPLE_INTERNAL
+ORKHeadphoneChipsetIdentifier const ORKHeadphoneChipsetIdentifierAirPods = @"aa2d";
 
+ORKHeadphoneChipsetIdentifier const ORKHeadphoneChipsetIdentifierLightningEarPods = @"b225";
+
+ORKHeadphoneChipsetIdentifier const ORKHeadphoneChipsetIdentifierAudioJackEarPods = @"b60";
+
+ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsGen1 = @"76,8194";
+
+ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsGen2 = @"76,8207";
+
+ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsGen3 = @"76,8211";
+
+ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsPro = @"76,8206";
+
+ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsMax = @"76,8202";
+#endif
 ORKTrailMakingTypeIdentifier const ORKTrailMakingTypeIdentifierA = @"A";
 
 ORKTrailMakingTypeIdentifier const ORKTrailMakingTypeIdentifierB = @"B";

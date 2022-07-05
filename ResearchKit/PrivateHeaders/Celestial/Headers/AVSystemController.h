@@ -6,6 +6,9 @@
     Copyright 2006-2019 Apple Computer. All rights reserved.
     
 */
+// apple-internal
+
+#if RK_APPLE_INTERNAL
 
 //#import <MediaExperience/MXBasePrivate.h>
 #import <Foundation/Foundation.h>
@@ -431,3 +434,5 @@ AV_EXTERN NSString *AVController_RouteDescriptionKey_AirPlayRouteHasCloudConnect
 @interface NSDictionary(PickableRoute)
     - (BOOL)matchesUID:(NSString *)uid;
 @end
+
+#endif

@@ -27,6 +27,9 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+// apple-internal
+
+#if RK_APPLE_INTERNAL
 
 #import "ORKAVJournalingStepContentView.h"
 
@@ -71,8 +74,9 @@ static const NSInteger MaxRecalibrationViewPresentations = 4;
     UILabel *_questionNumberLabel;
     UILabel *_questionLabel;
     
-    ORKFaceDetectionStepContentView *_faceDetectionContentView;
     
+    ORKFaceDetectionStepContentView *_faceDetectionContentView;
+
     NSTimer *_faceCalibrationTimer;
     NSTimer *_timer;
     NSTimer *_badgeColorChangeTimer;
@@ -573,5 +577,7 @@ static const NSInteger MaxRecalibrationViewPresentations = 4;
 }
 
 @end
+
+#endif
 
 #endif

@@ -29,10 +29,12 @@
  */
 
 #import "ORKAudioMeteringView.h"
-#import "ORKAudioDictationView.h"
-#import "ORKAudioGraphView.h"
 
-#define USE_DICTATION_VIEW 1
+#if RK_APPLE_INTERNAL
+#import "ORKAudioDictationView.h"
+#endif
+
+#import "ORKAudioGraphView.h"
 
 NSArray<NSNumber *> * ORKLastNSamples(NSArray<NSNumber *> *samples, NSInteger limit) {
     
@@ -83,7 +85,7 @@ NSArray<NSNumber *> * ORKLastNSamples(NSArray<NSNumber *> *samples, NSInteger li
 - (void)configureMeteringView
 {
     if (!_meteringView) {
-#if USE_DICTATION_VIEW
+#if RK_APPLE_INTERNAL && !TARGET_IPHONE_SIMULATOR
         [self setMeteringView:[[ORKAudioDictationView alloc] init]];
 #else
         [self setMeteringView:[[ORKAudioGraphView alloc] init]];
@@ -148,3 +150,4 @@ NSArray<NSNumber *> * ORKLastNSamples(NSArray<NSNumber *> *samples, NSInteger li
 }
 
 @end
+

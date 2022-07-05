@@ -49,6 +49,10 @@
  3. This notice may not be removed or altered from any source distribution.
  */
 
+// apple-internal
+
+#if RK_APPLE_INTERNAL
+
 #import "ORKTinnitusAudioGenerator.h"
 #import "ORKTinnitusAudioSample.h"
 #import "ORKTinnitusHeadphoneTable.h"
@@ -387,3 +391,5 @@ static OSStatus ORKTinnitusAudioGeneratorRenderTone(void *inRefCon,
 }
 
 @end
+
+#endif

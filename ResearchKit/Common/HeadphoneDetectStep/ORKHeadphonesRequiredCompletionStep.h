@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2021, Apple Inc. All rights reserved.
+ Copyright (c) 2019, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -27,33 +27,22 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 // apple-internal
 
-#import <ResearchKit/ORKFeatureFlags.h>
+#if RK_APPLE_INTERNAL
 
-#if ORK_FEATURE_BLE_SCAN_PERIPHERALS
-
-#import <ResearchKit/ORKInstructionStep.h>
+#import <ResearchKit/ORKCompletionStep.h>
+#import <ResearchKit/ORKHeadphoneDetectStep.h>
+#import <ResearchKit/ORKDefines.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-ORK_EXTERN NSString * const ORKBLEScanPeripheralsRestorationIdentifierKey;
-
-ORK_EXTERN NSString * const ORKBLEScanPeripheralsMinimumConnectionCountKey;
-
-ORK_EXTERN NSString * const ORKBLEScanPeripheralsCapacityKey;
-
-ORK_EXTERN NSString * const ORKBLEScanPeripheralsFilterDeviceNameKey;
-
-ORK_EXTERN NSString * const ORKBLEScanPeripheralsFilterServiceUUIDKey;
-
 ORK_CLASS_AVAILABLE
-@interface ORKBLEScanPeripheralsStep : ORKInstructionStep
+@interface ORKHeadphonesRequiredCompletionStep : ORKCompletionStep
 
-@property (nonatomic, copy) NSDictionary<NSString *, id> *scanOptions;
+- (instancetype)initWithIdentifier:(NSString *)identifier requiredHeadphoneTypes:(ORKHeadphoneTypes)requiredHeadphoneTypes;
 
-- (instancetype)initWithIdentifier:(NSString *)identifier scanOptions:(NSDictionary<NSString *, id> *)scanOptions;
+@property (nonatomic, assign) ORKHeadphoneTypes requiredHeadphoneTypes;
 
 @end
 

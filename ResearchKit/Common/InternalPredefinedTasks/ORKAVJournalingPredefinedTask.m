@@ -29,6 +29,7 @@
  */
 
 //apple-internal
+#if RK_APPLE_INTERNAL
 
 #import "ORKAVJournalingPredefinedTask.h"
 
@@ -513,4 +514,5 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierInstructionStep
 
 @end
 
+#endif
 #endif

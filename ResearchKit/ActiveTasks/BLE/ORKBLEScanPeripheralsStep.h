@@ -28,12 +28,38 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ResearchKit/ORKInstructionStepViewController.h>
+// apple-internal
+#if RK_APPLE_INTERNAL
+
+#import <ResearchKit/ORKFeatureFlags.h>
+
+#if ORK_FEATURE_BLE_SCAN_PERIPHERALS
+
+#import <ResearchKit/ORKInstructionStep.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ORKHeadphonesRequiredCompletionStepViewController : ORKInstructionStepViewController
+ORK_EXTERN NSString * const ORKBLEScanPeripheralsRestorationIdentifierKey;
+
+ORK_EXTERN NSString * const ORKBLEScanPeripheralsMinimumConnectionCountKey;
+
+ORK_EXTERN NSString * const ORKBLEScanPeripheralsCapacityKey;
+
+ORK_EXTERN NSString * const ORKBLEScanPeripheralsFilterDeviceNameKey;
+
+ORK_EXTERN NSString * const ORKBLEScanPeripheralsFilterServiceUUIDKey;
+
+ORK_CLASS_AVAILABLE
+@interface ORKBLEScanPeripheralsStep : ORKInstructionStep
+
+@property (nonatomic, copy) NSDictionary<NSString *, id> *scanOptions;
+
+- (instancetype)initWithIdentifier:(NSString *)identifier scanOptions:(NSDictionary<NSString *, id> *)scanOptions;
 
 @end
 
 NS_ASSUME_NONNULL_END
+
+#endif // ORK_FEATURE_BLE_SCAN_PERIPHERALS
+
+#endif // RK_APPLE_INTERNAL

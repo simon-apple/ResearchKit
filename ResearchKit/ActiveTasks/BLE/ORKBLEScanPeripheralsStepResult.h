@@ -30,58 +30,28 @@
 
 // apple-internal
 
+#if RK_APPLE_INTERNAL
+
 #import <ResearchKit/ORKFeatureFlags.h>
 
 #if ORK_FEATURE_BLE_SCAN_PERIPHERALS
 
-#import "ORKBLEScanPeripheralsStep.h"
-#import "ORKBLEScanPeripheralsStepViewController.h"
-#import "ORKHelpers_Internal.h"
+#import <ResearchKit/ORKResult.h>
+@import CoreBluetooth;
 
-NSString * const ORKBLEScanPeripheralsRestorationIdentifierKey = @"ORKBLEScanPeripheralsRestorationIdentifierKey";
+NS_ASSUME_NONNULL_BEGIN
 
-NSString * const ORKBLEScanPeripheralsMinimumConnectionCountKey = @"ORKBLEScanPeripheralsMinimumConnectionCountKey";
+ORK_CLASS_AVAILABLE
+@interface ORKBLEScanPeripheralsStepResult : ORKResult
 
-NSString * const ORKBLEScanPeripheralsCapacityKey = @"ORKBLEScanPeripheralsCapacityKey";
+@property (nonatomic) CBCentralManager *centralManager;
 
-NSString * const ORKBLEScanPeripheralsFilterDeviceNameKey = @"ORKBLEScanPeripheralsFilterDeviceNameKey";
-
-NSString * const ORKBLEScanPeripheralsFilterServiceUUIDKey = @"ORKBLEScanPeripheralsFilterServiceUUIDKey";
-
-@implementation ORKBLEScanPeripheralsStep
-
-- (instancetype)initWithIdentifier:(NSString *)identifier scanOptions:(NSDictionary<NSString *, id> *)scanOptions {
-    self = [super initWithIdentifier:identifier];
-    if (self) {
-        _scanOptions = [scanOptions copy];
-    }
-    return self;
-}
-
-- (Class)stepViewControllerClass {
-    return [ORKBLEScanPeripheralsStepViewController class];
-}
-
-#pragma mark - NSCoding
-
-+ (BOOL)supportsSecureCoding {
-    return YES;
-}
-
-- (void)encodeWithCoder:(NSCoder *)coder {
-    [super encodeWithCoder:coder];
-    ORK_ENCODE_OBJ(coder, scanOptions);
-}
-
-- (instancetype)initWithCoder:(NSCoder *)coder
-{
-    self = [super initWithCoder:coder];
-    if (self) {
-        ORK_DECODE_OBJ_PLIST(coder, scanOptions);
-    }
-    return self;
-}
+@property (nonatomic, copy) NSArray<CBPeripheral *> *connectedPeripherals;
 
 @end
+
+NS_ASSUME_NONNULL_END
+
+#endif
 
 #endif
