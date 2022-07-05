@@ -29,15 +29,62 @@
  */
 
 // apple-internal
+#if RK_APPLE_INTERNAL
 
 #import <ResearchKit/ORKFeatureFlags.h>
 
 #if ORK_FEATURE_BLE_SCAN_PERIPHERALS
 
-#import "ORKBLEScanPeripheralsStepResult.h"
+#import "ORKBLEScanPeripheralsStep.h"
+#import "ORKBLEScanPeripheralsStepViewController.h"
+#import "ORKHelpers_Internal.h"
 
-@implementation ORKBLEScanPeripheralsStepResult
+NSString * const ORKBLEScanPeripheralsRestorationIdentifierKey = @"ORKBLEScanPeripheralsRestorationIdentifierKey";
+
+NSString * const ORKBLEScanPeripheralsMinimumConnectionCountKey = @"ORKBLEScanPeripheralsMinimumConnectionCountKey";
+
+NSString * const ORKBLEScanPeripheralsCapacityKey = @"ORKBLEScanPeripheralsCapacityKey";
+
+NSString * const ORKBLEScanPeripheralsFilterDeviceNameKey = @"ORKBLEScanPeripheralsFilterDeviceNameKey";
+
+NSString * const ORKBLEScanPeripheralsFilterServiceUUIDKey = @"ORKBLEScanPeripheralsFilterServiceUUIDKey";
+
+@implementation ORKBLEScanPeripheralsStep
+
+- (instancetype)initWithIdentifier:(NSString *)identifier scanOptions:(NSDictionary<NSString *, id> *)scanOptions {
+    self = [super initWithIdentifier:identifier];
+    if (self) {
+        _scanOptions = [scanOptions copy];
+    }
+    return self;
+}
+
+- (Class)stepViewControllerClass {
+    return [ORKBLEScanPeripheralsStepViewController class];
+}
+
+#pragma mark - NSCoding
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+    [super encodeWithCoder:coder];
+    ORK_ENCODE_OBJ(coder, scanOptions);
+}
+
+- (instancetype)initWithCoder:(NSCoder *)coder
+{
+    self = [super initWithCoder:coder];
+    if (self) {
+        ORK_DECODE_OBJ_PLIST(coder, scanOptions);
+    }
+    return self;
+}
 
 @end
+
+#endif
 
 #endif

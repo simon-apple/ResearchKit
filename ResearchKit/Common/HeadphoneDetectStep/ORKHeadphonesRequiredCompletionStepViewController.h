@@ -27,24 +27,15 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 // apple-internal
 
-#import <ResearchKit/ORKFeatureFlags.h>
+#if RK_APPLE_INTERNAL
 
-#if ORK_FEATURE_BLE_SCAN_PERIPHERALS
-
-#import <ResearchKit/ORKResult.h>
-@import CoreBluetooth;
+#import <ResearchKit/ORKInstructionStepViewController.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-ORK_CLASS_AVAILABLE
-@interface ORKBLEScanPeripheralsStepResult : ORKResult
-
-@property (nonatomic) CBCentralManager *centralManager;
-
-@property (nonatomic, copy) NSArray<CBPeripheral *> *connectedPeripherals;
+@interface ORKHeadphonesRequiredCompletionStepViewController : ORKInstructionStepViewController
 
 @end
 

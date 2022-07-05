@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2021, Apple Inc. All rights reserved.
+ Copyright (c) 2019, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -27,18 +27,39 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 // apple-internal
 
-#import <ResearchKit/ORKFeatureFlags.h>
+#if RK_APPLE_INTERNAL
 
-#if ORK_FEATURE_BLE_SCAN_PERIPHERALS
-
-#import <ResearchKit/ORKInstructionStepViewController.h>
+@import Foundation;
+#import <ResearchKit/ORKInstructionStep.h>
+#import <ResearchKit/ORKDefines.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ORKBLEScanPeripheralsStepViewController : ORKInstructionStepViewController
+typedef NS_ENUM(NSUInteger, ORKHeadphoneTypes) {
+    /**
+     Supported
+     */
+    ORKHeadphoneTypesSupported=0,
+    
+    /**
+     Any
+     */
+    ORKHeadphoneTypesAny
+    
+} ORK_ENUM_AVAILABLE;
+
+ORK_CLASS_AVAILABLE
+@interface ORKHeadphoneDetectStep : ORKInstructionStep
+
+@property (nonatomic, assign) ORKHeadphoneTypes headphoneTypes;
+
+- (instancetype)initWithIdentifier:(NSString *)identifier headphoneTypes:(ORKHeadphoneTypes)headphoneTypes;
+
++ (NSSet<ORKHeadphoneChipsetIdentifier> *)dBHLTypes;
+
+- (nullable NSSet<ORKHeadphoneChipsetIdentifier> *)supportedHeadphoneChipsetTypes;
 
 @end
 

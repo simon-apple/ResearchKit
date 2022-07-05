@@ -29,6 +29,7 @@
  */
 
 //apple-internal
+#if RK_APPLE_INTERNAL
 
 #import <ResearchKit/ORKFeatureFlags.h>
 
@@ -47,5 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
+
+#endif
 
 #endif

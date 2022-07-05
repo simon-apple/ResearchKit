@@ -29,6 +29,7 @@
  */
 
 //apple-internal
+#if RK_APPLE_INTERNAL
 
 #import <ResearchKit/ORKFeatureFlags.h>
 
@@ -80,5 +81,7 @@ ORK_CLASS_AVAILABLE
 @end
 
 NS_ASSUME_NONNULL_END
+
+#endif
 
 #endif

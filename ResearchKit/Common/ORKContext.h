@@ -28,6 +28,11 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+//apple-internal
+
+
+#if RK_APPLE_INTERNAL
+
 @import Foundation;
 
 #if TARGET_OS_IOS
@@ -67,9 +72,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ORKdBHLTaskContext : NSObject <ORKContext, ORKHeadphoneRequiredTaskContext>
 
 @end
-
-
-//start-omit-internal-code
 
 @interface ORKSpeechInNoisePredefinedTaskContext : NSObject <ORKContext, ORKHeadphoneRequiredTaskContext>
 
@@ -115,6 +117,6 @@ typedef NS_ENUM(NSInteger, ORKTinnitusType);
 
 @end
 
-//end-omit-internal-code
-
 NS_ASSUME_NONNULL_END
+
+#endif

@@ -27,6 +27,9 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+// apple-internal
+
+#if RK_APPLE_INTERNAL
 
 #import "ORKAVJournalingStepViewController.h"
 
@@ -310,6 +313,7 @@ static const CGFloat FramesToSkipTotal = 5.0;
 }
 
 - (void)invokeFinishLaterContext {
+    
     if ([self.step.context isKindOfClass:[ORKAVJournalingPredfinedTaskContext class]]) {
         [(ORKAVJournalingPredfinedTaskContext *)self.step.context finishLaterWasPressedForTask:self.step.task currentStepIdentifier:self.step.identifier];
         [self cleanupSession];
@@ -450,5 +454,7 @@ static const CGFloat FramesToSkipTotal = 5.0;
 }
 
 @end
+
+#endif
 
 #endif

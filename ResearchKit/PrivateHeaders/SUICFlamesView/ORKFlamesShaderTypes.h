@@ -3,6 +3,8 @@ See LICENSE folder for this sample’s licensing information.
 Abstract:
 Header containing types and enum constants shared between Metal shaders and C/ObjC source
 */
+// apple-internal
+
 #include <simd/simd.h>
 typedef struct {
     vector_float4 vertexLocation;

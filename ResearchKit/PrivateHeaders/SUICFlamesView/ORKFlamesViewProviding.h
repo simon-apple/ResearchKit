@@ -5,6 +5,8 @@
 //  Created by Peter Bohac on 5/28/19.
 //  Copyright © 2019 Apple Inc. All rights reserved.
 //
+// apple-internal
+
 #ifndef ORKFlamesViewProviding_h
 #define ORKFlamesViewProviding_h
 #import <UIKit/UIKit.h>

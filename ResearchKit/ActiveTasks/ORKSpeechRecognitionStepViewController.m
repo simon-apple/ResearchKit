@@ -60,7 +60,10 @@
 #import "ORKTaskViewController.h"
 
 #import "ORKOrderedTask.h"
+
+#if RK_APPLE_INTERNAL
 #import "ORKContext.h"
+#endif
 
 @interface ORKSpeechRecognitionStepViewController () <ORKStreamingAudioResultDelegate, ORKSpeechRecognitionDelegate, UITextFieldDelegate, ORKSpeechRecognitionContentViewDelegate>
 
@@ -99,9 +102,9 @@
     _speechRecognitionContentView.delegate = self;
     
     _errorState = NO;
-   
+    
     [self requestSpeechRecognizerAuthorizationIfNeeded];
-
+    
     _localResult = [[ORKSpeechRecognitionResult alloc] initWithIdentifier:self.step.identifier];
     _speechRecognitionQueue = dispatch_queue_create("SpeechRecognitionQueue", DISPATCH_QUEUE_SERIAL);
 }
@@ -123,6 +126,7 @@
         case SFSpeechRecognizerAuthorizationStatusRestricted:
         case SFSpeechRecognizerAuthorizationStatusDenied:
         {
+#if RK_APPLE_INTERNAL
             id<ORKTask> task = self.step.task;
             
             ORKSpeechInNoisePredefinedTaskContext *context = [self currentSpeechInNoisePredefinedTaskContext];
@@ -136,6 +140,9 @@
             {
                 [_speechRecognitionContentView.recordButton setButtonState:ORKRecordButtonStateDisabled];
             }
+#else
+            [_speechRecognitionContentView.recordButton setButtonState:ORKRecordButtonStateDisabled];
+#endif
             break;
         }
         case SFSpeechRecognizerAuthorizationStatusNotDetermined:
@@ -196,6 +203,7 @@
     [self goForward];
 }
 
+#if RK_APPLE_INTERNAL
 - (ORKSpeechInNoisePredefinedTaskContext * _Nullable)currentSpeechInNoisePredefinedTaskContext
 {
     if (self.step.context && [self.step.context isKindOfClass:[ORKSpeechInNoisePredefinedTaskContext class]])
@@ -205,16 +213,19 @@
     
     return nil;
 }
+#endif
 
 - (void)setAllowUserToRecordInsteadOnNextStep:(BOOL)allowUserToRecordInsteadOnNextStep
 {
     _allowUserToRecordInsteadOnNextStep = allowUserToRecordInsteadOnNextStep;
     
+#if RK_APPLE_INTERNAL
     ORKSpeechInNoisePredefinedTaskContext *currentContext = [self currentSpeechInNoisePredefinedTaskContext];
     if (currentContext)
     {
         currentContext.prefersKeyboard = allowUserToRecordInsteadOnNextStep;
     }
+#endif
 }
 
 - (CAShapeLayer *)recordingShapeLayer
@@ -256,6 +267,7 @@
 {
     ORKStepResult *sResult = [super result];
     
+#if RK_APPLE_INTERNAL
     ORKSpeechInNoisePredefinedTaskContext *currentContext = [self currentSpeechInNoisePredefinedTaskContext];
     
     if (currentContext)
@@ -266,6 +278,7 @@
             return sResult;
         }
     }
+#endif
     
     if (_speechRecognitionQueue) {
         dispatch_sync(_speechRecognitionQueue, ^{
@@ -336,6 +349,8 @@
 
 - (void)setupNextStepForAllowingUserToRecordInstead:(BOOL)allowUserToRecordInsteadOnNextStep
 {
+
+#if RK_APPLE_INTERNAL
     ORKSpeechInNoisePredefinedTaskContext *currentContext = [self currentSpeechInNoisePredefinedTaskContext];
     if (currentContext)
     {
@@ -398,14 +413,19 @@
             }
         }
     } else {
-        
+#endif
+
         if ([[self nextStep] isKindOfClass:[ORKQuestionStep class]] && [[[self nextStep] answerFormat] isKindOfClass:[ORKTextAnswerFormat class]]) {
             
             NSString *substitutedTextAnswer = [self substitutedStringWithString:[_localResult.transcription formattedString]];
             
             [((ORKTextAnswerFormat *)self.nextStep.answerFormat) setDefaultTextAnswer:substitutedTextAnswer];
         }
+#if RK_APPLE_INTERNAL
+
     }
+#endif
+    
 }
 
 - (nullable NSString *)substitutedStringWithString:(nullable NSString *)string

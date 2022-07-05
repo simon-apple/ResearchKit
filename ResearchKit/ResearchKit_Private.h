@@ -82,7 +82,7 @@
 #import <ResearchKit/ORKTrailmakingStep.h>
 #import <ResearchKit/ORKWalkingTaskStep.h>
 #import <ResearchKit/ORKSpeechRecognitionStep.h>
-#import <ResearchKit/ORKHeadphonesRequiredCompletionStep.h>
+#import <ResearchKit/ORKSpeechInNoiseStep.h>
 
 #import <ResearchKit/ORKTaskViewController_Private.h>
 #import <ResearchKit/ORKFormStepViewController_Private.h>
@@ -146,7 +146,6 @@
 #import <ResearchKit/ORKFreehandDrawingView.h>
 #import <ResearchKit/ORKAudioMeteringView.h>
 #import <ResearchKit/ORKAudioGraphView.h>
-#import <ResearchKit/ORKAudioDictationView.h>
 #import <ResearchKit/ORKInstructionStepContainerView.h>
 
 #import <ResearchKit/ORKLabel.h>
@@ -176,7 +175,13 @@
 #import <ResearchKit/ORKLearnMoreView.h>
 #import <ResearchKit/ORKBodyContainerView.h>
 
-//start-omit-internal-code
+
+#if RK_APPLE_INTERNAL
+
+#import <ResearchKit/ORKAudioDictationView.h>
+
+#import <ResearchKit/ORKHeadphonesRequiredCompletionStep.h>
+
 #import <ResearchKit/ORKTypingStepViewController.h>
 
 #import <ResearchKit/ORKFaceDetectionStep.h>
@@ -186,6 +191,7 @@
 
 #import <ResearchKit/ORKAVJournalingPredefinedTask.h>
 #import <ResearchKit/ORKAVJournalingStep.h>
+
 
 // Tinnitus Predefined Task Steps & Result Objects
 #import <ResearchKit/ORKTinnitusTypeStep.h>
@@ -200,15 +206,12 @@
 #import <ResearchKit/ORKTinnitusPureToneStepViewController_Private.h>
 #import <ResearchKit/ORKTinnitusTypes.h>
 
-#import <ResearchKit/ORKSpeechInNoiseStep.h>
-
 #import <ResearchKit/ORKSpeechInNoisePredefinedTask.h>
 #import <ResearchKit/ORKTinnitusPredefinedTask.h>
 
 #import <ResearchKit/ORKSensitiveURLLearnMoreInstructionStep.h>
 
 // BLE Related Sources
-
 #import <ResearchKit/ORKBLEScanPeripheralsStep.h>
 
-//end-omit-internal-code
+#endif

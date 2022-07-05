@@ -27,6 +27,9 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+// apple-internal
+
+#if RK_APPLE_INTERNAL
 
 #import "ORKVolumeCalibrationContentView.h"
 #import "ORKHelpers_Internal.h"
@@ -196,6 +199,7 @@ static int const ORKVolumeCalibrationStepPlaybackButtonSize = 36;
     [_volumeSlider addTarget:self action:@selector(volumeSliderChanged:) forControlEvents:UIControlEventValueChanged];
     [_playbackButton addTarget:self action:@selector(playbackButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
 
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(volumeDidChange:) name:getAVSystemController_SystemVolumeDidChangeNotification() object:nil];
 }
 
@@ -269,3 +273,5 @@ static int const ORKVolumeCalibrationStepPlaybackButtonSize = 36;
 }
 
 @end
+
+#endif

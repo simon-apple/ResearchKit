@@ -27,6 +27,9 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+// apple-internal
+
+#if RK_APPLE_INTERNAL
 
 #import <ResearchKit/ORKFeatureFlags.h>
 
@@ -69,5 +72,7 @@ typedef void (^ORKAVJournalingStepContentViewEventHandler)(ORKAVJournalingStepCo
 
 @end
 NS_ASSUME_NONNULL_END
+
+#endif
 
 #endif

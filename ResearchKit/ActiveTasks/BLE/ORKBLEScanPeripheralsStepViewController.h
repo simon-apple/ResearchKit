@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019, Apple Inc. All rights reserved.
+ Copyright (c) 2021, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,40 +28,24 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@import UIKit;
-@import AVFoundation;
-#import <ResearchKit/ORKTypes.h>
+// apple-internal
+
+#if RK_APPLE_INTERNAL
+
+#import <ResearchKit/ORKFeatureFlags.h>
+
+#if ORK_FEATURE_BLE_SCAN_PERIPHERALS
+
+#import <ResearchKit/ORKInstructionStepViewController.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol ORKHeadphoneDetectorDelegate;
-
-ORK_CLASS_AVAILABLE
-@interface ORKHeadphoneDetector : NSObject
-
-@property (nonatomic, weak) id<ORKHeadphoneDetectorDelegate> delegate;
-@property (nonatomic, readonly, nullable) NSSet<ORKHeadphoneChipsetIdentifier> *supportedHeadphoneChipsetTypes;
-
-- (instancetype)initWithDelegate:(id<ORKHeadphoneDetectorDelegate>)delegate
-       supportedHeadphoneChipsetTypes:(nullable NSSet<ORKHeadphoneChipsetIdentifier> *)supportedHeadphoneChipsetTypes;
-
-- (void)discard;
-
-+ (NSSet<ORKHeadphoneChipsetIdentifier> *)appleHeadphoneSet;
-
-@end
-
-@protocol ORKHeadphoneDetectorDelegate <NSObject>
-
-@required
-- (void)headphoneTypeDetected:(ORKHeadphoneTypeIdentifier)headphoneType vendorID:(NSString *)vendorID productID:(NSString *)productID deviceSubType:(NSInteger)deviceSubType isSupported:(BOOL)isSupported;
-
-@optional
-- (void)bluetoothModeChanged:(ORKBluetoothMode)bluetoothMode;
-- (void)podLowBatteryLevelDetected;
-- (void)wirelessSplitterMoreThanOneDeviceDetected:(BOOL)moreThanOne;
-- (void)oneAirPodRemoved;
+@interface ORKBLEScanPeripheralsStepViewController : ORKInstructionStepViewController
 
 @end
 
 NS_ASSUME_NONNULL_END
+
+#endif
+
+#endif

@@ -552,6 +552,7 @@ class ORKToneAudiometryResultTests: XCTestCase {
     }
 }
 
+#if RK_APPLE_INTERNAL
 class ORKHeadphoneDetectResultTests: XCTestCase {
     var result: ORKHeadphoneDetectResult!
     var identifier: String!
@@ -588,6 +589,7 @@ class ORKHeadphoneDetectResultTests: XCTestCase {
         XCTAssert(result.isEqual(newResult))
     }
 }
+#endif
 
 class ORKdBHLToneAudiometryResultTests: XCTestCase {
     var result: ORKdBHLToneAudiometryResult!

@@ -5,6 +5,8 @@
 //  Created by Tin Tran on 3/15/18.
 //  Copyright © 2018 Apple Inc. All rights reserved.
 //
+// apple-internal
+
 #import "ORKFlamesView.h"
 
 extern NSString *ORKGetIndexCacheEntryKey(CGRect activeFrame, ORKFlamesViewFidelity fidelity, CGFloat horizontalScaleFactor, ORKFlamesViewMode mode, int32_t viewWidth, int32_t viewHeight);

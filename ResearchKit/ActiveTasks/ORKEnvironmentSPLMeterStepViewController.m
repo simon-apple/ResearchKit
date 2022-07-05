@@ -31,7 +31,10 @@
 
 #import "ORKEnvironmentSPLMeterStepViewController.h"
 
+#if RK_APPLE_INTERNAL
 #import "ORKContext.h"
+#endif
+
 #import "ORKActiveStepView.h"
 #import "ORKStepView.h"
 #import "ORKStepContainerView_Private.h"
@@ -54,7 +57,9 @@
 #include <sys/sysctl.h>
 
 static const NSTimeInterval SPL_METER_PLAY_DELAY_VOICEOVER = 3.0;
+#if RK_APPLE_INTERNAL
 static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;
+#endif
 
 @interface ORKEnvironmentSPLMeterStepViewController ()<ORKRingViewDelegate, ORKEnvironmentSPLMeterContentViewVoiceOverDelegate> {
     AVAudioEngine *_audioEngine;
@@ -119,10 +124,14 @@ static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;
     [self requestRecordPermissionIfNeeded];
     [self configureAudioSession];
     [self setupFeedbackGenerator];
+    
+    #if RK_APPLE_INTERNAL
     [self registerNotifications];
     [self startTimeoutTimer];
+    #endif
 }
 
+#if RK_APPLE_INTERNAL
 - (void)registerNotifications {
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center addObserver:self selector:@selector(appWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
@@ -206,6 +215,8 @@ static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;
     _timeoutTimer = nil;
 }
 
+#endif
+
 - (void)saveAudioSession {
     AVAudioSession *audioSession = [AVAudioSession sharedInstance];
     _savedSessionCategory = audioSession.category;
@@ -218,9 +229,10 @@ static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;
     self.activeStepView.navigationFooterView.continueButtonItem = self.continueButtonItem;
     self.activeStepView.navigationFooterView.continueEnabled = NO;
     [self.activeStepView.navigationFooterView updateContinueAndSkipEnabled];
-    
+    #if RK_APPLE_INTERNAL
     ORKTaskViewController *taskViewController = self.taskViewController;
     ORKStep *nextStep = [taskViewController.task stepAfterStep:self.step withResult:taskViewController.result];
+    
     if (nextStep && [nextStep.context isKindOfClass:[ORKSpeechInNoisePredefinedTaskContext class]])
     {
         ORKSpeechInNoisePredefinedTaskContext *context = (ORKSpeechInNoisePredefinedTaskContext *)nextStep.context;
@@ -233,6 +245,7 @@ static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;
             [self setContinueButtonTitle:ORKLocalizedString(@"BUTTON_START_TEST", nil)];
         }
     }
+    #endif
 }
 
 - (void)setContinueButtonItem:(UIBarButtonItem *)continueButtonItem {
@@ -266,7 +279,10 @@ static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;
     [super viewWillDisappear:animated];
     [self stopAudioEngine];
     [self resetAudioSession];
+    
+    #if RK_APPLE_INTERNAL
     [self removeObservers];
+    #endif
 }
 
 - (NSString *)deviceType {
@@ -301,6 +317,8 @@ static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;
     return sResult;
 }
 
+#if RK_APPLE_INTERNAL
+
 - (nullable ORKSpeechInNoisePredefinedTaskContext *)speechInNoisePredefinedTaskContext
 {
     if ([self.step.context isKindOfClass:[ORKSpeechInNoisePredefinedTaskContext class]])
@@ -309,6 +327,7 @@ static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;
     }
     return nil;
 }
+#endif
 
 - (void)requestRecordPermissionIfNeeded
 {
@@ -324,8 +343,23 @@ static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;
             
         case AVAudioSessionRecordPermissionDenied:
         {
+            #if RK_APPLE_INTERNAL
+            id<ORKTask> task = self.step.task;
+            id<ORKContext> context = self.step.context;
+            if (context && task && [self.step.context respondsToSelector:@selector(didNotAllowRequiredHealthPermissionsForTask:)])
+            {
+                NSString *identifier = [self.step.context didNotAllowRequiredHealthPermissionsForTask:task];
+                [[self taskViewController] flipToPageWithIdentifier:identifier forward:YES animated:NO];
+            }
+            else
+            {
+                ORK_Log_Error("User has denied record permission for a step which requires microphone access.");
+                // TODO: Error message to the user instructing them to enable microphone access.
+            }
+            #else
             ORK_Log_Error("User has denied record permission for a step which requires microphone access.");
-            // TODO: Error message to the user instructing them to enable microphone access.
+            #endif
+            
             break;
         }
         case AVAudioSessionRecordPermissionUndetermined:
@@ -551,9 +585,13 @@ static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;
 }
 
 - (void)reachedOptimumNoiseLevel {
+    
+    #if RK_APPLE_INTERNAL
     [self stopAudioEngine];
     [self sendHapticEvent:UINotificationFeedbackTypeSuccess];
     [self stopTimeoutTimer];
+    #endif
+    
     [self resetAudioSession];
 }
 

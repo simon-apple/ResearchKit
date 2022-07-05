@@ -3000,6 +3000,19 @@
 			name = "HealthKit Permission Type";
 			sourceTree = "<group>";
 		};
+		51EE449C28186AA60051AB68 /* BLE */ = {
+			isa = PBXGroup;
+			children = (
+				5D77C89C2683BF920045A513 /* ORKBLEScanPeripheralsStep.h */,
+				5D77C89D2683BF920045A513 /* ORKBLEScanPeripheralsStep.m */,
+				5DE6CBD52683ED3300007536 /* ORKBLEScanPeripheralsStepViewController.h */,
+				5DE6CBD62683ED3300007536 /* ORKBLEScanPeripheralsStepViewController.m */,
+				5D5BD0652695099F003E2036 /* ORKBLEScanPeripheralsStepResult.h */,
+				5D5BD0662695099F003E2036 /* ORKBLEScanPeripheralsStepResult.m */,
+			);
+			path = BLE;
+			sourceTree = "<group>";
+		};
 		5D000EC02620F27100E5442A /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
@@ -3123,19 +3136,6 @@
 				5D43C5D024217393006F4084 /* ORKRecordButton.m */,
 			);
 			name = ORKRecordButton;
-			sourceTree = "<group>";
-		};
-		5D77C8972683BA5A0045A513 /* ORKBLE */ = {
-			isa = PBXGroup;
-			children = (
-				5D77C89C2683BF920045A513 /* ORKBLEScanPeripheralsStep.h */,
-				5D77C89D2683BF920045A513 /* ORKBLEScanPeripheralsStep.m */,
-				5DE6CBD52683ED3300007536 /* ORKBLEScanPeripheralsStepViewController.h */,
-				5DE6CBD62683ED3300007536 /* ORKBLEScanPeripheralsStepViewController.m */,
-				5D5BD0652695099F003E2036 /* ORKBLEScanPeripheralsStepResult.h */,
-				5D5BD0662695099F003E2036 /* ORKBLEScanPeripheralsStepResult.m */,
-			);
-			name = ORKBLE;
 			sourceTree = "<group>";
 		};
 		5D8D87B1251919EF0030E058 /* Step Views */ = {
@@ -3311,6 +3311,7 @@
 		86C40AF91A8D7C5B00081FAC /* Active Tasks */ = {
 			isa = PBXGroup;
 			children = (
+				51EE449C28186AA60051AB68 /* BLE */,
 				51814E6726432CFA009E8C98 /* ORKSpeechInNoise */,
 				51814E6626432BF0009E8C98 /* Tinnitus */,
 				51814E6026432ABC009E8C98 /* ORKVolumeCalibration */,
@@ -3336,7 +3337,6 @@
 				25F5CEDC1B4C3F1D0031E2A4 /* TowerOfHanoi */,
 				781D54091DF884C400223305 /* Trailmaking */,
 				10BAA2CC1B5FCDB1004FE478 /* Walking */,
-				5D77C8972683BA5A0045A513 /* ORKBLE */,
 			);
 			name = "Active Tasks";
 			path = ActiveTasks;
@@ -3612,7 +3612,7 @@
 				AE75433524E32C8A00E4C7CF /* Early Termination */,
 				5175145B245A4FCA009E8FFC /* Front Facing Camera */,
 				511987C024632E33004FC2C7 /* Request Permissions Step */,
-				E2BC456122D76C38009DAAAE /* Headphone Detect Step */,
+				E2BC456122D76C38009DAAAE /* HeadphoneDetectStep */,
 				B12EFF351AB2116400A80147 /* Instruction Step */,
 				B12EFF361AB2117B00A80147 /* Question Step */,
 				B12EFF3C1AB211FB00A80147 /* Form Step */,
@@ -4517,7 +4517,7 @@
 			path = PrivateHeaders;
 			sourceTree = "<group>";
 		};
-		E2BC456122D76C38009DAAAE /* Headphone Detect Step */ = {
+		E2BC456122D76C38009DAAAE /* HeadphoneDetectStep */ = {
 			isa = PBXGroup;
 			children = (
 				E21D345D22D916E000CCB022 /* ORKHeadphoneDetectResult.h */,
@@ -4533,7 +4533,7 @@
 				5D04884625EEDB6F0006C68B /* ORKHeadphonesRequiredCompletionStepViewController.h */,
 				5D04884725EEDB6F0006C68B /* ORKHeadphonesRequiredCompletionStepViewController.m */,
 			);
-			path = "Headphone Detect Step";
+			path = HeadphoneDetectStep;
 			sourceTree = "<group>";
 		};
 		F0945126283EAADD00C2B237 /* Typing */ = {
@@ -6084,7 +6084,12 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5D000EC32620F27100E5442A /* ResearchKit-Skywagon-Stable.xcconfig */;
 			buildSettings = {
+				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = (
+					"$(inherited)",
+					"$(ORK_GCC_PREPROCESSOR_DEFINITIONS)",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				ORK_GCC_PREPROCESSOR_DEFINITIONS = "RK_APPLE_INTERNAL=1 ORK_FEATURE_AV_JOURNALING=1 ORK_FEATURE_AV_JOURNALING_DEPTH_DATA_COLLECTION=1 ORK_FEATURE_BLE_SCAN_PERIPHERALS=1";
 			};
 			name = "Skywagon Stable";
 		};
@@ -6114,6 +6119,7 @@
 			baseConfigurationReference = 5D000EC82620F27100E5442A /* ResearchKit-Skywagon-Internal-Release.xcconfig */;
 			buildSettings = {
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				ORK_GCC_PREPROCESSOR_DEFINITIONS = "RK_APPLE_INTERNAL=1 ORK_FEATURE_AV_JOURNALING=1 ORK_FEATURE_AV_JOURNALING_DEPTH_DATA_COLLECTION=1 ORK_FEATURE_BLE_SCAN_PERIPHERALS=1";
 			};
 			name = "Skywagon Internal Release";
 		};
@@ -6143,6 +6149,7 @@
 			baseConfigurationReference = 5D000EC52620F27100E5442A /* ResearchKit-Skywagon-Public-Release.xcconfig */;
 			buildSettings = {
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				ORK_GCC_PREPROCESSOR_DEFINITIONS = "RK_APPLE_INTERNAL=1 ORK_FEATURE_AV_JOURNALING=1 ORK_FEATURE_AV_JOURNALING_DEPTH_DATA_COLLECTION=1 ORK_FEATURE_BLE_SCAN_PERIPHERALS=1";
 			};
 			name = "Skywagon Public Release";
 		};
@@ -6262,7 +6269,12 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5D000EC22620F27100E5442A /* ResearchKit-Debug.xcconfig */;
 			buildSettings = {
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"$(ORK_GCC_PREPROCESSOR_DEFINITIONS)",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				ORK_GCC_PREPROCESSOR_DEFINITIONS = "RK_APPLE_INTERNAL=1 ORK_FEATURE_AV_JOURNALING=1 ORK_FEATURE_AV_JOURNALING_DEPTH_DATA_COLLECTION=1 ORK_FEATURE_BLE_SCAN_PERIPHERALS=1";
 				"OTHER_SWIFT_FLAGS[arch=*]" = "-runtime-compatibility-version none";
 			};
 			name = Debug;
@@ -6272,6 +6284,7 @@
 			baseConfigurationReference = 5D000EC62620F27100E5442A /* ResearchKit-Release.xcconfig */;
 			buildSettings = {
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				ORK_GCC_PREPROCESSOR_DEFINITIONS = "RK_APPLE_INTERNAL=1 ORK_FEATURE_AV_JOURNALING=1 ORK_FEATURE_AV_JOURNALING_DEPTH_DATA_COLLECTION=1 ORK_FEATURE_BLE_SCAN_PERIPHERALS=1";
 			};
 			name = Release;
 		};

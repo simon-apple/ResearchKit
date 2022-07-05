@@ -30,7 +30,10 @@
 
 #import <ResearchKitCore/ORKDefines.h>
 #import <ResearchKitCore/ORKTypes.h>
+
+#if RK_APPLE_INTERNAL
 #import <ResearchKitCore/ORKContext.h>
+#endif
 
 #import <ResearchKitCore/ORKStep.h>
 #import <ResearchKitCore/ORKInstructionStep.h>

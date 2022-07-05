@@ -28,9 +28,12 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-// start-omit-internal-code
+#if RK_APPLE_INTERNAL
 #import <ResearchKit/ORKFeatureFlags.h>
-// end-omit-internal-code
+#import <ResearchKit/ORKHeadphoneDetectResult.h>
+#import <ResearchKit/ORKHeadphoneDetector.h>
+#import <ResearchKit/ORKHeadphoneDetectStep.h>
+#endif
 
 #import <ResearchKit/ORKDefines.h>
 #import <ResearchKit/ORKTypes.h>
@@ -65,7 +68,6 @@
 #import <ResearchKit/ORKEnvironmentSPLMeterStep.h>
 #import <ResearchKit/ORKLearnMoreInstructionStep.h>
 #import <ResearchKit/ORKSecondaryTaskStep.h>
-#import <ResearchKit/ORKHeadphoneDetectStep.h>
 #import <ResearchKit/ORKRequestPermissionsStep.h>
 #import <ResearchKit/ORK3DModelStep.h>
 
@@ -91,7 +93,6 @@
 #import <ResearchKit/ORKWebViewStepResult.h>
 #import <ResearchKit/ORKEnvironmentSPLMeterResult.h>
 #import <ResearchKit/ORKResultPredicate.h>
-#import <ResearchKit/ORKHeadphoneDetectResult.h>
 #import <ResearchKit/ORKUSDZModelManagerResult.h>
 
 #import <ResearchKit/ORKTextButton.h>
@@ -119,8 +120,6 @@
 #import <ResearchKit/ORKCustomStepViewController.h>
 
 #import <ResearchKit/ORKRecorder.h>
-
-#import <ResearchKit/ORKHeadphoneDetector.h>
 
 #import <ResearchKit/ORKConsentDocument.h>
 #import <ResearchKit/ORKConsentSection.h>
@@ -156,10 +155,11 @@
 #import <ResearchKit/ORKEarlyTerminationConfiguration.h>
 #import <ResearchKit/ORKBundleAsset.h>
 
-//start-omit-internal-code
+
+#if RK_APPLE_INTERNAL
 #import <ResearchKit/ORKTypingStep.h>
+#import <ResearchKit/ORKTypingStepViewController.h>
 #import <ResearchKit/ORKAVJournalingTaskViewController.h>
 #import <ResearchKit/ORKAVJournalingResult.h>
-
 #import <ResearchKit/ORKBLEScanPeripheralsStepResult.h>
-//end-omit-internal-code
+#endif
