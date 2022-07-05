@@ -50,5 +50,4 @@
 #define ORK_FEATURE_BLE_SCAN_PERIPHERALS 0
 #endif
 
-
 #endif

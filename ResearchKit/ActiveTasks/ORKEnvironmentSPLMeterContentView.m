@@ -31,7 +31,11 @@
 
 #import "ORKEnvironmentSPLMeterContentView.h"
 #import "ORKEnvironmentSPLMeterBarView.h"
+
+#if RK_APPLE_INTERNAL
 #import "UIColor+Custom.h"
+#endif
+
 #import "ORKRoundTappingButton.h"
 #import "ORKUnitLabel.h"
 #import "ORKHelpers_Internal.h"
@@ -176,7 +180,9 @@ static const CGFloat BarViewHeight = 50.0;
 
 - (void)setProgressCircle:(CGFloat)progress {
     if (progress >= ORKRingViewMaximumValue) {
+        #if RK_APPLE_INTERNAL
         [_ringView setBackgroundLayerStrokeColor:UIColor.systemOrangeColor circleStrokeColor:UIColor.splGrayColor withAnimationDuration:0.8];
+        #endif
     } else {
         [_ringView resetLayerColors];
     }

@@ -81,7 +81,11 @@
 #import "ORKSpeechInNoiseStep.h"
 #import "ORKdBHLToneAudiometryStep.h"
 #import "ORKdBHLToneAudiometryOnboardingStep.h"
+
+#if RK_APPLE_INTERNAL
 #import "ORKHeadphoneDetectStep.h"
+#endif
+
 #import "ORKSkin.h"
 
 #import "ORKHelpers_Internal.h"
@@ -1945,13 +1949,12 @@ NSString *const ORKToneAudiometryStepIdentifier = @"tone.audiometry";
 
 #pragma mark - dBHLToneAudiometryTask
 
-NSString *const ORKdBHLToneAudiometryStepIdentifier = @"dBHL.tone.audiometry";
-NSString *const ORKdBHLToneAudiometryStep0Identifier = @"dBHL0.tone.audiometry";
 NSString *const ORKdBHLToneAudiometryStep1Identifier = @"dBHL1.tone.audiometry";
 NSString *const ORKdBHLToneAudiometryStep2Identifier = @"dBHL2.tone.audiometry";
-NSString *const ORKdBHLToneAudiometryStep3Identifier = @"dBHL3.tone.audiometry";
 
+#if RK_APPLE_INTERNAL
 NSString *const ORKdBHLToneAudiometryHeadphoneDetectStepIdentifier = @"dBHL.tone.audiometry.headphonedetect";
+#endif
 
 + (ORKNavigableOrderedTask *)dBHLToneAudiometryTaskWithIdentifier:(NSString *)identifier
                               intendedUseDescription:(nullable NSString *)intendedUseDescription
@@ -1990,12 +1993,15 @@ NSString *const ORKdBHLToneAudiometryHeadphoneDetectStepIdentifier = @"dBHL.tone
         
     }
     
+#if RK_APPLE_INTERNAL
+
     {
         ORKHeadphoneDetectStep *step = [[ORKHeadphoneDetectStep alloc] initWithIdentifier:ORKdBHLToneAudiometryHeadphoneDetectStepIdentifier headphoneTypes:ORKHeadphoneTypesSupported];
         step.title = ORKLocalizedString(@"HEADPHONE_DETECT_TITLE", nil);
         step.detailText = ORKLocalizedString(@"HEADPHONE_DETECT_TEXT", nil);
         [steps addObject:step];
     }
+#endif
     
     if (!(options & ORKPredefinedTaskOptionExcludeInstructions)) {
         {
@@ -2026,21 +2032,6 @@ NSString *const ORKdBHLToneAudiometryHeadphoneDetectStepIdentifier = @"dBHL.tone
     
     {
         ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction2StepIdentifier];
-        step.title = ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_STEP_TITLE_LEFT_EAR", nil);
-        ORKStepArrayAddStep(steps, step);
-    }
-    
-    {
-        ORKdBHLToneAudiometryStep *step = [[ORKdBHLToneAudiometryStep alloc] initWithIdentifier:ORKdBHLToneAudiometryStep1Identifier];
-        step.title = ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_TASK_TITLE_2", nil);
-        step.stepDuration = CGFLOAT_MAX;
-        step.earPreference = ORKAudioChannelLeft;
-        step.headphoneType = ORKHeadphoneTypeIdentifierAirPodsGen1;
-        ORKStepArrayAddStep(steps, step);
-    }
-    
-    {
-        ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction3StepIdentifier];
         step.title = ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_STEP_TITLE_RIGHT_EAR", nil);
         step.shouldTintImages = YES;
         
@@ -2048,11 +2039,26 @@ NSString *const ORKdBHLToneAudiometryHeadphoneDetectStepIdentifier = @"dBHL.tone
     }
     
     {
-        ORKdBHLToneAudiometryStep *step = [[ORKdBHLToneAudiometryStep alloc] initWithIdentifier:ORKdBHLToneAudiometryStep2Identifier];
+        ORKdBHLToneAudiometryStep *step = [[ORKdBHLToneAudiometryStep alloc] initWithIdentifier:ORKdBHLToneAudiometryStep1Identifier];
         step.title = ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_TASK_TITLE_2", nil);
         step.stepDuration = CGFLOAT_MAX;
         step.headphoneType = ORKHeadphoneTypeIdentifierAirPodsGen1;
         step.earPreference = ORKAudioChannelRight;
+        ORKStepArrayAddStep(steps, step);
+    }
+    
+    {
+        ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction3StepIdentifier];
+        step.title = ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_STEP_TITLE_LEFT_EAR", nil);
+        ORKStepArrayAddStep(steps, step);
+    }
+    
+    {
+        ORKdBHLToneAudiometryStep *step = [[ORKdBHLToneAudiometryStep alloc] initWithIdentifier:ORKdBHLToneAudiometryStep2Identifier];
+        step.title = ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_TASK_TITLE_2", nil);
+        step.stepDuration = CGFLOAT_MAX;
+        step.earPreference = ORKAudioChannelLeft;
+        step.headphoneType = ORKHeadphoneTypeIdentifierAirPodsGen1;
         ORKStepArrayAddStep(steps, step);
     }
     

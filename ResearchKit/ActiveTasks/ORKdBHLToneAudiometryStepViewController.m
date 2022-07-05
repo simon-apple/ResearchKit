@@ -48,15 +48,20 @@
 #import "ORKCollectionResult_Private.h"
 #import "ORKdBHLToneAudiometryResult.h"
 #import "ORKdBHLToneAudiometryStep.h"
+
+#if RK_APPLE_INTERNAL
 #import "ORKHeadphoneDetectStep.h"
+#import "ORKHeadphoneDetectResult.h"
+#endif
 
 #import "ORKHelpers_Internal.h"
 #import "ORKTaskViewController_Private.h"
 #import "ORKTaskViewController_Internal.h"
 #import "ORKOrderedTask.h"
+
 #import "ORKNavigableOrderedTask.h"
-#import "ORKHeadphoneDetectResult.h"
 #import "ORKStepNavigationRule.h"
+
 
 @interface ORKdBHLToneAudiometryTransitions: NSObject
 
@@ -108,8 +113,10 @@
     dispatch_block_t _postStimulusDelayWorkBlock;
     int _minimumThresholdCounter;
     
+#if RK_APPLE_INTERNAL
     ORKHeadphoneDetector *_headphoneDetector;
     BOOL _showingAlert;
+#endif
 }
 
 @property (nonatomic, strong) ORKdBHLToneAudiometryContentView *dBHLToneAudiometryContentView;
@@ -131,7 +138,9 @@
         _prevFreq = 0;
         _minimumThresholdCounter = 0;
         _currentTestIndex = 0;
+#if RK_APPLE_INTERNAL
         _showingAlert = NO;
+#endif
         _transitionsDictionary = [NSMutableDictionary dictionary];
         _arrayOfResultSamples = [NSMutableArray array];
         _arrayOfResultUnits = [NSMutableArray array];
@@ -177,9 +186,11 @@
     [self.activeStepView.navigationFooterView setHidden:YES];
 
     [self.dBHLToneAudiometryContentView.tapButton addTarget:self action:@selector(tapButtonPressed) forControlEvents:UIControlEventTouchDown];
-
+    
+#if RK_APPLE_INTERNAL
     _headphoneDetector = [[ORKHeadphoneDetector alloc] initWithDelegate:self
                                                 supportedHeadphoneChipsetTypes:[ORKHeadphoneDetectStep dBHLTypes]];
+    
     //TODO:- figure out where this call lives
     [[self taskViewController] lockDeviceVolume:0.5];
 
@@ -194,6 +205,7 @@
             }
         }
     }
+#endif
 
     _audioChannel = dBHLTAStep.earPreference;
     _audioGenerator = [[ORKdBHLToneAudiometryAudioGenerator alloc] initForHeadphoneType:dBHLTAStep.headphoneType];
@@ -204,7 +216,9 @@
 - (void)addObservers {
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center addObserver:self selector:@selector(appWillTerminate:) name:UIApplicationWillTerminateNotification object:nil];
+    #if RK_APPLE_INTERNAL
     [center addObserver:self selector:@selector(appDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
+    #endif
 }
 
 - (void)removeObservers {
@@ -218,11 +232,11 @@
     [self start];
     [self addObservers];
 }
-
+#if RK_APPLE_INTERNAL
 -(void)appDidBecomeActive:(NSNotification*)note {
     [self showAlertWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE_TASK_INTERRUPTED", nil) andMessage:ORKLocalizedString(@"dBHL_ALERT_TEXT_TASK_INTERRUPTED", nil)];
 }
-
+#endif
 -(void)appWillTerminate:(NSNotification*)note {
     [self stopAudio];
     [self removeObservers];
@@ -252,8 +266,12 @@
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+#if RK_APPLE_INTERNAL
     _headphoneDetector.delegate = nil;
     _headphoneDetector = nil;
+#endif
+    
     _audioGenerator.delegate = nil;
 }
 
@@ -309,9 +327,11 @@
 
 - (void)estimatedBHLAndPlayToneWithFrequency: (NSNumber *)freq {
     [self stopAudio];
+#if RK_APPLE_INTERNAL
     if (_showingAlert) {
         return;
     }
+#endif
     if (_prevFreq != [freq doubleValue]) {
         CGFloat progress = 0.001 + (CGFloat)_indexOfFreqLoopList / _freqLoopList.count;
         [self.dBHLToneAudiometryContentView setProgress:progress
@@ -501,6 +521,7 @@
     }
 }
 
+#if RK_APPLE_INTERNAL
 #pragma mark - Headphone Monitoring
 
 - (void)headphoneTypeDetected:(nonnull ORKHeadphoneTypeIdentifier)headphoneType vendorID:(nonnull NSString *)vendorID productID:(nonnull NSString *)productID deviceSubType:(NSInteger)deviceSubType isSupported:(BOOL)isSupported {
@@ -555,5 +576,6 @@
         });
     }
 }
+#endif
 
 @end

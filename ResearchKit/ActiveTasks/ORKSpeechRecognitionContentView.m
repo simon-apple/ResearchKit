@@ -29,6 +29,7 @@
  */
 
 
+
 #import "ORKSpeechRecognitionContentView.h"
 #import "ORKAudioMeteringView.h"
 
@@ -333,7 +334,7 @@ static CGFloat const ORKSpeechRecognitionContentBottomLayoutMargin = 44.0;
     }
     [_samples addObject:sample];
     
-    _samples = [ORKLastNSamples(_samples, 1) mutableCopy];
+    _samples = [ORKLastNSamples(_samples, 500) mutableCopy];
     
     [self updateGraphSamples];
 }
@@ -356,3 +357,4 @@ static CGFloat const ORKSpeechRecognitionContentBottomLayoutMargin = 44.0;
 }
 
 @end
+

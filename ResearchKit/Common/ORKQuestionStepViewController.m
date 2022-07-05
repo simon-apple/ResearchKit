@@ -63,7 +63,10 @@
 
 #import "ORKHelpers_Internal.h"
 #import "ORKSkin.h"
+
+#if RK_APPLE_INTERNAL
 #import "ORKContext.h"
+#endif
 
 #import <SwiftUI/SwiftUI.h>
 #import <ResearchKit/ResearchKit-Swift.h>
@@ -585,7 +588,8 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
 - (ORKStepResult *)result
 {
     ORKStepResult *parentResult = [super result];
-    
+
+#if RK_APPLE_INTERNAL
     if ([self.step.context isKindOfClass:[ORKSpeechInNoisePredefinedTaskContext class]])
     {
         ORKSpeechInNoisePredefinedTaskContext *speechInNoisePredefinedTaskContext = (ORKSpeechInNoisePredefinedTaskContext *)self.step.context;
@@ -594,7 +598,8 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
             return parentResult;
         }
     }
-    
+#endif
+
     ORKQuestionStep *questionStep = self.questionStep;
     
     if (self.answer) {

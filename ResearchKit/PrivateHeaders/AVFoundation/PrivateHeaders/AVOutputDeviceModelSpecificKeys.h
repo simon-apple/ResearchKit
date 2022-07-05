@@ -6,6 +6,10 @@
 	Copyright 2016-2019 Apple Inc. All rights reserved.
  
  */
+// apple-internal
+
+#if RK_APPLE_INTERNAL
+
 
 typedef NSString * AVOutputDeviceModelSpecificKey NS_STRING_ENUM;
 
@@ -23,3 +27,4 @@ AVF_EXPORT AVOutputDeviceModelSpecificKey const AVOutputDeviceBatteryLevelRightK
 AVF_EXPORT AVOutputDeviceModelSpecificKey const AVOutputDeviceSupportsDataOverACLProtocolKey SPI_AVAILABLE(macos(10.15), ios(13.0), tvos(13.0), watchos(6.0)); /* NSNumber bool */
 #endif // RC_HIDE_B288
 AVF_EXPORT AVOutputDeviceModelSpecificKey const AVOutputDeviceIsInEarKey SPI_AVAILABLE(macos(10.15), ios(13.0), tvos(13.0), watchos(6.0)); /* NSNumber bool */
+#endif

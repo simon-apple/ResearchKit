@@ -27,6 +27,9 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+// apple-internal
+
+#if RK_APPLE_INTERNAL
 
 #import <Foundation/Foundation.h>
 #import "ORKTinnitusTypes.h"
@@ -54,3 +57,5 @@ ORKTinnitusError const ORKTinnitusErrorInconsistency = @"Inconsistency";
 ORKTinnitusError const ORKTinnitusErrorTooHigh = @"TooHighFrequency";
 
 ORKTinnitusError const ORKTinnitusErrorTooLow = @"TooLowFrequency";
+
+#endif

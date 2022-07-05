@@ -29,7 +29,11 @@
  */
 
 @import UIKit;
+
+#if RK_APPLE_INTERNAL
 #import "UIColor+Custom.h"
+#endif
+
 #import "ORKRingView.h"
 
 const double ORKRingViewMinimumValue = 0.001;
@@ -199,7 +203,9 @@ static const CGFloat CircleLineWidth = 3.0;
 }
 
 - (void)resetLayerColors {
+#if RK_APPLE_INTERNAL
     _backgroundLayer.strokeColor = UIColor.splGrayColor.CGColor;
+#endif
     
     if (@available(iOS 13.0, *)) {
         _circleLayer.strokeColor = UIColor.systemGreenColor.CGColor;

@@ -7,6 +7,7 @@
 //
 
 // apple-internal
+#if RK_APPLE_INTERNAL
 
 #include <dlfcn.h>
 
@@ -154,3 +155,5 @@ ORK_SOFT_LINK_CONVERT_NONOBJECT(name, type) \
 get##name = name##Function; \
 return constant##name; \
 }
+
+#endif

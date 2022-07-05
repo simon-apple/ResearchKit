@@ -9,6 +9,7 @@
 #include <simd/simd.h>
 
 #import "ORKFlamesShaderTypes.h"
+// apple-internal
 
 using namespace metal;
 
@@ -614,3 +615,4 @@ siriDictationFragmentShader(RasterizerData in [[stage_in]])
     
     return float4(in.colorNoise.x, in.colorNoise.y, in.colorNoise.z, (x + d) * in.height_center_alpha_unitSize.z);
 }
+

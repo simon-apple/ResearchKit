@@ -4,6 +4,8 @@
 //  Created by Brandon Newendorp on 3/5/13.
 //  Copyright (c) 2013-2014 Apple Inc. All rights reserved.
 //
+// apple-internal
+
 #import "ORKAudioLevelSmoother.h"
 #import "ORKFlameGroup.h"
 #import "ORKFlamesViewLegacy.h"

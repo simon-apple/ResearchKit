@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019, Apple Inc. All rights reserved.
+ Copyright (c) 2021, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,19 +28,24 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ResearchKit/ORKCompletionStep.h>
-#import <ResearchKit/ORKHeadphoneDetectStep.h>
-#import <ResearchKit/ORKDefines.h>
+// apple-internal
+
+#if RK_APPLE_INTERNAL
+
+#import <ResearchKit/ORKFeatureFlags.h>
+
+#if ORK_FEATURE_BLE_SCAN_PERIPHERALS
+
+#import <ResearchKit/ORKInstructionStepViewController.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-ORK_CLASS_AVAILABLE
-@interface ORKHeadphonesRequiredCompletionStep : ORKCompletionStep
-
-- (instancetype)initWithIdentifier:(NSString *)identifier requiredHeadphoneTypes:(ORKHeadphoneTypes)requiredHeadphoneTypes;
-
-@property (nonatomic, assign) ORKHeadphoneTypes requiredHeadphoneTypes;
+@interface ORKBLEScanPeripheralsStepViewController : ORKInstructionStepViewController
 
 @end
 
 NS_ASSUME_NONNULL_END
+
+#endif
+
+#endif

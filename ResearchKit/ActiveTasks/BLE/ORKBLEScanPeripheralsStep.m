@@ -29,32 +29,60 @@
  */
 
 // apple-internal
+#if RK_APPLE_INTERNAL
 
 #import <ResearchKit/ORKFeatureFlags.h>
 
 #if ORK_FEATURE_BLE_SCAN_PERIPHERALS
 
-#import <ResearchKit/ORKInstructionStep.h>
+#import "ORKBLEScanPeripheralsStep.h"
+#import "ORKBLEScanPeripheralsStepViewController.h"
+#import "ORKHelpers_Internal.h"
 
-NS_ASSUME_NONNULL_BEGIN
+NSString * const ORKBLEScanPeripheralsRestorationIdentifierKey = @"ORKBLEScanPeripheralsRestorationIdentifierKey";
 
-ORK_EXTERN NSString * const ORKBLEScanPeripheralsRestorationIdentifierKey;
+NSString * const ORKBLEScanPeripheralsMinimumConnectionCountKey = @"ORKBLEScanPeripheralsMinimumConnectionCountKey";
 
-ORK_EXTERN NSString * const ORKBLEScanPeripheralsMinimumConnectionCountKey;
+NSString * const ORKBLEScanPeripheralsCapacityKey = @"ORKBLEScanPeripheralsCapacityKey";
 
-ORK_EXTERN NSString * const ORKBLEScanPeripheralsCapacityKey;
+NSString * const ORKBLEScanPeripheralsFilterDeviceNameKey = @"ORKBLEScanPeripheralsFilterDeviceNameKey";
 
-ORK_EXTERN NSString * const ORKBLEScanPeripheralsFilterDeviceNameKey;
+@implementation ORKBLEScanPeripheralsStep
 
-ORK_CLASS_AVAILABLE
-@interface ORKBLEScanPeripheralsStep : ORKInstructionStep
+- (instancetype)initWithIdentifier:(NSString *)identifier scanOptions:(NSDictionary<NSString *, id> *)scanOptions {
+    self = [super initWithIdentifier:identifier];
+    if (self) {
+        _scanOptions = [scanOptions copy];
+    }
+    return self;
+}
 
-@property (nonatomic, copy) NSDictionary<NSString *, id> *scanOptions;
+- (Class)stepViewControllerClass {
+    return [ORKBLEScanPeripheralsStepViewController class];
+}
 
-- (instancetype)initWithIdentifier:(NSString *)identifier scanOptions:(NSDictionary<NSString *, id> *)scanOptions;
+#pragma mark - NSCoding
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+    [super encodeWithCoder:coder];
+    ORK_ENCODE_OBJ(coder, scanOptions);
+}
+
+- (instancetype)initWithCoder:(NSCoder *)coder
+{
+    self = [super initWithCoder:coder];
+    if (self) {
+        ORK_DECODE_OBJ_PLIST(coder, scanOptions);
+    }
+    return self;
+}
 
 @end
 
-NS_ASSUME_NONNULL_END
+#endif
 
 #endif
