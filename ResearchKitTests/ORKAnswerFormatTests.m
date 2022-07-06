@@ -269,6 +269,194 @@
     
 }
 
+- (void)testMaxFractionDigitsZeroSuccess {
+    NSUInteger maxFractionDigits = 0;
+
+    {
+        ORKContinuousScaleAnswerFormat* scaleAnswer = [[ORKContinuousScaleAnswerFormat alloc] initWithMaximumValue:100 minimumValue:1 defaultValue:0.0 maximumFractionDigits:maxFractionDigits];
+        XCTAssertEqualObjects([scaleAnswer.numberFormatter stringFromNumber:@1.1234],  @"1");
+        XCTAssertEqualObjects([scaleAnswer.numberFormatter stringFromNumber:@1.123],  @"1");
+        XCTAssertEqualObjects([scaleAnswer.numberFormatter stringFromNumber:@1.0000],  @"1");
+        XCTAssertEqualObjects([scaleAnswer.numberFormatter stringFromNumber:@1],  @"1");
+    }
+    {
+        ORKContinuousScaleAnswerFormat* scaleAnswer = [[ORKContinuousScaleAnswerFormat alloc] initWithMaximumValue:100 minimumValue:1 defaultValue:0.0 maximumFractionDigits:maxFractionDigits];
+        XCTAssertEqualObjects([scaleAnswer.numberFormatter stringFromNumber:@99.1234],  @"99");
+        XCTAssertEqualObjects([scaleAnswer.numberFormatter stringFromNumber:@99.123],  @"99");
+        XCTAssertEqualObjects([scaleAnswer.numberFormatter stringFromNumber:@99.0000],  @"99");
+        XCTAssertEqualObjects([scaleAnswer.numberFormatter stringFromNumber:@99],  @"99");
+    }
+    {
+        ORKContinuousScaleAnswerFormat* scaleAnswer = [[ORKContinuousScaleAnswerFormat alloc] initWithMaximumValue:100 minimumValue:1 defaultValue:0.0 maximumFractionDigits:maxFractionDigits];
+        XCTAssertEqualObjects([scaleAnswer.numberFormatter stringFromNumber:@100],  @"100");
+        XCTAssertEqualObjects([scaleAnswer.numberFormatter stringFromNumber:@100.0000],  @"100");
+        XCTAssertEqualObjects([scaleAnswer.numberFormatter stringFromNumber:@100.000],  @"100");
+        XCTAssertEqualObjects([scaleAnswer.numberFormatter stringFromNumber:@100.0],  @"100");
+        XCTAssertEqualObjects([scaleAnswer.numberFormatter stringFromNumber:@99.99],  @"100");
+    }
+    
+    {
+        NSRange range = NSMakeRange(0, 1);
+        ORKContinuousScaleAnswerFormat* scaleAnswer = [[ORKContinuousScaleAnswerFormat alloc]
+                                                       initWithMaximumValue:NSMaxRange(range)
+                                                       minimumValue:range.location
+                                                       defaultValue:0.0
+                                                       maximumFractionDigits:maxFractionDigits];
+        XCTAssertEqualObjects([scaleAnswer.numberFormatter stringFromNumber:@0],  @"0");
+        XCTAssertEqualObjects([scaleAnswer.numberFormatter stringFromNumber:@000.0000],  @"0");
+        XCTAssertEqualObjects([scaleAnswer.numberFormatter stringFromNumber:@000.000],  @"0");
+        XCTAssertEqualObjects([scaleAnswer.numberFormatter stringFromNumber:@000.0],  @"0");
+
+        XCTAssertEqualObjects([scaleAnswer.numberFormatter stringFromNumber:@0.01],  @"0");
+        XCTAssertEqualObjects([scaleAnswer.numberFormatter stringFromNumber:@0.1],  @"0");
+    }
+    {
+        NSRange range = NSMakeRange(0, 1);
+        ORKContinuousScaleAnswerFormat* scaleAnswer = [[ORKContinuousScaleAnswerFormat alloc]
+                                                       initWithMaximumValue:NSMaxRange(range)
+                                                       minimumValue:range.location
+                                                       defaultValue:0.0
+                                                       maximumFractionDigits:maxFractionDigits];
+        XCTAssertEqualObjects([scaleAnswer.numberFormatter stringFromNumber:@1],  @"1");
+        XCTAssertEqualObjects([scaleAnswer.numberFormatter stringFromNumber:@1.0000],  @"1");
+        XCTAssertEqualObjects([scaleAnswer.numberFormatter stringFromNumber:@1.000],  @"1");
+        XCTAssertEqualObjects([scaleAnswer.numberFormatter stringFromNumber:@1.0],  @"1");
+        XCTAssertEqualObjects([scaleAnswer.numberFormatter stringFromNumber:@0.9],  @"1");
+    }
+}
+
+- (void)testMaxFractionDigitsThreeSuccess {
+    NSUInteger maxFractionDigits = 3;
+
+    {
+        ORKContinuousScaleAnswerFormat* scaleAnswer = [[ORKContinuousScaleAnswerFormat alloc] initWithMaximumValue:100 minimumValue:1 defaultValue:0.0 maximumFractionDigits:maxFractionDigits];
+        XCTAssertEqualObjects([scaleAnswer.numberFormatter stringFromNumber:@1.1234],  @"1.123");
+        XCTAssertEqualObjects([scaleAnswer.numberFormatter stringFromNumber:@1.123],  @"1.123");
+        XCTAssertEqualObjects([scaleAnswer.numberFormatter stringFromNumber:@1.0000],  @"1");
+        XCTAssertEqualObjects([scaleAnswer.numberFormatter stringFromNumber:@1],  @"1");
+    }
+    {
+        ORKContinuousScaleAnswerFormat* scaleAnswer = [[ORKContinuousScaleAnswerFormat alloc] initWithMaximumValue:100 minimumValue:1 defaultValue:0.0 maximumFractionDigits:maxFractionDigits];
+        XCTAssertEqualObjects([scaleAnswer.numberFormatter stringFromNumber:@99.1234],  @"99.123");
+        XCTAssertEqualObjects([scaleAnswer.numberFormatter stringFromNumber:@99.123],  @"99.123");
+        XCTAssertEqualObjects([scaleAnswer.numberFormatter stringFromNumber:@99.0000],  @"99");
+        XCTAssertEqualObjects([scaleAnswer.numberFormatter stringFromNumber:@99],  @"99");
+    }
+    {
+        ORKContinuousScaleAnswerFormat* scaleAnswer = [[ORKContinuousScaleAnswerFormat alloc] initWithMaximumValue:100 minimumValue:1 defaultValue:0.0 maximumFractionDigits:maxFractionDigits];
+        XCTAssertEqualObjects([scaleAnswer.numberFormatter stringFromNumber:@100],  @"100");
+        XCTAssertEqualObjects([scaleAnswer.numberFormatter stringFromNumber:@100.0000],  @"100");
+        XCTAssertEqualObjects([scaleAnswer.numberFormatter stringFromNumber:@100.000],  @"100");
+        XCTAssertEqualObjects([scaleAnswer.numberFormatter stringFromNumber:@100.0],  @"100");
+    }
+}
+
+- (void)testMaxFractionDigitsClamping {
+    {
+        NSUInteger maxFractionDigits = 5;
+        ORKContinuousScaleAnswerFormat* scaleAnswer = [[ORKContinuousScaleAnswerFormat alloc] initWithMaximumValue:10 minimumValue:1 defaultValue:0.0 maximumFractionDigits:maxFractionDigits];
+        XCTAssertEqualObjects([scaleAnswer.numberFormatter stringFromNumber:@99.12345],  @"99.1234");
+    }
+    {
+        NSUInteger maxFractionDigits = -1;
+        ORKContinuousScaleAnswerFormat* scaleAnswer = [[ORKContinuousScaleAnswerFormat alloc] initWithMaximumValue:10 minimumValue:1 defaultValue:0.0 maximumFractionDigits:maxFractionDigits];
+        XCTAssertEqualObjects([scaleAnswer.numberFormatter stringFromNumber:@99.12345],  @"99");
+    }
+}
+
+- (void)testMaxFractionDigitsFailures {
+
+    XCTAssertThrowsSpecificNamed([[ORKContinuousScaleAnswerFormat alloc] initWithMaximumValue:100 minimumValue:1 defaultValue:0.0 maximumFractionDigits:4], NSException, NSInvalidArgumentException, @"Shoud throw NSInvalidArgumentException since 100 with 4 fractional digits would be over 6 digits");
+    
+    XCTAssertThrowsSpecificNamed([[ORKContinuousScaleAnswerFormat alloc] initWithMaximumValue:1000 minimumValue:1 defaultValue:0.0 maximumFractionDigits:3], NSException, NSInvalidArgumentException, @"Shoud throw NSInvalidArgumentException since 1000 with 3 fractional digits would be over 6 digits");
+    
+    XCTAssertThrowsSpecificNamed([[ORKContinuousScaleAnswerFormat alloc] initWithMaximumValue:10000 minimumValue:1 defaultValue:0.0 maximumFractionDigits:2], NSException, NSInvalidArgumentException, @"Shoud throw NSInvalidArgumentException since 10000 with 2 fractional digits would be over 6 digits");
+    
+    XCTAssertThrowsSpecificNamed([[ORKContinuousScaleAnswerFormat alloc] initWithMaximumValue:100000 minimumValue:1 defaultValue:0.0 maximumFractionDigits:1], NSException, NSInvalidArgumentException, @"Shoud throw NSInvalidArgumentException since 100000 with 1 fractional digits would be over 6 digits");
+    
+    XCTAssertThrowsSpecificNamed([[ORKContinuousScaleAnswerFormat alloc] initWithMaximumValue:1000000 minimumValue:1 defaultValue:0.0 maximumFractionDigits:0], NSException, NSInvalidArgumentException, @"Shoud throw NSInvalidArgumentException since 1000000 with 0 fractional digits would be over 6 digits");
+    
+}
+
+- (void)testMaxFractionDigits {
+    
+    // testing that we can display 6 digits in all numeric scenarios, including decimal
+
+    // Testing max values with increasing maxFractionDigits
+    
+    ORKContinuousScaleAnswerFormat* scaleAnswer = [[ORKContinuousScaleAnswerFormat alloc] initWithMaximumValue:100 minimumValue:1 defaultValue:1 maximumFractionDigits:3];
+    XCTAssertEqualObjects([scaleAnswer.numberFormatter stringFromNumber:@0.001],  @"0.001");
+    
+    ORKContinuousScaleAnswerFormat* scaleAnswer2 = [[ORKContinuousScaleAnswerFormat alloc] initWithMaximumValue:11 minimumValue:1 defaultValue:1 maximumFractionDigits:3];
+    XCTAssertEqualObjects([scaleAnswer2.numberFormatter stringFromNumber:@10.999],  @"10.999");
+
+    ORKContinuousScaleAnswerFormat* scaleAnswer3 = [[ORKContinuousScaleAnswerFormat alloc] initWithMaximumValue:9.999 minimumValue:1 defaultValue:1 maximumFractionDigits:3];
+    XCTAssertEqualObjects([scaleAnswer3.numberFormatter stringFromNumber:@9.999],  @"9.999");
+
+    ORKContinuousScaleAnswerFormat* scaleAnswer4 = [[ORKContinuousScaleAnswerFormat alloc] initWithMaximumValue:9.9999 minimumValue:1 defaultValue:1 maximumFractionDigits:4];
+    XCTAssertEqualObjects([scaleAnswer4.numberFormatter stringFromNumber:@1.0008],  @"1.0008");
+
+    // Testing min values with increasing maxFractionDigits
+    
+    ORKContinuousScaleAnswerFormat* scaleAnswer5 = [[ORKContinuousScaleAnswerFormat alloc] initWithMaximumValue:1 minimumValue:0 defaultValue:1 maximumFractionDigits:3];
+    XCTAssertEqualObjects([scaleAnswer5.numberFormatter stringFromNumber:@0.005],  @"0.005");
+
+    ORKContinuousScaleAnswerFormat* scaleAnswer6 = [[ORKContinuousScaleAnswerFormat alloc] initWithMaximumValue:1 minimumValue:0 defaultValue:0 maximumFractionDigits:4];
+    XCTAssertEqualObjects([scaleAnswer6.numberFormatter stringFromNumber:@0.0001],  @"0.0001");
+
+    // Testing min values with decreasing min values
+    
+    ORKContinuousScaleAnswerFormat* scaleAnswer7 = [[ORKContinuousScaleAnswerFormat alloc] initWithMaximumValue:0 minimumValue:-99.999 defaultValue:0 maximumFractionDigits:3];
+    XCTAssertEqualObjects([scaleAnswer7.numberFormatter stringFromNumber:@-0.123],  @"-0.123");
+
+    ORKContinuousScaleAnswerFormat* scaleAnswer8 = [[ORKContinuousScaleAnswerFormat alloc] initWithMaximumValue:0 minimumValue:-1 defaultValue:0 maximumFractionDigits:4];
+    XCTAssertEqualObjects([scaleAnswer8.numberFormatter stringFromNumber:@-0.0001],  @"-0.0001");
+
+    ORKContinuousScaleAnswerFormat* scaleAnswer9 = [[ORKContinuousScaleAnswerFormat alloc] initWithMaximumValue:0 minimumValue:-10 defaultValue:0 maximumFractionDigits:3];
+    XCTAssertEqualObjects([scaleAnswer9.numberFormatter stringFromNumber:@-9.999],  @"-9.999");
+
+    ORKContinuousScaleAnswerFormat* scaleAnswer10 = [[ORKContinuousScaleAnswerFormat alloc] initWithMaximumValue:0 minimumValue:-100 defaultValue:0 maximumFractionDigits:2];
+    XCTAssertEqualObjects([scaleAnswer10.numberFormatter stringFromNumber:@-99.01],  @"-99.01");
+
+    ORKContinuousScaleAnswerFormat* scaleAnswer11 = [[ORKContinuousScaleAnswerFormat alloc] initWithMaximumValue:0 minimumValue:-1000 defaultValue:0 maximumFractionDigits:1];
+    XCTAssertEqualObjects([scaleAnswer11.numberFormatter stringFromNumber:@-9999.1],  @"-9,999.1");
+
+    ORKContinuousScaleAnswerFormat* scaleAnswer12 = [[ORKContinuousScaleAnswerFormat alloc] initWithMaximumValue:0 minimumValue:-10000 defaultValue:0 maximumFractionDigits:0];
+    XCTAssertEqualObjects([scaleAnswer12.numberFormatter stringFromNumber:@-99999],  @"-99,999");
+    
+    // Testing larger numbers
+    XCTAssertThrowsSpecificNamed([[ORKContinuousScaleAnswerFormat alloc] initWithMaximumValue:100 minimumValue:1 defaultValue:0 maximumFractionDigits:4], NSException, NSInvalidArgumentException, @"Shoud throw NSInvalidArgumentException since 100 with 4 fractional digits would be over 6 digits");
+    
+    XCTAssertThrowsSpecificNamed([[ORKContinuousScaleAnswerFormat alloc] initWithMaximumValue:1000 minimumValue:1 defaultValue:0 maximumFractionDigits:3], NSException, NSInvalidArgumentException, @"Shoud throw NSInvalidArgumentException since 1000 with 3 fractional digits would be over 6 digits");
+    
+    XCTAssertThrowsSpecificNamed([[ORKContinuousScaleAnswerFormat alloc] initWithMaximumValue:10000 minimumValue:1 defaultValue:0 maximumFractionDigits:2], NSException, NSInvalidArgumentException, @"Shoud throw NSInvalidArgumentException since 10000 with 2 fractional digits would be over 6 digits");
+    
+    XCTAssertThrowsSpecificNamed([[ORKContinuousScaleAnswerFormat alloc] initWithMaximumValue:100000 minimumValue:1 defaultValue:0 maximumFractionDigits:1], NSException, NSInvalidArgumentException, @"Shoud throw NSInvalidArgumentException since 100000 with 1 fractional digits would be over 6 digits");
+    
+    XCTAssertThrowsSpecificNamed([[ORKContinuousScaleAnswerFormat alloc] initWithMaximumValue:1000000 minimumValue:1 defaultValue:0 maximumFractionDigits:0], NSException, NSInvalidArgumentException, @"Shoud throw NSInvalidArgumentException since 1000000 with 0 fractional digits would be over 6 digits");
+    
+    // testing commas
+    ORKContinuousScaleAnswerFormat* scaleAnswerComma = [[ORKContinuousScaleAnswerFormat alloc] initWithMaximumValue:100000 minimumValue:0 defaultValue:0 maximumFractionDigits:0];
+    XCTAssertEqualObjects([scaleAnswerComma.numberFormatter stringFromNumber:@999999],  @"999,999");
+    
+    ORKContinuousScaleAnswerFormat* scaleAnswerComma2 = [[ORKContinuousScaleAnswerFormat alloc] initWithMaximumValue:1 minimumValue:-100000 defaultValue:0 maximumFractionDigits:0];
+    XCTAssertEqualObjects([scaleAnswerComma2.numberFormatter stringFromNumber:@-999999],  @"-999,999");
+    
+    // Testing decimal clipping bounds should clip at 6 digits max
+    ORKContinuousScaleAnswerFormat* scaleAnswer13 = [[ORKContinuousScaleAnswerFormat alloc] initWithMaximumValue:1 minimumValue:0 defaultValue:0 maximumFractionDigits:8];
+    XCTAssertEqualObjects([scaleAnswer13.numberFormatter stringFromNumber:@0.12345678],  @"0.1235");
+    
+    ORKContinuousScaleAnswerFormat* scaleAnswer14 = [[ORKContinuousScaleAnswerFormat alloc] initWithMaximumValue:1 minimumValue:0 defaultValue:0 maximumFractionDigits:5];
+    XCTAssertEqualObjects([scaleAnswer14.numberFormatter stringFromNumber:@0.12345678],  @"0.1235");
+    
+    ORKContinuousScaleAnswerFormat* scaleAnswer15 = [[ORKContinuousScaleAnswerFormat alloc] initWithMaximumValue:1 minimumValue:0 defaultValue:0 maximumFractionDigits:10];
+    XCTAssertEqualObjects([scaleAnswer15.numberFormatter stringFromNumber:@0.12345678],  @"0.1235");
+    
+    ORKContinuousScaleAnswerFormat* scaleAnswer16 = [[ORKContinuousScaleAnswerFormat alloc] initWithMaximumValue:1 minimumValue:0 defaultValue:0 maximumFractionDigits:-5];
+    XCTAssertEqualObjects([scaleAnswer16.numberFormatter stringFromNumber:@0.12345678],  @"0");
+    
+}
+
 - (void)testScaleAnswerFormat {
     
     ORKScaleAnswerFormat *answerFormat = [ORKAnswerFormat scaleAnswerFormatWithMaximumValue:100

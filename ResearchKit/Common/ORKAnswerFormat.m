@@ -2462,8 +2462,8 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
 - (void)validateParameters {
     [super validateParameters];
     
-    const double ORKScaleAnswerFormatValueLowerbound = -10000;
-    const double ORKScaleAnswerFormatValueUpperbound = 10000;
+    const double ORKScaleAnswerFormatValueLowerbound = -100000;
+    const double ORKScaleAnswerFormatValueUpperbound = 100000;
     
     // Just clamp maximumFractionDigits to be 0-4. This is all aimed at keeping the maximum
     // number of digits down to 6 or less.
