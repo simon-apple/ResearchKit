@@ -247,7 +247,8 @@ static OSStatus ORKTinnitusAudioGeneratorRenderTone(void *inRefCon,
     }
     
     NSDecimalNumber *offsetDueToVolume = [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%.1f", [_headphoneTable gainForSystemVolume:_systemVolume interpolated:YES]]];
-    NSDecimalNumber *dbSPLAmplitudePerFrequency =  [NSDecimalNumber decimalNumberWithString:_headphoneTable.dbSPLAmplitudePerFrequency[[NSString stringWithFormat:@"%.0f",_frequency]]];
+    NSDecimalNumber *dbSPLAmplitudePerFrequency = [NSDecimalNumber decimalNumberWithString:_headphoneTable.dbSPLAmplitudePerFrequency[[NSString stringWithFormat:@"%.0f",_frequency]]];
+    NSDecimalNumber *dbAmplitudePerFrequency = [NSDecimalNumber decimalNumberWithString:_headphoneTable.dbAmplitudePerFrequency[[NSString stringWithFormat:@"%.0f",_frequency]]];
 
     NSDecimalNumberHandler *behavior = [NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundPlain
                                                                                               scale:2
@@ -257,7 +258,8 @@ static OSStatus ORKTinnitusAudioGeneratorRenderTone(void *inRefCon,
                                                                                 raiseOnDivideByZero:NO];
     
     NSDecimalNumber *updated_dBSPLForVolumeCurve = [dbSPLAmplitudePerFrequency decimalNumberByAdding:offsetDueToVolume withBehavior:behavior];
-    return [updated_dBSPLForVolumeCurve floatValue];
+    NSDecimalNumber *updated_dBSPLForEqualLoudness = [updated_dBSPLForVolumeCurve decimalNumberByAdding:dbAmplitudePerFrequency withBehavior:behavior];
+    return [updated_dBSPLForEqualLoudness floatValue];
 }
 
 - (void)playSoundAtFrequency:(double)playFrequency {
