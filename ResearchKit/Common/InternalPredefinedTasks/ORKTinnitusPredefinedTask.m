@@ -575,7 +575,13 @@ static NSString *const ORKTinnitusHeadphoneRequiredStepIdentifier = @"ORKTinnitu
             return [self stepWithIdentifier:ORKTinnitusMaskingSoundInstructionStepIdentifier];
         } else if ([identifier isEqualToString:[ORKTinnitusPredefinedTask getRoundIdentifierForNumber:3]]) {
             _context.predominantFrequency = [self predominantFrequencyForResult:result];
-            if (_context.predominantFrequency > 0.0) {
+            // getting maximum and minimum frequencies used by the puretone step
+            ORKTinnitusPureToneStep *lastPuretoneStep = (ORKTinnitusPureToneStep *)[self stepWithIdentifier:[ORKTinnitusPredefinedTask getRoundIdentifierForNumber:3]];
+            NSNumber *max = [lastPuretoneStep.listOfChoosableFrequencies valueForKeyPath:@"@max.self"];
+            NSNumber *min = [lastPuretoneStep.listOfChoosableFrequencies valueForKeyPath:@"@min.self"];
+            if (_context.predominantFrequency > 0.0 &&
+                _context.predominantFrequency != [max doubleValue] &&
+                _context.predominantFrequency != [min doubleValue]) {
                 return [self stepWithIdentifier:ORKTinnitusPuretoneLoudnessMatchingStepIdentifier];
             }
             return [self stepWithIdentifier:ORKTinnitusMaskingSoundInstructionStepIdentifier];
