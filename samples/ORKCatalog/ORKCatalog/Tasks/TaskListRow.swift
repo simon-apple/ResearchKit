@@ -69,6 +69,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     case customBooleanQuestion
     case dateQuestion
     case dateTimeQuestion
+    case date3DayLimitQuestionTask
     case imageChoiceQuestion
     case locationQuestion
     case numericQuestion
@@ -154,6 +155,7 @@ enum TaskListRow: Int, CustomStringConvertible {
                     .customBooleanQuestion,
                     .dateQuestion,
                     .dateTimeQuestion,
+                    .date3DayLimitQuestionTask,
                     .heightQuestion,
                     .weightQuestion,
                     .imageChoiceQuestion,
@@ -257,6 +259,9 @@ enum TaskListRow: Int, CustomStringConvertible {
         case .dateTimeQuestion:
             return NSLocalizedString("Date and Time Question", comment: "")
             
+        case .date3DayLimitQuestionTask:
+            return NSLocalizedString("Date and Time 3 day Limit Question", comment: "")
+
         case .heightQuestion:
             return NSLocalizedString("Height Question", comment: "")
     
@@ -462,7 +467,8 @@ enum TaskListRow: Int, CustomStringConvertible {
         // Task with an example of date entry.
         case dateQuestionTask
         case dateQuestionStep
-        
+        case date3DayLimitQuestionTask
+
         // Task with an example of date and time entry.
         case dateTimeQuestionTask
         case dateTimeQuestionStep
@@ -649,6 +655,9 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .dateTimeQuestion:
             return dateTimeQuestionTask
+            
+        case .date3DayLimitQuestionTask:
+            return dateLimited3DayQuestionTask
 
         case .heightQuestion:
             return heightQuestionTask
@@ -1075,6 +1084,22 @@ enum TaskListRow: Int, CustomStringConvertible {
         
         return ORKOrderedTask(identifier: String(describing: Identifier.dateQuestionTask), steps: [step])
     }
+    
+    /// This task demonstrates a question which asks for a date.
+    private var dateLimited3DayQuestionTask: ORKTask {
+        /*
+        The date answer format can also support minimum and maximum limits,
+        a specific default value, and overriding the calendar to use.
+        */
+        let answerFormat = ORKAnswerFormat.dateAnswerFormatWithDays(beforeCurrentDate: 3, daysAfterCurrentDate: 3, calendar: nil)
+        
+        let step = ORKQuestionStep(identifier: String(describing: Identifier.dateQuestionStep), title: NSLocalizedString("Date", comment: ""), question: exampleQuestionText, answer: answerFormat)
+        
+        step.text = exampleDetailText
+        
+        return ORKOrderedTask(identifier: String(describing: Identifier.dateQuestionTask), steps: [step])
+    }
+    
     
     /// This task demonstrates a question asking for a date and time of an event.
     private var dateTimeQuestionTask: ORKTask {
