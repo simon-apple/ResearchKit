@@ -261,7 +261,6 @@ const NSTimeInterval ORKVolumeCalibrationFadeStep = 0.01;
 - (void)headphoneChanged:(NSNotification *)note {
     if (self.tinnitusPredefinedTaskContext != nil) {
         [self.contentView setPlaybackButtonPlaying:NO];
-        self.contentView.delegate = nil;
         [self stopSample];
     }
 }
@@ -275,6 +274,7 @@ const NSTimeInterval ORKVolumeCalibrationFadeStep = 0.01;
 -(void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     [self tearDownAudioEngine];
+    self.contentView.delegate = nil;
 }
 
 - (void)setNavigationFooterView {

@@ -64,6 +64,7 @@ ORK_CLASS_AVAILABLE
 - (void)podLowBatteryLevelDetected;
 - (void)wirelessSplitterMoreThanOneDeviceDetected:(BOOL)moreThanOne;
 - (void)oneAirPodRemoved;
+- (void)oneAirPodInserted;
 
 @end
 
