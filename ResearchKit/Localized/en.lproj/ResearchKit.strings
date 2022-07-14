@@ -361,11 +361,19 @@
 "AIRPODSMAX" = "AirPods Max";
 "EARPODS" = "EarPods";
 "HEADPHONES" = "Headphones";
-"HEADPHONES_UNKNOWN" = "Unknown";
 "HEADPHONES_NONE" = "None";
-"CONNECTED" = "Connected";
-"NOT_CONNECTED" = "Not Connected";
-"HEADPHONE_CONNECTED_%@" = "Connected - %@";
+"AIRPODS_CONNECTED" = "Connected";
+"AIRPODSPRO_CONNECTED" = "Connected";
+"AIRPODSMAX_CONNECTED" = "Connected";
+"EARPODS_CONNECTED" = "Connected";
+"AIRPODS_NOT_CONNECTED" = "Not Connected";
+"AIRPODSPRO_NOT_CONNECTED" = "Not Connected";
+"AIRPODSMAX_NOT_CONNECTED" = "Not Connected";
+"EARPODS_NOT_CONNECTED" = "Not Connected";
+"HEADPHONE_CONNECTED_AIRPODS" = "Connected - AirPods";
+"HEADPHONE_CONNECTED_AIRPODSPRO" = "Connected - AirPods Pro";
+"HEADPHONE_CONNECTED_AIRPODSMAX" = "Connected - AirPods Max";
+"HEADPHONE_CONNECTED_EARPODS" = "Connected - EarPods";
 "HEADPHONE_DETECT_TITLE" = "Connect your Headphones";
 "HEADPHONE_DETECT_TEXT" = "To ensure accurate results, this task requires Apple AirPods, AirPods Pro, AirPods Max or EarPods.";
 
