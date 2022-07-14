@@ -86,6 +86,7 @@ static NSString *const ORKTinnitusHeadphoneRequiredStepIdentifier = @"ORKTinnitu
     ORKHeadphoneDetector *_headphoneDetector;
     BOOL _showingAlert;
     ORKTaskViewController *_taskViewController;
+    UIAlertAction *_continueAction;
 }
 
 @end
@@ -133,34 +134,58 @@ static NSString *const ORKTinnitusHeadphoneRequiredStepIdentifier = @"ORKTinnitu
     [self resetVariables];
 }
 
-- (void)showAlertWithTitle:(NSString*)title message:(NSString*)message {
-    if (!_showingAlert && _taskViewController != nil) {
-        _showingAlert = YES;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            UIAlertController *alertController = [UIAlertController
-                                                  alertControllerWithTitle:title
-                                                  message:message
-                                                  preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *startOver = [UIAlertAction
-                                        actionWithTitle:ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_START_OVER", nil)
-                                        style:UIAlertActionStyleDefault
-                                        handler:^(UIAlertAction *action) {
-                [_taskViewController restartTask];
-                [self resetVariables];
-            }];
-            [alertController addAction:startOver];
-            [alertController addAction:[UIAlertAction
-                                        actionWithTitle:ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_CANCEL_TEST", nil)
-                                        style:UIAlertActionStyleDefault
-                                        handler:^(UIAlertAction *action) {
-                ORKStrongTypeOf(_taskViewController.delegate) strongDelegate = _taskViewController.delegate;
-                if ([strongDelegate respondsToSelector:@selector(taskViewController:didFinishWithReason:error:)]) {
-                    [strongDelegate taskViewController:_taskViewController didFinishWithReason:ORKTaskViewControllerFinishReasonDiscarded error:nil];
-                }
-            }]];
-            alertController.preferredAction = startOver;
-            [_taskViewController.currentStepViewController presentViewController:alertController animated:YES completion:nil];
-        });
+- (void)showAlert {
+    if (_taskViewController != nil) {
+        if (!_showingAlert) {
+            _showingAlert = YES;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                UIAlertAction *cancelAction = [UIAlertAction
+                                               actionWithTitle:ORKLocalizedString(@"TINNITUS_ALERT_BUTTON_CANCEL", nil)
+                                               style:UIAlertActionStyleDefault
+                                               handler:^(UIAlertAction *action) {
+                    _showingAlert = NO;
+                    _continueAction = nil;
+                    ORKStrongTypeOf(_taskViewController.delegate) strongDelegate = _taskViewController.delegate;
+                    if ([strongDelegate respondsToSelector:@selector(taskViewController:didFinishWithReason:error:)]) {
+                        [strongDelegate taskViewController:_taskViewController didFinishWithReason:ORKTaskViewControllerFinishReasonDiscarded error:nil];
+                    }
+                }];
+                UIAlertController *alertController = [UIAlertController
+                                                      alertControllerWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE_TASK_INTERRUPTED", nil)
+                                                      message:[self getInterruptMessage]
+                                                      preferredStyle:UIAlertControllerStyleAlert];
+                _continueAction = [UIAlertAction
+                                   actionWithTitle:ORKLocalizedString(@"TINNITUS_ALERT_BUTTON_CONTINUE", nil)
+                                   style:UIAlertActionStyleDefault
+                                   handler:^(UIAlertAction *action) {
+                    _showingAlert = NO;
+                    _continueAction = nil;
+                }];
+                [alertController addAction:_continueAction];
+                [_continueAction setEnabled:NO];
+                
+                [alertController addAction:cancelAction];
+                alertController.preferredAction = cancelAction;
+                
+                [_taskViewController presentViewController:alertController animated:YES completion:nil];
+            });
+        } else {
+            [_continueAction setEnabled:NO];
+        }
+    }
+}
+
+- (NSString *)getInterruptMessage {
+    if ([_headphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsGen1] ||
+        [_headphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsGen2] ||
+        [_headphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsGen3]) {
+        return ORKLocalizedString(@"TINNITUS_ALERT_TEXT_AIRPODS", nil);
+    } else if ([_headphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsPro]) {
+        return ORKLocalizedString(@"TINNITUS_ALERT_TEXT_AIRPODSPRO", nil);
+    } else if ([_headphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMax]) {
+        return ORKLocalizedString(@"TINNITUS_ALERT_TEXT_AIRPODSMAX", nil);
+    } else {
+        return ORKLocalizedString(@"TINNITUS_ALERT_TEXT_EARPODS", nil);
     }
 }
 
@@ -183,11 +208,13 @@ static NSString *const ORKTinnitusHeadphoneRequiredStepIdentifier = @"ORKTinnitu
 
 - (void)headphoneTypeDetected:(nonnull ORKHeadphoneTypeIdentifier)headphoneType vendorID:(nonnull NSString *)vendorID productID:(nonnull NSString *)productID deviceSubType:(NSInteger)deviceSubType isSupported:(BOOL)isSupported {
     if (![_headphoneType isEqualToString:headphoneType]) {
-        [self showAlertWithTitle:ORKLocalizedString(@"HEADPHONES_DISCONNECTED_TITLE", nil) message:ORKLocalizedString(@"HEADPHONES_DISCONNECTED_TEXT", nil)];
+        [self showAlert];
         [[NSNotificationCenter defaultCenter]
          postNotificationName:ORKHeadphoneNotificationSuspendActivity
          object:self
          userInfo:nil];
+    } else {
+        [_continueAction setEnabled:YES];
     }
 }
 
@@ -199,18 +226,20 @@ static NSString *const ORKTinnitusHeadphoneRequiredStepIdentifier = @"ORKTinnitu
             _bluetoothMode = bluetoothMode;
         } else {
             if (bluetoothMode != ORKBluetoothModeNoiseCancellation && _bluetoothMode == ORKBluetoothModeNoiseCancellation) {
-                [self showAlertWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE3_TEST_INTERRUPTED", nil) message:ORKLocalizedString(@"dBHL_NOISE_CANCELLING_ALERT_TEXT", nil)];
+                [self showAlert];
                 [[NSNotificationCenter defaultCenter]
                  postNotificationName:ORKHeadphoneNotificationSuspendActivity
                  object:self
                  userInfo:nil];
+            } else {
+                [_continueAction setEnabled:YES];
             }
         }
     }
 }
 
 - (void)podLowBatteryLevelDetected {
-    [self showAlertWithTitle:ORKLocalizedString(@"HEADPHONES_LOW_BATTERY_TITLE", nil) message:ORKLocalizedString(@"HEADPHONES_LOW_BATTERY_TEXT", nil)];
+    [self showAlert];
     [[NSNotificationCenter defaultCenter]
      postNotificationName:ORKHeadphoneNotificationSuspendActivity
      object:self
@@ -218,11 +247,15 @@ static NSString *const ORKTinnitusHeadphoneRequiredStepIdentifier = @"ORKTinnitu
 }
 
 - (void)oneAirPodRemoved {
-    [self showAlertWithTitle:ORKLocalizedString(@"HEADPHONES_BOTH_TITLE", nil) message:ORKLocalizedString(@"HEADPHONES_BOTH_TEXT", nil)];
+    [self showAlert];
     [[NSNotificationCenter defaultCenter]
      postNotificationName:ORKHeadphoneNotificationSuspendActivity
      object:self
      userInfo:nil];
+}
+
+- (void)oneAirPodInserted {
+    [_continueAction setEnabled:YES];
 }
 
 @end

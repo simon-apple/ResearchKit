@@ -142,10 +142,11 @@
 
 - (void)headphoneChanged:(NSNotification *)note {
     if (self.tinnitusPredefinedTaskContext != nil) {
-        [self stopAudio];
+        if (_playerNode.isPlaying) {
+            [_playerNode pause];
+        }
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.assessmentContentView setPlaybackButtonPlaying:NO];
-            self.assessmentContentView.delegate = nil;
         });
     }
 }
@@ -166,6 +167,11 @@
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [self stopAudio];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    self.assessmentContentView.delegate = nil;
+    [super viewDidDisappear:animated];
 }
 
 - (void)setNavigationFooterView {
