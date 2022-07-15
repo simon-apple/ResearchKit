@@ -127,12 +127,6 @@
 
 #import <ResearchKit/ORKKeychainWrapper.h>
 
-#import <ResearchKit/ORKChartTypes.h>
-#import <ResearchKit/ORKBarGraphChartView.h>
-#import <ResearchKit/ORKDiscreteGraphChartView.h>
-#import <ResearchKit/ORKLineGraphChartView.h>
-#import <ResearchKit/ORKPieChartView.h>
-
 #import <ResearchKit/ORKBodyItem.h>
 #import <ResearchKit/ORKLearnMoreItem.h>
 
