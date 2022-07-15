@@ -86,7 +86,6 @@
 
 #import <ResearchKit/ORKTaskViewController_Private.h>
 #import <ResearchKit/ORKFormStepViewController_Private.h>
-#import <ResearchKit/ORKQuestionStepViewController_Private.h>
 #import <ResearchKit/ORKPasscodeStepViewController_Internal.h>
 #import <ResearchKit/ORKInstructionStepViewController_Internal.h>
 

@@ -34,7 +34,6 @@
 #import "ORKActiveStepViewController.h"
 #import "ORKInstructionStepViewController_Internal.h"
 #import "ORKFormStepViewController.h"
-#import "ORKQuestionStepViewController.h"
 #import "ORKReviewStepViewController_Internal.h"
 #import "ORKStepViewController_Internal.h"
 #import "ORKTappingIntervalStepViewController.h"

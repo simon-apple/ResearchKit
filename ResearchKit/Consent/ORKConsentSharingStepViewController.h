@@ -30,7 +30,7 @@
 
 
 @import Foundation;
-#import <ResearchKit/ORKQuestionStepViewController.h>
+#import <ResearchKit/ORKFormStepViewController.h>
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -44,7 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
  task.
  */
 ORK_CLASS_AVAILABLE
-@interface ORKConsentSharingStepViewController : ORKQuestionStepViewController
+@interface ORKConsentSharingStepViewController : ORKFormStepViewController
 
 @end
 
