@@ -406,7 +406,7 @@
     XCTAssertEqual([step isOptional], NO);
     XCTAssertNoThrowSpecificNamed([step validateParameters], NSException, NSInvalidArgumentException, @"Should not throw exception");
     XCTAssertEqual([step requestedHealthKitTypesForReading], nil);
-    XCTAssertEqual([step stepViewControllerClass], [ORKQuestionStepViewController class], @"Should return ORKQuestionStepViewController");
+    XCTAssertEqual([step stepViewControllerClass], [ORKFormStepViewController class], @"Should return ORKFormStepViewController");
     XCTAssert([step isEqual:step]);
     XCTAssertEqual([step questionType], ORKQuestionTypeText, @"Should return ORKQuestionTypeText");
     

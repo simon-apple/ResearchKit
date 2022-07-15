@@ -75,7 +75,7 @@ ORK_CLASS_AVAILABLE
 + (instancetype)questionStepWithIdentifier:(NSString *)identifier
                                      title:(nullable NSString *)title
                                       question:(nullable NSString *)question
-                                    answer:(nullable ORKAnswerFormat *)answerFormat;
+                                    answer:(nullable ORKAnswerFormat *)answerFormat NS_DEPRECATED_IOS(8.0, 13.0, "Use ORKFormStep instead.");
 
 /**
  The format of the answer.
