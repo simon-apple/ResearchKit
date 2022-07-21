@@ -125,6 +125,8 @@ static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;
     [self configureAudioSession];
     [self setupFeedbackGenerator];
     
+    [self.taskViewController setNavigationBarColor:[self.view backgroundColor]];
+    
     #if RK_APPLE_INTERNAL
     [self registerNotifications];
     [self startTimeoutTimer];
