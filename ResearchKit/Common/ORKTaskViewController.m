@@ -623,6 +623,12 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     if (_restoredStepIdentifier) {
         [self applicationFinishedRestoringState];
     }
+    
+    if (@available(iOS 13.0, *)) {
+        [self setNavigationBarColor:[UIColor systemGroupedBackgroundColor]];
+    } else {
+        [self setNavigationBarColor:ORKColor(ORKBackgroundColorKey)];
+    }
 }
 
 #if RK_APPLE_INTERNAL
