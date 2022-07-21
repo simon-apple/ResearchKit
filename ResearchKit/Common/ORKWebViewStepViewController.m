@@ -40,6 +40,7 @@
 #import "ORKHelpers_Internal.h"
 #import "ORKSignatureResult_Private.h"
 #import "ORKCustomSignatureFooterView_Private.h"
+#import "ORKTaskViewController_Internal.h"
 
 static const CGFloat ORKSignatureTopPadding = 37.0;
 
@@ -388,6 +389,8 @@ static const CGFloat ORKSignatureTopPadding = 37.0;
     // until the HTML is loaded
     [self setupSubviews];
     [self refreshHTML];
+    
+    [self.taskViewController setNavigationBarColor:[self.view backgroundColor]];
 }
 
 - (void)scrollViewDidZoom:(UIScrollView *)scrollView {
