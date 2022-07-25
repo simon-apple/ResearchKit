@@ -137,6 +137,8 @@
 		22BFDF6A25B792D20015D1E1 /* ORKTinnitusTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 22BFDF6925B792D20015D1E1 /* ORKTinnitusTypes.m */; };
 		22BFE13C25BB73310015D1E1 /* ORKTinnitusAudioSample.m in Sources */ = {isa = PBXBuildFile; fileRef = 223AE98B25B235CB0080FE13 /* ORKTinnitusAudioSample.m */; };
 		22BFE14225BB73380015D1E1 /* ORKTinnitusAudioSample.h in Headers */ = {isa = PBXBuildFile; fileRef = 223AE98A25B235CB0080FE13 /* ORKTinnitusAudioSample.h */; };
+		22ED1847285290250052406B /* ORKAudiometryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 22ED1845285290250052406B /* ORKAudiometryTests.m */; };
+		22ED1848285290250052406B /* ORKAudiometryTestData.plist in Resources */ = {isa = PBXBuildFile; fileRef = 22ED1846285290250052406B /* ORKAudiometryTestData.plist */; };
 		241A2E871B94FD8800ED3B39 /* ORKPasscodeStepViewController_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 241A2E861B94FD8800ED3B39 /* ORKPasscodeStepViewController_Internal.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		2429D5721BBB5397003A512F /* ORKRegistrationStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 2429D5701BBB5397003A512F /* ORKRegistrationStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2429D5731BBB5397003A512F /* ORKRegistrationStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 2429D5711BBB5397003A512F /* ORKRegistrationStep.m */; };
@@ -1233,6 +1235,8 @@
 		22A1C56A260901490003F75E /* ORKTinnitusOverallAssessmentStepViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKTinnitusOverallAssessmentStepViewController.m; sourceTree = "<group>"; };
 		22BFDF5D25B792BF0015D1E1 /* ORKTinnitusTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKTinnitusTypes.h; sourceTree = "<group>"; };
 		22BFDF6925B792D20015D1E1 /* ORKTinnitusTypes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKTinnitusTypes.m; sourceTree = "<group>"; };
+		22ED1845285290250052406B /* ORKAudiometryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKAudiometryTests.m; sourceTree = "<group>"; };
+		22ED1846285290250052406B /* ORKAudiometryTestData.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ORKAudiometryTestData.plist; sourceTree = "<group>"; };
 		241A2E861B94FD8800ED3B39 /* ORKPasscodeStepViewController_Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKPasscodeStepViewController_Internal.h; sourceTree = "<group>"; };
 		2429D5701BBB5397003A512F /* ORKRegistrationStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ORKRegistrationStep.h; path = Onboarding/ORKRegistrationStep.h; sourceTree = "<group>"; };
 		2429D5711BBB5397003A512F /* ORKRegistrationStep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ORKRegistrationStep.m; path = Onboarding/ORKRegistrationStep.m; sourceTree = "<group>"; };
@@ -2458,6 +2462,15 @@
 			name = ORKAudiometry;
 			sourceTree = "<group>";
 		};
+		22ED184428528FF50052406B /* ORKAudiometryTests */ = {
+			isa = PBXGroup;
+			children = (
+				22ED1846285290250052406B /* ORKAudiometryTestData.plist */,
+				22ED1845285290250052406B /* ORKAudiometryTests.m */,
+			);
+			name = ORKAudiometryTests;
+			sourceTree = "<group>";
+		};
 		2429D56D1BBB52E4003A512F /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
@@ -3398,6 +3411,7 @@
 		86CC8EA61AC09383001CCD89 /* ResearchKitTests */ = {
 			isa = PBXGroup;
 			children = (
+				22ED184428528FF50052406B /* ORKAudiometryTests */,
 				BAB96753226E5D21006AAC56 /* Views */,
 				14A92C6822444F30007547F2 /* ORKViewControllerTests */,
 				14D3F09D225BCA9100A3962D /* ORKButtonTests */,
@@ -5366,6 +5380,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				22ED1848285290250052406B /* ORKAudiometryTestData.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5572,6 +5587,7 @@
 				E27C6B46261C790600EDBFFE /* ORKTinnitusPuretoneViewControllerTests.swift in Sources */,
 				86CC8EBB1AC09383001CCD89 /* ORKTextChoiceCellGroupTests.m in Sources */,
 				FA7A9D2B1B082688005A2BEA /* ORKConsentDocumentTests.m in Sources */,
+				22ED1847285290250052406B /* ORKAudiometryTests.m in Sources */,
 				FA7A9D371B09365F005A2BEA /* ORKConsentSectionFormatterTests.m in Sources */,
 				714151D0225C4A23002CA33B /* ORKPasscodeViewControllerTests.swift in Sources */,
 				0324C1D825439E1800BBE77B /* ORKVideoInstructionStepViewControllerTests.swift in Sources */,
