@@ -121,6 +121,9 @@
 
 #import <ResearchKit/ORKRecorder.h>
 
+#import <ResearchKit/ORKAudiometryStimulus.h>
+#import <ResearchKit/ORKAudiometryProtocol.h>
+
 #import <ResearchKit/ORKConsentDocument.h>
 #import <ResearchKit/ORKConsentSection.h>
 #import <ResearchKit/ORKConsentSignature.h>

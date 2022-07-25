@@ -30,8 +30,8 @@
 
 
 #import "ORKdBHLToneAudiometryStep.h"
-
 #import "ORKdBHLToneAudiometryStepViewController.h"
+#import "ORKAudiometry.h"
 
 #import "ORKHelpers_Internal.h"
 
@@ -47,16 +47,23 @@
 #define ORKdBHLToneAudiometryTaskdBHLStepDownSize 10.0
 #define ORKdBHLToneAudiometryTaskdBHLMinimumThreshold -10.0
 
-@implementation ORKdBHLToneAudiometryStep
+@implementation ORKdBHLToneAudiometryStep {
+    id<ORKAudiometryProtocol> _audiometry;
+}
 
 + (Class)stepViewControllerClass {
     return [ORKdBHLToneAudiometryStepViewController class];
 }
 
 - (instancetype)initWithIdentifier:(NSString *)identifier {
+    return [self initWithIdentifier:identifier audiometryEngine:nil];
+}
+
+- (instancetype)initWithIdentifier:(NSString *)identifier audiometryEngine:(id<ORKAudiometryProtocol>)audiometry {
     self = [super initWithIdentifier:identifier];
     if (self) {
         [self commonInit];
+        _audiometry = audiometry;
     }
     return self;
 }
@@ -180,6 +187,13 @@
             && (self.earPreference == castObject.earPreference)
             && ORKEqualObjects(self.headphoneType, castObject.headphoneType)
             && ORKEqualObjects(self.frequencyList, castObject.frequencyList));
+}
+
+- (id<ORKAudiometryProtocol>)audiometryEngine {
+    if (!_audiometry) {
+        _audiometry = [[ORKAudiometry alloc] initWithStep:self];
+    }
+    return _audiometry;
 }
 
 @end

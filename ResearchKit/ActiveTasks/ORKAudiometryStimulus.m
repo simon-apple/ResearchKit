@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018, Apple Inc. All rights reserved.
+ Copyright (c) 2022, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,49 +28,26 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import "ORKAudiometryStimulus.h"
 
-@import Foundation;
-#import <ResearchKit/ORKDefines.h>
-#import <ResearchKit/ORKActiveStep.h>
-#import <ResearchKit/ORKAudiometryProtocol.h>
+@implementation ORKAudiometryStimulus
 
-NS_ASSUME_NONNULL_BEGIN
+@synthesize frequency = _frequency;
+@synthesize level = _level;
+@synthesize channel = _channel;
 
-ORK_CLASS_AVAILABLE
-@interface ORKdBHLToneAudiometryStep : ORKActiveStep
+- (instancetype)initWithFrequency:(double)frequency level:(double)level channel:(ORKAudioChannel)channel {
+    self = [super init];
+    if (self) {
+        _frequency = frequency;
+        _level = level;
+        _channel = channel;
+    }
+    return self;
+}
 
-- (instancetype)initWithIdentifier:(NSString *)identifier audiometryEngine:(nullable id<ORKAudiometryProtocol>)audiometry;
-
-@property (nonatomic, assign) NSTimeInterval toneDuration;
-
-@property (nonatomic, assign) NSTimeInterval maxRandomPreStimulusDelay;
-
-@property (nonatomic, assign) NSTimeInterval postStimulusDelay;
-
-@property (nonatomic, assign) NSInteger maxNumberOfTransitionsPerFrequency;
-
-@property (nonatomic, assign) double initialdBHLValue;
-
-@property (nonatomic, assign) double dBHLStepUpSize;
-
-@property (nonatomic, assign) double dBHLStepUpSizeFirstMiss;
-
-@property (nonatomic, assign) double dBHLStepUpSizeSecondMiss;
-
-@property (nonatomic, assign) double dBHLStepUpSizeThirdMiss;
-
-@property (nonatomic, assign) double dBHLStepDownSize;
-
-@property (nonatomic, assign) double dBHLMinimumThreshold;
-
-@property (nonatomic, strong) ORKHeadphoneTypeIdentifier headphoneType;
-
-@property (nonatomic, assign) ORKAudioChannel earPreference;
-
-@property (nonatomic, copy, nullable) NSArray *frequencyList;
-
-- (id<ORKAudiometryProtocol>)audiometryEngine;
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<frequency %.1lf; dBHLValue: %.1lf; channel: %@>", self.frequency, self.level, self.channel == ORKAudioChannelLeft ? @"left" : @"right"];
+}
 
 @end
-
-NS_ASSUME_NONNULL_END

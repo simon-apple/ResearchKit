@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018, Apple Inc. All rights reserved.
+ Copyright (c) 2022, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,48 +28,45 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
-@import Foundation;
-#import <ResearchKit/ORKDefines.h>
-#import <ResearchKit/ORKActiveStep.h>
-#import <ResearchKit/ORKAudiometryProtocol.h>
+#import <ResearchKit/ORKTypes.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ The `ORKAudiometryStimulus` class represents a set of parameters to represent a tone to be
+ presented to the user during an audiometry test.
+ */
 ORK_CLASS_AVAILABLE
-@interface ORKdBHLToneAudiometryStep : ORKActiveStep
+@interface ORKAudiometryStimulus : NSObject
 
-- (instancetype)initWithIdentifier:(NSString *)identifier audiometryEngine:(nullable id<ORKAudiometryProtocol>)audiometry;
+/**
+ A double value representing the frequency in hertz of the audio tone to be presented (read-only)
+ */
+@property (nonatomic, readonly) double frequency;
 
-@property (nonatomic, assign) NSTimeInterval toneDuration;
+/**
+ A double value representing the level in dBHL of the audio tone to be presented (read-only)
+ */
+@property (nonatomic, readonly) double level;
 
-@property (nonatomic, assign) NSTimeInterval maxRandomPreStimulusDelay;
+/**
+ A ORKAudioChannel enum value representing the audio channel of the tone to be presented (read-only)
+ */
+@property (nonatomic, readonly) ORKAudioChannel channel;
 
-@property (nonatomic, assign) NSTimeInterval postStimulusDelay;
 
-@property (nonatomic, assign) NSInteger maxNumberOfTransitionsPerFrequency;
+/**
+ Returns a ORKAudiometryStimulus initialized with the provided parameters.
+ 
+ @param frequency   A double value representing the frequency in hertz of the audio tone.
 
-@property (nonatomic, assign) double initialdBHLValue;
+ @param level   A double value representing the level in dBHL of the audio tone.
 
-@property (nonatomic, assign) double dBHLStepUpSize;
+ @param channel   A ORKAudioChannel representing the audio channel of the tone.
 
-@property (nonatomic, assign) double dBHLStepUpSizeFirstMiss;
-
-@property (nonatomic, assign) double dBHLStepUpSizeSecondMiss;
-
-@property (nonatomic, assign) double dBHLStepUpSizeThirdMiss;
-
-@property (nonatomic, assign) double dBHLStepDownSize;
-
-@property (nonatomic, assign) double dBHLMinimumThreshold;
-
-@property (nonatomic, strong) ORKHeadphoneTypeIdentifier headphoneType;
-
-@property (nonatomic, assign) ORKAudioChannel earPreference;
-
-@property (nonatomic, copy, nullable) NSArray *frequencyList;
-
-- (id<ORKAudiometryProtocol>)audiometryEngine;
+ @return A ORKAudiometryStimulus object initialized with the passed tone parameters.
+ */
+- (instancetype)initWithFrequency:(double)frequency level:(double)level channel:(ORKAudioChannel)channel;
 
 @end
 

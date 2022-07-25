@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018, Apple Inc. All rights reserved.
+ Copyright (c) 2022, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,48 +28,27 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
-@import Foundation;
-#import <ResearchKit/ORKDefines.h>
-#import <ResearchKit/ORKActiveStep.h>
+@import UIKit;
 #import <ResearchKit/ORKAudiometryProtocol.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class ORKdBHLToneAudiometryStep;
+
+/**
+ The `ORKAudiometry` class performs an audiometry test based on `ORKAudiometryProtocol`
+ */
 ORK_CLASS_AVAILABLE
-@interface ORKdBHLToneAudiometryStep : ORKActiveStep
+@interface ORKAudiometry : NSObject <ORKAudiometryProtocol>
 
-- (instancetype)initWithIdentifier:(NSString *)identifier audiometryEngine:(nullable id<ORKAudiometryProtocol>)audiometry;
+/**
+ Returns an ORKAudiometry object initialized with an ORKdBHLToneAudiometryStep.
+ 
+ @param step   A ORKdBHLToneAudiometryStep object used to configure the audiometry test.
 
-@property (nonatomic, assign) NSTimeInterval toneDuration;
-
-@property (nonatomic, assign) NSTimeInterval maxRandomPreStimulusDelay;
-
-@property (nonatomic, assign) NSTimeInterval postStimulusDelay;
-
-@property (nonatomic, assign) NSInteger maxNumberOfTransitionsPerFrequency;
-
-@property (nonatomic, assign) double initialdBHLValue;
-
-@property (nonatomic, assign) double dBHLStepUpSize;
-
-@property (nonatomic, assign) double dBHLStepUpSizeFirstMiss;
-
-@property (nonatomic, assign) double dBHLStepUpSizeSecondMiss;
-
-@property (nonatomic, assign) double dBHLStepUpSizeThirdMiss;
-
-@property (nonatomic, assign) double dBHLStepDownSize;
-
-@property (nonatomic, assign) double dBHLMinimumThreshold;
-
-@property (nonatomic, strong) ORKHeadphoneTypeIdentifier headphoneType;
-
-@property (nonatomic, assign) ORKAudioChannel earPreference;
-
-@property (nonatomic, copy, nullable) NSArray *frequencyList;
-
-- (id<ORKAudiometryProtocol>)audiometryEngine;
+ @return An ORKAudiometry object initialized.
+ */
+- (instancetype)initWithStep:(ORKdBHLToneAudiometryStep *)step;
 
 @end
 
