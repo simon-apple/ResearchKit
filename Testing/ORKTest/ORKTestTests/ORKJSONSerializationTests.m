@@ -617,6 +617,9 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
                                           @"ORKTextAnswerFormat.passwordRules",
                                           @"ORKTextAnswerFormat.spellCheckingType",
                                           @"ORKTextAnswerFormat.textContentType",
+#if RK_APPLE_INTERNAL
+                                          @"ORKTextAnswerFormat.scrubbers",
+#endif
                                           @"ORKTextChoice.detailTextAttributedString",
                                           @"ORKTextChoice.primaryTextAttributedString",
                                           @"ORKTextChoice.value",

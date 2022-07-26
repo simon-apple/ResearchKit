@@ -49,6 +49,8 @@
 		03BD9EA4253E62A0008ADBE1 /* ORKBundleAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = 03BD9EA2253E62A0008ADBE1 /* ORKBundleAsset.m */; };
 		03EDD58024CA6B1D006245E9 /* ORKNotificationPermissionType.h in Headers */ = {isa = PBXBuildFile; fileRef = 03EDD57E24CA6B1D006245E9 /* ORKNotificationPermissionType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		03EDD58124CA6B1D006245E9 /* ORKNotificationPermissionType.m in Sources */ = {isa = PBXBuildFile; fileRef = 03EDD57F24CA6B1D006245E9 /* ORKNotificationPermissionType.m */; };
+		0BCC4B9A28663895001E316F /* PIIScrubber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BCC4B9928663895001E316F /* PIIScrubber.swift */; };
+		0BEE14B1286CE552005F26D1 /* Scrubbers in Resources */ = {isa = PBXBuildFile; fileRef = 0BEE14B0286CE552005F26D1 /* Scrubbers */; };
 		106FF29E1B663FCE004EACF2 /* ORKHolePegTestPlaceStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 106FF29C1B663FCE004EACF2 /* ORKHolePegTestPlaceStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		106FF29F1B663FCE004EACF2 /* ORKHolePegTestPlaceStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 106FF29D1B663FCE004EACF2 /* ORKHolePegTestPlaceStep.m */; };
 		106FF2A21B665B86004EACF2 /* ORKHolePegTestPlaceStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 106FF2A01B665B86004EACF2 /* ORKHolePegTestPlaceStepViewController.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -1147,6 +1149,8 @@
 		03EDD57E24CA6B1D006245E9 /* ORKNotificationPermissionType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKNotificationPermissionType.h; sourceTree = "<group>"; };
 		03EDD57F24CA6B1D006245E9 /* ORKNotificationPermissionType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKNotificationPermissionType.m; sourceTree = "<group>"; };
 		05F3765923C797930068E166 /* ResearchKit.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = ResearchKit.xctestplan; sourceTree = "<group>"; };
+		0BCC4B9928663895001E316F /* PIIScrubber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PIIScrubber.swift; sourceTree = "<group>"; };
+		0BEE14B0286CE552005F26D1 /* Scrubbers */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Scrubbers; sourceTree = "<group>"; };
 		106FF29C1B663FCE004EACF2 /* ORKHolePegTestPlaceStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKHolePegTestPlaceStep.h; sourceTree = "<group>"; };
 		106FF29D1B663FCE004EACF2 /* ORKHolePegTestPlaceStep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKHolePegTestPlaceStep.m; sourceTree = "<group>"; };
 		106FF2A01B665B86004EACF2 /* ORKHolePegTestPlaceStepViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKHolePegTestPlaceStepViewController.h; sourceTree = "<group>"; };
@@ -2289,6 +2293,14 @@
 			name = "Custom Step";
 			sourceTree = "<group>";
 		};
+		0BCC4BA4286A654C001E316F /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				0BEE14B0286CE552005F26D1 /* Scrubbers */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		106FF29B1B663F5C004EACF2 /* Hole Peg Test */ = {
 			isa = PBXGroup;
 			children = (
@@ -2552,6 +2564,7 @@
 				5D04885525F19A7A0006C68B /* ORKDevice.h */,
 				5D04885B25F1B3AB0006C68B /* ORKDevice_Private.h */,
 				5D04885625F19A7A0006C68B /* ORKDevice.m */,
+				0BCC4B9928663895001E316F /* PIIScrubber.swift */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -3321,6 +3334,7 @@
 		86B623AF19520B770074CD3C /* ResearchKit */ = {
 			isa = PBXGroup;
 			children = (
+				0BCC4BA4286A654C001E316F /* Resources */,
 				5D000EC02620F27100E5442A /* Configuration */,
 				5DABE5AD24DA16E600570C57 /* ResearchKit_Prefix.pch */,
 				B1C1DE4F196F541F00F75544 /* ResearchKit.h */,
@@ -5409,6 +5423,7 @@
 				71B7B4DA20AA91D400C5768A /* retspl_AIRPODS.plist in Resources */,
 				E293656225757E7700092A7C /* volume_curve_AIRPODSMAX.plist in Resources */,
 				71F3B28021001DED00FB1C41 /* splMeter_sensitivity_offset.plist in Resources */,
+				0BEE14B1286CE552005F26D1 /* Scrubbers in Resources */,
 				2246E5172749350300261D5A /* volume_curve_AIRPODSV3.plist in Resources */,
 				E26E32D622E75FB7004F42EC /* Noise.wav in Resources */,
 				E266AC3A25D465E200F96130 /* dbAmplitudePerFrequency_AIRPODSMAX.plist in Resources */,
@@ -5776,6 +5791,7 @@
 				10864CA31B27146B000F4158 /* ORKPSATContentView.m in Sources */,
 				5D5C907F23D91FD8007AD5FC /* ORKSpeechInNoisePredefinedTask.m in Sources */,
 				6146D0A41B84A91E0068491D /* ORKGraphChartAccessibilityElement.m in Sources */,
+				0BCC4B9A28663895001E316F /* PIIScrubber.swift in Sources */,
 				D42FEFB91AF7557000A124F8 /* ORKImageCaptureView.m in Sources */,
 				BA8C067922EEB84B00ACDE6B /* ORKPlaybackButton.m in Sources */,
 				86C40C401A8D7C5C00081FAC /* ORKSpatialSpanMemoryContentView.m in Sources */,

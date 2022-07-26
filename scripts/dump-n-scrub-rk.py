@@ -217,7 +217,7 @@ class RKScrubber():
         self.tests_project_path = "../ResearchKitTests"
         self.core_project_path = "../ResearchKitCore"
         self.project_file_path = "../ResearchKit.xcodeproj/project.pbxproj"
-        self.folders_to_remove = ["PrivateHeaders", "ORKAVJournaling", "ORKFaceDetectionStep", "Tinnitus", "ORKVolumeCalibration", "HeadphoneDetectStep", "InternalPredefinedTasks", "BLE"]
+        self.folders_to_remove = ["PrivateHeaders", "ORKAVJournaling", "ORKFaceDetectionStep", "Tinnitus", "ORKVolumeCalibration", "HeadphoneDetectStep", "InternalPredefinedTasks", "BLE", "Scrubbers"]
 
     def scrub_project(self):
 
@@ -274,7 +274,7 @@ class RKCatalogScrubber():
         self.file_helper = FileHelper()
         self.project_path = "../samples/ORKCatalog"
         self.project_file_path = "../samples/ORKCatalog/ORKCatalog.xcodeproj/project.pbxproj"
-        self.folders_to_remove = ["List1", "PracticeList", "QuestionList1", "TinnitusSounds1"]
+        self.folders_to_remove = ["List1", "PracticeList", "QuestionList1", "TinnitusSounds1","Scrubbers"]
 
     def scrub_project(self):
         files = self.file_helper.recursively_read_files(self.project_path)
