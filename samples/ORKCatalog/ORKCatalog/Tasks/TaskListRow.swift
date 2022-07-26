@@ -126,6 +126,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     case predefinedAVJournalingTask
     case predefinedTinnitusTask
     case ble
+    case textQuestionPIIScrubbing
     #endif
     //end-omit-internal-code
     
@@ -225,6 +226,7 @@ enum TaskListRow: Int, CustomStringConvertible {
                     .predefinedSpeechInNoiseTask,
                     .predefinedAVJournalingTask,
                     .predefinedTinnitusTask,
+                    .textQuestionPIIScrubbing,
                     .ble
                 ])]
             return (defaultSections + internalSections)
@@ -424,6 +426,9 @@ enum TaskListRow: Int, CustomStringConvertible {
         
         case .ble:
             return NSLocalizedString("BLE", comment: "")
+            
+        case .textQuestionPIIScrubbing:
+            return NSLocalizedString("Text Question PII Scrubbing", comment: "")
         #endif
         //end-omit-internal-code
         }
@@ -521,7 +526,12 @@ enum TaskListRow: Int, CustomStringConvertible {
         // Task with an example of free text entry.
         case textQuestionTask
         case textQuestionStep
-        
+#if RK_APPLE_INTERNAL
+        case textQuestionPIIScrubbingStep
+        case textQuestionPIIScrubbingTask
+        case textQuestionPIIScrubbingFormItem
+#endif
+
         // Task with an example of a multiple choice question.
         case textChoiceQuestionTask
         case textChoiceQuestionStep
@@ -690,6 +700,11 @@ enum TaskListRow: Int, CustomStringConvertible {
         case .textChoiceQuestion:
             return textChoiceQuestionTask
 
+#if RK_APPLE_INTERNAL
+        case .textQuestionPIIScrubbing:
+            return textQuestionPIIScrubbingTask
+#endif
+            
         case .timeIntervalQuestion:
             return timeIntervalQuestionTask
 
@@ -998,6 +1013,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         summaryStep.title = NSLocalizedString("Thanks", comment: "")
         summaryStep.text = NSLocalizedString("Thank you for participating in this sample survey.", comment: "")
         
+    
         return ORKOrderedTask(identifier: String(describing: Identifier.surveyTask), steps: [
             instructionStep,
             question1Step,
@@ -1341,13 +1357,34 @@ enum TaskListRow: Int, CustomStringConvertible {
         let answerFormat = ORKAnswerFormat.textAnswerFormat()
         answerFormat.multipleLines = true
         answerFormat.maximumLength = 280
-        
         let step = ORKQuestionStep(identifier: String(describing: Identifier.textQuestionStep), title: NSLocalizedString("Text", comment: ""), question: exampleQuestionText, answer: answerFormat)
-        
         step.text = exampleDetailText
-        
         return ORKOrderedTask(identifier: String(describing: Identifier.textQuestionTask), steps: [step])
     }
+    
+#if RK_APPLE_INTERNAL
+    /**
+    This task demonstrates asking for text entry with PII Scrubbing. Both single and multi-line
+    text entry are supported, with appropriate parameters to the text answer
+    format.
+    */
+    private var textQuestionPIIScrubbingTask: ORKTask {
+        let answerFormat = ORKAnswerFormat.textAnswerFormat()
+        answerFormat.multipleLines = true
+        answerFormat.maximumLength = 280
+        answerFormat.scrubberNames = [PIIScrubber.emailScrubberName]
+
+        let formStep = ORKFormStep(identifier: String(describing: Identifier.textQuestionPIIScrubbingStep))
+        formStep.title = NSLocalizedString("Eligibility", comment: "")
+        formStep.isOptional = false
+        
+        formStep.formItems = [
+            ORKFormItem(identifier: String(describing: Identifier.textQuestionPIIScrubbingFormItem), text: examplePIIScrubbedQuestionText, answerFormat: answerFormat)
+        ];
+        
+        return ORKOrderedTask(identifier: String(describing: Identifier.textQuestionPIIScrubbingTask), steps: [formStep])
+    }
+#endif
     
     /**
     This task demonstrates a survey question for picking from a list of text
@@ -1473,6 +1510,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         let domainRegularExpressionPattern = "^(https?:\\/\\/)?([\\da-z\\.-]+)\\.([a-z\\.]{2,6})([\\/\\w \\.-]*)*\\/?$"
         let domainRegularExpression = try? NSRegularExpression(pattern: domainRegularExpressionPattern)
         let answerFormatDomain = ORKAnswerFormat.textAnswerFormat(withValidationRegularExpression: domainRegularExpression!, invalidMessage: "Invalid URL: %@")
+
         answerFormatDomain.multipleLines = false
         answerFormatDomain.keyboardType = .URL
         answerFormatDomain.autocapitalizationType = UITextAutocapitalizationType.none
@@ -2027,6 +2065,10 @@ enum TaskListRow: Int, CustomStringConvertible {
     
     private var exampleQuestionText: String {
         return NSLocalizedString("Your question goes here.", comment: "")
+    }
+    
+    private var examplePIIScrubbedQuestionText: String {
+        return NSLocalizedString("Your question goes here. Your email will be scrubbed", comment: "")
     }
     
     private var exampleHighValueText: String {

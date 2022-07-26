@@ -31,6 +31,7 @@
 
 @import XCTest;
 @import ResearchKit_Private;
+#import "ORKAnswerFormat_Internal.h"
 
 
 @interface ORKAnswerFormatTests : XCTestCase
@@ -206,6 +207,37 @@
     
 }
 
+#if RK_APPLE_INTERNAL
+- (void)testTextAnswerFormatPIIScrubber {
+    // Setup an answer format
+    ORKTextAnswerFormat *answerFormat = [ORKAnswerFormat textAnswerFormat];
+    answerFormat.scrubberNames = @[PIIScrubber.emailScrubberName];
+    NSString* answer = (NSString *)[answerFormat resultWithIdentifier:@"testID" answer:@"This is a test email foo@gmail.com whoops"].answer;
+    XCTAssertEqualObjects(answer, @"This is a test email  whoops");
+
+    ORKTextAnswerFormat *answerFormatSSN = [ORKAnswerFormat textAnswerFormat];
+    answerFormatSSN.scrubberNames = @[@"SSNScrubber"];
+    NSString* answerSSN = (NSString *)[answerFormatSSN resultWithIdentifier:@"testID" answer:@"This is my SSN: 123-45-4891 whoops"].answer;
+    XCTAssertEqualObjects(answerSSN, @"This is my SSN:  whoops");
+    
+    ORKTextAnswerFormat *answerFormatAllPII = [ORKAnswerFormat textAnswerFormat];
+    answerFormatAllPII.scrubberNames =  [PIIScrubber allScrubberNames];
+    NSString* answerAllPII = (NSString *)[answerFormatAllPII resultWithIdentifier:@"testID" answer:@"This is all my PII foo@gmail.com 123-45-4891"].answer;
+    XCTAssertEqualObjects(answerAllPII, @"This is all my PII  ");
+}
+
+- (void)testIllegalAnswerTypesAreUnscrubbed {
+    ORKTextAnswerFormat *answerFormatAllPIINonStringAnswer = [ORKAnswerFormat textAnswerFormat];
+    answerFormatAllPIINonStringAnswer.scrubberNames =  [PIIScrubber allScrubberNames];
+    XCTAssertThrowsSpecificNamed((NSString *)[answerFormatAllPIINonStringAnswer resultWithIdentifier:@"testID" answer:@20.0].answer, NSException, NSInternalInconsistencyException, @"Should throw NSInternalInconsistencyException - invalid parameter type for answer");
+}
+
+- (void)testStringForAnswerIsUnscrubbed {
+    ORKTextAnswerFormat *answerFormatAllPII = [ORKAnswerFormat textAnswerFormat];
+    answerFormatAllPII.scrubberNames =  [PIIScrubber allScrubberNames];
+    XCTAssertEqualObjects([answerFormatAllPII stringForAnswer:@"This is all my PII foo@gmail.com ac bd 123-45-4891"], @"This is all my PII foo@gmail.com ac bd 123-45-4891");
+}
+#endif
 - (void)testContinuousScaleAnswerFormat {
     
     XCTAssertThrowsSpecificNamed([ORKAnswerFormat continuousScaleAnswerFormatWithMaximumValue:10
@@ -214,7 +246,7 @@
                                                                         maximumFractionDigits:10
                                                                                      vertical:YES
                                                                       maximumValueDescription:NULL
-                                                                      minimumValueDescription:NULL], NSException, NSInvalidArgumentException, @"Shoud throw NSInvalidArgumentException since max < min");
+                                                                      minimumValueDescription:NULL], NSException, NSInvalidArgumentException, @"Should throw NSInvalidArgumentException since max < min");
     
     XCTAssertThrowsSpecificNamed([ORKAnswerFormat continuousScaleAnswerFormatWithMaximumValue:10001
                                                                                  minimumValue:100
@@ -222,7 +254,7 @@
                                                                         maximumFractionDigits:10
                                                                                      vertical:YES
                                                                       maximumValueDescription:NULL
-                                                                      minimumValueDescription:NULL], NSException, NSInvalidArgumentException, @"Shoud throw NSInvalidArgumentException since max > effectiveUpperBound");
+                                                                      minimumValueDescription:NULL], NSException, NSInvalidArgumentException, @"Should throw NSInvalidArgumentException since max > effectiveUpperBound");
     
     XCTAssertThrowsSpecificNamed([ORKAnswerFormat continuousScaleAnswerFormatWithMaximumValue:100
                                                                                  minimumValue:-10001
@@ -230,7 +262,7 @@
                                                                         maximumFractionDigits:10
                                                                                      vertical:YES
                                                                       maximumValueDescription:NULL
-                                                                      minimumValueDescription:NULL], NSException, NSInvalidArgumentException, @"Shoud throw NSInvalidArgumentException since min < effectiveLowerBound");
+                                                                      minimumValueDescription:NULL], NSException, NSInvalidArgumentException, @"Should throw NSInvalidArgumentException since min < effectiveLowerBound");
     
     XCTAssertThrowsSpecificNamed([ORKAnswerFormat continuousScaleAnswerFormatWithMaximumValue:10
                                                                                  minimumValue:100
@@ -238,7 +270,7 @@
                                                                         maximumFractionDigits:10
                                                                                      vertical:YES
                                                                       maximumValueDescription:NULL
-                                                                      minimumValueDescription:NULL], NSException, NSInvalidArgumentException, @"Shoud throw NSInvalidArgumentException since max < min");
+                                                                      minimumValueDescription:NULL], NSException, NSInvalidArgumentException, @"Should throw NSInvalidArgumentException since max < min");
     
     
     ORKContinuousScaleAnswerFormat *answerFormat = [ORKAnswerFormat continuousScaleAnswerFormatWithMaximumValue:1

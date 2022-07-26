@@ -1857,7 +1857,10 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(passwordRules, UITextInputPasswordRules, NSObject, YES,
                              ^id(id value, __unused ORKESerializationContext *context) { return dictionaryFromPasswordRules((UITextInputPasswordRules *)value); },
                              ^id(id dict, __unused ORKESerializationContext *context) { return passwordRulesFromDictionary(dict); } ),
-                    PROPERTY(placeholder, NSString, NSObject, YES, nil, nil)
+                    PROPERTY(placeholder, NSString, NSObject, YES, nil, nil),
+#if RK_APPLE_INTERNAL
+                    PROPERTY(scrubberNames, NSArray, NSObject, YES, nil, nil)
+#endif
                     })),
            ENTRY(ORKEmailAnswerFormat,
                  nil,

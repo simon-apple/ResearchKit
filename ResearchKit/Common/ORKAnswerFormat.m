@@ -42,6 +42,8 @@
 #if TARGET_OS_IOS
 #import "ORKHealthAnswerFormat.h"
 #endif
+#import "ResearchKit/ResearchKit-Swift.h"
+
 
 @import HealthKit;
 @import MapKit;
@@ -2795,7 +2797,23 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
 
 #pragma mark - ORKTextAnswerFormat
 
+@interface ORKTextAnswerFormat()
+
+#if RK_APPLE_INTERNAL
+///**
+// A Scrubber for PII
+//
+// */
+
+@property (nonatomic, readonly, copy) NSArray<PIIScrubber *> *scrubbers;
+#endif
+
+@end
+
 @implementation ORKTextAnswerFormat
+
+@synthesize scrubbers = _scrubbers;
+
 
 - (Class)questionResultClass {
     return [ORKTextQuestionResult class];
@@ -2812,7 +2830,28 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
     _multipleLines = NO;
     _hideClearButton = NO;
     _hideCharacterCountLabel = NO;
+    
 }
+
+#if RK_APPLE_INTERNAL
+- (void)setScrubberNames:(NSArray *)scrubberNames {
+    if (_scrubberNames != scrubberNames) {
+        _scrubberNames = [scrubberNames copy];
+        _scrubbers = nil;
+    }
+}
+
+-(NSArray *)scrubbers {
+    if (_scrubbers == nil) {
+        NSMutableArray *scrubbers = [NSMutableArray new];
+        for (NSString* scrubberName in _scrubberNames) {
+            [scrubbers addObject: [[PIIScrubber alloc] initWithScrubberName:scrubberName]];
+        }
+         _scrubbers = [scrubbers copy];
+    }
+    return _scrubbers;
+}
+#endif
 
 - (instancetype)initWithMaximumLength:(NSInteger)maximumLength {
     self = [super init];
@@ -2875,6 +2914,9 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
     answerFormat->_spellCheckingType = _spellCheckingType;
     answerFormat->_keyboardType = _keyboardType;
     answerFormat->_textContentType = _textContentType;
+#if RK_APPLE_INTERNAL
+    answerFormat->_scrubberNames = [_scrubberNames copy];
+#endif
     if (@available(iOS 12.0, *)) {
         answerFormat->_passwordRules = _passwordRules;
     }
@@ -2951,7 +2993,9 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
     answerFormat->_keyboardType = _keyboardType;
     answerFormat->_autocapitalizationType = _autocapitalizationType;
     answerFormat->_textContentType = _textContentType;
-    
+#if RK_APPLE_INTERNAL
+    answerFormat->_scrubberNames = [_scrubberNames copy];
+#endif
     if (@available(iOS 12.0, *)) {
         answerFormat->_passwordRules = _passwordRules;
     }
@@ -2990,6 +3034,9 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
         ORK_DECODE_BOOL(aDecoder, hideCharacterCountLabel);
         ORK_DECODE_BOOL(aDecoder, secureTextEntry);
         ORK_DECODE_OBJ_CLASS(aDecoder, placeholder, NSString);
+#if RK_APPLE_INTERNAL
+        ORK_DECODE_OBJ_CLASS(aDecoder, scrubberNames, NSArray<NSString *>);
+#endif
     }
     return self;
 }
@@ -3015,6 +3062,9 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
     ORK_ENCODE_BOOL(aCoder, hideCharacterCountLabel);
     ORK_ENCODE_BOOL(aCoder, secureTextEntry);
     ORK_ENCODE_OBJ(aCoder, placeholder);
+#if RK_APPLE_INTERNAL
+    ORK_ENCODE_OBJ(aCoder, scrubberNames);
+#endif
 }
 
 + (BOOL)supportsSecureCoding {
@@ -3049,7 +3099,10 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
              self.hideClearButton == castObject.hideClearButton &&
              self.hideCharacterCountLabel == castObject.hideCharacterCountLabel) &&
              self.secureTextEntry == castObject.secureTextEntry) &&
-             ORKEqualObjects(self.placeholder, castObject.placeholder);
+             ORKEqualObjects(self.placeholder, castObject.placeholder) &&
+#if RK_APPLE_INTERNAL
+             ORKEqualObjects(self.scrubberNames, castObject.scrubberNames);
+#endif
 }
 
 static NSString *const kSecureTextEntryEscapeString = @"*";
@@ -3059,7 +3112,27 @@ static NSString *const kSecureTextEntryEscapeString = @"*";
     if ([self isAnswerValid:answer]) {
         answerString = _secureTextEntry ? [@"" stringByPaddingToLength:((NSString *)answer).length withString:kSecureTextEntryEscapeString startingAtIndex:0] : answer;
     }
+
     return answerString;
+}
+
+#if RK_APPLE_INTERNAL
+- (NSString *)scrubAnswer:(NSString *)answer {
+    NSString *answerString = answer;
+    for (PIIScrubber* scrubber in [self scrubbers]) {
+        answerString = [scrubber scrub:answerString];
+    }
+    return answerString;
+}
+#endif
+
+- (ORKQuestionResult *)resultWithIdentifier:(NSString *)identifier answer:(id)answer {
+    ORKQuestionResult *questionResult = nil;
+#if RK_APPLE_INTERNAL
+    answer = ([answer isKindOfClass:[NSString class]] ? [self scrubAnswer: (NSString *)answer] : answer);
+#endif 
+    questionResult = (ORKQuestionResult *)[super resultWithIdentifier:identifier answer:answer];
+    return questionResult;
 }
 
 @end
