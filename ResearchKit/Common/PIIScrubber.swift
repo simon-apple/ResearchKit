@@ -46,7 +46,7 @@ struct PIIScrubberDefinition: Codable {
      Full path is org.researchkit.ResearchKit/Resources/Scrubber/
     */
     public static let emailScrubberName = "emailScrubber"
-    public static let phoneScrubberName = "phoneScrubber"
+    public static let SSNScrubberName = "SSNScrubber"
     
     /**
         Private vars
