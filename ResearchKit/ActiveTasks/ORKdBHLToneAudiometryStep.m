@@ -47,6 +47,10 @@
 #define ORKdBHLToneAudiometryTaskdBHLStepDownSize 10.0
 #define ORKdBHLToneAudiometryTaskdBHLMinimumThreshold -10.0
 
+#if RK_APPLE_INTERNAL
+#define ORKdBHLToneAudiometryTaskdBHLDefaultAlgorithm 0
+#endif
+
 @implementation ORKdBHLToneAudiometryStep {
     id<ORKAudiometryProtocol> _audiometry;
 }
@@ -83,6 +87,9 @@
     self.frequencyList = @[@1000.0, @2000.0, @3000.0, @4000.0, @8000.0, @1000.0, @500.0, @250.0];
     self.stepDuration = CGFLOAT_MAX;
     self.shouldShowDefaultTimer = NO;
+#if RK_APPLE_INTERNAL
+    self.algorithm = ORKdBHLToneAudiometryTaskdBHLDefaultAlgorithm;
+#endif
 }
 
 - (void)validateParameters {
@@ -122,6 +129,9 @@
     step.headphoneType = self.headphoneType;
     step.earPreference = self.earPreference;
     step.frequencyList = self.frequencyList;
+#if RK_APPLE_INTERNAL
+    step.algorithm = self.algorithm;
+#endif
     return step;
 }
 
@@ -142,6 +152,10 @@
         ORK_DECODE_INTEGER(aDecoder, earPreference);
         ORK_DECODE_OBJ_CLASS(aDecoder, headphoneType, NSString);
         ORK_DECODE_OBJ_ARRAY(aDecoder, frequencyList, NSNumber);
+        
+#if RK_APPLE_INTERNAL
+        ORK_DECODE_INTEGER(aDecoder, algorithm);
+#endif
     }
     return self;
 }
@@ -162,6 +176,10 @@
     ORK_ENCODE_INTEGER(aCoder, earPreference);
     ORK_ENCODE_OBJ(aCoder, headphoneType);
     ORK_ENCODE_OBJ(aCoder, frequencyList);
+    
+#if RK_APPLE_INTERNAL
+    ORK_ENCODE_INTEGER(aCoder, algorithm);
+#endif
 }
 
 + (BOOL)supportsSecureCoding {
@@ -186,12 +204,24 @@
             && (self.dBHLMinimumThreshold == castObject.dBHLMinimumThreshold)
             && (self.earPreference == castObject.earPreference)
             && ORKEqualObjects(self.headphoneType, castObject.headphoneType)
-            && ORKEqualObjects(self.frequencyList, castObject.frequencyList));
+            && ORKEqualObjects(self.frequencyList, castObject.frequencyList)
+#if RK_APPLE_INTERNAL
+            && (self.algorithm == castObject.algorithm)
+#endif
+            );
 }
 
 - (id<ORKAudiometryProtocol>)audiometryEngine {
     if (!_audiometry) {
+#if RK_APPLE_INTERNAL
+        switch (self.algorithm) {
+            default:
+                _audiometry = [[ORKAudiometry alloc] initWithStep:self];
+                break;
+        }
+#else
         _audiometry = [[ORKAudiometry alloc] initWithStep:self];
+#endif
     }
     return _audiometry;
 }

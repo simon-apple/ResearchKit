@@ -62,10 +62,7 @@
 #import "ORKNavigableOrderedTask.h"
 #import "ORKStepNavigationRule.h"
 
-#import "ORKAudiometry.h"
-
-@interface ORKdBHLToneAudiometryStepViewController () <ORKdBHLToneAudiometryAudioGeneratorDelegate> {
-    id<ORKAudiometryProtocol> _audiometry;    
+@interface ORKdBHLToneAudiometryStepViewController () <ORKdBHLToneAudiometryAudioGeneratorDelegate> {    
     ORKdBHLToneAudiometryFrequencySample *_resultSample;
     ORKAudioChannel _audioChannel;
 
