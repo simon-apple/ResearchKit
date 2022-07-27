@@ -527,9 +527,11 @@ enum TaskListRow: Int, CustomStringConvertible {
         case textQuestionTask
         case textQuestionStep
 #if RK_APPLE_INTERNAL
-        case textQuestionPIIScrubbingStep
+        case textQuestionEmailPIIScrubbingStep
+        case textQuestionSSNPIIScrubbingStep
         case textQuestionPIIScrubbingTask
-        case textQuestionPIIScrubbingFormItem
+        case textQuestionPIIScrubbingEmailFormItem
+        case textQuestionPIIScrubbingSSNFormItem
 #endif
 
         // Task with an example of a multiple choice question.
@@ -1369,20 +1371,39 @@ enum TaskListRow: Int, CustomStringConvertible {
     format.
     */
     private var textQuestionPIIScrubbingTask: ORKTask {
-        let answerFormat = ORKAnswerFormat.textAnswerFormat()
-        answerFormat.multipleLines = true
-        answerFormat.maximumLength = 280
-        answerFormat.scrubberNames = [PIIScrubber.emailScrubberName]
+        let emailAnswerFormat = ORKAnswerFormat.textAnswerFormat()
+        emailAnswerFormat.multipleLines = true
+        emailAnswerFormat.maximumLength = 280
+        emailAnswerFormat.scrubberNames = [PIIScrubber.emailScrubberName]
 
-        let formStep = ORKFormStep(identifier: String(describing: Identifier.textQuestionPIIScrubbingStep))
-        formStep.title = NSLocalizedString("Eligibility", comment: "")
-        formStep.isOptional = false
+        let emailPIIScrubberFormStep = ORKFormStep(identifier: String(describing: Identifier.textQuestionEmailPIIScrubbingStep))
+        emailPIIScrubberFormStep.title = NSLocalizedString("Eligibility", comment: "")
+        emailPIIScrubberFormStep.isOptional = false
         
-        formStep.formItems = [
-            ORKFormItem(identifier: String(describing: Identifier.textQuestionPIIScrubbingFormItem), text: examplePIIScrubbedQuestionText, answerFormat: answerFormat)
+        let emailORKFormItem = ORKFormItem(identifier: String(describing: Identifier.textQuestionPIIScrubbingEmailFormItem), text: examplePIIScrubbedEmailQuestionText, answerFormat: emailAnswerFormat)
+        
+        emailPIIScrubberFormStep.formItems = [
+            emailORKFormItem
         ];
         
-        return ORKOrderedTask(identifier: String(describing: Identifier.textQuestionPIIScrubbingTask), steps: [formStep])
+        
+        let SSNAnswerFormat = ORKAnswerFormat.textAnswerFormat()
+        SSNAnswerFormat.multipleLines = true
+        SSNAnswerFormat.maximumLength = 280
+        SSNAnswerFormat.scrubberNames = [PIIScrubber.SSNScrubberName]
+        
+        let SSNORKFormItem = ORKFormItem(identifier: String(describing: Identifier.textQuestionPIIScrubbingSSNFormItem), text: examplePIIScrubbedSSNQuestionText, answerFormat: SSNAnswerFormat)
+
+        let SSNPIIScrubberFormStep = ORKFormStep(identifier: String(describing: Identifier.textQuestionSSNPIIScrubbingStep))
+        SSNPIIScrubberFormStep.title = NSLocalizedString("Eligibility", comment: "")
+        SSNPIIScrubberFormStep.isOptional = false
+        
+        SSNPIIScrubberFormStep.formItems = [
+            SSNORKFormItem
+        ];
+        
+        
+        return ORKOrderedTask(identifier: String(describing: Identifier.textQuestionPIIScrubbingTask), steps: [emailPIIScrubberFormStep, SSNPIIScrubberFormStep])
     }
 #endif
     
@@ -2067,8 +2088,12 @@ enum TaskListRow: Int, CustomStringConvertible {
         return NSLocalizedString("Your question goes here.", comment: "")
     }
     
-    private var examplePIIScrubbedQuestionText: String {
+    private var examplePIIScrubbedEmailQuestionText: String {
         return NSLocalizedString("Your question goes here. Your email will be scrubbed", comment: "")
+    }
+    
+    private var examplePIIScrubbedSSNQuestionText: String {
+        return NSLocalizedString("Your question goes here. Your SSN will be scrubbed", comment: "")
     }
     
     private var exampleHighValueText: String {
