@@ -41,8 +41,8 @@
 #import "ORKHelpers_Internal.h"
 #if TARGET_OS_IOS
 #import "ORKHealthAnswerFormat.h"
-#endif
 #import "ResearchKit/ResearchKit-Swift.h"
+#endif
 
 
 @import HealthKit;
