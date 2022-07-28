@@ -217,7 +217,7 @@ class RKScrubber():
         self.tests_project_path = "../ResearchKitTests"
         self.core_project_path = "../ResearchKitCore"
         self.project_file_path = "../ResearchKit.xcodeproj/project.pbxproj"
-        self.folders_to_remove = ["PrivateHeaders", "ORKAVJournaling", "ORKFaceDetectionStep", "Tinnitus", "ORKVolumeCalibration", "HeadphoneDetectStep", "InternalPredefinedTasks", "BLE", "Scrubbers"]
+        self.folders_to_remove = ["PrivateHeaders", "ORKAVJournaling", "ORKFaceDetectionStep", "Tinnitus", "ORKVolumeCalibration", "HeadphoneDetectStep", "InternalPredefinedTasks", "BLE", "MathUtilities", "Scrubbers"]
 
     def scrub_project(self):
 

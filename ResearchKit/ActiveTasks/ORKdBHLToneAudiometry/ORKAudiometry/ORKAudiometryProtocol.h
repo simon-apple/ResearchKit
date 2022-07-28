@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018, Apple Inc. All rights reserved.
+ Copyright (c) 2022, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,53 +28,59 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <ResearchKit/ORKAudiometryStimulus.h>
 
-@import Foundation;
-#import <ResearchKit/ORKDefines.h>
-#import <ResearchKit/ORKActiveStep.h>
-#import <ResearchKit/ORKAudiometryProtocol.h>
+typedef NSTimeInterval(^ORKAudiometryTimestampProvider)(void);
 
-NS_ASSUME_NONNULL_BEGIN
+@class ORKdBHLToneAudiometryFrequencySample;
 
-ORK_CLASS_AVAILABLE
-@interface ORKdBHLToneAudiometryStep : ORKActiveStep
+/**
+ Defines the interface of an audiometry algorithm.
+ */
+@protocol ORKAudiometryProtocol <NSObject>
 
-- (instancetype)initWithIdentifier:(NSString *)identifier audiometryEngine:(nullable id<ORKAudiometryProtocol>)audiometry;
+/**
+ A float value indicating the progress of the test from 0.0 to 1.0 (read-only)
+ */
+@property (nonatomic, readonly) float progress;
 
-@property (nonatomic, assign) NSTimeInterval toneDuration;
+/**
+ A Boolean value indicating the end of the test (read-only)
+ */
+@property (nonatomic, readonly) BOOL testEnded;
 
-@property (nonatomic, assign) NSTimeInterval maxRandomPreStimulusDelay;
+/**
+ A block used to retrieve timestamp from external sources to be included in the results.
+ */
+@property (nonatomic, strong) ORKAudiometryTimestampProvider timestampProvider;
 
-@property (nonatomic, assign) NSTimeInterval postStimulusDelay;
+/**
+ This method should return a `ORKAudiometryStimulus` providing the parameters of the tone that should presented next, if available.
+ */
+- (ORKAudiometryStimulus *)nextStimulus;
 
-@property (nonatomic, assign) NSInteger maxNumberOfTransitionsPerFrequency;
+/**
+ Called just before presenting tone.
+ */
+- (void)registerStimulusPlayback;
 
-@property (nonatomic, assign) double initialdBHLValue;
+/**
+ Register the user response for the last presented tone.
+ 
+ @param BOOL  A Boolean representing if the user acknowledged the last presented tone.
+ */
+- (void)registerResponse:(BOOL)response;
 
-@property (nonatomic, assign) double dBHLStepUpSize;
+/**
+ Informs the audiometry algorithm that the last provided tone could not be reproduced to to signal clipping.
+ */
+- (void)signalClipped;
 
-@property (nonatomic, assign) double dBHLStepUpSizeFirstMiss;
-
-@property (nonatomic, assign) double dBHLStepUpSizeSecondMiss;
-
-@property (nonatomic, assign) double dBHLStepUpSizeThirdMiss;
-
-@property (nonatomic, assign) double dBHLStepDownSize;
-
-@property (nonatomic, assign) double dBHLMinimumThreshold;
-
-@property (nonatomic, strong) ORKHeadphoneTypeIdentifier headphoneType;
-
-@property (nonatomic, assign) ORKAudioChannel earPreference;
-
-@property (nonatomic, copy, nullable) NSArray *frequencyList;
-
-#if RK_APPLE_INTERNAL
-@property (nonatomic, assign) NSInteger algorithm;
-#endif
-
-- (id<ORKAudiometryProtocol>)audiometryEngine;
+/**
+ Returns an array of containing the results of the audiometry test.
+  
+ @return An array of  `ORKdBHLToneAudiometryFrequencySample` representing the results of the audiometry test..
+ */
+- (NSArray<ORKdBHLToneAudiometryFrequencySample *> *)resultSamples;
 
 @end
-
-NS_ASSUME_NONNULL_END

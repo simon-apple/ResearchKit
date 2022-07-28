@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020, Apple Inc. All rights reserved.
+ Copyright (c) 2022, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -27,17 +27,36 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+// apple-internal
 
-#import <ResearchKit/ORKContext.h>
+#if RK_APPLE_INTERNAL
 
-NS_ASSUME_NONNULL_BEGIN
+#include "lbfgsb.h"
+#import <Accelerate/Accelerate.h>
 
-@interface ORKdBHLTaskContext : NSObject <ORKContext>
+int daxpy(integer *n, double *da, double *dx, integer *incx, double *dy, integer *incy)
+{
+    cblas_daxpy(*n, *da, dx, *incx, dy, *incy);
+    return 0;
+}
 
-- (void)didSkipHeadphoneDetectionStepForTask:(id<ORKTask>)task;
+int dcopy(integer *n, double *dx, integer *incx, double *dy, integer *incy)
+{
+    cblas_dcopy(*n, dx, *incx, dy, *incy);
+    return 0;
+}
 
-+ (NSString *)dBHLToneAudiometryCompletionStepIdentifier;
+double ddot(integer *n, double *dx, integer *incx, double *dy,
+        integer *incy)
+{
+    return cblas_ddot(*n, dx, *incx, dy, *incy);
+}
 
-@end
+int dscal(integer *n, double *da, double *dx,
+        integer *incx)
+{
+    cblas_dscal(*n, *da, dx, *incx);
+    return 0;
+}
 
-NS_ASSUME_NONNULL_END
+#endif

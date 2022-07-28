@@ -52,6 +52,7 @@
 #if RK_APPLE_INTERNAL
 #import "ORKHeadphoneDetectStep.h"
 #import "ORKHeadphoneDetectResult.h"
+#import <ResearchKit/ResearchKit-Swift.h>
 #endif
 
 #import "ORKHelpers_Internal.h"
@@ -62,7 +63,7 @@
 #import "ORKNavigableOrderedTask.h"
 #import "ORKStepNavigationRule.h"
 
-@interface ORKdBHLToneAudiometryStepViewController () <ORKdBHLToneAudiometryAudioGeneratorDelegate> {    
+@interface ORKdBHLToneAudiometryStepViewController () <ORKdBHLToneAudiometryAudioGeneratorDelegate> {
     ORKdBHLToneAudiometryFrequencySample *_resultSample;
     ORKAudioChannel _audioChannel;
 
@@ -149,6 +150,25 @@
             if ([firstResult isKindOfClass:[ORKHeadphoneDetectResult class]]) {
                 ORKHeadphoneDetectResult *headphoneDetectResult = (ORKHeadphoneDetectResult *)firstResult;
                 dBHLTAStep.headphoneType = headphoneDetectResult.headphoneType;
+        
+            } else if ([firstResult isKindOfClass:[ORKdBHLToneAudiometryResult class]]) {
+                if (@available(iOS 14.0, *)) {
+                    ORKdBHLToneAudiometryResult *dBHLToneAudiometryResult = (ORKdBHLToneAudiometryResult *)firstResult;
+                    
+                    // Only use audiograms from ORKNewAudiometry which contains extra samples
+                    if ([self.audiometryEngine isKindOfClass:[ORKNewAudiometry class]] &&
+                        dBHLToneAudiometryResult.samples.count > self.dBHLToneAudiometryStep.frequencyList.count) {
+                        
+                        NSMutableDictionary *audiogram = [[NSMutableDictionary alloc] init];
+                        
+                        for (ORKdBHLToneAudiometryFrequencySample *sample in dBHLToneAudiometryResult.samples) {
+                            NSNumber *frequency = [NSNumber numberWithDouble:sample.frequency];
+                            NSNumber *threshold = [NSNumber numberWithDouble:sample.calculatedThreshold];
+                            audiogram[frequency] = threshold;
+                        }
+                        [(ORKNewAudiometry *)self.audiometryEngine runInitialSamplingFromAudiogram:audiogram];
+                    }
+                }
             }
         }
     }
@@ -284,7 +304,15 @@
 #endif
     
     [self.dBHLToneAudiometryContentView setProgress:self.audiometryEngine.progress animated:YES];
-    
+
+    ORKAudiometryStimulus *stimulus = self.audiometryEngine.nextStimulus;
+    if (!stimulus) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self nextTrial];
+        });
+        return;
+    }
+        
     const NSTimeInterval toneDuration = [self dBHLToneAudiometryStep].toneDuration;
     const NSTimeInterval postStimulusDelay = [self dBHLToneAudiometryStep].postStimulusDelay;
     
@@ -293,7 +321,7 @@
     double preStimulusDelay = delay1 + delay2 + 1;
     
     _preStimulusDelayWorkBlock = dispatch_block_create(DISPATCH_BLOCK_INHERIT_QOS_CLASS, ^{
-        ORKAudiometryStimulus *stimulus = self.audiometryEngine.nextStimulus;
+        [self.audiometryEngine registerStimulusPlayback];
         [_audioGenerator playSoundAtFrequency:stimulus.frequency onChannel:stimulus.channel dBHL:stimulus.level];
     });
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(preStimulusDelay * NSEC_PER_SEC)), dispatch_get_main_queue(), _preStimulusDelayWorkBlock);

@@ -125,9 +125,12 @@
 }
 
 - (ORKAudiometryStimulus *)nextStimulus {
+    return _nextStimulus;
+}
+
+- (void)registerStimulusPlayback {
     _resultUnit.preStimulusDelay = _getTimestamp() - _resultUnit.startOfUnitTimeStamp;
     _preStimulusResponse = NO;
-    return _nextStimulus;
 }
 
 - (void)registerResponse:(BOOL)response {
@@ -196,7 +199,7 @@
         _resultSample = [ORKdBHLToneAudiometryFrequencySample new];
         _resultSample.channel = _audioChannel;
         _resultSample.frequency = [freq doubleValue];
-        _resultSample.calculatedThreshold = DBL_MAX;
+        _resultSample.calculatedThreshold = ORKInvalidDBHLValue;
         [_arrayOfResultSamples addObject:_resultSample];
     } else {
         _numberOfTransitionsPerFreq += 1;

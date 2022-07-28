@@ -127,6 +127,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     case predefinedTinnitusTask
     case ble
     case textQuestionPIIScrubbing
+    case newdBHLToneAudiometryTask
     #endif
     //end-omit-internal-code
     
@@ -227,7 +228,8 @@ enum TaskListRow: Int, CustomStringConvertible {
                     .predefinedAVJournalingTask,
                     .predefinedTinnitusTask,
                     .textQuestionPIIScrubbing,
-                    .ble
+                    .ble,
+                    .newdBHLToneAudiometryTask
                 ])]
             return (defaultSections + internalSections)
             #endif
@@ -429,6 +431,9 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .textQuestionPIIScrubbing:
             return NSLocalizedString("Text Question PII Scrubbing", comment: "")
+            
+        case .newdBHLToneAudiometryTask:
+            return NSLocalizedString("dBHL Tone Audiometry (New Algorithm)", comment: "")
         #endif
         //end-omit-internal-code
         }
@@ -642,6 +647,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         case predefinedSpeechInNoiseTask
         case predefinedAVJournalingTask
         case predefinedTinnitusTask
+        case newdBHLToneAudiometryTask
         #endif
         //end-omit-internal-code
     }
@@ -840,6 +846,9 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .ble:
             return ble
+            
+        case .newdBHLToneAudiometryTask:
+            return newdBHLToneAudiometryTask
         #endif
         //end-omit-internal-code
         case .textChoiceQuestionWithImageTask:
@@ -2074,6 +2083,12 @@ enum TaskListRow: Int, CustomStringConvertible {
         
         return ORKOrderedTask(identifier: "BLE", steps: [scanStep])
     }
+    
+    /// This task presents the dBHL Tone Audiometry new algorithm.
+    private var newdBHLToneAudiometryTask: ORKTask {
+        return ORKOrderedTask.newdBHLToneAudiometryTask(withIdentifier: String(describing: Identifier.newdBHLToneAudiometryTask), intendedUseDescription: nil, options: [])
+    }
+    
     #endif
     //end-omit-internal-code
     
