@@ -7,7 +7,7 @@ def lib = library (
     ])
 )
 
-node('health-10') {
+node('ResearchApp-status') {
     stage('Set Environment Variables') {
         limeInitEnvironmentVariables(this, "ResearchKit Unit Tests", "SummitDogfood14A6201dSydney20A303aKincaid20R308", "HealthSPG/ResearchKit")
         limeSetBuildStatus(this, "PENDING")
@@ -15,7 +15,7 @@ node('health-10') {
 }
 
 pipeline {
-    agent { node "health-10" }
+    agent { label "${LIME_BUILD_LABEL}" }
     options {
         // https://github.com/jenkinsci/jenkins/blob/master/core/src/main/java/hudson/tasks/LogRotator.java#L87
         buildDiscarder(
