@@ -45,6 +45,11 @@ const double ORKInvalidDBHLValue = DBL_MAX;
     ORK_ENCODE_DOUBLE(aCoder, postStimulusDelay);
     ORK_ENCODE_OBJ(aCoder, headphoneType);
     ORK_ENCODE_OBJ(aCoder, samples);
+    
+#if RK_APPLE_INTERNAL
+    ORK_ENCODE_OBJ(aCoder, discreteUnits);
+    ORK_ENCODE_OBJ(aCoder, fitMatrix);
+#endif
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
@@ -55,6 +60,11 @@ const double ORKInvalidDBHLValue = DBL_MAX;
         ORK_DECODE_DOUBLE(aDecoder, postStimulusDelay);
         ORK_DECODE_OBJ_CLASS(aDecoder, headphoneType, NSString);
         ORK_DECODE_OBJ_ARRAY(aDecoder, samples, ORKdBHLToneAudiometryFrequencySample);
+        
+#if RK_APPLE_INTERNAL
+        ORK_DECODE_OBJ_ARRAY(aDecoder, discreteUnits, ORKdBHLToneAudiometryFrequencySample);
+        ORK_DECODE_OBJ_DICTIONARY(aDecoder, fitMatrix, NSNumber, NSNumber);
+#endif
     }
     return self;
 }
@@ -67,16 +77,27 @@ const double ORKInvalidDBHLValue = DBL_MAX;
     BOOL isParentSame = [super isEqual:object];
     
     __typeof(self) castObject = object;
-    return (isParentSame &&
-            self.outputVolume == castObject.outputVolume &&
-            self.tonePlaybackDuration == castObject.tonePlaybackDuration &&
-            self.postStimulusDelay == castObject.postStimulusDelay &&
-            ORKEqualObjects(self.headphoneType, castObject.headphoneType) &&
-            ORKEqualObjects(self.samples, castObject.samples)) ;
+    return (isParentSame
+            && self.outputVolume == castObject.outputVolume
+            && self.tonePlaybackDuration == castObject.tonePlaybackDuration
+            && self.postStimulusDelay == castObject.postStimulusDelay
+            && ORKEqualObjects(self.headphoneType, castObject.headphoneType)
+            && ORKEqualObjects(self.samples, castObject.samples)
+#if RK_APPLE_INTERNAL
+            && ORKEqualObjects(self.discreteUnits, castObject.discreteUnits)
+            && ORKEqualObjects(self.fitMatrix, castObject.fitMatrix)
+#endif
+            );
 }
 
 - (NSUInteger)hash {
-    return super.hash ^ self.samples.hash;
+    NSUInteger resultsHash = self.samples.hash ^ self.headphoneType.hash;
+    
+#if RK_APPLE_INTERNAL
+    resultsHash = resultsHash ^ self.discreteUnits.hash ^ self.fitMatrix.hash;
+#endif
+    
+    return super.hash ^ resultsHash;
 }
 
 - (instancetype)copyWithZone:(NSZone *)zone {
@@ -86,11 +107,21 @@ const double ORKInvalidDBHLValue = DBL_MAX;
     result.tonePlaybackDuration = self.tonePlaybackDuration;
     result.postStimulusDelay = self.postStimulusDelay;
     result.samples = [self.samples copy];
+    
+#if RK_APPLE_INTERNAL
+    result.discreteUnits = [self.discreteUnits copy];
+    result.fitMatrix = [self.fitMatrix copy];
+#endif
+
     return result;
 }
 
 - (NSString *)descriptionWithNumberOfPaddingSpaces:(NSUInteger)numberOfPaddingSpaces {
+#if RK_APPLE_INTERNAL
+    return [NSString stringWithFormat:@"%@; outputvolume: %.1lf; samples: %@; tones: %@; fitMatrix: %@; headphoneType: %@; tonePlaybackDuration: %.1lf; postStimulusDelay: %.1lf%@", [self descriptionPrefixWithNumberOfPaddingSpaces:numberOfPaddingSpaces], self.outputVolume, self.samples, self.discreteUnits, self.fitMatrix, self.headphoneType, self.tonePlaybackDuration, self.postStimulusDelay, self.descriptionSuffix];
+#else
     return [NSString stringWithFormat:@"%@; outputvolume: %.1lf; samples: %@; headphoneType: %@; tonePlaybackDuration: %.1lf; postStimulusDelay: %.1lf%@", [self descriptionPrefixWithNumberOfPaddingSpaces:numberOfPaddingSpaces], self.outputVolume, self.samples, self.headphoneType, self.tonePlaybackDuration, self.postStimulusDelay, self.descriptionSuffix];
+#endif
 }
 
 @end

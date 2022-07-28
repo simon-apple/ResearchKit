@@ -2072,7 +2072,7 @@ NSString *const ORKdBHLToneAudiometryHeadphoneDetectStepIdentifier = @"dBHL.tone
     return task;
 }
 
-#if RK_APPLEINTERNAL
+#if RK_APPLE_INTERNAL
 + (ORKNavigableOrderedTask *)newdBHLToneAudiometryTaskWithIdentifier:(NSString *)identifier
                                             intendedUseDescription:(nullable NSString *)intendedUseDescription
                                                            options:(ORKPredefinedTaskOption)options {
