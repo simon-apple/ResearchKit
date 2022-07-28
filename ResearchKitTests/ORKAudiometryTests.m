@@ -29,6 +29,7 @@
  */
 
 #import <XCTest/XCTest.h>
+
 @import ResearchKit_Private;
 
 @interface ORKAudiometryTests : XCTestCase
@@ -83,12 +84,13 @@
         NSNumber *frequencyKey = self.keys[[NSNumber numberWithDouble:stimulus.frequency]];
         NSNumber *referenceLevel = audiogramDict[frequencyKey];
 
+        [audiometry registerStimulusPlayback];
         [audiometry registerResponse:stimulus.level >= referenceLevel.doubleValue];
     }
     
     NSArray<ORKdBHLToneAudiometryFrequencySample *> *result = [audiometry resultSamples];
     XCTAssertNotEqual(result.count, 0, @"result contains no data");
-    
+        
     [result enumerateObjectsUsingBlock:^(ORKdBHLToneAudiometryFrequencySample * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         NSNumber *frequencyKey = self.keys[[NSNumber numberWithDouble:obj.frequency]];
         NSNumber *expectedThreshold = audiogramDict[frequencyKey];

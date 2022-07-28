@@ -27,56 +27,22 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+// apple-internal
 
-#import <ResearchKit/ORKAudiometryStimulus.h>
+#if RK_APPLE_INTERNAL
 
-typedef NSTimeInterval(^ORKAudiometryTimestampProvider)(void);
+#import <Foundation/Foundation.h>
 
-@class ORKdBHLToneAudiometryFrequencySample;
+NS_ASSUME_NONNULL_BEGIN
 
-/**
- Defines the interface of an audiometry algorithm.
- */
-@protocol ORKAudiometryProtocol <NSObject>
+typedef double(^MinimizableFunction)(double, double);
 
-/**
- A float value indicating the progress of the test from 0.0 to 1.0 (read-only)
- */
-@property (nonatomic, readonly) float progress;
+@interface ORKNewAudiometryMinimizer : NSObject
 
-/**
- A Boolean value indicating the end of the test (read-only)
- */
-@property (nonatomic, readonly) BOOL testEnded;
-
-/**
- A block used to retrieve timestamp from external sources to be included in the results.
- */
-@property (nonatomic, strong) ORKAudiometryTimestampProvider timestampProvider;
-
-/**
- This method should return a `ORKAudiometryStimulus` providing the parameters of the tone that should presented next, if available.
- It will be called just before the tone playback until a stimulus is provided or the test ended.
- */
-- (ORKAudiometryStimulus *)nextStimulus;
-
-/**
- Register the user response for the last presented tone.
- 
- @param BOOL  A Boolean representing if the user acknowledged the last presented tone.
- */
-- (void)registerResponse:(BOOL)response;
-
-/**
- Informs the audiometry algorithm that the last provided tone could not be reproduced to to signal clipping.
- */
-- (void)signalClipped;
-
-/**
- Returns an array of containing the results of the audiometry test.
-  
- @return An array of  `ORKdBHLToneAudiometryFrequencySample` representing the results of the audiometry test..
- */
-- (NSArray<ORKdBHLToneAudiometryFrequencySample *> *)resultSamples;
+- (NSArray<NSNumber *> *)minimizeThetaX:(double)thetaX thetaY:(double)thetaY onFunction:(MinimizableFunction)function NS_SWIFT_NAME(minimize(_:_:on:));
 
 @end
+
+NS_ASSUME_NONNULL_END
+
+#endif

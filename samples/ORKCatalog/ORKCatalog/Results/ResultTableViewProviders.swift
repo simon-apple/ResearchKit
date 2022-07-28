@@ -203,8 +203,10 @@ func resultTableViewProviderForResult(_ result: ORKResult?, delegate: ResultProv
         
     case is ORKBLEScanPeripheralsStepResult:
         providerType = BLEScanPeripheralsStepResultTableViewProvider.self
+                    
     #endif
     // end-omit-internal-code
+
     default:
         fatalError("No ResultTableViewProvider defined for \(type(of: result)).")
     }
@@ -1412,7 +1414,9 @@ class dBHLToneAudiometryResultTableViewProvider: ResultTableViewProvider {
             ]
         } else if section == 1 {
             guard let samples = dBHLToneAudiometryResult.samples else { return rows }
-            return rows + samples.map { sample in
+			
+	        let sortedSamples = samples.sorted { $0.frequency < $1.frequency }
+            return rows + sortedSamples.map { sample in
                 return ResultRow(text: "freq: \(String(format: "%.1f",sample.frequency))", detail: "threshold: \(String(format: "%.2f", sample.calculatedThreshold)), channel: \(sample.channel == .left ? "left" : "right")", selectable: false)
             }
         }

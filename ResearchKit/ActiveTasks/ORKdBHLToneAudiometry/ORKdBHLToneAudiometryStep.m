@@ -34,6 +34,9 @@
 #import "ORKAudiometry.h"
 
 #import "ORKHelpers_Internal.h"
+#if RK_APPLE_INTERNAL
+#import <ResearchKit/ResearchKit-Swift.h>
+#endif
 
 #define ORKdBHLToneAudiometryTaskToneMinimumDuration 1.0
 #define ORKdBHLToneAudiometryTaskDefaultMaxRandomPreStimulusDelay 2.0
@@ -49,6 +52,7 @@
 
 #if RK_APPLE_INTERNAL
 #define ORKdBHLToneAudiometryTaskdBHLDefaultAlgorithm 0
+#define ORKdBHLToneAudiometryTaskdBHLMaximumThreshold 75.0
 #endif
 
 @implementation ORKdBHLToneAudiometryStep {
@@ -89,6 +93,7 @@
     self.shouldShowDefaultTimer = NO;
 #if RK_APPLE_INTERNAL
     self.algorithm = ORKdBHLToneAudiometryTaskdBHLDefaultAlgorithm;
+    self.dBHLMaximumThreshold = ORKdBHLToneAudiometryTaskdBHLMaximumThreshold;
 #endif
 }
 
@@ -131,6 +136,7 @@
     step.frequencyList = self.frequencyList;
 #if RK_APPLE_INTERNAL
     step.algorithm = self.algorithm;
+    step.dBHLMaximumThreshold = self.dBHLMaximumThreshold;
 #endif
     return step;
 }
@@ -155,6 +161,7 @@
         
 #if RK_APPLE_INTERNAL
         ORK_DECODE_INTEGER(aDecoder, algorithm);
+        ORK_DECODE_DOUBLE(aDecoder, dBHLMaximumThreshold);
 #endif
     }
     return self;
@@ -179,6 +186,7 @@
     
 #if RK_APPLE_INTERNAL
     ORK_ENCODE_INTEGER(aCoder, algorithm);
+    ORK_ENCODE_DOUBLE(aCoder, dBHLMaximumThreshold);
 #endif
 }
 
@@ -207,6 +215,7 @@
             && ORKEqualObjects(self.frequencyList, castObject.frequencyList)
 #if RK_APPLE_INTERNAL
             && (self.algorithm == castObject.algorithm)
+            && (self.dBHLMaximumThreshold == castObject.dBHLMaximumThreshold)
 #endif
             );
 }
@@ -215,6 +224,15 @@
     if (!_audiometry) {
 #if RK_APPLE_INTERNAL
         switch (self.algorithm) {
+            case 1:
+                if (@available(iOS 14, *)) {
+                    _audiometry = [[ORKNewAudiometry alloc] initWithChannel:_earPreference
+                                                               initialLevel:_initialdBHLValue
+                                                                   minLevel:_dBHLMinimumThreshold
+                                                                   maxLevel:_dBHLMaximumThreshold
+                                                                frequencies:_frequencyList];
+                    break;
+                }
             default:
                 _audiometry = [[ORKAudiometry alloc] initWithStep:self];
                 break;

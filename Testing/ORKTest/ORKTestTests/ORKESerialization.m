@@ -1136,6 +1136,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(frequencyList, NSArray, NSObject, YES, nil, nil),
 #if RK_APPLE_INTERNAL
                     PROPERTY(algorithm, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(dBHLMaximumThreshold, NSNumber, NSObject, YES, nil, nil),
 #endif
                     })),
            ENTRY(ORKHolePegTestPlaceStep,
