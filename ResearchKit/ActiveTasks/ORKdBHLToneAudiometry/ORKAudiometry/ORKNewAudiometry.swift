@@ -67,6 +67,11 @@ import Foundation
     fileprivate var testFs: Vector<Double>
     fileprivate var revFs: Vector<Double>
     
+    // Extra result data
+    fileprivate var resultUnit = ORKdBHLToneAudiometryUnit()
+    fileprivate var resultUnitsTable: [Double: [ORKdBHLToneAudiometryUnit]] = [:]
+    @objc public var fitMatrix: [Double: Double] = [:]
+
     @objc
     public convenience init(channel: ORKAudioChannel) {
         self.init(channel: channel,
@@ -105,6 +110,7 @@ import Foundation
         self.revFs = Self.bark(reversals.asVector()) // frequencies that need reversals
         
         super.init()
+        createNewUnit()
     }
     
     public var progress: Float {
@@ -128,6 +134,7 @@ import Foundation
     }
     
     public func registerStimulusPlayback() {
+        resultUnit.preStimulusDelay = timestampProvider() - resultUnit.startOfUnitTimeStamp
     }
     
     public func registerResponse(_ response: Bool) {
@@ -149,6 +156,9 @@ import Foundation
             ySample.appendRow([response ? 1 : 0])
         }
         
+        let lastResponse = ySample.elements.last == 1
+        updateUnit(with: lastResponse)
+        
         if !nextInitialSample() {
             // Check if initial sampling is invalid
             if (!initialSamples.isEmpty &&
@@ -168,15 +178,16 @@ import Foundation
                     self.lastProgress = 1.2
                     self.finalSampling()
                     self.testEnded = true
+                } else {
+                    self.createNewUnit()
                 }
             }
         } else {
             // Store initial sample separetedly so it can be checked later
             initialSamples.append(response)
+            createNewUnit()
         }
     }
-    
-    public func signalClipped() {}
     
     public func resultSamples() -> [ORKdBHLToneAudiometryFrequencySample] {
         return results.map { key, value in
@@ -184,6 +195,40 @@ import Foundation
             sample.frequency = key
             sample.calculatedThreshold = value
             sample.channel = channel
+            return sample
+        }
+    }
+}
+
+@available(iOS 14, *)
+public extension ORKNewAudiometry {
+    func createNewUnit() {
+        guard let lastStimulus = stimulus else { return }
+
+        resultUnit = ORKdBHLToneAudiometryUnit()
+        resultUnit.dBHLValue = lastStimulus.level
+        resultUnit.startOfUnitTimeStamp = timestampProvider()
+        
+        var units = resultUnitsTable[lastStimulus.frequency] ?? []
+        units.append(resultUnit)
+        resultUnitsTable[lastStimulus.frequency] = units
+    }
+    
+    func updateUnit(with response: Bool) {
+        if response {
+            resultUnit.userTapTimeStamp = timestampProvider()
+        } else {
+            resultUnit.timeoutTimeStamp = timestampProvider()
+        }
+    }
+    
+    @objc func resultUnits() -> [ORKdBHLToneAudiometryFrequencySample] {
+        return resultUnitsTable.map { freq, units -> ORKdBHLToneAudiometryFrequencySample in
+            let sample = ORKdBHLToneAudiometryFrequencySample()
+            sample.frequency = freq
+            sample.calculatedThreshold = 0.0
+            sample.channel = channel
+            sample.units = units
             return sample
         }
     }
@@ -313,15 +358,14 @@ extension ORKNewAudiometry {
         let fitFreqs = fit.getColumn(0).elements
         let fitLevels = fit.getColumn(1).elements
 
-        let upperSampleIndex = Double(30 - (allFrequencies.count - 2))
-        let interpolatedFreqs = Interpolators.log2Interpolate(values: [minFreq, maxFreq],
-                                                              atIndices: [0, upperSampleIndex])
-        let frequencies = Array(Set(interpolatedFreqs + allFrequencies)).sorted()
-        
-        for freq in (frequencies) {
+        for freq in allFrequencies {
             results[freq] = Interpolators.interp1d(xValues: fitFreqs,
                                                    yValues: fitLevels,
                                                    xPoint: bark(freq))
+        }
+        
+        fitMatrix = zip(fitFreqs, fitLevels).reduce(into: [:]) {
+            $0[$1.0] = $1.1
         }
     }
     

@@ -72,8 +72,9 @@ typedef NSTimeInterval(^ORKAudiometryTimestampProvider)(void);
 - (void)registerResponse:(BOOL)response;
 
 /**
- Informs the audiometry algorithm that the last provided tone could not be reproduced to to signal clipping.
+ Informs the audiometry algorithm that the last provided tone could not be reproduced due to signal clipping. Optional.
  */
+@optional
 - (void)signalClipped;
 
 /**

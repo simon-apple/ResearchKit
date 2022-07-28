@@ -154,11 +154,11 @@
             } else if ([firstResult isKindOfClass:[ORKdBHLToneAudiometryResult class]]) {
                 if (@available(iOS 14.0, *)) {
                     ORKdBHLToneAudiometryResult *dBHLToneAudiometryResult = (ORKdBHLToneAudiometryResult *)firstResult;
-                    
-                    // Only use audiograms from ORKNewAudiometry which contains extra samples
-                    if ([self.audiometryEngine isKindOfClass:[ORKNewAudiometry class]] &&
-                        dBHLToneAudiometryResult.samples.count > self.dBHLToneAudiometryStep.frequencyList.count) {
-                        
+                    NSArray *units = [dBHLToneAudiometryResult.samples valueForKey:@"units"];
+                    BOOL containsUnits = units && units.count > 0;
+
+                    // Only use audiograms from ORKNewAudiometry which does not contains units on the samples
+                    if ([self.audiometryEngine isKindOfClass:[ORKNewAudiometry class]] && !containsUnits) {
                         NSMutableDictionary *audiogram = [[NSMutableDictionary alloc] init];
                         
                         for (ORKdBHLToneAudiometryFrequencySample *sample in dBHLToneAudiometryResult.samples) {
@@ -262,6 +262,15 @@
     toneResult.startDate = sResult.startDate;
     toneResult.endDate = now;
     toneResult.samples = [self.audiometryEngine resultSamples];
+#if RK_APPLE_INTERNAL
+    if (@available(iOS 14.0, *)) {
+        if ([self.audiometryEngine isKindOfClass:[ORKNewAudiometry class]]) {
+            ORKNewAudiometry *engine = (ORKNewAudiometry *)self.audiometryEngine;
+            toneResult.discreteUnits = engine.resultUnits;
+            toneResult.fitMatrix = engine.fitMatrix;
+        }
+    }
+#endif
     toneResult.outputVolume = [AVAudioSession sharedInstance].outputVolume;
     toneResult.headphoneType = self.dBHLToneAudiometryStep.headphoneType;
     toneResult.tonePlaybackDuration = [self dBHLToneAudiometryStep].toneDuration;
@@ -356,7 +365,9 @@
 }
 
 - (void)toneWillStartClipping {
-    [self.audiometryEngine signalClipped];
+    if ([self.audiometryEngine respondsToSelector:@selector(signalClipped)]) {
+        [self.audiometryEngine signalClipped];
+    }
     [self nextTrial];
 }
 
