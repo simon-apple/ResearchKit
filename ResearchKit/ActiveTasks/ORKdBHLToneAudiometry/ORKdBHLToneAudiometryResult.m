@@ -63,7 +63,7 @@ const double ORKInvalidDBHLValue = DBL_MAX;
         
 #if RK_APPLE_INTERNAL
         ORK_DECODE_OBJ_ARRAY(aDecoder, discreteUnits, ORKdBHLToneAudiometryFrequencySample);
-        ORK_DECODE_OBJ_DICTIONARY(aDecoder, fitMatrix, NSNumber, NSNumber);
+        ORK_DECODE_OBJ_DICTIONARY(aDecoder, fitMatrix, NSString, NSNumber);
 #endif
     }
     return self;
