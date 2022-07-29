@@ -70,7 +70,7 @@ import Foundation
     // Extra result data
     fileprivate var resultUnit = ORKdBHLToneAudiometryUnit()
     fileprivate var resultUnitsTable: [Double: [ORKdBHLToneAudiometryUnit]] = [:]
-    @objc public var fitMatrix: [Double: Double] = [:]
+    @objc public var fitMatrix: [String: Double] = [:]
 
     @objc
     public convenience init(channel: ORKAudioChannel) {
@@ -365,7 +365,7 @@ extension ORKNewAudiometry {
         }
         
         fitMatrix = zip(fitFreqs, fitLevels).reduce(into: [:]) {
-            $0[$1.0] = $1.1
+            $0[String($1.0)] = $1.1
         }
     }
     
