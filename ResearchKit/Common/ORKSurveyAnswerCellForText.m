@@ -423,11 +423,9 @@ static const CGFloat DividerViewTopPadding = 10.0;
 }
 
 - (void)clearTextView {
-    if (_dontKnowButton && ![_dontKnowButton active]) {
-        self.textView.text = @"";
-        [self textDidChange];
-        [self updateTextCountLabel];
-    }
+    self.textView.text = @"";
+    [self textDidChange];
+    [self updateTextCountLabel];
 }
 
 - (void)dontKnowButtonWasPressed {
