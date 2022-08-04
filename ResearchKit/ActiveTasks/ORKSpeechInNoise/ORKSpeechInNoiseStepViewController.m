@@ -378,28 +378,25 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
 
 - (void)headphoneTypeDetected:(nonnull ORKHeadphoneTypeIdentifier)headphoneType vendorID:(nonnull NSString *)vendorID productID:(nonnull NSString *)productID deviceSubType:(NSInteger)deviceSubType isSupported:(BOOL)isSupported {
     if (![headphoneType isEqualToString:_headphoneType]) {
-        [self showAlertWithTitle:ORKLocalizedString(@"HEADPHONES_DISCONNECTED_TITLE", nil)
-                      andMessage:ORKLocalizedString(@"HEADPHONES_DISCONNECTED_TEXT", nil)];
+        [self showAlert];
     }
 }
 
 - (void)oneAirPodRemoved {
-    [self showAlertWithTitle:ORKLocalizedString(@"HEADPHONES_BOTH_TITLE", nil)
-                  andMessage:ORKLocalizedString(@"HEADPHONES_BOTH_TEXT", nil)];
+    [self showAlert];
 }
 
 - (void)podLowBatteryLevelDetected {
-    [self showAlertWithTitle:ORKLocalizedString(@"HEADPHONES_LOW_BATTERY_TITLE", nil)
-                  andMessage:ORKLocalizedString(@"HEADPHONES_LOW_BATTERY_TEXT", nil)];
+    [self showAlert];
 }
 
-- (void)showAlertWithTitle:(NSString*)title andMessage:(NSString*)message {
+- (void)showAlert {
     if (!_showingAlert) {
         _showingAlert = YES;
         dispatch_async(dispatch_get_main_queue(), ^{
             UIAlertController *alertController = [UIAlertController
-                                                  alertControllerWithTitle:title
-                                                  message:message
+                                                  alertControllerWithTitle:ORKLocalizedString(@"PACHA_ALERT_TITLE_TASK_INTERRUPTED", nil)
+                                                  message:ORKLocalizedString(@"PACHA_ALERT_TEXT_TASK_INTERRUPTED", nil)
                                                   preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *startOver = [UIAlertAction
                                         actionWithTitle:ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_START_OVER", nil)
