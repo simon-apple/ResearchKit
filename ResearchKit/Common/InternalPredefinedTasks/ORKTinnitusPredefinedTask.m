@@ -151,7 +151,7 @@ static NSString *const ORKTinnitusHeadphoneRequiredStepIdentifier = @"ORKTinnitu
                     }
                 }];
                 UIAlertController *alertController = [UIAlertController
-                                                      alertControllerWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE_TASK_INTERRUPTED", nil)
+                                                      alertControllerWithTitle:ORKLocalizedString(@"PACHA_ALERT_TITLE_TASK_INTERRUPTED", nil)
                                                       message:[self getInterruptMessage]
                                                       preferredStyle:UIAlertControllerStyleAlert];
                 _continueAction = [UIAlertAction
