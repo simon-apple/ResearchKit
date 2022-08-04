@@ -202,7 +202,7 @@
 
 #if RK_APPLE_INTERNAL
 -(void)appDidBecomeActive:(NSNotification*)note {
-    [self showAlertWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE_TASK_INTERRUPTED", nil) andMessage:ORKLocalizedString(@"dBHL_ALERT_TEXT_TASK_INTERRUPTED", nil)];
+    [self showAlert];
 }
 #endif
 
@@ -235,11 +235,11 @@
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-#if RK_APPLE_INTERNAL
+    #if RK_APPLE_INTERNAL
+    [_headphoneDetector discard];
     _headphoneDetector.delegate = nil;
     _headphoneDetector = nil;
-#endif
+    #endif
     
     _audioGenerator.delegate = nil;
 }
@@ -374,36 +374,41 @@
 #if RK_APPLE_INTERNAL
 #pragma mark - Headphone Monitoring
 
-- (void)headphoneTypeDetected:(nonnull ORKHeadphoneTypeIdentifier)headphoneType vendorID:(nonnull NSString *)vendorID productID:(nonnull NSString *)productID deviceSubType:(NSInteger)deviceSubType isSupported:(BOOL)isSupported {
-    if (![headphoneType isEqualToString:[[self dBHLToneAudiometryStep].headphoneType uppercaseString]]) {
-        [self showAlertWithTitle:ORKLocalizedString(@"HEADPHONES_DISCONNECTED_TITLE", nil) andMessage:ORKLocalizedString(@"HEADPHONES_DISCONNECTED_TEXT", nil)];
-    }
+- (NSString *)headphoneType {
+    return [[self dBHLToneAudiometryStep].headphoneType uppercaseString];
 }
 
 - (void)bluetoothModeChanged:(ORKBluetoothMode)bluetoothMode {
-    if ([[[self dBHLToneAudiometryStep].headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsPro]) {
+    if ([[[self dBHLToneAudiometryStep].headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsPro] ||
+        [[[self dBHLToneAudiometryStep].headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMax]) {
         if (bluetoothMode != ORKBluetoothModeNoiseCancellation) {
-            [self showAlertWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE3_TEST_INTERRUPTED", nil) andMessage:ORKLocalizedString(@"dBHL_NOISE_CANCELLING_ALERT_TEXT", nil)];
+            [self showAlert];
         }
     }
 }
 
-- (void)podLowBatteryLevelDetected {
-    [self showAlertWithTitle:ORKLocalizedString(@"HEADPHONES_LOW_BATTERY_TITLE", nil) andMessage:ORKLocalizedString(@"HEADPHONES_LOW_BATTERY_TEXT", nil)];
+- (void)headphoneTypeDetected:(nonnull ORKHeadphoneTypeIdentifier)headphoneType vendorID:(nonnull NSString *)vendorID productID:(nonnull NSString *)productID deviceSubType:(NSInteger)deviceSubType isSupported:(BOOL)isSupported {
+    if (![headphoneType isEqualToString:[self headphoneType]]) {
+        [self showAlert];
+    }
 }
 
 - (void)oneAirPodRemoved {
-    [self showAlertWithTitle:ORKLocalizedString(@"HEADPHONES_BOTH_TITLE", nil) andMessage:ORKLocalizedString(@"HEADPHONES_BOTH_TEXT", nil)];
+    [self showAlert];
 }
 
-- (void)showAlertWithTitle:(NSString*)title andMessage:(NSString*)message {
+- (void)podLowBatteryLevelDetected {
+    [self showAlert];
+}
+
+- (void)showAlert {
     if (!_showingAlert) {
         _showingAlert = YES;
         dispatch_async(dispatch_get_main_queue(), ^{
             [self stopAudio];
             UIAlertController *alertController = [UIAlertController
-                                                  alertControllerWithTitle:title
-                                                  message:message
+                                                  alertControllerWithTitle:ORKLocalizedString(@"PACHA_ALERT_TITLE_TASK_INTERRUPTED", nil)
+                                                  message:ORKLocalizedString(@"PACHA_ALERT_TEXT_TASK_INTERRUPTED", nil)
                                                   preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *startOver = [UIAlertAction
                                         actionWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE_START_OVER", nil)

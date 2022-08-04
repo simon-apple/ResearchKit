@@ -63,13 +63,17 @@
 "TINNITUS_MASKING_VOLUME_CALIBRATION_TEXT" = "Listen to the sample and move the slider to find the minimum volume required to mask the tinnitus you are experiencing.";
 "CONTEXT_MICROPHONE_REQUIRED_TITLE" = "This Test Requires Access To The Microphone";
 "CONTEXT_MICROPHONE_REQUIRED_TEXT" = "You can take the task again when you give access.";
-"OPEN_MICROPHONE_SETTINGS" = "Enable Access in Settings";
 "TINNITUS_ALERT_TEXT_AIRPODS" = "To resume, securely wear your AirPods, make sure they’re connected, and turn off SharePlay.";
 "TINNITUS_ALERT_TEXT_AIRPODSPRO" = "To resume, securely wear your AirPods Pro and make sure they’re connected. Turn on Noise Cancelling and turn off SharePlay.";
 "TINNITUS_ALERT_TEXT_AIRPODSMAX" = "To resume, securely wear your AirPods Max and make sure they’re connected. Turn on Noise Cancelling and turn off SharePlay.";
 "TINNITUS_ALERT_TEXT_EARPODS" = "To resume, securely wear your EarPods and make sure they’re connected.";
+"OPEN_MICROPHONE_SETTINGS" = "Enable Access in Settings";
 "TINNITUS_ALERT_BUTTON_CONTINUE" = "Continue";
 "TINNITUS_ALERT_BUTTON_CANCEL" = "Cancel Task";
+
+/* Pacha Alerts */
+"PACHA_ALERT_TITLE_TASK_INTERRUPTED" = "Task Interrupted";
+"PACHA_ALERT_TEXT_TASK_INTERRUPTED" = "To ensure accurate results, this task must be completed without interruption.";
 
 /* BLE */
 "BLE_UNABLE_TO_SCAN_TITLE" = "Unable to Scan";
@@ -159,16 +163,10 @@
 "REQUEST_MOTION_ACTIVITY_STEP_VIEW_DESCRIPTION" = "The study is requesting access to motion data from your devices.";
 
 /* dBHL Task */
-"dBHL_ALERT_TITLE3_TEST_INTERRUPTED" = "Noise Cancellation Turned Off";
-"dBHL_NOISE_CANCELLING_ALERT_TEXT" = "Turn on Noise Cancellation to take this test.";
 "dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_TITLE" = "This Test Requires Compatible Headphones";
 "dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_TEXT" = "Thank you for participating in the Apple Hearing Study.\n\nTo do this task at a later time, connect Apple EarPods, AirPods, or AirPods Pro to your device.";
 "dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_DO_LATER" = "Finish task later";
 "dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_SKIP" = "Skip this task";
-
-/* Alert For dBHL Task Interruption */
-"dBHL_ALERT_TITLE_TASK_INTERRUPTED" = "Task Interrupted";
-"dBHL_ALERT_TEXT_TASK_INTERRUPTED" = "To ensure accurate results, this task must be completed without interruption.";
 
 /* SPLMeter No Quiet Location Step */
 "ENVIRONMENTSPL_QUIET_LOCATION_REQUIRED_TITLE" = "You'll need to be in a quiet location to complete this task.";
@@ -210,7 +208,6 @@
 "NOISE_CANCELLATION_EXPLANATION_AIRPODSPRO" = "Press and hold one of your AirPods Pro to turn on Noise Cancellation";
 "NOISE_CANCELLATION_EXPLANATION_AIRPODSMAX" = "Press the noise control button to enable Noise Cancellation";
 "NOISE_CANCELLATION_REQUIRED" = "Noise cancellation required";
-"BOTH_BUDS_IN_EAR_REQUIRED" = "Put both AirPods in to proceed.";
 "DBHL_HEADPHONES_DETECT_SKIP" = "No Compatible Headphones";
 "SHARED_AUDIO_ALERT" = "Shared audio must be turned off.%@To turn off shared audio, open Control Center and tap %@. Then tap the %@ to turn off sharing a particular set of headphones.";
 
@@ -234,12 +231,8 @@
 "SPEECH_IN_NOISE_PREDEFINED_VOLUME_CALIBRATION_TEXT" = "Make sure your ears and headphones are clear of any obstructions.\r\n\r\nAdjust the volume so you can clearly hear the sample.";
 "SPEECH_IN_NOISE_PREDEFINED_USE_KEYBOARD_INSTEAD" = "Use Keyboard Instead";
 "SPEECH_IN_NOISE_PREDEFINED_PRACTICE_COMPLETION_TITLE" = "Practice Complete";
-"HEADPHONES_DISCONNECTED_TITLE" = "Headphones Disconnected";
-"HEADPHONES_DISCONNECTED_TEXT" = "Reconnect your headphones to take this test.";
 "HEADPHONES_LOW_BATTERY_TITLE" = "Low Battery";
 "HEADPHONES_LOW_BATTERY_TEXT" = "Charge your headphones to be sure you can complete the test.";
-"HEADPHONES_BOTH_TITLE" = "Both Headphones Required";
-"HEADPHONES_BOTH_TEXT" = "For accurate results use both headphones, not just one.";
 "SPEECH_IN_NOISE_PREDEFINED_START_OVER" = "Start Again";
 "SPEECH_IN_NOISE_PREDEFINED_CANCEL_TEST" = "Cancel Test";
 
