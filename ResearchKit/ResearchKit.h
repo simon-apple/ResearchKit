@@ -96,6 +96,9 @@
 
 #import <ResearchKit/ORKRecorder.h>
 
+#import <ResearchKit/ORKAudiometryStimulus.h>
+#import <ResearchKit/ORKAudiometryProtocol.h>
+
 #import <ResearchKit/ORKConsentDocument.h>
 #import <ResearchKit/ORKConsentSection.h>
 #import <ResearchKit/ORKConsentSignature.h>
@@ -125,4 +128,5 @@
 #import <ResearchKit/ORKTypingStep.h>
 #import <ResearchKit/ORKAVJournalingResult.h>
 #import <ResearchKit/ORKBLEScanPeripheralsStepResult.h>
+#import <ResearchKit/ORKNewAudiometryMinimizer.h>
 #endif

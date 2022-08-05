@@ -62,7 +62,12 @@ class SystemSound {
     types of functionality supported by the ResearchKit framework.
 */
 enum TaskListRow: Int, CustomStringConvertible {
+    #if RK_APPLE_INTERNAL
+    case catalogVersion = 0
+    case form
+    #else
     case form = 0
+    #endif
     case groupedForm
     case survey
     case platterUIQuestion
@@ -121,14 +126,14 @@ enum TaskListRow: Int, CustomStringConvertible {
     case videoInstruction
     case webView
     
-    //start-omit-internal-code
     #if RK_APPLE_INTERNAL
     case predefinedSpeechInNoiseTask
     case predefinedAVJournalingTask
     case predefinedTinnitusTask
     case ble
+    case textQuestionPIIScrubbing
+    case newdBHLToneAudiometryTask
     #endif
-    //end-omit-internal-code
     
     class TaskListRowSection {
         var title: String
@@ -143,7 +148,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     /// Returns an array of all the task list row enum cases.
     static var sections: [ TaskListRowSection ] {
         
-        let defaultSections = [
+        var defaultSections = [
             TaskListRowSection(title: "Surveys", rows:
                 [
                     .form,
@@ -217,8 +222,9 @@ enum TaskListRow: Int, CustomStringConvertible {
                     .webView
                 ])]
         
-            //start-omit-internal-code
             #if RK_APPLE_INTERNAL
+            defaultSections.insert(TaskListRowSection(title: "Version", rows:[.catalogVersion]), at: 0)
+        
             let internalSections = [
 
             TaskListRowSection(title: "Internal", rows:
@@ -226,11 +232,13 @@ enum TaskListRow: Int, CustomStringConvertible {
                     .predefinedSpeechInNoiseTask,
                     .predefinedAVJournalingTask,
                     .predefinedTinnitusTask,
-                    .ble
+                    .textQuestionPIIScrubbing,
+                    .ble,
+                    .newdBHLToneAudiometryTask
                 ])]
-            return (defaultSections + internalSections)
+            defaultSections = (defaultSections + internalSections)
             #endif
-            //end-omit-internal-code
+        
             return defaultSections
         }
     
@@ -412,8 +420,10 @@ enum TaskListRow: Int, CustomStringConvertible {
         case .webView:
             return NSLocalizedString("Web View", comment: "")
             
-        //start-omit-internal-code
         #if RK_APPLE_INTERNAL
+        case .catalogVersion:
+            return NSLocalizedString("Catalog App Version History", comment: "")
+        
         case .predefinedSpeechInNoiseTask:
             return NSLocalizedString("Predefined Speech In Noise", comment: "")
             
@@ -425,8 +435,13 @@ enum TaskListRow: Int, CustomStringConvertible {
         
         case .ble:
             return NSLocalizedString("BLE", comment: "")
+            
+        case .textQuestionPIIScrubbing:
+            return NSLocalizedString("Text Question PII Scrubbing", comment: "")
+            
+        case .newdBHLToneAudiometryTask:
+            return NSLocalizedString("dBHL Tone Audiometry (New Algorithm)", comment: "")
         #endif
-        //end-omit-internal-code
         }
     }
     
@@ -522,7 +537,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         // Task with an example of free text entry.
         case textQuestionTask
         case textQuestionStep
-        
+
         // Task with an example of a multiple choice question.
         case textChoiceQuestionTask
         case textChoiceQuestionStep
@@ -626,13 +641,18 @@ enum TaskListRow: Int, CustomStringConvertible {
         case webViewTask
         case webViewStep
         
-        //start-omit-internal-code
         #if RK_APPLE_INTERNAL
+        case catalogAppVersionHistory
+        case textQuestionEmailPIIScrubbingStep
+        case textQuestionSSNPIIScrubbingStep
+        case textQuestionPIIScrubbingTask
+        case textQuestionPIIScrubbingEmailFormItem
+        case textQuestionPIIScrubbingSSNFormItem
         case predefinedSpeechInNoiseTask
         case predefinedAVJournalingTask
         case predefinedTinnitusTask
+        case newdBHLToneAudiometryTask
         #endif
-        //end-omit-internal-code
     }
     
     // MARK: Properties
@@ -690,7 +710,7 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .textChoiceQuestion:
             return textChoiceQuestionTask
-
+            
         case .timeIntervalQuestion:
             return timeIntervalQuestionTask
 
@@ -811,8 +831,13 @@ enum TaskListRow: Int, CustomStringConvertible {
         case .webView:
             return webView
             
-        //start-omit-internal-code
         #if RK_APPLE_INTERNAL
+        case .catalogVersion:
+            return catalogAppVersionHistory
+            
+        case .textQuestionPIIScrubbing:
+            return textQuestionPIIScrubbingTask
+            
         case .predefinedSpeechInNoiseTask:
             return predefinedSpeechInNoiseTask
         
@@ -824,8 +849,11 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .ble:
             return ble
+            
+        case .newdBHLToneAudiometryTask:
+            return newdBHLToneAudiometryTask
         #endif
-        //end-omit-internal-code
+
         case .textChoiceQuestionWithImageTask:
             return textChoiceQuestionWithImageTask
         }
@@ -999,6 +1027,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         summaryStep.title = NSLocalizedString("Thanks", comment: "")
         summaryStep.text = NSLocalizedString("Thank you for participating in this sample survey.", comment: "")
         
+    
         return ORKOrderedTask(identifier: String(describing: Identifier.surveyTask), steps: [
             instructionStep,
             question1Step,
@@ -1342,13 +1371,53 @@ enum TaskListRow: Int, CustomStringConvertible {
         let answerFormat = ORKAnswerFormat.textAnswerFormat()
         answerFormat.multipleLines = true
         answerFormat.maximumLength = 280
-        
         let step = ORKQuestionStep(identifier: String(describing: Identifier.textQuestionStep), title: NSLocalizedString("Text", comment: ""), question: exampleQuestionText, answer: answerFormat)
-        
         step.text = exampleDetailText
-        
         return ORKOrderedTask(identifier: String(describing: Identifier.textQuestionTask), steps: [step])
     }
+    
+#if RK_APPLE_INTERNAL
+    /**
+    This task demonstrates asking for text entry with PII Scrubbing. Both single and multi-line
+    text entry are supported, with appropriate parameters to the text answer
+    format.
+    */
+    private var textQuestionPIIScrubbingTask: ORKTask {
+        let emailAnswerFormat = ORKAnswerFormat.textAnswerFormat()
+        emailAnswerFormat.multipleLines = true
+        emailAnswerFormat.maximumLength = 280
+        emailAnswerFormat.scrubberNames = [PIIScrubber.emailScrubberName]
+
+        let emailPIIScrubberFormStep = ORKFormStep(identifier: String(describing: Identifier.textQuestionEmailPIIScrubbingStep))
+        emailPIIScrubberFormStep.title = NSLocalizedString("Eligibility", comment: "")
+        emailPIIScrubberFormStep.isOptional = false
+        
+        let emailORKFormItem = ORKFormItem(identifier: String(describing: Identifier.textQuestionPIIScrubbingEmailFormItem), text: examplePIIScrubbedEmailQuestionText, answerFormat: emailAnswerFormat)
+        
+        emailPIIScrubberFormStep.formItems = [
+            emailORKFormItem
+        ];
+        
+        
+        let SSNAnswerFormat = ORKAnswerFormat.textAnswerFormat()
+        SSNAnswerFormat.multipleLines = true
+        SSNAnswerFormat.maximumLength = 280
+        SSNAnswerFormat.scrubberNames = [PIIScrubber.SSNScrubberName]
+        
+        let SSNORKFormItem = ORKFormItem(identifier: String(describing: Identifier.textQuestionPIIScrubbingSSNFormItem), text: examplePIIScrubbedSSNQuestionText, answerFormat: SSNAnswerFormat)
+
+        let SSNPIIScrubberFormStep = ORKFormStep(identifier: String(describing: Identifier.textQuestionSSNPIIScrubbingStep))
+        SSNPIIScrubberFormStep.title = NSLocalizedString("Eligibility", comment: "")
+        SSNPIIScrubberFormStep.isOptional = false
+        
+        SSNPIIScrubberFormStep.formItems = [
+            SSNORKFormItem
+        ];
+        
+        
+        return ORKOrderedTask(identifier: String(describing: Identifier.textQuestionPIIScrubbingTask), steps: [emailPIIScrubberFormStep, SSNPIIScrubberFormStep])
+    }
+#endif
     
     /**
     This task demonstrates a survey question for picking from a list of text
@@ -1474,6 +1543,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         let domainRegularExpressionPattern = "^(https?:\\/\\/)?([\\da-z\\.-]+)\\.([a-z\\.]{2,6})([\\/\\w \\.-]*)*\\/?$"
         let domainRegularExpression = try? NSRegularExpression(pattern: domainRegularExpressionPattern)
         let answerFormatDomain = ORKAnswerFormat.textAnswerFormat(withValidationRegularExpression: domainRegularExpression!, invalidMessage: "Invalid URL: %@")
+
         answerFormatDomain.multipleLines = false
         answerFormatDomain.keyboardType = .URL
         answerFormatDomain.autocapitalizationType = UITextAutocapitalizationType.none
@@ -1966,8 +2036,15 @@ enum TaskListRow: Int, CustomStringConvertible {
     }
 
     
-    //start-omit-internal-code
     #if RK_APPLE_INTERNAL
+    private var catalogAppVersionHistory: ORKTask {
+        let steps: [ORKStep] = [
+            createVersionInstructionStep(version: "2.0.0", additions: ["Task for testing PII Scrubbers"])
+        ]
+        
+        return ORKOrderedTask(identifier: String(describing: Identifier.catalogAppVersionHistory), steps: steps)
+    }
+    
     private var predefinedSpeechInNoiseTask: ORKTask {
         
         guard let path = Bundle.main.path(forResource: "manifest", ofType: "json", inDirectory: "List1") else {
@@ -2013,8 +2090,13 @@ enum TaskListRow: Int, CustomStringConvertible {
         
         return ORKOrderedTask(identifier: "BLE", steps: [scanStep])
     }
+    
+    /// This task presents the dBHL Tone Audiometry new algorithm.
+    private var newdBHLToneAudiometryTask: ORKTask {
+        return ORKOrderedTask.newdBHLToneAudiometryTask(withIdentifier: String(describing: Identifier.newdBHLToneAudiometryTask), intendedUseDescription: nil, options: [])
+    }
+    
     #endif
-    //end-omit-internal-code
     
     // MARK: `ORKTask` Reused Text Convenience
     
@@ -2126,4 +2208,27 @@ enum TaskListRow: Int, CustomStringConvertible {
         </html>
         """
     }
+        
+    #if RK_APPLE_INTERNAL
+    private var examplePIIScrubbedEmailQuestionText: String {
+        return NSLocalizedString("Your question goes here. Your email will be scrubbed", comment: "")
+    }
+
+    private var examplePIIScrubbedSSNQuestionText: String {
+        return NSLocalizedString("Your question goes here. Your SSN will be scrubbed", comment: "")
+    }
+    
+    private func createVersionInstructionStep(version: String, additions: [String]) -> ORKStep {
+        let instructionStep = ORKInstructionStep(identifier: version)
+        instructionStep.title = "Version: (\(version))"
+        instructionStep.text = "Updates/Additions below"
+        
+        instructionStep.bodyItems = additions.map ({(addition:String) -> ORKBodyItem in
+                return ORKBodyItem(text: addition, detailText: nil, image: nil, learnMoreItem: nil, bodyItemStyle: .bulletPoint)
+            }
+        )
+        
+        return instructionStep
+    }
+    #endif
 }

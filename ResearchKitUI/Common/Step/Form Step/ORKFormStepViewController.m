@@ -935,10 +935,10 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
             systemTimeZone = _savedSystemTimeZones[item.identifier];
             NSAssert(answer == nil || answer == ORKNullAnswerValue() || systemTimeZone != nil, @"systemTimeZone NOT saved");
         }
-        
+   
         ORKQuestionResult *result = [item.answerFormat resultWithIdentifier:item.identifier answer:answer];
         ORKAnswerFormat *impliedAnswerFormat = [item impliedAnswerFormat];
-        
+
         if ([impliedAnswerFormat isKindOfClass:[ORKDateAnswerFormat class]]) {
             ORKDateQuestionResult *dqr = (ORKDateQuestionResult *)result;
             if (dqr.dateAnswer) {

@@ -1136,6 +1136,10 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(headphoneType, NSString, NSObject, YES, nil, nil),
                     PROPERTY(earPreference, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(frequencyList, NSArray, NSObject, YES, nil, nil),
+#if RK_APPLE_INTERNAL
+                    PROPERTY(algorithm, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(dBHLMaximumThreshold, NSNumber, NSObject, YES, nil, nil),
+#endif
                     })),
            ENTRY(ORKHolePegTestPlaceStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
@@ -1859,7 +1863,10 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(passwordRules, UITextInputPasswordRules, NSObject, YES,
                              ^id(id value, __unused ORKESerializationContext *context) { return dictionaryFromPasswordRules((UITextInputPasswordRules *)value); },
                              ^id(id dict, __unused ORKESerializationContext *context) { return passwordRulesFromDictionary(dict); } ),
-                    PROPERTY(placeholder, NSString, NSObject, YES, nil, nil)
+                    PROPERTY(placeholder, NSString, NSObject, YES, nil, nil),
+#if RK_APPLE_INTERNAL
+                    PROPERTY(scrubberNames, NSArray, NSObject, YES, nil, nil)
+#endif
                     })),
            ENTRY(ORKEmailAnswerFormat,
                  nil,
@@ -2080,6 +2087,10 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(postStimulusDelay, NSNumber, NSObject, NO, nil, nil),
                     PROPERTY(headphoneType, NSString, NSObject, NO, nil, nil),
                     PROPERTY(samples, ORKdBHLToneAudiometryFrequencySample, NSArray, NO, nil, nil),
+#if RK_APPLE_INTERNAL
+                    PROPERTY(discreteUnits, ORKdBHLToneAudiometryFrequencySample, NSArray, NO, nil, nil),
+                    PROPERTY(fitMatrix, NSDictionary, NSObject, NO, nil, nil),
+#endif
                     })),
            ENTRY(ORKReactionTimeResult,
                  nil,

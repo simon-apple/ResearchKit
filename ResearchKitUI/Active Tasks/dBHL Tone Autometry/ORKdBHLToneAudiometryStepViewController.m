@@ -52,6 +52,7 @@
 #if RK_APPLE_INTERNAL
 #import "ORKHeadphoneDetectStep.h"
 #import "ORKHeadphoneDetectResult.h"
+#import <ResearchKit/ResearchKit-Swift.h>
 #endif
 
 #import "ORKHelpers_Internal.h"
@@ -62,56 +63,16 @@
 #import "ORKNavigableOrderedTask.h"
 #import "ORKStepNavigationRule.h"
 
-
-@interface ORKdBHLToneAudiometryTransitions: NSObject
-
-@property (nonatomic, assign) float userInitiated;
-@property (nonatomic, assign) float totalTransitions;
-
-@end
-
-@implementation ORKdBHLToneAudiometryTransitions
-
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
-        _userInitiated = 1;
-        _totalTransitions = 1;
-    }
-    return self;
-}
-
-@end
-
 @interface ORKdBHLToneAudiometryStepViewController () <ORKdBHLToneAudiometryAudioGeneratorDelegate> {
-    double _prevFreq;
-    double _currentdBHL;
-    double _dBHLStepUpSize;
-    double _dBHLStepDownSize;
-    double _dBHLMinimumThreshold;
-    int _currentTestIndex;
-    int _indexOfFreqLoopList;
-    NSUInteger _indexOfStepUpMissingList;
-    int _numberOfTransitionsPerFreq;
-    NSInteger _maxNumberOfTransitionsPerFreq;
-    BOOL _initialDescent;
-    BOOL _ackOnce;
-    BOOL _usingMissingList;
-    ORKdBHLToneAudiometryAudioGenerator *_audioGenerator;
-    NSArray *_freqLoopList;
-    NSArray *_stepUpMissingList;
-    NSMutableArray *_arrayOfResultSamples;
-    NSMutableArray *_arrayOfResultUnits;
-    NSMutableDictionary *_transitionsDictionary;
-    UIImpactFeedbackGenerator *_hapticFeedback;
     ORKdBHLToneAudiometryFrequencySample *_resultSample;
-    ORKdBHLToneAudiometryUnit *_resultUnit;
     ORKAudioChannel _audioChannel;
+
+    ORKdBHLToneAudiometryAudioGenerator *_audioGenerator;
+    UIImpactFeedbackGenerator *_hapticFeedback;
+    
     dispatch_block_t _preStimulusDelayWorkBlock;
     dispatch_block_t _pulseDurationWorkBlock;
     dispatch_block_t _postStimulusDelayWorkBlock;
-    int _minimumThresholdCounter;
     
 #if RK_APPLE_INTERNAL
     ORKHeadphoneDetector *_headphoneDetector;
@@ -130,22 +91,16 @@
     
     if (self) {
         self.suspendIfInactive = YES;
-        _indexOfFreqLoopList = 0;
-        _indexOfStepUpMissingList = 0;
-        _initialDescent = YES;
-        _ackOnce = NO;
-        _usingMissingList = YES;
-        _prevFreq = 0;
-        _minimumThresholdCounter = 0;
-        _currentTestIndex = 0;
 #if RK_APPLE_INTERNAL
         _showingAlert = NO;
 #endif
-        _transitionsDictionary = [NSMutableDictionary dictionary];
-        _arrayOfResultSamples = [NSMutableArray array];
-        _arrayOfResultUnits = [NSMutableArray array];
+
+        ORKWeakTypeOf(self) weakSelf = self;
+        self.audiometryEngine.timestampProvider = ^NSTimeInterval{
+            ORKStrongTypeOf(self) strongSelf = weakSelf;
+            return strongSelf ? strongSelf.runtime : 0;
+        };
     }
-    
     return self;
 }
 
@@ -161,24 +116,17 @@
     return (ORKdBHLToneAudiometryStep *)self.step;
 }
 
+- (id<ORKAudiometryProtocol>)audiometryEngine {
+    return self.dBHLToneAudiometryStep.audiometryEngine;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-
     [self configureStep];
 }
 
 - (void)configureStep {
     ORKdBHLToneAudiometryStep *dBHLTAStep = [self dBHLToneAudiometryStep];
-
-    _maxNumberOfTransitionsPerFreq = dBHLTAStep.maxNumberOfTransitionsPerFrequency;
-    _freqLoopList = dBHLTAStep.frequencyList;
-    _stepUpMissingList = @[ [NSNumber numberWithDouble:dBHLTAStep.dBHLStepUpSizeFirstMiss],
-                            [NSNumber numberWithDouble:dBHLTAStep.dBHLStepUpSizeSecondMiss],
-                            [NSNumber numberWithDouble:dBHLTAStep.dBHLStepUpSizeThirdMiss] ];
-    _currentdBHL = dBHLTAStep.initialdBHLValue;
-    _dBHLStepDownSize = dBHLTAStep.dBHLStepDownSize;
-    _dBHLStepUpSize = dBHLTAStep.dBHLStepUpSize;
-    _dBHLMinimumThreshold = dBHLTAStep.dBHLMinimumThreshold;
 
     self.dBHLToneAudiometryContentView = [[ORKdBHLToneAudiometryContentView alloc] init];
     self.activeStepView.activeCustomView = self.dBHLToneAudiometryContentView;
@@ -202,6 +150,25 @@
             if ([firstResult isKindOfClass:[ORKHeadphoneDetectResult class]]) {
                 ORKHeadphoneDetectResult *headphoneDetectResult = (ORKHeadphoneDetectResult *)firstResult;
                 dBHLTAStep.headphoneType = headphoneDetectResult.headphoneType;
+        
+            } else if ([firstResult isKindOfClass:[ORKdBHLToneAudiometryResult class]]) {
+                if (@available(iOS 14.0, *)) {
+                    ORKdBHLToneAudiometryResult *dBHLToneAudiometryResult = (ORKdBHLToneAudiometryResult *)firstResult;
+                    NSArray *units = [dBHLToneAudiometryResult.samples valueForKey:@"units"];
+                    BOOL containsUnits = units && units.count > 0;
+
+                    // Only use audiograms from ORKNewAudiometry which does not contains units on the samples
+                    if ([self.audiometryEngine isKindOfClass:[ORKNewAudiometry class]] && !containsUnits) {
+                        NSMutableDictionary *audiogram = [[NSMutableDictionary alloc] init];
+                        
+                        for (ORKdBHLToneAudiometryFrequencySample *sample in dBHLToneAudiometryResult.samples) {
+                            NSNumber *frequency = [NSNumber numberWithDouble:sample.frequency];
+                            NSNumber *threshold = [NSNumber numberWithDouble:sample.calculatedThreshold];
+                            audiogram[frequency] = threshold;
+                        }
+                        [(ORKNewAudiometry *)self.audiometryEngine runInitialSamplingFromAudiogram:audiogram];
+                    }
+                }
             }
         }
     }
@@ -232,11 +199,13 @@
     [self start];
     [self addObservers];
 }
+
 #if RK_APPLE_INTERNAL
 -(void)appDidBecomeActive:(NSNotification*)note {
-    [self showAlertWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE_TASK_INTERRUPTED", nil) andMessage:ORKLocalizedString(@"dBHL_ALERT_TEXT_TASK_INTERRUPTED", nil)];
+    [self showAlert];
 }
 #endif
+
 -(void)appWillTerminate:(NSNotification*)note {
     [self stopAudio];
     [self removeObservers];
@@ -266,11 +235,11 @@
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-#if RK_APPLE_INTERNAL
+    #if RK_APPLE_INTERNAL
+    [_headphoneDetector discard];
     _headphoneDetector.delegate = nil;
     _headphoneDetector = nil;
-#endif
+    #endif
     
     _audioGenerator.delegate = nil;
 }
@@ -292,7 +261,16 @@
     ORKdBHLToneAudiometryResult *toneResult = [[ORKdBHLToneAudiometryResult alloc] initWithIdentifier:self.step.identifier];
     toneResult.startDate = sResult.startDate;
     toneResult.endDate = now;
-    toneResult.samples = [_arrayOfResultSamples copy];
+    toneResult.samples = [self.audiometryEngine resultSamples];
+#if RK_APPLE_INTERNAL
+    if (@available(iOS 14.0, *)) {
+        if ([self.audiometryEngine isKindOfClass:[ORKNewAudiometry class]]) {
+            ORKNewAudiometry *engine = (ORKNewAudiometry *)self.audiometryEngine;
+            toneResult.discreteUnits = engine.resultUnits;
+            toneResult.fitMatrix = engine.fitMatrix;
+        }
+    }
+#endif
     toneResult.outputVolume = [AVAudioSession sharedInstance].outputVolume;
     toneResult.headphoneType = self.dBHLToneAudiometryStep.headphoneType;
     toneResult.tonePlaybackDuration = [self dBHLToneAudiometryStep].toneDuration;
@@ -313,7 +291,7 @@
 
 - (void)start {
     [super start];
-    [self estimatedBHLAndPlayToneWithFrequency:_freqLoopList[_indexOfFreqLoopList]];
+    [self runTestTrial];
 }
     
 - (void)stopAudio {
@@ -325,77 +303,35 @@
     }
 }
 
-- (void)estimatedBHLAndPlayToneWithFrequency: (NSNumber *)freq {
+- (void)runTestTrial {
     [self stopAudio];
+	
 #if RK_APPLE_INTERNAL
     if (_showingAlert) {
         return;
     }
 #endif
-    if (_prevFreq != [freq doubleValue]) {
-        CGFloat progress = 0.001 + (CGFloat)_indexOfFreqLoopList / _freqLoopList.count;
-        [self.dBHLToneAudiometryContentView setProgress:progress
-                                               animated:YES];
+    
+    [self.dBHLToneAudiometryContentView setProgress:self.audiometryEngine.progress animated:YES];
+
+    ORKAudiometryStimulus *stimulus = self.audiometryEngine.nextStimulus;
+    if (!stimulus) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self nextTrial];
+        });
+        return;
+    }
         
-        _numberOfTransitionsPerFreq = 0;
-        _currentdBHL = [self dBHLToneAudiometryStep].initialdBHLValue;
-        _initialDescent = YES;
-        _ackOnce = NO;
-        _usingMissingList = YES;
-        _indexOfStepUpMissingList = 0;
-        _minimumThresholdCounter = 0;
-        _transitionsDictionary = nil;
-        _transitionsDictionary = [NSMutableDictionary dictionary];
-        if (_resultSample) {
-           _resultSample.units = [_arrayOfResultUnits copy];
-        }
-        _arrayOfResultUnits = [NSMutableArray array];
-        _prevFreq = [freq doubleValue];
-        _resultSample = [ORKdBHLToneAudiometryFrequencySample new];
-        _resultSample.channel = _audioChannel;
-        _resultSample.frequency = [freq doubleValue];
-        _resultSample.calculatedThreshold = ORKInvalidDBHLValue;
-        [_arrayOfResultSamples addObject:_resultSample];
-    } else {
-        _numberOfTransitionsPerFreq += 1;
-        if (_numberOfTransitionsPerFreq >= _maxNumberOfTransitionsPerFreq) {
-            _indexOfFreqLoopList += 1;
-            if (_indexOfFreqLoopList >= _freqLoopList.count) {
-                _resultSample.units = [_arrayOfResultUnits copy];
-                [self finish];
-                return;
-            } else {
-                [self estimatedBHLAndPlayToneWithFrequency:_freqLoopList[_indexOfFreqLoopList]];
-                return;
-            }
-        }
-    }
-    
-    _resultUnit = [ORKdBHLToneAudiometryUnit new];
-    _resultUnit.dBHLValue = _currentdBHL;
-    _resultUnit.startOfUnitTimeStamp = self.runtime;
-    [_arrayOfResultUnits addObject:_resultUnit];
-    
-    ORKdBHLToneAudiometryTransitions *currentTransition = [_transitionsDictionary objectForKey:[NSNumber numberWithFloat:_currentdBHL]];
-    if (!_initialDescent) {
-        if (currentTransition) {
-            currentTransition.userInitiated += 1;
-            currentTransition.totalTransitions += 1;
-        } else {
-            currentTransition = [[ORKdBHLToneAudiometryTransitions alloc] init];
-            [_transitionsDictionary setObject:currentTransition forKey:[NSNumber numberWithFloat:_currentdBHL]];
-        }
-    }
     const NSTimeInterval toneDuration = [self dBHLToneAudiometryStep].toneDuration;
     const NSTimeInterval postStimulusDelay = [self dBHLToneAudiometryStep].postStimulusDelay;
     
     double delay1 = arc4random_uniform([self dBHLToneAudiometryStep].maxRandomPreStimulusDelay - 1);
     double delay2 = (double)arc4random_uniform(10)/10;
     double preStimulusDelay = delay1 + delay2 + 1;
-    _resultUnit.preStimulusDelay = preStimulusDelay;
     
     _preStimulusDelayWorkBlock = dispatch_block_create(DISPATCH_BLOCK_INHERIT_QOS_CLASS, ^{
-        [_audioGenerator playSoundAtFrequency:[freq floatValue] onChannel:_audioChannel dBHL:_currentdBHL];
+        [self.audiometryEngine registerStimulusPlayback];
+        [_audioGenerator playSoundAtFrequency:stimulus.frequency onChannel:stimulus.channel dBHL:stimulus.level];
     });
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(preStimulusDelay * NSEC_PER_SEC)), dispatch_get_main_queue(), _preStimulusDelayWorkBlock);
     
@@ -404,156 +340,75 @@
     });
     // adding 0.2 seconds to account for the fadeInDuration which is being set in ORKdBHLToneAudiometryAudioGenerator
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((preStimulusDelay + toneDuration + 0.2) * NSEC_PER_SEC)), dispatch_get_main_queue(), _pulseDurationWorkBlock);
-
-    ORKWeakTypeOf(self)weakSelf = self;
+    
     _postStimulusDelayWorkBlock = dispatch_block_create(DISPATCH_BLOCK_INHERIT_QOS_CLASS, ^{
-        ORKStrongTypeOf(self) strongSelf = weakSelf;
-        NSUInteger storedTestIndex = _currentTestIndex;
-        if (_currentTestIndex == storedTestIndex) {
-            if (_initialDescent && _ackOnce) {
-                _initialDescent = NO;
-                ORKdBHLToneAudiometryTransitions *newTransition = [[ORKdBHLToneAudiometryTransitions alloc] init];
-                newTransition.userInitiated -= 1;
-                [_transitionsDictionary setObject:newTransition forKey:[NSNumber numberWithFloat:_currentdBHL]];
-            }
-            if (_usingMissingList && (_indexOfStepUpMissingList < _stepUpMissingList.count)) {
-                _currentdBHL = _currentdBHL + [_stepUpMissingList[_indexOfStepUpMissingList] doubleValue];
-                _indexOfStepUpMissingList = _indexOfStepUpMissingList + 1;
-            } else {
-                _usingMissingList = NO;
-                _currentdBHL = _currentdBHL + _dBHLStepUpSize;
-            }
-            if (currentTransition) {
-                currentTransition.userInitiated -= 1;
-            }
-            _resultUnit.timeoutTimeStamp = self.runtime;
-            _currentTestIndex += 1;
-            [strongSelf estimatedBHLAndPlayToneWithFrequency:_freqLoopList[_indexOfFreqLoopList]];
-            return;
-        }
+        [self.audiometryEngine registerResponse:NO];
+        [self nextTrial];
     });
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((preStimulusDelay + toneDuration + postStimulusDelay) * NSEC_PER_SEC)), dispatch_get_main_queue(), _postStimulusDelayWorkBlock);
+}
 
+- (void)nextTrial {
+    if (self.audiometryEngine.testEnded) {
+        [self finish];
+    } else {
+        [self runTestTrial];
+    }
 }
 
 - (void)tapButtonPressed {
     [self animatedBHLButton];
-    _ackOnce = YES;
     [_hapticFeedback impactOccurred];
-    _currentTestIndex += 1;
-    _resultUnit.userTapTimeStamp = self.runtime;
-    [self stopAudio];
-    BOOL falseResponseTap = (_resultUnit.userTapTimeStamp - _resultUnit.startOfUnitTimeStamp < _resultUnit.preStimulusDelay);
-    if (falseResponseTap) {
-        NSNumber *currentKey = [NSNumber numberWithFloat:_currentdBHL];
-        ORKdBHLToneAudiometryTransitions *currentTransitionObject = [_transitionsDictionary objectForKey:currentKey];
-        currentTransitionObject.userInitiated -= 1;
-    } else if ([self validateResultFordBHL:_currentdBHL]) {
-        _resultSample.calculatedThreshold = _currentdBHL;
-        _indexOfFreqLoopList += 1;
-        if (_indexOfFreqLoopList >= _freqLoopList.count) {
-            _resultSample.units = [_arrayOfResultUnits copy];
-            [self finish];
-            return;
-        } else {
-            _currentdBHL = [self dBHLToneAudiometryStep].initialdBHLValue;
-            [self estimatedBHLAndPlayToneWithFrequency:_freqLoopList[_indexOfFreqLoopList]];
-            return;
-        }
-    }
     
-    if (!falseResponseTap) {
-        _usingMissingList = NO;
-        
-        if (_currentdBHL - _dBHLStepDownSize > _dBHLMinimumThreshold) {
-            _currentdBHL = _currentdBHL - _dBHLStepDownSize;
-        } else {
-            _currentdBHL = _dBHLMinimumThreshold;
-            if (_initialDescent) {
-                _minimumThresholdCounter += 1;
-            }
-        }
-    }
-
-    [self estimatedBHLAndPlayToneWithFrequency:_freqLoopList[_indexOfFreqLoopList]];
-    return;
-}
-
-- (BOOL)validateResultFordBHL:(float)dBHL {
-    NSNumber *currentKey = [NSNumber numberWithFloat:_currentdBHL];
-    ORKdBHLToneAudiometryTransitions *currentTransitionObject = [_transitionsDictionary objectForKey:currentKey];
-    if ((currentTransitionObject.userInitiated/currentTransitionObject.totalTransitions >= 0.5) && currentTransitionObject.totalTransitions >= 2) {
-        ORKdBHLToneAudiometryTransitions *previousTransitionObject = [_transitionsDictionary objectForKey:[NSNumber numberWithFloat:(dBHL - _dBHLStepUpSize)]];
-        if (((previousTransitionObject.userInitiated/previousTransitionObject.totalTransitions <= 0.5) && (previousTransitionObject.totalTransitions >= 2)) || dBHL == _dBHLMinimumThreshold) {
-            if (currentTransitionObject.totalTransitions == 2) {
-                if (currentTransitionObject.userInitiated/currentTransitionObject.totalTransitions == 1.0) {
-                    _resultSample.calculatedThreshold = dBHL;
-                    return YES;
-                } else {
-                    return NO;
-                }
-            } else {
-                _resultSample.calculatedThreshold = dBHL;
-                return YES;
-            }
-        }
-    } else if (_minimumThresholdCounter > 2) {
-        _resultSample.calculatedThreshold = dBHL;
-        return YES;
-    }
-    return NO;
+    [self.audiometryEngine registerResponse:YES];
+    [self nextTrial];
 }
 
 - (void)toneWillStartClipping {
-    if (_usingMissingList
-        && (_indexOfStepUpMissingList <= _stepUpMissingList.count)) {
-        _usingMissingList = NO;
-        _currentdBHL = _currentdBHL - [_stepUpMissingList[_indexOfStepUpMissingList - (_indexOfStepUpMissingList == 0 ? 0 : 1)] doubleValue] + _dBHLStepUpSize;
-        [self estimatedBHLAndPlayToneWithFrequency:_freqLoopList[_indexOfFreqLoopList]];
-    } else {
-        _indexOfFreqLoopList += 1;
-        if (_indexOfFreqLoopList >= _freqLoopList.count) {
-            _resultSample.units = [_arrayOfResultUnits copy];
-            [self finish];
-        } else {
-            [self estimatedBHLAndPlayToneWithFrequency:_freqLoopList[_indexOfFreqLoopList]];
-        }
+    if ([self.audiometryEngine respondsToSelector:@selector(signalClipped)]) {
+        [self.audiometryEngine signalClipped];
     }
+    [self nextTrial];
 }
 
 #if RK_APPLE_INTERNAL
 #pragma mark - Headphone Monitoring
 
-- (void)headphoneTypeDetected:(nonnull ORKHeadphoneTypeIdentifier)headphoneType vendorID:(nonnull NSString *)vendorID productID:(nonnull NSString *)productID deviceSubType:(NSInteger)deviceSubType isSupported:(BOOL)isSupported {
-    if (![headphoneType isEqualToString:[[self dBHLToneAudiometryStep].headphoneType uppercaseString]]) {
-        [self showAlertWithTitle:ORKLocalizedString(@"HEADPHONES_DISCONNECTED_TITLE", nil) andMessage:ORKLocalizedString(@"HEADPHONES_DISCONNECTED_TEXT", nil)];
-    }
+- (NSString *)headphoneType {
+    return [[self dBHLToneAudiometryStep].headphoneType uppercaseString];
 }
 
 - (void)bluetoothModeChanged:(ORKBluetoothMode)bluetoothMode {
-    if ([[[self dBHLToneAudiometryStep].headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsPro]) {
+    if ([[[self dBHLToneAudiometryStep].headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsPro] ||
+        [[[self dBHLToneAudiometryStep].headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMax]) {
         if (bluetoothMode != ORKBluetoothModeNoiseCancellation) {
-            [self showAlertWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE3_TEST_INTERRUPTED", nil) andMessage:ORKLocalizedString(@"dBHL_NOISE_CANCELLING_ALERT_TEXT", nil)];
+            [self showAlert];
         }
     }
 }
 
-- (void)podLowBatteryLevelDetected {
-    [self showAlertWithTitle:ORKLocalizedString(@"HEADPHONES_LOW_BATTERY_TITLE", nil) andMessage:ORKLocalizedString(@"HEADPHONES_LOW_BATTERY_TEXT", nil)];
+- (void)headphoneTypeDetected:(nonnull ORKHeadphoneTypeIdentifier)headphoneType vendorID:(nonnull NSString *)vendorID productID:(nonnull NSString *)productID deviceSubType:(NSInteger)deviceSubType isSupported:(BOOL)isSupported {
+    if (![headphoneType isEqualToString:[self headphoneType]]) {
+        [self showAlert];
+    }
 }
 
 - (void)oneAirPodRemoved {
-    [self showAlertWithTitle:ORKLocalizedString(@"HEADPHONES_BOTH_TITLE", nil) andMessage:ORKLocalizedString(@"HEADPHONES_BOTH_TEXT", nil)];
+    [self showAlert];
 }
 
-- (void)showAlertWithTitle:(NSString*)title andMessage:(NSString*)message {
+- (void)podLowBatteryLevelDetected {
+    [self showAlert];
+}
+
+- (void)showAlert {
     if (!_showingAlert) {
         _showingAlert = YES;
         dispatch_async(dispatch_get_main_queue(), ^{
             [self stopAudio];
             UIAlertController *alertController = [UIAlertController
-                                                  alertControllerWithTitle:title
-                                                  message:message
+                                                  alertControllerWithTitle:ORKLocalizedString(@"PACHA_ALERT_TITLE_TASK_INTERRUPTED", nil)
+                                                  message:ORKLocalizedString(@"PACHA_ALERT_TEXT_TASK_INTERRUPTED", nil)
                                                   preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *startOver = [UIAlertAction
                                         actionWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE_START_OVER", nil)

@@ -51,6 +51,13 @@ ORK_CLASS_AVAILABLE
 
 @property (nonatomic, copy, nullable) NSArray<ORKdBHLToneAudiometryFrequencySample *> *samples;
 
+#if RK_APPLE_INTERNAL
+//These data are related to the new algorithm only
+@property (nonatomic, copy, nullable) NSArray<ORKdBHLToneAudiometryFrequencySample *> *discreteUnits;
+
+@property (nonatomic, copy, nullable) NSDictionary<NSString *, NSNumber *> *fitMatrix;
+#endif
+
 @end
 
 ORK_CLASS_AVAILABLE

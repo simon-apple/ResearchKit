@@ -35,10 +35,12 @@
 
 @import UIKit;
 
+
 #if TARGET_OS_WATCH
 #import <ResearchKitCore/ORKTypes.h>
 #elif TARGET_OS_IOS
 #import <ResearchKit/ORKTypes.h>
+
 @class ORKScaleAnswerFormat;
 @class ORKContinuousScaleAnswerFormat;
 @class ORKTextScaleAnswerFormat;
@@ -1633,6 +1635,12 @@ ORK_CLASS_AVAILABLE
 - (instancetype)initWithMaximumLength:(NSInteger)maximumLength NS_DESIGNATED_INITIALIZER;
 
 /**
+ Sets the scrubber names on the text answer
+ @param scrubberNames   The PIIScrubber names to be uesd on this textAnswerFormat
+ */
+@property (nonatomic, copy, nullable) NSArray<NSString *> *scrubberNames;
+
+/**
  The regular expression used to validate user's input.
  
  The default value is nil. If set to nil, no validation will be performed.
@@ -1659,6 +1667,8 @@ ORK_CLASS_AVAILABLE
  When the value of this property is 0, there is no maximum.
  */
 @property NSInteger maximumLength;
+
+
 
 /**
  A Boolean value indicating whether to expect more than one line of input.
