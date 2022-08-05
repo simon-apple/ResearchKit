@@ -30,15 +30,10 @@
 
 
 #import "ORKHolePegTestPlaceStep.h"
-#import "ORKHolePegTestPlaceStepViewController.h"
 #import "ORKHelpers_Internal.h"
 
 
 @implementation ORKHolePegTestPlaceStep
-
-+ (Class)stepViewControllerClass {
-    return [ORKHolePegTestPlaceStepViewController class];
-}
 
 - (instancetype)initWithIdentifier:(NSString *)identifier {
     self = [super initWithIdentifier:identifier];

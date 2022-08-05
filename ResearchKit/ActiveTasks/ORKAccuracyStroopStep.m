@@ -29,14 +29,9 @@
  */
 
 #import "ORKAccuracyStroopStep.h"
-#import "ORKAccuracyStroopStepViewController.h"
 #import "ORKHelpers_Internal.h"
 
 @implementation ORKAccuracyStroopStep
-
-+ (Class)stepViewControllerClass {
-    return ORKAccuracyStroopStepViewController.class;
-}
 
 + (BOOL)supportsSecureCoding {
     return YES;

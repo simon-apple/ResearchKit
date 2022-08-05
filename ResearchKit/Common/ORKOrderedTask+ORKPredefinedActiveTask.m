@@ -33,17 +33,6 @@
 #import "ORKOrderedTask+ORKPredefinedActiveTask.h"
 #import "ORKOrderedTask_Private.h"
 
-#import "ORKAudioStepViewController.h"
-#import "ORKAmslerGridStepViewController.h"
-#import "ORKCountdownStepViewController.h"
-#import "ORKTouchAnywhereStepViewController.h"
-#import "ORKFitnessStepViewController.h"
-#import "ORKToneAudiometryStepViewController.h"
-#import "ORKSpatialSpanMemoryStepViewController.h"
-#import "ORKSpeechRecognitionStepViewController.h"
-#import "ORKStroopStepViewController.h"
-#import "ORKWalkingTaskStepViewController.h"
-
 #import "ORKAccelerometerRecorder.h"
 #import "ORKActiveStep_Internal.h"
 #import "ORKAmslerGridStep.h"

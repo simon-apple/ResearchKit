@@ -32,7 +32,6 @@
 #import "ORKActiveStep.h"
 #import "ORKActiveStep_Internal.h"
 
-#import "ORKActiveStepViewController.h"
 #import "ORKRecorder_Private.h"
 
 #import "ORKStep_Private.h"
@@ -41,10 +40,6 @@
 
 
 @implementation ORKActiveStep
-
-+ (Class)stepViewControllerClass {
-    return [ORKActiveStepViewController class];
-}
 
 - (BOOL)startsFinished {
     return (_stepDuration == 0);

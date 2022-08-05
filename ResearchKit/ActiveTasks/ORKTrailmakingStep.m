@@ -31,18 +31,12 @@
 
 #import "ORKTrailmakingStep.h"
 
-#import "ORKTrailmakingStepViewController.h"
-
 #import "ORKStep_Private.h"
 
 #import "ORKHelpers_Internal.h"
 
 
 @implementation ORKTrailmakingStep
-
-+ (Class)stepViewControllerClass {
-    return [ORKTrailmakingStepViewController class];
-}
 
 - (instancetype)initWithIdentifier:(NSString *)identifier {
     self = [super initWithIdentifier:identifier];

@@ -31,16 +31,10 @@
 
 #import "ORKReactionTimeStep.h"
 
-#import "ORKReactionTimeViewController.h"
-
 #import "ORKHelpers_Internal.h"
 
 
 @implementation ORKReactionTimeStep
-
-+ (Class)stepViewControllerClass {
-    return [ORKReactionTimeViewController class];
-}
 
 - (instancetype)initWithIdentifier:(NSString *)identifier {
     self = [super initWithIdentifier:identifier];

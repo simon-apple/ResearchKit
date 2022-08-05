@@ -31,7 +31,6 @@
 
 #import "ORKAmslerGridStep.h"
 #import "ORKHelpers_Internal.h"
-#import "ORKAmslerGridStepViewController.h"
 
 @implementation ORKAmslerGridStep
 
@@ -45,10 +44,6 @@
         self.eyeSide = ORKAmslerGridEyeSideNotSpecified;
     }
     return self;
-}
-
-+ (Class)stepViewControllerClass {
-    return [ORKAmslerGridStepViewController class];
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {

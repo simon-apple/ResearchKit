@@ -32,8 +32,8 @@
 #if RK_APPLE_INTERNAL
 
 #import <Foundation/Foundation.h>
-#import "ORKTypes.h"
-#import "ORKTinnitusTypes.h"
+#import <ResearchKit/ORKTypes.h>
+#import <ResearchKit/ORKTinnitusTypes.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

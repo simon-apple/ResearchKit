@@ -31,6 +31,7 @@
 
 @import XCTest;
 @import ResearchKit_Private;
+@import ResearchKitUI;
 
 
 @interface ORKTaskTests : XCTestCase

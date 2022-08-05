@@ -35,6 +35,8 @@
 #import "TaskFactory+UtilitySteps.h"
 
 @import ResearchKit_Private;
+@import ResearchKitUI;
+@import ResearchKitUI_Private;
 
 
 @interface ORKWebViewTaskViewController: ORKTaskViewController <ORKWebViewStepDelegate>

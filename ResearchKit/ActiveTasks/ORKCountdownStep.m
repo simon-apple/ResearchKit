@@ -31,14 +31,7 @@
 
 #import "ORKCountdownStep.h"
 
-#import "ORKCountdownStepViewController.h"
-
-
 @implementation ORKCountdownStep
-
-+ (Class)stepViewControllerClass {
-    return [ORKCountdownStepViewController class];
-}
 
 - (instancetype)initWithIdentifier:(NSString *)identifier {
     self = [super initWithIdentifier:identifier];

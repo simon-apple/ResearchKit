@@ -29,7 +29,7 @@
  */
 
 
-#import "ORKSkin.h"
+#import "ORKSkin_Private.h"
 
 #import "ORKHelpers_Internal.h"
 
@@ -579,4 +579,14 @@ UIFontTextStyle ORKTitleLabelFontTextStyleForWindow(UIWindow *window) {
             return UIFontTextStyleLargeTitle;
     }
 }
+
+UIFont *ORKDefaultFontForStyle(UIFontTextStyle style, CGFloat sizeAdjustment) {
+    UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleSubheadline];
+    return [UIFont systemFontOfSize:[[descriptor objectForKey:UIFontDescriptorSizeAttribute] doubleValue] + sizeAdjustment];
+}
+
+CGFloat ORKDefaultFontSizeForStyle(UIFontTextStyle style, CGFloat sizeAdjustment) {
+    return ORKDefaultFontForStyle(style, sizeAdjustment).pointSize;
+}
+
 #endif

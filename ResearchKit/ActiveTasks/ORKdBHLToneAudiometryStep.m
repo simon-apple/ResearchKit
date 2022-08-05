@@ -31,8 +31,6 @@
 
 #import "ORKdBHLToneAudiometryStep.h"
 
-#import "ORKdBHLToneAudiometryStepViewController.h"
-
 #import "ORKHelpers_Internal.h"
 
 #define ORKdBHLToneAudiometryTaskToneMinimumDuration 1.0
@@ -48,10 +46,6 @@
 #define ORKdBHLToneAudiometryTaskdBHLMinimumThreshold -10.0
 
 @implementation ORKdBHLToneAudiometryStep
-
-+ (Class)stepViewControllerClass {
-    return [ORKdBHLToneAudiometryStepViewController class];
-}
 
 - (instancetype)initWithIdentifier:(NSString *)identifier {
     self = [super initWithIdentifier:identifier];

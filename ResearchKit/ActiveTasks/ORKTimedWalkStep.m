@@ -31,14 +31,7 @@
 
 #import "ORKTimedWalkStep.h"
 
-#import "ORKTimedWalkStepViewController.h"
-
-
 @implementation ORKTimedWalkStep
-
-+ (Class)stepViewControllerClass {
-    return [ORKTimedWalkStepViewController class];
-}
 
 - (instancetype)initWithIdentifier:(NSString *)identifier {
     self = [super initWithIdentifier:identifier];

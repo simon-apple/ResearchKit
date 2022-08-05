@@ -32,14 +32,9 @@
 #if RK_APPLE_INTERNAL
 
 #import "ORKSensitiveURLLearnMoreInstructionStep.h"
-#import "ORKInstructionStepViewController.h"
 #import "ORKHelpers_Internal.h"
 
 @implementation ORKSensitiveURLLearnMoreInstructionStep
-
-+ (Class)stepViewControllerClass {
-    return [ORKInstructionStepViewController class];
-}
 
 - (instancetype)initWithIdentifier:(NSString *)identifier
                 sensitiveURLString:(NSString *)sensitiveURLString

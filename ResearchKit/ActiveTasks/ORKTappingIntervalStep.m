@@ -31,14 +31,7 @@
 
 #import "ORKTappingIntervalStep.h"
 
-#import "ORKTappingIntervalStepViewController.h"
-
-
 @implementation ORKTappingIntervalStep
-
-+ (Class)stepViewControllerClass {
-    return [ORKTappingIntervalStepViewController class];
-}
 
 - (instancetype)initWithIdentifier:(NSString *)identifier {
     self = [super initWithIdentifier:identifier];

@@ -35,7 +35,6 @@
 #import "ORKHelpers_Internal.h"
 #if TARGET_OS_IOS
 #import "ORKQuestionStep_Private.h"
-#import "ORKFormStepViewController.h"
 #import "ORKLearnMoreItem.h"
 #endif
 
@@ -76,10 +75,6 @@ ORKQuestionStepPresentationStyle const ORKQuestionStepPresentationStylePlatter =
     step.answerFormat = answerFormat;
     step.tagText = nil;
     return step;
-}
-
-+ (Class)stepViewControllerClass {
-    return [ORKFormStepViewController class];
 }
 
 + (instancetype)questionStepWithIdentifier:(NSString *)identifier

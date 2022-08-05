@@ -31,18 +31,12 @@
 
 #import "ORKTowerOfHanoiStep.h"
 
-#import "ORKTowerOfHanoiStepViewController.h"
-
 #import "ORKHelpers_Internal.h"
 
 
 static const NSUInteger MaximumNumberOfDisks = 8;
 
 @implementation ORKTowerOfHanoiStep
-
-+ (Class)stepViewControllerClass {
-    return [ORKTowerOfHanoiViewController class];
-}
 
 - (instancetype)initWithIdentifier:(NSString *)identifier {
     self = [super initWithIdentifier:identifier];

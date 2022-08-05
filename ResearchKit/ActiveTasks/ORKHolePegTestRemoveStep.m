@@ -31,16 +31,10 @@
 
 #import "ORKHolePegTestRemoveStep.h"
 
-#import "ORKHolePegTestRemoveStepViewController.h"
-
 #import "ORKHelpers_Internal.h"
 
 
 @implementation ORKHolePegTestRemoveStep
-
-+ (Class)stepViewControllerClass {
-    return [ORKHolePegTestRemoveStepViewController class];
-}
 
 - (instancetype)initWithIdentifier:(NSString *)identifier {
     self = [super initWithIdentifier:identifier];

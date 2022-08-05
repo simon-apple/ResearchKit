@@ -31,8 +31,6 @@
 
 #import "ORKSpeechRecognitionStep.h"
 
-#import "ORKSpeechRecognitionStepViewController.h"
-
 #import "ORKStep_Private.h"
 
 #import "ORKHelpers_Internal.h"
@@ -41,10 +39,6 @@
 @implementation ORKSpeechRecognitionStep {
     UIImage *_speechRecognitionImage;
     NSString *_text;
-}
-
-+ (Class)stepViewControllerClass {
-    return [ORKSpeechRecognitionStepViewController class];
 }
 
 - (instancetype)initWithIdentifier:(NSString *)identifier image:(nullable UIImage *)image text:(nullable NSString *)text {

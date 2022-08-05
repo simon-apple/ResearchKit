@@ -31,6 +31,7 @@
 
 import UIKit
 import ResearchKit_Private
+import ResearchKitUI
 
 /**
     This example displays a catalog of tasks, each consisting of one or two steps,

@@ -31,9 +31,9 @@
 #import <ResearchKit/ORK3DModelManager.h>
 #import <ResearchKit/ORKActiveStep.h>
 #import <ResearchKit/ORKDefines.h>
+#import <ResearchKit/ORKUILeaks.h>
 
 NS_ASSUME_NONNULL_BEGIN
-
 
 ORK_CLASS_AVAILABLE
 @interface ORK3DModelStep : ORKActiveStep

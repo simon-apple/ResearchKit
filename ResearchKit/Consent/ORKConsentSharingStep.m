@@ -31,8 +31,6 @@
 
 #import "ORKConsentSharingStep.h"
 
-#import "ORKConsentSharingStepViewController.h"
-
 #import "ORKStep_Private.h"
 
 #import "ORKAnswerFormat.h"
@@ -40,10 +38,6 @@
 
 
 @implementation ORKConsentSharingStep
-
-+ (Class)stepViewControllerClass {
-    return [ORKConsentSharingStepViewController class];
-}
 
 - (BOOL)useSurveyMode {
     return NO;

@@ -31,20 +31,16 @@
 #import <UserNotifications/UserNotifications.h>
 
 #import "ORKNotificationPermissionType.h"
-#import "ORKRequestPermissionView.h"
+#import "ORKUILeaks.h"
 #import "ORKHelpers_Internal.h"
 
 static NSString *const Symbol = @"app.badge";
 static const uint32_t IconLightTintColor = 0xFBD00B;
 static const uint32_t IconDarkTintColor = 0xFFD005;
 
-@interface ORKNotificationPermissionType ()
-
-@property UNAuthorizationOptions options;
-
-@end
-
-@implementation ORKNotificationPermissionType
+@implementation ORKNotificationPermissionType {
+    ORKRequestPermissionsButtonState _permissionState;
+}
 
 + (instancetype)new {
     ORKThrowMethodUnavailableException();
@@ -58,74 +54,78 @@ static const uint32_t IconDarkTintColor = 0xFFD005;
     NSAssert(options != 0, @"Authorization options must not be empty!");
     self = [super init];
     if (self) {
-        self.options = options;
-        [self setupCardView];
+        _options = options;
+        _permissionState = ORKRequestPermissionsButtonStateDefault;
+        [self getInitialStatus];
     }
     return self;
 }
 
-- (void)setupCardView {
-    UIImage *image;
+- (NSString *)localizedTitle {
+    return ORKLocalizedString(@"REQUEST_NOTIFICATIONS_STEP_VIEW_TITLE", nil);
+}
 
-    if (@available(iOS 13.0, *)) {
-        image = [UIImage systemImageNamed:Symbol];
-    }
+- (NSString *)localizedDetailText {
+    return ORKLocalizedString(@"REQUEST_NOTIFICATIONS_STEP_VIEW_DESCRIPTION", nil);
+}
 
-    self.cardView = [[ORKRequestPermissionView alloc] initWithIconImage:image
-                                                                  title:ORKLocalizedString(@"REQUEST_NOTIFICATIONS_STEP_VIEW_TITLE", nil)
-                                                             detailText:ORKLocalizedString(@"REQUEST_NOTIFICATIONS_STEP_VIEW_DESCRIPTION", nil)];
+- (UIImage * _Nullable)image {
+    return [UIImage systemImageNamed:Symbol];
+}
 
-    [self.cardView.requestPermissionButton addTarget:self action:@selector(requestPermissionButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+- (UIColor *)iconTintColor {
+    return [[UIColor alloc] initWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
+        return traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? ORKRGB(IconDarkTintColor) : ORKRGB(IconLightTintColor);
+    }];
+}
 
-    // Set the tint color for the icon
-    if (@available(iOS 13, *)) {
-        UIColor *dynamicTint = [[UIColor alloc] initWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
-            return traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? ORKRGB(IconDarkTintColor) : ORKRGB(IconLightTintColor);
-        }];
-        [self.cardView updateIconTintColor:dynamicTint];
-    } else {
-        [self.cardView updateIconTintColor:ORKRGB(IconLightTintColor)];
-    }
+- (ORKRequestPermissionsButtonState)permissionState {
+    return _permissionState;
+}
 
-    [self setState:ORKRequestPermissionsButtonStateDefault canContinue:NO];
+- (BOOL)canContinue {
+    return self.permissionState == ORKRequestPermissionsButtonStateConnected || self.permissionState == ORKRequestPermissionsButtonStateError;
+}
 
+- (void)getInitialStatus {
     [[UNUserNotificationCenter currentNotificationCenter] getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings * _Nonnull settings) {
         dispatch_async(dispatch_get_main_queue(), ^{
 
             switch (settings.authorizationStatus) {
-
                 case UNAuthorizationStatusNotDetermined:
-                    [self setState:ORKRequestPermissionsButtonStateDefault canContinue:NO];
+                    _permissionState = ORKRequestPermissionsButtonStateDefault;
                     break;
 
                 case UNAuthorizationStatusEphemeral:
                 case UNAuthorizationStatusAuthorized:
                 case UNAuthorizationStatusProvisional:
                 case UNAuthorizationStatusDenied:
-                    [self setState:ORKRequestPermissionsButtonStateConnected canContinue:YES];
+                    _permissionState = ORKRequestPermissionsButtonStateConnected;
                     break;
+            }
+            
+            if (self.permissionsStatusUpdateCallback != nil) {
+                self.permissionsStatusUpdateCallback();
             }
         });
     }];
 }
 
-- (void)requestPermissionButtonPressed {
+- (void)requestPermission {
     [[UNUserNotificationCenter currentNotificationCenter]
      requestAuthorizationWithOptions: self.options
      completionHandler:^(BOOL granted, NSError * _Nullable error) {
         dispatch_async(dispatch_get_main_queue(), ^{
             if (error) {
-                [self setState:ORKRequestPermissionsButtonStateError canContinue:YES];
-                return;
+                _permissionState = ORKRequestPermissionsButtonStateError;
+            } else {
+                _permissionState = ORKRequestPermissionsButtonStateConnected;
             }
-            [self setState:ORKRequestPermissionsButtonStateConnected canContinue:YES];
+            if (self.permissionsStatusUpdateCallback != nil) {
+                self.permissionsStatusUpdateCallback();
+            }
         });
     }];
-}
-
-- (void)setState:(ORKRequestPermissionsButtonState)state canContinue:(BOOL)canContinue {
-    [self.cardView setEnableContinueButton:canContinue];
-    [self.cardView.requestPermissionButton setState:state];
 }
 
 - (BOOL)isEqual:(id)object {

@@ -30,9 +30,6 @@
 
 
 #import "ORKCompletionStep.h"
-#if TARGET_OS_IOS
-#import "ORKCompletionStepViewController.h"
-#endif
 #import "ORKHelpers_Internal.h"
 
 #if RK_APPLE_INTERNAL
@@ -42,10 +39,6 @@ ORKCompletionStepIdentifier const ORKEnvironmentSPLMeterTimeoutIdentifier = @"OR
 
 @implementation ORKCompletionStep
 #if TARGET_OS_IOS
-+ (Class)stepViewControllerClass {
-    return [ORKCompletionStepViewController class];
-}
-
 - (instancetype)initWithIdentifier:(NSString *)identifier {
     self = [super initWithIdentifier:identifier];
     if (self) {

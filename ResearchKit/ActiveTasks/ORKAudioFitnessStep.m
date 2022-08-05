@@ -29,7 +29,6 @@
  */
 
 #import "ORKAudioFitnessStep.h"
-#import "ORKAudioFitnessStepViewController.h"
 #import "ORKBundleAsset.h"
 #import "ORKHelpers_Internal.h"
 
@@ -82,10 +81,6 @@
 @end
 
 @implementation ORKAudioFitnessStep
-
-- (Class)stepViewControllerClass {
-    return [ORKAudioFitnessStepViewController class];
-}
 
 - (instancetype)initWithIdentifier:(NSString *)identifier
                         audioAsset:(ORKBundleAsset *)audioAsset

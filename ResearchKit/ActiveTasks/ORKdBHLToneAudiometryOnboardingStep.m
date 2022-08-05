@@ -30,12 +30,7 @@
 
 
 #import "ORKdBHLToneAudiometryOnboardingStep.h"
-#import "ORKdBHLToneAudiometryOnboardingStepViewController.h"
 
 @implementation ORKdBHLToneAudiometryOnboardingStep
-
-+ (Class)stepViewControllerClass {
-    return [ORKdBHLToneAudiometryOnboardingStepViewController class];
-}
 
 @end

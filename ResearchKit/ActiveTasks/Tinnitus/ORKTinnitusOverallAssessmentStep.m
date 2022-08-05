@@ -31,13 +31,8 @@
 
 #if RK_APPLE_INTERNAL
 #import "ORKTinnitusOverallAssessmentStep.h"
-#import "ORKTinnitusOverallAssessmentStepViewController.h"
 
 @implementation ORKTinnitusOverallAssessmentStep
-
-+ (Class)stepViewControllerClass {
-    return [ORKTinnitusOverallAssessmentStepViewController class];
-}
 
 - (BOOL)startsFinished {
     return NO;

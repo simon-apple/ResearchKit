@@ -32,14 +32,9 @@
 #if RK_APPLE_INTERNAL
 
 #import "ORKTypingStep.h"
-#import "ORKTypingStepViewController.h"
 #import "ORKHelpers_Internal.h"
 
 @implementation ORKTypingStep
-
-+ (Class)stepViewControllerClass {
-    return ORKTypingStepViewController.class;
-}
 
 + (BOOL)supportsSecureCoding {
     return YES;

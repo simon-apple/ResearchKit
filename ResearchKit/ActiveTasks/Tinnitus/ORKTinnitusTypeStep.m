@@ -33,14 +33,9 @@
 #if RK_APPLE_INTERNAL
 
 #import "ORKTinnitusTypeStep.h"
-#import "ORKTinnitusTypeStepViewController.h"
 #import "ORKHelpers_Internal.h"
 
 @implementation ORKTinnitusTypeStep
-
-+ (Class)stepViewControllerClass {
-    return [ORKTinnitusTypeStepViewController class];
-}
 
 + (BOOL)supportsSecureCoding {
     return YES;

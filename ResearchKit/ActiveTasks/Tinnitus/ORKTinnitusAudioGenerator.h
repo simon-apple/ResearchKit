@@ -34,8 +34,8 @@
 @import UIKit;
 @import AVFoundation;
 #import <ResearchKit/ORKTypes.h>
-#import "ORKTinnitusTypes.h"
-#import "ORKContext.h"
+#import <ResearchKit/ORKTinnitusTypes.h>
+#import <ResearchKit/ORKContext.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

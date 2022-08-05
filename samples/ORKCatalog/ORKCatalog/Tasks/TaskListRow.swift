@@ -33,6 +33,7 @@
 import ResearchKit_Private
 import AudioToolbox
 import ResearchKit
+import ResearchKitUI
 
 /**
     Wraps a SystemSoundID.

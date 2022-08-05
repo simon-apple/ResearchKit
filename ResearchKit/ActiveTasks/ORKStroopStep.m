@@ -30,15 +30,10 @@
 
 
 #import "ORKStroopStep.h"
-#import "ORKStroopStepViewController.h"
 #import "ORKHelpers_Internal.h"
 
 
 @implementation ORKStroopStep
-
-+ (Class)stepViewControllerClass {
-    return [ORKStroopStepViewController class];
-}
 
 + (BOOL)supportsSecureCoding {
     return YES;

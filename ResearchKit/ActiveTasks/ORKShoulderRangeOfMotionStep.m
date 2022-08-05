@@ -30,14 +30,9 @@
 
 
 #import "ORKShoulderRangeOfMotionStep.h"
-#import "ORKShoulderRangeOfMotionStepViewController.h"
 #import "ORKHelpers_Internal.h"
 
 
 @implementation ORKShoulderRangeOfMotionStep
-
-+ (Class)stepViewControllerClass {
-    return [ORKShoulderRangeOfMotionStepViewController class];
-}
 
 @end

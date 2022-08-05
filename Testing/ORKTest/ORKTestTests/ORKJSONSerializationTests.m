@@ -32,6 +32,7 @@
 
 @import XCTest;
 @import ResearchKit_Private;
+@import ResearchKitUI;
 
 #import "ORKESerialization.h"
 
@@ -277,6 +278,7 @@ ORK_MAKE_TEST_INIT(ORKVerificationStep, ^{return [self initWithIdentifier:[NSUUI
 ORK_MAKE_TEST_INIT(ORKStep, ^{return [self initWithIdentifier:[NSUUID UUID].UUIDString];});
 ORK_MAKE_TEST_INIT(ORKReviewStep, ^{return [[self class] standaloneReviewStepWithIdentifier:[NSUUID UUID].UUIDString steps:@[] resultSource:[[ORKTaskResult alloc] orktest_init]];});
 ORK_MAKE_TEST_INIT(ORKOrderedTask, ^{return [self initWithIdentifier:@"test1" steps:nil];});
+ORK_MAKE_TEST_INIT(ORK3DModelStep, ^{return [[self.class alloc] initWithIdentifier:NSUUID.UUID.UUIDString modelManager: [[ORK3DModelManager alloc] init]]; });
 
 #if RK_APPLE_INTERNAL && ORK_FEATURE_AV_JOURNALING
 ORK_MAKE_TEST_INIT(ORKAVJournalingPredefinedTask, ^{
@@ -1031,6 +1033,9 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
             [instance setValue:NSStringFromClass([ORKVerificationStepViewController class]) forKey:@"verificationViewControllerString"];
         } else if ([aClass isSubclassOfClass:[ORKReviewStep class]]) {
             [instance setValue:[[ORKTaskResult alloc] orktest_init] forKey:@"resultSource"]; // Manually add here because it's a protocol and hence property doesn't have a class
+        } else if ([aClass isSubclassOfClass:ORK3DModelStep.class]) {
+            // as above, also a protocol
+            [instance setValue:[[ORK3DModelManager alloc] init] forKey:@"modelManager"];
         }
 
         // Serialization
@@ -1162,6 +1167,8 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
         [instance setValue:@{@"prop": index?@"value":@"value1"} forKey:p.propertyName];
     } else if (aClass == [ORKTableStep class] && [p.propertyName isEqual:@"items"]) {
         [instance setValue:@[index?@"item":@"item2"] forKey:p.propertyName];
+    } else if ([aClass isSubclassOfClass:ORK3DModelStep.class] && [p.propertyName isEqualToString:@"modelManager"]) {
+        return NO;
     } else {
         id instanceForChild = [self instanceForClass:p.propertyClass];
         [instance setValue:instanceForChild forKey:p.propertyName];

@@ -32,7 +32,6 @@
 #if RK_APPLE_INTERNAL
 
 #import "ORKTinnitusPureToneStep.h"
-#import "ORKTinnitusPureToneStepViewController.h"
 
 #import "ORKHelpers_Internal.h"
 
@@ -41,10 +40,6 @@
 #define ORKTinnitusPureToneTaskHighIndex 12
 
 @implementation ORKTinnitusPureToneStep
-
-+ (Class)stepViewControllerClass {
-    return [ORKTinnitusPureToneStepViewController class];
-}
 
 - (instancetype)initWithIdentifier:(NSString *)identifier {
     self = [super initWithIdentifier:identifier];

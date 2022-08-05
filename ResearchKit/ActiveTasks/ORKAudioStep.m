@@ -31,18 +31,12 @@
 
 #import "ORKAudioStep.h"
 
-#import "ORKAudioStepViewController.h"
-
 #import "ORKStep_Private.h"
 
 #import "ORKHelpers_Internal.h"
 
 
 @implementation ORKAudioStep
-
-+ (Class)stepViewControllerClass {
-    return [ORKAudioStepViewController class];
-}
 
 - (instancetype)initWithIdentifier:(NSString *)identifier {
     self = [super initWithIdentifier:identifier];

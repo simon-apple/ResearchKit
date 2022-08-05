@@ -30,15 +30,10 @@
 
 
 #import "ORKRangeOfMotionStep.h"
-#import "ORKRangeOfMotionStepViewController.h"
 #import "ORKHelpers_Internal.h"
 
 
 @implementation ORKRangeOfMotionStep
-
-+ (Class)stepViewControllerClass {
-    return [ORKRangeOfMotionStepViewController class];
-}
 
 - (instancetype)initWithIdentifier:(NSString *)identifier limbOption:(ORKPredefinedTaskLimbOption)limbOption {
     self = [super initWithIdentifier:identifier];

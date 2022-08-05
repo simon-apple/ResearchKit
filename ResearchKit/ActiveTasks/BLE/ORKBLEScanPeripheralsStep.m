@@ -36,7 +36,6 @@
 #if ORK_FEATURE_BLE_SCAN_PERIPHERALS
 
 #import "ORKBLEScanPeripheralsStep.h"
-#import "ORKBLEScanPeripheralsStepViewController.h"
 #import "ORKHelpers_Internal.h"
 
 NSString * const ORKBLEScanPeripheralsRestorationIdentifierKey = @"ORKBLEScanPeripheralsRestorationIdentifierKey";
@@ -55,10 +54,6 @@ NSString * const ORKBLEScanPeripheralsFilterDeviceNameKey = @"ORKBLEScanPeripher
         _scanOptions = [scanOptions copy];
     }
     return self;
-}
-
-- (Class)stepViewControllerClass {
-    return [ORKBLEScanPeripheralsStepViewController class];
 }
 
 #pragma mark - NSCoding

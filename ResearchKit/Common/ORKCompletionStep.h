@@ -35,7 +35,7 @@
 #import <ResearchKitCore/ORKInstructionStep.h>
 #else
 #import <ResearchKit/ORKInstructionStep.h>
-#import <ResearchKit/ORKTaskViewController.h>
+#import <ResearchKit/ORKUILeaks.h>
 #endif
 
 NS_ASSUME_NONNULL_BEGIN

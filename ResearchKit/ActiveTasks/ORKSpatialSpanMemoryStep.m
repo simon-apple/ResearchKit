@@ -31,18 +31,12 @@
 
 #import "ORKSpatialSpanMemoryStep.h"
 
-#import "ORKSpatialSpanMemoryStepViewController.h"
-
 #import "ORKStep_Private.h"
 
 #import "ORKHelpers_Internal.h"
 
 
 @implementation ORKSpatialSpanMemoryStep
-
-+ (Class)stepViewControllerClass {
-    return [ORKSpatialSpanMemoryStepViewController class];
-}
 
 - (instancetype)initWithIdentifier:(NSString *)identifier {
     self = [super initWithIdentifier:identifier];

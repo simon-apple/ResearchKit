@@ -31,16 +31,10 @@
 
 #import "ORKToneAudiometryStep.h"
 
-#import "ORKToneAudiometryStepViewController.h"
-
 #import "ORKHelpers_Internal.h"
 
 
 @implementation ORKToneAudiometryStep
-
-+ (Class)stepViewControllerClass {
-    return [ORKToneAudiometryStepViewController class];
-}
 
 - (void)validateParameters {
     [super validateParameters];

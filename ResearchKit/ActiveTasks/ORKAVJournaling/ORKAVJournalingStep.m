@@ -35,17 +35,12 @@
 
 #if ORK_FEATURE_AV_JOURNALING
 
-#import "ORKAVJournalingStepViewController.h"
 #import "ORKHelpers_Internal.h"
 
 static const NSTimeInterval MIN_RECORDING_DURATION = 30.0;
 static const NSTimeInterval MAX_RECORDING_DURATION = 7260.0;
 
 @implementation ORKAVJournalingStep
-
-+ (Class)stepViewControllerClass {
-    return [ORKAVJournalingStepViewController class];
-}
 
 + (BOOL)supportsSecureCoding {
     return YES;

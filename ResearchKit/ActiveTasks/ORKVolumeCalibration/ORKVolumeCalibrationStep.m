@@ -32,15 +32,10 @@
 #if RK_APPLE_INTERNAL
 
 #import "ORKVolumeCalibrationStep.h"
-#import "ORKVolumeCalibrationStepViewController.h"
 
 #import "ORKHelpers_Internal.h"
 
 @implementation ORKVolumeCalibrationStep
-
-+ (Class)stepViewControllerClass {
-    return [ORKVolumeCalibrationStepViewController class];
-}
 
 - (instancetype)initWithIdentifier:(NSString *)identifier maskingSoundName:(NSString *)name maskingSoundIdentifier:(NSString *)soundIdentifier {
     self = [super initWithIdentifier:identifier];

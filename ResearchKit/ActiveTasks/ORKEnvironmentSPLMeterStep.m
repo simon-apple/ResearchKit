@@ -30,7 +30,6 @@
 
 
 #import "ORKEnvironmentSPLMeterStep.h"
-#import "ORKEnvironmentSPLMeterStepViewController.h"
 #import "ORKRecorder_Private.h"
 #import "ORKHelpers_Internal.h"
 
@@ -39,10 +38,6 @@
 #define ORKEnvironmentSPLMeterTaskDefaultRequiredContiguousSamples 5
 
 @implementation ORKEnvironmentSPLMeterStep
-
-+ (Class)stepViewControllerClass {
-    return [ORKEnvironmentSPLMeterStepViewController class];
-}
 
 - (instancetype)initWithIdentifier:(NSString *)identifier {
     self = [super initWithIdentifier:identifier];

@@ -39,7 +39,6 @@
 
 @class HKObjectType;
 @class ORKResult;
-@class ORKStepViewController;
 @protocol ORKTask;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -305,30 +304,6 @@ API_AVAILABLE(ios(11))
  */
 
 @property (nonatomic) UIViewContentMode imageContentMode API_AVAILABLE(ios(11)) API_UNAVAILABLE(watchos);
-
-/**
- Returns the class that the task view controller should instantiate to display
- this step.
- */
-
-- (Class)stepViewControllerClass API_AVAILABLE(ios(11)) API_UNAVAILABLE(watchos);
-
-/**
- Instantiates a step view controller for this class.
- 
- This method is called when a step is about to be presented. The default implementation returns
- a view controller that is appropriate to this step by allocating an instance of `ORKStepViewController`
- using the `-stepViewControllerClass` method and initializing that instance by calling `initWithIdentifier:result:`
- on the provided `ORKStepViewController` class instance.
- 
- Override this method if you need to customize the behavior before presenting the step or if
- the view controller is presented using a nib or storyboard.
- 
- @param result    The result associated with this step
- 
- @return A newly initialized step view controller.
- */
-- (ORKStepViewController *)instantiateStepViewControllerWithResult:(ORKResult *)result API_AVAILABLE(ios(11)) API_UNAVAILABLE(watchos);
 
 @end
 

@@ -39,8 +39,6 @@
 
 #if TARGET_OS_IOS
 #import "ORKBodyItem.h"
-#import "ORKStepViewController.h"
-#import "ORKStepViewController_Internal.h"
 #import "ORKEarlyTerminationConfiguration.h"
 #endif
 
@@ -233,26 +231,6 @@
 
 #if TARGET_OS_IOS
 #pragma mark - iOS
-
-+ (Class)stepViewControllerClass {
-    return [ORKStepViewController class];
-}
-
-- (Class)stepViewControllerClass {
-    return [[self class] stepViewControllerClass];
-}
-
-- (ORKStepViewController *)instantiateStepViewControllerWithResult:(ORKResult *)result {
-    Class stepViewControllerClass = [self stepViewControllerClass];
-    
-    ORKStepViewController *stepViewController = [[stepViewControllerClass alloc] initWithStep:self result:result];
-    
-    // Set the restoration info using the given class
-    stepViewController.restorationIdentifier = self.identifier;
-    stepViewController.restorationClass = stepViewControllerClass;
-    
-    return stepViewController;
-}
 
 - (void)setAuxiliaryImage:(UIImage *)auxiliaryImage {
     _auxiliaryImage = auxiliaryImage;

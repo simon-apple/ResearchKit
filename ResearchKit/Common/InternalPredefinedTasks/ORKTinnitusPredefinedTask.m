@@ -29,6 +29,7 @@
  */
 // apple-internal
 
+// TODO: rdar://97460928 (decouple this class from the UI properly; currently non-functioning)
 #if RK_APPLE_INTERNAL
 
 #import "ORKTinnitusPredefinedTask.h"
@@ -85,7 +86,7 @@ static NSString *const ORKTinnitusHeadphoneRequiredStepIdentifier = @"ORKTinnitu
 @interface ORKTinnitusPredefinedTaskContext ()  <ORKHeadphoneDetectorDelegate> {
     ORKHeadphoneDetector *_headphoneDetector;
     BOOL _showingAlert;
-    ORKTaskViewController *_taskViewController;
+    //ORKTaskViewController *_taskViewController;
     UIAlertAction *_continueAction;
 }
 
@@ -116,12 +117,12 @@ static NSString *const ORKTinnitusHeadphoneRequiredStepIdentifier = @"ORKTinnitu
     return nil;
 }
 
--(void)insertTaskViewController:(ORKTaskViewController*)viewController {
-    _taskViewController = viewController;
+-(void)insertTaskViewController:(/*ORKTaskViewController*/UIViewController *)viewController {
+    //_taskViewController = viewController;
 }
 
 - (void)resetVariables {
-    _taskViewController = nil;
+    //_taskViewController = nil;
     _userVolume = 0.0;
     _headphoneType = nil;
     _showingAlert = NO;
@@ -135,7 +136,7 @@ static NSString *const ORKTinnitusHeadphoneRequiredStepIdentifier = @"ORKTinnitu
 }
 
 - (void)showAlert {
-    if (_taskViewController != nil) {
+    if (/*_taskViewController*/ nil != nil) {
         if (!_showingAlert) {
             _showingAlert = YES;
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -145,10 +146,10 @@ static NSString *const ORKTinnitusHeadphoneRequiredStepIdentifier = @"ORKTinnitu
                                                handler:^(UIAlertAction *action) {
                     _showingAlert = NO;
                     _continueAction = nil;
-                    ORKStrongTypeOf(_taskViewController.delegate) strongDelegate = _taskViewController.delegate;
+                    /*ORKStrongTypeOf(_taskViewController.delegate) strongDelegate = _taskViewController.delegate;
                     if ([strongDelegate respondsToSelector:@selector(taskViewController:didFinishWithReason:error:)]) {
                         [strongDelegate taskViewController:_taskViewController didFinishWithReason:ORKTaskViewControllerFinishReasonDiscarded error:nil];
-                    }
+                    }*/
                 }];
                 UIAlertController *alertController = [UIAlertController
                                                       alertControllerWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE_TASK_INTERRUPTED", nil)
@@ -167,7 +168,7 @@ static NSString *const ORKTinnitusHeadphoneRequiredStepIdentifier = @"ORKTinnitu
                 [alertController addAction:cancelAction];
                 alertController.preferredAction = cancelAction;
                 
-                [_taskViewController presentViewController:alertController animated:YES completion:nil];
+                //[_taskViewController presentViewController:alertController animated:YES completion:nil];
             });
         } else {
             [_continueAction setEnabled:NO];

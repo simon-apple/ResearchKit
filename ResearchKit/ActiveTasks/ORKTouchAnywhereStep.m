@@ -30,15 +30,10 @@
 
 
 #import "ORKTouchAnywhereStep.h"
-#import "ORKTouchAnywhereStepViewController.h"
 #import "ORKHelpers_Internal.h"
 
 
 @implementation ORKTouchAnywhereStep
-
-+ (Class)stepViewControllerClass {
-    return [ORKTouchAnywhereStepViewController class];
-}
 
 - (instancetype)initWithIdentifier:(NSString *)identifier instructionText:(NSString *)instructionText {
     self = [super initWithIdentifier:identifier];

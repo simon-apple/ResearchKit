@@ -33,6 +33,7 @@
 import XCTest
 @testable import ResearchKit
 @testable import ResearchKit_Private
+@testable import ResearchKitUI
 
 class ORKTinnitusPuretoneViewControllerTests: XCTestCase {
     var puretoneController: ORKTinnitusPureToneStepViewController!

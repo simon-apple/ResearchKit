@@ -32,14 +32,7 @@
 #import "ORKFitnessStep.h"
 #import "ORKHelpers_Internal.h"
 
-#import "ORKFitnessStepViewController.h"
-
-
 @implementation ORKFitnessStep
-
-+ (Class)stepViewControllerClass {
-    return [ORKFitnessStepViewController class];
-}
 
 - (instancetype)initWithIdentifier:(NSString *)identifier {
     self = [super initWithIdentifier:identifier];

@@ -30,6 +30,8 @@
 
 import XCTest
 import ResearchKit
+@testable import ResearchKitUI
+@testable import ResearchKitUI_Private
 
 class ORKStepViewControllerTests: XCTestCase {
     

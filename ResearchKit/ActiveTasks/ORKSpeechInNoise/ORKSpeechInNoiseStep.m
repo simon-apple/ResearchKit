@@ -30,7 +30,6 @@
 
 
 #import "ORKSpeechInNoiseStep.h"
-#import "ORKSpeechInNoiseStepViewController.h"
 
 #import "ORKHelpers_Internal.h"
 
@@ -39,10 +38,6 @@
 #define ORKSpeechInNoiseDefaultSpeechFileName "Sentence1.wav"
 
 @implementation ORKSpeechInNoiseStep
-
-+ (Class)stepViewControllerClass {
-    return [ORKSpeechInNoiseStepViewController class];
-}
 
 - (instancetype)initWithIdentifier:(NSString *)identifier {
     self = [super initWithIdentifier:identifier];

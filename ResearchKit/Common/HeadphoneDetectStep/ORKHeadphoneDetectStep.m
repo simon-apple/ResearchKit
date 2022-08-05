@@ -32,7 +32,6 @@
 #if RK_APPLE_INTERNAL
 
 #import "ORKHeadphoneDetectStep.h"
-#import "ORKHeadphoneDetectStepViewController.h"
 #import "ORKStep_Private.h"
 #import "ORKHelpers_Internal.h"
 
@@ -53,10 +52,6 @@
 
 + (nullable NSSet<ORKHeadphoneChipsetIdentifier> *)supportedHeadphoneChipsetsForType:(ORKHeadphoneTypes)headphoneTypes {
     return headphoneTypes == ORKHeadphoneTypesSupported ? [ORKHeadphoneDetectStep dBHLTypes] : nil;
-}
-
-+ (Class)stepViewControllerClass {
-    return [ORKHeadphoneDetectStepViewController class];
 }
 
 - (instancetype)initWithIdentifier:(NSString *)identifier headphoneTypes:(ORKHeadphoneTypes)headphoneTypes {

@@ -29,18 +29,12 @@
  */
 
 #import "ORKFrontFacingCameraStep.h"
-#import "ORKFrontFacingCameraStepViewController.h"
 #import "ORKHelpers_Internal.h"
 
 static const NSTimeInterval MIN_RECORDING_DURATION = 10.0;
 static const NSTimeInterval MAX_RECORDING_DURATION = 300.0;
 
 @implementation ORKFrontFacingCameraStep
-
-+ (Class)stepViewControllerClass
-{
-    return [ORKFrontFacingCameraStepViewController class];
-}
 
 + (BOOL)supportsSecureCoding
 {

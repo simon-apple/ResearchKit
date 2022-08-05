@@ -93,31 +93,6 @@
 #import <ResearchKit/ORKWebViewStepResult.h>
 #import <ResearchKit/ORKEnvironmentSPLMeterResult.h>
 #import <ResearchKit/ORKResultPredicate.h>
-#import <ResearchKit/ORKUSDZModelManagerResult.h>
-
-#import <ResearchKit/ORKTextButton.h>
-#import <ResearchKit/ORKBorderedButton.h>
-#import <ResearchKit/ORKContinueButton.h>
-#import <ResearchKit/ORKPlaybackButton.h>
-
-#import <ResearchKit/ORKStepViewController.h>
-#import <ResearchKit/ORKActiveStepViewController.h>
-#import <ResearchKit/ORKCompletionStepViewController.h>
-#import <ResearchKit/ORKFormStepViewController.h>
-#import <ResearchKit/ORKInstructionStepViewController.h>
-#import <ResearchKit/ORKLearnMoreStepViewController.h>
-#import <ResearchKit/ORKLoginStepViewController.h>
-#import <ResearchKit/ORKPageStepViewController.h>
-#import <ResearchKit/ORKPasscodeViewController.h>
-#import <ResearchKit/ORKPDFViewerStepViewController.h>
-#import <ResearchKit/ORKTableStepViewController.h>
-#import <ResearchKit/ORKTaskViewController.h>
-#import <ResearchKit/ORKTouchAnywhereStepViewController.h>
-#import <ResearchKit/ORKVerificationStepViewController.h>
-#import <ResearchKit/ORKWaitStepViewController.h>
-#import <ResearchKit/ORKWebViewStepViewController.h>
-#import <ResearchKit/ORKReviewViewController.h>
-#import <ResearchKit/ORKCustomStepViewController.h>
 
 #import <ResearchKit/ORKRecorder.h>
 
@@ -132,9 +107,6 @@
 
 #import <ResearchKit/ORKDataCollectionManager.h>
 #import <ResearchKit/ORKCollector.h>
-
-#import <ResearchKit/ORK3DModelManager.h>
-#import <ResearchKit/ORKUSDZModelManager.h>
 
 #import <ResearchKit/ORKPermissionType.h>
 #import <ResearchKit/ORKHealthKitPermissionType.h>
@@ -151,8 +123,6 @@
 
 #if RK_APPLE_INTERNAL
 #import <ResearchKit/ORKTypingStep.h>
-#import <ResearchKit/ORKTypingStepViewController.h>
-#import <ResearchKit/ORKAVJournalingTaskViewController.h>
 #import <ResearchKit/ORKAVJournalingResult.h>
 #import <ResearchKit/ORKBLEScanPeripheralsStepResult.h>
 #endif

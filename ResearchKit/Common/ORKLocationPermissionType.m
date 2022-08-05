@@ -29,7 +29,7 @@
  */
 
 #import "ORKLocationPermissionType.h"
-#import "ORKRequestPermissionView.h"
+#import "ORKUILeaks.h"
 #import "ORKHelpers_Internal.h"
 
 @import CoreLocation;
@@ -52,7 +52,6 @@ static const uint32_t IconDarkTintColor = 0x00A36C;
 {
     self = [super init];
     if (self) {
-        [self setupCardView];
     }
     return self;
 }
@@ -65,60 +64,50 @@ static const uint32_t IconDarkTintColor = 0x00A36C;
     return _locationManager;
 }
 
-- (void)setupCardView {
-    
-    UIImage *image;
-    if (@available(iOS 13, *)) {
-        image = [UIImage systemImageNamed:Symbol];
-    }
-    
-    self.cardView = [[ORKRequestPermissionView alloc]
-                     initWithIconImage:image
-                     title:ORKLocalizedString(@"REQUEST_LOCATION_DATA_STEP_VIEW_TITLE", nil)
-                     detailText:ORKLocalizedString(@"REQUEST_LOCATION_DATA_STEP_VIEW_DESCRIPTION", nil)];
-
-    [self.cardView.requestPermissionButton addTarget:self action:@selector(requestPermissionButtonPressed) forControlEvents:UIControlEventTouchUpInside];
-    
-    // Set the tint color for the icon
-    if (@available(iOS 13, *)) {
-        UIColor *dynamicTint = [[UIColor alloc] initWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
-            return traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? ORKRGB(IconDarkTintColor) : ORKRGB(IconLightTintColor);
-        }];
-        [self.cardView updateIconTintColor:dynamicTint];
-    } else {
-        [self.cardView updateIconTintColor:ORKRGB(IconLightTintColor)];
-    }
-    
-    [self checkLocationAuthStatus];
+- (NSString *)localizedTitle {
+    return ORKLocalizedString(@"REQUEST_LOCATION_DATA_STEP_VIEW_TITLE", nil);
 }
 
--(void)checkLocationAuthStatus {
+- (NSString *)localizedDetailText {
+    return ORKLocalizedString(@"REQUEST_LOCATION_DATA_STEP_VIEW_DESCRIPTION", nil);
+}
+
+- (UIImage * _Nullable)image {
+    return [UIImage systemImageNamed:Symbol];
+}
+
+- (UIColor *)iconTintColor {
+    return [[UIColor alloc] initWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
+        return traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? ORKRGB(IconDarkTintColor) : ORKRGB(IconLightTintColor);
+    }];
+}
+
+- (ORKRequestPermissionsButtonState)permissionState {
     switch (CLLocationManager.authorizationStatus) {
         case kCLAuthorizationStatusNotDetermined:
-            [self setState:ORKRequestPermissionsButtonStateDefault canContinue:NO];
-            break;
+            return ORKRequestPermissionsButtonStateDefault;
 
         case kCLAuthorizationStatusAuthorizedAlways:
         case kCLAuthorizationStatusAuthorizedWhenInUse:
         case kCLAuthorizationStatusRestricted:
         case kCLAuthorizationStatusDenied:
-            [self setState:ORKRequestPermissionsButtonStateConnected canContinue:YES];
-            break;
+            return ORKRequestPermissionsButtonStateConnected;
     }
 }
 
+- (BOOL)canContinue {
+    return self.permissionState == ORKRequestPermissionsButtonStateConnected;
+}
+
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
-    [self checkLocationAuthStatus];
+    if (self.permissionsStatusUpdateCallback != nil) {
+        self.permissionsStatusUpdateCallback();
+    }
 }
 
 // Request for always permission.
-- (void)requestPermissionButtonPressed {
+- (void)requestPermission {
     [self.locationManager requestAlwaysAuthorization];
-}
-
-- (void)setState:(ORKRequestPermissionsButtonState)state canContinue:(BOOL)canContinue {
-    [self.cardView setEnableContinueButton:canContinue];
-    [self.cardView.requestPermissionButton setState:state];
 }
 
 - (BOOL)isEqual:(id)object {

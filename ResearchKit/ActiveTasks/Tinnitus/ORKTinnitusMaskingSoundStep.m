@@ -31,15 +31,10 @@
 
 #if RK_APPLE_INTERNAL
 #import "ORKTinnitusMaskingSoundStep.h"
-#import "ORKTinnitusMaskingSoundStepViewController.h"
 
 #import "ORKHelpers_Internal.h"
 
 @implementation ORKTinnitusMaskingSoundStep
-
-+ (Class)stepViewControllerClass {
-    return [ORKTinnitusMaskingSoundStepViewController class];
-}
 
 - (instancetype)initWithIdentifier:(NSString *)identifier
                               name:(NSString *)name

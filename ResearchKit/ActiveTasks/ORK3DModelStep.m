@@ -29,14 +29,9 @@
  */
 
 #import "ORK3DModelStep.h"
-#import "ORK3DModelStepViewController.h"
 #import "ORKHelpers_Internal.h"
 
 @implementation ORK3DModelStep
-
-+ (Class)stepViewControllerClass {
-    return [ORK3DModelStepViewController class];
-}
 
 - (instancetype)initWithIdentifier:(NSString *)identifier modelManager:(nonnull ORK3DModelManager *)modelManager {
     self = [super initWithIdentifier:identifier];

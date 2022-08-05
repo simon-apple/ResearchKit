@@ -32,8 +32,6 @@
 #import "ORKVerificationStep.h"
 #import "ORKVerificationStep_Internal.h"
 
-#import "ORKVerificationStepViewController.h"
-
 #import "ORKStep_Private.h"
 
 #import "ORKHelpers_Internal.h"
@@ -50,8 +48,6 @@
 - (instancetype)initWithIdentifier:(NSString *)identifier
                               text:(NSString *)text
    verificationViewControllerClass:(Class)verificationViewControllerClass {
-    
-    NSParameterAssert([verificationViewControllerClass isSubclassOfClass:[ORKVerificationStepViewController class]]);
     
     self = [super initWithIdentifier:identifier];
     if (self) {

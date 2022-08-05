@@ -32,14 +32,9 @@
 #if RK_APPLE_INTERNAL
 
 #import "ORKHeadphonesRequiredCompletionStep.h"
-#import "ORKHeadphonesRequiredCompletionStepViewController.h"
 #import "ORKHelpers_Internal.h"
 
 @implementation ORKHeadphonesRequiredCompletionStep
-
-+ (Class)stepViewControllerClass {
-    return [ORKHeadphonesRequiredCompletionStepViewController class];
-}
 
 - (instancetype)initWithIdentifier:(NSString *)identifier requiredHeadphoneTypes:(ORKHeadphoneTypes)requiredHeadphoneTypes {
     self = [super initWithIdentifier:identifier];

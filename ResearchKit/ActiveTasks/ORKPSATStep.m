@@ -31,16 +31,10 @@
 
 #import "ORKPSATStep.h"
 
-#import "ORKPSATStepViewController.h"
-
 #import "ORKHelpers_Internal.h"
 
 
 @implementation ORKPSATStep
-
-+ (Class)stepViewControllerClass {
-    return [ORKPSATStepViewController class];
-}
 
 - (instancetype)initWithIdentifier:(NSString *)identifier {
     self = [super initWithIdentifier:identifier];

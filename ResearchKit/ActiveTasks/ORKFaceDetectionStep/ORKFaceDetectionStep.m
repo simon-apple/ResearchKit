@@ -35,15 +35,10 @@
 
 #if ORK_FEATURE_AV_JOURNALING
 
-#import "ORKFaceDetectionStepViewController.h"
 #import "ORKHelpers_Internal.h"
 #import "ORKStep_Private.h"
 
 @implementation ORKFaceDetectionStep
-
-+ (Class)stepViewControllerClass {
-    return [ORKFaceDetectionStepViewController class];
-}
 
 + (BOOL)supportsSecureCoding {
     return YES;
