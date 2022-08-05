@@ -128,7 +128,7 @@ import Foundation
         
         return progress * 0.85
     }
-    	
+        
     public func nextStimulus() -> ORKAudiometryStimulus? {
         return stimulus
     }
@@ -189,6 +189,10 @@ import Foundation
         }
     }
     
+    public func signalClipped() {
+        registerResponse(false)
+    }
+    
     public func resultSamples() -> [ORKdBHLToneAudiometryFrequencySample] {
         return results.map { key, value in
             let sample = ORKdBHLToneAudiometryFrequencySample()
@@ -196,7 +200,7 @@ import Foundation
             sample.calculatedThreshold = value
             sample.channel = channel
             return sample
-        }
+        }.sorted { $0.frequency < $1.frequency }
     }
 }
 
@@ -230,7 +234,7 @@ public extension ORKNewAudiometry {
             sample.channel = channel
             sample.units = units
             return sample
-        }
+        }.sorted { $0.frequency < $1.frequency }
     }
 }
 
@@ -278,10 +282,11 @@ extension ORKNewAudiometry {
                         dbHLPoint = max(dbHLPoint1k - 10, -minLevel)
                     }
                 } else {
+                    let stepSize: Double = ((negResp ? 1 : 0) + (posResp ? 1 : 0) + 1) * 10
                     if ySample.elements.last == 0 { // last response is negative
-                        dbHLPoint = min(dbHLPoint + 20, maxLevel)
+                        dbHLPoint = min(dbHLPoint + stepSize, maxLevel)
                     } else { // last response is positive
-                        dbHLPoint = max(dbHLPoint - 20, minLevel)
+                        dbHLPoint = max(dbHLPoint - stepSize, minLevel)
                     }
                 }
                 
