@@ -61,7 +61,12 @@ class SystemSound {
     types of functionality supported by the ResearchKit framework.
 */
 enum TaskListRow: Int, CustomStringConvertible {
+    #if RK_APPLE_INTERNAL
+    case catalogVersion = 0
+    case form
+    #else
     case form = 0
+    #endif
     case groupedForm
     case survey
     case platterUIQuestion
@@ -120,7 +125,6 @@ enum TaskListRow: Int, CustomStringConvertible {
     case videoInstruction
     case webView
     
-    //start-omit-internal-code
     #if RK_APPLE_INTERNAL
     case predefinedSpeechInNoiseTask
     case predefinedAVJournalingTask
@@ -129,7 +133,6 @@ enum TaskListRow: Int, CustomStringConvertible {
     case textQuestionPIIScrubbing
     case newdBHLToneAudiometryTask
     #endif
-    //end-omit-internal-code
     
     class TaskListRowSection {
         var title: String
@@ -144,7 +147,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     /// Returns an array of all the task list row enum cases.
     static var sections: [ TaskListRowSection ] {
         
-        let defaultSections = [
+        var defaultSections = [
             TaskListRowSection(title: "Surveys", rows:
                 [
                     .form,
@@ -218,8 +221,9 @@ enum TaskListRow: Int, CustomStringConvertible {
                     .webView
                 ])]
         
-            //start-omit-internal-code
             #if RK_APPLE_INTERNAL
+            defaultSections.insert(TaskListRowSection(title: "Version", rows:[.catalogVersion]), at: 0)
+        
             let internalSections = [
 
             TaskListRowSection(title: "Internal", rows:
@@ -231,9 +235,9 @@ enum TaskListRow: Int, CustomStringConvertible {
                     .ble,
                     .newdBHLToneAudiometryTask
                 ])]
-            return (defaultSections + internalSections)
+            defaultSections = (defaultSections + internalSections)
             #endif
-            //end-omit-internal-code
+        
             return defaultSections
         }
     
@@ -415,8 +419,10 @@ enum TaskListRow: Int, CustomStringConvertible {
         case .webView:
             return NSLocalizedString("Web View", comment: "")
             
-        //start-omit-internal-code
         #if RK_APPLE_INTERNAL
+        case .catalogVersion:
+            return NSLocalizedString("Catalog App Version History", comment: "")
+        
         case .predefinedSpeechInNoiseTask:
             return NSLocalizedString("Predefined Speech In Noise", comment: "")
             
@@ -435,7 +441,6 @@ enum TaskListRow: Int, CustomStringConvertible {
         case .newdBHLToneAudiometryTask:
             return NSLocalizedString("dBHL Tone Audiometry (New Algorithm)", comment: "")
         #endif
-        //end-omit-internal-code
         }
     }
     
@@ -531,13 +536,6 @@ enum TaskListRow: Int, CustomStringConvertible {
         // Task with an example of free text entry.
         case textQuestionTask
         case textQuestionStep
-#if RK_APPLE_INTERNAL
-        case textQuestionEmailPIIScrubbingStep
-        case textQuestionSSNPIIScrubbingStep
-        case textQuestionPIIScrubbingTask
-        case textQuestionPIIScrubbingEmailFormItem
-        case textQuestionPIIScrubbingSSNFormItem
-#endif
 
         // Task with an example of a multiple choice question.
         case textChoiceQuestionTask
@@ -642,14 +640,18 @@ enum TaskListRow: Int, CustomStringConvertible {
         case webViewTask
         case webViewStep
         
-        //start-omit-internal-code
         #if RK_APPLE_INTERNAL
+        case catalogAppVersionHistory
+        case textQuestionEmailPIIScrubbingStep
+        case textQuestionSSNPIIScrubbingStep
+        case textQuestionPIIScrubbingTask
+        case textQuestionPIIScrubbingEmailFormItem
+        case textQuestionPIIScrubbingSSNFormItem
         case predefinedSpeechInNoiseTask
         case predefinedAVJournalingTask
         case predefinedTinnitusTask
         case newdBHLToneAudiometryTask
         #endif
-        //end-omit-internal-code
     }
     
     // MARK: Properties
@@ -707,11 +709,6 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .textChoiceQuestion:
             return textChoiceQuestionTask
-
-#if RK_APPLE_INTERNAL
-        case .textQuestionPIIScrubbing:
-            return textQuestionPIIScrubbingTask
-#endif
             
         case .timeIntervalQuestion:
             return timeIntervalQuestionTask
@@ -833,8 +830,13 @@ enum TaskListRow: Int, CustomStringConvertible {
         case .webView:
             return webView
             
-        //start-omit-internal-code
         #if RK_APPLE_INTERNAL
+        case .catalogVersion:
+            return catalogAppVersionHistory
+            
+        case .textQuestionPIIScrubbing:
+            return textQuestionPIIScrubbingTask
+            
         case .predefinedSpeechInNoiseTask:
             return predefinedSpeechInNoiseTask
         
@@ -850,7 +852,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         case .newdBHLToneAudiometryTask:
             return newdBHLToneAudiometryTask
         #endif
-        //end-omit-internal-code
+
         case .textChoiceQuestionWithImageTask:
             return textChoiceQuestionWithImageTask
         }
@@ -2035,8 +2037,15 @@ enum TaskListRow: Int, CustomStringConvertible {
     }
 
     
-    //start-omit-internal-code
     #if RK_APPLE_INTERNAL
+    private var catalogAppVersionHistory: ORKTask {
+        let steps: [ORKStep] = [
+            createVersionInstructionStep(version: "2.0.0", additions: ["Task for testing PII Scrubbers"])
+        ]
+        
+        return ORKOrderedTask(identifier: String(describing: Identifier.catalogAppVersionHistory), steps: steps)
+    }
+    
     private var predefinedSpeechInNoiseTask: ORKTask {
         
         guard let path = Bundle.main.path(forResource: "manifest", ofType: "json", inDirectory: "List1") else {
@@ -2090,7 +2099,6 @@ enum TaskListRow: Int, CustomStringConvertible {
     }
     
     #endif
-    //end-omit-internal-code
     
     // MARK: `ORKTask` Reused Text Convenience
     
@@ -2104,14 +2112,6 @@ enum TaskListRow: Int, CustomStringConvertible {
     
     private var exampleQuestionText: String {
         return NSLocalizedString("Your question goes here.", comment: "")
-    }
-    
-    private var examplePIIScrubbedEmailQuestionText: String {
-        return NSLocalizedString("Your question goes here. Your email will be scrubbed", comment: "")
-    }
-    
-    private var examplePIIScrubbedSSNQuestionText: String {
-        return NSLocalizedString("Your question goes here. Your SSN will be scrubbed", comment: "")
     }
     
     private var exampleHighValueText: String {
@@ -2210,4 +2210,27 @@ enum TaskListRow: Int, CustomStringConvertible {
         </html>
         """
     }
+        
+    #if RK_APPLE_INTERNAL
+    private var examplePIIScrubbedEmailQuestionText: String {
+        return NSLocalizedString("Your question goes here. Your email will be scrubbed", comment: "")
+    }
+
+    private var examplePIIScrubbedSSNQuestionText: String {
+        return NSLocalizedString("Your question goes here. Your SSN will be scrubbed", comment: "")
+    }
+    
+    private func createVersionInstructionStep(version: String, additions: [String]) -> ORKStep {
+        let instructionStep = ORKInstructionStep(identifier: version)
+        instructionStep.title = "Version: (\(version))"
+        instructionStep.text = "Updates/Additions below"
+        
+        instructionStep.bodyItems = additions.map ({(addition:String) -> ORKBodyItem in
+                return ORKBodyItem(text: addition, detailText: nil, image: nil, learnMoreItem: nil, bodyItemStyle: .bulletPoint)
+            }
+        )
+        
+        return instructionStep
+    }
+    #endif
 }
