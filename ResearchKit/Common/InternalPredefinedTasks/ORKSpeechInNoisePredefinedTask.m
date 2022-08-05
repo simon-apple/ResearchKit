@@ -48,6 +48,7 @@
 #import "ORKVolumeCalibrationStep.h"
 #import "ORKLearnMoreInstructionStep.h"
 #import "ORKHeadphonesRequiredCompletionStep.h"
+#import <Speech/SFSpeechRecognizer.h>
 
 typedef NSString * ORKSpeechInNoiseStepIdentifier NS_STRING_ENUM;
 ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierHeadphoneDetectStep = @"ORKSpeechInNoiseStepIdentifierHeadphoneDetectStep";
@@ -404,7 +405,7 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierHeadphonesReq
         }
             
         // Speech Recognition
-        {
+        if ( [SFSpeechRecognizer authorizationStatus] != SFSpeechRecognizerAuthorizationStatusDenied ) {
             ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@_%@", fileName.lowercaseString, ORKSpeechInNoiseStepIdentifierSpeechRecognitionStep];
             ORKAudioStreamerConfiguration *config = [[ORKAudioStreamerConfiguration alloc] initWithIdentifier:@"streamingAudio"];
             ORKSpeechRecognitionStep *step = [[ORKSpeechRecognitionStep alloc] initWithIdentifier:stepIdentifier image:nil text:nil];
@@ -415,6 +416,8 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierHeadphonesReq
             step.title = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_REPEAT_TITLE", nil);
             step.optional = NO;
             [steps addObject:step];
+        } else {
+            context.prefersKeyboard = YES;
         }
             
         // Edit Transcript
