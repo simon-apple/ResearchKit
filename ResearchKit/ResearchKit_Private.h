@@ -89,6 +89,7 @@
 #import <ResearchKit/ORKLocationRecorder.h>
 #import <ResearchKit/ORKPedometerRecorder.h>
 #import <ResearchKit/ORKTouchRecorder.h>
+#import <ResearchKit/ORKAudiometry.h>
 
 #import <ResearchKit/ORKActiveStep_Internal.h>
 #import <ResearchKit/ORKStep_Private.h>
