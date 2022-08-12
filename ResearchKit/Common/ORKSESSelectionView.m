@@ -85,6 +85,11 @@ static const CGFloat rungButtonPadding = 10.0;
     self = [super init];
     if (self) {
         _rungIndex = rungIndex;
+        
+        if (@available(iOS 13.0, *)) {
+            self.tintColor = ORKWindowTintcolor(self.window) ? : [UIColor systemBlueColor];
+        }
+        
         [self setupLabels];
         [self setText:text];
         [self setupCheckmarkView];
@@ -132,6 +137,7 @@ static const CGFloat rungButtonPadding = 10.0;
     _rungImageView.contentMode = UIViewContentModeScaleAspectFit;
     _rungImageView.image = [[UIImage imageNamed:@"socioEconomicLadderRung" inBundle:ORKBundle() compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     _rungImageView.tintColor = self.tintColor;
+    
     [self addSubview:_rungImageView];
 }
 
@@ -205,6 +211,11 @@ static const CGFloat rungButtonPadding = 10.0;
 
 - (void)setChecked:(BOOL)checked {
     [_checkmarkView setChecked:checked];
+}
+
+- (void)didMoveToWindow {
+    self.tintColor = ORKWindowTintcolor(self.window) ? : [UIColor systemBlueColor];
+    _rungImageView.tintColor = self.tintColor;
 }
 
 @end
