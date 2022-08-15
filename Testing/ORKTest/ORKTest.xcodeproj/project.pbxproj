@@ -52,6 +52,8 @@
 		BCEDC8051E8A469D00C5405F /* TaskFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCEDC7FB1E8A469D00C5405F /* TaskFactory.swift */; };
 		CA6A0D9B288F199B0048C1EF /* ResearchKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA6A0D9A288F199B0048C1EF /* ResearchKitUI.framework */; platformFilter = ios; };
 		CA6A0D9C288F199B0048C1EF /* ResearchKitUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CA6A0D9A288F199B0048C1EF /* ResearchKitUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CA9B6E0328A2CC73000A7603 /* ResearchKitActiveTask.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA9B6E0228A2CC73000A7603 /* ResearchKitActiveTask.framework */; };
+		CA9B6E0428A2CC8B000A7603 /* ResearchKitActiveTask.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CA9B6E0228A2CC73000A7603 /* ResearchKitActiveTask.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CAF31DCF1BC6AEA200041163 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAF31DCE1BC6AEA200041163 /* MapKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		FFF010751D21F2030054B430 /* ContinueButtonExample.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FFF010741D21F2030054B430 /* ContinueButtonExample.storyboard */; };
 /* End PBXBuildFile section */
@@ -113,6 +115,13 @@
 			remoteGlobalIDString = CA1C7A5A288B0C68004DAB3A;
 			remoteInfo = "ResearchKitUI (iOS)";
 		};
+		CA9B6E0128A2CC73000A7603 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7129779F22B091500049213B /* ResearchKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CAD08967289DD747007B2A98;
+			remoteInfo = ResearchKitActiveTask;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -165,6 +174,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				CA9B6E0428A2CC8B000A7603 /* ResearchKitActiveTask.framework in Embed Frameworks */,
 				CA6A0D9C288F199B0048C1EF /* ResearchKitUI.framework in Embed Frameworks */,
 				712977AA22B0917A0049213B /* ResearchKit.framework in Embed Frameworks */,
 			);
@@ -297,6 +307,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA9B6E0328A2CC73000A7603 /* ResearchKitActiveTask.framework in Frameworks */,
 				CAF31DCF1BC6AEA200041163 /* MapKit.framework in Frameworks */,
 				86D347FA1AC0E1B4006DB02B /* HealthKit.framework in Frameworks */,
 				CA6A0D9B288F199B0048C1EF /* ResearchKitUI.framework in Frameworks */,
@@ -354,6 +365,7 @@
 				5DABE55B24D8C17C00570C57 /* ResearchKitCore.framework */,
 				5D169A672502DA7200C3B75E /* ResearchKitUI.framework */,
 				CA6A0D9A288F199B0048C1EF /* ResearchKitUI.framework */,
+				CA9B6E0228A2CC73000A7603 /* ResearchKitActiveTask.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -740,6 +752,13 @@
 			fileType = wrapper.framework;
 			path = ResearchKitUI.framework;
 			remoteRef = CA6A0D99288F199B0048C1EF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CA9B6E0228A2CC73000A7603 /* ResearchKitActiveTask.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = ResearchKitActiveTask.framework;
+			remoteRef = CA9B6E0128A2CC73000A7603 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */

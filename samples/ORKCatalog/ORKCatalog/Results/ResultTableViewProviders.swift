@@ -30,6 +30,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import UIKit
 import ResearchKit
+import ResearchKitActiveTask
+import ResearchKitActiveTask_Private
 import MapKit
 import Speech
 

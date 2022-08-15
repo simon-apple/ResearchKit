@@ -30,9 +30,6 @@
 
 #if RK_APPLE_INTERNAL
 #import <ResearchKit/ORKFeatureFlags.h>
-#import <ResearchKit/ORKHeadphoneDetectResult.h>
-#import <ResearchKit/ORKHeadphoneDetector.h>
-#import <ResearchKit/ORKHeadphoneDetectStep.h>
 #endif
 
 #import <ResearchKit/ORKDefines.h>
@@ -55,9 +52,7 @@
 #import <ResearchKit/ORKRegistrationStep.h>
 #import <ResearchKit/ORKReviewStep.h>
 #import <ResearchKit/ORKSignatureStep.h>
-#import <ResearchKit/ORKAccuracyStroopStep.h>
 #import <ResearchKit/ORKTableStep.h>
-#import <ResearchKit/ORKTouchAnywhereStep.h>
 #import <ResearchKit/ORKVerificationStep.h>
 #import <ResearchKit/ORKVideoCaptureStep.h>
 #import <ResearchKit/ORKWaitStep.h>
@@ -65,16 +60,13 @@
 #import <ResearchKit/ORKFrontFacingCameraStep.h>
 #import <ResearchKit/ORKWebViewStep.h>
 #import <ResearchKit/ORKCustomStep.h>
-#import <ResearchKit/ORKEnvironmentSPLMeterStep.h>
 #import <ResearchKit/ORKLearnMoreInstructionStep.h>
 #import <ResearchKit/ORKSecondaryTaskStep.h>
 #import <ResearchKit/ORKRequestPermissionsStep.h>
-#import <ResearchKit/ORK3DModelStep.h>
 
 
 #import <ResearchKit/ORKTask.h>
 #import <ResearchKit/ORKOrderedTask.h>
-#import <ResearchKit/ORKOrderedTask+ORKPredefinedActiveTask.h>
 #import <ResearchKit/ORKNavigableOrderedTask.h>
 #import <ResearchKit/ORKStepNavigationRule.h>
 
@@ -82,7 +74,6 @@
 #import <ResearchKit/ORKHealthAnswerFormat.h>
 
 #import <ResearchKit/ORKResult.h>
-#import <ResearchKit/ORKActiveTaskResult.h>
 #import <ResearchKit/ORKCollectionResult.h>
 #import <ResearchKit/ORKConsentSignatureResult.h>
 #import <ResearchKit/ORKFrontFacingCameraStepResult.h>
@@ -91,13 +82,9 @@
 #import <ResearchKit/ORKSignatureResult.h>
 #import <ResearchKit/ORKVideoInstructionStepResult.h>
 #import <ResearchKit/ORKWebViewStepResult.h>
-#import <ResearchKit/ORKEnvironmentSPLMeterResult.h>
 #import <ResearchKit/ORKResultPredicate.h>
 
 #import <ResearchKit/ORKRecorder.h>
-
-#import <ResearchKit/ORKAudiometryStimulus.h>
-#import <ResearchKit/ORKAudiometryProtocol.h>
 
 #import <ResearchKit/ORKConsentDocument.h>
 #import <ResearchKit/ORKConsentSection.h>
@@ -122,11 +109,3 @@
 
 #import <ResearchKit/ORKEarlyTerminationConfiguration.h>
 #import <ResearchKit/ORKBundleAsset.h>
-
-
-#if RK_APPLE_INTERNAL
-#import <ResearchKit/ORKTypingStep.h>
-#import <ResearchKit/ORKAVJournalingResult.h>
-#import <ResearchKit/ORKBLEScanPeripheralsStepResult.h>
-#import <ResearchKit/ORKNewAudiometryMinimizer.h>
-#endif

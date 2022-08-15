@@ -32,6 +32,7 @@ import XCTest
 import ResearchKit
 @testable import ResearchKitUI
 @testable import ResearchKitUI_Private
+import ResearchKitActiveTask
 
 class ORKStepViewControllerTests: XCTestCase {
     

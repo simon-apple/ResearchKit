@@ -38,6 +38,7 @@
 #import "DynamicTask.h"
 
 @import ResearchKit_Private;
+@import ResearchKitActiveTask;
 
 
 @implementation TaskFactory (TaskCustomization)

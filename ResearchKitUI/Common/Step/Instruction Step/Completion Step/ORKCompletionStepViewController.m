@@ -94,18 +94,21 @@
 }
 
 #if RK_APPLE_INTERNAL
-- (nullable ORKSpeechInNoisePredefinedTaskContext *)speechInNoisePredefinedTaskContext
+// FIXME: rdar://98465050 (deal with internal code workaround)
+- (NSObject<ORKContext> * _Nullable)speechInNoisePredefinedTaskContext
 {
-    if (self.step.context && [self.step.context isKindOfClass:[ORKSpeechInNoisePredefinedTaskContext class]])
+    Class speechInNoisePredefinedTaskContext = NSClassFromString(@"ORKSpeechInNoisePredefinedTaskContext");
+    
+    if (self.step.context && speechInNoisePredefinedTaskContext != nil && [self.step.context isKindOfClass:speechInNoisePredefinedTaskContext])
     {
-        return (ORKSpeechInNoisePredefinedTaskContext *)self.step.context;
+        return self.step.context;
     }
     return nil;
 }
 
 - (BOOL)isSpeechInNoisePredefinedTaskPractice
 {
-    return [[self speechInNoisePredefinedTaskContext] isPracticeTest];
+    return [[self speechInNoisePredefinedTaskContext] performSelector:@selector(isPracticeTest)];
 }
 
 - (void)setSkipButtonItem:(UIBarButtonItem *)skipButtonItem
@@ -124,7 +127,7 @@
 {
     if ([self isSpeechInNoisePredefinedTaskPractice])
     {
-        [self.taskViewController flipToPageWithIdentifier:[self speechInNoisePredefinedTaskContext].practiceAgainStepIdentifier forward:NO animated:YES];
+        [self.taskViewController flipToPageWithIdentifier:[[self speechInNoisePredefinedTaskContext] performSelector:@selector(practiceAgainStepIdentifier)] forward:NO animated:YES];
     }
 }
 

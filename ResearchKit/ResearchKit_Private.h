@@ -49,82 +49,17 @@
 #import <ResearchKit/ORKRecorder_Private.h>
 #import <ResearchKit/ORKStepNavigationRule_Private.h>
 
-#import <ResearchKit/ORKAudioLevelNavigationRule.h>
-
 #import <ResearchKit/ORKCollectionResult_Private.h>
 #import <ResearchKit/ORKQuestionResult_Private.h>
 #import <ResearchKit/ORKSignatureResult_Private.h>
 #import <ResearchKit/ORKResult_Private.h>
-
-#import <ResearchKit/ORKAudioStep.h>
-#import <ResearchKit/ORKAudioFitnessStep.h>
-#import <ResearchKit/ORKAmslerGridStep.h>
-#import <ResearchKit/ORKCountdownStep.h>
-#import <ResearchKit/ORKFitnessStep.h>
-#import <ResearchKit/ORKHolePegTestPlaceStep.h>
-#import <ResearchKit/ORKHolePegTestRemoveStep.h>
-#import <ResearchKit/ORKPSATStep.h>
-#import <ResearchKit/ORKRangeOfMotionStep.h>
-#import <ResearchKit/ORKReactionTimeStep.h>
-#import <ResearchKit/ORKShoulderRangeOfMotionStep.h>
-#import <ResearchKit/ORKSpatialSpanMemoryStep.h>
-#import <ResearchKit/ORKStroopStep.h>
-#import <ResearchKit/ORKTappingIntervalStep.h>
-#import <ResearchKit/ORKTimedWalkStep.h>
-#import <ResearchKit/ORKToneAudiometryStep.h>
-#import <ResearchKit/ORKdBHLToneAudiometryStep.h>
-#import <ResearchKit/ORKdBHLToneAudiometryOnboardingStep.h>
-#import <ResearchKit/ORKTowerOfHanoiStep.h>
-#import <ResearchKit/ORKTrailmakingStep.h>
-#import <ResearchKit/ORKWalkingTaskStep.h>
-#import <ResearchKit/ORKSpeechRecognitionStep.h>
-#import <ResearchKit/ORKSpeechInNoiseStep.h>
-
-#import <ResearchKit/ORKAccelerometerRecorder.h>
-#import <ResearchKit/ORKAudioRecorder.h>
-#import <ResearchKit/ORKStreamingAudioRecorder.h>
-#import <ResearchKit/ORKDeviceMotionRecorder.h>
-#import <ResearchKit/ORKHealthQuantityTypeRecorder.h>
-#import <ResearchKit/ORKHealthClinicalTypeRecorder.h>
-#import <ResearchKit/ORKLocationRecorder.h>
-#import <ResearchKit/ORKPedometerRecorder.h>
-#import <ResearchKit/ORKTouchRecorder.h>
-#import <ResearchKit/ORKAudiometry.h>
 
 #import <ResearchKit/ORKActiveStep_Internal.h>
 #import <ResearchKit/ORKStep_Private.h>
 
 #if RK_APPLE_INTERNAL
 
-#import <ResearchKit/ORKHeadphonesRequiredCompletionStep.h>
-
-#import <ResearchKit/ORKFaceDetectionStep.h>
-
-#import <ResearchKit/ORKVolumeCalibrationStep.h>
-
-#import <ResearchKit/ORKAVJournalingPredefinedTask.h>
-#import <ResearchKit/ORKAVJournalingStep.h>
-
-
-// Tinnitus Predefined Task Steps & Result Objects
-#import <ResearchKit/ORKTinnitusTypeStep.h>
-#import <ResearchKit/ORKTinnitusPureToneStep.h>
-#import <ResearchKit/ORKTinnitusMaskingSoundStep.h>
-#import <ResearchKit/ORKTinnitusOverallAssessmentStep.h>
-
-#import <ResearchKit/ORKTinnitusPureToneResult.h>
-#import <ResearchKit/ORKTinnitusTypeResult.h>
-#import <ResearchKit/ORKTinnitusVolumeResult.h>
-
-#import <ResearchKit/ORKTinnitusTypes.h>
-
-#import <ResearchKit/ORKSpeechInNoisePredefinedTask.h>
-#import <ResearchKit/ORKTinnitusPredefinedTask.h>
-
 #import <ResearchKit/ORKSensitiveURLLearnMoreInstructionStep.h>
-
-// BLE Related Sources
-#import <ResearchKit/ORKBLEScanPeripheralsStep.h>
 
 #endif
 

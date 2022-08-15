@@ -31,6 +31,8 @@
 
 @import XCTest;
 @import ResearchKit_Private;
+@import ResearchKitActiveTask;
+@import ResearchKitActiveTask_Private;
 
 @import CoreLocation;
 @import CoreMotion;

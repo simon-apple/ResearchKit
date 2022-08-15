@@ -30,9 +30,11 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-import ResearchKit_Private
 import AudioToolbox
 import ResearchKit
+import ResearchKit_Private
+import ResearchKitActiveTask
+import ResearchKitActiveTask_Private
 import ResearchKitUI
 
 /**

@@ -29,7 +29,7 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <ResearchKitUI/ORKAudioFitnessStepViewController.h>
+#import <ResearchKitActiveTask/ORKAudioFitnessStepViewController.h>
 
 @import XCTest;
 

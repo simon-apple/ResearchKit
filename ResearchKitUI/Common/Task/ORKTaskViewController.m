@@ -36,7 +36,6 @@
 #import "ORKFormStepViewController.h"
 #import "ORKReviewStepViewController_Internal.h"
 #import "ORKStepViewController_Internal.h"
-#import "ORKTappingIntervalStepViewController.h"
 #import "ORKTaskViewController_Internal.h"
 #import "ORKLearnMoreStepViewController.h"
 
@@ -837,12 +836,18 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
 
 - (void)suspend {
     [self finishAudioPromptSession];
-    [ORKDynamicCast(_currentStepViewController, ORKActiveStepViewController) suspend];
+    // TODO: rdar://98592778 (revisit these "lifecycle" methods)
+    if ([_currentStepViewController respondsToSelector:@selector(suspend)]) {
+        [_currentStepViewController performSelector:@selector(suspend)];
+    }
 }
 
 - (void)resume {
+    // TODO: rdar://98592778 (revisit these "lifecycle" methods)
     [self startAudioPromptSessionIfNeeded];
-    [ORKDynamicCast(_currentStepViewController, ORKActiveStepViewController) resume];
+    if ([_currentStepViewController respondsToSelector:@selector(resume)]) {
+        [_currentStepViewController performSelector:@selector(resume)];
+    }
 }
 
 - (void)goForward {
@@ -1272,9 +1277,9 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
                 }
                 return NO;
             }];
-            if ([context isKindOfClass:[ORKTinnitusPredefinedTaskContext class]]) {
-                ORKTinnitusPredefinedTaskContext *tinnitusContext = (ORKTinnitusPredefinedTaskContext *)context;
-                [tinnitusContext resetVariables];
+            // TODO: rdar://98592778 (revisit these "lifecycle" methods)
+            if ([context respondsToSelector:@selector(resetVariables)]) {
+                [context performSelector:@selector(resetVariables)];
             }
         }
 #endif

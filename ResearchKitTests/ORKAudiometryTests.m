@@ -31,6 +31,8 @@
 #import <XCTest/XCTest.h>
 
 @import ResearchKit_Private;
+@import ResearchKitActiveTask;
+@import ResearchKitActiveTask_Private;
 
 @interface ORKAudiometryTests : XCTestCase
 

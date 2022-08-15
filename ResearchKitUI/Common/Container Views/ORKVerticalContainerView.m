@@ -749,7 +749,7 @@
     return _imageView;
 }
 
-- (void)setStepView:(ORKActiveStepCustomView *)customView {
+- (void)setStepView:(UIView *)customView {
     [_stepView removeFromSuperview];
     _stepView = customView;
     [_stepViewContainer addSubview:_stepView];

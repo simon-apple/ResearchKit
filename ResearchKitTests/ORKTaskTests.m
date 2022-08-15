@@ -32,7 +32,7 @@
 @import XCTest;
 @import ResearchKit_Private;
 @import ResearchKitUI;
-
+@import ResearchKitActiveTask;
 
 @interface ORKTaskTests : XCTestCase
 

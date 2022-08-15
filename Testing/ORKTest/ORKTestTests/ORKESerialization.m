@@ -35,8 +35,8 @@
 
 @import ResearchKit;
 @import ResearchKit_Private;
-// XXX: might not need this later, whenever the 3D Model Step stuff is resolved
-@import ResearchKitUI;
+@import ResearchKitActiveTask;
+@import ResearchKitActiveTask_Private;
 
 @import MapKit;
 @import Speech;

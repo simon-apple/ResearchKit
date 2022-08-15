@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface ORKPDFViewerStepView : ORKActiveStepCustomView
+@interface ORKPDFViewerStepView : UIView
 
 @property (nonatomic) NSURL *pdfURL;
 

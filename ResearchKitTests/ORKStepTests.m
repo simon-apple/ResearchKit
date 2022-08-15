@@ -32,6 +32,8 @@
 @import XCTest;
 @import ResearchKit;
 @import ResearchKit_Private;
+@import ResearchKitActiveTask;
+@import ResearchKitActiveTask_Private;
 @import ResearchKitUI;
 @import UIKit;
 

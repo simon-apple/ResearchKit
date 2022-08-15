@@ -35,7 +35,6 @@
 #import <ResearchKitUI/ORKTaskViewController_Private.h>
 #import <ResearchKitUI/ORKStepContainerView_Private.h>
 #import <ResearchKitUI/ORKStepContentView_Private.h>
-#import <ResearchKitUI/ORKTinnitusPureToneStepViewController_Private.h>
 #import <ResearchKitUI/ORKStepViewController_Internal.h>
 #import <ResearchKitUI/ORKPasscodeStepViewController_Internal.h>
 #import <ResearchKitUI/ORKStepMapper_Utils.h>

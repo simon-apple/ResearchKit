@@ -62,61 +62,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@protocol ORKHeadphoneRequiredTaskContext <NSObject>
-
-- (NSString *)headphoneRequiredIdentifier;
-- (nullable NSString *)didSkipHeadphoneDetectionStep:(ORKStep *)step forTask:(id<ORKTask>)task;
-
-@end
-
-@interface ORKdBHLTaskContext : NSObject <ORKContext, ORKHeadphoneRequiredTaskContext>
-
-@end
-
-@interface ORKSpeechInNoisePredefinedTaskContext : NSObject <ORKContext, ORKHeadphoneRequiredTaskContext>
-
-@property (nonatomic, copy) NSString *practiceAgainStepIdentifier;
-
-@property (nonatomic, assign, getter=isPracticeTest) BOOL practiceTest;
-
-@property (nonatomic, assign) BOOL prefersKeyboard;
-
-@end
-
-
-@interface ORKAVJournalingPredfinedTaskContext : NSObject <ORKContext>
-
-- (void)didReachDetectionTimeLimitForTask:(id<ORKTask>)task currentStepIdentifier:(NSString *)currentStepIdentifier;
-
-- (void)finishLaterWasPressedForTask:(id<ORKTask>)task currentStepIdentifier:(NSString *)currentStepIdentifier;
-
-- (void)videoOrAudioAccessDeniedForTask:(id<ORKTask>)task;
-
-@end
-
-@class ORKTinnitusAudioManifest;
-typedef NS_ENUM(NSInteger, ORKTinnitusType);
-
-@interface ORKTinnitusPredefinedTaskContext : NSObject <ORKContext, ORKHeadphoneRequiredTaskContext>
-
-@property (nonatomic) ORKTinnitusAudioManifest *audioManifest;
-
-@property (nonatomic, copy, nullable) ORKHeadphoneTypeIdentifier headphoneType;
-
-@property (nonatomic, assign) ORKBluetoothMode bluetoothMode;
-
-@property (nonatomic, copy, nullable) NSString *tinnitusIdentifier;
-
-@property (nonatomic, assign) ORKTinnitusType type;
-
-@property (nonatomic, assign) double predominantFrequency;
-
-@property (nonatomic, assign) float userVolume;
-
-- (void)resetVariables;
-
-@end
-
 NS_ASSUME_NONNULL_END
 
 #endif
