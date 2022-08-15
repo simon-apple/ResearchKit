@@ -345,23 +345,7 @@ static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;
             
         case AVAudioSessionRecordPermissionDenied:
         {
-            #if RK_APPLE_INTERNAL
-            id<ORKTask> task = self.step.task;
-            id<ORKContext> context = self.step.context;
-            if (context && task && [self.step.context respondsToSelector:@selector(didNotAllowRequiredHealthPermissionsForTask:)])
-            {
-                NSString *identifier = [self.step.context didNotAllowRequiredHealthPermissionsForTask:task];
-                [[self taskViewController] flipToPageWithIdentifier:identifier forward:YES animated:NO];
-            }
-            else
-            {
-                ORK_Log_Error("User has denied record permission for a step which requires microphone access.");
-                // TODO: Error message to the user instructing them to enable microphone access.
-            }
-            #else
             ORK_Log_Error("User has denied record permission for a step which requires microphone access.");
-            #endif
-            
             break;
         }
         case AVAudioSessionRecordPermissionUndetermined:

@@ -86,7 +86,9 @@
         NSNumber *frequencyKey = self.keys[[NSNumber numberWithDouble:stimulus.frequency]];
         NSNumber *referenceLevel = audiogramDict[frequencyKey];
 
-        [audiometry registerStimulusPlayback];
+        if ([audiometry respondsToSelector:@selector(registerStimulusPlayback)]) {
+            [audiometry registerStimulusPlayback];
+        }
         [audiometry registerResponse:stimulus.level >= referenceLevel.doubleValue];
     }
     

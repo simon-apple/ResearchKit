@@ -50,7 +50,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 #if TARGET_OS_IOS
 @optional
-- (NSString *)didNotAllowRequiredHealthPermissionsForTask:(id<ORKTask>)task;
 - (void)insertTaskViewController:(ORKTaskViewController*)viewController;
 #endif
 

@@ -128,8 +128,11 @@
     return _nextStimulus;
 }
 
+- (void)registerPreStimulusDelay:(double)preStimulusDelay {
+    _resultUnit.preStimulusDelay = preStimulusDelay;
+}
+
 - (void)registerStimulusPlayback {
-    _resultUnit.preStimulusDelay = _getTimestamp() - _resultUnit.startOfUnitTimeStamp;
     _preStimulusResponse = NO;
 }
 

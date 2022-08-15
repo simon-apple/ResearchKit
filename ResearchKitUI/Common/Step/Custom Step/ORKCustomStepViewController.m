@@ -65,7 +65,6 @@
     
     if (self.step && [self isViewLoaded]) {
         _containerView = [[ORKStepContainerView alloc] init];
-        [self configureContainerView];
         [_containerView setPinNavigationContainer:self.customStep.pinNavigationContainer];
         [_containerView setCustomContentView:[self customStep].contentView withTopPadding:0.0 sidePadding:0.0];
         [_containerView setUseExtendedPadding:self.step.useExtendedPadding];
@@ -124,14 +123,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self stepDidChange];
-}
-
-- (void)configureContainerView {
-    [_containerView setStepTitle:self.customStep.title];
-    [_containerView setStepText:self.customStep.text];
-    [_containerView setStepDetailText:self.customStep.detailText];
-    [_containerView setStepHeaderTextAlignment:self.customStep.headerTextAlignment];
-    [_containerView setTitleIconImage:self.step.iconImage];
 }
 
 - (void)setStepHeaderTextAlignment:(NSTextAlignment)stepHeaderTextAlignment {

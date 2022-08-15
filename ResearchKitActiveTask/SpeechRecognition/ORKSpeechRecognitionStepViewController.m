@@ -126,23 +126,7 @@
         case SFSpeechRecognizerAuthorizationStatusRestricted:
         case SFSpeechRecognizerAuthorizationStatusDenied:
         {
-#if RK_APPLE_INTERNAL
-            id<ORKTask> task = self.step.task;
-            
-            ORKSpeechInNoisePredefinedTaskContext *context = [self currentSpeechInNoisePredefinedTaskContext];
-            
-            if (context && task)
-            {
-                NSString *identifier = [context didNotAllowRequiredHealthPermissionsForTask:task];
-                [[self taskViewController] flipToPageWithIdentifier:identifier forward:YES animated:NO];
-            }
-            else
-            {
-                [_speechRecognitionContentView.recordButton setButtonState:ORKRecordButtonStateDisabled];
-            }
-#else
             [_speechRecognitionContentView.recordButton setButtonState:ORKRecordButtonStateDisabled];
-#endif
             break;
         }
         case SFSpeechRecognizerAuthorizationStatusNotDetermined:
@@ -216,8 +200,8 @@
 #endif
 
 - (void)setAllowUserToRecordInsteadOnNextStep:(BOOL)allowUserToRecordInsteadOnNextStep
-{
-    _allowUserToRecordInsteadOnNextStep = allowUserToRecordInsteadOnNextStep;
+{    
+    _allowUserToRecordInsteadOnNextStep = (allowUserToRecordInsteadOnNextStep && [SFSpeechRecognizer authorizationStatus] != SFSpeechRecognizerAuthorizationStatusDenied);
     
 #if RK_APPLE_INTERNAL
     ORKSpeechInNoisePredefinedTaskContext *currentContext = [self currentSpeechInNoisePredefinedTaskContext];

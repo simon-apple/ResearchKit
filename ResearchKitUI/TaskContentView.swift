@@ -132,7 +132,8 @@ internal struct TaskContentView<Content>: View where Content: View {
         }, label: {
             AnyView(EmptyView())
         })
-        .frame(height: .zero)
+        .buttonStyle(.plain)
+        .frame(height: .leastNonzeroMagnitude)
         .disabled(true)
     }
       
