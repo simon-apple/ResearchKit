@@ -62,6 +62,7 @@ typedef NSTimeInterval(^ORKAudiometryTimestampProvider)(void);
 /**
  Called just before presenting tone.
  */
+@optional
 - (void)registerStimulusPlayback;
 
 /**
@@ -76,6 +77,14 @@ typedef NSTimeInterval(^ORKAudiometryTimestampProvider)(void);
  */
 @optional
 - (void)signalClipped;
+
+/**
+ Used by some UIs to setup the prestimulus delay.
+ 
+ @param double The value of the preStimulusDelay
+ */
+@optional
+- (void)registerPreStimulusDelay:(double)preStimulusDelay;
 
 /**
  Returns an array of containing the results of the audiometry test.

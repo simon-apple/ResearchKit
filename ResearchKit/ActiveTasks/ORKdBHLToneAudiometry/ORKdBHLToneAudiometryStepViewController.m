@@ -328,9 +328,12 @@
     double delay1 = arc4random_uniform([self dBHLToneAudiometryStep].maxRandomPreStimulusDelay - 1);
     double delay2 = (double)arc4random_uniform(10)/10;
     double preStimulusDelay = delay1 + delay2 + 1;
+    [self.audiometryEngine registerPreStimulusDelay:preStimulusDelay];
     
     _preStimulusDelayWorkBlock = dispatch_block_create(DISPATCH_BLOCK_INHERIT_QOS_CLASS, ^{
-        [self.audiometryEngine registerStimulusPlayback];
+        if ([[self audiometryEngine] respondsToSelector:@selector(registerStimulusPlayback)]) {
+            [self.audiometryEngine registerStimulusPlayback];
+        }
         [_audioGenerator playSoundAtFrequency:stimulus.frequency onChannel:stimulus.channel dBHL:stimulus.level];
     });
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(preStimulusDelay * NSEC_PER_SEC)), dispatch_get_main_queue(), _preStimulusDelayWorkBlock);
@@ -360,7 +363,9 @@
     [self animatedBHLButton];
     [_hapticFeedback impactOccurred];
     
-    [self.audiometryEngine registerResponse:YES];
+    if (_preStimulusDelayWorkBlock && dispatch_block_testcancel(_preStimulusDelayWorkBlock) == 0) {
+        [self.audiometryEngine registerResponse:YES];
+    }
     [self nextTrial];
 }
 
