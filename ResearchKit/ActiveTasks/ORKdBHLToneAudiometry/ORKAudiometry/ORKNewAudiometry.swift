@@ -133,8 +133,8 @@ import Foundation
         return stimulus
     }
     
-    public func registerStimulusPlayback() {
-        resultUnit.preStimulusDelay = timestampProvider() - resultUnit.startOfUnitTimeStamp
+    public func registerPreStimulusDelay(_ preStimulusDelay: Double) {
+        resultUnit.preStimulusDelay = preStimulusDelay
     }
     
     public func registerResponse(_ response: Bool) {

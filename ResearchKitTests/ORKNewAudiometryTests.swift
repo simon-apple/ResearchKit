@@ -1124,7 +1124,6 @@ extension ORKNewAudiometryTests {
                     let freqPoint = newAudiometry.bark(stimulus.frequency)
                     let testLevel = levels[newAudiometry.findNearest(freqs.asVector(), freqPoint)]
                     
-                    newAudiometry.registerStimulusPlayback()
                     if stimulus.level > testLevel {
                         newAudiometry.registerResponse(true)
                     } else {
