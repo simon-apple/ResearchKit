@@ -166,7 +166,7 @@
                             NSNumber *threshold = [NSNumber numberWithDouble:sample.calculatedThreshold];
                             audiogram[frequency] = threshold;
                         }
-                        [(ORKNewAudiometry *)self.audiometryEngine runInitialSamplingFromAudiogram:audiogram];
+                        [(ORKNewAudiometry *)self.audiometryEngine setPreviousAudiogram:audiogram];
                     }
                 }
             }
