@@ -30,11 +30,24 @@
  */
 
 #import <ResearchKitUI/ORKStepView_Private.h>
-#import <ResearchKitUI/ORKCustomSignatureFooterView_Private.h>
 #import <ResearchKitUI/ORKFormStepViewController_Private.h>
 #import <ResearchKitUI/ORKTaskViewController_Private.h>
 #import <ResearchKitUI/ORKStepContainerView_Private.h>
-#import <ResearchKitUI/ORKStepContentView_Private.h>
 #import <ResearchKitUI/ORKStepViewController_Internal.h>
 #import <ResearchKitUI/ORKPasscodeStepViewController_Internal.h>
 #import <ResearchKitUI/ORKStepMapper_Utils.h>
+
+#import <ResearchKitUI/ORKBodyContainerView.h>
+#import <ResearchKitUI/ORKCustomStepView.h>
+#import <ResearchKitUI/ORKCustomStepView_Internal.h>
+#import <ResearchKitUI/ORKDirectionView.h>
+#import <ResearchKitUI/ORKFreehandDrawingView.h>
+#import <ResearchKitUI/ORKInstructionStepContainerView.h>
+#import <ResearchKitUI/ORKLearnMoreView.h>
+#import <ResearchKitUI/ORKNavigationContainerView.h>
+#import <ResearchKitUI/ORKProgressView.h>
+#import <ResearchKitUI/ORKRingView.h>
+#import <ResearchKitUI/ORKSeparatorView.h>
+#import <ResearchKitUI/ORKStepHeaderView.h>
+#import <ResearchKitUI/ORKTintedImageView.h>
+#import <ResearchKitUI/ORKVerticalContainerView.h>
