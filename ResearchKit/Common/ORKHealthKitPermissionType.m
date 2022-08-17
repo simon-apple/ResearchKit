@@ -30,14 +30,13 @@
 
 #import "ORKHealthKitPermissionType.h"
 #import "ORKHelpers_Internal.h"
-#import "ORKUILeaks.h"
 #import <HealthKit/HealthKit.h>
 
 static NSString *const Symbol = @"heart.fill";
 static uint32_t const IconTintColor = 0xFF5E5E;
 
 @implementation ORKHealthKitPermissionType {
-    ORKRequestPermissionsButtonState _permissionState;
+    ORKRequestPermissionsState _permissionState;
 }
 
 + (instancetype)new {
@@ -76,13 +75,13 @@ static uint32_t const IconTintColor = 0xFF5E5E;
     return ORKRGB(IconTintColor);
 }
 
-- (ORKRequestPermissionsButtonState) permissionState {
+- (ORKRequestPermissionsState) permissionState {
     return _permissionState;
 }
 
 - (void)checkHealthKitAuthorizationStatus {
     if (![HKHealthStore isHealthDataAvailable]) {
-        _permissionState = ORKRequestPermissionsButtonStateNotSupported;
+        _permissionState = ORKRequestPermissionsStateNotSupported;
         if (self.permissionsStatusUpdateCallback != nil) {
             self.permissionsStatusUpdateCallback();
         }
@@ -92,15 +91,15 @@ static uint32_t const IconTintColor = 0xFF5E5E;
     [[HKHealthStore new] getRequestStatusForAuthorizationToShareTypes:_sampleTypesToWrite readTypes:_objectTypesToRead completion:^(HKAuthorizationRequestStatus requestStatus, NSError * _Nullable error) {
         dispatch_async(dispatch_get_main_queue(), ^{
             if (error) {
-                _permissionState = ORKRequestPermissionsButtonStateError;
+                _permissionState = ORKRequestPermissionsStateError;
             } else switch (requestStatus) {
                 case HKAuthorizationStatusSharingAuthorized:
-                    _permissionState = ORKRequestPermissionsButtonStateConnected;
+                    _permissionState = ORKRequestPermissionsStateConnected;
                     break;
 
                 case HKAuthorizationRequestStatusShouldRequest:
                 case HKAuthorizationRequestStatusUnknown:
-                    _permissionState = ORKRequestPermissionsButtonStateDefault;
+                    _permissionState = ORKRequestPermissionsStateDefault;
                     break;
             }
             if (self.permissionsStatusUpdateCallback != nil) {
@@ -112,9 +111,9 @@ static uint32_t const IconTintColor = 0xFF5E5E;
 }
 
 - (BOOL)canContinue {
-    BOOL result = self.permissionState == ORKRequestPermissionsButtonStateConnected
-              || self.permissionState == ORKRequestPermissionsButtonStateNotSupported
-              || self.permissionState == ORKRequestPermissionsButtonStateError;
+    BOOL result = self.permissionState == ORKRequestPermissionsStateConnected
+              || self.permissionState == ORKRequestPermissionsStateNotSupported
+              || self.permissionState == ORKRequestPermissionsStateError;
     return result;
 }
 
@@ -122,9 +121,9 @@ static uint32_t const IconTintColor = 0xFF5E5E;
     [[HKHealthStore new] requestAuthorizationToShareTypes:_sampleTypesToWrite readTypes:_objectTypesToRead completion:^(BOOL success, NSError * _Nullable error) {
         dispatch_async(dispatch_get_main_queue(), ^{
             if (error) {
-                _permissionState = ORKRequestPermissionsButtonStateError;
+                _permissionState = ORKRequestPermissionsStateError;
             } else {
-                _permissionState = ORKRequestPermissionsButtonStateConnected;
+                _permissionState = ORKRequestPermissionsStateConnected;
             }
             if (self.permissionsStatusUpdateCallback != nil) {
                 self.permissionsStatusUpdateCallback();

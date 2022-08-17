@@ -30,13 +30,13 @@
 
 @import UIKit;
 @import Foundation;
-#import <ResearchKit/ORKUILeaks.h>
+#import <ResearchKit/ORKPermissionType.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ORKRequestPermissionButton : UIControl
 
-- (void)setState:(ORKRequestPermissionsButtonState)state;
+- (void)setState:(ORKRequestPermissionsState)state;
 
 @end
 

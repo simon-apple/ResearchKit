@@ -133,7 +133,7 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
     
     // MARK: ORKTaskViewControllerDelegate
     
-    func taskViewController(_ taskViewController: ORKTaskViewController, didFinishWith reason: ORKTaskViewControllerFinishReason, error: Error?) {
+    func taskViewController(_ taskViewController: ORKTaskViewController, didFinishWith reason: ORKTaskFinishReason, error: Error?) {
         /*
             The `reason` passed to this method indicates why the task view
             controller finished: Did the user cancel, save, or actually complete

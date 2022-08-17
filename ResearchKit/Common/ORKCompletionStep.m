@@ -42,7 +42,7 @@ ORKCompletionStepIdentifier const ORKEnvironmentSPLMeterTimeoutIdentifier = @"OR
 - (instancetype)initWithIdentifier:(NSString *)identifier {
     self = [super initWithIdentifier:identifier];
     if (self) {
-        _reasonForCompletion = ORKTaskViewControllerFinishReasonCompleted;
+        _reasonForCompletion = ORKTaskFinishReasonCompleted;
     }
     
     return self;
@@ -79,7 +79,7 @@ ORKCompletionStepIdentifier const ORKEnvironmentSPLMeterTimeoutIdentifier = @"OR
 }
 
 - (BOOL)allowsBackNavigation {
-    return !(_reasonForCompletion == ORKTaskViewControllerFinishReasonDiscarded);
+    return !(_reasonForCompletion == ORKTaskFinishReasonDiscarded);
 }
 #endif
 @end

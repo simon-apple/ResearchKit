@@ -54,7 +54,7 @@
     ORKThrowMethodUnavailableException();
 }
 
-- (ORKRequestPermissionsButtonState)permissionState {
+- (ORKRequestPermissionsState)permissionState {
     ORKThrowMethodUnavailableException();
 }
 

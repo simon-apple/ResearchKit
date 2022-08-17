@@ -431,8 +431,8 @@ static const float FirstSectionHeaderPadding = 24.0;
 
 #pragma mark - ORKTaskViewControllerDelegate
 
-- (void)taskViewController:(ORKTaskViewController *)taskViewController didFinishWithReason:(ORKTaskViewControllerFinishReason)reason error:(NSError *)error {
-    if (reason == ORKTaskViewControllerFinishReasonCompleted) {
+- (void)taskViewController:(ORKTaskViewController *)taskViewController didFinishWithReason:(ORKTaskFinishReason)reason error:(NSError *)error {
+    if (reason == ORKTaskFinishReasonCompleted) {
         if (_delegate && [_delegate respondsToSelector:@selector(reviewViewController:didUpdateResult:source:)]) {
             ORKTaskResult *taskResult = ORKDynamicCast(_resultSource, ORKTaskResult);
             [_delegate reviewViewController:self didUpdateResult:taskViewController.result source:taskResult];

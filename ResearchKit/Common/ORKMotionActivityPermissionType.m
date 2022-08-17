@@ -30,7 +30,6 @@
 
 #import "ORKMotionActivityPermissionType.h"
 #import "ORKHelpers_Internal.h"
-#import "ORKUILeaks.h"
 
 @import CoreMotion;
 
@@ -40,7 +39,7 @@ static const uint32_t IconDarkTintColor = 0xEF6FD8;
 
 @interface ORKMotionActivityPermissionType()
 @property (nonatomic) CMMotionActivityManager *activityManager;
-@property (nonatomic, readonly, assign) ORKRequestPermissionsButtonState permissionState;
+@property (nonatomic, readonly, assign) ORKRequestPermissionsState permissionState;
 @property (nonatomic, readonly, assign) BOOL canContinue;
 @end
 
@@ -87,20 +86,20 @@ static const uint32_t IconDarkTintColor = 0xEF6FD8;
     }
 }
 
-- (ORKRequestPermissionsButtonState)permissionState {
+- (ORKRequestPermissionsState)permissionState {
     switch (CMMotionActivityManager.authorizationStatus) {
         case CMAuthorizationStatusNotDetermined:
-            return ORKRequestPermissionsButtonStateDefault;
+            return ORKRequestPermissionsStateDefault;
 
         case CMAuthorizationStatusDenied:
         case CMAuthorizationStatusAuthorized:
         case CMAuthorizationStatusRestricted:
-            return ORKRequestPermissionsButtonStateConnected;
+            return ORKRequestPermissionsStateConnected;
     }
 }
 
 - (BOOL)canContinue {
-    return self.permissionState == ORKRequestPermissionsButtonStateConnected;
+    return self.permissionState == ORKRequestPermissionsStateConnected;
 }
 
 // There is no explicit API for requesting device motion permission.

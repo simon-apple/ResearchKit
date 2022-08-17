@@ -85,7 +85,7 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierHeadphonesReq
             completionStep.title = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_REQUIRED_TITLE", nil);
             completionStep.text = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_REQUIRED_TEXT", nil);
             completionStep.optional = NO;
-            completionStep.reasonForCompletion = ORKTaskViewControllerFinishReasonDiscarded;
+            completionStep.reasonForCompletion = ORKTaskFinishReasonDiscarded;
             [currentTask insertStep:completionStep atIndex:[currentTask indexOfStep:step]+1];
         }
 

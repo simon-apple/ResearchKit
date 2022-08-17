@@ -31,7 +31,6 @@
 #import <ResearchKitActiveTask/ORK3DModelManager.h>
 #import <ResearchKit/ORKActiveStep.h>
 #import <ResearchKit/ORKDefines.h>
-#import <ResearchKit/ORKUILeaks.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -32,7 +32,6 @@
 @import UIKit;
 
 #import <ResearchKit/ORKDefines.h>
-#import <ResearchKit/ORKUILeaks.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -42,6 +41,13 @@ NS_ASSUME_NONNULL_BEGIN
 @class ORKMotionActivityPermissionType;
 @class ORKLocationPermissionType;
 @class HKSampleType, HKObjectType;
+
+typedef NS_ENUM(NSInteger, ORKRequestPermissionsState) {
+    ORKRequestPermissionsStateDefault = 0,
+    ORKRequestPermissionsStateConnected,
+    ORKRequestPermissionsStateNotSupported,
+    ORKRequestPermissionsStateError,
+};
 
 typedef NS_OPTIONS(NSUInteger, UNAuthorizationOptions);
 typedef NSString * SRSensor NS_TYPED_ENUM API_AVAILABLE(ios(14.0));
@@ -55,7 +61,7 @@ ORK_CLASS_AVAILABLE
 @property (nonatomic, copy, readonly) NSString *localizedDetailText;
 @property (nonatomic, strong, readonly) UIImage * _Nullable image;
 @property (nonatomic, copy, readonly) UIColor *iconTintColor;
-@property (nonatomic, assign, readonly) ORKRequestPermissionsButtonState permissionState;
+@property (nonatomic, assign, readonly) ORKRequestPermissionsState permissionState;
 @property (nonatomic, assign, readonly) BOOL canContinue;
 
 - (void)requestPermission;

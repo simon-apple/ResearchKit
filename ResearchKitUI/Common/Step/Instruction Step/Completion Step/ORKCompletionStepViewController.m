@@ -54,7 +54,7 @@
 
 @implementation ORKCompletionStepViewController {
     ORKCompletionCheckmarkView *_completionCheckmarkView;
-    ORKTaskViewControllerFinishReason _reasonForCompletion;
+    ORKTaskFinishReason _reasonForCompletion;
 }
 
 - (void)stepDidChange {
@@ -65,7 +65,7 @@
     
     self.cancelButtonItem = nil;
     
-    if (_reasonForCompletion == ORKTaskViewControllerFinishReasonCompleted) {
+    if (_reasonForCompletion == ORKTaskFinishReasonCompleted) {
         _completionCheckmarkView = [self.stepView.stepContentView completionCheckmarkView];
         [_completionCheckmarkView setNeedsLayout];
         if (self.checkmarkColor) {

@@ -29,7 +29,6 @@
  */
 
 #import "ORKLocationPermissionType.h"
-#import "ORKUILeaks.h"
 #import "ORKHelpers_Internal.h"
 
 @import CoreLocation;
@@ -82,21 +81,21 @@ static const uint32_t IconDarkTintColor = 0x00A36C;
     }];
 }
 
-- (ORKRequestPermissionsButtonState)permissionState {
+- (ORKRequestPermissionsState)permissionState {
     switch (CLLocationManager.authorizationStatus) {
         case kCLAuthorizationStatusNotDetermined:
-            return ORKRequestPermissionsButtonStateDefault;
+            return ORKRequestPermissionsStateDefault;
 
         case kCLAuthorizationStatusAuthorizedAlways:
         case kCLAuthorizationStatusAuthorizedWhenInUse:
         case kCLAuthorizationStatusRestricted:
         case kCLAuthorizationStatusDenied:
-            return ORKRequestPermissionsButtonStateConnected;
+            return ORKRequestPermissionsStateConnected;
     }
 }
 
 - (BOOL)canContinue {
-    return self.permissionState == ORKRequestPermissionsButtonStateConnected;
+    return self.permissionState == ORKRequestPermissionsStateConnected;
 }
 
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {

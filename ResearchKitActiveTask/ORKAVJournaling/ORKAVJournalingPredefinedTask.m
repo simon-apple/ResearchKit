@@ -81,7 +81,7 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierInstructionStep
         step.title = ORKLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_TIME_LIMIT_REACHED_TITLE", nil);
         step.text = ORKLocalizedString(@"AV_JOURNALING_STEP_FINISH_LATER_TEXT", nil);
         step.optional = NO;
-        step.reasonForCompletion = ORKTaskViewControllerFinishReasonDiscarded;
+        step.reasonForCompletion = ORKTaskFinishReasonDiscarded;
         [currentTask addStep:step];
 
         ORKDirectStepNavigationRule *endNavigationRule = [[ORKDirectStepNavigationRule alloc] initWithDestinationStepIdentifier:ORKNullStepIdentifier];
@@ -100,7 +100,7 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierInstructionStep
         step.title = ORKLocalizedString(@"AV_JOURNALING_STEP_FINISH_LATER_TITLE", nil);
         step.text = ORKLocalizedString(@"AV_JOURNALING_STEP_FINISH_LATER_TEXT", nil);
         step.optional = NO;
-        step.reasonForCompletion = ORKTaskViewControllerFinishReasonDiscarded;
+        step.reasonForCompletion = ORKTaskFinishReasonDiscarded;
         [currentTask addStep:step];
 
         ORKDirectStepNavigationRule *endNavigationRule = [[ORKDirectStepNavigationRule alloc] initWithDestinationStepIdentifier:ORKNullStepIdentifier];
@@ -117,7 +117,7 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierInstructionStep
     ORKCompletionStep *completionStep = [[ORKCompletionStep alloc] initWithIdentifier:ORKAVJournalingStepIdentifierVideoAudioAccessDeniedCompletion];
     completionStep.title = ORKLocalizedString(@"AV_JOURNALING_PREDEFINED_AUDIO_VIDEO_ACCESS_TITLE", nil);
     completionStep.text = ORKLocalizedString(@"AV_JOURNALING_PREDEFINED_AUDIO_VIDEO_ACCESS_TEXT", nil);
-    completionStep.reasonForCompletion = ORKTaskViewControllerFinishReasonDiscarded;
+    completionStep.reasonForCompletion = ORKTaskFinishReasonDiscarded;
     
     if (@available(iOS 13.0, *)) {
         completionStep.iconImage = [UIImage systemImageNamed:@"video.slash"];
@@ -270,7 +270,7 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierInstructionStep
                 ORKCompletionStep *completionStep = [[ORKCompletionStep alloc] initWithIdentifier:ORKAVJournalingStepIdentifierLowMemoryCompletion];
                 completionStep.title = ORKLocalizedString(@"AV_JOURNALING_PREDEFINED_LOW_MEMORY_TITLE", nil);
                 completionStep.text = ORKLocalizedString(@"AV_JOURNALING_PREDEFINED_LOW_MEMORY_TEXT", nil);
-                completionStep.reasonForCompletion = ORKTaskViewControllerFinishReasonDiscarded;
+                completionStep.reasonForCompletion = ORKTaskFinishReasonDiscarded;
                 
                 if (@available(iOS 13.0, *)) {
                     completionStep.iconImage = [UIImage systemImageNamed:@"bin.xmark"];

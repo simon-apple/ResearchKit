@@ -987,7 +987,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
                                     handler:^(UIAlertAction *action) {
             ORKStrongTypeOf(self.taskViewController.delegate) strongDelegate = self.taskViewController.delegate;
             if ([strongDelegate respondsToSelector:@selector(taskViewController:didFinishWithReason:error:)]) {
-                [strongDelegate taskViewController:self.taskViewController didFinishWithReason:ORKTaskViewControllerFinishReasonDiscarded error:nil];
+                [strongDelegate taskViewController:self.taskViewController didFinishWithReason:ORKTaskFinishReasonDiscarded error:nil];
             }
         }]];
         alertController.preferredAction = startOver;

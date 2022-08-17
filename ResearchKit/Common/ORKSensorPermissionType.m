@@ -31,7 +31,6 @@
 #import <SensorKit/SensorKit.h>
 
 #import "ORKSensorPermissionType.h"
-#import "ORKUILeaks.h"
 #import "ORKHelpers_Internal.h"
 
 static NSString *const Symbol = @"gauge";
@@ -90,15 +89,15 @@ static const uint32_t IconDarkTintColor = 0x9D71F7;
 }
 
 
-- (ORKRequestPermissionsButtonState)permissionState {
+- (ORKRequestPermissionsState)permissionState {
     if ([self hasRequestedAllSensors]) {
-        return ORKRequestPermissionsButtonStateConnected;
+        return ORKRequestPermissionsStateConnected;
     }
-    return ORKRequestPermissionsButtonStateDefault;
+    return ORKRequestPermissionsStateDefault;
 }
 
 - (BOOL)canContinue {
-    return self.permissionState == ORKRequestPermissionsButtonStateConnected;
+    return self.permissionState == ORKRequestPermissionsStateConnected;
 }
 
 - (BOOL)hasRequestedAllSensors {

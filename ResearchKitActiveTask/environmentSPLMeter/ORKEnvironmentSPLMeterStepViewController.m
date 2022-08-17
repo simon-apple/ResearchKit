@@ -195,7 +195,7 @@ static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;
             step.title = ORKLocalizedString(@"ENVIRONMENTSPL_QUIET_LOCATION_REQUIRED_TITLE", nil);
             step.text = ORKLocalizedString(@"ENVIRONMENTSPL_QUIET_LOCATION_REQUIRED_TEXT", nil);
             step.optional = NO;
-            step.reasonForCompletion = ORKTaskViewControllerFinishReasonDiscarded;
+            step.reasonForCompletion = ORKTaskFinishReasonDiscarded;
             
             if (@available(iOS 13.0, *)) {
                 UIImageConfiguration *configuration = [UIImageSymbolConfiguration configurationWithFont:[UIFont preferredFontForTextStyle:UIFontTextStyleBody] scale:UIImageSymbolScaleLarge];

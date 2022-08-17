@@ -30,7 +30,6 @@
 
 
 @import UIKit;
-#import <ResearchKit/ORKUILeaks.h>
 #import <ResearchKit/ORKRecorder.h>
 #import <ResearchKitUI/ORKStepViewController.h>
 
@@ -98,7 +97,7 @@ typedef NS_ENUM(NSInteger, ORKTaskViewControllerProgressMode) {
  @param reason              An `ORKTaskViewControllerFinishReason` value indicating how the user chose to complete the task.
  @param error               If failure occurred, an `NSError` object indicating the reason for the failure. The value of this parameter is `nil` if `result` does not indicate failure.
  */
-- (void)taskViewController:(ORKTaskViewController *)taskViewController didFinishWithReason:(ORKTaskViewControllerFinishReason)reason error:(nullable NSError *)error;
+- (void)taskViewController:(ORKTaskViewController *)taskViewController didFinishWithReason:(ORKTaskFinishReason)reason error:(nullable NSError *)error;
 
 @optional
 /**

@@ -83,14 +83,14 @@ struct ORKHeadphonesRequiredViewModel {
 - (void)finishTaskLaterAction {
     ORKStrongTypeOf(self.taskViewController.delegate) strongDelegate = self.taskViewController.delegate;
     if ([strongDelegate respondsToSelector:@selector(taskViewController:didFinishWithReason:error:)]) {
-        [strongDelegate taskViewController:self.taskViewController didFinishWithReason:ORKTaskViewControllerFinishReasonDiscarded error:nil];
+        [strongDelegate taskViewController:self.taskViewController didFinishWithReason:ORKTaskFinishReasonDiscarded error:nil];
     }
 }
 
 - (void)skipTaskAction {
     ORKStrongTypeOf(self.taskViewController.delegate) strongDelegate = self.taskViewController.delegate;
     if ([strongDelegate respondsToSelector:@selector(taskViewController:didFinishWithReason:error:)]) {
-        [strongDelegate taskViewController:self.taskViewController didFinishWithReason:ORKTaskViewControllerFinishReasonCompleted error:nil];
+        [strongDelegate taskViewController:self.taskViewController didFinishWithReason:ORKTaskFinishReasonCompleted error:nil];
     }
 }
 

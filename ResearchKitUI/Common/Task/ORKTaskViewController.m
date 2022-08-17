@@ -895,7 +895,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
         completionStep.title = ORKLocalizedString(@"CONTEXT_MICROPHONE_REQUIRED_TITLE", nil);
         completionStep.text = ORKLocalizedString(@"CONTEXT_MICROPHONE_REQUIRED_TEXT", nil);
         completionStep.optional = NO;
-        completionStep.reasonForCompletion = ORKTaskViewControllerFinishReasonDiscarded;
+        completionStep.reasonForCompletion = ORKTaskFinishReasonDiscarded;
         
         if (@available(iOS 13.0, *)) {
             completionStep.iconImage = [UIImage systemImageNamed:@"mic.slash"];
@@ -1260,7 +1260,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
 
 #pragma mark - internal action Handlers
 
-- (void)finishWithReason:(ORKTaskViewControllerFinishReason)reason error:(NSError *)error {
+- (void)finishWithReason:(ORKTaskFinishReason)reason error:(NSError *)error {
     ORKStrongTypeOf(self.delegate) strongDelegate = self.delegate;
     if ([strongDelegate respondsToSelector:@selector(taskViewController:didFinishWithReason:error:)]) {
         [strongDelegate taskViewController:self didFinishWithReason:reason error:error];
@@ -1291,7 +1291,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     if ([self.delegate respondsToSelector:@selector(taskViewControllerShouldConfirmCancel:)] &&
         ![self.delegate taskViewControllerShouldConfirmCancel:self]) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self finishWithReason:ORKTaskViewControllerFinishReasonDiscarded error:nil];
+            [self finishWithReason:ORKTaskFinishReasonDiscarded error:nil];
         });
         return;
     }
@@ -1319,7 +1319,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
                                                   style:UIAlertActionStyleDefault
                                                 handler:^(UIAlertAction *action) {
                                                     dispatch_async(dispatch_get_main_queue(), ^{
-                                                        [self finishWithReason:ORKTaskViewControllerFinishReasonSaved error:nil];
+                                                        [self finishWithReason:ORKTaskFinishReasonSaved error:nil];
                                                     });
                                                 }]];
     }
@@ -1330,7 +1330,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
                                               style:UIAlertActionStyleDestructive
                                             handler:^(UIAlertAction *action) {
                                                 dispatch_async(dispatch_get_main_queue(), ^{
-                                                    [self finishWithReason:ORKTaskViewControllerFinishReasonDiscarded error:nil];
+                                                    [self finishWithReason:ORKTaskFinishReasonDiscarded error:nil];
                                                 });
                                             }]];
     
@@ -1343,7 +1343,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
 
 - (IBAction)cancelAction:(UIBarButtonItem *)sender {
     if (self.discardable) {
-        [self finishWithReason:ORKTaskViewControllerFinishReasonDiscarded error:nil];
+        [self finishWithReason:ORKTaskFinishReasonDiscarded error:nil];
     } else {
         [self presentCancelOptions:_saveable sender:sender];
     }
@@ -1384,7 +1384,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
 }
 
 - (void)reportError:(NSError *)error onStep:(ORKStep *)step {
-    [self finishWithReason:ORKTaskViewControllerFinishReasonFailed error:error];
+    [self finishWithReason:ORKTaskFinishReasonFailed error:error];
 }
 
 - (void)flipToNextPageFrom:(ORKStepViewController *)fromController animated:(BOOL)animated {
@@ -1423,9 +1423,9 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
         }
         else {
             if (fromController.isEarlyTerminationStep == YES) {
-                [self finishWithReason:ORKTaskViewControllerFinishReasonEarlyTermination error:nil];
+                [self finishWithReason:ORKTaskFinishReasonEarlyTermination error:nil];
             } else {
-                [self finishWithReason:ORKTaskViewControllerFinishReasonCompleted error:nil];
+                [self finishWithReason:ORKTaskFinishReasonCompleted error:nil];
             }
         }
     } else if ([self shouldPresentStep:step]) {
@@ -1543,7 +1543,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
 }
 
 - (void)stepViewControllerDidFail:(ORKStepViewController *)stepViewController withError:(NSError *)error {
-    [self finishWithReason:ORKTaskViewControllerFinishReasonFailed error:error];
+    [self finishWithReason:ORKTaskFinishReasonFailed error:error];
 }
 
 - (void)stepViewControllerResultDidChange:(ORKStepViewController *)stepViewController {
@@ -1842,7 +1842,7 @@ static NSString *const _ORKProgressMode = @"progressMode";
 - (void)doneButtonTappedWithResultSource:(id<ORKTaskResultSource>)resultSource {
     //    FIXME: might need to queue the operations if the number of steps are too many. open to debate.
     [self updateResultWithSource:resultSource];
-    [self finishWithReason:ORKTaskViewControllerFinishReasonCompleted error:nil];
+    [self finishWithReason:ORKTaskFinishReasonCompleted error:nil];
 }
 
 - (void)editAnswerTappedForStepWithIdentifier:(NSString *)stepIdentifier {
@@ -1893,7 +1893,7 @@ static NSString *const _ORKProgressMode = @"progressMode";
 
 - (void)presentationControllerDidDismiss:(UIPresentationController *)presentationController {
     // If dismissed with a swipe, `finishWithReason:error:` should be called with `discarded`
-    [self finishWithReason:ORKTaskViewControllerFinishReasonDiscarded error:nil];
+    [self finishWithReason:ORKTaskFinishReasonDiscarded error:nil];
 }
 
 #pragma mark - UINavigationBarAppearance

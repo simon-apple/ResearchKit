@@ -31,7 +31,6 @@
 #import <UserNotifications/UserNotifications.h>
 
 #import "ORKNotificationPermissionType.h"
-#import "ORKUILeaks.h"
 #import "ORKHelpers_Internal.h"
 
 static NSString *const Symbol = @"app.badge";
@@ -39,7 +38,7 @@ static const uint32_t IconLightTintColor = 0xFBD00B;
 static const uint32_t IconDarkTintColor = 0xFFD005;
 
 @implementation ORKNotificationPermissionType {
-    ORKRequestPermissionsButtonState _permissionState;
+    ORKRequestPermissionsState _permissionState;
 }
 
 + (instancetype)new {
@@ -55,7 +54,7 @@ static const uint32_t IconDarkTintColor = 0xFFD005;
     self = [super init];
     if (self) {
         _options = options;
-        _permissionState = ORKRequestPermissionsButtonStateDefault;
+        _permissionState = ORKRequestPermissionsStateDefault;
         [self getInitialStatus];
     }
     return self;
@@ -79,12 +78,12 @@ static const uint32_t IconDarkTintColor = 0xFFD005;
     }];
 }
 
-- (ORKRequestPermissionsButtonState)permissionState {
+- (ORKRequestPermissionsState)permissionState {
     return _permissionState;
 }
 
 - (BOOL)canContinue {
-    return self.permissionState == ORKRequestPermissionsButtonStateConnected || self.permissionState == ORKRequestPermissionsButtonStateError;
+    return self.permissionState == ORKRequestPermissionsStateConnected || self.permissionState == ORKRequestPermissionsStateError;
 }
 
 - (void)getInitialStatus {
@@ -93,14 +92,14 @@ static const uint32_t IconDarkTintColor = 0xFFD005;
 
             switch (settings.authorizationStatus) {
                 case UNAuthorizationStatusNotDetermined:
-                    _permissionState = ORKRequestPermissionsButtonStateDefault;
+                    _permissionState = ORKRequestPermissionsStateDefault;
                     break;
 
                 case UNAuthorizationStatusEphemeral:
                 case UNAuthorizationStatusAuthorized:
                 case UNAuthorizationStatusProvisional:
                 case UNAuthorizationStatusDenied:
-                    _permissionState = ORKRequestPermissionsButtonStateConnected;
+                    _permissionState = ORKRequestPermissionsStateConnected;
                     break;
             }
             
@@ -117,9 +116,9 @@ static const uint32_t IconDarkTintColor = 0xFFD005;
      completionHandler:^(BOOL granted, NSError * _Nullable error) {
         dispatch_async(dispatch_get_main_queue(), ^{
             if (error) {
-                _permissionState = ORKRequestPermissionsButtonStateError;
+                _permissionState = ORKRequestPermissionsStateError;
             } else {
-                _permissionState = ORKRequestPermissionsButtonStateConnected;
+                _permissionState = ORKRequestPermissionsStateConnected;
             }
             if (self.permissionsStatusUpdateCallback != nil) {
                 self.permissionsStatusUpdateCallback();

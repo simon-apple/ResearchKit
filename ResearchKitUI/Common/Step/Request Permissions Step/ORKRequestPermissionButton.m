@@ -38,7 +38,7 @@ static const CGFloat HighlightedOpacity = 0.5;
 
 @implementation ORKRequestPermissionButton {
     UILabel *_titleLabel;
-    ORKRequestPermissionsButtonState _state;
+    ORKRequestPermissionsState _state;
     UIViewPropertyAnimator *highlightAnimator;
 }
 
@@ -48,7 +48,7 @@ static const CGFloat HighlightedOpacity = 0.5;
         highlightAnimator = [[UIViewPropertyAnimator alloc] initWithDuration:0.1 curve:UIViewAnimationCurveEaseOut animations:nil];
 
         [self setupTitleLabel];
-        [self setState:ORKRequestPermissionsButtonStateDefault];
+        [self setState:ORKRequestPermissionsStateDefault];
         [self updateFonts];
     }
     return self;
@@ -83,24 +83,24 @@ static const CGFloat HighlightedOpacity = 0.5;
     [highlightAnimator startAnimation];
 }
 
-- (void)setState:(ORKRequestPermissionsButtonState)state {
+- (void)setState:(ORKRequestPermissionsState)state {
     _state = state;
 
     switch (state) {
 
-        case ORKRequestPermissionsButtonStateDefault:
+        case ORKRequestPermissionsStateDefault:
             _titleLabel.text = ORKLocalizedString(@"REQUEST_PERMISSION_BUTTON_STATE_DEFAULT", nil);
             break;
 
-        case ORKRequestPermissionsButtonStateConnected:
+        case ORKRequestPermissionsStateConnected:
             _titleLabel.text = ORKLocalizedString(@"REQUEST_PERMISSION_BUTTON_STATE_CONNECTED", nil);
             break;
 
-        case ORKRequestPermissionsButtonStateNotSupported:
+        case ORKRequestPermissionsStateNotSupported:
             _titleLabel.text = ORKLocalizedString(@"REQUEST_PERMISSION_BUTTON_STATE_NOT_SUPPORTED", nil);
             break;
 
-        case ORKRequestPermissionsButtonStateError:
+        case ORKRequestPermissionsStateError:
             _titleLabel.text = ORKLocalizedString(@"REQUEST_PERMISSION_BUTTON_STATE_ERROR", nil);
             break;
     }
@@ -108,18 +108,18 @@ static const CGFloat HighlightedOpacity = 0.5;
     [self setStyleForState:state];
 }
 
-- (void)setStyleForState:(ORKRequestPermissionsButtonState)state {
+- (void)setStyleForState:(ORKRequestPermissionsState)state {
     switch (state) {
 
-        case ORKRequestPermissionsButtonStateDefault:
+        case ORKRequestPermissionsStateDefault:
             [self setBackgroundColor:self.tintColor];
             _titleLabel.textColor = UIColor.whiteColor;
             [self setEnabled:YES];
             break;
 
-        case ORKRequestPermissionsButtonStateConnected:
-        case ORKRequestPermissionsButtonStateNotSupported:
-        case ORKRequestPermissionsButtonStateError:
+        case ORKRequestPermissionsStateConnected:
+        case ORKRequestPermissionsStateNotSupported:
+        case ORKRequestPermissionsStateError:
             _titleLabel.textColor = UIColor.systemGrayColor;
 
             if (@available(iOS 13.0, *)) {
@@ -151,7 +151,7 @@ static const CGFloat HighlightedOpacity = 0.5;
 }
 
 - (void)tintColorDidChange {
-    if (_state == ORKRequestPermissionsButtonStateDefault) {
+    if (_state == ORKRequestPermissionsStateDefault) {
         [self setBackgroundColor:self.tintColor];
     }
 }

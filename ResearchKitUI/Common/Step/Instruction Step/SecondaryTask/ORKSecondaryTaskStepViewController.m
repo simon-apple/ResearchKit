@@ -112,8 +112,8 @@
 
 #pragma mark ORKTaskViewControllerDelegate
 
-- (void)taskViewController:(ORKTaskViewController *)taskViewController didFinishWithReason:(ORKTaskViewControllerFinishReason)reason error:(NSError *)error {
-    if (reason == ORKTaskViewControllerFinishReasonCompleted) {
+- (void)taskViewController:(ORKTaskViewController *)taskViewController didFinishWithReason:(ORKTaskFinishReason)reason error:(NSError *)error {
+    if (reason == ORKTaskFinishReasonCompleted) {
         
         [self taskCompleted];
         [self resetSecondaryTaskViewController];

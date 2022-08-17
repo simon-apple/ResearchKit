@@ -827,7 +827,6 @@
 		CAA20F4C288B3F7700EDC764 /* consent_05@2x.m4v in Resources */ = {isa = PBXBuildFile; fileRef = B1A860DF1A9693C400EA57B7 /* consent_05@2x.m4v */; };
 		CAA20F4D288B3F7700EDC764 /* consent_04@2x.m4v in Resources */ = {isa = PBXBuildFile; fileRef = B1A860DE1A9693C400EA57B7 /* consent_04@2x.m4v */; };
 		CAA20F4E288B3F7700EDC764 /* consent_03@3x.m4v in Resources */ = {isa = PBXBuildFile; fileRef = B1A860E51A9693C400EA57B7 /* consent_03@3x.m4v */; };
-		CAA20F51288B410400EDC764 /* ORKUILeaks.h in Headers */ = {isa = PBXBuildFile; fileRef = CAA20F50288B40BD00EDC764 /* ORKUILeaks.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CACA098C28A72540000446CF /* ORKTinnitusPureToneContentView.h in Headers */ = {isa = PBXBuildFile; fileRef = E220A3802571252800C3C211 /* ORKTinnitusPureToneContentView.h */; };
 		CACA098D28A7254A000446CF /* ORKTinnitusTypeContentView.h in Headers */ = {isa = PBXBuildFile; fileRef = E220A34E25711F1400C3C211 /* ORKTinnitusTypeContentView.h */; };
 		CAD0896A289DD747007B2A98 /* ResearchKitActiveTask.h in Headers */ = {isa = PBXBuildFile; fileRef = CAD08969289DD747007B2A98 /* ResearchKitActiveTask.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -2122,7 +2121,6 @@
 		CA6A0D9D288F1BDC0048C1EF /* ResearchKitUI_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResearchKitUI_Private.h; sourceTree = "<group>"; };
 		CA6A0D9F288F1F3C0048C1EF /* ResearchKitUI.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = ResearchKitUI.modulemap; sourceTree = "<group>"; };
 		CA9B6E0528A2DDCF000A7603 /* ORKContext+ActiveTask.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ORKContext+ActiveTask.h"; sourceTree = "<group>"; };
-		CAA20F50288B40BD00EDC764 /* ORKUILeaks.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKUILeaks.h; sourceTree = "<group>"; };
 		CAD08967289DD747007B2A98 /* ResearchKitActiveTask.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ResearchKitActiveTask.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CAD08969289DD747007B2A98 /* ResearchKitActiveTask.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResearchKitActiveTask.h; sourceTree = "<group>"; };
 		CAF8D2BB288F4B74001E6992 /* ORKStepMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ORKStepMapper.swift; sourceTree = "<group>"; };
@@ -2822,7 +2820,6 @@
 				B18AABE01A9F08D9003871B5 /* ResearchKit.modulemap */,
 				168EEAB9230B7024003FD2FA /* PrivateHeaders */,
 				5139A553266ED9BB00537192 /* ORKFeatureFlags.h */,
-				CAA20F50288B40BD00EDC764 /* ORKUILeaks.h */,
 				861610BF1A8D8EDD00245F7A /* Artwork.xcassets */,
 			);
 			path = ResearchKit;
@@ -5237,7 +5234,6 @@
 				5D1CE42D23F497D5004CB416 /* ORKFlamesViewTypes.h in Headers */,
 				866DA5251D63D04700C9AF3F /* ORKHealthSampleQueryOperation.h in Headers */,
 				5D04884C25EF4CC30006C68B /* ORKQuestionStep_Private.h in Headers */,
-				CAA20F51288B410400EDC764 /* ORKUILeaks.h in Headers */,
 				5D58803C24109B60005B3D91 /* ORKContext.h in Headers */,
 				86C40D621A8D7C5C00081FAC /* ORKQuestionStep_Internal.h in Headers */,
 				B183A4DD1A8535D100C76870 /* ResearchKit.h in Headers */,
