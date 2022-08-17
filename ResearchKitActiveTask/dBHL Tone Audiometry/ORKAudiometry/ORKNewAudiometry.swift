@@ -43,7 +43,12 @@ import Foundation
     
     public var xSample = Matrix<Double>(elements: [], rows: 0, columns: 2)
     public var ySample = Matrix<Double>(elements: [], rows: 0, columns: 1)
+    
+    public let allFrequencies: [Double]
     public var initialSamples = [Bool]()
+    @objc public var previousAudiogram: [Double: Double] = [:] {
+        didSet { didSetPreviousAudiogram() }
+    }
 
     private let optmizer = ORKNewAudiometryMinimizer()
     private var theta = Vector<Double>(elements: [1, 1])
@@ -58,7 +63,6 @@ import Foundation
     fileprivate var results = [Double: Double]()
 
     // Settings
-    fileprivate let allFrequencies: [Double]
     fileprivate let initialLevel: Double
     fileprivate let minLevel: Double
     fileprivate let maxLevel: Double
@@ -120,13 +124,13 @@ import Foundation
         let fromMin = stoppingCriteriaSaveCount / Float(stoppingCriteriaCountMin)
         let lastStoppingCriteria = stoppingCriteriaSave.last ?? 1.0
         let fromValue = 1.0 - ((lastStoppingCriteria - stoppingCriteria) / (1.0 - stoppingCriteria))
-        let fromStoppingCriteria = min(fromMin, Float(fromValue))
-        
+        let fromStoppingCriteria = min(fromMin, Float(fromValue) * 0.85)
+
         let newProgress = max(fromStoppingCriteria, fromMax)
         let progress = max(lastProgress, newProgress)
         lastProgress = progress
         
-        return progress * 0.85
+        return progress
     }
         
     public func nextStimulus() -> ORKAudiometryStimulus? {
@@ -175,7 +179,7 @@ import Foundation
                 let shouldEndTest = !self.nextSample()
                 
                 if shouldEndTest {
-                    self.lastProgress = 1.2
+                    self.lastProgress = 1.0
                     self.finalSampling()
                     self.testEnded = true
                 } else {
@@ -240,7 +244,60 @@ public extension ORKNewAudiometry {
 
 @available(iOS 14, *)
 extension ORKNewAudiometry {
+    func didSetPreviousAudiogram() {
+        if !previousAudiogram.isEmpty, Set(previousAudiogram.keys).isSuperset(of: allFrequencies) {
+            _ = nextInitialSampleFromAudiogram()
+            resultUnitsTable.removeAll()
+            createNewUnit()
+        }
+    }
+    
+    func nextInitialSampleFromAudiogram() -> Bool {
+        guard !testFs.isEmpty && !initialSampleEnded else {
+            return false
+        }
+        
+        guard let freqPoint = testFs.first else {
+            // No more frequencies left, finish the initial sampling
+            return false
+        }
+        
+        let stepSize = 10.0
+        let previousLevel = previousAudiogram.map { (bark($0.key), $0.value) }
+            .filter { abs($0.0 - freqPoint) < 0.01 } // Check if it's equal ignoring fp errors
+            .map { $0.1 }
+        var dbHLPoint = previousLevel.first ?? initialLevel
+        
+        let responsesForFreq = zip(xSample.getColumn(0).elements, ySample.elements)
+            .filter { abs($0.0 - freqPoint) < 0.01 } // Check if it's equal ignoring fp errors
+            .map { $0.1 }
+        
+        if responsesForFreq.contains(0) && responsesForFreq.contains(1) {
+            // Got reversal, proceed to next frequency
+            testFs.dropFirst()
+            return nextInitialSampleFromAudiogram()
+        }
+        
+        if responsesForFreq.isEmpty {
+            // start from +5dB above the old audiogram
+            dbHLPoint = min(dbHLPoint + (stepSize / 2), maxLevel)
+        } else if responsesForFreq.last == 1 {
+            dbHLPoint = max(xSample[xSample.shape.rows - 1, 1] - stepSize, minLevel)
+        } else if responsesForFreq.last == 0 {
+            dbHLPoint = min(xSample[xSample.shape.rows - 1, 1] + stepSize, maxLevel)
+        }
+        
+        stimulus = ORKAudiometryStimulus(frequency: hz(freqPoint),
+                                         level: dbHLPoint,
+                                         channel: channel)
+        return true
+    }
+
     func nextInitialSample(skipReversalFrequencies: Bool = false) -> Bool {
+        if !previousAudiogram.isEmpty {
+            return nextInitialSampleFromAudiogram()
+        }
+        
         guard !testFs.isEmpty && !initialSampleEnded else {
             return false
         }
@@ -412,106 +469,6 @@ extension ORKNewAudiometry {
         let newPoint = [save_dat[indexMax.index, 0], save_dat[indexMax.index, 1]].asVector()
         
         return (newPoint, indexMax.element)
-    }
-    
-    @objc
-    public func runInitialSamplingFromAudiogram(_ previousAudiogram: [Double: Double]) {
-        guard xSample.elements.isEmpty && ySample.elements.isEmpty,
-              initialSampleEnded == false && testEnded == false else {
-            return
-        }
-
-        let previousAudiogramSorted = previousAudiogram
-            .map { ($0, $1) }
-            .filter { allFrequencies.contains($0.0) }
-            .sorted { $0.0 < $1.0 }
-        
-        let previousAudiogramFreqs = previousAudiogramSorted.map { $0.0 }
-        let previousAudiogramLevels = previousAudiogramSorted.map { $0.1 }
-        
-        if previousAudiogramSorted.count == allFrequencies.count,
-            previousAudiogramFreqs == allFrequencies.sorted() {
-            let initialSampling = initialSamplingFromAudiogram(previousAudiogramLevels)
-            xSample = initialSampling.xSample
-            ySample = initialSampling.ySample
-            initialSampleEnded = true
-        } else if !previousAudiogram.isEmpty {
-            assertionFailure("Cant generate initial sampling with mismatched frequencies audiogram")
-        }
-    }
-    
-    func initialSamplingFromAudiogram(_ dBHL: [Double])
-    -> (xSample: Matrix<Double>, ySample: Matrix<Double>) {
-        let freqHL = bark(allFrequencies.sorted().asVector())
-        
-        // assume new audiogram same as old audiogram but add noise
-        let dBHLNoise = dBHL.map { $0 + .random(in: -10...10) }
-        let testFs = bark(allFrequencies.asVector())
-        
-        // reorder to test sequence frequencies
-        let oldAudDict = zip(freqHL.elements, dBHL)
-            .reduce(into: [Double: Double]()) { $0[$1.0] = $1.1 }
-        let oldAud = testFs.elements.compactMap { oldAudDict[$0] }
-        
-        let oldAudNoiseDict = zip(freqHL.elements, dBHLNoise)
-            .reduce(into: [Double: Double]()) { $0[$1.0] = $1.1 }
-        let oldAudNoise = testFs.elements.compactMap { oldAudNoiseDict[$0] }
-        
-        var dbHLPoint = 0.0
-        var xSample = Matrix<Double>(elements: [], rows: 0, columns: 2)
-        var ySample = Matrix<Double>(elements: [], rows: 0, columns: 1)
-        
-        for index in testFs.elements.indices {
-            // start from +5dB above the old audiogram
-            if index == 0 {
-                dbHLPoint = min(oldAud[index] + 5, maxLevel)
-                xSample.appendRow([testFs.elements[index], dbHLPoint])
-                let responseAmplitude = oldAudNoise[index]
-                ySample.appendRow([dbHLPoint > responseAmplitude ? 1 : 0])
-                
-            } else {
-                dbHLPoint = min(oldAud[index] + 5, maxLevel)
-                let xNext = [testFs[index], dbHLPoint]
-                let responseAmplitude = oldAudNoise[index]
-                
-                xSample.appendRow(xNext)
-                ySample.appendRow([dbHLPoint > responseAmplitude ? 1 : 0])
-            }
-            
-            let stepSize = 10.0
-            var n = 1
-            
-            while ySample.elements.last == 1 { // first response at this frequency is positive
-                dbHLPoint = max(xSample[xSample.shape.rows - 1, 1] - stepSize, minLevel)
-                let xNext = [xSample[xSample.shape.rows - 1, 0], dbHLPoint]
-                let responseAmplitude = oldAudNoise[index]
-                
-                xSample.appendRow(xNext)
-                ySample.appendRow([dbHLPoint > responseAmplitude ? 1 : 0])
-
-                n += 1
-                if xNext[1] == minLevel {
-                    break
-                }
-            }
-            
-            if n == 1 {
-                while ySample.elements.last == 0 { // first response at this frequency is negative
-                    dbHLPoint = min(xSample[xSample.shape.rows - 1, 1] + stepSize, maxLevel)
-                    let xNext = [xSample[xSample.shape.rows - 1, 0], dbHLPoint]
-                    let responseAmplitude = oldAudNoise[index]
-  
-                    xSample.appendRow(xNext)
-                    ySample.appendRow([dbHLPoint > responseAmplitude ? 1 : 0])
-
-                    if xNext[1] == maxLevel {
-                        break
-                    }
-                }
-            }
-        }
-
-        return (xSample, ySample)
     }
 }
 
