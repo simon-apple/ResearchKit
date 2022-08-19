@@ -91,6 +91,8 @@ static const CGFloat iPadStepTitleLabelFontSize = 50.0;
         _wasSkipped = false;
         [self initializeInternalButtonItems];
         [self setStep:step];
+        self.restorationIdentifier = step.identifier;
+        self.restorationClass = self.class;
     }
     return self;
 }

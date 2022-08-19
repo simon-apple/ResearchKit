@@ -35,8 +35,6 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
-        // not strictly necessary right now, but in case it becomes useful later...
-        ORKActiveTaskRegisterHelper.registerActiveTaskStepsIfNeeded()
         return true
     }
 }

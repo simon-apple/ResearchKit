@@ -282,6 +282,7 @@
 		BF91559C1BDE8D7D007FA459 /* ORKReviewStep.h in Headers */ = {isa = PBXBuildFile; fileRef = BF9155961BDE8D7D007FA459 /* ORKReviewStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BF91559D1BDE8D7D007FA459 /* ORKReviewStep.m in Sources */ = {isa = PBXBuildFile; fileRef = BF9155971BDE8D7D007FA459 /* ORKReviewStep.m */; };
 		BF9155A81BDE8DA9007FA459 /* ORKWaitStep.m in Sources */ = {isa = PBXBuildFile; fileRef = BF9155A21BDE8DA9007FA459 /* ORKWaitStep.m */; };
+		CA08054028AD7CC8001695EF /* ORKViewControllerProviding.h in Headers */ = {isa = PBXBuildFile; fileRef = CA08053F28AD7CC8001695EF /* ORKViewControllerProviding.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		CA1C7A44288B0C68004DAB3A /* ResearchKitUI.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D06632F24FEF272005D9B40 /* ResearchKitUI.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CA1C7A5C288B0CA2004DAB3A /* ResearchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B183A5951A8535D100C76870 /* ResearchKit.framework */; };
 		CA23A31D2899941700EC6E91 /* ORKSkin_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = CA23A31C2899941700EC6E91 /* ORKSkin_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -479,8 +480,6 @@
 		CA2BBB2128AB06D300DD6C64 /* ORKLearnMoreItem.m in Sources */ = {isa = PBXBuildFile; fileRef = BA8C5020226FFB04001896D0 /* ORKLearnMoreItem.m */; };
 		CA4B673328A1CCBA00FAE01F /* ResearchKitActiveTask.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAD08967289DD747007B2A98 /* ResearchKitActiveTask.framework */; };
 		CA4B673628A1D15300FAE01F /* ORKTinnitusPureToneStepViewController_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = E27C6B47261C84F500EDBFFE /* ORKTinnitusPureToneStepViewController_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		CA5225E928904B9B00F4B7F5 /* ORKStepMapper_Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = CA5225E828904B9B00F4B7F5 /* ORKStepMapper_Utils.m */; };
-		CA5225EB289053B100F4B7F5 /* ORKStepMapper_Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = CA5225EA289053B100F4B7F5 /* ORKStepMapper_Utils.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		CA532D4A28906BA100959BE2 /* Artwork.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 861610BF1A8D8EDD00245F7A /* Artwork.xcassets */; };
 		CA59812728A1ADF600A40E8D /* ORKHeadphoneDetectResult.m in Sources */ = {isa = PBXBuildFile; fileRef = E21D345E22D916E000CCB022 /* ORKHeadphoneDetectResult.m */; };
 		CA59812928A1ADF600A40E8D /* ORKHeadphonesRequiredCompletionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D04884F25F0308C0006C68B /* ORKHeadphonesRequiredCompletionStep.m */; };
@@ -493,7 +492,6 @@
 		CA59813028A1AF7A00A40E8D /* ORKHeadphoneDetector.h in Headers */ = {isa = PBXBuildFile; fileRef = E2BC456A22D79081009DAAAE /* ORKHeadphoneDetector.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CA59813128A1B0E800A40E8D /* ORKHeadphoneDetectStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2BC456722D76F04009DAAAE /* ORKHeadphoneDetectStepViewController.m */; };
 		CA59813228A1B10E00A40E8D /* ORKHeadphoneDetector.m in Sources */ = {isa = PBXBuildFile; fileRef = E2BC456B22D79081009DAAAE /* ORKHeadphoneDetector.m */; };
-		CA59813628A1B9E800A40E8D /* ORKActiveTaskRegisterHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA59813528A1B9E800A40E8D /* ORKActiveTaskRegisterHelper.swift */; };
 		CA59813728A1C2CC00A40E8D /* ORKTinnitusTypeStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = E220A34F25711F1400C3C211 /* ORKTinnitusTypeStepViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CA6A0D7E288B51D30048C1EF /* ORKSkin.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40BB71A8D7C5C00081FAC /* ORKSkin.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		CA6A0D7F288B51D30048C1EF /* ORKSkin.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40BB81A8D7C5C00081FAC /* ORKSkin.m */; };
@@ -505,6 +503,8 @@
 		CA6A0D86288B5B370048C1EF /* ORKHTMLPDFWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40B8F1A8D7C5C00081FAC /* ORKHTMLPDFWriter.m */; };
 		CA6A0D9E288F1CA20048C1EF /* ResearchKitUI_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = CA6A0D9D288F1BDC0048C1EF /* ResearchKitUI_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		CA6A0DA0288F2C1C0048C1EF /* ResearchKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA1C7A5A288B0C68004DAB3A /* ResearchKitUI.framework */; };
+		CA954B6E28AD8A8C0020A35C /* ORKStep+ResearchKitActiveTask.m in Sources */ = {isa = PBXBuildFile; fileRef = CA954B6D28AD8A8C0020A35C /* ORKStep+ResearchKitActiveTask.m */; };
+		CA954B6F28AD8DA50020A35C /* ORKStep+ResearchKitUI.m in Sources */ = {isa = PBXBuildFile; fileRef = CA08054328AD7EBA001695EF /* ORKStep+ResearchKitUI.m */; };
 		CA994D5628AB08410019DEA4 /* ORKDeprecated.m in Sources */ = {isa = PBXBuildFile; fileRef = BC94EF301E962F7400143081 /* ORKDeprecated.m */; };
 		CA9B6E0628A2DDCF000A7603 /* ORKContext+ActiveTask.h in Headers */ = {isa = PBXBuildFile; fileRef = CA9B6E0528A2DDCF000A7603 /* ORKContext+ActiveTask.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CAA20D4E288B3D5700EDC764 /* ORKRecordButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D43C5CF24217393006F4084 /* ORKRecordButton.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1051,7 +1051,6 @@
 		CAD08A9F289DE7BD007B2A98 /* ORKTimedWalkResult.m in Sources */ = {isa = PBXBuildFile; fileRef = FF919A4A1E81BB7E005C2A1E /* ORKTimedWalkResult.m */; };
 		CAD08AA0289DE7C0007B2A98 /* ORKTimedWalkStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 861D2AE61B840991008C4CD0 /* ORKTimedWalkStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		CAD08AA1289DE7C3007B2A98 /* ORKTimedWalkStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 861D2AE71B840991008C4CD0 /* ORKTimedWalkStep.m */; };
-		CAF8D2BD288F52B0001E6992 /* ORKStepMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF8D2BB288F4B74001E6992 /* ORKStepMapper.swift */; };
 		CAFAA6C228A198BD0010BBDE /* ResearchKitActiveTask_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = CAFAA6C128A198BD0010BBDE /* ResearchKitActiveTask_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		CAFAA6C428A19E200010BBDE /* ResearchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B183A5951A8535D100C76870 /* ResearchKit.framework */; };
 		CAFAA6C528A19E260010BBDE /* ResearchKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA1C7A5A288B0C68004DAB3A /* ResearchKitUI.framework */; };
@@ -2111,19 +2110,18 @@
 		BF9155A61BDE8DA9007FA459 /* ORKWaitStepViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKWaitStepViewController.m; sourceTree = "<group>"; };
 		C72B9DF1235695DC00B982B7 /* no */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = no; path = no.lproj/ResearchKit.strings; sourceTree = "<group>"; };
 		C72B9DF42356960F00B982B7 /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt_BR; path = pt_BR.lproj/ResearchKit.strings; sourceTree = "<group>"; };
+		CA08053F28AD7CC8001695EF /* ORKViewControllerProviding.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKViewControllerProviding.h; sourceTree = "<group>"; };
+		CA08054328AD7EBA001695EF /* ORKStep+ResearchKitUI.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ORKStep+ResearchKitUI.m"; sourceTree = "<group>"; };
 		CA1C7A5A288B0C68004DAB3A /* ResearchKitUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ResearchKitUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA1C7A5B288B0C69004DAB3A /* Info-iOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-iOS.plist"; sourceTree = "<group>"; };
 		CA23A31C2899941700EC6E91 /* ORKSkin_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKSkin_Private.h; sourceTree = "<group>"; };
 		CA2B902528A187390025B773 /* ORKTask_Util.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKTask_Util.m; sourceTree = "<group>"; };
-		CA5225E828904B9B00F4B7F5 /* ORKStepMapper_Utils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKStepMapper_Utils.m; sourceTree = "<group>"; };
-		CA5225EA289053B100F4B7F5 /* ORKStepMapper_Utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKStepMapper_Utils.h; sourceTree = "<group>"; };
-		CA59813528A1B9E800A40E8D /* ORKActiveTaskRegisterHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ORKActiveTaskRegisterHelper.swift; sourceTree = "<group>"; };
 		CA6A0D9D288F1BDC0048C1EF /* ResearchKitUI_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResearchKitUI_Private.h; sourceTree = "<group>"; };
 		CA6A0D9F288F1F3C0048C1EF /* ResearchKitUI.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = ResearchKitUI.modulemap; sourceTree = "<group>"; };
+		CA954B6D28AD8A8C0020A35C /* ORKStep+ResearchKitActiveTask.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ORKStep+ResearchKitActiveTask.m"; sourceTree = "<group>"; };
 		CA9B6E0528A2DDCF000A7603 /* ORKContext+ActiveTask.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ORKContext+ActiveTask.h"; sourceTree = "<group>"; };
 		CAD08967289DD747007B2A98 /* ResearchKitActiveTask.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ResearchKitActiveTask.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CAD08969289DD747007B2A98 /* ResearchKitActiveTask.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResearchKitActiveTask.h; sourceTree = "<group>"; };
-		CAF8D2BB288F4B74001E6992 /* ORKStepMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ORKStepMapper.swift; sourceTree = "<group>"; };
 		CAFAA6C128A198BD0010BBDE /* ResearchKitActiveTask_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResearchKitActiveTask_Private.h; sourceTree = "<group>"; };
 		CAFAA6C328A199950010BBDE /* ResearchKitActiveTask.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = ResearchKitActiveTask.modulemap; sourceTree = "<group>"; };
 		CBD34A541BB1FB9000F204EA /* ORKLocationSelectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKLocationSelectionView.h; sourceTree = "<group>"; };
@@ -3679,9 +3677,8 @@
 		CA1C7A73288B1ADD004DAB3A /* Step */ = {
 			isa = PBXGroup;
 			children = (
-				CAF8D2BB288F4B74001E6992 /* ORKStepMapper.swift */,
-				CA5225E828904B9B00F4B7F5 /* ORKStepMapper_Utils.m */,
-				CA5225EA289053B100F4B7F5 /* ORKStepMapper_Utils.h */,
+				CA08053F28AD7CC8001695EF /* ORKViewControllerProviding.h */,
+				CA08054328AD7EBA001695EF /* ORKStep+ResearchKitUI.m */,
 				BAD65E4F2284F266008A5DCE /* ORKStepView_Private.h */,
 				BAD65E492284EFF9008A5DCE /* ORKStepView.h */,
 				BAD65E4A2284EFF9008A5DCE /* ORKStepView.m */,
@@ -4152,7 +4149,7 @@
 				CAD08969289DD747007B2A98 /* ResearchKitActiveTask.h */,
 				CAFAA6C128A198BD0010BBDE /* ResearchKitActiveTask_Private.h */,
 				CAFAA6C328A199950010BBDE /* ResearchKitActiveTask.modulemap */,
-				CA59813528A1B9E800A40E8D /* ORKActiveTaskRegisterHelper.swift */,
+				CA954B6D28AD8A8C0020A35C /* ORKStep+ResearchKitActiveTask.m */,
 				CA59812628A1ADA700A40E8D /* Headphone Detect Step */,
 				CA2B902A28A18ED00025B773 /* Front Facing Camera */,
 				CAD08971289DD763007B2A98 /* BLE */,
@@ -5426,8 +5423,8 @@
 				CAA20DD2288B3DB400EDC764 /* ORKContinueButton.h in Headers */,
 				CAA20E0E288B3E8200EDC764 /* ORKPasscodeStepView.h in Headers */,
 				CAA20DE1288B3DB400EDC764 /* ORKLabel.h in Headers */,
-				CA5225EB289053B100F4B7F5 /* ORKStepMapper_Utils.h in Headers */,
 				CAA20DD3288B3DB400EDC764 /* ORKSelectionTitleLabel.h in Headers */,
+				CA08054028AD7CC8001695EF /* ORKViewControllerProviding.h in Headers */,
 				CAA20D6A288B3D9100EDC764 /* ORKSurveyAnswerCellForLocation.h in Headers */,
 				CAA20DD9288B3DB400EDC764 /* ORKScaleValueLabel.h in Headers */,
 				CAA20E34288B3E8200EDC764 /* ORKSignatureView.h in Headers */,
@@ -5812,7 +5809,7 @@
 				TargetAttributes = {
 					5D06632C24FEF272005D9B40 = {
 						CreatedOnToolsVersion = 12.0;
-						LastSwiftMigration = 1200;
+						LastSwiftMigration = 1340;
 						ProvisioningStyle = Automatic;
 					};
 					5DABE54724D8BF2400570C57 = {
@@ -6284,6 +6281,7 @@
 				CAA20E47288B3E8200EDC764 /* ORKCustomStepViewController.m in Sources */,
 				CAA20F35288B3F6700EDC764 /* ORKVerificationStepViewController.m in Sources */,
 				CAA20D5F288B3D9100EDC764 /* ORKSurveyAnswerCellForPicker.m in Sources */,
+				CA954B6F28AD8DA50020A35C /* ORKStep+ResearchKitUI.m in Sources */,
 				CAA20D66288B3D9100EDC764 /* ORKScaleSlider.m in Sources */,
 				CAA20D52288B3D6B00EDC764 /* ORKReviewViewController.m in Sources */,
 				CAA20DCD288B3DB400EDC764 /* ORKScaleValueLabel.m in Sources */,
@@ -6292,7 +6290,6 @@
 				CAA20DB0288B3DB300EDC764 /* ORKSelectionSubTitleLabel.m in Sources */,
 				CAA20E49288B3E8200EDC764 /* ORKLearnMoreStepViewController.m in Sources */,
 				CAA20E2F288B3E8200EDC764 /* ORKWaitStepViewController.m in Sources */,
-				CAF8D2BD288F52B0001E6992 /* ORKStepMapper.swift in Sources */,
 				CAA20DFC288B3E8100EDC764 /* ORKFreehandDrawingView.m in Sources */,
 				CAA20D69288B3D9100EDC764 /* ORKMultipleValuePicker.m in Sources */,
 				CAA20DA4288B3D9C00EDC764 /* ORKStepContentView.m in Sources */,
@@ -6319,7 +6316,6 @@
 				CAA20D7F288B3D9100EDC764 /* SwiftUIViewFactory.swift in Sources */,
 				CAA20E0D288B3E8200EDC764 /* ORKRequestPermissionsStepViewController.m in Sources */,
 				CAA20E4F288B3E8200EDC764 /* ORKImageCaptureCameraPreviewView.m in Sources */,
-				CA5225E928904B9B00F4B7F5 /* ORKStepMapper_Utils.m in Sources */,
 				CAA20F3F288B3F6D00EDC764 /* ORKGraphChartAccessibilityElement.m in Sources */,
 				CAA20D56288B3D6F00EDC764 /* ORKPlaybackButton.m in Sources */,
 				CAA20DCC288B3DB400EDC764 /* ORKTextFieldView.m in Sources */,
@@ -6439,7 +6435,6 @@
 				CAD089F9289DE4AC007B2A98 /* linesearch.c in Sources */,
 				CA2B8FEE28A177950025B773 /* ORKToneAudiometryContentView.m in Sources */,
 				CA2B8F7A28A16C700025B773 /* ORKFaceDetectionStepViewController.m in Sources */,
-				CA59813628A1B9E800A40E8D /* ORKActiveTaskRegisterHelper.swift in Sources */,
 				CAD08A73289DE6E9007B2A98 /* ORKReactionTimeStep.m in Sources */,
 				CAD089D3289DE3A1007B2A98 /* ORKTinnitusPureToneStep.m in Sources */,
 				CA2B8FAC28A175360025B773 /* ORKAudioContentView.m in Sources */,
@@ -6522,6 +6517,7 @@
 				CAD089E8289DE435007B2A98 /* ORKAVJournalingSessionHelper.m in Sources */,
 				CAD08A4E289DE644007B2A98 /* UITouch+ORKJSONDictionary.m in Sources */,
 				CAD08A71289DE6E2007B2A98 /* ORKReactionTimeResult.m in Sources */,
+				CA954B6E28AD8A8C0020A35C /* ORKStep+ResearchKitActiveTask.m in Sources */,
 				CA2B8FC628A175E80025B773 /* ORKHolePegTestRemovePegView.m in Sources */,
 				CA2B8F9228A16E860025B773 /* ORKdBHLToneAudiometryAudioGenerator.m in Sources */,
 				CA2B8F8328A16CF40025B773 /* ORK3DModelStepContentView.m in Sources */,
@@ -6849,7 +6845,12 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5D000EDE2620F27100E5442A /* ResearchKitUI-Debug.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				DEFINES_MODULE = YES;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				ORK_GCC_PREPROCESSOR_DEFINITIONS = "RK_APPLE_INTERNAL=1 ORK_FEATURE_AV_JOURNALING=1 ORK_FEATURE_AV_JOURNALING_DEPTH_DATA_COLLECTION=1 ORK_FEATURE_BLE_SCAN_PERIPHERALS=1";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -6857,7 +6858,12 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5D000EDF2620F27100E5442A /* ResearchKitUI-Shared.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				DEFINES_MODULE = YES;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				ORK_GCC_PREPROCESSOR_DEFINITIONS = "RK_APPLE_INTERNAL=1 ORK_FEATURE_AV_JOURNALING=1 ORK_FEATURE_AV_JOURNALING_DEPTH_DATA_COLLECTION=1 ORK_FEATURE_BLE_SCAN_PERIPHERALS=1";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 			};
 			name = "Skywagon Stable";
 		};
@@ -6865,7 +6871,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5D000EDF2620F27100E5442A /* ResearchKitUI-Shared.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				DEFINES_MODULE = YES;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				ORK_GCC_PREPROCESSOR_DEFINITIONS = "RK_APPLE_INTERNAL=1 ORK_FEATURE_AV_JOURNALING=1 ORK_FEATURE_AV_JOURNALING_DEPTH_DATA_COLLECTION=1 ORK_FEATURE_BLE_SCAN_PERIPHERALS=1";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -6873,7 +6883,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5D000EDF2620F27100E5442A /* ResearchKitUI-Shared.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				DEFINES_MODULE = YES;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				ORK_GCC_PREPROCESSOR_DEFINITIONS = "RK_APPLE_INTERNAL=1 ORK_FEATURE_AV_JOURNALING=1 ORK_FEATURE_AV_JOURNALING_DEPTH_DATA_COLLECTION=1 ORK_FEATURE_BLE_SCAN_PERIPHERALS=1";
+				SWIFT_VERSION = 5.0;
 			};
 			name = "Skywagon Internal Release";
 		};
@@ -6881,7 +6895,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5D000EDF2620F27100E5442A /* ResearchKitUI-Shared.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				DEFINES_MODULE = YES;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				ORK_GCC_PREPROCESSOR_DEFINITIONS = "RK_APPLE_INTERNAL=1 ORK_FEATURE_AV_JOURNALING=1 ORK_FEATURE_AV_JOURNALING_DEPTH_DATA_COLLECTION=1 ORK_FEATURE_BLE_SCAN_PERIPHERALS=1";
+				SWIFT_VERSION = 5.0;
 			};
 			name = "Skywagon Public Release";
 		};
@@ -7138,7 +7156,6 @@
 				MODULEMAP_FILE = ResearchKitActiveTask/ResearchKitActiveTask.modulemap;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				ONLY_ACTIVE_ARCH = NO;
 				ORK_GCC_PREPROCESSOR_DEFINITIONS = "RK_APPLE_INTERNAL=1 ORK_FEATURE_AV_JOURNALING=1 ORK_FEATURE_AV_JOURNALING_DEPTH_DATA_COLLECTION=1 ORK_FEATURE_BLE_SCAN_PERIPHERALS=1";
 				PRODUCT_BUNDLE_IDENTIFIER = org.researchkit.ResearchKitActiveTask;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";

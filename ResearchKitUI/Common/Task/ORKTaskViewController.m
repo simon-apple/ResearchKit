@@ -49,6 +49,7 @@
 #import "ORKReviewStep_Internal.h"
 #import "ORKStep_Private.h"
 #import "ORKTappingIntervalStep.h"
+#import "ORKViewControllerProviding.h"
 
 #import "ORKHelpers_Internal.h"
 #import "ORKObserver.h"
@@ -72,8 +73,6 @@
 #import "ORKSensitiveURLLearnMoreInstructionStep.h"
 #import "ORKCelestialSoftLink.h"
 #endif
-
-#import "ResearchKitUI/ResearchKitUI-Swift.h"
 
 typedef void (^_ORKLocationAuthorizationRequestHandler)(BOOL success);
 
@@ -876,7 +875,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     if (self.currentStepViewController) {
         supportedOrientations = self.currentStepViewController.supportedInterfaceOrientations;
     } else {
-        supportedOrientations = [ORKStepMapper instantiateViewControllerForStep: self.nextStep andResult: nil].supportedInterfaceOrientations;
+        supportedOrientations = [self.nextStep makeViewControllerWithResult:nil].supportedInterfaceOrientations;
     }
     return supportedOrientations;
 }
@@ -1190,7 +1189,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
                 result = previousResult ? : [[ORKStepResult alloc] initWithIdentifier:step.identifier];
             }
             
-            stepViewController = [ORKStepMapper instantiateViewControllerForStep:step andResult:result];
+            stepViewController = [step makeViewControllerWithResult:result];
         }
     }
     

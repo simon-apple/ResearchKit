@@ -35,6 +35,7 @@
 @import ResearchKitActiveTask;
 @import ResearchKitActiveTask_Private;
 @import ResearchKitUI;
+@import ResearchKitUI_Private;
 @import UIKit;
 
 @interface ORKStepTests : XCTestCase
@@ -63,7 +64,7 @@
     [step setAuxiliaryImage:imageTwo];
     [step setIconImage:imageThree];
     
-    ORKStepViewController *controller = [ORKStepMapper instantiateViewControllerForStep:step andResult:result];
+    ORKStepViewController *controller = [step makeViewControllerWithResult:result];
     
     XCTAssertEqual([step title], @"Title");
     XCTAssertEqual([step text], @"Text");

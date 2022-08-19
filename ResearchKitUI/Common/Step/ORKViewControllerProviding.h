@@ -28,20 +28,19 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
-#import "ORKStepMapper_Utils.h"
+#import <ResearchKit/ORKResult.h>
+#import <ResearchKitUI/ORKStepViewController.h>
 
-ORKStepViewController *viewControllerFromStep(ORKStep *step, ORKResult *result, Class parent) {
-    // perhaps this could be a protocol instead?
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wundeclared-selector"
-    NSCAssert([step respondsToSelector:@selector(stepViewControllerClass)], @"%@ doesn't implement stepViewControllerClass!", NSStringFromClass(step.class));
-    Class cls = [step performSelector:@selector(stepViewControllerClass)];
-#pragma clang diagnostic pop
-    
-    NSCAssert([cls isSubclassOfClass:parent], @"%@ requires that %@ is a subclass of %@.", NSStringFromClass(step.class), NSStringFromClass(cls), NSStringFromClass(parent));
-    
-    ORKStepViewController *vc = [[cls alloc] initWithStep:step result:result];
-    vc.restorationClass = cls;
-    return vc;
-}
+NS_ASSUME_NONNULL_BEGIN
+
+@protocol ORKViewControllerProviding <NSObject>
+
+- (ORKStepViewController *)makeViewControllerWithResult:(nullable ORKResult *)result;
+
+@end
+
+@interface ORKStep (ViewControllerProviding) <ORKViewControllerProviding>
+
+@end
+
+NS_ASSUME_NONNULL_END

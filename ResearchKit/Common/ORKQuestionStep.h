@@ -51,7 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
  When the task completes, the user's answer is encoded in the result hierarchy
  in the task view controller.
  
- When a task view controller presents an `ORKQuestionStep` object, it instantiates an `ORKQuestionStepViewController` object to present the step. The actual
+ When a task view controller presents an `ORKQuestionStep` object, it instantiates an `ORKFormStepViewController` object to present the step. The actual
  visual presentation depends on the answer format.
  
  When you need to present more than one question at the same time, it can be appropriate

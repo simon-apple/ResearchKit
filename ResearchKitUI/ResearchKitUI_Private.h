@@ -35,7 +35,6 @@
 #import <ResearchKitUI/ORKStepContainerView_Private.h>
 #import <ResearchKitUI/ORKStepViewController_Internal.h>
 #import <ResearchKitUI/ORKPasscodeStepViewController_Internal.h>
-#import <ResearchKitUI/ORKStepMapper_Utils.h>
 
 #import <ResearchKitUI/ORKBodyContainerView.h>
 #import <ResearchKitUI/ORKCustomStepView.h>
@@ -51,3 +50,4 @@
 #import <ResearchKitUI/ORKStepHeaderView.h>
 #import <ResearchKitUI/ORKTintedImageView.h>
 #import <ResearchKitUI/ORKVerticalContainerView.h>
+#import <ResearchKitUI/ORKViewControllerProviding.h>
