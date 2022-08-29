@@ -1135,7 +1135,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(earPreference, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(frequencyList, NSArray, NSObject, YES, nil, nil),
 #if RK_APPLE_INTERNAL
-                    PROPERTY(algorithm, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(algorithmVersion, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(dBHLMaximumThreshold, NSNumber, NSObject, YES, nil, nil),
 #endif
                     })),
@@ -2088,6 +2088,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
 #if RK_APPLE_INTERNAL
                     PROPERTY(discreteUnits, ORKdBHLToneAudiometryFrequencySample, NSArray, NO, nil, nil),
                     PROPERTY(fitMatrix, NSDictionary, NSObject, NO, nil, nil),
+                    PROPERTY(algorithmVersion, NSNumber, NSObject, NO, nil, nil),
 #endif
                     })),
            ENTRY(ORKReactionTimeResult,

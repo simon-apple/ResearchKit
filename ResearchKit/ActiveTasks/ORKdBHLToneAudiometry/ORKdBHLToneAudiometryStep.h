@@ -30,6 +30,7 @@
 
 
 @import Foundation;
+#import <ResearchKit/ORKTypes.h>
 #import <ResearchKit/ORKDefines.h>
 #import <ResearchKit/ORKActiveStep.h>
 #import <ResearchKit/ORKAudiometryProtocol.h>
@@ -70,7 +71,7 @@ ORK_CLASS_AVAILABLE
 @property (nonatomic, copy, nullable) NSArray *frequencyList;
 
 #if RK_APPLE_INTERNAL
-@property (nonatomic, assign) NSInteger algorithm;
+@property (nonatomic, assign) NSInteger algorithmVersion;
 
 @property (nonatomic, assign) double dBHLMaximumThreshold;
 #endif

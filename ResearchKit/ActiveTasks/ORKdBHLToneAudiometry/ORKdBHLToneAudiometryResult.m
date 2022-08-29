@@ -49,6 +49,7 @@ const double ORKInvalidDBHLValue = DBL_MAX;
 #if RK_APPLE_INTERNAL
     ORK_ENCODE_OBJ(aCoder, discreteUnits);
     ORK_ENCODE_OBJ(aCoder, fitMatrix);
+    ORK_ENCODE_INTEGER(aCoder, algorithmVersion);
 #endif
 }
 
@@ -64,6 +65,7 @@ const double ORKInvalidDBHLValue = DBL_MAX;
 #if RK_APPLE_INTERNAL
         ORK_DECODE_OBJ_ARRAY(aDecoder, discreteUnits, ORKdBHLToneAudiometryFrequencySample);
         ORK_DECODE_OBJ_DICTIONARY(aDecoder, fitMatrix, NSString, NSNumber);
+        ORK_DECODE_INTEGER(aDecoder, algorithmVersion);
 #endif
     }
     return self;
@@ -86,6 +88,7 @@ const double ORKInvalidDBHLValue = DBL_MAX;
 #if RK_APPLE_INTERNAL
             && ORKEqualObjects(self.discreteUnits, castObject.discreteUnits)
             && ORKEqualObjects(self.fitMatrix, castObject.fitMatrix)
+            && self.algorithmVersion == castObject.algorithmVersion
 #endif
             );
 }
@@ -94,7 +97,7 @@ const double ORKInvalidDBHLValue = DBL_MAX;
     NSUInteger resultsHash = self.samples.hash ^ self.headphoneType.hash;
     
 #if RK_APPLE_INTERNAL
-    resultsHash = resultsHash ^ self.discreteUnits.hash ^ self.fitMatrix.hash;
+    resultsHash = resultsHash ^ self.discreteUnits.hash ^ self.fitMatrix.hash ^ self.algorithmVersion;
 #endif
     
     return super.hash ^ resultsHash;
@@ -111,6 +114,7 @@ const double ORKInvalidDBHLValue = DBL_MAX;
 #if RK_APPLE_INTERNAL
     result.discreteUnits = [self.discreteUnits copy];
     result.fitMatrix = [self.fitMatrix copy];
+    result.algorithmVersion = self.algorithmVersion;
 #endif
 
     return result;
@@ -118,7 +122,7 @@ const double ORKInvalidDBHLValue = DBL_MAX;
 
 - (NSString *)descriptionWithNumberOfPaddingSpaces:(NSUInteger)numberOfPaddingSpaces {
 #if RK_APPLE_INTERNAL
-    return [NSString stringWithFormat:@"%@; outputvolume: %.1lf; samples: %@; tones: %@; fitMatrix: %@; headphoneType: %@; tonePlaybackDuration: %.1lf; postStimulusDelay: %.1lf%@", [self descriptionPrefixWithNumberOfPaddingSpaces:numberOfPaddingSpaces], self.outputVolume, self.samples, self.discreteUnits, self.fitMatrix, self.headphoneType, self.tonePlaybackDuration, self.postStimulusDelay, self.descriptionSuffix];
+    return [NSString stringWithFormat:@"%@; algorithm: %ld, outputvolume: %.1lf; samples: %@; tones: %@; fitMatrix: %@; headphoneType: %@; tonePlaybackDuration: %.1lf; postStimulusDelay: %.1lf%@", [self descriptionPrefixWithNumberOfPaddingSpaces:numberOfPaddingSpaces], (long)self.algorithmVersion, self.outputVolume, self.samples, self.discreteUnits, self.fitMatrix, self.headphoneType, self.tonePlaybackDuration, self.postStimulusDelay, self.descriptionSuffix];
 #else
     return [NSString stringWithFormat:@"%@; outputvolume: %.1lf; samples: %@; headphoneType: %@; tonePlaybackDuration: %.1lf; postStimulusDelay: %.1lf%@", [self descriptionPrefixWithNumberOfPaddingSpaces:numberOfPaddingSpaces], self.outputVolume, self.samples, self.headphoneType, self.tonePlaybackDuration, self.postStimulusDelay, self.descriptionSuffix];
 #endif
