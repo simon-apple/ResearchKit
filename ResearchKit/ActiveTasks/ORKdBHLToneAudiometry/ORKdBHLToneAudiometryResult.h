@@ -30,6 +30,7 @@
 
 
 #import <ResearchKit/ORKResult.h>
+#import <ResearchKit/ORKTypes.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -56,6 +57,8 @@ ORK_CLASS_AVAILABLE
 @property (nonatomic, copy, nullable) NSArray<ORKdBHLToneAudiometryFrequencySample *> *discreteUnits;
 
 @property (nonatomic, copy, nullable) NSDictionary<NSString *, NSNumber *> *fitMatrix;
+
+@property (nonatomic, assign) NSInteger algorithmVersion;
 #endif
 
 @end

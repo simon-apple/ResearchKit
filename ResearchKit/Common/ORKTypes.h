@@ -395,6 +395,7 @@ ORK_EXTERN ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierEarPods;
 
 /// Other vendors or even apple ones but not mapped.
 ORK_EXTERN ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierUnknown;
+
 #if RK_APPLE_INTERNAL
 /**
  Route Identifiers for supported headphones chipset types.
@@ -425,6 +426,7 @@ typedef NS_ENUM(NSInteger, ORKBluetoothMode) {
     ORKBluetoothModeNoiseCancellation
 } ORK_ENUM_AVAILABLE;
 #endif
+
 ORK_CLASS_AVAILABLE
 @interface ORKNoAnswer : NSObject<NSCopying, NSSecureCoding>
 
