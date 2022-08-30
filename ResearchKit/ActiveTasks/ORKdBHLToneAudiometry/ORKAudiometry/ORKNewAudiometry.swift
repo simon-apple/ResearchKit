@@ -52,7 +52,8 @@ import Foundation
 
     private let optmizer = ORKNewAudiometryMinimizer()
     private var theta = Vector<Double>(elements: [1, 1])
-    private let stoppingCriteria = 0.6
+    private let kernelLenght: Double
+    private let stoppingCriteria: Double
     private var stoppingCriteriaSave = [Double]()
     private let stoppingCriteriaCountMin = 35
     private let stoppingCriteriaCountMax = 75
@@ -86,14 +87,32 @@ import Foundation
     }
     
     @objc
+    public convenience init(channel: ORKAudioChannel,
+                            initialLevel: Double,
+                            minLevel: Double,
+                            maxLevel: Double,
+                            frequencies: [Double]) {
+        self.init(channel: channel,
+                  initialLevel: initialLevel,
+                  minLevel: minLevel,
+                  maxLevel: maxLevel,
+                  frequencies: frequencies,
+                  kernelLenght: 3.0,
+                  stoppingCriteria: 0.6)
+    }
+    
     public init(channel: ORKAudioChannel,
                 initialLevel: Double,
                 minLevel: Double,
                 maxLevel: Double,
-                frequencies: [Double]) {
+                frequencies: [Double],
+                kernelLenght: Double,
+                stoppingCriteria: Double) {
         self.initialLevel = initialLevel
         self.minLevel = minLevel
         self.maxLevel = maxLevel
+        self.kernelLenght = kernelLenght
+        self.stoppingCriteria = stoppingCriteria
         
         // Remove duplicates without changing order
         self.allFrequencies = frequencies.reduce(into: [Double]()) {
@@ -413,7 +432,8 @@ extension ORKNewAudiometry {
         let grid = Matrix.stack(gridX1, gridX2)
         let xNew = Matrix.reshape2columns(grid)
         
-        let probPredict = ORKNewAudiometry.getProbMatrix(xNew, xSample, ySample.asVector(), theta)
+        let probPredict = ORKNewAudiometry
+            .getProbMatrix(xNew, xSample, ySample.asVector(), theta, kernelLenght)
             .reshaped(rows: gridX1.shape.rows, columns: gridX1.shape.columns)
         
         let fit = getFit(gridX1, gridX2, probPredict)
@@ -442,11 +462,12 @@ extension ORKNewAudiometry {
         
         let grids = Matrix.mGrid(xRange: lowerX...upperX,
                                  xSteps: 35, yRange: lowerY...upperY,
-                                 ySteps: 65)
+                                 ySteps: 35)
         let grid = Matrix.stack(grids.0, grids.1)
         let xNew = Matrix.reshape2columns(grid)
+        let lenght = kernelLenght
 
-        let muVar = ORKNewAudiometry.getMuVar(xNew, xSample, YSample.asVector(), theta)
+        let muVar = ORKNewAudiometry.getMuVar(xNew, xSample, YSample.asVector(), theta, lenght)
         var save_dat = Matrix(repeating: 0.0, rows: 0, columns: 3)
         
         var idx = 0
@@ -475,8 +496,9 @@ extension ORKNewAudiometry {
 @available(iOS 14, *)
 extension ORKNewAudiometry {
     func fit() -> Vector<Double> {
+        let lenght = kernelLenght
         let minimizedTheta = optmizer.minimize(theta[0], theta[1]) { [xSample, ySample] in
-            return Self.nllFn([$0, $1].asVector(), xSample, ySample)
+            return Self.nllFn([$0, $1].asVector(), xSample, ySample, lenght)
         }
         
         return minimizedTheta
@@ -523,9 +545,10 @@ extension ORKNewAudiometry {
 extension ORKNewAudiometry {
     public static func nllFn(_ theta: Vector<Double>,
                              _ x: Matrix<Double>,
-                             _ t: Matrix<Double>) -> Double {
+                             _ t: Matrix<Double>,
+                             _ kernelLenght: Double) -> Double {
         let t = t.reshaped(rows: -1, columns: 1)
-        let k_a = k(x, theta)
+        let k_a = k(x, theta, length: kernelLenght)
         let k_a_inv = k_a.inv()
         let a_h = posteriorMode(x, t, k_a).reshaped(rows: -1, columns: 1)
         let w = w(a_h.asVector())
@@ -568,10 +591,12 @@ extension ORKNewAudiometry {
     }
     
     static func getMuVar(_ x_test: Matrix<Double>,
-                         _ x: Matrix<Double>, _ t: Vector<Double>,
-                         _ theta: Vector<Double>) -> (a_mu: Matrix<Double>, a_var: Matrix<Double>) {
-        let k_a = k(x, theta)
-        let k_s = kernel(x, x_test, theta: theta)
+                         _ x: Matrix<Double>,
+                         _ t: Vector<Double>,
+                         _ theta: Vector<Double>,
+                         _ kernelLenght: Double) -> (a_mu: Matrix<Double>, a_var: Matrix<Double>) {
+        let k_a = k(x, theta, length: kernelLenght)
+        let k_s = kernel(x, x_test, theta: theta, length: kernelLenght)
         let a_h = posteriorMode(x, t.asMatrix(), k_a)
 
         let w_inv = w(a_h.asVector()).inv()
@@ -579,7 +604,7 @@ extension ORKNewAudiometry {
 
         let a_test_mu = k_s.transposed() * (t - sigmoid(a_h.asVector())).asMatrix()
         let sum = ((r_inv * k_s) .* k_s).sum(along: .columns)
-        let a_test_var = k(x_test, theta, diagOnly: true) - sum.asMatrix()
+        let a_test_var = k(x_test, theta, length: kernelLenght, diagOnly: true) - sum.asMatrix()
 
         return (a_test_mu, a_test_var)
     }
@@ -587,8 +612,9 @@ extension ORKNewAudiometry {
     static func getProbMatrix(_ x_test: Matrix<Double>,
                               _ x: Matrix<Double>,
                               _ t: Vector<Double>,
-                              _ theta: Vector<Double>) -> Matrix<Double> {
-        let muVar = getMuVar(x_test, x, t, theta)
+                              _ theta: Vector<Double>,
+                              _ kernelLenght: Double) -> Matrix<Double> {
+        let muVar = getMuVar(x_test, x, t, theta, kernelLenght)
         let a = (1.0 + Double.pi * muVar.a_var / 8)
         let kappa = vDSP.divide(1.0, vForce.sqrt(a))
         
@@ -598,7 +624,7 @@ extension ORKNewAudiometry {
     static func kernel(_ x1: Matrix<Double>,
                        _ x2: Matrix<Double>,
                        theta: Vector<Double>,
-                       length: Double = 2.7) -> Matrix<Double> {
+                       length: Double) -> Matrix<Double> {
         // Squared exponential kernel (also known as radial basis)
         let op1 = x1.getColumn(0).pow(expoent: 2).reshaped(rows: -1, columns: 1)
         let op2 = x2.getColumn(0).pow(expoent: 2).asVector()
@@ -617,11 +643,12 @@ extension ORKNewAudiometry {
     
     static func k(_ x: Matrix<Double>,
                   _ theta: Vector<Double>,
+                  length: Double,
                   diagOnly: Bool = false,
                   nu: Double = 1e-5) -> Matrix<Double> {
         guard diagOnly else {
             let eye = Matrix.eye(x.shape.rows)
-            let kernel = kernel(x, x, theta: theta)
+            let kernel = kernel(x, x, theta: theta, length: length)
             return kernel + (nu * eye)
         }
     
