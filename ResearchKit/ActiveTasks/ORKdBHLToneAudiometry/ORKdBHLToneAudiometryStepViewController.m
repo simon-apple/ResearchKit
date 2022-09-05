@@ -140,7 +140,7 @@
                                                 supportedHeadphoneChipsetTypes:[ORKHeadphoneDetectStep dBHLTypes]];
     
     //TODO:- figure out where this call lives
-    [[self taskViewController] lockDeviceVolume:0.5];
+    [[self taskViewController] lockDeviceVolume:0.625];
 
     ORKTaskResult *taskResults = [[self taskViewController] result];
 
