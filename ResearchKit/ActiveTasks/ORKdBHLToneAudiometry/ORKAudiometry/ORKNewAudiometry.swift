@@ -98,7 +98,7 @@ import Foundation
                   maxLevel: maxLevel,
                   frequencies: frequencies,
                   kernelLenght: 3.0,
-                  stoppingCriteria: 0.6)
+                  stoppingCriteria: 0.65)
     }
     
     public init(channel: ORKAudioChannel,
