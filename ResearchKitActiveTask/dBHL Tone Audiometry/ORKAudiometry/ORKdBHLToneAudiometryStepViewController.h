@@ -33,22 +33,6 @@
 #import <ResearchKit/ORKDefines.h>
 #import <ResearchKitActiveTask/ORKActiveStepViewController.h>
 
-#if RK_APPLE_INTERNAL
-#import <ResearchKitActiveTask/ORKHeadphoneDetector.h>
-#endif
-
-
-#if RK_APPLE_INTERNAL
-NS_ASSUME_NONNULL_BEGIN
-
-ORK_CLASS_AVAILABLE
-@interface ORKdBHLToneAudiometryStepViewController : ORKActiveStepViewController <ORKHeadphoneDetectorDelegate>
-
-@end
-NS_ASSUME_NONNULL_END
-
-#else
-
 NS_ASSUME_NONNULL_BEGIN
 
 ORK_CLASS_AVAILABLE
@@ -56,4 +40,3 @@ ORK_CLASS_AVAILABLE
 
 @end
 NS_ASSUME_NONNULL_END
-#endif

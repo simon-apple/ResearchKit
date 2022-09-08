@@ -53,10 +53,6 @@
 
 #import "ORKdBHLToneAudiometryAudioGenerator.h"
 
-#if RK_APPLE_INTERNAL
-#import <ResearchKitActiveTask/ResearchKitActiveTask-Swift.h>
-#endif
-
 @import AudioToolbox;
 
 typedef NSString * ORKVolumeCurveFilename NS_STRING_ENUM;
@@ -393,22 +389,16 @@ static OSStatus ORKdBHLAudioGeneratorZeroTone(void *inRefCon,
     return [[AVAudioSession sharedInstance] outputVolume];
 }
 
+- (NSDecimalNumber *)calculatedBSPLFromSensitivities:(NSDictionary *)sensitivityPerFrequency atFrequency:(double)frequency {
+    return [NSDecimalNumber decimalNumberWithString:sensitivityPerFrequency[[NSString stringWithFormat:@"%.0f", frequency]]];
+}
+
+- (NSDecimalNumber *)calculateBaselinedBSPLFromSensitivities:(NSDictionary *)sensitivityPerFrequency retspls:(NSDictionary *)retspls frequency:(double)frequency {
+    return [NSDecimalNumber decimalNumberWithString:retspls[[NSString stringWithFormat:@"%.0f",frequency]]];
+}
 
 - (NSNumber *)dbHLtoAmplitude: (double)dbHL atFrequency:(double)frequency {
-#if RK_APPLE_INTERNAL
-    NSArray *sortedfrequencies = [[_sensitivityPerFrequency allKeys] sortedArrayUsingComparator:^NSComparisonResult(NSString*  _Nonnull obj1, NSString*  _Nonnull obj2) {
-        return [obj1 doubleValue] > [obj2 doubleValue];
-    }];
-    NSArray *sortedValues = [_sensitivityPerFrequency objectsForKeys:sortedfrequencies notFoundMarker:@""];
-    NSArray *frequencies = [sortedfrequencies valueForKey:@"doubleValue"];
-    NSArray *values = [sortedValues valueForKey:@"doubleValue"];
-
-    double sensitivity = [Interpolators interp1dWithXValues:frequencies yValues:values xPoint:frequency];
-    NSDecimalNumber *dBSPL =  [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%lf",sensitivity]];
-#else
-    NSDecimalNumber *dBSPL =  [NSDecimalNumber decimalNumberWithString:_sensitivityPerFrequency[[NSString stringWithFormat:@"%.0f",frequency]]];
-
-#endif
+    NSDecimalNumber *dBSPL = [self calculatedBSPLFromSensitivities:_sensitivityPerFrequency atFrequency:frequency];
     
     // get current volume
     float currentVolume = [self getCurrentSystemVolume];
@@ -424,15 +414,7 @@ static OSStatus ORKdBHLAudioGeneratorZeroTone(void *inRefCon,
     
     NSDecimalNumber *updated_dBSPLFor_dBFS = [updated_dBSPLForVolumeCurve decimalNumberByAdding:dBFSCalibration];
     
-#if RK_APPLE_INTERNAL
-    NSArray *sortedRetspls = [_retspl objectsForKeys:sortedfrequencies notFoundMarker:@""];
-    NSArray *retspls = [sortedRetspls valueForKey:@"doubleValue"];
-   
-    double retspl = [Interpolators interp1dWithXValues:frequencies yValues:retspls xPoint:frequency];
-    NSDecimalNumber *baselinedBSPL = [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%lf",retspl]];
-#else
-    NSDecimalNumber *baselinedBSPL = [NSDecimalNumber decimalNumberWithString:_retspl[[NSString stringWithFormat:@"%.0f",frequency]]];
-#endif
+    NSDecimalNumber *baselinedBSPL = [self calculateBaselinedBSPLFromSensitivities:_sensitivityPerFrequency retspls:_retspl frequency:frequency];
     
     NSDecimalNumber *tempdBHL = [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%f", dbHL]];
     NSDecimalNumber *attenuationOffset = [baselinedBSPL decimalNumberByAdding:tempdBHL];

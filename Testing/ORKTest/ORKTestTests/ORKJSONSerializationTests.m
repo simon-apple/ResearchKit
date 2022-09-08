@@ -34,11 +34,24 @@
 @import ResearchKit_Private;
 @import ResearchKitActiveTask;
 @import ResearchKitActiveTask_Private;
+@import ResearchKitInternal;
+@import ResearchKitInternal_Private;
 @import ResearchKitUI;
 
 #import "ORKESerialization.h"
 
 #import <objc/runtime.h>
+
+BOOL ORKIsResearchKitClass(Class class) {
+    NSString *name = NSStringFromClass(class);
+    
+#if RK_APPLE_INTERNAL
+    return [name hasPrefix:@"ORK"] || [name hasPrefix:@"AAPL"];
+#else
+    return [name hasPrefix:@"ORK"];
+#endif
+}
+
 
 
 @interface TestCompilerFlagHelper : NSObject
@@ -506,7 +519,8 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
                                                  [ORKSensitiveURLLearnMoreInstructionStep class],
                                                  [ORKHealthCorrelationCollector class],
                                                  [ORKMotionActivityCollector class],
-                                                 [ORKShoulderRangeOfMotionStep class]
+                                                 [ORKShoulderRangeOfMotionStep class],
+                                                 [ORKCustomStep class],
                                                  ];
         
         _propertyExclusionList = @[
@@ -702,7 +716,7 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
         if ([excludedClassNames containsObject:NSStringFromClass(aClass)]) {
             continue;
         }
-        if ([NSStringFromClass(aClass) hasPrefix:@"ORK"] &&
+        if (ORKIsResearchKitClass(aClass) &&
             [aClass conformsToProtocol:@protocol(NSSecureCoding)]) {
             [classesWithSecureCoding addObject:aClass];
         }
@@ -948,12 +962,10 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
     
     NSArray *classesExcludedForORKESerialization = testConfiguration.classesExcludedForORKESerialization;
     
-    if ((classesExcludedForORKESerialization.count + classesWithORKSerialization.count) != classesWithSecureCoding.count) {
-        NSMutableArray *unregisteredList = [classesWithSecureCoding mutableCopy];
-        [unregisteredList removeObjectsInArray:classesWithORKSerialization];
-        [unregisteredList removeObjectsInArray:classesExcludedForORKESerialization];
-        XCTAssertEqual(unregisteredList.count, 0, @"Classes didn't implement ORKSerialization %@", unregisteredList);
-    }
+    NSMutableArray *unregisteredList = [classesWithSecureCoding mutableCopy];
+    [unregisteredList removeObjectsInArray:classesWithORKSerialization];
+    [unregisteredList removeObjectsInArray:classesExcludedForORKESerialization];
+    XCTAssertEqual(unregisteredList.count, 0, @"Classes didn't implement ORKSerialization %@", unregisteredList);
     
     // Predefined exception
     NSArray *propertyExclusionList = testConfiguration.propertyExclusionList;
@@ -1338,7 +1350,7 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
             continue;
         }
         
-        if ([NSStringFromClass(aClass) hasPrefix:@"ORK"] &&
+        if (ORKIsResearchKitClass(aClass) &&
             [aClass conformsToProtocol:@protocol(NSSecureCoding)] &&
             [aClass conformsToProtocol:@protocol(NSCopying)]) {
             
@@ -1597,7 +1609,7 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
                 continue;
             }
             
-            if ([NSStringFromClass(aClass) hasPrefix:@"ORK"] &&
+            if (ORKIsResearchKitClass(aClass) &&
                 [aClass isSubclassOfClass:[ORKStepViewController class]]) {
                 
                 [stepViewControllerClassses addObject:aClass];

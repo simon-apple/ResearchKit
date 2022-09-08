@@ -37,6 +37,10 @@
 @import ResearchKit_Private;
 @import ResearchKitActiveTask;
 @import ResearchKitActiveTask_Private;
+#if RK_APPLE_INTERNAL
+@import ResearchKitInternal;
+@import ResearchKitInternal_Private;
+#endif
 
 @import MapKit;
 @import Speech;
@@ -1136,11 +1140,31 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(headphoneType, NSString, NSObject, YES, nil, nil),
                     PROPERTY(earPreference, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(frequencyList, NSArray, NSObject, YES, nil, nil),
+                    })),
 #if RK_APPLE_INTERNAL
+           ENTRY(AAPLdBHLToneAudiometryStep,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+                     return [[AAPLdBHLToneAudiometryStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
+                 },
+                 (@{
+                    PROPERTY(toneDuration, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(maxRandomPreStimulusDelay, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(postStimulusDelay, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(maxNumberOfTransitionsPerFrequency, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(initialdBHLValue, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(dBHLStepUpSize, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(dBHLStepUpSizeFirstMiss, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(dBHLStepUpSizeSecondMiss, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(dBHLStepUpSizeThirdMiss, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(dBHLStepDownSize, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(dBHLMinimumThreshold, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(headphoneType, NSString, NSObject, YES, nil, nil),
+                    PROPERTY(earPreference, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(frequencyList, NSArray, NSObject, YES, nil, nil),
                     PROPERTY(algorithm, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(dBHLMaximumThreshold, NSNumber, NSObject, YES, nil, nil),
-#endif
                     })),
+#endif
            ENTRY(ORKHolePegTestPlaceStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      return [[ORKHolePegTestPlaceStep alloc] initWithIdentifier:GETPROP(dict, identifier)];

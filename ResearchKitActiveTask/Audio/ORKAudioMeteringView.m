@@ -29,11 +29,6 @@
  */
 
 #import "ORKAudioMeteringView.h"
-
-#if RK_APPLE_INTERNAL
-#import "ORKAudioDictationView.h"
-#endif
-
 #import "ORKAudioGraphView.h"
 
 NSArray<NSNumber *> * ORKLastNSamples(NSArray<NSNumber *> *samples, NSInteger limit) {
@@ -86,6 +81,8 @@ NSArray<NSNumber *> * ORKLastNSamples(NSArray<NSNumber *> *samples, NSInteger li
 {
     if (!_meteringView) {
 #if RK_APPLE_INTERNAL && !TARGET_IPHONE_SIMULATOR
+        // XXX: a hack to split out the internal class
+        Class ORKAudioDictationView = NSClassFromString(@"ORKAudioDictationView");
         [self setMeteringView:[[ORKAudioDictationView alloc] init]];
 #else
         [self setMeteringView:[[ORKAudioGraphView alloc] init]];

@@ -28,8 +28,6 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ResearchKitActiveTask/ORKAVJournalingPredefinedTask.h>
-#import <ResearchKitActiveTask/ORKAVJournalingStep.h>
 #import <ResearchKitActiveTask/ORKAccelerometerRecorder.h>
 #import <ResearchKitActiveTask/ORKActiveStepTimer.h>
 #import <ResearchKitActiveTask/ORKActiveStepViewController_Internal.h>
@@ -39,10 +37,8 @@
 #import <ResearchKitActiveTask/ORKAudiometry.h>
 #import <ResearchKitActiveTask/ORKAudioRecorder.h>
 #import <ResearchKitActiveTask/ORKAudioStep.h>
-#import <ResearchKitActiveTask/ORKBLEScanPeripheralsStep.h>
 #import <ResearchKitActiveTask/ORKCountdownStep.h>
 #import <ResearchKitActiveTask/ORKDeviceMotionRecorder.h>
-#import <ResearchKitActiveTask/ORKFaceDetectionStep.h>
 #import <ResearchKitActiveTask/ORKFitnessStep.h>
 #import <ResearchKitActiveTask/ORKHealthClinicalTypeRecorder.h>
 #import <ResearchKitActiveTask/ORKHealthQuantityTypeRecorder.h>
@@ -55,25 +51,24 @@
 #import <ResearchKitActiveTask/ORKReactionTimeStep.h>
 #import <ResearchKitActiveTask/ORKShoulderRangeOfMotionStep.h>
 #import <ResearchKitActiveTask/ORKSpatialSpanMemoryStep.h>
-#import <ResearchKitActiveTask/ORKSpeechInNoisePredefinedTask.h>
 #import <ResearchKitActiveTask/ORKSpeechInNoiseStep.h>
 #import <ResearchKitActiveTask/ORKSpeechRecognitionStep.h>
 #import <ResearchKitActiveTask/ORKStreamingAudioRecorder.h>
 #import <ResearchKitActiveTask/ORKStroopStep.h>
 #import <ResearchKitActiveTask/ORKTappingIntervalStep.h>
 #import <ResearchKitActiveTask/ORKTimedWalkStep.h>
-#import <ResearchKitActiveTask/ORKTinnitusMaskingSoundStep.h>
-#import <ResearchKitActiveTask/ORKTinnitusOverallAssessmentStep.h>
-#import <ResearchKitActiveTask/ORKTinnitusPredefinedTask.h>
-#import <ResearchKitActiveTask/ORKTinnitusPureToneStep.h>
-#import <ResearchKitActiveTask/ORKTinnitusPureToneStepViewController_Private.h>
-#import <ResearchKitActiveTask/ORKTinnitusTypeStep.h>
 #import <ResearchKitActiveTask/ORKToneAudiometryStep.h>
 #import <ResearchKitActiveTask/ORKTouchRecorder.h>
 #import <ResearchKitActiveTask/ORKTowerOfHanoiStep.h>
 #import <ResearchKitActiveTask/ORKTrailmakingStep.h>
 #import <ResearchKitActiveTask/ORKVoiceEngine.h>
-#import <ResearchKitActiveTask/ORKVolumeCalibrationStep.h>
 #import <ResearchKitActiveTask/ORKWalkingTaskStep.h>
 #import <ResearchKitActiveTask/ORKdBHLToneAudiometryOnboardingStep.h>
 #import <ResearchKitActiveTask/ORKdBHLToneAudiometryStep.h>
+
+// [WIP]: exposed for the internal framework
+// may need to be permanent, but we shall see
+#import <ResearchKitActiveTask/ORKActiveStepView.h>
+#import <ResearchKitActiveTask/ORKAudioMeteringView.h>
+#import <ResearchKitActiveTask/ORKdBHLToneAudiometryAudioGenerator.h>
+#import <ResearchKitActiveTask/UIColor+Custom.h>

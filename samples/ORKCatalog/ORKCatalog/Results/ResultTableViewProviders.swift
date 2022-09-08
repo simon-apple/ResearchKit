@@ -32,6 +32,7 @@ import UIKit
 import ResearchKit
 import ResearchKitActiveTask
 import ResearchKitActiveTask_Private
+import ResearchKitInternal
 import MapKit
 import Speech
 

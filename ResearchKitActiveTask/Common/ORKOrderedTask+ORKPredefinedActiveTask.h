@@ -531,12 +531,6 @@ NS_ASSUME_NONNULL_BEGIN
                                   intendedUseDescription:(nullable NSString *)intendedUseDescription
                                                  options:(ORKPredefinedTaskOption)options;
 
-#if RK_APPLE_INTERNAL
-+ (ORKNavigableOrderedTask *)newdBHLToneAudiometryTaskWithIdentifier:(NSString *)identifier
-                                  intendedUseDescription:(nullable NSString *)intendedUseDescription
-                                                 options:(ORKPredefinedTaskOption)options;
-#endif
-
 /**
  Returns a predefined task that tests the participant's reaction time.
  

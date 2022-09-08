@@ -52,6 +52,8 @@
 		BCEDC8051E8A469D00C5405F /* TaskFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCEDC7FB1E8A469D00C5405F /* TaskFactory.swift */; };
 		CA6A0D9B288F199B0048C1EF /* ResearchKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA6A0D9A288F199B0048C1EF /* ResearchKitUI.framework */; platformFilter = ios; };
 		CA6A0D9C288F199B0048C1EF /* ResearchKitUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CA6A0D9A288F199B0048C1EF /* ResearchKitUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CA8D8CF528B01E56000CF52F /* ResearchKitInternal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA8D8CF428B01E56000CF52F /* ResearchKitInternal.framework */; };
+		CA8D8CFD28B01E69000CF52F /* ResearchKitInternal.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CA8D8CF428B01E56000CF52F /* ResearchKitInternal.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CA9B6E0328A2CC73000A7603 /* ResearchKitActiveTask.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA9B6E0228A2CC73000A7603 /* ResearchKitActiveTask.framework */; };
 		CA9B6E0428A2CC8B000A7603 /* ResearchKitActiveTask.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CA9B6E0228A2CC73000A7603 /* ResearchKitActiveTask.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CAF31DCF1BC6AEA200041163 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAF31DCE1BC6AEA200041163 /* MapKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -174,6 +176,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				CA8D8CFD28B01E69000CF52F /* ResearchKitInternal.framework in Embed Frameworks */,
 				CA9B6E0428A2CC8B000A7603 /* ResearchKitActiveTask.framework in Embed Frameworks */,
 				CA6A0D9C288F199B0048C1EF /* ResearchKitUI.framework in Embed Frameworks */,
 				712977AA22B0917A0049213B /* ResearchKit.framework in Embed Frameworks */,
@@ -289,6 +292,7 @@
 		BCEDC7F91E8A469D00C5405F /* TaskFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskFactory.h; sourceTree = "<group>"; };
 		BCEDC7FA1E8A469D00C5405F /* TaskFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskFactory.m; sourceTree = "<group>"; };
 		BCEDC7FB1E8A469D00C5405F /* TaskFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskFactory.swift; sourceTree = "<group>"; };
+		CA8D8CF428B01E56000CF52F /* ResearchKitInternal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitInternal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CAF31DCE1BC6AEA200041163 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		FFF010741D21F2030054B430 /* ContinueButtonExample.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = ContinueButtonExample.storyboard; path = "ORKTest/Supporting Files/ContinueButtonExample.storyboard"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -307,6 +311,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA8D8CF528B01E56000CF52F /* ResearchKitInternal.framework in Frameworks */,
 				CA9B6E0328A2CC73000A7603 /* ResearchKitActiveTask.framework in Frameworks */,
 				CAF31DCF1BC6AEA200041163 /* MapKit.framework in Frameworks */,
 				86D347FA1AC0E1B4006DB02B /* HealthKit.framework in Frameworks */,
@@ -461,6 +466,7 @@
 		BC2A3C9F1C58E83B00DA64B7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CA8D8CF428B01E56000CF52F /* ResearchKitInternal.framework */,
 				CAF31DCE1BC6AEA200041163 /* MapKit.framework */,
 				86D347F91AC0E1B4006DB02B /* HealthKit.framework */,
 			);

@@ -62,7 +62,7 @@
 #import "ORKOrderedTask.h"
 
 #if RK_APPLE_INTERNAL
-#import "ORKContext+ActiveTask.h"
+#import <ResearchKit/ORKContext.h>
 #endif
 
 @interface ORKSpeechRecognitionStepViewController () <ORKStreamingAudioResultDelegate, ORKSpeechRecognitionDelegate, UITextFieldDelegate, ORKSpeechRecognitionContentViewDelegate>
@@ -188,11 +188,12 @@
 }
 
 #if RK_APPLE_INTERNAL
-- (ORKSpeechInNoisePredefinedTaskContext * _Nullable)currentSpeechInNoisePredefinedTaskContext
+- (NSObject<ORKContext> * _Nullable)currentSpeechInNoisePredefinedTaskContext
 {
-    if (self.step.context && [self.step.context isKindOfClass:[ORKSpeechInNoisePredefinedTaskContext class]])
+    Class ORKSpeechInNoisePredefinedTaskContext = NSClassFromString(@"ORKSpeechInNoisePredefinedTaskContext");
+    if (self.step.context && [self.step.context isKindOfClass:ORKSpeechInNoisePredefinedTaskContext])
     {
-        return (ORKSpeechInNoisePredefinedTaskContext *)self.step.context;
+        return self.step.context;
     }
     
     return nil;
@@ -204,10 +205,10 @@
     _allowUserToRecordInsteadOnNextStep = (allowUserToRecordInsteadOnNextStep && [SFSpeechRecognizer authorizationStatus] != SFSpeechRecognizerAuthorizationStatusDenied);
     
 #if RK_APPLE_INTERNAL
-    ORKSpeechInNoisePredefinedTaskContext *currentContext = [self currentSpeechInNoisePredefinedTaskContext];
+    NSObject<ORKContext> *currentContext = [self currentSpeechInNoisePredefinedTaskContext];
     if (currentContext)
     {
-        currentContext.prefersKeyboard = allowUserToRecordInsteadOnNextStep;
+        [currentContext setValue:@(allowUserToRecordInsteadOnNextStep) forKey:@"prefersKeyboard"];
     }
 #endif
 }
@@ -252,11 +253,11 @@
     ORKStepResult *sResult = [super result];
     
 #if RK_APPLE_INTERNAL
-    ORKSpeechInNoisePredefinedTaskContext *currentContext = [self currentSpeechInNoisePredefinedTaskContext];
+    NSObject<ORKContext> *currentContext = [self currentSpeechInNoisePredefinedTaskContext];
     
     if (currentContext)
     {
-        if ([currentContext isPracticeTest] || currentContext.prefersKeyboard)
+        if (((NSNumber *)[currentContext valueForKey:@"isPracticeTest"]).boolValue || ((NSNumber *)[currentContext valueForKey:@"prefersKeyboard"]).boolValue)
         {
             // If we are in the speech in noise predefined context and we are in a practice test or the user elected to use keyboard entry, do not save their result.
             return sResult;
@@ -335,16 +336,17 @@
 {
 
 #if RK_APPLE_INTERNAL
-    ORKSpeechInNoisePredefinedTaskContext *currentContext = [self currentSpeechInNoisePredefinedTaskContext];
+    NSObject<ORKContext> *currentContext = [self currentSpeechInNoisePredefinedTaskContext];
     if (currentContext)
     {
         ORKQuestionStep *nextStep = [self nextStep];
         if (nextStep)
         {
-            ORKSpeechInNoisePredefinedTaskContext *nextStepContext = nil;
-            if ([nextStep.context isKindOfClass:[ORKSpeechInNoisePredefinedTaskContext class]])
+            NSObject<ORKContext> *nextStepContext = nil;
+            Class ORKSpeechInNoisePredefinedTaskContext = NSClassFromString(@"ORKSpeechInNoisePredefinedTaskContext");
+            if ([nextStep.context isKindOfClass:ORKSpeechInNoisePredefinedTaskContext])
             {
-                nextStepContext = (ORKSpeechInNoisePredefinedTaskContext *)nextStep.context;
+                nextStepContext = nextStep.context;
             }
 
             NSString *substitutedTextAnswer = [self substitutedStringWithString:[_localResult.transcription formattedString]];
@@ -358,7 +360,7 @@
                 
                 if (nextStepContext)
                 {
-                    nextStepContext.prefersKeyboard = YES;
+                    [nextStepContext setValue:@(YES) forKey:@"prefersKeyboard"];
                 }
                 
                 ORKStrongTypeOf(self.taskViewController) strongTaskViewController = self.taskViewController;
@@ -392,7 +394,7 @@
                 
                 if (nextStepContext)
                 {
-                    nextStepContext.prefersKeyboard = NO;
+                    [nextStepContext setValue:@(NO) forKey:@"prefersKeyboard"];
                 }
             }
         }

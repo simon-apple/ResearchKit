@@ -32,7 +32,7 @@
 #import "ORKEnvironmentSPLMeterStepViewController.h"
 
 #if RK_APPLE_INTERNAL
-#import "ORKContext+ActiveTask.h"
+#import <ResearchKit/ORKContext.h>
 #endif
 
 #import "ORKActiveStepView.h"
@@ -234,11 +234,12 @@ static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;
     #if RK_APPLE_INTERNAL
     ORKTaskViewController *taskViewController = self.taskViewController;
     ORKStep *nextStep = [taskViewController.task stepAfterStep:self.step withResult:taskViewController.result];
+    Class ORKSpeechInNoisePredefinedTaskContext = NSClassFromString(@"ORKSpeechInNoisePredefinedTaskContext");
     
-    if (nextStep && [nextStep.context isKindOfClass:[ORKSpeechInNoisePredefinedTaskContext class]])
+    if (nextStep && [nextStep.context isKindOfClass:ORKSpeechInNoisePredefinedTaskContext])
     {
-        ORKSpeechInNoisePredefinedTaskContext *context = (ORKSpeechInNoisePredefinedTaskContext *)nextStep.context;
-        if ([context isPracticeTest])
+        NSNumber *isPracticeTest = [(NSObject *)nextStep.context valueForKey:@"isPracticeTest"];
+        if (isPracticeTest.boolValue)
         {
             [self setContinueButtonTitle:ORKLocalizedString(@"BUTTON_PRACTICE_TEST", nil)];
         }
@@ -318,18 +319,6 @@ static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;
     
     return sResult;
 }
-
-#if RK_APPLE_INTERNAL
-
-- (nullable ORKSpeechInNoisePredefinedTaskContext *)speechInNoisePredefinedTaskContext
-{
-    if ([self.step.context isKindOfClass:[ORKSpeechInNoisePredefinedTaskContext class]])
-    {
-        return (ORKSpeechInNoisePredefinedTaskContext *)self.step.context;
-    }
-    return nil;
-}
-#endif
 
 - (void)requestRecordPermissionIfNeeded
 {

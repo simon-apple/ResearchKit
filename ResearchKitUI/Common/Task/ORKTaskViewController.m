@@ -59,7 +59,6 @@
 
 #if RK_APPLE_INTERNAL
 #import "ORKContext.h"
-#import "ORKSpeechInNoisePredefinedTask.h"
 #endif
 
 @import AVFoundation;
@@ -67,7 +66,6 @@
 #import <CoreLocation/CoreLocation.h>
 
 #if RK_APPLE_INTERNAL
-#import "ORKTinnitusPredefinedTask.h"
 #import "ORKActiveStep_Internal.h"
 #import "ORKOrderedTask_Private.h"
 #import "ORKSensitiveURLLearnMoreInstructionStep.h"

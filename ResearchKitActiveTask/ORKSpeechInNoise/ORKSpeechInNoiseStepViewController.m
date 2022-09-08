@@ -48,12 +48,7 @@
 #import "ORKTaskViewController_Internal.h"
 
 #if RK_APPLE_INTERNAL
-#import "ORKContext+ActiveTask.h"
-#endif
-
-#if RK_APPLE_INTERNAL
-#import "ORKHeadphoneDetector.h"
-#import "ORKHeadphoneDetectResult.h"
+#import <ResearchKit/ORKContext.h>
 #endif
 
 #import <AVFoundation/AVFoundation.h>
@@ -62,7 +57,7 @@
 #if RK_APPLE_INTERNAL
 static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
 
-@interface ORKSpeechInNoiseStepViewController () <ORKHeadphoneDetectorDelegate> {
+@interface ORKSpeechInNoiseStepViewController () {
     AVAudioEngine *_audioEngine;
     AVAudioPlayerNode *_playerNode;
     AVAudioMixerNode *_mixerNode;
@@ -75,7 +70,7 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
     AVAudioFrameCount _noiseToneCapacity;
     BOOL _installedTap;
 
-    ORKHeadphoneDetector *_headphoneDetector;
+    NSObject *_headphoneDetector;
     ORKHeadphoneTypeIdentifier _headphoneType;
     BOOL _showingAlert;
 }
@@ -110,17 +105,19 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
     _installedTap = NO;
 #if RK_APPLE_INTERNAL
     _showingAlert = NO;
-    _headphoneDetector = [[ORKHeadphoneDetector alloc] initWithDelegate:self
-                                         supportedHeadphoneChipsetTypes:nil];
+    Class ORKHeadphoneDetector = NSClassFromString(@"ORKHeadphoneDetector");
+    _headphoneDetector = [[ORKHeadphoneDetector alloc] performSelector:@selector(initWithDelegate:supportedHeadphoneChipsetTypes:) withObject:self
+                                         withObject:nil];
 
     ORKTaskResult *taskResults = [[self taskViewController] result];
     
     for (ORKStepResult *result in taskResults.results) {
         if (result.results > 0) {
             ORKStepResult *firstResult = (ORKStepResult *)[result.results firstObject];
-            if ([firstResult isKindOfClass:[ORKHeadphoneDetectResult class]]) {
-                ORKHeadphoneDetectResult *headphoneDetectResult = (ORKHeadphoneDetectResult *)firstResult;
-                _headphoneType = headphoneDetectResult.headphoneType;
+            Class ORKHeadphoneDetectResult = NSClassFromString(@"ORKHeadphoneDetectResult");
+            if ([firstResult isKindOfClass:ORKHeadphoneDetectResult]) {
+                ORKResult *headphoneDetectResult = firstResult;
+                _headphoneType = [headphoneDetectResult valueForKey:@"headphoneType"];
             }
 
         }
@@ -287,7 +284,7 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
     NSString *filename = nil;
     
 #if RK_APPLE_INTERNAL
-    ORKSpeechInNoisePredefinedTaskContext *context = [self predefinedSpeechInNoiseContext];
+    NSObject<ORKContext> *context = [self predefinedSpeechInNoiseContext];
     
     if (context) {
 #endif
@@ -311,11 +308,12 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
 }
 
 #if RK_APPLE_INTERNAL
-- (ORKSpeechInNoisePredefinedTaskContext * _Nullable)predefinedSpeechInNoiseContext
+- (NSObject<ORKContext> * _Nullable)predefinedSpeechInNoiseContext
 {
-    if ([self.step.context isKindOfClass:[ORKSpeechInNoisePredefinedTaskContext class]])
+    Class ORKSpeechInNoisePredefinedTaskContext = NSClassFromString(@"ORKSpeechInNoisePredefinedTaskContext");
+    if ([self.step.context isKindOfClass:ORKSpeechInNoisePredefinedTaskContext])
     {
-        return (ORKSpeechInNoisePredefinedTaskContext *)self.step.context;
+        return self.step.context;
     }
     
     return nil;
@@ -327,8 +325,8 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
     ORKStepResult *sResult = [super result];
     
 #if RK_APPLE_INTERNAL
-    ORKSpeechInNoisePredefinedTaskContext *context = [self predefinedSpeechInNoiseContext];
-    if (context && [context isPracticeTest])
+    NSObject<ORKContext> *context = [self predefinedSpeechInNoiseContext];
+    if (context && ((NSNumber *)[context valueForKey:@"isPracticeTest"]).boolValue)
     {
         return sResult;
     }
@@ -359,10 +357,10 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
     [_speechInNoiseContentView removeAllSamples];
     
 #if RK_APPLE_INTERNAL
-    [_headphoneDetector discard];
+    [_headphoneDetector performSelector:@selector(discard)];
     _headphoneDetector = nil;
     
-    ORKSpeechInNoisePredefinedTaskContext *context = [self predefinedSpeechInNoiseContext];
+    NSObject<ORKContext> *context = [self predefinedSpeechInNoiseContext];
     if (context) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(ORKSpeechInNoiseStepFinishDelay * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{ [super finish]; });
     } else {

@@ -39,14 +39,6 @@
 
 @end
 
-@implementation ORKAVJournalingStep (ViewControllerProviding)
-
-- (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
-    return [[ORKAVJournalingStepViewController alloc] initWithStep:self result:result];
-}
-
-@end
-
 @implementation ORKAccuracyStroopStep (ViewControllerProviding)
 
 - (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
@@ -87,14 +79,6 @@
 
 @end
 
-@implementation ORKBLEScanPeripheralsStep (ViewControllerProviding)
-
-- (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
-    return [[ORKBLEScanPeripheralsStepViewController alloc] initWithStep:self result:result];
-}
-
-@end
-
 @implementation ORKCountdownStep (ViewControllerProviding)
 
 - (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
@@ -111,14 +95,6 @@
 
 @end
 
-@implementation ORKFaceDetectionStep (ViewControllerProviding)
-
-- (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
-    return [[ORKFaceDetectionStepViewController alloc] initWithStep:self result:result];
-}
-
-@end
-
 @implementation ORKFitnessStep (ViewControllerProviding)
 
 - (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
@@ -131,22 +107,6 @@
 
 - (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
     return [[ORKFrontFacingCameraStepViewController alloc] initWithStep:self result:result];
-}
-
-@end
-
-@implementation ORKHeadphoneDetectStep (ViewControllerProviding)
-
-- (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
-    return [[ORKHeadphoneDetectStepViewController alloc] initWithStep:self result:result];
-}
-
-@end
-
-@implementation ORKHeadphonesRequiredCompletionStep (ViewControllerProviding)
-
-- (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
-    return [[ORKHeadphonesRequiredCompletionStepViewController alloc] initWithStep:self result:result];
 }
 
 @end
@@ -247,38 +207,6 @@
 
 @end
 
-@implementation ORKTinnitusMaskingSoundStep (ViewControllerProviding)
-
-- (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
-    return [[ORKTinnitusMaskingSoundStepViewController alloc] initWithStep:self result:result];
-}
-
-@end
-
-@implementation ORKTinnitusOverallAssessmentStep (ViewControllerProviding)
-
-- (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
-    return [[ORKTinnitusOverallAssessmentStepViewController alloc] initWithStep:self result:result];
-}
-
-@end
-
-@implementation ORKTinnitusPureToneStep (ViewControllerProviding)
-
-- (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
-    return [[ORKTinnitusPureToneStepViewController alloc] initWithStep:self result:result];
-}
-
-@end
-
-@implementation ORKTinnitusTypeStep (ViewControllerProviding)
-
-- (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
-    return [[ORKTinnitusTypeStepViewController alloc] initWithStep:self result:result];
-}
-
-@end
-
 @implementation ORKToneAudiometryStep (ViewControllerProviding)
 
 - (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
@@ -307,22 +235,6 @@
 
 - (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
     return [[ORKTrailmakingStepViewController alloc] initWithStep:self result:result];
-}
-
-@end
-
-@implementation ORKTypingStep (ViewControllerProviding)
-
-- (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
-    return [[ORKTypingStepViewController alloc] initWithStep:self result:result];
-}
-
-@end
-
-@implementation ORKVolumeCalibrationStep (ViewControllerProviding)
-
-- (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
-    return [[ORKVolumeCalibrationStepViewController alloc] initWithStep:self result:result];
 }
 
 @end

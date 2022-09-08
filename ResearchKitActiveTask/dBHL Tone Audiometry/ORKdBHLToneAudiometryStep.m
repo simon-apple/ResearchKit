@@ -33,9 +33,6 @@
 #import "ORKAudiometry.h"
 
 #import "ORKHelpers_Internal.h"
-#if RK_APPLE_INTERNAL
-#import <ResearchKitActiveTask/ResearchKitActiveTask-Swift.h>
-#endif
 
 #define ORKdBHLToneAudiometryTaskToneMinimumDuration 1.0
 #define ORKdBHLToneAudiometryTaskDefaultMaxRandomPreStimulusDelay 2.0
@@ -48,11 +45,6 @@
 #define ORKdBHLToneAudiometryTaskdBHLStepUpSizeThirdMiss 10.0
 #define ORKdBHLToneAudiometryTaskdBHLStepDownSize 10.0
 #define ORKdBHLToneAudiometryTaskdBHLMinimumThreshold -10.0
-
-#if RK_APPLE_INTERNAL
-#define ORKdBHLToneAudiometryTaskdBHLDefaultAlgorithm 0
-#define ORKdBHLToneAudiometryTaskdBHLMaximumThreshold 75.0
-#endif
 
 @implementation ORKdBHLToneAudiometryStep {
     id<ORKAudiometryProtocol> _audiometry;
@@ -86,10 +78,6 @@
     self.frequencyList = @[@1000.0, @2000.0, @3000.0, @4000.0, @8000.0, @1000.0, @500.0, @250.0];
     self.stepDuration = CGFLOAT_MAX;
     self.shouldShowDefaultTimer = NO;
-#if RK_APPLE_INTERNAL
-    self.algorithm = ORKdBHLToneAudiometryTaskdBHLDefaultAlgorithm;
-    self.dBHLMaximumThreshold = ORKdBHLToneAudiometryTaskdBHLMaximumThreshold;
-#endif
 }
 
 - (void)validateParameters {
@@ -129,10 +117,7 @@
     step.headphoneType = self.headphoneType;
     step.earPreference = self.earPreference;
     step.frequencyList = self.frequencyList;
-#if RK_APPLE_INTERNAL
-    step.algorithm = self.algorithm;
-    step.dBHLMaximumThreshold = self.dBHLMaximumThreshold;
-#endif
+
     return step;
 }
 
@@ -153,11 +138,6 @@
         ORK_DECODE_INTEGER(aDecoder, earPreference);
         ORK_DECODE_OBJ_CLASS(aDecoder, headphoneType, NSString);
         ORK_DECODE_OBJ_ARRAY(aDecoder, frequencyList, NSNumber);
-        
-#if RK_APPLE_INTERNAL
-        ORK_DECODE_INTEGER(aDecoder, algorithm);
-        ORK_DECODE_DOUBLE(aDecoder, dBHLMaximumThreshold);
-#endif
     }
     return self;
 }
@@ -178,11 +158,6 @@
     ORK_ENCODE_INTEGER(aCoder, earPreference);
     ORK_ENCODE_OBJ(aCoder, headphoneType);
     ORK_ENCODE_OBJ(aCoder, frequencyList);
-    
-#if RK_APPLE_INTERNAL
-    ORK_ENCODE_INTEGER(aCoder, algorithm);
-    ORK_ENCODE_DOUBLE(aCoder, dBHLMaximumThreshold);
-#endif
 }
 
 + (BOOL)supportsSecureCoding {
@@ -208,33 +183,16 @@
             && (self.earPreference == castObject.earPreference)
             && ORKEqualObjects(self.headphoneType, castObject.headphoneType)
             && ORKEqualObjects(self.frequencyList, castObject.frequencyList)
-#if RK_APPLE_INTERNAL
-            && (self.algorithm == castObject.algorithm)
-            && (self.dBHLMaximumThreshold == castObject.dBHLMaximumThreshold)
-#endif
             );
+}
+
+- (id<ORKAudiometryProtocol>)createAudiometryEngine {
+    return [[ORKAudiometry alloc] initWithStep:self];
 }
 
 - (id<ORKAudiometryProtocol>)audiometryEngine {
     if (!_audiometry) {
-#if RK_APPLE_INTERNAL
-        switch (self.algorithm) {
-            case 1:
-                if (@available(iOS 14, *)) {
-                    _audiometry = [[ORKNewAudiometry alloc] initWithChannel:_earPreference
-                                                               initialLevel:_initialdBHLValue
-                                                                   minLevel:_dBHLMinimumThreshold
-                                                                   maxLevel:_dBHLMaximumThreshold
-                                                                frequencies:_frequencyList];
-                    break;
-                }
-            default:
-                _audiometry = [[ORKAudiometry alloc] initWithStep:self];
-                break;
-        }
-#else
-        _audiometry = [[ORKAudiometry alloc] initWithStep:self];
-#endif
+        _audiometry = [self createAudiometryEngine];
     }
     return _audiometry;
 }

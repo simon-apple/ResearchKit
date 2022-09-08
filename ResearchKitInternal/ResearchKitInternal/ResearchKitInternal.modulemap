@@ -1,0 +1,13 @@
+framework module ResearchKitInternal {
+    umbrella header "ResearchKitInternal.h"
+    
+    export *
+    module * { export * }
+}
+
+framework module ResearchKitInternal_Private {
+    umbrella header "ResearchKitInternal_Private.h"
+    
+    export *
+    module * { export * }
+}

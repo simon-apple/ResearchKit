@@ -51,3 +51,11 @@
 #import <ResearchKitUI/ORKTintedImageView.h>
 #import <ResearchKitUI/ORKVerticalContainerView.h>
 #import <ResearchKitUI/ORKViewControllerProviding.h>
+
+// [WIP]: exposed for the internal framework
+#import <ResearchKitUI/ORKCheckmarkView.h>
+#import <ResearchKitUI/ORKInstructionStepView.h>
+#import <ResearchKitUI/ORKInstructionStepViewController_Internal.h>
+#import <ResearchKitUI/ORKNavigationContainerView_Internal.h>
+#import <ResearchKitUI/ORKStepHeaderView_Internal.h>
+#import <ResearchKitUI/ORKTaskViewController_Internal.h>

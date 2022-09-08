@@ -35,6 +35,8 @@ import ResearchKit
 import ResearchKit_Private
 import ResearchKitActiveTask
 import ResearchKitActiveTask_Private
+import ResearchKitInternal
+import ResearchKitInternal_Private
 import ResearchKitUI
 
 /**
