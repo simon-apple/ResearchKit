@@ -82,6 +82,9 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     /** Airpods Pro */
     ORKHeadphoneDetectedAirpodsPro,
     
+    /** AirPods Pro Generation 2 */
+    ORKHeadphoneDetectedAirpodsProGen2,
+    
     /** Airpods Max */
     ORKHeadphoneDetectedAirpodsMax,
     
@@ -370,6 +373,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
         UIImage *headphoneglyph = [self headphoneImage:headphone];
         NSString *headphoneName = [self headphoneLocalizedName:headphone];
         [_textLabel setText:[NSString localizedStringWithFormat:ORKLocalizedString(@"HEADPHONE_CONNECTED_%@", nil),headphoneName]];
+        [_titleLabel setText:headphoneName];
         _imageView.image = headphoneglyph;
     } else {
         [_textLabel setText:ORKLocalizedString(@"CONNECTED", nil)];
@@ -394,6 +398,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
         case ORKHeadphoneDetectedAirpodsGen3:
             return ORKLocalizedString(@"AIRPODS", nil);
         case ORKHeadphoneDetectedAirpodsPro:
+        case ORKHeadphoneDetectedAirpodsProGen2:
             return ORKLocalizedString(@"AIRPODSPRO", nil);
         case ORKHeadphoneDetectedAirpodsMax:
             return ORKLocalizedString(@"AIRPODSMAX", nil);
@@ -417,6 +422,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
             glyphName = ORKHeadphoneGlyphNameAirpodsGen3;
             break;
         case ORKHeadphoneDetectedAirpodsPro:
+        case ORKHeadphoneDetectedAirpodsProGen2:
             glyphName = ORKHeadphoneGlyphNameAirpodsPro;
             break;
         case ORKHeadphoneDetectedAirpodsMax:
@@ -707,6 +713,8 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
                     [self setAirpodMaxCellExpanded: NO];
                     break;
                 case ORKHeadphoneDetectedAirpodsPro:
+                case ORKHeadphoneDetectedAirpodsProGen2:
+                    [_airpodProSupportView setHeadphoneDetected:_headphoneDetected];
                     _airpodProSupportView.selected = YES;
                     _airpodProSupportView.connected = YES;
                     [self setAirpodProCellExpanded: isExpanded];
@@ -916,6 +924,9 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
         } else if ([headphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsPro]) {
             _lastDetectedBluetoothMode = ORKBluetoothModeNone;
             _headphoneDetectStepView.headphoneDetected = ORKHeadphoneDetectedAirpodsPro;
+        } else if ([headphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsProGen2]) {
+            _lastDetectedBluetoothMode = ORKBluetoothModeNone;
+            _headphoneDetectStepView.headphoneDetected = ORKHeadphoneDetectedAirpodsProGen2;
         } else if ([headphoneType isEqualToString:ORKHeadphoneTypeIdentifierEarPods] ) {
             _headphoneDetectStepView.headphoneDetected = ORKHeadphoneDetectedEarpods;
         } else if ([headphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMax] ) {
