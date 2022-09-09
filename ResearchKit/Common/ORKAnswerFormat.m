@@ -2812,8 +2812,11 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
 
 @implementation ORKTextAnswerFormat
 
+#if RK_APPLE_INTERNAL
+
 @synthesize scrubbers = _scrubbers;
 
+#endif
 
 - (Class)questionResultClass {
     return [ORKTextQuestionResult class];
@@ -3099,9 +3102,11 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
              self.hideClearButton == castObject.hideClearButton &&
              self.hideCharacterCountLabel == castObject.hideCharacterCountLabel) &&
              self.secureTextEntry == castObject.secureTextEntry) &&
-             ORKEqualObjects(self.placeholder, castObject.placeholder) &&
+             ORKEqualObjects(self.placeholder, castObject.placeholder)
 #if RK_APPLE_INTERNAL
-             ORKEqualObjects(self.scrubberNames, castObject.scrubberNames);
+             && ORKEqualObjects(self.scrubberNames, castObject.scrubberNames);
+#else
+             ;
 #endif
 }
 

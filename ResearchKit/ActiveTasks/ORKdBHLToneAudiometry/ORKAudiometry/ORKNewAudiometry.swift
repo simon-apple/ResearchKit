@@ -31,6 +31,8 @@
 // swiftlint:disable superfluous_disable_command identifier_name last_where
 // swiftlint:disable superfluous_disable_command extension_access_modifier file_length
 
+#if RK_APPLE_INTERNAL
+
 import Accelerate
 import Foundation
 
@@ -712,3 +714,5 @@ extension ORKNewAudiometry {
         return vDSP.multiply(600.0, asinh).asVector()
     }
 }
+
+#endif
