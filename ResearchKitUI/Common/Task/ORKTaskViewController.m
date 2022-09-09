@@ -1257,7 +1257,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
 
 #pragma mark - internal action Handlers
 
-- (void)finishWithReason:(ORKTaskFinishReason)reason error:(NSError *)error {
+- (void)finishWithReason:(ORKTaskFinishReason)reason error:(nullable NSError *)error {
     ORKStrongTypeOf(self.delegate) strongDelegate = self.delegate;
     if ([strongDelegate respondsToSelector:@selector(taskViewController:didFinishWithReason:error:)]) {
         [strongDelegate taskViewController:self didFinishWithReason:reason error:error];

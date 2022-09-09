@@ -119,18 +119,13 @@ static OSStatus ORKdBHLAudioGeneratorRenderTone(void *inRefCon,
     Float32 *bufferActive    = (Float32 *)ioData->mBuffers[audioGenerator->_activeChannel].mData;
     Float32 *bufferNonActive = (Float32 *)ioData->mBuffers[1 - audioGenerator->_activeChannel].mData;
     
+    int lastIndex = inNumberFrames - 1;
+    
     // Generate the samples
     for (UInt32 frame = 0; frame < inNumberFrames; frame++) {
         double bufferValue;
         
         bufferValue = sin(theta) * amplitude * pow(10, 2.0 * fadeInFactor - 2);
-        
-        bufferActive[frame] = bufferValue;
-        if (audioGenerator->_playsStereo) {
-            bufferNonActive[frame] = bufferValue;
-        } else {
-            bufferNonActive[frame] = 0;
-        }
         
         theta += theta_increment;
         if (theta > 2.0 * M_PI) {
@@ -146,6 +141,20 @@ static OSStatus ORKdBHLAudioGeneratorRenderTone(void *inRefCon,
             if (fadeInFactor <= 0) {
                 fadeInFactor = 0;
             }
+        }
+        
+        if (frame == lastIndex) {
+            // Interpolate linearly between values closest to index.
+            double beforeValue = bufferActive[lastIndex - 1];
+            double afterValue = sin(theta) * amplitude * pow(10, 2.0 * fadeInFactor - 2);
+            bufferValue = beforeValue + (afterValue - beforeValue) * 0.5;
+        }
+        
+        bufferActive[frame] = bufferValue;
+        if (audioGenerator->_playsStereo) {
+            bufferNonActive[frame] = bufferValue;
+        } else {
+            bufferNonActive[frame] = 0;
         }
     }
     

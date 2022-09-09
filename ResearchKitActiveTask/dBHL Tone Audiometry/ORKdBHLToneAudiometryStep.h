@@ -30,6 +30,7 @@
 
 
 @import Foundation;
+#import <ResearchKit/ORKTypes.h>
 #import <ResearchKit/ORKDefines.h>
 #import <ResearchKit/ORKActiveStep.h>
 #import <ResearchKitActiveTask/ORKAudiometryProtocol.h>

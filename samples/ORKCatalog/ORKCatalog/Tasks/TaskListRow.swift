@@ -2043,7 +2043,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     #if RK_APPLE_INTERNAL
     private var catalogAppVersionHistory: ORKTask {
         let steps: [ORKStep] = [
-            createVersionInstructionStep(version: "2.0.0", additions: ["Task for testing PII Scrubbers"])
+            createVersionInstructionStep(version: Bundle.main.appVersionAndBuild, additions: ["rdar://98986752 (ORKCatalog QA Handoff 5787)"])
         ]
         
         return ORKOrderedTask(identifier: String(describing: Identifier.catalogAppVersionHistory), steps: steps)
@@ -2224,8 +2224,12 @@ enum TaskListRow: Int, CustomStringConvertible {
     
     private func createVersionInstructionStep(version: String, additions: [String]) -> ORKStep {
         let instructionStep = ORKInstructionStep(identifier: version)
-        instructionStep.title = "Version: (\(version))"
-        instructionStep.text = "Updates/Additions below"
+        instructionStep.title = "App Version"
+        
+        instructionStep.text = """
+                Version \(version)
+            """
+        instructionStep.detailText = "Updates/Additions below"
         
         instructionStep.bodyItems = additions.map ({(addition:String) -> ORKBodyItem in
                 return ORKBodyItem(text: addition, detailText: nil, image: nil, learnMoreItem: nil, bodyItemStyle: .bulletPoint)

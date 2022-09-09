@@ -49,7 +49,7 @@
 
 - (void)commonInit {
     [super commonInit];
-    self.algorithm = ORKdBHLToneAudiometryTaskdBHLDefaultAlgorithm;
+    self.algorithmVersion = ORKdBHLToneAudiometryTaskdBHLDefaultAlgorithm;
     self.dBHLMaximumThreshold = ORKdBHLToneAudiometryTaskdBHLMaximumThreshold;
 
 }
@@ -57,7 +57,7 @@
 - (instancetype)copyWithZone:(NSZone *)zone {
     AAPLdBHLToneAudiometryStep *step = [super copyWithZone:zone];
     
-    step.algorithm = self.algorithm;
+    step.algorithmVersion = self.algorithmVersion;
     step.dBHLMaximumThreshold = self.dBHLMaximumThreshold;
     
     return step;
@@ -71,7 +71,7 @@
     self = [super initWithCoder:aDecoder];
     
     if (self) {
-        ORK_DECODE_INTEGER(aDecoder, algorithm);
+        ORK_DECODE_INTEGER(aDecoder, algorithmVersion);
         ORK_DECODE_DOUBLE(aDecoder, dBHLMaximumThreshold);
     }
     
@@ -81,7 +81,7 @@
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [super encodeWithCoder:aCoder];
 
-    ORK_ENCODE_INTEGER(aCoder, algorithm);
+    ORK_ENCODE_INTEGER(aCoder, algorithmVersion);
     ORK_ENCODE_DOUBLE(aCoder, dBHLMaximumThreshold);
 }
 
@@ -89,12 +89,12 @@
     __typeof(self) castObject = object;
 
     return [super isEqual:object]
-        && (self.algorithm == castObject.algorithm)
+        && (self.algorithmVersion == castObject.algorithmVersion)
         && (self.dBHLMaximumThreshold == castObject.dBHLMaximumThreshold);
 }
 
 - (id<ORKAudiometryProtocol>)createAudiometryEngine {
-    switch (self.algorithm) {
+    switch (self.algorithmVersion) {
         case 1:
             if (@available(iOS 14, *)) {
                 return [[ORKNewAudiometry alloc] initWithChannel:self.earPreference initialLevel:self.initialdBHLValue minLevel:self.dBHLMinimumThreshold maxLevel:self.dBHLMaximumThreshold frequencies: self.frequencyList];

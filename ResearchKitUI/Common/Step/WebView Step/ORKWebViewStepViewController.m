@@ -194,8 +194,9 @@ static const CGFloat ORKSignatureTopPadding = 37.0;
     if (@available(iOS 15.0, *)) {
         UINavigationBarAppearance *navBarAppearance = [[UINavigationBarAppearance alloc] init];
         [navBarAppearance configureWithOpaqueBackground];
-        [UINavigationBar appearance].standardAppearance = navBarAppearance;
-        [UINavigationBar appearance].scrollEdgeAppearance = navBarAppearance;
+        UINavigationBar *navigationBar = self.navigationController.navigationBar;
+        navigationBar.standardAppearance = navBarAppearance;
+        navigationBar.scrollEdgeAppearance = navBarAppearance;
     }
 }
 

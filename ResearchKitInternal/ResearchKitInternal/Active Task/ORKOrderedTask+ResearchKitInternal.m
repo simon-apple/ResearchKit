@@ -63,19 +63,19 @@ NSString *const ORKdBHLToneAudiometryStep2Identifier = @"dBHL2.tone.audiometry";
     if (!(options & ORKPredefinedTaskOptionExcludeInstructions)) {
         {
             ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction0StepIdentifier];
-            step.title = AAPLLocalizedString(@"dBHL_TONE_AUDIOMETRY_INTRO_TITLE", nil);
-            step.detailText = AAPLLocalizedString(@"dBHL_TONE_AUDIOMETRY_INTRO_TEXT_2", nil);
-            step.image = [UIImage imageNamed:@"audiometry" inBundle:ORKBundle() compatibleWithTraitCollection:nil];
+            step.title = ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_INTRO_TITLE", nil);
+            step.detailText = ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_INTRO_TEXT_2", nil);
+            step.image = [UIImage imageNamed:@"audiometry" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
             step.imageContentMode = UIViewContentModeCenter;
             step.shouldTintImages = YES;
             if (@available(iOS 13.0, *)) {
-                ORKBodyItem * item1 = [[ORKBodyItem alloc] initWithText:AAPLLocalizedString(@"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_1", nil) detailText:nil image:[UIImage systemImageNamed:@"ear"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
-                ORKBodyItem * item2 = [[ORKBodyItem alloc] initWithText:AAPLLocalizedString(@"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_2", nil) detailText:nil image:[UIImage systemImageNamed:@"hand.draw.fill"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
-                ORKBodyItem * item3 = [[ORKBodyItem alloc] initWithText:AAPLLocalizedString(@"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_3", nil) detailText:nil image:[UIImage systemImageNamed:@"volume.2.fill"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
+                ORKBodyItem * item1 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_1", nil) detailText:nil image:[UIImage systemImageNamed:@"ear"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
+                ORKBodyItem * item2 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_2", nil) detailText:nil image:[UIImage systemImageNamed:@"hand.draw.fill"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
+                ORKBodyItem * item3 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_3", nil) detailText:nil image:[UIImage systemImageNamed:@"volume.2.fill"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
                 ORKBodyItem * item4 = [[ORKBodyItem alloc] initWithHorizontalRule];
-                ORKBodyItem * item5 = [[ORKBodyItem alloc] initWithText:AAPLLocalizedString(@"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_4", nil) detailText:nil image:[UIImage systemImageNamed:@"stopwatch"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
+                ORKBodyItem * item5 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_4", nil) detailText:nil image:[UIImage systemImageNamed:@"stopwatch"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
                 item5.useSecondaryColor = YES;
-                ORKBodyItem * item6 = [[ORKBodyItem alloc] initWithText:AAPLLocalizedString(@"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_5", nil) detailText:nil image:[UIImage systemImageNamed:@"moon.fill"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
+                ORKBodyItem * item6 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_5", nil) detailText:nil image:[UIImage systemImageNamed:@"moon.fill"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
                 item6.useSecondaryColor = YES;
                 step.bodyItems = @[item1, item2, item3, item4, item5, item6];
             } else {
@@ -133,7 +133,7 @@ NSString *const ORKdBHLToneAudiometryStep2Identifier = @"dBHL2.tone.audiometry";
         AAPLdBHLToneAudiometryStep *step = [[AAPLdBHLToneAudiometryStep alloc] initWithIdentifier:ORKdBHLToneAudiometryStep1Identifier];
         step.title = AAPLLocalizedString(@"dBHL_TONE_AUDIOMETRY_TASK_TITLE_2", nil);
         step.stepDuration = CGFLOAT_MAX;
-        step.algorithm = 1;
+        step.algorithmVersion = 1;
         step.headphoneType = ORKHeadphoneTypeIdentifierAirPodsGen1;
         step.earPreference = ORKAudioChannelRight;
         ORKStepArrayAddStep(steps, step);
@@ -149,7 +149,7 @@ NSString *const ORKdBHLToneAudiometryStep2Identifier = @"dBHL2.tone.audiometry";
         AAPLdBHLToneAudiometryStep *step = [[AAPLdBHLToneAudiometryStep alloc] initWithIdentifier:ORKdBHLToneAudiometryStep2Identifier];
         step.title = AAPLLocalizedString(@"dBHL_TONE_AUDIOMETRY_TASK_TITLE_2", nil);
         step.stepDuration = CGFLOAT_MAX;
-        step.algorithm = 1;
+        step.algorithmVersion = 1;
         step.earPreference = ORKAudioChannelLeft;
         step.headphoneType = ORKHeadphoneTypeIdentifierAirPodsGen1;
         ORKStepArrayAddStep(steps, step);

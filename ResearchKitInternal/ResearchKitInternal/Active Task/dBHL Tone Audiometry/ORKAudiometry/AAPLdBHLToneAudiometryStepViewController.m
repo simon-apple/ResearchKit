@@ -87,7 +87,7 @@
                                                 supportedHeadphoneChipsetTypes:[ORKHeadphoneDetectStep dBHLTypes]];
     
     //TODO:- figure out where this call lives
-    [[self taskViewController] lockDeviceVolume:0.5];
+    [[self taskViewController] lockDeviceVolume:0.625];
 
     ORKTaskResult *taskResults = [[self taskViewController] result];
 
@@ -101,12 +101,12 @@
             } else if ([firstResult isKindOfClass:[ORKdBHLToneAudiometryResult class]]) {
                 if (@available(iOS 14.0, *)) {
                     ORKdBHLToneAudiometryResult *dBHLToneAudiometryResult = (ORKdBHLToneAudiometryResult *)firstResult;
-                    NSArray *units = [dBHLToneAudiometryResult.samples valueForKey:@"units"];
-                    BOOL containsUnits = units && units.count > 0;
-
-                    // Only use audiograms from ORKNewAudiometry which does not contains units on the samples
-                    ORKNewAudiometry *audiometryEngine = ORKDynamicCast_(self.audiometryEngine, ORKNewAudiometry.self);
-                    if ((audiometryEngine != nil) && !containsUnits) {
+                    BOOL suitableResult = (dBHLToneAudiometryResult.algorithmVersion == 1 &&
+                                           [self.audiometryEngine isKindOfClass:[ORKNewAudiometry class]] &&
+                                           dBHLToneAudiometryResult.samples.count > 0);
+                    
+                    // Only use audiograms from ORKNewAudiometry generated results
+                    if (suitableResult) {
                         NSMutableDictionary *audiogram = [[NSMutableDictionary alloc] init];
                         
                         for (ORKdBHLToneAudiometryFrequencySample *sample in dBHLToneAudiometryResult.samples) {
@@ -114,7 +114,7 @@
                             NSNumber *threshold = [NSNumber numberWithDouble:sample.calculatedThreshold];
                             audiogram[frequency] = threshold;
                         }
-                        [audiometryEngine setPreviousAudiogram:audiogram];
+                        [(ORKNewAudiometry *)self.audiometryEngine setPreviousAudiogram:audiogram];
                     }
                 }
             }
@@ -155,8 +155,10 @@
     if (@available(iOS 14.0, *)) {
         if ([self.audiometryEngine isKindOfClass:ORKNewAudiometry.class]) {
             ORKdBHLToneAudiometryResult *toneResult = (ORKdBHLToneAudiometryResult *)result.results.lastObject;
-            toneResult.discreteUnits = ((ORKNewAudiometry *)self.audiometryEngine).resultUnits;
-            toneResult.fitMatrix = ((ORKNewAudiometry *)self.audiometryEngine).fitMatrix;
+            ORKNewAudiometry *engine = (ORKNewAudiometry *)self.audiometryEngine;
+            toneResult.algorithmVersion = 1;
+            toneResult.discreteUnits = engine.resultUnits;
+            toneResult.fitMatrix = engine.fitMatrix;
         }
     }
     
