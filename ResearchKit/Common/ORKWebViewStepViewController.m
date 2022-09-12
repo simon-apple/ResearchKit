@@ -170,7 +170,8 @@ static const CGFloat ORKSignatureTopPadding = 37.0;
     // We need to re-render the HTML if the interface style has changed
     // so that the CSS adopts the new color scheme.
     if (@available(iOS 13, *)) {
-        if (self.traitCollection.userInterfaceStyle != previousTraitCollection.userInterfaceStyle) {
+        if (self.traitCollection.userInterfaceStyle != previousTraitCollection.userInterfaceStyle ||
+            self.traitCollection.preferredContentSizeCategory != previousTraitCollection.preferredContentSizeCategory) {
             [self refreshHTML];
         }
     }
