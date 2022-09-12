@@ -374,7 +374,7 @@
 "HEADPHONE_CONNECTED_AIRPODSPRO" = "Connected - AirPods Pro";
 "HEADPHONE_CONNECTED_AIRPODSMAX" = "Connected - AirPods Max";
 "HEADPHONE_CONNECTED_EARPODS" = "Connected - EarPods";
-"HEADPHONE_DETECT_TITLE" = "Connect your Headphones";
+"HEADPHONE_DETECT_TITLE" = "Connect Your Headphones";
 "HEADPHONE_DETECT_TEXT" = "To ensure accurate results, this task requires Apple AirPods, AirPods Pro, AirPods Max or EarPods.";
 
 /* Spatial span memory active task. */
