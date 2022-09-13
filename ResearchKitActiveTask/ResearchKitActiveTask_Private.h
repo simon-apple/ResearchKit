@@ -71,4 +71,6 @@
 #import <ResearchKitActiveTask/ORKActiveStepView.h>
 #import <ResearchKitActiveTask/ORKAudioMeteringView.h>
 #import <ResearchKitActiveTask/ORKdBHLToneAudiometryAudioGenerator.h>
+#if RK_APPLE_INTERNAL
 #import <ResearchKitActiveTask/UIColor+Custom.h>
+#endif

@@ -30,6 +30,7 @@
 
 
 @import XCTest;
+@import ResearchKit;
 @import ResearchKit_Private;
 
 

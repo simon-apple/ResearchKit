@@ -216,6 +216,8 @@ class RKScrubber():
         self.project_path = "../ResearchKit"
         self.tests_project_path = "../ResearchKitTests"
         self.core_project_path = "../ResearchKitCore"
+        self.ui_project_path = "../ResearchKitUI"
+        self.at_project_path = "../ResearchKitActiveTask"
         self.project_file_path = "../ResearchKit.xcodeproj/project.pbxproj"
         self.folders_to_remove = ["PrivateHeaders", "ORKAVJournaling", "ORKFaceDetectionStep", "Tinnitus", "ORKVolumeCalibration", "HeadphoneDetectStep", "InternalPredefinedTasks", "BLE", "MathUtilities", "Scrubbers"]
 
@@ -225,7 +227,7 @@ class RKScrubber():
         files_to_delete = self.file_helper.gather_files_from_internal_folders(folders_to_delete)
 
         # gather all files from project
-        files = self.file_helper.recursively_read_files(self.project_path) + self.file_helper.recursively_read_files(self.tests_project_path) + self.file_helper.recursively_read_files(self.core_project_path)
+        files = self.file_helper.recursively_read_files(self.project_path) + self.file_helper.recursively_read_files(self.tests_project_path) + self.file_helper.recursively_read_files(self.core_project_path) + self.file_helper.recursively_read_files(self.ui_project_path) + self.file_helper.recursively_read_files(self.at_project_path)
 
         files_with_special_comment = self.file_helper.fetch_files_with_special_comment(files)
 
@@ -263,7 +265,7 @@ class RKTestScrubber():
 
         files_to_delete = files_to_delete + files_with_special_comment
 
-        self.file_helper.remove_file_references_from_project_file(self.project_file_path, files_to_delete)
+        self.file_helper.remove_file_references_from_project_file(self.project_file_path, files_to_delete + [File("ResearchKitInternal.framework")])
         self.file_helper.remove_internal_blocks_from_files(files)
         self.file_helper.delete_files(files_to_delete)
         self.file_helper.delete_folders(folders_to_delete)
@@ -286,8 +288,8 @@ class RKCatalogScrubber():
         files_with_special_comment = self.file_helper.fetch_files_with_special_comment(files)
 
         files_to_delete = files_to_delete + files_with_special_comment
-
-        self.file_helper.remove_file_references_from_project_file(self.project_file_path, files_to_delete)
+        
+        self.file_helper.remove_file_references_from_project_file(self.project_file_path, files_to_delete + [File("ResearchKitInternal.framework")])
         self.file_helper.remove_internal_blocks_from_files(files)
         self.file_helper.delete_files(files_to_delete)
         self.file_helper.delete_folders(folders_to_delete)

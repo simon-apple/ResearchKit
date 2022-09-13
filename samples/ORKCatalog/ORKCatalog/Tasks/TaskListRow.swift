@@ -35,8 +35,10 @@ import ResearchKit
 import ResearchKit_Private
 import ResearchKitActiveTask
 import ResearchKitActiveTask_Private
+#if RK_APPLE_INTERNAL
 import ResearchKitInternal
 import ResearchKitInternal_Private
+#endif
 import ResearchKitUI
 
 /**

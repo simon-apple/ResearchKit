@@ -1,0 +1,5 @@
+//
+// ResearchKitActiveTask-Skywagon-Internal-Release.xcconfig
+//
+
+#include "ResearchKitActiveTask-Shared.xcconfig"

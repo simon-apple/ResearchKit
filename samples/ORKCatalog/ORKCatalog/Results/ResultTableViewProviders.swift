@@ -32,7 +32,9 @@ import UIKit
 import ResearchKit
 import ResearchKitActiveTask
 import ResearchKitActiveTask_Private
+#if RK_APPLE_INTERNAL
 import ResearchKitInternal
+#endif
 import MapKit
 import Speech
 

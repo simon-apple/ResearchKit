@@ -1293,6 +1293,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(timeoutSound, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(failureSound, NSNumber, NSObject, YES, nil, nil),
                     })),
+#if RK_APPLE_INTERNAL
            ENTRY(ORKTypingStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      return [[ORKTypingStep alloc]  initWithIdentifier:GETPROP(dict, identifier)];
@@ -1309,6 +1310,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(identifier, NSString, NSObject, YES, nil, nil),
                     PROPERTY(errors, NSObject, NSArray, YES, nil, nil)
                     })),
+#endif
            ENTRY(ORKStroopStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      return [[ORKStroopStep alloc] initWithIdentifier:GETPROP(dict, identifier)];

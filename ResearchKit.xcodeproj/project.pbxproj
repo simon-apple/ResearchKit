@@ -1874,6 +1874,18 @@
 		CA1C7A5B288B0C69004DAB3A /* Info-iOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-iOS.plist"; sourceTree = "<group>"; };
 		CA23A31C2899941700EC6E91 /* ORKSkin_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKSkin_Private.h; sourceTree = "<group>"; };
 		CA2B902528A187390025B773 /* ORKTask_Util.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKTask_Util.m; sourceTree = "<group>"; };
+		CA481E8128CBD6D9001C4D49 /* ResearchKitUI-iOS-Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "ResearchKitUI-iOS-Shared.xcconfig"; sourceTree = "<group>"; };
+		CA481E8228CBD79B001C4D49 /* ResearchKitUI-iOS-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "ResearchKitUI-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
+		CA481E8328CBD835001C4D49 /* ResearchKitUI-iOS-Skywagon-Stable.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "ResearchKitUI-iOS-Skywagon-Stable.xcconfig"; sourceTree = "<group>"; };
+		CA481E8428CBD835001C4D49 /* ResearchKitUI-iOS-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "ResearchKitUI-iOS-Release.xcconfig"; sourceTree = "<group>"; };
+		CA481E8528CBD835001C4D49 /* ResearchKitUI-iOS-Skywagon-Public-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "ResearchKitUI-iOS-Skywagon-Public-Release.xcconfig"; sourceTree = "<group>"; };
+		CA481E8628CBD835001C4D49 /* ResearchKitUI-iOS-Skywagon-Internal-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "ResearchKitUI-iOS-Skywagon-Internal-Release.xcconfig"; sourceTree = "<group>"; };
+		CA481E8C28CBD9F1001C4D49 /* ResearchKitActiveTask-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "ResearchKitActiveTask-Release.xcconfig"; sourceTree = "<group>"; };
+		CA481E8D28CBD9F1001C4D49 /* ResearchKitActiveTask-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "ResearchKitActiveTask-Debug.xcconfig"; sourceTree = "<group>"; };
+		CA481E8E28CBD9F1001C4D49 /* ResearchKitActiveTask-Shared.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "ResearchKitActiveTask-Shared.xcconfig"; sourceTree = "<group>"; };
+		CA481E8F28CBD9F1001C4D49 /* ResearchKitActiveTask-Skywagon-Internal-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "ResearchKitActiveTask-Skywagon-Internal-Release.xcconfig"; sourceTree = "<group>"; };
+		CA481E9028CBD9F1001C4D49 /* ResearchKitActiveTask-Skywagon-Public-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "ResearchKitActiveTask-Skywagon-Public-Release.xcconfig"; sourceTree = "<group>"; };
+		CA481E9128CBD9F1001C4D49 /* ResearchKitActiveTask-Skywagon-Stable.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "ResearchKitActiveTask-Skywagon-Stable.xcconfig"; sourceTree = "<group>"; };
 		CA58F8B728B5549F00761769 /* ResearchKitInternal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitInternal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA5B6D8F28BD20F7002C3BA4 /* UIColor+Custom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Custom.h"; sourceTree = "<group>"; };
 		CA5B6D9028BD20F7002C3BA4 /* UIColor+Custom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Custom.m"; sourceTree = "<group>"; };
@@ -2323,6 +2335,8 @@
 				5D000ED32620F27100E5442A /* ResearchKitTests */,
 				5D000EDB2620F27100E5442A /* ResearchKitCore-(watchOS) */,
 				5D000EDD2620F27100E5442A /* ResearchKitUI */,
+				CA481E8028CBD6B7001C4D49 /* ResearchKitUI-iOS */,
+				CA481E8B28CBD9F1001C4D49 /* ResearchKitActiveTask */,
 			);
 			path = Configuration;
 			sourceTree = "<group>";
@@ -3776,6 +3790,33 @@
 			);
 			path = "Front Facing Camera";
 			sourceTree = "<group>";
+		};
+		CA481E8028CBD6B7001C4D49 /* ResearchKitUI-iOS */ = {
+			isa = PBXGroup;
+			children = (
+				CA481E8228CBD79B001C4D49 /* ResearchKitUI-iOS-Debug.xcconfig */,
+				CA481E8428CBD835001C4D49 /* ResearchKitUI-iOS-Release.xcconfig */,
+				CA481E8628CBD835001C4D49 /* ResearchKitUI-iOS-Skywagon-Internal-Release.xcconfig */,
+				CA481E8528CBD835001C4D49 /* ResearchKitUI-iOS-Skywagon-Public-Release.xcconfig */,
+				CA481E8328CBD835001C4D49 /* ResearchKitUI-iOS-Skywagon-Stable.xcconfig */,
+				CA481E8128CBD6D9001C4D49 /* ResearchKitUI-iOS-Shared.xcconfig */,
+			);
+			path = "ResearchKitUI-iOS";
+			sourceTree = "<group>";
+		};
+		CA481E8B28CBD9F1001C4D49 /* ResearchKitActiveTask */ = {
+			isa = PBXGroup;
+			children = (
+				CA481E8D28CBD9F1001C4D49 /* ResearchKitActiveTask-Debug.xcconfig */,
+				CA481E8C28CBD9F1001C4D49 /* ResearchKitActiveTask-Release.xcconfig */,
+				CA481E8F28CBD9F1001C4D49 /* ResearchKitActiveTask-Skywagon-Internal-Release.xcconfig */,
+				CA481E9028CBD9F1001C4D49 /* ResearchKitActiveTask-Skywagon-Public-Release.xcconfig */,
+				CA481E9128CBD9F1001C4D49 /* ResearchKitActiveTask-Skywagon-Stable.xcconfig */,
+				CA481E8E28CBD9F1001C4D49 /* ResearchKitActiveTask-Shared.xcconfig */,
+			);
+			name = ResearchKitActiveTask;
+			path = ResearchKit/Configuration/ResearchKitActiveTask;
+			sourceTree = SOURCE_ROOT;
 		};
 		CA6A0D80288B544F0048C1EF /* Document Review */ = {
 			isa = PBXGroup;
@@ -6236,102 +6277,67 @@
 		};
 		CA1C7A55288B0C68004DAB3A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5D000EDE2620F27100E5442A /* ResearchKitUI-Debug.xcconfig */;
+			baseConfigurationReference = CA481E8228CBD79B001C4D49 /* ResearchKitUI-iOS-Debug.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(ORK_GCC_PREPROCESSOR_DEFINITIONS)",
-				);
-				INFOPLIST_FILE = "ResearchKitUI/Info-iOS.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				MODULEMAP_FILE = ResearchKitUI/ResearchKitUI.modulemap;
-				ORK_GCC_PREPROCESSOR_DEFINITIONS = "RK_APPLE_INTERNAL=1 ORK_FEATURE_AV_JOURNALING=1 ORK_FEATURE_AV_JOURNALING_DEPTH_DATA_COLLECTION=1 ORK_FEATURE_BLE_SCAN_PERIPHERALS=1";
 				PRODUCT_NAME = ResearchKitUI;
-				SDKROOT = iphoneos;
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
-				TARGETED_DEVICE_FAMILY = "1,2,4";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
 		CA1C7A56288B0C68004DAB3A /* Skywagon Stable */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5D000EDF2620F27100E5442A /* ResearchKitUI-Shared.xcconfig */;
+			baseConfigurationReference = CA481E8328CBD835001C4D49 /* ResearchKitUI-iOS-Skywagon-Stable.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(ORK_GCC_PREPROCESSOR_DEFINITIONS)",
-				);
-				INFOPLIST_FILE = "ResearchKitUI/Info-iOS.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				MODULEMAP_FILE = ResearchKitUI/ResearchKitUI.modulemap;
-				ORK_GCC_PREPROCESSOR_DEFINITIONS = "RK_APPLE_INTERNAL=1 ORK_FEATURE_AV_JOURNALING=1 ORK_FEATURE_AV_JOURNALING_DEPTH_DATA_COLLECTION=1 ORK_FEATURE_BLE_SCAN_PERIPHERALS=1";
 				PRODUCT_NAME = ResearchKitUI;
-				SDKROOT = iphoneos;
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
-				TARGETED_DEVICE_FAMILY = "1,2,4";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = "Skywagon Stable";
 		};
 		CA1C7A57288B0C68004DAB3A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5D000EDF2620F27100E5442A /* ResearchKitUI-Shared.xcconfig */;
+			baseConfigurationReference = CA481E8428CBD835001C4D49 /* ResearchKitUI-iOS-Release.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
-				GCC_PREPROCESSOR_DEFINITIONS = "$(ORK_GCC_PREPROCESSOR_DEFINITIONS)";
-				INFOPLIST_FILE = "ResearchKitUI/Info-iOS.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				MODULEMAP_FILE = ResearchKitUI/ResearchKitUI.modulemap;
-				ORK_GCC_PREPROCESSOR_DEFINITIONS = "RK_APPLE_INTERNAL=1 ORK_FEATURE_AV_JOURNALING=1 ORK_FEATURE_AV_JOURNALING_DEPTH_DATA_COLLECTION=1 ORK_FEATURE_BLE_SCAN_PERIPHERALS=1";
 				PRODUCT_NAME = ResearchKitUI;
-				SDKROOT = iphoneos;
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
-				TARGETED_DEVICE_FAMILY = "1,2,4";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
 		CA1C7A58288B0C68004DAB3A /* Skywagon Internal Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5D000EDF2620F27100E5442A /* ResearchKitUI-Shared.xcconfig */;
+			baseConfigurationReference = CA481E8628CBD835001C4D49 /* ResearchKitUI-iOS-Skywagon-Internal-Release.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
-				GCC_PREPROCESSOR_DEFINITIONS = "$(ORK_GCC_PREPROCESSOR_DEFINITIONS)";
-				INFOPLIST_FILE = "ResearchKitUI/Info-iOS.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				MODULEMAP_FILE = ResearchKitUI/ResearchKitUI.modulemap;
-				ORK_GCC_PREPROCESSOR_DEFINITIONS = "RK_APPLE_INTERNAL=1 ORK_FEATURE_AV_JOURNALING=1 ORK_FEATURE_AV_JOURNALING_DEPTH_DATA_COLLECTION=1 ORK_FEATURE_BLE_SCAN_PERIPHERALS=1";
 				PRODUCT_NAME = ResearchKitUI;
-				SDKROOT = iphoneos;
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
-				TARGETED_DEVICE_FAMILY = "1,2,4";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = "Skywagon Internal Release";
 		};
 		CA1C7A59288B0C68004DAB3A /* Skywagon Public Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5D000EDF2620F27100E5442A /* ResearchKitUI-Shared.xcconfig */;
+			baseConfigurationReference = CA481E8528CBD835001C4D49 /* ResearchKitUI-iOS-Skywagon-Public-Release.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
-				GCC_PREPROCESSOR_DEFINITIONS = "$(ORK_GCC_PREPROCESSOR_DEFINITIONS)";
-				INFOPLIST_FILE = "ResearchKitUI/Info-iOS.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				MODULEMAP_FILE = ResearchKitUI/ResearchKitUI.modulemap;
-				ORK_GCC_PREPROCESSOR_DEFINITIONS = "RK_APPLE_INTERNAL=1 ORK_FEATURE_AV_JOURNALING=1 ORK_FEATURE_AV_JOURNALING_DEPTH_DATA_COLLECTION=1 ORK_FEATURE_BLE_SCAN_PERIPHERALS=1";
 				PRODUCT_NAME = ResearchKitUI;
-				SDKROOT = iphoneos;
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
-				TARGETED_DEVICE_FAMILY = "1,2,4";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = "Skywagon Public Release";
 		};
 		CAD0896B289DD747007B2A98 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CA481E8D28CBD9F1001C4D49 /* ResearchKitActiveTask-Debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -6362,10 +6368,8 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -6375,11 +6379,6 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(inherited)",
-					"$(ORK_GCC_PREPROCESSOR_DEFINITIONS)",
-				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -6389,22 +6388,12 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 researchkit.org. All rights reserved.";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MARKETING_VERSION = 1.0;
-				MODULEMAP_FILE = ResearchKitActiveTask/ResearchKitActiveTask.modulemap;
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
-				ORK_GCC_PREPROCESSOR_DEFINITIONS = "RK_APPLE_INTERNAL=1 ORK_FEATURE_AV_JOURNALING=1 ORK_FEATURE_AV_JOURNALING_DEPTH_DATA_COLLECTION=1 ORK_FEATURE_BLE_SCAN_PERIPHERALS=1";
 				PRODUCT_BUNDLE_IDENTIFIER = org.researchkit.ResearchKitActiveTask;
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = NO;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -6413,6 +6402,7 @@
 		};
 		CAD0896C289DD747007B2A98 /* Skywagon Stable */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CA481E9128CBD9F1001C4D49 /* ResearchKitActiveTask-Skywagon-Stable.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -6443,22 +6433,15 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(inherited)",
-					"$(ORK_GCC_PREPROCESSOR_DEFINITIONS)",
-				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -6468,21 +6451,12 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 researchkit.org. All rights reserved.";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MARKETING_VERSION = 1.0;
-				MODULEMAP_FILE = ResearchKitActiveTask/ResearchKitActiveTask.modulemap;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				MTL_FAST_MATH = YES;
-				ORK_GCC_PREPROCESSOR_DEFINITIONS = "RK_APPLE_INTERNAL=1 ORK_FEATURE_AV_JOURNALING=1 ORK_FEATURE_AV_JOURNALING_DEPTH_DATA_COLLECTION=1 ORK_FEATURE_BLE_SCAN_PERIPHERALS=1";
 				PRODUCT_BUNDLE_IDENTIFIER = org.researchkit.ResearchKitActiveTask;
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -6492,6 +6466,7 @@
 		};
 		CAD0896D289DD747007B2A98 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CA481E8C28CBD9F1001C4D49 /* ResearchKitActiveTask-Release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -6522,22 +6497,15 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(inherited)",
-					"$(ORK_GCC_PREPROCESSOR_DEFINITIONS)",
-				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -6547,21 +6515,12 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 researchkit.org. All rights reserved.";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MARKETING_VERSION = 1.0;
-				MODULEMAP_FILE = ResearchKitActiveTask/ResearchKitActiveTask.modulemap;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				MTL_FAST_MATH = YES;
-				ORK_GCC_PREPROCESSOR_DEFINITIONS = "RK_APPLE_INTERNAL=1 ORK_FEATURE_AV_JOURNALING=1 ORK_FEATURE_AV_JOURNALING_DEPTH_DATA_COLLECTION=1 ORK_FEATURE_BLE_SCAN_PERIPHERALS=1";
 				PRODUCT_BUNDLE_IDENTIFIER = org.researchkit.ResearchKitActiveTask;
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -6571,6 +6530,7 @@
 		};
 		CAD0896E289DD747007B2A98 /* Skywagon Internal Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CA481E8F28CBD9F1001C4D49 /* ResearchKitActiveTask-Skywagon-Internal-Release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -6601,22 +6561,15 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(inherited)",
-					"$(ORK_GCC_PREPROCESSOR_DEFINITIONS)",
-				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -6626,21 +6579,12 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 researchkit.org. All rights reserved.";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MARKETING_VERSION = 1.0;
-				MODULEMAP_FILE = ResearchKitActiveTask/ResearchKitActiveTask.modulemap;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				MTL_FAST_MATH = YES;
-				ORK_GCC_PREPROCESSOR_DEFINITIONS = "RK_APPLE_INTERNAL=1 ORK_FEATURE_AV_JOURNALING=1 ORK_FEATURE_AV_JOURNALING_DEPTH_DATA_COLLECTION=1 ORK_FEATURE_BLE_SCAN_PERIPHERALS=1";
 				PRODUCT_BUNDLE_IDENTIFIER = org.researchkit.ResearchKitActiveTask;
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -6650,6 +6594,7 @@
 		};
 		CAD0896F289DD747007B2A98 /* Skywagon Public Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CA481E9028CBD9F1001C4D49 /* ResearchKitActiveTask-Skywagon-Public-Release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -6680,22 +6625,15 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(inherited)",
-					"$(ORK_GCC_PREPROCESSOR_DEFINITIONS)",
-				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -6705,21 +6643,12 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 researchkit.org. All rights reserved.";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MARKETING_VERSION = 1.0;
-				MODULEMAP_FILE = ResearchKitActiveTask/ResearchKitActiveTask.modulemap;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				MTL_FAST_MATH = YES;
-				ORK_GCC_PREPROCESSOR_DEFINITIONS = "RK_APPLE_INTERNAL=1 ORK_FEATURE_AV_JOURNALING=1 ORK_FEATURE_AV_JOURNALING_DEPTH_DATA_COLLECTION=1 ORK_FEATURE_BLE_SCAN_PERIPHERALS=1";
 				PRODUCT_BUNDLE_IDENTIFIER = org.researchkit.ResearchKitActiveTask;
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";

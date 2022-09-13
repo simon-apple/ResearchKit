@@ -34,8 +34,10 @@
 @import ResearchKit_Private;
 @import ResearchKitActiveTask;
 @import ResearchKitActiveTask_Private;
+#if RK_APPLE_INTERNAL
 @import ResearchKitInternal;
 @import ResearchKitInternal_Private;
+#endif
 @import ResearchKitUI;
 
 #import "ORKESerialization.h"
@@ -516,7 +518,9 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
                                                  [ORKKeyValueStepModifier class],     // NSPredicate doesn't yet support JSON serialization
                                                  [ORKCollector class], // ORKCollector doesn't support JSON serialization
                                                  [ORKHealthCollector class],
+#if RK_APPLE_INTERNAL
                                                  [ORKSensitiveURLLearnMoreInstructionStep class],
+#endif
                                                  [ORKHealthCorrelationCollector class],
                                                  [ORKMotionActivityCollector class],
                                                  [ORKShoulderRangeOfMotionStep class],
