@@ -355,28 +355,6 @@
 "dBHL_TONE_AUDIOMETRY_TESTING_IN_PROGRESS" = "TEST IN PROGRESS";
 "dBHL_TONE_AUDIOMETRY_TESTING_IN_PROGRESS_FMT" = "TEST IN PROGRESS \U2022 %@";
 
-/* Headphones. */
-"AIRPODS" = "AirPods";
-"AIRPODSPRO" = "AirPods Pro";
-"AIRPODSMAX" = "AirPods Max";
-"EARPODS" = "EarPods";
-"HEADPHONES" = "Headphones";
-"HEADPHONES_NONE" = "None";
-"AIRPODS_CONNECTED" = "Connected";
-"AIRPODSPRO_CONNECTED" = "Connected";
-"AIRPODSMAX_CONNECTED" = "Connected";
-"EARPODS_CONNECTED" = "Connected";
-"AIRPODS_NOT_CONNECTED" = "Not Connected";
-"AIRPODSPRO_NOT_CONNECTED" = "Not Connected";
-"AIRPODSMAX_NOT_CONNECTED" = "Not Connected";
-"EARPODS_NOT_CONNECTED" = "Not Connected";
-"HEADPHONE_CONNECTED_AIRPODS" = "Connected - AirPods";
-"HEADPHONE_CONNECTED_AIRPODSPRO" = "Connected - AirPods Pro";
-"HEADPHONE_CONNECTED_AIRPODSMAX" = "Connected - AirPods Max";
-"HEADPHONE_CONNECTED_EARPODS" = "Connected - EarPods";
-"HEADPHONE_DETECT_TITLE" = "Connect Your Headphones";
-"HEADPHONE_DETECT_TEXT" = "To ensure accurate results, this task requires Apple AirPods, AirPods Pro, AirPods Max or EarPods.";
-
 /* Spatial span memory active task. */
 "SPATIAL_SPAN_MEMORY_TITLE" = "Spatial Memory";
 "SPATIAL_SPAN_MEMORY_INTRO_TEXT_%@" = "This activity measures your short-term spatial memory by asking you to repeat the order in which %@ light up.";
