@@ -32,7 +32,8 @@
 @import XCTest;
 @import ResearchKit_Private;
 #import "ORKAnswerFormat_Internal.h"
-
+#import "ORKPicker.h"
+#import "ORKPickerTestDelegate.h"
 
 @interface ORKAnswerFormatTests : XCTestCase
 
@@ -206,6 +207,457 @@
                                                       errorMessage:@"doesn't match"]);
     
 }
+
+#pragma mark - UIPickerTests
+- (BOOL) setupNonOptionalPicker: (ORKAnswerFormat*) answerFormat scrollTo: (double) inputValue : (double) expectedKGAnswer secondInputValue: (double) secondInputValue{
+    // add one because the first value in the array is empty, so all values need to be pushed up one
+    inputValue = inputValue + 1;
+    
+    ORKPickerTestDelegate* testDelegate = [[ORKPickerTestDelegate alloc] initWithOptionalValue:false];
+    id<ORKPicker> picker = [ORKPicker pickerWithAnswerFormat:answerFormat answer: nil delegate:testDelegate];
+    [picker pickerWillAppear];
+    UIPickerView* pickerView = (UIPickerView*)[picker pickerView];
+    [pickerView selectRow:inputValue inComponent:0 animated:true];
+    if (secondInputValue != ORKDoubleInvalidValue) {
+        [pickerView selectRow:secondInputValue inComponent:1 animated:true];
+    }
+    [picker pickerWillAppear];
+    
+    return  expectedKGAnswer == ((NSNumber*) picker.answer).doubleValue;
+}
+
+- (BOOL) revisitingNonOptionalPicker: (ORKAnswerFormat*) answerFormat defaultValue: (double) defaultValue expectedRow: (double) expectedRow expectedSecondRow: (double) expectedSecondRow {
+    // add one because the first value in the array is empty, so all values need to be pushed up one
+    expectedRow = expectedRow + 1;
+    
+    ORKPickerTestDelegate* testDelegate = [[ORKPickerTestDelegate alloc] initWithOptionalValue:false];
+    id<ORKPicker> revisitingPickerFromAnotherScreen = [ORKPicker pickerWithAnswerFormat:answerFormat answer: [NSNumber numberWithDouble:defaultValue] delegate:testDelegate];
+    UIPickerView* revisitingPickerFromAnotherScreenpickerView = (UIPickerView*)[revisitingPickerFromAnotherScreen pickerView];
+
+    if (expectedSecondRow == ORKDoubleInvalidValue) {
+        return([revisitingPickerFromAnotherScreenpickerView selectedRowInComponent:0] == expectedRow);
+    } else {
+        return([revisitingPickerFromAnotherScreenpickerView selectedRowInComponent:0] == expectedRow && [revisitingPickerFromAnotherScreenpickerView selectedRowInComponent:1] == expectedSecondRow);
+
+    }
+}
+
+- (BOOL) setupOptionalPicker: (ORKAnswerFormat*) answerFormat scrollTo: (double) inputValue : (double) expectedKGAnswer secondInputValue: (double) secondInputValue {
+    ORKPickerTestDelegate* testDelegate = [[ORKPickerTestDelegate alloc] initWithOptionalValue:true];
+    id<ORKPicker> picker = [ORKPicker pickerWithAnswerFormat:answerFormat answer: nil delegate:testDelegate];
+    [picker pickerWillAppear];
+    UIPickerView* pickerView = (UIPickerView*)[picker pickerView];
+    [pickerView selectRow:inputValue inComponent:0 animated:true];
+    if (secondInputValue != ORKDoubleInvalidValue) {
+        [pickerView selectRow:secondInputValue inComponent:1 animated:true];
+    }
+    [picker pickerWillAppear];
+    return  expectedKGAnswer == ((NSNumber*) picker.answer).doubleValue;
+}
+
+- (BOOL) revisitingOptionalPicker: (ORKAnswerFormat*) answerFormat defaultValue: (double) defaultValue expectedRow: (double) expectedRow  expectedSecondRow: (double) expectedSecondRow {
+    ORKPickerTestDelegate* testDelegate = [[ORKPickerTestDelegate alloc] initWithOptionalValue:true];
+    id<ORKPicker> revisitingPickerFromAnotherScreen = [ORKPicker pickerWithAnswerFormat:answerFormat answer: [NSNumber numberWithDouble:defaultValue] delegate:testDelegate];
+    UIPickerView* revisitingPickerFromAnotherScreenpickerView = (UIPickerView*)[revisitingPickerFromAnotherScreen pickerView];
+
+    if (expectedSecondRow == ORKDoubleInvalidValue) {
+        return([revisitingPickerFromAnotherScreenpickerView selectedRowInComponent:0] == expectedRow);
+    } else {
+        return([revisitingPickerFromAnotherScreenpickerView selectedRowInComponent:0] == expectedRow && [revisitingPickerFromAnotherScreenpickerView selectedRowInComponent:1] == expectedSecondRow);
+    }
+}
+
+#pragma mark - UIWeightPickerTests
+- (void)testNonOptionalWeightPickerAnswerFormat{
+    // Setup an answer format
+    ORKWeightAnswerFormat *answerFormat = [ORKAnswerFormat weightAnswerFormat];
+    
+    double tenPounds = 10.0;
+    double kgConversion = ORKPoundsToKilograms(tenPounds);
+    XCTAssertTrue([self setupNonOptionalPicker:answerFormat scrollTo:tenPounds :kgConversion secondInputValue:ORKDoubleInvalidValue]);
+    XCTAssertTrue([self revisitingNonOptionalPicker:answerFormat defaultValue:kgConversion expectedRow:tenPounds expectedSecondRow:ORKDoubleInvalidValue]);
+}
+
+- (void)testNonOptionalMetricWeightPickerAnswerFormat{
+    // Setup an answer format
+    ORKWeightAnswerFormat *answerFormat = [ORKAnswerFormat weightAnswerFormatWithMeasurementSystem:ORKMeasurementSystemMetric];
+    
+    double tenPounds = 10.0;
+    double kgConversion = 5.0; //ORKPoundsToKilograms(tenPounds);
+    XCTAssertTrue([self setupNonOptionalPicker:answerFormat scrollTo:tenPounds :kgConversion secondInputValue:ORKDoubleInvalidValue]);
+    XCTAssertTrue([self revisitingNonOptionalPicker:answerFormat defaultValue:kgConversion expectedRow:tenPounds expectedSecondRow:ORKDoubleInvalidValue]);
+}
+
+- (void)testNonOptionalMetricLowPercisionWeightPickerAnswerFormat{
+    // Setup an answer format
+    ORKWeightAnswerFormat *answerFormat = [ORKAnswerFormat weightAnswerFormatWithMeasurementSystem:ORKMeasurementSystemMetric numericPrecision:ORKNumericPrecisionLow minimumValue:ORKDoubleDefaultValue maximumValue:ORKDoubleDefaultValue defaultValue:ORKDoubleDefaultValue];
+    
+    double tenKG = 10.0;
+    XCTAssertTrue([self setupNonOptionalPicker:answerFormat scrollTo:tenKG :tenKG secondInputValue:ORKDoubleInvalidValue]);
+    XCTAssertTrue([self revisitingNonOptionalPicker:answerFormat defaultValue:tenKG expectedRow:tenKG expectedSecondRow:ORKDoubleInvalidValue]);
+}
+
+- (void)testNonOptionalMetricHighPercisionWeightPickerAnswerFormat{
+    // Setup an answer format
+    ORKWeightAnswerFormat *answerFormat = [ORKAnswerFormat weightAnswerFormatWithMeasurementSystem:ORKMeasurementSystemMetric numericPrecision:ORKNumericPrecisionHigh minimumValue:20.0 maximumValue:100.0 defaultValue:45.00];
+    
+    double scrollIndex = 10.0;
+    double secondScrollIndex = 10.0;
+
+    double expectedValue = 30.09;
+
+    XCTAssertTrue([self setupNonOptionalPicker:answerFormat scrollTo:scrollIndex :expectedValue secondInputValue:secondScrollIndex]);
+    XCTAssertTrue([self revisitingNonOptionalPicker:answerFormat defaultValue:expectedValue expectedRow:scrollIndex expectedSecondRow:secondScrollIndex]);
+}
+
+- (void)testNonOptionalUSCWeightPickerAnswerFormat{
+    // Setup an answer format
+    ORKWeightAnswerFormat *answerFormat = [ORKAnswerFormat weightAnswerFormatWithMeasurementSystem:ORKMeasurementSystemUSC];
+    
+    double tenPounds = 10.0;
+    double kgConversion = ORKPoundsToKilograms(tenPounds);
+    XCTAssertTrue([self setupNonOptionalPicker:answerFormat scrollTo:tenPounds :kgConversion secondInputValue:ORKDoubleInvalidValue]);
+    XCTAssertTrue([self revisitingNonOptionalPicker:answerFormat defaultValue:kgConversion expectedRow:tenPounds expectedSecondRow:ORKDoubleInvalidValue]);
+}
+
+- (void)testNonOptionalUSCHighPercisionWeightPickerAnswerFormat{
+    // Setup an answer format
+    ORKWeightAnswerFormat *answerFormat = [ORKAnswerFormat weightAnswerFormatWithMeasurementSystem:ORKMeasurementSystemUSC numericPrecision:ORKNumericPrecisionHigh minimumValue:50.0 maximumValue:150.0 defaultValue:100.0];
+    
+    double scrollIndex = 1.0; //51
+    double secondScrollIndex = 8.0; //blank default value, starts at 0 -> 7 ounces
+
+    double expectedValue = 51.4375; // 51 pounds and 7 ounces = 51.4375 pounds
+    double kgConversion = ORKPoundsToKilograms(expectedValue);
+    
+    XCTAssertTrue([self setupNonOptionalPicker:answerFormat scrollTo:scrollIndex :kgConversion secondInputValue:secondScrollIndex]);
+    XCTAssertTrue([self revisitingNonOptionalPicker:answerFormat defaultValue:kgConversion expectedRow:scrollIndex expectedSecondRow:secondScrollIndex]);
+}
+
+- (void)testNonOptionalUSCLowPercisionMinWeightPickerAnswerFormat{
+    // Setup an answer format
+    ORKWeightAnswerFormat *answerFormat = [ORKAnswerFormat weightAnswerFormatWithMeasurementSystem:ORKMeasurementSystemUSC numericPrecision:ORKNumericPrecisionLow minimumValue:50.0 maximumValue:150.0 defaultValue:100.0];
+    
+    double scrollIndex = 0.0; //51
+    double expectedValue = 50.0;
+    double kgConversion = ORKPoundsToKilograms(expectedValue);
+    
+    XCTAssertTrue([self setupNonOptionalPicker:answerFormat scrollTo:scrollIndex :kgConversion secondInputValue:ORKDoubleInvalidValue]);
+    XCTAssertTrue([self revisitingNonOptionalPicker:answerFormat defaultValue:kgConversion expectedRow:scrollIndex expectedSecondRow:ORKDoubleInvalidValue]);
+}
+
+- (void)testNonOptionalUSCLowPercisionMaxWeightPickerAnswerFormat{
+    // Setup an answer format
+    ORKWeightAnswerFormat *answerFormat = [ORKAnswerFormat weightAnswerFormatWithMeasurementSystem:ORKMeasurementSystemUSC numericPrecision:ORKNumericPrecisionLow minimumValue:50.0 maximumValue:150.0 defaultValue:100.0];
+    
+    double scrollIndex = 100.0;
+    double expectedValue = 150.0;
+    double kgConversion = ORKPoundsToKilograms(expectedValue);
+    
+    XCTAssertTrue([self setupNonOptionalPicker:answerFormat scrollTo:scrollIndex :kgConversion secondInputValue:ORKDoubleInvalidValue]);
+    XCTAssertTrue([self revisitingNonOptionalPicker:answerFormat defaultValue:kgConversion expectedRow:scrollIndex expectedSecondRow:ORKDoubleInvalidValue]);
+}
+
+- (void)testOptionalWeightPickerAnswerFormat{
+    // Setup an answer format
+    ORKWeightAnswerFormat *answerFormat = [ORKAnswerFormat weightAnswerFormat];
+    
+    double tenPounds = 10.0;
+    double kgConversion = ORKPoundsToKilograms(tenPounds);
+
+    XCTAssertTrue([self setupOptionalPicker:answerFormat scrollTo:tenPounds :kgConversion secondInputValue:ORKDoubleInvalidValue]);
+    XCTAssertTrue([self revisitingOptionalPicker:answerFormat defaultValue:kgConversion expectedRow:tenPounds expectedSecondRow:ORKDoubleInvalidValue]);
+}
+
+- (void)testOptionalMetricWeightPickerAnswerFormat{
+    // Setup an answer format
+    ORKWeightAnswerFormat *answerFormat = [ORKAnswerFormat weightAnswerFormatWithMeasurementSystem:ORKMeasurementSystemMetric];
+    
+    double tenPounds = 10.0;
+    double kgConversion = 5.0; //ORKPoundsToKilograms(tenPounds);
+    XCTAssertTrue([self setupOptionalPicker:answerFormat scrollTo:tenPounds :kgConversion secondInputValue:ORKDoubleInvalidValue]);
+    XCTAssertTrue([self revisitingOptionalPicker:answerFormat defaultValue:kgConversion expectedRow:tenPounds expectedSecondRow:ORKDoubleInvalidValue]);
+}
+
+- (void)testOptionalMetricLowPercisionWeightPickerAnswerFormat{
+    // Setup an answer format
+    ORKWeightAnswerFormat *answerFormat = [ORKAnswerFormat weightAnswerFormatWithMeasurementSystem:ORKMeasurementSystemMetric numericPrecision:ORKNumericPrecisionLow minimumValue:ORKDoubleDefaultValue maximumValue:ORKDoubleDefaultValue defaultValue:ORKDoubleDefaultValue];
+    
+    double tenKG = 10.0;
+    XCTAssertTrue([self setupOptionalPicker:answerFormat scrollTo:tenKG :tenKG secondInputValue:ORKDoubleInvalidValue]);
+    XCTAssertTrue([self revisitingOptionalPicker:answerFormat defaultValue:tenKG expectedRow:tenKG expectedSecondRow:ORKDoubleInvalidValue]);
+}
+
+- (void)testOptionalMetricHighPercisionWeightPickerAnswerFormat{
+    // Setup an answer format
+    ORKWeightAnswerFormat *answerFormat = [ORKAnswerFormat weightAnswerFormatWithMeasurementSystem:ORKMeasurementSystemMetric numericPrecision:ORKNumericPrecisionHigh minimumValue:20.0 maximumValue:100.0 defaultValue:45.00];
+    
+    double scrollIndex = 10.0;
+    double secondScrollIndex = 10.0;
+
+    double expectedValue = 30.10;
+
+    XCTAssertTrue([self setupOptionalPicker:answerFormat scrollTo:scrollIndex :expectedValue secondInputValue:secondScrollIndex]);
+    XCTAssertTrue([self revisitingOptionalPicker:answerFormat defaultValue:expectedValue expectedRow:scrollIndex expectedSecondRow:secondScrollIndex]);
+}
+
+- (void)testOptionalUSCWeightPickerAnswerFormat{
+    // Setup an answer format
+    ORKWeightAnswerFormat *answerFormat = [ORKAnswerFormat weightAnswerFormatWithMeasurementSystem:ORKMeasurementSystemUSC];
+    
+    double tenPounds = 10.0;
+    double kgConversion = ORKPoundsToKilograms(tenPounds);
+    XCTAssertTrue([self setupOptionalPicker:answerFormat scrollTo:tenPounds :kgConversion secondInputValue:ORKDoubleInvalidValue]);
+    XCTAssertTrue([self revisitingOptionalPicker:answerFormat defaultValue:kgConversion expectedRow:tenPounds expectedSecondRow:ORKDoubleInvalidValue]);
+}
+
+- (void)testOptionalUSCHighPercisionWeightPickerAnswerFormat{
+    // Setup an answer format
+    ORKWeightAnswerFormat *answerFormat = [ORKAnswerFormat weightAnswerFormatWithMeasurementSystem:ORKMeasurementSystemUSC numericPrecision:ORKNumericPrecisionHigh minimumValue:50.0 maximumValue:150.0 defaultValue:100.0];
+    
+    double scrollIndex = 1.0; //51
+    double secondScrollIndex = 8.0; //no default value, starts at 0 -> 7 ounces
+
+    double expectedValue = 51.49; // 51 pounds and 8 ounces = 51.5 pounds
+    double kgConversion = ORKPoundsToKilograms(expectedValue);
+    
+    XCTAssertTrue([self setupOptionalPicker:answerFormat scrollTo:scrollIndex :kgConversion secondInputValue:secondScrollIndex]);
+    XCTAssertTrue([self revisitingOptionalPicker:answerFormat defaultValue:kgConversion expectedRow:scrollIndex expectedSecondRow:secondScrollIndex]);
+}
+
+- (void)testOptionalUSCLowPercisionMinWeightPickerAnswerFormat{
+    // Setup an answer format
+    ORKWeightAnswerFormat *answerFormat = [ORKAnswerFormat weightAnswerFormatWithMeasurementSystem:ORKMeasurementSystemUSC numericPrecision:ORKNumericPrecisionLow minimumValue:50.0 maximumValue:150.0 defaultValue:100.0];
+    
+    double scrollIndex = 0.0; //51
+    double expectedValue = 50.0;
+    double kgConversion = ORKPoundsToKilograms(expectedValue);
+    
+    XCTAssertTrue([self setupOptionalPicker:answerFormat scrollTo:scrollIndex :kgConversion secondInputValue:ORKDoubleInvalidValue]);
+    XCTAssertTrue([self revisitingOptionalPicker:answerFormat defaultValue:kgConversion expectedRow:scrollIndex expectedSecondRow:ORKDoubleInvalidValue]);
+}
+
+- (void)testOptionalUSCLowPercisionMaxWeightPickerAnswerFormat{
+    // Setup an answer format
+    ORKWeightAnswerFormat *answerFormat = [ORKAnswerFormat weightAnswerFormatWithMeasurementSystem:ORKMeasurementSystemUSC numericPrecision:ORKNumericPrecisionLow minimumValue:50.0 maximumValue:150.0 defaultValue:100.0];
+    
+    double scrollIndex = 100.0;
+    double expectedValue = 150.0;
+    double kgConversion = ORKPoundsToKilograms(expectedValue);
+    
+    XCTAssertTrue([self setupOptionalPicker:answerFormat scrollTo:scrollIndex :kgConversion secondInputValue:ORKDoubleInvalidValue]);
+    XCTAssertTrue([self revisitingOptionalPicker:answerFormat defaultValue:kgConversion expectedRow:scrollIndex expectedSecondRow:ORKDoubleInvalidValue]);
+}
+
+- (void)testOptionalUSCHighPercisionMinWeightPickerAnswerFormat{
+    // Setup an answer format
+    ORKWeightAnswerFormat *answerFormat = [ORKAnswerFormat weightAnswerFormatWithMeasurementSystem:ORKMeasurementSystemUSC numericPrecision:ORKNumericPrecisionHigh minimumValue:50.0 maximumValue:150.0 defaultValue:100.0];
+    
+    double scrollIndex = 0.0;
+    double secondScrollIndex = 0.0;
+    double expectedValue = 50.0;
+    double kgConversion = ORKPoundsToKilograms(expectedValue);
+    
+    XCTAssertTrue([self setupOptionalPicker:answerFormat scrollTo:scrollIndex :kgConversion secondInputValue:secondScrollIndex]);
+    XCTAssertTrue([self revisitingOptionalPicker:answerFormat defaultValue:kgConversion expectedRow:scrollIndex expectedSecondRow:secondScrollIndex]);
+}
+
+- (void)testOptionalUSCHighPercisionMaxWeightPickerAnswerFormat{
+    // Setup an answer format
+    ORKWeightAnswerFormat *answerFormat = [ORKAnswerFormat weightAnswerFormatWithMeasurementSystem:ORKMeasurementSystemUSC numericPrecision:ORKNumericPrecisionHigh minimumValue:50.0 maximumValue:150.0 defaultValue:100.0];
+    
+    double scrollIndex = 100.0;
+    double secondScrollIndex = 0.0;
+    double expectedValue = 150.0;
+    double kgConversion = ORKPoundsToKilograms(expectedValue);
+    
+    XCTAssertTrue([self setupOptionalPicker:answerFormat scrollTo:scrollIndex :kgConversion secondInputValue:secondScrollIndex]);
+    XCTAssertTrue([self revisitingOptionalPicker:answerFormat defaultValue:kgConversion expectedRow:scrollIndex expectedSecondRow:secondScrollIndex]);
+}
+
+
+#pragma mark - UIHeightPickerTests
+
+- (void)testNonOptionalHeightPickerAnswerFormat{
+    // Setup an answer format
+    ORKHeightAnswerFormat *answerFormat = [ORKAnswerFormat heightAnswerFormat];
+    
+    double fiveFeet = 5.0;
+    double fiveInches = 5.0;
+
+    double expectedFeet = 5.0;
+    double expectedInches = 4.0;
+    
+    double metricConversion = ORKFeetAndInchesToCentimeters(expectedFeet, expectedInches);
+    XCTAssertTrue([self setupNonOptionalPicker:answerFormat scrollTo:fiveFeet :metricConversion secondInputValue:fiveInches]);
+    XCTAssertTrue([self revisitingNonOptionalPicker:answerFormat defaultValue:metricConversion expectedRow:fiveFeet expectedSecondRow:fiveInches]);
+}
+
+- (void)testNonOptionalMetricHeightPickerAnswerFormat{
+    // Setup an answer format
+    ORKHeightAnswerFormat *answerFormat = [ORKAnswerFormat heightAnswerFormatWithMeasurementSystem:ORKMeasurementSystemMetric];
+    
+    double fiveCM = 5.0;
+
+    XCTAssertTrue([self setupNonOptionalPicker:answerFormat scrollTo:fiveCM :fiveCM secondInputValue:ORKDoubleInvalidValue]);
+    XCTAssertTrue([self revisitingNonOptionalPicker:answerFormat defaultValue:fiveCM expectedRow:fiveCM expectedSecondRow:ORKDoubleInvalidValue]);
+}
+
+- (void)testNonOptionalUSCHeightPickerAnswerFormat{
+    // Setup an answer format
+    ORKHeightAnswerFormat *answerFormat = [ORKAnswerFormat heightAnswerFormatWithMeasurementSystem:ORKMeasurementSystemUSC];
+    
+    double fiveFeet = 5.0;
+    double fiveInches = 5.0;
+
+    double expectedFeet = 5.0;
+    double expectedInches = 4.0;
+    
+    double metricConversion = ORKFeetAndInchesToCentimeters(expectedFeet, expectedInches);
+    XCTAssertTrue([self setupNonOptionalPicker:answerFormat scrollTo:fiveFeet :metricConversion secondInputValue:fiveInches]);
+    XCTAssertTrue([self revisitingNonOptionalPicker:answerFormat defaultValue:metricConversion expectedRow:fiveFeet expectedSecondRow:fiveInches]);
+}
+
+- (void)testNonOptionalMinUSCHeightPickerAnswerFormat{
+    // Setup an answer format
+    ORKHeightAnswerFormat *answerFormat = [ORKAnswerFormat heightAnswerFormatWithMeasurementSystem:ORKMeasurementSystemUSC];
+    
+    double startFeet = 0.0;
+    double startInches = 1.0;
+
+    double expectedFeet = 0.0;
+    double expectedInches = 0.0;
+    
+    double metricConversion = ORKFeetAndInchesToCentimeters(expectedFeet, expectedInches);
+    XCTAssertTrue([self setupNonOptionalPicker:answerFormat scrollTo:startFeet :metricConversion secondInputValue:startInches]);
+    XCTAssertTrue([self revisitingNonOptionalPicker:answerFormat defaultValue:metricConversion expectedRow:startFeet expectedSecondRow:startInches]);
+}
+
+- (void)testNonOptionalMaxUSCHeightPickerAnswerFormat{
+    // Setup an answer format
+    ORKHeightAnswerFormat *answerFormat = [ORKAnswerFormat heightAnswerFormatWithMeasurementSystem:ORKMeasurementSystemUSC];
+    
+    double startFeet = 9.0;
+    double startInches = 12.0;
+
+    double expectedFeet = 9.0;
+    double expectedInches = 11.0;
+    
+    double metricConversion = ORKFeetAndInchesToCentimeters(expectedFeet, expectedInches);
+    XCTAssertTrue([self setupNonOptionalPicker:answerFormat scrollTo:startFeet :metricConversion secondInputValue:startInches]);
+    XCTAssertTrue([self revisitingNonOptionalPicker:answerFormat defaultValue:metricConversion expectedRow:startFeet expectedSecondRow:startInches]);
+}
+
+- (void)testNonOptionalMinMetricHeightPickerAnswerFormat{
+    // Setup an answer format
+    ORKHeightAnswerFormat *answerFormat = [ORKAnswerFormat heightAnswerFormatWithMeasurementSystem:ORKMeasurementSystemMetric];
+    
+    double cm = 0.0;
+    
+    XCTAssertTrue([self setupNonOptionalPicker:answerFormat scrollTo:cm :cm secondInputValue:ORKDoubleInvalidValue]);
+    XCTAssertTrue([self revisitingNonOptionalPicker:answerFormat defaultValue:cm expectedRow:cm expectedSecondRow:ORKDoubleInvalidValue]);
+}
+
+- (void)testNonOptionalMaxMetricHeightPickerAnswerFormat{
+    // Setup an answer format
+    ORKHeightAnswerFormat *answerFormat = [ORKAnswerFormat heightAnswerFormatWithMeasurementSystem:ORKMeasurementSystemMetric];
+    
+    double cm = 298.0;
+    
+    XCTAssertTrue([self setupNonOptionalPicker:answerFormat scrollTo:cm :cm secondInputValue:ORKDoubleInvalidValue]);
+    XCTAssertTrue([self revisitingNonOptionalPicker:answerFormat defaultValue:cm expectedRow:cm expectedSecondRow:ORKDoubleInvalidValue]);
+}
+
+- (void)testOptionalHeightPickerAnswerFormat{
+    // Setup an answer format
+    ORKHeightAnswerFormat *answerFormat = [ORKAnswerFormat heightAnswerFormat];
+    
+    double fiveFeet = 5.0;
+    double fiveInches = 5.0;
+
+    double expectedFeet = 5.0;
+    double expectedInches = 5.0;
+    
+    double metricConversion = ORKFeetAndInchesToCentimeters(expectedFeet, expectedInches);
+    XCTAssertTrue([self setupOptionalPicker:answerFormat scrollTo:fiveFeet :metricConversion secondInputValue:fiveInches]);
+    XCTAssertTrue([self revisitingOptionalPicker:answerFormat defaultValue:metricConversion expectedRow:fiveFeet expectedSecondRow:fiveInches]);
+}
+
+- (void)testOptionalMetricHeightPickerAnswerFormat{
+    // Setup an answer format
+    ORKHeightAnswerFormat *answerFormat = [ORKAnswerFormat heightAnswerFormatWithMeasurementSystem:ORKMeasurementSystemMetric];
+    
+    double fiveCM = 5.0;
+
+    XCTAssertTrue([self setupOptionalPicker:answerFormat scrollTo:fiveCM :fiveCM secondInputValue:ORKDoubleInvalidValue]);
+    XCTAssertTrue([self revisitingOptionalPicker:answerFormat defaultValue:fiveCM expectedRow:fiveCM expectedSecondRow:ORKDoubleInvalidValue]);
+}
+
+- (void)testOptionalUSCHeightPickerAnswerFormat{
+    // Setup an answer format
+    ORKHeightAnswerFormat *answerFormat = [ORKAnswerFormat heightAnswerFormatWithMeasurementSystem:ORKMeasurementSystemUSC];
+    
+    double fiveFeet = 5.0;
+    double fiveInches = 5.0;
+
+    double expectedFeet = 5.0;
+    double expectedInches = 5.0;
+    
+    double metricConversion = ORKFeetAndInchesToCentimeters(expectedFeet, expectedInches);
+    XCTAssertTrue([self setupOptionalPicker:answerFormat scrollTo:fiveFeet :metricConversion secondInputValue:fiveInches]);
+    XCTAssertTrue([self revisitingOptionalPicker:answerFormat defaultValue:metricConversion expectedRow:fiveFeet expectedSecondRow:fiveInches]);
+}
+
+- (void)testOptionalMinUSCHeightPickerAnswerFormat{
+    // Setup an answer format
+    ORKHeightAnswerFormat *answerFormat = [ORKAnswerFormat heightAnswerFormatWithMeasurementSystem:ORKMeasurementSystemUSC];
+    
+    double startFeet = 0.0;
+    double startInches = 1.0;
+
+    double expectedFeet = 0.0;
+    double expectedInches = 1.0;
+    
+    double metricConversion = ORKFeetAndInchesToCentimeters(expectedFeet, expectedInches);
+    XCTAssertTrue([self setupOptionalPicker:answerFormat scrollTo:startFeet :metricConversion secondInputValue:startInches]);
+    XCTAssertTrue([self revisitingOptionalPicker:answerFormat defaultValue:metricConversion expectedRow:startFeet expectedSecondRow:startInches]);
+}
+
+- (void)testOptionalMaxUSCHeightPickerAnswerFormat{
+    // Setup an answer format
+    ORKHeightAnswerFormat *answerFormat = [ORKAnswerFormat heightAnswerFormatWithMeasurementSystem:ORKMeasurementSystemUSC];
+    
+    double startFeet = 9.0;
+    double startInches = 11.0;
+
+    double expectedFeet = 9.0;
+    double expectedInches = 11.0;
+    
+    double metricConversion = ORKFeetAndInchesToCentimeters(expectedFeet, expectedInches);
+    XCTAssertTrue([self setupOptionalPicker:answerFormat scrollTo:startFeet :metricConversion secondInputValue:startInches]);
+    XCTAssertTrue([self revisitingOptionalPicker:answerFormat defaultValue:metricConversion expectedRow:startFeet expectedSecondRow:startInches]);
+}
+
+- (void)testOptionalMinMetricHeightPickerAnswerFormat{
+    // Setup an answer format
+    ORKHeightAnswerFormat *answerFormat = [ORKAnswerFormat heightAnswerFormatWithMeasurementSystem:ORKMeasurementSystemMetric];
+    
+    double cm = 0.0;
+    
+    XCTAssertTrue([self setupOptionalPicker:answerFormat scrollTo:cm :cm secondInputValue:ORKDoubleInvalidValue]);
+    XCTAssertTrue([self revisitingOptionalPicker:answerFormat defaultValue:cm expectedRow:cm expectedSecondRow:ORKDoubleInvalidValue]);
+}
+
+- (void)testOptionalMaxMetricHeightPickerAnswerFormat{
+    // Setup an answer format
+    ORKHeightAnswerFormat *answerFormat = [ORKAnswerFormat heightAnswerFormatWithMeasurementSystem:ORKMeasurementSystemMetric];
+    
+    double cm = 298.0;
+    
+    XCTAssertTrue([self setupOptionalPicker:answerFormat scrollTo:cm :cm secondInputValue:ORKDoubleInvalidValue]);
+    XCTAssertTrue([self revisitingOptionalPicker:answerFormat defaultValue:cm expectedRow:cm expectedSecondRow:ORKDoubleInvalidValue]);
+}
+
 
 #if RK_APPLE_INTERNAL
 - (void)testTextAnswerFormatPIIScrubber {
