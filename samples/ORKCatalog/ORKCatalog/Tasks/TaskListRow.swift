@@ -1161,26 +1161,43 @@ enum TaskListRow: Int, CustomStringConvertible {
         let step1 = ORKQuestionStep(identifier: String(describing: Identifier.heightQuestionStep1), title: NSLocalizedString("Height", comment: ""), question: exampleQuestionText, answer: answerFormat1)
         
         step1.text = "Local system"
-
+        
+        
+        let step1NonOptional = ORKQuestionStep(identifier: String(describing: Identifier.heightQuestionStep1)  + "NonOptional", title: NSLocalizedString("Height", comment: ""), question: exampleQuestionText, answer: answerFormat1)
+        step1NonOptional.text = "Local system (Non Optional)"
+        step1NonOptional.isOptional = false
+        
         let answerFormat2 = ORKAnswerFormat.heightAnswerFormat(with: ORKMeasurementSystem.metric)
         
         let step2 = ORKQuestionStep(identifier: String(describing: Identifier.heightQuestionStep2), title: NSLocalizedString("Height", comment: ""), question: exampleQuestionText, answer: answerFormat2)
         
         step2.text = "Metric system"
 
+        let step2NonOptional = ORKQuestionStep(identifier: String(describing: Identifier.heightQuestionStep2)  + "NonOptional", title: NSLocalizedString("Height", comment: ""), question: exampleQuestionText, answer: answerFormat2)
+        step2NonOptional.text = "Metric system (Non Optional)"
+        step2NonOptional.isOptional = false
+        
         let answerFormat3 = ORKAnswerFormat.heightAnswerFormat(with: ORKMeasurementSystem.USC)
         
         let step3 = ORKQuestionStep(identifier: String(describing: Identifier.heightQuestionStep3), title: NSLocalizedString("Height", comment: ""), question: exampleQuestionText, answer: answerFormat3)
         
         step3.text = "USC system"
 
+        let step3NonOptional = ORKQuestionStep(identifier: String(describing: Identifier.heightQuestionStep3)  + "NonOptional", title: NSLocalizedString("Height", comment: ""), question: exampleQuestionText, answer: answerFormat3)
+        step3NonOptional.text = "USC system (Non Optional)"
+        step3NonOptional.isOptional = false
+        
         let answerFormat4 = ORKHealthKitQuantityTypeAnswerFormat(quantityType: HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.height)!, unit: HKUnit.meterUnit(with: .centi), style: .decimal)
         
         let step4 = ORKQuestionStep(identifier: String(describing: Identifier.heightQuestionStep4), title: NSLocalizedString("Height", comment: ""), question: exampleQuestionText, answer: answerFormat4)
         
         step4.text = "HealthKit, height"
         
-        return ORKOrderedTask(identifier: String(describing: Identifier.heightQuestionTask), steps: [step1, step2, step3, step4])
+        let step4NonOptional = ORKQuestionStep(identifier: String(describing: Identifier.heightQuestionStep4)  + "NonOptional", title: NSLocalizedString("Height", comment: ""), question: exampleQuestionText, answer: answerFormat1)
+        step4NonOptional.text = "HealthKit, height (Non Optional"
+        step4NonOptional.isOptional = false
+        
+        return ORKOrderedTask(identifier: String(describing: Identifier.heightQuestionTask), steps: [step1, step1NonOptional, step2, step2NonOptional, step3, step3NonOptional, step4NonOptional, step4])
     }
 
     /// This task demonstrates a question asking for the user weight.
@@ -1190,6 +1207,11 @@ enum TaskListRow: Int, CustomStringConvertible {
         let step1 = ORKQuestionStep(identifier: String(describing: Identifier.weightQuestionStep1), title: NSLocalizedString("Weight", comment: ""), question: exampleQuestionText, answer: answerFormat1)
         
         step1.text = "Local system, default precision"
+                
+        let step1NonOptional = ORKQuestionStep(identifier: String(describing: Identifier.weightQuestionStep1)  + "NonOptional", title: NSLocalizedString("Weight", comment: ""), question: exampleQuestionText, answer: answerFormat1)
+        
+        step1NonOptional.text = "Local system, default precision (nonOptional)"
+        step1NonOptional.isOptional = false
         
         let answerFormat2 = ORKAnswerFormat.weightAnswerFormat(with: ORKMeasurementSystem.metric)
         
@@ -1197,23 +1219,40 @@ enum TaskListRow: Int, CustomStringConvertible {
         
         step2.text = "Metric system, default precision"
         
+        let step2NonOptional = ORKQuestionStep(identifier: String(describing: Identifier.weightQuestionStep2)  + "NonOptional", title: NSLocalizedString("Weight", comment: ""), question: exampleQuestionText, answer: answerFormat2)
+        
+        step2NonOptional.text = "Metric system, default precision (nonOptional)"
+        step2NonOptional.isOptional = false
+        
         let answerFormat3 = ORKAnswerFormat.weightAnswerFormat(with: ORKMeasurementSystem.metric, numericPrecision: ORKNumericPrecision.low, minimumValue: ORKDoubleDefaultValue, maximumValue: ORKDoubleDefaultValue, defaultValue: ORKDoubleDefaultValue)
         
         let step3 = ORKQuestionStep(identifier: String(describing: Identifier.weightQuestionStep3), title: NSLocalizedString("Weight", comment: ""), question: exampleQuestionText, answer: answerFormat3)
         
         step3.text = "Metric system, low precision"
 
+        let step3NonOptional = ORKQuestionStep(identifier: String(describing: Identifier.weightQuestionStep3)  + "NonOptional", title: NSLocalizedString("Weight", comment: ""), question: exampleQuestionText, answer: answerFormat3)
+        step3NonOptional.text = "Metric system, low precision (nonOptional)"
+        step3NonOptional.isOptional = false
+        
         let answerFormat4 = ORKAnswerFormat.weightAnswerFormat(with: ORKMeasurementSystem.metric, numericPrecision: ORKNumericPrecision.high, minimumValue: 20.0, maximumValue: 100.0, defaultValue: 45.50)
         
         let step4 = ORKQuestionStep(identifier: String(describing: Identifier.weightQuestionStep4), title: NSLocalizedString("Weight", comment: ""), question: exampleQuestionText, answer: answerFormat4)
         
         step4.text = "Metric system, high precision"
 
+        let step4NonOptional = ORKQuestionStep(identifier: String(describing: Identifier.weightQuestionStep4)  + "NonOptional", title: NSLocalizedString("Weight", comment: ""), question: exampleQuestionText, answer: answerFormat4)
+        step4NonOptional.text = "Metric system, high precision (nonOptional)"
+        step4NonOptional.isOptional = false
+        
         let answerFormat5 = ORKAnswerFormat.weightAnswerFormat(with: ORKMeasurementSystem.USC)
         
         let step5 = ORKQuestionStep(identifier: String(describing: Identifier.weightQuestionStep5), title: NSLocalizedString("Weight", comment: ""), question: exampleQuestionText, answer: answerFormat5)
         
         step5.text = "USC system, default precision"
+        
+        let step5NonOptional = ORKQuestionStep(identifier: String(describing: Identifier.weightQuestionStep5)  + "NonOptional", title: NSLocalizedString("Weight", comment: ""), question: exampleQuestionText, answer: answerFormat5)
+        step5NonOptional.text = "USC system, default precision (nonOptional)"
+        step5NonOptional.isOptional = false
         
         let answerFormat6 = ORKAnswerFormat.weightAnswerFormat(with: ORKMeasurementSystem.USC, numericPrecision: ORKNumericPrecision.high, minimumValue: 50.0, maximumValue: 150.0, defaultValue: 100.0)
         
@@ -1221,13 +1260,21 @@ enum TaskListRow: Int, CustomStringConvertible {
         
         step6.text = "USC system, high precision"
 
+        let step6NonOptional = ORKQuestionStep(identifier: String(describing: Identifier.weightQuestionStep6)  + "NonOptional", title: NSLocalizedString("Weight", comment: ""), question: exampleQuestionText, answer: answerFormat6)
+        step6NonOptional.text = "USC system, high precision (nonOptional)"
+        step6NonOptional.isOptional = false
+        
         let answerFormat7 = ORKHealthKitQuantityTypeAnswerFormat(quantityType: HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.bodyMass)!, unit: HKUnit.gramUnit(with: .kilo), style: .decimal)
         
         let step7 = ORKQuestionStep(identifier: String(describing: Identifier.weightQuestionStep7), title: NSLocalizedString("Weight", comment: ""), question: exampleQuestionText, answer: answerFormat7)
         
         step7.text = "HealthKit, body mass"
 
-        return ORKOrderedTask(identifier: String(describing: Identifier.weightQuestionTask), steps: [step1, step2, step3, step4, step5, step6, step7])
+        let step7NonOptional = ORKQuestionStep(identifier: String(describing: Identifier.weightQuestionStep7)  + "NonOptional", title: NSLocalizedString("Weight", comment: ""), question: exampleQuestionText, answer: answerFormat7)
+        step7NonOptional.text =  "HealthKit, body mass (nonOptional)"
+        step7NonOptional.isOptional = false
+        
+        return ORKOrderedTask(identifier: String(describing: Identifier.weightQuestionTask), steps: [step1, step1NonOptional, step2,  step2NonOptional, step3, step3NonOptional, step4, step4NonOptional, step5,  step5NonOptional, step6, step6NonOptional, step7NonOptional, step7])
     }
     
     /**
