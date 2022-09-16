@@ -107,7 +107,7 @@ static const CGFloat PickerMinimumHeight = 34.0;
     
     if (_answerFormat.useMetricSystem) {
         if (_answerFormat.numericPrecision != ORKNumericPrecisionHigh) {
-            NSUInteger index = [_majorValues indexOfObject:@((NSInteger)((NSNumber *)answer).doubleValue)];
+            NSUInteger index = [_majorValues indexOfObject:@((double)((NSNumber *)answer).doubleValue)];
             if (index == NSNotFound) {
                 [self setAnswer:[self defaultAnswerValue]];
                 return;
