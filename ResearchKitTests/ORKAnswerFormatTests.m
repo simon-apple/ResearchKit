@@ -334,6 +334,18 @@
     XCTAssertTrue([self revisitingNonOptionalPicker:answerFormat defaultValue:kgConversion expectedRow:scrollIndex expectedSecondRow:secondScrollIndex]);
 }
 
+- (void)testNonOptionalMetricLowPrecisionDecimalWeightPickerAnswerFormat{
+    // Setup an answer format
+
+    ORKWeightAnswerFormat *answerFormat = [ORKAnswerFormat weightAnswerFormatWithMeasurementSystem:ORKMeasurementSystemMetric];
+    
+    double scrollIndex = 3.0; // 1.5 kg
+    double expectedValue = 1.5; // 1.5 kg
+    
+    XCTAssertTrue([self setupNonOptionalPicker:answerFormat scrollTo:scrollIndex :expectedValue secondInputValue:ORKDoubleInvalidValue]);
+    XCTAssertTrue([self revisitingNonOptionalPicker:answerFormat defaultValue:expectedValue expectedRow:scrollIndex expectedSecondRow:ORKDoubleInvalidValue]);
+}
+
 - (void)testNonOptionalUSCLowPercisionMinWeightPickerAnswerFormat{
     // Setup an answer format
     ORKWeightAnswerFormat *answerFormat = [ORKAnswerFormat weightAnswerFormatWithMeasurementSystem:ORKMeasurementSystemUSC numericPrecision:ORKNumericPrecisionLow minimumValue:50.0 maximumValue:150.0 defaultValue:100.0];
