@@ -148,6 +148,8 @@
 "PASSCODE_INVALID_ALERT_MESSAGE" = "Passcodes did not match. Try again.";
 "PASSCODE_TOUCH_ID_MESSAGE" = "Please authenticate with Touch ID";
 "PASSCODE_TOUCH_ID_ERROR_ALERT_TITLE" = "Touch ID error";
+"PASSCODE_FACE_ID_MESSAGE" = "Please authenticate with Face ID";
+"PASSCODE_FACE_ID_ERROR_ALERT_TITLE" = "Face ID error";
 "PASSCODE_TEXTFIELD_INVALID_INPUT_MESSAGE" = "Only numeric characters allowed.";
 "PASSCODE_TEXTFIELD_ACCESSIBILITY_LABEL" = "Passcode entry progress indicator";
 "PASSCODE_TEXTFIELD_ACCESSIBILTIY_VALUE" = "%@ of %@ digits entered";
