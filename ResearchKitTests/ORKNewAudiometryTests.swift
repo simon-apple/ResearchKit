@@ -833,8 +833,8 @@ class ORKNewAudiometryTests: XCTestCase {
         let ySample = Matrix(elements: [1.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0], rows: 10, columns: 1)
         let theta = [25.0, 30.0].asVector()
         
-        let expectedPoint = [4.9733958229060296, 9.558823529411764]
-        let expectedI = 0.9286824800672102
+        let expectedPoint = [4.9733958229060296, 7.448979591836736]
+        let expectedI = 0.928853651189462
         let res = audiometry.newPoint(xSample, ySample, theta)
        
         XCTAssertEqual(res.nextPoint.count, expectedPoint.count)
@@ -1225,7 +1225,6 @@ extension ORKNewAudiometryTests {
     func testSamplesIteractiveFull() throws {
         let audiograms = [
             [ 5.0, 10.0, 15.0, 25.0, 25.0, 30.0, 20.0, 25.0, 25.0, 50.0],
-            [10.0, 15.0, 20.0, 20.0, 30.0, 55.0, 55.0, 50.0, 45.0, 45.0],
             [45.0, 55.0, 55.0, 55.0, 65.0, 75.0, 60.0, 65.0, 60.0, 65.0],
             [35.0, 30.0, 30.0, 25.0, 25.0, 25.0, 15.0, 15.0,  5.0,  0.0],
             [ 0.0,  5.0,  5.0,  5.0, 10.0, 15.0,  0.0, 10.0, 30.0, 50.0],
@@ -1243,6 +1242,7 @@ extension ORKNewAudiometryTests {
     func testSamplesIteractiveFullCornerCases() throws {
         let audiograms = [
             [ 0.0,  0.0, 10.0, 25.0, 35.0, 25.0, 50.0, 55.0, 65.0, 85.0],
+            [10.0, 15.0, 20.0, 20.0, 30.0, 55.0, 55.0, 50.0, 45.0, 45.0],
             [25.0, 45.0, 55.0, 65.0, 80.0, 75.0, 60.0, 65.0, 65.0, 45.0],
         ]
 
