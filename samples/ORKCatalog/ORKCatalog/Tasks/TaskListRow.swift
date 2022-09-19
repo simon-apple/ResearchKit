@@ -132,6 +132,9 @@ enum TaskListRow: Int, CustomStringConvertible {
     case ble
     case textQuestionPIIScrubbing
     case newdBHLToneAudiometryTask
+    case customStepTask
+    case studyPromoTask
+    case studySignPostStep
     #endif
     
     class TaskListRowSection {
@@ -233,7 +236,10 @@ enum TaskListRow: Int, CustomStringConvertible {
                     .predefinedTinnitusTask,
                     .textQuestionPIIScrubbing,
                     .ble,
-                    .newdBHLToneAudiometryTask
+                    .newdBHLToneAudiometryTask,
+                    .customStepTask,
+                    .studyPromoTask,
+                    .studySignPostStep
                 ])]
             defaultSections = (defaultSections + internalSections)
             #endif
@@ -440,6 +446,12 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .newdBHLToneAudiometryTask:
             return NSLocalizedString("dBHL Tone Audiometry (New Algorithm)", comment: "")
+        case .customStepTask:
+            return NSLocalizedString("Custom Step Task", comment: "")
+        case .studyPromoTask:
+            return NSLocalizedString("Study Promo View Controller", comment: "")
+        case .studySignPostStep:
+            return NSLocalizedString("Study Sign Post Step", comment: "")
         #endif
         }
     }
@@ -651,6 +663,9 @@ enum TaskListRow: Int, CustomStringConvertible {
         case predefinedAVJournalingTask
         case predefinedTinnitusTask
         case newdBHLToneAudiometryTask
+        case customStepTask
+        case studyPromoTask
+        case studySignPostStep
         #endif
     }
     
@@ -851,10 +866,20 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .newdBHLToneAudiometryTask:
             return newdBHLToneAudiometryTask
+            
+        case .customStepTask:
+            return customStepTask
+        
+        case .studySignPostStep:
+            return customStepTask
+        
+        case .studyPromoTask:
+            return customStepTask
+            
         #endif
-
         case .textChoiceQuestionWithImageTask:
             return textChoiceQuestionWithImageTask
+
         }
     }
 
@@ -2140,6 +2165,24 @@ enum TaskListRow: Int, CustomStringConvertible {
     /// This task presents the dBHL Tone Audiometry new algorithm.
     private var newdBHLToneAudiometryTask: ORKTask {
         return ORKOrderedTask.newdBHLToneAudiometryTask(withIdentifier: String(describing: Identifier.newdBHLToneAudiometryTask), intendedUseDescription: nil, options: [])
+    }
+    
+    private var customStepTask: ORKTask {
+        let label1 = UILabel()
+        label1.text = "Sample Label 1"
+        
+        let label2 = UILabel()
+        label2.text = "Sample Label 2"
+        
+        let hstack = UIStackView(arrangedSubviews: [label1, label2])
+        hstack.axis = .vertical
+        let customStep = ORKCustomStep(identifier: "testt", contentView: hstack)
+        customStep.title = "My Title is here"
+        customStep.text = "My Text is here"
+        customStep.detailText = "Detail Text Here"
+        customStep.iconImage = UIImage(systemName: "clock")
+
+        return ORKOrderedTask(identifier: String(describing: Identifier.customStepTask), steps: [customStep])
     }
     
     #endif

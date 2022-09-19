@@ -960,6 +960,12 @@
 
 
 #if RK_APPLE_INTERNAL
+
+- (void)testCustomTask {
+    // only should initialize with a valid content view
+    XCTAssertThrows([ORKCustomStep customStepWithIdentifier:@"whoops" contentView: NULL]);
+}
+
 - (void)testTextAnswerFormatPIIScrubber {
     // Setup an answer format
     ORKTextAnswerFormat *answerFormat = [ORKAnswerFormat textAnswerFormat];
