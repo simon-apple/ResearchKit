@@ -1156,7 +1156,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         */
         let answerFormat = ORKAnswerFormat.dateAnswerFormatWithDays(beforeCurrentDate: 3, daysAfterCurrentDate: 3, calendar: nil)
         
-        let step = ORKQuestionStep(identifier: String(describing: Identifier.dateQuestionStep), title: NSLocalizedString("Date", comment: ""), question: exampleQuestionText, answer: answerFormat)
+        let step = ORKQuestionStep(identifier: String(describing: Identifier.dateQuestionStep), title: NSLocalizedString("Date", comment: ""), question: exampleDate3DayLimitQuestionTask, answer: answerFormat)
         
         step.text = exampleDetailText
         
@@ -2215,6 +2215,10 @@ enum TaskListRow: Int, CustomStringConvertible {
     
     private var exampleEmailText: String {
         return NSLocalizedString("jappleseed@example.com", comment: "")
+    }
+    
+    private var exampleDate3DayLimitQuestionTask: String {
+        return NSLocalizedString("This date picker is restricted to 3 days before or after the current date.", comment: "")
     }
     
     private var loremIpsumText: String {
