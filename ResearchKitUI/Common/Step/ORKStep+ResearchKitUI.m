@@ -34,6 +34,14 @@
 
 #import "ORKViewControllerProviding.h"
 
+@implementation ORKCompletionStep (ViewControllerProviding)
+
+- (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
+    return [[ORKCompletionStepViewController alloc] initWithStep:self result:result];
+}
+
+@end
+
 @implementation ORKConsentReviewStep (ViewControllerProviding)
 
 - (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
@@ -46,6 +54,14 @@
 
 - (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
     return [[ORKConsentSharingStepViewController alloc] initWithStep:self result:result];
+}
+
+@end
+
+@implementation ORKCustomStep (ViewControllerProviding)
+
+- (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
+    return [[ORKCustomStepViewController alloc] initWithStep:self result:result];
 }
 
 @end
@@ -91,6 +107,8 @@
 
 @end
 
+// ORKNavigablePageStep is intentionally omitted, as it didn't have its own `stepViewControllerClass implementation`.
+
 @implementation ORKPDFViewerStep (ViewControllerProviding)
 
 - (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
@@ -122,6 +140,8 @@
 }
 
 @end
+
+// ORKRegistrationStep is intentionally omitted, as it didn't have its own `stepViewControllerClass implementation`.
 
 @implementation ORKRequestPermissionsStep(ViewControllerProviding)
 
