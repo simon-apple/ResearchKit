@@ -43,10 +43,6 @@ NSString *const ORKLoginFormItemIdentifierPassword = @"ORKLoginFormItemPassword"
 
 @implementation ORKLoginStep
 
-- (Class)stepViewControllerClass {
-    return self.loginViewControllerClass;
-}
-
 // Don't throw on -initWithIdentifier: because it's internally used by -copyWithZone:
 
 - (instancetype)initWithIdentifier:(NSString *)identifier

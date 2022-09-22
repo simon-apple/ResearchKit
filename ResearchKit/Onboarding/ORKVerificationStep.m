@@ -39,10 +39,6 @@
 
 @implementation ORKVerificationStep
 
-- (Class)stepViewControllerClass {
-    return self.verificationViewControllerClass;
-}
-
 // Don't throw on -initWithIdentifier: because it's  internally used by -copyWithZone:
 
 - (instancetype)initWithIdentifier:(NSString *)identifier
