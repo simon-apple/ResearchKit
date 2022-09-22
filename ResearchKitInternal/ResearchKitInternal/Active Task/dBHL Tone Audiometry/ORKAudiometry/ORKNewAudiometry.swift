@@ -98,7 +98,7 @@ import ResearchKitActiveTask
                   minLevel: minLevel,
                   maxLevel: maxLevel,
                   frequencies: frequencies,
-                  kernelLenght: 3.0,
+                  kernelLenght: 3.5,
                   stoppingCriteria: 0.65)
     }
     
@@ -463,7 +463,7 @@ extension ORKNewAudiometry {
         
         let grids = Matrix.mGrid(xRange: lowerX...upperX,
                                  xSteps: 35, yRange: lowerY...upperY,
-                                 ySteps: 35)
+                                 ySteps: 50)
         let grid = Matrix.stack(grids.0, grids.1)
         let xNew = Matrix.reshape2columns(grid)
         let lenght = kernelLenght

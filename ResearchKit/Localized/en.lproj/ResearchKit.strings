@@ -148,6 +148,8 @@
 "PASSCODE_INVALID_ALERT_MESSAGE" = "Passcodes did not match. Try again.";
 "PASSCODE_TOUCH_ID_MESSAGE" = "Please authenticate with Touch ID";
 "PASSCODE_TOUCH_ID_ERROR_ALERT_TITLE" = "Touch ID error";
+"PASSCODE_FACE_ID_MESSAGE" = "Please authenticate with Face ID";
+"PASSCODE_FACE_ID_ERROR_ALERT_TITLE" = "Face ID error";
 "PASSCODE_TEXTFIELD_INVALID_INPUT_MESSAGE" = "Only numeric characters allowed.";
 "PASSCODE_TEXTFIELD_ACCESSIBILITY_LABEL" = "Passcode entry progress indicator";
 "PASSCODE_TEXTFIELD_ACCESSIBILTIY_VALUE" = "%@ of %@ digits entered";
@@ -354,28 +356,6 @@
 "dBHL_PROGRESS_COMPLETION_%@" = "%@ Complete";
 "dBHL_TONE_AUDIOMETRY_TESTING_IN_PROGRESS" = "TEST IN PROGRESS";
 "dBHL_TONE_AUDIOMETRY_TESTING_IN_PROGRESS_FMT" = "TEST IN PROGRESS \U2022 %@";
-
-/* Headphones. */
-"AIRPODS" = "AirPods";
-"AIRPODSPRO" = "AirPods Pro";
-"AIRPODSMAX" = "AirPods Max";
-"EARPODS" = "EarPods";
-"HEADPHONES" = "Headphones";
-"HEADPHONES_NONE" = "None";
-"AIRPODS_CONNECTED" = "Connected";
-"AIRPODSPRO_CONNECTED" = "Connected";
-"AIRPODSMAX_CONNECTED" = "Connected";
-"EARPODS_CONNECTED" = "Connected";
-"AIRPODS_NOT_CONNECTED" = "Not Connected";
-"AIRPODSPRO_NOT_CONNECTED" = "Not Connected";
-"AIRPODSMAX_NOT_CONNECTED" = "Not Connected";
-"EARPODS_NOT_CONNECTED" = "Not Connected";
-"HEADPHONE_CONNECTED_AIRPODS" = "Connected - AirPods";
-"HEADPHONE_CONNECTED_AIRPODSPRO" = "Connected - AirPods Pro";
-"HEADPHONE_CONNECTED_AIRPODSMAX" = "Connected - AirPods Max";
-"HEADPHONE_CONNECTED_EARPODS" = "Connected - EarPods";
-"HEADPHONE_DETECT_TITLE" = "Connect your Headphones";
-"HEADPHONE_DETECT_TEXT" = "To ensure accurate results, this task requires Apple AirPods, AirPods Pro, AirPods Max or EarPods.";
 
 /* Spatial span memory active task. */
 "SPATIAL_SPAN_MEMORY_TITLE" = "Spatial Memory";

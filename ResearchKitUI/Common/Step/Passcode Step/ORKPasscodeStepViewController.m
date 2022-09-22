@@ -413,6 +413,10 @@ static CGFloat const kForgotPasscodeHeight              = 100.0f;
         [self makePasscodeViewResignFirstResponder];
         
         NSString *localizedReason = ORKLocalizedString(@"PASSCODE_TOUCH_ID_MESSAGE", nil);
+        if (_touchContext.biometryType == LABiometryTypeFaceID) {
+            localizedReason = ORKLocalizedString(@"PASSCODE_FACE_ID_MESSAGE", nil);
+        }
+        
         ORKWeakTypeOf(self) weakSelf = self;
         [_touchContext evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
                       localizedReason:localizedReason
@@ -431,7 +435,12 @@ static CGFloat const kForgotPasscodeHeight              = 100.0f;
                     }
                 } else if (error.code != LAErrorUserCancel) {
                     // Display the error message.
-                    UIAlertController *alert = [UIAlertController alertControllerWithTitle:ORKLocalizedString(@"PASSCODE_TOUCH_ID_ERROR_ALERT_TITLE", nil)
+                    NSString* alertTitle = ORKLocalizedString(@"PASSCODE_TOUCH_ID_ERROR_ALERT_TITLE", nil);
+                    if (_touchContext.biometryType == LABiometryTypeFaceID) {
+                        alertTitle = ORKLocalizedString(@"PASSCODE_FACE_ID_ERROR_ALERT_TITLE", nil);
+                    }
+                    
+                    UIAlertController *alert = [UIAlertController alertControllerWithTitle:alertTitle
                                                                                    message:error.localizedDescription
                                                                             preferredStyle:UIAlertControllerStyleAlert];
                     [alert addAction:[UIAlertAction actionWithTitle:ORKLocalizedString(@"BUTTON_OK", nil)

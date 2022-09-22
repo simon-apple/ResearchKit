@@ -108,21 +108,53 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
         // Present the task view controller that the user asked for.
         let taskListRow = TaskListRow.sections[(indexPath as NSIndexPath).section].rows[(indexPath as NSIndexPath).row]
         
+        #if RK_APPLE_INTERNAL
+        if taskListRow == .studyPromoTask {
+            let studyPromoViewController = StudyPromoViewController()
+            studyPromoViewController.delegate = self
+            self.present(studyPromoViewController, animated: true)
+            return
+        } else if taskListRow == .studySignPostStep {
+            let label1 = UILabel()
+            label1.text = "Sample Label 1"
+            
+            let label2 = UILabel()
+            label2.text = "Sample Label 2"
+            
+            let hstack = UIStackView(arrangedSubviews: [label1, label2])
+            hstack.axis = .vertical
+            let customStep = ORKCustomStep(identifier: "testt", contentView: hstack)
+            customStep.title = "My Title is here"
+            customStep.text = "My Text is here"
+            customStep.detailText = "Detail Text Here"
+            customStep.iconImage = UIImage(systemName: "clock")
+            
+            let vc = ORKCustomStepViewController(step: customStep)
+            vc.delegate = self
+            present(vc, animated: true)
+            return
+        }
+        #endif
+        displayTaskViewController(taskListRow: taskListRow)
+
+    }
+    
+    func displayTaskViewController(taskListRow: TaskListRow) {
         // Create a task from the `TaskListRow` to present in the `ORKTaskViewController`.
         let task = taskListRow.representedTask
         
         /*
-            Passing `nil` for the `taskRunUUID` lets the task view controller
-            generate an identifier for this run of the task.
-        */
+         Passing `nil` for the `taskRunUUID` lets the task view controller
+         generate an identifier for this run of the task.
+         */
         let taskViewController = ORKTaskViewController(task: task, taskRun: nil)
-
+        
         // Make sure we receive events from `taskViewController`.
         taskViewController.delegate = self
         
         // Assign a directory to store `taskViewController` output.
         taskViewController.outputDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-
+        
         /*
          We present the task directly, but it is also possible to use segues.
          The task property of the task view controller can be set any time before
@@ -207,3 +239,25 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
     }
 
 }
+
+#if RK_APPLE_INTERNAL
+extension TaskListViewController: ORKStepViewControllerDelegate {
+    func stepViewController(_ stepViewController: ORKStepViewController, didFinishWith direction: ORKStepViewControllerNavigationDirection) {
+        stepViewController.dismiss(animated: true)
+    }
+    
+    func stepViewControllerResultDidChange(_ stepViewController: ORKStepViewController) {
+        // pass
+    }
+    
+    func stepViewControllerDidFail(_ stepViewController: ORKStepViewController, withError error: Error?) {
+        // pass
+    }
+    
+    func stepViewController(_ stepViewController: ORKStepViewController, recorder: ORKRecorder, didFailWithError error: Error) {
+        // pass
+    }
+    
+    
+}
+#endif
