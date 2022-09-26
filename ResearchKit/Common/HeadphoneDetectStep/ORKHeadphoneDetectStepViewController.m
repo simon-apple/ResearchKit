@@ -85,6 +85,9 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     /** Airpods Pro */
     ORKHeadphoneDetectedAirpodsPro,
     
+    /** Airpods Pro Generation 2*/
+    ORKHeadphoneDetectedAirpodsProGen2,
+    
     /** Airpods Max */
     ORKHeadphoneDetectedAirpodsMax,
     
@@ -220,6 +223,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
         case ORKHeadphoneDetectedAirpodsGen3:
             return ORKLocalizedString(@"AIRPODS", nil);
         case ORKHeadphoneDetectedAirpodsPro:
+        case ORKHeadphoneDetectedAirpodsProGen2:
             return ORKLocalizedString(@"AIRPODSPRO", nil);
         case ORKHeadphoneDetectedAirpodsMax:
             return ORKLocalizedString(@"AIRPODSMAX", nil);
@@ -240,6 +244,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
             }
             return _selected ? ORKLocalizedString(@"AIRPODS_CONNECTED", nil) :  ORKLocalizedString(@"AIRPODS_NOT_CONNECTED", nil);
         case ORKHeadphoneDetectedAirpodsPro:
+        case ORKHeadphoneDetectedAirpodsProGen2:
             if (_headphoneCellType == ORKHeadphoneDetectedUnknown) {
                 return _selected ? ORKLocalizedString(@"HEADPHONE_CONNECTED_AIRPODSPRO", nil) : ORKLocalizedString(@"HEADPHONES_NONE", nil);
             }
@@ -444,6 +449,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
             glyphName = ORKHeadphoneGlyphNameAirpodsGen3;
             break;
         case ORKHeadphoneDetectedAirpodsPro:
+        case ORKHeadphoneDetectedAirpodsProGen2:
             glyphName = ORKHeadphoneGlyphNameAirpodsPro;
             break;
         case ORKHeadphoneDetectedAirpodsMax:
@@ -733,6 +739,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
                     [self setAirpodMaxCellExpanded: NO];
                     break;
                 case ORKHeadphoneDetectedAirpodsPro:
+                case ORKHeadphoneDetectedAirpodsProGen2:
                     _airpodProSupportView.selected = YES;
                     [_airpodProSupportView setHeadphoneDetected:_headphoneDetected];
                     [self setAirpodProCellExpanded: isExpanded];
@@ -935,6 +942,9 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
         } else if ([headphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsPro]) {
             _lastDetectedBluetoothMode = ORKBluetoothModeNone;
             _headphoneDetectStepView.headphoneDetected = ORKHeadphoneDetectedAirpodsPro;
+        } else if ([headphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsProGen2]) {
+            _lastDetectedBluetoothMode = ORKBluetoothModeNone;
+            _headphoneDetectStepView.headphoneDetected = ORKHeadphoneDetectedAirpodsProGen2;
         } else if ([headphoneType isEqualToString:ORKHeadphoneTypeIdentifierEarPods] ) {
             _headphoneDetectStepView.headphoneDetected = ORKHeadphoneDetectedEarpods;
         } else if ([headphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMax] ) {
