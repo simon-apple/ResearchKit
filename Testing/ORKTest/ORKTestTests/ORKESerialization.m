@@ -1135,7 +1135,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(earPreference, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(frequencyList, NSArray, NSObject, YES, nil, nil),
 #if RK_APPLE_INTERNAL
-                    PROPERTY(algorithmVersion, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(algorithm, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(dBHLMaximumThreshold, NSNumber, NSObject, YES, nil, nil),
 #endif
                     })),
