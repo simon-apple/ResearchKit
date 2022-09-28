@@ -423,7 +423,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
         [_textLabel setText:headphoneName];
         _imageView.image = headphoneglyph;
     } else {
-        [_textLabel setText:ORKLocalizedString(@"CONNECTED", nil)];
+        [_textLabel setText:ORKLocalizedString(@"THIRD_PARTY_HEADPHONES_CONNECTED", nil)];
     }
     
     [self updateAccessibilityElements];
