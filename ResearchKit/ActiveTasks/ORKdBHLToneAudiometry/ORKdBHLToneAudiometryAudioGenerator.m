@@ -79,7 +79,7 @@ NSString * const filenameExtension = @"plist";
     AUNode _mixerNode;
     AudioUnit _mMixer;
     double _frequency;
-    double _theta;
+    unsigned long _thetaIndex;
     ORKAudioChannel _activeChannel;
     BOOL _playsStereo;
     BOOL _rampUp;
@@ -111,27 +111,17 @@ static OSStatus ORKdBHLAudioGeneratorRenderTone(void *inRefCon,
 
     amplitude = [audioGenerator->_amplitudeGain doubleValue];
     
-    double theta = audioGenerator->_theta;
-    double theta_increment = 2.0 * M_PI * audioGenerator->_frequency / ORKdBHLSineWaveToneGeneratorSampleRateDefault;
-    
+    double theta_increment = audioGenerator->_frequency / ORKdBHLSineWaveToneGeneratorSampleRateDefault;
+    unsigned long theta_index = audioGenerator->_thetaIndex;
+
     double fadeInFactor = audioGenerator->_fadeInFactor;
     
     // This is a mono tone generator so we only need the first buffer
     Float32 *bufferActive    = (Float32 *)ioData->mBuffers[audioGenerator->_activeChannel].mData;
     Float32 *bufferNonActive = (Float32 *)ioData->mBuffers[1 - audioGenerator->_activeChannel].mData;
-    
-    int lastIndex = inNumberFrames - 1;
-    
+        
     // Generate the samples
     for (UInt32 frame = 0; frame < inNumberFrames; frame++) {
-        double bufferValue;
-        
-        bufferValue = sin(theta) * amplitude * pow(10, 2.0 * fadeInFactor - 2);
-        
-        theta += theta_increment;
-        if (theta > 2.0 * M_PI) {
-            theta -= 2.0 * M_PI;
-        }
         if (audioGenerator->_rampUp) {
             fadeInFactor += 1.0 / (ORKdBHLSineWaveToneGeneratorSampleRateDefault * audioGenerator->_fadeInDuration);
             if (fadeInFactor >= 1) {
@@ -144,12 +134,9 @@ static OSStatus ORKdBHLAudioGeneratorRenderTone(void *inRefCon,
             }
         }
         
-        if (frame == lastIndex) {
-            // Interpolate linearly between values closest to index.
-            double beforeValue = bufferActive[lastIndex - 1];
-            double afterValue = sin(theta) * amplitude * pow(10, 2.0 * fadeInFactor - 2);
-            bufferValue = beforeValue + (afterValue - beforeValue) * 0.5;
-        }
+        double theta = theta_index * theta_increment;
+        double bufferValue = sin(theta * 2.0 * M_PI) * amplitude * pow(10, 2.0 * fadeInFactor - 2);
+        theta_index++;
         
         bufferActive[frame] = bufferValue;
         if (audioGenerator->_playsStereo) {
@@ -159,8 +146,8 @@ static OSStatus ORKdBHLAudioGeneratorRenderTone(void *inRefCon,
         }
     }
     
-    // Store the theta back in the view controller
-    audioGenerator->_theta = theta;
+    // Store the thetaIndex back in the view controller
+    audioGenerator->_thetaIndex = theta_index;
     audioGenerator->_fadeInFactor = fadeInFactor;
     
     return noErr;
@@ -256,6 +243,7 @@ static OSStatus ORKdBHLAudioGeneratorZeroTone(void *inRefCon,
     _fadeInDuration = 0.2;
     _rampUp = YES;
     _globaldBHL = dBHL;
+    _thetaIndex = 0;
     
     [self play];
     
