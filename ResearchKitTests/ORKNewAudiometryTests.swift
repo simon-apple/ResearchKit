@@ -929,6 +929,8 @@ extension ORKNewAudiometryTests {
             while newAudiometry.initialSampleEnded == false {
                 let stimulus = try XCTUnwrap(newAudiometry.nextStimulus())
                 let testLevel = audiogram[Int(round(stimulus.frequency))]
+                
+                newAudiometry.registerStimulusPlayback()
                 if stimulus.level > testLevel! {
                     newAudiometry.registerResponse(true)
                 } else {
@@ -1033,6 +1035,8 @@ extension ORKNewAudiometryTests {
             while audiometry2.initialSampleEnded == false {
                 let stimulus = try XCTUnwrap(audiometry2.nextStimulus())
                 let testLevel = audiogramDict[round(stimulus.frequency)]
+                
+                audiometry2.registerStimulusPlayback()
                 if stimulus.level > testLevel! {
                     audiometry2.registerResponse(true)
                 } else {
@@ -1049,7 +1053,8 @@ extension ORKNewAudiometryTests {
             XCTAssertEqual(res.count, expected.count)
             for (value1, value2) in zip(res, expected) {
                 XCTAssertEqual(value1, value2, accuracy: 1e-16)
-            }        }
+            }
+        }
     }
     
     func testInitialSampleUnits() throws {
@@ -1065,6 +1070,7 @@ extension ORKNewAudiometryTests {
         var unit = try XCTUnwrap(audiometry.resultUnits().filter { abs($0.frequency - 1000) < 0.1 }.first?.units?.last)
         XCTAssertEqual(unit.dBHLValue, 50)
         audiometry.registerPreStimulusDelay(1.0)
+        audiometry.registerStimulusPlayback()
         audiometry.registerResponse(true)
         XCTAssertEqual(unit.startOfUnitTimeStamp, 0)
         XCTAssertEqual(unit.timeoutTimeStamp, 0)
@@ -1074,6 +1080,7 @@ extension ORKNewAudiometryTests {
         unit = try XCTUnwrap(audiometry.resultUnits().filter { abs($0.frequency - 1000) < 0.1 }.first?.units?.last)
         XCTAssertEqual(unit.dBHLValue, 30)
         audiometry.registerPreStimulusDelay(1.1)
+        audiometry.registerStimulusPlayback()
         audiometry.registerResponse(false)
         XCTAssertEqual(unit.startOfUnitTimeStamp, 2)
         XCTAssertEqual(unit.timeoutTimeStamp, 3)
@@ -1083,6 +1090,7 @@ extension ORKNewAudiometryTests {
         unit = try XCTUnwrap(audiometry.resultUnits().filter { abs($0.frequency - 2000) < 0.1 }.first?.units?.last)
         XCTAssertEqual(unit.dBHLValue, 40)
         audiometry.registerPreStimulusDelay(1.2)
+        audiometry.registerStimulusPlayback()
         audiometry.registerResponse(true)
         XCTAssertEqual(unit.startOfUnitTimeStamp, 4)
         XCTAssertEqual(unit.timeoutTimeStamp, 0)
@@ -1092,7 +1100,8 @@ extension ORKNewAudiometryTests {
         unit = try XCTUnwrap(audiometry.resultUnits().filter { abs($0.frequency - 4000) < 0.1 }.first?.units?.last)
         XCTAssertEqual(unit.dBHLValue, 30)
         audiometry.registerPreStimulusDelay(1.3)
-        audiometry.registerResponse(true)
+        audiometry.registerStimulusPlayback()
+       audiometry.registerResponse(true)
         XCTAssertEqual(unit.startOfUnitTimeStamp, 6)
         XCTAssertEqual(unit.timeoutTimeStamp, 0)
         XCTAssertEqual(unit.userTapTimeStamp, 7)
@@ -1101,6 +1110,7 @@ extension ORKNewAudiometryTests {
         unit = try XCTUnwrap(audiometry.resultUnits().filter { abs($0.frequency - 8000) < 0.1 }.first?.units?.last)
         XCTAssertEqual(unit.dBHLValue, 20)
         audiometry.registerPreStimulusDelay(1.4)
+        audiometry.registerStimulusPlayback()
         audiometry.registerResponse(true)
         XCTAssertEqual(unit.startOfUnitTimeStamp, 8)
         XCTAssertEqual(unit.timeoutTimeStamp, 0)
@@ -1110,6 +1120,7 @@ extension ORKNewAudiometryTests {
         unit = try XCTUnwrap(audiometry.resultUnits().filter { abs($0.frequency - 8000) < 0.1 }.first?.units?.last)
         XCTAssertEqual(unit.dBHLValue, 0)
         audiometry.registerPreStimulusDelay(1.5)
+        audiometry.registerStimulusPlayback()
         audiometry.registerResponse(false)
         XCTAssertEqual(unit.startOfUnitTimeStamp, 10)
         XCTAssertEqual(unit.timeoutTimeStamp, 11)
@@ -1119,6 +1130,7 @@ extension ORKNewAudiometryTests {
         unit = try XCTUnwrap(audiometry.resultUnits().filter { abs($0.frequency - 500) < 0.1 }.first?.units?.last)
         XCTAssertEqual(unit.dBHLValue, 40) // This is expected because the last level for 1k is restored to be used as the baseline here
         audiometry.registerPreStimulusDelay(1.6)
+        audiometry.registerStimulusPlayback()
         audiometry.registerResponse(false)
         XCTAssertEqual(unit.startOfUnitTimeStamp, 12)
         XCTAssertEqual(unit.timeoutTimeStamp, 13)
@@ -1128,6 +1140,7 @@ extension ORKNewAudiometryTests {
         unit = try XCTUnwrap(audiometry.resultUnits().filter { abs($0.frequency - 250) < 0.1 }.first?.units?.last)
         XCTAssertEqual(unit.dBHLValue, 50)
         audiometry.registerPreStimulusDelay(1.7)
+        audiometry.registerStimulusPlayback()
         audiometry.registerResponse(false)
         XCTAssertEqual(unit.startOfUnitTimeStamp, 14)
         XCTAssertEqual(unit.timeoutTimeStamp, 15)
@@ -1137,6 +1150,7 @@ extension ORKNewAudiometryTests {
         unit = try XCTUnwrap(audiometry.resultUnits().filter { abs($0.frequency - 250) < 0.1 }.first?.units?.last)
         XCTAssertEqual(unit.dBHLValue, 70)
         audiometry.registerPreStimulusDelay(1.8)
+        audiometry.registerStimulusPlayback()
         audiometry.signalClipped() // A clip bellow the maximum threshold should register as negative
         XCTAssertEqual(unit.startOfUnitTimeStamp, 16)
         XCTAssertEqual(unit.timeoutTimeStamp, 17)
@@ -1146,6 +1160,7 @@ extension ORKNewAudiometryTests {
         unit = try XCTUnwrap(audiometry.resultUnits().filter { abs($0.frequency - 250) < 0.1 }.first?.units?.last)
         XCTAssertEqual(unit.dBHLValue, maxLevel)
         audiometry.registerPreStimulusDelay(1.9)
+        audiometry.registerStimulusPlayback()
         audiometry.signalClipped() // A clip at the maximum threshold should register as positive
         XCTAssertEqual(unit.startOfUnitTimeStamp, 18)
         XCTAssertEqual(unit.timeoutTimeStamp, 0)
@@ -1292,6 +1307,7 @@ extension ORKNewAudiometryTests {
                     let freqPoint = newAudiometry.bark(stimulus.frequency)
                     let testLevel = levels[newAudiometry.findNearest(freqs.asVector(), freqPoint)]
                     
+                    newAudiometry.registerStimulusPlayback()
                     if stimulus.level > testLevel {
                         newAudiometry.registerResponse(true)
                     } else {

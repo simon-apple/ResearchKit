@@ -64,6 +64,7 @@ import Foundation
     fileprivate let channel: ORKAudioChannel
     fileprivate var stimulus: ORKAudiometryStimulus?
     fileprivate var results = [Double: Double]()
+    fileprivate var preStimulusResponse: Bool = true
 
     // Settings
     fileprivate let initialLevel: Double
@@ -162,8 +163,12 @@ import Foundation
         resultUnit.preStimulusDelay = preStimulusDelay
     }
     
+    public func registerStimulusPlayback() {
+          preStimulusResponse = false
+     }
+    
     public func registerResponse(_ response: Bool) {
-        guard let lastStimulus = stimulus else { return }
+        guard let lastStimulus = stimulus, !preStimulusResponse else { return }
         
         let freqPoint = bark(lastStimulus.frequency)
         
@@ -183,6 +188,7 @@ import Foundation
         
         let lastResponse = ySample.elements.last == 1
         updateUnit(with: lastResponse)
+        preStimulusResponse = true
         
         if !nextInitialSample() {
             // Check if initial sampling is invalid
