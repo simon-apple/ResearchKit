@@ -62,9 +62,8 @@
 
 @interface ORKTinnitusAudioGenerator () {
   @public
-    AudioComponentInstance _unit;
     double _frequency;
-    double _theta;
+    unsigned long _thetaIndex;
     double _bufferAmplitude;
     float _systemVolume;
     ORKAudioChannel _activeChannel;
@@ -73,12 +72,17 @@
     NSTimeInterval _fadeDuration;
     NSNumberFormatter *_numberFormatter;
     ORKTinnitusType _type;
+    
+    int _lastNodeInput;
+    AudioComponentInstance _toneUnit;
+    AUGraph _mGraph;
+    AUNode _outputNode;
+    AUNode _mixerNode;
+    AudioUnit _mMixer;
 }
 
 @property (assign) NSTimeInterval fadeDuration;
 
-- (void)setupAudioSession;
-- (void)createUnit;
 - (void)play;
 - (void)handleInterruption:(id)sender;
 
@@ -104,9 +108,10 @@ static OSStatus ORKTinnitusAudioGeneratorRenderTone(void *inRefCon,
         NSDecimalNumber *dbAmplitudePerFrequency =  [NSDecimalNumber decimalNumberWithString:table.dbAmplitudePerFrequency[[NSString stringWithFormat:@"%.0f",audioGenerator->_frequency]]];
         attenuation =  (powf(10, 0.05 * dbAmplitudePerFrequency.doubleValue));
     }
+    
     double amplitude = audioGenerator->_bufferAmplitude * attenuation;
-    double theta = audioGenerator->_theta;
-    double theta_increment = 2.0 * M_PI * audioGenerator->_frequency / ORKTinnitusAudioGeneratorSampleRateDefault;
+    double theta_increment = audioGenerator->_frequency / ORKTinnitusAudioGeneratorSampleRateDefault;
+    unsigned long theta_index = audioGenerator->_thetaIndex;
 
     double fadeFactor = audioGenerator->_fadeFactor;
 
@@ -115,21 +120,6 @@ static OSStatus ORKTinnitusAudioGeneratorRenderTone(void *inRefCon,
     
     // Generate the samples
     for (UInt32 frame = 0; frame < inNumberFrames; frame++) {
-        double bufferValue;
-        if (audioGenerator->_type == ORKTinnitusTypePureTone) {
-            bufferValue = sin(theta) * amplitude * pow(10, 2 * fadeFactor - 2);
-        } else {
-            // white noise
-            bufferValue = ((((double) (arc4random() % ((unsigned)RAND_MAX + 1)) / RAND_MAX) * (2 * audioGenerator->_bufferAmplitude)) - audioGenerator->_bufferAmplitude) * fadeFactor;
-        }
-        bufferActive[frame] = bufferValue;
-        bufferNonActive[frame] = bufferValue;
-        
-        theta += theta_increment;
-        if (theta > 2.0 * M_PI) {
-            theta -= 2.0 * M_PI;
-        }
-
         if (audioGenerator->_rampUp) {
             fadeFactor += 1.0 / (ORKTinnitusAudioGeneratorSampleRateDefault * audioGenerator->_fadeDuration);
             if (fadeFactor >= 1) {
@@ -141,14 +131,49 @@ static OSStatus ORKTinnitusAudioGeneratorRenderTone(void *inRefCon,
                 fadeFactor = 0;
             }
         }
+        double bufferValue;
+        if (audioGenerator->_type == ORKTinnitusTypePureTone) {
+            double theta = theta_index * theta_increment;
+            bufferValue = sin(theta * 2.0 * M_PI) * amplitude * pow(10, 2.0 * fadeFactor - 2);
+            theta_index++;
+        } else {
+            // white noise
+            bufferValue = ((((double) (arc4random() % ((unsigned)RAND_MAX + 1)) / RAND_MAX) * (2 * audioGenerator->_bufferAmplitude)) - audioGenerator->_bufferAmplitude) * fadeFactor;
+        }
+        bufferActive[frame] = bufferValue;
+        bufferNonActive[frame] = bufferValue;
     }
 
-    // Store the theta back in the view controller
-    audioGenerator->_theta = theta;
+    // Store the thetaIndex back in the view controller
+    audioGenerator->_thetaIndex = theta_index;
     audioGenerator->_fadeFactor = fadeFactor;
 
     return noErr;
 }
+
+static OSStatus ORKTinnitusAudioGeneratorZeroTone(void *inRefCon,
+                                             AudioUnitRenderActionFlags *ioActionFlags,
+                                             const AudioTimeStamp         *inTimeStamp,
+                                             UInt32                     inBusNumber,
+                                             UInt32                     inNumberFrames,
+                                             AudioBufferList             *ioData) {
+    // Get the tone parameters out of the view controller
+    ORKTinnitusAudioGenerator *audioGenerator = (__bridge ORKTinnitusAudioGenerator *)inRefCon;
+ 
+    // This is a mono tone generator so we only need the first buffer
+    Float32 *bufferActive    = (Float32 *)ioData->mBuffers[audioGenerator->_activeChannel].mData;
+    Float32 *bufferNonActive = (Float32 *)ioData->mBuffers[1 - audioGenerator->_activeChannel].mData;
+    
+    // Generate the samples
+    for (UInt32 frame = 0; frame < inNumberFrames; frame++) {
+        double bufferValue = 0;
+        bufferActive[frame] = bufferValue;
+        bufferNonActive[frame] = bufferValue;
+    }
+
+    return noErr;
+}
+
 
 
 @implementation ORKTinnitusAudioGenerator
@@ -184,6 +209,8 @@ static OSStatus ORKTinnitusAudioGeneratorRenderTone(void *inRefCon,
 
 - (void)commonInit {
     self.fadeDuration = ORKTinnitusFadeDuration;
+    
+    _lastNodeInput = 0;
 	
     _playing = NO;
     _type = ORKTinnitusTypeUnknown;
@@ -192,7 +219,7 @@ static OSStatus ORKTinnitusAudioGeneratorRenderTone(void *inRefCon,
     _numberFormatter = [[NSNumberFormatter alloc] init];
     _numberFormatter.numberStyle = NSNumberFormatterDecimalStyle;
     
-    [self setupAudioSession];
+    [self setupGraph];
     
     // Automatically stop and then restart audio playback when the app resigns active.
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
@@ -200,21 +227,30 @@ static OSStatus ORKTinnitusAudioGeneratorRenderTone(void *inRefCon,
 }
 
 - (void)dealloc {
-    [self stop];
+    if (_mGraph) {
+        int nodeInput = (_lastNodeInput % 2) + 1;
+        AUGraphDisconnectNodeInput(_mGraph, _mixerNode, nodeInput);
+        AUGraphUpdate(_mGraph, NULL);
+        AUGraphStop(_mGraph);
+        AUGraphUninitialize(_mGraph);
+        _mGraph = nil;
+    }
+    
+    _mMixer = nil;
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)applicationDidBecomeActive:(NSNotification *)notification {
-    if (_unit) {
-        __unused OSErr error = AudioOutputUnitStart(_unit);
+    if (_toneUnit) {
+        __unused OSErr error = AudioOutputUnitStart(_toneUnit);
         NSAssert1(error == noErr, @"Error starting unit: %hd", error);
     }
 }
 
 - (void)applicationWillResignActive:(NSNotification *)notification {
-    if (_unit) {
-        __unused OSErr error = AudioOutputUnitStop(_unit);
+    if (_toneUnit) {
+        __unused OSErr error = AudioOutputUnitStop(_toneUnit);
         NSAssert1(error == noErr, @"Error stopping unit: %hd", error);
     }
 }
@@ -268,24 +304,29 @@ static OSStatus ORKTinnitusAudioGeneratorRenderTone(void *inRefCon,
     _fadeFactor = self.fadeDuration;
     _fadeDuration = self.fadeDuration;
     _rampUp = YES;
+    _thetaIndex = 0;
     
     [self play];
 }
 
 - (void)play {
-    if (!_unit) {
-        [self createUnit];
-
-        _systemVolume = [self getCurrentSystemVolume];
-
-        // Stop changing parameters on the unit
-        OSErr error = AudioUnitInitialize(_unit);
-        NSAssert1(error == noErr, @"Error initializing unit: %hd", error);
-
-        // Start playback
-        error = AudioOutputUnitStart(_unit);
-        NSAssert1(error == noErr, @"Error starting unit: %hd", error);
+    AURenderCallbackStruct renderCallbackStruct;
+    renderCallbackStruct.inputProcRefCon = (__bridge void *)(self);
+    renderCallbackStruct.inputProc = ORKTinnitusAudioGeneratorRenderTone;
+    _lastNodeInput += 1;
+    int connect = 0;
+    int disconnect = 0;
+    if ((_lastNodeInput % 2) == 0) {
+        connect = 1;
+        disconnect = 2;
+    } else {
+        connect = 2;
+        disconnect = 1;
     }
+    AUGraphDisconnectNodeInput(_mGraph, _mixerNode, disconnect);
+    AUGraphSetNodeInputCallback(_mGraph, _mixerNode, connect, &renderCallbackStruct);
+    AUGraphUpdate(_mGraph, NULL);
+    _playing = YES;
 }
 
 - (void)playWhiteNoise {
@@ -293,95 +334,126 @@ static OSStatus ORKTinnitusAudioGeneratorRenderTone(void *inRefCon,
     _fadeFactor = self.fadeDuration;
     _fadeDuration = self.fadeDuration;
     _rampUp = YES;
-
-    if (!_unit) {
-        [self createUnit];
-
-        // Stop changing parameters on the unit
-        OSErr error = AudioUnitInitialize(_unit);
-        NSAssert1(error == noErr, @"Error initializing unit: %hd", error);
-
-        // Start playback
-        error = AudioOutputUnitStart(_unit);
-        NSAssert1(error == noErr, @"Error starting unit: %hd", error);
-    }
+    
+    [self play];
 }
 
 - (void)stop {
-    if (_unit) {
+    if (_mGraph) {
         _rampUp = NO;
+        int nodeInput = (_lastNodeInput % 2) + 1;
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(_fadeDuration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            AudioOutputUnitStop(_unit);
-            AudioUnitUninitialize(_unit);
-            AudioComponentInstanceDispose(_unit);
-            _unit = nil;
-            _playing = NO;
+            if (_mGraph) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    AUGraphDisconnectNodeInput(_mGraph, _mixerNode, nodeInput);
+                    AUGraphUpdate(_mGraph, NULL);
+                    _playing = NO;
+                });
+            }
         });
-        
     }
 }
 
-- (void)setupAudioSession {
-    AVAudioSession *audioSession = [AVAudioSession sharedInstance];
-    BOOL ok;
-    NSError *setCategoryError = nil;
-    ok = [audioSession setCategory:AVAudioSessionCategoryPlayback error:&setCategoryError];
-    NSAssert1(ok, @"Audio error %@", setCategoryError);
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleInterruption:)
-                                                 name:AVAudioSessionInterruptionNotification
-                                               object:audioSession];
-}
+- (void)setupGraph {
+    if (!_mGraph) {
+        NewAUGraph(&_mGraph);
+        AudioComponentDescription mixer_desc;
+        mixer_desc.componentType = kAudioUnitType_Mixer;
+        mixer_desc.componentSubType = kAudioUnitSubType_SpatialMixer;
+        mixer_desc.componentFlags = 0;
+        mixer_desc.componentFlagsMask = 0;
+        mixer_desc.componentManufacturer = kAudioUnitManufacturer_Apple;
+        
+        AudioComponentDescription output_desc;
+        output_desc.componentType = kAudioUnitType_Output;
+        output_desc.componentSubType = kAudioUnitSubType_RemoteIO;
+        output_desc.componentFlags = 0;
+        output_desc.componentFlagsMask = 0;
+        output_desc.componentManufacturer = kAudioUnitManufacturer_Apple;
+        
+        AUGraphAddNode(_mGraph, &output_desc, &_outputNode);
+        AUGraphAddNode(_mGraph, &mixer_desc, &_mixerNode );
+        
+        AUGraphConnectNodeInput(_mGraph, _mixerNode, 0, _outputNode, 0);
+        
+        AUGraphOpen(_mGraph);
+        AUGraphNodeInfo(_mGraph, _mixerNode, NULL, &_mMixer);
+        
+        UInt32 numbuses = 3;
+        UInt32 size = sizeof(numbuses);
+        AudioUnitSetProperty(_mMixer, kAudioUnitProperty_ElementCount, kAudioUnitScope_Input, 0, &numbuses, size);
+        
+        AudioStreamBasicDescription desc;
+        for (int i = 0; i < numbuses; ++i) {
+            AURenderCallbackStruct renderCallbackStruct;
+            renderCallbackStruct.inputProcRefCon = (__bridge void *)(self);
+            
+            if (i == 0) {
+                renderCallbackStruct.inputProc = ORKTinnitusAudioGeneratorZeroTone;
+                AUGraphSetNodeInputCallback(_mGraph, _mixerNode, 0, &renderCallbackStruct);
+            }
+            size = sizeof(desc);
+            AudioUnitGetProperty(  _mMixer,
+                                    kAudioUnitProperty_StreamFormat,
+                                    kAudioUnitScope_Input,
+                                    i,
+                                    &desc,
+                                    &size);
+            memset (&desc, 0, sizeof (desc));
+            const int four_bytes_per_float = 4;
+            const int eight_bits_per_byte = 8;
+            
+            desc.mSampleRate = ORKTinnitusAudioGeneratorSampleRateDefault;
+            desc.mFormatID = kAudioFormatLinearPCM;
+            desc.mFormatFlags = kAudioFormatFlagsNativeFloatPacked | kAudioFormatFlagIsNonInterleaved;
+            desc.mBytesPerPacket = four_bytes_per_float;
+            desc.mFramesPerPacket = 1;
+            desc.mBytesPerFrame = four_bytes_per_float;
+            desc.mChannelsPerFrame = 2;
+            desc.mBitsPerChannel = four_bytes_per_float * eight_bits_per_byte;
+            
+            AudioUnitSetProperty(_mMixer,
+                                 kAudioUnitProperty_StreamFormat,
+                                 kAudioUnitScope_Input,
+                                 i,
+                                 &desc,
+                                 sizeof(desc));
+            
+            AUSpatialMixerOutputType outputType = kSpatialMixerOutputType_Headphones;
+            AudioUnitSetProperty(_mMixer,
+                                 kAudioUnitProperty_SpatialMixerOutputType,
+                                 kAudioUnitScope_Global,
+                                 i,
+                                 &outputType,
+                                 sizeof(outputType));
+            
+            AUSpatializationAlgorithm stereoPassThrough = kSpatializationAlgorithm_StereoPassThrough;
+            AudioUnitSetProperty(_mMixer,
+                                 kAudioUnitProperty_SpatializationAlgorithm,
+                                 kAudioUnitScope_Input,
+                                 i,
+                                 &stereoPassThrough,
+                                 sizeof(stereoPassThrough));
+            
+            UInt32 bypass = kSpatialMixerSourceMode_Bypass;
+            AudioUnitSetProperty(_mMixer,
+                                 kAudioUnitProperty_SpatialMixerSourceMode,
+                                 kAudioUnitScope_Input,
+                                 i,
+                                 &bypass,
+                                 sizeof(bypass));
+        }
 
-- (void)createUnit {
-    AudioComponentDescription defaultOutputDescription;
-    defaultOutputDescription.componentType = kAudioUnitType_Output;
-    defaultOutputDescription.componentSubType = kAudioUnitSubType_RemoteIO;
-    defaultOutputDescription.componentManufacturer = kAudioUnitManufacturer_Apple;
-    defaultOutputDescription.componentFlags = 0;
-    defaultOutputDescription.componentFlagsMask = 0;
-
-    // Get the default playback output unit
-    AudioComponent defaultOutput = AudioComponentFindNext(NULL, &defaultOutputDescription);
-    NSAssert(defaultOutput, @"Can't find default output");
-
-    // Create a new unit based on this that we'll use for output
-    OSErr error = AudioComponentInstanceNew(defaultOutput, &_unit);
-    NSAssert1(_unit, @"Error creating unit: %hd", error);
-
-    // Set our tone rendering function on the unit
-    AURenderCallbackStruct input;
-    input.inputProc = ORKTinnitusAudioGeneratorRenderTone;
-    input.inputProcRefCon = (__bridge void *)(self);
-    error = AudioUnitSetProperty(_unit,
-                               kAudioUnitProperty_SetRenderCallback,
-                               kAudioUnitScope_Input,
-                               0,
-                               &input,
-                               sizeof(input));
-    NSAssert1(error == noErr, @"Error setting callback: %hd", error);
-
-    // Set the format to 32 bit, single channel, floating point, linear PCM
-    const int four_bytes_per_float = 4;
-    const int eight_bits_per_byte = 8;
-    AudioStreamBasicDescription streamFormat;
-    streamFormat.mSampleRate = ORKTinnitusAudioGeneratorSampleRateDefault;
-    streamFormat.mFormatID = kAudioFormatLinearPCM;
-    streamFormat.mFormatFlags = kAudioFormatFlagsNativeFloatPacked | kAudioFormatFlagIsNonInterleaved;
-    streamFormat.mBytesPerPacket = four_bytes_per_float;
-    streamFormat.mFramesPerPacket = 1;
-    streamFormat.mBytesPerFrame = four_bytes_per_float;
-    streamFormat.mChannelsPerFrame = 2;
-    streamFormat.mBitsPerChannel = four_bytes_per_float * eight_bits_per_byte;
-    error = AudioUnitSetProperty (_unit,
-                                kAudioUnitProperty_StreamFormat,
-                                kAudioUnitScope_Input,
-                                0,
-                                &streamFormat,
-                                sizeof(AudioStreamBasicDescription));
-    NSAssert1(error == noErr, @"Error setting stream format: %hd", error);
-    
-    _playing = YES;
+        AudioUnitSetProperty(_mMixer,
+                             kAudioUnitProperty_StreamFormat,
+                             kAudioUnitScope_Output,
+                             0,
+                             &desc,
+                             sizeof(desc));
+        
+        AUGraphInitialize(_mGraph);
+        AUGraphStart(_mGraph);
+    }
 }
 
 - (void)handleInterruption:(id)sender {
