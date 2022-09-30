@@ -96,6 +96,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     case accountCreation
     case login
     case passcode
+    case biometricPasscode
     case audio
     case amslerGrid
     case tecumsehCubeTest
@@ -190,7 +191,8 @@ enum TaskListRow: Int, CustomStringConvertible {
                     .eligibilityTask,
                     .accountCreation,
                     .login,
-                    .passcode
+                    .passcode,
+                    .biometricPasscode
                 ]),
             TaskListRowSection(title: "Active Tasks", rows:
                 [
@@ -346,6 +348,9 @@ enum TaskListRow: Int, CustomStringConvertible {
 
         case .passcode:
             return NSLocalizedString("Passcode Creation", comment: "")
+        
+        case .biometricPasscode:
+            return NSLocalizedString("Biometric Passcode Creation and Authorization", comment: "")
             
         case .audio:
             return NSLocalizedString("Audio", comment: "")
@@ -616,6 +621,8 @@ enum TaskListRow: Int, CustomStringConvertible {
         // Passcode task specific identifiers.
         case passcodeTask
         case passcodeStep
+        case biometricPasscodeTask
+        case biometricPasscodeStep
 
         // Active tasks.
         case audioTask
@@ -766,6 +773,9 @@ enum TaskListRow: Int, CustomStringConvertible {
 
         case .passcode:
             return passcodeTask
+        
+        case .biometricPasscode:
+            return biometricPasscodeTask
             
         case .audio:
             return audioTask
@@ -1895,7 +1905,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     /// This task demonstrates the Passcode creation process.
     private var passcodeTask: ORKTask {
         /*
-        If you want to protect the app using a passcode. It is reccomended to
+        If you want to protect the app using a passcode. It is recommended to
         ask user to create passcode as part of the consent process and use the
         authentication and editing view controllers to interact with the passcode.
         
@@ -1904,6 +1914,25 @@ enum TaskListRow: Int, CustomStringConvertible {
         let passcodeConsentStep = ORKPasscodeStep(identifier: String(describing: Identifier.passcodeStep))
         passcodeConsentStep.title = NSLocalizedString("Passcode", comment: "")
         return ORKOrderedTask(identifier: String(describing: Identifier.passcodeTask), steps: [passcodeConsentStep])
+    }
+    
+    private var biometricPasscodeTask: ORKTask {
+        /*
+        If you want to protect the app using a passcode. It is recommended to
+        ask user to create passcode as part of the consent process and use the
+        authentication and editing view controllers to interact with the passcode.
+        
+        The passcode is stored in the keychain.
+        */
+        let passcodeConsentStep = ORKPasscodeStep(identifier: String(describing: Identifier.biometricPasscodeStep))
+        passcodeConsentStep.useBiometrics = true
+        passcodeConsentStep.title = NSLocalizedString("Passcode", comment: "")
+        
+        let passcodeAuthConsentStep = ORKPasscodeStep(identifier: String(describing: Identifier.biometricPasscodeStep) + "auth", passcodeFlow: .authenticate)
+        passcodeAuthConsentStep.useBiometrics = true
+        passcodeAuthConsentStep.title = NSLocalizedString("Passcode", comment: "")
+
+        return ORKOrderedTask(identifier: String(describing: Identifier.biometricPasscodeTask), steps: [passcodeConsentStep, passcodeAuthConsentStep])
     }
     
     /// This task presents the Audio pre-defined active task.
