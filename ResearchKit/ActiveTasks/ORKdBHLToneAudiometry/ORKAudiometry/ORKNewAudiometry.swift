@@ -366,11 +366,10 @@ extension ORKNewAudiometry {
                         dbHLPoint = max(dbHLPoint1k - 10, -minLevel)
                     }
                 } else {
-                    let stepSize: Double = ((negResp ? 1 : 0) + (posResp ? 1 : 0) + 1) * 10
                     if ySample.elements.last == 0 { // last response is negative
-                        dbHLPoint = min(dbHLPoint + stepSize, maxLevel)
+                        dbHLPoint = min(dbHLPoint + 10, maxLevel)
                     } else { // last response is positive
-                        dbHLPoint = max(dbHLPoint - stepSize, minLevel)
+                        dbHLPoint = max(dbHLPoint - 10, minLevel)
                     }
                 }
                 
