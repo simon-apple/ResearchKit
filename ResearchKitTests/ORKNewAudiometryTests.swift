@@ -510,97 +510,88 @@ class ORKNewAudiometryTests: XCTestCase {
     }
     
     func testMinimize() throws {
-        DispatchQueue.main.async { // Avoid flakiness from running concurrently
-            let theta = Vector([3.0, 10.0])
-            let kernelLenght = 2.7
-            
-            let x = Matrix(elements:[ 7.70277398, 45.00000000,
-                                      7.70277398, 25.00000000,
-                                      7.70277398,  5.00000000,
-                                      11.51337883, 15.00000000,
-                                      15.57507173, 25.00000000,
-                                      19.70890583, 45.00000000,
-                                      19.70890583, 25.00000000,
-                                      4.55091682, 35.00000000,
-                                      2.43279065, 15.00000000,
-                                      2.43279065, -5.00000000], rows: 10, columns: 2)
-            
-            let t = Matrix<Double>(elements:[1, 1, 0, 0, 0, 1, 0, 1, 1, 0], rows: 10, columns: 1)
-            
-            let minimizedTheta = ORKNewAudiometryMinimizer().minimize(theta[0], theta[1]) {
-                return ORKNewAudiometry.nllFn([$0, $1].asVector(), x, t, kernelLenght)
-            }
-            
-            let res = ORKNewAudiometry.nllFn(minimizedTheta.compactMap { Double(exactly: $0) }.asVector(), x, t, kernelLenght)
-            
-            XCTAssertEqual(res, -30.08671104758312, accuracy: 0.1)
-            XCTAssertEqual(minimizedTheta[0].doubleValue, 57.36860589730463, accuracy: 0.1)
-            XCTAssertEqual(minimizedTheta[1].doubleValue, 79.76864971108934, accuracy: 0.1)
+        let theta = Vector([3.0, 10.0])
+        let kernelLenght = 2.7
+        
+        var x = Matrix(elements:[ 7.70277398, 45.00000000,
+                                  7.70277398, 25.00000000,
+                                  7.70277398,  5.00000000,
+                                  11.51337883, 15.00000000,
+                                  15.57507173, 25.00000000,
+                                  19.70890583, 45.00000000,
+                                  19.70890583, 25.00000000,
+                                  4.55091682, 35.00000000,
+                                  2.43279065, 15.00000000,
+                                  2.43279065, -5.00000000], rows: 10, columns: 2)
+        
+        var t = Matrix<Double>(elements:[1, 1, 0, 0, 0, 1, 0, 1, 1, 0], rows: 10, columns: 1)
+        
+        var minimizedTheta = ORKNewAudiometryMinimizer().minimize(theta[0], theta[1]) {
+            return ORKNewAudiometry.nllFn([$0, $1].asVector(), x, t, kernelLenght)
         }
-    }
-    
-    func testMinimize2() throws {
-        DispatchQueue.main.async { // Avoid flakiness from running concurrently
-            let theta = Vector([3.0, 10.0])
-            let kernelLenght = 2.7
-            
-            let x = Matrix(elements:[ 7.70277398, 45.00000000,
-                                      7.70277398, 25.00000000,
-                                      11.51337883, 35.00000000,
-                                      15.57507173, 25.00000000,
-                                      19.70890583,  5.00000000,
-                                      19.70890583, 25.00000000,
-                                      4.55091682, 15.00000000,
-                                      2.43279065, 35.00000000,
-                                      2.43279065, 15.00000000,
-                                      12.56016852,  6.17977528,
-                                      16.73026528,  8.87640449,
-                                      4.81570309, 31.79775281,
-                                      11.96444041, 22.35955056,
-                                      2.43279065, 23.70786517,
-                                      19.70890583, 16.96629213,
-                                      5.4114312 , 25.05617978,
-                                      16.73026528, 18.31460674,
-                                      10.77298419, 29.10112360,
-                                      2.43279065, 19.66292135,
-                                      13.75162474, 23.70786517,
-                                      17.9217215 , 22.35955056,
-                                      4.81570309, 19.66292135,
-                                      19.70890583, 19.66292135,
-                                      8.98579986, 27.75280899,
-                                      14.94308095, 21.01123596,
-                                      19.70890583, 22.35955056,
-                                      10.77298419, 25.05617978,
-                                      2.43279065, 16.96629213,
-                                      3.62424687, 19.66292135,
-                                      13.75162474, 21.01123596,
-                                      2.43279065, 18.65268130,
-                                      2.43279065, 21.15268130,
-                                      4.55091682, 22.40729903,
-                                      4.55091682, 19.90729903,
-                                      7.70277398, 26.13208611,
-                                      7.70277398, 23.63208611,
-                                      11.51337883, 23.46672053,
-                                      11.51337883, 25.96672053,
-                                      15.57507173, 18.53824171,
-                                      15.57507173, 16.03824171,
-                                      17.9893377 , 21.23369953,
-                                      17.9893377 , 23.73369953,
-                                      19.70890583, 23.52591545,
-                                      19.70890583, 26.02591545], rows: 44, columns: 2)
-            
-            let t = Matrix<Double>(elements:[1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1], rows: 44, columns: 1)
-            
-            let minimizedTheta = ORKNewAudiometryMinimizer().minimize(theta[0], theta[1]) {
-                return ORKNewAudiometry.nllFn([$0, $1].asVector(), x, t, kernelLenght)
-            }
-            
-            let res = ORKNewAudiometry.nllFn(minimizedTheta.compactMap { Double(exactly: $0) }.asVector(), x, t, kernelLenght)
-            
-            XCTAssertEqual(res, -176.54663627598345, accuracy: 0.1)
-            XCTAssertEqual(minimizedTheta[0].doubleValue, 34.61531968377483, accuracy: 0.1)
-            XCTAssertEqual(minimizedTheta[1].doubleValue, 259.5118663288143, accuracy: 0.1)
+        
+        var res = ORKNewAudiometry.nllFn(minimizedTheta.compactMap { Double(exactly: $0) }.asVector(), x, t, kernelLenght)
+        
+        XCTAssertEqual(res, -29.011938649706956, accuracy: 0.1)
+        XCTAssertEqual(minimizedTheta[0].doubleValue, 35, accuracy: 0.1)
+        XCTAssertEqual(minimizedTheta[1].doubleValue, 35, accuracy: 0.1)
+        
+        x = Matrix(elements:[ 7.70277398, 45.00000000,
+                                  7.70277398, 25.00000000,
+                                  11.51337883, 35.00000000,
+                                  15.57507173, 25.00000000,
+                                  19.70890583,  5.00000000,
+                                  19.70890583, 25.00000000,
+                                  4.55091682, 15.00000000,
+                                  2.43279065, 35.00000000,
+                                  2.43279065, 15.00000000,
+                                  12.56016852,  6.17977528,
+                                  16.73026528,  8.87640449,
+                                  4.81570309, 31.79775281,
+                                  11.96444041, 22.35955056,
+                                  2.43279065, 23.70786517,
+                                  19.70890583, 16.96629213,
+                                  5.4114312 , 25.05617978,
+                                  16.73026528, 18.31460674,
+                                  10.77298419, 29.10112360,
+                                  2.43279065, 19.66292135,
+                                  13.75162474, 23.70786517,
+                                  17.9217215 , 22.35955056,
+                                  4.81570309, 19.66292135,
+                                  19.70890583, 19.66292135,
+                                  8.98579986, 27.75280899,
+                                  14.94308095, 21.01123596,
+                                  19.70890583, 22.35955056,
+                                  10.77298419, 25.05617978,
+                                  2.43279065, 16.96629213,
+                                  3.62424687, 19.66292135,
+                                  13.75162474, 21.01123596,
+                                  2.43279065, 18.65268130,
+                                  2.43279065, 21.15268130,
+                                  4.55091682, 22.40729903,
+                                  4.55091682, 19.90729903,
+                                  7.70277398, 26.13208611,
+                                  7.70277398, 23.63208611,
+                                  11.51337883, 23.46672053,
+                                  11.51337883, 25.96672053,
+                                  15.57507173, 18.53824171,
+                                  15.57507173, 16.03824171,
+                                  17.9893377 , 21.23369953,
+                                  17.9893377 , 23.73369953,
+                                  19.70890583, 23.52591545,
+                                  19.70890583, 26.02591545], rows: 44, columns: 2)
+        
+        t = Matrix<Double>(elements:[1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1], rows: 44, columns: 1)
+        
+        minimizedTheta = ORKNewAudiometryMinimizer().minimize(theta[0], theta[1]) {
+            return ORKNewAudiometry.nllFn([$0, $1].asVector(), x, t, kernelLenght)
         }
+        
+        res = ORKNewAudiometry.nllFn(minimizedTheta.compactMap { Double(exactly: $0) }.asVector(), x, t, kernelLenght)
+        
+        XCTAssertEqual(res, -160.2812536951364, accuracy: 0.1)
+        XCTAssertEqual(minimizedTheta[0].doubleValue, 35, accuracy: 0.1)
+        XCTAssertEqual(minimizedTheta[1].doubleValue, 35, accuracy: 0.1)
     }
     
     func testGetMuVar() throws {
@@ -833,8 +824,8 @@ class ORKNewAudiometryTests: XCTestCase {
         let ySample = Matrix(elements: [1.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0], rows: 10, columns: 1)
         let theta = [25.0, 30.0].asVector()
         
-        let expectedPoint = [4.9733958229060296, 7.448979591836736]
-        let expectedI = 0.928853651189462
+        let expectedPoint = [4.9733958229060296, 8.037974683544302]
+        let expectedI = 0.9291049583760146
         let res = audiometry.newPoint(xSample, ySample, theta)
        
         XCTAssertEqual(res.nextPoint.count, expectedPoint.count)
@@ -1189,7 +1180,7 @@ extension ORKNewAudiometryTests {
             [43.6, 46.7, 49.1, 46.0, 37.9, 52.0]
         ]
         
-        try runFullTestWith(audiograms, accuracy: 1.5)
+        runFullTestWith(audiograms, accuracy: 1.2)
     }
 
 //    This takes very long to run, used for validating new changes on the algorithm
@@ -1219,7 +1210,7 @@ extension ORKNewAudiometryTests {
 //            [30.0, 35.0, 40.0, 30.0, 30.0, 80.0]
 //        ]
 //
-//        try runFullTestWith(audiograms, accuracy: 1)
+//        runFullTestWith(audiograms, accuracy: 2)
 //    }
     
     func testSamplesIteractiveCornerCases() throws {
@@ -1237,34 +1228,36 @@ extension ORKNewAudiometryTests {
             [ 95.0,  95.0,  95.0,  95.0,  95.0,  95.0],
         ]
         
-        try runFullTestWith(audiograms, accuracy: 1.5)
+        runFullTestWith(audiograms, accuracy: 1.5)
     }
     
     func testSamplesIteractiveFull() throws {
         let audiograms = [
-            [ 5.0, 10.0, 15.0, 25.0, 25.0, 30.0, 20.0, 25.0, 25.0, 50.0],
-            [45.0, 55.0, 55.0, 55.0, 65.0, 75.0, 60.0, 65.0, 60.0, 65.0],
+            [10.0, 15.0, 20.0, 20.0, 30.0, 55.0, 55.0, 50.0, 45.0, 45.0],
             [35.0, 30.0, 30.0, 25.0, 25.0, 25.0, 15.0, 15.0,  5.0,  0.0],
-            [ 0.0,  5.0,  5.0,  5.0, 10.0, 15.0,  0.0, 10.0, 30.0, 50.0],
             [10.0,  5.0, 20.0, 25.0, 30.0, 35.0, 25.0, 35.0, 40.0, 60.0],
             [15.0, 20.0, 25.0, 30.0, 35.0, 40.0, 50.0, 60.0, 70.0, 80.0],
             [15.0, 20.0, 25.0, 20.0, 35.0, 55.0, 60.0, 55.0, 50.0, 55.0],
             [25.0, 45.0, 50.0, 55.0, 65.0, 70.0, 60.0, 60.0, 65.0, 85.0],
-            [35.0, 35.0, 35.0, 30.0, 35.0, 30.0, 25.0, 25.0, 15.0, 20.0],
         ]
 
-        try runFullTestWith(audiograms, accuracy: 2, frequencies: [250,500,750,1000,1500,2000,3000,4000,6000,8000])
+        runFullTestWith(audiograms, accuracy: 3, frequencies: [250,500,750,1000,1500,2000,3000,4000,6000,8000])
     }
     
     func testSamplesIteractiveFullCornerCases() throws {
         let audiograms = [
-            [ 0.0,  0.0, 10.0, 25.0, 35.0, 25.0, 50.0, 55.0, 65.0, 85.0],
-            [10.0, 15.0, 20.0, 20.0, 30.0, 55.0, 55.0, 50.0, 45.0, 45.0],
-            [25.0, 45.0, 55.0, 65.0, 80.0, 75.0, 60.0, 65.0, 65.0, 45.0],
-            [35.0, 45.0, 50.0, 55.0, 65.0, 70.0, 60.0, 70.0, 65.0, 90.0],
+            ([ 0.0,  5.0,  5.0,  5.0, 10.0, 15.0,  0.0, 10.0, 30.0, 50.0], 4.0),
+            ([ 0.0,  0.0, 10.0, 25.0, 35.0, 25.0, 50.0, 55.0, 65.0, 85.0], 5.5),
+            ([ 5.0, 10.0, 15.0, 25.0, 25.0, 30.0, 20.0, 25.0, 25.0, 50.0], 4.5),
+            ([25.0, 45.0, 55.0, 65.0, 80.0, 75.0, 60.0, 65.0, 65.0, 45.0], 4.0),
+            ([35.0, 35.0, 35.0, 30.0, 35.0, 30.0, 25.0, 25.0, 15.0, 20.0], 4.0),
+            ([35.0, 45.0, 50.0, 55.0, 65.0, 70.0, 60.0, 70.0, 65.0, 90.0], 4.0),
+            ([45.0, 55.0, 55.0, 55.0, 65.0, 75.0, 60.0, 65.0, 60.0, 65.0], 4.0),
         ]
 
-        try runFullTestWith(audiograms, accuracy: 4, frequencies: [250,500,750,1000,1500,2000,3000,4000,6000,8000])
+        audiograms.forEach {
+            runFullTestWith( [$0.0], accuracy: $0.1, frequencies: [250,500,750,1000,1500,2000,3000,4000,6000,8000])
+        }
     }
     
 //    This takes very long to run, used for validating new changes on the algorithm
@@ -1280,7 +1273,7 @@ extension ORKNewAudiometryTests {
 //        try runFullTestWith(audiograms, accuracy: 5, frequencies: [1000,2000,3000,4000,6000,8000,500])
 //    }
     
-    func runFullTestWith(_ audiograms: [[Double]], accuracy: Double = 0.1, frequencies: [Double] = [250,500,1000,2000,4000,8000]) throws {
+    func runFullTestWith(_ audiograms: [[Double]], accuracy: Double = 0.1, frequencies: [Double] = [250,500,1000,2000,4000,8000]) {
         let waitIteractions = 1000
         
         for audiogram in audiograms {

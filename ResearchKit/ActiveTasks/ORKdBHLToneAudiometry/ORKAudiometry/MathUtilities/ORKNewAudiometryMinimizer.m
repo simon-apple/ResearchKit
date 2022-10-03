@@ -36,47 +36,50 @@
 
 @implementation ORKNewAudiometryMinimizer
 
+static NSLock *mutex;
+
 - (NSArray<NSNumber *> *)minimizeThetaX:(double)thetaX thetaY:(double)thetaY onFunction:(MinimizableFunction)function {
+    if (!mutex) {
+        mutex = [[NSLock alloc] init];
+    }
+    [mutex lock];
+    
     static integer lowerXBound = 5;
-    static integer upperXBound = 300;
+    static integer upperXBound = 35;
     static integer lowerYBound = 2;
-    static integer upperYBound = 300;
+    static integer upperYBound = 35;
     
     static integer maxIteration = 300;
     static double gradientDelta = 1;
-    static double x1, dx, f1, df;
-    
+    static double x1 = 0, dx = 0, f1 = 0, df = 0;
         
     /* Local variables */
-    static double f, g[8]; //1024
-    static double l[1024];
-    static integer m, n;
-    static double u[1024], x[8], wa[43251]; // x[1024]
-    static integer nbd[1024], iwa[3072];
-    static integer taskValue;
-    static integer *task=&taskValue; /* must initialize !! */
-/*      http://stackoverflow.com/a/11278093/269192 */
-    static double factr;
-    static integer csaveValue;
+    static double f = 0, g[8] = {0};
+    static double l[1024] = {0};
+    static double u[1024] = {0}, x[8] = {0}, wa[43251] = {0};
+    static integer nbd[1024] = {0}, iwa[3072] = {0};
+    
+    static integer taskValue = 0;
+    static integer *task=&taskValue;
+    static integer csaveValue = 0;
     static integer *csave=&csaveValue;
-    static double dsave[29];
-    static integer isave[44];
-    static logical lsave[4];
-    static double pgtol;
-    static integer iprint;
+    
+    static double dsave[29] = {0};
+    static integer isave[44] = {0};
+    static logical lsave[4] = {0};
 
     /*   Disable debug logs   */
-    iprint = -1;
+    static integer iprint = -1;
     
 /*     We specify the tolerances in the stopping criteria. */
-    factr = 1e7;
-    pgtol = 1e-5;
+    static double factr = 1e7;
+    static double pgtol = 1e-5;
     
 /*     We specify the dimension n of the sample problem and the number */
 /*        m of limited memory corrections stored.  (n and m should not */
 /*        exceed the limits nmax and mmax respectively.) */
-    n = 2;
-    m = 10;
+    static integer n = 2;
+    static integer m = 10;
     
 /*     We now provide nbd which defines the bounds on the variables: */
     nbd[0] = 2;
@@ -143,6 +146,7 @@
         }
     }
     
+    [mutex unlock];
 //    NSLog(@"\nTheta = [%lf	%lf]		F = %lf", x[0], x[1], function(x[0],x[1]));
     return @[[NSNumber numberWithDouble:x[0]], [NSNumber numberWithDouble:x[1]]];
 }
