@@ -100,8 +100,8 @@ import Foundation
                   minLevel: minLevel,
                   maxLevel: maxLevel,
                   frequencies: frequencies,
-                  kernelLenght: 3.5,
-                  stoppingCriteria: 0.65)
+                  kernelLenght: 3.0,
+                  stoppingCriteria: 0.7)
     }
     
     public init(channel: ORKAudioChannel,
@@ -469,7 +469,7 @@ extension ORKNewAudiometry {
         
         let grids = Matrix.mGrid(xRange: lowerX...upperX,
                                  xSteps: 35, yRange: lowerY...upperY,
-                                 ySteps: 50)
+                                 ySteps: 80)
         let grid = Matrix.stack(grids.0, grids.1)
         let xNew = Matrix.reshape2columns(grid)
         let lenght = kernelLenght
