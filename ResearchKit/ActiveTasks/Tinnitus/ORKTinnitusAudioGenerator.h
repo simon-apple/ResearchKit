@@ -106,11 +106,11 @@ Returns the system audio volume in decibels.
 - (float)getCurrentSystemVolumeInDecibels;
 
 /**
- Returns the system volume in decibels adjusted with dbSPL table for puretone sounds.
+ Returns puretone dbSPL amplitude values for last used frequency.
  
- @return the current volume with the frequency and dbSPL table applied
+ @return the current dbSPL amplitude for the current frequency.
  */
-- (float)getPuretoneSystemVolumeIndBSPL;
+- (float)getPuretone_dBSPL;
 
 /**
  Adjusts the maximum audio buffer amplitude (the default amplitude value is 0.03). This value will be clamped between 0.0 and 1.0

@@ -106,7 +106,57 @@ static OSStatus ORKTinnitusAudioGeneratorRenderTone(void *inRefCon,
 
     if (audioGenerator->_type == ORKTinnitusTypePureTone) {
         NSDecimalNumber *dbAmplitudePerFrequency =  [NSDecimalNumber decimalNumberWithString:table.dbAmplitudePerFrequency[[NSString stringWithFormat:@"%.0f",audioGenerator->_frequency]]];
-        attenuation =  (powf(10, 0.05 * dbAmplitudePerFrequency.doubleValue));
+        float systemVolume = [[AVAudioSession sharedInstance] outputVolume];
+        
+        NSNumber *volume = [[NSNumber alloc] initWithFloat:systemVolume];
+
+        NSMutableDictionary *decimalVolumeCurve = [[NSMutableDictionary alloc] init];
+        
+        NSDictionary *volumeCurvePerFrequency = table.loudnessEQ[[NSString stringWithFormat:@"%.0f",audioGenerator->_frequency]];
+                                                                
+        for (NSString *key in volumeCurvePerFrequency.allKeys) {
+            NSDecimalNumber *fKey = [NSDecimalNumber decimalNumberWithString:key];
+            NSDecimalNumber *fValue = [NSDecimalNumber decimalNumberWithString:volumeCurvePerFrequency[key]];
+            [decimalVolumeCurve setObject:fValue forKey:fKey];
+        }
+        
+        NSDecimalNumber *loudnessEQCompensation;
+        
+        if ([decimalVolumeCurve.allKeys containsObject:volume]) {
+            loudnessEQCompensation = [[NSDecimalNumber alloc] initWithFloat:[[decimalVolumeCurve objectForKey:volume] floatValue]];
+        } else {
+            // interpolate
+            NSArray *sortedKeys = [decimalVolumeCurve.allKeys sortedArrayUsingSelector:@selector(compare:)];
+            NSUInteger topIndex = [sortedKeys indexOfObjectPassingTest:^BOOL(NSNumber *obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                return [obj compare:volume] == NSOrderedDescending;
+            }];
+
+            NSNumber *topKey = [sortedKeys objectAtIndex:topIndex];
+            NSNumber *topValue = [decimalVolumeCurve objectForKey:topKey];
+            NSNumber *bottomKey = [sortedKeys objectAtIndex:topIndex-1];
+            NSNumber *bottomValue = [decimalVolumeCurve objectForKey:bottomKey];
+
+            double top = [topValue doubleValue];
+            double bottom = [bottomValue doubleValue];
+            double baselinedTopVolume = [topKey doubleValue] - [bottomKey doubleValue];
+            double baselinedSystemVolume = systemVolume - [bottomKey doubleValue];
+            double range = (top- bottom);
+            double volumeOffset = (baselinedSystemVolume/baselinedTopVolume) * range;
+            double adjustedVolume = bottom + volumeOffset;
+            
+            loudnessEQCompensation = [[NSDecimalNumber alloc] initWithDouble:adjustedVolume];
+        }
+        
+        NSDecimalNumberHandler *behavior = [NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundPlain
+                                                                                                  scale:2
+                                                                                       raiseOnExactness:NO
+                                                                                        raiseOnOverflow:NO
+                                                                                       raiseOnUnderflow:NO
+                                                                                    raiseOnDivideByZero:NO];
+        
+        NSDecimalNumber *updated_dbAmplitudePerFrequency = [dbAmplitudePerFrequency decimalNumberByAdding:loudnessEQCompensation withBehavior:behavior];
+        
+        attenuation =  (powf(10, 0.05 * updated_dbAmplitudePerFrequency.doubleValue));
     }
     
     double amplitude = audioGenerator->_bufferAmplitude * attenuation;
@@ -276,26 +326,13 @@ static OSStatus ORKTinnitusAudioGeneratorZeroTone(void *inRefCon,
     return 20.f*log10f(vol+FLT_MIN);
 }
 
-- (float)getPuretoneSystemVolumeIndBSPL {
+- (float)getPuretone_dBSPL {
     _systemVolume = [self getCurrentSystemVolume];
     if (_systemVolume == 0.0) {
         return 0.0;
     }
     
-    NSDecimalNumber *offsetDueToVolume = [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%.1f", [_headphoneTable gainForSystemVolume:_systemVolume interpolated:YES]]];
-    NSDecimalNumber *dbSPLAmplitudePerFrequency = [NSDecimalNumber decimalNumberWithString:_headphoneTable.dbSPLAmplitudePerFrequency[[NSString stringWithFormat:@"%.0f",_frequency]]];
-    NSDecimalNumber *dbAmplitudePerFrequency = [NSDecimalNumber decimalNumberWithString:_headphoneTable.dbAmplitudePerFrequency[[NSString stringWithFormat:@"%.0f",_frequency]]];
-
-    NSDecimalNumberHandler *behavior = [NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundPlain
-                                                                                              scale:2
-                                                                                   raiseOnExactness:NO
-                                                                                    raiseOnOverflow:NO
-                                                                                   raiseOnUnderflow:NO
-                                                                                raiseOnDivideByZero:NO];
-    
-    NSDecimalNumber *updated_dBSPLForVolumeCurve = [dbSPLAmplitudePerFrequency decimalNumberByAdding:offsetDueToVolume withBehavior:behavior];
-    NSDecimalNumber *updated_dBSPLForEqualLoudness = [updated_dBSPLForVolumeCurve decimalNumberByAdding:dbAmplitudePerFrequency withBehavior:behavior];
-    return [updated_dBSPLForEqualLoudness floatValue];
+    return [_headphoneTable dbSPLForSystemVolume:_systemVolume frequency:_frequency interpolated:YES];
 }
 
 - (void)playSoundAtFrequency:(double)playFrequency {
