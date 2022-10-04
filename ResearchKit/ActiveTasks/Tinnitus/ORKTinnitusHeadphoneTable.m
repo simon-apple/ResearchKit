@@ -50,32 +50,39 @@
     NSString *headphoneTypeUppercased = [_headphoneType uppercaseString];
     NSString *dbAmplitudePerFrequencyFilename;
     NSString *dbSPLAmplitudePerFrequencyFilename;
+    NSString *loudnessEQFilename;
     NSString *volumeCurveFilename;
     
     if ([headphoneTypeUppercased isEqualToString:ORKHeadphoneTypeIdentifierAirPodsGen1] ||
         [headphoneTypeUppercased isEqualToString:ORKHeadphoneTypeIdentifierAirPodsGen2]) {
         dbAmplitudePerFrequencyFilename = @"dbAmplitudePerFrequency_AIRPODS";
         dbSPLAmplitudePerFrequencyFilename = @"dbSPLAmplitudePerFrequency_AIRPODS";
+        loudnessEQFilename = @"LoudnessEQ_AIRPODS";
         volumeCurveFilename = @"volume_curve_AIRPODS";
     } else if ([headphoneTypeUppercased isEqualToString:ORKHeadphoneTypeIdentifierAirPodsGen3]) {
         dbAmplitudePerFrequencyFilename = @"dbAmplitudePerFrequency_AIRPODSV3";
         dbSPLAmplitudePerFrequencyFilename = @"dbSPLAmplitudePerFrequency_AIRPODSV3";
+        loudnessEQFilename = @"LoudnessEQ_AIRPODSV3";
         volumeCurveFilename = @"volume_curve_AIRPODSV3";
     } else if ([headphoneTypeUppercased isEqualToString:ORKHeadphoneTypeIdentifierAirPodsPro]) {
         dbAmplitudePerFrequencyFilename = @"dbAmplitudePerFrequency_AIRPODSPRO";
         dbSPLAmplitudePerFrequencyFilename = @"dbSPLAmplitudePerFrequency_AIRPODSPRO";
+        loudnessEQFilename = @"LoudnessEQ_AIRPODSPRO";
         volumeCurveFilename = @"volume_curve_AIRPODSPRO";
     } else if ([headphoneTypeUppercased isEqualToString:ORKHeadphoneTypeIdentifierAirPodsProGen2]) {
         dbAmplitudePerFrequencyFilename = @"dbAmplitudePerFrequency_AIRPODSPROV2";
         dbSPLAmplitudePerFrequencyFilename = @"dbSPLAmplitudePerFrequency_AIRPODSPROV2";
+        loudnessEQFilename = @"LoudnessEQ_AIRPODSPROV2";
         volumeCurveFilename = @"volume_curve_AIRPODSPROV2";
     } else if ([headphoneTypeUppercased isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMax]) {
          dbAmplitudePerFrequencyFilename = @"dbAmplitudePerFrequency_AIRPODSMAX";
          dbSPLAmplitudePerFrequencyFilename = @"dbSPLAmplitudePerFrequency_AIRPODSMAX";
+        loudnessEQFilename = @"LoudnessEQ_AIRPODSMAX";
          volumeCurveFilename = @"volume_curve_AIRPODSMAX";
     } else if ([headphoneTypeUppercased isEqualToString:ORKHeadphoneTypeIdentifierEarPods]) {
         dbAmplitudePerFrequencyFilename = @"dbAmplitudePerFrequency_EARPODS";
         dbSPLAmplitudePerFrequencyFilename = @"dbSPLAmplitudePerFrequency_EARPODS";
+        loudnessEQFilename = @"LoudnessEQ_EARPODS";
         volumeCurveFilename = @"volume_curve_WIRED";
     } else {
         NSAssert(NO, @"A valid headphone route identifier must be provided");
@@ -96,7 +103,60 @@
                                                                  pathForResource:dbSPLAmplitudePerFrequencyFilename
                                                                  ofType:@"plist"]];
     
-    return (_headphoneType && _volumeCurve && _dbAmplitudePerFrequency && _dbSPLAmplitudePerFrequency);
+    self.loudnessEQ = [NSDictionary
+                       dictionaryWithContentsOfFile:[[NSBundle bundleForClass:[self class]]
+                                                     pathForResource:loudnessEQFilename
+                                                     ofType:@"plist"]];
+    
+    return (_headphoneType && _volumeCurve && _dbAmplitudePerFrequency && _dbSPLAmplitudePerFrequency && _loudnessEQ);
+}
+
+- (float)dbSPLForSystemVolume:(float)systemVolume frequency:(float)frequency interpolated:(BOOL)isInterpolated {
+    NSNumber *volume = [[NSNumber alloc] initWithFloat:systemVolume];
+
+    NSMutableDictionary *decimalVolumeCurve = [[NSMutableDictionary alloc] init];
+    
+    
+    NSDictionary *volumeCurvePerFrequency = _dbSPLAmplitudePerFrequency[[NSString stringWithFormat:@"%.0f",frequency]];
+                                                            
+    for (NSString *key in volumeCurvePerFrequency.allKeys) {
+        NSDecimalNumber *fKey = [NSDecimalNumber decimalNumberWithString:key];
+        NSDecimalNumber *fValue = [NSDecimalNumber decimalNumberWithString:volumeCurvePerFrequency[key]];
+        [decimalVolumeCurve setObject:fValue forKey:fKey];
+    }
+    
+    if ([decimalVolumeCurve.allKeys containsObject:volume]) {
+        // Value included on the table, no interpolation needed
+        return [[decimalVolumeCurve objectForKey:volume] floatValue];
+    }
+    
+    NSArray *sortedKeys = [decimalVolumeCurve.allKeys sortedArrayUsingSelector:@selector(compare:)];
+    NSUInteger topIndex = [sortedKeys indexOfObjectPassingTest:^BOOL(NSNumber *obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        return [obj compare:volume] == NSOrderedDescending;
+    }];
+
+    // The smallest volume key that is bigger than systemVolume
+    NSNumber *topKey = [sortedKeys objectAtIndex:topIndex];
+    NSNumber *topValue = [decimalVolumeCurve objectForKey:topKey];
+
+    if (topIndex == 0 || !isInterpolated) {
+        // No interpolation or bottomValue available, returning topValue
+        return [topValue floatValue];
+    }
+    
+    // The biggest volume key that is smaller than systemVolume
+    NSNumber *bottomKey = [sortedKeys objectAtIndex:topIndex-1];
+    NSNumber *bottomValue = [decimalVolumeCurve objectForKey:bottomKey];
+
+    double top = [topValue doubleValue];
+    double bottom = [bottomValue doubleValue];
+    double baselinedTopVolume = [topKey doubleValue] - [bottomKey doubleValue];
+    double baselinedSystemVolume = systemVolume - [bottomKey doubleValue];
+    double range = (top- bottom);
+    double volumeOffset = (baselinedSystemVolume/baselinedTopVolume) * range;
+    double adjustedVolume = bottom + volumeOffset;
+
+    return adjustedVolume;
 }
 
 - (float)gainForSystemVolume:(float)systemVolume interpolated:(BOOL)isInterpolated {
