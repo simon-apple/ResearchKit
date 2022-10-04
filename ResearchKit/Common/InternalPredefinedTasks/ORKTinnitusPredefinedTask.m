@@ -220,6 +220,7 @@ static NSString *const ORKTinnitusHeadphoneRequiredStepIdentifier = @"ORKTinnitu
 
 - (void)bluetoothModeChanged:(ORKBluetoothMode)bluetoothMode {
     if ([[_headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsPro] ||
+        [[_headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsProGen2] ||
         [[_headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMax]) {
         if (_bluetoothMode == ORKBluetoothModeNone) {
             // save bluetooth mode for the first time
