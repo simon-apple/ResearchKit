@@ -967,6 +967,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
 - (void)bluetoothModeChanged:(ORKBluetoothMode)bluetoothMode {
     if (_lastDetectedBluetoothMode != bluetoothMode &&
         ([_lastDetectedHeadphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsPro] ||
+         [_lastDetectedHeadphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsProGen2] ||
          [_lastDetectedHeadphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMax])) {
         _lastDetectedBluetoothMode = bluetoothMode;
         // FIXME:- temporary workaround for <rdar://problem/62519889>
