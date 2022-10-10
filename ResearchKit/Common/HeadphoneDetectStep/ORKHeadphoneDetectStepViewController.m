@@ -52,6 +52,8 @@
 #import "ORKContext.h"
 #import "ORKTaskViewController_Internal.h"
 
+#import <LocalAuthentication/LAContext.h>
+
 static const CGFloat ORKHeadphoneImageViewDimension = 36.0;
 static const CGFloat ORKHeadphoneDetectStepSpacing = 12.0;
 static const CGFloat ORKHeadphoneDetectCellStepSize = 40;
@@ -96,6 +98,11 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
 
     
 } ORK_ENUM_AVAILABLE;
+
+@interface UIDevice (HeadphoneDetectStepExtensions)
+@property (nonatomic, readonly) BOOL supportsFaceID;
+@end
+
 
 @interface ORKHeadphoneDetectedView : UIStackView
 
@@ -144,10 +151,11 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
         [self setupTitleLabel];
         [self setupTextLabel];
         [self setupCheckView];
-        if ([title isEqualToString:ORKLocalizedString(@"AIRPODSPRO", nil)] ||
-            [title isEqualToString:ORKLocalizedString(@"AIRPODSMAX", nil)]) {
+        
+        NSString *explanation = [self getNoiseCancellationExplanationForHeadphoneType:headphoneType];
+        if (explanation != nil) {
             [self setupOrangeLabel];
-            [self setupExtraLabel];
+            [self setupExtraLabelWithText:explanation];
             [self setExtraLabelsAlpha:0.0];
         }
         
@@ -266,6 +274,36 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     }
 }
 
+- (NSString *)getNoiseCancellationExplanationForHeadphoneType:(ORKHeadphoneDetected)headphoneType {
+    NSString *result = nil;
+        
+    switch (headphoneType) {
+        case ORKHeadphoneDetectedAirpodsGen1:
+        case ORKHeadphoneDetectedAirpodsGen2:
+        case ORKHeadphoneDetectedAirpodsGen3:
+            result = nil;
+
+        case ORKHeadphoneDetectedAirpodsPro:
+        case ORKHeadphoneDetectedAirpodsProGen2:
+            result = [[UIDevice currentDevice] supportsFaceID]
+            ? ORKLocalizedString(@"NOISE_CANCELLATION_EXPLANATION_CONTROLCENTER_ATOP_AIRPODSPRO", nil)
+            : ORKLocalizedString(@"NOISE_CANCELLATION_EXPLANATION_CONTROLCENTER_BELOW_AIRPODSPRO", nil);
+
+        case ORKHeadphoneDetectedAirpodsMax:
+            result = [[UIDevice currentDevice] supportsFaceID]
+            ? ORKLocalizedString(@"NOISE_CANCELLATION_EXPLANATION_CONTROLCENTER_ATOP_AIRPODSMAX", nil)
+            : ORKLocalizedString(@"NOISE_CANCELLATION_EXPLANATION_CONTROLCENTER_BELOW_AIRPODSMAX", nil);
+
+        case ORKHeadphoneDetectedEarpods:
+        case ORKHeadphoneDetectedNone:
+        case ORKHeadphoneDetectedUnknown:
+            result = nil;
+    }
+    
+    return result;
+}
+
+
 - (void)setupOrangeLabel {
     if (!_extraLabelsContainerView) {
         _extraLabelsContainerView =  [UIView new];
@@ -306,15 +344,11 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     [[_extraLabelsContainerView.trailingAnchor constraintEqualToAnchor:_checkContainerView.leadingAnchor constant:ORKHeadphoneDetectStepSpacing] setActive:YES];
 }
 
-- (void)setupExtraLabel {
+- (void)setupExtraLabelWithText:(NSString *)text {
     if (!_extraLabel) {
         _extraLabel = [UILabel new];
     }
-    if ([_title isEqualToString:ORKLocalizedString(@"AIRPODSPRO", nil)]) {
-        _extraLabel.text = ORKLocalizedString(@"NOISE_CANCELLATION_EXPLANATION_AIRPODSPRO", nil);
-    } else {
-        _extraLabel.text = ORKLocalizedString(@"NOISE_CANCELLATION_EXPLANATION_AIRPODSMAX", nil);
-    }
+    _extraLabel.text = text;
     _extraLabel.numberOfLines = 0;
     _extraLabel.textColor = UIColor.systemGrayColor;
     _extraLabel.font = [self footnoteFont];
@@ -1010,6 +1044,23 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     dispatch_async(dispatch_get_main_queue(), ^{
         [_headphoneDetectStepView hideBottomAlert:!moreThanOne];
     });
+}
+
+@end
+
+@implementation UIDevice (HeadphoneDetectStepExtensions)
+
+- (BOOL)supportsFaceID {
+    BOOL result = NO;
+    
+    if (@available(iOS 11.2, *)) {
+        LAContext *context = [[LAContext alloc] init];
+        NSError *error = nil;
+        result = [context canEvaluatePolicy:kLAPolicyDeviceOwnerAuthentication error:&error];
+        result = result && context.biometryType == LABiometryTypeFaceID;
+    }
+    
+    return  result;
 }
 
 @end
