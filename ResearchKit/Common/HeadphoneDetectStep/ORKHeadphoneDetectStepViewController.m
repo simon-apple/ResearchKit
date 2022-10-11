@@ -282,22 +282,26 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
         case ORKHeadphoneDetectedAirpodsGen2:
         case ORKHeadphoneDetectedAirpodsGen3:
             result = nil;
+            break;
 
         case ORKHeadphoneDetectedAirpodsPro:
         case ORKHeadphoneDetectedAirpodsProGen2:
             result = [[UIDevice currentDevice] supportsFaceID]
             ? ORKLocalizedString(@"NOISE_CANCELLATION_EXPLANATION_CONTROLCENTER_ATOP_AIRPODSPRO", nil)
             : ORKLocalizedString(@"NOISE_CANCELLATION_EXPLANATION_CONTROLCENTER_BELOW_AIRPODSPRO", nil);
+            break;
 
         case ORKHeadphoneDetectedAirpodsMax:
             result = [[UIDevice currentDevice] supportsFaceID]
             ? ORKLocalizedString(@"NOISE_CANCELLATION_EXPLANATION_CONTROLCENTER_ATOP_AIRPODSMAX", nil)
             : ORKLocalizedString(@"NOISE_CANCELLATION_EXPLANATION_CONTROLCENTER_BELOW_AIRPODSMAX", nil);
+            break;
 
         case ORKHeadphoneDetectedEarpods:
         case ORKHeadphoneDetectedNone:
         case ORKHeadphoneDetectedUnknown:
             result = nil;
+            break;            
     }
     
     return result;
