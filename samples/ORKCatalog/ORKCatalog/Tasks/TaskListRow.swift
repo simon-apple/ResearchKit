@@ -1617,13 +1617,16 @@ enum TaskListRow: Int, CustomStringConvertible {
      format.
      */
     private var validatedTextQuestionTask: ORKTask {
-        let answerFormatEmail = ORKAnswerFormat.emailAnswerFormat()
-        let stepEmail = ORKQuestionStep(identifier: String(describing: Identifier.validatedTextQuestionStepEmail), title: NSLocalizedString("Validated Text", comment: ""), question: NSLocalizedString("Email", comment: ""), answer: answerFormatEmail)
+        let emailDomainRegularExpressionPattern =  "^[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$"
+        let emailDomainRegularExpression = try? NSRegularExpression(pattern: emailDomainRegularExpressionPattern)
+        let emailAnswerFormatDomain = ORKAnswerFormat.textAnswerFormat(withValidationRegularExpression: emailDomainRegularExpression!, invalidMessage: "Invalid Email: %@")
+        
+        let stepEmail = ORKQuestionStep(identifier: String(describing: Identifier.validatedTextQuestionStepEmail), title: NSLocalizedString("Validated Text", comment: ""), question: NSLocalizedString("Email", comment: ""), answer: emailAnswerFormatDomain)
         stepEmail.text = exampleDetailText
         
-        let domainRegularExpressionPattern = "^(https?:\\/\\/)?([\\da-z\\.-]+)\\.([a-z\\.]{2,6})([\\/\\w \\.-]*)*\\/?$"
-        let domainRegularExpression = try? NSRegularExpression(pattern: domainRegularExpressionPattern)
-        let answerFormatDomain = ORKAnswerFormat.textAnswerFormat(withValidationRegularExpression: domainRegularExpression!, invalidMessage: "Invalid URL: %@")
+        let urlDomainRegularExpressionPattern = "^(https?:\\/\\/)?([\\da-z\\.-]+)\\.([a-z\\.]{2,6})([\\/\\w \\.-]*)*\\/?$"
+        let urlDomainRegularExpression = try? NSRegularExpression(pattern: urlDomainRegularExpressionPattern)
+        let answerFormatDomain = ORKAnswerFormat.textAnswerFormat(withValidationRegularExpression: urlDomainRegularExpression!, invalidMessage: "Invalid URL: %@")
 
         answerFormatDomain.multipleLines = false
         answerFormatDomain.keyboardType = .URL
