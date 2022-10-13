@@ -73,11 +73,6 @@
     dispatch_block_t _preStimulusDelayWorkBlock;
     dispatch_block_t _pulseDurationWorkBlock;
     dispatch_block_t _postStimulusDelayWorkBlock;
-    
-#if RK_APPLE_INTERNAL
-    ORKHeadphoneDetector *_headphoneDetector;
-    BOOL _showingAlert;
-#endif
 }
 
 @property (nonatomic, strong) ORKdBHLToneAudiometryContentView *dBHLToneAudiometryContentView;
@@ -91,10 +86,6 @@
     
     if (self) {
         self.suspendIfInactive = YES;
-#if RK_APPLE_INTERNAL
-        _showingAlert = NO;
-#endif
-
         ORKWeakTypeOf(self) weakSelf = self;
         self.audiometryEngine.timestampProvider = ^NSTimeInterval{
             ORKStrongTypeOf(self) strongSelf = weakSelf;
@@ -136,11 +127,10 @@
     [self.dBHLToneAudiometryContentView.tapButton addTarget:self action:@selector(tapButtonPressed) forControlEvents:UIControlEventTouchDown];
     
 #if RK_APPLE_INTERNAL
-    _headphoneDetector = [[ORKHeadphoneDetector alloc] initWithDelegate:self
-                                                supportedHeadphoneChipsetTypes:[ORKHeadphoneDetectStep dBHLTypes]];
-    
     //TODO:- figure out where this call lives
     [[self taskViewController] lockDeviceVolume:0.625];
+    
+    dBHLTAStep.headphoneType = ORKHeadphoneTypeIdentifierAirPodsProGen2;
 
     ORKTaskResult *taskResults = [[self taskViewController] result];
 
@@ -184,15 +174,11 @@
 - (void)addObservers {
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center addObserver:self selector:@selector(appWillTerminate:) name:UIApplicationWillTerminateNotification object:nil];
-    #if RK_APPLE_INTERNAL
-    [center addObserver:self selector:@selector(appDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
-    #endif
 }
 
 - (void)removeObservers {
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center removeObserver:self name:UIApplicationWillTerminateNotification object:nil];
-    [center removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -200,12 +186,6 @@
     [self start];
     [self addObservers];
 }
-
-#if RK_APPLE_INTERNAL
--(void)appDidBecomeActive:(NSNotification*)note {
-    [self showAlert];
-}
-#endif
 
 -(void)appWillTerminate:(NSNotification*)note {
     [self stopAudio];
@@ -236,11 +216,6 @@
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    #if RK_APPLE_INTERNAL
-    [_headphoneDetector discard];
-    _headphoneDetector.delegate = nil;
-    _headphoneDetector = nil;
-    #endif
     
     _audioGenerator.delegate = nil;
 }
@@ -307,12 +282,6 @@
 
 - (void)runTestTrial {
     [self stopAudio];
-	
-#if RK_APPLE_INTERNAL
-    if (_showingAlert) {
-        return;
-    }
-#endif
     
     [self.dBHLToneAudiometryContentView setProgress:self.audiometryEngine.progress animated:YES];
 
@@ -377,68 +346,5 @@
     }
     [self nextTrial];
 }
-
-#if RK_APPLE_INTERNAL
-#pragma mark - Headphone Monitoring
-
-- (NSString *)headphoneType {
-    return [[self dBHLToneAudiometryStep].headphoneType uppercaseString];
-}
-
-- (void)bluetoothModeChanged:(ORKBluetoothMode)bluetoothMode {
-    if ([[[self dBHLToneAudiometryStep].headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsPro] ||
-        [[[self dBHLToneAudiometryStep].headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsProGen2] ||
-        [[[self dBHLToneAudiometryStep].headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMax]) {
-        if (bluetoothMode != ORKBluetoothModeNoiseCancellation) {
-            [self showAlert];
-        }
-    }
-}
-
-- (void)headphoneTypeDetected:(nonnull ORKHeadphoneTypeIdentifier)headphoneType vendorID:(nonnull NSString *)vendorID productID:(nonnull NSString *)productID deviceSubType:(NSInteger)deviceSubType isSupported:(BOOL)isSupported {
-    if (![headphoneType isEqualToString:[self headphoneType]]) {
-        [self showAlert];
-    }
-}
-
-- (void)oneAirPodRemoved {
-    [self showAlert];
-}
-
-- (void)podLowBatteryLevelDetected {
-    [self showAlert];
-}
-
-- (void)showAlert {
-    if (!_showingAlert) {
-        _showingAlert = YES;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self stopAudio];
-            UIAlertController *alertController = [UIAlertController
-                                                  alertControllerWithTitle:ORKLocalizedString(@"PACHA_ALERT_TITLE_TASK_INTERRUPTED", nil)
-                                                  message:ORKLocalizedString(@"PACHA_ALERT_TEXT_TASK_INTERRUPTED", nil)
-                                                  preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *startOver = [UIAlertAction
-                                        actionWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE_START_OVER", nil)
-                                        style:UIAlertActionStyleDefault
-                                        handler:^(UIAlertAction *action) {
-                [[self taskViewController] restartTask];
-            }];
-            [alertController addAction:startOver];
-            [alertController addAction:[UIAlertAction
-                                        actionWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE_CANCEL_TEST", nil)
-                                        style:UIAlertActionStyleDefault
-                                        handler:^(UIAlertAction *action) {
-                ORKStrongTypeOf(self.taskViewController.delegate) strongDelegate = self.taskViewController.delegate;
-                if ([strongDelegate respondsToSelector:@selector(taskViewController:didFinishWithReason:error:)]) {
-                    [strongDelegate taskViewController:self.taskViewController didFinishWithReason:ORKTaskViewControllerFinishReasonDiscarded error:nil];
-                }
-            }]];
-            alertController.preferredAction = startOver;
-            [self presentViewController:alertController animated:YES completion:nil];
-        });
-    }
-}
-#endif
 
 @end
