@@ -33,4 +33,7 @@
 
 #import <TargetConditionals.h>
 
+#define RK_APPLE_INTERNAL 1
+#define KAGRA_PROTO 1
+
 #endif /* ResearchKit_Prefix_pch */

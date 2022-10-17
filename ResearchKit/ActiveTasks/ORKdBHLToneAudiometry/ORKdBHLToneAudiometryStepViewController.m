@@ -37,7 +37,7 @@
 #import "ORKNavigationContainerView.h"
 #import "ORKStepContainerView.h"
 
-#import "ORKdBHLToneAudiometryAudioGenerator.h"
+#import "ORKdBHLToneAudiometryPulsedAudioGenerator.h"
 #import "ORKRoundTappingButton.h"
 #import "ORKdBHLToneAudiometryContentView.h"
 #import "ORKStepContainerView_Private.h"
@@ -63,11 +63,11 @@
 #import "ORKNavigableOrderedTask.h"
 #import "ORKStepNavigationRule.h"
 
-@interface ORKdBHLToneAudiometryStepViewController () <ORKdBHLToneAudiometryAudioGeneratorDelegate> {
+@interface ORKdBHLToneAudiometryStepViewController () <ORKdBHLToneAudiometryPulsedAudioGeneratorDelegate> {
     ORKdBHLToneAudiometryFrequencySample *_resultSample;
     ORKAudioChannel _audioChannel;
 
-    ORKdBHLToneAudiometryAudioGenerator *_audioGenerator;
+    ORKdBHLToneAudiometryPulsedAudioGenerator *_audioGenerator;
     UIImpactFeedbackGenerator *_hapticFeedback;
     
     dispatch_block_t _preStimulusDelayWorkBlock;
@@ -166,7 +166,8 @@
 #endif
 
     _audioChannel = dBHLTAStep.earPreference;
-    _audioGenerator = [[ORKdBHLToneAudiometryAudioGenerator alloc] initForHeadphoneType:dBHLTAStep.headphoneType];
+    _audioGenerator = [[ORKdBHLToneAudiometryPulsedAudioGenerator alloc] initForHeadphoneType:dBHLTAStep.headphoneType pulseMillisecondsDuration:200 pauseMillisecondsDuration:200];
+    //_audioGenerator = [[ORKdBHLToneAudiometryAudioGenerator alloc] initForHeadphoneType:dBHLTAStep.headphoneType];
     _audioGenerator.delegate = self;
     _hapticFeedback = [[UIImpactFeedbackGenerator alloc] initWithStyle: UIImpactFeedbackStyleHeavy];
 }
@@ -226,6 +227,45 @@
     [self stopAudio];
 }
 
+#if KAGRA_PROTO
+
+#define lowerDouble 10.0
+#define upperDouble 20.0
+
+- (double)randomDoubleBetween:(double)smallNumber and:(double)bigNumber {
+    double diff = bigNumber - smallNumber;
+    return (((double) (arc4random() % ((unsigned)RAND_MAX + 1)) / RAND_MAX) * diff) + smallNumber;
+}
+
+- (NSNumber *)randomNumberFromRangeMax:(double)aMax Min:(double)aMin {
+    return [NSNumber numberWithDouble:[self randomDoubleBetween:aMin and:aMax]];
+}
+
+- (NSNumber *)simulatedHLForKey:(NSString *)key {
+    NSString *shl = [NSUserDefaults.standardUserDefaults valueForKey:key];
+    shl = shl ? shl : @"";
+    shl = [shl isEqual:@""] ? @"0" : shl;
+    shl = [shl stringByReplacingOccurrencesOfString:@"," withString:@"."];
+    
+    NSNumber *nshl = [NSNumber numberWithDouble:[shl doubleValue]];
+    nshl = nshl ? nshl : [NSNumber numberWithDouble:0];
+    return nshl;
+}
+
+- (NSDictionary *)simulatedHLTable {
+    NSNumber *nshl250  = [self randomNumberFromRangeMax:upperDouble Min:lowerDouble];
+    NSNumber *nshl500  = [self randomNumberFromRangeMax:upperDouble Min:lowerDouble];
+    NSNumber *nshl1000 = [self randomNumberFromRangeMax:upperDouble Min:lowerDouble];
+    NSNumber *nshl2000 = [self randomNumberFromRangeMax:upperDouble Min:lowerDouble];
+    NSNumber *nshl3000 = [self randomNumberFromRangeMax:upperDouble Min:lowerDouble];
+    NSNumber *nshl4000 = [self randomNumberFromRangeMax:upperDouble Min:lowerDouble];
+    NSNumber *nshl8000 = [self randomNumberFromRangeMax:upperDouble Min:lowerDouble];
+    
+    return @{@"250":nshl250,@"500":nshl500,@"1000":nshl1000,@"2000":nshl2000,
+             @"3000":nshl3000,@"4000":nshl4000,@"8000":nshl8000};
+}
+#endif
+
 - (ORKStepResult *)result {
     ORKStepResult *sResult = [super result];
     // "Now" is the end time of the result, which is either actually now,
@@ -245,6 +285,8 @@
             toneResult.algorithmVersion = 1;
             toneResult.discreteUnits = engine.resultUnits;
             toneResult.fitMatrix = engine.fitMatrix;
+        } else {
+            toneResult.userInfo = @{@"simulatedHL": [self simulatedHLTable]};
         }
     }
 #endif

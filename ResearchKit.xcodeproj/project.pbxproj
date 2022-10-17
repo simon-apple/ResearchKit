@@ -407,6 +407,8 @@
 		62DF9F4528CA87D300D13018 /* retspl_AIRPODSPROV2.plist in Resources */ = {isa = PBXBuildFile; fileRef = 62DF9F4428CA87D300D13018 /* retspl_AIRPODSPROV2.plist */; };
 		62DF9F4728CA87DE00D13018 /* frequency_dBSPL_AIRPODSPROV2.plist in Resources */ = {isa = PBXBuildFile; fileRef = 62DF9F4628CA87DE00D13018 /* frequency_dBSPL_AIRPODSPROV2.plist */; };
 		62DF9F4928CA87E800D13018 /* volume_curve_AIRPODSPROV2.plist in Resources */ = {isa = PBXBuildFile; fileRef = 62DF9F4828CA87E800D13018 /* volume_curve_AIRPODSPROV2.plist */; };
+		62F9680528FD700200D0FF04 /* ORKdBHLToneAudiometryPulsedAudioGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 62F9680328FD700100D0FF04 /* ORKdBHLToneAudiometryPulsedAudioGenerator.h */; };
+		62F9680628FD700200D0FF04 /* ORKdBHLToneAudiometryPulsedAudioGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 62F9680428FD700100D0FF04 /* ORKdBHLToneAudiometryPulsedAudioGenerator.m */; };
 		7118AC6720BF6A3A00D7A6BB /* Sentence7.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7118AC6020BF6A3900D7A6BB /* Sentence7.wav */; };
 		7118AC6820BF6A3A00D7A6BB /* Sentence4.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7118AC6120BF6A3A00D7A6BB /* Sentence4.wav */; };
 		7118AC6920BF6A3A00D7A6BB /* Sentence6.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7118AC6220BF6A3A00D7A6BB /* Sentence6.wav */; };
@@ -1525,6 +1527,8 @@
 		62DF9F4428CA87D300D13018 /* retspl_AIRPODSPROV2.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = retspl_AIRPODSPROV2.plist; sourceTree = "<group>"; };
 		62DF9F4628CA87DE00D13018 /* frequency_dBSPL_AIRPODSPROV2.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = frequency_dBSPL_AIRPODSPROV2.plist; sourceTree = "<group>"; };
 		62DF9F4828CA87E800D13018 /* volume_curve_AIRPODSPROV2.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = volume_curve_AIRPODSPROV2.plist; sourceTree = "<group>"; };
+		62F9680328FD700100D0FF04 /* ORKdBHLToneAudiometryPulsedAudioGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKdBHLToneAudiometryPulsedAudioGenerator.h; sourceTree = "<group>"; };
+		62F9680428FD700100D0FF04 /* ORKdBHLToneAudiometryPulsedAudioGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKdBHLToneAudiometryPulsedAudioGenerator.m; sourceTree = "<group>"; };
 		7118AC5920BF6A0000D7A6BB /* Noise.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Noise.wav; sourceTree = "<group>"; };
 		7118AC5B20BF6A1200D7A6BB /* Window.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Window.wav; sourceTree = "<group>"; };
 		7118AC6020BF6A3900D7A6BB /* Sentence7.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Sentence7.wav; sourceTree = "<group>"; };
@@ -3323,6 +3327,8 @@
 				71769E302088260B00A19914 /* ORKdBHLToneAudiometryOnboardingStepViewController.m */,
 				716B126620A7A40400590264 /* ORKdBHLToneAudiometryAudioGenerator.h */,
 				716B126720A7A40400590264 /* ORKdBHLToneAudiometryAudioGenerator.m */,
+				62F9680328FD700100D0FF04 /* ORKdBHLToneAudiometryPulsedAudioGenerator.h */,
+				62F9680428FD700100D0FF04 /* ORKdBHLToneAudiometryPulsedAudioGenerator.m */,
 				71769E332088291B00A19914 /* ORKdBHLToneAudiometryContentView.h */,
 				71769E342088291B00A19914 /* ORKdBHLToneAudiometryContentView.m */,
 				71769E3720882CED00A19914 /* ORKdBHLToneAudiometryStep.h */,
@@ -5294,6 +5300,7 @@
 				86C40C521A8D7C5C00081FAC /* ORKTappingIntervalStep.h in Headers */,
 				86C40D8A1A8D7C5C00081FAC /* ORKSkin.h in Headers */,
 				8419D6721FB73EC60088D7E5 /* ORKWebViewStepViewController.h in Headers */,
+				62F9680528FD700200D0FF04 /* ORKdBHLToneAudiometryPulsedAudioGenerator.h in Headers */,
 				86C40DFE1A8D7C5C00081FAC /* ORKConsentDocument.h in Headers */,
 				BA8078E3224A8D6E0013B554 /* ORKTitleLabel.h in Headers */,
 				D442397D1AF17F7600559D96 /* ORKImageCaptureStepViewController.h in Headers */,
@@ -5994,6 +6001,7 @@
 				FF5CA6131D2C2670001660A3 /* ORKTableStep.m in Sources */,
 				86C40C8A1A8D7C5C00081FAC /* ORKActiveStepTimerView.m in Sources */,
 				86AD91111AB7B8A600361FEB /* ORKActiveStepView.m in Sources */,
+				62F9680628FD700200D0FF04 /* ORKdBHLToneAudiometryPulsedAudioGenerator.m in Sources */,
 				86C40C201A8D7C5C00081FAC /* ORKAudioStepViewController.m in Sources */,
 				5170009D254A197300CACE12 /* ORKRequestPermissionButton.m in Sources */,
 				E220A37F25711F9600C3C211 /* ORKTinnitusAudioGenerator.m in Sources */,
