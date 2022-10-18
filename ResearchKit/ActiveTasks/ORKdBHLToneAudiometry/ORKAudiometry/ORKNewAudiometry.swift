@@ -83,7 +83,7 @@ import Foundation
     @objc
     public convenience init(channel: ORKAudioChannel) {
         self.init(channel: channel,
-                  initialLevel: 45,
+                  initialLevel: 42.5,
                   minLevel: -10,
                   maxLevel: 75,
                   frequencies: [1000, 2000, 4000, 8000, 500, 250])
@@ -406,10 +406,15 @@ extension ORKNewAudiometry {
     }
     
     func nextSample() -> Bool {
-        if let last = stoppingCriteriaSave.last,
-            ((last < stoppingCriteria && stoppingCriteriaSave.count >= stoppingCriteriaCountMin)
-             || stoppingCriteriaSave.count >= stoppingCriteriaCountMax) {
-            return false
+        if let last = stoppingCriteriaSave.last {
+            let sampleCount = stoppingCriteriaSave.count + initialSamples.count
+            let hitStoppingCriteria = last <= stoppingCriteria
+            let hitMinimumSampling = sampleCount >= stoppingCriteriaCountMin
+            let hitMaximumSampling = sampleCount >= stoppingCriteriaCountMax
+
+            if (hitStoppingCriteria && hitMinimumSampling) || hitMaximumSampling {
+               return false
+           }
         }
         
         let evaluated = newPoint(xSample, ySample, theta)
@@ -458,9 +463,9 @@ extension ORKNewAudiometry {
         }
     }
     
-    func newPoint(_ xSample: Matrix<Double>,
-                  _ YSample: Matrix<Double>,
-                  _ theta: Vector<Double>) -> (nextPoint: Vector<Double>, i: Double) {
+    func newPointGrid(_ xSample: Matrix<Double>,
+                  _ ySample: Matrix<Double>,
+                  _ theta: Vector<Double>) -> Matrix<Double> {
         let c = 1.043_452_464_251_151_8
         let lowerX = bark(allFrequencies.min() ?? 250)
         let upperX = bark(allFrequencies.max() ?? 8000)
@@ -483,7 +488,9 @@ extension ORKNewAudiometry {
                 let muTmp = muVar.a_mu.elements[idx]
                 let varTmp = muVar.a_var.elements[idx]
                 
-                let term1 = computeEntropy(cdf(muTmp / sqrt(varTmp + 1)))
+                let kappa = 1.0 / sqrt(1.0 + Double.pi * varTmp / 8.0)
+                let sigmoid = ORKNewAudiometry.sigmoid([kappa * muTmp].asVector())
+                let term1 = computeEntropy(sigmoid[0])
                 let term2 = (c * exp((-(muTmp ** 2)) /
                             (2 * (varTmp + c ** 2)))) / sqrt(varTmp + c ** 2)
                 
@@ -493,6 +500,14 @@ extension ORKNewAudiometry {
             }
         }
         
+        return save_dat
+    }
+    
+    func newPoint(_ xSample: Matrix<Double>,
+                  _ ySample: Matrix<Double>,
+                  _ theta: Vector<Double>) -> (nextPoint: Vector<Double>, i: Double) {
+        
+        let save_dat = newPointGrid(xSample, ySample, theta)
         let indexMax = save_dat.getColumn(2).asVector().indexOfMaximum()
         let newPoint = [save_dat[indexMax.index, 0], save_dat[indexMax.index, 1]].asVector()
         
@@ -541,10 +556,6 @@ extension ORKNewAudiometry {
         
         let entropy = -p * log2(p) - (1 - p) * log2(1 - p)
         return entropy
-    }
-    
-    func cdf(_ x: Double) -> Double {
-        return 0.5 * erfc(-x * 0.5.squareRoot())
     }
 }
 
@@ -652,7 +663,7 @@ extension ORKNewAudiometry {
                   _ theta: Vector<Double>,
                   length: Double,
                   diagOnly: Bool = false,
-                  nu: Double = 1e-5) -> Matrix<Double> {
+                  nu: Double = 5) -> Matrix<Double> {
         guard diagOnly else {
             let eye = Matrix.eye(x.shape.rows)
             let kernel = kernel(x, x, theta: theta, length: length)
