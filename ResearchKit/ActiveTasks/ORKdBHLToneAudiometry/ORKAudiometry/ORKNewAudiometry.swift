@@ -464,8 +464,8 @@ extension ORKNewAudiometry {
     }
     
     func newPointGrid(_ xSample: Matrix<Double>,
-                  _ ySample: Matrix<Double>,
-                  _ theta: Vector<Double>) -> Matrix<Double> {
+                      _ ySample: Matrix<Double>,
+                      _ theta: Vector<Double>) -> Matrix<Double> {
         let c = 1.043_452_464_251_151_8
         let lowerX = bark(allFrequencies.min() ?? 250)
         let upperX = bark(allFrequencies.max() ?? 8000)
@@ -479,7 +479,7 @@ extension ORKNewAudiometry {
         let xNew = Matrix.reshape2columns(grid)
         let lenght = kernelLenght
 
-        let muVar = ORKNewAudiometry.getMuVar(xNew, xSample, YSample.asVector(), theta, lenght)
+        let muVar = ORKNewAudiometry.getMuVar(xNew, xSample, ySample.asVector(), theta, lenght)
         var save_dat = Matrix(repeating: 0.0, rows: 0, columns: 3)
         
         var idx = 0
