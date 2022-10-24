@@ -35,5 +35,6 @@
 
 #define RK_APPLE_INTERNAL 1
 #define KAGRA_PROTO 1
+#define QA_DISTRIBUTION 1
 
 #endif /* ResearchKit_Prefix_pch */
