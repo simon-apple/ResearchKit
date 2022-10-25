@@ -14,6 +14,9 @@ set -Eeuo pipefail
 
 
 generate_poseidon_post_data() {
+  CURRENT_MARKETING_VERSION=${CI_TAG}
+  RK_PREFIX="ResearchKit-Release-"
+  version_string=${CURRENT_MARKETING_VERSION/#$RK_PREFIX}
   cat <<EOF
 {
     "buildNumber":"${CI_BUILD_NUMBER}",
@@ -22,6 +25,7 @@ generate_poseidon_post_data() {
     "app":"${APP_NAME}",
     "buildID":"${CI_BUILD_ID}",
     "bundleID":"${BUNDLE_ID}",
+    "version": "${version_string}",
 }
 EOF
 }
