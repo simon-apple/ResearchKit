@@ -83,7 +83,7 @@ import Foundation
     @objc
     public convenience init(channel: ORKAudioChannel) {
         self.init(channel: channel,
-                  initialLevel: 42.5,
+                  initialLevel: 45,
                   minLevel: -10,
                   maxLevel: 75,
                   frequencies: [1000, 2000, 4000, 8000, 500, 250])
@@ -307,7 +307,7 @@ extension ORKNewAudiometry {
         
         if responsesForFreq.isEmpty {
             // start from +5dB above the old audiogram
-            dbHLPoint = min(dbHLPoint + (stepSize / 2), maxLevel)
+            dbHLPoint = min(dbHLPoint + stepSize, maxLevel)
         } else if responsesForFreq.last == 1 {
             dbHLPoint = max(xSample[xSample.shape.rows - 1, 1] - stepSize, minLevel)
         } else if responsesForFreq.last == 0 {
