@@ -278,10 +278,6 @@ static OSStatus ORKdBHLAudioGeneratorZeroTone(void *inRefCon,
     [self play];
 }
 
-- (float)currentdBHL {
-    return _globaldBHL;
-}
-
 - (void)setupGraph {
     if (!_mGraph) {
         NewAUGraph(&_mGraph);
@@ -382,7 +378,7 @@ static OSStatus ORKdBHLAudioGeneratorZeroTone(void *inRefCon,
     if (_mGraph) {
         _stopAfterPulse = YES;
         int nodeInput = (_lastNodeInput % 2) + 1;
-        double stopDelay = (double)(_nPulsesFramesOn + _nPulsesFramesOff) / ORKdBHLSineWaveToneGeneratorPulsedSampleRateDefault;
+        double stopDelay = (double)(_nPulsesFramesOn + ORKdBHLSineWaveToneGeneratorPulseRampFrames) / ORKdBHLSineWaveToneGeneratorPulsedSampleRateDefault;
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(stopDelay * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             if (_mGraph) {
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -402,46 +398,9 @@ static OSStatus ORKdBHLAudioGeneratorZeroTone(void *inRefCon,
     return [[AVAudioSession sharedInstance] outputVolume];
 }
 
-#if KAGRA_PROTO
-- (NSNumber *)simulatedHLForKey:(NSString *)key {
-    NSString *shl = [NSUserDefaults.standardUserDefaults valueForKey:key];
-    shl = shl ? shl : @"";
-    shl = [shl isEqual:@""] ? @"0" : shl;
-    shl = [shl stringByReplacingOccurrencesOfString:@"," withString:@"."];
-    
-    NSNumber *nshl = [NSNumber numberWithDouble:[shl doubleValue]];
-    nshl = nshl ? nshl : [NSNumber numberWithDouble:0];
-    return nshl;
-}
-
-- (NSArray *)simulatedHLTable {
-    NSNumber *nshl250  = [self simulatedHLForKey:@"simulatedHL250"];
-    NSNumber *nshl500  = [self simulatedHLForKey:@"simulatedHL500"];
-    NSNumber *nshl1000 = [self simulatedHLForKey:@"simulatedHL1000"];
-    NSNumber *nshl2000 = [self simulatedHLForKey:@"simulatedHL2000"];
-    NSNumber *nshl3000 = [self simulatedHLForKey:@"simulatedHL3000"];
-    NSNumber *nshl4000 = [self simulatedHLForKey:@"simulatedHL4000"];
-    NSNumber *nshl8000 = [self simulatedHLForKey:@"simulatedHL8000"];
-    
-    return @[nshl250, nshl500, nshl1000, nshl2000, nshl3000, nshl4000, nshl8000];
-}
-
-- (double)simulatedHL: (double)dbHL atFrequency:(double)frequency {
-    NSArray *simulatedHL = [self simulatedHLTable];
-    NSArray *simulatedFrequencies = @[@250, @500, @1000, @2000, @3000, @4000, @8000];
-    double sdBHL = [Interpolators interp1dWithXValues:simulatedFrequencies yValues:simulatedHL xPoint:frequency];
-    double ndbHL = dbHL - sdBHL;
-    NSLog(@"simulatedHL: %f - Old level: %lf - New level: %lf - frequency: %.2lf", sdBHL, dbHL, ndbHL, frequency);
-    
-    return ndbHL;
-}
-#endif
-
 
 - (NSNumber *)dbHLtoAmplitude: (double)dbHL atFrequency:(double)frequency {
 #if RK_APPLE_INTERNAL
-    dbHL = [self simulatedHL:dbHL atFrequency:frequency];
-    
     NSArray *sortedfrequencies = [[_sensitivityPerFrequency allKeys] sortedArrayUsingComparator:^NSComparisonResult(NSString*  _Nonnull obj1, NSString*  _Nonnull obj2) {
         return [obj1 doubleValue] > [obj2 doubleValue];
     }];
@@ -453,13 +412,13 @@ static OSStatus ORKdBHLAudioGeneratorZeroTone(void *inRefCon,
     NSDecimalNumber *dBSPL =  [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%lf",sensitivity]];
 #else
     NSDecimalNumber *dBSPL =  [NSDecimalNumber decimalNumberWithString:_sensitivityPerFrequency[[NSString stringWithFormat:@"%.0f",frequency]]];
+
 #endif
     
     // get current volume
     float currentVolume = [self getCurrentSystemVolume];
     
     currentVolume = (int)(currentVolume / 0.0625) * 0.0625;
-    currentVolume = currentVolume == 0 ? 0.0625 : currentVolume;
     
     // check in volume curve table for offset
     NSDecimalNumber *offsetDueToVolume = [NSDecimalNumber decimalNumberWithString:_volumeCurve[[NSString stringWithFormat:@"%.4f",currentVolume]]];
