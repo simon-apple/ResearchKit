@@ -440,8 +440,9 @@ static OSStatus ORKdBHLAudioGeneratorZeroTone(void *inRefCon,
 
 - (NSNumber *)dbHLtoAmplitude: (double)dbHL atFrequency:(double)frequency {
 #if RK_APPLE_INTERNAL
+    #if SIMULATE_HL
     dbHL = [self simulatedHL:dbHL atFrequency:frequency];
-    
+    #endif
     NSArray *sortedfrequencies = [[_sensitivityPerFrequency allKeys] sortedArrayUsingComparator:^NSComparisonResult(NSString*  _Nonnull obj1, NSString*  _Nonnull obj2) {
         return [obj1 doubleValue] > [obj2 doubleValue];
     }];
