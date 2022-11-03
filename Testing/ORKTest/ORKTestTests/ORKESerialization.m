@@ -1267,6 +1267,21 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(timeoutSound, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(failureSound, NSNumber, NSObject, YES, nil, nil),
                     })),
+           ENTRY(ORKNormalizedReactionTimeStep,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+                     return [[ORKNormalizedReactionTimeStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
+                 },
+                 (@{
+                    PROPERTY(maximumStimulusInterval, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(minimumStimulusInterval, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(timeout, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(numberOfAttempts, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(thresholdAcceleration, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(successSound, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(timeoutSound, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(failureSound, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(currentInterval, NSNumber, NSObject, YES, nil, nil),
+                    })),
            ENTRY(ORKTypingStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      return [[ORKTypingStep alloc]  initWithIdentifier:GETPROP(dict, identifier)];

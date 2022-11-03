@@ -105,6 +105,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     case holePegTest
     case psat
     case reactionTime
+    case normalizedReactionTime
     case shortWalk
     case spatialSpanMemory
     case speechRecognition
@@ -204,6 +205,7 @@ enum TaskListRow: Int, CustomStringConvertible {
                     .holePegTest,
                     .psat,
                     .reactionTime,
+                    .normalizedReactionTime,
                     .shortWalk,
                     .spatialSpanMemory,
                     .speechRecognition,
@@ -375,7 +377,10 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .reactionTime:
             return NSLocalizedString("Reaction Time", comment: "")
-            
+        
+        case .normalizedReactionTime:
+            return NSLocalizedString("Normalized Reaction Time", comment: "")
+
         case .shortWalk:
             return NSLocalizedString("Short Walk", comment: "")
             
@@ -633,6 +638,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         case holePegTestTask
         case psatTask
         case reactionTime
+        case normalizedReactionTime
         case shortWalkTask
         case spatialSpanMemoryTask
         case speechRecognitionTask
@@ -800,6 +806,9 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .reactionTime:
             return reactionTimeTask
+        
+        case .normalizedReactionTime:
+            return normalizedReactionTimeTask
             
         case .shortWalk:
             return shortWalkTask
@@ -2014,6 +2023,13 @@ enum TaskListRow: Int, CustomStringConvertible {
         let successSoundURL = Bundle.main.url(forResource: "tap", withExtension: "aif")!
         let successSound = SystemSound(soundURL: successSoundURL)!
         return ORKOrderedTask.reactionTime(withIdentifier: String(describing: Identifier.reactionTime), intendedUseDescription: exampleDescription, maximumStimulusInterval: 10, minimumStimulusInterval: 4, thresholdAcceleration: 0.5, numberOfAttempts: 3, timeout: 3, successSound: successSound.soundID, timeoutSound: 0, failureSound: UInt32(kSystemSoundID_Vibrate), options: [])
+    }
+    
+    private var normalizedReactionTimeTask: ORKTask {
+        /// An example of a custom sound.
+        let successSoundURL = Bundle.main.url(forResource: "tap", withExtension: "aif")!
+        let successSound = SystemSound(soundURL: successSoundURL)!
+        return ORKOrderedTask.normalizedReactionTime(withIdentifier: String(describing: Identifier.normalizedReactionTime), intendedUseDescription: exampleDescription, maximumStimulusInterval: 10, minimumStimulusInterval: 4, thresholdAcceleration: 0.5, numberOfAttempts: 3, timeout: 3, successSound: successSound.soundID, timeoutSound: 0, failureSound: UInt32(kSystemSoundID_Vibrate), options: [])
     }
     
     /// This task presents the Gait and Balance pre-defined active task.

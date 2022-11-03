@@ -1,6 +1,6 @@
 /*
- Copyright (c) 2015, Apple Inc. All rights reserved.
- Copyright (c) 2017, Sage Bionetworks
+ Copyright (c) 2019, Apple Inc. All rights reserved.
+ Copyright (c) 2015, James Cox. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -30,30 +30,36 @@
  */
 
 
-#import <ResearchKit/ORKAmslerGridResult.h>
-#import <ResearchKit/ORKFileResult.h>
-#import <ResearchKit/ORKHolePegTestResult.h>
-#import <ResearchKit/ORKPSATResult.h>
-#import <ResearchKit/ORKRangeOfMotionResult.h>
-#import <ResearchKit/ORKReactionTimeResult.h>
-#import <ResearchKit/ORKNormalizedReactionTimeResult.h>
-#import <ResearchKit/ORKSpatialSpanMemoryResult.h>
-#import <ResearchKit/ORKSpeechRecognitionResult.h>
-#import <ResearchKit/ORKStroopResult.h>
-#import <ResearchKit/ORKAccuracyStroopResult.h>
-#import <ResearchKit/ORKTappingIntervalResult.h>
-#import <ResearchKit/ORKTimedWalkResult.h>
-#import <ResearchKit/ORKToneAudiometryResult.h>
-#import <ResearchKit/ORKdBHLToneAudiometryResult.h>
-#import <ResearchKit/ORKTowerOfHanoiResult.h>
-#import <ResearchKit/ORKTrailmakingResult.h>
-#import <ResearchKit/ORKSpeechInNoiseResult.h>
+@import Foundation;
+@import AudioToolbox;
+#import <ResearchKit/ORKDefines.h>
+#import <ResearchKit/ORKActiveStep.h>
 
-#if RK_APPLE_INTERNAL
-#import <ResearchKit/ORKTypingResult.h>
-#import <ResearchKit/ORKTinnitusPureToneResult.h>
-#import <ResearchKit/ORKTinnitusMaskingSoundResult.h>
-#import <ResearchKit/ORKTinnitusVolumeResult.h>
-#import <ResearchKit/ORKTinnitusTypeResult.h>
-#import <ResearchKit/ORKTinnitusOverallAssessmentResult.h>
-#endif
+
+NS_ASSUME_NONNULL_BEGIN
+
+ORK_CLASS_AVAILABLE
+@interface ORKNormalizedReactionTimeStep : ORKActiveStep
+
+@property (nonatomic, assign) NSTimeInterval maximumStimulusInterval;
+
+@property (nonatomic, assign) NSTimeInterval minimumStimulusInterval;
+
+@property (nonatomic, assign) NSTimeInterval timeout;
+
+@property (nonatomic, assign) NSInteger numberOfAttempts;
+
+@property (nonatomic, assign) double thresholdAcceleration;
+
+@property (nonatomic, assign) SystemSoundID successSound;
+
+@property (nonatomic, assign) SystemSoundID timeoutSound;
+
+@property (nonatomic, assign) SystemSoundID failureSound;
+
+@property (nonatomic) double currentInterval;
+
+
+@end
+
+NS_ASSUME_NONNULL_END
