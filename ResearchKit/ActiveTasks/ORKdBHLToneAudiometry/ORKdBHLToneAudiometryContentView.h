@@ -44,6 +44,10 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ORKdBHLToneAudiometryContentView : ORKActiveStepCustomView
 
 - (void)setProgress:(CGFloat)progress animated:(BOOL)animated;
+#if RK_APPLE_INTERNAL && QA_DISTRIBUTION
+ - (void)setDebugTapText:(NSString *)debugText;
+ - (void)setDebugPlayText:(NSString *)debugText;
+#endif
 
 @property (nonatomic, strong, readonly) ORKdBHLToneAudiometryButton *tapButton;
 

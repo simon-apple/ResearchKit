@@ -73,6 +73,10 @@
     dispatch_block_t _preStimulusDelayWorkBlock;
     dispatch_block_t _pulseDurationWorkBlock;
     dispatch_block_t _postStimulusDelayWorkBlock;
+    
+#if QA_DISTRIBUTION
+     BOOL _debugEnabled;
+#endif
 }
 
 @property (nonatomic, strong) ORKdBHLToneAudiometryContentView *dBHLToneAudiometryContentView;
@@ -86,6 +90,9 @@
     
     if (self) {
         self.suspendIfInactive = YES;
+#if QA_DISTRIBUTION
+         _debugEnabled = YES;
+#endif
         ORKWeakTypeOf(self) weakSelf = self;
         self.audiometryEngine.timestampProvider = ^NSTimeInterval{
             ORKStrongTypeOf(self) strongSelf = weakSelf;
@@ -316,6 +323,11 @@
     
 - (void)stopAudio {
     [_audioGenerator stop];
+#if RK_APPLE_INTERNAL && QA_DISTRIBUTION
+     if (_debugEnabled) {
+         [self.dBHLToneAudiometryContentView setDebugPlayText:ORKLocalizedString(@"Not Playing Audio", nil)];
+     }
+ #endif
     if (_preStimulusDelayWorkBlock) {
         dispatch_block_cancel(_preStimulusDelayWorkBlock);
         dispatch_block_cancel(_pulseDurationWorkBlock);
@@ -345,6 +357,11 @@
     [self.audiometryEngine registerPreStimulusDelay:preStimulusDelay];
     
     _preStimulusDelayWorkBlock = dispatch_block_create(DISPATCH_BLOCK_INHERIT_QOS_CLASS, ^{
+#if RK_APPLE_INTERNAL && QA_DISTRIBUTION
+         if (_debugEnabled) {
+             [self.dBHLToneAudiometryContentView setDebugPlayText:[NSString stringWithFormat:ORKLocalizedString(@"Playing dBHL: %f\nFrequency: %f",nil), stimulus.level,stimulus.frequency]];
+         }
+ #endif
         if ([[self audiometryEngine] respondsToSelector:@selector(registerStimulusPlayback)]) {
             [self.audiometryEngine registerStimulusPlayback];
         }
@@ -353,12 +370,22 @@
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(preStimulusDelay * NSEC_PER_SEC)), dispatch_get_main_queue(), _preStimulusDelayWorkBlock);
     
     _pulseDurationWorkBlock = dispatch_block_create(DISPATCH_BLOCK_INHERIT_QOS_CLASS, ^{
+#if RK_APPLE_INTERNAL && QA_DISTRIBUTION
+         if (_debugEnabled) {
+             [self.dBHLToneAudiometryContentView setDebugPlayText:ORKLocalizedString(@"Not Playing Audio", nil)];
+         }
+ #endif
         [_audioGenerator stop];
     });
     // adding 0.2 seconds to account for the fadeInDuration which is being set in ORKdBHLToneAudiometryAudioGenerator
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((preStimulusDelay + toneDuration + 0.2) * NSEC_PER_SEC)), dispatch_get_main_queue(), _pulseDurationWorkBlock);
     
     _postStimulusDelayWorkBlock = dispatch_block_create(DISPATCH_BLOCK_INHERIT_QOS_CLASS, ^{
+#if RK_APPLE_INTERNAL && QA_DISTRIBUTION
+         if (_debugEnabled) {
+             [self.dBHLToneAudiometryContentView setDebugTapText:ORKLocalizedString(@"Tap missed", nil)];
+         }
+ #endif
         [self.audiometryEngine registerResponse:NO];
         [self nextTrial];
     });
@@ -374,6 +401,12 @@
 }
 
 - (void)tapButtonPressed {
+#if RK_APPLE_INTERNAL && QA_DISTRIBUTION
+         if (_debugEnabled) {
+             ORKAudiometryStimulus *stimulus = self.audiometryEngine.nextStimulus;
+             [self.dBHLToneAudiometryContentView setDebugTapText:[NSString stringWithFormat:ORKLocalizedString(@"Tap dBHL: %f",nil), stimulus.level]];
+         }
+ #endif
     [self animatedBHLButton];
     [_hapticFeedback impactOccurred];
     
