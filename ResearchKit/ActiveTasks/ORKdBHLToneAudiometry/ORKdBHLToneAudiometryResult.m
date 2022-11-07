@@ -50,6 +50,9 @@ const double ORKInvalidDBHLValue = DBL_MAX;
     ORK_ENCODE_OBJ(aCoder, discreteUnits);
     ORK_ENCODE_OBJ(aCoder, fitMatrix);
     ORK_ENCODE_INTEGER(aCoder, algorithmVersion);
+    ORK_ENCODE_OBJ(aCoder, caseSerial);
+    ORK_ENCODE_OBJ(aCoder, leftSerial);
+    ORK_ENCODE_OBJ(aCoder, rightSerial);
 #endif
 }
 
@@ -66,6 +69,9 @@ const double ORKInvalidDBHLValue = DBL_MAX;
         ORK_DECODE_OBJ_ARRAY(aDecoder, discreteUnits, ORKdBHLToneAudiometryFrequencySample);
         ORK_DECODE_OBJ_DICTIONARY(aDecoder, fitMatrix, NSString, NSNumber);
         ORK_DECODE_INTEGER(aDecoder, algorithmVersion);
+        ORK_DECODE_OBJ_CLASS(aDecoder, caseSerial, NSString);
+        ORK_DECODE_OBJ_CLASS(aDecoder, leftSerial, NSString);
+        ORK_DECODE_OBJ_CLASS(aDecoder, rightSerial, NSString);
 #endif
     }
     return self;
@@ -89,6 +95,9 @@ const double ORKInvalidDBHLValue = DBL_MAX;
             && ORKEqualObjects(self.discreteUnits, castObject.discreteUnits)
             && ORKEqualObjects(self.fitMatrix, castObject.fitMatrix)
             && self.algorithmVersion == castObject.algorithmVersion
+            && ORKEqualObjects(self.caseSerial, castObject.caseSerial)
+            && ORKEqualObjects(self.leftSerial, castObject.leftSerial)
+            && ORKEqualObjects(self.rightSerial, castObject.rightSerial)
 #endif
             );
 }
@@ -97,7 +106,7 @@ const double ORKInvalidDBHLValue = DBL_MAX;
     NSUInteger resultsHash = self.samples.hash ^ self.headphoneType.hash;
     
 #if RK_APPLE_INTERNAL
-    resultsHash = resultsHash ^ self.discreteUnits.hash ^ self.fitMatrix.hash ^ self.algorithmVersion;
+    resultsHash = resultsHash ^ self.discreteUnits.hash ^ self.fitMatrix.hash ^ self.algorithmVersion ^ self.caseSerial.hash ^ self.leftSerial.hash ^ self.rightSerial.hash;
 #endif
     
     return super.hash ^ resultsHash;
@@ -115,6 +124,9 @@ const double ORKInvalidDBHLValue = DBL_MAX;
     result.discreteUnits = [self.discreteUnits copy];
     result.fitMatrix = [self.fitMatrix copy];
     result.algorithmVersion = self.algorithmVersion;
+    result.caseSerial = [self.caseSerial copy];
+    result.leftSerial = [self.leftSerial copy];
+    result.rightSerial = [self.rightSerial copy];
 #endif
 
     return result;
@@ -122,7 +134,7 @@ const double ORKInvalidDBHLValue = DBL_MAX;
 
 - (NSString *)descriptionWithNumberOfPaddingSpaces:(NSUInteger)numberOfPaddingSpaces {
 #if RK_APPLE_INTERNAL
-    return [NSString stringWithFormat:@"%@; algorithm: %ld, outputvolume: %.1lf; samples: %@; tones: %@; fitMatrix: %@; headphoneType: %@; tonePlaybackDuration: %.1lf; postStimulusDelay: %.1lf%@", [self descriptionPrefixWithNumberOfPaddingSpaces:numberOfPaddingSpaces], (long)self.algorithmVersion, self.outputVolume, self.samples, self.discreteUnits, self.fitMatrix, self.headphoneType, self.tonePlaybackDuration, self.postStimulusDelay, self.descriptionSuffix];
+    return [NSString stringWithFormat:@"%@; algorithm: %ld, outputvolume: %.1lf; samples: %@; tones: %@; fitMatrix: %@; headphoneType: %@; tonePlaybackDuration: %.1lf; postStimulusDelay: %.1lf%@; caseSerial: %@; leftSerial: %@; rightSerial: %@;", [self descriptionPrefixWithNumberOfPaddingSpaces:numberOfPaddingSpaces], (long)self.algorithmVersion, self.outputVolume, self.samples, self.discreteUnits, self.fitMatrix, self.headphoneType, self.tonePlaybackDuration, self.postStimulusDelay, self.descriptionSuffix, self.caseSerial, self.leftSerial, self.rightSerial];
 #else
     return [NSString stringWithFormat:@"%@; outputvolume: %.1lf; samples: %@; headphoneType: %@; tonePlaybackDuration: %.1lf; postStimulusDelay: %.1lf%@", [self descriptionPrefixWithNumberOfPaddingSpaces:numberOfPaddingSpaces], self.outputVolume, self.samples, self.headphoneType, self.tonePlaybackDuration, self.postStimulusDelay, self.descriptionSuffix];
 #endif

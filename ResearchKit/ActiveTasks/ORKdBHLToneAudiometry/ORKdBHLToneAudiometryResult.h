@@ -59,6 +59,12 @@ ORK_CLASS_AVAILABLE
 @property (nonatomic, copy, nullable) NSDictionary<NSString *, NSNumber *> *fitMatrix;
 
 @property (nonatomic, assign) NSInteger algorithmVersion;
+
+@property (nonatomic, copy) NSString* caseSerial;
+
+@property (nonatomic, copy) NSString* leftSerial;
+
+@property (nonatomic, copy) NSString* rightSerial;
 #endif
 
 @end

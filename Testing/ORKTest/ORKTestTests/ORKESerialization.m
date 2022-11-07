@@ -2089,6 +2089,9 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(discreteUnits, ORKdBHLToneAudiometryFrequencySample, NSArray, NO, nil, nil),
                     PROPERTY(fitMatrix, NSDictionary, NSObject, NO, nil, nil),
                     PROPERTY(algorithmVersion, NSNumber, NSObject, NO, nil, nil),
+                    PROPERTY(caseSerial, NSString, NSObject, NO, nil, nil),
+                    PROPERTY(leftSerial, NSString, NSObject, NO, nil, nil),
+                    PROPERTY(rightSerial, NSString, NSObject, NO, nil, nil),
 #endif
                     })),
            ENTRY(ORKReactionTimeResult,

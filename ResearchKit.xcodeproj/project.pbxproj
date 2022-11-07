@@ -402,6 +402,18 @@
 		618DA0521A93D0D600E63AA8 /* ORKAccessibilityFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 618DA04A1A93D0D600E63AA8 /* ORKAccessibilityFunctions.m */; };
 		618DA0541A93D0D600E63AA8 /* UIView+ORKAccessibility.h in Headers */ = {isa = PBXBuildFile; fileRef = 618DA04B1A93D0D600E63AA8 /* UIView+ORKAccessibility.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		618DA0561A93D0D600E63AA8 /* UIView+ORKAccessibility.m in Sources */ = {isa = PBXBuildFile; fileRef = 618DA04C1A93D0D600E63AA8 /* UIView+ORKAccessibility.m */; };
+		6202CE0F29152E8B00005F92 /* BTSession.h in Headers */ = {isa = PBXBuildFile; fileRef = 6202CE0329152E8B00005F92 /* BTSession.h */; };
+		6202CE1029152E8B00005F92 /* BTPairing.h in Headers */ = {isa = PBXBuildFile; fileRef = 6202CE0429152E8B00005F92 /* BTPairing.h */; };
+		6202CE1129152E8B00005F92 /* BTFeatures.h in Headers */ = {isa = PBXBuildFile; fileRef = 6202CE0529152E8B00005F92 /* BTFeatures.h */; };
+		6202CE1229152E8B00005F92 /* BluetoothManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 6202CE0629152E8B00005F92 /* BluetoothManager.h */; };
+		6202CE1329152E8B00005F92 /* BTDiscovery.h in Headers */ = {isa = PBXBuildFile; fileRef = 6202CE0729152E8B00005F92 /* BTDiscovery.h */; };
+		6202CE1429152E8B00005F92 /* BTServiceKeys.h in Headers */ = {isa = PBXBuildFile; fileRef = 6202CE0829152E8B00005F92 /* BTServiceKeys.h */; };
+		6202CE1529152E8B00005F92 /* BTResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 6202CE0929152E8B00005F92 /* BTResult.h */; };
+		6202CE1629152E8B00005F92 /* BTTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 6202CE0A29152E8B00005F92 /* BTTypes.h */; };
+		6202CE1729152E8B00005F92 /* BTAccessory.h in Headers */ = {isa = PBXBuildFile; fileRef = 6202CE0B29152E8B00005F92 /* BTAccessory.h */; };
+		6202CE1829152E8B00005F92 /* BluetoothDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 6202CE0C29152E8B00005F92 /* BluetoothDevice.h */; };
+		6202CE1929152E8B00005F92 /* BTDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 6202CE0D29152E8B00005F92 /* BTDevice.h */; };
+		6202CE1A29152E8B00005F92 /* BluetoothManager_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 6202CE0E29152E8B00005F92 /* BluetoothManager_Private.h */; };
 		628D128928D4E4B300B92381 /* dbAmplitudePerFrequency_AIRPODSPROV2.plist in Resources */ = {isa = PBXBuildFile; fileRef = 628D128828D4E4B300B92381 /* dbAmplitudePerFrequency_AIRPODSPROV2.plist */; };
 		628D128B28D4E4CC00B92381 /* dbSPLAmplitudePerFrequency_AIRPODSPROV2.plist in Resources */ = {isa = PBXBuildFile; fileRef = 628D128A28D4E4CC00B92381 /* dbSPLAmplitudePerFrequency_AIRPODSPROV2.plist */; };
 		62DF9F4528CA87D300D13018 /* retspl_AIRPODSPROV2.plist in Resources */ = {isa = PBXBuildFile; fileRef = 62DF9F4428CA87D300D13018 /* retspl_AIRPODSPROV2.plist */; };
@@ -1522,6 +1534,19 @@
 		618DA04A1A93D0D600E63AA8 /* ORKAccessibilityFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKAccessibilityFunctions.m; sourceTree = "<group>"; };
 		618DA04B1A93D0D600E63AA8 /* UIView+ORKAccessibility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "UIView+ORKAccessibility.h"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		618DA04C1A93D0D600E63AA8 /* UIView+ORKAccessibility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "UIView+ORKAccessibility.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		6202CE0329152E8B00005F92 /* BTSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTSession.h; sourceTree = "<group>"; };
+		6202CE0429152E8B00005F92 /* BTPairing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTPairing.h; sourceTree = "<group>"; };
+		6202CE0529152E8B00005F92 /* BTFeatures.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTFeatures.h; sourceTree = "<group>"; };
+		6202CE0629152E8B00005F92 /* BluetoothManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BluetoothManager.h; sourceTree = "<group>"; };
+		6202CE0729152E8B00005F92 /* BTDiscovery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTDiscovery.h; sourceTree = "<group>"; };
+		6202CE0829152E8B00005F92 /* BTServiceKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTServiceKeys.h; sourceTree = "<group>"; };
+		6202CE0929152E8B00005F92 /* BTResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTResult.h; sourceTree = "<group>"; };
+		6202CE0A29152E8B00005F92 /* BTTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTTypes.h; sourceTree = "<group>"; };
+		6202CE0B29152E8B00005F92 /* BTAccessory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTAccessory.h; sourceTree = "<group>"; };
+		6202CE0C29152E8B00005F92 /* BluetoothDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BluetoothDevice.h; sourceTree = "<group>"; };
+		6202CE0D29152E8B00005F92 /* BTDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTDevice.h; sourceTree = "<group>"; };
+		6202CE0E29152E8B00005F92 /* BluetoothManager_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BluetoothManager_Private.h; sourceTree = "<group>"; };
+		6202CE1B29152F0900005F92 /* ORKBluetoothManagerSoftLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKBluetoothManagerSoftLink.h; sourceTree = "<group>"; };
 		628D128828D4E4B300B92381 /* dbAmplitudePerFrequency_AIRPODSPROV2.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = dbAmplitudePerFrequency_AIRPODSPROV2.plist; sourceTree = "<group>"; };
 		628D128A28D4E4CC00B92381 /* dbSPLAmplitudePerFrequency_AIRPODSPROV2.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = dbSPLAmplitudePerFrequency_AIRPODSPROV2.plist; sourceTree = "<group>"; };
 		62DF9F4428CA87D300D13018 /* retspl_AIRPODSPROV2.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = retspl_AIRPODSPROV2.plist; sourceTree = "<group>"; };
@@ -2501,6 +2526,7 @@
 		168EEAB9230B7024003FD2FA /* PrivateHeaders */ = {
 			isa = PBXGroup;
 			children = (
+				6202CE0129152E8B00005F92 /* BluetoothManager */,
 				5D1CE45C23FC9F21004CB416 /* SUICFlamesView */,
 				E2A676ED238DCB3D006193D7 /* AVFoundation */,
 				168EEABA230B705A003FD2FA /* Celestial */,
@@ -2655,6 +2681,7 @@
 				BC45F8192304DDE40007540A /* ORKSoftLinking.h */,
 				BCD011CB2303963A0060CD5D /* ORKCelestialSoftLink.h */,
 				E2A676DC238DA4BB006193D7 /* ORKAVFoundationSoftLink.h */,
+				6202CE1B29152F0900005F92 /* ORKBluetoothManagerSoftLink.h */,
 				5D04885525F19A7A0006C68B /* ORKDevice.h */,
 				5D04885B25F1B3AB0006C68B /* ORKDevice_Private.h */,
 				5D04885625F19A7A0006C68B /* ORKDevice.m */,
@@ -3313,6 +3340,33 @@
 				6146D0A21B84A91E0068491D /* ORKGraphChartAccessibilityElement.m */,
 			);
 			path = Accessibility;
+			sourceTree = "<group>";
+		};
+		6202CE0129152E8B00005F92 /* BluetoothManager */ = {
+			isa = PBXGroup;
+			children = (
+				6202CE0229152E8B00005F92 /* PrivateHeaders */,
+				6202CE0E29152E8B00005F92 /* BluetoothManager_Private.h */,
+			);
+			path = BluetoothManager;
+			sourceTree = "<group>";
+		};
+		6202CE0229152E8B00005F92 /* PrivateHeaders */ = {
+			isa = PBXGroup;
+			children = (
+				6202CE0329152E8B00005F92 /* BTSession.h */,
+				6202CE0429152E8B00005F92 /* BTPairing.h */,
+				6202CE0529152E8B00005F92 /* BTFeatures.h */,
+				6202CE0629152E8B00005F92 /* BluetoothManager.h */,
+				6202CE0729152E8B00005F92 /* BTDiscovery.h */,
+				6202CE0829152E8B00005F92 /* BTServiceKeys.h */,
+				6202CE0929152E8B00005F92 /* BTResult.h */,
+				6202CE0A29152E8B00005F92 /* BTTypes.h */,
+				6202CE0B29152E8B00005F92 /* BTAccessory.h */,
+				6202CE0C29152E8B00005F92 /* BluetoothDevice.h */,
+				6202CE0D29152E8B00005F92 /* BTDevice.h */,
+			);
+			path = PrivateHeaders;
 			sourceTree = "<group>";
 		};
 		71769E2620880BA800A19914 /* dBHL Tone Audiometry */ = {
@@ -4833,6 +4887,8 @@
 				FFF65AB81E318F2D0043FB40 /* ORKMultipleValuePicker.h in Headers */,
 				5170009E254A255F00CACE12 /* ORKRequestPermissionButton.h in Headers */,
 				515B347A24B3D2F4009CF844 /* ORKAVJournalingSessionHelper.h in Headers */,
+				6202CE1529152E8B00005F92 /* BTResult.h in Headers */,
+				6202CE1029152E8B00005F92 /* BTPairing.h in Headers */,
 				86B781BB1AA668ED00688151 /* ORKTimeIntervalPicker.h in Headers */,
 				24C296751BD052F800B42EF1 /* ORKVerificationStep_Internal.h in Headers */,
 				86C40C6A1A8D7C5C00081FAC /* CMDeviceMotion+ORKJSONDictionary.h in Headers */,
@@ -4919,6 +4975,7 @@
 				71769E312088260B00A19914 /* ORKdBHLToneAudiometryOnboardingStepViewController.h in Headers */,
 				AE2CF2C123231C5A00FDD733 /* ORKTagLabel.h in Headers */,
 				FF919A471E81BA3D005C2A1E /* ORKHolePegTestResult.h in Headers */,
+				6202CE1129152E8B00005F92 /* BTFeatures.h in Headers */,
 				BC081DE224CBC4DE00AD92AA /* ORKTypes_Private.h in Headers */,
 				5175144E2459EBF0009E8FFC /* ORK3DModelStep.h in Headers */,
 				25ECC0A31AFBDD2700F3D63B /* ORKReactionTimeStimulusView.h in Headers */,
@@ -4978,6 +5035,7 @@
 				E2BC456C22D79081009DAAAE /* ORKHeadphoneDetector.h in Headers */,
 				71769E2920880C4500A19914 /* ORKdBHLToneAudiometryResult.h in Headers */,
 				BABBB19D2093299A00CB29E5 /* ORKSurveyCardHeaderView.h in Headers */,
+				6202CE1829152E8B00005F92 /* BluetoothDevice.h in Headers */,
 				86C40CEA1A8D7C5C00081FAC /* ORKAnswerTextField.h in Headers */,
 				BA473FE8224DB38900A362E3 /* ORKBodyItem.h in Headers */,
 				2429D5721BBB5397003A512F /* ORKRegistrationStep.h in Headers */,
@@ -5132,6 +5190,7 @@
 				FF919A591E81C628005C2A1E /* ORKQuestionResult.h in Headers */,
 				86B89ABE1AB3BFDB001626A4 /* ORKStepHeaderView_Internal.h in Headers */,
 				8419D66E1FB73CC80088D7E5 /* ORKWebViewStep.h in Headers */,
+				6202CE0F29152E8B00005F92 /* BTSession.h in Headers */,
 				BC8FC6781CA9B17C00D12768 /* ORKVoiceEngine_Internal.h in Headers */,
 				86C40C1E1A8D7C5C00081FAC /* ORKAudioStepViewController.h in Headers */,
 				FFDDD8491D3555EA00446806 /* ORKPageStep.h in Headers */,
@@ -5146,6 +5205,7 @@
 				BCD192E71B81243900FCC08A /* ORKPieChartLegendView.h in Headers */,
 				5D1CE42523F497D5004CB416 /* ORKFlamesShaderTypes.h in Headers */,
 				BABBB1B22097E16700CB29E5 /* ORKPDFViewerStepViewController.h in Headers */,
+				6202CE1729152E8B00005F92 /* BTAccessory.h in Headers */,
 				86C40C881A8D7C5C00081FAC /* ORKActiveStepTimerView.h in Headers */,
 				517514522459EF5D009E8FFC /* ORK3DModelStepViewController.h in Headers */,
 				86C40C161A8D7C5C00081FAC /* ORKAudioContentView.h in Headers */,
@@ -5153,6 +5213,7 @@
 				86C40CB41A8D7C5C00081FAC /* ORKTouchRecorder.h in Headers */,
 				86C40DEA1A8D7C5C00081FAC /* UIBarButtonItem+ORKBarButtonItem.h in Headers */,
 				BA2FE3EE20B109C600AAC231 /* ORKAmslerGridResult.h in Headers */,
+				6202CE1429152E8B00005F92 /* BTServiceKeys.h in Headers */,
 				E2CEF1EB2756744000EE8541 /* ORKSensitiveURLLearnMoreInstructionStep.h in Headers */,
 				9550E6731D58DBCF00C691B8 /* ORKTouchAnywhereStep.h in Headers */,
 				86C40CF61A8D7C5C00081FAC /* ORKBorderedButton.h in Headers */,
@@ -5215,15 +5276,18 @@
 				86C40C821A8D7C5C00081FAC /* ORKActiveStep_Internal.h in Headers */,
 				86C40D481A8D7C5C00081FAC /* ORKInstructionStepViewController_Internal.h in Headers */,
 				71769E3920882CED00A19914 /* ORKdBHLToneAudiometryStep.h in Headers */,
+				6202CE1629152E8B00005F92 /* BTTypes.h in Headers */,
 				BA0AA6941EAEC0B600671ACE /* ORKStroopContentView.h in Headers */,
 				FA7A9D2F1B083DD3005A2BEA /* ORKConsentSectionFormatter.h in Headers */,
 				E27743AB23A7AA8F00AA0C9F /* AVOutputContext_Private.h in Headers */,
 				86C40D381A8D7C5C00081FAC /* ORKHTMLPDFWriter.h in Headers */,
 				E220A3962571252900C3C211 /* ORKTinnitusPureToneStepViewController.h in Headers */,
 				959A2BFC1D68B98700841B04 /* ORKRangeOfMotionStep.h in Headers */,
+				6202CE1A29152E8B00005F92 /* BluetoothManager_Private.h in Headers */,
 				51CAB8BF252E396600007BDB /* ORKAVJournalingTaskViewController.h in Headers */,
 				86C40D561A8D7C5C00081FAC /* ORKOrderedTask.h in Headers */,
 				E2A676F3238DCB3E006193D7 /* AVOutputDevice.h in Headers */,
+				6202CE1329152E8B00005F92 /* BTDiscovery.h in Headers */,
 				86C40C4E1A8D7C5C00081FAC /* ORKTappingContentView.h in Headers */,
 				FF5051F01D66908C0065E677 /* ORKNavigablePageStep.h in Headers */,
 				86C40CA01A8D7C5C00081FAC /* ORKHealthQuantityTypeRecorder.h in Headers */,
@@ -5278,7 +5342,9 @@
 				86C40DAA1A8D7C5C00081FAC /* ORKSurveyAnswerCellForNumber.h in Headers */,
 				10864C9E1B27146B000F4158 /* ORKPSATStep.h in Headers */,
 				86C40D6E1A8D7C5C00081FAC /* ORKResult_Private.h in Headers */,
+				6202CE1229152E8B00005F92 /* BluetoothManager.h in Headers */,
 				A659C53E262E0ABE00E920DA /* ORKAccuracyStroopStepViewController.h in Headers */,
+				6202CE1929152E8B00005F92 /* BTDevice.h in Headers */,
 				E21D345F22D916E000CCB022 /* ORKHeadphoneDetectResult.h in Headers */,
 				781D54121DF886AB00223305 /* ORKTrailmakingStep.h in Headers */,
 				86C40D161A8D7C5C00081FAC /* ORKErrors.h in Headers */,
@@ -6275,6 +6341,8 @@
 					"$(ORK_GCC_PREPROCESSOR_DEFINITIONS)",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				SDKROOT = iphoneos;
+				SWIFT_INSTALL_OBJC_HEADER = YES;
 			};
 			name = "Skywagon Stable";
 		};
@@ -6304,6 +6372,8 @@
 			baseConfigurationReference = 5D000EC82620F27100E5442A /* ResearchKit-Skywagon-Internal-Release.xcconfig */;
 			buildSettings = {
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				SDKROOT = iphoneos;
+				SWIFT_INSTALL_OBJC_HEADER = YES;
 			};
 			name = "Skywagon Internal Release";
 		};
@@ -6333,6 +6403,8 @@
 			baseConfigurationReference = 5D000EC52620F27100E5442A /* ResearchKit-Skywagon-Public-Release.xcconfig */;
 			buildSettings = {
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				SDKROOT = iphoneos;
+				SWIFT_INSTALL_OBJC_HEADER = YES;
 			};
 			name = "Skywagon Public Release";
 		};
@@ -6458,6 +6530,8 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				"OTHER_SWIFT_FLAGS[arch=*]" = "$(inherited) -runtime-compatibility-version none";
+				SDKROOT = iphoneos;
+				SWIFT_INSTALL_OBJC_HEADER = YES;
 			};
 			name = Debug;
 		};
@@ -6466,6 +6540,8 @@
 			baseConfigurationReference = 5D000EC62620F27100E5442A /* ResearchKit-Release.xcconfig */;
 			buildSettings = {
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				SDKROOT = iphoneos;
+				SWIFT_INSTALL_OBJC_HEADER = YES;
 			};
 			name = Release;
 		};

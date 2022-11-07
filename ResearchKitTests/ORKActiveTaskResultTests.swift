@@ -606,6 +606,9 @@ class ORKdBHLToneAudiometryResultTests: XCTestCase {
         result.tonePlaybackDuration = 360
         result.postStimulusDelay = 10
         result.headphoneType = ORKHeadphoneTypeIdentifier.airPodsGen1
+        result.caseSerial = "caseSerial"
+        result.leftSerial = "leftSerial"
+        result.rightSerial = "rightSerial"
         sample = ORKdBHLToneAudiometryFrequencySample()
         sample.frequency = 100
         result.samples = [sample]
@@ -629,6 +632,9 @@ class ORKdBHLToneAudiometryResultTests: XCTestCase {
         newResult.tonePlaybackDuration = 360
         newResult.postStimulusDelay = 10
         newResult.headphoneType = ORKHeadphoneTypeIdentifier.airPodsGen1
+        newResult.caseSerial = "caseSerial"
+        newResult.leftSerial = "leftSerial"
+        newResult.rightSerial = "rightSerial"
         newResult.samples = [sample]
         newResult.startDate = date
         newResult.endDate = date
