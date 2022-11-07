@@ -52,6 +52,7 @@
 #if RK_APPLE_INTERNAL
 #import "ORKHeadphoneDetectStep.h"
 #import "ORKHeadphoneDetectResult.h"
+#import "ORKHeadphoneDetector.h"
 #import <ResearchKit/ResearchKit-Swift.h>
 #endif
 
@@ -63,7 +64,7 @@
 #import "ORKNavigableOrderedTask.h"
 #import "ORKStepNavigationRule.h"
 
-@interface ORKdBHLToneAudiometryStepViewController () <ORKdBHLToneAudiometryPulsedAudioGeneratorDelegate> {
+@interface ORKdBHLToneAudiometryStepViewController () <ORKdBHLToneAudiometryPulsedAudioGeneratorDelegate, ORKHeadphoneDetectorDelegate> {
     ORKdBHLToneAudiometryFrequencySample *_resultSample;
     ORKAudioChannel _audioChannel;
 
@@ -73,6 +74,12 @@
     dispatch_block_t _preStimulusDelayWorkBlock;
     dispatch_block_t _pulseDurationWorkBlock;
     dispatch_block_t _postStimulusDelayWorkBlock;
+    
+    ORKHeadphoneDetector *_headphoneDetector;
+    
+    NSString *_caseSerial;
+    NSString *_leftSerial;
+    NSString *_rightSerial;
     
 #if QA_DISTRIBUTION
      BOOL _debugEnabled;
@@ -138,6 +145,9 @@
     [[self taskViewController] lockDeviceVolume:0.625];
     
     dBHLTAStep.headphoneType = ORKHeadphoneTypeIdentifierAirPodsProGen2;
+    
+    _headphoneDetector = [[ORKHeadphoneDetector alloc] initWithDelegate:self
+                                         supportedHeadphoneChipsetTypes:[ORKHeadphoneDetectStep dBHLTypes]];
 
     ORKTaskResult *taskResults = [[self taskViewController] result];
 
@@ -286,6 +296,9 @@
     toneResult.endDate = now;
     toneResult.samples = [self.audiometryEngine resultSamples];
 #if RK_APPLE_INTERNAL
+    toneResult.caseSerial = _caseSerial.length > 1 ? _caseSerial : @"";
+    toneResult.leftSerial = _leftSerial.length > 1 ? _leftSerial : @"";
+    toneResult.rightSerial = _rightSerial.length > 1 ? _rightSerial : @"";
     if (@available(iOS 14.0, *)) {
         if ([self.audiometryEngine isKindOfClass:[ORKNewAudiometry class]]) {
             ORKNewAudiometry *engine = (ORKNewAudiometry *)self.audiometryEngine;
@@ -421,6 +434,23 @@
         [self.audiometryEngine signalClipped];
     }
     [self nextTrial];
+}
+
+#pragma mark - Headphone Monitoring
+
+- (void)headphoneTypeDetected:(ORKHeadphoneTypeIdentifier)headphoneType
+                     vendorID:(NSString *)vendorID productID:(NSString *)productID
+                deviceSubType:(NSInteger)deviceSubType isSupported:(BOOL)isSupported {
+    
+}
+
+- (void)serialNumberCollectedCase:(NSString *)caseSerial left:(NSString *)leftSerial right:(NSString *)rightSerial {
+    NSLog(@"caseSerial: %@", caseSerial);
+    _caseSerial = caseSerial;
+    NSLog(@"leftSerial: %@", leftSerial);
+    _leftSerial = leftSerial;
+    NSLog(@"rightSerial: %@", rightSerial);
+    _rightSerial = rightSerial;
 }
 
 @end

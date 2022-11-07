@@ -36,6 +36,7 @@
 
 #import "ORKCelestialSoftLink.h"
 #import "ORKAVFoundationSoftLink.h"
+#import "ORKBluetoothManagerSoftLink.h"
 #import <MediaPlayer/MediaPlayer.h>
 
 static const NSTimeInterval ORKBTListeningModeCheckInterval = 0.1;
@@ -56,6 +57,8 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
     dispatch_queue_t                    _tickQueue;
     BOOL                                _avFoundationSPIOk;
     BOOL                                _celestialSPIOk;
+    BOOL                                _bluetoothManagerSPIOk;
+    NSString                            *_lastDetectedDeviceID;
     
     NSUInteger                          _wirelessSplitterNumberOfDevices;
     
@@ -77,8 +80,18 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
         _wirelessSplitterNumberOfDevices = 0;
         _avFoundationSPIOk = [self checkAVFoundationSPI];
         _celestialSPIOk = [self checkCelestial];
+        _bluetoothManagerSPIOk = [self checkBluetoothManager];
         self.delegate = delegate;
         self.supportedHeadphoneChipsetTypes = supportedHeadphoneChipsetTypes;
+        
+#if !TARGET_OS_SIMULATOR
+        if (_bluetoothManagerSPIOk) {
+            if (![[self bluetoothManager] available] || ![[self bluetoothManager] enabled]) {
+                [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bluetoothStateChanged:) name:@"BluetoothAvailabilityChangedNotification" object:nil];
+                [[self bluetoothManager] setEnabled:YES];
+            }
+        }
+#endif
         
         [self registerNotifications];
         [self updateHeadphoneState];
@@ -121,6 +134,7 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
 
 - (void)discard {
     _lastDetectedDevice = nil;
+    _lastDetectedDeviceID = nil;
     _delegate = nil;
     [_workaroundPlayer stop];
     _workaroundPlayer = nil;
@@ -230,6 +244,10 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
 
 #pragma mark - SPI Checking
 
+- (BOOL)checkBluetoothManager {
+    return getBluetoothManagerClass() != nil;
+}
+
 - (BOOL)checkAVFoundationSPI {
     return (getAVOutputDeviceClass() != nil &&
             getAVOutputContextClass() != nil);
@@ -322,6 +340,7 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
                 ORKStrongTypeOf(self) strongSelf = weakSelf;
                 if ([[route valueForKey:getAVSystemController_RouteDescriptionKey_RouteCurrentlyPicked()] boolValue]) {
                     [strongSelf updateDeviceInformationForRoute:route];
+                    _lastDetectedDeviceID = nil;
                     NSSet *supportedRoutes = [strongSelf supportedHeadphoneChipsetTypesForRoute:route];
                     
                     NSString* modelId = [[[[getAVOutputContextClass() sharedSystemAudioContext] outputDevice] modelID] lowercaseString];
@@ -349,7 +368,17 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
                             }
                         } else {
                             routeSupported = YES;
+                            
+                            NSString *outputDeviceID = [[[getAVOutputContextClass() sharedSystemAudioContext] outputDevice] deviceID];
+                            
+                            // magic number that collects the MacAddress
+                            if (outputDeviceID.length >= 17) {
+                                _lastDetectedDeviceID = [outputDeviceID substringToIndex:17];
+                            }
+                            
                             _lastDetectedDevice = btHeadphoneType;
+                            
+                            [self checkSerials];
                         }
                     } else {
                         routeSupported = _supportedHeadphoneChipsetTypes == nil;
@@ -473,6 +502,44 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
             }
         }
     });
+}
+
+#pragma mark - BluetoothManager
+
+- (BluetoothManager *)bluetoothManager {
+    return (BluetoothManager *)[getBluetoothManagerClass() sharedInstance];
+}
+
+- (void)checkSerials {
+    NSArray * connectedDevices = [[self bluetoothManager] connectedDevices];
+    
+    if (connectedDevices.count > 0) {
+        for (BluetoothDevice *connectedDevice in connectedDevices) {
+            // is it the same device as the active route?
+            if ([connectedDevice.address isEqualToString:_lastDetectedDeviceID]) {
+                NSString *caseID = [[connectedDevice accessoryInfo][@"AACPVersionInfo"] objectAtIndex:BT_ACCESSORY_AACP_VERSION_SERIAL_NUMBER_SYSTEM];
+                NSString *leftID = [[connectedDevice accessoryInfo][@"AACPVersionInfo"] objectAtIndex:BT_ACCESSORY_AACP_VERSION_SERIAL_NUMBER_LEFT];
+                NSString *rightID = [[connectedDevice accessoryInfo][@"AACPVersionInfo"] objectAtIndex:BT_ACCESSORY_AACP_VERSION_SERIAL_NUMBER_RIGHT];
+                if (caseID.length > 1 && leftID.length > 1 && rightID.length > 1) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        ORKStrongTypeOf(self.delegate) strongDelegate = self.delegate;
+                        if (strongDelegate &&
+                            [strongDelegate respondsToSelector:@selector(serialNumberCollectedCase:left:right:)]) {
+                            [strongDelegate serialNumberCollectedCase:caseID left:leftID right:rightID];
+                        }
+                    });
+                    break;
+                }
+            }
+        }
+    }
+}
+
+- (void)bluetoothStateChanged:(NSNotification *)note {
+    if ([[self bluetoothManager] available]) {
+        [self checkSerials];
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:@"BluetoothAvailabilityChangedNotification" object:nil];
+    }
 }
 
 @end

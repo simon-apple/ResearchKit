@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019, Apple Inc. All rights reserved.
+ Copyright (c) 2020, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -27,48 +27,12 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-// apple-internal
 
-#if RK_APPLE_INTERNAL
+#import "ORKSoftLinking.h"
 
-@import UIKit;
-@import AVFoundation;
-#import <ResearchKit/ORKTypes.h>
+#import "BluetoothManager_Private.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
-@protocol ORKHeadphoneDetectorDelegate;
-
-ORK_CLASS_AVAILABLE
-@interface ORKHeadphoneDetector : NSObject
-
-@property (nonatomic, weak) id<ORKHeadphoneDetectorDelegate> delegate;
-@property (nonatomic, readonly, nullable) NSSet<ORKHeadphoneChipsetIdentifier> *supportedHeadphoneChipsetTypes;
-
-- (instancetype)initWithDelegate:(id<ORKHeadphoneDetectorDelegate>)delegate
-       supportedHeadphoneChipsetTypes:(nullable NSSet<ORKHeadphoneChipsetIdentifier> *)supportedHeadphoneChipsetTypes;
-
-- (void)discard;
-
-+ (NSSet<ORKHeadphoneChipsetIdentifier> *)appleHeadphoneSet;
-
-@end
-
-@protocol ORKHeadphoneDetectorDelegate <NSObject>
-
-@required
-- (void)headphoneTypeDetected:(ORKHeadphoneTypeIdentifier)headphoneType vendorID:(NSString *)vendorID productID:(NSString *)productID deviceSubType:(NSInteger)deviceSubType isSupported:(BOOL)isSupported;
-
-@optional
-- (void)bluetoothModeChanged:(ORKBluetoothMode)bluetoothMode;
-- (void)podLowBatteryLevelDetected;
-- (void)wirelessSplitterMoreThanOneDeviceDetected:(BOOL)moreThanOne;
-- (void)oneAirPodRemoved;
-- (void)oneAirPodInserted;
-- (void)serialNumberCollectedCase:(NSString *)caseSerial left:(NSString *)leftSerial right:(NSString *)rightSerial;
-
-@end
-
-NS_ASSUME_NONNULL_END
-
-#endif
+ORK_SOFT_LINK_FRAMEWORK(PrivateFrameworks, BluetoothManager)
+ORK_SOFT_LINK_CLASS(BluetoothManager, BluetoothManager)
+ORK_SOFT_LINK_CLASS(BluetoothManager, BluetoothDevice)
+ORK_SOFT_LINK_CONSTANT(BluetoothManager, BluetoothAccessoryInEarStatusNotification, NSString *)
