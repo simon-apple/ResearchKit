@@ -80,8 +80,8 @@ static const CGFloat TestingInProgressIndicatorRadius = 6.0;
     
     percentageFormatter = [NSNumberFormatter new];
     percentageFormatter.numberStyle = NSNumberFormatterPercentStyle;
-    percentageFormatter.roundingIncrement = @(10);
-    percentageFormatter.roundingMode = NSNumberFormatterRoundHalfUp;
+    percentageFormatter.roundingIncrement = @(5);
+    percentageFormatter.roundingMode = NSNumberFormatterRoundFloor;
     percentageFormatter.maximum = @100;
     percentageFormatter.locale = [NSLocale currentLocale];
 }

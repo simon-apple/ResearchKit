@@ -2086,6 +2086,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(headphoneType, NSString, NSObject, NO, nil, nil),
                     PROPERTY(samples, ORKdBHLToneAudiometryFrequencySample, NSArray, NO, nil, nil),
 #if RK_APPLE_INTERNAL
+                    PROPERTY(deletedSamples, ORKdBHLToneAudiometryFrequencySample, NSArray, NO, nil, nil),
                     PROPERTY(discreteUnits, ORKdBHLToneAudiometryFrequencySample, NSArray, NO, nil, nil),
                     PROPERTY(fitMatrix, NSDictionary, NSObject, NO, nil, nil),
                     PROPERTY(algorithmVersion, NSNumber, NSObject, NO, nil, nil),

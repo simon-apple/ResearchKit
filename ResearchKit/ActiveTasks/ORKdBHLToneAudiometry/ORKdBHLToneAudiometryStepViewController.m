@@ -305,6 +305,7 @@
             toneResult.algorithmVersion = 1;
             toneResult.discreteUnits = engine.resultUnits;
             toneResult.fitMatrix = engine.fitMatrix;
+            toneResult.deletedSamples = engine.deletedSamples;
         } else {
             toneResult.userInfo = @{@"simulatedHL": [self simulatedHLTable]};
         }

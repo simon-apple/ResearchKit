@@ -278,10 +278,6 @@ static OSStatus ORKdBHLAudioGeneratorZeroTone(void *inRefCon,
     [self play];
 }
 
-- (float)currentdBHL {
-    return _globaldBHL;
-}
-
 - (void)setupGraph {
     if (!_mGraph) {
         NewAUGraph(&_mGraph);
@@ -382,7 +378,7 @@ static OSStatus ORKdBHLAudioGeneratorZeroTone(void *inRefCon,
     if (_mGraph) {
         _stopAfterPulse = YES;
         int nodeInput = (_lastNodeInput % 2) + 1;
-        double stopDelay = (double)(_nPulsesFramesOn + _nPulsesFramesOff) / ORKdBHLSineWaveToneGeneratorPulsedSampleRateDefault;
+        double stopDelay = (double)(_nPulsesFramesOn + ORKdBHLSineWaveToneGeneratorPulseRampFrames) / ORKdBHLSineWaveToneGeneratorPulsedSampleRateDefault;
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(stopDelay * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             if (_mGraph) {
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -437,12 +433,12 @@ static OSStatus ORKdBHLAudioGeneratorZeroTone(void *inRefCon,
 }
 #endif
 
-
 - (NSNumber *)dbHLtoAmplitude: (double)dbHL atFrequency:(double)frequency {
 #if RK_APPLE_INTERNAL
     #if SIMULATE_HL
     dbHL = [self simulatedHL:dbHL atFrequency:frequency];
     #endif
+
     NSArray *sortedfrequencies = [[_sensitivityPerFrequency allKeys] sortedArrayUsingComparator:^NSComparisonResult(NSString*  _Nonnull obj1, NSString*  _Nonnull obj2) {
         return [obj1 doubleValue] > [obj2 doubleValue];
     }];
@@ -454,13 +450,13 @@ static OSStatus ORKdBHLAudioGeneratorZeroTone(void *inRefCon,
     NSDecimalNumber *dBSPL =  [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%lf",sensitivity]];
 #else
     NSDecimalNumber *dBSPL =  [NSDecimalNumber decimalNumberWithString:_sensitivityPerFrequency[[NSString stringWithFormat:@"%.0f",frequency]]];
+
 #endif
     
     // get current volume
     float currentVolume = [self getCurrentSystemVolume];
     
     currentVolume = (int)(currentVolume / 0.0625) * 0.0625;
-    currentVolume = currentVolume == 0 ? 0.0625 : currentVolume;
     
     // check in volume curve table for offset
     NSDecimalNumber *offsetDueToVolume = [NSDecimalNumber decimalNumberWithString:_volumeCurve[[NSString stringWithFormat:@"%.4f",currentVolume]]];
