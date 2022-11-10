@@ -442,7 +442,7 @@ extension ORKNewAudiometry {
         return true
     }
     
-    func finalSampling() {
+    public func finalSamplingFit() -> Matrix<Double> {
         let lowerY = xSample.getColumn(1).minimum() - 5
         let upperY = xSample.getColumn(1).maximum() + 5
         
@@ -465,6 +465,11 @@ extension ORKNewAudiometry {
             .reshaped(rows: gridX1.shape.rows, columns: gridX1.shape.columns)
         
         let fit = getFit(gridX1, gridX2, probPredict)
+        return fit
+    }
+    
+    func finalSampling() {
+        let fit = finalSamplingFit()
         let fitFreqs = fit.getColumn(0).elements
         let fitLevels = fit.getColumn(1).elements
 
