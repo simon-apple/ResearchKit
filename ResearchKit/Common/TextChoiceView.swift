@@ -103,6 +103,7 @@ struct TextChoiceView: View {
                     Image(uiImage: img)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
+                        // swiftlint:disable line_length
                         .frame(width: 115) // TODO: research stable path to fetch width of view in realtime
                         .overlay(RoundedRectangle(cornerRadius: 6).stroke(Color.clear,
                                                                           lineWidth: 1))
@@ -289,6 +290,7 @@ class SwiftUITextChoiceHelper: ObservableObject {
         
         // iterate through collectedTextChoices and update the selectedIndexes array
         for textChoice in collectedTextChoices {
+            // swiftlint:disable line_length
             let result = self.swiftUItextChoices.first(where: { $0.value.isEqual(textChoice.value) })
             
             if let swiftUITextChoice = result, !selectedIndexes.contains(swiftUITextChoice.index) {
