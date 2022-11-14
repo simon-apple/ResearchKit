@@ -412,15 +412,9 @@ extension ORKNewAudiometry {
     }
     
     func nextSample() -> Bool {
-        // get coverage matrix
-        let coverageMatrix = checkCoverage()
-        let covered = coverageMatrix.filterOnColumn(4) { $0 == 1 }
-        coverage = Float(covered.shape.rows) / Float(coverageMatrix.shape.rows)
-        
-        // check stopping criteria
-        let hitStoppingCriteria = coverage >= 1.0
-        let hitMaximumSampling = ySample.count >= maxSampleCount
-        if hitStoppingCriteria || hitMaximumSampling {
+        // get coverage matrix and check stopping criteria
+        var coverageMatrix = checkCoverage()
+        if shouldStop(with: coverageMatrix) {
             return false
         }
         
@@ -428,9 +422,17 @@ extension ORKNewAudiometry {
         let sampledPoints = ySample.shape.rows - initialSamples.count
         if sampledPoints >= 5 {
             let outliersResult = removeOutlierFit(coverageMatrix, deleted)
-            deleted.appendRows(of: outliersResult.deleted)
-            ySample = outliersResult.ySample
-            xSample = outliersResult.xSample
+            if !outliersResult.deleted.elements.isEmpty {
+                deleted.appendRows(of: outliersResult.deleted)
+                ySample = outliersResult.ySample
+                xSample = outliersResult.xSample
+                
+                // update coverage matrix and check stopping criteria again
+                coverageMatrix = checkCoverage()
+                if shouldStop(with: coverageMatrix) {
+                    return false
+                }
+            }
         }
         
         // get next point
@@ -438,7 +440,6 @@ extension ORKNewAudiometry {
         stimulus = ORKAudiometryStimulus(frequency: ORKNewAudiometry.hz(evaluated[0]),
                                          level: evaluated[1],
                                          channel: self.channel)
-
         return true
     }
     
@@ -624,6 +625,19 @@ public extension ORKNewAudiometry {
         return coverageMatrix
     }
     
+    func shouldStop(with coverageMatrix: Matrix<Double>) -> Bool {
+        let covered = coverageMatrix.filterOnColumn(4) { $0 == 1 }
+        coverage = Float(covered.shape.rows) / Float(coverageMatrix.shape.rows)
+        
+        // check stopping criteria
+        let hitStoppingCriteria = coverage >= 1.0
+        let hitMaximumSampling = ySample.count >= maxSampleCount
+        if hitStoppingCriteria || hitMaximumSampling {
+            return true
+        }
+        return false
+    }
+    
     func removeOutlierFit(_ coverageMatrix: Matrix<Double>,
                           _ deleted: Matrix<Double>,
                           yDiff: Double = 0.2) -> (xSample: Matrix<Double>,
@@ -700,6 +714,7 @@ extension ORKNewAudiometry {
             best_fit.appendRow([x_point, y_point])
         }
         
+        best_fit.clip(to: minLevel...maxLevel, along: .columns, withIndex: 1)
         return best_fit
     }
     
@@ -832,7 +847,8 @@ extension ORKNewAudiometry {
         let tmp = theta[0] ** 2 + nu
         
         let column = x.getColumn(1)
-        let tmp1 = theta[1] ** 2 + column.reshaped(rows: -1, columns: 1).multipliedByTransposed()
+        var tmp1 = column.reshaped(rows: -1, columns: 1).multipliedByTransposed()
+        tmp1.addInplace(theta[1] ** 2)
         let tmp1Diag = tmp1.diagonalVector()
         
         return Matrix(tmp + tmp1Diag).reshaped(rows: -1, columns: 1)

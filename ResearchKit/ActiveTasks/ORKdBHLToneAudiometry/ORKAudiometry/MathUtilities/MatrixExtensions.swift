@@ -353,6 +353,44 @@ public extension Matrix where Element == Double {
         return newMatrix
     }
     
+    mutating func clip(to range: ClosedRange<Double>, along axis: Axis, withIndex index: Int) {
+        precondition(self.number(of: axis) > index)
+        
+        var idx = 0
+        modify(along: axis) { slice in
+            if index == idx {
+                var lowerBound = range.lowerBound
+                var upperBound = range.upperBound
+                vDSP_vclipD(
+                    slice.pointer,
+                    slice.stride,
+                    &lowerBound,
+                    &upperBound,
+                    slice.pointer,
+                    slice.stride,
+                    vDSP_Length(slice.count)
+                )
+            }
+            idx += 1
+        }
+    }
+    
+    mutating func addInplace(_ element: Element) {
+        let axis: MatrixAxis = shape.rows > shape.columns ? .columns : .rows
+        
+        modify(along: axis) { slice in
+            var scalar = element
+            vDSP_vsaddD(
+                slice.pointer,
+                slice.stride,
+                &scalar,
+                slice.pointer,
+                slice.stride,
+                vDSP_Length(slice.count)
+            )
+        }
+    }
+    
     static func allClose(_ lhs: Matrix<Element>, _ rhs: Matrix<Element>, atol: Element) -> Bool {
         return zip(lhs.elements, rhs.elements).allSatisfy { abs($0 - $1) <= atol }
     }
