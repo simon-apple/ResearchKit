@@ -481,7 +481,7 @@ extension ORKNewAudiometry {
         }
         
         fitMatrix = zip(fitFreqs, fitLevels).reduce(into: [:]) {
-            $0[String($1.0)] = $1.1
+            $0[String(format: "%.16lf", $1.0)] = $1.1
         }
     }
 }
