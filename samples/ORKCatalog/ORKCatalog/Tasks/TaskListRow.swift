@@ -949,13 +949,21 @@ enum TaskListRow: Int, CustomStringConvertible {
         
         let appleFormItem = ORKFormItem(identifier: "appleFormItemIdentifier", text: "Which is your favorite apple?", answerFormat: appleAnswerFormat)
         
+        let freeTextSection = ORKFormItem(identifier: "freeTextSectionIdentifier", text: "Enter your text below", answerFormat: nil)
+        
+        let freeTextAnswerFormat = ORKAnswerFormat.textAnswerFormat(withMaximumLength: 200)
+        freeTextAnswerFormat.multipleLines = true
+        
+        let freeTextItem = ORKFormItem(identifier: "freeTextItemIdentifier", text: nil, answerFormat: freeTextAnswerFormat)
         
         step.formItems = [
             appleFormItem,
             formItem03,
             formItem04,
             formItem01,
-            formItem02
+            formItem02,
+            freeTextSection,
+            freeTextItem
         ]
         let completionStep = ORKCompletionStep(identifier: "CompletionStep")
         completionStep.title = NSLocalizedString("All Done!", comment: "")

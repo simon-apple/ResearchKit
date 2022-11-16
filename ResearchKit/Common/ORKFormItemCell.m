@@ -1534,10 +1534,6 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView {
-    if (textView.text.length == 0) {
-        textView.text = self.formItem.placeholder;
-        textView.textColor = [self placeholderColor];
-    }
     [self.delegate formItemCellDidResignFirstResponder:self];
 }
 
