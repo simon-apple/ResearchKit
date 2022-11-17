@@ -165,7 +165,9 @@ import Foundation
         guard let lastStimulus = stimulus, !preStimulusResponse else { return }
         
         let freqPoint = bark(lastStimulus.frequency)
-        
+        xSample.appendRow([freqPoint, lastStimulus.level])
+        ySample.appendRow([response ? 1 : 0])
+    
         if lastStimulus.level == maxLevel && response == false {
             // handle levels higher than maxLevel
             xSample.appendRow([freqPoint, maxLevel + 1])
@@ -174,10 +176,6 @@ import Foundation
             // handle levels lower than minLevel
             xSample.appendRow([freqPoint, minLevel - 1])
             ySample.appendRow([0])
-        } else {
-            let dbHLPoint = lastStimulus.level
-            xSample.appendRow([freqPoint, dbHLPoint])
-            ySample.appendRow([response ? 1 : 0])
         }
         
         let lastResponse = ySample.elements.last == 1
