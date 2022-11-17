@@ -638,9 +638,9 @@ public extension ORKNewAudiometry {
     
     func removeOutlierFit(_ coverageMatrix: Matrix<Double>,
                           _ deleted: Matrix<Double>,
-                          yDiff: Double = 0.2) -> (xSample: Matrix<Double>,
-                                                   ySample: Matrix<Double>,
-                                                   deleted: Matrix<Double>) {
+                          yDiff: Double = 2) -> (xSample: Matrix<Double>,
+                                                 ySample: Matrix<Double>,
+                                                 deleted: Matrix<Double>) {
         // keep track of deleted points
         var idxToDelete = [Int]()
         
