@@ -291,6 +291,20 @@ class RKCatalogScrubber():
         self.file_helper.delete_files(files_to_delete)
         self.file_helper.delete_folders(folders_to_delete)
 
+class RKIllegalTermsFinder():
+    def __init__(self):
+        self.project_path = "../ResearchKit"
+        self.illegal_terms_to_check = ["apple_internal", "RK_APPLE_INTERNAL" ,"spi", "lime", "olive", "nectarine","secret","DEVEOPMENT_TEAM"]
+
+    def find_illegal_terms(self):
+        for term in self.illegal_terms_to_check:
+            print("Searching RK for - ", term)
+            grep_command = '''
+             grep -HRn --ignore-case '{0}' {1}
+            '''.format(term, self.project_path)
+            output_stream = os.popen(grep_command)
+            print(output_stream.read())
+
 
 if __name__ == "__main__":
 
@@ -305,3 +319,7 @@ if __name__ == "__main__":
     # === SCRUB ORKCatalog PROJECT OF INTERNAL CODE AND REFERENCES ===
     rk_catalog_scrubber = RKCatalogScrubber()
     rk_catalog_scrubber.scrub_project()
+
+    # === GREP all illegal terms  ===
+    rk_illegal_terms_finder = RKIllegalTermsFinder()
+    rk_illegal_terms_finder.find_illegal_terms()
