@@ -31,6 +31,8 @@
 #import <ResearchKit/ORKAudiometryStimulus.h>
 
 typedef NSTimeInterval(^ORKAudiometryTimestampProvider)(void);
+typedef void(^ORKAudiometryStateBlock)(BOOL, ORKAudiometryStimulus *);
+
 
 @class ORKdBHLToneAudiometryFrequencySample;
 
@@ -55,9 +57,9 @@ typedef NSTimeInterval(^ORKAudiometryTimestampProvider)(void);
 @property (nonatomic, strong) ORKAudiometryTimestampProvider timestampProvider;
 
 /**
- This method should return a `ORKAudiometryStimulus` providing the parameters of the tone that should presented next, if available.
+ This method calls the block asyncrounously informing if the test ended or the parameters of the tone that should presented next.
  */
-- (ORKAudiometryStimulus *)nextStimulus;
+- (void)nextStatus:(ORKAudiometryStateBlock)block;
 
 /**
  Called just before presenting tone.

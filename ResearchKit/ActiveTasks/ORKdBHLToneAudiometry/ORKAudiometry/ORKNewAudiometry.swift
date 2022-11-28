@@ -40,8 +40,10 @@ import Foundation
 @objc public class ORKNewAudiometry: NSObject, ORKAudiometryProtocol {
     public var timestampProvider: ORKAudiometryTimestampProvider = { 0 }
     
-    public var testEnded = false
-    public var initialSampleEnded = false
+    public var initialSampleEnded: Bool = false
+    public var testEnded: Bool = false {
+        didSet { stateDidChange() }
+    }
     
     public var theta = Vector<Double>(elements: [1, 1])
     public var xSample = Matrix<Double>(elements: [], rows: 0, columns: 2)
@@ -61,9 +63,13 @@ import Foundation
     private var lastProgress: Float = 0.0
     
     fileprivate let channel: ORKAudioChannel
-    fileprivate var stimulus: ORKAudiometryStimulus?
     fileprivate var results = [Double: Double]()
     fileprivate var preStimulusResponse = true
+    
+    fileprivate var statusProvider: ORKAudiometryStateBlock?
+    fileprivate var stimulus: ORKAudiometryStimulus? {
+        didSet { stateDidChange() }
+    }
 
     // Settings
     fileprivate let initialLevel: Double
@@ -149,8 +155,23 @@ import Foundation
         return lastProgress
     }
         
-    public func nextStimulus() -> ORKAudiometryStimulus? {
-        return stimulus
+    public func nextStatus(_ block: @escaping ORKAudiometryStateBlock) {
+        statusProvider = nil
+
+        if testEnded {
+            block(true, nil)
+        } else if let currentStimulus = stimulus {
+            block(false, currentStimulus)
+        } else {
+            statusProvider = block
+        }
+    }
+    
+    private func stateDidChange() {
+        guard let provider = statusProvider else { return }
+        DispatchQueue.main.async { [weak self] in
+            self?.nextStatus(provider)
+        }
     }
     
     public func registerPreStimulusDelay(_ preStimulusDelay: Double) {
@@ -182,6 +203,11 @@ import Foundation
         updateUnit(with: lastResponse)
         preStimulusResponse = true
         
+        if !initialSampleEnded {
+            // Store initial sample separetedly so it can be checked later
+            initialSamples.append(response)
+        }
+        
         if !nextInitialSample() {
             // Check if initial sampling is invalid
             if (!initialSamples.isEmpty &&
@@ -206,8 +232,6 @@ import Foundation
                 }
             }
         } else {
-            // Store initial sample separetedly so it can be checked later
-            initialSamples.append(response)
             createNewUnit()
         }
     }

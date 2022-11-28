@@ -80,14 +80,15 @@
 
 - (void)runTestForAudiogram:(NSDictionary *)audiogramDict onAudiometryEngine:(id<ORKAudiometryProtocol>)audiometry {
     while (audiometry.testEnded == false) {
-        ORKAudiometryStimulus *stimulus = [audiometry nextStimulus];
-        NSNumber *frequencyKey = self.keys[[NSNumber numberWithDouble:stimulus.frequency]];
-        NSNumber *referenceLevel = audiogramDict[frequencyKey];
+        [audiometry nextStatus:^(BOOL testEnded, ORKAudiometryStimulus *stimulus) {
+            NSNumber *frequencyKey = self.keys[[NSNumber numberWithDouble:stimulus.frequency]];
+            NSNumber *referenceLevel = audiogramDict[frequencyKey];
 
-        if ([audiometry respondsToSelector:@selector(registerStimulusPlayback)]) {
-            [audiometry registerStimulusPlayback];
-        }
-        [audiometry registerResponse:stimulus.level >= referenceLevel.doubleValue];
+            if ([audiometry respondsToSelector:@selector(registerStimulusPlayback)]) {
+                [audiometry registerStimulusPlayback];
+            }
+            [audiometry registerResponse:stimulus.level >= referenceLevel.doubleValue];
+        }];
     }
     
     NSArray<ORKdBHLToneAudiometryFrequencySample *> *result = [audiometry resultSamples];

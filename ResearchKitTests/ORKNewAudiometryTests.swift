@@ -980,29 +980,17 @@ extension ORKNewAudiometryTests {
         audiometry.ySample = y
         audiometry.theta = [35, 1].asVector()
         let coverage = audiometry.checkCoverage()
-        
-        let expectedDeletedIdx = 3
-        let expectedDeleted = x.gatherRows([expectedDeletedIdx])
-        let expectedX = x.filterRows([expectedDeletedIdx])
-        let expectedY = y.filterRows([expectedDeletedIdx])
 
         let res = audiometry.removeOutlierFit(coverage, deleted)
-        XCTAssertEqual(res.xSample.shape, expectedX.shape)
-        XCTAssertEqual(res.xSample.shape.rows, 32)
-        XCTAssertEqual(res.ySample.shape, expectedY.shape)
-        XCTAssertEqual(res.ySample.shape.rows, 32)
-        XCTAssertEqual(res.deleted.shape, expectedDeleted.shape)
-        XCTAssertEqual(res.deleted.shape.rows, 1)
+        XCTAssertEqual(res.xSample.shape, x.shape)
+        XCTAssertEqual(res.ySample.shape, y.shape)
+        XCTAssertEqual(res.deleted.shape.rows, 0)
         
-        for (value1, value2) in zip(res.xSample.elements, expectedX.elements) {
+        for (value1, value2) in zip(res.xSample.elements, x.elements) {
             XCTAssertEqual(value1, value2, accuracy: 0.00000001)
         }
         
-        for (value1, value2) in zip(res.ySample.elements, expectedY.elements) {
-            XCTAssertEqual(value1, value2, accuracy: 0.00000001)
-        }
-        
-        for (value1, value2) in zip(res.deleted.elements, expectedDeleted.elements) {
+        for (value1, value2) in zip(res.ySample.elements, y.elements) {
             XCTAssertEqual(value1, value2, accuracy: 0.00000001)
         }
     }
@@ -1067,7 +1055,42 @@ extension ORKNewAudiometryTests {
         XCTAssertEqual(res.ySample.elements, y.elements)
         XCTAssertEqual(res.deleted.elements.count, 0)
     }
+    
+    func testRemoveOutlier3() throws {
+        let audiometry = ORKNewAudiometry(channel: .left)
 
+        let x = Matrix(elements: [7.702773976459156, 45.0,
+                                  7.702773976459156, 35.0,
+                                  7.702773976459156, 25.0,
+                                  11.513378832591187, 35.0,
+                                  15.575071734898074, 25.0,
+                                  19.708905833596873, 15.0,
+                                  19.708905833596873, 25.0,
+                                  19.708905833596873, 35.0,
+                                  19.708905833596873, 45.0,
+                                  19.708905833596873, 55.0,
+                                  4.550916823162454, 35.0,
+                                  2.4327906486489863, 25.0,
+                                  2.4327906486489863, 35.0,
+                                  12.087090310825747, 10.0,
+                                  11.578969275974337, 22.5,
+                                  17.16830065933983, 30.0,
+                                  4.973395822906029, 27.5,
+                                  10.054606171420113, 22.5], rows: 18, columns: 2)
+        
+        let y = Matrix<Double>(elements: [1.0, 1.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 1.0], rows: 18, columns: 1)
+        let deleted = Matrix<Double>(elements: [], rows: 0, columns: 2)
+        
+        audiometry.xSample = x
+        audiometry.ySample = y
+        audiometry.theta = [35, 35].asVector()
+        let coverage = audiometry.checkCoverage()
+
+        let res = audiometry.removeOutlierFit(coverage, deleted)
+        XCTAssertEqual(res.xSample.elements, x.elements)
+        XCTAssertEqual(res.ySample.elements, y.elements)
+        XCTAssertEqual(res.deleted.elements.count, 0)
+    }
 }
 
 @available(iOS 14, *)
@@ -1118,7 +1141,7 @@ extension ORKNewAudiometryTests {
         }
     }
         
-    func testInitialSampleIteractive() throws {
+    func testInitialSampleIteractive() async throws {
         let audiograms = [[250: 16.2, 500: 17.9, 1000: 17.3, 2000: 11.7, 4000: 12.2, 8000: 36.2],
                           [250: 5.63, 500: 7.66, 1000: 9.33, 2000: 7.54, 4000: 4.44, 8000: 14.7],
                           [250: 9.39, 500: 13.0, 1000: 16.3, 2000: 16.7, 4000: 12.2, 8000: 18.7],
@@ -1137,14 +1160,18 @@ extension ORKNewAudiometryTests {
             let res = newAudiometry.initialSample(index)
             
             while newAudiometry.initialSampleEnded == false {
-                let stimulus = try XCTUnwrap(newAudiometry.nextStimulus())
-                let testLevel = audiogram[Int(round(stimulus.frequency))]
+                let status = await withCheckedContinuation { continuation in
+                    newAudiometry.nextStatus { continuation.resume(returning: ($0, $1)) }
+                }
                 
-                newAudiometry.registerStimulusPlayback()
-                if stimulus.level > testLevel! {
-                    newAudiometry.registerResponse(true)
-                } else {
-                    newAudiometry.registerResponse(false)
+                if let stimulus = status.1 {
+                    let testLevel = audiogram[Int(round(stimulus.frequency))]
+                    newAudiometry.registerStimulusPlayback()
+                    if stimulus.level > testLevel! {
+                        newAudiometry.registerResponse(true)
+                    } else {
+                        newAudiometry.registerResponse(false)
+                    }
                 }
             }
             
@@ -1210,7 +1237,7 @@ extension ORKNewAudiometryTests {
         }
     }
     
-    func testInitialSampleFromAudiogramInteractive() throws {
+    func testInitialSampleFromAudiogramInteractive() async throws {
         let audiograms = [
             [16.2, 17.9, 17.3, 11.7, 12.2, 36.2],
             [5.63, 7.66, 9.33, 7.54, 4.44, 14.7],
@@ -1243,14 +1270,18 @@ extension ORKNewAudiometryTests {
             
             // Run the initial sampling interactively
             while audiometry2.initialSampleEnded == false {
-                let stimulus = try XCTUnwrap(audiometry2.nextStimulus())
-                let testLevel = audiogramDict[round(stimulus.frequency)]
+                let status = await withCheckedContinuation { continuation in
+                    audiometry2.nextStatus { continuation.resume(returning: ($0, $1)) }
+                }
                 
-                audiometry2.registerStimulusPlayback()
-                if stimulus.level > testLevel! {
-                    audiometry2.registerResponse(true)
-                } else {
-                    audiometry2.registerResponse(false)
+                if let stimulus = status.1 {
+                    let testLevel = audiogramDict[round(stimulus.frequency)]
+                    audiometry2.registerStimulusPlayback()
+                    if stimulus.level > testLevel! {
+                        audiometry2.registerResponse(true)
+                    } else {
+                        audiometry2.registerResponse(false)
+                    }
                 }
             }
             
@@ -1380,7 +1411,7 @@ extension ORKNewAudiometryTests {
         XCTAssertTrue(audiometry.initialSampleEnded)
     }
     
-    func testSamplesIteractive() throws {
+    func testSamplesIteractive() async throws {
         let audiograms = [
             [16.2, 17.9, 17.3, 11.7, 12.2, 36.2],
             [5.63, 7.66, 9.33, 7.54, 4.44, 14.7],
@@ -1396,10 +1427,10 @@ extension ORKNewAudiometryTests {
             [43.6, 46.7, 49.1, 46.0, 37.9, 52.0]
         ]
         
-        runFullTestWith(audiograms, accuracy: 2.5)
+        await runFullTestWith(audiograms, accuracy: 2.5)
     }
 
-    func testSamplesIteractiveNHANES() throws {
+    func testSamplesIteractiveNHANES() async throws {
         let audiograms = [
             [10.0, 10.0, 10.0, 15.0, 15.0, 5.0],
             [10.0, 10.0, 5.0, 5.0, 10.0, 10.0],
@@ -1425,10 +1456,10 @@ extension ORKNewAudiometryTests {
             [30.0, 35.0, 40.0, 30.0, 30.0, 80.0]
         ]
 
-        runFullTestWith(audiograms, accuracy: 4)
+        await runFullTestWith(audiograms, accuracy: 4)
     }
     
-    func testSamplesIteractiveCornerCases() throws {
+    func testSamplesIteractiveCornerCases() async throws {
         let audiograms = [
             [-15.0, -15.0, -15.0, -15.0, -15.0, -15.0],
             [-10.0, -10.0, -10.0, -10.0, -10.0, -10.0],
@@ -1443,10 +1474,10 @@ extension ORKNewAudiometryTests {
             [ 95.0, 95.0, 95.0, 95.0, 95.0, 95.0],
         ]
         
-        runFullTestWith(audiograms, accuracy: 2.5)
+        await runFullTestWith(audiograms, accuracy: 2.5)
     }
     
-    func testSamplesIteractiveExtraCases() throws {
+    func testSamplesIteractiveExtraCases() async throws {
         let audiograms = [
             [17.30, 11.70, 12.20, 36.20, 17.90, 16.20],
             [5.63, 7.66, 9.33, 7.54, 4.44, 14.70],
@@ -1501,7 +1532,7 @@ extension ORKNewAudiometryTests {
             [25.00, 45.00, 55.00, 70.00, 60.00, 75.00]
         ]
         
-        runFullTestWith(audiograms, accuracy: 5, frequencies: [1000,2000,4000,8000,500,250])
+        await runFullTestWith(audiograms, accuracy: 5, frequencies: [1000,2000,4000,8000,500,250])
     }
     
 //    This takes very long to run, used for validating new changes on the algorithm
@@ -1517,7 +1548,7 @@ extension ORKNewAudiometryTests {
 //        runFullTestWith(audiograms, accuracy: 5, frequencies: [1000,2000,3000,4000,6000,8000,500])
 //    }
     
-    func runFullTestWith(_ audiograms: [[Double]], accuracy: Double = 0.1, frequencies: [Double] = [250,500,1000,2000,4000,8000]) {
+    func runFullTestWith(_ audiograms: [[Double]], accuracy: Double = 0.1, frequencies: [Double] = [250,500,1000,2000,4000,8000]) async {
         let waitIteractions = 1000
         
         for audiogram in audiograms {
@@ -1525,29 +1556,19 @@ extension ORKNewAudiometryTests {
             let minLevel = -10.0
             let newAudiometry = ORKNewAudiometry(channel: .left, initialLevel: 42.5, minLevel: minLevel, maxLevel: maxLevel, frequencies: frequencies)
                         
-            while newAudiometry.testEnded == false {
-                // Try waiting for nextStimulus
-                var optionalStimulus: ORKAudiometryStimulus?
-                for _ in 0..<waitIteractions {
-                    optionalStimulus = newAudiometry.nextStimulus()
-                    if (optionalStimulus == nil) {
-                        Thread.sleep(forTimeInterval: 1/Double(waitIteractions))
-                    } else {
-                        break
-                    }
-                }
-                
-                // If we got an stimulus, register the response
-                if let stimulus = optionalStimulus {
-                    // interpolate between audiogram points
-                    let freqHL = newAudiometry.bark(frequencies.asVector())
-                    let freqs = vDSP.linearInterpolate(values: [freqHL.minimum(),freqHL.maximum()], atIndices: [0,999])
-                    let combinedAudiogram = zip(freqHL.elements, audiogram).map { ($0, $1) }
-                    let sortedAudiogram = combinedAudiogram.sorted { $0.0 < $1.0 }
-                    let levels = Interpolators.interpCs(x: freqs, xp: sortedAudiogram.map { $0.0 }, fp: sortedAudiogram.map { $0.1 })
+            // interpolate between audiogram points
+            let freqHL = newAudiometry.bark(frequencies.asVector())
+            let combinedAudiogram = zip(freqHL.elements, audiogram).map { ($0, $1) }
+            let sortedAudiogram = combinedAudiogram.sorted { $0.0 < $1.0 }
+            let cs = CubicSpline(xp: sortedAudiogram.map { $0.0 }, fp: sortedAudiogram.map { $0.1 })
 
+            while newAudiometry.testEnded == false {
+                let status = await withCheckedContinuation({ continuation in
+                    newAudiometry.nextStatus { continuation.resume(returning: ($0, $1)) }
+                })
+                if let stimulus = status.1 {
                     let freqPoint = newAudiometry.bark(stimulus.frequency)
-                    let testLevel = levels[newAudiometry.findNearest(freqs.asVector(), freqPoint)]
+                    let testLevel = cs.f(forX: freqPoint)
                     
                     newAudiometry.registerStimulusPlayback()
                     if stimulus.level > testLevel {
@@ -1872,5 +1893,63 @@ extension String {
     
     func reversePadded(toLength: Int) -> String {
         return String(String(self.reversed()).padding(toLength: toLength, withPad: " ", startingAt: 0).reversed())
+    }
+}
+
+struct CubicSpline {
+    let xp: [Double]
+    let fp: [Double]
+    
+    let b: [Double]
+    let c: [Double]
+    let d: [Double]
+    
+    init(xp: [Double], fp: [Double]) {
+        precondition(xp.count == fp.count)
+        self.xp = xp
+        self.fp = fp
+
+        let size = xp.count - 1
+        let h = xp.dropLast().enumerated().map { xp[$0 + 1] - $1 } + [0.0]
+        let t = [0.0] + Array(1..<size).map { 2.0 * Double(xp[$0 + 1] - xp[$0 - 1]) }
+        let a = [0.0] + Array(1..<size).map { (i: Int) -> Double in
+            (3 / h[i] * (fp[i + 1] - fp[i])) - (3 / h[i - 1] * (fp[i] - fp[i - 1]))
+        }
+
+        var l = Array(repeating: 1.0, count: xp.count)
+        var z = Array(repeating: 0.0, count: xp.count)
+        var u = Array(repeating: 0.0, count: xp.count)
+        for (i, v) in t.enumerated() {
+            guard let j = Int(exactly: i - 1), j >= 0 else { continue }
+            l[i] = v - (u[j] * h[j])
+            z[i] = (a[i] - (h[j] * z[j])) / l[i]
+            u[i] = h[i] / l[i]
+        }
+        
+        var b = Array(repeating: 0.0, count: xp.count)
+        var c = Array(repeating: 0.0, count: xp.count)
+        var d = Array(repeating: 0.0, count: xp.count)
+        for i in (0...(size - 1)).reversed() {
+            let j = i + 1
+            let delta = fp[j] - fp[i]
+            c[i] = z[i] - (u[i] * c[j])
+            b[i] = (delta / h[i]) - h[i] * (c[j] + c[i] * 2) / 3
+            d[i] = (c[j] - c[i]) / (h[i] * 3)
+        }
+        
+        self.b = b
+        self.c = c
+        self.d = d
+    }
+    
+    func f(forX xPoint: Double) -> Double {
+        let i = xp.partitioningIndex { $0 >= xPoint }
+        let index = max(i - 1, 0)
+        let delta = xPoint - xp[index]
+        let delta1 = b[index] * delta
+        let delta2 = c[index] * pow(delta, 2)
+        let delta3 = d[index] * pow(delta, 3)
+        
+        return fp[index] + delta1 + delta2 + delta3
     }
 }

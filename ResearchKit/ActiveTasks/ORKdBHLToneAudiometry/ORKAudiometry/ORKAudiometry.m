@@ -124,8 +124,8 @@
     _getTimestamp = provider;
 }
 
-- (ORKAudiometryStimulus *)nextStimulus {
-    return _nextStimulus;
+- (void)nextStatus:(ORKAudiometryStateBlock)block {
+    block(self.testEnded, _nextStimulus);
 }
 
 - (void)registerPreStimulusDelay:(double)preStimulusDelay {
