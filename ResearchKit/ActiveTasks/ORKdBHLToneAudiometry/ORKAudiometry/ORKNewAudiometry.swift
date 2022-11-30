@@ -106,7 +106,7 @@ import Foundation
                   minLevel: minLevel,
                   maxLevel: maxLevel,
                   frequencies: frequencies,
-                  kernelLenght: 3.0)
+                  kernelLenght: 4.0)
     }
     
     public init(channel: ORKAudioChannel,
@@ -184,10 +184,7 @@ import Foundation
     
     public func registerResponse(_ response: Bool) {
         guard let lastStimulus = stimulus, !preStimulusResponse else { return }
-        
         let freqPoint = bark(lastStimulus.frequency)
-        xSample.appendRow([freqPoint, lastStimulus.level])
-        ySample.appendRow([response ? 1 : 0])
     
         if lastStimulus.level == maxLevel && response == false {
             // handle levels higher than maxLevel
@@ -198,6 +195,9 @@ import Foundation
             xSample.appendRow([freqPoint, minLevel - 1])
             ySample.appendRow([0])
         }
+        
+        xSample.appendRow([freqPoint, lastStimulus.level])
+        ySample.appendRow([response ? 1 : 0])
         
         let lastResponse = ySample.elements.last == 1
         updateUnit(with: lastResponse)
@@ -662,7 +662,7 @@ public extension ORKNewAudiometry {
     
     func removeOutlierFit(_ coverageMatrix: Matrix<Double>,
                           _ deleted: Matrix<Double>,
-                          yDiff: Double = 2) -> (xSample: Matrix<Double>,
+                          yDiff: Double = 4) -> (xSample: Matrix<Double>,
                                                  ySample: Matrix<Double>,
                                                  deleted: Matrix<Double>) {
         // keep track of deleted points
@@ -713,14 +713,7 @@ public extension ORKNewAudiometry {
 @available(iOS 14, *)
 extension ORKNewAudiometry {
     func fit() -> Vector<Double> {
-        let lenght = kernelLenght
-        let minimizedTheta = optmizer.minimize(theta[0], theta[1]) { [xSample, ySample] in
-            return Self.nllFn([$0, $1].asVector(), xSample, ySample, lenght)
-        }
-        
-        return minimizedTheta
-            .map { $0.doubleValue }
-            .asVector()
+        return [30, 5].asVector()
     }
     
     func getFit(_ grid_x1: Matrix<Double>,
@@ -859,7 +852,7 @@ extension ORKNewAudiometry {
                   _ theta: Vector<Double>,
                   length: Double,
                   diagOnly: Bool = false,
-                  nu: Double = 5) -> Matrix<Double> {
+                  nu: Double = 10) -> Matrix<Double> {
         guard diagOnly else {
             let eye = Matrix.eye(x.shape.rows)
             let kernel = kernel(x, x, theta: theta, length: length)
