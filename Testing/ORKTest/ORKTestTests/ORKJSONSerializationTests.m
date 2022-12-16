@@ -383,7 +383,6 @@ ORK_MAKE_TEST_INIT(ORKAccuracyStroopStep, (^{ return [[ORKAccuracyStroopStep all
 
 @end
 
-
 @interface _ORKTestNoAnswer : ORKNoAnswer
 
 + (instancetype)answer;
@@ -442,14 +441,7 @@ ORK_MAKE_TEST_INIT(ORKAccuracyStroopStep, (^{ return [[ORKAccuracyStroopStep all
                                                  [ORKTouchAbilitySwipeStep class],
                                                  [ORKTouchAbilityTapResult class],
                                                  [ORKCustomStep class],
-                                                 [ORKTouchAbilityRotationStep class],
-                                                 [ORKTouchAbilityLongPressStep class],
-                                                 [ORKTouchAbilityScrollStep class],
-                                                 [ORKTouchAbilityPinchResult class],
-                                                 [ORKTouchAbilityRotationResult class],
-                                                 [ORKTouchAbilityLongPressResult class],
-                                                 [ORKTouchAbilitySwipeResult class],
-                                                 [ORKTouchAbilityScrollResult class]
+                                                 [ORKDataCollectionState class]
                                                  ];
         
         _propertyExclusionList = @[
@@ -478,7 +470,8 @@ ORK_MAKE_TEST_INIT(ORKAccuracyStroopStep, (^{ return [[ORKAccuracyStroopStep all
                                    @"ORKPageResult.outputDirectory",
                                    @"ORKAccuracyStroopStep.actualDisplayColor",
                                    @"ORKAccuracyStroopResult.didSelectCorrectColor",
-                                   @"ORKAccuracyStroopResult.timeTakenToSelect"
+                                   @"ORKAccuracyStroopResult.timeTakenToSelect",
+                                   @"ORKDataCollectionState.archiveVersion",
                                    ];
         
         
@@ -505,6 +498,7 @@ ORK_MAKE_TEST_INIT(ORKAccuracyStroopStep, (^{ return [[ORKAccuracyStroopStep all
                                           @"ORKContinuousScaleAnswerFormat.numberFormatter",
                                           @"ORKCustomStep.contentView",  // UIView is not able to be serialized
                                           @"ORKDataResult.data",
+                                          @"ORKDataCollectionState.archiveVersion",
                                           @"ORKFormItem.step",  // weak ref - object will be nil
                                           @"ORKHealthClinicalTypeRecorderConfiguration.healthClinicalType",
                                           @"ORKHealthClinicalTypeRecorderConfiguration.healthFHIRResourceType",
@@ -598,11 +592,8 @@ ORK_MAKE_TEST_INIT(ORKAccuracyStroopStep, (^{ return [[ORKAccuracyStroopStep all
 }
 
 + (NSArray<Class> *)_classesWithSecureCoding {
-    NSArray *classesExcluded = @[]; // classes not intended to be serialized standalone
+    // classes not intended to be serialized standalone
     NSMutableArray *stringsForClassesExcluded = [NSMutableArray array];
-    for (Class c in classesExcluded) {
-        [stringsForClassesExcluded addObject:NSStringFromClass(c)];
-    }
     
     [stringsForClassesExcluded addObject:@"ORKFreehandDrawingGestureRecognizer"];
     [stringsForClassesExcluded addObject:@"ORKSignatureGestureRecognizer"];
@@ -643,7 +634,6 @@ ORK_MAKE_TEST_INIT(ORKAccuracyStroopStep, (^{ return [[ORKAccuracyStroopStep all
     [stringsForClassesExcluded addObject:@"ORKTouchAbilitySwipeResult"];
     [stringsForClassesExcluded addObject:@"ORKTouchAbilityScrollResult"];
     
-
     
     // Find all classes that conform to NSSecureCoding
     NSMutableArray<Class> *classesWithSecureCoding = [NSMutableArray new];
@@ -652,10 +642,11 @@ ORK_MAKE_TEST_INIT(ORKAccuracyStroopStep, (^{ return [[ORKAccuracyStroopStep all
     numClasses = objc_getClassList(classes, numClasses);
     for (int index = 0; index < numClasses; index++) {
         Class aClass = classes[index];
+
         if ([stringsForClassesExcluded containsObject:NSStringFromClass(aClass)]) {
             continue;
         }
-        
+
         if ([NSStringFromClass(aClass) hasPrefix:@"ORK"] &&
             [aClass conformsToProtocol:@protocol(NSSecureCoding)]) {
             [classesWithSecureCoding addObject:aClass];
@@ -880,7 +871,6 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
     NSArray *propertyExclusionList = testConfiguration.propertyExclusionList;
     NSArray *knownNotSerializedProperties = testConfiguration.knownNotSerializedProperties;
     NSArray *allowedUnTouchedKeys = testConfiguration.allowedUnTouchedKeys;
-
     NSDictionary *mutallyExclusiveProperties = testConfiguration.mutuallyExclusiveProperties;
     
     // Test Each class
@@ -1087,6 +1077,10 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
     } else if (p.propertyClass == [ORKNoAnswer class]) {
         ORKNoAnswer *value = (index ? [ORKDontKnowAnswer answer] : [_ORKTestNoAnswer answer]);
         [instance setValue:value forKey:p.propertyName];
+    } else if (aClass == [ORKKeyValueStepModifier class] && [p.propertyName isEqual:@"keyValueMap"]) {
+        [instance setValue:@{@"prop": index?@"value":@"value1"} forKey:p.propertyName];
+    } else if (aClass == [ORKTableStep class] && [p.propertyName isEqual:@"items"]) {
+        [instance setValue:@[index?@"item":@"item2"] forKey:p.propertyName];
     } else {
         id instanceForChild = [self instanceForClass:p.propertyClass];
         [instance setValue:instanceForChild forKey:p.propertyName];
@@ -1157,7 +1151,7 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
                             XCTAssertTrue([[newValue absoluteString] isEqualToString:[oldValue absoluteString]]);
                         }
                     } else {
-                        XCTAssertEqualObjects(newValue, oldValue);
+                        XCTAssertEqualObjects(newValue, oldValue, "Unexpected unequal objects of class %@ in property %@ in %@", NSStringFromClass(c), pName, NSStringFromClass(aClass));
                     }
                     break;
                 }
@@ -1189,7 +1183,7 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
                 // ORKNavigableOrderedTask contains ORKStepModifiers which is an abstract class
                 // with no encoded properties, but encoded/decoded objects are still equal.
                 && ![aClass isSubclassOfClass:[ORKKeyValueStepModifier class]]
-                // ORKKeyValueStepModifier si a subclass of ORKStepModifier which is an abstract class
+                // ORKKeyValueStepModifier is a subclass of ORKStepModifier which is an abstract class
                 // with no encoded properties, but encoded/decoded objects are still equal.
                 ) {
                 XCTAssertEqualObjects(data, data2, @"data mismatch for %@", NSStringFromClass(aClass));
@@ -1198,7 +1192,6 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
         if (![data2 isEqualToData:data3]) { // allow breakpointing
             XCTAssertEqualObjects(data2, data3, @"data mismatch for %@", NSStringFromClass(aClass));
         }
-        
         if (![newInstance isEqual:instance]) {
             XCTAssertEqualObjects(newInstance, instance, @"equality mismatch for %@", NSStringFromClass(aClass));
         }
@@ -1299,7 +1292,8 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
                                        @"ORKBodyItem.customButtonConfigurationHandler",
                                        @"ORKAccuracyStroopStep.actualDisplayColor",
                                        @"ORKAccuracyStroopResult.didSelectCorrectColor",
-                                       @"ORKAccuracyStroopResult.timeTakenToSelect"
+                                       @"ORKAccuracyStroopResult.timeTakenToSelect",
+                                       @"ORKDataCollectionState.archiveVersion"
                                        ];
     
     NSArray *hashExclusionList = @[
@@ -1315,7 +1309,9 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
                                    @"ORKNumericAnswerFormat.defaultNumericAnswer",
                                    @"ORKVideoCaptureStep.duration",
                                    @"ORKTextAnswerFormat.validationRegularExpression",
-                                   @"ORKPDFViewerStep.pdfURL"
+                                   @"ORKPDFViewerStep.pdfURL",
+                                   @"ORKTableStep.items",
+                                   @"ORKKeyValueStepModifier.keyValueMap"
                                    ];
     
     // Test Each class

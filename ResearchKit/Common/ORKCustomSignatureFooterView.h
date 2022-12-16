@@ -46,6 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) BOOL enabled;
 
 - (BOOL)isComplete;
+
 - (ORKSignatureResult * _Nullable)resultWithIdentifier:(NSString *)identifier;
 - (void)clear;
 - (void)cancelAutoScrollTimer;

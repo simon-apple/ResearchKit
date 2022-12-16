@@ -47,7 +47,6 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol ORKTaskResultSource;
 @class ORKInstructionStep;
 
-
 /**
  The `ORKTaskViewControllerReviewMode` value indicates how the task view controller reviews the task.
  */

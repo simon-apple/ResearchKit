@@ -323,7 +323,6 @@
     result.booleanAnswer = @(YES);
     
     ORKStepResult *stepResult = [[ORKStepResult alloc] initWithStepIdentifier:@"stepOne" results:@[result]];
-    
     ORKTaskResult *taskResult = [[ORKTaskResult alloc] initWithTaskIdentifier:@"task" taskRunUUID:[NSUUID UUID] outputDirectory:nil];
     taskResult.results = @[stepResult];
     

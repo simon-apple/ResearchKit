@@ -35,6 +35,7 @@
 #import "ORKHelpers_Internal.h"
 #import "ORKRequestPermissionButton.h"
 
+
 static NSString *const Symbol = @"gauge";
 static const uint32_t IconLightTintColor = 0xA278FE;
 static const uint32_t IconDarkTintColor = 0x9D71F7;

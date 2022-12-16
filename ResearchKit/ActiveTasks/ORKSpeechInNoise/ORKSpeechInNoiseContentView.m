@@ -29,6 +29,8 @@
  */
 
 
+
+
 #import "ORKSpeechInNoiseContentView.h"
 #import "ORKAudioMeteringView.h"
 
@@ -40,7 +42,6 @@
 #import "ORKHelpers_Internal.h"
 #import "ORKSkin.h"
 #import "ORKPlaybackButton.h"
-
 
 static CGFloat const ORKSpeechInNoiseContentFlamesViewHeightConstant = 150.0;
 static CGFloat const ORKSpeechInNoiseContentFlamesViewVerticalSpacing = 44.0;

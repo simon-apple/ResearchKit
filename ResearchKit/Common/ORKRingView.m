@@ -41,7 +41,6 @@ static const CFTimeInterval DEFAULT_ANIMATION_DURATION = 1.25;
 static const CGFloat RingLineWidth = 3.0;
 static const CGFloat CircleLineWidth = 3.0;
 
-
 @implementation ORKRingView {
     CAShapeLayer *_circleLayer;
     CAShapeLayer *_backgroundLayer;
@@ -167,7 +166,6 @@ static const CGFloat CircleLineWidth = 3.0;
         });
         
     } else {
-
         if (value != ORKRingViewMaximumValue) {
             _backgroundLayer.fillColor = [UIColor clearColor].CGColor;
             [_filledCircleLayer removeFromSuperlayer];
@@ -183,7 +181,6 @@ static const CGFloat CircleLineWidth = 3.0;
 }
 
 - (void)setBackgroundLayerStrokeColor:(UIColor *)backgroundStrokeColor circleStrokeColor:(UIColor *)circleStrokeColor withAnimationDuration:(NSTimeInterval)animationDuration {
-
     if (_backgroundLayer) {
         [CATransaction begin];
         [CATransaction setAnimationDuration:(CFTimeInterval)animationDuration];
@@ -204,7 +201,6 @@ static const CGFloat CircleLineWidth = 3.0;
     
     [self resetLayerColors];
 }
-
 
 - (void)resetLayerColors {
     

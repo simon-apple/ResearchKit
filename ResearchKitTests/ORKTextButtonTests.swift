@@ -28,6 +28,7 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+<<<<<<< HEAD:ResearchKitTests/ORKTextButtonTests.swift
 import XCTest
 @testable import ResearchKit
 
@@ -48,4 +49,28 @@ class ORKTextButtonTests: XCTestCase {
         XCTAssertEqual(button.configuration!.contentInsets.bottom, 10);
         XCTAssertEqual(button.configuration!.contentInsets.trailing, 10);
     }
+=======
+#import "ORKAudiometryStimulus.h"
+
+@implementation ORKAudiometryStimulus
+
+@synthesize frequency = _frequency;
+@synthesize level = _level;
+@synthesize channel = _channel;
+
+- (instancetype)initWithFrequency:(double)frequency level:(double)level channel:(ORKAudioChannel)channel {
+    self = [super init];
+    if (self) {
+        _frequency = frequency;
+        _level = level;
+        _channel = channel;
+    }
+    return self;
 }
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<frequency %.1lf; dBHLValue: %.1lf; channel: %@>", self.frequency, self.level, self.channel == ORKAudioChannelLeft ? @"left" : @"right"];
+>>>>>>> oliveE/scrubbed:ResearchKit/ActiveTasks/ORKdBHLToneAudiometry/ORKAudiometry/ORKAudiometryStimulus.m
+}
+
+@end

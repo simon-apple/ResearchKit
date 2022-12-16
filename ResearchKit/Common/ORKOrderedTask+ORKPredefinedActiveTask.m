@@ -86,12 +86,6 @@
 
 #import "ORKSkin.h"
 #import <ResearchKit/ResearchKit-Swift.h>
-#import "ORKTouchAbilityTapStep.h"
-#import "ORKTouchAbilityLongPressStep.h"
-#import "ORKTouchAbilitySwipeStep.h"
-#import "ORKTouchAbilityPinchStep.h"
-#import "ORKTouchAbilityRotationStep.h"
-#import "ORKTouchAbilityScrollStep.h"
 
 #import "ORKHelpers_Internal.h"
 #import "UIImage+ResearchKit.h"
@@ -939,7 +933,6 @@ NSString *const ORKSixMinuteWalkFatigueIdentifier = @"6mwt.fatigue";
     ORKOrderedTask *task = [[ORKOrderedTask alloc] initWithIdentifier:identifier steps:steps];
     return task;
 }
-
 
 #pragma mark - shortWalkTask
 
@@ -1825,11 +1818,8 @@ NSString *const ORKToneAudiometryStepIdentifier = @"tone.audiometry";
 
 #pragma mark - dBHLToneAudiometryTask
 
-NSString *const ORKdBHLToneAudiometryStepIdentifier = @"dBHL.tone.audiometry";
-NSString *const ORKdBHLToneAudiometryStep0Identifier = @"dBHL0.tone.audiometry";
 NSString *const ORKdBHLToneAudiometryStep1Identifier = @"dBHL1.tone.audiometry";
 NSString *const ORKdBHLToneAudiometryStep2Identifier = @"dBHL2.tone.audiometry";
-NSString *const ORKdBHLToneAudiometryStep3Identifier = @"dBHL3.tone.audiometry";
 
 
 + (ORKNavigableOrderedTask *)dBHLToneAudiometryTaskWithIdentifier:(NSString *)identifier
@@ -1892,12 +1882,18 @@ NSString *const ORKdBHLToneAudiometryStep3Identifier = @"dBHL3.tone.audiometry";
         step.thresholdValue = 45;
         step.title = ORKLocalizedString(@"ENVIRONMENTSPL_TITLE_2", nil);
         step.text = ORKLocalizedString(@"ENVIRONMENTSPL_INTRO_TEXT_2", nil);
-        
         ORKStepArrayAddStep(steps, step);
     }
     
     {
         ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction2StepIdentifier];
+        step.title = ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_STEP_TITLE_RIGHT_EAR", nil);
+        step.shouldTintImages = YES;
+        ORKStepArrayAddStep(steps, step);
+    }
+    
+    {
+        ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction3StepIdentifier];
         step.title = ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_STEP_TITLE_LEFT_EAR", nil);
         ORKStepArrayAddStep(steps, step);
     }
@@ -1906,16 +1902,14 @@ NSString *const ORKdBHLToneAudiometryStep3Identifier = @"dBHL3.tone.audiometry";
         ORKdBHLToneAudiometryStep *step = [[ORKdBHLToneAudiometryStep alloc] initWithIdentifier:ORKdBHLToneAudiometryStep1Identifier];
         step.title = ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_TASK_TITLE_2", nil);
         step.stepDuration = CGFLOAT_MAX;
-        step.earPreference = ORKAudioChannelLeft;
         step.headphoneType = ORKHeadphoneTypeIdentifierAirPodsGen1;
+        step.earPreference = ORKAudioChannelRight;
         ORKStepArrayAddStep(steps, step);
     }
     
     {
-        ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction3StepIdentifier];
-        step.title = ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_STEP_TITLE_RIGHT_EAR", nil);
-        step.shouldTintImages = YES;
-        
+        ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction4StepIdentifier];
+        step.title = ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_STEP_TITLE_LEFT_EAR", nil);
         ORKStepArrayAddStep(steps, step);
     }
     
@@ -1923,8 +1917,8 @@ NSString *const ORKdBHLToneAudiometryStep3Identifier = @"dBHL3.tone.audiometry";
         ORKdBHLToneAudiometryStep *step = [[ORKdBHLToneAudiometryStep alloc] initWithIdentifier:ORKdBHLToneAudiometryStep2Identifier];
         step.title = ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_TASK_TITLE_2", nil);
         step.stepDuration = CGFLOAT_MAX;
+        step.earPreference = ORKAudioChannelLeft;
         step.headphoneType = ORKHeadphoneTypeIdentifierAirPodsGen1;
-        step.earPreference = ORKAudioChannelRight;
         ORKStepArrayAddStep(steps, step);
     }
     
@@ -1937,7 +1931,6 @@ NSString *const ORKdBHLToneAudiometryStep3Identifier = @"dBHL3.tone.audiometry";
     
     return task;
 }
-
 
 
 #pragma mark - towerOfHanoiTask
@@ -2039,6 +2032,74 @@ NSString *const ORKReactionTimeStepIdentifier = @"reactionTime";
     }
     
     ORKReactionTimeStep *step = [[ORKReactionTimeStep alloc] initWithIdentifier:ORKReactionTimeStepIdentifier];
+    step.title = ORKLocalizedString(@"REACTION_TIME_TASK_TITLE", nil);
+    step.maximumStimulusInterval = maximumStimulusInterval;
+    step.minimumStimulusInterval = minimumStimulusInterval;
+    step.thresholdAcceleration = thresholdAcceleration;
+    step.numberOfAttempts = numberOfAttempts;
+    step.timeout = timeout;
+    step.successSound = successSoundID;
+    step.timeoutSound = timeoutSoundID;
+    step.failureSound = failureSoundID;
+    step.recorderConfigurations = @[ [[ORKDeviceMotionRecorderConfiguration  alloc] initWithIdentifier:ORKDeviceMotionRecorderIdentifier frequency: 100]];
+
+    ORKStepArrayAddStep(steps, step);
+    
+    if (!(options & ORKPredefinedTaskOptionExcludeConclusion)) {
+        ORKInstructionStep *completionStep = [self makeCompletionStep];
+        ORKStepArrayAddStep(steps, completionStep);
+    }
+    
+    ORKOrderedTask *task = [[ORKOrderedTask alloc] initWithIdentifier:identifier steps:steps];
+    
+    return task;
+}
+
+#pragma mark - normalizedReactionTimeTask
+
+NSString *const ORKNormalizedReactionTimeStepIdentifier = @"normalizedReactionTime";
+
++ (ORKOrderedTask *)normalizedReactionTimeTaskWithIdentifier:(NSString *)identifier
+                            intendedUseDescription:(nullable NSString *)intendedUseDescription
+                           maximumStimulusInterval:(NSTimeInterval)maximumStimulusInterval
+                           minimumStimulusInterval:(NSTimeInterval)minimumStimulusInterval
+                             thresholdAcceleration:(double)thresholdAcceleration
+                                  numberOfAttempts:(int)numberOfAttempts
+                                           timeout:(NSTimeInterval)timeout
+                                      successSound:(UInt32)successSoundID
+                                      timeoutSound:(UInt32)timeoutSoundID
+                                      failureSound:(UInt32)failureSoundID
+                                           options:(ORKPredefinedTaskOption)options {
+    
+    NSMutableArray *steps = [NSMutableArray array];
+    
+    if (!(options & ORKPredefinedTaskOptionExcludeInstructions)) {
+        {
+            ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction0StepIdentifier];
+            step.title = ORKLocalizedString(@"REACTION_TIME_TASK_TITLE", nil);
+            step.text = intendedUseDescription;
+            step.detailText = ORKLocalizedString(@"REACTION_TIME_TASK_INTENDED_USE", nil);
+            step.image = [UIImage imageNamed:@"phoneshake" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+            step.imageContentMode = UIViewContentModeCenter;
+            step.shouldTintImages = YES;
+            
+            ORKStepArrayAddStep(steps, step);
+        }
+        
+        {
+            ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction1StepIdentifier];
+            step.title = ORKLocalizedString(@"REACTION_TIME_TASK_TITLE", nil);
+            step.text = [NSString localizedStringWithFormat: ORKLocalizedString(@"REACTION_TIME_TASK_INTRO_TEXT_FORMAT", nil), numberOfAttempts];
+            step.detailText = ORKLocalizedString(@"REACTION_TIME_TASK_CALL_TO_ACTION", nil);
+            step.image = [UIImage imageNamed:@"phoneshakecircle" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+            step.imageContentMode = UIViewContentModeCenter;
+            step.shouldTintImages = YES;
+            
+            ORKStepArrayAddStep(steps, step);
+        }
+    }
+    
+    ORKNormalizedReactionTimeStep *step = [[ORKNormalizedReactionTimeStep alloc] initWithIdentifier:ORKReactionTimeStepIdentifier];
     step.title = ORKLocalizedString(@"REACTION_TIME_TASK_TITLE", nil);
     step.maximumStimulusInterval = maximumStimulusInterval;
     step.minimumStimulusInterval = minimumStimulusInterval;
@@ -2962,223 +3023,5 @@ NSString *const ORKTrailmakingStepIdentifier = @"trailmaking";
     return task;
 }
 
-#pragma mark - touch ability
-
-NSString *const ORKTouchAbilityTapStepIdentifier = @"touchAbilityTap";
-NSString *const ORKTouchAbilityLongPressStepIdentifier = @"touchAbilityLongPress";
-NSString *const ORKTouchAbilitySwipeStepIdentifier = @"touchAbilitySwipe";
-NSString *const ORKTouchAbilityPinchStepIdentifier = @"touchAbilityPinch";
-NSString *const ORKTouchAbilityRotationStepIdentifier = @"touchAbilityRotation";
-NSString *const ORKTouchAbilityVerticalScrollStepIdentifier = @"touchAbilityVerticalScroll";
-NSString *const ORKTouchAbilityHorizontalScrollStepIdentifier = @"touchAbilityHorizontalScroll";
-
-+ (ORKOrderedTask *)touchAbilityTaskWithIdentifier:(NSString *)identifier
-                            intendedUseDescription:(nullable NSString *)intendedUseDescription
-                                       taskOptions:(ORKTouchAbilityTaskOption)taskOptions
-                                           options:(ORKPredefinedTaskOption)options {
-    
-    NSMutableArray<__kindof ORKStep *> *steps = [NSMutableArray array];
-    
-    if (!(options & ORKPredefinedTaskOptionExcludeInstructions)) {
-        {
-            ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction0StepIdentifier];
-            step.title = ORKLocalizedString(@"TOUCH_ABILITY_INSTRUCTION_TITLE", nil);
-            step.text = intendedUseDescription;
-            step.detailText = ORKLocalizedString(@"TOUCH_ABILITY_INSTRUCTION_DETAIL", nil);
-            step.image = [UIImage imageNamed:@"touchAbilityInstruction" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
-            step.shouldTintImages = YES;
-            
-            ORKStepArrayAddStep(steps, step);
-        }
-    }
-    
-    NSUInteger count = 0;
-    
-    if (taskOptions & ORKTouchAbilityTaskOptionTap) {
-        
-        ORKInstructionStep *instruction = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction1StepIdentifier];
-        instruction.title = ORKLocalizedString(@"TOUCH_ABILITY_TAP_TITLE", nil);
-        instruction.text = ORKLocalizedString(@"TOUCH_ABILITY_TAP_TEXT", nil);
-        instruction.image = [UIImage imageNamed:@"touchAbilityTap" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
-        instruction.shouldTintImages = YES;
-        
-        if (count == 0) {
-            instruction.detailText = ORKLocalizedString(@"TAPPING_CALL_TO_ACTION", nil);
-        } else {
-            instruction.detailText = ORKLocalizedString(@"TAPPING_CALL_TO_ACTION_NEXT", nil);
-        }
-        
-        ORKStepArrayAddStep(steps, instruction);
-        
-        ORKTouchAbilityTapStep *step = [[ORKTouchAbilityTapStep alloc] initWithIdentifier:ORKTouchAbilityTapStepIdentifier];
-        step.title = ORKLocalizedString(@"TOUCH_ABILITY_TAP_TITLE", nil);
-        
-        ORKStepArrayAddStep(steps, step);
-        
-        count += 1;
-    }
-
-    if (taskOptions & ORKTouchAbilityTaskOptionLongPress) {
-        
-        ORKInstructionStep *instruction = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction2StepIdentifier];
-        instruction.title = ORKLocalizedString(@"TOUCH_ABILITY_LONG_PRESS_TITLE", nil);
-        instruction.text = ORKLocalizedString(@"TOUCH_ABILITY_LONG_PRESS_TEXT", nil);
-        instruction.image = [UIImage imageNamed:@"touchAbilityTap" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
-        instruction.shouldTintImages = YES;
-        
-        if (count == 0) {
-            instruction.detailText = ORKLocalizedString(@"TAPPING_CALL_TO_ACTION", nil);
-        } else {
-            instruction.detailText = ORKLocalizedString(@"TAPPING_CALL_TO_ACTION_NEXT", nil);
-        }
-        
-        ORKStepArrayAddStep(steps, instruction);
-        
-        ORKTouchAbilityLongPressStep *step = [[ORKTouchAbilityLongPressStep alloc] initWithIdentifier:ORKTouchAbilityLongPressStepIdentifier];
-        step.title = ORKLocalizedString(@"TOUCH_ABILITY_LONG_PRESS_TITLE", nil);
-
-        ORKStepArrayAddStep(steps, step);
-        
-        count += 1;
-    }
-
-    if (taskOptions & ORKTouchAbilityTaskOptionSwipe) {
-        
-        ORKInstructionStep *instruction = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction3StepIdentifier];
-        instruction.title = ORKLocalizedString(@"TOUCH_ABILITY_SWIPE_TITLE", nil);
-        instruction.text = ORKLocalizedString(@"TOUCH_ABILITY_SWIPE_TEXT", nil);
-        
-        NSArray *images = @[[UIImage imageNamed:@"touchAbilitySwipe1" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil],
-                            [UIImage imageNamed:@"touchAbilitySwipe2" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil],
-                            [UIImage imageNamed:@"touchAbilitySwipe3" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil],
-                            [UIImage imageNamed:@"touchAbilitySwipe4" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil],
-                            [UIImage imageNamed:@"touchAbilitySwipe1" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil]];
-
-        instruction.image = [UIImage animatedImageWithImages:images duration:2];
-        instruction.shouldTintImages = YES;
-        
-        if (count == 0) {
-            instruction.detailText = ORKLocalizedString(@"TAPPING_CALL_TO_ACTION", nil);
-        } else {
-            instruction.detailText = ORKLocalizedString(@"TAPPING_CALL_TO_ACTION_NEXT", nil);
-        }
-        
-        ORKStepArrayAddStep(steps, instruction);
-        
-        ORKTouchAbilitySwipeStep *step = [[ORKTouchAbilitySwipeStep alloc] initWithIdentifier:ORKTouchAbilitySwipeStepIdentifier];
-        step.title = ORKLocalizedString(@"TOUCH_ABILITY_SWIPE_TITLE", nil);
-        
-        ORKStepArrayAddStep(steps, step);
-        
-        count += 1;
-    }
-    
-    
-    if (taskOptions & ORKTouchAbilityTaskOptionVerticalScroll) {
-        
-        ORKInstructionStep *instruction = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction4StepIdentifier];
-        instruction.title = ORKLocalizedString(@"TOUCH_ABILITY_VERTICAL_SCROLL_TITLE", nil);
-        instruction.text = ORKLocalizedString(@"TOUCH_ABILITY_VERTICAL_SCROLL_TEXT", nil);
-        instruction.image = [UIImage imageNamed:@"touchAbilityVerticalScroll" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
-        instruction.shouldTintImages = YES;
-        
-        if (count == 0) {
-            instruction.detailText = ORKLocalizedString(@"TAPPING_CALL_TO_ACTION", nil);
-        } else {
-            instruction.detailText = ORKLocalizedString(@"TAPPING_CALL_TO_ACTION_NEXT", nil);
-        }
-        
-        ORKStepArrayAddStep(steps, instruction);
-        
-        ORKTouchAbilityScrollStep *step = [[ORKTouchAbilityScrollStep alloc] initWithIdentifier:ORKTouchAbilityVerticalScrollStepIdentifier];
-        step.title = ORKLocalizedString(@"TOUCH_ABILITY_VERTICAL_SCROLL_TITLE", nil);
-        step.horizontal = NO;
-        
-        ORKStepArrayAddStep(steps, step);
-        
-        count += 1;
-    }
-    
-    if (taskOptions & ORKTouchAbilityTaskOptionHorizontalScroll) {
-        
-        ORKInstructionStep *instruction = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction5StepIdentifier];
-        instruction.title = ORKLocalizedString(@"TOUCH_ABILITY_HORIZONTAL_SCROLL_TITLE", nil);
-        instruction.text = ORKLocalizedString(@"TOUCH_ABILITY_HORIZONTAL_SCROLL_TEXT", nil);
-        instruction.image = [UIImage imageNamed:@"touchAbilityHorizontalScroll" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
-        instruction.shouldTintImages = YES;
-        
-        if (count == 0) {
-            instruction.detailText = ORKLocalizedString(@"TAPPING_CALL_TO_ACTION", nil);
-        } else {
-            instruction.detailText = ORKLocalizedString(@"TAPPING_CALL_TO_ACTION_NEXT", nil);
-        }
-        
-        ORKStepArrayAddStep(steps, instruction);
-        
-        ORKTouchAbilityScrollStep *step = [[ORKTouchAbilityScrollStep alloc] initWithIdentifier:ORKTouchAbilityHorizontalScrollStepIdentifier];
-        step.title = ORKLocalizedString(@"TOUCH_ABILITY_HORIZONTAL_SCROLL_TITLE", nil);
-        step.horizontal = YES;
-        
-        ORKStepArrayAddStep(steps, step);
-        
-        count += 1;
-    }
-    
-    if (taskOptions & ORKTouchAbilityTaskOptionPinch) {
-        
-        ORKInstructionStep *instruction = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction6StepIdentifier];
-        instruction.title = ORKLocalizedString(@"TOUCH_ABILITY_PINCH_TITLE", nil);
-        instruction.text = ORKLocalizedString(@"TOUCH_ABILITY_PINCH_TEXT", nil);
-        instruction.image = [UIImage imageNamed:@"touchAbilityPinch" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
-        instruction.shouldTintImages = YES;
-        
-        if (count == 0) {
-            instruction.detailText = ORKLocalizedString(@"TAPPING_CALL_TO_ACTION", nil);
-        } else {
-            instruction.detailText = ORKLocalizedString(@"TAPPING_CALL_TO_ACTION_NEXT", nil);
-        }
-        
-        ORKStepArrayAddStep(steps, instruction);
-        
-        ORKTouchAbilityPinchStep *step = [[ORKTouchAbilityPinchStep alloc] initWithIdentifier:ORKTouchAbilityPinchStepIdentifier];
-        step.title = ORKLocalizedString(@"TOUCH_ABILITY_PINCH_TITLE", nil);
-        
-        ORKStepArrayAddStep(steps, step);
-        
-        count += 1;
-    }
-    
-    if (taskOptions & ORKTouchAbilityTaskOptionRotation) {
-        
-        ORKInstructionStep *instruction = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction7StepIdentifier];
-        instruction.title = ORKLocalizedString(@"TOUCH_ABILITY_ROTATION_TITLE", nil);
-        instruction.text = ORKLocalizedString(@"TOUCH_ABILITY_ROTATION_TEXT", nil);
-        instruction.image = [UIImage imageNamed:@"touchAbilityRotation" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
-        instruction.shouldTintImages = YES;
-        
-        if (count == 0) {
-            instruction.detailText = ORKLocalizedString(@"TAPPING_CALL_TO_ACTION", nil);
-        } else {
-            instruction.detailText = ORKLocalizedString(@"TAPPING_CALL_TO_ACTION_NEXT", nil);
-        }
-        
-        ORKStepArrayAddStep(steps, instruction);
-        
-        ORKTouchAbilityRotationStep *step = [[ORKTouchAbilityRotationStep alloc] initWithIdentifier:ORKTouchAbilityRotationStepIdentifier];
-        step.title = ORKLocalizedString(@"TOUCH_ABILITY_ROTATION_TITLE", nil);
-        
-        ORKStepArrayAddStep(steps, step);
-    }
-    
-    if (!(options & ORKPredefinedTaskOptionExcludeConclusion)) {
-        ORKInstructionStep *step = [self makeCompletionStep];
-        
-        ORKStepArrayAddStep(steps, step);
-    }
-    
-    ORKOrderedTask *task = [[ORKOrderedTask alloc] initWithIdentifier:identifier steps:steps];
-    
-    return task;
-}
 
 @end
