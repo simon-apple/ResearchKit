@@ -2816,7 +2816,6 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
 
 @implementation ORKTextAnswerFormat
 
-
 - (Class)questionResultClass {
     return [ORKTextQuestionResult class];
 }
@@ -2833,7 +2832,6 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
     _hideClearButton = NO;
     _hideCharacterCountLabel = NO;
 }
-
 
 - (instancetype)initWithMaximumLength:(NSInteger)maximumLength {
     self = [super init];

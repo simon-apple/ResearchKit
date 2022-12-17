@@ -53,7 +53,6 @@
 
 #import "ORKdBHLToneAudiometryAudioGenerator.h"
 
-
 @import AudioToolbox;
 
 typedef NSString * ORKVolumeCurveFilename NS_STRING_ENUM;
@@ -395,7 +394,6 @@ static OSStatus ORKdBHLAudioGeneratorZeroTone(void *inRefCon,
 - (NSNumber *)dbHLtoAmplitude: (double)dbHL atFrequency:(double)frequency {
     NSDecimalNumber *dBSPL =  [NSDecimalNumber decimalNumberWithString:_sensitivityPerFrequency[[NSString stringWithFormat:@"%.0f",frequency]]];
 
-    
     // get current volume
     float currentVolume = [self getCurrentSystemVolume];
     

@@ -399,7 +399,6 @@ static const NSTimeInterval SPL_METER_PLAY_DELAY_VOICEOVER = 3.0;
                                    });
                                    dispatch_semaphore_wait(_semaphoreRms, DISPATCH_TIME_FOREVER);
                                } else if ([AVAudioSession sharedInstance].recordPermission == AVAudioSessionRecordPermissionDenied) {
-
                                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                                        [_eqUnit removeTapOnBus:0];
                                        [_audioEngine stop];
@@ -430,7 +429,6 @@ static const NSTimeInterval SPL_METER_PLAY_DELAY_VOICEOVER = 3.0;
             
             [self sendHapticEvent:UINotificationFeedbackTypeSuccess];
         }
-
     }
     else
     {

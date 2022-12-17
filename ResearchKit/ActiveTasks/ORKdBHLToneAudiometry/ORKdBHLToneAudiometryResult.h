@@ -52,7 +52,6 @@ ORK_CLASS_AVAILABLE
 
 @property (nonatomic, copy, nullable) NSArray<ORKdBHLToneAudiometryFrequencySample *> *samples;
 
-
 @end
 
 ORK_CLASS_AVAILABLE

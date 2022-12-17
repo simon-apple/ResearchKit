@@ -109,7 +109,6 @@
     _submitVideoButton.titleLabel.font = [UIFont systemFontOfSize:20.0];
     [_submitVideoButton setTitleColor:UIColor.whiteColor forState:UIControlStateNormal];
     [_submitVideoButton setBackgroundColor:[UIColor systemBlueColor]];
-
     [_submitVideoButton setTitle:ORKLocalizedString(@"FRONT_FACING_CAMERA_SUBMIT_VIDEO", nil) forState:UIControlStateNormal];
     [self.contentView addSubview:_submitVideoButton];
 }

@@ -39,6 +39,7 @@
 #import "ORKProgressView.h"
 #import "ORKCompletionCheckmarkView.h"
 
+
 static const CGFloat RingViewPadding = 18.0;
 static const CGFloat InstructionLabelPadding = 8.0;
 static const CGFloat HalfCircleSize = 14.0;
@@ -64,6 +65,7 @@ static const CGFloat BarViewHeight = 50.0;
     if (self) {
         preValue = -M_PI_2;
         currentValue = 0.0;
+        
         self.translatesAutoresizingMaskIntoConstraints = NO;
         [self setupContainerView];
         [self setupDBInstructionLabel];

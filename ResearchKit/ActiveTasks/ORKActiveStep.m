@@ -49,6 +49,7 @@
 - (BOOL)startsFinished {
     return (_stepDuration == 0);
 }
+
 - (BOOL)hasCountDown {
     return (_stepDuration > 0) && _shouldShowDefaultTimer;
 }

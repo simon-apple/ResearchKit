@@ -29,8 +29,6 @@
  */
 
 
-
-
 #import "ORKSpeechInNoiseContentView.h"
 #import "ORKAudioMeteringView.h"
 

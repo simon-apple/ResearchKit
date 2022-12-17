@@ -898,7 +898,6 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
                                                           code:NSUserCancelledError
                                                       userInfo:@{@"reason": @"Required permissions not granted."}]
                                onStep:fromController.step];
-
                 } else {
                     [self showStepViewController:stepViewController goForward:goForward animated:animated];
                 }

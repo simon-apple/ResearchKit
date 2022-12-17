@@ -268,6 +268,7 @@ static const CGFloat ORKSignatureToClearPadding = 15.0;
     ORKSignatureResult *parentResult = [[ORKSignatureResult alloc] initWithIdentifier:identifier
                                                                        signatureImage:_signatureView.signatureImage
                                                                         signaturePath:_signatureView.signaturePath];
+    
     if (_customHeaderView || _customFooterView) {
         NSMutableDictionary *userInfo = [parentResult.userInfo mutableCopy];
         if (!userInfo) {

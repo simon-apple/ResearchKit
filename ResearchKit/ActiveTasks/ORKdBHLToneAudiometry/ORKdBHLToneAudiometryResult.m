@@ -45,7 +45,6 @@ const double ORKInvalidDBHLValue = DBL_MAX;
     ORK_ENCODE_DOUBLE(aCoder, postStimulusDelay);
     ORK_ENCODE_OBJ(aCoder, headphoneType);
     ORK_ENCODE_OBJ(aCoder, samples);
-    
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
@@ -56,7 +55,6 @@ const double ORKInvalidDBHLValue = DBL_MAX;
         ORK_DECODE_DOUBLE(aDecoder, postStimulusDelay);
         ORK_DECODE_OBJ_CLASS(aDecoder, headphoneType, NSString);
         ORK_DECODE_OBJ_ARRAY(aDecoder, samples, ORKdBHLToneAudiometryFrequencySample);
-        
     }
     return self;
 }
@@ -93,7 +91,6 @@ const double ORKInvalidDBHLValue = DBL_MAX;
     result.postStimulusDelay = self.postStimulusDelay;
     result.samples = [self.samples copy];
     
-
     return result;
 }
 

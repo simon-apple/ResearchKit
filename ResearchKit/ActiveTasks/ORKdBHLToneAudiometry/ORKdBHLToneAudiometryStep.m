@@ -143,7 +143,6 @@
         ORK_DECODE_INTEGER(aDecoder, earPreference);
         ORK_DECODE_OBJ_CLASS(aDecoder, headphoneType, NSString);
         ORK_DECODE_OBJ_ARRAY(aDecoder, frequencyList, NSNumber);
-        
     }
     return self;
 }
@@ -164,7 +163,6 @@
     ORK_ENCODE_INTEGER(aCoder, earPreference);
     ORK_ENCODE_OBJ(aCoder, headphoneType);
     ORK_ENCODE_OBJ(aCoder, frequencyList);
-    
 }
 
 + (BOOL)supportsSecureCoding {
