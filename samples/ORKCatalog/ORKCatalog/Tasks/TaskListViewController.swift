@@ -204,4 +204,3 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
     }
 
 }
-

@@ -958,7 +958,6 @@
                                expectedSecondRow:ORKDoubleInvalidValue]);
 }
 
-
 - (void)testContinuousScaleAnswerFormat {
     
     XCTAssertThrowsSpecificNamed([ORKAnswerFormat continuousScaleAnswerFormatWithMaximumValue:10

@@ -203,6 +203,7 @@
 		511987C4246330CA004FC2C7 /* ORKRequestPermissionsStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 511987C2246330CA004FC2C7 /* ORKRequestPermissionsStep.m */; };
 		511987C72463316E004FC2C7 /* ORKRequestPermissionsStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 511987C52463316E004FC2C7 /* ORKRequestPermissionsStepViewController.h */; };
 		511987C82463316E004FC2C7 /* ORKRequestPermissionsStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 511987C62463316E004FC2C7 /* ORKRequestPermissionsStepViewController.m */; };
+		511A7891294D67F80011D85D /* ORKTextButtonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511A7890294D67F80011D85D /* ORKTextButtonTests.swift */; };
 		511B8A91293A757E00049947 /* ORKTouchAbilityContentView.h in Headers */ = {isa = PBXBuildFile; fileRef = 511B8A8F293A757E00049947 /* ORKTouchAbilityContentView.h */; };
 		511B8A92293A757E00049947 /* ORKTouchAbilityContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 511B8A90293A757E00049947 /* ORKTouchAbilityContentView.m */; };
 		511B8A95293A759300049947 /* ORKTouchAbilityArrowView.h in Headers */ = {isa = PBXBuildFile; fileRef = 511B8A93293A759200049947 /* ORKTouchAbilityArrowView.h */; };
@@ -1204,6 +1205,7 @@
 		511987C2246330CA004FC2C7 /* ORKRequestPermissionsStep.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKRequestPermissionsStep.m; sourceTree = "<group>"; };
 		511987C52463316E004FC2C7 /* ORKRequestPermissionsStepViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKRequestPermissionsStepViewController.h; sourceTree = "<group>"; };
 		511987C62463316E004FC2C7 /* ORKRequestPermissionsStepViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKRequestPermissionsStepViewController.m; sourceTree = "<group>"; };
+		511A7890294D67F80011D85D /* ORKTextButtonTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ORKTextButtonTests.swift; sourceTree = "<group>"; };
 		511B8A8F293A757E00049947 /* ORKTouchAbilityContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKTouchAbilityContentView.h; sourceTree = "<group>"; };
 		511B8A90293A757E00049947 /* ORKTouchAbilityContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKTouchAbilityContentView.m; sourceTree = "<group>"; };
 		511B8A93293A759200049947 /* ORKTouchAbilityArrowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKTouchAbilityArrowView.h; sourceTree = "<group>"; };
@@ -3176,6 +3178,7 @@
 				2EBFE11C1AE1B32D00CB8254 /* ORKUIViewAccessibilityTests.m */,
 				2EBFE11F1AE1B74100CB8254 /* ORKVoiceEngineTests.m */,
 				03057F482518ECDC00C4EC5B /* ORKAudioStepViewControllerTests.m */,
+				511A7890294D67F80011D85D /* ORKTextButtonTests.swift */,
 				1483DBB4220125BE004C26B6 /* ORKActiveStepTests.swift */,
 				1483DBB3220125BE004C26B6 /* ResearchKitTests-Bridging-Header.h */,
 				1490DD01224D6A21003FEEDA /* ORKResultPredicateTests.swift */,
@@ -5037,6 +5040,7 @@
 				22ED1847285290250052406B /* ORKAudiometryTests.m in Sources */,
 				FA7A9D371B09365F005A2BEA /* ORKConsentSectionFormatterTests.m in Sources */,
 				0B59A6BF28C1738D005035B4 /* ORKPickerTestDelegate.m in Sources */,
+				511A7891294D67F80011D85D /* ORKTextButtonTests.swift in Sources */,
 				714151D0225C4A23002CA33B /* ORKPasscodeViewControllerTests.swift in Sources */,
 				0324C1D825439E1800BBE77B /* ORKVideoInstructionStepViewControllerTests.swift in Sources */,
 				14E79040226A5F72009D8083 /* ORKStepViewControllerHelpers.swift in Sources */,

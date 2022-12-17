@@ -442,7 +442,6 @@
 "KNEE_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_LEFT" = "When you are done, return your left knee to the start position.\n\nThen tap anywhere.";
 "KNEE_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_RIGHT" = "When you are done, return your right knee to the start position.\n\nThen tap anywhere.";
 
-
 /* Shoulder Range of Motion active task */
 "SHOULDER_RANGE_OF_MOTION_TITLE_LEFT" = "Left Shoulder Range of Motion";
 "SHOULDER_RANGE_OF_MOTION_TITLE_RIGHT" = "Right Shoulder Range of Motion";
