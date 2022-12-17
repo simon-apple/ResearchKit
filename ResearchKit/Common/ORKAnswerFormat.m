@@ -2460,7 +2460,6 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
         _numberFormatter = [[NSNumberFormatter alloc] init];
         _numberFormatter.numberStyle = ORKNumberFormattingStyleConvert(_numberStyle);
         _numberFormatter.maximumFractionDigits = _maximumFractionDigits;
-        [_numberFormatter setRoundingMode:NSNumberFormatterRoundDown];
     }
     return _numberFormatter;
 }

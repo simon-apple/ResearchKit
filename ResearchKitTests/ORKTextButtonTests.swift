@@ -49,5 +49,3 @@ class ORKTextButtonTests: XCTestCase {
         XCTAssertEqual(button.configuration!.contentInsets.trailing, 10);
     }
 }
-
-@end
