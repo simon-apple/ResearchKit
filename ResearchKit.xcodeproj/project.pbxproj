@@ -1206,6 +1206,7 @@
 		511987C52463316E004FC2C7 /* ORKRequestPermissionsStepViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKRequestPermissionsStepViewController.h; sourceTree = "<group>"; };
 		511987C62463316E004FC2C7 /* ORKRequestPermissionsStepViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKRequestPermissionsStepViewController.m; sourceTree = "<group>"; };
 		511A7890294D67F80011D85D /* ORKTextButtonTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ORKTextButtonTests.swift; sourceTree = "<group>"; };
+		511A78992950D7030011D85D /* ResearchKit-Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "ResearchKit-Release.xcconfig"; sourceTree = "<group>"; };
 		511B8A8F293A757E00049947 /* ORKTouchAbilityContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKTouchAbilityContentView.h; sourceTree = "<group>"; };
 		511B8A90293A757E00049947 /* ORKTouchAbilityContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKTouchAbilityContentView.m; sourceTree = "<group>"; };
 		511B8A93293A759200049947 /* ORKTouchAbilityArrowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKTouchAbilityArrowView.h; sourceTree = "<group>"; };
@@ -1332,11 +1333,6 @@
 		51E03D6C2491B6DB008F8406 /* ORKRequestPermissionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKRequestPermissionView.m; sourceTree = "<group>"; };
 		5D000EC22620F27100E5442A /* ResearchKit-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "ResearchKit-Debug.xcconfig"; sourceTree = "<group>"; };
 		5D000EC42620F27100E5442A /* ResearchKit-Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "ResearchKit-Shared.xcconfig"; sourceTree = "<group>"; };
-		5D000ECA2620F27100E5442A /* docs-Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "docs-Shared.xcconfig"; sourceTree = "<group>"; };
-		5D000ECE2620F27100E5442A /* Project-Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Project-Shared.xcconfig"; sourceTree = "<group>"; };
-		5D000ED12620F27100E5442A /* Project-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Project-Debug.xcconfig"; sourceTree = "<group>"; };
-		5D000ED62620F27100E5442A /* ResearchKitTests-Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "ResearchKitTests-Shared.xcconfig"; sourceTree = "<group>"; };
-		5D000ED72620F27100E5442A /* ResearchKitTests-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "ResearchKitTests-Debug.xcconfig"; sourceTree = "<group>"; };
 		5D003D9F26377E7400A6439B /* ORKAccuracyStroopResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKAccuracyStroopResult.h; sourceTree = "<group>"; };
 		5D003DA026377E7400A6439B /* ORKAccuracyStroopResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKAccuracyStroopResult.m; sourceTree = "<group>"; };
 		5D04884B25EF4CC30006C68B /* ORKQuestionStep_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKQuestionStep_Private.h; sourceTree = "<group>"; };
@@ -2884,9 +2880,6 @@
 			isa = PBXGroup;
 			children = (
 				5D000EC12620F27100E5442A /* ResearchKit */,
-				5D000EC92620F27100E5442A /* docs */,
-				5D000ECB2620F27100E5442A /* Project */,
-				5D000ED32620F27100E5442A /* ResearchKitTests */,
 			);
 			path = Configuration;
 			sourceTree = "<group>";
@@ -2896,34 +2889,9 @@
 			children = (
 				5D000EC22620F27100E5442A /* ResearchKit-Debug.xcconfig */,
 				5D000EC42620F27100E5442A /* ResearchKit-Shared.xcconfig */,
+				511A78992950D7030011D85D /* ResearchKit-Release.xcconfig */,
 			);
 			path = ResearchKit;
-			sourceTree = "<group>";
-		};
-		5D000EC92620F27100E5442A /* docs */ = {
-			isa = PBXGroup;
-			children = (
-				5D000ECA2620F27100E5442A /* docs-Shared.xcconfig */,
-			);
-			path = docs;
-			sourceTree = "<group>";
-		};
-		5D000ECB2620F27100E5442A /* Project */ = {
-			isa = PBXGroup;
-			children = (
-				5D000ECE2620F27100E5442A /* Project-Shared.xcconfig */,
-				5D000ED12620F27100E5442A /* Project-Debug.xcconfig */,
-			);
-			path = Project;
-			sourceTree = "<group>";
-		};
-		5D000ED32620F27100E5442A /* ResearchKitTests */ = {
-			isa = PBXGroup;
-			children = (
-				5D000ED62620F27100E5442A /* ResearchKitTests-Shared.xcconfig */,
-				5D000ED72620F27100E5442A /* ResearchKitTests-Debug.xcconfig */,
-			);
-			path = ResearchKitTests;
 			sourceTree = "<group>";
 		};
 		5D43C5CE2421736D006F4084 /* ORKRecordButton */ = {
@@ -5680,6 +5648,7 @@
 		};
 		B183A5941A8535D100C76870 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 511A78992950D7030011D85D /* ResearchKit-Release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;

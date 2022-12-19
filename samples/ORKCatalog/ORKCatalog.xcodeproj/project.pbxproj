@@ -585,7 +585,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/ORKCatalog/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 2.1.1;
+				MARKETING_VERSION = 2.2.8;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.researchkit-samplecode.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ORKCatalog;
@@ -698,7 +698,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/ORKCatalog/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 2.1.1;
+				MARKETING_VERSION = 2.2.8;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.researchkit-samplecode.ORKCatalog";
 				PRODUCT_NAME = ORKCatalog;
 				PROVISIONING_PROFILE_SPECIFIER = "";
