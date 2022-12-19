@@ -35,7 +35,7 @@
 
 #define RK_APPLE_INTERNAL 1
 #define KAGRA_PROTO 1
-#define QA_DISTRIBUTION 1 // if active, the dBHL view will present debug labels.
+#define QA_DISTRIBUTION 0 // if active, the dBHL view will present debug labels.
 #define SIMULATE_HL 1 // if active, the final results will be using random simulated hearing loss
 
 #endif /* ResearchKit_Prefix_pch */
