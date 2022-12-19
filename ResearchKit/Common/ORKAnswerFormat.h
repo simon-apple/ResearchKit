@@ -1393,7 +1393,7 @@ Returns an initialized numeric answer format using the specified style, unit des
 @property (readonly) ORKNumericAnswerStyle style;
 
 /**
- A string that displays a the unit designation next to the numeric value in the results.
+ A string that displays the unit designation next to the numeric value in the results.
  (read-only)
  If displayUnit is not set, the answerFormat will display the unit instead
 
