@@ -80,7 +80,7 @@ NSUInteger const ORKPSATMaximumAnswer = 17;
 - (void)setEnabled:(BOOL)enabled {
     for (ORKBorderedButton *answerButton in self.answerButtons) {
         [answerButton setEnabled:enabled];
-        [answerButton setBackgroundColor:ORKWindowTintcolor(self.window) ? : [UIColor systemBlueColor]];
+        [answerButton setBackgroundColor:ORKViewTintColor(self)];
     }
 }
 

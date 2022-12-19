@@ -353,7 +353,7 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKStartStopButtonState) {
 }
 
 - (void)didMoveToWindow {
-    self.tintColor = ORKWindowTintcolor(self.window) ? : [UIColor systemBlueColor];
+    self.tintColor = ORKViewTintColor(self);
     [self setStartStopButtonState:_startStopButtonState];
 }
 @end

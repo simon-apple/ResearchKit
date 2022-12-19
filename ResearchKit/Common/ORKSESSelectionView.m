@@ -86,7 +86,7 @@ static const CGFloat rungButtonPadding = 10.0;
         _rungIndex = rungIndex;
         
         if (@available(iOS 13.0, *)) {
-            self.tintColor = ORKWindowTintcolor(self.window) ? : [UIColor systemBlueColor];
+            self.tintColor = ORKViewTintColor(self);
         }
         
         [self setupLabels];
@@ -213,7 +213,7 @@ static const CGFloat rungButtonPadding = 10.0;
 }
 
 - (void)didMoveToWindow {
-    self.tintColor = ORKWindowTintcolor(self.window) ? : [UIColor systemBlueColor];
+    self.tintColor = ORKViewTintColor(self);
     _rungImageView.tintColor = self.tintColor;
 }
 
