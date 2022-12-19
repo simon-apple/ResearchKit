@@ -2488,7 +2488,6 @@
 				86CC8EA61AC09383001CCD89 /* ResearchKitTests */,
 				3FFF183F1829DB1D00167070 /* Frameworks */,
 				3FFF183E1829DB1D00167070 /* Products */,
-				8419D66A1FB73C5A0088D7E5 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -2988,13 +2987,6 @@
 				781D540F1DF886AB00223305 /* ORKTrailmakingStepViewController.m */,
 			);
 			name = Trailmaking;
-			sourceTree = "<group>";
-		};
-		8419D66A1FB73C5A0088D7E5 /* Recovered References */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 		8419D66B1FB73C800088D7E5 /* WebView Step */ = {
