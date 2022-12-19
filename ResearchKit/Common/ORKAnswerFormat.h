@@ -670,9 +670,7 @@ ORK_CLASS_AVAILABLE
 @property (nonatomic, assign, getter=shouldHideLabels) BOOL hideLabels;
 
 /**
- Indicates the position of gradient stops for the colors specified in `gradientColors`.
- Gradient stops are specified as values between 0 and 1. The values must be monotonically
- increasing.
+ Determines if the value markers on the slider are hidden
  
  Defults to false.
  */

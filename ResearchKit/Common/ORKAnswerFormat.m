@@ -2808,11 +2808,6 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
 
 #pragma mark - ORKTextAnswerFormat
 
-@interface ORKTextAnswerFormat()
-
-
-@end
-
 @implementation ORKTextAnswerFormat
 
 - (Class)questionResultClass {
