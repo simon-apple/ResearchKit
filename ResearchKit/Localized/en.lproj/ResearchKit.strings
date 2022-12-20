@@ -391,7 +391,6 @@
 "REACTION_TIME_TASK_ATTEMPTS_FORMAT" = "Attempt %@ of %@";
 "REACTION_TIME_TASK_ACTIVE_STEP_TITLE" = "Quickly shake the device when the blue circle appears";
 "REACTION_TIME_NORMALIZED_TASK_ACTIVE_STEP_TITLE" = "Tap the hold button, and then the blue circle";
-"REACTION_TIME_TASK_NORM_BUTTON_TITLE" = "hold";
 
 /* Stroop active task.*/
 "STROOP_TASK_TITLE" = "Stroop";

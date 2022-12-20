@@ -441,8 +441,17 @@ ORK_MAKE_TEST_INIT(ORKAccuracyStroopStep, (^{ return [[ORKAccuracyStroopStep all
                                                  [ORKTouchAbilitySwipeStep class],
                                                  [ORKTouchAbilityTapResult class],
                                                  [ORKCustomStep class],
-                                                 [ORKDataCollectionState class]
-                                                 ];
+                                                 [ORKDataCollectionState class],
+                                                 [ORKTouchAbilityRotationStep class],
+                                                 [ORKTouchAbilityLongPressStep class],
+                                                 [ORKTouchAbilityScrollStep class],
+                                                 [ORKTouchAbilityPinchResult class],
+                                                 [ORKTouchAbilityRotationResult class],
+                                                 [ORKTouchAbilityLongPressResult class],
+                                                 [ORKTouchAbilitySwipeResult class],
+                                                 [ORKTouchAbilityScrollResult class]
+                                                 
+        ];
         
         _propertyExclusionList = @[
                                    @"superclass",
