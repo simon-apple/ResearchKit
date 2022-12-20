@@ -130,6 +130,8 @@
 #import <ResearchKit/ORKLineGraphChartView.h>
 #import <ResearchKit/ORKPieChartView.h>
 
+#import <ResearchKit/ORKPicker.h>
+
 #import <ResearchKit/ORKBodyItem.h>
 #import <ResearchKit/ORKLearnMoreItem.h>
 

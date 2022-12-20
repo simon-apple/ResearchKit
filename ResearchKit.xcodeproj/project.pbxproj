@@ -430,7 +430,7 @@
 		861D2AF71B843968008C4CD0 /* ORKCompletionStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40B551A8D7C5B00081FAC /* ORKCompletionStepViewController.m */; };
 		865EA1621AB8DF750037C68E /* ORKDateTimePicker.h in Headers */ = {isa = PBXBuildFile; fileRef = 865EA1601AB8DF750037C68E /* ORKDateTimePicker.h */; };
 		865EA1631AB8DF750037C68E /* ORKDateTimePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 865EA1611AB8DF750037C68E /* ORKDateTimePicker.m */; };
-		865EA1681ABA1AA10037C68E /* ORKPicker.h in Headers */ = {isa = PBXBuildFile; fileRef = 865EA1661ABA1AA10037C68E /* ORKPicker.h */; };
+		865EA1681ABA1AA10037C68E /* ORKPicker.h in Headers */ = {isa = PBXBuildFile; fileRef = 865EA1661ABA1AA10037C68E /* ORKPicker.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		865EA1691ABA1AA10037C68E /* ORKPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 865EA1671ABA1AA10037C68E /* ORKPicker.m */; };
 		865EA16C1ABA1BE20037C68E /* ORKSurveyAnswerCellForPicker.h in Headers */ = {isa = PBXBuildFile; fileRef = 865EA16A1ABA1BE20037C68E /* ORKSurveyAnswerCellForPicker.h */; };
 		865EA16D1ABA1BE20037C68E /* ORKSurveyAnswerCellForPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 865EA16B1ABA1BE20037C68E /* ORKSurveyAnswerCellForPicker.m */; };

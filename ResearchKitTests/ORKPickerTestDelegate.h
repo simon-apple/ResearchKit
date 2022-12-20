@@ -29,7 +29,7 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "ORKPicker.h"
+#import <ResearchKit/ORKPicker.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
