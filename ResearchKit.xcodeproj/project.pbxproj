@@ -61,6 +61,8 @@
 		0BAF97A8291088F200EF138A /* ORKNormalizedReactionTimeResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BAF979E291088F100EF138A /* ORKNormalizedReactionTimeResult.m */; };
 		0BAF97A9291088F200EF138A /* ORKNormalizedReactionTimeStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BAF979F291088F200EF138A /* ORKNormalizedReactionTimeStep.m */; };
 		0BCC4B9A28663895001E316F /* PIIScrubber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BCC4B9928663895001E316F /* PIIScrubber.swift */; };
+		0BE9D5262947EA4900DA0625 /* ORKConsentDocument+ORKInstructionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 0BE9D5242947EA4900DA0625 /* ORKConsentDocument+ORKInstructionStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0BE9D5272947EA4900DA0625 /* ORKConsentDocument+ORKInstructionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BE9D5252947EA4900DA0625 /* ORKConsentDocument+ORKInstructionStep.m */; };
 		0BEE14B1286CE552005F26D1 /* Scrubbers in Resources */ = {isa = PBXBuildFile; fileRef = 0BEE14B0286CE552005F26D1 /* Scrubbers */; };
 		106FF29E1B663FCE004EACF2 /* ORKHolePegTestPlaceStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 106FF29C1B663FCE004EACF2 /* ORKHolePegTestPlaceStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		106FF29F1B663FCE004EACF2 /* ORKHolePegTestPlaceStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 106FF29D1B663FCE004EACF2 /* ORKHolePegTestPlaceStep.m */; };
@@ -1201,6 +1203,8 @@
 		0BAF979E291088F100EF138A /* ORKNormalizedReactionTimeResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKNormalizedReactionTimeResult.m; sourceTree = "<group>"; };
 		0BAF979F291088F200EF138A /* ORKNormalizedReactionTimeStep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKNormalizedReactionTimeStep.m; sourceTree = "<group>"; };
 		0BCC4B9928663895001E316F /* PIIScrubber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PIIScrubber.swift; sourceTree = "<group>"; };
+		0BE9D5242947EA4900DA0625 /* ORKConsentDocument+ORKInstructionStep.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ORKConsentDocument+ORKInstructionStep.h"; sourceTree = "<group>"; };
+		0BE9D5252947EA4900DA0625 /* ORKConsentDocument+ORKInstructionStep.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ORKConsentDocument+ORKInstructionStep.m"; sourceTree = "<group>"; };
 		0BEE14B0286CE552005F26D1 /* Scrubbers */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Scrubbers; sourceTree = "<group>"; };
 		106FF29C1B663FCE004EACF2 /* ORKHolePegTestPlaceStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKHolePegTestPlaceStep.h; sourceTree = "<group>"; };
 		106FF29D1B663FCE004EACF2 /* ORKHolePegTestPlaceStep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKHolePegTestPlaceStep.m; sourceTree = "<group>"; };
@@ -4083,6 +4087,8 @@
 				BCCE9EC021104B2200B809F8 /* ORKConsentDocument_Private.h */,
 				86C40BF21A8D7C5C00081FAC /* ORKConsentDocument.h */,
 				86C40BF31A8D7C5C00081FAC /* ORKConsentDocument.m */,
+				0BE9D5242947EA4900DA0625 /* ORKConsentDocument+ORKInstructionStep.h */,
+				0BE9D5252947EA4900DA0625 /* ORKConsentDocument+ORKInstructionStep.m */,
 				86C40BF41A8D7C5C00081FAC /* ORKConsentDocument_Internal.h */,
 				86C40BFF1A8D7C5C00081FAC /* ORKConsentSection.h */,
 				86C40C001A8D7C5C00081FAC /* ORKConsentSection.m */,
@@ -4922,6 +4928,7 @@
 				BAD9E9162255E9CE0014FA29 /* ORKLearnMoreStepViewController.h in Headers */,
 				86C40C961A8D7C5C00081FAC /* ORKDataLogger.h in Headers */,
 				22BFDF5E25B792BF0015D1E1 /* ORKTinnitusTypes.h in Headers */,
+				0BE9D5262947EA4900DA0625 /* ORKConsentDocument+ORKInstructionStep.h in Headers */,
 				BC13CE421B066A990044153C /* ORKStepNavigationRule_Internal.h in Headers */,
 				86C40D781A8D7C5C00081FAC /* ORKScaleSlider.h in Headers */,
 				BA0AA6981EAEC0B600671ACE /* ORKStroopStepViewController.h in Headers */,
@@ -5960,6 +5967,7 @@
 				865EA1691ABA1AA10037C68E /* ORKPicker.m in Sources */,
 				515B347B24B3D2F4009CF844 /* ORKAVJournalingSessionHelper.m in Sources */,
 				BCB6E6511B7D533B000D5B34 /* ORKPieChartLegendCollectionViewLayout.m in Sources */,
+				0BE9D5272947EA4900DA0625 /* ORKConsentDocument+ORKInstructionStep.m in Sources */,
 				2212EE66261FE55300DE9BEA /* AVAudioMixerNode+Fade.m in Sources */,
 				51E03D692491A601008F8406 /* ORKHealthKitPermissionType.m in Sources */,
 				228D253F285B7D4F0047B2ED /* Matrix.swift in Sources */,
