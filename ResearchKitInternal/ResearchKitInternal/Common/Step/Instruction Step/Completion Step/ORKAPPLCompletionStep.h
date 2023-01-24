@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, Apple Inc. All rights reserved.
+ Copyright (c) 2023, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,59 +28,19 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+@import Foundation;
+#import <ResearchKit/ORKCompletionStep.h>
 
-#import "ORKCompletionStep.h"
-#import "ORKHelpers_Internal.h"
+NS_ASSUME_NONNULL_BEGIN
 
-//TODO: REMOVE THIS BLOCK
-//#if RK_APPLE_INTERNAL
-//ORKCompletionStepIdentifier const ORKCompletionStepIdentifierMicrophoneLearnMore = @"ORKCompletionStepIdentifierMicrophoneLearnMore";
-//ORKCompletionStepIdentifier const ORKEnvironmentSPLMeterTimeoutIdentifier = @"ORKEnvironmentSPLMeterTimeoutIdentifier";
-//#endif
+typedef NSString *ORKCompletionStepIdentifier NS_STRING_ENUM;
+ORK_EXTERN ORKCompletionStepIdentifier const ORKCompletionStepIdentifierMicrophoneLearnMore;
+ORK_EXTERN ORKCompletionStepIdentifier const ORKEnvironmentSPLMeterTimeoutIdentifier;
 
-@implementation ORKCompletionStep
-#if TARGET_OS_IOS
-- (instancetype)initWithIdentifier:(NSString *)identifier {
-    self = [super initWithIdentifier:identifier];
-    if (self) {
-        _reasonForCompletion = ORKTaskFinishReasonCompleted;
-    }
-    
-    return self;
-}
 
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    if (self) {
-        ORK_DECODE_INTEGER(aDecoder, reasonForCompletion);
-    }
-    return self;
-}
+ORK_CLASS_AVAILABLE API_AVAILABLE(ios(11.0), watchos(6.0))
+@interface ORKAPPLCompletionStep : ORKCompletionStep
 
-- (void)encodeWithCoder:(NSCoder *)aCoder {
-    [super encodeWithCoder:aCoder];
-    ORK_ENCODE_INTEGER(aCoder, reasonForCompletion);
-}
-
-+ (BOOL)supportsSecureCoding {
-    return YES;
-}
-
-- (instancetype)copyWithZone:(NSZone *)zone {
-    ORKCompletionStep *step = [super copyWithZone:zone];
-    step.reasonForCompletion = self.reasonForCompletion;
-    return step;
-}
-
-- (BOOL)isEqual:(id)object {
-    BOOL isParentSame = [super isEqual:object];
-
-    __typeof(self) castObject = object;
-    return isParentSame && self.reasonForCompletion == castObject.reasonForCompletion;
-}
-
-- (BOOL)allowsBackNavigation {
-    return !(_reasonForCompletion == ORKTaskFinishReasonDiscarded);
-}
-#endif
 @end
+
+NS_ASSUME_NONNULL_END

@@ -72,6 +72,12 @@
 #import "ORKCelestialSoftLink.h"
 #endif
 
+// TODO: REMOVE THIS AFTER CREATING A INTERNAL TASKVIEWCONTROLLER. THIS IS HERE JUST TO KEEP THINGS BUILIDING RIGHT NOW.
+#if RK_APPLE_INTERNAL
+ORKCompletionStepIdentifier const ORKCompletionStepIdentifierMicrophoneLearnMore = @"ORKCompletionStepIdentifierMicrophoneLearnMore";
+ORKCompletionStepIdentifier const ORKEnvironmentSPLMeterTimeoutIdentifier = @"ORKEnvironmentSPLMeterTimeoutIdentifier";
+#endif
+
 typedef void (^_ORKLocationAuthorizationRequestHandler)(BOOL success);
 
 @interface ORKLocationAuthorizationRequester : NSObject <CLLocationManagerDelegate>

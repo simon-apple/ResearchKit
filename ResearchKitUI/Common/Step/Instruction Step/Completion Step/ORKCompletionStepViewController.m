@@ -48,9 +48,10 @@
 #import "ORKCompletionStep.h"
 #import "ORKTaskViewController.h"
 
-#if RK_APPLE_INTERNAL
-#import "ORKContext.h"
-#endif
+//TODO: REMOVE THIS BLOCK
+//#if RK_APPLE_INTERNAL
+//#import "ORKContext.h"
+//#endif
 
 @implementation ORKCompletionStepViewController {
     ORKCompletionCheckmarkView *_completionCheckmarkView;
@@ -78,12 +79,13 @@
     
     self.stepView.customContentFillsAvailableSpace = YES;
     
-#if RK_APPLE_INTERNAL
-    if ([self isSpeechInNoisePredefinedTaskPractice])
-    {
-        [self setContinueButtonTitle:ORKLocalizedString(@"BUTTON_START_TEST", nil)];
-    }
-#endif
+//TODO: REMOVE THIS BLOCK
+//#if RK_APPLE_INTERNAL
+//    if ([self isSpeechInNoisePredefinedTaskPractice])
+//    {
+//        [self setContinueButtonTitle:ORKLocalizedString(@"BUTTON_START_TEST", nil)];
+//    }
+//#endif
 }
 
 - (void)continueWasPressed {
@@ -93,51 +95,52 @@
     }
 }
 
-#if RK_APPLE_INTERNAL
-// FIXME: rdar://98465050 (deal with internal code workaround)
-- (NSObject<ORKContext> * _Nullable)speechInNoisePredefinedTaskContext
-{
-    Class speechInNoisePredefinedTaskContext = NSClassFromString(@"ORKSpeechInNoisePredefinedTaskContext");
-    
-    if (self.step.context && speechInNoisePredefinedTaskContext != nil && [self.step.context isKindOfClass:speechInNoisePredefinedTaskContext])
-    {
-        return self.step.context;
-    }
-    return nil;
-}
-
-- (BOOL)isSpeechInNoisePredefinedTaskPractice
-{
-    return [[self speechInNoisePredefinedTaskContext] performSelector:@selector(isPracticeTest)];
-}
-
-- (void)setSkipButtonItem:(UIBarButtonItem *)skipButtonItem
-{
-    [super setSkipButtonItem:skipButtonItem];
-    
-    if ([self isSpeechInNoisePredefinedTaskPractice])
-    {
-        [skipButtonItem setTitle:ORKLocalizedString(@"BUTTON_PRACTICE_AGAIN", nil)];
-        skipButtonItem.target = self;
-        skipButtonItem.action = @selector(practiceAgainPressed:);
-    }
-}
-
-- (void)practiceAgainPressed:(id)sender
-{
-    if ([self isSpeechInNoisePredefinedTaskPractice])
-    {
-        [self.taskViewController flipToPageWithIdentifier:[[self speechInNoisePredefinedTaskContext] performSelector:@selector(practiceAgainStepIdentifier)] forward:NO animated:YES];
-    }
-}
-
-- (BOOL)hasPreviousStep {
-    if ([self.step.identifier isEqualToString:ORKEnvironmentSPLMeterTimeoutIdentifier]) {
-        return YES;
-    }
-    return [super hasPreviousStep];
-}
-#endif
+//TODO: REMOVE THIS BLOCK
+//#if RK_APPLE_INTERNAL
+//// FIXME: rdar://98465050 (deal with internal code workaround)
+//- (NSObject<ORKContext> * _Nullable)speechInNoisePredefinedTaskContext
+//{
+//    Class speechInNoisePredefinedTaskContext = NSClassFromString(@"ORKSpeechInNoisePredefinedTaskContext");
+//
+//    if (self.step.context && speechInNoisePredefinedTaskContext != nil && [self.step.context isKindOfClass:speechInNoisePredefinedTaskContext])
+//    {
+//        return self.step.context;
+//    }
+//    return nil;
+//}
+//
+//- (BOOL)isSpeechInNoisePredefinedTaskPractice
+//{
+//    return [[self speechInNoisePredefinedTaskContext] performSelector:@selector(isPracticeTest)];
+//}
+//
+//- (void)setSkipButtonItem:(UIBarButtonItem *)skipButtonItem
+//{
+//    [super setSkipButtonItem:skipButtonItem];
+//
+//    if ([self isSpeechInNoisePredefinedTaskPractice])
+//    {
+//        [skipButtonItem setTitle:ORKLocalizedString(@"BUTTON_PRACTICE_AGAIN", nil)];
+//        skipButtonItem.target = self;
+//        skipButtonItem.action = @selector(practiceAgainPressed:);
+//    }
+//}
+//
+//- (void)practiceAgainPressed:(id)sender
+//{
+//    if ([self isSpeechInNoisePredefinedTaskPractice])
+//    {
+//        [self.taskViewController flipToPageWithIdentifier:[[self speechInNoisePredefinedTaskContext] performSelector:@selector(practiceAgainStepIdentifier)] forward:NO animated:YES];
+//    }
+//}
+//
+//- (BOOL)hasPreviousStep {
+//    if ([self.step.identifier isEqualToString:ORKEnvironmentSPLMeterTimeoutIdentifier]) {
+//        return YES;
+//    }
+//    return [super hasPreviousStep];
+//}
+//#endif
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
