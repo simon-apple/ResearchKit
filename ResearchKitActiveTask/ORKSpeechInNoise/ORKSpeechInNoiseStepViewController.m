@@ -34,6 +34,7 @@
 #import "ORKActiveStepView.h"
 #import "ORKActiveStepViewController_Internal.h"
 #import "ORKStepViewController_Internal.h"
+#import "ORKSpeechInNoiseStepViewController_Private.h"
 #import "ORKStepContainerView_Private.h"
 #import "ORKSpeechInNoiseContentView.h"
 #import "ORKSpeechInNoiseStep.h"
@@ -47,16 +48,36 @@
 #import "ORKTaskViewController.h"
 #import "ORKTaskViewController_Internal.h"
 
-#if RK_APPLE_INTERNAL
-#import <ResearchKit/ORKContext.h>
-#endif
+//TODO: REMOVE THIS INTERNAL BLOCK
+//#if RK_APPLE_INTERNAL
+//#import <ResearchKit/ORKContext.h>
+//#endif
 
 #import <AVFoundation/AVFoundation.h>
 @import Accelerate;
 
-#if RK_APPLE_INTERNAL
-static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
-
+//TODO: REMOVE THIS INTERNAL BLOCK
+//#if RK_APPLE_INTERNAL
+//static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
+//
+//@interface ORKSpeechInNoiseStepViewController () {
+//    AVAudioEngine *_audioEngine;
+//    AVAudioPlayerNode *_playerNode;
+//    AVAudioMixerNode *_mixerNode;
+//    float _peakPower;
+//    float _toneDuration;
+//    AVAudioPCMBuffer *_noiseAudioBuffer;
+//    AVAudioPCMBuffer *_speechAudioBuffer;
+//    AVAudioPCMBuffer *_filterAudioBuffer;
+//    AVAudioFrameCount _speechToneCapacity;
+//    AVAudioFrameCount _noiseToneCapacity;
+//    BOOL _installedTap;
+//
+//    NSObject *_headphoneDetector;
+//    ORKHeadphoneTypeIdentifier _headphoneType;
+//    BOOL _showingAlert;
+//}
+//#else
 @interface ORKSpeechInNoiseStepViewController () {
     AVAudioEngine *_audioEngine;
     AVAudioPlayerNode *_playerNode;
@@ -69,26 +90,7 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
     AVAudioFrameCount _speechToneCapacity;
     AVAudioFrameCount _noiseToneCapacity;
     BOOL _installedTap;
-
-    NSObject *_headphoneDetector;
-    ORKHeadphoneTypeIdentifier _headphoneType;
-    BOOL _showingAlert;
 }
-#else
-@interface ORKSpeechInNoiseStepViewController () {
-    AVAudioEngine *_audioEngine;
-    AVAudioPlayerNode *_playerNode;
-    AVAudioMixerNode *_mixerNode;
-    float _peakPower;
-    float _toneDuration;
-    AVAudioPCMBuffer *_noiseAudioBuffer;
-    AVAudioPCMBuffer *_speechAudioBuffer;
-    AVAudioPCMBuffer *_filterAudioBuffer;
-    AVAudioFrameCount _speechToneCapacity;
-    AVAudioFrameCount _noiseToneCapacity;
-    BOOL _installedTap;
-}
-#endif
 
 @property (nonatomic, strong) ORKSpeechInNoiseContentView *speechInNoiseContentView;
 
@@ -103,26 +105,28 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
     _speechAudioBuffer = [[AVAudioPCMBuffer alloc] init];
     _filterAudioBuffer = [[AVAudioPCMBuffer alloc] init];
     _installedTap = NO;
-#if RK_APPLE_INTERNAL
-    _showingAlert = NO;
-    Class ORKHeadphoneDetector = NSClassFromString(@"ORKHeadphoneDetector");
-    _headphoneDetector = [[ORKHeadphoneDetector alloc] performSelector:@selector(initWithDelegate:supportedHeadphoneChipsetTypes:) withObject:self
-                                         withObject:nil];
 
-    ORKTaskResult *taskResults = [[self taskViewController] result];
-    
-    for (ORKStepResult *result in taskResults.results) {
-        if (result.results > 0) {
-            ORKStepResult *firstResult = (ORKStepResult *)[result.results firstObject];
-            Class ORKHeadphoneDetectResult = NSClassFromString(@"ORKHeadphoneDetectResult");
-            if ([firstResult isKindOfClass:ORKHeadphoneDetectResult]) {
-                ORKResult *headphoneDetectResult = firstResult;
-                _headphoneType = [headphoneDetectResult valueForKey:@"headphoneType"];
-            }
-
-        }
-    }
-#endif
+//TODO: REMOVE THIS INTERNAL BLOCK
+//#if RK_APPLE_INTERNAL
+//    _showingAlert = NO;
+//    Class ORKHeadphoneDetector = NSClassFromString(@"ORKHeadphoneDetector");
+//    _headphoneDetector = [[ORKHeadphoneDetector alloc] performSelector:@selector(initWithDelegate:supportedHeadphoneChipsetTypes:) withObject:self
+//                                         withObject:nil];
+//
+//    ORKTaskResult *taskResults = [[self taskViewController] result];
+//
+//    for (ORKStepResult *result in taskResults.results) {
+//        if (result.results > 0) {
+//            ORKStepResult *firstResult = (ORKStepResult *)[result.results firstObject];
+//            Class ORKHeadphoneDetectResult = NSClassFromString(@"ORKHeadphoneDetectResult");
+//            if ([firstResult isKindOfClass:ORKHeadphoneDetectResult]) {
+//                ORKResult *headphoneDetectResult = firstResult;
+//                _headphoneType = [headphoneDetectResult valueForKey:@"headphoneType"];
+//            }
+//
+//        }
+//    }
+//#endif
     
     self.speechInNoiseContentView = [[ORKSpeechInNoiseContentView alloc] init];
     self.activeStepView.activeCustomView = self.speechInNoiseContentView;

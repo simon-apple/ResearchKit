@@ -1,4 +1,3 @@
-//
 /*
  Copyright (c) 2022, Apple Inc. All rights reserved.
  
@@ -126,6 +125,14 @@
 
 - (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
     return [[ORKVolumeCalibrationStepViewController alloc] initWithStep:self result:result];
+}
+
+@end
+
+@implementation APPLSpeechInNoiseStep (ViewControllerProviding)
+
+- (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
+    return [[APPLSpeechInNoiseStepViewController alloc] initWithStep:self result:result];
 }
 
 @end

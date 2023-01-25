@@ -99,6 +99,7 @@
 		51E03D6424919711008F8406 /* ORKPermissionType.m in Sources */ = {isa = PBXBuildFile; fileRef = 51E03D6224919711008F8406 /* ORKPermissionType.m */; };
 		51E03D682491A601008F8406 /* ORKHealthKitPermissionType.h in Headers */ = {isa = PBXBuildFile; fileRef = 51E03D662491A601008F8406 /* ORKHealthKitPermissionType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		51E03D692491A601008F8406 /* ORKHealthKitPermissionType.m in Sources */ = {isa = PBXBuildFile; fileRef = 51E03D672491A601008F8406 /* ORKHealthKitPermissionType.m */; };
+		51F716EB2981B49000D8ACF7 /* ORKSpeechInNoiseStepViewController_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 51F716E82981AF1200D8ACF7 /* ORKSpeechInNoiseStepViewController_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5D04884C25EF4CC30006C68B /* ORKQuestionStep_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D04884B25EF4CC30006C68B /* ORKQuestionStep_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5D04885725F19A7A0006C68B /* ORKDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D04885525F19A7A0006C68B /* ORKDevice.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5D04885825F19A7A0006C68B /* ORKDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D04885625F19A7A0006C68B /* ORKDevice.m */; };
@@ -1238,6 +1239,7 @@
 		51E03D672491A601008F8406 /* ORKHealthKitPermissionType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKHealthKitPermissionType.m; sourceTree = "<group>"; };
 		51E03D6B2491B6DB008F8406 /* ORKRequestPermissionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKRequestPermissionView.h; sourceTree = "<group>"; };
 		51E03D6C2491B6DB008F8406 /* ORKRequestPermissionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKRequestPermissionView.m; sourceTree = "<group>"; };
+		51F716E82981AF1200D8ACF7 /* ORKSpeechInNoiseStepViewController_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKSpeechInNoiseStepViewController_Private.h; sourceTree = "<group>"; };
 		5D000EC22620F27100E5442A /* ResearchKit-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "ResearchKit-Debug.xcconfig"; sourceTree = "<group>"; };
 		5D000EC32620F27100E5442A /* ResearchKit-Skywagon-Stable.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "ResearchKit-Skywagon-Stable.xcconfig"; sourceTree = "<group>"; };
 		5D000EC42620F27100E5442A /* ResearchKit-Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "ResearchKit-Shared.xcconfig"; sourceTree = "<group>"; };
@@ -3881,6 +3883,7 @@
 				7118AC7220BF6A7800D7A6BB /* ORKSpeechInNoiseStep.m */,
 				5D5880372410394E005B3D91 /* ORKSpeechInNoiseResult.h */,
 				5D5880382410394E005B3D91 /* ORKSpeechInNoiseResult.m */,
+				51F716E82981AF1200D8ACF7 /* ORKSpeechInNoiseStepViewController_Private.h */,
 			);
 			path = ORKSpeechInNoise;
 			sourceTree = "<group>";
@@ -4968,6 +4971,7 @@
 				CAD08A55289DE66E007B2A98 /* ORKSpeechRecognitionStep.h in Headers */,
 				CAD08A9E289DE7B8007B2A98 /* ORKTimedWalkResult.h in Headers */,
 				CA2B8FC328A175C90025B773 /* ORKHolePegTestPlaceHoleView.h in Headers */,
+				51F716EB2981B49000D8ACF7 /* ORKSpeechInNoiseStepViewController_Private.h in Headers */,
 				CAD08A66289DE6B0007B2A98 /* ORKPSATResult.h in Headers */,
 				CAD08A31289DE5D1007B2A98 /* ORKAudioRecorder.h in Headers */,
 				CA2B8F8428A16CFC0025B773 /* ORKUSDZModelManagerScene.h in Headers */,
@@ -5204,11 +5208,11 @@
 						CreatedOnToolsVersion = 7.0;
 					};
 					CA1C7A40288B0C68004DAB3A = {
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 					CAD08966289DD747007B2A98 = {
 						CreatedOnToolsVersion = 13.4.1;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};

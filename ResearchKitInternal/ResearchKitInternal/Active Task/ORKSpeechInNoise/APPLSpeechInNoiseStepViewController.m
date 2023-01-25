@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2022, Apple Inc. All rights reserved.
+ Copyright (c) 2023, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,33 +28,48 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ResearchKitUI/ORKStepView_Private.h>
-#import <ResearchKitUI/ORKFormStepViewController_Private.h>
-#import <ResearchKitUI/ORKTaskViewController_Private.h>
-#import <ResearchKitUI/ORKStepContainerView_Private.h>
-#import <ResearchKitUI/ORKStepViewController_Internal.h>
-#import <ResearchKitUI/ORKPasscodeStepViewController_Internal.h>
+#import "APPLSpeechInNoiseStepViewController.h"
 
-#import <ResearchKitUI/ORKBodyContainerView.h>
-#import <ResearchKitUI/ORKCustomStepView.h>
-#import <ResearchKitUI/ORKCustomStepView_Internal.h>
-#import <ResearchKitUI/ORKDirectionView.h>
-#import <ResearchKitUI/ORKFreehandDrawingView.h>
-#import <ResearchKitUI/ORKInstructionStepContainerView.h>
-#import <ResearchKitUI/ORKLearnMoreView.h>
-#import <ResearchKitUI/ORKNavigationContainerView.h>
-#import <ResearchKitUI/ORKProgressView.h>
-#import <ResearchKitUI/ORKRingView.h>
-#import <ResearchKitUI/ORKSeparatorView.h>
-#import <ResearchKitUI/ORKStepHeaderView.h>
-#import <ResearchKitUI/ORKTintedImageView.h>
-#import <ResearchKitUI/ORKVerticalContainerView.h>
-#import <ResearchKitUI/ORKViewControllerProviding.h>
+#import "ResearchKitActiveTask/ORKSpeechInNoiseStepViewController_Private.h"
 
-// [WIP]: exposed for the internal framework
-#import <ResearchKitUI/ORKCheckmarkView.h>
-#import <ResearchKitUI/ORKInstructionStepView.h>
-#import <ResearchKitUI/ORKInstructionStepViewController_Internal.h>
-#import <ResearchKitUI/ORKNavigationContainerView_Internal.h>
-#import <ResearchKitUI/ORKStepHeaderView_Internal.h>
-#import <ResearchKitUI/ORKTaskViewController_Internal.h>
+//#import "ResearchKitUI_Private/ORKSpeechInNoiseStepViewController_Private.h"
+
+#import <ResearchKit/ORKContext.h>
+
+static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
+
+@interface APPLSpeechInNoiseStepViewController () {
+    NSObject *_headphoneDetector;
+    ORKHeadphoneTypeIdentifier _headphoneType;
+    BOOL _showingAlert;
+}
+
+@end
+
+@implementation APPLSpeechInNoiseStepViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    _showingAlert = NO;
+    Class ORKHeadphoneDetector = NSClassFromString(@"ORKHeadphoneDetector");
+    _headphoneDetector = [[ORKHeadphoneDetector alloc] performSelector:@selector(initWithDelegate:supportedHeadphoneChipsetTypes:) withObject:self
+                                         withObject:nil];
+
+    ORKTaskResult *taskResults = [[self taskViewController] result];
+    
+    for (ORKStepResult *result in taskResults.results) {
+        if (result.results > 0) {
+            ORKStepResult *firstResult = (ORKStepResult *)[result.results firstObject];
+            Class ORKHeadphoneDetectResult = NSClassFromString(@"ORKHeadphoneDetectResult");
+            if ([firstResult isKindOfClass:ORKHeadphoneDetectResult]) {
+                ORKResult *headphoneDetectResult = firstResult;
+                _headphoneType = [headphoneDetectResult valueForKey:@"headphoneType"];
+            }
+
+        }
+    }
+}
+
+
+@end

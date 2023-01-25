@@ -65,6 +65,7 @@
 #import <ResearchKitActiveTask/ORKWalkingTaskStep.h>
 #import <ResearchKitActiveTask/ORKdBHLToneAudiometryOnboardingStep.h>
 #import <ResearchKitActiveTask/ORKdBHLToneAudiometryStep.h>
+#import <ResearchKitActiveTask/ORKSpeechInNoiseStepViewController_Private.h>
 
 // [WIP]: exposed for the internal framework
 // may need to be permanent, but we shall see

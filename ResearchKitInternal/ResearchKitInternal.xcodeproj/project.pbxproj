@@ -11,6 +11,10 @@
 		51F716DB29808CF700D8ACF7 /* ORKAPPLCompletionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 51F716DA29808CDE00D8ACF7 /* ORKAPPLCompletionStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		51F716DE29808E0200D8ACF7 /* ORKAPPLCompletionStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 51F716DC29808E0200D8ACF7 /* ORKAPPLCompletionStepViewController.h */; };
 		51F716DF29808E0200D8ACF7 /* ORKAPPLCompletionStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F716DD29808E0200D8ACF7 /* ORKAPPLCompletionStepViewController.m */; };
+		51F716E22981A67F00D8ACF7 /* APPLSpeechInNoiseStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 51F716E02981A67F00D8ACF7 /* APPLSpeechInNoiseStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		51F716E32981A67F00D8ACF7 /* APPLSpeechInNoiseStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F716E12981A67F00D8ACF7 /* APPLSpeechInNoiseStep.m */; };
+		51F716E62981A6D200D8ACF7 /* APPLSpeechInNoiseStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 51F716E42981A6D200D8ACF7 /* APPLSpeechInNoiseStepViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		51F716E72981A6D200D8ACF7 /* APPLSpeechInNoiseStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F716E52981A6D200D8ACF7 /* APPLSpeechInNoiseStepViewController.m */; };
 		CA0748B428B7F18B001D8599 /* AAPLdBHLToneAudiometryAudioGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = CA0748B228B7F18B001D8599 /* AAPLdBHLToneAudiometryAudioGenerator.h */; };
 		CA0748B528B7F18B001D8599 /* AAPLdBHLToneAudiometryAudioGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = CA0748B328B7F18B001D8599 /* AAPLdBHLToneAudiometryAudioGenerator.m */; };
 		CA0748B828B7F997001D8599 /* AAPLdBHLToneAudiometryStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = CA0748B628B7F997001D8599 /* AAPLdBHLToneAudiometryStepViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -206,6 +210,10 @@
 		51F716DA29808CDE00D8ACF7 /* ORKAPPLCompletionStep.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKAPPLCompletionStep.h; sourceTree = "<group>"; };
 		51F716DC29808E0200D8ACF7 /* ORKAPPLCompletionStepViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKAPPLCompletionStepViewController.h; sourceTree = "<group>"; };
 		51F716DD29808E0200D8ACF7 /* ORKAPPLCompletionStepViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKAPPLCompletionStepViewController.m; sourceTree = "<group>"; };
+		51F716E02981A67F00D8ACF7 /* APPLSpeechInNoiseStep.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APPLSpeechInNoiseStep.h; sourceTree = "<group>"; };
+		51F716E12981A67F00D8ACF7 /* APPLSpeechInNoiseStep.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APPLSpeechInNoiseStep.m; sourceTree = "<group>"; };
+		51F716E42981A6D200D8ACF7 /* APPLSpeechInNoiseStepViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APPLSpeechInNoiseStepViewController.h; sourceTree = "<group>"; };
+		51F716E52981A6D200D8ACF7 /* APPLSpeechInNoiseStepViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APPLSpeechInNoiseStepViewController.m; sourceTree = "<group>"; };
 		CA0748B228B7F18B001D8599 /* AAPLdBHLToneAudiometryAudioGenerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAPLdBHLToneAudiometryAudioGenerator.h; sourceTree = "<group>"; };
 		CA0748B328B7F18B001D8599 /* AAPLdBHLToneAudiometryAudioGenerator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AAPLdBHLToneAudiometryAudioGenerator.m; sourceTree = "<group>"; };
 		CA0748B628B7F997001D8599 /* AAPLdBHLToneAudiometryStepViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAPLdBHLToneAudiometryStepViewController.h; sourceTree = "<group>"; };
@@ -471,6 +479,10 @@
 			children = (
 				CA0AC55F28BD432300E80040 /* ORKSpeechInNoisePredefinedTask.h */,
 				CA0AC55E28BD432300E80040 /* ORKSpeechInNoisePredefinedTask.m */,
+				51F716E02981A67F00D8ACF7 /* APPLSpeechInNoiseStep.h */,
+				51F716E12981A67F00D8ACF7 /* APPLSpeechInNoiseStep.m */,
+				51F716E42981A6D200D8ACF7 /* APPLSpeechInNoiseStepViewController.h */,
+				51F716E52981A6D200D8ACF7 /* APPLSpeechInNoiseStepViewController.m */,
 			);
 			path = ORKSpeechInNoise;
 			sourceTree = "<group>";
@@ -952,6 +964,7 @@
 				CA77D29A28AFFB4700400292 /* ORKFlamesViewMetal.h in Headers */,
 				CA0748B428B7F18B001D8599 /* AAPLdBHLToneAudiometryAudioGenerator.h in Headers */,
 				CA5B6DA628BD27FC002C3BA4 /* ORKHeadphoneDetectStepViewController.h in Headers */,
+				51F716E22981A67F00D8ACF7 /* APPLSpeechInNoiseStep.h in Headers */,
 				CA5B6D5828BD1F38002C3BA4 /* ORKTinnitusOverallAssessmentStepViewController.h in Headers */,
 				CA5B6D5928BD1F38002C3BA4 /* ORKTinnitusOverallAssessmentResult.h in Headers */,
 				CA5B6D7228BD1F38002C3BA4 /* ORKTinnitusAudioGenerator.h in Headers */,
@@ -963,6 +976,7 @@
 				CA0AC56128BD432300E80040 /* ORKSpeechInNoisePredefinedTask.h in Headers */,
 				CA5B6D5E28BD1F38002C3BA4 /* ORKTinnitusMaskingSoundStep.h in Headers */,
 				CA5B6D7D28BD1F38002C3BA4 /* ORKTinnitusTypes.h in Headers */,
+				51F716E62981A6D200D8ACF7 /* APPLSpeechInNoiseStepViewController.h in Headers */,
 				CA5B6DB128BD29B3002C3BA4 /* ORKContext+ResearchKitInternal.h in Headers */,
 				CA47EB2628BD369000D91C0E /* Celestial_Private.h in Headers */,
 				CA47EB1228BD369000D91C0E /* AVOutputContext.h in Headers */,
@@ -1183,6 +1197,7 @@
 				CA5B6D6C28BD1F38002C3BA4 /* ORKTinnitusPureToneStepViewController.m in Sources */,
 				CA5B6D8E28BD1F38002C3BA4 /* AVAudioMixerNode+Fade.m in Sources */,
 				CA5B6D0D28BD1C5C002C3BA4 /* ORKTypingStep.m in Sources */,
+				51F716E72981A6D200D8ACF7 /* APPLSpeechInNoiseStepViewController.m in Sources */,
 				CA3FF9D928B56A8300A33B6B /* ORKAVJournalingPredefinedTask.m in Sources */,
 				CA47EAF428BD334B00D91C0E /* ORKVolumeCalibrationContentView.m in Sources */,
 				CA0AC57828BFFAB700E80040 /* AAPLUtils.m in Sources */,
@@ -1205,6 +1220,7 @@
 				CA58F8AD28B5330E00761769 /* Interpolators.swift in Sources */,
 				CA5B6D8D28BD1F38002C3BA4 /* ORKTinnitusPredefinedTask.m in Sources */,
 				CA77D2A028AFFB4700400292 /* ORKAudioLevelSmoother.m in Sources */,
+				51F716E32981A67F00D8ACF7 /* APPLSpeechInNoiseStep.m in Sources */,
 				CA3FF9D328B56A8300A33B6B /* ORKAVJournalingTaskViewController.m in Sources */,
 				CA58F8A528B5330E00761769 /* linpack.c in Sources */,
 				CA5B6D5528BD1F38002C3BA4 /* ORKTinnitusAssessmentContentView.m in Sources */,
