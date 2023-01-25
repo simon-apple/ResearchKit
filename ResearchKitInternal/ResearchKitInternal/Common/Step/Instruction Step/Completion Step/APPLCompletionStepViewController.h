@@ -28,13 +28,12 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <ResearchKitUI/ResearchKitUI.h>
 
-#import "ORKAPPLCompletionStep.h"
+NS_ASSUME_NONNULL_BEGIN
 
-ORKCompletionStepIdentifier const ORKCompletionStepIdentifierMicrophoneLearnMore = @"ORKCompletionStepIdentifierMicrophoneLearnMore";
-ORKCompletionStepIdentifier const ORKEnvironmentSPLMeterTimeoutIdentifier = @"ORKEnvironmentSPLMeterTimeoutIdentifier";
-
-@implementation ORKAPPLCompletionStep
+@interface APPLCompletionStepViewController : ORKCompletionStepViewController
 
 @end
 
+NS_ASSUME_NONNULL_END
