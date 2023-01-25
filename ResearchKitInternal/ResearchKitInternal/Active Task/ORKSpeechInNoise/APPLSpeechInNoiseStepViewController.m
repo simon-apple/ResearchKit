@@ -71,5 +71,11 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
     }
 }
 
+- (void)tapButtonPressed {
+    [super tapButtonPressed];
+    
+    
+}
+
 
 @end
