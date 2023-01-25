@@ -39,7 +39,7 @@ ORK_EXTERN ORKCompletionStepIdentifier const ORKEnvironmentSPLMeterTimeoutIdenti
 
 
 ORK_CLASS_AVAILABLE API_AVAILABLE(ios(11.0), watchos(6.0))
-@interface ORKAPPLCompletionStep : ORKCompletionStep
+@interface APPLCompletionStep : ORKCompletionStep
 
 @end
 

@@ -28,7 +28,7 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ResearchKitUI/ORKSpeechInNoiseStepViewController.h>
+#import <ResearchKitActiveTask/ORKSpeechInNoiseStepViewController.h>
 
 
 NS_ASSUME_NONNULL_BEGIN
