@@ -32,11 +32,6 @@
 #import "ORKCompletionStep.h"
 #import "ORKHelpers_Internal.h"
 
-//TODO: REMOVE THIS BLOCK
-//#if RK_APPLE_INTERNAL
-//ORKCompletionStepIdentifier const ORKCompletionStepIdentifierMicrophoneLearnMore = @"ORKCompletionStepIdentifierMicrophoneLearnMore";
-//ORKCompletionStepIdentifier const ORKEnvironmentSPLMeterTimeoutIdentifier = @"ORKEnvironmentSPLMeterTimeoutIdentifier";
-//#endif
 
 @implementation ORKCompletionStep
 #if TARGET_OS_IOS

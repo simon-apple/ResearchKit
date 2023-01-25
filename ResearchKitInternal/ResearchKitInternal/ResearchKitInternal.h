@@ -31,6 +31,7 @@
 #import <ResearchKitInternal/AAPLdBHLToneAudiometryStep.h>
 #import <ResearchKitInternal/AAPLdBHLToneAudiometryStepViewController.h>
 
+#import <ResearchKitInternal/ORKAPPLCompletionStep.h>
 #import <ResearchKitInternal/ORKAVJournalingResult.h>
 #import <ResearchKitInternal/ORKAVJournalingStepViewController.h>
 #import <ResearchKitInternal/ORKAVJournalingTaskViewController.h>
