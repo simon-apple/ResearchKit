@@ -141,7 +141,7 @@ struct PIIScrubberDefinition: Codable {
             PIIScrubber.researchKitBundle
         ]
         
-        let scrubberURLS: Array<URL> = bundles
+        let scrubberURLS: [URL] = bundles
             .flatMap { eachBundle in
                 scrubberFilerURLs(in: eachBundle)
                 //[Bundles] -> [URL]

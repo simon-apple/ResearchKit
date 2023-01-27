@@ -103,7 +103,7 @@
 #pragma mark - ResearchKit
 
 - (NSString *)descriptionWithNumberOfPaddingSpaces:(NSUInteger)numberOfPaddingSpaces {
-    return [NSString stringWithFormat:@"%@; errors: %@; finalErrorCount: %i; numDeletes: %i, totalCharacterCount: %i, timeTakenToType: %.3f; %@",
+    return [NSString stringWithFormat:@"%@; errors: %@; finalErrorCount: %zd; numDeletes: %zd, totalCharacterCount: %zd, timeTakenToType: %.3f; %@",
             [self descriptionPrefixWithNumberOfPaddingSpaces:numberOfPaddingSpaces],
             self.errors,
             self.finalErrorCount,
