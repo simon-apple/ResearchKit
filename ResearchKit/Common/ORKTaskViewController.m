@@ -228,9 +228,6 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     _managedStepIdentifiers = [NSMutableArray array];
     
     self.taskRunUUID = taskRunUUID ?: [NSUUID UUID];
-    
-    // Ensure taskRunUUID has non-nil valuetaskRunUUID
-    (void)[self taskRunUUID];
     self.restorationClass = [ORKTaskViewController class];
 
     return self;
@@ -262,13 +259,18 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
         self.delegate = delegate;
         if (data != nil) {
             self.restorationClass = [self class];
-            NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:data error:nil];
-            [self decodeRestorableStateWithCoder:unarchiver];
-            [self applicationFinishedRestoringState];
+            NSError *unarchiverInitError = nil;
+            NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:data error:&unarchiverInitError];
             
             if (unarchiver == nil && errorOut != nil) {
-                *errorOut = [NSError errorWithDomain:ORKErrorDomain code:ORKErrorException userInfo:@{NSLocalizedDescriptionKey: ORKLocalizedString(@"RESTORE_ERROR_CANNOT_DECODE", nil)}];
+                *errorOut = [NSError errorWithDomain:ORKErrorDomain code:ORKErrorException userInfo:@{
+                    NSLocalizedDescriptionKey: ORKLocalizedString(@"RESTORE_ERROR_CANNOT_DECODE", nil),
+                    NSUnderlyingErrorKey: unarchiverInitError
+                }];
             }
+            
+            [self decodeRestorableStateWithCoder:unarchiver];
+            [self applicationFinishedRestoringState];
         }
     }
     return self;
@@ -1529,7 +1531,14 @@ static NSString *const _ORKProgressMode = @"progressMode";
 - (void)decodeRestorableStateWithCoder:(NSCoder *)coder {
     [super decodeRestorableStateWithCoder:coder];
     
-    _taskRunUUID = [coder decodeObjectOfClass:[NSUUID class] forKey:_ORKTaskRunUUIDRestoreKey];
+    NSUUID *decodedTaskRunUUID = [coder decodeObjectOfClass:[NSUUID class] forKey:_ORKTaskRunUUIDRestoreKey];
+    if (decodedTaskRunUUID != nil) {
+        _taskRunUUID = decodedTaskRunUUID;
+    } else {
+        @throw [NSException exceptionWithName:NSInternalInconsistencyException
+                                       reason:[NSString stringWithFormat:@"Restored task data taskRunUUID was nil"]
+                                     userInfo:nil];
+    }
     self.showsProgressInNavigationBar = [coder decodeBoolForKey:_ORKShowsProgressInNavigationBarRestoreKey];
     self.discardable = [coder decodeBoolForKey:_ORKDiscardableTaskRestoreKey];
     self.progressMode = [coder decodeIntegerForKey:_ORKProgressMode];
@@ -1541,8 +1550,8 @@ static NSString *const _ORKProgressMode = @"progressMode";
     if (_task) {
         
         // Recover partially entered results, even if we may not be able to jump to the desired step.
-        _managedResults = [coder decodeObjectOfClass:[NSMutableDictionary class] forKey:_ORKManagedResultsRestoreKey];
-        _managedStepIdentifiers = [coder decodeObjectOfClass:[NSMutableArray class] forKey:_ORKManagedStepIdentifiersRestoreKey];
+        _managedResults = [coder decodeObjectOfClasses:[NSSet setWithArray:@[NSMutableDictionary.self, NSString.self, ORKResult.self]]  forKey:_ORKManagedResultsRestoreKey];
+        _managedStepIdentifiers = [coder decodeObjectOfClasses:[NSSet setWithArray:@[NSMutableArray.self, NSString.self]] forKey:_ORKManagedStepIdentifiersRestoreKey];
         
         _restoredTaskIdentifier = [coder decodeObjectOfClass:[NSString class] forKey:_ORKTaskIdentifierRestoreKey];
         if (_restoredTaskIdentifier) {
@@ -1554,8 +1563,8 @@ static NSString *const _ORKProgressMode = @"progressMode";
         }
         
         if ([_task respondsToSelector:@selector(stepWithIdentifier:)]) {
-            _requestedHealthTypesForRead = [coder decodeObjectOfClass:[NSSet class] forKey:_ORKRequestedHealthTypesForReadRestoreKey];
-            _requestedHealthTypesForWrite = [coder decodeObjectOfClass:[NSSet class] forKey:_ORKRequestedHealthTypesForWriteRestoreKey];
+            _requestedHealthTypesForRead = [coder decodeObjectOfClasses:[NSSet setWithArray:@[NSSet.self, HKObjectType.self]] forKey:_ORKRequestedHealthTypesForReadRestoreKey];
+            _requestedHealthTypesForWrite = [coder decodeObjectOfClasses:[NSSet setWithArray:@[NSSet.self, HKObjectType.self]] forKey:_ORKRequestedHealthTypesForWriteRestoreKey];
             _presentedDate = [coder decodeObjectOfClass:[NSDate class] forKey:_ORKPresentedDate];
             _lastBeginningInstructionStepIdentifier = [coder decodeObjectOfClass:[NSString class] forKey:_ORKLastBeginningInstructionStepIdentifierKey];
             
