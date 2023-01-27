@@ -149,6 +149,16 @@
     }
 }
 
+- (void)testTaskViewControllerPrematureViewLoading {
+    ORKOrderedTask *task = [[ORKOrderedTask alloc] initWithIdentifier:@"test" steps:@[
+        [[ORKInstructionStep alloc] initWithIdentifier:@"test"]
+    ]];
+    ORKTaskViewController *taskViewController = [[ORKTaskViewController alloc] initWithTask:task taskRunUUID:nil];
+    ORKStepViewController *viewController = [taskViewController viewControllerForStep:task.steps.firstObject];
+    
+    XCTAssertFalse(viewController.isViewLoaded, "TaskViewController's viewControllerForStep should return a viewController *without* its view loaded");
+}
+
 - (void)testMutableDecoding {
     NSMutableArray *things = [[NSMutableArray alloc] initWithObjects:@"hello", @"world", nil];
     __auto_type keyedArchiver = [[NSKeyedArchiver alloc] initRequiringSecureCoding:YES];
@@ -177,7 +187,6 @@
         XCTAssertTrue([decodedArray isKindOfClass:NSArray.self]);
         XCTAssertThrows([decodedArray addObject:@"test"]);
     }
-    
 }
 
 - (void)testTaskViewControllerRestorationWorks {
@@ -218,6 +227,7 @@
         ORKStepResult *stepResult = [[ORKStepResult alloc] initWithStepIdentifier:@"step" results:@[
             booleanAnswer, textAnswer, integerAnswer
         ]];
+
         // set the answers using taskViewController-internal method, to simulate user data entry
         [taskViewController setManagedResult:stepResult forKey:@"step"];
         
