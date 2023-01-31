@@ -62,7 +62,6 @@ typedef NSTimeInterval(^ORKAudiometryTimestampProvider)(void);
 /**
  Called just before presenting tone.
  */
-@optional
 - (void)registerStimulusPlayback;
 
 /**

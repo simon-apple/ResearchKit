@@ -166,7 +166,7 @@ const NSTimeInterval ORKVolumeCalibrationFadeStep = 0.01;
 #if TARGET_IPHONE_SIMULATOR
             tinnitusCalibrationResult.amplitude = 0.0;
 #else
-            tinnitusCalibrationResult.amplitude = [self.audioGenerator getPuretoneSystemVolumeIndBSPL];
+            tinnitusCalibrationResult.amplitude = [self.audioGenerator getPuretone_dBSPL];
 #endif
         } else {
             tinnitusCalibrationResult.amplitude = systemVolume;

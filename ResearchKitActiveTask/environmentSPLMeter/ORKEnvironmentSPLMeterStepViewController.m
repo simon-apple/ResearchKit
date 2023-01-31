@@ -114,23 +114,13 @@ static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self saveAudioSession];
-    _sensitivityOffset = [self sensitivityOffsetForDevice];
     _environmentSPLMeterContentView = [ORKEnvironmentSPLMeterContentView new];
     [self setNavigationFooterView];
     _environmentSPLMeterContentView.voiceOverDelegate = self;
     _environmentSPLMeterContentView.ringView.delegate = self;
     self.activeStepView.activeCustomView = _environmentSPLMeterContentView;
-    [self requestRecordPermissionIfNeeded];
-    [self configureAudioSession];
-    [self setupFeedbackGenerator];
     
     [self.taskViewController setNavigationBarColor:[self.view backgroundColor]];
-    
-    #if RK_APPLE_INTERNAL
-    [self registerNotifications];
-    [self startTimeoutTimer];
-    #endif
 }
 
 #if RK_APPLE_INTERNAL
@@ -258,6 +248,20 @@ static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
+    if (!_audioEngine.isRunning) {
+        [self saveAudioSession];
+        _sensitivityOffset = [self sensitivityOffsetForDevice];
+        [self requestRecordPermissionIfNeeded];
+        [self configureAudioSession];
+        [self setupFeedbackGenerator];
+        
+        #if RK_APPLE_INTERNAL
+        [self registerNotifications];
+        [self startTimeoutTimer];
+        #endif
+    }
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated {

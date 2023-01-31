@@ -304,4 +304,67 @@
     [self nextTrial];
 }
 
+//#if RK_APPLE_INTERNAL
+//#pragma mark - Headphone Monitoring
+//
+//- (NSString *)headphoneType {
+//    return [[self dBHLToneAudiometryStep].headphoneType uppercaseString];
+//}
+//
+//- (void)bluetoothModeChanged:(ORKBluetoothMode)bluetoothMode {
+//    if ([[[self dBHLToneAudiometryStep].headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsPro] ||
+//        [[[self dBHLToneAudiometryStep].headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsProGen2] ||
+//        [[[self dBHLToneAudiometryStep].headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMax]) {
+//        if (bluetoothMode != ORKBluetoothModeNoiseCancellation) {
+//            [self showAlert];
+//        }
+//    }
+//}
+//
+//- (void)headphoneTypeDetected:(nonnull ORKHeadphoneTypeIdentifier)headphoneType vendorID:(nonnull NSString *)vendorID productID:(nonnull NSString *)productID deviceSubType:(NSInteger)deviceSubType isSupported:(BOOL)isSupported {
+//    if (![headphoneType isEqualToString:[self headphoneType]]) {
+//        [self showAlert];
+//    }
+//}
+//
+//- (void)oneAirPodRemoved {
+//    [self showAlert];
+//}
+//
+//- (void)podLowBatteryLevelDetected {
+//    [self showAlert];
+//}
+//
+//- (void)showAlert {
+//    if (!_showingAlert) {
+//        _showingAlert = YES;
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            [self stopAudio];
+//            UIAlertController *alertController = [UIAlertController
+//                                                  alertControllerWithTitle:ORKLocalizedString(@"PACHA_ALERT_TITLE_TASK_INTERRUPTED", nil)
+//                                                  message:ORKLocalizedString(@"PACHA_ALERT_TEXT_TASK_INTERRUPTED", nil)
+//                                                  preferredStyle:UIAlertControllerStyleAlert];
+//            UIAlertAction *startOver = [UIAlertAction
+//                                        actionWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE_START_OVER", nil)
+//                                        style:UIAlertActionStyleDefault
+//                                        handler:^(UIAlertAction *action) {
+//                [[self taskViewController] restartTask];
+//            }];
+//            [alertController addAction:startOver];
+//            [alertController addAction:[UIAlertAction
+//                                        actionWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE_CANCEL_TEST", nil)
+//                                        style:UIAlertActionStyleDefault
+//                                        handler:^(UIAlertAction *action) {
+//                ORKStrongTypeOf(self.taskViewController.delegate) strongDelegate = self.taskViewController.delegate;
+//                if ([strongDelegate respondsToSelector:@selector(taskViewController:didFinishWithReason:error:)]) {
+//                    [strongDelegate taskViewController:self.taskViewController didFinishWithReason:ORKTaskViewControllerFinishReasonDiscarded error:nil];
+//                }
+//            }]];
+//            alertController.preferredAction = startOver;
+//            [self presentViewController:alertController animated:YES completion:nil];
+//        });
+//    }
+//}
+//#endif
+
 @end

@@ -103,6 +103,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     case accountCreation
     case login
     case passcode
+    case biometricPasscode
     case audio
     case amslerGrid
     case tecumsehCubeTest
@@ -111,6 +112,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     case holePegTest
     case psat
     case reactionTime
+    case normalizedReactionTime
     case shortWalk
     case spatialSpanMemory
     case speechRecognition
@@ -142,6 +144,8 @@ enum TaskListRow: Int, CustomStringConvertible {
     case customStepTask
     case studyPromoTask
     case studySignPostStep
+    case consentTask
+    case consentDoc
     #endif
     
     class TaskListRowSection {
@@ -197,7 +201,10 @@ enum TaskListRow: Int, CustomStringConvertible {
                     .eligibilityTask,
                     .accountCreation,
                     .login,
-                    .passcode
+                    .passcode,
+                    .biometricPasscode,
+                    .consentTask,
+                    .consentDoc
                 ]),
             TaskListRowSection(title: "Active Tasks", rows:
                 [
@@ -209,6 +216,7 @@ enum TaskListRow: Int, CustomStringConvertible {
                     .holePegTest,
                     .psat,
                     .reactionTime,
+                    .normalizedReactionTime,
                     .shortWalk,
                     .spatialSpanMemory,
                     .speechRecognition,
@@ -275,7 +283,7 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .customBooleanQuestion:
             return NSLocalizedString("Custom Boolean Question", comment: "")
-            
+
         case .dateQuestion:
             return NSLocalizedString("Date Question", comment: "")
             
@@ -353,6 +361,9 @@ enum TaskListRow: Int, CustomStringConvertible {
 
         case .passcode:
             return NSLocalizedString("Passcode Creation", comment: "")
+        
+        case .biometricPasscode:
+            return NSLocalizedString("Biometric Passcode Creation and Authorization", comment: "")
             
         case .audio:
             return NSLocalizedString("Audio", comment: "")
@@ -377,7 +388,10 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .reactionTime:
             return NSLocalizedString("Reaction Time", comment: "")
-            
+        
+        case .normalizedReactionTime:
+            return NSLocalizedString("Normalized Reaction Time", comment: "")
+
         case .shortWalk:
             return NSLocalizedString("Short Walk", comment: "")
             
@@ -448,6 +462,12 @@ enum TaskListRow: Int, CustomStringConvertible {
         case .ble:
             return NSLocalizedString("BLE", comment: "")
             
+        case .consentTask:
+            return NSLocalizedString("Consent Task", comment: "")
+            
+        case .consentDoc:
+            return NSLocalizedString("Consent Document Review", comment: "")
+            
         case .textQuestionPIIScrubbing:
             return NSLocalizedString("Text Question PII Scrubbing", comment: "")
             
@@ -494,6 +514,8 @@ enum TaskListRow: Int, CustomStringConvertible {
         case questionStep
         case birthdayQuestion
         case summaryStep
+        case consentTask
+        case consentDoc
         
         // Task with a Platter UI Question
         case platterQuestionTask
@@ -542,6 +564,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         case numericQuestionTask
         case numericQuestionStep
         case numericNoUnitQuestionStep
+        case numericDisplayUnitQuestionStep
 
         // Task with examples of questions with sliding scales.
         case scaleQuestionTask
@@ -623,6 +646,8 @@ enum TaskListRow: Int, CustomStringConvertible {
         // Passcode task specific identifiers.
         case passcodeTask
         case passcodeStep
+        case biometricPasscodeTask
+        case biometricPasscodeStep
 
         // Active tasks.
         case audioTask
@@ -633,6 +658,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         case holePegTestTask
         case psatTask
         case reactionTime
+        case normalizedReactionTime
         case shortWalkTask
         case spatialSpanMemoryTask
         case speechRecognitionTask
@@ -686,7 +712,7 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .groupedForm:
             return groupedFormTask
-            
+        
         case .survey:
             return surveyTask
             
@@ -773,6 +799,9 @@ enum TaskListRow: Int, CustomStringConvertible {
 
         case .passcode:
             return passcodeTask
+        
+        case .biometricPasscode:
+            return biometricPasscodeTask
             
         case .audio:
             return audioTask
@@ -797,6 +826,9 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .reactionTime:
             return reactionTimeTask
+        
+        case .normalizedReactionTime:
+            return normalizedReactionTimeTask
             
         case .shortWalk:
             return shortWalkTask
@@ -871,6 +903,12 @@ enum TaskListRow: Int, CustomStringConvertible {
         case .ble:
             return ble
             
+        case .consentTask:
+            return consentTask
+            
+        case .consentDoc:
+            return consentDoc
+            
         case .newdBHLToneAudiometryTask:
             return newdBHLToneAudiometryTask
             
@@ -936,13 +974,21 @@ enum TaskListRow: Int, CustomStringConvertible {
         
         let appleFormItem = ORKFormItem(identifier: "appleFormItemIdentifier", text: "Which is your favorite apple?", answerFormat: appleAnswerFormat)
         
+        let freeTextSection = ORKFormItem(identifier: "freeTextSectionIdentifier", text: "Enter your text below", answerFormat: nil)
+        
+        let freeTextAnswerFormat = ORKAnswerFormat.textAnswerFormat(withMaximumLength: 200)
+        freeTextAnswerFormat.multipleLines = true
+        
+        let freeTextItem = ORKFormItem(identifier: "freeTextItemIdentifier", text: nil, answerFormat: freeTextAnswerFormat)
         
         step.formItems = [
             appleFormItem,
             formItem03,
             formItem04,
             formItem01,
-            formItem02
+            formItem02,
+            freeTextSection,
+            freeTextItem
         ]
         let completionStep = ORKCompletionStep(identifier: "CompletionStep")
         completionStep.title = NSLocalizedString("All Done!", comment: "")
@@ -1065,6 +1111,83 @@ enum TaskListRow: Int, CustomStringConvertible {
             question2Step,
             summaryStep
             ])
+    }
+    
+    private var consentTask: ORKTask {
+        let consentDocument = ORKConsentDocument()
+
+        consentDocument.title = NSLocalizedString("Research Health Study Consent Form", comment: "")
+
+        let section1 = ORKConsentSection(type: .overview)
+        section1.summary = NSLocalizedString("Section 1 Summary", comment: "")
+        section1.content = NSLocalizedString("Section 1 Content...", comment: "")
+
+        let section2 = ORKConsentSection(type: .dataGathering)
+        section2.summary = NSLocalizedString("Section 2 Summary", comment: "")
+        section2.content = NSLocalizedString("Section 2 Content...", comment: "")
+
+        let section3 = ORKConsentSection(type: .privacy)
+        section3.summary = NSLocalizedString("Section 3 Summary", comment: "")
+        section3.content = NSLocalizedString("Section 3 Content...", comment: "")
+
+        consentDocument.sections = [section1, section2, section3]
+
+        // Add test signature for pdf creation
+        let testSignature = ORKConsentSignature(forPersonWithTitle: "Participant", dateFormatString: nil, identifier: "ConsentDocumentParticipantSignature")
+        testSignature.familyName = "test family"
+        testSignature.givenName = "tester"
+        testSignature.title = "Person"
+        testSignature.signatureDate = Date().description
+        testSignature.signatureImage = UIImage(named: "signature")
+        consentDocument.addSignature(testSignature)
+        
+        var pdfURL:URL? = nil
+                
+        consentDocument.makePDF { data, error in
+            pdfURL = FileManager.default.temporaryDirectory
+                .appendingPathComponent("consentTask")
+                .appendingPathExtension("pdf")
+            try? data!.write(to: pdfURL!)
+        }
+        
+        // remove old signature
+        let signature = ORKConsentSignature(forPersonWithTitle: "Participant", dateFormatString: nil, identifier: "ConsentDocumentParticipantSignature")
+        consentDocument.addSignature(signature)
+        
+        
+        let passcodeStep = ORKPasscodeStep(identifier: "Passcode")
+       passcodeStep.text = "Now you will create a passcode to identify yourself to the app and protect access to information you've entered."
+
+        let completionStep = ORKCompletionStep(identifier: "CompletionStep")
+        completionStep.title = NSLocalizedString("Welcome aboard.", comment: "")
+        completionStep.text = NSLocalizedString("Thank you for joining this study.", comment: "")
+        let convertedInstructionSteps = consentDocument.instructionSteps
+        /*
+         You can create your own instruction steps here:
+
+         let section1 = ORKInstructionStep(identifier: "1")
+         section1.title = "Welcome"
+         section1.detailText = "Section 1 Summary"
+         section1.text = "Section 1 Content..."
+
+         */
+        
+        let consentReviewStep = consentDocument.consentReviewStep(from: convertedInstructionSteps, withIdentifier: "ConsentDocumentParticipantSignature", signature: signature)
+        
+        var steps: [ORKStep] = convertedInstructionSteps as [ORKStep]
+        steps.append(consentReviewStep)
+        steps.append(contentsOf: [passcodeStep, completionStep])
+        
+        return ORKOrderedTask(identifier: String(describing: Identifier.consentTask), steps: steps)
+    }
+    
+    private var consentDoc: ORKTask {
+        let pdfURL = FileManager.default.temporaryDirectory
+            .appendingPathComponent("consentTask")
+            .appendingPathExtension("pdf")
+        let pdfStep = ORKPDFViewerStep(identifier: "pdfStep", pdfURL: pdfURL)
+        
+        return ORKOrderedTask(identifier: String(describing: Identifier.consentDoc), steps: [pdfStep])
     }
     
     private var platterQuestionTask: ORKTask {
@@ -1375,9 +1498,17 @@ enum TaskListRow: Int, CustomStringConvertible {
         questionStep2.text = exampleDetailText
         questionStep2.placeholder = NSLocalizedString("Placeholder without unit.", comment: "")
         
+        // This answer format is similar to the previous one, but this time with a display unit.
+        let questionStep3 = ORKQuestionStep(identifier: String(describing: Identifier.numericDisplayUnitQuestionStep), title: NSLocalizedString("Numeric with Display Unit", comment: ""), question: exampleQuestionText, answer: ORKNumericAnswerFormat(style: .decimal, unit: "weeks", displayUnit: "semanas", minimum: 1, maximum: 120, maximumFractionDigits: 1))
+        
+        questionStep3.text = exampleDetailText
+        questionStep3.placeholder = NSLocalizedString("Placeholder with display unit.", comment: "")
+        
+        
         return ORKOrderedTask(identifier: String(describing: Identifier.numericQuestionTask), steps: [
             questionStep1,
-            questionStep2
+            questionStep2,
+            questionStep3
         ])
     }
     
@@ -1614,13 +1745,16 @@ enum TaskListRow: Int, CustomStringConvertible {
      format.
      */
     private var validatedTextQuestionTask: ORKTask {
-        let answerFormatEmail = ORKAnswerFormat.emailAnswerFormat()
-        let stepEmail = ORKQuestionStep(identifier: String(describing: Identifier.validatedTextQuestionStepEmail), title: NSLocalizedString("Validated Text", comment: ""), question: NSLocalizedString("Email", comment: ""), answer: answerFormatEmail)
+        let emailDomainRegularExpressionPattern =  "^[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$"
+        let emailDomainRegularExpression = try? NSRegularExpression(pattern: emailDomainRegularExpressionPattern)
+        let emailAnswerFormatDomain = ORKAnswerFormat.textAnswerFormat(withValidationRegularExpression: emailDomainRegularExpression!, invalidMessage: "Invalid Email: %@")
+        
+        let stepEmail = ORKQuestionStep(identifier: String(describing: Identifier.validatedTextQuestionStepEmail), title: NSLocalizedString("Validated Text", comment: ""), question: NSLocalizedString("Email", comment: ""), answer: emailAnswerFormatDomain)
         stepEmail.text = exampleDetailText
         
-        let domainRegularExpressionPattern = "^(https?:\\/\\/)?([\\da-z\\.-]+)\\.([a-z\\.]{2,6})([\\/\\w \\.-]*)*\\/?$"
-        let domainRegularExpression = try? NSRegularExpression(pattern: domainRegularExpressionPattern)
-        let answerFormatDomain = ORKAnswerFormat.textAnswerFormat(withValidationRegularExpression: domainRegularExpression!, invalidMessage: "Invalid URL: %@")
+        let urlDomainRegularExpressionPattern = "^(https?:\\/\\/)?([\\da-z\\.-]+)\\.([a-z\\.]{2,6})([\\/\\w \\.-]*)*\\/?$"
+        let urlDomainRegularExpression = try? NSRegularExpression(pattern: urlDomainRegularExpressionPattern)
+        let answerFormatDomain = ORKAnswerFormat.textAnswerFormat(withValidationRegularExpression: urlDomainRegularExpression!, invalidMessage: "Invalid URL: %@")
 
         answerFormatDomain.multipleLines = false
         answerFormatDomain.keyboardType = .URL
@@ -1902,7 +2036,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     /// This task demonstrates the Passcode creation process.
     private var passcodeTask: ORKTask {
         /*
-        If you want to protect the app using a passcode. It is reccomended to
+        If you want to protect the app using a passcode. It is recommended to
         ask user to create passcode as part of the consent process and use the
         authentication and editing view controllers to interact with the passcode.
         
@@ -1911,6 +2045,25 @@ enum TaskListRow: Int, CustomStringConvertible {
         let passcodeConsentStep = ORKPasscodeStep(identifier: String(describing: Identifier.passcodeStep))
         passcodeConsentStep.title = NSLocalizedString("Passcode", comment: "")
         return ORKOrderedTask(identifier: String(describing: Identifier.passcodeTask), steps: [passcodeConsentStep])
+    }
+    
+    private var biometricPasscodeTask: ORKTask {
+        /*
+        If you want to protect the app using a passcode. It is recommended to
+        ask user to create passcode as part of the consent process and use the
+        authentication and editing view controllers to interact with the passcode.
+        
+        The passcode is stored in the keychain.
+        */
+        let passcodeConsentStep = ORKPasscodeStep(identifier: String(describing: Identifier.biometricPasscodeStep))
+        passcodeConsentStep.useBiometrics = true
+        passcodeConsentStep.title = NSLocalizedString("Passcode", comment: "")
+        
+        let passcodeAuthConsentStep = ORKPasscodeStep(identifier: String(describing: Identifier.biometricPasscodeStep) + "auth", passcodeFlow: .authenticate)
+        passcodeAuthConsentStep.useBiometrics = true
+        passcodeAuthConsentStep.title = NSLocalizedString("Passcode", comment: "")
+
+        return ORKOrderedTask(identifier: String(describing: Identifier.biometricPasscodeTask), steps: [passcodeConsentStep, passcodeAuthConsentStep])
     }
     
     /// This task presents the Audio pre-defined active task.
@@ -1991,6 +2144,13 @@ enum TaskListRow: Int, CustomStringConvertible {
         return ORKOrderedTask.reactionTime(withIdentifier: String(describing: Identifier.reactionTime), intendedUseDescription: exampleDescription, maximumStimulusInterval: 10, minimumStimulusInterval: 4, thresholdAcceleration: 0.5, numberOfAttempts: 3, timeout: 3, successSound: successSound.soundID, timeoutSound: 0, failureSound: UInt32(kSystemSoundID_Vibrate), options: [])
     }
     
+    private var normalizedReactionTimeTask: ORKTask {
+        /// An example of a custom sound.
+        let successSoundURL = Bundle.main.url(forResource: "tap", withExtension: "aif")!
+        let successSound = SystemSound(soundURL: successSoundURL)!
+        return ORKOrderedTask.normalizedReactionTime(withIdentifier: String(describing: Identifier.normalizedReactionTime), intendedUseDescription: exampleDescription, maximumStimulusInterval: 10, minimumStimulusInterval: 4, thresholdAcceleration: 0.5, numberOfAttempts: 3, timeout: 3, successSound: successSound.soundID, timeoutSound: 0, failureSound: UInt32(kSystemSoundID_Vibrate), options: [])
+    }
+    
     /// This task presents the Gait and Balance pre-defined active task.
     private var shortWalkTask: ORKTask {
         return ORKOrderedTask.shortWalk(withIdentifier: String(describing: Identifier.shortWalkTask), intendedUseDescription: exampleDescription, numberOfStepsPerLeg: 20, restDuration: 20, options: [])
@@ -2008,9 +2168,12 @@ enum TaskListRow: Int, CustomStringConvertible {
     
     /// This task presents the Speech in Noise pre-defined active task.
     private var speechInNoiseTask: ORKTask {
+        #if RK_APPLE_INTERNAL
+        return predefinedSpeechInNoiseTask
+        #else
         return ORKOrderedTask.speechInNoiseTask(withIdentifier: String(describing: Identifier.speechInNoiseTask), intendedUseDescription: nil, options: [])
+        #endif
     }
-    
     
     /// This task presents the Stroop pre-defined active task.
     private var stroopTask: ORKTask {

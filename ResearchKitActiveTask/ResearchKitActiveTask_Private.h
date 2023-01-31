@@ -49,6 +49,7 @@
 #import <ResearchKitActiveTask/ORKPSATStep.h>
 #import <ResearchKitActiveTask/ORKRangeOfMotionStep.h>
 #import <ResearchKitActiveTask/ORKReactionTimeStep.h>
+#import <ResearchKitActiveTask/ORKNormalizedReactionTimeStep.h>
 #import <ResearchKitActiveTask/ORKShoulderRangeOfMotionStep.h>
 #import <ResearchKitActiveTask/ORKSpatialSpanMemoryStep.h>
 #import <ResearchKitActiveTask/ORKSpeechInNoiseStep.h>

@@ -950,6 +950,7 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
             ORKNumericQuestionResult *nqr = (ORKNumericQuestionResult *)result;
             if (nqr.unit == nil) {
                 nqr.unit = [(ORKNumericAnswerFormat *)impliedAnswerFormat unit];
+                nqr.displayUnit = [(ORKNumericAnswerFormat *)impliedAnswerFormat displayUnit];
             }
         }
         
@@ -1168,6 +1169,7 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
                 ORKChoiceOtherViewCell *choiceOtherViewCell = (ORKChoiceOtherViewCell *)choiceViewCell;
                 choiceOtherViewCell.delegate = self;
             }
+            choiceViewCell.tintColor = ORKViewTintColor(self.view);
             choiceViewCell.useCardView = [self formStep].useCardView;
             choiceViewCell.cardViewStyle = [self formStep].cardViewStyle;
             choiceViewCell.isLastItem = isLastItem;
@@ -1444,7 +1446,9 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
         if (path.row < sectionObject.items.count - 1) {
             NSIndexPath *nextPath = [NSIndexPath indexPathForRow:(path.row + 1) inSection:path.section];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, DelayBeforeAutoScroll * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-                [_tableView scrollToRowAtIndexPath:nextPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+                if (_currentFirstResponderCell == nil) {
+                    [_tableView scrollToRowAtIndexPath:nextPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+                }
             });
         }
     }

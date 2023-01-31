@@ -78,6 +78,11 @@
     self.frequencyList = @[@1000.0, @2000.0, @3000.0, @4000.0, @8000.0, @1000.0, @500.0, @250.0];
     self.stepDuration = CGFLOAT_MAX;
     self.shouldShowDefaultTimer = NO;
+
+//#if RK_APPLE_INTERNAL
+//    self.algorithm = ORKdBHLToneAudiometryTaskdBHLDefaultAlgorithm;
+//    self.dBHLMaximumThreshold = ORKdBHLToneAudiometryTaskdBHLMaximumThreshold;
+//#endif
 }
 
 - (void)validateParameters {
@@ -118,6 +123,10 @@
     step.earPreference = self.earPreference;
     step.frequencyList = self.frequencyList;
 
+//#if RK_APPLE_INTERNAL
+//    step.algorithm = self.algorithm;
+//    step.dBHLMaximumThreshold = self.dBHLMaximumThreshold;
+//#endif
     return step;
 }
 
@@ -138,6 +147,11 @@
         ORK_DECODE_INTEGER(aDecoder, earPreference);
         ORK_DECODE_OBJ_CLASS(aDecoder, headphoneType, NSString);
         ORK_DECODE_OBJ_ARRAY(aDecoder, frequencyList, NSNumber);
+        
+//#if RK_APPLE_INTERNAL
+//        ORK_DECODE_INTEGER(aDecoder, algorithm);
+//        ORK_DECODE_DOUBLE(aDecoder, dBHLMaximumThreshold);
+//#endif
     }
     return self;
 }
@@ -182,8 +196,7 @@
             && (self.dBHLMinimumThreshold == castObject.dBHLMinimumThreshold)
             && (self.earPreference == castObject.earPreference)
             && ORKEqualObjects(self.headphoneType, castObject.headphoneType)
-            && ORKEqualObjects(self.frequencyList, castObject.frequencyList)
-            );
+            && ORKEqualObjects(self.frequencyList, castObject.frequencyList));
 }
 
 - (id<ORKAudiometryProtocol>)createAudiometryEngine {
@@ -193,6 +206,25 @@
 - (id<ORKAudiometryProtocol>)audiometryEngine {
     if (!_audiometry) {
         _audiometry = [self createAudiometryEngine];
+
+//#if RK_APPLE_INTERNAL
+//        switch (self.algorithm) {
+//            case 1:
+//                if (@available(iOS 14, *)) {
+//                    _audiometry = [[ORKNewAudiometry alloc] initWithChannel:_earPreference
+//                                                               initialLevel:_initialdBHLValue
+//                                                                   minLevel:_dBHLMinimumThreshold
+//                                                                   maxLevel:_dBHLMaximumThreshold
+//                                                                frequencies:_frequencyList];
+//                    break;
+//                }
+//            default:
+//                _audiometry = [[ORKAudiometry alloc] initWithStep:self];
+//                break;
+//        }
+//#else
+//        _audiometry = [[ORKAudiometry alloc] initWithStep:self];
+//#endif
     }
     return _audiometry;
 }
