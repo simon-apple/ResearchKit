@@ -63,6 +63,7 @@ import ResearchKitActiveTask
     fileprivate let channel: ORKAudioChannel
     fileprivate var stimulus: ORKAudiometryStimulus?
     fileprivate var results = [Double: Double]()
+    fileprivate var preStimulusResponse: Bool = true
 
     // Settings
     fileprivate let initialLevel: Double
@@ -98,8 +99,8 @@ import ResearchKitActiveTask
                   minLevel: minLevel,
                   maxLevel: maxLevel,
                   frequencies: frequencies,
-                  kernelLenght: 3.5,
-                  stoppingCriteria: 0.65)
+                  kernelLenght: 3.0,
+                  stoppingCriteria: 0.7)
     }
     
     public init(channel: ORKAudioChannel,
@@ -161,8 +162,12 @@ import ResearchKitActiveTask
         resultUnit.preStimulusDelay = preStimulusDelay
     }
     
+    public func registerStimulusPlayback() {
+          preStimulusResponse = false
+     }
+    
     public func registerResponse(_ response: Bool) {
-        guard let lastStimulus = stimulus else { return }
+        guard let lastStimulus = stimulus, !preStimulusResponse else { return }
         
         let freqPoint = bark(lastStimulus.frequency)
         
@@ -182,6 +187,7 @@ import ResearchKitActiveTask
         
         let lastResponse = ySample.elements.last == 1
         updateUnit(with: lastResponse)
+        preStimulusResponse = true
         
         if !nextInitialSample() {
             // Check if initial sampling is invalid
@@ -359,11 +365,10 @@ extension ORKNewAudiometry {
                         dbHLPoint = max(dbHLPoint1k - 10, -minLevel)
                     }
                 } else {
-                    let stepSize: Double = ((negResp ? 1 : 0) + (posResp ? 1 : 0) + 1) * 10
                     if ySample.elements.last == 0 { // last response is negative
-                        dbHLPoint = min(dbHLPoint + stepSize, maxLevel)
+                        dbHLPoint = min(dbHLPoint + 10, maxLevel)
                     } else { // last response is positive
-                        dbHLPoint = max(dbHLPoint - stepSize, minLevel)
+                        dbHLPoint = max(dbHLPoint - 10, minLevel)
                     }
                 }
                 
@@ -463,7 +468,7 @@ extension ORKNewAudiometry {
         
         let grids = Matrix.mGrid(xRange: lowerX...upperX,
                                  xSteps: 35, yRange: lowerY...upperY,
-                                 ySteps: 50)
+                                 ySteps: 80)
         let grid = Matrix.stack(grids.0, grids.1)
         let xNew = Matrix.reshape2columns(grid)
         let lenght = kernelLenght

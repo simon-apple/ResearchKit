@@ -879,7 +879,6 @@ static const CGFloat DividerViewTopPadding = 10.0;
                                        reason:@"the ORKSurveyAnswerCellForTextFields's answerFormat must be a ORKTextAnswerFormat"
                                      userInfo:nil];
     }
-
     return textAnswerFormat;
 }
 

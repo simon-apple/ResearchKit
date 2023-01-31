@@ -31,6 +31,7 @@
 
 @import UIKit;
 
+
 #if TARGET_OS_WATCH
 #import <ResearchKitCore/ORKStep.h>
 
@@ -69,6 +70,9 @@ ORK_CLASS_AVAILABLE
 @property (nonatomic, copy, nullable) NSAttributedString *attributedDetailText;
 
 @property (nonatomic) BOOL centerImageVertically;
+
+@property(nonatomic) NSInteger type;
+
 
 @end
 

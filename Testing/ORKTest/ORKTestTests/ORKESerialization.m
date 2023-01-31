@@ -1161,7 +1161,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(headphoneType, NSString, NSObject, YES, nil, nil),
                     PROPERTY(earPreference, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(frequencyList, NSArray, NSObject, YES, nil, nil),
-                    PROPERTY(algorithmVersion, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(algorithm, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(dBHLMaximumThreshold, NSNumber, NSObject, YES, nil, nil),
                     })),
 #endif
@@ -1294,6 +1294,21 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(failureSound, NSNumber, NSObject, YES, nil, nil),
                     })),
 #if RK_APPLE_INTERNAL
+           ENTRY(ORKNormalizedReactionTimeStep,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+                     return [[ORKNormalizedReactionTimeStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
+                 },
+                 (@{
+                    PROPERTY(maximumStimulusInterval, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(minimumStimulusInterval, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(timeout, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(numberOfAttempts, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(thresholdAcceleration, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(successSound, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(timeoutSound, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(failureSound, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(currentInterval, NSNumber, NSObject, YES, nil, nil),
+                    })),
            ENTRY(ORKTypingStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      return [[ORKTypingStep alloc]  initWithIdentifier:GETPROP(dict, identifier)];
@@ -1767,6 +1782,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      ORKNumericAnswerFormat *format = [[ORKNumericAnswerFormat alloc] initWithStyle:((NSNumber *)GETPROP(dict, style)).integerValue
                                                                                                unit:GETPROP(dict, unit)
+                                                                                        displayUnit:GETPROP(dict, displayUnit)
                                                                                             minimum:GETPROP(dict, minimum)
                                                                                             maximum:GETPROP(dict, maximum)
                                                                               maximumFractionDigits:GETPROP(dict, maximumFractionDigits)];
@@ -1778,6 +1794,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                              ^id(id num, __unused ORKESerializationContext *context) { return ORKNumericAnswerStyleToString(((NSNumber *)num).integerValue); },
                              ^id(id string, __unused ORKESerializationContext *context) { return @(ORKNumericAnswerStyleFromString(string)); }),
                     PROPERTY(unit, NSString, NSObject, NO, nil, nil),
+                    PROPERTY(displayUnit, NSString, NSObject, NO, nil, nil),
                     PROPERTY(minimum, NSNumber, NSObject, NO, nil, nil),
                     PROPERTY(maximum, NSNumber, NSObject, NO, nil, nil),
                     PROPERTY(maximumFractionDigits, NSNumber, NSObject, NO, nil, nil),
@@ -2262,7 +2279,8 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                  nil,
                  (@{
                     PROPERTY(numericAnswer, NSNumber, NSObject, NO, nil, nil),
-                    PROPERTY(unit, NSString, NSObject, NO, nil, nil)
+                    PROPERTY(unit, NSString, NSObject, NO, nil, nil),
+                    PROPERTY(displayUnit, NSString, NSObject, NO, nil, nil)
                     })),
            ENTRY(ORKTimeOfDayQuestionResult,
                  nil,

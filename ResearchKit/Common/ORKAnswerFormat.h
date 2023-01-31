@@ -1357,11 +1357,9 @@ Returns an initialized numeric answer format using the specified style, unit des
 /**
  Returns an initialized numeric answer format using the specified style, unit designation, range
  values, and precision.
- 
- This method is the designated initializer.
- 
- @param style                   The style of the numeric answer (decimal or integer).
- @param unit                    A string that displays a localized version of the unit designation.
+  
+ @param style                     The style of the numeric answer (decimal or integer).
+ @param unit                        A string that displays a localized version of the unit designation.
  @param minimum                 The minimum value to apply, or `nil` if none is specified.
  @param maximum                 The maximum value to apply, or `nil` if none is specified.
  @param maximumFractionDigits   The maximum fraction digits, or `nil` if no maximum is specified.
@@ -1372,6 +1370,28 @@ Returns an initialized numeric answer format using the specified style, unit des
                          unit:(nullable NSString *)unit
                       minimum:(nullable NSNumber *)minimum
                       maximum:(nullable NSNumber *)maximum
+        maximumFractionDigits:(NSNumber *)maximumFractionDigits;
+
+/**
+ Returns an initialized numeric answer format using the specified style, unit designation, range
+ values, and precision.
+ 
+ This method is the designated initializer.
+ 
+ @param style                     The style of the numeric answer (decimal or integer).
+ @param unit                        A string that displays the unit designation in the results.
+ @param displayUnit        An string that displays a localized version of the unit designation.
+ @param minimum                 The minimum value to apply, or `nil` if none is specified.
+ @param maximum                 The maximum value to apply, or `nil` if none is specified.
+ @param maximumFractionDigits   The maximum fraction digits, or `nil` if no maximum is specified.
+
+ @return An initialized numeric answer format.
+ */
+- (instancetype)initWithStyle:(ORKNumericAnswerStyle)style
+                         unit:(nullable NSString *)unit
+                  displayUnit:(nullable NSString *)displayUnit
+                      minimum:(nullable NSNumber *)minimum
+                      maximum:(nullable NSNumber *)maximum
         maximumFractionDigits:(nullable NSNumber *)maximumFractionDigits NS_DESIGNATED_INITIALIZER;
 
 /**
@@ -1380,13 +1400,25 @@ Returns an initialized numeric answer format using the specified style, unit des
 @property (readonly) ORKNumericAnswerStyle style;
 
 /**
- A string that displays a localized version of the unit designation next to the numeric value.
+ A string that displays a the unit designation next to the numeric value in the results.
  (read-only)
- 
+ If displayUnit is not set, the answerFormat will display the unit instead
+
  Examples of unit designations are days, lbs, and liters.
  The unit string is included in the `ORKNumericQuestionResult` object.
  */
 @property (copy, readonly, nullable) NSString *unit;
+
+/**
+ A string that displays a localized version of the display unit designation next to the numeric value.
+ This property will only be used for display UI purposes.
+ If this property is not set, the answerFormat will display the unit instead
+ (read-only)
+ 
+ Examples of unit designations are days, lbs, and liters.
+ The displayUnit string is included in the `ORKNumericQuestionResult` object.
+ */
+@property (copy, readonly, nullable) NSString *displayUnit;
 
 /**
  The minimum allowed value for the numeric answer.

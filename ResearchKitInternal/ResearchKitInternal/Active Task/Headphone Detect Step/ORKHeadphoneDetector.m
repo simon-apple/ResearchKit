@@ -268,6 +268,9 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
             if ([modelId containsString:ORKHeadphoneVendorAndProductIdIdentifierAirPodsPro]) {
                 return ORKHeadphoneTypeIdentifierAirPodsPro;
             }
+            if ([modelId containsString:ORKHeadphoneVendorAndProductIdIdentifierAirPodsProGen2]) {
+                return ORKHeadphoneTypeIdentifierAirPodsProGen2;
+            }
             if ([modelId containsString:ORKHeadphoneVendorAndProductIdIdentifierAirPodsMax]) {
                 return ORKHeadphoneTypeIdentifierAirPodsMax;
             }
@@ -392,8 +395,10 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
 - (BOOL)headphoneHasNoiseCancellingFeature {
     ORKHeadphoneTypeIdentifier currentHeadphone = [self getCurrentBTHeadphoneType];
     return (currentHeadphone == ORKHeadphoneTypeIdentifierAirPodsPro ||
+            currentHeadphone == ORKHeadphoneTypeIdentifierAirPodsProGen2 ||
             currentHeadphone == ORKHeadphoneTypeIdentifierAirPodsMax) &&
             (_lastDetectedDevice == ORKHeadphoneTypeIdentifierAirPodsPro ||
+             _lastDetectedDevice == ORKHeadphoneTypeIdentifierAirPodsProGen2 ||
              _lastDetectedDevice == ORKHeadphoneTypeIdentifierAirPodsMax);
 }
 

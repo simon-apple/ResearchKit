@@ -1292,7 +1292,7 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
                 // ORKNavigableOrderedTask contains ORKStepModifiers which is an abstract class
                 // with no encoded properties, but encoded/decoded objects are still equal.
                 && ![aClass isSubclassOfClass:[ORKKeyValueStepModifier class]]
-                // ORKKeyValueStepModifier si a subclass of ORKStepModifier which is an abstract class
+                // ORKKeyValueStepModifier is a subclass of ORKStepModifier which is an abstract class
                 // with no encoded properties, but encoded/decoded objects are still equal.
                 ) {
                 XCTAssertEqualObjects(data, data2, @"data mismatch for %@", NSStringFromClass(aClass));
@@ -1301,7 +1301,6 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
         if (![data2 isEqualToData:data3]) { // allow breakpointing
             XCTAssertEqualObjects(data2, data3, @"data mismatch for %@", NSStringFromClass(aClass));
         }
-        
         if (![newInstance isEqual:instance]) {
             XCTAssertEqualObjects(newInstance, instance, @"equality mismatch for %@", NSStringFromClass(aClass));
         }

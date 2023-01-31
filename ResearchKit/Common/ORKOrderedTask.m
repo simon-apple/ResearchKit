@@ -175,11 +175,8 @@
 }
 
 - (NSUInteger)indexOfStep:(ORKStep *)step {
-    NSUInteger index = [_steps indexOfObject:step];
-    if (index == NSNotFound) {
-        NSArray *identifiers = [_steps valueForKey:@"identifier"];
-        index = [identifiers indexOfObject:step.identifier];
-    }
+    NSArray *identifiers = [_steps valueForKey:@"identifier"];
+    NSUInteger index = [identifiers indexOfObject:step.identifier];
     return index;
 }
 

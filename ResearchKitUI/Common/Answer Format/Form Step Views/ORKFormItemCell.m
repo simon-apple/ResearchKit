@@ -1040,7 +1040,7 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     _defaultNumericAnswer = answerFormat.defaultNumericAnswer;
     
     self.textField.manageUnitAndPlaceholder = YES;
-    self.textField.unit = answerFormat.unit;
+    self.textField.unit = answerFormat.displayUnit ?: answerFormat.unit;
     self.textField.placeholder = self.formItem.placeholder;
     
     _numberFormatter = ORKDecimalNumberFormatter();
@@ -1534,10 +1534,6 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView {
-    if (textView.text.length == 0) {
-        textView.text = self.formItem.placeholder;
-        textView.textColor = [self placeholderColor];
-    }
     [self.delegate formItemCellDidResignFirstResponder:self];
 }
 

@@ -12,6 +12,32 @@
 
 set -Eeuo pipefail
 
+
+generate_poseidon_post_data() {
+  CURRENT_MARKETING_VERSION=${CI_TAG}
+  RK_PREFIX="ResearchKit-Release-"
+  version_string=${CURRENT_MARKETING_VERSION/#$RK_PREFIX}
+  cat <<EOF
+{
+    "buildNumber":"${CI_BUILD_NUMBER}",
+    "hash":"${CI_COMMIT}",
+    "buildType":"${BUILD_TYPE}",
+    "app":"${APP_NAME}",
+    "buildID":"${CI_BUILD_ID}",
+    "bundleID":"${BUNDLE_ID}",
+    "version": "${version_string}",
+}
+EOF
+}
+
+poseidonUpdate() {
+    POSEIDON_BUILD_COMPLETE_URL="${POSEIDON_URL}/api:skywagon/buildComplete"
+    echo "Updating Poseidon"
+    curl -v \
+    -H 'Content-Type: application/json' \
+    -X POST --data "$(generate_poseidon_post_data)" ${POSEIDON_BUILD_COMPLETE_URL} > /dev/null 2>&1
+}
+
 appshack_upload() {
 
     pushd ${CI_ARCHIVE_PATH}
@@ -43,4 +69,6 @@ if [ ${CI_XCODEBUILD_ACTION} == "archive" ] && [ ${CI_XCODE_SCHEME} == "ORKCatal
     echo "START: Uploading ORKCatalog to appshack"
     appshack_upload
     echo "DONE: Uploading ORKCatalog to appshack"
+    poseidonUpdate
+    echo "DONE: Upading Poseidon"
 fi

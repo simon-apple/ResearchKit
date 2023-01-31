@@ -191,6 +191,9 @@ func resultTableViewProviderForResult(_ result: ORKResult?, delegate: ResultProv
     case is ORKEnvironmentSPLMeterResult:
         providerType = SPLMeterStepResultTableViewProvider.self
         
+    case is ORKAVJournalingResult:
+        providerType = AVJournalingTypeResultTableViewProvider.self
+        
     case is ORKTinnitusTypeResult:
         providerType = TinnitusTypeResultTableViewProvider.self
 
@@ -513,9 +516,12 @@ class NumericQuestionResultTableViewProvider: ResultTableViewProvider {
         return super.resultRowsForSection(section) + [
             // The numeric value the user entered.
             ResultRow(text: "numericAnswer", detail: questionResult.numericAnswer),
-
+            
+            // The unit string with the numeric value.
+            ResultRow(text: "unit", detail: questionResult.unit),
+            
             // The unit string that was displayed with the numeric value.
-            ResultRow(text: "unit", detail: questionResult.unit)
+            ResultRow(text: "displayUnit", detail: questionResult.displayUnit)
         ]
     }
 }
@@ -1452,6 +1458,27 @@ class SPLMeterStepResultTableViewProvider: ResultTableViewProvider {
 
 // start-omit-internal-code
 #if RK_APPLE_INTERNAL
+
+/// Table view provider specific to an `ORKTinnitusTypeResult` instance.
+class AVJournalingTypeResultTableViewProvider: ResultTableViewProvider {
+    // MARK: ResultTableViewProvider
+    
+    override func resultRowsForSection(_ section: Int) -> [ResultRow] {
+        let avJournalingTypeResult = result as! ORKAVJournalingResult
+        
+        let rows = super.resultRowsForSection(section)
+        
+        if section == 0 {
+            return rows + [
+                ResultRow(text: "file names", detail: String(describing: avJournalingTypeResult.filenames)),
+                ResultRow(text: "recalibration timestamps", detail: avJournalingTypeResult.recalibrationTimeStamps),
+                ResultRow(text: "camera intrinsics", detail: avJournalingTypeResult.cameraIntrinsics)
+            ]
+        }
+        
+        return rows
+    }
+}
 
 /// Table view provider specific to an `ORKTinnitusTypeResult` instance.
 class TinnitusTypeResultTableViewProvider: ResultTableViewProvider {

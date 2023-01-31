@@ -39,6 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) ORKHeadphoneTypeIdentifier headphoneType;
 @property (nonatomic, strong) NSDictionary *dbAmplitudePerFrequency;
 @property (nonatomic, strong) NSDictionary *dbSPLAmplitudePerFrequency;
+@property (nonatomic, strong) NSDictionary *loudnessEQ;
 @property (nonatomic, strong) NSDictionary *volumeCurve;
 
 - (nullable instancetype)initWithHeadphoneType:(ORKHeadphoneTypeIdentifier)headphoneType;
@@ -49,6 +50,18 @@ NS_ASSUME_NONNULL_BEGIN
 @return The volume gain (dB)
  */
 - (float)gainForSystemVolume:(float)systemVolume interpolated:(BOOL)isInterpolated;
+
+
+/**
+ Returns the gain for volume using the volume curve for the initialized headphone type.
+ 
+ @param systemVolume   The system volume label, will be used to find the interpolated value.
+ @param frequency         The table uses frequencies to find the corresponding dpSPL value
+ @param isInterpolated       A boolean value indicating if we should interpolate the result
+ 
+ @return the calculated value
+ */
+- (float)dbSPLForSystemVolume:(float)systemVolume frequency:(float)frequency interpolated:(BOOL)isInterpolated;
 
 @end
 

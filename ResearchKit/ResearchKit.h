@@ -87,6 +87,7 @@
 #import <ResearchKit/ORKRecorder.h>
 
 #import <ResearchKit/ORKConsentDocument.h>
+#import <ResearchKit/ORKConsentDocument+ORKInstructionStep.h>
 #import <ResearchKit/ORKConsentSection.h>
 #import <ResearchKit/ORKConsentSignature.h>
 
