@@ -42,6 +42,7 @@
 #import <ResearchKitInternal/ORKFaceDetectionStepViewController.h>
 #import <ResearchKitInternal/ORKHeadphoneDetectResult.h>
 #import <ResearchKitInternal/ORKHeadphoneDetectStep.h>
+#import <ResearchKitInternal/ORKHeadphoneDetector.h>
 #import <ResearchKitInternal/ORKHeadphoneDetectStepViewController.h>
 #import <ResearchKitInternal/ORKHeadphonesRequiredCompletionStep.h>
 #import <ResearchKitInternal/ORKHeadphonesRequiredCompletionStepViewController.h>

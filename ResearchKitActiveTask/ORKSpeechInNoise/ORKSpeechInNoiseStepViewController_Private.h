@@ -36,6 +36,9 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ORKSpeechInNoiseStepViewController ()
 
 - (void)tapButtonPressed;
+- (NSString *)filename;
+
+@property BOOL isPracticeTest;
 
 @end
 

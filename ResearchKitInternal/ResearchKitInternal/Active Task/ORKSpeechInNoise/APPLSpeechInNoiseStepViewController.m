@@ -29,16 +29,20 @@
  */
 
 #import "APPLSpeechInNoiseStepViewController.h"
+#import "ORKHeadphoneDetector.h"
+#import "ORKHeadphoneDetectResult.h"
+
+#import "ResearchKitUI/ORKStepViewController.h"
+#import "ResearchKitUI/ORKTaskViewController_Internal.h"
 
 #import "ResearchKitActiveTask/ORKSpeechInNoiseStepViewController_Private.h"
 
-//#import "ResearchKitUI_Private/ORKSpeechInNoiseStepViewController_Private.h"
-
 #import <ResearchKit/ORKContext.h>
+#import "ResearchKit/ORKHelpers_Internal.h"
 
 static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
 
-@interface APPLSpeechInNoiseStepViewController () {
+@interface APPLSpeechInNoiseStepViewController () <ORKHeadphoneDetectorDelegate> {
     NSObject *_headphoneDetector;
     ORKHeadphoneTypeIdentifier _headphoneType;
     BOOL _showingAlert;
@@ -50,11 +54,11 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     _showingAlert = NO;
     Class ORKHeadphoneDetector = NSClassFromString(@"ORKHeadphoneDetector");
-    _headphoneDetector = [[ORKHeadphoneDetector alloc] performSelector:@selector(initWithDelegate:supportedHeadphoneChipsetTypes:) withObject:self
-                                         withObject:nil];
+    _headphoneDetector = [[ORKHeadphoneDetector alloc] initWithDelegate:self
+                                         supportedHeadphoneChipsetTypes:nil];
 
     ORKTaskResult *taskResults = [[self taskViewController] result];
     
@@ -73,9 +77,105 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
 
 - (void)tapButtonPressed {
     [super tapButtonPressed];
-    
-    
+    // TODO: FIGURE OUT HOW TO SEPARATE THE INTERNAL FUNCTIONALITY HERE IF NEED BE
 }
+
+- (NSString *)filename {
+    NSObject<ORKContext> *context = [self predefinedSpeechInNoiseContext];
+    
+    if (context) {
+        return [super filename];
+    }
+     
+    return nil;
+}
+
+#if RK_APPLE_INTERNAL
+- (NSObject<ORKContext> * _Nullable)predefinedSpeechInNoiseContext {
+    Class ORKSpeechInNoisePredefinedTaskContext = NSClassFromString(@"ORKSpeechInNoisePredefinedTaskContext");
+    if ([self.step.context isKindOfClass:ORKSpeechInNoisePredefinedTaskContext])
+    {
+        return self.step.context;
+    }
+    
+    return nil;
+}
+#endif
+
+- (void)finish {
+    
+#if RK_APPLE_INTERNAL
+    [_headphoneDetector performSelector:@selector(discard)];
+    _headphoneDetector = nil;
+    
+    NSObject<ORKContext> *context = [self predefinedSpeechInNoiseContext];
+    if (context) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(ORKSpeechInNoiseStepFinishDelay * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{ [super finish]; });
+    } else {
+        [super finish];
+    }
+#endif
+}
+
+- (ORKStepResult *)result {
+#if RK_APPLE_INTERNAL
+    NSObject<ORKContext> *context = [self predefinedSpeechInNoiseContext];
+    if (context && ((NSNumber *)[context valueForKey:@"isPracticeTest"]).boolValue) {
+        self.isPracticeTest = YES;
+    }
+#endif
+    
+    return [super result];
+}
+
+#if RK_APPLE_INTERNAL
+#pragma mark - Headphone Monitoring
+
+- (void)headphoneTypeDetected:(nonnull ORKHeadphoneTypeIdentifier)headphoneType vendorID:(nonnull NSString *)vendorID productID:(nonnull NSString *)productID deviceSubType:(NSInteger)deviceSubType isSupported:(BOOL)isSupported {
+    if (![headphoneType isEqualToString:_headphoneType]) {
+        [self showAlert];
+    }
+}
+
+- (void)oneAirPodRemoved {
+    [self showAlert];
+}
+
+- (void)podLowBatteryLevelDetected {
+    [self showAlert];
+}
+
+- (void)showAlert {
+    if (!_showingAlert) {
+        _showingAlert = YES;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            UIAlertController *alertController = [UIAlertController
+                                                  alertControllerWithTitle:ORKLocalizedString(@"PACHA_ALERT_TITLE_TASK_INTERRUPTED", nil)
+                                                  message:ORKLocalizedString(@"PACHA_ALERT_TEXT_TASK_INTERRUPTED", nil)
+                                                  preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *startOver = [UIAlertAction
+                                        actionWithTitle:ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_START_OVER", nil)
+                                        style:UIAlertActionStyleDefault
+                                        handler:^(UIAlertAction *action) {
+                [[self taskViewController] restartTask];
+            }];
+            [alertController addAction:startOver];
+            [alertController addAction:[UIAlertAction
+                                        actionWithTitle:ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_CANCEL_TEST", nil)
+                                        style:UIAlertActionStyleDefault
+                                        handler:^(UIAlertAction *action) {
+                ORKStrongTypeOf(self.taskViewController.delegate) strongDelegate = self.taskViewController.delegate;
+                if ([strongDelegate respondsToSelector:@selector(taskViewController:didFinishWithReason:error:)]) {
+                    [strongDelegate taskViewController:self.taskViewController didFinishWithReason:ORKTaskFinishReasonDiscarded error:nil];
+                    [self finish];
+                }
+            }]];
+            alertController.preferredAction = startOver;
+            [self presentViewController:alertController animated:YES completion:nil];
+        });
+    }
+}
+#endif
 
 
 @end
