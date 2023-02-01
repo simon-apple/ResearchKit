@@ -153,7 +153,6 @@ typedef void (^_ORKLocationAuthorizationRequestHandler)(BOOL success);
     ORKScrollViewObserver *_scrollViewObserver;
     BOOL _hasBeenPresented;
     BOOL _hasRequestedHealthData;
-    BOOL _saveable;
     ORKPermissionMask _grantedPermissions;
     NSSet<HKObjectType *> *_requestedHealthTypesForRead;
     NSSet<HKObjectType *> *_requestedHealthTypesForWrite;
@@ -222,7 +221,6 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     self.showsProgressInNavigationBar = YES;
     self.discardable = NO;
     self.progressMode = ORKTaskViewControllerProgressModeQuestionsPerStep;
-    _saveable = NO;
     
     _managedResults = [NSMutableDictionary dictionary];
     _managedStepIdentifiers = [NSMutableArray array];
@@ -659,7 +657,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     _dismissedDate = nil;
 
     if (@available(iOS 13.0, *)) {
-        if ([self shouldDismissWithSwipe] == NO) {
+        if ([self canDiscardResults] == NO) {
             self.modalInPresentation = YES;
         }
     }
@@ -1203,36 +1201,60 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     if (self.discardable) {
         [self finishWithReason:ORKTaskViewControllerFinishReasonDiscarded error:nil];
     } else {
-        [self presentCancelOptions:_saveable sender:sender];
+        [self presentCancelOptions:[self hasSaveableResults] sender:sender];
     }
 }
 
-- (BOOL)shouldDismissWithSwipe {
-    // Should we also include visualConsentStep here? Others?
-    BOOL isCurrentInstructionStep = [self.currentStepViewController.step isKindOfClass:[ORKInstructionStep class]];
+/// Compute whether it's safe to discard results because there wouldn't be any user data to lose. When `canDiscardResults` returns
+/// YES, we know there's no need to present a confirmation dialog about potential data loss from ending the task.
+- (BOOL)canDiscardResults {
+    BOOL result = NO;
     
-    // [self result] would not include any results beyond current step.
-    // Use _managedResults to get the completed result set.
+    ORKStep *currentStep = self.currentStepViewController.step;
+    
+    // true if currentStep is NOT capable of contributing results, AND there are no other saveable results
+    result = result || (([self currentStepContributesResults] == NO) && ([self hasSaveableResults] == NO));
+    
+    // true if currentStep is a standalone reviewStep. No results will be lost by dismissing.
+    result = result || (ORKDynamicCast(currentStep, ORKReviewStep).isStandalone);
+
+    // true if currentStep is in readOnly mode. Nothing can be lost.
+    result = result || self.currentStepViewController.readOnlyMode;
+    
+    return result;
+}
+
+/// Returns whether or not to expect the current step to be one that has the potential of contributing results.
+- (BOOL)currentStepContributesResults {
+    BOOL result = YES;
+    ORKStep *currentStep = self.currentStepViewController.step;
+    
+    // Instruction step does not and will not, itself, contribute results
+    result = result && (ORKDynamicCast(currentStep, ORKInstructionStep) == nil);
+    
+    return result;
+}
+
+- (BOOL)hasSaveableResults {
+    /* [self result] would not include any results beyond current step, because managedResultsArray
+     [self result] depends on only iterates over _managedStepIdentifiers. If the user hits the back button
+     during the task, the _managedStepIdentifiers is truncated so it ends with the current step. This is even
+     thought _managedResults still retains results from a step that comes *after* the current one.
+     
+     So, instead, use _managedResults to check all completed results for isSaveable.
+     */
     NSArray *results = _managedResults.allValues;
-    _saveable = NO;
-    for (ORKStepResult *result in results) {
-        if ([result isSaveable]) {
-            _saveable = YES;
+
+    BOOL result = NO;
+    
+    for (ORKStepResult *stepResult in results) {
+        if ([stepResult isSaveable]) {
+            result = YES;
             break;
         }
     }
     
-    BOOL isStandaloneReviewStep = NO;
-    if ([self.currentStepViewController.step isKindOfClass:[ORKReviewStep class]]) {
-        ORKReviewStep *reviewStep = (ORKReviewStep *)self.currentStepViewController.step;
-        isStandaloneReviewStep = reviewStep.isStandalone;
-    }
-    
-    if ((isCurrentInstructionStep && _saveable == NO) || isStandaloneReviewStep || self.currentStepViewController.readOnlyMode) {
-        return YES;
-    } else {
-        return NO;
-    }
+    return result;
 }
 
 - (IBAction)learnMoreAction:(id)sender {
