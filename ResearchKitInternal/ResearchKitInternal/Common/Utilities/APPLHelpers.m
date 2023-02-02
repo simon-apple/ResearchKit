@@ -28,19 +28,14 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ResearchKitActiveTask/ORKSpeechInNoiseStepViewController.h>
+#import "APPLHelpers_Internal.h"
+#import "APPLCompletionStepViewController.h"
 
-
-NS_ASSUME_NONNULL_BEGIN
-
-@interface ORKSpeechInNoiseStepViewController ()
-
-- (void)tapButtonPressed;
-- (NSString *)filename;
-//- (void)loadFileName: (NSString *)file intoBuffer:(AVAudioPCMBuffer * __strong *)buffer;
-
-@property BOOL isPracticeTest;
-
-@end
-
-NS_ASSUME_NONNULL_END
+NSBundle *ORKInternalBundle() {
+    static NSBundle *bundle;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        bundle = [NSBundle bundleForClass:[APPLCompletionStepViewController class]];
+    });
+    return bundle;
+}

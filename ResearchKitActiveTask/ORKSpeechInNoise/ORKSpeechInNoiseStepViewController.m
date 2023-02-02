@@ -114,7 +114,7 @@
 //    _headphoneDetector = [[ORKHeadphoneDetector alloc] performSelector:@selector(initWithDelegate:supportedHeadphoneChipsetTypes:) withObject:self
 //                                         withObject:nil];
 //
-//    ORKTaskResult *taskResults = [[self taskViewController] result];
+    ORKTaskResult *taskResults = [[self taskViewController] result];
 //
 //    for (ORKStepResult *result in taskResults.results) {
 //        if (result.results > 0) {

@@ -1,3 +1,4 @@
+//
 /*
  Copyright (c) 2023, Apple Inc. All rights reserved.
  
@@ -28,19 +29,33 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ResearchKitActiveTask/ORKSpeechInNoiseStepViewController.h>
+@import UIKit;
+
+#if TARGET_OS_IOS
+#import <ResearchKit/ORKTypes.h>
+#import <ResearchKit/ORKErrors.h>
+#elif TARGET_OS_WATCH
+#import <ResearchKitCore/ORKTypes.h>
+#import <ResearchKitCore/ORKErrors.h>
+#endif
+#import <Foundation/Foundation.h>
+#import <os/log.h>
 
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ORKSpeechInNoiseStepViewController ()
+// Bundle for video assets
+//NSBundle *ORKAssetsBundle(void);
+//NSBundle *ORKBundle(void);
+//NSBundle *ORKDefaultLocaleBundle(void);
+NSBundle *ORKInternalBundle(void);
 
-- (void)tapButtonPressed;
-- (NSString *)filename;
-//- (void)loadFileName: (NSString *)file intoBuffer:(AVAudioPCMBuffer * __strong *)buffer;
 
-@property BOOL isPracticeTest;
+//// Localization
+ORK_EXTERN NSBundle *ORKInternalBundle(void) ORK_AVAILABLE_DECL;
+//ORK_EXTERN NSBundle *ORKBundle(void) ORK_AVAILABLE_DECL;
+//ORK_EXTERN NSBundle *ORKDefaultLocaleBundle(void);
 
-@end
 
 NS_ASSUME_NONNULL_END
+

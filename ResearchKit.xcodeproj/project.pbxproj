@@ -101,7 +101,6 @@
 		51E03D6424919711008F8406 /* ORKPermissionType.m in Sources */ = {isa = PBXBuildFile; fileRef = 51E03D6224919711008F8406 /* ORKPermissionType.m */; };
 		51E03D682491A601008F8406 /* ORKHealthKitPermissionType.h in Headers */ = {isa = PBXBuildFile; fileRef = 51E03D662491A601008F8406 /* ORKHealthKitPermissionType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		51E03D692491A601008F8406 /* ORKHealthKitPermissionType.m in Sources */ = {isa = PBXBuildFile; fileRef = 51E03D672491A601008F8406 /* ORKHealthKitPermissionType.m */; };
-		51F716EB2981B49000D8ACF7 /* ORKSpeechInNoiseStepViewController_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 51F716E82981AF1200D8ACF7 /* ORKSpeechInNoiseStepViewController_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		51F716C1297E288A00D8ACF7 /* ORKNormalizedReactionTimeStimulusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F716B7297E288900D8ACF7 /* ORKNormalizedReactionTimeStimulusView.m */; };
 		51F716C2297E288A00D8ACF7 /* ORKNormalizedReactionTimeStimulusView.h in Headers */ = {isa = PBXBuildFile; fileRef = 51F716B8297E288900D8ACF7 /* ORKNormalizedReactionTimeStimulusView.h */; };
 		51F716C3297E288A00D8ACF7 /* ORKNormalizedReactionTimeContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F716B9297E288900D8ACF7 /* ORKNormalizedReactionTimeContentView.m */; };
@@ -115,6 +114,7 @@
 		51F716CB297E2A1100D8ACF7 /* ORKConsentDocument+ORKInstructionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 0BE9D5242947EA4900DA0625 /* ORKConsentDocument+ORKInstructionStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		51F716D1297E2CC400D8ACF7 /* ORKConsentLearnMoreViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 51F716CD297E2CB600D8ACF7 /* ORKConsentLearnMoreViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		51F716D3297E2FB600D8ACF7 /* ORKConsentLearnMoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F716CE297E2CB600D8ACF7 /* ORKConsentLearnMoreViewController.m */; };
+		51F716EB2981B49000D8ACF7 /* ORKSpeechInNoiseStepViewController_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 51F716E82981AF1200D8ACF7 /* ORKSpeechInNoiseStepViewController_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5D04884C25EF4CC30006C68B /* ORKQuestionStep_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D04884B25EF4CC30006C68B /* ORKQuestionStep_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5D04885725F19A7A0006C68B /* ORKDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D04885525F19A7A0006C68B /* ORKDevice.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5D04885825F19A7A0006C68B /* ORKDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D04885625F19A7A0006C68B /* ORKDevice.m */; };
@@ -729,9 +729,6 @@
 		CAA20EF7288B3F1200EDC764 /* volume_curve_AIRPODSMAX.plist in Resources */ = {isa = PBXBuildFile; fileRef = E293656125757E7700092A7C /* volume_curve_AIRPODSMAX.plist */; };
 		CAA20F00288B3F1200EDC764 /* volume_curve_WIRED.plist in Resources */ = {isa = PBXBuildFile; fileRef = 713D4B0F20FE4702002BE28D /* volume_curve_WIRED.plist */; };
 		CAA20F1A288B3F4000EDC764 /* SentencesList.txt in Resources */ = {isa = PBXBuildFile; fileRef = BA22F76C20C4F884006E6E11 /* SentencesList.txt */; };
-		CAA20F1B288B3F4000EDC764 /* Window.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7118AC5B20BF6A1200D7A6BB /* Window.wav */; };
-		CAA20F1C288B3F4000EDC764 /* VolumeCalibration.wav in Resources */ = {isa = PBXBuildFile; fileRef = E2EE52FF22E7735600F34987 /* VolumeCalibration.wav */; };
-		CAA20F1D288B3F4000EDC764 /* Noise.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7118AC5920BF6A0000D7A6BB /* Noise.wav */; };
 		CAA20F20288B3F4000EDC764 /* Sentence2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7118AC6520BF6A3A00D7A6BB /* Sentence2.wav */; };
 		CAA20F21288B3F4000EDC764 /* Sentence7.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7118AC6020BF6A3900D7A6BB /* Sentence7.wav */; };
 		CAA20F22288B3F4000EDC764 /* Sentence5.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7118AC6320BF6A3A00D7A6BB /* Sentence5.wav */; };
@@ -1259,7 +1256,6 @@
 		51E03D672491A601008F8406 /* ORKHealthKitPermissionType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKHealthKitPermissionType.m; sourceTree = "<group>"; };
 		51E03D6B2491B6DB008F8406 /* ORKRequestPermissionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKRequestPermissionView.h; sourceTree = "<group>"; };
 		51E03D6C2491B6DB008F8406 /* ORKRequestPermissionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKRequestPermissionView.m; sourceTree = "<group>"; };
-		51F716E82981AF1200D8ACF7 /* ORKSpeechInNoiseStepViewController_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKSpeechInNoiseStepViewController_Private.h; sourceTree = "<group>"; };
 		51F716B7297E288900D8ACF7 /* ORKNormalizedReactionTimeStimulusView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ORKNormalizedReactionTimeStimulusView.m; path = "ResearchKitActiveTask/Reaction Time/ORKNormalizedReactionTimeStimulusView.m"; sourceTree = SOURCE_ROOT; };
 		51F716B8297E288900D8ACF7 /* ORKNormalizedReactionTimeStimulusView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ORKNormalizedReactionTimeStimulusView.h; path = "ResearchKitActiveTask/Reaction Time/ORKNormalizedReactionTimeStimulusView.h"; sourceTree = SOURCE_ROOT; };
 		51F716B9297E288900D8ACF7 /* ORKNormalizedReactionTimeContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ORKNormalizedReactionTimeContentView.m; path = "ResearchKitActiveTask/Reaction Time/ORKNormalizedReactionTimeContentView.m"; sourceTree = SOURCE_ROOT; };
@@ -1272,6 +1268,7 @@
 		51F716C0297E288A00D8ACF7 /* ORKNormalizedReactionTimeContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ORKNormalizedReactionTimeContentView.h; path = "ResearchKitActiveTask/Reaction Time/ORKNormalizedReactionTimeContentView.h"; sourceTree = SOURCE_ROOT; };
 		51F716CD297E2CB600D8ACF7 /* ORKConsentLearnMoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ORKConsentLearnMoreViewController.h; path = "ResearchKitUI/Consent/Consent Views/Visual/Learn More/ORKConsentLearnMoreViewController.h"; sourceTree = SOURCE_ROOT; };
 		51F716CE297E2CB600D8ACF7 /* ORKConsentLearnMoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ORKConsentLearnMoreViewController.m; path = "ResearchKitUI/Consent/Consent Views/Visual/Learn More/ORKConsentLearnMoreViewController.m"; sourceTree = SOURCE_ROOT; };
+		51F716E82981AF1200D8ACF7 /* ORKSpeechInNoiseStepViewController_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKSpeechInNoiseStepViewController_Private.h; sourceTree = "<group>"; };
 		5D000EC22620F27100E5442A /* ResearchKit-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "ResearchKit-Debug.xcconfig"; sourceTree = "<group>"; };
 		5D000EC32620F27100E5442A /* ResearchKit-Skywagon-Stable.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "ResearchKit-Skywagon-Stable.xcconfig"; sourceTree = "<group>"; };
 		5D000EC42620F27100E5442A /* ResearchKit-Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "ResearchKit-Shared.xcconfig"; sourceTree = "<group>"; };
@@ -1336,8 +1333,6 @@
 		618DA04A1A93D0D600E63AA8 /* ORKAccessibilityFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKAccessibilityFunctions.m; sourceTree = "<group>"; };
 		618DA04B1A93D0D600E63AA8 /* UIView+ORKAccessibility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "UIView+ORKAccessibility.h"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		618DA04C1A93D0D600E63AA8 /* UIView+ORKAccessibility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "UIView+ORKAccessibility.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		7118AC5920BF6A0000D7A6BB /* Noise.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Noise.wav; sourceTree = "<group>"; };
-		7118AC5B20BF6A1200D7A6BB /* Window.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Window.wav; sourceTree = "<group>"; };
 		7118AC6020BF6A3900D7A6BB /* Sentence7.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Sentence7.wav; sourceTree = "<group>"; };
 		7118AC6120BF6A3A00D7A6BB /* Sentence4.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Sentence4.wav; sourceTree = "<group>"; };
 		7118AC6220BF6A3A00D7A6BB /* Sentence6.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Sentence6.wav; sourceTree = "<group>"; };
@@ -1965,7 +1960,6 @@
 		E2A676F1238DCB3E006193D7 /* AVFoundation_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVFoundation_Private.h; sourceTree = "<group>"; };
 		E2A676F5238DCCCA006193D7 /* AVOutputDeviceModelSpecificKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVOutputDeviceModelSpecificKeys.h; sourceTree = "<group>"; };
 		E2BC458222D8A0DD009DAAAE /* Celestial.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Celestial.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS13.0.Internal.sdk/System/Library/PrivateFrameworks/Celestial.framework; sourceTree = DEVELOPER_DIR; };
-		E2EE52FF22E7735600F34987 /* VolumeCalibration.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = VolumeCalibration.wav; sourceTree = "<group>"; };
 		F7C022F8248EEAAC00782A61 /* ORKCustomSignatureFooterView_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKCustomSignatureFooterView_Private.h; sourceTree = "<group>"; };
 		F7EC216424787338000C1F46 /* ORKCustomSignatureFooterView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKCustomSignatureFooterView.h; sourceTree = "<group>"; };
 		F7EC216524787338000C1F46 /* ORKCustomSignatureFooterView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKCustomSignatureFooterView.m; sourceTree = "<group>"; };
@@ -3929,9 +3923,6 @@
 				7118AC7020BF6A7700D7A6BB /* ORKSpeechInNoiseContentView.m */,
 				7118AC6F20BF6A7700D7A6BB /* ORKSpeechInNoiseStepViewController.h */,
 				7118AC6E20BF6A7700D7A6BB /* ORKSpeechInNoiseStepViewController.m */,
-				E2EE52FF22E7735600F34987 /* VolumeCalibration.wav */,
-				7118AC5920BF6A0000D7A6BB /* Noise.wav */,
-				7118AC5B20BF6A1200D7A6BB /* Window.wav */,
 				7118AC7320BF6A7800D7A6BB /* ORKSpeechInNoiseStep.h */,
 				7118AC7220BF6A7800D7A6BB /* ORKSpeechInNoiseStep.m */,
 				5D5880372410394E005B3D91 /* ORKSpeechInNoiseResult.h */,
@@ -5403,7 +5394,6 @@
 				CAA20F26288B3F4000EDC764 /* Sentence4.wav in Resources */,
 				CAA20EF7288B3F1200EDC764 /* volume_curve_AIRPODSMAX.plist in Resources */,
 				CAA20F2B288B3F5B00EDC764 /* MovieTintShader.vsh in Resources */,
-				CAA20F1C288B3F4000EDC764 /* VolumeCalibration.wav in Resources */,
 				CAA20F44288B3F7700EDC764 /* consent_01@3x.m4v in Resources */,
 				CAA20EB8288B3F1100EDC764 /* volume_curve_AIRPODSPRO.plist in Resources */,
 				CAA20F22288B3F4000EDC764 /* Sentence5.wav in Resources */,
@@ -5412,7 +5402,6 @@
 				CAA20F4C288B3F7700EDC764 /* consent_05@2x.m4v in Resources */,
 				CAA20F00288B3F1200EDC764 /* volume_curve_WIRED.plist in Resources */,
 				CAA20ED7288B3F1100EDC764 /* retspl_EARPODS.plist in Resources */,
-				CAA20F1D288B3F4000EDC764 /* Noise.wav in Resources */,
 				CAA20F48288B3F7700EDC764 /* consent_04@3x.m4v in Resources */,
 				CAA20F20288B3F4000EDC764 /* Sentence2.wav in Resources */,
 				CAA20F24288B3F4000EDC764 /* Sentence3.wav in Resources */,
@@ -5422,7 +5411,6 @@
 				CAA20E97288B3F1100EDC764 /* volume_curve_AIRPODSV3.plist in Resources */,
 				CAA20ECE288B3F1100EDC764 /* retspl_AIRPODSPRO.plist in Resources */,
 				CAA20F4B288B3F7700EDC764 /* consent_07@2x.m4v in Resources */,
-				CAA20F1B288B3F4000EDC764 /* Window.wav in Resources */,
 				CAA20E6E288B3F1100EDC764 /* volume_curve_AIRPODS.plist in Resources */,
 				CAA20EB1288B3F1100EDC764 /* frequency_dBSPL_AIRPODSPRO.plist in Resources */,
 				CAA20F27288B3F4000EDC764 /* Sentence6.wav in Resources */,

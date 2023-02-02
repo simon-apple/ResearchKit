@@ -56,10 +56,11 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
     [super viewDidLoad];
 
     _showingAlert = NO;
-    Class ORKHeadphoneDetector = NSClassFromString(@"ORKHeadphoneDetector");
-    _headphoneDetector = [[ORKHeadphoneDetector alloc] initWithDelegate:self
-                                         supportedHeadphoneChipsetTypes:nil];
+}
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
     ORKTaskResult *taskResults = [[self taskViewController] result];
     
     for (ORKStepResult *result in taskResults.results) {
@@ -73,6 +74,9 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
 
         }
     }
+    
+    _headphoneDetector = [[ORKHeadphoneDetector alloc] initWithDelegate:self
+                                         supportedHeadphoneChipsetTypes:nil];
 }
 
 - (void)tapButtonPressed {

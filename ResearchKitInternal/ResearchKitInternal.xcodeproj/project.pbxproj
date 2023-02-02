@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		511BB0082989E0C700936EC0 /* Noise.wav in Resources */ = {isa = PBXBuildFile; fileRef = 511BB0062989E07F00936EC0 /* Noise.wav */; };
+		511BB0092989E0C700936EC0 /* VolumeCalibration.wav in Resources */ = {isa = PBXBuildFile; fileRef = 511BB0072989E07F00936EC0 /* VolumeCalibration.wav */; };
+		511BB00C2989E35300936EC0 /* Artwork.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 511BB00B2989E35300936EC0 /* Artwork.xcassets */; };
+		511BB010298B162400936EC0 /* APPLHelpers_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 511BB00E298B162400936EC0 /* APPLHelpers_Internal.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		511BB011298B162400936EC0 /* APPLHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 511BB00F298B162400936EC0 /* APPLHelpers.m */; };
+		511BB013298B3BD300936EC0 /* Window.wav in Resources */ = {isa = PBXBuildFile; fileRef = 511BB012298B3BD300936EC0 /* Window.wav */; };
 		51F716D929808B8100D8ACF7 /* APPLCompletionStep..m in Sources */ = {isa = PBXBuildFile; fileRef = 51F716D829808B8100D8ACF7 /* APPLCompletionStep..m */; };
 		51F716DB29808CF700D8ACF7 /* APPLCompletionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 51F716DA29808CDE00D8ACF7 /* APPLCompletionStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		51F716DE29808E0200D8ACF7 /* APPLCompletionStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 51F716DC29808E0200D8ACF7 /* APPLCompletionStepViewController.h */; };
@@ -206,6 +212,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		511BB0062989E07F00936EC0 /* Noise.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Noise.wav; sourceTree = "<group>"; };
+		511BB0072989E07F00936EC0 /* VolumeCalibration.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = VolumeCalibration.wav; sourceTree = "<group>"; };
+		511BB00B2989E35300936EC0 /* Artwork.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Artwork.xcassets; sourceTree = "<group>"; };
+		511BB00E298B162400936EC0 /* APPLHelpers_Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APPLHelpers_Internal.h; sourceTree = "<group>"; };
+		511BB00F298B162400936EC0 /* APPLHelpers.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APPLHelpers.m; sourceTree = "<group>"; };
+		511BB012298B3BD300936EC0 /* Window.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Window.wav; sourceTree = "<group>"; };
 		51F716D829808B8100D8ACF7 /* APPLCompletionStep..m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APPLCompletionStep..m; sourceTree = "<group>"; };
 		51F716DA29808CDE00D8ACF7 /* APPLCompletionStep.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APPLCompletionStep.h; sourceTree = "<group>"; };
 		51F716DC29808E0200D8ACF7 /* APPLCompletionStepViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APPLCompletionStepViewController.h; sourceTree = "<group>"; };
@@ -470,6 +482,8 @@
 				CA0AC54C28BD383E00E80040 /* ORKSoftLinking.h */,
 				CA0AC54B28BD383E00E80040 /* ORKCelestialSoftLink.h */,
 				CA0AC54A28BD383E00E80040 /* ORKAVFoundationSoftLink.h */,
+				511BB00E298B162400936EC0 /* APPLHelpers_Internal.h */,
+				511BB00F298B162400936EC0 /* APPLHelpers.m */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -483,6 +497,9 @@
 				51F716ED2981DE0700D8ACF7 /* APPLSpeechInNoiseStep.m */,
 				51F716F12981DE1B00D8ACF7 /* APPLSpeechInNoiseStepViewController.h */,
 				51F716F22981DE1B00D8ACF7 /* APPLSpeechInNoiseStepViewController.m */,
+				511BB0072989E07F00936EC0 /* VolumeCalibration.wav */,
+				511BB0062989E07F00936EC0 /* Noise.wav */,
+				511BB012298B3BD300936EC0 /* Window.wav */,
 			);
 			path = ORKSpeechInNoise;
 			sourceTree = "<group>";
@@ -855,6 +872,7 @@
 				CA0AC54828BD382600E80040 /* Common */,
 				CA8D8CAC28B015F8000CF52F /* Active Task */,
 				CA77D24628AFF99000400292 /* PrivateHeaders */,
+				511BB00B2989E35300936EC0 /* Artwork.xcassets */,
 			);
 			path = ResearchKitInternal;
 			sourceTree = "<group>";
@@ -949,6 +967,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				511BB010298B162400936EC0 /* APPLHelpers_Internal.h in Headers */,
 				CA5B6D8A28BD1F38002C3BA4 /* ORKTinnitusVolumeResult.h in Headers */,
 				CA77D29928AFFB4700400292 /* ORKFlamesView.h in Headers */,
 				CA77D2A528AFFB4700400292 /* ORKFlameGroup.h in Headers */,
@@ -1117,14 +1136,18 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				511BB00C2989E35300936EC0 /* Artwork.xcassets in Resources */,
 				CA5B6D8728BD1F38002C3BA4 /* dbAmplitudePerFrequency_EARPODS.plist in Resources */,
 				CA5B6D7F28BD1F38002C3BA4 /* dbSPLAmplitudePerFrequency_EARPODS.plist in Resources */,
 				CA5B6D8028BD1F38002C3BA4 /* dbSPLAmplitudePerFrequency_AIRPODSV3.plist in Resources */,
+				511BB0092989E0C700936EC0 /* VolumeCalibration.wav in Resources */,
 				CA5B6D8228BD1F38002C3BA4 /* dbAmplitudePerFrequency_AIRPODS.plist in Resources */,
 				CA5B6D8128BD1F38002C3BA4 /* dbSPLAmplitudePerFrequency_AIRPODSPRO.plist in Resources */,
 				CA5B6D7E28BD1F38002C3BA4 /* dbSPLAmplitudePerFrequency_AIRPODSMAX.plist in Resources */,
 				CA5B6D8428BD1F38002C3BA4 /* dbAmplitudePerFrequency_AIRPODSPRO.plist in Resources */,
+				511BB0082989E0C700936EC0 /* Noise.wav in Resources */,
 				CA5B6D8528BD1F38002C3BA4 /* dbSPLAmplitudePerFrequency_AIRPODS.plist in Resources */,
+				511BB013298B3BD300936EC0 /* Window.wav in Resources */,
 				CA5B6D8628BD1F38002C3BA4 /* dbAmplitudePerFrequency_AIRPODSV3.plist in Resources */,
 				CA0AC57428BFF9CD00E80040 /* No-Localization.strings in Resources */,
 				CA5B6D8328BD1F38002C3BA4 /* dbAmplitudePerFrequency_AIRPODSMAX.plist in Resources */,
@@ -1215,6 +1238,7 @@
 				CA58F8B028B534A800761769 /* ORKNewAudiometry.swift in Sources */,
 				CA5B6D7328BD1F38002C3BA4 /* ORKTinnitusTypeStepViewController.m in Sources */,
 				CA47EAF528BD334B00D91C0E /* ORKVolumeCalibrationStepViewController.m in Sources */,
+				511BB011298B162400936EC0 /* APPLHelpers.m in Sources */,
 				CA5B6D7B28BD1F38002C3BA4 /* ORKTinnitusButtonView.m in Sources */,
 				CA77D29C28AFFB4700400292 /* ORKIndexCacheEntry.m in Sources */,
 				CA5B6DAA28BD27FC002C3BA4 /* ORKHeadphoneDetectStep.m in Sources */,
