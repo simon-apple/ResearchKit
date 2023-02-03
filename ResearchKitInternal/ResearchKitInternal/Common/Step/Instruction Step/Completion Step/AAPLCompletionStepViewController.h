@@ -32,7 +32,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface APPLCompletionStepViewController : ORKCompletionStepViewController
+@interface AAPLCompletionStepViewController : ORKCompletionStepViewController
 
 @end
 
