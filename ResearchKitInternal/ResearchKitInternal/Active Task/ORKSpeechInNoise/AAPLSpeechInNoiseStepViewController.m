@@ -28,7 +28,7 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "APPLSpeechInNoiseStepViewController.h"
+#import "AAPLSpeechInNoiseStepViewController.h"
 #import "ORKHeadphoneDetector.h"
 #import "ORKHeadphoneDetectResult.h"
 
@@ -44,7 +44,7 @@
 
 static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
 
-@interface APPLSpeechInNoiseStepViewController () <ORKHeadphoneDetectorDelegate> {
+@interface AAPLSpeechInNoiseStepViewController () <ORKHeadphoneDetectorDelegate> {
     NSObject *_headphoneDetector;
     ORKHeadphoneTypeIdentifier _headphoneType;
     BOOL _showingAlert;
@@ -52,7 +52,7 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
 
 @end
 
-@implementation APPLSpeechInNoiseStepViewController
+@implementation AAPLSpeechInNoiseStepViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -82,8 +82,8 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
 }
 
 - (void)tapButtonPressed {
+    self.blockFinishOfStep = _showingAlert;
     [super tapButtonPressed];
-    // TODO: FIGURE OUT HOW TO SEPARATE THE INTERNAL FUNCTIONALITY HERE IF NEED BE
 }
 
 - (NSString *)filename {
@@ -96,7 +96,6 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
     return nil;
 }
 
-#if RK_APPLE_INTERNAL
 - (NSObject<ORKContext> * _Nullable)predefinedSpeechInNoiseContext {
     Class ORKSpeechInNoisePredefinedTaskContext = NSClassFromString(@"ORKSpeechInNoisePredefinedTaskContext");
     if ([self.step.context isKindOfClass:ORKSpeechInNoisePredefinedTaskContext])
@@ -106,7 +105,6 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
     
     return nil;
 }
-#endif
 
 - (void)finish {
     
@@ -134,7 +132,6 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
     return [super result];
 }
 
-#if RK_APPLE_INTERNAL
 #pragma mark - Headphone Monitoring
 
 - (void)headphoneTypeDetected:(nonnull ORKHeadphoneTypeIdentifier)headphoneType vendorID:(nonnull NSString *)vendorID productID:(nonnull NSString *)productID deviceSubType:(NSInteger)deviceSubType isSupported:(BOOL)isSupported {
@@ -181,7 +178,5 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
         });
     }
 }
-#endif
-
 
 @end

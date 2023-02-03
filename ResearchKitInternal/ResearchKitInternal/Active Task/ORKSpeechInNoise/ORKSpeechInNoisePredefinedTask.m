@@ -49,7 +49,7 @@
 #import <ResearchKit/ORKStep.h>
 #import <ResearchKit/ORKStepNavigationRule.h>
 #import <ResearchKitActiveTask/ORKEnvironmentSPLMeterStep.h>
-#import <ResearchKitInternal/APPLSpeechInNoiseStep.h>
+#import <ResearchKitInternal/AAPLSpeechInNoiseStep.h>
 #import <ResearchKitActiveTask/ORKSpeechRecognitionStep.h>
 
 #import <Speech/SFSpeechRecognizer.h>
@@ -386,7 +386,7 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierHeadphonesReq
         // Speech In Noise
         {
             ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@_%@", fileName.lowercaseString, ORKSpeechInNoiseStepIdentifierSpeechInNoiseStep];
-            ORKSpeechInNoiseStep *step = [[APPLSpeechInNoiseStep alloc] initWithIdentifier:stepIdentifier];
+            AAPLSpeechInNoiseStep *step = [[AAPLSpeechInNoiseStep alloc] initWithIdentifier:stepIdentifier];
             step.context = context;
             step.speechFilePath = obj.path;
             step.targetSentence = obj.transcript;

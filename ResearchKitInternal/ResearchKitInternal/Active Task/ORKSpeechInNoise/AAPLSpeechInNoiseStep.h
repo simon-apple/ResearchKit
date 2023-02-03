@@ -28,8 +28,15 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "APPLSpeechInNoiseStep.h"
+#import <ResearchKitActiveTask/ResearchKitActiveTask.h>
+#import <ResearchKitActiveTask/ORKSpeechInNoiseStep.h>
 
-@implementation APPLSpeechInNoiseStep
+@class ORKSpeechInNoiseStep;
+
+NS_ASSUME_NONNULL_BEGIN
+
+@interface AAPLSpeechInNoiseStep : ORKSpeechInNoiseStep
 
 @end
+
+NS_ASSUME_NONNULL_END

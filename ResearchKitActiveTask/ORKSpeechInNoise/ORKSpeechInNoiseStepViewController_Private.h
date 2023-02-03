@@ -37,9 +37,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)tapButtonPressed;
 - (NSString *)filename;
-//- (void)loadFileName: (NSString *)file intoBuffer:(AVAudioPCMBuffer * __strong *)buffer;
 
 @property BOOL isPracticeTest;
+@property BOOL blockFinishOfStep;
 
 @end
 

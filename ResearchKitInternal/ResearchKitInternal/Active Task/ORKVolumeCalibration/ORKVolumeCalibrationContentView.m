@@ -36,7 +36,7 @@
 #import <ResearchKitInternal/APPLHelpers_Internal.h>
 #import <ResearchKit/ORKSkin.h>
 #import <ResearchKitActiveTask/UIColor+Custom.h>
-#import <ResearchKitInternal/APPLCompletionStep.h>
+#import <ResearchKitInternal/AAPLCompletionStep.h>
 
 static int const ORKVolumeCalibrationStepPadding = 8;
 static int const ORKVolumeCalibrationStepInsetAdjustment = 4;

@@ -29,13 +29,10 @@
  */
 
 #import <ResearchKitActiveTask/ResearchKitActiveTask.h>
-#import <ResearchKitActiveTask/ORKSpeechInNoiseStep.h>
-
-@class ORKSpeechInNoiseStep;
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface APPLSpeechInNoiseStep : ORKSpeechInNoiseStep
+@interface AAPLSpeechInNoiseStepViewController : ORKSpeechInNoiseStepViewController
 
 @end
 

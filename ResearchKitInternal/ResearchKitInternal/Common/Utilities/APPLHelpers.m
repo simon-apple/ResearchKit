@@ -29,13 +29,13 @@
  */
 
 #import "APPLHelpers_Internal.h"
-#import "APPLCompletionStepViewController.h"
+#import "AAPLCompletionStepViewController.h"
 
 NSBundle *ORKInternalBundle() {
     static NSBundle *bundle;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        bundle = [NSBundle bundleForClass:[APPLCompletionStepViewController class]];
+        bundle = [NSBundle bundleForClass:[AAPLCompletionStepViewController class]];
     });
     return bundle;
 }

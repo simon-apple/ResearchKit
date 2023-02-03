@@ -129,10 +129,10 @@
 
 @end
 
-@implementation APPLSpeechInNoiseStep (ViewControllerProviding)
+@implementation AAPLSpeechInNoiseStep (ViewControllerProviding)
 
 - (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
-    return [[APPLSpeechInNoiseStepViewController alloc] initWithStep:self result:result];
+    return [[AAPLSpeechInNoiseStepViewController alloc] initWithStep:self result:result];
 }
 
 @end
