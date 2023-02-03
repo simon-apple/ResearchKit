@@ -44,17 +44,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-// Bundle for video assets
-//NSBundle *ORKAssetsBundle(void);
-//NSBundle *ORKBundle(void);
-//NSBundle *ORKDefaultLocaleBundle(void);
 NSBundle *ORKInternalBundle(void);
 
 
 //// Localization
 ORK_EXTERN NSBundle *ORKInternalBundle(void) ORK_AVAILABLE_DECL;
-//ORK_EXTERN NSBundle *ORKBundle(void) ORK_AVAILABLE_DECL;
-//ORK_EXTERN NSBundle *ORKDefaultLocaleBundle(void);
 
 
 NS_ASSUME_NONNULL_END

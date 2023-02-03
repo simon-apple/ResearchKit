@@ -39,6 +39,8 @@
 
 #import <ResearchKit/ORKContext.h>
 #import "ResearchKit/ORKHelpers_Internal.h"
+#import <ResearchKitInternal/APPLHelpers_Internal.h>
+#import "AAPLUtils.h"
 
 static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
 
@@ -154,18 +156,18 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
         _showingAlert = YES;
         dispatch_async(dispatch_get_main_queue(), ^{
             UIAlertController *alertController = [UIAlertController
-                                                  alertControllerWithTitle:ORKLocalizedString(@"PACHA_ALERT_TITLE_TASK_INTERRUPTED", nil)
-                                                  message:ORKLocalizedString(@"PACHA_ALERT_TEXT_TASK_INTERRUPTED", nil)
+                                                  alertControllerWithTitle:AAPLLocalizedString(@"PACHA_ALERT_TITLE_TASK_INTERRUPTED", nil)
+                                                  message:AAPLLocalizedString(@"PACHA_ALERT_TEXT_TASK_INTERRUPTED", nil)
                                                   preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *startOver = [UIAlertAction
-                                        actionWithTitle:ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_START_OVER", nil)
+                                        actionWithTitle:AAPLLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_START_OVER", nil)
                                         style:UIAlertActionStyleDefault
                                         handler:^(UIAlertAction *action) {
                 [[self taskViewController] restartTask];
             }];
             [alertController addAction:startOver];
             [alertController addAction:[UIAlertAction
-                                        actionWithTitle:ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_CANCEL_TEST", nil)
+                                        actionWithTitle:AAPLLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_CANCEL_TEST", nil)
                                         style:UIAlertActionStyleDefault
                                         handler:^(UIAlertAction *action) {
                 ORKStrongTypeOf(self.taskViewController.delegate) strongDelegate = self.taskViewController.delegate;
