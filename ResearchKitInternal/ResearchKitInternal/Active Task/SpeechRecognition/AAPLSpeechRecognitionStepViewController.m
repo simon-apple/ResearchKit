@@ -29,6 +29,17 @@
  */
 
 #import "AAPLSpeechRecognitionStepViewController.h"
+#import <ResearchKitActiveTask/ORKSpeechRecognitionStepViewController_Private.h>
+
+#import <ResearchKit/ORKQuestionStep.h>
+#import <ResearchKit/ORKAnswerFormat.h>
+#import <ResearchKit/ORKBodyItem_Internal.h>
+
+#import "AAPLUtils.h"
+
+#if RK_APPLE_INTERNAL
+#import <ResearchKit/ORKContext.h>
+#endif
 
 @interface AAPLSpeechRecognitionStepViewController ()
 
@@ -39,5 +50,119 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 }
+
+#if RK_APPLE_INTERNAL
+- (NSObject<ORKContext> * _Nullable)currentSpeechInNoisePredefinedTaskContext {
+    Class ORKSpeechInNoisePredefinedTaskContext = NSClassFromString(@"ORKSpeechInNoisePredefinedTaskContext");
+    if (self.step.context && [self.step.context isKindOfClass:ORKSpeechInNoisePredefinedTaskContext]) {
+        return self.step.context;
+    }
+    
+    return nil;
+}
+#endif
+
+
+- (void)setAllowUserToRecordInsteadOnNextStep:(BOOL)allowUserToRecordInsteadOnNextStep {
+    [super setAllowUserToRecordInsteadOnNextStep:allowUserToRecordInsteadOnNextStep];
+    
+#if RK_APPLE_INTERNAL
+    NSObject<ORKContext> *currentContext = [self currentSpeechInNoisePredefinedTaskContext];
+    if (currentContext)
+    {
+        [currentContext setValue:@(allowUserToRecordInsteadOnNextStep) forKey:@"prefersKeyboard"];
+    }
+#endif
+}
+
+- (ORKStepResult *)result {
+#if RK_APPLE_INTERNAL
+    NSObject<ORKContext> *currentContext = [self currentSpeechInNoisePredefinedTaskContext];
+    
+    if (currentContext) {
+        if (((NSNumber *)[currentContext valueForKey:@"isPracticeTest"]).boolValue || ((NSNumber *)[currentContext valueForKey:@"prefersKeyboard"]).boolValue) {
+            // If we are in the speech in noise predefined context and we are in a practice test or the user elected to use keyboard entry, do not save their result.
+            self.isPracticeTest = YES;
+        }
+    }
+#endif
+    
+    return [super result];
+}
+
+- (void)setupNextStepForAllowingUserToRecordInstead:(BOOL)allowUserToRecordInsteadOnNextStep {
+#if RK_APPLE_INTERNAL
+    NSObject<ORKContext> *currentContext = [self currentSpeechInNoisePredefinedTaskContext];
+    if (currentContext)
+    {
+        ORKQuestionStep *nextStep = [self nextStep];
+        if (nextStep)
+        {
+            NSObject<ORKContext> *nextStepContext = nil;
+            Class ORKSpeechInNoisePredefinedTaskContext = NSClassFromString(@"ORKSpeechInNoisePredefinedTaskContext");
+            if ([nextStep.context isKindOfClass:ORKSpeechInNoisePredefinedTaskContext])
+            {
+                nextStepContext = nextStep.context;
+            }
+
+            NSString *substitutedTextAnswer = [self substitutedStringWithString:[_localResult.transcription formattedString]];
+            
+            [((ORKTextAnswerFormat *)nextStep.answerFormat) setDefaultTextAnswer:substitutedTextAnswer];
+            
+            if (allowUserToRecordInsteadOnNextStep)
+            {
+                nextStep.title = AAPLLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_TYPE_TITLE", nil);
+                nextStep.text = nil;
+                
+                if (nextStepContext)
+                {
+                    [nextStepContext setValue:@(YES) forKey:@"prefersKeyboard"];
+                }
+                
+                ORKStrongTypeOf(self.taskViewController) strongTaskViewController = self.taskViewController;
+                
+                ORKBodyItem *buttonItem = [[ORKBodyItem alloc] initWithCustomButtonConfigurationHandler:^(UIButton * _Nonnull button) {
+                    
+                    ORKWeakTypeOf(self.taskViewController) weakTaskViewController = strongTaskViewController;
+                    
+                    if (@available(iOS 13.0, *))
+                    {
+                        [button setImage:[UIImage systemImageNamed:@"smallcircle.fill.circle"] forState:UIControlStateNormal];
+                        [[button imageView] setTintColor:UIColor.systemRedColor];
+                    }
+                    button.adjustsImageWhenHighlighted = NO;
+                    NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_RECORD_INSTEAD", nil)
+                                                                                          attributes:@{NSFontAttributeName:[self buttonTextFont],
+                                                                                                       NSForegroundColorAttributeName:self.view.tintColor}];
+                    [button setAttributedTitle:attributedTitle forState:UIControlStateNormal];
+                    [button addTarget:weakTaskViewController.currentStepViewController action:@selector(goBackward) forControlEvents:UIControlEventTouchUpInside];
+                    [button setTitleEdgeInsets:UIEdgeInsetsMake(0, 5, 0, -5)];
+                    [button setContentEdgeInsets:UIEdgeInsetsMake(0, 0, 0, -5)];
+                }];
+                
+                nextStep.bodyItems = @[buttonItem];
+            }
+            else
+            {
+                nextStep.title = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_REVIEW_TITLE", nil);
+                nextStep.text = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_REVIEW_TEXT", nil);
+                nextStep.bodyItems = nil;
+                
+                if (nextStepContext)
+                {
+                    [nextStepContext setValue:@(NO) forKey:@"prefersKeyboard"];
+                }
+            }
+        }
+    } else {
+#endif
+
+        [super setupNextStepForAllowingUserToRecordInstead:allowUserToRecordInsteadOnNextStep];
+#if RK_APPLE_INTERNAL
+
+    }
+#endif
+}
+
 
 @end

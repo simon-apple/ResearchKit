@@ -92,6 +92,7 @@
 		2EBFE1201AE1B74100CB8254 /* ORKVoiceEngineTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EBFE11F1AE1B74100CB8254 /* ORKVoiceEngineTests.m */; };
 		511987C3246330CA004FC2C7 /* ORKRequestPermissionsStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 511987C1246330CA004FC2C7 /* ORKRequestPermissionsStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		511987C4246330CA004FC2C7 /* ORKRequestPermissionsStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 511987C2246330CA004FC2C7 /* ORKRequestPermissionsStep.m */; };
+		511BB024298DCCC200936EC0 /* ORKSpeechRecognitionStepViewController_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 511BB022298DCCC200936EC0 /* ORKSpeechRecognitionStepViewController_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5139A559266EDA3300537192 /* ORKFeatureFlags.h in Headers */ = {isa = PBXBuildFile; fileRef = 5139A553266ED9BB00537192 /* ORKFeatureFlags.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5175145E245A4FF1009E8FFC /* ORKFrontFacingCameraStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 5175145C245A4FF1009E8FFC /* ORKFrontFacingCameraStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5175145F245A4FF1009E8FFC /* ORKFrontFacingCameraStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 5175145D245A4FF1009E8FFC /* ORKFrontFacingCameraStep.m */; };
@@ -124,7 +125,7 @@
 		5D04885D25F1B3AB0006C68B /* ORKDevice_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D04885B25F1B3AB0006C68B /* ORKDevice_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5D04885E25F1B8C00006C68B /* ORKCollectionResult_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = FF919A551E81BEDD005C2A1E /* ORKCollectionResult_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5D16A7B424E5FE2F00B2A5B4 /* ORKContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D58803B24109B60005B3D91 /* ORKContext.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5D43C5D424255675006F4084 /* ORKBodyItem_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D43C5D324255675006F4084 /* ORKBodyItem_Internal.h */; };
+		5D43C5D424255675006F4084 /* ORKBodyItem_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D43C5D324255675006F4084 /* ORKBodyItem_Internal.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5D58803C24109B60005B3D91 /* ORKContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D58803B24109B60005B3D91 /* ORKContext.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D8D87B0251919480030E058 /* View+Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8D87AF251919480030E058 /* View+Task.swift */; };
 		5D8D87B325191A0F0030E058 /* InstructionStepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8D87B225191A0F0030E058 /* InstructionStepView.swift */; };
@@ -1223,6 +1224,7 @@
 		511987C2246330CA004FC2C7 /* ORKRequestPermissionsStep.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKRequestPermissionsStep.m; sourceTree = "<group>"; };
 		511987C52463316E004FC2C7 /* ORKRequestPermissionsStepViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKRequestPermissionsStepViewController.h; sourceTree = "<group>"; };
 		511987C62463316E004FC2C7 /* ORKRequestPermissionsStepViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKRequestPermissionsStepViewController.m; sourceTree = "<group>"; };
+		511BB022298DCCC200936EC0 /* ORKSpeechRecognitionStepViewController_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKSpeechRecognitionStepViewController_Private.h; sourceTree = "<group>"; };
 		5139A553266ED9BB00537192 /* ORKFeatureFlags.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKFeatureFlags.h; sourceTree = "<group>"; };
 		515310CD233570CF007BCA58 /* ORKDontKnowButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKDontKnowButton.h; sourceTree = "<group>"; };
 		515310CE233570CF007BCA58 /* ORKDontKnowButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKDontKnowButton.m; sourceTree = "<group>"; };
@@ -4258,6 +4260,7 @@
 				2E3408C92028E13B0027D6B8 /* ORKSpeechRecognitionError.h */,
 				BA5B9205204F5D9A007C2F9D /* ORKSpeechRecognitionResult.h */,
 				BA5B9206204F5D9A007C2F9D /* ORKSpeechRecognitionResult.m */,
+				511BB022298DCCC200936EC0 /* ORKSpeechRecognitionStepViewController_Private.h */,
 			);
 			path = SpeechRecognition;
 			sourceTree = "<group>";
@@ -5073,6 +5076,7 @@
 				CAD08A3D289DE609007B2A98 /* ORKHealthClinicalTypeRecorder.h in Headers */,
 				CAD08A76289DE6F3007B2A98 /* ORKSpatialSpanMemoryStep.h in Headers */,
 				CAD08A10289DE4F1007B2A98 /* ORKdBHLToneAudiometryResult.h in Headers */,
+				511BB024298DCCC200936EC0 /* ORKSpeechRecognitionStepViewController_Private.h in Headers */,
 				CA2B8FED28A1777D0025B773 /* ORKTappingIntervalStepViewController.h in Headers */,
 				CA2B8FCE28A176190025B773 /* ORKPSATContentView.h in Headers */,
 				CAFAA6C228A198BD0010BBDE /* ResearchKitActiveTask_Private.h in Headers */,
