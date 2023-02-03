@@ -28,14 +28,14 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "APPLCompletionStepViewController.h"
+#import "AAPLCompletionStepViewController.h"
 #import "ResearchKitUI/ORKInstructionStepViewController_Internal.h"
 #import "ResearchKitUI/ORKTaskViewController_Internal.h"
 #import "ResearchKitUI/ORKStepViewController_Internal.h"
 
 #import "ResearchKit/ORKContext.h"
 
-@implementation APPLCompletionStepViewController
+@implementation AAPLCompletionStepViewController
 
 -(void)stepDidChange {
     [super stepDidChange];

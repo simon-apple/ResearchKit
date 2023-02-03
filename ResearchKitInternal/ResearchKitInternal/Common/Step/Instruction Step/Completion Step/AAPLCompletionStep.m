@@ -28,19 +28,13 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@import Foundation;
-#import <ResearchKit/ORKCompletionStep.h>
 
-NS_ASSUME_NONNULL_BEGIN
+#import "AAPLCompletionStep.h"
 
-typedef NSString *ORKCompletionStepIdentifier NS_STRING_ENUM;
-ORK_EXTERN ORKCompletionStepIdentifier const ORKCompletionStepIdentifierMicrophoneLearnMore;
-ORK_EXTERN ORKCompletionStepIdentifier const ORKEnvironmentSPLMeterTimeoutIdentifier;
+ORKCompletionStepIdentifier const ORKCompletionStepIdentifierMicrophoneLearnMore = @"ORKCompletionStepIdentifierMicrophoneLearnMore";
+ORKCompletionStepIdentifier const ORKEnvironmentSPLMeterTimeoutIdentifier = @"ORKEnvironmentSPLMeterTimeoutIdentifier";
 
-
-ORK_CLASS_AVAILABLE API_AVAILABLE(ios(11.0), watchos(6.0))
-@interface APPLCompletionStep : ORKCompletionStep
+@implementation AAPLCompletionStep
 
 @end
 
-NS_ASSUME_NONNULL_END

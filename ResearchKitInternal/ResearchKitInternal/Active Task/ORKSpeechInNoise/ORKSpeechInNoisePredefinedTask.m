@@ -37,7 +37,7 @@
 
 #import "AAPLUtils.h"
 
-#import <ResearchKitInternal/APPLCompletionStep.h>
+#import <ResearchKitInternal/AAPLCompletionStep.h>
 
 #import <ResearchKit/ORKAnswerFormat.h>
 #import <ResearchKit/ORKBodyItem.h>
@@ -456,7 +456,7 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierHeadphonesReq
     {
         // Completion (Practice)
         {
-            APPLCompletionStep *step = [[APPLCompletionStep alloc] initWithIdentifier:ORKSpeechInNoiseStepIdentifierPracticeCompletionStep];
+            AAPLCompletionStep *step = [[AAPLCompletionStep alloc] initWithIdentifier:ORKSpeechInNoiseStepIdentifierPracticeCompletionStep];
             step.context = context;
             step.title = AAPLLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_PRACTICE_COMPLETION_TITLE", nil);
             step.optional = YES;

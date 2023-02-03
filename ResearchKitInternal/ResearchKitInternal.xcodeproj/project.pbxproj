@@ -13,14 +13,14 @@
 		511BB010298B162400936EC0 /* APPLHelpers_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 511BB00E298B162400936EC0 /* APPLHelpers_Internal.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		511BB011298B162400936EC0 /* APPLHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 511BB00F298B162400936EC0 /* APPLHelpers.m */; };
 		511BB013298B3BD300936EC0 /* Window.wav in Resources */ = {isa = PBXBuildFile; fileRef = 511BB012298B3BD300936EC0 /* Window.wav */; };
-		51F716D929808B8100D8ACF7 /* APPLCompletionStep..m in Sources */ = {isa = PBXBuildFile; fileRef = 51F716D829808B8100D8ACF7 /* APPLCompletionStep..m */; };
-		51F716DB29808CF700D8ACF7 /* APPLCompletionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 51F716DA29808CDE00D8ACF7 /* APPLCompletionStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		51F716DE29808E0200D8ACF7 /* APPLCompletionStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 51F716DC29808E0200D8ACF7 /* APPLCompletionStepViewController.h */; };
-		51F716DF29808E0200D8ACF7 /* APPLCompletionStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F716DD29808E0200D8ACF7 /* APPLCompletionStepViewController.m */; };
 		51F716EF2981DE0700D8ACF7 /* APPLSpeechInNoiseStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F716ED2981DE0700D8ACF7 /* APPLSpeechInNoiseStep.m */; };
 		51F716F02981DE0700D8ACF7 /* APPLSpeechInNoiseStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 51F716EE2981DE0700D8ACF7 /* APPLSpeechInNoiseStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		51F716F32981DE1B00D8ACF7 /* APPLSpeechInNoiseStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 51F716F12981DE1B00D8ACF7 /* APPLSpeechInNoiseStepViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		51F716F42981DE1B00D8ACF7 /* APPLSpeechInNoiseStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F716F22981DE1B00D8ACF7 /* APPLSpeechInNoiseStepViewController.m */; };
+		51F716D929808B8100D8ACF7 /* AAPLCompletionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F716D829808B8100D8ACF7 /* AAPLCompletionStep.m */; };
+		51F716DB29808CF700D8ACF7 /* AAPLCompletionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 51F716DA29808CDE00D8ACF7 /* AAPLCompletionStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		51F716DE29808E0200D8ACF7 /* AAPLCompletionStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 51F716DC29808E0200D8ACF7 /* AAPLCompletionStepViewController.h */; };
+		51F716DF29808E0200D8ACF7 /* AAPLCompletionStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F716DD29808E0200D8ACF7 /* AAPLCompletionStepViewController.m */; };
 		CA0748B428B7F18B001D8599 /* AAPLdBHLToneAudiometryAudioGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = CA0748B228B7F18B001D8599 /* AAPLdBHLToneAudiometryAudioGenerator.h */; };
 		CA0748B528B7F18B001D8599 /* AAPLdBHLToneAudiometryAudioGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = CA0748B328B7F18B001D8599 /* AAPLdBHLToneAudiometryAudioGenerator.m */; };
 		CA0748B828B7F997001D8599 /* AAPLdBHLToneAudiometryStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = CA0748B628B7F997001D8599 /* AAPLdBHLToneAudiometryStepViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -218,14 +218,14 @@
 		511BB00E298B162400936EC0 /* APPLHelpers_Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APPLHelpers_Internal.h; sourceTree = "<group>"; };
 		511BB00F298B162400936EC0 /* APPLHelpers.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APPLHelpers.m; sourceTree = "<group>"; };
 		511BB012298B3BD300936EC0 /* Window.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Window.wav; sourceTree = "<group>"; };
-		51F716D829808B8100D8ACF7 /* APPLCompletionStep..m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APPLCompletionStep..m; sourceTree = "<group>"; };
-		51F716DA29808CDE00D8ACF7 /* APPLCompletionStep.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APPLCompletionStep.h; sourceTree = "<group>"; };
-		51F716DC29808E0200D8ACF7 /* APPLCompletionStepViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APPLCompletionStepViewController.h; sourceTree = "<group>"; };
-		51F716DD29808E0200D8ACF7 /* APPLCompletionStepViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APPLCompletionStepViewController.m; sourceTree = "<group>"; };
 		51F716ED2981DE0700D8ACF7 /* APPLSpeechInNoiseStep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APPLSpeechInNoiseStep.m; sourceTree = "<group>"; };
 		51F716EE2981DE0700D8ACF7 /* APPLSpeechInNoiseStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APPLSpeechInNoiseStep.h; sourceTree = "<group>"; };
 		51F716F12981DE1B00D8ACF7 /* APPLSpeechInNoiseStepViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APPLSpeechInNoiseStepViewController.h; sourceTree = "<group>"; };
 		51F716F22981DE1B00D8ACF7 /* APPLSpeechInNoiseStepViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APPLSpeechInNoiseStepViewController.m; sourceTree = "<group>"; };
+		51F716D829808B8100D8ACF7 /* AAPLCompletionStep.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AAPLCompletionStep.m; sourceTree = "<group>"; };
+		51F716DA29808CDE00D8ACF7 /* AAPLCompletionStep.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAPLCompletionStep.h; sourceTree = "<group>"; };
+		51F716DC29808E0200D8ACF7 /* AAPLCompletionStepViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAPLCompletionStepViewController.h; sourceTree = "<group>"; };
+		51F716DD29808E0200D8ACF7 /* AAPLCompletionStepViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AAPLCompletionStepViewController.m; sourceTree = "<group>"; };
 		CA0748B228B7F18B001D8599 /* AAPLdBHLToneAudiometryAudioGenerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAPLdBHLToneAudiometryAudioGenerator.h; sourceTree = "<group>"; };
 		CA0748B328B7F18B001D8599 /* AAPLdBHLToneAudiometryAudioGenerator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AAPLdBHLToneAudiometryAudioGenerator.m; sourceTree = "<group>"; };
 		CA0748B628B7F997001D8599 /* AAPLdBHLToneAudiometryStepViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAPLdBHLToneAudiometryStepViewController.h; sourceTree = "<group>"; };
@@ -457,10 +457,10 @@
 		51F716D729808B5600D8ACF7 /* Completion Step */ = {
 			isa = PBXGroup;
 			children = (
-				51F716D829808B8100D8ACF7 /* APPLCompletionStep..m */,
-				51F716DA29808CDE00D8ACF7 /* APPLCompletionStep.h */,
-				51F716DC29808E0200D8ACF7 /* APPLCompletionStepViewController.h */,
-				51F716DD29808E0200D8ACF7 /* APPLCompletionStepViewController.m */,
+				51F716D829808B8100D8ACF7 /* AAPLCompletionStep.m */,
+				51F716DA29808CDE00D8ACF7 /* AAPLCompletionStep.h */,
+				51F716DC29808E0200D8ACF7 /* AAPLCompletionStepViewController.h */,
+				51F716DD29808E0200D8ACF7 /* AAPLCompletionStepViewController.m */,
 			);
 			path = "Completion Step";
 			sourceTree = "<group>";
@@ -1006,7 +1006,7 @@
 				CA47EB1428BD369000D91C0E /* AVOutputDeviceModelSpecificKeys.h in Headers */,
 				CA5B6D6D28BD1F38002C3BA4 /* ORKTinnitusPureToneStepViewController_Private.h in Headers */,
 				CA5B6D8B28BD1F38002C3BA4 /* ORKTinnitusAudioSample.h in Headers */,
-				51F716DB29808CF700D8ACF7 /* APPLCompletionStep.h in Headers */,
+				51F716DB29808CF700D8ACF7 /* AAPLCompletionStep.h in Headers */,
 				CA5B6D1128BD1C5C002C3BA4 /* ORKTypingResult.h in Headers */,
 				CA5B6DA728BD27FC002C3BA4 /* ORKHeadphoneDetector.h in Headers */,
 				CA3FF9D228B56A8300A33B6B /* ORKAVJournalingResult.h in Headers */,
@@ -1026,7 +1026,7 @@
 				CA5B6D0E28BD1C5C002C3BA4 /* ORKTypingStep.h in Headers */,
 				CA0748BC28B8032E001D8599 /* AAPLdBHLToneAudiometryStep.h in Headers */,
 				CA5B6D0F28BD1C5C002C3BA4 /* ORKTypingStepViewController.h in Headers */,
-				51F716DE29808E0200D8ACF7 /* APPLCompletionStepViewController.h in Headers */,
+				51F716DE29808E0200D8ACF7 /* AAPLCompletionStepViewController.h in Headers */,
 				CA77D2A128AFFB4700400292 /* ORKFlamesShaderTypes.h in Headers */,
 				CA5B6D6A28BD1F38002C3BA4 /* ORKTinnitusPureToneContentView.h in Headers */,
 				CA47EB1328BD369000D91C0E /* AVOutputDeviceDiscoverySession.h in Headers */,
@@ -1172,7 +1172,7 @@
 				CA5B6DAC28BD27FC002C3BA4 /* ORKHeadphoneDetectStepViewController.m in Sources */,
 				CA5B6DAB28BD27FC002C3BA4 /* ORKHeadphoneDetectResult.m in Sources */,
 				CA0748BD28B8032E001D8599 /* AAPLdBHLToneAudiometryStep.m in Sources */,
-				51F716D929808B8100D8ACF7 /* APPLCompletionStep..m in Sources */,
+				51F716D929808B8100D8ACF7 /* AAPLCompletionStep.m in Sources */,
 				CA58F8A428B5330D00761769 /* Matrix.swift in Sources */,
 				CA5B6DAE28BD29AA002C3BA4 /* ORKdBHLTaskContext.m in Sources */,
 				CA77D29F28AFFB4700400292 /* ORKFlameGroup.m in Sources */,
@@ -1228,7 +1228,7 @@
 				CA58F8A828B5330E00761769 /* lbfgsb.c in Sources */,
 				51F716EF2981DE0700D8ACF7 /* APPLSpeechInNoiseStep.m in Sources */,
 				CA5B6D6228BD1F38002C3BA4 /* ORKTinnitusMaskingSoundStepViewController.m in Sources */,
-				51F716DF29808E0200D8ACF7 /* APPLCompletionStepViewController.m in Sources */,
+				51F716DF29808E0200D8ACF7 /* AAPLCompletionStepViewController.m in Sources */,
 				CA58F8AE28B5330E00761769 /* AccelerateCBLAS.c in Sources */,
 				CA3FF9D428B56A8300A33B6B /* ORKAVJournalingSessionHelper.m in Sources */,
 				CA5B6D7428BD1F38002C3BA4 /* ORKTinnitusTypeContentView.m in Sources */,
