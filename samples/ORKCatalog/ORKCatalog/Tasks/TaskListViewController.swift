@@ -32,6 +32,10 @@
 import UIKit
 import ResearchKit_Private
 
+#if RK_APPLE_INTERNAL
+import SwiftUI
+#endif
+
 /**
     This example displays a catalog of tasks, each consisting of one or two steps,
     built using the ResearchKit framework. The `TaskListViewController` displays the
@@ -46,7 +50,6 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
     var waitStepViewController: ORKWaitStepViewController?
     var waitStepUpdateTimer: Timer?
     var waitStepProgress: CGFloat = 0.0
-
     // MARK: Types
     
     enum TableViewCellIdentifier: String {
@@ -159,7 +162,39 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
          The task property of the task view controller can be set any time before
          the task view controller is presented.
          */
-        present(taskViewController, animated: true, completion: nil)
+#if RK_APPLE_INTERNAL
+        if #available(iOS 15.0, *),
+           UserDefaults.standard.bool(forKey: UserDefaultsKeys.isSwiftUIEnabled) {
+            var researchKitView = ResearchTaskView(
+                task: task,
+                allowsNavigatingBackwards: true
+            )
+            let logger = Logger(subsystem: "ORKCatalog", category: "SwiftUI: TaskView")
+            researchKitView.onResultChange = { result in
+                logger.log("result has been updated to \(result)")
+            }
+            researchKitView.onStartStep = { startStep in
+                logger.log("start step has loaded \(startStep)")
+            }
+            researchKitView.onFinishStep = { finishStep in
+                logger.log("finish step has loaded \(finishStep)")
+            }
+            researchKitView.onLearnMoreTap = { learnMoreStep in
+                logger.log("learn more button has been tapped \(learnMoreStep)")
+            }
+            researchKitView.onFinishTask = { [weak self] reason, result, error in
+                self?.taskResultFinishedCompletionHandler?(result)
+            }
+            
+            let swiftUITaskViewController = UIHostingController(rootView: researchKitView)
+            present(swiftUITaskViewController, animated: true, completion: nil)
+        } else {
+            // Fallback on earlier versions
+            present(taskViewController, animated: true)
+        }
+#else
+        present(taskViewController, animated: true)
+#endif
     }
     
     // MARK: ORKTaskViewControllerDelegate
