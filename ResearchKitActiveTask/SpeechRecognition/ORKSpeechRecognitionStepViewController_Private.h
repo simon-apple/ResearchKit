@@ -31,6 +31,7 @@
 #import <ResearchKitActiveTask/ORKSpeechRecognitionStepViewController.h>
 
 @class ORKQuestionStep;
+@class ORKSpeechRecognitionResult;
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -39,9 +40,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)setAllowUserToRecordInsteadOnNextStep:(BOOL)allowUserToRecordInsteadOnNextStep;
 - (void)setupNextStepForAllowingUserToRecordInstead:(BOOL)allowUserToRecordInsteadOnNextStep;
+- (UIFont *)buttonTextFont;
+- (nullable NSString *)substitutedStringWithString:(nullable NSString *)string;
 - (nullable ORKQuestionStep *)nextStep;
 
 @property BOOL isPracticeTest;
+@property ORKSpeechRecognitionResult *localResult;
 
 @end
 

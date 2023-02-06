@@ -28,7 +28,8 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "ORKBodyItem.h"
+//#import "ORKBodyItem.h"
+#import <ResearchKit/ORKBodyItem.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

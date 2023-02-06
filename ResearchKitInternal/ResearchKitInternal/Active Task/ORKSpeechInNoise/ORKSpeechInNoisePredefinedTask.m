@@ -38,6 +38,8 @@
 #import "AAPLUtils.h"
 
 #import <ResearchKitInternal/AAPLCompletionStep.h>
+#import <ResearchKitInternal/AAPLSpeechRecognitionStep.h>
+#import <ResearchKitInternal/AAPLSpeechInNoiseStep.h>
 
 #import <ResearchKit/ORKAnswerFormat.h>
 #import <ResearchKit/ORKBodyItem.h>
@@ -49,8 +51,6 @@
 #import <ResearchKit/ORKStep.h>
 #import <ResearchKit/ORKStepNavigationRule.h>
 #import <ResearchKitActiveTask/ORKEnvironmentSPLMeterStep.h>
-#import <ResearchKitInternal/AAPLSpeechInNoiseStep.h>
-#import <ResearchKitActiveTask/ORKSpeechRecognitionStep.h>
 
 #import <Speech/SFSpeechRecognizer.h>
 
@@ -412,7 +412,7 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierHeadphonesReq
         if ( [SFSpeechRecognizer authorizationStatus] != SFSpeechRecognizerAuthorizationStatusDenied ) {
             ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@_%@", fileName.lowercaseString, ORKSpeechInNoiseStepIdentifierSpeechRecognitionStep];
             ORKAudioStreamerConfiguration *config = [[ORKAudioStreamerConfiguration alloc] initWithIdentifier:@"streamingAudio"];
-            ORKSpeechRecognitionStep *step = [[ORKSpeechRecognitionStep alloc] initWithIdentifier:stepIdentifier image:nil text:nil];
+            AAPLSpeechRecognitionStep *step = [[AAPLSpeechRecognitionStep alloc] initWithIdentifier:stepIdentifier image:nil text:nil];
             step.shouldHideTranscript = YES;
             step.context = context;
             step.recorderConfigurations = @[config];

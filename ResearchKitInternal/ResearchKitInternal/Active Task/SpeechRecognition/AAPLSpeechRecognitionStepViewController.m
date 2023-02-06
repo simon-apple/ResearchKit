@@ -29,17 +29,18 @@
  */
 
 #import "AAPLSpeechRecognitionStepViewController.h"
+
 #import <ResearchKitActiveTask/ORKSpeechRecognitionStepViewController_Private.h>
+#import <ResearchKitActiveTask/ORKSpeechRecognitionResult.h>
 
 #import <ResearchKit/ORKQuestionStep.h>
 #import <ResearchKit/ORKAnswerFormat.h>
+#import <ResearchKit/ORKBodyItem.h>
 #import <ResearchKit/ORKBodyItem_Internal.h>
+#import <ResearchKit/ORKHelpers_Internal.h>
 
 #import "AAPLUtils.h"
-
-#if RK_APPLE_INTERNAL
 #import <ResearchKit/ORKContext.h>
-#endif
 
 @interface AAPLSpeechRecognitionStepViewController ()
 
@@ -51,7 +52,6 @@
     [super viewDidLoad];
 }
 
-#if RK_APPLE_INTERNAL
 - (NSObject<ORKContext> * _Nullable)currentSpeechInNoisePredefinedTaskContext {
     Class ORKSpeechInNoisePredefinedTaskContext = NSClassFromString(@"ORKSpeechInNoisePredefinedTaskContext");
     if (self.step.context && [self.step.context isKindOfClass:ORKSpeechInNoisePredefinedTaskContext]) {
@@ -60,23 +60,18 @@
     
     return nil;
 }
-#endif
-
 
 - (void)setAllowUserToRecordInsteadOnNextStep:(BOOL)allowUserToRecordInsteadOnNextStep {
     [super setAllowUserToRecordInsteadOnNextStep:allowUserToRecordInsteadOnNextStep];
     
-#if RK_APPLE_INTERNAL
     NSObject<ORKContext> *currentContext = [self currentSpeechInNoisePredefinedTaskContext];
     if (currentContext)
     {
         [currentContext setValue:@(allowUserToRecordInsteadOnNextStep) forKey:@"prefersKeyboard"];
     }
-#endif
 }
 
 - (ORKStepResult *)result {
-#if RK_APPLE_INTERNAL
     NSObject<ORKContext> *currentContext = [self currentSpeechInNoisePredefinedTaskContext];
     
     if (currentContext) {
@@ -85,13 +80,11 @@
             self.isPracticeTest = YES;
         }
     }
-#endif
     
     return [super result];
 }
 
 - (void)setupNextStepForAllowingUserToRecordInstead:(BOOL)allowUserToRecordInsteadOnNextStep {
-#if RK_APPLE_INTERNAL
     NSObject<ORKContext> *currentContext = [self currentSpeechInNoisePredefinedTaskContext];
     if (currentContext)
     {
@@ -105,7 +98,7 @@
                 nextStepContext = nextStep.context;
             }
 
-            NSString *substitutedTextAnswer = [self substitutedStringWithString:[_localResult.transcription formattedString]];
+            NSString *substitutedTextAnswer = [self substitutedStringWithString:[self.localResult.transcription formattedString]];
             
             [((ORKTextAnswerFormat *)nextStep.answerFormat) setDefaultTextAnswer:substitutedTextAnswer];
             
@@ -131,7 +124,7 @@
                         [[button imageView] setTintColor:UIColor.systemRedColor];
                     }
                     button.adjustsImageWhenHighlighted = NO;
-                    NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_RECORD_INSTEAD", nil)
+                    NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:AAPLLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_RECORD_INSTEAD", nil)
                                                                                           attributes:@{NSFontAttributeName:[self buttonTextFont],
                                                                                                        NSForegroundColorAttributeName:self.view.tintColor}];
                     [button setAttributedTitle:attributedTitle forState:UIControlStateNormal];
@@ -155,13 +148,8 @@
             }
         }
     } else {
-#endif
-
         [super setupNextStepForAllowingUserToRecordInstead:allowUserToRecordInsteadOnNextStep];
-#if RK_APPLE_INTERNAL
-
     }
-#endif
 }
 
 
