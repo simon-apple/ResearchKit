@@ -55,9 +55,12 @@
     self.shouldShowDefaultTimer = NO;
     // This is inserted here because it is required for any task that requires the SPL Meter step
     ORKAudioStreamerConfiguration *config = [[ORKAudioStreamerConfiguration alloc] initWithIdentifier:[NSString stringWithFormat:@"%@_streamerConfiguration",self.identifier]];
-#if RK_APPLE_INTERNAL
-    config.bypassAudioEngineStart = YES;
-#endif
+    
+    // TODO: REMOVE INTERNAL BLOCK
+//#if RK_APPLE_INTERNAL
+//    config.bypassAudioEngineStart = YES;
+//#endif
+    
     self.recorderConfigurations = @[config];
 }
 
@@ -78,11 +81,13 @@
 - (BOOL)startsFinished {
     return NO;
 }
-#if RK_APPLE_INTERNAL
-- (BOOL)hasAudioRecording {
-    return YES;
-}
-#endif
+
+// TODO: REMOVE INTERNAL BLOCK
+//#if RK_APPLE_INTERNAL
+//- (BOOL)hasAudioRecording {
+//    return YES;
+//}
+//#endif
 
 - (instancetype)copyWithZone:(NSZone *)zone {
     ORKEnvironmentSPLMeterStep *step = [super copyWithZone:zone];
