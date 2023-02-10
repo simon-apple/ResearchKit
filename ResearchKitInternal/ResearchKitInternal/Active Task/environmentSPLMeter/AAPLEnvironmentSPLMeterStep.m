@@ -30,6 +30,26 @@
 
 #import "AAPLEnvironmentSPLMeterStep.h"
 
+#import <ResearchKit/ORKRecorder_Private.h>
+#import <ResearchKit/ORKHelpers_Internal.h>
+
 @implementation AAPLEnvironmentSPLMeterStep
+
+- (instancetype)initWithIdentifier:(NSString *)identifier {
+    self = [super initWithIdentifier:identifier];
+
+    if (self) {
+        ORKAudioStreamerConfiguration *config = (ORKAudioStreamerConfiguration *)self.recorderConfigurations.firstObject;
+        
+        if (config != nil) {
+            config.bypassAudioEngineStart = YES;
+        }
+    }
+    return self;
+}
+
+- (BOOL)hasAudioRecording {
+    return YES;
+}
 
 @end

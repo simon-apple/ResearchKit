@@ -17,8 +17,10 @@
 		511BB01C298DC91000936EC0 /* AAPLSpeechRecognitionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 511BB01A298DC91000936EC0 /* AAPLSpeechRecognitionStep.m */; };
 		511BB020298DC94400936EC0 /* AAPLSpeechRecognitionStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 511BB01E298DC94400936EC0 /* AAPLSpeechRecognitionStepViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		511BB021298DC94400936EC0 /* AAPLSpeechRecognitionStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 511BB01F298DC94400936EC0 /* AAPLSpeechRecognitionStepViewController.m */; };
-		511BB0352994518400936EC0 /* AAPLEnvironmentSPLMeterStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 511BB0332994518400936EC0 /* AAPLEnvironmentSPLMeterStep.h */; };
+		511BB0352994518400936EC0 /* AAPLEnvironmentSPLMeterStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 511BB0332994518400936EC0 /* AAPLEnvironmentSPLMeterStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		511BB0362994518400936EC0 /* AAPLEnvironmentSPLMeterStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 511BB0342994518400936EC0 /* AAPLEnvironmentSPLMeterStep.m */; };
+		511E8D5E2995C01A00A384A5 /* AAPLEnvironmentSPLMeterStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 511E8D5C2995C01A00A384A5 /* AAPLEnvironmentSPLMeterStepViewController.h */; };
+		511E8D5F2995C01A00A384A5 /* AAPLEnvironmentSPLMeterStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 511E8D5D2995C01A00A384A5 /* AAPLEnvironmentSPLMeterStepViewController.m */; };
 		51F716D929808B8100D8ACF7 /* AAPLCompletionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F716D829808B8100D8ACF7 /* AAPLCompletionStep.m */; };
 		51F716DB29808CF700D8ACF7 /* AAPLCompletionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 51F716DA29808CDE00D8ACF7 /* AAPLCompletionStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		51F716DE29808E0200D8ACF7 /* AAPLCompletionStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 51F716DC29808E0200D8ACF7 /* AAPLCompletionStepViewController.h */; };
@@ -230,6 +232,8 @@
 		511BB01F298DC94400936EC0 /* AAPLSpeechRecognitionStepViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AAPLSpeechRecognitionStepViewController.m; sourceTree = "<group>"; };
 		511BB0332994518400936EC0 /* AAPLEnvironmentSPLMeterStep.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAPLEnvironmentSPLMeterStep.h; sourceTree = "<group>"; };
 		511BB0342994518400936EC0 /* AAPLEnvironmentSPLMeterStep.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AAPLEnvironmentSPLMeterStep.m; sourceTree = "<group>"; };
+		511E8D5C2995C01A00A384A5 /* AAPLEnvironmentSPLMeterStepViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAPLEnvironmentSPLMeterStepViewController.h; sourceTree = "<group>"; };
+		511E8D5D2995C01A00A384A5 /* AAPLEnvironmentSPLMeterStepViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AAPLEnvironmentSPLMeterStepViewController.m; sourceTree = "<group>"; };
 		51F716D829808B8100D8ACF7 /* AAPLCompletionStep.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AAPLCompletionStep.m; sourceTree = "<group>"; };
 		51F716DA29808CDE00D8ACF7 /* AAPLCompletionStep.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAPLCompletionStep.h; sourceTree = "<group>"; };
 		51F716DC29808E0200D8ACF7 /* AAPLCompletionStepViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAPLCompletionStepViewController.h; sourceTree = "<group>"; };
@@ -466,6 +470,8 @@
 			children = (
 				511BB0332994518400936EC0 /* AAPLEnvironmentSPLMeterStep.h */,
 				511BB0342994518400936EC0 /* AAPLEnvironmentSPLMeterStep.m */,
+				511E8D5C2995C01A00A384A5 /* AAPLEnvironmentSPLMeterStepViewController.h */,
+				511E8D5D2995C01A00A384A5 /* AAPLEnvironmentSPLMeterStepViewController.m */,
 			);
 			path = environmentSPLMeter;
 			sourceTree = "<group>";
@@ -1010,6 +1016,7 @@
 				CA47EAF228BD334B00D91C0E /* ORKVolumeCalibrationStepViewController.h in Headers */,
 				CA5B6D6828BD1F38002C3BA4 /* ORKTinnitusPureToneStepViewController.h in Headers */,
 				CA5B6D5628BD1F38002C3BA4 /* ORKTinnitusAssessmentContentView.h in Headers */,
+				511E8D5E2995C01A00A384A5 /* AAPLEnvironmentSPLMeterStepViewController.h in Headers */,
 				CA58F89F28B5330D00761769 /* ORKNewAudiometryMinimizer.h in Headers */,
 				CA5B6DA928BD27FC002C3BA4 /* ORKHeadphonesRequiredCompletionStepViewController.h in Headers */,
 				CA77D2A728AFFB4700400292 /* ORKFlamesViewTypes.h in Headers */,
@@ -1224,6 +1231,7 @@
 				CA5B6D6F28BD1F38002C3BA4 /* ORKTinnitusTypes.m in Sources */,
 				CA58F8A228B5330D00761769 /* AccelerateBufferWrapper.swift in Sources */,
 				CA58F8A728B5330E00761769 /* timer.c in Sources */,
+				511E8D5F2995C01A00A384A5 /* AAPLEnvironmentSPLMeterStepViewController.m in Sources */,
 				CA5B6DA528BD27FC002C3BA4 /* ORKHeadphonesRequiredCompletionStepViewController.m in Sources */,
 				CA5B6D6628BD1F38002C3BA4 /* ORKTinnitusPureToneContentView.m in Sources */,
 				CA5B6D7628BD1F38002C3BA4 /* ORKTinnitusTypeStep.m in Sources */,

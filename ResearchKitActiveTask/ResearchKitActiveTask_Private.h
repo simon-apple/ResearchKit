@@ -68,6 +68,7 @@
 #import <ResearchKitActiveTask/ORKdBHLToneAudiometryStep.h>
 #import <ResearchKitActiveTask/ORKSpeechInNoiseStepViewController_Private.h>
 #import <ResearchKitActiveTask/ORKSpeechRecognitionStepViewController_Private.h>
+#import <ResearchKitActiveTask/ORKEnvironmentSPLMeterStepViewController_Private.h>
 
 // [WIP]: exposed for the internal framework
 // may need to be permanent, but we shall see
