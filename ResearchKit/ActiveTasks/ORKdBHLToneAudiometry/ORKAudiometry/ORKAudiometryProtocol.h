@@ -33,7 +33,6 @@
 typedef NSTimeInterval(^ORKAudiometryTimestampProvider)(void);
 typedef void(^ORKAudiometryStateBlock)(BOOL, ORKAudiometryStimulus *);
 
-
 @class ORKdBHLToneAudiometryFrequencySample;
 
 /**
@@ -64,7 +63,16 @@ typedef void(^ORKAudiometryStateBlock)(BOOL, ORKAudiometryStimulus *);
 /**
  Called just before presenting tone.
  */
+@optional
 - (void)registerStimulusPlayback;
+
+/**
+ Used by some UIs to setup the prestimulus delay.
+ 
+ @param double The value of the preStimulusDelay
+ */
+@optional
+- (void)registerPreStimulusDelay:(double)preStimulusDelay;
 
 /**
  Register the user response for the last presented tone.
@@ -80,18 +88,12 @@ typedef void(^ORKAudiometryStateBlock)(BOOL, ORKAudiometryStimulus *);
 - (void)signalClipped;
 
 /**
- Used by some UIs to setup the prestimulus delay.
- 
- @param double The value of the preStimulusDelay
- */
-@optional
-- (void)registerPreStimulusDelay:(double)preStimulusDelay;
-
-/**
  Returns an array of containing the results of the audiometry test.
   
  @return An array of  `ORKdBHLToneAudiometryFrequencySample` representing the results of the audiometry test..
  */
 - (NSArray<ORKdBHLToneAudiometryFrequencySample *> *)resultSamples;
+
+- (void)stimulusAcknowledgedWithdBHL:(double)dbHLValue;
 
 @end

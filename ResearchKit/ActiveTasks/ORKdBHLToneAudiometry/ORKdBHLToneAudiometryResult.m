@@ -211,6 +211,7 @@ const double ORKInvalidDBHLValue = DBL_MAX;
     ORK_ENCODE_DOUBLE(aCoder, userTapTimeStamp);
     ORK_ENCODE_DOUBLE(aCoder, startOfUnitTimeStamp);
     ORK_ENCODE_DOUBLE(aCoder, preStimulusDelay);
+    ORK_ENCODE_OBJ(aCoder, confidenceLevel);
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
@@ -221,6 +222,7 @@ const double ORKInvalidDBHLValue = DBL_MAX;
         ORK_DECODE_DOUBLE(aDecoder, userTapTimeStamp);
         ORK_DECODE_DOUBLE(aDecoder, startOfUnitTimeStamp);
         ORK_DECODE_DOUBLE(aDecoder, preStimulusDelay);
+        ORK_DECODE_OBJ_CLASS(aDecoder, confidenceLevel, NSString);
     }
     return self;
 }
@@ -236,7 +238,8 @@ const double ORKInvalidDBHLValue = DBL_MAX;
             (self.timeoutTimeStamp == castObject.timeoutTimeStamp) &&
             (self.userTapTimeStamp == castObject.userTapTimeStamp) &&
             (self.preStimulusDelay == castObject.preStimulusDelay) &&
-            (self.startOfUnitTimeStamp == castObject.startOfUnitTimeStamp));
+            (self.startOfUnitTimeStamp == castObject.startOfUnitTimeStamp) &&
+            (ORKEqualObjects(self.confidenceLevel, castObject.confidenceLevel)));
 }
 
 - (instancetype)copyWithZone:(NSZone *)zone {
@@ -246,6 +249,7 @@ const double ORKInvalidDBHLValue = DBL_MAX;
     unit.userTapTimeStamp = self.userTapTimeStamp;
     unit.startOfUnitTimeStamp = self.startOfUnitTimeStamp;
     unit.preStimulusDelay = self.preStimulusDelay;
+    unit->_confidenceLevel = [_confidenceLevel copy];
     return unit;
 }
 

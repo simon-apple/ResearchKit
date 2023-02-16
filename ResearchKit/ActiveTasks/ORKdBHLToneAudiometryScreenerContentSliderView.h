@@ -1,3 +1,4 @@
+//
 /*
  Copyright (c) 2022, Apple Inc. All rights reserved.
  
@@ -29,30 +30,17 @@
  */
 
 @import UIKit;
-#import <ResearchKit/ORKAudiometryProtocol.h>
+#import "ORKCustomStepView_Internal.h"
+#import "ORKUnitLabel.h"
+#import "ORKRoundTappingButton.h"
+#import "ORKdBHLToneAudiometryScreenerContentView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class ORKdBHLToneAudiometryStep;
-@class ORKdBHLToneAudiometryScreenerStep;
+API_AVAILABLE(ios(14.0))
+@interface ORKdBHLToneAudiometryScreenerContentSliderView : ORKdBHLToneAudiometryScreenerContentView <UIPickerViewDelegate, UIPickerViewDataSource, UITableViewDelegate>
 
-/**
- The `ORKAudiometry` class performs an audiometry test based on `ORKAudiometryProtocol`
- */
-ORK_CLASS_AVAILABLE
-@interface ORKAudiometry : NSObject <ORKAudiometryProtocol>
-
-/**
- Returns an ORKAudiometry object initialized with an ORKdBHLToneAudiometryStep.
- 
- @param step   A ORKdBHLToneAudiometryStep object used to configure the audiometry test.
-
- @return An ORKAudiometry object initialized.
- */
-- (instancetype)initWithStep:(ORKdBHLToneAudiometryStep *)step;
-
-- (instancetype)initWithScreenerStep:(ORKdBHLToneAudiometryScreenerStep *)step;
-
+//@property (nonatomic, weak) id<ORKdBHLToneAudiometryScreenerContentViewDelegate> delegate;
 
 @end
 

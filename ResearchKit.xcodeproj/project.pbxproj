@@ -414,6 +414,21 @@
 		6202CE1829152E8B00005F92 /* BluetoothDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 6202CE0C29152E8B00005F92 /* BluetoothDevice.h */; };
 		6202CE1929152E8B00005F92 /* BTDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 6202CE0D29152E8B00005F92 /* BTDevice.h */; };
 		6202CE1A29152E8B00005F92 /* BluetoothManager_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 6202CE0E29152E8B00005F92 /* BluetoothManager_Private.h */; };
+		627AB9C5299B974400C38D5A /* ORKdBHLToneAudiometryScreenerContentViewA.m in Sources */ = {isa = PBXBuildFile; fileRef = 627AB9B8299B974100C38D5A /* ORKdBHLToneAudiometryScreenerContentViewA.m */; };
+		627AB9C6299B974400C38D5A /* ORKdBHLToneAudiometryScreenerContentView.h in Headers */ = {isa = PBXBuildFile; fileRef = 627AB9B9299B974100C38D5A /* ORKdBHLToneAudiometryScreenerContentView.h */; };
+		627AB9C7299B974400C38D5A /* ORKdBHLToneAudiometryScreenerContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 627AB9BA299B974200C38D5A /* ORKdBHLToneAudiometryScreenerContentView.m */; };
+		627AB9C8299B974400C38D5A /* ORKdBHLToneAudiometryScreenerContentViewA.h in Headers */ = {isa = PBXBuildFile; fileRef = 627AB9BB299B974200C38D5A /* ORKdBHLToneAudiometryScreenerContentViewA.h */; };
+		627AB9C9299B974400C38D5A /* ORKdBHLToneAudiometrySliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 627AB9BC299B974200C38D5A /* ORKdBHLToneAudiometrySliderView.swift */; };
+		627AB9CA299B974400C38D5A /* ORKdBHLToneAudiometryScreenerContentViewB.m in Sources */ = {isa = PBXBuildFile; fileRef = 627AB9BD299B974200C38D5A /* ORKdBHLToneAudiometryScreenerContentViewB.m */; };
+		627AB9CB299B974400C38D5A /* ORKdBHLToneAudiometryScreenerContentViewB.h in Headers */ = {isa = PBXBuildFile; fileRef = 627AB9BE299B974200C38D5A /* ORKdBHLToneAudiometryScreenerContentViewB.h */; };
+		627AB9CC299B974400C38D5A /* ORKdBHLToneAudiometryScreenerStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 627AB9BF299B974300C38D5A /* ORKdBHLToneAudiometryScreenerStepViewController.m */; };
+		627AB9CD299B974400C38D5A /* ORKdBHLToneAudiometryScreenerStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 627AB9C0299B974300C38D5A /* ORKdBHLToneAudiometryScreenerStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		627AB9CE299B974400C38D5A /* ORKdBHLToneAudiometryScreenerStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 627AB9C1299B974300C38D5A /* ORKdBHLToneAudiometryScreenerStepViewController.h */; };
+		627AB9CF299B974400C38D5A /* ORKdBHLToneAudiometryScreenerContentSliderView.h in Headers */ = {isa = PBXBuildFile; fileRef = 627AB9C2299B974300C38D5A /* ORKdBHLToneAudiometryScreenerContentSliderView.h */; };
+		627AB9D0299B974400C38D5A /* ORKdBHLToneAudiometryScreenerStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 627AB9C3299B974300C38D5A /* ORKdBHLToneAudiometryScreenerStep.m */; };
+		627AB9D1299B974400C38D5A /* ORKdBHLToneAudiometryScreenerContentSliderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 627AB9C4299B974400C38D5A /* ORKdBHLToneAudiometryScreenerContentSliderView.m */; };
+		627AB9D4299B9A5A00C38D5A /* ORKdBHLToneAudiometryTransitions.h in Headers */ = {isa = PBXBuildFile; fileRef = 627AB9D2299B9A5900C38D5A /* ORKdBHLToneAudiometryTransitions.h */; };
+		627AB9D5299B9A5A00C38D5A /* ORKdBHLToneAudiometryTransitions.m in Sources */ = {isa = PBXBuildFile; fileRef = 627AB9D3299B9A5900C38D5A /* ORKdBHLToneAudiometryTransitions.m */; };
 		628D128928D4E4B300B92381 /* dbAmplitudePerFrequency_AIRPODSPROV2.plist in Resources */ = {isa = PBXBuildFile; fileRef = 628D128828D4E4B300B92381 /* dbAmplitudePerFrequency_AIRPODSPROV2.plist */; };
 		628D128B28D4E4CC00B92381 /* dbSPLAmplitudePerFrequency_AIRPODSPROV2.plist in Resources */ = {isa = PBXBuildFile; fileRef = 628D128A28D4E4CC00B92381 /* dbSPLAmplitudePerFrequency_AIRPODSPROV2.plist */; };
 		62DF9F4528CA87D300D13018 /* retspl_AIRPODSPROV2.plist in Resources */ = {isa = PBXBuildFile; fileRef = 62DF9F4428CA87D300D13018 /* retspl_AIRPODSPROV2.plist */; };
@@ -1547,6 +1562,21 @@
 		6202CE0D29152E8B00005F92 /* BTDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTDevice.h; sourceTree = "<group>"; };
 		6202CE0E29152E8B00005F92 /* BluetoothManager_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BluetoothManager_Private.h; sourceTree = "<group>"; };
 		6202CE1B29152F0900005F92 /* ORKBluetoothManagerSoftLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKBluetoothManagerSoftLink.h; sourceTree = "<group>"; };
+		627AB9B8299B974100C38D5A /* ORKdBHLToneAudiometryScreenerContentViewA.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKdBHLToneAudiometryScreenerContentViewA.m; sourceTree = "<group>"; };
+		627AB9B9299B974100C38D5A /* ORKdBHLToneAudiometryScreenerContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKdBHLToneAudiometryScreenerContentView.h; sourceTree = "<group>"; };
+		627AB9BA299B974200C38D5A /* ORKdBHLToneAudiometryScreenerContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKdBHLToneAudiometryScreenerContentView.m; sourceTree = "<group>"; };
+		627AB9BB299B974200C38D5A /* ORKdBHLToneAudiometryScreenerContentViewA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKdBHLToneAudiometryScreenerContentViewA.h; sourceTree = "<group>"; };
+		627AB9BC299B974200C38D5A /* ORKdBHLToneAudiometrySliderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ORKdBHLToneAudiometrySliderView.swift; sourceTree = "<group>"; };
+		627AB9BD299B974200C38D5A /* ORKdBHLToneAudiometryScreenerContentViewB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKdBHLToneAudiometryScreenerContentViewB.m; sourceTree = "<group>"; };
+		627AB9BE299B974200C38D5A /* ORKdBHLToneAudiometryScreenerContentViewB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKdBHLToneAudiometryScreenerContentViewB.h; sourceTree = "<group>"; };
+		627AB9BF299B974300C38D5A /* ORKdBHLToneAudiometryScreenerStepViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKdBHLToneAudiometryScreenerStepViewController.m; sourceTree = "<group>"; };
+		627AB9C0299B974300C38D5A /* ORKdBHLToneAudiometryScreenerStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKdBHLToneAudiometryScreenerStep.h; sourceTree = "<group>"; };
+		627AB9C1299B974300C38D5A /* ORKdBHLToneAudiometryScreenerStepViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKdBHLToneAudiometryScreenerStepViewController.h; sourceTree = "<group>"; };
+		627AB9C2299B974300C38D5A /* ORKdBHLToneAudiometryScreenerContentSliderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKdBHLToneAudiometryScreenerContentSliderView.h; sourceTree = "<group>"; };
+		627AB9C3299B974300C38D5A /* ORKdBHLToneAudiometryScreenerStep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKdBHLToneAudiometryScreenerStep.m; sourceTree = "<group>"; };
+		627AB9C4299B974400C38D5A /* ORKdBHLToneAudiometryScreenerContentSliderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKdBHLToneAudiometryScreenerContentSliderView.m; sourceTree = "<group>"; };
+		627AB9D2299B9A5900C38D5A /* ORKdBHLToneAudiometryTransitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKdBHLToneAudiometryTransitions.h; sourceTree = "<group>"; };
+		627AB9D3299B9A5900C38D5A /* ORKdBHLToneAudiometryTransitions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKdBHLToneAudiometryTransitions.m; sourceTree = "<group>"; };
 		628D128828D4E4B300B92381 /* dbAmplitudePerFrequency_AIRPODSPROV2.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = dbAmplitudePerFrequency_AIRPODSPROV2.plist; sourceTree = "<group>"; };
 		628D128A28D4E4CC00B92381 /* dbSPLAmplitudePerFrequency_AIRPODSPROV2.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = dbSPLAmplitudePerFrequency_AIRPODSPROV2.plist; sourceTree = "<group>"; };
 		62DF9F4428CA87D300D13018 /* retspl_AIRPODSPROV2.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = retspl_AIRPODSPROV2.plist; sourceTree = "<group>"; };
@@ -3369,9 +3399,32 @@
 			path = PrivateHeaders;
 			sourceTree = "<group>";
 		};
+		627AB9B7299B972E00C38D5A /* MOA */ = {
+			isa = PBXGroup;
+			children = (
+				627AB9D2299B9A5900C38D5A /* ORKdBHLToneAudiometryTransitions.h */,
+				627AB9D3299B9A5900C38D5A /* ORKdBHLToneAudiometryTransitions.m */,
+				627AB9C2299B974300C38D5A /* ORKdBHLToneAudiometryScreenerContentSliderView.h */,
+				627AB9C4299B974400C38D5A /* ORKdBHLToneAudiometryScreenerContentSliderView.m */,
+				627AB9B9299B974100C38D5A /* ORKdBHLToneAudiometryScreenerContentView.h */,
+				627AB9BA299B974200C38D5A /* ORKdBHLToneAudiometryScreenerContentView.m */,
+				627AB9BB299B974200C38D5A /* ORKdBHLToneAudiometryScreenerContentViewA.h */,
+				627AB9B8299B974100C38D5A /* ORKdBHLToneAudiometryScreenerContentViewA.m */,
+				627AB9BE299B974200C38D5A /* ORKdBHLToneAudiometryScreenerContentViewB.h */,
+				627AB9BD299B974200C38D5A /* ORKdBHLToneAudiometryScreenerContentViewB.m */,
+				627AB9C0299B974300C38D5A /* ORKdBHLToneAudiometryScreenerStep.h */,
+				627AB9C3299B974300C38D5A /* ORKdBHLToneAudiometryScreenerStep.m */,
+				627AB9C1299B974300C38D5A /* ORKdBHLToneAudiometryScreenerStepViewController.h */,
+				627AB9BF299B974300C38D5A /* ORKdBHLToneAudiometryScreenerStepViewController.m */,
+				627AB9BC299B974200C38D5A /* ORKdBHLToneAudiometrySliderView.swift */,
+			);
+			name = MOA;
+			sourceTree = "<group>";
+		};
 		71769E2620880BA800A19914 /* dBHL Tone Audiometry */ = {
 			isa = PBXGroup;
 			children = (
+				627AB9B7299B972E00C38D5A /* MOA */,
 				226565552847FF9D00E916FF /* ORKAudiometry */,
 				71769E2720880C4500A19914 /* ORKdBHLToneAudiometryResult.h */,
 				71769E2820880C4500A19914 /* ORKdBHLToneAudiometryResult.m */,
@@ -4899,6 +4952,7 @@
 				2E8070FB1FAD217500E4FC7F /* ORKSpeechRecognitionStep.h in Headers */,
 				5D1CE43223F497D5004CB416 /* ORKFlameGroup.h in Headers */,
 				FF919A531E81BEB5005C2A1E /* ORKCollectionResult.h in Headers */,
+				627AB9CD299B974400C38D5A /* ORKdBHLToneAudiometryScreenerStep.h in Headers */,
 				86C40D0A1A8D7C5C00081FAC /* ORKCustomStepView.h in Headers */,
 				BCD192EE1B81255F00FCC08A /* ORKPieChartView_Internal.h in Headers */,
 				5D04885725F19A7A0006C68B /* ORKDevice.h in Headers */,
@@ -5010,6 +5064,7 @@
 				E220A37E25711F9600C3C211 /* ORKTinnitusAudioGenerator.h in Headers */,
 				BCB6E65D1B7D534C000D5B34 /* ORKGraphChartView_Internal.h in Headers */,
 				86C40C8C1A8D7C5C00081FAC /* ORKActiveStepViewController.h in Headers */,
+				627AB9CF299B974400C38D5A /* ORKdBHLToneAudiometryScreenerContentSliderView.h in Headers */,
 				F7EC216624787338000C1F46 /* ORKCustomSignatureFooterView.h in Headers */,
 				618DA0541A93D0D600E63AA8 /* UIView+ORKAccessibility.h in Headers */,
 				86C40C3A1A8D7C5C00081FAC /* ORKSpatialSpanGameState.h in Headers */,
@@ -5153,6 +5208,7 @@
 				51D823052472FB9B00BF4F72 /* ORKRequestPermissionsStepContainerView.h in Headers */,
 				86C40D7C1A8D7C5C00081FAC /* ORKScaleValueLabel.h in Headers */,
 				03EDD58024CA6B1D006245E9 /* ORKNotificationPermissionType.h in Headers */,
+				627AB9D4299B9A5A00C38D5A /* ORKdBHLToneAudiometryTransitions.h in Headers */,
 				BAD65E4B2284EFF9008A5DCE /* ORKStepView.h in Headers */,
 				250F94081B4C5AA400FA23EB /* ORKTowerOfHanoiStepViewController.h in Headers */,
 				5139A559266EDA3300537192 /* ORKFeatureFlags.h in Headers */,
@@ -5176,6 +5232,7 @@
 				86C40C421A8D7C5C00081FAC /* ORKSpatialSpanMemoryStep.h in Headers */,
 				86C40C6E1A8D7C5C00081FAC /* CMMotionActivity+ORKJSONDictionary.h in Headers */,
 				B11C54991A9EEF8800265E61 /* ORKConsentSharingStep.h in Headers */,
+				627AB9C8299B974400C38D5A /* ORKdBHLToneAudiometryScreenerContentViewA.h in Headers */,
 				805685791C90C19500BF437A /* UIImage+ResearchKit.h in Headers */,
 				106FF2AE1B6FACA8004EACF2 /* ORKDirectionView.h in Headers */,
 				86C40DA61A8D7C5C00081FAC /* ORKSurveyAnswerCellForImageSelection.h in Headers */,
@@ -5220,6 +5277,7 @@
 				71769E2D208824D100A19914 /* ORKdBHLToneAudiometryOnboardingStep.h in Headers */,
 				BA8C066B22ECF7C200ACDE6B /* ORKSecondaryTaskStep.h in Headers */,
 				FF919A6D1E81D3B0005C2A1E /* ORKPasscodeResult.h in Headers */,
+				627AB9CE299B974400C38D5A /* ORKdBHLToneAudiometryScreenerStepViewController.h in Headers */,
 				86C40D4A1A8D7C5C00081FAC /* ORKLabel.h in Headers */,
 				250F94041B4C5A6600FA23EB /* ORKTowerOfHanoiStep.h in Headers */,
 				861D11A91AA691BB003C98A7 /* ORKScaleSliderView.h in Headers */,
@@ -5285,6 +5343,7 @@
 				959A2BFC1D68B98700841B04 /* ORKRangeOfMotionStep.h in Headers */,
 				6202CE1A29152E8B00005F92 /* BluetoothManager_Private.h in Headers */,
 				51CAB8BF252E396600007BDB /* ORKAVJournalingTaskViewController.h in Headers */,
+				627AB9CB299B974400C38D5A /* ORKdBHLToneAudiometryScreenerContentViewB.h in Headers */,
 				86C40D561A8D7C5C00081FAC /* ORKOrderedTask.h in Headers */,
 				E2A676F3238DCB3E006193D7 /* AVOutputDevice.h in Headers */,
 				6202CE1329152E8B00005F92 /* BTDiscovery.h in Headers */,
@@ -5350,6 +5409,7 @@
 				86C40D161A8D7C5C00081FAC /* ORKErrors.h in Headers */,
 				866DA5291D63D04700C9AF3F /* ORKOperation.h in Headers */,
 				BA3D7E732223F8B90023FE3A /* ORKChoiceViewCell_Internal.h in Headers */,
+				627AB9C6299B974400C38D5A /* ORKdBHLToneAudiometryScreenerContentView.h in Headers */,
 				861D11B51AA7D073003C98A7 /* ORKTextChoiceCellGroup.h in Headers */,
 				24BC5CEE1BC345D900846B43 /* ORKLoginStep.h in Headers */,
 				147503B91AEE807C004B17F3 /* ORKToneAudiometryStep.h in Headers */,
@@ -5838,6 +5898,7 @@
 				E26626C62588E6D4005A0FF8 /* ORKTinnitusAssessmentContentView.m in Sources */,
 				51D823062472FB9B00BF4F72 /* ORKRequestPermissionsStepContainerView.m in Sources */,
 				F094512E283EAB2700C2B237 /* ORKTypingStepViewController.m in Sources */,
+				627AB9CA299B974400C38D5A /* ORKdBHLToneAudiometryScreenerContentViewB.m in Sources */,
 				86C40DF81A8D7C5C00081FAC /* ORKSignatureStepViewController.m in Sources */,
 				FF919A601E81CF07005C2A1E /* ORKVideoInstructionStepResult.m in Sources */,
 				959A2BFD1D68B98700841B04 /* ORKRangeOfMotionStep.m in Sources */,
@@ -5859,6 +5920,7 @@
 				106FF2AB1B690FD7004EACF2 /* ORKHolePegTestPlacePegView.m in Sources */,
 				511987B4246087C5004FC2C7 /* ORKAVJournalingResult.m in Sources */,
 				BF91559D1BDE8D7D007FA459 /* ORKReviewStep.m in Sources */,
+				627AB9D1299B974400C38D5A /* ORKdBHLToneAudiometryScreenerContentSliderView.m in Sources */,
 				86C40C381A8D7C5C00081FAC /* ORKSpatialSpanGame.m in Sources */,
 				86C40C481A8D7C5C00081FAC /* ORKSpatialSpanMemoryStepViewController.m in Sources */,
 				86C40CDA1A8D7C5C00081FAC /* ORKTextFieldView.m in Sources */,
@@ -5895,6 +5957,7 @@
 				86C40CBA1A8D7C5C00081FAC /* ORKVoiceEngine.m in Sources */,
 				861D11B61AA7D073003C98A7 /* ORKTextChoiceCellGroup.m in Sources */,
 				E220A35125711F1400C3C211 /* ORKTinnitusTypeStepViewController.m in Sources */,
+				627AB9C9299B974400C38D5A /* ORKdBHLToneAudiometrySliderView.swift in Sources */,
 				86C40CCA1A8D7C5C00081FAC /* ORKFormItemCell.m in Sources */,
 				147503B81AEE807C004B17F3 /* ORKToneAudiometryContentView.m in Sources */,
 				E220A37325711F4300C3C211 /* ORKTinnitusVolumeResult.m in Sources */,
@@ -6079,6 +6142,7 @@
 				D442397E1AF17F7600559D96 /* ORKImageCaptureStepViewController.m in Sources */,
 				86C40CAE1A8D7C5C00081FAC /* ORKRecorder.m in Sources */,
 				5D5BD0682695099F003E2036 /* ORKBLEScanPeripheralsStepResult.m in Sources */,
+				627AB9C7299B974400C38D5A /* ORKdBHLToneAudiometryScreenerContentView.m in Sources */,
 				E2BC456D22D79081009DAAAE /* ORKHeadphoneDetector.m in Sources */,
 				FF919A401E81AFEF005C2A1E /* ORKReactionTimeResult.m in Sources */,
 				86C40DAC1A8D7C5C00081FAC /* ORKSurveyAnswerCellForNumber.m in Sources */,
@@ -6107,6 +6171,7 @@
 				51751464245A5172009E8FFC /* ORKFrontFacingCameraStepViewController.m in Sources */,
 				86C40D041A8D7C5C00081FAC /* ORKContinueButton.m in Sources */,
 				24A4DA151B8D1115009C797A /* ORKPasscodeStep.m in Sources */,
+				627AB9D0299B974400C38D5A /* ORKdBHLToneAudiometryScreenerStep.m in Sources */,
 				86C40DEC1A8D7C5C00081FAC /* UIBarButtonItem+ORKBarButtonItem.m in Sources */,
 				51E03D6E2491B6DB008F8406 /* ORKRequestPermissionView.m in Sources */,
 				106FF2AF1B6FACA8004EACF2 /* ORKDirectionView.m in Sources */,
@@ -6163,6 +6228,7 @@
 				BF9155A81BDE8DA9007FA459 /* ORKWaitStep.m in Sources */,
 				86C40CEC1A8D7C5C00081FAC /* ORKAnswerTextField.m in Sources */,
 				716B126520A78C6B00590264 /* ORKEnvironmentSPLMeterResult.m in Sources */,
+				627AB9D5299B9A5A00C38D5A /* ORKdBHLToneAudiometryTransitions.m in Sources */,
 				86C40C441A8D7C5C00081FAC /* ORKSpatialSpanMemoryStep.m in Sources */,
 				BCB080A11B83EFB900A3F400 /* ORKStepNavigationRule.swift in Sources */,
 				24898B0E1B7186C000B0E7E7 /* ORKScaleRangeImageView.m in Sources */,
@@ -6209,6 +6275,7 @@
 				2489F7B41D65214D008DEF20 /* ORKVideoCaptureStepViewController.m in Sources */,
 				861D2AF71B843968008C4CD0 /* ORKCompletionStepViewController.m in Sources */,
 				BCB6E65F1B7D534C000D5B34 /* ORKGraphChartView.m in Sources */,
+				627AB9CC299B974400C38D5A /* ORKdBHLToneAudiometryScreenerStepViewController.m in Sources */,
 				24BC5CEF1BC345D900846B43 /* ORKLoginStep.m in Sources */,
 				861D2AE91B840991008C4CD0 /* ORKTimedWalkStep.m in Sources */,
 				86C40D661A8D7C5C00081FAC /* ORKQuestionStepViewController.m in Sources */,
@@ -6238,6 +6305,7 @@
 				228D2547285B7EA60047B2ED /* MatrixAxis.swift in Sources */,
 				BCC1CD9B1B7ED64F00D86886 /* ORKYAxisView.m in Sources */,
 				FF919A541E81BEB5005C2A1E /* ORKCollectionResult.m in Sources */,
+				627AB9C5299B974400C38D5A /* ORKdBHLToneAudiometryScreenerContentViewA.m in Sources */,
 				86C40D581A8D7C5C00081FAC /* ORKOrderedTask.m in Sources */,
 				5D38006C2437E53500E7D2BD /* ORKAudioStreamer.m in Sources */,
 				2E8070F91FAD217500E4FC7F /* ORKSpeechRecognitionStepViewController.m in Sources */,

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2022, Apple Inc. All rights reserved.
+ Copyright (c) 2021, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,31 +28,14 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@import UIKit;
-#import <ResearchKit/ORKAudiometryProtocol.h>
+#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class ORKdBHLToneAudiometryStep;
-@class ORKdBHLToneAudiometryScreenerStep;
+@interface ORKdBHLToneAudiometryTransitions: NSObject
 
-/**
- The `ORKAudiometry` class performs an audiometry test based on `ORKAudiometryProtocol`
- */
-ORK_CLASS_AVAILABLE
-@interface ORKAudiometry : NSObject <ORKAudiometryProtocol>
-
-/**
- Returns an ORKAudiometry object initialized with an ORKdBHLToneAudiometryStep.
- 
- @param step   A ORKdBHLToneAudiometryStep object used to configure the audiometry test.
-
- @return An ORKAudiometry object initialized.
- */
-- (instancetype)initWithStep:(ORKdBHLToneAudiometryStep *)step;
-
-- (instancetype)initWithScreenerStep:(ORKdBHLToneAudiometryScreenerStep *)step;
-
+@property (nonatomic, assign) float userInitiated;
+@property (nonatomic, assign) float totalTransitions;
 
 @end
 

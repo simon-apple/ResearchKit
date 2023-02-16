@@ -79,6 +79,8 @@ ORK_CLASS_AVAILABLE
 - (void)stop;
 
 - (float)currentdBHL;
+- (void)setCurrentdBHL:(double)dBHL;
+- (void)setCurrentdBHLAndRamp:(double)dBHL;
 
 @end
 

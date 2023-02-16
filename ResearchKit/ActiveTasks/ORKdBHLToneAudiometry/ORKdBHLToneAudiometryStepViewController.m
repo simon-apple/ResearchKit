@@ -130,6 +130,11 @@
     [self configureStep];
 }
 
+- (void)dealloc {
+    [_headphoneDetector discard];
+    _headphoneDetector = nil;
+}
+
 - (void)configureStep {
     ORKdBHLToneAudiometryStep *dBHLTAStep = [self dBHLToneAudiometryStep];
 
@@ -444,11 +449,8 @@
 }
 
 - (void)serialNumberCollectedCase:(NSString *)caseSerial left:(NSString *)leftSerial right:(NSString *)rightSerial {
-    NSLog(@"caseSerial: %@", caseSerial);
     _caseSerial = caseSerial;
-    NSLog(@"leftSerial: %@", leftSerial);
     _leftSerial = leftSerial;
-    NSLog(@"rightSerial: %@", rightSerial);
     _rightSerial = rightSerial;
 }
 

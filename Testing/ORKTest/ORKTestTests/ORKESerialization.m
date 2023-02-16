@@ -1139,6 +1139,31 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(dBHLMaximumThreshold, NSNumber, NSObject, YES, nil, nil),
 #endif
                     })),
+           ENTRY(ORKdBHLToneAudiometryScreenerStep,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+                     return [[ORKdBHLToneAudiometryScreenerStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
+                 },
+                 (@{
+                    PROPERTY(toneDuration, NSNumber, NSObject, YES, nil, nil), // OK
+                    PROPERTY(postStimulusDelay, NSNumber, NSObject, YES, nil, nil), // OK
+                    PROPERTY(initialdBHLValue, NSNumber, NSObject, YES, nil, nil), // OK
+                    PROPERTY(dBHLRateUp, NSNumber, NSObject, YES, nil, nil), // OK
+                    PROPERTY(dBHLRateDown, NSNumber, NSObject, YES, nil, nil),// OK
+                    PROPERTY(octaveRate, NSNumber, NSObject, YES, nil, nil),// OK
+                    PROPERTY(stepSize, NSNumber, NSObject, YES, nil, nil), // OK
+                    PROPERTY(dBHLMinimumThreshold, NSNumber, NSObject, YES, nil, nil),// OK
+                    PROPERTY(dBHLCalculatedThreshold, NSNumber, NSObject, YES, nil, nil), // OK
+                    PROPERTY(headphoneType, NSString, NSObject, YES, nil, nil), // OK
+                    PROPERTY(earPreference, NSNumber, NSObject, YES, nil, nil), // OK
+                    PROPERTY(numberOfInversions, NSNumber, NSObject, YES, nil, nil), // OK
+                    PROPERTY(frequency, NSNumber, NSObject, YES, nil, nil), // OK
+                    PROPERTY(usePicker, NSNumber, NSObject, YES, nil, nil), // OK
+                    PROPERTY(useSlider, NSNumber, NSObject, YES, nil, nil), // OK
+                    PROPERTY(isMultiStep, NSNumber, NSObject, YES, nil, nil), // OK
+                    PROPERTY(minimumdBHL, NSNumber, NSObject, YES, nil, nil), // OK
+                    PROPERTY(maximumdBHL, NSNumber, NSObject, YES, nil, nil), // OK
+                    PROPERTY(frequencyList, NSArray, NSObject, YES, nil, nil),
+                    })),
            ENTRY(ORKHolePegTestPlaceStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      return [[ORKHolePegTestPlaceStep alloc] initWithIdentifier:GETPROP(dict, identifier)];

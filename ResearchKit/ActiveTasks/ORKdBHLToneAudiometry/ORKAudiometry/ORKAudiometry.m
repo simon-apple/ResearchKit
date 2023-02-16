@@ -32,6 +32,7 @@
 #import "ORKdBHLToneAudiometryStep.h"
 #import "ORKdBHLToneAudiometryResult.h"
 #import "ORKAudiometryStimulus.h"
+#import "ORKdBHLToneAudiometryScreenerStep.h"
 
 @interface ORKAudiometryTransition: NSObject
 
@@ -83,6 +84,8 @@
     ORKAudiometryTimestampProvider _getTimestamp;
     ORKAudiometryStimulus *_nextStimulus;
     BOOL _preStimulusResponse;
+    
+    ORKAudiometryStateBlock _statusProvider;
 }
 
 @end
@@ -120,12 +123,39 @@
     return self;
 }
 
+- (instancetype)initWithScreenerStep:(ORKdBHLToneAudiometryScreenerStep *)step {
+    self = [super init];
+    
+    if (self) {
+        _indexOfFreqLoopList = 0;
+        _indexOfStepUpMissingList = 0;
+        _initialDescent = YES;
+        _ackOnce = NO;
+        _usingMissingList = YES;
+        _prevFreq = 0;
+        _minimumThresholdCounter = 0;
+        _currentTestIndex = 0;
+        _transitionsDictionary = [NSMutableDictionary dictionary];
+        _arrayOfResultSamples = [NSMutableArray array];
+        _arrayOfResultUnits = [NSMutableArray array];
+        _preStimulusResponse = YES;
+        _getTimestamp = ^NSTimeInterval{
+            return 0;
+        };
+        
+        [self configureWithScreenerStep:step];
+    }
+
+    return self;
+}
+
+
 - (void)setTimestampProvider:(ORKAudiometryTimestampProvider)provider {
     _getTimestamp = provider;
 }
 
-- (void)nextStatus:(ORKAudiometryStateBlock)block {
-    block(self.testEnded, _nextStimulus);
+- (ORKAudiometryStimulus *)nextStimulus {
+    return _nextStimulus;
 }
 
 - (void)registerPreStimulusDelay:(double)preStimulusDelay {
@@ -165,6 +195,21 @@
     return [_arrayOfResultSamples copy];
 }
 
+- (void)nextStatus:(ORKAudiometryStateBlock)block {
+    _statusProvider = nil;
+
+    if (testEnded) {
+        block(true, nil);
+    } else {
+        if (_nextStimulus != nil) {
+            block(false, _nextStimulus);
+        } else {
+            _statusProvider = block;
+        }
+    }
+}
+
+
 - (void)configureWithStep:(ORKdBHLToneAudiometryStep *)step {
     _maxNumberOfTransitionsPerFreq = step.maxNumberOfTransitionsPerFrequency;
     _freqLoopList = step.frequencyList;
@@ -175,6 +220,25 @@
     _initialdBHLValue = step.initialdBHLValue;
     _dBHLStepDownSize = step.dBHLStepDownSize;
     _dBHLStepUpSize = step.dBHLStepUpSize;
+    _dBHLMinimumThreshold = step.dBHLMinimumThreshold;
+    _audioChannel = step.earPreference;
+    
+    [self estimatedBHLForFrequency:_freqLoopList[_indexOfFreqLoopList]];
+}
+
+- (void)configureWithScreenerStep:(ORKdBHLToneAudiometryScreenerStep *)step {
+    // Taken from default values in ORKdBHLToneAudiometryStep
+    ORKdBHLToneAudiometryStep *defaultStep = [[ORKdBHLToneAudiometryStep alloc] initWithIdentifier:[NSUUID UUID].UUIDString];
+    
+    _maxNumberOfTransitionsPerFreq = 1;
+    _freqLoopList = step.frequencyList;
+    _stepUpMissingList = @[ [NSNumber numberWithDouble:defaultStep.dBHLStepUpSizeFirstMiss],
+                            [NSNumber numberWithDouble:defaultStep.dBHLStepUpSizeSecondMiss],
+                            [NSNumber numberWithDouble:defaultStep.dBHLStepUpSizeThirdMiss] ];
+    _currentdBHL = -1;
+    _initialdBHLValue = -10;
+    _dBHLStepDownSize = defaultStep.dBHLStepDownSize;
+    _dBHLStepUpSize = defaultStep.dBHLStepUpSize;
     _dBHLMinimumThreshold = step.dBHLMinimumThreshold;
     _audioChannel = step.earPreference;
     
@@ -239,6 +303,66 @@
     _nextStimulus = [[ORKAudiometryStimulus alloc] initWithFrequency:[freq doubleValue] level:_currentdBHL channel:_audioChannel];
 }
 
+- (void)confirmedBHLForFrequency:(NSNumber *)freq andDBHL:(double)dBHLValue {
+    if (_prevFreq != [freq doubleValue]) {
+        progress = 0.001 + (CGFloat)_indexOfFreqLoopList / _freqLoopList.count;
+        
+        _numberOfTransitionsPerFreq = 0;
+        _currentdBHL = dBHLValue;
+        _initialDescent = YES;
+        _ackOnce = NO;
+        _usingMissingList = YES;
+        _indexOfStepUpMissingList = 0;
+        _minimumThresholdCounter = 0;
+        _transitionsDictionary = nil;
+        _transitionsDictionary = [NSMutableDictionary dictionary];
+        if (_resultSample) {
+           _resultSample.units = [_arrayOfResultUnits copy];
+        }
+        _arrayOfResultUnits = [NSMutableArray array];
+        _prevFreq = [freq doubleValue];
+        _resultSample = [ORKdBHLToneAudiometryFrequencySample new];
+        _resultSample.channel = _audioChannel;
+        _resultSample.frequency = [freq doubleValue];
+        _resultSample.calculatedThreshold = ORKInvalidDBHLValue;
+        [_arrayOfResultSamples addObject:_resultSample];
+    } else {
+        _numberOfTransitionsPerFreq += 1;
+        if (_numberOfTransitionsPerFreq >= _maxNumberOfTransitionsPerFreq) {
+            _indexOfFreqLoopList += 1;
+            if (_indexOfFreqLoopList >= _freqLoopList.count) {
+                _resultSample.units = [_arrayOfResultUnits copy];
+                testEnded = YES;
+                return;
+            } else {
+                [self estimatedBHLForFrequency:_freqLoopList[_indexOfFreqLoopList]];
+                return;
+            }
+        }
+    }
+    
+    _resultUnit = [ORKdBHLToneAudiometryUnit new];
+    _resultUnit.dBHLValue = _currentdBHL;
+    _resultUnit.startOfUnitTimeStamp = _getTimestamp();
+    [_arrayOfResultUnits addObject:_resultUnit];
+    
+    ORKAudiometryTransition *currentTransition = [_transitionsDictionary objectForKey:[NSNumber numberWithFloat:_currentdBHL]];
+    if (!_initialDescent) {
+        if (currentTransition) {
+            currentTransition.userInitiated += 1;
+            currentTransition.totalTransitions += 1;
+        } else {
+            currentTransition = [[ORKAudiometryTransition alloc] init];
+            [_transitionsDictionary setObject:currentTransition forKey:[NSNumber numberWithFloat:_currentdBHL]];
+        }
+    }
+
+    _preStimulusResponse = YES;
+    // Play next stimulus with initial dbHL value here since we want to reset between each step rather than use an estimated value
+    _nextStimulus = [[ORKAudiometryStimulus alloc] initWithFrequency:[freq doubleValue] level:_initialdBHLValue channel:_audioChannel];
+}
+
+
 - (void)stimulusMissed {
     ORKAudiometryTransition *currentTransition = [_transitionsDictionary objectForKey:[NSNumber numberWithFloat:_currentdBHL]];
     NSUInteger storedTestIndex = _currentTestIndex;
@@ -301,6 +425,35 @@
     }
 
     [self estimatedBHLForFrequency:_freqLoopList[_indexOfFreqLoopList]];
+    return;
+}
+
+- (void)stimulusAcknowledgedWithdBHL:(double)dbHLValue {
+    _ackOnce = YES;
+    _resultUnit.userTapTimeStamp = _getTimestamp();
+    if (_preStimulusResponse) {
+        NSNumber *currentKey = [NSNumber numberWithFloat:dbHLValue];
+        ORKAudiometryTransition *currentTransitionObject = [_transitionsDictionary objectForKey:currentKey];
+        currentTransitionObject.userInitiated -= 1;
+    } else {
+        _resultSample.calculatedThreshold = dbHLValue;
+        _indexOfFreqLoopList += 1;
+        if (_indexOfFreqLoopList >= _freqLoopList.count) {
+            _resultSample.units = [_arrayOfResultUnits copy];
+            testEnded = YES;
+            return;
+        } else {
+            _currentdBHL = dbHLValue;
+            [self confirmedBHLForFrequency:_freqLoopList[_indexOfFreqLoopList] andDBHL:dbHLValue];
+            return;
+        }
+    }
+    
+    if (!_preStimulusResponse) {
+        _usingMissingList = NO;
+    }
+
+    [self confirmedBHLForFrequency:_freqLoopList[_indexOfFreqLoopList] andDBHL:dbHLValue];
     return;
 }
 

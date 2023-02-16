@@ -97,6 +97,8 @@ ORK_CLASS_AVAILABLE
 
 @property (nonatomic, assign) NSTimeInterval timeoutTimeStamp;
 
+@property (nonatomic, copy, nullable) NSString *confidenceLevel;
+
 @end
 
 NS_ASSUME_NONNULL_END

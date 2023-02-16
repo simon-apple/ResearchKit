@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2022, Apple Inc. All rights reserved.
+ Copyright (c) 2018, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,31 +28,53 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@import UIKit;
-#import <ResearchKit/ORKAudiometryProtocol.h>
+
+@import Foundation;
+#import <ResearchKit/ORKDefines.h>
+#import <ResearchKit/ORKActiveStep.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class ORKdBHLToneAudiometryStep;
-@class ORKdBHLToneAudiometryScreenerStep;
-
-/**
- The `ORKAudiometry` class performs an audiometry test based on `ORKAudiometryProtocol`
- */
 ORK_CLASS_AVAILABLE
-@interface ORKAudiometry : NSObject <ORKAudiometryProtocol>
+@interface ORKdBHLToneAudiometryScreenerStep : ORKActiveStep
 
-/**
- Returns an ORKAudiometry object initialized with an ORKdBHLToneAudiometryStep.
- 
- @param step   A ORKdBHLToneAudiometryStep object used to configure the audiometry test.
+@property (nonatomic, assign) NSTimeInterval toneDuration;
 
- @return An ORKAudiometry object initialized.
- */
-- (instancetype)initWithStep:(ORKdBHLToneAudiometryStep *)step;
+@property (nonatomic, assign) NSTimeInterval postStimulusDelay;
 
-- (instancetype)initWithScreenerStep:(ORKdBHLToneAudiometryScreenerStep *)step;
+@property (nonatomic, assign) double initialdBHLValue;
 
+@property (nonatomic, assign) double dBHLRateUp;
+
+@property (nonatomic, assign) double dBHLRateDown;
+
+@property (nonatomic, assign) double octaveRate;
+
+@property (nonatomic, assign) double stepSize;
+
+@property (nonatomic, assign) double dBHLMinimumThreshold;
+
+@property (nonatomic, assign) double dBHLCalculatedThreshold;
+
+@property (nonatomic, assign) NSUInteger numberOfInversions;
+
+@property (nonatomic, strong) ORKHeadphoneTypeIdentifier headphoneType;
+
+@property (nonatomic, assign) ORKAudioChannel earPreference;
+
+@property (nonatomic, assign) double frequency;
+
+@property (nonatomic, assign) BOOL usePicker;
+
+@property (nonatomic, assign) BOOL useSlider;
+
+@property (nonatomic, assign) BOOL isMultiStep;
+
+@property (nonatomic, assign) NSUInteger minimumdBHL;
+
+@property (nonatomic, assign) NSUInteger maximumdBHL;
+
+@property (nonatomic, copy, nullable) NSArray *frequencyList;
 
 @end
 

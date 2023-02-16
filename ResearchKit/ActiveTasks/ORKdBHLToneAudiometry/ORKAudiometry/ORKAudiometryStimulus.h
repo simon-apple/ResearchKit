@@ -56,7 +56,7 @@ ORK_CLASS_AVAILABLE
 
 
 /**
- Returns a ORKAudiometryStimulus initialized with the provided parameters.
+ Returns a value stack initialized with the passed `NSNumber` array.
  
  @param frequency   A double value representing the frequency in hertz of the audio tone.
 
