@@ -120,6 +120,16 @@
     }];
 }
 
+- (void)testTaskViewControllerPrematureViewLoading {
+    ORKOrderedTask *task = [[ORKOrderedTask alloc] initWithIdentifier:@"test" steps:@[
+                                                                                      [[ORKInstructionStep alloc] initWithIdentifier:@"test"]
+                                                                                      ]];
+    ORKTaskViewController *taskViewController = [[ORKTaskViewController alloc] initWithTask:task taskRunUUID:nil];
+    ORKStepViewController *viewController = [taskViewController viewControllerForStep:task.steps.firstObject];
+    
+    XCTAssertFalse(viewController.isViewLoaded, "TaskViewController's viewControllerForStep should return a viewController *without* its view loaded");
+}
+
 - (void)testResultSecureCoding {
     ORKTaskResult *taskResult1 = [self createTaskResultTree];
     
