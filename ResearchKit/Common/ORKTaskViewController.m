@@ -1146,8 +1146,6 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     }
     
     ORKStepViewController *stepViewController = nil;
-    UIColor *tintColor = ORKViewTintColor(self.view);
-    
     if ([self.delegate respondsToSelector:@selector(taskViewController:viewControllerForStep:)]) {
         // NOTE: While the delegate does not have direct access to the defaultResultSource,
         // it is assumed that it can set results as needed on the custom implementation of an
@@ -1165,7 +1163,6 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
             id<ORKTaskResultSource> resultSource = reviewStep.isStandalone ? reviewStep.resultSource : self.result;
             stepViewController = [[ORKReviewStepViewController alloc] initWithReviewStep:(ORKReviewStep *) step steps:steps resultSource:resultSource];
             ORKReviewStepViewController *reviewStepViewController = (ORKReviewStepViewController *) stepViewController;
-            reviewStepViewController.view.tintColor = tintColor;
             reviewStepViewController.reviewDelegate = self;
         }
         else {
@@ -1234,7 +1231,6 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
         stepViewController.learnMoreButtonItem = [self defaultLearnMoreButtonItem];
     }
 
-    stepViewController.view.tintColor = tintColor;
     stepViewController.delegate = self;
     return stepViewController;
 }
@@ -1512,6 +1508,8 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
 #pragma mark -  ORKStepViewControllerDelegate
 
 - (void)stepViewControllerWillAppear:(ORKStepViewController *)viewController {
+    // waiting until here to update stepViewController.view's tintColor so we don't load the view prematurely
+    viewController.view.tintColor = ORKViewTintColor(self.view);
     if ([self.delegate respondsToSelector:@selector(taskViewController:stepViewControllerWillAppear:)]) {
         [self.delegate taskViewController:self stepViewControllerWillAppear:viewController];
     }
