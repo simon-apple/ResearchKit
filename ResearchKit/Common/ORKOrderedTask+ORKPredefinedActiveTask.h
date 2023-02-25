@@ -532,6 +532,10 @@ NS_ASSUME_NONNULL_BEGIN
                                                  options:(ORKPredefinedTaskOption)options;
 
 #if RK_APPLE_INTERNAL
++ (ORKNavigableOrderedTask *)fitTestTaskWithIdentifier:(NSString *)identifier
+                                intendedUseDescription:(nullable NSString *)intendedUseDescription
+                                               options:(ORKPredefinedTaskOption)options;
+
 + (ORKNavigableOrderedTask *)newdBHLToneAudiometryTaskWithIdentifier:(NSString *)identifier
                                   intendedUseDescription:(nullable NSString *)intendedUseDescription
                                                  options:(ORKPredefinedTaskOption)options;

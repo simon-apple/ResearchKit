@@ -76,6 +76,7 @@
 #import <ResearchKit/ORKTappingIntervalStep.h>
 #import <ResearchKit/ORKTimedWalkStep.h>
 #import <ResearchKit/ORKToneAudiometryStep.h>
+#import <ResearchKit/ORKdBHLFitTestStep.h>
 #import <ResearchKit/ORKdBHLToneAudiometryStep.h>
 #import <ResearchKit/ORKdBHLToneAudiometryScreenerStep.h>
 #import <ResearchKit/ORKdBHLToneAudiometryOnboardingStep.h>

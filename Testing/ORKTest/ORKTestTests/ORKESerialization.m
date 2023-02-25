@@ -1010,6 +1010,15 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                  },
                  (@{
                     })),
+           ENTRY(ORKdBHLFitTestStep,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+                     return [[ORKdBHLFitTestStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
+                 },
+                 (@{
+                    PROPERTY(sealThreshold, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(confidenceThreshold, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(numberOfTries, NSNumber, NSObject, YES, nil, nil),
+                    })),
            ENTRY(ORKSecondaryTaskStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      return [[ORKSecondaryTaskStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
@@ -2084,6 +2093,14 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                  (@{
                     PROPERTY(outputVolume, NSNumber, NSObject, NO, nil, nil),
                     PROPERTY(samples, ORKToneAudiometrySample, NSArray, NO, nil, nil),
+                    })),
+           ENTRY(ORKdBHLFitTestResult,
+                 nil,
+                 (@{
+                    PROPERTY(sealLeftEar, NSNumber, NSObject, NO, nil, nil),
+                    PROPERTY(sealRightEar, NSNumber, NSObject, NO, nil, nil),
+                    PROPERTY(confidenceLeftEar, NSNumber, NSObject, NO, nil, nil),
+                    PROPERTY(confidenceRightEar, NSNumber, NSObject, NO, nil, nil),
                     })),
            ENTRY(ORKdBHLToneAudiometryUnit,
                  nil,

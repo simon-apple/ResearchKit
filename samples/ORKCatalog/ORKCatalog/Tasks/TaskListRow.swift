@@ -129,8 +129,9 @@ enum TaskListRow: Int, CustomStringConvertible {
     case predefinedSpeechInNoiseTask
     case predefinedAVJournalingTask
     case predefinedTinnitusTask
-    case ble
+    //case ble
     case textQuestionPIIScrubbing
+    case fitTestTask
     case newdBHLToneAudiometryTask
     case customStepTask
     case studyPromoTask
@@ -235,7 +236,8 @@ enum TaskListRow: Int, CustomStringConvertible {
                     .predefinedAVJournalingTask,
                     .predefinedTinnitusTask,
                     .textQuestionPIIScrubbing,
-                    .ble,
+                    //.ble,
+                    .fitTestTask,
                     .newdBHLToneAudiometryTask,
                     .customStepTask,
                     .studyPromoTask,
@@ -438,12 +440,13 @@ enum TaskListRow: Int, CustomStringConvertible {
         case .predefinedTinnitusTask:
             return NSLocalizedString("Predefined Tinnitus", comment: "")
         
-        case .ble:
-            return NSLocalizedString("BLE", comment: "")
+//        case .ble:
+//            return NSLocalizedString("BLE", comment: "")
             
         case .textQuestionPIIScrubbing:
             return NSLocalizedString("Text Question PII Scrubbing", comment: "")
-            
+        case .fitTestTask:
+            return NSLocalizedString("Fit Test", comment: "")
         case .newdBHLToneAudiometryTask:
             return NSLocalizedString("dBHL Tone Audiometry (New Algorithm)", comment: "")
         case .customStepTask:
@@ -662,6 +665,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         case predefinedSpeechInNoiseTask
         case predefinedAVJournalingTask
         case predefinedTinnitusTask
+        case fitTestTask
         case newdBHLToneAudiometryTask
         case customStepTask
         case studyPromoTask
@@ -861,8 +865,10 @@ enum TaskListRow: Int, CustomStringConvertible {
         case .predefinedTinnitusTask:
             return predefinedTinnitusTask
             
-        case .ble:
-            return ble
+//        case .ble:
+//            return ble
+        case .fitTestTask:
+            return fitTestTask
             
         case .newdBHLToneAudiometryTask:
             return newdBHLToneAudiometryTask
@@ -2152,14 +2158,18 @@ enum TaskListRow: Int, CustomStringConvertible {
         return ORKTinnitusPredefinedTask(identifier: "\(Identifier.predefinedTinnitusTask)", audioSetManifestPath: path, prepend: nil, append: nil)
     }
     
-    private var ble: ORKTask {
-        
-        let scanStep = ORKBLEScanPeripheralsStep(identifier: "BLE.scan")
-        scanStep.scanOptions = [
-            ORKBLEScanPeripheralsCapacityKey:3
-        ];
-        
-        return ORKOrderedTask(identifier: "BLE", steps: [scanStep])
+//    private var ble: ORKTask {
+//
+//        let scanStep = ORKBLEScanPeripheralsStep(identifier: "BLE.scan")
+//        scanStep.scanOptions = [
+//            ORKBLEScanPeripheralsCapacityKey:3
+//        ];
+//
+//        return ORKOrderedTask(identifier: "BLE", steps: [scanStep])
+//    }
+    
+    private var fitTestTask: ORKTask {
+        return ORKOrderedTask.fitTest(withIdentifier: String(describing: Identifier.fitTestTask), intendedUseDescription: nil, options: [])
     }
     
     /// This task presents the dBHL Tone Audiometry new algorithm.

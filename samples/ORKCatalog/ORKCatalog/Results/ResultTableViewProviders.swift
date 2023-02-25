@@ -201,8 +201,8 @@ func resultTableViewProviderForResult(_ result: ORKResult?, delegate: ResultProv
     case is ORKTinnitusMaskingSoundResult:
         providerType = TinnitusMaskingSoundResultTableViewProvider.self
         
-    case is ORKBLEScanPeripheralsStepResult:
-        providerType = BLEScanPeripheralsStepResultTableViewProvider.self
+//    case is ORKBLEScanPeripheralsStepResult:
+//        providerType = BLEScanPeripheralsStepResultTableViewProvider.self
                     
     #endif
     // end-omit-internal-code
@@ -1565,39 +1565,39 @@ class TinnitusMaskingSoundResultTableViewProvider: ResultTableViewProvider {
 }
 
 /// Table view provider specific to an `ORKBLEScanPeripheralsStepResult` instance.
-class BLEScanPeripheralsStepResultTableViewProvider: ResultTableViewProvider {
-    
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
-    }
-    
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == 1 {
-            return "Connected Peripheral(s)"
-        }
-        return super.tableView(tableView, titleForHeaderInSection: 0)
-    }
-    
-    // MARK: ResultTableViewProvider
-    
-    override func resultRowsForSection(_ section: Int) -> [ResultRow] {
-        let bleScanPeripheralsStepResult = result as! ORKBLEScanPeripheralsStepResult
-        
-        var rows = super.resultRowsForSection(section)
-        
-        if section == 0 {
-            return rows + [
-                ResultRow(text: "Central", detail: bleScanPeripheralsStepResult.centralManager)
-            ]
-        } else if section == 1 {
-            for peripheral in bleScanPeripheralsStepResult.connectedPeripherals {
-                rows.append(ResultRow(text: "\(peripheral.name ?? "")", detail: "\(peripheral.state.rawValue == 2 ? "connected" : "not connected")"))
-            }
-        }
-        
-        return rows
-    }
-}
+//class BLEScanPeripheralsStepResultTableViewProvider: ResultTableViewProvider {
+//
+//    override func numberOfSections(in tableView: UITableView) -> Int {
+//        return 2
+//    }
+//
+//    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        if section == 1 {
+//            return "Connected Peripheral(s)"
+//        }
+//        return super.tableView(tableView, titleForHeaderInSection: 0)
+//    }
+//
+//    // MARK: ResultTableViewProvider
+//
+//    override func resultRowsForSection(_ section: Int) -> [ResultRow] {
+//        let bleScanPeripheralsStepResult = result as! ORKBLEScanPeripheralsStepResult
+//
+//        var rows = super.resultRowsForSection(section)
+//
+//        if section == 0 {
+//            return rows + [
+//                ResultRow(text: "Central", detail: bleScanPeripheralsStepResult.centralManager)
+//            ]
+//        } else if section == 1 {
+//            for peripheral in bleScanPeripheralsStepResult.connectedPeripherals {
+//                rows.append(ResultRow(text: "\(peripheral.name ?? "")", detail: "\(peripheral.state.rawValue == 2 ? "connected" : "not connected")"))
+//            }
+//        }
+//
+//        return rows
+//    }
+//}
 
 #endif
 // end-omit-internal-code

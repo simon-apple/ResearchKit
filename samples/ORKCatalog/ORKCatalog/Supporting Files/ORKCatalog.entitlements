@@ -6,6 +6,8 @@
 	<true/>
 	<key>com.apple.avfoundation.allow-system-wide-context</key>
 	<true/>
+	<key>com.apple.bluetooth.system</key>
+	<true/>
 	<key>com.apple.developer.healthkit</key>
 	<true/>
 </dict>
