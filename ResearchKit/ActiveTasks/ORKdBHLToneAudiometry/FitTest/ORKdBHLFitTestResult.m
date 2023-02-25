@@ -37,13 +37,19 @@
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [super encodeWithCoder:aCoder];
-    ORK_ENCODE_BOOL(aCoder, succeeded);
+    ORK_ENCODE_DOUBLE(aCoder, sealLeftEar);
+    ORK_ENCODE_DOUBLE(aCoder, sealRightEar);
+    ORK_ENCODE_DOUBLE(aCoder, confidenceLeftEar);
+    ORK_ENCODE_DOUBLE(aCoder, confidenceRightEar);
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        ORK_DECODE_BOOL(aDecoder, succeeded);
+        ORK_DECODE_DOUBLE(aDecoder, sealLeftEar);
+        ORK_DECODE_DOUBLE(aDecoder, sealRightEar);
+        ORK_DECODE_DOUBLE(aDecoder, confidenceLeftEar);
+        ORK_DECODE_DOUBLE(aDecoder, confidenceRightEar);
     }
     return self;
 }
@@ -55,22 +61,25 @@
 - (BOOL)isEqual:(id)object {
     BOOL isParentSame = [super isEqual:object];
     __typeof(self) castObject = object;
-    return isParentSame &&
-    self.succeeded == castObject.succeeded;
-}
-
-- (NSUInteger)hash {
-    return super.hash ^ self.succeeded;
+    return (isParentSame &&
+        self.sealLeftEar == castObject.sealLeftEar &&
+        self.sealRightEar == castObject.sealRightEar &&
+        self.confidenceLeftEar == castObject.confidenceLeftEar &&
+        self.confidenceRightEar == castObject.confidenceRightEar
+     );
 }
 
 - (instancetype)copyWithZone:(NSZone *)zone {
     ORKdBHLFitTestResult *result = [super copyWithZone:zone];
-    result.succeeded = self.succeeded;
+    result.sealLeftEar = self.sealLeftEar;
+    result.sealRightEar = self.sealRightEar;
+    result.confidenceLeftEar = self.confidenceLeftEar;
+    result.confidenceRightEar = self.confidenceRightEar;
     return result;
 }
 
 - (NSString *)descriptionWithNumberOfPaddingSpaces:(NSUInteger)numberOfPaddingSpaces {
-    return [NSString stringWithFormat:@"%@; Fit Test Succeeded: %d;", [self descriptionPrefixWithNumberOfPaddingSpaces:numberOfPaddingSpaces], self.succeeded];
+    return [NSString stringWithFormat:@"%@; Seal LeftEar: %f, Seal RightEar: %f, Confidence LeftEar: %f, Confidence RightEar: %f;", [self descriptionPrefixWithNumberOfPaddingSpaces:numberOfPaddingSpaces], self.sealLeftEar, self.sealRightEar, self.confidenceLeftEar, self.confidenceRightEar];
 }
 
 @end

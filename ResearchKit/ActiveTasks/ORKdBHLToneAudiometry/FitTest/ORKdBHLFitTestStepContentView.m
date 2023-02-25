@@ -38,8 +38,6 @@ static NSString * const fitTestRight = @"FitTest-Right";
 static NSString * const appearanceModeLight = @"-light";
 static NSString * const appearanceModeDark = @"-dark";
 
-#define FIT_TEST_MIN_VOLUME            0.5f
-
 #define LEFT_RIGHT_IM_SEPARATION    40.0
 
 #define BUD_LABEL_SIZE                18.0
@@ -50,16 +48,6 @@ static NSString * const appearanceModeDark = @"-dark";
 #define RESULT_LABEL_SEPARATION        16.0
 
 #define HEADER_CONTENT_SEPARATION    100.0
-
-#define TOP_CONSTRAINT_NOT_PLAYING  40.0
-
-#define TOP_CONSTRAINT_PLAYING  83.0
-#define TOP_CONSTRAINT_PLAYING_SMALL  63.0
-
-#define TOP_CONSTRAINT_RESULT_FAILURE  -26.0
-#define TOP_CONSTRAINT_RESULT_FAILURE_SMALL  -4.0
-
-#define TOP_CONSTRAINT_RESULT_OK  40.0
 
 @interface ORKdBHLFitTestStepContentView () {
     UIImageView *_leftImView;
@@ -74,7 +62,7 @@ static NSString * const appearanceModeDark = @"-dark";
     UILabel *_leftBudResultLabel;
     UILabel *_rightBudResultLabel;
     
-    //UILabel *_resultDetailLabel;
+    UILabel *_resultDetailLabel;
     
     NSLayoutConstraint *_leftTopConstraint;
     NSLayoutConstraint *_rightTopConstraint;
@@ -120,7 +108,7 @@ static NSString * const appearanceModeDark = @"-dark";
 
         _leftBudResultLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         _rightBudResultLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        //_resultDetailLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        _resultDetailLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 
         _leftBudResultLabel.text = @"";
         _leftBudResultLabel.textColor = [UIColor systemBlackColor];
@@ -138,13 +126,13 @@ static NSString * const appearanceModeDark = @"-dark";
         _rightBudResultLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
         _rightBudResultLabel.alpha = 1.0;
 
-//        _resultDetailLabel.text = @"";
-//        _resultDetailLabel.textColor = [UIColor systemBlackColor];
-//        _resultDetailLabel.textAlignment = NSTextAlignmentCenter;
-//        _resultDetailLabel.numberOfLines = 0;
-//        _resultDetailLabel.lineBreakMode = NSLineBreakByWordWrapping;
-//        _resultDetailLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
-//        _resultDetailLabel.alpha = 1.0;
+        _resultDetailLabel.text = @"";
+        _resultDetailLabel.textColor = [UIColor systemBlackColor];
+        _resultDetailLabel.textAlignment = NSTextAlignmentCenter;
+        _resultDetailLabel.numberOfLines = 0;
+        _resultDetailLabel.lineBreakMode = NSLineBreakByWordWrapping;
+        _resultDetailLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
+        _resultDetailLabel.alpha = 1.0;
         
         _darkMode = (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark);
 
@@ -181,7 +169,7 @@ static NSString * const appearanceModeDark = @"-dark";
 
     _leftBudResultLabel.translatesAutoresizingMaskIntoConstraints = false;
     _rightBudResultLabel.translatesAutoresizingMaskIntoConstraints = false;
-    //_resultDetailLabel.translatesAutoresizingMaskIntoConstraints = false;
+    _resultDetailLabel.translatesAutoresizingMaskIntoConstraints = false;
 
     [_leftBudResultLabel setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
     [_rightBudResultLabel setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
@@ -193,7 +181,7 @@ static NSString * const appearanceModeDark = @"-dark";
     [self addSubview:_rightBudLabel];
     [self addSubview:_leftBudResultLabel];
     [self addSubview:_rightBudResultLabel];
-    //[self addSubview:_resultDetailLabel];
+    [self addSubview:_resultDetailLabel];
     [self addSubview:_leftImView];
     [self addSubview:_spacerView];
     [self addSubview:_rightImView];
@@ -213,8 +201,8 @@ static NSString * const appearanceModeDark = @"-dark";
     [constraints addObject:[_spacerView.widthAnchor constraintEqualToConstant:LEFT_RIGHT_IM_SEPARATION]];
     [constraints addObject:[_spacerView.centerYAnchor constraintEqualToAnchor:self.centerYAnchor]];
     
-    _leftTopConstraint = [_leftImView.topAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.topAnchor constant:TOP_CONSTRAINT_NOT_PLAYING];
-    _rightTopConstraint = [_rightImView.topAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.topAnchor constant:TOP_CONSTRAINT_NOT_PLAYING];
+    _leftTopConstraint = [_leftImView.topAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.topAnchor constant:LEFT_RIGHT_IM_SEPARATION];
+    _rightTopConstraint = [_rightImView.topAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.topAnchor constant:LEFT_RIGHT_IM_SEPARATION];
     
     [constraints addObject:[_leftImView.widthAnchor constraintEqualToConstant:339*space]];
     [constraints addObject:[_leftImView.heightAnchor constraintEqualToConstant:426*space]];
@@ -246,14 +234,23 @@ static NSString * const appearanceModeDark = @"-dark";
     
 //    [constraints addObject:[_resultDetailLabel.topAnchor constraintGreaterThanOrEqualToAnchor:_leftBudResultLabel.bottomAnchor constant:20.0]];
 //    [constraints addObject:[_resultDetailLabel.topAnchor constraintGreaterThanOrEqualToAnchor:_rightBudResultLabel.bottomAnchor constant:20.0]];
-//    [constraints addObject:[_resultDetailLabel.leadingAnchor constraintEqualToAnchor:self.leadingAnchor]];
-//    [constraints addObject:[_resultDetailLabel.trailingAnchor constraintEqualToAnchor:self.trailingAnchor]];
-//    [constraints addObject:[_resultDetailLabel.bottomAnchor constraintEqualToAnchor:self.bottomAnchor constant:10]];
+    CGFloat deviceHeight = UIScreen.mainScreen.bounds.size.height;
+    [constraints addObject:[_resultDetailLabel.topAnchor constraintEqualToAnchor:_leftImView.bottomAnchor constant:deviceHeight < 813 ? 80 : 120.0]];
+    [constraints addObject:[_resultDetailLabel.leadingAnchor constraintEqualToAnchor:self.leadingAnchor]];
+    [constraints addObject:[_resultDetailLabel.trailingAnchor constraintEqualToAnchor:self.trailingAnchor]];
+    [constraints addObject:[_resultDetailLabel.bottomAnchor constraintEqualToAnchor:self.bottomAnchor constant:10]];
 
     [NSLayoutConstraint activateConstraints:constraints];
 }
 
--(void)prepareToPlay {
+-(void)resetLabelsBackgroundColors {
+    _leftBudLabelText.textColor = [UIColor systemBackgroundColor];
+    _rightBudLabelText.textColor = [UIColor systemBackgroundColor];
+}
+
+-(void)setStart {
+    //_leftTopConstraint.constant = TOP_CONSTRAINT_NOT_PLAYING;
+    //_rightTopConstraint.constant = TOP_CONSTRAINT_NOT_PLAYING;
     [UIView animateWithDuration:0.5 animations:^{
         _leftBudLabel.backgroundColor = [UIColor systemGrayColor];
         _leftBudResultLabel.textColor = [UIColor systemBlackColor];
@@ -265,43 +262,11 @@ static NSString * const appearanceModeDark = @"-dark";
     }];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    // Setting the frame directly causes a layout error on a form step (it looks like an iOS bug, as setting the frame should produce the same effect as setting the bounds and the center)
-    CGRect answerTextViewBounds = self.bounds;
-    NSLog(@"frame after %@",NSStringFromCGRect(_leftImView.frame));
+-(void)setResultDetailLabelText:(NSString *)text {
+    _resultDetailLabel.text = text;
 }
 
--(void)setPlaying {
-    BOOL isSmallScreen = (UIScreen.mainScreen.bounds.size.width <= 390.0);
-    
-    //Update constant
-    _leftTopConstraint.constant = isSmallScreen ? TOP_CONSTRAINT_PLAYING_SMALL : TOP_CONSTRAINT_PLAYING;
-    _rightTopConstraint.constant = isSmallScreen ? TOP_CONSTRAINT_PLAYING_SMALL : TOP_CONSTRAINT_PLAYING;
-}
-
--(void)setResultWithFailure {
-    BOOL isSmallScreen = (UIScreen.mainScreen.bounds.size.width <= 390.0);
-
-    //Update constant
-    _leftTopConstraint.constant = isSmallScreen ? TOP_CONSTRAINT_RESULT_FAILURE_SMALL : TOP_CONSTRAINT_RESULT_FAILURE;
-    _rightTopConstraint.constant = isSmallScreen ? TOP_CONSTRAINT_RESULT_FAILURE_SMALL : TOP_CONSTRAINT_RESULT_FAILURE;
-}
-
--(void)setResultWithSuccess {
-    BOOL isSmallScreen = (UIScreen.mainScreen.bounds.size.width <= 390.0);
-
-    //Update constant
-    _leftTopConstraint.constant = isSmallScreen ? TOP_CONSTRAINT_PLAYING_SMALL : TOP_CONSTRAINT_RESULT_OK;
-    _rightTopConstraint.constant = isSmallScreen ? TOP_CONSTRAINT_PLAYING_SMALL : TOP_CONSTRAINT_RESULT_OK;
-}
-
--(void)setResultWithLeftOk:(BOOL)leftOk rightOk:(BOOL)rightOk {
-    if (rightOk && leftOk) {
-        [self setResultWithSuccess];
-    } else {
-        [self setResultWithFailure];
-    }
+-(void)setWithLeftOk:(BOOL)leftOk rightOk:(BOOL)rightOk {
     [UIView animateWithDuration:0.5 animations:^{
         _leftBudLabel.backgroundColor = leftOk ? [UIColor systemGreenColor] : [UIColor systemYellowColor];
         _leftBudResultLabel.textColor = leftOk ? [UIColor systemGreenColor] : [UIColor systemYellowColor];

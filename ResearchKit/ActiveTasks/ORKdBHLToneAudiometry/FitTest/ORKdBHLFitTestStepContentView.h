@@ -35,11 +35,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ORKdBHLFitTestStepContentView : ORKActiveStepCustomView
 
--(void)prepareToPlay;
+-(void)setStart;
 
--(void)setPlaying;
+-(void)setWithLeftOk:(BOOL)leftOk rightOk:(BOOL)rightOk;
 
--(void)setResultWithLeftOk:(BOOL)leftOk rightOk:(BOOL)rightOk;
+-(void)resetLabelsBackgroundColors;
+
+-(void)setResultDetailLabelText:(NSString *)text;
 
 @end
 

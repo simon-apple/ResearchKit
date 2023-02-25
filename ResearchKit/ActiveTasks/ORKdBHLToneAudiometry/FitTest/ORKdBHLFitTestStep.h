@@ -34,6 +34,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ORKdBHLFitTestStep : ORKActiveStep
 
+@property (nonatomic, assign) double sealThreshold;
+
+@property (nonatomic, assign) double confidenceThreshold;
+
+@property (nonatomic, assign) NSInteger numberOfTries;
+
+
+
 @end
 
 NS_ASSUME_NONNULL_END

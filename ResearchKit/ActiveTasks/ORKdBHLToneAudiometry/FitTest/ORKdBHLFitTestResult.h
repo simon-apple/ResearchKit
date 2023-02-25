@@ -35,10 +35,13 @@ NS_ASSUME_NONNULL_BEGIN
 ORK_CLASS_AVAILABLE
 @interface ORKdBHLFitTestResult : ORKResult
 
-/**
- Fit test succeeded
- */
-@property (nonatomic, assign) BOOL succeeded;
+@property (nonatomic, assign) double sealLeftEar;
+
+@property (nonatomic, assign) double sealRightEar;
+
+@property (nonatomic, assign) double confidenceLeftEar;
+
+@property (nonatomic, assign) double confidenceRightEar;
 
 @end
 

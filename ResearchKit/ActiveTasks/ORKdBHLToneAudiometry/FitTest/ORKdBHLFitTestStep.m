@@ -30,11 +30,71 @@
 
 #import "ORKdBHLFitTestStep.h"
 #import "ORKdBHLFitTestStepViewController.h"
+#import "ORKHelpers_Internal.h"
+
+#define ORKdBHLFitTestSealThreshold 0.0
+#define ORKdBHLFitTestConfidenceThreshold -3.0
+#define ORKdBHLFitTestDefaultNumberOfTries 4.0
 
 @implementation ORKdBHLFitTestStep
 
 + (Class)stepViewControllerClass {
     return [ORKdBHLFitTestStepViewController class];
+}
+
+- (instancetype)initWithIdentifier:(NSString *)identifier {
+    self = [super initWithIdentifier:identifier];
+    if (self) {
+        [self commonInit];
+    }
+    return self;
+}
+
+- (void)commonInit {
+    self.sealThreshold = ORKdBHLFitTestSealThreshold;
+    self.confidenceThreshold = ORKdBHLFitTestConfidenceThreshold;
+    self.numberOfTries = ORKdBHLFitTestDefaultNumberOfTries;
+}
+
+- (BOOL)startsFinished {
+    return NO;
+}
+
+- (instancetype)copyWithZone:(NSZone *)zone {
+    ORKdBHLFitTestStep *step = [super copyWithZone:zone];
+    step.sealThreshold = self.sealThreshold;
+    step.confidenceThreshold = self.confidenceThreshold;
+    step.numberOfTries = self.numberOfTries;
+
+    return step;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        ORK_DECODE_DOUBLE(aDecoder, sealThreshold);
+        ORK_DECODE_DOUBLE(aDecoder, confidenceThreshold);
+        ORK_DECODE_INTEGER(aDecoder, numberOfTries);
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [super encodeWithCoder:aCoder];
+    ORK_ENCODE_DOUBLE(aCoder, sealThreshold);
+    ORK_ENCODE_DOUBLE(aCoder, confidenceThreshold);
+    ORK_ENCODE_INTEGER(aCoder, numberOfTries);
+}
+
+- (BOOL)isEqual:(id)object {
+    BOOL isParentSame = [super isEqual:object];
+    
+    __typeof(self) castObject = object;
+    return (isParentSame
+            && (self.confidenceThreshold == castObject.confidenceThreshold)
+            && (self.sealThreshold == castObject.sealThreshold)
+            && (self.numberOfTries == castObject.numberOfTries)
+            );
 }
 
 + (BOOL)supportsSecureCoding {
