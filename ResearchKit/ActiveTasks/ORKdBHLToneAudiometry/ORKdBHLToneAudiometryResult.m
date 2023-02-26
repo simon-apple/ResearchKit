@@ -36,6 +36,64 @@
 
 const double ORKInvalidDBHLValue = DBL_MAX;
 
+@implementation ORKdBHLToneAudiometryTap
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    ORK_ENCODE_DOUBLE(aCoder, dBHLValue);
+    ORK_ENCODE_DOUBLE(aCoder, frequency);
+    ORK_ENCODE_DOUBLE(aCoder, channel);
+    ORK_ENCODE_DOUBLE(aCoder, timeStamp);
+    ORK_ENCODE_DOUBLE(aCoder, response);
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    self = [super init];
+    if (self) {
+        ORK_DECODE_DOUBLE(aDecoder, dBHLValue);
+        ORK_DECODE_DOUBLE(aDecoder, frequency);
+        ORK_DECODE_DOUBLE(aDecoder, channel);
+        ORK_DECODE_DOUBLE(aDecoder, timeStamp);
+        ORK_DECODE_DOUBLE(aDecoder, response);
+    }
+    return self;
+}
+
+- (BOOL)isEqual:(id)object {
+    if ([self class] != [object class]) {
+        return NO;
+    }
+    
+    __typeof(self) castObject = object;
+    
+    return ((self.dBHLValue == castObject.dBHLValue) &&
+            (self.frequency == castObject.frequency) &&
+            (self.channel == castObject.channel) &&
+            (self.timeStamp == castObject.timeStamp) &&
+            (self.response == castObject.response));
+}
+
+- (instancetype)copyWithZone:(NSZone *)zone {
+    ORKdBHLToneAudiometryTap *tap = [[[self class] allocWithZone:zone] init];
+    tap.dBHLValue = self.dBHLValue;
+    tap.frequency = self.frequency;
+    tap.channel = self.channel;
+    tap.timeStamp = self.timeStamp;
+    tap.response = self.response;
+    return tap;
+}
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<%@; dBHLValue: %.1lf; frequency %.1lf; channel %ld; timeStamp: %.5lf; response %ld>", self.class.description, self.dBHLValue, self.frequency, (long)self.channel, self.timeStamp, (long)self.response];
+}
+
+@end
+
+
+
 @implementation ORKdBHLToneAudiometryResult
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
@@ -211,7 +269,6 @@ const double ORKInvalidDBHLValue = DBL_MAX;
     ORK_ENCODE_DOUBLE(aCoder, userTapTimeStamp);
     ORK_ENCODE_DOUBLE(aCoder, startOfUnitTimeStamp);
     ORK_ENCODE_DOUBLE(aCoder, preStimulusDelay);
-    ORK_ENCODE_OBJ(aCoder, confidenceLevel);
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
@@ -222,7 +279,6 @@ const double ORKInvalidDBHLValue = DBL_MAX;
         ORK_DECODE_DOUBLE(aDecoder, userTapTimeStamp);
         ORK_DECODE_DOUBLE(aDecoder, startOfUnitTimeStamp);
         ORK_DECODE_DOUBLE(aDecoder, preStimulusDelay);
-        ORK_DECODE_OBJ_CLASS(aDecoder, confidenceLevel, NSString);
     }
     return self;
 }
@@ -238,8 +294,7 @@ const double ORKInvalidDBHLValue = DBL_MAX;
             (self.timeoutTimeStamp == castObject.timeoutTimeStamp) &&
             (self.userTapTimeStamp == castObject.userTapTimeStamp) &&
             (self.preStimulusDelay == castObject.preStimulusDelay) &&
-            (self.startOfUnitTimeStamp == castObject.startOfUnitTimeStamp) &&
-            (ORKEqualObjects(self.confidenceLevel, castObject.confidenceLevel)));
+            (self.startOfUnitTimeStamp == castObject.startOfUnitTimeStamp));
 }
 
 - (instancetype)copyWithZone:(NSZone *)zone {
@@ -249,7 +304,6 @@ const double ORKInvalidDBHLValue = DBL_MAX;
     unit.userTapTimeStamp = self.userTapTimeStamp;
     unit.startOfUnitTimeStamp = self.startOfUnitTimeStamp;
     unit.preStimulusDelay = self.preStimulusDelay;
-    unit->_confidenceLevel = [_confidenceLevel copy];
     return unit;
 }
 

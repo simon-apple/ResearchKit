@@ -36,6 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class ORKdBHLToneAudiometryFrequencySample;
 @class ORKdBHLToneAudiometryUnit;
+@class ORKdBHLToneAudiometryTap;
 
 ORK_EXTERN const double ORKInvalidDBHLValue ORK_AVAILABLE_DECL;
 
@@ -51,6 +52,8 @@ ORK_CLASS_AVAILABLE
 @property (nonatomic, copy, nullable) ORKHeadphoneTypeIdentifier headphoneType;
 
 @property (nonatomic, copy, nullable) NSArray<ORKdBHLToneAudiometryFrequencySample *> *samples;
+
+@property (nonatomic, copy, nullable) NSArray<ORKdBHLToneAudiometryTap *> *allTaps;
 
 #if RK_APPLE_INTERNAL
 //These data are related to the new algorithm only
@@ -97,7 +100,29 @@ ORK_CLASS_AVAILABLE
 
 @property (nonatomic, assign) NSTimeInterval timeoutTimeStamp;
 
-@property (nonatomic, copy, nullable) NSString *confidenceLevel;
+@end
+
+typedef NS_ENUM(NSInteger, ORKdBHLToneAudiometryTrialResponse) {
+    ORKdBHLToneAudiometryTapBeforeResponseWindow = -1,
+    
+    ORKdBHLToneAudiometryNoTapOnResponseWindow = 0,
+    
+    ORKdBHLToneAudiometryTapOnResponseWindow = 1,
+} ORK_ENUM_AVAILABLE;
+
+
+ORK_CLASS_AVAILABLE
+@interface ORKdBHLToneAudiometryTap : NSObject <NSCopying, NSSecureCoding>
+
+@property (nonatomic, assign) double dBHLValue;
+
+@property (nonatomic, assign) double frequency;
+
+@property (nonatomic, assign) ORKAudioChannel channel;
+
+@property (nonatomic, assign) NSTimeInterval timeStamp;
+
+@property (nonatomic, assign) ORKdBHLToneAudiometryTrialResponse response;
 
 @end
 

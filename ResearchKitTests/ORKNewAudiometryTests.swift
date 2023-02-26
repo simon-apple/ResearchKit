@@ -1,4 +1,3 @@
-//
 /*
  Copyright (c) 2022, Apple Inc. All rights reserved.
  
@@ -1186,114 +1185,102 @@ extension ORKNewAudiometryTests {
             }
         }
     }
-    
-    func testInitialSampleFromAudiogram() throws {
-        let audiograms = [
-            [16.2, 17.9, 17.3, 11.7, 12.2, 36.2],
-            [5.63, 7.66, 9.33, 7.54, 4.44, 14.7],
-            [9.39, 13.0, 16.3, 16.7, 12.2, 18.7],
-            [13.3, 15.6, 16.0, 8.72, 3.40, 12.8],
-            [28.0, 30.1, 29.6, 17.9, 9.94,19.67],
-            [18.8, 22.1, 25.2, 23.6, 18.0, 24.5],
-            [36.3, 38.4, 37.4, 27.6, 20.5, 35.9],
-            [19.6, 22.3, 22.6, 13.2, 6.15, 14.9],
-            [25.8, 27.4, 25.8, 19.3, 24.3, 47.9],
-            [23.4, 26.2, 29.2, 34.8, 43.2, 52.7],
-            [12.3, 14.7, 16.9, 18.5, 30.6, 47.6],
-            [43.6, 46.7, 49.1, 46.0, 37.9, 52.0]
-        ]
-        let frequencies: [Double] = [250,500,1000,2000,4000,8000]
-        
-        let expectedXSample = [
-            [21.1999999999999993, 22.8999999999999986, 22.3000000000000007, 16.6999999999999993, 17.1999999999999993, 41.2000000000000028],
-            [10.6299999999999990, 12.6600000000000001, 14.3300000000000001, 12.5399999999999991, 9.4400000000000013, 19.6999999999999993],
-            [14.3900000000000006, 18.0000000000000000, 21.3000000000000007, 21.6999999999999993, 17.1999999999999993, 23.6999999999999993],
-            [18.3000000000000007, 20.6000000000000014, 21.0000000000000000, 13.7200000000000006, 8.4000000000000004, 17.8000000000000007],
-            [33.0000000000000000, 35.1000000000000014, 34.6000000000000014, 22.8999999999999986, 14.9399999999999995, 24.6700000000000017],
-            [23.8000000000000007, 27.1000000000000014, 30.1999999999999993, 28.6000000000000014, 23.0000000000000000, 29.5000000000000000],
-            [41.2999999999999972, 43.3999999999999986, 42.3999999999999986, 32.6000000000000014, 25.5000000000000000, 40.8999999999999986],
-            [24.6000000000000014, 27.3000000000000007, 27.6000000000000014, 18.1999999999999993, 11.1500000000000004, 19.8999999999999986],
-            [30.8000000000000007, 32.3999999999999986, 30.8000000000000007, 24.3000000000000007, 29.3000000000000007, 52.8999999999999986],
-            [28.3999999999999986, 31.1999999999999993, 34.2000000000000028, 39.7999999999999972, 48.2000000000000028, 57.7000000000000028],
-            [17.3000000000000007, 19.6999999999999993, 21.8999999999999986, 23.5000000000000000, 35.6000000000000014, 52.6000000000000014],
-            [48.6000000000000014, 51.7000000000000028, 54.1000000000000014, 51.0000000000000000, 42.8999999999999986, 57.0000000000000000]
-        ]
-        
-        for (audiogram, expected) in zip(audiograms, expectedXSample) {
-            let audiometry = ORKNewAudiometry(channel: .left, initialLevel: 45, minLevel: -10, maxLevel: 75, frequencies: frequencies)
 
-            // Comparing only the final threshold for each frequency
-            let res = audiometry.initialSamplingFromAudiogram(audiogram)
-            let finalXSample = zip(res.xSample.getColumn(0).elements, res.xSample.getColumn(1).elements)
-                .reduce(into: [Double: Double]()) { $0[$1.0] = $0[$1.0] ?? $1.1 }
-                .map { ($0.key, $0.value) }
-                .sorted { $0.0 < $1.0 }
-                .map { $0.1 }
-                        
-            XCTAssertEqual(finalXSample.count, expected.count)
-            for (value1, value2) in zip(finalXSample, expected) {
-                XCTAssertEqual(value1, value2 + 5, accuracy: 1e-16)
-            }
-        }
-    }
-    
     func testInitialSampleFromAudiogramInteractive() async throws {
-        let audiograms = [
-            [16.2, 17.9, 17.3, 11.7, 12.2, 36.2],
-            [5.63, 7.66, 9.33, 7.54, 4.44, 14.7],
-            [9.39, 13.0, 16.3, 16.7, 12.2, 18.7],
-            [13.3, 15.6, 16.0, 8.72, 3.40, 12.8],
-            [28.0, 30.1, 29.6, 17.9, 9.94,19.67],
-            [18.8, 22.1, 25.2, 23.6, 18.0, 24.5],
-            [36.3, 38.4, 37.4, 27.6, 20.5, 35.9],
-            [19.6, 22.3, 22.6, 13.2, 6.15, 14.9],
-            [25.8, 27.4, 25.8, 19.3, 24.3, 47.9],
-            [23.4, 26.2, 29.2, 34.8, 43.2, 52.7],
-            [12.3, 14.7, 16.9, 18.5, 30.6, 47.6],
-            [43.6, 46.7, 49.1, 46.0, 37.9, 52.0]
+        let frequencies: [Double] = [1000,2000,4000,8000, 500, 250]
+
+        let previousAudiograms = [
+            [17.3, 11.7, 12.2, 36.2,  17.9, 16.2],
+            [9.33, 7.54, 4.44, 14.7,  7.66, 5.63],
+            [16.3, 16.7, 12.2, 18.7,  13.0, 9.39],
+            [16.0, 8.72, 3.40, 12.8,  15.6, 13.3],
+            [29.6, 17.9, 9.94, 19.67, 30.1, 28.0],
+            [25.2, 23.6, 18.0, 24.5,  22.1, 18.8],
+            [37.4, 27.6, 20.5, 35.9,  38.4, 36.3],
+            [22.6, 13.2, 6.15, 14.9,  22.3, 19.6],
+            [25.8, 19.3, 24.3, 47.9,  27.4, 25.8],
+            [29.2, 34.8, 43.2, 52.7,  26.2, 23.4],
+            [16.9, 18.5, 30.6, 47.6,  14.7, 12.3],
+            [49.1, 46.0, 37.9, 52.0,  46.7, 43.6]
         ]
-        let frequencies: [Double] = [250,500,1000,2000,4000,8000]
+        
+        let referenceAudiograms = [
+            [39.9895218547485, 16.196690063577154, 29.990830669350242, 15.275653394153899, 11.245076322455567, 19.16538405046013],
+            [-11.353121323219439, -12.860434456477073, -5.841882897323392, 47.10862774087997, 11.032070505618645, -21.720492973714407],
+            [-8.527686467839455, -2.8625566146429158, -9.532781279412024, 5.994077265763202, -6.734027368050988, 43.64126990130916],
+            [32.56472544899974, -23.73705541246973, -30.58329039884974, 18.586293330956597, -8.566751503463594, 8.418002300054539],
+            [7.988108478180173, -15.878540253647607, -20.041639660272857, 18.18255357240963, 23.397282289809553, -1.8383355307262583],
+            [19.853369711262207, -0.8846326259255584, 52.71974137428738, 58.324672897138115, 49.22078037064387, 47.80168892822188],
+            [28.10083191247499, 30.416813956050994, -7.059299455306636, 17.91960832194519, 56.90107496619585, 50.055170566862856],
+            [4.532925198583417, -0.22527751975583143, -2.6056199847676798, -9.831566702046809, 34.089922707644604, 50.82530678394844],
+            [27.63686012192016, 0.11088951188335727, 44.08948653029097, 55.741210258750996, 31.935253080352425, -1.081236068507092],
+            [21.520273343071736, 64.15518885976078, 53.86222116998797, 39.00046288853919, -0.02506908824253884, 39.281906402545964],
+            [9.346237818933066, 9.814934457284203, 3.9741052528495544, 68.38336949702855, -12.108455632002826, 33.67023273027712],
+            [37.53498983064476, 40.005143605919734, 66.22578708615572, 84.53208863678542, 48.8053574037911, 56.62633676968178]
+        ]
+        
+        let expectedXSamples = [
+            [7.702773976459156, 27.3, 7.702773976459156, 37.3, 7.702773976459156, 47.3, 11.513378832591187, 1.6999999999999993, 15.575071734898074, 22.2, 19.708905833596873, 46.2, 19.708905833596873, 26.200000000000003, 19.708905833596873, 16.200000000000003, 19.708905833596873, 6.200000000000003, 4.550916823162454, 7.899999999999999, 2.4327906486489863, 26.2, 2.4327906486489863, 6.199999999999999],
+            [7.702773976459156, 19.33, 7.702773976459156, -0.6700000000000017, 7.702773976459156, -11.0, 7.702773976459156, -10.0, 11.513378832591187, -2.46, 15.575071734898074, 14.440000000000001, 19.708905833596873, 24.7, 19.708905833596873, 34.7, 19.708905833596873, 44.7, 19.708905833596873, 54.7, 4.550916823162454, -2.34, 2.4327906486489863, 15.629999999999999, 2.4327906486489863, -4.370000000000001, 2.4327906486489863, -11.0, 2.4327906486489863, -10.0],
+            [7.702773976459156, 26.3, 7.702773976459156, 6.300000000000001, 7.702773976459156, -3.6999999999999993, 7.702773976459156, -10.0, 11.513378832591187, 6.699999999999999, 15.575071734898074, 22.2, 19.708905833596873, 28.7, 19.708905833596873, 8.7, 19.708905833596873, -1.3000000000000007, 4.550916823162454, 3.0, 2.4327906486489863, 19.39, 2.4327906486489863, 29.39, 2.4327906486489863, 39.39, 2.4327906486489863, 49.39],
+            [7.702773976459156, 26.0, 7.702773976459156, 36.0, 11.513378832591187, -1.2799999999999994, 15.575071734898074, 13.4, 19.708905833596873, 22.8, 19.708905833596873, 2.8000000000000007, 4.550916823162454, 5.6, 2.4327906486489863, 23.3, 2.4327906486489863, 3.3000000000000007],
+            [7.702773976459156, 39.6, 7.702773976459156, 19.6, 7.702773976459156, 9.600000000000001, 7.702773976459156, -0.3999999999999986, 11.513378832591187, 7.899999999999999, 15.575071734898074, 19.939999999999998, 19.708905833596873, 29.67, 19.708905833596873, 9.670000000000002, 4.550916823162454, 20.1, 2.4327906486489863, 38.0, 2.4327906486489863, 18.0, 2.4327906486489863, 8.0, 2.4327906486489863, -2.0],
+            [7.702773976459156, 35.2, 7.702773976459156, 15.200000000000003, 11.513378832591187, 13.600000000000001, 15.575071734898074, 28.0, 19.708905833596873, 34.5, 19.708905833596873, 44.5, 19.708905833596873, 54.5, 19.708905833596873, 64.5, 4.550916823162454, 12.100000000000001, 2.4327906486489863, 28.8, 2.4327906486489863, 38.8, 2.4327906486489863, 48.8],
+            [7.702773976459156, 47.4, 7.702773976459156, 27.4, 11.513378832591187, 17.6, 15.575071734898074, 30.5, 19.708905833596873, 45.9, 19.708905833596873, 25.9, 19.708905833596873, 15.899999999999999, 4.550916823162454, 28.4, 2.4327906486489863, 46.3, 2.4327906486489863, 56.3],
+            [7.702773976459156, 32.6, 7.702773976459156, 12.600000000000001, 7.702773976459156, 2.6000000000000014, 11.513378832591187, 3.1999999999999993, 15.575071734898074, 16.15, 19.708905833596873, 24.9, 19.708905833596873, 4.899999999999999, 19.708905833596873, -5.100000000000001, 19.708905833596873, -10.0, 4.550916823162454, 12.3, 2.4327906486489863, 29.6, 2.4327906486489863, 39.6, 2.4327906486489863, 49.6, 2.4327906486489863, 59.6],
+            [7.702773976459156, 35.8, 7.702773976459156, 15.799999999999997, 11.513378832591187, 9.3, 15.575071734898074, 34.3, 19.708905833596873, 57.9, 19.708905833596873, 37.9, 4.550916823162454, 17.4, 2.4327906486489863, 35.8, 2.4327906486489863, 15.799999999999997, 2.4327906486489863, 5.799999999999997, 2.4327906486489863, -4.200000000000003],
+            [7.702773976459156, 39.2, 7.702773976459156, 19.200000000000003, 11.513378832591187, 24.799999999999997, 15.575071734898074, 53.2, 19.708905833596873, 62.7, 19.708905833596873, 42.7, 19.708905833596873, 32.7, 4.550916823162454, 16.2, 2.4327906486489863, 33.4, 2.4327906486489863, 43.4],
+            [7.702773976459156, 26.9, 7.702773976459156, 6.899999999999999, 11.513378832591187, 8.5, 15.575071734898074, 40.6, 19.708905833596873, 57.6, 19.708905833596873, 67.6, 19.708905833596873, 75.0, 4.550916823162454, 4.699999999999999, 2.4327906486489863, 22.3, 2.4327906486489863, 32.3, 2.4327906486489863, 42.3],
+            [7.702773976459156, 59.1, 7.702773976459156, 39.1, 7.702773976459156, 29.1, 11.513378832591187, 36.0, 15.575071734898074, 47.9, 19.708905833596873, 62.0, 19.708905833596873, 72.0, 19.708905833596873, 76.0, 19.708905833596873, 75.0, 4.550916823162454, 36.7, 2.4327906486489863, 53.6, 2.4327906486489863, 63.6]
+        ]
+        
+        let expectedYSamples = [
+            [0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0],
+            [1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 0, 1],
+            [1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1],
+            [0, 1, 1, 1, 1, 0, 1, 1, 0],
+            [1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0],
+            [1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1],
+            [1, 0, 0, 1, 1, 1, 0, 0, 0, 1],
+            [1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1],
+            [1, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0],
+            [1, 0, 0, 0, 1, 1, 0, 1, 0, 1],
+            [1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1],
+            [1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1]
+        ]
 
-        for audiogram in audiograms {
-            // Comparing only the final threshold for each frequency
-            let audiometry1 = ORKNewAudiometry(channel: .left, initialLevel: 45, minLevel: -10, maxLevel: 75, frequencies: frequencies)
-            let expectedRes = audiometry1.initialSamplingFromAudiogram(audiogram)
-            let expected = zip(expectedRes.xSample.getColumn(0).elements, expectedRes.xSample.getColumn(1).elements)
-                .reduce(into: [Double: Double]()) { $0[$1.0] = $0[$1.0] ?? $1.1 }
-                .map { ($0.key, $0.value) }
-                .sorted { $0.0 < $1.0 }
-                .map { $0.1 }
-
+        for (idx, audiogram) in previousAudiograms.enumerated() {
             let audiogramDict = zip(frequencies, audiogram).reduce(into: [:]) { $0[$1.0] = $1.1 }
-            let audiometry2 = ORKNewAudiometry(channel: .left, initialLevel: 45, minLevel: -10, maxLevel: 75, frequencies: frequencies)
-            audiometry2.previousAudiogram = audiogramDict
+            let audiometry = ORKNewAudiometry(channel: .left, initialLevel: 45, minLevel: -10, maxLevel: 75, frequencies: frequencies)
+            audiometry.previousAudiogram = audiogramDict
+            
+            let referenceDict = zip(frequencies, referenceAudiograms[idx]).reduce(into: [:]) { $0[$1.0] = $1.1 }
             
             // Run the initial sampling interactively
-            while audiometry2.initialSampleEnded == false {
+            while audiometry.initialSampleEnded == false {
                 let status = await withCheckedContinuation { continuation in
-                    audiometry2.nextStatus { continuation.resume(returning: ($0, $1)) }
+                    audiometry.nextStatus { continuation.resume(returning: ($0, $1)) }
                 }
                 
                 if let stimulus = status.1 {
-                    let testLevel = audiogramDict[round(stimulus.frequency)]
-                    audiometry2.registerStimulusPlayback()
+                    let testLevel = referenceDict[round(stimulus.frequency)]
+                    audiometry.registerStimulusPlayback()
                     if stimulus.level > testLevel! {
-                        audiometry2.registerResponse(true)
+                        audiometry.registerResponse(true)
                     } else {
-                        audiometry2.registerResponse(false)
+                        audiometry.registerResponse(false)
                     }
                 }
             }
             
-            let res = zip(audiometry2.xSample.getColumn(0).elements, audiometry2.xSample.getColumn(1).elements)
-                .reduce(into: [Double: Double]()) { $0[$1.0] = $0[$1.0] ?? $1.1 }
-                .map { ($0.key, $0.value) }
-                .sorted { $0.0 < $1.0 }
-                .map { $0.1 }
-
-            XCTAssertEqual(res.count, expected.count)
-            for (value1, value2) in zip(res, expected) {
-                XCTAssertEqual(value1, value2, accuracy: 1e-16)
+            XCTAssertEqual(audiometry.xSample.elements.count, expectedXSamples[idx].count)
+            for (value1, value2) in zip(audiometry.xSample.elements, expectedXSamples[idx]) {
+                XCTAssertEqual(value1, value2, accuracy: 1e-8)
+            }
+            
+            XCTAssertEqual(audiometry.ySample.elements.count, expectedYSamples[idx].count)
+            for (value1, value2) in zip(audiometry.ySample.elements, expectedYSamples[idx]) {
+                XCTAssertEqual(value1, Double(value2), accuracy: 1e-8)
             }
         }
     }
@@ -1757,82 +1744,6 @@ extension ORKNewAudiometry {
         }
 
         return (xSample, ySample, xTrue.asVector(), yTrue.asVector())
-    }
-    
-    func initialSamplingFromAudiogram(_ dBHL: [Double]) -> (xSample: Matrix<Double>, ySample: Matrix<Double>) {
-        let maxLevel = 75.0
-        let minLevel = -10.0
-        
-        let freqHL = bark(allFrequencies.sorted().asVector())
-        
-        // assume new audiogram same as old audiogram but add noise
-        let dBHLNoise = dBHL.map { $0 + .random(in: -10...10) }
-        let testFs = bark(allFrequencies.asVector())
-
-        // reorder to test sequence frequencies
-        let oldAudDict = zip(freqHL.elements, dBHL)
-            .reduce(into: [Double: Double]()) { $0[$1.0] = $1.1 }
-        let oldAud = testFs.elements.compactMap { oldAudDict[$0] }
-        
-        let oldAudNoiseDict = zip(freqHL.elements, dBHLNoise)
-            .reduce(into: [Double: Double]()) { $0[$1.0] = $1.1 }
-        let oldAudNoise = testFs.elements.compactMap { oldAudNoiseDict[$0] }
-
-        var dbHLPoint = 0.0
-        var xSample = Matrix<Double>(elements: [], rows: 0, columns: 2)
-        var ySample = Matrix<Double>(elements: [], rows: 0, columns: 1)
-        
-        for index in testFs.elements.indices {
-            // start from +10dB above the old audiogram
-            if index == 0 {
-                dbHLPoint = min(oldAud[index] + 10, maxLevel)
-                xSample.appendRow([testFs.elements[index], dbHLPoint])
-                let responseAmplitude = oldAudNoise[index]
-                ySample.appendRow([dbHLPoint >= responseAmplitude ? 1 : 0])
-                
-            } else {
-                dbHLPoint = min(oldAud[index] + 10, maxLevel)
-                let xNext = [testFs[index], dbHLPoint]
-                let responseAmplitude = oldAudNoise[index]
-                
-                xSample.appendRow(xNext)
-                ySample.appendRow([dbHLPoint >= responseAmplitude ? 1 : 0])
-            }
-            
-            let stepSize = 10.0
-            var n = 1
-            
-            while ySample.elements.last == 1 { // first response at this frequency is positive
-                dbHLPoint = max(xSample[xSample.shape.rows - 1, 1] - stepSize, minLevel)
-                let xNext = [xSample[xSample.shape.rows - 1, 0], dbHLPoint]
-                let responseAmplitude = oldAudNoise[index]
-                
-                xSample.appendRow(xNext)
-                ySample.appendRow([dbHLPoint > responseAmplitude ? 1 : 0])
-
-                n += 1
-                if xNext[1] == minLevel {
-                    break
-                }
-            }
-            
-            if n == 1 {
-                while ySample.elements.last == 0 { // first response at this frequency is negative
-                    dbHLPoint = min(xSample[xSample.shape.rows - 1, 1] + stepSize, maxLevel)
-                    let xNext = [xSample[xSample.shape.rows - 1, 0], dbHLPoint]
-                    let responseAmplitude = oldAudNoise[index]
-  
-                    xSample.appendRow(xNext)
-                    ySample.appendRow([dbHLPoint > responseAmplitude ? 1 : 0])
-
-                    if xNext[1] == maxLevel {
-                        break
-                    }
-                }
-            }
-        }
-
-        return (xSample, ySample)
     }
 }
 

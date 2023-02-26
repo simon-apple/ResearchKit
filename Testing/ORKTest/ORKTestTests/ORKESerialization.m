@@ -2135,6 +2135,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(caseSerial, NSString, NSObject, NO, nil, nil),
                     PROPERTY(leftSerial, NSString, NSObject, NO, nil, nil),
                     PROPERTY(rightSerial, NSString, NSObject, NO, nil, nil),
+                    PROPERTY(allTaps, ORKdBHLToneAudiometryTap, NSArray, NO, nil, nil),
 #endif
                     })),
            ENTRY(ORKReactionTimeResult,

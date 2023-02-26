@@ -57,7 +57,6 @@ import Foundation
     private let optmizer = ORKNewAudiometryMinimizer()
     private let kernelLenght: Double
     private let maxSampleCount = 70
-    private var coverage: Float = 0.0
     private var lastProgress: Float = 0.0
     
     fileprivate let channel: ORKAudioChannel
@@ -90,7 +89,7 @@ import Foundation
     @objc
     public convenience init(channel: ORKAudioChannel) {
         self.init(channel: channel,
-                  initialLevel: 45,
+                  initialLevel: 60,
                   minLevel: -10,
                   maxLevel: 75,
                   frequencies: [1000, 2000, 4000, 8000, 500, 250])
@@ -145,17 +144,30 @@ import Foundation
     }
     
     public var progress: Float {
-        var ratio: Float = 1 / 5
-        if alternativeUI {
-            ratio = 1 / 3
+        let count = xSample.shape.rows
+        var progressReport: Float = 0.0
+
+        // if sample count < 20 then use iteration progress else window coverage progress
+        if count < 20 {
+            let progressIter = Float(count) / 60.0
+            progressReport = progressIter
+        } else {
+            let coverageMatrix = checkCoverage()
+            let progressWindow = Float(coverageMatrix.getColumn(4).mean())
+            progressReport = progressWindow * 0.95
+        }
+
+        // always increase progress
+        if progressReport <= lastProgress {
+            progressReport = lastProgress + 0.015
         }
         
-        let fromInitialSampling = 1.0 - (Float(testFs.count) / Float(testFsCount))
-        let fromSamples = (fromInitialSampling * ratio) + (coverage * (1.0 - ratio))
-        let fromMax = Float(ySample.count) / Float(maxSampleCount)
+        // stop at 98% if not finished
+        progressReport = min(progressReport, 0.98)
         
-        let newProgress = max(fromMax, fromSamples)
-        lastProgress = max(lastProgress, newProgress)
+        // set previous progress to current
+        lastProgress = progressReport
+        
         return lastProgress
     }
         
@@ -203,7 +215,6 @@ import Foundation
         }
         
         resultUnit.dBHLValue = level
-        resultUnit.confidenceLevel = confidence
         if response {
             resultUnit.userTapTimeStamp = timestampProvider()
         } else {
@@ -303,7 +314,6 @@ public extension ORKNewAudiometry {
         resultUnit = ORKdBHLToneAudiometryUnit()
         resultUnit.dBHLValue = lastStimulus.level
         resultUnit.startOfUnitTimeStamp = timestampProvider()
-        resultUnit.confidenceLevel = "UserResponse"
         
         var units = resultUnitsTable[lastStimulus.frequency] ?? []
         units.append(resultUnit)
@@ -601,7 +611,6 @@ public extension ORKNewAudiometry {
     }
     
     func newPoint(_ coverageMatrix: Matrix<Double>) -> Vector<Double> {
-        
         // Get top BALD point
         let baldMatrix = newPointGrid(coverageMatrix)
         let indexMax = baldMatrix.getColumn(2).asVector().indexOfMaximum()
@@ -637,11 +646,14 @@ public extension ORKNewAudiometry {
         var coverageMatrix = Matrix<Double>(elements: [], rows: 0, columns: 5)
         
         let freqRange = bark(allFrequencies.asVector())
-        let barkRange = vDSP.linearInterpolate(values: [freqRange.minimum(), freqRange.maximum()],
-                                               atIndices: [0, 34])
-
+        let barkRange = vDSP.linearInterpolate(values: [freqRange.minimum(), freqRange.maximum()], atIndices: [0, 34])
+            
+        let xRange = (barkRange + [500, 1000, 2000, 4000, 6000].map(bark)).sorted()
+        let specialFreqs1 = [250, 1000, 4000, 8000].map(bark)
+        let specialFreqs2 = [500, 6000].map(bark)
+        
         // loop frequency range
-        for xPoint in barkRange {
+        for xPoint in xRange {
             // get estimated dB fit for point to use to build box
             var xNew = Matrix<Double>(elements: [], rows: 0, columns: 2)
             
@@ -674,12 +686,15 @@ public extension ORKNewAudiometry {
             let xMin: Double
             let xMax: Double
             
-            if xPoint == freqRange.minimum() || xPoint == freqRange.maximum() {
-                xMin = xPoint
-                xMax = xPoint
+            if specialFreqs1.contains(xPoint) {
+                xMin = xPoint - 1.2
+                xMax = xPoint + 1.2
+            } else if specialFreqs2.contains(xPoint) {
+                xMin = xPoint - 1.6
+                xMax = xPoint + 1.6
             } else {
-                xMin = max(xPoint - xWidth, freqRange.minimum() + 0.01)
-                xMax = min(xPoint + xWidth, freqRange.maximum() - 0.01)
+                xMin = xPoint - xWidth
+                xMax = xPoint + xWidth
             }
             
             // get points in  window
@@ -706,7 +721,7 @@ public extension ORKNewAudiometry {
     
     func shouldStop(with coverageMatrix: Matrix<Double>) -> Bool {
         let covered = coverageMatrix.filterOnColumn(4) { $0 == 1 }
-        coverage = Float(covered.shape.rows) / Float(coverageMatrix.shape.rows)
+        let coverage = Float(covered.shape.rows) / Float(coverageMatrix.shape.rows)
         
         // check stopping criteria
         let hitStoppingCriteria = coverage >= 1.0

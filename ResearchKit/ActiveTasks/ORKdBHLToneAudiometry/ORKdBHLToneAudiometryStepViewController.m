@@ -75,6 +75,8 @@
     dispatch_block_t _pulseDurationWorkBlock;
     dispatch_block_t _postStimulusDelayWorkBlock;
     
+    NSMutableArray<ORKdBHLToneAudiometryTap *> *_taps;
+    
     ORKHeadphoneDetector *_headphoneDetector;
     
     NSString *_caseSerial;
@@ -87,6 +89,7 @@
 }
 
 @property (nonatomic, strong) ORKdBHLToneAudiometryContentView *dBHLToneAudiometryContentView;
+@property (nonatomic, strong) ORKdBHLToneAudiometryTap *currentTap;
 
 @end
 
@@ -105,6 +108,9 @@
             ORKStrongTypeOf(self) strongSelf = weakSelf;
             return strongSelf ? strongSelf.runtime : 0;
         };
+        _taps = [[NSMutableArray alloc] init];
+        self.currentTap = [[ORKdBHLToneAudiometryTap alloc] init];
+        self.currentTap.response = ORKdBHLToneAudiometryTapBeforeResponseWindow;
     }
     return self;
 }
@@ -300,6 +306,7 @@
     toneResult.startDate = sResult.startDate;
     toneResult.endDate = now;
     toneResult.samples = [self.audiometryEngine resultSamples];
+    toneResult.allTaps = [_taps copy];
 #if RK_APPLE_INTERNAL
     toneResult.caseSerial = _caseSerial.length > 1 ? _caseSerial : @"";
     toneResult.leftSerial = _leftSerial.length > 1 ? _leftSerial : @"";
@@ -363,6 +370,12 @@
             [self finish];
         }
         
+        self.currentTap = [[ORKdBHLToneAudiometryTap alloc] init];
+        self.currentTap.dBHLValue = stimulus.level;
+        self.currentTap.frequency = stimulus.frequency;
+        self.currentTap.channel = stimulus.channel;
+        self.currentTap.response = ORKdBHLToneAudiometryTapBeforeResponseWindow;
+        
         const NSTimeInterval toneDuration = [self dBHLToneAudiometryStep].toneDuration;
         const NSTimeInterval postStimulusDelay = [self dBHLToneAudiometryStep].postStimulusDelay;
         
@@ -381,6 +394,7 @@
                 [self.audiometryEngine registerStimulusPlayback];
             }
             [_audioGenerator playSoundAtFrequency:stimulus.frequency onChannel:stimulus.channel dBHL:stimulus.level];
+            self.currentTap.response = ORKdBHLToneAudiometryTapOnResponseWindow;
         });
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(preStimulusDelay * NSEC_PER_SEC)), dispatch_get_main_queue(), _preStimulusDelayWorkBlock);
         
@@ -401,6 +415,9 @@
                  [self.dBHLToneAudiometryContentView setDebugTapText:ORKLocalizedString(@"Tap missed", nil)];
              }
      #endif
+            self.currentTap.response = ORKdBHLToneAudiometryNoTapOnResponseWindow;
+            [self logCurrentTap];
+                        
             [self.audiometryEngine registerResponse:NO];
             [self nextTrial];
         });
@@ -430,6 +447,8 @@
     if (_preStimulusDelayWorkBlock && dispatch_block_testcancel(_preStimulusDelayWorkBlock) == 0) {
         [self.audiometryEngine registerResponse:YES];
     }
+    
+    [self logCurrentTap];
     [self nextTrial];
 }
 
@@ -438,6 +457,16 @@
         [self.audiometryEngine signalClipped];
     }
     [self nextTrial];
+}
+
+- (void)logCurrentTap {
+    if ([_taps containsObject:self.currentTap]) {
+        self.currentTap = [self.currentTap copy];
+    }
+    
+    self.currentTap.timeStamp = self.runtime;
+    [_taps addObject:self.currentTap];
+    ORK_Log_Info("Log tap: %@", self.currentTap);
 }
 
 #pragma mark - Headphone Monitoring
