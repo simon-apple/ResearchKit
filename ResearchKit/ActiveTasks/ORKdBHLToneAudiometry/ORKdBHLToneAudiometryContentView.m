@@ -231,6 +231,7 @@ static const CGFloat TestingInProgressIndicatorRadius = 6.0;
         if (@available(iOS 14.0, *)) {
             _swiftUIFactory = [[ORKdBHLToneAudiometrySwiftUIFactory alloc] init];
             _molView = [[_swiftUIFactory makeMethodOfLimitsViewWithAudioChannel:audioChannel] view];
+            _molView.backgroundColor = UIColor.clearColor;
         }
         
         _molView.translatesAutoresizingMaskIntoConstraints = NO;

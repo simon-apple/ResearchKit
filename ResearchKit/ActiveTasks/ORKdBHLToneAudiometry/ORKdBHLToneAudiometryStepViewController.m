@@ -139,12 +139,23 @@
     ORKdBHLToneAudiometryStep *dBHLTAStep = [self dBHLToneAudiometryStep];
 
     self.dBHLToneAudiometryContentView = [[ORKdBHLToneAudiometryContentView alloc] initWithAudioChannel:dBHLTAStep.earPreference];
+    [self.view addSubview:self.dBHLToneAudiometryContentView];
+    self.dBHLToneAudiometryContentView.translatesAutoresizingMaskIntoConstraints = false;
+    
+    NSMutableArray *constraints = [NSMutableArray new];
+    [constraints addObject:[self.dBHLToneAudiometryContentView.leftAnchor constraintEqualToAnchor:self.view.leftAnchor]];
+    [constraints addObject:[self.dBHLToneAudiometryContentView.rightAnchor constraintEqualToAnchor:self.view.rightAnchor]];
+    [constraints addObject:[self.dBHLToneAudiometryContentView.topAnchor constraintEqualToAnchor:self.view.topAnchor]];
+    [constraints addObject:[self.dBHLToneAudiometryContentView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor constant:0]];
+    
+    [NSLayoutConstraint activateConstraints:constraints];
+    
     [self.activeStepView updateTitle:nil text:nil];
-    self.activeStepView.activeCustomView = self.dBHLToneAudiometryContentView;
+   // self.activeStepView.activeCustomView = self.dBHLToneAudiometryContentView;
     self.activeStepView.customContentFillsAvailableSpace = YES;
     [self.activeStepView.navigationFooterView setHidden:YES];
 
-    [self.dBHLToneAudiometryContentView.tapButton addTarget:self action:@selector(tapButtonPressed) forControlEvents:UIControlEventTouchDown];
+    //[self.dBHLToneAudiometryContentView.tapButton addTarget:self action:@selector(tapButtonPressed) forControlEvents:UIControlEventTouchDown];
     
     [self addObservers];
     
@@ -191,7 +202,7 @@
 #endif
 
     _audioChannel = dBHLTAStep.earPreference;
-    _audioGenerator = [[ORKdBHLToneAudiometryPulsedAudioGenerator alloc] initForHeadphoneType:dBHLTAStep.headphoneType pulseMillisecondsDuration:200 pauseMillisecondsDuration:200];
+    _audioGenerator = [[ORKdBHLToneAudiometryPulsedAudioGenerator alloc] initForHeadphoneType:dBHLTAStep.headphoneType pulseMillisecondsDuration:200 pauseMillisecondsDuration:50];
     //_audioGenerator = [[ORKdBHLToneAudiometryAudioGenerator alloc] initForHeadphoneType:dBHLTAStep.headphoneType];
     _audioGenerator.delegate = self;
     _hapticFeedback = [[UIImpactFeedbackGenerator alloc] initWithStyle: UIImpactFeedbackStyleHeavy];
