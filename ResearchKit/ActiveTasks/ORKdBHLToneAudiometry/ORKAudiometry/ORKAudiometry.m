@@ -236,7 +236,7 @@
                             [NSNumber numberWithDouble:defaultStep.dBHLStepUpSizeSecondMiss],
                             [NSNumber numberWithDouble:defaultStep.dBHLStepUpSizeThirdMiss] ];
     _currentdBHL = -1;
-    _initialdBHLValue = -10;
+    _initialdBHLValue = 30.925;
     _dBHLStepDownSize = defaultStep.dBHLStepDownSize;
     _dBHLStepUpSize = defaultStep.dBHLStepUpSize;
     _dBHLMinimumThreshold = step.dBHLMinimumThreshold;
@@ -398,7 +398,18 @@
         ORKAudiometryTransition *currentTransitionObject = [_transitionsDictionary objectForKey:currentKey];
         currentTransitionObject.userInitiated -= 1;
     } else if ([self validateResultFordBHL:_currentdBHL]) {
+#if SIMULATE_HL
+        float low_bound = -15;
+        float high_bound = 15;
+        float rndValue = (((float)arc4random()/0x100000000)*(high_bound-low_bound)+low_bound);
+        
+        double ndbHL = _currentdBHL - rndValue;
+        
+        _resultSample.calculatedThreshold = ndbHL;
+#else
         _resultSample.calculatedThreshold = _currentdBHL;
+#endif
+        
         _indexOfFreqLoopList += 1;
         if (_indexOfFreqLoopList >= _freqLoopList.count) {
             _resultSample.units = [_arrayOfResultUnits copy];
@@ -436,7 +447,17 @@
         ORKAudiometryTransition *currentTransitionObject = [_transitionsDictionary objectForKey:currentKey];
         currentTransitionObject.userInitiated -= 1;
     } else {
-        _resultSample.calculatedThreshold = dbHLValue;
+#if SIMULATE_HL
+        float low_bound = -15;
+        float high_bound = 15;
+        float rndValue = (((float)arc4random()/0x100000000)*(high_bound-low_bound)+low_bound);
+        
+        double ndbHL = _currentdBHL - rndValue;
+        
+        _resultSample.calculatedThreshold = ndbHL;
+#else
+        _resultSample.calculatedThreshold = _currentdBHL;
+#endif
         _indexOfFreqLoopList += 1;
         if (_indexOfFreqLoopList >= _freqLoopList.count) {
             _resultSample.units = [_arrayOfResultUnits copy];
@@ -465,18 +486,48 @@
         if (((previousTransitionObject.userInitiated/previousTransitionObject.totalTransitions <= 0.5) && (previousTransitionObject.totalTransitions >= 2)) || dBHL == _dBHLMinimumThreshold) {
             if (currentTransitionObject.totalTransitions == 2) {
                 if (currentTransitionObject.userInitiated/currentTransitionObject.totalTransitions == 1.0) {
-                    _resultSample.calculatedThreshold = dBHL;
+                    #if SIMULATE_HL
+                    float low_bound = -15;
+                    float high_bound = 15;
+                    float rndValue = (((float)arc4random()/0x100000000)*(high_bound-low_bound)+low_bound);
+        
+                    double ndbHL = _currentdBHL - rndValue;
+        
+                    _resultSample.calculatedThreshold = ndbHL;
+                    #else
+                    _resultSample.calculatedThreshold = _currentdBHL;
+                    #endif
                     return YES;
                 } else {
                     return NO;
                 }
             } else {
-                _resultSample.calculatedThreshold = dBHL;
+                #if SIMULATE_HL
+                float low_bound = -15;
+                float high_bound = 15;
+                float rndValue = (((float)arc4random()/0x100000000)*(high_bound-low_bound)+low_bound);
+        
+                double ndbHL = _currentdBHL - rndValue;
+        
+                _resultSample.calculatedThreshold = ndbHL;
+                #else
+                _resultSample.calculatedThreshold = _currentdBHL;
+                #endif
                 return YES;
             }
         }
     } else if (_minimumThresholdCounter > 2) {
-        _resultSample.calculatedThreshold = dBHL;
+        #if SIMULATE_HL
+        float low_bound = -15;
+        float high_bound = 15;
+        float rndValue = (((float)arc4random()/0x100000000)*(high_bound-low_bound)+low_bound);
+        
+        double ndbHL = _currentdBHL - rndValue;
+        
+        _resultSample.calculatedThreshold = ndbHL;
+        #else
+        _resultSample.calculatedThreshold = _currentdBHL;
+        #endif
         return YES;
     }
     return NO;

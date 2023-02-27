@@ -37,6 +37,8 @@
 #import "ORKNavigationContainerView.h"
 #import "ORKStepContainerView.h"
 
+#import "ORKInstructionStepContainerView.h"
+
 #import "ORKdBHLToneAudiometryPulsedAudioGenerator.h"
 #import "ORKRoundTappingButton.h"
 #import "ORKStepContainerView_Private.h"
@@ -84,7 +86,7 @@
     BOOL _ackOnce;
     BOOL _usingMissingList;
     ORKdBHLToneAudiometryPulsedAudioGenerator *_audioGenerator;
-    NSArray *_freqLoopList;
+    //NSArray *_freqLoopList;
     NSArray *_stepUpMissingList;
     NSMutableArray *_arrayOfResultSamples;
     NSMutableArray *_arrayOfResultUnits;
@@ -135,6 +137,11 @@
         _arrayOfResultSamples = [NSMutableArray array];
         _arrayOfResultUnits = [NSMutableArray array];
         
+        [[NSNotificationCenter defaultCenter] addObserver:self
+             selector:@selector(receiveNextButtonTappedNotification:)
+             name:@"nextButtonTapped"
+             object:nil];
+        
         _counter = 0;
         _isRefinementStep = NO;
     }
@@ -170,13 +177,25 @@
 //    _dBHLMinimumThreshold = dBHLTAStep.minimumdBHL;
 //    _dBHLMaximumThreshold = dBHLTAStep.maximumdBHL;
     
-    _currentdBHL = -10;
+    _currentdBHL = 30.925;
     _dBHLMinimumThreshold = -10;
     _dBHLMaximumThreshold = 75;
     
+    if (self.dBHLToneAudiometryStep.useSlider) {
+        _audiometry = [[ORKAudiometry alloc] initWithScreenerStep:self.dBHLToneAudiometryStep];
+    } else {
+        if (@available(iOS 14, *)) {
+            _audiometry = [[ORKNewAudiometry alloc] initWithChannel:dBHLTAStep.earPreference
+                                                       initialLevel:_currentdBHL
+                                                           minLevel:_dBHLMinimumThreshold
+                                                           maxLevel:_dBHLMaximumThreshold
+                                                        frequencies:dBHLTAStep.frequencyList];
+        }
+    }
     
     if (self.dBHLToneAudiometryStep.useSlider) {
         float stepSize = dBHLTAStep.stepSize;// [[NSUserDefaults standardUserDefaults] floatForKey:@"kagra_alt_ui_step"];
+        stepSize = (stepSize == 0) ? 5.0 : stepSize;
         
         // plumb through configuration here
         
@@ -185,13 +204,13 @@
             self.navigationController.interactivePopGestureRecognizer.enabled = NO;
         }
         
-        stepSize = (stepSize == 0) ? 5.0 : stepSize;
         if (@available(iOS 14.0, *)) {
             self.dBHLToneAudiometryContentView = [[ORKdBHLToneAudiometryScreenerContentSliderView alloc] initWithValue:_currentdBHL
                                                                                                                minimum:_dBHLMinimumThreshold
                                                                                                                maximum:_dBHLMaximumThreshold
                                                                                                               stepSize:stepSize
-                                                                                                           isMultiStep:self.dBHLToneAudiometryStep.isMultiStep];
+                                                                                                        numFrequencies:dBHLTAStep.frequencyList.count
+                                                                                                          audioChannel:dBHLTAStep.earPreference];
         }
         
     } else {
@@ -218,22 +237,6 @@
     //TODO:- figure out where this call lives
     [[self taskViewController] lockDeviceVolume:1.0];
     
-    
-    if (self.dBHLToneAudiometryStep.useSlider) {
-        _audiometry = [[ORKAudiometry alloc] initWithScreenerStep:self.dBHLToneAudiometryStep];
-    } else {
-        if (@available(iOS 14, *)) {
-            _audiometry = [[ORKNewAudiometry alloc] initWithChannel:dBHLTAStep.earPreference
-                                                       initialLevel:_currentdBHL
-                                                           minLevel:_dBHLMinimumThreshold
-                                                           maxLevel:_dBHLMaximumThreshold
-                                                        frequencies:@[@1000.0, @2000.0, @4000.0, @8000.0, @500.0, @250.0]];
-        }
-//        (ORKNewAudiometry *)_audiometry.alternativeUI = YES;
-
-    }
-   
-//
     ORKWeakTypeOf(self) weakSelf = self;
     _audiometry.timestampProvider = ^NSTimeInterval{
         ORKStrongTypeOf(self) strongSelf = weakSelf;
@@ -275,15 +278,21 @@
 
     _audioGenerator = [[ORKdBHLToneAudiometryPulsedAudioGenerator alloc] initForHeadphoneType:dBHLTAStep.headphoneType pulseMillisecondsDuration:200 pauseMillisecondsDuration:50];
     _audioGenerator.delegate = self;
-        
-    [_navigationFooterView.continueButton removeTarget:_navigationFooterView action:nil forControlEvents:UIControlEventTouchUpInside];
-    [_navigationFooterView.continueButton addTarget:self action:@selector(continueButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+//    [_navigationFooterView.continueButton removeTarget:_navigationFooterView action:nil forControlEvents:UIControlEventTouchUpInside];
+//    [_navigationFooterView.continueButton addTarget:self action:@selector(continueButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)receiveNextButtonTappedNotification:(NSNotification *) notification {
+    if ([[notification name] isEqualToString:@"nextButtonTapped"]) {
+        [self continueButtonAction:self];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self start];
-    _navigationFooterView.continueEnabled = YES;
+    _navigationFooterView = nil;
+    //_navigationFooterView.continueEnabled = YES;
     [self.dBHLToneAudiometryContentView setProgress:0 animated:YES];
 }
 
@@ -376,7 +385,7 @@
 }
 
 - (void)didSelected:(float)value {
-    _navigationFooterView.continueEnabled = YES;
+//    _navigationFooterView.continueEnabled = YES;
     
     if (self.dBHLToneAudiometryStep.dBHLCalculatedThreshold != value) {
         [_audioGenerator setCurrentdBHLAndRamp:value];
@@ -407,6 +416,7 @@
             _isRefinementStep = NO;
             [self.dBHLToneAudiometryContentView setIsRefinementStep:_isRefinementStep];
             [self.dBHLToneAudiometryContentView resetView];
+            _navigationFooterView.continueEnabled = NO;
             
             [_audiometry stimulusAcknowledgedWithdBHL:_finalLevel];
         }
@@ -414,7 +424,7 @@
         [_audiometry stimulusAcknowledgedWithdBHL:_finalLevel];
     }
     
-    _navigationFooterView.continueEnabled = NO;
+    //_navigationFooterView.continueEnabled = NO;
     [self stopAudio];
 
     _counter++;
@@ -457,7 +467,7 @@
             [self finish];
             return;
         }
-        _navigationFooterView.continueEnabled = YES;
+        //_navigationFooterView.continueEnabled = YES;
         
         [_audiometry nextStatus:^(BOOL testEnded, ORKAudiometryStimulus *sti) {
             if (testEnded) {

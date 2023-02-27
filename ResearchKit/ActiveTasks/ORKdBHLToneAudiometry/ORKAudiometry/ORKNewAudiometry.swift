@@ -267,7 +267,16 @@ import Foundation
                 let shouldEndTest = !self.nextSample()
                 
                 if shouldEndTest {
-                    self.lastProgress = 1.0
+                    // Delay the UI updating so the completion screen is displayed for a few seconds
+                    DispatchQueue.main.async {
+                        self.lastProgress = 1.0
+                        NotificationCenter.default.post(
+                            name: NSNotification.Name("updateProgress"),
+                            object: nil,
+                            userInfo: ["progress" : NSNumber(value: 1.0)]
+                        )
+                    }
+                    Thread.sleep(forTimeInterval: 5.0)
                     self.finalSampling()
                     self.testEnded = true
                 } else {
@@ -287,7 +296,11 @@ import Foundation
         return results.map { key, value in
             let sample = ORKdBHLToneAudiometryFrequencySample()
             sample.frequency = key
+            #if SIMULATE_HL
+            sample.calculatedThreshold = value + Double.random(in: -15...15)
+            #else
             sample.calculatedThreshold = value
+            #endif
             sample.channel = channel
             return sample
         }.sorted { $0.frequency < $1.frequency }

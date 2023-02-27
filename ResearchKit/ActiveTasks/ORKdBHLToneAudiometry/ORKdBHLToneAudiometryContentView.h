@@ -34,6 +34,8 @@
 #import "ORKCustomStepView_Internal.h"
 #import "ORKUnitLabel.h"
 #import "ORKRoundTappingButton.h"
+#import "ORKdBHLToneAudiometryStep.h"
+
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -43,15 +45,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ORKdBHLToneAudiometryContentView : ORKActiveStepCustomView
 
+- (instancetype)initWithAudioChannel:(ORKAudioChannel)audioChannel;
+
 - (void)setProgress:(CGFloat)progress animated:(BOOL)animated;
-#if RK_APPLE_INTERNAL && QA_DISTRIBUTION
- - (void)setDebugTapText:(NSString *)debugText;
- - (void)setDebugPlayText:(NSString *)debugText;
-#endif
 
 @property (nonatomic, strong, readonly) ORKdBHLToneAudiometryButton *tapButton;
 
 @end
 
 NS_ASSUME_NONNULL_END
-

@@ -82,6 +82,8 @@
 #import "ORKdBHLToneAudiometryStep.h"
 #import "ORKdBHLToneAudiometryOnboardingStep.h"
 
+#import "ORKdBHLToneAudiometryScreenerStep.h"
+
 #if RK_APPLE_INTERNAL
 #import "ORKHeadphoneDetectStep.h"
 #import "ORKdBHLFitTestStep.h"
@@ -1950,6 +1952,7 @@ NSString *const ORKToneAudiometryStepIdentifier = @"tone.audiometry";
 
 #pragma mark - dBHLToneAudiometryTask
 
+NSString *const ORKdBHLToneAudiometryScreenerIdentifier = @"dBHL.tone.audiometry.screener";
 NSString *const ORKdBHLToneAudiometryStep1Identifier = @"dBHL1.tone.audiometry";
 NSString *const ORKdBHLToneAudiometryStep2Identifier = @"dBHL2.tone.audiometry";
 
@@ -2129,9 +2132,107 @@ NSString *const ORKdBHLToneAudiometryHeadphoneDetectStepIdentifier = @"dBHL.tone
     return task;
 }
 
++ (ORKNavigableOrderedTask *)moadBHLToneAudiometryTaskWithIdentifier:(NSString *)identifier
+                                              intendedUseDescription:(nullable NSString *)intendedUseDescription
+                                                             options:(ORKPredefinedTaskOption)options {
+    NSMutableArray *steps = [NSMutableArray array];
+    
+    // temporary
+    BOOL usePicker = YES;
+    
+    if (options & ORKPredefinedTaskOptionExcludeAudio) {
+        @throw [NSException exceptionWithName:NSGenericException reason:@"Audio collection cannot be excluded from audio task" userInfo:nil];
+    }
+
+    {
+        ORKHeadphoneDetectStep *step = [[ORKHeadphoneDetectStep alloc] initWithIdentifier:ORKdBHLToneAudiometryHeadphoneDetectStepIdentifier headphoneTypes:ORKHeadphoneTypesSupported];
+        step.title = ORKLocalizedString(@"HEADPHONE_DETECT_TITLE", nil);
+        step.detailText = ORKLocalizedString(@"HEADPHONE_DETECT_TEXT", nil);
+        [steps addObject:step];
+    }
+    
+    NSNumber *useRightEarNumber = [[NSUserDefaults standardUserDefaults] objectForKey:@"general_useRightEar"];
+    BOOL useRightEar = useRightEarNumber ? useRightEarNumber.boolValue : NO;
+    
+    NSNumber *useLeftEarNumber = [[NSUserDefaults standardUserDefaults] objectForKey:@"general_useLeftEar"];
+    BOOL useLeftEar = useLeftEarNumber ? useLeftEarNumber.boolValue : YES;
+    useLeftEar = useLeftEar || (!useLeftEar && !useRightEar);
+    
+//    {
+//        ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:[identifier stringByAppendingString:@".left"]];
+//        step.title = ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_STEP_TITLE_LEFT_EAR", nil);
+//        ORKStepArrayAddStep(steps, step);
+//    }
+    {
+        NSString *stepIdentifier = [ORKdBHLToneAudiometryScreenerIdentifier stringByAppendingFormat:@"-%@.left", identifier];
+        ORKdBHLToneAudiometryScreenerStep *step = [[ORKdBHLToneAudiometryScreenerStep alloc] initWithIdentifier:stepIdentifier];
+        step.title = nil;
+        step.stepDuration = CGFLOAT_MAX;
+        step.earPreference = ORKAudioChannelLeft;
+        step.headphoneType = ORKHeadphoneTypeIdentifierAirPodsGen1;
+        step.usePicker = usePicker;
+        step.frequency = 1000;
+        step.initialdBHLValue = 30.925;
+        
+        step.minimumdBHL = -10;
+        step.maximumdBHL = 75;
+        
+        
+        step.useSlider = YES;
+        step.isMultiStep = NO;
+        
+        ORKStepArrayAddStep(steps, step);
+    }
+    
+//    {
+//        ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:[ORKInstruction2StepIdentifier stringByAppendingString:@".right"]];
+//        step.title = ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_STEP_TITLE_RIGHT_EAR", nil);
+//        ORKStepArrayAddStep(steps, step);
+//    }
+    {
+        NSString *stepIdentifier = [ORKdBHLToneAudiometryScreenerIdentifier stringByAppendingFormat:@"-%@.right", identifier];
+        ORKdBHLToneAudiometryScreenerStep *step = [[ORKdBHLToneAudiometryScreenerStep alloc] initWithIdentifier:stepIdentifier];
+        step.title = nil;
+        step.stepDuration = CGFLOAT_MAX;
+        step.earPreference = ORKAudioChannelRight;
+        step.headphoneType = ORKHeadphoneTypeIdentifierAirPodsGen1;
+        step.usePicker = usePicker;
+        step.frequency = 1000;
+        step.initialdBHLValue = 30.925;
+        
+        step.minimumdBHL = -10;
+        step.maximumdBHL = 75;
+        
+        step.useSlider = YES;
+        step.isMultiStep = NO;
+
+        
+        ORKStepArrayAddStep(steps, step);
+    }
+//    {
+//        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"save_to_healthKit"]) {
+//            ORKAddToHealthKitStep *step = [[ORKAddToHealthKitStep alloc] initWithIdentifier:@"ORKAddToHealthKitStep"];
+//            step.title = @"Do you want to save this result to HealthKit?";// ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_TASK_TITLE_2", nil);
+//
+//            ORKStepArrayAddStep(steps, step);
+//        }
+//    }
+    if (!(options & ORKPredefinedTaskOptionExcludeConclusion)) {
+        ORKCompletionStep *step = [[ORKCompletionStep alloc] initWithIdentifier:@"exportdBHLResult"];
+        step.title = ORKLocalizedString(@"TASK_COMPLETE_TITLE", nil);
+        step.text = ORKLocalizedString(@"TASK_COMPLETE_TEXT", nil);
+        step.shouldTintImages = YES;
+        ORKStepArrayAddStep(steps, step);
+    }
+    
+    ORKNavigableOrderedTask *task = [[ORKNavigableOrderedTask alloc] initWithIdentifier:identifier steps:steps];
+    
+    return task;
+}
+
 + (ORKNavigableOrderedTask *)newdBHLToneAudiometryTaskWithIdentifier:(NSString *)identifier
-                                            intendedUseDescription:(nullable NSString *)intendedUseDescription
-                                                           options:(ORKPredefinedTaskOption)options {
+                                              intendedUseDescription:(nullable NSString *)intendedUseDescription
+                                                             options:(ORKPredefinedTaskOption)options {
                   
     if (options & ORKPredefinedTaskOptionExcludeAudio) {
         @throw [NSException exceptionWithName:NSGenericException reason:@"Audio collection cannot be excluded from audio task" userInfo:nil];

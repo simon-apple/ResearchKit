@@ -34,6 +34,7 @@
 #import "ORKCustomStepView_Internal.h"
 #import "ORKUnitLabel.h"
 #import "ORKRoundTappingButton.h"
+#import "ORKTypes.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -43,13 +44,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface ORKdBHLToneAudiometryScreenerContentView : ORKActiveStepCustomView <UIPickerViewDelegate, UIPickerViewDataSource, UITableViewDelegate> 
+@interface ORKdBHLToneAudiometryScreenerContentView : ORKActiveStepCustomView <UIPickerViewDelegate, UIPickerViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, weak) id<ORKdBHLToneAudiometryScreenerContentViewDelegate> delegate;
 
 - (instancetype)initWithValue:(float)value minimum:(NSInteger)minimum maximum:(NSInteger)maximum stepSize:(float)stepSize;
 
-- (instancetype)initWithValue:(float)value minimum:(NSInteger)minimum maximum:(NSInteger)maximum stepSize:(float)stepSize isMultiStep:(BOOL)isMultiStep;
+- (instancetype)initWithValue:(float)value minimum:(NSInteger)minimum maximum:(NSInteger)maximum stepSize:(float)stepSize numFrequencies:(NSInteger)numFrequencies audioChannel:(ORKAudioChannel)audioChannel;
 
 - (void)setProgress:(CGFloat)progress animated:(BOOL)animated;
 

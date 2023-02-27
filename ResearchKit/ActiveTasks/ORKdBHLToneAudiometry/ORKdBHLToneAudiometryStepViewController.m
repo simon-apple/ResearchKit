@@ -82,10 +82,6 @@
     NSString *_caseSerial;
     NSString *_leftSerial;
     NSString *_rightSerial;
-    
-#if QA_DISTRIBUTION
-     BOOL _debugEnabled;
-#endif
 }
 
 @property (nonatomic, strong) ORKdBHLToneAudiometryContentView *dBHLToneAudiometryContentView;
@@ -100,9 +96,7 @@
     
     if (self) {
         self.suspendIfInactive = YES;
-#if QA_DISTRIBUTION
-         _debugEnabled = YES;
-#endif
+        
         ORKWeakTypeOf(self) weakSelf = self;
         self.audiometryEngine.timestampProvider = ^NSTimeInterval{
             ORKStrongTypeOf(self) strongSelf = weakSelf;
@@ -144,12 +138,15 @@
 - (void)configureStep {
     ORKdBHLToneAudiometryStep *dBHLTAStep = [self dBHLToneAudiometryStep];
 
-    self.dBHLToneAudiometryContentView = [[ORKdBHLToneAudiometryContentView alloc] init];
+    self.dBHLToneAudiometryContentView = [[ORKdBHLToneAudiometryContentView alloc] initWithAudioChannel:dBHLTAStep.earPreference];
+    [self.activeStepView updateTitle:nil text:nil];
     self.activeStepView.activeCustomView = self.dBHLToneAudiometryContentView;
     self.activeStepView.customContentFillsAvailableSpace = YES;
     [self.activeStepView.navigationFooterView setHidden:YES];
 
     [self.dBHLToneAudiometryContentView.tapButton addTarget:self action:@selector(tapButtonPressed) forControlEvents:UIControlEventTouchDown];
+    
+    [self addObservers];
     
 #if RK_APPLE_INTERNAL
     //TODO:- figure out where this call lives
@@ -203,6 +200,10 @@
 - (void)addObservers {
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center addObserver:self selector:@selector(appWillTerminate:) name:UIApplicationWillTerminateNotification object:nil];
+    [center addObserver:self selector:@selector(tapButtonPressed) name:@"buttonTapped" object:nil];
+    #if RK_APPLE_INTERNAL
+    //[center addObserver:self selector:@selector(appDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
+    #endif
 }
 
 - (void)removeObservers {
@@ -255,44 +256,44 @@
     [self stopAudio];
 }
 
-#if KAGRA_PROTO
-
-#define lowerDouble 10.0
-#define upperDouble 20.0
-
-- (double)randomDoubleBetween:(double)smallNumber and:(double)bigNumber {
-    double diff = bigNumber - smallNumber;
-    return (((double) (arc4random() % ((unsigned)RAND_MAX + 1)) / RAND_MAX) * diff) + smallNumber;
-}
-
-- (NSNumber *)randomNumberFromRangeMax:(double)aMax Min:(double)aMin {
-    return [NSNumber numberWithDouble:[self randomDoubleBetween:aMin and:aMax]];
-}
-
-- (NSNumber *)simulatedHLForKey:(NSString *)key {
-    NSString *shl = [NSUserDefaults.standardUserDefaults valueForKey:key];
-    shl = shl ? shl : @"";
-    shl = [shl isEqual:@""] ? @"0" : shl;
-    shl = [shl stringByReplacingOccurrencesOfString:@"," withString:@"."];
-    
-    NSNumber *nshl = [NSNumber numberWithDouble:[shl doubleValue]];
-    nshl = nshl ? nshl : [NSNumber numberWithDouble:0];
-    return nshl;
-}
-
-- (NSDictionary *)simulatedHLTable {
-    NSNumber *nshl250  = [self randomNumberFromRangeMax:upperDouble Min:lowerDouble];
-    NSNumber *nshl500  = [self randomNumberFromRangeMax:upperDouble Min:lowerDouble];
-    NSNumber *nshl1000 = [self randomNumberFromRangeMax:upperDouble Min:lowerDouble];
-    NSNumber *nshl2000 = [self randomNumberFromRangeMax:upperDouble Min:lowerDouble];
-    NSNumber *nshl3000 = [self randomNumberFromRangeMax:upperDouble Min:lowerDouble];
-    NSNumber *nshl4000 = [self randomNumberFromRangeMax:upperDouble Min:lowerDouble];
-    NSNumber *nshl8000 = [self randomNumberFromRangeMax:upperDouble Min:lowerDouble];
-    
-    return @{@"250":nshl250,@"500":nshl500,@"1000":nshl1000,@"2000":nshl2000,
-             @"3000":nshl3000,@"4000":nshl4000,@"8000":nshl8000};
-}
-#endif
+//#if KAGRA_PROTO
+//
+//#define lowerDouble 10.0
+//#define upperDouble 20.0
+//
+//- (double)randomDoubleBetween:(double)smallNumber and:(double)bigNumber {
+//    double diff = bigNumber - smallNumber;
+//    return (((double) (arc4random() % ((unsigned)RAND_MAX + 1)) / RAND_MAX) * diff) + smallNumber;
+//}
+//
+//- (NSNumber *)randomNumberFromRangeMax:(double)aMax Min:(double)aMin {
+//    return [NSNumber numberWithDouble:[self randomDoubleBetween:aMin and:aMax]];
+//}
+//
+//- (NSNumber *)simulatedHLForKey:(NSString *)key {
+//    NSString *shl = [NSUserDefaults.standardUserDefaults valueForKey:key];
+//    shl = shl ? shl : @"";
+//    shl = [shl isEqual:@""] ? @"0" : shl;
+//    shl = [shl stringByReplacingOccurrencesOfString:@"," withString:@"."];
+//
+//    NSNumber *nshl = [NSNumber numberWithDouble:[shl doubleValue]];
+//    nshl = nshl ? nshl : [NSNumber numberWithDouble:0];
+//    return nshl;
+//}
+//
+//- (NSDictionary *)simulatedHLTable {
+//    NSNumber *nshl250  = [self randomNumberFromRangeMax:upperDouble Min:lowerDouble];
+//    NSNumber *nshl500  = [self randomNumberFromRangeMax:upperDouble Min:lowerDouble];
+//    NSNumber *nshl1000 = [self randomNumberFromRangeMax:upperDouble Min:lowerDouble];
+//    NSNumber *nshl2000 = [self randomNumberFromRangeMax:upperDouble Min:lowerDouble];
+//    NSNumber *nshl3000 = [self randomNumberFromRangeMax:upperDouble Min:lowerDouble];
+//    NSNumber *nshl4000 = [self randomNumberFromRangeMax:upperDouble Min:lowerDouble];
+//    NSNumber *nshl8000 = [self randomNumberFromRangeMax:upperDouble Min:lowerDouble];
+//
+//    return @{@"250":nshl250,@"500":nshl500,@"1000":nshl1000,@"2000":nshl2000,
+//             @"3000":nshl3000,@"4000":nshl4000,@"8000":nshl8000};
+//}
+//#endif
 
 - (ORKStepResult *)result {
     ORKStepResult *sResult = [super result];
@@ -318,9 +319,9 @@
             toneResult.discreteUnits = engine.resultUnits;
             toneResult.fitMatrix = engine.fitMatrix;
             toneResult.deletedSamples = engine.deletedSamples;
-        } else {
-            toneResult.userInfo = @{@"simulatedHL": [self simulatedHLTable]};
-        }
+        }// else {
+        //    toneResult.userInfo = @{@"simulatedHL": [self simulatedHLTable]};
+       // }
     }
 #endif
     toneResult.outputVolume = [AVAudioSession sharedInstance].outputVolume;
@@ -348,11 +349,7 @@
     
 - (void)stopAudio {
     [_audioGenerator stop];
-#if RK_APPLE_INTERNAL && QA_DISTRIBUTION
-     if (_debugEnabled) {
-         [self.dBHLToneAudiometryContentView setDebugPlayText:ORKLocalizedString(@"Not Playing Audio", nil)];
-     }
- #endif
+
     if (_preStimulusDelayWorkBlock) {
         dispatch_block_cancel(_preStimulusDelayWorkBlock);
         dispatch_block_cancel(_pulseDurationWorkBlock);
@@ -385,11 +382,7 @@
         [self.audiometryEngine registerPreStimulusDelay:preStimulusDelay];
         
         _preStimulusDelayWorkBlock = dispatch_block_create(DISPATCH_BLOCK_INHERIT_QOS_CLASS, ^{
-    #if RK_APPLE_INTERNAL && QA_DISTRIBUTION
-             if (_debugEnabled) {
-                 [self.dBHLToneAudiometryContentView setDebugPlayText:[NSString stringWithFormat:ORKLocalizedString(@"Playing dBHL: %f\nFrequency: %f",nil), stimulus.level,stimulus.frequency]];
-             }
-     #endif
+
             if ([[self audiometryEngine] respondsToSelector:@selector(registerStimulusPlayback)]) {
                 [self.audiometryEngine registerStimulusPlayback];
             }
@@ -399,22 +392,14 @@
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(preStimulusDelay * NSEC_PER_SEC)), dispatch_get_main_queue(), _preStimulusDelayWorkBlock);
         
         _pulseDurationWorkBlock = dispatch_block_create(DISPATCH_BLOCK_INHERIT_QOS_CLASS, ^{
-    #if RK_APPLE_INTERNAL && QA_DISTRIBUTION
-             if (_debugEnabled) {
-                 [self.dBHLToneAudiometryContentView setDebugPlayText:ORKLocalizedString(@"Not Playing Audio", nil)];
-             }
-     #endif
+
             [_audioGenerator stop];
         });
         // adding 0.2 seconds to account for the fadeInDuration which is being set in ORKdBHLToneAudiometryAudioGenerator
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((preStimulusDelay + toneDuration + 0.2) * NSEC_PER_SEC)), dispatch_get_main_queue(), _pulseDurationWorkBlock);
         
         _postStimulusDelayWorkBlock = dispatch_block_create(DISPATCH_BLOCK_INHERIT_QOS_CLASS, ^{
-    #if RK_APPLE_INTERNAL && QA_DISTRIBUTION
-             if (_debugEnabled) {
-                 [self.dBHLToneAudiometryContentView setDebugTapText:ORKLocalizedString(@"Tap missed", nil)];
-             }
-     #endif
+
             self.currentTap.response = ORKdBHLToneAudiometryNoTapOnResponseWindow;
             [self logCurrentTap];
                         
@@ -434,13 +419,7 @@
 }
 
 - (void)tapButtonPressed {
-#if RK_APPLE_INTERNAL && QA_DISTRIBUTION
-         if (_debugEnabled) {
-             [self.audiometryEngine nextStatus:^(BOOL testEnded, ORKAudiometryStimulus *stimulus) {
-                 [self.dBHLToneAudiometryContentView setDebugTapText:[NSString stringWithFormat:ORKLocalizedString(@"Tap dBHL: %f",nil), stimulus.level]];
-             }];
-         }
- #endif
+
     [self animatedBHLButton];
     [_hapticFeedback impactOccurred];
     

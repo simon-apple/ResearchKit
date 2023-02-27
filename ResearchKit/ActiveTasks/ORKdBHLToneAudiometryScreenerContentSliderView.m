@@ -1,4 +1,3 @@
-//
 /*
  Copyright (c) 2022, Apple Inc. All rights reserved.
  
@@ -283,13 +282,12 @@ static const CGFloat TestingInProgressIndicatorRadius = 6.0;
     float _initialValue;
     float _stepSize;
 
-    
     UIView *_sliderView;
-    SwiftUIViewFactoryMOA *_swiftUIFactory;
+    ORKdBHLToneAudiometrySwiftUIFactory *_swiftUIFactory;
     int _currentSliderValue;
 }
 
-- (instancetype)initWithValue:(float)value minimum:(NSInteger)minimum maximum:(NSInteger)maximum stepSize:(float)stepSize isMultiStep:(BOOL)isMultiStep {
+- (instancetype)initWithValue:(float)value minimum:(NSInteger)minimum maximum:(NSInteger)maximum stepSize:(float)stepSize numFrequencies:(NSInteger)numFrequencies audioChannel:(ORKAudioChannel)audioChannel {
     self = [super init];
     if (self) {
         _initialValue = value;
@@ -298,26 +296,14 @@ static const CGFloat TestingInProgressIndicatorRadius = 6.0;
         _currentMinimumValue = minimum;
         _currentMaximumValue = maximum;
         
-        if (isMultiStep) {
-            _numDBSteps = 14;
-            _numDBStepsSecondStep = 12;
-            _dBStrideSecondStep = 1;
-            _currentNumDBSteps = _numDBSteps;
-        } else {
-            _numDBSteps = 28;
-            _currentNumDBSteps = _numDBSteps;
-        }
+        _numDBSteps = 28;
+        _currentNumDBSteps = _numDBSteps;
+        
         _stepSize = stepSize;
     
-        _progressView = [[ScreenerTestingInProgressSliderView alloc] init];
-        _progressView.active = NO;
-        _progressView.translatesAutoresizingMaskIntoConstraints = NO;
-        [self addSubview:_progressView];
-        
         _pickerView = [[UIPickerViewCustomDelegateTemp alloc] init];
         _pickerView.dataSource = self;
         _pickerView.delegate = self;
-//        [_pickerView selectRow:kPICKERITEMS inComponent:0 animated:NO];
         [_pickerView setValue:[[UISelectionFeedbackGenerator alloc] init] forKey:@"selectionFeedbackGenerator"];
         
 #if TARGET_IPHONE_SIMULATOR
@@ -325,10 +311,13 @@ static const CGFloat TestingInProgressIndicatorRadius = 6.0;
             [_pickerView performSelector:@selector(setSoundsEnabled:) withObject:NULL];
         }
 #endif
-        
+    
         if (@available(iOS 14.0, *)) {
-            _swiftUIFactory = [[SwiftUIViewFactoryMOA alloc] init];
-            _sliderView = [[_swiftUIFactory makeSwiftUIViewWithNumSteps:_currentNumDBSteps isMultiStep:isMultiStep] view];
+            _swiftUIFactory = [[ORKdBHLToneAudiometrySwiftUIFactory alloc] init];
+            _sliderView = [[_swiftUIFactory makeMethodOfAdjustmentsViewWithNumSteps:_currentNumDBSteps
+                                                                     numFrequencies:numFrequencies
+                                                                       audioChannel:audioChannel] view];
+            _sliderView.backgroundColor = UIColor.clearColor;
         }
 
         [[NSNotificationCenter defaultCenter] addObserver:self
@@ -336,13 +325,14 @@ static const CGFloat TestingInProgressIndicatorRadius = 6.0;
              name:@"sliderValueChanged"
              object:nil];
                 
-        _currentSliderValue = 0.0;
+        _currentSliderValue = value;
         _sliderView.translatesAutoresizingMaskIntoConstraints = NO;
         [self addSubview:_sliderView];
+        
+        self.backgroundColor = UIColor.clearColor;
 
         self.translatesAutoresizingMaskIntoConstraints = NO;
         
-
         [self setUpConstraints];
     }
     return self;
@@ -352,28 +342,27 @@ static const CGFloat TestingInProgressIndicatorRadius = 6.0;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)receiveSliderNotification:(NSNotification *) notification
-{
+- (void)receiveSliderNotification:(NSNotification *) notification {
     if ([[notification name] isEqualToString:@"sliderValueChanged"]) {
         NSDictionary* userInfo = notification.userInfo;
         int value = [userInfo[@"sliderValue"] intValue];
-
+        SourceOfChange sourceOfChange = [userInfo[@"sourceOfChange"] intValue];
+        
         if (value != _currentSliderValue) {
             _currentSliderValue = value;
-            [self didSelectedRow:value];
+            if (sourceOfChange != SourceOfChangeReset) {
+                [self didSelectedRow:value];
+                
+                // save results here for logging
+                // dictionary.add(value: value, timestamp: Date.now, sourceOfChange: sourceofChange)
+            }
         }
     }
 }
 
 - (float)indexToDBHL:(int)index {
-    NSLog(@"** indexToDBHL: %i **", index);
-    NSLog(@"currentMax: %ld", (long)_currentMaximumValue);
-    NSLog(@"currentMin: %ld", (long)_currentMinimumValue);
     float abs = ABS(_currentMaximumValue - _currentMinimumValue);
-    NSLog(@"ABS: %f", abs);
     float stride = abs / ((float)_currentNumDBSteps - 1);
-    NSLog(@"stride: %f", stride);
-    NSLog(@"value: %f", (stride * index) + _currentMinimumValue);
     return (stride * index) + _currentMinimumValue;
 }
 
@@ -389,20 +378,13 @@ static const CGFloat TestingInProgressIndicatorRadius = 6.0;
                            @"isRefinementStep" object:nil userInfo:userInfo];
     
     if (enabled) {
-        NSLog(@"** setIsRefinement **");
         float selectedDB = [self indexToDBHL:_selectedValue];
-        NSLog(@"selectedDB: %f", selectedDB);
-
         _currentNumDBSteps = _numDBStepsSecondStep;
-        NSLog(@"selected: %f", _selectedValue);
         
         float stride = (_currentNumDBSteps - 1) * _dBStrideSecondStep; // - 1?
-        NSLog(@"stride: %f", stride);
-        
+
         float proposedMax = selectedDB + (stride / 2);
-        NSLog(@"proposedMax: %ld", (long)proposedMax);
         float proposedMin = selectedDB - (stride / 2);
-        NSLog(@"proposedMin: %ld", (long)proposedMin);
         
         if (proposedMax >= _maximumValue) {
             _currentMaximumValue = _maximumValue;
@@ -425,17 +407,16 @@ static const CGFloat TestingInProgressIndicatorRadius = 6.0;
 
 - (void)setProgress:(CGFloat)progress animated:(BOOL)animated
 {
-    if (![_progressView isActive])
-    {
-        [_progressView setActive:YES];
-    }
-    
-    [_progressView setProgress:progress];
+//    if (![_progressView isActive])
+//    {
+//        [_progressView setActive:YES];
+//    }
+//
+//    [_progressView setProgress:progress];
 }
 
 - (void)setValue:(float)value {
     _initialValue = value;
-//    [_pickerView selectRow:kPICKERITEMS inComponent:0 animated:NO];
 }
 
 - (void)finishStep:(ORKActiveStepViewController *)viewController {
@@ -444,34 +425,6 @@ static const CGFloat TestingInProgressIndicatorRadius = 6.0;
 
 - (void)setUpConstraints {
     NSArray<NSLayoutConstraint *> *constraints = @[
-                                                   [NSLayoutConstraint constraintWithItem:_progressView
-                                                                                attribute:NSLayoutAttributeTop
-                                                                                relatedBy:NSLayoutRelationEqual
-                                                                                   toItem:self
-                                                                                attribute:NSLayoutAttributeTop
-                                                                               multiplier:1.0
-                                                                                 constant:TopToProgressViewMinPadding],
-                                                   [NSLayoutConstraint constraintWithItem:_progressView
-                                                                                attribute:NSLayoutAttributeLeft
-                                                                                relatedBy:NSLayoutRelationEqual
-                                                                                   toItem:self
-                                                                                attribute:NSLayoutAttributeLeft
-                                                                               multiplier:1.0
-                                                                                 constant:16.0],
-                                                   [NSLayoutConstraint constraintWithItem:_progressView
-                                                                                attribute:NSLayoutAttributeRight
-                                                                                relatedBy:NSLayoutRelationEqual
-                                                                                   toItem:self
-                                                                                attribute:NSLayoutAttributeRight
-                                                                               multiplier:1.0
-                                                                                 constant:-16.0],
-                                                   [NSLayoutConstraint constraintWithItem:_sliderView
-                                                                                attribute:NSLayoutAttributeTop
-                                                                                relatedBy:NSLayoutRelationEqual
-                                                                                   toItem:_progressView
-                                                                                attribute:NSLayoutAttributeBottom
-                                                                               multiplier:1.0
-                                                                                 constant:TopToProgressViewMinPadding],
                                                    [NSLayoutConstraint constraintWithItem:_sliderView
                                                                                 attribute:NSLayoutAttributeLeft
                                                                                 relatedBy:NSLayoutRelationEqual
@@ -486,7 +439,6 @@ static const CGFloat TestingInProgressIndicatorRadius = 6.0;
                                                                                 attribute:NSLayoutAttributeRight
                                                                                multiplier:1.0
                                                                                  constant:-16.0],
-                                                   
     ];
     
     [NSLayoutConstraint activateConstraints:constraints];
@@ -526,12 +478,10 @@ static const CGFloat TestingInProgressIndicatorRadius = 6.0;
     [self didSelectedRow:newRow];
 }
 
--(void)didSelectedRow:(NSInteger)row {
+- (void)didSelectedRow:(NSInteger)row {
     if ([self.delegate conformsToProtocol:@protocol(ORKdBHLToneAudiometryScreenerContentViewDelegate)] && [self.delegate respondsToSelector:@selector(didSelected:)]) {
-        NSLog(@"selectedRow %li", (long)row);
         float value = [self indexToDBHL:row];
         NSLog(@"selectedValue %f", value);
-
         _selectedValue = row;
         [self.delegate didSelected:value];
     }

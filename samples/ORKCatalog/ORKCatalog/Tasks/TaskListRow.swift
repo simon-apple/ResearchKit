@@ -133,6 +133,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     case textQuestionPIIScrubbing
     case fitTestTask
     case newdBHLToneAudiometryTask
+    case moadBHLToneAudiometryTask
     case customStepTask
     case studyPromoTask
     case studySignPostStep
@@ -239,6 +240,7 @@ enum TaskListRow: Int, CustomStringConvertible {
                     //.ble,
                     .fitTestTask,
                     .newdBHLToneAudiometryTask,
+                    .moadBHLToneAudiometryTask,
                     .customStepTask,
                     .studyPromoTask,
                     .studySignPostStep
@@ -447,6 +449,8 @@ enum TaskListRow: Int, CustomStringConvertible {
             return NSLocalizedString("Text Question PII Scrubbing", comment: "")
         case .fitTestTask:
             return NSLocalizedString("Fit Test", comment: "")
+        case .moadBHLToneAudiometryTask:
+            return NSLocalizedString("MOA Tone Audiometry", comment: "")
         case .newdBHLToneAudiometryTask:
             return NSLocalizedString("dBHL Tone Audiometry (New Algorithm)", comment: "")
         case .customStepTask:
@@ -667,6 +671,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         case predefinedTinnitusTask
         case fitTestTask
         case newdBHLToneAudiometryTask
+        case moadBHLToneAudiometryTask
         case customStepTask
         case studyPromoTask
         case studySignPostStep
@@ -872,6 +877,9 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .newdBHLToneAudiometryTask:
             return newdBHLToneAudiometryTask
+            
+        case .moadBHLToneAudiometryTask:
+            return moadBHLToneAudiometryTask
             
         case .customStepTask:
             return customStepTask
@@ -2170,6 +2178,10 @@ enum TaskListRow: Int, CustomStringConvertible {
     
     private var fitTestTask: ORKTask {
         return ORKOrderedTask.fitTest(withIdentifier: String(describing: Identifier.fitTestTask), intendedUseDescription: nil, options: [])
+    }
+    
+    private var moadBHLToneAudiometryTask: ORKTask {
+        return ORKOrderedTask.moadBHLToneAudiometryTask(withIdentifier: String(describing: Identifier.moadBHLToneAudiometryTask), intendedUseDescription: nil, options: [])
     }
     
     /// This task presents the dBHL Tone Audiometry new algorithm.

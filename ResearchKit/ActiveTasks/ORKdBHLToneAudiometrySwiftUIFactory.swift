@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020, Apple Inc. All rights reserved.
+ Copyright (c) 2023, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,13 +28,35 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef ResearchKit_Prefix_pch
-#define ResearchKit_Prefix_pch
+import Foundation
+import SwiftUI
 
-#import <TargetConditionals.h>
-
-#define RK_APPLE_INTERNAL 1
-//#define KAGRA_PROTO 1
-#define SIMULATE_HL 1 // if active, the final results will be using random simulated hearing loss
-
-#endif /* ResearchKit_Prefix_pch */
+@available(iOS 16.0, *)
+@objc public class ORKdBHLToneAudiometrySwiftUIFactory: NSObject {
+    
+    var numSteps: Int = 0
+    var numFrequencies: Int = 0
+    var audioChannel: ORKAudioChannel = .left
+    
+    var moaView: ORKdBHLToneAudiometryMethodOfAdjustmentView {
+        ORKdBHLToneAudiometryMethodOfAdjustmentView(
+            viewModel: SliderViewModel(numSteps: self.numSteps, numFrequencies: self.numFrequencies, audioChannel: self.audioChannel)
+        )
+    }
+    
+    var molView: ORKdBHLToneAudiometryMethodOfLimitsView {
+        ORKdBHLToneAudiometryMethodOfLimitsView(audioChannel: self.audioChannel)
+    }
+    
+    @objc public func makeMethodOfAdjustmentsView(numSteps: Int, numFrequencies: Int, audioChannel: ORKAudioChannel) -> UIViewController {
+        self.numSteps = numSteps
+        self.numFrequencies = numFrequencies
+        self.audioChannel = audioChannel
+        return UIHostingController(rootView: moaView)
+    }
+    
+    @objc public func makeMethodOfLimitsView(audioChannel: ORKAudioChannel) -> UIViewController {
+        self.audioChannel = audioChannel
+        return UIHostingController(rootView: molView)
+    }
+}

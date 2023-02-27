@@ -31,6 +31,7 @@
 
 
 #import "ORKdBHLToneAudiometryContentView.h"
+#import <ResearchKit/ResearchKit-Swift.h>
 
 #import "ORKRoundTappingButton.h"
 #import "ORKHelpers_Internal.h"
@@ -218,50 +219,33 @@ static const CGFloat TestingInProgressIndicatorRadius = 6.0;
     UILabel *_progressLabel;
     TestingInProgressView *_progressView;
     
-#if RK_APPLE_INTERNAL && QA_DISTRIBUTION
-     UILabel *_debugTapLabel;
-     UILabel *_debugPlayLabel;
-     BOOL _debugEnabled;
- #endif
+    UIView *_molView;
+    ORKdBHLToneAudiometrySwiftUIFactory *_swiftUIFactory;
 }
 
-- (instancetype)init {
+- (instancetype)initWithAudioChannel:(ORKAudioChannel)audioChannel {
     self = [super init];
+    self.backgroundColor = UIColor.clearColor;
     if (self) {
         
-        _progressView = [[TestingInProgressView alloc] init];
-        _progressView.active = NO;
-        _progressView.translatesAutoresizingMaskIntoConstraints = NO;
-        [self addSubview:_progressView];
-#if RK_APPLE_INTERNAL && QA_DISTRIBUTION
-         _debugEnabled = YES; // TODO: if exposed use this flag to readu from user defaults
-         if (_debugEnabled) {
-             _debugTapLabel = [[UILabel alloc] init];
-             _debugTapLabel.translatesAutoresizingMaskIntoConstraints = NO;
-             _debugTapLabel.textColor = [UIColor blackColor];
-             UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleTitle1
-                                                                     compatibleWithTraitCollection:self.traitCollection];
-             _debugTapLabel.font = [UIFont fontWithDescriptor:descriptor size:3.0 * TestingInProgressIndicatorRadius];
-             _debugTapLabel.text = ORKLocalizedString(@"---", nil);
-             _debugTapLabel.textAlignment = NSTextAlignmentCenter;
-             [self addSubview:_debugTapLabel];
-
-             _debugPlayLabel = [[UILabel alloc] init];
-             _debugPlayLabel.translatesAutoresizingMaskIntoConstraints = NO;
-             _debugPlayLabel.textColor = [UIColor blackColor];
-             _debugPlayLabel.numberOfLines = 2;
-             _debugPlayLabel.font = [UIFont fontWithDescriptor:descriptor size:2.5 * TestingInProgressIndicatorRadius];
-             _debugPlayLabel.text = ORKLocalizedString(@"---", nil);
-             _debugPlayLabel.textAlignment = NSTextAlignmentCenter;
-             [self addSubview:_debugPlayLabel];
-         }
- #endif
-        _tapButton = [[ORKdBHLToneAudiometryButton alloc] init];
-        [_tapButton setDiameter:150];
-        _tapButton.translatesAutoresizingMaskIntoConstraints = NO;
-        _tapButton.accessibilityTraits = UIAccessibilityTraitButton | UIAccessibilityTraitAllowsDirectInteraction;
-
-        [self addSubview:_tapButton];
+        if (@available(iOS 14.0, *)) {
+            _swiftUIFactory = [[ORKdBHLToneAudiometrySwiftUIFactory alloc] init];
+            _molView = [[_swiftUIFactory makeMethodOfLimitsViewWithAudioChannel:audioChannel] view];
+        }
+        
+        _molView.translatesAutoresizingMaskIntoConstraints = NO;
+        [self addSubview:_molView];
+        
+//        _progressView = [[TestingInProgressView alloc] init];
+//        _progressView.active = NO;
+//        _progressView.translatesAutoresizingMaskIntoConstraints = NO;
+//        [self addSubview:_progressView];
+//        _tapButton = [[ORKdBHLToneAudiometryButton alloc] init];
+//        [_tapButton setDiameter:150];
+//        _tapButton.translatesAutoresizingMaskIntoConstraints = NO;
+//        _tapButton.accessibilityTraits = UIAccessibilityTraitButton | UIAccessibilityTraitAllowsDirectInteraction;
+//
+//        [self addSubview:_tapButton];
         self.translatesAutoresizingMaskIntoConstraints = NO;
 
         [self setUpConstraints];
@@ -270,16 +254,6 @@ static const CGFloat TestingInProgressIndicatorRadius = 6.0;
     return self;
 }
 
-#if RK_APPLE_INTERNAL && QA_DISTRIBUTION
- - (void)setDebugTapText:(NSString *)debugText {
-     _debugTapLabel.text = debugText;
- }
-
- - (void)setDebugPlayText:(NSString *)debugText {
-     _debugPlayLabel.text = debugText;
- }
- #endif
-
 - (void)didMoveToWindow {
     if (self.window != nil && UIAccessibilityIsVoiceOverRunning()) {
         // Ensure that VoiceOver is aware of the direct touch area so that the first tap gets registered
@@ -287,14 +261,17 @@ static const CGFloat TestingInProgressIndicatorRadius = 6.0;
     }
 }
 
-- (void)setProgress:(CGFloat)progress animated:(BOOL)animated
-{
-    if (![_progressView isActive])
-    {
-        [_progressView setActive:YES];
-    }
+- (void)setProgress:(CGFloat)progress animated:(BOOL)animated {
+//    if (![_progressView isActive])
+//    {
+//        [_progressView setActive:YES];
+//    }
+//
+//    [_progressView setProgress:progress];
     
-    [_progressView setProgress:progress];
+    NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[NSNumber numberWithDouble:(double)progress] forKey:@"progress"];
+    [[NSNotificationCenter defaultCenter] postNotificationName:
+                           @"updateProgress" object:nil userInfo:userInfo];
 }
 
 - (void)finishStep:(ORKActiveStepViewController *)viewController {
@@ -303,102 +280,40 @@ static const CGFloat TestingInProgressIndicatorRadius = 6.0;
 }
 
 - (void)setUpConstraints {
-    NSArray<NSLayoutConstraint *> *constraints1 = @[
-            [NSLayoutConstraint constraintWithItem:_progressView
-                                         attribute:NSLayoutAttributeTop
-                                         relatedBy:NSLayoutRelationEqual
-                                            toItem:self
-                                         attribute:NSLayoutAttributeTop
-                                        multiplier:1.0
-                                          constant:TopToProgressViewMinPadding],
-            [NSLayoutConstraint constraintWithItem:_progressView
-                                         attribute:NSLayoutAttributeLeft
-                                         relatedBy:NSLayoutRelationEqual
-                                            toItem:self
-                                         attribute:NSLayoutAttributeLeft
-                                        multiplier:1.0
-                                          constant:0.0],
-            [NSLayoutConstraint constraintWithItem:_progressView
-                                         attribute:NSLayoutAttributeRight
-                                         relatedBy:NSLayoutRelationEqual
-                                            toItem:self
-                                         attribute:NSLayoutAttributeRight
-                                        multiplier:1.0
-                                          constant:0.0],
-        ];
-        NSArray<NSLayoutConstraint *> *constraints2 = @[
-            [NSLayoutConstraint constraintWithItem:_tapButton
-                                         attribute:NSLayoutAttributeCenterX
-                                         relatedBy:NSLayoutRelationEqual
-                                            toItem:self
-                                         attribute:NSLayoutAttributeCenterX
-                                        multiplier:1.0
-                                          constant:0.0],
-            [NSLayoutConstraint constraintWithItem:_tapButton
-                                         attribute:NSLayoutAttributeCenterY
-                                         relatedBy:NSLayoutRelationEqual
-                                            toItem:self
-                                         attribute:NSLayoutAttributeCenterY
-                                        multiplier:1.0
-                                          constant:0.0]
-        ];
-    #if RK_APPLE_INTERNAL && QA_DISTRIBUTION
-        NSArray<NSLayoutConstraint *> *debugConstraints;
-        if (_debugEnabled) {
-            debugConstraints = @[
-                [NSLayoutConstraint constraintWithItem:_debugPlayLabel
-                                             attribute:NSLayoutAttributeTop
-                                             relatedBy:NSLayoutRelationEqual
-                                                toItem:_progressView
-                                             attribute:NSLayoutAttributeBottom
-                                            multiplier:1.0
-                                              constant:TopToProgressViewMinPadding],
-                [NSLayoutConstraint constraintWithItem:_debugPlayLabel
-                                             attribute:NSLayoutAttributeLeft
-                                             relatedBy:NSLayoutRelationEqual
-                                                toItem:self
-                                             attribute:NSLayoutAttributeLeft
-                                            multiplier:1.0
-                                              constant:0.0],
-                [NSLayoutConstraint constraintWithItem:_debugPlayLabel
-                                             attribute:NSLayoutAttributeRight
-                                             relatedBy:NSLayoutRelationEqual
-                                                toItem:self
-                                             attribute:NSLayoutAttributeRight
-                                            multiplier:1.0
-                                              constant:0.0],
-                [NSLayoutConstraint constraintWithItem:_debugTapLabel
-                                             attribute:NSLayoutAttributeTop
-                                             relatedBy:NSLayoutRelationEqual
-                                                toItem:_debugPlayLabel
-                                             attribute:NSLayoutAttributeBottom
-                                            multiplier:1.0
-                                              constant:TopToProgressViewMinPadding],
-                [NSLayoutConstraint constraintWithItem:_debugTapLabel
-                                             attribute:NSLayoutAttributeLeft
-                                             relatedBy:NSLayoutRelationEqual
-                                                toItem:self
-                                             attribute:NSLayoutAttributeLeft
-                                            multiplier:1.0
-                                              constant:0.0],
-                [NSLayoutConstraint constraintWithItem:_debugTapLabel
-                                             attribute:NSLayoutAttributeRight
-                                             relatedBy:NSLayoutRelationEqual
-                                                toItem:self
-                                             attribute:NSLayoutAttributeRight
-                                            multiplier:1.0
-                                              constant:0.0]
-            ];
-        }
-    #endif
-        NSMutableArray<NSLayoutConstraint *> *finalConstraints = [[NSMutableArray alloc] init];
-        [finalConstraints addObjectsFromArray:constraints1];
-    #if RK_APPLE_INTERNAL && QA_DISTRIBUTION
-        if (_debugEnabled) {
-            [finalConstraints addObjectsFromArray:debugConstraints];
-        }
-    #endif
-        [finalConstraints addObjectsFromArray:constraints2];
-        [NSLayoutConstraint activateConstraints:finalConstraints];
-    }
+    NSArray<NSLayoutConstraint *> *constraints = @[
+                                                   [NSLayoutConstraint constraintWithItem:_molView
+                                                                                attribute:NSLayoutAttributeTop
+                                                                                relatedBy:NSLayoutRelationEqual
+                                                                                   toItem:self
+                                                                                attribute:NSLayoutAttributeTop
+                                                                               multiplier:1.0
+                                                                                 constant:0.0],
+                                                   [NSLayoutConstraint constraintWithItem:_molView
+                                                                                attribute:NSLayoutAttributeLeft
+                                                                                relatedBy:NSLayoutRelationEqual
+                                                                                   toItem:self
+                                                                                attribute:NSLayoutAttributeLeft
+                                                                               multiplier:1.0
+                                                                                 constant:0.0],
+                                                   [NSLayoutConstraint constraintWithItem:_molView
+                                                                                attribute:NSLayoutAttributeRight
+                                                                                relatedBy:NSLayoutRelationEqual
+                                                                                   toItem:self
+                                                                                attribute:NSLayoutAttributeRight
+                                                                               multiplier:1.0
+                                                                                 constant:0.0],
+                                                   [NSLayoutConstraint constraintWithItem:_molView
+                                                                                attribute:NSLayoutAttributeBottom
+                                                                                relatedBy:NSLayoutRelationGreaterThanOrEqual
+                                                                                   toItem:self
+                                                                                attribute:NSLayoutAttributeBottom
+                                                                               multiplier:1.0
+                                                                                 constant:0.0],
+    
+    
+    ];
+    
+    [NSLayoutConstraint activateConstraints:constraints];
+}
+
 @end

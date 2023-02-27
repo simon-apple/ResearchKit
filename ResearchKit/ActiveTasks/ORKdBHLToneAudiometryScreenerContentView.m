@@ -37,6 +37,6 @@
 #import "ORKSkin.h"
 
 
-@implementation ORKdBHLToneAudiometryScreenerContentView 
+@implementation ORKdBHLToneAudiometryScreenerContentView
 
 @end

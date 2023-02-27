@@ -40,6 +40,8 @@
 #import "ORKVerticalContainerView.h"
 #import "ORKVoiceEngine.h"
 
+#import "ORKdBHLToneAudiometryScreenerStep.h"
+
 #import "ORKActiveStepViewController_Internal.h"
 #import "ORKStepViewController_Internal.h"
 #import "ORKTaskViewController_Internal.h"
@@ -111,7 +113,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setActiveStepView];
-    [self setNavigationFooterView];
+    if ([[self activeStep] class] != [ORKdBHLToneAudiometryScreenerStep class]) {
+        [self setNavigationFooterView];
+    }
     [self updateContinueButtonItem];
     [self setupConstraints];
     [self prepareStep];

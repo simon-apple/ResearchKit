@@ -539,6 +539,11 @@ NS_ASSUME_NONNULL_BEGIN
 + (ORKNavigableOrderedTask *)newdBHLToneAudiometryTaskWithIdentifier:(NSString *)identifier
                                   intendedUseDescription:(nullable NSString *)intendedUseDescription
                                                  options:(ORKPredefinedTaskOption)options;
+
++ (ORKNavigableOrderedTask *)moadBHLToneAudiometryTaskWithIdentifier:(NSString *)identifier
+                                  intendedUseDescription:(nullable NSString *)intendedUseDescription
+                                                 options:(ORKPredefinedTaskOption)options;
+
 #endif
 
 /**
