@@ -137,8 +137,6 @@ enum TaskListRow: Int, CustomStringConvertible {
     case customStepTask
     case studyPromoTask
     case studySignPostStep
-    case consentTask
-    case consentDoc
     #endif
     
     class TaskListRowSection {
@@ -195,9 +193,7 @@ enum TaskListRow: Int, CustomStringConvertible {
                     .accountCreation,
                     .login,
                     .passcode,
-                    .biometricPasscode,
-                    .consentTask,
-                    .consentDoc
+                    .biometricPasscode
                 ]),
             TaskListRowSection(title: "Active Tasks", rows:
                 [
@@ -276,7 +272,7 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .customBooleanQuestion:
             return NSLocalizedString("Custom Boolean Question", comment: "")
-
+            
         case .dateQuestion:
             return NSLocalizedString("Date Question", comment: "")
             
@@ -455,12 +451,6 @@ enum TaskListRow: Int, CustomStringConvertible {
         case .ble:
             return NSLocalizedString("BLE", comment: "")
             
-        case .consentTask:
-            return NSLocalizedString("Consent Task", comment: "")
-            
-        case .consentDoc:
-            return NSLocalizedString("Consent Document Review", comment: "")
-            
         case .textQuestionPIIScrubbing:
             return NSLocalizedString("Text Question PII Scrubbing", comment: "")
             
@@ -507,8 +497,6 @@ enum TaskListRow: Int, CustomStringConvertible {
         case questionStep
         case birthdayQuestion
         case summaryStep
-        case consentTask
-        case consentDoc
         
         // Task with a Platter UI Question
         case platterQuestionTask
@@ -705,7 +693,7 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .groupedForm:
             return groupedFormTask
-        
+            
         case .survey:
             return surveyTask
             
@@ -895,12 +883,6 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .ble:
             return ble
-            
-        case .consentTask:
-            return consentTask
-            
-        case .consentDoc:
-            return consentDoc
             
         case .newdBHLToneAudiometryTask:
             return newdBHLToneAudiometryTask
@@ -1104,83 +1086,6 @@ enum TaskListRow: Int, CustomStringConvertible {
             question2Step,
             summaryStep
             ])
-    }
-    
-    private var consentTask: ORKTask {
-        let consentDocument = ORKConsentDocument()
-
-        consentDocument.title = NSLocalizedString("Research Health Study Consent Form", comment: "")
-
-        let section1 = ORKConsentSection(type: .overview)
-        section1.summary = NSLocalizedString("Section 1 Summary", comment: "")
-        section1.content = NSLocalizedString("Section 1 Content...", comment: "")
-
-        let section2 = ORKConsentSection(type: .dataGathering)
-        section2.summary = NSLocalizedString("Section 2 Summary", comment: "")
-        section2.content = NSLocalizedString("Section 2 Content...", comment: "")
-
-        let section3 = ORKConsentSection(type: .privacy)
-        section3.summary = NSLocalizedString("Section 3 Summary", comment: "")
-        section3.content = NSLocalizedString("Section 3 Content...", comment: "")
-
-        consentDocument.sections = [section1, section2, section3]
-
-        // Add test signature for pdf creation
-        let testSignature = ORKConsentSignature(forPersonWithTitle: "Participant", dateFormatString: nil, identifier: "ConsentDocumentParticipantSignature")
-        testSignature.familyName = "test family"
-        testSignature.givenName = "tester"
-        testSignature.title = "Person"
-        testSignature.signatureDate = Date().description
-        testSignature.signatureImage = UIImage(named: "signature")
-        consentDocument.addSignature(testSignature)
-        
-        var pdfURL:URL? = nil
-                
-        consentDocument.makePDF { data, error in
-            pdfURL = FileManager.default.temporaryDirectory
-                .appendingPathComponent("consentTask")
-                .appendingPathExtension("pdf")
-            try? data!.write(to: pdfURL!)
-        }
-        
-        // remove old signature
-        let signature = ORKConsentSignature(forPersonWithTitle: "Participant", dateFormatString: nil, identifier: "ConsentDocumentParticipantSignature")
-        consentDocument.addSignature(signature)
-        
-        
-        let passcodeStep = ORKPasscodeStep(identifier: "Passcode")
-       passcodeStep.text = "Now you will create a passcode to identify yourself to the app and protect access to information you've entered."
-
-        let completionStep = ORKCompletionStep(identifier: "CompletionStep")
-        completionStep.title = NSLocalizedString("Welcome aboard.", comment: "")
-        completionStep.text = NSLocalizedString("Thank you for joining this study.", comment: "")
-        let convertedInstructionSteps = consentDocument.instructionSteps
-        /*
-         You can create your own instruction steps here:
-
-         let section1 = ORKInstructionStep(identifier: "1")
-         section1.title = "Welcome"
-         section1.detailText = "Section 1 Summary"
-         section1.text = "Section 1 Content..."
-
-         */
-        
-        let consentReviewStep = consentDocument.consentReviewStep(from: convertedInstructionSteps, withIdentifier: "ConsentDocumentParticipantSignature", signature: signature)
-        
-        var steps: [ORKStep] = convertedInstructionSteps as [ORKStep]
-        steps.append(consentReviewStep)
-        steps.append(contentsOf: [passcodeStep, completionStep])
-        
-        return ORKOrderedTask(identifier: String(describing: Identifier.consentTask), steps: steps)
-    }
-    
-    private var consentDoc: ORKTask {
-        let pdfURL = FileManager.default.temporaryDirectory
-            .appendingPathComponent("consentTask")
-            .appendingPathExtension("pdf")
-        let pdfStep = ORKPDFViewerStep(identifier: "pdfStep", pdfURL: pdfURL)
-        
-        return ORKOrderedTask(identifier: String(describing: Identifier.consentDoc), steps: [pdfStep])
     }
     
     private var platterQuestionTask: ORKTask {
