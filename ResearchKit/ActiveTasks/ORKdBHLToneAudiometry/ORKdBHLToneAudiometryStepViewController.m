@@ -161,7 +161,7 @@
     
 #if RK_APPLE_INTERNAL
     //TODO:- figure out where this call lives
-    [[self taskViewController] lockDeviceVolume:0.625];
+    [[self taskViewController] lockDeviceVolume:1.0];
     
     dBHLTAStep.headphoneType = ORKHeadphoneTypeIdentifierAirPodsProGen2;
     
@@ -225,7 +225,6 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self start];
-    [self addObservers];
 }
 
 -(void)appWillTerminate:(NSNotification*)note {

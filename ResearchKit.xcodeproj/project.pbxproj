@@ -418,6 +418,7 @@
 		6203957129AB8E9B002A864F /* ORKdBHLToneAudiometryMethodOfAdjustmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6203956F29AB8E9A002A864F /* ORKdBHLToneAudiometryMethodOfAdjustmentView.swift */; };
 		6203957229AB8E9B002A864F /* ORKdBHLToneAudiometryMethodOfLimitsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6203957029AB8E9B002A864F /* ORKdBHLToneAudiometryMethodOfLimitsView.swift */; };
 		6203957729ACE335002A864F /* retspl_dBFS_AIRPODSPROV2.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6203957629ACE335002A864F /* retspl_dBFS_AIRPODSPROV2.plist */; };
+		6203958229AE096E002A864F /* health_notification.wav in Resources */ = {isa = PBXBuildFile; fileRef = 6203958129AE096E002A864F /* health_notification.wav */; };
 		6263999C29A6501B00880DE2 /* ORKdBHLFitTestStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 6263999A29A6501B00880DE2 /* ORKdBHLFitTestStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6263999D29A6501B00880DE2 /* ORKdBHLFitTestStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 6263999B29A6501B00880DE2 /* ORKdBHLFitTestStep.m */; };
 		626399A029A6526000880DE2 /* ORKdBHLFitTestStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6263999E29A6526000880DE2 /* ORKdBHLFitTestStepViewController.h */; };
@@ -1578,6 +1579,7 @@
 		6203956F29AB8E9A002A864F /* ORKdBHLToneAudiometryMethodOfAdjustmentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ORKdBHLToneAudiometryMethodOfAdjustmentView.swift; sourceTree = "<group>"; };
 		6203957029AB8E9B002A864F /* ORKdBHLToneAudiometryMethodOfLimitsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ORKdBHLToneAudiometryMethodOfLimitsView.swift; sourceTree = "<group>"; };
 		6203957629ACE335002A864F /* retspl_dBFS_AIRPODSPROV2.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = retspl_dBFS_AIRPODSPROV2.plist; sourceTree = "<group>"; };
+		6203958129AE096E002A864F /* health_notification.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = health_notification.wav; sourceTree = "<group>"; };
 		6263999A29A6501B00880DE2 /* ORKdBHLFitTestStep.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ORKdBHLFitTestStep.h; path = ORKdBHLToneAudiometry/FitTest/ORKdBHLFitTestStep.h; sourceTree = "<group>"; };
 		6263999B29A6501B00880DE2 /* ORKdBHLFitTestStep.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ORKdBHLFitTestStep.m; path = ORKdBHLToneAudiometry/FitTest/ORKdBHLFitTestStep.m; sourceTree = "<group>"; };
 		6263999E29A6526000880DE2 /* ORKdBHLFitTestStepViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ORKdBHLFitTestStepViewController.h; path = ORKdBHLToneAudiometry/FitTest/ORKdBHLFitTestStepViewController.h; sourceTree = "<group>"; };
@@ -3443,7 +3445,6 @@
 			isa = PBXGroup;
 			children = (
 				6203956F29AB8E9A002A864F /* ORKdBHLToneAudiometryMethodOfAdjustmentView.swift */,
-				6203957029AB8E9B002A864F /* ORKdBHLToneAudiometryMethodOfLimitsView.swift */,
 				6203956D29AB8E86002A864F /* ORKdBHLToneAudiometrySwiftUIFactory.swift */,
 				627AB9D2299B9A5900C38D5A /* ORKdBHLToneAudiometryTransitions.h */,
 				627AB9D3299B9A5900C38D5A /* ORKdBHLToneAudiometryTransitions.m */,
@@ -3484,6 +3485,8 @@
 				71769E3720882CED00A19914 /* ORKdBHLToneAudiometryStep.h */,
 				71769E3820882CED00A19914 /* ORKdBHLToneAudiometryStep.m */,
 				E2880B8A255DAFC100D9BAA7 /* ORKdBHLTaskContext.m */,
+				6203958129AE096E002A864F /* health_notification.wav */,
+				6203957029AB8E9B002A864F /* ORKdBHLToneAudiometryMethodOfLimitsView.swift */,
 				71769E3B20884DB800A19914 /* ORKdBHLToneAudiometryStepViewController.h */,
 				71769E3C20884DB800A19914 /* ORKdBHLToneAudiometryStepViewController.m */,
 				E293655D25757CC700092A7C /* frequency_dBSPL_AIRPODSMAX.plist */,
@@ -5696,6 +5699,7 @@
 				62DF9F4928CA87E800D13018 /* volume_curve_AIRPODSPROV2.plist in Resources */,
 				6203957729ACE335002A864F /* retspl_dBFS_AIRPODSPROV2.plist in Resources */,
 				E2EE530022E7735700F34987 /* VolumeCalibration.wav in Resources */,
+				6203958229AE096E002A864F /* health_notification.wav in Resources */,
 				B1A860EA1A9693C400EA57B7 /* consent_01@2x.m4v in Resources */,
 				E293656025757E6100092A7C /* retspl_AIRPODSMAX.plist in Resources */,
 				E29189BB23855BA2001AFF0F /* volume_curve_AIRPODSPRO.plist in Resources */,

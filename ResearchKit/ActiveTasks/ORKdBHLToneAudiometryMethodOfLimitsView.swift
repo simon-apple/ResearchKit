@@ -31,7 +31,7 @@
 // swiftlint:disable identifier_name
 
 import SwiftUI
-import AudioToolbox_Private
+import AVFoundation
 
 extension NSNotification.Name {
     static let buttonTapped = NSNotification.Name("buttonTapped")
@@ -104,6 +104,7 @@ struct ORKdBHLToneAudiometryMethodOfLimitsView: View {
     @State private var nextProgress = 0.0
     @State private var isComplete = false
     
+    @State var player: AVAudioPlayer?
     @State private var timer: Timer?
     
     var audioChannel: ORKAudioChannel = .left
@@ -282,9 +283,25 @@ struct ORKdBHLToneAudiometryMethodOfLimitsView: View {
                 }
             }
         }.onChange(of: isComplete) { _ in
-            AudioServicesPlaySystemSoundWithCompletion(SystemSoundID(kSystemSoundID_HealthNotification), nil)
+            playSound()
         }
     }
+    
+    func playSound() {
+            guard let path = Bundle.main.path(forResource: "health_notification", ofType: "wav") else {
+                print("error finding sound resource")
+                return
+            }
+            let url = URL(fileURLWithPath: path)
+            do {
+                player = try AVAudioPlayer(contentsOf: url)
+                player?.prepareToPlay()
+                player?.volume = 0.2
+                player?.play()
+            } catch let error {
+                print("error playing sound file: \(error.localizedDescription)")
+            }
+        }
 }
 
 

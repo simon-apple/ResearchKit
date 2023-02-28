@@ -364,42 +364,59 @@ extension ORKNewAudiometry {
     }
     
     func nextInitialSampleFromAudiogram() -> Bool {
-        guard !testFs.isEmpty && !initialSampleEnded else {
-            return false
-        }
-        
-        guard let freqPoint = testFs.first else {
+        guard let freqPoint = testFs.first, !initialSampleEnded else {
             // No more frequencies left, finish the initial sampling
             return false
         }
         
-        let stepSize = 10.0
-        let previousLevel = previousAudiogram.map { (bark($0.key), $0.value) }
-            .filter { abs($0.0 - freqPoint) < 0.01 } // Check if it's equal ignoring fp errors
-            .map { $0.1 }
-        var dbHLPoint = previousLevel.first ?? initialLevel
+        let upDown = [1000.0: 1, 2000.0: -1, 4000.0: 1, 8000.0: 1, 500.0: -1, 250.0: 1]
+        let xSampleFreqs = xSample.getColumn(0).elements
+        let freqPointHz = round(hz(freqPoint))
+        let freqUpDown = upDown[freqPointHz]
+        var dBHLPoint: Double
         
-        let responsesForFreq = zip(xSample.getColumn(0).elements, ySample.elements)
-            .filter { abs($0.0 - freqPoint) < 0.01 } // Check if it's equal ignoring fp errors
-            .map { $0.1 }
+        if !xSampleFreqs.contains(freqPoint) { // First sample for freq
+            // intial point to sample is up or down 10
+            dBHLPoint = (previousAudiogram[freqPointHz] ?? 0.0) + Double((freqUpDown ?? 0) * 10)
         
-        if responsesForFreq.contains(0) && responsesForFreq.contains(1) {
-            // Got reversal, proceed to next frequency
+            if !revFs.contains(freqPoint) {
+                testFs.dropFirst()
+            }
+            
+        } else if revFs.contains(freqPoint) { // also need reversal
+            let responsesForFreq = zip(xSampleFreqs, ySample.elements)
+                .filter { abs($0.0 - freqPoint) < 0.01 } // Check if it's equal ignoring fp errors
+                .map { $0.1 }
+            
+            let negResp = responsesForFreq.contains(0)
+            let posResp = responsesForFreq.contains(1)
+            
+            if (negResp && posResp) {
+                testFs.dropFirst()
+                return nextInitialSampleFromAudiogram()
+            }
+            
+            // stepsize  = 20 if jumping over curve else set it to 10 below
+            var stepSize = responsesForFreq.count <= 1 ? 20.0 : 10.0
+            
+            let positiveResponse = responsesForFreq.last == 1
+            if (positiveResponse && freqUpDown == -1) || (!positiveResponse && freqUpDown == 1) {
+                stepSize = 10.0
+            }
+            
+            let lastdBHLPoint = xSample.getColumn(1).elements.last ?? 0
+            if !positiveResponse {
+                dBHLPoint = min(lastdBHLPoint + stepSize, maxLevel)
+            } else {
+                dBHLPoint = max(lastdBHLPoint - stepSize, minLevel)
+            }
+        } else {
             testFs.dropFirst()
             return nextInitialSampleFromAudiogram()
         }
         
-        if responsesForFreq.isEmpty {
-            // start from +10dB above the old audiogram
-            dbHLPoint = min(dbHLPoint + stepSize, maxLevel)
-        } else if responsesForFreq.last == 1 {
-            dbHLPoint = max(xSample[xSample.shape.rows - 1, 1] - stepSize, minLevel)
-        } else if responsesForFreq.last == 0 {
-            dbHLPoint = min(xSample[xSample.shape.rows - 1, 1] + stepSize, maxLevel)
-        }
-        
-        stimulus = ORKAudiometryStimulus(frequency: hz(freqPoint),
-                                         level: dbHLPoint,
+        stimulus = ORKAudiometryStimulus(frequency: freqPointHz,
+                                         level: dBHLPoint,
                                          channel: channel)
         return true
     }

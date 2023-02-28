@@ -184,7 +184,7 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
 }
 
 - (void)setStage:(ORKdBHLFitTestStage)stage {
-    if (_triesCounter > [[self fitTestStep] numberOfTries] - 1) {
+    if (_triesCounter > [[self fitTestStep] numberOfTries] - 1 && stage != ORKdBHLFitTestStageResultLeftSealGoodRightSealGood) {
         [self.fitTestContentView setResultDetailLabelText:@""];
         self.activeStepView.stepTitle = @"Unable to Complete Ear Tip Fit Test";
         self.activeStepView.stepDetailText = @"Let's continue to the last dBHL test.";
