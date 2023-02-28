@@ -265,3 +265,7 @@
 "AV_JOURNALING_PREDEFINED_AUDIO_VIDEO_ACCESS_TITLE" = "Camera and Microphone access not enabled.";
 "AV_JOURNALING_PREDEFINED_AUDIO_VIDEO_ACCESS_TEXT" = "Research app needs Camera and Microphone access to begin your video journal. Please allow access in Settings and try again.";
 "AV_JOURNALING_PREDEFINED_AUDIO_VIDEO_ACCESS_SETTINGS_LINK_TEXT" = "Enable Access in Settings.";
+
+/*[LocalizeLater] Normalized reaction time*/
+"REACTION_TIME_NORMALIZED_TASK_ACTIVE_STEP_TITLE" = "Tap the hold button, and then the blue circle";
+"REACTION_TIME_TASK_NORM_BUTTON_TITLE" = "hold";
