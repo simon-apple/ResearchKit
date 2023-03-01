@@ -134,23 +134,48 @@
     [self.activeStepView.navigationFooterView setHidden:YES];
 
     [self.dBHLToneAudiometryContentView.tapButton addTarget:self action:@selector(tapButtonPressed) forControlEvents:UIControlEventTouchDown];
-    
+
+    _audioChannel = dBHLTAStep.earPreference;
+    _audioGenerator = [[ORKdBHLToneAudiometryAudioGenerator alloc] initForHeadphoneType:dBHLTAStep.headphoneType];
+    _audioGenerator.delegate = self;
+    _hapticFeedback = [[UIImpactFeedbackGenerator alloc] initWithStyle: UIImpactFeedbackStyleHeavy];
+}
+
+- (void)addObservers {
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center addObserver:self selector:@selector(appWillTerminate:) name:UIApplicationWillTerminateNotification object:nil];
+    #if RK_APPLE_INTERNAL
+    [center addObserver:self selector:@selector(appDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
+    #endif
+}
+
+- (void)removeObservers {
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center removeObserver:self name:UIApplicationWillTerminateNotification object:nil];
+    #if RK_APPLE_INTERNAL
+    [center removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
+    #endif
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
 #if RK_APPLE_INTERNAL
-    _headphoneDetector = [[ORKHeadphoneDetector alloc] initWithDelegate:self
-                                                supportedHeadphoneChipsetTypes:[ORKHeadphoneDetectStep dBHLTypes]];
-    
     //TODO:- figure out where this call lives
     [[self taskViewController] lockDeviceVolume:0.625];
+    
+    ORKdBHLToneAudiometryStep *dBHLTAStep = [self dBHLToneAudiometryStep];
 
     ORKTaskResult *taskResults = [[self taskViewController] result];
 
+    BOOL foundHeadphoneDetectorResult = NO;
+    
     for (ORKStepResult *result in taskResults.results) {
         if (result.results > 0) {
             ORKStepResult *firstResult = (ORKStepResult *)[result.results firstObject];
             if ([firstResult isKindOfClass:[ORKHeadphoneDetectResult class]]) {
                 ORKHeadphoneDetectResult *headphoneDetectResult = (ORKHeadphoneDetectResult *)firstResult;
                 dBHLTAStep.headphoneType = headphoneDetectResult.headphoneType;
-        
+                foundHeadphoneDetectorResult = YES;
             } else if ([firstResult isKindOfClass:[ORKdBHLToneAudiometryResult class]]) {
                 if (@available(iOS 14.0, *)) {
                     ORKdBHLToneAudiometryResult *dBHLToneAudiometryResult = (ORKdBHLToneAudiometryResult *)firstResult;
@@ -173,30 +198,12 @@
             }
         }
     }
+    
+    if (foundHeadphoneDetectorResult) {
+        _headphoneDetector = [[ORKHeadphoneDetector alloc] initWithDelegate:self
+                                                    supportedHeadphoneChipsetTypes:[ORKHeadphoneDetectStep dBHLTypes]];
+    }
 #endif
-
-    _audioChannel = dBHLTAStep.earPreference;
-    _audioGenerator = [[ORKdBHLToneAudiometryAudioGenerator alloc] initForHeadphoneType:dBHLTAStep.headphoneType];
-    _audioGenerator.delegate = self;
-    _hapticFeedback = [[UIImpactFeedbackGenerator alloc] initWithStyle: UIImpactFeedbackStyleHeavy];
-}
-
-- (void)addObservers {
-    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-    [center addObserver:self selector:@selector(appWillTerminate:) name:UIApplicationWillTerminateNotification object:nil];
-    #if RK_APPLE_INTERNAL
-    [center addObserver:self selector:@selector(appDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
-    #endif
-}
-
-- (void)removeObservers {
-    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-    [center removeObserver:self name:UIApplicationWillTerminateNotification object:nil];
-    [center removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
     [self start];
     [self addObservers];
 }
@@ -238,7 +245,6 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     #if RK_APPLE_INTERNAL
     [_headphoneDetector discard];
-    _headphoneDetector.delegate = nil;
     _headphoneDetector = nil;
     #endif
     

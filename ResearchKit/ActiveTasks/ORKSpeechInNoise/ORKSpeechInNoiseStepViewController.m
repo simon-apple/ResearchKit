@@ -108,24 +108,6 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
     _speechAudioBuffer = [[AVAudioPCMBuffer alloc] init];
     _filterAudioBuffer = [[AVAudioPCMBuffer alloc] init];
     _installedTap = NO;
-#if RK_APPLE_INTERNAL
-    _showingAlert = NO;
-    _headphoneDetector = [[ORKHeadphoneDetector alloc] initWithDelegate:self
-                                         supportedHeadphoneChipsetTypes:nil];
-
-    ORKTaskResult *taskResults = [[self taskViewController] result];
-    
-    for (ORKStepResult *result in taskResults.results) {
-        if (result.results > 0) {
-            ORKStepResult *firstResult = (ORKStepResult *)[result.results firstObject];
-            if ([firstResult isKindOfClass:[ORKHeadphoneDetectResult class]]) {
-                ORKHeadphoneDetectResult *headphoneDetectResult = (ORKHeadphoneDetectResult *)firstResult;
-                _headphoneType = headphoneDetectResult.headphoneType;
-            }
-
-        }
-    }
-#endif
     
     self.speechInNoiseContentView = [[ORKSpeechInNoiseContentView alloc] init];
     self.activeStepView.activeCustomView = self.speechInNoiseContentView;
@@ -153,6 +135,34 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
         _mixerNode = nil;
     }
 }
+
+#if RK_APPLE_INTERNAL
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+
+    _showingAlert = NO;
+
+    ORKTaskResult *taskResults = [[self taskViewController] result];
+    
+    BOOL foundHeadphoneDetectorResult = NO;
+    
+    for (ORKStepResult *result in taskResults.results) {
+        if (result.results > 0) {
+            ORKStepResult *firstResult = (ORKStepResult *)[result.results firstObject];
+            if ([firstResult isKindOfClass:[ORKHeadphoneDetectResult class]]) {
+                ORKHeadphoneDetectResult *headphoneDetectResult = (ORKHeadphoneDetectResult *)firstResult;
+                _headphoneType = headphoneDetectResult.headphoneType;
+                foundHeadphoneDetectorResult = YES;
+            }
+        }
+    }
+    
+    if (foundHeadphoneDetectorResult) {
+        _headphoneDetector = [[ORKHeadphoneDetector alloc] initWithDelegate:self
+                                             supportedHeadphoneChipsetTypes:nil];
+    }
+}
+#endif
 
 - (void)setupBuffers {
     
