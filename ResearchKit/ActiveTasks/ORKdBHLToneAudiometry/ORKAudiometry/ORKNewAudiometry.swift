@@ -83,9 +83,6 @@ import Foundation
     fileprivate var resultUnitsTable: [Double: [ORKdBHLToneAudiometryUnit]] = [:]
     @objc public var fitMatrix: [String: Double] = [:]
     
-    // AlternativeUI
-    @objc public var alternativeUI = false
-    
     @objc
     public convenience init(channel: ORKAudioChannel) {
         self.init(channel: channel,
@@ -144,6 +141,13 @@ import Foundation
     }
     
     public var progress: Float {
+        guard !testEnded else {
+            return 1.0
+        }
+        return lastProgress
+    }
+        
+    private func updateProgress() {
         let count = xSample.shape.rows
         var progressReport: Float = 0.0
 
@@ -167,8 +171,6 @@ import Foundation
         
         // set previous progress to current
         lastProgress = progressReport
-        
-        return lastProgress
     }
         
     public func nextStatus(_ block: @escaping ORKAudiometryStateBlock) {
@@ -198,31 +200,6 @@ import Foundation
           preStimulusResponse = false
      }
     
-    @objc public func injectResponse(_ response: Bool, forFrequency: Double, withLevel level: Double, confidence: String) {
-        let frequency = max(forFrequency, minLevel)
-        let freqPoint = bark(frequency)
-        xSample.appendRow([freqPoint, level])
-        ySample.appendRow([response ? 1 : 0])
-    
-        if level == maxLevel && response == false {
-            // handle levels higher than maxLevel
-            xSample.appendRow([freqPoint, maxLevel + 1])
-            ySample.appendRow([1])
-        } else if level == minLevel && response == true {
-            // handle levels lower than minLevel
-            xSample.appendRow([freqPoint, minLevel - 1])
-            ySample.appendRow([0])
-        }
-        
-        resultUnit.dBHLValue = level
-        if response {
-            resultUnit.userTapTimeStamp = timestampProvider()
-        } else {
-            resultUnit.timeoutTimeStamp = timestampProvider()
-        }
-        createNewUnit()
-    }
-    
     public func registerResponse(_ response: Bool) {
         guard let lastStimulus = stimulus, !preStimulusResponse else { return }
         let freqPoint = bark(lastStimulus.frequency)
@@ -250,33 +227,22 @@ import Foundation
         }
         
         if !nextInitialSample() {
-            if (!alternativeUI) {
-                // Check if initial sampling is invalid
-                if (!initialSamples.isEmpty &&
-                    (initialSamples.allSatisfy { $0 } || initialSamples.allSatisfy { !$0 })) {
-                    testEnded = true
-                    return
-                }
+            // Check if initial sampling is invalid
+            if (!initialSamples.isEmpty &&
+                (initialSamples.allSatisfy { $0 } || initialSamples.allSatisfy { !$0 })) {
+                testEnded = true
+                return
             }
         
             initialSampleEnded = true
             stimulus = nil
             DispatchQueue.global(qos: .userInitiated).async { [weak self] in
                 guard let self = self else { return }
+                self.updateProgress()
                 self.theta = self.fit()
                 let shouldEndTest = !self.nextSample()
                 
                 if shouldEndTest {
-                    // Delay the UI updating so the completion screen is displayed for a few seconds
-                    DispatchQueue.main.async {
-                        self.lastProgress = 1.0
-                        NotificationCenter.default.post(
-                            name: NSNotification.Name("updateProgress"),
-                            object: nil,
-                            userInfo: ["progress" : NSNumber(value: 1.0)]
-                        )
-                    }
-                    Thread.sleep(forTimeInterval: 5.0)
                     self.finalSampling()
                     self.testEnded = true
                 } else {
@@ -284,6 +250,7 @@ import Foundation
                 }
             }
         } else {
+            updateProgress()
             createNewUnit()
         }
     }
@@ -296,11 +263,7 @@ import Foundation
         return results.map { key, value in
             let sample = ORKdBHLToneAudiometryFrequencySample()
             sample.frequency = key
-            #if SIMULATE_HL
-            sample.calculatedThreshold = value + Double.random(in: -15...15)
-            #else
             sample.calculatedThreshold = value
-            #endif
             sample.channel = channel
             return sample
         }.sorted { $0.frequency < $1.frequency }
@@ -533,7 +496,7 @@ extension ORKNewAudiometry {
         // get next point
         let evaluated = newPoint(coverageMatrix)
         stimulus = ORKAudiometryStimulus(frequency: ORKNewAudiometry.hz(evaluated[0]),
-                                         level: evaluated[1] + (alternativeUI ? 5 : 0),
+                                         level: evaluated[1],
                                          channel: self.channel)
         return true
     }
@@ -571,7 +534,8 @@ extension ORKNewAudiometry {
 
         let minFreq = allFrequencies.min() ?? 250
         let maxFreq = allFrequencies.max() ?? 8000
-        let upperSampleIndex = Double(30 - (allFrequencies.count - 2) - 1)
+        let extraFrequencies = [3000.0, 6000.0]
+        let upperSampleIndex = Double(30 - (allFrequencies.count - 2) - extraFrequencies.count - 1)
         let interpolatedFreqs = Interpolators.log2Interpolate(values: [minFreq, maxFreq],
                                                               atIndices: [0, upperSampleIndex])
 
@@ -584,7 +548,7 @@ extension ORKNewAudiometry {
         }
         print("Results: \(resultsSimple)")
         
-        let frequencies = Array(Set(interpolatedFreqs + allFrequencies)).sorted()
+        let frequencies = Array(Set(interpolatedFreqs + allFrequencies + extraFrequencies)).sorted()
         for freq in (frequencies) {
             results[freq] = Interpolators.interp1d(xValues: fitFreqs,
                                                    yValues: fitLevels,
@@ -676,12 +640,13 @@ public extension ORKNewAudiometry {
         var coverageMatrix = Matrix<Double>(elements: [], rows: 0, columns: 5)
         
         let freqRange = bark(allFrequencies.asVector())
-        let barkRange = vDSP.linearInterpolate(values: [freqRange.minimum(), freqRange.maximum()], atIndices: [0, 34])
-            
+        let barkRange = vDSP.linearInterpolate(values: [freqRange.minimum(), freqRange.maximum()],
+                                               atIndices: [0, 34])
+        
         let xRange = (barkRange + [500, 1000, 2000, 4000, 6000].map(bark)).sorted()
         let specialFreqs1 = [250, 1000, 4000, 8000].map(bark)
         let specialFreqs2 = [500, 6000].map(bark)
-        
+
         // loop frequency range
         for xPoint in xRange {
             // get estimated dB fit for point to use to build box

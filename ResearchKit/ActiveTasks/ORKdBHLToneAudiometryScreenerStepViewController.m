@@ -429,32 +429,6 @@
 
     _counter++;
     NSLog(@"Sliders presented: %d", _counter);
-    
-    if (@available(iOS 14, *)) {
-        if (self.dBHLToneAudiometryStep.usePicker && [_audiometry isKindOfClass:[ORKNewAudiometry class]]) {
-            // TODO: - probably need to disable this kagra behavior for the MOA tests
-            [(ORKNewAudiometry *)_audiometry injectResponse:YES forFrequency:_currentFreq withLevel:_finalLevel confidence:CONFIDENCE_REFINEMENT]; // Extra data point at the threshold
-            
-            if (_finalLevel <= _initialLevel) { // User can hear
-                if (_finalLevel == _initialLevel) { // Decrease 20 if only the user did not test any other level
-                    [(ORKNewAudiometry *)_audiometry injectResponse:NO forFrequency:_currentFreq withLevel:_finalLevel - 20 confidence:CONFIDENCE_GUESS];
-                } else if (_finalLevel == _minSelectedLevel) { // Decrease 10 if the user did not test lower levels
-                    [(ORKNewAudiometry *)_audiometry injectResponse:NO forFrequency:_currentFreq withLevel:_finalLevel - 10 confidence:CONFIDENCE_GUESS];
-                } else if (_finalLevel > _minSelectedLevel) { // Extra data point where the user cannot hear anymore
-                    [(ORKNewAudiometry *)_audiometry injectResponse:NO forFrequency:_currentFreq withLevel:_minSelectedLevel confidence:CONFIDENCE_INFERENCE];
-                }
-                
-                [_audiometry registerResponse:YES];
-                
-            } else { // User cannot hear
-                if (_finalLevel < _maxSelectedLevel && _maxSelectedLevel != _initialLevel) { // Extra data point above the threshold
-                    [(ORKNewAudiometry *)_audiometry injectResponse:YES forFrequency:_currentFreq withLevel:_maxSelectedLevel confidence:CONFIDENCE_INFERENCE];
-                }
-                
-                [_audiometry registerResponse:NO];
-            }
-        }
-    }
 
     [self.dBHLToneAudiometryContentView resetView];
     

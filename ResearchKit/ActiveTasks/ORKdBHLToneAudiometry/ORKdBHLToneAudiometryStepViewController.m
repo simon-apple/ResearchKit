@@ -222,6 +222,14 @@
     [center removeObserver:self name:UIApplicationWillTerminateNotification object:nil];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    // Fix for dark mode
+    if (@available(iOS 13.0, *)) {
+        self.view.backgroundColor = UIColor.systemBackgroundColor;
+    }
+}
+
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self start];
@@ -346,10 +354,14 @@
 }
 
 - (void)stepDidFinish {
-    [super stepDidFinish];
-    [self stopAudio];
-    [self.dBHLToneAudiometryContentView finishStep:self];
-    [self goForward];
+    [self.dBHLToneAudiometryContentView setProgress:self.audiometryEngine.progress animated:YES];
+
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [super stepDidFinish];
+        [self stopAudio];
+        [self.dBHLToneAudiometryContentView finishStep:self];
+        [self goForward];
+    });
 }
 
 - (void)start {

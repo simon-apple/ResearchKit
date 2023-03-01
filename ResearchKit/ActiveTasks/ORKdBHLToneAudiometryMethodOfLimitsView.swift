@@ -276,6 +276,10 @@ struct ORKdBHLToneAudiometryMethodOfLimitsView: View {
                             } else {
                                 self.progress += 0.0002
                             }
+                            
+                            if (self.progress >= 1.0) {
+                                isComplete = true
+                            }
                         })
                     } else {
                         self.timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true, block: { time in
@@ -284,6 +288,10 @@ struct ORKdBHLToneAudiometryMethodOfLimitsView: View {
                             } else {
                                 self.channelProgress.progressValue += 0.0001
                                 self.channelProgress.status = circularProgressStatus
+                            }
+                            
+                            if (self.channelProgress.progressValue >= 1.0) {
+                                isComplete = true
                             }
                         })
                     }
