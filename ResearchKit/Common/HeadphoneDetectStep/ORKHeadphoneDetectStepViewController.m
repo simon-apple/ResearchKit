@@ -880,10 +880,6 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     [super viewDidLoad];
     self.stepView.navigationFooterView.optional = YES;
     self.stepView.navigationFooterView.continueEnabled = NO;
-    
-    if (self.step.context && [self.step.context isKindOfClass:[ORKTinnitusPredefinedTaskContext class]]) {
-        [(ORKTinnitusPredefinedTaskContext *)self.step.context insertTaskViewController:[self taskViewController]];
-    }
 }
 
 - (void)setContinueButtonItem:(UIBarButtonItem *)continueButtonItem {
@@ -934,6 +930,10 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    
+    if (self.step.context && [self.step.context isKindOfClass:[ORKTinnitusPredefinedTaskContext class]]) {
+        [(ORKTinnitusPredefinedTaskContext *)self.step.context insertTaskViewController:[self taskViewController]];
+    }
     
     _headphoneDetector = [[ORKHeadphoneDetector alloc] initWithDelegate:self supportedHeadphoneChipsetTypes:[[self detectStep] supportedHeadphoneChipsetTypes]];
 }
