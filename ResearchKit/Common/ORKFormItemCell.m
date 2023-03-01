@@ -1698,6 +1698,76 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
 
 @end
 
+@interface ORKFormItemColorScaleCell () <ORKColorScaleSliderViewDelegate>
+    @property (nonatomic) ORKColorScaleSliderView *sliderView;
+    @property (nonatomic) id<ORKColorScaleAnswerFormatProvider> formatProvider;
+@end
+
+@implementation ORKFormItemColorScaleCell
+
+- (id<ORKColorScaleAnswerFormatProvider>)formatProvider {
+    if (_formatProvider == nil) {
+        _formatProvider = (id<ORKColorScaleAnswerFormatProvider>)[self.formItem.answerFormat impliedAnswerFormat];
+    }
+    return _formatProvider;
+}
+
+- (void)cellInit {
+    self.labelLabel.text = nil;
+    
+    _sliderView = [[ORKColorScaleSliderView alloc] initWithFormatProvider:(ORKColorScaleAnswerFormat *)self.formItem.answerFormat
+                                                                 delegate:self];
+    
+    [self.containerView addSubview:_sliderView];
+    [self setUpConstraints];
+    
+    [super cellInit];
+}
+
+- (void)setUpConstraints {
+    NSMutableArray *constraints = [NSMutableArray new];
+    
+    NSDictionary *views = @{ @"sliderView": _sliderView };
+    ORKEnableAutoLayoutForViews(views.allValues);
+    [constraints addObjectsFromArray:
+     [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[sliderView]|"
+                                             options:NSLayoutFormatDirectionLeadingToTrailing
+                                             metrics:nil
+                                               views:views]];
+    [constraints addObjectsFromArray:
+     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[sliderView]|"
+                                             options:NSLayoutFormatDirectionLeadingToTrailing
+                                             metrics:nil
+                                               views:views]];
+    
+    [NSLayoutConstraint activateConstraints:constraints];
+}
+
+#pragma mark recover answer
+
+- (void)answerDidChange {
+    [super answerDidChange];
+    
+    id<ORKColorScaleAnswerFormatProvider> formatProvider = self.formatProvider;
+    id answer = self.answer;
+    if (answer && answer != ORKNullAnswerValue()) {
+        [_sliderView setCurrentAnswerValue:answer];
+    } else {
+        if (answer == nil && [formatProvider defaultAnswer]) {
+            [_sliderView setCurrentAnswerValue:[formatProvider defaultAnswer]];
+            [self ork_setAnswer:_sliderView.currentAnswerValue];
+        } else {
+            [_sliderView setCurrentAnswerValue:nil];
+        }
+    }
+}
+
+- (void)scaleSliderViewCurrentValueDidChange:(ORKScaleSliderView *)sliderView {
+    [self ork_setAnswer:sliderView.currentAnswerValue];
+    [super inputValueDidChange];
+}
+
+@end
 
 #pragma mark - ORKFormItemPickerCell
 

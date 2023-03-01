@@ -114,6 +114,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+@interface ORKFormItemColorScaleCell : ORKFormItemCell
+
+@end
 
 @interface ORKFormItemLocationCell : ORKFormItemCell
 

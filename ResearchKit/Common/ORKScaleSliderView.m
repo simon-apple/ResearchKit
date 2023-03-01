@@ -831,3 +831,224 @@ static const CGFloat kMargin = 25.0;
 }
 
 @end
+
+@implementation ORKColorScaleSliderView {
+    id<ORKColorScaleAnswerFormatProvider> _formatProvider;
+    UIStackView *_topStackView;
+    ORKScaleSlider *_slider;
+    
+    UIView *_selectedColorBoxView;
+    ORKScaleValueLabel *_valueLabel;
+    ORKLabel *_valueDetailLabel;
+    NSNumber *_currentNumberValue;
+    NSMutableArray *constraints;
+}
+
+- (instancetype)initWithFormatProvider:(id<ORKColorScaleAnswerFormatProvider>)formatProvider
+                              delegate:(id<ORKColorScaleSliderViewDelegate>)delegate {
+    self = [self initWithFrame:CGRectZero];
+    if (self) {
+        _formatProvider = formatProvider;
+        _delegate = delegate;
+        
+        _slider = [[ORKScaleSlider alloc] initWithFrame:CGRectZero];
+        _slider.vertical = NO;
+        _slider.hideValueMarkers = [formatProvider numberOfSteps] > 8;
+        _slider.isWaitingForUserFeedback = ([formatProvider defaultAnswer] == nil) ? YES : NO;
+        _slider.minimumTrackTintColor = self.tintColor;
+        _slider.userInteractionEnabled = YES;
+        _slider.contentMode = UIViewContentModeRedraw;
+        self.accessibilityElements = [self.accessibilityElements arrayByAddingObject:_slider];
+        [self addSubview:_slider];
+        
+        _slider.maximumValue = [formatProvider maximumNumber].floatValue;
+        _slider.minimumValue = [formatProvider minimumNumber].floatValue;
+        
+        NSInteger numberOfSteps = [formatProvider numberOfSteps];
+        _slider.numberOfSteps = numberOfSteps;
+        
+        [_slider addTarget:self action:@selector(sliderValueChanged:) forControlEvents:UIControlEventValueChanged];
+        
+        [self setupTopLabels];
+        [self setupColorBox];
+        
+        _topStackView = [[UIStackView alloc] init];
+        _topStackView.axis = UILayoutConstraintAxisVertical;
+        _topStackView.spacing = ValueLabelBottomPadding;
+        _topStackView.distribution = UIStackViewDistributionFill;
+        _topStackView.alignment = UIStackViewAlignmentCenter;
+        
+        [_topStackView addArrangedSubview:_valueLabel];
+        [_topStackView addArrangedSubview:_valueDetailLabel];
+        
+        [self addSubview:_topStackView];
+        [self addSubview:_selectedColorBoxView];
+        
+        self.translatesAutoresizingMaskIntoConstraints = NO;
+        _topStackView.translatesAutoresizingMaskIntoConstraints = NO;
+        _valueLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        _valueDetailLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        _selectedColorBoxView.translatesAutoresizingMaskIntoConstraints = NO;
+        _slider.translatesAutoresizingMaskIntoConstraints = NO;
+        
+        [self setUpConstraints];
+    }
+    return self;
+}
+
+- (void)setupTopLabels {
+    _valueLabel = [[ORKScaleValueLabel alloc] initWithFrame:CGRectZero];
+    _valueLabel.textAlignment = NSTextAlignmentCenter;
+    UIFontDescriptor *valueLabelDescriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleTitle2];
+    UIFontDescriptor *valueLabelFontDescriptor = [valueLabelDescriptor fontDescriptorWithSymbolicTraits:(UIFontDescriptorTraitBold)];
+    [_valueLabel setFont: [UIFont fontWithDescriptor:valueLabelFontDescriptor size:[[valueLabelFontDescriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]]];
+    [_valueLabel setTextColor: [UIColor blackColor]];
+    
+    _valueDetailLabel = [[ORKScaleValueLabel alloc] initWithFrame:CGRectZero];
+    _valueDetailLabel.text = @"";
+    _valueDetailLabel.textAlignment = NSTextAlignmentCenter;
+    [_valueDetailLabel setTextColor: [UIColor systemGrayColor]];
+    UIFontDescriptor *detailValueLabelDescriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleFootnote];
+    UIFontDescriptor *detailValueLabelFontDescriptor = [detailValueLabelDescriptor fontDescriptorWithSymbolicTraits:(UIFontDescriptorTraitBold)];
+    [_valueDetailLabel setFont: [UIFont fontWithDescriptor:detailValueLabelFontDescriptor size:[[detailValueLabelFontDescriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]]];
+}
+
+- (void)setupColorBox {
+    _selectedColorBoxView = [[UIView alloc] init];
+    _selectedColorBoxView.backgroundColor = [UIColor grayColor];
+    _selectedColorBoxView.layer.cornerRadius = 10.0;
+}
+
+- (void)setUpConstraints {
+    
+    if (constraints) {
+        [NSLayoutConstraint deactivateConstraints:constraints];
+    }
+    
+    constraints = [NSMutableArray new];
+    
+    [constraints addObject:[_topStackView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:kMargin]];
+    [constraints addObject:[_topStackView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-kMargin]];
+    [constraints addObject:[_topStackView.topAnchor constraintEqualToAnchor:self.topAnchor constant:ValueLabelTopPadding]];
+    
+    [constraints addObject:[_selectedColorBoxView.topAnchor constraintEqualToAnchor:_topStackView.bottomAnchor constant:ValueLabelBottomPadding]];
+    [constraints addObject:[_selectedColorBoxView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:8.0]];
+    [constraints addObject:[_selectedColorBoxView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-8.0]];
+    [constraints addObject:[_selectedColorBoxView.heightAnchor constraintEqualToConstant:100]];
+    
+    [constraints addObject:[_slider.topAnchor constraintEqualToAnchor:_selectedColorBoxView.bottomAnchor constant:ValueLabelBottomPadding]];
+    [constraints addObject:[_slider.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:kMargin]];
+    [constraints addObject:[_slider.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-kMargin]];
+
+    [constraints addObject:[self.bottomAnchor constraintEqualToAnchor:_slider.bottomAnchor constant:12.0]];
+       
+    [NSLayoutConstraint activateConstraints:constraints];
+}
+
+- (void)tintColorDidChange {
+    _valueLabel.textColor = self.tintColor;
+    _slider.minimumTrackTintColor = self.tintColor;
+}
+
+- (id<ORKColorScaleAnswerFormatProvider>)colorScaleFormatProvider {
+    if ([[_formatProvider class] conformsToProtocol:@protocol(ORKColorScaleAnswerFormatProvider)]) {
+        return (id<ORKColorScaleAnswerFormatProvider>)_formatProvider;
+    }
+    return nil;
+}
+
+- (void)setCurrentNumberValue:(NSNumber *)value {
+    _currentNumberValue = value ? [_formatProvider normalizedValueForNumber:value] : nil;
+    _slider.showThumb = YES;
+
+    [self updateCurrentValueLabel];
+    _slider.value = _currentNumberValue.floatValue;
+}
+
+- (NSUInteger)currentColorChoiceIndex {
+    return _currentNumberValue.unsignedIntegerValue - 1;
+}
+
+- (void)updateCurrentValueLabel {
+    
+    if (_currentNumberValue) {
+        
+        ORKColorChoice *colorChoice = [[self formatProvider] colorChoiceAtIndex:[self currentColorChoiceIndex]];
+        self.valueLabel.text = colorChoice.text;
+        _valueDetailLabel.text = colorChoice.detailText;
+        _selectedColorBoxView.backgroundColor = colorChoice.color;
+    } else {
+        _valueLabel.text = @"";
+    }
+}
+
+- (IBAction)sliderValueChanged:(id)sender {
+    _currentNumberValue = [_formatProvider normalizedValueForNumber:@(_slider.value)];
+    [self updateCurrentValueLabel];
+    [self notifyDelegateSliderValueDidChange];
+}
+
+- (void)notifyDelegateSliderValueDidChange {
+    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(scaleSliderViewCurrentValueDidChange:)]) {
+        [self.delegate scaleSliderViewCurrentValueDidChange:self];
+    }
+}
+
+- (void)setCurrentColorChoiceValue:(NSObject<NSCopying, NSSecureCoding> *)currentColorChoiceValue {
+    
+    if (currentColorChoiceValue) {
+        NSUInteger index = [[self colorScaleFormatProvider] colorChoiceAtIndex:currentColorChoiceValue];
+        if (index != NSNotFound) {
+            [self setCurrentNumberValue:@(index + 1)];
+        } else {
+            [self setCurrentNumberValue:nil];
+        }
+    } else {
+        [self setCurrentNumberValue:nil];
+    }
+}
+
+- (NSObject<NSCopying, NSSecureCoding> *)currentColorChoiceValue {
+    NSObject<NSCopying, NSSecureCoding> *value = [self.formatProvider colorChoiceAtIndex:[self currentColorChoiceIndex]].value;
+    return value;
+}
+
+- (id)currentAnswerValue {
+    NSObject<NSCopying, NSSecureCoding> *value = [self currentColorChoiceValue];
+    return value ? : nil;
+}
+
+- (void)setCurrentAnswerValue:(id)currentAnswerValue {
+   if ([self colorScaleFormatProvider]) {
+        
+        if (ORKIsAnswerEmpty(currentAnswerValue)) {
+            [self setCurrentColorChoiceValue:nil];
+        } else {
+            [self setCurrentColorChoiceValue:currentAnswerValue];
+        }
+    } else {
+        [self setCurrentNumberValue:currentAnswerValue];
+    }
+    
+}
+
+#pragma mark - Accessibility
+
+- (BOOL)isAccessibilityElement {
+    return NO;
+}
+
+- (NSInteger)accessibilityElementCount {
+    return self.accessibilityElements.count;
+}
+
+- (id)accessibilityElementAtIndex:(NSInteger)index {
+    return [self.accessibilityElements objectAtIndex:index];
+}
+
+- (NSInteger)indexOfAccessibilityElement:(id)element {
+    return [self.accessibilityElements indexOfObject:element];
+}
+
+@end

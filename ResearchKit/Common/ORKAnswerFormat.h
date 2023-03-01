@@ -44,6 +44,7 @@
 @class ORKScaleAnswerFormat;
 @class ORKContinuousScaleAnswerFormat;
 @class ORKTextScaleAnswerFormat;
+@class ORKColorScaleAnswerFormat;
 @class ORKValuePickerAnswerFormat;
 @class ORKMultipleValuePickerAnswerFormat;
 @class ORKImageChoiceAnswerFormat;
@@ -67,6 +68,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class ORKBooleanAnswerFormat;
 
 @class ORKTextChoice;
+@class ORKColorChoice;
 
 /**
  The `ORKAnswerFormat` class is the abstract base class for classes that describe the
@@ -387,6 +389,27 @@ ORK_CLASS_AVAILABLE
 
 @end
 
+ORK_CLASS_AVAILABLE
+@interface ORKColorChoice: NSObject <NSSecureCoding, NSCopying, NSObject>
+
++ (instancetype)new NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
+
+- (instancetype)initWithColor:(UIColor *)color
+                         text:(NSString *)text
+                   detailText:(nullable NSString *)detailText
+                        value:(NSObject<NSCopying, NSSecureCoding> *)value;
+
+@property (nonatomic, copy, readonly) UIColor *color;
+
+@property (nonatomic, copy, readonly) NSString *text;
+
+@property (nonatomic, copy, readonly) NSObject<NSCopying, NSSecureCoding> *value;
+
+@property (nonatomic, copy, readonly, nullable) NSString *detailText;
+
+@end
+
 #pragma mark - iOS
 
 #if TARGET_OS_IOS
@@ -412,6 +435,9 @@ ORK_CLASS_AVAILABLE
 + (ORKTextScaleAnswerFormat *)textScaleAnswerFormatWithTextChoices:(NSArray <ORKTextChoice *> *)textChoices
                                                       defaultIndex:(NSInteger)defaultIndex
                                                           vertical:(BOOL)vertical;
+
++ (ORKColorScaleAnswerFormat *)colorScaleAnswerFormatWithColorChoices:(NSArray <ORKColorChoice *> *)colorChoices
+                                                               defaultIndex:(NSInteger)defaultIndex;
 
 + (ORKValuePickerAnswerFormat *)valuePickerAnswerFormatWithTextChoices:(NSArray<ORKTextChoice *> *)textChoices;
 
@@ -981,6 +1007,21 @@ ORK_CLASS_AVAILABLE
 
 @end
 
+
+ORK_CLASS_AVAILABLE
+@interface ORKColorScaleAnswerFormat : ORKAnswerFormat
+
++ (instancetype)new NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
+
+
+- (instancetype)initWithColorChoices:(NSArray<ORKColorChoice *> *)colorChoices defaultIndex:(NSInteger *)defaultIndex NS_DESIGNATED_INITIALIZER;
+
+@property (nonatomic, copy, readonly) NSArray<ORKColorChoice *> *colorChoices;
+
+@property (nonatomic, readonly) NSInteger defaultIndex;
+
+@end
 
 /**
  The `ORKValuePickerAnswerFormat` class represents an answer format that lets participants use a

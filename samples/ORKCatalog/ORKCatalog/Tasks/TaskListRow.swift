@@ -555,6 +555,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         case continuousVerticalScaleQuestionStep
         case textScaleQuestionStep
         case textVerticalScaleQuestionStep
+        case colorScaleFormStep
 
         // Task with an example of free text entry.
         case textQuestionTask
@@ -1459,13 +1460,29 @@ enum TaskListRow: Int, CustomStringConvertible {
         
         questionStep6.text = "Text Vertical Scale"
         
+        let formStep = ORKFormStep(identifier: String(describing: Identifier.colorScaleFormStep))
+        
+        let colorChoices = [
+            ORKColorChoice(color: .orange, text: "Orange", detailText: "Detail text here", value: 1 as NSNumber),
+            ORKColorChoice(color: .yellow, text: "Yellow", detailText: "Detail text here", value: 2 as NSNumber),
+            ORKColorChoice(color: .green, text: "Green", detailText: "Detail text here", value: 3 as NSNumber),
+            ORKColorChoice(color: .red, text: "Red", detailText: "Detail text here", value: 4 as NSNumber),
+            ORKColorChoice(color: .brown, text: "Brown", detailText: "Detail text here", value: 5 as NSNumber)
+        ]
+        
+        let colorScaleAnswerFormat = ORKAnswerFormat.colorScale(with: colorChoices, defaultIndex: 0)
+        let colorScaleFormItem = ORKFormItem(identifier: String(describing: Identifier.formItem01), text: "Select a color", answerFormat: colorScaleAnswerFormat)
+        
+        formStep.formItems = [colorScaleFormItem]
+        
         return ORKOrderedTask(identifier: String(describing: Identifier.scaleQuestionTask), steps: [
             questionStep1,
             questionStep2,
             questionStep3,
             questionStep4,
             questionStep5,
-            questionStep6
+            questionStep6,
+            formStep
             ])
     }
     

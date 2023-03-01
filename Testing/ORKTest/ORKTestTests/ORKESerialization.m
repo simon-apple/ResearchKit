@@ -1705,6 +1705,30 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(textViewInputOptional, NSNumber, NSObject, NO, nil, nil),
                     PROPERTY(textViewStartsHidden, NSNumber, NSObject, NO, nil, nil),
                     })),
+           ENTRY(ORKColorScaleAnswerFormat,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+               return [[ORKColorScaleAnswerFormat alloc] initWithColorChoices:GETPROP(dict, colorChoices)
+                                                                       defaultIndex:(NSInteger)[GETPROP(dict, defaultIndex) doubleValue]];
+                 },
+                 (@{
+                    PROPERTY(colorChoices, ORKColorChoice, NSArray, NO, nil, nil),
+                    PROPERTY(defaultIndex, NSNumber, NSObject, NO, nil, nil),
+                    })),
+           ENTRY(ORKColorChoice,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+               return [[ORKColorChoice alloc] initWithColor:GETPROP(dict, color)
+                                                       text:GETPROP(dict, text)
+                                                 detailText:GETPROP(dict, detailText)
+                                                      value:GETPROP(dict, value)];
+                 },
+                 (@{
+                    PROPERTY(text, NSString, NSObject, NO, nil, nil),
+                    PROPERTY(detailText, NSString, NSObject, NO, nil, nil),
+                    PROPERTY(value, NSObject, NSObject, NO, nil, nil),
+                    PROPERTY(color, UIColor, NSObject, YES,
+                             ^id(id color, __unused ORKESerializationContext *context) { return dictionaryFromColor(color); },
+                             ^id(id dict, __unused ORKESerializationContext *context) { return  colorFromDictionary(dict); })
+                    })),
            ENTRY(ORKImageChoice,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      return [[ORKImageChoice alloc] initWithNormalImage:nil selectedImage:nil text:GETPROP(dict, text) value:GETPROP(dict, value)];

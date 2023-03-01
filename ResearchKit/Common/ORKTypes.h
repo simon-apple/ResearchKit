@@ -55,6 +55,9 @@ typedef NS_ENUM(NSInteger, ORKQuestionType) {
      */
     ORKQuestionTypeScale,
     
+    
+    ORKQuestionTypeColorScale,
+    
     /**
      In a single choice question, the participant can pick only one predefined option.
      */
