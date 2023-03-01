@@ -62,8 +62,8 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
     
     NSUInteger                          _wirelessSplitterNumberOfDevices;
     
-    AVAudioPlayer                       *_workaroundPlayer;
-    NSUInteger                          _workaroundPoolingCounter;
+//    AVAudioPlayer                       *_workaroundPlayer;
+//    NSUInteger                          _workaroundPoolingCounter;
 }
 
 + (NSSet<ORKHeadphoneChipsetIdentifier> *)appleHeadphoneSet {
@@ -98,25 +98,25 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
         
         [self startBTListeningModeCheckTimer];
         
-        [self initializeSmartRouteWorkaround];
-        _workaroundPoolingCounter = 0;
+        //[self initializeSmartRouteWorkaround];
+       // _workaroundPoolingCounter = 0;
     }
     return self;
 }
 
-- (void)initializeSmartRouteWorkaround {
-    NSError *error;
-    NSURL *path = [[NSBundle bundleForClass:[self class]] URLForResource:@"VolumeCalibration" withExtension:@"wav"];
-    _workaroundPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:path
-                                                               error:&error];
-    if (error != nil) {
-        ORK_Log_Error("Error fetching audio: %@", error);
-    }
-    _workaroundPlayer.numberOfLoops = -1;
-    _workaroundPlayer.volume = 0.0;
-    [_workaroundPlayer prepareToPlay];
-    [_workaroundPlayer play];
-}
+//- (void)initializeSmartRouteWorkaround {
+//    NSError *error;
+//    NSURL *path = [[NSBundle bundleForClass:[self class]] URLForResource:@"VolumeCalibration" withExtension:@"wav"];
+//    _workaroundPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:path
+//                                                               error:&error];
+//    if (error != nil) {
+//        ORK_Log_Error("Error fetching audio: %@", error);
+//    }
+//    _workaroundPlayer.numberOfLoops = -1;
+//    _workaroundPlayer.volume = 0.0;
+//    [_workaroundPlayer prepareToPlay];
+//    [_workaroundPlayer play];
+//}
 
 - (void)stopBTListeningModeCheckTimer {
     [_btListeningModeCheckTimer invalidate];
@@ -136,8 +136,8 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
     _lastDetectedDevice = nil;
     _lastDetectedDeviceID = nil;
     _delegate = nil;
-    [_workaroundPlayer stop];
-    _workaroundPlayer = nil;
+//    [_workaroundPlayer stop];
+//    _workaroundPlayer = nil;
     _tickQueue = nil;
     [self stopBTListeningModeCheckTimer];
     [self removeObservers];
@@ -440,19 +440,19 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
         _tickQueue = dispatch_queue_create("HeadphoneDetectorTickQueue", DISPATCH_QUEUE_SERIAL);
     }
 
-    _workaroundPoolingCounter = _workaroundPoolingCounter + 1;
-    
-    if (_workaroundPoolingCounter == 10) {
-        if ([_workaroundPlayer isPlaying]) {
-            [_workaroundPlayer stop];
-            _workaroundPlayer = nil;
-            // will be faster to start tha audio again
-            _workaroundPoolingCounter = 5;
-        } else {
-            [self initializeSmartRouteWorkaround];
-            _workaroundPoolingCounter = 0;
-        }
-    }
+//    _workaroundPoolingCounter = _workaroundPoolingCounter + 1;
+//
+//    if (_workaroundPoolingCounter == 10) {
+//        if ([_workaroundPlayer isPlaying]) {
+//            [_workaroundPlayer stop];
+//            _workaroundPlayer = nil;
+//            // will be faster to start tha audio again
+//            _workaroundPoolingCounter = 5;
+//        } else {
+//            [self initializeSmartRouteWorkaround];
+//            _workaroundPoolingCounter = 0;
+//        }
+//    }
 
     dispatch_async(_tickQueue, ^{
         ORKStrongTypeOf(self.delegate) strongDelegate = self.delegate;

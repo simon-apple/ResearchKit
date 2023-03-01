@@ -38,6 +38,13 @@ extension NSNotification.Name {
     static let updateProgress = NSNotification.Name("updateProgress")
 }
 
+extension Bundle {
+    static var current: Bundle {
+        class __ { }
+        return Bundle(for: __.self)
+    }
+}
+
 @available(iOS 13.0.0, *)
 struct Wave: Shape {
     // allow SwiftUI to animate the wave phase
@@ -288,22 +295,21 @@ struct ORKdBHLToneAudiometryMethodOfLimitsView: View {
     }
     
     func playSound() {
-            guard let path = Bundle.main.path(forResource: "health_notification", ofType: "wav") else {
-                print("error finding sound resource")
-                return
-            }
-            let url = URL(fileURLWithPath: path)
-            do {
-                player = try AVAudioPlayer(contentsOf: url)
-                player?.prepareToPlay()
-                player?.volume = 0.2
-                player?.play()
-            } catch let error {
-                print("error playing sound file: \(error.localizedDescription)")
-            }
+        guard let path = Bundle.current.path(forResource: "health_notification", ofType: "wav") else {
+            print("error finding sound resource")
+            return
         }
+        let url = URL(fileURLWithPath: path)
+        do {
+            player = try AVAudioPlayer(contentsOf: url)
+            player?.prepareToPlay()
+            player?.volume = 0.01
+            player?.play()
+        } catch let error {
+            print("error playing sound file: \(error.localizedDescription)")
+        }
+    }
 }
-
 
 // Taken from CircularProgessView.swift in HealthSoftware/HearingTestUI
 
