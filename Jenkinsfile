@@ -1,5 +1,5 @@
 def lib = library (
-    identifier: 'lime-jenkins-shared-lib@version/1',
+    identifier: 'lime-jenkins-shared-lib@version/2.3',
     retriever: modernSCM([
         $class: 'GitSCMSource',
         remote: 'git@github.pie.apple.com:HDS/lime-jenkins-shared-lib.git',
@@ -9,7 +9,8 @@ def lib = library (
 
 node('ResearchApp-status') {
     stage('Set Environment Variables') {
-        limeInitEnvironmentVariables(this, "ResearchKit Unit Tests", "SummitDogfood14A6201dSydney20A303aKincaid20R308", "HealthSPG/ResearchKit")
+        def sdkModule = limeSDKsModule(this, "HealthSPG/ResearchKit")
+        limeInitEnvironmentVariables(this, "ResearchKit Unit Tests", sdkModule.developmentSDK(), "HealthSPG/ResearchKit")
         limeSetBuildStatus(this, "PENDING")
     }
 }
