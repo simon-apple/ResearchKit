@@ -86,7 +86,7 @@ struct ORKdBHLToneAudiometryMethodOfAdjustmentView: View {
     
     var body: some View {
         VStack(spacing: 15) {
-            titleView()
+            //titleView()
             
             Spacer().frame(height: 15)
             
@@ -137,17 +137,17 @@ struct ORKdBHLToneAudiometryMethodOfAdjustmentView: View {
         .background(.clear)
     }
     
-    func titleView() -> some View {
-        VStack(spacing: 5) {
-            Text("Select the Faintest Tone You Can Hear")
-                .font(.largeTitle)
-                .bold()
-                .multilineTextAlignment(.center)
-            Text("Adjust by touching the bars below or by tapping the plus and minus buttons.")
-                .font(.body)
-                .multilineTextAlignment(.center)
-        }
-    }
+//    func titleView() -> some View {
+//        VStack(spacing: 5) {
+//            Text("Select the Faintest Tone You Can Hear")
+//                .font(.title)
+//                .bold()
+//                .multilineTextAlignment(.center)
+//            Text("Adjust by touching the bars below or by tapping the plus and minus buttons.")
+//                .font(.body)
+//                .multilineTextAlignment(.center)
+//        }
+//    }
     
     func nextButton() -> some View {
         Button {

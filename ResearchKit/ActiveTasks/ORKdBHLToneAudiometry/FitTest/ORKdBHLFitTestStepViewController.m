@@ -73,7 +73,7 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
     ORKdBHLFitTestStageResultLeftSealGoodRightSealGood,
 };
 
-@interface ORKdBHLFitTestStepViewController () {
+@interface ORKdBHLFitTestStepViewController () <AVAudioPlayerDelegate> {
     bool _budsInEar;
     bool _testActive;
     bool _callActive;
@@ -320,8 +320,6 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
 
 -(void)addObservers {
     //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(powerChangedHandler:) name:@"BluetoothAvailabilityChangedNotification" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAudioSessionInterruption:) name:AVAudioSessionInterruptionNotification object:[AVAudioSession sharedInstance]];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleMediaServerConnectionDied:) name:@"AVSystemController_ServerConnectionDiedNotification" object:[AVAudioSession sharedInstance]];
     NSError *error = nil;
@@ -363,11 +361,12 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
             ORK_Log_Error("Unable to fetch current volume");
         } else {
             ORK_Log_Info("Current volume : %f", currentVolume);
-            if (currentVolume < FIT_TEST_MIN_VOLUME) {
-                ORK_Log_Info("Increase volume for AudioVideo for fit test");
-                [[getAVSystemControllerClass() sharedAVSystemController] setVolumeTo:FIT_TEST_MIN_VOLUME forCategory:(NSString *)CFSTR("Audio/Video")];
-                _volumeModified = TRUE;
-            }
+        }
+        
+        if (currentVolume != FIT_TEST_MIN_VOLUME) {
+            ORK_Log_Info("Adjust volume for AudioVideo for fit test");
+            [[getAVSystemControllerClass() sharedAVSystemController] setVolumeTo:FIT_TEST_MIN_VOLUME forCategory:(NSString *)CFSTR("Audio/Video")];
+            _volumeModified = TRUE;
         }
 
         NSString *mediaPath = [[NSBundle bundleForClass:[self class]] pathForResource:@"E+D-US_ML" ofType:@"wav"];
@@ -385,7 +384,8 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
             error = nil;
         } else {
             _player = [[AVAudioPlayer alloc] initWithContentsOfURL:soundFileURL error:&error];
-            _player.numberOfLoops = 5;
+            _player.delegate = self;
+            _player.numberOfLoops = 2;
             [_player prepareToPlay];
             [_player play];
         }
@@ -435,17 +435,19 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
 
     NSNumber *primaryInEarStatus = object[@"primaryInEarStatus"];
     NSNumber *secondaryInEarStatus = object[@"secondaryInEarStatus"];
-    BluetoothDevice *device = object[@"device"];
     bool newPrimaryInEar = ![primaryInEarStatus boolValue];
     bool newSecondaryInEar = ![secondaryInEarStatus boolValue];
     bool newBudsInEar = newPrimaryInEar && newSecondaryInEar;
     ORK_Log_Info("PrimaryInEar: %@, secondaryInEar : %@. newBudsInEar: %d", primaryInEarStatus, secondaryInEarStatus, newBudsInEar);
+    
+    [self setupInternalVariables];
 
     bool reloadUI = (newBudsInEar != _budsInEar);
     _budsInEar = newBudsInEar;
 
     if (reloadUI) {
         ORK_Log_Info("Update UI since in-ear status has changed");
+        
         if (_testActive) {
             [self fitTestStopped];
         }
@@ -516,14 +518,35 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
 - (void) dismissFitTest {
     [self cleanupAudio];
     [self resetVolume];
-    // TODO: give instructions to continue ?
+    _triesCounter = 0;
+    [self setStage:ORKdBHLFitTestStageStart];
 }
 
 - (void) deviceDisconnectedHandler:(NSNotification *)note {
-    // TODO: Alert the User ?
     BluetoothDevice *device = [note object];
     if (([device address] == [_currentDevice address])) {
         [self dismissFitTest];
+    }
+}
+
+- (void) setupInternalVariables {
+    NSArray * connectedDevices = [[self bluetoothManager] connectedDevices];
+    
+    if (connectedDevices.count > 0) {
+        if (connectedDevices.count == 1) {
+            
+        }
+        for (BluetoothDevice *connectedDevice in connectedDevices) {
+            ORK_Log_Info("device %@",connectedDevice);
+            _currentDevice = connectedDevice;
+            BTAccessoryInEarStatus primaryInEar = BT_ACCESSORY_IN_EAR_STATUS_UNKNOWN;
+            BTAccessoryInEarStatus secondaryInEar = BT_ACCESSORY_IN_EAR_STATUS_UNKNOWN;
+
+            [connectedDevice inEarStatusPrimary:&primaryInEar secondary:&secondaryInEar];
+            _budsInEar = (primaryInEar == BT_ACCESSORY_IN_EAR_STATUS_IN_EAR) && (secondaryInEar == BT_ACCESSORY_IN_EAR_STATUS_IN_EAR);
+            NSNumber *callIsActiveNumber = [[getAVSystemControllerClass() sharedAVSystemController] attributeForKey:@"AVSystemController_CallIsActive"];
+            _callActive = [callIsActiveNumber boolValue];
+        }
     }
 }
 
@@ -534,22 +557,7 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(inEarStatusChanged:) name:@"BluetoothAccessoryInEarStatusNotification" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sealValueChanged:) name:@"BluetoothAccessorySealValueStatusNotification" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceDisconnectedHandler:) name:@"BluetoothDeviceDisconnectSuccessNotification" object:nil];
-        
-        NSArray * connectedDevices = [[self bluetoothManager] connectedDevices];
-        
-        if (connectedDevices.count > 0) {
-            for (BluetoothDevice *connectedDevice in connectedDevices) {
-                ORK_Log_Info("device %@",connectedDevice);
-                _currentDevice = connectedDevice;
-                BTAccessoryInEarStatus primaryInEar = BT_ACCESSORY_IN_EAR_STATUS_UNKNOWN;
-                BTAccessoryInEarStatus secondaryInEar = BT_ACCESSORY_IN_EAR_STATUS_UNKNOWN;
-
-                [connectedDevice inEarStatusPrimary:&primaryInEar secondary:&secondaryInEar];
-                _budsInEar = (primaryInEar == BT_ACCESSORY_IN_EAR_STATUS_IN_EAR) && (secondaryInEar == BT_ACCESSORY_IN_EAR_STATUS_IN_EAR);
-                NSNumber *callIsActiveNumber = [[getAVSystemControllerClass() sharedAVSystemController] attributeForKey:@"AVSystemController_CallIsActive"];
-                _callActive = [callIsActiveNumber boolValue];
-            }
-        }
+        [self setupInternalVariables];
     } else {
         // TODO: Alert the User ?
     }
@@ -611,6 +619,15 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
     sResult.results = [results copy];
     
     return sResult;
+}
+
+// AVAudioPlayer delegate methods
+
+- (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
+    if (flag) {
+        [self dismissFitTest];
+        [self setupInternalVariables];
+    }
 }
 
 @end

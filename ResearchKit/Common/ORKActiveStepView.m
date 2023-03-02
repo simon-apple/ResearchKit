@@ -45,6 +45,8 @@
 
 - (void)setActiveStep:(ORKActiveStep *)step {
     _activeStep = step;
+    self.stepHeaderTextAlignment = step.headerTextAlignment;
+    self.bodyTextAlignment = step.bodyItemTextAlignment;
     self.stepTitle = step.title;
     self.stepText = step.text;
     self.stepDetailText = step.detailText;

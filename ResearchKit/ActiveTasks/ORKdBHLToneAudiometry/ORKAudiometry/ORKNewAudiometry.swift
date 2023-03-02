@@ -147,18 +147,17 @@ import Foundation
         return lastProgress
     }
         
-    private func updateProgress() {
+    private func updateProgress(with coverage: Matrix<Double>? = nil) {
         let count = xSample.shape.rows
         var progressReport: Float = 0.0
 
         // if sample count < 20 then use iteration progress else window coverage progress
-        if count < 20 {
-            let progressIter = Float(count) / 60.0
-            progressReport = progressIter
-        } else {
-            let coverageMatrix = checkCoverage()
+        if let coverageMatrix = coverage, count >= 20 {
             let progressWindow = Float(coverageMatrix.getColumn(4).mean())
             progressReport = progressWindow * 0.95
+        } else {
+            let progressIter = Float(count) / 60.0
+            progressReport = progressIter
         }
 
         // always increase progress
@@ -238,10 +237,12 @@ import Foundation
             stimulus = nil
             DispatchQueue.global(qos: .userInitiated).async { [weak self] in
                 guard let self = self else { return }
-                self.updateProgress()
-                self.theta = self.fit()
-                let shouldEndTest = !self.nextSample()
                 
+                self.theta = self.fit()
+                let coverageMatrix = self.checkCoverage()
+                self.updateProgress(with: coverageMatrix)
+                let shouldEndTest = !self.nextSample(with: coverageMatrix)
+
                 if shouldEndTest {
                     self.finalSampling()
                     self.testEnded = true
@@ -469,9 +470,9 @@ extension ORKNewAudiometry {
         return true
     }
     
-    func nextSample() -> Bool {
+    func nextSample(with coverage: Matrix<Double>) -> Bool {
         // get coverage matrix and check stopping criteria
-        var coverageMatrix = checkCoverage()
+        var coverageMatrix = coverage
         if shouldStop(with: coverageMatrix) {
             return false
         }
