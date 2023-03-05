@@ -1019,6 +1019,13 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(confidenceThreshold, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(numberOfTries, NSNumber, NSObject, YES, nil, nil),
                     })),
+           ENTRY(ORKdBHLQRCodeReaderStep,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+                     return [[ORKdBHLQRCodeReaderStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
+                 },
+                 (@{
+
+                    })),
            ENTRY(ORKSecondaryTaskStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      return [[ORKSecondaryTaskStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
@@ -2101,6 +2108,11 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(sealRightEar, NSNumber, NSObject, NO, nil, nil),
                     PROPERTY(confidenceLeftEar, NSNumber, NSObject, NO, nil, nil),
                     PROPERTY(confidenceRightEar, NSNumber, NSObject, NO, nil, nil),
+                    })),
+           ENTRY(ORKdBHLQRCodeReaderResult,
+                 nil,
+                 (@{
+                    PROPERTY(participantID, NSString, NSObject, NO, nil, nil),
                     })),
            ENTRY(ORKdBHLToneAudiometryUnit,
                  nil,

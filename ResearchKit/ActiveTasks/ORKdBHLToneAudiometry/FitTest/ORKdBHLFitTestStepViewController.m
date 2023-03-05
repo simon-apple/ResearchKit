@@ -208,7 +208,7 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
             case ORKdBHLFitTestStagePlaying: {
                 _triesCounter ++;
                 [self.fitTestContentView setResultDetailLabelText:[NSString stringWithFormat:@"Try %li of %li",_triesCounter,self.fitTestStep.numberOfTries]];
-                self.activeStepView.stepTitle = @"Do Not Remove AirPods";
+                self.activeStepView.stepTitle = @"Do not remove AirPods until you see the fit test results";
                 self.activeStepView.stepDetailText = @"";
                 break;
             }
