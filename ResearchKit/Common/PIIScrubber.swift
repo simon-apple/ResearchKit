@@ -28,7 +28,7 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-//apple-internal
+// apple-internal
 
 import Foundation
 
@@ -117,7 +117,7 @@ struct PIIScrubberDefinition: Codable {
             PIIScrubber.allScrubberFileURLs()
             .compactMap { eachURL -> String? in
                 return eachURL.deletingPathExtension().lastPathComponent
-                //[URL] -> [String]
+                // [URL] -> [String]
             }
             .reduce(into: Set()) { partialResult, eachFileName in
                 partialResult.insert(eachFileName)
@@ -144,7 +144,7 @@ struct PIIScrubberDefinition: Codable {
         let scrubberURLS: [URL] = bundles
             .flatMap { eachBundle in
                 scrubberFilerURLs(in: eachBundle)
-                //[Bundles] -> [URL]
+                // [Bundles] -> [URL]
             }
         
         return scrubberURLS

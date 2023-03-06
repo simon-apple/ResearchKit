@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, Apple Inc. All rights reserved.
+ Copyright (c) 2023, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,23 +28,27 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#if defined(__cplusplus)
-#  define ORK_EXTERN extern "C" __attribute__((visibility("default")))
-#else
-#  define ORK_EXTERN extern __attribute__((visibility("default")))
-#endif
+#import <CoreLocation/CLLocationManager.h>
 
-#define ORK_CLASS_AVAILABLE __attribute__((visibility("default")))
-#define ORK_ENUM_AVAILABLE
-#define ORK_AVAILABLE_DECL
+NS_ASSUME_NONNULL_BEGIN
 
-#define ORK_IOS_10_WATCHOS_3_AVAILABLE (NSClassFromString(@"HKWorkoutConfiguration") != nil)
+@interface CLLocationManager (ResearchKit)
 
-// Some CLLocationManager API calls would trigger authorization to use location. The presence of those
-// API calls in ResearchKit **at compile time** mean apps that link ResearchKit also need Info.plist entries
-// for NSLocationAlwaysAndWhenInUseUsageDescription and NSLocationWhenInUseUsageDescription.
-// If your app doesn't use ORKLocationRecorder and doesn't specify these Info.plist strings, disable
-// ResearchKit's CLLocationManager authorization
-#ifndef ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
-#define ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION 1
-#endif
+/**
+ These categories on CLLocationManager provide ResearchKit code with a common way of requesting authorization that can be disabled by
+ an Xcode build setting. Callers don't have to add compile-time conditional #if blocks. Instead callers should interpret return value of YES to mean
+ the authorization request was made, and NO to mean the ResearchKit binary was built with CLLocationManager authorization request calls
+ compiled out.
+ 
+ The impetus for this approach was to prevent apps using ResearchKit, but not ResearchKit's CoreLocation-powered features, from needlessly
+ defining an NSLocationWhenInUseUsageDescription Info.plist entry to silence build errors.
+ */
+- (BOOL)ork_requestWhenInUseAuthorization;
+- (BOOL)ork_requestAlwaysAuthorization;
+
+- (void)ork_startUpdatingLocation;
+- (void)ork_stopUpdatingLocation;
+
+@end
+
+NS_ASSUME_NONNULL_END

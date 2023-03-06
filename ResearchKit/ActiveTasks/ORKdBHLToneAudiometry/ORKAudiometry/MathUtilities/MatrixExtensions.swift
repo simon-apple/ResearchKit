@@ -240,7 +240,7 @@ public extension Matrix where Element == Double {
         return (xMatrix, yMatrix)
     }
     
-    //numpy.stack of two matrices with axis=-1
+    // numpy.stack of two matrices with axis=-1
     static func stack(_ matrixA: Matrix<Element>, _ matrixB: Matrix<Element>) -> [Matrix<Element>] {
         precondition(matrixA.shape == matrixB.shape)
         

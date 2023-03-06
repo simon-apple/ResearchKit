@@ -73,7 +73,7 @@ public class Interpolators: NSObject {
 }
 
 extension Array {
-    //from swift-algorithms
+    // from swift-algorithms
     @inlinable
     func partitioningIndex(where belongsInSecondPartition: (Element) throws -> Bool)
     rethrows -> Index {
