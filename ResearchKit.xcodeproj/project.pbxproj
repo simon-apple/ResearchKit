@@ -239,6 +239,8 @@
 		2E80C1AA1FA2AA8D00399A0C /* ORKStreamingAudioRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E80C1A91FA2AA8D00399A0C /* ORKStreamingAudioRecorder.m */; };
 		2EBFE11D1AE1B32D00CB8254 /* ORKUIViewAccessibilityTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EBFE11C1AE1B32D00CB8254 /* ORKUIViewAccessibilityTests.m */; };
 		2EBFE1201AE1B74100CB8254 /* ORKVoiceEngineTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EBFE11F1AE1B74100CB8254 /* ORKVoiceEngineTests.m */; };
+		3C7AEDCC29A72F83009EED4A /* CLLocationManager+ResearchKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C7AEDCA29A72F83009EED4A /* CLLocationManager+ResearchKit.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		3C7AEDCD29A72F83009EED4A /* CLLocationManager+ResearchKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C7AEDCB29A72F83009EED4A /* CLLocationManager+ResearchKit.m */; };
 		51198769245CA50D004FC2C7 /* ORKUSDZModelManagerScene.h in Headers */ = {isa = PBXBuildFile; fileRef = 51198767245CA50D004FC2C7 /* ORKUSDZModelManagerScene.h */; };
 		5119876A245CA50D004FC2C7 /* ORKUSDZModelManagerScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 51198768245CA50D004FC2C7 /* ORKUSDZModelManagerScene.m */; };
 		5119879B245FC33C004FC2C7 /* ORK3DModelManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 51198799245FC33C004FC2C7 /* ORK3DModelManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1382,6 +1384,8 @@
 		2EBFE11C1AE1B32D00CB8254 /* ORKUIViewAccessibilityTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKUIViewAccessibilityTests.m; sourceTree = "<group>"; };
 		2EBFE11E1AE1B68800CB8254 /* ORKVoiceEngine_Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKVoiceEngine_Internal.h; sourceTree = "<group>"; };
 		2EBFE11F1AE1B74100CB8254 /* ORKVoiceEngineTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKVoiceEngineTests.m; sourceTree = "<group>"; };
+		3C7AEDCA29A72F83009EED4A /* CLLocationManager+ResearchKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CLLocationManager+ResearchKit.h"; sourceTree = "<group>"; };
+		3C7AEDCB29A72F83009EED4A /* CLLocationManager+ResearchKit.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CLLocationManager+ResearchKit.m"; sourceTree = "<group>"; };
 		51198767245CA50D004FC2C7 /* ORKUSDZModelManagerScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKUSDZModelManagerScene.h; sourceTree = "<group>"; };
 		51198768245CA50D004FC2C7 /* ORKUSDZModelManagerScene.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKUSDZModelManagerScene.m; sourceTree = "<group>"; };
 		51198799245FC33C004FC2C7 /* ORK3DModelManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORK3DModelManager.h; sourceTree = "<group>"; };
@@ -2721,6 +2725,8 @@
 				5D04885B25F1B3AB0006C68B /* ORKDevice_Private.h */,
 				5D04885625F19A7A0006C68B /* ORKDevice.m */,
 				0BCC4B9928663895001E316F /* PIIScrubber.swift */,
+				3C7AEDCA29A72F83009EED4A /* CLLocationManager+ResearchKit.h */,
+				3C7AEDCB29A72F83009EED4A /* CLLocationManager+ResearchKit.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -4885,6 +4891,7 @@
 				86C40D8E1A8D7C5C00081FAC /* ORKStep.h in Headers */,
 				F094512D283EAB2700C2B237 /* ORKTypingStepViewController.h in Headers */,
 				511987C72463316E004FC2C7 /* ORKRequestPermissionsStepViewController.h in Headers */,
+				3C7AEDCC29A72F83009EED4A /* CLLocationManager+ResearchKit.h in Headers */,
 				618DA04E1A93D0D600E63AA8 /* ORKAccessibility.h in Headers */,
 				BA6E1EB6209E9A3F00DA9D55 /* ORKPDFViewerStepView_Internal.h in Headers */,
 				E27743AE23A7AC8800AA0C9F /* AVOutputDeviceDiscoverySession.h in Headers */,
@@ -5984,6 +5991,7 @@
 				D42FEFB91AF7557000A124F8 /* ORKImageCaptureView.m in Sources */,
 				BA8C067922EEB84B00ACDE6B /* ORKPlaybackButton.m in Sources */,
 				86C40C401A8D7C5C00081FAC /* ORKSpatialSpanMemoryContentView.m in Sources */,
+				3C7AEDCD29A72F83009EED4A /* CLLocationManager+ResearchKit.m in Sources */,
 				E2880B83255D656900D9BAA7 /* ORKTinnitusPredefinedTask.m in Sources */,
 				BAC6F1AA22AF535100E31C22 /* ORKTaskReviewViewController.m in Sources */,
 				BCB6E6671B7D535F000D5B34 /* ORKXAxisView.m in Sources */,
@@ -6342,10 +6350,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5D000EC32620F27100E5442A /* ResearchKit-Skywagon-Stable.xcconfig */;
 			buildSettings = {
-				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = (
-					"$(inherited)",
-					"$(ORK_GCC_PREPROCESSOR_DEFINITIONS)",
-				);
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 			};
 			name = "Skywagon Stable";
@@ -6375,6 +6380,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5D000EC82620F27100E5442A /* ResearchKit-Skywagon-Internal-Release.xcconfig */;
 			buildSettings = {
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 			};
 			name = "Skywagon Internal Release";
@@ -6404,6 +6410,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5D000EC52620F27100E5442A /* ResearchKit-Skywagon-Public-Release.xcconfig */;
 			buildSettings = {
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 			};
 			name = "Skywagon Public Release";
@@ -6524,10 +6531,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5D000EC22620F27100E5442A /* ResearchKit-Debug.xcconfig */;
 			buildSettings = {
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(inherited)",
-					"$(ORK_GCC_PREPROCESSOR_DEFINITIONS)",
-				);
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				"OTHER_SWIFT_FLAGS[arch=*]" = "$(inherited) -runtime-compatibility-version none";
 			};
@@ -6537,6 +6541,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5D000EC62620F27100E5442A /* ResearchKit-Release.xcconfig */;
 			buildSettings = {
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 			};
 			name = Release;

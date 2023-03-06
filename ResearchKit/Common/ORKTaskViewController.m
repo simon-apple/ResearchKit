@@ -58,6 +58,9 @@
 #import "ORKBorderedButton.h"
 #import "ORKTaskReviewViewController.h"
 
+#import <CoreLocation/CLLocationManagerDelegate.h>
+#import <ResearchKit/CLLocationManager+ResearchKit.h>
+
 #if RK_APPLE_INTERNAL
 #import "ORKContext.h"
 #import "ORKSpeechInNoisePredefinedTask.h"
@@ -65,7 +68,6 @@
 
 @import AVFoundation;
 @import CoreMotion;
-#import <CoreLocation/CoreLocation.h>
 
 #if RK_APPLE_INTERNAL
 #import "ORKTinnitusPredefinedTask.h"
@@ -117,10 +119,14 @@ typedef void (^_ORKLocationAuthorizationRequestHandler)(BOOL success);
     
     CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
     if ((status == kCLAuthorizationStatusNotDetermined) && (whenInUseKey || alwaysKey)) {
+        BOOL requestWasDelivered = YES;
         if (alwaysKey) {
-            [_manager requestAlwaysAuthorization];
+            requestWasDelivered = [_manager ork_requestAlwaysAuthorization];
         } else {
-            [_manager requestWhenInUseAuthorization];
+            requestWasDelivered = [_manager ork_requestWhenInUseAuthorization];
+        }
+        if (requestWasDelivered == NO) {
+            [self finishWithResult:NO];
         }
     } else {
         [self finishWithResult:(status != kCLAuthorizationStatusDenied)];

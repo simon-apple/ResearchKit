@@ -177,6 +177,8 @@
 #import <ResearchKit/ORKLearnMoreView.h>
 #import <ResearchKit/ORKBodyContainerView.h>
 
+// Class extensions
+#import <ResearchKit/CLLocationManager+ResearchKit.h>
 
 #if RK_APPLE_INTERNAL
 
@@ -217,3 +219,4 @@
 #import <ResearchKit/ORKBLEScanPeripheralsStep.h>
 
 #endif
+

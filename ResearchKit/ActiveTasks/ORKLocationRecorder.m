@@ -37,7 +37,9 @@
 
 #import "CLLocation+ORKJSONDictionary.h"
 
-#import <CoreLocation/CoreLocation.h>
+#import <ResearchKit/CLLocationManager+ResearchKit.h>
+
+@import CoreLocation;
 
 
 @interface ORKLocationRecorder () <CLLocationManagerDelegate> {
@@ -95,16 +97,23 @@
     self.locationManager = [self createLocationManager];
     self.locationManager.delegate = self;
 
+    BOOL locationManagerAuthRequestsAllowed = YES;
     if ([CLLocationManager authorizationStatus] <= kCLAuthorizationStatusDenied) {
-        [self.locationManager requestWhenInUseAuthorization];
+        locationManagerAuthRequestsAllowed = [self.locationManager ork_requestWhenInUseAuthorization];
     }
 
     self.uptime = [NSProcessInfo processInfo].systemUptime;
-    [self.locationManager startUpdatingLocation];
+    [self.locationManager ork_startUpdatingLocation];
+    
+    if (locationManagerAuthRequestsAllowed == NO) {
+        // If we weren't able to perform auth requests, then ResearchKit was compiled with auth requests disabled
+        // We won't be getting any callbacks about location changes, so might as well stop recording
+        [self stop];
+    }
 }
 
 - (void)doStopRecording {
-    [self.locationManager stopUpdatingLocation];
+    [self.locationManager ork_stopUpdatingLocation];
     self.locationManager.delegate = nil;
     self.locationManager = nil;
 }
