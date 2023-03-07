@@ -30,7 +30,8 @@
 
 #import <ResearchKitInternal/AAPLdBHLToneAudiometryStep.h>
 #import <ResearchKitInternal/AAPLdBHLToneAudiometryStepViewController.h>
-
+#import <ResearchKitInternal/AAPLSpeechInNoiseStep.h>
+#import <ResearchKitInternal/AAPLSpeechInNoiseStepViewController.h>
 #import <ResearchKitInternal/AAPLCompletionStep.h>
 #import <ResearchKitInternal/ORKAVJournalingResult.h>
 #import <ResearchKitInternal/ORKAVJournalingStepViewController.h>
@@ -41,6 +42,7 @@
 #import <ResearchKitInternal/ORKFaceDetectionStepViewController.h>
 #import <ResearchKitInternal/ORKHeadphoneDetectResult.h>
 #import <ResearchKitInternal/ORKHeadphoneDetectStep.h>
+#import <ResearchKitInternal/ORKHeadphoneDetector.h>
 #import <ResearchKitInternal/ORKHeadphoneDetectStepViewController.h>
 #import <ResearchKitInternal/ORKHeadphonesRequiredCompletionStep.h>
 #import <ResearchKitInternal/ORKHeadphonesRequiredCompletionStepViewController.h>

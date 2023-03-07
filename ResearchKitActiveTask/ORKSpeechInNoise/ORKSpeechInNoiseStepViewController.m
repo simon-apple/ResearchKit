@@ -34,6 +34,7 @@
 #import "ORKActiveStepView.h"
 #import "ORKActiveStepViewController_Internal.h"
 #import "ORKStepViewController_Internal.h"
+#import "ORKSpeechInNoiseStepViewController_Private.h"
 #import "ORKStepContainerView_Private.h"
 #import "ORKSpeechInNoiseContentView.h"
 #import "ORKSpeechInNoiseStep.h"
@@ -47,34 +48,10 @@
 #import "ORKTaskViewController.h"
 #import "ORKTaskViewController_Internal.h"
 
-#if RK_APPLE_INTERNAL
-#import <ResearchKit/ORKContext.h>
-#endif
-
 #import <AVFoundation/AVFoundation.h>
+
 @import Accelerate;
 
-#if RK_APPLE_INTERNAL
-static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
-
-@interface ORKSpeechInNoiseStepViewController () {
-    AVAudioEngine *_audioEngine;
-    AVAudioPlayerNode *_playerNode;
-    AVAudioMixerNode *_mixerNode;
-    float _peakPower;
-    float _toneDuration;
-    AVAudioPCMBuffer *_noiseAudioBuffer;
-    AVAudioPCMBuffer *_speechAudioBuffer;
-    AVAudioPCMBuffer *_filterAudioBuffer;
-    AVAudioFrameCount _speechToneCapacity;
-    AVAudioFrameCount _noiseToneCapacity;
-    BOOL _installedTap;
-
-    NSObject *_headphoneDetector;
-    ORKHeadphoneTypeIdentifier _headphoneType;
-    BOOL _showingAlert;
-}
-#else
 @interface ORKSpeechInNoiseStepViewController () {
     AVAudioEngine *_audioEngine;
     AVAudioPlayerNode *_playerNode;
@@ -88,7 +65,6 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
     AVAudioFrameCount _noiseToneCapacity;
     BOOL _installedTap;
 }
-#endif
 
 @property (nonatomic, strong) ORKSpeechInNoiseContentView *speechInNoiseContentView;
 
@@ -103,26 +79,6 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
     _speechAudioBuffer = [[AVAudioPCMBuffer alloc] init];
     _filterAudioBuffer = [[AVAudioPCMBuffer alloc] init];
     _installedTap = NO;
-#if RK_APPLE_INTERNAL
-    _showingAlert = NO;
-    Class ORKHeadphoneDetector = NSClassFromString(@"ORKHeadphoneDetector");
-    _headphoneDetector = [[ORKHeadphoneDetector alloc] performSelector:@selector(initWithDelegate:supportedHeadphoneChipsetTypes:) withObject:self
-                                         withObject:nil];
-
-    ORKTaskResult *taskResults = [[self taskViewController] result];
-    
-    for (ORKStepResult *result in taskResults.results) {
-        if (result.results > 0) {
-            ORKStepResult *firstResult = (ORKStepResult *)[result.results firstObject];
-            Class ORKHeadphoneDetectResult = NSClassFromString(@"ORKHeadphoneDetectResult");
-            if ([firstResult isKindOfClass:ORKHeadphoneDetectResult]) {
-                ORKResult *headphoneDetectResult = firstResult;
-                _headphoneType = [headphoneDetectResult valueForKey:@"headphoneType"];
-            }
-
-        }
-    }
-#endif
     
     self.speechInNoiseContentView = [[ORKSpeechInNoiseContentView alloc] init];
     self.activeStepView.activeCustomView = self.speechInNoiseContentView;
@@ -263,13 +219,10 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
                 ORKStrongTypeOf(weakSelf) strongSelf = weakSelf;
                 [_playerNode stop];
                 [_mixerNode removeTapOnBus:0];
-#if RK_APPLE_INTERNAL
-                if (!_showingAlert) {
+                
+                if (![self shouldBlockFinishOfStep]) {
                     [strongSelf finish];
-                };
-#else
-                [strongSelf finish];
-#endif
+                }
             });
         }
     }
@@ -279,58 +232,27 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
     return (ORKSpeechInNoiseStep *)self.step;
 }
 
-- (NSString *)filename
-{
+- (NSString *)filename {
     NSString *filename = nil;
     
-#if RK_APPLE_INTERNAL
-    NSObject<ORKContext> *context = [self predefinedSpeechInNoiseContext];
+    BOOL (^validate)(NSString * _Nullable) = ^BOOL(NSString * _Nullable str) { return str && str.length > 0; };
     
-    if (context) {
-#endif
-        
-        BOOL (^validate)(NSString * _Nullable) = ^BOOL(NSString * _Nullable str) { return str && str.length > 0; };
-        
-        NSString *path = [[self speechInNoiseStep] speechFilePath];
-        NSString *file = [path lastPathComponent];
-        
-        if (validate(file))
-        {
-            filename = [file copy];
-        }
-        
-#if RK_APPLE_INTERNAL
-
+    NSString *path = [[self speechInNoiseStep] speechFilePath];
+    NSString *file = [path lastPathComponent];
+    
+    if (validate(file)) {
+        filename = [file copy];
     }
-#endif
     
     return filename;
 }
 
-#if RK_APPLE_INTERNAL
-- (NSObject<ORKContext> * _Nullable)predefinedSpeechInNoiseContext
-{
-    Class ORKSpeechInNoisePredefinedTaskContext = NSClassFromString(@"ORKSpeechInNoisePredefinedTaskContext");
-    if ([self.step.context isKindOfClass:ORKSpeechInNoisePredefinedTaskContext])
-    {
-        return self.step.context;
-    }
-    
-    return nil;
-}
-#endif
-
-- (ORKStepResult *)result
-{
+- (ORKStepResult *)result {
     ORKStepResult *sResult = [super result];
     
-#if RK_APPLE_INTERNAL
-    NSObject<ORKContext> *context = [self predefinedSpeechInNoiseContext];
-    if (context && ((NSNumber *)[context valueForKey:@"isPracticeTest"]).boolValue)
-    {
+    if ([self isPracticeTest]) {
         return sResult;
     }
-#endif
     
     ORKSpeechInNoiseStep *currentStep = (ORKSpeechInNoiseStep *)self.step;
     
@@ -352,72 +274,18 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
     return sResult;
 }
 
-- (void)finish
-{
+- (void)finish {
     [_speechInNoiseContentView removeAllSamples];
     
-#if RK_APPLE_INTERNAL
-    [_headphoneDetector performSelector:@selector(discard)];
-    _headphoneDetector = nil;
-    
-    NSObject<ORKContext> *context = [self predefinedSpeechInNoiseContext];
-    if (context) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(ORKSpeechInNoiseStepFinishDelay * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{ [super finish]; });
-    } else {
-        [super finish];
-    }
-#else
     [super finish];
-#endif
 }
 
-#if RK_APPLE_INTERNAL
-#pragma mark - Headphone Monitoring
-
-- (void)headphoneTypeDetected:(nonnull ORKHeadphoneTypeIdentifier)headphoneType vendorID:(nonnull NSString *)vendorID productID:(nonnull NSString *)productID deviceSubType:(NSInteger)deviceSubType isSupported:(BOOL)isSupported {
-    if (![headphoneType isEqualToString:_headphoneType]) {
-        [self showAlert];
-    }
+- (BOOL)isPracticeTest {
+    return NO;
 }
 
-- (void)oneAirPodRemoved {
-    [self showAlert];
+- (BOOL)shouldBlockFinishOfStep {
+    return NO;
 }
-
-- (void)podLowBatteryLevelDetected {
-    [self showAlert];
-}
-
-- (void)showAlert {
-    if (!_showingAlert) {
-        _showingAlert = YES;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            UIAlertController *alertController = [UIAlertController
-                                                  alertControllerWithTitle:ORKLocalizedString(@"PACHA_ALERT_TITLE_TASK_INTERRUPTED", nil)
-                                                  message:ORKLocalizedString(@"PACHA_ALERT_TEXT_TASK_INTERRUPTED", nil)
-                                                  preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *startOver = [UIAlertAction
-                                        actionWithTitle:ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_START_OVER", nil)
-                                        style:UIAlertActionStyleDefault
-                                        handler:^(UIAlertAction *action) {
-                [[self taskViewController] restartTask];
-            }];
-            [alertController addAction:startOver];
-            [alertController addAction:[UIAlertAction
-                                        actionWithTitle:ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_CANCEL_TEST", nil)
-                                        style:UIAlertActionStyleDefault
-                                        handler:^(UIAlertAction *action) {
-                ORKStrongTypeOf(self.taskViewController.delegate) strongDelegate = self.taskViewController.delegate;
-                if ([strongDelegate respondsToSelector:@selector(taskViewController:didFinishWithReason:error:)]) {
-                    [strongDelegate taskViewController:self.taskViewController didFinishWithReason:ORKTaskFinishReasonDiscarded error:nil];
-                    [self finish];
-                }
-            }]];
-            alertController.preferredAction = startOver;
-            [self presentViewController:alertController animated:YES completion:nil];
-        });
-    }
-}
-#endif
 
 @end
