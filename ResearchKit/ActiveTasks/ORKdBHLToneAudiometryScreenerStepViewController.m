@@ -88,7 +88,7 @@
     ORKdBHLToneAudiometryPulsedAudioGenerator *_audioGenerator;
     //NSArray *_freqLoopList;
     NSArray *_stepUpMissingList;
-    NSMutableArray *_arrayOfResultSamples;
+    //NSMutableArray *_arrayOfResultSamples;
     NSMutableArray *_arrayOfResultUnits;
     NSMutableDictionary *_transitionsDictionary;
     ORKdBHLToneAudiometryFrequencySample *_resultSample;
@@ -134,7 +134,7 @@
         _showingAlert = NO;
         _isTouching = NO;
         _transitionsDictionary = [NSMutableDictionary dictionary];
-        _arrayOfResultSamples = [NSMutableArray array];
+        //_arrayOfResultSamples = [NSMutableArray array];
         _arrayOfResultUnits = [NSMutableArray array];
         
         [[NSNotificationCenter defaultCenter] addObserver:self
@@ -234,7 +234,7 @@
     _headphoneDetector = [[ORKHeadphoneDetector alloc] initWithDelegate:self
                                                 supportedHeadphoneChipsetTypes:[ORKHeadphoneDetectStep dBHLTypes]];
     
-    //TODO:- figure out where this call lives
+    //KAGRATODO:- change to the correct volume level
     [[self taskViewController] lockDeviceVolume:1.0];
     
     ORKWeakTypeOf(self) weakSelf = self;

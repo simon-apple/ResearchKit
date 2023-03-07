@@ -78,6 +78,7 @@
     NSMutableArray<ORKdBHLToneAudiometryTap *> *_taps;
     
     ORKHeadphoneDetector *_headphoneDetector;
+    BOOL _showingAlert;
     
     NSString *_caseSerial;
     NSString *_leftSerial;
@@ -105,6 +106,7 @@
         _taps = [[NSMutableArray alloc] init];
         self.currentTap = [[ORKdBHLToneAudiometryTap alloc] init];
         self.currentTap.response = ORKdBHLToneAudiometryTapBeforeResponseWindow;
+        _showingAlert = NO;
     }
     return self;
 }
@@ -131,6 +133,7 @@
 }
 
 - (void)dealloc {
+    NSLog(@"ToneAudiometry being dealloced");
     [_headphoneDetector discard];
     _headphoneDetector = nil;
 }
@@ -160,7 +163,7 @@
     [self addObservers];
     
 #if RK_APPLE_INTERNAL
-    //TODO:- figure out where this call lives
+    //KAGRATODO:- change to the correct volume level
     [[self taskViewController] lockDeviceVolume:1.0];
     
     dBHLTAStep.headphoneType = ORKHeadphoneTypeIdentifierAirPodsProGen2;
@@ -265,7 +268,11 @@
     [super viewDidDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
+    [_headphoneDetector discard];
+    _headphoneDetector.delegate = nil;
+    _headphoneDetector = nil;
     _audioGenerator.delegate = nil;
+    _audioGenerator = nil;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -472,16 +479,89 @@
 
 #pragma mark - Headphone Monitoring
 
-- (void)headphoneTypeDetected:(ORKHeadphoneTypeIdentifier)headphoneType
-                     vendorID:(NSString *)vendorID productID:(NSString *)productID
-                deviceSubType:(NSInteger)deviceSubType isSupported:(BOOL)isSupported {
-    
+- (NSString *)headphoneType {
+    return [[self dBHLToneAudiometryStep].headphoneType uppercaseString];
+}
+
+- (void)bluetoothModeChanged:(ORKBluetoothMode)bluetoothMode {
+    if ([[[self dBHLToneAudiometryStep].headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsPro] ||
+        [[[self dBHLToneAudiometryStep].headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsProGen2] ||
+        [[[self dBHLToneAudiometryStep].headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMax]) {
+        if (bluetoothMode != ORKBluetoothModeNoiseCancellation) {
+            [self showAlert];
+        }
+    }
+}
+
+- (void)headphoneTypeDetected:(nonnull ORKHeadphoneTypeIdentifier)headphoneType vendorID:(nonnull NSString *)vendorID productID:(nonnull NSString *)productID deviceSubType:(NSInteger)deviceSubType isSupported:(BOOL)isSupported {
+    if (![headphoneType isEqualToString:[self headphoneType]]) {
+        [self showAlert];
+    }
+}
+
+- (void)oneAirPodRemoved {
+    [self showAlert];
+}
+
+- (void)podLowBatteryLevelDetected {
+    [self showAlert];
+}
+
+- (void)showAlert {
+    if (!_showingAlert) {
+        _showingAlert = YES;
+        ORKWeakTypeOf(self) weakSelf = self;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self stopAudio];
+            UIAlertController *alertController = [UIAlertController
+                                                  alertControllerWithTitle:ORKLocalizedString(@"PACHA_ALERT_TITLE_TASK_INTERRUPTED", nil)
+                                                  message:ORKLocalizedString(@"PACHA_ALERT_TEXT_TASK_INTERRUPTED", nil)
+                                                  preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *startOver = [UIAlertAction
+                                        actionWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE_START_OVER", nil)
+                                        style:UIAlertActionStyleDefault
+                                        handler:^(UIAlertAction *action) {
+                ORKStrongTypeOf(weakSelf) strongSelf = weakSelf;
+                [[strongSelf taskViewController] flipToPageWithIdentifier:[strongSelf identiferForLastFitTest] forward:NO animated:NO];
+            }];
+            [alertController addAction:startOver];
+            [alertController addAction:[UIAlertAction
+                                        actionWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE_CANCEL_TEST", nil)
+                                        style:UIAlertActionStyleDefault
+                                        handler:^(UIAlertAction *action) {
+                ORKStrongTypeOf(self.taskViewController.delegate) strongDelegate = self.taskViewController.delegate;
+                if ([strongDelegate respondsToSelector:@selector(taskViewController:didFinishWithReason:error:)]) {
+                    [strongDelegate taskViewController:self.taskViewController didFinishWithReason:ORKTaskViewControllerFinishReasonDiscarded error:nil];
+                }
+            }]];
+            alertController.preferredAction = startOver;
+            [self presentViewController:alertController animated:YES completion:nil];
+        });
+    }
 }
 
 - (void)serialNumberCollectedCase:(NSString *)caseSerial left:(NSString *)leftSerial right:(NSString *)rightSerial {
     _caseSerial = caseSerial;
     _leftSerial = leftSerial;
     _rightSerial = rightSerial;
+}
+
+- (NSString *)identiferForLastFitTest {
+    ORKTaskResult *taskResults = [[self taskViewController] result];
+    
+    NSString *identifier = @"";
+
+    for (ORKStepResult *result in taskResults.results) {
+        if (result.results > 0) {
+            ORKStepResult *firstResult = (ORKStepResult *)[result.results firstObject];
+            if ([firstResult isKindOfClass:[ORKdBHLFitTestResult class]]) {
+                ORKdBHLFitTestResult *fitTestResult = (ORKdBHLFitTestResult *)firstResult;
+                identifier = fitTestResult.identifier;
+            }
+        }
+    }
+    
+    return identifier;
 }
 
 @end

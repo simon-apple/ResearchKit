@@ -329,7 +329,7 @@ typedef NS_ENUM(NSUInteger, ORKdBHLQRCodeReaderStage) {
     ORKdBHLQRCodeReaderStageDidScan
 };
 
-@interface ORKdBHLQRCodeReaderStepViewController() {
+@interface ORKdBHLQRCodeReaderStepViewController() <UITextFieldDelegate> {
     ORKActiveStepCustomView *_participantIDView;
     UILabel *_participantIDLabel;
     ORKdBHLQRCodeReaderStage _stage;
@@ -440,6 +440,7 @@ typedef NS_ENUM(NSUInteger, ORKdBHLQRCodeReaderStage) {
         }];
         _typedParticipantID = [alertController textFields][0];
         _typedParticipantID.placeholder = @"Type your participant ID";
+        _typedParticipantID.delegate = self;
         [_typedParticipantID addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
 //        [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
 //            NSLog(@"validation textField %@",textField.text);
@@ -477,7 +478,63 @@ typedef NS_ENUM(NSUInteger, ORKdBHLQRCodeReaderStage) {
     });
 }
 
+// KAGRATODO: remove this from here and include on the study editor.
+// Use 1 for PRE CV and 3 for CV
+#define NUMBER_OF_LETTERS 1
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    const char * _char = [string cStringUsingEncoding:NSUTF8StringEncoding];
+    int isBackSpace = strcmp(_char, "\b");
+
+    if (isBackSpace == -8) {
+        return YES;
+    }
+    
+    string = [string uppercaseString];
+    BOOL firstFourAreLetters = NO;
+    BOOL lastFourAreNumbers = NO;
+    if (textField.text.length <= NUMBER_OF_LETTERS) { // change number to 3 to test LLLLNNNN pattern
+        NSCharacterSet *validChars = [NSCharacterSet characterSetWithCharactersInString:@"ABCDEFGHIJKLMNOPQRSTUVWXYZ"];
+        validChars = [validChars invertedSet];
+        
+        firstFourAreLetters = [string rangeOfCharacterFromSet:validChars].location == NSNotFound;
+    }
+    if (textField.text.length > NUMBER_OF_LETTERS) { // change number to 3 to test LLLLNNNN pattern
+        NSCharacterSet *validChars = [NSCharacterSet characterSetWithCharactersInString:@"1234567890"];
+        validChars = [validChars invertedSet];
+        
+        lastFourAreNumbers = [string rangeOfCharacterFromSet:validChars].location == NSNotFound;
+    }
+    
+    BOOL tooBig = textField.text.length > 7;
+    
+    if (textField.text.length <= NUMBER_OF_LETTERS) { // change number to 3 to test LLLLNNNN pattern
+        return firstFourAreLetters;
+    } else {
+        return lastFourAreNumbers && !tooBig;
+    }
+}
+
+- (BOOL)validateString:(NSString *)string withPattern:(NSString *)pattern {
+    string = [string uppercaseString];
+    NSError *error              = nil;
+    NSRegularExpression *regex  = [NSRegularExpression regularExpressionWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:&error];
+
+    NSAssert(regex, @"Unable to create regular expression");
+
+    NSRange textRange   = NSMakeRange(0, string.length);
+    NSRange matchRange  = [regex rangeOfFirstMatchInString:string options:NSMatchingReportProgress range:textRange];
+
+    BOOL didValidate    = NO;
+
+    // Did we find a matching range
+    if (matchRange.location != NSNotFound)  didValidate = YES;
+
+    return didValidate;
+}
+
 - (void)textFieldDidChange:(UITextField *)textField {
+    textField.text = [textField.text uppercaseString];
     [_continueAction setEnabled:(textField.text.length == 8)];
 }
 
