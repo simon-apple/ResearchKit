@@ -249,7 +249,7 @@ static const CGFloat DontKnowButtonTopBottomPadding = 16.0;
     (self.step.placeholder ? : ORKLocalizedString(@"PLACEHOLDER_TEXT_OR_NUMBER", nil));
 
     self.textField.manageUnitAndPlaceholder = YES;
-    self.textField.unit = numericAnswerFormat.displayUnit ?: numericAnswerFormat.unit;
+    self.textField.unit = numericAnswerFormat.unit;
     self.textField.placeholder = placeholder;
 
     if (answer == [ORKDontKnowAnswer answer]) {

@@ -251,15 +251,9 @@ ORK_CLASS_AVAILABLE
 @property (nonatomic, copy, nullable) NSNumber *numericAnswer;
 
 /**
- The unit string saved to the result object when the value was entered, or `nil` if no unit string was displayed.
- */
-@property (nonatomic, copy, nullable) NSString *unit;
-
-/**
  The unit string displayed to the user when the value was entered, or `nil` if no unit string was displayed.
  */
-@property (nonatomic, copy, nullable) NSString *displayUnit;
-
+@property (nonatomic, copy, nullable) NSString *unit;
 
 @end
 

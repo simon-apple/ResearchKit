@@ -511,12 +511,9 @@ class NumericQuestionResultTableViewProvider: ResultTableViewProvider {
         return super.resultRowsForSection(section) + [
             // The numeric value the user entered.
             ResultRow(text: "numericAnswer", detail: questionResult.numericAnswer),
-            
-            // The unit string with the numeric value.
-            ResultRow(text: "unit", detail: questionResult.unit),
-            
+
             // The unit string that was displayed with the numeric value.
-            ResultRow(text: "displayUnit", detail: questionResult.displayUnit)
+            ResultRow(text: "unit", detail: questionResult.unit)
         ]
     }
 }

@@ -939,7 +939,6 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
             ORKNumericQuestionResult *nqr = (ORKNumericQuestionResult *)result;
             if (nqr.unit == nil) {
                 nqr.unit = [(ORKNumericAnswerFormat *)impliedAnswerFormat unit];
-                nqr.displayUnit = [(ORKNumericAnswerFormat *)impliedAnswerFormat displayUnit];
             }
         }
         
