@@ -44,8 +44,7 @@
     ORK_ENCODE_OBJ(aCoder, timerEndDate);
     ORK_ENCODE_OBJ(aCoder, stimulusStartDate);
     ORK_ENCODE_OBJ(aCoder, reactionDate);
-    ORK_ENCODE_INTEGER(aCoder, currentInterval);
-
+    ORK_ENCODE_DOUBLE(aCoder, currentInterval);
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
@@ -55,7 +54,7 @@
         ORK_DECODE_OBJ_CLASS(aDecoder, timerEndDate, NSDate);
         ORK_DECODE_OBJ_CLASS(aDecoder, stimulusStartDate, NSDate);
         ORK_DECODE_OBJ_CLASS(aDecoder, reactionDate, NSDate);
-        ORK_DECODE_INTEGER(aDecoder, currentInterval);
+        ORK_DECODE_DOUBLE(aDecoder, currentInterval);
     }
     return self;
 }
