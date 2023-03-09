@@ -6501,7 +6501,7 @@
 					"$(ORK_GCC_PREPROCESSOR_DEFINITIONS)",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				SDKROOT = iphoneos.internal;
+				SDKROOT = iphoneos;
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 			};
 			name = "Skywagon Stable";
@@ -6532,7 +6532,7 @@
 			baseConfigurationReference = 5D000EC82620F27100E5442A /* ResearchKit-Skywagon-Internal-Release.xcconfig */;
 			buildSettings = {
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				SDKROOT = iphoneos.internal;
+				SDKROOT = iphoneos;
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 			};
 			name = "Skywagon Internal Release";
@@ -6563,7 +6563,7 @@
 			baseConfigurationReference = 5D000EC52620F27100E5442A /* ResearchKit-Skywagon-Public-Release.xcconfig */;
 			buildSettings = {
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				SDKROOT = iphoneos.internal;
+				SDKROOT = iphoneos;
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 			};
 			name = "Skywagon Public Release";
@@ -6690,7 +6690,7 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				"OTHER_SWIFT_FLAGS[arch=*]" = "$(inherited) -runtime-compatibility-version none";
-				SDKROOT = iphoneos.internal;
+				SDKROOT = iphoneos;
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 			};
 			name = Debug;
@@ -6700,7 +6700,7 @@
 			baseConfigurationReference = 5D000EC62620F27100E5442A /* ResearchKit-Release.xcconfig */;
 			buildSettings = {
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				SDKROOT = iphoneos.internal;
+				SDKROOT = iphoneos;
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 			};
 			name = Release;

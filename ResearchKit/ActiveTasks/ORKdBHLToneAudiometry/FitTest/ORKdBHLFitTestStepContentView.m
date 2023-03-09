@@ -29,8 +29,6 @@
  */
 
 #import "ORKdBHLFitTestStepContentView.h"
-#import <UIKit/UIView_Private.h>
-#import <UIKit/UIInterface_Private.h>
 
 static NSString * const fitTestLeft = @"FitTest-Left";
 static NSString * const fitTestRight = @"FitTest-Right";
@@ -83,22 +81,22 @@ static NSString * const appearanceModeDark = @"-dark";
         _leftBudLabelText = [[UILabel alloc] initWithFrame:CGRectZero];
         _rightBudLabelText = [[UILabel alloc] initWithFrame:CGRectZero];
 
-        [_leftBudLabel setSize:CGSizeMake(BUD_LABEL_SIZE, BUD_LABEL_SIZE)];
-        _leftBudLabel._continuousCornerRadius = BUD_LABEL_SIZE / 2.0;
+        [_leftBudLabel  setBounds:CGRectMake(0, 0, BUD_LABEL_SIZE, BUD_LABEL_SIZE)];
+        _leftBudLabel.layer.cornerRadius = BUD_LABEL_SIZE /2.0;
         _leftBudLabel.backgroundColor = [UIColor systemGrayColor];
 
-        [_rightBudLabel setSize:CGSizeMake(BUD_LABEL_SIZE, BUD_LABEL_SIZE)];
-        _rightBudLabel._continuousCornerRadius = BUD_LABEL_SIZE / 2.0;
+        [_rightBudLabel  setBounds:CGRectMake(0, 0, BUD_LABEL_SIZE, BUD_LABEL_SIZE)];
+        _rightBudLabel.layer.cornerRadius = BUD_LABEL_SIZE /2.0;
         _rightBudLabel.backgroundColor = [UIColor systemGrayColor];
 
         _leftBudLabelText.text = @"L";
-        _leftBudLabelText.textColor = [UIColor systemWhiteColor];
+        _leftBudLabelText.textColor = [UIColor whiteColor];
         _leftBudLabelText.textAlignment = NSTextAlignmentCenter;
         _leftBudLabelText.font = [UIFont boldSystemFontOfSize:12];
         _leftBudLabelText.alpha = 1.0;
 
         _rightBudLabelText.text = @"R";
-        _rightBudLabelText.textColor = [UIColor systemWhiteColor];
+        _rightBudLabelText.textColor = [UIColor whiteColor];
         _rightBudLabelText.textAlignment = NSTextAlignmentCenter;
         _rightBudLabelText.font = [UIFont boldSystemFontOfSize:12];
         _rightBudLabelText.alpha = 1.0;
@@ -111,7 +109,7 @@ static NSString * const appearanceModeDark = @"-dark";
         _resultDetailLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 
         _leftBudResultLabel.text = @"";
-        _leftBudResultLabel.textColor = [UIColor systemBlackColor];
+        _leftBudResultLabel.textColor = [UIColor blackColor];
         _leftBudResultLabel.textAlignment = NSTextAlignmentCenter;
         _leftBudResultLabel.numberOfLines = 0;
         _leftBudResultLabel.lineBreakMode = NSLineBreakByWordWrapping;
@@ -119,7 +117,7 @@ static NSString * const appearanceModeDark = @"-dark";
         _leftBudResultLabel.alpha = 1.0;
 
         _rightBudResultLabel.text = @"";
-        _rightBudResultLabel.textColor = [UIColor systemBlackColor];
+        _rightBudResultLabel.textColor = [UIColor blackColor];
         _rightBudResultLabel.textAlignment = NSTextAlignmentCenter;
         _rightBudResultLabel.numberOfLines = 0;
         _rightBudResultLabel.lineBreakMode = NSLineBreakByWordWrapping;
@@ -127,7 +125,7 @@ static NSString * const appearanceModeDark = @"-dark";
         _rightBudResultLabel.alpha = 1.0;
 
         _resultDetailLabel.text = @"";
-        _resultDetailLabel.textColor = [UIColor systemBlackColor];
+        _resultDetailLabel.textColor = [UIColor blackColor];
         _resultDetailLabel.textAlignment = NSTextAlignmentCenter;
         _resultDetailLabel.numberOfLines = 0;
         _resultDetailLabel.lineBreakMode = NSLineBreakByWordWrapping;
@@ -232,8 +230,6 @@ static NSString * const appearanceModeDark = @"-dark";
     [constraints addObject:[_rightBudResultLabel.topAnchor constraintEqualToAnchor:_rightBudLabel.bottomAnchor constant:1.0]];
     [constraints addObject:[_rightBudResultLabel.widthAnchor constraintLessThanOrEqualToConstant:RESULT_LABEL_WIDTH]];
     
-//    [constraints addObject:[_resultDetailLabel.topAnchor constraintGreaterThanOrEqualToAnchor:_leftBudResultLabel.bottomAnchor constant:20.0]];
-//    [constraints addObject:[_resultDetailLabel.topAnchor constraintGreaterThanOrEqualToAnchor:_rightBudResultLabel.bottomAnchor constant:20.0]];
     CGFloat deviceHeight = UIScreen.mainScreen.bounds.size.height;
     [constraints addObject:[_resultDetailLabel.topAnchor constraintEqualToAnchor:_leftImView.bottomAnchor constant:deviceHeight < 813 ? 80 : 120.0]];
     [constraints addObject:[_resultDetailLabel.leadingAnchor constraintEqualToAnchor:self.leadingAnchor]];
@@ -249,15 +245,13 @@ static NSString * const appearanceModeDark = @"-dark";
 }
 
 -(void)setStart {
-    //_leftTopConstraint.constant = TOP_CONSTRAINT_NOT_PLAYING;
-    //_rightTopConstraint.constant = TOP_CONSTRAINT_NOT_PLAYING;
     [UIView animateWithDuration:0.5 animations:^{
         _leftBudLabel.backgroundColor = [UIColor systemGrayColor];
-        _leftBudResultLabel.textColor = [UIColor systemBlackColor];
+        _leftBudResultLabel.textColor = [UIColor blackColor];
         _leftBudResultLabel.text = @"";
         
         _rightBudLabel.backgroundColor = [UIColor systemGrayColor];
-        _rightBudResultLabel.textColor = [UIColor systemBlackColor];
+        _rightBudResultLabel.textColor = [UIColor blackColor];
         _rightBudResultLabel.text = @"";
     }];
 }
