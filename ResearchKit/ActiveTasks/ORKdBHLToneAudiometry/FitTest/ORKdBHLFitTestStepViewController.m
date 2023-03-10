@@ -61,7 +61,7 @@
 #import <ResearchKit/ResearchKit-Swift.h>
 #import "ORKNavigationContainerView_Internal.h"
 
-#define FIT_TEST_MIN_VOLUME            0.5f
+#define FIT_TEST_MIN_VOLUME            0.75f
 
 typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
     ORKdBHLFitTestStageStart,
@@ -114,6 +114,11 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
     }
     
     return self;
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [[self taskViewController] lockDeviceVolume:FIT_TEST_MIN_VOLUME];
 }
 
 
@@ -349,25 +354,25 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
     }
 
     ORK_Log_Info("Start Fit Test");
-    //[_playButton setUserInteractionEnabled:FALSE];
+
     [_currentDevice SendSetupCommand:BT_ACCESSORY_SETUP_SEAL_OP_START];
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         // Audio related steps take more time, so handle them in a separate thread to avoid blocking main thread
 
-        float currentVolume = 0.0f;
-        bool success = [[getAVSystemControllerClass() sharedAVSystemController] getVolume:&currentVolume forCategory:(NSString *)CFSTR("Audio/Video")];
-        if (!success) {
-            ORK_Log_Error("Unable to fetch current volume");
-        } else {
-            ORK_Log_Info("Current volume : %f", currentVolume);
-        }
-        
-        if (currentVolume != FIT_TEST_MIN_VOLUME) {
-            ORK_Log_Info("Adjust volume for AudioVideo for fit test");
-            [[getAVSystemControllerClass() sharedAVSystemController] setVolumeTo:FIT_TEST_MIN_VOLUME forCategory:(NSString *)CFSTR("Audio/Video")];
-            _volumeModified = TRUE;
-        }
+//        float currentVolume = 0.0f;
+//        bool success = [[getAVSystemControllerClass() sharedAVSystemController] getVolume:&currentVolume forCategory:(NSString *)CFSTR("Audio/Video")];
+//        if (!success) {
+//            ORK_Log_Error("Unable to fetch current volume");
+//        } else {
+//            ORK_Log_Info("Current volume : %f", currentVolume);
+//        }
+//
+//        if (currentVolume != FIT_TEST_MIN_VOLUME) {
+//            ORK_Log_Info("Adjust volume for AudioVideo for fit test");
+//            [[getAVSystemControllerClass() sharedAVSystemController] setVolumeTo:FIT_TEST_MIN_VOLUME forCategory:(NSString *)CFSTR("Audio/Video")];
+//            _volumeModified = TRUE;
+//        }
 
         NSString *mediaPath = [[NSBundle bundleForClass:[self class]] pathForResource:@"E+D-US_ML" ofType:@"wav"];
         NSURL *soundFileURL = [NSURL fileURLWithPath:mediaPath];

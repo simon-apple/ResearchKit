@@ -494,9 +494,9 @@
 }
 
 - (void)headphoneTypeDetected:(nonnull ORKHeadphoneTypeIdentifier)headphoneType vendorID:(nonnull NSString *)vendorID productID:(nonnull NSString *)productID deviceSubType:(NSInteger)deviceSubType isSupported:(BOOL)isSupported {
-    if (![headphoneType isEqualToString:[self headphoneType]]) {
-        [self showAlert];
-    }
+//    if (![headphoneType isEqualToString:[self headphoneType]]) {
+//        [self showAlert];
+//    }
 }
 
 - (void)oneAirPodRemoved {
