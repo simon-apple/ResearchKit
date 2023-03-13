@@ -3,24 +3,20 @@
 <plist version="1.0">
 <dict>
 	<key>250</key>
-	<string>-93</string>
+	<string>-85</string>
 	<key>500</key>
-	<string>-102</string>
-	<key>750</key>
-	<string>-106</string>
+	<string>-96</string>
 	<key>1000</key>
-	<string>-105</string>
-	<key>1500</key>
-	<string>-103</string>
+	<string>-97</string>
 	<key>2000</key>
-	<string>-103</string>
+	<string>-95</string>
 	<key>3000</key>
-	<string>-106</string>
-	<key>4000</key>
-	<string>-104</string>
-	<key>6000</key>
-	<string>-101</string>
-	<key>8000</key>
 	<string>-98</string>
+	<key>4000</key>
+	<string>-95</string>
+	<key>6000</key>
+	<string>-91</string>
+	<key>8000</key>
+	<string>-89</string>
 </dict>
 </plist>
