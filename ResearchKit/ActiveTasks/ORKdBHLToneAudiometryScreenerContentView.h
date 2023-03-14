@@ -35,6 +35,7 @@
 #import "ORKUnitLabel.h"
 #import "ORKRoundTappingButton.h"
 #import "ORKTypes.h"
+#import "ORKAudiometryProtocol.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -48,6 +49,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, weak) id<ORKdBHLToneAudiometryScreenerContentViewDelegate> delegate;
 
+/**
+ A block used to retrieve timestamp from external sources to be included in the results.
+ */
+@property (nonatomic, strong) ORKAudiometryTimestampProvider timestampProvider;
+
 - (instancetype)initWithValue:(float)value minimum:(NSInteger)minimum maximum:(NSInteger)maximum stepSize:(float)stepSize;
 
 - (instancetype)initWithValue:(float)value minimum:(NSInteger)minimum maximum:(NSInteger)maximum stepSize:(float)stepSize numFrequencies:(NSInteger)numFrequencies audioChannel:(ORKAudioChannel)audioChannel;
@@ -57,8 +63,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setValue:(float)value;
 
 - (void)resetView;
-
-- (void)setIsRefinementStep:(BOOL)enabled;
 
 @end
 

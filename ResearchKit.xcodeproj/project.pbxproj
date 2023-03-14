@@ -443,9 +443,9 @@
 		627AB9CC299B974400C38D5A /* ORKdBHLToneAudiometryScreenerStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 627AB9BF299B974300C38D5A /* ORKdBHLToneAudiometryScreenerStepViewController.m */; };
 		627AB9CD299B974400C38D5A /* ORKdBHLToneAudiometryScreenerStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 627AB9C0299B974300C38D5A /* ORKdBHLToneAudiometryScreenerStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		627AB9CE299B974400C38D5A /* ORKdBHLToneAudiometryScreenerStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 627AB9C1299B974300C38D5A /* ORKdBHLToneAudiometryScreenerStepViewController.h */; };
-		627AB9CF299B974400C38D5A /* ORKdBHLToneAudiometryScreenerContentSliderView.h in Headers */ = {isa = PBXBuildFile; fileRef = 627AB9C2299B974300C38D5A /* ORKdBHLToneAudiometryScreenerContentSliderView.h */; };
+		627AB9CF299B974400C38D5A /* ORKdBHLToneAudiometryScreenerContentMOAView.h in Headers */ = {isa = PBXBuildFile; fileRef = 627AB9C2299B974300C38D5A /* ORKdBHLToneAudiometryScreenerContentMOAView.h */; };
 		627AB9D0299B974400C38D5A /* ORKdBHLToneAudiometryScreenerStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 627AB9C3299B974300C38D5A /* ORKdBHLToneAudiometryScreenerStep.m */; };
-		627AB9D1299B974400C38D5A /* ORKdBHLToneAudiometryScreenerContentSliderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 627AB9C4299B974400C38D5A /* ORKdBHLToneAudiometryScreenerContentSliderView.m */; };
+		627AB9D1299B974400C38D5A /* ORKdBHLToneAudiometryScreenerContentMOAView.m in Sources */ = {isa = PBXBuildFile; fileRef = 627AB9C4299B974400C38D5A /* ORKdBHLToneAudiometryScreenerContentMOAView.m */; };
 		627AB9D4299B9A5A00C38D5A /* ORKdBHLToneAudiometryTransitions.h in Headers */ = {isa = PBXBuildFile; fileRef = 627AB9D2299B9A5900C38D5A /* ORKdBHLToneAudiometryTransitions.h */; };
 		627AB9D5299B9A5A00C38D5A /* ORKdBHLToneAudiometryTransitions.m in Sources */ = {isa = PBXBuildFile; fileRef = 627AB9D3299B9A5900C38D5A /* ORKdBHLToneAudiometryTransitions.m */; };
 		628D128928D4E4B300B92381 /* dbAmplitudePerFrequency_AIRPODSPROV2.plist in Resources */ = {isa = PBXBuildFile; fileRef = 628D128828D4E4B300B92381 /* dbAmplitudePerFrequency_AIRPODSPROV2.plist */; };
@@ -1610,9 +1610,9 @@
 		627AB9BF299B974300C38D5A /* ORKdBHLToneAudiometryScreenerStepViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKdBHLToneAudiometryScreenerStepViewController.m; sourceTree = "<group>"; };
 		627AB9C0299B974300C38D5A /* ORKdBHLToneAudiometryScreenerStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKdBHLToneAudiometryScreenerStep.h; sourceTree = "<group>"; };
 		627AB9C1299B974300C38D5A /* ORKdBHLToneAudiometryScreenerStepViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKdBHLToneAudiometryScreenerStepViewController.h; sourceTree = "<group>"; };
-		627AB9C2299B974300C38D5A /* ORKdBHLToneAudiometryScreenerContentSliderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKdBHLToneAudiometryScreenerContentSliderView.h; sourceTree = "<group>"; };
+		627AB9C2299B974300C38D5A /* ORKdBHLToneAudiometryScreenerContentMOAView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKdBHLToneAudiometryScreenerContentMOAView.h; sourceTree = "<group>"; };
 		627AB9C3299B974300C38D5A /* ORKdBHLToneAudiometryScreenerStep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKdBHLToneAudiometryScreenerStep.m; sourceTree = "<group>"; };
-		627AB9C4299B974400C38D5A /* ORKdBHLToneAudiometryScreenerContentSliderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKdBHLToneAudiometryScreenerContentSliderView.m; sourceTree = "<group>"; };
+		627AB9C4299B974400C38D5A /* ORKdBHLToneAudiometryScreenerContentMOAView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKdBHLToneAudiometryScreenerContentMOAView.m; sourceTree = "<group>"; };
 		627AB9D2299B9A5900C38D5A /* ORKdBHLToneAudiometryTransitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKdBHLToneAudiometryTransitions.h; sourceTree = "<group>"; };
 		627AB9D3299B9A5900C38D5A /* ORKdBHLToneAudiometryTransitions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKdBHLToneAudiometryTransitions.m; sourceTree = "<group>"; };
 		628D128828D4E4B300B92381 /* dbAmplitudePerFrequency_AIRPODSPROV2.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = dbAmplitudePerFrequency_AIRPODSPROV2.plist; sourceTree = "<group>"; };
@@ -3473,8 +3473,8 @@
 				6203956D29AB8E86002A864F /* ORKdBHLToneAudiometrySwiftUIFactory.swift */,
 				627AB9D2299B9A5900C38D5A /* ORKdBHLToneAudiometryTransitions.h */,
 				627AB9D3299B9A5900C38D5A /* ORKdBHLToneAudiometryTransitions.m */,
-				627AB9C2299B974300C38D5A /* ORKdBHLToneAudiometryScreenerContentSliderView.h */,
-				627AB9C4299B974400C38D5A /* ORKdBHLToneAudiometryScreenerContentSliderView.m */,
+				627AB9C2299B974300C38D5A /* ORKdBHLToneAudiometryScreenerContentMOAView.h */,
+				627AB9C4299B974400C38D5A /* ORKdBHLToneAudiometryScreenerContentMOAView.m */,
 				627AB9B9299B974100C38D5A /* ORKdBHLToneAudiometryScreenerContentView.h */,
 				627AB9BA299B974200C38D5A /* ORKdBHLToneAudiometryScreenerContentView.m */,
 				627AB9BB299B974200C38D5A /* ORKdBHLToneAudiometryScreenerContentViewA.h */,
@@ -5140,7 +5140,7 @@
 				E220A37E25711F9600C3C211 /* ORKTinnitusAudioGenerator.h in Headers */,
 				BCB6E65D1B7D534C000D5B34 /* ORKGraphChartView_Internal.h in Headers */,
 				86C40C8C1A8D7C5C00081FAC /* ORKActiveStepViewController.h in Headers */,
-				627AB9CF299B974400C38D5A /* ORKdBHLToneAudiometryScreenerContentSliderView.h in Headers */,
+				627AB9CF299B974400C38D5A /* ORKdBHLToneAudiometryScreenerContentMOAView.h in Headers */,
 				F7EC216624787338000C1F46 /* ORKCustomSignatureFooterView.h in Headers */,
 				618DA0541A93D0D600E63AA8 /* UIView+ORKAccessibility.h in Headers */,
 				86C40C3A1A8D7C5C00081FAC /* ORKSpatialSpanGameState.h in Headers */,
@@ -6003,7 +6003,7 @@
 				106FF2AB1B690FD7004EACF2 /* ORKHolePegTestPlacePegView.m in Sources */,
 				511987B4246087C5004FC2C7 /* ORKAVJournalingResult.m in Sources */,
 				BF91559D1BDE8D7D007FA459 /* ORKReviewStep.m in Sources */,
-				627AB9D1299B974400C38D5A /* ORKdBHLToneAudiometryScreenerContentSliderView.m in Sources */,
+				627AB9D1299B974400C38D5A /* ORKdBHLToneAudiometryScreenerContentMOAView.m in Sources */,
 				86C40C381A8D7C5C00081FAC /* ORKSpatialSpanGame.m in Sources */,
 				86C40C481A8D7C5C00081FAC /* ORKSpatialSpanMemoryStepViewController.m in Sources */,
 				86C40CDA1A8D7C5C00081FAC /* ORKTextFieldView.m in Sources */,

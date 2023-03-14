@@ -30,22 +30,10 @@
 
 import SwiftUI
 
-
-
 extension NSNotification.Name {
     static let sliderValueChanged = NSNotification.Name("sliderValueChanged")
-    static let isRefinementStep = NSNotification.Name("isRefinementStep")
     static let resetView = NSNotification.Name("resetView")
     static let nextButtonTapped = NSNotification.Name("nextButtonTapped")
-}
-
-@objc public enum SourceOfChange: Int {
-    case sliderMoved
-    case incrementTap
-    case incrementHold
-    case decrementTap
-    case decrementHold
-    case reset
 }
 
 @available(iOS 13.0, *)
@@ -53,7 +41,7 @@ class SliderViewModel: ObservableObject {
     @Published var sliderValue: Float = 0
     @Published var sliderRange: ClosedRange<Float>
     @Published var hasMadeChanges: Bool = false
-    @Published var sourceOfChange: SourceOfChange = .reset
+    @Published var sourceOfChange: ORKdBHLToneAudiometryMOASourceOfChange = .reset
     
     var numDBSteps: Int = 0
     var numFrequencies: Int = 0
@@ -81,7 +69,6 @@ struct ORKdBHLToneAudiometryMethodOfAdjustmentView: View {
     @StateObject var viewModel = SliderViewModel(numSteps: 14, numFrequencies: 6, audioChannel: .left)
     
     let resetViewPublisher = NotificationCenter.default.publisher(for: .resetView)
-    let refinementStepPublisher = NotificationCenter.default.publisher(for: .isRefinementStep)
     let nextButtonTappedPublisher = NotificationCenter.default.publisher(for: .nextButtonTapped)
     
     var body: some View {
@@ -207,7 +194,7 @@ struct StepperView: View {
     
     @State var isPressing = false
     @State private var timer: Timer?
-    @Binding private var sourceOfChange: SourceOfChange
+    @Binding private var sourceOfChange: ORKdBHLToneAudiometryMOASourceOfChange
 
     private let onIncrement: (() -> Void)?
     private let onDecrement: (() -> Void)?
@@ -215,7 +202,7 @@ struct StepperView: View {
     public init(
         onIncrement: (() -> Void)? = nil,
         onDecrement: (() -> Void)? = nil,
-        sourceOfChange: Binding<SourceOfChange>
+        sourceOfChange: Binding<ORKdBHLToneAudiometryMOASourceOfChange>
     ) {
         self.onIncrement = onIncrement
         self.onDecrement = onDecrement
@@ -240,11 +227,10 @@ struct StepperView: View {
                     self.isPressing.toggle()
                     self.timer?.invalidate()
                 } else {
+                    sourceOfChange = .stepper
                     if (isIncrement) {
-                        sourceOfChange = .incrementTap
                         onIncrement?()
                     } else {
-                        sourceOfChange = .decrementTap
                         onDecrement?()
                     }
                 }
@@ -266,11 +252,10 @@ struct StepperView: View {
             .onEnded { _ in
                 self.isPressing = true
                 self.timer = Timer.scheduledTimer(withTimeInterval: 0.25, repeats: true, block: { _ in
+                    sourceOfChange = .stepper
                     if (isIncrement) {
-                        sourceOfChange = .incrementHold
                         onIncrement?()
                     } else {
-                        sourceOfChange = .decrementHold
                         onDecrement?()
                     }
                 })
@@ -304,7 +289,7 @@ struct LevelStack : View {
     var height: CGFloat
     @Binding private var sliderValue: Float
     @Binding private var bounds: ClosedRange<Float>
-    @Binding private var sourceOfChange: SourceOfChange
+    @Binding private var sourceOfChange: ORKdBHLToneAudiometryMOASourceOfChange
     
     private var numDBSteps: Int = 0
     
@@ -314,7 +299,7 @@ struct LevelStack : View {
     
     private var baselineHeight: CGFloat = 120
     
-    init(sliderValue: Binding<Float>, numDBSteps: Int, height: CGFloat, bounds: Binding<ClosedRange<Float>>, sourceOfChange: Binding<SourceOfChange>) {
+    init(sliderValue: Binding<Float>, numDBSteps: Int, height: CGFloat, bounds: Binding<ClosedRange<Float>>, sourceOfChange: Binding<ORKdBHLToneAudiometryMOASourceOfChange>) {
         _sliderValue = sliderValue
         self.height = height
         self.numDBSteps = numDBSteps
@@ -340,7 +325,7 @@ struct LevelStack : View {
                         Rectangle()
                             .opacity(0.001)
                             .gesture(DragGesture(minimumDistance: 0).onChanged { gesture in
-                                self.sourceOfChange = .sliderMoved
+                                self.sourceOfChange = .slider
                                 let hitBoxWidth = reader.size.width / CGFloat(rectRange.count - 1)
                                 // only select values within the range
                                 self.sliderValue = min(max(Float(gesture.location.x / hitBoxWidth), 0), Float(rectRange.count - 1))

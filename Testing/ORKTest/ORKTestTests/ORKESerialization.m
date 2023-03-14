@@ -2129,7 +2129,8 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(frequency, NSNumber, NSObject, NO, nil, nil),
                     PROPERTY(calculatedThreshold, NSNumber, NSObject, NO, nil, nil),
                     PROPERTY(channel, NSNumber, NSObject, NO, nil, nil),
-                    PROPERTY(units, ORKdBHLToneAudiometryUnit, NSArray, NO, nil, nil)
+                    PROPERTY(units, ORKdBHLToneAudiometryUnit, NSArray, NO, nil, nil),
+                    PROPERTY(allInteractions, ORKdBHLToneAudiometryMOAInteraction, NSArray, NO, nil, nil),
                     })),
            ENTRY(ORKdBHLToneAudiometryResult,
                  nil,
@@ -2149,6 +2150,13 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(rightSerial, NSString, NSObject, NO, nil, nil),
                     PROPERTY(allTaps, ORKdBHLToneAudiometryTap, NSArray, NO, nil, nil),
 #endif
+                    })),
+           ENTRY(ORKdBHLToneAudiometryMOAInteraction,
+                 nil,
+                 (@{
+                    PROPERTY(dBHLValue, NSNumber, NSObject, NO, nil, nil),
+                    PROPERTY(sourceOfChange, NSNumber, NSObject, NO, nil, nil),
+                    PROPERTY(timeStamp, NSNumber, NSObject, NO, nil, nil),
                     })),
            ENTRY(ORKdBHLToneAudiometryTap,
                     nil,

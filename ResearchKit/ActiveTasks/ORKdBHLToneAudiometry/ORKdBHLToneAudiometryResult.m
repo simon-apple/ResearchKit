@@ -92,7 +92,53 @@ const double ORKInvalidDBHLValue = DBL_MAX;
 
 @end
 
+@implementation ORKdBHLToneAudiometryMOAInteraction
 
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    ORK_ENCODE_DOUBLE(aCoder, dBHLValue);
+    ORK_ENCODE_DOUBLE(aCoder, timeStamp);
+    ORK_ENCODE_DOUBLE(aCoder, sourceOfChange);
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    self = [super init];
+    if (self) {
+        ORK_DECODE_DOUBLE(aDecoder, dBHLValue);
+        ORK_DECODE_DOUBLE(aDecoder, timeStamp);
+        ORK_DECODE_DOUBLE(aDecoder, sourceOfChange);
+    }
+    return self;
+}
+
+- (BOOL)isEqual:(id)object {
+    if ([self class] != [object class]) {
+        return NO;
+    }
+    
+    __typeof(self) castObject = object;
+    
+    return ((self.dBHLValue == castObject.dBHLValue) &&
+            (self.timeStamp == castObject.timeStamp) &&
+            (self.sourceOfChange == castObject.sourceOfChange));
+}
+
+- (instancetype)copyWithZone:(NSZone *)zone {
+    ORKdBHLToneAudiometryMOAInteraction *interaction = [[[self class] allocWithZone:zone] init];
+    interaction.dBHLValue = self.dBHLValue;
+    interaction.timeStamp = self.timeStamp;
+    interaction.sourceOfChange = self.sourceOfChange;
+    return interaction;
+}
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<%@; dBHLValue: %.1lf; timeStamp: %.5lf; sourceOfChange %ld>", self.class.description, self.dBHLValue, self.timeStamp, (long)self.sourceOfChange];
+}
+
+@end
 
 @implementation ORKdBHLToneAudiometryResult
 
@@ -216,6 +262,7 @@ const double ORKInvalidDBHLValue = DBL_MAX;
     ORK_ENCODE_DOUBLE(aCoder, calculatedThreshold);
     ORK_ENCODE_INTEGER(aCoder, channel);
     ORK_ENCODE_OBJ(aCoder, units);
+    ORK_ENCODE_OBJ(aCoder, allInteractions);
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
@@ -225,6 +272,7 @@ const double ORKInvalidDBHLValue = DBL_MAX;
         ORK_DECODE_DOUBLE(aDecoder, calculatedThreshold);
         ORK_DECODE_INTEGER(aDecoder, channel);
         ORK_DECODE_OBJ_ARRAY(aDecoder, units, ORKdBHLToneAudiometryUnit);
+        ORK_DECODE_OBJ_ARRAY(aDecoder, allInteractions, ORKdBHLToneAudiometryMOAInteraction);
     }
     return self;
 }
@@ -239,7 +287,8 @@ const double ORKInvalidDBHLValue = DBL_MAX;
     return ((self.frequency == castObject.frequency) &&
             (self.calculatedThreshold == castObject.calculatedThreshold) &&
             (self.channel == castObject.channel) &&
-            ORKEqualObjects(self.units, castObject.units));
+            ORKEqualObjects(self.units, castObject.units) &&
+            ORKEqualObjects(self.allInteractions, castObject.allInteractions));
 }
 
 - (instancetype)copyWithZone:(NSZone *)zone {
@@ -247,7 +296,8 @@ const double ORKInvalidDBHLValue = DBL_MAX;
     sample.frequency = self.frequency;
     sample.calculatedThreshold = self.calculatedThreshold;
     sample.channel = self.channel;
-    sample.units = self.units;
+    sample.units = ORKArrayCopyObjects(_units);
+    sample.allInteractions = ORKArrayCopyObjects(_allInteractions);
     return sample;
 }
 

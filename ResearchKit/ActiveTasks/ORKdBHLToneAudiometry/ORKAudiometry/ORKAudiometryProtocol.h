@@ -34,6 +34,7 @@ typedef NSTimeInterval(^ORKAudiometryTimestampProvider)(void);
 typedef void(^ORKAudiometryStateBlock)(BOOL, ORKAudiometryStimulus *);
 
 @class ORKdBHLToneAudiometryFrequencySample;
+@class ORKdBHLToneAudiometryMOAInteraction;
 
 /**
  Defines the interface of an audiometry algorithm.
@@ -95,5 +96,8 @@ typedef void(^ORKAudiometryStateBlock)(BOOL, ORKAudiometryStimulus *);
 - (NSArray<ORKdBHLToneAudiometryFrequencySample *> *)resultSamples;
 
 - (void)stimulusAcknowledgedWithdBHL:(double)dbHLValue;
+
+// Push new interactions for a given frequency to be logged
+- (void)setInteractions:(NSArray<ORKdBHLToneAudiometryMOAInteraction *> *)interactions;
 
 @end

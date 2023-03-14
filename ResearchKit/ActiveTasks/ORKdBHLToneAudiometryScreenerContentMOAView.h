@@ -37,7 +37,9 @@
 NS_ASSUME_NONNULL_BEGIN
 
 API_AVAILABLE(ios(14.0))
-@interface ORKdBHLToneAudiometryScreenerContentSliderView : ORKdBHLToneAudiometryScreenerContentView <UIPickerViewDelegate, UIPickerViewDataSource, UITableViewDelegate>
+@interface ORKdBHLToneAudiometryScreenerContentMOAView : ORKdBHLToneAudiometryScreenerContentView <UIPickerViewDelegate, UIPickerViewDataSource, UITableViewDelegate>
+
+@property (nonatomic, strong) NSMutableArray<ORKdBHLToneAudiometryMOAInteraction *> *userInteractions;
 
 //@property (nonatomic, weak) id<ORKdBHLToneAudiometryScreenerContentViewDelegate> delegate;
 

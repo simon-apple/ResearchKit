@@ -2172,7 +2172,8 @@ NSString *const ORKdBHLToneAudiometryHeadphoneDetectStepIdentifier = @"dBHL.tone
     {
         NSString *stepIdentifier = [ORKdBHLToneAudiometryScreenerIdentifier stringByAppendingFormat:@"-%@.left", identifier];
         ORKdBHLToneAudiometryScreenerStep *step = [[ORKdBHLToneAudiometryScreenerStep alloc] initWithIdentifier:stepIdentifier];
-        step.title = nil;
+        step.text = @"Adjust by touching the bars below or by tapping the plus and minus buttons.";
+        step.title = @"Select the Faintest Tone You Can Hear";
         step.stepDuration = CGFLOAT_MAX;
         step.earPreference = ORKAudioChannelLeft;
         step.headphoneType = ORKHeadphoneTypeIdentifierAirPodsGen1;
@@ -2184,8 +2185,7 @@ NSString *const ORKdBHLToneAudiometryHeadphoneDetectStepIdentifier = @"dBHL.tone
         step.maximumdBHL = 75;
         
         
-        step.useSlider = YES;
-        step.isMultiStep = NO;
+        step.isMOA = YES;
         
         ORKStepArrayAddStep(steps, step);
     }
@@ -2198,7 +2198,8 @@ NSString *const ORKdBHLToneAudiometryHeadphoneDetectStepIdentifier = @"dBHL.tone
     {
         NSString *stepIdentifier = [ORKdBHLToneAudiometryScreenerIdentifier stringByAppendingFormat:@"-%@.right", identifier];
         ORKdBHLToneAudiometryScreenerStep *step = [[ORKdBHLToneAudiometryScreenerStep alloc] initWithIdentifier:stepIdentifier];
-        step.title = nil;
+        step.text = @"Adjust by touching the bars below or by tapping the plus and minus buttons.";
+        step.title = @"Select the Faintest Tone You Can Hear";
         step.stepDuration = CGFLOAT_MAX;
         step.earPreference = ORKAudioChannelRight;
         step.headphoneType = ORKHeadphoneTypeIdentifierAirPodsGen1;
@@ -2209,8 +2210,7 @@ NSString *const ORKdBHLToneAudiometryHeadphoneDetectStepIdentifier = @"dBHL.tone
         step.minimumdBHL = -10;
         step.maximumdBHL = 75;
         
-        step.useSlider = YES;
-        step.isMultiStep = NO;
+        step.isMOA = YES;
 
         
         ORKStepArrayAddStep(steps, step);

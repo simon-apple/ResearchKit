@@ -80,9 +80,8 @@
     self.maximumdBHL = 75;
     
     // TODO: review the final parameters
-    self.useSlider = YES;
+    self.isMOA = YES;
     self.usePicker = YES;
-    self.isMultiStep = NO;
 }
 
 - (void)validateParameters {

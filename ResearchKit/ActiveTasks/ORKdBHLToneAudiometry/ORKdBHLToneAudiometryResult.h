@@ -37,6 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class ORKdBHLToneAudiometryFrequencySample;
 @class ORKdBHLToneAudiometryUnit;
 @class ORKdBHLToneAudiometryTap;
+@class ORKdBHLToneAudiometryMOAInteraction;
 
 ORK_EXTERN const double ORKInvalidDBHLValue ORK_AVAILABLE_DECL;
 
@@ -85,6 +86,8 @@ ORK_CLASS_AVAILABLE
 
 @property (nonatomic, copy, nullable) NSArray<ORKdBHLToneAudiometryUnit *> *units;
 
+@property (nonatomic, copy, nullable) NSArray<ORKdBHLToneAudiometryMOAInteraction *> *allInteractions;
+
 @end
 
 ORK_CLASS_AVAILABLE
@@ -110,6 +113,12 @@ typedef NS_ENUM(NSInteger, ORKdBHLToneAudiometryTrialResponse) {
     ORKdBHLToneAudiometryTapOnResponseWindow = 1,
 } ORK_ENUM_AVAILABLE;
 
+typedef NS_ENUM(NSInteger, ORKdBHLToneAudiometryMOASourceOfChange) {
+    ORKdBHLToneAudiometryMOASourceOfChangeSlider = 0,
+    ORKdBHLToneAudiometryMOASourceOfChangeStepper = 1,
+    ORKdBHLToneAudiometryMOASourceOfChangeReset = 2,
+} ORK_ENUM_AVAILABLE;
+
 
 ORK_CLASS_AVAILABLE
 @interface ORKdBHLToneAudiometryTap : NSObject <NSCopying, NSSecureCoding>
@@ -123,6 +132,17 @@ ORK_CLASS_AVAILABLE
 @property (nonatomic, assign) NSTimeInterval timeStamp;
 
 @property (nonatomic, assign) ORKdBHLToneAudiometryTrialResponse response;
+
+@end
+
+ORK_CLASS_AVAILABLE
+@interface ORKdBHLToneAudiometryMOAInteraction : NSObject <NSCopying, NSSecureCoding>
+
+@property (nonatomic, assign) double dBHLValue;
+
+@property (nonatomic, assign) NSTimeInterval timeStamp;
+
+@property (nonatomic, assign) ORKdBHLToneAudiometryMOASourceOfChange sourceOfChange;
 
 @end
 

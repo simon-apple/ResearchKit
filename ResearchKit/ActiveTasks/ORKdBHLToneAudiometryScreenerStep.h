@@ -66,9 +66,7 @@ ORK_CLASS_AVAILABLE
 
 @property (nonatomic, assign) BOOL usePicker;
 
-@property (nonatomic, assign) BOOL useSlider;
-
-@property (nonatomic, assign) BOOL isMultiStep;
+@property (nonatomic, assign) BOOL isMOA;
 
 @property (nonatomic, assign) NSUInteger minimumdBHL;
 

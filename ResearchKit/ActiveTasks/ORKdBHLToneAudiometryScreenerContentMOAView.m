@@ -28,7 +28,7 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "ORKdBHLToneAudiometryScreenerContentSliderView.h"
+#import "ORKdBHLToneAudiometryScreenerContentMOAView.h"
 #import <ResearchKit/ResearchKit-Swift.h>
 
 
@@ -257,11 +257,11 @@ static const CGFloat TestingInProgressIndicatorRadius = 6.0;
 
 #define kPICKERITEMS 10000
 
-@interface ORKdBHLToneAudiometryScreenerContentSliderView () <UIPickerViewCustomDelegateTemp>
+@interface ORKdBHLToneAudiometryScreenerContentMOAView () <UIPickerViewCustomDelegateTemp>
 
 @end
 
-@implementation ORKdBHLToneAudiometryScreenerContentSliderView {
+@implementation ORKdBHLToneAudiometryScreenerContentMOAView {
     NSLayoutConstraint *_topToProgressViewConstraint;
     UILabel *_progressLabel;
     ScreenerTestingInProgressSliderView *_progressView;
@@ -281,11 +281,15 @@ static const CGFloat TestingInProgressIndicatorRadius = 6.0;
         
     float _initialValue;
     float _stepSize;
+    
+    ORKAudiometryTimestampProvider _getTimestamp;
 
     UIView *_sliderView;
     ORKdBHLToneAudiometrySwiftUIFactory *_swiftUIFactory;
     int _currentSliderValue;
 }
+
+@synthesize timestampProvider;
 
 - (instancetype)initWithValue:(float)value minimum:(NSInteger)minimum maximum:(NSInteger)maximum stepSize:(float)stepSize numFrequencies:(NSInteger)numFrequencies audioChannel:(ORKAudioChannel)audioChannel {
     self = [super init];
@@ -300,6 +304,10 @@ static const CGFloat TestingInProgressIndicatorRadius = 6.0;
         _currentNumDBSteps = _numDBSteps;
         
         _stepSize = stepSize;
+        
+        _getTimestamp = ^NSTimeInterval{
+            return 0;
+        };
     
         _pickerView = [[UIPickerViewCustomDelegateTemp alloc] init];
         _pickerView.dataSource = self;
@@ -312,7 +320,7 @@ static const CGFloat TestingInProgressIndicatorRadius = 6.0;
         }
 #endif
     
-        if (@available(iOS 14.0, *)) {
+        if (@available(iOS 16.0, *)) {
             _swiftUIFactory = [[ORKdBHLToneAudiometrySwiftUIFactory alloc] init];
             _sliderView = [[_swiftUIFactory makeMethodOfAdjustmentsViewWithNumSteps:_currentNumDBSteps
                                                                      numFrequencies:numFrequencies
@@ -328,6 +336,8 @@ static const CGFloat TestingInProgressIndicatorRadius = 6.0;
         _currentSliderValue = value;
         _sliderView.translatesAutoresizingMaskIntoConstraints = NO;
         [self addSubview:_sliderView];
+        
+        self.userInteractions = [[NSMutableArray alloc] init];
         
         self.backgroundColor = UIColor.clearColor;
 
@@ -346,18 +356,24 @@ static const CGFloat TestingInProgressIndicatorRadius = 6.0;
     if ([[notification name] isEqualToString:@"sliderValueChanged"]) {
         NSDictionary* userInfo = notification.userInfo;
         int value = [userInfo[@"sliderValue"] intValue];
-        SourceOfChange sourceOfChange = [userInfo[@"sourceOfChange"] intValue];
-        
+        ORKdBHLToneAudiometryMOASourceOfChange sourceOfChange = [userInfo[@"sourceOfChange"] intValue];
+
         if (value != _currentSliderValue) {
             _currentSliderValue = value;
-            if (sourceOfChange != SourceOfChangeReset) {
+            if (sourceOfChange != ORKdBHLToneAudiometryMOASourceOfChangeReset) {
+                ORKdBHLToneAudiometryMOAInteraction *interaction = [[ORKdBHLToneAudiometryMOAInteraction alloc] init];
+                interaction.sourceOfChange = sourceOfChange;
+                interaction.dBHLValue = [self indexToDBHL:value];
+                interaction.timeStamp = _getTimestamp();
+                [_userInteractions addObject:interaction];
                 [self didSelectedRow:value];
-                
-                // save results here for logging
-                // dictionary.add(value: value, timestamp: Date.now, sourceOfChange: sourceofChange)
             }
         }
     }
+}
+
+- (void)setTimestampProvider:(ORKAudiometryTimestampProvider)provider {
+    _getTimestamp = provider;
 }
 
 - (float)indexToDBHL:(int)index {
@@ -370,39 +386,7 @@ static const CGFloat TestingInProgressIndicatorRadius = 6.0;
     [[NSNotificationCenter defaultCenter]
         postNotificationName:@"resetView"
         object:nil];
-}
-
-- (void)setIsRefinementStep:(BOOL)enabled {
-    NSDictionary *userInfo = [NSDictionary dictionaryWithObject:enabled ? @"true" : @"false" forKey:@"isRefinementStep"];
-    [[NSNotificationCenter defaultCenter] postNotificationName:
-                           @"isRefinementStep" object:nil userInfo:userInfo];
-    
-    if (enabled) {
-        float selectedDB = [self indexToDBHL:_selectedValue];
-        _currentNumDBSteps = _numDBStepsSecondStep;
-        
-        float stride = (_currentNumDBSteps - 1) * _dBStrideSecondStep; // - 1?
-
-        float proposedMax = selectedDB + (stride / 2);
-        float proposedMin = selectedDB - (stride / 2);
-        
-        if (proposedMax >= _maximumValue) {
-            _currentMaximumValue = _maximumValue;
-            _currentMinimumValue = _maximumValue - stride;
-        } else if (proposedMin <= _minimumValue) {
-            _currentMinimumValue = _minimumValue;
-            _currentMaximumValue = _minimumValue + stride;
-        } else {
-            _currentMaximumValue = proposedMax;
-            _currentMinimumValue = proposedMin;
-        }
-        [self resetView];
-    } else {
-        _currentNumDBSteps = _numDBSteps;
-        _currentMinimumValue = _minimumValue;
-        _currentMaximumValue = _maximumValue;
-        [self resetView];
-    }
+    [_userInteractions removeAllObjects];
 }
 
 - (void)setProgress:(CGFloat)progress animated:(BOOL)animated

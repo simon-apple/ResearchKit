@@ -86,6 +86,8 @@
     BOOL _preStimulusResponse;
     
     ORKAudiometryStateBlock _statusProvider;
+    
+    NSMutableArray<ORKdBHLToneAudiometryMOAInteraction *> *_interactions;
 }
 
 @end
@@ -112,6 +114,7 @@
         _transitionsDictionary = [NSMutableDictionary dictionary];
         _arrayOfResultSamples = [NSMutableArray array];
         _arrayOfResultUnits = [NSMutableArray array];
+        _interactions = [NSMutableArray array];
         _preStimulusResponse = YES;
         _getTimestamp = ^NSTimeInterval{
             return 0;
@@ -138,6 +141,7 @@
         _transitionsDictionary = [NSMutableDictionary dictionary];
         _arrayOfResultSamples = [NSMutableArray array];
         _arrayOfResultUnits = [NSMutableArray array];
+        _interactions = [NSMutableArray array];
         _preStimulusResponse = YES;
         _getTimestamp = ^NSTimeInterval{
             return 0;
@@ -303,6 +307,10 @@
     _nextStimulus = [[ORKAudiometryStimulus alloc] initWithFrequency:[freq doubleValue] level:_currentdBHL channel:_audioChannel];
 }
 
+- (void)setInteractions:(NSMutableArray<ORKdBHLToneAudiometryMOAInteraction *> *)interactions {
+    _interactions = [interactions copy];
+}
+
 - (void)confirmedBHLForFrequency:(NSNumber *)freq andDBHL:(double)dBHLValue {
     if (_prevFreq != [freq doubleValue]) {
         progress = 0.001 + (CGFloat)_indexOfFreqLoopList / _freqLoopList.count;
@@ -325,6 +333,7 @@
         _resultSample.channel = _audioChannel;
         _resultSample.frequency = [freq doubleValue];
         _resultSample.calculatedThreshold = ORKInvalidDBHLValue;
+        _resultSample.allInteractions = [_interactions copy];
         [_arrayOfResultSamples addObject:_resultSample];
     } else {
         _numberOfTransitionsPerFreq += 1;
