@@ -61,7 +61,7 @@
 #import <ResearchKit/ResearchKit-Swift.h>
 #import "ORKNavigationContainerView_Internal.h"
 
-#define FIT_TEST_MIN_VOLUME            0.75f
+#define FIT_TEST_MIN_VOLUME            0.50f
 
 typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
     ORKdBHLFitTestStageStart,

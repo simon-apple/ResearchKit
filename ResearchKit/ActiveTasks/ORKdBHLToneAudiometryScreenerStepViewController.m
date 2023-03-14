@@ -238,7 +238,7 @@
                                                 supportedHeadphoneChipsetTypes:[ORKHeadphoneDetectStep dBHLTypes]];
     
     //KAGRATODO:- change to the correct volume level
-    [[self taskViewController] lockDeviceVolume:1.0];
+    [[self taskViewController] lockDeviceVolume:0.75];
     
     ORKWeakTypeOf(self) weakSelf = self;
     _audiometry.timestampProvider = ^NSTimeInterval{
