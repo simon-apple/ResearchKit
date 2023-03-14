@@ -171,20 +171,31 @@ static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;
         ORKStep *timeoutStep = [currentTask stepWithIdentifier:ORKEnvironmentSPLMeterTimeoutIdentifier];
         
         if (timeoutStep == nil) {
+            NSUInteger nextStepIndex = [currentTask indexOfStep:[self step]] + 1;
+            ORKStep *nextStep = nil;
+            
+            if (currentTask.steps.count >= nextStepIndex) {
+                nextStep = [currentTask steps][nextStepIndex];
+                
+                ORKDirectStepNavigationRule *nextNavigationRule = [[ORKDirectStepNavigationRule alloc] initWithDestinationStepIdentifier:nextStep.identifier];
+                [currentTask setNavigationRule:nextNavigationRule forTriggerStepIdentifier:self.step.identifier];
+            }
+            
             ORKCompletionStep *step = [[ORKCompletionStep alloc] initWithIdentifier:ORKEnvironmentSPLMeterTimeoutIdentifier];
             step.title = ORKLocalizedString(@"ENVIRONMENTSPL_QUIET_LOCATION_REQUIRED_TITLE", nil);
             step.text = ORKLocalizedString(@"ENVIRONMENTSPL_QUIET_LOCATION_REQUIRED_TEXT", nil);
             step.optional = NO;
             step.reasonForCompletion = ORKTaskViewControllerFinishReasonDiscarded;
+            
             if (@available(iOS 13.0, *)) {
                 UIImageConfiguration *configuration = [UIImageSymbolConfiguration configurationWithFont:[UIFont preferredFontForTextStyle:UIFontTextStyleBody] scale:UIImageSymbolScaleLarge];
                 step.iconImage = [UIImage systemImageNamed:@"waveform.circle.fill" withConfiguration:configuration];
             }
             
-            [currentTask addStep:step];
-
+            [currentTask insertStep:step atIndex:[currentTask indexOfStep:self.step]];
+            
             ORKDirectStepNavigationRule *endNavigationRule = [[ORKDirectStepNavigationRule alloc] initWithDestinationStepIdentifier:ORKNullStepIdentifier];
-            [currentTask setNavigationRule:endNavigationRule forTriggerStepIdentifier:step.identifier];
+            [currentTask setNavigationRule:endNavigationRule forTriggerStepIdentifier:ORKEnvironmentSPLMeterTimeoutIdentifier];
         }
 
         [[self taskViewController] flipToPageWithIdentifier:ORKEnvironmentSPLMeterTimeoutIdentifier forward:YES animated:YES];
