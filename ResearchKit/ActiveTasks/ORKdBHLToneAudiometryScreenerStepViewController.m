@@ -221,13 +221,18 @@
         }
     }
     self.dBHLToneAudiometryContentView.delegate = self;
-    self.activeStepView.activeCustomView = self.dBHLToneAudiometryContentView;
-    [self.activeStepView removeCustomContentPadding];
-    [self.activeStepView pinNavigationContainerToBottom];
-    self.activeStepView.customContentFillsAvailableSpace = YES;
+    [self.view addSubview:self.dBHLToneAudiometryContentView];
+    self.dBHLToneAudiometryContentView.translatesAutoresizingMaskIntoConstraints = false;
+    
+    NSMutableArray *constraints = [NSMutableArray new];
+    [constraints addObject:[self.dBHLToneAudiometryContentView.leftAnchor constraintEqualToAnchor:self.view.leftAnchor]];
+    [constraints addObject:[self.dBHLToneAudiometryContentView.rightAnchor constraintEqualToAnchor:self.view.rightAnchor]];
+    [constraints addObject:[self.dBHLToneAudiometryContentView.topAnchor constraintEqualToAnchor:self.view.topAnchor constant:160.0]];
+    [constraints addObject:[self.dBHLToneAudiometryContentView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor constant:0]];
+    
+    [NSLayoutConstraint activateConstraints:constraints];
     
     self.internalDoneButtonItem.enabled = YES;
-//    [self.activeStepView.navigationFooterView setHidden:YES];
 
     _headphoneDetector = [[ORKHeadphoneDetector alloc] initWithDelegate:self
                                                 supportedHeadphoneChipsetTypes:[ORKHeadphoneDetectStep dBHLTypes]];
@@ -426,29 +431,31 @@
 }
 
 - (void)nextTrial {
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        if (_audiometry.testEnded) {
-            [self finish];
-            return;
-        }
-        //_navigationFooterView.continueEnabled = YES;
-        
-        [_audiometry nextStatus:^(BOOL testEnded, ORKAudiometryStimulus *sti) {
-            if (testEnded) {
+    if (!_showingAlert) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            if (_audiometry.testEnded) {
                 [self finish];
                 return;
             }
+            //_navigationFooterView.continueEnabled = YES;
             
-            ORKdBHLToneAudiometryScreenerStep *dBHLTAStep = [self dBHLToneAudiometryStep];            
-            [self.dBHLToneAudiometryContentView setProgress:_audiometry.progress animated:YES];
-
-            [_audioGenerator playSoundAtFrequency:sti.frequency onChannel:dBHLTAStep.earPreference dBHL:sti.level];
-            [_audiometry registerStimulusPlayback];
-            [self resetLevel:sti.level];
-            _currentFreq = sti.frequency;
-            NSLog(@"Starting Frequency: %lf  -  Level: %lf", sti.frequency, sti.level);
-        }];
-    });
+            [_audiometry nextStatus:^(BOOL testEnded, ORKAudiometryStimulus *sti) {
+                if (testEnded) {
+                    [self finish];
+                    return;
+                }
+                
+                ORKdBHLToneAudiometryScreenerStep *dBHLTAStep = [self dBHLToneAudiometryStep];            
+                [self.dBHLToneAudiometryContentView setProgress:_audiometry.progress animated:YES];
+                
+                [_audioGenerator playSoundAtFrequency:sti.frequency onChannel:dBHLTAStep.earPreference dBHL:sti.level];
+                [_audiometry registerStimulusPlayback];
+                [self resetLevel:sti.level];
+                _currentFreq = sti.frequency;
+                ORK_Log_Info("Starting Frequency: %lf  -  Level: %lf", sti.frequency, sti.level);
+            }];
+        });
+    }
 }
 
 - (void)resetLevel:(float)level {
@@ -462,10 +469,55 @@
 
 #pragma mark - Headphone Monitoring
 
-- (void)headphoneTypeDetected:(ORKHeadphoneTypeIdentifier)headphoneType
-                     vendorID:(NSString *)vendorID productID:(NSString *)productID
-                deviceSubType:(NSInteger)deviceSubType isSupported:(BOOL)isSupported {
-    
+- (NSString *)headphoneType {
+    return [ORKHeadphoneTypeIdentifierAirPodsProGen2 uppercaseString];
+}
+
+- (void)headphoneTypeDetected:(nonnull ORKHeadphoneTypeIdentifier)headphoneType vendorID:(nonnull NSString *)vendorID productID:(nonnull NSString *)productID deviceSubType:(NSInteger)deviceSubType isSupported:(BOOL)isSupported {
+    if (![headphoneType isEqualToString:[self headphoneType]]) {
+        [self showAlert];
+    }
+}
+
+- (void)oneAirPodRemoved {
+    [self showAlert];
+}
+
+- (void)podLowBatteryLevelDetected {
+    [self showAlert];
+}
+
+- (void)showAlert {
+    if (!_showingAlert) {
+        _showingAlert = YES;
+        ORKWeakTypeOf(self) weakSelf = self;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self stopAudio];
+            UIAlertController *alertController = [UIAlertController
+                                                  alertControllerWithTitle:ORKLocalizedString(@"PACHA_ALERT_TITLE_TASK_INTERRUPTED", nil)
+                                                  message:ORKLocalizedString(@"PACHA_ALERT_TEXT_TASK_INTERRUPTED", nil)
+                                                  preferredStyle:UIAlertControllerStyleAlert];
+//            UIAlertAction *startOver = [UIAlertAction
+//                                        actionWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE_START_OVER", nil)
+//                                        style:UIAlertActionStyleDefault
+//                                        handler:^(UIAlertAction *action) {
+//                ORKStrongTypeOf(weakSelf) strongSelf = weakSelf;
+//                [[strongSelf taskViewController] flipToPageWithIdentifier:[strongSelf identiferForLastFitTest] forward:NO animated:NO];
+//            }];
+//            [alertController addAction:startOver];
+            [alertController addAction:[UIAlertAction
+                                        actionWithTitle:@"Finish test"
+                                        style:UIAlertActionStyleDefault
+                                        handler:^(UIAlertAction *action) {
+                ORKStrongTypeOf(self.taskViewController.delegate) strongDelegate = self.taskViewController.delegate;
+                if ([strongDelegate respondsToSelector:@selector(taskViewController:didFinishWithReason:error:)]) {
+                    [strongDelegate taskViewController:self.taskViewController didFinishWithReason:ORKTaskViewControllerFinishReasonCompleted error:nil];
+                }
+            }]];
+            //alertController.preferredAction = startOver;
+            [self presentViewController:alertController animated:YES completion:nil];
+        });
+    }
 }
 
 - (void)serialNumberCollectedCase:(NSString *)caseSerial left:(NSString *)leftSerial right:(NSString *)rightSerial {

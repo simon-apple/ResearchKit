@@ -296,13 +296,13 @@ const double ORKInvalidDBHLValue = DBL_MAX;
     sample.frequency = self.frequency;
     sample.calculatedThreshold = self.calculatedThreshold;
     sample.channel = self.channel;
-    sample.units = ORKArrayCopyObjects(_units);
-    sample.allInteractions = ORKArrayCopyObjects(_allInteractions);
+    sample.units = self.units;
+    sample.allInteractions = self.allInteractions;
     return sample;
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"<%@: %p; frequency: %.1lf; calculatedThreshold: %.1lf; channel: %ld; units: %@>", self.class.description, self, self.frequency, self.calculatedThreshold, (long)self.channel, self.units];
+    return [NSString stringWithFormat:@"<%@: %p; frequency: %.1lf; calculatedThreshold: %.1lf; channel: %ld; units: %@; allInteractions: %@>", self.class.description, self, self.frequency, self.calculatedThreshold, (long)self.channel, self.units, self.allInteractions];
 }
 
 @end
