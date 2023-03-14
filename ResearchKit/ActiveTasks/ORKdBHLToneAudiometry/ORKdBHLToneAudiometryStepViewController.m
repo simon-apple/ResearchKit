@@ -387,56 +387,58 @@
 }
 
 - (void)runTestTrial {
-    [self stopAudio];
-    
-    [self.dBHLToneAudiometryContentView setProgress:self.audiometryEngine.progress animated:YES];
+    if (!_showingAlert) {
+        [self stopAudio];
+        
+        [self.dBHLToneAudiometryContentView setProgress:self.audiometryEngine.progress animated:YES];
 
-    [self.audiometryEngine nextStatus:^(BOOL testEnded, ORKAudiometryStimulus *stimulus) {
-        if (testEnded) {
-            [self finish];
-        }
-        
-        self.currentTap = [[ORKdBHLToneAudiometryTap alloc] init];
-        self.currentTap.dBHLValue = stimulus.level;
-        self.currentTap.frequency = stimulus.frequency;
-        self.currentTap.channel = stimulus.channel;
-        self.currentTap.response = ORKdBHLToneAudiometryTapBeforeResponseWindow;
-        
-        const NSTimeInterval toneDuration = [self dBHLToneAudiometryStep].toneDuration;
-        const NSTimeInterval postStimulusDelay = [self dBHLToneAudiometryStep].postStimulusDelay;
-        
-        double delay1 = arc4random_uniform([self dBHLToneAudiometryStep].maxRandomPreStimulusDelay - 1);
-        double delay2 = (double)arc4random_uniform(10)/10;
-        double preStimulusDelay = delay1 + delay2 + 1;
-        [self.audiometryEngine registerPreStimulusDelay:preStimulusDelay];
-        
-        _preStimulusDelayWorkBlock = dispatch_block_create(DISPATCH_BLOCK_INHERIT_QOS_CLASS, ^{
-
-            if ([[self audiometryEngine] respondsToSelector:@selector(registerStimulusPlayback)]) {
-                [self.audiometryEngine registerStimulusPlayback];
+        [self.audiometryEngine nextStatus:^(BOOL testEnded, ORKAudiometryStimulus *stimulus) {
+            if (testEnded) {
+                [self finish];
             }
-            [_audioGenerator playSoundAtFrequency:stimulus.frequency onChannel:stimulus.channel dBHL:stimulus.level];
-            self.currentTap.response = ORKdBHLToneAudiometryTapOnResponseWindow;
-        });
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(preStimulusDelay * NSEC_PER_SEC)), dispatch_get_main_queue(), _preStimulusDelayWorkBlock);
-        
-        _pulseDurationWorkBlock = dispatch_block_create(DISPATCH_BLOCK_INHERIT_QOS_CLASS, ^{
+            
+            self.currentTap = [[ORKdBHLToneAudiometryTap alloc] init];
+            self.currentTap.dBHLValue = stimulus.level;
+            self.currentTap.frequency = stimulus.frequency;
+            self.currentTap.channel = stimulus.channel;
+            self.currentTap.response = ORKdBHLToneAudiometryTapBeforeResponseWindow;
+            
+            const NSTimeInterval toneDuration = [self dBHLToneAudiometryStep].toneDuration;
+            const NSTimeInterval postStimulusDelay = [self dBHLToneAudiometryStep].postStimulusDelay;
+            
+            double delay1 = arc4random_uniform([self dBHLToneAudiometryStep].maxRandomPreStimulusDelay - 1);
+            double delay2 = (double)arc4random_uniform(10)/10;
+            double preStimulusDelay = delay1 + delay2 + 1;
+            [self.audiometryEngine registerPreStimulusDelay:preStimulusDelay];
+            
+            _preStimulusDelayWorkBlock = dispatch_block_create(DISPATCH_BLOCK_INHERIT_QOS_CLASS, ^{
 
-            [_audioGenerator stop];
-        });
-        // adding 0.2 seconds to account for the fadeInDuration which is being set in ORKdBHLToneAudiometryAudioGenerator
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((preStimulusDelay + toneDuration + 0.2) * NSEC_PER_SEC)), dispatch_get_main_queue(), _pulseDurationWorkBlock);
-        
-        _postStimulusDelayWorkBlock = dispatch_block_create(DISPATCH_BLOCK_INHERIT_QOS_CLASS, ^{
+                if ([[self audiometryEngine] respondsToSelector:@selector(registerStimulusPlayback)]) {
+                    [self.audiometryEngine registerStimulusPlayback];
+                }
+                [_audioGenerator playSoundAtFrequency:stimulus.frequency onChannel:stimulus.channel dBHL:stimulus.level];
+                self.currentTap.response = ORKdBHLToneAudiometryTapOnResponseWindow;
+            });
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(preStimulusDelay * NSEC_PER_SEC)), dispatch_get_main_queue(), _preStimulusDelayWorkBlock);
+            
+            _pulseDurationWorkBlock = dispatch_block_create(DISPATCH_BLOCK_INHERIT_QOS_CLASS, ^{
 
-            self.currentTap.response = ORKdBHLToneAudiometryNoTapOnResponseWindow;
-            [self logCurrentTap];
-                        
-            [self.audiometryEngine registerResponse:NO];
-            [self nextTrial];
-        });
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((preStimulusDelay + toneDuration + postStimulusDelay) * NSEC_PER_SEC)), dispatch_get_main_queue(), _postStimulusDelayWorkBlock);
-    }];
+                [_audioGenerator stop];
+            });
+            // adding 0.2 seconds to account for the fadeInDuration which is being set in ORKdBHLToneAudiometryAudioGenerator
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((preStimulusDelay + toneDuration + 0.2) * NSEC_PER_SEC)), dispatch_get_main_queue(), _pulseDurationWorkBlock);
+            
+            _postStimulusDelayWorkBlock = dispatch_block_create(DISPATCH_BLOCK_INHERIT_QOS_CLASS, ^{
+
+                self.currentTap.response = ORKdBHLToneAudiometryNoTapOnResponseWindow;
+                [self logCurrentTap];
+                            
+                [self.audiometryEngine registerResponse:NO];
+                [self nextTrial];
+            });
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((preStimulusDelay + toneDuration + postStimulusDelay) * NSEC_PER_SEC)), dispatch_get_main_queue(), _postStimulusDelayWorkBlock);
+        }];
+    }
 }
 
 - (void)nextTrial {
@@ -483,20 +485,20 @@
     return [[self dBHLToneAudiometryStep].headphoneType uppercaseString];
 }
 
-- (void)bluetoothModeChanged:(ORKBluetoothMode)bluetoothMode {
-    if ([[[self dBHLToneAudiometryStep].headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsPro] ||
-        [[[self dBHLToneAudiometryStep].headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsProGen2] ||
-        [[[self dBHLToneAudiometryStep].headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMax]) {
-        if (bluetoothMode != ORKBluetoothModeNoiseCancellation) {
-            [self showAlert];
-        }
-    }
-}
+//- (void)bluetoothModeChanged:(ORKBluetoothMode)bluetoothMode {
+//    if ([[[self dBHLToneAudiometryStep].headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsPro] ||
+//        [[[self dBHLToneAudiometryStep].headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsProGen2] ||
+//        [[[self dBHLToneAudiometryStep].headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMax]) {
+//        if (bluetoothMode != ORKBluetoothModeNoiseCancellation) {
+//            [self showAlert];
+//        }
+//    }
+//}
 
 - (void)headphoneTypeDetected:(nonnull ORKHeadphoneTypeIdentifier)headphoneType vendorID:(nonnull NSString *)vendorID productID:(nonnull NSString *)productID deviceSubType:(NSInteger)deviceSubType isSupported:(BOOL)isSupported {
-//    if (![headphoneType isEqualToString:[self headphoneType]]) {
-//        [self showAlert];
-//    }
+    if (![headphoneType isEqualToString:[self headphoneType]]) {
+        [self showAlert];
+    }
 }
 
 - (void)oneAirPodRemoved {
