@@ -164,5 +164,4 @@
 #import <ResearchKit/ORKAVJournalingTaskViewController.h>
 #import <ResearchKit/ORKAVJournalingResult.h>
 #import <ResearchKit/ORKBLEScanPeripheralsStepResult.h>
-#import <ResearchKit/ORKNewAudiometryMinimizer.h>
 #endif

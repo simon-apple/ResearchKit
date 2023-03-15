@@ -34,6 +34,8 @@
 #import "ORKAudiometryStimulus.h"
 #import "ORKdBHLToneAudiometryScreenerStep.h"
 
+#define ORKSimulatedHLValue 15.0
+
 @interface ORKAudiometryTransition: NSObject
 
 @property (nonatomic, assign) float userInitiated;
@@ -85,7 +87,7 @@
     ORKAudiometryStimulus *_nextStimulus;
     BOOL _preStimulusResponse;
     
-    ORKAudiometryStateBlock _statusProvider;
+    ORKAudiometryStatusBlock _statusProvider;
     
     NSMutableArray<ORKdBHLToneAudiometryMOAInteraction *> *_interactions;
 }
@@ -156,6 +158,7 @@
 
 - (void)setTimestampProvider:(ORKAudiometryTimestampProvider)provider {
     _getTimestamp = provider;
+    _resultUnit.startOfUnitTimeStamp = _getTimestamp();
 }
 
 - (ORKAudiometryStimulus *)nextStimulus {
@@ -199,7 +202,7 @@
     return [_arrayOfResultSamples copy];
 }
 
-- (void)nextStatus:(ORKAudiometryStateBlock)block {
+- (void)nextStatus:(ORKAudiometryStatusBlock)block {
     _statusProvider = nil;
 
     if (testEnded) {
@@ -235,7 +238,7 @@
     ORKdBHLToneAudiometryStep *defaultStep = [[ORKdBHLToneAudiometryStep alloc] initWithIdentifier:[NSUUID UUID].UUIDString];
     
     _maxNumberOfTransitionsPerFreq = 1;
-    _freqLoopList = step.frequencyList;
+    _freqLoopList =  step.frequencyList;
     _stepUpMissingList = @[ [NSNumber numberWithDouble:defaultStep.dBHLStepUpSizeFirstMiss],
                             [NSNumber numberWithDouble:defaultStep.dBHLStepUpSizeSecondMiss],
                             [NSNumber numberWithDouble:defaultStep.dBHLStepUpSizeThirdMiss] ];
@@ -264,6 +267,7 @@
         _transitionsDictionary = [NSMutableDictionary dictionary];
         if (_resultSample) {
            _resultSample.units = [_arrayOfResultUnits copy];
+           _resultSample.allInteractions = _interactions;
         }
         _arrayOfResultUnits = [NSMutableArray array];
         _prevFreq = [freq doubleValue];
@@ -288,7 +292,7 @@
     }
     
     _resultUnit = [ORKdBHLToneAudiometryUnit new];
-    _resultUnit.dBHLValue = _currentdBHL;
+//    _resultUnit.dBHLValue = _currentdBHL;
     _resultUnit.startOfUnitTimeStamp = _getTimestamp();
     [_arrayOfResultUnits addObject:_resultUnit];
     
@@ -326,6 +330,7 @@
         _transitionsDictionary = [NSMutableDictionary dictionary];
         if (_resultSample) {
            _resultSample.units = [_arrayOfResultUnits copy];
+           _resultSample.allInteractions = _interactions;
         }
         _arrayOfResultUnits = [NSMutableArray array];
         _prevFreq = [freq doubleValue];
@@ -333,7 +338,6 @@
         _resultSample.channel = _audioChannel;
         _resultSample.frequency = [freq doubleValue];
         _resultSample.calculatedThreshold = ORKInvalidDBHLValue;
-        _resultSample.allInteractions = [_interactions copy];
         [_arrayOfResultSamples addObject:_resultSample];
     } else {
         _numberOfTransitionsPerFreq += 1;
@@ -351,7 +355,7 @@
     }
     
     _resultUnit = [ORKdBHLToneAudiometryUnit new];
-    _resultUnit.dBHLValue = _currentdBHL;
+//    _resultUnit.dBHLValue = _currentdBHL;
     _resultUnit.startOfUnitTimeStamp = _getTimestamp();
     [_arrayOfResultUnits addObject:_resultUnit];
     
@@ -392,7 +396,7 @@
         if (currentTransition) {
             currentTransition.userInitiated -= 1;
         }
-        _resultUnit.timeoutTimeStamp = _getTimestamp();
+//        _resultUnit.timeoutTimeStamp = _getTimestamp();
         _currentTestIndex += 1;
         [self estimatedBHLForFrequency:_freqLoopList[_indexOfFreqLoopList]];
     }
@@ -408,13 +412,7 @@
         currentTransitionObject.userInitiated -= 1;
     } else if ([self validateResultFordBHL:_currentdBHL]) {
 #if SIMULATE_HL
-        float low_bound = -15;
-        float high_bound = 15;
-        float rndValue = (((float)arc4random()/0x100000000)*(high_bound-low_bound)+low_bound);
-        
-        double ndbHL = _currentdBHL - rndValue;
-        
-        _resultSample.calculatedThreshold = ndbHL;
+        _resultSample.calculatedThreshold = _currentdBHL - [self getRandomFloat];
 #else
         _resultSample.calculatedThreshold = _currentdBHL;
 #endif
@@ -457,13 +455,7 @@
         currentTransitionObject.userInitiated -= 1;
     } else {
 #if SIMULATE_HL
-        float low_bound = -15;
-        float high_bound = 15;
-        float rndValue = (((float)arc4random()/0x100000000)*(high_bound-low_bound)+low_bound);
-        
-        double ndbHL = _currentdBHL - rndValue;
-        
-        _resultSample.calculatedThreshold = ndbHL;
+        _resultSample.calculatedThreshold = _currentdBHL - [self getRandomFloat];
 #else
         _resultSample.calculatedThreshold = _currentdBHL;
 #endif
@@ -487,6 +479,14 @@
     return;
 }
 
+- (float)getRandomFloat {
+    float low_bound = -ORKSimulatedHLValue;
+    float high_bound = ORKSimulatedHLValue;
+    float rndValue = (((float)arc4random()/0x100000000)*(high_bound-low_bound)+low_bound);
+    
+    return rndValue;
+}
+
 - (BOOL)validateResultFordBHL:(float)dBHL {
     NSNumber *currentKey = [NSNumber numberWithFloat:_currentdBHL];
     ORKAudiometryTransition *currentTransitionObject = [_transitionsDictionary objectForKey:currentKey];
@@ -496,13 +496,7 @@
             if (currentTransitionObject.totalTransitions == 2) {
                 if (currentTransitionObject.userInitiated/currentTransitionObject.totalTransitions == 1.0) {
                     #if SIMULATE_HL
-                    float low_bound = -15;
-                    float high_bound = 15;
-                    float rndValue = (((float)arc4random()/0x100000000)*(high_bound-low_bound)+low_bound);
-        
-                    double ndbHL = _currentdBHL - rndValue;
-        
-                    _resultSample.calculatedThreshold = ndbHL;
+                    _resultSample.calculatedThreshold = _currentdBHL - [self getRandomFloat];
                     #else
                     _resultSample.calculatedThreshold = _currentdBHL;
                     #endif
@@ -512,13 +506,7 @@
                 }
             } else {
                 #if SIMULATE_HL
-                float low_bound = -15;
-                float high_bound = 15;
-                float rndValue = (((float)arc4random()/0x100000000)*(high_bound-low_bound)+low_bound);
-        
-                double ndbHL = _currentdBHL - rndValue;
-        
-                _resultSample.calculatedThreshold = ndbHL;
+                _resultSample.calculatedThreshold = _currentdBHL - [self getRandomFloat];
                 #else
                 _resultSample.calculatedThreshold = _currentdBHL;
                 #endif
@@ -527,13 +515,7 @@
         }
     } else if (_minimumThresholdCounter > 2) {
         #if SIMULATE_HL
-        float low_bound = -15;
-        float high_bound = 15;
-        float rndValue = (((float)arc4random()/0x100000000)*(high_bound-low_bound)+low_bound);
-        
-        double ndbHL = _currentdBHL - rndValue;
-        
-        _resultSample.calculatedThreshold = ndbHL;
+        _resultSample.calculatedThreshold = _currentdBHL - [self getRandomFloat];
         #else
         _resultSample.calculatedThreshold = _currentdBHL;
         #endif

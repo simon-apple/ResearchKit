@@ -34,27 +34,39 @@
 import Accelerate
 import Foundation
 
+public struct ORKNewAudiometryState {
+    public let currentTone: ORKAudiometryStimulus?
+    public let responses: [(tone: ORKAudiometryStimulus, response: Bool)]
+    public let deletedTones: [(tone: ORKAudiometryStimulus, originalIndex: Int)]
+    public let uncoveredInitialSamplingFrequencies: [Double]
+    public let previousAudiogram: [Double: Double]?
+}
+
 @available(iOS 14, *)
 @objc public class ORKNewAudiometry: NSObject, ORKAudiometryProtocol {
     public var timestampProvider: ORKAudiometryTimestampProvider = { 0 }
     
     @objc public var initialSampleEnded: Bool = false
     public var testEnded: Bool = false {
-        didSet { stateDidChange() }
+        didSet { statusDidChange() }
     }
     
-    public var theta = Vector<Double>(elements: [1, 1])
-    public var xSample = Matrix<Double>(elements: [], rows: 0, columns: 2)
-    public var ySample = Matrix<Double>(elements: [], rows: 0, columns: 1)
-    public var deleted = Matrix<Double>(elements: [], rows: 0, columns: 2)
-
-    public let allFrequencies: [Double]
-    public var initialSamples = [Bool]()
     @objc public var previousAudiogram: [Double: Double] = [:] {
         didSet { didSetPreviousAudiogram() }
     }
 
-    private let optmizer = ORKNewAudiometryMinimizer()
+    public var state: ORKNewAudiometryState {
+        get { getCurrentState() }
+        set { setState(newValue) }
+    }
+    
+    public let allFrequencies: [Double]
+    public var theta = Vector<Double>(elements: [30, 30])
+    public var xSample = Matrix<Double>(elements: [], rows: 0, columns: 2)
+    public var ySample = Matrix<Double>(elements: [], rows: 0, columns: 1)
+    public var deleted = Matrix<Double>(elements: [], rows: 0, columns: 3)
+
+    public var initialSamples = [Bool]()
     private let kernelLenght: Double
     private let maxSampleCount = 70
     private var lastProgress: Float = 0.0
@@ -63,9 +75,9 @@ import Foundation
     fileprivate var results = [Double: Double]()
     fileprivate var preStimulusResponse = true
     
-    fileprivate var statusProvider: ORKAudiometryStateBlock?
+    fileprivate var statusProvider: ORKAudiometryStatusBlock?
     fileprivate var stimulus: ORKAudiometryStimulus? {
-        didSet { stateDidChange() }
+        didSet { statusDidChange() }
     }
 
     // Settings
@@ -172,7 +184,7 @@ import Foundation
         lastProgress = progressReport
     }
         
-    public func nextStatus(_ block: @escaping ORKAudiometryStateBlock) {
+    public func nextStatus(_ block: @escaping ORKAudiometryStatusBlock) {
         statusProvider = nil
 
         if testEnded {
@@ -184,7 +196,7 @@ import Foundation
         }
     }
     
-    private func stateDidChange() {
+    private func statusDidChange() {
         guard let provider = statusProvider else { return }
         DispatchQueue.main.async { [weak self] in
             self?.nextStatus(provider)
@@ -227,10 +239,16 @@ import Foundation
         
         if !nextInitialSample() {
             // Check if initial sampling is invalid
-            if (!initialSamples.isEmpty &&
-                (initialSamples.allSatisfy { $0 } || initialSamples.allSatisfy { !$0 })) {
-                testEnded = true
-                return
+            if !initialSamples.isEmpty {
+                if initialSamples.allSatisfy({ $0 }) {
+                    results = Dictionary(uniqueKeysWithValues: allFrequencies.map { ($0, minLevel) })
+                    testEnded = true
+                    return
+                } else if initialSamples.allSatisfy({ !$0 }) {
+                    results = Dictionary(uniqueKeysWithValues: allFrequencies.map { ($0, maxLevel) })
+                    testEnded = true
+                    return
+                }
             }
         
             initialSampleEnded = true
@@ -238,7 +256,6 @@ import Foundation
             DispatchQueue.global(qos: .userInitiated).async { [weak self] in
                 guard let self = self else { return }
                 
-                self.theta = self.fit()
                 let coverageMatrix = self.checkCoverage()
                 self.updateProgress(with: coverageMatrix)
                 let shouldEndTest = !self.nextSample(with: coverageMatrix)
@@ -323,6 +340,67 @@ public extension ORKNewAudiometry {
 
 @available(iOS 14, *)
 extension ORKNewAudiometry {
+    func getCurrentState() -> ORKNewAudiometryState {
+        let channel = self.channel
+        
+        let tones = xSample.rows.map {
+            let row = Array($0)
+            return ORKAudiometryStimulus(frequency: row[0], level: row[1], channel: channel)
+        }
+        let responses = ySample.rows.map {
+            let row = Array($0)
+            return row[0] == 1.0 ? true : false
+        }
+        
+        let toneResponses = zip(tones, responses)
+            .map { ($0, $1) }
+        
+        let deletedTones = Array(deleted.rows).map {
+            let row = Array($0)
+            let deletedTone = ORKAudiometryStimulus(frequency: row[0], level: row[1], channel: channel)
+            return (deletedTone, Int(row[2]))
+        }
+        
+        return ORKNewAudiometryState(currentTone: stimulus,
+                                  responses: toneResponses,
+                                  deletedTones: deletedTones,
+                                  uncoveredInitialSamplingFrequencies: testFs.elements,
+                                  previousAudiogram: previousAudiogram)
+    }
+    
+    func setState(_ state: ORKNewAudiometryState) {
+        stimulus = state.currentTone
+        testFs = state.uncoveredInitialSamplingFrequencies.asVector()
+        xSample = Matrix(rows: state.responses.map { [$0.tone.frequency, $0.tone.level] })
+        ySample = Matrix(rows: state.responses.map { [$0.response ? 1.0 : 0.0] })
+        deleted = Matrix(rows: state.deletedTones.map { [$0.tone.frequency, $0.tone.level, Double($0.originalIndex)] })
+        initialSamples = state.responses.map { $0.response }
+
+        if testFs.isEmpty {
+            let sampleFrequencies = xSample.getColumn(0).elements.map { round(hz($0)) }
+            let firstNonInitialSample = sampleFrequencies.firstIndex { !allFrequencies.contains($0) }
+            initialSamples = Array(initialSamples.prefix(upTo: firstNonInitialSample ?? initialSamples.count))
+            initialSampleEnded = true
+            
+            if stimulus == nil {
+                let coverageMatrix = self.checkCoverage()
+                self.updateProgress(with: coverageMatrix)
+                let shouldEndTest = !self.nextSample(with: coverageMatrix)
+
+                if shouldEndTest {
+                    self.lastProgress = 1.0
+                    self.finalSampling()
+                    self.testEnded = true
+                }
+            }
+        } else {
+            if let stateAudiogram = state.previousAudiogram, !stateAudiogram.isEmpty {
+                previousAudiogram = stateAudiogram
+            }
+        }
+        statusDidChange()
+    }
+
     func didSetPreviousAudiogram() {
         if !previousAudiogram.isEmpty, Set(previousAudiogram.keys).isSuperset(of: allFrequencies) {
             _ = nextInitialSampleFromAudiogram()
@@ -551,7 +629,6 @@ extension ORKNewAudiometry {
                                                    yValues: fitLevels,
                                                    xPoint: bark(freq))
         }
-        print("Results: \(resultsSimple)")
         
         let frequencies = Array(Set(interpolatedFreqs + allFrequencies + extraFrequencies)).sorted()
         for freq in (frequencies) {
@@ -774,20 +851,17 @@ public extension ORKNewAudiometry {
         }
         
         // delete point(s) from sample and record
-        let toDelete = xSample.gatherRows(idxToDelete)
         let newXSample = xSample.filterRows(idxToDelete)
         let newYSample = ySample.filterRows(idxToDelete)
-        
+        let toDelete = xSample.gatherRows(idxToDelete)
+            .appendingColumn(idxToDelete.map { Double($0 + deleted.count) }.asVector())
+
         return (newXSample, newYSample, toDelete)
     }
 }
 
 @available(iOS 14, *)
 extension ORKNewAudiometry {
-    func fit() -> Vector<Double> {
-        return [30, 30].asVector()
-    }
-    
     func getFit(_ grid_x1: Matrix<Double>,
                 _ grid_x2: Matrix<Double>,
                 _ prob_matrix: Matrix<Double>) -> Matrix<Double> {
@@ -822,27 +896,6 @@ extension ORKNewAudiometry {
 
 @available(iOS 14, *)
 extension ORKNewAudiometry {
-    public static func nllFn(_ theta: Vector<Double>,
-                             _ x: Matrix<Double>,
-                             _ t: Matrix<Double>,
-                             _ kernelLenght: Double) -> Double {
-        let t = t.reshaped(rows: -1, columns: 1)
-        let k_a = k(x, theta, length: kernelLenght)
-        let k_a_inv = k_a.inv()
-        let a_h = posteriorMode(x, t, k_a).reshaped(rows: -1, columns: 1)
-        let w = w(a_h.asVector())
-        
-        let ll1 = -0.5 * a_h.transposed() * k_a_inv * a_h
-        let ll2 = ll1 - 0.5 * k_a.slogdet().determinant
-        let ll3 = ll2 - 0.5 * (w + k_a_inv).slogdet().determinant
-        
-        let exp = Matrix.exp(a_h - (a_h.elements.max() ?? 0.0))
-        let log = Matrix.log(1.0 + exp)
-        let ll = ll3[0, 0] + (t.asVector() * a_h.asVector()) - log.sum()
-
-        return -ll
-    }
-    
     static func posteriorMode(_ x: Matrix<Double>,
                               _ t: Matrix<Double>,
                               _ k_a: Matrix<Double>,

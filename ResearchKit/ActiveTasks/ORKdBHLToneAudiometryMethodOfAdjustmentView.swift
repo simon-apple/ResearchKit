@@ -158,7 +158,7 @@ struct ORKdBHLToneAudiometryMethodOfAdjustmentView: View {
     }
     
     var frequencyText: String {
-        return "Frequency \(currentFrequency) of \(viewModel.numFrequencies)"
+        return "Frequency \(min(currentFrequency, viewModel.numFrequencies)) of \(viewModel.numFrequencies)"
     }
     
     func progressLabel() -> some View {
@@ -183,7 +183,7 @@ struct ORKdBHLToneAudiometryMethodOfAdjustmentView: View {
             print(viewModel.hasMadeChanges)
         }
         
-        if (currentFrequency < viewModel.numFrequencies) {
+        if (currentFrequency <= viewModel.numFrequencies) {
             currentFrequency += 1
         }
     }
@@ -222,9 +222,8 @@ struct StepperView: View {
     func stepperButton(isIncrement: Bool) -> some View {
         VStack {
             Button {
-                print("tap")
                 if (self.isPressing) {
-                    self.isPressing.toggle()
+                    self.isPressing = false
                     self.timer?.invalidate()
                 } else {
                     sourceOfChange = .stepper
@@ -246,10 +245,14 @@ struct StepperView: View {
             Text(isIncrement ? "Louder" : "Quieter")
                 .font(.system(size: 18))
                 .foregroundColor(Color.blue)
-            
         }
-        .simultaneousGesture(LongPressGesture(minimumDuration: 0.1)
+        .simultaneousGesture(LongPressGesture(minimumDuration: 0.2)
             .onEnded { _ in
+                if (isIncrement) {
+                    onIncrement?()
+                } else {
+                    onDecrement?()
+                }
                 self.isPressing = true
                 self.timer = Timer.scheduledTimer(withTimeInterval: 0.25, repeats: true, block: { _ in
                     sourceOfChange = .stepper
