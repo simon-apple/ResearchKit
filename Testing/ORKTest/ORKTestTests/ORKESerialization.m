@@ -1176,8 +1176,6 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(usePicker, NSNumber, NSObject, YES, nil, nil), // OK
                     PROPERTY(useSlider, NSNumber, NSObject, YES, nil, nil), // OK
                     PROPERTY(isMultiStep, NSNumber, NSObject, YES, nil, nil), // OK
-                    PROPERTY(minimumdBHL, NSNumber, NSObject, YES, nil, nil), // OK
-                    PROPERTY(maximumdBHL, NSNumber, NSObject, YES, nil, nil), // OK
                     PROPERTY(frequencyList, NSArray, NSObject, YES, nil, nil),
                     })),
            ENTRY(ORKHolePegTestPlaceStep,

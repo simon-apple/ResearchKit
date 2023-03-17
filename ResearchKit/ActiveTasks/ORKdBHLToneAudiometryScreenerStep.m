@@ -42,6 +42,7 @@
 #define ORKdBHLToneAudiometryTaskdBHLRateDown 2.5
 #define ORKdBHLToneAudiometryTaskOctaveRate 0
 #define ORKdBHLToneAudiometryTaskdBHLMinimumThreshold -10.0
+#define ORKdBHLToneAudiometryTaskdBHLMaximumThreshold 75
 #define ORKdBHLToneAudiometryTaskNumberOfInversions 8
 #define ORKdBHLToneAudiometryTaskStepSize 5.0
 
@@ -64,19 +65,17 @@
     self.dBHLRateUp = ORKdBHLToneAudiometryTaskdBHLRateUp;
     self.dBHLRateDown = ORKdBHLToneAudiometryTaskdBHLRateDown;
     self.dBHLMinimumThreshold = ORKdBHLToneAudiometryTaskdBHLMinimumThreshold;
+    self.dBHLMaximumThreshold = ORKdBHLToneAudiometryTaskdBHLMaximumThreshold;
     self.numberOfInversions = ORKdBHLToneAudiometryTaskNumberOfInversions;
     self.toneDuration = ORKdBHLToneAudiometryTaskToneDuration;
     self.postStimulusDelay = ORKdBHLToneAudiometryTaskTonePauseDuration;
     self.octaveRate = ORKdBHLToneAudiometryTaskOctaveRate;
     self.stepSize = ORKdBHLToneAudiometryTaskStepSize;
     
-    self.frequencyList = @[@1000.0, @2000.0, @3000.0, @4000.0, @8000.0, @1000.0, @500.0, @250.0];
+    self.frequencyList = @[@1000.0, @2000.0, @3000.0, @4000.0, @6000.0, @8000.0, @500.0];
 
     self.stepDuration = CGFLOAT_MAX;
     self.shouldShowDefaultTimer = NO;
-    
-    self.minimumdBHL = -10;
-    self.maximumdBHL = 75;
     
     // TODO: review the final parameters
     self.isMOA = YES;

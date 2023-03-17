@@ -68,10 +68,6 @@ ORK_CLASS_AVAILABLE
 
 @property (nonatomic, assign) BOOL isMOA;
 
-@property (nonatomic, assign) NSUInteger minimumdBHL;
-
-@property (nonatomic, assign) NSUInteger maximumdBHL;
-
 @property (nonatomic, copy, nullable) NSArray *frequencyList;
 
 @end

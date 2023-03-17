@@ -2181,8 +2181,8 @@ NSString *const ORKdBHLToneAudiometryHeadphoneDetectStepIdentifier = @"dBHL.tone
         step.frequency = 1000;
         step.initialdBHLValue = 30.925;
         
-        step.minimumdBHL = -10;
-        step.maximumdBHL = 75;
+        step.dBHLMinimumThreshold = -10;
+        step.dBHLMaximumThreshold = 75;
         
         
         step.isMOA = YES;
@@ -2207,8 +2207,8 @@ NSString *const ORKdBHLToneAudiometryHeadphoneDetectStepIdentifier = @"dBHL.tone
         step.frequency = 1000;
         step.initialdBHLValue = 30.925;
         
-        step.minimumdBHL = -10;
-        step.maximumdBHL = 75;
+        step.dBHLMinimumThreshold = -10;
+        step.dBHLMaximumThreshold = 75;
         
         step.isMOA = YES;
 
