@@ -77,6 +77,7 @@
     double _dBHLStepDownSize;
     double _dBHLMinimumThreshold;
     double _dBHLMaximumThreshold;
+    double _dBHLCalculatedThreshold;
     int _currentTestIndex;
     int _indexOfFreqLoopList;
     NSUInteger _indexOfStepUpMissingList;
@@ -169,15 +170,12 @@
     ORKdBHLToneAudiometryScreenerStep *dBHLTAStep = [self dBHLToneAudiometryStep];
     
     dBHLTAStep.headphoneType = ORKHeadphoneTypeIdentifierAirPodsProGen2;
-
-    // TODO: - plumb this through properly
-//    _currentdBHL = dBHLTAStep.minimumdBHL;
-//    _dBHLMinimumThreshold = dBHLTAStep.minimumdBHL;
-//    _dBHLMaximumThreshold = dBHLTAStep.maximumdBHL;
     
-    _currentdBHL = 30.925;
-    _dBHLMinimumThreshold = -10;
-    _dBHLMaximumThreshold = 75;
+    _dBHLCalculatedThreshold = dBHLTAStep.dBHLMinimumThreshold;
+    
+    _currentdBHL = dBHLTAStep.initialdBHLValue;
+    _dBHLMinimumThreshold = dBHLTAStep.dBHLMinimumThreshold;
+    _dBHLMaximumThreshold = dBHLTAStep.dBHLMaximumThreshold;
     
     if (self.dBHLToneAudiometryStep.isMOA) {
         _audiometry = [[ORKAudiometry alloc] initWithScreenerStep:self.dBHLToneAudiometryStep];
@@ -286,8 +284,6 @@
 
     _audioGenerator = [[ORKdBHLToneAudiometryPulsedAudioGenerator alloc] initForHeadphoneType:dBHLTAStep.headphoneType pulseMillisecondsDuration:200 pauseMillisecondsDuration:50];
     _audioGenerator.delegate = self;
-//    [_navigationFooterView.continueButton removeTarget:_navigationFooterView action:nil forControlEvents:UIControlEventTouchUpInside];
-//    [_navigationFooterView.continueButton addTarget:self action:@selector(continueButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)receiveNextButtonTappedNotification:(NSNotification *) notification {
@@ -300,7 +296,6 @@
     [super viewDidAppear:animated];
     [self start];
     _navigationFooterView = nil;
-    //_navigationFooterView.continueEnabled = YES;
     [self.dBHLToneAudiometryContentView setProgress:0 animated:YES];
 }
 
@@ -349,8 +344,6 @@
                 }];
                 toneResult.userInfo = @{@"previousAudiogram": previousAudiogram};
             }
-        } else if([_audiometry isKindOfClass:[ORKAudiometry class]]) {
-//            toneResult.dBHLValue =
         }
     }
 
@@ -381,7 +374,7 @@
         [_audiometry registerStimulusPlayback];
         [self resetLevel:sti.level];
         _currentFreq = sti.frequency;
-        NSLog(@"Starting Frequency: %f", dBHLTAStep.frequency);
+        ORK_Log_Debug("Starting Frequency: %f", dBHLTAStep.frequency);
     }];
 }
     
@@ -393,11 +386,9 @@
 }
 
 - (void)didSelected:(float)value {
-//    _navigationFooterView.continueEnabled = YES;
-    
-    if (self.dBHLToneAudiometryStep.dBHLCalculatedThreshold != value) {
+    if (_dBHLCalculatedThreshold != value) {
         [_audioGenerator setCurrentdBHLAndRamp:value];
-        self.dBHLToneAudiometryStep.dBHLCalculatedThreshold = value;
+        _dBHLCalculatedThreshold = value;
         
         if (value > _maxSelectedLevel) {
             _maxSelectedLevel = value;
@@ -490,21 +481,12 @@
 - (void)showAlert {
     if (!_showingAlert) {
         _showingAlert = YES;
-        ORKWeakTypeOf(self) weakSelf = self;
         dispatch_async(dispatch_get_main_queue(), ^{
             [self stopAudio];
             UIAlertController *alertController = [UIAlertController
                                                   alertControllerWithTitle:ORKLocalizedString(@"PACHA_ALERT_TITLE_TASK_INTERRUPTED", nil)
                                                   message:ORKLocalizedString(@"PACHA_ALERT_TEXT_TASK_INTERRUPTED", nil)
                                                   preferredStyle:UIAlertControllerStyleAlert];
-//            UIAlertAction *startOver = [UIAlertAction
-//                                        actionWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE_START_OVER", nil)
-//                                        style:UIAlertActionStyleDefault
-//                                        handler:^(UIAlertAction *action) {
-//                ORKStrongTypeOf(weakSelf) strongSelf = weakSelf;
-//                [[strongSelf taskViewController] flipToPageWithIdentifier:[strongSelf identiferForLastFitTest] forward:NO animated:NO];
-//            }];
-//            [alertController addAction:startOver];
             [alertController addAction:[UIAlertAction
                                         actionWithTitle:@"Finish test"
                                         style:UIAlertActionStyleDefault
@@ -514,7 +496,6 @@
                     [strongDelegate taskViewController:self.taskViewController didFinishWithReason:ORKTaskViewControllerFinishReasonCompleted error:nil];
                 }
             }]];
-            //alertController.preferredAction = startOver;
             [self presentViewController:alertController animated:YES completion:nil];
         });
     }

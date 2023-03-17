@@ -633,15 +633,13 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
 
 #if RK_APPLE_INTERNAL
 - (void)lockDeviceVolume:(float)volume {
-    if (!_hasLockedVolume) {
-        _hasLockedVolume = YES;
-        _lockedVolume = volume;
-        _savedVolume = [[AVAudioSession sharedInstance] outputVolume];
-        
-        [self registerNotifications];
-        
-        [[getAVSystemControllerClass() sharedAVSystemController] setActiveCategoryVolumeTo:_lockedVolume];
-    }
+    _hasLockedVolume = YES;
+    _lockedVolume = volume;
+    _savedVolume = [[AVAudioSession sharedInstance] outputVolume];
+    
+    [self registerNotifications];
+    
+    [[getAVSystemControllerClass() sharedAVSystemController] setActiveCategoryVolumeTo:_lockedVolume];
 }
 
 - (void)saveVolume {
