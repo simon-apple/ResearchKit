@@ -37,7 +37,7 @@
 
 #define ORKdBHLToneAudiometryTaskToneDuration 100
 #define ORKdBHLToneAudiometryTaskTonePauseDuration 100
-#define ORKdBHLToneAudiometryTaskInitialdBHLValue 20.0
+#define ORKdBHLToneAudiometryTaskInitialdBHLValue 30.925
 #define ORKdBHLToneAudiometryTaskdBHLRateUp 2.5
 #define ORKdBHLToneAudiometryTaskdBHLRateDown 2.5
 #define ORKdBHLToneAudiometryTaskOctaveRate 0
@@ -64,7 +64,6 @@
     self.dBHLRateUp = ORKdBHLToneAudiometryTaskdBHLRateUp;
     self.dBHLRateDown = ORKdBHLToneAudiometryTaskdBHLRateDown;
     self.dBHLMinimumThreshold = ORKdBHLToneAudiometryTaskdBHLMinimumThreshold;
-    self.dBHLCalculatedThreshold = self.dBHLMinimumThreshold;
     self.numberOfInversions = ORKdBHLToneAudiometryTaskNumberOfInversions;
     self.toneDuration = ORKdBHLToneAudiometryTaskToneDuration;
     self.postStimulusDelay = ORKdBHLToneAudiometryTaskTonePauseDuration;
@@ -118,7 +117,6 @@
     step.octaveRate = self.octaveRate;
     step.stepSize = self.stepSize;
     step.dBHLMinimumThreshold = self.dBHLMinimumThreshold;
-    step.dBHLCalculatedThreshold = self.dBHLCalculatedThreshold;
     step.numberOfInversions = self.numberOfInversions;
     step.headphoneType = self.headphoneType;
     step.earPreference = self.earPreference;
@@ -138,7 +136,6 @@
         ORK_DECODE_DOUBLE(aDecoder, octaveRate);
         ORK_DECODE_DOUBLE(aDecoder, stepSize);
         ORK_DECODE_DOUBLE(aDecoder, dBHLMinimumThreshold);
-        ORK_DECODE_DOUBLE(aDecoder, dBHLCalculatedThreshold);
         ORK_DECODE_INTEGER(aDecoder, numberOfInversions);
         ORK_DECODE_INTEGER(aDecoder, earPreference);
         ORK_DECODE_OBJ_CLASS(aDecoder, headphoneType, NSString);
@@ -158,7 +155,6 @@
     ORK_ENCODE_DOUBLE(aCoder, octaveRate);
     ORK_ENCODE_DOUBLE(aCoder, stepSize);
     ORK_ENCODE_DOUBLE(aCoder, dBHLMinimumThreshold);
-    ORK_ENCODE_DOUBLE(aCoder, dBHLCalculatedThreshold);
     ORK_ENCODE_INTEGER(aCoder, numberOfInversions);
     ORK_ENCODE_INTEGER(aCoder, earPreference);
     ORK_ENCODE_OBJ(aCoder, headphoneType);
@@ -183,7 +179,6 @@
             && (self.octaveRate == castObject.octaveRate)
             && (self.stepSize == castObject.stepSize)
             && (self.dBHLMinimumThreshold == castObject.dBHLMinimumThreshold)
-            && (self.dBHLCalculatedThreshold == castObject.dBHLCalculatedThreshold)
             && (self.numberOfInversions == castObject.numberOfInversions)
             && (self.earPreference == castObject.earPreference)
             && ORKEqualObjects(self.headphoneType, castObject.headphoneType)

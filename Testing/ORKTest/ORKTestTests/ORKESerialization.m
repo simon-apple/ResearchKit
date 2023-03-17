@@ -1168,7 +1168,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(octaveRate, NSNumber, NSObject, YES, nil, nil),// OK
                     PROPERTY(stepSize, NSNumber, NSObject, YES, nil, nil), // OK
                     PROPERTY(dBHLMinimumThreshold, NSNumber, NSObject, YES, nil, nil),// OK
-                    PROPERTY(dBHLCalculatedThreshold, NSNumber, NSObject, YES, nil, nil), // OK
+                    PROPERTY(dBHLMaximumThreshold, NSNumber, NSObject, YES, nil, nil),// OK
                     PROPERTY(headphoneType, NSString, NSObject, YES, nil, nil), // OK
                     PROPERTY(earPreference, NSNumber, NSObject, YES, nil, nil), // OK
                     PROPERTY(numberOfInversions, NSNumber, NSObject, YES, nil, nil), // OK

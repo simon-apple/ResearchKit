@@ -77,6 +77,7 @@
     double _dBHLStepDownSize;
     double _dBHLMinimumThreshold;
     double _dBHLMaximumThreshold;
+    double _dBHLCalculatedThreshold;
     int _currentTestIndex;
     int _indexOfFreqLoopList;
     NSUInteger _indexOfStepUpMissingList;
@@ -169,15 +170,12 @@
     ORKdBHLToneAudiometryScreenerStep *dBHLTAStep = [self dBHLToneAudiometryStep];
     
     dBHLTAStep.headphoneType = ORKHeadphoneTypeIdentifierAirPodsProGen2;
-
-    // TODO: - plumb this through properly
-//    _currentdBHL = dBHLTAStep.minimumdBHL;
-//    _dBHLMinimumThreshold = dBHLTAStep.minimumdBHL;
-//    _dBHLMaximumThreshold = dBHLTAStep.maximumdBHL;
     
-    _currentdBHL = 30.925;
-    _dBHLMinimumThreshold = -10;
-    _dBHLMaximumThreshold = 75;
+    _dBHLCalculatedThreshold = dBHLTAStep.dBHLMinimumThreshold;
+    
+    _currentdBHL = dBHLTAStep.initialdBHLValue;
+    _dBHLMinimumThreshold = dBHLTAStep.dBHLMinimumThreshold;
+    _dBHLMaximumThreshold = dBHLTAStep.dBHLMaximumThreshold;
     
     if (self.dBHLToneAudiometryStep.isMOA) {
         _audiometry = [[ORKAudiometry alloc] initWithScreenerStep:self.dBHLToneAudiometryStep];
@@ -346,8 +344,6 @@
                 }];
                 toneResult.userInfo = @{@"previousAudiogram": previousAudiogram};
             }
-        } else if([_audiometry isKindOfClass:[ORKAudiometry class]]) {
-//            toneResult.dBHLValue =
         }
     }
 
@@ -390,9 +386,9 @@
 }
 
 - (void)didSelected:(float)value {
-    if (self.dBHLToneAudiometryStep.dBHLCalculatedThreshold != value) {
+    if (_dBHLCalculatedThreshold != value) {
         [_audioGenerator setCurrentdBHLAndRamp:value];
-        self.dBHLToneAudiometryStep.dBHLCalculatedThreshold = value;
+        _dBHLCalculatedThreshold = value;
         
         if (value > _maxSelectedLevel) {
             _maxSelectedLevel = value;
@@ -485,7 +481,6 @@
 - (void)showAlert {
     if (!_showingAlert) {
         _showingAlert = YES;
-        ORKWeakTypeOf(self) weakSelf = self;
         dispatch_async(dispatch_get_main_queue(), ^{
             [self stopAudio];
             UIAlertController *alertController = [UIAlertController

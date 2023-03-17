@@ -54,7 +54,7 @@ ORK_CLASS_AVAILABLE
 
 @property (nonatomic, assign) double dBHLMinimumThreshold;
 
-@property (nonatomic, assign) double dBHLCalculatedThreshold;
+@property (nonatomic, assign) double dBHLMaximumThreshold;
 
 @property (nonatomic, assign) NSUInteger numberOfInversions;
 
