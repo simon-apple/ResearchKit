@@ -52,6 +52,7 @@
 
 
 #import "ORKdBHLToneAudiometryPulsedAudioGenerator.h"
+#import "ORKHelpers_Internal.h"
 
 #if RK_APPLE_INTERNAL
 #import <ResearchKit/ResearchKit-Swift.h>
@@ -74,21 +75,14 @@ NSString * const pulsedFilenameExtension = @"plist";
 
 @interface ORKdBHLToneAudiometryPulsedAudioGenerator () {
 @public
-    AudioComponentInstance _toneUnit;
     AUGraph _mGraph;
     AUNode _outputNode;
     AUNode _mixerNode;
     AudioUnit _mMixer;
-//    double _frequency;
-    double _initialFrequency;
     unsigned long _thetaIndex;
     ORKAudioChannel _activeChannel;
     BOOL _playsStereo;
-    BOOL _rampUp;
-    double _fadeInFactor;
     double _globaldBHL;
-//    NSNumber *_amplitudeGain;
-    NSTimeInterval _fadeInDuration;
     NSDictionary *_sensitivityPerFrequency;
     NSDictionary *_volumeCurve;
     NSDictionary *_retspl;
@@ -96,8 +90,10 @@ NSString * const pulsedFilenameExtension = @"plist";
     int _lastNodeInput;
     
     int _pulseFrameCounter;
-    int _nPulsesOn;
-    int _nPulsesOff;
+    int _nPulsesFramesOn; // pulse duration
+    int _nPulsesFramesOff; // pause duration
+    BOOL _stopAfterPulse; // signal to stop after the next pulse
+    BOOL _pulsesStopped; // indicates the generator stopped after a pulse
 }
 
 @property (atomic, retain) NSNumber *amplitudeGain;
@@ -109,8 +105,9 @@ NSString * const pulsedFilenameExtension = @"plist";
 
 @end
 
+#define PULSE_RAMP_MS 35
 const double ORKdBHLSineWaveToneGeneratorPulsedSampleRateDefault = 44100.0f;
-const int ORKdBHLSineWaveToneGeneratorPulseRampFrames = ORKdBHLSineWaveToneGeneratorPulsedSampleRateDefault/60;
+const int ORKdBHLSineWaveToneGeneratorPulseRampFrames = ORKdBHLSineWaveToneGeneratorPulsedSampleRateDefault/(1000/PULSE_RAMP_MS);
 
 static OSStatus ORKdBHLAudioGeneratorRenderTone(void *inRefCon,
                                                 AudioUnitRenderActionFlags *ioActionFlags,
@@ -120,20 +117,14 @@ static OSStatus ORKdBHLAudioGeneratorRenderTone(void *inRefCon,
                                                 AudioBufferList             *ioData) {
     // Get the tone parameters out of the view controller
     ORKdBHLToneAudiometryPulsedAudioGenerator *audioGenerator = (__bridge ORKdBHLToneAudiometryPulsedAudioGenerator *)inRefCon;
-    double amplitude;
-    double nextAmplitudeGain;
-    
-
-    amplitude = [audioGenerator.amplitudeGain doubleValue];
-    nextAmplitudeGain = [audioGenerator.nextAmplitudeGain doubleValue];
-    
-    //double amplitudeDiff = amplitude - nextAmplitudeGain;
-    
+    double amplitude = [audioGenerator.amplitudeGain doubleValue];
+    double nextAmplitudeGain = [audioGenerator.nextAmplitudeGain doubleValue];
     double theta_increment = audioGenerator.frequency / ORKdBHLSineWaveToneGeneratorPulsedSampleRateDefault;
     unsigned long theta_index = audioGenerator->_thetaIndex;
-
-    double fadeInFactor = audioGenerator->_fadeInFactor;
     double pulseFrameCounter = audioGenerator->_pulseFrameCounter;
+    
+    BOOL stopAfterPulse = audioGenerator->_stopAfterPulse;
+    BOOL stopped = audioGenerator->_pulsesStopped;
     
     // This is a mono tone generator so we only need the first buffer
     Float32 *bufferActive    = (Float32 *)ioData->mBuffers[audioGenerator->_activeChannel].mData;
@@ -141,64 +132,57 @@ static OSStatus ORKdBHLAudioGeneratorRenderTone(void *inRefCon,
     
     // Generate the samples
     for (UInt32 frame = 0; frame < inNumberFrames; frame++) {
-        if (audioGenerator->_rampUp) {
-            fadeInFactor += 1.0 / (ORKdBHLSineWaveToneGeneratorPulsedSampleRateDefault * audioGenerator->_fadeInDuration);
-            if (fadeInFactor >= 1) {
-                fadeInFactor = 1;
-            }
-        } else {
-            fadeInFactor -= 1.0 / (ORKdBHLSineWaveToneGeneratorPulsedSampleRateDefault * audioGenerator->_fadeInDuration);
-            if (fadeInFactor <= 0) {
-                fadeInFactor = 0;
-            }
-        }
-        
         double theta = theta_index * theta_increment;
-        double bufferValue = sin(theta * 2.0 * M_PI) * amplitude * pow(10, 2.0 * fadeInFactor - 2);
+        double bufferValue = sin(theta * 2.0 * M_PI) * amplitude;
         theta_index++;
-
-        if (audioGenerator->_nPulsesOff > 0) { //Pulsed tone
-            pulseFrameCounter++;
-            if (pulseFrameCounter > 0) { //Positive is the "pulse" phase, all ramp-up and ramp-down happens at this phase
-                if (pulseFrameCounter <= audioGenerator->_nPulsesOn) { //Check if the pulse are still going on
+        pulseFrameCounter++;
+        
+        if (!stopped) {
+            if (pulseFrameCounter > 0) { //Positive is the "pulse" phase, ramp-up happens at this phase
+                if (pulseFrameCounter <= audioGenerator->_nPulsesFramesOn) { //Check if the pulse are still going on
                     if (pulseFrameCounter < ORKdBHLSineWaveToneGeneratorPulseRampFrames) { //Ramp-up
                         bufferActive[frame] = bufferValue * (pulseFrameCounter / (double)ORKdBHLSineWaveToneGeneratorPulseRampFrames);
-                    } else if (pulseFrameCounter > (audioGenerator->_nPulsesOn - ORKdBHLSineWaveToneGeneratorPulseRampFrames)) { //Ramp-down
-                        bufferActive[frame] = bufferValue * ((audioGenerator->_nPulsesOn - pulseFrameCounter) / (double)ORKdBHLSineWaveToneGeneratorPulseRampFrames);
                     } else { //No ramp phase, just use plain bufferValue
                         bufferActive[frame] = bufferValue;
                     }
-                } else { //Pulse ended, reset pulseFrameCounter to -(_nPulsesOff)
-                    pulseFrameCounter = -(audioGenerator->_nPulsesOff);
-                    bufferActive[frame] = 0;
+                } else { //Pulse ended, ramp-down happens at this phase
+                    if (pulseFrameCounter < (audioGenerator->_nPulsesFramesOn + ORKdBHLSineWaveToneGeneratorPulseRampFrames)) { //Ramp-down
+                        bufferActive[frame] = bufferValue * ((audioGenerator->_nPulsesFramesOn + ORKdBHLSineWaveToneGeneratorPulseRampFrames - pulseFrameCounter) / (double)ORKdBHLSineWaveToneGeneratorPulseRampFrames);
+                    } else { // Ramp-down ended, reset pulseFrameCounter to -(_nPulsesOff-ORKdBHLSineWaveToneGeneratorPulseRampFrames)
+                        pulseFrameCounter = -(audioGenerator->_nPulsesFramesOff - ORKdBHLSineWaveToneGeneratorPulseRampFrames);
+                        bufferActive[frame] = 0;
+                        
+                        if (stopAfterPulse) {
+                            stopped = YES;
+                        }
+                    }
                 }
             } else { //Negative pulseFrameCounter means we are in the pause
                 bufferActive[frame] = 0;
+                
                 if (nextAmplitudeGain != amplitude) {
                     amplitude = nextAmplitudeGain;
                     audioGenerator.amplitudeGain = audioGenerator.nextAmplitudeGain;
-                    audioGenerator->_fadeInFactor = 0;
-                    audioGenerator->_fadeInDuration = 0.2;
-                    audioGenerator->_rampUp = YES;
+                    audioGenerator->_pulsesStopped = NO;
+                    audioGenerator->_stopAfterPulse = NO;
                     audioGenerator->_thetaIndex = 0;
                 }
             }
-        } else { //Not pulsed tone, just use plain bufferValue
-            bufferActive[frame] = bufferValue;
+        } else { //Stopped, dont add any more pulses
+            bufferActive[frame] = 0;
         }
         
         if (audioGenerator->_playsStereo) {
-            bufferNonActive[frame] = bufferValue;
+            bufferNonActive[frame] = bufferActive[frame];
         } else {
             bufferNonActive[frame] = 0;
         }
-        
     }
     
     // Store the thetaIndex back in the view controller
     audioGenerator->_thetaIndex = theta_index;
-    audioGenerator->_fadeInFactor = fadeInFactor;
     audioGenerator->_pulseFrameCounter = pulseFrameCounter;
+    audioGenerator->_pulsesStopped = stopped;
     
     return noErr;
 }
@@ -226,9 +210,7 @@ static OSStatus ORKdBHLAudioGeneratorZeroTone(void *inRefCon,
     return noErr;
 }
 
-@implementation ORKdBHLToneAudiometryPulsedAudioGenerator {
-    NSTimer *_timer;
-}
+@implementation ORKdBHLToneAudiometryPulsedAudioGenerator
 
 - (instancetype)initForHeadphoneType:(ORKHeadphoneTypeIdentifier)headphoneType pulseMillisecondsDuration:(NSInteger)pulseDuration pauseMillisecondsDuration:(NSInteger)pauseDuration {
     self = [super init];
@@ -236,8 +218,8 @@ static OSStatus ORKdBHLAudioGeneratorZeroTone(void *inRefCon,
         _lastNodeInput = 0;
         _sweepDirectionUp = YES;
         _pulseFrameCounter = 0;
-        _nPulsesOn = ORKdBHLSineWaveToneGeneratorPulsedSampleRateDefault / (1000.0 / (double)pulseDuration);
-        _nPulsesOff = ORKdBHLSineWaveToneGeneratorPulsedSampleRateDefault / (1000.0 / (double)pauseDuration);
+        _nPulsesFramesOn = ORKdBHLSineWaveToneGeneratorPulsedSampleRateDefault / (1000.0 / (double)pulseDuration);
+        _nPulsesFramesOff = ORKdBHLSineWaveToneGeneratorPulsedSampleRateDefault / (1000.0 / (double)pauseDuration);
 
         NSString *headphoneTypeUppercased = [headphoneType uppercaseString];
         ORKHeadphoneTypeIdentifier headphoneTypeIdentifier;
@@ -289,8 +271,6 @@ static OSStatus ORKdBHLAudioGeneratorZeroTone(void *inRefCon,
     }
     
     _mMixer = nil;
-    [_timer invalidate];
-    _timer = nil;
 }
 
 - (void)playSoundAtFrequency:(double)playFrequency
@@ -298,11 +278,10 @@ static OSStatus ORKdBHLAudioGeneratorZeroTone(void *inRefCon,
                         dBHL:(double)dBHL
 {
     self.frequency = playFrequency;
-    _initialFrequency = playFrequency;
     _activeChannel = playChannel;
-    _fadeInFactor = 0;
-    _fadeInDuration = 0.2;
-    _rampUp = YES;
+    _pulseFrameCounter = 0;
+    _stopAfterPulse = NO;
+    _pulsesStopped = NO;
     _globaldBHL = dBHL;
     _thetaIndex = 0;
     self.amplitudeGain = [self dbHLtoAmplitude:dBHL atFrequency:playFrequency];
@@ -319,7 +298,7 @@ static OSStatus ORKdBHLAudioGeneratorZeroTone(void *inRefCon,
     if (_frequency != 0 && _globaldBHL != value) {
         _globaldBHL = value;
         self.amplitudeGain = [self dbHLtoAmplitude:_globaldBHL atFrequency:self.frequency];
-        NSLog(@"setCurrentdBHL: %f", value);
+        ORK_Log_Debug("setCurrentdBHL: %f", value);
     }
 }
 
@@ -428,9 +407,10 @@ static OSStatus ORKdBHLAudioGeneratorZeroTone(void *inRefCon,
 
 - (void)stop {
     if (_mGraph) {
-        _rampUp = NO;
+        _stopAfterPulse = YES;
         int nodeInput = (_lastNodeInput % 2) + 1;
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(_fadeInDuration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        double stopDelay = (double)(_nPulsesFramesOn + _nPulsesFramesOff) / ORKdBHLSineWaveToneGeneratorPulsedSampleRateDefault;
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(stopDelay * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             if (_mGraph) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     AUGraphDisconnectNodeInput(_mGraph, _mixerNode, nodeInput);
@@ -439,9 +419,6 @@ static OSStatus ORKdBHLAudioGeneratorZeroTone(void *inRefCon,
             }
         });
     }
-    
-    [_timer invalidate];
-    _timer = nil;
 }
 
 - (double)dBToAmplitude:(double)dB {
@@ -452,57 +429,12 @@ static OSStatus ORKdBHLAudioGeneratorZeroTone(void *inRefCon,
     return [[AVAudioSession sharedInstance] outputVolume];
 }
 
-//#if KAGRA_PROTO
-//- (NSNumber *)simulatedHLForKey:(NSString *)key {
-//    NSString *shl = [NSUserDefaults.standardUserDefaults valueForKey:key];
-//    shl = shl ? shl : @"";
-//    shl = [shl isEqual:@""] ? @"0" : shl;
-//    shl = [shl stringByReplacingOccurrencesOfString:@"," withString:@"."];
-//
-//    NSNumber *nshl = [NSNumber numberWithDouble:[shl doubleValue]];
-//    nshl = nshl ? nshl : [NSNumber numberWithDouble:0];
-//    return nshl;
-//}
-//
-//- (NSArray *)simulatedHLTable {
-//    NSNumber *nshl250  = [self simulatedHLForKey:@"simulatedHL250"];
-//    NSNumber *nshl500  = [self simulatedHLForKey:@"simulatedHL500"];
-//    NSNumber *nshl1000 = [self simulatedHLForKey:@"simulatedHL1000"];
-//    NSNumber *nshl2000 = [self simulatedHLForKey:@"simulatedHL2000"];
-//    NSNumber *nshl3000 = [self simulatedHLForKey:@"simulatedHL3000"];
-//    NSNumber *nshl4000 = [self simulatedHLForKey:@"simulatedHL4000"];
-//    NSNumber *nshl8000 = [self simulatedHLForKey:@"simulatedHL8000"];
-//
-//    return @[nshl250, nshl500, nshl1000, nshl2000, nshl3000, nshl4000, nshl8000];
-//}
-
-//- (double)simulatedHL: (double)dbHL atFrequency:(double)frequency {
-//    NSArray *simulatedHL = [self simulatedHLTable];
-//    NSArray *simulatedFrequencies = @[@250, @500, @1000, @2000, @3000, @4000, @8000];
-//    double sdBHL = [Interpolators interp1dWithXValues:simulatedFrequencies yValues:simulatedHL xPoint:frequency];
-//    double ndbHL = dbHL - sdBHL;
-    
-//    float low_bound = -15;
-//    float high_bound = 15;
-//    float rndValue = (((float)arc4random()/0x100000000)*(high_bound-low_bound)+low_bound);
-    
-//    double ndbHL = dbHL - rndValue;
-    
-//    NSLog(@"Old level: %lf - New level: %lf - frequency: %.2lf", dbHL, ndbHL, frequency);
-    
-//    return ndbHL;
-//}
-//#endif
-
-
 - (NSNumber *)dbHLtoAmplitude: (double)dbHL atFrequency:(double)frequency {
     if (_retspldBFS) {
         return [self dbHLtoAmplitudeUsingdBFSTable:dbHL atFrequency:frequency];
     }
     
 #if RK_APPLE_INTERNAL
-   // dbHL = [self simulatedHL:dbHL atFrequency:frequency];
-    
     NSArray *sortedfrequencies = [[_sensitivityPerFrequency allKeys] sortedArrayUsingComparator:^NSComparisonResult(NSString*  _Nonnull obj1, NSString*  _Nonnull obj2) {
         return [obj1 doubleValue] > [obj2 doubleValue];
     }];
@@ -561,10 +493,6 @@ static OSStatus ORKdBHLAudioGeneratorZeroTone(void *inRefCon,
 }
 
 - (NSNumber *)dbHLtoAmplitudeUsingdBFSTable: (double)dbHL atFrequency:(double)frequency {
-//#if RK_APPLE_INTERNAL
-//    dbHL = [self simulatedHL:dbHL atFrequency:frequency];
-//#endif
-
     float currentVolume = [self getCurrentSystemVolume];
     
     currentVolume = (int)(currentVolume / 0.0625) * 0.0625;
@@ -587,15 +515,15 @@ static OSStatus ORKdBHLAudioGeneratorZeroTone(void *inRefCon,
     NSDecimalNumber *tempdBHL = [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%f", dbHL]];
     NSDecimalNumber *attenuationOffset = [baselinedbFS decimalNumberByAdding:tempdBHL];
 
-    NSLog(@"dbHLtoAmplitudeUsingdBFSTable: %lf - frenquency: %lf", dbHL, frequency);
-    NSLog(@"baselinedbFS = %@", baselinedbFS);
+    ORK_Log_Debug("dbHLtoAmplitudeUsingdBFSTable: %lf - frenquency: %lf", dbHL, frequency);
+    ORK_Log_Debug("baselinedbFS = %@", baselinedbFS);
 
     NSDecimalNumber *attenuation = [attenuationOffset decimalNumberBySubtracting:offsetDueToVolume];
-    NSLog(@"attenuation = %f", attenuation.doubleValue);
+    ORK_Log_Debug("attenuation = %f", attenuation.doubleValue);
 
     double linearAttenuation = [self dBToAmplitude:attenuation.doubleValue];  // (powf(10, 0.05 * dB));
     
-    NSLog(@"linearAttenuation = %f", linearAttenuation);
+    ORK_Log_Debug("linearAttenuation = %f", linearAttenuation);
     
     return [NSNumber numberWithDouble:linearAttenuation];
 }
