@@ -994,6 +994,7 @@
 		D442397E1AF17F7600559D96 /* ORKImageCaptureStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D442397C1AF17F7600559D96 /* ORKImageCaptureStepViewController.m */; };
 		D458520A1AF6CCFA00A2DE13 /* ORKImageCaptureCameraPreviewView.h in Headers */ = {isa = PBXBuildFile; fileRef = D45852081AF6CCFA00A2DE13 /* ORKImageCaptureCameraPreviewView.h */; };
 		D458520B1AF6CCFA00A2DE13 /* ORKImageCaptureCameraPreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = D45852091AF6CCFA00A2DE13 /* ORKImageCaptureCameraPreviewView.m */; };
+		DB7BB5F029A36A4900A41BB1 /* ResearchKitUI.strings in Resources */ = {isa = PBXBuildFile; fileRef = DB7BB5F229A36A4900A41BB1 /* ResearchKitUI.strings */; };
 		E21D345F22D916E000CCB022 /* ORKHeadphoneDetectResult.h in Headers */ = {isa = PBXBuildFile; fileRef = E21D345D22D916E000CCB022 /* ORKHeadphoneDetectResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E21D346022D916E000CCB022 /* ORKHeadphoneDetectResult.m in Sources */ = {isa = PBXBuildFile; fileRef = E21D345E22D916E000CCB022 /* ORKHeadphoneDetectResult.m */; };
 		E220A03425711D2700C3C211 /* dbAmplitudePerFrequency_AIRPODSPRO.plist in Resources */ = {isa = PBXBuildFile; fileRef = E220A02125711D2500C3C211 /* dbAmplitudePerFrequency_AIRPODSPRO.plist */; };
@@ -2178,6 +2179,7 @@
 		D442397C1AF17F7600559D96 /* ORKImageCaptureStepViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKImageCaptureStepViewController.m; sourceTree = "<group>"; };
 		D45852081AF6CCFA00A2DE13 /* ORKImageCaptureCameraPreviewView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKImageCaptureCameraPreviewView.h; sourceTree = "<group>"; };
 		D45852091AF6CCFA00A2DE13 /* ORKImageCaptureCameraPreviewView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKImageCaptureCameraPreviewView.m; sourceTree = "<group>"; };
+		DB7BB5F129A36A4900A41BB1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ResearchKitUI.strings; sourceTree = "<group>"; };
 		E2199DCC274BCAEC00629AE6 /* ORKSensitiveURLLearnMoreInstructionStep.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKSensitiveURLLearnMoreInstructionStep.h; sourceTree = "<group>"; };
 		E2199DCD274BCAEC00629AE6 /* ORKSensitiveURLLearnMoreInstructionStep.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKSensitiveURLLearnMoreInstructionStep.m; sourceTree = "<group>"; };
 		E21D345D22D916E000CCB022 /* ORKHeadphoneDetectResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKHeadphoneDetectResult.h; sourceTree = "<group>"; };
@@ -3301,6 +3303,7 @@
 		5D06632E24FEF272005D9B40 /* ResearchKitUI */ = {
 			isa = PBXGroup;
 			children = (
+				DB7BB5ED29A36A1D00A41BB1 /* Localized */,
 				5D06632F24FEF272005D9B40 /* ResearchKitUI.h */,
 				5D06633024FEF272005D9B40 /* Info.plist */,
 				5D06633924FEF2CE005D9B40 /* TaskView.swift */,
@@ -4703,6 +4706,14 @@
 			name = "Image Capture Step";
 			sourceTree = "<group>";
 		};
+		DB7BB5ED29A36A1D00A41BB1 /* Localized */ = {
+			isa = PBXGroup;
+			children = (
+				DB7BB5F229A36A4900A41BB1 /* ResearchKitUI.strings */,
+			);
+			path = Localized;
+			sourceTree = "<group>";
+		};
 		E2199DCB274BCA8400629AE6 /* SensitiveURLStep */ = {
 			isa = PBXGroup;
 			children = (
@@ -5559,6 +5570,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DB7BB5F029A36A4900A41BB1 /* ResearchKitUI.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6336,6 +6348,14 @@
 				C72B9DF42356960F00B982B7 /* pt_BR */,
 			);
 			name = ResearchKit.strings;
+			sourceTree = "<group>";
+		};
+		DB7BB5F229A36A4900A41BB1 /* ResearchKitUI.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DB7BB5F129A36A4900A41BB1 /* en */,
+			);
+			name = ResearchKitUI.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
