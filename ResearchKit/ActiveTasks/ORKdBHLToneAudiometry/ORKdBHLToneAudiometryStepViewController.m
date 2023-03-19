@@ -205,8 +205,7 @@
 #endif
 
     _audioChannel = dBHLTAStep.earPreference;
-    _audioGenerator = [[ORKdBHLToneAudiometryPulsedAudioGenerator alloc] initForHeadphoneType:dBHLTAStep.headphoneType pulseMillisecondsDuration:200 pauseMillisecondsDuration:50];
-    //_audioGenerator = [[ORKdBHLToneAudiometryAudioGenerator alloc] initForHeadphoneType:dBHLTAStep.headphoneType];
+    _audioGenerator = [[ORKdBHLToneAudiometryPulsedAudioGenerator alloc] initForHeadphoneType:dBHLTAStep.headphoneType pulseMillisecondsDuration:200 pauseMillisecondsDuration:200];
     _audioGenerator.delegate = self;
     _hapticFeedback = [[UIImpactFeedbackGenerator alloc] initWithStyle: UIImpactFeedbackStyleHeavy];
 }

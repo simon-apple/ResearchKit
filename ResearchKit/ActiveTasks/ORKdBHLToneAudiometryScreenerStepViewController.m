@@ -282,7 +282,7 @@
         }
     }
 
-    _audioGenerator = [[ORKdBHLToneAudiometryPulsedAudioGenerator alloc] initForHeadphoneType:dBHLTAStep.headphoneType pulseMillisecondsDuration:200 pauseMillisecondsDuration:50];
+    _audioGenerator = [[ORKdBHLToneAudiometryPulsedAudioGenerator alloc] initForHeadphoneType:dBHLTAStep.headphoneType pulseMillisecondsDuration:200 pauseMillisecondsDuration:200];
     _audioGenerator.delegate = self;
 }
 
@@ -374,7 +374,7 @@
         [_audiometry registerStimulusPlayback];
         [self resetLevel:sti.level];
         _currentFreq = sti.frequency;
-        ORK_Log_Debug("Starting Frequency: %f", dBHLTAStep.frequency);
+        ORK_Log_Info("Starting Frequency: %f", dBHLTAStep.frequency);
     }];
 }
     
