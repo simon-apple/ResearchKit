@@ -34,6 +34,7 @@
 #import <TargetConditionals.h>
 
 #define RK_APPLE_INTERNAL 1
-#define SIMULATE_HL 1 // KAGRATODO: if active, the final results will be using random simulated hearing loss
+#define SIMULATE_HL 1 // KAGRATODO: if active, the final results will be using random simulated hearing loss, turn if off for production.
+#define KAGRA_PROTO 1 // enables the simulated hearing loss on settings.
 
 #endif /* ResearchKit_Prefix_pch */

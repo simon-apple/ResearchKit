@@ -429,12 +429,50 @@ static OSStatus ORKdBHLAudioGeneratorZeroTone(void *inRefCon,
     return [[AVAudioSession sharedInstance] outputVolume];
 }
 
+#if KAGRA_PROTO
+- (NSNumber *)simulatedHLForKey:(NSString *)key {
+    NSString *shl = [NSUserDefaults.standardUserDefaults valueForKey:key];
+    shl = shl ? shl : @"";
+    shl = [shl isEqual:@""] ? @"0" : shl;
+    shl = [shl stringByReplacingOccurrencesOfString:@"," withString:@"."];
+    
+    NSNumber *nshl = [NSNumber numberWithDouble:[shl doubleValue]];
+    nshl = nshl ?: @(0.0);
+    return nshl;
+}
+
+- (NSArray *)simulatedHLTable {
+    return @[
+        [self simulatedHLForKey:@"simulatedHL250"],
+        [self simulatedHLForKey:@"simulatedHL500"],
+        [self simulatedHLForKey:@"simulatedHL1000"],
+        [self simulatedHLForKey:@"simulatedHL2000"],
+        [self simulatedHLForKey:@"simulatedHL3000"],
+        [self simulatedHLForKey:@"simulatedHL4000"],
+        [self simulatedHLForKey:@"simulatedHL6000"],
+        [self simulatedHLForKey:@"simulatedHL8000"]
+    ];
+}
+
+- (double)simulatedHL: (double)dbHL atFrequency:(double)frequency {
+    NSArray *simulatedHL = [self simulatedHLTable];
+    NSArray *simulatedFrequencies = @[@250, @500, @1000, @2000, @3000, @4000, @6000, @8000];
+    double sdBHL = [Interpolators interp1dWithXValues:simulatedFrequencies yValues:simulatedHL xPoint:frequency];
+    double ndbHL = dbHL - sdBHL;
+    ORK_Log_Info("simulatedHL: %f - Old level: %lf - New level: %lf - frequency: %.2lf", sdBHL, dbHL, ndbHL, frequency);
+    
+    return ndbHL;
+}
+#endif
+
 - (NSNumber *)dbHLtoAmplitude: (double)dbHL atFrequency:(double)frequency {
     if (_retspldBFS) {
         return [self dbHLtoAmplitudeUsingdBFSTable:dbHL atFrequency:frequency];
     }
     
 #if RK_APPLE_INTERNAL
+    dbHL = [self simulatedHL:dbHL atFrequency:frequency];
+    
     NSArray *sortedfrequencies = [[_sensitivityPerFrequency allKeys] sortedArrayUsingComparator:^NSComparisonResult(NSString*  _Nonnull obj1, NSString*  _Nonnull obj2) {
         return [obj1 doubleValue] > [obj2 doubleValue];
     }];
@@ -493,6 +531,10 @@ static OSStatus ORKdBHLAudioGeneratorZeroTone(void *inRefCon,
 }
 
 - (NSNumber *)dbHLtoAmplitudeUsingdBFSTable: (double)dbHL atFrequency:(double)frequency {
+#if KAGRA_PROTO
+    dbHL = [self simulatedHL:dbHL atFrequency:frequency];
+#endif
+    
     float currentVolume = [self getCurrentSystemVolume];
     
     currentVolume = (int)(currentVolume / 0.0625) * 0.0625;

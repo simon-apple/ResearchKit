@@ -280,44 +280,31 @@
     [self stopAudio];
 }
 
-//#if KAGRA_PROTO
-//
-//#define lowerDouble 10.0
-//#define upperDouble 20.0
-//
-//- (double)randomDoubleBetween:(double)smallNumber and:(double)bigNumber {
-//    double diff = bigNumber - smallNumber;
-//    return (((double) (arc4random() % ((unsigned)RAND_MAX + 1)) / RAND_MAX) * diff) + smallNumber;
-//}
-//
-//- (NSNumber *)randomNumberFromRangeMax:(double)aMax Min:(double)aMin {
-//    return [NSNumber numberWithDouble:[self randomDoubleBetween:aMin and:aMax]];
-//}
-//
-//- (NSNumber *)simulatedHLForKey:(NSString *)key {
-//    NSString *shl = [NSUserDefaults.standardUserDefaults valueForKey:key];
-//    shl = shl ? shl : @"";
-//    shl = [shl isEqual:@""] ? @"0" : shl;
-//    shl = [shl stringByReplacingOccurrencesOfString:@"," withString:@"."];
-//
-//    NSNumber *nshl = [NSNumber numberWithDouble:[shl doubleValue]];
-//    nshl = nshl ? nshl : [NSNumber numberWithDouble:0];
-//    return nshl;
-//}
-//
-//- (NSDictionary *)simulatedHLTable {
-//    NSNumber *nshl250  = [self randomNumberFromRangeMax:upperDouble Min:lowerDouble];
-//    NSNumber *nshl500  = [self randomNumberFromRangeMax:upperDouble Min:lowerDouble];
-//    NSNumber *nshl1000 = [self randomNumberFromRangeMax:upperDouble Min:lowerDouble];
-//    NSNumber *nshl2000 = [self randomNumberFromRangeMax:upperDouble Min:lowerDouble];
-//    NSNumber *nshl3000 = [self randomNumberFromRangeMax:upperDouble Min:lowerDouble];
-//    NSNumber *nshl4000 = [self randomNumberFromRangeMax:upperDouble Min:lowerDouble];
-//    NSNumber *nshl8000 = [self randomNumberFromRangeMax:upperDouble Min:lowerDouble];
-//
-//    return @{@"250":nshl250,@"500":nshl500,@"1000":nshl1000,@"2000":nshl2000,
-//             @"3000":nshl3000,@"4000":nshl4000,@"8000":nshl8000};
-//}
-//#endif
+#if KAGRA_PROTO
+- (NSNumber *)simulatedHLForKey:(NSString *)key {
+    NSString *shl = [NSUserDefaults.standardUserDefaults valueForKey:key];
+    shl = shl ?: @"";
+    shl = [shl isEqual:@""] ? @"0" : shl;
+    shl = [shl stringByReplacingOccurrencesOfString:@"," withString:@"."];
+    
+    NSNumber *nshl = [NSNumber numberWithDouble:[shl doubleValue]];
+    nshl = nshl ?: @(0.0);
+    return nshl;
+}
+
+- (NSDictionary *)simulatedHLTable {
+    return @{
+        @"250": [self simulatedHLForKey:@"simulatedHL250"],
+        @"500": [self simulatedHLForKey:@"simulatedHL500"],
+        @"1000": [self simulatedHLForKey:@"simulatedHL1000"],
+        @"2000": [self simulatedHLForKey:@"simulatedHL2000"],
+        @"3000": [self simulatedHLForKey:@"simulatedHL3000"],
+        @"4000": [self simulatedHLForKey:@"simulatedHL4000"],
+        @"6000": [self simulatedHLForKey:@"simulatedHL6000"],
+        @"8000": [self simulatedHLForKey:@"simulatedHL8000"],
+    };
+}
+#endif
 
 - (ORKStepResult *)result {
     ORKStepResult *sResult = [super result];
@@ -343,9 +330,21 @@
             toneResult.discreteUnits = engine.resultUnits;
             toneResult.fitMatrix = engine.fitMatrix;
             toneResult.deletedSamples = engine.deletedSamples;
-        }// else {
-        //    toneResult.userInfo = @{@"simulatedHL": [self simulatedHLTable]};
-       // }
+#if KAGRA_PROTO
+            const NSUInteger numEntries = engine.previousAudiogram.count;
+            if (engine.previousAudiogram && numEntries > 0) {
+                NSMutableDictionary *previousAudiogram = [NSMutableDictionary dictionaryWithCapacity:numEntries];
+                [engine.previousAudiogram enumerateKeysAndObjectsUsingBlock:^(NSNumber *key, NSNumber *value, BOOL* stop) {
+                    [previousAudiogram setValue:value forKey:key.stringValue];
+                }];
+                toneResult.userInfo = @{@"simulatedHL": [self simulatedHLTable], @"previousAudiogram": previousAudiogram};
+            } else {
+                toneResult.userInfo = @{@"simulatedHL": [self simulatedHLTable]};
+            }
+#endif
+        } else {
+            toneResult.userInfo = @{@"simulatedHL": [self simulatedHLTable]};
+        }
     }
 #endif
     toneResult.outputVolume = [AVAudioSession sharedInstance].outputVolume;
