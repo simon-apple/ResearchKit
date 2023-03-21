@@ -136,3 +136,11 @@
 }
 
 @end
+
+@implementation AAPLSpeechRecognitionStep (ViewControllerProviding)
+
+- (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
+    return [[AAPLSpeechRecognitionStepViewController alloc] initWithStep:self result:result];
+}
+
+@end

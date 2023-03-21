@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, Apple Inc. All rights reserved.
+ Copyright (c) 2023, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,41 +28,8 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import "AAPLSpeechRecognitionStep.h"
 
-#import <ResearchKit/ORKTypes_Private.h>
+@implementation AAPLSpeechRecognitionStep
 
-#import <ResearchKit/ORKHelpers_Private.h>
-#import <ResearchKit/ORKHelpers_Internal.h>
-#import <ResearchKit/ORKDevice_Private.h>
-
-#import <ResearchKit/ORKQuestionStep_Private.h>
-
-// Active step support
-#import <ResearchKit/ORKDataLogger.h>
-#import <ResearchKit/ORKErrors.h>
-
-#import <ResearchKit/ORKAnswerFormat_Private.h>
-#import <ResearchKit/ORKConsentDocument_Private.h>
-#import <ResearchKit/ORKConsentSection_Private.h>
-#import <ResearchKit/ORKOrderedTask_Private.h>
-#import <ResearchKit/ORKPageStep_Private.h>
-#import <ResearchKit/ORKRecorder_Private.h>
-#import <ResearchKit/ORKStepNavigationRule_Private.h>
-
-#import <ResearchKit/ORKCollectionResult_Private.h>
-#import <ResearchKit/ORKQuestionResult_Private.h>
-#import <ResearchKit/ORKSignatureResult_Private.h>
-#import <ResearchKit/ORKResult_Private.h>
-
-#import <ResearchKit/ORKActiveStep_Internal.h>
-#import <ResearchKit/ORKStep_Private.h>
-
-#import <ResearchKit/ORKBodyItem_Internal.h>
-
-#if RK_APPLE_INTERNAL
-
-#import <ResearchKit/ORKSensitiveURLLearnMoreInstructionStep.h>
-
-#endif
-
-#import <ResearchKit/ORKSkin_Private.h>
+@end
