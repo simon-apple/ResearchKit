@@ -99,7 +99,6 @@ NSString * const pulsedFilenameExtension = @"plist";
 @property (atomic, retain) NSNumber *amplitudeGain;
 @property (atomic, retain) NSNumber *nextAmplitudeGain;
 @property (atomic, assign) double frequency;
-;
 
 - (NSNumber *)dbHLtoAmplitude: (double)dbHL atFrequency:(double)frequency;
 
@@ -145,14 +144,16 @@ static OSStatus ORKdBHLAudioGeneratorRenderTone(void *inRefCon,
                     } else { //No ramp phase, just use plain bufferValue
                         bufferActive[frame] = bufferValue;
                     }
-                } else { //Pulse ended, ramp-down happens at this phase
-                    if (pulseFrameCounter < (audioGenerator->_nPulsesFramesOn + ORKdBHLSineWaveToneGeneratorPulseRampFrames)) { //Ramp-down
+                } else { //Pulse ended
+                    if (audioGenerator->_nPulsesFramesOff == 0 && !stopAfterPulse) { //Keep continuous tone
+                        bufferActive[frame] = bufferValue;
+                        pulseFrameCounter = audioGenerator->_nPulsesFramesOn;
+                    } else if (pulseFrameCounter < (audioGenerator->_nPulsesFramesOn + ORKdBHLSineWaveToneGeneratorPulseRampFrames)) { //Ramp-down
                         bufferActive[frame] = bufferValue * ((audioGenerator->_nPulsesFramesOn + ORKdBHLSineWaveToneGeneratorPulseRampFrames - pulseFrameCounter) / (double)ORKdBHLSineWaveToneGeneratorPulseRampFrames);
-                    } else { // Ramp-down ended, reset pulseFrameCounter to -(_nPulsesOff-ORKdBHLSineWaveToneGeneratorPulseRampFrames)
+                    } else { //Reset pulseFrameCounter to -(_nPulsesOff-ORKdBHLSineWaveToneGeneratorPulseRampFrames)
                         pulseFrameCounter = -(audioGenerator->_nPulsesFramesOff - ORKdBHLSineWaveToneGeneratorPulseRampFrames);
                         bufferActive[frame] = 0;
-                        
-                        if (stopAfterPulse) {
+                        if (stopAfterPulse) { //After the ramp-down the tone can safely stop
                             stopped = YES;
                         }
                     }
@@ -217,10 +218,17 @@ static OSStatus ORKdBHLAudioGeneratorZeroTone(void *inRefCon,
     if (self) {
         _lastNodeInput = 0;
         _sweepDirectionUp = YES;
+        
         _pulseFrameCounter = 0;
-        _nPulsesFramesOn = ORKdBHLSineWaveToneGeneratorPulsedSampleRateDefault / (1000.0 / (double)pulseDuration);
-        _nPulsesFramesOff = ORKdBHLSineWaveToneGeneratorPulsedSampleRateDefault / (1000.0 / (double)pauseDuration);
+        
+        // If pulseDuration is 0 ignore the pauseDuration to make a continuos tone
+        double nPulsesFramesOff = pauseDuration == 0 ? 0 : ORKdBHLSineWaveToneGeneratorPulsedSampleRateDefault / (1000.0 / (double)pauseDuration);
+        _nPulsesFramesOff = pulseDuration == 0 ? 0 : nPulsesFramesOff;
 
+        // If mNumPulsesOff is 0, consider a continuos tone
+        double nPulsesFramesOn = ORKdBHLSineWaveToneGeneratorPulsedSampleRateDefault / (1000.0 / (double)pulseDuration);
+        _nPulsesFramesOn = _nPulsesFramesOff == 0 ? ORKdBHLSineWaveToneGeneratorPulseRampFrames : nPulsesFramesOn;
+        
         NSString *headphoneTypeUppercased = [headphoneType uppercaseString];
         ORKHeadphoneTypeIdentifier headphoneTypeIdentifier;
         ORKVolumeCurvePulsedFilename volumeCurveFilename;
@@ -535,14 +543,6 @@ static OSStatus ORKdBHLAudioGeneratorZeroTone(void *inRefCon,
     dbHL = [self simulatedHL:dbHL atFrequency:frequency];
 #endif
     
-    float currentVolume = [self getCurrentSystemVolume];
-    
-    currentVolume = (int)(currentVolume / 0.0625) * 0.0625;
-    currentVolume = currentVolume == 0 ? 0.0625 : currentVolume;
-    
-    // check in volume curve table for offset
-    NSDecimalNumber *offsetDueToVolume = [NSDecimalNumber decimalNumberWithString:_volumeCurve[[NSString stringWithFormat:@"%.4f",currentVolume]]];
-    
     NSArray *sortedRetsplfrequencies = [[_retspldBFS allKeys] sortedArrayUsingComparator:^NSComparisonResult(NSString*  _Nonnull obj1, NSString*  _Nonnull obj2) {
         return [obj1 doubleValue] > [obj2 doubleValue];
     }];
@@ -555,17 +555,15 @@ static OSStatus ORKdBHLAudioGeneratorZeroTone(void *inRefCon,
     NSDecimalNumber *baselinedbFS = [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%lf",retspl]];
 
     NSDecimalNumber *tempdBHL = [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%f", dbHL]];
-    NSDecimalNumber *attenuationOffset = [baselinedbFS decimalNumberByAdding:tempdBHL];
+    NSDecimalNumber *attenuation = [baselinedbFS decimalNumberByAdding:tempdBHL];
 
-    ORK_Log_Debug("dbHLtoAmplitudeUsingdBFSTable: %lf - frenquency: %lf", dbHL, frequency);
-    ORK_Log_Debug("baselinedbFS = %@", baselinedbFS);
-
-    NSDecimalNumber *attenuation = [attenuationOffset decimalNumberBySubtracting:offsetDueToVolume];
-    ORK_Log_Debug("attenuation = %f", attenuation.doubleValue);
+    ORK_Log_Info("dbHLtoAmplitudeUsingdBFSTable: %lf - frenquency: %lf", dbHL, frequency);
+    ORK_Log_Info("baselinedbFS = %@", baselinedbFS);
+    ORK_Log_Info("attenuation = %f", attenuation.doubleValue);
 
     double linearAttenuation = [self dBToAmplitude:attenuation.doubleValue];  // (powf(10, 0.05 * dB));
     
-    ORK_Log_Debug("linearAttenuation = %f", linearAttenuation);
+    ORK_Log_Info("linearAttenuation = %f", linearAttenuation);
     
     return [NSNumber numberWithDouble:linearAttenuation];
 }

@@ -251,7 +251,6 @@ public struct ORKNewAudiometryState {
                 }
             }
         
-            initialSampleEnded = true
             stimulus = nil
             DispatchQueue.global(qos: .userInitiated).async { [weak self] in
                 guard let self = self else { return }
@@ -412,6 +411,7 @@ extension ORKNewAudiometry {
     func nextInitialSampleFromAudiogram() -> Bool {
         guard let freqPoint = testFs.first, !initialSampleEnded else {
             // No more frequencies left, finish the initial sampling
+            initialSampleEnded = true
             return false
         }
         
@@ -423,7 +423,8 @@ extension ORKNewAudiometry {
         
         if !xSampleFreqs.contains(freqPoint) { // First sample for freq
             // intial point to sample is up or down 10
-            dBHLPoint = (previousAudiogram[freqPointHz] ?? 0.0) + Double((freqUpDown ?? 0) * 10)
+            let firstdBHLPoint = (previousAudiogram[freqPointHz] ?? 0.0) + Double((freqUpDown ?? 0) * 10)
+            dBHLPoint = min(max(firstdBHLPoint, minLevel), maxLevel)
         
             if !revFs.contains(freqPoint) {
                 testFs.dropFirst()
@@ -473,6 +474,7 @@ extension ORKNewAudiometry {
         }
         
         guard !testFs.isEmpty && !initialSampleEnded else {
+            initialSampleEnded = true
             return false
         }
 
@@ -510,7 +512,7 @@ extension ORKNewAudiometry {
                     if ySample1k == 0 { // last 1k response is negative
                         dbHLPoint = min(dbHLPoint1k + 10, maxLevel)
                     } else { // last 1k response is positive
-                        dbHLPoint = max(dbHLPoint1k - 10, -minLevel)
+                        dbHLPoint = max(dbHLPoint1k - 10, minLevel)
                     }
                 } else {
                     if ySample.elements.last == 0 { // last response is negative
