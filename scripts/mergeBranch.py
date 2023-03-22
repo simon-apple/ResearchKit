@@ -175,17 +175,19 @@ if __name__ == '__main__':
             emailSentFileName = '/tmp/sent_mergeBranch_email_%s_%s_%s' % (os.path.basename(sourceBranch),os.path.basename(targetBranch), commitHash)
             print '\nMerging commit: %s from %s (%s)' % (commitHash, logDict['author_name'], logDict['author_email'])
 
-            # Check for "DO NOT MERGE" in commit string
+            # Check for "DO NOT MERGE" or "DO NOT FORWARD" in commit string
             commitMessage = logDict['message']
             doNotMergePattern = re.compile('DO\sNOT\sMERGE', re.IGNORECASE)
             doNotMergeMatch = doNotMergePattern.findall(commitMessage)
-            print 'Comment: %s' % commitMessage
-            if doNotMergeMatch:
-                print '\nLog: DO NOT MERGE found\n'
-                # Commit was flagged as "DO NOT MERGE", so add "-s ours" to the merge command to skip any code changes, but record that the hash was merged with git
-                mergeCommand = ['git', 'merge', '-s', 'ours', '--no-ff', '-mSKIPPED MERGE OF %s from branch %s. DO NOT MERGE' % (commitHash, sourceBranch), '%s' % commitHash]
+            doNotForwardPattern = re.compile('DO\sNOT\sFORWARD', re.IGNORECASE)
+            doNotForwardMatch = doNotForwardPattern.findall(commitMessage)
+            print('Comment: %s' % commitMessage)
+            if doNotForwardMatch or doNotMergeMatch:
+                print('\nLog: "DO NOT FORWARD" or "DO NOT MERGE" found\n')
+                # Commit was flagged as "DO NOT FOWARD" or "DO NOT MERGE", so add "-s ours" to the merge command to skip any code changes, but record that the hash was merged with git
+                mergeCommand = ['git', 'merge', '-s', 'ours', '--no-ff', '-mSKIPPED MERGE OF %s from branch %s. DO NOT FORWARD' % (commitHash, sourceBranch), '%s' % commitHash]
             else:
-                print '\nLog: DO NOT MERGE not found\n'
+                print('\nLog: "DO NOT FORWARD" or "DO NOT MERGE" not found\n')
             # Merge the commit. Use --no-ff to always do a merge commit, even if a fast forward is possible
                 mergeCommand = ['git', 'merge', '--no-ff', '-mScripted merge of %s from branch %s' % (commitHash, sourceBranch), '%s' % commitHash]
 
