@@ -139,7 +139,7 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
         
         if (connectedDevices.count > 0) {
             for (BluetoothDevice *connectedDevice in connectedDevices) {
-                NSLog(@"device %@",connectedDevice);
+                ORK_Log_Info("device %@",connectedDevice);
                 _currentDevice = connectedDevice;
                 BTAccessoryInEarStatus primaryInEar = BT_ACCESSORY_IN_EAR_STATUS_UNKNOWN;
                 BTAccessoryInEarStatus secondaryInEar = BT_ACCESSORY_IN_EAR_STATUS_UNKNOWN;
@@ -282,25 +282,33 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
 - (void)continueButtonAction:(id)sender {
     switch (_stage) {
         case ORKdBHLFitTestStageStart: {
-            self.activeStepView.navigationFooterView.continueEnabled = NO;
-            [self.activeStepView.navigationFooterView showActivityIndicator:YES];
-            [self.activeStepView.navigationFooterView updateContinueAndSkipEnabled];
-            [self setStage:ORKdBHLFitTestStagePlaying];
-            
-            [self startFitTest];
+            if (_budsInEar && !_callActive) {
+                self.activeStepView.navigationFooterView.continueEnabled = NO;
+                [self.activeStepView.navigationFooterView showActivityIndicator:YES];
+                [self.activeStepView.navigationFooterView updateContinueAndSkipEnabled];
+                [self setStage:ORKdBHLFitTestStagePlaying];
+                
+                [self startFitTest];
+            } else {
+                [self showBudsOrCallAlert];
+            }
             break;
         }
         case ORKdBHLFitTestStageResultLeftSealBadRightSealBad:
         case ORKdBHLFitTestStageResultLeftSealBadRightSealGood:
         case ORKdBHLFitTestStageResultConfidenceLow:
         case ORKdBHLFitTestStageResultLeftSealGoodRightSealBad: {
-            [self.fitTestContentView setStart];
-            self.activeStepView.navigationFooterView.continueEnabled = NO;
-            [self.activeStepView.navigationFooterView showActivityIndicator:YES];
-            [self setContinueButtonTitle:ORKLocalizedString(@"PLAY", nil)];
-            [self.activeStepView.navigationFooterView updateContinueAndSkipEnabled];
-            
-            [self startFitTest];
+            if (_budsInEar && !_callActive) {
+                [self.fitTestContentView setStart];
+                self.activeStepView.navigationFooterView.continueEnabled = NO;
+                [self.activeStepView.navigationFooterView showActivityIndicator:YES];
+                [self setContinueButtonTitle:ORKLocalizedString(@"PLAY", nil)];
+                [self.activeStepView.navigationFooterView updateContinueAndSkipEnabled];
+                
+                [self startFitTest];
+            } else {
+                [self showBudsOrCallAlert];
+            }
             break;
         }
             
@@ -336,23 +344,19 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
     }
 }
 
-- (void)startFitTest {
-    if (!_budsInEar || _callActive) {
-        ORK_Log_Info("budsInEar: %d, callActive: %d", _budsInEar, _callActive);
-        [self setStage:ORKdBHLFitTestStageStart];
-        UIAlertController *alert;
-        if (!_budsInEar) {
-            alert = [UIAlertController alertControllerWithTitle:@"Place AirPods In Both Ears" message:@"" preferredStyle:UIAlertControllerStyleAlert];
-        } else {
-            alert = [UIAlertController alertControllerWithTitle:@"End Call To Continue Test" message:@"" preferredStyle:UIAlertControllerStyleAlert];
-        }
-        [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            ORK_Log_Info("No action needed");
-        }]];
-        [self presentViewController:alert animated:YES completion:nil];
-        return;
-    }
+- (void)showBudsOrCallAlert {
+    ORK_Log_Info("budsInEar: %d, callActive: %d", _budsInEar, _callActive);
+    //[self setStage:ORKdBHLFitTestStageStart];
+    NSString *alertTitle = _budsInEar ? @"End Call To Continue Test" : @"Place AirPods In Both Ears";
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:alertTitle message:@"" preferredStyle:UIAlertControllerStyleAlert];
 
+    [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        ORK_Log_Info("No action needed");
+    }]];
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
+- (void)startFitTest {
     ORK_Log_Info("Start Fit Test");
 
     [_currentDevice SendSetupCommand:BT_ACCESSORY_SETUP_SEAL_OP_START];
