@@ -126,8 +126,6 @@
 }
 
 - (void)configureStep {
-    ORKdBHLToneAudiometryStep *dBHLTAStep = [self dBHLToneAudiometryStep];
-
     self.dBHLToneAudiometryContentView = [[ORKdBHLToneAudiometryContentView alloc] init];
     self.activeStepView.activeCustomView = self.dBHLToneAudiometryContentView;
     self.activeStepView.customContentFillsAvailableSpace = YES;
@@ -135,9 +133,6 @@
 
     [self.dBHLToneAudiometryContentView.tapButton addTarget:self action:@selector(tapButtonPressed) forControlEvents:UIControlEventTouchDown];
 
-    _audioChannel = dBHLTAStep.earPreference;
-    _audioGenerator = [[ORKdBHLToneAudiometryAudioGenerator alloc] initForHeadphoneType:dBHLTAStep.headphoneType];
-    _audioGenerator.delegate = self;
     _hapticFeedback = [[UIImpactFeedbackGenerator alloc] initWithStyle: UIImpactFeedbackStyleHeavy];
 }
 
@@ -201,7 +196,10 @@
     
     if (foundHeadphoneDetectorResult) {
         _headphoneDetector = [[ORKHeadphoneDetector alloc] initWithDelegate:self
-                                                    supportedHeadphoneChipsetTypes:[ORKHeadphoneDetectStep dBHLTypes]];
+                                             supportedHeadphoneChipsetTypes:[ORKHeadphoneDetectStep dBHLTypes]];
+        _audioChannel = dBHLTAStep.earPreference;
+        _audioGenerator = [[ORKdBHLToneAudiometryAudioGenerator alloc] initForHeadphoneType:dBHLTAStep.headphoneType];
+        _audioGenerator.delegate = self;
     }
 #endif
     [self start];
@@ -249,6 +247,7 @@
     #endif
     
     _audioGenerator.delegate = nil;
+    _audioGenerator = nil;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
