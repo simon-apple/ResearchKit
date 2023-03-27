@@ -28,9 +28,9 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "ORKdBHLQRCodeReaderStepViewController.h"
-#import "ORKdBHLQRCodeReaderStep.h"
-#import "ORKdBHLQRCodeReaderResult.h"
+#import "ORKdBHLQuickResponseCodeReaderStepViewController.h"
+#import "ORKdBHLQuickResponseCodeReaderStep.h"
+#import "ORKdBHLQuickResponseCodeReaderResult.h"
 
 #import "ORKActiveStepView.h"
 #import "ORKActiveStep_Internal.h"
@@ -55,7 +55,7 @@
 #import <ResearchKit/ResearchKit-Swift.h>
 #import "ORKNavigationContainerView_Internal.h"
 
-typedef void (^_QRCodeCompletionHandler)(NSString* codeString);
+typedef void (^_quickResponseCodeCompletionHandler)(NSString* codeString);
 
 @interface QRViewController : UIViewController
 
@@ -66,14 +66,14 @@ typedef void (^_QRCodeCompletionHandler)(NSString* codeString);
 @property (nonatomic, strong) UIButton *typeButton;
 @property (nonatomic, strong) UIView *overlayView;
 
-- (instancetype)initWithHandler:(_QRCodeCompletionHandler)handler;
+- (instancetype)initWithHandler:(_quickResponseCodeCompletionHandler)handler;
     
 - (void)startReading;
     
 @end
 
 @interface QRViewController () <AVCaptureMetadataOutputObjectsDelegate> {
-    _QRCodeCompletionHandler _handler;
+    _quickResponseCodeCompletionHandler _handler;
 }
     
 @property (nonatomic) BOOL isReading;
@@ -85,7 +85,7 @@ typedef void (^_QRCodeCompletionHandler)(NSString* codeString);
 
 @implementation QRViewController
 
-- (instancetype)initWithHandler:(_QRCodeCompletionHandler)handler {
+- (instancetype)initWithHandler:(_quickResponseCodeCompletionHandler)handler {
     self = [super init];
     
     if (self) {
@@ -223,29 +223,6 @@ typedef void (^_QRCodeCompletionHandler)(NSString* codeString);
     return [UIFont fontWithDescriptor:descriptor size:[[descriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]];
 }
 
-/*
-- (void)skipButtonTapped:(id)sender {
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:ORKLocalizedString(@"TINNITUS_PURETONE_SKIP_ALERT_TITLE", nil)
-                                                                             message:ORKLocalizedString(@"TINNITUS_PURETONE_SKIP_ALERT_DETAIL", nil)
-                                                                      preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction *continueAction = [UIAlertAction actionWithTitle:ORKLocalizedString(@"TINNITUS_PURETONE_SKIP_ALERT_CANCEL", nil)
-                                                             style:UIAlertActionStyleDefault handler:nil];
-    [alertController addAction:continueAction];
-    
-    [alertController addAction:[UIAlertAction actionWithTitle:ORKLocalizedString(@"TINNITUS_PURETONE_SKIP_ALERT_SKIP", nil)
-                                                        style:UIAlertActionStyleDestructive
-                                                      handler:^(UIAlertAction *action) {
-        self.wasSkipped = YES;
-        [[self taskViewController] flipToPageWithIdentifier:ORKTinnitusMaskingSoundInstructionStepIdentifier forward:YES animated:YES];
-    }]];
-    
-    alertController.preferredAction = continueAction;
-    [self presentViewController:alertController animated:YES completion:nil];
-
-}
-*/
-
 - (void)cancel {
     [_captureSession stopRunning];
 
@@ -313,9 +290,9 @@ typedef void (^_QRCodeCompletionHandler)(NSString* codeString);
     for (AVMetadataObject *metadata in metadataObjects) {
         if ([metadata.type isEqualToString:AVMetadataObjectTypeQRCode]) {
             // Handle QR code data here
-            NSString *qrCodeData = [(AVMetadataMachineReadableCodeObject *)metadata stringValue];
+            NSString *quickResponseCodeData = [(AVMetadataMachineReadableCodeObject *)metadata stringValue];
             if (_handler) {
-                _handler(qrCodeData);
+                _handler(quickResponseCodeData);
             }
             [self performSelectorOnMainThread:@selector(cancel) withObject:nil waitUntilDone:NO];
         }
@@ -324,15 +301,15 @@ typedef void (^_QRCodeCompletionHandler)(NSString* codeString);
 
 @end
 
-typedef NS_ENUM(NSUInteger, ORKdBHLQRCodeReaderStage) {
-    ORKdBHLQRCodeReaderStageWillScan,
-    ORKdBHLQRCodeReaderStageDidScan
+typedef NS_ENUM(NSUInteger, ORKdBHLQuickResponseCodeReaderStage) {
+    ORKdBHLQuickResponseCodeReaderStageWillScan,
+    ORKdBHLQuickResponseCodeReaderStageDidScan
 };
 
-@interface ORKdBHLQRCodeReaderStepViewController() <UITextFieldDelegate> {
+@interface ORKdBHLQuickResponseCodeReaderStepViewController() <UITextFieldDelegate> {
     ORKActiveStepCustomView *_participantIDView;
     UILabel *_participantIDLabel;
-    ORKdBHLQRCodeReaderStage _stage;
+    ORKdBHLQuickResponseCodeReaderStage _stage;
     
     NSString *_participantID;
     UIAlertAction *_continueAction;
@@ -343,10 +320,10 @@ typedef NS_ENUM(NSUInteger, ORKdBHLQRCodeReaderStage) {
 
 @end
 
-@implementation ORKdBHLQRCodeReaderStepViewController
+@implementation ORKdBHLQuickResponseCodeReaderStepViewController
 
-- (ORKdBHLQRCodeReaderStep *)QRCodeReaderStep {
-    return (ORKdBHLQRCodeReaderStep *)self.step;
+- (ORKdBHLQuickResponseCodeReaderStep *)quickResponseCodeReaderStep {
+    return (ORKdBHLQuickResponseCodeReaderStep *)self.step;
 }
 
 - (instancetype)initWithStep:(ORKStep *)step {
@@ -362,7 +339,7 @@ typedef NS_ENUM(NSUInteger, ORKdBHLQRCodeReaderStage) {
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    _stage = ORKdBHLQRCodeReaderStageWillScan;
+    _stage = ORKdBHLQuickResponseCodeReaderStageWillScan;
     
     _participantIDView = [ORKActiveStepCustomView new];
     _participantIDView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -386,9 +363,9 @@ typedef NS_ENUM(NSUInteger, ORKdBHLQRCodeReaderStage) {
     
     [NSLayoutConstraint activateConstraints:constraints];
     
-    self.activeStepView.stepTitle = self.QRCodeReaderStep.title;
-    self.activeStepView.stepText = self.QRCodeReaderStep.text;
-    self.activeStepView.centeredVerticallyImage = self.QRCodeReaderStep.iconImage;
+    self.activeStepView.stepTitle = self.quickResponseCodeReaderStep.title;
+    self.activeStepView.stepText = self.quickResponseCodeReaderStep.text;
+    self.activeStepView.centeredVerticallyImage = self.quickResponseCodeReaderStep.iconImage;
     
     [self setNavigationFooterView];
 }
@@ -416,17 +393,6 @@ typedef NS_ENUM(NSUInteger, ORKdBHLQRCodeReaderStage) {
     [super setSkipButtonItem:skipButtonItem];
 }
 
-/*
- let ac = UIAlertController(title: "Enter answer", message: nil, preferredStyle: .alert)
-     ac.addTextField()
-
-     let submitAction = UIAlertAction(title: "Submit", style: .default) { [unowned ac] _ in
-         let answer = ac.textFields![0]
-         // do something interesting with "answer" here
-     }
-
-     ac.addAction(submitAction)
- */
 - (void)typeParticipantID:(id)sender {
     dispatch_async(dispatch_get_main_queue(), ^{
         UIAlertController *alertController = [UIAlertController
@@ -442,11 +408,6 @@ typedef NS_ENUM(NSUInteger, ORKdBHLQRCodeReaderStage) {
         _typedParticipantID.placeholder = @"Type your participant ID";
         _typedParticipantID.delegate = self;
         [_typedParticipantID addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
-//        [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-//            NSLog(@"validation textField %@",textField.text);
-//        }];
-//        _validatedParticipantID = [alertController textFields][1];
-//        _validatedParticipantID.placeholder = @"retype your "
         UIAlertAction *cancelAction = [UIAlertAction
                                        actionWithTitle:@"Cancel"
                                        style:UIAlertActionStyleDefault
@@ -462,7 +423,7 @@ typedef NS_ENUM(NSUInteger, ORKdBHLQRCodeReaderStage) {
             _continueAction = nil;
             _participantIDLabel.text = [NSString stringWithFormat:@"Participant ID: %@", _typedParticipantID.text];
             _participantID = _typedParticipantID.text;
-            _stage = ORKdBHLQRCodeReaderStageDidScan;
+            _stage = ORKdBHLQuickResponseCodeReaderStageDidScan;
             ORKStrongTypeOf(weakSelf) strongSelf = weakSelf;
             strongSelf.continueButtonItem.title = @"Next";
             strongSelf.activeStepView.navigationFooterView.continueButtonItem = self.continueButtonItem;
@@ -540,13 +501,13 @@ typedef NS_ENUM(NSUInteger, ORKdBHLQRCodeReaderStage) {
 
 - (void)continueButtonAction:(id)sender {
     switch (_stage) {
-        case ORKdBHLQRCodeReaderStageWillScan: {
+        case ORKdBHLQuickResponseCodeReaderStageWillScan: {
             ORKWeakTypeOf(self) weakSelf = self;
             QRViewController *vc = [[QRViewController alloc] initWithHandler:^(NSString *codeString) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     _participantIDLabel.text = [NSString stringWithFormat:@"Participant ID: %@", codeString];
                     _participantID = codeString;
-                    _stage = ORKdBHLQRCodeReaderStageDidScan;
+                    _stage = ORKdBHLQuickResponseCodeReaderStageDidScan;
                     ORKStrongTypeOf(weakSelf) strongSelf = weakSelf;
                     strongSelf.continueButtonItem.title = @"Next";
                     strongSelf.activeStepView.navigationFooterView.continueButtonItem = self.continueButtonItem;
@@ -559,7 +520,7 @@ typedef NS_ENUM(NSUInteger, ORKdBHLQRCodeReaderStage) {
             [self.taskViewController presentViewController:vc animated:YES completion:nil];
             break;
         }
-        case ORKdBHLQRCodeReaderStageDidScan: {
+        case ORKdBHLQuickResponseCodeReaderStageDidScan: {
             [self finish];
         }
         default:
@@ -580,12 +541,12 @@ typedef NS_ENUM(NSUInteger, ORKdBHLQRCodeReaderStage) {
     
     NSMutableArray *results = [NSMutableArray arrayWithArray:sResult.results];
     
-    ORKdBHLQRCodeReaderResult *qrCodeResult = [[ORKdBHLQRCodeReaderResult alloc] initWithIdentifier:self.step.identifier];
-    qrCodeResult.startDate = sResult.startDate;
-    qrCodeResult.endDate = now;
-    qrCodeResult.participantID = _participantID ? _participantID : @"";
+    ORKdBHLQuickResponseCodeReaderResult *quickResponseCodeResult = [[ORKdBHLQuickResponseCodeReaderResult alloc] initWithIdentifier:self.step.identifier];
+    quickResponseCodeResult.startDate = sResult.startDate;
+    quickResponseCodeResult.endDate = now;
+    quickResponseCodeResult.participantID = _participantID ? _participantID : @"";
     
-    [results addObject:qrCodeResult];
+    [results addObject:quickResponseCodeResult];
     
     sResult.results = [results copy];
     

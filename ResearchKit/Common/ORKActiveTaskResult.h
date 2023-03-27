@@ -45,7 +45,7 @@
 #import <ResearchKit/ORKToneAudiometryResult.h>
 #import <ResearchKit/ORKdBHLToneAudiometryResult.h>
 #import <ResearchKit/ORKdBHLFitTestResult.h>
-#import <ResearchKit/ORKdBHLQRCodeReaderResult.h>
+#import <ResearchKit/ORKdBHLQuickResponseCodeReaderResult.h>
 #import <ResearchKit/ORKTowerOfHanoiResult.h>
 #import <ResearchKit/ORKTrailmakingResult.h>
 #import <ResearchKit/ORKSpeechInNoiseResult.h>

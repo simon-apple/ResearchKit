@@ -418,12 +418,12 @@
 		626399AA29A696EF00880DE2 /* ORKdBHLFitTestStepContentView.h in Headers */ = {isa = PBXBuildFile; fileRef = 626399A829A696EF00880DE2 /* ORKdBHLFitTestStepContentView.h */; };
 		626399AB29A696F000880DE2 /* ORKdBHLFitTestStepContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 626399A929A696EF00880DE2 /* ORKdBHLFitTestStepContentView.m */; };
 		626399AD29A6A37D00880DE2 /* E+D-US_ML.wav in Resources */ = {isa = PBXBuildFile; fileRef = 626399AC29A6A37D00880DE2 /* E+D-US_ML.wav */; };
-		62670EA029B12A1100EE5198 /* ORKdBHLQRCodeReaderStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 62670E9E29B12A1100EE5198 /* ORKdBHLQRCodeReaderStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		62670EA129B12A1100EE5198 /* ORKdBHLQRCodeReaderStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 62670E9F29B12A1100EE5198 /* ORKdBHLQRCodeReaderStep.m */; };
-		62670EA429B12A4500EE5198 /* ORKdBHLQRCodeReaderStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 62670EA229B12A4500EE5198 /* ORKdBHLQRCodeReaderStepViewController.h */; };
-		62670EA529B12A4500EE5198 /* ORKdBHLQRCodeReaderStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 62670EA329B12A4500EE5198 /* ORKdBHLQRCodeReaderStepViewController.m */; };
-		62670EA829B1300200EE5198 /* ORKdBHLQRCodeReaderResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 62670EA629B1300200EE5198 /* ORKdBHLQRCodeReaderResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		62670EA929B1300200EE5198 /* ORKdBHLQRCodeReaderResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 62670EA729B1300200EE5198 /* ORKdBHLQRCodeReaderResult.m */; };
+		62670EA029B12A1100EE5198 /* ORKdBHLQuickResponseCodeReaderStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 62670E9E29B12A1100EE5198 /* ORKdBHLQuickResponseCodeReaderStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		62670EA129B12A1100EE5198 /* ORKdBHLQuickResponseCodeReaderStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 62670E9F29B12A1100EE5198 /* ORKdBHLQuickResponseCodeReaderStep.m */; };
+		62670EA429B12A4500EE5198 /* ORKdBHLQuickResponseCodeReaderStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 62670EA229B12A4500EE5198 /* ORKdBHLQuickResponseCodeReaderStepViewController.h */; };
+		62670EA529B12A4500EE5198 /* ORKdBHLQuickResponseCodeReaderStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 62670EA329B12A4500EE5198 /* ORKdBHLQuickResponseCodeReaderStepViewController.m */; };
+		62670EA829B1300200EE5198 /* ORKdBHLQuickResponseCodeReaderResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 62670EA629B1300200EE5198 /* ORKdBHLQuickResponseCodeReaderResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		62670EA929B1300200EE5198 /* ORKdBHLQuickResponseCodeReaderResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 62670EA729B1300200EE5198 /* ORKdBHLQuickResponseCodeReaderResult.m */; };
 		627AB9C5299B974400C38D5A /* ORKdBHLToneAudiometryScreenerContentViewA.m in Sources */ = {isa = PBXBuildFile; fileRef = 627AB9B8299B974100C38D5A /* ORKdBHLToneAudiometryScreenerContentViewA.m */; };
 		627AB9C6299B974400C38D5A /* ORKdBHLToneAudiometryScreenerContentView.h in Headers */ = {isa = PBXBuildFile; fileRef = 627AB9B9299B974100C38D5A /* ORKdBHLToneAudiometryScreenerContentView.h */; };
 		627AB9C7299B974400C38D5A /* ORKdBHLToneAudiometryScreenerContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 627AB9BA299B974200C38D5A /* ORKdBHLToneAudiometryScreenerContentView.m */; };
@@ -1575,12 +1575,12 @@
 		626399A829A696EF00880DE2 /* ORKdBHLFitTestStepContentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ORKdBHLFitTestStepContentView.h; path = ORKdBHLToneAudiometry/FitTest/ORKdBHLFitTestStepContentView.h; sourceTree = "<group>"; };
 		626399A929A696EF00880DE2 /* ORKdBHLFitTestStepContentView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ORKdBHLFitTestStepContentView.m; path = ORKdBHLToneAudiometry/FitTest/ORKdBHLFitTestStepContentView.m; sourceTree = "<group>"; };
 		626399AC29A6A37D00880DE2 /* E+D-US_ML.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "E+D-US_ML.wav"; sourceTree = "<group>"; };
-		62670E9E29B12A1100EE5198 /* ORKdBHLQRCodeReaderStep.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ORKdBHLQRCodeReaderStep.h; path = ORKdBHLToneAudiometry/QRCodeReader/ORKdBHLQRCodeReaderStep.h; sourceTree = "<group>"; };
-		62670E9F29B12A1100EE5198 /* ORKdBHLQRCodeReaderStep.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ORKdBHLQRCodeReaderStep.m; path = ORKdBHLToneAudiometry/QRCodeReader/ORKdBHLQRCodeReaderStep.m; sourceTree = "<group>"; };
-		62670EA229B12A4500EE5198 /* ORKdBHLQRCodeReaderStepViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ORKdBHLQRCodeReaderStepViewController.h; path = ORKdBHLToneAudiometry/QRCodeReader/ORKdBHLQRCodeReaderStepViewController.h; sourceTree = "<group>"; };
-		62670EA329B12A4500EE5198 /* ORKdBHLQRCodeReaderStepViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ORKdBHLQRCodeReaderStepViewController.m; path = ORKdBHLToneAudiometry/QRCodeReader/ORKdBHLQRCodeReaderStepViewController.m; sourceTree = "<group>"; };
-		62670EA629B1300200EE5198 /* ORKdBHLQRCodeReaderResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ORKdBHLQRCodeReaderResult.h; path = ORKdBHLToneAudiometry/QRCodeReader/ORKdBHLQRCodeReaderResult.h; sourceTree = "<group>"; };
-		62670EA729B1300200EE5198 /* ORKdBHLQRCodeReaderResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ORKdBHLQRCodeReaderResult.m; path = ORKdBHLToneAudiometry/QRCodeReader/ORKdBHLQRCodeReaderResult.m; sourceTree = "<group>"; };
+		62670E9E29B12A1100EE5198 /* ORKdBHLQuickResponseCodeReaderStep.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ORKdBHLQuickResponseCodeReaderStep.h; path = ORKdBHLToneAudiometry/QRCodeReader/ORKdBHLQuickResponseCodeReaderStep.h; sourceTree = "<group>"; };
+		62670E9F29B12A1100EE5198 /* ORKdBHLQuickResponseCodeReaderStep.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ORKdBHLQuickResponseCodeReaderStep.m; path = ORKdBHLToneAudiometry/QRCodeReader/ORKdBHLQuickResponseCodeReaderStep.m; sourceTree = "<group>"; };
+		62670EA229B12A4500EE5198 /* ORKdBHLQuickResponseCodeReaderStepViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ORKdBHLQuickResponseCodeReaderStepViewController.h; path = ORKdBHLToneAudiometry/QRCodeReader/ORKdBHLQuickResponseCodeReaderStepViewController.h; sourceTree = "<group>"; };
+		62670EA329B12A4500EE5198 /* ORKdBHLQuickResponseCodeReaderStepViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ORKdBHLQuickResponseCodeReaderStepViewController.m; path = ORKdBHLToneAudiometry/QRCodeReader/ORKdBHLQuickResponseCodeReaderStepViewController.m; sourceTree = "<group>"; };
+		62670EA629B1300200EE5198 /* ORKdBHLQuickResponseCodeReaderResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ORKdBHLQuickResponseCodeReaderResult.h; path = ORKdBHLToneAudiometry/QRCodeReader/ORKdBHLQuickResponseCodeReaderResult.h; sourceTree = "<group>"; };
+		62670EA729B1300200EE5198 /* ORKdBHLQuickResponseCodeReaderResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ORKdBHLQuickResponseCodeReaderResult.m; path = ORKdBHLToneAudiometry/QRCodeReader/ORKdBHLQuickResponseCodeReaderResult.m; sourceTree = "<group>"; };
 		627AB9B8299B974100C38D5A /* ORKdBHLToneAudiometryScreenerContentViewA.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKdBHLToneAudiometryScreenerContentViewA.m; sourceTree = "<group>"; };
 		627AB9B9299B974100C38D5A /* ORKdBHLToneAudiometryScreenerContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKdBHLToneAudiometryScreenerContentView.h; sourceTree = "<group>"; };
 		627AB9BA299B974200C38D5A /* ORKdBHLToneAudiometryScreenerContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKdBHLToneAudiometryScreenerContentView.m; sourceTree = "<group>"; };
@@ -3418,12 +3418,12 @@
 		62670E9D29B129E300EE5198 /* QRCodeReader */ = {
 			isa = PBXGroup;
 			children = (
-				62670EA229B12A4500EE5198 /* ORKdBHLQRCodeReaderStepViewController.h */,
-				62670EA329B12A4500EE5198 /* ORKdBHLQRCodeReaderStepViewController.m */,
-				62670E9E29B12A1100EE5198 /* ORKdBHLQRCodeReaderStep.h */,
-				62670E9F29B12A1100EE5198 /* ORKdBHLQRCodeReaderStep.m */,
-				62670EA629B1300200EE5198 /* ORKdBHLQRCodeReaderResult.h */,
-				62670EA729B1300200EE5198 /* ORKdBHLQRCodeReaderResult.m */,
+				62670EA229B12A4500EE5198 /* ORKdBHLQuickResponseCodeReaderStepViewController.h */,
+				62670EA329B12A4500EE5198 /* ORKdBHLQuickResponseCodeReaderStepViewController.m */,
+				62670E9E29B12A1100EE5198 /* ORKdBHLQuickResponseCodeReaderStep.h */,
+				62670E9F29B12A1100EE5198 /* ORKdBHLQuickResponseCodeReaderStep.m */,
+				62670EA629B1300200EE5198 /* ORKdBHLQuickResponseCodeReaderResult.h */,
+				62670EA729B1300200EE5198 /* ORKdBHLQuickResponseCodeReaderResult.m */,
 			);
 			name = QRCodeReader;
 			sourceTree = "<group>";
@@ -4989,7 +4989,7 @@
 				FF919A531E81BEB5005C2A1E /* ORKCollectionResult.h in Headers */,
 				627AB9CD299B974400C38D5A /* ORKdBHLToneAudiometryScreenerStep.h in Headers */,
 				86C40D0A1A8D7C5C00081FAC /* ORKCustomStepView.h in Headers */,
-				62670EA829B1300200EE5198 /* ORKdBHLQRCodeReaderResult.h in Headers */,
+				62670EA829B1300200EE5198 /* ORKdBHLQuickResponseCodeReaderResult.h in Headers */,
 				BCD192EE1B81255F00FCC08A /* ORKPieChartView_Internal.h in Headers */,
 				5D04885725F19A7A0006C68B /* ORKDevice.h in Headers */,
 				86C40DCE1A8D7C5C00081FAC /* ORKTaskViewController_Internal.h in Headers */,
@@ -5009,7 +5009,7 @@
 				86C40C961A8D7C5C00081FAC /* ORKDataLogger.h in Headers */,
 				22BFDF5E25B792BF0015D1E1 /* ORKTinnitusTypes.h in Headers */,
 				BC13CE421B066A990044153C /* ORKStepNavigationRule_Internal.h in Headers */,
-				62670EA029B12A1100EE5198 /* ORKdBHLQRCodeReaderStep.h in Headers */,
+				62670EA029B12A1100EE5198 /* ORKdBHLQuickResponseCodeReaderStep.h in Headers */,
 				86C40D781A8D7C5C00081FAC /* ORKScaleSlider.h in Headers */,
 				BA0AA6981EAEC0B600671ACE /* ORKStroopStepViewController.h in Headers */,
 				861D2AE81B840991008C4CD0 /* ORKTimedWalkStep.h in Headers */,
@@ -5179,7 +5179,7 @@
 				BAC2B65722F252F70079304E /* ORKSurveyAnswerCellForSES.h in Headers */,
 				86C40CA81A8D7C5C00081FAC /* ORKPedometerRecorder.h in Headers */,
 				86C40CD01A8D7C5C00081FAC /* ORKInstructionStepView.h in Headers */,
-				62670EA429B12A4500EE5198 /* ORKdBHLQRCodeReaderStepViewController.h in Headers */,
+				62670EA429B12A4500EE5198 /* ORKdBHLQuickResponseCodeReaderStepViewController.h in Headers */,
 				511987C3246330CA004FC2C7 /* ORKRequestPermissionsStep.h in Headers */,
 				86C40E021A8D7C5C00081FAC /* ORKConsentDocument_Internal.h in Headers */,
 				8DE27B411D5BC9E2009A26E3 /* ORKHTMLPDFPageRenderer.h in Headers */,
@@ -6067,7 +6067,7 @@
 				86C40D321A8D7C5C00081FAC /* ORKHealthAnswerFormat.m in Sources */,
 				10FF9AC41B79EF2800ECB5B4 /* ORKHolePegTestRemoveStep.m in Sources */,
 				5175144F2459EBF0009E8FFC /* ORK3DModelStep.m in Sources */,
-				62670EA529B12A4500EE5198 /* ORKdBHLQRCodeReaderStepViewController.m in Sources */,
+				62670EA529B12A4500EE5198 /* ORKdBHLQuickResponseCodeReaderStepViewController.m in Sources */,
 				03EDD58124CA6B1D006245E9 /* ORKNotificationPermissionType.m in Sources */,
 				10BAA2CB1B5FCB4F004FE478 /* ORKProgressView.m in Sources */,
 				86C40D861A8D7C5C00081FAC /* ORKSelectionTitleLabel.m in Sources */,
@@ -6185,7 +6185,7 @@
 				86C40CAE1A8D7C5C00081FAC /* ORKRecorder.m in Sources */,
 				5D5BD0682695099F003E2036 /* ORKBLEScanPeripheralsStepResult.m in Sources */,
 				627AB9C7299B974400C38D5A /* ORKdBHLToneAudiometryScreenerContentView.m in Sources */,
-				62670EA129B12A1100EE5198 /* ORKdBHLQRCodeReaderStep.m in Sources */,
+				62670EA129B12A1100EE5198 /* ORKdBHLQuickResponseCodeReaderStep.m in Sources */,
 				E2BC456D22D79081009DAAAE /* ORKHeadphoneDetector.m in Sources */,
 				FF919A401E81AFEF005C2A1E /* ORKReactionTimeResult.m in Sources */,
 				86C40DAC1A8D7C5C00081FAC /* ORKSurveyAnswerCellForNumber.m in Sources */,
@@ -6292,7 +6292,7 @@
 				2E8070FC1FAD217500E4FC7F /* ORKSpeechRecognitionStep.m in Sources */,
 				BA0AA6991EAEC0B600671ACE /* ORKStroopStepViewController.m in Sources */,
 				B11C54A11A9EF4A700265E61 /* ORKConsentSharingStepViewController.m in Sources */,
-				62670EA929B1300200EE5198 /* ORKdBHLQRCodeReaderResult.m in Sources */,
+				62670EA929B1300200EE5198 /* ORKdBHLQuickResponseCodeReaderResult.m in Sources */,
 				86C40DA81A8D7C5C00081FAC /* ORKSurveyAnswerCellForImageSelection.m in Sources */,
 				86C40CCE1A8D7C5C00081FAC /* ORKImageSelectionView.m in Sources */,
 				86C40D461A8D7C5C00081FAC /* ORKInstructionStepViewController.m in Sources */,

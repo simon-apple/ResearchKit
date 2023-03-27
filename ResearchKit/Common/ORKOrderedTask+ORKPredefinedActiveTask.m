@@ -87,7 +87,7 @@
 #if RK_APPLE_INTERNAL
 #import "ORKHeadphoneDetectStep.h"
 #import "ORKdBHLFitTestStep.h"
-#import "ORKdBHLQRCodeReaderStep.h"
+#import "ORKdBHLQuickResponseCodeReaderStep.h"
 #endif
 
 #import "ORKSkin.h"
@@ -2117,7 +2117,7 @@ NSString *const ORKdBHLToneAudiometryHeadphoneDetectStepIdentifier = @"dBHL.tone
     }
     
 //    {
-//        ORKdBHLQRCodeReaderStep *step = [[ORKdBHLQRCodeReaderStep alloc] initWithIdentifier:@"QRCodeReader"];
+//        ORKdBHLQuickResponseCodeReaderStep *step = [[ORKdBHLQuickResponseCodeReaderStep alloc] initWithIdentifier:@"QuickResponseCodeReader"];
 //        [steps addObject:step];
 //    }
     

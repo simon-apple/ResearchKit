@@ -28,15 +28,15 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "ORKdBHLQRCodeReaderStep.h"
-#import "ORKdBHLQRCodeReaderStepViewController.h"
+#import "ORKdBHLQuickResponseCodeReaderStep.h"
+#import "ORKdBHLQuickResponseCodeReaderStepViewController.h"
 
 #import "ORKHelpers_Internal.h"
 
-@implementation ORKdBHLQRCodeReaderStep
+@implementation ORKdBHLQuickResponseCodeReaderStep
 
 + (Class)stepViewControllerClass {
-    return [ORKdBHLQRCodeReaderStepViewController class];
+    return [ORKdBHLQuickResponseCodeReaderStepViewController class];
 }
 
 - (instancetype)initWithIdentifier:(NSString *)identifier {

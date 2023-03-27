@@ -28,15 +28,54 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ResearchKit/ORKResult.h>
+#import "ORKdBHLQuickResponseCodeReaderResult.h"
 
-NS_ASSUME_NONNULL_BEGIN
+#import "ORKResult_Private.h"
+#import "ORKHelpers_Internal.h"
 
-ORK_CLASS_AVAILABLE
-@interface ORKdBHLQRCodeReaderResult : ORKResult
+@implementation ORKdBHLQuickResponseCodeReaderResult
 
-@property (nonatomic, copy) NSString* participantID;
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [super encodeWithCoder:aCoder];
+    ORK_ENCODE_OBJ(aCoder, participantID);
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        ORK_DECODE_OBJ_CLASS(aDecoder, participantID, NSString);
+    }
+    return self;
+}
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
+- (BOOL)isEqual:(id)object {
+    BOOL isParentSame = [super isEqual:object];
+    
+    __typeof(self) castObject = object;
+    return (isParentSame
+            && ORKEqualObjects(self.participantID, castObject.participantID)
+            );
+}
+
+- (NSUInteger)hash {
+    NSUInteger resultsHash = self.participantID.hash;
+    
+    return super.hash ^ resultsHash;
+}
+
+- (instancetype)copyWithZone:(NSZone *)zone {
+    ORKdBHLQuickResponseCodeReaderResult *result = [super copyWithZone:zone];
+    result.participantID = [self.participantID copy];
+    
+    return result;
+}
+
+- (NSString *)descriptionWithNumberOfPaddingSpaces:(NSUInteger)numberOfPaddingSpaces {
+    return [NSString stringWithFormat:@"%@; participantID: %@;", [self descriptionPrefixWithNumberOfPaddingSpaces:numberOfPaddingSpaces], self.participantID];
+}
 
 @end
-
-NS_ASSUME_NONNULL_END

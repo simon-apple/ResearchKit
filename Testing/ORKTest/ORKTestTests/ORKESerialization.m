@@ -1019,9 +1019,9 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(confidenceThreshold, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(numberOfTries, NSNumber, NSObject, YES, nil, nil),
                     })),
-           ENTRY(ORKdBHLQRCodeReaderStep,
+           ENTRY(ORKdBHLQuickResponseCodeReaderStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-                     return [[ORKdBHLQRCodeReaderStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
+                     return [[ORKdBHLQuickResponseCodeReaderStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
                  },
                  (@{
 
@@ -2107,7 +2107,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(confidenceLeftEar, NSNumber, NSObject, NO, nil, nil),
                     PROPERTY(confidenceRightEar, NSNumber, NSObject, NO, nil, nil),
                     })),
-           ENTRY(ORKdBHLQRCodeReaderResult,
+           ENTRY(ORKdBHLQuickResponseCodeReaderResult,
                  nil,
                  (@{
                     PROPERTY(participantID, NSString, NSObject, NO, nil, nil),

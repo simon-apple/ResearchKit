@@ -28,12 +28,14 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ResearchKit/ResearchKit.h>
+#import <ResearchKit/ORKResult.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 ORK_CLASS_AVAILABLE
-@interface ORKdBHLQRCodeReaderStepViewController : ORKActiveStepViewController
+@interface ORKdBHLQuickResponseCodeReaderResult : ORKResult
+
+@property (nonatomic, copy) NSString* participantID;
 
 @end
 
