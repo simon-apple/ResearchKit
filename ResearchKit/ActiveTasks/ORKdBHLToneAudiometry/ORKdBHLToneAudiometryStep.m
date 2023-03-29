@@ -52,7 +52,7 @@
 
 #if RK_APPLE_INTERNAL
 #define ORKdBHLToneAudiometryTaskdBHLDefaultAlgorithm 0
-#define ORKdBHLToneAudiometryTaskdBHLMaximumThreshold 75.0
+#define ORKdBHLToneAudiometryTaskdBHLMaximumThreshold 70.0
 #endif
 
 @implementation ORKdBHLToneAudiometryStep {
