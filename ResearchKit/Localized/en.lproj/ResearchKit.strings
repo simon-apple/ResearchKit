@@ -577,6 +577,7 @@
 "SPEECH_IN_NOISE_STEP_TEXT" = "A sentence mixed with background noise at a randomized Signal to Noise Ratio (SNR) will be played only once.";
 "SPEECH_IN_NOISE_SPEAK_TITLE" = "Speak";
 "SPEECH_IN_NOISE_SPEAK_TEXT" = "Repeat what you heard.";
+"SPEECH_IN_NOISE_PREDEFINED_USE_KEYBOARD_INSTEAD" = "Use Keyboard Instead";
 
 /* ORKRecordButton */
 "PLAY" = "Play";
