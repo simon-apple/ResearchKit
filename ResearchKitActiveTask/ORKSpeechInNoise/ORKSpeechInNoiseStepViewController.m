@@ -173,6 +173,10 @@
     
     NSURL *fileURL = [[NSBundle bundleForClass:[self class]] URLForResource:fileName withExtension:fileExtension];
     
+    if (fileURL == nil) {
+        fileURL = [[NSBundle mainBundle] URLForResource:fileName withExtension:fileExtension];
+    }
+    
     [self loadFileAtURL:fileURL intoBuffer:buffer];
 }
 
