@@ -423,6 +423,7 @@ typedef NS_ENUM(NSUInteger, ORKdBHLQuickResponseCodeReaderStage) {
             _continueAction = nil;
             _participantIDLabel.text = [NSString stringWithFormat:@"Participant ID: %@", _typedParticipantID.text];
             _participantID = _typedParticipantID.text;
+            [[NSUserDefaults standardUserDefaults] setObject:_participantID forKey:@"kagraParticipantID"];
             _stage = ORKdBHLQuickResponseCodeReaderStageDidScan;
             ORKStrongTypeOf(weakSelf) strongSelf = weakSelf;
             strongSelf.continueButtonItem.title = @"Next";
@@ -507,6 +508,7 @@ typedef NS_ENUM(NSUInteger, ORKdBHLQuickResponseCodeReaderStage) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     _participantIDLabel.text = [NSString stringWithFormat:@"Participant ID: %@", codeString];
                     _participantID = codeString;
+                    [[NSUserDefaults standardUserDefaults] setObject:_participantID forKey:@"kagraParticipantID"];
                     _stage = ORKdBHLQuickResponseCodeReaderStageDidScan;
                     ORKStrongTypeOf(weakSelf) strongSelf = weakSelf;
                     strongSelf.continueButtonItem.title = @"Next";
