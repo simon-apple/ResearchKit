@@ -67,9 +67,6 @@
 		14F7AC8B2269035200D52F41 /* ORKStepViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F7AC8A2269035200D52F41 /* ORKStepViewControllerTests.swift */; };
 		168EEAB6230B6F9E003FD2FA /* plist-to-strings.py in Resources */ = {isa = PBXBuildFile; fileRef = 168EEAB1230B6F9E003FD2FA /* plist-to-strings.py */; };
 		16A24B70230B70890094C4C2 /* Celestial_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 16A24B6F230B70890094C4C2 /* Celestial_Private.h */; };
-		2246E5152749350300261D5A /* frequency_dBSPL_AIRPODSV3.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2246E5122749350200261D5A /* frequency_dBSPL_AIRPODSV3.plist */; };
-		2246E5162749350300261D5A /* retspl_AIRPODSV3.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2246E5132749350200261D5A /* retspl_AIRPODSV3.plist */; };
-		2246E5172749350300261D5A /* volume_curve_AIRPODSV3.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2246E5142749350200261D5A /* volume_curve_AIRPODSV3.plist */; };
 		22ED1847285290250052406B /* ORKAudiometryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 22ED1845285290250052406B /* ORKAudiometryTests.m */; };
 		22ED1848285290250052406B /* ORKAudiometryTestData.plist in Resources */ = {isa = PBXBuildFile; fileRef = 22ED1846285290250052406B /* ORKAudiometryTestData.plist */; };
 		2429D5721BBB5397003A512F /* ORKRegistrationStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 2429D5701BBB5397003A512F /* ORKRegistrationStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -101,6 +98,21 @@
 		51BD8FC329D3AD660001D54E /* Window.wav in Resources */ = {isa = PBXBuildFile; fileRef = 51BD8FC029D3AD660001D54E /* Window.wav */; };
 		51BD8FC429D3AD660001D54E /* VolumeCalibration.wav in Resources */ = {isa = PBXBuildFile; fileRef = 51BD8FC129D3AD660001D54E /* VolumeCalibration.wav */; };
 		51BD8FC529D3AD660001D54E /* Noise.wav in Resources */ = {isa = PBXBuildFile; fileRef = 51BD8FC229D3AD660001D54E /* Noise.wav */; };
+		51BD8FC929D60FB60001D54E /* frequency_dBSPL_AIRPODSMAX.plist in Resources */ = {isa = PBXBuildFile; fileRef = E293655D25757CC700092A7C /* frequency_dBSPL_AIRPODSMAX.plist */; };
+		51BD8FCA29D60FB60001D54E /* frequency_dBSPL_EARPODS.plist in Resources */ = {isa = PBXBuildFile; fileRef = 713D4B1B20FE5464002BE28D /* frequency_dBSPL_EARPODS.plist */; };
+		51BD8FCB29D60FB60001D54E /* frequency_dBSPL_AIRPODS.plist in Resources */ = {isa = PBXBuildFile; fileRef = 71B7B4D820AA91D400C5768A /* frequency_dBSPL_AIRPODS.plist */; };
+		51BD8FCC29D60FB60001D54E /* volume_curve_AIRPODSV3.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2246E5142749350200261D5A /* volume_curve_AIRPODSV3.plist */; };
+		51BD8FCD29D60FB60001D54E /* retspl_AIRPODSMAX.plist in Resources */ = {isa = PBXBuildFile; fileRef = E293655F25757E6100092A7C /* retspl_AIRPODSMAX.plist */; };
+		51BD8FCE29D60FB60001D54E /* retspl_EARPODS.plist in Resources */ = {isa = PBXBuildFile; fileRef = 713D4B1D20FE5480002BE28D /* retspl_EARPODS.plist */; };
+		51BD8FCF29D60FB60001D54E /* retspl_AIRPODSV3.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2246E5132749350200261D5A /* retspl_AIRPODSV3.plist */; };
+		51BD8FD029D60FB60001D54E /* volume_curve_AIRPODS.plist in Resources */ = {isa = PBXBuildFile; fileRef = 71B7B4D920AA91D400C5768A /* volume_curve_AIRPODS.plist */; };
+		51BD8FD129D60FB60001D54E /* retspl_AIRPODS.plist in Resources */ = {isa = PBXBuildFile; fileRef = 71B7B4D420AA91D300C5768A /* retspl_AIRPODS.plist */; };
+		51BD8FD229D60FB60001D54E /* frequency_dBSPL_AIRPODSV3.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2246E5122749350200261D5A /* frequency_dBSPL_AIRPODSV3.plist */; };
+		51BD8FD329D60FB60001D54E /* volume_curve_AIRPODSMAX.plist in Resources */ = {isa = PBXBuildFile; fileRef = E293656125757E7700092A7C /* volume_curve_AIRPODSMAX.plist */; };
+		51BD8FD429D60FB60001D54E /* volume_curve_WIRED.plist in Resources */ = {isa = PBXBuildFile; fileRef = 713D4B0F20FE4702002BE28D /* volume_curve_WIRED.plist */; };
+		51BD8FD529D60FB60001D54E /* volume_curve_AIRPODSPRO.plist in Resources */ = {isa = PBXBuildFile; fileRef = E29189BA23855BA2001AFF0F /* volume_curve_AIRPODSPRO.plist */; };
+		51BD8FD629D60FB60001D54E /* retspl_AIRPODSPRO.plist in Resources */ = {isa = PBXBuildFile; fileRef = E29189BC23855BAE001AFF0F /* retspl_AIRPODSPRO.plist */; };
+		51BD8FD729D60FB60001D54E /* frequency_dBSPL_AIRPODSPRO.plist in Resources */ = {isa = PBXBuildFile; fileRef = E29189B823855B96001AFF0F /* frequency_dBSPL_AIRPODSPRO.plist */; };
 		51E03D6324919711008F8406 /* ORKPermissionType.h in Headers */ = {isa = PBXBuildFile; fileRef = 51E03D6124919711008F8406 /* ORKPermissionType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		51E03D6424919711008F8406 /* ORKPermissionType.m in Sources */ = {isa = PBXBuildFile; fileRef = 51E03D6224919711008F8406 /* ORKPermissionType.m */; };
 		51E03D682491A601008F8406 /* ORKHealthKitPermissionType.h in Headers */ = {isa = PBXBuildFile; fileRef = 51E03D662491A601008F8406 /* ORKHealthKitPermissionType.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -176,9 +188,6 @@
 		7118AC6820BF6A3A00D7A6BB /* Sentence4.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7118AC6120BF6A3A00D7A6BB /* Sentence4.wav */; };
 		7118AC6920BF6A3A00D7A6BB /* Sentence6.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7118AC6220BF6A3A00D7A6BB /* Sentence6.wav */; };
 		7118AC6C20BF6A3A00D7A6BB /* Sentence2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7118AC6520BF6A3A00D7A6BB /* Sentence2.wav */; };
-		713D4B1020FE4702002BE28D /* volume_curve_WIRED.plist in Resources */ = {isa = PBXBuildFile; fileRef = 713D4B0F20FE4702002BE28D /* volume_curve_WIRED.plist */; };
-		713D4B1C20FE5464002BE28D /* frequency_dBSPL_EARPODS.plist in Resources */ = {isa = PBXBuildFile; fileRef = 713D4B1B20FE5464002BE28D /* frequency_dBSPL_EARPODS.plist */; };
-		713D4B1E20FE5480002BE28D /* retspl_EARPODS.plist in Resources */ = {isa = PBXBuildFile; fileRef = 713D4B1D20FE5480002BE28D /* retspl_EARPODS.plist */; };
 		714080DB235FD14700281E04 /* ResearchKit.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 714080D9235FD14700281E04 /* ResearchKit.stringsdict */; };
 		714151D0225C4A23002CA33B /* ORKPasscodeViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A92C6922444F93007547F2 /* ORKPasscodeViewControllerTests.swift */; };
 		7141EA2222EFBC0C00650145 /* ORKLoggingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7141EA2122EFBC0C00650145 /* ORKLoggingTests.m */; };
@@ -714,24 +723,9 @@
 		CAA20E5D288B3E9900EDC764 /* UIResponder+ResearchKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40BEA1A8D7C5C00081FAC /* UIResponder+ResearchKit.m */; };
 		CAA20E5E288B3E9900EDC764 /* UIBarButtonItem+ORKBarButtonItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40BE71A8D7C5C00081FAC /* UIBarButtonItem+ORKBarButtonItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CAA20E5F288B3E9900EDC764 /* UIBarButtonItem+ORKBarButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40BE81A8D7C5C00081FAC /* UIBarButtonItem+ORKBarButtonItem.m */; };
-		CAA20E61288B3F1100EDC764 /* retspl_AIRPODSV3.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2246E5132749350200261D5A /* retspl_AIRPODSV3.plist */; };
-		CAA20E6E288B3F1100EDC764 /* volume_curve_AIRPODS.plist in Resources */ = {isa = PBXBuildFile; fileRef = 71B7B4D920AA91D400C5768A /* volume_curve_AIRPODS.plist */; };
-		CAA20E7B288B3F1100EDC764 /* frequency_dBSPL_AIRPODSV3.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2246E5122749350200261D5A /* frequency_dBSPL_AIRPODSV3.plist */; };
 		CAA20E7C288B3F1100EDC764 /* ORKActiveStepView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86AD910F1AB7B8A600361FEB /* ORKActiveStepView.m */; };
-		CAA20E8A288B3F1100EDC764 /* frequency_dBSPL_AIRPODS.plist in Resources */ = {isa = PBXBuildFile; fileRef = 71B7B4D820AA91D400C5768A /* frequency_dBSPL_AIRPODS.plist */; };
 		CAA20E8C288B3F1100EDC764 /* splMeter_sensitivity_offset.plist in Resources */ = {isa = PBXBuildFile; fileRef = 71F3B27F21001DEC00FB1C41 /* splMeter_sensitivity_offset.plist */; };
-		CAA20E97288B3F1100EDC764 /* volume_curve_AIRPODSV3.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2246E5142749350200261D5A /* volume_curve_AIRPODSV3.plist */; };
-		CAA20EA7288B3F1100EDC764 /* frequency_dBSPL_EARPODS.plist in Resources */ = {isa = PBXBuildFile; fileRef = 713D4B1B20FE5464002BE28D /* frequency_dBSPL_EARPODS.plist */; };
-		CAA20EA9288B3F1100EDC764 /* retspl_AIRPODSMAX.plist in Resources */ = {isa = PBXBuildFile; fileRef = E293655F25757E6100092A7C /* retspl_AIRPODSMAX.plist */; };
-		CAA20EB1288B3F1100EDC764 /* frequency_dBSPL_AIRPODSPRO.plist in Resources */ = {isa = PBXBuildFile; fileRef = E29189B823855B96001AFF0F /* frequency_dBSPL_AIRPODSPRO.plist */; };
-		CAA20EB8288B3F1100EDC764 /* volume_curve_AIRPODSPRO.plist in Resources */ = {isa = PBXBuildFile; fileRef = E29189BA23855BA2001AFF0F /* volume_curve_AIRPODSPRO.plist */; };
-		CAA20EC5288B3F1100EDC764 /* frequency_dBSPL_AIRPODSMAX.plist in Resources */ = {isa = PBXBuildFile; fileRef = E293655D25757CC700092A7C /* frequency_dBSPL_AIRPODSMAX.plist */; };
-		CAA20ECE288B3F1100EDC764 /* retspl_AIRPODSPRO.plist in Resources */ = {isa = PBXBuildFile; fileRef = E29189BC23855BAE001AFF0F /* retspl_AIRPODSPRO.plist */; };
-		CAA20ED6288B3F1100EDC764 /* retspl_AIRPODS.plist in Resources */ = {isa = PBXBuildFile; fileRef = 71B7B4D420AA91D300C5768A /* retspl_AIRPODS.plist */; };
-		CAA20ED7288B3F1100EDC764 /* retspl_EARPODS.plist in Resources */ = {isa = PBXBuildFile; fileRef = 713D4B1D20FE5480002BE28D /* retspl_EARPODS.plist */; };
 		CAA20EEA288B3F1200EDC764 /* ORKActiveStepQuantityView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40AFB1A8D7C5B00081FAC /* ORKActiveStepQuantityView.m */; };
-		CAA20EF7288B3F1200EDC764 /* volume_curve_AIRPODSMAX.plist in Resources */ = {isa = PBXBuildFile; fileRef = E293656125757E7700092A7C /* volume_curve_AIRPODSMAX.plist */; };
-		CAA20F00288B3F1200EDC764 /* volume_curve_WIRED.plist in Resources */ = {isa = PBXBuildFile; fileRef = 713D4B0F20FE4702002BE28D /* volume_curve_WIRED.plist */; };
 		CAA20F1A288B3F4000EDC764 /* SentencesList.txt in Resources */ = {isa = PBXBuildFile; fileRef = BA22F76C20C4F884006E6E11 /* SentencesList.txt */; };
 		CAA20F20288B3F4000EDC764 /* Sentence2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7118AC6520BF6A3A00D7A6BB /* Sentence2.wav */; };
 		CAA20F21288B3F4000EDC764 /* Sentence7.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7118AC6020BF6A3900D7A6BB /* Sentence7.wav */; };
@@ -5372,14 +5366,8 @@
 			files = (
 				168EEAB6230B6F9E003FD2FA /* plist-to-strings.py in Resources */,
 				0BEE14B1286CE552005F26D1 /* Scrubbers in Resources */,
-				2246E5172749350300261D5A /* volume_curve_AIRPODSV3.plist in Resources */,
-				713D4B1E20FE5480002BE28D /* retspl_EARPODS.plist in Resources */,
-				2246E5152749350300261D5A /* frequency_dBSPL_AIRPODSV3.plist in Resources */,
-				713D4B1020FE4702002BE28D /* volume_curve_WIRED.plist in Resources */,
-				713D4B1C20FE5464002BE28D /* frequency_dBSPL_EARPODS.plist in Resources */,
 				7118AC6920BF6A3A00D7A6BB /* Sentence6.wav in Resources */,
 				7118AC6820BF6A3A00D7A6BB /* Sentence4.wav in Resources */,
-				2246E5162749350300261D5A /* retspl_AIRPODSV3.plist in Resources */,
 				7118AC6C20BF6A3A00D7A6BB /* Sentence2.wav in Resources */,
 				B1C0F4E41A9BA65F0022C153 /* ResearchKit.strings in Resources */,
 				714080DB235FD14700281E04 /* ResearchKit.stringsdict in Resources */,
@@ -5391,44 +5379,29 @@
 			buildActionMask = 2147483647;
 			files = (
 				CAA20F43288B3F7700EDC764 /* consent_06@3x.m4v in Resources */,
-				CAA20E7B288B3F1100EDC764 /* frequency_dBSPL_AIRPODSV3.plist in Resources */,
-				CAA20E61288B3F1100EDC764 /* retspl_AIRPODSV3.plist in Resources */,
 				CAA20F45288B3F7700EDC764 /* consent_06@2x.m4v in Resources */,
 				CAA20F47288B3F7700EDC764 /* consent_03@2x.m4v in Resources */,
 				CAA20F4E288B3F7700EDC764 /* consent_03@3x.m4v in Resources */,
 				CAA20F4D288B3F7700EDC764 /* consent_04@2x.m4v in Resources */,
 				CAA20F49288B3F7700EDC764 /* consent_07@3x.m4v in Resources */,
 				CAA20F4A288B3F7700EDC764 /* consent_01@2x.m4v in Resources */,
-				CAA20EA9288B3F1100EDC764 /* retspl_AIRPODSMAX.plist in Resources */,
-				CAA20EC5288B3F1100EDC764 /* frequency_dBSPL_AIRPODSMAX.plist in Resources */,
 				CAA20F42288B3F7700EDC764 /* consent_05@3x.m4v in Resources */,
-				CAA20E8A288B3F1100EDC764 /* frequency_dBSPL_AIRPODS.plist in Resources */,
 				CAA20E8C288B3F1100EDC764 /* splMeter_sensitivity_offset.plist in Resources */,
 				CAA20F26288B3F4000EDC764 /* Sentence4.wav in Resources */,
-				CAA20EF7288B3F1200EDC764 /* volume_curve_AIRPODSMAX.plist in Resources */,
 				CAA20F2B288B3F5B00EDC764 /* MovieTintShader.vsh in Resources */,
 				CAA20F44288B3F7700EDC764 /* consent_01@3x.m4v in Resources */,
-				CAA20EB8288B3F1100EDC764 /* volume_curve_AIRPODSPRO.plist in Resources */,
 				CAA20F22288B3F4000EDC764 /* Sentence5.wav in Resources */,
 				CAA20F41288B3F7700EDC764 /* consent_02@3x.m4v in Resources */,
 				CAA20F46288B3F7700EDC764 /* consent_02@2x.m4v in Resources */,
 				CAA20F4C288B3F7700EDC764 /* consent_05@2x.m4v in Resources */,
-				CAA20F00288B3F1200EDC764 /* volume_curve_WIRED.plist in Resources */,
-				CAA20ED7288B3F1100EDC764 /* retspl_EARPODS.plist in Resources */,
 				CAA20F48288B3F7700EDC764 /* consent_04@3x.m4v in Resources */,
 				CAA20F20288B3F4000EDC764 /* Sentence2.wav in Resources */,
 				CAA20F24288B3F4000EDC764 /* Sentence3.wav in Resources */,
-				CAA20EA7288B3F1100EDC764 /* frequency_dBSPL_EARPODS.plist in Resources */,
 				CAA20F23288B3F4000EDC764 /* Sentence1.wav in Resources */,
 				CAA20F1A288B3F4000EDC764 /* SentencesList.txt in Resources */,
-				CAA20E97288B3F1100EDC764 /* volume_curve_AIRPODSV3.plist in Resources */,
-				CAA20ECE288B3F1100EDC764 /* retspl_AIRPODSPRO.plist in Resources */,
 				CAA20F4B288B3F7700EDC764 /* consent_07@2x.m4v in Resources */,
-				CAA20E6E288B3F1100EDC764 /* volume_curve_AIRPODS.plist in Resources */,
-				CAA20EB1288B3F1100EDC764 /* frequency_dBSPL_AIRPODSPRO.plist in Resources */,
 				CAA20F27288B3F4000EDC764 /* Sentence6.wav in Resources */,
 				CAA20F2D288B3F5B00EDC764 /* MovieTintShader.fsh in Resources */,
-				CAA20ED6288B3F1100EDC764 /* retspl_AIRPODS.plist in Resources */,
 				CAA20F21288B3F4000EDC764 /* Sentence7.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -5437,8 +5410,23 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				51BD8FD329D60FB60001D54E /* volume_curve_AIRPODSMAX.plist in Resources */,
+				51BD8FCF29D60FB60001D54E /* retspl_AIRPODSV3.plist in Resources */,
+				51BD8FD129D60FB60001D54E /* retspl_AIRPODS.plist in Resources */,
 				51BD8FC329D3AD660001D54E /* Window.wav in Resources */,
+				51BD8FCA29D60FB60001D54E /* frequency_dBSPL_EARPODS.plist in Resources */,
+				51BD8FD529D60FB60001D54E /* volume_curve_AIRPODSPRO.plist in Resources */,
+				51BD8FCD29D60FB60001D54E /* retspl_AIRPODSMAX.plist in Resources */,
+				51BD8FD629D60FB60001D54E /* retspl_AIRPODSPRO.plist in Resources */,
+				51BD8FD729D60FB60001D54E /* frequency_dBSPL_AIRPODSPRO.plist in Resources */,
+				51BD8FD029D60FB60001D54E /* volume_curve_AIRPODS.plist in Resources */,
 				51BD8FC529D3AD660001D54E /* Noise.wav in Resources */,
+				51BD8FD429D60FB60001D54E /* volume_curve_WIRED.plist in Resources */,
+				51BD8FD229D60FB60001D54E /* frequency_dBSPL_AIRPODSV3.plist in Resources */,
+				51BD8FC929D60FB60001D54E /* frequency_dBSPL_AIRPODSMAX.plist in Resources */,
+				51BD8FCE29D60FB60001D54E /* retspl_EARPODS.plist in Resources */,
+				51BD8FCC29D60FB60001D54E /* volume_curve_AIRPODSV3.plist in Resources */,
+				51BD8FCB29D60FB60001D54E /* frequency_dBSPL_AIRPODS.plist in Resources */,
 				51BD8FC429D3AD660001D54E /* VolumeCalibration.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
