@@ -259,7 +259,7 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
         restorationDataByTaskID[taskID] = nil
     }
 
-    // MARK: Internal
+    // MARK: Helpers
 
     func updateForTintColorTaskResult(_ taskResult: ORKTaskResult) {
         let stepIdentifier = String(describing: TaskListRow.Identifier.tintColorStep)
