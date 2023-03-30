@@ -80,6 +80,8 @@
     ORKHeadphoneDetector *_headphoneDetector;
     BOOL _showingAlert;
     
+    BOOL _didSkipStep;
+    
     NSString *_caseSerial;
     NSString *_leftSerial;
     NSString *_rightSerial;
@@ -107,6 +109,7 @@
         self.currentTap = [[ORKdBHLToneAudiometryTap alloc] init];
         self.currentTap.response = ORKdBHLToneAudiometryTapBeforeResponseWindow;
         _showingAlert = NO;
+        _didSkipStep = NO;
     }
     return self;
 }
@@ -133,7 +136,6 @@
 }
 
 - (void)dealloc {
-    NSLog(@"ToneAudiometry being dealloced");
     [_headphoneDetector discard];
     _headphoneDetector = nil;
 }
@@ -214,6 +216,7 @@
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center addObserver:self selector:@selector(appWillTerminate:) name:UIApplicationWillTerminateNotification object:nil];
     [center addObserver:self selector:@selector(tapButtonPressed) name:@"buttonTapped" object:nil];
+    [center addObserver:self selector:@selector(skipButtonPressed) name:@"skipTapped" object:nil];
     #if RK_APPLE_INTERNAL
     //[center addObserver:self selector:@selector(appDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
     #endif
@@ -361,7 +364,7 @@
 - (void)stepDidFinish {
     [self.dBHLToneAudiometryContentView setProgress:self.audiometryEngine.progress animated:YES];
 
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((_didSkipStep ? 1 : 5) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [super stepDidFinish];
         [self stopAudio];
         [self.dBHLToneAudiometryContentView finishStep:self];
@@ -410,7 +413,6 @@
             [self.audiometryEngine registerPreStimulusDelay:preStimulusDelay];
             
             _preStimulusDelayWorkBlock = dispatch_block_create(DISPATCH_BLOCK_INHERIT_QOS_CLASS, ^{
-
                 if ([[self audiometryEngine] respondsToSelector:@selector(registerStimulusPlayback)]) {
                     [self.audiometryEngine registerStimulusPlayback];
                 }
@@ -420,14 +422,12 @@
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(preStimulusDelay * NSEC_PER_SEC)), dispatch_get_main_queue(), _preStimulusDelayWorkBlock);
             
             _pulseDurationWorkBlock = dispatch_block_create(DISPATCH_BLOCK_INHERIT_QOS_CLASS, ^{
-
                 [_audioGenerator stop];
             });
             // adding 0.2 seconds to account for the fadeInDuration which is being set in ORKdBHLToneAudiometryAudioGenerator
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((preStimulusDelay + toneDuration + 0.2) * NSEC_PER_SEC)), dispatch_get_main_queue(), _pulseDurationWorkBlock);
             
             _postStimulusDelayWorkBlock = dispatch_block_create(DISPATCH_BLOCK_INHERIT_QOS_CLASS, ^{
-
                 self.currentTap.response = ORKdBHLToneAudiometryNoTapOnResponseWindow;
                 [self logCurrentTap];
                             
@@ -445,6 +445,12 @@
     } else {
         [self runTestTrial];
     }
+}
+
+- (void)skipButtonPressed {
+    _didSkipStep = YES;
+    [self stopAudio];
+    [self finish];
 }
 
 - (void)tapButtonPressed {

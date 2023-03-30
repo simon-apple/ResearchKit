@@ -34,6 +34,7 @@ extension NSNotification.Name {
     static let sliderValueChanged = NSNotification.Name("sliderValueChanged")
     static let resetView = NSNotification.Name("resetView")
     static let nextButtonTapped = NSNotification.Name("nextButtonTapped")
+    static let skipButtonTapped = NSNotification.Name("skipButtonTapped")
 }
 
 @available(iOS 13.0, *)
@@ -70,6 +71,7 @@ struct ORKdBHLToneAudiometryMethodOfAdjustmentView: View {
     
     let resetViewPublisher = NotificationCenter.default.publisher(for: .resetView)
     let nextButtonTappedPublisher = NotificationCenter.default.publisher(for: .nextButtonTapped)
+    //let skipButtonTappedPublisher = NotificationCenter.default.publisher(for: .skipButtonTapped)
     
     var body: some View {
         VStack(spacing: 15) {
@@ -101,6 +103,10 @@ struct ORKdBHLToneAudiometryMethodOfAdjustmentView: View {
             }, sourceOfChange: $viewModel.sourceOfChange)
             
             Spacer(minLength: 75)
+            
+            skipButton()
+            
+            Spacer().frame(height: 15)
             
             nextButton()
             
@@ -135,6 +141,21 @@ struct ORKdBHLToneAudiometryMethodOfAdjustmentView: View {
 //                .multilineTextAlignment(.center)
 //        }
 //    }
+    
+    func skipButton() -> some View {
+        Button {
+            NotificationCenter.default.post(
+                name: .skipButtonTapped,
+                object: nil
+            )
+        } label: {
+            Text("Skip Step")
+                .font(.system(.title2))
+                .frame(maxWidth: .infinity)
+        }
+        .buttonStyle(.plain)
+        .foregroundColor(.blue)
+    }
     
     func nextButton() -> some View {
         Button {

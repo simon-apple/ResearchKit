@@ -142,6 +142,11 @@
              name:@"nextButtonTapped"
              object:nil];
         
+        [[NSNotificationCenter defaultCenter] addObserver:self
+             selector:@selector(receiveSkipButtonTappedNotification:)
+             name:@"skipButtonTapped"
+             object:nil];
+        
         _counter = 0;
     }
     
@@ -289,6 +294,13 @@
 - (void)receiveNextButtonTappedNotification:(NSNotification *) notification {
     if ([[notification name] isEqualToString:@"nextButtonTapped"]) {
         [self continueButtonAction:self];
+    }
+}
+
+- (void)receiveSkipButtonTappedNotification:(NSNotification *) notification {
+    if ([[notification name] isEqualToString:@"skipButtonTapped"]) {
+        [self stopAudio];
+        [self finish];
     }
 }
 

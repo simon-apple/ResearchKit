@@ -35,6 +35,7 @@ import AVFoundation
 
 extension NSNotification.Name {
     static let buttonTapped = NSNotification.Name("buttonTapped")
+    static let skipTapped = NSNotification.Name("skipTapped")
     static let updateProgress = NSNotification.Name("updateProgress")
 }
 
@@ -121,6 +122,7 @@ struct ORKdBHLToneAudiometryMethodOfLimitsView: View {
     var width: CGFloat = 250
     
     let buttonTappedPublisher = NotificationCenter.default.publisher(for: .nextButtonTapped)
+//    let skipTappedPublisher = NotificationCenter.default.publisher(for: .skipTapped)
     let updateProgressPublisher = NotificationCenter.default.publisher(for: .updateProgress)
 
     var showWaveAnimation: Bool {
@@ -238,6 +240,30 @@ struct ORKdBHLToneAudiometryMethodOfLimitsView: View {
                     .multilineTextAlignment(.center)
             }.padding([.leading, .trailing])
 
+            Spacer()
+            
+            Button {
+                NotificationCenter.default.post(
+                    name: .skipTapped,
+                    object: nil,
+                    userInfo: nil
+                )
+                isComplete = true
+            } label: {
+                HStack {
+                    Text("Skip Step")
+                        .frame(minHeight: 170)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 20)
+                        .background(Color.clear)
+                        .font(.title)
+                        .lineLimit(2)
+                        .foregroundColor(Color.blue)
+                        .cornerRadius(10)
+                }
+            }.padding([.bottom], 50)
+            //.disabled(isComplete)
+            
             Spacer()
             
             Button {
