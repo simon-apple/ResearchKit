@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, Apple Inc. All rights reserved.
+ Copyright (c) 2022, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,51 +28,28 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
-@import UIKit;
-
-
-#if TARGET_OS_WATCH
-#import <ResearchKitCore/ORKStep.h>
-
-#if RK_APPLE_INTERNAL
-#import <ResearchKitCore/ORKContext.h>
-#endif
-
-#elif TARGET_OS_IOS
-#import <ResearchKit/ORKStep.h>
-
-#if RK_APPLE_INTERNAL
-#import <ResearchKit/ORKContext.h>
-#endif
-
-#endif
+#import <ResearchKit/ResearchKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-/**
- An `ORKInstructionStep` object gives the participant instructions for a task.
- 
- You can use instruction steps to present various types of content during a task, such as
- introductory content, instructions in the middle
- of a task, or a final message at the completion of a task.
- 
-To indicate the completion of a task, consider using an `ORKCompletionStep` object instead.
- */
-ORK_CLASS_AVAILABLE
-@interface ORKInstructionStep : ORKStep
+@interface ORKConsentDocument (ORKInstructionStep)
 
 /**
- Additional attributed explanation for the instruction.
- 
- The attributed detail text is displayed below the content of the `text` property and overrides `detailText`.
+  Converts an ORKConsentDocument to ORKInstructionSteps
+ -`consentDocument`         An existing ORKConsentDocument
+ -`returns`: Array of ORKInstructionStep
  */
-@property (nonatomic, copy, nullable) NSAttributedString *attributedDetailText;
 
-@property (nonatomic) BOOL centerImageVertically;
+@property (nonatomic, readonly, copy) NSArray<ORKInstructionStep *> *instructionSteps;
 
-@property(nonatomic) NSInteger type;
-
+/**
+  Converts ORKInstructionSteps to an ORKConsentReviewStep
+ -`instructionSteps`  An array of instructionSteps
+ -`identifier` an string identifier
+ -`signatureStep` an optional signature step
+ -`returns`: an ORKConsentReviewStep
+ */
+- (ORKConsentReviewStep *)consentReviewStepFromInstructionSteps:(NSArray<ORKInstructionStep *> *)steps withIdentifier:(NSString *)identifier signature:(ORKConsentSignature *)signature;
 
 @end
 
