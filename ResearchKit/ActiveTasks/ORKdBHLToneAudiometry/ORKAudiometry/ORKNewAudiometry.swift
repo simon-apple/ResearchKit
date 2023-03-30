@@ -280,11 +280,12 @@ public struct ORKNewAudiometryState {
         return results.map { key, value in
             let sample = ORKdBHLToneAudiometryFrequencySample()
             sample.frequency = key
-            #if SIMULATE_HL
-            sample.calculatedThreshold = value * Double.random(in: -15...15)
-            #else
-            sample.calculatedThreshold = value
-            #endif
+            var maskValue = 0.0
+            let enableRealDataNumber = UserDefaults.standard.bool(forKey: "enable_realData")
+            if enableRealDataNumber {
+                maskValue += Double.random(in: -15...15)
+            }
+            sample.calculatedThreshold = value + maskValue
             sample.channel = channel
             return sample
         }.sorted { $0.frequency < $1.frequency }

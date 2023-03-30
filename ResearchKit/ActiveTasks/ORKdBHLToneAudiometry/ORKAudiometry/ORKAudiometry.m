@@ -411,11 +411,9 @@
         ORKAudiometryTransition *currentTransitionObject = [_transitionsDictionary objectForKey:currentKey];
         currentTransitionObject.userInitiated -= 1;
     } else if ([self validateResultFordBHL:_currentdBHL]) {
-#if SIMULATE_HL
-        _resultSample.calculatedThreshold = _currentdBHL - [self getRandomFloat];
-#else
-        _resultSample.calculatedThreshold = _currentdBHL;
-#endif
+        NSNumber *enableRealDataNumber = [[NSUserDefaults standardUserDefaults] objectForKey:@"enable_realData"];
+        BOOL enableRealData = enableRealDataNumber ? enableRealDataNumber.boolValue : NO;
+        _resultSample.calculatedThreshold = _currentdBHL - (enableRealData ? 0.0 : [self getRandomFloat]);
         
         _indexOfFreqLoopList += 1;
         if (_indexOfFreqLoopList >= _freqLoopList.count) {
@@ -454,11 +452,9 @@
         ORKAudiometryTransition *currentTransitionObject = [_transitionsDictionary objectForKey:currentKey];
         currentTransitionObject.userInitiated -= 1;
     } else {
-#if SIMULATE_HL
-        _resultSample.calculatedThreshold = _currentdBHL - [self getRandomFloat];
-#else
-        _resultSample.calculatedThreshold = _currentdBHL;
-#endif
+        NSNumber *enableRealDataNumber = [[NSUserDefaults standardUserDefaults] objectForKey:@"enable_realData"];
+        BOOL enableRealData = enableRealDataNumber ? enableRealDataNumber.boolValue : NO;
+        _resultSample.calculatedThreshold = _currentdBHL - (enableRealData ? 0.0 : [self getRandomFloat]);
         _indexOfFreqLoopList += 1;
         if (_indexOfFreqLoopList >= _freqLoopList.count) {
             _resultSample.units = [_arrayOfResultUnits copy];
@@ -495,30 +491,24 @@
         if (((previousTransitionObject.userInitiated/previousTransitionObject.totalTransitions <= 0.5) && (previousTransitionObject.totalTransitions >= 2)) || dBHL == _dBHLMinimumThreshold) {
             if (currentTransitionObject.totalTransitions == 2) {
                 if (currentTransitionObject.userInitiated/currentTransitionObject.totalTransitions == 1.0) {
-                    #if SIMULATE_HL
-                    _resultSample.calculatedThreshold = _currentdBHL - [self getRandomFloat];
-                    #else
-                    _resultSample.calculatedThreshold = _currentdBHL;
-                    #endif
+                    NSNumber *enableRealDataNumber = [[NSUserDefaults standardUserDefaults] objectForKey:@"enable_realData"];
+                    BOOL enableRealData = enableRealDataNumber ? enableRealDataNumber.boolValue : NO;
+                    _resultSample.calculatedThreshold = _currentdBHL - (enableRealData ? 0.0 : [self getRandomFloat]);
                     return YES;
                 } else {
                     return NO;
                 }
             } else {
-                #if SIMULATE_HL
-                _resultSample.calculatedThreshold = _currentdBHL - [self getRandomFloat];
-                #else
-                _resultSample.calculatedThreshold = _currentdBHL;
-                #endif
+                NSNumber *enableRealDataNumber = [[NSUserDefaults standardUserDefaults] objectForKey:@"enable_realData"];
+                BOOL enableRealData = enableRealDataNumber ? enableRealDataNumber.boolValue : NO;
+                _resultSample.calculatedThreshold = _currentdBHL - (enableRealData ? 0.0 : [self getRandomFloat]);
                 return YES;
             }
         }
     } else if (_minimumThresholdCounter > 2) {
-        #if SIMULATE_HL
-        _resultSample.calculatedThreshold = _currentdBHL - [self getRandomFloat];
-        #else
-        _resultSample.calculatedThreshold = _currentdBHL;
-        #endif
+        NSNumber *enableRealDataNumber = [[NSUserDefaults standardUserDefaults] objectForKey:@"enable_realData"];
+        BOOL enableRealData = enableRealDataNumber ? enableRealDataNumber.boolValue : NO;
+        _resultSample.calculatedThreshold = _currentdBHL - (enableRealData ? 0.0 : [self getRandomFloat]);
         return YES;
     }
     return NO;
