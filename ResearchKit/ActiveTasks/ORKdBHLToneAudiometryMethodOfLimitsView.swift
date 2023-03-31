@@ -115,6 +115,8 @@ struct ORKdBHLToneAudiometryMethodOfLimitsView: View {
     @State var player: AVAudioPlayer?
     @State private var timer: Timer?
     
+    @AppStorage("enable_skipButton") var enableSkipButton: Bool = false
+    
     var audioChannel: ORKAudioChannel = .left
     var channelProgress = ProgressData(progressValue: 0.0, status: .notStarted)
 
@@ -242,29 +244,29 @@ struct ORKdBHLToneAudiometryMethodOfLimitsView: View {
 
             Spacer()
             
-            Button {
-                NotificationCenter.default.post(
-                    name: .skipTapped,
-                    object: nil,
-                    userInfo: nil
-                )
-                isComplete = true
-            } label: {
-                HStack {
-                    Text("Skip Step")
-                        .frame(minHeight: 170)
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal, 20)
-                        .background(Color.clear)
-                        .font(.title)
-                        .lineLimit(2)
-                        .foregroundColor(Color.blue)
-                        .cornerRadius(10)
-                }
-            }.padding([.bottom], 50)
-            //.disabled(isComplete)
-            
-            Spacer()
+            if enableSkipButton {
+                Button {
+                    NotificationCenter.default.post(
+                        name: .skipTapped,
+                        object: nil,
+                        userInfo: nil
+                    )
+                    isComplete = true
+                } label: {
+                    HStack {
+                        Text("Skip Step")
+                            .frame(minHeight: 170)
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal, 20)
+                            .background(Color.clear)
+                            .font(.title)
+                            .lineLimit(2)
+                            .foregroundColor(Color.blue)
+                            .cornerRadius(10)
+                    }
+                }.padding([.bottom], 50)
+                Spacer()
+            }
             
             Button {
                 NotificationCenter.default.post(
