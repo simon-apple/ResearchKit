@@ -51,8 +51,9 @@
 #import <ResearchKit/ORKStep.h>
 #import <ResearchKit/ORKStepNavigationRule.h>
 
-#import <ResearchKitActiveTask/ORKEnvironmentSPLMeterStep.h>
 #import <ResearchKitActiveTask/ORKSpeechRecognitionStep.h>
+
+#import <ResearchKitInternal/AAPLEnvironmentSPLMeterStep.h>
 
 #import <Speech/SFSpeechRecognizer.h>
 
@@ -342,7 +343,7 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierHeadphonesReq
     
 #if !HIDE_ENVIRONMENT_SPL_STEP
     {
-        ORKEnvironmentSPLMeterStep *step = [[ORKEnvironmentSPLMeterStep alloc] initWithIdentifier:ORKSpeechInNoiseStepIdentifierEnvironmentSPLStep];
+        AAPLEnvironmentSPLMeterStep *step = [[AAPLEnvironmentSPLMeterStep alloc] initWithIdentifier:ORKSpeechInNoiseStepIdentifierEnvironmentSPLStep];
         step.title = AAPLLocalizedString(@"ENVIRONMENTSPL_TITLE_2", nil);
         step.text = AAPLLocalizedString(@"ENVIRONMENTSPL_INTRO_TEXT_2", nil);
         step.thresholdValue = 45;

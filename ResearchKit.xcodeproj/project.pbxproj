@@ -90,6 +90,7 @@
 		511987C3246330CA004FC2C7 /* ORKRequestPermissionsStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 511987C1246330CA004FC2C7 /* ORKRequestPermissionsStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		511987C4246330CA004FC2C7 /* ORKRequestPermissionsStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 511987C2246330CA004FC2C7 /* ORKRequestPermissionsStep.m */; };
 		511BB024298DCCC200936EC0 /* ORKSpeechRecognitionStepViewController_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 511BB022298DCCC200936EC0 /* ORKSpeechRecognitionStepViewController_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		511E8D622995C20E00A384A5 /* ORKEnvironmentSPLMeterStepViewController_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 511E8D602995C20E00A384A5 /* ORKEnvironmentSPLMeterStepViewController_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5139A559266EDA3300537192 /* ORKFeatureFlags.h in Headers */ = {isa = PBXBuildFile; fileRef = 5139A553266ED9BB00537192 /* ORKFeatureFlags.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5175145E245A4FF1009E8FFC /* ORKFrontFacingCameraStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 5175145C245A4FF1009E8FFC /* ORKFrontFacingCameraStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5175145F245A4FF1009E8FFC /* ORKFrontFacingCameraStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 5175145D245A4FF1009E8FFC /* ORKFrontFacingCameraStep.m */; };
@@ -1222,6 +1223,7 @@
 		511987C52463316E004FC2C7 /* ORKRequestPermissionsStepViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKRequestPermissionsStepViewController.h; sourceTree = "<group>"; };
 		511987C62463316E004FC2C7 /* ORKRequestPermissionsStepViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKRequestPermissionsStepViewController.m; sourceTree = "<group>"; };
 		511BB022298DCCC200936EC0 /* ORKSpeechRecognitionStepViewController_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKSpeechRecognitionStepViewController_Private.h; sourceTree = "<group>"; };
+		511E8D602995C20E00A384A5 /* ORKEnvironmentSPLMeterStepViewController_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKEnvironmentSPLMeterStepViewController_Private.h; sourceTree = "<group>"; };
 		5139A553266ED9BB00537192 /* ORKFeatureFlags.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKFeatureFlags.h; sourceTree = "<group>"; };
 		515310CD233570CF007BCA58 /* ORKDontKnowButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKDontKnowButton.h; sourceTree = "<group>"; };
 		515310CE233570CF007BCA58 /* ORKDontKnowButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKDontKnowButton.m; sourceTree = "<group>"; };
@@ -3976,6 +3978,7 @@
 				71BD9EA420969BE1007B436E /* ORKEnvironmentSPLMeterStep.m */,
 				716B126220A78C6B00590264 /* ORKEnvironmentSPLMeterResult.h */,
 				716B126320A78C6B00590264 /* ORKEnvironmentSPLMeterResult.m */,
+				511E8D602995C20E00A384A5 /* ORKEnvironmentSPLMeterStepViewController_Private.h */,
 			);
 			path = environmentSPLMeter;
 			sourceTree = "<group>";
@@ -4961,6 +4964,7 @@
 				CA2B901728A180480025B773 /* ORKOrderedTask+ORKPredefinedActiveTask.h in Headers */,
 				CA2B8FC228A175C40025B773 /* ORKHolePegTestPlacePegView.h in Headers */,
 				CAD08A39289DE5F0007B2A98 /* CMDeviceMotion+ORKJSONDictionary.h in Headers */,
+				511E8D622995C20E00A384A5 /* ORKEnvironmentSPLMeterStepViewController_Private.h in Headers */,
 				CAD08A8C289DE772007B2A98 /* ORKAudioGenerator.h in Headers */,
 				CA2B8F9128A16E3B0025B773 /* ORKEnvironmentSPLMeterContentView.h in Headers */,
 				CAD08A41289DE617007B2A98 /* HKSample+ORKJSONDictionary.h in Headers */,

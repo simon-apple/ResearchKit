@@ -31,10 +31,6 @@
 
 #import "ORKEnvironmentSPLMeterStepViewController.h"
 
-#if RK_APPLE_INTERNAL
-#import <ResearchKit/ORKContext.h>
-#endif
-
 #import "ORKActiveStepView.h"
 #import "ORKStepView.h"
 #import "ORKStepContainerView_Private.h"
@@ -42,6 +38,7 @@
 #import "ORKEnvironmentSPLMeterContentView.h"
 #import "ORKRingView.h"
 
+#import "ORKEnvironmentSPLMeterStepViewController_Private.h"
 #import "ORKActiveStepViewController_Internal.h"
 #import "ORKStepViewController_Internal.h"
 #import "ORKTaskViewController_Internal.h"
@@ -57,12 +54,8 @@
 #include <sys/sysctl.h>
 
 static const NSTimeInterval SPL_METER_PLAY_DELAY_VOICEOVER = 3.0;
-#if RK_APPLE_INTERNAL
-static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;
-#endif
 
 @interface ORKEnvironmentSPLMeterStepViewController ()<ORKRingViewDelegate, ORKEnvironmentSPLMeterContentViewVoiceOverDelegate> {
-    AVAudioEngine *_audioEngine;
     AVAudioInputNode *_inputNode;
     AVAudioUnitEQ *_eqUnit;
     AVAudioFrameCount _bufferSize;
@@ -83,7 +76,6 @@ static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;
     AVAudioSessionMode _savedSessionMode;
     AVAudioSessionCategoryOptions _savedSessionCategoryOptions;
     UINotificationFeedbackGenerator *_notificationFeedbackGenerator;
-    NSTimer *_timeoutTimer;
 }
 
 @property (nonatomic, strong) ORKEnvironmentSPLMeterContentView *environmentSPLMeterContentView;
@@ -123,92 +115,6 @@ static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;
     [self.taskViewController setNavigationBarColor:[self.view backgroundColor]];
 }
 
-#if RK_APPLE_INTERNAL
-- (void)registerNotifications {
-    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-    [center addObserver:self selector:@selector(appWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
-    [center addObserver:self selector:@selector(appWillTerminate:) name:UIApplicationWillTerminateNotification object:nil];
-    [center addObserver:self selector:@selector(appDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
-}
-
--(void)appWillResignActive:(NSNotification*)note {
-    [self stopTimeoutTimer];
-}
-
--(void)appDidBecomeActive:(NSNotification*)note {
-    [self startTimeoutTimer];
-}
-
--(void)appWillTerminate:(NSNotification*)note {
-    [self stopTimeoutTimer];
-    [self removeObservers];
-}
-
-- (void)removeObservers {
-    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-    [center removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
-    [center removeObserver:self name:UIApplicationWillTerminateNotification object:nil];
-    [center removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
-}
-
-- (void)startTimeoutTimer {
-    if (_timeoutTimer != nil) {
-        [self stopTimeoutTimer];
-    }
-    _timeoutTimer = [NSTimer scheduledTimerWithTimeInterval:SPL_METER_TIMEOUT_IN_SECONDS target:self selector:@selector(timeoutCheck) userInfo:nil repeats:YES];
-}
-
-- (void)timeoutCheck {
-    [self stopTimeoutTimer];
-    [_audioEngine stop];
-    [self resetAudioSession];
-    
-    id<ORKTask> task = self.taskViewController.task;
-    
-    if ([task isKindOfClass:[ORKNavigableOrderedTask class]]) {
-        ORKNavigableOrderedTask *currentTask = (ORKNavigableOrderedTask *)task;
-        
-        ORKStep *timeoutStep = [currentTask stepWithIdentifier:ORKEnvironmentSPLMeterTimeoutIdentifier];
-        
-        if (timeoutStep == nil) {
-            NSUInteger nextStepIndex = [currentTask indexOfStep:[self step]] + 1;
-            ORKStep *nextStep = nil;
-            
-            if (currentTask.steps.count >= nextStepIndex) {
-                nextStep = [currentTask steps][nextStepIndex];
-                
-                ORKDirectStepNavigationRule *nextNavigationRule = [[ORKDirectStepNavigationRule alloc] initWithDestinationStepIdentifier:nextStep.identifier];
-                [currentTask setNavigationRule:nextNavigationRule forTriggerStepIdentifier:self.step.identifier];
-            }
-            
-            ORKCompletionStep *step = [[ORKCompletionStep alloc] initWithIdentifier:ORKEnvironmentSPLMeterTimeoutIdentifier];
-            step.title = ORKLocalizedString(@"ENVIRONMENTSPL_QUIET_LOCATION_REQUIRED_TITLE", nil);
-            step.text = ORKLocalizedString(@"ENVIRONMENTSPL_QUIET_LOCATION_REQUIRED_TEXT", nil);
-            step.optional = NO;
-            step.reasonForCompletion = ORKTaskFinishReasonDiscarded;
-            
-            if (@available(iOS 13.0, *)) {
-                UIImageConfiguration *configuration = [UIImageSymbolConfiguration configurationWithFont:[UIFont preferredFontForTextStyle:UIFontTextStyleBody] scale:UIImageSymbolScaleLarge];
-                step.iconImage = [UIImage systemImageNamed:@"waveform.circle.fill" withConfiguration:configuration];
-            }
-            
-            [currentTask insertStep:step atIndex:[currentTask indexOfStep:self.step]];
-            
-            ORKDirectStepNavigationRule *endNavigationRule = [[ORKDirectStepNavigationRule alloc] initWithDestinationStepIdentifier:ORKNullStepIdentifier];
-            [currentTask setNavigationRule:endNavigationRule forTriggerStepIdentifier:ORKEnvironmentSPLMeterTimeoutIdentifier];
-        }
-
-        [[self taskViewController] flipToPageWithIdentifier:ORKEnvironmentSPLMeterTimeoutIdentifier forward:YES animated:YES];
-    }
-}
-
-- (void)stopTimeoutTimer {
-    [_timeoutTimer invalidate];
-    _timeoutTimer = nil;
-}
-
-#endif
-
 - (void)saveAudioSession {
     AVAudioSession *audioSession = [AVAudioSession sharedInstance];
     _savedSessionCategory = audioSession.category;
@@ -221,24 +127,6 @@ static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;
     self.activeStepView.navigationFooterView.continueButtonItem = self.continueButtonItem;
     self.activeStepView.navigationFooterView.continueEnabled = NO;
     [self.activeStepView.navigationFooterView updateContinueAndSkipEnabled];
-    #if RK_APPLE_INTERNAL
-    ORKTaskViewController *taskViewController = self.taskViewController;
-    ORKStep *nextStep = [taskViewController.task stepAfterStep:self.step withResult:taskViewController.result];
-    Class ORKSpeechInNoisePredefinedTaskContext = NSClassFromString(@"ORKSpeechInNoisePredefinedTaskContext");
-    
-    if (nextStep && [nextStep.context isKindOfClass:ORKSpeechInNoisePredefinedTaskContext])
-    {
-        NSNumber *isPracticeTest = [(NSObject *)nextStep.context valueForKey:@"isPracticeTest"];
-        if (isPracticeTest.boolValue)
-        {
-            [self setContinueButtonTitle:ORKLocalizedString(@"BUTTON_PRACTICE_TEST", nil)];
-        }
-        else
-        {
-            [self setContinueButtonTitle:ORKLocalizedString(@"BUTTON_START_TEST", nil)];
-        }
-    }
-    #endif
 }
 
 - (void)setContinueButtonItem:(UIBarButtonItem *)continueButtonItem {
@@ -255,11 +143,6 @@ static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;
         [self requestRecordPermissionIfNeeded];
         [self configureAudioSession];
         [self setupFeedbackGenerator];
-        
-        #if RK_APPLE_INTERNAL
-        [self registerNotifications];
-        [self startTimeoutTimer];
-        #endif
     }
     
 }
@@ -286,10 +169,6 @@ static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;
     [super viewWillDisappear:animated];
     [self stopAudioEngine];
     [self resetAudioSession];
-    
-    #if RK_APPLE_INTERNAL
-    [self removeObservers];
-    #endif
 }
 
 - (NSString *)deviceType {
@@ -564,13 +443,6 @@ static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;
 }
 
 - (void)reachedOptimumNoiseLevel {
-    
-    #if RK_APPLE_INTERNAL
-    [self stopAudioEngine];
-    [self sendHapticEvent:UINotificationFeedbackTypeSuccess];
-    [self stopTimeoutTimer];
-    #endif
-    
     [self resetAudioSession];
 }
 

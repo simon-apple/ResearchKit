@@ -54,7 +54,8 @@
 #import <ResearchKit/ORKStepNavigationRule.h>
 #import <ResearchKit/ResearchKit_Private.h>
 #import <ResearchKit/ORKTypes.h>
-#import <ResearchKitActiveTask/ORKEnvironmentSPLMeterStep.h>
+
+#import <ResearchKitInternal/AAPLEnvironmentSPLMeterStep.h>
 
 NSString *const ORKHeadphoneNotificationSuspendActivity = @"ORKHeadphoneNotificationSuspendActivity";
 
@@ -775,8 +776,8 @@ static NSString *const ORKTinnitusHeadphoneRequiredStepIdentifier = @"ORKTinnitu
     return [headphone copy];
 }
 
-+ (ORKEnvironmentSPLMeterStep *)splmeter {
-    ORKEnvironmentSPLMeterStep *splmeter = [[ORKEnvironmentSPLMeterStep alloc] initWithIdentifier:ORKTinnitusSPLMeterStepIdentifier];
++ (AAPLEnvironmentSPLMeterStep *)splmeter {
+    AAPLEnvironmentSPLMeterStep *splmeter = [[AAPLEnvironmentSPLMeterStep alloc] initWithIdentifier:ORKTinnitusSPLMeterStepIdentifier];
     splmeter.requiredContiguousSamples = 5;
     splmeter.thresholdValue = 55;
     splmeter.title = AAPLLocalizedString(@"ENVIRONMENTSPL_TITLE_2", nil);

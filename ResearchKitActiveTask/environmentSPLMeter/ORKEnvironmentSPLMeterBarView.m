@@ -29,11 +29,7 @@
  */
 
 #import "ORKEnvironmentSPLMeterBarView.h"
-
-#if RK_APPLE_INTERNAL
-#import "UIColor+Custom.h"
-#endif
-
+#import "ORKSkin.h"
 #import <QuartzCore/QuartzCore.h>
 
 static const CGFloat ORKEnvironmentSPLMeterSquareSize = 8.0;
@@ -233,15 +229,12 @@ static const int ORKEnvironmentSPLMeterNumberOfRows = 4;
         UIColor *grayColor;
         UIColor *greenColor;
         UIColor *orangeColor;
+        
+        grayColor = [UIColor ork_splGrayColor];
         if (@available(iOS 13.0, *)) {
-            #if RK_APPLE_INTERNAL
-            grayColor = UIColor.splGrayColor;
-            #endif
-
             greenColor = [UIColor systemGreenColor];
             orangeColor = [UIColor systemOrangeColor];
         } else {
-            grayColor = [UIColor grayColor];
             greenColor = [UIColor greenColor];
             orangeColor = [UIColor orangeColor];
         }

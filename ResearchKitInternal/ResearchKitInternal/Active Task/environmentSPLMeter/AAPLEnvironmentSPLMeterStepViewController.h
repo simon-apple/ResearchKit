@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, Apple Inc. All rights reserved.
+ Copyright (c) 2023, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,21 +28,12 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
-#import <ResearchKit/ORKActiveStep.h>
-
+#import <ResearchKitActiveTask/ResearchKitActiveTask.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ORKActiveStep ()
+@interface AAPLEnvironmentSPLMeterStepViewController : ORKEnvironmentSPLMeterStepViewController
 
- // Convenience methods.
-- (BOOL)startsFinished;
-- (BOOL)hasCountDown;
-- (BOOL)hasTitle;
-- (BOOL)hasText;
-- (BOOL)hasVoice;
-- (BOOL)hasAudioRecording;
 @end
 
 NS_ASSUME_NONNULL_END

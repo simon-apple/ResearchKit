@@ -151,6 +151,8 @@ void ORKColorSetColorForKey(NSString *key, UIColor *color);
 + (UIColor *)ork_darkGrayColor;
 + (UIColor *)ork_borderGrayColor;
 
++ (UIColor *)ork_splGrayColor;
+
 @end
 
 extern const CGFloat ORKScreenMetricMaxDimension;

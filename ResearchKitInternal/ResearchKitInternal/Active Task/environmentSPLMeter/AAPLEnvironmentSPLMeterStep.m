@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, Apple Inc. All rights reserved.
+ Copyright (c) 2023, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,21 +28,28 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import "AAPLEnvironmentSPLMeterStep.h"
 
-#import <ResearchKit/ORKActiveStep.h>
+#import <ResearchKit/ORKRecorder_Private.h>
+#import <ResearchKit/ORKHelpers_Internal.h>
 
+@implementation AAPLEnvironmentSPLMeterStep
 
-NS_ASSUME_NONNULL_BEGIN
+- (instancetype)initWithIdentifier:(NSString *)identifier {
+    self = [super initWithIdentifier:identifier];
 
-@interface ORKActiveStep ()
+    if (self) {
+        ORKAudioStreamerConfiguration *config = (ORKAudioStreamerConfiguration *)self.recorderConfigurations.firstObject;
+        
+        if (config != nil) {
+            config.bypassAudioEngineStart = YES;
+        }
+    }
+    return self;
+}
 
- // Convenience methods.
-- (BOOL)startsFinished;
-- (BOOL)hasCountDown;
-- (BOOL)hasTitle;
-- (BOOL)hasText;
-- (BOOL)hasVoice;
-- (BOOL)hasAudioRecording;
+- (BOOL)hasAudioRecording {
+    return YES;
+}
+
 @end
-
-NS_ASSUME_NONNULL_END
