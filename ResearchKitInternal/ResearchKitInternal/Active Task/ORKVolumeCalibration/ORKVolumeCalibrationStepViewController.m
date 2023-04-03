@@ -40,6 +40,7 @@
 #import "ORKTinnitusVolumeResult.h"
 #import "ORKTinnitusAudioSample.h"
 #import "ORKTinnitusHeadphoneTable.h"
+#import "AAPLTaskViewController.h"
 
 #import <ResearchKit/ORKHelpers_Internal.h>
 #import <ResearchKitActiveTask/ORKActiveStepView.h>
@@ -255,7 +256,15 @@ const NSTimeInterval ORKVolumeCalibrationFadeStep = 0.01;
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    [self.taskViewController saveVolume];
+    AAPLTaskViewController *aaplTaskViewController = (AAPLTaskViewController *)self.taskViewController;
+    
+    if (aaplTaskViewController != nil && [aaplTaskViewController isKindOfClass:[AAPLTaskViewController class]]) {
+        [aaplTaskViewController saveVolume];
+    } else {
+        // rdar://107531448 (all internal classes should throw error if parent is AAPLTaskViewController)
+        // TODO: THROW IF PARENT VIEW CONTROLLER ISN'T OF TYPE AAPLTaskViewController
+    }
+    
     [[getAVSystemControllerClass() sharedAVSystemController] setActiveCategoryVolumeTo:UIAccessibilityIsVoiceOverRunning() ? 0.2 : 0];
 }
 

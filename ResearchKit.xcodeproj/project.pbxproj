@@ -2312,13 +2312,6 @@
 			path = ../ActiveTasks;
 			sourceTree = "<group>";
 		};
-		51814E68264347F8009E8C98 /* InternalPredefinedTasks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = InternalPredefinedTasks;
-			sourceTree = "<group>";
-		};
 		519C297F26D0278A00FD5F44 /* SwiftUI Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -2698,7 +2691,6 @@
 		B12EFF331AB2110300A80147 /* Task */ = {
 			isa = PBXGroup;
 			children = (
-				51814E68264347F8009E8C98 /* InternalPredefinedTasks */,
 				BC13CE371B0660220044153C /* ORKNavigableOrderedTask.h */,
 				BC13CE381B0660220044153C /* ORKNavigableOrderedTask.m */,
 				10FF9AD91B7BA78400ECB5B4 /* ORKOrderedTask_Private.h */,

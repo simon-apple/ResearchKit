@@ -37,6 +37,7 @@
 #import "ORKAVJournalingStep.h"
 #import "ORKContext+ResearchKitInternal.h"
 #import "ORKFaceDetectionStep.h"
+#import "AAPLCompletionStep.h"
 
 #import "AAPLUtils.h"
 

@@ -29,6 +29,8 @@
  */
 
 #import "AAPLCompletionStepViewController.h"
+#import "AAPLCompletionStep.h"
+
 #import "ResearchKitUI/ORKInstructionStepViewController_Internal.h"
 #import "ResearchKitUI/ORKTaskViewController_Internal.h"
 #import "ResearchKitUI/ORKStepViewController_Internal.h"

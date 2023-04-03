@@ -40,12 +40,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-#if RK_APPLE_INTERNAL
-typedef NSString *ORKCompletionStepIdentifier NS_STRING_ENUM;
-ORK_EXTERN ORKCompletionStepIdentifier const ORKCompletionStepIdentifierMicrophoneLearnMore;
-ORK_EXTERN ORKCompletionStepIdentifier const ORKEnvironmentSPLMeterTimeoutIdentifier;
-#endif
-
 /**
  The `ORKCompletionStep` class is a subclass of `ORKInstructionStep` which behaves like
  an instruction step, but includes animated imagery that thanks the user

@@ -57,26 +57,10 @@
 #import "ORKBorderedButton.h"
 #import "ORKTaskReviewViewController.h"
 
-#if RK_APPLE_INTERNAL
-#import "ORKContext.h"
-#endif
-
 @import AVFoundation;
 @import CoreMotion;
 #import <CoreLocation/CoreLocation.h>
 
-#if RK_APPLE_INTERNAL
-#import "ORKActiveStep_Internal.h"
-#import "ORKOrderedTask_Private.h"
-#import "ORKSensitiveURLLearnMoreInstructionStep.h"
-#import "ORKCelestialSoftLink.h"
-#endif
-
-// TODO: REMOVE THIS AFTER CREATING A INTERNAL TASKVIEWCONTROLLER. THIS IS HERE JUST TO KEEP THINGS BUILIDING RIGHT NOW.
-#if RK_APPLE_INTERNAL
-ORKCompletionStepIdentifier const ORKCompletionStepIdentifierMicrophoneLearnMore = @"ORKCompletionStepIdentifierMicrophoneLearnMore";
-ORKCompletionStepIdentifier const ORKEnvironmentSPLMeterTimeoutIdentifier = @"ORKEnvironmentSPLMeterTimeoutIdentifier";
-#endif
 
 typedef void (^_ORKLocationAuthorizationRequestHandler)(BOOL success);
 
@@ -150,9 +134,7 @@ typedef void (^_ORKLocationAuthorizationRequestHandler)(BOOL success);
     ORKScrollViewObserver *_scrollViewObserver;
     BOOL _hasBeenPresented;
     BOOL _hasRequestedHealthData;
-    #if RK_APPLE_INTERNAL
-    BOOL _hasMicrophoneAccess;
-    #endif
+    
     BOOL _saveable;
     ORKPermissionMask _grantedPermissions;
     NSSet<HKObjectType *> *_requestedHealthTypesForRead;
@@ -168,12 +150,6 @@ typedef void (^_ORKLocationAuthorizationRequestHandler)(BOOL success);
     BOOL _hasAudioSession; // does not need state restoration - temporary
     
     NSString *_restoredTaskIdentifier;
-    
-#if RK_APPLE_INTERNAL
-    BOOL _hasLockedVolume;
-    float _savedVolume;
-    float _lockedVolume;
-#endif
     
     UINavigationController *_childNavigationController;
     UIViewController *_previousToTopControllerInNavigationStack;
@@ -237,9 +213,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     // Ensure taskRunUUID has non-nil valuetaskRunUUID
     (void)[self taskRunUUID];
     self.restorationClass = [ORKTaskViewController class];
-#if RK_APPLE_INTERNAL
-    _hasLockedVolume = NO;
-#endif
+    
     return self;
 }
 
@@ -331,9 +305,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     }
     
     _hasRequestedHealthData = NO;
-#if RK_APPLE_INTERNAL
-    _hasMicrophoneAccess = NO;
-#endif
+    
     _task = task;
 }
 
@@ -446,9 +418,15 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     return permissions;
 }
 
+// [RDLS:TODO] this method name is inaccurate—it requests location, audio recording, etc. beyond just HK access. Either break up or rename
 - (void)requestHealthAuthorizationWithCompletion:(void (^)(void))completion {
     if (_hasRequestedHealthData) {
-        if (completion) completion();
+        // [RDLS:NOTE] It's easier for clients when completion: APIs always call back the same way. In this case that means only calling back on a different queue than the caller queue. Here we're trying to short circuit, but that means that the caller sometimes continues before the block runs, and sometimes after the block is run. I would switch this to calling the completion on a different queue, probably the main queue. Not suggesting the main queue because I like main queue, but because it's the least change given this API already calls back on the main queue when _hasRequestedHealthData == NO.
+        if (completion) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completion();
+            });
+        }
         return;
     }
     
@@ -498,14 +476,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
             dispatch_async(dispatch_get_main_queue(), ^{
                 ORK_Log_Debug("Requesting audio access");
                 [self requestAudioRecordingAccessWithHandler:^(BOOL success) {
-                    #if RK_APPLE_INTERNAL
-                    _hasMicrophoneAccess = success;
-                    #endif
-                    if (success) {
-                        _grantedPermissions |= ORKPermissionAudioRecording;
-                    } else {
-                        _grantedPermissions &= ~ORKPermissionAudioRecording;
-                    }
+                    [self handleResponseFromAudioRequest: success];
                     dispatch_semaphore_signal(semaphore);
                 }];
             });
@@ -543,12 +514,21 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
             dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
         }
         
+        // [RDLS:????] this looks like a hack. Why do we have to set it inside and outside the dispatch_async? There should only be on queue trying to write this value.
         _hasRequestedHealthData = YES;
         dispatch_async(dispatch_get_main_queue(), ^{
             _hasRequestedHealthData = YES;
             if (completion) completion();
         });
     });
+}
+
+- (void)handleResponseFromAudioRequest:(BOOL)success {
+    if (success) {
+        _grantedPermissions |= ORKPermissionAudioRecording;
+    } else {
+        _grantedPermissions &= ~ORKPermissionAudioRecording;
+    }
 }
 
 - (void)startAudioPromptSessionIfNeeded {
@@ -634,33 +614,6 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     }
 }
 
-#if RK_APPLE_INTERNAL
-- (void)lockDeviceVolume:(float)volume {
-    if (!_hasLockedVolume) {
-        _hasLockedVolume = YES;
-        _lockedVolume = volume;
-        _savedVolume = [[AVAudioSession sharedInstance] outputVolume];
-        
-        [self registerNotifications];
-        
-        [[getAVSystemControllerClass() sharedAVSystemController] setActiveCategoryVolumeTo:_lockedVolume];
-    }
-}
-
-- (void)saveVolume {
-    _savedVolume = [[AVAudioSession sharedInstance] outputVolume];
-}
-
-- (void)registerNotifications {
-    if (@available(iOS 15.0, *)) {
-        [[getAVSystemControllerClass() sharedAVSystemController] setAttribute:@[getAVSystemController_SystemVolumeDidChangeNotification()]
-                                                                       forKey:getAVSystemController_SubscribeToNotificationsAttribute()
-                                                                        error:nil];
-    }
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(volumeDidChange:) name:getAVSystemController_SystemVolumeDidChangeNotification() object:nil];
-}
-#endif
-
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
@@ -713,16 +666,6 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    
-#if RK_APPLE_INTERNAL
-
-    // restore saved volume
-    if (_hasLockedVolume || (!_hasLockedVolume && _savedVolume > 0)) {
-        [[NSNotificationCenter defaultCenter] removeObserver:self];
-        
-        [[getAVSystemControllerClass() sharedAVSystemController] setActiveCategoryVolumeTo:_savedVolume];
-    }
-#endif
     
     // Set endDate on TaskVC is dismissed,
     // because nextResponder is not nil when current TaskVC is covered by another modal view
@@ -837,22 +780,6 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     }
 }
 
-- (void)suspend {
-    [self finishAudioPromptSession];
-    // TODO: rdar://98592778 (revisit these "lifecycle" methods)
-    if ([_currentStepViewController respondsToSelector:@selector(suspend)]) {
-        [_currentStepViewController performSelector:@selector(suspend)];
-    }
-}
-
-- (void)resume {
-    // TODO: rdar://98592778 (revisit these "lifecycle" methods)
-    [self startAudioPromptSessionIfNeeded];
-    if ([_currentStepViewController respondsToSelector:@selector(resume)]) {
-        [_currentStepViewController performSelector:@selector(resume)];
-    }
-}
-
 - (void)goForward {
     [_currentStepViewController goForward];
 }
@@ -885,54 +812,6 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
 }
 
 #pragma mark - internal helpers
-
-#if RK_APPLE_INTERNAL
-
-- (BOOL)showSensitiveURLLearMoreStepViewControllerForStep:(ORKActiveStep *)step {
-    // If they select to not allow required permissions, we need to show them to the door.
-    if ([self.task isKindOfClass:[ORKNavigableOrderedTask class]] &&
-        [step hasAudioRecording]) {
-        ORKNavigableOrderedTask *navigableOrderedTask = (ORKNavigableOrderedTask *)self.task;
-        
-        ORKCompletionStep *completionStep = [[ORKCompletionStep alloc] initWithIdentifier:ORKCompletionStepIdentifierMicrophoneLearnMore];
-        completionStep.title = ORKLocalizedString(@"CONTEXT_MICROPHONE_REQUIRED_TITLE", nil);
-        completionStep.text = ORKLocalizedString(@"CONTEXT_MICROPHONE_REQUIRED_TEXT", nil);
-        completionStep.optional = NO;
-        completionStep.reasonForCompletion = ORKTaskFinishReasonDiscarded;
-        
-        if (@available(iOS 13.0, *)) {
-            completionStep.iconImage = [UIImage systemImageNamed:@"mic.slash"];
-        }
-        
-        ORKSensitiveURLLearnMoreInstructionStep *learnMoreInstructionStep = [[ORKSensitiveURLLearnMoreInstructionStep alloc]
-                                                                             initWithIdentifier:ORKCompletionStepIdentifierMicrophoneLearnMore
-                                                                             sensitiveURLString:@ORKSensitiveMicrophoneURLString
-                                                                             applicationString:@ORKSensitiveMicrophoneApplicationString];
-        
-        
-        ORKLearnMoreItem *learnMoreItem = [[ORKLearnMoreItem alloc]
-                                           initWithText:ORKLocalizedString(@"OPEN_MICROPHONE_SETTINGS", nil)
-                                           learnMoreInstructionStep:learnMoreInstructionStep];
-        
-        ORKBodyItem *settingsLinkBodyItem = [[ORKBodyItem alloc] initWithText:nil
-                                                                   detailText:nil
-                                                                        image:nil
-                                                                learnMoreItem:learnMoreItem
-                                                                bodyItemStyle:ORKBodyItemStyleText];
-        
-        completionStep.bodyItems = @[settingsLinkBodyItem];
-        
-        [navigableOrderedTask addStep:completionStep];
-        
-        ORKDirectStepNavigationRule *endNavigationRule = [[ORKDirectStepNavigationRule alloc] initWithDestinationStepIdentifier:ORKNullStepIdentifier];
-        [navigableOrderedTask setNavigationRule:endNavigationRule forTriggerStepIdentifier:ORKCompletionStepIdentifierMicrophoneLearnMore];
-        
-        [self flipToPageWithIdentifier:ORKCompletionStepIdentifierMicrophoneLearnMore forward:YES animated:NO];
-        return YES;
-    }
-    return NO;
-}
-#endif
 
 - (void)updateLastBeginningInstructionStepIdentifierForStep:(ORKStep *)step
                                                   goForward:(BOOL)goForward {
@@ -971,23 +850,30 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     return (desiredMask == 0 || ((desiredMask & _grantedPermissions) != 0));
 }
 
+- (BOOL)handlePermissionRequestsDeniedForStep:(ORKStep *)step error:(NSError **)outError {
+    if (outError != nil) {
+        *outError = [NSError errorWithDomain:NSCocoaErrorDomain
+                                        code:NSUserCancelledError
+                                    userInfo:@{@"reason": @"Required permissions not granted."}];
+    }
+    return NO;
+}
+
 - (void)showStepViewController:(ORKStepViewController *)stepViewController goForward:(BOOL)goForward animated:(BOOL)animated {
     if (nil == stepViewController) {
         return;
     }
     
     ORKStep *step = stepViewController.step;
+    
+    // rdar://107531676 (investigate how TaskViewController handles its state if permissions aren't granted)
+    // [RDLS:????] this seems like a bug waiting to happen—I haven't looked into how this state is used or cleared, but if permissions aren't granted and we bail out early, should/does this state get cleared?
     [self updateLastBeginningInstructionStepIdentifierForStep:step goForward:goForward];
     
     ORKStepViewController *fromController = self.currentStepViewController;
-#if RK_APPLE_INTERNAL
-    if (fromController && animated) {
-        __block BOOL shouldReturn = NO;
-#else
     if (fromController && animated && [self isStepLastBeginningInstructionStep:fromController.step]) {
-#endif
+
         [self startAudioPromptSessionIfNeeded];
-        
         if ( [self grantedAtLeastOnePermission] == NO) {
             // Do the health request and THEN proceed.
             [self requestHealthAuthorizationWithCompletion:^{
@@ -997,39 +883,31 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
                 // However, since iOS does not re-present requests for access, we
                 // can easily fail even if the user does not see a dialog, which would
                 // be highly unexpected.
-                if ([self grantedAtLeastOnePermission] == NO) {
-#if RK_APPLE_INTERNAL
-                    ORKActiveStep *activeStep = nil;
-                    if ([step isKindOfClass:[ORKActiveStep class]]) {
-                        activeStep = (ORKActiveStep *)step;
-                    }
-                    
-                    if (activeStep && [activeStep hasAudioRecording]
-                        && !_hasMicrophoneAccess && [self.task isKindOfClass:[ORKNavigableOrderedTask class]]) {
-                        shouldReturn = [self showSensitiveURLLearMoreStepViewControllerForStep:activeStep];
-                    }
-                } else {
-                    [self showStepViewController:stepViewController goForward:goForward animated:animated];
-                }
-            }];
-            if (shouldReturn) {
-                return;
-            }
-#else
-                    [self reportError:[NSError errorWithDomain:NSCocoaErrorDomain
-                                                          code:NSUserCancelledError
-                                                      userInfo:@{@"reason": @"Required permissions not granted."}]
-                               onStep:fromController.step];
 
-                } else {
+                BOOL canRetryShowStepViewController = YES;
+                
+                // if we were granted at least one permission, it's worth trying again to show the step
+                canRetryShowStepViewController = canRetryShowStepViewController && [self grantedAtLeastOnePermission];
+
+                // even if we weren't granted permission, maybe step doesn't require it or the task can handle it some other way?
+                NSError *handlerErrorOrNil = nil;
+                if (canRetryShowStepViewController == NO) {
+                    BOOL handledRequestsDenied = [self handlePermissionRequestsDeniedForStep:fromController.step error:&handlerErrorOrNil];
+                    canRetryShowStepViewController = canRetryShowStepViewController && handledRequestsDenied;
+                }
+
+                if (canRetryShowStepViewController == YES) {
                     [self showStepViewController:stepViewController goForward:goForward animated:animated];
+                } else {
+                    [self reportError:handlerErrorOrNil onStep:fromController.step];
                 }
             }];
+            
+            // [RDLS:NOTE] if we had to request auth, always return early and rely on the completion block to call showStepViewController again in case auth succeeds.
             return;
-#endif
         }
     }
-
+    
     if (step.identifier && ![_managedStepIdentifiers.lastObject isEqualToString:step.identifier]) {
         [_managedStepIdentifiers addObject:step.identifier];
     }
@@ -1219,13 +1097,8 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     }
     
     stepViewController.outputDirectory = self.outputDirectory;
+    
     if (!isPreviousViewController) {
-#if RK_APPLE_INTERNAL
-        // Do not update the task's managed result if we are instantiating a previous view controllers for the
-        // navigation stack. Some active view controllers such as `ORKHeadphoneDetectStepViewController` don't feature
-        // a result retoration path on init and we don't want to overwrite the most current result stored by the task
-#endif
-
         [self setManagedResult:stepViewController.result forKey:step.identifier];
     }
     
@@ -1270,26 +1143,13 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     ORKStrongTypeOf(self.delegate) strongDelegate = self.delegate;
     if ([strongDelegate respondsToSelector:@selector(taskViewController:didFinishWithReason:error:)]) {
         [strongDelegate taskViewController:self didFinishWithReason:reason error:error];
-#if RK_APPLE_INTERNAL
-        ORKNavigableOrderedTask *navigableOrderedTask = nil;
-        if ([self.task isKindOfClass:[ORKNavigableOrderedTask class]]) {
-            navigableOrderedTask = (ORKNavigableOrderedTask *)self.task;
-            __block id<ORKContext> context = nil;
-            [navigableOrderedTask.steps indexOfObjectPassingTest:^BOOL(ORKStep * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                if (obj.context != nil) {
-                    context = obj.context;
-                    *stop = YES;
-                    return YES;
-                }
-                return NO;
-            }];
-            // TODO: rdar://98592778 (revisit these "lifecycle" methods)
-            if ([context respondsToSelector:@selector(resetVariables)]) {
-                [context performSelector:@selector(resetVariables)];
-            }
-        }
-#endif
     }
+    [self didFinishWithReason:reason error:error];
+}
+
+// For subclasses
+- (void)didFinishWithReason:(ORKTaskFinishReason)reason error:(nullable NSError *)error {
+    // no-op
 }
 
 - (void)presentCancelOptions:(BOOL)saveable sender:(id)sender {
@@ -1855,26 +1715,6 @@ static NSString *const _ORKProgressMode = @"progressMode";
     [self addStepResultsUntilStepWithIdentifier:stepIdentifier];
     [self showStepViewController:[self viewControllerForStep:[self.task stepWithIdentifier:stepIdentifier]] goForward:YES animated:YES];
 }
-
-#if RK_APPLE_INTERNAL
-#pragma mark Volume notifications
-- (void)volumeDidChange:(NSNotification *)note
-{
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if ([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive) {
-            NSDictionary *userInfo = note.userInfo;
-            NSNumber *volume = userInfo[getAVSystemController_AudioVolumeNotificationParameter()];
-            
-            if (volume.floatValue != _lockedVolume) {
-                NSString *reason = userInfo[getAVSystemController_AudioVolumeChangeReasonNotificationParameter()];
-                if ([reason isEqualToString:@"ExplicitVolumeChange"]) {
-                    [[getAVSystemControllerClass() sharedAVSystemController] setActiveCategoryVolumeTo:_lockedVolume];
-                };
-            }
-        }
-    });
-}
-#endif
 
 #pragma mark - UINavigationController delegate
 

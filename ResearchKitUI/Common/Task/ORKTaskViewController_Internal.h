@@ -65,23 +65,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)restartTask;
 
 - (void)flipToLastPage;
-#if RK_APPLE_INTERNAL
-// Save the current system volume for restoration after the task end
-- (void)saveVolume;
 
-// will return YES if the sensitive URL step is shown
-- (BOOL)showSensitiveURLLearMoreStepViewControllerForStep:(ORKActiveStep *)step;
-
-/**
- Forces the task to finish with the specified reason and error.
- 
- Call this method to force task completion, override this method to perform specific actions to wrap up your task.
- 
- @param reason          The reason tbe task is finished.
- @param error            An error associated with the finish reason of the task, or nil if no error is provided.
- */
-- (void)finishWithReason:(ORKTaskFinishReason)reason error:(nullable NSError *)error;
-#endif
 @end
 
 NS_ASSUME_NONNULL_END

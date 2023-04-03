@@ -86,10 +86,16 @@
     _headphoneDetector = [[ORKHeadphoneDetector alloc] initWithDelegate:self
                                                 supportedHeadphoneChipsetTypes:[ORKHeadphoneDetectStep dBHLTypes]];
     
-    //TODO:- figure out where this call lives
-    [[self taskViewController] lockDeviceVolume:0.625];
+    AAPLTaskViewController *taskViewController = (AAPLTaskViewController *)[self taskViewController];
+    
+    if (taskViewController != nil) {
+        [taskViewController lockDeviceVolume:0.625];
+    } else {
+        // rdar://107531448 (all internal classes should throw error if parent is AAPLTaskViewController)
+        //todo: throw if parent class not AAPLTaskViewController
+    }
 
-    ORKTaskResult *taskResults = [[self taskViewController] result];
+    ORKTaskResult *taskResults = [taskViewController result];
 
     for (ORKStepResult *result in taskResults.results) {
         if (result.results > 0) {

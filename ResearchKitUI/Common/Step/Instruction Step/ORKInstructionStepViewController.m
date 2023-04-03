@@ -204,13 +204,16 @@
      
      If not implemented, default to showing the learnMore view controller for the the step.
      */
-#if RK_APPLE_INTERNAL
-    if ([learnMoreStep isMemberOfClass:[ORKSensitiveURLLearnMoreInstructionStep class]] &&
-        [self.taskViewController.delegate respondsToSelector:@selector(taskViewController:sensitiveURLLearnMoreButtonPressedWithStep:forStepViewController:)]) {
-        ORKSensitiveURLLearnMoreInstructionStep *sensitiveURLLearnMoreStep = (ORKSensitiveURLLearnMoreInstructionStep *) learnMoreStep;
-        [self.taskViewController.delegate taskViewController:self.taskViewController sensitiveURLLearnMoreButtonPressedWithStep:sensitiveURLLearnMoreStep forStepViewController:self];
-    } else
-#endif
+
+// TODO: THIS WILL BE REMOVED DURING RADAR rdar://106001210 (sublass ORKInstructionStep to remove internal code)
+//#if RK_APPLE_INTERNAL
+//    if ([learnMoreStep isMemberOfClass:[ORKSensitiveURLLearnMoreInstructionStep class]] &&
+//        [self.taskViewController.delegate respondsToSelector:@selector(taskViewController:sensitiveURLLearnMoreButtonPressedWithStep:forStepViewController:)]) {
+//        ORKSensitiveURLLearnMoreInstructionStep *sensitiveURLLearnMoreStep = (ORKSensitiveURLLearnMoreInstructionStep *) learnMoreStep;
+//        [self.taskViewController.delegate taskViewController:self.taskViewController sensitiveURLLearnMoreButtonPressedWithStep:sensitiveURLLearnMoreStep forStepViewController:self];
+//    } else
+//#endif
+    
     if ([self.taskViewController.delegate respondsToSelector:@selector(taskViewController:learnMoreButtonPressedWithStep:forStepViewController:)]) {
         [self.taskViewController.delegate taskViewController:self.taskViewController learnMoreButtonPressedWithStep:learnMoreStep forStepViewController:self];
     } else {

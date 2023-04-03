@@ -37,42 +37,17 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ORKTaskViewController (ORKActiveTaskSupport)
 
 /**
- Suspends the task.
- 
- Call this method to suspend an active step. To resume later, call
- `resume`. Not all active steps will respond to `suspend` / `resume`, so test
- thoroughly to verify correct behavior in your tasks.
- 
- This method will disable any background audio prompt session, and suspend
- any active step in progress.
- */
-- (void)suspend;
-
-/**
- Resumes any current active step.
- 
- Call this method to force resuming an active step may call this
- method. Should be paired with a call to `suspend`.
- 
- This method re-enables background audio prompts, if needed, and resumes
- any active step. If not in an active step, it has no effect.
- 
- See also: `suspend`
- */
-- (void)resume;
-
-
-/**
  Creates a default step view controller suitable for presenting the passed step,
  and, if applicable, prefills its results using the `defaultResultSource`.
  */
 - (ORKStepViewController *)viewControllerForStep:(ORKStep *)step;
-#if RK_APPLE_INTERNAL
-/**
- Locks the device volume to a specific value. Will ignore a new locked value if the method was called before.
- */
-- (void)lockDeviceVolume:(float)volume;
-#endif
+
+- (void)didFinishWithReason:(ORKTaskFinishReason)reason error:(nullable NSError *)error;
+
+- (BOOL)handlePermissionRequestsDeniedForStep:(ORKStep *)step error:(NSError **)outError;
+
+- (BOOL)canPerformAnimatedNavigationFromStep:(ORKStep *)step;
+
 - (void)stepViewController:(ORKStepViewController *)stepViewController didFinishWithNavigationDirection:(ORKStepViewControllerNavigationDirection)direction
                   animated:(BOOL)animated;
 
@@ -84,6 +59,8 @@ NS_ASSUME_NONNULL_BEGIN
  of the task result either.
  */
 - (void)goToStepWithIdentifier:(NSString *)identifier;
+
+- (void)handleResponseFromAudioRequest:(BOOL)success;
 
 @end
 

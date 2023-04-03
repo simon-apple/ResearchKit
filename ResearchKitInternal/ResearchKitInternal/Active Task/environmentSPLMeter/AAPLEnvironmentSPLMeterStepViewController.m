@@ -29,6 +29,7 @@
  */
 
 #import "AAPLEnvironmentSPLMeterStepViewController.h"
+#import "AAPLCompletionStep.h"
 
 #import <ResearchKitActiveTask/ORKEnvironmentSPLMeterStepViewController_Private.h>
 

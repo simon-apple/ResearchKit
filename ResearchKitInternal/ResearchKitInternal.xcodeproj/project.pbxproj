@@ -21,6 +21,8 @@
 		511BB0362994518400936EC0 /* AAPLEnvironmentSPLMeterStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 511BB0342994518400936EC0 /* AAPLEnvironmentSPLMeterStep.m */; };
 		511E8D5E2995C01A00A384A5 /* AAPLEnvironmentSPLMeterStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 511E8D5C2995C01A00A384A5 /* AAPLEnvironmentSPLMeterStepViewController.h */; };
 		511E8D5F2995C01A00A384A5 /* AAPLEnvironmentSPLMeterStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 511E8D5D2995C01A00A384A5 /* AAPLEnvironmentSPLMeterStepViewController.m */; };
+		511E8D682996FEC200A384A5 /* AAPLTaskViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 511E8D662996FEC200A384A5 /* AAPLTaskViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		511E8D692996FEC200A384A5 /* AAPLTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 511E8D672996FEC200A384A5 /* AAPLTaskViewController.m */; };
 		51F716D929808B8100D8ACF7 /* AAPLCompletionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F716D829808B8100D8ACF7 /* AAPLCompletionStep.m */; };
 		51F716DB29808CF700D8ACF7 /* AAPLCompletionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 51F716DA29808CDE00D8ACF7 /* AAPLCompletionStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		51F716DE29808E0200D8ACF7 /* AAPLCompletionStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 51F716DC29808E0200D8ACF7 /* AAPLCompletionStepViewController.h */; };
@@ -234,6 +236,8 @@
 		511BB0342994518400936EC0 /* AAPLEnvironmentSPLMeterStep.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AAPLEnvironmentSPLMeterStep.m; sourceTree = "<group>"; };
 		511E8D5C2995C01A00A384A5 /* AAPLEnvironmentSPLMeterStepViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAPLEnvironmentSPLMeterStepViewController.h; sourceTree = "<group>"; };
 		511E8D5D2995C01A00A384A5 /* AAPLEnvironmentSPLMeterStepViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AAPLEnvironmentSPLMeterStepViewController.m; sourceTree = "<group>"; };
+		511E8D662996FEC200A384A5 /* AAPLTaskViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAPLTaskViewController.h; sourceTree = "<group>"; };
+		511E8D672996FEC200A384A5 /* AAPLTaskViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AAPLTaskViewController.m; sourceTree = "<group>"; };
 		51F716D829808B8100D8ACF7 /* AAPLCompletionStep.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AAPLCompletionStep.m; sourceTree = "<group>"; };
 		51F716DA29808CDE00D8ACF7 /* AAPLCompletionStep.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAPLCompletionStep.h; sourceTree = "<group>"; };
 		51F716DC29808E0200D8ACF7 /* AAPLCompletionStepViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAPLCompletionStepViewController.h; sourceTree = "<group>"; };
@@ -476,6 +480,15 @@
 			path = environmentSPLMeter;
 			sourceTree = "<group>";
 		};
+		511E8D652996FE7000A384A5 /* Task */ = {
+			isa = PBXGroup;
+			children = (
+				511E8D662996FEC200A384A5 /* AAPLTaskViewController.h */,
+				511E8D672996FEC200A384A5 /* AAPLTaskViewController.m */,
+			);
+			path = Task;
+			sourceTree = "<group>";
+		};
 		51F716D529808B0000D8ACF7 /* Step */ = {
 			isa = PBXGroup;
 			children = (
@@ -506,6 +519,7 @@
 		CA0AC54828BD382600E80040 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				511E8D652996FE7000A384A5 /* Task */,
 				51F716D529808B0000D8ACF7 /* Step */,
 				CA0AC54928BD382D00E80040 /* Utilities */,
 				CA0AC57528BFFAB700E80040 /* AAPLUtils.h */,
@@ -1057,6 +1071,7 @@
 				CA0748C028B80935001D8599 /* ORKOrderedTask+ResearchKitInternal.h in Headers */,
 				CA5B6D6328BD1F38002C3BA4 /* ORKTinnitusHeadphoneTable.h in Headers */,
 				CA3FF9D028B56A8300A33B6B /* ORKAVJournalingPredefinedTask.h in Headers */,
+				511E8D682996FEC200A384A5 /* AAPLTaskViewController.h in Headers */,
 				CA5B6D7828BD1F38002C3BA4 /* ORKTinnitusTypeStepViewController.h in Headers */,
 				CA3FF9EA28B5705300A33B6B /* ORKFaceDetectionStep.h in Headers */,
 				CA5B6D6728BD1F38002C3BA4 /* ORKTinnitusPureToneResult.h in Headers */,
@@ -1227,6 +1242,7 @@
 				CA58F8A628B5330E00761769 /* subalgorithms.c in Sources */,
 				CA77D2A228AFFB4700400292 /* ORKFlamesView.m in Sources */,
 				CA58F8A928B5330E00761769 /* print.c in Sources */,
+				511E8D692996FEC200A384A5 /* AAPLTaskViewController.m in Sources */,
 				CA0748C128B80935001D8599 /* ORKOrderedTask+ResearchKitInternal.m in Sources */,
 				CA5B6D6F28BD1F38002C3BA4 /* ORKTinnitusTypes.m in Sources */,
 				CA58F8A228B5330D00761769 /* AccelerateBufferWrapper.swift in Sources */,
@@ -1332,6 +1348,14 @@
 				CURRENT_PROJECT_VERSION = 1;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				SDKROOT = iphoneos;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)/ResearchKitInternal/PrivateHeaders",
+					"$(inherited)",
+				);
+				SYSTEM_HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/ResearchKitInternal/PrivateHeaders",
+					"$(inherited)",
+				);
 			};
 			name = "Skywagon Stable";
 		};
@@ -1342,6 +1366,14 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				SUPPORTS_MACCATALYST = NO;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)/ResearchKitInternal/PrivateHeaders",
+					"$(inherited)",
+				);
+				SYSTEM_HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/ResearchKitInternal/PrivateHeaders",
+					"$(inherited)",
+				);
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = "Skywagon Stable";
@@ -1360,6 +1392,14 @@
 				CURRENT_PROJECT_VERSION = 1;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				SDKROOT = iphoneos;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)/ResearchKitInternal/PrivateHeaders",
+					"$(inherited)",
+				);
+				SYSTEM_HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/ResearchKitInternal/PrivateHeaders",
+					"$(inherited)",
+				);
 			};
 			name = "Skywagon Public Release";
 		};
@@ -1370,6 +1410,14 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				SUPPORTS_MACCATALYST = NO;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)/ResearchKitInternal/PrivateHeaders",
+					"$(inherited)",
+				);
+				SYSTEM_HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/ResearchKitInternal/PrivateHeaders",
+					"$(inherited)",
+				);
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = "Skywagon Public Release";
@@ -1388,6 +1436,14 @@
 				CURRENT_PROJECT_VERSION = 1;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				SDKROOT = iphoneos;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)/ResearchKitInternal/PrivateHeaders",
+					"$(inherited)",
+				);
+				SYSTEM_HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/ResearchKitInternal/PrivateHeaders",
+					"$(inherited)",
+				);
 			};
 			name = "Skywagon Internal Release";
 		};
@@ -1398,6 +1454,14 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				SUPPORTS_MACCATALYST = NO;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)/ResearchKitInternal/PrivateHeaders",
+					"$(inherited)",
+				);
+				SYSTEM_HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/ResearchKitInternal/PrivateHeaders",
+					"$(inherited)",
+				);
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = "Skywagon Internal Release";
@@ -1461,6 +1525,14 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)/ResearchKitInternal/PrivateHeaders",
+					"$(inherited)",
+				);
+				SYSTEM_HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/ResearchKitInternal/PrivateHeaders",
+					"$(inherited)",
+				);
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Debug;
@@ -1513,6 +1585,14 @@
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)/ResearchKitInternal/PrivateHeaders",
+					"$(inherited)",
+				);
+				SYSTEM_HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/ResearchKitInternal/PrivateHeaders",
+					"$(inherited)",
+				);
 				VALIDATE_PRODUCT = YES;
 				VERSION_INFO_PREFIX = "";
 			};
@@ -1533,6 +1613,14 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				SUPPORTS_MACCATALYST = NO;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)/ResearchKitInternal/PrivateHeaders",
+					"$(inherited)",
+				);
+				SYSTEM_HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/ResearchKitInternal/PrivateHeaders",
+					"$(inherited)",
+				);
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1548,6 +1636,14 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				SUPPORTS_MACCATALYST = NO;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)/ResearchKitInternal/PrivateHeaders",
+					"$(inherited)",
+				);
+				SYSTEM_HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/ResearchKitInternal/PrivateHeaders",
+					"$(inherited)",
+				);
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

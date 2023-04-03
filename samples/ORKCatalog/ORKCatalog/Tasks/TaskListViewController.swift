@@ -154,7 +154,6 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
         
         // Assign a directory to store `taskViewController` output.
         taskViewController.outputDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-        
         /*
          We present the task directly, but it is also possible to use segues.
          The task property of the task view controller can be set any time before
