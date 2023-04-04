@@ -118,7 +118,6 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [[self taskViewController] lockDeviceVolume:FIT_TEST_MIN_VOLUME];
 }
 
 
@@ -332,7 +331,6 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
 }
 
 -(void)addObservers {
-    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(powerChangedHandler:) name:@"BluetoothAvailabilityChangedNotification" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAudioSessionInterruption:) name:AVAudioSessionInterruptionNotification object:[AVAudioSession sharedInstance]];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleMediaServerConnectionDied:) name:@"AVSystemController_ServerConnectionDiedNotification" object:[AVAudioSession sharedInstance]];
     NSError *error = nil;
@@ -346,7 +344,6 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
 
 - (void)showBudsOrCallAlert {
     ORK_Log_Info("budsInEar: %d, callActive: %d", _budsInEar, _callActive);
-    //[self setStage:ORKdBHLFitTestStageStart];
     NSString *alertTitle = _budsInEar ? @"End Call To Continue Test" : @"Place AirPods In Both Ears";
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:alertTitle message:@"" preferredStyle:UIAlertControllerStyleAlert];
 
@@ -358,26 +355,12 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
 
 - (void)startFitTest {
     ORK_Log_Info("Start Fit Test");
+    
+    [[self taskViewController] lockDeviceVolume:FIT_TEST_MIN_VOLUME];
 
     [_currentDevice SendSetupCommand:BT_ACCESSORY_SETUP_SEAL_OP_START];
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        // Audio related steps take more time, so handle them in a separate thread to avoid blocking main thread
-
-//        float currentVolume = 0.0f;
-//        bool success = [[getAVSystemControllerClass() sharedAVSystemController] getVolume:&currentVolume forCategory:(NSString *)CFSTR("Audio/Video")];
-//        if (!success) {
-//            ORK_Log_Error("Unable to fetch current volume");
-//        } else {
-//            ORK_Log_Info("Current volume : %f", currentVolume);
-//        }
-//
-//        if (currentVolume != FIT_TEST_MIN_VOLUME) {
-//            ORK_Log_Info("Adjust volume for AudioVideo for fit test");
-//            [[getAVSystemControllerClass() sharedAVSystemController] setVolumeTo:FIT_TEST_MIN_VOLUME forCategory:(NSString *)CFSTR("Audio/Video")];
-//            _volumeModified = TRUE;
-//        }
-
         NSString *mediaPath = [[NSBundle bundleForClass:[self class]] pathForResource:@"E+D-US_ML" ofType:@"wav"];
         NSURL *soundFileURL = [NSURL fileURLWithPath:mediaPath];
         NSError *error = nil;
@@ -412,7 +395,7 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
     }
 }
 
-- (void) cleanupAudio {
+- (void)cleanupAudio {
     ORK_Log_Info("Clean up fit test audio");
     [_player setVolume:0.0 fadeDuration:1.0];
     NSError *error;
@@ -422,7 +405,7 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
     }
 }
 
-- (void) fitTestStopped {
+- (void)fitTestStopped {
     _testActive = FALSE;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [self resetVolume];
@@ -439,33 +422,20 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
     return [[self fitTestStep] confidenceThreshold];
 }
 
-- (void) inEarStatusChanged: (NSNotification *)note {
-    NSDictionary *object = [note object];
-
-    NSNumber *primaryInEarStatus = object[@"primaryInEarStatus"];
-    NSNumber *secondaryInEarStatus = object[@"secondaryInEarStatus"];
-    bool newPrimaryInEar = ![primaryInEarStatus boolValue];
-    bool newSecondaryInEar = ![secondaryInEarStatus boolValue];
-    bool newBudsInEar = newPrimaryInEar && newSecondaryInEar;
-    ORK_Log_Info("PrimaryInEar: %@, secondaryInEar : %@. newBudsInEar: %d", primaryInEarStatus, secondaryInEarStatus, newBudsInEar);
-    
+- (void)inEarStatusChanged: (NSNotification *)note {
     [self setupInternalVariables];
+    [self interruptTestIfNecessary];
+}
 
-    bool reloadUI = (newBudsInEar != _budsInEar);
-    _budsInEar = newBudsInEar;
-
-    if (reloadUI) {
-        ORK_Log_Info("Update UI since in-ear status has changed");
-        
-        if (_testActive) {
-            [self fitTestStopped];
-        }
-    } else {
-        ORK_Log_Info("No change needed based on in-ear status change");
+- (void)interruptTestIfNecessary {
+    if (_testActive) {
+        [self fitTestStopped];
+        _triesCounter -= 1;
+        [self showBudsOrCallAlert];
     }
 }
 
-- (void) sealValueChanged: (NSNotification *)note {
+- (void)sealValueChanged: (NSNotification *)note {
     if (!_testActive) {
         ORK_Log_Error("Discard results since test is not active");
         return;
@@ -485,9 +455,7 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
     ORK_Log_Info("confidenceL : %0.06f", _confidenceValL);
     ORK_Log_Info("confidenceR : %0.06f", _confidenceValR);
     bool leftSealGood = false;
-    //bool leftSealPoor = false;
     bool rightSealGood = false;
-    //bool rightSealPoor = false;
 
     [self fitTestStopped];
 
@@ -524,21 +492,22 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
     }
 }
 
-- (void) dismissFitTest {
+- (void)dismissFitTest {
     [self cleanupAudio];
     [self resetVolume];
     _triesCounter = 0;
+    _budsInEar = NO;
     [self setStage:ORKdBHLFitTestStageStart];
 }
 
-- (void) deviceDisconnectedHandler:(NSNotification *)note {
+- (void)deviceDisconnectedHandler:(NSNotification *)note {
     BluetoothDevice *device = [note object];
     if (([device address] == [_currentDevice address])) {
-        [self dismissFitTest];
+        [self interruptTestIfNecessary];
     }
 }
 
-- (void) setupInternalVariables {
+- (void)setupInternalVariables {
     NSArray * connectedDevices = [[self bluetoothManager] connectedDevices];
     
     if (connectedDevices.count > 0) {
@@ -559,7 +528,7 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
     }
 }
 
-- (void) powerChangedHandler:(NSNotification *)note {
+- (void)powerChangedHandler:(NSNotification *)note {
     if ([[self bluetoothManager] available]) {
         ORK_Log_Info("BluetoothManager is available");
         [[NSNotificationCenter defaultCenter] removeObserver:self name:@"BluetoothAvailabilityChangedNotification" object:nil];
@@ -568,20 +537,24 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceDisconnectedHandler:) name:@"BluetoothDeviceDisconnectSuccessNotification" object:nil];
         [self setupInternalVariables];
     } else {
-        // TODO: Alert the User ?
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Hearing Test"
+                                                                       message:@"Please make sure Bluetooth is enabled on iPhone"
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+
+        [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
     }
 }
 
-- (BOOL) isCallActive {
+- (BOOL)isCallActive {
     NSNumber *callIsActiveNumber = [[getAVSystemControllerClass() sharedAVSystemController] attributeForKey:@"AVSystemController_CallIsActive"];
     BOOL isCallActive = [callIsActiveNumber boolValue];
     ORK_Log_Info("Call is active : %d",isCallActive);
     return isCallActive;
 }
 
-- (void) handleCallIsActiveDidChangeNotification:(NSNotification *)notification {
+- (void)handleCallIsActiveDidChangeNotification:(NSNotification *)notification {
     ORK_Log_Info("Call is active did change %@",notification.userInfo);
-    // TODO: what to do here?
+    [self interruptTestIfNecessary];
 }
 
 // AVAudioSession interruption
@@ -592,18 +565,16 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
     if(type == AVAudioSessionInterruptionTypeBegan)
     {
         ORK_Log_Error("Audio session interrupted. Reset Fit Test (Active: %d)",_testActive);
-        if (_testActive) {
-            [self fitTestStopped];
-        }
+        [self interruptTestIfNecessary];
     }
 }
 
 - (void)handleMediaServerConnectionDied:(NSNotification *)notification {
     ORK_Log_Error("Audio session server connection died");
-    // TODO: reset everything?
+    [self interruptTestIfNecessary];
 }
 
-- (void) dealloc {
+- (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     _player = nil;
 }
