@@ -66,7 +66,7 @@ typedef void (^_quickResponseCodeCompletionHandler)(NSString* codeString);
 @property (nonatomic, strong) UIButton *typeButton;
 @property (nonatomic, strong) UIView *overlayView;
 
-- (instancetype)initWithHandler:(_quickResponseCodeCompletionHandler)handler;
+- (instancetype)initWithNumberOfLetters:(NSUInteger)numberOfLetters andHandler:(_quickResponseCodeCompletionHandler)handler;
     
 - (void)startReading;
     
@@ -74,6 +74,7 @@ typedef void (^_quickResponseCodeCompletionHandler)(NSString* codeString);
 
 @interface QRViewController () <AVCaptureMetadataOutputObjectsDelegate> {
     _quickResponseCodeCompletionHandler _handler;
+    NSUInteger _numberOfLetters; // TODO: bad name, change it later
 }
     
 @property (nonatomic) BOOL isReading;
@@ -85,11 +86,12 @@ typedef void (^_quickResponseCodeCompletionHandler)(NSString* codeString);
 
 @implementation QRViewController
 
-- (instancetype)initWithHandler:(_quickResponseCodeCompletionHandler)handler {
+- (instancetype)initWithNumberOfLetters:(NSUInteger)numberOfLetters andHandler:(_quickResponseCodeCompletionHandler)handler {
     self = [super init];
     
     if (self) {
         _handler = handler;
+        _numberOfLetters = numberOfLetters;
     }
     
     return self;
@@ -286,17 +288,53 @@ typedef void (^_quickResponseCodeCompletionHandler)(NSString* codeString);
     [_videoPreviewPlayer removeFromSuperlayer];
 }
 
+- (BOOL)qrCodeStringIsValid:(NSString*)string {
+    BOOL isValid = NO;
+    NSString *regexString;
+    
+    if (_numberOfLetters == CHAND1_NUMBER_OF_LETTERS) {
+        regexString = @"^[a-zA-Z]{2}\\d{6}$";
+    } else {
+        regexString = @"^[a-zA-Z]{4}\\d{4}$";
+    }
+    NSError *error = nil;
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:regexString options:0 error:&error];
+
+    if (regex != nil) {
+        NSTextCheckingResult *match = [regex firstMatchInString:string options:0 range:NSMakeRange(0, [string length])];
+        if (match) {
+            ORK_Log_Info("ParticipantID matched regex.");
+            isValid = YES;
+        }
+    }
+    return isValid;
+}
+
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection {
     for (AVMetadataObject *metadata in metadataObjects) {
         if ([metadata.type isEqualToString:AVMetadataObjectTypeQRCode]) {
             // Handle QR code data here
             NSString *quickResponseCodeData = [(AVMetadataMachineReadableCodeObject *)metadata stringValue];
-            if (_handler) {
-                _handler(quickResponseCodeData);
+            if ([self qrCodeStringIsValid:quickResponseCodeData]) {
+                if (_handler) {
+                    _handler(quickResponseCodeData);
+                    [self performSelectorOnMainThread:@selector(cancel) withObject:nil waitUntilDone:NO];
+                }
+            } else {
+                [self performSelectorOnMainThread:@selector(showInvalidCode) withObject:nil waitUntilDone:NO];
             }
-            [self performSelectorOnMainThread:@selector(cancel) withObject:nil waitUntilDone:NO];
         }
     }
+}
+
+- (void)showInvalidCode{
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(restoreLabel) object:nil];
+    _findACodeLabel.text = @"Invalid QRCode.";
+    [self performSelector:@selector(restoreLabel) withObject:nil afterDelay:1.0];
+}
+
+- (void)restoreLabel {
+    _findACodeLabel.text = @"Find a code to scan";
 }
 
 @end
@@ -440,10 +478,6 @@ typedef NS_ENUM(NSUInteger, ORKdBHLQuickResponseCodeReaderStage) {
     });
 }
 
-// KAGRATODO: remove this from here and include on the study editor.
-// Use 1 for PRE CV and 3 for CV
-#define NUMBER_OF_LETTERS 1
-
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     const char * _char = [string cStringUsingEncoding:NSUTF8StringEncoding];
     int isBackSpace = strcmp(_char, "\b");
@@ -453,27 +487,27 @@ typedef NS_ENUM(NSUInteger, ORKdBHLQuickResponseCodeReaderStage) {
     }
     
     string = [string uppercaseString];
-    BOOL firstFourAreLetters = NO;
-    BOOL lastFourAreNumbers = NO;
-    if (textField.text.length <= NUMBER_OF_LETTERS) { // change number to 3 to test LLLLNNNN pattern
+    BOOL firstAreLetters = NO;
+    BOOL lastAreNumbers = NO;
+    if (textField.text.length <= self.quickResponseCodeReaderStep.numberOfLetters - 1) {
         NSCharacterSet *validChars = [NSCharacterSet characterSetWithCharactersInString:@"ABCDEFGHIJKLMNOPQRSTUVWXYZ"];
         validChars = [validChars invertedSet];
         
-        firstFourAreLetters = [string rangeOfCharacterFromSet:validChars].location == NSNotFound;
+        firstAreLetters = [string rangeOfCharacterFromSet:validChars].location == NSNotFound;
     }
-    if (textField.text.length > NUMBER_OF_LETTERS) { // change number to 3 to test LLLLNNNN pattern
+    if (textField.text.length > self.quickResponseCodeReaderStep.numberOfLetters - 1) { // change number to 3 to test LLLLNNNN pattern
         NSCharacterSet *validChars = [NSCharacterSet characterSetWithCharactersInString:@"1234567890"];
         validChars = [validChars invertedSet];
         
-        lastFourAreNumbers = [string rangeOfCharacterFromSet:validChars].location == NSNotFound;
+        lastAreNumbers = [string rangeOfCharacterFromSet:validChars].location == NSNotFound;
     }
     
     BOOL tooBig = textField.text.length > 7;
     
-    if (textField.text.length <= NUMBER_OF_LETTERS) { // change number to 3 to test LLLLNNNN pattern
-        return firstFourAreLetters;
+    if (textField.text.length <= self.quickResponseCodeReaderStep.numberOfLetters - 1) { // change number to 3 to test LLLLNNNN pattern
+        return firstAreLetters;
     } else {
-        return lastFourAreNumbers && !tooBig;
+        return lastAreNumbers && !tooBig;
     }
 }
 
@@ -504,7 +538,9 @@ typedef NS_ENUM(NSUInteger, ORKdBHLQuickResponseCodeReaderStage) {
     switch (_stage) {
         case ORKdBHLQuickResponseCodeReaderStageWillScan: {
             ORKWeakTypeOf(self) weakSelf = self;
-            QRViewController *vc = [[QRViewController alloc] initWithHandler:^(NSString *codeString) {
+            QRViewController *vc = [[QRViewController alloc]
+                                    initWithNumberOfLetters:self.quickResponseCodeReaderStep.numberOfLetters
+                                    andHandler:^(NSString *codeString) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     _participantIDLabel.text = [NSString stringWithFormat:@"Participant ID: %@", codeString];
                     _participantID = codeString;

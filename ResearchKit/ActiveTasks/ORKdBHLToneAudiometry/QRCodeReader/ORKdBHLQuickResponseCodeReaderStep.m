@@ -33,6 +33,8 @@
 
 #import "ORKHelpers_Internal.h"
 
+// TODO: If the study team decides to increase the number of chars on particpantID this should be exposed also.
+
 @implementation ORKdBHLQuickResponseCodeReaderStep
 
 + (Class)stepViewControllerClass {
@@ -42,12 +44,13 @@
 - (instancetype)initWithIdentifier:(NSString *)identifier {
     self = [super initWithIdentifier:identifier];
     if (self) {
-        // KAGRATODO: remove this from here and include on the study editor.
+        // These variables can be changed using the study editor.
         self.title = @"Participant ID";
         self.text = @"Scan the QR Code with your participant ID";
         self.headerTextAlignment = NSTextAlignmentCenter;
         self.bodyItemTextAlignment = NSTextAlignmentCenter;
         self.iconImage = [UIImage imageNamed:@"QR-Code" inBundle:ORKBundle() compatibleWithTraitCollection:nil];
+        self.numberOfLetters = CHAND1_NUMBER_OF_LETTERS;
     }
     return self;
 }

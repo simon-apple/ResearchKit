@@ -32,8 +32,17 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+#define CHAND1_NUMBER_OF_LETTERS 2
+#define CHAND2_NUMBER_OF_LETTERS 4
+
 ORK_CLASS_AVAILABLE
 @interface ORKdBHLQuickResponseCodeReaderStep : ORKActiveStep
+
+/// Defines the number of letters to check from the QRCode read
+/// The pattern is LLNNNNNN for Chand1 (2 letters followed by 6 numbers)
+/// or LLLLNNNN for Chand2 (4 letters followed by 4 numbers)
+/// Defaults to Chand1 (2 letters)
+@property (nonatomic) NSUInteger numberOfLetters;
 
 @end
 

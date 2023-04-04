@@ -1024,7 +1024,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                      return [[ORKdBHLQuickResponseCodeReaderStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
                  },
                  (@{
-
+                    PROPERTY(numberOfLetters, NSNumber, NSObject, YES, nil, nil),
                     })),
            ENTRY(ORKSecondaryTaskStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
