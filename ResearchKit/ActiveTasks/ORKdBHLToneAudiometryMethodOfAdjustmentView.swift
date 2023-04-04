@@ -72,8 +72,6 @@ struct ORKdBHLToneAudiometryMethodOfAdjustmentView: View {
     let resetViewPublisher = NotificationCenter.default.publisher(for: .resetView)
     let nextButtonTappedPublisher = NotificationCenter.default.publisher(for: .nextButtonTapped)
     
-    @AppStorage("enable_skipButton") var enableSkipButton: Bool = false
-    
     var body: some View {
         VStack(spacing: 15) {
             //titleView()
@@ -103,16 +101,15 @@ struct ORKdBHLToneAudiometryMethodOfAdjustmentView: View {
                 }
             }, sourceOfChange: $viewModel.sourceOfChange)
             
-            Spacer(minLength: 75)
+            Spacer(minLength: 35)
             
-            if enableSkipButton {
-                skipButton()
-                Spacer().frame(height: 10)
-            }
+            skipButton()
+            Spacer().frame(height: 10)
             
             nextButton()
             
             progressLabel()
+            Spacer().frame(height: 5)
         }
         .onReceive(resetViewPublisher) { _ in
             self.resetView()
