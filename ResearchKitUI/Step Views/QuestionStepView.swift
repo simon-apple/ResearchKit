@@ -159,40 +159,38 @@ internal struct _QuestionStepView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.leading)
                 
-                if let textChoices = viewModel.textChoiceAnswers {
+            let textChoices = viewModel.textChoiceAnswers
+                ForEach(textChoices, id: \.1) { index, textChoice in
                     
-                    ForEach(textChoices, id: \.1) { index, textChoice in
+                    TextChoiceCell(title: textChoice.text,
+                                   selected: index == viewModel.selectedIndex) { selected in
                         
-                        TextChoiceCell(title: textChoice.text,
-                                       selected: index == viewModel.selectedIndex) { selected in
+                        if selected {
                             
-                            if selected {
-                                
-                                viewModel.selectedIndex = index
-                                
-                                let choiceResult =
-                                    ORKChoiceQuestionResult(identifier: viewModel.step.identifier)
-                                
-                                choiceResult.choiceAnswers = [textChoice.value]
-                                viewModel.childResult = choiceResult
-                                
-                                // 250 ms delay
-                                DispatchQueue
-                                    .main
-                                    .asyncAfter(deadline: DispatchTime
-                                                    .now()
-                                                    .advanced(by: .milliseconds(250))) {
+                            viewModel.selectedIndex = index
+                            
+                            let choiceResult =
+                                ORKChoiceQuestionResult(identifier: viewModel.step.identifier)
+                            
+                            choiceResult.choiceAnswers = [textChoice.value]
+                            viewModel.childResult = choiceResult
+                            
+                            // 250 ms delay
+                            DispatchQueue
+                                .main
+                                .asyncAfter(deadline: DispatchTime
+                                                .now()
+                                                .advanced(by: .milliseconds(250))) {
 
-                                        completion(true)
-                                    }
-                                
-                            } else {
-                                
-                                viewModel.selectedIndex = -1
-                                viewModel.childResult = nil
+                                    completion(true)
+                                }
+                            
+                        } else {
+                            
+                            viewModel.selectedIndex = -1
+                            viewModel.childResult = nil
 
-                                completion(false)
-                            }
+                            completion(false)
                         }
                     }
                 }
