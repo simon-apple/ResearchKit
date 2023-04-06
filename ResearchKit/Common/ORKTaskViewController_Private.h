@@ -31,10 +31,24 @@
 
 #import <ResearchKit/ORKTaskViewController.h>
 
-
 NS_ASSUME_NONNULL_BEGIN
 
+ORK_EXTERN NSString * const ORKdBHLBluetoothChangedNotification;
+
+typedef NS_ENUM(NSUInteger, ORKdBHLANCStatus) {
+    ORKdBHLANCStatusNoDevice,
+    ORKdBHLANCStatusWrongDevice,
+    ORKdBHLANCStatusEnabled,
+    ORKdBHLANCStatusDisabled,
+};
+
+@class BluetoothDevice;
 @interface ORKTaskViewController (ORKActiveTaskSupport)
+
+@property (nonatomic, readonly) BOOL budsInEars;
+@property (nonatomic, readonly) BOOL callActive;
+@property (nonatomic, readonly) ORKdBHLANCStatus ancStatus;
+@property (nonatomic, readonly) BluetoothDevice *currentDevice;
 
 /**
  Suspends the task.

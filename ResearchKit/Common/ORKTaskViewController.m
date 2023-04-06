@@ -73,7 +73,12 @@
 #import "ORKOrderedTask_Private.h"
 #import "ORKSensitiveURLLearnMoreInstructionStep.h"
 #import "ORKCelestialSoftLink.h"
+#import "ORKBluetoothManagerSoftLink.h"
 #endif
+
+#define APPLE_B698_PRODUCTID           8212
+
+NSString * const ORKdBHLBluetoothChangedNotification = @"com.appleinternal.acoutics.kagraapp.bluetoothchanged_notification";
 
 typedef void (^_ORKLocationAuthorizationRequestHandler)(BOOL success);
 
@@ -170,6 +175,8 @@ typedef void (^_ORKLocationAuthorizationRequestHandler)(BOOL success);
     BOOL _hasLockedVolume;
     float _savedVolume;
     float _lockedVolume;
+    
+    UILabel *_ancLabel;
 #endif
     
     UINavigationController *_childNavigationController;
@@ -178,6 +185,10 @@ typedef void (^_ORKLocationAuthorizationRequestHandler)(BOOL success);
     NSString *_forcedNextStepIdentifier;
 }
 
+@property (nonatomic, assign) BOOL callActive;
+@property (nonatomic, assign) BOOL budsInEars;
+@property (nonatomic, assign) ORKdBHLANCStatus ancStatus;
+@property (nonatomic, readwrite) BluetoothDevice *currentDevice;
 @property (nonatomic, strong) ORKStepViewController *currentStepViewController;
 @property (nonatomic) ORKTaskReviewViewController *taskReviewViewController;
 
@@ -216,6 +227,16 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     [_childNavigationController didMoveToParentViewController:self];
     _childNavigationController.restorationClass = [self class];
     _childNavigationController.restorationIdentifier = _ChildNavigationControllerRestorationKey;
+    
+    _ancLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, 50)];
+    _ancLabel.font = [UIFont systemFontOfSize:15];
+    _ancLabel.textAlignment = NSTextAlignmentCenter;
+    _ancLabel.backgroundColor = [UIColor clearColor];
+    
+    UINavigationBar *navBar = _childNavigationController.navigationBar;
+    [navBar addSubview:_ancLabel];
+    
+    [self updateANCLabelForStatus:ORKdBHLANCStatusNoDevice];
 }
 
 - (instancetype)commonInitWithTask:(id<ORKTask>)task taskRunUUID:(NSUUID *)taskRunUUID {
@@ -616,8 +637,15 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     self.view = [[UIView alloc] initWithFrame:CGRectZero];
 }
 
+- (BluetoothManager *)bluetoothManager {
+    return (BluetoothManager *)[getBluetoothManagerClass() sharedInstance];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _budsInEars = NO;
+    _ancStatus = ORKdBHLANCStatusNoDevice;
+    _callActive = NO;
     [self setUpChildNavigationController];
     
     if (_restoredStepIdentifier) {
@@ -629,9 +657,208 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     } else {
         [self setNavigationBarColor:ORKColor(ORKBackgroundColorKey)];
     }
+    
+    if (![[self bluetoothManager] available] || ![[self bluetoothManager] enabled]) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(powerChangedHandler:) name:@"BluetoothAvailabilityChangedNotification" object:nil];
+        [[self bluetoothManager] setEnabled:YES];
+    } else {
+        [self addObservers];
+        
+        [self setCurrentDevice];
+    }
+    
+    [self handleDeviceChanges:nil];
+}
+
+- (void)setCurrentDevice{
+    NSArray * connectedDevices = [[self bluetoothManager] connectedDevices];
+    
+    if (connectedDevices.count > 0) {
+        for (BluetoothDevice *connectedDevice in connectedDevices) {
+            ORK_Log_Info("device %@",connectedDevice);
+            if (connectedDevice.productId == APPLE_B698_PRODUCTID) {
+                _currentDevice = connectedDevice;
+            }
+            break;
+        }
+    }
 }
 
 #if RK_APPLE_INTERNAL
+- (void)updateANCLabelForStatus:(ORKdBHLANCStatus)status {
+    _ancStatus = status;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        switch (status) {
+            case ORKdBHLANCStatusNoDevice:
+            {
+                _ancLabel.text = @"Place Headphones In Both Ears";
+                _ancLabel.textColor = [UIColor grayColor];
+                break;
+            }
+            case ORKdBHLANCStatusWrongDevice:
+            {
+                _ancLabel.text = @"Wrong Headphones type";
+                _ancLabel.textColor = [UIColor grayColor];
+                break;
+            }
+            case ORKdBHLANCStatusEnabled:
+            {
+                _ancLabel.text = @"ANC is ON";
+                _ancLabel.textColor = [UIColor blueColor];
+                break;
+            }
+            case ORKdBHLANCStatusDisabled:
+            {
+                _ancLabel.text = @"ANC is Off";
+                _ancLabel.textColor = [UIColor redColor];
+                break;
+            }
+            default:
+                break;
+        }
+    });
+}
+
+- (void)addObservers {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDeviceChanges:) name:@"BluetoothAccessoryInEarStatusNotification" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDeviceChanges:) name:@"BluetoothAccessorySettingsChanged" object:nil];
+    NSError *error = nil;
+    if (![[getAVSystemControllerClass() sharedAVSystemController] setAttribute: @[@"CallIsActiveDidChange"] forKey:@"AVSystemController_NotificationsToRegisterAttribute" error:&error]) {
+        ORK_Log_Error("Failed to subscribe to AVSystemController notifications due to error: %@", error);
+    } else {
+        ORK_Log_Info("Successfully set AVSC attribute. Register listener for Call Active notification");
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDeviceChanges:) name:@"AVSystemController_CallIsActiveDidChangeNotification" object:nil];
+    }
+}
+
+- (void)powerChangedHandler:(NSNotification *)note {
+    if ([[self bluetoothManager] available]) {
+        ORK_Log_Info("BluetoothManager is available");
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:@"BluetoothAvailabilityChangedNotification" object:nil];
+        [self addObservers];
+        [self setCurrentDevice];
+        [self handleDeviceChanges:nil];
+    } else {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Hearing Test"
+                                                                       message:@"Please make sure Bluetooth is enabled on iPhone"
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        
+        [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
+    }
+}
+
+- (void)handleDeviceChanges:(NSNotification *)note {
+    BOOL oldBudsInEars = _budsInEars;
+    BOOL oldCallActive = _callActive;
+    ORKdBHLANCStatus oldStatus = _ancStatus;
+    BOOL noDevice = NO;
+    BOOL newDevice = NO;
+    BOOL wrongDevice = NO;
+    BOOL ancStatusChanged = NO;
+    
+    BOOL shouldFireNotification = NO;
+    
+    BluetoothDevice *device = nil;
+    if (note) {
+        if ([[note name] isEqualToString:@"BluetoothAccessorySettingsChanged"]) {
+            device = (BluetoothDevice *)[note object];
+        } else if ([[note name] isEqualToString:@"BluetoothAccessoryInEarStatusNotification"]) {
+            NSDictionary *object = [note object];
+            device = object[@"device"];
+        }
+    }
+    
+    if (!device && !_currentDevice) {
+        noDevice = YES;
+        [self updateANCLabelForStatus:ORKdBHLANCStatusNoDevice];
+    }
+    
+    if ((device && device.productId == APPLE_B698_PRODUCTID) && !_currentDevice) {
+        // first time setting a device
+        newDevice = YES;
+        _currentDevice = device;
+    }
+    
+    if (_currentDevice) {
+        // it's our B698
+        BTAccessoryInEarStatus primaryInEar = BT_ACCESSORY_IN_EAR_STATUS_UNKNOWN;
+        BTAccessoryInEarStatus secondaryInEar = BT_ACCESSORY_IN_EAR_STATUS_UNKNOWN;
+
+        [_currentDevice inEarStatusPrimary:&primaryInEar secondary:&secondaryInEar];
+        _budsInEars = (primaryInEar == BT_ACCESSORY_IN_EAR_STATUS_IN_EAR) && (secondaryInEar == BT_ACCESSORY_IN_EAR_STATUS_IN_EAR);
+
+        if (_budsInEars) {
+            BTAccessoryListeningMode listeningMode = [_currentDevice listeningMode];
+            switch ( listeningMode ) {
+                case BT_ACCESSORY_LISTENING_MODE_ANC:
+                {
+                    [self updateANCLabelForStatus:ORKdBHLANCStatusEnabled];
+                    break;
+                }
+                case BT_ACCESSORY_LISTENING_MODE_NORMAL:
+                case BT_ACCESSORY_LISTENING_MODE_TRANSPARENCY:
+                case BT_ACCESSORY_LISTENING_MODE_UNKNOWN:
+                {
+                    [self updateANCLabelForStatus:ORKdBHLANCStatusDisabled];
+                    break;
+                }
+            }
+            ancStatusChanged = (oldStatus != _ancStatus);
+        } else {
+            // we need both buds in ear
+            [self updateANCLabelForStatus:ORKdBHLANCStatusNoDevice];
+        }
+    }
+    
+    if (device && device.productId != APPLE_B698_PRODUCTID) {
+        // wrong device connected
+        BTAccessoryInEarStatus primaryInEar = BT_ACCESSORY_IN_EAR_STATUS_UNKNOWN;
+        BTAccessoryInEarStatus secondaryInEar = BT_ACCESSORY_IN_EAR_STATUS_UNKNOWN;
+
+        [device inEarStatusPrimary:&primaryInEar secondary:&secondaryInEar];
+        BOOL budsInEars = (primaryInEar == BT_ACCESSORY_IN_EAR_STATUS_IN_EAR) && (secondaryInEar == BT_ACCESSORY_IN_EAR_STATUS_IN_EAR);
+        
+        if (budsInEars) {
+            [self updateANCLabelForStatus:ORKdBHLANCStatusWrongDevice];
+            wrongDevice = YES;
+        } else {
+            [self updateANCLabelForStatus:ORKdBHLANCStatusNoDevice];
+            noDevice = YES;
+        }
+    }
+    
+    NSNumber *callIsActiveNumber = [[getAVSystemControllerClass() sharedAVSystemController] attributeForKey:@"AVSystemController_CallIsActive"];
+    _callActive = [callIsActiveNumber boolValue];
+    
+    shouldFireNotification =
+        (oldBudsInEars != _budsInEars) ||
+        (oldCallActive != _callActive) ||
+        ancStatusChanged ||
+        noDevice ||
+        newDevice ||
+        wrongDevice;
+    
+    if (shouldFireNotification) {
+        NSNotification *notification = [NSNotification notificationWithName:ORKdBHLBluetoothChangedNotification
+                                                                     object:self
+                                                                   userInfo:@{@"callActiveChanged" : @(oldCallActive != _callActive),
+                                                                              @"budsInEarsChanged" : @(oldBudsInEars != _budsInEars),
+                                                                              @"ancStatusChanged" : @(ancStatusChanged),
+                                                                              @"noDevice" : @(noDevice),
+                                                                              @"newDevice" : @(newDevice),
+                                                                              @"wrongDevice" : @(wrongDevice),
+                                                                            }];
+        [[NSNotificationCenter defaultCenter] postNotification:notification];
+    }
+}
+
+- (void)removeObservers {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"BluetoothAvailabilityChangedNotification" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"BluetoothAccessoryInEarStatusNotification" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"BluetoothAccessorySettingsChanged" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"AVSystemController_CallIsActiveDidChangeNotification" object:nil];
+}
+
 - (void)lockDeviceVolume:(float)volume {
     _hasLockedVolume = YES;
     _lockedVolume = volume;
@@ -724,6 +951,8 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     if (self.nextResponder == nil) {
         _dismissedDate = [NSDate date];
     }
+    
+    [self removeObservers];
 }
 
 - (NSArray *)managedResultsArray {
@@ -1251,6 +1480,8 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
         }
     }
     stepViewController.navigationItem.title = progressLabel;
+    
+    _ancLabel.center = CGPointMake(self.view.frame.size.width / 2, 60);
 }
 
 #pragma mark - internal action Handlers

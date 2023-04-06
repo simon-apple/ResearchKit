@@ -156,16 +156,13 @@
     [NSLayoutConstraint activateConstraints:constraints];
     
     [self.activeStepView updateTitle:nil text:nil];
-   // self.activeStepView.activeCustomView = self.dBHLToneAudiometryContentView;
     self.activeStepView.customContentFillsAvailableSpace = YES;
     [self.activeStepView.navigationFooterView setHidden:YES];
-
-    //[self.dBHLToneAudiometryContentView.tapButton addTarget:self action:@selector(tapButtonPressed) forControlEvents:UIControlEventTouchDown];
     
     [self addObservers];
     
 #if RK_APPLE_INTERNAL
-    //KAGRATODO:- change to the correct volume level
+    //KAGRATODO:- change to the correct volume level or expose this on step
     [[self taskViewController] lockDeviceVolume:0.75];
     
     dBHLTAStep.headphoneType = ORKHeadphoneTypeIdentifierAirPodsProGen2;
@@ -214,12 +211,10 @@
 
 - (void)addObservers {
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center addObserver:self selector:@selector(bluetoothChanged:) name:ORKdBHLBluetoothChangedNotification object:nil];
     [center addObserver:self selector:@selector(appWillTerminate:) name:UIApplicationWillTerminateNotification object:nil];
     [center addObserver:self selector:@selector(tapButtonPressed) name:@"buttonTapped" object:nil];
     [center addObserver:self selector:@selector(skipButtonPressed) name:@"skipTapped" object:nil];
-    #if RK_APPLE_INTERNAL
-    //[center addObserver:self selector:@selector(appDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
-    #endif
 }
 
 - (void)removeObservers {
@@ -424,8 +419,7 @@
             _pulseDurationWorkBlock = dispatch_block_create(DISPATCH_BLOCK_INHERIT_QOS_CLASS, ^{
                 [_audioGenerator stop];
             });
-            // adding 0.2 seconds to account for the fadeInDuration which is being set in ORKdBHLToneAudiometryAudioGenerator
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((preStimulusDelay + toneDuration + 0.2) * NSEC_PER_SEC)), dispatch_get_main_queue(), _pulseDurationWorkBlock);
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((preStimulusDelay + toneDuration - 0.1) * NSEC_PER_SEC)), dispatch_get_main_queue(), _pulseDurationWorkBlock);
             
             _postStimulusDelayWorkBlock = dispatch_block_create(DISPATCH_BLOCK_INHERIT_QOS_CLASS, ^{
                 self.currentTap.response = ORKdBHLToneAudiometryNoTapOnResponseWindow;
@@ -489,72 +483,28 @@
     return [[self dBHLToneAudiometryStep].headphoneType uppercaseString];
 }
 
-- (void)bluetoothModeChanged:(ORKBluetoothMode)bluetoothMode {
-    if ([[[self dBHLToneAudiometryStep].headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsPro] ||
-        [[[self dBHLToneAudiometryStep].headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsProGen2] ||
-        [[[self dBHLToneAudiometryStep].headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMax]) {
-        if (bluetoothMode != ORKBluetoothModeNoiseCancellation) {
-            [self showBluetoothAlert];
-        }
+- (void)bluetoothChanged: (NSNotification *)note {
+    NSDictionary *dict = note.userInfo;
+    ORK_Log_Info("Note.userInfo = %@",dict);
+    // first check if the user removed a bud
+    if ([dict[@"noDevice"] boolValue] || [dict[@"budsInEarsChanged"] boolValue] ) {
+        [self showAlertWithTitle:@"Hearing Test" andMessage:@"Make sure you have both buds in ears."];
+    } else if ([dict[@"wrongDevice"] boolValue] && self.taskViewController.ancStatus == ORKdBHLANCStatusDisabled) {
+        [self showAlertWithTitle:@"Hearing Test" andMessage:@"Wrong headphones type detected."];
+    } else if ([dict[@"ancStatusChanged"] boolValue] && self.taskViewController.ancStatus == ORKdBHLANCStatusDisabled) {
+        [self showAlertWithTitle:@"Hearing Test" andMessage:@"ANC mode must be turned ON to take this test."];
     }
 }
 
-- (void)headphoneTypeDetected:(nonnull ORKHeadphoneTypeIdentifier)headphoneType vendorID:(nonnull NSString *)vendorID productID:(nonnull NSString *)productID deviceSubType:(NSInteger)deviceSubType isSupported:(BOOL)isSupported {
-    if (![headphoneType isEqualToString:[self headphoneType]]) {
-        [self showAlert];
-    }
-}
-
-- (void)oneAirPodRemoved {
-    [self showAlert];
-}
-
-- (void)podLowBatteryLevelDetected {
-    [self showAlert];
-}
-
-- (void)showBluetoothAlert {
+- (void)showAlertWithTitle:(NSString *)title andMessage:(NSString *)message {
     if (!_showingAlert) {
         _showingAlert = YES;
         ORKWeakTypeOf(self) weakSelf = self;
         dispatch_async(dispatch_get_main_queue(), ^{
             [self stopAudio];
             UIAlertController *alertController = [UIAlertController
-                                                  alertControllerWithTitle:ORKLocalizedString(@"PACHA_ALERT_TITLE_TASK_INTERRUPTED", nil)
-                                                  message:@"To ensure accurate results, this task must be completed using ANC mode."
-                                                  preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *startOver = [UIAlertAction
-                                        actionWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE_START_OVER", nil)
-                                        style:UIAlertActionStyleDefault
-                                        handler:^(UIAlertAction *action) {
-                ORKStrongTypeOf(weakSelf) strongSelf = weakSelf;
-                [[strongSelf taskViewController] flipToPageWithIdentifier:[strongSelf identiferForLastFitTest] forward:NO animated:NO];
-            }];
-            [alertController addAction:startOver];
-            [alertController addAction:[UIAlertAction
-                                        actionWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE_CANCEL_TEST", nil)
-                                        style:UIAlertActionStyleDefault
-                                        handler:^(UIAlertAction *action) {
-                ORKStrongTypeOf(self.taskViewController.delegate) strongDelegate = self.taskViewController.delegate;
-                if ([strongDelegate respondsToSelector:@selector(taskViewController:didFinishWithReason:error:)]) {
-                    [strongDelegate taskViewController:self.taskViewController didFinishWithReason:ORKTaskViewControllerFinishReasonDiscarded error:nil];
-                }
-            }]];
-            alertController.preferredAction = startOver;
-            [self presentViewController:alertController animated:YES completion:nil];
-        });
-    }
-}
-
-- (void)showAlert {
-    if (!_showingAlert) {
-        _showingAlert = YES;
-        ORKWeakTypeOf(self) weakSelf = self;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self stopAudio];
-            UIAlertController *alertController = [UIAlertController
-                                                  alertControllerWithTitle:ORKLocalizedString(@"PACHA_ALERT_TITLE_TASK_INTERRUPTED", nil)
-                                                  message:ORKLocalizedString(@"PACHA_ALERT_TEXT_TASK_INTERRUPTED", nil)
+                                                  alertControllerWithTitle:title
+                                                  message:message
                                                   preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *startOver = [UIAlertAction
                                         actionWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE_START_OVER", nil)
