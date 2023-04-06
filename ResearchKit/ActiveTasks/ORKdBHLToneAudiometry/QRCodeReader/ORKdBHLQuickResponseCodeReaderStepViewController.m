@@ -318,6 +318,7 @@ typedef void (^_quickResponseCodeCompletionHandler)(NSString* codeString);
             if ([self qrCodeStringIsValid:quickResponseCodeData]) {
                 if (_handler) {
                     _handler(quickResponseCodeData);
+                    [self stopReading];
                     [self performSelectorOnMainThread:@selector(cancel) withObject:nil waitUntilDone:NO];
                 }
             } else {
