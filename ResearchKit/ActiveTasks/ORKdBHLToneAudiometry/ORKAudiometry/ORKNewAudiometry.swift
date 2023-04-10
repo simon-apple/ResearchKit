@@ -282,7 +282,7 @@ public struct ORKNewAudiometryState {
             sample.frequency = key
             var maskValue = 0.0
             let enableRealDataNumber = UserDefaults.standard.bool(forKey: "enable_realData")
-            if enableRealDataNumber {
+            if !enableRealDataNumber {
                 maskValue += Double.random(in: -15...15)
             }
             sample.calculatedThreshold = value + maskValue
