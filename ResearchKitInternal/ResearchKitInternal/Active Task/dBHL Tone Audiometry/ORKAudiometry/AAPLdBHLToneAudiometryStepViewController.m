@@ -1,4 +1,3 @@
-//
 /*
  Copyright (c) 2022, Apple Inc. All rights reserved.
  
@@ -106,7 +105,7 @@
         
             } else if ([firstResult isKindOfClass:[ORKdBHLToneAudiometryResult class]]) {
                 if (@available(iOS 14.0, *)) {
-                    ORKdBHLToneAudiometryResult *dBHLToneAudiometryResult = (ORKdBHLToneAudiometryResult *)firstResult;
+                    AAPLdBHLToneAudiometryResult *dBHLToneAudiometryResult = (AAPLdBHLToneAudiometryResult *)firstResult;
                     BOOL suitableResult = (dBHLToneAudiometryResult.algorithmVersion == 1 &&
                                            [self.audiometryEngine isKindOfClass:[ORKNewAudiometry class]] &&
                                            dBHLToneAudiometryResult.samples.count > 0);
@@ -160,7 +159,7 @@
     
     if (@available(iOS 14.0, *)) {
         if ([self.audiometryEngine isKindOfClass:ORKNewAudiometry.class]) {
-            ORKdBHLToneAudiometryResult *toneResult = (ORKdBHLToneAudiometryResult *)result.results.lastObject;
+            AAPLdBHLToneAudiometryResult *toneResult = (AAPLdBHLToneAudiometryResult *)result.results.lastObject;
             ORKNewAudiometry *engine = (ORKNewAudiometry *)self.audiometryEngine;
             toneResult.algorithmVersion = 1;
             toneResult.discreteUnits = engine.resultUnits;

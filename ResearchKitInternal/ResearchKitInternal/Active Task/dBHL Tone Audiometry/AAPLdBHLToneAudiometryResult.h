@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018, Apple Inc. All rights reserved.
+ Copyright (c) 2023, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -29,56 +29,21 @@
  */
 
 
-#import <ResearchKit/ORKResult.h>
-#import <ResearchKit/ORKTypes.h>
-
-NS_ASSUME_NONNULL_BEGIN
+#import <ResearchKitActiveTask/ORKdBHLToneAudiometryResult.h>
 
 @class ORKdBHLToneAudiometryFrequencySample;
 @class ORKdBHLToneAudiometryUnit;
 
-ORK_EXTERN const double ORKInvalidDBHLValue ORK_AVAILABLE_DECL;
+NS_ASSUME_NONNULL_BEGIN
 
-ORK_CLASS_AVAILABLE
-@interface ORKdBHLToneAudiometryResult : ORKResult
+@interface AAPLdBHLToneAudiometryResult : ORKdBHLToneAudiometryResult
 
-@property (nonatomic, assign) double outputVolume;
+//These data are related to the new algorithm only
+@property (nonatomic, copy, nullable) NSArray<ORKdBHLToneAudiometryFrequencySample *> *discreteUnits;
 
-@property (nonatomic, assign) NSTimeInterval tonePlaybackDuration;
+@property (nonatomic, copy, nullable) NSDictionary<NSString *, NSNumber *> *fitMatrix;
 
-@property (nonatomic, assign) NSTimeInterval postStimulusDelay;
-
-@property (nonatomic, copy, nullable) ORKHeadphoneTypeIdentifier headphoneType;
-
-@property (nonatomic, copy, nullable) NSArray<ORKdBHLToneAudiometryFrequencySample *> *samples;
-
-@end
-
-ORK_CLASS_AVAILABLE
-@interface ORKdBHLToneAudiometryFrequencySample : NSObject <NSCopying, NSSecureCoding>
-
-@property (nonatomic, assign) double frequency;
-
-@property (nonatomic, assign) double calculatedThreshold;
-
-@property (nonatomic, assign) ORKAudioChannel channel;
-
-@property (nonatomic, copy, nullable) NSArray<ORKdBHLToneAudiometryUnit *> *units;
-
-@end
-
-ORK_CLASS_AVAILABLE
-@interface ORKdBHLToneAudiometryUnit : NSObject <NSCopying, NSSecureCoding>
-
-@property (nonatomic, assign) double dBHLValue;
-
-@property (nonatomic, assign) NSTimeInterval startOfUnitTimeStamp;
-
-@property (nonatomic, assign) NSTimeInterval preStimulusDelay;
-
-@property (nonatomic, assign) NSTimeInterval userTapTimeStamp;
-
-@property (nonatomic, assign) NSTimeInterval timeoutTimeStamp;
+@property (nonatomic, assign) NSInteger algorithmVersion;
 
 @end
 

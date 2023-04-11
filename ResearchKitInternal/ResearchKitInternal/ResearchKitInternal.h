@@ -31,6 +31,7 @@
 #import <ResearchKitInternal/AAPLTaskViewController.h>
 #import <ResearchKitInternal/AAPLdBHLToneAudiometryStep.h>
 #import <ResearchKitInternal/AAPLdBHLToneAudiometryStepViewController.h>
+#import <ResearchKitInternal/AAPLdBHLToneAudiometryResult.h>
 #import <ResearchKitInternal/AAPLSpeechInNoiseStep.h>
 #import <ResearchKitInternal/AAPLSpeechInNoiseStepViewController.h>
 #import <ResearchKitInternal/AAPLSpeechRecognitionStep.h>
