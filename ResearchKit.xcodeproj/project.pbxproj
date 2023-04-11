@@ -6,21 +6,6 @@
 	objectVersion = 54;
 	objects = {
 
-/* Begin PBXAggregateTarget section */
-		B18FF3A41A9FE25700C0C3B0 /* docs */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = B18FF3A71A9FE25700C0C3B0 /* Build configuration list for PBXAggregateTarget "docs" */;
-			buildPhases = (
-				B18FF3A81A9FE26300C0C3B0 /* ShellScript */,
-			);
-			dependencies = (
-				B11DF3B11AA10795009E76D2 /* PBXTargetDependency */,
-			);
-			name = docs;
-			productName = docs;
-		};
-/* End PBXAggregateTarget section */
-
 /* Begin PBXBuildFile section */
 		003BC2BF24FD585B00BC7CDF /* ORKCollectionResult.h in Headers */ = {isa = PBXBuildFile; fileRef = FF919A511E81BEB5005C2A1E /* ORKCollectionResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		00B1F7852241503900D022FE /* Speech.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B1F7842241503900D022FE /* Speech.framework */; };
@@ -1156,13 +1141,6 @@
 			remoteInfo = "ResearchKitCore (watchOS)";
 		};
 		86CC8EA11AC09332001CCD89 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3FFF18351829DB1D00167070 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = B183A4731A8535D100C76870;
-			remoteInfo = OpenResearchKit;
-		};
-		B11DF3B01AA10795009E76D2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 3FFF18351829DB1D00167070 /* Project object */;
 			proxyType = 1;
@@ -5506,9 +5484,6 @@
 						LastSwiftMigration = 1020;
 						ProvisioningStyle = Manual;
 					};
-					B18FF3A41A9FE25700C0C3B0 = {
-						CreatedOnToolsVersion = 7.0;
-					};
 				};
 			};
 			buildConfigurationList = 3FFF18381829DB1D00167070 /* Build configuration list for PBXProject "ResearchKit" */;
@@ -5565,7 +5540,6 @@
 			targets = (
 				B183A4731A8535D100C76870 /* ResearchKit */,
 				86CC8E991AC09332001CCD89 /* ResearchKitTests */,
-				B18FF3A41A9FE25700C0C3B0 /* docs */,
 				5DABE54724D8BF2400570C57 /* ResearchKitCore (watchOS) */,
 				5D06632C24FEF272005D9B40 /* ResearchKitUI */,
 			);
@@ -5726,20 +5700,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# License check: all\n\necho \"Checking for BSD license text (files missing licenses listed below):\"\n\nLICENSE_MISSING=`find . -name '*.[hm]' -o -name '*.vsh' -o -name '*.fsh' -exec grep -iL \"THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS\" {} \\;`\necho \"$LICENSE_MISSING\"\n\ntest \"$LICENSE_MISSING\" == \"\"\n\n";
-			showEnvVarsInLog = 0;
-		};
-		B18FF3A81A9FE26300C0C3B0 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if [ ! -x /usr/local/bin/appledoc ]; then\n    echo \"error: appledoc is required for building ResearchKit's documentation. See http://appledoc.gentlebytes.com\" 1>&2\n    exit 1\nfi\n\n/usr/local/bin/appledoc --print-settings --publish-docset --install-docset --output \"${BUILT_PRODUCTS_DIR}/docs/\" --include \"docs/ActiveTasks\" --include \"docs/InformedConsent\" --include \"docs/Overview\" --include \"docs/Survey\" --include \"docs/ChartsAndGraphs\" --include \"docs/Passcode\" --include \"docs/Account\" --ignore \"docs/templates\" --templates \"docs/templates\" \"${BUILT_PRODUCTS_DIR}/ResearchKit.framework\" \"docs\"\n\necho \"note: Opening documentation in browser...\"\nopen \"$HOME/Library/Developer/Shared/Documentation/DocSets/org.researchkit.ResearchKit.docset/Contents/Resources/Documents/index.html\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -6296,11 +6256,6 @@
 			target = B183A4731A8535D100C76870 /* ResearchKit */;
 			targetProxy = 86CC8EA11AC09332001CCD89 /* PBXContainerItemProxy */;
 		};
-		B11DF3B11AA10795009E76D2 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = B183A4731A8535D100C76870 /* ResearchKit */;
-			targetProxy = B11DF3B01AA10795009E76D2 /* PBXContainerItemProxy */;
-		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -6392,13 +6347,6 @@
 			};
 			name = "Skywagon Stable";
 		};
-		050968E9236B71FF006F734C /* Skywagon Stable */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5D000ECA2620F27100E5442A /* docs-Shared.xcconfig */;
-			buildSettings = {
-			};
-			name = "Skywagon Stable";
-		};
 		050968EA236B720B006F734C /* Skywagon Internal Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5D000ED22620F27100E5442A /* Project-Skywagon-Internal-Release.xcconfig */;
@@ -6422,13 +6370,6 @@
 			};
 			name = "Skywagon Internal Release";
 		};
-		050968ED236B720B006F734C /* Skywagon Internal Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5D000ECA2620F27100E5442A /* docs-Shared.xcconfig */;
-			buildSettings = {
-			};
-			name = "Skywagon Internal Release";
-		};
 		050968EE236B7217006F734C /* Skywagon Public Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5D000ECF2620F27100E5442A /* Project-Skywagon-Public-Release.xcconfig */;
@@ -6448,13 +6389,6 @@
 		050968F0236B7217006F734C /* Skywagon Public Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5D000ED82620F27100E5442A /* ResearchKitTests-Skywagon-Public-Release.xcconfig */;
-			buildSettings = {
-			};
-			name = "Skywagon Public Release";
-		};
-		050968F1236B7217006F734C /* Skywagon Public Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5D000ECA2620F27100E5442A /* docs-Shared.xcconfig */;
 			buildSettings = {
 			};
 			name = "Skywagon Public Release";
@@ -6576,20 +6510,6 @@
 			};
 			name = Release;
 		};
-		B18FF3A51A9FE25700C0C3B0 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5D000ECA2620F27100E5442A /* docs-Shared.xcconfig */;
-			buildSettings = {
-			};
-			name = Debug;
-		};
-		B18FF3A61A9FE25700C0C3B0 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5D000ECA2620F27100E5442A /* docs-Shared.xcconfig */;
-			buildSettings = {
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -6649,18 +6569,6 @@
 				B183A5941A8535D100C76870 /* Release */,
 				050968EB236B720B006F734C /* Skywagon Internal Release */,
 				050968EF236B7217006F734C /* Skywagon Public Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
-		};
-		B18FF3A71A9FE25700C0C3B0 /* Build configuration list for PBXAggregateTarget "docs" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				B18FF3A51A9FE25700C0C3B0 /* Debug */,
-				050968E9236B71FF006F734C /* Skywagon Stable */,
-				B18FF3A61A9FE25700C0C3B0 /* Release */,
-				050968ED236B720B006F734C /* Skywagon Internal Release */,
-				050968F1236B7217006F734C /* Skywagon Public Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
