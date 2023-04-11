@@ -1,7 +1,7 @@
 def developmentSDK() {
-    return "Summit14A309Sydney20A362Kincaid20R364"
+    return "SummitE14E222bSydneyE20E247KincaidE20T253"
 }
 def xbsSDK() {
-    return "XIP_Summit14A309"
+    return "XIP_SummitE14E222b"
 }
 return this
