@@ -454,10 +454,11 @@
     } else {
         NSNumber *enableRealDataNumber = [[NSUserDefaults standardUserDefaults] objectForKey:@"enable_realData"];
         BOOL enableRealData = enableRealDataNumber ? enableRealDataNumber.boolValue : NO;
-        _resultSample.calculatedThreshold = _currentdBHL - (enableRealData ? 0.0 : [self getRandomFloat]);
+        _resultSample.calculatedThreshold = dbHLValue - (enableRealData ? 0.0 : [self getRandomFloat]);
         _indexOfFreqLoopList += 1;
         if (_indexOfFreqLoopList >= _freqLoopList.count) {
             _resultSample.units = [_arrayOfResultUnits copy];
+            _resultSample.allInteractions = _interactions;
             testEnded = YES;
             return;
         } else {
