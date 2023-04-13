@@ -635,6 +635,7 @@ class ORKdBHLToneAudiometryResultTests: XCTestCase {
         newResult.caseSerial = "caseSerial"
         newResult.leftSerial = "leftSerial"
         newResult.rightSerial = "rightSerial"
+        newResult.fwVersion = "fwVersion"
         newResult.samples = [sample]
         newResult.startDate = date
         newResult.endDate = date

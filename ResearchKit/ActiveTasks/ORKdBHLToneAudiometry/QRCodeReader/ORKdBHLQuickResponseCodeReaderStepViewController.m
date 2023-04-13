@@ -65,8 +65,10 @@ typedef void (^_quickResponseCodeCompletionHandler)(NSString* codeString);
 @property (nonatomic, strong) UIButton *closeButton;
 @property (nonatomic, strong) UIButton *typeButton;
 @property (nonatomic, strong) UIView *overlayView;
+@property (nonatomic, weak) ORKTaskViewController *taskViewController;
 
-- (instancetype)initWithNumberOfLetters:(NSUInteger)numberOfLetters andHandler:(_quickResponseCodeCompletionHandler)handler;
+- (instancetype)initWithNumberOfLetters:(NSUInteger)numberOfLetters
+                     taskViewController:(ORKTaskViewController*)taskVC andHandler:(_quickResponseCodeCompletionHandler)handler;
     
 - (void)startReading;
     
@@ -86,12 +88,14 @@ typedef void (^_quickResponseCodeCompletionHandler)(NSString* codeString);
 
 @implementation QRViewController
 
-- (instancetype)initWithNumberOfLetters:(NSUInteger)numberOfLetters andHandler:(_quickResponseCodeCompletionHandler)handler {
+- (instancetype)initWithNumberOfLetters:(NSUInteger)numberOfLetters
+                     taskViewController:(ORKTaskViewController*)taskVC andHandler:(_quickResponseCodeCompletionHandler)handler {
     self = [super init];
     
     if (self) {
         _handler = handler;
         _numberOfLetters = numberOfLetters;
+        _taskViewController = taskVC;
     }
     
     return self;
@@ -108,8 +112,50 @@ typedef void (^_quickResponseCodeCompletionHandler)(NSString* codeString);
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     if (_captureSession.isRunning == NO) {
-        [self startReading];
+        AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
+        switch (authStatus) {
+            case AVAuthorizationStatusAuthorized:
+            {
+                [self startReading];
+                break;
+            }
+            case AVAuthorizationStatusDenied:
+            case AVAuthorizationStatusRestricted:
+            case AVAuthorizationStatusNotDetermined:
+            {
+                ORKWeakTypeOf(self) weakSelf = self;
+                [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
+                    ORKStrongTypeOf(weakSelf) strongSelf = weakSelf;
+                    if(granted){
+                        [strongSelf startReading];
+                    } else {
+                        // User has denied access to the camera
+                        [strongSelf showNoCameraWarning];
+                    }
+                }];
+            }
+            default:
+                break;
+        }
     }
+}
+
+- (void)showNoCameraWarning {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Camera Access Required"
+                                                                                 message:@"This app requires camera access to function properly. Please enable camera access in your device settings."
+                                                                          preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *settingsAction = [UIAlertAction actionWithTitle:@"Settings"
+                                                              style:UIAlertActionStyleDefault
+                                                            handler:^(UIAlertAction * _Nonnull action) {
+        NSURL *settingsURL = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+        [[UIApplication sharedApplication] openURL:settingsURL options:@{} completionHandler:nil];
+    }];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel"
+                                                             style:UIAlertActionStyleCancel
+                                                           handler:nil];
+    [alertController addAction:settingsAction];
+    [alertController addAction:cancelAction];
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -226,9 +272,15 @@ typedef void (^_quickResponseCodeCompletionHandler)(NSString* codeString);
 }
 
 - (void)cancel {
+    // KAGRATODO: For some reason this is killing the Bluetooth manager , I'll need to restart it on TaskVC
     [_captureSession stopRunning];
+    _captureSession = nil;
+    
+    [_videoPreviewPlayer removeFromSuperlayer];
 
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
+        [_taskViewController removeAndAddObservers];
+    }];
 }
 
 - (void)toggleFlashLight:(UIButton *)sender {
@@ -273,19 +325,13 @@ typedef void (^_quickResponseCodeCompletionHandler)(NSString* codeString);
     _videoPreviewPlayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:_captureSession];
     
     [_videoPreviewPlayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
-    [_videoPreviewPlayer setFrame:_overlayView.layer.bounds];
-    
-    [self.view.layer insertSublayer:_videoPreviewPlayer below:_overlayView.layer];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [_videoPreviewPlayer setFrame:_overlayView.layer.bounds];
+        [self.view.layer insertSublayer:_videoPreviewPlayer below:_overlayView.layer];
+    });
     
     [_captureSession startRunning];
     _isReading = !_isReading;
-}
-    
-- (void)stopReading {
-    [_captureSession stopRunning];
-    _captureSession = nil;
-    
-    [_videoPreviewPlayer removeFromSuperlayer];
 }
 
 - (BOOL)qrCodeStringIsValid:(NSString*)string {
@@ -318,7 +364,6 @@ typedef void (^_quickResponseCodeCompletionHandler)(NSString* codeString);
             if ([self qrCodeStringIsValid:quickResponseCodeData]) {
                 if (_handler) {
                     _handler(quickResponseCodeData);
-                    [self stopReading];
                     [self performSelectorOnMainThread:@selector(cancel) withObject:nil waitUntilDone:NO];
                 }
             } else {
@@ -541,6 +586,7 @@ typedef NS_ENUM(NSUInteger, ORKdBHLQuickResponseCodeReaderStage) {
             ORKWeakTypeOf(self) weakSelf = self;
             QRViewController *vc = [[QRViewController alloc]
                                     initWithNumberOfLetters:self.quickResponseCodeReaderStep.numberOfLetters
+                                    taskViewController:self.taskViewController
                                     andHandler:^(NSString *codeString) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     _participantIDLabel.text = [NSString stringWithFormat:@"Participant ID: %@", codeString];

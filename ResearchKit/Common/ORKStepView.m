@@ -119,6 +119,11 @@
     [_stepContentView setStepDetailText:_stepDetailText];
 }
 
+- (void)setStepDetailAttributedText:(NSAttributedString *)stepDetailAttributedText {
+    _stepDetailText = stepDetailAttributedText.string;
+    [_stepContentView setStepDetailAttributedText:stepDetailAttributedText];
+}
+
 - (void)setStepHeaderTextAlignment:(NSTextAlignment)stepHeaderTextAlignment {
     _stepHeaderTextAlignment = stepHeaderTextAlignment;
     [_stepContentView setStepHeaderTextAlignment:_stepHeaderTextAlignment];

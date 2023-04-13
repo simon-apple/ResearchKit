@@ -71,6 +71,8 @@ ORK_CLASS_AVAILABLE
 @property (nonatomic, copy) NSString* leftSerial;
 
 @property (nonatomic, copy) NSString* rightSerial;
+
+@property (nonatomic, copy) NSString* fwVersion;
 #endif
 
 @end

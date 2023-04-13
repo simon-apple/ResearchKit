@@ -34,12 +34,21 @@
 NS_ASSUME_NONNULL_BEGIN
 
 ORK_EXTERN NSString * const ORKdBHLBluetoothChangedNotification;
+ORK_EXTERN NSString * const ORKdBHLBluetoothSealValueChangedNotification;
 
-typedef NS_ENUM(NSUInteger, ORKdBHLANCStatus) {
-    ORKdBHLANCStatusNoDevice,
-    ORKdBHLANCStatusWrongDevice,
-    ORKdBHLANCStatusEnabled,
-    ORKdBHLANCStatusDisabled,
+#define APPLE_B698_PRODUCTID                8212
+#define CHAND_FFANC_FWVERSION               @"5E102"
+#define LOW_BATTERY_LEVEL_THRESHOLD_VALUE   0.20
+
+typedef NS_ENUM(NSUInteger, ORKdBHLHeadphonesStatus) {
+    ORKdBHLHeadphonesStatusNoDevice,
+    ORKdBHLHeadphonesStatusWrongDevice,
+    ORKdBHLHeadphonesStatusWrongFirmware,
+    ORKdBHLHeadphonesANCStatusEnabled,
+    ORKdBHLHeadphonesANCStatusDisabled,
+    ORKdBHLHeadphonesStatusLowBatteryLeft,
+    ORKdBHLHeadphonesStatusLowBatteryRight,
+    ORKdBHLHeadphonesStatusLowBatteryBoth
 };
 
 @class BluetoothDevice;
@@ -47,8 +56,17 @@ typedef NS_ENUM(NSUInteger, ORKdBHLANCStatus) {
 
 @property (nonatomic, readonly) BOOL budsInEars;
 @property (nonatomic, readonly) BOOL callActive;
-@property (nonatomic, readonly) ORKdBHLANCStatus ancStatus;
+@property (nonatomic, readonly) ORKdBHLHeadphonesStatus ancStatus;
 @property (nonatomic, readonly) BluetoothDevice *currentDevice;
+@property (nonatomic, strong, readonly) NSString *caseSerial;
+@property (nonatomic, strong, readonly) NSString *leftBudSerial;
+@property (nonatomic, strong, readonly) NSString *rightBudSerial;
+@property (nonatomic, strong, readonly) NSString *fwVersion;
+@property (nonatomic, readonly) double leftBattery;
+@property (nonatomic, readonly) double rightBattery;
+
+// This method is necessary because the QRCodeReader was removing the bluetooth manager observers
+- (void)removeAndAddObservers;
 
 /**
  Suspends the task.

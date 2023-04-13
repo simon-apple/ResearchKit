@@ -40,6 +40,8 @@
 #import "ORKStepContainerView.h"
 
 #import "ORKStepContainerView_Private.h"
+#import "ORKStepContentView_Private.h"
+#import "ORKStepView_Private.h"
 
 #import "ORKActiveStepViewController_Internal.h"
 #import "ORKStepViewController_Internal.h"
@@ -71,6 +73,7 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
     ORKdBHLFitTestStageResultLeftSealBadRightSealGood,
     ORKdBHLFitTestStageResultLeftSealBadRightSealBad,
     ORKdBHLFitTestStageResultLeftSealGoodRightSealGood,
+    ORKdBHLFitTestStageResultTriesExceeded,
 };
 
 @interface ORKdBHLFitTestStepViewController () <AVAudioPlayerDelegate> {
@@ -158,15 +161,8 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
 
 - (void)setStage:(ORKdBHLFitTestStage)stage {
     if (_triesCounter > [[self fitTestStep] numberOfTries] - 1 && stage != ORKdBHLFitTestStageResultLeftSealGoodRightSealGood) {
-        [self.fitTestContentView setResultDetailLabelText:@""];
-        self.activeStepView.stepTitle = @"Unable to Complete Ear Tip Fit Test";
-        self.activeStepView.stepDetailText = @"Let's continue to the last dBHL test.";
-        self.activeStepView.navigationFooterView.continueEnabled = YES;
-        [self.activeStepView.navigationFooterView showActivityIndicator:NO];
-        [self setContinueButtonTitle:ORKLocalizedString(@"BUTTON_NEXT", nil)];
-        [self.activeStepView.navigationFooterView updateContinueAndSkipEnabled];
-        _stage = ORKdBHLFitTestStageResultLeftSealGoodRightSealGood;
-    } else {
+        stage = ORKdBHLFitTestStageResultTriesExceeded;
+    }
         switch (stage) {
             case ORKdBHLFitTestStageStart: {
                 [self.fitTestContentView setStart];
@@ -218,21 +214,27 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
                 break;
             }
             case ORKdBHLFitTestStageResultLeftSealGoodRightSealGood: {
-                self.activeStepView.navigationFooterView.continueEnabled = YES;
                 [self.activeStepView.navigationFooterView showActivityIndicator:NO];
                 [self setContinueButtonTitle:ORKLocalizedString(@"BUTTON_NEXT", nil)];
                 [self.activeStepView.navigationFooterView updateContinueAndSkipEnabled];
                 [self.fitTestContentView setWithLeftOk:YES rightOk:YES];
                 self.activeStepView.stepTitle = @"Ear Fit Test Results";
-                self.activeStepView.stepDetailText = @"The ear tips you’re using are a good fit for both ears.";
                 [self.fitTestContentView setResultDetailLabelText:@""];
+                [self adjustNextButton];
                 break;
+            }
+            case ORKdBHLFitTestStageResultTriesExceeded: {
+                [self.fitTestContentView setResultDetailLabelText:@""];
+                self.activeStepView.stepTitle = @"Unable to Complete Ear Tip Fit Test";
+                [self.activeStepView.navigationFooterView showActivityIndicator:NO];
+                [self setContinueButtonTitle:ORKLocalizedString(@"BUTTON_NEXT", nil)];
+                [self.activeStepView.navigationFooterView updateContinueAndSkipEnabled];
+                [self adjustNextButton];
             }
             default:
                 break;
         }
         _stage = stage;
-    }
 }
 
 - (void)setNavigationFooterView {
@@ -281,7 +283,8 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
             break;
         }
             
-        case ORKdBHLFitTestStageResultLeftSealGoodRightSealGood: {
+        case ORKdBHLFitTestStageResultLeftSealGoodRightSealGood:
+        case ORKdBHLFitTestStageResultTriesExceeded: {
             [self finish];
             break;
         }
@@ -297,14 +300,16 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
 }
 
 -(void)addObservers {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAudioSessionInterruption:) name:AVAudioSessionInterruptionNotification object:[AVAudioSession sharedInstance]];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleMediaServerConnectionDied:) name:@"AVSystemController_ServerConnectionDiedNotification" object:[AVAudioSession sharedInstance]];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bluetoothChanged:) name:ORKdBHLBluetoothChangedNotification object:nil];
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center addObserver:self selector:@selector(handleAudioSessionInterruption:) name:AVAudioSessionInterruptionNotification object:[AVAudioSession sharedInstance]];
+    [center addObserver:self selector:@selector(handleMediaServerConnectionDied:) name:@"AVSystemController_ServerConnectionDiedNotification" object:[AVAudioSession sharedInstance]];
+    [center addObserver:self selector:@selector(bluetoothChanged:) name:ORKdBHLBluetoothChangedNotification object:nil];
+    [center addObserver:self selector:@selector(sealValueChanged:) name:ORKdBHLBluetoothSealValueChangedNotification object:nil];
 }
 
 - (void)showBudsOrCallAlert {
     ORK_Log_Info("budsInEar: %d, callActive: %d", self.taskViewController.budsInEars, self.taskViewController.callActive);
-    NSString *alertTitle = self.taskViewController.budsInEars ? @"End Call To Continue Test" : @"Place Headphones In Both Ears";
+    NSString *alertTitle = self.taskViewController.budsInEars ? @"End Call To Continue Test" : @"Please check the firmware version, headphone type and that both headphones are in the ear";
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:alertTitle message:@"" preferredStyle:UIAlertControllerStyleAlert];
 
     [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
@@ -381,22 +386,44 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
 }
 
 - (void)bluetoothChanged: (NSNotification *)note {
-    ORK_Log_Info("Note.userInfo = %@",note.userInfo);
-    NSDictionary *dict = note.userInfo;
-    BOOL atLeastOneTrue = NO;
-    
-    NSArray *relevantKeys = @[@"budsInEarsChanged", @"callActiveChanged", @"noDevice"];
-
-    for (NSString *key in relevantKeys) {
-        if ([[dict objectForKey:key] boolValue]) {
-            atLeastOneTrue = YES;
-            break;
-        }
-    }
-
-    if (atLeastOneTrue) {
+    // check if budsInEars
+    ORKTaskViewController *taskVC = self.taskViewController;
+    if (!taskVC.budsInEars || taskVC.callActive) {
         [self interruptTestIfNecessary];
+    } else if (_stage == ORKdBHLFitTestStageResultLeftSealGoodRightSealGood || _stage == ORKdBHLFitTestStageResultTriesExceeded) {
+        [self adjustNextButton];
     }
+}
+
+- (void)adjustNextButton {
+    ORKTaskViewController *taskVC = self.taskViewController;
+    BOOL ancInOn = taskVC.ancStatus == ORKdBHLHeadphonesANCStatusEnabled;
+    NSString *string;
+    NSMutableAttributedString *attributedString;
+    UIFont *boldFont = [UIFont boldSystemFontOfSize:17];
+    self.activeStepView.navigationFooterView.continueEnabled = ancInOn;
+    if (ancInOn) {
+        if (_stage == ORKdBHLFitTestStageResultTriesExceeded) {
+            string = @"Let's continue to the dBHL test.";
+        } else {
+            string = @"The ear tips you’re using are a good fit for both ears.";
+        }
+        attributedString =  [[NSMutableAttributedString alloc] initWithString:string];
+    } else {
+        NSRange range;
+        if (_stage == ORKdBHLFitTestStageResultTriesExceeded) {
+            string = @"Before Proceeding, please enable ANC mode.";
+            range = [string rangeOfString:@"please enable ANC mode."];
+        } else {
+            string = @"The ear tips you’re using are a good fit for both ears. Enable ANC before proceeding.";
+            range = [string rangeOfString:@"Enable ANC before proceeding."];
+        }
+        attributedString =  [[NSMutableAttributedString alloc] initWithString:string];
+        [attributedString addAttribute:NSFontAttributeName value:boldFont range:range];
+        [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:range];
+    }
+    
+    [self.activeStepView setStepDetailAttributedText:attributedString];
 }
 
 - (void)interruptTestIfNecessary {
@@ -413,7 +440,7 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
         return;
     }
 
-    NSDictionary *object = [note object];
+    NSDictionary *object = [[note object] object];
     NSNumber *left = object[@"sealLeft"];
     NSNumber *right = object[@"sealRight"];
     _sealValL = [left floatValue];
@@ -476,8 +503,7 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
     NSDictionary *userInfo = notification.userInfo;
     AVAudioSessionInterruptionType type = [[userInfo objectForKey:AVAudioSessionInterruptionTypeKey] unsignedIntegerValue];
 
-    if(type == AVAudioSessionInterruptionTypeBegan)
-    {
+    if(type == AVAudioSessionInterruptionTypeBegan) {
         ORK_Log_Error("Audio session interrupted. Reset Fit Test (Active: %d)",_testActive);
         [self interruptTestIfNecessary];
     }
@@ -519,6 +545,7 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
 
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
     if (flag) {
+        _testActive = FALSE;
         [self dismissFitTest];
     }
 }

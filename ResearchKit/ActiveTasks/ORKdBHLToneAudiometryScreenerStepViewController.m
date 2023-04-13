@@ -70,7 +70,7 @@
 
 #import "ORKAudiometry.h"
 
-@interface ORKdBHLToneAudiometryScreenerStepViewController () <ORKdBHLToneAudiometryPulsedAudioGeneratorDelegate, ORKHeadphoneDetectorDelegate> {
+@interface ORKdBHLToneAudiometryScreenerStepViewController () <ORKdBHLToneAudiometryPulsedAudioGeneratorDelegate> {
     double _prevFreq;
     double _currentdBHL;
     double _dBHLStepUpSize;
@@ -87,21 +87,14 @@
     BOOL _ackOnce;
     BOOL _usingMissingList;
     ORKdBHLToneAudiometryPulsedAudioGenerator *_audioGenerator;
-    //NSArray *_freqLoopList;
     NSArray *_stepUpMissingList;
-    //NSMutableArray *_arrayOfResultSamples;
     NSMutableArray *_arrayOfResultUnits;
     NSMutableDictionary *_transitionsDictionary;
     ORKdBHLToneAudiometryFrequencySample *_resultSample;
     ORKdBHLToneAudiometryUnit *_resultUnit;
     
-    ORKHeadphoneDetector *_headphoneDetector;
     BOOL _showingAlert;
     BOOL _isTouching;
-    
-    NSString *_caseSerial;
-    NSString *_leftSerial;
-    NSString *_rightSerial;
     
     id<ORKAudiometryProtocol> _audiometry;
     double _currentFreq;
@@ -145,6 +138,11 @@
         [[NSNotificationCenter defaultCenter] addObserver:self
              selector:@selector(receiveSkipButtonTappedNotification:)
              name:@"skipButtonTapped"
+             object:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+             selector:@selector(bluetoothChanged:)
+             name:ORKdBHLBluetoothChangedNotification
              object:nil];
         
         _counter = 0;
@@ -236,9 +234,6 @@
     [NSLayoutConstraint activateConstraints:constraints];
     
     self.internalDoneButtonItem.enabled = YES;
-
-    _headphoneDetector = [[ORKHeadphoneDetector alloc] initWithDelegate:self
-                                                supportedHeadphoneChipsetTypes:[ORKHeadphoneDetectStep dBHLTypes]];
     
     //KAGRATODO:- change to the correct volume level
     [[self taskViewController] lockDeviceVolume:0.75];
@@ -314,9 +309,6 @@
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [_headphoneDetector discard];
-    _headphoneDetector.delegate = nil;
-    _headphoneDetector = nil;
     _audioGenerator.delegate = nil;
 }
 
@@ -337,9 +329,10 @@
     toneResult.startDate = sResult.startDate;
     toneResult.endDate = now;
     toneResult.samples = [_audiometry resultSamples];
-    toneResult.caseSerial = _caseSerial.length > 1 ? _caseSerial : @"";
-    toneResult.leftSerial = _leftSerial.length > 1 ? _leftSerial : @"";
-    toneResult.rightSerial = _rightSerial.length > 1 ? _rightSerial : @"";
+    toneResult.caseSerial = self.taskViewController.caseSerial.length > 1 ? self.taskViewController.caseSerial : @"";
+    toneResult.leftSerial = self.taskViewController.leftBudSerial.length > 1 ? self.taskViewController.leftBudSerial : @"";
+    toneResult.rightSerial = self.taskViewController.rightBudSerial.length > 1 ? self.taskViewController.rightBudSerial : @"";
+    toneResult.fwVersion = self.taskViewController.fwVersion.length > 1 ? self.taskViewController.fwVersion : @"";
     
     if (@available(iOS 14.0, *)) {
         if ([_audiometry isKindOfClass:[ORKNewAudiometry class]]) {
@@ -411,10 +404,6 @@
     }
 }
 
-#define CONFIDENCE_REFINEMENT @"Refinement"
-#define CONFIDENCE_INFERENCE @"ReversalInference"
-#define CONFIDENCE_GUESS @"Guess"
-
 - (void)continueButtonAction:(id)sender {
     if (self.dBHLToneAudiometryStep.isMOA) {
         if (@available(iOS 14.0, *)) {
@@ -473,31 +462,31 @@
 #pragma mark - Headphone Monitoring
 
 - (NSString *)headphoneType {
-    return [ORKHeadphoneTypeIdentifierAirPodsProGen2 uppercaseString];
+    return [[self dBHLToneAudiometryStep].headphoneType uppercaseString];
 }
 
-- (void)headphoneTypeDetected:(nonnull ORKHeadphoneTypeIdentifier)headphoneType vendorID:(nonnull NSString *)vendorID productID:(nonnull NSString *)productID deviceSubType:(NSInteger)deviceSubType isSupported:(BOOL)isSupported {
-    if (![headphoneType isEqualToString:[self headphoneType]]) {
-        [self showAlert];
+- (void)bluetoothChanged: (NSNotification *)note {
+    // check if budsInEars
+    ORKTaskViewController *taskVC = self.taskViewController;
+    if (!taskVC.budsInEars) {
+        [self showAlertWithTitle:@"Hearing Test" andMessage:@"We need the headphones in ears. This test will finish and the results will be saved."];
+    } else if (taskVC.callActive) {
+        [self showAlertWithTitle:@"Hearing Test" andMessage:@"You have an icomming call. This test will finish and the results will be saved."];
+    } else if (taskVC.ancStatus != ORKdBHLHeadphonesANCStatusEnabled) {
+        [self showAlertWithTitle:@"Hearing Test" andMessage:@"ANC mode must be turned ON. This test will finish and the results will be saved."];
+    } else if (![taskVC.fwVersion isEqualToString:CHAND_FFANC_FWVERSION]) {
+        [self showAlertWithTitle:@"Hearing Test" andMessage:@"Wrong firmware version. This test will finish and the results will be saved."];
     }
 }
 
-- (void)oneAirPodRemoved {
-    [self showAlert];
-}
-
-- (void)podLowBatteryLevelDetected {
-    [self showAlert];
-}
-
-- (void)showAlert {
+- (void)showAlertWithTitle:(NSString *)title andMessage:(NSString *)message {
     if (!_showingAlert) {
         _showingAlert = YES;
         dispatch_async(dispatch_get_main_queue(), ^{
             [self stopAudio];
             UIAlertController *alertController = [UIAlertController
-                                                  alertControllerWithTitle:ORKLocalizedString(@"PACHA_ALERT_TITLE_TASK_INTERRUPTED", nil)
-                                                  message:ORKLocalizedString(@"PACHA_ALERT_TEXT_TASK_INTERRUPTED", nil)
+                                                  alertControllerWithTitle:title
+                                                  message:message
                                                   preferredStyle:UIAlertControllerStyleAlert];
             [alertController addAction:[UIAlertAction
                                         actionWithTitle:@"Finish test"
@@ -511,12 +500,6 @@
             [self presentViewController:alertController animated:YES completion:nil];
         });
     }
-}
-
-- (void)serialNumberCollectedCase:(NSString *)caseSerial left:(NSString *)leftSerial right:(NSString *)rightSerial {
-    _caseSerial = caseSerial;
-    _leftSerial = leftSerial;
-    _rightSerial = rightSerial;
 }
 
 @end

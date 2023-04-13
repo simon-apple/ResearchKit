@@ -64,7 +64,7 @@
 #import "ORKNavigableOrderedTask.h"
 #import "ORKStepNavigationRule.h"
 
-@interface ORKdBHLToneAudiometryStepViewController () <ORKdBHLToneAudiometryPulsedAudioGeneratorDelegate, ORKHeadphoneDetectorDelegate> {
+@interface ORKdBHLToneAudiometryStepViewController () <ORKdBHLToneAudiometryPulsedAudioGeneratorDelegate> {
     ORKdBHLToneAudiometryFrequencySample *_resultSample;
     ORKAudioChannel _audioChannel;
 
@@ -77,14 +77,9 @@
     
     NSMutableArray<ORKdBHLToneAudiometryTap *> *_taps;
     
-    ORKHeadphoneDetector *_headphoneDetector;
     BOOL _showingAlert;
     
     BOOL _didSkipStep;
-    
-    NSString *_caseSerial;
-    NSString *_leftSerial;
-    NSString *_rightSerial;
 }
 
 @property (nonatomic, strong) ORKdBHLToneAudiometryContentView *dBHLToneAudiometryContentView;
@@ -135,11 +130,6 @@
     [self configureStep];
 }
 
-- (void)dealloc {
-    [_headphoneDetector discard];
-    _headphoneDetector = nil;
-}
-
 - (void)configureStep {
     ORKdBHLToneAudiometryStep *dBHLTAStep = [self dBHLToneAudiometryStep];
 
@@ -166,9 +156,6 @@
     [[self taskViewController] lockDeviceVolume:0.75];
     
     dBHLTAStep.headphoneType = ORKHeadphoneTypeIdentifierAirPodsProGen2;
-    
-    _headphoneDetector = [[ORKHeadphoneDetector alloc] initWithDelegate:self
-                                         supportedHeadphoneChipsetTypes:[ORKHeadphoneDetectStep dBHLTypes]];
 
     ORKTaskResult *taskResults = [[self taskViewController] result];
 
@@ -265,9 +252,6 @@
     [super viewDidDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
-    [_headphoneDetector discard];
-    _headphoneDetector.delegate = nil;
-    _headphoneDetector = nil;
     _audioGenerator.delegate = nil;
     _audioGenerator = nil;
 }
@@ -318,9 +302,10 @@
     toneResult.samples = [self.audiometryEngine resultSamples];
     toneResult.allTaps = [_taps copy];
 #if RK_APPLE_INTERNAL
-    toneResult.caseSerial = _caseSerial.length > 1 ? _caseSerial : @"";
-    toneResult.leftSerial = _leftSerial.length > 1 ? _leftSerial : @"";
-    toneResult.rightSerial = _rightSerial.length > 1 ? _rightSerial : @"";
+    toneResult.caseSerial = self.taskViewController.caseSerial.length > 1 ? self.taskViewController.caseSerial : @"";
+    toneResult.leftSerial = self.taskViewController.leftBudSerial.length > 1 ? self.taskViewController.leftBudSerial : @"";
+    toneResult.rightSerial = self.taskViewController.rightBudSerial.length > 1 ? self.taskViewController.rightBudSerial : @"";
+    toneResult.fwVersion = self.taskViewController.fwVersion.length > 1 ? self.taskViewController.fwVersion : @"";
     if (@available(iOS 14.0, *)) {
         if ([self.audiometryEngine isKindOfClass:[ORKNewAudiometry class]]) {
             ORKNewAudiometry *engine = (ORKNewAudiometry *)self.audiometryEngine;
@@ -484,15 +469,16 @@
 }
 
 - (void)bluetoothChanged: (NSNotification *)note {
-    NSDictionary *dict = note.userInfo;
-    ORK_Log_Info("Note.userInfo = %@",dict);
-    // first check if the user removed a bud
-    if ([dict[@"noDevice"] boolValue] || [dict[@"budsInEarsChanged"] boolValue] ) {
+    // check if budsInEars
+    ORKTaskViewController *taskVC = self.taskViewController;
+    if (!taskVC.budsInEars) {
         [self showAlertWithTitle:@"Hearing Test" andMessage:@"Make sure you have both buds in ears."];
-    } else if ([dict[@"wrongDevice"] boolValue] && self.taskViewController.ancStatus == ORKdBHLANCStatusDisabled) {
-        [self showAlertWithTitle:@"Hearing Test" andMessage:@"Wrong headphones type detected."];
-    } else if ([dict[@"ancStatusChanged"] boolValue] && self.taskViewController.ancStatus == ORKdBHLANCStatusDisabled) {
+    } else if (taskVC.callActive) {
+        [self showAlertWithTitle:@"Hearing Test" andMessage:@"Please finish the call and try the task again."];
+    } else if (taskVC.ancStatus != ORKdBHLHeadphonesANCStatusEnabled) {
         [self showAlertWithTitle:@"Hearing Test" andMessage:@"ANC mode must be turned ON to take this test."];
+    } else if (taskVC.leftBattery < LOW_BATTERY_LEVEL_THRESHOLD_VALUE || taskVC.rightBattery < LOW_BATTERY_LEVEL_THRESHOLD_VALUE) {
+        [self showAlertWithTitle:@"Hearing Test" andMessage:@"Headphones battery level are low. Please charge it and take the test again."];
     }
 }
 
@@ -527,12 +513,6 @@
             [self presentViewController:alertController animated:YES completion:nil];
         });
     }
-}
-
-- (void)serialNumberCollectedCase:(NSString *)caseSerial left:(NSString *)leftSerial right:(NSString *)rightSerial {
-    _caseSerial = caseSerial;
-    _leftSerial = leftSerial;
-    _rightSerial = rightSerial;
 }
 
 - (NSString *)identiferForLastFitTest {

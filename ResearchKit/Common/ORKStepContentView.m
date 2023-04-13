@@ -551,6 +551,26 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKUpdateConstraintSequence) {
     }
 }
 
+- (void)setStepDetailAttributedText:(NSAttributedString *)stepDetailAttributedText {
+    _stepDetailText = stepDetailAttributedText.string;
+    if (stepDetailAttributedText && !_detailTextLabel) {
+        [self setupDetailTextLabel];
+        [self updateViewConstraintsForSequence:ORKUpdateConstraintSequenceDetailTextLabel];
+        [self setNeedsUpdateConstraints];
+        [_detailTextLabel setAttributedText:stepDetailAttributedText];
+    }
+    else if (stepDetailAttributedText && _detailTextLabel) {
+        [_detailTextLabel setAttributedText:stepDetailAttributedText];
+    }
+    else if (!stepDetailAttributedText) {
+        [_detailTextLabel removeFromSuperview];
+        _detailTextLabel = nil;
+        [self deactivateDetailTextLabelConstraints];
+        [self updateViewConstraintsForSequence:ORKUpdateConstraintSequenceDetailTextLabel];
+        [self setNeedsUpdateConstraints];
+    }
+}
+
 - (void)setupDetailTextLabel {
     if (!_detailTextLabel) {
         _detailTextLabel = [ORKBodyLabel new];

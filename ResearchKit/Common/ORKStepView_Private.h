@@ -46,6 +46,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)stepContentViewImageChanged:(NSNotification *)notification;
 
+- (void)setStepDetailAttributedText:(NSAttributedString *)stepDetailAttributedText;
+
 @end
 
 NS_ASSUME_NONNULL_END
