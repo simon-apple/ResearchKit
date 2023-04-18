@@ -439,14 +439,13 @@ static OSStatus ORKdBHLAudioGeneratorZeroTone(void *inRefCon,
 
 #if KAGRA_PROTO
 - (NSNumber *)simulatedHLForKey:(NSString *)key {
-    NSString *shl = [NSUserDefaults.standardUserDefaults valueForKey:key];
-    shl = shl ? shl : @"";
-    shl = [shl isEqual:@""] ? @"0" : shl;
-    shl = [shl stringByReplacingOccurrencesOfString:@"," withString:@"."];
-    
-    NSNumber *nshl = [NSNumber numberWithDouble:[shl doubleValue]];
-    nshl = nshl ?: @(0.0);
-    return nshl;
+    NSString *masterDbStr = [NSUserDefaults.standardUserDefaults valueForKey:@"masterdB"];
+    masterDbStr = masterDbStr ? masterDbStr : @"0";
+    masterDbStr = [masterDbStr stringByReplacingOccurrencesOfString:@"," withString:@"."];
+
+    NSNumber *masterDb = [NSNumber numberWithDouble:[masterDbStr doubleValue]];
+    masterDb = masterDb ?: @(0.0);
+    return masterDb;
 }
 
 - (NSArray *)simulatedHLTable {
