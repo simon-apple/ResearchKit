@@ -31,6 +31,7 @@
 // apple-internal
 
 #import "ORKAVJournalingPredefinedTask.h"
+#import "ORKSensitiveURLLearnMoreInstructionStep.h"
 
 #if ORK_FEATURE_AV_JOURNALING
 
@@ -47,7 +48,6 @@
 #import <ResearchKit/ORKHelpers_Internal.h>
 #import <ResearchKit/ORKLearnMoreItem.h>
 #import <ResearchKit/ORKLearnMoreInstructionStep.h>
-#import <ResearchKit/ORKSensitiveURLLearnMoreInstructionStep.h>
 #import <ResearchKit/ORKStep.h>
 #import <ResearchKit/ORKStepNavigationRule.h>
 #import <ResearchKitUI/ORKLearnMoreView.h>

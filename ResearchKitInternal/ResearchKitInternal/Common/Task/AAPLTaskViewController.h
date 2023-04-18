@@ -55,16 +55,6 @@ NS_ASSUME_NONNULL_BEGIN
 // will return YES if the sensitive URL step is shown
 - (BOOL)showSensitiveURLLearMoreStepViewControllerForStep:(ORKActiveStep *)step;
 
-/**
- Forces the task to finish with the specified reason and error.
-
- Call this method to force task completion, override this method to perform specific actions to wrap up your task.
-
- @param reason          The reason tbe task is finished.
- @param error            An error associated with the finish reason of the task, or nil if no error is provided.
- */
-- (void)finishWithReason:(ORKTaskFinishReason)reason error:(nullable NSError *)error;
-
 @property (nonatomic, weak, nullable) id<AAPLTaskViewControllerDelegate> aaplDelegate;
 
 @end

@@ -144,3 +144,27 @@
 }
 
 @end
+
+@implementation AAPLInstructionStep (ViewControllerProviding)
+
+- (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
+    return [[AAPLInstructionStepViewController alloc] initWithStep:self result:result];
+}
+
+@end
+
+@implementation AAPLCompletionStep (ViewControllerProviding)
+
+- (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
+    return [[AAPLCompletionStepViewController alloc] initWithStep:self result:result];
+}
+
+@end
+
+@implementation ORKSensitiveURLLearnMoreInstructionStep (ViewControllerProviding)
+
+- (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
+    return [[AAPLInstructionStepViewController alloc] initWithStep:self result:result];
+}
+
+@end

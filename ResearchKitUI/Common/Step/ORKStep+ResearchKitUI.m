@@ -167,18 +167,6 @@
 
 @end
 
-#if RK_APPLE_INTERNAL
-
-@implementation ORKSensitiveURLLearnMoreInstructionStep (ViewControllerProviding)
-
-- (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
-    return [[ORKInstructionStepViewController alloc] initWithStep:self result:result];
-}
-
-@end
-
-#endif
-
 @implementation ORKSignatureStep (ViewControllerProviding)
 
 - (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {

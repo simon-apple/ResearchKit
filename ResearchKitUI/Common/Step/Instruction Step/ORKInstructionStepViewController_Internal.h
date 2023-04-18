@@ -46,6 +46,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)stepDidChange;
 
+- (void)handleLearnMoreButtonPressed:(ORKLearnMoreInstructionStep *)learnMoreStep;
+
 @end
 
 NS_ASSUME_NONNULL_END

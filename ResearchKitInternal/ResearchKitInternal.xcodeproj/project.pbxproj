@@ -23,11 +23,17 @@
 		511E8D5F2995C01A00A384A5 /* AAPLEnvironmentSPLMeterStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 511E8D5D2995C01A00A384A5 /* AAPLEnvironmentSPLMeterStepViewController.m */; };
 		511E8D682996FEC200A384A5 /* AAPLTaskViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 511E8D662996FEC200A384A5 /* AAPLTaskViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		511E8D692996FEC200A384A5 /* AAPLTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 511E8D672996FEC200A384A5 /* AAPLTaskViewController.m */; };
+		51CB6DA429C0F12800A85D79 /* AAPLInstructionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 51CB6DA229C0F12800A85D79 /* AAPLInstructionStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		51CB6DA529C0F12800A85D79 /* AAPLInstructionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 51CB6DA329C0F12800A85D79 /* AAPLInstructionStep.m */; };
+		51CB6DA829C0F36E00A85D79 /* AAPLInstructionStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 51CB6DA629C0F36E00A85D79 /* AAPLInstructionStepViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		51CB6DA929C0F36E00A85D79 /* AAPLInstructionStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51CB6DA729C0F36E00A85D79 /* AAPLInstructionStepViewController.m */; };
+		51CB6DB529C1133400A85D79 /* ORKSensitiveURLLearnMoreInstructionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 51CB6DB329C1133400A85D79 /* ORKSensitiveURLLearnMoreInstructionStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		51CB6DB629C1133400A85D79 /* ORKSensitiveURLLearnMoreInstructionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 51CB6DB429C1133400A85D79 /* ORKSensitiveURLLearnMoreInstructionStep.m */; };
 		51BD901329DB92280001D54E /* AAPLdBHLToneAudiometryResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 51BD901129DB92280001D54E /* AAPLdBHLToneAudiometryResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		51BD901429DB92280001D54E /* AAPLdBHLToneAudiometryResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 51BD901229DB92280001D54E /* AAPLdBHLToneAudiometryResult.m */; };
 		51F716D929808B8100D8ACF7 /* AAPLCompletionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F716D829808B8100D8ACF7 /* AAPLCompletionStep.m */; };
 		51F716DB29808CF700D8ACF7 /* AAPLCompletionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 51F716DA29808CDE00D8ACF7 /* AAPLCompletionStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		51F716DE29808E0200D8ACF7 /* AAPLCompletionStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 51F716DC29808E0200D8ACF7 /* AAPLCompletionStepViewController.h */; };
+		51F716DE29808E0200D8ACF7 /* AAPLCompletionStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 51F716DC29808E0200D8ACF7 /* AAPLCompletionStepViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		51F716DF29808E0200D8ACF7 /* AAPLCompletionStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F716DD29808E0200D8ACF7 /* AAPLCompletionStepViewController.m */; };
 		51F716EF2981DE0700D8ACF7 /* AAPLSpeechInNoiseStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F716ED2981DE0700D8ACF7 /* AAPLSpeechInNoiseStep.m */; };
 		51F716F02981DE0700D8ACF7 /* AAPLSpeechInNoiseStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 51F716EE2981DE0700D8ACF7 /* AAPLSpeechInNoiseStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -240,6 +246,12 @@
 		511E8D5D2995C01A00A384A5 /* AAPLEnvironmentSPLMeterStepViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AAPLEnvironmentSPLMeterStepViewController.m; sourceTree = "<group>"; };
 		511E8D662996FEC200A384A5 /* AAPLTaskViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAPLTaskViewController.h; sourceTree = "<group>"; };
 		511E8D672996FEC200A384A5 /* AAPLTaskViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AAPLTaskViewController.m; sourceTree = "<group>"; };
+		51CB6DA229C0F12800A85D79 /* AAPLInstructionStep.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAPLInstructionStep.h; sourceTree = "<group>"; };
+		51CB6DA329C0F12800A85D79 /* AAPLInstructionStep.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AAPLInstructionStep.m; sourceTree = "<group>"; };
+		51CB6DA629C0F36E00A85D79 /* AAPLInstructionStepViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAPLInstructionStepViewController.h; sourceTree = "<group>"; };
+		51CB6DA729C0F36E00A85D79 /* AAPLInstructionStepViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AAPLInstructionStepViewController.m; sourceTree = "<group>"; };
+		51CB6DB329C1133400A85D79 /* ORKSensitiveURLLearnMoreInstructionStep.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKSensitiveURLLearnMoreInstructionStep.h; sourceTree = "<group>"; };
+		51CB6DB429C1133400A85D79 /* ORKSensitiveURLLearnMoreInstructionStep.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKSensitiveURLLearnMoreInstructionStep.m; sourceTree = "<group>"; };
 		51BD901129DB92280001D54E /* AAPLdBHLToneAudiometryResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAPLdBHLToneAudiometryResult.h; sourceTree = "<group>"; };
 		51BD901229DB92280001D54E /* AAPLdBHLToneAudiometryResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AAPLdBHLToneAudiometryResult.m; sourceTree = "<group>"; };
 		51F716D829808B8100D8ACF7 /* AAPLCompletionStep.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AAPLCompletionStep.m; sourceTree = "<group>"; };
@@ -493,6 +505,15 @@
 			path = Task;
 			sourceTree = "<group>";
 		};
+		51CB6DAE29C112F100A85D79 /* SensitiveURLStep */ = {
+			isa = PBXGroup;
+			children = (
+				51CB6DB329C1133400A85D79 /* ORKSensitiveURLLearnMoreInstructionStep.h */,
+				51CB6DB429C1133400A85D79 /* ORKSensitiveURLLearnMoreInstructionStep.m */,
+			);
+			path = SensitiveURLStep;
+			sourceTree = "<group>";
+		};
 		51F716D529808B0000D8ACF7 /* Step */ = {
 			isa = PBXGroup;
 			children = (
@@ -504,6 +525,11 @@
 		51F716D629808B0E00D8ACF7 /* Instruction Step */ = {
 			isa = PBXGroup;
 			children = (
+				51CB6DAE29C112F100A85D79 /* SensitiveURLStep */,
+				51CB6DA229C0F12800A85D79 /* AAPLInstructionStep.h */,
+				51CB6DA329C0F12800A85D79 /* AAPLInstructionStep.m */,
+				51CB6DA629C0F36E00A85D79 /* AAPLInstructionStepViewController.h */,
+				51CB6DA729C0F36E00A85D79 /* AAPLInstructionStepViewController.m */,
 				51F716D729808B5600D8ACF7 /* Completion Step */,
 			);
 			path = "Instruction Step";
@@ -1036,9 +1062,11 @@
 				CA47EAF228BD334B00D91C0E /* ORKVolumeCalibrationStepViewController.h in Headers */,
 				CA5B6D6828BD1F38002C3BA4 /* ORKTinnitusPureToneStepViewController.h in Headers */,
 				CA5B6D5628BD1F38002C3BA4 /* ORKTinnitusAssessmentContentView.h in Headers */,
+				51CB6DB529C1133400A85D79 /* ORKSensitiveURLLearnMoreInstructionStep.h in Headers */,
 				511E8D5E2995C01A00A384A5 /* AAPLEnvironmentSPLMeterStepViewController.h in Headers */,
 				CA58F89F28B5330D00761769 /* ORKNewAudiometryMinimizer.h in Headers */,
 				CA5B6DA928BD27FC002C3BA4 /* ORKHeadphonesRequiredCompletionStepViewController.h in Headers */,
+				51CB6DA829C0F36E00A85D79 /* AAPLInstructionStepViewController.h in Headers */,
 				CA77D2A728AFFB4700400292 /* ORKFlamesViewTypes.h in Headers */,
 				511BB01B298DC91000936EC0 /* AAPLSpeechRecognitionStep.h in Headers */,
 				CA3FF9DB28B56A8300A33B6B /* ORKAVJournalingSessionHelper.h in Headers */,
@@ -1072,6 +1100,7 @@
 				CA5B6D8B28BD1F38002C3BA4 /* ORKTinnitusAudioSample.h in Headers */,
 				51F716DB29808CF700D8ACF7 /* AAPLCompletionStep.h in Headers */,
 				CA5B6D1128BD1C5C002C3BA4 /* ORKTypingResult.h in Headers */,
+				51CB6DA429C0F12800A85D79 /* AAPLInstructionStep.h in Headers */,
 				CA5B6DA728BD27FC002C3BA4 /* ORKHeadphoneDetector.h in Headers */,
 				511BB020298DC94400936EC0 /* AAPLSpeechRecognitionStepViewController.h in Headers */,
 				CA3FF9D228B56A8300A33B6B /* ORKAVJournalingResult.h in Headers */,
@@ -1291,10 +1320,13 @@
 				CA5B6D6C28BD1F38002C3BA4 /* ORKTinnitusPureToneStepViewController.m in Sources */,
 				CA5B6D8E28BD1F38002C3BA4 /* AVAudioMixerNode+Fade.m in Sources */,
 				CA5B6D0D28BD1C5C002C3BA4 /* ORKTypingStep.m in Sources */,
+				51CB6DA929C0F36E00A85D79 /* AAPLInstructionStepViewController.m in Sources */,
 				CA3FF9D928B56A8300A33B6B /* ORKAVJournalingPredefinedTask.m in Sources */,
 				CA47EAF428BD334B00D91C0E /* ORKVolumeCalibrationContentView.m in Sources */,
 				CA0AC57828BFFAB700E80040 /* AAPLUtils.m in Sources */,
 				CA5B6D7028BD1F38002C3BA4 /* ORKTinnitusAudioSample.m in Sources */,
+				51CB6DA529C0F12800A85D79 /* AAPLInstructionStep.m in Sources */,
+				51CB6DB629C1133400A85D79 /* ORKSensitiveURLLearnMoreInstructionStep.m in Sources */,
 				CA58F8A828B5330E00761769 /* lbfgsb.c in Sources */,
 				51F716EF2981DE0700D8ACF7 /* AAPLSpeechInNoiseStep.m in Sources */,
 				CA5B6D6228BD1F38002C3BA4 /* ORKTinnitusMaskingSoundStepViewController.m in Sources */,

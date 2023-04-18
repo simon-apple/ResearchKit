@@ -930,8 +930,6 @@
 		E2A676F3238DCB3E006193D7 /* AVOutputDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = E2A676F0238DCB3E006193D7 /* AVOutputDevice.h */; };
 		E2A676F4238DCB3E006193D7 /* AVFoundation_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = E2A676F1238DCB3E006193D7 /* AVFoundation_Private.h */; };
 		E2A676F6238DCCCA006193D7 /* AVOutputDeviceModelSpecificKeys.h in Headers */ = {isa = PBXBuildFile; fileRef = E2A676F5238DCCCA006193D7 /* AVOutputDeviceModelSpecificKeys.h */; };
-		E2CEF1EB2756744000EE8541 /* ORKSensitiveURLLearnMoreInstructionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = E2199DCC274BCAEC00629AE6 /* ORKSensitiveURLLearnMoreInstructionStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		E2CEF1EC2756994600EE8541 /* ORKSensitiveURLLearnMoreInstructionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = E2199DCD274BCAEC00629AE6 /* ORKSensitiveURLLearnMoreInstructionStep.m */; };
 		FA7A9D2B1B082688005A2BEA /* ORKConsentDocumentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7A9D2A1B082688005A2BEA /* ORKConsentDocumentTests.m */; };
 		FA7A9D2F1B083DD3005A2BEA /* ORKConsentSectionFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = FA7A9D2D1B083DD3005A2BEA /* ORKConsentSectionFormatter.h */; };
 		FA7A9D301B083DD3005A2BEA /* ORKConsentSectionFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7A9D2E1B083DD3005A2BEA /* ORKConsentSectionFormatter.m */; };
@@ -1946,8 +1944,6 @@
 		D442397C1AF17F7600559D96 /* ORKImageCaptureStepViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKImageCaptureStepViewController.m; sourceTree = "<group>"; };
 		D45852081AF6CCFA00A2DE13 /* ORKImageCaptureCameraPreviewView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKImageCaptureCameraPreviewView.h; sourceTree = "<group>"; };
 		D45852091AF6CCFA00A2DE13 /* ORKImageCaptureCameraPreviewView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKImageCaptureCameraPreviewView.m; sourceTree = "<group>"; };
-		E2199DCC274BCAEC00629AE6 /* ORKSensitiveURLLearnMoreInstructionStep.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKSensitiveURLLearnMoreInstructionStep.h; sourceTree = "<group>"; };
-		E2199DCD274BCAEC00629AE6 /* ORKSensitiveURLLearnMoreInstructionStep.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKSensitiveURLLearnMoreInstructionStep.m; sourceTree = "<group>"; };
 		E27743A923A7AA8F00AA0C9F /* AVOutputContext_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVOutputContext_Private.h; sourceTree = "<group>"; };
 		E27743AA23A7AA8F00AA0C9F /* AVOutputContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVOutputContext.h; sourceTree = "<group>"; };
 		E27743AD23A7AC8500AA0C9F /* AVOutputDeviceDiscoverySession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVOutputDeviceDiscoverySession.h; sourceTree = "<group>"; };
@@ -2738,7 +2734,6 @@
 		B12EFF351AB2116400A80147 /* Instruction Step */ = {
 			isa = PBXGroup;
 			children = (
-				E2199DCB274BCA8400629AE6 /* SensitiveURLStep */,
 				BA8C066822ECF4B100ACDE6B /* SecondaryTask */,
 				BAD9E90F2255E94F0014FA29 /* LearnMore Step */,
 				86C40B921A8D7C5C00081FAC /* ORKInstructionStep.h */,
@@ -4535,15 +4530,6 @@
 			name = "Image Capture Step";
 			sourceTree = "<group>";
 		};
-		E2199DCB274BCA8400629AE6 /* SensitiveURLStep */ = {
-			isa = PBXGroup;
-			children = (
-				E2199DCC274BCAEC00629AE6 /* ORKSensitiveURLLearnMoreInstructionStep.h */,
-				E2199DCD274BCAEC00629AE6 /* ORKSensitiveURLLearnMoreInstructionStep.m */,
-			);
-			name = SensitiveURLStep;
-			sourceTree = "<group>";
-		};
 		E2A676ED238DCB3D006193D7 /* AVFoundation */ = {
 			isa = PBXGroup;
 			children = (
@@ -4743,7 +4729,6 @@
 				8419D66E1FB73CC80088D7E5 /* ORKWebViewStep.h in Headers */,
 				FFDDD8491D3555EA00446806 /* ORKPageStep.h in Headers */,
 				D44239791AF17F5100559D96 /* ORKImageCaptureStep.h in Headers */,
-				E2CEF1EB2756744000EE8541 /* ORKSensitiveURLLearnMoreInstructionStep.h in Headers */,
 				BA8C066B22ECF7C200ACDE6B /* ORKSecondaryTaskStep.h in Headers */,
 				FF919A6D1E81D3B0005C2A1E /* ORKPasscodeResult.h in Headers */,
 				24C296771BD055B800B42EF1 /* ORKLoginStep_Internal.h in Headers */,
@@ -5604,7 +5589,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E2CEF1EC2756994600EE8541 /* ORKSensitiveURLLearnMoreInstructionStep.m in Sources */,
 				CA2BBB2128AB06D300DD6C64 /* ORKLearnMoreItem.m in Sources */,
 				2433C9E41B9A506F0052D375 /* ORKKeychainWrapper.m in Sources */,
 				BC2908BC1FBD628F0030AB89 /* ORKTypes.m in Sources */,

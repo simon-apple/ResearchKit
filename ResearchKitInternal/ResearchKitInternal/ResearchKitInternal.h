@@ -29,6 +29,8 @@
  */
 
 #import <ResearchKitInternal/AAPLTaskViewController.h>
+#import <ResearchKitInternal/AAPLInstructionStep.h>
+#import <ResearchKitInternal/AAPLInstructionStepViewController.h>
 #import <ResearchKitInternal/AAPLdBHLToneAudiometryStep.h>
 #import <ResearchKitInternal/AAPLdBHLToneAudiometryStepViewController.h>
 #import <ResearchKitInternal/AAPLdBHLToneAudiometryResult.h>
@@ -39,6 +41,7 @@
 #import <ResearchKitInternal/AAPLEnvironmentSPLMeterStep.h>
 
 #import <ResearchKitInternal/AAPLCompletionStep.h>
+#import <ResearchKitInternal/AAPLCompletionStepViewController.h>
 #import <ResearchKitInternal/ORKAVJournalingResult.h>
 #import <ResearchKitInternal/ORKAVJournalingStepViewController.h>
 #import <ResearchKitInternal/ORKAVJournalingTaskViewController.h>

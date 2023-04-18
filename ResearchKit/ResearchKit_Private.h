@@ -59,10 +59,4 @@
 
 #import <ResearchKit/ORKBodyItem_Internal.h>
 
-#if RK_APPLE_INTERNAL
-
-#import <ResearchKit/ORKSensitiveURLLearnMoreInstructionStep.h>
-
-#endif
-
 #import <ResearchKit/ORKSkin_Private.h>

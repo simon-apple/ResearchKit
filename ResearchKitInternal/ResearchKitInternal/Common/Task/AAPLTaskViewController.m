@@ -30,6 +30,8 @@
 
 #import "AAPLTaskViewController.h"
 #import "AAPLCompletionStep.h"
+#import "ORKSensitiveURLLearnMoreInstructionStep.h"
+#import "ORKSensitiveURLLearnMoreInstructionStep.h"
 #import "ORKCelestialSoftLink.h"
 
 #import <ResearchKitUI/ORKTaskViewController_Internal.h>
@@ -37,7 +39,9 @@
 #import <ResearchKit/ORKContext.h>
 #import <ResearchKit/ORKActiveStep_Internal.h>
 #import <ResearchKit/ORKOrderedTask_Private.h>
-#import <ResearchKit/ORKSensitiveURLLearnMoreInstructionStep.h>
+
+#import <ResearchKit/ORKActiveStep_Internal.h>
+#import <ResearchKit/ORKOrderedTask_Private.h>
 
 
 ORKCompletionStepIdentifier const ORKCompletionStepIdentifierMicrophoneLearnMore = @"ORKCompletionStepIdentifierMicrophoneLearnMore";

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2022, Apple Inc. All rights reserved.
+ Copyright (c) 2023, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,17 +28,25 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ResearchKitInternal/ORKAVJournalingPredefinedTask.h>
-#import <ResearchKitInternal/ORKAVJournalingStep.h>
-#import <ResearchKitInternal/ORKSensitiveURLLearnMoreInstructionStep.h>
-#import <ResearchKitInternal/ORKBLEScanPeripheralsStep.h>
-#import <ResearchKitInternal/ORKFaceDetectionStep.h>
-#import <ResearchKitInternal/ORKHeadphoneDetectStep.h>
-#import <ResearchKitInternal/ORKSpeechInNoisePredefinedTask.h>
-#import <ResearchKitInternal/ORKTinnitusMaskingSoundStep.h>
-#import <ResearchKitInternal/ORKTinnitusOverallAssessmentStep.h>
-#import <ResearchKitInternal/ORKTinnitusPureToneStep.h>
-#import <ResearchKitInternal/ORKTinnitusPureToneStepViewController_Private.h>
-#import <ResearchKitInternal/ORKTinnitusPredefinedTask.h>
-#import <ResearchKitInternal/ORKTinnitusTypeStep.h>
-#import <ResearchKitInternal/ORKVolumeCalibrationStep.h>
+#import "AAPLInstructionStepViewController.h"
+#import "AAPLTaskViewController.h"
+#import "ORKSensitiveURLLearnMoreInstructionStep.h"
+
+#import <ResearchKitUI/ORKInstructionStepViewController_Internal.h>
+
+
+@implementation AAPLInstructionStepViewController
+
+- (void)handleLearnMoreButtonPressed:(ORKLearnMoreInstructionStep *)learnMoreStep {
+    AAPLTaskViewController *taskVC = (AAPLTaskViewController *)[self taskViewController];
+    
+    if (taskVC != nil && [learnMoreStep isMemberOfClass:[ORKSensitiveURLLearnMoreInstructionStep class]] && taskVC.aaplDelegate != nil && 
+        [taskVC.aaplDelegate respondsToSelector:@selector(taskViewController:sensitiveURLLearnMoreButtonPressedWithStep:forStepViewController:)]) {
+        ORKSensitiveURLLearnMoreInstructionStep *sensitiveURLLearnMoreStep = (ORKSensitiveURLLearnMoreInstructionStep *) learnMoreStep;
+        [taskVC.aaplDelegate taskViewController:taskVC sensitiveURLLearnMoreButtonPressedWithStep:sensitiveURLLearnMoreStep forStepViewController:self];
+    } else {
+        [super handleLearnMoreButtonPressed:learnMoreStep];
+    }
+}
+
+@end
