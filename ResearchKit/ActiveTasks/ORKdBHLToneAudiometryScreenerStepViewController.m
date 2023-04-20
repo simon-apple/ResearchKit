@@ -127,7 +127,6 @@
         _showingAlert = NO;
         _isTouching = NO;
         _transitionsDictionary = [NSMutableDictionary dictionary];
-        //_arrayOfResultSamples = [NSMutableArray array];
         _arrayOfResultUnits = [NSMutableArray array];
         
         [[NSNotificationCenter defaultCenter] addObserver:self
@@ -429,7 +428,6 @@
                 [self finish];
                 return;
             }
-            //_navigationFooterView.continueEnabled = YES;
             
             [_audiometry nextStatus:^(BOOL testEnded, ORKAudiometryStimulus *sti) {
                 if (testEnded) {
@@ -437,7 +435,7 @@
                     return;
                 }
                 
-                ORKdBHLToneAudiometryScreenerStep *dBHLTAStep = [self dBHLToneAudiometryStep];            
+                ORKdBHLToneAudiometryScreenerStep *dBHLTAStep = [self dBHLToneAudiometryStep];
                 [self.dBHLToneAudiometryContentView setProgress:_audiometry.progress animated:YES];
                 
                 [_audioGenerator playSoundAtFrequency:sti.frequency onChannel:dBHLTAStep.earPreference dBHL:sti.level];
