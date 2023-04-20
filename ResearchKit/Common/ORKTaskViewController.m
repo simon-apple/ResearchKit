@@ -171,6 +171,8 @@ typedef void (^_ORKLocationAuthorizationRequestHandler)(BOOL success);
     
     NSString *_restoredTaskIdentifier;
     
+    NSTimer *_refreshTimer;
+    
 #if RK_APPLE_INTERNAL
     BOOL _hasLockedVolume;
     float _savedVolume;
@@ -764,6 +766,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
         _dismissedDate = [NSDate date];
     }
     
+    [self stopRefreshTimer];
     [self removeObservers];
 }
 
@@ -2023,8 +2026,8 @@ static NSString *const _ORKProgressMode = @"progressMode";
     [center addObserver:self selector:@selector(handleDeviceChanges:) name:@"ServerConnectionDiedNotification" object:[AVAudioSession sharedInstance]];
     
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDeviceChanges:) name:@"BluetoothAccessoryInEarStatusNotification" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDeviceChanges:) name:@"BluetoothAccessorySettingsChanged" object:nil];
+    [center addObserver:self selector:@selector(handleDeviceChanges:) name:@"BluetoothAccessoryInEarStatusNotification" object:nil];
+    [center addObserver:self selector:@selector(handleDeviceChanges:) name:@"BluetoothAccessorySettingsChanged" object:nil];
     NSError *error = nil;
     if (![[getAVSystemControllerClass() sharedAVSystemController] setAttribute: @[@"CallIsActiveDidChange"] forKey:@"AVSystemController_NotificationsToRegisterAttribute" error:&error]) {
         ORK_Log_Error("Failed to subscribe to AVSystemController notifications due to error: %@", error);
@@ -2032,6 +2035,9 @@ static NSString *const _ORKProgressMode = @"progressMode";
         ORK_Log_Info("Successfully set AVSC attribute. Register listener for Call Active notification");
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDeviceChanges:) name:@"AVSystemController_CallIsActiveDidChangeNotification" object:nil];
     }
+    
+    [center addObserver:self selector:@selector(appWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
+    [center addObserver:self selector:@selector(appWillTerminate:) name:UIApplicationWillTerminateNotification object:nil];
 }
 
 - (void)removeObservers {
@@ -2039,13 +2045,24 @@ static NSString *const _ORKProgressMode = @"progressMode";
     
     [center removeObserver:self name:@"BluetoothDeviceDisconnectSuccessNotification" object:nil];
     [center removeObserver:self name:@"BluetoothAccessorySealValueStatusNotification" object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"BluetoothDeviceBatteryChangedNotification" object:nil];
+    [center removeObserver:self name:@"BluetoothDeviceBatteryChangedNotification" object:nil];
     [center removeObserver:self name:AVAudioSessionInterruptionNotification object:[AVAudioSession sharedInstance]];
     [center removeObserver:self name:@"ServerConnectionDiedNotification" object:[AVAudioSession sharedInstance]];
     [center removeObserver:self name:@"BluetoothAvailabilityChangedNotification" object:nil];
     [center removeObserver:self name:@"BluetoothAccessoryInEarStatusNotification" object:nil];
     [center removeObserver:self name:@"BluetoothAccessorySettingsChanged" object:nil];
     [center removeObserver:self name:@"AVSystemController_CallIsActiveDidChangeNotification" object:nil];
+    [center removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
+    [center removeObserver:self name:UIApplicationWillTerminateNotification object:nil];
+}
+
+-(void)appWillResignActive:(NSNotification*)note {
+    [self stopRefreshTimer];
+}
+
+-(void)appWillTerminate:(NSNotification*)note {
+    [self stopRefreshTimer];
+    [self removeObservers];
 }
 
 - (void)sealValueChanged:(NSNotification *)note {
@@ -2066,6 +2083,8 @@ static NSString *const _ORKProgressMode = @"progressMode";
         [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
     }
 }
+
+static const NSTimeInterval ZERO_BATTERY_LEVEL_TIME_INTERVAL = 0.5;
 
 - (void)handleDeviceChanges:(NSNotification *)note {
     BluetoothDevice *device = nil;
@@ -2110,76 +2129,107 @@ static NSString *const _ORKProgressMode = @"progressMode";
 
 - (void)updateDescriptionLabel{
     if (_currentDevice) {
-        _caseSerial = [[_currentDevice accessoryInfo][@"AACPVersionInfo"] objectAtIndex:BT_ACCESSORY_AACP_VERSION_SERIAL_NUMBER_SYSTEM];
-        _leftBudSerial = [[_currentDevice accessoryInfo][@"AACPVersionInfo"] objectAtIndex:BT_ACCESSORY_AACP_VERSION_SERIAL_NUMBER_LEFT];
-        _rightBudSerial = [[_currentDevice accessoryInfo][@"AACPVersionInfo"] objectAtIndex:BT_ACCESSORY_AACP_VERSION_SERIAL_NUMBER_RIGHT];
-        _fwVersion = [[_currentDevice accessoryInfo][@"AACPVersionInfo"] objectAtIndex:BT_ACCESSORY_AACP_VERSION_MARKETING_VERSION];
-        NSDictionary *modelSpecificInformation = [[[getAVOutputContextClass() sharedSystemAudioContext] outputDevice] modelSpecificInformation];
-        if ([modelSpecificInformation objectForKey:getAVOutputDeviceBatteryLevelLeftKey()] != nil &&
-            [modelSpecificInformation objectForKey:getAVOutputDeviceBatteryLevelRightKey()] != nil) {
-            _leftBattery = [[modelSpecificInformation objectForKey:getAVOutputDeviceBatteryLevelLeftKey()] doubleValue];
-            _rightBattery = [[modelSpecificInformation objectForKey:getAVOutputDeviceBatteryLevelRightKey()] doubleValue];
-        }
-        BTAccessoryInEarStatus primaryInEar = BT_ACCESSORY_IN_EAR_STATUS_UNKNOWN;
-        BTAccessoryInEarStatus secondaryInEar = BT_ACCESSORY_IN_EAR_STATUS_UNKNOWN;
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            _caseSerial = [[_currentDevice accessoryInfo][@"AACPVersionInfo"] objectAtIndex:BT_ACCESSORY_AACP_VERSION_SERIAL_NUMBER_SYSTEM];
+            _leftBudSerial = [[_currentDevice accessoryInfo][@"AACPVersionInfo"] objectAtIndex:BT_ACCESSORY_AACP_VERSION_SERIAL_NUMBER_LEFT];
+            _rightBudSerial = [[_currentDevice accessoryInfo][@"AACPVersionInfo"] objectAtIndex:BT_ACCESSORY_AACP_VERSION_SERIAL_NUMBER_RIGHT];
+            _fwVersion = [[_currentDevice accessoryInfo][@"AACPVersionInfo"] objectAtIndex:BT_ACCESSORY_AACP_VERSION_MARKETING_VERSION];
+            // the next line hangs the main thread
+            NSDictionary *modelSpecificInformation = [[[getAVOutputContextClass() sharedSystemAudioContext] outputDevice] modelSpecificInformation];
+            if ([modelSpecificInformation objectForKey:getAVOutputDeviceBatteryLevelLeftKey()] != nil &&
+                [modelSpecificInformation objectForKey:getAVOutputDeviceBatteryLevelRightKey()] != nil) {
+                _leftBattery = [[modelSpecificInformation objectForKey:getAVOutputDeviceBatteryLevelLeftKey()] doubleValue];
+                _rightBattery = [[modelSpecificInformation objectForKey:getAVOutputDeviceBatteryLevelRightKey()] doubleValue];
+            }
+            BTAccessoryInEarStatus primaryInEar = BT_ACCESSORY_IN_EAR_STATUS_UNKNOWN;
+            BTAccessoryInEarStatus secondaryInEar = BT_ACCESSORY_IN_EAR_STATUS_UNKNOWN;
 
-        [_currentDevice inEarStatusPrimary:&primaryInEar secondary:&secondaryInEar];
-        _budsInEars = (primaryInEar == BT_ACCESSORY_IN_EAR_STATUS_IN_EAR) && (secondaryInEar == BT_ACCESSORY_IN_EAR_STATUS_IN_EAR);
-        
-        BOOL isB698 = _currentDevice.productId == APPLE_B698_PRODUCTID;
-        BOOL isCorrectFirmwareVersion = [_fwVersion isEqualToString:CHAND_FFANC_FWVERSION];
-        BOOL isBatteryOk = _leftBattery > LOW_BATTERY_LEVEL_THRESHOLD_VALUE && _rightBattery > LOW_BATTERY_LEVEL_THRESHOLD_VALUE;
-        
-        BOOL correctDeviceConnected = isB698 && _budsInEars && isCorrectFirmwareVersion;
-        
-        if (correctDeviceConnected) {
-            if (isBatteryOk) {
-                // everything is ok, check ANC
-                BTAccessoryListeningMode listeningMode = [_currentDevice listeningMode];
-                switch ( listeningMode ) {
-                    case BT_ACCESSORY_LISTENING_MODE_ANC:
-                    {
-                        [self updateANCLabelForStatus:ORKdBHLHeadphonesANCStatusEnabled];
-                        break;
+            [_currentDevice inEarStatusPrimary:&primaryInEar secondary:&secondaryInEar];
+            _budsInEars = (primaryInEar == BT_ACCESSORY_IN_EAR_STATUS_IN_EAR) && (secondaryInEar == BT_ACCESSORY_IN_EAR_STATUS_IN_EAR);
+
+            // Once the task is complete, update the UI on the main thread
+            dispatch_async(dispatch_get_main_queue(), ^{
+                ORK_Log_Info("case serial: %@; leftbud serial: %@; rightbudSerial: %@; firmwareVersion: %@; leftBattery: %f; rigthBattery: %f",_caseSerial,_leftBudSerial,_rightBudSerial, _fwVersion, _leftBattery, _rightBattery);
+                BOOL isB698 = _currentDevice.productId == APPLE_B698_PRODUCTID;
+                BOOL isCorrectFirmwareVersion = [_fwVersion isEqualToString:CHAND_FFANC_FWVERSION];
+                BOOL isBatteryOk = _leftBattery > LOW_BATTERY_LEVEL_THRESHOLD_VALUE && _rightBattery > LOW_BATTERY_LEVEL_THRESHOLD_VALUE;
+                
+                BOOL correctDeviceConnected = isB698 && _budsInEars && isCorrectFirmwareVersion;
+                
+                if (correctDeviceConnected) {
+                    if (isBatteryOk) {
+                        // everything is ok, check ANC
+                        BTAccessoryListeningMode listeningMode = [_currentDevice listeningMode];
+                        switch ( listeningMode ) {
+                            case BT_ACCESSORY_LISTENING_MODE_ANC:
+                            {
+                                [self updateANCLabelForStatus:ORKdBHLHeadphonesANCStatusEnabled];
+                                break;
+                            }
+                            case BT_ACCESSORY_LISTENING_MODE_NORMAL:
+                            case BT_ACCESSORY_LISTENING_MODE_TRANSPARENCY:
+                            case BT_ACCESSORY_LISTENING_MODE_UNKNOWN:
+                            {
+                                [self updateANCLabelForStatus:ORKdBHLHeadphonesANCStatusDisabled];
+                                break;
+                            }
+                        }
+                    } else {
+                        // some battery level is low
+                        if (_leftBattery < LOW_BATTERY_LEVEL_THRESHOLD_VALUE) {
+                            [self updateANCLabelForStatus:ORKdBHLHeadphonesStatusLowBatteryLeft];
+                        }
+                        if (_rightBattery < LOW_BATTERY_LEVEL_THRESHOLD_VALUE) {
+                            [self updateANCLabelForStatus:ORKdBHLHeadphonesStatusLowBatteryRight];
+                        }
+                        if (_leftBattery < LOW_BATTERY_LEVEL_THRESHOLD_VALUE && _rightBattery < LOW_BATTERY_LEVEL_THRESHOLD_VALUE) {
+                            [self updateANCLabelForStatus:ORKdBHLHeadphonesStatusLowBatteryBoth];
+                        }
                     }
-                    case BT_ACCESSORY_LISTENING_MODE_NORMAL:
-                    case BT_ACCESSORY_LISTENING_MODE_TRANSPARENCY:
-                    case BT_ACCESSORY_LISTENING_MODE_UNKNOWN:
-                    {
-                        [self updateANCLabelForStatus:ORKdBHLHeadphonesANCStatusDisabled];
-                        break;
+                } else {
+                    // not the correct device
+                    if (!_budsInEars) {
+                        [self updateANCLabelForStatus:ORKdBHLHeadphonesStatusNoDevice];
+                    } else {
+                        if (!isB698) {
+                            // incorrect device
+                            [self updateANCLabelForStatus:ORKdBHLHeadphonesStatusWrongDevice];
+                        } else if (!isCorrectFirmwareVersion) {
+                            // correct device but incorrect firmware version
+                            [self updateANCLabelForStatus:ORKdBHLHeadphonesStatusWrongFirmware];
+                        }
                     }
                 }
-            } else {
-                // some battery level is low
-                if (_leftBattery < LOW_BATTERY_LEVEL_THRESHOLD_VALUE) {
-                    [self updateANCLabelForStatus:ORKdBHLHeadphonesStatusLowBatteryLeft];
-                }
-                if (_rightBattery < LOW_BATTERY_LEVEL_THRESHOLD_VALUE) {
-                    [self updateANCLabelForStatus:ORKdBHLHeadphonesStatusLowBatteryRight];
-                }
-                if (_leftBattery < LOW_BATTERY_LEVEL_THRESHOLD_VALUE && _rightBattery < LOW_BATTERY_LEVEL_THRESHOLD_VALUE) {
-                    [self updateANCLabelForStatus:ORKdBHLHeadphonesStatusLowBatteryBoth];
-                }
+            });
+            if (_leftBattery == 0 && _rightBattery == 0) {
+                // special case , try to refresh UI after 0.5 secs
+                [self startRefreshTimer];
             }
-        } else {
-            // not the correct device
-            if (!_budsInEars) {
-                [self updateANCLabelForStatus:ORKdBHLHeadphonesStatusNoDevice];
-            } else {
-                if (!isB698) {
-                    // incorrect device
-                    [self updateANCLabelForStatus:ORKdBHLHeadphonesStatusWrongDevice];
-                } else if (!isCorrectFirmwareVersion) {
-                    // correct device but incorrect firmware version
-                    [self updateANCLabelForStatus:ORKdBHLHeadphonesStatusWrongFirmware];
-                }
-            }
-        }
+        });
     } else {
         // no device connected
         [self updateANCLabelForStatus:ORKdBHLHeadphonesStatusNoDevice];
     }
+}
+
+// Sometimes the left and right battery level report 0 on both values,
+// but the buds has enought battery to continue.
+// On that special case we will refresh the status after half a second to give time to collect the correct values.
+- (void)startRefreshTimer {
+    if (_refreshTimer != nil) {
+        [self stopRefreshTimer];
+    }
+    _refreshTimer = [NSTimer scheduledTimerWithTimeInterval:ZERO_BATTERY_LEVEL_TIME_INTERVAL target:self selector:@selector(refreshUI) userInfo:nil repeats:NO];
+}
+
+- (void)refreshUI {
+    [self handleDeviceChanges:nil];
+    [self stopRefreshTimer];
+}
+
+- (void)stopRefreshTimer {
+    [_refreshTimer invalidate];
+    _refreshTimer = nil;
 }
 
 - (void)removeAndAddObservers {
