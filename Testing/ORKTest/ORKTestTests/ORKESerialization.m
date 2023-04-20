@@ -2102,10 +2102,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
            ENTRY(ORKdBHLFitTestResult,
                  nil,
                  (@{
-                    PROPERTY(sealLeftEar, NSNumber, NSObject, NO, nil, nil),
-                    PROPERTY(sealRightEar, NSNumber, NSObject, NO, nil, nil),
-                    PROPERTY(confidenceLeftEar, NSNumber, NSObject, NO, nil, nil),
-                    PROPERTY(confidenceRightEar, NSNumber, NSObject, NO, nil, nil),
+                    PROPERTY(fitTestResultSamples, ORKdBHLFitTestResultSample, NSArray, NO, nil, nil),
                     })),
            ENTRY(ORKdBHLQuickResponseCodeReaderResult,
                  nil,

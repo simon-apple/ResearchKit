@@ -33,7 +33,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 ORK_CLASS_AVAILABLE
-@interface ORKdBHLFitTestResult : ORKResult
+@interface ORKdBHLFitTestResultSample : NSObject <NSCopying, NSSecureCoding>
 
 @property (nonatomic, assign) double sealLeftEar;
 
@@ -42,6 +42,13 @@ ORK_CLASS_AVAILABLE
 @property (nonatomic, assign) double confidenceLeftEar;
 
 @property (nonatomic, assign) double confidenceRightEar;
+
+@end
+
+ORK_CLASS_AVAILABLE
+@interface ORKdBHLFitTestResult : ORKResult
+
+@property (nonatomic, copy) NSArray<ORKdBHLFitTestResultSample *> *fitTestResultSamples;
 
 @end
 

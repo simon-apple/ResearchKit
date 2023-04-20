@@ -33,10 +33,13 @@
 #import "ORKResult_Private.h"
 #import "ORKHelpers_Internal.h"
 
-@implementation ORKdBHLFitTestResult
+@implementation ORKdBHLFitTestResultSample
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
-    [super encodeWithCoder:aCoder];
     ORK_ENCODE_DOUBLE(aCoder, sealLeftEar);
     ORK_ENCODE_DOUBLE(aCoder, sealRightEar);
     ORK_ENCODE_DOUBLE(aCoder, confidenceLeftEar);
@@ -44,7 +47,7 @@
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
+    self = [super init];
     if (self) {
         ORK_DECODE_DOUBLE(aDecoder, sealLeftEar);
         ORK_DECODE_DOUBLE(aDecoder, sealRightEar);
@@ -52,10 +55,6 @@
         ORK_DECODE_DOUBLE(aDecoder, confidenceRightEar);
     }
     return self;
-}
-
-+ (BOOL)supportsSecureCoding {
-    return YES;
 }
 
 - (BOOL)isEqual:(id)object {
@@ -70,7 +69,7 @@
 }
 
 - (instancetype)copyWithZone:(NSZone *)zone {
-    ORKdBHLFitTestResult *result = [super copyWithZone:zone];
+    ORKdBHLFitTestResultSample *result = [[[self class] allocWithZone:zone] init];
     result.sealLeftEar = self.sealLeftEar;
     result.sealRightEar = self.sealRightEar;
     result.confidenceLeftEar = self.confidenceLeftEar;
@@ -79,7 +78,46 @@
 }
 
 - (NSString *)descriptionWithNumberOfPaddingSpaces:(NSUInteger)numberOfPaddingSpaces {
-    return [NSString stringWithFormat:@"%@; Seal LeftEar: %f, Seal RightEar: %f, Confidence LeftEar: %f, Confidence RightEar: %f;", [self descriptionPrefixWithNumberOfPaddingSpaces:numberOfPaddingSpaces], self.sealLeftEar, self.sealRightEar, self.confidenceLeftEar, self.confidenceRightEar];
+    return [NSString stringWithFormat:@"%@; Seal LeftEar: %f, Seal RightEar: %f, Confidence LeftEar: %f, Confidence RightEar: %f;", [self.class description], self.sealLeftEar, self.sealRightEar, self.confidenceLeftEar, self.confidenceRightEar];
+}
+
+@end
+
+
+
+@implementation ORKdBHLFitTestResult
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [super encodeWithCoder:aCoder];
+    ORK_ENCODE_OBJ(aCoder, fitTestResultSamples);
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        ORK_DECODE_OBJ_ARRAY(aDecoder, fitTestResultSamples, ORKdBHLFitTestResultSample);
+    }
+    return self;
+}
+
+- (BOOL)isEqual:(id)object {
+    BOOL isParentSame = [super isEqual:object];
+    __typeof(self) castObject = object;
+    return (isParentSame && ORKEqualObjects(self.fitTestResultSamples, castObject.fitTestResultSamples));
+}
+
+- (instancetype)copyWithZone:(NSZone *)zone {
+    ORKdBHLFitTestResult *result = [super copyWithZone:zone];
+    result.fitTestResultSamples = [self.fitTestResultSamples copy];
+    return result;
+}
+
+- (NSString *)descriptionWithNumberOfPaddingSpaces:(NSUInteger)numberOfPaddingSpaces {
+    return [NSString stringWithFormat:@"%@; fitTestResultSamples: %@", [self descriptionPrefixWithNumberOfPaddingSpaces:numberOfPaddingSpaces], self.fitTestResultSamples];
 }
 
 @end

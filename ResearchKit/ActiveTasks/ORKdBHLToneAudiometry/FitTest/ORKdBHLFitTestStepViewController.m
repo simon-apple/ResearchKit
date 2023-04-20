@@ -87,10 +87,7 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
     
     ORKdBHLFitTestStage _stage;
     
-    float _confidenceValL;
-    float _confidenceValR;
-    float _sealValL;
-    float _sealValR;
+    NSMutableArray <ORKdBHLFitTestResultSample *> *_fitTestResultSamples;
     
     NSInteger _triesCounter;
 }
@@ -110,6 +107,7 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
     
     if (self) {
         self.suspendIfInactive = YES;
+        _fitTestResultSamples = [[NSMutableArray alloc] init];
     }
     
     return self;
@@ -443,18 +441,25 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
     NSDictionary *object = [[note object] object];
     NSNumber *left = object[@"sealLeft"];
     NSNumber *right = object[@"sealRight"];
-    _sealValL = [left floatValue];
-    _sealValR = [right floatValue];
-    ORK_Log_Info("leftSeal : %0.06f", _sealValL);
-    ORK_Log_Info("rightSeal : %0.06f", _sealValR);
+    float sealValL = [left floatValue];
+    float sealValR = [right floatValue];
+    ORK_Log_Info("leftSeal : %0.06f", sealValL);
+    ORK_Log_Info("rightSeal : %0.06f", sealValR);
     NSNumber *confidenceL = object[@"confidenceLeft"];
     NSNumber *confidenceR = object[@"confidenceRight"];
-    _confidenceValL = [confidenceL floatValue];
-    _confidenceValR = [confidenceR floatValue];
-    ORK_Log_Info("confidenceL : %0.06f", _confidenceValL);
-    ORK_Log_Info("confidenceR : %0.06f", _confidenceValR);
-    bool leftSealGood = false;
-    bool rightSealGood = false;
+    float confidenceValL = [confidenceL floatValue];
+    float confidenceValR = [confidenceR floatValue];
+    ORK_Log_Info("confidenceL : %0.06f", confidenceValL);
+    ORK_Log_Info("confidenceR : %0.06f", confidenceValR);
+    ORKdBHLFitTestResultSample *fitTestResultSample = [[ORKdBHLFitTestResultSample alloc] init];
+    fitTestResultSample.sealLeftEar = left ? sealValL : 0.0;
+    fitTestResultSample.sealRightEar = right ? sealValL : 0.0;
+    fitTestResultSample.confidenceLeftEar = confidenceL ? confidenceValL : 0.0;
+    fitTestResultSample.confidenceRightEar = confidenceR ? confidenceValR : 0.0;
+    [_fitTestResultSamples addObject:fitTestResultSample];
+    float sealThreshold = [self getSealThreshold];
+    bool leftSealGood = sealValL > sealThreshold;
+    bool rightSealGood = sealValR > sealThreshold;
 
     [self fitTestStopped];
 
@@ -464,19 +469,10 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
     }
 
     float confidence = [self getConfidenceThreshold];
-    if (_confidenceValL < confidence || _confidenceValR < confidence) {
+    if (confidenceValL < confidence || confidenceValR < confidence) {
         ORK_Log_Info("Confidence values too low.");
         [self setStage:ORKdBHLFitTestStageResultConfidenceLow];
     } else {
-        float sealThreshold = [self getSealThreshold];
-        if (_sealValL > sealThreshold) {
-            leftSealGood = true;
-        }
-
-        if (_sealValR > sealThreshold) {
-            rightSealGood = true;
-        }
-
         if (leftSealGood && rightSealGood) {
             [self setStage:ORKdBHLFitTestStageResultLeftSealGoodRightSealGood];
         } else if (!leftSealGood && !rightSealGood) {
@@ -529,10 +525,7 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
     ORKdBHLFitTestResult *fitTestResult = [[ORKdBHLFitTestResult alloc] initWithIdentifier:self.step.identifier];
     fitTestResult.startDate = sResult.startDate;
     fitTestResult.endDate = now;
-    fitTestResult.sealLeftEar = _sealValL;
-    fitTestResult.sealRightEar = _sealValR;
-    fitTestResult.confidenceLeftEar = _confidenceValL;
-    fitTestResult.confidenceRightEar = _confidenceValR;
+    fitTestResult.fitTestResultSamples = [_fitTestResultSamples copy];
     
     [results addObject:fitTestResult];
     
