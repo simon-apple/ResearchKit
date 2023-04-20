@@ -2084,7 +2084,7 @@ static NSString *const _ORKProgressMode = @"progressMode";
     }
 }
 
-static const NSTimeInterval ZERO_BATTERY_LEVEL_TIME_INTERVAL = 0.5;
+static const NSTimeInterval ZERO_BATTERY_LEVEL_TIME_INTERVAL = 1.0;
 
 - (void)handleDeviceChanges:(NSNotification *)note {
     BluetoothDevice *device = nil;
@@ -2120,11 +2120,6 @@ static const NSTimeInterval ZERO_BATTERY_LEVEL_TIME_INTERVAL = 0.5;
     _currentDevice = device;
     
     [self updateDescriptionLabel];
-    
-    NSNotification *notification = [NSNotification notificationWithName:ORKdBHLBluetoothChangedNotification
-                                                                 object:self
-                                                               userInfo:nil];
-    [[NSNotificationCenter defaultCenter] postNotification:notification];
 }
 
 - (void)updateDescriptionLabel{
@@ -2200,9 +2195,13 @@ static const NSTimeInterval ZERO_BATTERY_LEVEL_TIME_INTERVAL = 0.5;
                         }
                     }
                 }
+                NSNotification *notification = [NSNotification notificationWithName:ORKdBHLBluetoothChangedNotification
+                                                                             object:self
+                                                                           userInfo:nil];
+                [[NSNotificationCenter defaultCenter] postNotification:notification];
             });
             if (_leftBattery == 0 && _rightBattery == 0) {
-                // special case , try to refresh UI after 0.5 secs
+                // special case , try to refresh UI
                 [self startRefreshTimer];
             }
         });
@@ -2219,7 +2218,9 @@ static const NSTimeInterval ZERO_BATTERY_LEVEL_TIME_INTERVAL = 0.5;
     if (_refreshTimer != nil) {
         [self stopRefreshTimer];
     }
-    _refreshTimer = [NSTimer scheduledTimerWithTimeInterval:ZERO_BATTERY_LEVEL_TIME_INTERVAL target:self selector:@selector(refreshUI) userInfo:nil repeats:NO];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        _refreshTimer = [NSTimer scheduledTimerWithTimeInterval:ZERO_BATTERY_LEVEL_TIME_INTERVAL target:self selector:@selector(refreshUI) userInfo:nil repeats:NO];
+    });
 }
 
 - (void)refreshUI {
