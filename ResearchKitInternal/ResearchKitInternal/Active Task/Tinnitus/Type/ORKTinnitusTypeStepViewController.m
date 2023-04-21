@@ -31,7 +31,7 @@
 
 #import "AAPLUtils.h"
 #import "AVAudioMixerNode+Fade.h"
-#import "ORKContext+ResearchKitInternal.h"
+#import "ORKContext.h"
 #import "ORKTinnitusAudioSample.h"
 #import "ORKTinnitusButtonView.h"
 #import "ORKTinnitusTypeContentView.h"

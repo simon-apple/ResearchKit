@@ -31,7 +31,7 @@
 // apple-internal
 
 #import "ORKAVJournalingTaskViewController.h"
-#import "ORKContext+ResearchKitInternal.h"
+#import "ORKContext.h"
 
 #import "AAPLUtils.h"
 

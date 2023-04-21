@@ -30,12 +30,12 @@
 
 #import "AAPLCompletionStepViewController.h"
 #import "AAPLCompletionStep.h"
+#import "ORKContext.h"
 
 #import "ResearchKitUI/ORKInstructionStepViewController_Internal.h"
 #import "ResearchKitUI/ORKTaskViewController_Internal.h"
 #import "ResearchKitUI/ORKStepViewController_Internal.h"
 
-#import "ResearchKit/ORKContext.h"
 
 @implementation AAPLCompletionStepViewController
 

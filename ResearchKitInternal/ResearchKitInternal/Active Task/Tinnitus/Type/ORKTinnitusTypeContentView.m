@@ -29,7 +29,7 @@
  */
 // apple-internal
 
-#import "ORKContext+ResearchKitInternal.h"
+#import "ORKContext.h"
 #import "ORKTinnitusAudioSample.h"
 #import "ORKTinnitusButtonView.h"
 #import "ORKTinnitusPredefinedTask.h"

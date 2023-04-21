@@ -31,12 +31,12 @@
 #import "AAPLTaskViewController.h"
 #import "AAPLCompletionStep.h"
 #import "ORKSensitiveURLLearnMoreInstructionStep.h"
+#import "ORKContext.h"
 #import "ORKSensitiveURLLearnMoreInstructionStep.h"
 #import "ORKCelestialSoftLink.h"
 
 #import <ResearchKitUI/ORKTaskViewController_Internal.h>
 
-#import <ResearchKit/ORKContext.h>
 #import <ResearchKit/ORKActiveStep_Internal.h>
 #import <ResearchKit/ORKOrderedTask_Private.h>
 

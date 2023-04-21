@@ -36,7 +36,7 @@
 #if ORK_FEATURE_AV_JOURNALING
 
 #import "ORKAVJournalingStep.h"
-#import "ORKContext+ResearchKitInternal.h"
+#import "ORKContext.h"
 #import "ORKFaceDetectionStep.h"
 #import "AAPLCompletionStep.h"
 

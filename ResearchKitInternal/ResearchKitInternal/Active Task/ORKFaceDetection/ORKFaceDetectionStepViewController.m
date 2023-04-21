@@ -34,14 +34,14 @@
 #if ORK_FEATURE_AV_JOURNALING
 
 #import "ORKAVJournalingPredefinedTask_Internal.h"
-#import "ORKContext+ResearchKitInternal.h"
 #import "ORKFaceDetectionStep.h"
 #import "ORKFaceDetectionStepContentView.h"
+
+#import "ORKContext.h"
 
 #import <ResearchKit/ORKResult_Private.h>
 #import <ResearchKit/ORKCollectionResult_Private.h>
 #import <ResearchKit/ORKHelpers_Internal.h>
-#import <ResearchKit/ORKContext.h>
 
 #import <ResearchKitActiveTask/ORKActiveStepView.h>
 #import <ResearchKitActiveTask/ORKActiveStepViewController_Internal.h>

@@ -29,7 +29,6 @@
  */
 // apple-internal
 
-#import "ORKContext+ResearchKitInternal.h"
 #import "ORKHeadphoneDetectStep.h"
 #import "ORKHeadphonesRequiredCompletionStep.h"
 #import "ORKSpeechInNoisePredefinedTask.h"
@@ -43,13 +42,13 @@
 
 #import <ResearchKit/ORKAnswerFormat.h>
 #import <ResearchKit/ORKBodyItem.h>
-#import <ResearchKit/ORKContext.h>
 #import <ResearchKit/ORKHelpers_Internal.h>
 #import <ResearchKit/ORKLearnMoreInstructionStep.h>
 #import <ResearchKit/ORKQuestionStep.h>
 #import <ResearchKit/ORKRecorder_Private.h>
-#import <ResearchKit/ORKStep.h>
 #import <ResearchKit/ORKStepNavigationRule.h>
+
+#import "ORKContext.h"
 
 #import <ResearchKitActiveTask/ORKSpeechRecognitionStep.h>
 

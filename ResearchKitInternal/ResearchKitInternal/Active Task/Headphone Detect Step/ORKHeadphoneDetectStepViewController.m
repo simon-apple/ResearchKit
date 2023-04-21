@@ -29,7 +29,7 @@
  */
 // apple-internal
 
-#import "ORKContext+ResearchKitInternal.h"
+#import "ORKContext.h"
 #import "ORKHeadphoneDetectStepViewController.h"
 #import "ORKHeadphoneDetectResult.h"
 #import "ORKHeadphoneDetectStep.h"

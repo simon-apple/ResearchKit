@@ -33,7 +33,6 @@
 
 #import "AAPLUtils.h"
 #import "AVAudioMixerNode+Fade.h"
-#import "ORKContext+ResearchKitInternal.h"
 #import "ORKVolumeCalibrationStep.h"
 #import "ORKVolumeCalibrationContentView.h"
 #import "ORKTinnitusAudioGenerator.h"

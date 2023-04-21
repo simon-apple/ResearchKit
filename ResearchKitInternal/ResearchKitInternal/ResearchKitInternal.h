@@ -28,6 +28,8 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <ResearchKitInternal/ORKContext.h>
+
 #import <ResearchKitInternal/AAPLTaskViewController.h>
 #import <ResearchKitInternal/AAPLInstructionStep.h>
 #import <ResearchKitInternal/AAPLInstructionStepViewController.h>
@@ -47,7 +49,6 @@
 #import <ResearchKitInternal/ORKAVJournalingTaskViewController.h>
 #import <ResearchKitInternal/ORKBLEScanPeripheralsStepResult.h>
 #import <ResearchKitInternal/ORKBLEScanPeripheralsStepViewController.h>
-#import <ResearchKitInternal/ORKContext+ResearchKitInternal.h>
 #import <ResearchKitInternal/ORKFaceDetectionStepViewController.h>
 #import <ResearchKitInternal/ORKHeadphoneDetectResult.h>
 #import <ResearchKitInternal/ORKHeadphoneDetectStep.h>

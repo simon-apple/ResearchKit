@@ -28,10 +28,6 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#if RK_APPLE_INTERNAL
-#import "ORKContext.h"
-#endif
-
 #import "ORKHelpers_Internal.h"
 #import "ORKOrderedTask.h"
 #import "ORKStep.h"
@@ -43,9 +39,6 @@
 #endif
 
 @implementation ORKStep
-#if RK_APPLE_INTERNAL
-@synthesize context;
-#endif
 
 #pragma mark - Common
 + (instancetype)new {

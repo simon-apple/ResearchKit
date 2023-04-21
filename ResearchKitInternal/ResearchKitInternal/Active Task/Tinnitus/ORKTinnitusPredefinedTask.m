@@ -29,7 +29,8 @@
  */
 // apple-internal
 
-#import "ORKContext+ResearchKitInternal.h"
+#import "ORKContext.h"
+
 #import "ORKHeadphoneDetector.h"
 #import "ORKHeadphoneDetectResult.h"
 #import "ORKHeadphonesRequiredCompletionStep.h"
@@ -50,7 +51,7 @@
 #if TARGET_OS_IOS
 #import <UIKit/UIKit.h>
 #endif
-#import <ResearchKit/ORKContext.h>
+
 #import <ResearchKit/ORKStepNavigationRule.h>
 #import <ResearchKit/ResearchKit_Private.h>
 #import <ResearchKit/ORKTypes.h>

@@ -30,7 +30,7 @@
 
 // apple-internal
 
-#import "ORKContext+ResearchKitInternal.h"
+#import "ORKContext.h"
 #import "ORKHeadphonesRequiredCompletionStep.h"
 
 #import <ResearchKit/ORKHelpers_Internal.h>

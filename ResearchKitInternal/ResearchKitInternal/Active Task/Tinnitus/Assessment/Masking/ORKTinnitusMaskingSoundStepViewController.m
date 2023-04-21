@@ -30,7 +30,7 @@
 // apple-internal
 
 #import "AVAudioMixerNode+Fade.h"
-#import "ORKContext+ResearchKitInternal.h"
+#import "ORKContext.h"
 #import "ORKTinnitusAssessmentContentView.h"
 #import "ORKTinnitusAudioSample.h"
 #import "ORKTinnitusHeadphoneTable.h"

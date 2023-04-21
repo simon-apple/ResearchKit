@@ -38,7 +38,7 @@
 #import "ORKAVJournalingStep.h"
 #import "ORKAVJournalingStepContentView.h"
 #import "ORKAVJournalingSessionHelper.h"
-#import "ORKContext+ResearchKitInternal.h"
+#import "ORKContext.h"
 
 #import "AAPLUtils.h"
 

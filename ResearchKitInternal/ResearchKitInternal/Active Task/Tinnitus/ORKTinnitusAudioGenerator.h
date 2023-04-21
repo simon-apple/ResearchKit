@@ -27,13 +27,15 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-// apple-internal
 
 @import UIKit;
 @import AVFoundation;
-#import <ResearchKit/ORKTypes.h>
+
+#import "ORKContext.h"
 #import "ORKTinnitusTypes.h"
-#import <ResearchKit/ORKContext.h>
+
+#import <ResearchKit/ORKTypes.h>
+
 
 NS_ASSUME_NONNULL_BEGIN
 

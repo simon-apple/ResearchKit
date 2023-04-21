@@ -31,12 +31,13 @@
 #import "AAPLEnvironmentSPLMeterStepViewController.h"
 #import "AAPLCompletionStep.h"
 
+#import "AAPLUtils.h"
+
+#import <ResearchKitInternal/ORKContext.h>
+
 #import <ResearchKitActiveTask/ORKEnvironmentSPLMeterStepViewController_Private.h>
 
 #import "ResearchKitUI/ORKTaskViewController_Internal.h"
-
-#import "AAPLUtils.h"
-#import <ResearchKit/ORKContext.h>
 
 
 static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;

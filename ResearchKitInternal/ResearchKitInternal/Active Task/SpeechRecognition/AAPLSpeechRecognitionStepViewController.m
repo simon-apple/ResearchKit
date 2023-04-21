@@ -40,7 +40,7 @@
 #import <ResearchKit/ORKHelpers_Internal.h>
 
 #import "AAPLUtils.h"
-#import <ResearchKit/ORKContext.h>
+#import "ORKContext.h"
 
 @interface AAPLSpeechRecognitionStepViewController ()
 
@@ -130,8 +130,8 @@
             }
             else
             {
-                nextStep.title = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_REVIEW_TITLE", nil);
-                nextStep.text = ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_REVIEW_TEXT", nil);
+                nextStep.title = AAPLLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_REVIEW_TITLE", nil);
+                nextStep.text = AAPLLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_REVIEW_TEXT", nil);
                 nextStep.bodyItems = nil;
                 
                 if (nextStepContext)

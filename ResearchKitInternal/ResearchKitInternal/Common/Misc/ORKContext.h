@@ -28,11 +28,35 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-//apple-internal
+@import Foundation;
 
-#import <ResearchKit/ORKContext.h>
+#import <ResearchKitUI/ORKTaskViewController.h>
+
+#if TARGET_OS_IOS
+#import <ResearchKit/ORKStep.h>
+#import <ResearchKit/ORKDefines.h>
+@class ORKTaskViewController;
+#elif TARGET_OS_WATCH
+#import <ResearchKitCore/ORKStep.h>
+#import <ResearchKitCore/ORKDefines.h>
+#endif
 
 NS_ASSUME_NONNULL_BEGIN
+
+@protocol ORKContext <NSObject>
+
+#if TARGET_OS_IOS
+@optional
+- (void)insertTaskViewController:(ORKTaskViewController*)viewController;
+#endif
+
+@end
+
+@interface ORKStep(ORKContext)
+
+@property (nonatomic, strong, nullable) id<ORKContext> context;
+
+@end
 
 @protocol ORKHeadphoneRequiredTaskContext <NSObject>
 

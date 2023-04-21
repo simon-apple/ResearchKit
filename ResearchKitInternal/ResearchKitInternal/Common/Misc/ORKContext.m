@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020, Apple Inc. All rights reserved.
+ Copyright (c) 2023, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,39 +28,21 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-//apple-internal
+#import "ORKContext.h"
+#import <objc/runtime.h>
 
+@implementation ORKStep(ORKContext)
 
-#if RK_APPLE_INTERNAL
+static char const * const CONTEXT_KEY = "ORKStepContextAssociatedObjectKey";
 
-@import Foundation;
+@dynamic context;
 
-#if TARGET_OS_IOS
-#import <ResearchKit/ORKStep.h>
-#import <ResearchKit/ORKDefines.h>
-@class ORKTaskViewController;
-#elif TARGET_OS_WATCH
-#import <ResearchKitCore/ORKStep.h>
-#import <ResearchKitCore/ORKDefines.h>
-#endif
+- (void)setContext:(id<ORKContext>)context {
+    objc_setAssociatedObject(self, &CONTEXT_KEY, context, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
 
-NS_ASSUME_NONNULL_BEGIN
-
-@protocol ORKContext <NSObject>
-
-#if TARGET_OS_IOS
-@optional
-- (void)insertTaskViewController:(ORKTaskViewController*)viewController;
-#endif
+- (id<ORKContext>)context {
+    return (id<ORKContext>)objc_getAssociatedObject(self, &CONTEXT_KEY);
+}
 
 @end
-
-@interface ORKStep ()
-
-@property (nonatomic, strong, nullable) id<ORKContext> context;
-
-@end
-
-NS_ASSUME_NONNULL_END
-
-#endif
