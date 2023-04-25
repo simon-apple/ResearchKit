@@ -40,6 +40,10 @@ public struct ORKNewAudiometryState {
     public let deletedTones: [(tone: ORKAudiometryStimulus, originalIndex: Int)]
     public let uncoveredInitialSamplingFrequencies: [Double]
     public let previousAudiogram: [Double: Double]?
+    
+    // CV/Proto App only
+    public let resultUnitsTable: [Double: [ORKdBHLToneAudiometryUnit]]
+    public let resultUnit: ORKdBHLToneAudiometryUnit
 }
 
 @available(iOS 14, *)
@@ -94,6 +98,14 @@ public struct ORKNewAudiometryState {
     fileprivate var resultUnit = ORKdBHLToneAudiometryUnit()
     fileprivate var resultUnitsTable: [Double: [ORKdBHLToneAudiometryUnit]] = [:]
     @objc public var fitMatrix: [String: Double] = [:]
+    
+    // State management
+    private var stateHistory = [ORKNewAudiometryState]()
+    private let stateLock = NSLock()
+
+    // Background work queue
+    private let workQueue = DispatchQueue(label: "ORKNewAudiometryQueue", qos: .userInitiated)
+    private var workItem = DispatchWorkItem(block: {})
     
     @objc
     public convenience init(channel: ORKAudioChannel) {
@@ -197,8 +209,8 @@ public struct ORKNewAudiometryState {
     }
     
     private func statusDidChange() {
-        guard let provider = statusProvider else { return }
         DispatchQueue.main.async { [weak self] in
+            guard let provider = self?.statusProvider else { return }
             self?.nextStatus(provider)
         }
     }
@@ -213,8 +225,11 @@ public struct ORKNewAudiometryState {
     
     public func registerResponse(_ response: Bool) {
         guard let lastStimulus = stimulus, !preStimulusResponse else { return }
+        stateHistory.append(getCurrentState())
+
         let freqPoint = bark(lastStimulus.frequency)
 
+        stateLock.lock()
         if lastStimulus.level == maxLevel && response == false {
             // handle levels higher than maxLevel
             xSample.appendRow([freqPoint, maxLevel + 1])
@@ -227,7 +242,8 @@ public struct ORKNewAudiometryState {
         
         xSample.appendRow([freqPoint, lastStimulus.level])
         ySample.appendRow([response ? 1 : 0])
-        
+        stateLock.unlock()
+
         let lastResponse = ySample.elements.last == 1
         updateUnit(with: lastResponse)
         preStimulusResponse = true
@@ -252,8 +268,9 @@ public struct ORKNewAudiometryState {
             }
         
             stimulus = nil
-            DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            workItem = DispatchWorkItem { [weak self] in
                 guard let self = self else { return }
+                self.stateLock.lock()
                 
                 let coverageMatrix = self.checkCoverage()
                 self.updateProgress(with: coverageMatrix)
@@ -265,7 +282,9 @@ public struct ORKNewAudiometryState {
                 } else {
                     self.createNewUnit()
                 }
+                self.stateLock.unlock()
             }
+            workQueue.async(execute: workItem)
         } else {
             updateProgress()
             createNewUnit()
@@ -280,12 +299,7 @@ public struct ORKNewAudiometryState {
         return results.map { key, value in
             let sample = ORKdBHLToneAudiometryFrequencySample()
             sample.frequency = key
-            var maskValue = 0.0
-            let enableRealDataNumber = UserDefaults.standard.bool(forKey: "enable_realData")
-            if !enableRealDataNumber {
-                maskValue += Double.random(in: -15...15)
-            }
-            sample.calculatedThreshold = value + maskValue
+            sample.calculatedThreshold = value
             sample.channel = channel
             return sample
         }.sorted { $0.frequency < $1.frequency }
@@ -340,7 +354,17 @@ public extension ORKNewAudiometry {
 
 @available(iOS 14, *)
 extension ORKNewAudiometry {
+    func dropTrials(_ nTrialsToDrop: Int) {
+        let history = stateHistory.dropLast(nTrialsToDrop - 1)
+        stateHistory = Array(history)
+        
+        if let state = stateHistory.last {
+            self.setState(state)
+        }
+    }
+    
     func getCurrentState() -> ORKNewAudiometryState {
+        stateLock.lock()
         let channel = self.channel
         
         let tones = xSample.rows.map {
@@ -361,14 +385,22 @@ extension ORKNewAudiometry {
             return (deletedTone, Int(row[2]))
         }
         
-        return ORKNewAudiometryState(currentTone: stimulus,
-                                  responses: toneResponses,
-                                  deletedTones: deletedTones,
-                                  uncoveredInitialSamplingFrequencies: testFs.elements,
-                                  previousAudiogram: previousAudiogram)
+        let state = ORKNewAudiometryState(currentTone: stimulus,
+                                          responses: toneResponses,
+                                          deletedTones: deletedTones,
+                                          uncoveredInitialSamplingFrequencies: testFs.elements,
+                                          previousAudiogram: previousAudiogram,
+                                          resultUnitsTable: resultUnitsTable,
+                                          resultUnit: resultUnit)
+        stateLock.unlock()
+
+        return state
     }
     
     func setState(_ state: ORKNewAudiometryState) {
+        workItem.cancel()
+        stateLock.lock()
+        
         stimulus = state.currentTone
         testFs = state.uncoveredInitialSamplingFrequencies.asVector()
         xSample = Matrix(rows: state.responses.map { [$0.tone.frequency, $0.tone.level] })
@@ -394,11 +426,17 @@ extension ORKNewAudiometry {
                 }
             }
         } else {
+            initialSampleEnded = false
             if let stateAudiogram = state.previousAudiogram, !stateAudiogram.isEmpty {
                 previousAudiogram = stateAudiogram
             }
         }
         statusDidChange()
+        
+        resultUnit = state.resultUnit
+        resultUnitsTable = state.resultUnitsTable
+        
+        stateLock.unlock()
     }
 
     func didSetPreviousAudiogram() {
@@ -479,17 +517,18 @@ extension ORKNewAudiometry {
             return false
         }
 
-        let freqPoint = testFs[0]
-        var dbHLPoint = stimulus?.level ?? initialLevel
-        
         let jumpF = bark(500)
+        let freqPoint = testFs[0]
+        
         let xSampleFreqs = xSample.getColumn(0).elements
+        let xSampleLevels = xSample.getColumn(1).elements
+        var dbHLPoint = xSampleLevels.last ?? initialLevel
         
         let ySample1k = zip(xSampleFreqs, ySample.elements)
             .filter { $0.0 == bark(1000) }
             .last?.1 ?? 0
         
-        let dbHLPoint1k = zip(xSampleFreqs, xSample.getColumn(1).elements)
+        let dbHLPoint1k = zip(xSampleFreqs, xSampleLevels)
             .filter { $0.0 == bark(1000) }
             .last?.1 ?? initialLevel
         
@@ -728,7 +767,7 @@ public extension ORKNewAudiometry {
         let barkRange = vDSP.linearInterpolate(values: [freqRange.minimum(), freqRange.maximum()],
                                                atIndices: [0, 34])
         
-        let xRange = (barkRange + [500, 1000, 2000, 4000, 6000].map(bark)).sorted()
+        let xRange = (barkRange + [500, 1000, 2000, 3000, 4000, 6000].map(bark)).sorted()
         let specialFreqs1 = [250, 1000, 4000, 8000].map(bark)
         let specialFreqs2 = [500, 6000].map(bark)
 

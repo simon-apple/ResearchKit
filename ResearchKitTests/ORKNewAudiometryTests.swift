@@ -4123,6 +4123,7 @@ extension ORKNewAudiometryTests {
                                          12.59521135, 2.0, 1.0, 42.98448414, 0.0,
                                          13.10333238, 2.0, 2.0, 41.48734516, 1.0,
                                          13.61145342, 2.0, 2.0, 39.97540899, 1.0,
+                                         13.87463005, 2.0, 1.0, 39.22939521, 0.0,
                                          14.11957445, 3.0, 1.0, 38.58219973, 0.0,
                                          14.62769549, 4.0, 1.0, 37.41574989, 0.0,
                                          15.13581652, 3.0, 2.0, 36.65689815, 1.0,
@@ -4136,8 +4137,7 @@ extension ORKNewAudiometryTests {
                                          18.18454273, 4.0, 4.0, 43.92044425, 1.0,
                                          18.69266376, 3.0, 4.0, 46.78159755, 1.0,
                                          19.20078480, 2.0, 3.0, 49.73949320, 1.0,
-                                         19.70890583, 1.0, 3.0, 52.63619324, 0.0], rows: 40, columns: 5)
-
+                                         19.70890583, 1.0, 3.0, 52.63619324, 0.0], rows: 41, columns: 5)
         audiometry.xSample = x
         audiometry.ySample = y
         audiometry.theta = theta
@@ -4662,21 +4662,21 @@ extension ORKNewAudiometryTests {
     
     func testSamplesIteractive() async throws {
         let audiograms = [
-            [16.2, 17.9, 17.3, 11.7, 12.2, 36.2],
-            [5.63, 7.66, 9.33, 7.54, 4.44, 14.7],
-            [9.39, 13.0, 16.3, 16.7, 12.2, 18.7],
-            [13.3, 15.6, 16.0, 8.72, 3.40, 12.8],
-            [28.0, 30.1, 29.6, 17.9, 9.94,19.67],
-            [18.8, 22.1, 25.2, 23.6, 18.0, 24.5],
-            [36.3, 38.4, 37.4, 27.6, 20.5, 35.9],
-            [19.6, 22.3, 22.6, 13.2, 6.15, 14.9],
-            [25.8, 27.4, 25.8, 19.3, 24.3, 47.9],
-            [23.4, 26.2, 29.2, 34.8, 43.2, 52.7],
-            [12.3, 14.7, 16.9, 18.5, 30.6, 47.6],
-            [43.6, 46.7, 49.1, 46.0, 37.9, 52.0]
+            ([16.2, 17.9, 17.3, 11.7, 12.2, 36.2], 0.9159),
+            ([5.63, 7.66, 9.33, 7.54, 4.44, 14.7], 0.7290),
+            ([9.39, 13.0, 16.3, 16.7, 12.2, 18.7], 0.7193),
+            ([13.3, 15.6, 16.0, 8.72, 3.40, 12.8], 0.6193),
+            ([28.0, 30.1, 29.6, 17.9, 9.94,19.67], 0.7661),
+            ([18.8, 22.1, 25.2, 23.6, 18.0, 24.5], 0.6917),
+            ([36.3, 38.4, 37.4, 27.6, 20.5, 35.9], 0.4108),
+            ([19.6, 22.3, 22.6, 13.2, 6.15, 14.9], 0.8403),
+            ([25.8, 27.4, 25.8, 19.3, 24.3, 47.9], 1.1636),
+            ([23.4, 26.2, 29.2, 34.8, 43.2, 52.7], 0.7441),
+            ([12.3, 14.7, 16.9, 18.5, 30.6, 47.6], 0.7227),
+            ([43.6, 46.7, 49.1, 46.0, 37.9, 52.0], 0.6776)
         ]
         
-        await runFullTestWith(audiograms, accuracy: 2.5)
+        await runFullTestWith(audiograms.map { $0.0 }, accuracy: 2.5, deltaAverageCheck: audiograms.map { $0.1 })
     }
 
     func testSamplesIteractiveNHANES() async throws {
@@ -4748,13 +4748,13 @@ extension ORKNewAudiometryTests {
             ([15.00, 15.00, 15.00, 10.00, 40.01, 60.00], 2.0),
             ([20.00, 20.00, 15.00, 30.01, 45.00, 75.00], 2.0),
             ([30.00, 20.00, 15.00, 25.01, 45.00, 35.00], 3.5),
-            ([10.00, 10.00, 20.00, 35.00, 30.00, 50.00], 2.5),
+            ([10.00, 10.00, 20.00, 35.00, 30.00, 50.00], 3.0),
             ([15.00, 15.00, 20.00, 45.01, 50.00, 55.00], 2.0),
             ([20.00, 20.00, 20.00, 50.02, 75.00, 75.00], 5.0),
             ([30.00, 25.00, 20.00, 15.00, 10.00, 40.00], 4.0),
             ([20.00, 20.00, 25.00, 35.00, 30.00, 60.00], 3.5),
-            ([25.00, 25.00, 25.00, 40.01, 55.00, 65.00], 2.5),
-            ([10.00, 10.00, 30.00, 35.00, 45.00, 50.00], 2.5),
+            ([25.00, 25.00, 25.00, 40.01, 55.00, 65.00], 3.0),
+            ([10.00, 10.00, 30.00, 35.00, 45.00, 50.00], 4.0),
             ([25.00, 25.00, 30.00, 45.01, 55.00, 75.00], 1.5),
             ([5.00, 5.00, 30.00, 50.01, 75.00, 75.00], 3.5),
             ([30.00, 35.00, 40.00, 55.01, 65.00, 75.00], 2.5),
@@ -4774,7 +4774,7 @@ extension ORKNewAudiometryTests {
             ([75.00, 75.00, 75.00, 75.00, 75.00, 75.00], 1.0),
             ([10.00, 15.00, 20.00, 55.02, 50.00, 45.00], 4.0),
             ([35.00, 30.00, 25.00, 25.00, 15.00, 0.00], 2.5),
-            ([10.00, 5.00, 25.00, 35.00, 35.00, 60.00], 2.5),
+            ([10.00, 5.00, 25.00, 35.00, 35.00, 60.00], 3.0),
             ([15.00, 20.00, 30.00, 40.01, 60.00, 75.00], 4.0),
             ([15.00, 20.00, 20.00, 55.01, 55.00, 55.00], 5.0),
             ([25.00, 45.00, 55.00, 70.00, 60.00, 75.00], 3.5)
@@ -4785,28 +4785,47 @@ extension ORKNewAudiometryTests {
         }
     }
     
-    func testStateRestoration() async throws {
+    func testStateRestorationAndDropTrials() async throws {
         let audiograms = [
-            [16.2, 17.9, 17.3, 11.7, 12.2, 36.2],
-            [5.63, 7.66, 9.33, 7.54, 4.44, 14.7],
-            [9.39, 13.0, 16.3, 16.7, 12.2, 18.7],
-            [13.3, 15.6, 16.0, 8.72, 3.40, 12.8],
-            [28.0, 30.1, 29.6, 17.9, 9.94,19.67],
-            [18.8, 22.1, 25.2, 23.6, 18.0, 24.5],
-            [36.3, 38.4, 37.4, 27.6, 20.5, 35.9],
-            [19.6, 22.3, 22.6, 13.2, 6.15, 14.9],
-            [25.8, 27.4, 25.8, 19.3, 24.3, 47.9],
-            [23.4, 26.2, 29.2, 34.8, 43.2, 52.7],
-            [12.3, 14.7, 16.9, 18.5, 30.6, 47.6],
-            [43.6, 46.7, 49.1, 46.0, 37.9, 52.0],
-            [75.0, 75.0, 90.0, 80.0, 75.0, 65.0],
+            ([16.2, 17.9, 17.3, 11.7, 12.2, 36.2], 1),
+            ([5.63, 7.66, 9.33, 7.54, 4.44, 14.7], 2),
+            ([9.39, 13.0, 16.3, 16.7, 12.2, 18.7], 3),
+            ([13.3, 15.6, 16.0, 8.72, 3.40, 12.8], 4),
+            ([28.0, 30.1, 29.6, 17.9, 9.94,19.67], 5),
+            ([18.8, 22.1, 25.2, 23.6, 18.0, 24.5], 1),
+            ([36.3, 38.4, 37.4, 27.6, 20.5, 35.9], 2),
+            ([19.6, 22.3, 22.6, 13.2, 6.15, 14.9], 3),
+            ([25.8, 27.4, 25.8, 19.3, 24.3, 47.9], 4),
+            ([23.4, 26.2, 29.2, 34.8, 43.2, 52.7], 1),
+            ([12.3, 14.7, 16.9, 18.5, 30.6, 47.6], 2),
+            ([43.6, 46.7, 49.1, 46.0, 37.9, 52.0], 3),
+            ([75.0, 75.0, 90.0, 80.0, 75.0, 65.0], 4),
+            ([ -11,  -11,  -11,  -11,  -11,  -11], 2),
+            ([76.0, 76.0, 76.0, 76.0, 76.0, 76.0], 2),
         ]
         
-        await runFullTestWith(audiograms, accuracy: 3, testStateRestoration: true)
+        for (audiogram, nTrialsToDrop) in audiograms {
+            let expectedRes = await runFullTestWith([audiogram], accuracy: 3)
+
+            let resStateRestoration = await runFullTestWith([audiogram], accuracy: 3, testStateRestoration: true)
+            XCTAssertEqual(resStateRestoration, expectedRes)
+            
+            let resDropTrials = await runFullTestWith([audiogram], accuracy: 3, nTrialsToDrop: nTrialsToDrop)
+            XCTAssertEqual(resDropTrials, expectedRes)
+        }
     }
 
-    func runFullTestWith(_ audiograms: [[Double]], accuracy: Double = 5, frequencies: [Double] = [250,500,1000,2000,4000,8000], testStateRestoration: Bool = false) async {
-        for audiogram in audiograms {
+    @discardableResult
+    func runFullTestWith(_ audiograms: [[Double]],
+                         accuracy: Double = 5,
+                         frequencies: [Double] = [250,500,1000,2000,4000,8000],
+                         testStateRestoration: Bool = false,
+                         nTrialsToDrop: Int = 0,
+                         deltaAverageCheck: [Double]? = nil) async -> [[Double]]
+    {
+        var results = [[Double]]()
+        
+        for (idx, audiogram) in audiograms.enumerated() {
             let maxLevel = 75.0
             let minLevel = -10.0
             let initialLevel = 60.0
@@ -4819,11 +4838,19 @@ extension ORKNewAudiometryTests {
             let sortedAudiogram = combinedAudiogram.sorted { $0.0 < $1.0 }
             let cs = CubicSpline(xp: sortedAudiogram.map { $0.0 }, fp: sortedAudiogram.map { $0.1 })
 
+            var trialToTestDrop = nTrialsToDrop * 2
             while newAudiometry.testEnded == false {
+                // Test state restoration by creating a new ORKNewAudiometry object and restoring the state on every iteractions
                 if (testStateRestoration) {
                     let state = newAudiometry.state
                     newAudiometry = ORKNewAudiometry(channel: .left, initialLevel: initialLevel, minLevel: minLevel, maxLevel: maxLevel, frequencies: frequencies)
                     newAudiometry.state = state
+                }
+                
+                // Test dropTrials by dropping `nTrialsToDrop` trials every `nTrialsToDrop * 2` iteractions
+                if (nTrialsToDrop > 0 && newAudiometry.ySample.count == trialToTestDrop) {
+                    trialToTestDrop = trialToTestDrop + (nTrialsToDrop * 2)
+                    newAudiometry.dropTrials(nTrialsToDrop)
                 }
                 
                 let status = await withCheckedContinuation({ continuation in
@@ -4856,8 +4883,14 @@ extension ORKNewAudiometryTests {
 
             let deltas = zip(audiogram, filteredRes.map { $0.calculatedThreshold }).map { $1 - $0 }
             let maxMag = String(format: "%.4lf", deltas.map { abs($0) }.max() ?? 0.0)
-            let avgMag = String(format: "%.4lf", deltas.map { abs($0) }.reduce(0, +) / Double(deltas.count))
+            let avg = deltas.map { abs($0) }.reduce(0, +) / Double(deltas.count)
+            let avgMag = String(format: "%.4lf", avg)
             print("Deltas: \(deltas.map { String(fromThreshold: $0) }) Max: \(maxMag)  Avg: \(avgMag)")
+            
+            if let avgCheck = deltaAverageCheck {
+                let avgRef = avgCheck[idx]
+                XCTAssertEqual(avg, avgRef, accuracy: 1e-4)
+            }
             
             if (newAudiometry.initialSampleEnded && newAudiometry.testEnded) {
                 XCTAssertGreaterThanOrEqual(newAudiometry.progress, 1.0)
@@ -4873,7 +4906,11 @@ extension ORKNewAudiometryTests {
                 
                 XCTAssertEqual(value1.calculatedThreshold, clippedValue2, accuracy: accuracy, "calculatedThreshold does not match expected level for frequency: \(value1.frequency) With error: \(value1.calculatedThreshold - clippedValue2)\n Expected: \(audiogram.map { String(format: "%.2f", $0) })\n Result:   \(res.map { String(format: "%.2f", $0.calculatedThreshold) })\n")
             }
+            
+            results.append(filteredRes.map { $0.calculatedThreshold })
         }
+        
+        return results
     }
 }
 

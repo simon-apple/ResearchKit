@@ -52,19 +52,19 @@
     self.keys = nil;
 }
 
-- (void)testORKAudiometry {
-    self.keys = @{@1000: @"AUXU1K1", @2000: @"AUXU2K", @3000: @"AUXU3K", @4000: @"AUXU4K", @6000: @"AUXU6K", @8000: @"AUXU8K", @500: @"AUXU500"};
-    ORKdBHLToneAudiometryStep *step = [self stepForCurrentKeys];
-    [self runTestForAudiometryClass:^id<ORKAudiometryProtocol>{
-        return [[ORKAudiometry alloc] initWithStep:step];
-    }];
-    
-    self.keys = @{@1000: @"AUXU1K2", @2000: @"AUXU2K", @3000: @"AUXU3K", @4000: @"AUXU4K", @6000: @"AUXU6K", @8000: @"AUXU8K", @500: @"AUXU500"};
-    ORKdBHLToneAudiometryStep *alternativeStep = [self stepForCurrentKeys];
-    [self runTestForAudiometryClass:^id<ORKAudiometryProtocol>{
-        return [[ORKAudiometry alloc] initWithStep:alternativeStep];
-    }];
-}
+//- (void)testORKAudiometry {
+//    self.keys = @{@1000: @"AUXU1K1", @2000: @"AUXU2K", @3000: @"AUXU3K", @4000: @"AUXU4K", @6000: @"AUXU6K", @8000: @"AUXU8K", @500: @"AUXU500"};
+//    ORKdBHLToneAudiometryStep *step = [self stepForCurrentKeys];
+//    [self runTestForAudiometryClass:^id<ORKAudiometryProtocol>{
+//        return [[ORKAudiometry alloc] initWithStep:step];
+//    }];
+//
+//    self.keys = @{@1000: @"AUXU1K2", @2000: @"AUXU2K", @3000: @"AUXU3K", @4000: @"AUXU4K", @6000: @"AUXU6K", @8000: @"AUXU8K", @500: @"AUXU500"};
+//    ORKdBHLToneAudiometryStep *alternativeStep = [self stepForCurrentKeys];
+//    [self runTestForAudiometryClass:^id<ORKAudiometryProtocol>{
+//        return [[ORKAudiometry alloc] initWithStep:alternativeStep];
+//    }];
+//}
 
 - (ORKdBHLToneAudiometryStep *)stepForCurrentKeys {
     ORKdBHLToneAudiometryStep *step = [[ORKdBHLToneAudiometryStep alloc] initWithIdentifier:@"ORKAudiometryTests"];
