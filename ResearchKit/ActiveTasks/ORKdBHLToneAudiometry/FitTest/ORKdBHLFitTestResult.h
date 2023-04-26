@@ -43,6 +43,25 @@ ORK_CLASS_AVAILABLE
 
 @property (nonatomic, assign) double confidenceRightEar;
 
+@property (nonatomic, assign) double sealThreshold;
+
+@property (nonatomic, assign) double confidenceThreshold;
+
+/**
+ A boolean indicating if the left seal passed the test
+ */
+@property (nonatomic, assign) BOOL leftSealSuccess;
+
+/**
+ A boolean indicating if the right seal passed the test
+ */
+@property (nonatomic, assign) BOOL rightSealSuccess;
+
+/**
+ A boolean indicating if the condifence is too low. It happens if confidenceLeftEar OR confidenceRightEar is lower then confidenceThreshold
+ */
+@property (nonatomic, assign) BOOL lowConfidence;
+
 @end
 
 ORK_CLASS_AVAILABLE

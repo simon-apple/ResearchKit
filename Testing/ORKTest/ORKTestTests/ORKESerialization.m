@@ -2099,6 +2099,19 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(outputVolume, NSNumber, NSObject, NO, nil, nil),
                     PROPERTY(samples, ORKToneAudiometrySample, NSArray, NO, nil, nil),
                     })),
+           ENTRY(ORKdBHLFitTestResultSample,
+                 nil,
+                 (@{
+                    PROPERTY(sealLeftEar, NSNumber, NSObject, NO, nil, nil),
+                    PROPERTY(sealRightEar, NSNumber, NSObject, NO, nil, nil),
+                    PROPERTY(confidenceLeftEar, NSNumber, NSObject, NO, nil, nil),
+                    PROPERTY(confidenceRightEar, NSNumber, NSObject, NO, nil, nil),
+                    PROPERTY(sealThreshold, NSNumber, NSObject, NO, nil, nil),
+                    PROPERTY(confidenceThreshold, NSNumber, NSObject, NO, nil, nil),
+                    PROPERTY(leftSealSuccess, NSNumber, NSObject, NO, nil, nil),
+                    PROPERTY(rightSealSuccess, NSNumber, NSObject, NO, nil, nil),
+                    PROPERTY(lowConfidence, NSNumber, NSObject, NO, nil, nil)
+                    })),
            ENTRY(ORKdBHLFitTestResult,
                  nil,
                  (@{

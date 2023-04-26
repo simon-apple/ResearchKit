@@ -44,6 +44,11 @@
     ORK_ENCODE_DOUBLE(aCoder, sealRightEar);
     ORK_ENCODE_DOUBLE(aCoder, confidenceLeftEar);
     ORK_ENCODE_DOUBLE(aCoder, confidenceRightEar);
+    ORK_ENCODE_DOUBLE(aCoder, sealThreshold);
+    ORK_ENCODE_DOUBLE(aCoder, confidenceThreshold);
+    ORK_ENCODE_BOOL(aCoder, leftSealSuccess);
+    ORK_ENCODE_BOOL(aCoder, rightSealSuccess);
+    ORK_ENCODE_BOOL(aCoder, lowConfidence);
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
@@ -53,6 +58,11 @@
         ORK_DECODE_DOUBLE(aDecoder, sealRightEar);
         ORK_DECODE_DOUBLE(aDecoder, confidenceLeftEar);
         ORK_DECODE_DOUBLE(aDecoder, confidenceRightEar);
+        ORK_DECODE_DOUBLE(aDecoder, sealThreshold);
+        ORK_DECODE_DOUBLE(aDecoder, confidenceThreshold);
+        ORK_DECODE_BOOL(aDecoder, leftSealSuccess);
+        ORK_DECODE_BOOL(aDecoder, rightSealSuccess);
+        ORK_DECODE_BOOL(aDecoder, lowConfidence);
     }
     return self;
 }
@@ -64,7 +74,12 @@
         self.sealLeftEar == castObject.sealLeftEar &&
         self.sealRightEar == castObject.sealRightEar &&
         self.confidenceLeftEar == castObject.confidenceLeftEar &&
-        self.confidenceRightEar == castObject.confidenceRightEar
+        self.confidenceRightEar == castObject.confidenceRightEar &&
+        self.sealThreshold == castObject.sealThreshold &&
+        self.confidenceThreshold == castObject.confidenceThreshold &&
+        self.leftSealSuccess == castObject.leftSealSuccess &&
+        self.rightSealSuccess == castObject.rightSealSuccess &&
+        self.lowConfidence == castObject.lowConfidence
      );
 }
 
@@ -74,11 +89,16 @@
     result.sealRightEar = self.sealRightEar;
     result.confidenceLeftEar = self.confidenceLeftEar;
     result.confidenceRightEar = self.confidenceRightEar;
+    result.sealThreshold = self.sealThreshold;
+    result.confidenceThreshold = self.confidenceThreshold;
+    result.leftSealSuccess = self.leftSealSuccess;
+    result.rightSealSuccess = self.rightSealSuccess;
+    result.lowConfidence = self.lowConfidence;
     return result;
 }
 
 - (NSString *)descriptionWithNumberOfPaddingSpaces:(NSUInteger)numberOfPaddingSpaces {
-    return [NSString stringWithFormat:@"%@; Seal LeftEar: %f, Seal RightEar: %f, Confidence LeftEar: %f, Confidence RightEar: %f;", [self.class description], self.sealLeftEar, self.sealRightEar, self.confidenceLeftEar, self.confidenceRightEar];
+    return [NSString stringWithFormat:@"%@; Seal LeftEar: %f, Seal RightEar: %f, Confidence LeftEar: %f, Confidence RightEar: %f; Seal Threshold: %f; Confidence Threshold: %f; Left Seal Success %d; Right Seal Success %d; Low Confidence %d;", [self.class description], self.sealLeftEar, self.sealRightEar, self.confidenceLeftEar, self.confidenceRightEar, self.sealThreshold, self.confidenceThreshold, self.leftSealSuccess, self.rightSealSuccess, self.lowConfidence];
 }
 
 @end

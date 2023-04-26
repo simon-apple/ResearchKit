@@ -609,6 +609,7 @@ class ORKdBHLToneAudiometryResultTests: XCTestCase {
         result.caseSerial = "caseSerial"
         result.leftSerial = "leftSerial"
         result.rightSerial = "rightSerial"
+        result.fwVersion = "fwVersion"
         sample = ORKdBHLToneAudiometryFrequencySample()
         sample.frequency = 100
         result.samples = [sample]

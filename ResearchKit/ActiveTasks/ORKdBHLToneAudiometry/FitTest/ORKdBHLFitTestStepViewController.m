@@ -451,15 +451,10 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
     float confidenceValR = [confidenceR floatValue];
     ORK_Log_Info("confidenceL : %0.06f", confidenceValL);
     ORK_Log_Info("confidenceR : %0.06f", confidenceValR);
-    ORKdBHLFitTestResultSample *fitTestResultSample = [[ORKdBHLFitTestResultSample alloc] init];
-    fitTestResultSample.sealLeftEar = left ? sealValL : 0.0;
-    fitTestResultSample.sealRightEar = right ? sealValL : 0.0;
-    fitTestResultSample.confidenceLeftEar = confidenceL ? confidenceValL : 0.0;
-    fitTestResultSample.confidenceRightEar = confidenceR ? confidenceValR : 0.0;
-    [_fitTestResultSamples addObject:fitTestResultSample];
     float sealThreshold = [self getSealThreshold];
-    bool leftSealGood = sealValL > sealThreshold;
-    bool rightSealGood = sealValR > sealThreshold;
+    ORK_Log_Info("sealThreshold : %0.06f", sealThreshold);
+    bool leftSealGood = sealValL >= sealThreshold;
+    bool rightSealGood = sealValR >= sealThreshold;
 
     [self fitTestStopped];
 
@@ -469,7 +464,9 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
     }
 
     float confidence = [self getConfidenceThreshold];
-    if (confidenceValL < confidence || confidenceValR < confidence) {
+    ORK_Log_Info("confidenceThreshold : %0.06f", confidence);
+    bool confidenceLow = (confidenceValL < confidence || confidenceValR < confidence);
+    if (confidenceLow) {
         ORK_Log_Info("Confidence values too low.");
         [self setStage:ORKdBHLFitTestStageResultConfidenceLow];
     } else {
@@ -485,6 +482,18 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
             ORK_Log_Info("leftSealGood: %d, rightSealGood: %d",leftSealGood,rightSealGood);
         }
     }
+    
+    ORKdBHLFitTestResultSample *fitTestResultSample = [[ORKdBHLFitTestResultSample alloc] init];
+    fitTestResultSample.sealLeftEar = left ? sealValL : 0.0;
+    fitTestResultSample.sealRightEar = right ? sealValL : 0.0;
+    fitTestResultSample.confidenceLeftEar = confidenceL ? confidenceValL : 0.0;
+    fitTestResultSample.confidenceRightEar = confidenceR ? confidenceValR : 0.0;
+    fitTestResultSample.sealThreshold = sealThreshold;
+    fitTestResultSample.confidenceThreshold = confidence;
+    fitTestResultSample.leftSealSuccess = leftSealGood;
+    fitTestResultSample.rightSealSuccess = rightSealGood;
+    fitTestResultSample.lowConfidence = confidenceLow;
+    [_fitTestResultSamples addObject:fitTestResultSample];
 }
 
 - (void)dismissFitTest {
