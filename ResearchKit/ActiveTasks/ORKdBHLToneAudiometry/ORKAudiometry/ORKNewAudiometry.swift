@@ -354,7 +354,7 @@ public extension ORKNewAudiometry {
 
 @available(iOS 14, *)
 extension ORKNewAudiometry {
-    func dropTrials(_ nTrialsToDrop: Int) {
+    @objc public func dropTrials(_ nTrialsToDrop: Int) {
         let history = stateHistory.dropLast(nTrialsToDrop - 1)
         stateHistory = Array(history)
         
@@ -362,7 +362,6 @@ extension ORKNewAudiometry {
             self.setState(state)
         }
     }
-    
     func getCurrentState() -> ORKNewAudiometryState {
         stateLock.lock()
         let channel = self.channel

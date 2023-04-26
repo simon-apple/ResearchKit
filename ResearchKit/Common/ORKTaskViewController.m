@@ -75,6 +75,7 @@
 #import "ORKCelestialSoftLink.h"
 #import "ORKAVFoundationSoftLink.h"
 #import "ORKBluetoothManagerSoftLink.h"
+#import "ORKdBHLToneAudiometryStepViewController.h"
 #endif
 
 NSString * const ORKdBHLBluetoothChangedNotification = @"com.appleinternal.acoutics.kagraapp.bluetoothchanged_notification";
@@ -142,6 +143,67 @@ typedef void (^_ORKLocationAuthorizationRequestHandler)(BOOL success);
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
     if (_handler && _started && status != kCLAuthorizationStatusNotDetermined) {
         [self finishWithResult:(status != kCLAuthorizationStatusDenied)];
+    }
+}
+
+@end
+
+@interface CustomBarButtonItem : UIBarButtonItem {
+    BOOL _shouldReallyCancel; // we will only cancel if the user taps on the cancel button twice.
+}
+
+@end
+
+@implementation CustomBarButtonItem
+
+- (void)cancelButtonPressed:(CustomBarButtonItem *)sender {
+    ORKTaskViewController *presentingController = (ORKTaskViewController *)self.target;
+    ORKdBHLToneAudiometryStepViewController *molVC;
+    if ([presentingController.currentStepViewController isKindOfClass:[ORKdBHLToneAudiometryStepViewController class]]) {
+        molVC = (ORKdBHLToneAudiometryStepViewController *)presentingController.currentStepViewController;
+        [molVC pauseTask];
+    }
+    if (!_shouldReallyCancel) {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hearing Test"
+                                                                                 message:nil
+                                                                          preferredStyle:UIAlertControllerStyleAlert];
+
+        NSString *message = @"If you want to upload data, click Finish \nIf you want to continue, click Resume.\nIf you want to cancel the test, click Resume and then Cancel again. (No Data will be uploaded)";
+        NSMutableAttributedString *attributedMessage = [[NSMutableAttributedString alloc] initWithString:message];
+        NSRange range = [message rangeOfString:@"Resume"];
+        [attributedMessage addAttribute:NSForegroundColorAttributeName value:[UIColor blueColor] range:range];
+        range = [message rangeOfString:@"Finish"];
+        [attributedMessage addAttribute:NSForegroundColorAttributeName value:[UIColor blueColor] range:range];
+        range = [message rangeOfString:@"Cancel"];
+        [attributedMessage addAttribute:NSForegroundColorAttributeName value:[UIColor blueColor] range:range];
+
+        [alertController setValue:attributedMessage forKey:@"attributedMessage"];
+
+        UIAlertAction *resumeAction = [UIAlertAction actionWithTitle:@"Resume" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            ORK_Log_Info("Task resumed from cancel override");
+            [molVC resumeTask];
+        }];
+        [alertController addAction:resumeAction];
+        
+        UIAlertAction *finishAction = [UIAlertAction actionWithTitle:@"Finish" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            ORK_Log_Info("Task finished from cancel override");
+            ORKStrongTypeOf(presentingController.delegate) strongDelegate = presentingController.delegate;
+            if ([strongDelegate respondsToSelector:@selector(taskViewController:didFinishWithReason:error:)]) {
+                [strongDelegate taskViewController:presentingController didFinishWithReason:ORKTaskViewControllerFinishReasonCompleted error:nil];
+            }
+        }];
+        [alertController addAction:finishAction];
+
+        // Present the alert controller
+        [presentingController presentViewController:alertController animated:YES completion:nil];
+        
+        _shouldReallyCancel = YES;
+    } else {
+        ORK_Log_Info("Task cancelled from cancel override");
+        if ([presentingController.delegate respondsToSelector:@selector(taskViewController:didFinishWithReason:error:)]) {
+            [presentingController.delegate taskViewController:presentingController
+                                          didFinishWithReason:ORKTaskViewControllerFinishReasonDiscarded error:nil];
+        }
     }
 }
 
@@ -645,6 +707,11 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     self.view = [[UIView alloc] initWithFrame:CGRectZero];
 }
 
+- (void)cancelButtonPressed:(CustomBarButtonItem *)sender {
+    CustomBarButtonItem *cancelButton = sender;
+    [cancelButton cancelButtonPressed:sender];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     _budsInEars = NO;
@@ -1084,6 +1151,10 @@ animated = animated && ([[UIApplication sharedApplication] applicationState] != 
 // Update currentStepViewController now, so we don't accept additional transition requests
 // from the same VC.
 _currentStepViewController = stepViewController;
+CustomBarButtonItem *cancelButton = [[CustomBarButtonItem alloc] initWithTitle:@"Cancel"
+                                                                         style:UIBarButtonItemStylePlain target:self
+                                                                        action:@selector(cancelButtonPressed:)];
+[_currentStepViewController setCancelButtonItem:cancelButton];
 [self setUpProgressLabelForStepViewController:stepViewController];
 
 NSMutableArray<UIViewController *> *newViewControllers = [NSMutableArray new];
@@ -2021,7 +2092,7 @@ static NSString *const _ORKProgressMode = @"progressMode";
     NSNotificationCenter * center = [NSNotificationCenter defaultCenter];
     [center addObserver:self selector:@selector(handleDeviceChanges:) name:@"BluetoothDeviceDisconnectSuccessNotification" object:nil];
     [center addObserver:self selector:@selector(sealValueChanged:) name:@"BluetoothAccessorySealValueStatusNotification" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDeviceChanges:) name:@"BluetoothDeviceBatteryChangedNotification" object:nil];
+    [center addObserver:self selector:@selector(handleDeviceChanges:) name:@"BluetoothDeviceBatteryChangedNotification" object:nil];
     [center addObserver:self selector:@selector(handleDeviceChanges:) name:AVAudioSessionInterruptionNotification object:[AVAudioSession sharedInstance]];
     [center addObserver:self selector:@selector(handleDeviceChanges:) name:@"ServerConnectionDiedNotification" object:[AVAudioSession sharedInstance]];
     
@@ -2033,7 +2104,7 @@ static NSString *const _ORKProgressMode = @"progressMode";
         ORK_Log_Error("Failed to subscribe to AVSystemController notifications due to error: %@", error);
     } else {
         ORK_Log_Info("Successfully set AVSC attribute. Register listener for Call Active notification");
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDeviceChanges:) name:@"AVSystemController_CallIsActiveDidChangeNotification" object:nil];
+        [center addObserver:self selector:@selector(handleDeviceChanges:) name:@"AVSystemController_CallIsActiveDidChangeNotification" object:nil];
     }
     
     [center addObserver:self selector:@selector(appWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];

@@ -64,6 +64,9 @@
 #import "ORKNavigableOrderedTask.h"
 #import "ORKStepNavigationRule.h"
 
+// defines how many samples we should rollback before resuming the task
+#define NUMBER_OF_TRAILS_TO_DROP 2
+
 @interface ORKdBHLToneAudiometryStepViewController () <ORKdBHLToneAudiometryPulsedAudioGeneratorDelegate> {
     ORKdBHLToneAudiometryFrequencySample *_resultSample;
     ORKAudioChannel _audioChannel;
@@ -227,6 +230,42 @@
     [self removeObservers];
 }
 
+// will remove all taps from the _taps array that has the same frequency and level and drop the samples from kagra algorithm
+- (void)removeLastTapWithSameLevelAndFrequency:(NSUInteger)numberOfRemovals {
+    if (@available(iOS 14, *)) {
+        if ([self.audiometryEngine isKindOfClass:[ORKNewAudiometry class]]) {
+            ORKNewAudiometry *engine = (ORKNewAudiometry *)self.audiometryEngine;
+            [engine dropTrials:numberOfRemovals];
+            for (int i = 0; i < numberOfRemovals; i++) {
+                ORKdBHLToneAudiometryTap *tap = [_taps lastObject];
+                if (tap) {
+                    double searchdBHL = tap.dBHLValue;
+                    double searchdBHLFrequency = tap.frequency;
+
+                    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"dBHLValue == %lf AND frequency == %lf", searchdBHL, searchdBHLFrequency];
+                    NSIndexSet *indexes = [_taps indexesOfObjectsPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+                        return [predicate evaluateWithObject:obj];
+                    }];
+                    [_taps removeObjectsAtIndexes:indexes];
+                }
+            }
+        }
+    }
+}
+
+- (void)pauseTask {
+    [self stopAudio];
+    [self removeLastTapWithSameLevelAndFrequency:NUMBER_OF_TRAILS_TO_DROP];
+}
+
+- (void)resumeTask {
+    if (@available(iOS 14, *)) {
+        if ([self.audiometryEngine isKindOfClass:[ORKNewAudiometry class]]) {
+            [self runTestTrial];
+        }
+    }
+}
+
 - (void)animatedBHLButton {
     [self.dBHLToneAudiometryContentView.layer removeAllAnimations];
     [UIView animateWithDuration:0.1
@@ -264,14 +303,13 @@
 
 #if KAGRA_PROTO
 - (NSNumber *)simulatedHLForKey:(NSString *)key {
-    NSString *shl = [NSUserDefaults.standardUserDefaults valueForKey:key];
-    shl = shl ?: @"";
-    shl = [shl isEqual:@""] ? @"0" : shl;
-    shl = [shl stringByReplacingOccurrencesOfString:@"," withString:@"."];
-    
-    NSNumber *nshl = [NSNumber numberWithDouble:[shl doubleValue]];
-    nshl = nshl ?: @(0.0);
-    return nshl;
+    NSString *masterDbStr = [NSUserDefaults.standardUserDefaults valueForKey:@"masterdB"];
+    masterDbStr = masterDbStr ? masterDbStr : @"0";
+    masterDbStr = [masterDbStr stringByReplacingOccurrencesOfString:@"," withString:@"."];
+
+    NSNumber *masterDb = [NSNumber numberWithDouble:[masterDbStr doubleValue]];
+    masterDb = masterDb ?: @(0.0);
+    return masterDb;
 }
 
 - (NSDictionary *)simulatedHLTable {
