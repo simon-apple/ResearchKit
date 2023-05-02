@@ -169,7 +169,7 @@
                 ORKHeadphoneDetectResult *headphoneDetectResult = (ORKHeadphoneDetectResult *)firstResult;
                 dBHLTAStep.headphoneType = headphoneDetectResult.headphoneType;
         
-            } else if ([firstResult isKindOfClass:[ORKdBHLToneAudiometryResult class]]) {
+            } else if ([firstResult isKindOfClass:[ORKdBHLToneAudiometryResult class]] && dBHLTAStep.injectPreviousAudiogram) {
                 if (@available(iOS 14.0, *)) {
                     ORKdBHLToneAudiometryResult *dBHLToneAudiometryResult = (ORKdBHLToneAudiometryResult *)firstResult;
                     BOOL suitableResult = (dBHLToneAudiometryResult.algorithmVersion == 1 &&

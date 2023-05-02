@@ -94,6 +94,7 @@
 #if RK_APPLE_INTERNAL
     self.algorithm = ORKdBHLToneAudiometryTaskdBHLDefaultAlgorithm;
     self.dBHLMaximumThreshold = ORKdBHLToneAudiometryTaskdBHLMaximumThreshold;
+    self.injectPreviousAudiogram = YES;
 #endif
 }
 
@@ -137,6 +138,7 @@
 #if RK_APPLE_INTERNAL
     step.algorithm = self.algorithm;
     step.dBHLMaximumThreshold = self.dBHLMaximumThreshold;
+    step.injectPreviousAudiogram = self.injectPreviousAudiogram;
 #endif
     return step;
 }
@@ -162,6 +164,7 @@
 #if RK_APPLE_INTERNAL
         ORK_DECODE_INTEGER(aDecoder, algorithm);
         ORK_DECODE_DOUBLE(aDecoder, dBHLMaximumThreshold);
+        ORK_DECODE_BOOL(aDecoder, injectPreviousAudiogram);
 #endif
     }
     return self;
@@ -187,6 +190,7 @@
 #if RK_APPLE_INTERNAL
     ORK_ENCODE_INTEGER(aCoder, algorithm);
     ORK_ENCODE_DOUBLE(aCoder, dBHLMaximumThreshold);
+    ORK_ENCODE_BOOL(aCoder, injectPreviousAudiogram);
 #endif
 }
 
@@ -216,6 +220,7 @@
 #if RK_APPLE_INTERNAL
             && (self.algorithm == castObject.algorithm)
             && (self.dBHLMaximumThreshold == castObject.dBHLMaximumThreshold)
+            && self.injectPreviousAudiogram == castObject.injectPreviousAudiogram
 #endif
             );
 }

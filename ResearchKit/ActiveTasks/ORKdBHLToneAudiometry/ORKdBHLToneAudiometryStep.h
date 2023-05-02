@@ -74,6 +74,13 @@ ORK_CLASS_AVAILABLE
 @property (nonatomic, assign) NSInteger algorithm;
 
 @property (nonatomic, assign) double dBHLMaximumThreshold;
+
+/**
+ A boolean value indicating if we should inject previous audiogram on this step
+ 
+ `YES` Is the default value and will force the code to search for previous result on `ORKTaskViewController` results and inject the last one encountered.
+ */
+@property (nonatomic, assign) BOOL injectPreviousAudiogram;
 #endif
 
 - (id<ORKAudiometryProtocol>)audiometryEngine;

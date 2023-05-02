@@ -1153,6 +1153,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
 #if RK_APPLE_INTERNAL
                     PROPERTY(algorithm, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(dBHLMaximumThreshold, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(injectPreviousAudiogram, NSNumber, NSObject, YES, nil, nil),
 #endif
                     })),
            ENTRY(ORKdBHLToneAudiometryScreenerStep,
