@@ -388,7 +388,8 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
     ORKTaskViewController *taskVC = self.taskViewController;
     if (!taskVC.budsInEars || taskVC.callActive) {
         [self interruptTestIfNecessary];
-    } else if (_stage == ORKdBHLFitTestStageResultLeftSealGoodRightSealGood || _stage == ORKdBHLFitTestStageResultTriesExceeded) {
+    }
+    if (_stage == ORKdBHLFitTestStageResultLeftSealGoodRightSealGood || _stage == ORKdBHLFitTestStageResultTriesExceeded) {
         [self adjustNextButton];
     }
 }

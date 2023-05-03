@@ -420,7 +420,8 @@
 }
 
 - (void)runTestTrial {
-    if (!_showingAlert) {
+    ORKTaskViewController *taskVC = self.taskViewController;
+    if (!_showingAlert && taskVC.budsInEars) {
         [self stopAudio];
         
         [self.dBHLToneAudiometryContentView setProgress:self.audiometryEngine.progress animated:YES];
