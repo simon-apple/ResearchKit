@@ -737,6 +737,8 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     }
     
     [self handleDeviceChanges:nil];
+    
+    [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
 }
 
 #if RK_APPLE_INTERNAL
@@ -835,6 +837,8 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     
     [self stopRefreshTimer];
     [self removeObservers];
+    
+    [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
 }
 
 - (NSArray *)managedResultsArray {
