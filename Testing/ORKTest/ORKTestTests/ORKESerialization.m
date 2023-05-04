@@ -839,6 +839,15 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                  (@{
                       PROPERTY(destinationStepIdentifier, NSString, NSObject, NO, nil, nil),
                       })),
+           ENTRY(ORKPredicateFormItemVisibilityRule,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+                     NSString* predicateFormat = GETPROP(dict, predicateFormat);
+                     ORKPredicateFormItemVisibilityRule *rule = [[ORKPredicateFormItemVisibilityRule alloc] initWithPredicateFormat:predicateFormat];
+                     return rule;
+                 },
+                 (@{
+                      PROPERTY(predicateFormat, NSString, NSObject, NO, nil, nil),
+                      })),
            ENTRY(ORKAudioLevelNavigationRule,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      ORKAudioLevelNavigationRule *rule = [[ORKAudioLevelNavigationRule alloc] initWithAudioLevelStepIdentifier:GETPROP(dict, audioLevelStepIdentifier)                                                                                             destinationStepIdentifier:GETPROP(dict, destinationStepIdentifier)
