@@ -205,11 +205,13 @@
     [center addObserver:self selector:@selector(appWillTerminate:) name:UIApplicationWillTerminateNotification object:nil];
     [center addObserver:self selector:@selector(tapButtonPressed) name:@"buttonTapped" object:nil];
     [center addObserver:self selector:@selector(skipButtonPressed) name:@"skipTapped" object:nil];
+    [center addObserver:self selector:@selector(appWillTerminate:) name:UIApplicationWillResignActiveNotification object:nil];
 }
 
 - (void)removeObservers {
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center removeObserver:self name:UIApplicationWillTerminateNotification object:nil];
+    [center removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

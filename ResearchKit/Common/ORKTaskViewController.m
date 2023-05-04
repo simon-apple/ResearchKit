@@ -2113,6 +2113,7 @@ static NSString *const _ORKProgressMode = @"progressMode";
     
     [center addObserver:self selector:@selector(appWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
     [center addObserver:self selector:@selector(appWillTerminate:) name:UIApplicationWillTerminateNotification object:nil];
+    [center addObserver:self selector:@selector(appDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
 - (void)removeObservers {
@@ -2129,10 +2130,56 @@ static NSString *const _ORKProgressMode = @"progressMode";
     [center removeObserver:self name:@"AVSystemController_CallIsActiveDidChangeNotification" object:nil];
     [center removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
     [center removeObserver:self name:UIApplicationWillTerminateNotification object:nil];
+    [center removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
 -(void)appWillResignActive:(NSNotification*)note {
     [self stopRefreshTimer];
+}
+
+-(void)appDidBecomeActive:(NSNotification*)note {
+    ORKWeakTypeOf(self) weakSelf = self;
+    NSString *identiferForLastFitTest = nil;
+    ORKTaskResult *taskResults = [self result];
+    for (ORKStepResult *result in taskResults.results) {
+        if (result.results > 0) {
+            ORKStepResult *firstResult = (ORKStepResult *)[result.results firstObject];
+            if ([firstResult isKindOfClass:[ORKdBHLFitTestResult class]]) {
+                ORKdBHLFitTestResult *fitTestResult = (ORKdBHLFitTestResult *)firstResult;
+                identiferForLastFitTest = fitTestResult.identifier;
+            }
+        }
+    }
+    if (identiferForLastFitTest) {
+        // if we found an identifier for the fit test result the test must be invalidated and return to last fit test fit test.
+        // this is necessary because the user may had removed the AirPods and inserted again, invalidating the test.
+        dispatch_async(dispatch_get_main_queue(), ^{
+            ORKStrongTypeOf(weakSelf) strongSelf = weakSelf;
+            UIAlertController *alertController = [UIAlertController
+                                                  alertControllerWithTitle:@"Hearing Test"
+                                                  message:@"To ensure accurate results, this task must be completed without interruption."
+                                                  preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction *startOver = [UIAlertAction
+                                        actionWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE_START_OVER", nil)
+                                        style:UIAlertActionStyleDefault
+                                        handler:^(UIAlertAction *action) {
+                [strongSelf flipToPageWithIdentifier:identiferForLastFitTest forward:NO animated:NO];
+            }];
+            [alertController addAction:startOver];
+            [alertController addAction:[UIAlertAction
+                                        actionWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE_CANCEL_TEST", nil)
+                                        style:UIAlertActionStyleDefault
+                                        handler:^(UIAlertAction *action) {
+                ORKStrongTypeOf(self.delegate) strongDelegate = self.delegate;
+                if ([strongDelegate respondsToSelector:@selector(taskViewController:didFinishWithReason:error:)]) {
+                    [strongDelegate taskViewController:self didFinishWithReason:ORKTaskViewControllerFinishReasonDiscarded error:nil];
+                }
+            }]];
+            alertController.preferredAction = startOver;
+            [self presentViewController:alertController animated:YES completion:nil];
+        });
+    }
 }
 
 -(void)appWillTerminate:(NSNotification*)note {
