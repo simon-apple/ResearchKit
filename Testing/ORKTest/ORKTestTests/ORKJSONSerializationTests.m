@@ -268,6 +268,7 @@ ORK_MAKE_TEST_INIT(ORKResult, ^{return [self initWithIdentifier:[NSUUID UUID].UU
 ORK_MAKE_TEST_INIT(ORKTaskResult, ^{return [self initWithTaskIdentifier:[NSUUID UUID].UUIDString taskRunUUID:[NSUUID UUID] outputDirectory:nil];});
 ORK_MAKE_TEST_INIT(ORKStepNavigationRule, ^{return [super init];});
 ORK_MAKE_TEST_INIT(ORKSkipStepNavigationRule, ^{return [super init];});
+ORK_MAKE_TEST_INIT(ORKFormItemVisibilityRule, ^{return [super init];});
 ORK_MAKE_TEST_INIT(ORKStepModifier, ^{return [super init];});
 ORK_MAKE_TEST_INIT(ORKKeyValueStepModifier, ^{return [super init];});
 ORK_MAKE_TEST_INIT(ORKAnswerFormat, ^{return [super init];});
@@ -320,6 +321,10 @@ ORK_MAKE_TEST_INIT(ORKColorChoice, ^{return [super init];});
 ORK_MAKE_TEST_INIT(ORKTextChoice, ^{return [super init];});
 ORK_MAKE_TEST_INIT(ORKTextChoiceOther, ^{return [self initWithText:@"test" primaryTextAttributedString:nil detailText:@"test1" detailTextAttributedString:nil value:@"value" exclusive:YES textViewPlaceholderText:@"test2" textViewInputOptional:NO textViewStartsHidden:YES];});
 ORK_MAKE_TEST_INIT(ORKPredicateStepNavigationRule, ^{return [self initWithResultPredicates:@[[ORKResultPredicate predicateForBooleanQuestionResultWithResultSelector:[ORKResultSelector selectorWithResultIdentifier:@"test"] expectedAnswer:YES]] destinationStepIdentifiers:@[@"test2"]];});
+ORK_MAKE_TEST_INIT(ORKPredicateFormItemVisibilityRule, ^{ NSPredicate* predicate = [ORKResultPredicate predicateForBooleanQuestionResultWithResultSelector:[ORKResultSelector selectorWithResultIdentifier:@"test"] expectedAnswer:YES];
+    ORKPredicateFormItemVisibilityRule* predicateRule = [self initWithPredicate:predicate];
+    return predicateRule;
+});
 ORK_MAKE_TEST_INIT(ORKResultSelector, ^{return [self initWithResultIdentifier:@"resultIdentifier"];});
 ORK_MAKE_TEST_INIT(ORKRecorderConfiguration, ^{return [self initWithIdentifier:@"testRecorder"];});
 ORK_MAKE_TEST_INIT(ORKAccelerometerRecorderConfiguration, ^{return [super initWithIdentifier:@"testRecorder"];});
@@ -495,6 +500,7 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
         _classesExcludedForORKESerialization = @[
                                                  [ORKStepNavigationRule class],     // abstract base class
                                                  [ORKSkipStepNavigationRule class],     // abstract base class
+                                                 [ORKFormItemVisibilityRule class],     // abstract base class
                                                  [ORKStepModifier class],     // abstract base class
                                                  [ORKPredicateSkipStepNavigationRule class],     // NSPredicate doesn't yet support JSON serialization
                                                  [ORKKeyValueStepModifier class],     // NSPredicate doesn't yet support JSON serialization
@@ -532,6 +538,7 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
                                    @"ORKFrontFacingCameraTask.fileURL",
                                    @"ORKTaskResult.outputDirectory",
                                    @"ORKPageResult.outputDirectory",
+                                   @"ORKPredicateFormItemVisibilityRule.predicateFormat", // Prevent trying to assign a bogus empty string as predicateFormat during testing
                                    @"ORKAccuracyStroopStep.actualDisplayColor",
                                    @"ORKAccuracyStroopResult.didSelectCorrectColor",
                                    @"ORKAccuracyStroopResult.timeTakenToSelect"
@@ -590,6 +597,7 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
                                           @"ORKOrderedTask.providesBackgroundAudioPrompts",
                                           @"ORKOrderedTask.requestedPermissions",
                                           @"ORKPageStep.steps",
+                                          @"ORKPredicateFormItemVisibilityRule.predicate", // roundtripping format->predicate->format is unsupported in NSPredicate, so no point in serializing the predicate as text.
                                           @"ORKQuestionResult.answer",
                                           @"ORKQuestionStep.question",
                                           @"ORKQuestionStep.questionType",
@@ -1040,6 +1048,9 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
             [instance setValue:NSStringFromClass([ORKVerificationStepViewController class]) forKey:@"verificationViewControllerString"];
         } else if ([aClass isSubclassOfClass:[ORKReviewStep class]]) {
             [instance setValue:[[ORKTaskResult alloc] orktest_init] forKey:@"resultSource"]; // Manually add here because it's a protocol and hence property doesn't have a class
+        } else if ([aClass isSubclassOfClass:[ORKPredicateFormItemVisibilityRule class]]) {
+            // predicateFormat cannot be an empty sring for deserialization to work
+            [instance setValue:@"$title == 'testSerialization' && $className == 'ORKPredicateFormItemVisibilityRule'" forKey:@"predicateFormat"];
         }
 
         // Serialization
@@ -1311,6 +1322,7 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
                                  [ORKNoAnswer class],     // abstract base class
                                  [ORKStepNavigationRule class],     // abstract base class
                                  [ORKSkipStepNavigationRule class],     // abstract base class
+                                 [ORKFormItemVisibilityRule class],     // abstract base class
                                  [ORKStepModifier class],     // abstract base class
                                  [ORKVideoCaptureStep class],
                                  [ORKImageCaptureStep class]
@@ -1381,6 +1393,7 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
                                        @"ORKTableStep.isBulleted",
                                        @"ORKTableStep.allowsSelection",
                                        @"ORKPDFViewerStep.actionBarOption",
+                                       @"ORKPredicateFormItemVisibilityRule.predicate", // when testing equality, test_init instance of this rule has nonnull predicate which breaks assumptions about instance and copiedInstance in our test. So exclude this property for equality testing.
                                        @"ORKBodyItem.customButtonConfigurationHandler",
                                        @"ORKAccuracyStroopStep.actualDisplayColor",
                                        @"ORKAccuracyStroopResult.didSelectCorrectColor",
@@ -1425,7 +1438,6 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
         id instance = [self instanceForClass:aClass];
         
         // Find all properties of this class
-        NSMutableArray *propertyNames = [NSMutableArray array];
         unsigned int count;
         objc_property_t *props = class_copyPropertyList(aClass, &count);
         for (uint i = 0; i < count; i++) {
@@ -1438,7 +1450,6 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
                 if (p.isPrimitiveType || [instance valueForKey:p.propertyName] == nil) {
                     [self applySomeValueToClassProperty:p forObject:instance index:0 forEqualityCheck:YES];
                 }
-                [propertyNames addObject:p.propertyName];
             }
         }
         

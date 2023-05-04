@@ -41,14 +41,15 @@
 #import <ResearchKit/ORKDataLogger.h>
 #import <ResearchKit/ORKErrors.h>
 
+#import <ResearchKit/ORKAnswerFormat_Private.h>
 #import <ResearchKit/ORKChoiceViewCell.h>
 #import <ResearchKit/ORKChoiceViewCell_Internal.h>
-#import <ResearchKit/ORKAnswerFormat_Private.h>
 #import <ResearchKit/ORKConsentDocument_Private.h>
 #import <ResearchKit/ORKConsentSection_Private.h>
 #import <ResearchKit/ORKHTMLPDFPageRenderer.h>
 #import <ResearchKit/ORKOrderedTask_Private.h>
 #import <ResearchKit/ORKPageStep_Private.h>
+#import <ResearchKit/ORKPredicateFormItemVisibilityRule_Private.h>
 #import <ResearchKit/ORKRecorder_Private.h>
 #import <ResearchKit/ORKStepNavigationRule_Private.h>
 
