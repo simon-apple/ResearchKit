@@ -126,6 +126,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     case heightQuestion
     case weightQuestion
     case ageQuestion
+    case healthQuantity
     case kneeRangeOfMotion
     case shoulderRangeOfMotion
     case trailMaking
@@ -183,6 +184,7 @@ enum TaskListRow: Int, CustomStringConvertible {
                     .heightQuestion,
                     .weightQuestion,
                     .ageQuestion,
+                    .healthQuantity,
                     .imageChoiceQuestion,
                     .locationQuestion,
                     .numericQuestion,
@@ -312,6 +314,9 @@ enum TaskListRow: Int, CustomStringConvertible {
     
         case .weightQuestion:
             return NSLocalizedString("Weight Question", comment: "")
+        
+        case .healthQuantity:
+            return NSLocalizedString("Health Quantity Question", comment: "")
             
         case .ageQuestion:
             return NSLocalizedString("Age Question", comment: "")
@@ -609,7 +614,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         case weightQuestionStep5
         case weightQuestionStep6
         case weightQuestionStep7
-        
+
         // Task with an example of age entry.
         case ageQuestionTask
         case ageQuestionFormStep
@@ -621,6 +626,11 @@ enum TaskListRow: Int, CustomStringConvertible {
         case ageQuestionFormItem3
         case ageQuestionFormItem4
         
+        // Task with an ORKHealthQuantity questions
+        case healthQuantityTask
+        case healthQuantityQuestion1
+        case healthQuantityQuestion2
+
         // Task with an image choice question.
         case imageChoiceQuestionTask
         case imageChoiceQuestionStep1
@@ -831,6 +841,9 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .ageQuestion:
             return ageQuestionTask
+            
+        case .healthQuantity:
+            return healthQuantityTypeTask
             
         case .imageChoiceQuestion:
             return imageChoiceQuestionTask
@@ -1739,16 +1752,16 @@ enum TaskListRow: Int, CustomStringConvertible {
     /// This task demonstrates a question asking for the user age.
     private var ageQuestionTask: ORKTask {
         let ageFormItemSectionHeader1 = ORKFormItem(sectionTitle: "What is your age?", detailText: "Age question with default values.", learnMoreItem: nil, showsProgress: true)
-
+        
         
         // age picker example 1
         let answerFormat = ORKAgeAnswerFormat()
         answerFormat.shouldShowDontKnowButton = true
         answerFormat.customDontKnowButtonText = "Prefer not to answer"
         let ageFormItem = ORKFormItem(identifier: String(describing: Identifier.ageQuestionFormItem), text: nil, answerFormat: answerFormat)
-
+        
         ageFormItem.isOptional = true
-
+        
         let step = ORKFormStep(identifier: String(describing: Identifier.ageQuestionFormStep), title: "Title here", text: "Default age picker.")
         step.formItems = [ageFormItemSectionHeader1, ageFormItem]
         
@@ -1807,6 +1820,20 @@ enum TaskListRow: Int, CustomStringConvertible {
         completionStep.title = "Task complete"
         
         return ORKOrderedTask(identifier: String(describing: Identifier.ageQuestionTask), steps: [step, step2, step3, step4, completionStep])
+    }
+
+    private var healthQuantityTypeTask: ORKTask {
+        let heartRateHealthKitQuantityTypeAnswerFormat = ORKHealthKitQuantityTypeAnswerFormat(quantityType: HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.heartRate)!, unit: nil, style: .decimal)
+        let heartRateQuestion = ORKQuestionStep(identifier: String(describing: Identifier.healthQuantityQuestion1), title: NSLocalizedString("Heart Rate", comment: ""), question: "What is your Heart Rate?", answer: heartRateHealthKitQuantityTypeAnswerFormat)
+        heartRateQuestion.text = "Heart Rate"
+        heartRateQuestion.isOptional = false
+        
+        
+        let bloodType = HKCharacteristicType.characteristicType(forIdentifier: HKCharacteristicTypeIdentifier.bloodType)!
+        let bloodTypeAnswerFormat = ORKHealthKitCharacteristicTypeAnswerFormat(characteristicType: bloodType)
+        let bloodTypeQuestion = ORKQuestionStep(identifier: String(describing: Identifier.healthQuantityQuestion2), title: NSLocalizedString("Blood Type", comment: ""), question: "What is your Blood Type?", answer: bloodTypeAnswerFormat)
+        
+        return ORKOrderedTask(identifier: String(describing: Identifier.healthQuantityTask), steps: [heartRateQuestion, bloodTypeQuestion])
     }
     
     /**
