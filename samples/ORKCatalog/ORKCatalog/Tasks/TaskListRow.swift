@@ -116,6 +116,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     case walkBackAndForth
     case heightQuestion
     case weightQuestion
+    case healthQuantity
     case kneeRangeOfMotion
     case shoulderRangeOfMotion
     case trailMaking
@@ -155,6 +156,7 @@ enum TaskListRow: Int, CustomStringConvertible {
                     .date3DayLimitQuestionTask,
                     .heightQuestion,
                     .weightQuestion,
+                    .healthQuantity,
                     .imageChoiceQuestion,
                     .locationQuestion,
                     .numericQuestion,
@@ -257,6 +259,9 @@ enum TaskListRow: Int, CustomStringConvertible {
     
         case .weightQuestion:
             return NSLocalizedString("Weight Question", comment: "")
+        
+        case .healthQuantity:
+            return NSLocalizedString("Health Quantity Question", comment: "")
             
         case .imageChoiceQuestion:
             return NSLocalizedString("Image Choice Question", comment: "")
@@ -483,6 +488,11 @@ enum TaskListRow: Int, CustomStringConvertible {
         case weightQuestionStep6
         case weightQuestionStep7
         
+        // Task with an ORKHealthQuantity questions
+        case healthQuantityTask
+        case healthQuantityQuestion1
+        case healthQuantityQuestion2
+
         // Task with an image choice question.
         case imageChoiceQuestionTask
         case imageChoiceQuestionStep1
@@ -663,6 +673,9 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .weightQuestion:
             return weightQuestionTask
+            
+        case .healthQuantity:
+            return healthQuantityTypeTask
             
         case .imageChoiceQuestion:
             return imageChoiceQuestionTask
@@ -1245,6 +1258,20 @@ enum TaskListRow: Int, CustomStringConvertible {
         step7NonOptional.isOptional = false
         
         return ORKOrderedTask(identifier: String(describing: Identifier.weightQuestionTask), steps: [step1, step1NonOptional, step2,  step2NonOptional, step3, step3NonOptional, step4, step4NonOptional, step5,  step5NonOptional, step6, step6NonOptional, step7NonOptional, step7])
+    }
+    
+    private var healthQuantityTypeTask: ORKTask {
+        let heartRateHealthKitQuantityTypeAnswerFormat = ORKHealthKitQuantityTypeAnswerFormat(quantityType: HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.heartRate)!, unit: nil, style: .decimal)
+        let heartRateQuestion = ORKQuestionStep(identifier: String(describing: Identifier.healthQuantityQuestion1), title: NSLocalizedString("Heart Rate", comment: ""), question: "What is your Heart Rate?", answer: heartRateHealthKitQuantityTypeAnswerFormat)
+        heartRateQuestion.text = "Heart Rate"
+        heartRateQuestion.isOptional = false
+        
+        
+        let bloodType = HKCharacteristicType.characteristicType(forIdentifier: HKCharacteristicTypeIdentifier.bloodType)!
+        let bloodTypeAnswerFormat = ORKHealthKitCharacteristicTypeAnswerFormat(characteristicType: bloodType)
+        let bloodTypeQuestion = ORKQuestionStep(identifier: String(describing: Identifier.healthQuantityQuestion2), title: NSLocalizedString("Blood Type", comment: ""), question: "What is your Blood Type?", answer: bloodTypeAnswerFormat)
+        
+        return ORKOrderedTask(identifier: String(describing: Identifier.healthQuantityTask), steps: [heartRateQuestion, bloodTypeQuestion])
     }
     
     /**
