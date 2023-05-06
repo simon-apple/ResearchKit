@@ -31,6 +31,7 @@
 #import "ORKdBHLFitTestStep.h"
 #import "ORKdBHLFitTestStepViewController.h"
 #import "ORKHelpers_Internal.h"
+#import "ORKStep_Private.h"
 
 #define ORKdBHLFitTestSealThreshold 0.0
 #define ORKdBHLFitTestConfidenceThreshold -3.0
@@ -99,6 +100,10 @@
 
 + (BOOL)supportsSecureCoding {
     return YES;
+}
+
+- (BOOL)allowsBackNavigation {
+    return NO;
 }
 
 @end

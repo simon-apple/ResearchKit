@@ -32,6 +32,7 @@
 #import "ORKdBHLToneAudiometryStep.h"
 #import "ORKdBHLToneAudiometryStepViewController.h"
 #import "ORKAudiometry.h"
+#import "ORKStep_Private.h"
 
 #import "ORKHelpers_Internal.h"
 #if RK_APPLE_INTERNAL
@@ -116,6 +117,10 @@
 }
 
 - (BOOL)startsFinished {
+    return NO;
+}
+
+- (BOOL)allowsBackNavigation {
     return NO;
 }
 

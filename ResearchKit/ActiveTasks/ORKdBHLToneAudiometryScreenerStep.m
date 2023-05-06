@@ -30,7 +30,7 @@
 
 
 #import "ORKdBHLToneAudiometryScreenerStep.h"
-
+#import "ORKStep_Private.h"
 #import "ORKdBHLToneAudiometryScreenerStepViewController.h"
 
 #import "ORKHelpers_Internal.h"
@@ -103,6 +103,10 @@
 }
 
 - (BOOL)startsFinished {
+    return NO;
+}
+
+- (BOOL)allowsBackNavigation {
     return NO;
 }
 

@@ -2139,18 +2139,22 @@ static NSString *const _ORKProgressMode = @"progressMode";
 
 -(void)appDidBecomeActive:(NSNotification*)note {
     ORKWeakTypeOf(self) weakSelf = self;
-    NSString *identiferForLastFitTest = nil;
+    NSString *identifierForLastFitTest = nil;
+    BOOL alreadyStarteddBHL = NO;
     ORKTaskResult *taskResults = [self result];
     for (ORKStepResult *result in taskResults.results) {
         if (result.results > 0) {
             ORKStepResult *firstResult = (ORKStepResult *)[result.results firstObject];
             if ([firstResult isKindOfClass:[ORKdBHLFitTestResult class]]) {
                 ORKdBHLFitTestResult *fitTestResult = (ORKdBHLFitTestResult *)firstResult;
-                identiferForLastFitTest = fitTestResult.identifier;
+                identifierForLastFitTest = fitTestResult.identifier;
+            }
+            if ([firstResult isKindOfClass:[ORKdBHLToneAudiometryResult class]]) {
+                alreadyStarteddBHL = YES;
             }
         }
     }
-    if (identiferForLastFitTest) {
+    if (identifierForLastFitTest && alreadyStarteddBHL) {
         // if we found an identifier for the fit test result the test must be invalidated and return to last fit test fit test.
         // this is necessary because the user may had removed the AirPods and inserted again, invalidating the test.
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -2164,7 +2168,7 @@ static NSString *const _ORKProgressMode = @"progressMode";
                                         actionWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE_START_OVER", nil)
                                         style:UIAlertActionStyleDefault
                                         handler:^(UIAlertAction *action) {
-                [strongSelf flipToPageWithIdentifier:identiferForLastFitTest forward:NO animated:NO];
+                [strongSelf flipToPageWithIdentifier:identifierForLastFitTest forward:NO animated:NO];
             }];
             [alertController addAction:startOver];
             [alertController addAction:[UIAlertAction

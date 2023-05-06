@@ -272,7 +272,6 @@ typedef void (^_quickResponseCodeCompletionHandler)(NSString* codeString);
 }
 
 - (void)cancel {
-    // KAGRATODO: For some reason this is killing the Bluetooth manager , I'll need to restart it on TaskVC
     [_captureSession stopRunning];
     _captureSession = nil;
     
