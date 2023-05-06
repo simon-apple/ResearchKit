@@ -141,21 +141,25 @@ typedef void (^_quickResponseCodeCompletionHandler)(NSString* codeString);
 }
 
 - (void)showNoCameraWarning {
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Camera Access Required"
-                                                                                 message:@"This app requires camera access to function properly. Please enable camera access in your device settings."
-                                                                          preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *settingsAction = [UIAlertAction actionWithTitle:@"Settings"
-                                                              style:UIAlertActionStyleDefault
-                                                            handler:^(UIAlertAction * _Nonnull action) {
-        NSURL *settingsURL = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
-        [[UIApplication sharedApplication] openURL:settingsURL options:@{} completionHandler:nil];
-    }];
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel"
-                                                             style:UIAlertActionStyleCancel
-                                                           handler:nil];
-    [alertController addAction:settingsAction];
-    [alertController addAction:cancelAction];
-    [self presentViewController:alertController animated:YES completion:nil];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Camera Access Required"
+                                                                                     message:@"This app requires camera access to function properly. Please enable camera access in your device settings."
+                                                                              preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *settingsAction = [UIAlertAction actionWithTitle:@"Settings"
+                                                                  style:UIAlertActionStyleDefault
+                                                                handler:^(UIAlertAction * _Nonnull action) {
+            NSURL *settingsURL = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+            [[UIApplication sharedApplication] openURL:settingsURL options:@{} completionHandler:nil];
+        }];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel"
+                                                                 style:UIAlertActionStyleCancel
+                                                               handler:^(UIAlertAction * _Nonnull action) {
+            [self performSelectorOnMainThread:@selector(cancel) withObject:nil waitUntilDone:NO];
+        }];
+        [alertController addAction:settingsAction];
+        [alertController addAction:cancelAction];
+        [self presentViewController:alertController animated:YES completion:nil];
+    });
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
