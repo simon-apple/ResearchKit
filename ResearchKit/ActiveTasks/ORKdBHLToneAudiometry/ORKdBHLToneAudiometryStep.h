@@ -85,6 +85,12 @@ ORK_CLASS_AVAILABLE
 
 - (id<ORKAudiometryProtocol>)audiometryEngine;
 
+/**
+    nullifies the audiometry engine.
+    This is necessary because if the user jumps back to FitTest from the first MOL step the audiometry would continues from the same frequency it stopped.
+ */
+- (void)resetAudiometryEngine;
+
 @end
 
 NS_ASSUME_NONNULL_END

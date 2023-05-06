@@ -230,6 +230,10 @@
             );
 }
 
+- (void)resetAudiometryEngine {
+    _audiometry = nil;
+}
+
 - (id<ORKAudiometryProtocol>)audiometryEngine {
     if (!_audiometry) {
 #if RK_APPLE_INTERNAL

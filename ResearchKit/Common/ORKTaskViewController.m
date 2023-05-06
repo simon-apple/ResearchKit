@@ -76,6 +76,7 @@
 #import "ORKAVFoundationSoftLink.h"
 #import "ORKBluetoothManagerSoftLink.h"
 #import "ORKdBHLToneAudiometryStepViewController.h"
+#import "ORKdBHLToneAudiometryStep.h"
 #endif
 
 NSString * const ORKdBHLBluetoothChangedNotification = @"com.appleinternal.acoutics.kagraapp.bluetoothchanged_notification";
@@ -1082,6 +1083,12 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     
     ORKStep *step = stepViewController.step;
     [self updateLastBeginningInstructionStepIdentifierForStep:step goForward:goForward];
+    
+    // Makes sure that if the next view controller is an ORKdBHLToneAudiometryStepViewController reset the engine
+    if ([step isKindOfClass:[ORKdBHLToneAudiometryStep class]]) {
+        ORKdBHLToneAudiometryStep *audiometryStep = (ORKdBHLToneAudiometryStep *)step;
+        [audiometryStep resetAudiometryEngine];
+    }
     
     ORKStepViewController *fromController = self.currentStepViewController;
 #if RK_APPLE_INTERNAL
