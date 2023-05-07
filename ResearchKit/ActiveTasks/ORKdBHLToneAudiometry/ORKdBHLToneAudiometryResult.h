@@ -54,8 +54,6 @@ ORK_CLASS_AVAILABLE
 
 @property (nonatomic, copy, nullable) NSArray<ORKdBHLToneAudiometryFrequencySample *> *samples;
 
-@property (nonatomic, copy, nullable) NSArray<ORKdBHLToneAudiometryTap *> *allTaps;
-
 #if RK_APPLE_INTERNAL
 //These data are related to the new algorithm only
 @property (nonatomic, copy, nullable) NSArray<ORKdBHLToneAudiometryFrequencySample *> *deletedSamples;
@@ -73,6 +71,8 @@ ORK_CLASS_AVAILABLE
 @property (nonatomic, copy) NSString* rightSerial;
 
 @property (nonatomic, copy) NSString* fwVersion;
+
+@property (nonatomic, copy, nullable) NSArray<ORKdBHLToneAudiometryTap *> *allTaps;
 #endif
 
 @end
