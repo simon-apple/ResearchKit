@@ -1455,10 +1455,6 @@ static ORKStepResult *(^getConsentStepResult)(NSString *, NSString *, BOOL) = ^O
         ORKReviewStep *reviewStep = ORKDynamicCast(taskViewController.currentStepViewController.step, ORKReviewStep);
         XCTAssertTrue([reviewStep isStandalone]);
         XCTAssertTrue([taskViewController canDiscardResults]);
-        
-        // test that isStandalone is false, if steps is nil
-        ORKReviewStep* embeddedReviewStep = [ORKReviewStep embeddedReviewStepWithIdentifier:@"embeddedReviewStep"];
-        XCTAssertFalse([embeddedReviewStep isStandalone]);
     }
     
     // test cases where hasSaveableResults == YES
@@ -1511,7 +1507,9 @@ static ORKStepResult *(^getConsentStepResult)(NSString *, NSString *, BOOL) = ^O
         // if current viewController.readOnly -> canDiscardResults
         XCTAssertTrue(taskViewController.currentStepViewController.readOnlyMode);
         XCTAssertTrue([taskViewController canDiscardResults]);
-        
+    }
+    
+    {
         // Test if currentStep is reviewStep but not standalone -> CANNOT discardResults
         ORKReviewStep *embeddedReviewStep = [ORKReviewStep embeddedReviewStepWithIdentifier: @"embeddedReviewStep"];
         XCTAssertFalse(embeddedReviewStep.isStandalone);

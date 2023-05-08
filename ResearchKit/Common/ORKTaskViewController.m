@@ -57,7 +57,6 @@
 #import "ORKSkin.h"
 #import "ORKBorderedButton.h"
 #import "ORKTaskReviewViewController.h"
-#import "UIBarButtonItem+ORKBarButtonItem.h"
 
 #import <CoreLocation/CLLocationManagerDelegate.h>
 #import <ResearchKit/CLLocationManager+ResearchKit.h>
@@ -341,13 +340,6 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     _hasMicrophoneAccess = NO;
 #endif
     _task = task;
-}
-
-- (void)enableBackNavigationOnStepViewController:(ORKStepViewController *)stepViewController {
-    UIBarButtonItem *button = [UIBarButtonItem ork_backBarButtonItemWithTarget:stepViewController action:@selector(goBackward)];
-    button.title = ORKLocalizedString(@"AX_BUTTON_BACK", nil);
-    button.accessibilityLabel = ORKLocalizedString(@"AX_BUTTON_BACK", nil);
-    [stepViewController setBackButtonItem:button];
 }
 
 - (UIBarButtonItem *)defaultCancelButtonItem {
@@ -1680,8 +1672,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     stepViewController.continueButtonTitle = ORKLocalizedString(@"BUTTON_SAVE", nil);
     stepViewController.parentReviewStep = (ORKReviewStep *) reviewStepViewController.step;
     
-    [self enableBackNavigationOnStepViewController:stepViewController];
-
+    [stepViewController enableBackNavigation];
     stepViewController.skipButtonTitle = stepViewController.readOnlyMode ? ORKLocalizedString(@"BUTTON_READ_ONLY_MODE", nil) : ORKLocalizedString(@"BUTTON_CLEAR_ANSWER", nil);
     if (stepViewController.parentReviewStep.isStandalone) {
         stepViewController.navigationItem.title = stepViewController.parentReviewStep.title;
