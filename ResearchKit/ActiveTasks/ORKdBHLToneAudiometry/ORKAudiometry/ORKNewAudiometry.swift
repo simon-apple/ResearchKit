@@ -225,10 +225,22 @@ public struct ORKNewAudiometryState {
     
     public func registerResponse(_ response: Bool) {
         guard let lastStimulus = stimulus, !preStimulusResponse else { return }
+        
         stateHistory.append(getCurrentState())
-
         let freqPoint = bark(lastStimulus.frequency)
 
+        if !initialSampleEnded {
+            // Store initial sample separetedly so it can be checked later
+            initialSamples.append(response)
+        }
+        
+        if initialSamples.count == 1, response == false {
+            // rdar://108799286 ([Yodel-T1072] Repeat if participant misses the very first tone in MOL)
+            preStimulusResponse = true
+            stimulus = ORKAudiometryStimulus(frequency: lastStimulus.frequency, level: lastStimulus.level, channel: channel)
+            return
+        }
+        
         stateLock.lock()
         if lastStimulus.level == maxLevel && response == false {
             // handle levels higher than maxLevel
@@ -247,11 +259,6 @@ public struct ORKNewAudiometryState {
         let lastResponse = ySample.elements.last == 1
         updateUnit(with: lastResponse)
         preStimulusResponse = true
-        
-        if !initialSampleEnded {
-            // Store initial sample separetedly so it can be checked later
-            initialSamples.append(response)
-        }
         
         if !nextInitialSample() {
             // Check if initial sampling is invalid
@@ -362,6 +369,7 @@ extension ORKNewAudiometry {
             self.setState(state)
         }
     }
+    
     func getCurrentState() -> ORKNewAudiometryState {
         stateLock.lock()
         let channel = self.channel

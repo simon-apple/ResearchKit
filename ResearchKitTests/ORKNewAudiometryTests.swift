@@ -4660,6 +4660,58 @@ extension ORKNewAudiometryTests {
         XCTAssertTrue(audiometry.initialSampleEnded)
     }
     
+    func testRepeatFirstTone() async throws {
+        let initialLevel = 60.0
+        let freqs: [Double] = [1000, 2000, 4000, 8000, 500, 250]
+        
+        let getStatus = { (audiometry: ORKNewAudiometry) async -> (Bool, ORKAudiometryStimulus?) in
+            return await withCheckedContinuation { continuation in
+                audiometry.nextStatus { continuation.resume(returning: ($0, $1)) }
+            }
+        }
+        
+        // check repetition with false response
+        var newAudiometry = ORKNewAudiometry(channel: .left, initialLevel: initialLevel, minLevel: -10, maxLevel: 75, frequencies: freqs)
+        
+        var status = await getStatus(newAudiometry)
+        var stimulus = try XCTUnwrap(status.1)
+        XCTAssertEqual(stimulus.frequency, newAudiometry.allFrequencies.first)
+        XCTAssertEqual(stimulus.level, initialLevel)
+        
+        newAudiometry.registerStimulusPlayback()
+        newAudiometry.registerResponse(false)
+        
+        status = await getStatus(newAudiometry)
+        stimulus = try XCTUnwrap(status.1)
+        XCTAssertEqual(stimulus.frequency, newAudiometry.allFrequencies.first)
+        XCTAssertEqual(stimulus.level, initialLevel)
+
+        newAudiometry.registerStimulusPlayback()
+        newAudiometry.registerResponse(false)
+        
+        status = await getStatus(newAudiometry)
+        stimulus = try XCTUnwrap(status.1)
+        XCTAssertEqual(stimulus.frequency, newAudiometry.allFrequencies.first)
+        XCTAssertNotEqual(stimulus.level, initialLevel)
+
+        
+        // check no repetition with true response
+        newAudiometry = ORKNewAudiometry(channel: .left, initialLevel: initialLevel, minLevel: -10, maxLevel: 75, frequencies: freqs)
+        
+        status = await getStatus(newAudiometry)
+        stimulus = try XCTUnwrap(status.1)
+        XCTAssertEqual(stimulus.frequency, newAudiometry.allFrequencies.first)
+        XCTAssertEqual(stimulus.level, initialLevel)
+
+        newAudiometry.registerStimulusPlayback()
+        newAudiometry.registerResponse(true)
+        
+        status = await getStatus(newAudiometry)
+        stimulus = try XCTUnwrap(status.1)
+        XCTAssertEqual(stimulus.frequency, newAudiometry.allFrequencies.first)
+        XCTAssertNotEqual(stimulus.level, initialLevel)
+    }
+    
     func testSamplesIteractive() async throws {
         let audiograms = [
             ([16.2, 17.9, 17.3, 11.7, 12.2, 36.2], 0.9159),
@@ -4841,7 +4893,7 @@ extension ORKNewAudiometryTests {
             var trialToTestDrop = nTrialsToDrop * 2
             while newAudiometry.testEnded == false {
                 // Test state restoration by creating a new ORKNewAudiometry object and restoring the state on every iteractions
-                if (testStateRestoration) {
+                if (testStateRestoration && newAudiometry.ySample.shape.count > 0) {
                     let state = newAudiometry.state
                     newAudiometry = ORKNewAudiometry(channel: .left, initialLevel: initialLevel, minLevel: minLevel, maxLevel: maxLevel, frequencies: frequencies)
                     newAudiometry.state = state
