@@ -1510,19 +1510,6 @@ static ORKStepResult *(^getConsentStepResult)(NSString *, NSString *, BOOL) = ^O
     }
     
     {
-        // Test if currentStep is reviewStep but not standalone -> CANNOT discardResults
-        ORKReviewStep *embeddedReviewStep = [ORKReviewStep embeddedReviewStepWithIdentifier: @"embeddedReviewStep"];
-        XCTAssertFalse(embeddedReviewStep.isStandalone);
-  
-        ORKOrderedTask *embeddedReviewMockTask = [[ORKOrderedTask alloc] initWithIdentifier:@"embeddedReviewMockTask" steps:@[embeddedReviewStep]];
-        
-        MockTaskViewController *embeddedReviewTaskViewController = [[MockTaskViewController alloc] initWithTask:embeddedReviewMockTask taskRunUUID:nil];
-        [embeddedReviewTaskViewController viewWillAppear:false];
-        
-        XCTAssertFalse([embeddedReviewTaskViewController canDiscardResults]);
-    }
-    
-    {
         ORKStep *questionStep = [ORKQuestionStep questionStepWithIdentifier:@"Who's there?" title:nil question:nil answer:nil];
         ORKOrderedTask *task = [[ORKOrderedTask alloc] initWithIdentifier:@"basic task" steps:@[
             questionStep
@@ -1537,6 +1524,20 @@ static ORKStepResult *(^getConsentStepResult)(NSString *, NSString *, BOOL) = ^O
         XCTAssertFalse(taskViewController.currentStepViewController.readOnlyMode);
         XCTAssertFalse([taskViewController canDiscardResults]);
     }
+}
+
+- (void)testTaskViewControllerReviewStepDiscardLogic {
+    ORKReviewStep *embeddedReviewStep = [ORKReviewStep embeddedReviewStepWithIdentifier: @"embeddedReviewStep"];
+    ORKOrderedTask *task = [[ORKOrderedTask alloc] initWithIdentifier:@"embeddedReviewMockTask"
+        steps:@[
+        embeddedReviewStep
+    ]];
+    MockTaskViewController *taskViewController = [[MockTaskViewController alloc] initWithTask:task taskRunUUID:nil];
+    [taskViewController viewWillAppear:false];
+    
+    // Test if currentStep is reviewStep but not standalone -> CANNOT discardResults
+    XCTAssertFalse(embeddedReviewStep.isStandalone);
+    XCTAssertFalse([taskViewController canDiscardResults]);
 }
 
 - (void)testIndexOfStep {

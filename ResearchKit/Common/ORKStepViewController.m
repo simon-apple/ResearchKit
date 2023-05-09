@@ -383,7 +383,7 @@ static const CGFloat iPadStepTitleLabelFontSize = 50.0;
     return self.skipButtonItem.title;
 }
 
-- (void)enableBackNavigation {;
+- (void)enableBackNavigation {
     [self setBackButtonItem:[self goToPreviousPageButtonItem]];
 }
 
