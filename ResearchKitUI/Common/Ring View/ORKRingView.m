@@ -32,6 +32,8 @@
 
 #import "ORKRingView.h"
 
+#import <ResearchKit/ORKSkin.h>
+
 const double ORKRingViewMinimumValue = 0.001;
 const double ORKRingViewMaximumValue = 1.0;
 
@@ -209,7 +211,7 @@ static const CGFloat CircleLineWidth = 3.0;
 }
 
 - (void)resetLayerColors {
-    _backgroundLayer.strokeColor = [self fetchSystemGrayColor].CGColor;
+    _backgroundLayer.strokeColor = [UIColor ork_ringViewStrokeColor].CGColor;
     
     if (@available(iOS 13.0, *)) {
         _circleLayer.strokeColor = UIColor.systemGreenColor.CGColor;

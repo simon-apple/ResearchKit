@@ -33,6 +33,8 @@
 #import "AAPLUtils.h"
 #import "UIColor+Custom.h"
 
+#import <ResearchKitInternal/UIColor+Custom.h>
+
 #import <QuartzCore/QuartzCore.h>
 #import <ResearchKit/ORKHelpers_Internal.h>
 #import <ResearchKit/ResearchKit_Private.h>

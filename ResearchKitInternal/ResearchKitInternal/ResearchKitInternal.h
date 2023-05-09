@@ -30,7 +30,6 @@
 
 #import <ResearchKitInternal/ORKContext.h>
 
-#import <ResearchKitInternal/UIColor+Custom.h>
 #import <ResearchKitInternal/AAPLTypes.h>
 
 #import <ResearchKitInternal/AAPLTaskViewController.h>

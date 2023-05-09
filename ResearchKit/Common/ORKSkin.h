@@ -152,6 +152,7 @@ void ORKColorSetColorForKey(NSString *key, UIColor *color);
 + (UIColor *)ork_borderGrayColor;
 
 + (UIColor *)ork_splGrayColor;
++ (UIColor *)ork_ringViewStrokeColor;
 
 @end
 

@@ -31,7 +31,8 @@
 #import "ORKVolumeCalibrationContentView.h"
 
 #import "ORKCelestialSoftLink.h"
-#import "UIColor+Custom.h"
+
+#import <ResearchKitInternal/UIColor+Custom.h>
 
 #import <ResearchKit/ORKHelpers_Internal.h>
 #import <ResearchKitInternal/AAPLHelpers_Internal.h>

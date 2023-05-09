@@ -130,6 +130,16 @@ ORKCachedColorMethod(ork_borderGrayColor, 239.0 / 255.0, 239.0 / 255.0, 244.0 / 
     }
 }
 
++ (UIColor *)ork_ringViewStrokeColor {
+    if (@available(iOS 13.0, *)) {
+        return [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traits) {
+            return traits.userInterfaceStyle == UIUserInterfaceStyleDark ? UIColor.systemGray5Color : UIColor.systemGray6Color;
+        }];
+    } else {
+        return UIColor.grayColor;
+    }
+}
+
 @end
 
 static NSMutableDictionary *colors() {

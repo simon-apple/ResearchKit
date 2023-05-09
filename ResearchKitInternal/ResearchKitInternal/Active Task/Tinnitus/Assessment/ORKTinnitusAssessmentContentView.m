@@ -34,6 +34,8 @@
 #import "AAPLUtils.h"
 #import "UIColor+Custom.h"
 
+#import <ResearchKitInternal/UIColor+Custom.h>
+
 #import <ResearchKit/ORKHelpers_Internal.h>
 #import <ResearchKit/ORKSkin.h>
 #import <ResearchKitUI/ORKCheckmarkView.h>
