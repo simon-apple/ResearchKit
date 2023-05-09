@@ -30,6 +30,8 @@
 
 @import Foundation;
 
+#import <ResearchKitInternal/AAPLTypes.h>
+
 #import <ResearchKitUI/ORKTaskViewController.h>
 
 #if TARGET_OS_IOS

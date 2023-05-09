@@ -34,11 +34,6 @@
 #import <ResearchKitUI/ORKTaskViewController_Private.h>
 @import HealthKit;
 
-#if RK_APPLE_INTERNAL
-#define ORKSensitiveMicrophoneURLString "prefs:root=Privacy&path=MICROPHONE"
-#define ORKSensitiveMicrophoneApplicationString "com.apple.Preferences"
-#endif
-
 NS_ASSUME_NONNULL_BEGIN
 
 @class ORKLearnMoreInstructionStep;

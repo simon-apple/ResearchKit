@@ -6,9 +6,6 @@
 	Copyright 2015-2019 Apple Inc. All rights reserved.
  
  */
-// apple-internal
-
-#if RK_APPLE_INTERNAL
 
 #import <AVFoundation/AVMediaFormat.h>
 
@@ -76,5 +73,3 @@ SPI_AVAILABLE(macos(10.11), ios(9.0), tvos(9.0), watchos(2.0))
 @end
 
 NS_ASSUME_NONNULL_END
-
-#endif

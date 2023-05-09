@@ -28,9 +28,6 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-// apple-internal
-#if RK_APPLE_INTERNAL
-
 #import "ORKSoftLinking.h"
 
 #import "Celestial_Private.h"
@@ -53,5 +50,3 @@ ORK_SOFT_LINK_CONSTANT(Celestial, AVSystemController_AudioVolumeNotificationPara
 ORK_SOFT_LINK_CONSTANT(Celestial, AVSystemController_HeadphoneJackIsConnectedDidChangeNotification, NSString *)
 ORK_SOFT_LINK_CONSTANT(Celestial, AVSystemController_ActiveAudioRouteDidChangeNotification, NSString *)
 ORK_SOFT_LINK_CONSTANT(Celestial, AVSystemController_ServerConnectionDiedNotification, NSString *)
-
-#endif

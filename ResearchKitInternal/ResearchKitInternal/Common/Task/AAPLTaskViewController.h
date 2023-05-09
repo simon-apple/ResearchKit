@@ -33,6 +33,9 @@
 
 @class ORKSensitiveURLLearnMoreInstructionStep;
 
+#define ORKSensitiveMicrophoneURLString "prefs:root=Privacy&path=MICROPHONE"
+#define ORKSensitiveMicrophoneApplicationString "com.apple.Preferences"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol AAPLTaskViewControllerDelegate <NSObject>

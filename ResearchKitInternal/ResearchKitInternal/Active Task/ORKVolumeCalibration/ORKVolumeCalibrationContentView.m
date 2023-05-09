@@ -27,15 +27,15 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-// apple-internal
 
 #import "ORKVolumeCalibrationContentView.h"
 
 #import "ORKCelestialSoftLink.h"
+#import "UIColor+Custom.h"
+
 #import <ResearchKit/ORKHelpers_Internal.h>
 #import <ResearchKitInternal/AAPLHelpers_Internal.h>
 #import <ResearchKit/ORKSkin.h>
-#import <ResearchKitActiveTask/UIColor+Custom.h>
 
 static int const ORKVolumeCalibrationStepPadding = 8;
 static int const ORKVolumeCalibrationStepInsetAdjustment = 4;

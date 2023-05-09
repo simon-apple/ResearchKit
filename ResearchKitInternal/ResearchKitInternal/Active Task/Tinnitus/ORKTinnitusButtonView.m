@@ -27,16 +27,15 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-// apple-internal
 
 #import "ORKTinnitusButtonView.h"
 
 #import "AAPLUtils.h"
+#import "UIColor+Custom.h"
 
 #import <QuartzCore/QuartzCore.h>
 #import <ResearchKit/ORKHelpers_Internal.h>
 #import <ResearchKit/ResearchKit_Private.h>
-#import <ResearchKitActiveTask/UIColor+Custom.h>
 
 static const CGFloat ORKTinnitusButtonViewHeight = 82.0;
 static const CGFloat ORKTinnitusButtonViewImageSize = 36.0;

@@ -27,11 +27,12 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-// apple-internal
 
 #import "ORKAVFoundationSoftLink.h"
 #import "ORKCelestialSoftLink.h"
 #import "ORKHeadphoneDetector.h"
+
+#import <ResearchKitInternal/AAPLTypes.h>
 
 #import <MediaPlayer/MediaPlayer.h>
 #import <ResearchKit/ORKHelpers_Internal.h>

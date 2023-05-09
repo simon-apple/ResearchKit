@@ -33,8 +33,12 @@
 import XCTest
 import Accelerate
 @testable import ResearchKit
+@testable import ResearchKit_Private
 @testable import ResearchKitActiveTask
+@testable import ResearchKitActiveTask_Private
 @testable import ResearchKitInternal
+@testable import ResearchKitInternal_Private
+@testable import ResearchKitUI
 
 @available(iOS 14, *)
 class ORKNewAudiometryTests: XCTestCase {

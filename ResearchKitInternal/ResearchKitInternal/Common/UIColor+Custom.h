@@ -27,54 +27,18 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-// apple-internal
 
-#if RK_APPLE_INTERNAL
+#import <UIKit/UIKit.h>
 
-#import "UIColor+Custom.h"
+NS_ASSUME_NONNULL_BEGIN
 
-@implementation UIColor (Custom)
+@interface UIColor (Custom)
 
-+ (UIColor *)splGrayColor {
-    if (@available(iOS 13.0, *)) {
-        return [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traits) {
-            return traits.userInterfaceStyle == UIUserInterfaceStyleDark ? UIColor.systemGray5Color : UIColor.systemGray6Color;
-        }];
-    } else {
-        return UIColor.grayColor;
-    }
-}
-
-+ (UIColor *)tinnitusButtonBackgroundColor {
-    if (@available(iOS 13.0, *)) {
-        return [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traits) {
-            return traits.userInterfaceStyle == UIUserInterfaceStyleDark ? UIColor.systemGray5Color : UIColor.systemBackgroundColor;
-        }];
-    } else {
-        return UIColor.grayColor;
-    }
-}
-
-+ (UIColor *)tinnitusPlayBackgroundColor {
-    if (@available(iOS 13.0, *)) {
-        return [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traits) {
-            return traits.userInterfaceStyle == UIUserInterfaceStyleDark ? UIColor.systemGray3Color : UIColor.systemGray6Color;
-        }];
-    } else {
-        return UIColor.grayColor;
-    }
-}
-
-+ (UIColor *)tinnitusBackgroundColor {
-    if (@available(iOS 13.0, *)) {
-        return [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traits) {
-            return traits.userInterfaceStyle == UIUserInterfaceStyleDark ? UIColor.systemBackgroundColor : UIColor.systemGroupedBackgroundColor;
-        }];
-    } else {
-        return UIColor.whiteColor;
-    }
-}
++ (UIColor *)splGrayColor;
++ (UIColor *)tinnitusButtonBackgroundColor;
++ (UIColor *)tinnitusPlayBackgroundColor;
++ (UIColor *)tinnitusBackgroundColor;
 
 @end
 
-#endif
+NS_ASSUME_NONNULL_END

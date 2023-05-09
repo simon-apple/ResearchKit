@@ -156,9 +156,7 @@ ORK_CLASS_AVAILABLE
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder NS_DESIGNATED_INITIALIZER;
 
-#if RK_APPLE_INTERNAL
 @property (nonatomic, assign) BOOL bypassAudioEngineStart;
-#endif
 
 @end
 

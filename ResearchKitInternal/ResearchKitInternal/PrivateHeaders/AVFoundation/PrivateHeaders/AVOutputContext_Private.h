@@ -6,9 +6,6 @@
 	Copyright 2015-2019 Apple Inc. All rights reserved.
  
  */
-// apple-internal
-
-#if RK_APPLE_INTERNAL
 
 #import "AVOutputContext.h"
 #import "AVOutputDeviceDiscoverySession.h"
@@ -710,5 +707,3 @@ typedef NSString *AVOutputContextDeviceConnectionFailureReason NS_STRING_ENUM SP
 @end
 
 NS_ASSUME_NONNULL_END
-
-#endif

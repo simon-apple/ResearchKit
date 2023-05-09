@@ -451,8 +451,6 @@
 		CA2B902F28A18F860025B773 /* ORKActiveStepTimerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40B361A8D7C5B00081FAC /* ORKActiveStepTimerView.m */; };
 		CA2BBB2128AB06D300DD6C64 /* ORKLearnMoreItem.m in Sources */ = {isa = PBXBuildFile; fileRef = BA8C5020226FFB04001896D0 /* ORKLearnMoreItem.m */; };
 		CA4B673328A1CCBA00FAE01F /* ResearchKitActiveTask.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAD08967289DD747007B2A98 /* ResearchKitActiveTask.framework */; };
-		CA5B6D9128BD20F7002C3BA4 /* UIColor+Custom.h in Headers */ = {isa = PBXBuildFile; fileRef = CA5B6D8F28BD20F7002C3BA4 /* UIColor+Custom.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		CA5B6D9228BD20F7002C3BA4 /* UIColor+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = CA5B6D9028BD20F7002C3BA4 /* UIColor+Custom.m */; };
 		CA6A0D7E288B51D30048C1EF /* ORKSkin.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40BB71A8D7C5C00081FAC /* ORKSkin.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		CA6A0D7F288B51D30048C1EF /* ORKSkin.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40BB81A8D7C5C00081FAC /* ORKSkin.m */; };
 		CA6A0D81288B54650048C1EF /* ORKConsentReviewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40BEC1A8D7C5C00081FAC /* ORKConsentReviewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1905,8 +1903,6 @@
 		CA481E9028CBD9F1001C4D49 /* ResearchKitActiveTask-Skywagon-Public-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "ResearchKitActiveTask-Skywagon-Public-Release.xcconfig"; sourceTree = "<group>"; };
 		CA481E9128CBD9F1001C4D49 /* ResearchKitActiveTask-Skywagon-Stable.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "ResearchKitActiveTask-Skywagon-Stable.xcconfig"; sourceTree = "<group>"; };
 		CA58F8B728B5549F00761769 /* ResearchKitInternal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitInternal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		CA5B6D8F28BD20F7002C3BA4 /* UIColor+Custom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Custom.h"; sourceTree = "<group>"; };
-		CA5B6D9028BD20F7002C3BA4 /* UIColor+Custom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Custom.m"; sourceTree = "<group>"; };
 		CA6A0D9D288F1BDC0048C1EF /* ResearchKitUI_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResearchKitUI_Private.h; sourceTree = "<group>"; };
 		CA6A0D9F288F1F3C0048C1EF /* ResearchKitUI.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = ResearchKitUI.modulemap; sourceTree = "<group>"; };
 		CA8D8CF228B01E2E000CF52F /* ResearchKitInternal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitInternal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -3821,8 +3817,6 @@
 		CAD08968289DD747007B2A98 /* ResearchKitActiveTask */ = {
 			isa = PBXGroup;
 			children = (
-				CA5B6D8F28BD20F7002C3BA4 /* UIColor+Custom.h */,
-				CA5B6D9028BD20F7002C3BA4 /* UIColor+Custom.m */,
 				CAD08969289DD747007B2A98 /* ResearchKitActiveTask.h */,
 				CAFAA6C128A198BD0010BBDE /* ResearchKitActiveTask_Private.h */,
 				CAFAA6C328A199950010BBDE /* ResearchKitActiveTask.modulemap */,
@@ -4954,7 +4948,6 @@
 				CAD08A60289DE69A007B2A98 /* ORKHolePegTestPlaceStep.h in Headers */,
 				CAD08A5E289DE690007B2A98 /* ORKAudioFitnessStep.h in Headers */,
 				CAD08A6E289DE6D4007B2A98 /* ORKRangeOfMotionStep.h in Headers */,
-				CA5B6D9128BD20F7002C3BA4 /* UIColor+Custom.h in Headers */,
 				CA2B902C28A18EF40025B773 /* ORKFrontFacingCameraStepContentView.h in Headers */,
 				CAD089F2289DE48A007B2A98 /* ORKEnvironmentSPLMeterStep.h in Headers */,
 				CA2B8FFF28A177F60025B773 /* ORKTimedWalkStepViewController.h in Headers */,
@@ -5729,7 +5722,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				CAD08A7F289DE714007B2A98 /* ORKStroopStep.m in Sources */,
-				CA5B6D9228BD20F7002C3BA4 /* UIColor+Custom.m in Sources */,
 				CAD08A34289DE5DB007B2A98 /* ORKStreamingAudioRecorder.m in Sources */,
 				CAD08A1A289DE51D007B2A98 /* ORKAmslerGridResult.m in Sources */,
 				CA2B8FAA28A175360025B773 /* ORKAudioStepViewController.m in Sources */,

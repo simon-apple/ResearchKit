@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019, Apple Inc. All rights reserved.
+ Copyright (c) 2023, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -29,38 +29,44 @@
  */
 
 @import Foundation;
+@import UIKit;
 
-#import <ResearchKitInternal/AAPLTypes.h>
-
-#import <ResearchKit/ORKInstructionStep.h>
+#if TARGET_OS_WATCH
+#import <ResearchKitCore/ORKDefines.h>
+#elif TARGET_OS_IOS
 #import <ResearchKit/ORKDefines.h>
+#endif
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSUInteger, ORKHeadphoneTypes) {
-    /**
-     Supported
-     */
-    ORKHeadphoneTypesSupported=0,
-    
-    /**
-     Any
-     */
-    ORKHeadphoneTypesAny
-    
+/**
+ Route Identifiers for supported headphones chipset types.
+ */
+typedef NSString * ORKHeadphoneChipsetIdentifier NS_STRING_ENUM;
+
+ORK_EXTERN ORKHeadphoneChipsetIdentifier const ORKHeadphoneChipsetIdentifierAirPods;
+ORK_EXTERN ORKHeadphoneChipsetIdentifier const ORKHeadphoneChipsetIdentifierLightningEarPods;
+ORK_EXTERN ORKHeadphoneChipsetIdentifier const ORKHeadphoneChipsetIdentifierAudioJackEarPods;
+
+/**
+ Type Identifiers for supported headphones vendor and product id types.
+ */
+typedef NSString * ORKHeadphoneVendorAndProductIdIdentifier NS_STRING_ENUM;
+ORK_EXTERN ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsGen1;
+ORK_EXTERN ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsGen2;
+ORK_EXTERN ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsGen3;
+ORK_EXTERN ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsPro;
+ORK_EXTERN ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsProGen2;
+ORK_EXTERN ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsMax;
+
+/**
+ An enumeration of the types of available blutooth modes
+ */
+typedef NS_ENUM(NSInteger, ORKBluetoothMode) {
+    ORKBluetoothModeNone,
+    ORKBluetoothModeNormal,
+    ORKBluetoothModeTransparency,
+    ORKBluetoothModeNoiseCancellation
 } ORK_ENUM_AVAILABLE;
-
-ORK_CLASS_AVAILABLE
-@interface ORKHeadphoneDetectStep : ORKInstructionStep
-
-@property (nonatomic, assign) ORKHeadphoneTypes headphoneTypes;
-
-- (instancetype)initWithIdentifier:(NSString *)identifier headphoneTypes:(ORKHeadphoneTypes)headphoneTypes;
-
-+ (NSSet<ORKHeadphoneChipsetIdentifier> *)dBHLTypes;
-
-- (nullable NSSet<ORKHeadphoneChipsetIdentifier> *)supportedHeadphoneChipsetTypes;
-
-@end
 
 NS_ASSUME_NONNULL_END

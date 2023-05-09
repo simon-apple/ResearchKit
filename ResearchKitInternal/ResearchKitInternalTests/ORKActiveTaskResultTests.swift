@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2021, Apple Inc. All rights reserved.
+ Copyright (c) 2015, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -27,23 +27,50 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-// apple-internal
 
-#if RK_APPLE_INTERNAL
+import XCTest
+@testable import ResearchKit
+@testable import ResearchKitActiveTask
+@testable import ResearchKitInternal
+@testable import ResearchKitInternal_Private
+@testable import ResearchKitUI
+@testable import ResearchKitActiveTask
+@testable import ResearchKitActiveTask_Private
 
-#import <UIKit/UIKit.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
-@interface UIColor (Custom)
-
-+ (UIColor *)splGrayColor;
-+ (UIColor *)tinnitusButtonBackgroundColor;
-+ (UIColor *)tinnitusPlayBackgroundColor;
-+ (UIColor *)tinnitusBackgroundColor;
-
-@end
-
-NS_ASSUME_NONNULL_END
-
-#endif
+class ORKHeadphoneDetectResultTests: XCTestCase {
+    var result: ORKHeadphoneDetectResult!
+    var identifier: String!
+    let date = Date()
+    
+    override func setUp() {
+        super.setUp()
+        identifier = "RESULT"
+        result = ORKHeadphoneDetectResult(identifier: identifier)
+        
+        result.headphoneType = ORKHeadphoneTypeIdentifier.airPodsGen2
+        result.vendorID = "0x004C"
+        result.productID = "0x200f"
+        result.deviceSubType = 1
+    }
+ 
+    func testProperties() {
+        XCTAssertEqual(result.identifier, identifier)
+        XCTAssertEqual(result.headphoneType, ORKHeadphoneTypeIdentifier.airPodsGen2)
+    }
+    
+    func testIsEqual() {
+        result.startDate = date
+        result.endDate = date
+        
+        let newResult = ORKHeadphoneDetectResult(identifier: identifier)
+        newResult.headphoneType = ORKHeadphoneTypeIdentifier.airPodsGen2
+        newResult.vendorID = "0x004C"
+        newResult.productID = "0x200f"
+        newResult.deviceSubType = 1
+        newResult.startDate = date
+        newResult.endDate = date
+        
+        XCTAssert(result.isEqual(newResult))
+    }
+}

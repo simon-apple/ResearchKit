@@ -48,12 +48,3 @@
 #import <ResearchKitActiveTask/ORKTowerOfHanoiResult.h>
 #import <ResearchKitActiveTask/ORKTrailmakingResult.h>
 #import <ResearchKitActiveTask/ORKSpeechInNoiseResult.h>
-
-//#if RK_APPLE_INTERNAL
-//#import <ResearchKit/ORKTypingResult.h>
-//#import <ResearchKit/ORKTinnitusPureToneResult.h>
-//#import <ResearchKit/ORKTinnitusMaskingSoundResult.h>
-//#import <ResearchKit/ORKTinnitusVolumeResult.h>
-//#import <ResearchKit/ORKTinnitusTypeResult.h>
-//#import <ResearchKit/ORKTinnitusOverallAssessmentResult.h>
-//#endif

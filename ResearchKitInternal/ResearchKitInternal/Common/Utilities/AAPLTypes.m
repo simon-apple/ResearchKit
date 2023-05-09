@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2019, Apple Inc. All rights reserved.
+ Copyright (c) 2023, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,15 +28,22 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "ORKSoftLinking.h"
+#import "AAPLTypes.h"
 
-#import "AVFoundation_Private.h"
+ORKHeadphoneChipsetIdentifier const ORKHeadphoneChipsetIdentifierAirPods = @"aa2d";
 
-ORK_SOFT_LINK_FRAMEWORK(PrivateFrameworks, AVFoundation)
-ORK_SOFT_LINK_CLASS(AVFoundation, AVOutputDevice)
-ORK_SOFT_LINK_CLASS(AVFoundation, AVOutputContext)
-ORK_SOFT_LINK_CONSTANT(AVFoundation, AVOutputDeviceBluetoothListeningModeActiveNoiseCancellation, NSString *)
-ORK_SOFT_LINK_CONSTANT(AVFoundation, AVOutputDeviceBluetoothListeningModeAudioTransparency, NSString *)
-ORK_SOFT_LINK_CONSTANT(AVFoundation, AVOutputDeviceBluetoothListeningModeNormal, NSString *)
-ORK_SOFT_LINK_CONSTANT(AVFoundation, AVOutputDeviceBatteryLevelLeftKey, NSString *)
-ORK_SOFT_LINK_CONSTANT(AVFoundation, AVOutputDeviceBatteryLevelRightKey, NSString *)
+ORKHeadphoneChipsetIdentifier const ORKHeadphoneChipsetIdentifierLightningEarPods = @"b225";
+
+ORKHeadphoneChipsetIdentifier const ORKHeadphoneChipsetIdentifierAudioJackEarPods = @"b60";
+
+ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsGen1 = @"76,8194";
+
+ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsGen2 = @"76,8207";
+
+ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsGen3 = @"76,8211";
+
+ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsPro = @"76,8206";
+
+ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsProGen2 = @"76,8212";
+
+ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsMax = @"76,8202";

@@ -6,9 +6,6 @@
 //  Copyright © 2019 Apple, Inc. All rights reserved.
 //
 
-// apple-internal
-#if RK_APPLE_INTERNAL
-
 #include <dlfcn.h>
 
 #if defined(__OBJC__)
@@ -155,5 +152,3 @@ ORK_SOFT_LINK_CONVERT_NONOBJECT(name, type) \
 get##name = name##Function; \
 return constant##name; \
 }
-
-#endif

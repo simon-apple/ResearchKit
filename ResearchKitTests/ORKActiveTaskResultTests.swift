@@ -553,45 +553,6 @@ class ORKToneAudiometryResultTests: XCTestCase {
     }
 }
 
-#if RK_APPLE_INTERNAL
-class ORKHeadphoneDetectResultTests: XCTestCase {
-    var result: ORKHeadphoneDetectResult!
-    var identifier: String!
-    let date = Date()
-    
-    override func setUp() {
-        super.setUp()
-        identifier = "RESULT"
-        result = ORKHeadphoneDetectResult(identifier: identifier)
-        
-        result.headphoneType = ORKHeadphoneTypeIdentifier.airPodsGen2
-        result.vendorID = "0x004C"
-        result.productID = "0x200f"
-        result.deviceSubType = 1
-    }
- 
-    func testProperties() {
-        XCTAssertEqual(result.identifier, identifier)
-        XCTAssertEqual(result.headphoneType, ORKHeadphoneTypeIdentifier.airPodsGen2)
-    }
-    
-    func testIsEqual() {
-        result.startDate = date
-        result.endDate = date
-        
-        let newResult = ORKHeadphoneDetectResult(identifier: identifier)
-        newResult.headphoneType = ORKHeadphoneTypeIdentifier.airPodsGen2
-        newResult.vendorID = "0x004C"
-        newResult.productID = "0x200f"
-        newResult.deviceSubType = 1
-        newResult.startDate = date
-        newResult.endDate = date
-        
-        XCTAssert(result.isEqual(newResult))
-    }
-}
-#endif
-
 class ORKdBHLToneAudiometryResultTests: XCTestCase {
     var result: ORKdBHLToneAudiometryResult!
     var identifier: String!

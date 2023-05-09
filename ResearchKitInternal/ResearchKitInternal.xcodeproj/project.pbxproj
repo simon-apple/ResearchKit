@@ -33,15 +33,14 @@
 		51BD900629D88FD30001D54E /* AVFoundation_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 51BD8FFC29D88FD30001D54E /* AVFoundation_Private.h */; };
 		51BD900729D88FD30001D54E /* AVSystemController.h in Headers */ = {isa = PBXBuildFile; fileRef = 51BD8FFF29D88FD30001D54E /* AVSystemController.h */; };
 		51BD900829D88FD30001D54E /* Celestial_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 51BD900029D88FD30001D54E /* Celestial_Private.h */; };
-		51CB6DA429C0F12800A85D79 /* AAPLInstructionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 51CB6DA229C0F12800A85D79 /* AAPLInstructionStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		51CB6DA529C0F12800A85D79 /* AAPLInstructionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 51CB6DA329C0F12800A85D79 /* AAPLInstructionStep.m */; };
-		51CB6DA829C0F36E00A85D79 /* AAPLInstructionStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 51CB6DA629C0F36E00A85D79 /* AAPLInstructionStepViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		51CB6DA929C0F36E00A85D79 /* AAPLInstructionStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51CB6DA729C0F36E00A85D79 /* AAPLInstructionStepViewController.m */; };
-		51CB6DB529C1133400A85D79 /* ORKSensitiveURLLearnMoreInstructionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 51CB6DB329C1133400A85D79 /* ORKSensitiveURLLearnMoreInstructionStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		51CB6DB629C1133400A85D79 /* ORKSensitiveURLLearnMoreInstructionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 51CB6DB429C1133400A85D79 /* ORKSensitiveURLLearnMoreInstructionStep.m */; };
 		51BD901329DB92280001D54E /* AAPLdBHLToneAudiometryResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 51BD901129DB92280001D54E /* AAPLdBHLToneAudiometryResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		51BD901429DB92280001D54E /* AAPLdBHLToneAudiometryResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 51BD901229DB92280001D54E /* AAPLdBHLToneAudiometryResult.m */; };
 		51BD903329E8BE820001D54E /* ORKContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 51BD903229E8BE820001D54E /* ORKContext.m */; };
+		51BD906429F738780001D54E /* UIColor+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 51BD906229F738780001D54E /* UIColor+Custom.m */; };
+		51BD906529F738780001D54E /* UIColor+Custom.h in Headers */ = {isa = PBXBuildFile; fileRef = 51BD906329F738780001D54E /* UIColor+Custom.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		51BD906829F73BE80001D54E /* AAPLTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 51BD906629F73BE80001D54E /* AAPLTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		51BD906929F73BE80001D54E /* AAPLTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 51BD906729F73BE80001D54E /* AAPLTypes.m */; };
+		51BD907329FB35DD0001D54E /* ORKActiveTaskResultTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51BD907229FB35DD0001D54E /* ORKActiveTaskResultTests.swift */; };
 		51CB6DA429C0F12800A85D79 /* AAPLInstructionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 51CB6DA229C0F12800A85D79 /* AAPLInstructionStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		51CB6DA529C0F12800A85D79 /* AAPLInstructionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 51CB6DA329C0F12800A85D79 /* AAPLInstructionStep.m */; };
 		51CB6DA829C0F36E00A85D79 /* AAPLInstructionStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 51CB6DA629C0F36E00A85D79 /* AAPLInstructionStepViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -265,15 +264,17 @@
 		51BD8FFC29D88FD30001D54E /* AVFoundation_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVFoundation_Private.h; sourceTree = "<group>"; };
 		51BD8FFF29D88FD30001D54E /* AVSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVSystemController.h; sourceTree = "<group>"; };
 		51BD900029D88FD30001D54E /* Celestial_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Celestial_Private.h; sourceTree = "<group>"; };
-		51CB6DA229C0F12800A85D79 /* AAPLInstructionStep.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAPLInstructionStep.h; sourceTree = "<group>"; };
-		51CB6DA329C0F12800A85D79 /* AAPLInstructionStep.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AAPLInstructionStep.m; sourceTree = "<group>"; };
-		51CB6DA629C0F36E00A85D79 /* AAPLInstructionStepViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAPLInstructionStepViewController.h; sourceTree = "<group>"; };
-		51CB6DA729C0F36E00A85D79 /* AAPLInstructionStepViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AAPLInstructionStepViewController.m; sourceTree = "<group>"; };
-		51CB6DB329C1133400A85D79 /* ORKSensitiveURLLearnMoreInstructionStep.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKSensitiveURLLearnMoreInstructionStep.h; sourceTree = "<group>"; };
-		51CB6DB429C1133400A85D79 /* ORKSensitiveURLLearnMoreInstructionStep.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKSensitiveURLLearnMoreInstructionStep.m; sourceTree = "<group>"; };
 		51BD901129DB92280001D54E /* AAPLdBHLToneAudiometryResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAPLdBHLToneAudiometryResult.h; sourceTree = "<group>"; };
 		51BD901229DB92280001D54E /* AAPLdBHLToneAudiometryResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AAPLdBHLToneAudiometryResult.m; sourceTree = "<group>"; };
 		51BD903229E8BE820001D54E /* ORKContext.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKContext.m; sourceTree = "<group>"; };
+		51BD906229F738780001D54E /* UIColor+Custom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Custom.m"; sourceTree = "<group>"; };
+		51BD906329F738780001D54E /* UIColor+Custom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Custom.h"; sourceTree = "<group>"; };
+		51BD906629F73BE80001D54E /* AAPLTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAPLTypes.h; sourceTree = "<group>"; };
+		51BD906729F73BE80001D54E /* AAPLTypes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AAPLTypes.m; sourceTree = "<group>"; };
+		51BD907229FB35DD0001D54E /* ORKActiveTaskResultTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ORKActiveTaskResultTests.swift; sourceTree = "<group>"; };
+		51BD907829FC4A470001D54E /* ResearchKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		51BD907A29FC4A470001D54E /* ResearchKitActiveTask.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitActiveTask.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		51BD907C29FC4A470001D54E /* ResearchKitUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		51CB6DA229C0F12800A85D79 /* AAPLInstructionStep.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAPLInstructionStep.h; sourceTree = "<group>"; };
 		51CB6DA329C0F12800A85D79 /* AAPLInstructionStep.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AAPLInstructionStep.m; sourceTree = "<group>"; };
 		51CB6DA629C0F36E00A85D79 /* AAPLInstructionStepViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAPLInstructionStepViewController.h; sourceTree = "<group>"; };
@@ -610,6 +611,8 @@
 		CA0AC54828BD382600E80040 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				51BD906329F738780001D54E /* UIColor+Custom.h */,
+				51BD906229F738780001D54E /* UIColor+Custom.m */,
 				51BD8FA329CD128D0001D54E /* Misc */,
 				511E8D652996FE7000A384A5 /* Task */,
 				51F716D529808B0000D8ACF7 /* Step */,
@@ -628,6 +631,8 @@
 				51BD8FF129D88DDA0001D54E /* ORKSoftLinking.h */,
 				511BB00E298B162400936EC0 /* AAPLHelpers_Internal.h */,
 				511BB00F298B162400936EC0 /* AAPLHelpers.m */,
+				51BD906629F73BE80001D54E /* AAPLTypes.h */,
+				51BD906729F73BE80001D54E /* AAPLTypes.m */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -981,6 +986,7 @@
 				CA58F8B928B5557C00761769 /* ORKNewAudiometryTests.swift */,
 				CA0AC56428BD4DA600E80040 /* ORKTinnitusPuretoneViewControllerTests.swift */,
 				CA0AC56628BD4F9200E80040 /* ORKStepViewControllerHelpers.swift */,
+				51BD907229FB35DD0001D54E /* ORKActiveTaskResultTests.swift */,
 			);
 			path = ResearchKitInternalTests;
 			sourceTree = "<group>";
@@ -1021,6 +1027,9 @@
 		CA77D2AD28B0027300400292 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				51BD907829FC4A470001D54E /* ResearchKit.framework */,
+				51BD907A29FC4A470001D54E /* ResearchKitActiveTask.framework */,
+				51BD907C29FC4A470001D54E /* ResearchKitUI.framework */,
 				CA0AC56C28BFE47E00E80040 /* ResearchKit.framework */,
 				CA0AC56E28BFE47E00E80040 /* ResearchKitActiveTask.framework */,
 				CA0AC57028BFE47E00E80040 /* ResearchKitUI.framework */,
@@ -1101,9 +1110,6 @@
 				CA0AC56128BD432300E80040 /* ORKSpeechInNoisePredefinedTask.h in Headers */,
 				CA5B6D5E28BD1F38002C3BA4 /* ORKTinnitusMaskingSoundStep.h in Headers */,
 				CA5B6D7D28BD1F38002C3BA4 /* ORKTinnitusTypes.h in Headers */,
-				CA5B6DB128BD29B3002C3BA4 /* ORKContext+ResearchKitInternal.h in Headers */,
-				CA47EB2628BD369000D91C0E /* Celestial_Private.h in Headers */,
-				CA47EB1228BD369000D91C0E /* AVOutputContext.h in Headers */,
 				CA47EAF028BD334B00D91C0E /* ORKVolumeCalibrationStep.h in Headers */,
 				CA58F8AB28B5330E00761769 /* lbfgsb.h in Headers */,
 				CA5B6D7728BD1F38002C3BA4 /* ORKTinnitusTypeContentView.h in Headers */,
@@ -1120,6 +1126,8 @@
 				511BB020298DC94400936EC0 /* AAPLSpeechRecognitionStepViewController.h in Headers */,
 				CA3FF9D228B56A8300A33B6B /* ORKAVJournalingResult.h in Headers */,
 				CA0748C028B80935001D8599 /* ORKOrderedTask+ResearchKitInternal.h in Headers */,
+				51BD906529F738780001D54E /* UIColor+Custom.h in Headers */,
+				51BD906829F73BE80001D54E /* AAPLTypes.h in Headers */,
 				CA5B6D6328BD1F38002C3BA4 /* ORKTinnitusHeadphoneTable.h in Headers */,
 				51BD900229D88FD30001D54E /* AVOutputDeviceDiscoverySession.h in Headers */,
 				CA3FF9D028B56A8300A33B6B /* ORKAVJournalingPredefinedTask.h in Headers */,
@@ -1220,6 +1228,7 @@
 					};
 					CA77D23528AFF89300400292 = {
 						CreatedOnToolsVersion = 13.4.1;
+						LastSwiftMigration = 1410;
 					};
 				};
 			};
@@ -1295,6 +1304,7 @@
 				CA77D2A228AFFB4700400292 /* ORKFlamesView.m in Sources */,
 				CA58F8A928B5330E00761769 /* print.c in Sources */,
 				511E8D692996FEC200A384A5 /* AAPLTaskViewController.m in Sources */,
+				51BD906929F73BE80001D54E /* AAPLTypes.m in Sources */,
 				CA0748C128B80935001D8599 /* ORKOrderedTask+ResearchKitInternal.m in Sources */,
 				CA5B6D6F28BD1F38002C3BA4 /* ORKTinnitusTypes.m in Sources */,
 				51BD903329E8BE820001D54E /* ORKContext.m in Sources */,
@@ -1325,6 +1335,7 @@
 				CA5B6D6E28BD1F38002C3BA4 /* ORKTinnitusPureToneStep.m in Sources */,
 				CA5B6D6128BD1F38002C3BA4 /* ORKTinnitusMaskingSoundStep.m in Sources */,
 				511BB01C298DC91000936EC0 /* AAPLSpeechRecognitionStep.m in Sources */,
+				51BD906429F738780001D54E /* UIColor+Custom.m in Sources */,
 				CA5B6D0C28BD1C5C002C3BA4 /* ORKTypingResult.m in Sources */,
 				CA58F8A328B5330D00761769 /* Vector.swift in Sources */,
 				CA3FF9D828B56A8300A33B6B /* ORKAVJournalingStepViewController.m in Sources */,
@@ -1381,9 +1392,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CA58F8BA28B5557C00761769 /* ORKNewAudiometryTests.swift in Sources */,
+				51BD907329FB35DD0001D54E /* ORKActiveTaskResultTests.swift in Sources */,
 				CA0AC56728BD4F9200E80040 /* ORKStepViewControllerHelpers.swift in Sources */,
 				CA0AC56528BD4DA600E80040 /* ORKTinnitusPuretoneViewControllerTests.swift in Sources */,
+				CA58F8BA28B5557C00761769 /* ORKNewAudiometryTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1422,6 +1434,7 @@
 			buildSettings = {
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
+				ONLY_ACTIVE_ARCH = YES;
 				SUPPORTS_MACCATALYST = NO;
 				SYSTEM_FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)/ResearchKitInternal/PrivateHeaders",
@@ -1439,6 +1452,16 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CA0AC57B28C002A700E80040 /* ResearchKitInternal-Skywagon-Stable.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "$(inherited)";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_VERSION = 5.0;
 			};
 			name = "Skywagon Stable";
 		};
@@ -1483,6 +1506,15 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CA0AC58628C003A300E80040 /* ResearchKitInternal-Skywagon-Public-Release.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				OTHER_LDFLAGS = "$(inherited)";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_VERSION = 5.0;
 			};
 			name = "Skywagon Public Release";
 		};
@@ -1527,6 +1559,15 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CA0AC58728C003BB00E80040 /* ResearchKitInternal-Skywagon-Internal-Release.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				OTHER_LDFLAGS = "$(inherited)";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_VERSION = 5.0;
 			};
 			name = "Skywagon Internal Release";
 		};
@@ -1669,6 +1710,7 @@
 				);
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
+				ONLY_ACTIVE_ARCH = NO;
 				SUPPORTS_MACCATALYST = NO;
 				SYSTEM_FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)/ResearchKitInternal/PrivateHeaders",
@@ -1709,6 +1751,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CA0AC57A28C0020300E80040 /* ResearchKitInternal-Debug.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1717,12 +1760,21 @@
 					"$(ORK_GCC_PREPROCESSOR_DEFINITIONS)",
 				);
 				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
 				MODULEMAP_FILE = "";
+				ONLY_ACTIVE_ARCH = NO;
 				ORK_GCC_PREPROCESSOR_DEFINITIONS = "RK_APPLE_INTERNAL=1 ORK_FEATURE_AV_JOURNALING=1 ORK_FEATURE_AV_JOURNALING_DEPTH_DATA_COLLECTION=1 ORK_FEATURE_BLE_SCAN_PERIPHERALS=1";
+				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = org.researchkit.ResearchKitInternalTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1732,16 +1784,24 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CA0AC58528C0036F00E80040 /* ResearchKitInternal-Release.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(ORK_GCC_PREPROCESSOR_DEFINITIONS)";
 				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
 				MODULEMAP_FILE = "";
 				ORK_GCC_PREPROCESSOR_DEFINITIONS = "RK_APPLE_INTERNAL=1 ORK_FEATURE_AV_JOURNALING=1 ORK_FEATURE_AV_JOURNALING_DEPTH_DATA_COLLECTION=1 ORK_FEATURE_BLE_SCAN_PERIPHERALS=1";
+				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = org.researchkit.ResearchKitInternalTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

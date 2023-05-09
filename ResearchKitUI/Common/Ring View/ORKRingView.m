@@ -30,10 +30,6 @@
 
 @import UIKit;
 
-#if RK_APPLE_INTERNAL
-#import "UIColor+Custom.h"
-#endif
-
 #import "ORKRingView.h"
 
 const double ORKRingViewMinimumValue = 0.001;
@@ -202,10 +198,18 @@ static const CGFloat CircleLineWidth = 3.0;
     [self resetLayerColors];
 }
 
+- (UIColor *)fetchSystemGrayColor {
+    if (@available(iOS 13.0, *)) {
+        return [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traits) {
+            return traits.userInterfaceStyle == UIUserInterfaceStyleDark ? UIColor.systemGray5Color : UIColor.systemGray6Color;
+        }];
+    } else {
+        return UIColor.grayColor;
+    }
+}
+
 - (void)resetLayerColors {
-#if RK_APPLE_INTERNAL
-    _backgroundLayer.strokeColor = UIColor.splGrayColor.CGColor;
-#endif
+    _backgroundLayer.strokeColor = [self fetchSystemGrayColor].CGColor;
     
     if (@available(iOS 13.0, *)) {
         _circleLayer.strokeColor = UIColor.systemGreenColor.CGColor;
