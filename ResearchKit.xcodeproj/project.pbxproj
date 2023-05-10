@@ -34,6 +34,7 @@
 		03BD9EA4253E62A0008ADBE1 /* ORKBundleAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = 03BD9EA2253E62A0008ADBE1 /* ORKBundleAsset.m */; };
 		03EDD58024CA6B1D006245E9 /* ORKNotificationPermissionType.h in Headers */ = {isa = PBXBuildFile; fileRef = 03EDD57E24CA6B1D006245E9 /* ORKNotificationPermissionType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		03EDD58124CA6B1D006245E9 /* ORKNotificationPermissionType.m in Sources */ = {isa = PBXBuildFile; fileRef = 03EDD57F24CA6B1D006245E9 /* ORKNotificationPermissionType.m */; };
+		0B0DEDCB2A031DFB00FCF3FE /* ORKFormStepViewControllerConditionalFormItemsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0DEDCA2A031DFB00FCF3FE /* ORKFormStepViewControllerConditionalFormItemsTests.swift */; };
 		0B59A6BF28C1738D005035B4 /* ORKPickerTestDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B59A6BE28C1738D005035B4 /* ORKPickerTestDelegate.m */; };
 		0B6CD14329119C7F004BC4A0 /* ORKNormalizedReactionTimeStimulusView.h in Headers */ = {isa = PBXBuildFile; fileRef = 0BAF9797291088EE00EF138A /* ORKNormalizedReactionTimeStimulusView.h */; };
 		0B6CD14429119CBA004BC4A0 /* ORKNormalizedReactionTimeContentView.h in Headers */ = {isa = PBXBuildFile; fileRef = 0BAF9798291088EE00EF138A /* ORKNormalizedReactionTimeContentView.h */; };
@@ -1178,6 +1179,7 @@
 		03EDD57E24CA6B1D006245E9 /* ORKNotificationPermissionType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKNotificationPermissionType.h; sourceTree = "<group>"; };
 		03EDD57F24CA6B1D006245E9 /* ORKNotificationPermissionType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKNotificationPermissionType.m; sourceTree = "<group>"; };
 		05F3765923C797930068E166 /* ResearchKit.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = ResearchKit.xctestplan; sourceTree = "<group>"; };
+		0B0DEDCA2A031DFB00FCF3FE /* ORKFormStepViewControllerConditionalFormItemsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ORKFormStepViewControllerConditionalFormItemsTests.swift; sourceTree = "<group>"; };
 		0B59A6BD28C1738D005035B4 /* ORKPickerTestDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKPickerTestDelegate.h; sourceTree = "<group>"; };
 		0B59A6BE28C1738D005035B4 /* ORKPickerTestDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKPickerTestDelegate.m; sourceTree = "<group>"; };
 		0BAF9796291088ED00EF138A /* ORKNormalizedReactionTimeResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKNormalizedReactionTimeResult.h; sourceTree = "<group>"; };
@@ -1382,6 +1384,7 @@
 		3CB9665B29FF0B44007A8766 /* ORKPredicateFormItemVisibilityRule.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKPredicateFormItemVisibilityRule.m; sourceTree = "<group>"; };
 		3CB9665E2A0077F7007A8766 /* ORKPredicateFormItemVisibilityRuleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ORKPredicateFormItemVisibilityRuleTests.swift; sourceTree = "<group>"; };
 		3CBFD8F52A01C738000E48E9 /* ORKPredicateFormItemVisibilityRule_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKPredicateFormItemVisibilityRule_Private.h; sourceTree = "<group>"; };
+		3CBFD8F72A03437C000E48E9 /* ORKFormStepViewController+TestingSupport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ORKFormStepViewController+TestingSupport.h"; sourceTree = "<group>"; };
 		3CF08BC629FC73C600BC25E1 /* ORKFormItemVisibilityRuleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ORKFormItemVisibilityRuleTests.swift; sourceTree = "<group>"; };
 		51198767245CA50D004FC2C7 /* ORKUSDZModelManagerScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKUSDZModelManagerScene.h; sourceTree = "<group>"; };
 		51198768245CA50D004FC2C7 /* ORKUSDZModelManagerScene.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKUSDZModelManagerScene.m; sourceTree = "<group>"; };
@@ -2844,7 +2847,9 @@
 			isa = PBXGroup;
 			children = (
 				3CB9665E2A0077F7007A8766 /* ORKPredicateFormItemVisibilityRuleTests.swift */,
+				0B0DEDCA2A031DFB00FCF3FE /* ORKFormStepViewControllerConditionalFormItemsTests.swift */,
 				3CF08BC629FC73C600BC25E1 /* ORKFormItemVisibilityRuleTests.swift */,
+				3CBFD8F72A03437C000E48E9 /* ORKFormStepViewController+TestingSupport.h */,
 			);
 			name = ConditionalFormItems;
 			sourceTree = "<group>";
@@ -5823,6 +5828,7 @@
 				86CC8EB31AC09383001CCD89 /* ORKAccessibilityTests.m in Sources */,
 				3CF08BC729FC73C600BC25E1 /* ORKFormItemVisibilityRuleTests.swift in Sources */,
 				1490DD02224D6A21003FEEDA /* ORKResultPredicateTests.swift in Sources */,
+				0B0DEDCB2A031DFB00FCF3FE /* ORKFormStepViewControllerConditionalFormItemsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
