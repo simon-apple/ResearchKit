@@ -43,7 +43,6 @@ extension NSPredicate {
 }
 
 final class ORKPredicateFormItemVisibilityRuleTests: XCTestCase {
-
     func testRuleCreation() throws {
         do {
             let rule = ORKPredicateFormItemVisibilityRule(predicate: .truePredicate);

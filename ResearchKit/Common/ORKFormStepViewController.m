@@ -376,7 +376,7 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
     [super viewWillAppear:animated];
     [self updateAnsweredSections];
     NSMutableSet *types = [NSMutableSet set];
-    for (ORKFormItem *item in [self formItems]) {
+    for (ORKFormItem *item in [self answerableFormItems]) {
         ORKAnswerFormat *format = [item answerFormat];
         HKObjectType *objType = [format healthKitObjectTypeForAuthorization];
         if (objType) {
@@ -469,7 +469,7 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
 }
 
 - (void)refreshDefaults {
-    NSArray *formItems = [self formItems];
+    NSArray *formItems = [self answerableFormItems];
     ORKAnswerDefaultSource *source = _defaultSource;
     ORKWeakTypeOf(self) weakSelf = self;
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
@@ -777,7 +777,7 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
 }
 
 - (BOOL)allAnsweredFormItemsAreValid {
-    for (ORKFormItem *item in [self formItems]) {
+    for (ORKFormItem *item in [self answerableFormItems]) {
         id answer = _savedAnswers[item.identifier];
         if (ORKIsAnswerEmpty(answer) == NO && ![item.impliedAnswerFormat isAnswerValid:answer]) {
             return NO;
@@ -787,7 +787,7 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
 }
 
 - (BOOL)allNonOptionalFormItemsHaveAnswers {
-    for (ORKFormItem *item in [self formItems]) {
+    for (ORKFormItem *item in [self answerableFormItems]) {
         if (!item.optional) {
             id answer = _savedAnswers[item.identifier];
             if (ORKIsAnswerEmpty(answer) || ![item.impliedAnswerFormat isAnswerValid:answer]) {
@@ -864,8 +864,18 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
     return [[self formStep] formItems];
 }
 
-- (NSArray *)formItems {
-    NSArray *formItems = [self allFormItems];
+- (NSArray *)visibleFormItems {
+    ORKTaskResult* ongoingTaskResult = [self _delegate_ongoingTaskResult];
+    // [RDLS:TODO] Process ongoingTaskResult to determine visibleItems
+    
+    if (ongoingTaskResult != nil) {
+        // [RDLS:HACK] for now, this if statement is just here to quiet the compiler
+    }
+    return [self allFormItems];
+}
+
+- (NSArray *)answerableFormItems {
+    NSArray *formItems = [self visibleFormItems];
     NSMutableArray *array = [NSMutableArray arrayWithCapacity:formItems.count];
     for (ORKFormItem *item in formItems) {
         if (item.answerFormat != nil) {
@@ -889,6 +899,16 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
     return (self.savedAnswers != nil);
 }
 
+- (nullable ORKTaskResult *)_delegate_ongoingTaskResult {
+    id <ORKStepViewControllerDelegate> delegate = [self delegate];
+    ORKTaskResult *result = nil;
+    if ([delegate respondsToSelector:@selector(stepViewControllerOngoingResult:)]) {
+        result = [delegate stepViewControllerOngoingResult:self];
+        // [RDLS:RADAR] rdar://109081353 (Integrate formStepViewController questionResult into ongoing taskResult)
+    }
+    return result;
+}
+
 // Not to use `ImmediateNavigation` when current step already has an answer.
 // So user is able to review the answer when it is present.
 - (BOOL)isStepImmediateNavigation {
@@ -900,7 +920,7 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
 - (ORKStepResult *)result {
     ORKStepResult *parentResult = [super result];
     
-    NSArray *items = [self formItems];
+    NSArray *items = [self answerableFormItems];
     
     // "Now" is the end time of the result, which is either actually now,
     // or the last time we were in the responder chain.
@@ -1049,7 +1069,7 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
 }
 
 - (void)scrollToFirstUnansweredSection {
-    ORKFormItem *formItem = [self fetchFirstUnansweredNonOptionalFormItem:[self formItems]];
+    ORKFormItem *formItem = [self fetchFirstUnansweredNonOptionalFormItem:[self answerableFormItems]];
     if (formItem) {
         ORKTableSection *section = [self fetchSectionThatContainsFormItem:formItem];
         if (section) {

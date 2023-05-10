@@ -771,16 +771,38 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
 }
 
 - (ORKTaskResult *)result {
+    ORKTaskResult *result = [self _resultIncludingUpdatedCurrentStepViewControllerResult:YES];
+    return result;
+}
+
+- (ORKTaskResult *)_resultIncludingUpdatedCurrentStepViewControllerResult:(BOOL)shouldIncludeUpdatedCurrentStepViewControllerResult {
     //    TODO: update current implementation.
     //    setManagedResult for currentStepViewController should not be called every single time this method is called.
     ORKTaskResult *result = [[ORKTaskResult alloc] initWithTaskIdentifier:[self.task identifier] taskRunUUID:self.taskRunUUID outputDirectory:self.outputDirectory];
     result.startDate = _presentedDate ? : [NSDate date];
     result.endDate = _dismissedDate ? : [NSDate date];
     
-    // Update current step result
-    [self setManagedResult:[self.currentStepViewController result] forKey:self.currentStepViewController.step.identifier];
-    
-    result.results = [self managedResultsArray];
+    if (shouldIncludeUpdatedCurrentStepViewControllerResult) {
+        [self setManagedResult:[self.currentStepViewController result] forKey:self.currentStepViewController.step.identifier];
+        result.results = [self managedResultsArray];
+    } else {
+        
+        // we may have saved results from the currentStepViewController, but we don't want to include stale results either,
+        // so go through and remove that result from our local copy before returning
+        NSString *targetIdentifier = self.currentStepViewController.step.identifier;
+        NSMutableArray *mutableResultsArray = [[self managedResultsArray] mutableCopy];
+        NSUInteger index = [mutableResultsArray indexOfObjectPassingTest:^BOOL(ORKResult *eachResult, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ([eachResult.identifier isEqualToString:targetIdentifier]) {
+                *stop = YES;
+                return YES;
+            }
+            return NO;
+        }];
+        if (index != NSNotFound) {
+            [mutableResultsArray removeObjectAtIndex:index];
+        }
+        result.results = [mutableResultsArray copy];
+    }
     
     return result;
 }
@@ -1603,6 +1625,10 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     }
     
     return progressData;
+}
+
+- (nullable ORKTaskResult *)stepViewControllerOngoingResult:(ORKTaskViewController *)taskViewController {
+    return [self _resultIncludingUpdatedCurrentStepViewControllerResult:NO];
 }
 
 #pragma mark - ORKReviewStepViewControllerDelegate
