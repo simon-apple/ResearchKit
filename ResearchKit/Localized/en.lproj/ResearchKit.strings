@@ -626,6 +626,14 @@
 /* Review Step */
 "REVIEW_STEP_PAGE" = "Page";
 
+/* Family History Step */
+"FAMILY_HISTORY_CONDITIONS_FORM_ITEM_TEXT" = "Have they been diagnosed with any of the following diseases or health conditions";
+"FAMILY_HISTORY_CONDITIONS_STEP_TITLE" = "Health Conditions";
+"FAMILY_HISTORY_CONDITIONS_STEP_DESCRIPTION" = "answer these questions to the best of your ability";
+"FAMILY_HISTORY_COMPLETION_STEP_TITLE" = "Task Complete";
+"FAMILY_HISTORY_NONE_OF_THE_ABOVE" = "None of the above";
+"FAMILY_HISTORY_PREFER_NOT_TO_ANSWER" = "I prefer not to answer";
+
 /* Accessibility */
 "AX_BUTTON_BACK" = "Back";
 "AX_BUTTON_SHOW_PDF_THUMBNAIL" = "Show PDF Thumbnail";

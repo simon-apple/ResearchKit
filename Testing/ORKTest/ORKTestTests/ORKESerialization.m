@@ -2428,6 +2428,90 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                  (@{
                      PROPERTY(retryCount, NSNumber, NSObject, NO, nil, nil)
                   })),
+           ENTRY(ORKRelativeGroup,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+                    return [[ORKRelativeGroup alloc] initWithIdentifier:GETPROP(dict, identifier)
+                                                                   name:GETPROP(dict, name)
+                                                           sectionTitle:GETPROP(dict, sectionTitle)
+                                                      sectionDetailText:GETPROP(dict, sectionDetailText)
+                                                 identifierForCellTitle:GETPROP(dict, identifierForCellTitle)
+                                                             maxAllowed:[GETPROP(dict, maxAllowed) intValue]
+                                                              formSteps:GETPROP(dict, formSteps)
+                                                  detailTextIdentifiers:GETPROP(dict, detailTextIdentifiers)];
+                 },
+                 (@{
+                     PROPERTY(identifier, NSString, NSObject, YES, nil, nil),
+                     PROPERTY(name, NSString, NSObject, YES, nil, nil),
+                     PROPERTY(sectionTitle, NSString, NSObject, YES, nil, nil),
+                     PROPERTY(sectionDetailText, NSString, NSObject, YES, nil, nil),
+                     PROPERTY(identifierForCellTitle, NSString, NSObject, YES, nil, nil),
+                     PROPERTY(maxAllowed, NSNumber, NSObject, YES, nil, nil),
+                     PROPERTY(formSteps, ORKFormStep, NSArray, YES, nil, nil),
+                     PROPERTY(detailTextIdentifiers, NSString, NSArray, YES, nil, nil),
+                 })),
+           ENTRY(ORKHealthCondition,
+                    ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+               return [[ORKHealthCondition alloc] initWithIdentifier:GETPROP(dict, identifier) displayName:GETPROP(dict, displayName) value:GETPROP(dict, value)];
+                    },
+                    (@{
+                        PROPERTY(identifier, NSString, NSObject, YES, nil, nil),
+                        PROPERTY(displayName, NSString, NSObject, YES, nil, nil),
+                        PROPERTY(value, NSObject, NSObject, YES, nil, nil)
+                    })),
+           ENTRY(ORKRelatedPerson,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+               return [[ORKRelatedPerson alloc] initWithIdentifier:GETPROP(dict, identifier) groupIdentifier:GETPROP(dict, groupIdentifier) taskResult:GETPROP(dict, taskResult)];
+                 },
+                 (@{
+                     PROPERTY(identifier, NSString, NSObject, YES, nil, nil),
+                     PROPERTY(groupIdentifier, NSString, NSObject, YES, nil, nil),
+                     PROPERTY(taskResult, ORKTaskResult, NSObject, YES, nil, nil)
+                    })),
+           ENTRY(ORKFamilyHistoryResult,
+                 nil,
+                 (@{
+                     PROPERTY(relatedPersons, ORKRelatedPerson, NSArray, YES, nil, nil),
+                     PROPERTY(displayedConditions, NSString, NSArray, YES, nil, nil)
+                 })),
+           ENTRY(ORKConditionStepConfiguration,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+               return [[ORKConditionStepConfiguration alloc] initWithStepIdentifier:GETPROP(dict, stepIdentifier) conditionsFormItemIdentifier:GETPROP(dict, conditionsFormItemIdentifier) conditions:GETPROP(dict, conditions) formItems:GETPROP(dict, formItems)];
+                 },
+                 (@{
+                     PROPERTY(stepIdentifier, NSString, NSObject, YES, nil, nil),
+                     PROPERTY(conditionsFormItemIdentifier, NSString, NSObject, YES, nil, nil),
+                     PROPERTY(conditions, ORKHealthCondition, NSArray, YES, nil, nil),
+                     PROPERTY(formItems, ORKFormItem, NSArray, YES, nil, nil)
+                 })),
+           ENTRY(ORKRelativeGroup,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+                    return [[ORKRelativeGroup alloc] initWithIdentifier:GETPROP(dict, identifier)
+                                                                   name:GETPROP(dict, name)
+                                                           sectionTitle:GETPROP(dict, sectionTitle)
+                                                      sectionDetailText:GETPROP(dict, sectionDetailText)
+                                                 identifierForCellTitle:GETPROP(dict, identifierForCellTitle)
+                                                             maxAllowed:[GETPROP(dict, maxAllowed) intValue]
+                                                              formSteps:GETPROP(dict, formSteps)
+                                                  detailTextIdentifiers:GETPROP(dict, detailTextIdentifiers)];
+                 },
+                 (@{
+                     PROPERTY(identifier, NSString, NSObject, YES, nil, nil),
+                     PROPERTY(name, NSString, NSObject, YES, nil, nil),
+                     PROPERTY(sectionTitle, NSString, NSObject, YES, nil, nil),
+                     PROPERTY(sectionDetailText, NSString, NSObject, YES, nil, nil),
+                     PROPERTY(identifierForCellTitle, NSString, NSObject, YES, nil, nil),
+                     PROPERTY(maxAllowed, NSNumber, NSObject, YES, nil, nil),
+                     PROPERTY(formSteps, ORKFormStep, NSArray, YES, nil, nil),
+                     PROPERTY(detailTextIdentifiers, NSString, NSArray, YES, nil, nil),
+                    })),
+           ENTRY(ORKFamilyHistoryStep,
+            ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+               return [[ORKFamilyHistoryStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
+           },
+           (@{
+                PROPERTY(conditionStepConfiguration, ORKConditionStepConfiguration, NSObject, YES, nil, nil),
+                PROPERTY(relativeGroups, ORKRelativeGroup, NSArray, YES, nil, nil),
+           })),
 #if RK_APPLE_INTERNAL && ORK_FEATURE_AV_JOURNALING
            ENTRY(ORKAVJournalingPredefinedTask,
             ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {

@@ -159,6 +159,14 @@
 #import <ResearchKit/ORKEarlyTerminationConfiguration.h>
 #import <ResearchKit/ORKBundleAsset.h>
 
+#import <ResearchKit/ORKRelativeGroup.h>
+#import <ResearchKit/ORKHealthCondition.h>
+#import <ResearchKit/ORKRelatedPerson.h>
+#import <ResearchKit/ORKFamilyHistoryResult.h>
+#import <ResearchKit/ORKConditionStepConfiguration.h>
+#import <ResearchKit/ORKFamilyHistoryStep.h>
+#import <ResearchKit/ORKFamilyHistoryStepViewController.h>
+#import <ResearchKit/ORKRelativeGroup.h>
 
 #if RK_APPLE_INTERNAL
 #import <ResearchKit/ORKTypingStep.h>

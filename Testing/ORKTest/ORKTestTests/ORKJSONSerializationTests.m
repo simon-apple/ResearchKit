@@ -637,6 +637,7 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
                                           @"ORKTextChoice.detailTextAttributedString",
                                           @"ORKTextChoice.primaryTextAttributedString",
                                           @"ORKTextChoice.value",
+                                          @"ORKHealthCondition.value",
                                           @"ORKTextChoice.image",
                                           @"ORKTextChoiceOther.image",
                                           @"ORKColorChoice.value",
