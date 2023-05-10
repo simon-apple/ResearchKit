@@ -63,10 +63,8 @@ final class ORKFormItemVisibilityRuleTests: XCTestCase {
     }
 
     func testSubclassDecodingWorks() throws {
-
         // verify that a subclass can be be encoded and then decoded
         // verify that the decoded instance is the concrete subclass not the abstract class
-        
         let example = ExampleFormItemVisibilityRule(evaluationLogic: "expression")
         
         let encoder = NSKeyedArchiver(requiringSecureCoding: true)
@@ -118,7 +116,87 @@ final class ORKFormItemVisibilityRuleTests: XCTestCase {
         }
         XCTAssertNotNil(testException)
         XCTAssertEqual(testException!.name, NSExceptionName.genericException)
+    }
+    
+    func testAssigningRuleToFormItem() throws {
+        let formItemWithRule = createFormItemWithVisibilityRule()
+        XCTAssertNotNil(formItemWithRule)
+        XCTAssertNotNil(formItemWithRule.visibilityRule)
+    }
+    
+    func testFormItemWithRuleArchives() throws {
+        let formItemWithRule = createFormItemWithVisibilityRule()
+        
+        // archive the ORKFormItem with an attached Rule
+        let encoder = NSKeyedArchiver(requiringSecureCoding: true)
+        let ArchiveKey = "formItemWithVisibilityRule"
+        encoder.encode(formItemWithRule, forKey: ArchiveKey)
+        encoder.finishEncoding()
+        let data = encoder.encodedData
+        
+        let unarchiver = try! NSKeyedUnarchiver(forReadingFrom: data)
+        let decodedObject = unarchiver.decodeObject(of: [ORKFormItem.self], forKey: ArchiveKey)
+        XCTAssertNotNil(decodedObject)
+        
+        // decode and ensure is not nil
+        guard let decodedObject = decodedObject as? ORKFormItem else {
+            XCTFail("decoded rule was not of type ORKFormItemVisibilityRule")
+            return
+        }
+        XCTAssertTrue(decodedObject.classForKeyedArchiver == ORKFormItem.self)
+        
+        // ensure decoded item has a rule and ensure is not nil
+        guard let decodedRule = decodedObject.visibilityRule as? ExampleFormItemVisibilityRule else {
+            XCTFail("decoded rule was not of type ORKFormItemVisibilityRule")
+            return
+        }
+        XCTAssertTrue(decodedRule.classForKeyedArchiver == ExampleFormItemVisibilityRule.self)
+    }
+    
+    func testFormItemWithOutRuleArchives() throws {
+        let formItemWithOutRule = createFormItem()
 
+        // encode and decode a formItem without a rule
+        let encoder = NSKeyedArchiver(requiringSecureCoding: true)
+        let ArchiveKey = "formItemWithOutVisibilityRule"
+        encoder.encode(formItemWithOutRule, forKey: ArchiveKey)
+        encoder.finishEncoding()
+        let data = encoder.encodedData
+        
+        let unarchiver = try! NSKeyedUnarchiver(forReadingFrom: data)
+        let decodedObject = unarchiver.decodeObject(of: [ORKFormItem.self], forKey: ArchiveKey)
+        XCTAssertNotNil(decodedObject)
+        
+        guard let decodedObject = decodedObject as? ORKFormItem else {
+            XCTFail("decoded rule was not of type ORKFormItemVisibilityRule")
+            return
+        }
+        // ensure we are still an ORKFormItem and visibilityRule is nil
+        XCTAssertTrue(decodedObject.classForKeyedArchiver == ORKFormItem.self)
+        XCTAssertNil(decodedObject.visibilityRule)
+    }
+    
+    func testAssigningAndMutatingVisibilityRule() throws {
+        let formItem = createFormItem()
+        let visibilityRule = BogusFormItemVisibilityRuleWithMutableProperties()
+        formItem.visibilityRule = visibilityRule
+        
+        visibilityRule.evaluationLogic = "SOME_VAR == TRUE"
+        
+        // we expect our mutated rule to be mutated not the assigned rule
+        XCTAssertNotEqual(visibilityRule.evaluationLogic, (formItem.visibilityRule as! BogusFormItemVisibilityRuleWithMutableProperties).evaluationLogic)
+    }
+    
+    func createFormItem() -> ORKFormItem {
+        let formItem = ORKFormItem(identifier: "formItemIdentifier", text: "Hello", answerFormat: ORKBooleanAnswerFormat())
+        return formItem
+    }
+    
+    func createFormItemWithVisibilityRule() -> ORKFormItem {
+        let formItem = createFormItem()
+        let visibilityRule = ExampleFormItemVisibilityRule()
+        formItem.visibilityRule = visibilityRule
+        return formItem
     }
 }
 
@@ -185,6 +263,65 @@ final class ExampleFormItemVisibilityRule: ORKFormItemVisibilityRule {
 final class BogusFormItemVisibilityRule: ORKFormItemVisibilityRule {
     
     public private(set) var evaluationLogic: String?
+    
+    init(evaluationLogic: String?) {
+        super.init()
+        self.evaluationLogic = evaluationLogic
+    }
+    
+    override init() {
+        super.init()
+    }
+    
+    enum CodingKeys: CodingKey {
+        case evaluationLogic
+    }
+    
+    public override func copy(with zone: NSZone? = nil) -> Any {
+        let result = super.copy(with: zone) as! Self
+        result.evaluationLogic = self.evaluationLogic
+        return result
+    }
+
+    /*
+     It's a runtime error if a superclass supports secure coding and this class overrides -initWithCoder:, but does
+     not also override +supportsSecureCoding. The class must implement +supportsSecureCoding and return YES to verify
+     that its implementation of -initWithCoder: is secure coding compliant, otherwise you get NSInvalidUnarchiveOperationException
+     */
+    class override var supportsSecureCoding: Bool {
+        return true
+    }
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    
+        let container = try! (coder as! Decoder).container(keyedBy: CodingKeys.self)
+        evaluationLogic = try! container.decode(
+            String.self,
+            forKey: .evaluationLogic
+        )
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(evaluationLogic, forKey: .evaluationLogic)
+    }
+    
+    override public func isEqual(_ object: Any?) -> Bool {
+        guard
+            let object = object as? BogusFormItemVisibilityRule,
+            super.isEqual(object),
+            evaluationLogic == object.evaluationLogic
+        else {
+            return false
+        }
+        return true
+     }
+}
+
+final class BogusFormItemVisibilityRuleWithMutableProperties: ORKFormItemVisibilityRule {
+    
+    public var evaluationLogic: String?
     
     init(evaluationLogic: String?) {
         super.init()

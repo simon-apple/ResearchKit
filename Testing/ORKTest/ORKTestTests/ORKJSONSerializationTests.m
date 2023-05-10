@@ -528,6 +528,7 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
                                    @"ORKBodyItem.customButtonConfigurationHandler",
                                    @"ORKConsentSection.image",
                                    @"ORKConsentDocument.instructionSteps",
+                                   @"ORKFormItem.visibilityRule",
                                    @"ORKNavigablePageStep.steps",
                                    @"ORKPageStep.steps",
                                    @"ORKRegistrationStep.passcodeValidationRegex",
@@ -1373,6 +1374,7 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
                                        @"shouldReportProgress",
                                        
                                        // For a specific class
+                                       @"ORKFormItem.visibilityRule",
                                        @"ORKHeightAnswerFormat.useMetricSystem",
                                        @"ORKWeightAnswerFormat.useMetricSystem",
                                        @"ORKNavigablePageStep.steps",
