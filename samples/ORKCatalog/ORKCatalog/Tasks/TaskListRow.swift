@@ -123,6 +123,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     case visualAcuityLandoltC
     case contrastSensitivityPeakLandoltC
     case videoInstruction
+    case review
     case webView
     case tintColor
     
@@ -181,7 +182,8 @@ enum TaskListRow: Int, CustomStringConvertible {
                     .accountCreation,
                     .login,
                     .passcode,
-                    .biometricPasscode
+                    .biometricPasscode,
+                    .review
                 ]),
             TaskListRowSection(title: "Active Tasks", rows:
                 [
@@ -314,6 +316,9 @@ enum TaskListRow: Int, CustomStringConvertible {
         case .requestPermissions:
             return NSLocalizedString("Request Permissions Step", comment: "")
 
+        case .review:
+            return NSLocalizedString("Review Step", comment: "")
+            
         case .eligibilityTask:
             return NSLocalizedString("Eligibility Task Example", comment: "")
 
@@ -508,6 +513,11 @@ enum TaskListRow: Int, CustomStringConvertible {
         case numericNoUnitQuestionStep
         case numericDisplayUnitQuestionStep
 
+        // Task with examples of review Steps.
+        case reviewTask
+        case embeddedReviewStep
+        case standAloneReviewStep
+        
         // Task with examples of questions with sliding scales.
         case scaleQuestionTask
         case discreteScaleQuestionStep
@@ -685,6 +695,9 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .numericQuestion:
             return numericQuestionTask
+            
+        case .review:
+            return reviewTask
             
         case .scaleQuestion:
             return scaleQuestionTask
@@ -1317,6 +1330,36 @@ enum TaskListRow: Int, CustomStringConvertible {
         questionStep.placeholder = NSLocalizedString("Address", comment: "")
         
         return ORKOrderedTask(identifier: String(describing: Identifier.locationQuestionTask), steps: [questionStep])
+    }
+    
+    /// This task presents a few different ORKReviewSteps
+    private var reviewTask: ORKTask {
+        let embeddedReviewStep = ORKReviewStep.embeddedReviewStep(withIdentifier: String(describing: Identifier.embeddedReviewStep))
+        embeddedReviewStep.bodyItems = [
+            ORKBodyItem(text: "Review Item #1", detailText: nil, image: nil, learnMoreItem: nil, bodyItemStyle: .bulletPoint),
+            ORKBodyItem(text: "Review Item #2", detailText: nil, image: nil, learnMoreItem: nil, bodyItemStyle: .bulletPoint),
+            ORKBodyItem(text: "Review Item #3", detailText: nil, image: nil, learnMoreItem: nil, bodyItemStyle: .bulletPoint),
+            ORKBodyItem(text: "Review Item #4", detailText: nil, image: nil, learnMoreItem: nil, bodyItemStyle: .bulletPoint)
+        ]
+        embeddedReviewStep.title = "Embedded Review Step"
+        
+        let standAloneInstructionStep1 =  ORKInstructionStep(identifier: "standAloneInstruction1")
+        standAloneInstructionStep1.text = "First Item"
+        standAloneInstructionStep1.detailText = "There is a lot of detail to cover in this Instruction Step"
+        
+        let standAloneInstructionStep2 =  ORKInstructionStep(identifier: "standAloneInstruction2")
+        standAloneInstructionStep2.text = "Second Item"
+        standAloneInstructionStep2.detailText = "There is a lot of detail to cover in this Instruction Step"
+
+        let standAloneInstructionStep3 =  ORKInstructionStep(identifier: "standAloneInstruction3")
+        standAloneInstructionStep3.text = "Third Item"
+        standAloneInstructionStep3.detailText = "There is a lot of detail to cover in this Instruction Step"
+        
+        let questionStep = ORKQuestionStep(identifier: "questionStep", title: "Question Step", question: "What is your name?", answer: ORKTextAnswerFormat())
+        
+        let standAloneReviewStep = ORKReviewStep.standaloneReviewStep(withIdentifier:String(describing: Identifier.standAloneReviewStep), steps:[standAloneInstructionStep1, standAloneInstructionStep2, standAloneInstructionStep3, questionStep], resultSource: nil)
+        standAloneReviewStep.title = "Standalone Review"
+        return ORKOrderedTask(identifier: String(describing: Identifier.reviewTask), steps: [embeddedReviewStep, standAloneReviewStep])
     }
     
     /**
