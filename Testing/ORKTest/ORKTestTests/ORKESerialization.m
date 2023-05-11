@@ -1291,6 +1291,23 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(failureSound, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(currentInterval, NSNumber, NSObject, YES, nil, nil),
                     })),
+           ENTRY(ORKNormalizedReactionTimeResult,
+                nil,
+                 (@{
+                    PROPERTY(timerStartDate, NSDate, NSObject, YES,
+                             ^id(id date, __unused ORKESerializationContext *context) { return ORKEStringFromDateISO8601(date); },
+                             ^id(id string, __unused ORKESerializationContext *context) { return ORKEDateFromStringISO8601(string); }),
+                    PROPERTY(timerEndDate, NSDate, NSObject, YES,
+                             ^id(id date, __unused ORKESerializationContext *context) { return ORKEStringFromDateISO8601(date); },
+                             ^id(id string, __unused ORKESerializationContext *context) { return ORKEDateFromStringISO8601(string); }),
+                    PROPERTY(stimulusStartDate, NSDate, NSObject, YES,
+                             ^id(id date, __unused ORKESerializationContext *context) { return ORKEStringFromDateISO8601(date); },
+                             ^id(id string, __unused ORKESerializationContext *context) { return ORKEDateFromStringISO8601(string); }),
+                    PROPERTY(reactionDate, NSDate, NSObject, YES,
+                             ^id(id date, __unused ORKESerializationContext *context) { return ORKEStringFromDateISO8601(date); },
+                             ^id(id string, __unused ORKESerializationContext *context) { return ORKEDateFromStringISO8601(string); }),
+                    PROPERTY(currentInterval, NSNumber, NSObject, NO, nil, nil),
+                    })),
            ENTRY(ORKTypingStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      return [[ORKTypingStep alloc]  initWithIdentifier:GETPROP(dict, identifier)];
