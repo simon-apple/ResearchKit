@@ -94,6 +94,8 @@ NSString * const pulsedFilenameExtension = @"plist";
     int _nPulsesFramesOff; // pause duration
     BOOL _stopAfterPulse; // signal to stop after the next pulse
     BOOL _pulsesStopped; // indicates the generator stopped after a pulse
+    
+    dispatch_queue_t _audioQueue;
 }
 
 @property (atomic, retain) NSNumber *amplitudeGain;
@@ -263,6 +265,8 @@ static OSStatus ORKdBHLAudioGeneratorZeroTone(void *inRefCon,
 
         _volumeCurve = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle bundleForClass:[self class]] pathForResource:volumeCurveFilename ofType:pulsedFilenameExtension]];
         
+        _audioQueue = dispatch_queue_create("com.appleinternal.acoustics.kagraapp.audioqueue", NULL);
+        
         [self setupGraph];
     }
     return self;
@@ -279,6 +283,7 @@ static OSStatus ORKdBHLAudioGeneratorZeroTone(void *inRefCon,
     }
     
     _mMixer = nil;
+    _audioQueue = nil;
 }
 
 - (void)playSoundAtFrequency:(double)playFrequency
@@ -318,115 +323,129 @@ static OSStatus ORKdBHLAudioGeneratorZeroTone(void *inRefCon,
 }
 
 - (void)setupGraph {
-    if (!_mGraph) {
-        NewAUGraph(&_mGraph);
-        AudioComponentDescription mixer_desc;
-        mixer_desc.componentType = kAudioUnitType_Mixer;
-        mixer_desc.componentSubType = kAudioUnitSubType_MultiChannelMixer;
-        mixer_desc.componentFlags = 0;
-        mixer_desc.componentFlagsMask = 0;
-        mixer_desc.componentManufacturer = kAudioUnitManufacturer_Apple;
-        
-        AudioComponentDescription output_desc;
-        output_desc.componentType = kAudioUnitType_Output;
-        output_desc.componentSubType = kAudioUnitSubType_RemoteIO;
-        output_desc.componentFlags = 0;
-        output_desc.componentFlagsMask = 0;
-        output_desc.componentManufacturer = kAudioUnitManufacturer_Apple;
-        
-        AUGraphAddNode(_mGraph, &output_desc, &_outputNode);
-        AUGraphAddNode(_mGraph, &mixer_desc, &_mixerNode );
-        
-        AUGraphConnectNodeInput(_mGraph, _mixerNode, 0, _outputNode, 0);
-        
-        AUGraphOpen(_mGraph);
-        AUGraphNodeInfo(_mGraph, _mixerNode, NULL, &_mMixer);
-        
-        UInt32 numbuses = 3;
-        UInt32 size = sizeof(numbuses);
-        AudioUnitSetProperty(_mMixer, kAudioUnitProperty_ElementCount, kAudioUnitScope_Input, 0, &numbuses, size);
-        
-        AudioStreamBasicDescription desc;
-        for (int i = 0; i < numbuses; ++i) {
-            AURenderCallbackStruct renderCallbackStruct;
-            renderCallbackStruct.inputProcRefCon = (__bridge void *)(self);
-            
-            if (i == 0) {
-                renderCallbackStruct.inputProc = ORKdBHLAudioGeneratorZeroTone;
-                AUGraphSetNodeInputCallback(_mGraph, _mixerNode, 0, &renderCallbackStruct);
+    dispatch_async(_audioQueue, ^{
+        @autoreleasepool {
+            if (!_mGraph) {
+                NewAUGraph(&_mGraph);
+                AudioComponentDescription mixer_desc;
+                mixer_desc.componentType = kAudioUnitType_Mixer;
+                mixer_desc.componentSubType = kAudioUnitSubType_MultiChannelMixer;
+                mixer_desc.componentFlags = 0;
+                mixer_desc.componentFlagsMask = 0;
+                mixer_desc.componentManufacturer = kAudioUnitManufacturer_Apple;
+                
+                AudioComponentDescription output_desc;
+                output_desc.componentType = kAudioUnitType_Output;
+                output_desc.componentSubType = kAudioUnitSubType_RemoteIO;
+                output_desc.componentFlags = 0;
+                output_desc.componentFlagsMask = 0;
+                output_desc.componentManufacturer = kAudioUnitManufacturer_Apple;
+                
+                AUGraphAddNode(_mGraph, &output_desc, &_outputNode);
+                AUGraphAddNode(_mGraph, &mixer_desc, &_mixerNode );
+                
+                AUGraphConnectNodeInput(_mGraph, _mixerNode, 0, _outputNode, 0);
+                
+                AUGraphOpen(_mGraph);
+                AUGraphNodeInfo(_mGraph, _mixerNode, NULL, &_mMixer);
+                
+                UInt32 numbuses = 3;
+                UInt32 size = sizeof(numbuses);
+                AudioUnitSetProperty(_mMixer, kAudioUnitProperty_ElementCount, kAudioUnitScope_Input, 0, &numbuses, size);
+                
+                AudioStreamBasicDescription desc;
+                for (int i = 0; i < numbuses; ++i) {
+                    AURenderCallbackStruct renderCallbackStruct;
+                    renderCallbackStruct.inputProcRefCon = (__bridge void *)(self);
+                    
+                    if (i == 0) {
+                        renderCallbackStruct.inputProc = ORKdBHLAudioGeneratorZeroTone;
+                        AUGraphSetNodeInputCallback(_mGraph, _mixerNode, 0, &renderCallbackStruct);
+                    }
+                    size = sizeof(desc);
+                    AudioUnitGetProperty(  _mMixer,
+                                            kAudioUnitProperty_StreamFormat,
+                                            kAudioUnitScope_Input,
+                                            i,
+                                            &desc,
+                                            &size);
+                    memset (&desc, 0, sizeof (desc));
+                    const int four_bytes_per_float = 4;
+                    const int eight_bits_per_byte = 8;
+                    
+                    desc.mSampleRate = ORKdBHLSineWaveToneGeneratorPulsedSampleRateDefault;
+                    desc.mFormatID = kAudioFormatLinearPCM;
+                    desc.mFormatFlags = kAudioFormatFlagsNativeFloatPacked | kAudioFormatFlagIsNonInterleaved;
+                    desc.mBytesPerPacket = four_bytes_per_float;
+                    desc.mFramesPerPacket = 1;
+                    desc.mBytesPerFrame = four_bytes_per_float;
+                    desc.mChannelsPerFrame = 2;
+                    desc.mBitsPerChannel = four_bytes_per_float * eight_bits_per_byte;
+                    
+                    AudioUnitSetProperty(  _mMixer,
+                                            kAudioUnitProperty_StreamFormat,
+                                            kAudioUnitScope_Input,
+                                            i,
+                                            &desc,
+                                            sizeof(desc));
+                }
+                
+                AudioUnitSetProperty(  _mMixer,
+                                        kAudioUnitProperty_StreamFormat,
+                                        kAudioUnitScope_Output,
+                                        0,
+                                        &desc,
+                                        sizeof(desc));
+                AUGraphInitialize(_mGraph);
+                AUGraphStart(_mGraph);
             }
-            size = sizeof(desc);
-            AudioUnitGetProperty(  _mMixer,
-                                    kAudioUnitProperty_StreamFormat,
-                                    kAudioUnitScope_Input,
-                                    i,
-                                    &desc,
-                                    &size);
-            memset (&desc, 0, sizeof (desc));
-            const int four_bytes_per_float = 4;
-            const int eight_bits_per_byte = 8;
-            
-            desc.mSampleRate = ORKdBHLSineWaveToneGeneratorPulsedSampleRateDefault;
-            desc.mFormatID = kAudioFormatLinearPCM;
-            desc.mFormatFlags = kAudioFormatFlagsNativeFloatPacked | kAudioFormatFlagIsNonInterleaved;
-            desc.mBytesPerPacket = four_bytes_per_float;
-            desc.mFramesPerPacket = 1;
-            desc.mBytesPerFrame = four_bytes_per_float;
-            desc.mChannelsPerFrame = 2;
-            desc.mBitsPerChannel = four_bytes_per_float * eight_bits_per_byte;
-            
-            AudioUnitSetProperty(  _mMixer,
-                                    kAudioUnitProperty_StreamFormat,
-                                    kAudioUnitScope_Input,
-                                    i,
-                                    &desc,
-                                    sizeof(desc));
+
+            // Run the current run loop on the audio thread
+            NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
+            [runLoop run];
         }
-        
-        AudioUnitSetProperty(  _mMixer,
-                                kAudioUnitProperty_StreamFormat,
-                                kAudioUnitScope_Output,
-                                0,
-                                &desc,
-                                sizeof(desc));
-        AUGraphInitialize(_mGraph);
-        AUGraphStart(_mGraph);
-    }
+    });
+    
 }
 
 - (void)play {
-    AURenderCallbackStruct renderCallbackStruct;
-    renderCallbackStruct.inputProcRefCon = (__bridge void *)(self);
-    renderCallbackStruct.inputProc = ORKdBHLAudioGeneratorRenderTone;
-    _lastNodeInput += 1;
-    int connect = 0;
-    int disconnect = 0;
-    if ((_lastNodeInput % 2) == 0) {
-        connect = 1;
-        disconnect = 2;
-    } else {
-        connect = 2;
-        disconnect = 1;
-    }
-    AUGraphDisconnectNodeInput(_mGraph, _mixerNode, disconnect);
-    AUGraphSetNodeInputCallback(_mGraph, _mixerNode, connect, &renderCallbackStruct);
-    AUGraphUpdate(_mGraph, NULL);
+    dispatch_async(_audioQueue, ^{
+        AURenderCallbackStruct renderCallbackStruct;
+        renderCallbackStruct.inputProcRefCon = (__bridge void *)(self);
+        renderCallbackStruct.inputProc = ORKdBHLAudioGeneratorRenderTone;
+        _lastNodeInput += 1;
+        int connect = 0;
+        int disconnect = 0;
+        if ((_lastNodeInput % 2) == 0) {
+            connect = 1;
+            disconnect = 2;
+        } else {
+            connect = 2;
+            disconnect = 1;
+        }
+        AUGraphDisconnectNodeInput(_mGraph, _mixerNode, disconnect);
+        AUGraphSetNodeInputCallback(_mGraph, _mixerNode, connect, &renderCallbackStruct);
+        AUGraphUpdate(_mGraph, NULL);
+    });
 }
 
 - (void)stop {
-    if (_mGraph) {
-        _stopAfterPulse = YES;
-        int nodeInput = (_lastNodeInput % 2) + 1;
-        double stopDelay = (double)(_nPulsesFramesOn + _nPulsesFramesOff) / ORKdBHLSineWaveToneGeneratorPulsedSampleRateDefault;
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(stopDelay * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            if (_mGraph) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    AUGraphDisconnectNodeInput(_mGraph, _mixerNode, nodeInput);
-                    AUGraphUpdate(_mGraph, NULL);
-                });
-            }
-        });
-    }
+    dispatch_async(_audioQueue, ^{
+        if (_mGraph) {
+            _stopAfterPulse = YES;
+            int nodeInput = (_lastNodeInput % 2) + 1;
+            double stopDelay = (double)(_nPulsesFramesOn + _nPulsesFramesOff) / ORKdBHLSineWaveToneGeneratorPulsedSampleRateDefault;
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(stopDelay * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                if (_mGraph) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        AUGraphDisconnectNodeInput(_mGraph, _mixerNode, nodeInput);
+                        AUGraphUpdate(_mGraph, NULL);
+                    });
+                }
+            });
+        }
+    });
+    
 }
 
 - (double)dBToAmplitude:(double)dB {
