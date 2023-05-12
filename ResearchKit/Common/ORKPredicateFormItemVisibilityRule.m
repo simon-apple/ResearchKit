@@ -29,8 +29,12 @@
  */
 
 #import <ResearchKit/ORKPredicateFormItemVisibilityRule_Private.h>
+#import <ResearchKit/ORKCollectionResult.h>
+#import <ResearchKit/ORKResultPredicate.h>
 
 #import "ORKHelpers_Internal.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation ORKPredicateFormItemVisibilityRule
 
@@ -68,11 +72,14 @@
 }
 
 #pragma clang diagnostic ignored "-Wobjc-designated-initializers"
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+- (nullable instancetype)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
-    if (self) {
+    // [RDLS:WIP] Need a unit test to prove that this is needed
+    if (self && (aDecoder.requiresSecureCoding == YES)) {
         ORK_DECODE_OBJ_CLASS(aDecoder, predicate, NSPredicate);
         ORK_DECODE_OBJ_CLASS(aDecoder, predicateFormat, NSString);
+        // [RDLS:WIP] Need a unit test to prove that this is needed
+        [self.predicate allowEvaluation];
     }
     return self;
 }
@@ -85,7 +92,7 @@
 
 #pragma mark NSCopying
 
-- (instancetype)copyWithZone:(NSZone *)zone {
+- (instancetype)copyWithZone:(nullable NSZone *)zone {
     __typeof(self) rule = [[[self class] allocWithZone:zone] initWithPredicate:_predicate];
     rule->_predicateFormat = [_predicateFormat copy];
     return rule;
@@ -106,9 +113,19 @@
     return hash;
 }
 
-// [RDLS:TODO] implement formItemVisibilityForTaskResult
-- (BOOL)formItemVisibilityForTaskResult:(ORKTaskResult *)taskResult {
-    return YES;
+- (BOOL)formItemVisibilityForTaskResult:(nullable ORKTaskResult *)taskResult {
+    
+    // Our ORKPredicates expect evaluateWithObject to be called with an array of taskResults.
+    // if taskResult is nil, we have to pass an empty array
+    NSArray<ORKTaskResult *> *evaluationObject = (taskResult != nil) ? @[taskResult] : @[];
+    NSString *taskResultIdentifier = taskResult.identifier ?: @"";
+    
+    BOOL result = [self.predicate evaluateWithObject:evaluationObject substitutionVariables: @{
+        ORKResultPredicateTaskIdentifierVariableName: taskResultIdentifier
+    }];
+    return result;
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -28,49 +28,10 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "ORKFormItemVisibilityRule.h"
+#import <ResearchKit/ORKQuestionStepViewController.h>
 
-#import <ResearchKit/ORKHelpers_Internal.h>
+@interface ORKQuestionStepViewController (TestingSupport)
 
-@implementation ORKFormItemVisibilityRule
-
-- (instancetype)init {
-    if ([self isMemberOfClass:[ORKFormItemVisibilityRule class]]) {
-        ORKThrowMethodUnavailableException();
-    }
-    return [super init];
-}
-
-- (BOOL)formItemVisibilityForTaskResult:(nullable ORKTaskResult *)taskResult {
-    @throw [NSException exceptionWithName:NSGenericException reason:@"You should override this method in a subclass" userInfo:nil];
-}
-
-#pragma mark NSSecureCoding
-
-+ (BOOL)supportsSecureCoding {
-    return YES;
-}
-
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    return [super init];
-}
-
-- (void)encodeWithCoder:(NSCoder *)aCoder {
-    // intentionally left empty
-}
-
-#pragma mark NSCopying
-
-- (instancetype)copyWithZone:(NSZone *)zone {
-    __typeof(self) rule = [[[self class] allocWithZone:zone] init];
-    return rule;
-}
-
-- (BOOL)isEqual:(id)object {
-    if ([self class] != [object class]) {
-        return NO;
-    }
-    return YES;
-}
+@property (nonatomic, strong) UITableView *tableView;
 
 @end

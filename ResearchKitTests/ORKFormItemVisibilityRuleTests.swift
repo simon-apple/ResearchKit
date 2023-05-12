@@ -254,7 +254,7 @@ final class ExampleFormItemVisibilityRule: ORKFormItemVisibilityRule {
         return true
      }
     
-    override func formItemVisibility(for taskResult: ORKTaskResult) -> Bool {
+    override func formItemVisibility(for taskResult: ORKTaskResult?) -> Bool {
         return true
     }
     

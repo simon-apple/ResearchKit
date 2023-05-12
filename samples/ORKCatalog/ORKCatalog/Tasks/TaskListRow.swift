@@ -1064,10 +1064,20 @@ enum TaskListRow: Int, CustomStringConvertible {
         let appleAnswerFormat = ORKTextChoiceAnswerFormat(style: .singleChoice, textChoices: appleChoices)
         
         let appleFormItem = ORKFormItem(identifier: "appleFormItemIdentifier", text: "Which is your favorite apple?", answerFormat: appleAnswerFormat)
+        let conditionalFormItem = ORKFormItem(identifier: "newletterFormItemIdentifier", text: "Include apples with your newletter?", answerFormat: ORKBooleanAnswerFormat())
+        conditionalFormItem.visibilityRule = ORKPredicateFormItemVisibilityRule(
+            predicate: ORKResultPredicate.predicateForBooleanQuestionResult(
+                with: .init(stepIdentifier: question1Step.identifier, resultIdentifier: question1Step.identifier),
+                expectedAnswer: true
+            )
+        )
         
         let appleFormStep = ORKFormStep(identifier: "appleFormStepIdentifier", title: "Fruit!", text: "Select the fruit you like.")
         
-        appleFormStep.formItems = [appleFormItem]
+        appleFormStep.formItems = [
+            appleFormItem,
+            conditionalFormItem
+        ]
         
         return ORKOrderedTask(identifier: String(describing: Identifier.groupedFormTask), steps: [step, question1Step, question2Step, appleFormStep])
     }

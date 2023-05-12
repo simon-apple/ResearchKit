@@ -671,6 +671,8 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
 }
 
 - (void)buildSections {
+    // [RDLS:RADAR] rdar://106372179 (Reload the tableview per section instead of the entire tableview)
+    // using allFormItems for now instead of visibleFormItems until we can update the tableView sections/rows
     NSArray *items = [self allFormItems];
     _sections = [NSMutableArray new];
     ORKTableSection *section = nil;
@@ -866,12 +868,18 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
 
 - (NSArray *)visibleFormItems {
     ORKTaskResult* ongoingTaskResult = [self _delegate_ongoingTaskResult];
-    // [RDLS:TODO] Process ongoingTaskResult to determine visibleItems
-    
-    if (ongoingTaskResult != nil) {
-        // [RDLS:HACK] for now, this if statement is just here to quiet the compiler
+    NSMutableArray<ORKFormItem *> *visibleItemsMutableArray = [NSMutableArray new];
+
+    // [RDLS:RADAR] rdar://109081353 (Integrate formStepViewController questionResult into ongoing taskResult)
+    for (ORKFormItem *eachItem in [self allFormItems]) {
+        ORKFormItemVisibilityRule *rule = eachItem.visibilityRule;
+        BOOL shouldAllowVisibility = (rule == nil) || ([rule formItemVisibilityForTaskResult:ongoingTaskResult] == YES);
+        if (shouldAllowVisibility == YES) {
+            [visibleItemsMutableArray addObject:eachItem];
+        }
     }
-    return [self allFormItems];
+    
+    return [visibleItemsMutableArray copy];
 }
 
 - (NSArray *)answerableFormItems {
