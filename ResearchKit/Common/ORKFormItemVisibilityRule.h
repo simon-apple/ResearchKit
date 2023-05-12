@@ -51,7 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
 ORK_CLASS_AVAILABLE
 @interface ORKFormItemVisibilityRule: NSObject <NSCopying, NSSecureCoding>
 
-- (BOOL)formItemVisibilityForTaskResult:(ORKTaskResult *)taskResult;
+- (BOOL)formItemVisibilityForTaskResult:(nullable ORKTaskResult *)taskResult;
 
 @end
 

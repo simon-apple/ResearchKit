@@ -1392,6 +1392,7 @@
 		2EBFE11C1AE1B32D00CB8254 /* ORKUIViewAccessibilityTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKUIViewAccessibilityTests.m; sourceTree = "<group>"; };
 		2EBFE11E1AE1B68800CB8254 /* ORKVoiceEngine_Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKVoiceEngine_Internal.h; sourceTree = "<group>"; };
 		2EBFE11F1AE1B74100CB8254 /* ORKVoiceEngineTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKVoiceEngineTests.m; sourceTree = "<group>"; };
+		3C09BE2D2A0DFA7C00DAE549 /* ORKQuestionStepViewController+TestingSupport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ORKQuestionStepViewController+TestingSupport.h"; sourceTree = "<group>"; };
 		3C1AFDF029FC4BF80027F2A3 /* ORKFormItemVisibilityRule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKFormItemVisibilityRule.h; sourceTree = "<group>"; };
 		3C1AFDF129FC4BF80027F2A3 /* ORKFormItemVisibilityRule.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKFormItemVisibilityRule.m; sourceTree = "<group>"; };
 		3C7AEDCA29A72F83009EED4A /* CLLocationManager+ResearchKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CLLocationManager+ResearchKit.h"; sourceTree = "<group>"; };
@@ -2882,6 +2883,7 @@
 				0B0DEDCA2A031DFB00FCF3FE /* ORKFormStepViewControllerConditionalFormItemsTests.swift */,
 				3CF08BC629FC73C600BC25E1 /* ORKFormItemVisibilityRuleTests.swift */,
 				3CBFD8F72A03437C000E48E9 /* ORKFormStepViewController+TestingSupport.h */,
+				3C09BE2D2A0DFA7C00DAE549 /* ORKQuestionStepViewController+TestingSupport.h */,
 			);
 			name = ConditionalFormItems;
 			sourceTree = "<group>";
