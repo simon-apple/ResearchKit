@@ -40,6 +40,7 @@
 #import "ORKTappingIntervalStepViewController.h"
 #import "ORKTaskViewController_Internal.h"
 #import "ORKLearnMoreStepViewController.h"
+#import "ORKdBHLFitTestStepViewController.h"
 
 #import "ORKActiveStep.h"
 #import "ORKCollectionResult_Private.h"
@@ -2150,6 +2151,7 @@ static NSString *const _ORKProgressMode = @"progressMode";
     ORKWeakTypeOf(self) weakSelf = self;
     NSString *identifierForLastFitTest = nil;
     BOOL alreadyStarteddBHL = NO;
+    BOOL isOnFitTest = [self.currentStepViewController isKindOfClass:[ORKdBHLFitTestStepViewController class]];
     ORKTaskResult *taskResults = [self result];
     for (ORKStepResult *result in taskResults.results) {
         if (result.results > 0) {
@@ -2163,7 +2165,7 @@ static NSString *const _ORKProgressMode = @"progressMode";
             }
         }
     }
-    if (identifierForLastFitTest && alreadyStarteddBHL) {
+    if (identifierForLastFitTest && alreadyStarteddBHL && !isOnFitTest) {
         // if we found an identifier for the fit test result the test must be invalidated and return to last fit test fit test.
         // this is necessary because the user may had removed the AirPods and inserted again, invalidating the test.
         dispatch_async(dispatch_get_main_queue(), ^{
