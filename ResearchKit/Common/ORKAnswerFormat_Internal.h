@@ -226,13 +226,17 @@ NSArray<Class> *ORKAllowableValueClasses(void);
 @end
 
 
-@interface ORKDateAnswerFormat ()
+@interface ORKDateAnswerFormat () {
+    NSDate *_currentDateOverride;
+}
 
 - (NSDate *)pickerDefaultDate;
 - (nullable NSDate *)pickerMinimumDate;
 - (nullable NSDate *)pickerMaximumDate;
 
 - (NSCalendar *)currentCalendar;
+
+- (void)_setCurrentDateOverride:(NSDate *)currentDateOverride;
 
 @end
 
