@@ -97,6 +97,12 @@
 
 @end
 
+@interface ORKDateAnswerFormat ()
+
+- (void)_setCurrentDateOverride:(NSDate *)currentDateOverride;
+
+@end
+
 
 @implementation ClassProperty
 
@@ -973,6 +979,9 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
     NSArray *allowedUnTouchedKeys = testConfiguration.allowedUnTouchedKeys;
     NSDictionary *mutallyExclusiveProperties = testConfiguration.mutuallyExclusiveProperties;
     
+    // Override date for date format testing
+    NSDate *dateFormatOverrideDate = [NSDate dateWithTimeIntervalSinceReferenceDate:6000];
+    
     // Test Each class
     for (Class aClass in classesWithORKSerialization) {
         NSString *className = NSStringFromClass(aClass);
@@ -1053,6 +1062,12 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
         } else if ([aClass isSubclassOfClass:[ORKPredicateFormItemVisibilityRule class]]) {
             // predicateFormat cannot be an empty sring for deserialization to work
             [instance setValue:@"$title == 'testSerialization' && $className == 'ORKPredicateFormItemVisibilityRule'" forKey:@"predicateFormat"];
+        } else if ([aClass isSubclassOfClass:[ORKDateAnswerFormat class]]) {
+            // Seems to be unstable for some input timestamps
+            [instance setValue:dateFormatOverrideDate forKey:@"defaultDate"];
+            [(ORKDateAnswerFormat *)instance _setCurrentDateOverride:dateFormatOverrideDate];
+            [(ORKDateAnswerFormat *)instance setDaysAfterCurrentDateToSetMinimumDate:1];
+            [(ORKDateAnswerFormat *)instance setDaysBeforeCurrentDateToSetMinimumDate:1];
         }
 
         // Serialization
@@ -1087,6 +1102,13 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
         [mockDictionary startObserving];
         
         id instance2 = [ORKESerializer objectFromJSONObject:mockDictionary context:context error:NULL];
+        if ([instance2 isKindOfClass:[ORKDateAnswerFormat class]]) {
+            ORKDateAnswerFormat *dateAnswerFormatInstance = (ORKDateAnswerFormat *)instance2;
+            [dateAnswerFormatInstance _setCurrentDateOverride:dateFormatOverrideDate];
+            [dateAnswerFormatInstance setDaysAfterCurrentDateToSetMinimumDate:dateAnswerFormatInstance.daysAfterCurrentDateToSetMinimumDate];
+            [dateAnswerFormatInstance setDaysBeforeCurrentDateToSetMinimumDate:dateAnswerFormatInstance.daysBeforeCurrentDateToSetMinimumDate];
+        }
+        
         
         NSArray *untouchedKeys = [mockDictionary untouchedKeys];
         
@@ -1100,7 +1122,13 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
         // Serialize again, the output ought to be equal
         NSDictionary *dictionary2 = [ORKESerializer JSONObjectForObject:instance2 context:context error:NULL];
         BOOL isMatch = [mockDictionary isEqualToDictionary:dictionary2];
+        if ([aClass isSubclassOfClass:[ORKDateAnswerFormat class]]) {
+            NSLog(@"%@: Initial dictionary: %@", NSStringFromClass(aClass), instanceDictionary);
+            NSLog(@"%@: Dict after deserializing and reserializing: %@", NSStringFromClass(aClass), dictionary2);
+        }
         if (!isMatch) {
+            NSLog(@"Initial dictionary: %@", instanceDictionary);
+            NSLog(@"Does not match dictionary after deserializing and reserializing: %@", dictionary2);
             XCTAssertTrue(isMatch, @"Should be equal for class: %@", NSStringFromClass(aClass));
         }
         

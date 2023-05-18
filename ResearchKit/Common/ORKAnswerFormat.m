@@ -1780,19 +1780,29 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
     return self;
 }
 
+- (void)_setCurrentDateOverride:(NSDate *)currentDateOverride {
+    _currentDateOverride = currentDateOverride;
+}
+
+- (NSDate *)_currentDate {
+    return _currentDateOverride ? : [NSDate date];
+}
+
 - (void)setIsMaxDateCurrentTime:(BOOL)isMaxDateCurrentTime {
     _isMaxDateCurrentTime = isMaxDateCurrentTime;
     
     if (isMaxDateCurrentTime) {
-        _maximumDate = [NSDate date];
+        _maximumDate = [self _currentDate];
     }
 }
 
 - (void)setDaysBeforeCurrentDateToSetMinimumDate:(NSInteger)daysBefore {
+    _daysBeforeCurrentDateToSetMinimumDate = daysBefore;
     _minimumDate = [self fetchDateBasedOnDays:daysBefore forBefore:YES];
 }
 
 - (void)setDaysAfterCurrentDateToSetMinimumDate:(NSInteger)daysAfter {
+    _daysAfterCurrentDateToSetMinimumDate = daysAfter;
     _maximumDate = [self fetchDateBasedOnDays:daysAfter forBefore:NO];
 }
 
@@ -1801,7 +1811,7 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
         @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"The value passed in for daysBeforeCurrentDateToSetMinimumDate must be greater than 0."  userInfo:nil];
     }
     
-    NSDate *currentDate = [NSDate date];
+    NSDate *currentDate = [self _currentDate];
     
     NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
     [dateComponents setDay:forBefore ? -days : days];
@@ -1884,7 +1894,7 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
 }
 
 - (NSDate *)pickerDefaultDate {
-    return (self.defaultDate ? : [NSDate date]);
+    return (self.defaultDate ? : [self _currentDate]);
     
 }
 
