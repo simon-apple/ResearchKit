@@ -862,15 +862,13 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
     return (ORKFormStep *)self.step;
 }
 
-- (NSArray *)allFormItems {
+- (NSArray<ORKFormItem *> *)allFormItems {
     return [[self formStep] formItems];
 }
 
-- (NSArray *)visibleFormItems {
-    ORKTaskResult* ongoingTaskResult = [self _delegate_ongoingTaskResult];
+- (NSArray<ORKFormItem *> *)visibleFormItemsFromResult:(ORKTaskResult *)ongoingTaskResult {
     NSMutableArray<ORKFormItem *> *visibleItemsMutableArray = [NSMutableArray new];
 
-    // [RDLS:RADAR] rdar://109081353 (Integrate formStepViewController questionResult into ongoing taskResult)
     for (ORKFormItem *eachItem in [self allFormItems]) {
         ORKFormItemVisibilityRule *rule = eachItem.visibilityRule;
         BOOL shouldAllowVisibility = (rule == nil) || ([rule formItemVisibilityForTaskResult:ongoingTaskResult] == YES);
@@ -882,16 +880,44 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
     return [visibleItemsMutableArray copy];
 }
 
+- (NSArray<ORKFormItem *> *)visibleFormItems {
+    ORKTaskResult *taskResult = [self _ongoingTaskResult];
+    NSArray<ORKFormItem *> *visibileFormItems = [self visibleFormItemsFromResult:taskResult];
+    return visibileFormItems;
+}
+
 - (NSArray *)answerableFormItems {
-    NSArray *formItems = [self visibleFormItems];
-    NSMutableArray *array = [NSMutableArray arrayWithCapacity:formItems.count];
-    for (ORKFormItem *item in formItems) {
+    NSMutableArray *array = [NSMutableArray new];
+    for (ORKFormItem *item in [self visibleFormItems]) {
         if (item.answerFormat != nil) {
             [array addObject:item];
         }
     }
     
     return [array copy];
+}
+
+- (NSSet<NSString *> *)hiddenFormItemIdentifiersForTaskResult:(ORKTaskResult *)taskResult {
+    // make a set of all the identifiers of formItems we want to hide
+    NSMutableSet *mutableSet = [NSMutableSet new];
+    
+    // start with all the formItems
+    [[self allFormItems] enumerateObjectsUsingBlock:^(ORKFormItem *eachItem, NSUInteger idx, BOOL *stop) {
+        NSString *identifier = eachItem.identifier;
+        if (identifier != nil) {
+            [mutableSet addObject:identifier];
+        }
+    }];
+    
+    // Now remove the visible formItem identifiers. The remaining set are the hidden ones
+    [[self visibleFormItemsFromResult:taskResult] enumerateObjectsUsingBlock:^(ORKFormItem *eachItem, NSUInteger idx, BOOL *stop) {
+        NSString *identifier = eachItem.identifier;
+        if (identifier != nil) {
+            [mutableSet removeObject:identifier];
+        }
+    }];
+    
+    return [mutableSet copy];
 }
 
 - (BOOL)showValidityAlertWithMessage:(NSString *)text {
@@ -907,14 +933,28 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
     return (self.savedAnswers != nil);
 }
 
-- (nullable ORKTaskResult *)_delegate_ongoingTaskResult {
+/// Returns the combination of the delegate's stepViewControllerOngoingResult: ORKTaskResult and the full ORKStepResult for this stepViewController (regardless of formItem visibilityRules)
+- (nonnull ORKTaskResult *)_ongoingTaskResult {
+    ORKTaskResult *taskResult = nil;
+
     id <ORKStepViewControllerDelegate> delegate = [self delegate];
-    ORKTaskResult *result = nil;
     if ([delegate respondsToSelector:@selector(stepViewControllerOngoingResult:)]) {
-        result = [delegate stepViewControllerOngoingResult:self];
-        // [RDLS:RADAR] rdar://109081353 (Integrate formStepViewController questionResult into ongoing taskResult)
+        // make a copy of the taskResult since we're going to change its results
+        taskResult = [[delegate stepViewControllerOngoingResult:self] copy];
     }
-    return result;
+
+    // in case no taskResult was returned, make one up
+    if (taskResult == nil) {
+        taskResult = [[ORKTaskResult alloc] initWithTaskIdentifier:@"" taskRunUUID:[NSUUID new] outputDirectory:nil];
+    }
+    
+    // start with all the stepResults regardless of visibilityRules
+    ORKStepResult *stepResult = [self _stepResultFromFormItems:[self allFormItems]];
+    
+    // merge the results with the current ongoing task result.
+    taskResult.results = [taskResult.results arrayByAddingObject:stepResult];
+
+    return taskResult;
 }
 
 // Not to use `ImmediateNavigation` when current step already has an answer.
@@ -926,17 +966,45 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
 }
 
 - (ORKStepResult *)result {
+    ORKTaskResult *taskResult = [self _ongoingTaskResult];
+    
+    // get the stepResult, which should be the last result in the taskResult.results array
+    // this stepResult contains everything regardless of visibility rules
+    ORKStepResult *stepResult = ORKDynamicCast(taskResult.results.lastObject, ORKStepResult);
+
+    // Make a mutable copy of the stepResult's results array. We're going to remove items from this array
+    // rather than build a new array from an empty one. This way we preserve the results that may
+    // have been added through ORKStepViewController's `addResult:` API
+    NSMutableArray<ORKResult *> *mutableResults = [stepResult.results mutableCopy];
+
+    // walk through the array in reverse so we can use cheap removeObjectAtIndex: to remove results that should be hidden
+    NSSet<NSString *> *hiddenFormItemIdentifiers = [self hiddenFormItemIdentifiersForTaskResult:taskResult];
+    [stepResult.results enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(ORKResult *eachResult, NSUInteger index, BOOL *stop) {
+        NSString *identifier = eachResult.identifier;
+        if ([hiddenFormItemIdentifiers containsObject:identifier]) {
+            [mutableResults removeObjectAtIndex:index];
+        }
+    }];
+    
+    stepResult.results = [mutableResults copy];
+    return stepResult;
+}
+
+- (ORKStepResult *)_stepResultFromFormItems:(NSArray<ORKFormItem *> *)formItems {
     ORKStepResult *parentResult = [super result];
-    
-    NSArray *items = [self answerableFormItems];
-    
+
     // "Now" is the end time of the result, which is either actually now,
     // or the last time we were in the responder chain.
     NSDate *now = parentResult.endDate;
     
     NSMutableArray *qResults = [NSMutableArray new];
-    for (ORKFormItem *item in items) {
+    for (ORKFormItem *item in formItems) {
 
+        // Only process formItems for which we would have an answerFormat
+        if (item.answerFormat == nil) {
+            continue;
+        }
+        
         // Skipped forms report a "null" value for every item -- by skipping, the user has explicitly said they don't want
         // to report any values from this form.
         

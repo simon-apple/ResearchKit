@@ -50,6 +50,6 @@ returns a list of all the answerable formItems
 /**
  returns delegate_ongoingTaskResult from the ORKTaskViewController Delegate
  */
-- (nullable ORKTaskResult *)_delegate_ongoingTaskResult;
+- (nonnull ORKTaskResult *)_ongoingTaskResult;
 
 @end
