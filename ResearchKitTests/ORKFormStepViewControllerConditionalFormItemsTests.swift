@@ -147,12 +147,14 @@ final class ORKFormStepViewControllerConditionalFormItemsTests: XCTestCase {
             }
         }
 
-        // formStepViewController's _delegate_ongoingTaskResult hook should provide results for *only* the question step
+        // formStepViewController's _ongoingTaskResult provide results for *both* the
+        // preceding question step and the current form step
         do {
             let formStepViewController = mainTaskVC.currentStepViewController as? ORKFormStepViewController
-            let result = formStepViewController?._delegate_ongoingTaskResult()
-            XCTAssertEqual(result?.results?.count, 1)
+            let result = formStepViewController?._ongoingTaskResult()
+            XCTAssertEqual(result?.results?.count, 2)
             XCTAssertEqual(result?.results?[0].identifier, FormStepTestUtilities.QuestionStepIdentifier)
+            XCTAssertEqual(result?.results?[1].identifier, FormStepTestUtilities.FormStepIdentifier)
         }
     }
     
@@ -225,65 +227,115 @@ final class ORKFormStepViewControllerConditionalFormItemsTests: XCTestCase {
         }
     }
 
+    func testEvaluatingTaskResultCurrentStep() throws {
+        let mainTask = ORKOrderedTask(identifier: "mainTaskIdentifier", steps: [
+            FormStepTestUtilities.selfReferentialConditionalFormStep()
+        ])
+        let mainTaskVC = ORKTaskViewController(task: mainTask, taskRun: nil)
+        
+        // go to the first step so we can simulate a user responding
+        mainTaskVC.flipToPage(withIdentifier: mainTask.steps[0].identifier, forward: true, animated: false)
+        let formStepViewController = mainTaskVC.currentStepViewController as! ORKFormStepViewController
+
+        // make a simulated result
+        do {
+            // get the current result from the stepViewController, should be nil
+            let stepResult = mainTaskVC.currentStepViewController?.result
+            let questionResult = stepResult?.result(forIdentifier: "item1") as! ORKQuestionResult
+            XCTAssertNil(questionResult.answer)
+
+            // update the question result to unlock the conditional formItem
+            formStepViewController.setAnswer(NSNumber(booleanLiteral: true), forIdentifier: questionResult.identifier)
+            mainTaskVC.stepViewControllerResultDidChange(formStepViewController)
+        }
+        
+        // now see that the conditional form item is present
+        do {
+            let stepResult = mainTaskVC.result.stepResult(forStepIdentifier: FormStepTestUtilities.SelfConditionalFormStepIdentifier)
+            
+            XCTAssertNotNil(stepResult?.result(forIdentifier: "item1"))
+            XCTAssertNil((stepResult?.result(forIdentifier: "item2") as? ORKQuestionResult)?.answer)
+            XCTAssertNotNil(stepResult?.result(forIdentifier: "item3"), "conditional formItem 'item3' should be unlocked by true answer for 'item1'")
+        }
+        
+        // turn the conditional formItem off again by setting the answer to false
+        do {
+            // update the question result to unlock the conditional formItem
+            formStepViewController.setAnswer(NSNumber(booleanLiteral: false), forIdentifier: "item1")
+            mainTaskVC.stepViewControllerResultDidChange(formStepViewController)
+
+            let stepResult = mainTaskVC.result.stepResult(forStepIdentifier: FormStepTestUtilities.SelfConditionalFormStepIdentifier)
+            XCTAssertNil(stepResult?.result(forIdentifier: "item3"), "conditional formItem 'item3' should not be visible if item1 is false")
+        }
+    }
+
     func testEvaluationLogic() throws {
         let formStep = ORKFormStep(identifier: String(describing: "eligibilityFormStep"))
         formStep.title = NSLocalizedString("Conditional Form Items", comment: "")
         formStep.isOptional = false
         
         // Form items
-        let textChoices: [ORKTextChoice] = [ORKTextChoice(text: "Yes", value: "Yes" as NSString), ORKTextChoice(text: "No", value: "No" as NSString), ORKTextChoice(text: "N/A", value: "N/A" as NSString)]
-        let answerFormat = ORKTextChoiceAnswerFormat(style: ORKChoiceAnswerStyle.singleChoice, textChoices: textChoices)
+        let yesNoAnswerFormat = ORKTextChoiceAnswerFormat(
+            style: ORKChoiceAnswerStyle.singleChoice,
+            textChoices: [
+                ORKTextChoice(text: "Yup", value: "Yes" as NSString),
+                ORKTextChoice(text: "Nope", value: "No" as NSString),
+                ORKTextChoice(text: "hmm", value: "N/A" as NSString)
+            ]
+        )
         
-        let textChoices2: [ORKTextChoice] = [ORKTextChoice(text: "Yup", value: "Yes" as NSString), ORKTextChoice(text: "Nope", value: "No" as NSString), ORKTextChoice(text: "hmm", value: "N/A" as NSString)]
-        let answerFormat2 = ORKTextChoiceAnswerFormat(style: ORKChoiceAnswerStyle.singleChoice, textChoices: textChoices2)
+        let dogsFormItem = ORKFormItem(
+            identifier: String(describing: "dogsFormItem"),
+            text: "Do you like dogs?",
+            answerFormat: ORKTextChoiceAnswerFormat(
+                style: ORKChoiceAnswerStyle.singleChoice,
+                textChoices: [
+                    ORKTextChoice(text: "Yes", value: "Yes" as NSString),
+                    ORKTextChoice(text: "No", value: "No" as NSString),
+                    ORKTextChoice(text: "N/A", value: "N/A" as NSString)
+                ]
+            )
+        ).optionality(isOptional: false)
         
-        let dogsFormItem = ORKFormItem(identifier: String(describing: "dogsFormItem"), text: "Do you like dogs?", answerFormat: answerFormat)
-        dogsFormItem.isOptional = false
+        let dogsYesFollowupFormItem = ORKFormItem(
+            identifier: String(describing: "dogsYesFollowupFormItem"),
+            text: "Do you like small dogs?",
+            answerFormat: yesNoAnswerFormat
+        ).optionality(isOptional: false)
         
-        let dogsYesFollowupFormItem = ORKFormItem(identifier: String(describing: "dogsYesFollowupFormItem"), text: "Do you like small dogs?", answerFormat: answerFormat2)
-        dogsYesFollowupFormItem.isOptional = false
+        let dogsNoFollowupFormItem = ORKFormItem(
+            identifier: String(describing: "dogsNoFollowupFormItem"),
+            text: "Do you like cats?",
+            answerFormat: yesNoAnswerFormat
+        ).optionality(isOptional: false)
         
-        let dogsNoFollowupFormItem = ORKFormItem(identifier: String(describing: "dogsNoFollowupFormItem"), text: "Do you like cats?", answerFormat: answerFormat2)
-        dogsNoFollowupFormItem.isOptional = false
+        let catsFollowupFormItem = ORKFormItem(
+            identifier: String(describing: "catsFollowupFormItem"),
+            text: "Do you like small cats?",
+            answerFormat: yesNoAnswerFormat
+        ).optionality(isOptional: false)
         
-        let catsFollowupFormItem = ORKFormItem(identifier: String(describing: "catsFollowupFormItem"), text: "Do like small cats?", answerFormat: answerFormat2)
-        dogsNoFollowupFormItem.isOptional = false
+        let dogsFormItemResultSelector = ORKResultSelector(
+            stepIdentifier: String(describing: "eligibilityFormStep"),
+            resultIdentifier: String(describing: "dogsFormItem")
+        )
         
-        let dogsFormItemResultSelector = ORKResultSelector(stepIdentifier: String(describing: "eligibilityFormStep"), resultIdentifier: String(describing: "dogsFormItem"))
-        
-        let dogsYesPredicate = ORKResultPredicate.predicateForChoiceQuestionResult(with: dogsFormItemResultSelector, expectedAnswerValue: "Yes" as NSString)
-        let dogsNoPredicate = ORKResultPredicate.predicateForChoiceQuestionResult(with: dogsFormItemResultSelector, expectedAnswerValue: "No" as NSString)
+        let dogsYesPredicate = ORKResultPredicate.predicateForChoiceQuestionResult(
+            with: dogsFormItemResultSelector,
+            expectedAnswerValue: "Yes" as NSString
+        )
+        let dogsNoPredicate = ORKResultPredicate.predicateForChoiceQuestionResult(
+            with: dogsFormItemResultSelector,
+            expectedAnswerValue: "No" as NSString
+        )
         
         let catsItemResultSelector = ORKResultSelector(stepIdentifier: String(describing: "eligibilityFormStep"), resultIdentifier: String(describing: "dogsNoFollowupFormItem"))
         
         let catYesPredicate = ORKResultPredicate.predicateForChoiceQuestionResult(with: catsItemResultSelector, expectedAnswerValue: "Yes" as NSString)
         
-        
-        // [RDLS:TODO] two unused predicates here
-        let catsFollowupFormItemSelector = ORKResultSelector(stepIdentifier: String(describing:  "eligibilityFormStep"), resultIdentifier: String(describing: "catsFollowupFormItem"))
-        _ = ORKResultPredicate.predicateForChoiceQuestionResult(with: catsFollowupFormItemSelector, expectedAnswerValue: "Yes" as NSString)
-        
-        let catNameFollowupFormItemSelector = ORKResultSelector(stepIdentifier: String(describing:  "eligibilityFormStep"), resultIdentifier: String(describing: "nameFormItem"))
-        _ = ORKResultPredicate.predicateForTextQuestionResult(with: catNameFollowupFormItemSelector, expectedString: "Reed")
-        
-        
-        let dogYesCondition = ORKPredicateFormItemVisibilityRule(
-            predicateFormat: dogsYesPredicate.predicateFormat
-        )
-        
-        let dogNoCondition = ORKPredicateFormItemVisibilityRule(
-            predicateFormat: dogsNoPredicate.predicateFormat
-        )
-        
-        let catsFollowupCondition =  ORKPredicateFormItemVisibilityRule(
-            predicateFormat: catYesPredicate.predicateFormat
-        )
-        
-        
-        dogsYesFollowupFormItem.visibilityRule = dogYesCondition
-        dogsNoFollowupFormItem.visibilityRule = dogNoCondition
-        catsFollowupFormItem.visibilityRule = catsFollowupCondition
-        
+        dogsYesFollowupFormItem.visibilityRule = ORKPredicateFormItemVisibilityRule(predicateFormat: dogsYesPredicate.predicateFormat)
+        dogsNoFollowupFormItem.visibilityRule = ORKPredicateFormItemVisibilityRule(predicateFormat: dogsNoPredicate.predicateFormat)
+        catsFollowupFormItem.visibilityRule =  ORKPredicateFormItemVisibilityRule(predicate: catYesPredicate)
         
         let taskResult = ORKTaskResult(taskIdentifier: "TaskIdentifier", taskRun: UUID(), outputDirectory: nil)
         
@@ -293,7 +345,7 @@ final class ORKFormStepViewControllerConditionalFormItemsTests: XCTestCase {
             dogsNoFollowupFormItem,
             catsFollowupFormItem,
         ]
-        
+
         for formItem in formStep.formItems! {
             if let visibilityRule = formItem.visibilityRule {
                 XCTAssert(visibilityRule.formItemVisibility(for:taskResult) == false)
@@ -318,7 +370,7 @@ final class ORKFormStepViewControllerConditionalFormItemsTests: XCTestCase {
         
         result.results = [ORKStepResult(stepIdentifier: formStep.identifier, results: [choiceResult])]
         
-        XCTAssert(formItem.visibilityRule?.formItemVisibility(for: result) == true)
+        XCTAssertTrue(formItem.visibilityRule!.formItemVisibility(for: result))
     }
     
     func checkTextResult(questionId: String, answer: NSCopying & NSSecureCoding & NSObjectProtocol, formStep: ORKFormStep, formItem: ORKFormItem) {
@@ -329,7 +381,7 @@ final class ORKFormStepViewControllerConditionalFormItemsTests: XCTestCase {
         
         result.results = [ORKStepResult(stepIdentifier: formStep.identifier, results: [choiceResult])]
         
-        XCTAssert(formItem.visibilityRule?.formItemVisibility(for: result) == true)
+        XCTAssertTrue(formItem.visibilityRule!.formItemVisibility(for: result))
     }
     
 }
@@ -344,6 +396,11 @@ extension ORKFormStep {
 extension ORKFormItem {
     func formItemSettingVisibilityRule(_ predicate: NSPredicate) -> ORKFormItem {
         self.visibilityRule = ORKPredicateFormItemVisibilityRule(predicate: predicate)
+        return self
+    }
+    
+    func optionality(isOptional: Bool) -> Self {
+        self.isOptional = isOptional
         return self
     }
 }
@@ -378,6 +435,7 @@ fileprivate struct FormStepTestUtilities {
 
     static let FormStepIdentifier = "Identifier: Plain old FormStep"
     static let ConditionalFormStepIdentifier = "Identifier: FormStep with conditional form items"
+    static let SelfConditionalFormStepIdentifier = "Identifier: FormStep with self-referential conditional form items"
     static let QuestionStepIdentifier = "Identifier: This is a simple question step"
 
     static let SectionTitle = "Title: This is a Section"
@@ -392,6 +450,7 @@ fileprivate struct FormStepTestUtilities {
         return step
     }
 
+    // this formStep has a formItem that's conditional on a previous step's results
     static func conditionalFormStep() -> ORKFormStep {
         let step = ORKFormStep(identifier: ConditionalFormStepIdentifier, formItems: [
             ORKFormItem(sectionTitle: SectionTitle), // section should not be answerable
@@ -403,6 +462,26 @@ fileprivate struct FormStepTestUtilities {
                         with: ORKResultSelector(
                             stepIdentifier: QuestionStepIdentifier,
                             resultIdentifier: QuestionStepIdentifier
+                        ),
+                        expectedAnswer: true
+                    )
+                )
+        ])
+        return step
+    }
+
+    // this formStep has a formItem that's conditional on its own step's results
+    static func selfReferentialConditionalFormStep() -> ORKFormStep {
+        let step = ORKFormStep(identifier: SelfConditionalFormStepIdentifier, formItems: [
+            ORKFormItem(sectionTitle: SectionTitle), // section should not be answerable
+            ORKFormItem(identifier: "item1", text:"none", answerFormat: .booleanAnswerFormat(), optional: true),
+            ORKFormItem(identifier: "item2", text: "text", answerFormat: ORKTextAnswerFormat()),
+            ORKFormItem(identifier: "item3", text: "more text", answerFormat: ORKTextAnswerFormat())
+                .formItemSettingVisibilityRule(
+                    ORKResultPredicate.predicateForBooleanQuestionResult(
+                        with: ORKResultSelector(
+                            stepIdentifier: SelfConditionalFormStepIdentifier,
+                            resultIdentifier: "item1"
                         ),
                         expectedAnswer: true
                     )
