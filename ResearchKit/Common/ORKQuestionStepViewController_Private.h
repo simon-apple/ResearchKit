@@ -50,7 +50,11 @@ NS_ASSUME_NONNULL_BEGIN
  Set the step answer.
  */
 - (void)setAnswer:(id)answer;
+- (nullable id)answer;
+- (BOOL)hasChangedAnswer;
+- (void)testAnswerDidChangeTo:(id)answer;
 
+- (void)answerCell:(ORKSurveyAnswerCell *)cell answerDidChangeTo:(id)answer dueUserAction:(BOOL)dueUserAction;
 @end
 
 NS_ASSUME_NONNULL_END
