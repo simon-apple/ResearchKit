@@ -32,7 +32,6 @@
 #import "ORKTinnitusTypes.h"
 
 #import "AAPLUtils.h"
-#import "UIColor+Custom.h"
 
 #import <ResearchKitInternal/UIColor+Custom.h>
 
