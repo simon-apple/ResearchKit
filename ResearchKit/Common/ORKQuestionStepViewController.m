@@ -92,8 +92,6 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
     ORKQuestionStepCellHolderView *_cellHolderView;
     
     id _defaultAnswer;
-    BOOL _finishedInitialSetup;
-
     BOOL _visible;
     UITableViewCell *_currentFirstResponderCell;
 }
@@ -158,7 +156,6 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
     _answerFormat = [self.questionStep impliedAnswerFormat];
     
     self.hasChangedAnswer = NO;
-    _finishedInitialSetup = NO;
 
     if ([self isViewLoaded]) {
         BOOL neediPadDesign = ORKNeedWideScreenDesign(self.view);
@@ -365,8 +362,6 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
     if ([self allowContinue] == NO) {
         self.continueButtonItem  = self.internalContinueButtonItem;
     }
-    
-    _finishedInitialSetup = YES;
 }
 
 - (void)setNavigationFooterButtonItems {
@@ -1016,10 +1011,6 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
 }
 
 - (void)answerCell:(ORKSurveyAnswerCell *)cell answerDidChangeTo:(id)answer dueUserAction:(BOOL)dueUserAction {
-    if (_finishedInitialSetup == false) {
-        return;
-    }
-    
     [self saveAnswer:answer];
     
     if (self.hasChangedAnswer == NO && dueUserAction == YES) {
