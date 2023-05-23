@@ -1029,7 +1029,7 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
 #pragma mark - ORKSurveyAnswerCellDelegate
 
 - (void)testAnswerDidChangeTo:(id)answer {
-    [self answerCell:nil answerDidChangeTo:answer dueUserAction:YES];
+    [self answerCell:[ORKSurveyAnswerCell new] answerDidChangeTo:answer dueUserAction:YES];
 }
 
 - (void)answerCell:(ORKSurveyAnswerCell *)cell answerDidChangeTo:(id)answer dueUserAction:(BOOL)dueUserAction {
