@@ -39,20 +39,12 @@ NS_ASSUME_NONNULL_BEGIN
 @class ORKScaleRangeDescriptionLabel;
 @class ORKScaleRangeImageView;
 @class ORKScaleSliderView;
-@class ORKColorScaleSliderView;
 
 @protocol ORKScaleAnswerFormatProvider;
-@protocol ORKColorScaleAnswerFormatProvider;
 
 @protocol ORKScaleSliderViewDelegate <NSObject>
 
 - (void)scaleSliderViewCurrentValueDidChange:(ORKScaleSliderView *)sliderView;
-
-@end
-
-@protocol ORKColorScaleSliderViewDelegate <NSObject>
-
-- (void)scaleSliderViewCurrentValueDidChange:(ORKColorScaleSliderView *)sliderView;
 
 @end
 
@@ -64,34 +56,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, weak, readonly) id<ORKScaleSliderViewDelegate> delegate;
 
 @property (nonatomic, strong, readonly) id<ORKScaleAnswerFormatProvider> formatProvider;
-
-@property (nonatomic, strong, readonly) ORKScaleRangeLabel *leftRangeLabel;
-
-@property (nonatomic, strong, readonly) ORKScaleRangeLabel *rightRangeLabel;
-
-@property (nonatomic, strong, readonly) ORKScaleRangeImageView *leftRangeImageView;
-
-@property (nonatomic, strong, readonly) ORKScaleRangeImageView *rightRangeImageView;
-
-@property (nonatomic, strong, readonly) ORKScaleRangeDescriptionLabel *leftRangeDescriptionLabel;
-
-@property (nonatomic, strong, readonly) ORKScaleRangeDescriptionLabel *rightRangeDescriptionLabel;
-
-@property (nonatomic, strong, readonly) ORKScaleValueLabel *valueLabel;
-
-// Accepts NSNumber for continous scale or discrete scale.
-// Accepts NSArray<NSObject<NSCopying, NSSecureCoding> *> for text scale.
-@property (nonatomic, strong, nullable) id currentAnswerValue;
-
-@end
-
-@interface ORKColorScaleSliderView : UIView
-
-- (instancetype)initWithFormatProvider:(id<ORKColorScaleAnswerFormatProvider>)formatProvider delegate:(id<ORKColorScaleSliderViewDelegate>)delegate;
-
-@property (nonatomic, weak, readonly) id<ORKColorScaleSliderViewDelegate> delegate;
-
-@property (nonatomic, strong, readonly) id<ORKColorScaleAnswerFormatProvider> formatProvider;
 
 @property (nonatomic, strong, readonly) ORKScaleRangeLabel *leftRangeLabel;
 

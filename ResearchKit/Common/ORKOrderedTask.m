@@ -365,7 +365,7 @@
     
     BOOL multilineTextEntry = (answerFormat.questionType == ORKQuestionTypeText && [(ORKTextAnswerFormat *)answerFormat multipleLines]);
     
-    BOOL scale = (answerFormat.questionType == ORKQuestionTypeScale) || (answerFormat.questionType == ORKQuestionTypeColorScale);
+    BOOL scale = (answerFormat.questionType == ORKQuestionTypeScale);
     
     // Items that require individual section
     if (multiCellChoices || multilineTextEntry || scale) {
