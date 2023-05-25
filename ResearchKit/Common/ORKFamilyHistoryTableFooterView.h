@@ -28,44 +28,22 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@import Foundation;
-
-#import <ResearchKit/ORKTypes.h>
-
-@class ORKTaskResult;
-
-#if RK_APPLE_INTERNAL
-@class ORKFormStep;
-#endif
+@import UIKit;
 
 NS_ASSUME_NONNULL_BEGIN
 
-ORK_CLASS_AVAILABLE
-@interface ORKRelatedPerson : NSObject <NSSecureCoding, NSCopying>
+@class ORKRelativeGroup;
+@class ORKFamilyHistoryTableFooterView;
 
-+ (instancetype)new NS_UNAVAILABLE;
-- (instancetype)init NS_UNAVAILABLE;
+@protocol ORKFamilyHistoryTableFooterViewDelegate <NSObject>
 
-- (instancetype)initWithIdentifier:(NSString *)identifier
-                     groupIdentifier:(NSString *)groupIdentifier
-                        taskResult:(ORKTaskResult *)result NS_DESIGNATED_INITIALIZER;
+- (void)ORKFamilyHistoryTableFooterView:(ORKFamilyHistoryTableFooterView *)footerView didSelectFooterForRelativeGroup:(NSString *)relativeGroup;
 
-@property (nonatomic, readonly, copy) NSString *identifier;
-@property (nonatomic, readonly, copy) NSString *groupIdentifier;
-@property (nonatomic, copy) ORKTaskResult *taskResult;
+@end
 
-- (nullable NSString *)getTitleValueWithIdentifier:(NSString *)identifier;
+@interface ORKFamilyHistoryTableFooterView: UIView
 
-- (NSArray<NSString *> *)getDetailListValuesWithIdentifiers:(NSArray<NSString *> *)identifiers
-                                    displayInfoKeyAndValues:(NSDictionary<NSString *, NSDictionary<NSString *, NSString *> *> *)displayInfoKeyAndValues;
-
-- (NSArray<NSString *> *)getConditionsListWithStepIdentifier:(NSString *)stepIdentifier
-                                          formItemIdentifier:(NSString *)formItemIdentifier
-                                         conditionsKeyValues:(NSDictionary<NSString *, NSString *> *)conditionsKeyValues;
-
-#if RK_APPLE_INTERNAL
-- (int)getAgeFromFormSteps:(NSArray<ORKFormStep *> *)formSteps;
-#endif
+- (instancetype)initWithTitle:(NSString *)title relativeGroupIdentifier:(NSString *)relativeGroupIdentifier delegate:(id<ORKFamilyHistoryTableFooterViewDelegate>)delegate;
 
 @end
 

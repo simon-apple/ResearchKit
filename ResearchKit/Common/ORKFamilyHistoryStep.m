@@ -53,6 +53,37 @@
     return self;
 }
 
+- (void)validateParameters {
+    [super validateParameters];
+    
+    // validate that atleast one condition has been provided
+    if (self.conditionStepConfiguration.conditions.count == 0) {
+        @throw [NSException exceptionWithName:NSInvalidArgumentException
+                                               reason:@"At least one ORKHealthCondition must be added to the ORKConditionStepConfiguration object"
+                                             userInfo:nil];
+    }
+    
+    // validate that atleast one relative group has been provided
+    if (self.relativeGroups.count == 0) {
+        @throw [NSException exceptionWithName:NSInvalidArgumentException
+                                       reason:@"At least one ORKRelativeGroup must be provided"
+                                     userInfo:nil];
+    }
+    
+    // validate that the identifiers for each relative group is unique
+    NSMutableSet *identifiers = [NSMutableSet new];
+    for (ORKRelativeGroup *relativeGroup in self.relativeGroups) {
+        if ([identifiers containsObject:relativeGroup.identifier]) {
+            @throw [NSException exceptionWithName:NSInvalidArgumentException
+                                           reason:@"Each ORKRelativeGroup must have a unique identifier"
+                                         userInfo:nil];
+        } else {
+            [identifiers addObject:relativeGroup.identifier];
+        }
+    }
+    
+}
+
 + (BOOL)supportsSecureCoding {
     return YES;
 }
