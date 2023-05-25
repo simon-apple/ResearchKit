@@ -1904,9 +1904,9 @@ enum TaskListRow: Int, CustomStringConvertible {
         // create ORKHealthConditions
         
         let healthConditions = [
-        ORKHealthCondition(identifier: "healthConditionIdentifier1", displayName: "Diabetes", value: 1 as NSNumber),
-        ORKHealthCondition(identifier: "healthConditionIdentifier2", displayName: "Heart Attack", value: 2 as NSNumber),
-        ORKHealthCondition(identifier: "healthConditionIdentifier3", displayName: "Stroke", value: 3 as NSNumber)
+        ORKHealthCondition(identifier: "healthConditionIdentifier1", displayName: "Diabetes", value: "Diabetes" as NSString),
+        ORKHealthCondition(identifier: "healthConditionIdentifier2", displayName: "Heart Attack", value: "Heart Attack" as NSString),
+        ORKHealthCondition(identifier: "healthConditionIdentifier3", displayName: "Stroke", value: "Stroke" as NSString)
         ]
         
         // add ORKHealthConditions to ORKConditionStepConfiguration object
@@ -1924,11 +1924,11 @@ enum TaskListRow: Int, CustomStringConvertible {
         parentNameFormItem.isOptional = false
         
         let sexAtBirthOptions = [
-            ORKTextChoice(text: "Female", value: 1 as NSNumber),
-            ORKTextChoice(text: "Male", value: 2 as NSNumber),
-            ORKTextChoice(text: "Intersex", value: 3 as NSNumber),
-            ORKTextChoice(text: "I don't know", value: 4 as NSNumber),
-            ORKTextChoice(text: "I prefer not to answer", value: 5 as NSNumber),
+            ORKTextChoice(text: "Female", value: "Female" as NSString),
+            ORKTextChoice(text: "Male", value: "Male" as NSString),
+            ORKTextChoice(text: "Intersex", value: "Intersex" as NSString),
+            ORKTextChoice(text: "I don't know", value: "i_dont_know" as NSString),
+            ORKTextChoice(text: "I prefer not to answer", value: "i_prefer_not_to_answer" as NSString)
         ]
         
         let parentSexAtBirthChoiceAnswerFormat = ORKAnswerFormat.choiceAnswerFormat(with: .singleChoice, textChoices: sexAtBirthOptions)
@@ -1949,10 +1949,11 @@ enum TaskListRow: Int, CustomStringConvertible {
         var ageOptions = [ORKTextChoice]()
         
         for i in 18...90 {
-            ageOptions.append(ORKTextChoice(text: "\(i)", value: i as NSNumber))
+            ageOptions.append(ORKTextChoice(text: "\(i)", value: "\(i)" as NSString))
         }
         
-        let parentAgePickerSectionHeaderFormItem = ORKFormItem(identifier: "ParentAgeSectionHeaderIdentifier", text: "What is their approximage age?", answerFormat: nil)
+        let parentAgePickerSectionHeaderFormItem = ORKFormItem(identifier: "ParentAgeSectionHeaderIdentifier", text: "What is their approximate age?", answerFormat: nil)
+        
         let parentAgePickerAnswerFormat = ORKAnswerFormat.valuePickerAnswerFormat(with: ageOptions)
         parentAgePickerAnswerFormat.shouldShowDontKnowButton = true
         
@@ -1993,7 +1994,8 @@ enum TaskListRow: Int, CustomStringConvertible {
         siblingAgePickerAnswerFormat.shouldShowDontKnowButton = true
         
         let siblingAgePickerSectionHeaderFormItem = ORKFormItem(identifier: "SiblingAgeSectionHeaderIdentifier", text: "What is their approximage age?", answerFormat: nil)
-        let siblingAgeFormItem = ORKFormItem(identifier: "SiblingAgeFormItem", text: nil, answerFormat: siblingAgePickerAnswerFormat)
+        
+        let siblingAgeFormItem = ORKFormItem(identifier: "SiblingAgeFormItemIdentifier", text: nil, answerFormat: siblingAgePickerAnswerFormat)
         siblingAgeFormItem.isOptional = false
         
         let siblingFormStep = ORKFormStep(identifier: "SiblingSurveyIdentifier")
@@ -2015,18 +2017,18 @@ enum TaskListRow: Int, CustomStringConvertible {
                          name: "Parent",
                          sectionTitle: "Biological Parents",
                          sectionDetailText: "Incude your blood-related parents.",
-                         identifierForCellTitle: "",
+                         identifierForCellTitle: "ParentNameIdentifier",
                          maxAllowed: 2,
                          formSteps: [parentFormStep],
-                         detailTextIdentifiers: []),
+                         detailTextIdentifiers: ["ParentSexAtBirthIdentifier", "ParentVitalStatusIdentifier", "ParentAgeFormItemIdentifier"]),
         ORKRelativeGroup(identifier: "SiblingGroupIdentifier",
                          name: "Sibling",
                          sectionTitle: "Biological Siblings",
-                         sectionDetailText: "Include all siblings who share on or both of your blood-related parents.",
-                         identifierForCellTitle: "",
+                         sectionDetailText: "Include all siblings who share one or both of your blood-related parents.",
+                         identifierForCellTitle: "SiblingNameIdentifier",
                          maxAllowed: 10,
                          formSteps: [siblingFormStep],
-                         detailTextIdentifiers: [])
+                         detailTextIdentifiers: ["SiblingSexAtBirthIdentifier", "SiblingVitalStatusIdentifier", "SiblingAgeFormItemIdentifier"])
         ]
         
         // create ORKFamilyHistoryStep and add to a ORKOrderedTask

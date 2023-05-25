@@ -28,44 +28,37 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@import Foundation;
-
-#import <ResearchKit/ORKTypes.h>
-
-@class ORKTaskResult;
-
-#if RK_APPLE_INTERNAL
-@class ORKFormStep;
-#endif
+#import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-ORK_CLASS_AVAILABLE
-@interface ORKRelatedPerson : NSObject <NSSecureCoding, NSCopying>
+@class ORKFamilyHistoryRelatedPersonCell;
+@protocol ORKFamilyHistoryRelatedPersonCellDelegate;
 
-+ (instancetype)new NS_UNAVAILABLE;
-- (instancetype)init NS_UNAVAILABLE;
+typedef NS_ENUM(NSInteger, ORKFamilyHistoryTooltipOption) {
+    ORKFamilyHistoryTooltipOptionEdit,
+    ORKFamilyHistoryTooltipOptionDelete
+};
 
-- (instancetype)initWithIdentifier:(NSString *)identifier
-                     groupIdentifier:(NSString *)groupIdentifier
-                        taskResult:(ORKTaskResult *)result NS_DESIGNATED_INITIALIZER;
 
-@property (nonatomic, readonly, copy) NSString *identifier;
-@property (nonatomic, readonly, copy) NSString *groupIdentifier;
-@property (nonatomic, copy) ORKTaskResult *taskResult;
+@protocol ORKFamilyHistoryRelatedPersonCellDelegate <NSObject>
+    
+- (void)familyHistoryRelatedPersonCell:(ORKFamilyHistoryRelatedPersonCell *)relatedPersonCell
+                          tappedOption:(ORKFamilyHistoryTooltipOption)option;
+    
+@end
 
-- (nullable NSString *)getTitleValueWithIdentifier:(NSString *)identifier;
 
-- (NSArray<NSString *> *)getDetailListValuesWithIdentifiers:(NSArray<NSString *> *)identifiers
-                                    displayInfoKeyAndValues:(NSDictionary<NSString *, NSDictionary<NSString *, NSString *> *> *)displayInfoKeyAndValues;
+@interface ORKFamilyHistoryRelatedPersonCell : UITableViewCell
 
-- (NSArray<NSString *> *)getConditionsListWithStepIdentifier:(NSString *)stepIdentifier
-                                          formItemIdentifier:(NSString *)formItemIdentifier
-                                         conditionsKeyValues:(NSDictionary<NSString *, NSString *> *)conditionsKeyValues;
+- (void)removeOptionsViewIfPresented;
 
-#if RK_APPLE_INTERNAL
-- (int)getAgeFromFormSteps:(NSArray<ORKFormStep *> *)formSteps;
-#endif
+@property (nonatomic) NSString *title;
+@property (nonatomic) NSString *relativeID;
+@property (nonatomic) NSArray<NSString *> *detailValues;
+@property (nonatomic) NSArray<NSString *> *conditionValues;
+@property (nonatomic) BOOL isLastItemBeforeAddRelativeButton;
+@property (nonatomic, weak, nullable) id<ORKFamilyHistoryRelatedPersonCellDelegate> delegate;
 
 @end
 

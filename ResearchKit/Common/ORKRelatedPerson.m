@@ -31,7 +31,17 @@
 #import "ORKRelatedPerson.h"
 
 #import "ORKCollectionResult.h"
+#import "ORKCollectionResult_Private.h"
+#import "ORKResult_Private.h"
+#import "ORKStep_Private.h"
+#import "ORKQuestionResult.h"
+#import "ORKQuestionResult_Private.h"
+
 #import "ORKHelpers_Internal.h"
+
+#if RK_APPLE_INTERNAL
+#import "ORKFormStep.h"
+#endif
 
 @implementation ORKRelatedPerson
 
@@ -88,5 +98,83 @@
             && ORKEqualObjects(self.taskResult, castObject.taskResult));
 }
 
+- (nullable NSString *)getTitleValueWithIdentifier:(NSString *)identifier {
+    return [self getResultValueWithIdentifier:identifier];
+}
+
+- (NSArray<NSString *> *)getDetailListValuesWithIdentifiers:(NSArray<NSString *> *)identifiers
+                                    displayInfoKeyAndValues:(nonnull NSDictionary<NSString *,NSDictionary<NSString *,NSString *> *> *)displayInfoKeyAndValues {
+    NSMutableArray<NSString *> *detailListValues = [NSMutableArray new];
+    
+    for (NSString *identifier in identifiers) {
+        NSString *value = [self getResultValueWithIdentifier:identifier];
+        
+        if (value) {
+            NSString *displayText = displayInfoKeyAndValues[identifier][value];
+            [detailListValues addObject: displayText != nil ? displayText : value];
+        }
+    }
+    
+    return [detailListValues copy];
+}
+
+- (NSArray<NSString *> *)getConditionsListWithStepIdentifier:(NSString *)stepIdentifier
+                                          formItemIdentifier:(NSString *)formItemIdentifier
+                                         conditionsKeyValues:(nonnull NSDictionary<NSString *,NSString *> *)conditionsKeyValues {
+    ORKStepResult *stepResult = (ORKStepResult *)[self.taskResult resultForIdentifier:stepIdentifier];
+    
+    ORKChoiceQuestionResult *choiceQuestionResult = (ORKChoiceQuestionResult *)[stepResult resultForIdentifier:formItemIdentifier];
+    NSArray<NSString *> *conditionsList = (NSArray<NSString *> *)choiceQuestionResult.choiceAnswers;
+    
+    NSMutableArray<NSString *> *conditionListDisplayValues = [NSMutableArray new];
+    
+    for (NSString *condition in conditionsList) {
+        [conditionListDisplayValues addObject:[conditionsKeyValues valueForKey:condition]];
+    }
+    
+    return [conditionListDisplayValues copy];
+}
+
+- (nullable NSString *)getResultValueWithIdentifier:(NSString *)identifier {
+    for (ORKStepResult *result in _taskResult.results) {
+        ORKQuestionResult *questionResult = (ORKQuestionResult *)[result resultForIdentifier:identifier];
+        
+        if (questionResult) {
+            if ([questionResult isKindOfClass:[ORKChoiceQuestionResult class]]) {
+                ORKChoiceQuestionResult *choiceQuestionResult = (ORKChoiceQuestionResult *)questionResult;
+                return (NSString *)choiceQuestionResult.choiceAnswers.firstObject;
+            } else {
+                return (NSString *)questionResult.answer;
+            }
+        } else {
+            break;
+        }
+    }
+    
+    return nil;
+}
+
+#if RK_APPLE_INTERNAL
+- (int)getAgeFromFormSteps:(NSArray<ORKFormStep *> *)formSteps {
+    for (ORKFormStep *formStep in formSteps) {
+        int index = 0;
+        for (ORKFormItem *formItem in formStep.formItems) {
+            if ([formItem.text containsString:@"age?"]) {
+                // If answerFormat is nil that means that the formItem is used as a section header and we should fetch the next formItem in the array
+                NSString *identifier = formItem.answerFormat != nil ? formItem.identifier : formStep.formItems[index + 1].identifier;
+                NSString *value = [self getResultValueWithIdentifier:identifier];
+                if (value) {
+                    return [value integerValue];
+                }
+                break;
+            }
+            
+            index += 1;
+        }
+    }
+    
+    return 0;
+}
+#endif
 
 @end
