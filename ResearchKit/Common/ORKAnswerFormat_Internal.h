@@ -149,21 +149,6 @@ ORK_DESIGNATE_CODING_AND_SERIALIZATION_INITIALIZERS(ORKTextChoice)
 
 @end
 
-@protocol ORKColorScaleAnswerFormatProvider <NSObject>
-
-- (nullable NSNumber *)minimumNumber;
-- (nullable NSNumber *)maximumNumber;
-- (nullable NSString *)localizedStringForNumber:(nullable NSNumber *)number;
-- (nullable NSNumber *)normalizedValueForNumber:(nullable NSNumber *)number;
-- (nullable ORKColorChoice *)colorChoiceAtIndex:(NSUInteger)index;
-- (nullable id)defaultAnswer;
-- (NSArray<ORKColorChoice *> *)colorChoices;
-- (NSUInteger)colorChoiceIndexForValue:(NSObject<NSCopying, NSSecureCoding> *)value;
-- (NSInteger)numberOfSteps;
-
-@end
-
-
 @protocol ORKTextScaleAnswerFormatProvider <ORKScaleAnswerFormatProvider>
 
 - (NSArray<ORKTextChoice *> *)textChoices;
@@ -184,9 +169,6 @@ ORK_DESIGNATE_CODING_AND_SERIALIZATION_INITIALIZERS(ORKTextChoice)
 
 @end
 
-@interface ORKColorScaleAnswerFormat () <ORKColorScaleAnswerFormatProvider>
-
-@end
 
 @interface ORKContinuousScaleAnswerFormat () <ORKScaleAnswerFormatProvider>
 

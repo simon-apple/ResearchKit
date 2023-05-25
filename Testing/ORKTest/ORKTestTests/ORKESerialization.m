@@ -1732,14 +1732,13 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(textViewInputOptional, NSNumber, NSObject, NO, nil, nil),
                     PROPERTY(textViewStartsHidden, NSNumber, NSObject, NO, nil, nil),
                     })),
-           ENTRY(ORKColorScaleAnswerFormat,
+           ENTRY(ORKColorChoiceAnswerFormat,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-               return [[ORKColorScaleAnswerFormat alloc] initWithColorChoices:GETPROP(dict, colorChoices)
-                                                                       defaultIndex:(NSInteger)[GETPROP(dict, defaultIndex) doubleValue]];
+                     return [[ORKColorChoiceAnswerFormat alloc] initWithStyle:((NSNumber *)GETPROP(dict, style)).integerValue colorChoices:GETPROP(dict, colorChoices)];
                  },
                  (@{
+                    PROPERTY(style, NSNumber, NSObject, NO, NUMTOSTRINGBLOCK(ORKChoiceAnswerStyleTable()), STRINGTONUMBLOCK(ORKChoiceAnswerStyleTable())),
                     PROPERTY(colorChoices, ORKColorChoice, NSArray, NO, nil, nil),
-                    PROPERTY(defaultIndex, NSNumber, NSObject, NO, nil, nil),
                     })),
            ENTRY(ORKColorChoice,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {

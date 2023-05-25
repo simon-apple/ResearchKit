@@ -66,7 +66,6 @@ NSString *ORKQuestionTypeString(ORKQuestionType questionType) {
     switch (questionType) {
             SQT_CASE(None);
             SQT_CASE(Scale);
-            SQT_CASE(ColorScale);
             SQT_CASE(SingleChoice);
             SQT_CASE(MultipleChoice);
             SQT_CASE(MultiplePicker);
@@ -320,10 +319,6 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
                                                         vertical:vertical];
 }
 
-+ (ORKColorScaleAnswerFormat *)colorScaleAnswerFormatWithColorChoices:(NSArray <ORKColorChoice *> *)colorChoices
-                                                               defaultIndex:(NSInteger)defaultIndex {
-    return [[ORKColorScaleAnswerFormat alloc] initWithColorChoices:colorChoices defaultIndex:defaultIndex];
-}
 
 + (ORKValuePickerAnswerFormat *)valuePickerAnswerFormatWithTextChoices:(NSArray<ORKTextChoice *> *)textChoices {
     return [[ORKValuePickerAnswerFormat alloc] initWithTextChoices:textChoices];
@@ -1109,6 +1104,104 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
 
 - (NSArray *)choices {
     return self.textChoices;
+}
+
+@end
+
+#pragma mark - ORKColorChoiceAnswerFormat
+
+@interface ORKColorChoiceAnswerFormat () {
+
+    ORKChoiceAnswerFormatHelper *_helper;
+}
+
+@end
+
+
+@implementation ORKColorChoiceAnswerFormat
+
++ (instancetype)new {
+    ORKThrowMethodUnavailableException();
+}
+
+- (instancetype)init {
+    ORKThrowMethodUnavailableException();
+}
+
+- (instancetype)initWithStyle:(ORKChoiceAnswerStyle)style
+                  colorChoices:(NSArray<ORKColorChoice *> *)colorChoices {
+    self = [super init];
+    if (self) {
+        _style = style;
+        _colorChoices = [colorChoices copy];
+        _helper = [[ORKChoiceAnswerFormatHelper alloc] initWithAnswerFormat:self];
+    }
+    return self;
+}
+
+- (void)validateParameters {
+    [super validateParameters];
+}
+
+- (instancetype)copyWithZone:(NSZone *)zone {
+    ORKColorChoiceAnswerFormat *answerFormat = [[[self class] allocWithZone:zone] initWithStyle:_style
+                                                                                   colorChoices:[_colorChoices copy]];
+    return answerFormat;
+}
+
+- (BOOL)isEqual:(id)object {
+    BOOL isParentSame = [super isEqual:object];
+    
+    __typeof(self) castObject = object;
+    return (isParentSame &&
+            ORKEqualObjects(_colorChoices, castObject.colorChoices) &&
+            (_style == castObject.style));
+}
+
+- (NSUInteger)hash {
+    return super.hash ^ _colorChoices.hash ^ _style;
+}
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wobjc-designated-initializers"
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        ORK_DECODE_OBJ_ARRAY(aDecoder, colorChoices, ORKColorChoice);
+        ORK_DECODE_ENUM(aDecoder, style);
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [super encodeWithCoder:aCoder];
+    ORK_ENCODE_OBJ(aCoder, colorChoices);
+    ORK_ENCODE_ENUM(aCoder, style);
+    
+}
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
+- (ORKQuestionType)questionType {
+    return (_style == ORKChoiceAnswerStyleSingleChoice) ? ORKQuestionTypeSingleChoice : ORKQuestionTypeMultipleChoice;
+}
+
+- (Class)questionResultClass {
+    return [ORKChoiceQuestionResult class];
+}
+
+- (NSString *)stringForAnswer:(id)answer {
+    return [_helper stringForChoiceAnswer:answer];
+}
+
+- (BOOL)shouldShowDontKnowButton {
+    return NO;
+}
+
+- (NSArray *)choices {
+    return self.colorChoices;
 }
 
 @end
@@ -2880,136 +2973,6 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
 
 - (NSArray *)choices {
     return self.textChoices;
-}
-
-@end
-
-@interface ORKColorScaleAnswerFormat (Private)
-@property(nonatomic) NSNumberFormatter *numberFormatter;
-@end
-
-
-@implementation ORKColorScaleAnswerFormat
-
-- (Class)questionResultClass {
-    return [ORKScaleQuestionResult class];
-}
-
-+ (instancetype)new {
-    ORKThrowMethodUnavailableException();
-}
-
-- (instancetype)init {
-    ORKThrowMethodUnavailableException();
-}
-
-- (instancetype)initWithColorChoices:(NSArray<ORKColorChoice *> *)colorChoices defaultIndex:(NSInteger *)defaultIndex {
-    self = [super init];
-    if (self) {
-        _colorChoices = [colorChoices copy];
-        _defaultIndex = defaultIndex;
-    }
-    
-    return self;
-}
-
-- (NSObject<NSCopying, NSSecureCoding> *)defaultAnswer {
-    if (_defaultIndex < 0 || _defaultIndex >= _colorChoices.count) {
-        return nil;
-    }
-    NSObject<NSCopying, NSSecureCoding> *value = [self colorChoiceAtIndex:_defaultIndex].value;
-    return value ? : nil;
-}
-- (NSString *)localizedStringForNumber:(NSNumber *)number {
-    return [self.numberFormatter stringFromNumber:number];
-}
-
-- (ORKColorChoice *)colorChoiceAtIndex:(NSUInteger)index {
-    
-    if (index >= _colorChoices.count) {
-        return nil;
-    }
-    return _colorChoices[index];
-}
-
-- (NSNumberFormatter *)numberFormatter {
-    if (!self.numberFormatter) {
-        self.numberFormatter = [[NSNumberFormatter alloc] init];
-        self.numberFormatter.numberStyle = NSNumberFormatterDecimalStyle;
-        self.numberFormatter.locale = [NSLocale autoupdatingCurrentLocale];
-        self.numberFormatter.maximumFractionDigits = 0;
-    }
-    return self.numberFormatter;
-}
-
-- (NSInteger)numberOfSteps {
-    return _colorChoices.count - 1;
-}
-
-- (NSNumber *)normalizedValueForNumber:(NSNumber *)number {
-    return @([number integerValue]);
-}
-
-- (ORKColorChoice *)colorChoiceForValue:(NSObject<NSCopying, NSSecureCoding> *)value {
-    __block ORKColorChoice *choice = nil;
-    
-    [_colorChoices enumerateObjectsUsingBlock:^(ORKColorChoice * _Nonnull colorChoice, NSUInteger idx, BOOL * _Nonnull stop) {
-        if ([colorChoice.value isEqual:value]) {
-            choice = colorChoice;
-            *stop = YES;
-        }
-    }];
-    
-    return choice;
-}
-
-- (NSUInteger)colorChoiceIndexForValue:(NSObject<NSCopying, NSSecureCoding> *)value {
-    ORKColorChoice *choice = [self colorChoiceForValue:value];
-    return choice ? [_colorChoices indexOfObject:choice] : NSNotFound;
-}
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wobjc-designated-initializers"
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    
-    if (self) {
-        ORK_DECODE_OBJ_ARRAY(aDecoder, colorChoices, ORKColorChoice);
-        ORK_DECODE_INTEGER(aDecoder, defaultIndex);
-    }
-    return self;
-}
-
-- (void)encodeWithCoder:(NSCoder *)aCoder {
-    [super encodeWithCoder:aCoder];
-    ORK_ENCODE_OBJ(aCoder, colorChoices);
-    ORK_ENCODE_INTEGER(aCoder, defaultIndex);
-}
-
-+ (BOOL)supportsSecureCoding {
-    return YES;
-}
-
-- (BOOL)isEqual:(id)object {
-    BOOL isParentSame = [super isEqual:object];
-    
-    __typeof(self) castObject = object;
-    return (isParentSame && ORKEqualObjects(self.colorChoices, castObject.colorChoices));
-}
-
-- (NSNumber *)minimumNumber {
-    return @(1);
-}
-- (NSNumber *)maximumNumber {
-    return @(_colorChoices.count);
-}
-
-- (ORKQuestionType)questionType {
-    return ORKQuestionTypeColorScale;
-}
-
-- (NSString *)stringForAnswer:(id)answer {
-    return [self localizedStringForNumber:answer];
 }
 
 @end

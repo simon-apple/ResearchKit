@@ -44,7 +44,6 @@
 @class ORKScaleAnswerFormat;
 @class ORKContinuousScaleAnswerFormat;
 @class ORKTextScaleAnswerFormat;
-@class ORKColorScaleAnswerFormat;
 @class ORKValuePickerAnswerFormat;
 @class ORKMultipleValuePickerAnswerFormat;
 @class ORKImageChoiceAnswerFormat;
@@ -193,6 +192,21 @@ ORK_CLASS_AVAILABLE
  both are shown.
  */
 @property (copy, readonly) NSArray<ORKTextChoice *> *textChoices;
+
+@end
+
+ORK_CLASS_AVAILABLE
+@interface ORKColorChoiceAnswerFormat : ORKAnswerFormat
+
++ (instancetype)new NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
+
+- (instancetype)initWithStyle:(ORKChoiceAnswerStyle)style
+                 colorChoices:(NSArray<ORKColorChoice *> *)colorChoices NS_DESIGNATED_INITIALIZER;
+
+@property (readonly) ORKChoiceAnswerStyle style;
+
+@property (copy, readonly) NSArray<ORKColorChoice *> *colorChoices;
 
 @end
 
@@ -435,9 +449,6 @@ ORK_CLASS_AVAILABLE
 + (ORKTextScaleAnswerFormat *)textScaleAnswerFormatWithTextChoices:(NSArray <ORKTextChoice *> *)textChoices
                                                       defaultIndex:(NSInteger)defaultIndex
                                                           vertical:(BOOL)vertical;
-
-+ (ORKColorScaleAnswerFormat *)colorScaleAnswerFormatWithColorChoices:(NSArray <ORKColorChoice *> *)colorChoices
-                                                               defaultIndex:(NSInteger)defaultIndex;
 
 + (ORKValuePickerAnswerFormat *)valuePickerAnswerFormatWithTextChoices:(NSArray<ORKTextChoice *> *)textChoices;
 
@@ -1007,21 +1018,6 @@ ORK_CLASS_AVAILABLE
 
 @end
 
-
-ORK_CLASS_AVAILABLE
-@interface ORKColorScaleAnswerFormat : ORKAnswerFormat
-
-+ (instancetype)new NS_UNAVAILABLE;
-- (instancetype)init NS_UNAVAILABLE;
-
-
-- (instancetype)initWithColorChoices:(NSArray<ORKColorChoice *> *)colorChoices defaultIndex:(NSInteger *)defaultIndex NS_DESIGNATED_INITIALIZER;
-
-@property (nonatomic, copy, readonly) NSArray<ORKColorChoice *> *colorChoices;
-
-@property (nonatomic, readonly) NSInteger defaultIndex;
-
-@end
 
 /**
  The `ORKValuePickerAnswerFormat` class represents an answer format that lets participants use a

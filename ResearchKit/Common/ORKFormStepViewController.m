@@ -754,7 +754,7 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
     BOOL multiCellChoices = ([singleSectionTypes containsObject:@(answerFormat.questionType)] &&
                              NO == [answerFormat isKindOfClass:[ORKValuePickerAnswerFormat class]]);
 
-    BOOL scale = (answerFormat.questionType == ORKQuestionTypeScale) || (answerFormat.questionType == ORKQuestionTypeColorScale);
+    BOOL scale = (answerFormat.questionType == ORKQuestionTypeScale);
     
     // Items require individual section
     if (multiCellChoices || scale) {
@@ -1310,11 +1310,6 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
                     
                 case ORKQuestionTypeScale: {
                     class = [ORKFormItemScaleCell class];
-                    break;
-                }
-                    
-                case ORKQuestionTypeColorScale: {
-                    class = [ORKFormItemColorScaleCell class];
                     break;
                 }
                     

@@ -68,6 +68,11 @@
     id<ORKAnswerOption> option = [self answerOptionAtIndex:index];
     return option && [option isKindOfClass:[ORKImageChoice class]] ? (ORKImageChoice *) option : nil;
 }
+
+- (ORKColorChoice *)colorChoiceAtIndex:(NSUInteger)index {
+    id<ORKAnswerOption> option = [self answerOptionAtIndex:index];
+    return option && [option isKindOfClass:[ORKColorChoice class]] ? (ORKColorChoice *) option : nil;
+}
 #endif
 
 - (ORKTextChoice *)textChoiceAtIndex:(NSUInteger)index {
