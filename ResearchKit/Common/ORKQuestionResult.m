@@ -580,12 +580,14 @@ static NSString *const RegionIdentifierKey = @"region.identifier";
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [super encodeWithCoder:aCoder];
     ORK_ENCODE_OBJ(aCoder, unit);
+    ORK_ENCODE_OBJ(aCoder, displayUnit);
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
         ORK_DECODE_OBJ_CLASS(aDecoder, unit, NSString);
+        ORK_DECODE_OBJ_CLASS(aDecoder, displayUnit, NSString);
         if (_typedAnswerOrNoAnswer == nil) {
             // Backwards compatibility, do not change the key
             ORK_DECODE_OBJ_CLASSES_FOR_KEY(aDecoder, typedAnswerOrNoAnswer, [[self class] answerClassesIncludingNoAnswer], numericAnswer);
@@ -602,17 +604,19 @@ static NSString *const RegionIdentifierKey = @"region.identifier";
     BOOL isParentSame = [super isEqual:object];
     __typeof(self) castObject = object;
     return (isParentSame &&
-            ORKEqualObjects(self.unit, castObject.unit));
+            ORKEqualObjects(self.unit, castObject.unit) &&
+            ORKEqualObjects(self.displayUnit, castObject.displayUnit));
 }
 
 - (NSUInteger)hash {
-    return super.hash ^ self.unit.hash;
+    return super.hash ^ self.unit.hash ^ self.displayUnit.hash;
 }
 
 
 - (instancetype)copyWithZone:(NSZone *)zone {
     ORKNumericQuestionResult *copy = [super copyWithZone:zone];
     copy->_unit = [self.unit copyWithZone:zone];
+    copy->_displayUnit = [self.displayUnit copyWithZone:zone];
     return copy;
 }
 
@@ -621,7 +625,7 @@ static NSString *const RegionIdentifierKey = @"region.identifier";
 }
 
 - (NSString *)descriptionSuffix {
-    return [NSString stringWithFormat:@" %@>", _unit];
+    return [NSString stringWithFormat:@" %@> displayUnit: %@", _unit, _displayUnit];
 }
 
 - (void)setNumericAnswer:(NSNumber *)numericAnswer {

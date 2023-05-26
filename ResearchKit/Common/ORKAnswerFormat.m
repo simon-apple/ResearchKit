@@ -2064,7 +2064,7 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
                          unit:(NSString *)unit
                       minimum:(NSNumber *)minimum
                       maximum:(NSNumber *)maximum {
-    return [self initWithStyle:style unit:unit minimum:minimum maximum:maximum maximumFractionDigits:nil];
+    return [self initWithStyle:style unit:unit displayUnit:unit minimum:minimum maximum:maximum maximumFractionDigits:nil];
 }
 
 - (instancetype)initWithStyle:(ORKNumericAnswerStyle)style
@@ -2072,10 +2072,20 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
                       minimum:(NSNumber *)minimum
                       maximum:(NSNumber *)maximum
         maximumFractionDigits:(NSNumber *)maximumFractionDigits {
+    return [self initWithStyle:style unit:unit displayUnit:unit minimum:minimum maximum:maximum maximumFractionDigits:maximumFractionDigits];
+}
+
+- (instancetype)initWithStyle:(ORKNumericAnswerStyle)style
+                         unit:(NSString *)unit
+                  displayUnit:(NSString *)displayUnit
+                      minimum:(NSNumber *)minimum
+                      maximum:(NSNumber *)maximum
+        maximumFractionDigits:(NSNumber *)maximumFractionDigits {
     self = [super init];
     if (self) {
         _style = style;
         _unit = [unit copy];
+        _displayUnit = [displayUnit copy];
         _minimum = [minimum copy];
         _maximum = [maximum copy];
         _maximumFractionDigits = [maximumFractionDigits copy];
@@ -2101,6 +2111,7 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
     if (self) {
         ORK_DECODE_ENUM(aDecoder, style);
         ORK_DECODE_OBJ_CLASS(aDecoder, unit, NSString);
+        ORK_DECODE_OBJ_CLASS(aDecoder, displayUnit, NSString);
         ORK_DECODE_OBJ_CLASS(aDecoder, minimum, NSNumber);
         ORK_DECODE_OBJ_CLASS(aDecoder, maximum, NSNumber);
         ORK_DECODE_OBJ_CLASS(aDecoder, defaultNumericAnswer, NSNumber);
@@ -2115,6 +2126,7 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
     [super encodeWithCoder:aCoder];
     ORK_ENCODE_ENUM(aCoder, style);
     ORK_ENCODE_OBJ(aCoder, unit);
+    ORK_ENCODE_OBJ(aCoder, displayUnit);
     ORK_ENCODE_OBJ(aCoder, minimum);
     ORK_ENCODE_OBJ(aCoder, maximum);
     ORK_ENCODE_OBJ(aCoder, defaultNumericAnswer);
@@ -2130,6 +2142,7 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
 - (instancetype)copyWithZone:(NSZone *)zone {
     ORKNumericAnswerFormat *answerFormat = [[[self class] allocWithZone:zone] initWithStyle:_style
                                                                                        unit:[_unit copy]
+                                                                                displayUnit:[_displayUnit copy]
                                                                                     minimum:[_minimum copy]
                                                                                     maximum:[_maximum copy]
                                                                       maximumFractionDigits:[_maximumFractionDigits copy]];
@@ -2149,6 +2162,7 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
     return (isParentSame &&
             _style == castObject.style &&
             ORKEqualObjects(self.unit, castObject.unit) &&
+            ORKEqualObjects(self.displayUnit, castObject.displayUnit) &&
             ORKEqualObjects(self.minimum, castObject.minimum) &&
             ORKEqualObjects(self.maximum, castObject.maximum) &&
             ORKEqualObjects(self.defaultNumericAnswer, castObject.defaultNumericAnswer) &&

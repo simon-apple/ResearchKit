@@ -562,6 +562,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         case numericQuestionTask
         case numericQuestionStep
         case numericNoUnitQuestionStep
+        case numericDisplayUnitQuestionStep
 
         // Task with examples of questions with sliding scales.
         case scaleQuestionTask
@@ -1511,9 +1512,17 @@ enum TaskListRow: Int, CustomStringConvertible {
         questionStep2.text = exampleDetailText
         questionStep2.placeholder = NSLocalizedString("Placeholder without unit.", comment: "")
         
+        // This answer format is similar to the previous one, but this time with a display unit.
+        let questionStep3 = ORKQuestionStep(identifier: String(describing: Identifier.numericDisplayUnitQuestionStep), title: NSLocalizedString("Numeric with Display Unit", comment: ""), question: exampleQuestionText, answer: ORKNumericAnswerFormat(style: .decimal, unit: "weeks", displayUnit: "semanas", minimum: 1, maximum: 120, maximumFractionDigits: 1))
+        
+        questionStep3.text = exampleDetailText
+        questionStep3.placeholder = NSLocalizedString("Placeholder with display unit.", comment: "")
+        
+        
         return ORKOrderedTask(identifier: String(describing: Identifier.numericQuestionTask), steps: [
             questionStep1,
-            questionStep2
+            questionStep2,
+            questionStep3
         ])
     }
     
