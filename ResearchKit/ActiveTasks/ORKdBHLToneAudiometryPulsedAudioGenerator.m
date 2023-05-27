@@ -107,7 +107,7 @@ NSString * const pulsedFilenameExtension = @"plist";
 @end
 
 #define PULSE_RAMP_MS 35
-const double ORKdBHLSineWaveToneGeneratorPulsedSampleRateDefault = 44100.0f;
+const double ORKdBHLSineWaveToneGeneratorPulsedSampleRateDefault = 48000.0f;
 const int ORKdBHLSineWaveToneGeneratorPulseRampFrames = ORKdBHLSineWaveToneGeneratorPulsedSampleRateDefault/(1000/PULSE_RAMP_MS);
 
 static OSStatus ORKdBHLAudioGeneratorRenderTone(void *inRefCon,
