@@ -703,10 +703,11 @@ public extension ORKNewAudiometry {
         // Create n X 2 matrix where first column is the points not covered and
         // second column is the dB range (2.5 dB increments)
         var xNew = Matrix<Double>(elements: [], rows: 0, columns: 2)
-        
+        let levelSpacing = 2.5
+
         for rowSlice in notCovered.rows {
             let row = Array(rowSlice)
-            let dBRange = vDSP.linearInterpolate(values: [minLevel, maxLevel], atIndices: [0, 34])
+            let dBRange = vDSP.linearInterpolate(values: [minLevel, maxLevel], atIndices: [0, (maxLevel - minLevel) / levelSpacing])
             for dB in dBRange {
                 xNew.appendRow([row[0], dB])
             }
