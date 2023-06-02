@@ -563,6 +563,7 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
         _knownNotSerializedProperties = @[
                                           @"ORKActiveStep.image",
                                           @"ORKAmslerGridResult.image",
+                                          @"ORKAnswerFormat.formStepViewControllerCellClass",
                                           @"ORKAnswerFormat.healthKitUnit",
                                           @"ORKAnswerFormat.healthKitUserUnit",
                                           @"ORKAnswerFormat.questionType",

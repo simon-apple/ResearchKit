@@ -1942,15 +1942,24 @@ enum TaskListRow: Int, CustomStringConvertible {
             ageOptions.append(ORKTextChoice(text: "\(i)", value: "\(i)" as NSString))
         }
         
+        let parentFormStep = ORKFormStep(identifier: "ParentSurveyIdentifier")
+        let visibilityRule = ORKPredicateFormItemVisibilityRule(
+            predicate: ORKResultPredicate.predicateForChoiceQuestionResult(
+                with: .init(stepIdentifier: parentFormStep.identifier, resultIdentifier: parentVitalStatusFormItem.identifier),
+                expectedAnswerValue: NSString(string: "system=snomedct&code=73211009")
+            )
+        )
+
         let parentAgePickerSectionHeaderFormItem = ORKFormItem(identifier: "ParentAgeSectionHeaderIdentifier", text: "What is their approximate age?", answerFormat: nil)
+        parentAgePickerSectionHeaderFormItem.visibilityRule = visibilityRule
         
         let parentAgePickerAnswerFormat = ORKAnswerFormat.valuePickerAnswerFormat(with: ageOptions)
         parentAgePickerAnswerFormat.shouldShowDontKnowButton = true
         
         let parentAgeFormItem = ORKFormItem(identifier: "ParentAgeFormItemIdentifier", text: nil, answerFormat: parentAgePickerAnswerFormat)
         parentAgeFormItem.isOptional = false
+        parentAgeFormItem.visibilityRule = visibilityRule
         
-        let parentFormStep = ORKFormStep(identifier: "ParentSurveyIdentifier")
         parentFormStep.isOptional = false
         parentFormStep.title = "Parent"
         parentFormStep.detailText = "Answer these questions to the best of your ability."

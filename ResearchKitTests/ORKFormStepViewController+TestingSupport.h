@@ -30,7 +30,11 @@
 
 #import <ResearchKit/ORKFormStepViewController_Private.h>
 
+@class ORKTableCellItemIdentifier;
+
 @interface ORKFormStepViewController (TestingSupport)
+
+@property (nonatomic, strong) UITableView *tableView;
 
 /**
 returns a list of all the formItems
@@ -51,5 +55,7 @@ returns a list of all the answerable formItems
  returns delegate_ongoingTaskResult from the ORKTaskViewController Delegate
  */
 - (nonnull ORKTaskResult *)_ongoingTaskResult;
+
+- (void)buildDataSource:(UITableViewDiffableDataSource<NSString *, ORKTableCellItemIdentifier *> *)dataSource;
 
 @end
