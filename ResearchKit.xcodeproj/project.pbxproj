@@ -229,6 +229,8 @@
 		2EBFE1201AE1B74100CB8254 /* ORKVoiceEngineTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EBFE11F1AE1B74100CB8254 /* ORKVoiceEngineTests.m */; };
 		3C1AFDF229FC4BF80027F2A3 /* ORKFormItemVisibilityRule.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C1AFDF029FC4BF80027F2A3 /* ORKFormItemVisibilityRule.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3C1AFDF329FC4BF80027F2A3 /* ORKFormItemVisibilityRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C1AFDF129FC4BF80027F2A3 /* ORKFormItemVisibilityRule.m */; };
+		3C768BEA2A1E84850082EBA4 /* ORKAnswerFormat+FormStepViewControllerAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C768BE82A1E84850082EBA4 /* ORKAnswerFormat+FormStepViewControllerAdditions.h */; };
+		3C768BEB2A1E84850082EBA4 /* ORKAnswerFormat+FormStepViewControllerAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C768BE92A1E84850082EBA4 /* ORKAnswerFormat+FormStepViewControllerAdditions.m */; };
 		3C7AEDCC29A72F83009EED4A /* CLLocationManager+ResearchKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C7AEDCA29A72F83009EED4A /* CLLocationManager+ResearchKit.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		3C7AEDCD29A72F83009EED4A /* CLLocationManager+ResearchKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C7AEDCB29A72F83009EED4A /* CLLocationManager+ResearchKit.m */; };
 		3CB9665C29FF0B44007A8766 /* ORKPredicateFormItemVisibilityRule.h in Headers */ = {isa = PBXBuildFile; fileRef = 3CB9665A29FF0B44007A8766 /* ORKPredicateFormItemVisibilityRule.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1399,6 +1401,8 @@
 		3C09BE2D2A0DFA7C00DAE549 /* ORKQuestionStepViewController+TestingSupport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ORKQuestionStepViewController+TestingSupport.h"; sourceTree = "<group>"; };
 		3C1AFDF029FC4BF80027F2A3 /* ORKFormItemVisibilityRule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKFormItemVisibilityRule.h; sourceTree = "<group>"; };
 		3C1AFDF129FC4BF80027F2A3 /* ORKFormItemVisibilityRule.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKFormItemVisibilityRule.m; sourceTree = "<group>"; };
+		3C768BE82A1E84850082EBA4 /* ORKAnswerFormat+FormStepViewControllerAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ORKAnswerFormat+FormStepViewControllerAdditions.h"; sourceTree = "<group>"; };
+		3C768BE92A1E84850082EBA4 /* ORKAnswerFormat+FormStepViewControllerAdditions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ORKAnswerFormat+FormStepViewControllerAdditions.m"; sourceTree = "<group>"; };
 		3C7AEDCA29A72F83009EED4A /* CLLocationManager+ResearchKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CLLocationManager+ResearchKit.h"; sourceTree = "<group>"; };
 		3C7AEDCB29A72F83009EED4A /* CLLocationManager+ResearchKit.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CLLocationManager+ResearchKit.m"; sourceTree = "<group>"; };
 		3CB9665A29FF0B44007A8766 /* ORKPredicateFormItemVisibilityRule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKPredicateFormItemVisibilityRule.h; sourceTree = "<group>"; };
@@ -4052,6 +4056,8 @@
 		B12EFF3C1AB211FB00A80147 /* Form Step */ = {
 			isa = PBXGroup;
 			children = (
+				3C768BE82A1E84850082EBA4 /* ORKAnswerFormat+FormStepViewControllerAdditions.h */,
+				3C768BE92A1E84850082EBA4 /* ORKAnswerFormat+FormStepViewControllerAdditions.m */,
 				3C1AFDF029FC4BF80027F2A3 /* ORKFormItemVisibilityRule.h */,
 				3C1AFDF129FC4BF80027F2A3 /* ORKFormItemVisibilityRule.m */,
 				3CB9665A29FF0B44007A8766 /* ORKPredicateFormItemVisibilityRule.h */,
@@ -5284,6 +5290,7 @@
 				FF919A431E81B904005C2A1E /* ORKPSATResult.h in Headers */,
 				FF36A49C1D1A15FC00DE8470 /* ORKTableStepViewController_Internal.h in Headers */,
 				FF919A631E81D04D005C2A1E /* ORKSignatureResult.h in Headers */,
+				3C768BEA2A1E84850082EBA4 /* ORKAnswerFormat+FormStepViewControllerAdditions.h in Headers */,
 				51D823052472FB9B00BF4F72 /* ORKRequestPermissionsStepContainerView.h in Headers */,
 				86C40D7C1A8D7C5C00081FAC /* ORKScaleValueLabel.h in Headers */,
 				03EDD58024CA6B1D006245E9 /* ORKNotificationPermissionType.h in Headers */,
@@ -5970,6 +5977,7 @@
 				FF919A601E81CF07005C2A1E /* ORKVideoInstructionStepResult.m in Sources */,
 				959A2BFD1D68B98700841B04 /* ORKRangeOfMotionStep.m in Sources */,
 				FF919A2F1E81AAD0005C2A1E /* ORKTowerOfHanoiResult.m in Sources */,
+				3C768BEB2A1E84850082EBA4 /* ORKAnswerFormat+FormStepViewControllerAdditions.m in Sources */,
 				BCB6E6531B7D533B000D5B34 /* ORKPieChartLegendCell.m in Sources */,
 				866DA52A1D63D04700C9AF3F /* ORKOperation.m in Sources */,
 				86C40D8C1A8D7C5C00081FAC /* ORKSkin.m in Sources */,

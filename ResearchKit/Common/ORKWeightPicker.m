@@ -95,6 +95,10 @@ static const CGFloat PickerMinimumHeight = 34.0;
     return _pickerView;
 }
 
+- (void)resetAnswerToDefault {
+    _answer = [self defaultAnswerValue];
+}
+
 - (void)setAnswer:(id)answer {
     _answer = answer;
     if (ORKIsAnswerEmpty(answer)) {
@@ -109,7 +113,8 @@ static const CGFloat PickerMinimumHeight = 34.0;
         if (_answerFormat.numericPrecision != ORKNumericPrecisionHigh) {
             NSUInteger index = [_majorValues indexOfObject:@((double)((NSNumber *)answer).doubleValue)];
             if (index == NSNotFound) {
-                [self setAnswer:[self defaultAnswerValue]];
+                // Not calling setAnswer:defaultAnswerValue to avoid infinite recursion
+                [self resetAnswerToDefault];
                 return;
             }
             if (![_pickerDelegate isOptional]) {
@@ -122,7 +127,8 @@ static const CGFloat PickerMinimumHeight = 34.0;
             NSUInteger wholeIndex = [_majorValues indexOfObject:@((NSInteger)whole)];
             NSUInteger fractionIndex = [_minorValues indexOfObject:@((NSInteger)fraction)];
             if (wholeIndex == NSNotFound || fractionIndex == NSNotFound) {
-                [self setAnswer:[self defaultAnswerValue]];
+                // Not calling setAnswer:defaultAnswerValue to avoid infinite recursion
+                [self resetAnswerToDefault];
                 return;
             }
             if (![_pickerDelegate isOptional]) {
@@ -138,7 +144,8 @@ static const CGFloat PickerMinimumHeight = 34.0;
             double pounds = ORKKilogramsToPounds(((NSNumber *)answer).doubleValue);
             NSUInteger poundsIndex = [_majorValues indexOfObject:@((NSInteger)pounds)];
             if (poundsIndex == NSNotFound) {
-                [self setAnswer:[self defaultAnswerValue]];
+                // Not calling setAnswer:defaultAnswerValue to avoid infinite recursion
+                [self resetAnswerToDefault];
                 return;
             }
             // need to add one if not optional
@@ -152,7 +159,8 @@ static const CGFloat PickerMinimumHeight = 34.0;
             NSUInteger poundsIndex = [_majorValues indexOfObject:@((NSInteger)pounds)];
             NSUInteger ouncesIndex = [_minorValues indexOfObject:@((NSInteger)ounces)];
             if (poundsIndex == NSNotFound || ouncesIndex == NSNotFound) {
-                [self setAnswer:[self defaultAnswerValue]];
+                // Not calling setAnswer:defaultAnswerValue to avoid infinite recursion
+                [self resetAnswerToDefault];
                 return;
             }
             if (![_pickerDelegate isOptional]) {

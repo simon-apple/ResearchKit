@@ -123,32 +123,42 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     NSArray<NSLayoutConstraint *> *_containerConstraints;
 }
 
-- (instancetype)initWithReuseIdentifier:(NSString *)reuseIdentifier
-                               formItem:(ORKFormItem *)formItem
-                                 answer:(id)answer
-                          maxLabelWidth:(CGFloat)maxLabelWidth
-                               delegate:(id<ORKFormItemCellDelegate>)delegate {
-    self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
-    if (self) {
-        // Setting the 'delegate' on init is required, as some questions (such as the scale questions)
-        // need it when they wish to report their default answers to 'ORKFormStepViewController'.
-        _delegate = delegate;
-        
-        _maxLabelWidth = maxLabelWidth;
-        _answer = [answer copy];
-        self.formItem = formItem;
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self != nil) {
         _labelLabel = [[ORKCaption1Label alloc] init];
-        _labelLabel.text = formItem.text;
         _labelLabel.numberOfLines = 0;
         [self setBackgroundColor:[UIColor clearColor]];
+
         _containerView = [UIView new];
         [_containerView addSubview:_labelLabel];
         [self.contentView addSubview:_containerView];
-        [self setupConstraints];
         [self cellInit];
-        [self setAnswer:_answer];
     }
     return self;
+}
+
+- (void)configureWithFormItem:(ORKFormItem *)formItem
+                       answer:(id)answer
+                maxLabelWidth:(CGFloat)maxLabelWidth
+                     delegate:(id<ORKFormItemCellDelegate>)delegate {
+
+    // [RDLS:NOTE] Done
+    // We used to set the 'delegate' on init, as some questions (such as the scale questions)
+    // need it when they wish to report their default answers to 'ORKFormStepViewController'. By setting it
+    // here in config, before setAnswer: we seem to be getting the same effect.
+    _delegate = delegate; // [RDLS:NOTE] moved from init
+        
+    _maxLabelWidth = maxLabelWidth; // [RDLS:NOTE] moved from init
+    _answer = [answer copy]; // [RDLS:NOTE] moved from init
+    _labelLabel.text = formItem.text; // [RDLS:NOTE] moved from init. These 3 subclasses used to reset this to nil in cellInit
+    // ORKFormItemTextCell
+    // ORKFormItemImageSelectionCell
+    // ORKFormItemScaleCell
+    
+    self.formItem = formItem; // [RDLS:NOTE] moved from init
+    [self setupConstraints]; // [RDLS:NOTE] moved from init
+    [self setAnswer:_answer]; // [RDLS:NOTE] moved from init
 }
 
 - (void)setExpectedLayoutWidth:(CGFloat)newWidth {
@@ -177,7 +187,7 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     [NSLayoutConstraint activateConstraints:_containerConstraints];
 }
 
--(void) drawRect:(CGRect)rect {
+-(void)drawRect:(CGRect)rect {
     [super drawRect:rect];
     [self setMaskLayers];
 }
@@ -343,7 +353,15 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
 
 - (void)prepareForReuse {
     self.hasChangedAnswer = NO;
+    _labelLabel.text = nil;
+    _delegate = nil;
+    _answer = nil;
+    [self _resetFormItem];
     [super prepareForReuse];
+}
+
+- (void)_resetFormItem {
+    _formItem = nil;
 }
 
 // Inform delegate of the change
@@ -433,23 +451,14 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     UIView *_dontKnowBackgroundView;
 }
 
-- (instancetype)initWithReuseIdentifier:(NSString *)reuseIdentifier
-                               formItem:(ORKFormItem *)formItem
-                                 answer:(id)answer
-                          maxLabelWidth:(CGFloat)maxLabelWidth
-                               delegate:(id<ORKFormItemCellDelegate>)delegate{
-    self = [super initWithReuseIdentifier:reuseIdentifier
-                                 formItem:formItem
-                                   answer:answer
-                            maxLabelWidth:maxLabelWidth
-                                 delegate:delegate];
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self != nil) {
         UILabel *label = self.labelLabel;
         label.isAccessibilityElement = NO;
-        self.textFieldView.isAccessibilityElement = YES;
-        self.textFieldView.accessibilityLabel = label.text;
-        _doneButtonWasPressed = NO;
-        
+        self.textFieldView.isAccessibilityElement = YES; // [RDLS:NOTE] textViewView is configured in cellInit which runs in [super initWithStyle:reuseIdentifer]
+
+        // [RDLS:NOTE] not my favorite, since we are, or own, the view that posts these, but for compatibility's sake
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(orkDoneButtonPressed:)
                                                      name:ORKDoneButtonPressedKey
@@ -462,6 +471,27 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     return self;
 }
 
+- (void)configureWithFormItem:(ORKFormItem *)formItem
+                       answer:(id)answer
+                maxLabelWidth:(CGFloat)maxLabelWidth
+                     delegate:(id<ORKFormItemCellDelegate>)delegate {
+    
+    self.textFieldView.textField.placeholder = formItem.placeholder; // [RDLS:NOTE] moved from cellInit
+    self.textFieldView.accessibilityLabel = self.labelLabel.text; // [RDLS:NOTE] moved from init. labelLabel.text set in [super config]
+    
+    if ([formItem.answerFormat shouldShowDontKnowButton]) { // [RDLS:NOTE] moved from cellInit
+        _shouldShowDontKnow = YES; // [RDLS:NOTE] reset in prepareForReuse
+        _customDontKnowString = formItem.answerFormat.customDontKnowButtonText; // [RDLS:NOTE] reset in prepareForReuse
+        [self setupDontKnowButton]; // [RDLS:NOTE] reset in prepareForReuse
+        self.accessibilityElements = @[_textFieldView, _dontKnowButton]; // [RDLS:NOTE] reset in prepareForReuse
+    }
+    
+    [self setUpContentConstraint]; // [RDLS:NOTE] moved from cellInit
+    [self setNeedsUpdateConstraints]; // [RDLS:NOTE] moved from cellInit
+
+    [super configureWithFormItem:formItem answer:answer maxLabelWidth:maxLabelWidth delegate:delegate];
+}
+
 - (ORKUnitTextField *)textField {
     return _textFieldView.textField;
 }
@@ -469,21 +499,21 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
 - (void)cellInit {
     [super cellInit];
     
-    _textFieldView = [[ORKTextFieldView alloc] init];
-    _textFieldView.isAccessibilityElement = YES;
+    _textFieldView = [[ORKTextFieldView alloc] init]; // (init)
+    _textFieldView.isAccessibilityElement = YES; // (init)
     
-    ORKUnitTextField *textField = _textFieldView.textField;
-    textField.delegate = self;
-    textField.placeholder = self.formItem.placeholder;
+    ORKUnitTextField *textField = _textFieldView.textField; // init
+    textField.delegate = self; // init
+//    textField.placeholder = self.formItem.placeholder; // [RDLS:NOTE] moved to config
     
-    [self.containerView addSubview:_textFieldView];
+    [self.containerView addSubview:_textFieldView]; // init
     
-    self.errorLabel = [UILabel new];
-    [self.errorLabel setTextColor: [UIColor redColor]];
-    [self.errorLabel setFont:[UIFont preferredFontForTextStyle:UIFontTextStyleFootnote]];
-    self.errorLabel.numberOfLines = 0;
+    self.errorLabel = [UILabel new]; // init
+    [self.errorLabel setTextColor: [UIColor redColor]]; // init
+    [self.errorLabel setFont:[UIFont preferredFontForTextStyle:UIFontTextStyleFootnote]]; // init
+    self.errorLabel.numberOfLines = 0; // init
     
-    [self.containerView addSubview:self.errorLabel];
+    [self.containerView addSubview:self.errorLabel]; // init
     
     self.labelLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [self.labelLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
@@ -491,17 +521,36 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     [_textFieldView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
     self.errorLabel.translatesAutoresizingMaskIntoConstraints = NO;
     
-    _shouldShowDontKnow = NO;
-    _customDontKnowString = nil;
-    if ([self.formItem.answerFormat shouldShowDontKnowButton]) {
-        _shouldShowDontKnow = YES;
-        _customDontKnowString = self.formItem.answerFormat.customDontKnowButtonText;
-        [self setupDontKnowButton];
-        self.accessibilityElements = @[_textFieldView, _dontKnowButton];
-    }
+//    _shouldShowDontKnow = NO; // [RDLS:NOTE] moved to prepareForReuse
+//    _customDontKnowString = nil; // [RDLS:NOTE] moved to prepareForReuse
+//    if ([self.formItem.answerFormat shouldShowDontKnowButton]) { // [RDLS:NOTE] moved to config
+//        _shouldShowDontKnow = YES; // [RDLS:NOTE] moved to config
+//        _customDontKnowString = self.formItem.answerFormat.customDontKnowButtonText; // [RDLS:NOTE] moved to config
+//        [self setupDontKnowButton]; // [RDLS:NOTE] moved to config
+//        self.accessibilityElements = @[_textFieldView, _dontKnowButton]; // [RDLS:NOTE] moved to config
+//    }
     
-    [self setUpContentConstraint];
-    [self setNeedsUpdateConstraints];
+//    [self setUpContentConstraint]; // [RDLS:NOTE] moved to config
+//    [self setNeedsUpdateConstraints]; // [RDLS:NOTE] moved to config
+}
+
+- (void)prepareForReuse {
+    [super prepareForReuse];
+    
+    _doneButtonWasPressed = NO; // [RDLS:NOTE] moved from init
+    _shouldShowDontKnow = NO; // [RDLS:NOTE] moved from cellInit
+    _customDontKnowString = nil; // [RDLS:NOTE] moved from cellInit
+
+    [_dontKnowBackgroundView removeFromSuperview];
+    _dontKnowBackgroundView = nil;
+    
+    [_dontKnowButton removeFromSuperview];
+    _dontKnowButton = nil;
+    
+    [_dividerView removeFromSuperview];
+    _dividerView = nil;
+    
+    self.accessibilityElements = nil;
 }
 
 - (void)willMoveToWindow:(UIWindow *)newWindow {
@@ -800,7 +849,10 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
         [self updateConstraints];
         [self cellNeedsToResize];
     }
-    
+
+    if (self.delegate && ![self.delegate formItemCellShouldDismissKeyboard:self]) {
+        NSLog(@"%@ textFieldShouldEndEditing called", self);
+    }
     if (self.delegate && wasDoneButtonPressed && ![self.delegate formItemCellShouldDismissKeyboard:self]) {
         self.editingHighlight = NO;
         [self inputValueDidChange];
@@ -843,13 +895,14 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
 
 #pragma mark NSNotification Methods
 
-- (void) orkDoneButtonPressed:(NSNotification *) notification {
+// TODO: rdar://110145976 ([ConditionalFormItems] I wish we didn't have cells listening for NSNotifications (ORKFormItemTextFieldBasedCell))
+- (void)orkDoneButtonPressed:(NSNotification *) notification {
     if ([[notification name] isEqualToString:ORKDoneButtonPressedKey]) {
         _doneButtonWasPressed = YES;
     }
 }
 
-- (void) resetDoneButton:(NSNotification *) notification {
+- (void)resetDoneButton:(NSNotification *) notification {
     if ([[notification name] isEqualToString:ORKResetDoneButtonKey]) {
         _doneButtonWasPressed = NO;
     }
@@ -930,10 +983,11 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     NSString *_defaultTextAnswer;
 }
 
-- (void)cellInit {
-    [super cellInit];
+- (void)configureWithFormItem:(ORKFormItem *)formItem answer:(id)answer maxLabelWidth:(CGFloat)maxLabelWidth delegate:(id<ORKFormItemCellDelegate>)delegate {
+
+    // [RDLS:NOTE] moved from cellInit
     self.textField.allowsSelection = YES;
-    ORKTextAnswerFormat *answerFormat = (ORKTextAnswerFormat *)[self.formItem impliedAnswerFormat];
+    ORKTextAnswerFormat *answerFormat = (ORKTextAnswerFormat *)[formItem impliedAnswerFormat];
     _defaultTextAnswer = answerFormat.defaultTextAnswer;
     self.textField.autocorrectionType = answerFormat.autocorrectionType;
     self.textField.autocapitalizationType = answerFormat.autocapitalizationType;
@@ -941,12 +995,12 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     self.textField.keyboardType = answerFormat.keyboardType;
     self.textField.secureTextEntry = answerFormat.secureTextEntry;
     self.textField.textContentType = answerFormat.textContentType;
-    
+
     if (@available(iOS 12.0, *)) {
         self.textField.passwordRules = answerFormat.passwordRules;
     }
     
-    [self answerDidChange];
+    [super configureWithFormItem:formItem answer:answer maxLabelWidth:maxLabelWidth delegate:delegate];
 }
 
 - (void)inputValueDidChange {
@@ -1029,28 +1083,34 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     NSNumber *_defaultNumericAnswer;
 }
 
-- (void)cellInit {
-    [super cellInit];
-    ORKQuestionType questionType = [self.formItem questionType];
+// [RDLS:NOTE] converted from cellInit
+- (void)configureWithFormItem:(ORKFormItem *)formItem answer:(id)answer maxLabelWidth:(CGFloat)maxLabelWidth delegate:(id<ORKFormItemCellDelegate>)delegate {
+    
+    ORKQuestionType questionType = [formItem questionType];
     self.textField.keyboardType = (questionType == ORKQuestionTypeInteger) ? UIKeyboardTypeNumberPad : UIKeyboardTypeDecimalPad;
     [self.textField addTarget:self action:@selector(valueFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
     self.textField.allowsSelection = YES;
     
-    ORKNumericAnswerFormat *answerFormat = (ORKNumericAnswerFormat *)[self.formItem impliedAnswerFormat];
+    ORKNumericAnswerFormat *answerFormat = (ORKNumericAnswerFormat *)[formItem impliedAnswerFormat];
     _defaultNumericAnswer = answerFormat.defaultNumericAnswer;
     
     self.textField.manageUnitAndPlaceholder = YES;
     self.textField.unit = answerFormat.displayUnit ?: answerFormat.unit;
-    self.textField.placeholder = self.formItem.placeholder;
+    self.textField.placeholder = formItem.placeholder;
     
     _numberFormatter = ORKDecimalNumberFormatter();
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(localeDidChange:) name:NSCurrentLocaleDidChangeNotification object:nil];
     
-    [self answerDidChange];
-
+    [super configureWithFormItem:formItem answer:answer maxLabelWidth:maxLabelWidth delegate:delegate];
 }
 
-- (void) assignDefaultAnswer {
+- (void)prepareForReuse {
+    [super prepareForReuse];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSCurrentLocaleDidChangeNotification object:nil];
+}
+
+- (void)assignDefaultAnswer {
     if (_defaultNumericAnswer) {
         [self ork_setAnswer:_defaultNumericAnswer];
         if (self.textField) {
@@ -1144,39 +1204,52 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     BOOL _shouldShowDontKnow;
 }
 
-- (void)cellInit {
-    [super cellInit];
-    
-    _lastSeenLineCount = 1;
-    self.labelLabel.text = nil;
+- (void)configureWithFormItem:(ORKFormItem *)formItem answer:(id)answer maxLabelWidth:(CGFloat)maxLabelWidth delegate:(id<ORKFormItemCellDelegate>)delegate {
+
+    self.labelLabel.text = nil; // reset value set during [super config]
+
+    // [RDLS:NOTE] moved fro cellInit
     _textView = [[ORKFormTextView alloc] init];
     _textView.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
     _textView.delegate = self;
     _textView.textAlignment = NSTextAlignmentNatural;
     _textView.scrollEnabled = YES;
-    _textView.placeholder = self.formItem.placeholder;
-    
+    _textView.placeholder = formItem.placeholder;
+
+    // [RDLS:NOTE] moved from cellInit
     if (@available(iOS 13.0, *)) {
         _textView.textColor = [UIColor labelColor];
         _textView.backgroundColor = [UIColor secondarySystemGroupedBackgroundColor];
     }
-    
+
+    [super configureWithFormItem:formItem answer:answer maxLabelWidth:maxLabelWidth delegate:delegate];
+
+
+    // only test _maxLength after configureWithFormItem since that's where _maxLength is set
     ORKTextAnswerFormat *textAnswerFormat = [self textAnswerFormat];
-    
     if ((_maxLength > 0 && !textAnswerFormat.hideCharacterCountLabel) || !textAnswerFormat.hideClearButton) {
         [self setupMaxLengthView];
     }
     
+    // [RDLS:NOTE] moved from cellInit
     _shouldShowDontKnow = [textAnswerFormat shouldShowDontKnowButton];
     if (_shouldShowDontKnow) {
         [self setupDontKnowButton];
     }
-    
-    [self applyAnswerFormat];
-    [self answerDidChange];
-    
+        
+    // [RDLS:NOTE] moved from cellInit
     [self.containerView addSubview:_textView];
     [self setUpConstraints];
+}
+
+- (void)prepareForReuse {
+    [super prepareForReuse];
+    
+    _lastSeenLineCount = 1;
+    _shouldShowDontKnow = NO;
+
+    [_textView removeFromSuperview];
+    _textView = nil;
 }
 
 - (void)setUpConstraints {
@@ -1396,8 +1469,7 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     }
 }
 
-- (void)applyAnswerFormat {
-    ORKAnswerFormat *answerFormat = [self.formItem impliedAnswerFormat];
+- (void)applyAnswerFormat:(ORKAnswerFormat *)answerFormat {
     if ([answerFormat isKindOfClass:[ORKTextAnswerFormat class]]) {
         ORKTextAnswerFormat *textAnswerFormat = (ORKTextAnswerFormat *)answerFormat;
         _defaultTextAnswer = textAnswerFormat.defaultTextAnswer;
@@ -1419,7 +1491,7 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
 
 - (void)setFormItem:(ORKFormItem *)formItem {
     [super setFormItem:formItem];
-    [self applyAnswerFormat];
+    [self applyAnswerFormat:formItem.impliedAnswerFormat];
 }
 
 - (void)assignDefaultAnswer {
@@ -1569,13 +1641,13 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     ORKImageSelectionView *_selectionView;
 }
 
-- (void)cellInit {
-    // Subclasses should override this
+// [RDLS:NOTE] converted from cellInit
+- (void)configureWithFormItem:(ORKFormItem *)formItem answer:(id)answer maxLabelWidth:(CGFloat)maxLabelWidth delegate:(id<ORKFormItemCellDelegate>)delegate {
+
+    self.labelLabel.text = nil; // reset value set in [super config]
     
-    self.labelLabel.text = nil;
-    
-    _selectionView = [[ORKImageSelectionView alloc] initWithImageChoiceAnswerFormat:(ORKImageChoiceAnswerFormat *)self.formItem.answerFormat
-                                                                             answer:self.answer];
+    _selectionView = [[ORKImageSelectionView alloc] initWithImageChoiceAnswerFormat:(ORKImageChoiceAnswerFormat *)formItem.answerFormat
+                                                                             answer:answer];
     _selectionView.delegate = self;
     
     self.contentView.layoutMargins = UIEdgeInsetsMake(VerticalMargin, ORKSurveyItemMargin, VerticalMargin, ORKSurveyItemMargin);
@@ -1583,7 +1655,14 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     [self.containerView addSubview:_selectionView];
     [self setUpConstraints];
     
-    [super cellInit];
+    [super configureWithFormItem:formItem answer:answer maxLabelWidth:maxLabelWidth delegate:delegate];
+}
+
+- (void)prepareForReuse {
+    [super prepareForReuse];
+    
+    [_selectionView removeFromSuperview];
+    _selectionView = nil;
 }
 
 - (void)setUpConstraints {
@@ -1641,17 +1720,6 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     return _formatProvider;
 }
 
-- (void)cellInit {
-    self.labelLabel.text = nil;
-    
-    _sliderView = [[ORKScaleSliderView alloc] initWithFormatProvider:(ORKScaleAnswerFormat *)self.formItem.answerFormat delegate:self];
-    
-    [self.containerView addSubview:_sliderView];
-    [self setUpConstraints];
-    
-    [super cellInit];
-}
-
 - (void)setUpConstraints {
     NSMutableArray *constraints = [NSMutableArray new];
     
@@ -1669,6 +1737,26 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
                                                views:views]];
     
     [NSLayoutConstraint activateConstraints:constraints];
+}
+
+- (void)configureWithFormItem:(ORKFormItem *)formItem answer:(id)answer maxLabelWidth:(CGFloat)maxLabelWidth delegate:(id<ORKFormItemCellDelegate>)delegate {
+        
+    self.labelLabel.text = nil; // [RDLS:NOTE] moved from cellInit
+    
+    _sliderView = [[ORKScaleSliderView alloc] initWithFormatProvider:(ORKScaleAnswerFormat *)formItem.answerFormat delegate:self]; // [RDLS:NOTE] moved from cellInit
+    [self.containerView addSubview:_sliderView]; // [RDLS:NOTE] moved from cellInit
+    [self setUpConstraints]; // [RDLS:NOTE] moved from cellInit
+    
+    [super configureWithFormItem:formItem answer:answer maxLabelWidth:maxLabelWidth delegate:delegate];
+}
+
+- (void)prepareForReuse {
+    [super prepareForReuse];
+    
+    _formatProvider = nil;
+    
+    [_sliderView removeFromSuperview];
+    _sliderView = nil;
 }
 
 #pragma mark recover answer
@@ -1709,7 +1797,22 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     id<ORKPicker> _picker;
 }
 
+- (void)configureWithFormItem:(ORKFormItem *)formItem
+                       answer:(id)answer
+                maxLabelWidth:(CGFloat)maxLabelWidth
+                     delegate:(id<ORKFormItemCellDelegate>)delegate {
+    
+    ORKAnswerFormat *answerFormat = [formItem impliedAnswerFormat];
+    _picker = [ORKPicker pickerWithAnswerFormat:answerFormat answer:answer delegate:self];
 
+    [super configureWithFormItem:formItem answer:answer maxLabelWidth:maxLabelWidth delegate:delegate];
+}
+
+- (void)prepareForReuse {
+    [super prepareForReuse];
+    
+    _picker = nil;
+}
 - (void)setFormItem:(ORKFormItem *)formItem {
     ORKAnswerFormat *answerFormat = formItem.impliedAnswerFormat;
     
@@ -1732,17 +1835,15 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
 }
 
 - (void)answerDidChange {
-    
+    [self updateControls];
+}
+
+- (void)updateControls {
     self.picker.answer = (self.answer == [ORKDontKnowAnswer answer]) ? nil : self.answer;
     self.textField.text = self.picker.selectedLabelText;
 }
 
 - (id<ORKPicker>)picker {
-    if (_picker == nil) {
-        ORKAnswerFormat *answerFormat = [self.formItem impliedAnswerFormat];
-        _picker = [ORKPicker pickerWithAnswerFormat:answerFormat answer:self.answer delegate:self];
-    }
-    
     return _picker;
 }
 
@@ -1838,21 +1939,32 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     NSLayoutConstraint *_bottomConstraint;
 }
 
-- (void)cellInit {
-    [super cellInit];
-    
+- (void)configureWithFormItem:(ORKFormItem *)formItem
+                       answer:(id)answer
+                maxLabelWidth:(CGFloat)maxLabelWidth
+                     delegate:(id<ORKFormItemCellDelegate>)delegate {
+
     _selectionView = [[ORKLocationSelectionView alloc] initWithFormMode:YES
-                                                     useCurrentLocation:((ORKLocationAnswerFormat *)self.formItem.answerFormat).useCurrentLocation
+                                                     useCurrentLocation:((ORKLocationAnswerFormat *)formItem.answerFormat).useCurrentLocation
                                                           leadingMargin:self.separatorInset.left];
     _selectionView.delegate = self;
     
     [self.containerView addSubview:_selectionView];
 
-    if (self.formItem.placeholder != nil) {
-        [_selectionView setPlaceholderText:self.formItem.placeholder];
+    if (formItem.placeholder != nil) {
+        [_selectionView setPlaceholderText:formItem.placeholder];
     }
     
     [self setUpConstraints];
+    
+    [super configureWithFormItem:formItem answer:answer maxLabelWidth:maxLabelWidth delegate:delegate];
+}
+
+- (void)prepareForReuse {
+    [super prepareForReuse];
+    
+    [_selectionView removeFromSuperview];
+    _selectionView = nil;
 }
 
 - (void)setUpConstraints {
@@ -1952,14 +2064,23 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     NSLayoutConstraint *_bottomConstraint;
 }
 
-- (void)cellInit {
-    [super cellInit];
-    
-    _selectionView = [[ORKSESSelectionView alloc] initWithAnswerFormat:(ORKSESAnswerFormat *)self.formItem.answerFormat answer:self.answer];
+// [RDLS:NOTE] converted from cellInit
+- (void)configureWithFormItem:(ORKFormItem *)formItem answer:(id)answer maxLabelWidth:(CGFloat)maxLabelWidth delegate:(id<ORKFormItemCellDelegate>)delegate {
+
+    _selectionView = [[ORKSESSelectionView alloc] initWithAnswerFormat:(ORKSESAnswerFormat *)formItem.answerFormat answer:answer];
     _selectionView.delegate = self;
     [self.containerView addSubview:_selectionView];
     
     [self setUpConstraints];
+    
+    [super configureWithFormItem:formItem answer:answer maxLabelWidth:maxLabelWidth delegate:delegate];
+}
+
+- (void)prepareForReuse {
+    [super prepareForReuse];
+    
+    [_selectionView removeFromSuperview];
+    _selectionView = nil;
 }
 
 - (void)setUpConstraints {

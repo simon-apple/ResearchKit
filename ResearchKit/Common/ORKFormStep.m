@@ -226,6 +226,7 @@
     self = [super init];
     if (self) {
         _text = [sectionTitle copy];
+        _identifier = [[NSUUID UUID] UUIDString];
     }
     return self;
 }
@@ -250,6 +251,7 @@
     self = [super init];
     if (self) {
         _text = [sectionTitle copy];
+        _identifier = [[NSUUID UUID] UUIDString];
         _detailText = [text copy];
         _learnMoreItem = [learnMoreItem copy];
         _showsProgress = showsProgress;

@@ -751,7 +751,7 @@ static const CGFloat kMargin = 25.0;
     }
 }
 
-- (void) tapGesture: (id)sender {
+- (void)tapGesture:(id)sender {
     //this tap gesture is here to avoid the cell being selected if the user missed the dont know button
 }
 

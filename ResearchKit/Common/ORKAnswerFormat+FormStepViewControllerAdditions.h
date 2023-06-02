@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, Apple Inc. All rights reserved.
+ Copyright (c) 2023, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,54 +28,14 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@import Foundation;
+#import <ResearchKit/ORKAnswerFormat.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class ORKAnswerFormat;
-@class ORKImageChoice;
-@class ORKColorChoice;
-@class ORKTextChoice;
-@protocol ORKAnswerOption;
+@interface ORKAnswerFormat (FormStepViewControllerAdditions)
 
-@protocol ORKChoiceAnswerFormatHelper <NSObject>
-
-- (nullable NSArray *)choices;
-
-- (BOOL)isValuePicker;
+@property(nonatomic, nullable, readonly) Class formStepViewControllerCellClass;
 
 @end
-
-@interface ORKChoiceAnswerFormatHelper : NSObject
-
-- (instancetype)initWithAnswerFormat:(ORKAnswerFormat *)answerFormat;
-
-- (NSUInteger)choiceCount;
-
-- (nullable id<ORKAnswerOption>)answerOptionAtIndex:(NSUInteger)index;
-
-- (nullable ORKTextChoice *)textChoiceAtIndex:(NSUInteger)index;
-
-- (nullable id)answerForSelectedIndex:(NSUInteger)index;
-- (nullable id)answerForSelectedIndexes:(NSArray *)indexes;
-
-- (nullable NSNumber *)selectedIndexForAnswer:(nullable id)answer;
-- (NSArray *)selectedIndexesForAnswer:(nullable id)answer;
-
-- (nullable NSString *)stringForChoiceAnswer:(id)answer;
-- (nullable NSString *)labelForChoiceAnswer:(id)answer;
-
-@end
-
-#if TARGET_OS_IOS
-#pragma mark - iOS
-@interface ORKChoiceAnswerFormatHelper ()
-
-- (nullable ORKImageChoice *)imageChoiceAtIndex:(NSUInteger)index;
-
-- (nullable ORKColorChoice *)colorChoiceAtIndex:(NSUInteger)index;
-
-@end
-#endif
 
 NS_ASSUME_NONNULL_END

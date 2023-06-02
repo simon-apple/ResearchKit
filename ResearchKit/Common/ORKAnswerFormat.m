@@ -630,9 +630,8 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
     return _showDontKnowButton;
 }
 
-- (NSArray *)choices {
-    NSString *exceptionReason = [NSString stringWithFormat:@"%@ is not a currently supported answer format for the choice answer format helper.", NSStringFromClass([self class])];
-    @throw [NSException exceptionWithName:NSGenericException reason:exceptionReason userInfo:nil];
+- (nullable NSArray *)choices {
+    return nil;
 }
 
 - (BOOL)isValuePicker {

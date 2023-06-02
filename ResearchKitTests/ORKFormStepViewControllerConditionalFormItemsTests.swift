@@ -49,7 +49,7 @@ final class ORKFormStepViewControllerConditionalFormItemsTests: XCTestCase {
             let identifiers = allFormItems.map({ eachFormItem -> String in
                 return eachFormItem.identifier
             })
-            XCTAssertEqual(identifiers, ["", "item1", "item2", "item3"])
+            XCTAssertEqual(identifiers, [allFormItems[0].identifier, "item1", "item2", "item3"])
         }
 
         // confirm the visibleFormItems identifiers
@@ -57,7 +57,7 @@ final class ORKFormStepViewControllerConditionalFormItemsTests: XCTestCase {
             let identifiers = visibleFormItems.map({ eachFormItem -> String in
                 return eachFormItem.identifier
             })
-            XCTAssertEqual(identifiers, ["", "item1", "item2", "item3"])
+            XCTAssertEqual(identifiers, [allFormItems[0].identifier, "item1", "item2", "item3"])
         }
 
         // confirm the answerableFormItems identifiers
@@ -69,6 +69,27 @@ final class ORKFormStepViewControllerConditionalFormItemsTests: XCTestCase {
         }
     }
 
+    func testDiffableDataSource() throws {
+        let formStepViewController = ORKFormStepViewController(step: FormStepTestUtilities.conditionalFormStep())
+        formStepViewController.loadView()
+        formStepViewController.viewDidLoad()
+        if #available(iOS 13.0, *) {
+            let tableView: UITableView! = formStepViewController.tableView
+            let dataSource = tableView.dataSource as! UITableViewDiffableDataSourceReference
+            formStepViewController.build(dataSource)
+            dataSource.applySnapshot(dataSource.snapshot(), animatingDifferences: false)
+
+            // [RDLS:TODO] I'm not sure whether this is actually what we want. Two sections, one that's empty.
+            XCTAssertEqual(dataSource.numberOfSections(in: tableView), 2)
+            XCTAssertEqual(dataSource.tableView(tableView, numberOfRowsInSection: 0), 0)
+            XCTAssertEqual(dataSource.tableView(tableView, numberOfRowsInSection: 1), 3)
+
+        } else {
+            // Fallback on earlier versions
+        };
+        
+    }
+    
     func testConditionalFormItemsAccessors() throws {
         let formStepViewController = ORKFormStepViewController(step: FormStepTestUtilities.conditionalFormStep())
         
@@ -84,7 +105,7 @@ final class ORKFormStepViewControllerConditionalFormItemsTests: XCTestCase {
             let identifiers = allFormItems.map({ eachFormItem -> String in
                 return eachFormItem.identifier
             })
-            XCTAssertEqual(identifiers, ["", "item1", "item2", "item3"])
+            XCTAssertEqual(identifiers, [allFormItems[0].identifier, "item1", "item2", "item3"])
         }
 
         // confirm the visibleFormItems identifiers
@@ -92,7 +113,7 @@ final class ORKFormStepViewControllerConditionalFormItemsTests: XCTestCase {
             let identifiers = visibleFormItems.map({ eachFormItem -> String in
                 return eachFormItem.identifier
             })
-            XCTAssertEqual(identifiers, ["", "item1", "item2"])
+            XCTAssertEqual(identifiers, [allFormItems[0].identifier, "item1", "item2"])
         }
 
         // confirm the answerableFormItems identifiers
