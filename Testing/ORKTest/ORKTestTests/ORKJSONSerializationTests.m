@@ -34,9 +34,7 @@
 @import ResearchKit_Private;
 
 #import "ORKESerialization.h"
-
-#import <objc/runtime.h>
-
+#import "ClassProperty.h"
 
 @interface TestCompilerFlagHelper : NSObject
 + (NSArray<NSString *> *)_fetchExclusionList;
@@ -85,64 +83,11 @@
 
 @end
 
-
-@interface ClassProperty : NSObject
-
-@property (nonatomic, copy) NSString *propertyName;
-@property (nonatomic, strong) Class propertyClass;
-@property (nonatomic) BOOL isPrimitiveType;
-@property (nonatomic) BOOL isBoolType;
-
-- (instancetype)initWithObjcProperty:(objc_property_t)property;
-
-@end
-
 @interface ORKDateAnswerFormat ()
 
-- (void)_setCurrentDateOverride:(NSDate *)currentDateOverride;
+ - (void)_setCurrentDateOverride:(NSDate *)currentDateOverride;
 
-@end
-
-
-@implementation ClassProperty
-
-- (instancetype)initWithObjcProperty:(objc_property_t)property {
-    
-    self = [super init];
-    if (self) {
-        const char *name = property_getName(property);
-        self.propertyName = [NSString stringWithCString:name encoding:NSUTF8StringEncoding];
-        
-        const char *type = property_getAttributes(property);
-        NSString *typeString = [NSString stringWithUTF8String:type];
-        NSArray *attributes = [typeString componentsSeparatedByString:@","];
-        NSString *typeAttribute = attributes[0];
-        
-        _isPrimitiveType = YES;
-        if ([typeAttribute hasPrefix:@"T@"]) {
-            _isPrimitiveType = NO;
-            Class typeClass = nil;
-            if (typeAttribute.length > 4) {
-                NSString *typeClassName = [typeAttribute substringWithRange:NSMakeRange(3, typeAttribute.length-4)];  //turns @"NSDate" into NSDate
-                typeClass = NSClassFromString(typeClassName);
-            } else {
-                typeClass = [NSObject class];
-            }
-            self.propertyClass = typeClass;
-            
-        } else if ([@[@"Ti", @"Tq", @"TI", @"TQ"] containsObject:typeAttribute]) {
-            self.propertyClass = [NSNumber class];
-        }
-        else if ([typeAttribute isEqualToString:@"TB"]) {
-            self.propertyClass = [NSNumber class];
-            _isBoolType = YES;
-        }
-    }
-    return self;
-}
-
-@end
-
+ @end
 
 @interface MockCountingDictionary : NSObject<NSMutableCopying, NSCopying>
 
