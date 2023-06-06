@@ -1745,12 +1745,14 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                return [[ORKColorChoice alloc] initWithColor:GETPROP(dict, color)
                                                        text:GETPROP(dict, text)
                                                  detailText:GETPROP(dict, detailText)
-                                                      value:GETPROP(dict, value)];
+                                                      value:GETPROP(dict, value)
+                                                  exclusive:((NSNumber *)GETPROP(dict, exclusive)).boolValue];
                  },
                  (@{
                     PROPERTY(text, NSString, NSObject, NO, nil, nil),
                     PROPERTY(detailText, NSString, NSObject, NO, nil, nil),
                     PROPERTY(value, NSObject, NSObject, NO, nil, nil),
+                    PROPERTY(exclusive, NSNumber, NSObject, NO, nil, nil),
                     PROPERTY(color, UIColor, NSObject, YES,
                              ^id(id color, __unused ORKESerializationContext *context) { return dictionaryFromColor(color); },
                              ^id(id dict, __unused ORKESerializationContext *context) { return  colorFromDictionary(dict); })

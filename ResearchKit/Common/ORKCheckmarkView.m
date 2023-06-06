@@ -116,7 +116,7 @@ static const CGFloat CheckmarkViewBorderWidth = 2.0;
     else {
         self.image = _uncheckedImage;
         if (@available(iOS 13.0, *)) {
-            self.tintColor = [UIColor systemGray3Color];
+            self.tintColor = _shouldIgnoreDarkMode ? [UIColor lightGrayColor] : [UIColor systemGray3Color];
         } else {
             self.tintColor = nil;
             self.image = nil;
@@ -143,6 +143,11 @@ static const CGFloat CheckmarkViewBorderWidth = 2.0;
 
 - (void)setChecked:(BOOL)checked {
     _checked = checked;
+    [self updateCheckView];
+}
+
+- (void)setShouldIgnoreDarkMode:(BOOL)shouldIgnoreDarkMode {
+    _shouldIgnoreDarkMode = shouldIgnoreDarkMode;
     [self updateCheckView];
 }
 

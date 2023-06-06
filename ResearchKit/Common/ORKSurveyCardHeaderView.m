@@ -55,6 +55,7 @@ static const CGFloat SelectAllThatApplyBottomPadding = 6.0;
     UILabel *_selectAllThatApplyLabel;
     BOOL _showBorder;
     BOOL _hasMultipleChoiceItem;
+    BOOL _shouldIgnoreDarkMode;
     NSString *_tagText;
     CAShapeLayer *_headlineMaskLayer;
     NSArray<NSLayoutConstraint *> *_headerViewConstraints;
@@ -83,7 +84,8 @@ static const CGFloat SelectAllThatApplyBottomPadding = 6.0;
                   progressText:progressText
                        tagText:tagText
                     showBorder:NO
-         hasMultipleChoiceItem:NO];
+         hasMultipleChoiceItem:NO
+          shouldIgnoreDarkMode:NO];
 }
 
 - (instancetype)initWithTitle:(NSString *)title
@@ -92,7 +94,8 @@ static const CGFloat SelectAllThatApplyBottomPadding = 6.0;
                  progressText:(NSString *)progressText
                       tagText:(nullable NSString *)tagText
                    showBorder:(BOOL)showBorder
-        hasMultipleChoiceItem:(BOOL)hasMultipleChoiceItem {
+        hasMultipleChoiceItem:(BOOL)hasMultipleChoiceItem
+         shouldIgnoreDarkMode:(BOOL)shouldIgnoreDarkMode {
     
     self = [super init];
     if (self) {
@@ -103,6 +106,7 @@ static const CGFloat SelectAllThatApplyBottomPadding = 6.0;
         _showBorder = showBorder;
         _tagText = tagText;
         _hasMultipleChoiceItem = hasMultipleChoiceItem;
+        _shouldIgnoreDarkMode = shouldIgnoreDarkMode;
         [self setupView];
     }
     return self;
@@ -159,7 +163,7 @@ static const CGFloat SelectAllThatApplyBottomPadding = 6.0;
     _titleLabel.text = _title;
     _titleLabel.numberOfLines = 0;
     if (@available(iOS 13.0, *)) {
-        _titleLabel.textColor = [UIColor labelColor];
+        _titleLabel.textColor = _shouldIgnoreDarkMode ? [UIColor blackColor] : [UIColor labelColor];
     } else {
         _titleLabel.textColor = [UIColor blackColor];
     }
@@ -186,7 +190,7 @@ static const CGFloat SelectAllThatApplyBottomPadding = 6.0;
     _progressLabel.text = _progressText;
     _progressLabel.numberOfLines = 0;
     if (@available(iOS 13.0, *)) {
-        _progressLabel.textColor = [UIColor secondaryLabelColor];
+        _progressLabel.textColor = _shouldIgnoreDarkMode ? [UIColor lightGrayColor] : [UIColor secondaryLabelColor];
     } else {
         _progressLabel.textColor = [UIColor lightGrayColor];
     }
@@ -209,7 +213,7 @@ static const CGFloat SelectAllThatApplyBottomPadding = 6.0;
     _selectAllThatApplyLabel.text = ORKLocalizedString(@"AX_SELECT_ALL_THAT_APPLY", nil);
     _selectAllThatApplyLabel.numberOfLines = 0;
     if (@available(iOS 13.0, *)) {
-        _selectAllThatApplyLabel.textColor = [UIColor secondaryLabelColor];
+        _selectAllThatApplyLabel.textColor = _shouldIgnoreDarkMode ? [UIColor lightGrayColor] : [UIColor secondaryLabelColor];
     } else {
         _selectAllThatApplyLabel.textColor = [UIColor lightGrayColor];
     }
@@ -258,8 +262,8 @@ static const CGFloat SelectAllThatApplyBottomPadding = 6.0;
         UIColor *fillColor;
         UIColor *borderColor;
         if (@available(iOS 13.0, *)) {
-            fillColor = [UIColor secondarySystemGroupedBackgroundColor];
-            borderColor = UIColor.separatorColor;
+            fillColor = _shouldIgnoreDarkMode ? [UIColor whiteColor] : [UIColor secondarySystemGroupedBackgroundColor];
+            borderColor = _shouldIgnoreDarkMode ? [UIColor ork_midGrayTintColor] : UIColor.separatorColor;
         } else {
             fillColor = [UIColor whiteColor];
             borderColor = [UIColor ork_midGrayTintColor];

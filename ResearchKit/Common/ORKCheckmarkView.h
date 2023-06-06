@@ -41,6 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, nullable) UIImage *checkedImage;
 @property (nonatomic, nullable) UIImage *uncheckedImage;
 @property (nonatomic) BOOL checked;
+@property (nonatomic) BOOL shouldIgnoreDarkMode;
 
 - (CGFloat)getDimension;
 

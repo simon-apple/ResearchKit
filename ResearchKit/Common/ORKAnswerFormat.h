@@ -62,12 +62,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-
-@class ORKTextChoiceAnswerFormat;
 @class ORKBooleanAnswerFormat;
+@class ORKColorChoiceAnswerFormat;
+@class ORKTextChoiceAnswerFormat;
 
-@class ORKTextChoice;
 @class ORKColorChoice;
+@class ORKTextChoice;
 
 /**
  The `ORKAnswerFormat` class is the abstract base class for classes that describe the
@@ -127,6 +127,9 @@ ORK_CLASS_AVAILABLE
 
 + (ORKTextChoiceAnswerFormat *)choiceAnswerFormatWithStyle:(ORKChoiceAnswerStyle)style
                                                textChoices:(NSArray<ORKTextChoice *> *)textChoices;
+
++ (ORKColorChoiceAnswerFormat *)choiceAnswerFormatWithStyle:(ORKChoiceAnswerStyle)style
+                                               colorChoices:(NSArray<ORKColorChoice *> *)colorChoices;
 
 /// @name Validation
 
@@ -409,18 +412,26 @@ ORK_CLASS_AVAILABLE
 + (instancetype)new NS_UNAVAILABLE;
 - (instancetype)init NS_UNAVAILABLE;
 
-- (instancetype)initWithColor:(UIColor *)color
-                         text:(NSString *)text
+- (instancetype)initWithColor:(nullable UIColor *)color
+                         text:(nullable NSString *)text
                    detailText:(nullable NSString *)detailText
                         value:(NSObject<NSCopying, NSSecureCoding> *)value;
 
-@property (nonatomic, copy, readonly) UIColor *color;
+- (instancetype)initWithColor:(nullable UIColor *)color
+                         text:(nullable NSString *)text
+                   detailText:(nullable NSString *)detailText
+                        value:(NSObject<NSCopying, NSSecureCoding> *)value
+                    exclusive:(BOOL)exclusive;
 
-@property (nonatomic, copy, readonly) NSString *text;
+@property (nonatomic, copy, readonly, nullable) UIColor *color;
+
+@property (nonatomic, copy, readonly, nullable) NSString *text;
+
+@property (nonatomic, copy, readonly, nullable) NSString *detailText;
 
 @property (nonatomic, copy, readonly) NSObject<NSCopying, NSSecureCoding> *value;
 
-@property (nonatomic, copy, readonly, nullable) NSString *detailText;
+@property (readonly) BOOL exclusive;
 
 @end
 

@@ -41,10 +41,11 @@
 #import "ORKBodyItem.h"
 #import "ORKLearnMoreView.h"
 
+#import "ORKBodyItem.h"
+#import "ORKColorChoiceCellGroup.h"
+#import "ORKLearnMoreStepViewController.h"
 #import "ORKSurveyCardHeaderView.h"
 #import "ORKTextChoiceCellGroup.h"
-#import "ORKLearnMoreStepViewController.h"
-#import "ORKBodyItem.h"
 
 #import "ORKNavigationContainerView_Internal.h"
 #import "ORKStepViewController_Internal.h"
@@ -206,6 +207,8 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
 
 @property (nonatomic, strong) ORKTextChoiceCellGroup *textChoiceCellGroup;
 
+@property (nonatomic, strong) ORKColorChoiceCellGroup *colorChoiceCellGroup;
+
 - (void)addFormItem:(ORKFormItem *)item;
 
 - (BOOL)containsFormItem:(ORKFormItem *)formItem;
@@ -246,9 +249,23 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
             [(NSMutableArray *)self.items addObject:cellItem];
         }];
         
+    } else if ([[item impliedAnswerFormat] isKindOfClass:[ORKColorChoiceAnswerFormat class]]) {
+        _hasChoiceRows = YES;
+        ORKColorChoiceAnswerFormat *colorChoiceAnswerFormat = (ORKColorChoiceAnswerFormat *)[item impliedAnswerFormat];
+        
+        _colorChoiceCellGroup = [[ORKColorChoiceCellGroup alloc] initWithColorChoiceAnswerFormat:colorChoiceAnswerFormat
+                                                                                          answer:nil
+                                                                              beginningIndexPath:[NSIndexPath indexPathForRow:0 inSection:_index]
+                                                                             immediateNavigation:NO];
+        
+        [colorChoiceAnswerFormat.colorChoices enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            ORKTableCellItem *cellItem = [[ORKTableCellItem alloc] initWithFormItem:item choiceIndex:idx];
+            [(NSMutableArray *)self.items addObject:cellItem];
+        }];
+        
     } else {
         ORKTableCellItem *cellItem = [[ORKTableCellItem alloc] initWithFormItem:item];
-       [(NSMutableArray *)self.items addObject:cellItem];
+        [(NSMutableArray *)self.items addObject:cellItem];
     }
 }
 
@@ -804,7 +821,7 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
             
             // Step 2/2: Are we adding a single identifier for this formItem or exploding the formItem into an identifier per choice?
             // [RDLS:NOTE] unfortunately, besides checking isKindOfClass, we can't tell when we need to convert choices into tableView items. Some answerFormats have choices but don't want to be converted to one row per choice
-            if (ORKDynamicCast(answerFormat, ORKTextChoiceAnswerFormat) != nil) {
+            if (ORKDynamicCast(answerFormat, ORKTextChoiceAnswerFormat) != nil || ORKDynamicCast(answerFormat, ORKColorChoiceAnswerFormat) != nil) {
                 // Make one row per choice, we probably made a section already since formItems with choice answerFormats are requiresSingleSection==YES
                 NSArray *choices = answerFormat.choices;
                 [choices enumerateObjectsUsingBlock:^(id eachChoice, NSUInteger index, BOOL *stop) {
@@ -1490,21 +1507,41 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
         NSInteger choiceIndex = itemIdentifier.choiceIndex;
         if (choiceIndex != NSNotFound) {
             // TODO: rdar://110145136 ([ConditionalFormItems] choiceViewCell handling only supports textChoices (ORKFormStepViewController))
-            ORKTextChoice *textChoice = [answerFormat.choices objectAtIndex:choiceIndex];
+            BOOL isExclusive = NO;
+            NSString *primaryText;
+            NSString *detailText;
+            
+            if ([answerFormat isKindOfClass:[ORKTextChoiceAnswerFormat class]]) {
+                ORKTextChoice *textChoice = [answerFormat.choices objectAtIndex:choiceIndex];
+                if (textChoice.primaryTextAttributedString) {
+                    [choiceViewCell setPrimaryAttributedText:textChoice.primaryTextAttributedString];
+                }
+                if (textChoice.detailTextAttributedString) {
+                    [choiceViewCell setDetailAttributedText:textChoice.detailTextAttributedString];
+                }
+                
+                isExclusive = textChoice.exclusive;
+                primaryText = textChoice.text;
+                detailText = textChoice.detailText;
+            } else {
+                ORKColorChoice *colorChoice = [answerFormat.choices objectAtIndex:choiceIndex];
+                
+                [choiceViewCell setSwatchColor:colorChoice.color];
+                
+                isExclusive = colorChoice.exclusive;
+                primaryText = colorChoice.text;
+                detailText = colorChoice.detailText;
+            }
+            
             id answer = _savedAnswers[formItemIdentifier];
             
             // [RDLS:NOTE] moved from ORKTextChoiceCellGroup cellAtIndex:reuseIdentifier:
             // TODO: rdar://110150497 ([ConditionalFormItems] add a configuration method for ORKChoiceViewCell that accepts a formItem)
-            choiceViewCell.isExclusive = textChoice.exclusive;
+            choiceViewCell.isExclusive = isExclusive;
             choiceViewCell.immediateNavigation = NO;
-            [choiceViewCell setPrimaryText:textChoice.text];
-            [choiceViewCell setDetailText:textChoice.detailText];
-            if (textChoice.primaryTextAttributedString) {
-                [choiceViewCell setPrimaryAttributedText:textChoice.primaryTextAttributedString];
-            }
-            if (textChoice.detailTextAttributedString) {
-                [choiceViewCell setDetailAttributedText:textChoice.detailTextAttributedString];
-            }
+            [choiceViewCell setPrimaryText:primaryText];
+            [choiceViewCell setDetailText:detailText];
+            
             
             ORKChoiceAnswerFormatHelper *helper = [[ORKChoiceAnswerFormatHelper alloc] initWithAnswerFormat:answerFormat];
             NSArray *selectedIndexes = [helper selectedIndexesForAnswer:answer];
@@ -1588,8 +1625,10 @@ static CGFloat ORKLabelWidth(NSString *text) {
         ORKTableCellItemIdentifier *itemIdentifier = [_diffableDataSource itemIdentifierForIndexPath:indexPath];
         ORKFormItem *formItem = [self _formItemForFormItemIdentifier:itemIdentifier.formItemIdentifier];
         ORKTextChoiceAnswerFormat *textChoiceAnswerFormat = ORKDynamicCast(formItem.impliedAnswerFormat, ORKTextChoiceAnswerFormat);
-        if (textChoiceAnswerFormat != nil) {
-            ORKChoiceAnswerFormatHelper *helper = [[ORKChoiceAnswerFormatHelper alloc] initWithAnswerFormat:textChoiceAnswerFormat];
+        ORKColorChoiceAnswerFormat *colorChoiceAnswerFormat = ORKDynamicCast(formItem.impliedAnswerFormat, ORKColorChoiceAnswerFormat);
+        
+        if (textChoiceAnswerFormat != nil || colorChoiceAnswerFormat != nil) {
+            ORKChoiceAnswerFormatHelper *helper = [[ORKChoiceAnswerFormatHelper alloc] initWithAnswerFormat:textChoiceAnswerFormat ? : colorChoiceAnswerFormat];
             
             NSMutableArray *selectedIndexes = [NSMutableArray array];
             
@@ -1598,7 +1637,8 @@ static CGFloat ORKLabelWidth(NSString *text) {
             BOOL shouldAllowMultiSelection = YES; // assume multiple selection by default
             
             // does the answerFormat want multiple selection?
-            shouldAllowMultiSelection = shouldAllowMultiSelection && (textChoiceAnswerFormat.style == ORKChoiceAnswerStyleMultipleChoice);
+            BOOL answerFormatAllowsMultiSelection = textChoiceAnswerFormat ? (textChoiceAnswerFormat.style == ORKChoiceAnswerStyleMultipleChoice) : (colorChoiceAnswerFormat.style == ORKChoiceAnswerStyleMultipleChoice);
+            shouldAllowMultiSelection = shouldAllowMultiSelection && answerFormatAllowsMultiSelection;
             
             // does the selected cell allow multiple choice?
             shouldAllowMultiSelection = shouldAllowMultiSelection && (choiceViewCell.isExclusive == NO);
@@ -1606,8 +1646,16 @@ static CGFloat ORKLabelWidth(NSString *text) {
             // does the cell representing the current answer allow multiple choice?
             NSNumber *previousSingleSelectionValue = [helper selectedIndexForAnswer:_savedAnswers[itemIdentifier.formItemIdentifier]];
             NSInteger previousSingleSelection = previousSingleSelectionValue ? previousSingleSelectionValue.integerValue : NSNotFound;
-            ORKTextChoice *selectedChoice = (previousSingleSelection != NSNotFound) ? [helper textChoiceAtIndex:previousSingleSelection] : nil;
-            shouldAllowMultiSelection = shouldAllowMultiSelection && (selectedChoice.exclusive == NO);
+            BOOL choiceIsExclusive = NO;
+            if (textChoiceAnswerFormat) {
+                ORKTextChoice *selectedChoice = (previousSingleSelection != NSNotFound) ? [helper textChoiceAtIndex:previousSingleSelection] : nil;
+                choiceIsExclusive = selectedChoice.exclusive;
+            } else {
+                ORKColorChoice *selectedChoice = (previousSingleSelection != NSNotFound) ? [helper colorChoiceAtIndex:previousSingleSelection] : nil;
+                choiceIsExclusive = selectedChoice.exclusive;
+            }
+            
+            shouldAllowMultiSelection = shouldAllowMultiSelection && choiceIsExclusive;
 
             NSRange range = NSMakeRange(0, helper.choiceCount);
             NSIndexSet *relatedChoiceRows = [NSIndexSet indexSetWithIndexesInRange:range];
@@ -1675,6 +1723,7 @@ static CGFloat ORKLabelWidth(NSString *text) {
     ORKLearnMoreView *learnMoreView;
     NSString *tagText = sectionFormItem.tagText;
     BOOL hasMultipleChoiceFormItem = NO;
+    BOOL shouldIgnoreDarkMode = NO;
     
     if (sectionFormItem.showsProgress) {
         if ([self.delegate respondsToSelector:@selector(stepViewControllerTotalProgressInfoForStep:currentStep:)]) {
@@ -1698,7 +1747,8 @@ static CGFloat ORKLabelWidth(NSString *text) {
     }
     
     hasMultipleChoiceFormItem = (sectionFormItem.impliedAnswerFormat.questionType == ORKQuestionTypeMultipleChoice) ? YES : NO;
-        
+    shouldIgnoreDarkMode = [sectionFormItem.impliedAnswerFormat isKindOfClass:[ORKColorChoiceAnswerFormat class]];
+
     ORKSurveyCardHeaderView *cardHeaderView = (ORKSurveyCardHeaderView *)[tableView dequeueReusableHeaderFooterViewWithIdentifier:@(section).stringValue];
     
     if (cardHeaderView == nil && title) {
@@ -1708,7 +1758,8 @@ static CGFloat ORKLabelWidth(NSString *text) {
                                                            progressText:sectionProgressText
                                                                 tagText:tagText
                                                              showBorder:([self formStep].cardViewStyle == ORKCardViewStyleBordered)
-                                                  hasMultipleChoiceItem:hasMultipleChoiceFormItem];
+                                                  hasMultipleChoiceItem:hasMultipleChoiceFormItem
+                                                   shouldIgnoreDarkMode:shouldIgnoreDarkMode];
     }
     
     return cardHeaderView;
@@ -1861,7 +1912,6 @@ static NSString *const _ORKAnsweredSectionIdentifiersRestoreKey = @"answeredSect
 #pragma mark ORKTextChoiceCellGroupDelegate
 
 - (void)answerChangedForIndexPath:(NSIndexPath *)indexPath {
-//    BOOL immediateNavigation = [self isStepImmediateNavigation]; // [RDLS:NOTE] removed—this is hardcoded to NO right now
     
     _skipped = NO;
     [self updateButtonStates];

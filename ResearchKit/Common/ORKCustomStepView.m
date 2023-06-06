@@ -103,7 +103,7 @@
 
 - (void)setupHeaderViewWithTitle:(NSString *)title detailText:(nullable NSString *)detailText learnMoreView:(nullable ORKLearnMoreView *)learnMoreView progressText:(nullable NSString *)progressText hasMultipleChoiceFormItem:(BOOL)hasMultipleChoiceFormItem {
     if (!_cardHeaderView) {
-        _cardHeaderView = [[ORKSurveyCardHeaderView alloc]initWithTitle:title detailText:detailText learnMoreView:learnMoreView progressText:progressText tagText:nil showBorder:NO hasMultipleChoiceItem:hasMultipleChoiceFormItem];
+        _cardHeaderView = [[ORKSurveyCardHeaderView alloc]initWithTitle:title detailText:detailText learnMoreView:learnMoreView progressText:progressText tagText:nil showBorder:NO hasMultipleChoiceItem:hasMultipleChoiceFormItem shouldIgnoreDarkMode:NO];
     }
     _cardHeaderView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:_cardHeaderView];
@@ -371,7 +371,7 @@
 
 - (void)setupHeaderViewWithTitle:(NSString *)title detailText:(nullable NSString *)detailText learnMoreView:(nullable ORKLearnMoreView *)learnMoreView progressText:(nullable NSString *)progressText hasMultipleChoiceFormItem:(BOOL)hasMultipleChoiceFormItem {
     if (!_cardHeaderView) {
-        _cardHeaderView = [[ORKSurveyCardHeaderView alloc]initWithTitle:title detailText:detailText learnMoreView:learnMoreView progressText:progressText tagText:nil showBorder:NO hasMultipleChoiceItem:hasMultipleChoiceFormItem];
+        _cardHeaderView = [[ORKSurveyCardHeaderView alloc]initWithTitle:title detailText:detailText learnMoreView:learnMoreView progressText:progressText tagText:nil showBorder:NO hasMultipleChoiceItem:hasMultipleChoiceFormItem shouldIgnoreDarkMode:NO];
     }
     _cardHeaderView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:_cardHeaderView];
