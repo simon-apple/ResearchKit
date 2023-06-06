@@ -82,6 +82,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     case textQuestion
     case textChoiceQuestion
     case textChoiceQuestionWithImageTask
+    case colorChoiceQuestion
     case timeIntervalQuestion
     case timeOfDayQuestion
     case valuePickerChoiceQuestion
@@ -179,6 +180,7 @@ enum TaskListRow: Int, CustomStringConvertible {
                     .textQuestion,
                     .textChoiceQuestion,
                     .textChoiceQuestionWithImageTask,
+                    .colorChoiceQuestion,
                     .timeIntervalQuestion,
                     .timeOfDayQuestion,
                     .valuePickerChoiceQuestion,
@@ -314,6 +316,9 @@ enum TaskListRow: Int, CustomStringConvertible {
         
         case .textChoiceQuestionWithImageTask:
             return NSLocalizedString("Text Choice Image Question", comment: "")
+            
+        case .colorChoiceQuestion:
+            return NSLocalizedString("Color Choice Question", comment: "")
             
         case .timeIntervalQuestion:
             return NSLocalizedString("Time Interval Question", comment: "")
@@ -582,6 +587,10 @@ enum TaskListRow: Int, CustomStringConvertible {
         case textChoiceQuestionStep
         case textChoiceQuestionWithImageStep
         case textChoiceQuestionWithImageTask
+        case colorChoiceQuestionTask
+        case colorChoiceQuestionStep
+        case colorChoiceQuestionStepSwatchOnly
+        case colorChoiceQuestionFormItem
 
         // Task with an example of time of day entry.
         case timeOfDayQuestionTask
@@ -758,6 +767,9 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .textChoiceQuestion:
             return textChoiceQuestionTask
+            
+        case .colorChoiceQuestion:
+            return ColorChoiceQuestionTask
             
         case .timeIntervalQuestion:
             return timeIntervalQuestionTask
@@ -1667,7 +1679,6 @@ enum TaskListRow: Int, CustomStringConvertible {
         return ORKOrderedTask(identifier: String(describing: Identifier.textChoiceQuestionTask), steps: [questionStep])
     }
 
-    
     private var textChoiceQuestionWithImageTask: ORKTask {
         let textChoiceOneText = NSLocalizedString("Choice 1", comment: "")
         let textChoiceTwoText = NSLocalizedString("Choice 2", comment: "")
@@ -1686,6 +1697,58 @@ enum TaskListRow: Int, CustomStringConvertible {
         questionStep.text = exampleDetailText
         
         return ORKOrderedTask(identifier: String(describing: Identifier.textChoiceQuestionWithImageTask), steps: [questionStep])
+    }
+    
+    private var ColorChoiceQuestionTask: ORKTask {
+        let colorChoiceOneText = NSLocalizedString("Choice 1", comment: "")
+        let colorChoiceTwoText = NSLocalizedString("Choice 2", comment: "")
+        let colorChoiceThreeText = NSLocalizedString("Choice 3", comment: "")
+        let colorChoiceFourText = NSLocalizedString("Choice 4", comment: "")
+        let colorChoiceFiveText = NSLocalizedString("Choice 5", comment: "")
+        let colorChoiceSixText = NSLocalizedString("Choice 6", comment: "")
+        let colorChoiceSevenText = NSLocalizedString("None of the above", comment: "")
+        
+        let colorOne = UIColor(red: 244/255, green: 208/255, blue: 176/255, alpha: 1.0)
+        let colorTwo = UIColor(red: 232/255, green: 180/255, blue: 143/255, alpha: 1.0)
+        let colorThree = UIColor(red: 211/255, green: 158/255, blue: 124/255, alpha: 1.0)
+        let colorFour = UIColor(red: 187/255, green: 119/255, blue: 80/255, alpha: 1.0)
+        let colorFive = UIColor(red: 165/255, green: 93/255, blue: 43/255, alpha: 1.0)
+        let colorSix = UIColor(red: 60/255, green: 32/255, blue: 29/255, alpha: 1.0)
+        
+        let colorChoices = [
+            ORKColorChoice(color: colorOne, text: colorChoiceOneText, detailText: nil, value: "choice_1" as NSString),
+            ORKColorChoice(color: colorTwo, text: colorChoiceTwoText, detailText: nil, value: "choice_2" as NSString),
+            ORKColorChoice(color: colorThree, text: colorChoiceThreeText, detailText: nil, value: "choice_3" as NSString),
+            ORKColorChoice(color: colorFour, text: colorChoiceFourText, detailText: nil, value: "choice_4" as NSString),
+            ORKColorChoice(color: colorFive, text: colorChoiceFiveText, detailText: nil, value: "choice_5" as NSString),
+            ORKColorChoice(color: colorSix, text: colorChoiceSixText, detailText: nil, value: "choice_6" as NSString),
+            ORKColorChoice(color: nil, text: colorChoiceSevenText, detailText: nil, value: "choice_7" as NSString)
+        ]
+        
+        let answerFormat = ORKAnswerFormat.choiceAnswerFormat(with: .singleChoice, colorChoices: colorChoices)
+        let formItem = ORKFormItem(identifier: String(describing: Identifier.colorChoiceQuestionFormItem), text: exampleQuestionText, answerFormat: answerFormat)
+        
+        let formStep = ORKFormStep(identifier: String(describing: Identifier.colorChoiceQuestionStep), title: NSLocalizedString("Color Choice", comment: ""), text: exampleDetailText)
+        
+        formStep.formItems = [formItem]
+        
+        let colorChoicesSwatchOnly = [
+            ORKColorChoice(color: colorOne, text: nil, detailText: nil, value: "choice_1" as NSString),
+            ORKColorChoice(color: colorTwo, text: nil, detailText: nil, value: "choice_2" as NSString),
+            ORKColorChoice(color: colorThree, text: nil, detailText: nil, value: "choice_3" as NSString),
+            ORKColorChoice(color: colorFour, text: nil, detailText: nil, value: "choice_4" as NSString),
+            ORKColorChoice(color: colorFive, text: nil, detailText: nil, value: "choice_5" as NSString),
+            ORKColorChoice(color: colorSix, text: nil, detailText: nil, value: "choice_6" as NSString),
+        ]
+        
+        let answerFormatSwatchOnly = ORKAnswerFormat.choiceAnswerFormat(with: .singleChoice, colorChoices: colorChoicesSwatchOnly)
+        let formItemSwatchOnly = ORKFormItem(identifier: String(describing: Identifier.colorChoiceQuestionFormItem), text: exampleQuestionText, answerFormat: answerFormatSwatchOnly)
+        
+        let formStepSwatchOnly = ORKFormStep(identifier: String(describing: Identifier.colorChoiceQuestionStepSwatchOnly), title: NSLocalizedString("Color Choice No Text", comment: ""), text: exampleDetailText)
+        
+        formStepSwatchOnly.formItems = [formItemSwatchOnly]
+        
+        return ORKOrderedTask(identifier: String(describing: Identifier.colorChoiceQuestionTask), steps: [formStep, formStepSwatchOnly])
     }
     
     /**

@@ -321,6 +321,8 @@
 		51E03D692491A601008F8406 /* ORKHealthKitPermissionType.m in Sources */ = {isa = PBXBuildFile; fileRef = 51E03D672491A601008F8406 /* ORKHealthKitPermissionType.m */; };
 		51E03D6D2491B6DB008F8406 /* ORKRequestPermissionView.h in Headers */ = {isa = PBXBuildFile; fileRef = 51E03D6B2491B6DB008F8406 /* ORKRequestPermissionView.h */; };
 		51E03D6E2491B6DB008F8406 /* ORKRequestPermissionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 51E03D6C2491B6DB008F8406 /* ORKRequestPermissionView.m */; };
+		51EED7B82A1D76D300546DA8 /* ORKColorChoiceCellGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = 51EED7B62A1D76D300546DA8 /* ORKColorChoiceCellGroup.h */; };
+		51EED7B92A1D76D300546DA8 /* ORKColorChoiceCellGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 51EED7B72A1D76D300546DA8 /* ORKColorChoiceCellGroup.m */; };
 		5D003DA126377E7400A6439B /* ORKAccuracyStroopResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D003D9F26377E7400A6439B /* ORKAccuracyStroopResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D003DA226377E7400A6439B /* ORKAccuracyStroopResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D003DA026377E7400A6439B /* ORKAccuracyStroopResult.m */; };
 		5D04884525EED08D0006C68B /* ORKHeadphonesRequiredCompletionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D04884425EED08D0006C68B /* ORKHeadphonesRequiredCompletionStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -1494,6 +1496,8 @@
 		51E03D672491A601008F8406 /* ORKHealthKitPermissionType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKHealthKitPermissionType.m; sourceTree = "<group>"; };
 		51E03D6B2491B6DB008F8406 /* ORKRequestPermissionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKRequestPermissionView.h; sourceTree = "<group>"; };
 		51E03D6C2491B6DB008F8406 /* ORKRequestPermissionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKRequestPermissionView.m; sourceTree = "<group>"; };
+		51EED7B62A1D76D300546DA8 /* ORKColorChoiceCellGroup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKColorChoiceCellGroup.h; sourceTree = "<group>"; };
+		51EED7B72A1D76D300546DA8 /* ORKColorChoiceCellGroup.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKColorChoiceCellGroup.m; sourceTree = "<group>"; };
 		5D000EC22620F27100E5442A /* ResearchKit-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "ResearchKit-Debug.xcconfig"; sourceTree = "<group>"; };
 		5D000EC32620F27100E5442A /* ResearchKit-Skywagon-Stable.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "ResearchKit-Skywagon-Stable.xcconfig"; sourceTree = "<group>"; };
 		5D000EC42620F27100E5442A /* ResearchKit-Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "ResearchKit-Shared.xcconfig"; sourceTree = "<group>"; };
@@ -4168,6 +4172,8 @@
 				861D11AC1AA7951F003C98A7 /* ORKChoiceAnswerFormatHelper.m */,
 				861D11B31AA7D073003C98A7 /* ORKTextChoiceCellGroup.h */,
 				861D11B41AA7D073003C98A7 /* ORKTextChoiceCellGroup.m */,
+				51EED7B62A1D76D300546DA8 /* ORKColorChoiceCellGroup.h */,
+				51EED7B72A1D76D300546DA8 /* ORKColorChoiceCellGroup.m */,
 			);
 			name = "Choice Format Helpers";
 			sourceTree = "<group>";
@@ -5290,6 +5296,7 @@
 				FF919A431E81B904005C2A1E /* ORKPSATResult.h in Headers */,
 				FF36A49C1D1A15FC00DE8470 /* ORKTableStepViewController_Internal.h in Headers */,
 				FF919A631E81D04D005C2A1E /* ORKSignatureResult.h in Headers */,
+				51EED7B82A1D76D300546DA8 /* ORKColorChoiceCellGroup.h in Headers */,
 				3C768BEA2A1E84850082EBA4 /* ORKAnswerFormat+FormStepViewControllerAdditions.h in Headers */,
 				51D823052472FB9B00BF4F72 /* ORKRequestPermissionsStepContainerView.h in Headers */,
 				86C40D7C1A8D7C5C00081FAC /* ORKScaleValueLabel.h in Headers */,
@@ -6070,6 +6077,7 @@
 				BAD65E4C2284EFF9008A5DCE /* ORKStepView.m in Sources */,
 				86C40CF81A8D7C5C00081FAC /* ORKBorderedButton.m in Sources */,
 				86C40E201A8D7C5C00081FAC /* ORKConsentSignature.m in Sources */,
+				51EED7B92A1D76D300546DA8 /* ORKColorChoiceCellGroup.m in Sources */,
 				BF1D43861D4904C6007EE90B /* ORKVideoInstructionStep.m in Sources */,
 				9550E67D1D58DD2000C691B8 /* ORKTouchAnywhereStepViewController.m in Sources */,
 				86C40C601A8D7C5C00081FAC /* ORKWalkingTaskStepViewController.m in Sources */,

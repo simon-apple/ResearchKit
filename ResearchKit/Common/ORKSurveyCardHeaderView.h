@@ -49,7 +49,8 @@ NS_ASSUME_NONNULL_BEGIN
                  progressText:(nullable NSString *)progressText
                       tagText:(nullable NSString *)tagText
                    showBorder:(BOOL)showBorder
-        hasMultipleChoiceItem:(BOOL)hasMultipleChoiceItem;
+        hasMultipleChoiceItem:(BOOL)hasMultipleChoiceItem
+         shouldIgnoreDarkMode:(BOOL)shouldIgnoreDarkMode;
 
 @end
 

@@ -502,6 +502,11 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
     return [[ORKTextChoiceAnswerFormat alloc] initWithStyle:style textChoices:textChoices];
 }
 
++ (ORKColorChoiceAnswerFormat *)choiceAnswerFormatWithStyle:(ORKChoiceAnswerStyle)style
+                     colorChoices:(NSArray<ORKColorChoice *> *)colorChoices {
+    return [[ORKColorChoiceAnswerFormat alloc] initWithStyle:style colorChoices:colorChoices];
+}
+
 - (void)validateParameters {
 }
 
@@ -1379,16 +1384,26 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
 - (instancetype)initWithColor:(UIColor *)color
                          text:(NSString *)text
                    detailText:(NSString *)detailText
-                        value:(NSObject<NSCopying,NSSecureCoding> *)value {
+                        value:(NSObject<NSCopying,NSSecureCoding> *)value
+                    exclusive:(BOOL)exclusive {
     self = [super init];
+    
     if (self) {
         _color = [color copy];
         _text = [text copy];
         _detailText = [detailText copy];
         _value = [value copy];
+        _exclusive = exclusive;
     }
     
     return self;
+}
+
+- (instancetype)initWithColor:(UIColor *)color
+                         text:(NSString *)text
+                   detailText:(NSString *)detailText
+                        value:(NSObject<NSCopying,NSSecureCoding> *)value {
+    return [self initWithColor:color text:text detailText:detailText value:value exclusive:NO];
 }
 
 + (BOOL)supportsSecureCoding {
@@ -1408,7 +1423,8 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
     return (ORKEqualObjects(self.text, castObject.text)
             && ORKEqualObjects(self.detailText, castObject.detailText)
             && ORKEqualObjects(self.value, castObject.value)
-            && ORKEqualObjects(self.color, castObject.color));
+            && ORKEqualObjects(self.color, castObject.color)
+            && self.exclusive == castObject.exclusive);
 }
 
 - (NSUInteger)hash {
@@ -1422,6 +1438,7 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
         ORK_DECODE_OBJ_CLASS(aDecoder, color, UIColor);
         ORK_DECODE_OBJ_CLASS(aDecoder, detailText, NSString);
         ORK_DECODE_OBJ_CLASSES(aDecoder, value, ORKAllowableValueClasses());
+        ORK_DECODE_BOOL(aDecoder, exclusive);
     }
     return self;
 }
@@ -1431,6 +1448,7 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
     ORK_ENCODE_OBJ(aCoder, color);
     ORK_ENCODE_OBJ(aCoder, detailText);
     ORK_ENCODE_OBJ(aCoder, value);
+    ORK_ENCODE_BOOL(aCoder, exclusive);
 }
 
 - (BOOL)shouldShowDontKnowButton {

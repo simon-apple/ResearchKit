@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, Apple Inc. All rights reserved.
+ Copyright (c) 2023, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,50 +28,44 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+@import Foundation;
 @import UIKit;
-#import <ResearchKit/ORKFormStep.h>
+#import <ResearchKit/ORKQuestionStep_Private.h>
+
+#import <ResearchKit/ORKTextChoiceCellGroup.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class ORKAnswerTextView;
+@class ORKColorChoiceAnswerFormat;
+@class ORKChoiceViewCell;
+@class ORKTextChoiceAnswerFormat;
 
-@interface ORKChoiceViewCell : UITableViewCell
 
-@property (nonatomic, assign, getter=isImmediateNavigation) BOOL immediateNavigation;
+@interface ORKColorChoiceCellGroup : NSObject
 
-@property (nonatomic, assign, getter=isCellSelected) BOOL cellSelected;
+- (instancetype)initWithColorChoiceAnswerFormat:(ORKColorChoiceAnswerFormat *)answerFormat
+                                        answer:(nullable id)answer
+                            beginningIndexPath:(NSIndexPath *)indexPath
+                           immediateNavigation:(BOOL)immediateNavigation;
 
-@property (nonatomic) bool useCardView;
+@property (nonatomic, assign) ORKQuestionStepPresentationStyle presentationStyle;
 
-@property (nonatomic) bool isLastItem;
+@property (nonatomic, strong, nullable) id answer;
 
-@property (nonatomic) BOOL isFirstItemInSectionWithoutTitle;
+@property (nonatomic, weak) id<ORKTextChoiceCellGroupDelegate> delegate;
 
-@property (nonatomic) BOOL isExclusive;
+@property (nonatomic, copy)  ORKColorChoiceAnswerFormat *answerFormat;
 
-@property (nonatomic) BOOL shouldIgnoreDarkMode;
 
-@property (nonatomic) ORKCardViewStyle cardViewStyle;
+- (nullable ORKChoiceViewCell *)cellAtIndexPath:(NSIndexPath *)indexPath withReuseIdentifier:(nullable NSString *)identifier;
 
-- (void)setSwatchColor:(UIColor *)swatchColor;
-- (void)setPrimaryText:(NSString *)primaryText;
-- (void)setPrimaryAttributedText: (NSAttributedString *)primaryAttributedText;
-- (void)setDetailText:(NSString *)detailText;
-- (void)setDetailAttributedText:(NSAttributedString *)detailAttributedText;
-- (void)setCellSelected:(BOOL)cellSelected highlight:(BOOL)highlight;
+- (BOOL)containsIndexPath:(NSIndexPath *)indexPath;
 
-@end
+- (void)didSelectCellAtIndexPath:(NSIndexPath *)indexPath;
 
-@interface ORKChoiceOtherViewCell : ORKChoiceViewCell <UITextViewDelegate>
+- (nullable id)answerForBoolean;
 
-@property (nonatomic, strong, readonly) ORKAnswerTextView *textView;
-
-@property (nonatomic, assign, setter=hideTextView:) BOOL textViewHidden;
-
-@end
-
-@interface ORKChoiceViewPlatterCell : ORKChoiceViewCell
+- (NSUInteger)size;
 
 @end
 

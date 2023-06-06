@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, Apple Inc. All rights reserved.
+ Copyright (c) 2023, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,9 +28,9 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import "ORKColorChoiceCellGroup.h"
 
 #import "ORKTextChoiceCellGroup.h"
-
 #import "ORKSelectionTitleLabel.h"
 #import "ORKSelectionSubTitleLabel.h"
 
@@ -42,7 +42,7 @@
 
 #import "ORKHelpers_Internal.h"
 
-@implementation ORKTextChoiceCellGroup {
+@implementation ORKColorChoiceCellGroup {
     ORKChoiceAnswerFormatHelper *_helper;
     BOOL _singleChoice;
     BOOL _immediateNavigation;
@@ -51,7 +51,7 @@
     NSMutableDictionary *_cells;
 }
 
-- (instancetype)initWithTextChoiceAnswerFormat:(ORKTextChoiceAnswerFormat *)answerFormat
+- (instancetype)initWithColorChoiceAnswerFormat:(ORKColorChoiceAnswerFormat *)answerFormat
                                         answer:(id)answer
                             beginningIndexPath:(NSIndexPath *)indexPath
                            immediateNavigation:(BOOL)immediateNavigation {
@@ -92,32 +92,21 @@
     ORKChoiceViewCell *cell = _cells[@(index)];
     
     if (cell == nil) {
-        ORKTextChoice *textChoice = [_helper textChoiceAtIndex:index];
-        if ([textChoice isKindOfClass:[ORKTextChoiceOther class]]) {
-            ORKChoiceOtherViewCell *choiceOtherViewCell = [[ORKChoiceOtherViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-            ORKTextChoiceOther *textChoiceOther = (ORKTextChoiceOther *)textChoice;
-            choiceOtherViewCell.textView.placeholder = textChoiceOther.textViewPlaceholderText;
-            choiceOtherViewCell.textView.text = textChoiceOther.textViewText;
-            [choiceOtherViewCell hideTextView:textChoiceOther.textViewStartsHidden];
-            cell = choiceOtherViewCell;
-        } else {
-            
-            if ([self.presentationStyle isEqualToString:ORKQuestionStepPresentationStyleDefault]) {
-                cell = [[ORKChoiceViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-            } else if ([self.presentationStyle isEqualToString:ORKQuestionStepPresentationStylePlatter]) {
-                cell = [[ORKChoiceViewPlatterCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-            }
+        ORKColorChoice *colorChoice = [_helper colorChoiceAtIndex:index];
+        
+        if ([self.presentationStyle isEqualToString:ORKQuestionStepPresentationStyleDefault]) {
+            cell = [[ORKChoiceViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+        } else if ([self.presentationStyle isEqualToString:ORKQuestionStepPresentationStylePlatter]) {
+            cell = [[ORKChoiceViewPlatterCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
         }
-        cell.isExclusive = textChoice.exclusive;
+        
+        cell.isExclusive = colorChoice.exclusive;
         cell.immediateNavigation = _immediateNavigation;
-        [cell setPrimaryText:textChoice.text];
-        [cell setDetailText:textChoice.detailText];
-        if (textChoice.primaryTextAttributedString) {
-            [cell setPrimaryAttributedText:textChoice.primaryTextAttributedString];
-        }
-        if (textChoice.detailTextAttributedString) {
-            [cell setDetailAttributedText:textChoice.detailTextAttributedString];
-        }
+        cell.shouldIgnoreDarkMode = YES;
+        [cell setSwatchColor:colorChoice.color];
+        [cell setPrimaryText:colorChoice.text];
+        [cell setDetailText:colorChoice.detailText];
+     
         _cells[@(index)] = cell;
         
         [self safelySetSelectedIndexesForAnswer:_answer];
@@ -126,50 +115,13 @@
     return cell;
 }
 
-- (void)updateTextViewForChoiceOtherCell:(ORKChoiceOtherViewCell *)choiceCell withTextChoiceOther:(ORKTextChoiceOther *)choiceOther {
-    if (choiceOther.textViewStartsHidden && choiceCell.textView.text.length <= 0) {
-        [choiceCell hideTextView:!choiceCell.textViewHidden];
-        [self.delegate tableViewCellHeightUpdated];
-    }
-}
-
-- (void)textViewDidResignResponderForCellAtIndexPath:(NSIndexPath *)indexPath {
-    if ([self containsIndexPath:indexPath]== NO) {
-        return;
-    }
-    NSUInteger index = indexPath.row - _beginningIndexPath.row;
-    ORKChoiceOtherViewCell *touchedCell = (ORKChoiceOtherViewCell *) [self cellAtIndex:index withReuseIdentifier:nil];
-    ORKTextChoiceOther *textChoice = (ORKTextChoiceOther *) [_helper textChoiceAtIndex:index];
-    
-    if (touchedCell.textView.text.length > 0) {
-        textChoice.textViewText = touchedCell.textView.text;
-        [self didSelectCellAtIndexPath:indexPath];
-    } else {
-        textChoice.textViewText = nil;
-        if (!textChoice.textViewInputOptional) {
-            [touchedCell setCellSelected:NO highlight:NO];
-        }
-        _answer = [_helper answerForSelectedIndexes:[self selectedIndexes]];
-        [self.delegate answerChangedForIndexPath:indexPath];
-    }
-}
-
 - (void)didSelectCellAtIndexPath:(NSIndexPath *)indexPath {
     if ([self containsIndexPath:indexPath]== NO) {
         return;
     }
     NSUInteger index = indexPath.row - _beginningIndexPath.row;
     ORKChoiceViewCell *touchedCell = [self cellAtIndex:index withReuseIdentifier:nil];
-    ORKTextChoice *textChoice = [_helper textChoiceAtIndex:index];
-    
-    if ([textChoice isKindOfClass:[ORKTextChoiceOther class]] && [touchedCell isKindOfClass:[ORKChoiceOtherViewCell class]]) {
-        ORKTextChoiceOther *otherTextChoice = (ORKTextChoiceOther *)textChoice;
-        ORKChoiceOtherViewCell *touchedOtherCell = (ORKChoiceOtherViewCell *)touchedCell;
-        [self updateTextViewForChoiceOtherCell:touchedOtherCell withTextChoiceOther:otherTextChoice];
-        if (!otherTextChoice.textViewInputOptional && otherTextChoice.textViewText.length <= 0) {
-            return;
-        }
-    }
+    //ORKColorChoice *colorChoice = [_helper colorChoiceAtIndex:index];
     
     if (_singleChoice) {
         [touchedCell setCellSelected:YES highlight:YES];
@@ -181,10 +133,10 @@
     } else {
         [touchedCell setCellSelected:!touchedCell.isCellSelected highlight:YES];
         if (touchedCell.isCellSelected) {
-            ORKTextChoice *touchedChoice = [_helper textChoiceAtIndex:index];
+            ORKColorChoice *touchedChoice = [_helper colorChoiceAtIndex:index];
             for (NSNumber *num in _cells.allKeys) {
                 ORKChoiceViewCell *cell = _cells[num];
-                ORKTextChoice *choice = [_helper textChoiceAtIndex:num.unsignedIntegerValue];
+                ORKColorChoice *choice = [_helper colorChoiceAtIndex:num.unsignedIntegerValue];
                 if (cell != touchedCell && (touchedChoice.exclusive || (cell.isCellSelected && choice.exclusive))) {
                     [cell setCellSelected:NO highlight:NO];
                 }
