@@ -34,7 +34,7 @@
 static const CGFloat CellLeftRightPadding = 12.0;
 static const CGFloat CellTopBottomPadding = 12.0;
 static const CGFloat ViewButtonTopBottomPadding = 12.0;
-static const CGFloat ViewLeftRightPadding = 8.0;
+static const CGFloat ViewLeftRightPadding = 16.0;
 
 @implementation ORKFamilyHistoryTableFooterView {
     NSString *_relativeGroupIdentifier;

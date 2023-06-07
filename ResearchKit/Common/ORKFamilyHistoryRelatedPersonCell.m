@@ -36,8 +36,8 @@ static const CGFloat CellLeftRightPadding = 12.0;
 static const CGFloat CellTopBottomPadding = 12.0;
 static const CGFloat CellBottomPadding = 8.0;
 static const CGFloat CellLabelTopPadding = 8.0;
-static const CGFloat CellBottomPaddingBeforeAddRelativeButton = 30.0;
-static const CGFloat ContentLeftRightPadding = 8.0;
+static const CGFloat CellBottomPaddingBeforeAddRelativeButton = 20.0;
+static const CGFloat ContentLeftRightPadding = 16.0;
 static const CGFloat DividerViewTopBottomPadding = 10.0;
 
 static const CGFloat EditDeleteLabelTopBottomPadding = 8.0;
