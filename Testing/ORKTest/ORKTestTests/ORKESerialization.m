@@ -2677,6 +2677,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                      PROPERTY(vendorID, NSString, NSObject, NO, nil, nil),
                      PROPERTY(productID, NSString, NSObject, NO, nil, nil),
                      PROPERTY(deviceSubType, NSNumber, NSObject, NO, nil, nil),
+                     PROPERTY(isMonoAudioEnabled, NSNumber, NSObject, YES, nil, nil),
                  })),
            ENTRY(ORKTinnitusPureToneResult,
                  nil,
