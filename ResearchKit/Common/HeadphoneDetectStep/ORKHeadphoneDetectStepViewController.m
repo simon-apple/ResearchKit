@@ -949,6 +949,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     headphoneResult.vendorID = _lastDetectedVendorID;
     headphoneResult.productID = _lastDetectedProductID;
     headphoneResult.deviceSubType = _lastDetectedDeviceSubType;
+    headphoneResult.isMonoAudioEnabled = UIAccessibilityIsMonoAudioEnabled();
     
     [results addObject:headphoneResult];
     
