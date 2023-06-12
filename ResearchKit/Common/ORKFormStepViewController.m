@@ -1543,6 +1543,7 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
             // [RDLS:NOTE] moved from ORKTextChoiceCellGroup cellAtIndex:reuseIdentifier:
             // TODO: rdar://110150497 ([ConditionalFormItems] add a configuration method for ORKChoiceViewCell that accepts a formItem)
             choiceViewCell.isExclusive = isExclusive;
+            choiceViewCell.isLastItem = (choiceIndex + 1) == answerFormat.choices.count;
             choiceViewCell.immediateNavigation = NO;
             [choiceViewCell setPrimaryText:primaryText];
             [choiceViewCell setDetailText:detailText];
