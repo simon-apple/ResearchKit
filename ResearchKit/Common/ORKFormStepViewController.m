@@ -1527,6 +1527,7 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
                 ORKColorChoice *colorChoice = [answerFormat.choices objectAtIndex:choiceIndex];
                 
                 [choiceViewCell setSwatchColor:colorChoice.color];
+                choiceViewCell.shouldIgnoreDarkMode = YES;
                 
                 isExclusive = colorChoice.exclusive;
                 primaryText = colorChoice.text;
