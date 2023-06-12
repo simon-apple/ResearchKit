@@ -1661,7 +1661,7 @@ static CGFloat ORKLabelWidth(NSString *text) {
                 choiceIsExclusive = selectedChoice.exclusive;
             }
             
-            shouldAllowMultiSelection = shouldAllowMultiSelection && choiceIsExclusive;
+            shouldAllowMultiSelection = shouldAllowMultiSelection && !choiceIsExclusive;
 
             NSRange range = NSMakeRange(0, helper.choiceCount);
             NSIndexSet *relatedChoiceRows = [NSIndexSet indexSetWithIndexesInRange:range];
