@@ -891,10 +891,14 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
                 } else if ([snapshot indexOfItemIdentifier:eachItemIdentifier] != NSNotFound) {
                     // the same itemIdentifier lives in both, but at different index in each: move
                     [snapshot moveItemWithIdentifier:eachItemIdentifier beforeItemWithIdentifier:originalItemIdentiferAtIndex];
-                } else {
+                } else if ([eachItemIdentifier.formItemIdentifier isEqual:originalItemIdentiferAtIndex.formItemIdentifier]) {
                     // the itemIdentifer doesn't exist in the original snapshot, insert ahead of whatever's currently at this index
                     [snapshot insertItemsWithIdentifiers:@[eachItemIdentifier] beforeItemWithIdentifier:originalItemIdentiferAtIndex];
+                } else {
+                    // the itemIdentifier doesn't exist in the original snapshot, append to current section
+                    [snapshot appendItemsWithIdentifiers:@[eachItemIdentifier] intoSectionWithIdentifier:eachSectionIdentifier];
                 }
+
                 // There may be a case where we don't support items moving between sections, but that shouldn't happen since the only way formItems can move around like that is if you feed the stepViewController a new step. Resetting the step builds a brand new tableView and datasource, so you shouldn't hit that problem.
             } else {
                 if ([snapshot indexOfItemIdentifier:eachItemIdentifier] != NSNotFound) {
