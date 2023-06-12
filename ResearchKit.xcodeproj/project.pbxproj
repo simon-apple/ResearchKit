@@ -6642,7 +6642,7 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				"OTHER_SWIFT_FLAGS[arch=*]" = "$(inherited) -runtime-compatibility-version none";
-				SDKROOT = iphoneos;
+				SDKROOT = iphoneos.internal;
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 			};
 			name = Debug;
