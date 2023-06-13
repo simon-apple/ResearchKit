@@ -68,7 +68,9 @@ final class ORKFormStepViewControllerConditionalFormItemsTests: XCTestCase {
             XCTAssertEqual(identifiers, ["item1", "item2", "item3"])
         }
     }
-
+    
+    //rdar://110665165 ([ConditionalFormItems] testDiffableDataSource invalidated due to synchronous call)
+    /*
     func testDiffableDataSource() throws {
         let formStepViewController = ORKFormStepViewController(step: FormStepTestUtilities.conditionalFormStep())
         formStepViewController.loadView()
@@ -87,8 +89,9 @@ final class ORKFormStepViewControllerConditionalFormItemsTests: XCTestCase {
         } else {
             // Fallback on earlier versions
         };
-        
+
     }
+     */
     
     func testConditionalFormItemsAccessors() throws {
         let formStepViewController = ORKFormStepViewController(step: FormStepTestUtilities.conditionalFormStep())
