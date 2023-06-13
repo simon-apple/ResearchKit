@@ -102,7 +102,9 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
     _workaroundPlayer.numberOfLoops = -1;
     _workaroundPlayer.volume = 0.0;
     [_workaroundPlayer prepareToPlay];
-    [_workaroundPlayer play];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [_workaroundPlayer play];
+    });
 }
 
 - (void)stopBTListeningModeCheckTimer {
@@ -270,7 +272,8 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
             if ([modelId containsString:ORKHeadphoneVendorAndProductIdIdentifierAirPodsPro]) {
                 return ORKHeadphoneTypeIdentifierAirPodsPro;
             }
-            if ([modelId containsString:ORKHeadphoneVendorAndProductIdIdentifierAirPodsProGen2]) {
+            if ([modelId containsString:ORKHeadphoneVendorAndProductIdIdentifierAirPodsProGen2] ||
+                [modelId containsString:ORKHeadphoneVendorAndProductIdIdentifierAirPodsProGen2USBC]) {
                 return ORKHeadphoneTypeIdentifierAirPodsProGen2;
             }
             if ([modelId containsString:ORKHeadphoneVendorAndProductIdIdentifierAirPodsMax]) {
@@ -415,8 +418,10 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
     
     if (_workaroundPoolingCounter == 10) {
         if ([_workaroundPlayer isPlaying]) {
-            [_workaroundPlayer stop];
-            _workaroundPlayer = nil;
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                [_workaroundPlayer stop];
+                _workaroundPlayer = nil;
+            });
             // will be faster to start tha audio again
             _workaroundPoolingCounter = 5;
         } else {
