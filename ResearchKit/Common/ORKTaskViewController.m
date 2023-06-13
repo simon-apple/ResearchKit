@@ -243,6 +243,7 @@ typedef void (^_ORKLocationAuthorizationRequestHandler)(BOOL success);
     float _lockedVolume;
     
     UILabel *_ancLabel;
+    BOOL _shouldShowANCLabel;
 #endif
     
     UINavigationController *_childNavigationController;
@@ -300,15 +301,25 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     _childNavigationController.restorationClass = [self class];
     _childNavigationController.restorationIdentifier = _ChildNavigationControllerRestorationKey;
     
-    _ancLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, 50)];
-    _ancLabel.font = [UIFont systemFontOfSize:15];
-    _ancLabel.textAlignment = NSTextAlignmentCenter;
-    _ancLabel.backgroundColor = [UIColor clearColor];
-    
-    UINavigationBar *navBar = _childNavigationController.navigationBar;
-    [navBar addSubview:_ancLabel];
-    
-    [self updateANCLabelForStatus:ORKdBHLHeadphonesStatusNoDevice];
+    if ([self.task isKindOfClass:[ORKOrderedTask class]]) {
+        ORKOrderedTask *orderedTask = (ORKOrderedTask *)self.task;
+        for (ORKStep *step in orderedTask.steps) {
+            if ([step isKindOfClass:[ORKdBHLToneAudiometryStep class]]) {
+                _shouldShowANCLabel = YES;
+            }
+        }
+    }
+    if (_shouldShowANCLabel) {
+        _ancLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, 50)];
+        _ancLabel.font = [UIFont systemFontOfSize:15];
+        _ancLabel.textAlignment = NSTextAlignmentCenter;
+        _ancLabel.backgroundColor = [UIColor clearColor];
+        
+        UINavigationBar *navBar = _childNavigationController.navigationBar;
+        [navBar addSubview:_ancLabel];
+        
+        [self updateANCLabelForStatus:ORKdBHLHeadphonesStatusNoDevice];
+    }
 }
 
 - (instancetype)commonInitWithTask:(id<ORKTask>)task taskRunUUID:(NSUUID *)taskRunUUID {
@@ -330,6 +341,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
 #if RK_APPLE_INTERNAL
     _hasLockedVolume = NO;
 #endif
+    _shouldShowANCLabel = NO;
     return self;
 }
 
