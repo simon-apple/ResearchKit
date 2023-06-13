@@ -794,6 +794,8 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
     NSDiffableDataSourceSnapshot *snapshot = dataSource.snapshot;
     NSArray<ORKFormItem *> *formItems = [[self visibleFormItems] copy];
     
+    NSUInteger countOfItemsStart = [snapshot numberOfItems];
+    
     // TODO: rdar://110144795 ([ConditionalFormItems] ORKFormStepViewController buildDataSource method is way too big)
     
     // make a brand new snapshot that holds the section and item identifiers that result from analyzing the formItems
@@ -915,7 +917,13 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
     }
     
     // TODO: rdar://110144953 ([ConditionalFormItems] ORKFormStepViewController - it's not always appropriate to animate snapshot changes)
-    [dataSource applySnapshot:snapshot animatingDifferences:YES];
+    
+    NSUInteger countOfItemsEnd = [snapshot numberOfItems];
+    BOOL shouldAnimateDifferences = (countOfItemsStart != 0 && countOfItemsStart != countOfItemsEnd);
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [dataSource applySnapshot:snapshot animatingDifferences:shouldAnimateDifferences];
+    });
 }
 
 - (NSInteger)numberOfAnsweredFormItemsInDictionary:(NSDictionary *)dictionary {
