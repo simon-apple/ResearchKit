@@ -47,11 +47,13 @@ ORK_CLASS_AVAILABLE
 - (instancetype)init NS_UNAVAILABLE;
 
 - (instancetype)initWithIdentifier:(NSString *)identifier
-                     groupIdentifier:(NSString *)groupIdentifier
+                   groupIdentifier:(NSString *)groupIdentifier
+            identifierForCellTitle:(NSString *)identifierForCellTitle
                         taskResult:(ORKTaskResult *)result NS_DESIGNATED_INITIALIZER;
 
 @property (nonatomic, readonly, copy) NSString *identifier;
 @property (nonatomic, readonly, copy) NSString *groupIdentifier;
+@property (nonatomic, readonly, copy) NSString *identifierForCellTitle;
 @property (nonatomic, copy) ORKTaskResult *taskResult;
 
 - (nullable NSString *)getTitleValueWithIdentifier:(NSString *)identifier;

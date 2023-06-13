@@ -420,6 +420,7 @@ NSString * const ORKFamilyHistoryRelatedPersonCellIdentifier = @"ORKFamilyHistor
             if ([relativeGroup.identifier isEqual:identifier]) {
                 ORKRelatedPerson *relatedPerson = [[ORKRelatedPerson alloc] initWithIdentifier:[NSUUID new].UUIDString
                                                                                groupIdentifier:identifier
+                                                                        identifierForCellTitle:relativeGroup.identifierForCellTitle
                                                                                     taskResult:taskResult];
                 
                 [self saveRelatedPerson:[relatedPerson copy]];

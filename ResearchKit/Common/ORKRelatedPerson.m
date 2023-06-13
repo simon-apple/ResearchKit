@@ -47,12 +47,14 @@
 
 - (instancetype)initWithIdentifier:(NSString *)identifier
                    groupIdentifier:(NSString *)groupIdentifier
+            identifierForCellTitle:(NSString *)identifierForCellTitle
                         taskResult:(ORKTaskResult *)result {
     self = [super init];
     
     if (self) {
         _identifier = [identifier copy];
         _groupIdentifier = [groupIdentifier copy];
+        _identifierForCellTitle = [identifierForCellTitle copy];
         _taskResult = [result copy];
     }
     return self;
@@ -65,6 +67,7 @@
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     ORK_ENCODE_OBJ(aCoder, identifier);
     ORK_ENCODE_OBJ(aCoder, groupIdentifier);
+    ORK_ENCODE_OBJ(aCoder, identifierForCellTitle);
     ORK_ENCODE_OBJ(aCoder, taskResult);
 }
 
@@ -75,6 +78,7 @@
     if (self) {
         ORK_DECODE_OBJ_CLASS(aDecoder, identifier, NSString);
         ORK_DECODE_OBJ_CLASS(aDecoder, groupIdentifier, NSString);
+        ORK_DECODE_OBJ_CLASS(aDecoder, identifierForCellTitle, NSString);
         ORK_DECODE_OBJ_CLASS(aDecoder, taskResult, ORKTaskResult);
     }
     return self;
@@ -83,6 +87,7 @@
 - (instancetype)copyWithZone:(nullable NSZone *)zone { 
     ORKRelatedPerson *relatedPerson = [[[self class] allocWithZone:zone] initWithIdentifier:[_identifier copy]
                                                                             groupIdentifier:[_groupIdentifier copy]
+                                                                     identifierForCellTitle: [_identifierForCellTitle copy]
                                                                                  taskResult:[_taskResult copy]];
     return relatedPerson;
 }
@@ -95,6 +100,7 @@
     __typeof(self) castObject = object;
     return (ORKEqualObjects(self.identifier, castObject.identifier)
             && ORKEqualObjects(self.groupIdentifier, castObject.groupIdentifier)
+            && ORKEqualObjects(self.identifierForCellTitle, castObject.identifierForCellTitle)
             && ORKEqualObjects(self.taskResult, castObject.taskResult));
 }
 
