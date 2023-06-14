@@ -2481,11 +2481,12 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     })),
            ENTRY(ORKRelatedPerson,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-               return [[ORKRelatedPerson alloc] initWithIdentifier:GETPROP(dict, identifier) groupIdentifier:GETPROP(dict, groupIdentifier) taskResult:GETPROP(dict, taskResult)];
+               return [[ORKRelatedPerson alloc] initWithIdentifier:GETPROP(dict, identifier) groupIdentifier:GETPROP(dict, groupIdentifier) identifierForCellTitle:GETPROP(dict, identifierForCellTitle) taskResult:GETPROP(dict, taskResult)];
                  },
                  (@{
                      PROPERTY(identifier, NSString, NSObject, YES, nil, nil),
                      PROPERTY(groupIdentifier, NSString, NSObject, YES, nil, nil),
+                     PROPERTY(identifierForCellTitle, NSString, NSObject, YES, nil, nil),
                      PROPERTY(taskResult, ORKTaskResult, NSObject, YES, nil, nil)
                     })),
            ENTRY(ORKFamilyHistoryResult,
