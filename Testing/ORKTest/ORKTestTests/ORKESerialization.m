@@ -65,7 +65,7 @@ static NSDate *ORKEDateFromStringISO8601(NSString *string) {
     return [formatter dateFromString:string];
 }
 
-static NSArray *ORKNumericAnswerStyleTable() {
+static NSArray *ORKNumericAnswerStyleTable(void) {
     static NSArray *table = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -74,7 +74,7 @@ static NSArray *ORKNumericAnswerStyleTable() {
     return table;
 }
 
-static NSArray *ORKImageChoiceAnswerStyleTable() {
+static NSArray *ORKImageChoiceAnswerStyleTable(void) {
     static NSArray *table = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -83,7 +83,7 @@ static NSArray *ORKImageChoiceAnswerStyleTable() {
     return table;
 }
 
-static NSArray *ORKMeasurementSystemTable() {
+static NSArray *ORKMeasurementSystemTable(void) {
     static NSArray *table = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -733,7 +733,7 @@ return @(index); \
 
 @implementation ORKESerializer
 
-static NSArray *ORKChoiceAnswerStyleTable() {
+static NSArray *ORKChoiceAnswerStyleTable(void) {
     static NSArray *table;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -743,7 +743,7 @@ static NSArray *ORKChoiceAnswerStyleTable() {
     return table;
 }
 
-static NSArray *ORKDateAnswerStyleTable() {
+static NSArray *ORKDateAnswerStyleTable(void) {
     static NSArray *table = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -752,7 +752,7 @@ static NSArray *ORKDateAnswerStyleTable() {
     return table;
 }
 
-static NSArray *buttonIdentifierTable() {
+static NSArray *buttonIdentifierTable(void) {
     static NSArray *table = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -761,7 +761,7 @@ static NSArray *buttonIdentifierTable() {
     return table;
 }
 
-static NSArray *memoryGameStatusTable() {
+static NSArray *memoryGameStatusTable(void) {
     static NSArray *table = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -770,7 +770,7 @@ static NSArray *memoryGameStatusTable() {
     return table;
 }
 
-static NSArray *numberFormattingStyleTable() {
+static NSArray *numberFormattingStyleTable(void) {
     static NSArray *table = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -799,7 +799,7 @@ static NSDictionary *dictionaryForORKSpeechRecognitionResult(void) {
 }
 
 #define GETPROP(d,x) getter(d, @ESTRINGIFY(x))
-static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerializationEncodingTable() {
+static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerializationEncodingTable(void) {
     static dispatch_once_t onceToken;
     static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *internalEncodingTable = nil;
     dispatch_once(&onceToken, ^{
