@@ -800,7 +800,7 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
 
 ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector(void);
 
-ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
+ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector(void) {
     NSString *bundlePath = [[NSBundle bundleForClass:[ORKJSONSerializationTests class]] pathForResource:@"samples" ofType:@"bundle"];
     NSBundle *bundle = [NSBundle bundleWithPath:bundlePath];
     
