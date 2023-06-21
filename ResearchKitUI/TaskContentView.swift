@@ -65,6 +65,9 @@ internal struct TaskContentView<Content>: View where Content: View {
         case CTA
     }
     
+    // Style
+    private let buttonTopPadding: CGFloat = 12
+    
     @EnvironmentObject
     private var taskManager: TaskManager
     
@@ -157,16 +160,23 @@ internal struct TaskContentView<Content>: View where Content: View {
                 
                 if hasNextStep {
                     if shouldScrollToCTA || !(currentStep is ORKQuestionStep) {
-                        Button("Next") { goNext = true }
-                            .id(Constants.CTA)
+                        Button {
+                            goNext = true
+                        } label: {
+                            Text("Next").bold()
+                        }
+                        .id(Constants.CTA)
+                        .padding(.top, buttonTopPadding)
                     }
                 } else {
-                    Button("Done") {
+                    Button {
                         taskManager.finishReason = .completed
+                    } label: {
+                        Text("Done").bold()
                     }
                     .id(Constants.CTA)
                     .disabled(!shouldScrollToCTA && currentStep is ORKQuestionStep)
-                    .padding(.top, 5)
+                    .padding(.top, buttonTopPadding)
                 }
             }
         }

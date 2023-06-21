@@ -52,6 +52,7 @@ struct TextChoiceCell: View {
         }) {
             HStack {
                 Text(title)
+                    .fontWeight(.medium)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .font(.body)
                 Image(systemName: selected ? "checkmark.circle.fill" : "circle")
@@ -60,6 +61,17 @@ struct TextChoiceCell: View {
                     .foregroundColor(selected ? .blue : .gray)
                     .font(.body)
             }
+        }.roundedRectangleButtonShape()
+    }
+}
+
+private extension Button {
+    @ViewBuilder
+    func roundedRectangleButtonShape() -> some View {
+        if #available(watchOSApplicationExtension 8.0, *) {
+            self.buttonBorderShape(.roundedRectangle)
+        } else {
+            self
         }
     }
 }
@@ -113,6 +125,7 @@ internal struct _QuestionStepView: View {
     
     enum Constants {
         static let topToProgressPadding: CGFloat = 4.0
+        static let bottomToProgressPadding: CGFloat = 4.0
         static let questionToAnswerPadding: CGFloat = 12.0
     }
     
@@ -136,8 +149,9 @@ internal struct _QuestionStepView: View {
                     if let progress = viewModel.progress {
                         Text("\(progress.index) OF \(progress.count)".uppercased())
                             .foregroundColor(.gray)
-                            .font(.footnote)
+                            .font(.subheadline)
                             .padding(.top, Constants.topToProgressPadding)
+                            .padding(.bottom, Constants.bottomToProgressPadding)
                     }
                     
                     if let stepTitle = viewModel.step.title, !stepTitle.isEmpty {
