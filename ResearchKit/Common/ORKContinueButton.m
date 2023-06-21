@@ -37,6 +37,9 @@
 static const CGFloat ContinueButtonTouchMargin = 10;
 static const CGFloat ContinueButtonHeight = 50.0;
 
+static NSString *accessibilityIdentifierDone = @"ORKContinueButton.Done";
+static NSString *accessibilityIdentifierNext = @"ORKContinueButton.Next";
+
 @implementation ORKContinueButton {
     NSLayoutConstraint *_heightConstraint;
 }
@@ -45,6 +48,11 @@ static const CGFloat ContinueButtonHeight = 50.0;
     self = [super init];
     if (self) {
         [self setTitle:title forState:UIControlStateNormal];
+        if (isDoneButton) {
+            self.accessibilityIdentifier = accessibilityIdentifierDone;
+        } else {
+            self.accessibilityIdentifier = accessibilityIdentifierNext;
+        }
         self.isDoneButton = isDoneButton;
         self.contentEdgeInsets = (UIEdgeInsets){.left = 6, .right = 6};
 
