@@ -2061,6 +2061,15 @@ enum TaskListRow: Int, CustomStringConvertible {
         siblingAgeFormItem.isOptional = false
         
         let siblingFormStep = ORKFormStep(identifier: "SiblingSurveyIdentifier")
+        let siblingAgeVisibilityRule = ORKPredicateFormItemVisibilityRule(
+            predicate: ORKResultPredicate.predicateForChoiceQuestionResult(
+                with: .init(stepIdentifier: siblingFormStep.identifier, resultIdentifier: siblingVitalStatusFormItem.identifier),
+                expectedAnswerValue: NSString(string: "system=snomedct&code=73211009")
+            )
+        )
+        siblingAgePickerSectionHeaderFormItem.visibilityRule = siblingAgeVisibilityRule
+        siblingAgeFormItem.visibilityRule = siblingAgeVisibilityRule
+        
         siblingFormStep.title = "Sibling"
         siblingFormStep.detailText = "Answer these questions to the best of your ability."
         siblingFormStep.formItems = [
