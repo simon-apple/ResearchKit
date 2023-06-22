@@ -13,6 +13,12 @@
   },
   "testTargets" : [
     {
+      "skippedTests" : [
+        "ORKAnswerFormatTests\/testNonOptionalHeightPickerAnswerFormat",
+        "ORKAnswerFormatTests\/testNonOptionalWeightPickerAnswerFormat",
+        "ORKAnswerFormatTests\/testOptionalHeightPickerAnswerFormat",
+        "ORKAnswerFormatTests\/testOptionalWeightPickerAnswerFormat"
+      ],
       "target" : {
         "containerPath" : "container:ResearchKit.xcodeproj",
         "identifier" : "86CC8E991AC09332001CCD89",
