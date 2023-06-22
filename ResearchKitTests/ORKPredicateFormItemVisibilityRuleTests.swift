@@ -127,5 +127,136 @@ final class ORKPredicateFormItemVisibilityRuleTests: XCTestCase {
             XCTAssertEqual(set.count, 2)
         }
     }
+    
+    func testAllowEvaluationOnRule() throws {
+        let formItems = [ORKFormItem(identifier: "item1", text: "text1", answerFormat: ORKTextAnswerFormat()), ORKFormItem(identifier: "item2", text: "text2", answerFormat: ORKTextAnswerFormat()), ORKFormItem(identifier: "item3", text: "text3", answerFormat: ORKTextAnswerFormat())] as NSArray
+        let predicate = NSPredicate(format: "identifier = 'item1'")
+        let rule = ORKPredicateFormItemVisibilityRule(predicate: predicate)
+        
+        // archive the ORKPredicateFormItemVisibilityRule
+        let encoder = NSKeyedArchiver(requiringSecureCoding: true)
+        let ArchiveKey = "formItemWithVisibilityRule"
+        encoder.encode(rule, forKey: ArchiveKey)
+        encoder.finishEncoding()
+        let data = encoder.encodedData
+        
+        let unarchiver = try! NSKeyedUnarchiver(forReadingFrom: data)
+        let decodedObject = unarchiver.decodeObject(of: ORKPredicateFormItemVisibilityRule.self, forKey: ArchiveKey)
+        XCTAssertNotNil(decodedObject)
+        
+        // allowEvaluation() is called under the hood  when decoding
+        
+        let filteredItems = formItems.filtered(using: decodedObject!.predicate)
+        
+        XCTAssertTrue(filteredItems.count == 1)
+        XCTAssertEqual((filteredItems.first! as! ORKFormItem).identifier, "item1")
+    }
+    
+    func testAllowEvaluationOnCustomRule() throws {
+        let result = ORKTaskResult(taskIdentifier: "TaskIdentifier", taskRun: UUID(), outputDirectory: nil)
+        
+        let choiceResult =  ORKChoiceQuestionResult(identifier: "dogsFormItem")
+        choiceResult.answer = ["Yes" as NSString] as any NSCopying & NSSecureCoding & NSObjectProtocol
+        
+        result.results = [ORKStepResult(stepIdentifier:"formStepIdentifier", results: [choiceResult])]
 
+        let selector = ORKResultSelector(
+            stepIdentifier: String(describing: "formStepIdentifier"),
+            resultIdentifier: String(describing: "dogsFormItem")
+        )
+        
+        let predicate = ORKResultPredicate.predicateForChoiceQuestionResult(
+            with: selector,
+            expectedAnswerValue: "Yes" as NSString
+        )
+
+        let rule = ORKPredicateFormItemVisibilityRule(predicate: predicate)
+
+        XCTAssertTrue(
+            rule.formItemVisibility(for: result)
+        )
+        
+        // archive the ORKPredicateFormItemVisibilityRule
+        let encoder = NSKeyedArchiver(requiringSecureCoding: true)
+        let ArchiveKey = "formItemWithVisibilityRule"
+        encoder.encode(rule, forKey: ArchiveKey)
+        encoder.finishEncoding()
+        let data = encoder.encodedData
+        
+        let unarchiver = try! NSKeyedUnarchiver(forReadingFrom: data)
+        let decodedRule = unarchiver.decodeObject(of: ORKPredicateFormItemVisibilityRule.self, forKey: ArchiveKey)
+        XCTAssertNotNil(decodedRule)
+        
+        // allowEvaluation() is called under the hood  when decoding
+
+        XCTAssertTrue(
+            decodedRule!.formItemVisibility(for: result)
+        )
+    }
+
+    func testDecodedPredicateEvaluationOutsideRulesThrows() throws {
+        let formItems = [ORKFormItem(identifier: "item1", text: "text1", answerFormat: ORKTextAnswerFormat()), ORKFormItem(identifier: "item2", text: "text2", answerFormat: ORKTextAnswerFormat()), ORKFormItem(identifier: "item3", text: "text3", answerFormat: ORKTextAnswerFormat())] as NSArray
+        let predicate = NSPredicate(format: "identifier = 'item1'")
+        
+        // archive the NSPredicate
+        let encoder = NSKeyedArchiver(requiringSecureCoding: true)
+        let ArchiveKey = "formItemWithVisibilityRule"
+        encoder.encode(predicate, forKey: ArchiveKey)
+        encoder.finishEncoding()
+        let data = encoder.encodedData
+        
+        let unarchiver = try! NSKeyedUnarchiver(forReadingFrom: data)
+        let decodedPredicate = unarchiver.decodeObject(of: NSPredicate.self, forKey: ArchiveKey)
+        XCTAssertNotNil(decodedPredicate)
+
+        let testException = ExecuteWithObjCExceptionHandling {
+            formItems.filtered(using: decodedPredicate!)
+        }
+        XCTAssertNotNil(testException)
+        XCTAssertEqual(testException!.name, NSExceptionName.internalInconsistencyException)
+    }
+    
+    func testDecodedORKResultPredicateEvaluationOutsideRulesThrows() throws {
+        let result = ORKTaskResult(taskIdentifier: "TaskIdentifier", taskRun: UUID(), outputDirectory: nil)
+        
+        let choiceResult =  ORKChoiceQuestionResult(identifier: "dogsFormItem")
+        choiceResult.answer = ["Yes" as NSString] as any NSCopying & NSSecureCoding & NSObjectProtocol
+        
+        result.results = [ORKStepResult(stepIdentifier:"formStepIdentifier", results: [choiceResult])]
+
+        let selector = ORKResultSelector(
+            stepIdentifier: String(describing: "formStepIdentifier"),
+            resultIdentifier: String(describing: "dogsFormItem")
+        )
+        
+        let predicate = ORKResultPredicate.predicateForChoiceQuestionResult(
+            with: selector,
+            expectedAnswerValue: "Yes" as NSString
+        )
+
+        XCTAssertTrue(
+            predicate.evaluate(with: [result], substitutionVariables: [
+                ORKResultPredicateTaskIdentifierVariableName: result.identifier
+            ])
+        )
+        
+        // archive the NSPredicate
+        let encoder = NSKeyedArchiver(requiringSecureCoding: true)
+        let ArchiveKey = "formItemWithVisibilityRule"
+        encoder.encode(predicate, forKey: ArchiveKey)
+        encoder.finishEncoding()
+        let data = encoder.encodedData
+        
+        let unarchiver = try! NSKeyedUnarchiver(forReadingFrom: data)
+        let decodedPredicate = unarchiver.decodeObject(of: NSPredicate.self, forKey: ArchiveKey)
+        XCTAssertNotNil(decodedPredicate)
+            
+        let testException = ExecuteWithObjCExceptionHandling {
+            decodedPredicate!.evaluate(with: [result], substitutionVariables: [
+                ORKResultPredicateTaskIdentifierVariableName: result.identifier
+            ])
+        }
+        XCTAssertNotNil(testException)
+        XCTAssertEqual(testException!.name, NSExceptionName.internalInconsistencyException)
+    }
 }
