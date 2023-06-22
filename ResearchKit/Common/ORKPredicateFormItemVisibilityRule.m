@@ -74,7 +74,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma clang diagnostic ignored "-Wobjc-designated-initializers"
 - (nullable instancetype)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
-    // TODO: rdar://110144475 ([ConditionalFormItems] ORKPredicateFormItemVisibilityRule needs unit testing for [predicate allowEvaluation])
+    // [predicate allowEvaluation] is needed because Foundation doesn’t want any old predicate decoded and then end up providing a vector for user data to execute arbitrary code. 
     if (self && (aDecoder.requiresSecureCoding == YES)) {
         ORK_DECODE_OBJ_CLASS(aDecoder, predicate, NSPredicate);
         ORK_DECODE_OBJ_CLASS(aDecoder, predicateFormat, NSString);
