@@ -1,7 +1,7 @@
 def developmentSDK() {
-    return "SummitE14E222bSydneyE20E247KincaidE20T253"
+    return "RainbowSeed15A5160nDawnSeed21A5248uLighthouseSeed21R5275s"
 }
 def xbsSDK() {
-    return "XIP_SummitE14E222b"
+    return "XIP_RainbowSeed15A5160n"
 }
 return this

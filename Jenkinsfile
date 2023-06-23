@@ -1,5 +1,5 @@
 def lib = library (
-    identifier: 'lime-jenkins-shared-lib@version/2.3',
+    identifier: 'lime-jenkins-shared-lib@version/2.4',
     retriever: modernSCM([
         $class: 'GitSCMSource',
         remote: 'git@github.pie.apple.com:HDS/lime-jenkins-shared-lib.git',
