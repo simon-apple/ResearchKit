@@ -205,4 +205,39 @@
     XCTAssertEqualObjects(inputResult.results, flattedResults);
 }
 
+- (void)testStepResultForStepIdentifierWithMatchingStepExpectEquals {
+    NSString *stepIdentifier = @"StepIdentifier";
+    ORKStepResult *stepResult = [[ORKStepResult alloc] initWithIdentifier:stepIdentifier];
+    ORKTaskResult *taskResult = [self createTaskResultTree];
+    [taskResult setResults:@[stepResult]];
+
+    ORKStepResult *result = [taskResult stepResultForStepIdentifier:stepIdentifier];
+
+    XCTAssertNoThrow(result.results);
+    XCTAssertEqualObjects(result, stepResult);
+}
+
+- (void)testStepResultForStepIdentifierWithNoStepExpectNil {
+    NSString *stepIdentifier = @"StepIdentifier";
+    ORKStepResult *stepResult = [[ORKStepResult alloc] initWithIdentifier:@"OtherIdentifier"];
+    ORKTaskResult *taskResult = [self createTaskResultTree];
+    [taskResult setResults:@[stepResult]];
+
+    ORKStepResult *result = [taskResult stepResultForStepIdentifier:stepIdentifier];
+
+    XCTAssertNil(result);
+}
+
+- (void)testStepResultForStepIdentifierWithIdentifierMatchingORKResultExpectNil {
+    NSString *identifier = @"ResultIdentifier";
+    ORKResult *orkResult = [[ORKResult alloc] initWithIdentifier:identifier];
+    ORKTaskResult *taskResult = [self createTaskResultTree];
+    [taskResult setResults:@[orkResult]];
+
+    ORKStepResult *result = [taskResult stepResultForStepIdentifier:identifier];
+
+    XCTAssertNoThrow(result.results);
+    XCTAssertNil(result);
+}
+
 @end
