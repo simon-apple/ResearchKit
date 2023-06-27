@@ -403,6 +403,7 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
     BOOL _autoScrollCancelled;
     UITableViewCell *_currentFirstResponderCell;
     NSArray<NSLayoutConstraint *> *_constraints;
+    NSInteger _maxLabelWidth;
 }
 
 - (instancetype)ORKFormStepViewController_initWithResult:(ORKResult *)result {
@@ -795,6 +796,7 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
     NSArray<ORKFormItem *> *formItems = [[self visibleFormItems] copy];
     
     NSUInteger countOfItemsStart = [snapshot numberOfItems];
+    _maxLabelWidth = -1;
     
     // TODO: rdar://110144795 ([ConditionalFormItems] ORKFormStepViewController buildDataSource method is way too big)
     
@@ -1262,6 +1264,18 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
     [super goBackward];
 }
 
+- (NSInteger)maxLabelWidth {
+    if (_maxLabelWidth == -1) {
+        NSInteger labelWidth = 0;
+        for (ORKFormItem* formItemForMaxWidth in [self allFormItems]) {
+            labelWidth = MAX(labelWidth, ORKLabelWidth(formItemForMaxWidth.text));
+        }
+        _maxLabelWidth = labelWidth;
+    }
+
+    return _maxLabelWidth;
+}
+
 - (BOOL)didAutoScrollToNextItem:(ORKFormItemCell *)cell {
     NSIndexPath *currentIndexPath = [self.tableView indexPathForCell:cell];
     
@@ -1482,11 +1496,9 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
     ORKChoiceViewCell *choiceViewCell = ORKDynamicCast(cell, ORKChoiceViewCell);
     __auto_type snapshot = [_diffableDataSource snapshot];
     if (formCell != nil) {
-        // [RDLS:NOTE] we have to pass in formItem, answer, delegate, and maxLabelWidth. I still don't have a replacement for computing maxLabelWidth
         id answer = _savedAnswers[formItemIdentifier];
         
-        // TODO: rdar://110150303 ([ConditionalFormItems] compute maxLabelWidth once after stepDidChange but before first call to cellForIndexPath:)
-        CGFloat maxLabelWidth = ORKLabelWidth(@"one two three four");
+        NSInteger maxLabelWidth = [self maxLabelWidth];
         [formCell configureWithFormItem:formItem answer:answer maxLabelWidth:maxLabelWidth delegate:self];
 
         [formCell setExpectedLayoutWidth:tableView.bounds.size.width];
