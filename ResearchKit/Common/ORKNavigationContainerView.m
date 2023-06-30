@@ -55,15 +55,7 @@ static const CGFloat detailTextBottomSpacing = 16.0;
 - (instancetype)init {
     self = [super init];
     if (self) {
-        [self setBackgroundColor:ORKColor(ORKNavigationContainerColorKey)];
-        [self setupVisualEffectView];
-        [self setupViews];
-        [self setupFootnoteLabel];
-        [self setupNavigationDetailTextLabel];
-        self.preservesSuperviewLayoutMargins = NO;
-        _appTintColor = nil;
-        self.skipButtonStyle = ORKNavigationContainerButtonStyleTextBold;
-        [self updateContinueAndSkipEnabled];
+        [self commonInit];
     }
     return self;
 }
@@ -74,6 +66,18 @@ static const CGFloat detailTextBottomSpacing = 16.0;
         [effectView removeFromSuperview];
         effectView = nil;
     }
+}
+
+- (void)commonInit {
+    [self setBackgroundColor:ORKColor(ORKNavigationContainerColorKey)];
+    [self setupVisualEffectView];
+    [self setupViews];
+    [self setupFootnoteLabel];
+    [self setupNavigationDetailTextLabel];
+    self.preservesSuperviewLayoutMargins = NO;
+    _appTintColor = nil;
+    self.skipButtonStyle = ORKNavigationContainerButtonStyleTextBold;
+    [self updateContinueAndSkipEnabled];
 }
 
 - (void)flattenIfNeeded {
