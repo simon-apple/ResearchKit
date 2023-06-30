@@ -1,3 +1,4 @@
+//
 /*
  Copyright (c) 2023, Apple Inc. All rights reserved.
  
@@ -27,13 +28,15 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
-#import <ResearchKit/ORKStepViewController.h>
+#import <ResearchKit/ORKFamilyHistoryStepViewController.h>
 
 NS_ASSUME_NONNULL_BEGIN
+@interface ORKFamilyHistoryStepViewController (ORKFamilyHistoryReviewSupport) <UITableViewDelegate, UITableViewDataSource>
 
-ORK_CLASS_AVAILABLE
-@interface ORKFamilyHistoryStepViewController : ORKStepViewController
+- (void)setupFooterViewIfNeeded;
+- (void)handleRelatedPersonTaskResult:(ORKTaskResult *)taskResult taskIdentifier:(NSString *)identifier;
+- (void)updateDisplayedConditionsFromTaskResult:(ORKTaskResult *)taskResult;
+- (NSInteger)numberOfRowsForRelativeGroupInSection:(NSInteger)section;
 
 @end
 

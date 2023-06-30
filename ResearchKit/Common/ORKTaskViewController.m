@@ -1483,6 +1483,14 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     }
 }
 
+- (void)flipToFirstPage {
+    ORKStep *firstStep = [_task stepAfterStep:nil withResult:[self result]];
+    if (firstStep) {
+        [self.managedStepIdentifiers removeAllObjects];
+        [self showStepViewController:[self viewControllerForStep:firstStep] goForward:NO animated:NO];
+    }
+}
+
 - (void)flipToLastPage {
     ORKStep *initialCurrentStep = _currentStepViewController.step;
     ORKStep *lastStep = nil;
@@ -1806,7 +1814,7 @@ static NSString *const _ORKProgressMode = @"progressMode";
 #pragma mark Review mode
 
 - (void)addStepResultsUntilStepWithIdentifier:(NSString *)stepIdentifier {
-    ORKTaskResult * taskResult = (ORKTaskResult *) _defaultResultSource;
+    ORKTaskResult *taskResult = (ORKTaskResult *)_defaultResultSource;
     for (ORKStepResult * stepResult in taskResult.results) {
         if (![stepIdentifier isEqualToString: stepResult.identifier]) {
             if (![_managedStepIdentifiers containsObject:stepResult.identifier]) {
@@ -1821,7 +1829,7 @@ static NSString *const _ORKProgressMode = @"progressMode";
 }
 
 - (void)updateResultWithSource:(id<ORKTaskResultSource>)resultSource {
-    ORKTaskResult * taskResult = (ORKTaskResult *) resultSource;
+    ORKTaskResult *taskResult = (ORKTaskResult *)resultSource;
     for (ORKStepResult * stepResult in taskResult.results) {
         if (![_managedStepIdentifiers containsObject:stepResult.identifier]) {
             [_managedStepIdentifiers addObject:stepResult.identifier];

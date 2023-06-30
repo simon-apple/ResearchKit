@@ -236,6 +236,7 @@
 		3CB9665C29FF0B44007A8766 /* ORKPredicateFormItemVisibilityRule.h in Headers */ = {isa = PBXBuildFile; fileRef = 3CB9665A29FF0B44007A8766 /* ORKPredicateFormItemVisibilityRule.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3CB9665D29FF0B44007A8766 /* ORKPredicateFormItemVisibilityRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CB9665B29FF0B44007A8766 /* ORKPredicateFormItemVisibilityRule.m */; };
 		3CB9665F2A0077F7007A8766 /* ORKPredicateFormItemVisibilityRuleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB9665E2A0077F7007A8766 /* ORKPredicateFormItemVisibilityRuleTests.swift */; };
+		3CBBF7B52A4AADDC00A7CFD0 /* ORKFamilyHistoryResultTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CBBF7B42A4AADDC00A7CFD0 /* ORKFamilyHistoryResultTests.swift */; };
 		3CBFD8F62A01C738000E48E9 /* ORKPredicateFormItemVisibilityRule_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 3CBFD8F52A01C738000E48E9 /* ORKPredicateFormItemVisibilityRule_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		3CF08BC729FC73C600BC25E1 /* ORKFormItemVisibilityRuleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF08BC629FC73C600BC25E1 /* ORKFormItemVisibilityRuleTests.swift */; };
 		51198769245CA50D004FC2C7 /* ORKUSDZModelManagerScene.h in Headers */ = {isa = PBXBuildFile; fileRef = 51198767245CA50D004FC2C7 /* ORKUSDZModelManagerScene.h */; };
@@ -520,6 +521,9 @@
 		861D2AF01B8409D9008C4CD0 /* ORKTimedWalkContentView.h in Headers */ = {isa = PBXBuildFile; fileRef = 861D2AEE1B8409D9008C4CD0 /* ORKTimedWalkContentView.h */; };
 		861D2AF11B8409D9008C4CD0 /* ORKTimedWalkContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 861D2AEF1B8409D9008C4CD0 /* ORKTimedWalkContentView.m */; };
 		861D2AF71B843968008C4CD0 /* ORKCompletionStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40B551A8D7C5B00081FAC /* ORKCompletionStepViewController.m */; };
+		8642694A2A4E25520037040E /* ORKFamilyHistoryReviewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 864269482A4E25520037040E /* ORKFamilyHistoryReviewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8642694B2A4E25520037040E /* ORKFamilyHistoryReviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 864269492A4E25520037040E /* ORKFamilyHistoryReviewController.m */; };
+		8642694D2A4E2F2E0037040E /* ORKFamilyHistoryStepViewController_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 8642694C2A4E2EAE0037040E /* ORKFamilyHistoryStepViewController_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		865EA1621AB8DF750037C68E /* ORKDateTimePicker.h in Headers */ = {isa = PBXBuildFile; fileRef = 865EA1601AB8DF750037C68E /* ORKDateTimePicker.h */; };
 		865EA1631AB8DF750037C68E /* ORKDateTimePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 865EA1611AB8DF750037C68E /* ORKDateTimePicker.m */; };
 		865EA1681ABA1AA10037C68E /* ORKPicker.h in Headers */ = {isa = PBXBuildFile; fileRef = 865EA1661ABA1AA10037C68E /* ORKPicker.h */; };
@@ -1410,6 +1414,7 @@
 		3CB9665A29FF0B44007A8766 /* ORKPredicateFormItemVisibilityRule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKPredicateFormItemVisibilityRule.h; sourceTree = "<group>"; };
 		3CB9665B29FF0B44007A8766 /* ORKPredicateFormItemVisibilityRule.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKPredicateFormItemVisibilityRule.m; sourceTree = "<group>"; };
 		3CB9665E2A0077F7007A8766 /* ORKPredicateFormItemVisibilityRuleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ORKPredicateFormItemVisibilityRuleTests.swift; sourceTree = "<group>"; };
+		3CBBF7B42A4AADDC00A7CFD0 /* ORKFamilyHistoryResultTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ORKFamilyHistoryResultTests.swift; sourceTree = "<group>"; };
 		3CBFD8F52A01C738000E48E9 /* ORKPredicateFormItemVisibilityRule_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKPredicateFormItemVisibilityRule_Private.h; sourceTree = "<group>"; };
 		3CBFD8F72A03437C000E48E9 /* ORKFormStepViewController+TestingSupport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ORKFormStepViewController+TestingSupport.h"; sourceTree = "<group>"; };
 		3CF08BC629FC73C600BC25E1 /* ORKFormItemVisibilityRuleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ORKFormItemVisibilityRuleTests.swift; sourceTree = "<group>"; };
@@ -1688,6 +1693,9 @@
 		861D2AEB1B8409B2008C4CD0 /* ORKTimedWalkStepViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ORKTimedWalkStepViewController.m; path = ResearchKit/ActiveTasks/ORKTimedWalkStepViewController.m; sourceTree = SOURCE_ROOT; };
 		861D2AEE1B8409D9008C4CD0 /* ORKTimedWalkContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ORKTimedWalkContentView.h; path = ResearchKit/ActiveTasks/ORKTimedWalkContentView.h; sourceTree = SOURCE_ROOT; };
 		861D2AEF1B8409D9008C4CD0 /* ORKTimedWalkContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ORKTimedWalkContentView.m; path = ResearchKit/ActiveTasks/ORKTimedWalkContentView.m; sourceTree = SOURCE_ROOT; };
+		864269482A4E25520037040E /* ORKFamilyHistoryReviewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKFamilyHistoryReviewController.h; sourceTree = "<group>"; };
+		864269492A4E25520037040E /* ORKFamilyHistoryReviewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKFamilyHistoryReviewController.m; sourceTree = "<group>"; };
+		8642694C2A4E2EAE0037040E /* ORKFamilyHistoryStepViewController_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKFamilyHistoryStepViewController_Private.h; sourceTree = "<group>"; };
 		865EA1601AB8DF750037C68E /* ORKDateTimePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKDateTimePicker.h; sourceTree = "<group>"; };
 		865EA1611AB8DF750037C68E /* ORKDateTimePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ORKDateTimePicker.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		865EA1661ABA1AA10037C68E /* ORKPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKPicker.h; sourceTree = "<group>"; };
@@ -2572,12 +2580,13 @@
 		1490DCF2224D3B71003FEEDA /* ORKResultTests */ = {
 			isa = PBXGroup;
 			children = (
-				1490DCF3224D3C20003FEEDA /* ORKPasscodeResultTests.swift */,
-				1490DCF9224D46E3003FEEDA /* ORKWebViewStepResultTests.swift */,
-				1490DCF7224D4550003FEEDA /* ORKVideoInstructionStepResultTests.swift */,
-				1490DCF5224D426B003FEEDA /* ORKSignatureResultTests.swift */,
-				1490DCFB224D4867003FEEDA /* ORKEnvironmentSPLMeterResultTests.swift */,
 				14A92C6D224531A2007547F2 /* ORKActiveTaskResultTests.swift */,
+				1490DCFB224D4867003FEEDA /* ORKEnvironmentSPLMeterResultTests.swift */,
+				3CBBF7B42A4AADDC00A7CFD0 /* ORKFamilyHistoryResultTests.swift */,
+				1490DCF3224D3C20003FEEDA /* ORKPasscodeResultTests.swift */,
+				1490DCF5224D426B003FEEDA /* ORKSignatureResultTests.swift */,
+				1490DCF7224D4550003FEEDA /* ORKVideoInstructionStepResultTests.swift */,
+				1490DCF9224D46E3003FEEDA /* ORKWebViewStepResultTests.swift */,
 			);
 			name = ORKResultTests;
 			sourceTree = "<group>";
@@ -3260,7 +3269,10 @@
 				51BD902229E0D0AD0001D54E /* ORKRelativeGroup.h */,
 				51BD902329E0D0AD0001D54E /* ORKRelativeGroup.m */,
 				51BD904429ED07B10001D54E /* ORKFamilyHistoryStepViewController.h */,
+				8642694C2A4E2EAE0037040E /* ORKFamilyHistoryStepViewController_Private.h */,
 				51BD904529ED07B10001D54E /* ORKFamilyHistoryStepViewController.m */,
+				864269482A4E25520037040E /* ORKFamilyHistoryReviewController.h */,
+				864269492A4E25520037040E /* ORKFamilyHistoryReviewController.m */,
 			);
 			name = "Family History Step";
 			sourceTree = "<group>";
@@ -5425,6 +5437,7 @@
 				86C40C2E1A8D7C5C00081FAC /* ORKFitnessStep.h in Headers */,
 				5D5BD0672695099F003E2036 /* ORKBLEScanPeripheralsStepResult.h in Headers */,
 				86C40C821A8D7C5C00081FAC /* ORKActiveStep_Internal.h in Headers */,
+				8642694A2A4E25520037040E /* ORKFamilyHistoryReviewController.h in Headers */,
 				86C40D481A8D7C5C00081FAC /* ORKInstructionStepViewController_Internal.h in Headers */,
 				71769E3920882CED00A19914 /* ORKdBHLToneAudiometryStep.h in Headers */,
 				BA0AA6941EAEC0B600671ACE /* ORKStroopContentView.h in Headers */,
@@ -5436,6 +5449,7 @@
 				51CAB8BF252E396600007BDB /* ORKAVJournalingTaskViewController.h in Headers */,
 				86C40D561A8D7C5C00081FAC /* ORKOrderedTask.h in Headers */,
 				E2A676F3238DCB3E006193D7 /* AVOutputDevice.h in Headers */,
+				8642694D2A4E2F2E0037040E /* ORKFamilyHistoryStepViewController_Private.h in Headers */,
 				86C40C4E1A8D7C5C00081FAC /* ORKTappingContentView.h in Headers */,
 				FF5051F01D66908C0065E677 /* ORKNavigablePageStep.h in Headers */,
 				86C40CA01A8D7C5C00081FAC /* ORKHealthQuantityTypeRecorder.h in Headers */,
@@ -5928,6 +5942,7 @@
 				714151D0225C4A23002CA33B /* ORKPasscodeViewControllerTests.swift in Sources */,
 				0324C1D825439E1800BBE77B /* ORKVideoInstructionStepViewControllerTests.swift in Sources */,
 				14E79040226A5F72009D8083 /* ORKStepViewControllerHelpers.swift in Sources */,
+				3CBBF7B52A4AADDC00A7CFD0 /* ORKFamilyHistoryResultTests.swift in Sources */,
 				BC4D521F27B326EA0099DC18 /* ORKSecureCodingTests.swift in Sources */,
 				86D348021AC161B0006DB02B /* ORKRecorderTests.m in Sources */,
 				1490DCFC224D4867003FEEDA /* ORKEnvironmentSPLMeterResultTests.swift in Sources */,
@@ -5984,6 +5999,7 @@
 				FF919A601E81CF07005C2A1E /* ORKVideoInstructionStepResult.m in Sources */,
 				959A2BFD1D68B98700841B04 /* ORKRangeOfMotionStep.m in Sources */,
 				FF919A2F1E81AAD0005C2A1E /* ORKTowerOfHanoiResult.m in Sources */,
+				8642694B2A4E25520037040E /* ORKFamilyHistoryReviewController.m in Sources */,
 				3C768BEB2A1E84850082EBA4 /* ORKAnswerFormat+FormStepViewControllerAdditions.m in Sources */,
 				BCB6E6531B7D533B000D5B34 /* ORKPieChartLegendCell.m in Sources */,
 				866DA52A1D63D04700C9AF3F /* ORKOperation.m in Sources */,
