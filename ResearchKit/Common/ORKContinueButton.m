@@ -32,10 +32,11 @@
 #import "ORKContinueButton.h"
 
 #import "ORKSkin.h"
-
+#import "ORKAccessibilityFunctions.h"
 
 static const CGFloat ContinueButtonTouchMargin = 10;
 static const CGFloat ContinueButtonHeight = 50.0;
+static const CGFloat ContinueButtonAccessibilityLargeTextHeight = 130.0;
 
 static NSString *accessibilityIdentifierDone = @"ORKContinueButton.Done";
 static NSString *accessibilityIdentifierNext = @"ORKContinueButton.Next";
@@ -55,10 +56,18 @@ static NSString *accessibilityIdentifierNext = @"ORKContinueButton.Next";
         }
         self.isDoneButton = isDoneButton;
         self.contentEdgeInsets = (UIEdgeInsets){.left = 6, .right = 6};
-
         [self setUpConstraints];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(updateAppearance)
+                                                     name:UIContentSizeCategoryDidChangeNotification
+                                                   object:nil];
     }
     return self;
+}
+
+- (void)updateAppearance {
+    [self updateTitleLabel];
+    [self updateHeightConstraint];
 }
 
 - (void)setUpConstraints {
@@ -70,6 +79,8 @@ static NSString *accessibilityIdentifierNext = @"ORKContinueButton.Next";
                                                     multiplier:1.0
                                                       constant:ContinueButtonHeight];
     _heightConstraint.active = YES;
+    [self updateTitleLabel];
+    [self updateHeightConstraint];
 }
 
 - (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event {
@@ -80,6 +91,25 @@ static NSString *accessibilityIdentifierNext = @"ORKContinueButton.Next";
                                                              -ContinueButtonTouchMargin});
     BOOL isInside = [super pointInside:point withEvent:event] || CGRectContainsPoint(outsetRect, point);
     return isInside;
+}
+
+- (void)updateTitleLabel {
+    if (ORKIsAccessibilityLargeTextEnabled()) {
+        self.titleLabel.numberOfLines = 0;
+        self.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
+        self.titleLabel.textAlignment = NSTextAlignmentLeft;
+    } else {
+        self.titleLabel.textAlignment = NSTextAlignmentCenter;
+    }
+}
+
+- (void)updateHeightConstraint {
+    _heightConstraint.constant = ORKIsAccessibilityLargeTextEnabled() ? ContinueButtonAccessibilityLargeTextHeight : ContinueButtonHeight;
+    [self setNeedsLayout];
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end
