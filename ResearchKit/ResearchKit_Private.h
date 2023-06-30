@@ -37,6 +37,9 @@
 
 #import <ResearchKit/ORKQuestionStep_Private.h>
 
+// Family History Review Support
+#import <ResearchKit/ORKFamilyHistoryStepViewController_Private.h>
+
 // Active step support
 #import <ResearchKit/ORKDataLogger.h>
 #import <ResearchKit/ORKErrors.h>

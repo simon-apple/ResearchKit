@@ -166,6 +166,7 @@
 #import <ResearchKit/ORKConditionStepConfiguration.h>
 #import <ResearchKit/ORKFamilyHistoryStep.h>
 #import <ResearchKit/ORKFamilyHistoryStepViewController.h>
+#import <ResearchKit/ORKFamilyHistoryReviewController.h>
 #import <ResearchKit/ORKRelativeGroup.h>
 
 #if RK_APPLE_INTERNAL

@@ -62,14 +62,14 @@
     __typeof(self) castObject = object;
     return (isParentSame &&
             ORKEqualObjects(self.relatedPersons, castObject.relatedPersons) &&
-            ORKEqualObjects(self.relatedPersons, castObject.relatedPersons));
+            ORKEqualObjects(self.displayedConditions, castObject.displayedConditions));
 }
 
 - (instancetype)copyWithZone:(NSZone *)zone {
     ORKFamilyHistoryResult *result = [super copyWithZone:zone];
 
-    result.relatedPersons = [self.relatedPersons copy];
-    result.displayedConditions = [self.displayedConditions copy];
+    result->_relatedPersons = ORKArrayCopyObjects(_relatedPersons);
+    result->_displayedConditions = [_displayedConditions copy];
 
     return result;
 }

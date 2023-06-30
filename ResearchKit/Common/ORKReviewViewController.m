@@ -88,7 +88,7 @@ static const float FirstSectionHeaderPadding = 24.0;
             _navigableOrderedTask = task;
             _isCompleted = isCompleted;
             _delegate = delegate;
-            _incompleteText = incompleteText;
+            _incompleteText = [incompleteText copy];
         }
         return self;
 }

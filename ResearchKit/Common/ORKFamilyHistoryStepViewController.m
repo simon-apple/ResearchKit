@@ -29,6 +29,7 @@
  */
 
 #import "ORKFamilyHistoryStepViewController.h"
+#import "ORKFamilyHistoryStepViewController_Private.h"
 
 #import "ORKConditionStepConfiguration.h"
 #import "ORKCompletionStep.h"
@@ -49,6 +50,7 @@
 #import "ORKFamilyHistoryTableHeaderView.h"
 #import "ORKFamilyHistoryRelatedPersonCell.h"
 #import "ORKFamilyHistoryTableFooterView.h"
+#import "ORKReviewIncompleteCell.h"
 
 #import "ORKNavigationContainerView_Internal.h"
 #import "ORKStepViewController_Internal.h"
@@ -66,13 +68,14 @@
 NSString * const RelatedPersonCompletionStepIdentifier = @"RelatedPersonCompletionStepIdentifier";
 NSString * const ORKFamilyHistoryRelatedPersonCellIdentifier = @"ORKFamilyHistoryRelatedPersonCellIdentifier";
 
-@interface ORKFamilyHistoryStepViewController () <ORKTableContainerViewDelegate, ORKTaskViewControllerDelegate, UITableViewDelegate, UITableViewDataSource, ORKFamilyHistoryTableFooterViewDelegate, ORKFamilyHistoryRelatedPersonCellDelegate>
+@interface ORKFamilyHistoryStepViewController () <ORKTableContainerViewDelegate, ORKTaskViewControllerDelegate, ORKFamilyHistoryTableFooterViewDelegate, ORKFamilyHistoryRelatedPersonCellDelegate>
 
 @property (nonatomic, strong) ORKTableContainerView *tableContainer;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) ORKStepContentView *headerView;
 
 @end
+
 
 @implementation ORKFamilyHistoryStepViewController {
     NSArray<NSLayoutConstraint *> *_constraints;
@@ -92,9 +95,9 @@ NSString * const ORKFamilyHistoryRelatedPersonCellIdentifier = @"ORKFamilyHistor
     ORKRelatedPerson *_relativeForPresentedTask;
 }
 
+
 - (instancetype)ORKFamilyHistoryStepViewController_initWithResult:(ORKResult *)result {
     ORKStepResult *stepResult = (ORKStepResult *)result;
-    
     if (stepResult && stepResult.results.count > 0) {
         ORKFamilyHistoryResult *familyHistoryResult = (ORKFamilyHistoryResult *)stepResult.firstResult;
         
@@ -110,10 +113,6 @@ NSString * const ORKFamilyHistoryRelatedPersonCellIdentifier = @"ORKFamilyHistor
     }
     
     return self;
-}
-
-- (instancetype)initWithStep:(ORKStep *)step {
-    return [super initWithStep:step];
 }
 
 - (instancetype)initWithStep:(ORKStep *)step result:(ORKResult *)result {
@@ -150,7 +149,7 @@ NSString * const ORKFamilyHistoryRelatedPersonCellIdentifier = @"ORKFamilyHistor
         
         [self setupTableView];
         [self setupHeaderView];
-        [self setupFooterView];
+        [self setupFooterViewIfNeeded];
         
         [self setupConstraints];
         [_tableContainer setNeedsLayout];
@@ -222,16 +221,6 @@ NSString * const ORKFamilyHistoryRelatedPersonCellIdentifier = @"ORKFamilyHistor
     _headerView.stepHeaderTextAlignment = self.step.headerTextAlignment;
     _headerView.bodyItems = self.step.bodyItems;
     _tableContainer.stepTopContentImageContentMode = self.step.imageContentMode;
-}
-
-- (void)setupFooterView {
-    _navigationFooterView = _tableContainer.navigationFooterView;
-    _navigationFooterView.skipButtonItem = self.skipButtonItem;
-    _navigationFooterView.continueEnabled = YES;
-    _navigationFooterView.continueButtonItem = self.continueButtonItem;
-    _navigationFooterView.optional = self.step.optional;
-    
-    [_navigationFooterView removeStyling];
 }
 
 - (ORKFamilyHistoryStep *)familyHistoryStep {
@@ -345,6 +334,12 @@ NSString * const ORKFamilyHistoryRelatedPersonCellIdentifier = @"ORKFamilyHistor
     ORKNavigableOrderedTask *taskToPresent = [self taskForRelativeGroup:relativeGroup];
     
     ORKTaskViewController *taskViewController = [[ORKTaskViewController alloc] initWithTask:taskToPresent taskRunUUID:nil];
+    if (@available(iOS 13.0, *)) {
+        taskViewController.modalPresentationStyle = UIModalPresentationAutomatic;
+    } else {
+        // Fallback on earlier versions
+        taskViewController.modalPresentationStyle = UIModalPresentationFullScreen;
+    }
     taskViewController.delegate = self;
     
     [self presentViewController:taskViewController animated:YES completion:nil];
@@ -387,48 +382,6 @@ NSString * const ORKFamilyHistoryRelatedPersonCellIdentifier = @"ORKFamilyHistor
 - (ORKRelatedPerson *)relatedPersonAtIndexPath:(NSIndexPath *)indexPath {
     ORKRelativeGroup *relativeGroup = _relativeGroups[indexPath.section];
     return _relatedPersons[relativeGroup.identifier][indexPath.row];
-}
-
-- (void)handleRelatedPersonTaskResult:(ORKTaskResult *)taskResult taskIdentifier:(NSString *)identifier {
-    ORKFamilyHistoryStep *familyHistoryStep = [self familyHistoryStep];
-    
-    // If the user is editing a previous task, just update the result of the relatedPerson
-    if (_editingPreviousTask && _relativeForPresentedTask) {
-        _relativeForPresentedTask.taskResult = taskResult;
-        
-        NSInteger index = 0;
-        
-        for (ORKRelatedPerson *relatedPerson in _relatedPersons[identifier]) {
-            if ([relatedPerson.identifier isEqual:_relativeForPresentedTask.identifier]) {
-                break;
-            }
-            
-            index += 1;
-        }
-        
-        _relatedPersons[identifier][index] = [_relativeForPresentedTask copy];
-        
-        #if RK_APPLE_INTERNAL
-        [self organizeRelatedPersonsByBirthYear];
-        #endif
-        
-        [_tableView reloadData];
-    } else {
-        
-        // create new relatedPerson object and attach taskResult
-        for (ORKRelativeGroup *relativeGroup in familyHistoryStep.relativeGroups) {
-            if ([relativeGroup.identifier isEqual:identifier]) {
-                ORKRelatedPerson *relatedPerson = [[ORKRelatedPerson alloc] initWithIdentifier:[NSUUID new].UUIDString
-                                                                               groupIdentifier:identifier
-                                                                        identifierForCellTitle:relativeGroup.identifierForCellTitle
-                                                                                    taskResult:taskResult];
-                
-                [self saveRelatedPerson:[relatedPerson copy]];
-                [_tableView reloadData];
-                break;
-            }
-        }
-    }
 }
 
 - (void)saveRelatedPerson:(ORKRelatedPerson *)relatedPerson {
@@ -478,32 +431,9 @@ NSString * const ORKFamilyHistoryRelatedPersonCellIdentifier = @"ORKFamilyHistor
 
 #endif
 
-- (void)updateDisplayedConditionsFromTaskResult:(ORKTaskResult *)taskResult {
-    ORKFamilyHistoryStep *step = [self familyHistoryStep];
-    
-    ORKStepResult *stepResult = (ORKStepResult *)[taskResult resultForIdentifier:step.conditionStepConfiguration.stepIdentifier];
-    
-    // if stepResult is nil, then choiceQuestionResult will also be nil here
-    ORKChoiceQuestionResult *choiceQuestionResult = (ORKChoiceQuestionResult *)[stepResult resultForIdentifier:step.conditionStepConfiguration.conditionsFormItemIdentifier];
-
-    // if choiceQuestionResult is nil, then choiceQuestionResult.choiceAnswers is nil
-    NSArray<NSString *> *conditionsIdentifiers = choiceQuestionResult.choiceAnswers != nil ? _conditionsWithinCurrentTask : [NSArray new];
-    
-    for (NSString *conditionIdentifier in conditionsIdentifiers) {
-          if (![_displayedConditions containsObject:conditionIdentifier]) {
-            [_displayedConditions addObject:conditionIdentifier];
-        }
-    }
-        
-}
 
 - (BOOL)didReachMaxForRelativeGroup:(ORKRelativeGroup *)relativeGroup {
     return _relatedPersons[relativeGroup.identifier].count >= relativeGroup.maxAllowed;
-}
-
-- (NSInteger)numberOfRowsForRelativeGroupInSection:(NSInteger)section {
-    ORKRelativeGroup *relativeGroup = _relativeGroups[section];
-    return _relatedPersons[relativeGroup.identifier].count;
 }
 
 - (NSDictionary<NSString *, NSDictionary<NSString *, NSString *> *> *)getDetailInfoTextAndValuesForRelativeGroup:(ORKRelativeGroup *)relativeGroup {
@@ -573,6 +503,10 @@ NSString * const ORKFamilyHistoryRelatedPersonCellIdentifier = @"ORKFamilyHistor
     return stepResult;
 }
 
+- (void)resultUpdated {
+    // For subclasses
+}
+
 - (nonnull UITableViewCell *)currentFirstResponderCellForTableContainerView:(nonnull ORKTableContainerView *)tableContainerView {
     return [UITableViewCell new];
 }
@@ -598,6 +532,155 @@ NSString * const ORKFamilyHistoryRelatedPersonCellIdentifier = @"ORKFamilyHistor
     }];
 }
 
+#pragma mark ORKFamilyHistoryRelatedPersonCellDelegate
+    
+- (void)familyHistoryRelatedPersonCell:(ORKFamilyHistoryRelatedPersonCell *)relatedPersonCell tappedOption:(ORKFamilyHistoryTooltipOption)option {
+    NSIndexPath *indexPath = [_tableView indexPathForCell:relatedPersonCell];
+    ORKRelatedPerson *currentRelatedPerson = [self relatedPersonAtIndexPath:indexPath];
+  
+    if (currentRelatedPerson) {
+        switch (option) {
+            case ORKFamilyHistoryTooltipOptionEdit: {
+                // edit flow for ORKRelatedPerson
+                ORKRelativeGroup *relativeGroup = [self relativeGroupForRelatedPerson:currentRelatedPerson];
+                ORKNavigableOrderedTask *relatedPersonTask = [self  taskForRelativeGroup:relativeGroup];
+                
+                _editingPreviousTask = YES;
+                _relativeForPresentedTask = [currentRelatedPerson copy];
+                
+                ORKTaskViewController *taskVC = [[ORKTaskViewController alloc] initWithTask:relatedPersonTask ongoingResult:currentRelatedPerson.taskResult defaultResultSource:nil delegate:self];
+                [taskVC flipToFirstPage];
+                
+                [self presentViewController:taskVC animated:YES completion:nil];
+                [relatedPersonCell removeOptionsViewIfPresented];
+                break;
+            }
+                
+            case ORKFamilyHistoryTooltipOptionDelete: {
+                // delete flow for ORKRelatedPerson
+                UIAlertController *deleteAlert = [UIAlertController alertControllerWithTitle:ORKLocalizedString(@"FAMILY_HISTORY_DELETE_ENTRY_TITLE", "")
+                                                                                     message:nil
+                                                                              preferredStyle:UIAlertControllerStyleActionSheet];
+                
+                UIAlertAction* unfollowAction = [UIAlertAction actionWithTitle:ORKLocalizedString(@"FAMILY_HISTORY_DELETE_ENTRY", "")
+                                                                         style:UIAlertActionStyleDestructive
+                                                                       handler:^(UIAlertAction * action) {
+                    [relatedPersonCell removeOptionsViewIfPresented];
+                    [_relatedPersons[currentRelatedPerson.groupIdentifier] removeObject:currentRelatedPerson];
+                    
+                    NSArray<NSIndexPath *> *indexPaths =  [[NSArray alloc] initWithObjects:[_tableView indexPathForCell:relatedPersonCell], nil];
+                    [_tableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
+                    
+                    [self resultUpdated];
+                }];
+                
+                UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:ORKLocalizedString(@"FAMILY_HISTORY_CANCEL", "")
+                                                                       style:UIAlertActionStyleCancel
+                                                                     handler:nil];
+                
+                [deleteAlert addAction:unfollowAction];
+                [deleteAlert addAction:cancelAction];
+                [self presentViewController:deleteAlert animated:YES completion:nil];
+                break;
+            }
+        }
+    }
+}
+
+#pragma mark ORKFamilyHistoryTableFooterViewDelegate
+
+- (void)ORKFamilyHistoryTableFooterView:(ORKFamilyHistoryTableFooterView *)footerView didSelectFooterForRelativeGroup:(NSString *)groupIdentifier {
+    for (ORKRelativeGroup *relativeGroup in _relativeGroups) {
+        if ([relativeGroup.identifier isEqual:groupIdentifier]) {
+            if (![self didReachMaxForRelativeGroup:[relativeGroup copy]]) {
+                [self presentNewOrderedTaskForRelativeGroup:[relativeGroup copy]];
+            }
+        }
+    }
+}
+
+@end
+
+@implementation ORKFamilyHistoryStepViewController (ORKFamilyHistoryReviewSupport)
+
+- (void)setupFooterViewIfNeeded {
+    _navigationFooterView = _tableContainer.navigationFooterView;
+    _navigationFooterView.skipButtonItem = self.skipButtonItem;
+    _navigationFooterView.continueEnabled = YES;
+    _navigationFooterView.continueButtonItem = self.continueButtonItem;
+    _navigationFooterView.optional = self.step.optional;
+    
+    [_navigationFooterView removeStyling];
+}
+
+- (void)handleRelatedPersonTaskResult:(ORKTaskResult *)taskResult taskIdentifier:(NSString *)identifier {
+    ORKFamilyHistoryStep *familyHistoryStep = [self familyHistoryStep];
+    
+    // If the user is editing a previous task, just update the result of the relatedPerson
+    if (_editingPreviousTask && _relativeForPresentedTask) {
+        _relativeForPresentedTask.taskResult = taskResult;
+        
+        NSInteger index = 0;
+        
+        for (ORKRelatedPerson *relatedPerson in _relatedPersons[identifier]) {
+            if ([relatedPerson.identifier isEqual:_relativeForPresentedTask.identifier]) {
+                break;
+            }
+            
+            index += 1;
+        }
+        
+        _relatedPersons[identifier][index] = [_relativeForPresentedTask copy];
+        
+        #if RK_APPLE_INTERNAL
+        [self organizeRelatedPersonsByBirthYear];
+        #endif
+        
+        [_tableView reloadData];
+    } else {
+        
+        // create new relatedPerson object and attach taskResult
+        for (ORKRelativeGroup *relativeGroup in familyHistoryStep.relativeGroups) {
+            if ([relativeGroup.identifier isEqual:identifier]) {
+                ORKRelatedPerson *relatedPerson = [[ORKRelatedPerson alloc] initWithIdentifier:[NSUUID new].UUIDString
+                                                                               groupIdentifier:identifier
+                                                                        identifierForCellTitle:relativeGroup.identifierForCellTitle
+                                                                                    taskResult:taskResult];
+                
+                [self saveRelatedPerson:[relatedPerson copy]];
+                [_tableView reloadData];
+                break;
+            }
+        }
+    }
+    
+    [self resultUpdated];
+}
+
+- (NSInteger)numberOfRowsForRelativeGroupInSection:(NSInteger)section {
+    ORKRelativeGroup *relativeGroup = _relativeGroups[section];
+    return _relatedPersons[relativeGroup.identifier].count;
+}
+
+- (void)updateDisplayedConditionsFromTaskResult:(ORKTaskResult *)taskResult {
+    ORKFamilyHistoryStep *step = [self familyHistoryStep];
+    
+    ORKStepResult *stepResult = (ORKStepResult *)[taskResult resultForIdentifier:step.conditionStepConfiguration.stepIdentifier];
+    
+    // if stepResult is nil, then choiceQuestionResult will also be nil here
+    ORKChoiceQuestionResult *choiceQuestionResult = (ORKChoiceQuestionResult *)[stepResult resultForIdentifier:step.conditionStepConfiguration.conditionsFormItemIdentifier];
+
+    // if choiceQuestionResult is nil, then choiceQuestionResult.choiceAnswers is nil
+    NSArray<NSString *> *conditionsIdentifiers = choiceQuestionResult.choiceAnswers != nil ? _conditionsWithinCurrentTask : [NSArray new];
+    
+    for (NSString *conditionIdentifier in conditionsIdentifiers) {
+          if (![_displayedConditions containsObject:conditionIdentifier]) {
+            [_displayedConditions addObject:conditionIdentifier];
+        }
+    }
+        
+}
+
 #pragma mark UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -609,6 +692,7 @@ NSString * const ORKFamilyHistoryRelatedPersonCellIdentifier = @"ORKFamilyHistor
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     ORKRelativeGroup *relativeGroup = _relativeGroups[indexPath.section];
     
     // present a related person cell
@@ -645,6 +729,8 @@ NSString * const ORKFamilyHistoryRelatedPersonCellIdentifier = @"ORKFamilyHistor
     if (relatedPersonCell) {
         [relatedPersonCell removeOptionsViewIfPresented];
     }
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -688,74 +774,6 @@ NSString * const ORKFamilyHistoryRelatedPersonCellIdentifier = @"ORKFamilyHistor
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return UITableViewAutomaticDimension;
-}
-
-#pragma mark ORKFamilyHistoryRelatedPersonCellDelegate
-    
-- (void)familyHistoryRelatedPersonCell:(ORKFamilyHistoryRelatedPersonCell *)relatedPersonCell tappedOption:(ORKFamilyHistoryTooltipOption)option {
-    NSIndexPath *indexPath = [_tableView indexPathForCell:relatedPersonCell];
-    ORKRelatedPerson *currentRelatedPerson = [self relatedPersonAtIndexPath:indexPath];
-  
-    if (currentRelatedPerson) {
-        switch (option) {
-            case ORKFamilyHistoryTooltipOptionEdit: {
-                // edit flow for ORKRelatedPerson
-                ORKRelativeGroup *relativeGroup = [self relativeGroupForRelatedPerson:currentRelatedPerson];
-                ORKNavigableOrderedTask *relatedPersonTask = [self  taskForRelativeGroup:relativeGroup];
-                
-                _editingPreviousTask = YES;
-                _relativeForPresentedTask = [currentRelatedPerson copy];
-                
-                ORKTaskViewController *taskVC = [[ORKTaskViewController alloc] initWithTask:relatedPersonTask ongoingResult:currentRelatedPerson.taskResult defaultResultSource:nil delegate:self];
-                
-                NSString *firstStepIdentifier = relatedPersonTask.steps[0].identifier;
-                
-                [taskVC flipToPageWithIdentifier:firstStepIdentifier forward:NO animated:NO];
-                
-                [self presentViewController:taskVC animated:YES completion:nil];
-                [relatedPersonCell removeOptionsViewIfPresented];
-                break;
-            }
-                
-            case ORKFamilyHistoryTooltipOptionDelete: {
-                // delete flow for ORKRelatedPerson
-                UIAlertController *deleteAlert = [UIAlertController alertControllerWithTitle:ORKLocalizedString(@"FAMILY_HISTORY_DELETE_ENTRY_TITLE", "")
-                                                                                     message:nil
-                                                                              preferredStyle:UIAlertControllerStyleActionSheet];
-                
-                UIAlertAction* unfollowAction = [UIAlertAction actionWithTitle:ORKLocalizedString(@"FAMILY_HISTORY_DELETE_ENTRY", "")
-                                                                         style:UIAlertActionStyleDestructive
-                                                                       handler:^(UIAlertAction * action) {
-                    [relatedPersonCell removeOptionsViewIfPresented];
-                    [_relatedPersons[currentRelatedPerson.groupIdentifier] removeObject:currentRelatedPerson];
-                    
-                    NSArray<NSIndexPath *> *indexPaths =  [[NSArray alloc] initWithObjects:[_tableView indexPathForCell:relatedPersonCell], nil];
-                    [_tableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
-                }];
-                
-                UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:ORKLocalizedString(@"FAMILY_HISTORY_CANCEL", "")
-                                                                       style:UIAlertActionStyleCancel
-                                                                     handler:nil];
-                
-                [deleteAlert addAction:unfollowAction];
-                [deleteAlert addAction:cancelAction];
-                [self presentViewController:deleteAlert animated:YES completion:nil];
-                break;
-            }
-        }
-    }
-}
-
-#pragma mark ORKFamilyHistoryTableFooterViewDelegate
-
-- (void)ORKFamilyHistoryTableFooterView:(ORKFamilyHistoryTableFooterView *)footerView didSelectFooterForRelativeGroup:(NSString *)groupIdentifier {
-    for (ORKRelativeGroup *relativeGroup in _relativeGroups) {
-        if ([relativeGroup.identifier isEqual:groupIdentifier]) {
-            if (![self didReachMaxForRelativeGroup:[relativeGroup copy]]) {
-                [self presentNewOrderedTaskForRelativeGroup:[relativeGroup copy]];
-            }
-        }
-    }
 }
 
 @end

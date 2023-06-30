@@ -2456,7 +2456,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                                                            sectionTitle:GETPROP(dict, sectionTitle)
                                                       sectionDetailText:GETPROP(dict, sectionDetailText)
                                                  identifierForCellTitle:GETPROP(dict, identifierForCellTitle)
-                                                             maxAllowed:[GETPROP(dict, maxAllowed) intValue]
+                                                             maxAllowed:[GETPROP(dict, maxAllowed) unsignedIntegerValue]
                                                               formSteps:GETPROP(dict, formSteps)
                                                   detailTextIdentifiers:GETPROP(dict, detailTextIdentifiers)];
                  },
@@ -2505,27 +2505,6 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                      PROPERTY(conditions, ORKHealthCondition, NSArray, YES, nil, nil),
                      PROPERTY(formItems, ORKFormItem, NSArray, YES, nil, nil)
                  })),
-           ENTRY(ORKRelativeGroup,
-                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-                    return [[ORKRelativeGroup alloc] initWithIdentifier:GETPROP(dict, identifier)
-                                                                   name:GETPROP(dict, name)
-                                                           sectionTitle:GETPROP(dict, sectionTitle)
-                                                      sectionDetailText:GETPROP(dict, sectionDetailText)
-                                                 identifierForCellTitle:GETPROP(dict, identifierForCellTitle)
-                                                             maxAllowed:[GETPROP(dict, maxAllowed) intValue]
-                                                              formSteps:GETPROP(dict, formSteps)
-                                                  detailTextIdentifiers:GETPROP(dict, detailTextIdentifiers)];
-                 },
-                 (@{
-                     PROPERTY(identifier, NSString, NSObject, YES, nil, nil),
-                     PROPERTY(name, NSString, NSObject, YES, nil, nil),
-                     PROPERTY(sectionTitle, NSString, NSObject, YES, nil, nil),
-                     PROPERTY(sectionDetailText, NSString, NSObject, YES, nil, nil),
-                     PROPERTY(identifierForCellTitle, NSString, NSObject, YES, nil, nil),
-                     PROPERTY(maxAllowed, NSNumber, NSObject, YES, nil, nil),
-                     PROPERTY(formSteps, ORKFormStep, NSArray, YES, nil, nil),
-                     PROPERTY(detailTextIdentifiers, NSString, NSArray, YES, nil, nil),
-                    })),
            ENTRY(ORKFamilyHistoryStep,
             ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                return [[ORKFamilyHistoryStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
