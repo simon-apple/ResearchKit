@@ -64,6 +64,8 @@
 #import "ORKNavigableOrderedTask.h"
 #import "ORKStepNavigationRule.h"
 
+#import "ORKHearingTestSoftLink.h"
+
 // defines how many samples we should rollback before resuming the task
 #define NUMBER_OF_TRAILS_TO_DROP 2
 
@@ -83,6 +85,8 @@
     BOOL _showingAlert;
     
     BOOL _didSkipStep;
+    
+    ORKTonePlayer *_tonePlayer;
 }
 
 @property (nonatomic, strong) ORKdBHLToneAudiometryContentView *dBHLToneAudiometryContentView;
@@ -108,6 +112,8 @@
         self.currentTap.response = ORKdBHLToneAudiometryTapBeforeResponseWindow;
         _showingAlert = NO;
         _didSkipStep = NO;
+        
+        _tonePlayer = [getORKTonePlayerClass() new];
     }
     return self;
 }
@@ -155,8 +161,8 @@
     [self addObservers];
     
 #if RK_APPLE_INTERNAL
-    //KAGRATODO:- change to the correct volume level or expose this on step
-    [[self taskViewController] lockDeviceVolume:0.75];
+    // HearingTest.framework handles the lock
+    //[[self taskViewController] lockDeviceVolume:0.8125];
     
     dBHLTAStep.headphoneType = ORKHeadphoneTypeIdentifierAirPodsProGen2;
 
@@ -224,7 +230,16 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [self start];
+    
+    [_tonePlayer startSessionFor:5 completion:^(BOOL startedSession) {
+        NSLog(@"ORKTonePlayer session started: %@", startedSession ? @"true" : @"false");
+        
+        [_tonePlayer enableANCHearingTestModeFor:5 completion:^(BOOL startedANC) {
+            NSLog(@"ORKTonePlayer ANCHearingTestMode enabled: %@", startedANC ? @"true" : @"false");
+            
+            [self start];
+        }];
+    }];
 }
 
 -(void)appWillTerminate:(NSNotification*)note {
@@ -451,13 +466,22 @@
                 if ([[self audiometryEngine] respondsToSelector:@selector(registerStimulusPlayback)]) {
                     [self.audiometryEngine registerStimulusPlayback];
                 }
-                [_audioGenerator playSoundAtFrequency:stimulus.frequency onChannel:stimulus.channel dBHL:stimulus.level];
+//                [_audioGenerator playSoundAtFrequency:stimulus.frequency onChannel:stimulus.channel dBHL:stimulus.level];
+                
+//                dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+                    [_tonePlayer playWithFrequency:stimulus.frequency level:stimulus.level channel:stimulus.channel completion:^(NSError * _Nonnull error) {
+                        if (error) {
+                            NSLog(@"tonePlayer playWithFrequency error: %@", error);
+                        }
+                    }];
+//                }
                 self.currentTap.response = ORKdBHLToneAudiometryTapOnResponseWindow;
             });
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(preStimulusDelay * NSEC_PER_SEC)), dispatch_get_main_queue(), _preStimulusDelayWorkBlock);
             
             _pulseDurationWorkBlock = dispatch_block_create(DISPATCH_BLOCK_INHERIT_QOS_CLASS, ^{
-                [_audioGenerator stop];
+//                [_audioGenerator stop];
+                [_tonePlayer stop];
             });
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((preStimulusDelay + toneDuration - 0.1) * NSEC_PER_SEC)), dispatch_get_main_queue(), _pulseDurationWorkBlock);
             
@@ -525,16 +549,16 @@
 
 - (void)bluetoothChanged: (NSNotification *)note {
     // check if budsInEars
-    ORKTaskViewController *taskVC = self.taskViewController;
-    if (!taskVC.budsInEars) {
-        [self showAlertWithTitle:@"Hearing Test" andMessage:@"Make sure you have both buds in ears."];
-    } else if (taskVC.callActive) {
-        [self showAlertWithTitle:@"Hearing Test" andMessage:@"Please finish the call and try the task again."];
-    } else if (taskVC.ancStatus != ORKdBHLHeadphonesANCStatusEnabled) {
-        [self showAlertWithTitle:@"Hearing Test" andMessage:@"ANC mode must be turned ON to take this test."];
-    } else if (taskVC.leftBattery < LOW_BATTERY_LEVEL_THRESHOLD_VALUE || taskVC.rightBattery < LOW_BATTERY_LEVEL_THRESHOLD_VALUE) {
-        [self showAlertWithTitle:@"Hearing Test" andMessage:@"Headphones battery level are low. Please charge it and take the test again."];
-    }
+//    ORKTaskViewController *taskVC = self.taskViewController;
+//    if (!taskVC.budsInEars) {
+//        [self showAlertWithTitle:@"Hearing Test" andMessage:@"Make sure you have both buds in ears."];
+//    } else if (taskVC.callActive) {
+//        [self showAlertWithTitle:@"Hearing Test" andMessage:@"Please finish the call and try the task again."];
+//    } else if (taskVC.ancStatus != ORKdBHLHeadphonesANCStatusEnabled) {
+//        [self showAlertWithTitle:@"Hearing Test" andMessage:@"ANC mode must be turned ON to take this test."];
+//    } else if (taskVC.leftBattery < LOW_BATTERY_LEVEL_THRESHOLD_VALUE || taskVC.rightBattery < LOW_BATTERY_LEVEL_THRESHOLD_VALUE) {
+//        [self showAlertWithTitle:@"Hearing Test" andMessage:@"Headphones battery level are low. Please charge it and take the test again."];
+//    }
 }
 
 - (void)showAlertWithTitle:(NSString *)title andMessage:(NSString *)message {

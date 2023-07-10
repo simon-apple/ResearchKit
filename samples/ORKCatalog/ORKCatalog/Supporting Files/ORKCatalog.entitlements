@@ -10,5 +10,11 @@
 	<true/>
 	<key>com.apple.developer.healthkit</key>
 	<true/>
+	<key>com.apple.security.exception.mach-lookup.global-name</key>
+	<array>
+		<string>com.apple.avfaudio.devicetest.service</string>
+	</array>
+	<key>com.apple.avfaudio.devicetest</key>
+	<true/>
 </dict>
 </plist>

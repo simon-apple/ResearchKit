@@ -118,6 +118,7 @@
 		1B4B95BA1F5F014E006B629F /* ORKWeightPicker.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B4B95B91F5F014E006B629F /* ORKWeightPicker.h */; };
 		2212EE66261FE55300DE9BEA /* AVAudioMixerNode+Fade.m in Sources */ = {isa = PBXBuildFile; fileRef = 2212EE64261FE55200DE9BEA /* AVAudioMixerNode+Fade.m */; };
 		2212EE67261FE55300DE9BEA /* AVAudioMixerNode+Fade.h in Headers */ = {isa = PBXBuildFile; fileRef = 2212EE65261FE55200DE9BEA /* AVAudioMixerNode+Fade.h */; };
+		222D36782A587533007D5398 /* ORKHearingTest.framework in Resources */ = {isa = PBXBuildFile; fileRef = 222D365D2A538BC6007D5398 /* ORKHearingTest.framework */; };
 		2246E50F2749346A00261D5A /* dbAmplitudePerFrequency_AIRPODSV3.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2246E50E2749346A00261D5A /* dbAmplitudePerFrequency_AIRPODSV3.plist */; };
 		2246E511274934CE00261D5A /* dbSPLAmplitudePerFrequency_AIRPODSV3.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2246E510274934CE00261D5A /* dbSPLAmplitudePerFrequency_AIRPODSV3.plist */; };
 		2246E5152749350300261D5A /* frequency_dBSPL_AIRPODSV3.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2246E5122749350200261D5A /* frequency_dBSPL_AIRPODSV3.plist */; };
@@ -145,6 +146,7 @@
 		22A1C5632609012A0003F75E /* ORKTinnitusOverallAssessmentStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 22A1C5612609012A0003F75E /* ORKTinnitusOverallAssessmentStep.m */; };
 		22A1C56B260901490003F75E /* ORKTinnitusOverallAssessmentStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 22A1C569260901490003F75E /* ORKTinnitusOverallAssessmentStepViewController.h */; };
 		22A1C56C260901490003F75E /* ORKTinnitusOverallAssessmentStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22A1C56A260901490003F75E /* ORKTinnitusOverallAssessmentStepViewController.m */; };
+		22B87CD42A5886CE00E98520 /* ORKHearingTest-Swift.h in Headers */ = {isa = PBXBuildFile; fileRef = 22B87CD32A5886CE00E98520 /* ORKHearingTest-Swift.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		22BFDF5E25B792BF0015D1E1 /* ORKTinnitusTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 22BFDF5D25B792BF0015D1E1 /* ORKTinnitusTypes.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		22BFDF6A25B792D20015D1E1 /* ORKTinnitusTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 22BFDF6925B792D20015D1E1 /* ORKTinnitusTypes.m */; };
 		22BFE13C25BB73310015D1E1 /* ORKTinnitusAudioSample.m in Sources */ = {isa = PBXBuildFile; fileRef = 223AE98B25B235CB0080FE13 /* ORKTinnitusAudioSample.m */; };
@@ -1282,6 +1284,8 @@
 		1B4B95B91F5F014E006B629F /* ORKWeightPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKWeightPicker.h; sourceTree = "<group>"; };
 		2212EE64261FE55200DE9BEA /* AVAudioMixerNode+Fade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AVAudioMixerNode+Fade.m"; sourceTree = "<group>"; };
 		2212EE65261FE55200DE9BEA /* AVAudioMixerNode+Fade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AVAudioMixerNode+Fade.h"; sourceTree = "<group>"; };
+		222D365A2A537C47007D5398 /* ORKHearingTestSoftLink.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKHearingTestSoftLink.h; sourceTree = "<group>"; };
+		222D365D2A538BC6007D5398 /* ORKHearingTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ORKHearingTest.framework; sourceTree = "<group>"; };
 		223AE98A25B235CB0080FE13 /* ORKTinnitusAudioSample.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKTinnitusAudioSample.h; sourceTree = "<group>"; };
 		223AE98B25B235CB0080FE13 /* ORKTinnitusAudioSample.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKTinnitusAudioSample.m; sourceTree = "<group>"; };
 		2246E50E2749346A00261D5A /* dbAmplitudePerFrequency_AIRPODSV3.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = dbAmplitudePerFrequency_AIRPODSV3.plist; sourceTree = "<group>"; };
@@ -1311,6 +1315,7 @@
 		22A1C5612609012A0003F75E /* ORKTinnitusOverallAssessmentStep.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKTinnitusOverallAssessmentStep.m; sourceTree = "<group>"; };
 		22A1C569260901490003F75E /* ORKTinnitusOverallAssessmentStepViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKTinnitusOverallAssessmentStepViewController.h; sourceTree = "<group>"; };
 		22A1C56A260901490003F75E /* ORKTinnitusOverallAssessmentStepViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKTinnitusOverallAssessmentStepViewController.m; sourceTree = "<group>"; };
+		22B87CD32A5886CE00E98520 /* ORKHearingTest-Swift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "ORKHearingTest-Swift.h"; path = "ORKHearingTest.framework/Headers/ORKHearingTest-Swift.h"; sourceTree = "<group>"; };
 		22BFDF5D25B792BF0015D1E1 /* ORKTinnitusTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKTinnitusTypes.h; sourceTree = "<group>"; };
 		22BFDF6925B792D20015D1E1 /* ORKTinnitusTypes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKTinnitusTypes.m; sourceTree = "<group>"; };
 		22ED1845285290250052406B /* ORKAudiometryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKAudiometryTests.m; sourceTree = "<group>"; };
@@ -2591,6 +2596,15 @@
 			path = Celestial;
 			sourceTree = "<group>";
 		};
+		222D36742A54B8D3007D5398 /* HearingTestSoftlink */ = {
+			isa = PBXGroup;
+			children = (
+				22B87CD22A58862800E98520 /* Framework */,
+				222D365A2A537C47007D5398 /* ORKHearingTestSoftLink.h */,
+			);
+			path = HearingTestSoftlink;
+			sourceTree = "<group>";
+		};
 		226565552847FF9D00E916FF /* ORKAudiometry */ = {
 			isa = PBXGroup;
 			children = (
@@ -2614,6 +2628,15 @@
 				228D2546285B7EA60047B2ED /* MatrixAxis.swift */,
 			);
 			name = Matisse;
+			sourceTree = "<group>";
+		};
+		22B87CD22A58862800E98520 /* Framework */ = {
+			isa = PBXGroup;
+			children = (
+				222D365D2A538BC6007D5398 /* ORKHearingTest.framework */,
+				22B87CD32A5886CE00E98520 /* ORKHearingTest-Swift.h */,
+			);
+			name = Framework;
 			sourceTree = "<group>";
 		};
 		22CFBEBE2881B07B0035A74A /* MathUtilities */ = {
@@ -3454,6 +3477,7 @@
 		71769E2620880BA800A19914 /* dBHL Tone Audiometry */ = {
 			isa = PBXGroup;
 			children = (
+				222D36742A54B8D3007D5398 /* HearingTestSoftlink */,
 				62670E9D29B129E300EE5198 /* QRCodeReader */,
 				6263999929A64FDC00880DE2 /* FitTest */,
 				627AB9B7299B972E00C38D5A /* MOA */,
@@ -5308,6 +5332,7 @@
 				517514522459EF5D009E8FFC /* ORK3DModelStepViewController.h in Headers */,
 				86C40C161A8D7C5C00081FAC /* ORKAudioContentView.h in Headers */,
 				5DE6CBD32683DE9100007536 /* ORKBLEScanPeripheralsStep.h in Headers */,
+				22B87CD42A5886CE00E98520 /* ORKHearingTest-Swift.h in Headers */,
 				86C40CB41A8D7C5C00081FAC /* ORKTouchRecorder.h in Headers */,
 				86C40DEA1A8D7C5C00081FAC /* UIBarButtonItem+ORKBarButtonItem.h in Headers */,
 				BA2FE3EE20B109C600AAC231 /* ORKAmslerGridResult.h in Headers */,
@@ -5678,6 +5703,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				222D36782A587533007D5398 /* ORKHearingTest.framework in Resources */,
 				7118AC6A20BF6A3A00D7A6BB /* Sentence5.wav in Resources */,
 				B1A860EE1A9693C400EA57B7 /* consent_05@2x.m4v in Resources */,
 				E220A03C25711D2700C3C211 /* dbSPLAmplitudePerFrequency_AIRPODS.plist in Resources */,
