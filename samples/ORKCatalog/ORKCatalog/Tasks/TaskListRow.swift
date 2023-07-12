@@ -69,6 +69,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     #endif
     case groupedForm
     case survey
+    case surveyWithMultipleOptions
     case platterUIQuestion
     case booleanQuestion
     case customBooleanQuestion
@@ -161,7 +162,8 @@ enum TaskListRow: Int, CustomStringConvertible {
                 [
                     .form,
                     .groupedForm,
-                    .survey
+                    .survey,
+                    .surveyWithMultipleOptions
                 ]),
             TaskListRowSection(title: "Survey Questions", rows:
                 [
@@ -483,6 +485,8 @@ enum TaskListRow: Int, CustomStringConvertible {
         case .studySignPostStep:
             return NSLocalizedString("Study Sign Post Step", comment: "")
         #endif
+        case .surveyWithMultipleOptions:
+            return NSLocalizedString("Survey With Multiple Options", comment: "")
         }
     }
     
@@ -506,6 +510,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         case groupedFormTask
         case formStep
         case groupedFormStep
+        case formStepWithMultipleSelection
         case formItem01
         case formItem02
         case formItem03
@@ -514,6 +519,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         // Survey task specific identifiers.
         case surveyTask
         case introStep
+        case surveyTaskWithMultipleSelection
         case questionStep
         case birthdayQuestion
         case summaryStep
@@ -722,7 +728,10 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .groupedForm:
             return groupedFormTask
-        
+    
+        case .surveyWithMultipleOptions:
+            return formTaskWithMultipleOptions
+            
         case .survey:
             return surveyTask
             
@@ -1010,6 +1019,23 @@ enum TaskListRow: Int, CustomStringConvertible {
         completionStep.title = NSLocalizedString("All Done!", comment: "")
         completionStep.detailText = NSLocalizedString("You have completed the questionnaire.", comment: "")
         return ORKOrderedTask(identifier: String(describing: Identifier.formTask), steps: [step, completionStep])
+    }
+    
+    private var formTaskWithMultipleOptions: ORKTask {
+        let step = ORKFormStep(identifier: String(describing: Identifier.formStepWithMultipleSelection), title: NSLocalizedString("Form Step with Multiple Selections", comment: ""), text: exampleDetailText)
+        
+        var textChoices = [ORKTextChoice]()
+        for i in (1...50) {
+            textChoices.append(ORKTextChoiceOther(text: "Option \(i)", value: i as NSNumber))
+        }
+        
+        let textScaleAnswerFormat = ORKTextChoiceAnswerFormat(style: .multipleChoice, textChoices: textChoices)
+        textScaleAnswerFormat.shouldShowDontKnowButton = true
+        let formItem04 = ORKFormItem(identifier: String(describing: Identifier.formItem04), text: exampleQuestionText, answerFormat: ORKTextChoiceAnswerFormat(style: .multipleChoice, textChoices: textChoices))
+        
+        step.formItems = [formItem04]
+        
+        return ORKOrderedTask(identifier: String(describing: Identifier.surveyTaskWithMultipleSelection), steps: [step])
     }
     
     private var groupedFormTask: ORKTask {

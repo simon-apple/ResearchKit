@@ -1656,8 +1656,8 @@ static CGFloat ORKLabelWidth(NSString *text) {
         if (textChoiceAnswerFormat != nil || colorChoiceAnswerFormat != nil) {
             ORKChoiceAnswerFormatHelper *helper = [[ORKChoiceAnswerFormatHelper alloc] initWithAnswerFormat:textChoiceAnswerFormat ? : colorChoiceAnswerFormat];
             
-            NSMutableArray *selectedIndexes = [NSMutableArray array];
-            
+            id answer = _savedAnswers[itemIdentifier.formItemIdentifier];
+            NSMutableSet* selectedIndexes = [[NSMutableSet alloc] initWithArray:[helper selectedIndexesForAnswer:answer]];
             // find all the row/cell peers to this indexPath
             // the formItem
             BOOL shouldAllowMultiSelection = YES; // assume multiple selection by default
@@ -1697,8 +1697,12 @@ static CGFloat ORKLabelWidth(NSString *text) {
                         [testCell setCellSelected:newSelectedState highlight:YES];
                     }
                     if (testCell.isCellSelected) {
-                        ORK_Log_Debug("[SELECTION] adding index %@", @(eachIndex));
+                        ORK_Log_Debug("[MULTI SELECTION] adding index %@", @(eachIndex));
                         [selectedIndexes addObject:@(eachIndex)];
+                        ORK_Log_Debug("[MULTI SELECTION] selected indexes are %@", selectedIndexes);
+                    } else if (testCell && testCell.isCellSelected == NO) {
+                        ORK_Log_Debug("[SELECTION] removing index %@", @(eachIndex));
+                        [selectedIndexes removeObject:@(eachIndex)];
                     }
                 } else if (testCell == choiceViewCell) {
                     // only allow a single cell to be selected at a time
@@ -1712,8 +1716,14 @@ static CGFloat ORKLabelWidth(NSString *text) {
                 eachIndex = [relatedChoiceRows indexGreaterThanIndex:eachIndex];
             }
 
-            id answer = [helper answerForSelectedIndexes:selectedIndexes];
+            NSArray *uniqueSelectedIndexes = [selectedIndexes allObjects];
+            uniqueSelectedIndexes = [uniqueSelectedIndexes sortedArrayUsingComparator:^NSComparisonResult(NSNumber *obj1, NSNumber *obj2) {
+                return [obj1 compare:obj2];
+            }];
+            
+            answer = [helper answerForSelectedIndexes:uniqueSelectedIndexes];
             [self saveAnswer:answer forItemIdentifier:itemIdentifier];
+            ORK_Log_Debug("saved answers are now %@'",  [self savedAnswers]);
         } else {
             ORK_Log_Debug("[FORMSTEP] NOT textChoice: row for item %@ selected: answerFormat is '%@'", itemIdentifier, formItem.impliedAnswerFormat);
         }
