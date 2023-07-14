@@ -1330,7 +1330,7 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
     NSString *sectionIdentifier = [sectionIdentifiers objectAtIndex:indexPath.section];
     
     ORKFormItemCell *formItemCell = ORKDynamicCast(cell, ORKFormItemCell);
-    if ([formItemCell.answer class] != [ORKDontKnowAnswer class]) {
+    if ((formItemCell != nil) && [formItemCell.answer class] != [ORKDontKnowAnswer class]) {
         if (formItemCell.formItem.answerFormat.impliedAnswerFormat.questionType != ORKQuestionTypeSES) {
             return;
         }
