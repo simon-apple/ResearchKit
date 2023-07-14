@@ -511,6 +511,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         case formStep
         case groupedFormStep
         case formStepWithMultipleSelection
+        case formStepWithSingleSelection
         case formItem01
         case formItem02
         case formItem03
@@ -1022,20 +1023,30 @@ enum TaskListRow: Int, CustomStringConvertible {
     }
     
     private var formTaskWithMultipleOptions: ORKTask {
-        let step = ORKFormStep(identifier: String(describing: Identifier.formStepWithMultipleSelection), title: NSLocalizedString("Form Step with Multiple Selections", comment: ""), text: exampleDetailText)
+        let textChoices: [ORKTextChoice] = [1...50]
+            .flatMap({ $0 })
+            .compactMap({ index in
+                ORKTextChoiceOther(text: "Option \(index)", value: index as NSNumber)
+            })
+                
+        let steps: [ORKFormStep] = [
+            {
+                let step = ORKFormStep(identifier: String(describing: Identifier.formStepWithMultipleSelection), title: NSLocalizedString("Form Step with Multiple Selections", comment: ""), text: exampleDetailText)
+                step.formItems = [
+                    ORKFormItem(identifier: String(describing: Identifier.formItem01), text: exampleQuestionText, answerFormat: ORKTextChoiceAnswerFormat(style: .multipleChoice, textChoices: textChoices))
+                ]
+                return step
+            }(),
+            {
+                let step = ORKFormStep(identifier: String(describing: Identifier.formStepWithSingleSelection), title: NSLocalizedString("Form Step with Single Selection", comment: ""), text: exampleDetailText)
+                step.formItems = [
+                    ORKFormItem(identifier: String(describing: Identifier.formItem01), text: "Select only one", answerFormat: ORKTextChoiceAnswerFormat(style: .singleChoice, textChoices: textChoices))
+                ]
+                return step
+            }()
+        ]
         
-        var textChoices = [ORKTextChoice]()
-        for i in (1...50) {
-            textChoices.append(ORKTextChoiceOther(text: "Option \(i)", value: i as NSNumber))
-        }
-        
-        let textScaleAnswerFormat = ORKTextChoiceAnswerFormat(style: .multipleChoice, textChoices: textChoices)
-        textScaleAnswerFormat.shouldShowDontKnowButton = true
-        let formItem04 = ORKFormItem(identifier: String(describing: Identifier.formItem04), text: exampleQuestionText, answerFormat: ORKTextChoiceAnswerFormat(style: .multipleChoice, textChoices: textChoices))
-        
-        step.formItems = [formItem04]
-        
-        return ORKOrderedTask(identifier: String(describing: Identifier.surveyTaskWithMultipleSelection), steps: [step])
+        return ORKOrderedTask(identifier: String(describing: Identifier.surveyTaskWithMultipleSelection), steps: steps)
     }
     
     private var groupedFormTask: ORKTask {
