@@ -1712,6 +1712,8 @@ static CGFloat ORKLabelWidth(NSString *text) {
                 } else {
                     // we're not allowing multi-selection, but this isn't the selected cell either, unhighlight
                     [testCell setCellSelected:NO highlight:NO];
+                    ORK_Log_Debug("[SELECTION] removing index %@", @(eachIndex));
+                    [selectedIndexes removeObject:@(eachIndex)];
                 }
                 eachIndex = [relatedChoiceRows indexGreaterThanIndex:eachIndex];
             }
