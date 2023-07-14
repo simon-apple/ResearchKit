@@ -40,6 +40,7 @@ static const CGFloat CellBottomPaddingBeforeAddRelativeButton = 20.0;
 static const CGFloat ContentLeftRightPadding = 16.0;
 static const CGFloat DividerViewTopBottomPadding = 10.0;
 
+static const CGFloat EditDeleteViewTopBottomPadding = 18.0;
 static const CGFloat EditDeleteLabelTopBottomPadding = 8.0;
 static const CGFloat EditDeleteLabelLeftRightPadding = 8.0;
 
@@ -386,7 +387,7 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
     }
     
     // set backgroundView's bottom anchor to lower most UILabel
-    [_viewConstraints addObject:[_backgroundView.bottomAnchor constraintEqualToAnchor:conditionsLowerMostView.bottomAnchor constant:CellTopBottomPadding]];
+    [_viewConstraints addObject:[_backgroundView.bottomAnchor constraintEqualToAnchor:conditionsLowerMostView.bottomAnchor constant:EditDeleteViewTopBottomPadding]];
     
     // set contentView constraints
     [_viewConstraints addObject:[self.contentView.topAnchor constraintEqualToAnchor:_backgroundView.topAnchor]];
