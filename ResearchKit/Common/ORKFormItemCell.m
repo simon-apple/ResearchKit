@@ -482,7 +482,8 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     if ([formItem.answerFormat shouldShowDontKnowButton]) { // [RDLS:NOTE] moved from cellInit
         _shouldShowDontKnow = YES; // [RDLS:NOTE] reset in prepareForReuse
         _customDontKnowString = formItem.answerFormat.customDontKnowButtonText; // [RDLS:NOTE] reset in prepareForReuse
-        [self setupDontKnowButton]; // [RDLS:NOTE] reset in prepareForReuse
+        // [LC:NOTE] we need to pass in our answer here, because self.answer is not set yet.
+        [self setupDontKnowButtonWithAnswer:answer]; // [RDLS:NOTE] reset in prepareForReuse
         self.accessibilityElements = @[_textFieldView, _dontKnowButton]; // [RDLS:NOTE] reset in prepareForReuse
     }
     
@@ -558,7 +559,8 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     [self setNeedsUpdateConstraints];
 }
 
-- (void)setupDontKnowButton {
+// [LC:NOTE] we need to pass in the local answer here because self.answer is not set
+- (void)setupDontKnowButtonWithAnswer:(id)answer {
     if(!_dontKnowBackgroundView) {
         _dontKnowBackgroundView = [UIView new];
         _dontKnowBackgroundView.userInteractionEnabled = YES;
@@ -590,7 +592,7 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     [self.containerView addSubview:_dontKnowButton];
     [self.containerView addSubview:_dividerView];
     
-    if (self.answer == [ORKDontKnowAnswer answer]) {
+    if (answer == [ORKDontKnowAnswer answer]) {
         [self dontKnowButtonWasPressed];
     }
 }
@@ -1395,6 +1397,7 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     [self.containerView addSubview:_maxLengthView];
 }
 
+// [LC:NOTE] we DO NOT need to pass in the local answer here because self.answer IS set
 - (void)setupDontKnowButton {
     if(!_dontKnowBackgroundView) {
         _dontKnowBackgroundView = [UIView new];
