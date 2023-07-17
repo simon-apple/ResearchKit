@@ -93,6 +93,39 @@ final class ORKFormStepViewControllerConditionalFormItemsTests: XCTestCase {
     }
      */
     
+    //rdar://110665165 ([ConditionalFormItems] testDiffableDataSource invalidated due to synchronous call)
+    //once radar is fixed above, lets enable this radar too
+    //rdar://111628089 (Add a unit test if possible for  textChoiceOtherCellDidResignFirstResponder saving text response)
+   /*
+    func testBasicFormItemWithORKTextChoiceResignFirstResponder() {
+        let formStepViewController = ORKFormStepViewController(step: FormStepTestUtilities.simpleFormStepWithTextChoices())
+        formStepViewController.loadView()
+        formStepViewController.viewDidLoad()
+        
+        if #available(iOS 13.0, *) {
+            let tableView: UITableView! = formStepViewController.tableView
+            let dataSource = tableView.dataSource as! UITableViewDiffableDataSourceReference
+            formStepViewController.build(dataSource)
+            dataSource.applySnapshot(dataSource.snapshot(), animatingDifferences: false)
+        }
+        
+        formStepViewController.tableView.selectRow(at: IndexPath(row: 2, section: 1), animated: true, scrollPosition: .middle)
+        let cell:ORKChoiceOtherViewCell = formStepViewController.tableView.cellForRow(at: IndexPath(row: 2, section: 1)) as! ORKChoiceOtherViewCell
+        (cell.textView as! ORKAnswerTextView).text = "a"
+        cell.resignFirstResponder()
+        
+        // because we forcibly skipped to the viewController without answering, all the answers should be nil
+        do {
+            let result = formStepViewController.result
+            XCTAssertEqual(result?.results?.count, 2)
+
+            let formStepResult = result?.results?[1] as? ORKStepResult
+            let formItemResult = formStepResult?.results?[0] as? ORKChoiceQuestionResult
+            XCTAssertEqual(formItemResult?.answer as! String, "a")
+        }
+    }
+    */
+    
     func testConditionalFormItemsAccessors() throws {
         let formStepViewController = ORKFormStepViewController(step: FormStepTestUtilities.conditionalFormStep())
         
@@ -470,6 +503,19 @@ fileprivate struct FormStepTestUtilities {
             ORKFormItem(identifier: "item1", text:"none", answerFormat: .booleanAnswerFormat(), optional: true),
             ORKFormItem(identifier: "item2", text: "text", answerFormat: ORKTextAnswerFormat()),
             ORKFormItem(identifier: "item3", text: "more text", answerFormat: ORKTextAnswerFormat())
+        ])
+        return step
+    }
+    
+    static func simpleFormStepWithTextChoices() -> ORKFormStep {
+        let step = ORKFormStep(identifier: FormStepIdentifier, formItems: [
+            ORKFormItem(sectionTitle: SectionTitle), // section should not be answerable
+            ORKFormItem(identifier: "item1", text:"none", answerFormat: ORKTextChoiceAnswerFormat(
+                style: .singleChoice,
+                textChoices: [ORKTextChoice(text: "option 1", value:  "option 1" as NSString),
+                              ORKTextChoiceOther.choice(withText: "choice 7", detailText: "detail 7", value: "choice 7" as NSString, exclusive: true, textViewPlaceholderText: "enter additional information")
+                             ]),
+                        optional: true),
         ])
         return step
     }

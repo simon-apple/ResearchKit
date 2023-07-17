@@ -527,6 +527,14 @@ enum TaskListRow: Int, CustomStringConvertible {
         // Task with a form, with multiple don't know button
         case dontknowSurveyTask
 
+        case textChoiceFormItem
+        case appleFormItemIdentifier
+        case imageChoiceItemSection
+        case imageChoiceItem
+        case freeTextSectionIdentifier
+        case freeTextItemIdentifier
+        case completionStep
+        
         // Survey task specific identifiers.
         case surveyTask
         case introStep
@@ -999,7 +1007,8 @@ enum TaskListRow: Int, CustomStringConvertible {
             ORKTextChoice(text: "choice 3", detailText: "detail 3", value: 3 as NSNumber, exclusive: false),
             ORKTextChoice(text: "choice 4", detailText: "detail 4", value: 4 as NSNumber, exclusive: false),
             ORKTextChoice(text: "choice 5", detailText: "detail 5", value: 5 as NSNumber, exclusive: false),
-            ORKTextChoice(text: "choice 6", detailText: "detail 6", value: 6 as NSNumber, exclusive: false)
+            ORKTextChoice(text: "choice 6", detailText: "detail 6", value: 6 as NSNumber, exclusive: false),
+            ORKTextChoiceOther.choice(withText: "choice 7", detailText: "detail 7", value: "choice 7" as NSString, exclusive: true, textViewPlaceholderText: "enter additional information")
         ]
         
         let textScaleAnswerFormat = ORKTextScaleAnswerFormat(textChoices: textChoices, defaultIndex: 10)
@@ -1007,18 +1016,39 @@ enum TaskListRow: Int, CustomStringConvertible {
         textScaleAnswerFormat.shouldShowDontKnowButton = true
         let formItem04 = ORKFormItem(identifier: String(describing: Identifier.formItem04), text: exampleQuestionText, answerFormat: textScaleAnswerFormat)
         
+        let textChoiceAnswerFormat = ORKTextChoiceAnswerFormat(style: .singleChoice, textChoices: textChoices)
+        textChoiceAnswerFormat.shouldShowDontKnowButton = true
+        let textChoiceFormItem = ORKFormItem(identifier: String(describing: Identifier.textChoiceFormItem), text: exampleQuestionText, answerFormat: textChoiceAnswerFormat)
+        
+        
         let appleChoices: [ORKTextChoice] = [ORKTextChoice(text: "Granny Smith", value: 1 as NSNumber), ORKTextChoice(text: "Honeycrisp", value: 2 as NSNumber), ORKTextChoice(text: "Fuji", value: 3 as NSNumber), ORKTextChoice(text: "McIntosh", value: 10 as NSNumber), ORKTextChoice(text: "Kanzi", value: 5 as NSNumber)]
         
         let appleAnswerFormat = ORKTextChoiceAnswerFormat(style: .singleChoice, textChoices: appleChoices)
         
-        let appleFormItem = ORKFormItem(identifier: "appleFormItemIdentifier", text: "Which is your favorite apple?", answerFormat: appleAnswerFormat)
+        let appleFormItem = ORKFormItem(identifier: String(describing: Identifier.appleFormItemIdentifier), text: "Which is your favorite apple?", answerFormat: appleAnswerFormat)
         
-        let freeTextSection = ORKFormItem(identifier: "freeTextSectionIdentifier", text: "Enter your text below", answerFormat: nil)
+        let roundShapeImage = UIImage(named: "round_shape")!
+        let roundShapeText = NSLocalizedString("Round Shape", comment: "")
+        
+        let squareShapeImage = UIImage(named: "square_shape")!
+        let squareShapeText = NSLocalizedString("Square Shape", comment: "")
+        
+        let imageChoices = [
+            ORKImageChoice(normalImage: roundShapeImage, selectedImage: nil, text: roundShapeText, value: roundShapeText as NSString),
+            ORKImageChoice(normalImage: squareShapeImage, selectedImage: nil, text: squareShapeText, value: squareShapeText as NSString)
+        ]
+        
+        let imageChoiceItemSection = ORKFormItem(identifier: String(describing: Identifier.imageChoiceItemSection), text: "Enter your favorite shape", answerFormat: nil)
+
+        let imageChoiceAnswerFormat = ORKAnswerFormat.choiceAnswerFormat(with: imageChoices)
+        let imageChoiceItem = ORKFormItem(identifier: String(describing: Identifier.imageChoiceItem), text: nil, answerFormat: imageChoiceAnswerFormat)
+        
+        let freeTextSection = ORKFormItem(identifier: String(describing: Identifier.freeTextSectionIdentifier), text: "Enter your text below", answerFormat: nil)
         
         let freeTextAnswerFormat = ORKAnswerFormat.textAnswerFormat(withMaximumLength: 200)
         freeTextAnswerFormat.multipleLines = true
         
-        let freeTextItem = ORKFormItem(identifier: "freeTextItemIdentifier", text: nil, answerFormat: freeTextAnswerFormat)
+        let freeTextItem = ORKFormItem(identifier:String(describing: Identifier.freeTextItemIdentifier), text: nil, answerFormat: freeTextAnswerFormat)
         
         step.formItems = [
             appleFormItem,
@@ -1026,10 +1056,13 @@ enum TaskListRow: Int, CustomStringConvertible {
             formItem04,
             formItem01,
             formItem02,
+            textChoiceFormItem,
+            imageChoiceItemSection,
+            imageChoiceItem,
             freeTextSection,
             freeTextItem
         ]
-        let completionStep = ORKCompletionStep(identifier: "CompletionStep")
+        let completionStep = ORKCompletionStep(identifier:  String(describing: Identifier.completionStep))
         completionStep.title = NSLocalizedString("All Done!", comment: "")
         completionStep.detailText = NSLocalizedString("You have completed the questionnaire.", comment: "")
         return ORKOrderedTask(identifier: String(describing: Identifier.formTask), steps: [step, completionStep])
@@ -1187,7 +1220,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         
         //Add a question step with different layout format.
         let question2StepAnswerFormat = ORKAnswerFormat.dateAnswerFormat(withDefaultDate: nil, minimumDate: nil, maximumDate: Date(), calendar: nil)
-        
+    
         let question2 = NSLocalizedString("When is your birthday?", comment: "")
         let question2Step = ORKQuestionStep(identifier: String(describing: Identifier.birthdayQuestion), title: "Questionnaire", question: question2, answer: question2StepAnswerFormat)
         question2Step.text = exampleDetailText

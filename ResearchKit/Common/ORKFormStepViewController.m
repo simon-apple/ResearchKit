@@ -46,6 +46,7 @@
 #import "ORKLearnMoreStepViewController.h"
 #import "ORKSurveyCardHeaderView.h"
 #import "ORKTextChoiceCellGroup.h"
+#import "ORKAnswerTextView.h"
 
 #import "ORKNavigationContainerView_Internal.h"
 #import "ORKStepViewController_Internal.h"
@@ -79,6 +80,7 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
 
 @property (nonatomic, copy, readonly) NSString *formItemIdentifier;
 @property (nonatomic, readonly) NSInteger choiceIndex;
+@property (nonatomic) ORKChoiceViewCellExpansionState expansionState;
 
 @end
 
@@ -830,6 +832,12 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
                 NSArray *choices = answerFormat.choices;
                 [choices enumerateObjectsUsingBlock:^(id eachChoice, NSUInteger index, BOOL *stop) {
                     ORKTableCellItemIdentifier *itemIdentifier = [[ORKTableCellItemIdentifier alloc] initWithFormItemIdentifier:formItemIdentifier choiceIndex:index];
+                    
+                    ORKTextChoiceOther *textChoiceOther = ORKDynamicCast(eachChoice, ORKTextChoiceOther);
+                    if (textChoiceOther != nil) {
+                        itemIdentifier.expansionState = ORKChoiceViewCellExpansionStateCollapsed;
+                    }
+                    
                     [newSnapshot appendItemsWithIdentifiers:@[itemIdentifier]];
                 }];
             } else {
@@ -1583,6 +1591,16 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
         }
 
         ORKChoiceOtherViewCell *choiceOtherViewCell = ORKDynamicCast(choiceViewCell, ORKChoiceOtherViewCell);
+        // [LC] This code used to be executed only once, when the cell was being created.
+        // Now that we use dequeue to always create a cell, that logic doesn't apply anymore
+        // setupWithText: withPlaceholderText: withExpansionState:  is a method that will apply the logic based on the textfield's expansion state
+        if (choiceOtherViewCell != nil) {
+            ORKTextChoice *textChoice = [answerFormat.choices objectAtIndex:choiceIndex];
+            ORKTextChoiceOther *textChoiceOther = ORKDynamicCast(textChoice, ORKTextChoiceOther);
+            if (textChoiceOther != nil) {
+                [choiceOtherViewCell setupWithText:textChoiceOther.textViewText placeholderText:textChoiceOther.textViewPlaceholderText expansionState:itemIdentifier.expansionState];
+            }
+        }
         choiceOtherViewCell.delegate = self;
         
         choiceViewCell.tintColor = ORKViewTintColor(self.view);
@@ -1622,9 +1640,22 @@ static CGFloat ORKLabelWidth(NSString *text) {
     return YES;
 }
 
+- (void)didSelectChoiceOtherViewCellWithItemIdentifier:(ORKTableCellItemIdentifier *)itemIdentifier
+                    choiceOtherViewCell:(ORKChoiceOtherViewCell *)choiceOtherViewCell {
+    if (choiceOtherViewCell.textView.text.length <= 0) {
+        BOOL shouldHideTextView = (itemIdentifier.expansionState == ORKChoiceViewCellExpansionStateExpanded) ? true : false;
+        itemIdentifier.expansionState = shouldHideTextView ? ORKChoiceViewCellExpansionStateCollapsed : ORKChoiceViewCellExpansionStateExpanded;
+        [choiceOtherViewCell hideTextView:shouldHideTextView];
+        [self tableViewCellHeightUpdated];
+    }
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 
+    ORKTableCellItemIdentifier *itemIdentifier = [_diffableDataSource itemIdentifierForIndexPath:indexPath];
+    ORKFormItem *formItem = [self _formItemForFormItemIdentifier:itemIdentifier.formItemIdentifier];
+    
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     
     ORKFormItemCell *formItemCell = ORKDynamicCast(cell, ORKFormItemCell);
@@ -1635,22 +1666,18 @@ static CGFloat ORKLabelWidth(NSString *text) {
         });
     }
 
-    /*
-     TODO: rdar://110151044 ([ConditionalFormItems] tableView:didSelectRowAtIndexPath: needs to do ORKTextChoiceCellGroup's work (ORKFormStepViewController))
-     if ([textChoice isKindOfClass:[ORKTextChoiceOther class]] && [touchedCell isKindOfClass:[ORKChoiceOtherViewCell class]])
-     updateTextViewForChoiceOtherCell -> conditionally calls
-        1. [choiceCell hideTextView:!choiceCell.textViewHidden];
-        2. tableViewCellHeightUpdated
-     */
+    ORKChoiceOtherViewCell *choiceOtherViewCell = ORKDynamicCast(cell, ORKChoiceOtherViewCell);
+    ORKTextChoiceAnswerFormat *textChoiceAnswerFormat = ORKDynamicCast(formItem.impliedAnswerFormat, ORKTextChoiceAnswerFormat);
+    
+    if (choiceOtherViewCell != nil && textChoiceAnswerFormat != nil) {
+        [self didSelectChoiceOtherViewCellWithItemIdentifier:itemIdentifier choiceOtherViewCell:choiceOtherViewCell];
+    }
     
     ORKChoiceViewCell *choiceViewCell = ORKDynamicCast(cell, ORKChoiceViewCell);
     if (choiceViewCell != nil) {
         // Dismiss other textField's keyboard
         [tableView endEditing:NO];
-                
-        ORKTableCellItemIdentifier *itemIdentifier = [_diffableDataSource itemIdentifierForIndexPath:indexPath];
-        ORKFormItem *formItem = [self _formItemForFormItemIdentifier:itemIdentifier.formItemIdentifier];
-        ORKTextChoiceAnswerFormat *textChoiceAnswerFormat = ORKDynamicCast(formItem.impliedAnswerFormat, ORKTextChoiceAnswerFormat);
+        
         ORKColorChoiceAnswerFormat *colorChoiceAnswerFormat = ORKDynamicCast(formItem.impliedAnswerFormat, ORKColorChoiceAnswerFormat);
         
         if (textChoiceAnswerFormat != nil || colorChoiceAnswerFormat != nil) {
@@ -2000,27 +2027,37 @@ static NSString *const _ORKAnsweredSectionIdentifiersRestoreKey = @"answeredSect
     ORKTextChoiceOther *textChoice = [[[formItem answerFormat] choices] objectAtIndex:itemIdentifier.choiceIndex];
     
     ORK_Log_Debug("[FORMSTEP] textChoiceOtherCellDidResignFirstResponder found textChoice %@", textChoice);
+    
+    id answer;
+    if (choiceOtherViewCell.textView.text.length > 0) {
+        textChoice.textViewText = choiceOtherViewCell.textView.text;
+        [self didSelectChoiceOtherViewCellWithItemIdentifier:itemIdentifier choiceOtherViewCell:choiceOtherViewCell];
+        answer = @[textChoice.textViewText];
+    } else {
+        textChoice.textViewText = nil;
+        if (!textChoice.textViewInputOptional) {
+            [choiceOtherViewCell setCellSelected:NO highlight:NO];
+        }
         
-    // TODO: rdar://110151218 ([ConditionalFormItems] textChoiceOtherCellDidResignFirstResponder doesn't do anything (ORKFormStepViewController))
-    //    Was calling [textChoiceCellGroup textViewDidResignResponderForCellAtIndexPath:indexPath];
-    // where that implementation was:
-    /*
-     NSUInteger index = indexPath.row - _beginningIndexPath.row;
-     ORKChoiceOtherViewCell *touchedCell = (ORKChoiceOtherViewCell *) [self cellAtIndex:index withReuseIdentifier:nil];
-     ORKTextChoiceOther *textChoice = (ORKTextChoiceOther *) [_helper textChoiceAtIndex:index];
-     
-     if (touchedCell.textView.text.length > 0) {
-         textChoice.textViewText = touchedCell.textView.text;
-         [self didSelectCellAtIndexPath:indexPath];
-     } else {
-         textChoice.textViewText = nil;
-         if (!textChoice.textViewInputOptional) {
-             [touchedCell setCellSelected:NO highlight:NO];
-         }
-         _answer = [_helper answerForSelectedIndexes:[self selectedIndexes]];
-         [self.delegate answerChangedForIndexPath:indexPath];
-     }
-     */
+        answer = _savedAnswers[itemIdentifier.formItemIdentifier];
+    }
+    [self saveTextChoiceAnswer:answer
+                      formItem:formItem
+                     indexPath:indexPath
+                itemIdentifier:itemIdentifier];
+}
+
+- (void)saveTextChoiceAnswer:(id)answer
+          formItem:(ORKFormItem*)formItem
+         indexPath:(NSIndexPath*)indexPath
+    itemIdentifier:(ORKTableCellItemIdentifier*)itemIdentifier {
+    ORKTextChoiceAnswerFormat *textChoiceAnswerFormat = ORKDynamicCast(formItem.impliedAnswerFormat, ORKTextChoiceAnswerFormat);
+    ORKChoiceAnswerFormatHelper *helper = [[ORKChoiceAnswerFormatHelper alloc] initWithAnswerFormat:textChoiceAnswerFormat];
+    NSArray *selectedIndexes = [helper selectedIndexesForAnswer:answer];
+    // regenerate answer to pick up the changed text from choiceOtherViewCell
+    answer = [helper answerForSelectedIndexes: selectedIndexes];
+    _savedAnswers[itemIdentifier.formItemIdentifier] = answer;
+    [self answerChangedForIndexPath:indexPath];
 }
 
 #pragma mark - ORKlearnMoreStepViewControllerDelegate

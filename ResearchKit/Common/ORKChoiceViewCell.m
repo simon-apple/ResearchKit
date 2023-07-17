@@ -40,7 +40,6 @@
 #import "ORKSkin.h"
 #import "ORKCheckmarkView.h"
 
-
 static const CGFloat CardTopBottomMargin = 2.0;
 static const CGFloat LabelTopBottomMargin = 14.0;
 static const CGFloat LabelTopBottomMarginWithColorSwatch = 18.0;
@@ -621,7 +620,7 @@ static const CGFloat ColorSwatchViewHeightWidth = 40.0;
 @end
 
 
-@implementation ORKChoiceOtherViewCell
+@implementation ORKChoiceOtherViewCell 
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style
               reuseIdentifier:(NSString *)reuseIdentifier {
@@ -648,6 +647,16 @@ static const CGFloat ColorSwatchViewHeightWidth = 40.0;
     _textViewHidden = textViewHidden;
     [self updateTextView];
     [self setupConstraints];
+}
+
+- (void)setupWithText:(NSString *)text
+      placeholderText:(NSString *)placeholderText
+       expansionState:(ORKChoiceViewCellExpansionState)expansionState {
+        self.textView.placeholder = placeholderText;
+        if (self.textView.text.length > 0 && expansionState == ORKChoiceViewCellExpansionStateCollapsed) {
+            self.textView.text = text;
+        }
+        [self hideTextView:((expansionState == ORKChoiceViewCellExpansionStateExpanded) ? false : true)];
 }
 
 - (void)updateTextView {

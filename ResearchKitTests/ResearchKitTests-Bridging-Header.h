@@ -4,7 +4,6 @@
 
 #import "ResearchKit.h"
 #import "ResearchKit_Private.h"
-
 #import "ORKFormStepViewController+TestingSupport.h"
 #import "ORKQuestionStepViewController+TestingSupport.h"
 
