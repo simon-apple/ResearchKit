@@ -168,7 +168,7 @@
                 
                 if (![answerValue isKindOfClass:[NSNumber class]]) {
                     @throw [NSException exceptionWithName:@"No matching choice found"
-                                                   reason:[NSString stringWithFormat:@"Provided choice of type %@ not found in available choices", [answerValue class]]
+                                                   reason:[NSString stringWithFormat:@"Provided choice of type %@ not found in available choices. Answer is %@ and choices are %@", [answerValue class], answer, _choices]
                                                  userInfo:nil];
                 }
                 

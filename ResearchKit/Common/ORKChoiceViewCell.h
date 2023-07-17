@@ -31,10 +31,16 @@
 
 @import UIKit;
 #import <ResearchKit/ORKFormStep.h>
-
 NS_ASSUME_NONNULL_BEGIN
 
 @class ORKAnswerTextView;
+@class ORKTextChoiceOther;
+
+typedef NS_ENUM(NSUInteger, ORKChoiceViewCellExpansionState) {
+    ORKChoiceViewCellExpansionStateNotApplicable,
+    ORKChoiceViewCellExpansionStateExpanded,
+    ORKChoiceViewCellExpansionStateCollapsed,
+};
 
 @interface ORKChoiceViewCell : UITableViewCell
 
@@ -68,6 +74,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly) ORKAnswerTextView *textView;
 
 @property (nonatomic, assign, setter=hideTextView:) BOOL textViewHidden;
+
+- (void)setupWithText:(NSString *)text
+      placeholderText:(NSString *)placeholderText
+       expansionState:(ORKChoiceViewCellExpansionState)expansionState;
 
 @end
 
