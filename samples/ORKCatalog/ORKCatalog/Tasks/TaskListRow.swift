@@ -69,6 +69,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     #endif
     case groupedForm
     case survey
+    case dontknowSurvey
     case surveyWithMultipleOptions
     case platterUIQuestion
     case booleanQuestion
@@ -163,6 +164,7 @@ enum TaskListRow: Int, CustomStringConvertible {
                     .form,
                     .groupedForm,
                     .survey,
+                    .dontknowSurvey,
                     .surveyWithMultipleOptions
                 ]),
             TaskListRowSection(title: "Survey Questions", rows:
@@ -273,6 +275,9 @@ enum TaskListRow: Int, CustomStringConvertible {
 
         case .survey:
             return NSLocalizedString("Simple Survey Example", comment: "")
+            
+        case .dontknowSurvey:
+            return NSLocalizedString("Don't Know Survey", comment: "")
             
         case .platterUIQuestion:
             return NSLocalizedString("Platter UI Question", comment: "")
@@ -516,6 +521,11 @@ enum TaskListRow: Int, CustomStringConvertible {
         case formItem02
         case formItem03
         case formItem04
+        case formItem05
+        case formItem06
+
+        // Task with a form, with multiple don't know button
+        case dontknowSurveyTask
 
         // Survey task specific identifiers.
         case surveyTask
@@ -735,6 +745,9 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .survey:
             return surveyTask
+            
+        case .dontknowSurvey:
+            return dontKnowTask
             
         case .platterUIQuestion:
             return platterQuestionTask
@@ -1016,6 +1029,78 @@ enum TaskListRow: Int, CustomStringConvertible {
             freeTextSection,
             freeTextItem
         ]
+        let completionStep = ORKCompletionStep(identifier: "CompletionStep")
+        completionStep.title = NSLocalizedString("All Done!", comment: "")
+        completionStep.detailText = NSLocalizedString("You have completed the questionnaire.", comment: "")
+        return ORKOrderedTask(identifier: String(describing: Identifier.formTask), steps: [step, completionStep])
+    }
+    
+    private var dontKnowTask: ORKTask {
+        let step = ORKFormStep(identifier: String(describing: Identifier.formStep), title: NSLocalizedString("Form Step", comment: ""), text: exampleDetailText)
+
+        // A first field, for entering an integer.
+        let formItem01Text = NSLocalizedString("What is your Zip Code", comment: "")
+        let answerFormat = ORKAnswerFormat.integerAnswerFormat(withUnit: nil)
+        answerFormat.shouldShowDontKnowButton = true
+        let formItem01 = ORKFormItem(identifier: String(describing: Identifier.formItem01), text: nil, answerFormat: answerFormat)
+        formItem01.placeholder = NSLocalizedString("Add Zip Code", comment: "")
+        
+        let formItem02Text = NSLocalizedString("What is your height", comment: "")
+        let answerFormat02 = ORKAnswerFormat.heightAnswerFormat()
+        answerFormat02.shouldShowDontKnowButton = true
+        let formItem02 = ORKFormItem(identifier: String(describing: Identifier.formItem02), text: nil, answerFormat: answerFormat02)
+        formItem02.placeholder = NSLocalizedString("Add Height", comment: "")
+
+        let formItem03Text = NSLocalizedString("What is your weight", comment: "")
+        let answerFormat03 = ORKAnswerFormat.weightAnswerFormat()
+        answerFormat03.shouldShowDontKnowButton = true
+        let formItem03 = ORKFormItem(identifier: String(describing: Identifier.formItem03), text: nil, answerFormat: answerFormat03)
+        formItem03.placeholder = NSLocalizedString("Add Weight", comment: "")
+        
+        let formItem04Text = NSLocalizedString("What is your Attitude", comment: "")
+        let answerFormat04 = ORKAnswerFormat.textAnswerFormat()
+        answerFormat04.multipleLines = true
+        answerFormat04.shouldShowDontKnowButton = true
+        let formItem04 = ORKFormItem(identifier: String(describing: Identifier.formItem04), text: nil, answerFormat: answerFormat04)
+        formItem04.placeholder = NSLocalizedString("Add your Attitude", comment: "")
+        
+        let formItem05Text = NSLocalizedString("What is your Pain Level", comment: "")
+        let answerFormat05 = ORKAnswerFormat.scale(withMaximumValue: 5, minimumValue: 1, defaultValue: 1, step: 1, vertical: false, maximumValueDescription: "Low", minimumValueDescription: "High")
+        answerFormat05.shouldShowDontKnowButton = true
+        let formItem05 = ORKFormItem(identifier: String(describing: Identifier.formItem05), text: formItem05Text, answerFormat: answerFormat05)
+        formItem05.placeholder = NSLocalizedString("Pain Level", comment: "")
+        
+        let formItem06Text =  NSLocalizedString("SES Level", comment: "")
+        let answerFormat06 = ORKSESAnswerFormat(topRungText: "top", bottomRungText: "bottom")
+        answerFormat06.shouldShowDontKnowButton = true
+        let formItem06 = ORKFormItem(identifier: String(describing: Identifier.formItem06), text: formItem06Text, answerFormat: answerFormat06)
+        formItem06.placeholder = formItem06Text
+        
+        
+        let appleChoices: [ORKTextChoice] = [ORKTextChoice(text: "Granny Smith", value: 1 as NSNumber), ORKTextChoice(text: "Honeycrisp", value: 2 as NSNumber), ORKTextChoice(text: "Fuji", value: 3 as NSNumber), ORKTextChoice(text: "McIntosh", value: 10 as NSNumber), ORKTextChoice(text: "Kanzi", value: 5 as NSNumber)]
+        
+        let appleAnswerFormat = ORKTextChoiceAnswerFormat(style: .singleChoice, textChoices: appleChoices)
+        
+        let appleFormItem = ORKFormItem(identifier: "appleFormItemIdentifier", text: "Which is your favorite apple?", answerFormat: appleAnswerFormat)
+        let appleFormItem2 = ORKFormItem(identifier: "appleFormItemIdentifier2", text: "Which is your least favorite apple?", answerFormat: appleAnswerFormat)
+        let appleFormItem3 = ORKFormItem(identifier: "appleFormItemIdentifier3", text: "Which is your most recent apple?", answerFormat: appleAnswerFormat)
+
+        step.formItems = [
+            ORKFormItem(identifier: formItem01Text, text: formItem01Text, answerFormat: nil),
+            formItem01,
+            ORKFormItem(identifier: formItem02Text, text: formItem02Text, answerFormat: nil),
+            formItem02,
+            ORKFormItem(identifier: formItem03Text, text: formItem03Text, answerFormat: nil),
+            formItem03,
+            ORKFormItem(identifier: formItem04Text, text: formItem04Text, answerFormat: nil),
+            formItem04,
+            formItem05,
+            formItem06,
+            appleFormItem,
+            appleFormItem2,
+            appleFormItem3
+        ]
+        
         let completionStep = ORKCompletionStep(identifier: "CompletionStep")
         completionStep.title = NSLocalizedString("All Done!", comment: "")
         completionStep.detailText = NSLocalizedString("You have completed the questionnaire.", comment: "")
