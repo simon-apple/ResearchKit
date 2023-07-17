@@ -74,7 +74,6 @@ static const CGFloat ViewLeftRightPadding = 16.0;
 - (void)setupSubviews {
     _viewButton = [UIButton new];
     _viewButton.translatesAutoresizingMaskIntoConstraints = NO;
-    _viewButton.backgroundColor = [UIColor whiteColor];
     _viewButton.clipsToBounds = YES;
     _viewButton.layer.cornerRadius = 12.0;
     [_viewButton addTarget:self action:@selector(buttonWasPressed) forControlEvents:UIControlEventTouchUpInside];
@@ -86,7 +85,7 @@ static const CGFloat ViewLeftRightPadding = 16.0;
     _titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
     _titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
     _titleLabel.font = [self titleLabelFont];
-    _titleLabel.textColor = [UIColor systemBlueColor];
+    
     _titleLabel.textAlignment = NSTextAlignmentLeft;
     [_viewButton addSubview:_titleLabel];
     
@@ -99,6 +98,23 @@ static const CGFloat ViewLeftRightPadding = 16.0;
         _iconImageview.tintColor = [UIColor systemBlueColor];
         [_viewButton addSubview:_iconImageview];
     }
+    
+    [self updateViewColors];
+}
+
+- (void)updateViewColors {
+    if (@available(iOS 13.0, *)) {
+        _titleLabel.textColor = self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor whiteColor] : [UIColor systemBlueColor];
+        _viewButton.backgroundColor = self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ?  [UIColor systemGray4Color] : [UIColor whiteColor];
+    } else {
+        _viewButton.backgroundColor = [UIColor whiteColor];
+        _titleLabel.textColor = [UIColor systemBlueColor];
+    }
+}
+
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+    [super traitCollectionDidChange:previousTraitCollection];
+    [self updateViewColors];
 }
 
 - (void)setupConstraints {
