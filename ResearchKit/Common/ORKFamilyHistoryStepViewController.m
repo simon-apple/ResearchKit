@@ -150,9 +150,38 @@ NSString * const ORKFamilyHistoryRelatedPersonCellIdentifier = @"ORKFamilyHistor
         [self setupTableView];
         [self setupHeaderView];
         [self setupFooterViewIfNeeded];
+        [self updateViewColors];
         
         [self setupConstraints];
         [_tableContainer setNeedsLayout];
+    }
+}
+
+- (void)updateViewColors {
+    if (@available(iOS 13.0, *)) {
+        UIColor *updateColor =  self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor systemGray6Color] : [UIColor systemGroupedBackgroundColor];;
+        self.view.backgroundColor = updateColor;
+        self.tableView.backgroundColor = updateColor;
+        [self updateNavBarBackgroundColor: updateColor];
+    }
+}
+
+- (void)updateNavBarBackgroundColor:(UIColor *)color {
+    if (@available(iOS 13.0, *)) {
+        UINavigationBarAppearance *appearance = [UINavigationBarAppearance new];
+        [appearance configureWithOpaqueBackground];
+        appearance.backgroundColor = color;
+        //[LC:NOTE] this is needed to hide the divider line per fXH UI Spec
+        appearance.shadowImage = [UIImage new];
+        appearance.shadowColor = [UIColor clearColor];
+        
+        self.navigationController.navigationBar.scrollEdgeAppearance = appearance;
+        self.navigationController.navigationBar.compactAppearance = appearance;
+        self.navigationController.navigationBar.standardAppearance = appearance;
+        
+        if (@available(iOS 15.0, *)) {
+            self.navigationController.navigationBar.compactScrollEdgeAppearance = appearance;
+        }
     }
 }
 

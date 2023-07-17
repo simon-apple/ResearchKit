@@ -82,7 +82,7 @@ static const CGFloat CellLeftRightPadding = 8.0;
     _titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
     _titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
     _titleLabel.text = _title;
-    _titleLabel.textColor = [UIColor blackColor];
+
     _titleLabel.textAlignment = NSTextAlignmentLeft;
     _titleLabel.font = [self titleLabelFont];
     [self addSubview:_titleLabel];
@@ -93,11 +93,27 @@ static const CGFloat CellLeftRightPadding = 8.0;
         _detailTextLabel.lineBreakMode = NSLineBreakByWordWrapping;
         _detailTextLabel.translatesAutoresizingMaskIntoConstraints = NO;
         _detailTextLabel.text = _detailText;
-        _detailTextLabel.textColor = [UIColor blackColor];
         _detailTextLabel.textAlignment = NSTextAlignmentLeft;
         _detailTextLabel.font = [self detailTextLabelFont];
         [self addSubview:_detailTextLabel];
     }
+    [self updateViewColors];
+}
+
+- (void)updateViewColors {
+    if (@available(iOS 12.0, *)) {
+        _detailTextLabel.textColor = self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor whiteColor] : [UIColor blackColor];
+        _titleLabel.textColor = self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor whiteColor] : [UIColor blackColor];
+
+    } else {
+        _detailTextLabel.textColor = [UIColor blackColor];
+        _titleLabel.textColor = [UIColor blackColor];
+    }
+}
+
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+    [super traitCollectionDidChange:previousTraitCollection];
+    [self updateViewColors];
 }
 
 - (void)setupConstraints {
