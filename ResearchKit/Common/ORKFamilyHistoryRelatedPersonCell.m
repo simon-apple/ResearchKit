@@ -107,12 +107,10 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
 
 - (void)setupSubviews {
     _editButton = [UIButton new];
-    _editButton.backgroundColor = [UIColor clearColor];
     _editButton.translatesAutoresizingMaskIntoConstraints = NO;
     [_editButton addTarget:self action:@selector(editButtonWasPressed) forControlEvents:UIControlEventTouchUpInside];
     
     _editLabel = [UILabel new];
-    _editLabel.textColor = [UIColor blackColor];
     _editLabel.textAlignment = NSTextAlignmentLeft;
     _editLabel.text = ORKLocalizedString(@"FAMILY_HISTORY_EDIT_ENTRY", "");
     _editLabel.translatesAutoresizingMaskIntoConstraints = NO;
@@ -132,21 +130,12 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
     _dividerView = [UIView new];
     _dividerView.translatesAutoresizingMaskIntoConstraints = NO;
     
-    if (@available(iOS 13.0, *)) {
-        _dividerView.backgroundColor = [UIColor separatorColor];
-    } else {
-        _dividerView.backgroundColor = [UIColor lightGrayColor];
-    }
     [self addSubview:_dividerView];
     
-    
     _deleteButton = [UIButton new];
-    _deleteButton.backgroundColor = [UIColor clearColor];
     _deleteButton.translatesAutoresizingMaskIntoConstraints = NO;
     [_deleteButton addTarget:self action:@selector(deleteButtonWasPressed) forControlEvents:UIControlEventTouchUpInside];
-    
     _deleteLabel = [UILabel new];
-    _deleteLabel.textColor = [UIColor redColor];
     _deleteLabel.textAlignment = NSTextAlignmentLeft;
     _deleteLabel.text = ORKLocalizedString(@"FAMILY_HISTORY_DELETE_ENTRY", "");
     _deleteLabel.translatesAutoresizingMaskIntoConstraints = NO;
@@ -155,13 +144,39 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
     if (@available(iOS 13.0, *)) {
         UIImage *deleteImage = [UIImage systemImageNamed:@"trash.fill"];
         _deleteImageView = [[UIImageView alloc] initWithImage:deleteImage];
-        _deleteImageView.backgroundColor = [UIColor clearColor];
-        _deleteImageView.tintColor = [UIColor redColor];
+        _deleteImageView.tintColor =  [UIColor redColor];
+        _deleteImageView.backgroundColor =  [UIColor clearColor];
         _deleteImageView.translatesAutoresizingMaskIntoConstraints = NO;
         [_deleteButton addSubview:_deleteImageView];
     }
     
     [self addSubview:_deleteButton];
+    [self updateViewColors];
+}
+
+- (void)updateViewColors {
+    if (@available(iOS 13.0, *)) {
+        self.backgroundColor = self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor systemGray6Color] : [UIColor whiteColor];
+        self.layer.borderColor = self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor systemGray6Color].CGColor :  UIColor.whiteColor.CGColor;
+
+        _editButton.backgroundColor = self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor clearColor] : [UIColor clearColor];
+        _editLabel.textColor = self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor whiteColor] : [UIColor blackColor];
+        _editImageView.tintColor = self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor whiteColor] : [UIColor blackColor];
+        _dividerView.backgroundColor = self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor systemGray3Color] : [UIColor separatorColor];
+        _deleteLabel.textColor = [UIColor redColor];
+        _deleteImageView.image = self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIImage systemImageNamed:@"trash"] : [UIImage systemImageNamed:@"trash.fill"];
+    } else {
+        _editButton.backgroundColor = [UIColor clearColor];
+        _editLabel.textColor = [UIColor blackColor];
+        _dividerView.backgroundColor = [UIColor lightGrayColor];
+        _deleteImageView.tintColor = [UIColor redColor];
+        _deleteButton.backgroundColor = [UIColor clearColor];
+    }
+}
+
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+    [super traitCollectionDidChange:previousTraitCollection];
+    [self updateViewColors];
 }
 
 - (void)setupConstraints {
@@ -275,7 +290,6 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
     _backgroundView.clipsToBounds = YES;
     _backgroundView.layer.cornerRadius = 12.0;
     _backgroundView.translatesAutoresizingMaskIntoConstraints = NO;
-    _backgroundView.backgroundColor = [UIColor whiteColor];
     [self.contentView addSubview:_backgroundView];
     
     _titleLabel = [UILabel new];
@@ -283,7 +297,6 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
     _titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
     _titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
     _titleLabel.font = [self titleLabelFont];
-    _titleLabel.textColor = [UIColor blackColor];
     _titleLabel.textAlignment = NSTextAlignmentLeft;
     [_backgroundView addSubview:_titleLabel];
     
@@ -314,10 +327,44 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
     _conditionsLabel.numberOfLines = 0;
     _conditionsLabel.translatesAutoresizingMaskIntoConstraints = NO;
     _conditionsLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    _conditionsLabel.font = [self conditionsLabelFont];
-    _conditionsLabel.textColor = [UIColor blackColor];
+    _conditionsLabel.font = [self conditionsTitleLabelFont];
     _conditionsLabel.textAlignment = NSTextAlignmentLeft;
     [_backgroundView addSubview:_conditionsLabel];
+    
+    [self updateViewColors];
+}
+
+- (void)updateViewColors {
+    if (@available(iOS 13.0, *)) {
+        _backgroundView.backgroundColor = self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor systemGray4Color] : [UIColor whiteColor];
+        _dividerView.backgroundColor = self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor systemGray6Color] : [UIColor separatorColor];
+        _titleLabel.textColor = self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor whiteColor] : [UIColor blackColor];
+        _conditionsLabel.textColor = self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor whiteColor] : [UIColor blackColor];
+        _optionsButton.tintColor = self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ?  [UIColor whiteColor] :  [UIColor systemGrayColor];;
+
+        [self updateViewLabelsTextColor:self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor whiteColor] : [UIColor systemGrayColor]];
+    } else {
+        _backgroundView.backgroundColor = [UIColor whiteColor];
+        _dividerView.backgroundColor = [UIColor lightGrayColor];
+        _titleLabel.textColor = [UIColor blackColor];
+        _conditionsLabel.textColor = [UIColor blackColor];
+        _optionsButton.tintColor = [UIColor systemGrayColor];
+        [self updateViewLabelsTextColor:[UIColor systemGrayColor]];
+    }
+}
+
+- (void)updateViewLabelsTextColor:(UIColor *)color {
+    for (UILabel* detailLabel in _detailListLabels) {
+        detailLabel.textColor = color;
+    }
+    for (UILabel* conditionLabel in _conditionListLabels) {
+        conditionLabel.textColor = color;
+    }
+}
+
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+    [super traitCollectionDidChange:previousTraitCollection];
+    [self updateViewColors];
 }
 
 - (void)setupConstraints {
@@ -412,7 +459,11 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
         label.translatesAutoresizingMaskIntoConstraints = NO;
         label.lineBreakMode = NSLineBreakByWordWrapping;
         label.font = [self conditionsLabelFont];
-        label.textColor = [UIColor lightGrayColor];
+        if (@available(iOS 13.0, *)) {
+            label.textColor = self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor whiteColor] : [UIColor lightGrayColor];
+        } else {
+            label.textColor = [UIColor lightGrayColor];
+        }
         label.textAlignment = NSTextAlignmentLeft;
         
         [labels addObject:label];
@@ -448,7 +499,12 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
             label.translatesAutoresizingMaskIntoConstraints = NO;
             label.lineBreakMode = NSLineBreakByWordWrapping;
             label.font = [self conditionsLabelFont];
-            label.textColor = [UIColor lightGrayColor];
+            if (@available(iOS 13.0, *)) {
+                label.textColor = self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor whiteColor] : [UIColor lightGrayColor];
+            } else {
+                label.textColor = [UIColor lightGrayColor];
+            }
+            
             label.textAlignment = NSTextAlignmentLeft;
             
             [labels addObject:label];
@@ -524,6 +580,12 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
 }
 
 - (UIFont *)titleLabelFont {
+    UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleSubheadline];
+    UIFontDescriptor *fontDescriptor = [descriptor fontDescriptorWithSymbolicTraits:(UIFontDescriptorTraitBold)];
+    return [UIFont fontWithDescriptor:fontDescriptor size:[[fontDescriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]];
+}
+
+- (UIFont *)conditionsTitleLabelFont {
     UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleSubheadline];
     UIFontDescriptor *fontDescriptor = [descriptor fontDescriptorWithSymbolicTraits:(UIFontDescriptorTraitBold)];
     return [UIFont fontWithDescriptor:fontDescriptor size:[[fontDescriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]];
