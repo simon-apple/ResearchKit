@@ -58,4 +58,13 @@ returns a list of all the answerable formItems
 
 - (void)buildDataSource:(UITableViewDiffableDataSource<NSString *, ORKTableCellItemIdentifier *> *)dataSource;
 
+/**
+ fetches the associated ORKFormItem from an indexPath which calls  _formItemForFormItemIdentifier (potential performance hit)
+ */
+- (nullable ORKFormItem *)_formItemForIndexPath:(_Nonnull NSIndexPath *)indexPath;
+
+/**
+ fetches the associated ORKFormItem from a formItemIdentifier (potential performance hit)
+ */
+- (nullable ORKFormItem *)_formItemForFormItemIdentifier:(NSString *)formItemIdentifier;
 @end
