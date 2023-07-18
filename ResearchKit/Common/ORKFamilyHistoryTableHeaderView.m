@@ -32,7 +32,7 @@
 
 static const CGFloat HeaderViewLabelTopBottomPadding = 6.0;
 static const CGFloat HeaderViewLeftRightLabelPadding = 12.0;
-static const CGFloat HeaderViewBottomPadding = 12.0;
+static const CGFloat HeaderViewBottomPadding = 0.0;
 static const CGFloat CellLeftRightPadding = 8.0;
 
 @implementation ORKFamilyHistoryTableHeaderView {
