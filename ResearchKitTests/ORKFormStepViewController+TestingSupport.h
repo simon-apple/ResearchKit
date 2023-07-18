@@ -61,7 +61,7 @@ returns a list of all the answerable formItems
 /**
  fetches the associated ORKFormItem from an indexPath which calls  _formItemForFormItemIdentifier (potential performance hit)
  */
-- (nullable ORKFormItem *)_formItemForIndexPath:(_Nonnull NSIndexPath *)indexPath;
+- (nullable ORKFormItem *)_formItemForIndexPath:(NSIndexPath *)indexPath;
 
 /**
  fetches the associated ORKFormItem from a formItemIdentifier (potential performance hit)
