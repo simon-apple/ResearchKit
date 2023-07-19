@@ -32,7 +32,6 @@
 #import "ORKFamilyHistoryStepViewController_Private.h"
 
 #import "ORKConditionStepConfiguration.h"
-#import "ORKCompletionStep.h"
 #import "ORKFamilyHistoryResult.h"
 #import "ORKFamilyHistoryStep.h"
 #import "ORKFormStep.h"
@@ -65,7 +64,6 @@
 #import "ORKSkin.h"
 #import "ORKHelpers_Internal.h"
 
-NSString * const RelatedPersonCompletionStepIdentifier = @"RelatedPersonCompletionStepIdentifier";
 NSString * const ORKFamilyHistoryRelatedPersonCellIdentifier = @"ORKFamilyHistoryRelatedPersonCellIdentifier";
 
 @interface ORKFamilyHistoryStepViewController () <ORKTableContainerViewDelegate, ORKTaskViewControllerDelegate, ORKFamilyHistoryTableFooterViewDelegate, ORKFamilyHistoryRelatedPersonCellDelegate>
@@ -295,11 +293,6 @@ NSString * const ORKFamilyHistoryRelatedPersonCellIdentifier = @"ORKFamilyHistor
         conditionFormStep.formItems = [formItems copy];
         
         [steps addObject:conditionFormStep];
-        
-        ORKCompletionStep *completionStep = [[ORKCompletionStep alloc] initWithIdentifier:RelatedPersonCompletionStepIdentifier];
-        completionStep.title = ORKLocalizedString(@"FAMILY_HISTORY_COMPLETION_STEP_TITLE", "");
-        
-        [steps addObject:completionStep];
         
         ORKNavigableOrderedTask *orderedTask = [[ORKNavigableOrderedTask alloc] initWithIdentifier:relativeGroup.identifier steps:steps];
         [relativeGroupOrderedTasks addObject:orderedTask];
