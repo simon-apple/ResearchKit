@@ -417,6 +417,23 @@ final class ORKFormStepViewControllerConditionalFormItemsTests: XCTestCase {
         
     }
     
+    func testFormItemForIndexPathSearchPerformance() throws {
+        let mainTask = ORKOrderedTask(identifier: "mainTaskIdentifier", steps: [
+            FormStepTestUtilities.longFormStep()
+        ])
+        let mainTaskVC = ORKTaskViewController(task: mainTask, taskRun: nil)
+        
+        // go to the first step so we can simulate a user responding
+        mainTaskVC.flipToPage(withIdentifier: mainTask.steps[0].identifier, forward: true, animated: false)
+        let formStepViewController = mainTaskVC.currentStepViewController as! ORKFormStepViewController
+        
+        self.measure { 
+            for i in 0...50 {
+                formStepViewController._formItem(for: IndexPath(row: 0, section: i))
+            }
+        }
+    }
+    
     // MARK: Utilities -
     
     func checkResult(questionId: String, answer: NSCopying & NSSecureCoding & NSObjectProtocol, formStep: ORKFormStep, formItem: ORKFormItem) {
@@ -504,6 +521,17 @@ fileprivate struct FormStepTestUtilities {
             ORKFormItem(identifier: "item2", text: "text", answerFormat: ORKTextAnswerFormat()),
             ORKFormItem(identifier: "item3", text: "more text", answerFormat: ORKTextAnswerFormat())
         ])
+        return step
+    }
+    
+    // formStep with 50 formItems
+    static func longFormStep() -> ORKFormStep {
+        let formItems: [ORKFormItem] = [1...50]
+            .flatMap({ $0 })
+            .compactMap({ index in
+                ORKFormItem(identifier: "Item \(index)", text: "Option \(index)", answerFormat: ORKTextAnswerFormat())
+            })
+        let step = ORKFormStep(identifier: SelfConditionalFormStepIdentifier, formItems: formItems)
         return step
     }
     
