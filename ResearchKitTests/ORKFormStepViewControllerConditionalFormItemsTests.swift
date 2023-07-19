@@ -427,7 +427,7 @@ final class ORKFormStepViewControllerConditionalFormItemsTests: XCTestCase {
         mainTaskVC.flipToPage(withIdentifier: mainTask.steps[0].identifier, forward: true, animated: false)
         let formStepViewController = mainTaskVC.currentStepViewController as! ORKFormStepViewController
         
-        self.measure {
+        self.measure { 
             for i in 0...50 {
                 formStepViewController._formItem(for: IndexPath(row: 0, section: i))
             }
