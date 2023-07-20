@@ -2129,7 +2129,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         parentTextEntryAnswerFormat.multipleLines = false
         
         let parentNameFormItem = ORKFormItem(identifier: "ParentNameIdentifier", text: "enter optional name", answerFormat: parentTextEntryAnswerFormat)
-        parentNameFormItem.isOptional = false
+        parentNameFormItem.isOptional = true
         
         let sexAtBirthOptions = [
             ORKTextChoice(text: "Female", value: "Female" as NSString),
