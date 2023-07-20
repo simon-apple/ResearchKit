@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, Sage Bionetworks
+ Copyright (c) 2023, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,13 +28,14 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
 
-@interface UIImage (ResearchKit)
+@interface UIImageView (ResearchKit)
 
-- (UIImage *)ork_flippedImage:(UIImageOrientation)orientation;
-- (UIImage *)ork_imageWithRenderingModeForUserInterfaceStyle:(UIUserInterfaceStyle)userInterfaceStyle API_AVAILABLE(ios(12.0));
+- (void)updateRenderingModeForUserInterfaceStyle:(UIUserInterfaceStyle)userInterfaceStyle API_AVAILABLE(ios(12.0));
 
 @end
+
+NS_ASSUME_NONNULL_END
