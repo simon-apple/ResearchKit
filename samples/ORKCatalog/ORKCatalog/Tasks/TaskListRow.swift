@@ -1038,10 +1038,8 @@ enum TaskListRow: Int, CustomStringConvertible {
             ORKImageChoice(normalImage: squareShapeImage, selectedImage: nil, text: squareShapeText, value: squareShapeText as NSString)
         ]
         
-        let imageChoiceItemSection = ORKFormItem(identifier: String(describing: Identifier.imageChoiceItemSection), text: "Enter your favorite shape", answerFormat: nil)
-
         let imageChoiceAnswerFormat = ORKAnswerFormat.choiceAnswerFormat(with: imageChoices)
-        let imageChoiceItem = ORKFormItem(identifier: String(describing: Identifier.imageChoiceItem), text: nil, answerFormat: imageChoiceAnswerFormat)
+        let imageChoiceItem = ORKFormItem(identifier: String(describing: Identifier.imageChoiceItem), text: "Enter your favorite shape", answerFormat: imageChoiceAnswerFormat)
         
         let freeTextSection = ORKFormItem(identifier: String(describing: Identifier.freeTextSectionIdentifier), text: "Enter your text below", answerFormat: nil)
         
@@ -1057,7 +1055,6 @@ enum TaskListRow: Int, CustomStringConvertible {
             formItem01,
             formItem02,
             textChoiceFormItem,
-            imageChoiceItemSection,
             imageChoiceItem,
             freeTextSection,
             freeTextItem
