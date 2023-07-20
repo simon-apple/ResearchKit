@@ -112,6 +112,29 @@ constant##name = (__bridge type)(*(void**)constant);
 constant##name = (type)(*(void**)constant);
 #endif
 
+// It is the same as ORK_SOFT_LINK_CONSTANT but will return nil if the constant is not available
+#if defined(__OBJC__) && __has_feature(objc_arc)
+#define ORK_SOFT_LINK_NSSTRING_CONSTANT(framework, name) \
+static NSString * init##name(void); \
+static NSString * (*get##name)(void) = init##name; \
+static NSString * constant##name; \
+\
+static NSString * name##Function(void) \
+{ \
+return constant##name; \
+} \
+\
+static NSString * init##name(void) \
+{ \
+void* constant = dlsym(framework##Library(), #name); \
+if (!constant) \
+    return nil; \
+ORK_SOFT_LINK_CONVERT(name, NSString *) \
+get##name = name##Function; \
+return constant##name; \
+}
+#endif
+
 #define ORK_SOFT_LINK_CONSTANT(framework, name, type) \
 static type init##name(void); \
 static type (*get##name)(void) = init##name; \
