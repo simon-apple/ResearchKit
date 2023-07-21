@@ -1252,6 +1252,27 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
 
     [_textView removeFromSuperview];
     _textView = nil;
+
+    [_textCountLabel removeFromSuperview];
+    _textCountLabel = nil;
+
+    [_maxLengthView removeFromSuperview];
+    _maxLengthView = nil;
+
+    [_dontKnowBackgroundView removeFromSuperview];
+    _dontKnowBackgroundView = nil;
+
+    [_dividerView removeFromSuperview];
+    _dividerView = nil;
+
+    [_textCountLabel removeFromSuperview];
+    _textCountLabel = nil;
+
+    [_clearTextViewButton removeFromSuperview];
+    _clearTextViewButton = nil;
+
+    [_dontKnowButton removeFromSuperview];
+    _dontKnowButton = nil;
 }
 
 - (void)setUpConstraints {
