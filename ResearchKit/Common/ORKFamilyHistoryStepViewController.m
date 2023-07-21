@@ -51,6 +51,8 @@
 #import "ORKFamilyHistoryTableFooterView.h"
 #import "ORKReviewIncompleteCell.h"
 
+#import "ORKLearnMoreStepViewController.h"
+
 #import "ORKNavigationContainerView_Internal.h"
 #import "ORKStepViewController_Internal.h"
 #import "ORKTaskViewController_Internal.h"
@@ -552,6 +554,11 @@ NSString * const ORKFamilyHistoryRelatedPersonCellIdentifier = @"ORKFamilyHistor
                 break;
         }
     }];
+}
+
+- (void)taskViewController:(ORKTaskViewController *)taskViewController learnMoreButtonPressedWithStep:(ORKLearnMoreInstructionStep *)learnMoreStep forStepViewController:(ORKStepViewController *)stepViewController {
+    ORKLearnMoreStepViewController *learnMoreStepViewController = [[ORKLearnMoreStepViewController alloc] initWithStep:learnMoreStep result:nil];
+    [stepViewController presentViewController:[[UINavigationController alloc] initWithRootViewController:learnMoreStepViewController] animated:YES completion:nil];
 }
 
 #pragma mark ORKFamilyHistoryRelatedPersonCellDelegate

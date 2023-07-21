@@ -2119,8 +2119,12 @@ enum TaskListRow: Int, CustomStringConvertible {
         let conditionStepConfiguration = ORKConditionStepConfiguration(stepIdentifier: "FamilyHistoryConditionStepIdentifier", conditionsFormItemIdentifier: "HealthConditionsFormItemIdentifier", conditions: healthConditions, formItems: [])
         
         // create formItems and formStep for parent relative group
+        let learnMoreInstructionStep01 = ORKLearnMoreInstructionStep(identifier: "LearnMoreInstructionStep01")
+        learnMoreInstructionStep01.title = NSLocalizedString("Learn more title", comment: "")
+        learnMoreInstructionStep01.text = NSLocalizedString("Learn more text", comment: "")
+        let learnMoreItem01 = ORKLearnMoreItem(text: nil, learnMoreInstructionStep: learnMoreInstructionStep01)
         
-        let relativeNameSectionHeaderFormItem = ORKFormItem(identifier: "RelativeNameSectionHeaderIdentifer", text:"Name or Nickname", answerFormat: nil)
+        let relativeNameSectionHeaderFormItem = ORKFormItem(sectionTitle: "Name or Nickname", detailText: nil, learnMoreItem: learnMoreItem01, showsProgress: true)
         
         let parentTextEntryAnswerFormat = ORKAnswerFormat.textAnswerFormat()
         parentTextEntryAnswerFormat.multipleLines = false
