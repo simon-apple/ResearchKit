@@ -404,6 +404,7 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKUpdateConstraintSequence) {
     }
     _titleLabel.numberOfLines = 0;
     _titleLabel.textAlignment = _stepHeaderTextAlignment;
+    _titleLabel.accessibilityIdentifier = @"ORKStepContentView_titleLabel";
     [self addSubview:_titleLabel];
     [self setupTitleLabelConstraints];
     [self setContainerLeftRightConstraints];
@@ -482,6 +483,7 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKUpdateConstraintSequence) {
     _textLabel.textAlignment = _stepHeaderTextAlignment;
     _textLabel.numberOfLines = 0;
     _textLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    _textLabel.accessibilityIdentifier = @"ORKStepContentView_textLabel";
     [self addSubview:_textLabel];
     [self setupTextLabelConstraints];
     [self setContainerLeftRightConstraints];
@@ -578,6 +580,7 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKUpdateConstraintSequence) {
     _detailTextLabel.textAlignment = _stepHeaderTextAlignment;
     _detailTextLabel.numberOfLines = 0;
     _detailTextLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    _detailTextLabel.accessibilityIdentifier = @"ORKStepContentView_detailTextLabel";
     [self addSubview:_detailTextLabel];
     [self setupDetailTextLabelConstraints];
     [self setContainerLeftRightConstraints];

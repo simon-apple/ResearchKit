@@ -134,6 +134,7 @@ static const CGFloat detailTextBottomSpacing = 16.0;
     [_skipButton setTitle:nil forState:UIControlStateNormal];
     [_skipButton addTarget:self action:@selector(skipButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     _skipButton.translatesAutoresizingMaskIntoConstraints = NO;
+    _skipButton.accessibilityIdentifier = @"ORKNavigationContainerView_skipButton";
     [self addSubview:_skipButton];
 }
 

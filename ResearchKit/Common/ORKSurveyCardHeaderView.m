@@ -169,6 +169,7 @@ static const CGFloat SelectAllThatApplyBottomPadding = 6.0;
     }
     _titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
     _titleLabel.textAlignment = NSTextAlignmentNatural;
+    _titleLabel.accessibilityIdentifier = @"ORKSurveyCardHeaderView_titleLabel";
     [_titleLabel setFont:[self titleLabelFont]];
 }
 
