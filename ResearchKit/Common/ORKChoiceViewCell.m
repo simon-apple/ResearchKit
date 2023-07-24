@@ -47,6 +47,7 @@ static const CGFloat TextViewTopMargin = 20.0;
 static const CGFloat TextViewHeight = 100.0;
 static const CGFloat LabelCheckViewPadding = 10.0;
 static const CGFloat ColorSwatchViewHeightWidth = 40.0;
+static const CGFloat ColorSwatchViewTopBottomPadding = 12.0;
 
 @interface ORKChoiceViewCell() <CAAnimationDelegate>
 
@@ -272,6 +273,14 @@ static const CGFloat ColorSwatchViewHeightWidth = 40.0;
         [_containerConstraints addObject:[_colorSwatchView.centerYAnchor constraintEqualToAnchor:_containerView.centerYAnchor]];
         [_containerConstraints addObject:[_colorSwatchView.heightAnchor constraintEqualToConstant:ColorSwatchViewHeightWidth]];
         
+        [_containerConstraints addObject:[NSLayoutConstraint constraintWithItem:_colorSwatchView
+                                                                      attribute:NSLayoutAttributeTop
+                                                                      relatedBy:NSLayoutRelationEqual
+                                                                         toItem:_containerView
+                                                                      attribute:NSLayoutAttributeTop
+                                                                     multiplier:1.0
+                                                                       constant:ColorSwatchViewTopBottomPadding]];
+        
         if (!_primaryLabel && !_detailLabel) {
             [_containerConstraints addObject:[_colorSwatchView.topAnchor constraintEqualToAnchor:_containerView.topAnchor constant:LabelTopBottomMargin]];
             [_containerConstraints addObject:[_colorSwatchView.trailingAnchor constraintEqualToAnchor:_checkView.leadingAnchor constant:-LabelCheckViewPadding]];
@@ -284,16 +293,25 @@ static const CGFloat ColorSwatchViewHeightWidth = 40.0;
 - (void)addPrimaryLabelToContainerViewConstraints {
     if (_primaryLabel) {
         
-        CGFloat topMargin = _colorSwatchView ? LabelTopBottomMarginWithColorSwatch : LabelTopBottomMargin;
+        if (_colorSwatchView) {
+            [_containerConstraints addObject:[NSLayoutConstraint constraintWithItem:_primaryLabel
+                                                                          attribute:NSLayoutAttributeCenterY
+                                                                          relatedBy:NSLayoutRelationEqual
+                                                                             toItem:_containerView
+                                                                          attribute:NSLayoutAttributeCenterY
+                                                                         multiplier:1.0
+                                                                           constant:0.0]];
+        } else {
+            [_containerConstraints addObject:[NSLayoutConstraint constraintWithItem:_primaryLabel
+                                                                          attribute:NSLayoutAttributeTop
+                                                                          relatedBy:NSLayoutRelationEqual
+                                                                             toItem:_containerView
+                                                                          attribute:NSLayoutAttributeTop
+                                                                         multiplier:1.0
+                                                                           constant:LabelTopBottomMargin]];
+        }
         
         [_containerConstraints addObjectsFromArray:@[
-            [NSLayoutConstraint constraintWithItem:_primaryLabel
-                                         attribute:NSLayoutAttributeTop
-                                         relatedBy:NSLayoutRelationEqual
-                                            toItem:_containerView
-                                         attribute:NSLayoutAttributeTop
-                                        multiplier:1.0
-                                          constant:topMargin],
             [NSLayoutConstraint constraintWithItem:_primaryLabel
                                          attribute:NSLayoutAttributeTrailing
                                          relatedBy:NSLayoutRelationEqual
@@ -346,10 +364,15 @@ static const CGFloat ColorSwatchViewHeightWidth = 40.0;
     // only use extra margin if the primary or detail label have been initialized
     CGFloat bottomMargin = (_colorSwatchView && bottomMostView) ? LabelTopBottomMarginWithColorSwatch : LabelTopBottomMargin;
     
+    if (_colorSwatchView) {
+        bottomMostView = _colorSwatchView;
+        bottomMargin = ColorSwatchViewTopBottomPadding;
+    }
+    
     [_containerConstraints addObject:[NSLayoutConstraint constraintWithItem:_containerView
                                                                   attribute:NSLayoutAttributeBottom
                                                                   relatedBy:NSLayoutRelationEqual
-                                                                     toItem:bottomMostView ?: _colorSwatchView
+                                                                     toItem:bottomMostView
                                                                   attribute:NSLayoutAttributeBottom
                                                                  multiplier:1.0
                                                                    constant:bottomMargin]];
