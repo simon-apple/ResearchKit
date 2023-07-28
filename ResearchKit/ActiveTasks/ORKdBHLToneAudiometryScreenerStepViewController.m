@@ -140,8 +140,8 @@
              object:nil];
         
         [[NSNotificationCenter defaultCenter] addObserver:self
-             selector:@selector(bluetoothChanged:)
-             name:ORKdBHLBluetoothChangedNotification
+             selector:@selector(headphonesStatusChanged:)
+             name:ORKdBHLHeadphonesInEarsNotification
              object:nil];
         
         _counter = 0;
@@ -329,8 +329,8 @@
     toneResult.endDate = now;
     toneResult.samples = [_audiometry resultSamples];
     toneResult.caseSerial = self.taskViewController.caseSerial.length > 1 ? self.taskViewController.caseSerial : @"";
-    toneResult.leftSerial = self.taskViewController.leftBudSerial.length > 1 ? self.taskViewController.leftBudSerial : @"";
-    toneResult.rightSerial = self.taskViewController.rightBudSerial.length > 1 ? self.taskViewController.rightBudSerial : @"";
+    toneResult.leftSerial = self.taskViewController.leftHeadphoneSerial.length > 1 ? self.taskViewController.leftHeadphoneSerial : @"";
+    toneResult.rightSerial = self.taskViewController.rightHeadphoneSerial.length > 1 ? self.taskViewController.rightHeadphoneSerial : @"";
     toneResult.fwVersion = self.taskViewController.fwVersion.length > 1 ? self.taskViewController.fwVersion : @"";
     
     if (@available(iOS 14.0, *)) {
@@ -463,17 +463,14 @@
     return [[self dBHLToneAudiometryStep].headphoneType uppercaseString];
 }
 
-- (void)bluetoothChanged: (NSNotification *)note {
-    // check if budsInEars
+- (void)headphonesStatusChanged: (NSNotification *)note {
     ORKTaskViewController *taskVC = self.taskViewController;
-    if (!taskVC.budsInEars) {
+    if (!taskVC.headphonesInEars) {
         [self showAlertWithTitle:@"Hearing Test" andMessage:@"We need the headphones in ears. This test will finish and the results will be saved."];
     } else if (taskVC.callActive) {
         [self showAlertWithTitle:@"Hearing Test" andMessage:@"You have an icomming call. This test will finish and the results will be saved."];
-    } else if (taskVC.ancStatus != ORKdBHLHeadphonesANCStatusEnabled) {
-        [self showAlertWithTitle:@"Hearing Test" andMessage:@"ANC mode must be turned ON. This test will finish and the results will be saved."];
-    } else if (![taskVC.fwVersion isEqualToString:CHAND_FFANC_FWVERSION]) {
-        [self showAlertWithTitle:@"Hearing Test" andMessage:@"Wrong firmware version. This test will finish and the results will be saved."];
+    } else if (taskVC.hearingModeStatus != ORKdBHLHeadphonesStatusHearingTestEnabled) {
+        [self showAlertWithTitle:@"Hearing Test" andMessage:@"Hearing Mode mode must be turned ON. This test will finish and the results will be saved."];
     }
 }
 

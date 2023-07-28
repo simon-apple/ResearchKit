@@ -81,6 +81,7 @@
 #import <ResearchKit/ORKdBHLToneAudiometryStep.h>
 #import <ResearchKit/ORKdBHLToneAudiometryScreenerStep.h>
 #import <ResearchKit/ORKdBHLToneAudiometryOnboardingStep.h>
+#import <ResearchKit/ORKdBHLHoldInstructionStep.h>
 #import <ResearchKit/ORKTowerOfHanoiStep.h>
 #import <ResearchKit/ORKTrailmakingStep.h>
 #import <ResearchKit/ORKWalkingTaskStep.h>

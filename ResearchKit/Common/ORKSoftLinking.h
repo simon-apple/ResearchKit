@@ -125,6 +125,8 @@ return constant##name; \
 static type init##name(void) \
 { \
 void* constant = dlsym(framework##Library(), #name); \
+if (!constant) \
+  return nil; \
 ORK_SOFT_LINK_CONVERT(name, type) \
 get##name = name##Function; \
 return constant##name; \

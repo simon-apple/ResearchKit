@@ -33,9 +33,11 @@
 #import "ORKHelpers_Internal.h"
 #import "ORKStep_Private.h"
 
-#define ORKdBHLFitTestSealThreshold 0.0
+#define ORKdBHLFitTestSealThreshold 6.0
 #define ORKdBHLFitTestConfidenceThreshold -3.0
 #define ORKdBHLFitTestDefaultNumberOfTries 4.0
+#define ORKdBHLFitTestDefaultMinimumNumberOfTries 3.0
+#define ORKdBHLFitTestDefaultMaximumNumberOfTries 5.0
 
 @implementation ORKdBHLFitTestStep
 
@@ -55,6 +57,8 @@
     self.sealThreshold = ORKdBHLFitTestSealThreshold;
     self.confidenceThreshold = ORKdBHLFitTestConfidenceThreshold;
     self.numberOfTries = ORKdBHLFitTestDefaultNumberOfTries;
+    self.minimumNumberOfTries = ORKdBHLFitTestDefaultMinimumNumberOfTries;
+    self.maximumNumberOfTries = ORKdBHLFitTestDefaultMaximumNumberOfTries;
 }
 
 - (BOOL)startsFinished {
@@ -66,6 +70,8 @@
     step.sealThreshold = self.sealThreshold;
     step.confidenceThreshold = self.confidenceThreshold;
     step.numberOfTries = self.numberOfTries;
+    step.minimumNumberOfTries = self.minimumNumberOfTries;
+    step.maximumNumberOfTries = self.maximumNumberOfTries;
 
     return step;
 }
@@ -76,6 +82,8 @@
         ORK_DECODE_DOUBLE(aDecoder, sealThreshold);
         ORK_DECODE_DOUBLE(aDecoder, confidenceThreshold);
         ORK_DECODE_INTEGER(aDecoder, numberOfTries);
+        ORK_DECODE_INTEGER(aDecoder, minimumNumberOfTries);
+        ORK_DECODE_INTEGER(aDecoder, maximumNumberOfTries);
     }
     return self;
 }
@@ -85,6 +93,8 @@
     ORK_ENCODE_DOUBLE(aCoder, sealThreshold);
     ORK_ENCODE_DOUBLE(aCoder, confidenceThreshold);
     ORK_ENCODE_INTEGER(aCoder, numberOfTries);
+    ORK_ENCODE_INTEGER(aCoder, minimumNumberOfTries);
+    ORK_ENCODE_INTEGER(aCoder, maximumNumberOfTries);
 }
 
 - (BOOL)isEqual:(id)object {
@@ -95,6 +105,8 @@
             && (self.confidenceThreshold == castObject.confidenceThreshold)
             && (self.sealThreshold == castObject.sealThreshold)
             && (self.numberOfTries == castObject.numberOfTries)
+            && (self.minimumNumberOfTries == castObject.minimumNumberOfTries)
+            && (self.maximumNumberOfTries == castObject.maximumNumberOfTries)
             );
 }
 

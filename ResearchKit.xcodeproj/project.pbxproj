@@ -442,6 +442,13 @@
 		627AB9D5299B9A5A00C38D5A /* ORKdBHLToneAudiometryTransitions.m in Sources */ = {isa = PBXBuildFile; fileRef = 627AB9D3299B9A5900C38D5A /* ORKdBHLToneAudiometryTransitions.m */; };
 		628D128928D4E4B300B92381 /* dbAmplitudePerFrequency_AIRPODSPROV2.plist in Resources */ = {isa = PBXBuildFile; fileRef = 628D128828D4E4B300B92381 /* dbAmplitudePerFrequency_AIRPODSPROV2.plist */; };
 		628D128B28D4E4CC00B92381 /* dbSPLAmplitudePerFrequency_AIRPODSPROV2.plist in Resources */ = {isa = PBXBuildFile; fileRef = 628D128A28D4E4CC00B92381 /* dbSPLAmplitudePerFrequency_AIRPODSPROV2.plist */; };
+		62DB60F92A70031400F270DF /* ORKdBHLHoldInstructionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 62DB60F72A70031400F270DF /* ORKdBHLHoldInstructionStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		62DB60FA2A70031400F270DF /* ORKdBHLHoldInstructionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 62DB60F82A70031400F270DF /* ORKdBHLHoldInstructionStep.m */; };
+		62DB60FD2A70074500F270DF /* ORKdBHLHoldInstructionStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 62DB60FB2A70074500F270DF /* ORKdBHLHoldInstructionStepViewController.h */; };
+		62DB60FE2A70074500F270DF /* ORKdBHLHoldInstructionStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 62DB60FC2A70074500F270DF /* ORKdBHLHoldInstructionStepViewController.m */; };
+		62DD0C102A702BFA00BFB420 /* UIResponder_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 62DD0C0F2A702BFA00BFB420 /* UIResponder_Private.h */; };
+		62DD0C112A702C0500BFB420 /* UIWindowScene_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 62DD0C0C2A702A8E00BFB420 /* UIWindowScene_Private.h */; };
+		62DD0C122A702C0800BFB420 /* UIKit_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 62DD0C0E2A702B2100BFB420 /* UIKit_Private.h */; };
 		62DF9F4528CA87D300D13018 /* retspl_AIRPODSPROV2.plist in Resources */ = {isa = PBXBuildFile; fileRef = 62DF9F4428CA87D300D13018 /* retspl_AIRPODSPROV2.plist */; };
 		62DF9F4728CA87DE00D13018 /* frequency_dBSPL_AIRPODSPROV2.plist in Resources */ = {isa = PBXBuildFile; fileRef = 62DF9F4628CA87DE00D13018 /* frequency_dBSPL_AIRPODSPROV2.plist */; };
 		62DF9F4928CA87E800D13018 /* volume_curve_AIRPODSPROV2.plist in Resources */ = {isa = PBXBuildFile; fileRef = 62DF9F4828CA87E800D13018 /* volume_curve_AIRPODSPROV2.plist */; };
@@ -1602,6 +1609,14 @@
 		627AB9D3299B9A5900C38D5A /* ORKdBHLToneAudiometryTransitions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKdBHLToneAudiometryTransitions.m; sourceTree = "<group>"; };
 		628D128828D4E4B300B92381 /* dbAmplitudePerFrequency_AIRPODSPROV2.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = dbAmplitudePerFrequency_AIRPODSPROV2.plist; sourceTree = "<group>"; };
 		628D128A28D4E4CC00B92381 /* dbSPLAmplitudePerFrequency_AIRPODSPROV2.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = dbSPLAmplitudePerFrequency_AIRPODSPROV2.plist; sourceTree = "<group>"; };
+		62DB60F72A70031400F270DF /* ORKdBHLHoldInstructionStep.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ORKdBHLHoldInstructionStep.h; path = ORKdBHLToneAudiometry/ORKdBHLHoldInstructionStep.h; sourceTree = "<group>"; };
+		62DB60F82A70031400F270DF /* ORKdBHLHoldInstructionStep.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ORKdBHLHoldInstructionStep.m; path = ORKdBHLToneAudiometry/ORKdBHLHoldInstructionStep.m; sourceTree = "<group>"; };
+		62DB60FB2A70074500F270DF /* ORKdBHLHoldInstructionStepViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKdBHLHoldInstructionStepViewController.h; sourceTree = "<group>"; };
+		62DB60FC2A70074500F270DF /* ORKdBHLHoldInstructionStepViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKdBHLHoldInstructionStepViewController.m; sourceTree = "<group>"; };
+		62DD0C0C2A702A8E00BFB420 /* UIWindowScene_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UIWindowScene_Private.h; sourceTree = "<group>"; };
+		62DD0C0E2A702B2100BFB420 /* UIKit_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UIKit_Private.h; sourceTree = "<group>"; };
+		62DD0C0F2A702BFA00BFB420 /* UIResponder_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIResponder_Private.h; sourceTree = "<group>"; };
+		62DD0C132A702C4600BFB420 /* ORKUIKitSoftLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKUIKitSoftLink.h; sourceTree = "<group>"; };
 		62DF9F4428CA87D300D13018 /* retspl_AIRPODSPROV2.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = retspl_AIRPODSPROV2.plist; sourceTree = "<group>"; };
 		62DF9F4628CA87DE00D13018 /* frequency_dBSPL_AIRPODSPROV2.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = frequency_dBSPL_AIRPODSPROV2.plist; sourceTree = "<group>"; };
 		62DF9F4828CA87E800D13018 /* volume_curve_AIRPODSPROV2.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = volume_curve_AIRPODSPROV2.plist; sourceTree = "<group>"; };
@@ -2579,6 +2594,7 @@
 		168EEAB9230B7024003FD2FA /* PrivateHeaders */ = {
 			isa = PBXGroup;
 			children = (
+				62DD0C0B2A702A6400BFB420 /* UIKit */,
 				6202CE0129152E8B00005F92 /* BluetoothManager */,
 				5D1CE45C23FC9F21004CB416 /* SUICFlamesView */,
 				E2A676ED238DCB3D006193D7 /* AVFoundation */,
@@ -2733,6 +2749,7 @@
 				86C40B8D1A8D7C5C00081FAC /* ORKHelpers.m */,
 				BC45F8192304DDE40007540A /* ORKSoftLinking.h */,
 				BCD011CB2303963A0060CD5D /* ORKCelestialSoftLink.h */,
+				62DD0C132A702C4600BFB420 /* ORKUIKitSoftLink.h */,
 				E2A676DC238DA4BB006193D7 /* ORKAVFoundationSoftLink.h */,
 				6202CE1B29152F0900005F92 /* ORKBluetoothManagerSoftLink.h */,
 				5D04885525F19A7A0006C68B /* ORKDevice.h */,
@@ -3474,6 +3491,24 @@
 			name = MOA;
 			sourceTree = "<group>";
 		};
+		62DD0C0B2A702A6400BFB420 /* UIKit */ = {
+			isa = PBXGroup;
+			children = (
+				62DD0C0D2A702ADF00BFB420 /* PrivateHeaders */,
+				62DD0C0E2A702B2100BFB420 /* UIKit_Private.h */,
+			);
+			path = UIKit;
+			sourceTree = "<group>";
+		};
+		62DD0C0D2A702ADF00BFB420 /* PrivateHeaders */ = {
+			isa = PBXGroup;
+			children = (
+				62DD0C0F2A702BFA00BFB420 /* UIResponder_Private.h */,
+				62DD0C0C2A702A8E00BFB420 /* UIWindowScene_Private.h */,
+			);
+			path = PrivateHeaders;
+			sourceTree = "<group>";
+		};
 		71769E2620880BA800A19914 /* dBHL Tone Audiometry */ = {
 			isa = PBXGroup;
 			children = (
@@ -3494,6 +3529,10 @@
 				62F9680428FD700100D0FF04 /* ORKdBHLToneAudiometryPulsedAudioGenerator.m */,
 				71769E332088291B00A19914 /* ORKdBHLToneAudiometryContentView.h */,
 				71769E342088291B00A19914 /* ORKdBHLToneAudiometryContentView.m */,
+				62DB60F72A70031400F270DF /* ORKdBHLHoldInstructionStep.h */,
+				62DB60F82A70031400F270DF /* ORKdBHLHoldInstructionStep.m */,
+				62DB60FB2A70074500F270DF /* ORKdBHLHoldInstructionStepViewController.h */,
+				62DB60FC2A70074500F270DF /* ORKdBHLHoldInstructionStepViewController.m */,
 				71769E3720882CED00A19914 /* ORKdBHLToneAudiometryStep.h */,
 				71769E3820882CED00A19914 /* ORKdBHLToneAudiometryStep.m */,
 				E2880B8A255DAFC100D9BAA7 /* ORKdBHLTaskContext.m */,
@@ -4843,9 +4882,9 @@
 				E2BC456A22D79081009DAAAE /* ORKHeadphoneDetector.h */,
 				E2BC456B22D79081009DAAAE /* ORKHeadphoneDetector.m */,
 				E2BC456222D76C70009DAAAE /* ORKHeadphoneDetectStep.h */,
+				E2BC456322D76C70009DAAAE /* ORKHeadphoneDetectStep.m */,
 				5D04884425EED08D0006C68B /* ORKHeadphonesRequiredCompletionStep.h */,
 				5D04884F25F0308C0006C68B /* ORKHeadphonesRequiredCompletionStep.m */,
-				E2BC456322D76C70009DAAAE /* ORKHeadphoneDetectStep.m */,
 				E2BC456622D76F04009DAAAE /* ORKHeadphoneDetectStepViewController.h */,
 				E2BC456722D76F04009DAAAE /* ORKHeadphoneDetectStepViewController.m */,
 				5D04884625EEDB6F0006C68B /* ORKHeadphonesRequiredCompletionStepViewController.h */,
@@ -5035,6 +5074,7 @@
 				BC13CE421B066A990044153C /* ORKStepNavigationRule_Internal.h in Headers */,
 				62670EA029B12A1100EE5198 /* ORKdBHLQuickResponseCodeReaderStep.h in Headers */,
 				86C40D781A8D7C5C00081FAC /* ORKScaleSlider.h in Headers */,
+				62DB60F92A70031400F270DF /* ORKdBHLHoldInstructionStep.h in Headers */,
 				BA0AA6981EAEC0B600671ACE /* ORKStroopStepViewController.h in Headers */,
 				861D2AE81B840991008C4CD0 /* ORKTimedWalkStep.h in Headers */,
 				036B1E8D25351BAD008483DF /* ORKMotionActivityPermissionType.h in Headers */,
@@ -5078,6 +5118,7 @@
 				7118AC7520BF6A7800D7A6BB /* ORKSpeechInNoiseStepViewController.h in Headers */,
 				BF91559B1BDE8D7D007FA459 /* ORKReviewStep_Internal.h in Headers */,
 				BF91559E1BDE8D7E007FA459 /* ORKReviewStepViewController_Internal.h in Headers */,
+				62DB60FD2A70074500F270DF /* ORKdBHLHoldInstructionStepViewController.h in Headers */,
 				E220A38C2571252900C3C211 /* ORKTinnitusPureToneContentView.h in Headers */,
 				BA2CFBB02342935800B71919 /* ORKCompletionCheckmarkView.h in Headers */,
 				FF919A3B1E81AF1D005C2A1E /* ORKFileResult.h in Headers */,
@@ -5147,6 +5188,7 @@
 				781D54101DF886AB00223305 /* ORKTrailmakingContentView.h in Headers */,
 				226565532847FD1D00E916FF /* ORKAudiometryStimulus.h in Headers */,
 				86C40C761A8D7C5C00081FAC /* HKSample+ORKJSONDictionary.h in Headers */,
+				62DD0C112A702C0500BFB420 /* UIWindowScene_Private.h in Headers */,
 				E2880B82255D656900D9BAA7 /* ORKTinnitusPredefinedTask.h in Headers */,
 				BA0AA6961EAEC0B600671ACE /* ORKStroopStep.h in Headers */,
 				E2BC456C22D79081009DAAAE /* ORKHeadphoneDetector.h in Headers */,
@@ -5288,6 +5330,7 @@
 				86C40C5A1A8D7C5C00081FAC /* ORKWalkingTaskStep.h in Headers */,
 				BC1C032C1CA301E300869355 /* ORKHeightPicker.h in Headers */,
 				5DABE5AE24DA173F00570C57 /* ResearchKit_Prefix.pch in Headers */,
+				62DD0C122A702C0800BFB420 /* UIKit_Private.h in Headers */,
 				866DA5231D63D04700C9AF3F /* ORKDataCollectionManager.h in Headers */,
 				86AD910D1AB7AE4100361FEB /* ORKNavigationContainerView_Internal.h in Headers */,
 				2433C9E31B9A506F0052D375 /* ORKKeychainWrapper.h in Headers */,
@@ -5303,6 +5346,7 @@
 				86C40D5E1A8D7C5C00081FAC /* ORKQuestionStep.h in Headers */,
 				6146D0A31B84A91E0068491D /* ORKGraphChartAccessibilityElement.h in Headers */,
 				86C40C841A8D7C5C00081FAC /* ORKActiveStepTimer.h in Headers */,
+				62DD0C102A702BFA00BFB420 /* UIResponder_Private.h in Headers */,
 				86B781BD1AA668ED00688151 /* ORKValuePicker.h in Headers */,
 				BC37323222B76D1A0021F665 /* ORKTextButton_Internal.h in Headers */,
 				86C40DE21A8D7C5C00081FAC /* ORKVerticalContainerView_Internal.h in Headers */,
@@ -6133,6 +6177,7 @@
 				FF154FB51E82EF5E004ED908 /* ORKOrderedTask+ORKPredefinedActiveTask.m in Sources */,
 				866DA5241D63D04700C9AF3F /* ORKDataCollectionManager.m in Sources */,
 				5119879C245FC33C004FC2C7 /* ORK3DModelManager.m in Sources */,
+				62DB60FE2A70074500F270DF /* ORKdBHLHoldInstructionStepViewController.m in Sources */,
 				9550E6741D58DBCF00C691B8 /* ORKTouchAnywhereStep.m in Sources */,
 				86C40C781A8D7C5C00081FAC /* HKSample+ORKJSONDictionary.m in Sources */,
 				86C40D421A8D7C5C00081FAC /* ORKInstructionStep.m in Sources */,
@@ -6225,6 +6270,7 @@
 				781D54151DF886AB00223305 /* ORKTrailmakingStepViewController.m in Sources */,
 				BA87E26E20A79FA100B375A9 /* ORKRingView.m in Sources */,
 				86C40CD21A8D7C5C00081FAC /* ORKInstructionStepView.m in Sources */,
+				62DB60FA2A70031400F270DF /* ORKdBHLHoldInstructionStep.m in Sources */,
 				10FF9AD81B7A045E00ECB5B4 /* ORKSeparatorView.m in Sources */,
 				86C40D181A8D7C5C00081FAC /* ORKErrors.m in Sources */,
 				BAC2B65C22F25A2F0079304E /* ORKSESSelectionView.m in Sources */,

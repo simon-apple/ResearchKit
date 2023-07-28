@@ -63,9 +63,21 @@
 #import <ResearchKit/ResearchKit-Swift.h>
 #import "ORKNavigationContainerView_Internal.h"
 
+#import "ORKHelpers_Internal.h"
+
+#if !USE_LEGACY_TONEPLAYER
+#import "ORKCelestialSoftLink.h"
+#import "ORKAVFoundationSoftLink.h"
+#import "ORKBluetoothManagerSoftLink.h"
+#import <MediaPlayer/MediaPlayer.h>
+#include <MediaExperience/AVAudioCategories.h>
+#endif
+
 #define FIT_TEST_MIN_VOLUME            0.50f
 
 typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
+    ORKdBHLFitTestStageNotInEars,
+    ORKdBHLFitTestStageEnableHearingTestMode,
     ORKdBHLFitTestStageStart,
     ORKdBHLFitTestStagePlaying,
     ORKdBHLFitTestStageResultConfidenceLow,
@@ -117,7 +129,6 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
     [super viewDidAppear:animated];
 }
 
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -154,129 +165,254 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
     ORK_Log_Info("Volume before fit test : %0.9f", _initialVolume);
     
     [self setNavigationFooterView];
-    [self setStage:ORKdBHLFitTestStageStart];
+    if (self.taskViewController.hearingModeStatus != ORKdBHLHeadphonesStatusHearingTestEnabled) {
+        // If the HTMode is not enabled, enable it.
+        [self setStage:ORKdBHLFitTestStageEnableHearingTestMode];
+    } else {
+        [self setStage:ORKdBHLFitTestStageStart];
+    }
+}
+
+// helper function
+- (void)printCurrentStage {
+    switch (_stage) {
+        case ORKdBHLFitTestStageNotInEars:
+            ORK_Log_Info("Current Stage = ORKdBHLFitTestStageNotInEars");
+            break;
+        case ORKdBHLFitTestStageStart:
+            ORK_Log_Info("Current Stage = ORKdBHLFitTestStageStart");
+            break;
+        case ORKdBHLFitTestStagePlaying:
+            ORK_Log_Info("Current Stage = ORKdBHLFitTestStagePlaying");
+            break;
+        case ORKdBHLFitTestStageResultConfidenceLow:
+            ORK_Log_Info("Current Stage = ORKdBHLFitTestStageResultConfidenceLow");
+            break;
+        case ORKdBHLFitTestStageResultTriesExceeded:
+            ORK_Log_Info("Current Stage = ORKdBHLFitTestStageResultTriesExceeded");
+            break;
+        case ORKdBHLFitTestStageEnableHearingTestMode:
+            ORK_Log_Info("Current Stage = ORKdBHLFitTestStageEnableHearingTestMode");
+            break;
+        case ORKdBHLFitTestStageResultLeftSealBadRightSealBad:
+            ORK_Log_Info("Current Stage = ORKdBHLFitTestStageResultLeftSealBadRightSealBad");
+            break;
+        case ORKdBHLFitTestStageResultLeftSealBadRightSealGood:
+            ORK_Log_Info("Current Stage = ORKdBHLFitTestStageResultLeftSealBadRightSealGood");
+            break;
+        case ORKdBHLFitTestStageResultLeftSealGoodRightSealBad:
+            ORK_Log_Info("Current Stage = ORKdBHLFitTestStageResultLeftSealGoodRightSealBad");
+            break;
+        case ORKdBHLFitTestStageResultLeftSealGoodRightSealGood:
+            ORK_Log_Info("Current Stage = ORKdBHLFitTestStageResultLeftSealGoodRightSealGood");
+            break;
+        default:
+            break;
+    }
+}
+
+- (void)adjustNavigationButtons {
+    ORKWeakTypeOf(self) weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        ORKStrongTypeOf(self) strongSelf = weakSelf;
+        ORKTaskViewController *taskVC = strongSelf.taskViewController;
+        BOOL budsInEars = taskVC.headphonesInEars;
+        BOOL hearingModeEnabled = taskVC.hearingModeStatus == ORKdBHLHeadphonesStatusHearingTestEnabled;
+        BOOL continueEnabled = YES;
+        if (_stage == ORKdBHLFitTestStageEnableHearingTestMode || _stage == ORKdBHLFitTestStagePlaying) {
+            continueEnabled = NO;
+        }
+        [strongSelf setContinueButtonTitle: _stage!= ORKdBHLFitTestStageResultLeftSealGoodRightSealGood ? ORKLocalizedString(@"PLAY", nil) : ORKLocalizedString(@"NEXT", nil)];
+        [strongSelf.activeStepView.navigationFooterView showActivityIndicator:(!hearingModeEnabled || !budsInEars || !continueEnabled)];
+        strongSelf.activeStepView.navigationFooterView.continueEnabled = (hearingModeEnabled && budsInEars && continueEnabled);
+        strongSelf.activeStepView.navigationFooterView.optional = _fitTestResultSamples.count > 0 && _stage != ORKdBHLFitTestStageResultLeftSealGoodRightSealGood;
+        [strongSelf.activeStepView.navigationFooterView updateContinueAndSkipEnabled];
+    });
+}
+
+- (void)setTitleAndDetailForStage:(ORKdBHLFitTestStage)stage {
+    switch (stage) {
+        case ORKdBHLFitTestStageNotInEars: {
+            self.activeStepView.stepTitle = @"Fit Test";
+            self.activeStepView.stepDetailText = @"Please check that both headphones are in the ears.";
+            break;
+        }
+        case ORKdBHLFitTestStageEnableHearingTestMode: {
+            self.activeStepView.stepTitle = @"Fit Test";
+            self.activeStepView.stepDetailText = @"Please wait while we are preparing your study headphones for the test.";
+            break;
+        }
+        case ORKdBHLFitTestStageStart: {
+            self.activeStepView.stepTitle = @"Ear Tip Fit Test";
+            self.activeStepView.stepDetailText = @"Make sure headphones in both ears are comfortable and secure, then press play to test fit.";
+            break;
+        }
+        case ORKdBHLFitTestStagePlaying: {
+            self.activeStepView.stepTitle = @"Do not remove headphones until you see the fit test results";
+            self.activeStepView.stepDetailText = @"";
+            break;
+        }
+        case ORKdBHLFitTestStageResultConfidenceLow: {
+            self.activeStepView.stepTitle = @"Unable to Complete Ear Tip Fit Test";
+            self.activeStepView.stepDetailText = @"Make sure to find a quiet location and remain still during ear tip fit test.";
+            break;
+        }
+        case ORKdBHLFitTestStageResultLeftSealBadRightSealBad: {
+            self.activeStepView.stepTitle = @"Ear Fit Test Results";
+            self.activeStepView.stepDetailText = @"Adjust both headphones in your ears, or try another ear tip size and run the test again.\n\nYou should use the ear tips that are most comfortable in each ear.";
+            break;
+        }
+        case ORKdBHLFitTestStageResultLeftSealGoodRightSealBad: {
+            self.activeStepView.stepTitle = @"Ear Fit Test Results";
+            self.activeStepView.stepDetailText = @"Try adjusting the right headphone in your ear, or change the ear tip size and try the test again.\n\nYou should use the ear tip that is most comfortable in each ear.";
+            break;
+        }
+        case ORKdBHLFitTestStageResultLeftSealBadRightSealGood: {
+            self.activeStepView.stepTitle = @"Ear Fit Test Results";
+            self.activeStepView.stepDetailText = @"Try adjusting the left headphone in your ear, or change the ear tip size and try the test again.\n\nYou should use the ear tip that is most comfortable in each ear.";
+            break;
+        }
+        case ORKdBHLFitTestStageResultLeftSealGoodRightSealGood: {
+            self.activeStepView.stepTitle = @"Ear Fit Test Results";
+            self.activeStepView.stepDetailText = @"The ear tips you’re using are a good fit for both ears.";
+            break;
+        }
+        case ORKdBHLFitTestStageResultTriesExceeded: {
+            [self.fitTestContentView setResultDetailLabelText:@""];
+            self.activeStepView.stepTitle = @"Unable to Complete Ear Tip Fit Test";
+            break;
+        }
+        default:
+            break;
+    }
+}
+
+- (void)adjustTriesCounterLabel {
+    //[self.fitTestContentView setResultDetailLabelText:[NSString stringWithFormat:@"Try %li of %li",_triesCounter,self.fitTestStep.maximumNumberOfTries]];
+    [self.fitTestContentView setResultDetailLabelText:_triesCounter > 0 ? [NSString stringWithFormat:@"Try %li",_triesCounter] : @""];
 }
 
 - (void)setStage:(ORKdBHLFitTestStage)stage {
-    if (_triesCounter > [[self fitTestStep] numberOfTries] - 1 && stage != ORKdBHLFitTestStageResultLeftSealGoodRightSealGood) {
-        stage = ORKdBHLFitTestStageResultTriesExceeded;
-    }
-        switch (stage) {
-            case ORKdBHLFitTestStageStart: {
-                [self.fitTestContentView setStart];
-                self.activeStepView.navigationFooterView.continueEnabled = YES;
-                [self.activeStepView.navigationFooterView showActivityIndicator:NO];
-                [self setContinueButtonTitle:ORKLocalizedString(@"PLAY", nil)];
-                [self.activeStepView.navigationFooterView updateContinueAndSkipEnabled];
-                self.activeStepView.stepTitle = @"Ear Tip Fit Test";
-                self.activeStepView.stepDetailText = @"Make sure AirPods in both ears are comfortable and secure, then press play to test fit.";
-                break;
-            }
-            case ORKdBHLFitTestStagePlaying: {
-                _triesCounter ++;
-                [self.fitTestContentView setResultDetailLabelText:[NSString stringWithFormat:@"Try %li of %li",_triesCounter,self.fitTestStep.numberOfTries]];
-                self.activeStepView.stepTitle = @"Do not remove AirPods until you see the fit test results";
-                self.activeStepView.stepDetailText = @"";
-                break;
-            }
-            case ORKdBHLFitTestStageResultConfidenceLow: {
-                [self.fitTestContentView setWithLeftOk:NO rightOk:NO];
-                self.activeStepView.stepTitle = @"Unable to Complete Ear Tip Fit Test";
-                self.activeStepView.stepDetailText = @"Make sure to find a quiet location and remain still during ear tip fit test.";
-                _triesCounter ++;
-                [self.fitTestContentView setResultDetailLabelText:[NSString stringWithFormat:@"Try %li of %li",_triesCounter,self.fitTestStep.numberOfTries]];
-                break;
-            }
-            case ORKdBHLFitTestStageResultLeftSealBadRightSealBad: {
-                [self.fitTestContentView setWithLeftOk:NO rightOk:NO];
-                self.activeStepView.stepTitle = @"Ear Fit Test Results";
-                self.activeStepView.stepDetailText = @"Adjust both AirPods in your ears, or try another ear tip size and run the test again.\n\nYou should use the ear tips that are most comfortable in each ear.";
-                _triesCounter ++;
-                [self.fitTestContentView setResultDetailLabelText:[NSString stringWithFormat:@"Try %li of %li",_triesCounter,self.fitTestStep.numberOfTries]];
-                break;
-            }
-            case ORKdBHLFitTestStageResultLeftSealGoodRightSealBad: {
-                [self.fitTestContentView setWithLeftOk:YES rightOk:NO];
-                self.activeStepView.stepTitle = @"Ear Fit Test Results";
-                self.activeStepView.stepDetailText = @"Try adjusting the right AirPod in your ear, or change the ear tip size and try the test again.\n\nYou should use the ear tip that is most comfortable in each ear.";
-                _triesCounter ++;
-                [self.fitTestContentView setResultDetailLabelText:[NSString stringWithFormat:@"Try %li of %li",_triesCounter,self.fitTestStep.numberOfTries]];
-                break;
-            }
-            case ORKdBHLFitTestStageResultLeftSealBadRightSealGood: {
-                [self.fitTestContentView setWithLeftOk:NO rightOk:YES];
-                self.activeStepView.stepTitle = @"Ear Fit Test Results";
-                self.activeStepView.stepDetailText = @"Try adjusting the left AirPod in your ear, or change the ear tip size and try the test again.\n\nYou should use the ear tip that is most comfortable in each ear.";
-                _triesCounter ++;
-                [self.fitTestContentView setResultDetailLabelText:[NSString stringWithFormat:@"Try %li of %li",_triesCounter,self.fitTestStep.numberOfTries]];
-                break;
-            }
-            case ORKdBHLFitTestStageResultLeftSealGoodRightSealGood: {
-                [self.activeStepView.navigationFooterView showActivityIndicator:NO];
-                [self setContinueButtonTitle:ORKLocalizedString(@"BUTTON_NEXT", nil)];
-                [self.activeStepView.navigationFooterView updateContinueAndSkipEnabled];
-                [self.fitTestContentView setWithLeftOk:YES rightOk:YES];
-                self.activeStepView.stepTitle = @"Ear Fit Test Results";
-                [self.fitTestContentView setResultDetailLabelText:@""];
-                [self adjustNextButton];
-                break;
-            }
-            case ORKdBHLFitTestStageResultTriesExceeded: {
-                [self.fitTestContentView setResultDetailLabelText:@""];
-                self.activeStepView.stepTitle = @"Unable to Complete Ear Tip Fit Test";
-                [self.activeStepView.navigationFooterView showActivityIndicator:NO];
-                [self setContinueButtonTitle:ORKLocalizedString(@"BUTTON_NEXT", nil)];
-                [self.activeStepView.navigationFooterView updateContinueAndSkipEnabled];
-                [self adjustNextButton];
-            }
-            default:
-                break;
+    switch (stage) {
+        case ORKdBHLFitTestStageNotInEars: {
+            [self setTitleAndDetailForStage:stage];
+            break;
         }
-        _stage = stage;
+        case ORKdBHLFitTestStageEnableHearingTestMode: {
+            [self setTitleAndDetailForStage:stage];
+            [self.fitTestContentView setResultDetailLabelText:@""];
+            ORK_Log_Info("FitTest Enabling Hearing Test Mode");
+            ORKWeakTypeOf(self) weakSelf = self;
+            [self.taskViewController enableHearingTestModeWithCompletion:^(BOOL hearingModeEnabled) {
+                ORK_Log_Info("Hearing Mode Enabled %@", hearingModeEnabled ?@"YES":@"NO");
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    ORKStrongTypeOf(weakSelf) strongSelf = weakSelf;
+                    if (hearingModeEnabled) {
+                        [strongSelf setStage:ORKdBHLFitTestStageStart];
+                        strongSelf.activeStepView.navigationFooterView.optional = (hearingModeEnabled && _fitTestResultSamples.count > 0);
+                    } else {
+                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                            [strongSelf setStage:ORKdBHLFitTestStageEnableHearingTestMode];
+                        });
+                    }
+                });
+            }];
+            break;
+        }
+        case ORKdBHLFitTestStageStart: {
+            [self setTitleAndDetailForStage:stage];
+            ORK_Log_Info("FitTest Start");
+            break;
+        }
+        case ORKdBHLFitTestStagePlaying: {
+            [self adjustTriesCounterLabel];
+            [self setTitleAndDetailForStage:stage];
+            ORK_Log_Info("FitTest Playing");
+            break;
+        }
+        case ORKdBHLFitTestStageResultConfidenceLow: {
+            [self.fitTestContentView setWithLeftOk:NO rightOk:NO];
+            [self setTitleAndDetailForStage:stage];
+            [self.fitTestContentView setResultDetailLabelText:@"Please try again"];
+            ORK_Log_Info("FitTest Confidence Low");
+            break;
+        }
+        case ORKdBHLFitTestStageResultLeftSealBadRightSealBad: {
+            [self.fitTestContentView setWithLeftOk:NO rightOk:NO];
+            [self setTitleAndDetailForStage:stage];
+            ORK_Log_Info("FitTest Two Bad Seals");
+            break;
+        }
+        case ORKdBHLFitTestStageResultLeftSealGoodRightSealBad: {
+            [self.fitTestContentView setWithLeftOk:YES rightOk:NO];
+            [self setTitleAndDetailForStage:stage];
+            ORK_Log_Info("FitTest Right Seal Bad");
+            break;
+        }
+        case ORKdBHLFitTestStageResultLeftSealBadRightSealGood: {
+            [self.fitTestContentView setWithLeftOk:NO rightOk:YES];
+            [self setTitleAndDetailForStage:stage];
+            ORK_Log_Info("FitTest Left Seal Bad");
+            break;
+        }
+        case ORKdBHLFitTestStageResultLeftSealGoodRightSealGood: {
+            [self.fitTestContentView setWithLeftOk:YES rightOk:YES];
+            [self.fitTestContentView setResultDetailLabelText:@""];
+            [self setTitleAndDetailForStage:stage];
+
+            ORK_Log_Info("FitTest Two Good Seals");
+            break;
+        }
+        case ORKdBHLFitTestStageResultTriesExceeded: {
+            // Again not used ;)
+            [self.fitTestContentView setResultDetailLabelText:@""];
+            self.activeStepView.stepTitle = @"Unable to Complete Ear Tip Fit Test";
+            [self.activeStepView.navigationFooterView showActivityIndicator:NO];
+        }
+        default:
+            break;
+    }
+    _stage = stage;
+    [self adjustNavigationButtons];
 }
 
 - (void)setNavigationFooterView {
     self.activeStepView.navigationFooterView.continueButtonItem = self.continueButtonItem;
-    self.activeStepView.navigationFooterView.continueEnabled = YES;
-    [self.activeStepView.navigationFooterView showActivityIndicator:NO];
-    [self.activeStepView.navigationFooterView updateContinueAndSkipEnabled];
+    UIBarButtonItem *skipButton = [[UIBarButtonItem alloc] initWithTitle:@"Skip Fit Test" style:UIBarButtonItemStylePlain target:self action:@selector(endHearingTest:)];
+    self.activeStepView.navigationFooterView.skipButtonItem = skipButton;
+    
+    [self.activeStepView.navigationFooterView setSkipButtonColor:[UIColor blackColor]];
+    
+    //self.activeStepView.navigationFooterView.optional = NO;
+   // [self.activeStepView.navigationFooterView showActivityIndicator:NO];
+   // [self.activeStepView.navigationFooterView updateContinueAndSkipEnabled];
 
-    [self setContinueButtonTitle:ORKLocalizedString(@"PLAY", nil)];
+    //[self setContinueButtonTitle:ORKLocalizedString(@"PLAY", nil)];
     
     [self.activeStepView.navigationFooterView.continueButton removeTarget:self.activeStepView.navigationFooterView action:nil forControlEvents:UIControlEventTouchUpInside];
     [self.activeStepView.navigationFooterView.continueButton addTarget:self action:@selector(continueButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 }
 
+- (void)endHearingTest:(id)sender {
+    ORK_Log_Info("Skip Hearing Test");
+    [self finish];
+}
+
 - (void)continueButtonAction:(id)sender {
     ORKTaskViewController *taskVC = [self taskViewController];
     switch (_stage) {
-        case ORKdBHLFitTestStageStart: {
-            if ([taskVC budsInEars] && ![taskVC callActive] && [taskVC currentDevice]) {
-                self.activeStepView.navigationFooterView.continueEnabled = NO;
-                [self.activeStepView.navigationFooterView showActivityIndicator:YES];
-                [self.activeStepView.navigationFooterView updateContinueAndSkipEnabled];
-                [self setStage:ORKdBHLFitTestStagePlaying];
-                
-                [self startFitTest];
-            } else {
-                [self showBudsOrCallAlert];
-            }
-            break;
-        }
+        case ORKdBHLFitTestStageStart:
         case ORKdBHLFitTestStageResultLeftSealBadRightSealBad:
         case ORKdBHLFitTestStageResultLeftSealBadRightSealGood:
         case ORKdBHLFitTestStageResultConfidenceLow:
         case ORKdBHLFitTestStageResultLeftSealGoodRightSealBad: {
-            if ([taskVC budsInEars] && ![taskVC callActive] && [taskVC currentDevice]) {
+            if ([taskVC headphonesInEars] && ![taskVC callActive] && [taskVC currentDevice]) {
                 [self.fitTestContentView setStart];
-                self.activeStepView.navigationFooterView.continueEnabled = NO;
-                [self.activeStepView.navigationFooterView showActivityIndicator:YES];
-                [self setContinueButtonTitle:ORKLocalizedString(@"PLAY", nil)];
-                [self.activeStepView.navigationFooterView updateContinueAndSkipEnabled];
-                
+                [self setStage:ORKdBHLFitTestStagePlaying];
                 [self startFitTest];
+                [self adjustTriesCounterLabel];
             } else {
-                [self showBudsOrCallAlert];
+                [self showHeadphonesOrCallAlert];
             }
             break;
         }
@@ -301,27 +437,49 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center addObserver:self selector:@selector(handleAudioSessionInterruption:) name:AVAudioSessionInterruptionNotification object:[AVAudioSession sharedInstance]];
     [center addObserver:self selector:@selector(handleMediaServerConnectionDied:) name:@"AVSystemController_ServerConnectionDiedNotification" object:[AVAudioSession sharedInstance]];
-    [center addObserver:self selector:@selector(bluetoothChanged:) name:ORKdBHLBluetoothChangedNotification object:nil];
+    [center addObserver:self selector:@selector(headphonesStatusChanged:) name:ORKdBHLHeadphonesInEarsNotification object:nil];
     [center addObserver:self selector:@selector(sealValueChanged:) name:ORKdBHLBluetoothSealValueChangedNotification object:nil];
 }
 
-- (void)showBudsOrCallAlert {
-    ORK_Log_Info("budsInEar: %d, callActive: %d", self.taskViewController.budsInEars, self.taskViewController.callActive);
-    NSString *alertTitle = self.taskViewController.budsInEars ? @"End Call To Continue Test" : @"Please check the firmware version, headphone type and that both headphones are in the ear";
+- (void)showHeadphonesOrCallAlert {
+    ORK_Log_Info("headphones InEar: %d, callActive: %d", self.taskViewController.headphonesInEars, self.taskViewController.callActive);
+    NSString *alertTitle = self.taskViewController.callActive ? @"End Call To Continue Test." : @"Please check that both headphones are in the ears.";
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:alertTitle message:@"" preferredStyle:UIAlertControllerStyleAlert];
 
     [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
-    [self presentViewController:alert animated:YES completion:nil];
+    
+    ORKWeakTypeOf(self) weakSelf = self;
+    [self presentViewController:alert animated:YES completion:^{
+        ORKStrongTypeOf(self) strongSelf = weakSelf;
+        // The best flow is disable the hearing test mode after the alert is shown
+        [strongSelf.taskViewController disableHearingTestMode];
+        [strongSelf adjustNavigationButtons];
+    }];
 }
 
 - (void)startFitTest {
     ORK_Log_Info("Start Fit Test");
-    
+    _triesCounter ++;
+#if USE_LEGACY_TONEPLAYER
     [[self taskViewController] lockDeviceVolume:FIT_TEST_MIN_VOLUME];
-
+#endif
     [self.taskViewController.currentDevice SendSetupCommand:BT_ACCESSORY_SETUP_SEAL_OP_START];
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+#if !USE_LEGACY_TONEPLAYER
+        float currentVolume = 0.0f;
+        bool success = [[getAVSystemControllerClass() sharedAVSystemController] getVolume:&currentVolume forCategory:@"Audio/Video"];
+        if (!success) {
+            ORK_Log_Error("Fit Test: Unable to fetch current volume");
+        } else {
+            ORK_Log_Error("Fit Test: Current volume : %f", currentVolume);
+            if (currentVolume != FIT_TEST_MIN_VOLUME) {
+                ORK_Log_Info("Fit Test: Increase volume for AudioVideo for fit test");
+                [[getAVSystemControllerClass() sharedAVSystemController] setVolumeTo:FIT_TEST_MIN_VOLUME forCategory:@"Audio/Video"];
+                _volumeModified = TRUE;
+            }
+        }
+#endif
         NSString *mediaPath = [[NSBundle bundleForClass:[self class]] pathForResource:@"E+D-US_ML" ofType:@"wav"];
         NSURL *soundFileURL = [NSURL fileURLWithPath:mediaPath];
         NSError *error = nil;
@@ -369,10 +527,20 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
 - (void)fitTestStopped {
     _testActive = FALSE;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [self resetVolume];
         [self cleanupAudio];
     });
-    [self setStage:ORKdBHLFitTestStageStart];
+    if (_stage != ORKdBHLFitTestStageResultLeftSealGoodRightSealGood) {
+        [self setStage:ORKdBHLFitTestStageStart];
+    } else {
+        self.activeStepView.stepTitle = @"";
+    }
+#if USE_LEGACY_TONEPLAYER
+        ORKWeakTypeOf(self) weakSelf = self;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            ORKStrongTypeOf(self) strongSelf = weakSelf;
+            [[strongSelf taskViewController] restoreSavedVolume];
+        });
+#endif
 }
 
 - (float)getSealThreshold {
@@ -383,53 +551,27 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
     return [[self fitTestStep] confidenceThreshold];
 }
 
-- (void)bluetoothChanged: (NSNotification *)note {
-    // check if budsInEars
+- (void)headphonesStatusChanged: (NSNotification *)note {
+    // check if headphones are in ears
     ORKTaskViewController *taskVC = self.taskViewController;
-    if (!taskVC.budsInEars || taskVC.callActive) {
+    if (!taskVC.headphonesInEars) {
+        _fitTestResultSamples = [[NSMutableArray alloc] init];
         [self interruptTestIfNecessary];
-    }
-    if (_stage == ORKdBHLFitTestStageResultLeftSealGoodRightSealGood || _stage == ORKdBHLFitTestStageResultTriesExceeded) {
-        [self adjustNextButton];
-    }
-}
-
-- (void)adjustNextButton {
-    ORKTaskViewController *taskVC = self.taskViewController;
-    BOOL ancInOn = taskVC.ancStatus == ORKdBHLHeadphonesANCStatusEnabled;
-    NSString *string;
-    NSMutableAttributedString *attributedString;
-    UIFont *boldFont = [UIFont boldSystemFontOfSize:17];
-    self.activeStepView.navigationFooterView.continueEnabled = ancInOn;
-    if (ancInOn) {
-        if (_stage == ORKdBHLFitTestStageResultTriesExceeded) {
-            string = @"Let's continue to the dBHL test.";
-        } else {
-            string = @"The ear tips you’re using are a good fit for both ears.";
-        }
-        attributedString =  [[NSMutableAttributedString alloc] initWithString:string];
     } else {
-        NSRange range;
-        if (_stage == ORKdBHLFitTestStageResultTriesExceeded) {
-            string = @"Before Proceeding, please enable ANC mode.";
-            range = [string rangeOfString:@"please enable ANC mode."];
-        } else {
-            string = @"The ear tips you’re using are a good fit for both ears. Enable ANC before proceeding.";
-            range = [string rangeOfString:@"Enable ANC before proceeding."];
-        }
-        attributedString =  [[NSMutableAttributedString alloc] initWithString:string];
-        [attributedString addAttribute:NSFontAttributeName value:boldFont range:range];
-        [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:range];
+        [self setStage:ORKdBHLFitTestStageEnableHearingTestMode];
     }
-    
-    [self.activeStepView setStepDetailAttributedText:attributedString];
 }
 
 - (void)interruptTestIfNecessary {
+    [self.fitTestContentView setStart];
+    [self setStage:ORKdBHLFitTestStageNotInEars];
+    _triesCounter = 0;
+    // should I really decrease the counter ?
+//    _triesCounter -= 1;
+//    _triesCounter = _triesCounter < 0 ?: 0;
     if (_testActive) {
         [self fitTestStopped];
-        _triesCounter -= 1;
-        [self showBudsOrCallAlert];
+        [self showHeadphonesOrCallAlert];
     }
 }
 
@@ -457,13 +599,13 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
     bool leftSealGood = sealValL >= sealThreshold;
     bool rightSealGood = sealValR >= sealThreshold;
 
-    [self fitTestStopped];
-
     _darkMode = (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark);
     if (_darkMode) {
         [self.fitTestContentView resetLabelsBackgroundColors];
     }
 
+    [self fitTestStopped];
+    
     float confidence = [self getConfidenceThreshold];
     ORK_Log_Info("confidenceThreshold : %0.06f", confidence);
     bool confidenceLow = (confidenceValL < confidence || confidenceValR < confidence);
@@ -486,7 +628,7 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
     
     ORKdBHLFitTestResultSample *fitTestResultSample = [[ORKdBHLFitTestResultSample alloc] init];
     fitTestResultSample.sealLeftEar = left ? sealValL : 0.0;
-    fitTestResultSample.sealRightEar = right ? sealValL : 0.0;
+    fitTestResultSample.sealRightEar = right ? sealValR : 0.0;
     fitTestResultSample.confidenceLeftEar = confidenceL ? confidenceValL : 0.0;
     fitTestResultSample.confidenceRightEar = confidenceR ? confidenceValR : 0.0;
     fitTestResultSample.sealThreshold = sealThreshold;
@@ -499,8 +641,6 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
 
 - (void)dismissFitTest {
     [self cleanupAudio];
-    [self resetVolume];
-    _triesCounter = 0;
     [self setStage:ORKdBHLFitTestStageStart];
 }
 
@@ -545,7 +685,6 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
 }
 
 // AVAudioPlayer delegate methods
-
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
     if (flag) {
         _testActive = FALSE;

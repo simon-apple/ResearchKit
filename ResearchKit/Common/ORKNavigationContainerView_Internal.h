@@ -60,6 +60,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)updateContinueAndSkipEnabled;
 
+// Overrides the appTintColor only for the navigation footer skip button
+- (void)setSkipButtonColor:(UIColor *)color;
+
 @end
 
 NS_ASSUME_NONNULL_END

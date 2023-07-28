@@ -1018,6 +1018,8 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(sealThreshold, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(confidenceThreshold, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(numberOfTries, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(minimumNumberOfTries, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(maximumNumberOfTries, NSNumber, NSObject, YES, nil, nil),
                     })),
            ENTRY(ORKdBHLQuickResponseCodeReaderStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
@@ -1582,6 +1584,12 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                  },
                  (@{
                     PROPERTY(useCardView, NSNumber, NSObject, YES, nil, nil),
+                    })),
+           ENTRY(ORKdBHLHoldInstructionStep,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+                     return [[ORKdBHLHoldInstructionStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
+                },
+                 (@{
                     })),
            ENTRY(ORKFormStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {

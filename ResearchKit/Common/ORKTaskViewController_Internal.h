@@ -68,6 +68,8 @@ NS_ASSUME_NONNULL_BEGIN
 #if RK_APPLE_INTERNAL
 // Save the current system volume for restoration after the task end
 - (void)saveVolume;
+// Restores the system volume
+- (void)restoreSavedVolume;
 
 // will return YES if the sensitive URL step is shown
 - (BOOL)showSensitiveURLLearMoreStepViewControllerForStep:(ORKActiveStep *)step;

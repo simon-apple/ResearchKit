@@ -36,4 +36,7 @@
 #define RK_APPLE_INTERNAL 1
 #define KAGRA_PROTO 1 // enables the simulated hearing loss on settings.
 
+// defines if we will use the legacy tone player or the new one
+#define USE_LEGACY_TONEPLAYER 1
+
 #endif /* ResearchKit_Prefix_pch */

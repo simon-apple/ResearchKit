@@ -4,21 +4,33 @@
 <dict>
 	<key>files</key>
 	<dict>
-		<key>.DS_Store</key>
-		<data>
-		6PbahegYdD+RTbqIU7cgaGNByCE=
-		</data>
 		<key>Headers/ORKHearingTest-Swift.h</key>
 		<data>
-		YlUTA1hbEy3kidc+yvoc9cll+bs=
+		WNCo4MsOK+0nLMQMQHLJO31L/wU=
 		</data>
 		<key>Info.plist</key>
 		<data>
-		hW7CeJ8zmgOE9ymtwOngcSSKzWg=
+		G+0gV3vpbmsofaRbO/vXb4hlnlU=
+		</data>
+		<key>Modules/ORKHearingTest.swiftmodule/Project/arm64-apple-ios.swiftsourceinfo</key>
+		<data>
+		YGUSDrrgscGCLDVWPpwRAT8y+C0=
 		</data>
 		<key>Modules/ORKHearingTest.swiftmodule/Project/arm64e-apple-ios.swiftsourceinfo</key>
 		<data>
-		v/ZjVn44FapT8yPBdsRs/QyWMYs=
+		bte/QylKaZnKHuCoerZQTpo9vz0=
+		</data>
+		<key>Modules/ORKHearingTest.swiftmodule/arm64-apple-ios.abi.json</key>
+		<data>
+		FSPnLbho3G+LL9smI3XgVOqBIQ4=
+		</data>
+		<key>Modules/ORKHearingTest.swiftmodule/arm64-apple-ios.swiftdoc</key>
+		<data>
+		qsR2B59KvEQ+twctulWHlM8JGns=
+		</data>
+		<key>Modules/ORKHearingTest.swiftmodule/arm64-apple-ios.swiftmodule</key>
+		<data>
+		ukXJExCEf0Nv0++xZRxWCEsmlP0=
 		</data>
 		<key>Modules/ORKHearingTest.swiftmodule/arm64e-apple-ios.abi.json</key>
 		<data>
@@ -26,11 +38,11 @@
 		</data>
 		<key>Modules/ORKHearingTest.swiftmodule/arm64e-apple-ios.swiftdoc</key>
 		<data>
-		v2ryysXQ7x4GPjlg4boOTyEDoX8=
+		klUcd+SGbj3s40/go4y26QGKmSk=
 		</data>
 		<key>Modules/ORKHearingTest.swiftmodule/arm64e-apple-ios.swiftmodule</key>
 		<data>
-		KoazCrkZuSIcUn0YUZmZZVcIJp4=
+		pU9o9XtnjwcMn16TnbhUCnz/O5Q=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -43,14 +55,42 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			1V2021wvGgjvYrKRTcHa7GP9XHaeteN0jl1ZycDqKPA=
+			DXM/2UMXns0EzaAwE37bvVXIv7FSunxjl0LpSjSdRjw=
+			</data>
+		</dict>
+		<key>Modules/ORKHearingTest.swiftmodule/Project/arm64-apple-ios.swiftsourceinfo</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			ir5uUbw69uzKrSONa+U6CJtMvH66st+3qK2Ie06Uag8=
 			</data>
 		</dict>
 		<key>Modules/ORKHearingTest.swiftmodule/Project/arm64e-apple-ios.swiftsourceinfo</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			JO0CEBwfKiLrFd4Ye6SNBtogrBolyp1sf6ZKwFqPKyk=
+			jli+6XxBaDrVYvx2R3g+QYO3WzsRGtwomx3ozF74ZEg=
+			</data>
+		</dict>
+		<key>Modules/ORKHearingTest.swiftmodule/arm64-apple-ios.abi.json</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			KnRdWE4y6t4QM5zi5JDptPdHFgJy1Tku+7GLkZS2aNM=
+			</data>
+		</dict>
+		<key>Modules/ORKHearingTest.swiftmodule/arm64-apple-ios.swiftdoc</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			m3GLcaJM9sITY+la9dgN1heGRz2DKdG+quhzogS1B8I=
+			</data>
+		</dict>
+		<key>Modules/ORKHearingTest.swiftmodule/arm64-apple-ios.swiftmodule</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			LQOIro+xdhmeNm2Dp7lNmChyn6BQVTXNmKO03t7oIF0=
 			</data>
 		</dict>
 		<key>Modules/ORKHearingTest.swiftmodule/arm64e-apple-ios.abi.json</key>
@@ -64,14 +104,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			fklQz+gN2lk/dCCghmwtIOWnWrRgujsx7K8ObKeN0Qg=
+			u8OzMpM6gjxsS7CQm3ivhe0KP6qRR7f9uKNJBUcoaBw=
 			</data>
 		</dict>
 		<key>Modules/ORKHearingTest.swiftmodule/arm64e-apple-ios.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			VFJZsQTJRW/ZJ9gm7bTGXirBBrYgkRRN8CtIJ7KoOLs=
+			xjxdIfFekNn9/EvvDwqK57eVPww5zQQDSOdXoo6Risk=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

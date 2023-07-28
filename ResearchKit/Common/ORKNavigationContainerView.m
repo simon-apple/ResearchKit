@@ -46,6 +46,7 @@ static const CGFloat detailTextBottomSpacing = 16.0;
     NSArray *_leftRightPaddingConstraints;
     UIVisualEffectView *effectView;
     UIColor *_appTintColor;
+    UIColor *_skipButtonColor;
     
     BOOL _continueOrSkipButtonJustTapped;
     BOOL _removeVisualEffect;
@@ -66,6 +67,10 @@ static const CGFloat detailTextBottomSpacing = 16.0;
         [self updateContinueAndSkipEnabled];
     }
     return self;
+}
+
+- (void)setSkipButtonColor:(UIColor *)color {
+    _skipButtonColor = color;
 }
 
 - (void)removeStyling {
@@ -165,7 +170,6 @@ static const CGFloat detailTextBottomSpacing = 16.0;
     _appTintColor = ORKWindowTintcolor(self.window) ? : ORKColor(ORKBlueHighlightColorKey);
     
     _continueButton.normalTintColor = _appTintColor;
-    _skipButton.normalTintColor = _appTintColor;
 }
 
 - (void)setSkipButtonStyle:(ORKNavigationContainerButtonStyle)skipButtonStyle {
@@ -286,6 +290,10 @@ static const CGFloat detailTextBottomSpacing = 16.0;
 
 - (void)updateContinueAndSkipEnabled {
     [_skipButton setTitle:_skipButtonItem.title ? : ORKLocalizedString(@"BUTTON_SKIP", nil) forState:UIControlStateNormal];
+    
+    if (_skipButtonColor) {
+        _skipButton.normalTintColor = _skipButtonColor;
+    }
 
     if ([self neverHasContinueButton]) {
         _continueButton.hidden = YES;

@@ -162,6 +162,16 @@
     [self validateParameters];
 }
 
+- (void)rebuildSteps {
+    NSMutableArray *rebuildArray = [[NSMutableArray alloc] init];
+    for (ORKStep *step in _steps) {
+        ORKStep *copyStep = [step copyWithZone:nil];
+        // Add the new object instance to the rebuildArray
+        [rebuildArray addObject:(ORKStep *)copyStep];
+    }
+    _steps = [rebuildArray copy];
+}
+
 - (void)insertSteps:(NSArray<ORKStep *> *)stepsToInsert atIndexes:(NSIndexSet *)indexSet {
     NSMutableArray *newSteps = [_steps mutableCopy];
     [newSteps insertObjects:stepsToInsert atIndexes:indexSet];

@@ -164,4 +164,5 @@
 #import <ResearchKit/ORKAVJournalingTaskViewController.h>
 #import <ResearchKit/ORKAVJournalingResult.h>
 #import <ResearchKit/ORKBLEScanPeripheralsStepResult.h>
+#import <ResearchKit/ORKHearingTest-Swift.h>
 #endif

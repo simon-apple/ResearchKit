@@ -64,8 +64,6 @@
 #import "ORKNavigableOrderedTask.h"
 #import "ORKStepNavigationRule.h"
 
-#import "ORKHearingTestSoftLink.h"
-
 // defines how many samples we should rollback before resuming the task
 #define NUMBER_OF_TRAILS_TO_DROP 2
 
@@ -77,16 +75,15 @@
     UIImpactFeedbackGenerator *_hapticFeedback;
     
     dispatch_block_t _preStimulusDelayWorkBlock;
+#if USE_LEGACY_TONEPLAYER
     dispatch_block_t _pulseDurationWorkBlock;
     dispatch_block_t _postStimulusDelayWorkBlock;
-    
+#endif
     NSMutableArray<ORKdBHLToneAudiometryTap *> *_taps;
     
     BOOL _showingAlert;
     
     BOOL _didSkipStep;
-    
-    ORKTonePlayer *_tonePlayer;
 }
 
 @property (nonatomic, strong) ORKdBHLToneAudiometryContentView *dBHLToneAudiometryContentView;
@@ -112,8 +109,6 @@
         self.currentTap.response = ORKdBHLToneAudiometryTapBeforeResponseWindow;
         _showingAlert = NO;
         _didSkipStep = NO;
-        
-        _tonePlayer = [getORKTonePlayerClass() new];
     }
     return self;
 }
@@ -161,8 +156,11 @@
     [self addObservers];
     
 #if RK_APPLE_INTERNAL
-    // HearingTest.framework handles the lock
-    //[[self taskViewController] lockDeviceVolume:0.8125];
+#if USE_LEGACY_TONEPLAYER
+        [[self taskViewController] lockDeviceVolume:0.8125];
+#else
+        ORK_Log_Info("HearingTest.framework handles the lock");
+#endif
     
     dBHLTAStep.headphoneType = ORKHeadphoneTypeIdentifierAirPodsProGen2;
 
@@ -200,14 +198,16 @@
 #endif
 
     _audioChannel = dBHLTAStep.earPreference;
+#if USE_LEGACY_TONEPLAYER
     _audioGenerator = [[ORKdBHLToneAudiometryPulsedAudioGenerator alloc] initForHeadphoneType:dBHLTAStep.headphoneType pulseMillisecondsDuration:200 pauseMillisecondsDuration:200];
     _audioGenerator.delegate = self;
+#endif
     _hapticFeedback = [[UIImpactFeedbackGenerator alloc] initWithStyle: UIImpactFeedbackStyleHeavy];
 }
 
 - (void)addObservers {
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-    [center addObserver:self selector:@selector(bluetoothChanged:) name:ORKdBHLBluetoothChangedNotification object:nil];
+    [center addObserver:self selector:@selector(headphonesStatusChanged:) name:ORKdBHLHeadphonesInEarsNotification object:nil];
     [center addObserver:self selector:@selector(appWillTerminate:) name:UIApplicationWillTerminateNotification object:nil];
     [center addObserver:self selector:@selector(tapButtonPressed) name:@"buttonTapped" object:nil];
     [center addObserver:self selector:@selector(skipButtonPressed) name:@"skipTapped" object:nil];
@@ -230,16 +230,7 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    
-    [_tonePlayer startSessionFor:5 completion:^(BOOL startedSession) {
-        NSLog(@"ORKTonePlayer session started: %@", startedSession ? @"true" : @"false");
-        
-        [_tonePlayer enableANCHearingTestModeFor:5 completion:^(BOOL startedANC) {
-            NSLog(@"ORKTonePlayer ANCHearingTestMode enabled: %@", startedANC ? @"true" : @"false");
-            
-            [self start];
-        }];
-    }];
+    [self start];
 }
 
 -(void)appWillTerminate:(NSNotification*)note {
@@ -372,8 +363,8 @@
     toneResult.allTaps = [_taps copy];
 #if RK_APPLE_INTERNAL
     toneResult.caseSerial = self.taskViewController.caseSerial.length > 1 ? self.taskViewController.caseSerial : @"";
-    toneResult.leftSerial = self.taskViewController.leftBudSerial.length > 1 ? self.taskViewController.leftBudSerial : @"";
-    toneResult.rightSerial = self.taskViewController.rightBudSerial.length > 1 ? self.taskViewController.rightBudSerial : @"";
+    toneResult.leftSerial = self.taskViewController.leftHeadphoneSerial.length > 1 ? self.taskViewController.leftHeadphoneSerial : @"";
+    toneResult.rightSerial = self.taskViewController.rightHeadphoneSerial.length > 1 ? self.taskViewController.rightHeadphoneSerial : @"";
     toneResult.fwVersion = self.taskViewController.fwVersion.length > 1 ? self.taskViewController.fwVersion : @"";
     if (@available(iOS 14.0, *)) {
         if ([self.audiometryEngine isKindOfClass:[ORKNewAudiometry class]]) {
@@ -389,13 +380,8 @@
                 [engine.previousAudiogram enumerateKeysAndObjectsUsingBlock:^(NSNumber *key, NSNumber *value, BOOL* stop) {
                     [previousAudiogram setValue:value forKey:key.stringValue];
                 }];
-                toneResult.userInfo = @{@"simulatedHL": [self simulatedHLTable], @"previousAudiogram": previousAudiogram};
-            } else {
-                toneResult.userInfo = @{@"simulatedHL": [self simulatedHLTable]};
             }
 #endif
-        } else {
-            toneResult.userInfo = @{@"simulatedHL": [self simulatedHLTable]};
         }
     }
 #endif
@@ -427,18 +413,24 @@
 }
     
 - (void)stopAudio {
-    [_audioGenerator stop];
+#if USE_LEGACY_TONEPLAYER
+        [_audioGenerator stop];
+#else
+        [self.taskViewController stopAudio];
+#endif
 
     if (_preStimulusDelayWorkBlock) {
         dispatch_block_cancel(_preStimulusDelayWorkBlock);
+#if USE_LEGACY_TONEPLAYER
         dispatch_block_cancel(_pulseDurationWorkBlock);
         dispatch_block_cancel(_postStimulusDelayWorkBlock);
+#endif
     }
 }
 
 - (void)runTestTrial {
     ORKTaskViewController *taskVC = self.taskViewController;
-    if (!_showingAlert && taskVC.budsInEars) {
+    if (!_showingAlert && taskVC.headphonesInEars) {
         [self stopAudio];
         
         [self.dBHLToneAudiometryContentView setProgress:self.audiometryEngine.progress animated:YES];
@@ -453,35 +445,40 @@
             self.currentTap.frequency = stimulus.frequency;
             self.currentTap.channel = stimulus.channel;
             self.currentTap.response = ORKdBHLToneAudiometryTapBeforeResponseWindow;
-            
+#if USE_LEGACY_TONEPLAYER
             const NSTimeInterval toneDuration = [self dBHLToneAudiometryStep].toneDuration;
             const NSTimeInterval postStimulusDelay = [self dBHLToneAudiometryStep].postStimulusDelay;
-            
+#endif
             double delay1 = arc4random_uniform([self dBHLToneAudiometryStep].maxRandomPreStimulusDelay - 1);
             double delay2 = (double)arc4random_uniform(10)/10;
             double preStimulusDelay = delay1 + delay2 + 1;
             [self.audiometryEngine registerPreStimulusDelay:preStimulusDelay];
-            
+        
             _preStimulusDelayWorkBlock = dispatch_block_create(DISPATCH_BLOCK_INHERIT_QOS_CLASS, ^{
                 if ([[self audiometryEngine] respondsToSelector:@selector(registerStimulusPlayback)]) {
                     [self.audiometryEngine registerStimulusPlayback];
                 }
-//                [_audioGenerator playSoundAtFrequency:stimulus.frequency onChannel:stimulus.channel dBHL:stimulus.level];
-                
-//                dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
-                    [_tonePlayer playWithFrequency:stimulus.frequency level:stimulus.level channel:stimulus.channel completion:^(NSError * _Nonnull error) {
+#if USE_LEGACY_TONEPLAYER
+                    [_audioGenerator playSoundAtFrequency:stimulus.frequency onChannel:stimulus.channel dBHL:stimulus.level];
+#else
+                    [self.taskViewController playWithFrequency:stimulus.frequency level:stimulus.level channel:stimulus.channel completion:^(NSError * _Nonnull error) {
                         if (error) {
-                            NSLog(@"tonePlayer playWithFrequency error: %@", error);
+                            ORK_Log_Error("tonePlayer playWithFrequency error: %@", error);
+                        } else {
+                            self.currentTap.response = ORKdBHLToneAudiometryNoTapOnResponseWindow;
+                            [self logCurrentTap];
+                            
+                            [self.audiometryEngine registerResponse:NO];
                         }
+                        [self nextTrial];
                     }];
-//                }
+#endif
                 self.currentTap.response = ORKdBHLToneAudiometryTapOnResponseWindow;
             });
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(preStimulusDelay * NSEC_PER_SEC)), dispatch_get_main_queue(), _preStimulusDelayWorkBlock);
-            
+#if USE_LEGACY_TONEPLAYER
             _pulseDurationWorkBlock = dispatch_block_create(DISPATCH_BLOCK_INHERIT_QOS_CLASS, ^{
-//                [_audioGenerator stop];
-                [_tonePlayer stop];
+                [_audioGenerator stop];
             });
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((preStimulusDelay + toneDuration - 0.1) * NSEC_PER_SEC)), dispatch_get_main_queue(), _pulseDurationWorkBlock);
             
@@ -493,16 +490,19 @@
                 [self nextTrial];
             });
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((preStimulusDelay + toneDuration + postStimulusDelay) * NSEC_PER_SEC)), dispatch_get_main_queue(), _postStimulusDelayWorkBlock);
+#endif
         }];
     }
 }
 
 - (void)nextTrial {
-    if (self.audiometryEngine.testEnded) {
-        [self finish];
-    } else {
-        [self runTestTrial];
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (self.audiometryEngine.testEnded) {
+            [self finish];
+        } else {
+            [self runTestTrial];
+        }
+    });
 }
 
 - (void)skipButtonPressed {
@@ -512,7 +512,6 @@
 }
 
 - (void)tapButtonPressed {
-
     [self animatedBHLButton];
     [_hapticFeedback impactOccurred];
     
@@ -547,17 +546,13 @@
     return [[self dBHLToneAudiometryStep].headphoneType uppercaseString];
 }
 
-- (void)bluetoothChanged: (NSNotification *)note {
-    // check if budsInEars
+- (void)headphonesStatusChanged: (NSNotification *)note {
+    // CVTODO: Review if we will need to something here or everything will be handled by ORKTaskViewController
 //    ORKTaskViewController *taskVC = self.taskViewController;
-//    if (!taskVC.budsInEars) {
-//        [self showAlertWithTitle:@"Hearing Test" andMessage:@"Make sure you have both buds in ears."];
-//    } else if (taskVC.callActive) {
-//        [self showAlertWithTitle:@"Hearing Test" andMessage:@"Please finish the call and try the task again."];
-//    } else if (taskVC.ancStatus != ORKdBHLHeadphonesANCStatusEnabled) {
-//        [self showAlertWithTitle:@"Hearing Test" andMessage:@"ANC mode must be turned ON to take this test."];
-//    } else if (taskVC.leftBattery < LOW_BATTERY_LEVEL_THRESHOLD_VALUE || taskVC.rightBattery < LOW_BATTERY_LEVEL_THRESHOLD_VALUE) {
-//        [self showAlertWithTitle:@"Hearing Test" andMessage:@"Headphones battery level are low. Please charge it and take the test again."];
+//    if (!taskVC.headphonesInEars) {
+//        [self showAlertWithTitle:@"Hearing Test" andMessage:@"Make sure you have both headphones in ears."];
+//    } else {
+//       //
 //    }
 }
 

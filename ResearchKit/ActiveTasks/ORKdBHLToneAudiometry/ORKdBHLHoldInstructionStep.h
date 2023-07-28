@@ -33,18 +33,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 ORK_CLASS_AVAILABLE
-@interface ORKdBHLFitTestStep : ORKActiveStep
-
-@property (nonatomic, assign) double sealThreshold;
-
-@property (nonatomic, assign) double confidenceThreshold;
-
-// The following properties will be keeped until a final decision is made about the Fit Test retries
-@property (nonatomic, assign) NSInteger numberOfTries;
-
-@property (nonatomic, assign) NSInteger minimumNumberOfTries;
-
-@property (nonatomic, assign) NSInteger maximumNumberOfTries;
+@interface ORKdBHLHoldInstructionStep : ORKInstructionStep
 
 @end
 

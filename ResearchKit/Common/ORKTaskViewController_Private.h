@@ -33,34 +33,35 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-ORK_EXTERN NSString * const ORKdBHLBluetoothChangedNotification;
+ORK_EXTERN NSString * const ORKdBHLHeadphonesInEarsNotification;
 ORK_EXTERN NSString * const ORKdBHLBluetoothSealValueChangedNotification;
 
 #define APPLE_B698_PRODUCTID                8212
+#define APPLE_B698C_PRODUCTID               8228
 #define CHAND_FFANC_FWVERSION               @"5E102"
+#define CELLO_FWVERSION                     @"6A" // CVTODO: change this to point to the final firmware version
 #define LOW_BATTERY_LEVEL_THRESHOLD_VALUE   0.20
 
 typedef NS_ENUM(NSUInteger, ORKdBHLHeadphonesStatus) {
-    ORKdBHLHeadphonesStatusNoDevice,
+    ORKdBHLHeadphonesStatusNotInEars,
+    ORKdBHLHeadphonesStatusInEars,
     ORKdBHLHeadphonesStatusWrongDevice,
     ORKdBHLHeadphonesStatusWrongFirmware,
-    ORKdBHLHeadphonesANCStatusEnabled,
-    ORKdBHLHeadphonesANCStatusDisabled,
-    ORKdBHLHeadphonesStatusLowBatteryLeft,
-    ORKdBHLHeadphonesStatusLowBatteryRight,
-    ORKdBHLHeadphonesStatusLowBatteryBoth
+    ORKdBHLHeadphonesStatusEnablingHearingTest,
+    ORKdBHLHeadphonesStatusHearingTestEnabled,
+    ORKdBHLHeadphonesStatusHearingTestDisabled
 };
 
 @class BluetoothDevice;
 @interface ORKTaskViewController (ORKActiveTaskSupport)
 
-@property (nonatomic, readonly) BOOL budsInEars;
+@property (nonatomic, readonly) BOOL headphonesInEars;
 @property (nonatomic, readonly) BOOL callActive;
-@property (nonatomic, readonly) ORKdBHLHeadphonesStatus ancStatus;
+@property (nonatomic, readonly) ORKdBHLHeadphonesStatus hearingModeStatus;
 @property (nonatomic, readonly) BluetoothDevice *currentDevice;
 @property (nonatomic, strong, readonly) NSString *caseSerial;
-@property (nonatomic, strong, readonly) NSString *leftBudSerial;
-@property (nonatomic, strong, readonly) NSString *rightBudSerial;
+@property (nonatomic, strong, readonly) NSString *leftHeadphoneSerial;
+@property (nonatomic, strong, readonly) NSString *rightHeadphoneSerial;
 @property (nonatomic, strong, readonly) NSString *fwVersion;
 @property (nonatomic, readonly) double leftBattery;
 @property (nonatomic, readonly) double rightBattery;
@@ -104,6 +105,23 @@ typedef NS_ENUM(NSUInteger, ORKdBHLHeadphonesStatus) {
  Locks the device volume to a specific value. Will ignore a new locked value if the method was called before.
  */
 - (void)lockDeviceVolume:(float)volume;
+
+/**
+ Enables the HearingTestMode on AirPods, returns false if something went wrong
+ */
+- (void)enableHearingTestModeWithCompletion:(void(^)(BOOL hearingModeEnabled))handler;
+
+- (void)disableHearingTestMode;
+
+/**
+ Plays a tone using the HearingTest framework tone player, returns an error if the play fails
+ */
+- (void)playWithFrequency:(double)frequency level:(double)level channel:(ORKAudioChannel)channel completion:(void(^)(NSError * _Nonnull error))completion;
+
+/**
+ Stops the tone using being played by the tone player of the HearingTest framework.
+ */
+- (void)stopAudio;
 #endif
 - (void)stepViewController:(ORKStepViewController *)stepViewController didFinishWithNavigationDirection:(ORKStepViewControllerNavigationDirection)direction
                   animated:(BOOL)animated;

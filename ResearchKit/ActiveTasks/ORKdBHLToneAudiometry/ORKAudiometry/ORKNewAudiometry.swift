@@ -772,8 +772,9 @@ public extension ORKNewAudiometry {
         var coverageMatrix = Matrix<Double>(elements: [], rows: 0, columns: 5)
         
         let freqRange = bark(allFrequencies.asVector())
+        // rdar://112193144 ([Yodel-T1072] For CV: Increase granularity of dB range in checkCoverage function)
         let barkRange = vDSP.linearInterpolate(values: [freqRange.minimum(), freqRange.maximum()],
-                                               atIndices: [0, 34])
+                                               atIndices: [0, 50])
         
         let xRange = (barkRange + [500, 1000, 2000, 3000, 4000, 6000].map(bark)).sorted()
         let specialFreqs1 = [250, 1000, 4000, 8000].map(bark)

@@ -72,6 +72,11 @@ FOUNDATION_EXPORT void ORKStepArrayAddStep(NSMutableArray<ORKStep *> *array, ORK
 + (ORKCompletionStep *)makeCompletionStep;
 + (NSDateComponentsFormatter *)textTimeFormatter;
 
+// Creates copies of all steps and assign them to the task.
+// This method was created to fix the AlgorithmEngine Singleton problem that was causing
+// the step to start on a finish state when restarting dBHL steps
+- (void)rebuildSteps;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -11,7 +11,23 @@ import Foundation
 let tonePlayer = HTTonePlayer()
   
 @objcMembers
-public class ORKTonePlayer: NSObject {
+public class ORKTonePlayer: NSObject, HTRequirementStatusObserver {
+    public var name: String = "HearingTestDeviceStatus"
+    
+    public func faultCheckStatusChanged(status: HTFaultCheckStatus) {
+        // KagraTODO: review of we need to implemnt this
+        print("Recieved faultCheck \(status)")
+    }
+    
+    public func inEarStatusChanged(status: HTAudioDeviceStatus) {
+        // KagraTODO: review of we need to implemnt this
+        print("Recieved inEarStatusChanged \(status)")
+    }
+    
+    public func enableListeners() {
+        // KagraTODO: review of we need to implemnt this
+    }
+    
     public func startSession(for retryTimes: Int = 5, completion: @escaping (Bool) -> Void) {
         Task {
             let result = await tonePlayer.startSession(for: retryTimes)

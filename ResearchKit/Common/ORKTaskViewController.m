@@ -52,6 +52,7 @@
 #import "ORKReviewStep_Internal.h"
 #import "ORKStep_Private.h"
 #import "ORKTappingIntervalStep.h"
+#import "ORKdBHLFitTestStep.h"
 
 #import "ORKHelpers_Internal.h"
 #import "ORKObserver.h"
@@ -78,10 +79,12 @@
 #import "ORKBluetoothManagerSoftLink.h"
 #import "ORKdBHLToneAudiometryStepViewController.h"
 #import "ORKdBHLToneAudiometryStep.h"
+#import "ORKUIKitSoftLink.h"
+#import "ORKHearingTestSoftLink.h"
 #endif
 
-NSString * const ORKdBHLBluetoothChangedNotification = @"com.appleinternal.acoutics.kagraapp.bluetoothchanged_notification";
-NSString * const ORKdBHLBluetoothSealValueChangedNotification = @"com.appleinternal.acoutics.kagraapp.sealvaluechanged_notification";
+NSString * const ORKdBHLHeadphonesInEarsNotification = @"com.appleinternal.acoutics.hearingtest.headphonesinears_notification";
+NSString * const ORKdBHLBluetoothSealValueChangedNotification = @"com.appleinternal.acoutics.hearingtest.sealvaluechanged_notification";
 
 typedef void (^_ORKLocationAuthorizationRequestHandler)(BOOL success);
 
@@ -160,53 +163,51 @@ typedef void (^_ORKLocationAuthorizationRequestHandler)(BOOL success);
 
 - (void)cancelButtonPressed:(CustomBarButtonItem *)sender {
     ORKTaskViewController *presentingController = (ORKTaskViewController *)self.target;
+    BOOL isOnMOL = NO;
+    BOOL isOnFitTest = NO;
     ORKdBHLToneAudiometryStepViewController *molVC;
     if ([presentingController.currentStepViewController isKindOfClass:[ORKdBHLToneAudiometryStepViewController class]]) {
         molVC = (ORKdBHLToneAudiometryStepViewController *)presentingController.currentStepViewController;
+        // Review on Health App how HTTonePlayer is doing the pause.
+        isOnMOL = YES;
         [molVC pauseTask];
     }
-    if (!_shouldReallyCancel) {
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hearing Test"
-                                                                                 message:nil
-                                                                          preferredStyle:UIAlertControllerStyleAlert];
+    if ([presentingController.currentStepViewController isKindOfClass:[ORKdBHLFitTestStepViewController class]]) {
+        isOnFitTest = YES;
+    }
+    
+    // check the message for the fit test
+    NSString *message = isOnFitTest ? @"This will end the hearing test and all progress will be lost." : @"This will end the hearing test and all progress will be lost.";
+    
+    
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil
+                                                                             message:message
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
 
-        NSString *message = @"If you want to upload data, click Finish \nIf you want to continue, click Resume.\nIf you want to cancel the test, click Resume and then Cancel again. (No Data will be uploaded)";
-        NSMutableAttributedString *attributedMessage = [[NSMutableAttributedString alloc] initWithString:message];
-        NSRange range = [message rangeOfString:@"Resume"];
-        [attributedMessage addAttribute:NSForegroundColorAttributeName value:[UIColor blueColor] range:range];
-        range = [message rangeOfString:@"Finish"];
-        [attributedMessage addAttribute:NSForegroundColorAttributeName value:[UIColor blueColor] range:range];
-        range = [message rangeOfString:@"Cancel"];
-        [attributedMessage addAttribute:NSForegroundColorAttributeName value:[UIColor blueColor] range:range];
-
-        [alertController setValue:attributedMessage forKey:@"attributedMessage"];
-
-        UIAlertAction *resumeAction = [UIAlertAction actionWithTitle:@"Resume" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            ORK_Log_Info("Task resumed from cancel override");
+    UIAlertAction *dontCancelAction = [UIAlertAction actionWithTitle:@"Don’t Cancel" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        ORK_Log_Info("Task resumed");
+        if (isOnMOL) {
+            // Review on Health App how HTTonePlayer is doing the resume.
             [molVC resumeTask];
-        }];
-        [alertController addAction:resumeAction];
-        
-        UIAlertAction *finishAction = [UIAlertAction actionWithTitle:@"Finish" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            ORK_Log_Info("Task finished from cancel override");
-            ORKStrongTypeOf(presentingController.delegate) strongDelegate = presentingController.delegate;
-            if ([strongDelegate respondsToSelector:@selector(taskViewController:didFinishWithReason:error:)]) {
-                [strongDelegate taskViewController:presentingController didFinishWithReason:ORKTaskViewControllerFinishReasonCompleted error:nil];
-            }
-        }];
-        [alertController addAction:finishAction];
-
-        // Present the alert controller
-        [presentingController presentViewController:alertController animated:YES completion:nil];
-        
-        _shouldReallyCancel = YES;
-    } else {
-        ORK_Log_Info("Task cancelled from cancel override");
+        }
+    }];
+    
+    [alertController addAction:dontCancelAction];
+    
+    UIAlertAction *defaultAction = [UIAlertAction actionWithTitle:@"Cancel Test" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        ORK_Log_Info("Task cancelled");
+        // Get the definition if the task will be discarded or completed.
+        ORKTaskViewControllerFinishReason finishReason = isOnFitTest ? ORKTaskViewControllerFinishReasonDiscarded :  ORKTaskViewControllerFinishReasonDiscarded;
         if ([presentingController.delegate respondsToSelector:@selector(taskViewController:didFinishWithReason:error:)]) {
             [presentingController.delegate taskViewController:presentingController
-                                          didFinishWithReason:ORKTaskViewControllerFinishReasonDiscarded error:nil];
+                                          didFinishWithReason:finishReason error:nil];
         }
-    }
+    }];
+    [alertController addAction:defaultAction];
+    
+    alertController.preferredAction = defaultAction;
+    
+    [presentingController presentViewController:alertController animated:YES completion:nil];
 }
 
 @end
@@ -242,8 +243,10 @@ typedef void (^_ORKLocationAuthorizationRequestHandler)(BOOL success);
     float _savedVolume;
     float _lockedVolume;
     
-    UILabel *_ancLabel;
-    BOOL _shouldShowANCLabel;
+    ORKTonePlayer *_tonePlayer;
+    
+    UILabel *_hearingModeLabel;
+    BOOL _shouldShowHearingModeLabel;
 #endif
     
     UINavigationController *_childNavigationController;
@@ -253,12 +256,12 @@ typedef void (^_ORKLocationAuthorizationRequestHandler)(BOOL success);
 }
 
 @property (nonatomic, assign) BOOL callActive;
-@property (nonatomic, assign) BOOL budsInEars;
-@property (nonatomic, assign) ORKdBHLHeadphonesStatus ancStatus;
+@property (nonatomic, assign) BOOL headphonesInEars;
+@property (nonatomic, assign) ORKdBHLHeadphonesStatus hearingModeStatus;
 @property (nonatomic, readwrite) BluetoothDevice *currentDevice;
 @property (nonatomic, strong, readwrite) NSString *caseSerial;
-@property (nonatomic, strong, readwrite) NSString *leftBudSerial;
-@property (nonatomic, strong, readwrite) NSString *rightBudSerial;
+@property (nonatomic, strong, readwrite) NSString *leftHeadphoneSerial;
+@property (nonatomic, strong, readwrite) NSString *rightHeadphoneSerial;
 @property (nonatomic, strong, readwrite) NSString *fwVersion;
 @property (nonatomic, assign) double leftBattery;
 @property (nonatomic, assign) double rightBattery;
@@ -305,20 +308,20 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
         ORKOrderedTask *orderedTask = (ORKOrderedTask *)self.task;
         for (ORKStep *step in orderedTask.steps) {
             if ([step isKindOfClass:[ORKdBHLToneAudiometryStep class]]) {
-                _shouldShowANCLabel = YES;
+                _shouldShowHearingModeLabel = YES;
             }
         }
     }
-    if (_shouldShowANCLabel) {
-        _ancLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, 50)];
-        _ancLabel.font = [UIFont systemFontOfSize:15];
-        _ancLabel.textAlignment = NSTextAlignmentCenter;
-        _ancLabel.backgroundColor = [UIColor clearColor];
+    if (_shouldShowHearingModeLabel) {
+        _hearingModeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, 50)];
+        _hearingModeLabel.font = [UIFont systemFontOfSize:15];
+        _hearingModeLabel.textAlignment = NSTextAlignmentCenter;
+        _hearingModeLabel.backgroundColor = [UIColor clearColor];
         
         UINavigationBar *navBar = _childNavigationController.navigationBar;
-        [navBar addSubview:_ancLabel];
+        [navBar addSubview:_hearingModeLabel];
         
-        [self updateANCLabelForStatus:ORKdBHLHeadphonesStatusNoDevice];
+        [self updateHeadphoneLabelForStatus:ORKdBHLHeadphonesStatusNotInEars];
     }
 }
 
@@ -341,7 +344,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
 #if RK_APPLE_INTERNAL
     _hasLockedVolume = NO;
 #endif
-    _shouldShowANCLabel = NO;
+    _shouldShowHearingModeLabel = NO;
     return self;
 }
 
@@ -728,8 +731,8 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _budsInEars = NO;
-    _ancStatus = ORKdBHLHeadphonesStatusNoDevice;
+    _headphonesInEars = NO;
+    _hearingModeStatus = ORKdBHLHeadphonesStatusNotInEars;
     _callActive = NO;
     [self setUpChildNavigationController];
     
@@ -753,6 +756,8 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     [self handleDeviceChanges:nil];
     
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
+    
+    [self._responderWindow.windowScene _setSystemVolumeHUDEnabled:NO];
 }
 
 #if RK_APPLE_INTERNAL
@@ -760,7 +765,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     _hasLockedVolume = YES;
     _lockedVolume = volume;
     
-    [self registerNotifications];
+    [self registerVolumeNotifications];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         _savedVolume = [[AVAudioSession sharedInstance] outputVolume];
@@ -768,11 +773,29 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     });
 }
 
+- (void)restoreSavedVolume {
+#if RK_APPLE_INTERNAL
+    // restore saved volume
+    [self unregisterVolumeNotification];
+    if (_hasLockedVolume || (!_hasLockedVolume && _savedVolume > 0)) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul), ^{
+            [[getAVSystemControllerClass() sharedAVSystemController] setActiveCategoryVolumeTo:_savedVolume];
+        });
+    }
+#endif
+}
+
 - (void)saveVolume {
     _savedVolume = [[AVAudioSession sharedInstance] outputVolume];
 }
 
-- (void)registerNotifications {
+- (void)unregisterVolumeNotification {
+    if (@available(iOS 15.0, *)) {
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:getAVSystemController_SystemVolumeDidChangeNotification() object:nil];
+    }
+}
+
+- (void)registerVolumeNotifications {
     if (@available(iOS 15.0, *)) {
         [[getAVSystemControllerClass() sharedAVSystemController] setAttribute:@[getAVSystemController_SystemVolumeDidChangeNotification()]
                                                                        forKey:getAVSystemController_SubscribeToNotificationsAttribute()
@@ -836,13 +859,9 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     [super viewDidDisappear:animated];
     
 #if RK_APPLE_INTERNAL
-    
-    // restore saved volume
-    if (_hasLockedVolume || (!_hasLockedVolume && _savedVolume > 0)) {
-        [[NSNotificationCenter defaultCenter] removeObserver:self];
-        
-        [[getAVSystemControllerClass() sharedAVSystemController] setActiveCategoryVolumeTo:_savedVolume];
-    }
+    [self restoreSavedVolume];
+    [self disableHearingTestMode];
+    [self._responderWindow.windowScene _setSystemVolumeHUDEnabled:YES];
 #endif
     
     // Set endDate on TaskVC is dismissed,
@@ -1098,12 +1117,6 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     
     ORKStep *step = stepViewController.step;
     [self updateLastBeginningInstructionStepIdentifierForStep:step goForward:goForward];
-    
-    // Makes sure that if the next view controller is an ORKdBHLToneAudiometryStepViewController reset the engine
-    if ([step isKindOfClass:[ORKdBHLToneAudiometryStep class]]) {
-        ORKdBHLToneAudiometryStep *audiometryStep = (ORKdBHLToneAudiometryStep *)step;
-        [audiometryStep resetAudiometryEngine];
-    }
     
     ORKStepViewController *fromController = self.currentStepViewController;
 #if RK_APPLE_INTERNAL
@@ -1393,7 +1406,7 @@ if (newViewControllers != _childNavigationController.viewControllers) {
     }
     stepViewController.navigationItem.title = progressLabel;
     
-    _ancLabel.center = CGPointMake(self.view.frame.size.width / 2, 60);
+    _hearingModeLabel.center = CGPointMake(self.view.frame.size.width / 2, 60);
 }
 
 #pragma mark - internal action Handlers
@@ -2056,56 +2069,64 @@ static NSString *const _ORKProgressMode = @"progressMode";
     return (BluetoothManager *)[getBluetoothManagerClass() sharedInstance];
 }
 
-- (void)updateANCLabelForStatus:(ORKdBHLHeadphonesStatus)status {
-    _ancStatus = status;
+- (void)updateHeadphoneLabelForStatus:(ORKdBHLHeadphonesStatus)status {
     dispatch_async(dispatch_get_main_queue(), ^{
         switch (status) {
-            case ORKdBHLHeadphonesStatusNoDevice:
+            case ORKdBHLHeadphonesStatusNotInEars:
             {
-                _ancLabel.text = @"Place Headphones In Both Ears";
-                _ancLabel.textColor = [UIColor grayColor];
+                _hearingModeLabel.text = @"Place Headphones In Both Ears";
+                _hearingModeLabel.textColor = [UIColor grayColor];
+                _hearingModeStatus = status;
+                ORK_Log_Info("update headphone status for NOT IN EARS.");
+                break;
+            }
+            case ORKdBHLHeadphonesStatusInEars:
+            {
+                if (_hearingModeStatus != ORKdBHLHeadphonesStatusEnablingHearingTest) {
+                    _hearingModeLabel.text = @"Headphones Connected";
+                    _hearingModeLabel.textColor = [UIColor grayColor];
+                    ORK_Log_Info("update headphone status for IN EARS. currentStatus = %lu",(unsigned long)_hearingModeStatus);
+                }
                 break;
             }
             case ORKdBHLHeadphonesStatusWrongDevice:
             {
-                _ancLabel.text = @"Wrong Headphones type";
-                _ancLabel.textColor = [UIColor grayColor];
+                _hearingModeLabel.text = @"Wrong Headphones type";
+                _hearingModeLabel.textColor = [UIColor grayColor];
+                _hearingModeStatus = status;
+                ORK_Log_Info("update headphone status for WRONG HEADPHONE TYPE.");
                 break;
             }
             case ORKdBHLHeadphonesStatusWrongFirmware:
             {
-                _ancLabel.text = [NSString stringWithFormat:@"Wrong Headphones firmware %@",_fwVersion];
-                _ancLabel.textColor = [UIColor grayColor];
+                _hearingModeLabel.text = [NSString stringWithFormat:@"Wrong Headphones firmware %@",_fwVersion];
+                _hearingModeLabel.textColor = [UIColor grayColor];
+                _hearingModeStatus = status;
+                ORK_Log_Info("update headphone status for WRONG FIRMWARE %@", _fwVersion);
                 break;
             }
-            case ORKdBHLHeadphonesANCStatusEnabled:
+            case ORKdBHLHeadphonesStatusEnablingHearingTest:
             {
-                _ancLabel.text = @"ANC is ON";
-                _ancLabel.textColor = [UIColor blueColor];
+                _hearingModeLabel.text = @"Enabling Hearing Test";
+                _hearingModeLabel.textColor = [UIColor blueColor];
+                _hearingModeStatus = status;
+                ORK_Log_Info("update headphone status for ENABLING HEARING TEST MODE.");
                 break;
             }
-            case ORKdBHLHeadphonesANCStatusDisabled:
+            case ORKdBHLHeadphonesStatusHearingTestEnabled:
             {
-                _ancLabel.text = @"ANC is Off";
-                _ancLabel.textColor = [UIColor redColor];
+                _hearingModeLabel.text = @"Hearing Test Mode Enabled";
+                _hearingModeLabel.textColor = [UIColor blueColor];
+                _hearingModeStatus = status;
+                ORK_Log_Info("update headphone status for HEARING TEST MODE ENABLED.");
                 break;
             }
-            case ORKdBHLHeadphonesStatusLowBatteryLeft:
+            case ORKdBHLHeadphonesStatusHearingTestDisabled:
             {
-                _ancLabel.text = @"Left Bud Low Battery Level";
-                _ancLabel.textColor = [UIColor redColor];
-                break;
-            }
-            case ORKdBHLHeadphonesStatusLowBatteryRight:
-            {
-                _ancLabel.text = @"Right Bud Low Battery Level";
-                _ancLabel.textColor = [UIColor redColor];
-                break;
-            }
-            case ORKdBHLHeadphonesStatusLowBatteryBoth:
-            {
-                _ancLabel.text = @"Headphones Low Battery Level";
-                _ancLabel.textColor = [UIColor redColor];
+                _hearingModeLabel.text = @"Hearing Test Mode Disabled";
+                _hearingModeLabel.textColor = [UIColor redColor];
+                _hearingModeStatus = status;
+                ORK_Log_Info("update headphone status for HEARING TEST MODE DISABLED.");
                 break;
             }
             default:
@@ -2159,25 +2180,54 @@ static NSString *const _ORKProgressMode = @"progressMode";
     [self stopRefreshTimer];
 }
 
+- (void)restartFitTestWithIdentifier:(NSString *)fitTestIdentifier anddBHLIdentifier:(NSString *)dBHLIdentifier{
+    ORKdBHLFitTestStep * fitTestStep = (ORKdBHLFitTestStep *)[_task stepWithIdentifier:fitTestIdentifier];
+    ORKStep *beforeFitTestStep = nil;
+    if ([self.task respondsToSelector:@selector(stepBeforeStep:withResult:)]) {
+        beforeFitTestStep = [self.task stepBeforeStep:fitTestStep withResult:[self result]];
+    }
+    NSUInteger index = [_managedStepIdentifiers indexOfObject:beforeFitTestStep.identifier];
+    if (index != NSNotFound) {
+        // removing managedStepIdentifers to enable recreation of VCs
+        NSRange rangeToDelete = NSMakeRange(index + 1 , self.managedStepIdentifiers.count - index - 1);
+        [self.managedStepIdentifiers removeObjectsInRange:rangeToDelete];
+    }
+    // removing dBHL and FitTest results
+    [_managedResults removeObjectForKey:dBHLIdentifier];
+    [_managedResults removeObjectForKey:fitTestIdentifier];
+    
+    if ([self.task isKindOfClass:[ORKOrderedTask class]]) {
+        ORKOrderedTask *orderedTask = (ORKOrderedTask *)self.task;
+        [orderedTask rebuildSteps];
+    }
+    
+    if (beforeFitTestStep) {
+        [self showStepViewController:[self viewControllerForStep:beforeFitTestStep] goForward:YES animated:NO];
+    }
+}
+
 -(void)appDidBecomeActive:(NSNotification*)note {
     ORKWeakTypeOf(self) weakSelf = self;
-    NSString *identifierForLastFitTest = nil;
-    BOOL alreadyStarteddBHL = NO;
+    NSString *identifierForFitTestResult = nil;
+    NSString *identifierFordBHLResult = nil;
     BOOL isOnFitTest = [self.currentStepViewController isKindOfClass:[ORKdBHLFitTestStepViewController class]];
+    if (isOnFitTest && _hearingModeStatus == ORKdBHLHeadphonesStatusHearingTestEnabled) {
+        // red flag, it's possible that we will need to reenable the hearing test mode before proceeding
+        // Do I need to disable and reenable the HTMode?
+    }
     ORKTaskResult *taskResults = [self result];
     for (ORKStepResult *result in taskResults.results) {
         if (result.results > 0) {
             ORKStepResult *firstResult = (ORKStepResult *)[result.results firstObject];
             if ([firstResult isKindOfClass:[ORKdBHLFitTestResult class]]) {
-                ORKdBHLFitTestResult *fitTestResult = (ORKdBHLFitTestResult *)firstResult;
-                identifierForLastFitTest = fitTestResult.identifier;
+                identifierForFitTestResult = firstResult.identifier;
             }
             if ([firstResult isKindOfClass:[ORKdBHLToneAudiometryResult class]]) {
-                alreadyStarteddBHL = YES;
+                identifierFordBHLResult = firstResult.identifier;
             }
         }
     }
-    if (identifierForLastFitTest && alreadyStarteddBHL && !isOnFitTest) {
+    if (identifierForFitTestResult && identifierFordBHLResult && !isOnFitTest) {
         // if we found an identifier for the fit test result the test must be invalidated and return to last fit test fit test.
         // this is necessary because the user may had removed the AirPods and inserted again, invalidating the test.
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -2191,7 +2241,7 @@ static NSString *const _ORKProgressMode = @"progressMode";
                                         actionWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE_START_OVER", nil)
                                         style:UIAlertActionStyleDefault
                                         handler:^(UIAlertAction *action) {
-                [strongSelf flipToPageWithIdentifier:identifierForLastFitTest forward:NO animated:NO];
+                [strongSelf restartFitTestWithIdentifier: identifierForFitTestResult anddBHLIdentifier: identifierFordBHLResult];
             }];
             [alertController addAction:startOver];
             [alertController addAction:[UIAlertAction
@@ -2207,6 +2257,43 @@ static NSString *const _ORKProgressMode = @"progressMode";
             [self presentViewController:alertController animated:YES completion:nil];
         });
     }
+}
+
+- (void)enableHearingTestModeWithCompletion:(void(^)(BOOL hearingModeEnabled))handler {
+    [self updateHeadphoneLabelForStatus:ORKdBHLHeadphonesStatusEnablingHearingTest];
+    if (!_tonePlayer) {
+        _tonePlayer = [getORKTonePlayerClass() new];
+    }
+    ORKWeakTypeOf(self)weakself = self;
+    [_tonePlayer enableANCHearingTestModeFor:10 completion:^(BOOL hearingModeEnabled) {
+        ORKStrongTypeOf(weakself) strongSelf = weakself;
+        ORK_Log_Debug("ORKTonePlayer ANCHearingTestMode enabled: %@", hearingModeEnabled ? @"true" : @"false");
+        if (hearingModeEnabled) {
+            [strongSelf updateHeadphoneLabelForStatus:ORKdBHLHeadphonesStatusHearingTestEnabled];
+        } else {
+            [strongSelf updateHeadphoneLabelForStatus:ORKdBHLHeadphonesStatusHearingTestDisabled];
+        }
+        handler(hearingModeEnabled);
+    }];
+}
+
+-(void)disableHearingTestMode {
+    if (_tonePlayer) {
+        [_tonePlayer disableANCHearingTestMode];
+    }
+}
+
+- (void)playWithFrequency:(double)frequency level:(double)level channel:(ORKAudioChannel)channel completion:(void(^)(NSError * _Nonnull error))completion {
+    [_tonePlayer playWithFrequency:frequency level:level channel:channel completion:^(NSError * _Nonnull error) {
+        if (error) {
+            ORK_Log_Error("tonePlayer playWithFrequency error: %@", error);
+        }
+        completion(error);
+    }];
+}
+
+- (void)stopAudio {
+    [_tonePlayer stop];
 }
 
 -(void)appWillTerminate:(NSNotification*)note {
@@ -2275,93 +2362,55 @@ static const NSTimeInterval ZERO_BATTERY_LEVEL_TIME_INTERVAL = 1.0;
     if (_currentDevice) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             _caseSerial = [[_currentDevice accessoryInfo][@"AACPVersionInfo"] objectAtIndex:BT_ACCESSORY_AACP_VERSION_SERIAL_NUMBER_SYSTEM];
-            _leftBudSerial = [[_currentDevice accessoryInfo][@"AACPVersionInfo"] objectAtIndex:BT_ACCESSORY_AACP_VERSION_SERIAL_NUMBER_LEFT];
-            _rightBudSerial = [[_currentDevice accessoryInfo][@"AACPVersionInfo"] objectAtIndex:BT_ACCESSORY_AACP_VERSION_SERIAL_NUMBER_RIGHT];
+            _leftHeadphoneSerial = [[_currentDevice accessoryInfo][@"AACPVersionInfo"] objectAtIndex:BT_ACCESSORY_AACP_VERSION_SERIAL_NUMBER_LEFT];
+            _rightHeadphoneSerial = [[_currentDevice accessoryInfo][@"AACPVersionInfo"] objectAtIndex:BT_ACCESSORY_AACP_VERSION_SERIAL_NUMBER_RIGHT];
             _fwVersion = [[_currentDevice accessoryInfo][@"AACPVersionInfo"] objectAtIndex:BT_ACCESSORY_AACP_VERSION_MARKETING_VERSION];
-            // the next line hangs the main thread
-            NSDictionary *modelSpecificInformation = [[[getAVOutputContextClass() sharedSystemAudioContext] outputDevice] modelSpecificInformation];
-            if ([modelSpecificInformation objectForKey:getAVOutputDeviceBatteryLevelLeftKey()] != nil &&
-                [modelSpecificInformation objectForKey:getAVOutputDeviceBatteryLevelRightKey()] != nil) {
-                _leftBattery = [[modelSpecificInformation objectForKey:getAVOutputDeviceBatteryLevelLeftKey()] doubleValue];
-                _rightBattery = [[modelSpecificInformation objectForKey:getAVOutputDeviceBatteryLevelRightKey()] doubleValue];
-            }
             BTAccessoryInEarStatus primaryInEar = BT_ACCESSORY_IN_EAR_STATUS_UNKNOWN;
             BTAccessoryInEarStatus secondaryInEar = BT_ACCESSORY_IN_EAR_STATUS_UNKNOWN;
 
             [_currentDevice inEarStatusPrimary:&primaryInEar secondary:&secondaryInEar];
-            _budsInEars = (primaryInEar == BT_ACCESSORY_IN_EAR_STATUS_IN_EAR) && (secondaryInEar == BT_ACCESSORY_IN_EAR_STATUS_IN_EAR);
-
+            BOOL headphonesInEars = (primaryInEar == BT_ACCESSORY_IN_EAR_STATUS_IN_EAR) && (secondaryInEar == BT_ACCESSORY_IN_EAR_STATUS_IN_EAR);;
+            
             // Once the task is complete, update the UI on the main thread
             dispatch_async(dispatch_get_main_queue(), ^{
-                ORK_Log_Info("case serial: %@; leftbud serial: %@; rightbudSerial: %@; firmwareVersion: %@; leftBattery: %f; rigthBattery: %f",_caseSerial,_leftBudSerial,_rightBudSerial, _fwVersion, _leftBattery, _rightBattery);
-                BOOL isB698 = _currentDevice.productId == APPLE_B698_PRODUCTID;
-                BOOL isCorrectFirmwareVersion = [_fwVersion isEqualToString:CHAND_FFANC_FWVERSION];
-                BOOL isBatteryOk = _leftBattery > LOW_BATTERY_LEVEL_THRESHOLD_VALUE && _rightBattery > LOW_BATTERY_LEVEL_THRESHOLD_VALUE;
+                ORK_Log_Info("case serial: %@; left headphone serial: %@; right headphone Serial: %@; firmwareVersion: %@;",_caseSerial,_leftHeadphoneSerial,_rightHeadphoneSerial, _fwVersion);
+                BOOL isB698 = (_currentDevice.productId == APPLE_B698_PRODUCTID || _currentDevice.productId == APPLE_B698C_PRODUCTID);
+                // TODO: reenable the check when the correct firmware version is defined
+                BOOL isCorrectFirmwareVersion = [_fwVersion containsString:CELLO_FWVERSION];
                 
-                BOOL correctDeviceConnected = isB698 && _budsInEars && isCorrectFirmwareVersion;
-                
-                if (correctDeviceConnected) {
-                    if (isBatteryOk) {
-                        // everything is ok, check ANC
-                        BTAccessoryListeningMode listeningMode = [_currentDevice listeningMode];
-                        switch ( listeningMode ) {
-                            case BT_ACCESSORY_LISTENING_MODE_ANC:
-                            {
-                                [self updateANCLabelForStatus:ORKdBHLHeadphonesANCStatusEnabled];
-                                break;
-                            }
-                            case BT_ACCESSORY_LISTENING_MODE_NORMAL:
-                            case BT_ACCESSORY_LISTENING_MODE_TRANSPARENCY:
-                            case BT_ACCESSORY_LISTENING_MODE_UNKNOWN:
-                            {
-                                [self updateANCLabelForStatus:ORKdBHLHeadphonesANCStatusDisabled];
-                                break;
-                            }
+                if (isB698) {
+                    if (headphonesInEars) {
+                        if (!isCorrectFirmwareVersion) {
+                            [self updateHeadphoneLabelForStatus:ORKdBHLHeadphonesStatusWrongFirmware];
+                        } else {
+                            [self updateHeadphoneLabelForStatus:ORKdBHLHeadphonesStatusInEars];
+                        }
+                        if (_hearingModeStatus == ORKdBHLHeadphonesStatusHearingTestEnabled) {
+                            [self updateHeadphoneLabelForStatus:ORKdBHLHeadphonesStatusHearingTestEnabled];
                         }
                     } else {
-                        // some battery level is low
-                        if (_leftBattery < LOW_BATTERY_LEVEL_THRESHOLD_VALUE) {
-                            [self updateANCLabelForStatus:ORKdBHLHeadphonesStatusLowBatteryLeft];
-                        }
-                        if (_rightBattery < LOW_BATTERY_LEVEL_THRESHOLD_VALUE) {
-                            [self updateANCLabelForStatus:ORKdBHLHeadphonesStatusLowBatteryRight];
-                        }
-                        if (_leftBattery < LOW_BATTERY_LEVEL_THRESHOLD_VALUE && _rightBattery < LOW_BATTERY_LEVEL_THRESHOLD_VALUE) {
-                            [self updateANCLabelForStatus:ORKdBHLHeadphonesStatusLowBatteryBoth];
-                        }
+                        [self updateHeadphoneLabelForStatus:ORKdBHLHeadphonesStatusNotInEars];
                     }
                 } else {
-                    // not the correct device
-                    if (!_budsInEars) {
-                        [self updateANCLabelForStatus:ORKdBHLHeadphonesStatusNoDevice];
-                    } else {
-                        if (!isB698) {
-                            // incorrect device
-                            [self updateANCLabelForStatus:ORKdBHLHeadphonesStatusWrongDevice];
-                        } else if (!isCorrectFirmwareVersion) {
-                            // correct device but incorrect firmware version
-                            [self updateANCLabelForStatus:ORKdBHLHeadphonesStatusWrongFirmware];
-                        }
-                    }
+                    [self updateHeadphoneLabelForStatus:ORKdBHLHeadphonesStatusWrongDevice];
                 }
-                NSNotification *notification = [NSNotification notificationWithName:ORKdBHLBluetoothChangedNotification
-                                                                             object:self
-                                                                           userInfo:nil];
-                [[NSNotificationCenter defaultCenter] postNotification:notification];
+                if (headphonesInEars != _headphonesInEars) {
+                    _headphonesInEars = headphonesInEars;
+                    NSNotification *notification = [NSNotification notificationWithName:ORKdBHLHeadphonesInEarsNotification
+                                                                                 object:self
+                                                                               userInfo:nil];
+                    [[NSNotificationCenter defaultCenter] postNotification:notification];
+                }
             });
-            if (_leftBattery == 0 && _rightBattery == 0) {
-                // special case , try to refresh UI
-                [self startRefreshTimer];
-            }
         });
     } else {
         // no device connected
-        [self updateANCLabelForStatus:ORKdBHLHeadphonesStatusNoDevice];
+        [self updateHeadphoneLabelForStatus:ORKdBHLHeadphonesStatusNotInEars];
     }
 }
 
 // Sometimes the left and right battery level report 0 on both values,
-// but the buds has enought battery to continue.
+// but the headphones has enougth battery to continue.
 // On that special case we will refresh the status after half a second to give time to collect the correct values.
 - (void)startRefreshTimer {
     if (_refreshTimer != nil) {
