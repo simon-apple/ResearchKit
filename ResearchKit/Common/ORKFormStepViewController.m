@@ -245,7 +245,6 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
                                                                                        answer:nil
                                                                            beginningIndexPath:[NSIndexPath indexPathForRow:0 inSection:_index]
                                                                           immediateNavigation:NO];
-        
         [textChoiceAnswerFormat.textChoices enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             ORKTableCellItem *cellItem = [[ORKTableCellItem alloc] initWithFormItem:item choiceIndex:idx];
             [(NSMutableArray *)self.items addObject:cellItem];
@@ -504,8 +503,10 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
 }
 
 // [RDLS:NOTE] Removed sections and tableCellItem
-- (void)updateAnsweredSections {
-    _identifiersOfAnsweredSections = [NSMutableSet new];
+/// returns YES if the answeredSections changed
+- (BOOL)updateAnsweredSections {
+    NSSet *oldValue = [_identifiersOfAnsweredSections copy];
+    NSMutableSet *newValue = [NSMutableSet new];
     
     NSDiffableDataSourceSnapshot<NSString *, ORKTableCellItemIdentifier *> *snapshot = [_diffableDataSource snapshot];
     for (NSString *eachSectionIdentifier in [snapshot sectionIdentifiers]) {
@@ -515,11 +516,16 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
             if (ORKIsAnswerEmpty(answer) == NO) {
                 
                 // [RDLS:NOTE] avoiding putting the answer info into a section viewModel object
-                [_identifiersOfAnsweredSections addObject:eachSectionIdentifier];
+                [newValue addObject:eachSectionIdentifier];
             }
         }
 
     }
+    
+    _identifiersOfAnsweredSections = [newValue mutableCopy];
+    
+    BOOL answeredSectionsChanged = [oldValue isEqualToSet:newValue] ? NO : YES;
+    return answeredSectionsChanged;
 }
 
 - (void)updateDefaults:(NSMutableDictionary *)defaults {
@@ -662,7 +668,7 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
         _diffableDataSource = [[UITableViewDiffableDataSource alloc] initWithTableView:_tableView cellProvider:^UITableViewCell * _Nullable(UITableView * _Nonnull tableView, NSIndexPath * _Nonnull indexPath, id  _Nonnull itemIdentifier) {
             return [weakSelf _tableView:tableView cellForIndexPath:indexPath itemIdentifier:itemIdentifier];
         }];
-        [self buildDataSource:_diffableDataSource];
+        [self buildDataSource:_diffableDataSource withPreviousResult:nil];
         _tableView.dataSource = _diffableDataSource;
         
 //        _tableView.dataSource = self;
@@ -792,7 +798,12 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
     
 }
 
-- (void)buildDataSource:(UITableViewDiffableDataSource<NSString *, ORKTableCellItemIdentifier *> *)dataSource {
+- (void)buildDataSource:(UITableViewDiffableDataSource<NSString *, ORKTableCellItemIdentifier *> *)dataSource withPreviousResult:(nullable ORKTaskResult*)previousResult {
+    
+    if(previousResult && ![self shouldRebuildDataStoreWithPreviousResult:previousResult]) {
+        ORK_Log_Info("Should NOT rebuild datastore bailing");
+        return;
+    }
     
     NSDiffableDataSourceSnapshot *snapshot = dataSource.snapshot;
     NSArray<ORKFormItem *> *formItems = [[self visibleFormItems] copy];
@@ -930,10 +941,7 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
     
     NSUInteger countOfItemsEnd = [snapshot numberOfItems];
     BOOL shouldAnimateDifferences = (countOfItemsStart != 0 && countOfItemsStart != countOfItemsEnd);
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [dataSource applySnapshot:snapshot animatingDifferences:shouldAnimateDifferences];
-    });
+    [dataSource applySnapshot:snapshot animatingDifferences:shouldAnimateDifferences];
 }
 
 - (NSInteger)numberOfAnsweredFormItemsInDictionary:(NSDictionary *)dictionary {
@@ -1047,13 +1055,18 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
     return [[self formStep] formItems];
 }
 
+
+- (BOOL)isFormItemVisible:(ORKFormItem *)formItem withResult:(ORKTaskResult *)result {
+    ORKFormItemVisibilityRule *rule = formItem.visibilityRule;
+    BOOL shouldAllowVisibility = (rule == nil) || ([rule formItemVisibilityForTaskResult:result] == YES);
+    return shouldAllowVisibility;
+}
+
 - (NSArray<ORKFormItem *> *)visibleFormItemsFromResult:(ORKTaskResult *)ongoingTaskResult {
     NSMutableArray<ORKFormItem *> *visibleItemsMutableArray = [NSMutableArray new];
 
     for (ORKFormItem *eachItem in [self allFormItems]) {
-        ORKFormItemVisibilityRule *rule = eachItem.visibilityRule;
-        BOOL shouldAllowVisibility = (rule == nil) || ([rule formItemVisibilityForTaskResult:ongoingTaskResult] == YES);
-        if (shouldAllowVisibility == YES) {
+        if ([self isFormItemVisible:eachItem withResult:ongoingTaskResult] == YES) {
             [visibleItemsMutableArray addObject:eachItem];
         }
     }
@@ -1332,8 +1345,8 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
     });
 }
 
-- (void)handleAutoScrollForNonKeyboardCell:(UITableViewCell *)cell {
-    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+- (void)handleAutoScrollForNonKeyboardCellAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [[self tableView] cellForRowAtIndexPath:indexPath];
     NSArray<NSString *> *sectionIdentifiers = [[_diffableDataSource snapshot] sectionIdentifiers];
     NSString *sectionIdentifier = [sectionIdentifiers objectAtIndex:indexPath.section];
     
@@ -1348,14 +1361,14 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
 
     if ((indexPath.section < sectionIdentifiers.count - 1) && [self shouldAutoScrollToNextSection:indexPath] && ![_identifiersOfAnsweredSections containsObject:sectionIdentifier]) {
         [self autoScrollToNextSection:indexPath];
-    } else if ((indexPath.section == (sectionIdentifiers.count - 1)) && ![_identifiersOfAnsweredSections containsObject:sectionIdentifier]) {
+    } else if (indexPath.section == (sectionIdentifiers.count - 1)) {
         if (![self allNonOptionalFormItemsHaveAnswers]) {
             [self scrollToFirstUnansweredSection];
         } else {
-            [self.tableView scrollRectToVisible:[self.tableView convertRect:self.tableView.tableFooterView.bounds fromView:self.tableView.tableFooterView] animated:YES];
+            [self scrollToFooter];
         }
         
-    } else if (indexPath.section < (sectionIdentifiers.count - 1) && ![_identifiersOfAnsweredSections containsObject:sectionIdentifier]) {
+    } else if (indexPath.section < (sectionIdentifiers.count - 1)) {
         NSIndexPath *nextIndexPath = [NSIndexPath indexPathForRow:0 inSection:(indexPath.section + 1)];
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, DelayBeforeAutoScroll * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
             [_tableView scrollToRowAtIndexPath:nextIndexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
@@ -1365,8 +1378,16 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
 
 - (void)scrollToFirstUnansweredSection {
     ORKFormItem *formItem = [self fetchFirstUnansweredNonOptionalFormItem:[self answerableFormItems]];
+    [self scrollToFormItem:formItem];
+}
+
+- (void)scrollToFooter {
+    CGRect tableFooterRect = [self.tableView convertRect:self.tableView.tableFooterView.bounds fromView:self.tableView.tableFooterView];
+    [self.tableView scrollRectToVisible:tableFooterRect animated:YES];
+}
+
+- (void)scrollToFormItem:(ORKFormItem *)formItem {
     NSString *sectionIdentifier = [self fetchSectionThatContainsFormItem:formItem];
-        
     NSInteger section = [[_diffableDataSource snapshot] indexOfSectionIdentifier:sectionIdentifier];
     if (section != NSNotFound) {
         NSIndexPath *nextIndexPath = [NSIndexPath indexPathForRow:0 inSection:section];
@@ -1413,6 +1434,7 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
 }
 
 - (void)saveAnswer:(id)answer forItemIdentifier:(ORKTableCellItemIdentifier *)itemIdentifier {
+    ORKTaskResult *previousResult = [self _ongoingTaskResult];
     NSString *formItemIdentifier = [itemIdentifier formItemIdentifier];
     if (formItemIdentifier != nil) {
         if (answer != nil) {
@@ -1423,7 +1445,7 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
     }
     
     NSIndexPath *indexPath = [_diffableDataSource indexPathForItemIdentifier:itemIdentifier];
-    [self answerChangedForIndexPath:indexPath];
+    [self answerChangedForIndexPath:indexPath withPreviousResult:previousResult];
 }
 
 #pragma mark NSNotification methods
@@ -1864,6 +1886,16 @@ static CGFloat ORKLabelWidth(NSString *text) {
     }
 }
 
+/**
+        We should only rebuild the data store, if there is a difference in the visible items from the previous result
+ */
+- (BOOL)shouldRebuildDataStoreWithPreviousResult:(ORKTaskResult *)previousResult {
+    ORKTaskResult *resultWithCurrentItem = [self _ongoingTaskResult];
+    NSSet *startingVisibilitySet = [NSSet setWithArray:[self visibleFormItemsFromResult:previousResult]];
+    NSSet *finishedVisibilitySet = [NSSet setWithArray:[self visibleFormItemsFromResult:resultWithCurrentItem]];
+    return ![startingVisibilitySet isEqualToSet:finishedVisibilitySet];
+}
+
 - (void)formItemCellDidResignFirstResponder:(ORKFormItemCell *)cell {
     if (_currentFirstResponderCell == cell) {
         _currentFirstResponderCell = nil;
@@ -1881,7 +1913,7 @@ static CGFloat ORKLabelWidth(NSString *text) {
         if (![self allNonOptionalFormItemsHaveAnswers]) {
             [self scrollToFirstUnansweredSection];
         } else {
-            [self.tableView scrollRectToVisible:[self.tableView convertRect:self.tableView.tableFooterView.bounds fromView:self.tableView.tableFooterView] animated:YES];
+            [self scrollToFooter];
         }
     }
         
@@ -1907,6 +1939,13 @@ static CGFloat ORKLabelWidth(NSString *text) {
 }
 
 - (void)formItemCell:(ORKFormItemCell *)cell answerDidChangeTo:(id)answer {
+    // if the cell isn't in the view hierarchy, this change is coming from comfiguring the cell
+    // ignore
+    if (cell.superview == nil) {
+        return;
+    }
+    
+    ORKTaskResult *previousResult = [self _ongoingTaskResult];
     if (answer && cell.formItem.identifier) {
         [self setAnswer:answer forIdentifier:cell.formItem.identifier];
     } else if (answer == nil && cell.formItem.identifier) {
@@ -1916,9 +1955,15 @@ static CGFloat ORKLabelWidth(NSString *text) {
     _skipped = NO;
     [self updateButtonStates];
     [self notifyDelegateOnResultChange];
-    [self handleAutoScrollForNonKeyboardCell:cell];
-    [self updateAnsweredSections];
-    [self buildDataSource:_diffableDataSource];
+    NSIndexPath *indexPath = [_tableView indexPathForCell:cell];
+    ORKTableCellItemIdentifier *itemIdentifier = [_diffableDataSource itemIdentifierForIndexPath:indexPath];
+
+    [self buildDataSource:_diffableDataSource withPreviousResult:previousResult];
+    BOOL answeredSectionsChanged = [self updateAnsweredSections];
+    if (answeredSectionsChanged == YES) {
+        NSIndexPath *updatedIndexPath = [_diffableDataSource indexPathForItemIdentifier:itemIdentifier];
+        [self handleAutoScrollForNonKeyboardCellAtIndexPath:updatedIndexPath];
+    }
 }
 
 - (BOOL)formItemCellShouldDismissKeyboard:(ORKFormItemCell *)cell {
@@ -1974,21 +2019,28 @@ static NSString *const _ORKAnsweredSectionIdentifiersRestoreKey = @"answeredSect
     }
 }
 
-#pragma mark ORKTextChoiceCellGroupDelegate
-
-- (void)answerChangedForIndexPath:(NSIndexPath *)indexPath {
+- (void)answerChangedForIndexPath:(NSIndexPath *)indexPath withPreviousResult:(ORKTaskResult *)previousResult {
     
     _skipped = NO;
     [self updateButtonStates];
     [self notifyDelegateOnResultChange];
     
-    UITableViewCell *cell = [_tableView cellForRowAtIndexPath:indexPath];
-    if ([cell isKindOfClass:[ORKChoiceOtherViewCell class]] == NO) {
-        [self handleAutoScrollForNonKeyboardCell:cell];
+    // stash the itemIdentifier before buildDataSource
+    // We do not expect that editing a formItem would remove that same formItem from the dataSource
+    ORKTableCellItemIdentifier *itemIdentifier = [_diffableDataSource itemIdentifierForIndexPath:indexPath];
+
+    [self buildDataSource:_diffableDataSource withPreviousResult:previousResult];
+    BOOL answeredSectionsChanged = [self updateAnsweredSections];
+    if (answeredSectionsChanged == YES) {
+        // find the new indexPath of the saved itemIdentifier (almost certainly the same indexPath as before)
+        NSIndexPath *updatedIndexPath = [_diffableDataSource indexPathForItemIdentifier:itemIdentifier];
+        UITableViewCell *cell = [_tableView cellForRowAtIndexPath:updatedIndexPath];
+
+        // avoid scrolling when typing in the ORKChoiceOtherViewCell resigns focus in the text field
+        if ((cell != nil) && ([cell isKindOfClass:[ORKChoiceOtherViewCell class]] == NO)) {
+            [self handleAutoScrollForNonKeyboardCellAtIndexPath:indexPath];
+        }
     }
-    
-    [self updateAnsweredSections];
-    [self buildDataSource:_diffableDataSource];
 
     // [RDLS:NOTE] removed–immediateNavigation is hardcoded to NO right now
 //    if (immediateNavigation) {
@@ -1999,6 +2051,8 @@ static NSString *const _ORKAnsweredSectionIdentifiersRestoreKey = @"answeredSect
 //        });
 //    }
 }
+
+#pragma mark ORKTextChoiceCellGroupDelegate
 
 - (void)tableViewCellHeightUpdated {
     [_tableView reloadData];
@@ -2051,13 +2105,15 @@ static NSString *const _ORKAnsweredSectionIdentifiersRestoreKey = @"answeredSect
           formItem:(ORKFormItem*)formItem
          indexPath:(NSIndexPath*)indexPath
     itemIdentifier:(ORKTableCellItemIdentifier*)itemIdentifier {
+    ORKTaskResult *previousResult = [self _ongoingTaskResult];
+    
     ORKTextChoiceAnswerFormat *textChoiceAnswerFormat = ORKDynamicCast(formItem.impliedAnswerFormat, ORKTextChoiceAnswerFormat);
     ORKChoiceAnswerFormatHelper *helper = [[ORKChoiceAnswerFormatHelper alloc] initWithAnswerFormat:textChoiceAnswerFormat];
     NSArray *selectedIndexes = [helper selectedIndexesForAnswer:answer];
     // regenerate answer to pick up the changed text from choiceOtherViewCell
     answer = [helper answerForSelectedIndexes: selectedIndexes];
     _savedAnswers[itemIdentifier.formItemIdentifier] = answer;
-    [self answerChangedForIndexPath:indexPath];
+    [self answerChangedForIndexPath:indexPath withPreviousResult:previousResult];
 }
 
 #pragma mark - ORKlearnMoreStepViewControllerDelegate

@@ -1082,11 +1082,13 @@ enum TaskListRow: Int, CustomStringConvertible {
         formItem02.placeholder = NSLocalizedString("Add Height", comment: "")
 
         let formItem03Text = NSLocalizedString("What is your weight", comment: "")
+        let formItem03Section = ORKFormItem(identifier: formItem03Text, text: formItem03Text, answerFormat: nil)
+        
         let answerFormat03 = ORKAnswerFormat.weightAnswerFormat()
         answerFormat03.shouldShowDontKnowButton = true
         let formItem03 = ORKFormItem(identifier: String(describing: Identifier.formItem03), text: nil, answerFormat: answerFormat03)
         formItem03.placeholder = NSLocalizedString("Add Weight", comment: "")
-        
+
         let formItem04Text = NSLocalizedString("What is your Attitude", comment: "")
         let answerFormat04 = ORKAnswerFormat.textAnswerFormat()
         answerFormat04.multipleLines = true
@@ -1099,6 +1101,9 @@ enum TaskListRow: Int, CustomStringConvertible {
         answerFormat05.shouldShowDontKnowButton = true
         let formItem05 = ORKFormItem(identifier: String(describing: Identifier.formItem05), text: formItem05Text, answerFormat: answerFormat05)
         formItem05.placeholder = NSLocalizedString("Pain Level", comment: "")
+        
+        let attitudeSelector = ORKResultSelector(stepIdentifier: String(describing: Identifier.formStep), resultIdentifier: String(describing: Identifier.formItem04))
+        let predicateForAttitudeSelector = ORKResultPredicate.predicateForTextQuestionResult(with: attitudeSelector, expectedString: "Happy")
         
         let formItem06Text =  NSLocalizedString("SES Level", comment: "")
         let answerFormat06 = ORKSESAnswerFormat(topRungText: "top", bottomRungText: "bottom")
@@ -1115,12 +1120,16 @@ enum TaskListRow: Int, CustomStringConvertible {
         let appleFormItem2 = ORKFormItem(identifier: "appleFormItemIdentifier2", text: "Which is your least favorite apple?", answerFormat: appleAnswerFormat)
         let appleFormItem3 = ORKFormItem(identifier: "appleFormItemIdentifier3", text: "Which is your most recent apple?", answerFormat: appleAnswerFormat)
 
+        appleFormItem3.visibilityRule = ORKPredicateFormItemVisibilityRule(predicate: predicateForAttitudeSelector)
+        formItem03Section.visibilityRule = ORKPredicateFormItemVisibilityRule(predicate: predicateForAttitudeSelector)
+        formItem03.visibilityRule = ORKPredicateFormItemVisibilityRule(predicate: predicateForAttitudeSelector)
+
         step.formItems = [
             ORKFormItem(identifier: formItem01Text, text: formItem01Text, answerFormat: nil),
             formItem01,
             ORKFormItem(identifier: formItem02Text, text: formItem02Text, answerFormat: nil),
             formItem02,
-            ORKFormItem(identifier: formItem03Text, text: formItem03Text, answerFormat: nil),
+            formItem03Section,
             formItem03,
             ORKFormItem(identifier: formItem04Text, text: formItem04Text, answerFormat: nil),
             formItem04,
