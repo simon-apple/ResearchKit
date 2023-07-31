@@ -1591,11 +1591,9 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
         
         UITableView *tableView = [self parentTableView];
         
-        [tableView beginUpdates];
-        [tableView endUpdates];
-        
         CGRect visibleRect = [textView caretRectForPosition:textView.selectedTextRange.start];
         CGRect convertedVisibleRect = [tableView convertRect:visibleRect fromView:_textView];
+
         [tableView scrollRectToVisible:convertedVisibleRect animated:YES];
     }
     

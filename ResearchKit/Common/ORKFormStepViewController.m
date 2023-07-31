@@ -378,7 +378,7 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
 @end
 
 
-@interface ORKFormStepViewController () <UITableViewDelegate, ORKFormItemCellDelegate, ORKTableContainerViewDelegate, ORKTextChoiceCellGroupDelegate, ORKChoiceOtherViewCellDelegate, ORKLearnMoreViewDelegate>
+@interface ORKFormStepViewController () <UITableViewDelegate, ORKFormItemCellDelegate, ORKTableContainerViewDelegate, ORKChoiceOtherViewCellDelegate, ORKLearnMoreViewDelegate>
 
 @property (nonatomic, strong) ORKTableContainerView *tableContainer;
 @property (nonatomic, strong) UITableView *tableView;
@@ -1902,7 +1902,7 @@ static CGFloat ORKLabelWidth(NSString *text) {
         _currentFirstResponderCell = nil;
     }
     
-    if ([cell isKindOfClass:[ORKFormItemPickerCell class]]) {
+    if ([cell isKindOfClass:[ORKFormItemPickerCell class]] || [cell isKindOfClass:[ORKFormItemTextCell class]]) {
         [self buildDataSource:_diffableDataSource withPreviousResult:nil];
     }
     
@@ -1963,7 +1963,7 @@ static CGFloat ORKLabelWidth(NSString *text) {
     NSIndexPath *indexPath = [_tableView indexPathForCell:cell];
     ORKTableCellItemIdentifier *itemIdentifier = [_diffableDataSource itemIdentifierForIndexPath:indexPath];
 
-    if ([cell isKindOfClass:[ORKFormItemPickerCell class]] == NO) {
+    if ([cell isKindOfClass:[ORKFormItemPickerCell class]] == NO && [cell isKindOfClass:[ORKFormItemTextCell class]] == NO) {
         [self buildDataSource:_diffableDataSource withPreviousResult:previousResult];
     }
     BOOL answeredSectionsChanged = [self updateAnsweredSections];
@@ -2058,8 +2058,6 @@ static NSString *const _ORKAnsweredSectionIdentifiersRestoreKey = @"answeredSect
 //        });
 //    }
 }
-
-#pragma mark ORKTextChoiceCellGroupDelegate
 
 - (void)tableViewCellHeightUpdated {
     [_tableView reloadData];
