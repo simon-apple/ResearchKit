@@ -77,6 +77,12 @@ FOUNDATION_EXPORT void ORKStepArrayAddStep(NSMutableArray<ORKStep *> *array, ORK
 // the step to start on a finish state when restarting dBHL steps
 - (void)rebuildSteps;
 
+// Returns an array with the dBHL step identifiers
+- (NSArray *)dBHLIdentifiers;
+
+// Returns an array with the FitTest step identifiers
+- (NSArray *)fitTestIdentifiers;
+
 @end
 
 NS_ASSUME_NONNULL_END

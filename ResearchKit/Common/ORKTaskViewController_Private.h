@@ -66,6 +66,8 @@ typedef NS_ENUM(NSUInteger, ORKdBHLHeadphonesStatus) {
 @property (nonatomic, readonly) double leftBattery;
 @property (nonatomic, readonly) double rightBattery;
 
+- (void)flipToFitTest;
+
 // This method is necessary because the QRCodeReader was removing the bluetooth manager observers
 - (void)removeAndAddObservers;
 

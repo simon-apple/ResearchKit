@@ -2180,29 +2180,33 @@ static NSString *const _ORKProgressMode = @"progressMode";
     [self stopRefreshTimer];
 }
 
-- (void)restartFitTestWithIdentifier:(NSString *)fitTestIdentifier anddBHLIdentifier:(NSString *)dBHLIdentifier{
-    ORKdBHLFitTestStep * fitTestStep = (ORKdBHLFitTestStep *)[_task stepWithIdentifier:fitTestIdentifier];
-    ORKStep *beforeFitTestStep = nil;
-    if ([self.task respondsToSelector:@selector(stepBeforeStep:withResult:)]) {
-        beforeFitTestStep = [self.task stepBeforeStep:fitTestStep withResult:[self result]];
-    }
-    NSUInteger index = [_managedStepIdentifiers indexOfObject:beforeFitTestStep.identifier];
-    if (index != NSNotFound) {
-        // removing managedStepIdentifers to enable recreation of VCs
-        NSRange rangeToDelete = NSMakeRange(index + 1 , self.managedStepIdentifiers.count - index - 1);
-        [self.managedStepIdentifiers removeObjectsInRange:rangeToDelete];
-    }
-    // removing dBHL and FitTest results
-    [_managedResults removeObjectForKey:dBHLIdentifier];
-    [_managedResults removeObjectForKey:fitTestIdentifier];
-    
+- (void)flipToFitTest {
+    ORKdBHLFitTestStep * fitTestStep;
     if ([self.task isKindOfClass:[ORKOrderedTask class]]) {
         ORKOrderedTask *orderedTask = (ORKOrderedTask *)self.task;
+        // removing dBHL results
+        NSArray *dBHLIdentifiers = [orderedTask dBHLIdentifiers];
+        for (NSString *identifier in dBHLIdentifiers) {
+            [_managedResults removeObjectForKey:identifier];
+        }
+        // removing FitTest results
+        NSString * latestFitTestStepIdentifier = [[orderedTask fitTestIdentifiers] lastObject];
+        [_managedResults removeObjectForKey:latestFitTestStepIdentifier];
+        
+        // remove the steps after the fit test on managed steps
+        NSUInteger index = [_managedStepIdentifiers indexOfObject:latestFitTestStepIdentifier];
+        if (index != NSNotFound) {
+            // removing managedStepIdentifers to enable recreation of VCs
+            NSRange rangeToDelete = NSMakeRange(index + 1 , self.managedStepIdentifiers.count - index - 1);
+            [self.managedStepIdentifiers removeObjectsInRange:rangeToDelete];
+        }
+        
+        fitTestStep = (ORKdBHLFitTestStep *)[_task stepWithIdentifier:latestFitTestStepIdentifier];
         [orderedTask rebuildSteps];
     }
     
-    if (beforeFitTestStep) {
-        [self showStepViewController:[self viewControllerForStep:beforeFitTestStep] goForward:YES animated:NO];
+    if (fitTestStep) {
+        [self showStepViewController:[self viewControllerForStep:fitTestStep] goForward:YES animated:NO];
     }
 }
 
@@ -2211,10 +2215,6 @@ static NSString *const _ORKProgressMode = @"progressMode";
     NSString *identifierForFitTestResult = nil;
     NSString *identifierFordBHLResult = nil;
     BOOL isOnFitTest = [self.currentStepViewController isKindOfClass:[ORKdBHLFitTestStepViewController class]];
-    if (isOnFitTest && _hearingModeStatus == ORKdBHLHeadphonesStatusHearingTestEnabled) {
-        // red flag, it's possible that we will need to reenable the hearing test mode before proceeding
-        // Do I need to disable and reenable the HTMode?
-    }
     ORKTaskResult *taskResults = [self result];
     for (ORKStepResult *result in taskResults.results) {
         if (result.results > 0) {
@@ -2241,7 +2241,7 @@ static NSString *const _ORKProgressMode = @"progressMode";
                                         actionWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE_START_OVER", nil)
                                         style:UIAlertActionStyleDefault
                                         handler:^(UIAlertAction *action) {
-                [strongSelf restartFitTestWithIdentifier: identifierForFitTestResult anddBHLIdentifier: identifierFordBHLResult];
+                [strongSelf flipToFitTest];
             }];
             [alertController addAction:startOver];
             [alertController addAction:[UIAlertAction

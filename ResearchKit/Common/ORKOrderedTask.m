@@ -34,6 +34,8 @@
 #import "ORKAnswerFormat.h"
 #import "ORKInstructionStep.h"
 #import "ORKCompletionStep.h"
+#import "ORKdBHLToneAudiometryStep.h"
+#import "ORKdBHLFitTestStep.h"
 #import "ORKStep_Private.h"
 #import "ORKHelpers_Internal.h"
 #import "ORKSkin.h"
@@ -170,6 +172,26 @@
         [rebuildArray addObject:(ORKStep *)copyStep];
     }
     _steps = [rebuildArray copy];
+}
+
+- (NSArray *)dBHLIdentifiers {
+    NSMutableArray *identifersArray = [[NSMutableArray alloc] init];
+    for (ORKStep *step in _steps) {
+        if ([step isMemberOfClass:[ORKdBHLToneAudiometryStep class]]) {
+            [identifersArray addObject:step.identifier];
+        }
+    }
+    return [identifersArray copy];
+}
+
+- (NSArray *)fitTestIdentifiers {
+    NSMutableArray *identifersArray = [[NSMutableArray alloc] init];
+    for (ORKStep *step in _steps) {
+        if ([step isMemberOfClass:[ORKdBHLFitTestStep class]]) {
+            [identifersArray addObject:step.identifier];
+        }
+    }
+    return [identifersArray copy];
 }
 
 - (void)insertSteps:(NSArray<ORKStep *> *)stepsToInsert atIndexes:(NSIndexSet *)indexSet {

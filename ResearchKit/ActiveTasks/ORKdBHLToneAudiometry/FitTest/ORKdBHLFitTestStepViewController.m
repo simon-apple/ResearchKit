@@ -165,12 +165,13 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
     ORK_Log_Info("Volume before fit test : %0.9f", _initialVolume);
     
     [self setNavigationFooterView];
-    if (self.taskViewController.hearingModeStatus != ORKdBHLHeadphonesStatusHearingTestEnabled) {
-        // If the HTMode is not enabled, enable it.
-        [self setStage:ORKdBHLFitTestStageEnableHearingTestMode];
-    } else {
-        [self setStage:ORKdBHLFitTestStageStart];
-    }
+    [self headphonesStatusChanged:nil];
+//        if (self.taskViewController.hearingModeStatus != ORKdBHLHeadphonesStatusHearingTestEnabled) {
+//            // If the HTMode is not enabled, enable it.
+//            [self setStage:ORKdBHLFitTestStageEnableHearingTestMode];
+//        } else {
+//            [self setStage:ORKdBHLFitTestStageStart];
+//        }
 }
 
 // helper function

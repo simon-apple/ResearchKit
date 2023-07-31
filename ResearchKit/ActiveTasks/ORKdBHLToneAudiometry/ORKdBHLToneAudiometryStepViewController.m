@@ -548,12 +548,10 @@
 
 - (void)headphonesStatusChanged: (NSNotification *)note {
     // CVTODO: Review if we will need to something here or everything will be handled by ORKTaskViewController
-//    ORKTaskViewController *taskVC = self.taskViewController;
-//    if (!taskVC.headphonesInEars) {
-//        [self showAlertWithTitle:@"Hearing Test" andMessage:@"Make sure you have both headphones in ears."];
-//    } else {
-//       //
-//    }
+    ORKTaskViewController *taskVC = self.taskViewController;
+    if (!taskVC.headphonesInEars) {
+        [self showAlertWithTitle:@"Hearing Test" andMessage:@"Make sure you have both headphones in ears."];
+    }
 }
 
 - (void)showAlertWithTitle:(NSString *)title andMessage:(NSString *)message {
@@ -571,7 +569,7 @@
                                         style:UIAlertActionStyleDefault
                                         handler:^(UIAlertAction *action) {
                 ORKStrongTypeOf(weakSelf) strongSelf = weakSelf;
-                [[strongSelf taskViewController] flipToPageWithIdentifier:[strongSelf identiferForLastFitTest] forward:NO animated:NO];
+                [[strongSelf taskViewController] flipToFitTest];
             }];
             [alertController addAction:startOver];
             [alertController addAction:[UIAlertAction
@@ -587,24 +585,6 @@
             [self presentViewController:alertController animated:YES completion:nil];
         });
     }
-}
-
-- (NSString *)identiferForLastFitTest {
-    ORKTaskResult *taskResults = [[self taskViewController] result];
-    
-    NSString *identifier = @"";
-
-    for (ORKStepResult *result in taskResults.results) {
-        if (result.results > 0) {
-            ORKStepResult *firstResult = (ORKStepResult *)[result.results firstObject];
-            if ([firstResult isKindOfClass:[ORKdBHLFitTestResult class]]) {
-                ORKdBHLFitTestResult *fitTestResult = (ORKdBHLFitTestResult *)firstResult;
-                identifier = fitTestResult.identifier;
-            }
-        }
-    }
-    
-    return identifier;
 }
 
 @end
