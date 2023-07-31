@@ -48,6 +48,7 @@ static const CGFloat TextViewHeight = 100.0;
 static const CGFloat LabelCheckViewPadding = 10.0;
 static const CGFloat ColorSwatchViewHeightWidth = 40.0;
 static const CGFloat ColorSwatchViewTopBottomPadding = 12.0;
+static const CGFloat ColorSwatchExpandedRightPadding = 16.0;
 
 @interface ORKChoiceViewCell() <CAAnimationDelegate>
 
@@ -269,7 +270,9 @@ static const CGFloat ColorSwatchViewTopBottomPadding = 12.0;
 
 - (void)addColorSwatchViewToContainerViewConstraints {
     if (_colorSwatchView) {
+        
         [_containerConstraints addObject:[_colorSwatchView.leadingAnchor constraintEqualToAnchor:_containerView.leadingAnchor constant:ORKSurveyItemMargin]];
+        
         [_containerConstraints addObject:[_colorSwatchView.centerYAnchor constraintEqualToAnchor:_containerView.centerYAnchor]];
         [_containerConstraints addObject:[_colorSwatchView.heightAnchor constraintEqualToConstant:ColorSwatchViewHeightWidth]];
         
@@ -283,7 +286,7 @@ static const CGFloat ColorSwatchViewTopBottomPadding = 12.0;
         
         if (!_primaryLabel && !_detailLabel) {
             [_containerConstraints addObject:[_colorSwatchView.topAnchor constraintEqualToAnchor:_containerView.topAnchor constant:LabelTopBottomMargin]];
-            [_containerConstraints addObject:[_colorSwatchView.trailingAnchor constraintEqualToAnchor:_checkView.leadingAnchor constant:-LabelCheckViewPadding]];
+            [_containerConstraints addObject:[_colorSwatchView.trailingAnchor constraintEqualToAnchor:_checkView.leadingAnchor constant:-ColorSwatchExpandedRightPadding]];
         } else {
             [_containerConstraints addObject:[_colorSwatchView.widthAnchor constraintEqualToConstant:ColorSwatchViewHeightWidth]];
         }
