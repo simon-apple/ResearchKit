@@ -245,6 +245,7 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
                                                                                        answer:nil
                                                                            beginningIndexPath:[NSIndexPath indexPathForRow:0 inSection:_index]
                                                                           immediateNavigation:NO];
+        
         [textChoiceAnswerFormat.textChoices enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             ORKTableCellItem *cellItem = [[ORKTableCellItem alloc] initWithFormItem:item choiceIndex:idx];
             [(NSMutableArray *)self.items addObject:cellItem];
@@ -1901,6 +1902,10 @@ static CGFloat ORKLabelWidth(NSString *text) {
         _currentFirstResponderCell = nil;
     }
     
+    if ([cell isKindOfClass:[ORKFormItemPickerCell class]]) {
+        [self buildDataSource:_diffableDataSource withPreviousResult:nil];
+    }
+    
     //determines if the table should autoscroll to the next section
     __auto_type snapshot = [_diffableDataSource snapshot];
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
@@ -1958,7 +1963,9 @@ static CGFloat ORKLabelWidth(NSString *text) {
     NSIndexPath *indexPath = [_tableView indexPathForCell:cell];
     ORKTableCellItemIdentifier *itemIdentifier = [_diffableDataSource itemIdentifierForIndexPath:indexPath];
 
-    [self buildDataSource:_diffableDataSource withPreviousResult:previousResult];
+    if ([cell isKindOfClass:[ORKFormItemPickerCell class]] == NO) {
+        [self buildDataSource:_diffableDataSource withPreviousResult:previousResult];
+    }
     BOOL answeredSectionsChanged = [self updateAnsweredSections];
     if (answeredSectionsChanged == YES) {
         NSIndexPath *updatedIndexPath = [_diffableDataSource indexPathForItemIdentifier:itemIdentifier];
