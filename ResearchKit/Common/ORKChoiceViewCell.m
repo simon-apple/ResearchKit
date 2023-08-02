@@ -416,6 +416,15 @@ static const CGFloat ColorSwatchExpandedRightPadding = 16.0;
     [self setPrimaryLabelFont];
 }
 
+- (void)prepareForReuse {
+    _primaryLabel.text = nil;
+    _detailLabel.text = nil;
+    // [LC:NOTE] no need to reset the checkmark, because we have a call in cellForRow that manually sets/unsets the checkmark
+    // [choiceViewCell setCellSelected:NO highlight:NO];
+    // [LC:TODO] rdar://113283650 (Move `SetCellSelected` to be set in the `ORKChoiceViewCell.configure` method)
+    [super prepareForReuse];
+}
+
 - (void)setUseCardView:(bool)useCardView {
     _useCardView = useCardView;
     _topBottomMargin = CardTopBottomMargin;

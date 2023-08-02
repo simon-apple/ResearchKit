@@ -64,6 +64,8 @@
 #import "ORKSESSelectionView.h"
 #import "ORKHelpers_Internal.h"
 #import "ORKSkin.h"
+#import "ORKChoiceViewCell+ORKTextChoice.h"
+#import "ORKChoiceViewCell+ORKColorChoice.h"
 
 static const CGFloat TableViewYOffsetStandard = 30.0;
 static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
@@ -1562,44 +1564,16 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
         NSInteger choiceIndex = itemIdentifier.choiceIndex;
         if (choiceIndex != NSNotFound) {
             // TODO: rdar://110145136 ([ConditionalFormItems] choiceViewCell handling only supports textChoices (ORKFormStepViewController))
-            BOOL isExclusive = NO;
-            NSString *primaryText;
-            NSString *detailText;
-            
+            BOOL isLastItem = (choiceIndex + 1) == answerFormat.choices.count;
             if ([answerFormat isKindOfClass:[ORKTextChoiceAnswerFormat class]]) {
                 ORKTextChoice *textChoice = [answerFormat.choices objectAtIndex:choiceIndex];
-                if (textChoice.primaryTextAttributedString) {
-                    [choiceViewCell setPrimaryAttributedText:textChoice.primaryTextAttributedString];
-                }
-                if (textChoice.detailTextAttributedString) {
-                    [choiceViewCell setDetailAttributedText:textChoice.detailTextAttributedString];
-                }
-                
-                isExclusive = textChoice.exclusive;
-                primaryText = textChoice.text;
-                detailText = textChoice.detailText;
+                [choiceViewCell configureWithTextChoice:textChoice isLastItem:isLastItem];
             } else {
                 ORKColorChoice *colorChoice = [answerFormat.choices objectAtIndex:choiceIndex];
-                
-                [choiceViewCell setSwatchColor:colorChoice.color];
-                choiceViewCell.shouldIgnoreDarkMode = YES;
-                
-                isExclusive = colorChoice.exclusive;
-                primaryText = colorChoice.text;
-                detailText = colorChoice.detailText;
+                [choiceViewCell configureWithColorChoice:colorChoice isLastItem:isLastItem];
             }
             
             id answer = _savedAnswers[formItemIdentifier];
-            
-            // [RDLS:NOTE] moved from ORKTextChoiceCellGroup cellAtIndex:reuseIdentifier:
-            // TODO: rdar://110150497 ([ConditionalFormItems] add a configuration method for ORKChoiceViewCell that accepts a formItem)
-            choiceViewCell.isExclusive = isExclusive;
-            choiceViewCell.isLastItem = (choiceIndex + 1) == answerFormat.choices.count;
-            choiceViewCell.immediateNavigation = NO;
-            [choiceViewCell setPrimaryText:primaryText];
-            [choiceViewCell setDetailText:detailText];
-            
-            
             ORKChoiceAnswerFormatHelper *helper = [[ORKChoiceAnswerFormatHelper alloc] initWithAnswerFormat:answerFormat];
             NSArray *selectedIndexes = [helper selectedIndexesForAnswer:answer];
             if ([selectedIndexes containsObject:@(choiceIndex)]) {
