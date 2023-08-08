@@ -2392,7 +2392,7 @@ static const NSTimeInterval ZERO_BATTERY_LEVEL_TIME_INTERVAL = 1.0;
             dispatch_async(dispatch_get_main_queue(), ^{
                 ORK_Log_Info("case serial: %@; left headphone serial: %@; right headphone Serial: %@; firmwareVersion: %@;",_caseSerial,_leftHeadphoneSerial,_rightHeadphoneSerial, _fwVersion);
                 BOOL isB698 = (_currentDevice.productId == APPLE_B698_PRODUCTID || _currentDevice.productId == APPLE_B698C_PRODUCTID);
-                // TODO: reenable the check when the correct firmware version is defined
+
                 BOOL isCorrectFirmwareVersion = [_fwVersion containsString:CELLO_FWVERSION];
                 
                 if (isB698) {

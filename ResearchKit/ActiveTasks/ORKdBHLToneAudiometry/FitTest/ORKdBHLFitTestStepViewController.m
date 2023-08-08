@@ -279,17 +279,16 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
             break;
         }
         case ORKdBHLFitTestStageResultTriesExceeded: {
-            [self.fitTestContentView setResultDetailLabelText:@""];
             self.activeStepView.stepTitle = @"Unable to Complete Ear Tip Fit Test";
             break;
         }
         default:
             break;
     }
+    [self adjustTriesCounterLabel];
 }
 
 - (void)adjustTriesCounterLabel {
-    //[self.fitTestContentView setResultDetailLabelText:[NSString stringWithFormat:@"Try %li of %li",_triesCounter,self.fitTestStep.maximumNumberOfTries]];
     [self.fitTestContentView setResultDetailLabelText:_triesCounter > 0 ? [NSString stringWithFormat:@"Try %li",_triesCounter] : @""];
 }
 
@@ -301,7 +300,6 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
         }
         case ORKdBHLFitTestStageEnableHearingTestMode: {
             [self setTitleAndDetailForStage:stage];
-            [self.fitTestContentView setResultDetailLabelText:@""];
             ORK_Log_Info("FitTest Enabling Hearing Test Mode");
             ORKWeakTypeOf(self) weakSelf = self;
             [self.taskViewController enableHearingTestModeWithCompletion:^(BOOL hearingModeEnabled) {
@@ -326,7 +324,6 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
             break;
         }
         case ORKdBHLFitTestStagePlaying: {
-            [self adjustTriesCounterLabel];
             [self setTitleAndDetailForStage:stage];
             ORK_Log_Info("FitTest Playing");
             break;
@@ -334,7 +331,6 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
         case ORKdBHLFitTestStageResultConfidenceLow: {
             [self.fitTestContentView setWithLeftOk:NO rightOk:NO];
             [self setTitleAndDetailForStage:stage];
-            [self.fitTestContentView setResultDetailLabelText:@"Please try again"];
             ORK_Log_Info("FitTest Confidence Low");
             break;
         }
@@ -358,7 +354,6 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
         }
         case ORKdBHLFitTestStageResultLeftSealGoodRightSealGood: {
             [self.fitTestContentView setWithLeftOk:YES rightOk:YES];
-            [self.fitTestContentView setResultDetailLabelText:@""];
             [self setTitleAndDetailForStage:stage];
 
             ORK_Log_Info("FitTest Two Good Seals");
@@ -366,7 +361,6 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
         }
         case ORKdBHLFitTestStageResultTriesExceeded: {
             // Again not used ;)
-            [self.fitTestContentView setResultDetailLabelText:@""];
             self.activeStepView.stepTitle = @"Unable to Complete Ear Tip Fit Test";
             [self.activeStepView.navigationFooterView showActivityIndicator:NO];
         }
@@ -411,7 +405,6 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
                 [self.fitTestContentView setStart];
                 [self setStage:ORKdBHLFitTestStagePlaying];
                 [self startFitTest];
-                [self adjustTriesCounterLabel];
             } else {
                 [self showHeadphonesOrCallAlert];
             }
@@ -566,10 +559,6 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
 - (void)interruptTestIfNecessary {
     [self.fitTestContentView setStart];
     [self setStage:ORKdBHLFitTestStageNotInEars];
-    _triesCounter = 0;
-    // should I really decrease the counter ?
-//    _triesCounter -= 1;
-//    _triesCounter = _triesCounter < 0 ?: 0;
     if (_testActive) {
         [self fitTestStopped];
         [self showHeadphonesOrCallAlert];
