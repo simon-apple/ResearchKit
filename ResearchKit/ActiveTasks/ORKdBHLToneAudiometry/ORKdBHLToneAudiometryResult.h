@@ -72,6 +72,8 @@ ORK_CLASS_AVAILABLE
 
 @property (nonatomic, copy) NSString* fwVersion;
 
+@property (nonatomic, assign) NSInteger numberOfdBHLRetries;
+
 @property (nonatomic, copy, nullable) NSArray<ORKdBHLToneAudiometryTap *> *allTaps;
 #endif
 

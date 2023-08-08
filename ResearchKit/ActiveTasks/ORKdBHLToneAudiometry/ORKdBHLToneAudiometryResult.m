@@ -160,6 +160,7 @@ const double ORKInvalidDBHLValue = DBL_MAX;
     ORK_ENCODE_OBJ(aCoder, rightSerial);
     ORK_ENCODE_OBJ(aCoder, fwVersion);
     ORK_ENCODE_OBJ(aCoder, allTaps);
+    ORK_ENCODE_INTEGER(aCoder, numberOfdBHLRetries);
 #endif
 }
 
@@ -182,6 +183,7 @@ const double ORKInvalidDBHLValue = DBL_MAX;
         ORK_DECODE_OBJ_CLASS(aDecoder, rightSerial, NSString);
         ORK_DECODE_OBJ_CLASS(aDecoder, fwVersion, NSString);
         ORK_DECODE_OBJ_ARRAY(aDecoder, allTaps, ORKdBHLToneAudiometryTap);
+        ORK_DECODE_INTEGER(aDecoder, numberOfdBHLRetries);
 #endif
     }
     return self;
@@ -211,6 +213,7 @@ const double ORKInvalidDBHLValue = DBL_MAX;
             && ORKEqualObjects(self.rightSerial, castObject.rightSerial)
             && ORKEqualObjects(self.fwVersion, castObject.fwVersion)
             && ORKEqualObjects(self.allTaps, castObject.allTaps)
+            && self.numberOfdBHLRetries == castObject.numberOfdBHLRetries
 #endif
             );
 }
@@ -242,6 +245,7 @@ const double ORKInvalidDBHLValue = DBL_MAX;
     result.leftSerial = [self.leftSerial copy];
     result.rightSerial = [self.rightSerial copy];
     result.fwVersion = [self.fwVersion copy];
+    result.numberOfdBHLRetries = self.numberOfdBHLRetries;
     result.allTaps = [self.allTaps copy];
 #endif
 
@@ -250,7 +254,7 @@ const double ORKInvalidDBHLValue = DBL_MAX;
 
 - (NSString *)descriptionWithNumberOfPaddingSpaces:(NSUInteger)numberOfPaddingSpaces {
 #if RK_APPLE_INTERNAL
-    return [NSString stringWithFormat:@"%@; algorithm: %ld, outputvolume: %.1lf; samples: %@; deletedSamples: %@; tones: %@; fitMatrix: %@; headphoneType: %@; tonePlaybackDuration: %.1lf; postStimulusDelay: %.1lf%@; caseSerial: %@; leftSerial: %@; rightSerial: %@; firmwareVersion: %@; allTaps: %@", [self descriptionPrefixWithNumberOfPaddingSpaces:numberOfPaddingSpaces], (long)self.algorithmVersion, self.outputVolume, self.samples,self.deletedSamples, self.discreteUnits, self.fitMatrix, self.headphoneType, self.tonePlaybackDuration, self.postStimulusDelay, self.descriptionSuffix, self.caseSerial, self.leftSerial, self.rightSerial, self.fwVersion, self.allTaps];
+    return [NSString stringWithFormat:@"%@; algorithm: %ld, outputvolume: %.1lf; samples: %@; deletedSamples: %@; tones: %@; fitMatrix: %@; headphoneType: %@; tonePlaybackDuration: %.1lf; postStimulusDelay: %.1lf%@; caseSerial: %@; leftSerial: %@; rightSerial: %@; firmwareVersion: %@; allTaps: %@; numberOfdBHLRetries: %lu", [self descriptionPrefixWithNumberOfPaddingSpaces:numberOfPaddingSpaces], (long)self.algorithmVersion, self.outputVolume, self.samples,self.deletedSamples, self.discreteUnits, self.fitMatrix, self.headphoneType, self.tonePlaybackDuration, self.postStimulusDelay, self.descriptionSuffix, self.caseSerial, self.leftSerial, self.rightSerial, self.fwVersion, self.allTaps, self.numberOfdBHLRetries];
 #else
     return [NSString stringWithFormat:@"%@; outputvolume: %.1lf; samples: %@; headphoneType: %@; tonePlaybackDuration: %.1lf; postStimulusDelay: %.1lf%@", [self descriptionPrefixWithNumberOfPaddingSpaces:numberOfPaddingSpaces], self.outputVolume, self.samples, self.headphoneType, self.tonePlaybackDuration, self.postStimulusDelay, self.descriptionSuffix];
 #endif

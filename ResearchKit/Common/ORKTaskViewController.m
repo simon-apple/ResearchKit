@@ -246,6 +246,7 @@ typedef void (^_ORKLocationAuthorizationRequestHandler)(BOOL success);
     ORKTonePlayer *_tonePlayer;
     
     UILabel *_hearingModeLabel;
+    UILabel *_interruptsCounterLabel;
     BOOL _shouldShowHearingModeLabel;
 #endif
     
@@ -265,6 +266,7 @@ typedef void (^_ORKLocationAuthorizationRequestHandler)(BOOL success);
 @property (nonatomic, strong, readwrite) NSString *fwVersion;
 @property (nonatomic, assign) double leftBattery;
 @property (nonatomic, assign) double rightBattery;
+@property (nonatomic, assign) NSInteger numberOfdBHLRetries;
 @property (nonatomic, strong) ORKStepViewController *currentStepViewController;
 @property (nonatomic) ORKTaskReviewViewController *taskReviewViewController;
 
@@ -320,6 +322,15 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
         
         UINavigationBar *navBar = _childNavigationController.navigationBar;
         [navBar addSubview:_hearingModeLabel];
+        
+        _interruptsCounterLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, 50)];
+        _interruptsCounterLabel.font = [UIFont systemFontOfSize:15];
+        _interruptsCounterLabel.textAlignment = NSTextAlignmentCenter;
+        _interruptsCounterLabel.backgroundColor = [UIColor clearColor];
+        _interruptsCounterLabel.textColor = [[UIColor darkGrayColor] colorWithAlphaComponent:0.5];
+        _interruptsCounterLabel.text = @"";
+        
+        [navBar addSubview:_interruptsCounterLabel];
         
         [self updateHeadphoneLabelForStatus:ORKdBHLHeadphonesStatusNotInEars];
     }
@@ -734,6 +745,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     _headphonesInEars = NO;
     _hearingModeStatus = ORKdBHLHeadphonesStatusNotInEars;
     _callActive = NO;
+    _numberOfdBHLRetries = 0;
     [self setUpChildNavigationController];
     
     if (_restoredStepIdentifier) {
@@ -1407,6 +1419,7 @@ if (newViewControllers != _childNavigationController.viewControllers) {
     stepViewController.navigationItem.title = progressLabel;
     
     _hearingModeLabel.center = CGPointMake(self.view.frame.size.width / 2, 60);
+    _interruptsCounterLabel.center = CGPointMake(self.view.frame.size.width / 2, 205);
 }
 
 #pragma mark - internal action Handlers
@@ -2181,6 +2194,10 @@ static NSString *const _ORKProgressMode = @"progressMode";
 }
 
 - (void)flipToFitTest {
+    if (![self.currentStepViewController isKindOfClass:[ORKdBHLFitTestStepViewController class]]) {
+        _numberOfdBHLRetries++;
+        _interruptsCounterLabel.text = [NSString stringWithFormat:@"Number of interruptions: %lu",_numberOfdBHLRetries];
+    }
     ORKdBHLFitTestStep * fitTestStep;
     if ([self.task isKindOfClass:[ORKOrderedTask class]]) {
         ORKOrderedTask *orderedTask = (ORKOrderedTask *)self.task;

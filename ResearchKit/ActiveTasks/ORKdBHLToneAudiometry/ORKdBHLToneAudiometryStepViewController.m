@@ -389,6 +389,7 @@
     toneResult.headphoneType = self.dBHLToneAudiometryStep.headphoneType;
     toneResult.tonePlaybackDuration = [self dBHLToneAudiometryStep].toneDuration;
     toneResult.postStimulusDelay = [self dBHLToneAudiometryStep].postStimulusDelay;
+    toneResult.numberOfdBHLRetries = self.taskViewController.numberOfdBHLRetries;
     [results addObject:toneResult];
     
     sResult.results = [results copy];
