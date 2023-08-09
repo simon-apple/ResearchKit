@@ -37,6 +37,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithTitle:(NSString *)title
                    detailText:(nullable NSString *)text;
 
+- (void)setExpanded:(BOOL)isExpanded;
+
 @end
 
 NS_ASSUME_NONNULL_END

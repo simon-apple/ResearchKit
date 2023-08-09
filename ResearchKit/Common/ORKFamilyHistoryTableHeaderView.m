@@ -32,7 +32,8 @@
 
 static const CGFloat HeaderViewLabelTopBottomPadding = 6.0;
 static const CGFloat HeaderViewLeftRightLabelPadding = 12.0;
-static const CGFloat HeaderViewBottomPadding = 0.0;
+static const CGFloat HeaderViewCollapsedBottomPadding = 0.0;
+static const CGFloat HeaderViewExpandedBottomPadding = 12.0;
 static const CGFloat CellLeftRightPadding = 8.0;
 
 @implementation ORKFamilyHistoryTableHeaderView {
@@ -40,7 +41,7 @@ static const CGFloat CellLeftRightPadding = 8.0;
     UILabel *_titleLabel;
     NSString *_detailText;
     UILabel *_detailTextLabel;
-    
+
     NSMutableArray<NSLayoutConstraint *> *_viewConstraints;
 }
 
@@ -129,7 +130,7 @@ static const CGFloat CellLeftRightPadding = 8.0;
     [_viewConstraints addObject:[_titleLabel.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-HeaderViewLeftRightLabelPadding]];
     
     UIView *bottomElementToConstraintViewTo;
-    
+
     // detailLabel constraints if detailText was provided
     if (_detailText != nil) {
         [_viewConstraints addObject:[_detailTextLabel.topAnchor constraintEqualToAnchor:_titleLabel.bottomAnchor constant:HeaderViewLabelTopBottomPadding]];
@@ -141,9 +142,15 @@ static const CGFloat CellLeftRightPadding = 8.0;
     }
     
     // ORKFamilyHistoryTableHeaderView bottom constraint
-    [_viewConstraints addObject:[self.bottomAnchor constraintEqualToAnchor:bottomElementToConstraintViewTo.bottomAnchor constant:HeaderViewBottomPadding]];
+    [_viewConstraints addObject:[self.bottomAnchor constraintEqualToAnchor:bottomElementToConstraintViewTo.bottomAnchor constant:HeaderViewCollapsedBottomPadding]];
     
     [NSLayoutConstraint activateConstraints:_viewConstraints];
+}
+
+- (void)setExpanded:(BOOL)isExpanded {
+    NSLayoutConstraint *bottomConstraint = [_viewConstraints lastObject];
+    bottomConstraint.constant =  isExpanded ? HeaderViewExpandedBottomPadding : HeaderViewCollapsedBottomPadding;
+    [self setNeedsUpdateConstraints];
 }
 
 - (UIFont *)titleLabelFont {

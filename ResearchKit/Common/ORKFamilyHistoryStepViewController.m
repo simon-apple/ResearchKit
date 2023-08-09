@@ -596,10 +596,8 @@ NSString * const ORKFamilyHistoryRelatedPersonCellIdentifier = @"ORKFamilyHistor
                                                                        handler:^(UIAlertAction * action) {
                     [relatedPersonCell removeOptionsViewIfPresented];
                     [_relatedPersons[currentRelatedPerson.groupIdentifier] removeObject:currentRelatedPerson];
-                    
-                    NSArray<NSIndexPath *> *indexPaths =  [[NSArray alloc] initWithObjects:[_tableView indexPathForCell:relatedPersonCell], nil];
-                    [_tableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
-                    
+                    NSIndexSet *section = [NSIndexSet indexSetWithIndex:indexPath.section];
+                    [_tableView reloadSections:section withRowAnimation:UITableViewRowAnimationAutomatic];
                     [self resultUpdated];
                 }];
                 
@@ -644,7 +642,7 @@ NSString * const ORKFamilyHistoryRelatedPersonCellIdentifier = @"ORKFamilyHistor
 
 - (void)handleRelatedPersonTaskResult:(ORKTaskResult *)taskResult taskIdentifier:(NSString *)identifier {
     ORKFamilyHistoryStep *familyHistoryStep = [self familyHistoryStep];
-    
+
     // If the user is editing a previous task, just update the result of the relatedPerson
     if (_editingPreviousTask && _relativeForPresentedTask) {
         _relativeForPresentedTask.taskResult = taskResult;
@@ -706,8 +704,7 @@ NSString * const ORKFamilyHistoryRelatedPersonCellIdentifier = @"ORKFamilyHistor
           if (![_displayedConditions containsObject:conditionIdentifier]) {
             [_displayedConditions addObject:conditionIdentifier];
         }
-    }
-        
+    }    
 }
 
 #pragma mark UITableViewDataSource
@@ -774,6 +771,9 @@ NSString * const ORKFamilyHistoryRelatedPersonCellIdentifier = @"ORKFamilyHistor
     if (headerView == nil) {
         headerView = [[ORKFamilyHistoryTableHeaderView alloc] initWithTitle:relativeGroup.sectionTitle detailText:relativeGroup.sectionDetailText];
     }
+    
+    BOOL isExpanded = _relatedPersons[relativeGroup.identifier].count > 0;
+    [headerView setExpanded:isExpanded];
     
     return headerView;
 }
