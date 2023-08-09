@@ -60,6 +60,7 @@
 #import "ORKResult_Private.h"
 #import "ORKStep_Private.h"
 #import "ORKStepContentView.h"
+#import "ORKChoiceViewCell+ORKTextChoice.h"
 
 #import "ORKHelpers_Internal.h"
 #import "ORKSkin.h"
@@ -887,8 +888,13 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
     identifier = [NSStringFromClass([self class]) stringByAppendingFormat:@"%@", @(indexPath.row)];
     
     ORKChoiceViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    BOOL isLastItem = indexPath.row == _choiceCellGroup.size - 1;
     if (!cell) {
         cell = [_choiceCellGroup cellAtIndexPath:indexPath withReuseIdentifier:identifier];
+    }
+    
+    if ([cell isKindOfClass:[ORKChoiceViewCell class]]) {
+        [cell configureWithTextChoice:[_choiceCellGroup textChoiceForIndex:indexPath.row] isLastItem:isLastItem];
     }
     
     if ([cell isKindOfClass:[ORKChoiceOtherViewCell class]]) {
@@ -899,7 +905,7 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
 
     cell.userInteractionEnabled = !self.readOnlyMode;
     cell.useCardView = self.questionStep.useCardView;
-    cell.isLastItem = indexPath.row == _choiceCellGroup.size - 1;
+    cell.isLastItem = isLastItem;
     cell.isFirstItemInSectionWithoutTitle = (indexPath.row == 0 && ![self questionStep].question);
     return cell;
 }

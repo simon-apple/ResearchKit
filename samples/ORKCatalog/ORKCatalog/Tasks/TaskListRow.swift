@@ -540,6 +540,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         case introStep
         case surveyTaskWithMultipleSelection
         case questionStep
+        case questionStepWithOtherItems
         case birthdayQuestion
         case summaryStep
         case consentTask
@@ -1268,7 +1269,6 @@ enum TaskListRow: Int, CustomStringConvertible {
         
         // Add a question step.
         let question1StepAnswerFormat = ORKBooleanAnswerFormat()
-        
         let question1 = NSLocalizedString("Would you like to subscribe to our newsletter?", comment: "")
         
         let learnMoreInstructionStep = ORKLearnMoreInstructionStep(identifier: "LearnMoreInstructionStep01")
@@ -1279,23 +1279,38 @@ enum TaskListRow: Int, CustomStringConvertible {
         let question1Step = ORKQuestionStep(identifier: String(describing: Identifier.questionStep), title: "Questionnaire", question: question1, answer: question1StepAnswerFormat, learnMoreItem: learnMoreItem)
         question1Step.text = exampleDetailText
         
-        //Add a question step with different layout format.
+        // Add a question step with different layout format.
         let question2StepAnswerFormat = ORKAnswerFormat.dateAnswerFormat(withDefaultDate: nil, minimumDate: nil, maximumDate: Date(), calendar: nil)
         
         let question2 = NSLocalizedString("When is your birthday?", comment: "")
         let question2Step = ORKQuestionStep(identifier: String(describing: Identifier.birthdayQuestion), title: "Questionnaire", question: question2, answer: question2StepAnswerFormat)
         question2Step.text = exampleDetailText
         
+        // Add a question step with an ORKTextChoiceOther
+        let textChoices: [ORKTextChoice] = [
+            ORKTextChoice(text: "choice 1", detailText: "detail 1", value: 1 as NSNumber, exclusive: false),
+            ORKTextChoice(text: "choice 2", detailText: "detail 2", value: 2 as NSNumber, exclusive: false),
+            ORKTextChoice(text: "choice 3", detailText: "detail 3", value: 3 as NSNumber, exclusive: false),
+            ORKTextChoice(text: "choice 4", detailText: "detail 4", value: 4 as NSNumber, exclusive: false),
+            ORKTextChoice(text: "choice 5", detailText: "detail 5", value: 5 as NSNumber, exclusive: false),
+            ORKTextChoice(text: "choice 6", detailText: "detail 6", value: 6 as NSNumber, exclusive: false),
+            ORKTextChoiceOther.choice(withText: "choice 7", detailText: "detail 7", value: "choice 7" as NSString, exclusive: true, textViewPlaceholderText: "enter additional information")
+        ]
+        
+        let question3StepAnswerFormat = ORKTextChoiceAnswerFormat(style: .singleChoice, textChoices: textChoices)
+        let question3Step = ORKQuestionStep(identifier: String(describing: Identifier.questionStepWithOtherItems), title: "Questionnaire", question: question1, answer: question3StepAnswerFormat, learnMoreItem: learnMoreItem)
+        question3Step.text = exampleDetailText
+        
         // Add a summary step.
         let summaryStep = ORKInstructionStep(identifier: String(describing: Identifier.summaryStep))
         summaryStep.title = NSLocalizedString("Thanks", comment: "")
         summaryStep.text = NSLocalizedString("Thank you for participating in this sample survey.", comment: "")
-        
     
         return ORKOrderedTask(identifier: String(describing: Identifier.surveyTask), steps: [
             instructionStep,
             question1Step,
             question2Step,
+            question3Step,
             summaryStep
             ])
     }
