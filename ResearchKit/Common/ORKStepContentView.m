@@ -181,7 +181,15 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKUpdateConstraintSequence) {
     [[NSNotificationCenter defaultCenter] postNotificationName:ORKStepTopContentImageChangedKey object:nil];
 }
 
+- (void)setShouldAutomaticallyAdjustImageTintColor:(BOOL)shouldAutomaticallyAdjustImageTintColor {
+    _shouldAutomaticallyAdjustImageTintColor = shouldAutomaticallyAdjustImageTintColor;
+    [self updateViewColors];
+}
+
 - (void)updateViewColors {
+    if (!_shouldAutomaticallyAdjustImageTintColor) {
+        return;
+    }
     if (@available(iOS 12.0, *)) {
         // [LC:NOTE] for dark mode we need to able to set the tint on the UIImageView,
         // this requires the image to be set to the UIImageRenderingModeAlwaysTemplate rendering mode
