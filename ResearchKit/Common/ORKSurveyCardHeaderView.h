@@ -33,7 +33,7 @@
 NS_ASSUME_NONNULL_BEGIN
 @class ORKLearnMoreView;
 
-@interface ORKSurveyCardHeaderView: UIView
+@interface ORKSurveyCardHeaderView: UITableViewHeaderFooterView
 
 - (instancetype)initWithTitle:(NSString *)title;
 
@@ -51,6 +51,17 @@ NS_ASSUME_NONNULL_BEGIN
                    showBorder:(BOOL)showBorder
         hasMultipleChoiceItem:(BOOL)hasMultipleChoiceItem
          shouldIgnoreDarkMode:(BOOL)shouldIgnoreDarkMode;
+
+- (void)configureWithTitle:(NSString *)title
+                detailText:(nullable NSString *)text
+             learnMoreView:(nullable ORKLearnMoreView *)learnMoreView
+              progressText:(nullable NSString *)progressText
+                   tagText:(nullable NSString *)tagText
+                showBorder:(BOOL)showBorder
+     hasMultipleChoiceItem:(BOOL)hasMultipleChoiceItem
+      shouldIgnoreDarkMode:(BOOL)shouldIgnoreDarkMode;
+
+- (void)setProgressText:(nullable NSString *)text;
 
 @end
 

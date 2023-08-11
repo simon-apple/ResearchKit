@@ -70,6 +70,8 @@
 static const CGFloat TableViewYOffsetStandard = 30.0;
 static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
 
+NSString * const ORKSurveyCardHeaderViewIdentifier = @"SurveyCardHeaderViewIdentifier";
+
 @interface ORKFormItem (FormStepViewControllerExtensions)
 
 - (BOOL)requiresSingleSection;
@@ -660,10 +662,8 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
         _tableContainer.tableContainerDelegate = self;
         [self.view addSubview:_tableContainer];
         _tableContainer.tapOffView = self.view;
-        
         _tableView = _tableContainer.tableView;
         _tableView.delegate = self;
-        
         [self _registerCellClassesInTableView:_tableView];
         
         // [RDLS:NOTE] swapping out existing impl for diffableDataSource
@@ -674,7 +674,7 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
         [self buildDataSource:_diffableDataSource withPreviousResult:nil];
         _tableView.dataSource = _diffableDataSource;
         
-//        _tableView.dataSource = self;
+
         _tableView.clipsToBounds = YES;
         _tableView.rowHeight = UITableViewAutomaticDimension;
         _tableView.sectionHeaderHeight = UITableViewAutomaticDimension;
@@ -734,7 +734,8 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
 }
 
 - (void)_registerCellClassesInTableView:(UITableView *)tableView {
-    
+
+    // Register all of the row cells for our formItems
     for (ORKFormItem *eachItem in [self allFormItems]) {
         
         // our cell choices are based on answerFormat
@@ -754,8 +755,10 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
         } else {
             ORK_Log_Debug("Not registering cell class '%@' for formItem with identifier '%@' answerFormat: %@", class, reuseIdentifier, answerFormat);
         }
-        
     }
+    
+    // Now register the header cells
+    [_tableView registerClass:[ORKSurveyCardHeaderView class] forHeaderFooterViewReuseIdentifier:ORKSurveyCardHeaderViewIdentifier];
     
 }
 
@@ -944,6 +947,23 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
     
     NSUInteger countOfItemsEnd = [snapshot numberOfItems];
     BOOL shouldAnimateDifferences = (countOfItemsStart != 0 && countOfItemsStart != countOfItemsEnd);
+
+    // update progress text of section header views
+    NSUInteger totalSections = [snapshot numberOfSections];
+    
+    if (totalSections > 1) {
+        for (int i = 0; i < totalSections; i++) {
+            ORKSurveyCardHeaderView *cardHeaderView = (ORKSurveyCardHeaderView *)[_tableView headerViewForSection:i];
+            
+            NSString *sectionProgressText = [NSString localizedStringWithFormat:ORKLocalizedString(@"FORM_ITEM_PROGRESS", nil) ,ORKLocalizedStringFromNumber(@(i + 1)), ORKLocalizedStringFromNumber(@(snapshot.numberOfSections))];
+            
+            [cardHeaderView setProgressText:sectionProgressText];
+        }
+    } else {
+        ORKSurveyCardHeaderView *cardHeaderView = (ORKSurveyCardHeaderView *)[_tableView headerViewForSection:0];
+        [cardHeaderView setProgressText:nil];
+    }
+    
     [dataSource applySnapshot:snapshot animatingDifferences:shouldAnimateDifferences];
 }
 
@@ -1810,20 +1830,18 @@ static CGFloat ORKLabelWidth(NSString *text) {
     
     hasMultipleChoiceFormItem = (sectionFormItem.impliedAnswerFormat.questionType == ORKQuestionTypeMultipleChoice) ? YES : NO;
     shouldIgnoreDarkMode = [sectionFormItem.impliedAnswerFormat isKindOfClass:[ORKColorChoiceAnswerFormat class]];
+    
+    ORKSurveyCardHeaderView *cardHeaderView = (ORKSurveyCardHeaderView *)[tableView dequeueReusableHeaderFooterViewWithIdentifier: ORKSurveyCardHeaderViewIdentifier];
+    
+    [cardHeaderView configureWithTitle:title
+                            detailText:detailText
+                         learnMoreView:learnMoreView
+                          progressText:sectionProgressText
+                               tagText:tagText
+                            showBorder:([self formStep].cardViewStyle == ORKCardViewStyleBordered)
+                 hasMultipleChoiceItem:hasMultipleChoiceFormItem
+                  shouldIgnoreDarkMode:shouldIgnoreDarkMode];
 
-    ORKSurveyCardHeaderView *cardHeaderView = (ORKSurveyCardHeaderView *)[tableView dequeueReusableHeaderFooterViewWithIdentifier:@(section).stringValue];
-    
-    if (cardHeaderView == nil && title) {
-        cardHeaderView = [[ORKSurveyCardHeaderView alloc] initWithTitle:title
-                                                             detailText:detailText
-                                                          learnMoreView:learnMoreView
-                                                           progressText:sectionProgressText
-                                                                tagText:tagText
-                                                             showBorder:([self formStep].cardViewStyle == ORKCardViewStyleBordered)
-                                                  hasMultipleChoiceItem:hasMultipleChoiceFormItem
-                                                   shouldIgnoreDarkMode:shouldIgnoreDarkMode];
-    }
-    
     return cardHeaderView;
 }
 

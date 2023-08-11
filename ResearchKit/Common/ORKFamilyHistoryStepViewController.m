@@ -284,6 +284,7 @@ NSString * const ORKFamilyHistoryRelatedPersonCellIdentifier = @"ORKFamilyHistor
         ORKFormItem *healthConditionsFormItem = [[ORKFormItem alloc] initWithIdentifier:step.conditionStepConfiguration.conditionsFormItemIdentifier
                                                                                    text:ORKLocalizedString(@"FAMILY_HISTORY_CONDITIONS_FORM_ITEM_TEXT", "")
                                                                            answerFormat:textChoiceAnswerFormat];
+        healthConditionsFormItem.showsProgress = YES;
         
         [formItems addObject:healthConditionsFormItem];
         [formItems addObjectsFromArray:step.conditionStepConfiguration.formItems];
