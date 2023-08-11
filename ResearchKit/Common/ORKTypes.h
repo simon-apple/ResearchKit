@@ -123,6 +123,11 @@ typedef NS_ENUM(NSInteger, ORKQuestionType) {
     ORKQuestionTypeWeight,
     
     /**
+     In a age question, the participant can enter a age by using a age picker.
+     */
+    ORKQuestionTypeAge,
+    
+    /**
      In a location question, the participant can enter a location using a map view.
      */
     ORKQuestionTypeLocation,

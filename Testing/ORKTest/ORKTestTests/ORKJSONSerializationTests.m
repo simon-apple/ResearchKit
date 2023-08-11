@@ -284,7 +284,7 @@ ORK_MAKE_TEST_INIT(ORKVerificationStep, ^{return [self initWithIdentifier:[NSUUI
 ORK_MAKE_TEST_INIT(ORKStep, ^{return [self initWithIdentifier:[NSUUID UUID].UUIDString];});
 ORK_MAKE_TEST_INIT(ORKReviewStep, ^{return [[self class] standaloneReviewStepWithIdentifier:[NSUUID UUID].UUIDString steps:@[] resultSource:[[ORKTaskResult alloc] orktest_init]];});
 ORK_MAKE_TEST_INIT(ORKOrderedTask, ^{return [self initWithIdentifier:@"test1" steps:nil];});
-
+ORK_MAKE_TEST_INIT(ORKAgeAnswerFormat, ^{return [self initWithMinimumAge:0 maximumAge:80 minimumAgeCustomText:nil maximumAgeCustomText:nil showYear:NO useYearForResult:NO relativeYear:2023 defaultValue:0];});
 #if RK_APPLE_INTERNAL && ORK_FEATURE_AV_JOURNALING
 ORK_MAKE_TEST_INIT(ORKAVJournalingPredefinedTask, ^{
     ORKStep *stepA = [[ORKStep alloc] initWithIdentifier:[NSUUID UUID].UUIDString];
@@ -987,7 +987,7 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector(void) {
     for (Class aClass in classesWithORKSerialization) {
         NSString *className = NSStringFromClass(aClass);
         NSArray *classMutuallyExclusiveProperties = mutallyExclusiveProperties[className];
-        
+      
         id instance = [self instanceForClass:aClass];
         
         // Find all properties of this class
@@ -1069,6 +1069,11 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector(void) {
             [(ORKDateAnswerFormat *)instance _setCurrentDateOverride:dateFormatOverrideDate];
             [(ORKDateAnswerFormat *)instance setDaysAfterCurrentDateToSetMinimumDate:1];
             [(ORKDateAnswerFormat *)instance setDaysBeforeCurrentDateToSetMinimumDate:1];
+        } else if ([aClass isSubclassOfClass:[ORKAgeAnswerFormat class]]) {
+            [instance setValue:@(0) forKey:@"minimumAge"];
+            [instance setValue:@(80) forKey:@"maximumAge"];
+            [instance setValue:@(0) forKey:@"defaultValue"];
+            [instance setValue:@(2023) forKey:@"relativeYear"];
         }
 
         // Serialization
@@ -1103,6 +1108,7 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector(void) {
         [mockDictionary startObserving];
         
         id instance2 = [ORKESerializer objectFromJSONObject:mockDictionary context:context error:NULL];
+        
         if ([instance2 isKindOfClass:[ORKDateAnswerFormat class]]) {
             ORKDateAnswerFormat *dateAnswerFormatInstance = (ORKDateAnswerFormat *)instance2;
             [dateAnswerFormatInstance _setCurrentDateOverride:dateFormatOverrideDate];
@@ -1429,7 +1435,11 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector(void) {
                                        @"ORKBodyItem.customButtonConfigurationHandler",
                                        @"ORKAccuracyStroopStep.actualDisplayColor",
                                        @"ORKAccuracyStroopResult.didSelectCorrectColor",
-                                       @"ORKAccuracyStroopResult.timeTakenToSelect"
+                                       @"ORKAccuracyStroopResult.timeTakenToSelect",
+                                       @"ORKAgeAnswerFormat.minimumAge",
+                                       @"ORKAgeAnswerFormat.maximumAge",
+                                       @"ORKAgeAnswerFormat.relativeYear",
+                                       @"ORKAgeAnswerFormat.defaultValue"
                                        ];
     
     NSArray *hashExclusionList = @[

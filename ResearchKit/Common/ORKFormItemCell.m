@@ -1845,7 +1845,8 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
           [answerFormat isKindOfClass:[ORKValuePickerAnswerFormat class]] ||
           [answerFormat isKindOfClass:[ORKMultipleValuePickerAnswerFormat class]] ||
           [answerFormat isKindOfClass:[ORKHeightAnswerFormat class]] ||
-          [answerFormat isKindOfClass:[ORKWeightAnswerFormat class]])) {
+          [answerFormat isKindOfClass:[ORKWeightAnswerFormat class]] ||
+          [answerFormat isKindOfClass:[ORKAgeAnswerFormat class]])) {
         @throw [NSException exceptionWithName:NSGenericException reason:@"formItem.answerFormat should be an ORKDateAnswerFormat, ORKTimeOfDayAnswerFormat, ORKTimeIntervalAnswerFormat, ORKValuePicker, ORKMultipleValuePickerAnswerFormat, ORKHeightAnswerFormat, or ORKWeightAnswerFormat instance" userInfo:nil];
     }
     [super setFormItem:formItem];

@@ -264,6 +264,8 @@
 		511987C72463316E004FC2C7 /* ORKRequestPermissionsStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 511987C52463316E004FC2C7 /* ORKRequestPermissionsStepViewController.h */; };
 		511987C82463316E004FC2C7 /* ORKRequestPermissionsStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 511987C62463316E004FC2C7 /* ORKRequestPermissionsStepViewController.m */; };
 		5139A559266EDA3300537192 /* ORKFeatureFlags.h in Headers */ = {isa = PBXBuildFile; fileRef = 5139A553266ED9BB00537192 /* ORKFeatureFlags.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		513A5BCA2A81850500049094 /* ORKAgePicker.h in Headers */ = {isa = PBXBuildFile; fileRef = 513A5BC82A81850500049094 /* ORKAgePicker.h */; };
+		513A5BCB2A81850500049094 /* ORKAgePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 513A5BC92A81850500049094 /* ORKAgePicker.m */; };
 		515310CF233570CF007BCA58 /* ORKDontKnowButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 515310CD233570CF007BCA58 /* ORKDontKnowButton.h */; };
 		515310D0233570CF007BCA58 /* ORKDontKnowButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 515310CE233570CF007BCA58 /* ORKDontKnowButton.m */; };
 		515B347A24B3D2F4009CF844 /* ORKAVJournalingSessionHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 515B347824B3D2F4009CF844 /* ORKAVJournalingSessionHelper.h */; };
@@ -1449,6 +1451,8 @@
 		511987C52463316E004FC2C7 /* ORKRequestPermissionsStepViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKRequestPermissionsStepViewController.h; sourceTree = "<group>"; };
 		511987C62463316E004FC2C7 /* ORKRequestPermissionsStepViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKRequestPermissionsStepViewController.m; sourceTree = "<group>"; };
 		5139A553266ED9BB00537192 /* ORKFeatureFlags.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKFeatureFlags.h; sourceTree = "<group>"; };
+		513A5BC82A81850500049094 /* ORKAgePicker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKAgePicker.h; sourceTree = "<group>"; };
+		513A5BC92A81850500049094 /* ORKAgePicker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKAgePicker.m; sourceTree = "<group>"; };
 		515310CD233570CF007BCA58 /* ORKDontKnowButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKDontKnowButton.h; sourceTree = "<group>"; };
 		515310CE233570CF007BCA58 /* ORKDontKnowButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKDontKnowButton.m; sourceTree = "<group>"; };
 		515B347824B3D2F4009CF844 /* ORKAVJournalingSessionHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKAVJournalingSessionHelper.h; sourceTree = "<group>"; };
@@ -4191,6 +4195,8 @@
 				FFF65AB71E318F2D0043FB40 /* ORKMultipleValuePicker.m */,
 				BAC2B65922F25A2E0079304E /* ORKSESSelectionView.h */,
 				BAC2B65A22F25A2E0079304E /* ORKSESSelectionView.m */,
+				513A5BC82A81850500049094 /* ORKAgePicker.h */,
+				513A5BC92A81850500049094 /* ORKAgePicker.m */,
 			);
 			name = "Control Views";
 			sourceTree = "<group>";
@@ -5138,6 +5144,7 @@
 				FF919A3B1E81AF1D005C2A1E /* ORKFileResult.h in Headers */,
 				FF919A561E81BEE0005C2A1E /* ORKCollectionResult_Private.h in Headers */,
 				51751463245A5172009E8FFC /* ORKFrontFacingCameraStepViewController.h in Headers */,
+				513A5BCA2A81850500049094 /* ORKAgePicker.h in Headers */,
 				FF919A661E81D168005C2A1E /* ORKSignatureResult_Private.h in Headers */,
 				E220A35425711F1400C3C211 /* ORKTinnitusTypeStep.h in Headers */,
 				BA95AA9E20ACD0E700E7FF8E /* ORKAmslerGridContentView.h in Headers */,
@@ -6003,6 +6010,7 @@
 				BAD9E9172255E9CE0014FA29 /* ORKLearnMoreStepViewController.m in Sources */,
 				86C40DC41A8D7C5C00081FAC /* ORKTapCountLabel.m in Sources */,
 				25ECC0A01AFBD92D00F3D63B /* ORKReactionTimeContentView.m in Sources */,
+				513A5BCB2A81850500049094 /* ORKAgePicker.m in Sources */,
 				2295B222282AF92700A5D9E0 /* ORKAudiometry.m in Sources */,
 				86C40D4C1A8D7C5C00081FAC /* ORKLabel.m in Sources */,
 				229C618C287362C200D79E45 /* lbfgsb.c in Sources */,

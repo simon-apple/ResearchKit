@@ -2078,6 +2078,106 @@ ORK_CLASS_AVAILABLE
 
 @end
 
+/**
+ The `ORKAgeAnswerFormat` class represents the answer format for questions that require users
+ to enter a weight.
+ 
+ A weight answer format produces an `ORKNumericQuestionResult` object. The result is always reported
+ in the metric system using the `kg` unit.
+ */
+ORK_CLASS_AVAILABLE
+@interface ORKAgeAnswerFormat : ORKAnswerFormat
+
+/**
+ Returns an initialized weight answer format using the measurement system specified in the current
+ locale.
+ 
+ @return An initialized weight answer format.
+ */
+- (instancetype)init;
+
+- (instancetype)initWithMinimumAge:(NSInteger)minimumAge
+                        maximumAge:(NSInteger)maximumAge;
+
+- (instancetype)initWithMinimumAge:(NSInteger)minimumAge
+                        maximumAge:(NSInteger)maximumAge
+              minimumAgeCustomText:(nullable NSString *)minimumAgeCustomText
+              maximumAgeCustomText:(nullable NSString *)maximumAgeCustomText
+                          showYear:(BOOL)showYear
+                  useYearForResult:(BOOL)useYearForResult
+                      defaultValue:(NSInteger)defaultValue;
+
+- (instancetype)initWithMinimumAge:(NSInteger)minimumAge
+                        maximumAge:(NSInteger)maximumAge
+              minimumAgeCustomText:(nullable NSString *)minimumAgeCustomText
+              maximumAgeCustomText:(nullable NSString *)maximumAgeCustomText
+                          showYear:(BOOL)showYear
+                  useYearForResult:(BOOL)useYearForResult
+                      relativeYear:(NSInteger)relativeYear
+                      defaultValue:(NSInteger)defaultValue;
+
+/**
+ Minimum age value presented in the picker
+ 
+ By default, the value of this property is 0.
+ */
+@property (readonly) NSInteger minimumAge;
+
+
+/**
+ Maximum age value presented in the picker.
+ 
+ By default, the value of this property is 125.
+ */
+@property (readonly) NSInteger maximumAge;
+
+
+/**
+ Custom text that will replace the minimumAge value.
+ 
+ By default, the value of this property is nil.
+ */
+ 
+@property (readonly, nullable) NSString *minimumAgeCustomText;
+
+/**
+ Custom text that will replace the maximumAge value.
+ 
+ By default, the value of this property is nil.
+ */
+ 
+@property (readonly, nullable) NSString *maximumAgeCustomText;
+
+
+/**
+ Boolean that determines if the year should be shown alongside the age value.
+ 
+ By default, the value of this property is nil.
+ */
+ 
+@property (readonly) BOOL showYear;
+
+/**
+ The year at which the picker will base all of its ages from.
+ 
+ By default, the value of this property will be the current year.
+ */
+ 
+@property (nonatomic) NSInteger relativeYear;
+
+
+/**
+ Boolean that determines if the year for the selected age should be used in the result.
+ 
+ By default, the value of this property is NO.
+ */
+ 
+@property (readonly) BOOL useYearForResult;
+
+@property (readonly) NSInteger defaultValue;
+
+@end
+
 
 /**
  The `ORKLocationAnswerFormat` class represents the answer format for questions that collect a location response

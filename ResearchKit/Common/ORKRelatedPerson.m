@@ -113,8 +113,9 @@
     NSMutableArray<NSString *> *detailListValues = [NSMutableArray new];
     
     for (NSString *identifier in identifiers) {
-        NSString *value = [self getResultValueWithIdentifier:identifier];
+        NSString *result = [self getResultValueWithIdentifier:identifier];
         
+        NSString *value = ![result isKindOfClass:[NSString class]] ? [NSString stringWithFormat:@"%i", result.intValue] : result;
         if (value) {
             NSString *displayText = displayInfoKeyAndValues[identifier][value];
             [detailListValues addObject: displayText != nil ? displayText : value];

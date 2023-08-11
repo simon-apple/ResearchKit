@@ -1036,9 +1036,7 @@ NSString * const ORKSurveyCardHeaderViewIdentifier = @"SurveyCardHeaderViewIdent
 }
 
 - (BOOL)continueButtonEnabled {
-    BOOL enabled = ([self numberOfAnsweredFormItems] > 0
-                    && [self allAnsweredFormItemsAreValid]
-                    && [self allNonOptionalFormItemsHaveAnswers]);
+    BOOL enabled = ([self allAnsweredFormItemsAreValid] && [self allNonOptionalFormItemsHaveAnswers]);
     if (self.isBeingReviewed) {
         enabled = enabled && ![self.savedAnswers isEqualToDictionary:self.originalAnswers];
     }

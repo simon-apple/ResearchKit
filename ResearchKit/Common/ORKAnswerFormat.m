@@ -79,6 +79,7 @@ NSString *ORKQuestionTypeString(ORKQuestionType questionType) {
             SQT_CASE(TimeInterval);
             SQT_CASE(Height);
             SQT_CASE(Weight);
+            SQT_CASE(Age);
             SQT_CASE(Location);
             SQT_CASE(SES);
     }
@@ -3814,6 +3815,186 @@ static NSString *const kSecureTextEntryEscapeString = @"*";
     return answerString;
 }
 
+@end
+
+#pragma mark - ORKAgeAnswerFormat
+
+static const NSInteger ORKAgeAnswerDefaultMinAge = 1;
+static const NSInteger ORKAgeAnswerDefaultMaxAge = 125;
+
+@implementation ORKAgeAnswerFormat
+
+- (Class)questionResultClass {
+    return [ORKNumericQuestionResult class];
+}
+
+- (instancetype)init {
+    
+    return [self initWithMinimumAge:ORKAgeAnswerDefaultMinAge
+                         maximumAge:ORKAgeAnswerDefaultMaxAge
+               minimumAgeCustomText:nil
+               maximumAgeCustomText:nil
+                           showYear:NO
+                   useYearForResult:NO
+                       defaultValue:ORKAgeAnswerDefaultMinAge];
+}
+
+- (instancetype)initWithMinimumAge:(NSInteger)minimumAge maximumAge:(NSInteger)maximumAge {
+    return [self initWithMinimumAge:minimumAge
+                         maximumAge:maximumAge
+               minimumAgeCustomText:nil
+               maximumAgeCustomText:nil
+                           showYear:NO
+                   useYearForResult:NO
+                       defaultValue:minimumAge];
+
+}
+
+- (instancetype)initWithMinimumAge:(NSInteger)minimumAge
+                        maximumAge:(NSInteger)maximumAge
+              minimumAgeCustomText:(nullable NSString *)minimumAgeCustomText
+              maximumAgeCustomText:(nullable NSString *)maximumAgeCustomText
+                          showYear:(BOOL)showYear
+                  useYearForResult:(BOOL)useYearForResult
+                      defaultValue:(NSInteger)defaultValue {
+   return [self initWithMinimumAge:minimumAge
+                        maximumAge:maximumAge
+              minimumAgeCustomText:minimumAgeCustomText
+              maximumAgeCustomText:maximumAgeCustomText
+                          showYear:showYear
+                  useYearForResult:useYearForResult
+                      relativeYear:[self currentYear] defaultValue:minimumAge];
+}
+
+- (instancetype)initWithMinimumAge:(NSInteger)minimumAge
+                        maximumAge:(NSInteger)maximumAge
+              minimumAgeCustomText:(nullable NSString *)minimumAgeCustomText
+              maximumAgeCustomText:(nullable NSString *)maximumAgeCustomText
+                          showYear:(BOOL)showYear
+                  useYearForResult:(BOOL)useYearForResult
+                      relativeYear:(NSInteger)relativeYear
+                      defaultValue:(NSInteger)defaultValue {
+    if (minimumAge < 0) {
+        @throw [NSException exceptionWithName:NSInvalidArgumentException
+                                       reason: [NSString stringWithFormat:@"minimumAge must be greater than 0. (%li) - (%li)", minimumAge, maximumAge]
+                                     userInfo:nil];
+       
+    }
+    
+    if (maximumAge > 150) {
+        @throw [NSException exceptionWithName:NSInvalidArgumentException
+                                       reason:@"maximumAge must be lower than 150."
+                                     userInfo:nil];
+    }
+    
+    if (minimumAge >= maximumAge) {
+        @throw [NSException exceptionWithName:NSInvalidArgumentException
+                                       reason:[NSString stringWithFormat:@"minimumAge must be less than maximumAge. (%li) - (%li)", minimumAge, maximumAge]
+                                     userInfo:nil];
+    }
+    
+    if ((defaultValue < minimumAge) || (defaultValue > maximumAge)) {
+        @throw [NSException exceptionWithName:NSInvalidArgumentException
+                                       reason:@"defaultValue must be between minimumAge and maximumAge."
+                                     userInfo:nil];
+    }
+    
+    self = [super init];
+    
+    if (self) {
+        _minimumAge = minimumAge;
+        _maximumAge = maximumAge;
+        _minimumAgeCustomText = [minimumAgeCustomText copy];
+        _maximumAgeCustomText = [maximumAgeCustomText copy];
+        _showYear = showYear;
+        _useYearForResult = useYearForResult;
+        _relativeYear = relativeYear;
+        _defaultValue = defaultValue;
+    }
+    
+    return self;
+}
+
+- (NSInteger)currentYear {
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    NSDateComponents *components = [calendar components:NSCalendarUnitYear fromDate:[NSDate date]];
+    return [components year];
+}
+
+- (NSString *)stringForAnswer:(id)answer {
+    NSString *answerString = nil;
+    
+    if (!ORKIsAnswerEmpty(answer)) {
+        NSNumberFormatter *formatter = ORKDecimalNumberFormatter();
+        answerString = [formatter stringFromNumber:(NSNumber *)answer];
+    }
+    
+    return answerString;
+}
+
+- (ORKQuestionType)questionType {
+    return ORKQuestionTypeAge;
+}
+
+// TODO: add hash implementation
+
+- (instancetype)copyWithZone:(NSZone *)zone {
+    ORKAgeAnswerFormat *ageAnswerFormat = [[[self class] allocWithZone:zone] init];
+    ageAnswerFormat->_minimumAge = _minimumAge;
+    ageAnswerFormat->_maximumAge = _maximumAge;
+    ageAnswerFormat->_minimumAgeCustomText = [_minimumAgeCustomText copy];
+    ageAnswerFormat->_maximumAgeCustomText = [_maximumAgeCustomText copy];
+    ageAnswerFormat->_showYear = _showYear;
+    ageAnswerFormat->_useYearForResult = _useYearForResult;
+    ageAnswerFormat->_defaultValue = _defaultValue;
+    return ageAnswerFormat;
+}
+
+- (BOOL)isEqual:(id)object {
+    BOOL isParentSame = [super isEqual:object];
+    
+    __typeof(self) castObject = object;
+    return (isParentSame &&
+            (_minimumAge == castObject->_minimumAge) &&
+            (_maximumAge == castObject->_maximumAge) &&
+            (_relativeYear == castObject->_relativeYear) &&
+            ORKEqualObjects(_minimumAgeCustomText, castObject->_minimumAgeCustomText) &&
+            ORKEqualObjects(_maximumAgeCustomText, castObject->_maximumAgeCustomText) &&
+            (_showYear == castObject->_showYear) &&
+            (_useYearForResult == castObject->_useYearForResult) &&
+            (_defaultValue == castObject->_defaultValue));
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        ORK_DECODE_INTEGER(aDecoder, minimumAge);
+        ORK_DECODE_INTEGER(aDecoder, maximumAge);
+        ORK_DECODE_OBJ_CLASS(aDecoder, minimumAgeCustomText, NSString);
+        ORK_DECODE_OBJ_CLASS(aDecoder, maximumAgeCustomText, NSString);
+        ORK_DECODE_BOOL(aDecoder, showYear);
+        ORK_DECODE_BOOL(aDecoder, useYearForResult);
+        ORK_DECODE_INTEGER(aDecoder, defaultValue);
+        ORK_DECODE_INTEGER(aDecoder, relativeYear);
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [super encodeWithCoder:aCoder];
+    ORK_ENCODE_INTEGER(aCoder, minimumAge);
+    ORK_ENCODE_INTEGER(aCoder, maximumAge);
+    ORK_ENCODE_OBJ(aCoder, minimumAgeCustomText);
+    ORK_ENCODE_OBJ(aCoder, maximumAgeCustomText);
+    ORK_ENCODE_BOOL(aCoder, showYear);
+    ORK_ENCODE_BOOL(aCoder, useYearForResult);
+    ORK_ENCODE_INTEGER(aCoder, defaultValue);
+    ORK_ENCODE_INTEGER(aCoder, relativeYear);
+}
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
 @end
 
 
