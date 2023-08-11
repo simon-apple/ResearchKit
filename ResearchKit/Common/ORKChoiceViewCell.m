@@ -447,8 +447,7 @@ static const CGFloat ColorSwatchExpandedRightPadding = 16.0;
 }
 
 - (void)setCellSelected:(BOOL)cellSelected highlight:(BOOL)highlight {
-    _cellSelected = cellSelected;
-    
+    _cellSelected = cellSelected;    
     [self updateSelectedItem];
     
     if (highlight)

@@ -1663,8 +1663,14 @@ static CGFloat ORKLabelWidth(NSString *text) {
         BOOL shouldHideTextView = (itemIdentifier.expansionState == ORKChoiceViewCellExpansionStateExpanded) ? true : false;
         itemIdentifier.expansionState = shouldHideTextView ? ORKChoiceViewCellExpansionStateCollapsed : ORKChoiceViewCellExpansionStateExpanded;
         [choiceOtherViewCell hideTextView:shouldHideTextView];
-        [self tableViewCellHeightUpdated];
+        [self reloadItems:@[itemIdentifier]];
     }
+}
+
+- (void)reloadItems:(NSArray<ORKTableCellItemIdentifier *> *)itemIdentifiers {
+    NSDiffableDataSourceSnapshot<NSString *, ORKTableCellItemIdentifier *> * snapshot = [_diffableDataSource snapshot];
+    [snapshot reloadItemsWithIdentifiers:itemIdentifiers];
+    [_diffableDataSource applySnapshot:snapshot animatingDifferences:false];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -1683,13 +1689,7 @@ static CGFloat ORKLabelWidth(NSString *text) {
         });
     }
 
-    ORKChoiceOtherViewCell *choiceOtherViewCell = ORKDynamicCast(cell, ORKChoiceOtherViewCell);
     ORKTextChoiceAnswerFormat *textChoiceAnswerFormat = ORKDynamicCast(formItem.impliedAnswerFormat, ORKTextChoiceAnswerFormat);
-    
-    if (choiceOtherViewCell != nil && textChoiceAnswerFormat != nil) {
-        [self didSelectChoiceOtherViewCellWithItemIdentifier:itemIdentifier choiceOtherViewCell:choiceOtherViewCell];
-    }
-    
     ORKChoiceViewCell *choiceViewCell = ORKDynamicCast(cell, ORKChoiceViewCell);
     if (choiceViewCell != nil) {
         // Dismiss other textField's keyboard
@@ -1777,6 +1777,17 @@ static CGFloat ORKLabelWidth(NSString *text) {
     } else {
         ORK_Log_Debug("[FORMSTEP] NOT ORKChoiceViewCell: row for indexPath %@ selected. Cell: %@", indexPath, cell);
     }
+    
+    ORKChoiceOtherViewCell *choiceOtherViewCell = ORKDynamicCast(cell, ORKChoiceOtherViewCell);
+    if (choiceOtherViewCell != nil && textChoiceAnswerFormat != nil) {
+        // we need to call this at the end of didSelect, because the cell will have `_selected` property to `YES`
+        // calling this earlier, would cause us to
+        // [reload tableView] -> which calls -> layoutSubviews on ORKChoiceViewCell -> which calls ->
+        // updateSelectedItem, which has `_checked` as false, and sets the checkmark to grey
+        // if we defer this call to the end, it works nice, and by using diffabledatasource to reload it animates nicely
+        [self didSelectChoiceOtherViewCellWithItemIdentifier:itemIdentifier choiceOtherViewCell:choiceOtherViewCell];
+    }
+
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
