@@ -43,6 +43,11 @@
 @implementation ORKHearingTestBundleClass
 @end
 
+@interface HearingTestBundleClass : NSObject
+@end
+@implementation HearingTestBundleClass
+@end
+
 #pragma mark - Softlink ORKHearingTest Library
 
 static void* ORKHearingTestLibrary(void)
@@ -63,6 +68,24 @@ static void* ORKHearingTestLibrary(void)
     return frameworkLibrary;
 }
 
+static void* HearingTestLibrary(void)
+{
+    static void* HTFrameworkLibrary = nil;
+    if (!HTFrameworkLibrary) {
+        NSBundle *bundle = [NSBundle bundleForClass:[HearingTestBundleClass class]];
+        NSString *path = [bundle pathForResource:@"ORKHearingTest.framework/HearingTest" ofType:@"framework"];
+        NSString *binPath = [path stringByAppendingPathComponent:@"HearingTest"];
+        NSLog(@"HearingTestLibrary bin path: %@", binPath);
+        
+        HTFrameworkLibrary = dlopen([binPath UTF8String], RTLD_NOW);
+        
+        if (!HTFrameworkLibrary) {
+            NSLog(@"dlerror: %@", [NSString stringWithUTF8String:dlerror()]);
+        }
+    }
+    return HTFrameworkLibrary;
+}
+
 
 #pragma mark - Softlink ORKTonePlayer Class
 
@@ -77,6 +100,7 @@ static Class ORKTonePlayerFunction(void)
 
 static Class initORKTonePlayer(void)
 {
+    HearingTestLibrary();
     ORKHearingTestLibrary();
     classORKTonePlayer = objc_getClass("_TtC14ORKHearingTest13ORKTonePlayer");
     getORKTonePlayerClass = ORKTonePlayerFunction;

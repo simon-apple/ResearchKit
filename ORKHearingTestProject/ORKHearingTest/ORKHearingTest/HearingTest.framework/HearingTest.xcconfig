@@ -1,0 +1,17 @@
+#include "<DEVELOPER_DIR>/AppleInternal/XcodeConfig/AppleFeatures.xcconfig"
+#include "<DEVELOPER_DIR>/AppleInternal/XcodeConfig/PlatformSupport.xcconfig"
+
+SKIP_INSTALL  = $(SKIP_INSTALL_$(APPLE_FEATURE_YODEL_TEST))
+SKIP_INSTALL_1 = 0 // Don't Skip
+SKIP_INSTALL_0 = 1 // Skip
+USES_XCTRUNNER = YES
+
+YODEL_INCLUDES   = $(YODEL_INCLUDES_$(APPLE_FEATURE_YODEL_TEST))
+YODEL_INCLUDES_1 = *.swift // Include or exclude every Swift file based upon feature macro.
+YODEL_INCLUDES_0 =
+
+// INCLUDED overrides EXCLUDED
+// When the feature is enabled, we exclude and include everything listed above (include overrides exclude).
+// When the feature is disabled, we exclude everything listed above.
+EXCLUDED_SOURCE_FILE_NAMES = $(YODEL_INCLUDES_1)
+INCLUDED_SOURCE_FILE_NAMES = $(YODEL_INCLUDES)

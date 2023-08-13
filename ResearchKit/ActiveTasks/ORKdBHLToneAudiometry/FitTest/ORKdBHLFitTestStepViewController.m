@@ -70,7 +70,7 @@
 #import "ORKAVFoundationSoftLink.h"
 #import "ORKBluetoothManagerSoftLink.h"
 #import <MediaPlayer/MediaPlayer.h>
-#include <MediaExperience/AVAudioCategories.h>
+//#include <MediaExperience/AVAudioCategories.h>
 #endif
 
 #define FIT_TEST_MIN_VOLUME            0.50f
