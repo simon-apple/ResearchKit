@@ -188,15 +188,15 @@ static const CGFloat ColorSwatchExpandedRightPadding = 16.0;
             
             _foreLayerBounds = CGRectMake(ORKCardDefaultBorderWidth, 0, self.containerView.bounds.size.width - 2 * ORKCardDefaultBorderWidth, self.containerView.bounds.size.height - ORKCardDefaultBorderWidth);
             
-            _contentMaskLayer.path = [UIBezierPath bezierPathWithRoundedRect: self.containerView.bounds
-                                                           byRoundingCorners:rectCorners
-                                                                 cornerRadii: (CGSize){ORKCardDefaultCornerRadii, ORKCardDefaultCornerRadii}].CGPath;
-            
             CGFloat foreLayerCornerRadii = ORKCardDefaultCornerRadii >= ORKCardDefaultBorderWidth ? ORKCardDefaultCornerRadii - ORKCardDefaultBorderWidth : ORKCardDefaultCornerRadii;
             
             _foreLayer.path = [UIBezierPath bezierPathWithRoundedRect: _foreLayerBounds
                                                    byRoundingCorners: rectCorners
                                                          cornerRadii: (CGSize){foreLayerCornerRadii, foreLayerCornerRadii}].CGPath;
+            
+            _contentMaskLayer.path = [UIBezierPath bezierPathWithRoundedRect: self.containerView.bounds
+                                                           byRoundingCorners:rectCorners
+                                                                 cornerRadii: (CGSize){ORKCardDefaultCornerRadii, ORKCardDefaultCornerRadii}].CGPath;
         } else {
             
             _foreLayerBounds = CGRectMake(ORKCardDefaultBorderWidth, 0, self.containerView.bounds.size.width - 2 * ORKCardDefaultBorderWidth, self.containerView.bounds.size.height);
@@ -452,14 +452,30 @@ static const CGFloat ColorSwatchExpandedRightPadding = 16.0;
     
     if (highlight)
     {
+        
         _animationLayer = [CAShapeLayer layer];
         [_animationLayer setOpaque:NO];
-        _animationLayer.frame = CGRectMake(_foreLayerBounds.origin.x, _foreLayerBounds.origin.y, _foreLayerBounds.size.width, _foreLayerBounds.size.height - 1.0);
         _animationLayer.zPosition = 1.0f;
+        
+        if ([self shouldApplyMaskLayers]) {
+            UIRectCorner rectCorners = [self roundedCorners];
+
+            CGFloat animationLayerCornerRadii = ORKCardDefaultCornerRadii >= ORKCardDefaultBorderWidth ? ORKCardDefaultCornerRadii - ORKCardDefaultBorderWidth : ORKCardDefaultCornerRadii;
+            
+            _animationLayer.path = [UIBezierPath bezierPathWithRoundedRect: _foreLayerBounds
+                                                         byRoundingCorners: rectCorners
+                                                               cornerRadii: (CGSize){animationLayerCornerRadii, animationLayerCornerRadii}].CGPath;
+
+            _animationLayer.fillColor = UIColor.clearColor.CGColor;
+        }
+        
+        _animationLayer.frame = CGRectMake(_foreLayerBounds.origin.x, _foreLayerBounds.origin.y, _foreLayerBounds.size.width, _foreLayerBounds.size.height - 1.0);
+        
         [_contentMaskLayer addSublayer:_animationLayer];
         
-        CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"backgroundColor"];
-        
+        NSString *animationKeyPath = [self shouldApplyMaskLayers] ? @"fillColor" : @"backgroundColor";
+        CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:animationKeyPath];
+
         if (@available(iOS 13.0, *))
         {
             if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight)
@@ -475,17 +491,14 @@ static const CGFloat ColorSwatchExpandedRightPadding = 16.0;
         {
             animation.fromValue = (__bridge id _Nullable)([UIColor colorWithRed:0.282 green:0.282 blue:0.235 alpha:1.0].CGColor);
         }
-        
         animation.toValue = (__bridge id _Nullable)(_fillColor.CGColor);
         animation.beginTime = 0.0;
         animation.duration = 0.45;
         animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
         animation.removedOnCompletion = YES;
         animation.delegate = self;
-        
-        [_animationLayer addAnimation:animation forKey:@"backgroundColor"];
-        
-        _animationLayer.backgroundColor = _fillColor.CGColor;
+
+        [_animationLayer addAnimation:animation forKey:animationKeyPath];
     }
 }
 
