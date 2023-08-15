@@ -198,6 +198,7 @@ typedef void (^_ORKLocationAuthorizationRequestHandler)(BOOL success);
         ORK_Log_Info("Task cancelled");
         // Get the definition if the task will be discarded or completed.
         ORKTaskViewControllerFinishReason finishReason = isOnFitTest ? ORKTaskViewControllerFinishReasonDiscarded :  ORKTaskViewControllerFinishReasonDiscarded;
+        [presentingController increasedBHLInterruptionCounter];
         if ([presentingController.delegate respondsToSelector:@selector(taskViewController:didFinishWithReason:error:)]) {
             [presentingController.delegate taskViewController:presentingController
                                           didFinishWithReason:finishReason error:nil];
@@ -266,7 +267,6 @@ typedef void (^_ORKLocationAuthorizationRequestHandler)(BOOL success);
 @property (nonatomic, strong, readwrite) NSString *fwVersion;
 @property (nonatomic, assign) double leftBattery;
 @property (nonatomic, assign) double rightBattery;
-@property (nonatomic, assign) NSInteger numberOfdBHLRetries;
 @property (nonatomic, strong) ORKStepViewController *currentStepViewController;
 @property (nonatomic) ORKTaskReviewViewController *taskReviewViewController;
 
@@ -314,6 +314,12 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
             }
         }
     }
+    
+    if (!_shouldShowHearingModeLabel) {
+        // It's the onboarding task
+        [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"numberOfdBHLRetries"];
+    }
+    
     if (_shouldShowHearingModeLabel) {
         _hearingModeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, 50)];
         _hearingModeLabel.font = [UIFont systemFontOfSize:15];
@@ -328,7 +334,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
         _interruptsCounterLabel.textAlignment = NSTextAlignmentCenter;
         _interruptsCounterLabel.backgroundColor = [UIColor clearColor];
         _interruptsCounterLabel.textColor = [[UIColor darkGrayColor] colorWithAlphaComponent:0.5];
-        _interruptsCounterLabel.text = @"";
+        _interruptsCounterLabel.text = self.numberOfdBHLRetries > 0 ? [NSString stringWithFormat:@"Number of interruptions: %lu",self.numberOfdBHLRetries] : @"";
         
         [navBar addSubview:_interruptsCounterLabel];
         
@@ -740,12 +746,20 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     [cancelButton cancelButtonPressed:sender];
 }
 
+- (NSInteger)numberOfdBHLRetries {
+    return [[NSUserDefaults standardUserDefaults] integerForKey:@"numberOfdBHLRetries"];
+}
+
+- (void)setNumberOfdBHLRetries:(NSInteger)newValue {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setInteger:newValue forKey:@"numberOfdBHLRetries"];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     _headphonesInEars = NO;
     _hearingModeStatus = ORKdBHLHeadphonesStatusNotInEars;
     _callActive = NO;
-    _numberOfdBHLRetries = 0;
     [self setUpChildNavigationController];
     
     if (_restoredStepIdentifier) {
@@ -1419,7 +1433,7 @@ if (newViewControllers != _childNavigationController.viewControllers) {
     stepViewController.navigationItem.title = progressLabel;
     
     _hearingModeLabel.center = CGPointMake(self.view.frame.size.width / 2, 60);
-    _interruptsCounterLabel.center = CGPointMake(self.view.frame.size.width / 2, 205);
+    _interruptsCounterLabel.center = CGPointMake(self.view.frame.size.width / 2, self.view.frame.size.height - 30);
 }
 
 #pragma mark - internal action Handlers
@@ -2193,11 +2207,13 @@ static NSString *const _ORKProgressMode = @"progressMode";
     [self stopRefreshTimer];
 }
 
+-(void)increasedBHLInterruptionCounter {
+    self.numberOfdBHLRetries = self.numberOfdBHLRetries + 1;
+    _interruptsCounterLabel.text = [NSString stringWithFormat:@"Number of interruptions: %lu",self.numberOfdBHLRetries];
+}
+
 - (void)flipToFitTest {
-    if (![self.currentStepViewController isKindOfClass:[ORKdBHLFitTestStepViewController class]]) {
-        _numberOfdBHLRetries++;
-        _interruptsCounterLabel.text = [NSString stringWithFormat:@"Number of interruptions: %lu",_numberOfdBHLRetries];
-    }
+    [self increasedBHLInterruptionCounter];
     ORKdBHLFitTestStep * fitTestStep;
     if ([self.task isKindOfClass:[ORKOrderedTask class]]) {
         ORKOrderedTask *orderedTask = (ORKOrderedTask *)self.task;

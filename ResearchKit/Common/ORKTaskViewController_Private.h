@@ -114,6 +114,8 @@ typedef NS_ENUM(NSUInteger, ORKdBHLHeadphonesStatus) {
  */
 - (void)enableHearingTestModeWithCompletion:(void(^)(BOOL hearingModeEnabled))handler;
 
+- (void)increasedBHLInterruptionCounter;;
+
 - (void)disableHearingTestMode;
 
 /**
