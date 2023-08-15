@@ -390,6 +390,7 @@
     toneResult.tonePlaybackDuration = [self dBHLToneAudiometryStep].toneDuration;
     toneResult.postStimulusDelay = [self dBHLToneAudiometryStep].postStimulusDelay;
     toneResult.numberOfdBHLRetries = self.taskViewController.numberOfdBHLRetries;
+    toneResult.hearingTestFrameworkVersion = HEARING_TEST_FRAMEWORK_VERSION;
     [results addObject:toneResult];
     
     sResult.results = [results copy];

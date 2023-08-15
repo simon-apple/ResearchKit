@@ -161,6 +161,7 @@ const double ORKInvalidDBHLValue = DBL_MAX;
     ORK_ENCODE_OBJ(aCoder, fwVersion);
     ORK_ENCODE_OBJ(aCoder, allTaps);
     ORK_ENCODE_INTEGER(aCoder, numberOfdBHLRetries);
+    ORK_ENCODE_OBJ(aCoder, hearingTestFrameworkVersion);
 #endif
 }
 
@@ -184,6 +185,7 @@ const double ORKInvalidDBHLValue = DBL_MAX;
         ORK_DECODE_OBJ_CLASS(aDecoder, fwVersion, NSString);
         ORK_DECODE_OBJ_ARRAY(aDecoder, allTaps, ORKdBHLToneAudiometryTap);
         ORK_DECODE_INTEGER(aDecoder, numberOfdBHLRetries);
+        ORK_DECODE_OBJ_CLASS(aDecoder, hearingTestFrameworkVersion, NSString);
 #endif
     }
     return self;
@@ -214,6 +216,7 @@ const double ORKInvalidDBHLValue = DBL_MAX;
             && ORKEqualObjects(self.fwVersion, castObject.fwVersion)
             && ORKEqualObjects(self.allTaps, castObject.allTaps)
             && self.numberOfdBHLRetries == castObject.numberOfdBHLRetries
+            && ORKEqualObjects(self.hearingTestFrameworkVersion, castObject.hearingTestFrameworkVersion)
 #endif
             );
 }
@@ -247,6 +250,7 @@ const double ORKInvalidDBHLValue = DBL_MAX;
     result.fwVersion = [self.fwVersion copy];
     result.numberOfdBHLRetries = self.numberOfdBHLRetries;
     result.allTaps = [self.allTaps copy];
+    result.hearingTestFrameworkVersion = [self.hearingTestFrameworkVersion copy];
 #endif
 
     return result;

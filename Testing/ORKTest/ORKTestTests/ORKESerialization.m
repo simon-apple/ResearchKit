@@ -2168,6 +2168,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(fwVersion, NSString, NSObject, NO, nil, nil),
                     PROPERTY(allTaps, ORKdBHLToneAudiometryTap, NSArray, NO, nil, nil),
                     PROPERTY(numberOfdBHLRetries, NSNumber, NSObject, NO, nil, nil),
+                    PROPERTY(hearingTestFrameworkVersion, NSString, NSObject, YES, nil, nil),
 #endif
                     })),
            ENTRY(ORKdBHLToneAudiometryMOAInteraction,
