@@ -266,6 +266,9 @@ static const CGFloat SelectAllThatApplyBottomPadding = 6.0;
     _tagLabel = nil;
     _tagText = nil;
     
+    [_selectAllThatApplyLabel removeFromSuperview];
+    _selectAllThatApplyLabel = nil;
+    
     _showBorder = NO;
     _hasMultipleChoiceItem = NO;
     _shouldIgnoreDarkMode = NO;

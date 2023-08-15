@@ -1177,7 +1177,10 @@ enum TaskListRow: Int, CustomStringConvertible {
             {
                 let step = ORKFormStep(identifier: String(describing: Identifier.formStepWithMultipleSelection), title: NSLocalizedString("Form Step with Multiple Selections", comment: ""), text: exampleDetailText)
                 step.formItems = [
-                    ORKFormItem(identifier: String(describing: Identifier.formItem01), text: exampleQuestionText, answerFormat: ORKTextChoiceAnswerFormat(style: .multipleChoice, textChoices: textChoices))
+                    ORKFormItem(identifier: String(describing: Identifier.formItem01), text: exampleQuestionText, answerFormat: ORKTextChoiceAnswerFormat(style: .multipleChoice, textChoices: textChoices)),
+                    // adding a single choice question to test rdar://113912726 ([RA] [Indigo] App crashes when selecting choices in several task)
+                    ORKFormItem(identifier: String(describing: Identifier.formItem02), text: exampleQuestionText, answerFormat: ORKTextChoiceAnswerFormat(style: .singleChoice, textChoices: textChoices))
+
                 ]
                 return step
             }(),
