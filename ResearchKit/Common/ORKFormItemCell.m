@@ -446,6 +446,7 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
 
 @implementation ORKFormItemTextFieldBasedCell {
     BOOL _shouldShowDontKnow;
+    ORKDontKnowButtonStyle _dontKnowButtonStyle;
     NSString *_customDontKnowString;
     UIView *_dividerView;
     UIView *_dontKnowBackgroundView;
@@ -482,6 +483,8 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     if ([formItem.answerFormat shouldShowDontKnowButton]) { // [RDLS:NOTE] moved from cellInit
         _shouldShowDontKnow = YES; // [RDLS:NOTE] reset in prepareForReuse
         _customDontKnowString = formItem.answerFormat.customDontKnowButtonText; // [RDLS:NOTE] reset in prepareForReuse
+        _dontKnowButtonStyle = formItem.answerFormat.dontKnowButtonStyle; // reset in prepareForResuse
+        
         // [LC:NOTE] we need to pass in our answer here, because self.answer is not set yet.
         [self setupDontKnowButtonWithAnswer:answer]; // [RDLS:NOTE] reset in prepareForReuse
         self.accessibilityElements = @[_textFieldView, _dontKnowButton]; // [RDLS:NOTE] reset in prepareForReuse
@@ -541,6 +544,7 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     _doneButtonWasPressed = NO; // [RDLS:NOTE] moved from init
     _shouldShowDontKnow = NO; // [RDLS:NOTE] moved from cellInit
     _customDontKnowString = nil; // [RDLS:NOTE] moved from cellInit
+    _dontKnowButtonStyle = ORKDontKnowButtonStyleStandard;
 
     [_dontKnowBackgroundView removeFromSuperview];
     _dontKnowBackgroundView = nil;
@@ -572,8 +576,8 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     
     if (!_dontKnowButton) {
         _dontKnowButton = [ORKDontKnowButton new];
-        _dontKnowButton.customDontKnowButtonText = self.formItem.answerFormat.customDontKnowButtonText;
-        _dontKnowButton.dontKnowButtonStyle = self.formItem.answerFormat.dontKnowButtonStyle;
+        _dontKnowButton.customDontKnowButtonText = _customDontKnowString;
+        _dontKnowButton.dontKnowButtonStyle = _dontKnowButtonStyle;
         _dontKnowButton.translatesAutoresizingMaskIntoConstraints = NO;
         [_dontKnowButton addTarget:self action:@selector(dontKnowButtonWasPressed) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -1835,6 +1839,7 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     
     _picker = nil;
 }
+
 - (void)setFormItem:(ORKFormItem *)formItem {
     ORKAnswerFormat *answerFormat = formItem.impliedAnswerFormat;
     

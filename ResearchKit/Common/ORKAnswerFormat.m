@@ -3939,7 +3939,7 @@ static const NSInteger ORKAgeAnswerDefaultMaxAge = 125;
 // TODO: add hash implementation
 
 - (instancetype)copyWithZone:(NSZone *)zone {
-    ORKAgeAnswerFormat *ageAnswerFormat = [[[self class] allocWithZone:zone] init];
+    ORKAgeAnswerFormat *ageAnswerFormat = [super copyWithZone:zone];
     ageAnswerFormat->_minimumAge = _minimumAge;
     ageAnswerFormat->_maximumAge = _maximumAge;
     ageAnswerFormat->_minimumAgeCustomText = [_minimumAgeCustomText copy];

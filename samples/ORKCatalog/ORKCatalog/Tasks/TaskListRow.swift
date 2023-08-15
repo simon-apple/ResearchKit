@@ -1657,9 +1657,11 @@ enum TaskListRow: Int, CustomStringConvertible {
     private var ageQuestionTask: ORKTask {
         // age picker example 1
         let answerFormat = ORKAgeAnswerFormat()
+        answerFormat.shouldShowDontKnowButton = true
+        answerFormat.customDontKnowButtonText = "Prefer not to answer"
         let ageFormItem = ORKFormItem(identifier: String(describing: Identifier.ageQuestionFormItem), text: "What is your age?", answerFormat: answerFormat)
         ageFormItem.isOptional = true
-        
+
         let step = ORKFormStep(identifier: String(describing: Identifier.ageQuestionFormStep), title: "Title here", text: "Default age picker.")
         step.formItems = [ageFormItem]
         

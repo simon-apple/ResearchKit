@@ -115,8 +115,12 @@
     for (NSString *identifier in identifiers) {
         NSString *result = [self getResultValueWithIdentifier:identifier];
         
+        if ([result isKindOfClass:[ORKDontKnowAnswer class]]) {
+            continue;
+        }
+        
         NSString *value = ![result isKindOfClass:[NSString class]] ? [NSString stringWithFormat:@"%i", result.intValue] : result;
-        if (value) {
+        if (value && ![value isEqual:@"0"]) {
             NSString *displayText = displayInfoKeyAndValues[identifier][value];
             [detailListValues addObject: displayText != nil ? displayText : value];
         }
@@ -170,7 +174,7 @@
                 // If answerFormat is nil that means that the formItem is used as a section header and we should fetch the next formItem in the array
                 NSString *identifier = formItem.answerFormat != nil ? formItem.identifier : formStep.formItems[index + 1].identifier;
                 NSString *value = [self getResultValueWithIdentifier:identifier];
-                if (value) {
+                if (value && ![value isKindOfClass:[ORKDontKnowAnswer class]]) {
                     return [value integerValue];
                 }
                 break;
