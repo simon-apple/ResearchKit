@@ -45,6 +45,8 @@
 #import "ORKTableContainerView.h"
 #import "ORKTaskViewController_Internal.h"
 
+#import "ORKSkin.h"
+
 @interface ORKFamilyHistoryReviewController (ORKFamilyHistoryReviewSupport)
 
 @property (nonatomic, strong) ORKTableContainerView *tableContainer;
@@ -111,6 +113,14 @@
     self.step.text = text;
     [self.tableContainer sizeHeaderToFit];
     [self stepDidChange];
+}
+
+- (void)updateViewColors {
+    if (@available(iOS 13.0, *)) {
+        UIColor *updateColor = [UIColor systemGroupedBackgroundColor];
+        self.view.backgroundColor = updateColor;
+        self.tableContainer.tableView.backgroundColor = updateColor;
+    }
 }
 
 - (void)setupFooterViewIfNeeded {

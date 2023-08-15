@@ -37,6 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)handleRelatedPersonTaskResult:(ORKTaskResult *)taskResult taskIdentifier:(NSString *)identifier;
 - (void)updateDisplayedConditionsFromTaskResult:(ORKTaskResult *)taskResult;
 - (NSInteger)numberOfRowsForRelativeGroupInSection:(NSInteger)section;
+- (void)updateViewColors;
 
 @end
 

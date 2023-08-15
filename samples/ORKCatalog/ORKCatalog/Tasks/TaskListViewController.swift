@@ -135,6 +135,11 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
             vc.delegate = self
             present(vc, animated: true)
             return
+        } else if taskListRow == .familyHistoryReviewTask {
+            let reviewViewController = ORKFamilyHistoryReviewController(task: taskListRow.representedTask as! ORKNavigableOrderedTask, delegate: self, isCompleted: false, incompleteText: "Complete Family History Task")
+            reviewViewController.modalPresentationStyle = .fullScreen
+            present(reviewViewController, animated: true)
+            return
         }
         #endif
         displayTaskViewController(taskListRow: taskListRow)
@@ -294,4 +299,17 @@ extension TaskListViewController: ORKStepViewControllerDelegate {
     
     
 }
+
+
+extension TaskListViewController: ORKFamilyHistoryReviewControllerDelegate {
+    func familyHistoryReviewController(_ familyHistoryReviewController: ORKFamilyHistoryReviewController, didUpdate updatedResult: ORKTaskResult, source resultSource: ORKTaskResult) {
+        // result was updated
+    }
+    
+    func familyHistoryReviewControllerDidSelectIncompleteCell(_ familyHistoryReviewController: ORKFamilyHistoryReviewController) {
+        // incomplete cell selected
+        dismiss(animated: true)
+    }
+}
+
 #endif
