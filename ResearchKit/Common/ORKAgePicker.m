@@ -165,9 +165,9 @@ static const CGFloat PickerMinimumHeight = 34.0;
 }
 
 - (NSNumber *)ageForIndex:(NSInteger)index {
-    //TODO: add safety check for out of bounds index
+    index = (index - 1 < 0) ? 0 : index - 1;
     // index will need to be offset to account for empty choice added
-    return [_ageOptions objectAtIndex:index - 1];
+    return [_ageOptions objectAtIndex:index];
 }
 
 #pragma mark - Accessibility

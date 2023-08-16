@@ -2163,7 +2163,7 @@ ORK_CLASS_AVAILABLE
  By default, the value of this property will be the current year.
  */
  
-@property (nonatomic) NSInteger relativeYear;
+@property (readonly) NSInteger relativeYear;
 
 
 /**

@@ -1670,23 +1670,26 @@ enum TaskListRow: Int, CustomStringConvertible {
     
     /// This task demonstrates a question asking for the user age.
     private var ageQuestionTask: ORKTask {
+        let ageFormItemSectionHeader = ORKFormItem(sectionTitle: "What is your age?")
+        
         // age picker example 1
         let answerFormat = ORKAgeAnswerFormat()
         answerFormat.shouldShowDontKnowButton = true
         answerFormat.customDontKnowButtonText = "Prefer not to answer"
         let ageFormItem = ORKFormItem(identifier: String(describing: Identifier.ageQuestionFormItem), text: "What is your age?", answerFormat: answerFormat)
+
         ageFormItem.isOptional = true
 
         let step = ORKFormStep(identifier: String(describing: Identifier.ageQuestionFormStep), title: "Title here", text: "Default age picker.")
-        step.formItems = [ageFormItem]
+        step.formItems = [ageFormItemSectionHeader, ageFormItem]
         
         // age picker example 2
         let answerFormat2 = ORKAgeAnswerFormat(minimumAge: 18, maximumAge: 90)
-        let ageFormItem2 = ORKFormItem(identifier: String(describing: Identifier.ageQuestionFormItem2), text: "What is your age?", answerFormat: answerFormat2)
+        let ageFormItem2 = ORKFormItem(identifier: String(describing: Identifier.ageQuestionFormItem2), text: nil, answerFormat: answerFormat2)
         ageFormItem2.isOptional = false
         
         let step2 =  ORKFormStep(identifier: String(describing: Identifier.ageQuestionFormStep2), title: "Title here", text: "Age picker with modified min and max ages.")
-        step2.formItems = [ageFormItem2]
+        step2.formItems = [ageFormItemSectionHeader, ageFormItem2]
         
         // age picker example 3
         let answerFormat3 = ORKAgeAnswerFormat(
@@ -1698,11 +1701,11 @@ enum TaskListRow: Int, CustomStringConvertible {
             useYearForResult: true,
             defaultValue: 40)
         
-        let ageFormItem3 = ORKFormItem(identifier: String(describing: Identifier.ageQuestionFormItem3), text: "What is your age?", answerFormat: answerFormat3)
+        let ageFormItem3 = ORKFormItem(identifier: String(describing: Identifier.ageQuestionFormItem3), text: nil, answerFormat: answerFormat3)
         ageFormItem3.isOptional = false
         
         let step3 =  ORKFormStep(identifier: String(describing: Identifier.ageQuestionFormStep3), title: "Title here", text: "Age picker with modified min and max ages.")
-        step3.formItems = [ageFormItem3]
+        step3.formItems = [ageFormItemSectionHeader, ageFormItem3]
         
         
         // age picker example 4
@@ -1713,14 +1716,15 @@ enum TaskListRow: Int, CustomStringConvertible {
             maximumAgeCustomText: "60 or older",
             showYear: true,
             useYearForResult: false,
+            relativeYear: 2000,
             defaultValue: 30)
-        answerFormat4.relativeYear = 2000
         
-        let ageFormItem4 = ORKFormItem(identifier: String(describing: Identifier.ageQuestionFormItem4), text: "What was your age in the year 2000?", answerFormat: answerFormat4)
+        let ageFormItemSectionHeader4 = ORKFormItem(sectionTitle: "What was your age in the year 2000?")
+        let ageFormItem4 = ORKFormItem(identifier: String(describing: Identifier.ageQuestionFormItem4), text: nil, answerFormat: answerFormat4)
         ageFormItem4.isOptional = false
         
         let step4 =  ORKFormStep(identifier: String(describing: Identifier.ageQuestionFormStep4), title: "Title here", text: "Age picker with utilizing a updated relative year.")
-        step4.formItems = [ageFormItem4]
+        step4.formItems = [ageFormItemSectionHeader4, ageFormItem4]
         
         let completionStep = ORKCompletionStep(identifier: "completionStepIdentifier")
         completionStep.title = "Task complete"

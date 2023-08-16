@@ -53,6 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
         matchesType = matchesType || (type == ORKQuestionTypeHeight);
         matchesType = matchesType || (type == ORKQuestionTypeWeight);
         matchesType = matchesType || (type == ORKQuestionTypeAge);
+        matchesType = matchesType || (type == ORKQuestionTypeYear);
         result = matchesType ? [ORKFormItemPickerCell class] : result;
     }
     

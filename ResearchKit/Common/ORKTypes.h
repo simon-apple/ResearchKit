@@ -123,11 +123,6 @@ typedef NS_ENUM(NSInteger, ORKQuestionType) {
     ORKQuestionTypeWeight,
     
     /**
-     In a age question, the participant can enter a age by using a age picker.
-     */
-    ORKQuestionTypeAge,
-    
-    /**
      In a location question, the participant can enter a location using a map view.
      */
     ORKQuestionTypeLocation,
@@ -135,7 +130,17 @@ typedef NS_ENUM(NSInteger, ORKQuestionType) {
     /**
      In a socio-economic ladder, participant can pick their socio economic status.
      */
-    ORKQuestionTypeSES
+    ORKQuestionTypeSES,
+    
+    /**
+     In an age question, the participant can enter an age by using an age picker.
+     */
+    ORKQuestionTypeAge,
+    
+    /**
+     In an age question, the participant can enter an age by using an age picker. ORKQuestionTypeYear will be used if the useYearForResult property of the question's ORKAgeAnswerFormat is set to true.
+     */
+    ORKQuestionTypeYear
 } ORK_ENUM_AVAILABLE;
 
 

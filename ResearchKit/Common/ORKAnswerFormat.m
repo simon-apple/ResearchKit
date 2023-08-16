@@ -79,9 +79,10 @@ NSString *ORKQuestionTypeString(ORKQuestionType questionType) {
             SQT_CASE(TimeInterval);
             SQT_CASE(Height);
             SQT_CASE(Weight);
-            SQT_CASE(Age);
             SQT_CASE(Location);
             SQT_CASE(SES);
+            SQT_CASE(Age);
+            SQT_CASE(Year);
     }
 #undef SQT_CASE
 }
@@ -3908,7 +3909,7 @@ static const NSInteger ORKAgeAnswerDefaultMaxAge = 125;
         _maximumAgeCustomText = [maximumAgeCustomText copy];
         _showYear = showYear;
         _useYearForResult = useYearForResult;
-        _relativeYear = relativeYear;
+        _relativeYear = relativeYear > 0 ? relativeYear : [self currentYear];
         _defaultValue = defaultValue;
     }
     
@@ -3933,7 +3934,7 @@ static const NSInteger ORKAgeAnswerDefaultMaxAge = 125;
 }
 
 - (ORKQuestionType)questionType {
-    return ORKQuestionTypeAge;
+    return _useYearForResult ? ORKQuestionTypeYear : ORKQuestionTypeAge;
 }
 
 // TODO: add hash implementation
@@ -3946,6 +3947,7 @@ static const NSInteger ORKAgeAnswerDefaultMaxAge = 125;
     ageAnswerFormat->_maximumAgeCustomText = [_maximumAgeCustomText copy];
     ageAnswerFormat->_showYear = _showYear;
     ageAnswerFormat->_useYearForResult = _useYearForResult;
+    ageAnswerFormat->_relativeYear = _relativeYear;
     ageAnswerFormat->_defaultValue = _defaultValue;
     return ageAnswerFormat;
 }
@@ -3990,6 +3992,10 @@ static const NSInteger ORKAgeAnswerDefaultMaxAge = 125;
     ORK_ENCODE_BOOL(aCoder, useYearForResult);
     ORK_ENCODE_INTEGER(aCoder, defaultValue);
     ORK_ENCODE_INTEGER(aCoder, relativeYear);
+}
+
+- (NSUInteger)hash {
+    return super.hash ^ _minimumAgeCustomText.hash ^ _maximumAgeCustomText.hash ^ _minimumAge ^ _maximumAge ^ _showYear ^ _useYearForResult ^ _relativeYear ^ _defaultValue;
 }
 
 + (BOOL)supportsSecureCoding {
