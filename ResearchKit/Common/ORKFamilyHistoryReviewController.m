@@ -125,6 +125,7 @@
 
 - (void)setupFooterViewIfNeeded {
     // We don't need the footer button for the review view
+    [self.tableContainer removeFooterView];
 }
 
 - (void)resultUpdated {

@@ -66,6 +66,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)resizeFooterToFit;
 
+- (void)removeFooterView;
+
 @end
 
 NS_ASSUME_NONNULL_END
