@@ -36,12 +36,12 @@ final class ORKFormItemVisibilityRuleTests: XCTestCase {
 
     func testAbstractRuleRestrictions() throws {
         let abstractBaseClass = ORKFormItemVisibilityRule.self
-
-        let testException = ExecuteWithObjCExceptionHandling {
+        XCTAssertThrowsError(try NSObject.executeUsingObjCExceptionHandling {
             _ = abstractBaseClass.init()
+        }) { error in
+            let exception = (error as NSError).userInfo[ORKUnderlyingExceptionKey] as! NSException
+            XCTAssertEqual(exception.name, NSExceptionName.internalInconsistencyException)
         }
-        XCTAssertNotNil(testException)
-        XCTAssertEqual(testException!.name, NSExceptionName.internalInconsistencyException)
     }
 
     func testSubclassInitCanCallSuper() throws {
@@ -111,11 +111,13 @@ final class ORKFormItemVisibilityRuleTests: XCTestCase {
         _ = rule.formItemVisibility(for: taskResult)
         
         // bogus rule class doesn't implement formItemVisibility(for: ORKTaskResult)
-        let testException = ExecuteWithObjCExceptionHandling {
-            _ = bogusRule.formItemVisibility(for: taskResult)
+
+        XCTAssertThrowsError(try NSObject.executeUsingObjCExceptionHandling {
+            bogusRule.formItemVisibility(for: taskResult)
+        }) { error in
+            let exception = (error as NSError).userInfo[ORKUnderlyingExceptionKey] as! NSException
+            XCTAssertEqual(exception.name, NSExceptionName.genericException)
         }
-        XCTAssertNotNil(testException)
-        XCTAssertEqual(testException!.name, NSExceptionName.genericException)
     }
     
     func testAssigningRuleToFormItem() throws {

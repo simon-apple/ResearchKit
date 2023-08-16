@@ -209,11 +209,12 @@ final class ORKPredicateFormItemVisibilityRuleTests: XCTestCase {
         let decodedPredicate = unarchiver.decodeObject(of: NSPredicate.self, forKey: ArchiveKey)
         XCTAssertNotNil(decodedPredicate)
 
-        let testException = ExecuteWithObjCExceptionHandling {
+        XCTAssertThrowsError(try NSObject.executeUsingObjCExceptionHandling {
             formItems.filtered(using: decodedPredicate!)
+        }) { error in
+            let exception = (error as NSError).userInfo[ORKUnderlyingExceptionKey] as! NSException
+            XCTAssertEqual(exception.name, NSExceptionName.internalInconsistencyException)
         }
-        XCTAssertNotNil(testException)
-        XCTAssertEqual(testException!.name, NSExceptionName.internalInconsistencyException)
     }
     
     func testDecodedORKResultPredicateEvaluationOutsideRulesThrows() throws {
@@ -250,13 +251,14 @@ final class ORKPredicateFormItemVisibilityRuleTests: XCTestCase {
         let unarchiver = try! NSKeyedUnarchiver(forReadingFrom: data)
         let decodedPredicate = unarchiver.decodeObject(of: NSPredicate.self, forKey: ArchiveKey)
         XCTAssertNotNil(decodedPredicate)
-            
-        let testException = ExecuteWithObjCExceptionHandling {
+
+        XCTAssertThrowsError(try NSObject.executeUsingObjCExceptionHandling {
             decodedPredicate!.evaluate(with: [result], substitutionVariables: [
-                ORKResultPredicateTaskIdentifierVariableName: result.identifier
+                    ORKResultPredicateTaskIdentifierVariableName: result.identifier
             ])
+        }) { error in
+            let exception = (error as NSError).userInfo[ORKUnderlyingExceptionKey] as! NSException
+            XCTAssertEqual(exception.name, NSExceptionName.internalInconsistencyException)
         }
-        XCTAssertNotNil(testException)
-        XCTAssertEqual(testException!.name, NSExceptionName.internalInconsistencyException)
     }
 }
