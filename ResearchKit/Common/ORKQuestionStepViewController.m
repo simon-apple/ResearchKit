@@ -435,8 +435,10 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
 }
 
 - (BOOL)showValidityAlertWithMessage:(NSString *)text {
-    // Ignore if our answer is null
-    if (self.answer == ORKNullAnswerValue()) {
+    BOOL isTextAnswerFormat = [self.answerFormat isKindOfClass:[ORKTextAnswerFormat class]];
+    // If isTextAnswerFormat, we still want to show the error if the answer is null
+    // Otherwise ignore if our answer is null,
+    if (!isTextAnswerFormat && self.answer == ORKNullAnswerValue()) {
         return NO;
     }
     
