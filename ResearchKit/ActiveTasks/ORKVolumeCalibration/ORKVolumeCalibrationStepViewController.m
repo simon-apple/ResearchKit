@@ -267,13 +267,11 @@ const NSTimeInterval ORKVolumeCalibrationFadeStep = 0.01;
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [self.audioGenerator stop];
-    [self stopSample];
+    [self tearDownAudioEngine];
 }
 
 -(void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    [self tearDownAudioEngine];
     self.contentView.delegate = nil;
 }
 
