@@ -66,6 +66,15 @@ ORK_INLINE BOOL ORKIsAccessibilityLargeTextEnabled(void) {
     }
 }
 
+// Convenience for checking which UIImageSymbolScale in regards to ccessibilityLargeTextEnabled
+ORK_INLINE UIImageSymbolScale ORKImageScaleToUse(void) {
+    if (ORKIsAccessibilityLargeTextEnabled()) {
+        return UIImageSymbolScaleMedium;
+    } else {
+        return UIImageSymbolScaleLarge;
+    }
+}
+
 // Creates a string suitable for Voice Over by joining the variables with ", " and avoiding nil and empty strings.
 #define ORKAccessibilityStringForVariables(...) _ORKAccessibilityStringForVariables(ORK_NARG(__VA_ARGS__),  ##__VA_ARGS__)
 ORK_EXTERN NSString *_ORKAccessibilityStringForVariables(NSInteger numParameters, NSString *baseString, ...);

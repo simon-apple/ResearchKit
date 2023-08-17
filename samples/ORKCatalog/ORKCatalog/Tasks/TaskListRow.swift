@@ -2001,7 +2001,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         
         let answerFormat = ORKAnswerFormat.choiceAnswerFormat(with: .singleChoice, colorChoices: colorChoices)
         let formItem = ORKFormItem(identifier: String(describing: Identifier.colorChoiceQuestionFormItem), text: exampleQuestionText, answerFormat: answerFormat)
-        
+        formItem.detailText = "Select your favorite color from the offerings below"
         let formStep = ORKFormStep(identifier: String(describing: Identifier.colorChoiceQuestionStep), title: NSLocalizedString("Color Choice", comment: ""), text: exampleDetailText)
         
         formStep.formItems = [formItem]

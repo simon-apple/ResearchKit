@@ -31,6 +31,7 @@
 #import "ORKCheckmarkView.h"
 #import "ORKHelpers_Internal.h"
 #import "ORKSkin.h"
+#import "ORKAccessibilityFunctions.h"
 
 static const CGFloat CheckmarkViewBorderWidth = 2.0;
 
@@ -77,7 +78,7 @@ static const CGFloat CheckmarkViewBorderWidth = 2.0;
 
 + (UIImage *)unCheckedImage {
     if (@available(iOS 13.0, *)) {
-        UIImageConfiguration *configuration = [UIImageSymbolConfiguration configurationWithFont:[UIFont preferredFontForTextStyle:UIFontTextStyleBody] scale:UIImageSymbolScaleLarge];
+        UIImageConfiguration *configuration = [UIImageSymbolConfiguration configurationWithFont:[UIFont preferredFontForTextStyle:UIFontTextStyleBody] scale:ORKImageScaleToUse()];
         return [UIImage systemImageNamed:@"circle" withConfiguration:configuration];
     } else {
         return nil;
@@ -86,7 +87,7 @@ static const CGFloat CheckmarkViewBorderWidth = 2.0;
 
 + (UIImage *)checkedImage {
     if (@available(iOS 13.0, *)) {
-        UIImageConfiguration *configuration = [UIImageSymbolConfiguration configurationWithFont:[UIFont preferredFontForTextStyle:UIFontTextStyleBody] scale:UIImageSymbolScaleLarge];
+        UIImageConfiguration *configuration = [UIImageSymbolConfiguration configurationWithFont:[UIFont preferredFontForTextStyle:UIFontTextStyleBody] scale:ORKImageScaleToUse()];
         return [UIImage systemImageNamed:@"checkmark.circle.fill" withConfiguration:configuration];
     } else {
         return [[UIImage imageNamed:@"checkmark" inBundle:ORKBundle() compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
@@ -95,7 +96,7 @@ static const CGFloat CheckmarkViewBorderWidth = 2.0;
 
 + (UIImage *)checkedImageWithoutCircle {
     if (@available(iOS 13.0, *)) {
-        UIImageConfiguration *configuration = [UIImageSymbolConfiguration configurationWithFont:[UIFont preferredFontForTextStyle:UIFontTextStyleBody] scale:UIImageSymbolScaleLarge];
+        UIImageConfiguration *configuration = [UIImageSymbolConfiguration configurationWithFont:[UIFont preferredFontForTextStyle:UIFontTextStyleBody] scale:ORKImageScaleToUse()];
         return [UIImage systemImageNamed:@"checkmark" withConfiguration:configuration];
     } else {
         return [[UIImage imageNamed:@"checkmark" inBundle:ORKBundle() compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
