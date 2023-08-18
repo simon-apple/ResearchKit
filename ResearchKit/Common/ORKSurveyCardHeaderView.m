@@ -166,6 +166,12 @@ static const CGFloat SelectAllThatApplyBottomPadding = 6.0;
         [self setupSelectAllThatApplyLabel];
         [_headlineView addSubview:_selectAllThatApplyLabel];
     }
+    
+    if (_shouldIgnoreDarkMode) {
+        if (@available(iOS 13.0, *)) {
+            self.overrideUserInterfaceStyle = UIUserInterfaceStyleLight;
+        }
+    }
 }
 
 - (void)setupHeadlineView {

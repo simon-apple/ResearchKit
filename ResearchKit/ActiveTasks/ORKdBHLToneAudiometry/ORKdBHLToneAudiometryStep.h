@@ -77,6 +77,7 @@ ORK_CLASS_AVAILABLE
 #endif
 
 - (id<ORKAudiometryProtocol>)audiometryEngine;
+- (void)resetAudiometryEngine;
 
 @end
 

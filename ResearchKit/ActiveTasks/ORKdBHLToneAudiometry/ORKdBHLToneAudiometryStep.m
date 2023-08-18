@@ -244,5 +244,9 @@
     return _audiometry;
 }
 
+- (void)resetAudiometryEngine {
+    _audiometry = nil;
+}
+
 @end
 

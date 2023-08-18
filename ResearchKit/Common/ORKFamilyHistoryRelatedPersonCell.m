@@ -32,6 +32,7 @@
 
 #import "ORKHelpers_Internal.h"
 
+static const CGFloat BackgroundViewBottomPadding = 18.0;
 static const CGFloat CellLeftRightPadding = 12.0;
 static const CGFloat CellTopBottomPadding = 12.0;
 static const CGFloat CellBottomPadding = 8.0;
@@ -39,10 +40,14 @@ static const CGFloat CellLabelTopPadding = 8.0;
 static const CGFloat CellBottomPaddingBeforeAddRelativeButton = 20.0;
 static const CGFloat ContentLeftRightPadding = 16.0;
 static const CGFloat DividerViewTopBottomPadding = 10.0;
+static const CGFloat OptionsButtonHeightWidth = 22.0;
 
-static const CGFloat EditDeleteViewTopBottomPadding = 18.0;
-static const CGFloat EditDeleteLabelTopBottomPadding = 8.0;
-static const CGFloat EditDeleteLabelLeftRightPadding = 8.0;
+static const CGFloat EditViewCornerRadius = 12.0;
+static const CGFloat EditViewMinWidth = 250.0;
+static const CGFloat EditViewRightPadding = 8.0;
+static const CGFloat EditViewRowBottomPadding = 12.0;
+static const CGFloat EditViewRowLeftRightPadding = 16.0;
+static const CGFloat EditViewRowTopPadding = 11.0;
 
 typedef NS_ENUM(NSUInteger, ORKFamilyHistoryEditDeleteViewEvent) {
     ORKFamilyHistoryEditDeleteViewEventEdit = 0,
@@ -74,6 +79,9 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
     UIImageView *_editImageView;
     UIImageView *_deleteImageView;
     
+    UIVisualEffectView *_blurViewLight;
+    UIVisualEffectView *_blurViewDark;
+    
     UIView *_dividerView;
 
     NSMutableArray<NSLayoutConstraint *> *_viewConstraints;
@@ -91,21 +99,41 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
     return self;
 }
 
+- (void)layoutSubviews {
+    [self updateLayer];
+}
+
 - (void)styleView {
-    self.backgroundColor = [UIColor whiteColor];
     self.clipsToBounds = YES;
-    self.layer.cornerRadius = 12.0;
+    self.layer.cornerRadius = EditViewCornerRadius;
     self.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    self.layer.borderWidth = 1.0;
-    self.layer.borderColor = UIColor.whiteColor.CGColor;
-    self.layer.shadowRadius = 1.5;
+}
+
+- (void)updateLayer {
+    self.layer.borderWidth = 0.0;
+    self.layer.shadowRadius = 5.0f;
     self.layer.shadowOpacity = 0.2;
     self.layer.shadowOffset = CGSizeZero;
     self.layer.masksToBounds = NO;
 }
 
 - (void)setupSubviews {
+    _blurViewLight = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleLight]];
+    _blurViewLight.clipsToBounds = YES;
+    _blurViewLight.layer.cornerRadius = EditViewCornerRadius;
+    _blurViewLight.frame = self.bounds;
+    _blurViewLight.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
+    _blurViewLight.layer.opacity = 0.0;
+    [self addSubview:_blurViewLight];
+    
+    _blurViewDark = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]];
+    _blurViewDark.clipsToBounds = YES;
+    _blurViewDark.layer.cornerRadius = EditViewCornerRadius;
+    _blurViewDark.frame = self.bounds;
+    _blurViewDark.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
+    _blurViewDark.layer.opacity = 0.0;
+    [self addSubview:_blurViewDark];
+    
     _editButton = [UIButton new];
     _editButton.translatesAutoresizingMaskIntoConstraints = NO;
     [_editButton addTarget:self action:@selector(editButtonWasPressed) forControlEvents:UIControlEventTouchUpInside];
@@ -156,8 +184,16 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
 
 - (void)updateViewColors {
     if (@available(iOS 13.0, *)) {
-        self.backgroundColor = self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor systemGray6Color] : [UIColor whiteColor];
+        self.backgroundColor = self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? [[UIColor systemGray6Color] colorWithAlphaComponent:0.41] : [[UIColor whiteColor] colorWithAlphaComponent:0.60];
         self.layer.borderColor = self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor systemGray6Color].CGColor :  UIColor.whiteColor.CGColor;
+        
+        if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+            _blurViewDark.layer.opacity = 1.0;
+            _blurViewLight.layer.opacity = 0.0;
+        } else {
+            _blurViewDark.layer.opacity = 0.0;
+            _blurViewLight.layer.opacity = 1.0;
+        }
 
         _editButton.backgroundColor = self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor clearColor] : [UIColor clearColor];
         _editLabel.textColor = self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor whiteColor] : [UIColor blackColor];
@@ -186,18 +222,21 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
     
     _viewConstraints = [NSMutableArray new];
     
+    // edit view width constraint
+    [_viewConstraints addObject:[self.widthAnchor constraintGreaterThanOrEqualToConstant:EditViewMinWidth]];
+    
     // edit button & label constraints
     [_viewConstraints addObject:[_editButton.topAnchor constraintEqualToAnchor:self.topAnchor]];
     [_viewConstraints addObject:[_editButton.leadingAnchor constraintEqualToAnchor:self.leadingAnchor]];
     [_viewConstraints addObject:[_editButton.trailingAnchor constraintEqualToAnchor:self.trailingAnchor]];
     
-    [_viewConstraints addObject:[_editLabel.topAnchor constraintEqualToAnchor:_editButton.topAnchor constant:EditDeleteLabelTopBottomPadding]];
-    [_viewConstraints addObject:[_editLabel.leadingAnchor constraintEqualToAnchor:_editButton.leadingAnchor constant:EditDeleteLabelLeftRightPadding]];
-    [_viewConstraints addObject:[_editLabel.bottomAnchor constraintEqualToAnchor:_editButton.bottomAnchor constant:-EditDeleteLabelTopBottomPadding]];
+    [_viewConstraints addObject:[_editLabel.topAnchor constraintEqualToAnchor:_editButton.topAnchor constant:EditViewRowTopPadding]];
+    [_viewConstraints addObject:[_editLabel.leadingAnchor constraintEqualToAnchor:_editButton.leadingAnchor constant:EditViewRowLeftRightPadding]];
+    [_viewConstraints addObject:[_editLabel.bottomAnchor constraintEqualToAnchor:_editButton.bottomAnchor constant:-EditViewRowBottomPadding]];
     
     if (_editImageView != nil) {
         [_viewConstraints addObject:[_editImageView.centerYAnchor constraintEqualToAnchor:_editLabel.centerYAnchor]];
-        [_viewConstraints addObject:[_editImageView.trailingAnchor constraintEqualToAnchor:_editButton.trailingAnchor constant:-EditDeleteLabelLeftRightPadding]];
+        [_viewConstraints addObject:[_editImageView.trailingAnchor constraintEqualToAnchor:_editButton.trailingAnchor constant:-EditViewRowLeftRightPadding]];
     }
     
     // dividerView constraints
@@ -213,13 +252,13 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
     [_viewConstraints addObject:[_deleteButton.leadingAnchor constraintEqualToAnchor:self.leadingAnchor]];
     [_viewConstraints addObject:[_deleteButton.trailingAnchor constraintEqualToAnchor:self.trailingAnchor]];
     
-    [_viewConstraints addObject:[_deleteLabel.topAnchor constraintEqualToAnchor:_deleteButton.topAnchor constant:EditDeleteLabelTopBottomPadding]];
-    [_viewConstraints addObject:[_deleteLabel.leadingAnchor constraintEqualToAnchor:_deleteButton.leadingAnchor constant:EditDeleteLabelLeftRightPadding]];
-    [_viewConstraints addObject:[_deleteLabel.bottomAnchor constraintEqualToAnchor:_deleteButton.bottomAnchor constant:-EditDeleteLabelTopBottomPadding]];
+    [_viewConstraints addObject:[_deleteLabel.topAnchor constraintEqualToAnchor:_deleteButton.topAnchor constant:EditViewRowTopPadding]];
+    [_viewConstraints addObject:[_deleteLabel.leadingAnchor constraintEqualToAnchor:_deleteButton.leadingAnchor constant:EditViewRowLeftRightPadding]];
+    [_viewConstraints addObject:[_deleteLabel.bottomAnchor constraintEqualToAnchor:_deleteButton.bottomAnchor constant:-EditViewRowBottomPadding]];
     
     if (_deleteImageView != nil) {
         [_viewConstraints addObject:[_deleteImageView.centerYAnchor constraintEqualToAnchor:_deleteButton.centerYAnchor]];
-        [_viewConstraints addObject:[_deleteImageView.trailingAnchor constraintEqualToAnchor:_deleteButton.trailingAnchor constant:-EditDeleteLabelLeftRightPadding]];
+        [_viewConstraints addObject:[_deleteImageView.trailingAnchor constraintEqualToAnchor:_deleteButton.trailingAnchor constant:-EditViewRowLeftRightPadding]];
     }
     
     [_viewConstraints addObject:[self.bottomAnchor constraintEqualToAnchor:_deleteButton.bottomAnchor]];
@@ -307,7 +346,7 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
     [_optionsButton addTarget:self action:@selector(optionsButtonWasPressed) forControlEvents:UIControlEventTouchUpInside];
     
     if (@available(iOS 13.0, *)) {
-        [_optionsButton setImage:[UIImage systemImageNamed:@"ellipsis.circle.fill"] forState:UIControlStateNormal];
+        [_optionsButton setImage:[UIImage systemImageNamed:@"ellipsis.circle"] forState:UIControlStateNormal];
     }
     
     [_backgroundView addSubview:_optionsButton];
@@ -385,12 +424,13 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
     // optionsButton constraints
     [_viewConstraints addObject:[_optionsButton.topAnchor constraintEqualToAnchor:_titleLabel.topAnchor]];
     [_viewConstraints addObject:[_optionsButton.trailingAnchor constraintEqualToAnchor:_backgroundView.trailingAnchor constant:-CellLeftRightPadding]];
+    [_viewConstraints addObject:[_optionsButton.widthAnchor constraintEqualToConstant:OptionsButtonHeightWidth]];
+    [_viewConstraints addObject:[_optionsButton.heightAnchor constraintEqualToConstant:OptionsButtonHeightWidth]];
     
     // edit delete view constraints
     if (_editDeleteView != nil) {
         [_viewConstraints addObject:[_editDeleteView.topAnchor constraintEqualToAnchor:_optionsButton.bottomAnchor constant:5.0]];
-        [_viewConstraints addObject:[_editDeleteView.trailingAnchor constraintEqualToAnchor:_backgroundView.trailingAnchor]];
-        [_viewConstraints addObject:[_editDeleteView.widthAnchor constraintEqualToConstant:_backgroundView.frame.size.width * 0.40]];
+        [_viewConstraints addObject:[_editDeleteView.trailingAnchor constraintEqualToAnchor:_backgroundView.trailingAnchor constant:-EditViewRightPadding]];
     }
     
     // find lower most view to constrain the dividerView to
@@ -434,7 +474,7 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
     }
     
     // set backgroundView's bottom anchor to lower most UILabel
-    [_viewConstraints addObject:[_backgroundView.bottomAnchor constraintEqualToAnchor:conditionsLowerMostView.bottomAnchor constant:EditDeleteViewTopBottomPadding]];
+    [_viewConstraints addObject:[_backgroundView.bottomAnchor constraintEqualToAnchor:conditionsLowerMostView.bottomAnchor constant:BackgroundViewBottomPadding]];
     
     // set contentView constraints
     [_viewConstraints addObject:[self.contentView.topAnchor constraintEqualToAnchor:_backgroundView.topAnchor]];

@@ -36,8 +36,7 @@
 
 #import "AVFoundation_Private.h"
 
-ORK_SOFT_LINK_FRAMEWORK(PrivateFrameworks, AVFoundation);
-
+ORK_SOFT_LINK_FRAMEWORK(Frameworks, AVFoundation);
 ORK_SOFT_LINK_CLASS(AVFoundation, AVOutputContext)
 #define AVOutputContextSoft getAVOutputContextClass()
 

@@ -121,11 +121,13 @@
         case SFSpeechRecognizerAuthorizationStatusAuthorized:
         {
             [_speechRecognitionContentView.recordButton setButtonState:ORKRecordButtonStateEnabled];
-            [self initializeRecognizer];
             
 #if RK_APPLE_INTERNAL
+            [self initializeRecognizer];
+            
             if (![_speechRecognizer isOfflineRecognitionAvailable]) {
                 [self didPressUseKeyboardButton];
+                return;
             }
 #endif
             break;
@@ -176,6 +178,7 @@
     switch ([recordButton buttonType])
     {
         case ORKRecordButtonTypeRecord:
+            [self initializeRecognizer];
             [self start];
             break;
             

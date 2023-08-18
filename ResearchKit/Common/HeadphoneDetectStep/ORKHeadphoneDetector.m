@@ -430,6 +430,21 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
              _lastDetectedDevice == ORKHeadphoneTypeIdentifierAirPodsMax);
 }
 
+- (ORKBluetoothMode)findBluetoothModeFromListeningMode:(NSString *)listeningMode {
+    ORKBluetoothMode btMode = ORKBluetoothModeNone;
+
+    if (listeningMode != nil) {
+        if ([listeningMode isEqualToString:AVOutputDeviceBluetoothListeningModeNormal]) {
+            btMode = ORKBluetoothModeNormal;
+        } else if ([listeningMode isEqualToString:AVOutputDeviceBluetoothListeningModeAudioTransparency]) {
+            btMode = ORKBluetoothModeTransparency;
+        } else if ([listeningMode isEqualToString:AVOutputDeviceBluetoothListeningModeActiveNoiseCancellation]) {
+            btMode = ORKBluetoothModeNoiseCancellation;
+        }
+    }
+    return btMode;
+}
+
 - (void)checkTick:(NSNotification *)notification {
     ORKWeakTypeOf(self) weakSelf = self;
     
@@ -461,17 +476,7 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
                 strongDelegate && [strongDelegate respondsToSelector:@selector(bluetoothModeChanged:)]) {
                 
                 NSString* listeningMode = [[[AVOutputContextSoft sharedSystemAudioContext] outputDevice] currentBluetoothListeningMode];
-                
-                ORKBluetoothMode btMode = ORKBluetoothModeNone;
-                if (listeningMode != nil) {
-                    if ([listeningMode isEqualToString:AVOutputDeviceBluetoothListeningModeNormal]) {
-                        btMode = ORKBluetoothModeNormal;
-                    } else if ([listeningMode isEqualToString:AVOutputDeviceBluetoothListeningModeAudioTransparency]) {
-                        btMode = ORKBluetoothModeTransparency;
-                    } else if ([listeningMode isEqualToString:AVOutputDeviceBluetoothListeningModeActiveNoiseCancellation]) {
-                        btMode = ORKBluetoothModeNoiseCancellation;
-                    }
-                }
+                ORKBluetoothMode btMode = [self findBluetoothModeFromListeningMode:listeningMode];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [strongDelegate bluetoothModeChanged:btMode];
                 });
