@@ -93,7 +93,7 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
 - (void)initializeSmartRouteWorkaround {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 #if defined(DEBUG)
-        ORK_Log_Info("ORKHeadphoneDetector - Starting workaround player");
+        ORK_Log_Debug("ORKHeadphoneDetector - Starting workaround player");
 #endif
         NSError *playerError = nil;
         NSURL *path = [[NSBundle bundleForClass:[self class]] URLForResource:@"VolumeCalibration" withExtension:@"wav"];
@@ -260,9 +260,9 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
         NSString* modelId = [[[AVOutputContextSoft sharedSystemAudioContext] outputDevice] modelID];
 #if defined(DEBUG)
         if (modelId == nil) {
-            ORK_Log_Info("ORKHeadphoneDetector - getCurrentBTHeadphoneType - modelID is nil");
+            ORK_Log_Debug("ORKHeadphoneDetector - getCurrentBTHeadphoneType - modelID is nil");
         } else {
-            ORK_Log_Info("ORKHeadphoneDetector - getCurrentBTHeadphoneType - output device model: %@", modelId);
+            ORK_Log_Debug("ORKHeadphoneDetector - getCurrentBTHeadphoneType - output device model: %@", modelId);
         }
 #endif
 
@@ -295,9 +295,9 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
     NSString* modelId = [[[[AVOutputContextSoft sharedSystemAudioContext] outputDevice] modelID] lowercaseString];
 #if defined(DEBUG)
     if (modelId == nil) {
-        ORK_Log_Info("ORKHeadphoneDetector - isCurrentBTHeadphoneTypeSpeaker - modelID is nil");
+        ORK_Log_Debug("ORKHeadphoneDetector - isCurrentBTHeadphoneTypeSpeaker - modelID is nil");
     } else {
-        ORK_Log_Info("ORKHeadphoneDetector - isCurrentBTHeadphoneTypeSpeaker - output device model: %@", modelId);
+        ORK_Log_Debug("ORKHeadphoneDetector - isCurrentBTHeadphoneTypeSpeaker - output device model: %@", modelId);
     }
 #endif
     return [modelId containsString:@"speaker"];
@@ -386,7 +386,7 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
 
 - (NSSet *)supportedHeadphoneChipsetTypesForRoute:(NSDictionary *)route {
 #if defined(DEBUG)
-    ORK_Log_Info("ORKHeadphoneDetector - supportedHeadphoneChipsetTypesForRoute");
+    ORK_Log_Debug("ORKHeadphoneDetector - supportedHeadphoneChipsetTypesForRoute");
 #endif
     NSString *subtype = [route valueForKey:AVSystemController_RouteDescriptionKey_RouteSubtype];
     
@@ -406,7 +406,7 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
 
 - (void)updateHeadphoneState {
 #if defined(DEBUG)
-    ORK_Log_Info("ORKHeadphoneDetector - updateHeadphoneState");
+    ORK_Log_Debug("ORKHeadphoneDetector - updateHeadphoneState");
 #endif
 
     BOOL routeIsSupported = ([self isRouteSupported] && _lastDetectedDevice != nil);
