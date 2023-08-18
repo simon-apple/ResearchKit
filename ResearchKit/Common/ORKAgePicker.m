@@ -97,19 +97,12 @@ static const CGFloat PickerMinimumHeight = 34.0;
         }
        
         return;
-        
     }
     
-    if (ORKIsAnswerEmpty(_answer) && [_pickerDelegate isOptional]) {
-        [_pickerView selectRow:0 inComponent:0 animated:YES];
-    } else {
-        _answer = [self defaultAnswerValue];
-        
-        NSUInteger indexOfAgeOption = [_ageOptions indexOfObject: (NSNumber *)_answer];
-        
-        if (_answerFormat.useYearForResult) {
-            _answer = [self ageToYear:(NSNumber *)_answer];
-        }
+    if (_answerFormat.defaultValue >= _answerFormat.minimumAge && _answerFormat.defaultValue <= _answerFormat.maximumAge) {
+        // use default to select a row
+        NSNumber *defaultValue = [self defaultAnswerValue];
+        NSUInteger indexOfAgeOption = [_ageOptions indexOfObject: defaultValue];
         
         [_pickerView selectRow:indexOfAgeOption + 1 inComponent:0 animated:YES];
     }

@@ -3864,7 +3864,8 @@ static const NSInteger ORKAgeAnswerDefaultMaxAge = 125;
               maximumAgeCustomText:maximumAgeCustomText
                           showYear:showYear
                   useYearForResult:useYearForResult
-                      relativeYear:[self currentYear] defaultValue:minimumAge];
+                      relativeYear:[self currentYear]
+                      defaultValue:defaultValue];
 }
 
 - (instancetype)initWithMinimumAge:(NSInteger)minimumAge
@@ -3893,12 +3894,7 @@ static const NSInteger ORKAgeAnswerDefaultMaxAge = 125;
                                        reason:[NSString stringWithFormat:@"minimumAge must be less than maximumAge. (%li) - (%li)", minimumAge, maximumAge]
                                      userInfo:nil];
     }
-    
-    if ((defaultValue < minimumAge) || (defaultValue > maximumAge)) {
-        @throw [NSException exceptionWithName:NSInvalidArgumentException
-                                       reason:@"defaultValue must be between minimumAge and maximumAge."
-                                     userInfo:nil];
-    }
+
     
     self = [super init];
     
