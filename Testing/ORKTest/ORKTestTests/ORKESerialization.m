@@ -1156,6 +1156,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(algorithm, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(dBHLMaximumThreshold, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(injectPreviousAudiogram, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(maxSampleCount, NSNumber, NSObject, YES, nil, nil),
 #endif
                     })),
            ENTRY(ORKdBHLToneAudiometryScreenerStep,

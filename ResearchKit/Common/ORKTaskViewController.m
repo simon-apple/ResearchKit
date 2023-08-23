@@ -2040,7 +2040,9 @@ static NSString *const _ORKProgressMode = @"progressMode";
             if (volume.floatValue != _lockedVolume) {
                 NSString *reason = userInfo[getAVSystemController_AudioVolumeChangeReasonNotificationParameter()];
                 if ([reason isEqualToString:@"ExplicitVolumeChange"]) {
-                    [[getAVSystemControllerClass() sharedAVSystemController] setActiveCategoryVolumeTo:_lockedVolume];
+                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                        [[getAVSystemControllerClass() sharedAVSystemController] setActiveCategoryVolumeTo:_lockedVolume];
+                    });
                 };
             }
         }

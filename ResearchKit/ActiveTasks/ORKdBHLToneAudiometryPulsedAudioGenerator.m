@@ -575,13 +575,13 @@ static OSStatus ORKdBHLAudioGeneratorZeroTone(void *inRefCon,
     NSDecimalNumber *tempdBHL = [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%f", dbHL]];
     NSDecimalNumber *attenuation = [baselinedbFS decimalNumberByAdding:tempdBHL];
 
-    ORK_Log_Info("dbHLtoAmplitudeUsingdBFSTable: %lf - frenquency: %lf", dbHL, frequency);
-    ORK_Log_Info("baselinedbFS = %@", baselinedbFS);
-    ORK_Log_Info("attenuation = %f", attenuation.doubleValue);
+    ORK_Log_Debug("dBHL: %lf - frequency: %lf - channel: %@", dbHL, frequency,_activeChannel==ORKAudioChannelLeft?@"Left":@"Right");
+    ORK_Log_Debug("baselinedbFS = %@", baselinedbFS);
+    ORK_Log_Debug("attenuation = %f", attenuation.doubleValue);
 
     double linearAttenuation = [self dBToAmplitude:attenuation.doubleValue];  // (powf(10, 0.05 * dB));
     
-    ORK_Log_Info("linearAttenuation = %f", linearAttenuation);
+    ORK_Log_Debug("linearAttenuation = %f", linearAttenuation);
     
     return [NSNumber numberWithDouble:linearAttenuation];
 }

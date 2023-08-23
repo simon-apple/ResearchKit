@@ -72,7 +72,7 @@ public struct ORKNewAudiometryState {
 
     public var initialSamples = [Bool]()
     private let kernelLenght: Double
-    private let maxSampleCount = 70
+    private let maxSampleCount = UserDefaults.standard.integer(forKey: "maxSampleCount")
     private var lastProgress: Float = 0.0
     
     fileprivate let channel: ORKAudioChannel

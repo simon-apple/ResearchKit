@@ -75,6 +75,8 @@ ORK_CLASS_AVAILABLE
 
 @property (nonatomic, assign) double dBHLMaximumThreshold;
 
+@property (nonatomic, assign) NSInteger maxSampleCount;
+
 /**
  A boolean value indicating if we should inject previous audiogram on this step
  

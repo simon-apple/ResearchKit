@@ -50,6 +50,7 @@
 #define ORKdBHLToneAudiometryTaskdBHLStepUpSizeThirdMiss 10.0
 #define ORKdBHLToneAudiometryTaskdBHLStepDownSize 10.0
 #define ORKdBHLToneAudiometryTaskdBHLMinimumThreshold -10.0
+#define ORKdBHLToneAudiometryTaskMaxSampleCount 85
 
 #if RK_APPLE_INTERNAL
 #define ORKdBHLToneAudiometryTaskdBHLDefaultAlgorithm 0
@@ -96,7 +97,13 @@
     self.algorithm = ORKdBHLToneAudiometryTaskdBHLDefaultAlgorithm;
     self.dBHLMaximumThreshold = ORKdBHLToneAudiometryTaskdBHLMaximumThreshold;
     self.injectPreviousAudiogram = YES;
+    self.maxSampleCount = [[NSUserDefaults standardUserDefaults] objectForKey:@"maxSampleCount"] ? [[NSUserDefaults standardUserDefaults] integerForKey:@"maxSampleCount"] : ORKdBHLToneAudiometryTaskMaxSampleCount;
 #endif
+}
+
+- (void)setMaxSampleCount:(NSInteger)maxSampleCount {
+    _maxSampleCount = maxSampleCount;
+    [[NSUserDefaults standardUserDefaults] setInteger:maxSampleCount forKey:@"maxSampleCount"];
 }
 
 - (void)validateParameters {
@@ -144,6 +151,7 @@
     step.algorithm = self.algorithm;
     step.dBHLMaximumThreshold = self.dBHLMaximumThreshold;
     step.injectPreviousAudiogram = self.injectPreviousAudiogram;
+    step.maxSampleCount = self.maxSampleCount;
 #endif
     return step;
 }
@@ -170,6 +178,7 @@
         ORK_DECODE_INTEGER(aDecoder, algorithm);
         ORK_DECODE_DOUBLE(aDecoder, dBHLMaximumThreshold);
         ORK_DECODE_BOOL(aDecoder, injectPreviousAudiogram);
+        ORK_DECODE_INTEGER(aDecoder, maxSampleCount);
 #endif
     }
     return self;
@@ -196,6 +205,7 @@
     ORK_ENCODE_INTEGER(aCoder, algorithm);
     ORK_ENCODE_DOUBLE(aCoder, dBHLMaximumThreshold);
     ORK_ENCODE_BOOL(aCoder, injectPreviousAudiogram);
+    ORK_ENCODE_INTEGER(aCoder, maxSampleCount);
 #endif
 }
 
@@ -226,6 +236,7 @@
             && (self.algorithm == castObject.algorithm)
             && (self.dBHLMaximumThreshold == castObject.dBHLMaximumThreshold)
             && self.injectPreviousAudiogram == castObject.injectPreviousAudiogram
+            && self.maxSampleCount == castObject.maxSampleCount
 #endif
             );
 }

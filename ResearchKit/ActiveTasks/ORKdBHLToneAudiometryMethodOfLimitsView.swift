@@ -281,6 +281,7 @@ struct ORKdBHLToneAudiometryMethodOfLimitsView: View {
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 80)
                         .background(isComplete ? Color.gray : Color.blue)
+                        .opacity(isComplete ? 0 : 1)
                         .font(.title)
                         .lineLimit(2)
                         .foregroundColor(Color.white)
