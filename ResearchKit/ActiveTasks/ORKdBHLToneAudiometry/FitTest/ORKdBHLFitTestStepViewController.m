@@ -246,7 +246,7 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
         }
         case ORKdBHLFitTestStageStart: {
             self.activeStepView.stepTitle = @"Ear Tip Fit Test";
-            self.activeStepView.stepDetailText = @"Make sure headphones in both ears are comfortable and secure, then press play to test fit.";
+            self.activeStepView.stepDetailText = @"Make sure headphones in both ears are comfortable and secure. Then, press Play so we can test the study headphone's fit.";
             break;
         }
         case ORKdBHLFitTestStagePlaying: {
@@ -290,7 +290,7 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
 }
 
 - (void)adjustTriesCounterLabel {
-    [self.fitTestContentView setResultDetailLabelText:_triesCounter > 0 ? [NSString stringWithFormat:@"Try %li",_triesCounter] : @""];
+    [self.fitTestContentView setResultDetailLabelText:_triesCounter > 0 ? [NSString stringWithFormat:@"Number of tries: %li",_triesCounter] : @""];
 }
 
 - (void)setStage:(ORKdBHLFitTestStage)stage {
