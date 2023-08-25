@@ -33,5 +33,6 @@
 typedef NS_ENUM(NSInteger, ORKSpeechRecognitionErrorCode) {
     ORKSpeechRecognitionErrorLanguageNotAvailable = 1,
     ORKSpeechRecognitionErrorResumeNotSupported,
+    ORKSpeechRecognitionErrorRecognitionNotDetected,
     ORKSpeechRecognitionErrorRecognitionFailed
 } ORK_ENUM_AVAILABLE;

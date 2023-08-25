@@ -303,7 +303,14 @@
         {
             // Speech Recognition Failed, let the user try again.
             [_speechRecognitionContentView addRecognitionError:ORKLocalizedString(@"SPEECH_RECOGNITION_FAILED_TRY_AGAIN", nil)];
+            [self didPressUseKeyboardButton];
             return;
+        } else if (error.code == ORKSpeechRecognitionErrorRecognitionNotDetected)
+        {
+            // Speech Recognition not detected, let the user try again.
+            [_speechRecognitionContentView addRecognitionError:ORKLocalizedString(@"SPEECH_RECOGNITION_NOT_DETECTED_TRY_AGAIN", nil)];
+            return;
+
         }
         
         // Speech Recogntion Failed (Fatal)
@@ -528,9 +535,10 @@
     
     dispatch_async(dispatch_get_main_queue(), ^{
         if (error) {
+            ORKSpeechRecognitionErrorCode errorCode = error.code == 1110 ? ORKSpeechRecognitionErrorRecognitionNotDetected : ORKSpeechRecognitionErrorRecognitionFailed;
             ORK_Log_Error("Speech framework failed with error code: %ld, and error description: %@", (long)error.code, error.localizedDescription);
             NSError *recognitionError = [NSError errorWithDomain:ORKErrorDomain
-                                                            code:ORKSpeechRecognitionErrorRecognitionFailed
+                                                            code:errorCode
                                                         userInfo:@{NSLocalizedDescriptionKey:ORKLocalizedString(@"SPEECH_RECOGNITION_FAILED", nil)}];
             [self stopWithError:recognitionError];
         } else {
