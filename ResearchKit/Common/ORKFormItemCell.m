@@ -1068,7 +1068,7 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
         NSInteger maxLength = answerFormat.maximumLength;
         
         if (maxLength > 0 && text.length > maxLength) {
-            [self updateErrorLabelWithMessage:[[self.formItem impliedAnswerFormat] localizedInvalidValueStringWithAnswerString:@""]];
+            [self updateErrorLabelWithMessage:[[self.formItem impliedAnswerFormat] localizedInvalidValueStringWithAnswerString:text]];
             return NO;
         }
     }

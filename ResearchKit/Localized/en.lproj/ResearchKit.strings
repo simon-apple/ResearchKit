@@ -103,7 +103,7 @@
 "LOCATION_ERROR_GEOCODE_NETWORK" = "Either you are not connected to the internet or you have exceeded the maximum amount of address lookup requests. If you are not connected to the internet, please turn on your Wi-Fi to answer this question, skip this question if skip button is available, or come back to the survey when you are connected to the internet. Otherwise, please try again in a few minutes.";
 
 /* Alert for exceeding length limit in text answer */
-"TEXT_ANSWER_EXCEEDING_MAX_LENGTH_ALERT_MESSAGE" = "Text content exceeding maximum length: %@";
+"TEXT_ANSWER_EXCEEDING_MAX_LENGTH_ALERT_MESSAGE" = "Text is limited to %@ characters";
 
 /* Camera not available during multitasking */
 "CAMERA_UNAVAILABLE_MESSAGE" = "Camera not available in split screen.";

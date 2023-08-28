@@ -2250,7 +2250,8 @@ enum TaskListRow: Int, CustomStringConvertible {
         
         let parentTextEntryAnswerFormat = ORKAnswerFormat.textAnswerFormat()
         parentTextEntryAnswerFormat.multipleLines = false
-        
+        parentTextEntryAnswerFormat.maximumLength = 3
+
         let parentNameFormItem = ORKFormItem(identifier: "ParentNameIdentifier", text: "enter optional name", answerFormat: parentTextEntryAnswerFormat)
         parentNameFormItem.isOptional = true
         
@@ -2319,6 +2320,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         let siblingTextEntryAnswerFormat = ORKAnswerFormat.textAnswerFormat()
         siblingTextEntryAnswerFormat.multipleLines = false
         siblingTextEntryAnswerFormat.placeholder = "enter optional name"
+        siblingTextEntryAnswerFormat.maximumLength = 3
         
         let siblingNameFormItem = ORKFormItem(identifier: "SiblingNameIdentifier", text: "Name or Nickname", answerFormat: siblingTextEntryAnswerFormat)
         siblingNameFormItem.isOptional = false
