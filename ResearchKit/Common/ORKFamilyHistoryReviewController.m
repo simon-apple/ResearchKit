@@ -109,6 +109,17 @@
     @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"The task provided must contain a ORKFamilyHistoryStep"  userInfo:nil];
 }
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+  
+    // tab bars will cover up the last cell of the tableview, need to update the edgesForExtendedLayout
+    // and the contentInset to use the height of the tabBar
+    if (self.tabBarController) {
+        self.edgesForExtendedLayout = UIRectEdgeAll;
+        self.tableContainer.tableView.contentInset = UIEdgeInsetsMake(0.0f, 0.0f, CGRectGetHeight(self.tabBarController.tabBar.frame), 0.0f);
+    }
+}
+
 - (void)setText:(NSString *)text {
     self.step.text = text;
     [self.tableContainer sizeHeaderToFit];
