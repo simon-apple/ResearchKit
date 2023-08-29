@@ -59,6 +59,8 @@ ORK_CLASS_AVAILABLE
 
 @property (nonatomic, weak) id<ORKFamilyHistoryReviewControllerDelegate> reviewDelegate;
 
+@property (nonatomic, nullable) NSString *reviewTitle;
+
 @end
 
 NS_ASSUME_NONNULL_END

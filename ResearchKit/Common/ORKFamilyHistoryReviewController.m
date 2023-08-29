@@ -126,6 +126,14 @@
     [self stepDidChange];
 }
 
+- (nullable NSString *)reviewTitle {
+    return self.step.title;
+}
+
+- (void)setReviewTitle:(nullable NSString *)reviewTitle {
+    self.step.title = reviewTitle;
+}
+
 - (void)updateViewColors {
     if (@available(iOS 13.0, *)) {
         UIColor *updateColor = [UIColor systemGroupedBackgroundColor];
