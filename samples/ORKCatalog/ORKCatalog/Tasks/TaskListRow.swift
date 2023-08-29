@@ -1172,10 +1172,40 @@ enum TaskListRow: Int, CustomStringConvertible {
             appleFormItem3
         ]
         
+        let fruitSizeStep = { step in
+            step.title = NSLocalizedString("Picking Fruit", comment: "")
+            let weightAnswerFormat = ORKNumericAnswerFormat(style: .integer, unit: "lb")
+            weightAnswerFormat.shouldShowDontKnowButton = true
+
+            step.formItems = [
+                ORKFormItem(
+                    identifier: "fruitHarvestTiming",
+                    text: NSLocalizedString("Was the fruit picked early?", comment: ""),
+                    answerFormat: .choiceAnswerFormat(
+                        with: .singleChoice,
+                        textChoices: [
+                            ORKTextChoice(text: NSLocalizedString("Yes", comment: ""), value: NSString("yes")),
+                            ORKTextChoice(text: NSLocalizedString("No", comment: ""), value: NSString("no")),
+                            ORKTextChoice(text: NSLocalizedString("I don't know", comment: ""), value: NSString("dunno")),
+                            ORKTextChoice(text: NSLocalizedString("Prefer not to answer", comment: ""), value: NSString("no_answer")),
+                        ]
+                    )
+                ),
+                ORKFormItem(sectionTitle: "What was the weight?"),
+                ORKFormItem(
+                    identifier: "fruitHarvestWeight",
+                    text: nil,
+                    answerFormat: weightAnswerFormat
+                )
+            ]
+            return step
+        }( ORKFormStep(identifier: "FruitWeightFormStep") )
+        
+        
         let completionStep = ORKCompletionStep(identifier: "CompletionStep")
         completionStep.title = NSLocalizedString("All Done!", comment: "")
         completionStep.detailText = NSLocalizedString("You have completed the questionnaire.", comment: "")
-        return ORKOrderedTask(identifier: String(describing: Identifier.formTask), steps: [step, completionStep])
+        return ORKOrderedTask(identifier: String(describing: Identifier.formTask), steps: [step, fruitSizeStep, completionStep])
     }
     
     private var formTaskWithMultipleOptions: ORKTask {
@@ -1228,6 +1258,10 @@ enum TaskListRow: Int, CustomStringConvertible {
         let formItem02 = ORKFormItem(identifier: String(describing: Identifier.formItem02), text: formItem02Text, answerFormat: ORKTimeIntervalAnswerFormat())
         formItem02.placeholder = NSLocalizedString("Your placeholder here", comment: "")
         
+        let textOnlySection = ORKFormItem(sectionTitle: NSLocalizedString("Text Only Section", comment: ""), detailText: NSLocalizedString("Text section text", comment: ""), learnMoreItem: learnMoreItem01, showsProgress: true)
+        let textOnlyFormItemA = ORKFormItem(identifier: "text-section-text-item-a", text: "Text Field A", answerFormat: ORKTextAnswerFormat())
+        let textOnlyFormItemB = ORKFormItem(identifier: "text-section-text-item-b", text: "Text Field B", answerFormat: ORKTimeIntervalAnswerFormat())
+
         
         let sesAnswerFormat = ORKSESAnswerFormat(topRungText: "Best Off", bottomRungText: "Worst Off")
         let sesFormItem = ORKFormItem(identifier: "sesIdentifier", text: "Select where you are on the socioeconomic ladder.", answerFormat: sesAnswerFormat)
@@ -1242,6 +1276,9 @@ enum TaskListRow: Int, CustomStringConvertible {
             section01,
             formItem01,
             formItem02,
+            textOnlySection,
+            textOnlyFormItemA,
+            textOnlyFormItemB,
             formItem03,
             sesFormItem
         ]
