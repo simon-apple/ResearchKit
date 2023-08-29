@@ -66,6 +66,7 @@ typedef NS_ENUM(NSUInteger, ORKdBHLHeadphonesStatus) {
 @property (nonatomic, readonly) double leftBattery;
 @property (nonatomic, readonly) double rightBattery;
 @property (nonatomic, readonly) NSInteger numberOfdBHLRetries;
+@property (nonatomic, readonly) BOOL alreadyPresenteddBHLStep;
 
 - (void)flipToFitTest;
 

@@ -199,7 +199,9 @@ typedef void (^_ORKLocationAuthorizationRequestHandler)(BOOL success);
         ORK_Log_Info("Task cancelled");
         // Get the definition if the task will be discarded or completed.
         ORKTaskViewControllerFinishReason finishReason = isOnFitTest ? ORKTaskViewControllerFinishReasonDiscarded :  ORKTaskViewControllerFinishReasonDiscarded;
-        [presentingController increasedBHLInterruptionCounter];
+        if (presentingController.alreadyPresenteddBHLStep) {
+            [presentingController increasedBHLInterruptionCounter];
+        }
         if ([presentingController.delegate respondsToSelector:@selector(taskViewController:didFinishWithReason:error:)]) {
             [presentingController.delegate taskViewController:presentingController
                                           didFinishWithReason:finishReason error:nil];
@@ -250,7 +252,6 @@ typedef void (^_ORKLocationAuthorizationRequestHandler)(BOOL success);
     UILabel *_hearingModeLabel;
     UILabel *_interruptsCounterLabel;
     BOOL _shouldShowHearingModeLabel;
-    BOOL _fitTestAlreadyShown;
 #endif
     
     UINavigationController *_childNavigationController;
@@ -271,6 +272,7 @@ typedef void (^_ORKLocationAuthorizationRequestHandler)(BOOL success);
 @property (nonatomic, assign) double rightBattery;
 @property (nonatomic, strong) ORKStepViewController *currentStepViewController;
 @property (nonatomic) ORKTaskReviewViewController *taskReviewViewController;
+@property (nonatomic, assign) BOOL alreadyPresenteddBHLStep;
 
 @end
 
@@ -282,7 +284,6 @@ typedef void (^_ORKLocationAuthorizationRequestHandler)(BOOL success);
 static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigationController";
 
 - (void)setUpChildNavigationController  {
-    _fitTestAlreadyShown = NO;
     _previousToTopControllerInNavigationStack = nil;
     UIViewController *emptyViewController = [[UIViewController alloc] initWithNibName:nil bundle:nil];
     _childNavigationController = [[UINavigationController alloc] initWithRootViewController:emptyViewController];
@@ -309,21 +310,23 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     _childNavigationController.restorationClass = [self class];
     _childNavigationController.restorationIdentifier = _ChildNavigationControllerRestorationKey;
     
+    BOOL isHearingTestTask = NO;
+    
     if ([self.task isKindOfClass:[ORKOrderedTask class]]) {
         ORKOrderedTask *orderedTask = (ORKOrderedTask *)self.task;
         for (ORKStep *step in orderedTask.steps) {
             if ([step isKindOfClass:[ORKdBHLToneAudiometryStep class]]) {
-                _shouldShowHearingModeLabel = YES;
+                isHearingTestTask = YES;
             }
         }
     }
     
-    if (!_shouldShowHearingModeLabel) {
-        // It's the onboarding task
+    if (!isHearingTestTask) {
+        // It's the onboarding task, or if we reset the app some way
         [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"numberOfdBHLRetries"];
     }
     
-    if (_shouldShowHearingModeLabel) {
+    if (isHearingTestTask) {
         _hearingModeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, 50)];
         _hearingModeLabel.font = [UIFont systemFontOfSize:15];
         _hearingModeLabel.textAlignment = NSTextAlignmentCenter;
@@ -363,6 +366,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     self.restorationClass = [ORKTaskViewController class];
 #if RK_APPLE_INTERNAL
     _hasLockedVolume = NO;
+    _alreadyPresenteddBHLStep = NO;
 #endif
     _shouldShowHearingModeLabel = NO;
     return self;
@@ -1149,8 +1153,11 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     
     ORKStepViewController *fromController = self.currentStepViewController;
     if ([stepViewController isKindOfClass:[ORKdBHLHoldInstructionStepViewController class]]) {
-        _fitTestAlreadyShown = YES;
+        _shouldShowHearingModeLabel = YES;
         [self handleDeviceChanges:nil];
+    }
+    if ([stepViewController isKindOfClass:[ORKdBHLToneAudiometryStepViewController class]]) {
+        _alreadyPresenteddBHLStep = YES;
     }
 #if RK_APPLE_INTERNAL
     if (fromController && animated) {
@@ -2110,7 +2117,7 @@ static NSString *const _ORKProgressMode = @"progressMode";
         switch (status) {
             case ORKdBHLHeadphonesStatusNotInEars:
             {
-                _hearingModeLabel.text = _fitTestAlreadyShown ? @"Place Headphones In Both Ears" : @"";
+                _hearingModeLabel.text = _shouldShowHearingModeLabel ? @"Place Headphones In Both Ears" : @"";
                 _hearingModeLabel.textColor = [UIColor grayColor];
                 _hearingModeStatus = status;
                 ORK_Log_Info("update headphone status for NOT IN EARS.");
@@ -2119,7 +2126,7 @@ static NSString *const _ORKProgressMode = @"progressMode";
             case ORKdBHLHeadphonesStatusInEars:
             {
                 if (_hearingModeStatus != ORKdBHLHeadphonesStatusEnablingHearingTest) {
-                    _hearingModeLabel.text = _fitTestAlreadyShown ? @"Headphones Connected" : @"";
+                    _hearingModeLabel.text = _shouldShowHearingModeLabel ? @"Headphones Connected" : @"";
                     _hearingModeLabel.textColor = [UIColor grayColor];
                     ORK_Log_Info("update headphone status for IN EARS. currentStatus = %lu",(unsigned long)_hearingModeStatus);
                 }
@@ -2127,7 +2134,7 @@ static NSString *const _ORKProgressMode = @"progressMode";
             }
             case ORKdBHLHeadphonesStatusWrongDevice:
             {
-                _hearingModeLabel.text = _fitTestAlreadyShown ? @"Wrong Headphones type" : @"";
+                _hearingModeLabel.text = _shouldShowHearingModeLabel ? @"Wrong Headphones type" : @"";
                 _hearingModeLabel.textColor = [UIColor grayColor];
                 _hearingModeStatus = status;
                 ORK_Log_Info("update headphone status for WRONG HEADPHONE TYPE.");
@@ -2135,7 +2142,7 @@ static NSString *const _ORKProgressMode = @"progressMode";
             }
             case ORKdBHLHeadphonesStatusWrongFirmware:
             {
-                _hearingModeLabel.text = _fitTestAlreadyShown ? [NSString stringWithFormat:@"Wrong Headphones firmware %@",_fwVersion] : @"";
+                _hearingModeLabel.text = _shouldShowHearingModeLabel ? [NSString stringWithFormat:@"Wrong Headphones firmware %@",_fwVersion] : @"";
                 _hearingModeLabel.textColor = [UIColor grayColor];
                 _hearingModeStatus = status;
                 ORK_Log_Info("update headphone status for WRONG FIRMWARE %@", _fwVersion);
@@ -2143,7 +2150,7 @@ static NSString *const _ORKProgressMode = @"progressMode";
             }
             case ORKdBHLHeadphonesStatusEnablingHearingTest:
             {
-                _hearingModeLabel.text = _fitTestAlreadyShown ? @"Enabling Hearing Test" : @"";
+                _hearingModeLabel.text = _shouldShowHearingModeLabel ? @"Enabling Hearing Test" : @"";
                 _hearingModeLabel.textColor = [UIColor blueColor];
                 _hearingModeStatus = status;
                 ORK_Log_Info("update headphone status for ENABLING HEARING TEST MODE.");
@@ -2151,7 +2158,7 @@ static NSString *const _ORKProgressMode = @"progressMode";
             }
             case ORKdBHLHeadphonesStatusHearingTestEnabled:
             {
-                _hearingModeLabel.text = _fitTestAlreadyShown ? @"Hearing Test Mode Enabled" : @"";
+                _hearingModeLabel.text = _shouldShowHearingModeLabel ? @"Hearing Test Mode Enabled" : @"";
                 _hearingModeLabel.textColor = [UIColor blueColor];
                 _hearingModeStatus = status;
                 ORK_Log_Info("update headphone status for HEARING TEST MODE ENABLED.");
@@ -2159,7 +2166,7 @@ static NSString *const _ORKProgressMode = @"progressMode";
             }
             case ORKdBHLHeadphonesStatusHearingTestDisabled:
             {
-                _hearingModeLabel.text = _fitTestAlreadyShown ? @"Hearing Test Mode Disabled" : @"";
+                _hearingModeLabel.text = _shouldShowHearingModeLabel ? @"Hearing Test Mode Disabled" : @"";
                 _hearingModeLabel.textColor = [UIColor redColor];
                 _hearingModeStatus = status;
                 ORK_Log_Info("update headphone status for HEARING TEST MODE DISABLED.");
