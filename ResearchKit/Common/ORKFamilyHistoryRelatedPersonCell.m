@@ -521,12 +521,16 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
     
     if (!_conditionValues || _conditionValues.count == 0) {
         UILabel *noneSelectedLabel = [UILabel new];
-        noneSelectedLabel.text = ORKLocalizedString(@"FAMILY_HISTORY_NONE_SELECTED", "");
+        noneSelectedLabel.text = @"";
         noneSelectedLabel.numberOfLines = 0;
         noneSelectedLabel.translatesAutoresizingMaskIntoConstraints = NO;
         noneSelectedLabel.lineBreakMode = NSLineBreakByWordWrapping;
         noneSelectedLabel.font = [self conditionsLabelFont];
-        noneSelectedLabel.textColor = [UIColor lightGrayColor];
+        if (@available(iOS 13.0, *)) {
+            noneSelectedLabel.textColor = self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor whiteColor] : [UIColor lightGrayColor];
+        } else {
+            noneSelectedLabel.textColor = [UIColor lightGrayColor];
+        }
         noneSelectedLabel.textAlignment = NSTextAlignmentLeft;
         
         [labels addObject:noneSelectedLabel];

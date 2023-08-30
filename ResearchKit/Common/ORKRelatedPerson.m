@@ -122,7 +122,9 @@
         NSString *value = ![result isKindOfClass:[NSString class]] ? [NSString stringWithFormat:@"%i", result.intValue] : result;
         if (value && ![value isEqual:@"0"]) {
             NSString *displayText = displayInfoKeyAndValues[identifier][value];
-            [detailListValues addObject: displayText != nil ? displayText : value];
+            if (![self shouldSkipListValue:displayText] && ![self shouldSkipListValue:value]) {
+                [detailListValues addObject: displayText != nil ? displayText : value];
+            }
         }
     }
     
@@ -140,7 +142,12 @@
     NSMutableArray<NSString *> *conditionListDisplayValues = [NSMutableArray new];
     
     for (NSString *condition in conditionsList) {
-        [conditionListDisplayValues addObject:[conditionsKeyValues valueForKey:condition]];
+        NSString *value = [conditionsKeyValues valueForKey:condition];
+        
+        if (![self shouldSkipListValue:value]) {
+            NSString *displayString = [[value lowercaseString] isEqual:@"none of the above"] ? ORKLocalizedString(@"FAMILY_HISTORY_NONE_SELECTED", "") : value;
+            [conditionListDisplayValues addObject:displayString];
+        }
     }
     
     return [conditionListDisplayValues copy];
@@ -163,6 +170,10 @@
     }
     
     return nil;
+}
+
+- (BOOL)shouldSkipListValue:(NSString *)value {
+    return ([[value lowercaseString] isEqual:@"i don't know"] || [[value lowercaseString] isEqual:@"i prefer not to answer"]);
 }
 
 #if RK_APPLE_INTERNAL

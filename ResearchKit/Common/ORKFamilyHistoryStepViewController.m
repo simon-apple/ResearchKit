@@ -162,15 +162,6 @@ NSString * const ORKFamilyHistoryRelatedPersonCellIdentifier = @"ORKFamilyHistor
     [self updateViewColors];
 }
 
-- (void)updateViewColors {
-    if (@available(iOS 13.0, *)) {
-        UIColor *updateColor =  self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor systemGray6Color] : [UIColor systemGroupedBackgroundColor];;
-        self.view.backgroundColor = updateColor;
-        self.tableView.backgroundColor = updateColor;
-        [self updateNavBarBackgroundColor: updateColor];
-    }
-}
-
 - (void)updateNavBarBackgroundColor:(UIColor *)color {
     if (@available(iOS 13.0, *)) {
         UINavigationBarAppearance *appearance = [UINavigationBarAppearance new];
@@ -336,7 +327,7 @@ NSString * const ORKFamilyHistoryRelatedPersonCellIdentifier = @"ORKFamilyHistor
                                                               value:@"none_of_the_above"
                                                           exclusive:YES];
     
-    ORKTextChoice *idkTextChoice = [[ORKTextChoice alloc] initWithText:ORKLocalizedString(@"SLIDER_I_DONT_KNOW", "")
+    ORKTextChoice *idkTextChoice = [[ORKTextChoice alloc] initWithText:ORKLocalizedString(@"FAMILY_HISTORY_PREFER_I_DONT_KNOW", "")
                                                          detailText:nil
                                                               value:@"i_dont_know"
                                                           exclusive:YES];
@@ -636,6 +627,15 @@ NSString * const ORKFamilyHistoryRelatedPersonCellIdentifier = @"ORKFamilyHistor
 
 @implementation ORKFamilyHistoryStepViewController (ORKFamilyHistoryReviewSupport)
 
+- (void)updateViewColors {
+    if (@available(iOS 13.0, *)) {
+        UIColor *updateColor =  self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor systemGray6Color] : [UIColor systemGroupedBackgroundColor];;
+        self.view.backgroundColor = updateColor;
+        self.tableView.backgroundColor = updateColor;
+        [self updateNavBarBackgroundColor: updateColor];
+    }
+}
+
 - (void)setupFooterViewIfNeeded {
     _navigationFooterView = _tableContainer.navigationFooterView;
     _navigationFooterView.skipButtonItem = self.skipButtonItem;
@@ -712,6 +712,7 @@ NSString * const ORKFamilyHistoryRelatedPersonCellIdentifier = @"ORKFamilyHistor
         }
     }    
 }
+
 
 #pragma mark UITableViewDataSource
 
@@ -810,5 +811,6 @@ NSString * const ORKFamilyHistoryRelatedPersonCellIdentifier = @"ORKFamilyHistor
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return UITableViewAutomaticDimension;
 }
+
 
 @end
