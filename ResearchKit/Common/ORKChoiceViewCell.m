@@ -419,6 +419,10 @@ static const CGFloat ColorSwatchExpandedRightPadding = 16.0;
 - (void)prepareForReuse {
     _primaryLabel.text = nil;
     _detailLabel.text = nil;
+    if (_colorSwatchView) {
+        [_colorSwatchView removeFromSuperview];
+        _colorSwatchView = nil;
+    }
     // [LC:NOTE] no need to reset the checkmark, because we have a call in cellForRow that manually sets/unsets the checkmark
     // [choiceViewCell setCellSelected:NO highlight:NO];
     // [LC:TODO] rdar://113283650 (Move `SetCellSelected` to be set in the `ORKChoiceViewCell.configure` method)
