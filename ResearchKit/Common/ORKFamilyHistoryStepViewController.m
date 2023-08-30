@@ -65,6 +65,8 @@
 
 #import "ORKSkin.h"
 #import "ORKHelpers_Internal.h"
+#import "ORKAccessibilityFunctions.h"
+
 
 NSString * const ORKFamilyHistoryRelatedPersonCellIdentifier = @"ORKFamilyHistoryRelatedPersonCellIdentifier";
 
@@ -146,20 +148,25 @@ NSString * const ORKFamilyHistoryRelatedPersonCellIdentifier = @"ORKFamilyHistor
         _tableContainer.tableContainerDelegate = self;
         [self.view addSubview:_tableContainer];
         _tableContainer.tapOffView = self.view;
-        [self notifyDelegateOnResultChange];
-
-        [self setupTableView];
-        [self setupHeaderView];
-        [self setupFooterViewIfNeeded];
-        [self updateViewColors];
         
-        [self setupConstraints];
-        [_tableContainer setNeedsLayout];
+        [self setupViews];
     }
+}
+
+- (void)setupViews {
+    [self setupTableView];
+    [self setupHeaderView];
+    [self setupFooterViewIfNeeded];
+    [self updateViewColors];
+    
+    [self setupConstraints];
+    [_tableContainer setNeedsLayout];
 }
 
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
     [super traitCollectionDidChange:previousTraitCollection];
+    
+    [self setupViews];
     [self updateViewColors];
 }
 
