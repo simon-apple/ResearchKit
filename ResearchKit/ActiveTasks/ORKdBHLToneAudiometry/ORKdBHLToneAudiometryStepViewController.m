@@ -549,7 +549,6 @@
 }
 
 - (void)headphonesStatusChanged: (NSNotification *)note {
-    // CVTODO: Review if we will need to something here or everything will be handled by ORKTaskViewController
     ORKTaskViewController *taskVC = self.taskViewController;
     if (!taskVC.headphonesInEars) {
         [self showAlertWithTitle:@"Hearing Test" andMessage:@"Make sure you have both headphones in ears."];

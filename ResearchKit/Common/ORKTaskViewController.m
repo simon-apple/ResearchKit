@@ -164,13 +164,11 @@ typedef void (^_ORKLocationAuthorizationRequestHandler)(BOOL success);
 
 - (void)cancelButtonPressed:(CustomBarButtonItem *)sender {
     ORKTaskViewController *presentingController = (ORKTaskViewController *)self.target;
-    BOOL isOnMOL = NO;
     BOOL isOnFitTest = NO;
     ORKdBHLToneAudiometryStepViewController *molVC;
     if ([presentingController.currentStepViewController isKindOfClass:[ORKdBHLToneAudiometryStepViewController class]]) {
         molVC = (ORKdBHLToneAudiometryStepViewController *)presentingController.currentStepViewController;
         // Review on Health App how HTTonePlayer is doing the pause.
-        isOnMOL = YES;
         [molVC pauseTask];
     }
     if ([presentingController.currentStepViewController isKindOfClass:[ORKdBHLFitTestStepViewController class]]) {
@@ -187,7 +185,7 @@ typedef void (^_ORKLocationAuthorizationRequestHandler)(BOOL success);
 
     UIAlertAction *dontCancelAction = [UIAlertAction actionWithTitle:@"Don’t Cancel" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         ORK_Log_Info("Task resumed");
-        if (isOnMOL) {
+        if (molVC) {
             // Review on Health App how HTTonePlayer is doing the resume.
             [molVC resumeTask];
         }
@@ -199,7 +197,7 @@ typedef void (^_ORKLocationAuthorizationRequestHandler)(BOOL success);
         ORK_Log_Info("Task cancelled");
         // Get the definition if the task will be discarded or completed.
         ORKTaskViewControllerFinishReason finishReason = isOnFitTest ? ORKTaskViewControllerFinishReasonDiscarded :  ORKTaskViewControllerFinishReasonDiscarded;
-        if (presentingController.alreadyPresenteddBHLStep) {
+        if (molVC) {
             [presentingController increasedBHLInterruptionCounter];
         }
         if ([presentingController.delegate respondsToSelector:@selector(taskViewController:didFinishWithReason:error:)]) {
@@ -272,7 +270,6 @@ typedef void (^_ORKLocationAuthorizationRequestHandler)(BOOL success);
 @property (nonatomic, assign) double rightBattery;
 @property (nonatomic, strong) ORKStepViewController *currentStepViewController;
 @property (nonatomic) ORKTaskReviewViewController *taskReviewViewController;
-@property (nonatomic, assign) BOOL alreadyPresenteddBHLStep;
 
 @end
 
@@ -366,7 +363,6 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     self.restorationClass = [ORKTaskViewController class];
 #if RK_APPLE_INTERNAL
     _hasLockedVolume = NO;
-    _alreadyPresenteddBHLStep = NO;
 #endif
     _shouldShowHearingModeLabel = NO;
     return self;
@@ -1155,9 +1151,6 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     if ([stepViewController isKindOfClass:[ORKdBHLHoldInstructionStepViewController class]]) {
         _shouldShowHearingModeLabel = YES;
         [self handleDeviceChanges:nil];
-    }
-    if ([stepViewController isKindOfClass:[ORKdBHLToneAudiometryStepViewController class]]) {
-        _alreadyPresenteddBHLStep = YES;
     }
 #if RK_APPLE_INTERNAL
     if (fromController && animated) {
