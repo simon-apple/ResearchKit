@@ -62,6 +62,7 @@ static const CGFloat ViewLeftRightPadding = 16.0;
         
         [self setupSubviews];
         [self setupConstraints];
+        [self enableAccessibilitySupport];
     }
     return self;
 }
@@ -111,6 +112,13 @@ static const CGFloat ViewLeftRightPadding = 16.0;
         _viewButton.backgroundColor = [UIColor whiteColor];
         _titleLabel.textColor = [UIColor systemBlueColor];
     }
+}
+
+- (void)enableAccessibilitySupport {
+    self.isAccessibilityElement = true;
+    self.accessibilityTraits = UIAccessibilityTraitButton;
+    self.accessibilityLabel = [_title copy];
+    self.accessibilityHint = [_title copy];
 }
 
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
