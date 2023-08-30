@@ -2410,7 +2410,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         
         let relativeGroups = [
         ORKRelativeGroup(identifier: "ParentGroupIdentifier",
-                         name: "Parent",
+                         name: "Biological Parent",
                          sectionTitle: "Biological Parents",
                          sectionDetailText: "Incude your blood-related parents.",
                          identifierForCellTitle: "ParentNameIdentifier",

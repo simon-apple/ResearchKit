@@ -33,6 +33,7 @@
 
 static const CGFloat CellLeftRightPadding = 12.0;
 static const CGFloat CellTopBottomPadding = 12.0;
+static const CGFloat ViewButtonLeadingPadding = 5.0;
 static const CGFloat ViewButtonTopBottomPadding = 12.0;
 static const CGFloat ViewLeftRightPadding = 16.0;
 
@@ -133,6 +134,7 @@ static const CGFloat ViewLeftRightPadding = 16.0;
     
     // TODO: REMOVE THIS CHECK AFTER MODULARIZATION ADDITIONS. Min version will be 13 and RA's min verions is already 13
     if (_iconImageview != nil) {
+        [_viewConstraints addObject:[_titleLabel.trailingAnchor constraintEqualToAnchor:_iconImageview.leadingAnchor constant:ViewButtonLeadingPadding]];
         [_viewConstraints addObject:[_iconImageview.centerYAnchor constraintEqualToAnchor:_viewButton.centerYAnchor]];
         [_viewConstraints addObject:[_iconImageview.trailingAnchor constraintEqualToAnchor:_viewButton.trailingAnchor constant:-CellLeftRightPadding]];
     }
