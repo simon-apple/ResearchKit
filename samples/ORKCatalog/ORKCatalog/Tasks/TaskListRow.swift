@@ -2435,7 +2435,10 @@ enum TaskListRow: Int, CustomStringConvertible {
         familyHistoryStep.conditionStepConfiguration = conditionStepConfiguration
         familyHistoryStep.relativeGroups = relativeGroups
         
-        return ORKOrderedTask(identifier: String(describing: Identifier.familyHistoryStep), steps: [familyHistoryStep])
+        let completionStep = ORKCompletionStep(identifier: "FamilyHistoryCompletionStep")
+        completionStep.title = "All Done"
+        
+        return ORKOrderedTask(identifier: String(describing: Identifier.familyHistoryStep), steps: [familyHistoryStep, completionStep])
     }
     
     /**

@@ -146,7 +146,8 @@ NSString * const ORKFamilyHistoryRelatedPersonCellIdentifier = @"ORKFamilyHistor
         _tableContainer.tableContainerDelegate = self;
         [self.view addSubview:_tableContainer];
         _tableContainer.tapOffView = self.view;
-        
+        [self notifyDelegateOnResultChange];
+
         [self setupTableView];
         [self setupHeaderView];
         [self setupFooterViewIfNeeded];
@@ -506,6 +507,18 @@ NSString * const ORKFamilyHistoryRelatedPersonCellIdentifier = @"ORKFamilyHistor
     }
     
     return [relatedPersons copy];
+}
+
+- (void)notifyDelegateOnResultChange {
+    [super notifyDelegateOnResultChange];
+    
+    if (self.hasNextStep == NO) {
+        self.continueButtonItem = self.internalDoneButtonItem;
+    } else {
+        self.continueButtonItem = self.internalContinueButtonItem;
+    }
+    
+    self.skipButtonItem = self.internalSkipButtonItem;
 }
 
 - (ORKStepResult *)result {
