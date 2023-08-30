@@ -606,7 +606,6 @@ NSString * const ORKFamilyHistoryRelatedPersonCellIdentifier = @"ORKFamilyHistor
                 [taskVC flipToFirstPage];
                 
                 [self presentViewController:taskVC animated:YES completion:nil];
-                [relatedPersonCell removeOptionsViewIfPresented];
                 break;
             }
                 
@@ -619,7 +618,6 @@ NSString * const ORKFamilyHistoryRelatedPersonCellIdentifier = @"ORKFamilyHistor
                 UIAlertAction* unfollowAction = [UIAlertAction actionWithTitle:ORKLocalizedString(@"FAMILY_HISTORY_DELETE_ENTRY", "")
                                                                          style:UIAlertActionStyleDestructive
                                                                        handler:^(UIAlertAction * action) {
-                    [relatedPersonCell removeOptionsViewIfPresented];
                     [_relatedPersons[currentRelatedPerson.groupIdentifier] removeObject:currentRelatedPerson];
                     NSIndexSet *section = [NSIndexSet indexSetWithIndex:indexPath.section];
                     [_tableView reloadSections:section withRowAnimation:UITableViewRowAnimationAutomatic];
@@ -789,12 +787,6 @@ NSString * const ORKFamilyHistoryRelatedPersonCellIdentifier = @"ORKFamilyHistor
 #pragma mark UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    ORKFamilyHistoryRelatedPersonCell *relatedPersonCell = (ORKFamilyHistoryRelatedPersonCell *)[_tableView cellForRowAtIndexPath:indexPath];
-    
-    if (relatedPersonCell) {
-        [relatedPersonCell removeOptionsViewIfPresented];
-    }
-    
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 

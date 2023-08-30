@@ -51,8 +51,6 @@ typedef NS_ENUM(NSInteger, ORKFamilyHistoryTooltipOption) {
 
 @interface ORKFamilyHistoryRelatedPersonCell : UITableViewCell
 
-- (void)removeOptionsViewIfPresented;
-
 @property (nonatomic) NSString *title;
 @property (nonatomic) NSString *relativeID;
 @property (nonatomic) NSArray<NSString *> *detailValues;
