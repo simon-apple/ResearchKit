@@ -2113,8 +2113,12 @@ ORK_CLASS_AVAILABLE
               maximumAgeCustomText:(nullable NSString *)maximumAgeCustomText
                           showYear:(BOOL)showYear
                   useYearForResult:(BOOL)useYearForResult
-                      relativeYear:(NSInteger)relativeYear
+                treatMinAgeAsRange:(BOOL)treatMinAgeAsRange
+                treatMaxAgeAsRange:(BOOL)treatMaxAgeAsRange
                       defaultValue:(NSInteger)defaultValue;
+
++ (int)minimumAgeSentinelValue;
++ (int)maximumAgeSentinelValue;
 
 /**
  Minimum age value presented in the picker
@@ -2163,7 +2167,7 @@ ORK_CLASS_AVAILABLE
  By default, the value of this property will be the current year.
  */
  
-@property (readonly) NSInteger relativeYear;
+@property (nonatomic) NSInteger relativeYear;
 
 
 /**
@@ -2173,6 +2177,30 @@ ORK_CLASS_AVAILABLE
  */
  
 @property (readonly) BOOL useYearForResult;
+
+/**
+ Boolean that determines if the minimumAge property should be treated as range.
+ 
+ -1 will be returned if minimumAge is selected
+ 
+ By default, the value of this property is NO.
+ */
+ 
+@property (readonly) BOOL treatMinAgeAsRange;
+
+/**
+ Boolean that determines if the maximumAge property should be treated as range.
+ 
+ -2 will be returned if maximumAge is selected
+ 
+ By default, the value of this property is NO.
+ */
+
+@property (readonly) BOOL treatMaxAgeAsRange;
+
+/**
+ The default value for the picker.
+ */
 
 @property (readonly) NSInteger defaultValue;
 

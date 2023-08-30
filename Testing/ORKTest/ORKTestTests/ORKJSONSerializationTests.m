@@ -284,7 +284,7 @@ ORK_MAKE_TEST_INIT(ORKVerificationStep, ^{return [self initWithIdentifier:[NSUUI
 ORK_MAKE_TEST_INIT(ORKStep, ^{return [self initWithIdentifier:[NSUUID UUID].UUIDString];});
 ORK_MAKE_TEST_INIT(ORKReviewStep, ^{return [[self class] standaloneReviewStepWithIdentifier:[NSUUID UUID].UUIDString steps:@[] resultSource:[[ORKTaskResult alloc] orktest_init]];});
 ORK_MAKE_TEST_INIT(ORKOrderedTask, ^{return [self initWithIdentifier:@"test1" steps:nil];});
-ORK_MAKE_TEST_INIT(ORKAgeAnswerFormat, ^{return [self initWithMinimumAge:0 maximumAge:80 minimumAgeCustomText:nil maximumAgeCustomText:nil showYear:NO useYearForResult:NO relativeYear:2023 defaultValue:0];});
+ORK_MAKE_TEST_INIT(ORKAgeAnswerFormat, ^{return [self initWithMinimumAge:0 maximumAge:80 minimumAgeCustomText:nil maximumAgeCustomText:nil showYear:NO useYearForResult:NO treatMinAgeAsRange:false treatMaxAgeAsRange:false defaultValue:0];});
 #if RK_APPLE_INTERNAL && ORK_FEATURE_AV_JOURNALING
 ORK_MAKE_TEST_INIT(ORKAVJournalingPredefinedTask, ^{
     ORKStep *stepA = [[ORKStep alloc] initWithIdentifier:[NSUUID UUID].UUIDString];

@@ -451,6 +451,21 @@ NSString * const ORKFamilyHistoryRelatedPersonCellIdentifier = @"ORKFamilyHistor
     return relatedPersons;
 }
 
+- (void)populateAgeQuestionValuesForRelatedPerson:(ORKRelatedPerson *)relatedPerson {
+    ORKRelativeGroup *relativeGroup = [self relativeGroupForRelatedPerson:relatedPerson];
+    
+    for (ORKFormStep *formStep in relativeGroup.formSteps) {
+        for (ORKFormItem *formItem in formStep.formItems) {
+            if ([formItem.answerFormat isKindOfClass:[ORKAgeAnswerFormat class]]) {
+                ORKAgeAnswerFormat *ageAnswerFormat = (ORKAgeAnswerFormat *)formItem.answerFormat;
+                // if this condition passes we should be confident that we're dealing with the correct ageAnswerFormat
+                if (ageAnswerFormat.minimumAgeCustomText != nil && ageAnswerFormat.maximumAgeCustomText != nil && ageAnswerFormat.treatMinAgeAsRange) {
+                    [relatedPerson setAgeAnswerFormat:[ageAnswerFormat copy] ageFormItemIdentifier:[formItem.identifier copy]];
+                }
+            }
+        }
+    }
+}
 #endif
 
 
@@ -750,6 +765,10 @@ NSString * const ORKFamilyHistoryRelatedPersonCellIdentifier = @"ORKFamilyHistor
     BOOL didReachMaxNumberOfRelatives = [self didReachMaxForRelativeGroup:relativeGroup];
     BOOL shouldAddExtraSpaceBelowCell = ([self numberOfRowsForRelativeGroupInSection:indexPath.section] == (indexPath.row + 1)) && !didReachMaxNumberOfRelatives;
     ORKRelatedPerson *relatedPerson = [self relatedPersonAtIndexPath:indexPath];
+    
+#if RK_APPLE_INTERNAL
+    [self populateAgeQuestionValuesForRelatedPerson:relatedPerson];
+#endif
     
     NSString *title = [relatedPerson getTitleValueWithIdentifier:relativeGroup.identifierForCellTitle];
     

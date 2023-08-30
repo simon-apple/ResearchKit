@@ -36,6 +36,7 @@
 
 #if RK_APPLE_INTERNAL
 @class ORKFormStep;
+@class ORKAgeAnswerFormat;
 #endif
 
 NS_ASSUME_NONNULL_BEGIN
@@ -67,6 +68,10 @@ ORK_CLASS_AVAILABLE
 
 #if RK_APPLE_INTERNAL
 - (int)getAgeFromFormSteps:(NSArray<ORKFormStep *> *)formSteps;
+
+- (void)setAgeAnswerFormat:(ORKAgeAnswerFormat *)ageAnswerFormat
+     ageFormItemIdentifier:(NSString *)ageFormItemIdentifier;
+
 #endif
 
 @end

@@ -2000,7 +2000,8 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                                                      maximumAgeCustomText:GETPROP(dict, maximumAgeCustomText)
                                                                  showYear:((NSNumber *)GETPROP(dict, showYear)).boolValue
                                                          useYearForResult:((NSNumber *)GETPROP(dict, useYearForResult)).boolValue
-                                                             relativeYear:((NSNumber *)GETPROP(dict, relativeYear)).integerValue
+                                                       treatMinAgeAsRange:((NSNumber *)GETPROP(dict, treatMinAgeAsRange)).boolValue
+                                                       treatMaxAgeAsRange:((NSNumber *)GETPROP(dict, treatMaxAgeAsRange)).boolValue
                                                              defaultValue:((NSNumber *)GETPROP(dict, defaultValue)).integerValue];
                  },
                  (@{
@@ -2010,7 +2011,9 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(maximumAgeCustomText, NSString, NSObject, YES, nil, nil),
                     PROPERTY(showYear, NSNumber, NSObject, NO, nil, nil),
                     PROPERTY(useYearForResult, NSNumber, NSObject, NO, nil, nil),
-                    PROPERTY(relativeYear, NSNumber, NSObject, NO, nil, nil),
+                    PROPERTY(treatMinAgeAsRange, NSNumber, NSObject, NO, nil, nil),
+                    PROPERTY(treatMaxAgeAsRange, NSNumber, NSObject, NO, nil, nil),
+                    PROPERTY(relativeYear, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(defaultValue, NSNumber, NSObject, NO, nil, nil),
                     })),
            ENTRY(ORKLocationAnswerFormat,

@@ -3864,7 +3864,8 @@ static const NSInteger ORKAgeAnswerDefaultMaxAge = 125;
               maximumAgeCustomText:maximumAgeCustomText
                           showYear:showYear
                   useYearForResult:useYearForResult
-                      relativeYear:[self currentYear]
+                treatMinAgeAsRange:NO
+                treatMaxAgeAsRange:NO
                       defaultValue:defaultValue];
 }
 
@@ -3874,7 +3875,8 @@ static const NSInteger ORKAgeAnswerDefaultMaxAge = 125;
               maximumAgeCustomText:(nullable NSString *)maximumAgeCustomText
                           showYear:(BOOL)showYear
                   useYearForResult:(BOOL)useYearForResult
-                      relativeYear:(NSInteger)relativeYear
+                treatMinAgeAsRange:(BOOL)treatMinAgeAsRange
+                treatMaxAgeAsRange:(BOOL)treatMaxAgeAsRange
                       defaultValue:(NSInteger)defaultValue {
     if (minimumAge < 0) {
         @throw [NSException exceptionWithName:NSInvalidArgumentException
@@ -3905,11 +3907,21 @@ static const NSInteger ORKAgeAnswerDefaultMaxAge = 125;
         _maximumAgeCustomText = [maximumAgeCustomText copy];
         _showYear = showYear;
         _useYearForResult = useYearForResult;
-        _relativeYear = relativeYear > 0 ? relativeYear : [self currentYear];
+        _treatMinAgeAsRange = treatMinAgeAsRange;
+        _treatMaxAgeAsRange = treatMaxAgeAsRange;
+        _relativeYear = [self currentYear];
         _defaultValue = defaultValue;
     }
     
     return self;
+}
+
++ (int)minimumAgeSentinelValue {
+    return -1;
+}
+
++ (int)maximumAgeSentinelValue {
+    return -2;
 }
 
 - (NSInteger)currentYear {
@@ -3924,6 +3936,34 @@ static const NSInteger ORKAgeAnswerDefaultMaxAge = 125;
     if (!ORKIsAnswerEmpty(answer)) {
         NSNumberFormatter *formatter = ORKDecimalNumberFormatter();
         answerString = [formatter stringFromNumber:(NSNumber *)answer];
+    }
+    
+    if (answerString) {
+        NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+        NSDateComponents *components = [calendar components:NSCalendarUnitYear fromDate:[NSDate date]];
+        NSInteger currentYear = [components year];
+        
+        int maxYear = currentYear - _minimumAge;
+        int minYear = currentYear - _maximumAge;
+        
+        NSString *minAgeText = _minimumAgeCustomText ? : [NSString stringWithFormat:ORKLocalizedString(@"AGEPICKER_OR_YOUNGER", ""), (long)_minimumAge];
+        NSString *maxAgeText = _maximumAgeCustomText ? : [NSString stringWithFormat:ORKLocalizedString(@"AGEPICKER_OR_OLDER", ""), (long)_maximumAge];
+        
+        int value = [answerString intValue];
+        
+        if (value < 0) {
+            // pass back necessary text if sentinel value is selected
+            answerString = value == [ORKAgeAnswerFormat minimumAgeSentinelValue] ? minAgeText : maxAgeText;
+        } else if (_useYearForResult) {
+            // pass back necessary text if min or max year is selected
+            if ((value >= maxYear || value <= minYear)) {
+                answerString = value <= minYear ? maxAgeText : minAgeText;
+            }
+        } else if ((value == _minimumAge && _minimumAgeCustomText ) || (value == _maximumAge && _maximumAgeCustomText)) {
+            answerString = value == _minimumAge ? _minimumAgeCustomText : _maximumAgeCustomText;
+        } else if ((value == minYear && _minimumAgeCustomText) || (value == maxYear && _maximumAgeCustomText)) {
+            answerString = value == minYear ? _minimumAgeCustomText : _maximumAgeCustomText;
+        }
     }
     
     return answerString;
@@ -3943,6 +3983,8 @@ static const NSInteger ORKAgeAnswerDefaultMaxAge = 125;
     ageAnswerFormat->_maximumAgeCustomText = [_maximumAgeCustomText copy];
     ageAnswerFormat->_showYear = _showYear;
     ageAnswerFormat->_useYearForResult = _useYearForResult;
+    ageAnswerFormat->_treatMinAgeAsRange = _treatMinAgeAsRange;
+    ageAnswerFormat->_treatMaxAgeAsRange = _treatMaxAgeAsRange;
     ageAnswerFormat->_relativeYear = _relativeYear;
     ageAnswerFormat->_defaultValue = _defaultValue;
     return ageAnswerFormat;
@@ -3960,6 +4002,8 @@ static const NSInteger ORKAgeAnswerDefaultMaxAge = 125;
             ORKEqualObjects(_maximumAgeCustomText, castObject->_maximumAgeCustomText) &&
             (_showYear == castObject->_showYear) &&
             (_useYearForResult == castObject->_useYearForResult) &&
+            (_treatMinAgeAsRange == castObject->_treatMinAgeAsRange) &&
+            (_treatMaxAgeAsRange == castObject->_treatMaxAgeAsRange) &&
             (_defaultValue == castObject->_defaultValue));
 }
 
@@ -3971,6 +4015,9 @@ static const NSInteger ORKAgeAnswerDefaultMaxAge = 125;
         ORK_DECODE_OBJ_CLASS(aDecoder, minimumAgeCustomText, NSString);
         ORK_DECODE_OBJ_CLASS(aDecoder, maximumAgeCustomText, NSString);
         ORK_DECODE_BOOL(aDecoder, showYear);
+        ORK_DECODE_BOOL(aDecoder, useYearForResult);
+        ORK_DECODE_BOOL(aDecoder, treatMinAgeAsRange);
+        ORK_DECODE_BOOL(aDecoder, treatMaxAgeAsRange);
         ORK_DECODE_BOOL(aDecoder, useYearForResult);
         ORK_DECODE_INTEGER(aDecoder, defaultValue);
         ORK_DECODE_INTEGER(aDecoder, relativeYear);
@@ -3986,12 +4033,14 @@ static const NSInteger ORKAgeAnswerDefaultMaxAge = 125;
     ORK_ENCODE_OBJ(aCoder, maximumAgeCustomText);
     ORK_ENCODE_BOOL(aCoder, showYear);
     ORK_ENCODE_BOOL(aCoder, useYearForResult);
+    ORK_ENCODE_BOOL(aCoder, treatMinAgeAsRange);
+    ORK_ENCODE_BOOL(aCoder, treatMaxAgeAsRange);
     ORK_ENCODE_INTEGER(aCoder, defaultValue);
     ORK_ENCODE_INTEGER(aCoder, relativeYear);
 }
 
 - (NSUInteger)hash {
-    return super.hash ^ _minimumAgeCustomText.hash ^ _maximumAgeCustomText.hash ^ _minimumAge ^ _maximumAge ^ _showYear ^ _useYearForResult ^ _relativeYear ^ _defaultValue;
+    return super.hash ^ _minimumAgeCustomText.hash ^ _maximumAgeCustomText.hash ^ _minimumAge ^ _maximumAge ^ _showYear ^ _useYearForResult ^ _treatMinAgeAsRange ^ _treatMaxAgeAsRange ^ _relativeYear ^ _defaultValue;
 }
 
 + (BOOL)supportsSecureCoding {

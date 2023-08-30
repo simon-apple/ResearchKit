@@ -30,6 +30,7 @@
 
 #import "ORKRelatedPerson.h"
 
+#import "ORKAnswerFormat_Internal.h"
 #import "ORKCollectionResult.h"
 #import "ORKCollectionResult_Private.h"
 #import "ORKResult_Private.h"
@@ -43,7 +44,12 @@
 #import "ORKFormStep.h"
 #endif
 
-@implementation ORKRelatedPerson
+@implementation ORKRelatedPerson {
+#if RK_APPLE_INTERNAL
+    ORKAgeAnswerFormat *_ageAnswerFormat;
+    NSString *_ageFormItemIdentifier;
+#endif
+}
 
 - (instancetype)initWithIdentifier:(NSString *)identifier
                    groupIdentifier:(NSString *)groupIdentifier
@@ -154,6 +160,7 @@
 }
 
 - (nullable NSString *)getResultValueWithIdentifier:(NSString *)identifier {
+    
     for (ORKStepResult *result in _taskResult.results) {
         ORKQuestionResult *questionResult = (ORKQuestionResult *)[result resultForIdentifier:identifier];
         
@@ -162,7 +169,16 @@
                 ORKChoiceQuestionResult *choiceQuestionResult = (ORKChoiceQuestionResult *)questionResult;
                 return (NSString *)choiceQuestionResult.choiceAnswers.firstObject;
             } else {
-                return (NSString *)questionResult.answer;
+                NSString *answer = (NSString *)questionResult.answer;
+                
+                #if RK_APPLE_INTERNAL
+                    if (_ageFormItemIdentifier && [_ageFormItemIdentifier isEqual:identifier]) {
+                        int ageValue = [answer intValue];
+                        return ageValue == 0 ? nil : [_ageAnswerFormat stringForAnswer:[NSNumber numberWithInt:ageValue]];
+                    }
+                #endif
+                
+                return answer;
             }
         } else {
             break;
@@ -177,21 +193,29 @@
 }
 
 #if RK_APPLE_INTERNAL
+- (void)setAgeAnswerFormat:(id)ageAnswerFormat ageFormItemIdentifier:(NSString *)ageFormItemIdentifier {
+    _ageAnswerFormat = ageAnswerFormat;
+    _ageFormItemIdentifier = ageFormItemIdentifier;
+}
+
 - (int)getAgeFromFormSteps:(NSArray<ORKFormStep *> *)formSteps {
     for (ORKFormStep *formStep in formSteps) {
-        int index = 0;
         for (ORKFormItem *formItem in formStep.formItems) {
-            if ([formItem.text containsString:@"age?"]) {
-                // If answerFormat is nil that means that the formItem is used as a section header and we should fetch the next formItem in the array
-                NSString *identifier = formItem.answerFormat != nil ? formItem.identifier : formStep.formItems[index + 1].identifier;
-                NSString *value = [self getResultValueWithIdentifier:identifier];
-                if (value && ![value isKindOfClass:[ORKDontKnowAnswer class]]) {
-                    return [value integerValue];
+            if ([formItem.answerFormat isKindOfClass:[ORKAgeAnswerFormat class]]) {
+                
+                ORKAgeAnswerFormat *ageAnswerFormat = (ORKAgeAnswerFormat *)formItem.answerFormat;
+                
+                if (ageAnswerFormat.minimumAgeCustomText != nil && ageAnswerFormat.maximumAgeCustomText != nil && ageAnswerFormat.treatMinAgeAsRange) {
+                    
+                    // If answerFormat is nil that means that the formItem is used as a section header and we should fetch the next formItem in the array
+                    NSString *identifier = formItem.identifier;
+                    NSString *value = [self getResultValueWithIdentifier:identifier];
+                    if (value && ![value isKindOfClass:[ORKDontKnowAnswer class]]) {
+                        return [value integerValue];
+                    }
+                    break;
                 }
-                break;
             }
-            
-            index += 1;
         }
     }
     

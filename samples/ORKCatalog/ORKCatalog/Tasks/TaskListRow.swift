@@ -1707,28 +1707,33 @@ enum TaskListRow: Int, CustomStringConvertible {
     
     /// This task demonstrates a question asking for the user age.
     private var ageQuestionTask: ORKTask {
-        let ageFormItemSectionHeader = ORKFormItem(sectionTitle: "What is your age?")
+        let ageFormItemSectionHeader1 = ORKFormItem(sectionTitle: "What is your age?", detailText: "Age question with default values.", learnMoreItem: nil, showsProgress: true)
+
         
         // age picker example 1
         let answerFormat = ORKAgeAnswerFormat()
         answerFormat.shouldShowDontKnowButton = true
         answerFormat.customDontKnowButtonText = "Prefer not to answer"
-        let ageFormItem = ORKFormItem(identifier: String(describing: Identifier.ageQuestionFormItem), text: "What is your age?", answerFormat: answerFormat)
+        let ageFormItem = ORKFormItem(identifier: String(describing: Identifier.ageQuestionFormItem), text: nil, answerFormat: answerFormat)
 
         ageFormItem.isOptional = true
 
         let step = ORKFormStep(identifier: String(describing: Identifier.ageQuestionFormStep), title: "Title here", text: "Default age picker.")
-        step.formItems = [ageFormItemSectionHeader, ageFormItem]
+        step.formItems = [ageFormItemSectionHeader1, ageFormItem]
         
         // age picker example 2
+        let ageFormItemSectionHeader2 = ORKFormItem(sectionTitle: "What is your age?", detailText: "Age question with custom min/max values.", learnMoreItem: nil, showsProgress: true)
+        
         let answerFormat2 = ORKAgeAnswerFormat(minimumAge: 18, maximumAge: 90)
         let ageFormItem2 = ORKFormItem(identifier: String(describing: Identifier.ageQuestionFormItem2), text: nil, answerFormat: answerFormat2)
         ageFormItem2.isOptional = false
         
         let step2 =  ORKFormStep(identifier: String(describing: Identifier.ageQuestionFormStep2), title: "Title here", text: "Age picker with modified min and max ages.")
-        step2.formItems = [ageFormItemSectionHeader, ageFormItem2]
+        step2.formItems = [ageFormItemSectionHeader2, ageFormItem2]
         
         // age picker example 3
+        let ageFormItemSectionHeader3 = ORKFormItem(sectionTitle: "What is your age?", detailText: "Age question that shows year in choices and passes back year for the result.", learnMoreItem: nil, showsProgress: true)
+        
         let answerFormat3 = ORKAgeAnswerFormat(
             minimumAge: 18,
             maximumAge: 80,
@@ -1742,10 +1747,12 @@ enum TaskListRow: Int, CustomStringConvertible {
         ageFormItem3.isOptional = false
         
         let step3 =  ORKFormStep(identifier: String(describing: Identifier.ageQuestionFormStep3), title: "Title here", text: "Age picker with modified min and max ages.")
-        step3.formItems = [ageFormItemSectionHeader, ageFormItem3]
+        step3.formItems = [ageFormItemSectionHeader3, ageFormItem3]
         
         
         // age picker example 4
+        let ageFormItemSectionHeader4 = ORKFormItem(sectionTitle: "What was your age in the year 2000?", detailText: "Age question that passes back sentinel values for the result if the minimum (-1) or maximum (-2) values are selected.", learnMoreItem: nil, showsProgress: true)
+        
         let answerFormat4 = ORKAgeAnswerFormat(
             minimumAge: 1,
             maximumAge: 60,
@@ -1753,10 +1760,12 @@ enum TaskListRow: Int, CustomStringConvertible {
             maximumAgeCustomText: "60 or older",
             showYear: true,
             useYearForResult: false,
-            relativeYear: 2000,
+            treatMinAgeAsRange: true,
+            treatMaxAgeAsRange: true,
             defaultValue: 30)
         
-        let ageFormItemSectionHeader4 = ORKFormItem(sectionTitle: "What was your age in the year 2000?")
+        answerFormat4.relativeYear = 2000
+        
         let ageFormItem4 = ORKFormItem(identifier: String(describing: Identifier.ageQuestionFormItem4), text: nil, answerFormat: answerFormat4)
         ageFormItem4.isOptional = false
         
@@ -2323,16 +2332,18 @@ enum TaskListRow: Int, CustomStringConvertible {
             )
         )
 
-        let parentAgePickerSectionHeaderFormItem = ORKFormItem(identifier: "ParentAgeSectionHeaderIdentifier", text: "What is their approximate age?", answerFormat: nil)
+        let parentAgePickerSectionHeaderFormItem = ORKFormItem(identifier: "ParentAgeSectionHeaderIdentifier", text: "What is their approximate birth year?", answerFormat: nil)
         parentAgePickerSectionHeaderFormItem.visibilityRule = visibilityRule
         
         let parentAgePickerAnswerFormat = ORKAgeAnswerFormat(
             minimumAge: 18,
-            maximumAge: 80,
+            maximumAge: 90,
             minimumAgeCustomText: "18 or younger",
-            maximumAgeCustomText: "80 or older",
+            maximumAgeCustomText: "90 or older",
             showYear: true,
-            useYearForResult: false,
+            useYearForResult: true,
+            treatMinAgeAsRange: true,
+            treatMaxAgeAsRange: false,
             defaultValue: 30)
         parentAgePickerAnswerFormat.shouldShowDontKnowButton = true
         
@@ -2372,15 +2383,17 @@ enum TaskListRow: Int, CustomStringConvertible {
         
         let siblingAgePickerAnswerFormat = ORKAgeAnswerFormat(
             minimumAge: 18,
-            maximumAge: 80,
+            maximumAge: 90,
             minimumAgeCustomText: "18 or younger",
-            maximumAgeCustomText: "80 or older",
+            maximumAgeCustomText: "90 or older",
             showYear: true,
-            useYearForResult: false,
+            useYearForResult: true,
+            treatMinAgeAsRange: true,
+            treatMaxAgeAsRange: false,
             defaultValue: 30)
         siblingAgePickerAnswerFormat.shouldShowDontKnowButton = true
         
-        let siblingAgePickerSectionHeaderFormItem = ORKFormItem(identifier: "SiblingAgeSectionHeaderIdentifier", text: "What is their approximage age?", answerFormat: nil)
+        let siblingAgePickerSectionHeaderFormItem = ORKFormItem(identifier: "SiblingAgeSectionHeaderIdentifier", text: "What is their approximate birth year?", answerFormat: nil)
         
         let siblingAgeFormItem = ORKFormItem(identifier: "SiblingAgeFormItemIdentifier", text: nil, answerFormat: siblingAgePickerAnswerFormat)
         siblingAgeFormItem.isOptional = false

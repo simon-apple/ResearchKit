@@ -83,18 +83,24 @@ static const CGFloat PickerMinimumHeight = 34.0;
 
 - (void)setAnswer:(id)answer {
     _answer = answer;
-    
+
     if (!ORKIsAnswerEmpty(_answer)) {
         NSNumber *value = (NSNumber *)_answer;
+        NSUInteger indexOfAgeOption = 0;
         
         if ([self isAnswerAYear:value]) {
+            // if year is passed in, its converted back to age so picker can be set correctly
             NSNumber *ageValueForYear = [[NSNumber alloc] initWithInt:_answerFormat.relativeYear - value.intValue];
-            NSUInteger indexOfAgeOption = [_ageOptions indexOfObject:ageValueForYear];
-            [_pickerView selectRow:indexOfAgeOption + 1 inComponent:0 animated:YES];
-        } else {
-            NSUInteger indexOfAgeOption = [_ageOptions indexOfObject:value];
-            [_pickerView selectRow:indexOfAgeOption + 1 inComponent:0 animated:YES];
+            indexOfAgeOption = [self indexForAgeValue:ageValueForYear];
+        } else if (value < 0) {
+            // if a sentinel value is passed in, either the first or last index is passed back accordingly
+            indexOfAgeOption = [value intValue] == [ORKAgeAnswerFormat minimumAgeSentinelValue] ? 0 : _ageOptions.count - 1;
+        } else  {
+            indexOfAgeOption = [self indexForAgeValue:value];
         }
+        
+        // offset the index by 1 to account for the empty value in first position of the picker
+        [_pickerView selectRow:indexOfAgeOption + 1 inComponent:0 animated:YES];
        
         return;
     }
@@ -118,6 +124,16 @@ static const CGFloat PickerMinimumHeight = 34.0;
     return answer.intValue <= relativeYear && answer.intValue >= (relativeYear - _answerFormat.maximumAge);
 }
 
+- (NSUInteger)indexForAgeValue:(NSNumber *)ageValue {
+    if ([ageValue intValue] < _answerFormat.minimumAge) {
+        return 0;
+    } else if ([ageValue intValue] > _answerFormat.maximumAge) {
+        return _ageOptions.count - 1;
+    }
+    
+    return [_ageOptions indexOfObject:ageValue];
+}
+
 - (NSNumber *)ageToYear:(NSNumber *)age {
     return [[NSNumber alloc] initWithInt: _answerFormat.relativeYear - age.intValue];
 }
@@ -133,6 +149,11 @@ static const CGFloat PickerMinimumHeight = 34.0;
     // The first option in the picker is an empty string. We return nil if this is selected
     if (selectedRowIndex == 0) {
         return nil;
+    } else if ((selectedRowIndex == 1 && _answerFormat.treatMinAgeAsRange) || (selectedRowIndex == _ageOptions.count && _answerFormat.treatMaxAgeAsRange)) {
+        // if the min or max has been selected a sentinel value is passed back if it should be treated as a range.
+        int sentinelValue = selectedRowIndex == 1 ? [ORKAgeAnswerFormat minimumAgeSentinelValue] : [ORKAgeAnswerFormat maximumAgeSentinelValue];
+        answer = [NSNumber numberWithInt:sentinelValue];
+        return answer;
     }
     
     answer = [self ageForIndex:selectedRowIndex];
@@ -143,7 +164,7 @@ static const CGFloat PickerMinimumHeight = 34.0;
 - (NSString *)selectedLabelText {
     return [_answerFormat stringForAnswer:_answer];
 }
-
+    
 - (void)pickerWillAppear {
     [self pickerView];
     [self valueDidChange:self];
@@ -158,8 +179,8 @@ static const CGFloat PickerMinimumHeight = 34.0;
 }
 
 - (NSNumber *)ageForIndex:(NSInteger)index {
+    // index will need to be offset to account for empty choice added to picker
     index = (index - 1 < 0) ? 0 : index - 1;
-    // index will need to be offset to account for empty choice added
     return [_ageOptions objectAtIndex:index];
 }
 
@@ -200,7 +221,7 @@ static const CGFloat PickerMinimumHeight = 34.0;
     } else if (row == _ageOptions.count && _answerFormat.maximumAgeCustomText) {
         title = _answerFormat.maximumAgeCustomText;
     } else if (_answerFormat.showYear) {
-        title = [NSString stringWithFormat:@"%i (%li)", ageValue, _answerFormat.relativeYear - ageValue];
+        title = [NSString stringWithFormat:@"%li (%i)", _answerFormat.relativeYear - ageValue, ageValue];
     } else {
         title = [NSString stringWithFormat:@"%i", ageValue];
     }
