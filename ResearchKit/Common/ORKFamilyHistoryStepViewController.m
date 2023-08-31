@@ -612,6 +612,10 @@ NSString * const ORKFamilyHistoryRelatedPersonCellIdentifier = @"ORKFamilyHistor
                 ORKTaskViewController *taskVC = [[ORKTaskViewController alloc] initWithTask:relatedPersonTask ongoingResult:currentRelatedPerson.taskResult defaultResultSource:nil delegate:self];
                 [taskVC flipToFirstPage];
                 
+                #if RK_APPLE_INTERNAL
+                    [taskVC setUpdatingPreviousResults:YES];
+                #endif
+                
                 [self presentViewController:taskVC animated:YES completion:nil];
                 break;
             }

@@ -176,6 +176,7 @@ typedef void (^_ORKLocationAuthorizationRequestHandler)(BOOL success);
     BOOL _hasLockedVolume;
     float _savedVolume;
     float _lockedVolume;
+    BOOL _updatingPreviousResults;
 #endif
     
     UINavigationController *_childNavigationController;
@@ -242,6 +243,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     self.restorationClass = [ORKTaskViewController class];
 #if RK_APPLE_INTERNAL
     _hasLockedVolume = NO;
+    _updatingPreviousResults = NO;
 #endif
     return self;
 }
@@ -661,6 +663,10 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
                                                                         error:nil];
     }
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(volumeDidChange:) name:AVSystemController_SystemVolumeDidChangeNotification object:nil];
+}
+
+- (void)setUpdatingPreviousResults:(BOOL)updatingPreviousResults {
+    _updatingPreviousResults = updatingPreviousResults;
 }
 #endif
 
@@ -1348,7 +1354,12 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
                                                 }]];
     }
     
+#if RK_APPLE_INTERNAL
+    NSString *discardText = _updatingPreviousResults ? ORKLocalizedString(@"BUTTON_OPTION_DISCARD_CHANGES", nil) :  ORKLocalizedString(@"BUTTON_OPTION_DISCARD", nil);
+    NSString *discardTitle = saveable ? discardText : ORKLocalizedString(@"BUTTON_OPTION_STOP_TASK", nil);
+#else
     NSString *discardTitle = saveable ? ORKLocalizedString(@"BUTTON_OPTION_DISCARD", nil) : ORKLocalizedString(@"BUTTON_OPTION_STOP_TASK", nil);
+#endif
     
     [alert addAction:[UIAlertAction actionWithTitle:discardTitle
                                               style:UIAlertActionStyleDestructive
