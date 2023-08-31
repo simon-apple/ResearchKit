@@ -335,7 +335,7 @@ NSString * const ORKFamilyHistoryRelatedPersonCellIdentifier = @"ORKFamilyHistor
                                                               value:@"none_of_the_above"
                                                           exclusive:YES];
     
-    ORKTextChoice *idkTextChoice = [[ORKTextChoice alloc] initWithText:ORKLocalizedString(@"FAMILY_HISTORY_PREFER_I_DONT_KNOW", "")
+    ORKTextChoice *idkTextChoice = [[ORKTextChoice alloc] initWithText:ORKLocalizedString(@"FAMILY_HISTORY_I_DONT_KNOW", "")
                                                          detailText:nil
                                                               value:@"i_dont_know"
                                                           exclusive:YES];
