@@ -31,6 +31,7 @@
 #import "ORKFamilyHistoryRelatedPersonCell.h"
 
 #import "ORKHelpers_Internal.h"
+#import "ORKAccessibilityFunctions.h"
 
 static const CGFloat BackgroundViewBottomPadding = 18.0;
 static const CGFloat CellLeftRightPadding = 12.0;
@@ -40,7 +41,6 @@ static const CGFloat CellLabelTopPadding = 8.0;
 static const CGFloat CellBottomPaddingBeforeAddRelativeButton = 20.0;
 static const CGFloat ContentLeftRightPadding = 16.0;
 static const CGFloat DividerViewTopBottomPadding = 10.0;
-static const CGFloat OptionsButtonHeightWidth = 22.0;
 
 typedef NS_ENUM(NSUInteger, ORKFamilyHistoryEditDeleteViewEvent) {
     ORKFamilyHistoryEditDeleteViewEventEdit = 0,
@@ -183,7 +183,8 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
     }
     
     if (@available(iOS 13.0, *)) {
-        [_optionsButton setImage:[UIImage systemImageNamed:@"ellipsis.circle"] forState:UIControlStateNormal];
+        UIImageConfiguration *configuration = [UIImageSymbolConfiguration configurationWithFont:[UIFont preferredFontForTextStyle:UIFontTextStyleBody] scale:ORKImageScaleToUse()];
+        [_optionsButton setImage:[UIImage systemImageNamed:@"ellipsis.circle" withConfiguration:configuration] forState:UIControlStateNormal];
     }
     
     [_backgroundView addSubview:_optionsButton];
@@ -261,8 +262,6 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
     // optionsButton constraints
     [_viewConstraints addObject:[_optionsButton.topAnchor constraintEqualToAnchor:_titleLabel.topAnchor]];
     [_viewConstraints addObject:[_optionsButton.trailingAnchor constraintEqualToAnchor:_backgroundView.trailingAnchor constant:-CellLeftRightPadding]];
-    [_viewConstraints addObject:[_optionsButton.widthAnchor constraintEqualToConstant:OptionsButtonHeightWidth]];
-    [_viewConstraints addObject:[_optionsButton.heightAnchor constraintEqualToConstant:OptionsButtonHeightWidth]];
     
     // find lower most view to constrain the dividerView to
     UIView *detailsLowerMostView = _titleLabel;
