@@ -120,7 +120,6 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
     
     if (self) {
         self.suspendIfInactive = YES;
-        _fitTestResultSamples = [[NSMutableArray alloc] init];
     }
     
     return self;
@@ -132,6 +131,8 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    _fitTestResultSamples = [[NSMutableArray alloc] init];
     
     _triesCounter = 0;
 
@@ -221,13 +222,18 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
         BOOL budsInEars = taskVC.headphonesInEars;
         BOOL hearingModeEnabled = taskVC.hearingModeStatus == ORKdBHLHeadphonesStatusHearingTestEnabled;
         BOOL continueEnabled = YES;
+        BOOL skipEnabled = _stage != ORKdBHLFitTestStageEnableHearingTestMode
+            && _stage != ORKdBHLFitTestStageStart
+            && _stage != ORKdBHLFitTestStagePlaying
+            && _stage != ORKdBHLFitTestStageNotInEars
+            && _stage != ORKdBHLFitTestStageResultLeftSealGoodRightSealGood;
         if (_stage == ORKdBHLFitTestStageEnableHearingTestMode || _stage == ORKdBHLFitTestStagePlaying) {
             continueEnabled = NO;
         }
         [strongSelf setContinueButtonTitle: _stage!= ORKdBHLFitTestStageResultLeftSealGoodRightSealGood ? ORKLocalizedString(@"PLAY", nil) : ORKLocalizedString(@"NEXT", nil)];
         [strongSelf.activeStepView.navigationFooterView showActivityIndicator:(!hearingModeEnabled || !budsInEars || !continueEnabled)];
         strongSelf.activeStepView.navigationFooterView.continueEnabled = (hearingModeEnabled && budsInEars && continueEnabled);
-        strongSelf.activeStepView.navigationFooterView.optional = _fitTestResultSamples.count > 0 && _stage != ORKdBHLFitTestStageResultLeftSealGoodRightSealGood;
+        strongSelf.activeStepView.navigationFooterView.optional = skipEnabled;
         [strongSelf.activeStepView.navigationFooterView updateContinueAndSkipEnabled];
     });
 }
@@ -550,7 +556,6 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
     // check if headphones are in ears
     ORKTaskViewController *taskVC = self.taskViewController;
     if (!taskVC.headphonesInEars) {
-        _fitTestResultSamples = [[NSMutableArray alloc] init];
         [self interruptTestIfNecessary];
     } else {
         [self setStage:ORKdBHLFitTestStageEnableHearingTestMode];

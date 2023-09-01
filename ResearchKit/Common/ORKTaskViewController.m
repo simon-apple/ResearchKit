@@ -2113,7 +2113,15 @@ static NSString *const _ORKProgressMode = @"progressMode";
                 _hearingModeLabel.text = _shouldShowHearingModeLabel ? @"Place Headphones In Both Ears" : @"";
                 _hearingModeLabel.textColor = [UIColor grayColor];
                 _hearingModeStatus = status;
+                if (_headphonesInEars) {
+                    _headphonesInEars = NO;
+                    NSNotification *notification = [NSNotification notificationWithName:ORKdBHLHeadphonesInEarsNotification
+                                                                                 object:self
+                                                                               userInfo:nil];
+                    [[NSNotificationCenter defaultCenter] postNotification:notification];
+                }
                 ORK_Log_Info("update headphone status for NOT IN EARS.");
+                [self disableHearingTestMode];
                 break;
             }
             case ORKdBHLHeadphonesStatusInEars:
@@ -2121,6 +2129,13 @@ static NSString *const _ORKProgressMode = @"progressMode";
                 if (_hearingModeStatus != ORKdBHLHeadphonesStatusEnablingHearingTest) {
                     _hearingModeLabel.text = _shouldShowHearingModeLabel ? @"Headphones Connected" : @"";
                     _hearingModeLabel.textColor = [UIColor grayColor];
+                    if (!_headphonesInEars) {
+                        _headphonesInEars = YES;
+                        NSNotification *notification = [NSNotification notificationWithName:ORKdBHLHeadphonesInEarsNotification
+                                                                                     object:self
+                                                                                   userInfo:nil];
+                        [[NSNotificationCenter defaultCenter] postNotification:notification];
+                    }
                     ORK_Log_Info("update headphone status for IN EARS. currentStatus = %lu",(unsigned long)_hearingModeStatus);
                 }
                 break;
@@ -2130,6 +2145,7 @@ static NSString *const _ORKProgressMode = @"progressMode";
                 _hearingModeLabel.text = _shouldShowHearingModeLabel ? @"Wrong Headphones type" : @"";
                 _hearingModeLabel.textColor = [UIColor grayColor];
                 _hearingModeStatus = status;
+                [self disableHearingTestMode];
                 ORK_Log_Info("update headphone status for WRONG HEADPHONE TYPE.");
                 break;
             }
@@ -2138,6 +2154,7 @@ static NSString *const _ORKProgressMode = @"progressMode";
                 _hearingModeLabel.text = _shouldShowHearingModeLabel ? [NSString stringWithFormat:@"Wrong Headphones firmware %@",_fwVersion] : @"";
                 _hearingModeLabel.textColor = [UIColor grayColor];
                 _hearingModeStatus = status;
+                [self disableHearingTestMode];
                 ORK_Log_Info("update headphone status for WRONG FIRMWARE %@", _fwVersion);
                 break;
             }
@@ -2222,7 +2239,6 @@ static NSString *const _ORKProgressMode = @"progressMode";
 }
 
 - (void)flipToFitTest {
-    [self increasedBHLInterruptionCounter];
     ORKdBHLFitTestStep * fitTestStep;
     if ([self.task isKindOfClass:[ORKOrderedTask class]]) {
         ORKOrderedTask *orderedTask = (ORKOrderedTask *)self.task;
@@ -2270,8 +2286,9 @@ static NSString *const _ORKProgressMode = @"progressMode";
         }
     }
     if (identifierForFitTestResult && identifierFordBHLResult && !isOnFitTest) {
-        // if we found an identifier for the fit test result the test must be invalidated and return to last fit test fit test.
+        // if we found an identifier for the fit test result the test must be invalidated and return to last fit test.
         // this is necessary because the user may had removed the AirPods and inserted again, invalidating the test.
+        [self increasedBHLInterruptionCounter];
         dispatch_async(dispatch_get_main_queue(), ^{
             ORKStrongTypeOf(weakSelf) strongSelf = weakSelf;
             UIAlertController *alertController = [UIAlertController
@@ -2300,7 +2317,7 @@ static NSString *const _ORKProgressMode = @"progressMode";
         });
     }
 }
-
+#if !USE_LEGACY_TONEPLAYER
 - (void)enableHearingTestModeWithCompletion:(void(^)(BOOL hearingModeEnabled))handler {
     [self updateHeadphoneLabelForStatus:ORKdBHLHeadphonesStatusEnablingHearingTest];
     if (!_tonePlayer) {
@@ -2322,6 +2339,7 @@ static NSString *const _ORKProgressMode = @"progressMode";
 -(void)disableHearingTestMode {
     if (_tonePlayer) {
         [_tonePlayer disableANCHearingTestMode];
+        _tonePlayer = nil;
     }
 }
 
@@ -2337,6 +2355,7 @@ static NSString *const _ORKProgressMode = @"progressMode";
 - (void)stopAudio {
     [_tonePlayer stop];
 }
+#endif
 
 -(void)appWillTerminate:(NSNotification*)note {
     [self stopRefreshTimer];
@@ -2434,14 +2453,11 @@ static const NSTimeInterval ZERO_BATTERY_LEVEL_TIME_INTERVAL = 1.0;
                         [self updateHeadphoneLabelForStatus:ORKdBHLHeadphonesStatusNotInEars];
                     }
                 } else {
-                    [self updateHeadphoneLabelForStatus:ORKdBHLHeadphonesStatusWrongDevice];
-                }
-                if (headphonesInEars != _headphonesInEars) {
-                    _headphonesInEars = headphonesInEars;
-                    NSNotification *notification = [NSNotification notificationWithName:ORKdBHLHeadphonesInEarsNotification
-                                                                                 object:self
-                                                                               userInfo:nil];
-                    [[NSNotificationCenter defaultCenter] postNotification:notification];
+                    if (headphonesInEars) {
+                        [self updateHeadphoneLabelForStatus:ORKdBHLHeadphonesStatusWrongDevice];
+                    } else {
+                        [self updateHeadphoneLabelForStatus:ORKdBHLHeadphonesStatusNotInEars];
+                    }
                 }
             });
         });
