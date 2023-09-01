@@ -258,6 +258,7 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
     
     // titleLabel constraints
     [_viewConstraints addObject:[_titleLabel.leadingAnchor constraintEqualToAnchor:_backgroundView.leadingAnchor constant:CellLeftRightPadding]];
+    [_viewConstraints addObject:[_titleLabel.trailingAnchor constraintEqualToAnchor:_optionsButton.leadingAnchor constant:-CellLeftRightPadding]];
     
     // optionsButton constraints
     [_viewConstraints addObject:[_optionsButton.topAnchor constraintEqualToAnchor:_titleLabel.topAnchor]];
@@ -272,6 +273,7 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
         [_backgroundView addSubview:label];
         
         [_viewConstraints addObject:[label.leadingAnchor constraintEqualToAnchor:_backgroundView.leadingAnchor constant:CellLeftRightPadding]];
+        [_viewConstraints addObject:[label.trailingAnchor constraintEqualToAnchor:_optionsButton.leadingAnchor constant:-CellLeftRightPadding]];
         [_viewConstraints addObject:[label.topAnchor constraintEqualToAnchor:detailsLowerMostView.bottomAnchor constant:CellLabelTopPadding]];
 
         detailsLowerMostView = label;
@@ -298,6 +300,7 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
         [_backgroundView addSubview:label];
         
         [_viewConstraints addObject:[label.leadingAnchor constraintEqualToAnchor:_backgroundView.leadingAnchor constant:CellLeftRightPadding]];
+        [_viewConstraints addObject:[label.trailingAnchor constraintEqualToAnchor:_backgroundView.trailingAnchor constant:-CellLeftRightPadding]];
         [_viewConstraints addObject:[label.topAnchor constraintEqualToAnchor:conditionsLowerMostView.bottomAnchor constant:CellLabelTopPadding]];
 
         conditionsLowerMostView = label;
