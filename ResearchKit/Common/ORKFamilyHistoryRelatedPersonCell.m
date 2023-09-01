@@ -175,6 +175,9 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
     _optionsButton.translatesAutoresizingMaskIntoConstraints = NO;
     _optionsButton.backgroundColor = [UIColor clearColor];
     _optionsButton.tintColor = [UIColor systemGrayColor];
+    _optionsButton.accessibilityLabel = ORKLocalizedString(@"AX_FAMILY_HISTORY_EDIT_BUTTON", nil);
+    _optionsButton.accessibilityHint = ORKLocalizedString(@"AX_FAMILY_HISTORY_EDIT_BUTTON", nil);
+    _optionsButton.accessibilityTraits = UIAccessibilityTraitButton;
     if (@available(iOS 14.0, *)) {
         _optionsButton.menu = [self optionsMenu];
         _optionsButton.showsMenuAsPrimaryAction = YES;
@@ -185,6 +188,7 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
     if (@available(iOS 13.0, *)) {
         UIImageConfiguration *configuration = [UIImageSymbolConfiguration configurationWithFont:[UIFont preferredFontForTextStyle:UIFontTextStyleBody] scale:ORKImageScaleToUse()];
         [_optionsButton setImage:[UIImage systemImageNamed:@"ellipsis.circle" withConfiguration:configuration] forState:UIControlStateNormal];
+        [_optionsButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
     }
     
     [_backgroundView addSubview:_optionsButton];
@@ -273,7 +277,7 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
         [_backgroundView addSubview:label];
         
         [_viewConstraints addObject:[label.leadingAnchor constraintEqualToAnchor:_backgroundView.leadingAnchor constant:CellLeftRightPadding]];
-        [_viewConstraints addObject:[label.trailingAnchor constraintEqualToAnchor:_optionsButton.leadingAnchor constant:-CellLeftRightPadding]];
+        [_viewConstraints addObject:[label.trailingAnchor constraintEqualToAnchor:_backgroundView.trailingAnchor constant:-CellLeftRightPadding]];
         [_viewConstraints addObject:[label.topAnchor constraintEqualToAnchor:detailsLowerMostView.bottomAnchor constant:CellLabelTopPadding]];
 
         detailsLowerMostView = label;
