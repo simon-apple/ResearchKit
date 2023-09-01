@@ -2317,7 +2317,7 @@ static NSString *const _ORKProgressMode = @"progressMode";
         });
     }
 }
-#if !USE_LEGACY_TONEPLAYER
+
 - (void)enableHearingTestModeWithCompletion:(void(^)(BOOL hearingModeEnabled))handler {
     [self updateHeadphoneLabelForStatus:ORKdBHLHeadphonesStatusEnablingHearingTest];
     if (!_tonePlayer) {
@@ -2355,7 +2355,6 @@ static NSString *const _ORKProgressMode = @"progressMode";
 - (void)stopAudio {
     [_tonePlayer stop];
 }
-#endif
 
 -(void)appWillTerminate:(NSNotification*)note {
     [self stopRefreshTimer];
