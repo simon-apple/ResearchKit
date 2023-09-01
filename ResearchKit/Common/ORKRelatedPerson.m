@@ -172,7 +172,7 @@
                 NSString *answer = (NSString *)questionResult.answer;
                 
                 #if RK_APPLE_INTERNAL
-                    if (_ageFormItemIdentifier && [_ageFormItemIdentifier isEqual:identifier]) {
+                    if (![questionResult.answer isKindOfClass:[ORKDontKnowAnswer class]] && _ageFormItemIdentifier && [_ageFormItemIdentifier isEqual:identifier]) {
                         int ageValue = [answer intValue];
                         return ageValue == 0 ? nil : [_ageAnswerFormat stringForAnswer:[NSNumber numberWithInt:ageValue]];
                     }
