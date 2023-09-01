@@ -832,13 +832,16 @@ NSString * const ORKFamilyHistoryRelatedPersonCellIdentifier = @"ORKFamilyHistor
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     ORKFamilyHistoryTableFooterView *footerView = (ORKFamilyHistoryTableFooterView *)[tableView dequeueReusableHeaderFooterViewWithIdentifier:@(section).stringValue];
-    
+    ORKRelativeGroup *relativeGroup = _relativeGroups[section];
+
     if (footerView == nil) {
-        ORKRelativeGroup *relativeGroup = _relativeGroups[section];
         footerView = [[ORKFamilyHistoryTableFooterView alloc] initWithTitle:[NSString stringWithFormat:@"%@ %@",ORKLocalizedString(@"FAMILY_HISTORY_ADD", "") ,relativeGroup.name]
                                                     relativeGroupIdentifier:[relativeGroup.identifier copy]
                                                                    delegate:self];
     }
+    
+    BOOL isExpanded = _relatedPersons[relativeGroup.identifier].count > 0;
+    [footerView setExpanded:isExpanded];
     
     return footerView;
 }

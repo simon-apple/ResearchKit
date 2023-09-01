@@ -32,7 +32,12 @@
 #import "ORKFamilyHistoryTableFooterView.h"
 
 static const CGFloat CellLeftRightPadding = 12.0;
-static const CGFloat CellTopBottomPadding = 12.0;
+static const CGFloat CellTopCollapsedPadding = 10.0;
+static const CGFloat CellBottomCollapsedPadding = 30.0;
+
+static const CGFloat CellTopExpandedPadding = 0.0;
+static const CGFloat CellBottomExpandedPadding = 20.0;
+
 static const CGFloat ViewButtonLeadingPadding = 5.0;
 static const CGFloat ViewButtonTopBottomPadding = 12.0;
 static const CGFloat ViewLeftRightPadding = 16.0;
@@ -47,6 +52,8 @@ static const CGFloat ViewLeftRightPadding = 16.0;
     UIButton *_viewButton;
     
     NSMutableArray<NSLayoutConstraint *> *_viewConstraints;
+    NSLayoutConstraint *topConstraint;
+    NSLayoutConstraint *bottomConstraint;
     id<ORKFamilyHistoryTableFooterViewDelegate> _delegate;
 }
 
@@ -71,6 +78,12 @@ static const CGFloat ViewLeftRightPadding = 16.0;
     frame.origin.x += ViewLeftRightPadding;
     frame.size.width -= 2 * ViewLeftRightPadding;
     [super setFrame:frame];
+}
+
+- (void)setExpanded:(BOOL)isExpanded {
+    topConstraint.constant = isExpanded ? -CellTopExpandedPadding : -CellTopCollapsedPadding;
+    bottomConstraint.constant = isExpanded ? CellBottomCollapsedPadding : CellBottomExpandedPadding;
+    [self setNeedsUpdateConstraints];
 }
 
 - (void)setupSubviews {
@@ -150,8 +163,11 @@ static const CGFloat ViewLeftRightPadding = 16.0;
     [_viewConstraints addObject:[_viewButton.topAnchor constraintEqualToAnchor:_titleLabel.topAnchor constant:-ViewButtonTopBottomPadding]];
     [_viewConstraints addObject:[_viewButton.bottomAnchor constraintEqualToAnchor:_titleLabel.bottomAnchor constant:ViewButtonTopBottomPadding]];
     
-    [_viewConstraints addObject:[self.topAnchor constraintEqualToAnchor:_viewButton.topAnchor constant:-CellTopBottomPadding]];
-    [_viewConstraints addObject:[self.bottomAnchor constraintEqualToAnchor:_viewButton.bottomAnchor constant:CellTopBottomPadding]];
+    topConstraint = [self.topAnchor constraintEqualToAnchor:_viewButton.topAnchor constant:-CellTopCollapsedPadding];
+    [_viewConstraints addObject:topConstraint];
+    
+    bottomConstraint = [self.bottomAnchor constraintEqualToAnchor:_viewButton.bottomAnchor constant:CellBottomCollapsedPadding];
+    [_viewConstraints addObject: bottomConstraint];
     
     [NSLayoutConstraint activateConstraints:_viewConstraints];
 }

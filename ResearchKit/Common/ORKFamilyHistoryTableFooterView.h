@@ -45,6 +45,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithTitle:(NSString *)title relativeGroupIdentifier:(NSString *)relativeGroupIdentifier delegate:(id<ORKFamilyHistoryTableFooterViewDelegate>)delegate;
 
+- (void)setExpanded:(BOOL)isExpanded;
+
 @end
 
 NS_ASSUME_NONNULL_END
