@@ -751,9 +751,9 @@ public extension ORKNewAudiometry {
         if numHeard + numUnheard >= 3 {
             let diff = abs(numHeard - numUnheard)
             if numHeard > numUnheard {
-                newPoint[1] = newPoint[1] - 1.5 * diff
+                newPoint[1] -= 1.5 * diff
             } else if numHeard < numUnheard {
-                newPoint[1] = newPoint[1] + 1.5 * diff
+                newPoint[1] += 1.5 * diff
             }
         }
 

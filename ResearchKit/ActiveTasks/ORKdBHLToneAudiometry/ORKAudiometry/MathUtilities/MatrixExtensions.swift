@@ -168,7 +168,7 @@ public extension Matrix where Element == Double {
             if pivot != index + 1 {
                 determinant = -determinant * new[index, index]
             } else {
-                determinant = determinant * new[index, index]
+                determinant *= new[index, index]
             }
         }
         return determinant

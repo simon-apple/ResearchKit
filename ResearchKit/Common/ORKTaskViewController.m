@@ -245,7 +245,9 @@ typedef void (^_ORKLocationAuthorizationRequestHandler)(BOOL success);
     float _savedVolume;
     float _lockedVolume;
     
+#if !TARGET_IPHONE_SIMULATOR
     ORKTonePlayer *_tonePlayer;
+#endif
     
     UILabel *_hearingModeLabel;
     UILabel *_interruptsCounterLabel;
@@ -2318,6 +2320,7 @@ static NSString *const _ORKProgressMode = @"progressMode";
     }
 }
 
+#if !TARGET_IPHONE_SIMULATOR
 - (void)enableHearingTestModeWithCompletion:(void(^)(BOOL hearingModeEnabled))handler {
     [self updateHeadphoneLabelForStatus:ORKdBHLHeadphonesStatusEnablingHearingTest];
     if (!_tonePlayer) {
@@ -2355,6 +2358,7 @@ static NSString *const _ORKProgressMode = @"progressMode";
 - (void)stopAudio {
     [_tonePlayer stop];
 }
+#endif
 
 -(void)appWillTerminate:(NSNotification*)note {
     [self stopRefreshTimer];

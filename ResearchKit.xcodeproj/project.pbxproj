@@ -6694,6 +6694,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5D000ED72620F27100E5442A /* ResearchKitTests-Debug.xcconfig */;
 			buildSettings = {
+				SDKROOT = iphoneos;
 			};
 			name = Debug;
 		};
@@ -6714,7 +6715,7 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				"OTHER_SWIFT_FLAGS[arch=*]" = "$(inherited) -runtime-compatibility-version none";
-				SDKROOT = iphoneos.internal;
+				SDKROOT = iphoneos;
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 			};
 			name = Debug;
