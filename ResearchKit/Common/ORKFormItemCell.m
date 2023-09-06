@@ -487,7 +487,9 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
         
         // [LC:NOTE] we need to pass in our answer here, because self.answer is not set yet.
         [self setupDontKnowButtonWithAnswer:answer]; // [RDLS:NOTE] reset in prepareForReuse
-        self.accessibilityElements = @[_textFieldView, _dontKnowButton]; // [RDLS:NOTE] reset in prepareForReuse
+        self.accessibilityElements = @[_textFieldView, _dontKnowButton, self.errorLabel]; // [RDLS:NOTE] reset in prepareForReuse
+    } else {
+        self.accessibilityElements = @[_textFieldView, self.errorLabel];
     }
     
     [self setUpContentConstraint]; // [RDLS:NOTE] moved from cellInit
@@ -516,6 +518,7 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     [self.errorLabel setTextColor: [UIColor redColor]]; // init
     [self.errorLabel setFont:[UIFont preferredFontForTextStyle:UIFontTextStyleFootnote]]; // init
     self.errorLabel.numberOfLines = 0; // init
+    self.errorLabel.isAccessibilityElement = YES;
     
     [self.containerView addSubview:self.errorLabel]; // init
     
