@@ -160,7 +160,8 @@
         _playerNode = nil;
     }
     if (_audioGenerator) {
-        [_audioGenerator stop];
+        [_audioGenerator stop:^{
+        }];
     }
 }
 
@@ -207,7 +208,8 @@
         
         if (context.predominantFrequency > 0.0) {
             if (self.audioGenerator.isPlaying) {
-                [self.audioGenerator stop];
+                [self.audioGenerator stop:^{
+                }];
                 return NO;
             } else {
                 [self.audioGenerator playSoundAtFrequency:context.predominantFrequency];

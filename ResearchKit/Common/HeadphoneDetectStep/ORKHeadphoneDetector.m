@@ -97,8 +97,6 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
 #endif
         NSError *playerError = nil;
         NSURL *path = [[NSBundle bundleForClass:[self class]] URLForResource:@"VolumeCalibration" withExtension:@"wav"];
-        AVAudioSession * session = [AVAudioSession sharedInstance];
-        
         _workaroundPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:path
                                                                    error:&playerError];
         if (playerError != nil) {
@@ -109,14 +107,19 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
         _workaroundPlayer.volume = 0.0;
         [_workaroundPlayer prepareToPlay];  // returns TRUE when it's ready to play
 
+        AVAudioSession * session = [AVAudioSession sharedInstance];
         NSError *sessionCategoryError = nil;
         [session setCategory:AVAudioSessionCategorySoloAmbient mode:AVAudioSessionModeMeasurement
                      options:AVAudioSessionCategoryOptionDuckOthers | AVAudioSessionCategoryOptionAllowBluetoothA2DP
                        error:&sessionCategoryError];
+        if (sessionCategoryError) {
+            ORK_Log_Error("Error setting audio session category %@", sessionCategoryError);
+        }
         NSError *sessionActiveError = nil;
-        [[AVAudioSession sharedInstance] setActive:YES error:&sessionActiveError];
-        NSError *sessionModeError = nil;
-        [[AVAudioSession sharedInstance] setMode:AVAudioSessionModeDefault error:&sessionModeError];
+        [session setActive:YES error:&sessionActiveError];
+        if (sessionActiveError) {
+            ORK_Log_Error("Error setting audio session active %@", sessionActiveError);
+        }
 
         [_workaroundPlayer play];
     });

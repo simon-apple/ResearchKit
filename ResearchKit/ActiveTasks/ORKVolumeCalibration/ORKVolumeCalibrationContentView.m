@@ -213,6 +213,10 @@ static int const ORKVolumeCalibrationStepPlaybackButtonSize = 36;
     return[UIFont systemFontOfSize:[[descriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue] + 1.0 weight:UIFontWeightSemibold];
 }
 
+- (void)enablePlaybackButton:(BOOL)isEnabled {
+    [self.playbackButton setEnabled:isEnabled];
+}
+
 - (void)setPlaybackButtonPlaying:(BOOL)isPlaying {
     [self.barLevelsView setHidden:!isPlaying];
     

@@ -83,12 +83,23 @@ const NSTimeInterval ORKVolumeCalibrationFadeStep = 0.01;
 #if TARGET_IPHONE_SIMULATOR
     return NO;
 #else
-    self.audioEngine = [[AVAudioEngine alloc] init];
-    self.playerNode = [[AVAudioPlayerNode alloc] init];
-    [self.audioEngine attachNode:self.playerNode];
-    self.mixerNode = self.audioEngine.mainMixerNode;
-    [self.audioEngine connect:self.playerNode to:self.mixerNode format:self.audioBuffer.format];
-    [self.playerNode scheduleBuffer:self.audioBuffer atTime:nil options:AVAudioPlayerNodeBufferLoops completionHandler:nil];
+    if (!self.audioEngine) {
+        self.audioEngine = [[AVAudioEngine alloc] init];
+    }
+    if (!self.playerNode) {
+        self.playerNode = [[AVAudioPlayerNode alloc] init];
+        [self.audioEngine attachNode:self.playerNode];
+    }
+    if (!self.mixerNode) {
+        self.mixerNode = self.audioEngine.mainMixerNode;
+    }
+    NSArray<AVAudioConnectionPoint *> *connections = [self.audioEngine outputConnectionPointsForNode:self.playerNode outputBus:0];
+    if ([connections count] == 0) {
+        [self.audioEngine connect:self.playerNode to:self.mixerNode format:self.audioBuffer.format];
+    }
+    [self.playerNode prepareWithFrameCount:1024];
+    [self.playerNode scheduleBuffer:self.audioBuffer atTime:nil options:AVAudioPlayerNodeBufferLoops | AVAudioPlayerNodeBufferInterrupts completionHandler:^() {
+    }];
     [self.audioEngine prepare];
     return [self.audioEngine startAndReturnError:outError];
 #endif
@@ -99,8 +110,10 @@ const NSTimeInterval ORKVolumeCalibrationFadeStep = 0.01;
     AVAudioFile *file = [[AVAudioFile alloc] initForReading:path error:nil];
     
     if (file) {
-        self.audioBuffer = [[AVAudioPCMBuffer alloc] initWithPCMFormat:file.processingFormat frameCapacity:(AVAudioFrameCount)file.length];
-        [file readIntoBuffer:self.audioBuffer error:outError];
+        if (!self.audioBuffer) {
+            self.audioBuffer = [[AVAudioPCMBuffer alloc] initWithPCMFormat:file.processingFormat frameCapacity:(AVAudioFrameCount)file.length];
+            [file readIntoBuffer:self.audioBuffer error:outError];
+        }
         return [self setupAudioEngineWithError:outError];
     }
     return NO;
@@ -112,9 +125,17 @@ const NSTimeInterval ORKVolumeCalibrationFadeStep = 0.01;
                                                noiseTypeSampleWithIdentifier:identifier
                                                error:outError];
         if (audioSample) {
-            self.audioBuffer = [audioSample getBuffer:outError];
+            if (!self.audioBuffer) {
+#if defined(DEBUG)
+                ORK_Log_Debug("ORKVolumeCalibrationSVC setupAudioEngineForSound: getBuffer");
+#endif
+                self.audioBuffer = [audioSample getBuffer:outError];
+            }
             
             if (self.audioBuffer) {
+#if defined(DEBUG)
+                ORK_Log_Debug("ORKVolumeCalibrationSVC setupAudioEngineForSound:");
+#endif
                 return [self setupAudioEngineWithError:outError];
             }
         }
@@ -128,7 +149,9 @@ const NSTimeInterval ORKVolumeCalibrationFadeStep = 0.01;
                                                maskingSampleWithIdentifier:identifier
                                                error:outError];
         if (audioSample) {
-            self.audioBuffer = [audioSample getBuffer:outError];
+            if (!self.audioBuffer) {
+                self.audioBuffer = [audioSample getBuffer:outError];
+            }
             
             if (self.audioBuffer) {
                 return [self setupAudioEngineWithError:outError];
@@ -138,10 +161,101 @@ const NSTimeInterval ORKVolumeCalibrationFadeStep = 0.01;
     return NO;
 }
 
-- (void)tearDownAudioEngine {
-    [self.playerNode stop];
-    [self.audioEngine stop];
-    [self.mixerNode removeTapOnBus:0];
+- (NSString *)sampleTitleForCalibrationStep {
+    NSString *result = @"Sample";
+    
+    if ([self isMaskingSound]) {
+        result = self.volumeCalibrationStep.maskingSoundName;
+    } else if ([self isTinnitusSoundCalibration]) {
+        ORKTinnitusPredefinedTaskContext *context = self.tinnitusPredefinedTaskContext;
+        if (context.predominantFrequency > 0.0) {
+            result = ORKLocalizedString(@"TINNITUS_FINAL_CALIBRATION_BUTTON_TITLE", nil);
+        }
+    }
+    return result;
+}
+
+- (NSString *)soundNameForCalibrationStep {
+    NSString *result = @"VolumeCalibration";
+    if ([self isMaskingSound]) {
+        result = self.volumeCalibrationStep.maskingSoundIdentifier;
+    } else if ([self isTinnitusSoundCalibration]) {
+        ORKTinnitusPredefinedTaskContext *context = self.tinnitusPredefinedTaskContext;
+        result = context.tinnitusIdentifier;
+    }
+    return result;
+}
+
+
+- (void)setupAudioEngine {
+
+    NSString *soundName = [self soundNameForCalibrationStep];
+    
+    if ([self isMaskingSound]) {
+        NSError *error;
+        if (![self setupAudioEngineForMaskingSound:soundName error:&error]) {
+            ORK_Log_Error("Error fetching audioSample: %@", error);
+        }
+        
+    } else if ([self isTinnitusSoundCalibration]) {
+        ORKTinnitusPredefinedTaskContext *context = self.tinnitusPredefinedTaskContext;
+        
+        if (context.predominantFrequency > 0.0) {
+#if (TARGET_IPHONE_SIMULATOR)
+            self.audioGenerator = [[ORKTinnitusAudioGenerator alloc] initWithHeadphoneType:ORKHeadphoneTypeIdentifierAirPodsMax];
+#else
+            self.audioGenerator = [[ORKTinnitusAudioGenerator alloc] initWithHeadphoneType:context.headphoneType];
+#endif
+        } else {
+            NSError *error;
+            if (![self setupAudioEngineForSound:soundName error:&error]) {
+                ORK_Log_Error("Error fetching audioSample: %@", error);
+            }
+        }
+    } else {
+        NSError *error;
+        if (![self setupAudioEngineForFile:soundName withExtension:@"wav" error:&error]) {
+            ORK_Log_Error("Error fetching audio file %@: %@", soundName, error);
+        }
+    }
+}
+
+- (void)stopAudioEngine {
+    void (^stopEverything)(void) = ^void() {
+        [self.playerNode stop];
+        [self.audioEngine stop];
+        // What is remove Tap doing?
+        //[self.mixerNode removeTapOnBus:0];
+        [self.contentView enablePlaybackButton:YES];
+    };
+    
+    [self.contentView enablePlaybackButton:NO];
+    [self.contentView setPlaybackButtonPlaying:NO];
+    
+    if ([self isTinnitusSoundCalibration]) {
+        ORKTinnitusPredefinedTaskContext *context = self.tinnitusPredefinedTaskContext;
+        
+        if (context.type == ORKTinnitusTypePureTone && context.predominantFrequency > 0.0) {
+            if (self.audioGenerator.isPlaying) {
+                [self.audioGenerator stop:^{
+                    stopEverything();
+                }];
+            } else {
+                stopEverything();
+            }
+        } else {
+            stopEverything();
+        }
+        return;
+    }
+
+    if (self.audioEngine.isRunning && self.playerNode.isPlaying) {
+        [self stopSample:^{
+            stopEverything();
+        }];
+    } else {
+        stopEverything();
+    }
 }
 
 - (ORKStepResult *)result {
@@ -189,42 +303,7 @@ const NSTimeInterval ORKVolumeCalibrationFadeStep = 0.01;
     [super viewDidLoad];
     [self setupVolumeView];
     
-    NSString *sampleTitle = @"Sample";
-    ORKTinnitusPredefinedTaskContext *context = self.tinnitusPredefinedTaskContext;
-    
-    if ([self isMaskingSound]) {
-        sampleTitle = self.volumeCalibrationStep.maskingSoundName;
-        
-        NSError *error;
-        if (![self setupAudioEngineForMaskingSound:self.volumeCalibrationStep.maskingSoundIdentifier error:&error]) {
-            ORK_Log_Error("Error fetching audioSample: %@", error);
-        }
-        
-    } else if ([self isTinnitusSoundCalibration]) {
-        if (context.predominantFrequency > 0.0) {
-            sampleTitle = ORKLocalizedString(@"TINNITUS_FINAL_CALIBRATION_BUTTON_TITLE", nil);
-            
-#if (TARGET_IPHONE_SIMULATOR)
-            self.audioGenerator = [[ORKTinnitusAudioGenerator alloc] initWithHeadphoneType:ORKHeadphoneTypeIdentifierAirPodsMax];
-#else
-            self.audioGenerator = [[ORKTinnitusAudioGenerator alloc] initWithHeadphoneType:context.headphoneType];
-#endif
-        } else {
-            NSError *error;
-            NSString *noiseType = context.tinnitusIdentifier;
-            if (![self setupAudioEngineForSound:noiseType error:&error]) {
-                ORK_Log_Error("Error fetching audioSample: %@", error);
-            }
-        }
-    } else {
-        NSError *error;
-        NSString *audioFile = @"VolumeCalibration";
-        if (![self setupAudioEngineForFile:audioFile withExtension:@"wav" error:&error]) {
-            ORK_Log_Error("Error fetching audio file %@: %@", audioFile, error);
-        }
-    }
-    
-    self.contentView = [[ORKVolumeCalibrationContentView alloc] initWithTitle:sampleTitle];
+    self.contentView = [[ORKVolumeCalibrationContentView alloc] initWithTitle:[self sampleTitleForCalibrationStep]];
     self.contentView.delegate = self;
     
     [self setNavigationFooterView];
@@ -241,6 +320,16 @@ const NSTimeInterval ORKVolumeCalibrationFadeStep = 0.01;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:ORKHeadphoneNotificationSuspendActivity object:nil];
 }
 
+- (void)headphoneChanged:(NSNotification *)note {
+    if (self.tinnitusPredefinedTaskContext != nil) {
+        [self.contentView enablePlaybackButton:NO];
+        [self.contentView setPlaybackButtonPlaying:NO];
+        [self stopSample:^{
+            [self.contentView enablePlaybackButton:YES];
+        }];
+    }
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
@@ -254,20 +343,16 @@ const NSTimeInterval ORKVolumeCalibrationFadeStep = 0.01;
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
+    [self setupAudioEngine];
     [self.taskViewController saveVolume];
     [[getAVSystemControllerClass() sharedAVSystemController] setActiveCategoryVolumeTo:UIAccessibilityIsVoiceOverRunning() ? 0.2 : 0];
 }
 
-- (void)headphoneChanged:(NSNotification *)note {
-    if (self.tinnitusPredefinedTaskContext != nil) {
-        [self.contentView setPlaybackButtonPlaying:NO];
-        [self stopSample];
-    }
-}
-
 - (void)viewWillDisappear:(BOOL)animated {
+    
+    [self stopAudioEngine];
+
     [super viewWillDisappear:animated];
-    [self tearDownAudioEngine];
 }
 
 -(void)viewDidDisappear:(BOOL)animated {
@@ -292,15 +377,24 @@ const NSTimeInterval ORKVolumeCalibrationFadeStep = 0.01;
     self.continueButtonItem  = self.internalContinueButtonItem;
 }
 
-- (void)playSample {
-    _mixerNode.outputVolume = 0.0;
-    [_playerNode play];
-    [_mixerNode fadeInWithDuration:ORKVolumeCalibrationFadeDuration stepInterval:ORKVolumeCalibrationFadeStep completion:nil];
+- (void)playSample:(void (^ _Nonnull)(void))didStartPlaying {
+    self.mixerNode.outputVolume = 0.0;
+    [self.playerNode play];
+    [self.contentView enablePlaybackButton:NO];
+    [self.contentView setPlaybackButtonPlaying:YES];
+    [self.mixerNode fadeInWithDuration:ORKVolumeCalibrationFadeDuration stepInterval:ORKVolumeCalibrationFadeStep completion:^{
+        didStartPlaying();
+        [self.contentView enablePlaybackButton:YES];
+    }];
 }
 
-- (void)stopSample {
-    [_mixerNode fadeOutWithDuration:ORKVolumeCalibrationFadeDuration stepInterval:ORKVolumeCalibrationFadeStep completion:^{
-        [_playerNode pause];
+- (void)stopSample:(void (^ _Nonnull)(void))didStopPlaying {
+    [self.contentView enablePlaybackButton:NO];
+    [self.contentView setPlaybackButtonPlaying:NO];
+    [self.mixerNode fadeOutWithDuration:ORKVolumeCalibrationFadeDuration stepInterval:ORKVolumeCalibrationFadeStep completion:^{
+        [self.playerNode pause];
+        didStopPlaying();
+        [self.contentView enablePlaybackButton:YES];
     }];
 }
 
@@ -313,24 +407,38 @@ const NSTimeInterval ORKVolumeCalibrationFadeStep = 0.01;
         if (context.type == ORKTinnitusTypePureTone && context.predominantFrequency > 0.0) {
             if (!self.audioGenerator.isPlaying) {
                 int64_t delay = (int64_t)((_audioGenerator.fadeDuration + 0.05) * NSEC_PER_SEC);
+                [playbackButton setEnabled:FALSE];
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay), dispatch_get_main_queue(), ^{
                     [self.audioGenerator playSoundAtFrequency:context.predominantFrequency];
+                    [playbackButton setEnabled:TRUE];
                 });
                 return YES;
             } else {
-                [self.audioGenerator stop];
+                [playbackButton setEnabled:FALSE];
+                [self.audioGenerator stop:^{
+                    [playbackButton setEnabled:TRUE];
+                }];
                 return NO;
             }
         }
     }
     
-    if (self.audioEngine.isRunning && !self.playerNode.isPlaying) {
-        [self playSample];
-        return YES;
-    } else {
-        [self stopSample];
-        return NO;
+    if (self.audioEngine.isRunning) {
+        if (!self.playerNode.isPlaying) {
+            [playbackButton setEnabled:FALSE];
+            [self playSample:^{
+                [playbackButton setEnabled:TRUE];
+            }];
+            return YES;
+        } else if (self.playerNode.isPlaying) {
+            [playbackButton setEnabled:FALSE];
+            [self stopSample:^{
+                [playbackButton setEnabled:TRUE];
+            }];
+            return NO;
+        }
     }
+    return NO;
 }
 
 - (void)contentView:(ORKVolumeCalibrationContentView *)contentView didRaisedVolume:(float)volume {

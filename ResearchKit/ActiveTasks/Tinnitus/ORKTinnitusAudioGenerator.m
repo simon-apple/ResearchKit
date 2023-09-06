@@ -168,15 +168,18 @@ static OSStatus ORKTinnitusAudioGeneratorRenderTone(void *inRefCon,
     Float32 *bufferActive    = (Float32 *)ioData->mBuffers[audioGenerator->_activeChannel].mData;
     Float32 *bufferNonActive = (Float32 *)ioData->mBuffers[1 - audioGenerator->_activeChannel].mData;
     
+    double fadeDurationSamples = ORKTinnitusAudioGeneratorSampleRateDefault * audioGenerator->_fadeDuration;
+    double fadeStep = 1.0 / fadeDurationSamples;
+    
     // Generate the samples
     for (UInt32 frame = 0; frame < inNumberFrames; frame++) {
         if (audioGenerator->_rampUp) {
-            fadeFactor += 1.0 / (ORKTinnitusAudioGeneratorSampleRateDefault * audioGenerator->_fadeDuration);
+            fadeFactor += fadeStep;
             if (fadeFactor >= 1) {
                 fadeFactor = 1;
             }
         } else {
-            fadeFactor -= 1.0 / (ORKTinnitusAudioGeneratorSampleRateDefault * audioGenerator->_fadeDuration);
+            fadeFactor -= fadeStep;
             if (fadeFactor <= 0) {
                 fadeFactor = 0;
             }
@@ -375,7 +378,7 @@ static OSStatus ORKTinnitusAudioGeneratorZeroTone(void *inRefCon,
     [self play];
 }
 
-- (void)stop {
+- (void)stop:(void (^ _Nonnull)(void))didStopPlaying {
     if (_mGraph) {
         _rampUp = NO;
         int nodeInput = (_lastNodeInput % 2) + 1;
@@ -385,9 +388,12 @@ static OSStatus ORKTinnitusAudioGeneratorZeroTone(void *inRefCon,
                     AUGraphDisconnectNodeInput(_mGraph, _mixerNode, nodeInput);
                     AUGraphUpdate(_mGraph, NULL);
                     _playing = NO;
+                    didStopPlaying();
                 });
             }
         });
+    } else {
+        didStopPlaying();
     }
 }
 
@@ -494,7 +500,9 @@ static OSStatus ORKTinnitusAudioGeneratorZeroTone(void *inRefCon,
 }
 
 - (void)handleInterruption:(id)sender {
-    [self stop];
+    [self stop:^{
+        
+    }];
 }
 
 - (void)adjustBufferAmplitude:(double) newAmplitude {
