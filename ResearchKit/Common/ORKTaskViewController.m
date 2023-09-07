@@ -2422,6 +2422,34 @@ static const NSTimeInterval ZERO_BATTERY_LEVEL_TIME_INTERVAL = 1.0;
     [self updateDescriptionLabel];
 }
 
+///Our current CV firmware uses these rules:
+///The version has to begin with "6A"
+///The numeric value needs to be >= 300 and <= 999
+///The last character has to be alphabetic ("a", "b", "c", "d", etc...)
+- (BOOL)checkFirmwareVersion {
+    if ([_fwVersion hasPrefix:@"6a"] || [_fwVersion hasPrefix:@"6A"]) {
+        NSString *numericString = [_fwVersion substringFromIndex:2];
+        // Remove any non-numeric characters from the string
+        NSCharacterSet *nonNumericCharacterSet = [[NSCharacterSet decimalDigitCharacterSet] invertedSet];
+        NSString *numericPart = [[numericString componentsSeparatedByCharactersInSet:nonNumericCharacterSet] componentsJoinedByString:@""];
+        // Convert the numeric part to an integer
+        NSInteger numericValue = [numericPart integerValue];
+        // must be greater then 300
+        if (numericValue >= 300 && numericValue <= 999) {
+            unichar lastCharacter = [_fwVersion characterAtIndex:_fwVersion.length - 1];
+            // Check if the last character is a letter
+            if ([[NSCharacterSet letterCharacterSet] characterIsMember:lastCharacter]) {
+#if DEBUG
+                ORK_Log_Debug("Firmware check: The last character is a letter.");
+#endif
+                return YES;
+            }
+        }
+    }
+    
+    return NO;
+}
+
 - (void)updateDescriptionLabel{
     if (_currentDevice) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -2440,7 +2468,7 @@ static const NSTimeInterval ZERO_BATTERY_LEVEL_TIME_INTERVAL = 1.0;
                 ORK_Log_Info("case serial: %@; left headphone serial: %@; right headphone Serial: %@; firmwareVersion: %@;",_caseSerial,_leftHeadphoneSerial,_rightHeadphoneSerial, _fwVersion);
                 BOOL isB698 = (_currentDevice.productId == APPLE_B698_PRODUCTID || _currentDevice.productId == APPLE_B698C_PRODUCTID);
 
-                BOOL isCorrectFirmwareVersion = [_fwVersion containsString:CELLO_FWVERSION];
+                BOOL isCorrectFirmwareVersion = [self checkFirmwareVersion];
                 
                 if (isB698) {
                     if (headphonesInEars) {

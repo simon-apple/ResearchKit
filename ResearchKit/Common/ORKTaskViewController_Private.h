@@ -38,7 +38,6 @@ ORK_EXTERN NSString * const ORKdBHLBluetoothSealValueChangedNotification;
 
 #define APPLE_B698_PRODUCTID                8212
 #define APPLE_B698C_PRODUCTID               8228
-#define CELLO_FWVERSION                     @"6A" // CVTODO: change this to point to the final firmware version
 #define LOW_BATTERY_LEVEL_THRESHOLD_VALUE   0.20
 
 typedef NS_ENUM(NSUInteger, ORKdBHLHeadphonesStatus) {
