@@ -175,7 +175,7 @@ const double ORKInvalidDBHLValue = DBL_MAX;
         ORK_DECODE_OBJ_ARRAY(aDecoder, samples, ORKdBHLToneAudiometryFrequencySample);
         
 #if RK_APPLE_INTERNAL
-        ORK_DECODE_OBJ_ARRAY(aDecoder, deletedSamples, ORKdBHLToneAudiometryDeletedSample);
+        ORK_DECODE_OBJ_ARRAY(aDecoder, deletedSamples, ORKdBHLToneAudiometryFrequencySample);
         ORK_DECODE_OBJ_ARRAY(aDecoder, discreteUnits, ORKdBHLToneAudiometryFrequencySample);
         ORK_DECODE_OBJ_DICTIONARY(aDecoder, fitMatrix, NSString, NSNumber);
         ORK_DECODE_INTEGER(aDecoder, algorithmVersion);
@@ -322,67 +322,6 @@ const double ORKInvalidDBHLValue = DBL_MAX;
 }
 
 @end
-
-@implementation ORKdBHLToneAudiometryDeletedSample
-
-+ (BOOL)supportsSecureCoding {
-    return YES;
-}
-
-- (void)encodeWithCoder:(NSCoder *)aCoder {
-    ORK_ENCODE_DOUBLE(aCoder, frequency);
-    ORK_ENCODE_DOUBLE(aCoder, level);
-    ORK_ENCODE_INTEGER(aCoder, channel);
-    ORK_ENCODE_INTEGER(aCoder, originalIndex);
-    ORK_ENCODE_BOOL(aCoder, response);
-    ORK_ENCODE_DOUBLE(aCoder, deletionTimestamp);
-}
-
-- (id)initWithCoder:(NSCoder *)aDecoder {
-    self = [super init];
-    if (self) {
-        ORK_DECODE_DOUBLE(aDecoder, frequency);
-        ORK_DECODE_DOUBLE(aDecoder, level);
-        ORK_DECODE_INTEGER(aDecoder, channel);
-        ORK_DECODE_INTEGER(aDecoder, originalIndex);
-        ORK_DECODE_BOOL(aDecoder, response);
-        ORK_DECODE_DOUBLE(aDecoder, deletionTimestamp);
-    }
-    return self;
-}
-
-- (BOOL)isEqual:(id)object {
-    if ([self class] != [object class]) {
-        return NO;
-    }
-    
-    __typeof(self) castObject = object;
-    
-    return ((self.frequency == castObject.frequency) &&
-            (self.level == castObject.level) &&
-            (self.channel == castObject.channel) &&
-            (self.originalIndex == castObject.originalIndex) &&
-            (self.response == castObject.response) &&
-            (self.deletionTimestamp == castObject.deletionTimestamp));
-}
-
-- (instancetype)copyWithZone:(NSZone *)zone {
-    ORKdBHLToneAudiometryDeletedSample *sample = [[[self class] allocWithZone:zone] init];
-    sample.frequency = self.frequency;
-    sample.level = self.level;
-    sample.channel = self.channel;
-    sample.originalIndex = self.originalIndex;
-    sample.response = self.response;
-    sample.deletionTimestamp = self.deletionTimestamp;
-    return sample;
-}
-
-- (NSString *)description {
-    return [NSString stringWithFormat:@"<%@: %p; frequency: %.1lf; level: %.1lf; channel: %ld; originalIndex: %ld; response: %d; deletionTimestamp: %lf>", self.class.description, self, self.frequency, self.level, (long)self.channel, (long)self.originalIndex, self.response, self.deletionTimestamp];
-}
-
-@end
-
 
 @implementation ORKdBHLToneAudiometryUnit
 
