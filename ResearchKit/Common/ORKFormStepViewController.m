@@ -66,6 +66,8 @@
 #import "ORKSkin.h"
 #import "ORKChoiceViewCell+ORKTextChoice.h"
 #import "ORKChoiceViewCell+ORKColorChoice.h"
+#import "ORKAccessibilityFunctions.h"
+#import "ORKTagLabel.h"
 
 static const CGFloat TableViewYOffsetStandard = 30.0;
 static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
@@ -444,6 +446,10 @@ NSString * const ORKSurveyCardHeaderViewIdentifier = @"SurveyCardHeaderViewIdent
     
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updateAppearance)
+                                                 name:UIContentSizeCategoryDidChangeNotification
+                                               object:nil];
 }
 
 - (void)viewDidLayoutSubviews {
@@ -505,6 +511,7 @@ NSString * const ORKSurveyCardHeaderViewIdentifier = @"SurveyCardHeaderViewIdent
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIContentSizeCategoryDidChangeNotification object:nil];
 }
 
 // [RDLS:NOTE] Removed sections and tableCellItem
@@ -642,6 +649,44 @@ NSString * const ORKSurveyCardHeaderViewIdentifier = @"SurveyCardHeaderViewIdent
     [self updateButtonStates];
 }
 
+- (CGFloat)heightForText:(NSString *)text withFont:(UIFont *)font withLearnMorePadding:(BOOL)useLearnMorePadding {
+    CGFloat textPaddingMargin = 0;
+    if (useLearnMorePadding) {
+        // the learnmore button blocks off another (ORKSurveyItemMargin) padding
+        textPaddingMargin = ((ORKSurveyTableContainerLeftRightPadding + (ORKSurveyItemMargin  * 3)) * 2);
+    } else {
+        textPaddingMargin = ((ORKSurveyTableContainerLeftRightPadding + ORKSurveyItemMargin) * 2);
+    }
+    CGFloat textScreenWidth = self.view.frame.size.width - textPaddingMargin;
+    CGRect frame = [text boundingRectWithSize:CGSizeMake(textScreenWidth, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:font} context:nil];
+    float height = frame.size.height;
+    return height;
+}
+
+- (CGFloat)largestHeaderHeight {
+    CGFloat maxHeight = 0;
+    
+    for (ORKFormItem *formItem in [self visibleFormItems]) {
+        CGFloat headerHeight = 0.0;
+
+        if (formItem.text) {
+            headerHeight = headerHeight + [self heightForText:formItem.text withFont:[ORKSurveyCardHeaderView titleLabelFont] withLearnMorePadding:NO];
+        }
+        
+        if (formItem.detailText) {
+            headerHeight = headerHeight + [self heightForText:formItem.detailText withFont:[ORKSurveyCardHeaderView detailTextLabelFont] withLearnMorePadding:(formItem.learnMoreItem != nil)] + ORKStepContainerTitleToBodyTopPaddingStandard;
+        }
+        
+        if (formItem.tagText) {
+            headerHeight = headerHeight + [self heightForText:formItem.tagText withFont:[ORKTagLabel font] withLearnMorePadding:NO] + ORKStepContainerTitleToBodyTopPaddingStandard;
+        }
+                
+        maxHeight = MAX(headerHeight, maxHeight);
+    }
+    
+    return maxHeight;
+}
+
 - (void)stepDidChange {
     [super stepDidChange];
     
@@ -679,8 +724,8 @@ NSString * const ORKSurveyCardHeaderViewIdentifier = @"SurveyCardHeaderViewIdent
         _tableView.rowHeight = UITableViewAutomaticDimension;
         _tableView.sectionHeaderHeight = UITableViewAutomaticDimension;
         _tableView.estimatedRowHeight = ORKGetMetricForWindow(ORKScreenMetricTableCellDefaultHeight, self.view.window);
-        _tableView.estimatedSectionHeaderHeight = 30.0;
-        
+        [self setTableViewEstimatedSectionHeaderHeight];
+
         if ([self formStep].useCardView) {
             _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
             
@@ -731,6 +776,15 @@ NSString * const ORKSurveyCardHeaderViewIdentifier = @"SurveyCardHeaderViewIdent
         [self setupConstraints];
         [_tableContainer setNeedsLayout];
     }
+}
+
+- (void)updateAppearance {
+    [self setTableViewEstimatedSectionHeaderHeight];
+}
+
+- (void)setTableViewEstimatedSectionHeaderHeight {
+    _tableView.estimatedSectionHeaderHeight = [self largestHeaderHeight] + (ORKIsAccessibilityLargeTextEnabled() ? ORKFormStepLargeTextMinimumHeaderHeight : ORKFormStepMinimumHeaderHeight);
+    ORK_Log_Debug("_tableView.estimatedSectionHeaderHeight now set to %f", _tableView.estimatedSectionHeaderHeight);
 }
 
 - (void)_registerCellClassesInTableView:(UITableView *)tableView {

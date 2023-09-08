@@ -58,6 +58,9 @@ NSString *const ORKBulletItemTextColorKey = @"ORKBulletItemTextColorKey";
 NSString *const ORKStepTopContentImageChangedKey = @"ORKStepTopContentImageChanged";
 NSString *const ORKDoneButtonPressedKey = @"ORKDoneButtonPressed";
 NSString *const ORKResetDoneButtonKey = @"ORKResetDoneButton";
+
+CGFloat ORKFormStepLargeTextMinimumHeaderHeight = 80.0;
+CGFloat ORKFormStepMinimumHeaderHeight = 50.0;
 CGFloat ORKQuestionStepMinimumHeaderHeight = 29.75;
 CGFloat ORKCardDefaultCornerRadii = 10.0;
 CGFloat ORKCardDefaultBorderWidth = 0.0;

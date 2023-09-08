@@ -35,6 +35,7 @@
 #import "ORKHelpers_Internal.h"
 
 static const CGFloat HeaderViewLabelTopBottomPadding = 6.0;
+static const CGFloat HeaderViewLabelTopPadding = 4.0;
 static const CGFloat TagBottomPadding = 4.0;
 static const CGFloat TagTopPadding = 8.0;
 static const CGFloat HeaderViewBottomPadding = 24.0;
@@ -194,7 +195,7 @@ static const CGFloat SelectAllThatApplyBottomPadding = 6.0;
     _titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
     _titleLabel.textAlignment = NSTextAlignmentNatural;
     _titleLabel.accessibilityIdentifier = @"ORKSurveyCardHeaderView_titleLabel";
-    [_titleLabel setFont:[self titleLabelFont]];
+    [_titleLabel setFont:[ORKSurveyCardHeaderView titleLabelFont]];
 }
 
 - (void)setUpDetailTextLabel {
@@ -205,7 +206,7 @@ static const CGFloat SelectAllThatApplyBottomPadding = 6.0;
     _detailTextLabel.numberOfLines = 0;
     _detailTextLabel.lineBreakMode = NSLineBreakByWordWrapping;
     _detailTextLabel.textAlignment = NSTextAlignmentNatural;
-    [_detailTextLabel setFont:[self detailTextLabelFont]];
+    [_detailTextLabel setFont:[ORKSurveyCardHeaderView detailTextLabelFont]];
 }
 
 - (void)setUpProgressLabel {
@@ -305,13 +306,13 @@ static const CGFloat SelectAllThatApplyBottomPadding = 6.0;
     [_selectAllThatApplyLabel setFont:[self selectAllThatApplyFont]];
 }
 
-- (UIFont *)titleLabelFont {
++ (UIFont *)titleLabelFont {
     UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleBody];
     UIFontDescriptor *fontDescriptor = [descriptor fontDescriptorWithSymbolicTraits:(UIFontDescriptorTraitBold)];
     return [UIFont fontWithDescriptor:fontDescriptor size:[[fontDescriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]];
 }
 
-- (UIFont *)detailTextLabelFont {
++ (UIFont *)detailTextLabelFont {
     UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleSubheadline];
     return [UIFont fontWithDescriptor:descriptor size:[[descriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]];
 }
@@ -426,7 +427,7 @@ static const CGFloat SelectAllThatApplyBottomPadding = 6.0;
     if (_tagLabel) {
         titlePadding = TagBottomPadding;
     } else if (_progressLabel) {
-        titlePadding = HeaderViewLabelTopBottomPadding;
+        titlePadding = HeaderViewLabelTopPadding;
     } else {
         titlePadding = ORKSurveyItemMargin;
     }

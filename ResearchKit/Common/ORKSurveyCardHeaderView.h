@@ -63,6 +63,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)setProgressText:(nullable NSString *)text;
 
++ (UIFont *)detailTextLabelFont;
++ (UIFont *)titleLabelFont;
+
 @end
 
 NS_ASSUME_NONNULL_END
