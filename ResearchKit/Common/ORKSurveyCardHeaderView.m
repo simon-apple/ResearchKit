@@ -120,19 +120,23 @@ static const CGFloat SelectAllThatApplyBottomPadding = 6.0;
                 showBorder:(BOOL)showBorder
      hasMultipleChoiceItem:(BOOL)hasMultipleChoiceItem
       shouldIgnoreDarkMode:(BOOL)shouldIgnoreDarkMode {
-    _title = title;
-    _detailText = text;
+    _title = [title copy];
+    _detailText = [text copy];
     _learnMoreView = learnMoreView;
-    _progressText = progressText;
+    _progressText = [progressText copy];
     _showBorder = showBorder;
-    _tagText = tagText;
+    _tagText = [tagText copy];
     _hasMultipleChoiceItem = hasMultipleChoiceItem;
     _shouldIgnoreDarkMode = shouldIgnoreDarkMode;
     [self setupView];
 }
 
 - (void)setupView {
-    [self setBackgroundColor:[UIColor clearColor]];
+    if (@available(iOS 14.0, *)) {
+        [self setBackgroundConfiguration:[UIBackgroundConfiguration clearConfiguration]];
+    } else {
+        [self setBackgroundColor:[UIColor clearColor]];
+    }
     [self setupHeaderView];
     [self setupConstraints];
 }

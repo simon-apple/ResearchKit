@@ -333,7 +333,6 @@ NSString * const ORKSurveyCardHeaderViewIdentifier = @"SurveyCardHeaderViewIdent
 }
 
 - (void)setUpConstraints {
-    
     const CGFloat LabelFirstBaselineToTop = _firstSection ? 20.0 : 40.0;
     const CGFloat LabelLastBaselineToBottom = -10.0;
     const CGFloat LabelRightMargin = -4.0;
@@ -354,7 +353,7 @@ NSString * const ORKSurveyCardHeaderViewIdentifier = @"SurveyCardHeaderViewIdent
                                                              attribute:NSLayoutAttributeLeft
                                                             multiplier:1.0
                                                               constant:0.0];
-    
+
     [constraints addObject:self.leftMarginConstraint];
     
     [constraints addObject:[NSLayoutConstraint constraintWithItem:_label
@@ -372,7 +371,7 @@ NSString * const ORKSurveyCardHeaderViewIdentifier = @"SurveyCardHeaderViewIdent
                                                         attribute:NSLayoutAttributeRight
                                                        multiplier:1.0
                                                          constant:LabelRightMargin]];
-    
+
     [NSLayoutConstraint activateConstraints:constraints];
 }
 
@@ -491,10 +490,6 @@ NSString * const ORKSurveyCardHeaderViewIdentifier = @"SurveyCardHeaderViewIdent
     
     // Reset skipped flag - result can now be non-empty
     _skipped = NO;
-    
-    if (_tableView) {
-        [_tableView reloadData];
-    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -710,7 +705,7 @@ NSString * const ORKSurveyCardHeaderViewIdentifier = @"SurveyCardHeaderViewIdent
         _tableView = _tableContainer.tableView;
         _tableView.delegate = self;
         [self _registerCellClassesInTableView:_tableView];
-        
+
         // [RDLS:NOTE] swapping out existing impl for diffableDataSource
         ORKWeakTypeOf(self) weakSelf = self;
         _diffableDataSource = [[UITableViewDiffableDataSource alloc] initWithTableView:_tableView cellProvider:^UITableViewCell * _Nullable(UITableView * _Nonnull tableView, NSIndexPath * _Nonnull indexPath, id  _Nonnull itemIdentifier) {
@@ -774,7 +769,6 @@ NSString * const ORKSurveyCardHeaderViewIdentifier = @"SurveyCardHeaderViewIdent
             _navigationFooterView.skipButton.accessibilityTraits = UIAccessibilityTraitStaticText;
         }
         [self setupConstraints];
-        [_tableContainer setNeedsLayout];
     }
 }
 
@@ -788,7 +782,7 @@ NSString * const ORKSurveyCardHeaderViewIdentifier = @"SurveyCardHeaderViewIdent
 }
 
 - (void)_registerCellClassesInTableView:(UITableView *)tableView {
-
+    
     // Register all of the row cells for our formItems
     for (ORKFormItem *eachItem in [self allFormItems]) {
         
@@ -855,7 +849,6 @@ NSString * const ORKSurveyCardHeaderViewIdentifier = @"SurveyCardHeaderViewIdent
                                       constant:0.0]
     ];
     [NSLayoutConstraint activateConstraints:_constraints];
-    
 }
 
 - (void)buildDataSource:(UITableViewDiffableDataSource<NSString *, ORKTableCellItemIdentifier *> *)dataSource withCompletion:(void (^ _Nullable)(void))completion {
@@ -990,10 +983,13 @@ NSString * const ORKSurveyCardHeaderViewIdentifier = @"SurveyCardHeaderViewIdent
 
     }
     
-    
-    if ([dataSource.snapshot isEqual:snapshot] == NO) {
-        // TODO: rdar://110144953 ([ConditionalFormItems] ORKFormStepViewController - it's not always appropriate to animate snapshot changes)
+    NSDiffableDataSourceSnapshot *originalSnapshot = dataSource.snapshot;
+
+    if ([originalSnapshot isEqual:snapshot] == NO) {
         BOOL shouldAnimateDifferences = YES;
+        
+        // don't bother animating if there was nothing in the original snapshot to start with
+        shouldAnimateDifferences = shouldAnimateDifferences && (originalSnapshot.numberOfItems > 0);
         
         // update progress text of section header views
         NSUInteger totalSections = [snapshot numberOfSections];
@@ -1009,7 +1005,7 @@ NSString * const ORKSurveyCardHeaderViewIdentifier = @"SurveyCardHeaderViewIdent
             ORKSurveyCardHeaderView *cardHeaderView = (ORKSurveyCardHeaderView *)[_tableView headerViewForSection:0];
             [cardHeaderView setProgressText:nil];
         }
-        
+
         [dataSource applySnapshot:snapshot animatingDifferences:shouldAnimateDifferences completion:^{
             if (completion != nil) {
                 completion();
@@ -1082,14 +1078,6 @@ NSString * const ORKSurveyCardHeaderViewIdentifier = @"SurveyCardHeaderViewIdent
     result = result ? : formItem.identifier;
     
     return result;
-    
-//    for (ORKTableSection *section in _sections) {
-//        if ([section containsFormItem:formItem]) {
-//            return section;
-//        }
-//    }
-//
-//    return nil;
 }
 
 - (BOOL)continueButtonEnabled {
@@ -1426,11 +1414,16 @@ NSString * const ORKSurveyCardHeaderViewIdentifier = @"SurveyCardHeaderViewIdent
     NSIndexPath *nextIndexPath = [NSIndexPath indexPathForRow:0 inSection:(indexPath.section + 1)];
     UITableView *tableView = self.tableView;
     UITableViewCell *nextCell = [tableView cellForRowAtIndexPath:nextIndexPath];
-    [self focusUnansweredCell:nextCell];
+    BOOL didChangeFocus = [self focusUnansweredCell:nextCell];
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, DelayBeforeAutoScroll * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        [tableView scrollToRowAtIndexPath:nextIndexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
-    });
+    if (didChangeFocus == YES) {
+        // if we did change focus, then that will perform the scrolling
+    } else {
+        // if we didn't change focus, then we need to handle the scrolling here
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, DelayBeforeAutoScroll * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+            [tableView scrollToRowAtIndexPath:nextIndexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+        });
+    }
 }
 
 - (void)scrollToFirstUnansweredSection {
@@ -1528,13 +1521,16 @@ NSString * const ORKSurveyCardHeaderViewIdentifier = @"SurveyCardHeaderViewIdent
                CGRect convertedKeyboardFrame = [self.view convertRect:keyboardFrame fromView:nil];
                
                if (CGRectGetMaxY(_currentFirstResponderCell.frame) >= CGRectGetMinY(convertedKeyboardFrame)) {
+                   UITableView *tableView = self.tableView;
+
+                   [tableView setContentInset:UIEdgeInsetsMake(0, 0, CGRectGetHeight(convertedKeyboardFrame), 0)];
                    
-                   [self.tableView setContentInset:UIEdgeInsetsMake(0, 0, CGRectGetHeight(convertedKeyboardFrame), 0)];
-                   
-                   NSIndexPath *currentFirstResponderCellIndex = [self.tableView indexPathForCell:_currentFirstResponderCell];
+                   NSIndexPath *currentFirstResponderCellIndex = [tableView indexPathForCell:_currentFirstResponderCell];
                    
                    if (currentFirstResponderCellIndex) {
-                       [self.tableView scrollToRowAtIndexPath:currentFirstResponderCellIndex atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+                       dispatch_after(dispatch_time(DISPATCH_TIME_NOW, DelayBeforeAutoScroll * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                           [tableView scrollToRowAtIndexPath:currentFirstResponderCellIndex atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+                       });
                    }
                }
         } else {
@@ -1941,7 +1937,10 @@ static CGFloat ORKLabelWidth(NSString *text) {
     _currentFirstResponderCell = cell;
     NSIndexPath *path = [_tableView indexPathForCell:cell];
     if (path) {
-        [_tableContainer scrollCellVisible:cell animated:YES];
+        ORKTableContainerView *tableContainer = _tableContainer;
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, DelayBeforeAutoScroll * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+            [tableContainer scrollCellVisible:cell animated:YES];
+        });
     }
 }
 
@@ -2257,7 +2256,10 @@ static NSString *const _ORKAnsweredSectionIdentifiersRestoreKey = @"answeredSect
     _currentFirstResponderCell = choiceOtherViewCell;
     NSIndexPath *path = [_tableView indexPathForCell:choiceOtherViewCell];
     if (path) {
-        [_tableContainer scrollCellVisible:choiceOtherViewCell animated:YES];
+        ORKTableContainerView *tableContainer = _tableContainer;
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, DelayBeforeAutoScroll * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+            [tableContainer scrollCellVisible:choiceOtherViewCell animated:YES];
+        });
     }
 }
 
