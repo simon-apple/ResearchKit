@@ -835,7 +835,7 @@ NSString * const ORKFamilyHistoryRelatedPersonCellIdentifier = @"ORKFamilyHistor
     ORKRelativeGroup *relativeGroup = _relativeGroups[section];
 
     if (footerView == nil) {
-        footerView = [[ORKFamilyHistoryTableFooterView alloc] initWithTitle:[NSString stringWithFormat:@"%@ %@",ORKLocalizedString(@"FAMILY_HISTORY_ADD", "") ,relativeGroup.name]
+        footerView = [[ORKFamilyHistoryTableFooterView alloc] initWithTitle:[NSString stringWithFormat:ORKLocalizedString(@"FAMILY_HISTORY_ADD", "") ,relativeGroup.name]
                                                     relativeGroupIdentifier:[relativeGroup.identifier copy]
                                                                    delegate:self];
     }

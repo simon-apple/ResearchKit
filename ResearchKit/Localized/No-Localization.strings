@@ -271,8 +271,6 @@
 "AGEPICKER_OR_OLDER" = "%li or older";
 
 /* Family History */
-// TODO: This needs to be moved back to localization, refer to the radar details in: rdar://114373571 ([Haystacks]: Euro: Peach6A65: Incorrect syntax for "Add" in Family Health History)
-"FAMILY_HISTORY_ADD" = "Add";
 "FAMILY_HISTORY_I_DONT_KNOW" = "I don't know";
 "AX_FAMILY_HISTORY_EDIT_BUTTON" = "Edit button";
 
