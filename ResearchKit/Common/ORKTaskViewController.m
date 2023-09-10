@@ -1098,8 +1098,16 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
             [newViewControllers addObject:previousStepViewController];
         }
     }
+
+    ORKStepViewController *lastStepViewController = (ORKStepViewController *)_childNavigationController.viewControllers.lastObject;
+    if (!goForward && [stepViewController.step.identifier isEqual:lastStepViewController.step.identifier]) {
+        stepViewController = lastStepViewController;
+        _currentStepViewController = lastStepViewController;
+    }
+
     [newViewControllers addObject:stepViewController];
-    if (newViewControllers != _childNavigationController.viewControllers) {
+
+    if ([newViewControllers isEqual:_childNavigationController.viewControllers] == NO) {
         [_childNavigationController setViewControllers:newViewControllers animated:animated];
     }
 }

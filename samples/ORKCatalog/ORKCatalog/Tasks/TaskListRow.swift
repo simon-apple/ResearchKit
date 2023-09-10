@@ -532,6 +532,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         case formTask
         case groupedFormTask
         case formStep
+        case formStep02
         case groupedFormStep
         case formStepWithMultipleSelection
         case formStepWithSingleSelection
@@ -1999,12 +2000,20 @@ enum TaskListRow: Int, CustomStringConvertible {
             ORKTextChoiceOther.choice(withText: textChoiceFourText, detailText: nil, value: "choice_4" as NSString, exclusive: true, textViewPlaceholderText: "enter additional information")
         ]
         
-        let answerFormat = ORKAnswerFormat.choiceAnswerFormat(with: .singleChoice, textChoices: textChoices)
-        let questionStep = ORKQuestionStep(identifier: String(describing: Identifier.textChoiceQuestionStep), title: NSLocalizedString("Text Choice", comment: ""), question: exampleQuestionText, answer: answerFormat)
+        let answerFormat1 = ORKAnswerFormat.choiceAnswerFormat(with: .singleChoice, textChoices: textChoices)
+        let formItem1 = ORKFormItem(identifier: String(describing: Identifier.formItem01), text: "Select an Option", answerFormat: answerFormat1)
+        let formStep1 = ORKFormStep(identifier: String(describing: Identifier.formStep), title: "Your title here", text: "Your text here")
+        formStep1.formItems = [formItem1]
         
-        questionStep.text = exampleDetailText
+        let answerFormat2 = ORKAnswerFormat.choiceAnswerFormat(with: .multipleChoice, textChoices: textChoices)
+        let formItem2 = ORKFormItem(identifier: String(describing: Identifier.formItem02), text: "Select one or more options", answerFormat: answerFormat2)
+        let formStep2 = ORKFormStep(identifier: String(describing: Identifier.formStep02), title: "Your title here", text: "Your text here")
+        formStep2.formItems = [formItem2]
         
-        return ORKOrderedTask(identifier: String(describing: Identifier.textChoiceQuestionTask), steps: [questionStep])
+        let completionStep = ORKCompletionStep(identifier: String(describing: Identifier.completionStep))
+        completionStep.title = "Task Complete"
+        
+        return ORKOrderedTask(identifier: String(describing: Identifier.textChoiceQuestionTask), steps: [formStep1, formStep2, completionStep])
     }
 
     private var textChoiceQuestionWithImageTask: ORKTask {
