@@ -36,7 +36,6 @@
 
 static const CGFloat ContinueButtonTouchMargin = 10;
 static const CGFloat ContinueButtonHeight = 50.0;
-static const CGFloat ContinueButtonAccessibilityLargeTextHeight = 130.0;
 
 static NSString *accessibilityIdentifierDone = @"ORKContinueButton.Done";
 static NSString *accessibilityIdentifierNext = @"ORKContinueButton.Next";
@@ -56,31 +55,32 @@ static NSString *accessibilityIdentifierNext = @"ORKContinueButton.Next";
         }
         self.isDoneButton = isDoneButton;
         self.contentEdgeInsets = (UIEdgeInsets){.left = 6, .right = 6};
-        [self setUpConstraints];
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(updateAppearance)
-                                                     name:UIContentSizeCategoryDidChangeNotification
-                                                   object:nil];
+        self.titleLabel.numberOfLines = 0;
+        self.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
+        self.titleLabel.textAlignment = NSTextAlignmentCenter;
     }
     return self;
 }
 
-- (void)updateAppearance {
-    [self updateTitleLabel];
-    [self updateHeightConstraint];
-}
-
-- (void)setUpConstraints {
+- (void)updateConstraints {
+    [super updateConstraints];
     _heightConstraint = [NSLayoutConstraint constraintWithItem:self
                                                      attribute:NSLayoutAttributeHeight
-                                                     relatedBy:NSLayoutRelationEqual
+                                                     relatedBy:NSLayoutRelationGreaterThanOrEqual
                                                         toItem:nil
                                                      attribute:NSLayoutAttributeNotAnAttribute
                                                     multiplier:1.0
                                                       constant:ContinueButtonHeight];
     _heightConstraint.active = YES;
-    [self updateTitleLabel];
-    [self updateHeightConstraint];
+}
+
+- (CGSize)intrinsicContentSize {
+    return self.titleLabel.intrinsicContentSize;
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    self.titleLabel.preferredMaxLayoutWidth = self.titleLabel.frame.size.width;
 }
 
 - (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event {
@@ -91,25 +91,6 @@ static NSString *accessibilityIdentifierNext = @"ORKContinueButton.Next";
                                                              -ContinueButtonTouchMargin});
     BOOL isInside = [super pointInside:point withEvent:event] || CGRectContainsPoint(outsetRect, point);
     return isInside;
-}
-
-- (void)updateTitleLabel {
-    if (ORKIsAccessibilityLargeTextEnabled()) {
-        self.titleLabel.numberOfLines = 0;
-        self.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
-        self.titleLabel.textAlignment = NSTextAlignmentLeft;
-    } else {
-        self.titleLabel.textAlignment = NSTextAlignmentCenter;
-    }
-}
-
-- (void)updateHeightConstraint {
-    _heightConstraint.constant = ORKIsAccessibilityLargeTextEnabled() ? ContinueButtonAccessibilityLargeTextHeight : ContinueButtonHeight;
-    [self setNeedsLayout];
-}
-
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end
