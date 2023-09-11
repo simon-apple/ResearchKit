@@ -40,6 +40,7 @@ ORK_CLASS_AVAILABLE
 
 - (void)pauseTask;
 - (void)resumeTask;
+- (void)stopAudio;
 
 @end
 NS_ASSUME_NONNULL_END

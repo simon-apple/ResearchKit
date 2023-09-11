@@ -81,8 +81,6 @@
 #endif
     NSMutableArray<ORKdBHLToneAudiometryTap *> *_taps;
     
-    BOOL _showingAlert;
-    
     BOOL _didSkipStep;
 }
 
@@ -107,7 +105,6 @@
         _taps = [[NSMutableArray alloc] init];
         self.currentTap = [[ORKdBHLToneAudiometryTap alloc] init];
         self.currentTap.response = ORKdBHLToneAudiometryTapBeforeResponseWindow;
-        _showingAlert = NO;
         _didSkipStep = NO;
     }
     return self;
@@ -207,7 +204,6 @@
 
 - (void)addObservers {
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-    [center addObserver:self selector:@selector(headphonesStatusChanged:) name:ORKdBHLHeadphonesInEarsNotification object:nil];
     [center addObserver:self selector:@selector(appWillTerminate:) name:UIApplicationWillTerminateNotification object:nil];
     [center addObserver:self selector:@selector(tapButtonPressed) name:@"buttonTapped" object:nil];
     [center addObserver:self selector:@selector(skipButtonPressed) name:@"skipTapped" object:nil];
@@ -432,7 +428,7 @@
 
 - (void)runTestTrial {
     ORKTaskViewController *taskVC = self.taskViewController;
-    if (!_showingAlert && taskVC.headphonesInEars) {
+    if (!taskVC.showingAlert && taskVC.headphonesInEars) {
         [self stopAudio];
         
         [self.dBHLToneAudiometryContentView setProgress:self.audiometryEngine.progress animated:YES];
@@ -540,52 +536,6 @@
     self.currentTap.timeStamp = self.runtime;
     [_taps addObject:self.currentTap];
     ORK_Log_Info("Log tap: %@", self.currentTap);
-}
-
-#pragma mark - Headphone Monitoring
-
-- (NSString *)headphoneType {
-    return [[self dBHLToneAudiometryStep].headphoneType uppercaseString];
-}
-
-- (void)headphonesStatusChanged: (NSNotification *)note {
-    ORKTaskViewController *taskVC = self.taskViewController;
-    if (!taskVC.headphonesInEars) {
-        [self showAlertWithTitle:@"Hearing Test" andMessage:@"Make sure you have both headphones in ears."];
-    }
-}
-
-- (void)showAlertWithTitle:(NSString *)title andMessage:(NSString *)message {
-    if (!_showingAlert) {
-        _showingAlert = YES;
-        ORKWeakTypeOf(self) weakSelf = self;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self stopAudio];
-            UIAlertController *alertController = [UIAlertController
-                                                  alertControllerWithTitle:title
-                                                  message:message
-                                                  preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *startOver = [UIAlertAction
-                                        actionWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE_START_OVER", nil)
-                                        style:UIAlertActionStyleDefault
-                                        handler:^(UIAlertAction *action) {
-                ORKStrongTypeOf(weakSelf) strongSelf = weakSelf;
-                [[strongSelf taskViewController] flipToFitTest];
-            }];
-            [alertController addAction:startOver];
-            [alertController addAction:[UIAlertAction
-                                        actionWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE_CANCEL_TEST", nil)
-                                        style:UIAlertActionStyleDefault
-                                        handler:^(UIAlertAction *action) {
-                ORKStrongTypeOf(self.taskViewController.delegate) strongDelegate = self.taskViewController.delegate;
-                if ([strongDelegate respondsToSelector:@selector(taskViewController:didFinishWithReason:error:)]) {
-                    [strongDelegate taskViewController:self.taskViewController didFinishWithReason:ORKTaskViewControllerFinishReasonDiscarded error:nil];
-                }
-            }]];
-            alertController.preferredAction = startOver;
-            [self presentViewController:alertController animated:YES completion:nil];
-        });
-    }
 }
 
 @end

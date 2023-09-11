@@ -168,12 +168,6 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
     
     [self setNavigationFooterView];
     [self headphonesStatusChanged:nil];
-//        if (self.taskViewController.hearingModeStatus != ORKdBHLHeadphonesStatusHearingTestEnabled) {
-//            // If the HTMode is not enabled, enable it.
-//            [self setStage:ORKdBHLFitTestStageEnableHearingTestMode];
-//        } else {
-//            [self setStage:ORKdBHLFitTestStageStart];
-//        }
 }
 
 // helper function

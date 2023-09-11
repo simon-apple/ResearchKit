@@ -270,6 +270,7 @@ typedef void (^_ORKLocationAuthorizationRequestHandler)(BOOL success);
 @property (nonatomic, strong, readwrite) NSString *fwVersion;
 @property (nonatomic, assign) double leftBattery;
 @property (nonatomic, assign) double rightBattery;
+@property (nonatomic, assign) BOOL showingAlert;
 @property (nonatomic, strong) ORKStepViewController *currentStepViewController;
 @property (nonatomic) ORKTaskReviewViewController *taskReviewViewController;
 
@@ -762,6 +763,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _showingAlert = NO;
     _headphonesInEars = NO;
     _hearingModeStatus = ORKdBHLHeadphonesStatusNotInEars;
     _callActive = NO;
@@ -2121,6 +2123,7 @@ static NSString *const _ORKProgressMode = @"progressMode";
                                                                                  object:self
                                                                                userInfo:nil];
                     [[NSNotificationCenter defaultCenter] postNotification:notification];
+                    [self headphonesStatusChanged];
                 }
                 ORK_Log_Info("update headphone status for NOT IN EARS.");
                 [self disableHearingTestMode];
@@ -2524,6 +2527,69 @@ static const NSTimeInterval ZERO_BATTERY_LEVEL_TIME_INTERVAL = 1.0;
     ORK_Log_Info("Restoring bluetooth notification observers");
     [self removeObservers];
     [self addObservers];
+}
+
+#pragma mark - Headphone Monitoring
+
+- (void)headphonesStatusChanged {
+    // ignore if we are on FitTestStep or a CompletionStep and we don't have a FitTest result
+    NSString *identifierForFitTestResult = nil;
+    ORKTaskResult *taskResults = [self result];
+    for (ORKStepResult *result in taskResults.results) {
+        if (result.results > 0) {
+            ORKStepResult *firstResult = (ORKStepResult *)[result.results firstObject];
+            if ([firstResult isKindOfClass:[ORKdBHLFitTestResult class]]) {
+                identifierForFitTestResult = firstResult.identifier;
+            }
+        }
+    }
+    if (![self.currentStepViewController isKindOfClass:[ORKdBHLFitTestStepViewController class]]
+        && ![self.currentStepViewController isKindOfClass:[ORKCompletionStepViewController class]]
+        && identifierForFitTestResult
+        && !_headphonesInEars) {
+        [self showAlertWithTitle:@"Hearing Test" andMessage:@"Make sure you have both headphones in ears."];
+    }
+}
+
+- (void)showAlertWithTitle:(NSString *)title andMessage:(NSString *)message {
+    ORKWeakTypeOf(self) weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        ORKStrongTypeOf(weakSelf) strongSelf = weakSelf;
+        if (strongSelf.showingAlert) {
+            // An alert is already being presented, no action necessary
+            return;
+        }
+        strongSelf.showingAlert = YES;
+        [strongSelf increasedBHLInterruptionCounter];
+        if ([strongSelf.currentStepViewController isKindOfClass:[ORKdBHLToneAudiometryStepViewController class]]) {
+            ORKdBHLToneAudiometryStepViewController *dbhlVC = (ORKdBHLToneAudiometryStepViewController *)strongSelf.currentStepViewController;
+            [dbhlVC stopAudio];
+        }
+        UIAlertController *alertController = [UIAlertController
+                                              alertControllerWithTitle:title
+                                              message:message
+                                              preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *startOver = [UIAlertAction
+                                    actionWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE_START_OVER", nil)
+                                    style:UIAlertActionStyleDefault
+                                    handler:^(UIAlertAction *action) {
+            [strongSelf  flipToFitTest];
+            strongSelf.showingAlert = NO;
+        }];
+        [alertController addAction:startOver];
+        [alertController addAction:[UIAlertAction
+                                    actionWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE_CANCEL_TEST", nil)
+                                    style:UIAlertActionStyleDefault
+                                    handler:^(UIAlertAction *action) {
+            ORKStrongTypeOf(weakSelf.delegate) strongDelegate = weakSelf.delegate;
+            if ([strongDelegate respondsToSelector:@selector(taskViewController:didFinishWithReason:error:)]) {
+                [strongDelegate taskViewController:strongSelf didFinishWithReason:ORKTaskViewControllerFinishReasonDiscarded error:nil];
+            }
+            strongSelf.showingAlert = NO;
+        }]];
+        alertController.preferredAction = startOver;
+        [self presentViewController:alertController animated:YES completion:nil];
+    });
 }
 
 @end
