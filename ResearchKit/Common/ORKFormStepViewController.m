@@ -1595,6 +1595,7 @@ NSString * const ORKSurveyCardHeaderViewIdentifier = @"SurveyCardHeaderViewIdent
 
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
     cell.userInteractionEnabled = !self.readOnlyMode;
+    cell.accessibilityIdentifier = [NSString stringWithFormat:@"%@_%ld", formItem.text, (long)indexPath.row];
     
     ORKFormItemCell *formCell = ORKDynamicCast(cell, ORKFormItemCell);
     ORKChoiceViewCell *choiceViewCell = ORKDynamicCast(cell, ORKChoiceViewCell);
