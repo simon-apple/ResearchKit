@@ -2274,10 +2274,9 @@ static NSString *const _ORKProgressMode = @"progressMode";
 }
 
 -(void)appDidBecomeActive:(NSNotification*)note {
-    ORKWeakTypeOf(self) weakSelf = self;
     NSString *identifierForFitTestResult = nil;
-    NSString *identifierFordBHLResult = nil;
     BOOL isOnFitTest = [self.currentStepViewController isKindOfClass:[ORKdBHLFitTestStepViewController class]];
+    BOOL isOnCompletionStep = [self.currentStepViewController isKindOfClass:[ORKCompletionStepViewController class]];
     ORKTaskResult *taskResults = [self result];
     for (ORKStepResult *result in taskResults.results) {
         if (result.results > 0) {
@@ -2285,41 +2284,18 @@ static NSString *const _ORKProgressMode = @"progressMode";
             if ([firstResult isKindOfClass:[ORKdBHLFitTestResult class]]) {
                 identifierForFitTestResult = firstResult.identifier;
             }
-            if ([firstResult isKindOfClass:[ORKdBHLToneAudiometryResult class]]) {
-                identifierFordBHLResult = firstResult.identifier;
-            }
         }
     }
-    if (identifierForFitTestResult && identifierFordBHLResult && !isOnFitTest) {
-        // if we found an identifier for the fit test result the test must be invalidated and return to last fit test.
-        // this is necessary because the user may had removed the AirPods and inserted again, invalidating the test.
-        [self increasedBHLInterruptionCounter];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            ORKStrongTypeOf(weakSelf) strongSelf = weakSelf;
-            UIAlertController *alertController = [UIAlertController
-                                                  alertControllerWithTitle:@"Hearing Test"
-                                                  message:@"To ensure accurate results, this task must be completed without interruption."
-                                                  preferredStyle:UIAlertControllerStyleAlert];
-            
-            UIAlertAction *startOver = [UIAlertAction
-                                        actionWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE_START_OVER", nil)
-                                        style:UIAlertActionStyleDefault
-                                        handler:^(UIAlertAction *action) {
-                [strongSelf flipToFitTest];
-            }];
-            [alertController addAction:startOver];
-            [alertController addAction:[UIAlertAction
-                                        actionWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE_CANCEL_TEST", nil)
-                                        style:UIAlertActionStyleDefault
-                                        handler:^(UIAlertAction *action) {
-                ORKStrongTypeOf(self.delegate) strongDelegate = self.delegate;
-                if ([strongDelegate respondsToSelector:@selector(taskViewController:didFinishWithReason:error:)]) {
-                    [strongDelegate taskViewController:self didFinishWithReason:ORKTaskViewControllerFinishReasonDiscarded error:nil];
-                }
-            }]];
-            alertController.preferredAction = startOver;
-            [self presentViewController:alertController animated:YES completion:nil];
-        });
+    if (identifierForFitTestResult && !isOnFitTest && !isOnCompletionStep) {
+        // If we found an identifier for the fit test result this means that we are on the FitTest or after it.
+        // If we are on the fit test, we do not show the alert since the HT framework will reenable the ANC when getting back to foreground.
+        // Since we do not complain if the user remove the AirPods when the task is completed, we remove the completion step from the check.
+        [self showAlertWithTitle:@"Hearing Test" andMessage:@"To ensure accurate results, this task must be completed without interruption."];
+    }
+    if (isOnFitTest) {
+        ORKdBHLFitTestStepViewController *fitTestVC = (ORKdBHLFitTestStepViewController *)self.currentStepViewController;
+        // TODO: This is calling the tonePlayer present on this object, other objects are calling it also, consider enclosure the tone player in a singleton.
+        [fitTestVC forceEnableHearingTestRestart];
     }
 }
 

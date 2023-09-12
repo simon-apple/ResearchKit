@@ -293,6 +293,10 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
     [self.fitTestContentView setResultDetailLabelText:_triesCounter > 0 ? [NSString stringWithFormat:@"Number of tries: %li",_triesCounter] : @""];
 }
 
+- (void)forceEnableHearingTestRestart {
+    [self setStage:ORKdBHLFitTestStageEnableHearingTestMode];
+}
+
 - (void)setStage:(ORKdBHLFitTestStage)stage {
     switch (stage) {
         case ORKdBHLFitTestStageNotInEars: {
