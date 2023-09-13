@@ -189,7 +189,7 @@
 }
 
 - (BOOL)shouldSkipListValue:(NSString *)value {
-    return ([[value lowercaseString] isEqual:@"i don't know"] || [[value lowercaseString] isEqual:@"i prefer not to answer"]);
+    return ([[value lowercaseString] isEqual:@"i don't know"] || [[value lowercaseString] isEqual:@"i don’t know"] || [[value lowercaseString] isEqual:@"i prefer not to answer"]);
 }
 
 #if RK_APPLE_INTERNAL
