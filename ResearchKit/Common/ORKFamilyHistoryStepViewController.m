@@ -67,8 +67,11 @@
 #import "ORKHelpers_Internal.h"
 #import "ORKAccessibilityFunctions.h"
 
-
 NSString * const ORKFamilyHistoryRelatedPersonCellIdentifier = @"ORKFamilyHistoryRelatedPersonCellIdentifier";
+
+NSString * const ORKHealthConditionIDontKnowChoiceValue = @"do not know";
+NSString * const ORKHealthConditionNoneOfTheAboveChoiceValue = @"none of the above";
+NSString * const ORKHealthConditionPreferNotToAnswerChoiceValue = @"prefer not to answer";
 
 @interface ORKFamilyHistoryStepViewController () <ORKTableContainerViewDelegate, ORKTaskViewControllerDelegate, ORKFamilyHistoryTableFooterViewDelegate, ORKFamilyHistoryRelatedPersonCellDelegate>
 
@@ -332,17 +335,17 @@ NSString * const ORKFamilyHistoryRelatedPersonCellIdentifier = @"ORKFamilyHistor
     
     ORKTextChoice *noneOfTheAboveTextChoice = [[ORKTextChoice alloc] initWithText:ORKLocalizedString(@"FAMILY_HISTORY_NONE_OF_THE_ABOVE", "")
                                                          detailText:nil
-                                                              value:@"none_of_the_above"
+                                                              value:ORKHealthConditionNoneOfTheAboveChoiceValue
                                                           exclusive:YES];
     
     ORKTextChoice *idkTextChoice = [[ORKTextChoice alloc] initWithText:ORKLocalizedString(@"FAMILY_HISTORY_I_DONT_KNOW", "")
                                                          detailText:nil
-                                                              value:@"i_dont_know"
+                                                              value:ORKHealthConditionIDontKnowChoiceValue
                                                           exclusive:YES];
     
     ORKTextChoice *preferNotToAnswerTextChoice = [[ORKTextChoice alloc] initWithText:ORKLocalizedString(@"FAMILY_HISTORY_PREFER_NOT_TO_ANSWER", "")
                                                          detailText:nil
-                                                              value:@"prefer_not_to_answer"
+                                                              value:ORKHealthConditionPreferNotToAnswerChoiceValue
                                                           exclusive:YES];
     
     [textChoices addObject:noneOfTheAboveTextChoice];
