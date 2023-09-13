@@ -159,6 +159,15 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     self.formItem = formItem; // [RDLS:NOTE] moved from init
     [self setupConstraints]; // [RDLS:NOTE] moved from init
     [self setAnswer:_answer]; // [RDLS:NOTE] moved from init
+    
+    [self enableAccessibilitySupport];
+}
+
+- (void)enableAccessibilitySupport {
+    self.isAccessibilityElement = true;
+    self.accessibilityTraits = UIAccessibilityTraitAllowsDirectInteraction;
+    self.accessibilityLabel = self.formItem.placeholder ? self.formItem.placeholder : self.formItem.text;
+    self.accessibilityHint =  self.formItem.placeholder ? self.formItem.placeholder : self.formItem.text;
 }
 
 - (void)setExpectedLayoutWidth:(CGFloat)newWidth {
@@ -496,10 +505,22 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     [self setNeedsUpdateConstraints]; // [RDLS:NOTE] moved from cellInit
 
     [super configureWithFormItem:formItem answer:answer maxLabelWidth:maxLabelWidth delegate:delegate];
+    [self enableAccessibilitySupport];
 }
 
 - (ORKUnitTextField *)textField {
     return _textFieldView.textField;
+}
+
+- (void)enableAccessibilitySupport {
+    NSString *accessibilityLabelTitle = self.formItem.placeholder;
+    if (!accessibilityLabelTitle) {
+        accessibilityLabelTitle = self.formItem.text;
+    }
+    self.textFieldView.isAccessibilityElement = true;
+    self.textFieldView.accessibilityTraits = UIAccessibilityTraitAllowsDirectInteraction;
+    self.textFieldView.accessibilityLabel = accessibilityLabelTitle;
+    self.textFieldView.accessibilityHint = accessibilityLabelTitle;
 }
 
 - (void)cellInit {
