@@ -31,10 +31,11 @@
 #import "ORKFamilyHistoryTableHeaderView.h"
 
 static const CGFloat HeaderViewLabelTopBottomPadding = 6.0;
-static const CGFloat HeaderViewLeftRightLabelPadding = 12.0;
+static const CGFloat HeaderViewLeftRightLabelPadding = 11.0;
 static const CGFloat HeaderViewCollapsedBottomPadding = 0.0;
 static const CGFloat HeaderViewExpandedBottomPadding = 10.0;
 static const CGFloat CellLeftRightPadding = 8.0;
+static const CGFloat MaxDetailLabelFont = 40.0;
 
 @implementation ORKFamilyHistoryTableHeaderView {
     NSString *_title;
@@ -161,7 +162,9 @@ static const CGFloat CellLeftRightPadding = 8.0;
 
 - (UIFont *)detailTextLabelFont {
     UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleSubheadline];
-    return [UIFont fontWithDescriptor:descriptor size:[[descriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]];
+    double fontSize = [[descriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue];
+    double suggestedFontSize = MIN(fontSize, MaxDetailLabelFont);
+    return [UIFont fontWithDescriptor:descriptor size: suggestedFontSize];
 }
 
 @end
