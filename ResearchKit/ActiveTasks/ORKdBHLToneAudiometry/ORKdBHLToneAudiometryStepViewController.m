@@ -457,19 +457,20 @@
                     [self.audiometryEngine registerStimulusPlayback];
                 }
 #if USE_LEGACY_TONEPLAYER
-                    [_audioGenerator playSoundAtFrequency:stimulus.frequency onChannel:stimulus.channel dBHL:stimulus.level];
+                [_audioGenerator playSoundAtFrequency:stimulus.frequency onChannel:stimulus.channel dBHL:stimulus.level];
 #else
-                    [self.taskViewController playWithFrequency:stimulus.frequency level:stimulus.level channel:stimulus.channel completion:^(NSError * _Nonnull error) {
-                        if (error) {
-                            ORK_Log_Error("tonePlayer playWithFrequency error: %@", error);
-                        } else {
-                            self.currentTap.response = ORKdBHLToneAudiometryNoTapOnResponseWindow;
-                            [self logCurrentTap];
-                            
-                            [self.audiometryEngine registerResponse:NO];
-                        }
-                        [self nextTrial];
-                    }];
+                ORK_Log_Debug("dBHL: %lf - frequency: %lf - channel: %@", stimulus.level,stimulus.frequency,stimulus.channel==ORKAudioChannelLeft?@"Left":@"Right");
+                [self.taskViewController playWithFrequency:stimulus.frequency level:stimulus.level channel:stimulus.channel completion:^(NSError * _Nonnull error) {
+                    if (error) {
+                        ORK_Log_Error("tonePlayer playWithFrequency error: %@", error);
+                    } else {
+                        self.currentTap.response = ORKdBHLToneAudiometryNoTapOnResponseWindow;
+                        [self logCurrentTap];
+                        
+                        [self.audiometryEngine registerResponse:NO];
+                    }
+                    [self nextTrial];
+                }];
 #endif
                 self.currentTap.response = ORKdBHLToneAudiometryTapOnResponseWindow;
             });
