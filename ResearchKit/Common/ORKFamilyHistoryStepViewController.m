@@ -786,13 +786,13 @@ NSString * const ORKHealthConditionPreferNotToAnswerChoiceValue = @"prefer not t
     
     cell.title = title != nil ? title : [NSString stringWithFormat:@"%@ %ld", relativeGroup.name, indexPath.row + 1];
     cell.relativeID = [relatedPerson.identifier copy];
-    cell.isLastItemBeforeAddRelativeButton = shouldAddExtraSpaceBelowCell;
-    cell.detailValues = [relatedPerson getDetailListValuesWithIdentifiers:relativeGroup.detailTextIdentifiers
-                                                  displayInfoKeyAndValues:[self getDetailInfoTextAndValuesForRelativeGroup:relativeGroup]];
+    NSArray *detailValues = [relatedPerson getDetailListValuesWithIdentifiers:relativeGroup.detailTextIdentifiers
+                                                      displayInfoKeyAndValues:[self getDetailInfoTextAndValuesForRelativeGroup:relativeGroup]];
     
-    cell.conditionValues = [relatedPerson getConditionsListWithStepIdentifier:familyHistoryStep.conditionStepConfiguration.stepIdentifier
-                                                           formItemIdentifier:familyHistoryStep.conditionStepConfiguration.conditionsFormItemIdentifier
-                                                          conditionsKeyValues:[_conditionsTextAndValues copy]];
+    NSArray *conditionValues = [relatedPerson getConditionsListWithStepIdentifier:familyHistoryStep.conditionStepConfiguration.stepIdentifier
+                                                               formItemIdentifier:familyHistoryStep.conditionStepConfiguration.conditionsFormItemIdentifier
+                                                              conditionsKeyValues:[_conditionsTextAndValues copy]];
+    [cell configureWithDetailValues:detailValues conditionsValues:conditionValues isLastItemBeforeAddRelativeButton:shouldAddExtraSpaceBelowCell];
     cell.delegate = self;
     
     return cell;

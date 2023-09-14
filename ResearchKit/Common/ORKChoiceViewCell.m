@@ -231,6 +231,7 @@ static const CGFloat ColorSwatchExpandedRightPadding = 16.0;
 - (void)setupContainerView {
     if (!_containerView) {
         _containerView = [UIView new];
+        _containerView.translatesAutoresizingMaskIntoConstraints = NO;
     }
     [self.contentView addSubview:_containerView];
 }
@@ -390,7 +391,6 @@ static const CGFloat ColorSwatchExpandedRightPadding = 16.0;
         [NSLayoutConstraint deactivateConstraints:_containerConstraints];
     }
     
-    _containerView.translatesAutoresizingMaskIntoConstraints = NO;
     _containerConstraints = [[NSMutableArray alloc] init];
     [self addContainerViewToSelfConstraints];
     [self addColorSwatchViewToContainerViewConstraints];
@@ -398,13 +398,6 @@ static const CGFloat ColorSwatchExpandedRightPadding = 16.0;
     [self addDetailLabelConstraints];
     [self addCheckViewToContainerViewConstraints];
     [self addContainerViewBottomConstraint];
-    [_containerConstraints addObject:[NSLayoutConstraint constraintWithItem:self
-                                                                  attribute:NSLayoutAttributeBottom
-                                                                  relatedBy:NSLayoutRelationEqual
-                                                                     toItem:_containerView
-                                                                  attribute:NSLayoutAttributeBottom
-                                                                 multiplier:1.0
-                                                                   constant:self.intraCellSpacing]];
     
     [NSLayoutConstraint activateConstraints:_containerConstraints];
 }
@@ -423,6 +416,8 @@ static const CGFloat ColorSwatchExpandedRightPadding = 16.0;
         [_colorSwatchView removeFromSuperview];
         _colorSwatchView = nil;
     }
+    [NSLayoutConstraint deactivateConstraints:_containerConstraints];
+    [_containerConstraints removeAllObjects];
     // [LC:NOTE] no need to reset the checkmark, because we have a call in cellForRow that manually sets/unsets the checkmark
     // [choiceViewCell setCellSelected:NO highlight:NO];
     // [LC:TODO] rdar://113283650 (Move `SetCellSelected` to be set in the `ORKChoiceViewCell.configure` method)

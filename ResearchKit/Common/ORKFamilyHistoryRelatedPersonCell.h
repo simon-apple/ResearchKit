@@ -58,6 +58,10 @@ typedef NS_ENUM(NSInteger, ORKFamilyHistoryTooltipOption) {
 @property (nonatomic) BOOL isLastItemBeforeAddRelativeButton;
 @property (nonatomic, weak, nullable) id<ORKFamilyHistoryRelatedPersonCellDelegate> delegate;
 
+- (void)configureWithDetailValues:(NSArray<NSString *> *)detailValues
+                 conditionsValues:(NSArray<NSString *> *)conditionsValues
+isLastItemBeforeAddRelativeButton:(BOOL)isLastItemBeforeAddRelativeButton;
+
 @end
 
 NS_ASSUME_NONNULL_END

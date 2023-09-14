@@ -148,26 +148,26 @@ static const CGFloat ViewLeftRightPadding = 16.0;
     
     [_viewConstraints addObject:[_viewButton.leadingAnchor constraintEqualToAnchor:self.leadingAnchor]];
     [_viewConstraints addObject:[_viewButton.trailingAnchor constraintEqualToAnchor:self.trailingAnchor]];
-    [_viewConstraints addObject:[_viewButton.centerYAnchor constraintEqualToAnchor:self.centerYAnchor]];
-    
-    [_viewConstraints addObject:[_titleLabel.centerYAnchor constraintEqualToAnchor:_viewButton.centerYAnchor]];
-    [_viewConstraints addObject:[_titleLabel.leadingAnchor constraintEqualToAnchor:_viewButton.leadingAnchor constant:CellLeftRightPadding]];
-    
-    // TODO: REMOVE THIS CHECK AFTER MODULARIZATION ADDITIONS. Min version will be 13 and RA's min verions is already 13
-    if (_iconImageview != nil) {
-        [_viewConstraints addObject:[_titleLabel.trailingAnchor constraintEqualToAnchor:_iconImageview.leadingAnchor constant:ViewButtonLeadingPadding]];
-        [_viewConstraints addObject:[_iconImageview.centerYAnchor constraintEqualToAnchor:_viewButton.centerYAnchor]];
-        [_viewConstraints addObject:[_iconImageview.trailingAnchor constraintEqualToAnchor:_viewButton.trailingAnchor constant:-CellLeftRightPadding]];
-    }
-    
-    [_viewConstraints addObject:[_viewButton.topAnchor constraintEqualToAnchor:_titleLabel.topAnchor constant:-ViewButtonTopBottomPadding]];
-    [_viewConstraints addObject:[_viewButton.bottomAnchor constraintEqualToAnchor:_titleLabel.bottomAnchor constant:ViewButtonTopBottomPadding]];
     
     topConstraint = [self.topAnchor constraintEqualToAnchor:_viewButton.topAnchor constant:-CellTopCollapsedPadding];
     [_viewConstraints addObject:topConstraint];
     
     bottomConstraint = [self.bottomAnchor constraintEqualToAnchor:_viewButton.bottomAnchor constant:CellBottomCollapsedPadding];
     [_viewConstraints addObject: bottomConstraint];
+    
+    [_viewConstraints addObject:[_titleLabel.centerYAnchor constraintEqualToAnchor:_viewButton.centerYAnchor]];
+    [_viewConstraints addObject:[_titleLabel.leadingAnchor constraintEqualToAnchor:_viewButton.leadingAnchor constant:CellLeftRightPadding]];
+    [_viewConstraints addObject:[_titleLabel.topAnchor constraintEqualToAnchor:_viewButton.topAnchor constant:ViewButtonTopBottomPadding]];
+    [_viewConstraints addObject:[_titleLabel.bottomAnchor constraintEqualToAnchor:_viewButton.bottomAnchor constant:-ViewButtonTopBottomPadding]];
+    
+    // TODO: REMOVE THIS CHECK AFTER MODULARIZATION ADDITIONS. Min version will be 13 and RA's min verions is already 13
+    if (_iconImageview != nil) {
+        [_viewConstraints addObject:[_titleLabel.trailingAnchor constraintEqualToAnchor:_iconImageview.leadingAnchor constant:ViewButtonLeadingPadding]];
+        [_viewConstraints addObject:[_iconImageview.centerYAnchor constraintEqualToAnchor:_viewButton.centerYAnchor]];
+        [_viewConstraints addObject:[_iconImageview.trailingAnchor constraintEqualToAnchor:_viewButton.trailingAnchor constant:-CellLeftRightPadding]];
+    } else {
+        [_viewConstraints addObject:[_titleLabel.trailingAnchor constraintEqualToAnchor:_viewButton.trailingAnchor constant:-CellLeftRightPadding]];
+    }
     
     [NSLayoutConstraint activateConstraints:_viewConstraints];
 }

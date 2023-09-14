@@ -248,25 +248,92 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
     [self updateViewColors];
 }
 
-- (void)setupConstraints {
+- (void)_clearActiveConstraints {
     if (_viewConstraints.count > 0) {
         [NSLayoutConstraint deactivateConstraints:_viewConstraints];
     }
     
     _viewConstraints = [NSMutableArray new];
     
+    for (UILabel *label in _conditionListLabels) {
+        [label removeFromSuperview];
+    }
+    _conditionListLabels = @[];
+    
+    for (UILabel *label in _detailListLabels) {
+        [label removeFromSuperview];
+    }
+    _detailListLabels = @[];
+}
+
+- (NSArray<NSLayoutConstraint *> *)_backgroundViewContraints {
+    CGFloat bottomPadding = _isLastItemBeforeAddRelativeButton ? -CellBottomPaddingBeforeAddRelativeButton : -CellBottomPadding;
+    return @[
+        [_backgroundView.topAnchor constraintEqualToAnchor:self.contentView.topAnchor],
+        [_backgroundView.leadingAnchor constraintEqualToAnchor:self.contentView.leadingAnchor],
+        [_backgroundView.trailingAnchor constraintEqualToAnchor:self.contentView.trailingAnchor],
+        [_backgroundView.bottomAnchor constraintLessThanOrEqualToAnchor:self.contentView.bottomAnchor constant:bottomPadding]
+    ];
+}
+
+- (NSArray<NSLayoutConstraint *> *)_titleLabelConstraints {
+    // _titleLabel becomes the first detailsLowerMostView, which sets `bottomAnchor` accordingly.
+    return @[
+        [_titleLabel.topAnchor constraintEqualToAnchor:_backgroundView.topAnchor constant:CellTopBottomPadding],
+        [_titleLabel.leadingAnchor constraintEqualToAnchor:_backgroundView.leadingAnchor constant:CellLeftRightPadding],
+        [_titleLabel.trailingAnchor constraintEqualToAnchor:_optionsButton.leadingAnchor constant:-CellLeftRightPadding]
+    ];
+}
+
+- (NSArray<NSLayoutConstraint *> *)_optionsButtonConstraints {
+    // leadingAnchor: set in _titleLabelConstraints
+    // bottomAnchor: ambiguous
+    return @[
+        [_optionsButton.topAnchor constraintEqualToAnchor:_titleLabel.topAnchor],
+        [_optionsButton.trailingAnchor constraintEqualToAnchor:_backgroundView.trailingAnchor constant:-CellLeftRightPadding]
+    ];
+}
+
+- (NSArray<NSLayoutConstraint *> *)_dividerConstraintsFromView:(UIView *)referenceView {
+    CGFloat separatorHeight = 1.0 / [UIScreen mainScreen].scale;
+    NSLayoutConstraint *heightConstraint = [_dividerView.heightAnchor constraintEqualToConstant:separatorHeight];
+    [heightConstraint setPriority:UILayoutPriorityDefaultLow];
+    return @[
+        [_dividerView.leadingAnchor constraintEqualToAnchor:_backgroundView.leadingAnchor],
+        [_dividerView.trailingAnchor constraintEqualToAnchor:_backgroundView.trailingAnchor],
+        heightConstraint,
+        [_dividerView.topAnchor constraintEqualToAnchor: referenceView.bottomAnchor constant:DividerViewTopBottomPadding],
+        [_dividerView.bottomAnchor constraintEqualToAnchor:_conditionsLabel.topAnchor constant:-DividerViewTopBottomPadding]
+    ];
+}
+
+- (NSArray<NSLayoutConstraint *> *)_conditionsLabelConstraints {
+    return @[
+        [_conditionsLabel.leadingAnchor constraintEqualToAnchor:_backgroundView.leadingAnchor constant:CellLeftRightPadding],
+        [_conditionsLabel.trailingAnchor constraintEqualToAnchor:_backgroundView.trailingAnchor constant:-CellLeftRightPadding]
+    ];
+}
+
+- (NSArray<NSLayoutConstraint *> *)_constraintsForLabel:(UILabel *)label relativeTo:(UIView *)referenceView {
+    return @[
+        [label.leadingAnchor constraintEqualToAnchor:_backgroundView.leadingAnchor constant:CellLeftRightPadding],
+        [label.trailingAnchor constraintEqualToAnchor:_backgroundView.trailingAnchor constant:-CellLeftRightPadding],
+        [label.topAnchor constraintEqualToAnchor:referenceView.bottomAnchor constant:CellLabelTopPadding]
+    ];
+}
+
+- (void)setupConstraints {
+    [self _clearActiveConstraints];
+    _viewConstraints = [NSMutableArray new];
+    
     // backgroundView constraints
-    [_viewConstraints addObject:[_backgroundView.topAnchor constraintEqualToAnchor:_titleLabel.topAnchor constant:-CellTopBottomPadding]];
-    [_viewConstraints addObject:[_backgroundView.leadingAnchor constraintEqualToAnchor:self.contentView.leadingAnchor]];
-    [_viewConstraints addObject:[_backgroundView.trailingAnchor constraintEqualToAnchor:self.contentView.trailingAnchor]];
+    [_viewConstraints addObjectsFromArray:[self _backgroundViewContraints]];
     
     // titleLabel constraints
-    [_viewConstraints addObject:[_titleLabel.leadingAnchor constraintEqualToAnchor:_backgroundView.leadingAnchor constant:CellLeftRightPadding]];
-    [_viewConstraints addObject:[_titleLabel.trailingAnchor constraintEqualToAnchor:_optionsButton.leadingAnchor constant:-CellLeftRightPadding]];
+    [_viewConstraints addObjectsFromArray:[self _titleLabelConstraints]];
     
     // optionsButton constraints
-    [_viewConstraints addObject:[_optionsButton.topAnchor constraintEqualToAnchor:_titleLabel.topAnchor]];
-    [_viewConstraints addObject:[_optionsButton.trailingAnchor constraintEqualToAnchor:_backgroundView.trailingAnchor constant:-CellLeftRightPadding]];
+    [_viewConstraints addObjectsFromArray:[self _optionsButtonConstraints]];
     
     // find lower most view to constrain the dividerView to
     UIView *detailsLowerMostView = _titleLabel;
@@ -275,25 +342,15 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
     
     for (UILabel *label in _detailListLabels) {
         [_backgroundView addSubview:label];
-        
-        [_viewConstraints addObject:[label.leadingAnchor constraintEqualToAnchor:_backgroundView.leadingAnchor constant:CellLeftRightPadding]];
-        [_viewConstraints addObject:[label.trailingAnchor constraintEqualToAnchor:_backgroundView.trailingAnchor constant:-CellLeftRightPadding]];
-        [_viewConstraints addObject:[label.topAnchor constraintEqualToAnchor:detailsLowerMostView.bottomAnchor constant:CellLabelTopPadding]];
-
+        [_viewConstraints addObjectsFromArray: [self _constraintsForLabel:label relativeTo:detailsLowerMostView]];
         detailsLowerMostView = label;
     }
     
     // dividerView constraints
-    CGFloat separatorHeight = 1.0 / [UIScreen mainScreen].scale;
-    
-    [_viewConstraints addObject:[_dividerView.leftAnchor constraintEqualToAnchor:_backgroundView.leftAnchor]];
-    [_viewConstraints addObject:[_dividerView.rightAnchor constraintEqualToAnchor:_backgroundView.rightAnchor]];
-    [_viewConstraints addObject:[_dividerView.heightAnchor constraintEqualToConstant:separatorHeight]];
-    [_viewConstraints addObject:[_dividerView.topAnchor constraintGreaterThanOrEqualToAnchor: detailsLowerMostView.bottomAnchor constant:DividerViewTopBottomPadding]];
+    [_viewConstraints addObjectsFromArray: [self _dividerConstraintsFromView:detailsLowerMostView]];
     
     // conditionsLabel constraints
-    [_viewConstraints addObject:[_conditionsLabel.topAnchor constraintEqualToAnchor:_dividerView.bottomAnchor constant:DividerViewTopBottomPadding]];
-    [_viewConstraints addObject:[_conditionsLabel.leadingAnchor constraintEqualToAnchor:_backgroundView.leadingAnchor constant:CellLeftRightPadding]];
+    [_viewConstraints addObjectsFromArray:[self _conditionsLabelConstraints]];
     
     // find lower most view to constrain the backgroundView to
     UIView *conditionsLowerMostView = _conditionsLabel;
@@ -302,31 +359,19 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
     
     for (UILabel *label in _conditionListLabels) {
         [_backgroundView addSubview:label];
-        
-        [_viewConstraints addObject:[label.leadingAnchor constraintEqualToAnchor:_backgroundView.leadingAnchor constant:CellLeftRightPadding]];
-        [_viewConstraints addObject:[label.trailingAnchor constraintEqualToAnchor:_backgroundView.trailingAnchor constant:-CellLeftRightPadding]];
-        [_viewConstraints addObject:[label.topAnchor constraintEqualToAnchor:conditionsLowerMostView.bottomAnchor constant:CellLabelTopPadding]];
-
+        [_viewConstraints addObjectsFromArray: [self _constraintsForLabel:label relativeTo:conditionsLowerMostView]];
         conditionsLowerMostView = label;
     }
     
     // set backgroundView's bottom anchor to lower most UILabel
-    [_viewConstraints addObject:[_backgroundView.bottomAnchor constraintEqualToAnchor:conditionsLowerMostView.bottomAnchor constant:BackgroundViewBottomPadding]];
-    
-    // set contentView constraints
-    [_viewConstraints addObject:[self.contentView.topAnchor constraintEqualToAnchor:_backgroundView.topAnchor]];
-    [_viewConstraints addObject:[self.contentView.bottomAnchor
-                                 constraintEqualToAnchor:_backgroundView.bottomAnchor
-                                 constant:_isLastItemBeforeAddRelativeButton ? CellBottomPaddingBeforeAddRelativeButton : CellBottomPadding]];
+    NSLayoutConstraint *bottomConstraint = [conditionsLowerMostView.bottomAnchor constraintEqualToAnchor:_backgroundView.bottomAnchor constant:-BackgroundViewBottomPadding];
+    [bottomConstraint setPriority:UILayoutPriorityDefaultLow];
+    [_viewConstraints addObject:bottomConstraint];
     
     [NSLayoutConstraint activateConstraints:_viewConstraints];
 }
 
 - (NSArray<UILabel *> *)getDetailLabels {
-    for (UILabel *label in _detailListLabels) {
-        [label removeFromSuperview];
-    }
-    
     NSMutableArray<UILabel *> *labels = [NSMutableArray new];
     
     for (NSString *detailValue in _detailValues) {
@@ -346,14 +391,10 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
         [labels addObject:label];
     }
     
-    return labels;
+    return [labels copy];
 }
 
 - (NSArray<UILabel *> *)getConditionLabels {
-    for (UILabel *label in _conditionListLabels) {
-        [label removeFromSuperview];
-    }
-    
     NSMutableArray<UILabel *> *labels = [NSMutableArray new];
     
     if (!_conditionValues || _conditionValues.count == 0) {
@@ -390,7 +431,6 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
             
             [labels addObject:label];
         }
-        
     }
     
     return [labels copy];
@@ -416,21 +456,16 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
     _title = title;
 }
 
-- (void)setIsLastItemBeforeAddRelativeButton:(BOOL)isLastItemBeforeAddRelativeButton {
+// TODO: investigate making values their own type
+- (void)configureWithDetailValues:(NSArray<NSString *> *)detailValues
+                 conditionsValues:(NSArray<NSString *> *)conditionsValues
+isLastItemBeforeAddRelativeButton:(BOOL)isLastItemBeforeAddRelativeButton {
+    _detailValues = detailValues;
+    _conditionValues = conditionsValues;
     _isLastItemBeforeAddRelativeButton = isLastItemBeforeAddRelativeButton;
     [self setupConstraints];
 }
 
-// TODO: investigate makign this its own type
-- (void)setDetailValues:(NSArray<NSString *> *)detailValues {
-    _detailValues = detailValues;
-    [self setupConstraints];
-}
-
-- (void)setConditionValues:(NSArray<NSString *> *)conditionValues {
-    _conditionValues = conditionValues;
-    [self setupConstraints];
-}
 
 - (UIFont *)titleLabelFont {
     UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleSubheadline];
@@ -448,6 +483,13 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
     UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleSubheadline];
     UIFontDescriptor *fontDescriptor = [descriptor fontDescriptorWithSymbolicTraits:(UIFontDescriptorTraitUIOptimized)];
     return [UIFont fontWithDescriptor:fontDescriptor size:[[fontDescriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]];
+}
+
+- (void)prepareForReuse {
+    _title = @"";
+    _relativeID = @"";
+    [self configureWithDetailValues:@[] conditionsValues:@[] isLastItemBeforeAddRelativeButton:NO];
+    [super prepareForReuse];
 }
 
 @end
