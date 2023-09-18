@@ -342,19 +342,7 @@
     toneResult.startDate = sResult.startDate;
     toneResult.endDate = now;
 
-    NSArray<ORKdBHLToneAudiometryFrequencySample *> *samples = [self.audiometryEngine resultSamples];
-    bool enableRealDataNumber = [[NSUserDefaults standardUserDefaults] boolForKey:@"enable_realData"];
-    if (!enableRealDataNumber) {
-        [samples enumerateObjectsUsingBlock:^(ORKdBHLToneAudiometryFrequencySample * _Nonnull sample, NSUInteger idx, BOOL * _Nonnull stop) {
-            double min = -15;
-            double max = 15;
-            double precision = 1e8;
-            double maskValue = (double)((min * precision) + arc4random_uniform((max - min) * precision)) / precision;
-            sample.calculatedThreshold += maskValue;
-            
-        }];
-    }
-    toneResult.samples = samples;
+    toneResult.samples = [self.audiometryEngine resultSamples];
     
     toneResult.allTaps = [_taps copy];
 #if RK_APPLE_INTERNAL
