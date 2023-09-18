@@ -459,7 +459,7 @@
 #if USE_LEGACY_TONEPLAYER
                 [_audioGenerator playSoundAtFrequency:stimulus.frequency onChannel:stimulus.channel dBHL:stimulus.level];
 #else
-                ORK_Log_Debug("dBHL: %lf - frequency: %lf - channel: %@", stimulus.level,stimulus.frequency,stimulus.channel==ORKAudioChannelLeft?@"Left":@"Right");
+                ORK_Log_Debug("Level: %lf - frequency: %lf - channel: %@", stimulus.level,stimulus.frequency,stimulus.channel==ORKAudioChannelLeft?@"Left":@"Right");
                 [self.taskViewController playWithFrequency:stimulus.frequency level:stimulus.level channel:stimulus.channel completion:^(NSError * _Nonnull error) {
                     if (error) {
                         ORK_Log_Error("tonePlayer playWithFrequency error: %@", error);
