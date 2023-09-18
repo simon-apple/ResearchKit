@@ -35,7 +35,6 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @class ORKdBHLToneAudiometryFrequencySample;
-@class ORKdBHLToneAudiometryDeletedSample;
 @class ORKdBHLToneAudiometryUnit;
 @class ORKdBHLToneAudiometryTap;
 @class ORKdBHLToneAudiometryMOAInteraction;
@@ -57,7 +56,7 @@ ORK_CLASS_AVAILABLE
 
 #if RK_APPLE_INTERNAL
 //These data are related to the new algorithm only
-@property (nonatomic, copy, nullable) NSArray<ORKdBHLToneAudiometryDeletedSample *> *deletedSamples;
+@property (nonatomic, copy, nullable) NSArray<ORKdBHLToneAudiometryFrequencySample *> *deletedSamples;
 
 @property (nonatomic, copy, nullable) NSArray<ORKdBHLToneAudiometryFrequencySample *> *discreteUnits;
 
@@ -94,23 +93,6 @@ ORK_CLASS_AVAILABLE
 @property (nonatomic, copy, nullable) NSArray<ORKdBHLToneAudiometryUnit *> *units;
 
 @property (nonatomic, copy, nullable) NSArray<ORKdBHLToneAudiometryMOAInteraction *> *allInteractions;
-
-@end
-
-ORK_CLASS_AVAILABLE
-@interface ORKdBHLToneAudiometryDeletedSample : NSObject <NSCopying, NSSecureCoding>
-
-@property (nonatomic, assign) double frequency;
-
-@property (nonatomic, assign) double level;
-
-@property (nonatomic, assign) ORKAudioChannel channel;
-
-@property (nonatomic, assign) NSInteger originalIndex;
-
-@property (nonatomic, assign) BOOL response;
-
-@property (nonatomic, assign) NSTimeInterval deletionTimestamp;
 
 @end
 

@@ -2150,16 +2150,6 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(units, ORKdBHLToneAudiometryUnit, NSArray, NO, nil, nil),
                     PROPERTY(allInteractions, ORKdBHLToneAudiometryMOAInteraction, NSArray, NO, nil, nil),
                     })),
-           ENTRY(ORKdBHLToneAudiometryDeletedSample,
-                 nil,
-                 (@{
-                    PROPERTY(frequency, NSNumber, NSObject, NO, nil, nil),
-                    PROPERTY(level, NSNumber, NSObject, NO, nil, nil),
-                    PROPERTY(channel, NSNumber, NSObject, NO, nil, nil),
-                    PROPERTY(originalIndex, NSNumber, NSObject, NO, nil, nil),
-                    PROPERTY(response, NSNumber, NSObject, NO, nil, nil),
-                    PROPERTY(deletionTimestamp, NSNumber, NSObject, NO, nil, nil),
-                    })),
            ENTRY(ORKdBHLToneAudiometryResult,
                  nil,
                  (@{
@@ -2169,7 +2159,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(headphoneType, NSString, NSObject, NO, nil, nil),
                     PROPERTY(samples, ORKdBHLToneAudiometryFrequencySample, NSArray, NO, nil, nil),
 #if RK_APPLE_INTERNAL
-                    PROPERTY(deletedSamples, ORKdBHLToneAudiometryDeletedSample, NSArray, NO, nil, nil),
+                    PROPERTY(deletedSamples, ORKdBHLToneAudiometryFrequencySample, NSArray, NO, nil, nil),
                     PROPERTY(discreteUnits, ORKdBHLToneAudiometryFrequencySample, NSArray, NO, nil, nil),
                     PROPERTY(fitMatrix, NSDictionary, NSObject, NO, nil, nil),
                     PROPERTY(algorithmVersion, NSNumber, NSObject, NO, nil, nil),
