@@ -445,10 +445,6 @@ NSString * const ORKSurveyCardHeaderViewIdentifier = @"SurveyCardHeaderViewIdent
     
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(updateAppearance)
-                                                 name:UIContentSizeCategoryDidChangeNotification
-                                               object:nil];
 }
 
 - (void)viewDidLayoutSubviews {
@@ -658,28 +654,23 @@ NSString * const ORKSurveyCardHeaderViewIdentifier = @"SurveyCardHeaderViewIdent
     return height;
 }
 
-- (CGFloat)largestHeaderHeight {
-    CGFloat maxHeight = 0;
+- (CGFloat)heightForFormItem:(ORKFormItem *)formItem {
     
-    for (ORKFormItem *formItem in [self visibleFormItems]) {
-        CGFloat headerHeight = 0.0;
+    CGFloat headerHeight = 0.0;
 
-        if (formItem.text) {
-            headerHeight = headerHeight + [self heightForText:formItem.text withFont:[ORKSurveyCardHeaderView titleLabelFont] withLearnMorePadding:NO];
-        }
-        
-        if (formItem.detailText) {
-            headerHeight = headerHeight + [self heightForText:formItem.detailText withFont:[ORKSurveyCardHeaderView detailTextLabelFont] withLearnMorePadding:(formItem.learnMoreItem != nil)] + ORKStepContainerTitleToBodyTopPaddingStandard;
-        }
-        
-        if (formItem.tagText) {
-            headerHeight = headerHeight + [self heightForText:formItem.tagText withFont:[ORKTagLabel font] withLearnMorePadding:NO] + ORKStepContainerTitleToBodyTopPaddingStandard;
-        }
-                
-        maxHeight = MAX(headerHeight, maxHeight);
+    if (formItem.text) {
+        headerHeight = headerHeight + [self heightForText:formItem.text withFont:[ORKSurveyCardHeaderView titleLabelFont] withLearnMorePadding:NO];
     }
     
-    return maxHeight;
+    if (formItem.detailText) {
+        headerHeight = headerHeight + [self heightForText:formItem.detailText withFont:[ORKSurveyCardHeaderView detailTextLabelFont] withLearnMorePadding:(formItem.learnMoreItem != nil)] + ORKStepContainerTitleToBodyTopPaddingStandard;
+    }
+    
+    if (formItem.tagText) {
+        headerHeight = headerHeight + [self heightForText:formItem.tagText withFont:[ORKTagLabel font] withLearnMorePadding:NO] + ORKStepContainerTitleToBodyTopPaddingStandard;
+    }
+            
+    return headerHeight;
 }
 
 - (void)stepDidChange {
@@ -719,7 +710,6 @@ NSString * const ORKSurveyCardHeaderViewIdentifier = @"SurveyCardHeaderViewIdent
         _tableView.rowHeight = UITableViewAutomaticDimension;
         _tableView.sectionHeaderHeight = UITableViewAutomaticDimension;
         _tableView.estimatedRowHeight = ORKGetMetricForWindow(ORKScreenMetricTableCellDefaultHeight, self.view.window);
-        [self setTableViewEstimatedSectionHeaderHeight];
 
         if ([self formStep].useCardView) {
             _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -770,15 +760,6 @@ NSString * const ORKSurveyCardHeaderViewIdentifier = @"SurveyCardHeaderViewIdent
         }
         [self setupConstraints];
     }
-}
-
-- (void)updateAppearance {
-    [self setTableViewEstimatedSectionHeaderHeight];
-}
-
-- (void)setTableViewEstimatedSectionHeaderHeight {
-    _tableView.estimatedSectionHeaderHeight = [self largestHeaderHeight] + (ORKIsAccessibilityLargeTextEnabled() ? ORKFormStepLargeTextMinimumHeaderHeight : ORKFormStepMinimumHeaderHeight);
-    ORK_Log_Debug("_tableView.estimatedSectionHeaderHeight now set to %f", _tableView.estimatedSectionHeaderHeight);
 }
 
 - (void)_registerCellClassesInTableView:(UITableView *)tableView {
@@ -1854,6 +1835,14 @@ static CGFloat ORKLabelWidth(NSString *text) {
 
     // Make first section header view zero height when there is no title
     return [self formStep].useCardView ? UITableViewAutomaticDimension : (title.length > 0) ? UITableViewAutomaticDimension : ((section == 0) ? 0 : UITableViewAutomaticDimension);
+}
+
+- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForHeaderInSection:(NSInteger)section {
+    __auto_type snapshot = [_diffableDataSource snapshot];
+    NSString *sectionIdentifier = [[snapshot sectionIdentifiers] objectAtIndex:section];
+    ORKFormItem *sectionFormItem = [self _formItemForFormItemIdentifier:sectionIdentifier];
+    
+    return [self heightForFormItem:sectionFormItem] + (ORKIsAccessibilityLargeTextEnabled() ? ORKFormStepLargeTextMinimumHeaderHeight : ORKFormStepMinimumHeaderHeight);
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
