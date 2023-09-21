@@ -441,6 +441,7 @@ NSString * const ORKHealthConditionPreferNotToAnswerChoiceValue = @"prefer not t
 
 - (NSMutableArray<ORKRelatedPerson *> *)bubbleSortRelativeGroup:(ORKRelativeGroup *)relativeGroup {
     NSMutableArray<ORKRelatedPerson *> *relatedPersons = _relatedPersons[relativeGroup.identifier];
+    NSMutableArray<ORKRelatedPerson *> *relatedPersonsNoAge = [NSMutableArray new];
     NSArray<ORKFormStep *> *formSteps = [relativeGroup.formSteps copy];
     
     int index = relatedPersons.count;
@@ -450,14 +451,31 @@ NSString * const ORKHealthConditionPreferNotToAnswerChoiceValue = @"prefer not t
             ORKRelatedPerson *relatedPersonLeft = relatedPersons[tempIndex];
             ORKRelatedPerson *relatedPersonRight = relatedPersons[tempIndex + 1];
             
-            if ([relatedPersonLeft getAgeFromFormSteps:formSteps] > [relatedPersonRight getAgeFromFormSteps:formSteps]) {
+            if ([relatedPersonLeft getAgeFromFormSteps:formSteps].doubleValue > [relatedPersonRight getAgeFromFormSteps:formSteps].doubleValue) {
                 [relatedPersons exchangeObjectAtIndex:tempIndex withObjectAtIndex:tempIndex + 1];
+            } else if ([relatedPersonLeft getAgeFromFormSteps:formSteps] == [relatedPersonRight getAgeFromFormSteps:formSteps]) {
+                if ([relatedPersonLeft.taskResult.startDate compare:relatedPersonRight.taskResult.startDate] == NSOrderedAscending) {
+                    [relatedPersons exchangeObjectAtIndex:tempIndex withObjectAtIndex:tempIndex + 1];
+                }
             }
         }
         
         index -= 1;
     }
     
+    // collect all relatives with no age provided
+    for (int tempIndex = 0; tempIndex < relatedPersons.count; tempIndex++) {
+        ORKRelatedPerson *relatedPerson = relatedPersons[tempIndex];
+
+        if ([relatedPerson getAgeFromFormSteps:formSteps] == nil) {
+            [relatedPersonsNoAge addObject:relatedPerson];
+        }
+    }
+    
+    // remove all related members with no age provided then append them to the end of the array
+    [relatedPersons removeObjectsInArray:relatedPersonsNoAge];
+    [relatedPersons addObjectsFromArray:relatedPersonsNoAge];
+
     return relatedPersons;
 }
 

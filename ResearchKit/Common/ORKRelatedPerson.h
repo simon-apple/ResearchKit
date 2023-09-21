@@ -67,7 +67,7 @@ ORK_CLASS_AVAILABLE
                                          conditionsKeyValues:(NSDictionary<NSString *, NSString *> *)conditionsKeyValues;
 
 #if RK_APPLE_INTERNAL
-- (int)getAgeFromFormSteps:(NSArray<ORKFormStep *> *)formSteps;
+- (nullable NSNumber *)getAgeFromFormSteps:(NSArray<ORKFormStep *> *)formSteps;
 
 - (void)setAgeAnswerFormat:(ORKAgeAnswerFormat *)ageAnswerFormat
      ageFormItemIdentifier:(NSString *)ageFormItemIdentifier;

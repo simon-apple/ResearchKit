@@ -205,7 +205,7 @@
     _ageFormItemIdentifier = ageFormItemIdentifier;
 }
 
-- (int)getAgeFromFormSteps:(NSArray<ORKFormStep *> *)formSteps {
+- (nullable NSNumber *)getAgeFromFormSteps:(NSArray<ORKFormStep *> *)formSteps {
     for (ORKFormStep *formStep in formSteps) {
         for (ORKFormItem *formItem in formStep.formItems) {
             if ([formItem.answerFormat isKindOfClass:[ORKAgeAnswerFormat class]]) {
@@ -218,7 +218,15 @@
                     NSString *identifier = formItem.identifier;
                     NSString *value = [self getResultValueWithIdentifier:identifier];
                     if (value && ![value isKindOfClass:[ORKDontKnowAnswer class]]) {
-                        return [value integerValue];
+                        
+                        if ([value isEqual:_ageAnswerFormat.minimumAgeCustomText] && _ageAnswerFormat.treatMinAgeAsRange) {
+                            return [NSNumber numberWithInt:[self currentYear]];
+                        } else if ([value isEqual:_ageAnswerFormat.maximumAgeCustomText] && _ageAnswerFormat.treatMaxAgeAsRange) {
+                            return [NSNumber numberWithInt:_ageAnswerFormat.relativeYear - _ageAnswerFormat.maximumAge];
+                        }
+                        
+                        int intValue = [value integerValue];
+                        return intValue == [ORKAgeAnswerFormat minimumAgeSentinelValue] ? [NSNumber numberWithInt:[self currentYear]] : [NSNumber numberWithInt:intValue];
                     }
                     break;
                 }
@@ -226,8 +234,15 @@
         }
     }
     
-    return 0;
+    return nil;
 }
+
+- (NSInteger)currentYear {
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    NSDateComponents *components = [calendar components:NSCalendarUnitYear fromDate:[NSDate date]];
+    return [components year];
+}
+
 #endif
 
 @end
