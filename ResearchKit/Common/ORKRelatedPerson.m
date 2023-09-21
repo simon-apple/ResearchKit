@@ -147,13 +147,20 @@
     
     NSMutableArray<NSString *> *conditionListDisplayValues = [NSMutableArray new];
     
+    BOOL didSkipValue = NO;
     for (NSString *condition in conditionsList) {
         NSString *value = [conditionsKeyValues valueForKey:condition];
         
-        if (![self shouldSkipListValue:value]) {
+        if ([self shouldSkipListValue:value]) {
+            didSkipValue = YES;
+        } else {
             NSString *displayString = [[value lowercaseString] isEqual:@"none of the above"] ? ORKLocalizedString(@"FAMILY_HISTORY_NONE_SELECTED", "") : value;
             [conditionListDisplayValues addObject:displayString];
         }
+    }
+    
+    if (didSkipValue && conditionListDisplayValues.count == 0) {
+        [conditionListDisplayValues addObject:@""];
     }
     
     return [conditionListDisplayValues copy];

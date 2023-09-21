@@ -399,7 +399,7 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
     
     if (!_conditionValues || _conditionValues.count == 0) {
         UILabel *noneSelectedLabel = [UILabel new];
-        noneSelectedLabel.text = @"";
+        noneSelectedLabel.text = ORKLocalizedString(@"FAMILY_HISTORY_NONE_SELECTED", "");
         noneSelectedLabel.numberOfLines = 0;
         noneSelectedLabel.translatesAutoresizingMaskIntoConstraints = NO;
         noneSelectedLabel.lineBreakMode = NSLineBreakByWordWrapping;
