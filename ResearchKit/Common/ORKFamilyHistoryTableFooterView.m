@@ -120,10 +120,10 @@ static const CGFloat ViewLeftRightPadding = 16.0;
 - (void)updateViewColors {
     if (@available(iOS 13.0, *)) {
         _titleLabel.textColor = self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor whiteColor] : [UIColor systemBlueColor];
-        _viewButton.backgroundColor = self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ?  [UIColor systemGray4Color] : [UIColor whiteColor];
+        _viewButton.backgroundColor = [UIColor secondarySystemGroupedBackgroundColor];
     } else {
-        _viewButton.backgroundColor = [UIColor whiteColor];
         _titleLabel.textColor = [UIColor systemBlueColor];
+        _viewButton.backgroundColor = [UIColor whiteColor];
     }
 }
 

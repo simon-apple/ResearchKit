@@ -217,13 +217,13 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
 
 - (void)updateViewColors {
     if (@available(iOS 13.0, *)) {
-        _backgroundView.backgroundColor = self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor systemGray4Color] : [UIColor whiteColor];
-        _dividerView.backgroundColor = self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor systemGray6Color] : [UIColor separatorColor];
-        _titleLabel.textColor = self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor whiteColor] : [UIColor blackColor];
-        _conditionsLabel.textColor = self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor whiteColor] : [UIColor blackColor];
-        _optionsButton.tintColor = self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ?  [UIColor whiteColor] :  [UIColor systemGrayColor];;
+        _backgroundView.backgroundColor = [UIColor secondarySystemGroupedBackgroundColor];
+        _dividerView.backgroundColor = [UIColor separatorColor];
+        _titleLabel.textColor = [UIColor labelColor];
+        _conditionsLabel.textColor = [UIColor labelColor];
+        _optionsButton.tintColor = [UIColor secondaryLabelColor];
 
-        [self updateViewLabelsTextColor:self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor whiteColor] : [UIColor systemGrayColor]];
+        [self updateViewLabelsTextColor:[UIColor secondaryLabelColor]];
     } else {
         _backgroundView.backgroundColor = [UIColor whiteColor];
         _dividerView.backgroundColor = [UIColor lightGrayColor];
