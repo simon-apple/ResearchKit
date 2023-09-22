@@ -67,19 +67,9 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
     if (self) {
         [self setBackgroundColor:[UIColor clearColor]];
         [self.contentView setBackgroundColor:[UIColor clearColor]];
-        
-        [self setupSubViews];
-        [self setupConstraints];
     }
     
     return self;
-}
-
-- (void)setFrame:(CGRect)frame {
-    frame.origin.x += ContentLeftRightPadding;
-    frame.size.width -= 2 * ContentLeftRightPadding;
-    
-    [super setFrame:frame];
 }
 
 - (UIMenu *)optionsMenu  API_AVAILABLE(ios(13.0)) {
@@ -161,14 +151,11 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
     _backgroundView.clipsToBounds = YES;
     _backgroundView.layer.cornerRadius = 12.0;
     _backgroundView.translatesAutoresizingMaskIntoConstraints = NO;
+    [_backgroundView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
     [self.contentView addSubview:_backgroundView];
     
-    _titleLabel = [UILabel new];
-    _titleLabel.numberOfLines = 0;
-    _titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    _titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    _titleLabel.font = [self titleLabelFont];
-    _titleLabel.textAlignment = NSTextAlignmentLeft;
+    _titleLabel = [self _primaryLabel];
+    [_titleLabel setText:_title];
     [_backgroundView addSubview:_titleLabel];
     
     _optionsButton = [UIButton new];
@@ -203,13 +190,8 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
     }
     [_backgroundView addSubview:_dividerView];
     
-    _conditionsLabel = [UILabel new];
+    _conditionsLabel = [self _primaryLabel];
     _conditionsLabel.text = ORKLocalizedString(@"FAMILY_HISTORY_CONDITIONS", "");
-    _conditionsLabel.numberOfLines = 0;
-    _conditionsLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    _conditionsLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    _conditionsLabel.font = [self conditionsTitleLabelFont];
-    _conditionsLabel.textAlignment = NSTextAlignmentLeft;
     [_backgroundView addSubview:_conditionsLabel];
     
     [self updateViewColors];
@@ -268,11 +250,12 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
 
 - (NSArray<NSLayoutConstraint *> *)_backgroundViewContraints {
     CGFloat bottomPadding = _isLastItemBeforeAddRelativeButton ? -CellBottomPaddingBeforeAddRelativeButton : -CellBottomPadding;
+    
     return @[
         [_backgroundView.topAnchor constraintEqualToAnchor:self.contentView.topAnchor],
-        [_backgroundView.leadingAnchor constraintEqualToAnchor:self.contentView.leadingAnchor],
-        [_backgroundView.trailingAnchor constraintEqualToAnchor:self.contentView.trailingAnchor],
-        [_backgroundView.bottomAnchor constraintLessThanOrEqualToAnchor:self.contentView.bottomAnchor constant:bottomPadding]
+        [_backgroundView.leadingAnchor constraintEqualToAnchor:self.contentView.leadingAnchor constant:ContentLeftRightPadding],
+        [_backgroundView.trailingAnchor constraintEqualToAnchor:self.contentView.trailingAnchor constant:-ContentLeftRightPadding],
+        [_backgroundView.bottomAnchor constraintEqualToAnchor:self.contentView.bottomAnchor constant:bottomPadding]
     ];
 }
 
@@ -364,30 +347,45 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
     }
     
     // set backgroundView's bottom anchor to lower most UILabel
-    NSLayoutConstraint *bottomConstraint = [conditionsLowerMostView.bottomAnchor constraintEqualToAnchor:_backgroundView.bottomAnchor constant:-BackgroundViewBottomPadding];
-    [bottomConstraint setPriority:UILayoutPriorityDefaultLow];
+    NSLayoutConstraint *bottomConstraint = [conditionsLowerMostView.lastBaselineAnchor constraintEqualToAnchor:_backgroundView.bottomAnchor constant:-BackgroundViewBottomPadding];
+    [bottomConstraint setPriority:UILayoutPriorityDefaultHigh];
     [_viewConstraints addObject:bottomConstraint];
     
     [NSLayoutConstraint activateConstraints:_viewConstraints];
+}
+
+- (UILabel *)_baseLabel {
+    UILabel *label = [UILabel new];
+    label.translatesAutoresizingMaskIntoConstraints = NO;
+    label.lineBreakMode = NSLineBreakByWordWrapping;
+    label.textAlignment = NSTextAlignmentNatural;
+    label.numberOfLines = 0;
+    return label;
+}
+
+- (UILabel *)_primaryLabel {
+    UILabel *label = [self _baseLabel];
+    label.font = [self titleLabelFont];
+    return label;
+}
+
+- (UILabel *)_secondaryLabel {
+    UILabel *label = [self _baseLabel];
+    label.font = [self conditionsLabelFont];
+    if (@available(iOS 13.0, *)) {
+        label.textColor = self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor whiteColor] : [UIColor lightGrayColor];
+    } else {
+        label.textColor = [UIColor lightGrayColor];
+    }
+    return label;
 }
 
 - (NSArray<UILabel *> *)getDetailLabels {
     NSMutableArray<UILabel *> *labels = [NSMutableArray new];
     
     for (NSString *detailValue in _detailValues) {
-        UILabel *label = [UILabel new];
+        UILabel *label = [self _secondaryLabel];
         label.text = detailValue;
-        label.numberOfLines = 0;
-        label.translatesAutoresizingMaskIntoConstraints = NO;
-        label.lineBreakMode = NSLineBreakByWordWrapping;
-        label.font = [self conditionsLabelFont];
-        if (@available(iOS 13.0, *)) {
-            label.textColor = self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor whiteColor] : [UIColor lightGrayColor];
-        } else {
-            label.textColor = [UIColor lightGrayColor];
-        }
-        label.textAlignment = NSTextAlignmentLeft;
-        
         [labels addObject:label];
     }
     
@@ -398,37 +396,13 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
     NSMutableArray<UILabel *> *labels = [NSMutableArray new];
     
     if (!_conditionValues || _conditionValues.count == 0) {
-        UILabel *noneSelectedLabel = [UILabel new];
-        noneSelectedLabel.text = ORKLocalizedString(@"FAMILY_HISTORY_NONE_SELECTED", "");
-        noneSelectedLabel.numberOfLines = 0;
-        noneSelectedLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        noneSelectedLabel.lineBreakMode = NSLineBreakByWordWrapping;
-        noneSelectedLabel.font = [self conditionsLabelFont];
-        if (@available(iOS 13.0, *)) {
-            noneSelectedLabel.textColor = self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor whiteColor] : [UIColor lightGrayColor];
-        } else {
-            noneSelectedLabel.textColor = [UIColor lightGrayColor];
-        }
-        noneSelectedLabel.textAlignment = NSTextAlignmentLeft;
-        
+        UILabel *noneSelectedLabel = [self _secondaryLabel];
+        noneSelectedLabel.text = @"";
         [labels addObject:noneSelectedLabel];
     } else {
-        
         for (NSString *conditionValue in _conditionValues) {
-            UILabel *label = [UILabel new];
+            UILabel *label = [self _secondaryLabel];
             label.text = conditionValue;
-            label.numberOfLines = 0;
-            label.translatesAutoresizingMaskIntoConstraints = NO;
-            label.lineBreakMode = NSLineBreakByWordWrapping;
-            label.font = [self conditionsLabelFont];
-            if (@available(iOS 13.0, *)) {
-                label.textColor = self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor whiteColor] : [UIColor lightGrayColor];
-            } else {
-                label.textColor = [UIColor lightGrayColor];
-            }
-            
-            label.textAlignment = NSTextAlignmentLeft;
-            
             [labels addObject:label];
         }
     }
@@ -449,10 +423,6 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
 }
 
 - (void)setTitle:(NSString *)title {
-    if (_titleLabel) {
-        [_titleLabel setText:title];
-    }
-    
     _title = title;
 }
 
@@ -463,17 +433,12 @@ isLastItemBeforeAddRelativeButton:(BOOL)isLastItemBeforeAddRelativeButton {
     _detailValues = detailValues;
     _conditionValues = conditionsValues;
     _isLastItemBeforeAddRelativeButton = isLastItemBeforeAddRelativeButton;
+    
+    [self setupSubViews];
     [self setupConstraints];
 }
 
-
 - (UIFont *)titleLabelFont {
-    UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleSubheadline];
-    UIFontDescriptor *fontDescriptor = [descriptor fontDescriptorWithSymbolicTraits:(UIFontDescriptorTraitBold)];
-    return [UIFont fontWithDescriptor:fontDescriptor size:[[fontDescriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]];
-}
-
-- (UIFont *)conditionsTitleLabelFont {
     UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleSubheadline];
     UIFontDescriptor *fontDescriptor = [descriptor fontDescriptorWithSymbolicTraits:(UIFontDescriptorTraitBold)];
     return [UIFont fontWithDescriptor:fontDescriptor size:[[fontDescriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]];
@@ -488,7 +453,23 @@ isLastItemBeforeAddRelativeButton:(BOOL)isLastItemBeforeAddRelativeButton {
 - (void)prepareForReuse {
     _title = @"";
     _relativeID = @"";
-    [self configureWithDetailValues:@[] conditionsValues:@[] isLastItemBeforeAddRelativeButton:NO];
+    
+    [_titleLabel removeFromSuperview];
+    _titleLabel = nil;
+    
+    [_conditionsLabel removeFromSuperview];
+    _conditionsLabel = nil;
+    
+    [_optionsButton removeFromSuperview];
+    _optionsButton = nil;
+    
+    [_dividerView removeFromSuperview];
+    _dividerView = nil;
+    
+    [_backgroundView removeFromSuperview];
+    _backgroundView = nil;
+    
+    [self _clearActiveConstraints];
     [super prepareForReuse];
 }
 
