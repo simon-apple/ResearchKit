@@ -39,7 +39,7 @@
 #import "ORKStep_Private.h"
 
 #import "ORKHelpers_Internal.h"
-
+#import "ORKFormItemVisibilityRule.h"
 
 @implementation ORKFormStep
 
@@ -221,6 +221,7 @@
     self = [super init];
     if (self) {
         _text = [sectionTitle copy];
+        _identifier = [[NSUUID UUID] UUIDString];
     }
     return self;
 }
@@ -245,6 +246,7 @@
     self = [super init];
     if (self) {
         _text = [sectionTitle copy];
+        _identifier = [[NSUUID UUID] UUIDString];
         _detailText = [text copy];
         _learnMoreItem = [learnMoreItem copy];
         _showsProgress = showsProgress;
@@ -284,6 +286,7 @@
     item->_learnMoreItem = [_learnMoreItem copy];
     item->_showsProgress = _showsProgress;
     item->_tagText = [_tagText copy];
+    item->_visibilityRule = [_visibilityRule copy];
     return item;
 }
 
@@ -300,6 +303,7 @@
         ORK_DECODE_OBJ_CLASS(aDecoder, answerFormat, ORKAnswerFormat);
         ORK_DECODE_OBJ_CLASS(aDecoder, step, ORKFormStep);
         ORK_DECODE_OBJ_CLASS(aDecoder, tagText, NSString);
+        ORK_DECODE_OBJ_CLASS(aDecoder, visibilityRule, ORKFormItemVisibilityRule);
     }
     return self;
 }
@@ -315,7 +319,7 @@
     ORK_ENCODE_OBJ(aCoder, answerFormat);
     ORK_ENCODE_OBJ(aCoder, step);
     ORK_ENCODE_OBJ(aCoder, tagText);
-
+    ORK_ENCODE_OBJ(aCoder, visibilityRule);
 }
 
 - (BOOL)isEqual:(id)object {
@@ -333,12 +337,13 @@
             && self.showsProgress == castObject.showsProgress
             && ORKEqualObjects(self.placeholder, castObject.placeholder)
             && ORKEqualObjects(self.tagText, castObject.tagText)
-            && ORKEqualObjects(self.answerFormat, castObject.answerFormat));
+            && ORKEqualObjects(self.answerFormat, castObject.answerFormat)
+            && ORKEqualObjects(self.visibilityRule, castObject.visibilityRule));
 }
 
 - (NSUInteger)hash {
      // Ignore the step reference - it's not part of the content of this item
-    return _identifier.hash ^ _text.hash ^ _placeholder.hash ^ _answerFormat.hash ^ (_optional ? 0xf : 0x0) ^ _detailText.hash ^ _learnMoreItem.hash ^ (_showsProgress ? 0xf : 0x0) ^ _tagText.hash;
+    return _identifier.hash ^ _text.hash ^ _placeholder.hash ^ _answerFormat.hash ^ (_optional ? 0xf : 0x0) ^ _detailText.hash ^ _learnMoreItem.hash ^ (_showsProgress ? 0xf : 0x0) ^ _tagText.hash ^ _visibilityRule.hash;
 }
 
 - (ORKAnswerFormat *)impliedAnswerFormat {

@@ -80,7 +80,6 @@ struct TextChoiceView: View {
         var dividerPadding: CGFloat = 20
         dividerPadding += (imageWidth + 16)
         
-        
         return dividerPadding
     }
     
@@ -104,7 +103,8 @@ struct TextChoiceView: View {
                     Image(uiImage: img)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
-                        .frame(width: 115) // TODO: research stable path to fetch width of view in realtime
+                        .frame(width: 115)
+                        // TODO: research stable path to fetch width of view in realtime
                         .overlay(RoundedRectangle(cornerRadius: 6).stroke(Color.clear,
                                                                           lineWidth: 1))
                         .overlay(ExpandImageOverlay().padding([.leading, .top],
@@ -290,7 +290,9 @@ class SwiftUITextChoiceHelper: ObservableObject {
         
         // iterate through collectedTextChoices and update the selectedIndexes array
         for textChoice in collectedTextChoices {
-            let result = self.swiftUItextChoices.first(where: { $0.value.isEqual(textChoice.value) })
+            let result = self.swiftUItextChoices.first(where: {
+                $0.value.isEqual(textChoice.value)
+            })
             
             if let swiftUITextChoice = result, !selectedIndexes.contains(swiftUITextChoice.index) {
                 self.selectedIndexes.append(swiftUITextChoice.index)

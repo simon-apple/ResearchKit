@@ -100,14 +100,19 @@ class ResultViewController: UITableViewController {
                let segueIdentifier = SegueIdentifier(rawValue: identifier), segueIdentifier == .showTaskResult {
             
             let cell = sender as! UITableViewCell
-            
+
             let indexPath = tableView.indexPath(for: cell)!
             
             let destinationViewController = segue.destination as! ResultViewController
             
-            let collectionResult = result as! ORKCollectionResult
-            
-            destinationViewController.result = collectionResult.results![(indexPath as NSIndexPath).row]
+            if let familyHistoryResult = result as? ORKFamilyHistoryResult {
+                destinationViewController.result = familyHistoryResult.relatedPersons![(indexPath as NSIndexPath).row].taskResult
+            } else {
+                let collectionResult = result as! ORKCollectionResult
+                
+                destinationViewController.result = collectionResult.results![(indexPath as NSIndexPath).row]
+            }
+
         }
     }
 

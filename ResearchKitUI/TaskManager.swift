@@ -61,7 +61,6 @@ open class TaskManager: ObservableObject {
     @Published
     internal private(set) var answeredSteps: Set<ORKStep> = []
     
-    @Published
     var viewModels: [String: ViewModel] = [:]
     
     public init(task: ORKOrderedTask) {
@@ -126,7 +125,7 @@ internal extension TaskManager {
             let viewModel = QuestionStepViewModel(step: questionStep,
                                                   result: getOrCreateResult(for: step))
             viewModel.progress = progressForQuestionStep(step)
-            viewModels[step.identifier] = .questionStep(viewModel)
+            self.viewModels[step.identifier] = .questionStep(viewModel)
             return .questionStep(viewModel)
         }
         

@@ -264,3 +264,14 @@
 "AV_JOURNALING_PREDEFINED_AUDIO_VIDEO_ACCESS_TITLE" = "Camera and Microphone access not enabled.";
 "AV_JOURNALING_PREDEFINED_AUDIO_VIDEO_ACCESS_TEXT" = "Research app needs Camera and Microphone access to begin your video journal. Please allow access in Settings and try again.";
 "AV_JOURNALING_PREDEFINED_AUDIO_VIDEO_ACCESS_SETTINGS_LINK_TEXT" = "Enable Access in Settings.";
+
+/* ORKAgePicker */
+"AGEPICKER_OR_YOUNGER" = "%li or younger";
+"AGEPICKER_OR_OLDER" = "%li or older";
+
+/* Family History */
+"FAMILY_HISTORY_I_DONT_KNOW" = "I don't know";
+"AX_FAMILY_HISTORY_EDIT_BUTTON" = "Edit button";
+
+/* ORKTaskViewController Discard Button Text*/
+"BUTTON_OPTION_DISCARD_CHANGES" = "Discard Changes";

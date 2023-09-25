@@ -37,6 +37,8 @@ NS_ASSUME_NONNULL_BEGIN
 ORK_CLASS_AVAILABLE
 @interface ORKTagLabel : UILabel
 
++ (UIFont*)font;
+
 @end
 
 NS_ASSUME_NONNULL_END

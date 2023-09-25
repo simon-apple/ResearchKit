@@ -1,12 +1,16 @@
 //
-//  ResearchKit.xcconfig
+//  ResearchKit-Shared.xcconfig
 //  ORKCatalog
 //
 //  Created by Pariece McKinney on 6/14/21.
 //  Copyright © 2021 researchkit.org. All rights reserved.
 //
 
+<<<<<<< HEAD
 ORK_CATALOG_VERSION_NUMBER = 2.2.8
+=======
+ORK_CATALOG_VERSION_NUMBER = 2.7.14
+>>>>>>> release/Peach
 
 ORK_CATALOG_BUILD_NUMBER = $(ORK_CATALOG_BUILD_NUMBER_CI_$(CI)) // ORK_CATALOG_BUILD_NUMBER_CI_TRUE or ORK_CATALOG_BUILD_NUMBER_CI_
 ORK_CATALOG_BUILD_NUMBER_CI_TRUE = $(CI_BUILD_NUMBER)

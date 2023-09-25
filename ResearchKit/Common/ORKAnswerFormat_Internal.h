@@ -66,6 +66,7 @@ ORK_DESIGNATE_CODING_AND_SERIALIZATION_INITIALIZERS(ORKTextAnswerFormat)
 ORK_DESIGNATE_CODING_AND_SERIALIZATION_INITIALIZERS(ORKTimeIntervalAnswerFormat)
 ORK_DESIGNATE_CODING_AND_SERIALIZATION_INITIALIZERS(ORKHeightAnswerFormat)
 ORK_DESIGNATE_CODING_AND_SERIALIZATION_INITIALIZERS(ORKWeightAnswerFormat)
+ORK_DESIGNATE_CODING_AND_SERIALIZATION_INITIALIZERS(ORKAgeAnswerFormat)
 #endif
 ORK_DESIGNATE_CODING_AND_SERIALIZATION_INITIALIZERS(ORKTextChoiceAnswerFormat)
 ORK_DESIGNATE_CODING_AND_SERIALIZATION_INITIALIZERS(ORKTextChoice)
@@ -149,7 +150,6 @@ ORK_DESIGNATE_CODING_AND_SERIALIZATION_INITIALIZERS(ORKTextChoice)
 
 @end
 
-
 @protocol ORKTextScaleAnswerFormatProvider <ORKScaleAnswerFormatProvider>
 
 - (NSArray<ORKTextChoice *> *)textChoices;
@@ -209,13 +209,17 @@ NSArray<Class> *ORKAllowableValueClasses(void);
 @end
 
 
-@interface ORKDateAnswerFormat ()
+@interface ORKDateAnswerFormat () {
+    NSDate *_currentDateOverride;
+}
 
 - (NSDate *)pickerDefaultDate;
 - (nullable NSDate *)pickerMinimumDate;
 - (nullable NSDate *)pickerMaximumDate;
 
 - (NSCalendar *)currentCalendar;
+
+- (void)_setCurrentDateOverride:(NSDate *)currentDateOverride;
 
 @end
 

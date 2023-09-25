@@ -32,11 +32,27 @@
 
 #import "AVFoundation_Private.h"
 
-ORK_SOFT_LINK_FRAMEWORK(PrivateFrameworks, AVFoundation)
-ORK_SOFT_LINK_CLASS(AVFoundation, AVOutputDevice)
+ORK_SOFT_LINK_FRAMEWORK(Frameworks, AVFoundation);
 ORK_SOFT_LINK_CLASS(AVFoundation, AVOutputContext)
+<<<<<<< HEAD:ResearchKitInternal/ResearchKitInternal/Common/Utilities/ORKAVFoundationSoftLink.h
 ORK_SOFT_LINK_CONSTANT(AVFoundation, AVOutputDeviceBluetoothListeningModeActiveNoiseCancellation, NSString *)
 ORK_SOFT_LINK_CONSTANT(AVFoundation, AVOutputDeviceBluetoothListeningModeAudioTransparency, NSString *)
 ORK_SOFT_LINK_CONSTANT(AVFoundation, AVOutputDeviceBluetoothListeningModeNormal, NSString *)
 ORK_SOFT_LINK_CONSTANT(AVFoundation, AVOutputDeviceBatteryLevelLeftKey, NSString *)
 ORK_SOFT_LINK_CONSTANT(AVFoundation, AVOutputDeviceBatteryLevelRightKey, NSString *)
+=======
+#define AVOutputContextSoft getAVOutputContextClass()
+
+ORK_SOFT_LINK_NSSTRING_CONSTANT(AVFoundation, AVOutputDeviceBluetoothListeningModeActiveNoiseCancellation)
+#define AVOutputDeviceBluetoothListeningModeActiveNoiseCancellation getAVOutputDeviceBluetoothListeningModeActiveNoiseCancellation()
+ORK_SOFT_LINK_NSSTRING_CONSTANT(AVFoundation, AVOutputDeviceBluetoothListeningModeAudioTransparency)
+#define AVOutputDeviceBluetoothListeningModeAudioTransparency getAVOutputDeviceBluetoothListeningModeAudioTransparency()
+ORK_SOFT_LINK_NSSTRING_CONSTANT(AVFoundation, AVOutputDeviceBluetoothListeningModeNormal)
+#define AVOutputDeviceBluetoothListeningModeNormal getAVOutputDeviceBluetoothListeningModeNormal()
+ORK_SOFT_LINK_NSSTRING_CONSTANT(AVFoundation, AVOutputDeviceBatteryLevelLeftKey)
+#define AVOutputDeviceBatteryLevelLeftKey getAVOutputDeviceBatteryLevelLeftKey()
+ORK_SOFT_LINK_NSSTRING_CONSTANT(AVFoundation, AVOutputDeviceBatteryLevelRightKey)
+#define AVOutputDeviceBatteryLevelRightKey getAVOutputDeviceBatteryLevelRightKey()
+
+#endif
+>>>>>>> release/Peach:ResearchKit/Common/ORKAVFoundationSoftLink.h

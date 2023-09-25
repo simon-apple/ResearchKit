@@ -59,6 +59,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)restartTask;
 
+- (void)flipToFirstPage;
 - (void)flipToLastPage;
 
 @end

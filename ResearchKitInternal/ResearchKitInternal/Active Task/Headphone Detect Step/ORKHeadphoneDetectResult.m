@@ -42,6 +42,7 @@
     ORK_ENCODE_OBJ(aCoder, vendorID);
     ORK_ENCODE_OBJ(aCoder, productID);
     ORK_ENCODE_INTEGER(aCoder, deviceSubType);
+    ORK_ENCODE_BOOL(aCoder, isMonoAudioEnabled);
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
@@ -51,6 +52,7 @@
         ORK_DECODE_OBJ_CLASS(aDecoder, vendorID, NSString);
         ORK_DECODE_OBJ_CLASS(aDecoder, productID, NSString);
         ORK_DECODE_INTEGER(aDecoder, deviceSubType);
+        ORK_DECODE_BOOL(aDecoder, isMonoAudioEnabled);
     }
     return self;
 }
@@ -68,11 +70,12 @@
             && ORKEqualObjects(self.vendorID, castObject.vendorID)
             && ORKEqualObjects(self.productID, castObject.productID)
             && self.deviceSubType == castObject.deviceSubType
+            && self.isMonoAudioEnabled == castObject.isMonoAudioEnabled
             );
 }
 
 - (NSUInteger)hash {
-    return super.hash ^ self.headphoneType.hash ^ self.vendorID.hash ^ self.productID.hash;
+    return super.hash ^ self.headphoneType.hash ^ self.vendorID.hash ^ self.productID.hash ^ (NSUInteger)self.deviceSubType ^ self.isMonoAudioEnabled ? 1 : 0;
 }
 
 - (instancetype)copyWithZone:(NSZone *)zone {
@@ -81,11 +84,12 @@
     result.vendorID = [self.vendorID copy];
     result.productID = [self.productID copy];
     result.deviceSubType = self.deviceSubType;
+    result.isMonoAudioEnabled = self.isMonoAudioEnabled;
     return result;
 }
 
 - (NSString *)descriptionWithNumberOfPaddingSpaces:(NSUInteger)numberOfPaddingSpaces {
-    return [NSString stringWithFormat:@"%@; headphoneType: %@; vendorId: %@; productId: %@; deviceSubType: %li;%@", [self descriptionPrefixWithNumberOfPaddingSpaces:numberOfPaddingSpaces], self.headphoneType, self.vendorID, self.productID, self.deviceSubType, self.descriptionSuffix];
+    return [NSString stringWithFormat:@"%@; headphoneType: %@; vendorId: %@; productId: %@; deviceSubType: %li; isMonoAudioEnabled: %d%@", [self descriptionPrefixWithNumberOfPaddingSpaces:numberOfPaddingSpaces], self.headphoneType, self.vendorID, self.productID, self.deviceSubType, self.isMonoAudioEnabled, self.descriptionSuffix];
 }
 
 @end

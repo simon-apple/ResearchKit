@@ -36,7 +36,7 @@
 #import "ORKCompletionCheckmarkView.h"
 #import "ORKBodyContainerView.h"
 #import "ORKSkin.h"
-
+#import "UIImageView+ResearchKit.h"
 
 /*
  +_________________________+
@@ -177,7 +177,35 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKUpdateConstraintSequence) {
         _topContentImageView.image = [self topContentAndAuxiliaryImage];
     }
     
+    [self updateViewColors];
     [[NSNotificationCenter defaultCenter] postNotificationName:ORKStepTopContentImageChangedKey object:nil];
+}
+
+- (void)setShouldAutomaticallyAdjustImageTintColor:(BOOL)shouldAutomaticallyAdjustImageTintColor {
+    _shouldAutomaticallyAdjustImageTintColor = shouldAutomaticallyAdjustImageTintColor;
+    [self updateViewColors];
+}
+
+- (void)updateViewColors {
+    if (!_shouldAutomaticallyAdjustImageTintColor) {
+        return;
+    }
+    if (@available(iOS 12.0, *)) {
+        // [LC:NOTE] for dark mode we need to able to set the tint on the UIImageView,
+        // this requires the image to be set to the UIImageRenderingModeAlwaysTemplate rendering mode
+        // in the UIImageRenderingModeAlwaysOriginal rendering mode, tintColor does not apply
+        [_topContentImageView updateRenderingModeForUserInterfaceStyle:self.traitCollection.userInterfaceStyle];
+        [_iconImageView updateRenderingModeForUserInterfaceStyle:self.traitCollection.userInterfaceStyle];
+        
+        UIColor *imageViewTintColor = self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor whiteColor] : nil;
+        _topContentImageView.tintColor = imageViewTintColor;
+        _iconImageView.tintColor = imageViewTintColor;
+    }
+}
+
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+    [super traitCollectionDidChange:previousTraitCollection];
+    [self updateViewColors];
 }
 
 - (void)setAuxiliaryImage:(UIImage *)auxiliaryImage {
@@ -299,6 +327,7 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKUpdateConstraintSequence) {
     _iconImageView.contentMode = UIViewContentModeScaleAspectFit;
 
     [self addSubview:_iconImageView];
+    [self updateViewColors];
     [self setIconImageViewConstraints];
 }
 
@@ -383,6 +412,7 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKUpdateConstraintSequence) {
     }
     _titleLabel.numberOfLines = 0;
     _titleLabel.textAlignment = _stepHeaderTextAlignment;
+    _titleLabel.accessibilityIdentifier = @"ORKStepContentView_titleLabel";
     [self addSubview:_titleLabel];
     [self setupTitleLabelConstraints];
     [self setContainerLeftRightConstraints];
@@ -461,6 +491,7 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKUpdateConstraintSequence) {
     _textLabel.textAlignment = _stepHeaderTextAlignment;
     _textLabel.numberOfLines = 0;
     _textLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    _textLabel.accessibilityIdentifier = @"ORKStepContentView_textLabel";
     [self addSubview:_textLabel];
     [self setupTextLabelConstraints];
     [self setContainerLeftRightConstraints];
@@ -557,6 +588,7 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKUpdateConstraintSequence) {
     _detailTextLabel.textAlignment = _stepHeaderTextAlignment;
     _detailTextLabel.numberOfLines = 0;
     _detailTextLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    _detailTextLabel.accessibilityIdentifier = @"ORKStepContentView_detailTextLabel";
     [self addSubview:_detailTextLabel];
     [self setupDetailTextLabelConstraints];
     [self setContainerLeftRightConstraints];

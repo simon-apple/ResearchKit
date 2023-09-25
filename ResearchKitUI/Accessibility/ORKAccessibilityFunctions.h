@@ -51,6 +51,30 @@ ORK_INLINE void ORKAccessibilityPostNotificationAfterDelay(UIAccessibilityNotifi
     });
 }
 
+// Convenience for checking if accessibility large text is enabled
+ORK_INLINE BOOL ORKIsAccessibilityLargeTextEnabled(void) {
+    NSString *contentSize = [UIApplication sharedApplication].preferredContentSizeCategory;
+     if ([@[UIContentSizeCategoryExtraExtraExtraLarge,
+            UIContentSizeCategoryAccessibilityExtraLarge,
+            UIContentSizeCategoryAccessibilityMedium, UIContentSizeCategoryAccessibilityLarge,
+            UIContentSizeCategoryAccessibilityExtraExtraLarge,
+            UIContentSizeCategoryAccessibilityExtraExtraExtraLarge,
+          ] containsObject:contentSize]) {
+        return YES;
+    } else {
+        return NO;
+    }
+}
+
+// Convenience for checking which UIImageSymbolScale in regards to ccessibilityLargeTextEnabled
+ORK_INLINE UIImageSymbolScale ORKImageScaleToUse(void) {
+    if (ORKIsAccessibilityLargeTextEnabled()) {
+        return UIImageSymbolScaleMedium;
+    } else {
+        return UIImageSymbolScaleLarge;
+    }
+}
+
 // Creates a string suitable for Voice Over by joining the variables with ", " and avoiding nil and empty strings.
 #define ORKAccessibilityStringForVariables(...) _ORKAccessibilityStringForVariables(ORK_NARG(__VA_ARGS__),  ##__VA_ARGS__)
 ORK_EXTERN NSString *_ORKAccessibilityStringForVariables(NSInteger numParameters, NSString *baseString, ...);

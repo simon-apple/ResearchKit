@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @required
 
-- (void)playButtonPressedWithNewPosition:(ORKTinnitusSelectedPureTonePosition)newPosition;
+- (void)playButtonPressedWithNewPosition:(ORKTinnitusSelectedPureTonePosition)newPosition previousPosition:(ORKTinnitusSelectedPureTonePosition)previousPosition;
 - (void)animationFinishedForStage:(PureToneButtonsStage)stage;
 
 @end
@@ -63,7 +63,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)atLeastOneButtonIsSelected;
 - (BOOL)hasPlayingButton;
 - (void)restoreButtons;
-- (BOOL)isPlayingLastButton;
+- (BOOL)isCurrentAutoStageButtonSelected;
 - (nullable ORKTinnitusButtonView *)currentSelectedButtonView;
 
 @end

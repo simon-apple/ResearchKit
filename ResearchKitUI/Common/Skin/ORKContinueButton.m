@@ -32,10 +32,13 @@
 #import "ORKContinueButton.h"
 
 #import "ORKSkin.h"
-
+#import "ORKAccessibilityFunctions.h"
 
 static const CGFloat ContinueButtonTouchMargin = 10;
 static const CGFloat ContinueButtonHeight = 50.0;
+
+static NSString *accessibilityIdentifierDone = @"ORKContinueButton.Done";
+static NSString *accessibilityIdentifierNext = @"ORKContinueButton.Next";
 
 @implementation ORKContinueButton {
     NSLayoutConstraint *_heightConstraint;
@@ -45,23 +48,39 @@ static const CGFloat ContinueButtonHeight = 50.0;
     self = [super init];
     if (self) {
         [self setTitle:title forState:UIControlStateNormal];
+        if (isDoneButton) {
+            self.accessibilityIdentifier = accessibilityIdentifierDone;
+        } else {
+            self.accessibilityIdentifier = accessibilityIdentifierNext;
+        }
         self.isDoneButton = isDoneButton;
         self.contentEdgeInsets = (UIEdgeInsets){.left = 6, .right = 6};
-
-        [self setUpConstraints];
+        self.titleLabel.numberOfLines = 0;
+        self.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
+        self.titleLabel.textAlignment = NSTextAlignmentCenter;
     }
     return self;
 }
 
-- (void)setUpConstraints {
+- (void)updateConstraints {
+    [super updateConstraints];
     _heightConstraint = [NSLayoutConstraint constraintWithItem:self
                                                      attribute:NSLayoutAttributeHeight
-                                                     relatedBy:NSLayoutRelationEqual
+                                                     relatedBy:NSLayoutRelationGreaterThanOrEqual
                                                         toItem:nil
                                                      attribute:NSLayoutAttributeNotAnAttribute
                                                     multiplier:1.0
                                                       constant:ContinueButtonHeight];
     _heightConstraint.active = YES;
+}
+
+- (CGSize)intrinsicContentSize {
+    return self.titleLabel.intrinsicContentSize;
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    self.titleLabel.preferredMaxLayoutWidth = self.titleLabel.frame.size.width;
 }
 
 - (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event {

@@ -107,6 +107,34 @@
     }
 }
 
+#if RK_APPLE_INTERNAL
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+
+    _showingAlert = NO;
+
+    ORKTaskResult *taskResults = [[self taskViewController] result];
+    
+    BOOL foundHeadphoneDetectorResult = NO;
+    
+    for (ORKStepResult *result in taskResults.results) {
+        if (result.results > 0) {
+            ORKStepResult *firstResult = (ORKStepResult *)[result.results firstObject];
+            if ([firstResult isKindOfClass:[ORKHeadphoneDetectResult class]]) {
+                ORKHeadphoneDetectResult *headphoneDetectResult = (ORKHeadphoneDetectResult *)firstResult;
+                _headphoneType = headphoneDetectResult.headphoneType;
+                foundHeadphoneDetectorResult = YES;
+            }
+        }
+    }
+    
+    if (foundHeadphoneDetectorResult) {
+        _headphoneDetector = [[ORKHeadphoneDetector alloc] initWithDelegate:self
+                                             supportedHeadphoneChipsetTypes:nil];
+    }
+}
+#endif
+
 - (void)setupBuffers {
     
     if ([[self speechInNoiseStep] speechFilePath] != nil)

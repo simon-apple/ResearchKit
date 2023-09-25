@@ -70,6 +70,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)didSelectCellAtIndexPath:(NSIndexPath *)indexPath;
 
+- (ORKTextChoice *)textChoiceForIndex:(NSInteger)index;
+
 - (nullable id)answerForBoolean;
 
 - (NSUInteger)size;

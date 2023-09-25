@@ -203,7 +203,7 @@ static int const ORKVolumeCalibrationStepPlaybackButtonSize = 36;
     [_playbackButton addTarget:self action:@selector(playbackButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
 
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(volumeDidChange:) name:getAVSystemController_SystemVolumeDidChangeNotification() object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(volumeDidChange:) name:AVSystemController_SystemVolumeDidChangeNotification object:nil];
 }
 
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
@@ -214,6 +214,10 @@ static int const ORKVolumeCalibrationStepPlaybackButtonSize = 36;
 - (UIFont *)headlineTextFont {
     UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleHeadline];
     return[UIFont systemFontOfSize:[[descriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue] + 1.0 weight:UIFontWeightSemibold];
+}
+
+- (void)enablePlaybackButton:(BOOL)isEnabled {
+    [self.playbackButton setEnabled:isEnabled];
 }
 
 - (void)setPlaybackButtonPlaying:(BOOL)isPlaying {
@@ -255,8 +259,8 @@ static int const ORKVolumeCalibrationStepPlaybackButtonSize = 36;
 
 - (void)volumeDidChange:(NSNotification *)note {
     NSDictionary *userInfo = note.userInfo;
-    NSString *reason = userInfo[getAVSystemController_AudioVolumeChangeReasonNotificationParameter()];
-    NSNumber *volume = userInfo[getAVSystemController_AudioVolumeNotificationParameter()];
+    NSString *reason = userInfo[AVSystemController_AudioVolumeChangeReasonNotificationParameter];
+    NSNumber *volume = userInfo[AVSystemController_AudioVolumeNotificationParameter];
 
     if ([reason isEqualToString:@"ExplicitVolumeChange"]) {
         dispatch_async(dispatch_get_main_queue(), ^{

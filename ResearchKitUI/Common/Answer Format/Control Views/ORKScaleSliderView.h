@@ -39,6 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class ORKScaleRangeDescriptionLabel;
 @class ORKScaleRangeImageView;
 @class ORKScaleSliderView;
+
 @protocol ORKScaleAnswerFormatProvider;
 
 @protocol ORKScaleSliderViewDelegate <NSObject>

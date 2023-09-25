@@ -163,6 +163,9 @@ func resultTableViewProviderForResult(_ result: ORKResult?, delegate: ResultProv
     case is ORKTaskResult:
         providerType = TaskResultTableViewProvider.self
 
+    case is ORKFamilyHistoryResult:
+        providerType = FamilyHistoryResultTableViewProvider.self
+
     /*
         Refer to the comment near the switch statement for why the
         additional guard is here.
@@ -461,7 +464,7 @@ class ChoiceQuestionResultTableViewProvider: ResultTableViewProvider {
         let choiceResult = result as! ORKChoiceQuestionResult
         
         return super.resultRowsForSection(section) + [
-            ResultRow(text: "choices", detail: choiceResult.choiceAnswers)
+            ResultRow(text: "choices", detail: choiceResult.choiceAnswers?.description)
         ]
     }
 }
@@ -1318,6 +1321,37 @@ class CollectionResultTableViewProvider: ResultTableViewProvider {
                 let childResultClassName = "\(type(of: childResult))"
 
                 return ResultRow(text: childResultClassName, detail: childResult.identifier, selectable: true)
+            }
+        }
+        
+        return rows
+    }
+}
+
+/// Table view provider specific to an `ORKFamilyHistoryResult` instance.
+class FamilyHistoryResultTableViewProvider: TaskResultTableViewProvider {
+    // MARK: ResultTableViewProvider
+
+    override func resultRowsForSection(_ section: Int) -> [ResultRow] {
+        let taskResult = result as! ORKFamilyHistoryResult
+
+        let rows = [ResultRow]()
+        
+        if section == 0 {
+            if let conditions = taskResult.displayedConditions {
+                return rows + conditions.map { condition in
+                    return ResultRow(text: "Condition", detail:"\(condition)", selectable: false)
+                }
+            }
+        } else if section == 1 {
+            if let relatedPersons = taskResult.relatedPersons {
+                var rows = [ResultRow]()
+                
+                relatedPersons.forEach{ person in
+                    rows.append(ResultRow(text: "Person", detail:"\(person.identifier)", selectable: true))
+                }
+                
+                return rows
             }
         }
         

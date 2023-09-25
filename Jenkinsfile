@@ -1,5 +1,5 @@
 def lib = library (
-    identifier: 'lime-jenkins-shared-lib@version/1',
+    identifier: 'lime-jenkins-shared-lib@version/2.4',
     retriever: modernSCM([
         $class: 'GitSCMSource',
         remote: 'git@github.pie.apple.com:HDS/lime-jenkins-shared-lib.git',
@@ -9,7 +9,8 @@ def lib = library (
 
 node('ResearchApp-status') {
     stage('Set Environment Variables') {
-        limeInitEnvironmentVariables(this, "ResearchKit Unit Tests", "SummitDogfood14A6201dSydney20A303aKincaid20R308", "HealthSPG/ResearchKit")
+        def sdkModule = limeSDKsModule(this, "HealthSPG/ResearchKit")
+        limeInitEnvironmentVariables(this, "ResearchKit Unit Tests", sdkModule.developmentSDK(), "HealthSPG/ResearchKit")
         limeSetBuildStatus(this, "PENDING")
     }
 }
@@ -37,14 +38,14 @@ pipeline {
         stage('Build for Testing (ResearchKit - Latest iOS)') {
             steps {
                 timeout(time: 20, unit: 'MINUTES') {
-                    sh 'set -o pipefail && xcodebuild clean build-for-testing -project ./ResearchKit.xcodeproj -scheme "ResearchKit" -destination "name=iPhone (Latest iOS)" | tee output/ResearchKit_Latest_iOS_build.log | /usr/local/bin/xcpretty'
+                    sh 'set -o pipefail && xcodebuild clean build-for-testing -project ./ResearchKit.xcodeproj -scheme "ResearchKit" -destination "name=iPhone (Latest iOS)" CI=JENKINS | tee output/ResearchKit_Latest_iOS_build.log | /usr/local/bin/xcpretty'
                 }
             }
         }
         stage('Test (ResearchKit - Latest iOS)') {
             steps {
                 timeout(time: 20, unit: 'MINUTES') {
-                    sh 'set -o pipefail && xcodebuild test-without-building -project ./ResearchKit.xcodeproj -scheme "ResearchKit" -destination "name=iPhone (Latest iOS)" -resultBundlePath output/ResearchKit/ios/RKTestResult | tee output/ResearchKit_Latest_iOS_test.log | /usr/local/bin/xcpretty -r junit'
+                    sh 'set -o pipefail && xcodebuild test-without-building -project ./ResearchKit.xcodeproj -scheme "ResearchKit" -destination "name=iPhone (Latest iOS)" -resultBundlePath output/ResearchKit/ios/RKTestResult CI=JENKINS | tee output/ResearchKit_Latest_iOS_test.log | /usr/local/bin/xcpretty -r junit'
                     sh 'set -o pipefail && xcrun xccov view --report --json output/ResearchKit/ios/RKTestResult.xcresult > output/ResearchKit/ios/CodeCoverage.json'
                     // sh 'set -o pipefail && swift ./scripts/xccov-json-to-cobertura-xml.swift output/ResearchKit/ios/CodeCoverage.json -targetsToExclude ResearchKitTests.xctest > output/ResearchKit/ios/CoberturaCodeCoverage.xml'
                 }
@@ -53,14 +54,14 @@ pipeline {
         stage('Build for Testing (ORKTest - Latest iOS)') {
             steps {
                 timeout(time: 20, unit: 'MINUTES') {
-                    sh 'set -o pipefail && xcodebuild clean build-for-testing -project ./Testing/ORKTest/ORKTest.xcodeproj -scheme "ORKTest" -destination "name=iPhone (Latest iOS)" | tee output/ORKTest_Latest_iOS_build.log | /usr/local/bin/xcpretty'
+                    sh 'set -o pipefail && xcodebuild clean build-for-testing -project ./Testing/ORKTest/ORKTest.xcodeproj -scheme "ORKTest" -destination "name=iPhone (Latest iOS)" CI=JENKINS | tee output/ORKTest_Latest_iOS_build.log | /usr/local/bin/xcpretty'
                 }
             }
         }
         stage('Test (ORKTest - Latest iOS)') {
             steps {
                 timeout(time: 20, unit: 'MINUTES') {
-                    sh 'set -o pipefail && xcodebuild test-without-building -project ./Testing/ORKTest/ORKTest.xcodeproj -scheme "ORKTest" -destination "name=iPhone (Latest iOS)" -resultBundlePath output/ResearchKit/ios/ORKTestResult | tee output/ORKTest_Latest_iOS_test.log | /usr/local/bin/xcpretty -r junit'
+                    sh 'set -o pipefail && xcodebuild test-without-building -project ./Testing/ORKTest/ORKTest.xcodeproj -scheme "ORKTest" -destination "name=iPhone (Latest iOS)" -resultBundlePath output/ResearchKit/ios/ORKTestResult CI=JENKINS | tee output/ORKTest_Latest_iOS_test.log | /usr/local/bin/xcpretty -r junit'
                 }
             }
         }

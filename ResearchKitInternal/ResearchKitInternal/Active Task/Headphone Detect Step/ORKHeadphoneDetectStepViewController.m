@@ -53,6 +53,8 @@
 
 #import <LocalAuthentication/LAContext.h>
 
+#import <LocalAuthentication/LAContext.h>
+
 static const CGFloat ORKHeadphoneImageViewDimension = 36.0;
 static const CGFloat ORKHeadphoneDetectStepSpacing = 12.0;
 static const CGFloat ORKHeadphoneDetectCellStepSize = 40;
@@ -879,10 +881,6 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     [super viewDidLoad];
     self.stepView.navigationFooterView.optional = YES;
     self.stepView.navigationFooterView.continueEnabled = NO;
-    
-    if (self.step.context && [self.step.context isKindOfClass:[ORKTinnitusPredefinedTaskContext class]]) {
-        [(ORKTinnitusPredefinedTaskContext *)self.step.context insertTaskViewController:[self taskViewController]];
-    }
 }
 
 - (void)setContinueButtonItem:(UIBarButtonItem *)continueButtonItem {
@@ -934,6 +932,10 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
+    if (self.step.context && [self.step.context isKindOfClass:[ORKTinnitusPredefinedTaskContext class]]) {
+        [(ORKTinnitusPredefinedTaskContext *)self.step.context insertTaskViewController:[self taskViewController]];
+    }
+    
     _headphoneDetector = [[ORKHeadphoneDetector alloc] initWithDelegate:self supportedHeadphoneChipsetTypes:[[self detectStep] supportedHeadphoneChipsetTypes]];
 }
 
@@ -948,6 +950,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     headphoneResult.vendorID = _lastDetectedVendorID;
     headphoneResult.productID = _lastDetectedProductID;
     headphoneResult.deviceSubType = _lastDetectedDeviceSubType;
+    headphoneResult.isMonoAudioEnabled = UIAccessibilityIsMonoAudioEnabled();
     
     [results addObject:headphoneResult];
     
@@ -1067,3 +1070,8 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
 }
 
 @end
+<<<<<<< HEAD:ResearchKitInternal/ResearchKitInternal/Active Task/Headphone Detect Step/ORKHeadphoneDetectStepViewController.m
+=======
+
+#endif
+>>>>>>> release/Peach:ResearchKit/Common/HeadphoneDetectStep/ORKHeadphoneDetectStepViewController.m

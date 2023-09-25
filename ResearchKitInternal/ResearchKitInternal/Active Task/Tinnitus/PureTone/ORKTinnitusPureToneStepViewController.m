@@ -113,7 +113,11 @@ static const NSUInteger OCTAVE_CONFUSION_THRESHOLD_INDEX = 6;
 - (void)suspend:(NSNotification *)note {
     if (self.tinnitusPredefinedTaskContext != nil) {
         [self stopAutomaticPlay];
-        [self.audioGenerator stop];
+        [self.audioGenerator stop: ^{
+#if defined(DEBUG)
+            ORK_Log_Debug("ORKTinnitusPureToneSVC suspend: generator stopped");
+#endif
+        }];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [_tinnitusContentView restoreButtons];
@@ -230,6 +234,10 @@ static const NSUInteger OCTAVE_CONFUSION_THRESHOLD_INDEX = 6;
     _sampleIndex = _sampleIndex + 1;
 }
 
+-(BOOL)isAutoPlaying {
+    return _timer != nil;
+}
+
 - (void)stopAutomaticPlay {
     [_tinnitusContentView enableButtonsAnnouncements:YES];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIAccessibilityAnnouncementDidFinishNotification object:nil];
@@ -263,7 +271,6 @@ static const NSUInteger OCTAVE_CONFUSION_THRESHOLD_INDEX = 6;
     
     alertController.preferredAction = continueAction;
     [self presentViewController:alertController animated:YES completion:nil];
-
 }
 
 - (void)continueButtonTapped:(id)sender {
@@ -319,19 +326,8 @@ static const NSUInteger OCTAVE_CONFUSION_THRESHOLD_INDEX = 6;
     self.audioGenerator = [[ORKTinnitusAudioGenerator alloc] initWithHeadphoneType:headphoneType];
     
     self.isAccessibilityElement = YES;
-    
-    if (UIAccessibilityIsVoiceOverRunning()) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(PLAY_DELAY_VOICEOVER * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self setupAutoPlay];
-        });
-    } else {
-        [self setupAutoPlay];
-    }
-    
-#if !TARGET_IPHONE_SIMULATOR
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(suspend:) name:ORKHeadphoneNotificationSuspendActivity object:nil];
-#endif
 }
+
 
 #if !TARGET_IPHONE_SIMULATOR
 - (void)dealloc {
@@ -363,6 +359,7 @@ static const NSUInteger OCTAVE_CONFUSION_THRESHOLD_INDEX = 6;
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
     if (@available(iOS 13.0, *)) {
         self.view.backgroundColor = UIColor.systemGroupedBackgroundColor;
         self.taskViewController.navigationBar.barTintColor = UIColor.systemGroupedBackgroundColor;
@@ -372,13 +369,29 @@ static const NSUInteger OCTAVE_CONFUSION_THRESHOLD_INDEX = 6;
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    
+    if (UIAccessibilityIsVoiceOverRunning()) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(PLAY_DELAY_VOICEOVER * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self setupAutoPlay];
+        });
+    } else {
+        [self setupAutoPlay];
+    }
+    
+#if !TARGET_IPHONE_SIMULATOR
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(suspend:) name:ORKHeadphoneNotificationSuspendActivity object:nil];
+#endif
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    
     [self stopAutomaticPlay];
-    [self.audioGenerator stop];
+    [self.audioGenerator stop:^{
+#if defined(DEBUG)
+        ORK_Log_Debug("ORKTinnitusPureToneSVC viewWillDisappear: generator stopped.");
+#endif
+    }];
+    
+    [super viewWillDisappear:animated];
 }
 
 - (void)addUnitForFrequencies: (NSArray *) frequencies chosen:(double)frequency {
@@ -419,10 +432,10 @@ static const NSUInteger OCTAVE_CONFUSION_THRESHOLD_INDEX = 6;
 }
 
 - (void)playSoundAt:(double)frequency {
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,
-                                 (int64_t)((_audioGenerator.fadeDuration + 0.05) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self.audioGenerator playSoundAtFrequency:frequency];
-        });
+#if defined(DEBUG)
+    ORK_Log_Debug("ORKTinnitusPureToneSVC playSoundAt:");
+#endif
+    [self.audioGenerator playSoundAtFrequency:frequency];
 }
 
 - (ORKStepResult *)result {
@@ -453,29 +466,49 @@ static const NSUInteger OCTAVE_CONFUSION_THRESHOLD_INDEX = 6;
 }
 
 #pragma mark - ORKTinnitusContentViewDelegate
-- (void)playButtonPressedWithNewPosition:(ORKTinnitusSelectedPureTonePosition)newPosition {
+- (void)playButtonPressedWithNewPosition:(ORKTinnitusSelectedPureTonePosition)newPosition previousPosition:(ORKTinnitusSelectedPureTonePosition)previousPosition {
     ORKTinnitusButtonView *currentSelectedButtonView = _tinnitusContentView.currentSelectedButtonView;
-    if (![currentSelectedButtonView isSimulatedTap]) {
-        [self stopAutomaticPlay];
+    BOOL isSimulatedTap = [currentSelectedButtonView isSimulatedTap];
+    BOOL isUserTap = !isSimulatedTap;
+    BOOL isCurrentAutomaticStageButtonSelected = _tinnitusContentView.isCurrentAutoStageButtonSelected;
+    BOOL isSelectedPositionTheSameAsPrevious = newPosition == previousPosition;
+    BOOL autoPlayIsStoped = _timer == nil;
+
+    if (isUserTap) {
+        if ([self isAutoPlaying]) {
+            [self stopAutomaticPlay];
+        }
     }
-    [self.audioGenerator stop];
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((_audioGenerator.fadeDuration + 0.05) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    void (^playNext)(void) = ^{
         NSUInteger frequencyIndex = _aFrequencyIndex;
         if (newPosition == ORKTinnitusSelectedPureTonePositionB) {
             frequencyIndex = _bFrequencyIndex;
         } else if (newPosition == ORKTinnitusSelectedPureTonePositionC) {
             frequencyIndex = _cFrequencyIndex;
         }
-        if ([_tinnitusContentView hasPlayingButton]) {
+
+        if (isCurrentAutomaticStageButtonSelected && autoPlayIsStoped && isSimulatedTap) {
+            [_tinnitusContentView restoreButtons];
+        } else {
             [self playSoundAt:[_frequencies[frequencyIndex] doubleValue]];
         }
-        if ([_tinnitusContentView isPlayingLastButton] && _timer == nil && currentSelectedButtonView.isSimulatedTap) {
-            [_tinnitusContentView restoreButtons];
-        }
+        
         self.activeStepView.navigationFooterView.continueEnabled = [self canEnableFineTune];
         self.activeStepView.navigationFooterView.skipEnabled = [self canEnableFineTune];
-    });
+    };
+
+    if (self.audioGenerator.isPlaying) {
+        BOOL userTappedToStop = isUserTap && isSelectedPositionTheSameAsPrevious;
+        
+        [self.audioGenerator stop:^{
+            if (!userTappedToStop) {
+                playNext();
+            }
+        }];
+    } else {
+        playNext();
+    }
 }
 
 - (void)animationFinishedForStage:(PureToneButtonsStage)stage {
@@ -489,7 +522,11 @@ static const NSUInteger OCTAVE_CONFUSION_THRESHOLD_INDEX = 6;
 }
 
 - (void)fineTune {
-    [_audioGenerator stop];
+    [_audioGenerator stop: ^{
+#if defined(DEBUG)
+        ORK_Log_Debug("ORKTinnitusPureToneSVC fineTune generator stopped");
+#endif
+    }];
     ORKTinnitusSelectedPureTonePosition currentSelectedPosition = [_tinnitusContentView currentSelectedPosition];
     
     [self getFrequencyAndCalculateIndexesFor:currentSelectedPosition];

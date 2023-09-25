@@ -48,8 +48,9 @@
 #import "ORKHelpers_Internal.h"
 #import "ORKSkin.h"
 
-@import MapKit;
+#import <ResearchKit/CLLocationManager+ResearchKit.h>
 
+@import MapKit;
 
 static const NSString *FormattedAddressLines = @"FormattedAddressLines";
 
@@ -286,7 +287,7 @@ static const NSString *FormattedAddressLines = @"FormattedAddressLines";
         } else {
             _locationManager = [[CLLocationManager alloc] init];
             _locationManager.delegate = self;
-            [_locationManager requestWhenInUseAuthorization];
+            [_locationManager ork_requestWhenInUseAuthorization];
         }
     }
 }

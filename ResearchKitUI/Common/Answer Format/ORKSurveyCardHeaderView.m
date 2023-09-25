@@ -35,6 +35,7 @@
 #import "ORKHelpers_Internal.h"
 
 static const CGFloat HeaderViewLabelTopBottomPadding = 6.0;
+static const CGFloat HeaderViewLabelTopPadding = 4.0;
 static const CGFloat TagBottomPadding = 4.0;
 static const CGFloat TagTopPadding = 8.0;
 static const CGFloat HeaderViewBottomPadding = 24.0;
@@ -55,9 +56,10 @@ static const CGFloat SelectAllThatApplyBottomPadding = 6.0;
     UILabel *_selectAllThatApplyLabel;
     BOOL _showBorder;
     BOOL _hasMultipleChoiceItem;
+    BOOL _shouldIgnoreDarkMode;
     NSString *_tagText;
     CAShapeLayer *_headlineMaskLayer;
-    NSArray<NSLayoutConstraint *> *_headerViewConstraints;
+    NSMutableArray<NSLayoutConstraint *> *_headerViewConstraints;
     NSArray<NSLayoutConstraint *> *_learnMoreViewConstraints;
 }
 
@@ -83,7 +85,8 @@ static const CGFloat SelectAllThatApplyBottomPadding = 6.0;
                   progressText:progressText
                        tagText:tagText
                     showBorder:NO
-         hasMultipleChoiceItem:NO];
+         hasMultipleChoiceItem:NO
+          shouldIgnoreDarkMode:NO];
 }
 
 - (instancetype)initWithTitle:(NSString *)title
@@ -92,24 +95,48 @@ static const CGFloat SelectAllThatApplyBottomPadding = 6.0;
                  progressText:(NSString *)progressText
                       tagText:(nullable NSString *)tagText
                    showBorder:(BOOL)showBorder
-        hasMultipleChoiceItem:(BOOL)hasMultipleChoiceItem {
+        hasMultipleChoiceItem:(BOOL)hasMultipleChoiceItem
+         shouldIgnoreDarkMode:(BOOL)shouldIgnoreDarkMode {
     
     self = [super init];
     if (self) {
-        _title = title;
-        _detailText = text;
-        _learnMoreView = learnMoreView;
-        _progressText = progressText;
-        _showBorder = showBorder;
-        _tagText = tagText;
-        _hasMultipleChoiceItem = hasMultipleChoiceItem;
-        [self setupView];
+        [self configureWithTitle:title
+                      detailText:text
+                   learnMoreView:learnMoreView
+                    progressText:progressText
+                         tagText:tagText
+                      showBorder:showBorder
+           hasMultipleChoiceItem:hasMultipleChoiceItem
+            shouldIgnoreDarkMode:shouldIgnoreDarkMode];
     }
     return self;
 }
 
+- (void)configureWithTitle:(NSString *)title
+                detailText:(NSString *)text
+             learnMoreView:(ORKLearnMoreView *)learnMoreView
+              progressText:(NSString *)progressText
+                   tagText:(NSString *)tagText
+                showBorder:(BOOL)showBorder
+     hasMultipleChoiceItem:(BOOL)hasMultipleChoiceItem
+      shouldIgnoreDarkMode:(BOOL)shouldIgnoreDarkMode {
+    _title = [title copy];
+    _detailText = [text copy];
+    _learnMoreView = learnMoreView;
+    _progressText = [progressText copy];
+    _showBorder = showBorder;
+    _tagText = [tagText copy];
+    _hasMultipleChoiceItem = hasMultipleChoiceItem;
+    _shouldIgnoreDarkMode = shouldIgnoreDarkMode;
+    [self setupView];
+}
+
 - (void)setupView {
-    [self setBackgroundColor:[UIColor clearColor]];
+    if (@available(iOS 14.0, *)) {
+        [self setBackgroundConfiguration:[UIBackgroundConfiguration clearConfiguration]];
+    } else {
+        [self setBackgroundColor:[UIColor clearColor]];
+    }
     [self setupHeaderView];
     [self setupConstraints];
 }
@@ -144,6 +171,12 @@ static const CGFloat SelectAllThatApplyBottomPadding = 6.0;
         [self setupSelectAllThatApplyLabel];
         [_headlineView addSubview:_selectAllThatApplyLabel];
     }
+    
+    if (_shouldIgnoreDarkMode) {
+        if (@available(iOS 13.0, *)) {
+            self.overrideUserInterfaceStyle = UIUserInterfaceStyleLight;
+        }
+    }
 }
 
 - (void)setupHeadlineView {
@@ -159,13 +192,14 @@ static const CGFloat SelectAllThatApplyBottomPadding = 6.0;
     _titleLabel.text = _title;
     _titleLabel.numberOfLines = 0;
     if (@available(iOS 13.0, *)) {
-        _titleLabel.textColor = [UIColor labelColor];
+        _titleLabel.textColor = _shouldIgnoreDarkMode ? [UIColor blackColor] : [UIColor labelColor];
     } else {
         _titleLabel.textColor = [UIColor blackColor];
     }
     _titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
     _titleLabel.textAlignment = NSTextAlignmentNatural;
-    [_titleLabel setFont:[self titleLabelFont]];
+    _titleLabel.accessibilityIdentifier = @"ORKSurveyCardHeaderView_titleLabel";
+    [_titleLabel setFont:[ORKSurveyCardHeaderView titleLabelFont]];
 }
 
 - (void)setUpDetailTextLabel {
@@ -176,7 +210,7 @@ static const CGFloat SelectAllThatApplyBottomPadding = 6.0;
     _detailTextLabel.numberOfLines = 0;
     _detailTextLabel.lineBreakMode = NSLineBreakByWordWrapping;
     _detailTextLabel.textAlignment = NSTextAlignmentNatural;
-    [_detailTextLabel setFont:[self detailTextLabelFont]];
+    [_detailTextLabel setFont:[ORKSurveyCardHeaderView detailTextLabelFont]];
 }
 
 - (void)setUpProgressLabel {
@@ -186,12 +220,71 @@ static const CGFloat SelectAllThatApplyBottomPadding = 6.0;
     _progressLabel.text = _progressText;
     _progressLabel.numberOfLines = 0;
     if (@available(iOS 13.0, *)) {
-        _progressLabel.textColor = [UIColor secondaryLabelColor];
+        _progressLabel.textColor = _shouldIgnoreDarkMode ? [UIColor lightGrayColor] : [UIColor secondaryLabelColor];
     } else {
         _progressLabel.textColor = [UIColor lightGrayColor];
     }
     _progressLabel.textAlignment = NSTextAlignmentNatural;
     [_progressLabel setFont:[self progressLabelFont]];
+}
+
+- (void)setProgressText:(nullable NSString *)text {
+    if (_progressText != text) {
+        _progressText = [text copy];
+
+        if (_progressText != nil) {
+            if (_progressLabel == nil) {
+                [self setUpProgressLabel];
+                [_headlineView addSubview:_progressLabel];
+                [self setupConstraints];
+            } else {
+                _progressLabel.text = _progressText;
+            }
+        } else {
+            if (_progressLabel != nil) {
+                [_progressLabel removeFromSuperview];
+                _progressLabel = nil;
+                [self setupConstraints];
+            } else {
+                // intentionally left empty
+                // new text is nil, but _progressLabel is already nil
+                // nothing to do
+            }
+        }
+    }
+}
+
+- (void)prepareForReuse {
+    [_headlineView removeFromSuperview];
+    _headlineView = nil;
+    
+    [_titleLabel removeFromSuperview];
+    _titleLabel = nil;
+    _title = nil;
+    
+    [_detailTextLabel removeFromSuperview];
+    _detailTextLabel = nil;
+    _detailText = nil;
+    
+    [_learnMoreView removeFromSuperview];
+    _learnMoreView = nil;
+    
+    [_progressLabel removeFromSuperview];
+    _progressLabel = nil;
+    _progressText = nil;
+    
+    [_tagLabel removeFromSuperview];
+    _tagLabel = nil;
+    _tagText = nil;
+    
+    [_selectAllThatApplyLabel removeFromSuperview];
+    _selectAllThatApplyLabel = nil;
+    
+    _showBorder = NO;
+    _hasMultipleChoiceItem = NO;
+    _shouldIgnoreDarkMode = NO;
+    
+    [super prepareForReuse];
 }
 
 - (void)setupTagLabel {
@@ -209,7 +302,7 @@ static const CGFloat SelectAllThatApplyBottomPadding = 6.0;
     _selectAllThatApplyLabel.text = ORKLocalizedString(@"AX_SELECT_ALL_THAT_APPLY", nil);
     _selectAllThatApplyLabel.numberOfLines = 0;
     if (@available(iOS 13.0, *)) {
-        _selectAllThatApplyLabel.textColor = [UIColor secondaryLabelColor];
+        _selectAllThatApplyLabel.textColor = _shouldIgnoreDarkMode ? [UIColor lightGrayColor] : [UIColor secondaryLabelColor];
     } else {
         _selectAllThatApplyLabel.textColor = [UIColor lightGrayColor];
     }
@@ -217,13 +310,13 @@ static const CGFloat SelectAllThatApplyBottomPadding = 6.0;
     [_selectAllThatApplyLabel setFont:[self selectAllThatApplyFont]];
 }
 
-- (UIFont *)titleLabelFont {
++ (UIFont *)titleLabelFont {
     UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleBody];
     UIFontDescriptor *fontDescriptor = [descriptor fontDescriptorWithSymbolicTraits:(UIFontDescriptorTraitBold)];
     return [UIFont fontWithDescriptor:fontDescriptor size:[[fontDescriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]];
 }
 
-- (UIFont *)detailTextLabelFont {
++ (UIFont *)detailTextLabelFont {
     UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleSubheadline];
     return [UIFont fontWithDescriptor:descriptor size:[[descriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]];
 }
@@ -258,8 +351,8 @@ static const CGFloat SelectAllThatApplyBottomPadding = 6.0;
         UIColor *fillColor;
         UIColor *borderColor;
         if (@available(iOS 13.0, *)) {
-            fillColor = [UIColor secondarySystemGroupedBackgroundColor];
-            borderColor = UIColor.separatorColor;
+            fillColor = _shouldIgnoreDarkMode ? [UIColor whiteColor] : [UIColor secondarySystemGroupedBackgroundColor];
+            borderColor = _shouldIgnoreDarkMode ? [UIColor ork_midGrayTintColor] : UIColor.separatorColor;
         } else {
             fillColor = [UIColor whiteColor];
             borderColor = [UIColor ork_midGrayTintColor];
@@ -301,6 +394,12 @@ static const CGFloat SelectAllThatApplyBottomPadding = 6.0;
 }
 
 - (void)setupConstraints {
+    if (_headerViewConstraints) {
+        [NSLayoutConstraint deactivateConstraints:_headerViewConstraints];
+    }
+    
+    _headerViewConstraints = [NSMutableArray new];
+    
     NSLayoutXAxisAnchor *trailingAnchor = [self useLearnMoreLeftAlignmentLayout] ? _learnMoreView.leadingAnchor : _headlineView.trailingAnchor;
     NSLayoutYAxisAnchor *lastYAxisAnchor = self.topAnchor;
     
@@ -308,19 +407,23 @@ static const CGFloat SelectAllThatApplyBottomPadding = 6.0;
     
     if (_progressLabel) {
         _progressLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        [[_progressLabel.topAnchor constraintEqualToAnchor:lastYAxisAnchor constant:ORKSurveyItemMargin] setActive:YES];
-        [[_progressLabel.leadingAnchor constraintEqualToAnchor:_titleLabel.leadingAnchor] setActive:YES];
-        [[_progressLabel.trailingAnchor constraintEqualToAnchor:trailingAnchor constant:-ORKSurveyItemMargin] setActive:YES];
+        
+        [_headerViewConstraints addObject:[_progressLabel.topAnchor constraintEqualToAnchor:lastYAxisAnchor constant:ORKSurveyItemMargin]];
+        [_headerViewConstraints addObject:[_progressLabel.leadingAnchor constraintEqualToAnchor:_titleLabel.leadingAnchor]];
+        [_headerViewConstraints addObject:[_progressLabel.trailingAnchor constraintEqualToAnchor:trailingAnchor constant:-ORKSurveyItemMargin]];
+        
         lastYAxisAnchor = _progressLabel.bottomAnchor;
     }
     
     if (_tagLabel) {
         CGFloat topPadding = _progressLabel ? TagTopPadding : ORKSurveyItemMargin;
         _tagLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        [_tagLabel.topAnchor constraintEqualToAnchor:lastYAxisAnchor constant:topPadding].active = YES;
-        [_tagLabel.leadingAnchor constraintEqualToAnchor:_titleLabel.leadingAnchor].active = YES;
+        
+        [_headerViewConstraints addObject:[_tagLabel.topAnchor constraintEqualToAnchor:lastYAxisAnchor constant:topPadding]];
+        [_headerViewConstraints addObject:[_tagLabel.leadingAnchor constraintEqualToAnchor:_titleLabel.leadingAnchor]];
+        
         // FIXME:- learnMoreView gets compressed if we use _learnMoreView.leadingAnchor
-        [_tagLabel.trailingAnchor constraintLessThanOrEqualToAnchor:_headlineView.trailingAnchor constant:-ORKSurveyItemMargin].active = YES;
+        [_headerViewConstraints addObject:[_tagLabel.trailingAnchor constraintLessThanOrEqualToAnchor:_headlineView.trailingAnchor constant:-ORKSurveyItemMargin]];
         lastYAxisAnchor = _tagLabel.bottomAnchor;
     }
     
@@ -328,23 +431,26 @@ static const CGFloat SelectAllThatApplyBottomPadding = 6.0;
     if (_tagLabel) {
         titlePadding = TagBottomPadding;
     } else if (_progressLabel) {
-        titlePadding = HeaderViewLabelTopBottomPadding;
+        titlePadding = HeaderViewLabelTopPadding;
     } else {
         titlePadding = ORKSurveyItemMargin;
     }
     _titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    [[_titleLabel.topAnchor constraintEqualToAnchor:lastYAxisAnchor constant:titlePadding] setActive:YES];
-    [[_titleLabel.leadingAnchor constraintEqualToAnchor:_headlineView.leadingAnchor constant:ORKSurveyItemMargin] setActive:YES];
-    [[_titleLabel.trailingAnchor constraintEqualToAnchor:[self useLearnMoreLeftAlignmentLayout] ? _learnMoreView.leadingAnchor : _headlineView.trailingAnchor constant:-ORKSurveyItemMargin] setActive:YES];
+    
+    [_headerViewConstraints addObject:[_titleLabel.topAnchor constraintEqualToAnchor:lastYAxisAnchor constant:titlePadding]];
+    [_headerViewConstraints addObject:[_titleLabel.leadingAnchor constraintEqualToAnchor:_headlineView.leadingAnchor constant:ORKSurveyItemMargin]];
+    [_headerViewConstraints addObject:[_titleLabel.trailingAnchor constraintEqualToAnchor:[self useLearnMoreLeftAlignmentLayout] ? _learnMoreView.leadingAnchor : _headlineView.trailingAnchor constant:-ORKSurveyItemMargin]];
+    
     lastYAxisAnchor = _titleLabel.bottomAnchor;
     NSLayoutYAxisAnchor *headlineViewBottomAnchor = _titleLabel.bottomAnchor;
     
     if (_detailTextLabel) {
         _detailTextLabel.translatesAutoresizingMaskIntoConstraints = NO;
         
-        [[_detailTextLabel.topAnchor constraintEqualToAnchor:_titleLabel.bottomAnchor constant:HeaderViewLabelTopBottomPadding] setActive:YES];
-        [[_detailTextLabel.leadingAnchor constraintEqualToAnchor:_titleLabel.leadingAnchor] setActive:YES];
-        [[_detailTextLabel.trailingAnchor constraintEqualToAnchor:[self useLearnMoreLeftAlignmentLayout] ? _learnMoreView.leadingAnchor : _headlineView.trailingAnchor constant:-ORKSurveyItemMargin] setActive:YES];
+        [_headerViewConstraints addObject:[_detailTextLabel.topAnchor constraintEqualToAnchor:_titleLabel.bottomAnchor constant:HeaderViewLabelTopBottomPadding]];
+        [_headerViewConstraints addObject:[_detailTextLabel.leadingAnchor constraintEqualToAnchor:_titleLabel.leadingAnchor]];
+        [_headerViewConstraints addObject:[_detailTextLabel.trailingAnchor constraintEqualToAnchor:[self useLearnMoreLeftAlignmentLayout] ? _learnMoreView.leadingAnchor : _headlineView.trailingAnchor constant:-ORKSurveyItemMargin]];
+
         lastYAxisAnchor = _detailTextLabel.bottomAnchor;
         headlineViewBottomAnchor = _detailTextLabel.bottomAnchor;
     }
@@ -355,9 +461,9 @@ static const CGFloat SelectAllThatApplyBottomPadding = 6.0;
             [_learnMoreView setLearnMoreButtonFont:[UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline]];
             [_learnMoreView setLearnMoreButtonTextAlignment:NSTextAlignmentLeft];
             
-            [[_learnMoreView.topAnchor constraintEqualToAnchor:_detailTextLabel ? _detailTextLabel.bottomAnchor : _titleLabel.bottomAnchor constant:HeaderViewLabelTopBottomPadding] setActive:YES];
-            [[_learnMoreView.leadingAnchor constraintEqualToAnchor:_titleLabel.leadingAnchor] setActive:YES];
-            [[_learnMoreView.trailingAnchor constraintEqualToAnchor:[self useLearnMoreLeftAlignmentLayout] ? _learnMoreView.leadingAnchor : _headlineView.trailingAnchor constant:-ORKSurveyItemMargin] setActive:YES];
+            [_headerViewConstraints addObject:[_learnMoreView.topAnchor constraintEqualToAnchor:_detailTextLabel ? _detailTextLabel.bottomAnchor : _titleLabel.bottomAnchor constant:HeaderViewLabelTopBottomPadding]];
+            [_headerViewConstraints addObject:[_learnMoreView.leadingAnchor constraintEqualToAnchor:_titleLabel.leadingAnchor]];
+            [_headerViewConstraints addObject:[_learnMoreView.trailingAnchor constraintEqualToAnchor:[self useLearnMoreLeftAlignmentLayout] ? _learnMoreView.leadingAnchor : _headlineView.trailingAnchor constant:-ORKSurveyItemMargin]];
             
             lastYAxisAnchor = _learnMoreView.bottomAnchor;
             headlineViewBottomAnchor = _learnMoreView.bottomAnchor;
@@ -366,19 +472,24 @@ static const CGFloat SelectAllThatApplyBottomPadding = 6.0;
     
     if (_selectAllThatApplyLabel) {
         _selectAllThatApplyLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        [[_selectAllThatApplyLabel.topAnchor constraintEqualToAnchor:lastYAxisAnchor constant:SelectAllThatApplyTopPadding] setActive:YES];
-        [[_selectAllThatApplyLabel.leadingAnchor constraintEqualToAnchor:_titleLabel.leadingAnchor] setActive:YES];
-        [[_selectAllThatApplyLabel.trailingAnchor constraintEqualToAnchor:_titleLabel.trailingAnchor] setActive:YES];
+        
+        [_headerViewConstraints addObject:[_selectAllThatApplyLabel.topAnchor constraintEqualToAnchor:lastYAxisAnchor constant:SelectAllThatApplyTopPadding]];
+        [_headerViewConstraints addObject:[_selectAllThatApplyLabel.leadingAnchor constraintEqualToAnchor:_titleLabel.leadingAnchor]];
+        [_headerViewConstraints addObject:[_selectAllThatApplyLabel.trailingAnchor constraintEqualToAnchor:_titleLabel.trailingAnchor]];
         
         headlineViewBottomAnchor = _selectAllThatApplyLabel.bottomAnchor;
     }
     
-    [[_headlineView.topAnchor constraintEqualToAnchor:self.topAnchor constant:0.0] setActive:YES];
-    [[_headlineView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:ORKCardLeftRightMarginForWindow(self.window)] setActive:YES];
-    [[_headlineView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-ORKCardLeftRightMarginForWindow(self.window)] setActive:YES];
-    [[_headlineView.bottomAnchor constraintEqualToAnchor: headlineViewBottomAnchor constant: _selectAllThatApplyLabel ? SelectAllThatApplyBottomPadding : HeaderViewBottomPadding] setActive:YES];
+    [_headerViewConstraints addObject:[_headlineView.topAnchor constraintEqualToAnchor:self.topAnchor constant:0.0]];
+    [_headerViewConstraints addObject:[_headlineView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:ORKCardLeftRightMarginForWindow(self.window)]];
+    [_headerViewConstraints addObject:[_headlineView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-ORKCardLeftRightMarginForWindow(self.window)]];
+    [_headerViewConstraints addObject:[_headlineView.bottomAnchor constraintEqualToAnchor: headlineViewBottomAnchor constant: _selectAllThatApplyLabel ? SelectAllThatApplyBottomPadding : HeaderViewBottomPadding]];
     
-    [[self.bottomAnchor constraintEqualToAnchor:_headlineView.bottomAnchor constant:0.0] setActive:YES];
+    
+    [_headerViewConstraints addObject:[self.bottomAnchor constraintEqualToAnchor:_headlineView.bottomAnchor constant:0.0]];
+    
+    
+    [NSLayoutConstraint activateConstraints:_headerViewConstraints];
 }
 
 - (void)setupLearnMoreViewConstraints {

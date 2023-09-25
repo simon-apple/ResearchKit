@@ -86,7 +86,7 @@
 "REVIEW_EDIT_ANSWER" = "EDIT";
 
 /* Alert for out of range values. */
-"RANGE_ALERT_TITLE" = "Invalid value";
+"RANGE_ALERT_TITLE" = "Invalid Value";
 "RANGE_ALERT_MESSAGE_ABOVE_MAXIMUM" = "%1$@ exceeds the maximum allowed value (%2$@).";
 "RANGE_ALERT_MESSAGE_BELOW_MAXIMUM" = "%1$@ is less than the minimum allowed value (%2$@).";
 "RANGE_ALERT_MESSAGE_OTHER" = "%@ is not a valid value.";
@@ -103,7 +103,7 @@
 "LOCATION_ERROR_GEOCODE_NETWORK" = "Either you are not connected to the internet or you have exceeded the maximum amount of address lookup requests. If you are not connected to the internet, please turn on your Wi-Fi to answer this question, skip this question if skip button is available, or come back to the survey when you are connected to the internet. Otherwise, please try again in a few minutes.";
 
 /* Alert for exceeding length limit in text answer */
-"TEXT_ANSWER_EXCEEDING_MAX_LENGTH_ALERT_MESSAGE" = "Text content exceeding maximum length: %@";
+"TEXT_ANSWER_EXCEEDING_MAX_LENGTH_ALERT_MESSAGE" = "Text is limited to %@ characters";
 
 /* Camera not available during multitasking */
 "CAMERA_UNAVAILABLE_MESSAGE" = "Camera not available in split screen.";
@@ -134,7 +134,7 @@
 
 /* Login step */
 "LOGIN_CONTINUE_BUTTON_TITLE" = "Login";
-"FORGOT_PASSWORD_BUTTON_TITLE" = "Forgot password?";
+"FORGOT_PASSWORD_BUTTON_TITLE" = "Forgot Password?";
 
 /* Passcode step */
 "PASSCODE_PROMPT_MESSAGE" = "Enter passcode";
@@ -149,7 +149,7 @@
 "PASSCODE_TOUCH_ID_MESSAGE" = "Please authenticate with Touch ID";
 "PASSCODE_TOUCH_ID_ERROR_ALERT_TITLE" = "Touch ID error";
 "PASSCODE_FACE_ID_MESSAGE" = "Please authenticate with Face ID";
-"PASSCODE_FACE_ID_ERROR_ALERT_TITLE" = "Face ID error";
+"PASSCODE_FACE_ID_ERROR_ALERT_TITLE" = "Face ID Error";
 "PASSCODE_TEXTFIELD_INVALID_INPUT_MESSAGE" = "Only numeric characters allowed.";
 "PASSCODE_TEXTFIELD_ACCESSIBILITY_LABEL" = "Passcode entry progress indicator";
 "PASSCODE_TEXTFIELD_ACCESSIBILTIY_VALUE" = "%@ of %@ digits entered";
@@ -216,17 +216,17 @@
 "BUTTON_DISAGREE" = "Disagree";
 "BUTTON_DONE" = "Done";
 "BUTTON_GET_STARTED" = "Get Started";
-"BUTTON_LEARN_MORE" = "Learn more";
+"BUTTON_LEARN_MORE" = "Learn More";
 "BUTTON_NEXT" = "Next";
 "BUTTON_SKIP" = "Skip";
-"BUTTON_SKIP_QUESTION" = "Skip this question";
+"BUTTON_SKIP_QUESTION" = "Skip This Question";
 "BUTTON_START_TIMER" = "Start Timer";
 "BUTTON_OPTION_SAVE" = "Save for Later";
 "BUTTON_OPTION_DISCARD" = "Discard Results";
 "BUTTON_OPTION_STOP_TASK" = "End Task";
 "BUTTON_SAVE" = "Save";
-"BUTTON_CLEAR_ANSWER" = "Clear answer";
-"BUTTON_READ_ONLY_MODE" = "This answer cannot be modified.";
+"BUTTON_CLEAR_ANSWER" = "Clear Answer";
+"BUTTON_READ_ONLY_MODE" = "This Answer Cannot Be Modified.";
 "BUTTON_COPYRIGHT" = "Copyright";
 "BUTTON_CLOSE" = "Close";
 "BUTTON_START_TEST" = "Start Test";
@@ -452,10 +452,10 @@
 "TIMED_WALK_INTRO_DETAIL" = "This activity measures your lower extremity function.";
 "TIMED_WALK_INTRO_2_TEXT_%@" = "Find a place, preferably outside, where you can walk for about %@ in a straight line as quickly as possible, but safely. Do not slow down until after you’ve passed the finish line.";
 "TIMED_WALK_INTRO_2_DETAIL" = "Tap Next to begin.";
-"TIMED_WALK_FORM_TITLE" = "Assistive device";
+"TIMED_WALK_FORM_TITLE" = "Assistive Device";
 "TIMED_WALK_FORM_TEXT" = "Use the same assistive device for each test.";
 "TIMED_WALK_QUESTION_TEXT" = "Do you wear an ankle foot orthosis?";
-"TIMED_WALK_QUESTION_2_TITLE" = "Do you use assistive device?";
+"TIMED_WALK_QUESTION_2_TITLE" = "Do you use an assistive device?";
 "TIMED_WALK_QUESTION_2_TEXT" = "Tap here to select an answer.";
 "TIMED_WALK_QUESTION_2_CHOICE" = "None";
 "TIMED_WALK_QUESTION_2_CHOICE_2" = "Unilateral Cane";
@@ -563,6 +563,7 @@
 "SPEECH_RECOGNITION_TRANSCRIPTION_LABEL" = "Your transcription will appear here.";
 "SPEECH_RECOGNITION_FAILED" = "Speech recognition failed.";
 "SPEECH_RECOGNITION_FAILED_TRY_AGAIN" = "Could not record. Tap to try again.";
+"SPEECH_RECOGNITION_NOT_DETECTED_TRY_AGAIN" = "Speech was not detected in your recording. Tap to try again.";
 "SPEECH_RECOGNITION_INIT_FAILURE" = "Failed to initialize speech recognition.";
 
 /* Speech In Noise active task. */
@@ -628,6 +629,21 @@
 
 /* Review Step */
 "REVIEW_STEP_PAGE" = "Page";
+
+/* Family History Step */
+"FAMILY_HISTORY_CONDITIONS_FORM_ITEM_TEXT" = "Have they been diagnosed with any of the following diseases or health conditions?";
+"FAMILY_HISTORY_CONDITIONS_STEP_TITLE" = "Health Conditions";
+"FAMILY_HISTORY_CONDITIONS_STEP_DESCRIPTION" = "Answer these questions to the best of your ability";
+"FAMILY_HISTORY_COMPLETION_STEP_TITLE" = "Task Complete";
+"FAMILY_HISTORY_NONE_OF_THE_ABOVE" = "None of the above";
+"FAMILY_HISTORY_PREFER_NOT_TO_ANSWER" = "I prefer not to answer";
+"FAMILY_HISTORY_CONDITIONS" = "Conditions";
+"FAMILY_HISTORY_NONE_SELECTED" = "None selected";
+"FAMILY_HISTORY_EDIT_ENTRY" = "Edit Entry";
+"FAMILY_HISTORY_DELETE_ENTRY_TITLE" = "Are you sure you want to delete this entry from your Family Health History?";
+"FAMILY_HISTORY_DELETE_ENTRY" = "Delete Entry";
+"FAMILY_HISTORY_CANCEL" = "Cancel";
+"FAMILY_HISTORY_ADD" = "Add %@";
 
 /* Accessibility */
 "AX_BUTTON_BACK" = "Back";

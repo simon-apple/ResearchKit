@@ -68,6 +68,11 @@
     id<ORKAnswerOption> option = [self answerOptionAtIndex:index];
     return option && [option isKindOfClass:[ORKImageChoice class]] ? (ORKImageChoice *) option : nil;
 }
+
+- (ORKColorChoice *)colorChoiceAtIndex:(NSUInteger)index {
+    id<ORKAnswerOption> option = [self answerOptionAtIndex:index];
+    return option && [option isKindOfClass:[ORKColorChoice class]] ? (ORKColorChoice *) option : nil;
+}
 #endif
 
 - (ORKTextChoice *)textChoiceAtIndex:(NSUInteger)index {
@@ -163,7 +168,7 @@
                 
                 if (![answerValue isKindOfClass:[NSNumber class]]) {
                     @throw [NSException exceptionWithName:@"No matching choice found"
-                                                   reason:[NSString stringWithFormat:@"Provided choice of type %@ not found in available choices", [answerValue class]]
+                                                   reason:[NSString stringWithFormat:@"Provided choice of type %@ not found in available choices. Answer is %@ and choices are %@", [answerValue class], answer, _choices]
                                                  userInfo:nil];
                 }
                 
