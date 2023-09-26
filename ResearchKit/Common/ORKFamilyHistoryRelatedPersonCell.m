@@ -41,6 +41,7 @@ static const CGFloat CellLabelTopPadding = 8.0;
 static const CGFloat CellBottomPaddingBeforeAddRelativeButton = 20.0;
 static const CGFloat ContentLeftRightPadding = 16.0;
 static const CGFloat DividerViewTopBottomPadding = 10.0;
+static const CGFloat OptionsButtonWidth = 20.0;
 
 typedef NS_ENUM(NSUInteger, ORKFamilyHistoryEditDeleteViewEvent) {
     ORKFamilyHistoryEditDeleteViewEventEdit = 0,
@@ -271,8 +272,13 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
 - (NSArray<NSLayoutConstraint *> *)_optionsButtonConstraints {
     // leadingAnchor: set in _titleLabelConstraints
     // bottomAnchor: ambiguous
+    
+    NSLayoutConstraint *widthConstraint = [_optionsButton.widthAnchor constraintEqualToConstant:OptionsButtonWidth];
+    [widthConstraint setPriority:UILayoutPriorityDefaultLow];
+    
     return @[
         [_optionsButton.topAnchor constraintEqualToAnchor:_titleLabel.topAnchor],
+        widthConstraint,
         [_optionsButton.trailingAnchor constraintEqualToAnchor:_backgroundView.trailingAnchor constant:-CellLeftRightPadding]
     ];
 }
