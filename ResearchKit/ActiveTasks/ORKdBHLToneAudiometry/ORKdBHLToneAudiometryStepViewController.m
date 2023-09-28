@@ -424,6 +424,7 @@
         [self.audiometryEngine nextStatus:^(BOOL testEnded, ORKAudiometryStimulus *stimulus) {
             if (testEnded) {
                 [self finish];
+                return;
             }
             
             self.currentTap = [[ORKdBHLToneAudiometryTap alloc] init];
