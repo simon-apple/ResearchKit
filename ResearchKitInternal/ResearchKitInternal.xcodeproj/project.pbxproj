@@ -203,7 +203,7 @@
 		CA5B6DAB28BD27FC002C3BA4 /* ORKHeadphoneDetectResult.m in Sources */ = {isa = PBXBuildFile; fileRef = CA5B6D9F28BD27FC002C3BA4 /* ORKHeadphoneDetectResult.m */; };
 		CA5B6DAC28BD27FC002C3BA4 /* ORKHeadphoneDetectStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA5B6DA028BD27FC002C3BA4 /* ORKHeadphoneDetectStepViewController.m */; };
 		CA5B6DAE28BD29AA002C3BA4 /* ORKdBHLTaskContext.m in Sources */ = {isa = PBXBuildFile; fileRef = CA5B6DAD28BD29AA002C3BA4 /* ORKdBHLTaskContext.m */; };
-		CA77D23728AFF89300400292 /* ResearchKitInternal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA77D22E28AFF89200400292 /* ResearchKitInternal.framework */; };
+		CA77D23728AFF89300400292 /* .framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA77D22E28AFF89200400292 /* .framework */; };
 		CA77D23D28AFF89300400292 /* ResearchKitInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = CA77D23128AFF89200400292 /* ResearchKitInternal.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CA77D29928AFFB4700400292 /* ORKFlamesView.h in Headers */ = {isa = PBXBuildFile; fileRef = CA77D28928AFFB4700400292 /* ORKFlamesView.h */; };
 		CA77D29A28AFFB4700400292 /* ORKFlamesViewMetal.h in Headers */ = {isa = PBXBuildFile; fileRef = CA77D28A28AFFB4700400292 /* ORKFlamesViewMetal.h */; };
@@ -444,7 +444,7 @@
 		CA5B6D9F28BD27FC002C3BA4 /* ORKHeadphoneDetectResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKHeadphoneDetectResult.m; sourceTree = "<group>"; };
 		CA5B6DA028BD27FC002C3BA4 /* ORKHeadphoneDetectStepViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKHeadphoneDetectStepViewController.m; sourceTree = "<group>"; };
 		CA5B6DAD28BD29AA002C3BA4 /* ORKdBHLTaskContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKdBHLTaskContext.m; sourceTree = "<group>"; };
-		CA77D22E28AFF89200400292 /* ResearchKitInternal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ResearchKitInternal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CA77D22E28AFF89200400292 /* .framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = .framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA77D23128AFF89200400292 /* ResearchKitInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResearchKitInternal.h; sourceTree = "<group>"; };
 		CA77D23628AFF89300400292 /* ResearchKitInternalTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ResearchKitInternalTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA77D28928AFFB4700400292 /* ORKFlamesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKFlamesView.h; sourceTree = "<group>"; };
@@ -482,7 +482,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CA77D23728AFF89300400292 /* ResearchKitInternal.framework in Frameworks */,
+				CA77D23728AFF89300400292 /* .framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -958,7 +958,7 @@
 		CA77D22F28AFF89200400292 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				CA77D22E28AFF89200400292 /* ResearchKitInternal.framework */,
+				CA77D22E28AFF89200400292 /* .framework */,
 				CA77D23628AFF89300400292 /* ResearchKitInternalTests.xctest */,
 			);
 			name = Products;
@@ -1192,7 +1192,7 @@
 			);
 			name = ResearchKitInternal;
 			productName = ResearchKitInternal;
-			productReference = CA77D22E28AFF89200400292 /* ResearchKitInternal.framework */;
+			productReference = CA77D22E28AFF89200400292 /* .framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		CA77D23528AFF89300400292 /* ResearchKitInternalTests */ = {

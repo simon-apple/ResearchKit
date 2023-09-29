@@ -111,9 +111,9 @@
 
 #import <ResearchKit/ORKEarlyTerminationConfiguration.h>
 #import <ResearchKit/ORKBundleAsset.h>
-<<<<<<< HEAD
-=======
 
+
+#if RK_APPLE_INTERNAL
 #import <ResearchKit/ORKRelativeGroup.h>
 #import <ResearchKit/ORKHealthCondition.h>
 #import <ResearchKit/ORKRelatedPerson.h>
@@ -123,13 +123,4 @@
 #import <ResearchKit/ORKFamilyHistoryStepViewController.h>
 #import <ResearchKit/ORKFamilyHistoryReviewController.h>
 #import <ResearchKit/ORKRelativeGroup.h>
-
-#if RK_APPLE_INTERNAL
-#import <ResearchKit/ORKTypingStep.h>
-#import <ResearchKit/ORKTypingStepViewController.h>
-#import <ResearchKit/ORKAVJournalingTaskViewController.h>
-#import <ResearchKit/ORKAVJournalingResult.h>
-#import <ResearchKit/ORKBLEScanPeripheralsStepResult.h>
-#import <ResearchKit/ORKNewAudiometryMinimizer.h>
 #endif
->>>>>>> release/Peach

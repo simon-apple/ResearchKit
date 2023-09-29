@@ -51,27 +51,6 @@ ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierEarPods = @"EARPODS";
 
 ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierUnknown = @"UNKNOWN";
 
-<<<<<<< HEAD
-=======
-ORKHeadphoneChipsetIdentifier const ORKHeadphoneChipsetIdentifierLightningEarPods = @"b225";
-
-ORKHeadphoneChipsetIdentifier const ORKHeadphoneChipsetIdentifierAudioJackEarPods = @"b60";
-
-ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsGen1 = @"76,8194";
-
-ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsGen2 = @"76,8207";
-
-ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsGen3 = @"76,8211";
-
-ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsPro = @"76,8206";
-
-ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsProGen2 = @"76,8212";
-
-ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsProGen2USBC = @"76,8228";
-
-ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsMax = @"76,8202";
-#endif
->>>>>>> release/Peach
 ORKTrailMakingTypeIdentifier const ORKTrailMakingTypeIdentifierA = @"A";
 
 ORKTrailMakingTypeIdentifier const ORKTrailMakingTypeIdentifierB = @"B";

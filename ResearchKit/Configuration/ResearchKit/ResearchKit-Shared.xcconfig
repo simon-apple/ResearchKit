@@ -25,9 +25,6 @@ SYSTEM_FRAMEWORK_SEARCH_PATHS = $(SRCROOT)/ResearchKit/PrivateHeaders $(inherite
 SYSTEM_HEADER_SEARCH_PATHS = $(SRCROOT)/ResearchKit/PrivateHeaders $(inherited)
 CLANG_STATIC_ANALYZER_MODE = deep
 
-<<<<<<< HEAD
-ORK_FRAMEWORK_VERSION_NUMBER = 2.2.8
-=======
 ORK_FRAMEWORK_VERSION_NUMBER = 2.7.14
 >>>>>>> release/Peach
 
