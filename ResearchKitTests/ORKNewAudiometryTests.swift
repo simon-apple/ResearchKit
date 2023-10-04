@@ -4169,6 +4169,11 @@ extension ORKNewAudiometryTests {
     
     func testRemoveOutlier() throws {
         let audiometry = ORKNewAudiometry(channel: .left)
+        
+        let timestamp = 42.0
+        audiometry.timestampProvider = {
+            return timestamp
+        }
 
         let x = Matrix(elements: [ 7.7027739764591558, 45.0,
                                    7.7027739764591558, 25.0,
@@ -4213,9 +4218,9 @@ extension ORKNewAudiometryTests {
         let coverage = audiometry.checkCoverage()
         let res = audiometry.removeOutlierFit(coverage, deleted)
         
-        let expectedDeleted = Matrix<Double>(elements: [7.70277398, 45.00000000, 0.0,
-                                                        15.57507173, 25.00000000, 3.0,
-                                                        19.70890583, 45.00000000, 6.0], rows: 3, columns: 3)
+        let expectedDeleted = Matrix<Double>(elements: [7.70277398, 45.00000000, 0.0, 1.0, timestamp,
+                                                        15.57507173, 25.00000000, 3.0, 1.0, timestamp,
+                                                        19.70890583, 45.00000000, 6.0, 1.0, timestamp], rows: 3, columns: 5)
         
         XCTAssertEqual(res.deleted.shape, expectedDeleted.shape)
         for (value1, value2) in zip(res.deleted.elements, expectedDeleted.elements) {

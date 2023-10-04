@@ -37,7 +37,7 @@ import Foundation
 public struct ORKNewAudiometryState {
     public let currentTone: ORKAudiometryStimulus?
     public let responses: [(tone: ORKAudiometryStimulus, response: Bool)]
-    public let deletedTones: [(tone: ORKAudiometryStimulus, originalIndex: Int)]
+    public let deletedTones: [ORKdBHLToneAudiometryDeletedSample]
     public let uncoveredInitialSamplingFrequencies: [Double]
     public let previousAudiogram: [Double: Double]?
     
@@ -68,7 +68,7 @@ public struct ORKNewAudiometryState {
     public var theta = Vector<Double>(elements: [30, 30])
     public var xSample = Matrix<Double>(elements: [], rows: 0, columns: 2)
     public var ySample = Matrix<Double>(elements: [], rows: 0, columns: 1)
-    public var deleted = Matrix<Double>(elements: [], rows: 0, columns: 3)
+    public var deleted = Matrix<Double>(elements: [], rows: 0, columns: 5) // freq, level, originalIndex, response, deletionTimestamp
 
     public var initialSamples = [Bool]()
     private let kernelLenght: Double
@@ -313,13 +313,17 @@ public struct ORKNewAudiometryState {
     }
     
     @objc
-    public func deletedSamples() -> [ORKdBHLToneAudiometryFrequencySample] {
+    public func deletedSamples() -> [ORKdBHLToneAudiometryDeletedSample] {
+        // freq, level, originalIndex, response, deletionTimestamp
         return deleted.rows.map { deletedSample in
             let deletedSampleArray = Array(deletedSample)
-            let sample = ORKdBHLToneAudiometryFrequencySample()
+            let sample = ORKdBHLToneAudiometryDeletedSample()
             sample.frequency = hz(deletedSampleArray[0])
-            sample.calculatedThreshold = deletedSampleArray[1]
+            sample.level = deletedSampleArray[1]
             sample.channel = channel
+            sample.originalIndex = Int(deletedSampleArray[2])
+            sample.response = deletedSampleArray[3] == 0.0 ? false : true
+            sample.deletionTimestamp = deletedSampleArray[4]
             return sample
         }
     }
@@ -388,8 +392,15 @@ extension ORKNewAudiometry {
         
         let deletedTones = Array(deleted.rows).map {
             let row = Array($0)
-            let deletedTone = ORKAudiometryStimulus(frequency: row[0], level: row[1], channel: channel)
-            return (deletedTone, Int(row[2]))
+            let deletedTone = ORKdBHLToneAudiometryDeletedSample()
+            deletedTone.frequency = row[0]
+            deletedTone.level = row[1]
+            deletedTone.channel = channel
+            deletedTone.originalIndex = Int(row[2])
+            deletedTone.response = row[3] == 0 ? false : true
+            deletedTone.deletionTimestamp = row[4]
+
+            return deletedTone
         }
         
         let state = ORKNewAudiometryState(currentTone: stimulus,
@@ -412,7 +423,7 @@ extension ORKNewAudiometry {
         testFs = state.uncoveredInitialSamplingFrequencies.asVector()
         xSample = Matrix(rows: state.responses.map { [$0.tone.frequency, $0.tone.level] })
         ySample = Matrix(rows: state.responses.map { [$0.response ? 1.0 : 0.0] })
-        deleted = Matrix(rows: state.deletedTones.map { [$0.tone.frequency, $0.tone.level, Double($0.originalIndex)] })
+        deleted = Matrix(rows: state.deletedTones.map { [$0.frequency, $0.level, Double($0.originalIndex), $0.response ? 0 : 1, $0.deletionTimestamp] })
         initialSamples = state.responses.map { $0.response }
 
         if testFs.isEmpty {
@@ -906,6 +917,8 @@ public extension ORKNewAudiometry {
         let newYSample = ySample.filterRows(idxToDelete)
         let toDelete = xSample.gatherRows(idxToDelete)
             .appendingColumn(idxToDelete.map { Double($0 + deleted.count) }.asVector())
+            .appendingColumn(ySample.gatherRows(idxToDelete).asVector()) // Add extra response for CV only
+            .appendingColumn(.init(repeating: timestampProvider(), count: idxToDelete.count)) // Add extra deletion timestamp for CV only
 
         return (newXSample, newYSample, toDelete)
     }
