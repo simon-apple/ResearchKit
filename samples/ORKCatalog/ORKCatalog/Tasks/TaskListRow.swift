@@ -2999,7 +2999,12 @@ enum TaskListRow: Int, CustomStringConvertible {
             return ORKOrderedTask(identifier: "\(Identifier.predefinedTinnitusTask)", steps: [completionStep])
         }
         
-        return ORKTinnitusPredefinedTask(identifier: "\(Identifier.predefinedTinnitusTask)", audioSetManifestPath: path, prepend: nil, append: nil)
+        // injected completion step to mimic Pacha in ResearchApp
+        let completionStep = ORKCompletionStep(identifier: "CompletionStepIdentifier")
+        completionStep.title = NSLocalizedString("Task Complete", comment: "")
+        completionStep.text = NSLocalizedString("Dummy completion step", comment: "")
+        
+        return ORKTinnitusPredefinedTask(identifier: "\(Identifier.predefinedTinnitusTask)", audioSetManifestPath: path, prepend: nil, append: [completionStep])
     }
     
     private var ble: ORKTask {
