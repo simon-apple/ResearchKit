@@ -245,42 +245,42 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
             break;
         }
         case ORKdBHLFitTestStageStart: {
-            self.activeStepView.stepTitle = @"Ear Tip Fit Test";
+            self.activeStepView.stepTitle = @"Fit Test";
             self.activeStepView.stepDetailText = @"Make sure headphones in both ears are comfortable and secure. Then, press Play so we can test the study headphone's fit.";
             break;
         }
         case ORKdBHLFitTestStagePlaying: {
-            self.activeStepView.stepTitle = @"Do not remove headphones until you see the fit test results";
+            self.activeStepView.stepTitle = @"Do not remove headphones until you see the Fit Test results";
             self.activeStepView.stepDetailText = @"";
             break;
         }
         case ORKdBHLFitTestStageResultConfidenceLow: {
-            self.activeStepView.stepTitle = @"Unable to Complete Ear Tip Fit Test";
-            self.activeStepView.stepDetailText = @"Make sure to find a quiet location and remain still during ear tip fit test.";
+            self.activeStepView.stepTitle = @"Unable to Complete Fit Test";
+            self.activeStepView.stepDetailText = @"Make sure to find a quiet location and remain still during Fit Test.";
             break;
         }
         case ORKdBHLFitTestStageResultLeftSealBadRightSealBad: {
-            self.activeStepView.stepTitle = @"Ear Fit Test Results";
+            self.activeStepView.stepTitle = @"Fit Test Results";
             self.activeStepView.stepDetailText = @"Adjust both headphones in your ears, or try another ear tip size and run the test again.\n\nYou should use the ear tips that are most comfortable in each ear.";
             break;
         }
         case ORKdBHLFitTestStageResultLeftSealGoodRightSealBad: {
-            self.activeStepView.stepTitle = @"Ear Fit Test Results";
+            self.activeStepView.stepTitle = @"Fit Test Results";
             self.activeStepView.stepDetailText = @"Try adjusting the right headphone in your ear, or change the ear tip size and try the test again.\n\nYou should use the ear tip that is most comfortable in each ear.";
             break;
         }
         case ORKdBHLFitTestStageResultLeftSealBadRightSealGood: {
-            self.activeStepView.stepTitle = @"Ear Fit Test Results";
+            self.activeStepView.stepTitle = @"Fit Test Results";
             self.activeStepView.stepDetailText = @"Try adjusting the left headphone in your ear, or change the ear tip size and try the test again.\n\nYou should use the ear tip that is most comfortable in each ear.";
             break;
         }
         case ORKdBHLFitTestStageResultLeftSealGoodRightSealGood: {
-            self.activeStepView.stepTitle = @"Ear Fit Test Results";
+            self.activeStepView.stepTitle = @"Fit Test Results";
             self.activeStepView.stepDetailText = @"The ear tips you’re using are a good fit for both ears.";
             break;
         }
         case ORKdBHLFitTestStageResultTriesExceeded: {
-            self.activeStepView.stepTitle = @"Unable to Complete Ear Tip Fit Test";
+            self.activeStepView.stepTitle = @"Unable to Complete Fit Test";
             break;
         }
         default:
@@ -366,7 +366,7 @@ typedef NS_ENUM(NSUInteger, ORKdBHLFitTestStage) {
         }
         case ORKdBHLFitTestStageResultTriesExceeded: {
             // Again not used ;)
-            self.activeStepView.stepTitle = @"Unable to Complete Ear Tip Fit Test";
+            self.activeStepView.stepTitle = @"Unable to Complete Fit Test";
             [self.activeStepView.navigationFooterView showActivityIndicator:NO];
         }
         default:

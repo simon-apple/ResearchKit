@@ -2123,7 +2123,7 @@ NSString *const ORKdBHLToneAudiometryHeadphoneDetectStepIdentifier = @"dBHL.tone
     
     {
         ORKdBHLFitTestStep *step = [[ORKdBHLFitTestStep alloc] initWithIdentifier:@"fitTest"];
-        step.title = @"Ear Tip Fit Test";
+        step.title = @"Fit Test";
         step.detailText = @"Make sure AirPods in both ears are comfortable and secure, then press play to test fit.";
         [steps addObject:step];
     }
