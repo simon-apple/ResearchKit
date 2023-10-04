@@ -41,6 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
  navigation rule is triggered.
  */
 ORK_EXTERN NSString *const ORKNullStepIdentifier ORK_AVAILABLE_DECL;
+ORK_EXTERN NSString *const ORKSkipStepIdentifier ORK_AVAILABLE_DECL;
 
 @class ORKStep;
 @class ORKResult;
@@ -243,7 +244,6 @@ ORK_CLASS_AVAILABLE
 @property (nonatomic, copy, readonly) NSString *destinationStepIdentifier;
 
 @end
-
 
 /**
  The `ORKSkipStepNavigationRule` class is the abstract base class for concrete skip step navigation

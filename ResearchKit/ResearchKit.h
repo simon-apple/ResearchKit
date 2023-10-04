@@ -78,6 +78,7 @@
 #import <ResearchKit/ORKOrderedTask+ORKPredefinedActiveTask.h>
 #import <ResearchKit/ORKNavigableOrderedTask.h>
 #import <ResearchKit/ORKStepNavigationRule.h>
+#import <ResearchKit/ORKSecondaryActionStepNavigationRule.h>
 
 #import <ResearchKit/ORKAnswerFormat.h>
 #import <ResearchKit/ORKHealthAnswerFormat.h>

@@ -275,6 +275,7 @@ ORK_MAKE_TEST_INIT(ORKTaskResult, ^{return [self initWithTaskIdentifier:[NSUUID 
 ORK_MAKE_TEST_INIT(ORKStepNavigationRule, ^{return [super init];});
 ORK_MAKE_TEST_INIT(ORKSkipStepNavigationRule, ^{return [super init];});
 ORK_MAKE_TEST_INIT(ORKFormItemVisibilityRule, ^{return [super init];});
+ORK_MAKE_TEST_INIT(ORKSecondaryActionStepNavigationRule, ^{return [[ORKSecondaryActionStepNavigationRule alloc] initWithDestinationStepIdentifier:@"destination" text:@"opt out"];});
 ORK_MAKE_TEST_INIT(ORKStepModifier, ^{return [super init];});
 ORK_MAKE_TEST_INIT(ORKKeyValueStepModifier, ^{return [super init];});
 ORK_MAKE_TEST_INIT(ORKAnswerFormat, ^{return [super init];});

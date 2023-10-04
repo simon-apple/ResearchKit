@@ -41,6 +41,7 @@
 
 
 NSString *const ORKNullStepIdentifier = @"org.researchkit.step.null";
+NSString *const ORKSkipStepIdentifier = @"org.researchkit.step.skip";
 
 @implementation ORKStepNavigationRule
 
@@ -48,6 +49,10 @@ NSString *const ORKNullStepIdentifier = @"org.researchkit.step.null";
     if ([self isMemberOfClass:[ORKStepNavigationRule class]]) {
         ORKThrowMethodUnavailableException();
     }
+    return [super init];
+}
+
+- (instancetype)commonInit {
     return [super init];
 }
 
@@ -71,7 +76,8 @@ NSString *const ORKNullStepIdentifier = @"org.researchkit.step.null";
 #pragma mark NSCopying
 
 - (instancetype)copyWithZone:(NSZone *)zone {
-    __typeof(self) rule = [[[self class] allocWithZone:zone] init];
+    // call commonInit here so we don't call subclass's init methods during copy
+    __typeof(self) rule = [[[self class] allocWithZone:zone] commonInit];
     return rule;
 }
 
@@ -109,32 +115,36 @@ NSString *const ORKNullStepIdentifier = @"org.researchkit.step.null";
               destinationStepIdentifiers:(NSArray<NSString *> *)destinationStepIdentifiers
                    defaultStepIdentifier:(NSString *)defaultStepIdentifier
                           validateArrays:(BOOL)validateArrays {
-    if (validateArrays) {
-        ORKThrowInvalidArgumentExceptionIfNil(resultPredicates);
-        ORKThrowInvalidArgumentExceptionIfNil(destinationStepIdentifiers);
-        
-        NSUInteger resultPredicatesCount = resultPredicates.count;
-        NSUInteger destinationStepIdentifiersCount = destinationStepIdentifiers.count;
-        if (resultPredicatesCount == 0) {
-            @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"resultPredicates cannot be an empty array" userInfo:nil];
-        }
-        if (resultPredicatesCount != destinationStepIdentifiersCount) {
-            @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"Each predicate in resultPredicates must have a destination step identifier in destinationStepIdentifiers" userInfo:nil];
-        }
-        ORKValidateArrayForObjectsOfClass(resultPredicates, [NSPredicate class], @"resultPredicates objects must be of a NSPredicate class kind");
-        ORKValidateArrayForObjectsOfClass(destinationStepIdentifiers, [NSString class], @"destinationStepIdentifiers objects must be of a NSString class kind");
-        if (defaultStepIdentifier != nil && ![defaultStepIdentifier isKindOfClass:[NSString class]]) {
-            @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"defaultStepIdentifier must be of a NSString class kind or nil" userInfo:nil];
-        }
-    }
     self = [super init];
     if (self) {
         _resultPredicates = [resultPredicates copy];
         _destinationStepIdentifiers = [destinationStepIdentifiers copy];
         _defaultStepIdentifier = [defaultStepIdentifier copy];
+        if (validateArrays) {
+            [self validateArrays];
+        }
     }
     
     return self;
+}
+
+- (void)validateArrays {
+    ORKThrowInvalidArgumentExceptionIfNil(_resultPredicates);
+    ORKThrowInvalidArgumentExceptionIfNil(_destinationStepIdentifiers);
+    
+    NSUInteger resultPredicatesCount = _resultPredicates.count;
+    NSUInteger destinationStepIdentifiersCount = _destinationStepIdentifiers.count;
+    if (resultPredicatesCount == 0) {
+        @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"resultPredicates cannot be an empty array" userInfo:nil];
+    }
+    if (resultPredicatesCount != destinationStepIdentifiersCount) {
+        @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"Each predicate in resultPredicates must have a destination step identifier in destinationStepIdentifiers" userInfo:nil];
+    }
+    ORKValidateArrayForObjectsOfClass(_resultPredicates, [NSPredicate class], @"resultPredicates objects must be of a NSPredicate class kind");
+    ORKValidateArrayForObjectsOfClass(_destinationStepIdentifiers, [NSString class], @"destinationStepIdentifiers objects must be of a NSString class kind");
+    if (_defaultStepIdentifier != nil && ![_defaultStepIdentifier isKindOfClass:[NSString class]]) {
+        @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"defaultStepIdentifier must be of a NSString class kind or nil" userInfo:nil];
+    }
 }
 
 #pragma clang diagnostic push
@@ -236,11 +246,15 @@ static void ORKValidateIdentifiersUnique(NSArray *results, NSString *exceptionRe
 #pragma mark NSCopying
 
 - (instancetype)copyWithZone:(NSZone *)zone {
-    __typeof(self) rule = [[[self class] allocWithZone:zone] initWithResultPredicates:ORKArrayCopyObjects(_resultPredicates)
-                                                         destinationStepIdentifiers:ORKArrayCopyObjects(_destinationStepIdentifiers)
-                                                              defaultStepIdentifier:[_defaultStepIdentifier copy]
-                                                                     validateArrays:YES];
+    __typeof(self) rule = [super copyWithZone:zone];
+    rule->_resultPredicates = ORKArrayCopyObjects(_resultPredicates);
+    rule->_destinationStepIdentifiers = ORKArrayCopyObjects(_destinationStepIdentifiers);
+    rule->_defaultStepIdentifier = [_defaultStepIdentifier copy];
     rule->_additionalTaskResults = ORKArrayCopyObjects(_additionalTaskResults);
+    
+    // this shouldn't be necessary, but calling validateArrays here preserves previous behaviour
+    [rule validateArrays];
+    
     return rule;
 }
 
@@ -282,7 +296,7 @@ static void ORKValidateIdentifiersUnique(NSArray *results, NSString *exceptionRe
     ORKThrowInvalidArgumentExceptionIfNil(destinationStepIdentifier);
     self = [super init];
     if (self) {
-        _destinationStepIdentifier = destinationStepIdentifier;
+        _destinationStepIdentifier = [destinationStepIdentifier copy];
     }
     
     return self;
@@ -314,7 +328,9 @@ static void ORKValidateIdentifiersUnique(NSArray *results, NSString *exceptionRe
 #pragma mark NSCopying
 
 - (instancetype)copyWithZone:(NSZone *)zone {
-    __typeof(self) rule = [[[self class] allocWithZone:zone] initWithDestinationStepIdentifier:[_destinationStepIdentifier copy]];
+    __typeof(self) rule = [super copyWithZone:zone];
+    rule->_destinationStepIdentifier = [_destinationStepIdentifier copy];
+    
     return rule;
 }
 
@@ -330,7 +346,6 @@ static void ORKValidateIdentifiersUnique(NSArray *results, NSString *exceptionRe
 }
 
 @end
-
 
 @implementation ORKSkipStepNavigationRule
 

@@ -839,6 +839,15 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                  (@{
                       PROPERTY(destinationStepIdentifier, NSString, NSObject, NO, nil, nil),
                       })),
+           ENTRY(ORKSecondaryActionStepNavigationRule,
+                 ^id(__unused NSDictionary *dict, __unused ORKESerializationPropertyGetter getter) {
+                    ORKSecondaryActionStepNavigationRule *rule = [[ORKSecondaryActionStepNavigationRule alloc] initWithDestinationStepIdentifier:GETPROP(dict, destinationStepIdentifier) text:GETPROP(dict, text)];
+                     return rule;
+                 },
+                 (@{
+                    PROPERTY(text, NSString, NSObject, NO, nil, nil),
+                    PROPERTY(destinationStepIdentifier, NSString, NSObject, NO, nil, nil),
+                    })),
            ENTRY(ORKPredicateFormItemVisibilityRule,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      NSString* predicateFormat = GETPROP(dict, predicateFormat);
