@@ -74,6 +74,7 @@ public struct ORKNewAudiometryState {
     private let kernelLenght: Double
     private let maxSampleCount = UserDefaults.standard.integer(forKey: "maxSampleCount")
     private var lastProgress: Float = 0.0
+    private var preStimulusDelayTable: [String: Double] = [:]
     
     fileprivate let channel: ORKAudioChannel
     fileprivate var results = [Double: Double]()
@@ -215,8 +216,18 @@ public struct ORKNewAudiometryState {
         }
     }
     
-    public func registerPreStimulusDelay(_ preStimulusDelay: Double) {
-        resultUnit.preStimulusDelay = preStimulusDelay
+    /// Returns the address of an onbject in memory converted to a String with the Integer representation
+    private func getResultUnitAddress() -> String {
+        // Get the memory address of the instance
+        let address = Unmanaged.passUnretained(resultUnit).toOpaque()
+        // Convert the address to an integer for printing
+        let addressAsInt = Int(bitPattern: address)
+        
+        return String(addressAsInt, radix: 16)
+    }
+    
+    public func registerPreStimulusDelay(_ pSDelay: Double) {
+        preStimulusDelayTable[getResultUnitAddress()] = pSDelay
     }
     
     public func registerStimulusPlayback() {
@@ -344,6 +355,9 @@ public extension ORKNewAudiometry {
     }
     
     func updateUnit(with response: Bool) {
+        if let savedPreStimulusDelay = preStimulusDelayTable[getResultUnitAddress()] {
+            resultUnit.preStimulusDelay = savedPreStimulusDelay
+        }
         if response {
             resultUnit.userTapTimeStamp = timestampProvider()
         } else {
