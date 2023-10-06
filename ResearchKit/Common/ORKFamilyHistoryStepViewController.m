@@ -601,11 +601,11 @@ NSString * const ORKHealthConditionPreferNotToAnswerChoiceValue = @"prefer not t
             case ORKTaskViewControllerFinishReasonEarlyTermination:
                 [self handleRelatedPersonTaskResult:taskViewController.result taskIdentifier:taskViewController.task.identifier];
                 [self updateDisplayedConditionsFromTaskResult:taskViewController.result];
-                
-                _editingPreviousTask = NO;
-                _relativeForPresentedTask = nil;
                 break;
         }
+        
+        _editingPreviousTask = NO;
+        _relativeForPresentedTask = nil;
     }];
 }
 

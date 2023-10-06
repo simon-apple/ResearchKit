@@ -2523,8 +2523,62 @@ enum TaskListRow: Int, CustomStringConvertible {
             siblingAgeFormItem
         ]
         
-        // create ORKRelativeGroups
+        // create formItems and formStep for children relativeGroup
+        let childTextEntryAnswerFormat = ORKAnswerFormat.textAnswerFormat()
+        childTextEntryAnswerFormat.multipleLines = false
+        childTextEntryAnswerFormat.placeholder = "enter optional name"
+        childTextEntryAnswerFormat.maximumLength = 3
         
+        let childNameFormItem = ORKFormItem(identifier: "ChildNameIdentifier", text: "Name or Nickname", answerFormat: childTextEntryAnswerFormat)
+        childNameFormItem.isOptional = false
+        
+        let childSexAtBirthChoiceAnswerFormat = ORKAnswerFormat.choiceAnswerFormat(with: .singleChoice, textChoices: sexAtBirthOptions)
+        let childSextAtBirthFormItem = ORKFormItem(identifier: "ChildSexAtBirthIdentifier", text: "What was the sex assigned on their original birth certificate?", answerFormat: childSexAtBirthChoiceAnswerFormat)
+        childSextAtBirthFormItem.isOptional = false
+        
+        let childVitalStatusChoiceAnswerFormat = ORKAnswerFormat.choiceAnswerFormat(with: .singleChoice, textChoices: vitalStatusOptions)
+        let childVitalStatusFormItem = ORKFormItem(identifier: "ChildVitalStatusIdentifier", text: "What is their current vital status?", answerFormat: childVitalStatusChoiceAnswerFormat)
+        childVitalStatusFormItem.isOptional = false
+        
+        let childAgePickerAnswerFormat = ORKAgeAnswerFormat(
+            minimumAge: 18,
+            maximumAge: 90,
+            minimumAgeCustomText: "18 or younger",
+            maximumAgeCustomText: "90 or older",
+            showYear: true,
+            useYearForResult: true,
+            treatMinAgeAsRange: true,
+            treatMaxAgeAsRange: false,
+            defaultValue: 30)
+        childAgePickerAnswerFormat.shouldShowDontKnowButton = true
+        
+        let childAgePickerSectionHeaderFormItem = ORKFormItem(identifier: "ChildAgeSectionHeaderIdentifier", text: "What is their approximate birth year?", answerFormat: nil)
+        
+        let childAgeFormItem = ORKFormItem(identifier: "ChildAgeFormItemIdentifier", text: nil, answerFormat: childAgePickerAnswerFormat)
+        childAgeFormItem.isOptional = false
+        
+        let childFormStep = ORKFormStep(identifier: "ChildSurveyIdentifier")
+        let childAgeVisibilityRule = ORKPredicateFormItemVisibilityRule(
+            predicate: ORKResultPredicate.predicateForChoiceQuestionResult(
+                with: .init(stepIdentifier: childFormStep.identifier, resultIdentifier: childVitalStatusFormItem.identifier),
+                expectedAnswerValue: NSString(string: "system=snomedct&code=73211009")
+            )
+        )
+        childAgePickerSectionHeaderFormItem.visibilityRule = childAgeVisibilityRule
+        childAgeFormItem.visibilityRule = childAgeVisibilityRule
+        
+        childFormStep.title = "Child"
+        childFormStep.detailText = "Answer these questions to the best of your ability."
+        childFormStep.formItems = [
+            relativeNameSectionHeaderFormItem,
+            childNameFormItem,
+            childSextAtBirthFormItem,
+            childVitalStatusFormItem,
+            childAgePickerSectionHeaderFormItem,
+            childAgeFormItem
+        ]
+        
+        // create ORKRelativeGroups
         let relativeGroups = [
         ORKRelativeGroup(identifier: "ParentGroupIdentifier",
                          name: "Biological Parent",
@@ -2541,7 +2595,15 @@ enum TaskListRow: Int, CustomStringConvertible {
                          identifierForCellTitle: "SiblingNameIdentifier",
                          maxAllowed: 10,
                          formSteps: [siblingFormStep],
-                         detailTextIdentifiers: ["SiblingSexAtBirthIdentifier", "SiblingVitalStatusIdentifier", "SiblingAgeFormItemIdentifier"])
+                         detailTextIdentifiers: ["SiblingSexAtBirthIdentifier", "SiblingVitalStatusIdentifier", "SiblingAgeFormItemIdentifier"]),
+        ORKRelativeGroup(identifier: "ChildGroupIdentifier",
+                         name: "Child",
+                         sectionTitle: "Biological Children",
+                         sectionDetailText: "Include all children",
+                         identifierForCellTitle: "ChildNameIdentifier",
+                         maxAllowed: 10,
+                         formSteps: [childFormStep],
+                         detailTextIdentifiers: ["ChildSexAtBirthIdentifier", "ChildVitalStatusIdentifier", "ChildAgeFormItemIdentifier"])
         ]
         
         // create ORKFamilyHistoryStep and add to a ORKOrderedTask
