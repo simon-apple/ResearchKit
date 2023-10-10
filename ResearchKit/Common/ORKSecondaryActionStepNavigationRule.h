@@ -34,6 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  The `ORKSecondaryActionStepNavigationRule` class is the class for secondary action navigation
  rules, for use in a secondary action on an ORKStep
+ Using this with a step will not support `ORKEarlyTerminationConfiguration`
  
  The `SecondaryActionButton`also known as the `Skip` button title will be replaced with `text` provided here
  The `destinationStepIdentifier` will be used to forward the user to that `stepIdentifier` if the button is tapped.

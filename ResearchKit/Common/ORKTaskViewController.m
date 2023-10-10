@@ -43,6 +43,7 @@
 
 #import "ORKActiveStep.h"
 #import "ORKCollectionResult_Private.h"
+#import "ORKSecondaryActionStepNavigationRule_Private.h"
 #import "ORKFormStep.h"
 #import "ORKInstructionStep.h"
 #import "ORKOrderedTask.h"
@@ -1549,6 +1550,22 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     }
 }
 
+- (void)flipToNextPageOrSecondaryActionFrom:(ORKStepViewController *)fromController animated:(BOOL)animated {
+    BOOL didFlip = NO;
+    if ([self.task isKindOfClass:[ORKNavigableOrderedTask class]]) {
+        ORKStepNavigationRule *rule = ((ORKNavigableOrderedTask *)self.task).stepNavigationRules[fromController.step.identifier];
+        ORKSecondaryActionStepNavigationRule *secondaryActionStepNavigationRule = ORKDynamicCast(rule, ORKSecondaryActionStepNavigationRule);
+        if (secondaryActionStepNavigationRule != nil && !secondaryActionStepNavigationRule.isSkipMode) {
+            [self flipToPageWithIdentifier:secondaryActionStepNavigationRule.destinationStepIdentifier forward:true animated:true];
+            didFlip = YES;
+        }
+    } 
+    
+    if (!didFlip) {
+        [self flipToNextPageFrom:fromController animated:animated];
+    }
+}
+
 // Note that this method skips logic related to Review mode, Task termination,
 // earlyTerminationConfiguration, and the -shouldPresentStep: check implemented in
 // -flipToNextPageFrom:animated: and -flipToPreviousPageFrom:animated:
@@ -1568,6 +1585,15 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     if ([self.delegate respondsToSelector:@selector(taskViewController:stepViewControllerWillAppear:)]) {
         [self.delegate taskViewController:self stepViewControllerWillAppear:viewController];
     }
+    
+    ORKNavigableOrderedTask* task = ORKDynamicCast(self.task, ORKNavigableOrderedTask);
+    if (task != nil) {
+        ORKStepNavigationRule *rule = task.stepNavigationRules[viewController.step.identifier];
+        ORKSecondaryActionStepNavigationRule *secondaryActionStepNavigationRule = ORKDynamicCast(rule, ORKSecondaryActionStepNavigationRule);
+        if (secondaryActionStepNavigationRule != nil) {
+            [viewController setSecondaryActionButtonTitle:secondaryActionStepNavigationRule.text];
+        }
+    }
 }
 
 - (void)stepViewController:(ORKStepViewController *)stepViewController didFinishWithNavigationDirection:(ORKStepViewControllerNavigationDirection)direction
@@ -1584,7 +1610,9 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
         [strongDelegate taskViewController:self stepViewControllerWillDisappear:stepViewController navigationDirection:direction];
     }
     
-    if (direction == ORKStepViewControllerNavigationDirectionForward) {
+    if (direction == ORKStepViewControllerNavigationDirectionSkip) {
+        [self flipToNextPageOrSecondaryActionFrom:stepViewController animated:animated];
+    } else if (direction == ORKStepViewControllerNavigationDirectionForward) {
         [self flipToNextPageFrom:stepViewController animated:animated];
     } else {
         [self flipToPreviousPageFrom:stepViewController animated:animated];

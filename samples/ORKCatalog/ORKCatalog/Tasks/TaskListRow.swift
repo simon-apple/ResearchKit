@@ -97,6 +97,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     case requestPermissions
     case familyHistory
     case eligibilityTask
+    case secondaryActionTask
     case accountCreation
     case login
     case passcode
@@ -204,6 +205,7 @@ enum TaskListRow: Int, CustomStringConvertible {
             TaskListRowSection(title: "Onboarding", rows:
                 [
                     .eligibilityTask,
+                    .secondaryActionTask,
                     .accountCreation,
                     .login,
                     .passcode,
@@ -464,7 +466,10 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .webView:
             return NSLocalizedString("Web View", comment: "")
-            
+        
+        case .secondaryActionTask:
+            return NSLocalizedString("Secondary Action Task", comment: "")
+
         #if RK_APPLE_INTERNAL
         case .catalogVersion:
             return NSLocalizedString("Catalog App Version History", comment: "")
@@ -698,6 +703,16 @@ enum TaskListRow: Int, CustomStringConvertible {
         case eligibilityIneligibleStep
         case eligibilityEligibleStep
         
+        // Secondary Action task specific identifiers.
+        case secondaryActionTask
+        case secondaryActionIntroStep1
+        case secondaryActionIntroStep2
+        case secondaryActionIntroStep3
+        case secondaryActionIntroStep4
+        case secondaryActionQuestionStep1
+        case secondaryActionQuestionStep2
+        case secondaryActionCompletionStep1
+        
         // Account creation task specific identifiers.
         case accountCreationTask
         case registrationStep
@@ -914,6 +929,9 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .shortWalk:
             return shortWalkTask
+        
+        case .secondaryActionTask:
+            return secondaryActionTask
             
         case .spatialSpanMemory:
             return spatialSpanMemoryTask
@@ -2628,6 +2646,81 @@ enum TaskListRow: Int, CustomStringConvertible {
         let directRule = ORKDirectStepNavigationRule(destinationStepIdentifier: ORKNullStepIdentifier)
         eligibilityTask.setNavigationRule(directRule, forTriggerStepIdentifier: String(describing: Identifier.eligibilityIneligibleStep))
         
+        let secondaryActionNavigationRule = ORKSecondaryActionStepNavigationRule(destinationStepIdentifier: String(describing: Identifier.eligibilityIneligibleStep), text: "Opt Out")
+        eligibilityTask.setNavigationRule(secondaryActionNavigationRule, forTriggerStepIdentifier: String(describing: Identifier.eligibilityIntroStep))
+        
+        return eligibilityTask
+    }
+    
+    /**
+    A task demonstrating how the ResearchKit framework can be used to determine
+    eligibility using a navigable ordered task and with a custom secondary action button.
+    */
+    private var secondaryActionTask: ORKTask {
+        // Intro step
+        let introStep = ORKInstructionStep(identifier: String(describing: Identifier.secondaryActionIntroStep1))
+        introStep.title = NSLocalizedString("Secondary Action Task", comment: "")
+        introStep.text = exampleDescription
+        introStep.detailText = NSLocalizedString("Please use this space to provide instructions for participants.  Please make sure to provide enough information so that users can progress through the survey and complete with ease.", comment: "")
+        
+        let introStep2 = ORKInstructionStep(identifier: String(describing: Identifier.secondaryActionIntroStep2))
+        introStep2.title = NSLocalizedString("Some interesting information 2", comment: "")
+        introStep2.text = exampleDescription
+        introStep2.detailText = NSLocalizedString("Please use this space to provide instructions for participants.  Please make sure to provide enough information so that users can progress through the survey and complete with ease.", comment: "")
+     
+        let introStep3 = ORKInstructionStep(identifier: String(describing: Identifier.secondaryActionIntroStep3))
+        introStep3.title = NSLocalizedString("Some interesting information 3", comment: "")
+        introStep3.text = exampleDescription
+        introStep3.detailText = NSLocalizedString("Please use this space to provide instructions for participants.  Please make sure to provide enough information so that users can progress through the survey and complete with ease.", comment: "")
+     
+        let questionStep1 = ORKQuestionStep(identifier: String(describing: Identifier.secondaryActionQuestionStep1))
+        questionStep1.answerFormat = ORKBooleanAnswerFormat()
+        questionStep1.title = NSLocalizedString("Some interesting information 4", comment: "")
+        questionStep1.text = "Did you eat lunch today?"
+        // skip button by default
+        questionStep1.isOptional = true
+        
+        let questionStep2 = ORKQuestionStep(identifier: String(describing: Identifier.secondaryActionQuestionStep2))
+        questionStep2.answerFormat = ORKBooleanAnswerFormat()
+        questionStep2.title = NSLocalizedString("Some interesting information 4", comment: "")
+        questionStep2.text = "Did you eat dinner today?"
+        // skip button by default that will be overridden with a ORKSecondaryActionStepNavigationRule
+        questionStep2.isOptional = true
+        
+        let introStep4 = ORKInstructionStep(identifier: String(describing: Identifier.secondaryActionIntroStep4))
+        introStep4.title = NSLocalizedString("Some interesting information 5", comment: "")
+        introStep4.text = exampleDescription
+        introStep4.detailText = NSLocalizedString("Please use this space to provide instructions for participants.  Please make sure to provide enough information so that users can progress through the survey and complete with ease.", comment: "")
+    
+        let completionStep = ORKCompletionStep(identifier: String(describing: Identifier.secondaryActionCompletionStep1))
+        completionStep.title = NSLocalizedString("All done", comment: "")
+        
+        // Create the task
+        let eligibilityTask = ORKNavigableOrderedTask(identifier: String(describing: Identifier.eligibilityTask), steps: [
+            introStep,
+            introStep2,
+            introStep3,
+            questionStep1,
+            questionStep2,
+            introStep4,
+            completionStep
+            ])
+        
+        // add Opt Out secondary action to first step
+        let secondaryActionNavigationRule = ORKSecondaryActionStepNavigationRule(destinationStepIdentifier: String(describing: Identifier.secondaryActionCompletionStep1), text: "Opt Out")
+        eligibilityTask.setNavigationRule(secondaryActionNavigationRule, forTriggerStepIdentifier: String(describing: Identifier.secondaryActionIntroStep1))
+        
+        // add skip secondary action to second step
+        let dummySkipRule = ORKSecondaryActionStepNavigationRule()
+        eligibilityTask.setNavigationRule(dummySkipRule, forTriggerStepIdentifier: String(describing: Identifier.secondaryActionIntroStep2))
+        
+        // add a manually created skip secondary action to second step
+        let dummySkipRule2 = ORKSecondaryActionStepNavigationRule(destinationStepIdentifier: String(describing: Identifier.secondaryActionQuestionStep1), text: "Skip")
+        eligibilityTask.setNavigationRule(dummySkipRule2, forTriggerStepIdentifier: String(describing: Identifier.secondaryActionIntroStep3))
+
+        // add a custom secondary action to our optional question step
+        eligibilityTask.setNavigationRule(secondaryActionNavigationRule, forTriggerStepIdentifier: String(describing: Identifier.secondaryActionQuestionStep2))
+
         return eligibilityTask
     }
     

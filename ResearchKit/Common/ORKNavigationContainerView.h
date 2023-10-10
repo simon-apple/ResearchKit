@@ -50,6 +50,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) CGFloat bottomMargin;
 
 @property (nonatomic, assign) BOOL useExtendedPadding;
+@property (nonatomic, assign) BOOL useSecondaryActionButton;
 
 @property (nonatomic, strong) NSString *navigationDetailText;
 

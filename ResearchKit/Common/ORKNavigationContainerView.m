@@ -49,6 +49,7 @@ static const CGFloat detailTextBottomSpacing = 16.0;
     
     BOOL _continueOrSkipButtonJustTapped;
     BOOL _removeVisualEffect;
+
     NSMutableArray *_regularConstraints;
 }
 
@@ -274,7 +275,11 @@ static const CGFloat detailTextBottomSpacing = 16.0;
 }
 
 - (BOOL)skipButtonHidden {
-    return (!_skipButtonItem) || _useNextForSkip || !self.optional || _skipButtonItem.title == nil;
+    if (_useSecondaryActionButton) {
+        return NO;
+    } else {
+        return !_skipButtonItem || _useNextForSkip || !self.optional || _skipButtonItem.title == nil || !_skipEnabled;
+    }
 }
 
 - (CGFloat)skipButtonAlpha {

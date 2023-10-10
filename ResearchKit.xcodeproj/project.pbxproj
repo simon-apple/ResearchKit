@@ -36,6 +36,7 @@
 		03EDD58124CA6B1D006245E9 /* ORKNotificationPermissionType.m in Sources */ = {isa = PBXBuildFile; fileRef = 03EDD57F24CA6B1D006245E9 /* ORKNotificationPermissionType.m */; };
 		0B0DEDCB2A031DFB00FCF3FE /* ORKFormStepViewControllerConditionalFormItemsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0DEDCA2A031DFB00FCF3FE /* ORKFormStepViewControllerConditionalFormItemsTests.swift */; };
 		0B5181142AC7449C00395CCB /* ORKSecondaryActionStepNavigationRuleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B5181132AC7449C00395CCB /* ORKSecondaryActionStepNavigationRuleTests.swift */; };
+        0B5181162ACB332600395CCB /* ORKSecondaryActionStepNavigationRuleIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B5181152ACB332600395CCB /* ORKSecondaryActionStepNavigationRuleIntegrationTests.swift */; };
 		0B5181192ACCCAA000395CCB /* ORKSecondaryActionStepNavigationRule.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B5181182ACCCAA000395CCB /* ORKSecondaryActionStepNavigationRule.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0B51811B2ACCCAF500395CCB /* ORKSecondaryActionStepNavigationRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B51811A2ACCCAF500395CCB /* ORKSecondaryActionStepNavigationRule.m */; };
 		0B51811D2ACCD96B00395CCB /* ORKSecondaryActionStepNavigationRule_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B51811C2ACCD96B00395CCB /* ORKSecondaryActionStepNavigationRule_Private.h */; };
@@ -1222,6 +1223,7 @@
 		05F3765923C797930068E166 /* ResearchKit.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = ResearchKit.xctestplan; sourceTree = "<group>"; };
 		0B0DEDCA2A031DFB00FCF3FE /* ORKFormStepViewControllerConditionalFormItemsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ORKFormStepViewControllerConditionalFormItemsTests.swift; sourceTree = "<group>"; };
 		0B5181132AC7449C00395CCB /* ORKSecondaryActionStepNavigationRuleTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ORKSecondaryActionStepNavigationRuleTests.swift; sourceTree = "<group>"; };
+		0B5181152ACB332600395CCB /* ORKSecondaryActionStepNavigationRuleIntegrationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ORKSecondaryActionStepNavigationRuleIntegrationTests.swift; sourceTree = "<group>"; };
 		0B5181182ACCCAA000395CCB /* ORKSecondaryActionStepNavigationRule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKSecondaryActionStepNavigationRule.h; sourceTree = "<group>"; };
 		0B51811A2ACCCAF500395CCB /* ORKSecondaryActionStepNavigationRule.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKSecondaryActionStepNavigationRule.m; sourceTree = "<group>"; };
 		0B51811C2ACCD96B00395CCB /* ORKSecondaryActionStepNavigationRule_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKSecondaryActionStepNavigationRule_Private.h; sourceTree = "<group>"; };
@@ -2465,6 +2467,7 @@
 			isa = PBXGroup;
 			children = (
 				0B5181132AC7449C00395CCB /* ORKSecondaryActionStepNavigationRuleTests.swift */,
+				0B5181152ACB332600395CCB /* ORKSecondaryActionStepNavigationRuleIntegrationTests.swift */,
 			);
 			name = ORKSecondaryActionStepNavigationRuleTests;
 			sourceTree = "<group>";
@@ -5966,6 +5969,7 @@
 			files = (
 				248604061B4C98760010C8A0 /* ORKAnswerFormatTests.m in Sources */,
 				86CC8EBA1AC09383001CCD89 /* ORKResultTests.m in Sources */,
+				0B5181162ACB332600395CCB /* ORKSecondaryActionStepNavigationRuleIntegrationTests.swift in Sources */,
 				03057F492518ECDC00C4EC5B /* ORKAudioStepViewControllerTests.m in Sources */,
 				FA7A9D391B0969A7005A2BEA /* ORKConsentSignatureFormatterTests.m in Sources */,
 				0B5181142AC7449C00395CCB /* ORKSecondaryActionStepNavigationRuleTests.swift in Sources */,

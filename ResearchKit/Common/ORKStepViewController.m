@@ -373,6 +373,11 @@ static const CGFloat iPadStepTitleLabelFontSize = 50.0;
     return self.learnMoreButtonItem.title;
 }
 
+- (void)setSecondaryActionButtonTitle:(NSString *)text {
+    [_navigationFooterView setUseSecondaryActionButton:YES];
+    [self setSkipButtonTitle:text];
+}
+
 - (void)setSkipButtonTitle:(NSString *)skipButtonTitle {
     self.internalSkipButtonItem.title = skipButtonTitle;
     self.skipButtonItem = self.internalSkipButtonItem;
@@ -480,6 +485,13 @@ static const CGFloat iPadStepTitleLabelFontSize = 50.0;
     UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, nil);
 }
 
+- (void)navigateSkipForward {
+    ORKStepViewControllerNavigationDirection direction = self.isBeingReviewed ? ORKStepViewControllerNavigationDirectionReverse : ORKStepViewControllerNavigationDirectionSkip;
+    ORKStrongTypeOf(self.delegate) strongDelegate = self.delegate;
+    [strongDelegate stepViewController:self didFinishWithNavigationDirection:direction];
+    UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, nil);
+}
+
 - (void)goBackward {
     ORKStrongTypeOf(self.delegate) strongDelegate = self.delegate;
     [strongDelegate stepViewController:self didFinishWithNavigationDirection:ORKStepViewControllerNavigationDirectionReverse];
@@ -495,7 +507,7 @@ static const CGFloat iPadStepTitleLabelFontSize = 50.0;
                                                   style:UIAlertActionStyleDestructive
                                                 handler:^(UIAlertAction *action) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self skipForward];
+                [self navigateSkipForward];
             });
         }]];
         [alert addAction:[UIAlertAction actionWithTitle:ORKLocalizedString(@"BUTTON_CANCEL", nil)
@@ -506,7 +518,7 @@ static const CGFloat iPadStepTitleLabelFontSize = 50.0;
         alert.popoverPresentationController.sourceRect = sender.bounds;
         [self presentViewController:alert animated:YES completion:nil];
     } else {
-        [self skipForward];
+        [self navigateSkipForward];
     }
 }
 

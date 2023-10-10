@@ -55,7 +55,10 @@ typedef NS_ENUM(NSInteger, ORKStepViewControllerNavigationDirection) {
     ORKStepViewControllerNavigationDirectionForward,
     
     /// Backward navigation. Indicates that the user tapped the Back button.
-    ORKStepViewControllerNavigationDirectionReverse
+    ORKStepViewControllerNavigationDirectionReverse,
+    
+    /// Skip  navigation. Indicates that the user tapped the Skip button,.
+    ORKStepViewControllerNavigationDirectionSkip
 } ORK_ENUM_AVAILABLE;
 
 
@@ -426,6 +429,12 @@ ORK_CLASS_AVAILABLE
  This method is called when the user taps the skip button. By default, it calls `-goForward`.
  */
 - (void)skipForward;
+
+/**
+ This method enables the secondary action button with text.
+ This will replace the skip button.
+ */
+- (void)setSecondaryActionButtonTitle:(nonnull NSString *)text;
 
 /**
  Control the activity indicator on the Continue buttom.

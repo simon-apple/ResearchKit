@@ -32,7 +32,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
  // This 'Private' header is needed to expose `isSkipMode`
-@interface ORKSecondaryActionStepNavigationRule : ORKDirectStepNavigationRule <NSCopying, NSSecureCoding>
+@interface ORKSecondaryActionStepNavigationRule ()
 
 /**
  Returns a boolean indicating if this rule is set to `skip` meaning it will show the skip button, and skip to the next step

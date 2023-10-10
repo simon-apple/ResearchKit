@@ -36,6 +36,7 @@
 #import "ORKResult.h"
 #import "ORKStep_Private.h"
 #import "ORKStepNavigationRule.h"
+#import "ORKSecondaryActionStepNavigationRule.h"
 
 #import "ORKHelpers_Internal.h"
 
@@ -145,7 +146,11 @@
 - (ORKStep *)stepAfterStep:(ORKStep *)step withResult:(ORKTaskResult *)result {
     ORKStep *nextStep = nil;
     ORKStepNavigationRule *navigationRule = _stepNavigationRules[step.identifier];
-    NSString *nextStepIdentifier = [navigationRule identifierForDestinationStepWithTaskResult:result];
+    NSString *nextStepIdentifier;
+    if (![navigationRule isKindOfClass:[ORKSecondaryActionStepNavigationRule class]]) {
+         nextStepIdentifier = [navigationRule identifierForDestinationStepWithTaskResult:result];
+    }
+    
     if (![nextStepIdentifier isEqualToString:ORKNullStepIdentifier]) { // If ORKNullStepIdentifier, return nil to end task
         if (nextStepIdentifier) {
             nextStep = [self stepWithIdentifier:nextStepIdentifier];

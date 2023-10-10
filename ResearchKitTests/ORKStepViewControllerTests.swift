@@ -238,7 +238,7 @@ class ORKStepViewControllerTests: XCTestCase {
 
 extension ORKStepViewControllerTests: ORKStepViewControllerDelegate {
     func stepViewController(_ stepViewController: ORKStepViewController, didFinishWith direction: ORKStepViewControllerNavigationDirection) {
-        if direction == .forward {
+        if direction == .forward || direction == .skip {
             forwardExpectation.fulfill()
         } else {
             reverseExpectation.fulfill()
