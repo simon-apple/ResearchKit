@@ -80,19 +80,31 @@ NSString * const ParentMinorFormItemIdentifier = @"d0c13961-912a-4512-a546-e5d11
 NSString * const SiblingMinorFormItemIdentifier = @"9cd84628-dddf-44cc-a137-f1b08d916d14";
 
 // The below identifiers are from the common study bundle and are used to detect when conditional logic is needed for minors
+NSString * const ChildAgeOfDeathFormItemIdentifier = @"3a1d5d48-498d-4398-bf3f-cb32520112f7";
 NSString * const ChildBirthYearFormItemIdentifier = @"3cb9e718-279a-4c45-b2a8-7fe90efca65a";
 NSString * const ChildFormStepIdentifier = @"dd05b799-8a81-4080-b212-625fb7b8db32";
 NSString * const ChildRelativeGroupIdentifier = @"87797bfc-58c7-4720-8adf-1b621fd214d9";
+NSString * const ChildVitalStatusFormItemIdentifier = @"9f6b6c8f-5f55-4b89-bd98-ddf944a21730";
 
+NSString * const ParentAgeOfDeathFormItemIdentifier = @"f9a2b8e0-4b62-4313-a027-291125eed19d";
 NSString * const ParentBirthYearFormItemIdentifier = @"ee42b323-3277-4d7e-aba2-7a2083c404c0";
 NSString * const ParentFormStepIdentifier = @"8049eab1-4d47-418b-998d-2fc076443fe6";
 NSString * const ParentRelativeGroupIdentifier = @"c2e6eab8-05ec-4c43-800e-0db21552a9d9";
+NSString * const ParentVitalStatusFormItemIdentifier = @"29f1507f-ca90-4fde-a700-fe3ce89b85a8";
 
+NSString * const SiblingAgeOfDeathFormItemIdentifier = @"16e5ef4c-cc2d-4617-9063-93eab2096dcb";
 NSString * const SiblingBirthYearFormItemIdentifier = @"6a1e6558-e712-4ed9-bc1c-20bbae151c0e";
 NSString * const SiblingFormStepIdentifier = @"a45a8e2b-3975-4bfc-8be1-b65b7d9fb785";
 NSString * const SiblingRelativeGroupIdentifier = @"10d5e537-0b0d-4dfb-ba68-ea3c96c730f5";
+NSString * const SiblingVitalStatusFormItemIdentifier = @"f1fc324c-5494-4339-ba11-456ec5b31e9a";
 
-double const MinExpectedValueForAgePredicate = 1.0;
+NSString * const VitalStatusDontKnowValue = @"do not know";
+NSString * const VitalStatusPreferNotToAnswerValue = @"prefer not to answer";
+NSString * const VitalStatusDeceasedAnswerValue = @"deceased";
+
+double const AgeOfDeathPredicateMinorAgeValue = 18.0;
+double const AgeOfDeathPredicateMinExpectedValue = 19.0;
+double const BirthYearPredicateMinExpectedValue = 1.0;
 #endif
 
 @interface ORKFamilyHistoryStepViewController () <ORKTableContainerViewDelegate, ORKTaskViewControllerDelegate, ORKFamilyHistoryTableFooterViewDelegate, ORKFamilyHistoryRelatedPersonCellDelegate>
@@ -320,25 +332,35 @@ double const MinExpectedValueForAgePredicate = 1.0;
         
         NSString *formStepIdentifier;
         NSString *minorFormItemIdentifier;
+        NSString *relativeAgeOfDeathFormItemIdentifier;
         NSString *relativeBirthYearFormItemIdentifier;
+        NSString *relativeVitalStatusFormItemIdentifier;
         
         if ([internalRelativeGroupIdentifier isEqualToString:ParentRelativeGroupIdentifier]) {
             minorFormItemIdentifier = ParentMinorFormItemIdentifier;
             formStepIdentifier = ParentFormStepIdentifier;
+            relativeAgeOfDeathFormItemIdentifier = ParentAgeOfDeathFormItemIdentifier;
             relativeBirthYearFormItemIdentifier = ParentBirthYearFormItemIdentifier;
+            relativeVitalStatusFormItemIdentifier = ParentVitalStatusFormItemIdentifier;
         } else if ([internalRelativeGroupIdentifier isEqualToString:SiblingRelativeGroupIdentifier]) {
             minorFormItemIdentifier = SiblingMinorFormItemIdentifier;
             formStepIdentifier = SiblingFormStepIdentifier;
+            relativeAgeOfDeathFormItemIdentifier = SiblingAgeOfDeathFormItemIdentifier;
             relativeBirthYearFormItemIdentifier = SiblingBirthYearFormItemIdentifier;
+            relativeVitalStatusFormItemIdentifier = SiblingVitalStatusFormItemIdentifier;
         } else if ([internalRelativeGroupIdentifier isEqualToString:ChildRelativeGroupIdentifier]) {
             minorFormItemIdentifier = ChildMinorFormItemIdentifier;
             formStepIdentifier = ChildFormStepIdentifier;
+            relativeAgeOfDeathFormItemIdentifier = ChildAgeOfDeathFormItemIdentifier;
             relativeBirthYearFormItemIdentifier = ChildBirthYearFormItemIdentifier;
+            relativeVitalStatusFormItemIdentifier = ChildVitalStatusFormItemIdentifier;
         }
         
         if ([self _formStepAndFormItemIdentifiersDetectedInGroup:relativeGroup
                                               formStepIdentifier:formStepIdentifier
-                                              formItemIdentifier:relativeBirthYearFormItemIdentifier]) {
+                                   vitalStatusFormItemIdentifier:relativeVitalStatusFormItemIdentifier
+                                    ageOfDeathFormItemIdentifier:relativeAgeOfDeathFormItemIdentifier
+                                     birthYearFormItemIdentifier:relativeBirthYearFormItemIdentifier]) {
             // create bool formItem that appears above conditions list formItem
             ORKBooleanAnswerFormat *boolAnswerFormat = [ORKAnswerFormat booleanAnswerFormat];
             ORKFormItem *checkForMinorConditionsFormItem = [[ORKFormItem alloc] initWithIdentifier:minorFormItemIdentifier
@@ -346,18 +368,22 @@ double const MinExpectedValueForAgePredicate = 1.0;
                                                                                       answerFormat:boolAnswerFormat];
             
             // create predicate that will makes sure the bool formItem is only presented if 18 or younger is selected
-            NSPredicate *is18OrYoungerPredicate = [ORKResultPredicate predicateForNumericQuestionResultWithResultSelector:[ORKResultSelector selectorWithStepIdentifier:formStepIdentifier resultIdentifier:relativeBirthYearFormItemIdentifier] expectedAnswer:[ORKAgeAnswerFormat minimumAgeSentinelValue]];
-            ORKPredicateFormItemVisibilityRule *whenRelative18OrYoungerRule = [[ORKPredicateFormItemVisibilityRule alloc] initWithPredicate:is18OrYoungerPredicate];
+            NSCompoundPredicate *showCheckForMinorConditionsCompoundPredicate = [self _compoundPredicateForMinorConditionCheck:formStepIdentifier
+                                                                                           relativeBirthYearFormItemIdentifier:relativeBirthYearFormItemIdentifier
+                                                                                          relativeAgeOfDeathFormItemIdentifier:relativeAgeOfDeathFormItemIdentifier];
+            
+            ORKPredicateFormItemVisibilityRule *whenRelative18OrYoungerRule = [[ORKPredicateFormItemVisibilityRule alloc] initWithPredicate:showCheckForMinorConditionsCompoundPredicate];
             [checkForMinorConditionsFormItem setVisibilityRule:whenRelative18OrYoungerRule];
             
             [formItems addObject:checkForMinorConditionsFormItem];
             
-            /*
-            create compound predicate to ensure the conditions list is only presented if an age other than 18 or younger is selected or if Yes is selected for the bool formItem created above
-            */
-            NSPredicate *isRelativeOver18Predicate = [ORKResultPredicate predicateForNumericQuestionResultWithResultSelector:[ORKResultSelector selectorWithStepIdentifier:formStepIdentifier resultIdentifier:relativeBirthYearFormItemIdentifier] minimumExpectedAnswerValue:MinExpectedValueForAgePredicate];
-            NSPredicate *shareMinorHealthHistoryPredicate = [ORKResultPredicate predicateForBooleanQuestionResultWithResultSelector:[ORKResultSelector selectorWithStepIdentifier:step.conditionStepConfiguration.stepIdentifier resultIdentifier:minorFormItemIdentifier] expectedAnswer:YES];
-            NSCompoundPredicate *showConditionsItemCompoundPredicate = [NSCompoundPredicate orPredicateWithSubpredicates:@[isRelativeOver18Predicate, shareMinorHealthHistoryPredicate]];
+            // create compound predicate for conditionally presenting the conditions list
+            NSCompoundPredicate *showConditionsItemCompoundPredicate = [self _compoundPredicateForConditionsItem:formStepIdentifier
+                                                                            relativeAgeOfDeathFormItemIdentifier:relativeAgeOfDeathFormItemIdentifier
+                                                                             relativeBirthYearFormItemIdentifier:relativeBirthYearFormItemIdentifier
+                                                                           relativeVitalStatusFormItemIdentifier:relativeVitalStatusFormItemIdentifier
+                                                                                        conditionsStepIdentifier:step.conditionStepConfiguration.stepIdentifier
+                                                                                         minorFormItemIdentifier:minorFormItemIdentifier];
             
             ORKPredicateFormItemVisibilityRule *visibilityRule = [[ORKPredicateFormItemVisibilityRule alloc] initWithPredicate:showConditionsItemCompoundPredicate];
             [healthConditionsFormItem setVisibilityRule:visibilityRule];
@@ -582,13 +608,34 @@ double const MinExpectedValueForAgePredicate = 1.0;
 
 - (BOOL)_formStepAndFormItemIdentifiersDetectedInGroup:(ORKRelativeGroup *)relativeGroup
                                     formStepIdentifier:(NSString *)formStepIdentifier
-                                    formItemIdentifier:(NSString *)formItemIdentifier {
+                         vitalStatusFormItemIdentifier:(NSString *)vitalStatusFormItemIdentifier
+                          ageOfDeathFormItemIdentifier:(NSString *)ageOfDeathFormItemIdentifier
+                           birthYearFormItemIdentifier:(NSString *)birthYearFormItemIdentifier {
+    
+    BOOL vitalStatusFormItemDetected = NO;
+    BOOL birthYearFormItemDetected = NO;
+    BOOL ageOfDeathFormItemDetected = NO;
+    
     for (ORKFormStep *formStep in relativeGroup.formSteps) {
         // check for formStep identifier
         if ([formStep.identifier isEqualToString:formStepIdentifier]) {
             for (ORKFormItem *formItem in formStep.formItems) {
+                // check for vitality formItem identifier
+                if ([formItem.identifier isEqualToString:vitalStatusFormItemIdentifier]) {
+                    vitalStatusFormItemDetected = YES;
+                }
+                
+                // check for age of death formItem identifier
+                if ([formItem.identifier isEqualToString:ageOfDeathFormItemIdentifier]) {
+                    ageOfDeathFormItemDetected = YES;
+                }
+                
                 // check for birth-year formItem identifier
-                if ([formItem.identifier isEqualToString:formItemIdentifier]) {
+                if ([formItem.identifier isEqualToString:birthYearFormItemIdentifier]) {
+                    birthYearFormItemDetected = YES;
+                }
+                
+                if (vitalStatusFormItemDetected && ageOfDeathFormItemDetected && birthYearFormItemDetected) {
                     return YES;
                 }
             }
@@ -596,6 +643,58 @@ double const MinExpectedValueForAgePredicate = 1.0;
     }
     
     return NO;
+}
+
+- (NSCompoundPredicate *)_compoundPredicateForMinorConditionCheck:(NSString *)relativeFormStepIdentifier
+                              relativeBirthYearFormItemIdentifier:(NSString *)relativeBirthYearFormItemIdentifier
+                             relativeAgeOfDeathFormItemIdentifier:(NSString *)relativeAgeOfDeathFormItemIdentifier {
+    // create predicate that will makes sure the bool formItem is only presented if 18 or younger is selected
+    NSPredicate *isLivingRelative18OrYoungerPredicate = [ORKResultPredicate predicateForNumericQuestionResultWithResultSelector:[ORKResultSelector selectorWithStepIdentifier:relativeFormStepIdentifier resultIdentifier:relativeBirthYearFormItemIdentifier] expectedAnswer:[ORKAgeAnswerFormat minimumAgeSentinelValue]];
+    NSPredicate *isDeceasedRelative18OrYoungerPredicate = [ORKResultPredicate predicateForNumericQuestionResultWithResultSelector:[ORKResultSelector selectorWithStepIdentifier:relativeFormStepIdentifier resultIdentifier:relativeAgeOfDeathFormItemIdentifier] expectedAnswer:AgeOfDeathPredicateMinorAgeValue];
+    
+    NSCompoundPredicate *showCheckForMinorConditionsCompoundPredicate = [NSCompoundPredicate orPredicateWithSubpredicates:@[isLivingRelative18OrYoungerPredicate, isDeceasedRelative18OrYoungerPredicate]];
+    
+    return showCheckForMinorConditionsCompoundPredicate;
+}
+
+- (NSCompoundPredicate *)_compoundPredicateForConditionsItem:(NSString *)relativeFormStepIdentifier
+                        relativeAgeOfDeathFormItemIdentifier:(NSString *)relativeAgeOfDeathFormItemIdentifier
+                         relativeBirthYearFormItemIdentifier:(NSString *)relativeBirthYearFormItemIdentifier
+                       relativeVitalStatusFormItemIdentifier:(NSString *)relativeVitalStatusFormItemIdentifier
+                                    conditionsStepIdentifier:(NSString *)conditionStepIdentifier
+                                     minorFormItemIdentifier:(NSString *)minorFormItemIdentifier {
+    /*
+    create compound predicate to ensure the conditions list is only presented if an age other than 18 or younger is selected or if Yes is selected for the bool formItem created above
+    */
+    
+    // checks for the birth year and age of death questions to determine if the dont know button was pressed
+    // *Note: these two should be checked first to ensure that another predicate checking against the same result won't cause a crash if a comparison to [ORKDontAnswer answer] happens unexpectedly
+    NSPredicate *preferNotToAnswerBirthYearPredicate = [ORKResultPredicate predicateForDontKnowResultWithResultSelector:[ORKResultSelector selectorWithStepIdentifier:relativeFormStepIdentifier resultIdentifier:relativeBirthYearFormItemIdentifier]];
+    NSPredicate *prefertNotToAnswerAgeOfDeathPredicate = [ORKResultPredicate predicateForDontKnowResultWithResultSelector:[ORKResultSelector selectorWithStepIdentifier:relativeFormStepIdentifier resultIdentifier:relativeAgeOfDeathFormItemIdentifier]];
+    
+    // checks for the birth year and age of death questions to determine if an adult age was selected
+    NSPredicate *isLivingRelativeOver18Predicate = [ORKResultPredicate predicateForNumericQuestionResultWithResultSelector:[ORKResultSelector selectorWithStepIdentifier:relativeFormStepIdentifier resultIdentifier:relativeBirthYearFormItemIdentifier] minimumExpectedAnswerValue:BirthYearPredicateMinExpectedValue];
+    NSPredicate *isDeceasedRelativeOver18Predicate = [ORKResultPredicate predicateForNumericQuestionResultWithResultSelector:[ORKResultSelector selectorWithStepIdentifier:relativeFormStepIdentifier resultIdentifier:relativeAgeOfDeathFormItemIdentifier] minimumExpectedAnswerValue:AgeOfDeathPredicateMinExpectedValue];
+    
+    // checks for the vitality question to see if don't know or prefer not to answer was selected
+    NSPredicate *dontKnowVitalStatusPredicate = [ORKResultPredicate predicateForChoiceQuestionResultWithResultSelector:[ORKResultSelector selectorWithStepIdentifier:relativeFormStepIdentifier resultIdentifier:relativeVitalStatusFormItemIdentifier] expectedAnswerValue:VitalStatusDontKnowValue];
+    NSPredicate *preferNotToAnswerVitalStatusPredicate = [ORKResultPredicate predicateForChoiceQuestionResultWithResultSelector:[ORKResultSelector selectorWithStepIdentifier:relativeFormStepIdentifier resultIdentifier:relativeVitalStatusFormItemIdentifier] expectedAnswerValue:VitalStatusPreferNotToAnswerValue];
+    
+    // check for the checkForMinorConditionsFormItem question to see if Yes was selected
+    NSPredicate *shareMinorHealthHistoryPredicate = [ORKResultPredicate predicateForBooleanQuestionResultWithResultSelector:[ORKResultSelector selectorWithStepIdentifier:conditionStepIdentifier resultIdentifier:minorFormItemIdentifier] expectedAnswer:YES];
+    
+    // The first two predicates here need to be ordered first. The order of the remaining predicates won't after the first two because none of them could conflict.
+    NSCompoundPredicate *showConditionsItemCompoundPredicate = [NSCompoundPredicate orPredicateWithSubpredicates:@[
+        preferNotToAnswerBirthYearPredicate,
+        prefertNotToAnswerAgeOfDeathPredicate,
+        isLivingRelativeOver18Predicate,
+        isDeceasedRelativeOver18Predicate,
+        dontKnowVitalStatusPredicate,
+        preferNotToAnswerVitalStatusPredicate,
+        shareMinorHealthHistoryPredicate
+        ]];
+    
+    return showConditionsItemCompoundPredicate;
 }
 #endif
 
