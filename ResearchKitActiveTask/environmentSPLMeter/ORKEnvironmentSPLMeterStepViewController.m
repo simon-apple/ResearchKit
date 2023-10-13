@@ -143,14 +143,6 @@ static const NSTimeInterval SPL_METER_PLAY_DELAY_VOICEOVER = 3.0;
         [self requestRecordPermissionIfNeeded];
         [self configureAudioSession];
         [self setupFeedbackGenerator];
-<<<<<<< HEAD:ResearchKitActiveTask/environmentSPLMeter/ORKEnvironmentSPLMeterStepViewController.m
-=======
-        
-        #if RK_APPLE_INTERNAL
-        [self registerNotifications];
-        [self startTimeoutTimer];
-        #endif
->>>>>>> release/Peach:ResearchKit/ActiveTasks/ORKEnvironmentSPLMeterStepViewController.m
     }
     
 }

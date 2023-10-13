@@ -1070,8 +1070,3 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
 }
 
 @end
-<<<<<<< HEAD:ResearchKitInternal/ResearchKitInternal/Active Task/Headphone Detect Step/ORKHeadphoneDetectStepViewController.m
-=======
-
-#endif
->>>>>>> release/Peach:ResearchKit/Common/HeadphoneDetectStep/ORKHeadphoneDetectStepViewController.m

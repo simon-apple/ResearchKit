@@ -1126,11 +1126,7 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     
     self.textField.manageUnitAndPlaceholder = YES;
     self.textField.unit = answerFormat.displayUnit ?: answerFormat.unit;
-<<<<<<< HEAD:ResearchKitUI/Common/Answer Format/Form Step Views/ORKFormItemCell.m
-    self.textField.placeholder = self.formItem.placeholder;
-=======
     self.textField.placeholder = formItem.placeholder;
->>>>>>> release/Peach:ResearchKit/Common/ORKFormItemCell.m
     
     _numberFormatter = ORKDecimalNumberFormatter();
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(localeDidChange:) name:NSCurrentLocaleDidChangeNotification object:nil];

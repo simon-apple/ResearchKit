@@ -57,17 +57,9 @@
 #import "ORKBorderedButton.h"
 #import "ORKTaskReviewViewController.h"
 
-<<<<<<< HEAD:ResearchKitUI/Common/Task/ORKTaskViewController.m
-=======
 #import <CoreLocation/CLLocationManagerDelegate.h>
 #import <ResearchKit/CLLocationManager+ResearchKit.h>
 
-#if RK_APPLE_INTERNAL
-#import "ORKContext.h"
-#import "ORKSpeechInNoisePredefinedTask.h"
-#endif
-
->>>>>>> release/Peach:ResearchKit/Common/ORKTaskViewController.m
 @import AVFoundation;
 @import CoreMotion;
 
@@ -165,16 +157,10 @@ typedef void (^_ORKLocationAuthorizationRequestHandler)(BOOL success);
     
     NSString *_restoredTaskIdentifier;
     
-<<<<<<< HEAD:ResearchKitUI/Common/Task/ORKTaskViewController.m
-=======
 #if RK_APPLE_INTERNAL
-    BOOL _hasLockedVolume;
-    float _savedVolume;
-    float _lockedVolume;
     BOOL _updatingPreviousResults;
 #endif
     
->>>>>>> release/Peach:ResearchKit/Common/ORKTaskViewController.m
     UINavigationController *_childNavigationController;
     UIViewController *_previousToTopControllerInNavigationStack;
     
@@ -237,14 +223,11 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     // Ensure taskRunUUID has non-nil valuetaskRunUUID
     (void)[self taskRunUUID];
     self.restorationClass = [ORKTaskViewController class];
-<<<<<<< HEAD:ResearchKitUI/Common/Task/ORKTaskViewController.m
-    
-=======
+
 #if RK_APPLE_INTERNAL
-    _hasLockedVolume = NO;
     _updatingPreviousResults = NO;
 #endif
->>>>>>> release/Peach:ResearchKit/Common/ORKTaskViewController.m
+
     return self;
 }
 
@@ -645,40 +628,12 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     }
 }
 
-<<<<<<< HEAD:ResearchKitUI/Common/Task/ORKTaskViewController.m
-=======
 #if RK_APPLE_INTERNAL
-- (void)lockDeviceVolume:(float)volume {
-    if (!_hasLockedVolume) {
-        _hasLockedVolume = YES;
-        _lockedVolume = volume;
-        _savedVolume = [[AVAudioSession sharedInstance] outputVolume];
-        
-        [self registerNotifications];
-        
-        [[getAVSystemControllerClass() sharedAVSystemController] setActiveCategoryVolumeTo:_lockedVolume];
-    }
-}
-
-- (void)saveVolume {
-    _savedVolume = [[AVAudioSession sharedInstance] outputVolume];
-}
-
-- (void)registerNotifications {
-    if (@available(iOS 15.0, *)) {
-        [[getAVSystemControllerClass() sharedAVSystemController] setAttribute:@[AVSystemController_SystemVolumeDidChangeNotification]
-                                                                       forKey:AVSystemController_SubscribeToNotificationsAttribute
-                                                                        error:nil];
-    }
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(volumeDidChange:) name:AVSystemController_SystemVolumeDidChangeNotification object:nil];
-}
-
 - (void)setUpdatingPreviousResults:(BOOL)updatingPreviousResults {
     _updatingPreviousResults = updatingPreviousResults;
 }
 #endif
 
->>>>>>> release/Peach:ResearchKit/Common/ORKTaskViewController.m
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
@@ -1128,11 +1083,8 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     }
     
     ORKStepViewController *stepViewController = nil;
-<<<<<<< HEAD:ResearchKitUI/Common/Task/ORKTaskViewController.m
     UIColor *tintColor = ORKViewTintColor(self.view);
     
-=======
->>>>>>> release/Peach:ResearchKit/Common/ORKTaskViewController.m
     if ([self.delegate respondsToSelector:@selector(taskViewController:viewControllerForStep:)]) {
         // NOTE: While the delegate does not have direct access to the defaultResultSource,
         // it is assumed that it can set results as needed on the custom implementation of an
@@ -1211,10 +1163,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
         stepViewController.learnMoreButtonItem = [self defaultLearnMoreButtonItem];
     }
 
-<<<<<<< HEAD:ResearchKitUI/Common/Task/ORKTaskViewController.m
     stepViewController.view.tintColor = tintColor;
-=======
->>>>>>> release/Peach:ResearchKit/Common/ORKTaskViewController.m
     stepViewController.delegate = self;
     return stepViewController;
 }

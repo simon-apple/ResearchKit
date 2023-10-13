@@ -49,11 +49,6 @@ ORK_SOFT_LINK_NSSTRING_CONSTANT(Celestial, AVSystemController_RouteDescriptionKe
 ORK_SOFT_LINK_NSSTRING_CONSTANT(Celestial, AVSystemController_RouteDescriptionKey_AVAudioRouteName)
 #define AVSystemController_RouteDescriptionKey_AVAudioRouteName getAVOutputDeviceBluetoothListeningModeActiveNoiseCancellation()
 
-<<<<<<< HEAD:ResearchKitInternal/ResearchKitInternal/Common/Utilities/ORKCelestialSoftLink.h
-ORK_SOFT_LINK_CONSTANT(Celestial, AVSystemController_HeadphoneJackIsConnectedDidChangeNotification, NSString *)
-ORK_SOFT_LINK_CONSTANT(Celestial, AVSystemController_ActiveAudioRouteDidChangeNotification, NSString *)
-ORK_SOFT_LINK_CONSTANT(Celestial, AVSystemController_ServerConnectionDiedNotification, NSString *)
-=======
 ORK_SOFT_LINK_NSSTRING_CONSTANT(Celestial, AVSystemController_SubscribeToNotificationsAttribute)
 #define AVSystemController_SubscribeToNotificationsAttribute getAVSystemController_SubscribeToNotificationsAttribute()
 ORK_SOFT_LINK_NSSTRING_CONSTANT(Celestial, AVSystemController_SystemVolumeDidChangeNotification)
@@ -69,6 +64,3 @@ ORK_SOFT_LINK_NSSTRING_CONSTANT(Celestial, AVSystemController_ActiveAudioRouteDi
 #define AVSystemController_ActiveAudioRouteDidChangeNotification getAVSystemController_ActiveAudioRouteDidChangeNotification()
 ORK_SOFT_LINK_NSSTRING_CONSTANT(Celestial, AVSystemController_ServerConnectionDiedNotification)
 #define AVSystemController_ServerConnectionDiedNotification getAVSystemController_ServerConnectionDiedNotification()
-
-#endif
->>>>>>> release/Peach:ResearchKit/Common/ORKCelestialSoftLink.h

@@ -1542,153 +1542,6 @@ NSString * const ORKSurveyCardHeaderViewIdentifier = @"SurveyCardHeaderViewIdent
     _tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
 }
 
-<<<<<<< HEAD:ResearchKitUI/Common/Step/Form Step/ORKFormStepViewController.m
-#pragma mark UITableViewDataSource
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return _sections.count;
-}
-
-- (NSInteger)numberOfRowsInSection:(NSInteger)section {
-    ORKTableSection *sectionObject = (ORKTableSection *)_sections[section];
-    return sectionObject.items.count;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self numberOfRowsInSection:section];
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSString *identifier = [NSString stringWithFormat:@"%ld-%ld",(long)indexPath.section, (long)indexPath.row];
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-    
-    if (cell == nil) {
-        ORKTableSection *section = (ORKTableSection *)_sections[indexPath.section];
-        ORKTableCellItem *cellItem = [section items][indexPath.row];
-        bool isLastItem = [section items].count == indexPath.row + 1;
-        bool isFirstItemWithSectionWithoutTitle = indexPath.row == 0 && !section.title;
-        ORKFormItem *formItem = cellItem.formItem;
-        id answer = _savedAnswers[formItem.identifier];
-        
-        if (section.textChoiceCellGroup && ([section.textChoiceCellGroup cellAtIndexPath:indexPath withReuseIdentifier:identifier] != nil)) {
-            [section.textChoiceCellGroup setAnswer:answer];
-            section.textChoiceCellGroup.delegate = self;
-            ORKChoiceViewCell *choiceViewCell = nil;
-            choiceViewCell = [section.textChoiceCellGroup cellAtIndexPath:indexPath withReuseIdentifier:identifier];
-            if ([choiceViewCell isKindOfClass:[ORKChoiceOtherViewCell class]]) {
-                ORKChoiceOtherViewCell *choiceOtherViewCell = (ORKChoiceOtherViewCell *)choiceViewCell;
-                choiceOtherViewCell.delegate = self;
-            }
-            choiceViewCell.tintColor = ORKViewTintColor(self.view);
-            choiceViewCell.useCardView = [self formStep].useCardView;
-            choiceViewCell.cardViewStyle = [self formStep].cardViewStyle;
-            choiceViewCell.isLastItem = isLastItem;
-            choiceViewCell.isFirstItemInSectionWithoutTitle = isFirstItemWithSectionWithoutTitle;
-            [choiceViewCell layoutSubviews];
-            cell = choiceViewCell;
-
-        } else {
-            ORKAnswerFormat *answerFormat = [cellItem.formItem impliedAnswerFormat];
-            ORKQuestionType type = answerFormat.questionType;
-            
-            Class class = nil;
-            switch (type) {
-                case ORKQuestionTypeSingleChoice:
-                case ORKQuestionTypeMultipleChoice: {
-                    if ([formItem.impliedAnswerFormat isKindOfClass:[ORKImageChoiceAnswerFormat class]]) {
-                        class = [ORKFormItemImageSelectionCell class];
-                    } else if ([formItem.impliedAnswerFormat isKindOfClass:[ORKValuePickerAnswerFormat class]]) {
-                        class = [ORKFormItemPickerCell class];
-                    }
-                    break;
-                }
-                    
-                case ORKQuestionTypeDateAndTime:
-                case ORKQuestionTypeDate:
-                case ORKQuestionTypeTimeOfDay:
-                case ORKQuestionTypeTimeInterval:
-                case ORKQuestionTypeMultiplePicker:
-                case ORKQuestionTypeHeight:
-                case ORKQuestionTypeWeight: {
-                    class = [ORKFormItemPickerCell class];
-                    break;
-                }
-                    
-                case ORKQuestionTypeDecimal:
-                case ORKQuestionTypeInteger: {
-                    class = [ORKFormItemNumericCell class];
-                    break;
-                }
-                    
-                case ORKQuestionTypeText: {
-                    if ([formItem.answerFormat isKindOfClass:[ORKConfirmTextAnswerFormat class]]) {
-                        class = [ORKFormItemConfirmTextCell class];
-                    } else {
-                        ORKTextAnswerFormat *textFormat = (ORKTextAnswerFormat *)answerFormat;
-                        if (!textFormat.multipleLines) {
-                            class = [ORKFormItemTextFieldCell class];
-                        } else {
-                            class = [ORKFormItemTextCell class];
-                        }
-                    }
-                    break;
-                }
-                    
-                case ORKQuestionTypeScale: {
-                    class = [ORKFormItemScaleCell class];
-                    break;
-                }
-                    
-                case ORKQuestionTypeLocation: {
-                    class = [ORKFormItemLocationCell class];
-                    break;
-                }
-                case ORKQuestionTypeSES: {
-                    class = [ORKFormItemSESCell class];
-                    break;
-                }
-                    
-                default:
-                    NSAssert(NO, @"SHOULD NOT FALL IN HERE %@ %@", @(type), answerFormat);
-                    break;
-            }
-            
-            if (class) {
-                if ([class isSubclassOfClass:[ORKChoiceViewCell class]]) {
-                    NSAssert(NO, @"SHOULD NOT FALL IN HERE");
-                } else {
-                    ORKFormItemCell *formCell = nil;
-                    formCell = [[class alloc] initWithReuseIdentifier:identifier formItem:formItem answer:answer maxLabelWidth:section.maxLabelWidth delegate:self];
-                    [_formItemCells addObject:formCell];
-                    [formCell setExpectedLayoutWidth:self.tableView.bounds.size.width];
-                    formCell.selectionStyle = UITableViewCellSelectionStyleNone;
-                    formCell.defaultAnswer = _savedDefaults[formItem.identifier];
-                    if (!_savedAnswers) {
-                        _savedAnswers = [NSMutableDictionary new];
-                    }
-                    formCell.savedAnswers = _savedAnswers;
-                    formCell.useCardView = [self formStep].useCardView;
-                    formCell.cardViewStyle = [self formStep].cardViewStyle;
-                    formCell.isLastItem = isLastItem;
-                    formCell.isFirstItemInSectionWithoutTitle = isFirstItemWithSectionWithoutTitle;
-                    cell = formCell;
-                }
-            } else {
-                NSAssert(NO, @"SHOULD NOT FALL IN HERE");
-            }
-        }
-    }
-    else {
-        [cell setNeedsDisplay];
-    }
-    cell.userInteractionEnabled = !self.readOnlyMode;
-    
-    return cell;
-}
-
-=======
->>>>>>> release/Peach:ResearchKit/Common/ORKFormStepViewController.m
 - (BOOL)isChoiceSelected:(id)value atIndex:(NSUInteger)index answer:(id)answer {
     BOOL isSelected = NO;
     if (answer != nil && answer != ORKNullAnswerValue()) {
@@ -2136,13 +1989,11 @@ static CGFloat ORKLabelWidth(NSString *text) {
             BOOL cellNeedsBecomeFirstResponder = (self.savedAnswers[nextFormItemIdentifier] == nil);
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, DelayBeforeAutoScroll * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
                 if (_currentFirstResponderCell == nil) {
-<<<<<<< HEAD:ResearchKitUI/Common/Step/Form Step/ORKFormStepViewController.m
-=======
                     if (cellNeedsBecomeFirstResponder == YES) {
                         ORKFormItemCell *formItemCell = ORKDynamicCast([_tableView cellForRowAtIndexPath:nextPath], ORKFormItemCell);
                         [formItemCell becomeFirstResponder];
                     }
->>>>>>> release/Peach:ResearchKit/Common/ORKFormStepViewController.m
+                    
                     [_tableView scrollToRowAtIndexPath:nextPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
                 }
             });

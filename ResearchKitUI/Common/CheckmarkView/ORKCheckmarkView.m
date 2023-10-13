@@ -147,14 +147,11 @@ static const CGFloat CheckmarkViewBorderWidth = 2.0;
     [self updateCheckView];
 }
 
-<<<<<<< HEAD:ResearchKitUI/Common/CheckmarkView/ORKCheckmarkView.m
-=======
 - (void)setShouldIgnoreDarkMode:(BOOL)shouldIgnoreDarkMode {
     _shouldIgnoreDarkMode = shouldIgnoreDarkMode;
     [self updateCheckView];
 }
 
->>>>>>> release/Peach:ResearchKit/Common/ORKCheckmarkView.m
 - (void)tintColorDidChange {
     [super tintColorDidChange];
     [self updateCheckView];

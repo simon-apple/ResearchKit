@@ -304,7 +304,6 @@ const NSTimeInterval ORKVolumeCalibrationFadeStep = 0.01;
     [super viewDidLoad];
     [self setupVolumeView];
     
-<<<<<<< HEAD:ResearchKitInternal/ResearchKitInternal/Active Task/ORKVolumeCalibration/ORKVolumeCalibrationStepViewController.m
     NSString *sampleTitle = @"Sample";
     ORKTinnitusPredefinedTaskContext *context = self.tinnitusPredefinedTaskContext;
     
@@ -339,11 +338,8 @@ const NSTimeInterval ORKVolumeCalibrationFadeStep = 0.01;
             ORK_Log_Error("Error fetching audio file %@: %@", audioFile, error);
         }
     }
-    
-    self.contentView = [[ORKVolumeCalibrationContentView alloc] initWithTitle:sampleTitle];
-=======
+
     self.contentView = [[ORKVolumeCalibrationContentView alloc] initWithTitle:[self sampleTitleForCalibrationStep]];
->>>>>>> release/Peach:ResearchKit/ActiveTasks/ORKVolumeCalibration/ORKVolumeCalibrationStepViewController.m
     self.contentView.delegate = self;
     
     [self setNavigationFooterView];
@@ -383,9 +379,9 @@ const NSTimeInterval ORKVolumeCalibrationFadeStep = 0.01;
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-<<<<<<< HEAD:ResearchKitInternal/ResearchKitInternal/Active Task/ORKVolumeCalibration/ORKVolumeCalibrationStepViewController.m
-    AAPLTaskViewController *aaplTaskViewController = (AAPLTaskViewController *)self.taskViewController;
+    [self setupAudioEngine];
     
+    AAPLTaskViewController *aaplTaskViewController = (AAPLTaskViewController *)self.taskViewController;
     if (aaplTaskViewController != nil && [aaplTaskViewController isKindOfClass:[AAPLTaskViewController class]]) {
         [aaplTaskViewController saveVolume];
     } else {
@@ -393,10 +389,6 @@ const NSTimeInterval ORKVolumeCalibrationFadeStep = 0.01;
         // TODO: THROW IF PARENT VIEW CONTROLLER ISN'T OF TYPE AAPLTaskViewController
     }
     
-=======
-    [self setupAudioEngine];
-    [self.taskViewController saveVolume];
->>>>>>> release/Peach:ResearchKit/ActiveTasks/ORKVolumeCalibration/ORKVolumeCalibrationStepViewController.m
     [[getAVSystemControllerClass() sharedAVSystemController] setActiveCategoryVolumeTo:UIAccessibilityIsVoiceOverRunning() ? 0.2 : 0];
 }
 

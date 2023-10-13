@@ -34,13 +34,6 @@
 
 ORK_SOFT_LINK_FRAMEWORK(Frameworks, AVFoundation);
 ORK_SOFT_LINK_CLASS(AVFoundation, AVOutputContext)
-<<<<<<< HEAD:ResearchKitInternal/ResearchKitInternal/Common/Utilities/ORKAVFoundationSoftLink.h
-ORK_SOFT_LINK_CONSTANT(AVFoundation, AVOutputDeviceBluetoothListeningModeActiveNoiseCancellation, NSString *)
-ORK_SOFT_LINK_CONSTANT(AVFoundation, AVOutputDeviceBluetoothListeningModeAudioTransparency, NSString *)
-ORK_SOFT_LINK_CONSTANT(AVFoundation, AVOutputDeviceBluetoothListeningModeNormal, NSString *)
-ORK_SOFT_LINK_CONSTANT(AVFoundation, AVOutputDeviceBatteryLevelLeftKey, NSString *)
-ORK_SOFT_LINK_CONSTANT(AVFoundation, AVOutputDeviceBatteryLevelRightKey, NSString *)
-=======
 #define AVOutputContextSoft getAVOutputContextClass()
 
 ORK_SOFT_LINK_NSSTRING_CONSTANT(AVFoundation, AVOutputDeviceBluetoothListeningModeActiveNoiseCancellation)
@@ -53,6 +46,3 @@ ORK_SOFT_LINK_NSSTRING_CONSTANT(AVFoundation, AVOutputDeviceBatteryLevelLeftKey)
 #define AVOutputDeviceBatteryLevelLeftKey getAVOutputDeviceBatteryLevelLeftKey()
 ORK_SOFT_LINK_NSSTRING_CONSTANT(AVFoundation, AVOutputDeviceBatteryLevelRightKey)
 #define AVOutputDeviceBatteryLevelRightKey getAVOutputDeviceBatteryLevelRightKey()
-
-#endif
->>>>>>> release/Peach:ResearchKit/Common/ORKAVFoundationSoftLink.h

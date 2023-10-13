@@ -63,11 +63,7 @@ import ResearchKitActiveTask
     fileprivate let channel: ORKAudioChannel
     fileprivate var stimulus: ORKAudiometryStimulus?
     fileprivate var results = [Double: Double]()
-<<<<<<< HEAD:ResearchKitInternal/ResearchKitInternal/Active Task/dBHL Tone Audiometry/ORKAudiometry/ORKNewAudiometry.swift
-    fileprivate var preStimulusResponse: Bool = true
-=======
     fileprivate var preStimulusResponse = true
->>>>>>> release/Peach:ResearchKit/ActiveTasks/ORKdBHLToneAudiometry/ORKAudiometry/ORKNewAudiometry.swift
 
     // Settings
     fileprivate let initialLevel: Double
