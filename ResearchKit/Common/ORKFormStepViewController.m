@@ -447,6 +447,10 @@ NSString * const ORKSurveyCardHeaderViewIdentifier = @"SurveyCardHeaderViewIdent
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 }
 
+- (BOOL)isContentSizeWithinFrame {
+    return _tableView.contentSize.height <= _tableView.bounds.size.height;
+}
+
 - (BOOL)isContentSizeLargerThanFrame {
     BOOL isContentSizeLargerThanBounds = _tableView.contentSize.height > _tableView.bounds.size.height;
     BOOL multipleCells = [self visibleFormItems].count >= 2;
@@ -1708,6 +1712,7 @@ static CGFloat ORKLabelWidth(NSString *text) {
         itemIdentifier.expansionState = shouldHideTextView ? ORKChoiceViewCellExpansionStateCollapsed : ORKChoiceViewCellExpansionStateExpanded;
         [choiceOtherViewCell hideTextView:shouldHideTextView];
         [self reloadItems:@[itemIdentifier]];
+        [_tableContainer resizeFooterToFitUsingMinHeight:([self isContentSizeWithinFrame] && !shouldHideTextView)];
     }
 }
 
