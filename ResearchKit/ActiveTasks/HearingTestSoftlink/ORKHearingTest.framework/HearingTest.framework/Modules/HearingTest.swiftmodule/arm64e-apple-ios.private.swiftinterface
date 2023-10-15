@@ -1,7 +1,7 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 5.9 (swiftlang-5.9.0.123.204 clang-1500.0.37.1)
-// swift-module-flags: -target arm64e-apple-ios17.1 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -library-level spi -module-name HearingTest
-// swift-module-flags-ignorable: -enable-bare-slash-regex -user-module-version 110.14.99
+// swift-compiler-version: Apple Swift version 5.9.2 (swiftlang-5.9.2.2.8 clang-1500.1.0.2.2)
+// swift-module-flags: -target arm64e-apple-ios17.2 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -library-level spi -module-name HearingTest
+// swift-module-flags-ignorable: -enable-bare-slash-regex -user-module-version 9999.99.99
 import AVFAudio_Private
 import Accelerate
 import CoreBluetooth
@@ -36,7 +36,7 @@ import DarwinPrivate.os.variant
   @_spi(Internal) public var maskingMatrix: [Swift.String : Swift.Double]
   @_spi(Internal) convenience public init(channel: HearingTest.HTHearingChannel)
   @_spi(Internal) convenience public init(channel: HearingTest.HTHearingChannel, initialLevel: Swift.Double, minLevel: Swift.Double, maxLevel: Swift.Double, frequencies: [Swift.Double])
-  @_spi(Internal) public init(channel: HearingTest.HTHearingChannel, initialLevel: Swift.Double, minLevel: Swift.Double, maxLevel: Swift.Double, frequencies: [Swift.Double], kernelLenght: Swift.Double)
+  @_spi(Internal) public init(channel: HearingTest.HTHearingChannel, initialLevel: Swift.Double, minLevel: Swift.Double, maxLevel: Swift.Double, frequencies: [Swift.Double], kernelLength: Swift.Double)
   @_spi(Internal) public var progress: Swift.Float {
     @_spi(Internal) get
   }
@@ -48,6 +48,9 @@ import DarwinPrivate.os.variant
     @_spi(Internal) get
   }
   @_spi(Internal) @objc deinit
+}
+@_spi(Internal) extension HearingTest.HTAudiometry {
+  @_spi(Internal) public func dropTrials(_ nTrialsToDrop: Swift.Int)
 }
 public enum NoiseMode : Swift.Int, Swift.CaseIterable, Swift.Sendable {
   case high, low, high2low, low2high, low2high2low, high2low2high
@@ -154,6 +157,12 @@ infix operator .** : ExponentiationPrecedence
 infix operator .**= : AssignmentPrecedence
 infix operator .* : MultiplicationPrecedence
 infix operator .*= : AssignmentPrecedence
+public struct HTHeadphoneCalibration {
+  public func dBFS(fromdBHL dBHL: Swift.Double, atFrequency freq: Swift.Double) -> Swift.Double
+}
+extension HearingTest.HTHeadphoneCalibration {
+  public static let B698Table: HearingTest.HTHeadphoneCalibration
+}
 extension Swift.Double {
   public static let HTMinPreStimulusDelay: Swift.Double
   public static let HTMaxPreStimulusDelay: Swift.Double
@@ -230,15 +239,21 @@ public struct HTHearingTestToneResponse : Swift.Sendable, Swift.Codable {
   public func encode(to encoder: any Swift.Encoder) throws
   public init(from decoder: any Swift.Decoder) throws
 }
+public struct HTHearingTestMetrics : Swift.Sendable {
+}
 public enum HTHearingTestError : Swift.Error, Swift.Sendable {
-  case error1
-  case error2
+  case maxTonesReached
   public static func == (a: HearingTest.HTHearingTestError, b: HearingTest.HTHearingTestError) -> Swift.Bool
   public func hash(into hasher: inout Swift.Hasher)
   public var hashValue: Swift.Int {
     get
   }
 }
+public enum HTHearingTestSessionStatus : Swift.Sendable {
+  case testCompleted(result: Swift.Result<HearingTest.HTHearingTestSessionResult, HearingTest.HTHearingTestError>, metrics: HearingTest.HTHearingTestMetrics)
+  case continueTest(tone: HearingTest.HTHearingTestTone, progress: Swift.Float, currentState: HearingTest.HTHearingTestState)
+}
+@available(*, deprecated, message: "Use HTHearingTestSessionStatus instead")
 public enum HTHearingTestStatus : Swift.Sendable {
   case testCompleted(result: Swift.Result<HearingTest.HTHearingTestSessionResult, any Swift.Error>)
   case continueTest(tone: HearingTest.HTHearingTestTone, progress: Swift.Float, currentState: HearingTest.HTHearingTestState)
@@ -339,10 +354,20 @@ public class HTRequirementStatusManager : HearingTest.HTRequirementStatusProvidi
   public func addObserver(_ observer: any HearingTest.HTRequirementStatusObserver, for type: HearingTest.HTRequirementCheckType, queue: Dispatch.DispatchQueue?)
   public func removeObserver(_ observer: any HearingTest.HTRequirementStatusObserver, for type: HearingTest.HTRequirementCheckType)
 }
+extension HearingTest.HTHearingTestSession {
+  public static let defaultFrequencies: [Swift.Double]
+  public static let defaultInitialLevel: Swift.Double
+  public static let defaultMinLevel: Swift.Double
+  public static let defaultMaxLevel: Swift.Double
+}
 public class HTHearingTestSession {
-  public init(on channel: HearingTest.HTHearingChannel, with initialData: HearingTest.HTPreviousAudiogram? = nil, frequencies: [Swift.Double] = [1000, 2000, 4000, 8000, 500, 250], initialLevel: Swift.Double = 60, minLevel: Swift.Double = -10, maxLevel: Swift.Double = 75)
-  public init(on channel: HearingTest.HTHearingChannel, with initialData: HearingTest.HTPreviousAudiogram? = nil, statusManager: HearingTest.HTRequirementStatusManager? = nil, frequencies: [Swift.Double] = [1000, 2000, 4000, 8000, 500, 250], initialLevel: Swift.Double = 60, minLevel: Swift.Double = -10, maxLevel: Swift.Double = 75)
+  public init(on channel: HearingTest.HTHearingChannel, with initialData: HearingTest.HTPreviousAudiogram? = nil, frequencies: [Swift.Double] = defaultFrequencies, initialLevel: Swift.Double = defaultInitialLevel, minLevel: Swift.Double = defaultMinLevel, maxLevel: Swift.Double = defaultMaxLevel)
+  public init(on channel: HearingTest.HTHearingChannel, with initialData: HearingTest.HTPreviousAudiogram? = nil, statusManager: HearingTest.HTRequirementStatusManager? = nil, frequencies: [Swift.Double] = defaultFrequencies, initialLevel: Swift.Double = defaultInitialLevel, minLevel: Swift.Double = defaultMinLevel, maxLevel: Swift.Double = defaultMaxLevel)
   #if compiler(>=5.3) && $AsyncAwait
+  public func hearingTestStatus(for currentToneResponse: HearingTest.HTHearingTestToneResponse? = nil) async -> HearingTest.HTHearingTestSessionStatus
+  #endif
+  #if compiler(>=5.3) && $AsyncAwait
+  @available(*, deprecated, message: "Use `func hearingTestStatus(for currentToneResponse: HTHearingTestToneResponse? = nil) async -> HTHearingTestSessionStatus` instead")
   public func hearingTestStatus(with currentToneResponse: HearingTest.HTHearingTestToneResponse? = nil) async -> HearingTest.HTHearingTestStatus
   #endif
   public func scheduledPlayback(for tone: HearingTest.HTHearingTestTone)
@@ -360,6 +385,26 @@ public class HTHearingTestSession {
   #endif
   @objc deinit
 }
+public enum MockHTRequirementStatusEventType : Swift.CaseIterable {
+  case inEar
+  case outEar
+  case noiseAcceptable
+  case noiseNotAcceptable
+  public static func == (a: HearingTest.MockHTRequirementStatusEventType, b: HearingTest.MockHTRequirementStatusEventType) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public typealias AllCases = [HearingTest.MockHTRequirementStatusEventType]
+  public static var allCases: [HearingTest.MockHTRequirementStatusEventType] {
+    get
+  }
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public struct MockHTRequirementStatusEvent {
+  public var eventType: HearingTest.MockHTRequirementStatusEventType
+  public var startTime: Swift.Float
+  public var duration: Swift.Float
+}
 extension HearingTest.NoiseMode : Swift.Equatable {}
 extension HearingTest.NoiseMode : Swift.Hashable {}
 extension HearingTest.NoiseMode : Swift.RawRepresentable {}
@@ -372,3 +417,5 @@ extension HearingTest.HTHearingTestError : Swift.Equatable {}
 extension HearingTest.HTHearingTestError : Swift.Hashable {}
 extension HearingTest.HTFaultState : Swift.Equatable {}
 extension HearingTest.HTFaultState : Swift.Hashable {}
+extension HearingTest.MockHTRequirementStatusEventType : Swift.Equatable {}
+extension HearingTest.MockHTRequirementStatusEventType : Swift.Hashable {}

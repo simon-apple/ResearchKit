@@ -8,6 +8,11 @@
 	<dict/>
 	<key>rules</key>
 	<dict>
+		<key>^Frameworks/AccountInfo\.plist$</key>
+		<dict>
+			<key>weight</key>
+			<real>10</real>
+		</dict>
 		<key>^Resources/</key>
 		<true/>
 		<key>^Resources/.*\.lproj/</key>
@@ -68,6 +73,11 @@
 			<true/>
 			<key>weight</key>
 			<real>0.0</real>
+		</dict>
+		<key>^Frameworks/AccountInfo\.plist$</key>
+		<dict>
+			<key>weight</key>
+			<real>10</real>
 		</dict>
 		<key>^Resources/</key>
 		<true/>

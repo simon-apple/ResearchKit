@@ -40,6 +40,6 @@
 #define USE_LEGACY_TONEPLAYER 0
 
 // a hardcoded copy of the HearingTest framework version embedded on app
-#define HEARING_TEST_FRAMEWORK_VERSION @"HearingTest-110.14"
+#define HEARING_TEST_FRAMEWORK_VERSION @"HearingTest-120.2"
 
 #endif /* ResearchKit_Prefix_pch */

@@ -1,4 +1,0 @@
-framework module ORKHearingTest {
-  header "ORKHearingTest-Swift.h"
-  requires objc
-}
