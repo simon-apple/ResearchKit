@@ -302,12 +302,12 @@ ORK_MAKE_TEST_INIT(ORKVerificationStep, ^{return [self initWithIdentifier:[NSUUI
 ORK_MAKE_TEST_INIT(ORKStep, ^{return [self initWithIdentifier:[NSUUID UUID].UUIDString];});
 ORK_MAKE_TEST_INIT(ORKReviewStep, ^{return [[self class] standaloneReviewStepWithIdentifier:[NSUUID UUID].UUIDString steps:@[] resultSource:[[ORKTaskResult alloc] orktest_init]];});
 ORK_MAKE_TEST_INIT(ORKOrderedTask, ^{return [self initWithIdentifier:@"test1" steps:nil];});
-<<<<<<< HEAD
 ORK_MAKE_TEST_INIT(ORK3DModelStep, ^{return [[self.class alloc] initWithIdentifier:NSUUID.UUID.UUIDString modelManager: [[ORK3DModelManager alloc] init]]; });
 
-=======
+#if RK_APPLE_INTERNAL
 ORK_MAKE_TEST_INIT(ORKAgeAnswerFormat, ^{return [self initWithMinimumAge:0 maximumAge:80 minimumAgeCustomText:nil maximumAgeCustomText:nil showYear:NO useYearForResult:NO treatMinAgeAsRange:false treatMaxAgeAsRange:false defaultValue:0];});
->>>>>>> release/Peach
+#endif
+
 #if RK_APPLE_INTERNAL && ORK_FEATURE_AV_JOURNALING
 ORK_MAKE_TEST_INIT(ORKAVJournalingPredefinedTask, ^{
     ORKStep *stepA = [[ORKStep alloc] initWithIdentifier:[NSUUID UUID].UUIDString];
@@ -1083,11 +1083,9 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector(void) {
             [instance setValue:NSStringFromClass([ORKVerificationStepViewController class]) forKey:@"verificationViewControllerString"];
         } else if ([aClass isSubclassOfClass:[ORKReviewStep class]]) {
             [instance setValue:[[ORKTaskResult alloc] orktest_init] forKey:@"resultSource"]; // Manually add here because it's a protocol and hence property doesn't have a class
-<<<<<<< HEAD
         } else if ([aClass isSubclassOfClass:ORK3DModelStep.class]) {
             // as above, also a protocol
             [instance setValue:[[ORK3DModelManager alloc] init] forKey:@"modelManager"];
-=======
         } else if ([aClass isSubclassOfClass:[ORKPredicateFormItemVisibilityRule class]]) {
             // predicateFormat cannot be an empty sring for deserialization to work
             [instance setValue:@"$title == 'testSerialization' && $className == 'ORKPredicateFormItemVisibilityRule'" forKey:@"predicateFormat"];
@@ -1097,13 +1095,18 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector(void) {
             [(ORKDateAnswerFormat *)instance _setCurrentDateOverride:dateFormatOverrideDate];
             [(ORKDateAnswerFormat *)instance setDaysAfterCurrentDateToSetMinimumDate:1];
             [(ORKDateAnswerFormat *)instance setDaysBeforeCurrentDateToSetMinimumDate:1];
-        } else if ([aClass isSubclassOfClass:[ORKAgeAnswerFormat class]]) {
+        }
+        
+#if RK_APPLE_INTERNAL
+        
+        if ([aClass isSubclassOfClass:[ORKAgeAnswerFormat class]]) {
             [instance setValue:@(0) forKey:@"minimumAge"];
             [instance setValue:@(80) forKey:@"maximumAge"];
             [instance setValue:@(0) forKey:@"defaultValue"];
             [instance setValue:@(2023) forKey:@"relativeYear"];
->>>>>>> release/Peach
         }
+        
+#endif
 
         // Serialization
         NSDictionary *instanceDictionary = [ORKESerializer JSONObjectForObject:instance context:context error:NULL];

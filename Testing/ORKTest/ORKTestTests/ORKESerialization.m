@@ -1150,13 +1150,6 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(headphoneType, NSString, NSObject, YES, nil, nil),
                     PROPERTY(earPreference, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(frequencyList, NSArray, NSObject, YES, nil, nil),
-<<<<<<< HEAD
-=======
-#if RK_APPLE_INTERNAL
-                    PROPERTY(algorithm, NSNumber, NSObject, YES, nil, nil),
-                    PROPERTY(dBHLMaximumThreshold, NSNumber, NSObject, YES, nil, nil),
-#endif
->>>>>>> release/Peach
                     })),
 #if RK_APPLE_INTERNAL
            ENTRY(AAPLdBHLToneAudiometryStep,
@@ -1310,10 +1303,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(timeoutSound, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(failureSound, NSNumber, NSObject, YES, nil, nil),
                     })),
-<<<<<<< HEAD
 #if RK_APPLE_INTERNAL
-=======
->>>>>>> release/Peach
            ENTRY(ORKNormalizedReactionTimeStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      return [[ORKNormalizedReactionTimeStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
@@ -1329,8 +1319,6 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(failureSound, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(currentInterval, NSNumber, NSObject, YES, nil, nil),
                     })),
-<<<<<<< HEAD
-=======
            ENTRY(ORKNormalizedReactionTimeResult,
                 nil,
                  (@{
@@ -1348,7 +1336,6 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                              ^id(id string, __unused ORKESerializationContext *context) { return ORKEDateFromStringISO8601(string); }),
                     PROPERTY(currentInterval, NSNumber, NSObject, NO, nil, nil),
                     })),
->>>>>>> release/Peach
            ENTRY(ORKTypingStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      return [[ORKTypingStep alloc]  initWithIdentifier:GETPROP(dict, identifier)];

@@ -151,11 +151,8 @@ enum TaskListRow: Int, CustomStringConvertible {
     case studySignPostStep
     case consentTask
     case consentDoc
-<<<<<<< HEAD
-=======
     case familyHistoryReviewTask
     case longHeaderTask
->>>>>>> release/Peach
     #endif
     
     class TaskListRowSection {
@@ -789,14 +786,10 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .groupedForm:
             return groupedFormTask
-<<<<<<< HEAD
-        
-=======
     
         case .surveyWithMultipleOptions:
             return formTaskWithMultipleOptions
             
->>>>>>> release/Peach
         case .survey:
             return surveyTask
             
@@ -1082,9 +1075,6 @@ enum TaskListRow: Int, CustomStringConvertible {
         
         let appleFormItem = ORKFormItem(identifier: String(describing: Identifier.appleFormItemIdentifier), text: "Which is your favorite apple?", answerFormat: appleAnswerFormat)
         
-<<<<<<< HEAD
-        let freeTextSection = ORKFormItem(identifier: "freeTextSectionIdentifier", text: "Enter your text below", answerFormat: nil)
-=======
         let roundShapeImage = UIImage(named: "round_shape")!
         let roundShapeText = NSLocalizedString("Round Shape", comment: "")
         
@@ -1100,16 +1090,11 @@ enum TaskListRow: Int, CustomStringConvertible {
         let imageChoiceItem = ORKFormItem(identifier: String(describing: Identifier.imageChoiceItem), text: "Enter your favorite shape", answerFormat: imageChoiceAnswerFormat)
         
         let freeTextSection = ORKFormItem(identifier: String(describing: Identifier.freeTextSectionIdentifier), text: "Enter your text below", answerFormat: nil)
->>>>>>> release/Peach
         
         let freeTextAnswerFormat = ORKAnswerFormat.textAnswerFormat(withMaximumLength: 200)
         freeTextAnswerFormat.multipleLines = true
         
-<<<<<<< HEAD
-        let freeTextItem = ORKFormItem(identifier: "freeTextItemIdentifier", text: nil, answerFormat: freeTextAnswerFormat)
-=======
         let freeTextItem = ORKFormItem(identifier:String(describing: Identifier.freeTextItemIdentifier), text: nil, answerFormat: freeTextAnswerFormat)
->>>>>>> release/Peach
         
         step.formItems = [
             appleFormItem,
@@ -1117,11 +1102,8 @@ enum TaskListRow: Int, CustomStringConvertible {
             formItem04,
             formItem01,
             formItem02,
-<<<<<<< HEAD
-=======
             textChoiceFormItem,
             imageChoiceItem,
->>>>>>> release/Peach
             freeTextSection,
             freeTextItem
         ]
@@ -1879,19 +1861,10 @@ enum TaskListRow: Int, CustomStringConvertible {
         questionStep2.placeholder = NSLocalizedString("Placeholder without unit.", comment: "")
         
         // This answer format is similar to the previous one, but this time with a display unit.
-<<<<<<< HEAD
-        let questionStep3 = ORKQuestionStep(identifier: String(describing: Identifier.numericDisplayUnitQuestionStep), title: NSLocalizedString("Numeric with Display Unit", comment: ""), question: exampleQuestionText, answer: ORKNumericAnswerFormat(style: .decimal, unit: "weeks", displayUnit: "semanas", minimum: 1, maximum: 120, maximumFractionDigits: 1))
-        
-        questionStep3.text = exampleDetailText
-        questionStep3.placeholder = NSLocalizedString("Placeholder with display unit.", comment: "")
-        
-        
-=======
         let questionStep3 = ORKQuestionStep(identifier: String(describing: Identifier.numericDisplayUnitQuestionStep), title: NSLocalizedString("Numeric with Display Unit", comment: ""), question: exampleQuestionText, answer: ORKNumericAnswerFormat(style: .decimal, unit: "weeks", displayUnit: "semanas", minimum: nil, maximum: nil, maximumFractionDigits: 1))
         questionStep3.text = exampleDetailText
         questionStep3.placeholder = NSLocalizedString("Placeholder with display unit.", comment: "")
         
->>>>>>> release/Peach
         return ORKOrderedTask(identifier: String(describing: Identifier.numericQuestionTask), steps: [
             questionStep1,
             questionStep2,
