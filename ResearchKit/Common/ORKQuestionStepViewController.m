@@ -380,7 +380,7 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
     [super viewDidLayoutSubviews];
     if (_tableContainer) {
         [_tableContainer sizeHeaderToFit];
-        [_tableContainer resizeFooterToFit];
+        [_tableContainer resizeFooterToFitUsingMinHeight:NO];
     }
 }
 
