@@ -2285,7 +2285,10 @@ static NSString *const _ORKAnsweredSectionIdentifiersRestoreKey = @"answeredSect
     ORK_Log_Debug("[FORMSTEP] textChoiceOtherCellDidResignFirstResponder found textChoice %@", textChoice);
     
     id answer;
-    if (choiceOtherViewCell.textView.text.length > 0) {
+    // if textChoice is nil, then the textView was force closed by a scroll, lets clear out the values here
+    if (!textChoice) {
+        choiceOtherViewCell.textView.text = nil;
+    } else if (choiceOtherViewCell.textView.text.length > 0) {
         textChoice.textViewText = choiceOtherViewCell.textView.text;
         [self didSelectChoiceOtherViewCellWithItemIdentifier:itemIdentifier choiceOtherViewCell:choiceOtherViewCell];
         answer = @[textChoice.textViewText];
@@ -2296,10 +2299,12 @@ static NSString *const _ORKAnsweredSectionIdentifiersRestoreKey = @"answeredSect
         }
         answer = _savedAnswers[itemIdentifier.formItemIdentifier];
     }
-    [self saveTextChoiceAnswer:answer
-                      formItem:formItem
-                     indexPath:indexPath
-                itemIdentifier:itemIdentifier];
+    if (answer) {
+        [self saveTextChoiceAnswer:answer
+                          formItem:formItem
+                         indexPath:indexPath
+                    itemIdentifier:itemIdentifier];
+    }
 }
 
 - (void)saveTextChoiceAnswer:(id)answer
