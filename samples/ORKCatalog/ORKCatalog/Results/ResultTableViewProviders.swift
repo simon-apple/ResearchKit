@@ -95,6 +95,9 @@ func resultTableViewProviderForResult(_ result: ORKResult?, delegate: ResultProv
     case is ORKScaleQuestionResult:
         providerType = ScaleQuestionResultTableViewProvider.self
         
+    case is ORKSESQuestionResult:
+        providerType = SESQuestionResultTableViewProvider.self
+        
     case is ORKTextQuestionResult:
         providerType = TextQuestionResultTableViewProvider.self
         
@@ -520,6 +523,20 @@ class NumericQuestionResultTableViewProvider: ResultTableViewProvider {
             
             // The unit string that was displayed with the numeric value.
             ResultRow(text: "displayUnit", detail: questionResult.displayUnit)
+        ]
+    }
+}
+
+/// Table view provider specific to an `ORKSESQuestionResult` instance.
+class SESQuestionResultTableViewProvider: ResultTableViewProvider {
+    // MARK: ResultTableViewProvider
+    
+    override func resultRowsForSection(_ section: Int) -> [ResultRow] {
+        let rungQuestionResult = result as! ORKSESQuestionResult
+        
+        return super.resultRowsForSection(section) + [
+            // The value returned from the .
+            ResultRow(text: "rungPicked", detail: rungQuestionResult.rungPicked)
         ]
     }
 }
