@@ -1663,6 +1663,11 @@ NSString * const ORKSurveyCardHeaderViewIdentifier = @"SurveyCardHeaderViewIdent
             ORKTextChoice *textChoice = [answerFormat.choices objectAtIndex:choiceIndex];
             ORKTextChoiceOther *textChoiceOther = ORKDynamicCast(textChoice, ORKTextChoiceOther);
             if (textChoiceOther != nil) {
+                if (textChoiceOther.textViewText.length > 0) {
+                    // [LC] We should always expand the ORKChoiceOtherViewCell if the ORKTextChoiceOther has a textViewText
+                    // This can happen, when restoring the form.
+                    itemIdentifier.expansionState = ORKChoiceViewCellExpansionStateExpanded;
+                }
                 [choiceOtherViewCell setupWithText:textChoiceOther.textViewText placeholderText:textChoiceOther.textViewPlaceholderText expansionState:itemIdentifier.expansionState];
             }
         }
@@ -2294,7 +2299,7 @@ static NSString *const _ORKAnsweredSectionIdentifiersRestoreKey = @"answeredSect
         if (!textChoice.textViewInputOptional) {
             [choiceOtherViewCell setCellSelected:NO highlight:NO];
         }
-        answer = _savedAnswers[itemIdentifier.formItemIdentifier];
+        answer = @[textChoice.text];
     }
     [self saveTextChoiceAnswer:answer
                       formItem:formItem
