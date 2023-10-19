@@ -94,6 +94,9 @@ func resultTableViewProviderForResult(_ result: ORKResult?, delegate: ResultProv
     case is ORKScaleQuestionResult:
         providerType = ScaleQuestionResultTableViewProvider.self
         
+    case is ORKSESQuestionResult:
+        providerType = SESQuestionResultTableViewProvider.self
+        
     case is ORKTextQuestionResult:
         providerType = TextQuestionResultTableViewProvider.self
         
