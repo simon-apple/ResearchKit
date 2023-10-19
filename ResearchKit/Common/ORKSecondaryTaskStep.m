@@ -29,15 +29,9 @@
  */
 
 #import "ORKSecondaryTaskStep.h"
-#import "ORKSecondaryTaskStepViewController.h"
 #import "ORKHelpers_Internal.h"
 
 @implementation ORKSecondaryTaskStep
-
-
-+ (Class)stepViewControllerClass {
-    return [ORKSecondaryTaskStepViewController class];
-}
 
 - (instancetype)initWithIdentifier:(NSString *)identifier {
 

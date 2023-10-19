@@ -71,6 +71,8 @@
 
 #import "ORKQuestionStep.h"
 
+#import <Researchkit/ORKFormItemVisibilityRule.h>
+
 static const CGFloat TableViewYOffsetStandard = 30.0;
 static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
 

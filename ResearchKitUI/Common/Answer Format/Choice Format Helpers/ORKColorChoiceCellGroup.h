@@ -30,9 +30,10 @@
 
 @import Foundation;
 @import UIKit;
-#import <ResearchKit/ORKQuestionStep_Private.h>
 
-#import <ResearchKit/ORKTextChoiceCellGroup.h>
+#import "ORKTextChoiceCellGroup.h"
+
+#import <ResearchKit/ORKQuestionStep_Private.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

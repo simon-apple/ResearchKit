@@ -30,8 +30,6 @@
 		03EDD58124CA6B1D006245E9 /* ORKNotificationPermissionType.m in Sources */ = {isa = PBXBuildFile; fileRef = 03EDD57F24CA6B1D006245E9 /* ORKNotificationPermissionType.m */; };
 		0B0DEDCB2A031DFB00FCF3FE /* ORKFormStepViewControllerConditionalFormItemsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0DEDCA2A031DFB00FCF3FE /* ORKFormStepViewControllerConditionalFormItemsTests.swift */; };
 		0B59A6BF28C1738D005035B4 /* ORKPickerTestDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B59A6BE28C1738D005035B4 /* ORKPickerTestDelegate.m */; };
-		0B8444652A79C25000292DEA /* ORKChoiceViewCell+ORKTextChoice.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B8444632A79C25000292DEA /* ORKChoiceViewCell+ORKTextChoice.h */; };
-		0B8444662A79C25000292DEA /* ORKChoiceViewCell+ORKTextChoice.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B8444642A79C25000292DEA /* ORKChoiceViewCell+ORKTextChoice.m */; };
 		0B9A990F2A8AC47500D64C40 /* NSObject+TestingSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B9A990E2A8AC47500D64C40 /* NSObject+TestingSupport.m */; };
 		0B9CC5672A68C02C00080E29 /* UIImageView+ResearchKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B9CC5652A68C02C00080E29 /* UIImageView+ResearchKit.h */; };
 		0B9CC5682A68C02C00080E29 /* UIImageView+ResearchKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B9CC5662A68C02C00080E29 /* UIImageView+ResearchKit.m */; };
@@ -98,10 +96,6 @@
 		5192BF592AE09794006E43FB /* ORKFormItemVisibilityRule.h in Headers */ = {isa = PBXBuildFile; fileRef = 5192BF572AE09793006E43FB /* ORKFormItemVisibilityRule.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5192BF5A2AE09794006E43FB /* ORKFormItemVisibilityRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 5192BF582AE09794006E43FB /* ORKFormItemVisibilityRule.m */; };
 		5192BF5D2AE19036006E43FB /* frequency_dBSPL_AIRPODSPROV2.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5192BF5C2AE19036006E43FB /* frequency_dBSPL_AIRPODSPROV2.plist */; };
-		5192BF742AE1A4D5006E43FB /* ORKFrontFacingCameraStepResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 5192BF702AE1A4D4006E43FB /* ORKFrontFacingCameraStepResult.m */; };
-		5192BF752AE1A4D5006E43FB /* ORKFrontFacingCameraStepResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 5192BF712AE1A4D5006E43FB /* ORKFrontFacingCameraStepResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5192BF762AE1A4D5006E43FB /* ORKFrontFacingCameraStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 5192BF722AE1A4D5006E43FB /* ORKFrontFacingCameraStep.m */; };
-		5192BF772AE1A4D5006E43FB /* ORKFrontFacingCameraStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 5192BF732AE1A4D5006E43FB /* ORKFrontFacingCameraStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5192BF7D2AE1A87D006E43FB /* retspl_AIRPODSPROV2.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5192BF7C2AE1A87D006E43FB /* retspl_AIRPODSPROV2.plist */; };
 		5192BF7F2AE1A9BA006E43FB /* volume_curve_AIRPODSPROV2.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5192BF7E2AE1A9BA006E43FB /* volume_curve_AIRPODSPROV2.plist */; };
 		5192BF842AE1BA47006E43FB /* ORKFrontFacingCameraStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 5192BF802AE1BA47006E43FB /* ORKFrontFacingCameraStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -117,6 +111,10 @@
 		5192BF942AE1C2F8006E43FB /* ORKChoiceViewCell+ORKColorChoice.m in Sources */ = {isa = PBXBuildFile; fileRef = 5192BF922AE1C2F7006E43FB /* ORKChoiceViewCell+ORKColorChoice.m */; };
 		5192BF972AE1C5A1006E43FB /* ORKAnswerFormat+FormStepViewControllerAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 5192BF952AE1C5A1006E43FB /* ORKAnswerFormat+FormStepViewControllerAdditions.h */; };
 		5192BF982AE1C5A1006E43FB /* ORKAnswerFormat+FormStepViewControllerAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5192BF962AE1C5A1006E43FB /* ORKAnswerFormat+FormStepViewControllerAdditions.m */; };
+		5192BF992AE1D876006E43FB /* ORKChoiceViewCell+ORKTextChoice.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B8444632A79C25000292DEA /* ORKChoiceViewCell+ORKTextChoice.h */; };
+		5192BF9A2AE1D8A4006E43FB /* ORKChoiceViewCell+ORKTextChoice.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B8444642A79C25000292DEA /* ORKChoiceViewCell+ORKTextChoice.m */; };
+		5192BF9D2AE1DE62006E43FB /* ORKColorChoiceCellGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 5192BF9B2AE1DE62006E43FB /* ORKColorChoiceCellGroup.m */; };
+		5192BF9E2AE1DE62006E43FB /* ORKColorChoiceCellGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = 5192BF9C2AE1DE62006E43FB /* ORKColorChoiceCellGroup.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		51BD8FC329D3AD660001D54E /* Window.wav in Resources */ = {isa = PBXBuildFile; fileRef = 51BD8FC029D3AD660001D54E /* Window.wav */; };
 		51BD8FC429D3AD660001D54E /* VolumeCalibration.wav in Resources */ = {isa = PBXBuildFile; fileRef = 51BD8FC129D3AD660001D54E /* VolumeCalibration.wav */; };
 		51BD8FC529D3AD660001D54E /* Noise.wav in Resources */ = {isa = PBXBuildFile; fileRef = 51BD8FC229D3AD660001D54E /* Noise.wav */; };
@@ -1256,10 +1254,6 @@
 		5192BF572AE09793006E43FB /* ORKFormItemVisibilityRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKFormItemVisibilityRule.h; sourceTree = "<group>"; };
 		5192BF582AE09794006E43FB /* ORKFormItemVisibilityRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKFormItemVisibilityRule.m; sourceTree = "<group>"; };
 		5192BF5C2AE19036006E43FB /* frequency_dBSPL_AIRPODSPROV2.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = frequency_dBSPL_AIRPODSPROV2.plist; sourceTree = "<group>"; };
-		5192BF702AE1A4D4006E43FB /* ORKFrontFacingCameraStepResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKFrontFacingCameraStepResult.m; sourceTree = "<group>"; };
-		5192BF712AE1A4D5006E43FB /* ORKFrontFacingCameraStepResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKFrontFacingCameraStepResult.h; sourceTree = "<group>"; };
-		5192BF722AE1A4D5006E43FB /* ORKFrontFacingCameraStep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKFrontFacingCameraStep.m; sourceTree = "<group>"; };
-		5192BF732AE1A4D5006E43FB /* ORKFrontFacingCameraStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKFrontFacingCameraStep.h; sourceTree = "<group>"; };
 		5192BF7C2AE1A87D006E43FB /* retspl_AIRPODSPROV2.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = retspl_AIRPODSPROV2.plist; sourceTree = "<group>"; };
 		5192BF7E2AE1A9BA006E43FB /* volume_curve_AIRPODSPROV2.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = volume_curve_AIRPODSPROV2.plist; sourceTree = "<group>"; };
 		5192BF802AE1BA47006E43FB /* ORKFrontFacingCameraStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ORKFrontFacingCameraStep.h; path = ResearchKit/Common/ORKFrontFacingCameraStep.h; sourceTree = SOURCE_ROOT; };
@@ -1274,6 +1268,8 @@
 		5192BF922AE1C2F7006E43FB /* ORKChoiceViewCell+ORKColorChoice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ORKChoiceViewCell+ORKColorChoice.m"; sourceTree = "<group>"; };
 		5192BF952AE1C5A1006E43FB /* ORKAnswerFormat+FormStepViewControllerAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ORKAnswerFormat+FormStepViewControllerAdditions.h"; sourceTree = "<group>"; };
 		5192BF962AE1C5A1006E43FB /* ORKAnswerFormat+FormStepViewControllerAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ORKAnswerFormat+FormStepViewControllerAdditions.m"; sourceTree = "<group>"; };
+		5192BF9B2AE1DE62006E43FB /* ORKColorChoiceCellGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKColorChoiceCellGroup.m; sourceTree = "<group>"; };
+		5192BF9C2AE1DE62006E43FB /* ORKColorChoiceCellGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKColorChoiceCellGroup.h; sourceTree = "<group>"; };
 		519C298026D027AB00FD5F44 /* SwiftUIViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIViewFactory.swift; sourceTree = "<group>"; };
 		519C298D26D027E500FD5F44 /* TextChoiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextChoiceView.swift; sourceTree = "<group>"; };
 		51BD8FC029D3AD660001D54E /* Window.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = Window.wav; path = "ResearchKitInternal/ResearchKitInternal/Active Task/ORKSpeechInNoise/Window.wav"; sourceTree = SOURCE_ROOT; };
@@ -3198,6 +3194,8 @@
 		CA1C7A69288B1093004DAB3A /* Choice Format Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				5192BF9C2AE1DE62006E43FB /* ORKColorChoiceCellGroup.h */,
+				5192BF9B2AE1DE62006E43FB /* ORKColorChoiceCellGroup.m */,
 				861D11B31AA7D073003C98A7 /* ORKTextChoiceCellGroup.h */,
 				861D11B41AA7D073003C98A7 /* ORKTextChoiceCellGroup.m */,
 			);
@@ -3830,10 +3828,6 @@
 		CA2B902A28A18ED00025B773 /* Front Facing Camera */ = {
 			isa = PBXGroup;
 			children = (
-				5192BF732AE1A4D5006E43FB /* ORKFrontFacingCameraStep.h */,
-				5192BF722AE1A4D5006E43FB /* ORKFrontFacingCameraStep.m */,
-				5192BF712AE1A4D5006E43FB /* ORKFrontFacingCameraStepResult.h */,
-				5192BF702AE1A4D4006E43FB /* ORKFrontFacingCameraStepResult.m */,
 				51751461245A5172009E8FFC /* ORKFrontFacingCameraStepViewController.h */,
 				51751462245A5172009E8FFC /* ORKFrontFacingCameraStepViewController.m */,
 				51751465245A53D7009E8FFC /* ORKFrontFacingCameraStepContentView.h */,
@@ -4730,7 +4724,6 @@
 				BC13CE401B0666FD0044153C /* ORKResultPredicate.h in Headers */,
 				86C40E081A8D7C5C00081FAC /* ORKConsentReviewStep.h in Headers */,
 				CA6A0D83288B5B370048C1EF /* ORKHTMLPDFWriter.h in Headers */,
-				0B8444652A79C25000292DEA /* ORKChoiceViewCell+ORKTextChoice.h in Headers */,
 				86C40DC61A8D7C5C00081FAC /* ORKTask.h in Headers */,
 				86C40E1E1A8D7C5C00081FAC /* ORKConsentSignature.h in Headers */,
 				5192BF522AE09673006E43FB /* ORKPredicateFormItemVisibilityRule_Private.h in Headers */,
@@ -4850,9 +4843,11 @@
 				CAA20DD5288B3DB400EDC764 /* ORKTitleLabel.h in Headers */,
 				CAA20D9D288B3D9C00EDC764 /* ORKVerticalContainerView.h in Headers */,
 				CAA20DD8288B3DB400EDC764 /* ORKBodyLabel.h in Headers */,
+				5192BF9E2AE1DE62006E43FB /* ORKColorChoiceCellGroup.h in Headers */,
 				CAA20D6B288B3D9100EDC764 /* ORKSurveyAnswerCellForScale.h in Headers */,
 				CAA20DC1288B3DB400EDC764 /* ORKCountdownLabel.h in Headers */,
 				CAA20E28288B3E8200EDC764 /* ORKImageCaptureStepViewController.h in Headers */,
+				5192BF992AE1D876006E43FB /* ORKChoiceViewCell+ORKTextChoice.h in Headers */,
 				CAA20E15288B3E8200EDC764 /* ORKCompletionCheckmarkView.h in Headers */,
 				CAA20D82288B3D9100EDC764 /* ORKTimeIntervalPicker.h in Headers */,
 				CAA20D54288B3D6B00EDC764 /* ORKReviewViewController.h in Headers */,
@@ -4965,7 +4960,6 @@
 				CA2B8FF828A177C10025B773 /* ORKTrailmakingContentView.h in Headers */,
 				5192BEEE2AE043D3006E43FB /* ORKTimedWalkContentView.h in Headers */,
 				CAD08A17289DE512007B2A98 /* ORKAmslerGridStep.h in Headers */,
-				5192BF752AE1A4D5006E43FB /* ORKFrontFacingCameraStepResult.h in Headers */,
 				CAD08A1B289DE523007B2A98 /* ORKTouchAnywhereStep.h in Headers */,
 				CA2B8FF028A177990025B773 /* ORKToneAudiometryContentView.h in Headers */,
 				CAD08A47289DE62C007B2A98 /* ORKPedometerRecorder.h in Headers */,
@@ -5016,7 +5010,6 @@
 				CA2B8FB928A1758B0025B773 /* ORKFitnessStepViewController.h in Headers */,
 				CA2B902828A18EAD0025B773 /* ORKActiveStepViewController_Internal.h in Headers */,
 				CA2B8FD228A176B70025B773 /* ORKRangeOfMotionStepViewController.h in Headers */,
-				5192BF772AE1A4D5006E43FB /* ORKFrontFacingCameraStep.h in Headers */,
 				CA2B8FC928A175F40025B773 /* ORKHolePegTestRemovePegView.h in Headers */,
 				CA2B8FA328A16F730025B773 /* ORKActiveStepView.h in Headers */,
 				51F716CA297E288A00D8ACF7 /* ORKNormalizedReactionTimeContentView.h in Headers */,
@@ -5601,7 +5594,6 @@
 				03EDD58124CA6B1D006245E9 /* ORKNotificationPermissionType.m in Sources */,
 				51E03D6424919711008F8406 /* ORKPermissionType.m in Sources */,
 				0BCC4B9A28663895001E316F /* PIIScrubber.swift in Sources */,
-				0B8444662A79C25000292DEA /* ORKChoiceViewCell+ORKTextChoice.m in Sources */,
 				FFDDD84A1D3555EA00446806 /* ORKPageStep.m in Sources */,
 				CA2B901228A17D170025B773 /* ORKFileResult.m in Sources */,
 				866DA5241D63D04700C9AF3F /* ORKDataCollectionManager.m in Sources */,
@@ -5704,6 +5696,7 @@
 				CAA20DCC288B3DB400EDC764 /* ORKTextFieldView.m in Sources */,
 				CAA20DC5288B3DB400EDC764 /* ORKUnitLabel.m in Sources */,
 				CAA20E46288B3E8200EDC764 /* ORKWaitStepView.m in Sources */,
+				5192BF9A2AE1D8A4006E43FB /* ORKChoiceViewCell+ORKTextChoice.m in Sources */,
 				CAA20D86288B3D9100EDC764 /* TextChoiceView.swift in Sources */,
 				CAA20DE9288B3DB400EDC764 /* ORKTapCountLabel.m in Sources */,
 				CAA20D84288B3D9100EDC764 /* ORKAnswerTextView.m in Sources */,
@@ -5743,6 +5736,7 @@
 				51F716D3297E2FB600D8ACF7 /* ORKConsentLearnMoreViewController.m in Sources */,
 				CAA20D90288B3D9100EDC764 /* ORKTextChoiceCellGroup.m in Sources */,
 				CAA20E7C288B3F1100EDC764 /* ORKActiveStepView.m in Sources */,
+				5192BF9D2AE1DE62006E43FB /* ORKColorChoiceCellGroup.m in Sources */,
 				CAA20D51288B3D6400EDC764 /* ORKCheckmarkView.m in Sources */,
 				CAA20E20288B3E8200EDC764 /* ORKSignatureStepViewController.m in Sources */,
 				CAA20DE2288B3DB400EDC764 /* ORKRoundTappingButton.m in Sources */,
@@ -5855,7 +5849,6 @@
 				CA2B8FD528A176D70025B773 /* ORKReactionTimeContentView.m in Sources */,
 				CAD089F3289DE48F007B2A98 /* ORKEnvironmentSPLMeterStep.m in Sources */,
 				CAD08A26289DE58E007B2A98 /* ORKCountdownStep.m in Sources */,
-				5192BF742AE1A4D5006E43FB /* ORKFrontFacingCameraStepResult.m in Sources */,
 				CA2B8F8528A16D030025B773 /* ORKUSDZModelManagerScene.m in Sources */,
 				CA2B8FBC28A175B40025B773 /* ORKHolePegTestPlacePegView.m in Sources */,
 				CAD08A36289DE5E1007B2A98 /* ORKAudioStreamer.m in Sources */,
@@ -5938,7 +5931,6 @@
 				CAD08A4A289DE637007B2A98 /* CMPedometerData+ORKJSONDictionary.m in Sources */,
 				CAD08A56289DE672007B2A98 /* ORKSpeechRecognitionStep.m in Sources */,
 				CAD08A7B289DE703007B2A98 /* ORKSpatialSpanGameState.m in Sources */,
-				5192BF762AE1A4D5006E43FB /* ORKFrontFacingCameraStep.m in Sources */,
 				CAD08A69289DE6BA007B2A98 /* ORKPSATStep.m in Sources */,
 				CAD08A81289DE71A007B2A98 /* ORKAccuracyStroopStep.m in Sources */,
 				CA2B8FB728A175870025B773 /* ORKFitnessStepViewController.m in Sources */,
