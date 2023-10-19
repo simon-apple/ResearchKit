@@ -47,6 +47,14 @@
 		5192BF492AE04B32006E43FB /* ORKFamilyHistoryTableHeaderView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5192BF452AE04B31006E43FB /* ORKFamilyHistoryTableHeaderView.h */; };
 		5192BF4A2AE04B32006E43FB /* ORKFamilyHistoryTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5192BF462AE04B31006E43FB /* ORKFamilyHistoryTableHeaderView.m */; };
 		5192BF4C2AE04C0F006E43FB /* ResearchKitInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 5192BF4B2AE04C0F006E43FB /* ResearchKitInternal.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5192BF5F2AE194D8006E43FB /* dbAmplitudePerFrequency_AIRPODSPROV2.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5192BF5E2AE194D8006E43FB /* dbAmplitudePerFrequency_AIRPODSPROV2.plist */; };
+		5192BF612AE1952F006E43FB /* dbSPLAmplitudePerFrequency_AIRPODSPROV2.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5192BF602AE1952F006E43FB /* dbSPLAmplitudePerFrequency_AIRPODSPROV2.plist */; };
+		5192BF652AE19621006E43FB /* LoudnessEQ_AIRPODSPROV2.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5192BF642AE19621006E43FB /* LoudnessEQ_AIRPODSPROV2.plist */; };
+		5192BF672AE196B6006E43FB /* LoudnessEQ_AIRPODSV3.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5192BF662AE196B6006E43FB /* LoudnessEQ_AIRPODSV3.plist */; };
+		5192BF6C2AE19718006E43FB /* LoudnessEQ_AIRPODS.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5192BF682AE19718006E43FB /* LoudnessEQ_AIRPODS.plist */; };
+		5192BF6D2AE19718006E43FB /* LoudnessEQ_AIRPODSMAX.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5192BF692AE19718006E43FB /* LoudnessEQ_AIRPODSMAX.plist */; };
+		5192BF6E2AE19718006E43FB /* LoudnessEQ_AIRPODSPRO.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5192BF6A2AE19718006E43FB /* LoudnessEQ_AIRPODSPRO.plist */; };
+		5192BF6F2AE19718006E43FB /* LoudnessEQ_EARPODS.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5192BF6B2AE19718006E43FB /* LoudnessEQ_EARPODS.plist */; };
 		51BD8FA529CD12FE0001D54E /* ORKContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 51BD8FA429CD12FE0001D54E /* ORKContext.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		51BD8FF429D88DDA0001D54E /* ORKSoftLinking.h in Headers */ = {isa = PBXBuildFile; fileRef = 51BD8FF129D88DDA0001D54E /* ORKSoftLinking.h */; };
 		51BD900129D88FD30001D54E /* AVOutputContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 51BD8FF729D88FD30001D54E /* AVOutputContext.h */; };
@@ -299,6 +307,14 @@
 		5192BF452AE04B31006E43FB /* ORKFamilyHistoryTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKFamilyHistoryTableHeaderView.h; sourceTree = "<group>"; };
 		5192BF462AE04B31006E43FB /* ORKFamilyHistoryTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKFamilyHistoryTableHeaderView.m; sourceTree = "<group>"; };
 		5192BF4B2AE04C0F006E43FB /* ResearchKitInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResearchKitInternal.h; sourceTree = "<group>"; };
+		5192BF5E2AE194D8006E43FB /* dbAmplitudePerFrequency_AIRPODSPROV2.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = dbAmplitudePerFrequency_AIRPODSPROV2.plist; sourceTree = "<group>"; };
+		5192BF602AE1952F006E43FB /* dbSPLAmplitudePerFrequency_AIRPODSPROV2.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = dbSPLAmplitudePerFrequency_AIRPODSPROV2.plist; sourceTree = "<group>"; };
+		5192BF642AE19621006E43FB /* LoudnessEQ_AIRPODSPROV2.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LoudnessEQ_AIRPODSPROV2.plist; sourceTree = "<group>"; };
+		5192BF662AE196B6006E43FB /* LoudnessEQ_AIRPODSV3.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LoudnessEQ_AIRPODSV3.plist; sourceTree = "<group>"; };
+		5192BF682AE19718006E43FB /* LoudnessEQ_AIRPODS.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LoudnessEQ_AIRPODS.plist; sourceTree = "<group>"; };
+		5192BF692AE19718006E43FB /* LoudnessEQ_AIRPODSMAX.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LoudnessEQ_AIRPODSMAX.plist; sourceTree = "<group>"; };
+		5192BF6A2AE19718006E43FB /* LoudnessEQ_AIRPODSPRO.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LoudnessEQ_AIRPODSPRO.plist; sourceTree = "<group>"; };
+		5192BF6B2AE19718006E43FB /* LoudnessEQ_EARPODS.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LoudnessEQ_EARPODS.plist; sourceTree = "<group>"; };
 		51BD8FA429CD12FE0001D54E /* ORKContext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKContext.h; sourceTree = "<group>"; };
 		51BD8FEF29D88DDA0001D54E /* ORKAVFoundationSoftLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKAVFoundationSoftLink.h; sourceTree = "<group>"; };
 		51BD8FF029D88DDA0001D54E /* ORKCelestialSoftLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKCelestialSoftLink.h; sourceTree = "<group>"; };
@@ -1005,6 +1021,14 @@
 		CA5B6D4228BD1F38002C3BA4 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				5192BF682AE19718006E43FB /* LoudnessEQ_AIRPODS.plist */,
+				5192BF692AE19718006E43FB /* LoudnessEQ_AIRPODSMAX.plist */,
+				5192BF6A2AE19718006E43FB /* LoudnessEQ_AIRPODSPRO.plist */,
+				5192BF6B2AE19718006E43FB /* LoudnessEQ_EARPODS.plist */,
+				5192BF662AE196B6006E43FB /* LoudnessEQ_AIRPODSV3.plist */,
+				5192BF642AE19621006E43FB /* LoudnessEQ_AIRPODSPROV2.plist */,
+				5192BF602AE1952F006E43FB /* dbSPLAmplitudePerFrequency_AIRPODSPROV2.plist */,
+				5192BF5E2AE194D8006E43FB /* dbAmplitudePerFrequency_AIRPODSPROV2.plist */,
 				CA5B6D4328BD1F38002C3BA4 /* dbSPLAmplitudePerFrequency_AIRPODSMAX.plist */,
 				CA5B6D4428BD1F38002C3BA4 /* dbSPLAmplitudePerFrequency_EARPODS.plist */,
 				CA5B6D4528BD1F38002C3BA4 /* dbSPLAmplitudePerFrequency_AIRPODSV3.plist */,
@@ -1363,18 +1387,26 @@
 			files = (
 				511BB00C2989E35300936EC0 /* Artwork.xcassets in Resources */,
 				CA5B6D8728BD1F38002C3BA4 /* dbAmplitudePerFrequency_EARPODS.plist in Resources */,
+				5192BF5F2AE194D8006E43FB /* dbAmplitudePerFrequency_AIRPODSPROV2.plist in Resources */,
 				CA5B6D7F28BD1F38002C3BA4 /* dbSPLAmplitudePerFrequency_EARPODS.plist in Resources */,
+				5192BF672AE196B6006E43FB /* LoudnessEQ_AIRPODSV3.plist in Resources */,
 				CA5B6D8028BD1F38002C3BA4 /* dbSPLAmplitudePerFrequency_AIRPODSV3.plist in Resources */,
+				5192BF6E2AE19718006E43FB /* LoudnessEQ_AIRPODSPRO.plist in Resources */,
+				5192BF6F2AE19718006E43FB /* LoudnessEQ_EARPODS.plist in Resources */,
 				511BB0092989E0C700936EC0 /* VolumeCalibration.wav in Resources */,
 				CA5B6D8228BD1F38002C3BA4 /* dbAmplitudePerFrequency_AIRPODS.plist in Resources */,
 				CA5B6D8128BD1F38002C3BA4 /* dbSPLAmplitudePerFrequency_AIRPODSPRO.plist in Resources */,
 				CA5B6D7E28BD1F38002C3BA4 /* dbSPLAmplitudePerFrequency_AIRPODSMAX.plist in Resources */,
+				5192BF612AE1952F006E43FB /* dbSPLAmplitudePerFrequency_AIRPODSPROV2.plist in Resources */,
 				CA5B6D8428BD1F38002C3BA4 /* dbAmplitudePerFrequency_AIRPODSPRO.plist in Resources */,
 				511BB0082989E0C700936EC0 /* Noise.wav in Resources */,
+				5192BF652AE19621006E43FB /* LoudnessEQ_AIRPODSPROV2.plist in Resources */,
+				5192BF6D2AE19718006E43FB /* LoudnessEQ_AIRPODSMAX.plist in Resources */,
 				CA5B6D8528BD1F38002C3BA4 /* dbSPLAmplitudePerFrequency_AIRPODS.plist in Resources */,
 				511BB013298B3BD300936EC0 /* Window.wav in Resources */,
 				CA5B6D8628BD1F38002C3BA4 /* dbAmplitudePerFrequency_AIRPODSV3.plist in Resources */,
 				CA0AC57428BFF9CD00E80040 /* No-Localization.strings in Resources */,
+				5192BF6C2AE19718006E43FB /* LoudnessEQ_AIRPODS.plist in Resources */,
 				CA5B6D8328BD1F38002C3BA4 /* dbAmplitudePerFrequency_AIRPODSMAX.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
