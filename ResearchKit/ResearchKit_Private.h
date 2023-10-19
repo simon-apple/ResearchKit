@@ -37,9 +37,6 @@
 
 #import <ResearchKit/ORKQuestionStep_Private.h>
 
-// Family History Review Support
-#import <ResearchKit/ORKFamilyHistoryStepViewController_Private.h>
-
 // Active step support
 #import <ResearchKit/ORKDataLogger.h>
 #import <ResearchKit/ORKErrors.h>
@@ -47,10 +44,7 @@
 #import <ResearchKit/ORKAnswerFormat_Private.h>
 
 #if RK_APPLE_INTERNAL
-#import <ResearchKit/ORKChoiceViewCell.h>
-#import <ResearchKit/ORKChoiceViewCell_Internal.h>
 #import <ResearchKit/ORKPredicateFormItemVisibilityRule_Private.h>
-
 #import <ResearchKit/CLLocationManager+ResearchKit.h>
 #endif
 
@@ -66,8 +60,6 @@
 #import <ResearchKit/ORKQuestionResult_Private.h>
 #import <ResearchKit/ORKSignatureResult_Private.h>
 #import <ResearchKit/ORKResult_Private.h>
-
-#import <ResearchKit/ORKStepContainerView_Private.h>
 
 #import <ResearchKit/ORKActiveStep_Internal.h>
 #import <ResearchKit/ORKStep_Private.h>

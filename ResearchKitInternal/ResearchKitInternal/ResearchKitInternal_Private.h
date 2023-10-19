@@ -43,3 +43,4 @@
 #import <ResearchKitInternal/ORKTinnitusTypeStep.h>
 #import <ResearchKitInternal/ORKVolumeCalibrationStep.h>
 #import <ResearchKitInternal/UIColor+Custom.h>
+#import <ResearchKitInternal/ORKFamilyHistoryStepViewController_Private.h>

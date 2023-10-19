@@ -28,20 +28,18 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "ORKChoiceViewCell+ORKColorChoice.h"
+// apple-internal
 
-@implementation ORKChoiceViewCell (ORKColorChoice)
+#import "ORKChoiceViewCell.h"
+#import "ORKAnswerFormat.h"
 
-- (void)configureWithColorChoice:(nonnull ORKColorChoice *)colorChoice isLastItem:(BOOL)isLastItem {
-    [self setSwatchColor:colorChoice.color];
-    self.shouldIgnoreDarkMode = YES;
-    
-    // [LC:TODO] rdar://113246902 (Make ORKColorChoice a subclass of ORKTextChoice)
-    self.isExclusive = colorChoice.exclusive;;
-    self.isLastItem = isLastItem;
-    self.immediateNavigation = NO;
-    [self setPrimaryText:colorChoice.text];
-    [self setDetailText:colorChoice.detailText];
-}
+NS_ASSUME_NONNULL_BEGIN
+
+@interface ORKChoiceViewCell (ORKColorChoice)
+
+- (void)configureWithColorChoice:(ORKColorChoice *)colorChoice
+                      isLastItem:(BOOL)isLastItem;
 
 @end
+
+NS_ASSUME_NONNULL_END
