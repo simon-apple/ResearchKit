@@ -427,6 +427,8 @@ ORK_CLASS_AVAILABLE
 
 /**
  This method is called when the user taps the skip button. By default, it calls `-goForward`.
+ Note, if `setSecondaryActionButtonTitle` is set, then the skip button will be replaced with
+ the secondary action button with text.
  */
 - (void)skipForward;
 

@@ -34,10 +34,6 @@
 
 @implementation ORKSecondaryActionStepNavigationRule
 
-+ (instancetype)new {
-    ORKThrowMethodUnavailableException();
-}
-
 - (instancetype)initWithDestinationStepIdentifier:(NSString *)destinationStepIdentifier {
     ORKThrowMethodUnavailableException();
 }
@@ -98,7 +94,7 @@
     BOOL isParentSame = [super isEqual:object];
     __typeof(self) castObject = object;
     return (isParentSame
-            && ORKEqualObjects(_text, castObject.text));
+            && ORKEqualObjects(_text, castObject->_text));
 }
 
 - (NSUInteger)hash {

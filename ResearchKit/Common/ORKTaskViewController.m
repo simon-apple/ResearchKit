@@ -1556,7 +1556,9 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
         ORKStepNavigationRule *rule = ((ORKNavigableOrderedTask *)self.task).stepNavigationRules[fromController.step.identifier];
         ORKSecondaryActionStepNavigationRule *secondaryActionStepNavigationRule = ORKDynamicCast(rule, ORKSecondaryActionStepNavigationRule);
         if (secondaryActionStepNavigationRule != nil && !secondaryActionStepNavigationRule.isSkipMode) {
-            [self flipToPageWithIdentifier:secondaryActionStepNavigationRule.destinationStepIdentifier forward:true animated:true];
+            // We force the animation to `YES` here, because the `ORKSecondaryActionStepNavigationRule`
+            // always animates the flip to the `destinationStepIdentifier`
+            [self flipToPageWithIdentifier:secondaryActionStepNavigationRule.destinationStepIdentifier forward:YES animated:YES];
             didFlip = YES;
         }
     } 

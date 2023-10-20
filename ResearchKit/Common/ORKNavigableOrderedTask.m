@@ -146,7 +146,7 @@
 - (ORKStep *)stepAfterStep:(ORKStep *)step withResult:(ORKTaskResult *)result {
     ORKStep *nextStep = nil;
     ORKStepNavigationRule *navigationRule = _stepNavigationRules[step.identifier];
-    NSString *nextStepIdentifier;
+    NSString *nextStepIdentifier = nil;
     if (![navigationRule isKindOfClass:[ORKSecondaryActionStepNavigationRule class]]) {
          nextStepIdentifier = [navigationRule identifierForDestinationStepWithTaskResult:result];
     }
