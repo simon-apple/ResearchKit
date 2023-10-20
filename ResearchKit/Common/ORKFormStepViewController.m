@@ -2276,7 +2276,10 @@ static NSString *const _ORKAnsweredSectionIdentifiersRestoreKey = @"answeredSect
     if (_currentFirstResponderCell == choiceOtherViewCell) {
         _currentFirstResponderCell = nil;
     }
-    NSIndexPath *indexPath = [_tableView indexPathForCell:choiceOtherViewCell];
+    
+    // we need to use `indexPathForRowAtPoint` because `indexPathForCell`
+    // will return nil if the cell is off the screen, which will happen if we are scrolling
+    NSIndexPath *indexPath = [_tableView indexPathForRowAtPoint:choiceOtherViewCell.center];
             
     ORKTableCellItemIdentifier *itemIdentifier = [_diffableDataSource itemIdentifierForIndexPath:indexPath];
     ORKFormItem *formItem = [self _formItemForFormItemIdentifier:itemIdentifier.formItemIdentifier];
@@ -2285,10 +2288,7 @@ static NSString *const _ORKAnsweredSectionIdentifiersRestoreKey = @"answeredSect
     ORK_Log_Debug("[FORMSTEP] textChoiceOtherCellDidResignFirstResponder found textChoice %@", textChoice);
     
     id answer;
-    // if textChoice is nil, then the textView was force closed by a scroll, lets clear out the values here
-    if (!textChoice) {
-        choiceOtherViewCell.textView.text = nil;
-    } else if (choiceOtherViewCell.textView.text.length > 0) {
+    if (choiceOtherViewCell.textView.text.length > 0) {
         textChoice.textViewText = choiceOtherViewCell.textView.text;
         [self didSelectChoiceOtherViewCellWithItemIdentifier:itemIdentifier choiceOtherViewCell:choiceOtherViewCell];
         answer = @[textChoice.textViewText];
@@ -2297,7 +2297,9 @@ static NSString *const _ORKAnsweredSectionIdentifiersRestoreKey = @"answeredSect
         if (!textChoice.textViewInputOptional) {
             [choiceOtherViewCell setCellSelected:NO highlight:NO];
         }
-        answer = _savedAnswers[itemIdentifier.formItemIdentifier];
+        // textChoice doesn't have any custom text from the textView
+        // the answer should be the default text option
+        answer = @[textChoice.text];
     }
     if (answer) {
         [self saveTextChoiceAnswer:answer
