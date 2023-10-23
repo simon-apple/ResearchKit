@@ -535,7 +535,7 @@ class SESQuestionResultTableViewProvider: ResultTableViewProvider {
         let rungQuestionResult = result as! ORKSESQuestionResult
         
         return super.resultRowsForSection(section) + [
-            // The value returned from the .
+            // The value returned from the socieoeconomic rung selected.
             ResultRow(text: "rungPicked", detail: rungQuestionResult.rungPicked)
         ]
     }
