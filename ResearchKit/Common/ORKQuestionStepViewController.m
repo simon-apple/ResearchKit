@@ -514,7 +514,7 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
 - (void)defaultAnswerDidChange {
     id defaultAnswer = _defaultAnswer;
     if (![self hasAnswer] && defaultAnswer && !self.hasChangedAnswer) {
-        [self updateAnswer: defaultAnswer];
+        [self updateAnswer:defaultAnswer];
     }
 }
 
