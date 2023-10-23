@@ -30,8 +30,18 @@
 
 #import <ResearchKit/ORKQuestionStepViewController.h>
 
-@interface ORKQuestionStepViewController (TestingSupport)
 
-@property (nonatomic, strong) UITableView *tableView;
+NS_ASSUME_NONNULL_BEGIN
+
+@interface ORKQuestionStepViewController () <ORKQuestionStepCustomViewDelegate>
+
+- (nullable id)answer;
+- (BOOL)hasChangedAnswer;
+/**
+ Set the step answer.
+ */
+- (void)testAnswerDidChangeTo:(id)answer;
 
 @end
+
+NS_ASSUME_NONNULL_END
