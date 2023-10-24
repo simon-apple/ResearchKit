@@ -61,11 +61,19 @@ final class ORKHealthKitQuestionStepViewControllerTests: XCTestCase {
         utilities.setupTopLevelUI(withViewController: testController)
     }
     
-    func testHealthKit() {
-        let healthKitAnswerFormat = ORKHealthKitQuantityTypeAnswerFormat(quantityType: HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.bodyMass)!, unit: HKUnit.gramUnit(with: .kilo), style: .decimal)
+    func testHealthKitAnswerFormats() {
+        let healthAnswerFormats = [
+            ORKHealthKitQuantityTypeAnswerFormat(quantityType: HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.bodyMass)!, unit: HKUnit.gramUnit(with: .kilo), style: .decimal),
+            ORKHealthKitQuantityTypeAnswerFormat(quantityType: HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.height)!, unit: HKUnit.meterUnit(with: .centi), style: .integer)
+        ]
         
-        let healthKitStep = ORKQuestionStep(identifier: String(describing: "HealthKitStep" ), title: NSLocalizedString("Weight", comment: ""), question: "Weight", answer: healthKitAnswerFormat)
-        
+        for answerFormat in healthAnswerFormats {
+            let healthKitStep = ORKQuestionStep(identifier: String(describing: "HealthKitStep"), title: NSLocalizedString("Some Title", comment: ""), question: "Some Question", answer: answerFormat)
+            helperTestHealthKit(healthKitStep: healthKitStep)
+        }
+    }
+    
+    func helperTestHealthKit(healthKitStep: ORKQuestionStep) {
         testController = ORKQuestionStepViewController(step: healthKitStep)
         testController.delegate = self
         
