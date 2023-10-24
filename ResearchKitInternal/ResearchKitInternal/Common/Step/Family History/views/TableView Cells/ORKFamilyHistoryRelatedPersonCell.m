@@ -30,8 +30,10 @@
 
 #import "ORKFamilyHistoryRelatedPersonCell.h"
 
-#import "ORKHelpers_Internal.h"
-#import "ORKAccessibilityFunctions.h"
+#import <ResearchKit/ORKHelpers_Internal.h>
+
+#import <ResearchKitUI/ORKAccessibilityFunctions.h>
+
 
 static const CGFloat BackgroundViewBottomPadding = 18.0;
 static const CGFloat CellLeftRightPadding = 12.0;

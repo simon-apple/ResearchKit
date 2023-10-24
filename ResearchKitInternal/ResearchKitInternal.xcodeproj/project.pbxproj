@@ -26,7 +26,7 @@
 		5192BF0C2AE046CE006E43FB /* ORKFamilyHistoryRelatedPersonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5192BF062AE046CE006E43FB /* ORKFamilyHistoryRelatedPersonCell.m */; };
 		5192BF0E2AE046CE006E43FB /* ORKFamilyHistoryRelatedPersonCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 5192BF082AE046CE006E43FB /* ORKFamilyHistoryRelatedPersonCell.h */; };
 		5192BF322AE04B16006E43FB /* ORKHealthCondition.m in Sources */ = {isa = PBXBuildFile; fileRef = 5192BF212AE04B15006E43FB /* ORKHealthCondition.m */; };
-		5192BF332AE04B16006E43FB /* ORKFamilyHistoryStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5192BF222AE04B15006E43FB /* ORKFamilyHistoryStepViewController.h */; };
+		5192BF332AE04B16006E43FB /* ORKFamilyHistoryStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5192BF222AE04B15006E43FB /* ORKFamilyHistoryStepViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5192BF342AE04B16006E43FB /* ORKFamilyHistoryResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 5192BF232AE04B16006E43FB /* ORKFamilyHistoryResult.m */; };
 		5192BF352AE04B16006E43FB /* ORKFamilyHistoryStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 5192BF242AE04B16006E43FB /* ORKFamilyHistoryStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5192BF362AE04B16006E43FB /* ORKFamilyHistoryStepViewController_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 5192BF252AE04B16006E43FB /* ORKFamilyHistoryStepViewController_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };

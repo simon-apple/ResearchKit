@@ -30,9 +30,9 @@
 
 #import "ORKHealthCondition.h"
 
-#import "ORKHelpers_Internal.h"
-#import "ORKCollectionResult.h"
-#import "ORKAnswerFormat_Internal.h"
+#import <ResearchKit/ORKHelpers_Internal.h>
+#import <ResearchKit/ORKCollectionResult.h>
+#import <ResearchKit/ORKAnswerFormat_Internal.h>
 
 @implementation ORKHealthCondition
 

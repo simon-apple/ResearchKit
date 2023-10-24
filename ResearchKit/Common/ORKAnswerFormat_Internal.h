@@ -33,6 +33,7 @@
 #import "ORKAnswerFormat_Private.h"
 #import "ORKChoiceAnswerFormatHelper.h"
 
+
 NS_ASSUME_NONNULL_BEGIN
 
 BOOL ORKIsAnswerEmpty(_Nullable id answer);

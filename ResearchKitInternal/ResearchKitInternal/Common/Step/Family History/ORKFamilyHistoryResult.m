@@ -32,8 +32,9 @@
 
 #import "ORKRelatedPerson.h"
 
-#import "ORKResult_Private.h"
-#import "ORKHelpers_Internal.h"
+#import <ResearchKit/ORKResult_Private.h>
+#import <ResearchKit/ORKHelpers_Internal.h>
+
 
 @implementation ORKFamilyHistoryResult
 

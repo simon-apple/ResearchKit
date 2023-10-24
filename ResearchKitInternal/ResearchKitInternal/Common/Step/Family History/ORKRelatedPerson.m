@@ -30,18 +30,19 @@
 
 #import "ORKRelatedPerson.h"
 
-#import "ORKAnswerFormat_Internal.h"
-#import "ORKCollectionResult.h"
-#import "ORKCollectionResult_Private.h"
-#import "ORKResult_Private.h"
-#import "ORKStep_Private.h"
-#import "ORKQuestionResult.h"
-#import "ORKQuestionResult_Private.h"
+#import <ResearchKit/ORKAnswerFormat.h>
+#import <ResearchKit/ORKAnswerFormat_Private.h>
+#import <ResearchKit/ORKCollectionResult.h>
+#import <ResearchKit/ORKCollectionResult_Private.h>
+#import <ResearchKit/ORKResult_Private.h>
+#import <ResearchKit/ORKStep_Private.h>
+#import <ResearchKit/ORKQuestionResult.h>
+#import <ResearchKit/ORKQuestionResult_Private.h>
+#import <ResearchKit/ORKHelpers_Internal.h>
 
-#import "ORKHelpers_Internal.h"
 
 #if RK_APPLE_INTERNAL
-#import "ORKFormStep.h"
+#import <ResearchKit/ORKFormStep.h>
 #endif
 
 @implementation ORKRelatedPerson {

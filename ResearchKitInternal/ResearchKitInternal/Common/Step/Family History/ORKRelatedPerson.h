@@ -31,12 +31,14 @@
 @import Foundation;
 
 #import <ResearchKit/ORKTypes.h>
+#import <ResearchKit/ORKAnswerFormat.h>
+#import <ResearchKit/ORKFormStep.h>
 
 @class ORKTaskResult;
 
 #if RK_APPLE_INTERNAL
-@class ORKFormStep;
-@class ORKAgeAnswerFormat;
+//@class ORKFormStep;
+//@class ORKAgeAnswerFormat;
 #endif
 
 NS_ASSUME_NONNULL_BEGIN

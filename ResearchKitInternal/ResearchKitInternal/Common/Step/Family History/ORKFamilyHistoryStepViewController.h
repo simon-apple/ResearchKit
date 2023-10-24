@@ -28,7 +28,7 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ResearchKit/ORKStepViewController.h>
+#import <ResearchKitUI/ORKStepViewController.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

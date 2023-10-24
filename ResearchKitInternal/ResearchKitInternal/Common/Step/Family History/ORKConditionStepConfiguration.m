@@ -29,13 +29,14 @@
  */
 
 #import "ORKConditionStepConfiguration.h"
-
-#import "ORKAnswerFormat_Internal.h"
-#import "ORKCollectionResult.h"
-#import "ORKHelpers_Internal.h"
-
-#import "ORKFormStep.h"
 #import "ORKHealthCondition.h"
+
+// TODO: remove 
+//#import "ORKAnswerFormat_Internal.h"
+#import <ResearchKit/ORKCollectionResult.h>
+#import <ResearchKit/ORKHelpers_Internal.h>
+
+#import <ResearchKit/ORKFormStep.h>
 
 
 @implementation ORKConditionStepConfiguration
