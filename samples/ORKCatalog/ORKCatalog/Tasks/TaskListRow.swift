@@ -1639,7 +1639,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         
         step4.text = "HealthKit, height"
         
-        let step4NonOptional = ORKQuestionStep(identifier: String(describing: Identifier.heightQuestionStep4)  + "NonOptional", title: NSLocalizedString("Height", comment: ""), question: exampleQuestionText, answer: answerFormat1)
+        let step4NonOptional = ORKQuestionStep(identifier: String(describing: Identifier.heightQuestionStep4)  + "NonOptional", title: NSLocalizedString("Height", comment: ""), question: exampleQuestionText, answer: answerFormat4)
         step4NonOptional.text = "HealthKit, height (Non Optional"
         step4NonOptional.isOptional = false
         
