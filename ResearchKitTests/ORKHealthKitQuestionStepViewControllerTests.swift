@@ -38,13 +38,11 @@ final class ORKHealthKitQuestionStepViewControllerTests: XCTestCase {
     var negativeTest: Bool!
     var forwardExpectation: XCTestExpectation!
     var reverseExpectation: XCTestExpectation!
-    var testExpectation: XCTestExpectation!
     var appearExpectation: XCTestExpectation!
     var failExpectation: XCTestExpectation!
     var recorderExpectation: XCTestExpectation!
     var testingWillExpectation: Bool!
     var utilities: TopLevelUIUtilities<ORKStepViewController>!
-    private let store = HKHealthStore()
     private let weight = HKObjectType.quantityType(forIdentifier: .bodyMass)!
 
     override func setUp() {
