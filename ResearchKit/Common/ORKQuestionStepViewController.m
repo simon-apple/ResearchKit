@@ -523,7 +523,7 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
     }
 }
 
--(void)updateAnswer:(id)answer {
+- (void)updateAnswer:(id)answer {
     _answer = answer;
     [self answerDidChange];
 }
