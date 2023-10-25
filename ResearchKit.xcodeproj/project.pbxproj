@@ -5086,8 +5086,6 @@
 				86C40CDA1A8D7C5C00081FAC /* ORKTextFieldView.m in Sources */,
 				8419D6731FB73EC60088D7E5 /* ORKWebViewStepViewController.m in Sources */,
 				517514572459F0BE009E8FFC /* ORK3DModelStepContentView.m in Sources */,
-				5D1CE46023FDE7BD004CB416 /* ORKVolumeCalibrationStep.m in Sources */,
-				22A1C56C260901490003F75E /* ORKTinnitusOverallAssessmentStepViewController.m in Sources */,
 				0B9CC5682A68C02C00080E29 /* UIImageView+ResearchKit.m in Sources */,
 				B8760F2C1AFBEFB0007FA16F /* ORKScaleRangeDescriptionLabel.m in Sources */,
 				86C40D821A8D7C5C00081FAC /* ORKSelectionSubTitleLabel.m in Sources */,
