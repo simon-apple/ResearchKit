@@ -561,6 +561,7 @@ class TimeOfDayQuestionResultTableViewProvider: ResultTableViewProvider {
         
         // Format the date components received in the result.
         let dateComponentsFormatter = DateComponentsFormatter()
+        dateComponentsFormatter.unitsStyle = .full
         let dateComponentsAnswerText = dateComponentsFormatter.string(from: questionResult.dateComponentsAnswer!)
 
         return super.resultRowsForSection(section) + [
