@@ -36,16 +36,18 @@
 #import "ORKFamilyHistoryStepViewController_Private.h"
 #import "ORKFamilyHistoryTableFooterView.h"
 
-#import "ORKCollectionResult_Private.h"
-#import "ORKHelpers_Internal.h"
-#import "ORKNavigableOrderedTask.h"
 #import "ORKRelatedPerson.h"
-#import "ORKReviewIncompleteCell.h"
-#import "ORKStepViewController_Internal.h"
-#import "ORKTableContainerView.h"
-#import "ORKTaskViewController_Internal.h"
 
-#import "ORKSkin.h"
+#import <ResearchKit/ORKCollectionResult_Private.h>
+#import <ResearchKit/ORKHelpers_Internal.h>
+#import <ResearchKit/ORKNavigableOrderedTask.h>
+#import <ResearchKit/ORKSkin.h>
+
+#import <ResearchKitUI/ORKReviewIncompleteCell.h>
+#import <ResearchKitUI/ORKStepViewController_Internal.h>
+#import <ResearchKitUI/ORKTableContainerView.h>
+#import <ResearchKitUI/ORKTaskViewController_Internal.h>
+
 
 @interface ORKFamilyHistoryReviewController (ORKFamilyHistoryReviewSupport)
 

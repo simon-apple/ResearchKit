@@ -30,6 +30,8 @@
 // apple-internal
 
 import ResearchKit
+import ResearchKitUI
+import ResearchKitInternal
 import SwiftUI
 
 /// A SwiftUI adaptor for `ORKTaskViewController`.
@@ -48,7 +50,7 @@ struct ResearchTaskView: View {
     
     var onLearnMoreTap: (ORKStep) -> Void = { _ in }
 
-    var onFinishTask: (ORKTaskViewControllerFinishReason, ORKTaskResult, Error?) -> Void = { _, _, _ in }
+    var onFinishTask: (ORKTaskFinishReason, ORKTaskResult, Error?) -> Void = { _, _, _ in }
 
     var body: some View {
 
@@ -87,7 +89,7 @@ fileprivate struct TaskViewWrapper: UIViewControllerRepresentable {
 
     var onLearnMoreTap: (ORKStep) -> Void
 
-    var onFinishTask: (ORKTaskViewControllerFinishReason, ORKTaskResult, Error?) -> Void
+    var onFinishTask: (ORKTaskFinishReason, ORKTaskResult, Error?) -> Void
     
     func makeCoordinator() -> Coordinator {
         Coordinator(
@@ -176,7 +178,7 @@ fileprivate struct TaskViewWrapper: UIViewControllerRepresentable {
 
         var onFinishStep: (ORKStep) -> Void
 
-        var onFinishTask: (ORKTaskViewControllerFinishReason, ORKTaskResult, Error?) -> Void
+        var onFinishTask: (ORKTaskFinishReason, ORKTaskResult, Error?) -> Void
 
         var onLearnMoreTap: (ORKStep) -> Void
 
@@ -187,7 +189,7 @@ fileprivate struct TaskViewWrapper: UIViewControllerRepresentable {
              onFinishStep: @escaping (ORKStep) -> Void,
              onLearnMoreTap: @escaping (ORKStep) -> Void,
              onFinishTask: @escaping (
-                ORKTaskViewControllerFinishReason, ORKTaskResult, Error?
+                ORKTaskFinishReason, ORKTaskResult, Error?
              )
              -> Void
         ) {
@@ -202,7 +204,7 @@ fileprivate struct TaskViewWrapper: UIViewControllerRepresentable {
 
         func taskViewController(
             _ taskViewController: ORKTaskViewController,
-            didFinishWith reason: ORKTaskViewControllerFinishReason,
+            didFinishWith reason: ORKTaskFinishReason,
             error: Error?) {
 
             // Using `taskViewController.dismiss()` fails to update the

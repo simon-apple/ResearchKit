@@ -43,6 +43,7 @@
 
 #import <ResearchKit/ORKAnswerFormat_Private.h>
 #import <ResearchKit/ORKAnswerFormat_Internal.h>
+#import <ResearchKit/ORKChoiceAnswerFormatHelper.h>
 
 #if RK_APPLE_INTERNAL
 #import <ResearchKit/ORKPredicateFormItemVisibilityRule_Private.h>

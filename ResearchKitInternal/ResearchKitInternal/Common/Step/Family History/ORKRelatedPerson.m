@@ -30,8 +30,7 @@
 
 #import "ORKRelatedPerson.h"
 
-#import <ResearchKit/ORKAnswerFormat.h>
-#import <ResearchKit/ORKAnswerFormat_Private.h>
+#import <ResearchKit/ORKAnswerFormat_Internal.h>
 #import <ResearchKit/ORKCollectionResult.h>
 #import <ResearchKit/ORKCollectionResult_Private.h>
 #import <ResearchKit/ORKResult_Private.h>

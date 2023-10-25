@@ -38,7 +38,7 @@
 
 #if RK_APPLE_INTERNAL
 //@class ORKFormStep;
-//@class ORKAgeAnswerFormat;
+@class ORKAgeAnswerFormat;
 #endif
 
 NS_ASSUME_NONNULL_BEGIN

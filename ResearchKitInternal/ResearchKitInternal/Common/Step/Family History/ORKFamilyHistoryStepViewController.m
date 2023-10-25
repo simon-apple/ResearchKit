@@ -28,44 +28,89 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+
+//#import "ORKFamilyHistoryStepViewController.h"
+//#import "ORKFamilyHistoryStepViewController_Private.h"
+//
+//#import "ORKConditionStepConfiguration.h"
+//#import "ORKFamilyHistoryResult.h"
+//#import "ORKFamilyHistoryStep.h"
+//#import "ORKFormStep.h"
+//#import "ORKHealthCondition.h"
+//#import "ORKRelatedPerson.h"
+//#import "ORKRelativeGroup.h"
+//
+//#import "ORKAnswerFormat.h"
+//#import "ORKNavigableOrderedTask.h"
+//
+//#import "ORKFamilyHistoryTableHeaderView.h"
+//#import "ORKStepContentView.h"
+//#import "ORKStepHeaderView_Internal.h"
+//#import "ORKTableContainerView.h"
+//#import "ORKFamilyHistoryTableHeaderView.h"
+//#import "ORKFamilyHistoryRelatedPersonCell.h"
+//#import "ORKFamilyHistoryTableFooterView.h"
+//#import "ORKReviewIncompleteCell.h"
+//
+//#import "ORKLearnMoreStepViewController.h"
+//
+//#import "ORKNavigationContainerView_Internal.h"
+//#import "ORKStepViewController_Internal.h"
+//#import "ORKTaskViewController_Internal.h"
+//
+//#import "ORKAnswerFormat_Internal.h"
+//#import "ORKCollectionResult_Private.h"
+//#import "ORKResult_Private.h"
+//#import "ORKStep_Private.h"
+//#import "ORKQuestionResult.h"
+//
+//#import "ORKSkin.h"
+//#import "ORKHelpers_Internal.h"
+//#import "ORKAccessibilityFunctions.h"
+
 #import "ORKFamilyHistoryStepViewController.h"
 #import "ORKFamilyHistoryStepViewController_Private.h"
 
 #import "ORKConditionStepConfiguration.h"
 #import "ORKFamilyHistoryResult.h"
 #import "ORKFamilyHistoryStep.h"
-#import "ORKFormStep.h"
 #import "ORKHealthCondition.h"
 #import "ORKRelatedPerson.h"
 #import "ORKRelativeGroup.h"
 
-#import "ORKAnswerFormat.h"
-#import "ORKNavigableOrderedTask.h"
-
 #import "ORKFamilyHistoryTableHeaderView.h"
-#import "ORKStepContentView.h"
-#import "ORKStepHeaderView_Internal.h"
-#import "ORKTableContainerView.h"
+
 #import "ORKFamilyHistoryTableHeaderView.h"
 #import "ORKFamilyHistoryRelatedPersonCell.h"
 #import "ORKFamilyHistoryTableFooterView.h"
-#import "ORKReviewIncompleteCell.h"
 
-#import "ORKLearnMoreStepViewController.h"
+#import <ResearchKit/ORKFormStep.h>
+#import <ResearchKit/ORKAnswerFormat.h>
+#import <ResearchKit/ORKNavigableOrderedTask.h>
+#import <ResearchKit/ORKAnswerFormat_Internal.h>
+#import <ResearchKit/ORKCollectionResult_Private.h>
+#import <ResearchKit/ORKResult_Private.h>
+#import <ResearchKit/ORKStep_Private.h>
+#import <ResearchKit/ORKQuestionResult.h>
+#import <ResearchKit/ORKSkin.h>
+#import <ResearchKit/ORKHelpers_Internal.h>
 
-#import "ORKNavigationContainerView_Internal.h"
-#import "ORKStepViewController_Internal.h"
-#import "ORKTaskViewController_Internal.h"
+#import <ResearchKitUI/ORKStepContainerView.h>
+#import <ResearchKitUI/ORKStepContentView.h>
+#import <ResearchKitUI/ORKStepHeaderView_Internal.h>
+#import <ResearchKitUI/ORKTableContainerView.h>
+#import <ResearchKitUI/ORKReviewIncompleteCell.h>
+#import <ResearchKitUI/ORKLearnMoreStepViewController.h>
+#import <ResearchKitUI/ORKNavigationContainerView_Internal.h>
+#import <ResearchKitUI/ORKStepViewController_Internal.h>
+#import <ResearchKitUI/ORKTaskViewController_Internal.h>
+#import <ResearchKitUI/ORKAccessibilityFunctions.h>
 
-#import "ORKAnswerFormat_Internal.h"
-#import "ORKCollectionResult_Private.h"
-#import "ORKResult_Private.h"
-#import "ORKStep_Private.h"
-#import "ORKQuestionResult.h"
+//#import <ResearchKitUI/ORKTaskViewController.h>
+//#import <ResearchKit/ORKTask.h>
 
-#import "ORKSkin.h"
-#import "ORKHelpers_Internal.h"
-#import "ORKAccessibilityFunctions.h"
+@class ORKTaskViewController;
+
 
 NSString * const ORKFamilyHistoryRelatedPersonCellIdentifier = @"ORKFamilyHistoryRelatedPersonCellIdentifier";
 
@@ -590,15 +635,15 @@ NSString * const ORKHealthConditionPreferNotToAnswerChoiceValue = @"prefer not t
 
 #pragma mark ORKTaskViewControllerDelegate
 
-- (void)taskViewController:(ORKTaskViewController *)taskViewController didFinishWithReason:(ORKTaskViewControllerFinishReason)reason error:(NSError *)error {
+- (void)taskViewController:(ORKTaskViewController *)taskViewController didFinishWithReason:(ORKTaskFinishReason)reason error:(NSError *)error {
     [self dismissViewControllerAnimated:YES completion:^{
         switch (reason) {
-            case ORKTaskViewControllerFinishReasonFailed:
-            case ORKTaskViewControllerFinishReasonDiscarded:
+            case ORKTaskFinishReasonFailed:
+            case ORKTaskFinishReasonDiscarded:
                 break;
-            case ORKTaskViewControllerFinishReasonSaved:
-            case ORKTaskViewControllerFinishReasonCompleted:
-            case ORKTaskViewControllerFinishReasonEarlyTermination:
+            case ORKTaskFinishReasonSaved:
+            case ORKTaskFinishReasonCompleted:
+            case ORKTaskFinishReasonEarlyTermination:
                 [self handleRelatedPersonTaskResult:taskViewController.result taskIdentifier:taskViewController.task.identifier];
                 [self updateDisplayedConditionsFromTaskResult:taskViewController.result];
                 

@@ -31,6 +31,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 import UIKit
 import ResearchKit
 
+#if RK_APPLE_INTERNAL
+import ResearchKitInternal
+#endif
+
 //swiftlint:disable force_cast
 /**
     The purpose of this view controller is to show you the kinds of data
