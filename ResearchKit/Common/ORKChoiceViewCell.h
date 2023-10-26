@@ -36,12 +36,6 @@ NS_ASSUME_NONNULL_BEGIN
 @class ORKAnswerTextView;
 @class ORKTextChoiceOther;
 
-typedef NS_ENUM(NSUInteger, ORKChoiceViewCellExpansionState) {
-    ORKChoiceViewCellExpansionStateNotApplicable,
-    ORKChoiceViewCellExpansionStateExpanded,
-    ORKChoiceViewCellExpansionStateCollapsed,
-};
-
 @interface ORKChoiceViewCell : UITableViewCell
 
 @property (nonatomic, assign, getter=isImmediateNavigation) BOOL immediateNavigation;
@@ -76,9 +70,7 @@ typedef NS_ENUM(NSUInteger, ORKChoiceViewCellExpansionState) {
 @property (nonatomic, assign, setter=hideTextView:) BOOL textViewHidden;
 
 - (void)setupWithText:(NSString *)text
-      placeholderText:(NSString *)placeholderText
-       expansionState:(ORKChoiceViewCellExpansionState)expansionState;
-
+      placeholderText:(NSString *)placeholderText;
 @end
 
 @interface ORKChoiceViewPlatterCell : ORKChoiceViewCell

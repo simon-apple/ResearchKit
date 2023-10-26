@@ -696,13 +696,18 @@ static const CGFloat ColorSwatchExpandedRightPadding = 16.0;
 }
 
 - (void)setupWithText:(NSString *)text
-      placeholderText:(NSString *)placeholderText
-       expansionState:(ORKChoiceViewCellExpansionState)expansionState {
+      placeholderText:(NSString *)placeholderText {
         self.textView.placeholder = placeholderText;
-        if (self.textView.text.length > 0 && expansionState == ORKChoiceViewCellExpansionStateCollapsed) {
-            self.textView.text = text;
+        self.textView.text = text;
+        BOOL hideTextView = YES;
+    
+        if (self.isCellSelected) {
+           hideTextView = NO;
+        } else {
+           hideTextView = (self.textView.text.length == 0);
         }
-        [self hideTextView:((expansionState == ORKChoiceViewCellExpansionStateExpanded) ? false : true)];
+    
+        [self hideTextView:hideTextView];
 }
 
 - (void)updateTextView {

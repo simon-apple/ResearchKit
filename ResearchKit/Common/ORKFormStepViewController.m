@@ -86,7 +86,6 @@ NSString * const ORKSurveyCardHeaderViewIdentifier = @"SurveyCardHeaderViewIdent
 
 @property (nonatomic, copy, readonly) NSString *formItemIdentifier;
 @property (nonatomic, readonly) NSInteger choiceIndex;
-@property (nonatomic) ORKChoiceViewCellExpansionState expansionState;
 
 @end
 
@@ -880,12 +879,6 @@ NSString * const ORKSurveyCardHeaderViewIdentifier = @"SurveyCardHeaderViewIdent
                 NSArray *choices = answerFormat.choices;
                 [choices enumerateObjectsUsingBlock:^(id eachChoice, NSUInteger index, BOOL *stop) {
                     ORKTableCellItemIdentifier *itemIdentifier = [[ORKTableCellItemIdentifier alloc] initWithFormItemIdentifier:formItemIdentifier choiceIndex:index];
-                    
-                    ORKTextChoiceOther *textChoiceOther = ORKDynamicCast(eachChoice, ORKTextChoiceOther);
-                    if (textChoiceOther != nil) {
-                        itemIdentifier.expansionState = ORKChoiceViewCellExpansionStateCollapsed;
-                    }
-                    
                     [newSnapshot appendItemsWithIdentifiers:@[itemIdentifier]];
                 }];
             } else {
@@ -1546,6 +1539,12 @@ NSString * const ORKSurveyCardHeaderViewIdentifier = @"SurveyCardHeaderViewIdent
     _tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
 }
 
+- (void)resizeORKChoiceOtherViewCell:(ORKChoiceOtherViewCell *)choiceOtherViewCell withTextChoice:(ORKTextChoiceOther *)textChoice {
+    [_tableView beginUpdates];
+    [choiceOtherViewCell setupWithText:textChoice.textViewText placeholderText:textChoice.textViewPlaceholderText];
+    [_tableView endUpdates];
+}
+
 - (BOOL)isChoiceSelected:(id)value atIndex:(NSUInteger)index answer:(id)answer {
     BOOL isSelected = NO;
     if (answer != nil && answer != ORKNullAnswerValue()) {
@@ -1658,12 +1657,11 @@ NSString * const ORKSurveyCardHeaderViewIdentifier = @"SurveyCardHeaderViewIdent
         ORKChoiceOtherViewCell *choiceOtherViewCell = ORKDynamicCast(choiceViewCell, ORKChoiceOtherViewCell);
         // [LC] This code used to be executed only once, when the cell was being created.
         // Now that we use dequeue to always create a cell, that logic doesn't apply anymore
-        // setupWithText: withPlaceholderText: withExpansionState:  is a method that will apply the logic based on the textfield's expansion state
         if (choiceOtherViewCell != nil) {
             ORKTextChoice *textChoice = [answerFormat.choices objectAtIndex:choiceIndex];
             ORKTextChoiceOther *textChoiceOther = ORKDynamicCast(textChoice, ORKTextChoiceOther);
             if (textChoiceOther != nil) {
-                [choiceOtherViewCell setupWithText:textChoiceOther.textViewText placeholderText:textChoiceOther.textViewPlaceholderText expansionState:itemIdentifier.expansionState];
+                [choiceOtherViewCell setupWithText:textChoiceOther.textViewText placeholderText:textChoiceOther.textViewPlaceholderText];
             }
         }
         choiceOtherViewCell.delegate = self;
@@ -1708,11 +1706,8 @@ static CGFloat ORKLabelWidth(NSString *text) {
 - (void)didSelectChoiceOtherViewCellWithItemIdentifier:(ORKTableCellItemIdentifier *)itemIdentifier
                     choiceOtherViewCell:(ORKChoiceOtherViewCell *)choiceOtherViewCell {
     if (choiceOtherViewCell.textView.text.length <= 0) {
-        BOOL shouldHideTextView = (itemIdentifier.expansionState == ORKChoiceViewCellExpansionStateExpanded) ? true : false;
-        itemIdentifier.expansionState = shouldHideTextView ? ORKChoiceViewCellExpansionStateCollapsed : ORKChoiceViewCellExpansionStateExpanded;
-        [choiceOtherViewCell hideTextView:shouldHideTextView];
         [self reloadItems:@[itemIdentifier]];
-        [_tableContainer resizeFooterToFitUsingMinHeight:([self isContentSizeWithinFrame] && !shouldHideTextView)];
+        [_tableContainer resizeFooterToFitUsingMinHeight:([self isContentSizeWithinFrame])];
     }
 }
 
@@ -1815,6 +1810,16 @@ static CGFloat ORKLabelWidth(NSString *text) {
             uniqueSelectedIndexes = [uniqueSelectedIndexes sortedArrayUsingComparator:^NSComparisonResult(NSNumber *obj1, NSNumber *obj2) {
                 return [obj1 compare:obj2];
             }];
+            
+            int textChoiceOtherIndex = 0;
+            for (ORKTextChoice *textChoice in formItem.impliedAnswerFormat.choices) {
+                ORKTextChoiceOther *textChoiceOther = ORKDynamicCast(textChoice, ORKTextChoiceOther);
+                if (textChoiceOther != nil) {
+                    ORKChoiceOtherViewCell *choiceOtherViewCell = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:textChoiceOtherIndex inSection:indexPath.section]];
+                    [self resizeORKChoiceOtherViewCell:choiceOtherViewCell withTextChoice:textChoiceOther];
+                }
+                textChoiceOtherIndex = textChoiceOtherIndex + 1;
+            }
             
             answer = [helper answerForSelectedIndexes:uniqueSelectedIndexes];
             [self saveAnswer:answer forItemIdentifier:itemIdentifier];
@@ -2297,6 +2302,8 @@ static NSString *const _ORKAnsweredSectionIdentifiersRestoreKey = @"answeredSect
         if (!textChoice.textViewInputOptional) {
             [choiceOtherViewCell setCellSelected:NO highlight:NO];
         }
+        
+        [self resizeORKChoiceOtherViewCell:choiceOtherViewCell withTextChoice:textChoice];
         // textChoice doesn't have any custom text from the textView
         // the answer should be the default text option
         answer = @[textChoice.text];
