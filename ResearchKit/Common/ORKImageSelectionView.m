@@ -97,9 +97,6 @@
 
 - (void)updateViewColors {
     if (@available(iOS 12.0, *)) {
-        // [LC:NOTE] for dark mode we need to able to set the tint on the UIImageView,
-        // this requires the image to be set to the UIImageRenderingModeAlwaysTemplate rendering mode
-        // in the UIImageRenderingModeAlwaysOriginal rendering mode, tintColor does not apply
         [_button.imageView updateRenderingModeForUserInterfaceStyle:self.traitCollection.userInterfaceStyle];
         _button.imageView.tintColor = self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor whiteColor] : nil;
     }
