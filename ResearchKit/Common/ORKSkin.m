@@ -63,6 +63,7 @@ CGFloat ORKFormStepLargeTextMinimumHeaderHeight = 80.0;
 CGFloat ORKFormStepMinimumHeaderHeight = 50.0;
 CGFloat ORKQuestionStepMinimumHeaderHeight = 29.75;
 CGFloat ORKCardDefaultCornerRadii = 10.0;
+CGFloat ORKImageChoiceButtonCornerRadii = 5.0;
 CGFloat ORKCardDefaultBorderWidth = 0.0;
 CGFloat ORKCardDefaultFontSize = 25.0;
 CGFloat ORKSurveyItemMargin = 16.0;
