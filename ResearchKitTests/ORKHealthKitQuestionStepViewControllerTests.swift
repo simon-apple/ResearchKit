@@ -92,7 +92,6 @@ final class ORKHealthKitQuestionStepViewControllerTests: XCTestCase {
         XCTAssertTrue((testController as! ORKQuestionStepViewController).hasChangedAnswer())
     }
     
-    // [LC:TODO] Find a way to write to HealthKit without requesting capabilities
 }
 
 extension ORKHealthKitQuestionStepViewControllerTests: ORKStepViewControllerDelegate {
