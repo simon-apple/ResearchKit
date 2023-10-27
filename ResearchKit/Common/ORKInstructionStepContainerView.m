@@ -57,6 +57,8 @@
     self.auxiliaryImage = _instructionStep.auxiliaryImage;
     self.titleIconImage = _instructionStep.iconImage;
     
+    self.accessibilityIdentifier = @"ORKInstructionStepView";
+    
     [super updatePaddingConstraints];
     if (_instructionStep.centerImageVertically) {
         self.centeredVerticallyImage = _instructionStep.image;

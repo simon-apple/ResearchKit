@@ -768,6 +768,9 @@ NSString * const ORKSurveyCardHeaderViewIdentifier = @"SurveyCardHeaderViewIdent
             _navigationFooterView.skipEnabled = [self skipButtonEnabled];
             _navigationFooterView.skipButton.accessibilityTraits = UIAccessibilityTraitStaticText;
         }
+        
+        self.view.accessibilityIdentifier = @"ORKFormStepView";
+        
         [self setupConstraints];
     }
 }
@@ -1591,7 +1594,7 @@ NSString * const ORKSurveyCardHeaderViewIdentifier = @"SurveyCardHeaderViewIdent
 
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
     cell.userInteractionEnabled = !self.readOnlyMode;
-    cell.accessibilityIdentifier = [NSString stringWithFormat:@"%@_%ld", formItem.text, (long)indexPath.row];
+    cell.accessibilityIdentifier = [NSString stringWithFormat:@"%@_%ld", formItemIdentifier, (long)indexPath.row];
     
     ORKFormItemCell *formCell = ORKDynamicCast(cell, ORKFormItemCell);
     ORKChoiceViewCell *choiceViewCell = ORKDynamicCast(cell, ORKChoiceViewCell);

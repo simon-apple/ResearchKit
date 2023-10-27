@@ -223,6 +223,8 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
             [self setupConstraints:_tableContainer];
             [_tableContainer setNeedsLayout];
             
+            _tableContainer.accessibilityIdentifier = @"ORKQuestionStepView";
+            
             // Question steps should always force the navigation controller to be scrollable
             // therefore we should always remove the styling.
             [_navigationFooterView removeStyling];
