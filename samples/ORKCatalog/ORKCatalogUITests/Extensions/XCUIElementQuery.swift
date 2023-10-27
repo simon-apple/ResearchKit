@@ -1,4 +1,3 @@
-//
 //  XCUIElementQuery.swift
 //  ORKCatalogUITests
 //

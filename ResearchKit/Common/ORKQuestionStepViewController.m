@@ -81,6 +81,8 @@ typedef NS_ENUM(NSInteger, ORKQuestionSection) {
 static const CGFloat TableViewYOffsetStandard = 30.0;
 static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
 
+NSString * const QuestionStepViewAccessibilityIdentifier = @"ORKQuestionStepView";
+
 @interface ORKQuestionStepViewController () <UITableViewDataSource, UITableViewDelegate, ORKSurveyAnswerCellDelegate, ORKTextChoiceCellGroupDelegate, ORKChoiceOtherViewCellDelegate, ORKTableContainerViewDelegate, ORKLearnMoreViewDelegate> {
     id _answer;
     
@@ -223,7 +225,7 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
             [self setupConstraints:_tableContainer];
             [_tableContainer setNeedsLayout];
             
-            _tableContainer.accessibilityIdentifier = @"ORKQuestionStepView";
+            _tableContainer.accessibilityIdentifier = QuestionStepViewAccessibilityIdentifier;
             
             // Question steps should always force the navigation controller to be scrollable
             // therefore we should always remove the styling.

@@ -1,4 +1,3 @@
-//
 //  XCUIElement.swift
 //  ORKCatalogUITests
 //
@@ -21,7 +20,7 @@ extension XCUIElement {
     }
     
     /**
-    Scrolls to a particular element until it is rendered in the visible rect. Updated implementation from: https://stackoverflow.com/questions/32646539/scroll-until-element-is-visible-ios-ui-automation-with-xcode-7
+    Scrolls to a particular element until it is visible in screen rect:
     */
     func scrollUntilVisible(direction: SwipeDirection = .up, maxSwipes: Int = 10) {
         var swipes = 0

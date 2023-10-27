@@ -1,4 +1,3 @@
-//
 //  TabBar.swift
 //  ORKCatalogUITests
 //

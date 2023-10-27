@@ -1,4 +1,3 @@
-//
 //  AnswerableStep.swift
 //  ORKCatalogUITests
 //

@@ -1,4 +1,3 @@
-//
 //  XCTestCase.swift
 //  ORKCatalogUITests
 //

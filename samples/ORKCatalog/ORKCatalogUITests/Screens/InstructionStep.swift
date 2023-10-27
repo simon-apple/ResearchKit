@@ -1,4 +1,3 @@
-//
 //  InstructionStep.swift
 //  ORKCatalogUITests
 //

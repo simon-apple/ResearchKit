@@ -1,4 +1,3 @@
-//
 //  SurveysUITests.swift
 //  ORKCatalogUITests
 //
@@ -103,6 +102,8 @@ final class SurveysUITests: BaseUITest {
     
     /// no tstt test case yet
     func testSurveyWithMultipleOptions() {
+        self.executionTimeAllowance = 800 // Increase due to lengthly test
+        
         tasksList
             .selectTaskByName(Task.surveyWithMultipleOptions.description)
         

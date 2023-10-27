@@ -34,10 +34,9 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
-        // Toggle software keyboard: https://stackoverflow.com/questions/38010494/is-it-possible-to-toggle-software-keyboard-via-the-code-in-ui-test
+        // Disable hardware keyboard and toggle software keyboard
         if ProcessInfo.processInfo.arguments.contains("UITest") {
         #if targetEnvironment(simulator)
-            // Disable hardware keyboards.
             let setHardwareLayout = NSSelectorFromString("setHardwareLayout:")
             UITextInputMode.activeInputModes
             // Filter `UIKeyboardInputMode`s.

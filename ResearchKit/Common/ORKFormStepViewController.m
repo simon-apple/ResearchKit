@@ -73,6 +73,7 @@ static const CGFloat TableViewYOffsetStandard = 30.0;
 static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
 
 NSString * const ORKSurveyCardHeaderViewIdentifier = @"SurveyCardHeaderViewIdentifier";
+NSString * const FormStepViewAccessibilityIdentifier = @"ORKFormStepView";
 
 @interface ORKFormItem (FormStepViewControllerExtensions)
 
@@ -769,7 +770,7 @@ NSString * const ORKSurveyCardHeaderViewIdentifier = @"SurveyCardHeaderViewIdent
             _navigationFooterView.skipButton.accessibilityTraits = UIAccessibilityTraitStaticText;
         }
         
-        self.view.accessibilityIdentifier = @"ORKFormStepView";
+        self.view.accessibilityIdentifier = FormStepViewAccessibilityIdentifier;
         
         [self setupConstraints];
     }

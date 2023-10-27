@@ -32,6 +32,8 @@
 #import "ORKInstructionStepContainerView.h"
 #import "ORKBodyItem.h"
 
+NSString * const InstructionStepViewAccessibilityIdentifier = @"ORKInstructionStepView";
+
 @implementation ORKInstructionStepContainerView
 
 
@@ -57,7 +59,7 @@
     self.auxiliaryImage = _instructionStep.auxiliaryImage;
     self.titleIconImage = _instructionStep.iconImage;
     
-    self.accessibilityIdentifier = @"ORKInstructionStepView";
+    self.accessibilityIdentifier = InstructionStepViewAccessibilityIdentifier;
     
     [super updatePaddingConstraints];
     if (_instructionStep.centerImageVertically) {

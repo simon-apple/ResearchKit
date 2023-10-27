@@ -1,4 +1,3 @@
-//
 //  AccessibilityIdentifiers.swift
 //  ORKCatalogUITests
 //

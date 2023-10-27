@@ -1,4 +1,3 @@
-//
 //  BaseUITest.swift
 //  ORKCatalogUITests
 //
