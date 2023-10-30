@@ -46,6 +46,7 @@
 
 @property (nonatomic, strong) UIButton *button;
 @property (nonatomic, copy) NSString *labelText;
+@property (nonatomic, copy) ORKImageChoice *choice;
 
 @end
 
@@ -55,6 +56,7 @@
 - (instancetype)initWithImageChoice:(ORKImageChoice *)choice {
     self = [super init];
     if (self) {
+        _choice = [choice copy];
         _labelText = choice.text.length > 0 ? choice.text: @" ";
         
         self.button = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -79,6 +81,12 @@
 }
 
 - (void)setupButtonImagesFromImageChoice:(ORKImageChoice *)choice {
+    if ([UITraitCollection currentTraitCollection].userInterfaceStyle == UIUserInterfaceStyleDark) {
+        [_button setImage:[_button.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+    } else {
+        [_button setImage:[_button.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forState:UIControlStateNormal];
+    }
+    
     if (choice.selectedStateImage) {
         UIImage *selectedStateImage = choice.selectedStateImage;
         if (@available(iOS 12.0, *)) {
@@ -92,7 +100,7 @@
         normalStateImage = [choice.normalStateImage ork_imageWithRenderingModeForUserInterfaceStyle:self.traitCollection.userInterfaceStyle];
     }
     
-    [_button setImage:[normalStateImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+    [_button setImage:normalStateImage forState:UIControlStateNormal];
 }
 
 - (void)updateViewColors {
@@ -104,7 +112,7 @@
 
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
     [super traitCollectionDidChange:previousTraitCollection];
-    [self updateViewColors];
+    [self setupButtonImagesFromImageChoice:_choice];
 }
 
 - (void)setUpConstraints {
