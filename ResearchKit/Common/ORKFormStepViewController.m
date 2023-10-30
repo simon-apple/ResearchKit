@@ -2276,7 +2276,10 @@ static NSString *const _ORKAnsweredSectionIdentifiersRestoreKey = @"answeredSect
     if (_currentFirstResponderCell == choiceOtherViewCell) {
         _currentFirstResponderCell = nil;
     }
-    NSIndexPath *indexPath = [_tableView indexPathForCell:choiceOtherViewCell];
+    
+    // we need to use `indexPathForRowAtPoint` because `indexPathForCell`
+    // will return nil if the cell is off the screen, which will happen if we are scrolling
+    NSIndexPath *indexPath = [_tableView indexPathForRowAtPoint:choiceOtherViewCell.center];
             
     ORKTableCellItemIdentifier *itemIdentifier = [_diffableDataSource itemIdentifierForIndexPath:indexPath];
     ORKFormItem *formItem = [self _formItemForFormItemIdentifier:itemIdentifier.formItemIdentifier];
@@ -2294,12 +2297,16 @@ static NSString *const _ORKAnsweredSectionIdentifiersRestoreKey = @"answeredSect
         if (!textChoice.textViewInputOptional) {
             [choiceOtherViewCell setCellSelected:NO highlight:NO];
         }
-        answer = _savedAnswers[itemIdentifier.formItemIdentifier];
+        // textChoice doesn't have any custom text from the textView
+        // the answer should be the default text option
+        answer = @[textChoice.text];
     }
-    [self saveTextChoiceAnswer:answer
-                      formItem:formItem
-                     indexPath:indexPath
-                itemIdentifier:itemIdentifier];
+    if (answer) {
+        [self saveTextChoiceAnswer:answer
+                          formItem:formItem
+                         indexPath:indexPath
+                    itemIdentifier:itemIdentifier];
+    }
 }
 
 - (void)saveTextChoiceAnswer:(id)answer
