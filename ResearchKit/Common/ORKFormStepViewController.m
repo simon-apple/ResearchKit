@@ -73,7 +73,7 @@ static const CGFloat TableViewYOffsetStandard = 30.0;
 static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
 
 NSString * const ORKSurveyCardHeaderViewIdentifier = @"SurveyCardHeaderViewIdentifier";
-NSString * const FormStepViewAccessibilityIdentifier = @"ORKFormStepView";
+NSString * const ORKFormStepViewAccessibilityIdentifier = @"ORKFormStepView";
 
 @interface ORKFormItem (FormStepViewControllerExtensions)
 
@@ -446,6 +446,8 @@ NSString * const FormStepViewAccessibilityIdentifier = @"ORKFormStepView";
     
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    
+    self.view.accessibilityIdentifier = ORKFormStepViewAccessibilityIdentifier;
 }
 
 - (BOOL)isContentSizeWithinFrame {
@@ -769,9 +771,6 @@ NSString * const FormStepViewAccessibilityIdentifier = @"ORKFormStepView";
             _navigationFooterView.skipEnabled = [self skipButtonEnabled];
             _navigationFooterView.skipButton.accessibilityTraits = UIAccessibilityTraitStaticText;
         }
-        
-        self.view.accessibilityIdentifier = FormStepViewAccessibilityIdentifier;
-        
         [self setupConstraints];
     }
 }

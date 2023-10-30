@@ -165,13 +165,13 @@ final class SurveysUITests: BaseUITest {
                 .verifyQuestionProgressAndTitleExists(questionIndex: 0, totalQuestions: totalQuestions)
                 .selectFormItemCell(withID: formStep.items[0])
                 .answerIntegerQuestion(number: 123, dismissKeyboard: true)
-                .answerTimeIntervalQuestion(hours: 15, minutes: 50, dismissPicker: true)
+                .answerTimeIntervalQuestion(hours: 15, minutes: 50, dismissPicker: true) // Autoscroll autofocus automatically selects form item so no need to use selectFormItemCell
         }
         test("Form Items: Text and Time Interval questions") {
             formStep
                 .verifyQuestionProgressAndTitleExists(questionIndex: 1, totalQuestions: totalQuestions)
-                .answerTextQuestion(text: "Abc", dismissKeyboard: true)
-                .answerTimeIntervalQuestion(hours: 1, minutes: 13, dismissPicker: true)
+                .answerTextQuestion(text: "Abc", dismissKeyboard: true) // Autoscroll autofocus automatically selects form item so no need to use selectFormItemCell
+                .answerTimeIntervalQuestion(hours: 1, minutes: 13, dismissPicker: true) // Autoscroll autofocus automatically selects form item so no need to use selectFormItemCell
             
         }
         test("Form Item: Scale question") {
