@@ -84,6 +84,7 @@
 		511BB024298DCCC200936EC0 /* ORKSpeechRecognitionStepViewController_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 511BB022298DCCC200936EC0 /* ORKSpeechRecognitionStepViewController_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		511E8D622995C20E00A384A5 /* ORKEnvironmentSPLMeterStepViewController_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 511E8D602995C20E00A384A5 /* ORKEnvironmentSPLMeterStepViewController_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5139A559266EDA3300537192 /* ORKFeatureFlags.h in Headers */ = {isa = PBXBuildFile; fileRef = 5139A553266ED9BB00537192 /* ORKFeatureFlags.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5192BFA12AEAD7B5006E43FB /* Artwork.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 861610BF1A8D8EDD00245F7A /* Artwork.xcassets */; };
 		5192BEE62AE043A2006E43FB /* ORKTimedWalkStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 5192BEE42AE043A2006E43FB /* ORKTimedWalkStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5192BEE72AE043A2006E43FB /* ORKTimedWalkStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 5192BEE52AE043A2006E43FB /* ORKTimedWalkStep.m */; };
 		5192BEEC2AE043D3006E43FB /* ORKTimedWalkContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5192BEE82AE043D3006E43FB /* ORKTimedWalkContentView.m */; };
@@ -5326,6 +5327,7 @@
 				7118AC6820BF6A3A00D7A6BB /* Sentence4.wav in Resources */,
 				7118AC6C20BF6A3A00D7A6BB /* Sentence2.wav in Resources */,
 				B1C0F4E41A9BA65F0022C153 /* ResearchKit.strings in Resources */,
+				5192BFA12AEAD7B5006E43FB /* Artwork.xcassets in Resources */,
 				714080DB235FD14700281E04 /* ResearchKit.stringsdict in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
