@@ -47,6 +47,7 @@
     self.immediateNavigation = NO;
     [self setPrimaryText:textChoice.text];
     [self setDetailText:textChoice.detailText];
+    [self setTextChoiceImage:textChoice.image];
 }
 
 @end

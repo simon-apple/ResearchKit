@@ -60,6 +60,7 @@ typedef NS_ENUM(NSUInteger, ORKChoiceViewCellExpansionState) {
 
 @property (nonatomic) ORKCardViewStyle cardViewStyle;
 
+- (void)setTextChoiceImage:(UIImage *)image;
 - (void)setSwatchColor:(UIColor *)swatchColor;
 - (void)setPrimaryText:(NSString *)primaryText;
 - (void)setPrimaryAttributedText: (NSAttributedString *)primaryAttributedText;
