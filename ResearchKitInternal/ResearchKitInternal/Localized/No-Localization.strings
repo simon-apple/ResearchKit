@@ -140,37 +140,11 @@
 "KNEE_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_LEFT" = "When you are done, return your left knee to the start position.\n\nThen tap anywhere.";
 "KNEE_RANGE_OF_MOTION_SPOKEN_INSTRUCTION_RIGHT" = "When you are done, return your right knee to the start position.\n\nThen tap anywhere.";
 
-/* Request Permission Step */
-"REQUEST_PERMISSION_BUTTON_STATE_DEFAULT" = "Review";
-"REQUEST_PERMISSION_BUTTON_STATE_CONNECTED" = "Reviewed";
-"REQUEST_PERMISSION_BUTTON_STATE_NOT_SUPPORTED" = "Not Supported";
-"REQUEST_PERMISSION_BUTTON_STATE_ERROR" = "Error";
-
-/* Request Health Data Step */
-"REQUEST_HEALTH_DATA_STEP_VIEW_TITLE" = "Health Data";
-"REQUEST_HEALTH_DATA_STEP_VIEW_DESCRIPTION" = "The study is requesting access to Health data.";
-
-/* Request Notification Permission Step */
-"REQUEST_NOTIFICATIONS_STEP_VIEW_TITLE" = "Notifications";
-"REQUEST_NOTIFICATIONS_STEP_VIEW_DESCRIPTION" = "The study is requesting to send you notifications.";
-
-/* Request Sensor Permission Step */
-"REQUEST_SENSOR_STEP_VIEW_TITLE" = "Sensor Data";
-"REQUEST_SENSOR_STEP_VIEW_DESCRIPTION" = "The study is requesting access to sensor data from your devices.";
-
-/* Request Device Motion Permission Step */
-"REQUEST_MOTION_ACTIVITY_STEP_VIEW_TITLE" = "Device Motion";
-"REQUEST_MOTION_ACTIVITY_STEP_VIEW_DESCRIPTION" = "The study is requesting access to motion data from your devices.";
-
 /* dBHL Task */
 "dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_TITLE" = "This Test Requires Compatible Headphones";
 "dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_TEXT" = "Thank you for participating in the Apple Hearing Study.\n\nTo do this task at a later time, connect Apple EarPods, AirPods, or AirPods Pro to your device.";
 "dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_DO_LATER" = "Finish task later";
 "dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_SKIP" = "Skip this task";
-
-/* Request Location Permission Step */
-"REQUEST_LOCATION_DATA_STEP_VIEW_TITLE" = "Location Data";
-"REQUEST_LOCATION_DATA_STEP_VIEW_DESCRIPTION" = "The study is requesting access to location data from your device.";
 
 /* SPLMeter No Quiet Location Step */
 "ENVIRONMENTSPL_QUIET_LOCATION_REQUIRED_TITLE" = "You'll need to be in a quiet location to complete this task.";

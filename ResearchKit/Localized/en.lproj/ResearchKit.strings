@@ -733,3 +733,29 @@
 
 /* Restore error */
 "RESTORE_ERROR_CANNOT_DECODE" = "Cannot decode restoreData for initialization";
+
+/* Request Permission Step */
+"REQUEST_PERMISSION_BUTTON_STATE_DEFAULT" = "Review";
+"REQUEST_PERMISSION_BUTTON_STATE_CONNECTED" = "Reviewed";
+"REQUEST_PERMISSION_BUTTON_STATE_NOT_SUPPORTED" = "Not Supported";
+"REQUEST_PERMISSION_BUTTON_STATE_ERROR" = "Error";
+
+/* Request Health Data Step */
+"REQUEST_HEALTH_DATA_STEP_VIEW_TITLE" = "Health Data";
+"REQUEST_HEALTH_DATA_STEP_VIEW_DESCRIPTION" = "The study is requesting access to health data.";
+
+/* Request Notification Permission Step */
+"REQUEST_NOTIFICATIONS_STEP_VIEW_TITLE" = "Notifications";
+"REQUEST_NOTIFICATIONS_STEP_VIEW_DESCRIPTION" = "The study is requesting to send you notifications.";
+
+/* Request Sensor Permission Step */
+"REQUEST_SENSOR_STEP_VIEW_TITLE" = "Sensor Data";
+"REQUEST_SENSOR_STEP_VIEW_DESCRIPTION" = "The study is requesting access to sensor data from your devices.";
+
+/* Request Device Motion Permission Step */
+"REQUEST_MOTION_ACTIVITY_STEP_VIEW_TITLE" = "Device Motion";
+"REQUEST_MOTION_ACTIVITY_STEP_VIEW_DESCRIPTION" = "The study is requesting access to motion data from your devices.";
+
+/* Request Location Permission Step */
+"REQUEST_LOCATION_DATA_STEP_VIEW_TITLE" = "Location Data";
+"REQUEST_LOCATION_DATA_STEP_VIEW_DESCRIPTION" = "The study is requesting access to location data from your devices.";
