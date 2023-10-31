@@ -115,6 +115,7 @@
 		5192BF9A2AE1D8A4006E43FB /* ORKChoiceViewCell+ORKTextChoice.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B8444642A79C25000292DEA /* ORKChoiceViewCell+ORKTextChoice.m */; };
 		5192BF9D2AE1DE62006E43FB /* ORKColorChoiceCellGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 5192BF9B2AE1DE62006E43FB /* ORKColorChoiceCellGroup.m */; };
 		5192BF9E2AE1DE62006E43FB /* ORKColorChoiceCellGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = 5192BF9C2AE1DE62006E43FB /* ORKColorChoiceCellGroup.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5192BFA92AEC4734006E43FB /* CLLocationManager+ResearchKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C7AEDCB29A72F83009EED4A /* CLLocationManager+ResearchKit.m */; };
 		51BD8FC329D3AD660001D54E /* Window.wav in Resources */ = {isa = PBXBuildFile; fileRef = 51BD8FC029D3AD660001D54E /* Window.wav */; };
 		51BD8FC429D3AD660001D54E /* VolumeCalibration.wav in Resources */ = {isa = PBXBuildFile; fileRef = 51BD8FC129D3AD660001D54E /* VolumeCalibration.wav */; };
 		51BD8FC529D3AD660001D54E /* Noise.wav in Resources */ = {isa = PBXBuildFile; fileRef = 51BD8FC229D3AD660001D54E /* Noise.wav */; };
@@ -5640,6 +5641,7 @@
 				FA7A9D301B083DD3005A2BEA /* ORKConsentSectionFormatter.m in Sources */,
 				FF5CA61C1D2C6453001660A3 /* ORKSignatureStep.m in Sources */,
 				FF919A541E81BEB5005C2A1E /* ORKCollectionResult.m in Sources */,
+				5192BFA92AEC4734006E43FB /* CLLocationManager+ResearchKit.m in Sources */,
 				86C40D581A8D7C5C00081FAC /* ORKOrderedTask.m in Sources */,
 				86C40D601A8D7C5C00081FAC /* ORKQuestionStep.m in Sources */,
 			);
