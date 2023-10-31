@@ -91,7 +91,6 @@ enum TaskListRow: Int, CustomStringConvertible {
     case textQuestion
     case textChoiceQuestion
     case textChoiceQuestionWithImageTask
-    case colorChoiceQuestion
     case timeIntervalQuestion
     case timeOfDayQuestion
     case valuePickerChoiceQuestion
@@ -102,7 +101,6 @@ enum TaskListRow: Int, CustomStringConvertible {
     case wait
     case PDFViewer
     case requestPermissions
-    case familyHistory
     case eligibilityTask
     case accountCreation
     case login
@@ -153,6 +151,8 @@ enum TaskListRow: Int, CustomStringConvertible {
     case consentDoc
     case familyHistoryReviewTask
     case longHeaderTask
+    case colorChoiceQuestion
+    case familyHistory
     #endif
     
     class TaskListRowSection {
@@ -195,7 +195,6 @@ enum TaskListRow: Int, CustomStringConvertible {
                     .textQuestion,
                     .textChoiceQuestion,
                     .textChoiceQuestionWithImageTask,
-                    .colorChoiceQuestion,
                     .timeIntervalQuestion,
                     .timeOfDayQuestion,
                     .valuePickerChoiceQuestion,
@@ -205,8 +204,7 @@ enum TaskListRow: Int, CustomStringConvertible {
                     .frontFacingCamera,
                     .wait,
                     .PDFViewer,
-                    .requestPermissions,
-                    .familyHistory
+                    .requestPermissions
                 ]),
             TaskListRowSection(title: "Onboarding", rows:
                 [
@@ -267,7 +265,9 @@ enum TaskListRow: Int, CustomStringConvertible {
                     .customStepTask,
                     .studyPromoTask,
                     .studySignPostStep,
+                    .colorChoiceQuestion,
                     .familyHistoryReviewTask,
+                    .familyHistory,
                     .longHeaderTask
                 ])]
             defaultSections = (defaultSections + internalSections)
@@ -340,9 +340,6 @@ enum TaskListRow: Int, CustomStringConvertible {
         case .textChoiceQuestionWithImageTask:
             return NSLocalizedString("Text Choice Image Question", comment: "")
             
-        case .colorChoiceQuestion:
-            return NSLocalizedString("Color Choice Question", comment: "")
-            
         case .timeIntervalQuestion:
             return NSLocalizedString("Time Interval Question", comment: "")
             
@@ -372,9 +369,6 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .requestPermissions:
             return NSLocalizedString("Request Permissions Step", comment: "")
-            
-        case .familyHistory:
-            return NSLocalizedString("Family History Step", comment: "")
 
         case .eligibilityTask:
             return NSLocalizedString("Eligibility Task Example", comment: "")
@@ -508,6 +502,12 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .studySignPostStep:
             return NSLocalizedString("Study Sign Post Step", comment: "")
+            
+        case .colorChoiceQuestion:
+            return NSLocalizedString("Color Choice Question", comment: "")
+            
+        case .familyHistory:
+            return NSLocalizedString("Family History Step", comment: "")
             
         case .familyHistoryReviewTask:
             return NSLocalizedString("Family History Review Controller", comment: "")
@@ -650,10 +650,6 @@ enum TaskListRow: Int, CustomStringConvertible {
         case textChoiceQuestionStep
         case textChoiceQuestionWithImageStep
         case textChoiceQuestionWithImageTask
-        case colorChoiceQuestionTask
-        case colorChoiceQuestionStep
-        case colorChoiceQuestionStepSwatchOnly
-        case colorChoiceQuestionFormItem
 
         // Task with an example of time of day entry.
         case timeOfDayQuestionTask
@@ -691,9 +687,6 @@ enum TaskListRow: Int, CustomStringConvertible {
         case pdfViewerTask
         
         case requestPermissionsStep
-        
-        case familyHistoryStep
-        case familyHistoryTask
         
         // Eligibility task specific indentifiers.
         case eligibilityTask
@@ -773,6 +766,12 @@ enum TaskListRow: Int, CustomStringConvertible {
         case studyPromoTask
         case studySignPostStep
         case familyHistoryReviewController
+        case colorChoiceQuestionTask
+        case colorChoiceQuestionStep
+        case colorChoiceQuestionStepSwatchOnly
+        case colorChoiceQuestionFormItem
+        case familyHistoryStep
+        case familyHistoryTask
         #endif
     }
     
@@ -841,9 +840,6 @@ enum TaskListRow: Int, CustomStringConvertible {
         case .textChoiceQuestion:
             return textChoiceQuestionTask
             
-        case .colorChoiceQuestion:
-            return ColorChoiceQuestionTask
-            
         case .timeIntervalQuestion:
             return timeIntervalQuestionTask
 
@@ -873,9 +869,6 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .requestPermissions:
             return requestPermissionsTask
-            
-        case .familyHistory:
-            return familyHistoryTask
         
         case .eligibilityTask:
             return eligibilityTask
@@ -1015,6 +1008,12 @@ enum TaskListRow: Int, CustomStringConvertible {
         
         case .longHeaderTask:
             return longHeaderTask
+            
+        case .colorChoiceQuestion:
+            return ColorChoiceQuestionTask
+            
+        case .familyHistory:
+            return familyHistoryTask
             
         #endif
         case .textChoiceQuestionWithImageTask:
@@ -1945,48 +1944,6 @@ enum TaskListRow: Int, CustomStringConvertible {
         return ORKOrderedTask(identifier: String(describing: Identifier.textQuestionTask), steps: [step])
     }
     
-#if RK_APPLE_INTERNAL
-    /**
-    This task demonstrates asking for text entry with PII Scrubbing. Both single and multi-line
-    text entry are supported, with appropriate parameters to the text answer
-    format.
-    */
-    private var textQuestionPIIScrubbingTask: ORKTask {
-        let emailAnswerFormat = ORKAnswerFormat.textAnswerFormat()
-        emailAnswerFormat.multipleLines = true
-        emailAnswerFormat.maximumLength = 280
-        emailAnswerFormat.scrubberNames = [PIIScrubber.emailScrubberName]
-
-        let emailPIIScrubberFormStep = ORKFormStep(identifier: String(describing: Identifier.textQuestionEmailPIIScrubbingStep))
-        emailPIIScrubberFormStep.title = NSLocalizedString("Eligibility", comment: "")
-        emailPIIScrubberFormStep.isOptional = false
-        
-        let emailORKFormItem = ORKFormItem(identifier: String(describing: Identifier.textQuestionPIIScrubbingEmailFormItem), text: examplePIIScrubbedEmailQuestionText, answerFormat: emailAnswerFormat)
-        
-        emailPIIScrubberFormStep.formItems = [
-            emailORKFormItem
-        ];
-        
-        
-        let SSNAnswerFormat = ORKAnswerFormat.textAnswerFormat()
-        SSNAnswerFormat.multipleLines = true
-        SSNAnswerFormat.maximumLength = 280
-        SSNAnswerFormat.scrubberNames = [PIIScrubber.SSNScrubberName]
-        
-        let SSNORKFormItem = ORKFormItem(identifier: String(describing: Identifier.textQuestionPIIScrubbingSSNFormItem), text: examplePIIScrubbedSSNQuestionText, answerFormat: SSNAnswerFormat)
-
-        let SSNPIIScrubberFormStep = ORKFormStep(identifier: String(describing: Identifier.textQuestionSSNPIIScrubbingStep))
-        SSNPIIScrubberFormStep.title = NSLocalizedString("Eligibility", comment: "")
-        SSNPIIScrubberFormStep.isOptional = false
-        
-        SSNPIIScrubberFormStep.formItems = [
-            SSNORKFormItem
-        ];
-        
-        
-        return ORKOrderedTask(identifier: String(describing: Identifier.textQuestionPIIScrubbingTask), steps: [emailPIIScrubberFormStep, SSNPIIScrubberFormStep])
-    }
-#endif
     
     /**
     This task demonstrates a survey question for picking from a list of text
@@ -2041,58 +1998,6 @@ enum TaskListRow: Int, CustomStringConvertible {
         questionStep.text = exampleDetailText
         
         return ORKOrderedTask(identifier: String(describing: Identifier.textChoiceQuestionWithImageTask), steps: [questionStep])
-    }
-    
-    private var ColorChoiceQuestionTask: ORKTask {
-        let colorChoiceOneText = NSLocalizedString("Choice 1", comment: "")
-        let colorChoiceTwoText = NSLocalizedString("Choice 2", comment: "")
-        let colorChoiceThreeText = NSLocalizedString("Choice 3", comment: "")
-        let colorChoiceFourText = NSLocalizedString("Choice 4", comment: "")
-        let colorChoiceFiveText = NSLocalizedString("Choice 5", comment: "")
-        let colorChoiceSixText = NSLocalizedString("Choice 6", comment: "")
-        let colorChoiceSevenText = NSLocalizedString("None of the above", comment: "")
-        
-        let colorOne = UIColor(red: 244/255, green: 208/255, blue: 176/255, alpha: 1.0)
-        let colorTwo = UIColor(red: 232/255, green: 180/255, blue: 143/255, alpha: 1.0)
-        let colorThree = UIColor(red: 211/255, green: 158/255, blue: 124/255, alpha: 1.0)
-        let colorFour = UIColor(red: 187/255, green: 119/255, blue: 80/255, alpha: 1.0)
-        let colorFive = UIColor(red: 165/255, green: 93/255, blue: 43/255, alpha: 1.0)
-        let colorSix = UIColor(red: 60/255, green: 32/255, blue: 29/255, alpha: 1.0)
-        
-        let colorChoices = [
-            ORKColorChoice(color: colorOne, text: colorChoiceOneText, detailText: nil, value: "choice_1" as NSString),
-            ORKColorChoice(color: colorTwo, text: colorChoiceTwoText, detailText: nil, value: "choice_2" as NSString),
-            ORKColorChoice(color: colorThree, text: colorChoiceThreeText, detailText: nil, value: "choice_3" as NSString),
-            ORKColorChoice(color: colorFour, text: colorChoiceFourText, detailText: nil, value: "choice_4" as NSString),
-            ORKColorChoice(color: colorFive, text: colorChoiceFiveText, detailText: nil, value: "choice_5" as NSString),
-            ORKColorChoice(color: colorSix, text: colorChoiceSixText, detailText: nil, value: "choice_6" as NSString),
-            ORKColorChoice(color: nil, text: colorChoiceSevenText, detailText: nil, value: "choice_7" as NSString)
-        ]
-        
-        let answerFormat = ORKAnswerFormat.choiceAnswerFormat(with: .singleChoice, colorChoices: colorChoices)
-        let formItem = ORKFormItem(identifier: String(describing: Identifier.colorChoiceQuestionFormItem), text: exampleQuestionText, answerFormat: answerFormat)
-        formItem.detailText = "Select your favorite color from the offerings below"
-        let formStep = ORKFormStep(identifier: String(describing: Identifier.colorChoiceQuestionStep), title: NSLocalizedString("Color Choice", comment: ""), text: exampleDetailText)
-        
-        formStep.formItems = [formItem]
-        
-        let colorChoicesSwatchOnly = [
-            ORKColorChoice(color: colorOne, text: nil, detailText: nil, value: "choice_1" as NSString),
-            ORKColorChoice(color: colorTwo, text: nil, detailText: nil, value: "choice_2" as NSString),
-            ORKColorChoice(color: colorThree, text: nil, detailText: nil, value: "choice_3" as NSString),
-            ORKColorChoice(color: colorFour, text: nil, detailText: nil, value: "choice_4" as NSString),
-            ORKColorChoice(color: colorFive, text: nil, detailText: nil, value: "choice_5" as NSString),
-            ORKColorChoice(color: colorSix, text: nil, detailText: nil, value: "choice_6" as NSString),
-        ]
-        
-        let answerFormatSwatchOnly = ORKAnswerFormat.choiceAnswerFormat(with: .singleChoice, colorChoices: colorChoicesSwatchOnly)
-        let formItemSwatchOnly = ORKFormItem(identifier: String(describing: Identifier.colorChoiceQuestionFormItem), text: exampleQuestionText, answerFormat: answerFormatSwatchOnly)
-        
-        let formStepSwatchOnly = ORKFormStep(identifier: String(describing: Identifier.colorChoiceQuestionStepSwatchOnly), title: NSLocalizedString("Color Choice No Text", comment: ""), text: exampleDetailText)
-        
-        formStepSwatchOnly.formItems = [formItemSwatchOnly]
-        
-        return ORKOrderedTask(identifier: String(describing: Identifier.colorChoiceQuestionTask), steps: [formStep, formStepSwatchOnly])
     }
     
     /**
@@ -2382,187 +2287,6 @@ enum TaskListRow: Int, CustomStringConvertible {
         ]
         
         return ORKOrderedTask(identifier: String(describing: Identifier.familyHistoryStep), steps: [parentFormStep])
-    }
-    
-    private var familyHistoryTask: ORKTask {
-        // create ORKHealthConditions
-        
-        let healthConditions = [
-        ORKHealthCondition(identifier: "healthConditionIdentifier1", displayName: "Diabetes", value: "Diabetes" as NSString),
-        ORKHealthCondition(identifier: "healthConditionIdentifier2", displayName: "Heart Attack", value: "Heart Attack" as NSString),
-        ORKHealthCondition(identifier: "healthConditionIdentifier3", displayName: "Stroke", value: "Stroke" as NSString)
-        ]
-        
-        // add ORKHealthConditions to ORKConditionStepConfiguration object
-        
-        let conditionStepConfiguration = ORKConditionStepConfiguration(stepIdentifier: "FamilyHistoryConditionStepIdentifier", conditionsFormItemIdentifier: "HealthConditionsFormItemIdentifier", conditions: healthConditions, formItems: [])
-        
-        // create formItems and formStep for parent relative group
-        let learnMoreInstructionStep01 = ORKLearnMoreInstructionStep(identifier: "LearnMoreInstructionStep01")
-        learnMoreInstructionStep01.title = NSLocalizedString("Learn more title", comment: "")
-        learnMoreInstructionStep01.text = NSLocalizedString("Learn more text", comment: "")
-        let learnMoreItem01 = ORKLearnMoreItem(text: nil, learnMoreInstructionStep: learnMoreInstructionStep01)
-        
-        let relativeNameSectionHeaderFormItem = ORKFormItem(sectionTitle: "Add a label to identify this family member", detailText: "Instead of their full name, please use a nickname, alias, or initials. Your response will only be saved on your device.", learnMoreItem: learnMoreItem01, showsProgress: true)
-        relativeNameSectionHeaderFormItem.tagText = "OPTIONAL"
-        let parentTextEntryAnswerFormat = ORKAnswerFormat.textAnswerFormat()
-        parentTextEntryAnswerFormat.multipleLines = false
-        parentTextEntryAnswerFormat.maximumLength = 3
-
-        let parentNameFormItem = ORKFormItem(identifier: "ParentNameIdentifier", text: "enter optional name", answerFormat: parentTextEntryAnswerFormat)
-        parentNameFormItem.isOptional = true
-        
-        let sexAtBirthOptions = [
-            ORKTextChoice(text: "Female", value: "Female" as NSString),
-            ORKTextChoice(text: "Male", value: "Male" as NSString),
-            ORKTextChoice(text: "Intersex", value: "Intersex" as NSString),
-            ORKTextChoice(text: "I don't know", value: "i_dont_know" as NSString),
-            ORKTextChoice(text: "I prefer not to answer", value: "i_prefer_not_to_answer" as NSString)
-        ]
-        
-        let parentSexAtBirthChoiceAnswerFormat = ORKAnswerFormat.choiceAnswerFormat(with: .singleChoice, textChoices: sexAtBirthOptions)
-        let parentSextAtBirthFormItem = ORKFormItem(identifier: "ParentSexAtBirthIdentifier", text: "What was the sex assigned on their original birth certificate?", answerFormat: parentSexAtBirthChoiceAnswerFormat)
-        parentSextAtBirthFormItem.isOptional = false
-        
-        let vitalStatusOptions = [
-            ORKTextChoice(text: "Living", value: "system=snomedct&code=73211009" as NSString),
-            ORKTextChoice(text: "Deceased", value: "system=snomedct&code=73211008" as NSString),
-            ORKTextChoice(text: "I don't know", value: "system=snomedct&code=73211007" as NSString),
-            ORKTextChoice(text: "I prefer not to answer", value: "system=snomedct&code=73211006" as NSString),
-        ]
-        
-        let parentVitalStatusChoiceAnswerFormat = ORKAnswerFormat.choiceAnswerFormat(with: .singleChoice, textChoices: vitalStatusOptions)
-        let parentVitalStatusFormItem = ORKFormItem(identifier: "ParentVitalStatusIdentifier", text: "What is their current vital status?", answerFormat: parentVitalStatusChoiceAnswerFormat)
-        parentVitalStatusFormItem.isOptional = false
-        
-        let parentFormStep = ORKFormStep(identifier: "ParentSurveyIdentifier")
-        let visibilityRule = ORKPredicateFormItemVisibilityRule(
-            predicate: ORKResultPredicate.predicateForChoiceQuestionResult(
-                with: .init(stepIdentifier: parentFormStep.identifier, resultIdentifier: parentVitalStatusFormItem.identifier),
-                expectedAnswerValue: NSString(string: "system=snomedct&code=73211009")
-            )
-        )
-
-        let parentAgePickerSectionHeaderFormItem = ORKFormItem(identifier: "ParentAgeSectionHeaderIdentifier", text: "What is their approximate birth year?", answerFormat: nil)
-        parentAgePickerSectionHeaderFormItem.visibilityRule = visibilityRule
-        
-        let parentAgePickerAnswerFormat = ORKAgeAnswerFormat(
-            minimumAge: 18,
-            maximumAge: 90,
-            minimumAgeCustomText: "18 or younger",
-            maximumAgeCustomText: "90 or older",
-            showYear: true,
-            useYearForResult: true,
-            treatMinAgeAsRange: true,
-            treatMaxAgeAsRange: false,
-            defaultValue: 30)
-        parentAgePickerAnswerFormat.shouldShowDontKnowButton = true
-        
-        let parentAgeFormItem = ORKFormItem(identifier: "ParentAgeFormItemIdentifier", text: nil, answerFormat: parentAgePickerAnswerFormat)
-        parentAgeFormItem.isOptional = false
-        parentAgeFormItem.visibilityRule = visibilityRule
-        
-        parentFormStep.isOptional = false
-        parentFormStep.title = "Parent"
-        parentFormStep.detailText = "Answer these questions to the best of your ability."
-        parentFormStep.formItems = [
-            relativeNameSectionHeaderFormItem,
-            parentNameFormItem,
-            parentSextAtBirthFormItem,
-            parentVitalStatusFormItem,
-            parentAgePickerSectionHeaderFormItem,
-            parentAgeFormItem
-        ]
-        
-        // create formItems and formStep for siblings relative group
-        
-        let siblingTextEntryAnswerFormat = ORKAnswerFormat.textAnswerFormat()
-        siblingTextEntryAnswerFormat.multipleLines = false
-        siblingTextEntryAnswerFormat.placeholder = "enter optional name"
-        siblingTextEntryAnswerFormat.maximumLength = 3
-        
-        let siblingNameFormItem = ORKFormItem(identifier: "SiblingNameIdentifier", text: "Name or Nickname", answerFormat: siblingTextEntryAnswerFormat)
-        siblingNameFormItem.isOptional = false
-        
-        let siblingSexAtBirthChoiceAnswerFormat = ORKAnswerFormat.choiceAnswerFormat(with: .singleChoice, textChoices: sexAtBirthOptions)
-        let siblingSextAtBirthFormItem = ORKFormItem(identifier: "SiblingSexAtBirthIdentifier", text: "What was the sex assigned on their original birth certificate?", answerFormat: siblingSexAtBirthChoiceAnswerFormat)
-        siblingSextAtBirthFormItem.isOptional = false
-        
-        let siblingVitalStatusChoiceAnswerFormat = ORKAnswerFormat.choiceAnswerFormat(with: .singleChoice, textChoices: vitalStatusOptions)
-        let siblingVitalStatusFormItem = ORKFormItem(identifier: "SiblingVitalStatusIdentifier", text: "What is their current vital status?", answerFormat: siblingVitalStatusChoiceAnswerFormat)
-        siblingVitalStatusFormItem.isOptional = false
-        
-        let siblingAgePickerAnswerFormat = ORKAgeAnswerFormat(
-            minimumAge: 18,
-            maximumAge: 90,
-            minimumAgeCustomText: "18 or younger",
-            maximumAgeCustomText: "90 or older",
-            showYear: true,
-            useYearForResult: true,
-            treatMinAgeAsRange: true,
-            treatMaxAgeAsRange: false,
-            defaultValue: 30)
-        siblingAgePickerAnswerFormat.shouldShowDontKnowButton = true
-        
-        let siblingAgePickerSectionHeaderFormItem = ORKFormItem(identifier: "SiblingAgeSectionHeaderIdentifier", text: "What is their approximate birth year?", answerFormat: nil)
-        
-        let siblingAgeFormItem = ORKFormItem(identifier: "SiblingAgeFormItemIdentifier", text: nil, answerFormat: siblingAgePickerAnswerFormat)
-        siblingAgeFormItem.isOptional = false
-        
-        let siblingFormStep = ORKFormStep(identifier: "SiblingSurveyIdentifier")
-        let siblingAgeVisibilityRule = ORKPredicateFormItemVisibilityRule(
-            predicate: ORKResultPredicate.predicateForChoiceQuestionResult(
-                with: .init(stepIdentifier: siblingFormStep.identifier, resultIdentifier: siblingVitalStatusFormItem.identifier),
-                expectedAnswerValue: NSString(string: "system=snomedct&code=73211009")
-            )
-        )
-        siblingAgePickerSectionHeaderFormItem.visibilityRule = siblingAgeVisibilityRule
-        siblingAgeFormItem.visibilityRule = siblingAgeVisibilityRule
-        
-        siblingFormStep.title = "Sibling"
-        siblingFormStep.detailText = "Answer these questions to the best of your ability."
-        siblingFormStep.formItems = [
-            relativeNameSectionHeaderFormItem,
-            siblingNameFormItem,
-            siblingSextAtBirthFormItem,
-            siblingVitalStatusFormItem,
-            siblingAgePickerSectionHeaderFormItem,
-            siblingAgeFormItem
-        ]
-        
-        // create ORKRelativeGroups
-        
-        let relativeGroups = [
-        ORKRelativeGroup(identifier: "ParentGroupIdentifier",
-                         name: "Biological Parent",
-                         sectionTitle: "Biological Parents",
-                         sectionDetailText: "Incude your blood-related parents.",
-                         identifierForCellTitle: "ParentNameIdentifier",
-                         maxAllowed: 2,
-                         formSteps: [parentFormStep],
-                         detailTextIdentifiers: ["ParentSexAtBirthIdentifier", "ParentVitalStatusIdentifier", "ParentAgeFormItemIdentifier"]),
-        ORKRelativeGroup(identifier: "SiblingGroupIdentifier",
-                         name: "Sibling",
-                         sectionTitle: "Biological Siblings",
-                         sectionDetailText: "Include all siblings who share one or both of your blood-related parents.",
-                         identifierForCellTitle: "SiblingNameIdentifier",
-                         maxAllowed: 10,
-                         formSteps: [siblingFormStep],
-                         detailTextIdentifiers: ["SiblingSexAtBirthIdentifier", "SiblingVitalStatusIdentifier", "SiblingAgeFormItemIdentifier"])
-        ]
-        
-        // create ORKFamilyHistoryStep and add to a ORKOrderedTask
-        
-        let familyHistoryStep = ORKFamilyHistoryStep(identifier: String(describing: Identifier.familyHistoryStep))
-        familyHistoryStep.title = "Family Health History"
-        familyHistoryStep.detailText = "The overview of your biological family members can inform health risks and lifestyle."
-        familyHistoryStep.conditionStepConfiguration = conditionStepConfiguration
-        familyHistoryStep.relativeGroups = relativeGroups
-        
-        let completionStep = ORKCompletionStep(identifier: "FamilyHistoryCompletionStep")
-        completionStep.title = "All Done"
-        
-        return ORKOrderedTask(identifier: String(describing: Identifier.familyHistoryStep), steps: [familyHistoryStep, completionStep])
     }
     
     /**
@@ -3042,7 +2766,281 @@ enum TaskListRow: Int, CustomStringConvertible {
         return ORKOrderedTask(identifier: String(describing: Identifier.customStepTask), steps: [customStep])
     }
     
+    /**
+    This task demonstrates asking for text entry with PII Scrubbing. Both single and multi-line
+    text entry are supported, with appropriate parameters to the text answer
+    format.
+    */
+    private var textQuestionPIIScrubbingTask: ORKTask {
+        let emailAnswerFormat = ORKAnswerFormat.textAnswerFormat()
+        emailAnswerFormat.multipleLines = true
+        emailAnswerFormat.maximumLength = 280
+        emailAnswerFormat.scrubberNames = [PIIScrubber.emailScrubberName]
+
+        let emailPIIScrubberFormStep = ORKFormStep(identifier: String(describing: Identifier.textQuestionEmailPIIScrubbingStep))
+        emailPIIScrubberFormStep.title = NSLocalizedString("Eligibility", comment: "")
+        emailPIIScrubberFormStep.isOptional = false
+        
+        let emailORKFormItem = ORKFormItem(identifier: String(describing: Identifier.textQuestionPIIScrubbingEmailFormItem), text: examplePIIScrubbedEmailQuestionText, answerFormat: emailAnswerFormat)
+        
+        emailPIIScrubberFormStep.formItems = [
+            emailORKFormItem
+        ];
+        
+        
+        let SSNAnswerFormat = ORKAnswerFormat.textAnswerFormat()
+        SSNAnswerFormat.multipleLines = true
+        SSNAnswerFormat.maximumLength = 280
+        SSNAnswerFormat.scrubberNames = [PIIScrubber.SSNScrubberName]
+        
+        let SSNORKFormItem = ORKFormItem(identifier: String(describing: Identifier.textQuestionPIIScrubbingSSNFormItem), text: examplePIIScrubbedSSNQuestionText, answerFormat: SSNAnswerFormat)
+
+        let SSNPIIScrubberFormStep = ORKFormStep(identifier: String(describing: Identifier.textQuestionSSNPIIScrubbingStep))
+        SSNPIIScrubberFormStep.title = NSLocalizedString("Eligibility", comment: "")
+        SSNPIIScrubberFormStep.isOptional = false
+        
+        SSNPIIScrubberFormStep.formItems = [
+            SSNORKFormItem
+        ];
+        
+        
+        return ORKOrderedTask(identifier: String(describing: Identifier.textQuestionPIIScrubbingTask), steps: [emailPIIScrubberFormStep, SSNPIIScrubberFormStep])
+    }
+    
+    private var ColorChoiceQuestionTask: ORKTask {
+        let colorChoiceOneText = NSLocalizedString("Choice 1", comment: "")
+        let colorChoiceTwoText = NSLocalizedString("Choice 2", comment: "")
+        let colorChoiceThreeText = NSLocalizedString("Choice 3", comment: "")
+        let colorChoiceFourText = NSLocalizedString("Choice 4", comment: "")
+        let colorChoiceFiveText = NSLocalizedString("Choice 5", comment: "")
+        let colorChoiceSixText = NSLocalizedString("Choice 6", comment: "")
+        let colorChoiceSevenText = NSLocalizedString("None of the above", comment: "")
+        
+        let colorOne = UIColor(red: 244/255, green: 208/255, blue: 176/255, alpha: 1.0)
+        let colorTwo = UIColor(red: 232/255, green: 180/255, blue: 143/255, alpha: 1.0)
+        let colorThree = UIColor(red: 211/255, green: 158/255, blue: 124/255, alpha: 1.0)
+        let colorFour = UIColor(red: 187/255, green: 119/255, blue: 80/255, alpha: 1.0)
+        let colorFive = UIColor(red: 165/255, green: 93/255, blue: 43/255, alpha: 1.0)
+        let colorSix = UIColor(red: 60/255, green: 32/255, blue: 29/255, alpha: 1.0)
+        
+        let colorChoices = [
+            ORKColorChoice(color: colorOne, text: colorChoiceOneText, detailText: nil, value: "choice_1" as NSString),
+            ORKColorChoice(color: colorTwo, text: colorChoiceTwoText, detailText: nil, value: "choice_2" as NSString),
+            ORKColorChoice(color: colorThree, text: colorChoiceThreeText, detailText: nil, value: "choice_3" as NSString),
+            ORKColorChoice(color: colorFour, text: colorChoiceFourText, detailText: nil, value: "choice_4" as NSString),
+            ORKColorChoice(color: colorFive, text: colorChoiceFiveText, detailText: nil, value: "choice_5" as NSString),
+            ORKColorChoice(color: colorSix, text: colorChoiceSixText, detailText: nil, value: "choice_6" as NSString),
+            ORKColorChoice(color: nil, text: colorChoiceSevenText, detailText: nil, value: "choice_7" as NSString)
+        ]
+        
+        let answerFormat = ORKAnswerFormat.choiceAnswerFormat(with: .singleChoice, colorChoices: colorChoices)
+        let formItem = ORKFormItem(identifier: String(describing: Identifier.colorChoiceQuestionFormItem), text: exampleQuestionText, answerFormat: answerFormat)
+        formItem.detailText = "Select your favorite color from the offerings below"
+        let formStep = ORKFormStep(identifier: String(describing: Identifier.colorChoiceQuestionStep), title: NSLocalizedString("Color Choice", comment: ""), text: exampleDetailText)
+        
+        formStep.formItems = [formItem]
+        
+        let colorChoicesSwatchOnly = [
+            ORKColorChoice(color: colorOne, text: nil, detailText: nil, value: "choice_1" as NSString),
+            ORKColorChoice(color: colorTwo, text: nil, detailText: nil, value: "choice_2" as NSString),
+            ORKColorChoice(color: colorThree, text: nil, detailText: nil, value: "choice_3" as NSString),
+            ORKColorChoice(color: colorFour, text: nil, detailText: nil, value: "choice_4" as NSString),
+            ORKColorChoice(color: colorFive, text: nil, detailText: nil, value: "choice_5" as NSString),
+            ORKColorChoice(color: colorSix, text: nil, detailText: nil, value: "choice_6" as NSString),
+        ]
+        
+        let answerFormatSwatchOnly = ORKAnswerFormat.choiceAnswerFormat(with: .singleChoice, colorChoices: colorChoicesSwatchOnly)
+        let formItemSwatchOnly = ORKFormItem(identifier: String(describing: Identifier.colorChoiceQuestionFormItem), text: exampleQuestionText, answerFormat: answerFormatSwatchOnly)
+        
+        let formStepSwatchOnly = ORKFormStep(identifier: String(describing: Identifier.colorChoiceQuestionStepSwatchOnly), title: NSLocalizedString("Color Choice No Text", comment: ""), text: exampleDetailText)
+        
+        formStepSwatchOnly.formItems = [formItemSwatchOnly]
+        
+        return ORKOrderedTask(identifier: String(describing: Identifier.colorChoiceQuestionTask), steps: [formStep, formStepSwatchOnly])
+    }
+    
     //TODO: rdar://113873048 (Update internal FxH task to match ResearchApp bundle)
+    private var familyHistoryTask: ORKTask {
+        // create ORKHealthConditions
+        
+        let healthConditions = [
+        ORKHealthCondition(identifier: "healthConditionIdentifier1", displayName: "Diabetes", value: "Diabetes" as NSString),
+        ORKHealthCondition(identifier: "healthConditionIdentifier2", displayName: "Heart Attack", value: "Heart Attack" as NSString),
+        ORKHealthCondition(identifier: "healthConditionIdentifier3", displayName: "Stroke", value: "Stroke" as NSString)
+        ]
+        
+        // add ORKHealthConditions to ORKConditionStepConfiguration object
+        
+        let conditionStepConfiguration = ORKConditionStepConfiguration(stepIdentifier: "FamilyHistoryConditionStepIdentifier", conditionsFormItemIdentifier: "HealthConditionsFormItemIdentifier", conditions: healthConditions, formItems: [])
+        
+        // create formItems and formStep for parent relative group
+        let learnMoreInstructionStep01 = ORKLearnMoreInstructionStep(identifier: "LearnMoreInstructionStep01")
+        learnMoreInstructionStep01.title = NSLocalizedString("Learn more title", comment: "")
+        learnMoreInstructionStep01.text = NSLocalizedString("Learn more text", comment: "")
+        let learnMoreItem01 = ORKLearnMoreItem(text: nil, learnMoreInstructionStep: learnMoreInstructionStep01)
+        
+        let relativeNameSectionHeaderFormItem = ORKFormItem(sectionTitle: "Add a label to identify this family member", detailText: "Instead of their full name, please use a nickname, alias, or initials. Your response will only be saved on your device.", learnMoreItem: learnMoreItem01, showsProgress: true)
+        relativeNameSectionHeaderFormItem.tagText = "OPTIONAL"
+        let parentTextEntryAnswerFormat = ORKAnswerFormat.textAnswerFormat()
+        parentTextEntryAnswerFormat.multipleLines = false
+        parentTextEntryAnswerFormat.maximumLength = 3
+
+        let parentNameFormItem = ORKFormItem(identifier: "ParentNameIdentifier", text: "enter optional name", answerFormat: parentTextEntryAnswerFormat)
+        parentNameFormItem.isOptional = true
+        
+        let sexAtBirthOptions = [
+            ORKTextChoice(text: "Female", value: "Female" as NSString),
+            ORKTextChoice(text: "Male", value: "Male" as NSString),
+            ORKTextChoice(text: "Intersex", value: "Intersex" as NSString),
+            ORKTextChoice(text: "I don't know", value: "i_dont_know" as NSString),
+            ORKTextChoice(text: "I prefer not to answer", value: "i_prefer_not_to_answer" as NSString)
+        ]
+        
+        let parentSexAtBirthChoiceAnswerFormat = ORKAnswerFormat.choiceAnswerFormat(with: .singleChoice, textChoices: sexAtBirthOptions)
+        let parentSextAtBirthFormItem = ORKFormItem(identifier: "ParentSexAtBirthIdentifier", text: "What was the sex assigned on their original birth certificate?", answerFormat: parentSexAtBirthChoiceAnswerFormat)
+        parentSextAtBirthFormItem.isOptional = false
+        
+        let vitalStatusOptions = [
+            ORKTextChoice(text: "Living", value: "system=snomedct&code=73211009" as NSString),
+            ORKTextChoice(text: "Deceased", value: "system=snomedct&code=73211008" as NSString),
+            ORKTextChoice(text: "I don't know", value: "system=snomedct&code=73211007" as NSString),
+            ORKTextChoice(text: "I prefer not to answer", value: "system=snomedct&code=73211006" as NSString),
+        ]
+        
+        let parentVitalStatusChoiceAnswerFormat = ORKAnswerFormat.choiceAnswerFormat(with: .singleChoice, textChoices: vitalStatusOptions)
+        let parentVitalStatusFormItem = ORKFormItem(identifier: "ParentVitalStatusIdentifier", text: "What is their current vital status?", answerFormat: parentVitalStatusChoiceAnswerFormat)
+        parentVitalStatusFormItem.isOptional = false
+        
+        let parentFormStep = ORKFormStep(identifier: "ParentSurveyIdentifier")
+        let visibilityRule = ORKPredicateFormItemVisibilityRule(
+            predicate: ORKResultPredicate.predicateForChoiceQuestionResult(
+                with: .init(stepIdentifier: parentFormStep.identifier, resultIdentifier: parentVitalStatusFormItem.identifier),
+                expectedAnswerValue: NSString(string: "system=snomedct&code=73211009")
+            )
+        )
+
+        let parentAgePickerSectionHeaderFormItem = ORKFormItem(identifier: "ParentAgeSectionHeaderIdentifier", text: "What is their approximate birth year?", answerFormat: nil)
+        parentAgePickerSectionHeaderFormItem.visibilityRule = visibilityRule
+        
+        let parentAgePickerAnswerFormat = ORKAgeAnswerFormat(
+            minimumAge: 18,
+            maximumAge: 90,
+            minimumAgeCustomText: "18 or younger",
+            maximumAgeCustomText: "90 or older",
+            showYear: true,
+            useYearForResult: true,
+            treatMinAgeAsRange: true,
+            treatMaxAgeAsRange: false,
+            defaultValue: 30)
+        parentAgePickerAnswerFormat.shouldShowDontKnowButton = true
+        
+        let parentAgeFormItem = ORKFormItem(identifier: "ParentAgeFormItemIdentifier", text: nil, answerFormat: parentAgePickerAnswerFormat)
+        parentAgeFormItem.isOptional = false
+        parentAgeFormItem.visibilityRule = visibilityRule
+        
+        parentFormStep.isOptional = false
+        parentFormStep.title = "Parent"
+        parentFormStep.detailText = "Answer these questions to the best of your ability."
+        parentFormStep.formItems = [
+            relativeNameSectionHeaderFormItem,
+            parentNameFormItem,
+            parentSextAtBirthFormItem,
+            parentVitalStatusFormItem,
+            parentAgePickerSectionHeaderFormItem,
+            parentAgeFormItem
+        ]
+        
+        // create formItems and formStep for siblings relative group
+        
+        let siblingTextEntryAnswerFormat = ORKAnswerFormat.textAnswerFormat()
+        siblingTextEntryAnswerFormat.multipleLines = false
+        siblingTextEntryAnswerFormat.placeholder = "enter optional name"
+        siblingTextEntryAnswerFormat.maximumLength = 3
+        
+        let siblingNameFormItem = ORKFormItem(identifier: "SiblingNameIdentifier", text: "Name or Nickname", answerFormat: siblingTextEntryAnswerFormat)
+        siblingNameFormItem.isOptional = false
+        
+        let siblingSexAtBirthChoiceAnswerFormat = ORKAnswerFormat.choiceAnswerFormat(with: .singleChoice, textChoices: sexAtBirthOptions)
+        let siblingSextAtBirthFormItem = ORKFormItem(identifier: "SiblingSexAtBirthIdentifier", text: "What was the sex assigned on their original birth certificate?", answerFormat: siblingSexAtBirthChoiceAnswerFormat)
+        siblingSextAtBirthFormItem.isOptional = false
+        
+        let siblingVitalStatusChoiceAnswerFormat = ORKAnswerFormat.choiceAnswerFormat(with: .singleChoice, textChoices: vitalStatusOptions)
+        let siblingVitalStatusFormItem = ORKFormItem(identifier: "SiblingVitalStatusIdentifier", text: "What is their current vital status?", answerFormat: siblingVitalStatusChoiceAnswerFormat)
+        siblingVitalStatusFormItem.isOptional = false
+        
+        let siblingAgePickerAnswerFormat = ORKAgeAnswerFormat(
+            minimumAge: 18,
+            maximumAge: 90,
+            minimumAgeCustomText: "18 or younger",
+            maximumAgeCustomText: "90 or older",
+            showYear: true,
+            useYearForResult: true,
+            treatMinAgeAsRange: true,
+            treatMaxAgeAsRange: false,
+            defaultValue: 30)
+        siblingAgePickerAnswerFormat.shouldShowDontKnowButton = true
+        
+        let siblingAgePickerSectionHeaderFormItem = ORKFormItem(identifier: "SiblingAgeSectionHeaderIdentifier", text: "What is their approximate birth year?", answerFormat: nil)
+        
+        let siblingAgeFormItem = ORKFormItem(identifier: "SiblingAgeFormItemIdentifier", text: nil, answerFormat: siblingAgePickerAnswerFormat)
+        siblingAgeFormItem.isOptional = false
+        
+        let siblingFormStep = ORKFormStep(identifier: "SiblingSurveyIdentifier")
+        let siblingAgeVisibilityRule = ORKPredicateFormItemVisibilityRule(
+            predicate: ORKResultPredicate.predicateForChoiceQuestionResult(
+                with: .init(stepIdentifier: siblingFormStep.identifier, resultIdentifier: siblingVitalStatusFormItem.identifier),
+                expectedAnswerValue: NSString(string: "system=snomedct&code=73211009")
+            )
+        )
+        siblingAgePickerSectionHeaderFormItem.visibilityRule = siblingAgeVisibilityRule
+        siblingAgeFormItem.visibilityRule = siblingAgeVisibilityRule
+        
+        siblingFormStep.title = "Sibling"
+        siblingFormStep.detailText = "Answer these questions to the best of your ability."
+        siblingFormStep.formItems = [
+            relativeNameSectionHeaderFormItem,
+            siblingNameFormItem,
+            siblingSextAtBirthFormItem,
+            siblingVitalStatusFormItem,
+            siblingAgePickerSectionHeaderFormItem,
+            siblingAgeFormItem
+        ]
+        
+        // create ORKRelativeGroups
+        
+        let relativeGroups = [
+        ORKRelativeGroup(identifier: "ParentGroupIdentifier",
+                         name: "Biological Parent",
+                         sectionTitle: "Biological Parents",
+                         sectionDetailText: "Incude your blood-related parents.",
+                         identifierForCellTitle: "ParentNameIdentifier",
+                         maxAllowed: 2,
+                         formSteps: [parentFormStep],
+                         detailTextIdentifiers: ["ParentSexAtBirthIdentifier", "ParentVitalStatusIdentifier", "ParentAgeFormItemIdentifier"]),
+        ORKRelativeGroup(identifier: "SiblingGroupIdentifier",
+                         name: "Sibling",
+                         sectionTitle: "Biological Siblings",
+                         sectionDetailText: "Include all siblings who share one or both of your blood-related parents.",
+                         identifierForCellTitle: "SiblingNameIdentifier",
+                         maxAllowed: 10,
+                         formSteps: [siblingFormStep],
+                         detailTextIdentifiers: ["SiblingSexAtBirthIdentifier", "SiblingVitalStatusIdentifier", "SiblingAgeFormItemIdentifier"])
+        ]
+        
+        // create ORKFamilyHistoryStep and add to a ORKOrderedTask
+        
+        let familyHistoryStep = ORKFamilyHistoryStep(identifier: String(describing: Identifier.familyHistoryStep))
+        familyHistoryStep.title = "Family Health History"
+        familyHistoryStep.detailText = "The overview of your biological family members can inform health risks and lifestyle."
+        familyHistoryStep.conditionStepConfiguration = conditionStepConfiguration
+        familyHistoryStep.relativeGroups = relativeGroups
+        
+        let completionStep = ORKCompletionStep(identifier: "FamilyHistoryCompletionStep")
+        completionStep.title = "All Done"
+        
+        return ORKOrderedTask(identifier: String(describing: Identifier.familyHistoryStep), steps: [familyHistoryStep, completionStep])
+    }
+    
     private var familyHistoryReviewTask: ORKTask {
         // create ORKHealthConditions
         
