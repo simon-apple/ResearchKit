@@ -29,45 +29,6 @@
  */
 
 
-//#import "ORKFamilyHistoryStepViewController.h"
-//#import "ORKFamilyHistoryStepViewController_Private.h"
-//
-//#import "ORKConditionStepConfiguration.h"
-//#import "ORKFamilyHistoryResult.h"
-//#import "ORKFamilyHistoryStep.h"
-//#import "ORKFormStep.h"
-//#import "ORKHealthCondition.h"
-//#import "ORKRelatedPerson.h"
-//#import "ORKRelativeGroup.h"
-//
-//#import "ORKAnswerFormat.h"
-//#import "ORKNavigableOrderedTask.h"
-//
-//#import "ORKFamilyHistoryTableHeaderView.h"
-//#import "ORKStepContentView.h"
-//#import "ORKStepHeaderView_Internal.h"
-//#import "ORKTableContainerView.h"
-//#import "ORKFamilyHistoryTableHeaderView.h"
-//#import "ORKFamilyHistoryRelatedPersonCell.h"
-//#import "ORKFamilyHistoryTableFooterView.h"
-//#import "ORKReviewIncompleteCell.h"
-//
-//#import "ORKLearnMoreStepViewController.h"
-//
-//#import "ORKNavigationContainerView_Internal.h"
-//#import "ORKStepViewController_Internal.h"
-//#import "ORKTaskViewController_Internal.h"
-//
-//#import "ORKAnswerFormat_Internal.h"
-//#import "ORKCollectionResult_Private.h"
-//#import "ORKResult_Private.h"
-//#import "ORKStep_Private.h"
-//#import "ORKQuestionResult.h"
-//
-//#import "ORKSkin.h"
-//#import "ORKHelpers_Internal.h"
-//#import "ORKAccessibilityFunctions.h"
-
 #import "ORKFamilyHistoryStepViewController.h"
 #import "ORKFamilyHistoryStepViewController_Private.h"
 
@@ -83,6 +44,8 @@
 #import "ORKFamilyHistoryTableHeaderView.h"
 #import "ORKFamilyHistoryRelatedPersonCell.h"
 #import "ORKFamilyHistoryTableFooterView.h"
+
+#import "AAPLUtils.h"
 
 #import <ResearchKit/ORKFormStep.h>
 #import <ResearchKit/ORKAnswerFormat.h>
@@ -106,8 +69,6 @@
 #import <ResearchKitUI/ORKTaskViewController_Internal.h>
 #import <ResearchKitUI/ORKAccessibilityFunctions.h>
 
-//#import <ResearchKitUI/ORKTaskViewController.h>
-//#import <ResearchKit/ORKTask.h>
 
 @class ORKTaskViewController;
 
@@ -383,10 +344,10 @@ NSString * const ORKHealthConditionPreferNotToAnswerChoiceValue = @"prefer not t
                                                               value:ORKHealthConditionNoneOfTheAboveChoiceValue
                                                           exclusive:YES];
     
-    ORKTextChoice *idkTextChoice = [[ORKTextChoice alloc] initWithText:ORKLocalizedString(@"FAMILY_HISTORY_I_DONT_KNOW", "")
-                                                         detailText:nil
-                                                              value:ORKHealthConditionIDontKnowChoiceValue
-                                                          exclusive:YES];
+    ORKTextChoice *idkTextChoice = [[ORKTextChoice alloc] initWithText:AAPLLocalizedString(@"FAMILY_HISTORY_I_DONT_KNOW", nil)
+                                                            detailText:nil
+                                                                 value:ORKHealthConditionIDontKnowChoiceValue
+                                                             exclusive:YES];
     
     ORKTextChoice *preferNotToAnswerTextChoice = [[ORKTextChoice alloc] initWithText:ORKLocalizedString(@"FAMILY_HISTORY_PREFER_NOT_TO_ANSWER", "")
                                                          detailText:nil

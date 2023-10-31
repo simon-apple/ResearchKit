@@ -44,10 +44,6 @@
 
 @implementation ORKFamilyHistoryStep
 
-+ (Class)stepViewControllerClass {
-    return [ORKFamilyHistoryStepViewController class];
-}
-
 - (instancetype)initWithIdentifier:(NSString *)identifier {
     self = [super initWithIdentifier:identifier];
     
