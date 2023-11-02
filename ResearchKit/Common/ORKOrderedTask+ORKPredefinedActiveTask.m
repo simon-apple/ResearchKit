@@ -94,10 +94,6 @@
 #import <limits.h>
 
 
-ORKTaskProgress ORKTaskProgressMake(NSUInteger current, NSUInteger total) {
-    return (ORKTaskProgress){.current=current, .total=total};
-}
-
 #pragma mark - Predefined
 
 NSString *const ORKInstruction0StepIdentifier = @"instruction";

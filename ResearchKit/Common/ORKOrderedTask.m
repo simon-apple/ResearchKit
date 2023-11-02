@@ -45,6 +45,12 @@
 #import "ORKEarlyTerminationConfiguration.h"
 #endif
 
+
+ORKTaskProgress ORKTaskProgressMake(NSUInteger current, NSUInteger total) {
+    return (ORKTaskProgress){.current=current, .total=total};
+}
+
+
 @implementation ORKOrderedTask {
     NSString *_identifier;
     NSMutableArray *_stepsThatDisplayProgress;

@@ -30,7 +30,12 @@
 
 
 @import Foundation;
+
+#if TARGET_OS_IOS
 #import <ResearchKit/ORKDefines.h>
+#elif TARGET_OS_WATCH
+#import <ResearchKitCore/ORKDefines.h>
+#endif
 
 
 NS_ASSUME_NONNULL_BEGIN

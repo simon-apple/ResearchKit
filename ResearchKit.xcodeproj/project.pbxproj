@@ -944,7 +944,6 @@
 		BC13CE3A1B0660220044153C /* ORKNavigableOrderedTask.m in Sources */ = {isa = PBXBuildFile; fileRef = BC13CE381B0660220044153C /* ORKNavigableOrderedTask.m */; };
 		BC13CE3C1B0662990044153C /* ORKStepNavigationRule_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = BC13CE3B1B0662990044153C /* ORKStepNavigationRule_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		BC13CE401B0666FD0044153C /* ORKResultPredicate.h in Headers */ = {isa = PBXBuildFile; fileRef = BC13CE3F1B0666FD0044153C /* ORKResultPredicate.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BC13CE421B066A990044153C /* ORKStepNavigationRule_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = BC13CE411B066A990044153C /* ORKStepNavigationRule_Internal.h */; };
 		BC1C032C1CA301E300869355 /* ORKHeightPicker.h in Headers */ = {isa = PBXBuildFile; fileRef = BC1C032A1CA301E300869355 /* ORKHeightPicker.h */; };
 		BC1C032D1CA301E300869355 /* ORKHeightPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1C032B1CA301E300869355 /* ORKHeightPicker.m */; };
 		BC2908BC1FBD628F0030AB89 /* ORKTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = BC2908BB1FBD628F0030AB89 /* ORKTypes.m */; };
@@ -996,6 +995,12 @@
 		BCD192EB1B81245500FCC08A /* ORKPieChartTitleTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = BCD192E91B81245500FCC08A /* ORKPieChartTitleTextView.h */; };
 		BCD192EC1B81245500FCC08A /* ORKPieChartTitleTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = BCD192EA1B81245500FCC08A /* ORKPieChartTitleTextView.m */; };
 		BCD192EE1B81255F00FCC08A /* ORKPieChartView_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = BCD192ED1B81255F00FCC08A /* ORKPieChartView_Internal.h */; };
+		BCE73E042AF32D8800B91D97 /* ORKNavigableOrderedTask.m in Sources */ = {isa = PBXBuildFile; fileRef = BC13CE381B0660220044153C /* ORKNavigableOrderedTask.m */; };
+		BCE73E052AF32D8B00B91D97 /* ORKNavigableOrderedTask.h in Headers */ = {isa = PBXBuildFile; fileRef = BC13CE371B0660220044153C /* ORKNavigableOrderedTask.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BCE73E062AF32DC500B91D97 /* ORKStepNavigationRule.m in Sources */ = {isa = PBXBuildFile; fileRef = BCA5C0341AEC05F20092AC8D /* ORKStepNavigationRule.m */; };
+		BCE73E072AF32DC900B91D97 /* ORKStepNavigationRule.h in Headers */ = {isa = PBXBuildFile; fileRef = BCA5C0331AEC05F20092AC8D /* ORKStepNavigationRule.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BCE73E172AF32FBC00B91D97 /* ORKResultPredicate.h in Headers */ = {isa = PBXBuildFile; fileRef = BC13CE3F1B0666FD0044153C /* ORKResultPredicate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BCE73E182AF32FC500B91D97 /* ORKResultPredicate.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFF24BC1B0798D10044EC35 /* ORKResultPredicate.m */; };
 		BCFF24BD1B0798D10044EC35 /* ORKResultPredicate.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFF24BC1B0798D10044EC35 /* ORKResultPredicate.m */; };
 		BF1D43851D4904C6007EE90B /* ORKVideoInstructionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = BF1D43831D4904C6007EE90B /* ORKVideoInstructionStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BF1D43861D4904C6007EE90B /* ORKVideoInstructionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = BF1D43841D4904C6007EE90B /* ORKVideoInstructionStep.m */; };
@@ -2171,7 +2176,6 @@
 		BC13CE381B0660220044153C /* ORKNavigableOrderedTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKNavigableOrderedTask.m; sourceTree = "<group>"; };
 		BC13CE3B1B0662990044153C /* ORKStepNavigationRule_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKStepNavigationRule_Private.h; sourceTree = "<group>"; };
 		BC13CE3F1B0666FD0044153C /* ORKResultPredicate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKResultPredicate.h; sourceTree = "<group>"; };
-		BC13CE411B066A990044153C /* ORKStepNavigationRule_Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKStepNavigationRule_Internal.h; sourceTree = "<group>"; };
 		BC1C032A1CA301E300869355 /* ORKHeightPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKHeightPicker.h; sourceTree = "<group>"; };
 		BC1C032B1CA301E300869355 /* ORKHeightPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKHeightPicker.m; sourceTree = "<group>"; };
 		BC2908BB1FBD628F0030AB89 /* ORKTypes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKTypes.m; sourceTree = "<group>"; };
@@ -3967,7 +3971,6 @@
 				BCA5C0331AEC05F20092AC8D /* ORKStepNavigationRule.h */,
 				BCA5C0341AEC05F20092AC8D /* ORKStepNavigationRule.m */,
 				BC13CE3B1B0662990044153C /* ORKStepNavigationRule_Private.h */,
-				BC13CE411B066A990044153C /* ORKStepNavigationRule_Internal.h */,
 				BCB080A01B83EFB900A3F400 /* ORKStepNavigationRule.swift */,
 				86C40B771A8D7C5C00081FAC /* ORKCustomStepView.h */,
 				86C40B781A8D7C5C00081FAC /* ORKCustomStepView.m */,
@@ -5007,11 +5010,13 @@
 			files = (
 				00F189CC24F5B46100371E9C /* ORKAnswerFormat_Private.h in Headers */,
 				003BC2BF24FD585B00BC7CDF /* ORKCollectionResult.h in Headers */,
+				BCE73E172AF32FBC00B91D97 /* ORKResultPredicate.h in Headers */,
 				5D04885D25F1B3AB0006C68B /* ORKDevice_Private.h in Headers */,
 				5DABE5B024DA1A4900570C57 /* ORKChoiceAnswerFormatHelper.h in Headers */,
 				5DABE55E24D8C35A00570C57 /* ORKDefines.h in Headers */,
 				5DABE54C24D8BF2400570C57 /* ResearchKitCore.h in Headers */,
 				5D04885925F19AD50006C68B /* ORKDevice.h in Headers */,
+				BCE73E072AF32DC900B91D97 /* ORKStepNavigationRule.h in Headers */,
 				5D16A7B424E5FE2F00B2A5B4 /* ORKContext.h in Headers */,
 				5DABE5A624D9EEAB00570C57 /* ORKResult_Private.h in Headers */,
 				5DABE5AF24DA174200570C57 /* ResearchKit_Prefix.pch in Headers */,
@@ -5019,6 +5024,7 @@
 				5DABE55F24D8C92000570C57 /* ORKInstructionStep.h in Headers */,
 				5DABE5A024D9EAFE00570C57 /* ORKSkin.h in Headers */,
 				5DABE5A224D9EC4200570C57 /* ORKQuestionResult.h in Headers */,
+				BCE73E052AF32D8B00B91D97 /* ORKNavigableOrderedTask.h in Headers */,
 				5DABE56024D8C94500570C57 /* ORKCompletionStep.h in Headers */,
 				5DABE55C24D8C33800570C57 /* ORKStep.h in Headers */,
 				5DABE55D24D8C34B00570C57 /* ORKTypes.h in Headers */,
@@ -5098,7 +5104,6 @@
 				86C40C961A8D7C5C00081FAC /* ORKDataLogger.h in Headers */,
 				22BFDF5E25B792BF0015D1E1 /* ORKTinnitusTypes.h in Headers */,
 				0BE9D5262947EA4900DA0625 /* ORKConsentDocument+ORKInstructionStep.h in Headers */,
-				BC13CE421B066A990044153C /* ORKStepNavigationRule_Internal.h in Headers */,
 				86C40D781A8D7C5C00081FAC /* ORKScaleSlider.h in Headers */,
 				BA0AA6981EAEC0B600671ACE /* ORKStroopStepViewController.h in Headers */,
 				861D2AE81B840991008C4CD0 /* ORKTimedWalkStep.h in Headers */,
@@ -5921,10 +5926,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				5DABE5A524D9ECB500570C57 /* ORKResult.m in Sources */,
+				BCE73E042AF32D8800B91D97 /* ORKNavigableOrderedTask.m in Sources */,
 				5DFD11D124F73A6F00744C69 /* ORKCollectionResult.m in Sources */,
 				5DABE5AA24D9EFB000570C57 /* ORKErrors.m in Sources */,
 				5DABE5B124DA1A4F00570C57 /* ORKChoiceAnswerFormatHelper.m in Sources */,
 				5DABE5A124D9EB1C00570C57 /* ORKSkin.m in Sources */,
+				BCE73E062AF32DC500B91D97 /* ORKStepNavigationRule.m in Sources */,
+				BCE73E182AF32FC500B91D97 /* ORKResultPredicate.m in Sources */,
 				5DABE5A324D9EC4800570C57 /* ORKQuestionResult.m in Sources */,
 				5DABE59C24D9E9E300570C57 /* ORKQuestionStep.m in Sources */,
 				5DABE59F24D9EA3200570C57 /* ORKAnswerFormat.m in Sources */,
