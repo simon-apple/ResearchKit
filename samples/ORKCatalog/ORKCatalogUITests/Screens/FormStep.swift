@@ -57,12 +57,12 @@ final class FormStep: AnswerableStep {
         return self
     }
     
-    /// Sometimes this method does not work because view hierarchy changes. It works when the structure includes:  Other, 0x12bd3a490, {{0.0, 113.0}, {390.0, 82.0}}, identifier: 'Question 3 of 4' and question title identifier exists.
+    /// Sometimes this method does not work because view hierarchy changes. It works when the structure includes:  Other, 0x12bd3a490, {{0.0, 113.0}, {390.0, 82.0}}, identifier: 'Question 3 of 4' and question title identifier exists. See: rdar://117825498 ([UI Automation] Unexpected accessibility hierarchy behavior for form item question title)
     /// Verify the existence and correctness of question progress label out of total questions
     @discardableResult
     func verifyQuestionProgressAndTitleExists(questionIndex: Int, totalQuestions: Int) -> Self {
         let currentProgress = questionIndex + 1
-        // TODO: l10n support
+        // TODO: rdar://117821622 (Add localization support for UI Tests)
         let currentProgressLabel = "Question \(currentProgress) of \(totalQuestions)"
         let currentProgressElement = Self.stepView.tables.otherElements[currentProgressLabel].firstMatch
         wait(for: currentProgressElement, failureMessage: "Question progress label \(currentProgressLabel) not found at index")
@@ -76,7 +76,7 @@ final class FormStep: AnswerableStep {
     @discardableResult
     func verifyQuestionProgressLabelExists(questionIndex: Int, totalQuestions: Int) -> Self {
         let currentProgress = questionIndex + 1
-        // TODO: l10n support
+        // TODO: rdar://117821622 (Add localization support for UI Tests)
         let currentProgressLabel = "Question \(currentProgress) of \(totalQuestions)"
         let currentProgressLabelElement = Self.stepView.otherElements[currentProgressLabel].firstMatch
         wait(for: currentProgressLabelElement, failureMessage: "Question progress label \(currentProgressLabel) not found at index")

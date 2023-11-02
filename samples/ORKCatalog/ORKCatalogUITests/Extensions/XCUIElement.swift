@@ -20,20 +20,26 @@ extension XCUIElement {
     }
     
     /**
-    Scrolls to a particular element until it is visible in screen rect:
+    A default swipeUp()/swipeDown() methods have a large offset so sometimes the element gets scrolled away because of the excessive scroll. In order to control the scroll you can use the following method.
+    Scrolls to a particular element until it is visible in screen rect. Scroll starts from the point, which is located in the center of the screen (start coord).
+    The yOffset represents the position after scroll (end coord). The distance between the start coord and end coord represents the scroll distance.
+     - parameter yOffset:vertical offset in screen points. The value determines how much the simulated scroll will move. Default value 262 provides an optimal speed.
     */
-    func scrollUntilVisible(direction: SwipeDirection = .up, maxSwipes: Int = 10) {
+    func scrollUntilVisible(direction: SwipeDirection = .up, maxSwipes: Int = 10, yOffset: Double = 262) {
         var swipes = 0
+        var yOffsetSigned: Double
         while !self.visible && swipes < maxSwipes {
             let startCoord = XCUIApplication().windows.element.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5))
             switch direction {
             //dy: y position in the end of the scroll
             case .up:
-                let endCoord = startCoord.withOffset(CGVector(dx: 0.0, dy: -262))
+                yOffsetSigned = -yOffset
+                let endCoord = startCoord.withOffset(CGVector(dx: 0.0, dy: yOffsetSigned))
                 startCoord.press(forDuration: 0.01, thenDragTo: endCoord)
                 sleep(2)
             case .down:
-                let endCoord = startCoord.withOffset(CGVector(dx: 0.0, dy: 262))
+                yOffsetSigned = yOffset
+                let endCoord = startCoord.withOffset(CGVector(dx: 0.0, dy: yOffsetSigned))
                 startCoord.press(forDuration: 0.01, thenDragTo: endCoord)
                 sleep(2)
             }
@@ -131,7 +137,7 @@ class Keyboards {
     
     // Handles the keyboard onboarding interruption ("Speed up your typing by sliding your finger across the letters to compose a word"), if it exists: https://developer.apple.com/forums/thread/650826
     static func dismissKeyboardOnboarding() {
-        // TODO: L10n support
+        // TODO: rdar://117821622 (Add localization support for UI Tests)
         XCUIApplication().buttons["Continue"].tap()
     }
 }

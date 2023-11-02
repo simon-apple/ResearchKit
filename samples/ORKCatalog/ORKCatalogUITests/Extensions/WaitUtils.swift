@@ -22,24 +22,77 @@ fileprivate let defaultTimeout = 20.0
  - parameter failureMessage: Message to be logged upon fail.
  */
 
-func wait(for element: XCUIElement, toExists exists: Bool = true, withTimeout timeout: TimeInterval = defaultTimeout, file: StaticString = #file, line: UInt = #line, failureMessage: String = "") {
+func wait(
+    for element: XCUIElement,
+    toExists exists: Bool = true,
+    withTimeout timeout: TimeInterval = defaultTimeout,
+    file: StaticString = #file,
+    line: UInt = #line,
+    failureMessage: String = ""
+) {
     let elementCondition: ElementState = exists ? .exists : .doesNotExist
-    wait(for: element, to: elementCondition, withTimeout: timeout, file: file, line: line, failureMessage: failureMessage)
+    wait(
+        for: element,
+        to: elementCondition,
+        withTimeout: timeout,
+        file: file,
+        line: line,
+        failureMessage: failureMessage
+    )
 }
 
-func wait(for element: XCUIElement, toBeHittable hittable: Bool, withTimeout timeout: TimeInterval = defaultTimeout, file: StaticString = #file, line: UInt = #line, failureMessage: String = "") {
+func wait(
+    for element: XCUIElement,
+    toBeHittable hittable: Bool,
+    withTimeout timeout: TimeInterval = defaultTimeout,
+    file: StaticString = #file,
+    line: UInt = #line,
+    failureMessage: String = ""
+) {
     let elementCondition: ElementState = hittable ? .hittable : .notHittable
-    wait(for: element, to: elementCondition, withTimeout: timeout, file: file, line: line)
+    wait(
+        for: element,
+        to: elementCondition,
+        withTimeout: timeout,
+        file: file,
+        line: line
+    )
 }
 
-func wait(for element: XCUIElement, toBeSelected selected: Bool, withTimeout timeout: TimeInterval = defaultTimeout, file: StaticString = #file, line: UInt = #line, failureMessage: String = "") {
+func wait(
+    for element: XCUIElement,
+    toBeSelected selected: Bool,
+    withTimeout timeout: TimeInterval = defaultTimeout,
+    file: StaticString = #file,
+    line: UInt = #line,
+    failureMessage: String = ""
+) {
     let elementCondition: ElementState = selected ? .selected : .notSelected
-    wait(for: element, to: elementCondition, withTimeout: timeout, file: file, line: line)
+    wait(
+        for: element,
+        to: elementCondition,
+        withTimeout: timeout,
+        file: file,
+        line: line
+    )
 }
 
-func wait(for element: XCUIElement, toBeEnabled enabled: Bool, withTimeout timeout: TimeInterval = defaultTimeout, file: StaticString = #file, line: UInt = #line, failureMessage: String = "") {
+func wait(
+    for element: XCUIElement,
+    toBeEnabled enabled: Bool,
+    withTimeout timeout: TimeInterval = defaultTimeout,
+    file: StaticString = #file,
+    line: UInt = #line,
+    failureMessage: String = ""
+) {
     let elementCondition: ElementState = enabled ? .enabled : .notEnabled
-    wait(for: element, to: elementCondition, withTimeout: timeout, file: file, line: line)
+    wait(
+        for: element,
+        to: elementCondition,
+        withTimeout: timeout,
+        file: file,
+        line: line
+    )
 }
 
 /**
@@ -106,19 +159,31 @@ enum ElementState {
  - parameter timeout: The maximum time (in seconds) to wait for the condition to be satisfied
  - returns: A Bool indicating whether condition was satisfied or not
  */
-fileprivate func waitForPredicate(_ predicate: NSPredicate, withElement element: XCUIElement, withTimeout timeout: TimeInterval) -> Bool {
+fileprivate func waitForPredicate(
+    _ predicate: NSPredicate,
+    withElement element: XCUIElement,
+    withTimeout timeout: TimeInterval
+) -> Bool {
     let expectation = XCTNSPredicateExpectation(predicate: predicate, object: element)
     return XCTWaiter.wait(for: [expectation], timeout: timeout).rawValue == XCTWaiter.Result.completed.rawValue
 }
 
-fileprivate func wait(for element: XCUIElement, to elementState: ElementState, withTimeout timeout: TimeInterval = defaultTimeout, file: StaticString = #file, line: UInt = #line, failureMessage: String = "") {
-    
-    let result = waitForPredicate(elementState.predicate, withElement: element, withTimeout: timeout)
+fileprivate func wait(
+    for element: XCUIElement,
+    to elementState: ElementState,
+    withTimeout timeout: TimeInterval = defaultTimeout,
+    file: StaticString = #file,
+    line: UInt = #line,
+    failureMessage: String = ""
+) {
+    let result = waitForPredicate(
+        elementState.predicate,
+        withElement: element,
+        withTimeout: timeout
+    )
     var message = elementState.errorMessage(element: element, timeout: timeout)
-    
     if !failureMessage.isEmpty {
         message += " \(failureMessage)"
     }
-    
     XCTAssert(result, message, file: file, line: line)
 }

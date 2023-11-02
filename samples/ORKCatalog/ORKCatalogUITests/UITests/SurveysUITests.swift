@@ -124,10 +124,11 @@ final class SurveysUITests: BaseUITest {
         }
         test("Step 1 Form Item 2: Single Choice Text Question") {
             formStep1
-            //.verifyQuestionProgressAndTitleExists(questionIndex: 1, totalQuestions: totalQuestion) - Identifier for question title "ORKSurveyCardHeaderView_titleLabel" is missing here
+            // Commented out due to this issue rdar://117825498 ([UI Automation] Unexpected accessibility hierarchy behavior for form item question title):
+            //.verifyQuestionProgressAndTitleExists(questionIndex: 1, totalQuestions: totalQuestion)
                 .answerSingleChoiceTextQuestion(withId: formStep1.items[1], atIndex: indexToSelect)
         }
-        test("Step 1: Verify multiple cells selected") {
+        test("Step 1 Form Item 1 and Form Item 2: Verify multiple cells selected") {
             indicesToSelect.append(indexToSelect)
             formStep1
                 .scrollDownToStepTitle()
@@ -177,13 +178,12 @@ final class SurveysUITests: BaseUITest {
         test("Form Item: Scale question") {
             formStep
                 .verifyQuestionProgressAndTitleExists(questionIndex: 2, totalQuestions: totalQuestions)
-             //   .adjustFirstSlider(toNormalizedSliderPosition: 0.5)
                 .answerScaleQuestion(withId: formStep.items[4], withNormalizedPosition: 0.5)
         }
         test("Form Item: SES question") {
             formStep
-               // .verifyQuestionProgressAndTitleExists(questionIndex: 3, totalQuestions: totalQuestions) The following method works, for example, for  iPhone 14 Plus, Pro Max. But it does not work, for example, on iPhone 14
-              //  .verifyQuestionTitleExistsAndNotEmpty(questionIndex: 3)
+            // Commented out due to this issue rdar://117825498 ([UI Automation] Unexpected accessibility hierarchy behavior for form item question title):
+              //  .verifyQuestionTitleExistsAndNotEmpty(questionIndex: 3) // The following method works, for example, for  iPhone 14 Plus, Pro Max. But it does not work, for example, on iPhone 14
                 .verifyQuestionProgressLabelExists(questionIndex: 3, totalQuestions: totalQuestions)
                 .answerSESladder(withID: formStep.items[5], buttonIndexToSelect: 9)
         }

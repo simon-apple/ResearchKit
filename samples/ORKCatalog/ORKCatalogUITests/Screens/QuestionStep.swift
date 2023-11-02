@@ -33,14 +33,13 @@ final class QuestionStep: AnswerableStep {
     
     // MARK: - Text Choice Answer Format
     
-    // TODO: To make method more generic remove numberOfTextChoices parameter and count actual cells number
     /**
      Verifies that we only have one cell selected across several choices/cells
      - parameter index: index that should be selected
      - parameter choices: number of choices/cells that will be verified
      */
     @discardableResult
-    func verifyOnlyOneCellSelected(atIndex index: Int, numberOfTextChoices choices: Int) -> Self {
+    func verifyOnlyOneCellSelected(atIndex index: Int, expectedNumberOfTextChoices choices: Int) -> Self {
         var currentCell: XCUIElement
         for i in 0..<choices {
             currentCell = getCell(atIndex: i)
@@ -54,6 +53,16 @@ final class QuestionStep: AnswerableStep {
                 XCTAssert(!currentCell.isSelected, "Cell at index \(i) should not be selected")
             }
         }
+        return self
+    }
+    
+    /// Count cells and compare with the expected count
+    @discardableResult
+    func assertNumOfTextChoices(_ expectedCount: Int) -> Self {
+        let firstCell = getCell(atIndex: 0)
+        wait(for: firstCell, toExists: true)
+        let actualCount = Self.cellQuery.count
+        XCTAssertEqual(actualCount, expectedCount, "Number of cell choices is not equal to expected count \(expectedCount)")
         return self
     }
 }

@@ -44,15 +44,15 @@ final class SurveyQuestionsUITests: BaseUITest {
         
             .verifyQuestionTitleExistsAndNotEmpty()
         
-          //  .assertNumOfTextChoices(expectedNumberOfChoices)
+            .assertNumOfTextChoices(expectedNumberOfChoices)
             .verifyNoCellsSelected(expectedNumberOfChoices)
         
             .answerBooleanQuestion(atIndex: 0)
-            .verifyOnlyOneCellSelected(atIndex: 0, numberOfTextChoices: expectedNumberOfChoices)
+            .verifyOnlyOneCellSelected(atIndex: 0, expectedNumberOfTextChoices: expectedNumberOfChoices)
             .verify(.continueButton, isEnabled: true)
         
             .answerBooleanQuestion(atIndex: 1)
-            .verifyOnlyOneCellSelected(atIndex: 1, numberOfTextChoices: expectedNumberOfChoices)
+            .verifyOnlyOneCellSelected(atIndex: 1, expectedNumberOfTextChoices: expectedNumberOfChoices)
         
             .verifyContinueButtonLabel(expectedLabel: .done)
             .tap(.continueButton)
@@ -78,11 +78,11 @@ final class SurveyQuestionsUITests: BaseUITest {
             .verifyNoCellsSelected(expectedNumberOfChoices)
         
             .answerBooleanQuestion(atIndex: 0, yesString: yesString, noString: noString)
-            .verifyOnlyOneCellSelected(atIndex: 0, numberOfTextChoices: expectedNumberOfChoices)
+            .verifyOnlyOneCellSelected(atIndex: 0, expectedNumberOfTextChoices: expectedNumberOfChoices)
             .verify(.continueButton, isEnabled: true)
         
             .answerBooleanQuestion(atIndex: 1, yesString: yesString, noString: noString)
-            .verifyOnlyOneCellSelected(atIndex: 1, numberOfTextChoices: expectedNumberOfChoices)
+            .verifyOnlyOneCellSelected(atIndex: 1, expectedNumberOfTextChoices: expectedNumberOfChoices)
         
             .verifyContinueButtonLabel(expectedLabel: .done)
             .tap(.continueButton)

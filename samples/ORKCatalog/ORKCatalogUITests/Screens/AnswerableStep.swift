@@ -82,9 +82,14 @@ class AnswerableStep: Step {
      - parameter yesString: A string that describes the Yes answer. For custom boolean questions expected button labels need to be provided.
      - parameter noString: A string that describes the No answer. For custom boolean questions expected button labels need to be provided.
      */
-    // TODO: l10n support
+    // TODO: rdar://117821622 (Add localization support for UI Tests)
     @discardableResult
-    func answerBooleanQuestion(withId formItemId: String = "", atIndex index: Int, yesString: String = "Yes", noString: String = "No") -> Self {
+    func answerBooleanQuestion(
+        withId formItemId: String = "",
+        atIndex index: Int,
+        yesString: String = "Yes",
+        noString: String = "No"
+    ) -> Self {
         guard index <= 1 else {
             XCTFail("Cell index should be in range between 0 and 1")
             return self
@@ -117,7 +122,14 @@ class AnswerableStep: Step {
      - parameter cellsRange: the range of cells that will be verified
      */
     @discardableResult
-    func verifyOnlyOneCellSelected(withId formItemId: String = "", atIndex index: Int, cellsChoiceRange cellsRange: (start: Int, end: Int)) -> Self {
+    func verifyOnlyOneCellSelected(
+        withId formItemId: String = "",
+        atIndex index: Int,
+        cellsChoiceRange cellsRange: (
+            start: Int,
+            end: Int
+        )
+    ) -> Self {
         var currentCell: XCUIElement
         for i in cellsRange.start...cellsRange.end {
             currentCell = getCell(withId: formItemId, atIndex: i)
@@ -159,7 +171,14 @@ class AnswerableStep: Step {
      - parameter cellsRange: the range of cells that will be verified
      */
     @discardableResult
-    func verifyMultipleCellsSelected(withId formItemId: String = "", indices: [Int], cellsChoiceRange cellsRange: (start: Int, end: Int)) -> Self {
+    func verifyMultipleCellsSelected(
+        withId formItemId: String = "",
+        indices: [Int],
+        cellsChoiceRange cellsRange: (
+            start: Int,
+            end: Int
+        )
+    ) -> Self {
         var currentCell: XCUIElement
         for i in cellsRange.start...cellsRange.end {
             currentCell = getCell(withId: formItemId, atIndex: i)

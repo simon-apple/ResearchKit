@@ -12,15 +12,15 @@ struct AccessibilityIdentifiers {
     struct TabBar {
         struct TasksTab {
             static var title = "ORKCatalog"
-            // TODO: Add support for l10n (identifier)
+            // TODO: rdar://117821622 (Add localization support for UI Tests)
             static var tasksTabButton = "Tasks"
         }
         struct ResultsTab {
-            // TODO: Add support for l10n (identifier)
+            // TODO: rdar://117821622 (Add localization support for UI Tests)
             static var resultsTabButton = "Results"
         }
         struct SettingsTab {
-            // TODO: Add support for l10n (identifier)
+            // TODO: rdar://117821622 (Add localization support for UI Tests)
             static var settingsTabButton = "Settings"
         }
     }
@@ -34,11 +34,11 @@ struct AccessibilityIdentifiers {
         static var nextButton = "ORKContinueButton.Next"
         static var skipButton = "ORKNavigationContainerView_skipButton"
         
-        // TODO: l10n support
+        // TODO: rdar://117821622 (Add localization support for UI Tests)
         static var backButton = "Back"
         static var cancelButton = "Cancel"
         
-        // TODO: l10n support
+        // TODO: rdar://117821622 (Add localization support for UI Tests)
         struct CancelActionSheetModal {
             static var endTask = "End Task"
             static var discardResults = "Discard Results"

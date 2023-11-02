@@ -24,6 +24,6 @@ final class InstructionStep: Step {
     }
     
     func verifyImageExists() {
-        // TODO:
+        // TODO: rdar://117821980 (Add methods and verifications for Instruction Step UI Test)
     }
 }

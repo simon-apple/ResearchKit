@@ -118,7 +118,7 @@ class Step {
         return TasksTab()
     }
     
-    // TODO: l10n support
+    // TODO: rdar://117821622 (Add localization support for UI Tests)
     /// Most steps display a button that enables forward navigation. This button can have titles such as:
     enum ContinueButtonLabel: String {
         case next = "Next"
@@ -137,7 +137,7 @@ class Step {
         return self
     }
     
-    // TODO: add an identifier to step progress label to enable more generic verification (verify just existence of label)
+    // TODO: rdar://117822136 (Add an accessibility identifier to step progress label to enable more generic verification (verify just existence of the step progress label))
     // Verify if step progress label is present on navigation bar
     // func verifyStepProgressLabelExistsAndNotEmpty() {}
 
@@ -147,7 +147,7 @@ class Step {
      - parameter totalProgress: expected total number of steps in task
      */
     func verifyCurrentStepProgress(currentProgress: Int, totalProgress: Int) -> Self {
-        // TODO: L10n support
+        // TODO: rdar://117821622 (Add localization support for UI Tests)
         let currentProgressLabel = "\(currentProgress) of \(totalProgress)"
         let currentProgressElement = Self.app.navigationBars.staticTexts[currentProgressLabel].firstMatch
         wait(for: currentProgressElement)
