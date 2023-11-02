@@ -1001,6 +1001,8 @@
 		BCE73E072AF32DC900B91D97 /* ORKStepNavigationRule.h in Headers */ = {isa = PBXBuildFile; fileRef = BCA5C0331AEC05F20092AC8D /* ORKStepNavigationRule.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BCE73E172AF32FBC00B91D97 /* ORKResultPredicate.h in Headers */ = {isa = PBXBuildFile; fileRef = BC13CE3F1B0666FD0044153C /* ORKResultPredicate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BCE73E182AF32FC500B91D97 /* ORKResultPredicate.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFF24BC1B0798D10044EC35 /* ORKResultPredicate.m */; };
+		BCE73E192AF44EFC00B91D97 /* ORKStepNavigationRule_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = BC13CE3B1B0662990044153C /* ORKStepNavigationRule_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		BCE73E1A2AF44F3200B91D97 /* ORKOrderedTask_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 10FF9AD91B7BA78400ECB5B4 /* ORKOrderedTask_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		BCFF24BD1B0798D10044EC35 /* ORKResultPredicate.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFF24BC1B0798D10044EC35 /* ORKResultPredicate.m */; };
 		BF1D43851D4904C6007EE90B /* ORKVideoInstructionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = BF1D43831D4904C6007EE90B /* ORKVideoInstructionStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BF1D43861D4904C6007EE90B /* ORKVideoInstructionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = BF1D43841D4904C6007EE90B /* ORKVideoInstructionStep.m */; };
@@ -5011,6 +5013,7 @@
 				00F189CC24F5B46100371E9C /* ORKAnswerFormat_Private.h in Headers */,
 				003BC2BF24FD585B00BC7CDF /* ORKCollectionResult.h in Headers */,
 				BCE73E172AF32FBC00B91D97 /* ORKResultPredicate.h in Headers */,
+				BCE73E1A2AF44F3200B91D97 /* ORKOrderedTask_Private.h in Headers */,
 				5D04885D25F1B3AB0006C68B /* ORKDevice_Private.h in Headers */,
 				5DABE5B024DA1A4900570C57 /* ORKChoiceAnswerFormatHelper.h in Headers */,
 				5DABE55E24D8C35A00570C57 /* ORKDefines.h in Headers */,
@@ -5039,6 +5042,7 @@
 				5DABE56124D8CB4300570C57 /* ORKQuestionStep.h in Headers */,
 				00F189CB24F5B45300371E9C /* ORKStep_Private.h in Headers */,
 				5DABE5A424D9ECAF00570C57 /* ORKResult.h in Headers */,
+				BCE73E192AF44EFC00B91D97 /* ORKStepNavigationRule_Private.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -29,7 +29,11 @@
  */
 
 
+#if TARGET_OS_IOS
 #import <ResearchKit/ORKOrderedTask.h>
+#elif TARGET_OS_WATCH
+#import <ResearchKitCore/ORKOrderedTask.h>
+#endif
 
 
 NS_ASSUME_NONNULL_BEGIN

@@ -29,7 +29,11 @@
  */
 
 
+#if TARGET_OS_IOS
 #import <ResearchKit/ORKStepNavigationRule.h>
+#elif TARGET_OS_WATCH
+#import <ResearchKitCore/ORKStepNavigationRule.h>
+#endif
 
 
 // This 'Private' header is needed because ORKESerialization uses ORKPredicateStepNavigationRule's
