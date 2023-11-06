@@ -885,7 +885,7 @@ NSString * const ORKSurveyCardHeaderViewIdentifier = @"SurveyCardHeaderViewIdent
 #if RK_APPLE_INTERNAL
             if (ORKDynamicCast(answerFormat, ORKTextChoiceAnswerFormat) != nil || ORKDynamicCast(answerFormat, ORKColorChoiceAnswerFormat) != nil) {
 #else
-                if (ORKDynamicCast(answerFormat, ORKTextChoiceAnswerFormat) != nil {
+            if (ORKDynamicCast(answerFormat, ORKTextChoiceAnswerFormat) != nil {
 #endif
                 // Make one row per choice, we probably made a section already since formItems with choice answerFormats are requiresSingleSection==YES
                 NSArray *choices = answerFormat.choices;
@@ -1761,24 +1761,20 @@ static CGFloat ORKLabelWidth(NSString *text) {
         // Dismiss other textField's keyboard
         [tableView endEditing:NO];
         
+        // find all the row/cell peers to this indexPath
+        // the formItem
+        BOOL shouldAllowMultiSelection = YES; // assume multiple selection by default
+        
 #if RK_APPLE_INTERNAL
         ORKColorChoiceAnswerFormat *colorChoiceAnswerFormat = ORKDynamicCast(formItem.impliedAnswerFormat, ORKColorChoiceAnswerFormat);
         if (textChoiceAnswerFormat != nil || colorChoiceAnswerFormat != nil) {
             ORKChoiceAnswerFormatHelper *helper = [[ORKChoiceAnswerFormatHelper alloc] initWithAnswerFormat:textChoiceAnswerFormat ? : colorChoiceAnswerFormat];
-
-            // find all the row/cell peers to this indexPath
-            // the formItem
-            BOOL shouldAllowMultiSelection = YES; // assume multiple selection by default
             
             // does the answerFormat want multiple selection?
             BOOL answerFormatAllowsMultiSelection = textChoiceAnswerFormat ? (textChoiceAnswerFormat.style == ORKChoiceAnswerStyleMultipleChoice) : (colorChoiceAnswerFormat.style == ORKChoiceAnswerStyleMultipleChoice);
 #else
         if (textChoiceAnswerFormat != nil) {
             ORKChoiceAnswerFormatHelper *helper = [[ORKChoiceAnswerFormatHelper alloc] initWithAnswerFormat:textChoiceAnswerFormat];
-            
-            // find all the row/cell peers to this indexPath
-            // the formItem
-            BOOL shouldAllowMultiSelection = YES; // assume multiple selection by default
             
             // does the answerFormat want multiple selection?
             BOOL answerFormatAllowsMultiSelection = textChoiceAnswerFormat.style == ORKChoiceAnswerStyleMultipleChoice;
