@@ -69,10 +69,8 @@
     
     if (secondaryActionStepNavigationRule) {
         for (ORKStep *step in self.steps) {
-            if ([step.identifier isEqualToString:triggerStepIdentifier]) {
-                if (step.earlyTerminationConfiguration) {
-                    @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"Can not set an ORKSecondaryActionStepNavigationRule on an ORKStep with an ORKEarlyTerminationConfiguration. Either use ORKSecondaryActionStepNavigationRule or ORKEarlyTerminationConfiguration." userInfo:nil];
-                }
+            if ([step.identifier isEqualToString:triggerStepIdentifier] && step.earlyTerminationConfiguration) {
+                @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"Can not set an ORKSecondaryActionStepNavigationRule on an ORKStep with an ORKEarlyTerminationConfiguration. Either use ORKSecondaryActionStepNavigationRule or ORKEarlyTerminationConfiguration." userInfo:nil];
             }
         }
     }
