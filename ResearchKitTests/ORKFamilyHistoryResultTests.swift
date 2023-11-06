@@ -28,8 +28,11 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+// apple-internal
+
 import XCTest
 @testable import ResearchKit
+@testable import ResearchKitInternal
 
 class ORKFamilyHistoryResultTests: XCTestCase {
         

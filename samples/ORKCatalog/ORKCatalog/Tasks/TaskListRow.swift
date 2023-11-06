@@ -2286,7 +2286,7 @@ enum TaskListRow: Int, CustomStringConvertible {
             parentAgeFormItem
         ]
         
-        return ORKOrderedTask(identifier: String(describing: Identifier.familyHistoryStep), steps: [parentFormStep])
+        return ORKOrderedTask(identifier: String(describing: Identifier.formTask), steps: [parentFormStep])
     }
     
     /**
