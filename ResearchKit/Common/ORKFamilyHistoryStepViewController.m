@@ -174,6 +174,11 @@ double const BirthYearPredicateMinExpectedValue = 1.0;
     [_tableView reloadData];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear: animated];
+    [_tableContainer setNeedsLayout];
+}
+
 - (void)stepDidChange {
     [super stepDidChange];
     
