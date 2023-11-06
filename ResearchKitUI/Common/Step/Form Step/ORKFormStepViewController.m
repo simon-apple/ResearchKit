@@ -42,7 +42,7 @@
 #import "ORKLearnMoreView.h"
 
 #import "ORKBodyItem.h"
-#import "ORKColorChoiceCellGroup.h"
+
 #import "ORKLearnMoreStepViewController.h"
 #import "ORKSurveyCardHeaderView.h"
 #import "ORKTextChoiceCellGroup.h"
@@ -65,13 +65,17 @@
 #import "ORKHelpers_Internal.h"
 #import "ORKSkin.h"
 #import "ORKChoiceViewCell+ORKTextChoice.h"
-#import "ORKChoiceViewCell+ORKColorChoice.h"
 #import "ORKAccessibilityFunctions.h"
 #import "ORKTagLabel.h"
 
 #import "ORKQuestionStep.h"
 
 #import <Researchkit/ORKFormItemVisibilityRule.h>
+
+#if RK_APPLE_INTERNAL
+#import "ORKColorChoiceCellGroup.h"
+#import "ORKChoiceViewCell+ORKColorChoice.h"
+#endif
 
 static const CGFloat TableViewYOffsetStandard = 30.0;
 static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
@@ -219,7 +223,9 @@ NSString * const ORKSurveyCardHeaderViewIdentifier = @"SurveyCardHeaderViewIdent
 
 @property (nonatomic, strong) ORKTextChoiceCellGroup *textChoiceCellGroup;
 
+#if RK_APPLE_INTERNAL
 @property (nonatomic, strong) ORKColorChoiceCellGroup *colorChoiceCellGroup;
+#endif
 
 - (void)addFormItem:(ORKFormItem *)item;
 
@@ -261,21 +267,28 @@ NSString * const ORKSurveyCardHeaderViewIdentifier = @"SurveyCardHeaderViewIdent
             [(NSMutableArray *)self.items addObject:cellItem];
         }];
         
-    } else if ([[item impliedAnswerFormat] isKindOfClass:[ORKColorChoiceAnswerFormat class]]) {
-        _hasChoiceRows = YES;
-        ORKColorChoiceAnswerFormat *colorChoiceAnswerFormat = (ORKColorChoiceAnswerFormat *)[item impliedAnswerFormat];
-        
-        _colorChoiceCellGroup = [[ORKColorChoiceCellGroup alloc] initWithColorChoiceAnswerFormat:colorChoiceAnswerFormat
-                                                                                          answer:nil
-                                                                              beginningIndexPath:[NSIndexPath indexPathForRow:0 inSection:_index]
-                                                                             immediateNavigation:NO];
-        
-        [colorChoiceAnswerFormat.colorChoices enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            ORKTableCellItem *cellItem = [[ORKTableCellItem alloc] initWithFormItem:item choiceIndex:idx];
-            [(NSMutableArray *)self.items addObject:cellItem];
-        }];
-        
     } else {
+        
+        
+#if RK_APPLE_INTERNAL
+        if ([[item impliedAnswerFormat] isKindOfClass:[ORKColorChoiceAnswerFormat class]]) {
+            _hasChoiceRows = YES;
+            ORKColorChoiceAnswerFormat *colorChoiceAnswerFormat = (ORKColorChoiceAnswerFormat *)[item impliedAnswerFormat];
+            
+            _colorChoiceCellGroup = [[ORKColorChoiceCellGroup alloc] initWithColorChoiceAnswerFormat:colorChoiceAnswerFormat
+                                                                                              answer:nil
+                                                                                  beginningIndexPath:[NSIndexPath indexPathForRow:0 inSection:_index]
+                                                                                 immediateNavigation:NO];
+            
+            [colorChoiceAnswerFormat.colorChoices enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                ORKTableCellItem *cellItem = [[ORKTableCellItem alloc] initWithFormItem:item choiceIndex:idx];
+                [(NSMutableArray *)self.items addObject:cellItem];
+            }];
+            
+            return;
+        }
+#endif
+          
         ORKTableCellItem *cellItem = [[ORKTableCellItem alloc] initWithFormItem:item];
         [(NSMutableArray *)self.items addObject:cellItem];
     }
@@ -869,7 +882,11 @@ NSString * const ORKSurveyCardHeaderViewIdentifier = @"SurveyCardHeaderViewIdent
             
             // Step 2/2: Are we adding a single identifier for this formItem or exploding the formItem into an identifier per choice?
             // [RDLS:NOTE] unfortunately, besides checking isKindOfClass, we can't tell when we need to convert choices into tableView items. Some answerFormats have choices but don't want to be converted to one row per choice
+#if RK_APPLE_INTERNAL
             if (ORKDynamicCast(answerFormat, ORKTextChoiceAnswerFormat) != nil || ORKDynamicCast(answerFormat, ORKColorChoiceAnswerFormat) != nil) {
+#else
+                if (ORKDynamicCast(answerFormat, ORKTextChoiceAnswerFormat) != nil {
+#endif
                 // Make one row per choice, we probably made a section already since formItems with choice answerFormats are requiresSingleSection==YES
                 NSArray *choices = answerFormat.choices;
                 [choices enumerateObjectsUsingBlock:^(id eachChoice, NSUInteger index, BOOL *stop) {
@@ -1634,11 +1651,14 @@ NSString * const ORKSurveyCardHeaderViewIdentifier = @"SurveyCardHeaderViewIdent
             if ([answerFormat isKindOfClass:[ORKTextChoiceAnswerFormat class]]) {
                 ORKTextChoice *textChoice = [answerFormat.choices objectAtIndex:choiceIndex];
                 [choiceViewCell configureWithTextChoice:textChoice isLastItem:isLastItem];
-            } else {
+            }
+            
+#if RK_APPLE_INTERNAL
+            if ([answerFormat isKindOfClass:[ORKColorChoiceAnswerFormat class]]) {
                 ORKColorChoice *colorChoice = [answerFormat.choices objectAtIndex:choiceIndex];
                 [choiceViewCell configureWithColorChoice:colorChoice isLastItem:isLastItem];
             }
-            
+#endif
             id answer = _savedAnswers[formItemIdentifier];
             ORKChoiceAnswerFormatHelper *helper = [[ORKChoiceAnswerFormatHelper alloc] initWithAnswerFormat:answerFormat];
             NSArray *selectedIndexes = [helper selectedIndexesForAnswer:answer];
@@ -1741,19 +1761,32 @@ static CGFloat ORKLabelWidth(NSString *text) {
         // Dismiss other textField's keyboard
         [tableView endEditing:NO];
         
+#if RK_APPLE_INTERNAL
         ORKColorChoiceAnswerFormat *colorChoiceAnswerFormat = ORKDynamicCast(formItem.impliedAnswerFormat, ORKColorChoiceAnswerFormat);
-        
         if (textChoiceAnswerFormat != nil || colorChoiceAnswerFormat != nil) {
             ORKChoiceAnswerFormatHelper *helper = [[ORKChoiceAnswerFormatHelper alloc] initWithAnswerFormat:textChoiceAnswerFormat ? : colorChoiceAnswerFormat];
-            
-            id answer = _savedAnswers[itemIdentifier.formItemIdentifier];
-            NSMutableSet* selectedIndexes = [[NSMutableSet alloc] initWithArray:[helper selectedIndexesForAnswer:answer]];
+
             // find all the row/cell peers to this indexPath
             // the formItem
             BOOL shouldAllowMultiSelection = YES; // assume multiple selection by default
             
             // does the answerFormat want multiple selection?
             BOOL answerFormatAllowsMultiSelection = textChoiceAnswerFormat ? (textChoiceAnswerFormat.style == ORKChoiceAnswerStyleMultipleChoice) : (colorChoiceAnswerFormat.style == ORKChoiceAnswerStyleMultipleChoice);
+#else
+        if (textChoiceAnswerFormat != nil) {
+            ORKChoiceAnswerFormatHelper *helper = [[ORKChoiceAnswerFormatHelper alloc] initWithAnswerFormat:textChoiceAnswerFormat];
+            
+            // find all the row/cell peers to this indexPath
+            // the formItem
+            BOOL shouldAllowMultiSelection = YES; // assume multiple selection by default
+            
+            // does the answerFormat want multiple selection?
+            BOOL answerFormatAllowsMultiSelection = textChoiceAnswerFormat.style == ORKChoiceAnswerStyleMultipleChoice;
+#endif
+            
+            id answer = _savedAnswers[itemIdentifier.formItemIdentifier];
+            NSMutableSet* selectedIndexes = [[NSMutableSet alloc] initWithArray:[helper selectedIndexesForAnswer:answer]];
+
             shouldAllowMultiSelection = shouldAllowMultiSelection && answerFormatAllowsMultiSelection;
             
             // does the selected cell allow multiple choice?
@@ -1766,10 +1799,14 @@ static CGFloat ORKLabelWidth(NSString *text) {
             if (textChoiceAnswerFormat) {
                 ORKTextChoice *selectedChoice = (previousSingleSelection != NSNotFound) ? [helper textChoiceAtIndex:previousSingleSelection] : nil;
                 choiceIsExclusive = selectedChoice.exclusive;
-            } else {
+            }
+            
+#if RK_APPLE_INTERNAL
+            if (!textChoiceAnswerFormat) {
                 ORKColorChoice *selectedChoice = (previousSingleSelection != NSNotFound) ? [helper colorChoiceAtIndex:previousSingleSelection] : nil;
                 choiceIsExclusive = selectedChoice.exclusive;
             }
+#endif
             
             shouldAllowMultiSelection = shouldAllowMultiSelection && !choiceIsExclusive;
 
@@ -1894,7 +1931,10 @@ static CGFloat ORKLabelWidth(NSString *text) {
     }
     
     hasMultipleChoiceFormItem = (sectionFormItem.impliedAnswerFormat.questionType == ORKQuestionTypeMultipleChoice) ? YES : NO;
+    
+#if RK_APPLE_INTERNAL
     shouldIgnoreDarkMode = [sectionFormItem.impliedAnswerFormat isKindOfClass:[ORKColorChoiceAnswerFormat class]];
+#endif
     
     ORKSurveyCardHeaderView *cardHeaderView = (ORKSurveyCardHeaderView *)[tableView dequeueReusableHeaderFooterViewWithIdentifier: ORKSurveyCardHeaderViewIdentifier];
     

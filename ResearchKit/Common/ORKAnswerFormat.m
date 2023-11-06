@@ -504,10 +504,12 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
     return [[ORKTextChoiceAnswerFormat alloc] initWithStyle:style textChoices:textChoices];
 }
 
+#if RK_APPLE_INTERNAL
 + (ORKColorChoiceAnswerFormat *)choiceAnswerFormatWithStyle:(ORKChoiceAnswerStyle)style
                      colorChoices:(NSArray<ORKColorChoice *> *)colorChoices {
     return [[ORKColorChoiceAnswerFormat alloc] initWithStyle:style colorChoices:colorChoices];
 }
+#endif
 
 - (void)validateParameters {
 }
@@ -1114,6 +1116,7 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
 
 @end
 
+#if RK_APPLE_INTERNAL
 #pragma mark - ORKColorChoiceAnswerFormat
 
 @interface ORKColorChoiceAnswerFormat () {
@@ -1211,7 +1214,7 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
 }
 
 @end
-
+#endif
 
 #pragma mark - ORKTextChoice
 
@@ -1371,6 +1374,7 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
 
 @end
 
+#if RK_APPLE_INTERNAL
 #pragma mark - ORKColorChoice
 
 @implementation ORKColorChoice
@@ -1458,7 +1462,7 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
 }
 
 @end
-
+#endif
 
 #pragma mark - ORKTextChoiceOther
 #if TARGET_OS_IOS
