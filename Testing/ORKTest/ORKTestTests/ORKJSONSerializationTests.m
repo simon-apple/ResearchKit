@@ -346,7 +346,11 @@ ORK_MAKE_TEST_INIT(ORKTinnitusPredefinedTask, ^{
 });
 #endif
 ORK_MAKE_TEST_INIT(ORKImageChoice, ^{return [super init];});
+
+#if RK_APPLE_INTERNAL
 ORK_MAKE_TEST_INIT(ORKColorChoice, ^{return [super init];});
+#endif
+
 ORK_MAKE_TEST_INIT(ORKTextChoice, ^{return [super init];});
 ORK_MAKE_TEST_INIT(ORKTextChoiceOther, ^{return [self initWithText:@"test" primaryTextAttributedString:nil detailText:@"test1" detailTextAttributedString:nil value:@"value" exclusive:YES textViewPlaceholderText:@"test2" textViewInputOptional:NO textViewStartsHidden:YES];});
 ORK_MAKE_TEST_INIT(ORKPredicateStepNavigationRule, ^{return [self initWithResultPredicates:@[[ORKResultPredicate predicateForBooleanQuestionResultWithResultSelector:[ORKResultSelector selectorWithResultIdentifier:@"test"] expectedAnswer:YES]] destinationStepIdentifiers:@[@"test2"]];});
@@ -665,6 +669,7 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
                                           @"ORKTextAnswerFormat.textContentType",
 #if RK_APPLE_INTERNAL
                                           @"ORKTextAnswerFormat.scrubbers",
+                                          @"ORKColorChoice.value",
 #endif
                                           @"ORKTextChoice.detailTextAttributedString",
                                           @"ORKTextChoice.primaryTextAttributedString",
@@ -672,7 +677,6 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
                                           @"ORKHealthCondition.value",
                                           @"ORKTextChoice.image",
                                           @"ORKTextChoiceOther.image",
-                                          @"ORKColorChoice.value",
                                           @"ORKTimeIntervalAnswerFormat.defaultInterval",
                                           @"ORKTimeIntervalAnswerFormat.maximumInterval",
                                           @"ORKTimeIntervalAnswerFormat.step",
@@ -1069,7 +1073,7 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector(void) {
             [instance setValue:@(0) forKey:@"minimum"];
             [instance setValue:@(100) forKey:@"maximum"];
             [instance setValue:@(10) forKey:@"step"];
-        } else if ([aClass isSubclassOfClass:[ORKImageChoice class]] || [aClass isSubclassOfClass:[ORKTextChoice class]] || [aClass isSubclassOfClass:[ORKColorChoice class]]) {
+        } else if ([aClass isSubclassOfClass:[ORKImageChoice class]] || [aClass isSubclassOfClass:[ORKTextChoice class]]) {
             [instance setValue:@"blah" forKey:@"value"];
         } else if ([aClass isSubclassOfClass:[ORKConsentSection class]]) {
             [instance setValue:[NSURL URLWithString:@"http://www.apple.com/"] forKey:@"customAnimationURL"];
@@ -1098,14 +1102,14 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector(void) {
         }
         
 #if RK_APPLE_INTERNAL
-        
         if ([aClass isSubclassOfClass:[ORKAgeAnswerFormat class]]) {
             [instance setValue:@(0) forKey:@"minimumAge"];
             [instance setValue:@(80) forKey:@"maximumAge"];
             [instance setValue:@(0) forKey:@"defaultValue"];
             [instance setValue:@(2023) forKey:@"relativeYear"];
+        } else if ([aClass isSubclassOfClass:[ORKColorChoice class]]) {
+            [instance setValue:@"blah" forKey:@"value"];
         }
-        
 #endif
 
         // Serialization

@@ -35,7 +35,6 @@
 #import <ResearchKitUI/ORKBorderedButton.h>
 #import <ResearchKitUI/ORKCaption1Label.h>
 #import <ResearchKitUI/ORKChoiceViewCell.h>
-#import <ResearchKitUI/ORKColorChoiceCellGroup.h>
 #import <ResearchKitUI/ORKCompletionStepViewController.h>
 #import <ResearchKitUI/ORKConsentLearnMoreViewController.h>
 #import <ResearchKitUI/ORKConsentReviewController.h>
@@ -116,3 +115,7 @@
 #import <ResearchKitUI/UIImage+ResearchKit.h>
 #import <ResearchKitUI/UIResponder+ResearchKit.h>
 #import <ResearchKitUI/UIView+ORKAccessibility.h>
+
+#if RK_APPLE_INTERNAL
+#import <ResearchKitUI/ORKColorChoiceCellGroup.h>
+#endif

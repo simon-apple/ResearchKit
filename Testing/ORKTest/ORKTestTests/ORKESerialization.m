@@ -1761,31 +1761,6 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(textViewInputOptional, NSNumber, NSObject, NO, nil, nil),
                     PROPERTY(textViewStartsHidden, NSNumber, NSObject, NO, nil, nil),
                     })),
-           ENTRY(ORKColorChoiceAnswerFormat,
-                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-                     return [[ORKColorChoiceAnswerFormat alloc] initWithStyle:((NSNumber *)GETPROP(dict, style)).integerValue colorChoices:GETPROP(dict, colorChoices)];
-                 },
-                 (@{
-                    PROPERTY(style, NSNumber, NSObject, NO, NUMTOSTRINGBLOCK(ORKChoiceAnswerStyleTable()), STRINGTONUMBLOCK(ORKChoiceAnswerStyleTable())),
-                    PROPERTY(colorChoices, ORKColorChoice, NSArray, NO, nil, nil),
-                    })),
-           ENTRY(ORKColorChoice,
-                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-               return [[ORKColorChoice alloc] initWithColor:GETPROP(dict, color)
-                                                       text:GETPROP(dict, text)
-                                                 detailText:GETPROP(dict, detailText)
-                                                      value:GETPROP(dict, value)
-                                                  exclusive:((NSNumber *)GETPROP(dict, exclusive)).boolValue];
-                 },
-                 (@{
-                    PROPERTY(text, NSString, NSObject, NO, nil, nil),
-                    PROPERTY(detailText, NSString, NSObject, NO, nil, nil),
-                    PROPERTY(value, NSObject, NSObject, NO, nil, nil),
-                    PROPERTY(exclusive, NSNumber, NSObject, NO, nil, nil),
-                    PROPERTY(color, UIColor, NSObject, YES,
-                             ^id(id color, __unused ORKESerializationContext *context) { return dictionaryFromColor(color); },
-                             ^id(id dict, __unused ORKESerializationContext *context) { return  colorFromDictionary(dict); })
-                    })),
            ENTRY(ORKImageChoice,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      return [[ORKImageChoice alloc] initWithNormalImage:nil selectedImage:nil text:GETPROP(dict, text) value:GETPROP(dict, value)];
@@ -2614,6 +2589,31 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
             (@{})),
 #endif
 #if RK_APPLE_INTERNAL
+           ENTRY(ORKColorChoiceAnswerFormat,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+                     return [[ORKColorChoiceAnswerFormat alloc] initWithStyle:((NSNumber *)GETPROP(dict, style)).integerValue colorChoices:GETPROP(dict, colorChoices)];
+                 },
+                 (@{
+                    PROPERTY(style, NSNumber, NSObject, NO, NUMTOSTRINGBLOCK(ORKChoiceAnswerStyleTable()), STRINGTONUMBLOCK(ORKChoiceAnswerStyleTable())),
+                    PROPERTY(colorChoices, ORKColorChoice, NSArray, NO, nil, nil),
+                    })),
+           ENTRY(ORKColorChoice,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+               return [[ORKColorChoice alloc] initWithColor:GETPROP(dict, color)
+                                                       text:GETPROP(dict, text)
+                                                 detailText:GETPROP(dict, detailText)
+                                                      value:GETPROP(dict, value)
+                                                  exclusive:((NSNumber *)GETPROP(dict, exclusive)).boolValue];
+                 },
+                 (@{
+                    PROPERTY(text, NSString, NSObject, NO, nil, nil),
+                    PROPERTY(detailText, NSString, NSObject, NO, nil, nil),
+                    PROPERTY(value, NSObject, NSObject, NO, nil, nil),
+                    PROPERTY(exclusive, NSNumber, NSObject, NO, nil, nil),
+                    PROPERTY(color, UIColor, NSObject, YES,
+                             ^id(id color, __unused ORKESerializationContext *context) { return dictionaryFromColor(color); },
+                             ^id(id dict, __unused ORKESerializationContext *context) { return  colorFromDictionary(dict); })
+                    })),
            ENTRY(ORKTinnitusTypeStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                return [[ORKTinnitusTypeStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
