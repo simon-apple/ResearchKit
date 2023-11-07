@@ -147,7 +147,6 @@ class FileHelper(object):
 
     def fetch_files_of_type(self, type, files):
         collected_files = []
-
         file_type = "." + type
 
         for f in files:
@@ -349,17 +348,17 @@ class RKIllegalTermsFinder():
 if __name__ == "__main__":
 
     # === SCRUB RK PROJECT OF INTERNAL CODE AND REFERENCES ===
-    # rk_scrubber = RKScrubber()
-    # rk_scrubber.scrub_project()
+    rk_scrubber = RKScrubber()
+    rk_scrubber.scrub_project()
 
     # === SCRUB ORKTest PROJECT OF INTERNAL CODE AND REFERENCES ===
     rk_test_scrubber = RKTestScrubber()
     rk_test_scrubber.scrub_project()
 
     # === SCRUB ORKCatalog PROJECT OF INTERNAL CODE AND REFERENCES ===
-    # rk_catalog_scrubber = RKCatalogScrubber()
-    # rk_catalog_scrubber.scrub_project()
+    rk_catalog_scrubber = RKCatalogScrubber()
+    rk_catalog_scrubber.scrub_project()
 
     # === GREP all illegal terms  ===
-    # rk_illegal_terms_finder = RKIllegalTermsFinder()
-    # rk_illegal_terms_finder.find_illegal_terms()
+    rk_illegal_terms_finder = RKIllegalTermsFinder()
+    rk_illegal_terms_finder.find_illegal_terms()
