@@ -266,24 +266,23 @@ class RKTestScrubber():
     def scrub_project(self):
         files = self.file_helper.recursively_read_files(self.project_path)
 
-        # json_files_to_delete = self.file_helper.fetch_files_to_delete(files, self.json_files_to_remove)
+        json_files_to_delete = self.file_helper.fetch_files_to_delete(files, self.json_files_to_remove)
 
-        # self.file_helper.delete_files(json_files_to_delete)
+        self.file_helper.delete_files(json_files_to_delete)
 
-        # folders_to_delete = self.file_helper.fetch_folders_to_delete(self.project_path, self.folders_to_remove)
+        folders_to_delete = self.file_helper.fetch_folders_to_delete(self.project_path, self.folders_to_remove)
 
-        # files_to_delete = self.file_helper.gather_files_from_internal_folders(folders_to_delete)
+        files_to_delete = self.file_helper.gather_files_from_internal_folders(folders_to_delete)
 
-        # files_with_special_comment = self.file_helper.fetch_files_with_special_comment(files)
+        files_with_special_comment = self.file_helper.fetch_files_with_special_comment(files)
 
-        # files_to_delete = files_to_delete + files_with_special_comment
+        files_to_delete = files_to_delete + files_with_special_comment
 
+        self.file_helper.remove_file_references_from_project_file(self.project_file_path, files_to_delete + [File("ResearchKitInternal.framework")])
         self._remove_internal_json_properties(files)
-
-        # self.file_helper.remove_file_references_from_project_file(self.project_file_path, files_to_delete + [File("ResearchKitInternal.framework")])
-        # self.file_helper.remove_internal_blocks_from_files(files)
-        # self.file_helper.delete_files(files_to_delete)
-        # self.file_helper.delete_folders(folders_to_delete)
+        self.file_helper.remove_internal_blocks_from_files(files)
+        self.file_helper.delete_files(files_to_delete)
+        self.file_helper.delete_folders(folders_to_delete)
 
     def _remove_internal_json_properties(self, files):
         json_files = self.file_helper.fetch_files_of_type("json", files)
@@ -308,7 +307,6 @@ class RKTestScrubber():
                 # re-open file and update contents with scrubbed dictionary
                 with open(file.path, "w") as jsonFile:
                     json.dump(data, jsonFile)
-                    print(file.name)
 
 class RKCatalogScrubber():
     def __init__(self):
