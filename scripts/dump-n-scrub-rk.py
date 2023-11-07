@@ -259,25 +259,36 @@ class RKTestScrubber():
         self.project_path = "../Testing/ORKTest"
         self.project_file_path = "../Testing/ORKTest/ORKTest.xcodeproj/project.pbxproj"
         self.folders_to_remove = ["List1", "PracticeList", "QuestionList1", "TinnitusSounds1"]
-        self.json_keys_to_remove = []
+        self.json_keys_to_remove = ["scrubberNames"]
         self.json_files_to_remove = ["ORKAVJournalingStep.json", "ORKAVJournalingResult.json", "ORKAVJournalingPredefinedTask.json", "ORKTinnitusPredefinedTask.json", "ORKTinnitusUnit.json", "ORKTinnitusTypeStep.json", "ORKTinnitusTypeResult.json", "ORKTinnitusVolumeResult.json", "ORKTinnitusPureToneStep.json", "ORKTinnitusPureToneResult.json", "ORKTinnitusMaskingSoundStep.json", "ORKTinnitusMaskingSoundResult.json", "ORKTinnitusOverallAssessmentStep.json", "ORKTinnitusOverallAssessmentResult.json", "ORKBLEScanPeripheralsStep.json", "ORKBLEScanPeripheralsStepResult.json", "ORKSpeechInNoisePredefinedTask.json", "ORKHeadphoneDetectStep.json", "ORKHeadphoneDetectResult.json", "ORKHeadphonesRequiredCompletionStep.json", "ORKFaceDetectionStep.json", "ORKVolumeCalibrationStep.json", "ORKdBHLToneAudiometryCompletionStep.json"]
 
     def scrub_project(self):
         files = self.file_helper.recursively_read_files(self.project_path)
 
-        json_files_to_delete = self.file_helper.fetch_files_to_delete(files, self.json_files_to_remove)
+        # json_files_to_delete = self.file_helper.fetch_files_to_delete(files, self.json_files_to_remove)
 
-        self.file_helper.delete_files(json_files_to_delete)
+        # self.file_helper.delete_files(json_files_to_delete)
 
-        folders_to_delete = self.file_helper.fetch_folders_to_delete(self.project_path, self.folders_to_remove)
+        # folders_to_delete = self.file_helper.fetch_folders_to_delete(self.project_path, self.folders_to_remove)
 
-        files_to_delete = self.file_helper.gather_files_from_internal_folders(folders_to_delete)
+        # files_to_delete = self.file_helper.gather_files_from_internal_folders(folders_to_delete)
 
-        files_with_special_comment = self.file_helper.fetch_files_with_special_comment(files)
+        # files_with_special_comment = self.file_helper.fetch_files_with_special_comment(files)
 
-        files_to_delete = files_to_delete + files_with_special_comment
+        # files_to_delete = files_to_delete + files_with_special_comment
 
         json_files = self.file_helper.fetch_files_of_type("json", files)
+        for file in json_files:
+            for key_to_remove in self.json_keys_to_remove:
+                # open json file
+                f = open(file.path)
+
+                # convert to di
+                data = json.load(f)
+
+                if key_to_remove in data:
+                    print(file.name)
+                    # del data['eye_color']
 
         # self.file_helper.remove_file_references_from_project_file(self.project_file_path, files_to_delete + [File("ResearchKitInternal.framework")])
         # self.file_helper.remove_internal_blocks_from_files(files)
@@ -326,7 +337,7 @@ if __name__ == "__main__":
 
     # === SCRUB RK PROJECT OF INTERNAL CODE AND REFERENCES ===
     # rk_scrubber = RKScrubber()
-    rk_scrubber.scrub_project()
+    # rk_scrubber.scrub_project()
 
     # === SCRUB ORKTest PROJECT OF INTERNAL CODE AND REFERENCES ===
     rk_test_scrubber = RKTestScrubber()
@@ -334,7 +345,7 @@ if __name__ == "__main__":
 
     # === SCRUB ORKCatalog PROJECT OF INTERNAL CODE AND REFERENCES ===
     # rk_catalog_scrubber = RKCatalogScrubber()
-    rk_catalog_scrubber.scrub_project()
+    # rk_catalog_scrubber.scrub_project()
 
     # === GREP all illegal terms  ===
     # rk_illegal_terms_finder = RKIllegalTermsFinder()
