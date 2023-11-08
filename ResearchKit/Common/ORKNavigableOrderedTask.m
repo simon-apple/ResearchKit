@@ -64,6 +64,17 @@
     if (!_stepNavigationRules) {
         _stepNavigationRules = [NSMutableDictionary new];
     }
+    
+    ORKSecondaryActionStepNavigationRule *secondaryActionStepNavigationRule = ORKDynamicCast(stepNavigationRule, ORKSecondaryActionStepNavigationRule);
+    
+    if (secondaryActionStepNavigationRule) {
+        for (ORKStep *step in self.steps) {
+            if ([step.identifier isEqualToString:triggerStepIdentifier] && step.earlyTerminationConfiguration) {
+                @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"Can not set an ORKSecondaryActionStepNavigationRule on an ORKStep with an ORKEarlyTerminationConfiguration. Either use ORKSecondaryActionStepNavigationRule or ORKEarlyTerminationConfiguration." userInfo:nil];
+            }
+        }
+    }
+    
     _stepNavigationRules[triggerStepIdentifier] = stepNavigationRule;
 }
 
