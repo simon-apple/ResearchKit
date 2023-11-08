@@ -4574,15 +4574,15 @@ extension ORKNewAudiometryTests {
         let maxLevel = 75.0
         let audiometry = ORKNewAudiometry(channel: .left, initialLevel: 50, minLevel: -10, maxLevel: maxLevel, frequencies: [1000, 2000, 4000, 8000, 500, 250])
         
-        var timeStamp: TimeInterval = 0
+        var timeStamp: TimeInterval = -1
         audiometry.timestampProvider = {
             timeStamp = timeStamp + 1
             return timeStamp
         }
         
+        audiometry.registerPreStimulusDelay(1.0)
         var unit = try XCTUnwrap(audiometry.resultUnits().filter { abs($0.frequency - 1000) < 0.1 }.first?.units?.last)
         XCTAssertEqual(unit.dBHLValue, 50)
-        audiometry.registerPreStimulusDelay(1.0)
         audiometry.registerStimulusPlayback()
         audiometry.registerResponse(true)
         XCTAssertEqual(unit.startOfUnitTimeStamp, 0)
@@ -4590,9 +4590,9 @@ extension ORKNewAudiometryTests {
         XCTAssertEqual(unit.userTapTimeStamp, 1)
         XCTAssertEqual(unit.preStimulusDelay, 1.0)
 
+        audiometry.registerPreStimulusDelay(1.1)
         unit = try XCTUnwrap(audiometry.resultUnits().filter { abs($0.frequency - 1000) < 0.1 }.first?.units?.last)
         XCTAssertEqual(unit.dBHLValue, 40)
-        audiometry.registerPreStimulusDelay(1.1)
         audiometry.registerStimulusPlayback()
         audiometry.registerResponse(false)
         XCTAssertEqual(unit.startOfUnitTimeStamp, 2)
@@ -4600,9 +4600,9 @@ extension ORKNewAudiometryTests {
         XCTAssertEqual(unit.userTapTimeStamp, 0)
         XCTAssertEqual(unit.preStimulusDelay, 1.1)
 
+        audiometry.registerPreStimulusDelay(1.2)
         unit = try XCTUnwrap(audiometry.resultUnits().filter { abs($0.frequency - 2000) < 0.1 }.first?.units?.last)
         XCTAssertEqual(unit.dBHLValue, 50)
-        audiometry.registerPreStimulusDelay(1.2)
         audiometry.registerStimulusPlayback()
         audiometry.registerResponse(true)
         XCTAssertEqual(unit.startOfUnitTimeStamp, 4)
@@ -4610,69 +4610,69 @@ extension ORKNewAudiometryTests {
         XCTAssertEqual(unit.userTapTimeStamp, 5)
         XCTAssertEqual(unit.preStimulusDelay, 1.2)
 
+        audiometry.registerPreStimulusDelay(1.3)
         unit = try XCTUnwrap(audiometry.resultUnits().filter { abs($0.frequency - 4000) < 0.1 }.first?.units?.last)
         XCTAssertEqual(unit.dBHLValue, 40)
-        audiometry.registerPreStimulusDelay(1.3)
         audiometry.registerStimulusPlayback()
-       audiometry.registerResponse(true)
+        audiometry.registerResponse(true)
         XCTAssertEqual(unit.startOfUnitTimeStamp, 6)
         XCTAssertEqual(unit.timeoutTimeStamp, 0)
         XCTAssertEqual(unit.userTapTimeStamp, 7)
         XCTAssertEqual(unit.preStimulusDelay, 1.3)
-        
+
+        audiometry.registerPreStimulusDelay(1.4)
         unit = try XCTUnwrap(audiometry.resultUnits().filter { abs($0.frequency - 8000) < 0.1 }.first?.units?.last)
         XCTAssertEqual(unit.dBHLValue, 30)
-        audiometry.registerPreStimulusDelay(1.4)
         audiometry.registerStimulusPlayback()
         audiometry.registerResponse(true)
         XCTAssertEqual(unit.startOfUnitTimeStamp, 8)
         XCTAssertEqual(unit.timeoutTimeStamp, 0)
         XCTAssertEqual(unit.userTapTimeStamp, 9)
         XCTAssertEqual(unit.preStimulusDelay, 1.4)
-        
+
+        audiometry.registerPreStimulusDelay(1.5)
         unit = try XCTUnwrap(audiometry.resultUnits().filter { abs($0.frequency - 8000) < 0.1 }.first?.units?.last)
         XCTAssertEqual(unit.dBHLValue, 20)
-        audiometry.registerPreStimulusDelay(1.5)
         audiometry.registerStimulusPlayback()
         audiometry.registerResponse(false)
         XCTAssertEqual(unit.startOfUnitTimeStamp, 10)
         XCTAssertEqual(unit.timeoutTimeStamp, 11)
         XCTAssertEqual(unit.userTapTimeStamp, 0)
         XCTAssertEqual(unit.preStimulusDelay, 1.5)
-        
+
+        audiometry.registerPreStimulusDelay(1.6)
         unit = try XCTUnwrap(audiometry.resultUnits().filter { abs($0.frequency - 500) < 0.1 }.first?.units?.last)
         XCTAssertEqual(unit.dBHLValue, 50) // This is expected because the last level for 1k is restored to be used as the baseline here
-        audiometry.registerPreStimulusDelay(1.6)
         audiometry.registerStimulusPlayback()
         audiometry.registerResponse(false)
         XCTAssertEqual(unit.startOfUnitTimeStamp, 12)
         XCTAssertEqual(unit.timeoutTimeStamp, 13)
         XCTAssertEqual(unit.userTapTimeStamp, 0)
         XCTAssertEqual(unit.preStimulusDelay, 1.6)
-        
+
+        audiometry.registerPreStimulusDelay(1.7)
         unit = try XCTUnwrap(audiometry.resultUnits().filter { abs($0.frequency - 250) < 0.1 }.first?.units?.last)
         XCTAssertEqual(unit.dBHLValue, 60)
-        audiometry.registerPreStimulusDelay(1.7)
         audiometry.registerStimulusPlayback()
         audiometry.registerResponse(false)
         XCTAssertEqual(unit.startOfUnitTimeStamp, 14)
         XCTAssertEqual(unit.timeoutTimeStamp, 15)
         XCTAssertEqual(unit.userTapTimeStamp, 0)
         XCTAssertEqual(unit.preStimulusDelay, 1.7)
-        
+
+        audiometry.registerPreStimulusDelay(1.8)
         unit = try XCTUnwrap(audiometry.resultUnits().filter { abs($0.frequency - 250) < 0.1 }.first?.units?.last)
         XCTAssertEqual(unit.dBHLValue, 70)
-        audiometry.registerPreStimulusDelay(1.8)
         audiometry.registerStimulusPlayback()
         audiometry.signalClipped() // A clip bellow the maximum threshold should register as negative
         XCTAssertEqual(unit.startOfUnitTimeStamp, 16)
         XCTAssertEqual(unit.timeoutTimeStamp, 17)
         XCTAssertEqual(unit.userTapTimeStamp, 0)
         XCTAssertEqual(unit.preStimulusDelay, 1.8)
-        
+
+        audiometry.registerPreStimulusDelay(1.9)
         unit = try XCTUnwrap(audiometry.resultUnits().filter { abs($0.frequency - 250) < 0.1 }.first?.units?.last)
         XCTAssertEqual(unit.dBHLValue, maxLevel)
-        audiometry.registerPreStimulusDelay(1.9)
         audiometry.registerStimulusPlayback()
         audiometry.signalClipped()
         XCTAssertEqual(unit.startOfUnitTimeStamp, 18)
