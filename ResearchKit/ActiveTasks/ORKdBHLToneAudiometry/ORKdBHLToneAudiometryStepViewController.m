@@ -452,6 +452,7 @@
                 [self.taskViewController playWithFrequency:stimulus.frequency level:stimulus.level channel:stimulus.channel completion:^(NSError * _Nonnull error) {
                     if (error) {
                         ORK_Log_Error("tonePlayer playWithFrequency error: %@", error);
+                        [self.audiometryEngine registerUnitError: error];
                     } else {
                         self.currentTap.response = ORKdBHLToneAudiometryNoTapOnResponseWindow;
                         [self logCurrentTap];

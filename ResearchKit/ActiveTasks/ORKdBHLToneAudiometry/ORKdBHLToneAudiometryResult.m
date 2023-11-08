@@ -396,6 +396,8 @@ const double ORKInvalidDBHLValue = DBL_MAX;
     ORK_ENCODE_DOUBLE(aCoder, userTapTimeStamp);
     ORK_ENCODE_DOUBLE(aCoder, startOfUnitTimeStamp);
     ORK_ENCODE_DOUBLE(aCoder, preStimulusDelay);
+    ORK_ENCODE_INTEGER(aCoder, errorCode);
+    ORK_ENCODE_OBJ(aCoder, errorDescription);
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
@@ -406,6 +408,8 @@ const double ORKInvalidDBHLValue = DBL_MAX;
         ORK_DECODE_DOUBLE(aDecoder, userTapTimeStamp);
         ORK_DECODE_DOUBLE(aDecoder, startOfUnitTimeStamp);
         ORK_DECODE_DOUBLE(aDecoder, preStimulusDelay);
+        ORK_DECODE_INTEGER(aDecoder, errorCode);
+        ORK_DECODE_OBJ_CLASS(aDecoder, errorDescription, NSString);
     }
     return self;
 }
@@ -421,7 +425,9 @@ const double ORKInvalidDBHLValue = DBL_MAX;
             (self.timeoutTimeStamp == castObject.timeoutTimeStamp) &&
             (self.userTapTimeStamp == castObject.userTapTimeStamp) &&
             (self.preStimulusDelay == castObject.preStimulusDelay) &&
-            (self.startOfUnitTimeStamp == castObject.startOfUnitTimeStamp));
+            (self.startOfUnitTimeStamp == castObject.startOfUnitTimeStamp) &&
+            (self.errorCode == castObject.errorCode) &&
+            (ORKEqualObjects(self.errorDescription, castObject.errorDescription)));
 }
 
 - (instancetype)copyWithZone:(NSZone *)zone {
@@ -431,11 +437,13 @@ const double ORKInvalidDBHLValue = DBL_MAX;
     unit.userTapTimeStamp = self.userTapTimeStamp;
     unit.startOfUnitTimeStamp = self.startOfUnitTimeStamp;
     unit.preStimulusDelay = self.preStimulusDelay;
+    unit.errorCode = self.errorCode;
+    unit.errorDescription = [self.errorDescription copy];
     return unit;
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"<%@; dBHLValue: %.1lf; timeoutTimeStamp %.5lf; userTapTimeStamp %.5lf; startOfUnitTimeStamp: %.5lf; preStimulusDelay %.1lf>", self.class.description, self.dBHLValue, self.timeoutTimeStamp, self.userTapTimeStamp, self.startOfUnitTimeStamp, self.preStimulusDelay];
+    return [NSString stringWithFormat:@"<%@; dBHLValue: %.1lf; timeoutTimeStamp %.5lf; userTapTimeStamp %.5lf; startOfUnitTimeStamp: %.5lf; preStimulusDelay %.1lf; errorCode %@; errorDescription %@;>", self.class.description, self.dBHLValue, self.timeoutTimeStamp, self.userTapTimeStamp, self.startOfUnitTimeStamp, self.preStimulusDelay, @(self.errorCode), self.errorDescription];
 }
 
 @end

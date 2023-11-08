@@ -74,7 +74,6 @@ public struct ORKNewAudiometryState {
     private let kernelLenght: Double
     private let maxSampleCount = UserDefaults.standard.integer(forKey: "maxSampleCount")
     private var lastProgress: Float = 0.0
-    private var preStimulusDelayTable: [String: Double] = [:]
     
     fileprivate let channel: ORKAudioChannel
     fileprivate var results = [Double: Double]()
@@ -162,7 +161,6 @@ public struct ORKNewAudiometryState {
         self.revFs = Self.bark(reversals.asVector()) // frequencies that need reversals
         
         super.init()
-        createNewUnit()
     }
     
     public var progress: Float {
@@ -227,7 +225,14 @@ public struct ORKNewAudiometryState {
     }
     
     public func registerPreStimulusDelay(_ pSDelay: Double) {
-        preStimulusDelayTable[getResultUnitAddress()] = pSDelay
+        createNewUnit()
+        resultUnit.preStimulusDelay = pSDelay
+    }
+    
+    public func registerUnitError(_ error: Error) {
+        let errorCode = (error as NSError).code
+        resultUnit.errorCode = errorCode
+        resultUnit.errorDescription = error.localizedDescription
     }
     
     public func registerStimulusPlayback() {
@@ -297,15 +302,12 @@ public struct ORKNewAudiometryState {
                 if shouldEndTest {
                     self.finalSampling()
                     self.testEnded = true
-                } else {
-                    self.createNewUnit()
                 }
                 self.stateLock.unlock()
             }
             workQueue.async(execute: workItem)
         } else {
             updateProgress()
-            createNewUnit()
         }
     }
     
@@ -355,9 +357,6 @@ public extension ORKNewAudiometry {
     }
     
     func updateUnit(with response: Bool) {
-        if let savedPreStimulusDelay = preStimulusDelayTable[getResultUnitAddress()] {
-            resultUnit.preStimulusDelay = savedPreStimulusDelay
-        }
         if response {
             resultUnit.userTapTimeStamp = timestampProvider()
         } else {
@@ -475,7 +474,6 @@ extension ORKNewAudiometry {
         if !previousAudiogram.isEmpty, Set(previousAudiogram.keys).isSuperset(of: allFrequencies) {
             _ = nextInitialSampleFromAudiogram()
             resultUnitsTable.removeAll()
-            createNewUnit()
         }
     }
     

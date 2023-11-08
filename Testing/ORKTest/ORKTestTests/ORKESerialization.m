@@ -2139,7 +2139,9 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(startOfUnitTimeStamp, NSNumber, NSObject, NO, nil, nil),
                     PROPERTY(preStimulusDelay, NSNumber, NSObject, NO, nil, nil),
                     PROPERTY(userTapTimeStamp, NSNumber, NSObject, NO, nil, nil),
-                    PROPERTY(timeoutTimeStamp, NSNumber, NSObject, NO, nil, nil)
+                    PROPERTY(timeoutTimeStamp, NSNumber, NSObject, NO, nil, nil),
+                    PROPERTY(errorCode, NSNumber, NSObject, NO, nil, nil),
+                    PROPERTY(errorDescription, NSString, NSObject, NO, nil, nil)
                     })),
            ENTRY(ORKdBHLToneAudiometryFrequencySample,
                  nil,

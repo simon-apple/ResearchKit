@@ -76,6 +76,14 @@ typedef void(^ORKAudiometryStatusBlock)(BOOL, ORKAudiometryStimulus *);
 - (void)registerPreStimulusDelay:(double)preStimulusDelay;
 
 /**
+ Used to register a possible error code and description from HTTonePlayer error.
+ 
+ @param error The NSError reported by HTTonePlayer
+ */
+@optional
+- (void)registerUnitError:(NSError *)error;
+
+/**
  Register the user response for the last presented tone.
  
  @param BOOL  A Boolean representing if the user acknowledged the last presented tone.

@@ -127,6 +127,10 @@ ORK_CLASS_AVAILABLE
 
 @property (nonatomic, assign) NSTimeInterval timeoutTimeStamp;
 
+@property (nonatomic, assign) NSInteger errorCode;
+
+@property (nonatomic, copy) NSString *errorDescription;
+
 @end
 
 typedef NS_ENUM(NSInteger, ORKdBHLToneAudiometryTrialResponse) {
