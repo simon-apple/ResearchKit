@@ -213,6 +213,7 @@ enum TaskListRow: Int, CustomStringConvertible {
                     .consentTask,
                     .consentDoc,
                     .review
+                ]),
             TaskListRowSection(title: "Active Tasks", rows:
                 [
                     .audio,
