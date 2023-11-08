@@ -233,7 +233,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
             return AAPLLocalizedString(@"AIRPODS", nil);
         case ORKHeadphoneDetectedAirpodsPro:
         case ORKHeadphoneDetectedAirpodsProGen2:
-            return ORKLocalizedString(@"AIRPODSPRO", nil);
+            return AAPLLocalizedString(@"AIRPODSPRO", nil);
         case ORKHeadphoneDetectedAirpodsMax:
             return AAPLLocalizedString(@"AIRPODSMAX", nil);
         case ORKHeadphoneDetectedEarpods:
