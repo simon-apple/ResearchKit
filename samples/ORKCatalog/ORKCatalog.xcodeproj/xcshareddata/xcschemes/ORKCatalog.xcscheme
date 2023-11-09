@@ -32,7 +32,7 @@
             reference = "container:ORKCatalogUITests/ORKCatalogUI.xctestplan">
          </TestPlanReference>
          <TestPlanReference
-            reference = "container:ORKCatalogUITests/RegressionUITests.xctestplan"
+            reference = "container:ORKCatalogUITests/InternalUITests/RegressionUITests.xctestplan"
             default = "YES">
          </TestPlanReference>
       </TestPlans>

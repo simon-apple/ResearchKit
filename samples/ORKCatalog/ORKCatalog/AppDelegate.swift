@@ -34,6 +34,7 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
+        #if RK_APPLE_INTERNAL
         // Disable hardware keyboard and toggle software keyboard
         if ProcessInfo.processInfo.arguments.contains("UITest") {
         #if targetEnvironment(simulator)
@@ -44,6 +45,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 .forEach { $0.perform(setHardwareLayout, with: nil) }
         #endif
         }
+        #endif
         return true
     }
 }

@@ -279,6 +279,28 @@
 			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		8CD81ABC2AFD910A00ABCA39 /* InternalUITests */ = {
+			isa = PBXGroup;
+			children = (
+				8CFF29052AE9BE73000DC99E /* Extensions */,
+				9622283724F04D850056E74D /* Screens */,
+				8CFF291F2AE9CAEB000DC99E /* UITests */,
+				8CFF290E2AE9C24A000DC99E /* AccessibilityIdentifiers.swift */,
+				8CFF29262AE9CBBC000DC99E /* RegressionUITests.xctestplan */,
+			);
+			path = InternalUITests;
+			sourceTree = "<group>";
+		};
+		8CDBF98A2AFD9FC800AF767B /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				9622283824F04DBF0056E74D /* TaskScreen.swift */,
+				9622283A24F04DFE0056E74D /* CommonElements.swift */,
+				9622283C24F04E6F0056E74D /* AllowScreens.swift */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
 		8CFF29052AE9BE73000DC99E /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -296,7 +318,6 @@
 				8CFF29202AE9CB00000DC99E /* BaseUITest.swift */,
 				8CFF29222AE9CB20000DC99E /* SurveysUITests.swift */,
 				8CFF29242AE9CB4A000DC99E /* SurveyQuestionsUITests.swift */,
-				9622284024F04EEF0056E74D /* PreSubmissionTests.swift */,
 			);
 			path = UITests;
 			sourceTree = "<group>";
@@ -304,13 +325,11 @@
 		9622282B24F04D780056E74D /* ORKCatalogUITests */ = {
 			isa = PBXGroup;
 			children = (
-				8CFF290E2AE9C24A000DC99E /* AccessibilityIdentifiers.swift */,
-				9622283724F04D850056E74D /* Screens */,
+				8CD81ABC2AFD910A00ABCA39 /* InternalUITests */,
+				8CDBF98A2AFD9FC800AF767B /* Screens */,
 				9622282E24F04D780056E74D /* Info.plist */,
 				9622283E24F04EBA0056E74D /* Helpers.swift */,
-				8CFF29052AE9BE73000DC99E /* Extensions */,
-				8CFF291F2AE9CAEB000DC99E /* UITests */,
-				8CFF29262AE9CBBC000DC99E /* RegressionUITests.xctestplan */,
+				9622284024F04EEF0056E74D /* PreSubmissionTests.swift */,
 				9632B5D524F093070010818C /* ORKCatalogUI.xctestplan */,
 			);
 			path = ORKCatalogUITests;
@@ -319,7 +338,6 @@
 		9622283724F04D850056E74D /* Screens */ = {
 			isa = PBXGroup;
 			children = (
-				9622283824F04DBF0056E74D /* TaskScreen.swift */,
 				8CFF29112AE9C395000DC99E /* TabBar.swift */,
 				8CFF29132AE9C3E9000DC99E /* TasksTab.swift */,
 				8CFF29152AE9C452000DC99E /* Step.swift */,
@@ -327,8 +345,6 @@
 				8CFF29192AE9C8EA000DC99E /* QuestionStep.swift */,
 				8CFF291D2AE9CA95000DC99E /* FormStep.swift */,
 				8CFF291B2AE9CA5F000DC99E /* AnswerableStep.swift */,
-				9622283C24F04E6F0056E74D /* AllowScreens.swift */,
-				9622283A24F04DFE0056E74D /* CommonElements.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
