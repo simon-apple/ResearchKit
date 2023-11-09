@@ -133,7 +133,8 @@ static inline void dispatch_sync_if_not_on_queue(dispatch_queue_t queue, dispatc
 
 - (NSArray<ORKCollector *> *)collectors {
     if (_collectors == nil) {
-        _collectors = [NSKeyedUnarchiver unarchiveObjectWithFile:[self persistFilePath]];
+        NSData *data = [NSData dataWithContentsOfFile:[self persistFilePath]];
+        _collectors = [NSKeyedUnarchiver unarchivedObjectOfClass:[NSArray class] fromData:data error:NULL];
         if (_collectors == nil) {
             @throw [NSException exceptionWithName:NSGenericException reason: [NSString stringWithFormat:@"Failed to read from path %@", [self persistFilePath]] userInfo:nil];
         }
@@ -147,10 +148,12 @@ static inline void dispatch_sync_if_not_on_queue(dispatch_queue_t queue, dispatc
 
 - (void)persistCollectors {
     NSArray *collectors = self.collectors;
-    
-    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:collectors];
+
     NSError *error;
-    [data writeToFile:[self persistFilePath] options:NSDataWritingAtomic|NSDataWritingFileProtectionComplete error:&error];
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:collectors requiringSecureCoding:YES error:&error];
+    if (data != nil) {
+        [data writeToFile:[self persistFilePath] options:NSDataWritingAtomic|NSDataWritingFileProtectionComplete error:&error];
+    }
     
     if (error) {
         @throw [NSException exceptionWithName:NSGenericException reason: [NSString stringWithFormat:@"Failed to write to path %@", [self persistFilePath]] userInfo:nil];

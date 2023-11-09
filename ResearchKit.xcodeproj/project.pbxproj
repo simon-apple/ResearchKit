@@ -5657,9 +5657,10 @@
 		3FFF18351829DB1D00167070 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				CLASSPREFIX = ORK;
 				LastSwiftUpdateCheck = 1020;
-				LastUpgradeCheck = 1250;
+				LastUpgradeCheck = 1500;
 				ORGANIZATIONNAME = researchkit.org;
 				TargetAttributes = {
 					5D06632C24FEF272005D9B40 = {
@@ -5846,6 +5847,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		5D8D87BF251C2A690030E058 /* Run SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -5860,7 +5862,8 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n    if ${CI} == true; then\n        echo \"Running Strict SwiftLint\"\n        swiftlint --strict\n    else\n        echo \"Running SwiftLint\"\n        swiftlint\n    fi\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n\n";
+			shellScript = "if which swiftlint >/dev/null; then\n    if ${CI} == true; then\n        echo \"Running Strict SwiftLint\"\n        swiftlint --strict\n    else\n        echo \"Running SwiftLint\"\n        swiftlint\n    fi\nelse\n    # Not a warning, to avoid this getting flagged in CI systems that don't have it\n    echo \"SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n\n";
+			showEnvVarsInLog = 0;
 		};
 		714174B5227ADF87005DD5E4 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -6553,8 +6556,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5D000EC32620F27100E5442A /* ResearchKit-Skywagon-Stable.xcconfig */;
 			buildSettings = {
-				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 			};
 			name = "Skywagon Stable";
 		};
@@ -6576,8 +6577,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5D000EC82620F27100E5442A /* ResearchKit-Skywagon-Internal-Release.xcconfig */;
 			buildSettings = {
-				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 			};
 			name = "Skywagon Internal Release";
 		};
@@ -6599,8 +6598,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5D000EC52620F27100E5442A /* ResearchKit-Skywagon-Public-Release.xcconfig */;
 			buildSettings = {
-				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 			};
 			name = "Skywagon Public Release";
 		};
@@ -6629,6 +6626,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5D000EDE2620F27100E5442A /* ResearchKitUI-Debug.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
 			};
 			name = Debug;
 		};
@@ -6636,6 +6634,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5D000EDF2620F27100E5442A /* ResearchKitUI-Shared.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
 			};
 			name = "Skywagon Stable";
 		};
@@ -6643,6 +6642,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5D000EDF2620F27100E5442A /* ResearchKitUI-Shared.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
 			};
 			name = Release;
 		};
@@ -6650,6 +6650,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5D000EDF2620F27100E5442A /* ResearchKitUI-Shared.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
 			};
 			name = "Skywagon Internal Release";
 		};
@@ -6657,6 +6658,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5D000EDF2620F27100E5442A /* ResearchKitUI-Shared.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
 			};
 			name = "Skywagon Public Release";
 		};
@@ -6664,6 +6666,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5D000EDC2620F27100E5442A /* ResearchKitCore-(watchOS)-Shared.xcconfig */;
 			buildSettings = {
+				ENABLE_MODULE_VERIFIER = NO;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 			};
 			name = Debug;
 		};
@@ -6671,6 +6676,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5D000EDC2620F27100E5442A /* ResearchKitCore-(watchOS)-Shared.xcconfig */;
 			buildSettings = {
+				ENABLE_MODULE_VERIFIER = NO;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 			};
 			name = "Skywagon Stable";
 		};
@@ -6678,6 +6686,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5D000EDC2620F27100E5442A /* ResearchKitCore-(watchOS)-Shared.xcconfig */;
 			buildSettings = {
+				ENABLE_MODULE_VERIFIER = NO;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 			};
 			name = Release;
 		};
@@ -6685,6 +6696,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5D000EDC2620F27100E5442A /* ResearchKitCore-(watchOS)-Shared.xcconfig */;
 			buildSettings = {
+				ENABLE_MODULE_VERIFIER = NO;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 			};
 			name = "Skywagon Internal Release";
 		};
@@ -6692,6 +6706,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5D000EDC2620F27100E5442A /* ResearchKitCore-(watchOS)-Shared.xcconfig */;
 			buildSettings = {
+				ENABLE_MODULE_VERIFIER = NO;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 			};
 			name = "Skywagon Public Release";
 		};
@@ -6713,8 +6730,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5D000EC22620F27100E5442A /* ResearchKit-Debug.xcconfig */;
 			buildSettings = {
-				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				"OTHER_SWIFT_FLAGS[arch=*]" = "$(inherited) -runtime-compatibility-version none";
 			};
 			name = Debug;
@@ -6723,8 +6738,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5D000EC62620F27100E5442A /* ResearchKit-Release.xcconfig */;
 			buildSettings = {
-				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 			};
 			name = Release;
 		};

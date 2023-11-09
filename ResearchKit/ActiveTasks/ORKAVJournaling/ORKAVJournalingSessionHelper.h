@@ -36,6 +36,7 @@
 #if ORK_FEATURE_AV_JOURNALING
 
 #import <AVFoundation/AVFoundation.h>
+#import <UIKit/UIKit.h>
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -56,7 +57,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithSampleBufferDelegate:(id<AVCaptureDataOutputSynchronizerDelegate>)sampleBufferDelegate
                        sessionHelperDelegate:(id<ORKAVJournalingSessionHelperDelegate>)sessionHelperDelegate
-                   storeDepthDataIfAvailable:(BOOL)storeDepthData;
+                   storeDepthDataIfAvailable:(BOOL)storeDepthData
+                                       scene:(UIWindowScene *)scene;
 
 @property (nonatomic, nullable, readonly) AVCaptureSession *captureSession;
 @property (nonatomic, nullable, copy) NSArray *cameraIntrinsicsArray;

@@ -75,7 +75,7 @@ static const GLfloat ColorConversion709[] = {
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-function"
 #if defined(DEBUG)
-    static void ORKCheckForGLError()
+    static void ORKCheckForGLError(void)
     {
         GLenum error = glGetError();
         if (error != GL_NO_ERROR)

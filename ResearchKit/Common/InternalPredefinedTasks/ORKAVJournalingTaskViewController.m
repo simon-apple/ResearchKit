@@ -60,7 +60,7 @@
         self.delegate = delegate;
         if (data != nil) {
             self.restorationClass = [self class];
-            NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+            NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:data error:NULL];
             
             [self decodeRestorableStateWithCoder:unarchiver];
             [self updateAVJournalingTaskArrayForResumption];

@@ -327,7 +327,7 @@ static const CGFloat detailTextBottomSpacing = 16.0;
 
     if (showActivityIndicator == YES) {
         if (_activityIndicatorView == nil) {
-            _activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+            _activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleMedium];
             
             [_continueButton addSubview:_activityIndicatorView];
             _activityIndicatorView.translatesAutoresizingMaskIntoConstraints = NO;

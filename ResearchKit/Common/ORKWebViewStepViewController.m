@@ -488,7 +488,7 @@ static const CGFloat ORKSignatureTopPadding = 37.0;
 // MARK: WKWebViewDelegate
 
 - (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(null_unspecified WKNavigation *)navigation {
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = true;
+    // No spinner anymore
 }
 
 - (void)webView:(WKWebView *)webView didFinishNavigation:(null_unspecified WKNavigation *)navigation {

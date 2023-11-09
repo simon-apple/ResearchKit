@@ -274,7 +274,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
         self.delegate = delegate;
         if (data != nil) {
             self.restorationClass = [self class];
-            NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+            NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:data error:NULL];
             [self decodeRestorableStateWithCoder:unarchiver];
             [self applicationFinishedRestoringState];
             
@@ -814,12 +814,11 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
 }
 
 - (NSData *)restorationData {
-    NSMutableData *data = [[NSMutableData alloc] init];
-    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initRequiringSecureCoding:YES];
     [self encodeRestorableStateWithCoder:archiver];
     [archiver finishEncoding];
     
-    return [data copy];
+    return [archiver encodedData];
 }
 
 - (void)ensureDirectoryExists:(NSURL *)outputDirectory {

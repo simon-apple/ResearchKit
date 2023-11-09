@@ -131,7 +131,7 @@ ORKCachedColorMethod(ork_borderGrayColor, 239.0 / 255.0, 239.0 / 255.0, 244.0 / 
 
 @end
 
-static NSMutableDictionary *colors() {
+static NSMutableDictionary *colors(void) {
     static NSMutableDictionary *colors = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -449,9 +449,9 @@ void ORKUpdateScrollViewBottomInset(UIScrollView *scrollView, CGFloat bottomInse
         insets.bottom = bottomInset;
         scrollView.contentInset = insets;
         
-        insets = scrollView.scrollIndicatorInsets;
+        insets = scrollView.verticalScrollIndicatorInsets;
         insets.bottom = bottomInset;
-        scrollView.scrollIndicatorInsets = insets;
+        scrollView.verticalScrollIndicatorInsets = insets;
         
         scrollView.contentOffset = savedOffset;
     }

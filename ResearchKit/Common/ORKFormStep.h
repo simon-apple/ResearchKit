@@ -259,9 +259,7 @@ ORK_CLASS_AVAILABLE
 /**
  An ORKFormItemVisibilityRule on the current formItem and determines if the formItem should show based on the current task result
  
- The rule will apply its predicates based on the results specified, and determine if the form item is visible
- 
- @param visibilityRule      The  formItem visibility rule to be used when determining if the item should display.
+ The rule will apply its predicates based on the results specified, and determine if the form item is visible.
  A copy to the rule is kept by the formItem.
  */
 @property (nullable, copy, readwrite) ORKFormItemVisibilityRule *visibilityRule;
