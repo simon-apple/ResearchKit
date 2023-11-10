@@ -26,6 +26,21 @@
 		5DD2B46B249974AC00FF17F5 /* QuestionList1 in Resources */ = {isa = PBXBuildFile; fileRef = 5DD2B46A249974AC00FF17F5 /* QuestionList1 */; };
 		863CCD821ACF545E009FD3B4 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 863CCD811ACF545E009FD3B4 /* HealthKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		86B89AA51AB2C0A5001626A4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B89A9C1AB2C0A5001626A4 /* AppDelegate.swift */; };
+		8CFF29072AE9BE99000DC99E /* WaitUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFF29062AE9BE99000DC99E /* WaitUtils.swift */; };
+		8CFF29092AE9BEF9000DC99E /* XCUIElementQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFF29082AE9BEF9000DC99E /* XCUIElementQuery.swift */; };
+		8CFF290B2AE9C051000DC99E /* XCTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFF290A2AE9C051000DC99E /* XCTestCase.swift */; };
+		8CFF290D2AE9C06E000DC99E /* XCUIElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFF290C2AE9C06E000DC99E /* XCUIElement.swift */; };
+		8CFF290F2AE9C24A000DC99E /* AccessibilityIdentifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFF290E2AE9C24A000DC99E /* AccessibilityIdentifiers.swift */; };
+		8CFF29122AE9C395000DC99E /* TabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFF29112AE9C395000DC99E /* TabBar.swift */; };
+		8CFF29142AE9C3E9000DC99E /* TasksTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFF29132AE9C3E9000DC99E /* TasksTab.swift */; };
+		8CFF29162AE9C452000DC99E /* Step.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFF29152AE9C452000DC99E /* Step.swift */; };
+		8CFF29182AE9C674000DC99E /* InstructionStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFF29172AE9C674000DC99E /* InstructionStep.swift */; };
+		8CFF291A2AE9C8EA000DC99E /* QuestionStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFF29192AE9C8EA000DC99E /* QuestionStep.swift */; };
+		8CFF291C2AE9CA5F000DC99E /* AnswerableStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFF291B2AE9CA5F000DC99E /* AnswerableStep.swift */; };
+		8CFF291E2AE9CA95000DC99E /* FormStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFF291D2AE9CA95000DC99E /* FormStep.swift */; };
+		8CFF29212AE9CB00000DC99E /* BaseUITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFF29202AE9CB00000DC99E /* BaseUITest.swift */; };
+		8CFF29232AE9CB20000DC99E /* SurveysUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFF29222AE9CB20000DC99E /* SurveysUITests.swift */; };
+		8CFF29252AE9CB4A000DC99E /* SurveyQuestionsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFF29242AE9CB4A000DC99E /* SurveyQuestionsUITests.swift */; };
 		9622283924F04DBF0056E74D /* TaskScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9622283824F04DBF0056E74D /* TaskScreen.swift */; };
 		9622283B24F04DFE0056E74D /* CommonElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9622283A24F04DFE0056E74D /* CommonElements.swift */; };
 		9622283D24F04E6F0056E74D /* AllowScreens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9622283C24F04E6F0056E74D /* AllowScreens.swift */; };
@@ -130,6 +145,22 @@
 		869230BE1AAA890A00BFE11B /* ORKCatalog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ORKCatalog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		86B89A981AB2C0A5001626A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		86B89A9C1AB2C0A5001626A4 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = ORKCatalog/AppDelegate.swift; sourceTree = SOURCE_ROOT; };
+		8CFF29062AE9BE99000DC99E /* WaitUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaitUtils.swift; sourceTree = "<group>"; };
+		8CFF29082AE9BEF9000DC99E /* XCUIElementQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCUIElementQuery.swift; sourceTree = "<group>"; };
+		8CFF290A2AE9C051000DC99E /* XCTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCTestCase.swift; sourceTree = "<group>"; };
+		8CFF290C2AE9C06E000DC99E /* XCUIElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCUIElement.swift; sourceTree = "<group>"; };
+		8CFF290E2AE9C24A000DC99E /* AccessibilityIdentifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityIdentifiers.swift; sourceTree = "<group>"; };
+		8CFF29112AE9C395000DC99E /* TabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBar.swift; sourceTree = "<group>"; };
+		8CFF29132AE9C3E9000DC99E /* TasksTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksTab.swift; sourceTree = "<group>"; };
+		8CFF29152AE9C452000DC99E /* Step.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step.swift; sourceTree = "<group>"; };
+		8CFF29172AE9C674000DC99E /* InstructionStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionStep.swift; sourceTree = "<group>"; };
+		8CFF29192AE9C8EA000DC99E /* QuestionStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionStep.swift; sourceTree = "<group>"; };
+		8CFF291B2AE9CA5F000DC99E /* AnswerableStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerableStep.swift; sourceTree = "<group>"; };
+		8CFF291D2AE9CA95000DC99E /* FormStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormStep.swift; sourceTree = "<group>"; };
+		8CFF29202AE9CB00000DC99E /* BaseUITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseUITest.swift; sourceTree = "<group>"; };
+		8CFF29222AE9CB20000DC99E /* SurveysUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveysUITests.swift; sourceTree = "<group>"; };
+		8CFF29242AE9CB4A000DC99E /* SurveyQuestionsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyQuestionsUITests.swift; sourceTree = "<group>"; };
+		8CFF29262AE9CBBC000DC99E /* RegressionUITests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = RegressionUITests.xctestplan; sourceTree = "<group>"; };
 		9622282A24F04D780056E74D /* ORKCatalogUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ORKCatalogUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9622282E24F04D780056E74D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9622283824F04DBF0056E74D /* TaskScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskScreen.swift; sourceTree = "<group>"; };
@@ -248,10 +279,54 @@
 			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		8CD81ABC2AFD910A00ABCA39 /* InternalUITests */ = {
+			isa = PBXGroup;
+			children = (
+				8CFF29052AE9BE73000DC99E /* Extensions */,
+				9622283724F04D850056E74D /* Screens */,
+				8CFF291F2AE9CAEB000DC99E /* UITests */,
+				8CFF290E2AE9C24A000DC99E /* AccessibilityIdentifiers.swift */,
+				8CFF29262AE9CBBC000DC99E /* RegressionUITests.xctestplan */,
+			);
+			path = InternalUITests;
+			sourceTree = "<group>";
+		};
+		8CDBF98A2AFD9FC800AF767B /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				9622283824F04DBF0056E74D /* TaskScreen.swift */,
+				9622283A24F04DFE0056E74D /* CommonElements.swift */,
+				9622283C24F04E6F0056E74D /* AllowScreens.swift */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		8CFF29052AE9BE73000DC99E /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				8CFF29062AE9BE99000DC99E /* WaitUtils.swift */,
+				8CFF29082AE9BEF9000DC99E /* XCUIElementQuery.swift */,
+				8CFF290A2AE9C051000DC99E /* XCTestCase.swift */,
+				8CFF290C2AE9C06E000DC99E /* XCUIElement.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		8CFF291F2AE9CAEB000DC99E /* UITests */ = {
+			isa = PBXGroup;
+			children = (
+				8CFF29202AE9CB00000DC99E /* BaseUITest.swift */,
+				8CFF29222AE9CB20000DC99E /* SurveysUITests.swift */,
+				8CFF29242AE9CB4A000DC99E /* SurveyQuestionsUITests.swift */,
+			);
+			path = UITests;
+			sourceTree = "<group>";
+		};
 		9622282B24F04D780056E74D /* ORKCatalogUITests */ = {
 			isa = PBXGroup;
 			children = (
-				9622283724F04D850056E74D /* Screens */,
+				8CD81ABC2AFD910A00ABCA39 /* InternalUITests */,
+				8CDBF98A2AFD9FC800AF767B /* Screens */,
 				9622282E24F04D780056E74D /* Info.plist */,
 				9622283E24F04EBA0056E74D /* Helpers.swift */,
 				9622284024F04EEF0056E74D /* PreSubmissionTests.swift */,
@@ -263,9 +338,13 @@
 		9622283724F04D850056E74D /* Screens */ = {
 			isa = PBXGroup;
 			children = (
-				9622283824F04DBF0056E74D /* TaskScreen.swift */,
-				9622283A24F04DFE0056E74D /* CommonElements.swift */,
-				9622283C24F04E6F0056E74D /* AllowScreens.swift */,
+				8CFF29112AE9C395000DC99E /* TabBar.swift */,
+				8CFF29132AE9C3E9000DC99E /* TasksTab.swift */,
+				8CFF29152AE9C452000DC99E /* Step.swift */,
+				8CFF29172AE9C674000DC99E /* InstructionStep.swift */,
+				8CFF29192AE9C8EA000DC99E /* QuestionStep.swift */,
+				8CFF291D2AE9CA95000DC99E /* FormStep.swift */,
+				8CFF291B2AE9CA5F000DC99E /* AnswerableStep.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -480,11 +559,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8CFF29212AE9CB00000DC99E /* BaseUITest.swift in Sources */,
+				8CFF29072AE9BE99000DC99E /* WaitUtils.swift in Sources */,
 				9622283924F04DBF0056E74D /* TaskScreen.swift in Sources */,
+				8CFF29142AE9C3E9000DC99E /* TasksTab.swift in Sources */,
+				8CFF291A2AE9C8EA000DC99E /* QuestionStep.swift in Sources */,
+				8CFF29252AE9CB4A000DC99E /* SurveyQuestionsUITests.swift in Sources */,
+				8CFF290B2AE9C051000DC99E /* XCTestCase.swift in Sources */,
+				8CFF29092AE9BEF9000DC99E /* XCUIElementQuery.swift in Sources */,
 				9622283B24F04DFE0056E74D /* CommonElements.swift in Sources */,
+				8CFF29182AE9C674000DC99E /* InstructionStep.swift in Sources */,
 				9622284124F04EEF0056E74D /* PreSubmissionTests.swift in Sources */,
+				8CFF29232AE9CB20000DC99E /* SurveysUITests.swift in Sources */,
 				9622283F24F04EBA0056E74D /* Helpers.swift in Sources */,
+				8CFF290F2AE9C24A000DC99E /* AccessibilityIdentifiers.swift in Sources */,
+				8CFF29122AE9C395000DC99E /* TabBar.swift in Sources */,
+				8CFF290D2AE9C06E000DC99E /* XCUIElement.swift in Sources */,
+				8CFF29162AE9C452000DC99E /* Step.swift in Sources */,
+				8CFF291E2AE9CA95000DC99E /* FormStep.swift in Sources */,
 				9622283D24F04E6F0056E74D /* AllowScreens.swift in Sources */,
+				8CFF291C2AE9CA5F000DC99E /* AnswerableStep.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
