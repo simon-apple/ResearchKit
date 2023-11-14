@@ -1571,7 +1571,9 @@ static NSString *const _ORKAnsweredSectionsRestoreKey = @"answeredSections";
     if (_currentFirstResponderCell == choiceOtherViewCell) {
         _currentFirstResponderCell = nil;
     }
-    NSIndexPath *indexPath = [_tableView indexPathForCell:choiceOtherViewCell];
+    // we need to use `indexPathForRowAtPoint` because `indexPathForCell`
+    // will return nil if the cell is off the screen, which will happen if we are scrolling
+    NSIndexPath *indexPath = [_tableView indexPathForRowAtPoint:choiceOtherViewCell.center];
     ORKTableSection *section = _sections[indexPath.section];
     [section.textChoiceCellGroup textViewDidResignResponderForCellAtIndexPath:indexPath];
 }
