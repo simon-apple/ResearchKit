@@ -66,7 +66,7 @@
             [self updateAVJournalingTaskArrayForResumption];
             [self applicationFinishedRestoringState];
             
-            if (unarchiver == nil) {
+            if (unarchiver == nil && errorOut != nil) {
                 *errorOut = [NSError errorWithDomain:ORKErrorDomain code:ORKErrorException userInfo:@{NSLocalizedDescriptionKey: ORKLocalizedString(@"RESTORE_ERROR_CANNOT_DECODE", nil)}];
             }
         }
