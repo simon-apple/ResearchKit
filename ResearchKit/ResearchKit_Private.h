@@ -130,14 +130,6 @@
 #import <ResearchKit/ORKHTMLPDFPageRenderer.h>
 #import <ResearchKit/ORKAudiometry.h>
 
-#import <ResearchKit/ORKNormalizedReactionTimeStep.h>
-#import <ResearchKit/ORKTouchAbilityLongPressStep.h>
-#import <ResearchKit/ORKTouchAbilityPinchStep.h>
-#import <ResearchKit/ORKTouchAbilityRotationStep.h>
-#import <ResearchKit/ORKTouchAbilityScrollStep.h>
-#import <ResearchKit/ORKTouchAbilitySwipeStep.h>
-#import <ResearchKit/ORKTouchAbilityTapStep.h>
-
 // For custom steps
 #import <ResearchKit/ORKStepView_Private.h>
 #import <ResearchKit/ORKCustomStepView.h>

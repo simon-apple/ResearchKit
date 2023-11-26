@@ -169,25 +169,6 @@
 #import <ResearchKit/ORKFamilyHistoryReviewController.h>
 #import <ResearchKit/ORKRelativeGroup.h>
 
-#import <ResearchKit/ORKNormalizedReactionTimeStep.h>
-#import <ResearchKit/ORKPicker.h>
-#import <ResearchKit/ORKTouchAbilityGestureRecoginzerEvent.h>
-#import <ResearchKit/ORKTouchAbilityLongPressResult.h>
-#import <ResearchKit/ORKTouchAbilityLongPressTrial.h>
-#import <ResearchKit/ORKTouchAbilityPinchResult.h>
-#import <ResearchKit/ORKTouchAbilityPinchTrial.h>
-#import <ResearchKit/ORKTouchAbilityRotationResult.h>
-#import <ResearchKit/ORKTouchAbilityRotationTrial.h>
-#import <ResearchKit/ORKTouchAbilityScrollResult.h>
-#import <ResearchKit/ORKTouchAbilityScrollTrial.h>
-#import <ResearchKit/ORKTouchAbilitySwipeResult.h>
-#import <ResearchKit/ORKTouchAbilitySwipeTrial.h>
-#import <ResearchKit/ORKTouchAbilityTapResult.h>
-#import <ResearchKit/ORKTouchAbilityTapTrial.h>
-#import <ResearchKit/ORKTouchAbilityTouch.h>
-#import <ResearchKit/ORKTouchAbilityTrack.h>
-#import <ResearchKit/ORKTouchAbilityTrial.h>
-
 #if RK_APPLE_INTERNAL
 #import <ResearchKit/ORKTypingStep.h>
 #import <ResearchKit/ORKTypingStepViewController.h>
