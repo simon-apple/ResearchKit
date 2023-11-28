@@ -125,13 +125,13 @@ typedef struct __attribute__((__packed__)) DepthPacket {
 - (instancetype)initWithSampleBufferDelegate:(id<AVCaptureDataOutputSynchronizerDelegate>)sampleBufferDelegate
                        sessionHelperDelegate:(id<ORKAVJournalingSessionHelperDelegate>)sessionHelperDelegate
                    storeDepthDataIfAvailable:(BOOL)storeDepthData
-                                       scene:(UIWindowScene *)scene {
+                        interfaceOrientation:(UIInterfaceOrientation)orientation {
     self = [super init];
     if (self) {
         _dataOutputQueue = dispatch_queue_create("com.apple.hrs.captureOutput", nil);
         _capturing = NO;
         _originalFrameSize = CGSizeZero;
-        _interfaceOrientation = scene.interfaceOrientation;
+        _interfaceOrientation = orientation;
         
 #if ORK_FEATURE_AV_JOURNALING_DEPTH_DATA_COLLECTION
         if (@available(iOS 11.1, *)) {

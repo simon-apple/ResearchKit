@@ -58,7 +58,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithSampleBufferDelegate:(id<AVCaptureDataOutputSynchronizerDelegate>)sampleBufferDelegate
                        sessionHelperDelegate:(id<ORKAVJournalingSessionHelperDelegate>)sessionHelperDelegate
                    storeDepthDataIfAvailable:(BOOL)storeDepthData
-                                       scene:(UIWindowScene *)scene;
+                        interfaceOrientation:(UIInterfaceOrientation)orientation;
 
 @property (nonatomic, nullable, readonly) AVCaptureSession *captureSession;
 @property (nonatomic, nullable, copy) NSArray *cameraIntrinsicsArray;

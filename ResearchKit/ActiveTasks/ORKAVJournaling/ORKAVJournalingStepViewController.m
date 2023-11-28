@@ -239,7 +239,7 @@ static const CGFloat FramesToSkipTotal = 5.0;
     _sessionHelper = [[ORKAVJournalingSessionHelper alloc] initWithSampleBufferDelegate:self
                                                                   sessionHelperDelegate:self
                                                               storeDepthDataIfAvailable:_avJournalingStep.saveDepthDataIfAvailable
-                                                                                  scene:_contentView.window.windowScene];
+                                                                   interfaceOrientation:_contentView.window.windowScene.interfaceOrientation];
     
     NSError *error = nil;
     
