@@ -125,8 +125,7 @@
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size
-       withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
-{
+       withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
     [self orientationDidChange];
 }
 
