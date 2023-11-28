@@ -146,12 +146,6 @@
     });
 }
 
-- (void)viewWillTransitionToSize:(CGSize)size
-       withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
-{
-    [self orientationDidChange];
-}
-
 - (void)setVideoCaptureStep:(ORKVideoCaptureStep *)videoCaptureStep {
     _videoCaptureStep = videoCaptureStep;
     
