@@ -134,8 +134,9 @@ static inline void dispatch_sync_if_not_on_queue(dispatch_queue_t queue, dispatc
 - (NSArray<ORKCollector *> *)collectors {
     if (_collectors == nil) {
         NSData *data = [NSData dataWithContentsOfFile:[self persistFilePath]];
-        _collectors = [NSKeyedUnarchiver unarchivedObjectOfClass:[NSArray class] fromData:data error:NULL];
-        if (_collectors == nil) {
+        NSError* error = nil;
+        _collectors = [NSKeyedUnarchiver unarchivedObjectOfClass:[NSArray class] fromData:data error:&error];
+        if (_collectors == nil || error != nil) {
             @throw [NSException exceptionWithName:NSGenericException reason: [NSString stringWithFormat:@"Failed to read from path %@", [self persistFilePath]] userInfo:nil];
         }
     }
