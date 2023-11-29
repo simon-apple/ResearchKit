@@ -35,7 +35,9 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ORKFormStepViewController ()
-- (void)restoreTextChoiceOtherCellStateWithSavedAnswer:(NSArray *)savedAnswer formItem:(ORKFormItem *)formItem choiceOtherViewCell:(ORKChoiceOtherViewCell *)choiceOtherViewCell;
+- (void)restoreTextChoiceOtherCellStateWithSavedAnswer:(NSArray *)savedAnswer
+                                              formItem:(ORKFormItem *)formItem
+                                   choiceOtherViewCell:(ORKChoiceOtherViewCell *)choiceOtherViewCell;
 
 @end
 

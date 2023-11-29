@@ -33,18 +33,68 @@ import ResearchKit
 
 class ORKFormStepViewControllerORKTextChoiceOtherRestorationTests: XCTestCase {
     var formStepWithSingleTextChoiceOther: ORKFormStep {
-        let step = ORKFormStep(identifier: "formstep", title: "formStep", text: nil)
+        let step = ORKFormStep(
+            identifier: "formstep",
+            title: "formStep",
+            text: nil
+        )
         step.formItems = [
-            ORKFormItem(identifier: "item1", text: "item1", answerFormat: ORKTextChoiceAnswerFormat(style: .singleChoice, textChoices: [ORKTextChoice(text: "option1", value: 1 as NSNumber), ORKTextChoiceOther.choice(withText: "choice 8", detailText: "", value: 8 as NSNumber, exclusive: true, textViewPlaceholderText: "Tap to write your answer")]))
-        ]
+            ORKFormItem(
+                identifier: "item1",
+                text: "item1",
+                answerFormat: 
+                    ORKTextChoiceAnswerFormat(
+                            style:.singleChoice,
+                            textChoices: [
+                                ORKTextChoice(
+                                    text: "option1",
+                                    value: 1 as NSNumber
+                                ),
+                                ORKTextChoiceOther.choice(
+                                    withText: "choice 8",
+                                    detailText: "",
+                                    value: 8 as NSNumber,
+                                    exclusive: true,
+                                    textViewPlaceholderText: "Tap to write your answer"
+                                )
+                            ]
+                        )
+                )
+            ]
         return step
     }
     
     var formStepWithMultipleTextChoiceOther: ORKFormStep {
-        let step = ORKFormStep(identifier: "formstep", title: "formStep", text: nil)
+        let step = ORKFormStep(
+            identifier: "formstep",
+            title: "formStep",
+            text: nil
+        )
         step.formItems = [
-            ORKFormItem(identifier: "item1", text: "item1", answerFormat: ORKTextChoiceAnswerFormat(style: .singleChoice, textChoices: [ORKTextChoice(text: "option1", value: 1 as NSNumber), ORKTextChoiceOther.choice(withText: "choice 8", detailText: "", value: 8 as NSNumber, exclusive: true, textViewPlaceholderText: "Tap to write your answer"),
-                ORKTextChoiceOther.choice(withText: "choice 9", detailText: "", value: 9 as NSNumber, exclusive: true, textViewPlaceholderText: "Tap to write your answer")]))
+            ORKFormItem(
+                identifier: "item1",
+                text: "item1",
+                answerFormat:
+                    ORKTextChoiceAnswerFormat(
+                        style: .singleChoice,
+                        textChoices: [
+                            ORKTextChoice(text: "option1", value: 1 as NSNumber),
+                            ORKTextChoiceOther.choice(
+                                withText: "choice 8",
+                                detailText: "",
+                                value: 8 as NSNumber,
+                                exclusive: true,
+                                textViewPlaceholderText: "Tap to write your answer"
+                            ),
+                            ORKTextChoiceOther.choice(
+                                withText: "choice 9",
+                                detailText: "", value: 9 as NSNumber,
+                                exclusive: true,
+                                textViewPlaceholderText: "Tap to write your answer"
+                            )
+                        ]
+                    )
+            )
         ]
         return step
     }
@@ -53,17 +103,33 @@ class ORKFormStepViewControllerORKTextChoiceOtherRestorationTests: XCTestCase {
         let step = formStepWithSingleTextChoiceOther
         let formStepViewController = ORKFormStepViewController(step: step)
         let savedAnswers = ["text"]
-        formStepViewController.restoreTextChoiceOtherCellState(withSavedAnswer: savedAnswers, formItem: step.formItems!.last!, choiceOtherViewCell: ORKChoiceOtherViewCell())
+        formStepViewController.restoreTextChoiceOtherCellState(
+            withSavedAnswer: savedAnswers,
+            formItem: step.formItems!.last!,
+            choiceOtherViewCell: ORKChoiceOtherViewCell()
+        )
         
-        checkTextChoiceRestoredCorrectly(step: step, hasStandardTextChoiceOtherArrangement: true, expectedRestoredTextViewText: "text")
+        checkTextChoiceRestoredCorrectly(
+            step: step,
+            hasStandardTextChoiceOtherArrangement: true,
+            expectedRestoredTextViewText: "text"
+        )
     }
     
     func testORKChoiceRestorationWithMultipleTextChoiceOther() {
         let step = formStepWithMultipleTextChoiceOther
         let formStepViewController = ORKFormStepViewController(step: step)
         let savedAnswers = ["text"]
-        formStepViewController.restoreTextChoiceOtherCellState(withSavedAnswer: savedAnswers, formItem: step.formItems!.first!, choiceOtherViewCell: ORKChoiceOtherViewCell())
-        checkTextChoiceRestoredCorrectly(step: step, hasStandardTextChoiceOtherArrangement: false, expectedRestoredTextViewText: nil)
+        formStepViewController.restoreTextChoiceOtherCellState(
+            withSavedAnswer: savedAnswers,
+            formItem: step.formItems!.first!,
+            choiceOtherViewCell: ORKChoiceOtherViewCell()
+        )
+        checkTextChoiceRestoredCorrectly(
+            step: step,
+            hasStandardTextChoiceOtherArrangement: false,
+            expectedRestoredTextViewText: nil
+        )
     }
     
     func checkTextChoiceRestoredCorrectly(step: ORKFormStep, hasStandardTextChoiceOtherArrangement: Bool, expectedRestoredTextViewText: String?) {

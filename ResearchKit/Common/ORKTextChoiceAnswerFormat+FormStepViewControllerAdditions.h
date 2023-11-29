@@ -34,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ORKTextChoiceAnswerFormat (FormStepViewControllerAdditions)
 
-/// Returns YES if the receiver has an array of textChoices where the last textChoice, and only the last textChoice, is an ORKTextChoiceOther textChoice.
+/// Returns YES if only the last object in the receiver’s textChoices property is an ORKTextChoiceOther type.
 - (BOOL)hasStandardTextChoiceOtherArrangement;
 
 @end

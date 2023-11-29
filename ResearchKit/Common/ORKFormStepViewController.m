@@ -480,7 +480,7 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
         if (textChoiceAnswer && [textChoiceAnswerFormat hasStandardTextChoiceOtherArrangement]) {
             ORKTextChoiceOther *textChoiceOther = ORKDynamicCast(formItem.impliedAnswerFormat.choices.lastObject, ORKTextChoiceOther);
             // You can use ORKTextChoice and ORKTextChoiceOther as the choices of the ORKTextChoiceAnswerFormat.
-            // However, ResearchKit only supports restoring the ORKTextChoiceOther, if it is the last choice.
+            // However, ResearchKit only supports restoring the ORKTextChoiceOther if it is the last choice.
             if (textChoiceOther) {
                 [choiceOtherViewCell setCellSelected:YES highlight:NO];
                 textChoiceOther.textViewText = textChoiceAnswer;
