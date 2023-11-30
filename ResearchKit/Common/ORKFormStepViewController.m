@@ -471,8 +471,7 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
 }
 
 - (void)restoreTextChoiceOtherCellStateWithSavedAnswer:(NSArray *)savedAnswer formItem:(ORKFormItem *)formItem choiceOtherViewCell:(ORKChoiceOtherViewCell *)choiceOtherViewCell {
-    id savedAnswerValue = [savedAnswer firstObject];
-    
+    id savedAnswerValue = ORKDynamicCast(savedAnswer, NSArray).firstObject;
     if (savedAnswerValue != nil) {
         ORKTextChoiceAnswerFormat *textChoiceAnswerFormat = ORKDynamicCast(formItem.impliedAnswerFormat, ORKTextChoiceAnswerFormat);
         NSString *textChoiceAnswer = ORKDynamicCast(savedAnswerValue, NSString);
