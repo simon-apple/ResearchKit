@@ -64,7 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sizeHeaderToFit;
 
-- (void)resizeFooterToFit;
+- (void)resizeFooterToFitUsingMinHeight:(BOOL)useMinHeight;
 
 - (void)removeFooterView;
 
