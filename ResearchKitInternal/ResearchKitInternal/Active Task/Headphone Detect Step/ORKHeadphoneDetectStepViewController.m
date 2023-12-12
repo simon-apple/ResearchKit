@@ -42,7 +42,6 @@
 #import <ResearchKitUI/ORKCheckmarkView.h>
 #import <ResearchKitUI/ORKCustomStepView_Internal.h>
 #import <ResearchKitUI/ORKInstructionStepContainerView.h>
-#import <ResearchKitUI/ORKInstructionStepView.h>
 #import <ResearchKitUI/ORKInstructionStepViewController_Internal.h>
 #import <ResearchKitUI/ORKNavigationContainerView.h>
 #import <ResearchKitUI/ORKNavigationContainerView_Internal.h>
@@ -50,6 +49,8 @@
 #import <ResearchKitUI/ORKStepViewController_Internal.h>
 #import <ResearchKitUI/ORKStepContainerView_Private.h>
 #import <ResearchKitUI/ORKTaskViewController_Internal.h>
+
+#import <LocalAuthentication/LAContext.h>
 
 #import <LocalAuthentication/LAContext.h>
 
@@ -231,7 +232,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
             return AAPLLocalizedString(@"AIRPODS", nil);
         case ORKHeadphoneDetectedAirpodsPro:
         case ORKHeadphoneDetectedAirpodsProGen2:
-            return ORKLocalizedString(@"AIRPODSPRO", nil);
+            return AAPLLocalizedString(@"AIRPODSPRO", nil);
         case ORKHeadphoneDetectedAirpodsMax:
             return AAPLLocalizedString(@"AIRPODSMAX", nil);
         case ORKHeadphoneDetectedEarpods:
@@ -879,10 +880,6 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     [super viewDidLoad];
     self.stepView.navigationFooterView.optional = YES;
     self.stepView.navigationFooterView.continueEnabled = NO;
-    
-    if (self.step.context && [self.step.context isKindOfClass:[ORKTinnitusPredefinedTaskContext class]]) {
-        [(ORKTinnitusPredefinedTaskContext *)self.step.context insertTaskViewController:[self taskViewController]];
-    }
 }
 
 - (void)setContinueButtonItem:(UIBarButtonItem *)continueButtonItem {
@@ -934,6 +931,10 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
+    if (self.step.context && [self.step.context isKindOfClass:[ORKTinnitusPredefinedTaskContext class]]) {
+        [(ORKTinnitusPredefinedTaskContext *)self.step.context insertTaskViewController:[self taskViewController]];
+    }
+    
     _headphoneDetector = [[ORKHeadphoneDetector alloc] initWithDelegate:self supportedHeadphoneChipsetTypes:[[self detectStep] supportedHeadphoneChipsetTypes]];
 }
 
@@ -948,6 +949,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     headphoneResult.vendorID = _lastDetectedVendorID;
     headphoneResult.productID = _lastDetectedProductID;
     headphoneResult.deviceSubType = _lastDetectedDeviceSubType;
+    headphoneResult.isMonoAudioEnabled = UIAccessibilityIsMonoAudioEnabled();
     
     [results addObject:headphoneResult];
     

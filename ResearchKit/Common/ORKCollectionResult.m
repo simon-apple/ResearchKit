@@ -244,7 +244,9 @@
 }
 
 - (ORKStepResult *)stepResultForStepIdentifier:(NSString *)stepIdentifier {
-    return (ORKStepResult *)[self resultForIdentifier:stepIdentifier];
+    ORKResult *genericResult = [self resultForIdentifier:stepIdentifier];
+    ORKStepResult *stepResult = ORKDynamicCast(genericResult, ORKStepResult);
+    return stepResult;
 }
 
 @end

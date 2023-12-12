@@ -32,4 +32,9 @@
 
 @implementation AAPLSpeechInNoiseStep
 
+- (instancetype)copyWithZone:(NSZone *)zone {
+    AAPLSpeechInNoiseStep *step = [super copyWithZone:zone];
+    return step;
+}
+
 @end

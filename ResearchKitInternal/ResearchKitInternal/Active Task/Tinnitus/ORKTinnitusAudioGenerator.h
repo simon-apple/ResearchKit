@@ -73,9 +73,9 @@ Plays a white noise audio. Only works if instantiated with white noise kind.
 - (void)playWhiteNoise;
 
 /**
- Stops the audio being played.
+ Stops the audio being played with fade out.
  */
-- (void)stop;
+- (void)stop:(void (^ _Nonnull)(void))didStopPlaying;
 
 /**
  Returns the peak audio volume being currently played, in decibels (dB).

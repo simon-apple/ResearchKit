@@ -55,6 +55,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
 
+#if RK_APPLE_INTERNAL
+        if #available(iOS 15.0, *) {
+            let settingViewController = SettingsViewController(rootView: SettingsView())
+            settingViewController.tabBarItem.image = UIImage(systemName: "gear")
+            settingViewController.tabBarItem.title = "Settings"
+            tabBarController.viewControllers?.append(settingViewController)
+        }
+#endif
         // When a task result has been finished, update the result view controller's task result.
         taskListViewController.taskResultFinishedCompletionHandler = { [unowned self] taskResult in
             /*

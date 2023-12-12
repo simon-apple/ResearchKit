@@ -443,6 +443,8 @@ static const NSTimeInterval SPL_METER_PLAY_DELAY_VOICEOVER = 3.0;
 }
 
 - (void)reachedOptimumNoiseLevel {
+    [self stopAudioEngine];
+    [self sendHapticEvent:UINotificationFeedbackTypeSuccess];
     [self resetAudioSession];
 }
 

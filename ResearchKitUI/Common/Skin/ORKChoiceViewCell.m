@@ -40,16 +40,21 @@
 #import "ORKSkin.h"
 #import "ORKCheckmarkView.h"
 
-
 static const CGFloat CardTopBottomMargin = 2.0;
 static const CGFloat LabelTopBottomMargin = 14.0;
+static const CGFloat LabelTopBottomMarginWithColorSwatch = 18.0;
 static const CGFloat TextViewTopMargin = 20.0;
 static const CGFloat TextViewHeight = 100.0;
 static const CGFloat LabelCheckViewPadding = 10.0;
+static const CGFloat ColorSwatchViewHeightWidth = 40.0;
+static const CGFloat ColorSwatchViewTopBottomPadding = 12.0;
+static const CGFloat ColorSwatchExpandedRightPadding = 16.0;
 
 @interface ORKChoiceViewCell() <CAAnimationDelegate>
 
 @property (nonatomic) UIView *containerView;
+@property (nonatomic) UIImageView *textChoiceImageView;
+@property (nonatomic) UIView *colorSwatchView;
 @property (nonatomic) ORKSelectionTitleLabel *primaryLabel;
 @property (nonatomic) ORKSelectionSubTitleLabel *detailLabel;
 @property (nonatomic) ORKCheckmarkView *checkView;
@@ -111,6 +116,10 @@ static const CGFloat LabelCheckViewPadding = 10.0;
 }
 
 - (UIColor *)__fillColor {
+    
+    if (_shouldIgnoreDarkMode) {
+        return [UIColor whiteColor];
+    }
     
     UIColor *color;
     
@@ -180,15 +189,15 @@ static const CGFloat LabelCheckViewPadding = 10.0;
             
             _foreLayerBounds = CGRectMake(ORKCardDefaultBorderWidth, 0, self.containerView.bounds.size.width - 2 * ORKCardDefaultBorderWidth, self.containerView.bounds.size.height - ORKCardDefaultBorderWidth);
             
-            _contentMaskLayer.path = [UIBezierPath bezierPathWithRoundedRect: self.containerView.bounds
-                                                           byRoundingCorners:rectCorners
-                                                                 cornerRadii: (CGSize){ORKCardDefaultCornerRadii, ORKCardDefaultCornerRadii}].CGPath;
-            
             CGFloat foreLayerCornerRadii = ORKCardDefaultCornerRadii >= ORKCardDefaultBorderWidth ? ORKCardDefaultCornerRadii - ORKCardDefaultBorderWidth : ORKCardDefaultCornerRadii;
             
             _foreLayer.path = [UIBezierPath bezierPathWithRoundedRect: _foreLayerBounds
                                                    byRoundingCorners: rectCorners
                                                          cornerRadii: (CGSize){foreLayerCornerRadii, foreLayerCornerRadii}].CGPath;
+            
+            _contentMaskLayer.path = [UIBezierPath bezierPathWithRoundedRect: self.containerView.bounds
+                                                           byRoundingCorners:rectCorners
+                                                                 cornerRadii: (CGSize){ORKCardDefaultCornerRadii, ORKCardDefaultCornerRadii}].CGPath;
         } else {
             
             _foreLayerBounds = CGRectMake(ORKCardDefaultBorderWidth, 0, self.containerView.bounds.size.width - 2 * ORKCardDefaultBorderWidth, self.containerView.bounds.size.height);
@@ -223,6 +232,7 @@ static const CGFloat LabelCheckViewPadding = 10.0;
 - (void)setupContainerView {
     if (!_containerView) {
         _containerView = [UIView new];
+        _containerView.translatesAutoresizingMaskIntoConstraints = NO;
     }
     [self.contentView addSubview:_containerView];
 }
@@ -260,17 +270,56 @@ static const CGFloat LabelCheckViewPadding = 10.0;
     ]];
 }
 
+- (void)addLeftContentViewToContainerViewConstraints {
+    UIView *leftContentView = [self getLeftContentView];
+    
+    if (leftContentView) {
+        
+        [_containerConstraints addObject:[leftContentView.leadingAnchor constraintEqualToAnchor:_containerView.leadingAnchor constant:ORKSurveyItemMargin]];
+        
+        [_containerConstraints addObject:[leftContentView.centerYAnchor constraintEqualToAnchor:_containerView.centerYAnchor]];
+        [_containerConstraints addObject:[leftContentView.heightAnchor constraintEqualToConstant:ColorSwatchViewHeightWidth]];
+        
+        [_containerConstraints addObject:[NSLayoutConstraint constraintWithItem:leftContentView
+                                                                      attribute:NSLayoutAttributeTop
+                                                                      relatedBy:NSLayoutRelationEqual
+                                                                         toItem:_containerView
+                                                                      attribute:NSLayoutAttributeTop
+                                                                     multiplier:1.0
+                                                                       constant:ColorSwatchViewTopBottomPadding]];
+        
+        if (!_primaryLabel && !_detailLabel) {
+            [_containerConstraints addObject:[leftContentView.topAnchor constraintEqualToAnchor:_containerView.topAnchor constant:LabelTopBottomMargin]];
+            [_containerConstraints addObject:[leftContentView.trailingAnchor constraintEqualToAnchor:_checkView.leadingAnchor constant:-ColorSwatchExpandedRightPadding]];
+        } else if (leftContentView) {
+            [_containerConstraints addObject:[leftContentView.widthAnchor constraintEqualToConstant:ColorSwatchViewHeightWidth]];
+        }
+     }
+}
+
 - (void)addPrimaryLabelToContainerViewConstraints {
     if (_primaryLabel) {
+        UIView *leftContentView = [self getLeftContentView];
+        
+        if (leftContentView) {
+            [_containerConstraints addObject:[NSLayoutConstraint constraintWithItem:_primaryLabel
+                                                                          attribute:NSLayoutAttributeCenterY
+                                                                          relatedBy:NSLayoutRelationEqual
+                                                                             toItem:_containerView
+                                                                          attribute:NSLayoutAttributeCenterY
+                                                                         multiplier:1.0
+                                                                           constant:0.0]];
+        } else {
+            [_containerConstraints addObject:[NSLayoutConstraint constraintWithItem:_primaryLabel
+                                                                          attribute:NSLayoutAttributeTop
+                                                                          relatedBy:NSLayoutRelationEqual
+                                                                             toItem:_containerView
+                                                                          attribute:NSLayoutAttributeTop
+                                                                         multiplier:1.0
+                                                                           constant:LabelTopBottomMargin]];
+        }
         
         [_containerConstraints addObjectsFromArray:@[
-            [NSLayoutConstraint constraintWithItem:_primaryLabel
-                                         attribute:NSLayoutAttributeTop
-                                         relatedBy:NSLayoutRelationEqual
-                                            toItem:_containerView
-                                         attribute:NSLayoutAttributeTop
-                                        multiplier:1.0
-                                          constant:LabelTopBottomMargin],
             [NSLayoutConstraint constraintWithItem:_primaryLabel
                                          attribute:NSLayoutAttributeTrailing
                                          relatedBy:NSLayoutRelationEqual
@@ -281,8 +330,8 @@ static const CGFloat LabelCheckViewPadding = 10.0;
             [NSLayoutConstraint constraintWithItem:_primaryLabel
                                          attribute:NSLayoutAttributeLeading
                                          relatedBy:NSLayoutRelationEqual
-                                            toItem:_containerView
-                                         attribute:NSLayoutAttributeLeading
+                                            toItem:leftContentView ?: _containerView
+                                         attribute:leftContentView ? NSLayoutAttributeTrailing : NSLayoutAttributeLeading
                                         multiplier:1.0
                                           constant:ORKSurveyItemMargin]
         ]];
@@ -295,7 +344,7 @@ static const CGFloat LabelCheckViewPadding = 10.0;
             [NSLayoutConstraint constraintWithItem:_detailLabel
                                          attribute:NSLayoutAttributeTop
                                          relatedBy:NSLayoutRelationEqual
-                                            toItem:_primaryLabel ? : _containerView
+                                            toItem:_primaryLabel ?: _containerView
                                          attribute:_primaryLabel ? NSLayoutAttributeBottom : NSLayoutAttributeTop
                                         multiplier:1.0
                                           constant:_primaryLabel ? 0.0 : LabelTopBottomMargin],
@@ -318,17 +367,28 @@ static const CGFloat LabelCheckViewPadding = 10.0;
 }
 
 - (void)addContainerViewBottomConstraint {
+    UIView *bottomMostView = _detailLabel ?: _primaryLabel;
+    UIView *leftContentView = [self getLeftContentView];
+    
+    // only use extra margin if the primary or detail label have been initialized
+    CGFloat bottomMargin = (leftContentView && bottomMostView) ? LabelTopBottomMarginWithColorSwatch : LabelTopBottomMargin;
+    
+    if (leftContentView) {
+        bottomMostView = leftContentView;
+        bottomMargin = ColorSwatchViewTopBottomPadding;
+    }
+    
     [_containerConstraints addObject:[NSLayoutConstraint constraintWithItem:_containerView
                                                                   attribute:NSLayoutAttributeBottom
                                                                   relatedBy:NSLayoutRelationEqual
-                                                                     toItem:_detailLabel ? : _primaryLabel
+                                                                     toItem:bottomMostView
                                                                   attribute:NSLayoutAttributeBottom
                                                                  multiplier:1.0
-                                                                   constant:LabelTopBottomMargin]];
+                                                                   constant:bottomMargin]];
 }
 
 - (void)setupConstraints {
-    if (!_primaryLabel && !_detailLabel) {
+    if (!_primaryLabel && !_detailLabel && !_colorSwatchView) {
         return;
     }
     
@@ -336,20 +396,13 @@ static const CGFloat LabelCheckViewPadding = 10.0;
         [NSLayoutConstraint deactivateConstraints:_containerConstraints];
     }
     
-    _containerView.translatesAutoresizingMaskIntoConstraints = NO;
     _containerConstraints = [[NSMutableArray alloc] init];
     [self addContainerViewToSelfConstraints];
+    [self addLeftContentViewToContainerViewConstraints];
     [self addPrimaryLabelToContainerViewConstraints];
     [self addDetailLabelConstraints];
     [self addCheckViewToContainerViewConstraints];
     [self addContainerViewBottomConstraint];
-    [_containerConstraints addObject:[NSLayoutConstraint constraintWithItem:self
-                                                                  attribute:NSLayoutAttributeBottom
-                                                                  relatedBy:NSLayoutRelationEqual
-                                                                     toItem:_containerView
-                                                                  attribute:NSLayoutAttributeBottom
-                                                                 multiplier:1.0
-                                                                   constant:self.intraCellSpacing]];
     
     [NSLayoutConstraint activateConstraints:_containerConstraints];
 }
@@ -359,6 +412,27 @@ static const CGFloat LabelCheckViewPadding = 10.0;
     [self updateSelectedItem];
     [self setMaskLayers];
     [self setPrimaryLabelFont];
+}
+
+- (void)prepareForReuse {
+    _primaryLabel.text = nil;
+    _detailLabel.text = nil;
+    
+    if (_textChoiceImageView) {
+        [_textChoiceImageView removeFromSuperview];
+        _textChoiceImageView = nil;
+    }
+    
+    if (_colorSwatchView) {
+        [_colorSwatchView removeFromSuperview];
+        _colorSwatchView = nil;
+    }
+    [NSLayoutConstraint deactivateConstraints:_containerConstraints];
+    [_containerConstraints removeAllObjects];
+    // [LC:NOTE] no need to reset the checkmark, because we have a call in cellForRow that manually sets/unsets the checkmark
+    // [choiceViewCell setCellSelected:NO highlight:NO];
+    // [LC:TODO] rdar://113283650 (Move `SetCellSelected` to be set in the `ORKChoiceViewCell.configure` method)
+    [super prepareForReuse];
 }
 
 - (void)setUseCardView:(bool)useCardView {
@@ -382,22 +456,36 @@ static const CGFloat LabelCheckViewPadding = 10.0;
     _immediateNavigation = immediateNavigation;
 }
 
-- (void)setCellSelected:(BOOL)cellSelected highlight:(BOOL)highlight
-{
-    _cellSelected = cellSelected;
-    
+- (void)setCellSelected:(BOOL)cellSelected highlight:(BOOL)highlight {
+    _cellSelected = cellSelected;    
     [self updateSelectedItem];
     
     if (highlight)
     {
+        
         _animationLayer = [CAShapeLayer layer];
         [_animationLayer setOpaque:NO];
-        _animationLayer.frame = CGRectMake(_foreLayerBounds.origin.x, _foreLayerBounds.origin.y, _foreLayerBounds.size.width, _foreLayerBounds.size.height - 1.0);
         _animationLayer.zPosition = 1.0f;
+        
+        if ([self shouldApplyMaskLayers]) {
+            UIRectCorner rectCorners = [self roundedCorners];
+
+            CGFloat animationLayerCornerRadii = ORKCardDefaultCornerRadii >= ORKCardDefaultBorderWidth ? ORKCardDefaultCornerRadii - ORKCardDefaultBorderWidth : ORKCardDefaultCornerRadii;
+            
+            _animationLayer.path = [UIBezierPath bezierPathWithRoundedRect: _foreLayerBounds
+                                                         byRoundingCorners: rectCorners
+                                                               cornerRadii: (CGSize){animationLayerCornerRadii, animationLayerCornerRadii}].CGPath;
+
+            _animationLayer.fillColor = UIColor.clearColor.CGColor;
+        }
+        
+        _animationLayer.frame = CGRectMake(_foreLayerBounds.origin.x, _foreLayerBounds.origin.y, _foreLayerBounds.size.width, _foreLayerBounds.size.height - 1.0);
+        
         [_contentMaskLayer addSublayer:_animationLayer];
         
-        CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"backgroundColor"];
-        
+        NSString *animationKeyPath = [self shouldApplyMaskLayers] ? @"fillColor" : @"backgroundColor";
+        CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:animationKeyPath];
+
         if (@available(iOS 13.0, *))
         {
             if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight)
@@ -413,18 +501,46 @@ static const CGFloat LabelCheckViewPadding = 10.0;
         {
             animation.fromValue = (__bridge id _Nullable)([UIColor colorWithRed:0.282 green:0.282 blue:0.235 alpha:1.0].CGColor);
         }
-        
         animation.toValue = (__bridge id _Nullable)(_fillColor.CGColor);
         animation.beginTime = 0.0;
         animation.duration = 0.45;
         animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
         animation.removedOnCompletion = YES;
         animation.delegate = self;
-        
-        [_animationLayer addAnimation:animation forKey:@"backgroundColor"];
-        
-        _animationLayer.backgroundColor = _fillColor.CGColor;
+
+        [_animationLayer addAnimation:animation forKey:animationKeyPath];
     }
+}
+
+- (void)setupTextChoiceImageView {
+    if (!_textChoiceImageView) {
+        _textChoiceImageView = [UIImageView new];
+        _textChoiceImageView.contentMode = UIViewContentModeScaleToFill;
+        _textChoiceImageView.translatesAutoresizingMaskIntoConstraints = NO;
+        
+        [_containerView addSubview:_textChoiceImageView];
+    }
+}
+
+- (void)setupColorSwatchView {
+    if (!_colorSwatchView) {
+        _colorSwatchView = [UIView new];
+        _colorSwatchView.clipsToBounds = YES;
+        _colorSwatchView.layer.cornerRadius = 4.0;
+        _colorSwatchView.translatesAutoresizingMaskIntoConstraints = NO;
+        
+        [_containerView addSubview:_colorSwatchView];
+    }
+}
+
+- (nullable UIView *)getLeftContentView {
+    if (_textChoiceImageView) {
+        return _textChoiceImageView;
+    } else if (_colorSwatchView) {
+        return _colorSwatchView;
+    }
+    
+    return nil;
 }
 
 - (void)setupPrimaryLabel {
@@ -432,10 +548,11 @@ static const CGFloat LabelCheckViewPadding = 10.0;
         _primaryLabel = [ORKSelectionTitleLabel new];
         _primaryLabel.numberOfLines = 0;
         if (@available(iOS 13.0, *)) {
-            _primaryLabel.textColor = [UIColor labelColor];
+            _primaryLabel.textColor = _shouldIgnoreDarkMode ? [UIColor blackColor] : [UIColor labelColor];
         } else {
             _primaryLabel.textColor = [UIColor blackColor];
         }
+        
         [self.containerView addSubview:_primaryLabel];
         [self setPrimaryLabelFont];
         _primaryLabel.translatesAutoresizingMaskIntoConstraints = NO;
@@ -458,6 +575,7 @@ static const CGFloat LabelCheckViewPadding = 10.0;
     if (!_checkView) {
         _checkView = [[ORKCheckmarkView alloc] initWithDefaults];
     }
+    
     [_checkView setChecked:NO];
     [self.containerView addSubview:_checkView];
 }
@@ -481,6 +599,29 @@ static const CGFloat LabelCheckViewPadding = 10.0;
                                         multiplier:1.0
                                           constant:-ORKSurveyItemMargin]
         ]];
+    }
+}
+
+- (void)setShouldIgnoreDarkMode:(BOOL)shouldIgnoreDarkMode {
+    _shouldIgnoreDarkMode = shouldIgnoreDarkMode;
+    
+    if (_checkView) {
+        _checkView.shouldIgnoreDarkMode = shouldIgnoreDarkMode;
+    }
+}
+
+- (void)setTextChoiceImage:(UIImage *)image {
+    if (image && !_colorSwatchView) {
+        [self setupTextChoiceImageView];
+        
+        [_textChoiceImageView setImage:image];
+    }
+}
+
+- (void)setSwatchColor:(UIColor *)swatchColor {
+    if (swatchColor && !_textChoiceImageView) {
+        [self setupColorSwatchView];
+        _colorSwatchView.backgroundColor = swatchColor;
     }
 }
 
@@ -564,7 +705,7 @@ static const CGFloat LabelCheckViewPadding = 10.0;
 @end
 
 
-@implementation ORKChoiceOtherViewCell
+@implementation ORKChoiceOtherViewCell 
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style
               reuseIdentifier:(NSString *)reuseIdentifier {
@@ -593,6 +734,16 @@ static const CGFloat LabelCheckViewPadding = 10.0;
     [self setupConstraints];
 }
 
+- (void)setupWithText:(NSString *)text
+      placeholderText:(NSString *)placeholderText
+       expansionState:(ORKChoiceViewCellExpansionState)expansionState {
+        self.textView.placeholder = placeholderText;
+        if (self.textView.text.length > 0 && expansionState == ORKChoiceViewCellExpansionStateCollapsed) {
+            self.textView.text = text;
+        }
+        [self hideTextView:((expansionState == ORKChoiceViewCellExpansionStateExpanded) ? false : true)];
+}
+
 - (void)updateTextView {
     [self.textView setHidden:_textViewHidden];
 }
@@ -612,7 +763,7 @@ static const CGFloat LabelCheckViewPadding = 10.0;
         [NSLayoutConstraint constraintWithItem:_textView
                                      attribute:NSLayoutAttributeTop
                                      relatedBy:NSLayoutRelationEqual
-                                        toItem:self.detailLabel ? : self.primaryLabel
+                                        toItem:self.detailLabel ?: self.primaryLabel
                                      attribute:NSLayoutAttributeBottom
                                     multiplier:1.0
                                       constant:TextViewTopMargin],
@@ -668,7 +819,7 @@ static const CGFloat LabelCheckViewPadding = 10.0;
     return YES;
 }
 
-- (void) textViewDidEndEditing:(UITextView *)textView {
+- (void)textViewDidEndEditing:(UITextView *)textView {
     if (self.delegate && [self.delegate respondsToSelector:@selector(textChoiceOtherCellDidResignFirstResponder:)]) {
         [self.delegate textChoiceOtherCellDidResignFirstResponder:self];
     }

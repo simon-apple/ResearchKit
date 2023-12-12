@@ -182,8 +182,9 @@ func resultTableViewProviderForResult(_ result: ORKResult?, delegate: ResultProv
     case is ORKdBHLToneAudiometryResult:
         providerType = dBHLToneAudiometryResultTableViewProvider.self
 
-    // start-omit-internal-code
     #if RK_APPLE_INTERNAL
+    case is ORKFamilyHistoryResult:
+        providerType = FamilyHistoryResultTableViewProvider.self
 
     case is ORKHeadphoneDetectResult:
         providerType = HeadphoneDetectStepResultTableViewProvider.self
@@ -211,9 +212,7 @@ func resultTableViewProviderForResult(_ result: ORKResult?, delegate: ResultProv
         
     case is ORKBLEScanPeripheralsStepResult:
         providerType = BLEScanPeripheralsStepResultTableViewProvider.self
-                    
     #endif
-    // end-omit-internal-code
 
     default:
         fatalError("No ResultTableViewProvider defined for \(type(of: result)).")
@@ -461,7 +460,7 @@ class ChoiceQuestionResultTableViewProvider: ResultTableViewProvider {
         let choiceResult = result as! ORKChoiceQuestionResult
         
         return super.resultRowsForSection(section) + [
-            ResultRow(text: "choices", detail: choiceResult.choiceAnswers)
+            ResultRow(text: "choices", detail: choiceResult.choiceAnswers?.description)
         ]
     }
 }
@@ -1324,6 +1323,39 @@ class CollectionResultTableViewProvider: ResultTableViewProvider {
         return rows
     }
 }
+
+#if RK_APPLE_INTERNAL
+/// Table view provider specific to an `ORKFamilyHistoryResult` instance.
+class FamilyHistoryResultTableViewProvider: TaskResultTableViewProvider {
+    // MARK: ResultTableViewProvider
+
+    override func resultRowsForSection(_ section: Int) -> [ResultRow] {
+        let taskResult = result as! ORKFamilyHistoryResult
+
+        let rows = [ResultRow]()
+        
+        if section == 0 {
+            if let conditions = taskResult.displayedConditions {
+                return rows + conditions.map { condition in
+                    return ResultRow(text: "Condition", detail:"\(condition)", selectable: false)
+                }
+            }
+        } else if section == 1 {
+            if let relatedPersons = taskResult.relatedPersons {
+                var rows = [ResultRow]()
+                
+                relatedPersons.forEach{ person in
+                    rows.append(ResultRow(text: "Person", detail:"\(person.identifier)", selectable: true))
+                }
+                
+                return rows
+            }
+        }
+        
+        return rows
+    }
+}
+#endif
 
 /// Table view provider specific to an `ORKVideoInstructionStepResult` instance.
 // swiftlint:disable type_name

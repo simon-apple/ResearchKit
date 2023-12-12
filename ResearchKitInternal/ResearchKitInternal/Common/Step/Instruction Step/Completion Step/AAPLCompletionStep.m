@@ -34,5 +34,14 @@
 
 @implementation AAPLCompletionStep
 
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
+- (instancetype)copyWithZone:(NSZone *)zone {
+    AAPLCompletionStep *step = [super copyWithZone:zone];
+    return step;
+}
+
 @end
 

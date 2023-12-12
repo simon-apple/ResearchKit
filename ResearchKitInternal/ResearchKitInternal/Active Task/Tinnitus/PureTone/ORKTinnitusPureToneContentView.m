@@ -54,6 +54,7 @@ static const CGFloat ORKTinnitusStandardSpacing = 12.0;
     NSArray *_buttonViewsArray;
     
     PureToneButtonsStage _buttonsStage;
+    ORKTinnitusSelectedPureTonePosition _previousPosition;
 }
 
 @property (nonatomic, strong, readonly) ORKTinnitusButtonView *firstAButtonView;
@@ -80,6 +81,7 @@ static const CGFloat ORKTinnitusStandardSpacing = 12.0;
 
 - (void)commonInit
 {
+    _previousPosition = ORKTinnitusSelectedPureTonePositionNone;
     _constraintsDefined = NO;
     _buttonsStage = PureToneButtonsStageOne;
     
@@ -333,22 +335,22 @@ static const CGFloat ORKTinnitusStandardSpacing = 12.0;
     return NO;
 }
 
-- (BOOL)isPlayingLastButton {
-    BOOL isPlayingLastButton = NO;
+- (BOOL)isCurrentAutoStageButtonSelected {
+    BOOL isCurrentStateButtonSelected = NO;
     switch (_buttonsStage) {
         case PureToneButtonsStageOne:
-            isPlayingLastButton = _cButtonView.isSelected;
+            isCurrentStateButtonSelected = _cButtonView.isSelected;
             break;
         case PureToneButtonsStageTwo:
-            isPlayingLastButton = _secondBButtonView.isSelected;
+            isCurrentStateButtonSelected = _secondBButtonView.isSelected;
             break;
         case PureToneButtonsStageThree:
-            isPlayingLastButton = _thirdBButtonView.isSelected;
+            isCurrentStateButtonSelected = _thirdBButtonView.isSelected;
             break;
         default:
             break;
     }
-    return isPlayingLastButton;
+    return isCurrentStateButtonSelected;
 }
 
 - (void)restoreButtons {
@@ -509,8 +511,9 @@ static const CGFloat ORKTinnitusStandardSpacing = 12.0;
         [scrollView scrollRectToVisible:buttonCenterRect animated:YES];
     }
     
-    if (_delegate && [_delegate respondsToSelector:@selector(playButtonPressedWithNewPosition:)]) {
-        [_delegate playButtonPressedWithNewPosition:[self currentSelectedPosition]];
+    if (_delegate && [_delegate respondsToSelector:@selector(playButtonPressedWithNewPosition:previousPosition:)]) {
+        [_delegate playButtonPressedWithNewPosition:[self currentSelectedPosition] previousPosition:_previousPosition];
+        _previousPosition = [self currentSelectedPosition];
     }
 }
 

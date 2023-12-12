@@ -115,3 +115,7 @@
 #import <ResearchKitUI/UIImage+ResearchKit.h>
 #import <ResearchKitUI/UIResponder+ResearchKit.h>
 #import <ResearchKitUI/UIView+ORKAccessibility.h>
+
+#if RK_APPLE_INTERNAL
+#import <ResearchKitUI/ORKColorChoiceCellGroup.h>
+#endif

@@ -41,8 +41,6 @@
 #import <ResearchKitInternal/AAPLdBHLToneAudiometryResult.h>
 #import <ResearchKitInternal/AAPLSpeechInNoiseStep.h>
 #import <ResearchKitInternal/AAPLSpeechInNoiseStepViewController.h>
-#import <ResearchKitInternal/AAPLSpeechRecognitionStep.h>
-#import <ResearchKitInternal/AAPLSpeechRecognitionStepViewController.h>
 #import <ResearchKitInternal/AAPLEnvironmentSPLMeterStep.h>
 
 #import <ResearchKitInternal/AAPLCompletionStep.h>
@@ -74,3 +72,14 @@
 #import <ResearchKitInternal/ORKTypingStep.h>
 #import <ResearchKitInternal/ORKTypingStepViewController.h>
 #import <ResearchKitInternal/ORKVolumeCalibrationStepViewController.h>
+
+// Family History
+#import <ResearchKitInternal/ORKRelativeGroup.h>
+#import <ResearchKitInternal/ORKHealthCondition.h>
+#import <ResearchKitInternal/ORKRelatedPerson.h>
+#import <ResearchKitInternal/ORKFamilyHistoryResult.h>
+#import <ResearchKitInternal/ORKConditionStepConfiguration.h>
+#import <ResearchKitInternal/ORKFamilyHistoryStep.h>
+#import <ResearchKitInternal/ORKFamilyHistoryStepViewController.h>
+#import <ResearchKitInternal/ORKFamilyHistoryReviewController.h>
+#import <ResearchKitInternal/ORKRelativeGroup.h>

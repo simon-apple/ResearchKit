@@ -9,7 +9,12 @@
 /* Begin PBXBuildFile section */
 		03F7FD9F23959DD500432EF6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F7FD9E23959DD500432EF6 /* SceneDelegate.swift */; };
 		0B270D6C28D147AC0072BEA1 /* StudyPromoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B270D6B28D147AC0072BEA1 /* StudyPromoViewController.swift */; };
+		0B31EE4729887C4E00CD0D24 /* WrapperViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B31EE4629887C4E00CD0D24 /* WrapperViewController.swift */; };
+		0B58E51C2981D293007263DA /* UserDefaultKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B58E51B2981D293007263DA /* UserDefaultKeys.swift */; };
 		0B6CB32728B577640092E993 /* Bundle+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6CB32628B577640092E993 /* Bundle+Extensions.swift */; };
+		0BE9D5182943E92700DA0625 /* ResearchKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE9D5172943E92700DA0625 /* ResearchKitView.swift */; };
+		0BE9D51A2943F3A800DA0625 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE9D5192943F3A800DA0625 /* SettingsViewController.swift */; };
+		0BE9D51C2943F42600DA0625 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE9D51B2943F42600DA0625 /* SettingsView.swift */; };
 		0BEE14A6286BC6A9005F26D1 /* Scrubbers in Resources */ = {isa = PBXBuildFile; fileRef = 0BEE14A5286BC6A9005F26D1 /* Scrubbers */; };
 		3E39B9FB1ABF682D00C2ABE5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3E39B9F91ABF682D00C2ABE5 /* Main.storyboard */; };
 		3E39B9FE1ABF683700C2ABE5 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E39B9FC1ABF683700C2ABE5 /* LaunchScreen.xib */; };
@@ -75,7 +80,12 @@
 /* Begin PBXFileReference section */
 		03F7FD9E23959DD500432EF6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		0B270D6B28D147AC0072BEA1 /* StudyPromoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyPromoViewController.swift; sourceTree = "<group>"; };
+		0B31EE4629887C4E00CD0D24 /* WrapperViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrapperViewController.swift; sourceTree = "<group>"; };
+		0B58E51B2981D293007263DA /* UserDefaultKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultKeys.swift; sourceTree = "<group>"; };
 		0B6CB32628B577640092E993 /* Bundle+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Extensions.swift"; sourceTree = "<group>"; };
+		0BE9D5172943E92700DA0625 /* ResearchKitView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResearchKitView.swift; sourceTree = "<group>"; };
+		0BE9D5192943F3A800DA0625 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		0BE9D51B2943F42600DA0625 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		0BEE14A5286BC6A9005F26D1 /* Scrubbers */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Scrubbers; sourceTree = "<group>"; };
 		246DF9FF1BEADFDF00591E9A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		246DFA021BEAE01700591E9A /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -192,6 +202,11 @@
 				BC9A27321B82740D00BDA84D /* TaskListRow.swift */,
 				0B270D6B28D147AC0072BEA1 /* StudyPromoViewController.swift */,
 				BC9A27331B82740D00BDA84D /* TaskListViewController.swift */,
+				0BE9D5192943F3A800DA0625 /* SettingsViewController.swift */,
+				0BE9D51B2943F42600DA0625 /* SettingsView.swift */,
+				0B58E51B2981D293007263DA /* UserDefaultKeys.swift */,
+				0BE9D5172943E92700DA0625 /* ResearchKitView.swift */,
+				0B31EE4629887C4E00CD0D24 /* WrapperViewController.swift */,
 			);
 			name = "Presenting Tasks";
 			sourceTree = "<group>";
@@ -468,13 +483,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0B58E51C2981D293007263DA /* UserDefaultKeys.swift in Sources */,
+				0BE9D51C2943F42600DA0625 /* SettingsView.swift in Sources */,
 				0B270D6C28D147AC0072BEA1 /* StudyPromoViewController.swift in Sources */,
 				BC9A273E1B82741900BDA84D /* ResultViewController.swift in Sources */,
 				0B6CB32728B577640092E993 /* Bundle+Extensions.swift in Sources */,
 				BC9A273D1B82741900BDA84D /* ResultTableViewProviders.swift in Sources */,
 				BC9A273F1B82741900BDA84D /* TextImageTableViewCell.swift in Sources */,
+				0BE9D5182943E92700DA0625 /* ResearchKitView.swift in Sources */,
 				86B89AA51AB2C0A5001626A4 /* AppDelegate.swift in Sources */,
+				0BE9D51A2943F3A800DA0625 /* SettingsViewController.swift in Sources */,
 				03F7FD9F23959DD500432EF6 /* SceneDelegate.swift in Sources */,
+				0B31EE4729887C4E00CD0D24 /* WrapperViewController.swift in Sources */,
 				BC9A273C1B82741900BDA84D /* ImageTableViewCell.swift in Sources */,
 				BC9A27351B82740D00BDA84D /* TaskListViewController.swift in Sources */,
 				BC9A27341B82740D00BDA84D /* TaskListRow.swift in Sources */,

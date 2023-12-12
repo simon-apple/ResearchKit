@@ -55,15 +55,7 @@ static const CGFloat detailTextBottomSpacing = 16.0;
 - (instancetype)init {
     self = [super init];
     if (self) {
-        [self setBackgroundColor:ORKColor(ORKNavigationContainerColorKey)];
-        [self setupVisualEffectView];
-        [self setupViews];
-        [self setupFootnoteLabel];
-        [self setupNavigationDetailTextLabel];
-        self.preservesSuperviewLayoutMargins = NO;
-        _appTintColor = nil;
-        self.skipButtonStyle = ORKNavigationContainerButtonStyleTextBold;
-        [self updateContinueAndSkipEnabled];
+        [self commonInit];
     }
     return self;
 }
@@ -74,6 +66,18 @@ static const CGFloat detailTextBottomSpacing = 16.0;
         [effectView removeFromSuperview];
         effectView = nil;
     }
+}
+
+- (void)commonInit {
+    [self setBackgroundColor:ORKColor(ORKNavigationContainerColorKey)];
+    [self setupVisualEffectView];
+    [self setupViews];
+    [self setupFootnoteLabel];
+    [self setupNavigationDetailTextLabel];
+    self.preservesSuperviewLayoutMargins = NO;
+    _appTintColor = nil;
+    self.skipButtonStyle = ORKNavigationContainerButtonStyleTextBold;
+    [self updateContinueAndSkipEnabled];
 }
 
 - (void)flattenIfNeeded {
@@ -130,6 +134,7 @@ static const CGFloat detailTextBottomSpacing = 16.0;
     [_skipButton setTitle:nil forState:UIControlStateNormal];
     [_skipButton addTarget:self action:@selector(skipButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     _skipButton.translatesAutoresizingMaskIntoConstraints = NO;
+    _skipButton.accessibilityIdentifier = @"ORKNavigationContainerView_skipButton";
     [self addSubview:_skipButton];
 }
 
@@ -556,6 +561,11 @@ static const CGFloat detailTextBottomSpacing = 16.0;
 - (void)setUseExtendedPadding:(BOOL)useExtendedPadding {
     _useExtendedPadding = useExtendedPadding;
     [self setUpConstraints];
+}
+
+- (void)tintColorDidChange {
+    [super tintColorDidChange];
+    [self didMoveToWindow];
 }
 
 @end

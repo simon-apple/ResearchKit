@@ -71,6 +71,7 @@ ORK_CLASS_AVAILABLE
 @property (nonatomic, copy, nullable) NSArray *frequencyList;
 
 - (id<ORKAudiometryProtocol>)audiometryEngine;
+- (void)resetAudiometryEngine;
 
 @end
 

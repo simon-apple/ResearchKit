@@ -33,7 +33,6 @@
 
 #import "ORKCustomStepView_Internal.h"
 #import "ORKInstructionStepContainerView.h"
-#import "ORKInstructionStepView.h"
 #import "ORKNavigationContainerView.h"
 #import "ORKStepHeaderView_Internal.h"
 #import "ORKStepView_Private.h"

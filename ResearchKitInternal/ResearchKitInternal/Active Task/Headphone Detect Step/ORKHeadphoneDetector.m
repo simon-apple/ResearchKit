@@ -37,7 +37,7 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import <ResearchKit/ORKHelpers_Internal.h>
 
-static const NSTimeInterval ORKBTListeningModeCheckInterval = 0.1;
+static const NSTimeInterval ORKBTListeningModeCheckInterval = 0.2;
 static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
 
 @interface ORKHeadphoneDetector ()
@@ -53,13 +53,13 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
     NSInteger                           _deviceSubType;
     NSTimer                             *_btListeningModeCheckTimer;
     dispatch_queue_t                    _tickQueue;
-    BOOL                                _avFoundationSPIOk;
-    BOOL                                _celestialSPIOk;
+    BOOL                                _SPIsChecked;
     
     NSUInteger                          _wirelessSplitterNumberOfDevices;
     
     AVAudioPlayer                       *_workaroundPlayer;
     NSUInteger                          _workaroundPoolingCounter;
+    
 }
 
 + (NSSet<ORKHeadphoneChipsetIdentifier> *)appleHeadphoneSet {
@@ -74,8 +74,7 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
     if (self) {
         _lastDetectedDevice = nil;
         _wirelessSplitterNumberOfDevices = 0;
-        _avFoundationSPIOk = [self checkAVFoundationSPI];
-        _celestialSPIOk = [self checkCelestial];
+        _SPIsChecked = [self checkSPIs];
         self.delegate = delegate;
         self.supportedHeadphoneChipsetTypes = supportedHeadphoneChipsetTypes;
         
@@ -91,17 +90,38 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
 }
 
 - (void)initializeSmartRouteWorkaround {
-    NSError *error;
-    NSURL *path = [[NSBundle bundleForClass:[self class]] URLForResource:@"VolumeCalibration" withExtension:@"wav"];
-    _workaroundPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:path
-                                                               error:&error];
-    if (error != nil) {
-        ORK_Log_Error("Error fetching audio: %@", error);
-    }
-    _workaroundPlayer.numberOfLoops = -1;
-    _workaroundPlayer.volume = 0.0;
-    [_workaroundPlayer prepareToPlay];
-    [_workaroundPlayer play];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+#if defined(DEBUG)
+        ORK_Log_Debug("ORKHeadphoneDetector - Starting workaround player");
+#endif
+        NSError *playerError = nil;
+        NSURL *path = [[NSBundle bundleForClass:[self class]] URLForResource:@"VolumeCalibration" withExtension:@"wav"];
+        _workaroundPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:path
+                                                                   error:&playerError];
+        if (playerError != nil) {
+            ORK_Log_Error("Error fetching audio: %@", playerError.localizedFailureReason);
+        }
+
+        _workaroundPlayer.numberOfLoops = -1;
+        _workaroundPlayer.volume = 0.0;
+        [_workaroundPlayer prepareToPlay];  // returns TRUE when it's ready to play
+
+        AVAudioSession * session = [AVAudioSession sharedInstance];
+        NSError *sessionCategoryError = nil;
+        [session setCategory:AVAudioSessionCategorySoloAmbient mode:AVAudioSessionModeMeasurement
+                     options:AVAudioSessionCategoryOptionDuckOthers | AVAudioSessionCategoryOptionAllowBluetoothA2DP
+                       error:&sessionCategoryError];
+        if (sessionCategoryError) {
+            ORK_Log_Error("Error setting audio session category %@", sessionCategoryError);
+        }
+        NSError *sessionActiveError = nil;
+        [session setActive:YES error:&sessionActiveError];
+        if (sessionActiveError) {
+            ORK_Log_Error("Error setting audio session active %@", sessionActiveError);
+        }
+
+        [_workaroundPlayer play];
+    });
 }
 
 - (void)stopBTListeningModeCheckTimer {
@@ -110,7 +130,7 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
 }
 
 - (void)startBTListeningModeCheckTimer {
-    if (_avFoundationSPIOk) {
+    if (_SPIsChecked) {
         _btListeningModeCheckTimer = [NSTimer scheduledTimerWithTimeInterval: ORKBTListeningModeCheckInterval
                                                                       target: self
                                                                     selector: @selector(checkTick:)
@@ -149,17 +169,17 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
 
 - (void)registerNotifications {
     if (@available(iOS 15.0, *)) {
-        [[getAVSystemControllerClass() sharedAVSystemController] setAttribute:@[getAVSystemController_HeadphoneJackIsConnectedDidChangeNotification(),
-                                                                                getAVSystemController_ActiveAudioRouteDidChangeNotification(),
-                                                                                getAVSystemController_ServerConnectionDiedNotification()]
-                                                                       forKey:getAVSystemController_SubscribeToNotificationsAttribute() error:nil];
+        [[AVSystemControllerSoft sharedAVSystemController] setAttribute:@[AVSystemController_HeadphoneJackIsConnectedDidChangeNotification,
+                                                                          AVSystemController_ActiveAudioRouteDidChangeNotification,
+                                                                          AVSystemController_ServerConnectionDiedNotification]
+                                                                 forKey:AVSystemController_SubscribeToNotificationsAttribute error:nil];
     }
     
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center addObserver:self selector:@selector(headphoneStateChangedNotification:) name:AVAudioSessionRouteChangeNotification object:nil];
-    [center addObserver:self selector:@selector(headphoneStateChangedNotification:) name:getAVSystemController_HeadphoneJackIsConnectedDidChangeNotification() object:nil];
-    [center addObserver:self selector:@selector(headphoneStateChangedNotification:) name:getAVSystemController_ActiveAudioRouteDidChangeNotification() object:nil];
-    [center addObserver:self selector:@selector(mediaServerDied) name:getAVSystemController_ServerConnectionDiedNotification() object:nil];
+    [center addObserver:self selector:@selector(headphoneStateChangedNotification:) name:AVSystemController_HeadphoneJackIsConnectedDidChangeNotification object:nil];
+    [center addObserver:self selector:@selector(headphoneStateChangedNotification:) name:AVSystemController_ActiveAudioRouteDidChangeNotification object:nil];
+    [center addObserver:self selector:@selector(mediaServerDied) name:AVSystemController_ServerConnectionDiedNotification object:nil];
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
@@ -202,7 +222,7 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
 }
 
 - (void)headphoneStateChangedNotification:(NSNotification *)note {
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_global_queue(QOS_CLASS_DEFAULT, 0), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.6 * NSEC_PER_SEC)), dispatch_get_global_queue(QOS_CLASS_DEFAULT, 0), ^{
         [self updateHeadphoneState];
     });
 }
@@ -210,9 +230,9 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
 - (void)removeObservers {
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center removeObserver:self name:AVAudioSessionRouteChangeNotification object:nil];
-    [center removeObserver:self name:getAVSystemController_HeadphoneJackIsConnectedDidChangeNotification() object:nil];
-    [center removeObserver:self name:getAVSystemController_ActiveAudioRouteDidChangeNotification() object:nil];
-    [center removeObserver:self name:getAVSystemController_ServerConnectionDiedNotification() object:nil];
+    [center removeObserver:self name:AVSystemController_HeadphoneJackIsConnectedDidChangeNotification object:nil];
+    [center removeObserver:self name:AVSystemController_ActiveAudioRouteDidChangeNotification object:nil];
+    [center removeObserver:self name:AVSystemController_ServerConnectionDiedNotification object:nil];
     
     dispatch_async(dispatch_get_main_queue(), ^{
         // must be called on main thread
@@ -229,33 +249,25 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
 
 #pragma mark - SPI Checking
 
-- (BOOL)checkAVFoundationSPI {
-    return (getAVOutputDeviceClass() != nil &&
-            getAVOutputContextClass() != nil);
-}
-
-- (BOOL)checkCelestial {
-    id avSystemControllerClass = getAVSystemControllerClass();
-    BOOL controllerOk = YES;
-    if ([avSystemControllerClass respondsToSelector:@selector(sharedAVSystemController)]) {
-        id avSystemControllerObject = [avSystemControllerClass sharedAVSystemController];
-        if (![avSystemControllerObject respondsToSelector:@selector(attributeForKey:)]) {
-            controllerOk = NO;
-        }
-    } else {
-        controllerOk = NO;
-    }
-    BOOL routesAttributeOK = [getAVSystemController_PickableRoutesAttribute() isKindOfClass:[NSString class]];
-    BOOL routeCurrentlyPickedOk = [getAVSystemController_RouteDescriptionKey_RouteCurrentlyPicked() isKindOfClass:[NSString class]];
-    BOOL routeDescriptionKeyOk = [getAVSystemController_RouteDescriptionKey_RouteSubtype() isKindOfClass:[NSString class]];
-
-    return controllerOk && routesAttributeOK && routeCurrentlyPickedOk && routeDescriptionKeyOk;
+- (BOOL)checkSPIs {
+    NSArray *routesAttributes = [[AVSystemControllerSoft sharedAVSystemController] attributeForKey:AVSystemController_PickableRoutesAttribute];
+    AVOutputContext *testContext = [[AVOutputContextSoft alloc] init];
+    return (testContext != nil
+            && routesAttributes != nil);
 }
 
 - (ORKHeadphoneTypeIdentifier)getCurrentBTHeadphoneType {
-    if (_avFoundationSPIOk) {
-        BOOL wirelessSplitterHasMoreThenOneDevice = ([[getAVOutputContextClass() sharedSystemAudioContext] outputDevices].count > 1);
-        NSString* modelId = [[[getAVOutputContextClass() sharedSystemAudioContext] outputDevice] modelID];
+    if (_SPIsChecked) {
+        BOOL wirelessSplitterHasMoreThenOneDevice = ([[AVOutputContextSoft sharedSystemAudioContext] outputDevices].count > 1);
+        NSString* modelId = [[[AVOutputContextSoft sharedSystemAudioContext] outputDevice] modelID];
+#if defined(DEBUG)
+        if (modelId == nil) {
+            ORK_Log_Debug("ORKHeadphoneDetector - getCurrentBTHeadphoneType - modelID is nil");
+        } else {
+            ORK_Log_Debug("ORKHeadphoneDetector - getCurrentBTHeadphoneType - output device model: %@", modelId);
+        }
+#endif
+
         if (modelId != nil && !wirelessSplitterHasMoreThenOneDevice) {
             if ([modelId containsString:ORKHeadphoneVendorAndProductIdIdentifierAirPodsGen1]) {
                 return ORKHeadphoneTypeIdentifierAirPodsGen1;
@@ -269,7 +281,9 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
             if ([modelId containsString:ORKHeadphoneVendorAndProductIdIdentifierAirPodsPro]) {
                 return ORKHeadphoneTypeIdentifierAirPodsPro;
             }
-            if ([modelId containsString:ORKHeadphoneVendorAndProductIdIdentifierAirPodsProGen2]) {
+
+            if ([modelId containsString:ORKHeadphoneVendorAndProductIdIdentifierAirPodsProGen2] ||
+                [modelId containsString:ORKHeadphoneVendorAndProductIdIdentifierAirPodsProGen2USBC]) {
                 return ORKHeadphoneTypeIdentifierAirPodsProGen2;
             }
             if ([modelId containsString:ORKHeadphoneVendorAndProductIdIdentifierAirPodsMax]) {
@@ -280,15 +294,27 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
     return nil;
 }
 
+- (BOOL)isCurrentBTHeadphoneTypeSpeaker {
+    NSString* modelId = [[[[AVOutputContextSoft sharedSystemAudioContext] outputDevice] modelID] lowercaseString];
+#if defined(DEBUG)
+    if (modelId == nil) {
+        ORK_Log_Debug("ORKHeadphoneDetector - isCurrentBTHeadphoneTypeSpeaker - modelID is nil");
+    } else {
+        ORK_Log_Debug("ORKHeadphoneDetector - isCurrentBTHeadphoneTypeSpeaker - output device model: %@", modelId);
+    }
+#endif
+    return [modelId containsString:@"speaker"];
+}
+
 - (BOOL)checkLowBatteryLevelForPods {
-    if (_avFoundationSPIOk) {
-        BOOL wirelessSplitterHasMoreThenOneDevice = ([[getAVOutputContextClass() sharedSystemAudioContext] outputDevices].count > 1);
-        NSDictionary *modelSpecificInformation = [[[getAVOutputContextClass() sharedSystemAudioContext] outputDevice] modelSpecificInformation];
-        if ([modelSpecificInformation objectForKey:getAVOutputDeviceBatteryLevelLeftKey()] != nil &&
-            [modelSpecificInformation objectForKey:getAVOutputDeviceBatteryLevelRightKey()] != nil &&
+    if (_SPIsChecked) {
+        BOOL wirelessSplitterHasMoreThenOneDevice = ([[AVOutputContextSoft sharedSystemAudioContext] outputDevices].count > 1);
+        NSDictionary *modelSpecificInformation = [[[AVOutputContextSoft sharedSystemAudioContext] outputDevice] modelSpecificInformation];
+        if ([modelSpecificInformation objectForKey:AVOutputDeviceBatteryLevelLeftKey] != nil &&
+            [modelSpecificInformation objectForKey:AVOutputDeviceBatteryLevelRightKey] != nil &&
             !wirelessSplitterHasMoreThenOneDevice) {
-            double leftValue = [[modelSpecificInformation objectForKey:getAVOutputDeviceBatteryLevelLeftKey()] doubleValue];
-            double rightValue = [[modelSpecificInformation objectForKey:getAVOutputDeviceBatteryLevelRightKey()] doubleValue];
+            double leftValue = [[modelSpecificInformation objectForKey:AVOutputDeviceBatteryLevelLeftKey] doubleValue];
+            double rightValue = [[modelSpecificInformation objectForKey:AVOutputDeviceBatteryLevelRightKey] doubleValue];
             return (leftValue < LOW_BATTERY_LEVEL_THRESHOLD_VALUE || rightValue < LOW_BATTERY_LEVEL_THRESHOLD_VALUE);
         }
     }
@@ -296,8 +322,8 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
 }
 
 - (void)updateDeviceInformationForRoute:(NSDictionary *)routeDict {
-    _deviceSubType = [[[getAVOutputContextClass() sharedSystemAudioContext] outputDevice] deviceSubType];
-    NSString *btDetails = [routeDict valueForKey:getAVSystemController_RouteDescriptionKey_BTDetails_ProductID()];
+    _deviceSubType = [[[AVOutputContextSoft sharedSystemAudioContext] outputDevice] deviceSubType];
+    NSString *btDetails = [routeDict valueForKey:AVSystemController_RouteDescriptionKey_BTDetails_ProductID];
     NSArray *productIDComponents = [btDetails componentsSeparatedByString:@","];
     if (productIDComponents.count == 2) {
         NSString *vendorIDDec = [[productIDComponents[0] componentsSeparatedByCharactersInSet: [[NSCharacterSet decimalDigitCharacterSet] invertedSet]] componentsJoinedByString:@""];
@@ -308,55 +334,53 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
 }
 
 - (BOOL)isRouteSupported {
-    __block BOOL routeSupported = NO;
+    __block BOOL routeSupported = YES;
     
-    if (_celestialSPIOk)
-    {
-        NSArray *routesAttributes = [[getAVSystemControllerClass() sharedAVSystemController] attributeForKey:getAVSystemController_PickableRoutesAttribute()];
+    if (_SPIsChecked) {
+        NSArray *routesAttributes = [[AVSystemControllerSoft sharedAVSystemController] attributeForKey:AVSystemController_PickableRoutesAttribute];
         
         if (routesAttributes != nil) {
-            ORKWeakTypeOf(self) weakSelf = self;
             [routesAttributes enumerateObjectsUsingBlock:^(NSDictionary *route, NSUInteger idx, BOOL *stop)
              {
-                ORKStrongTypeOf(self) strongSelf = weakSelf;
-                if ([[route valueForKey:getAVSystemController_RouteDescriptionKey_RouteCurrentlyPicked()] boolValue]) {
-                    [strongSelf updateDeviceInformationForRoute:route];
-                    NSSet *supportedRoutes = [strongSelf supportedHeadphoneChipsetTypesForRoute:route];
+                if ([[route valueForKey:AVSystemController_RouteDescriptionKey_RouteCurrentlyPicked] boolValue]) {
+                    [self updateDeviceInformationForRoute:route];
+                    NSSet *supportedRoutes = [self supportedHeadphoneChipsetTypesForRoute:route];
                     
-                    NSString* modelId = [[[[getAVOutputContextClass() sharedSystemAudioContext] outputDevice] modelID] lowercaseString];
-                    BOOL hasSpeakerOnModelId = [modelId containsString:@"speaker"];
+                    BOOL hasSpeakerOnModelId = [self isCurrentBTHeadphoneTypeSpeaker];
                     
-                    if ([[[getAVOutputContextClass() sharedSystemAudioContext] outputDevice] deviceSubType] != AVOutputDeviceSubTypeHeadphones || hasSpeakerOnModelId) {
+                    if ([[[AVOutputContextSoft sharedSystemAudioContext] outputDevice] deviceSubType] != AVOutputDeviceSubTypeHeadphones || hasSpeakerOnModelId) {
                         routeSupported = NO;
                         _lastDetectedDevice = nil;
                     } else if (supportedRoutes.count > 0) {
-                        ORKHeadphoneTypeIdentifier btHeadphoneType = [strongSelf getCurrentBTHeadphoneType];
-                        if (btHeadphoneType == nil)
-                        {
+                        ORKHeadphoneTypeIdentifier btHeadphoneType = [self getCurrentBTHeadphoneType];
+                        if (btHeadphoneType == nil) {
                             NSSet *lightningSet = [NSSet setWithObject:ORKHeadphoneChipsetIdentifierLightningEarPods];
                             NSSet *audioJackSet = [NSSet setWithObject:ORKHeadphoneChipsetIdentifierAudioJackEarPods];
                             
                             BOOL isWiredPod = [lightningSet isSubsetOfSet:supportedRoutes] || [audioJackSet isSubsetOfSet:supportedRoutes];
                             
-                            if (isWiredPod)
-                            {
-                                routeSupported = YES;
+                            if (isWiredPod) {
                                 _lastDetectedDevice = ORKHeadphoneTypeIdentifierEarPods;
                             } else {
-                                routeSupported = _supportedHeadphoneChipsetTypes == nil;
+                                if (_supportedHeadphoneChipsetTypes != nil) {
+                                    routeSupported = NO;
+                                }
                                 _lastDetectedDevice = ORKHeadphoneTypeIdentifierUnknown;
                             }
                         } else {
-                            routeSupported = YES;
                             _lastDetectedDevice = btHeadphoneType;
                         }
                     } else {
-                        routeSupported = _supportedHeadphoneChipsetTypes == nil;
+                        if (_supportedHeadphoneChipsetTypes != nil) {
+                            routeSupported = NO;
+                        }
                         _lastDetectedDevice = ORKHeadphoneTypeIdentifierUnknown;
                     }
                     *stop = YES;
                 }
             }];
+        } else {
+            routeSupported = NO;
         }
     }
     
@@ -364,13 +388,15 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
 }
 
 - (NSSet *)supportedHeadphoneChipsetTypesForRoute:(NSDictionary *)route {
-    NSString *subtype = [route valueForKey:getAVSystemController_RouteDescriptionKey_RouteSubtype()];
+#if defined(DEBUG)
+    ORK_Log_Debug("ORKHeadphoneDetector - supportedHeadphoneChipsetTypesForRoute");
+#endif
+    NSString *subtype = [route valueForKey:AVSystemController_RouteDescriptionKey_RouteSubtype];
     
     NSSet *supportedChipsetTypes = _supportedHeadphoneChipsetTypes;
     
     // If we are supporting any type of headphones, we can still try to classify them!
-    if (_supportedHeadphoneChipsetTypes == nil)
-    {
+    if (_supportedHeadphoneChipsetTypes == nil) {
         supportedChipsetTypes = [ORKHeadphoneDetector appleHeadphoneSet];
     }
     
@@ -382,6 +408,10 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
 }
 
 - (void)updateHeadphoneState {
+#if defined(DEBUG)
+    ORK_Log_Debug("ORKHeadphoneDetector - updateHeadphoneState");
+#endif
+
     BOOL routeIsSupported = ([self isRouteSupported] && _lastDetectedDevice != nil);
     
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -403,6 +433,21 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
              _lastDetectedDevice == ORKHeadphoneTypeIdentifierAirPodsMax);
 }
 
+- (ORKBluetoothMode)findBluetoothModeFromListeningMode:(NSString *)listeningMode {
+    ORKBluetoothMode btMode = ORKBluetoothModeNone;
+
+    if (listeningMode != nil) {
+        if ([listeningMode isEqualToString:AVOutputDeviceBluetoothListeningModeNormal]) {
+            btMode = ORKBluetoothModeNormal;
+        } else if ([listeningMode isEqualToString:AVOutputDeviceBluetoothListeningModeAudioTransparency]) {
+            btMode = ORKBluetoothModeTransparency;
+        } else if ([listeningMode isEqualToString:AVOutputDeviceBluetoothListeningModeActiveNoiseCancellation]) {
+            btMode = ORKBluetoothModeNoiseCancellation;
+        }
+    }
+    return btMode;
+}
+
 - (void)checkTick:(NSNotification *)notification {
     ORKWeakTypeOf(self) weakSelf = self;
     
@@ -410,30 +455,16 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
         _tickQueue = dispatch_queue_create("HeadphoneDetectorTickQueue", DISPATCH_QUEUE_SERIAL);
     }
 
-    _workaroundPoolingCounter = _workaroundPoolingCounter + 1;
-    
-    if (_workaroundPoolingCounter == 10) {
-        if ([_workaroundPlayer isPlaying]) {
-            [_workaroundPlayer stop];
-            _workaroundPlayer = nil;
-            // will be faster to start tha audio again
-            _workaroundPoolingCounter = 5;
-        } else {
-            [self initializeSmartRouteWorkaround];
-            _workaroundPoolingCounter = 0;
-        }
-    }
-
     dispatch_async(_tickQueue, ^{
-        ORKStrongTypeOf(self.delegate) strongDelegate = self.delegate;
         ORKStrongTypeOf(weakSelf) strongSelf = weakSelf;
+        ORKStrongTypeOf(self.delegate) strongDelegate = self.delegate;
         if ([strongSelf checkLowBatteryLevelForPods] && strongDelegate &&
             [strongDelegate respondsToSelector:@selector(podLowBatteryLevelDetected)]) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [strongDelegate podLowBatteryLevelDetected];
             });
         }
-        NSUInteger numberOfDevices = [[getAVOutputContextClass() sharedSystemAudioContext] outputDevices].count;
+        NSUInteger numberOfDevices = [[AVOutputContextSoft sharedSystemAudioContext] outputDevices].count;
         if (_wirelessSplitterNumberOfDevices != numberOfDevices) {
             _wirelessSplitterNumberOfDevices = numberOfDevices;
             if (_lastDetectedDevice != nil && strongDelegate &&
@@ -447,18 +478,8 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
             if ([strongSelf headphoneHasNoiseCancellingFeature] &&
                 strongDelegate && [strongDelegate respondsToSelector:@selector(bluetoothModeChanged:)]) {
                 
-                NSString* listeningMode = [[[getAVOutputContextClass() sharedSystemAudioContext] outputDevice] currentBluetoothListeningMode];
-                
-                ORKBluetoothMode btMode = ORKBluetoothModeNone;
-                if (listeningMode != nil) {
-                    if ([listeningMode isEqualToString:getAVOutputDeviceBluetoothListeningModeNormal()]) {
-                        btMode = ORKBluetoothModeNormal;
-                    } else if ([listeningMode isEqualToString:getAVOutputDeviceBluetoothListeningModeAudioTransparency()]) {
-                        btMode = ORKBluetoothModeTransparency;
-                    } else if ([listeningMode isEqualToString:getAVOutputDeviceBluetoothListeningModeActiveNoiseCancellation()]) {
-                        btMode = ORKBluetoothModeNoiseCancellation;
-                    }
-                }
+                NSString* listeningMode = [[[AVOutputContextSoft sharedSystemAudioContext] outputDevice] currentBluetoothListeningMode];
+                ORKBluetoothMode btMode = [self findBluetoothModeFromListeningMode:listeningMode];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [strongDelegate bluetoothModeChanged:btMode];
                 });

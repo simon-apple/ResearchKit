@@ -32,6 +32,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+ORK_CLASS_AVAILABLE
 @interface AAPLSpeechRecognitionStep : ORKSpeechRecognitionStep
 
 @end

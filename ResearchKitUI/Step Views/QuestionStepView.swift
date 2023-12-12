@@ -52,6 +52,7 @@ struct TextChoiceCell: View {
         }) {
             HStack {
                 Text(title)
+                    .fontWeight(.medium)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .font(.body)
                 Image(systemName: selected ? "checkmark.circle.fill" : "circle")
@@ -60,6 +61,17 @@ struct TextChoiceCell: View {
                     .foregroundColor(selected ? .blue : .gray)
                     .font(.body)
             }
+        }.roundedRectangleButtonShape()
+    }
+}
+
+private extension Button {
+    @ViewBuilder
+    func roundedRectangleButtonShape() -> some View {
+        if #available(watchOSApplicationExtension 8.0, *) {
+            self.buttonBorderShape(.roundedRectangle)
+        } else {
+            self
         }
     }
 }
@@ -113,6 +125,7 @@ internal struct _QuestionStepView: View {
     
     enum Constants {
         static let topToProgressPadding: CGFloat = 4.0
+        static let bottomToProgressPadding: CGFloat = 4.0
         static let questionToAnswerPadding: CGFloat = 12.0
     }
     
@@ -136,8 +149,9 @@ internal struct _QuestionStepView: View {
                     if let progress = viewModel.progress {
                         Text("\(progress.index) OF \(progress.count)".uppercased())
                             .foregroundColor(.gray)
-                            .font(.footnote)
+                            .font(.subheadline)
                             .padding(.top, Constants.topToProgressPadding)
+                            .padding(.bottom, Constants.bottomToProgressPadding)
                     }
                     
                     if let stepTitle = viewModel.step.title, !stepTitle.isEmpty {
@@ -159,40 +173,38 @@ internal struct _QuestionStepView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.leading)
                 
-                if let textChoices = viewModel.textChoiceAnswers {
+            let textChoices = viewModel.textChoiceAnswers
+                ForEach(textChoices, id: \.1) { index, textChoice in
                     
-                    ForEach(textChoices, id: \.1) { index, textChoice in
+                    TextChoiceCell(title: textChoice.text,
+                                   selected: index == viewModel.selectedIndex) { selected in
                         
-                        TextChoiceCell(title: textChoice.text,
-                                       selected: index == viewModel.selectedIndex) { selected in
+                        if selected {
                             
-                            if selected {
-                                
-                                viewModel.selectedIndex = index
-                                
-                                let choiceResult =
-                                    ORKChoiceQuestionResult(identifier: viewModel.step.identifier)
-                                
-                                choiceResult.choiceAnswers = [textChoice.value]
-                                viewModel.childResult = choiceResult
-                                
-                                // 250 ms delay
-                                DispatchQueue
-                                    .main
-                                    .asyncAfter(deadline: DispatchTime
-                                                    .now()
-                                                    .advanced(by: .milliseconds(250))) {
+                            viewModel.selectedIndex = index
+                            
+                            let choiceResult =
+                                ORKChoiceQuestionResult(identifier: viewModel.step.identifier)
+                            
+                            choiceResult.choiceAnswers = [textChoice.value]
+                            viewModel.childResult = choiceResult
+                            
+                            // 250 ms delay
+                            DispatchQueue
+                                .main
+                                .asyncAfter(deadline: DispatchTime
+                                                .now()
+                                                .advanced(by: .milliseconds(250))) {
 
-                                        completion(true)
-                                    }
-                                
-                            } else {
-                                
-                                viewModel.selectedIndex = -1
-                                viewModel.childResult = nil
+                                    completion(true)
+                                }
+                            
+                        } else {
+                            
+                            viewModel.selectedIndex = -1
+                            viewModel.childResult = nil
 
-                                completion(false)
-                            }
+                            completion(false)
                         }
                     }
                 }

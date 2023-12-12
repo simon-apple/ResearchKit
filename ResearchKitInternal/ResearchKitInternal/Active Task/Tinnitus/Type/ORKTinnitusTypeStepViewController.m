@@ -276,6 +276,12 @@ const NSTimeInterval ORKTinnitusTypeFadeStep = 0.01;
 }
 
 - (void)stopSample:(void (^ __nullable)(void))completion {
+    if ([self.playerNode isPlaying] == NO) {
+        if (completion) {
+            completion();
+        }
+        return;
+    }
     [_tinnitusTypeContentView enableButtons:NO];
 
     [_mixerNode fadeOutWithDuration:ORKTinnitusTypeFadeDuration stepInterval:ORKTinnitusTypeFadeStep completion:^{
@@ -311,6 +317,7 @@ const NSTimeInterval ORKTinnitusTypeFadeStep = 0.01;
 - (void)tinnitusButtonViewPressed:(ORKTinnitusButtonView * _Nonnull)tinnitusButtonView {
     if (!tinnitusButtonView.isSimulatedTap) {
         [self stopAutomaticPlay];
+        [_tinnitusTypeContentView enableButtons:YES];
     }
 
     if (tinnitusButtonView.isShowingPause) {

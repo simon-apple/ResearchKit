@@ -32,4 +32,18 @@
 
 @implementation AAPLInstructionStep
 
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    return self;
+}
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
+- (instancetype)copyWithZone:(NSZone *)zone {
+    AAPLInstructionStep *step = [super copyWithZone:zone];
+    return step;
+}
+
 @end

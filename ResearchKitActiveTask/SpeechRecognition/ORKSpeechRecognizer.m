@@ -111,6 +111,12 @@
         return;
     }
     
+#if RK_APPLE_INTERNAL
+    if (@available(iOS 13, *)) {
+        request.requiresOnDeviceRecognition = YES;
+    }
+#endif
+    
     request.shouldReportPartialResults = reportPartialResults;
     request.taskHint = SFSpeechRecognitionTaskHintDictation;
     [recognizer recognitionTaskWithRequest:request delegate:self];
@@ -128,6 +134,16 @@
         [request endAudio];
     });
 }
+
+#if RK_APPLE_INTERNAL
+- (BOOL)isOfflineRecognitionAvailable {
+    if (@available(iOS 13, *)) {
+        return recognizer.supportsOnDeviceRecognition;
+    } else {
+        return NO;
+    }
+}
+#endif
 
 // MARK: SFSpeechRecognizerDelegate
 

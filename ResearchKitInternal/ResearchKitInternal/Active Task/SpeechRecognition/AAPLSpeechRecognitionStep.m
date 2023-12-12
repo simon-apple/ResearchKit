@@ -32,4 +32,13 @@
 
 @implementation AAPLSpeechRecognitionStep
 
+- (instancetype)copyWithZone:(NSZone *)zone {
+    AAPLSpeechRecognitionStep *step = [super copyWithZone:zone];
+    return step;
+}
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
 @end

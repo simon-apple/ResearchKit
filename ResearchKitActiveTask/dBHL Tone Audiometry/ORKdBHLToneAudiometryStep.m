@@ -117,7 +117,7 @@
     step.headphoneType = self.headphoneType;
     step.earPreference = self.earPreference;
     step.frequencyList = self.frequencyList;
-
+    
     return step;
 }
 
@@ -194,6 +194,10 @@
         _audiometry = [self createAudiometryEngine];
     }
     return _audiometry;
+}
+
+- (void)resetAudiometryEngine {
+    _audiometry = nil;
 }
 
 @end

@@ -46,6 +46,9 @@ ORK_EXTERN NSString *const ORKErrorDomain ORK_AVAILABLE_DECL;
 /// The exception thrown when an invalid argument is passed to a method or function.
 ORK_EXTERN NSString *const ORKInvalidArgumentException ORK_AVAILABLE_DECL;
 
+/// Standard way to embed NSExceptions from underlying calls
+ORK_EXTERN NSString *const ORKUnderlyingExceptionKey ORK_AVAILABLE_DECL;
+
 /// `ORKErrorCode` codes are used for errors in the domain `ORKErrorDomain`.
 typedef NS_ENUM(NSInteger, ORKErrorCode) {
     /// No matching object was found.

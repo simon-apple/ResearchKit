@@ -98,11 +98,11 @@ ORKCompletionStepIdentifier const ORKEnvironmentSPLMeterTimeoutIdentifier = @"OR
 
 - (void)registerNotifications {
     if (@available(iOS 15.0, *)) {
-        [[getAVSystemControllerClass() sharedAVSystemController] setAttribute:@[getAVSystemController_SystemVolumeDidChangeNotification()]
-                                                                       forKey:getAVSystemController_SubscribeToNotificationsAttribute()
+        [[getAVSystemControllerClass() sharedAVSystemController] setAttribute:@[AVSystemController_SystemVolumeDidChangeNotification]
+                                                                       forKey:AVSystemController_SubscribeToNotificationsAttribute
                                                                         error:nil];
     }
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(volumeDidChange:) name:getAVSystemController_SystemVolumeDidChangeNotification() object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(volumeDidChange:) name:AVSystemController_SystemVolumeDidChangeNotification object:nil];
 }
 
 - (BOOL)showSensitiveURLLearMoreStepViewControllerForStep:(ORKActiveStep *)step {

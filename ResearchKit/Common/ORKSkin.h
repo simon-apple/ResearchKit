@@ -95,6 +95,15 @@ ORK_EXTERN NSString *const ORKResetDoneButtonKey;
 /// Return the color for a specified ORK...ColorKey
 UIColor *ORKColor(NSString *colorKey);
 
+/// Return minimum height for form step header view
+ORK_EXTERN CGFloat ORKFormStepMinimumHeaderHeight;
+
+/// Return minimum height for large text form step header view
+ORK_EXTERN CGFloat ORKFormStepLargeTextMinimumHeaderHeight;
+
+/// Return step container title to body topPadding standard
+ORK_EXTERN CGFloat ORKStepContainerTitleToBodyTopPaddingStandard;
+
 /// Return minimum height for question step header view
 ORK_EXTERN CGFloat ORKQuestionStepMinimumHeaderHeight;
 

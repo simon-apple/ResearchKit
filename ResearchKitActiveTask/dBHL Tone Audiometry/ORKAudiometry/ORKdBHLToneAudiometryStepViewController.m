@@ -117,7 +117,7 @@
 
 - (void)configureStep {
     ORKdBHLToneAudiometryStep *dBHLTAStep = [self dBHLToneAudiometryStep];
-
+    
     self.dBHLToneAudiometryContentView = [[ORKdBHLToneAudiometryContentView alloc] init];
     self.activeStepView.activeCustomView = self.dBHLToneAudiometryContentView;
     self.activeStepView.customContentFillsAvailableSpace = YES;
@@ -178,6 +178,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
     _audioGenerator.delegate = nil;
+    _audioGenerator = nil;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

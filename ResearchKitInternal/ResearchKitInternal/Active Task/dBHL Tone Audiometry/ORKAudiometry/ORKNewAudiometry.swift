@@ -39,8 +39,8 @@ import ResearchKitActiveTask
 @objc public class ORKNewAudiometry: NSObject, ORKAudiometryProtocol {
     public var timestampProvider: ORKAudiometryTimestampProvider = { 0 }
     
-    public var testEnded: Bool = false
-    public var initialSampleEnded: Bool = false
+    public var testEnded = false
+    public var initialSampleEnded = false
     
     public var xSample = Matrix<Double>(elements: [], rows: 0, columns: 2)
     public var ySample = Matrix<Double>(elements: [], rows: 0, columns: 1)
@@ -63,7 +63,7 @@ import ResearchKitActiveTask
     fileprivate let channel: ORKAudioChannel
     fileprivate var stimulus: ORKAudiometryStimulus?
     fileprivate var results = [Double: Double]()
-    fileprivate var preStimulusResponse: Bool = true
+    fileprivate var preStimulusResponse = true
 
     // Settings
     fileprivate let initialLevel: Double

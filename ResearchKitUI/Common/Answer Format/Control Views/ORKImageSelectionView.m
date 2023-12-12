@@ -37,7 +37,8 @@
 
 #import "ORKHelpers_Internal.h"
 #import "ORKSkin.h"
-
+#import "UIImageView+ResearchKit.h"
+#import "UIImage+ResearchKit.h"
 
 @interface ORKChoiceButtonView : UIView
 
@@ -58,13 +59,7 @@
         
         self.button = [UIButton buttonWithType:UIButtonTypeCustom];
         _button.exclusiveTouch = YES;
-       
-        if (choice.selectedStateImage) {
-            [_button setImage:choice.selectedStateImage forState:UIControlStateSelected];
-        }
-        
-        [_button setImage:choice.normalStateImage forState:UIControlStateNormal];
-        
+        [self setupButtonImagesFromImageChoice:choice];
         _button.imageView.contentMode = UIViewContentModeScaleAspectFit;
         
         [self addSubview:_button];
@@ -78,8 +73,41 @@
         } else {
             self.button.accessibilityLabel = self.labelText;
         }
+        [self updateViewColors];
     }
     return self;
+}
+
+- (void)setupButtonImagesFromImageChoice:(ORKImageChoice *)choice {
+    if (choice.selectedStateImage) {
+        UIImage *selectedStateImage = choice.selectedStateImage;
+        if (@available(iOS 12.0, *)) {
+            selectedStateImage = [choice.selectedStateImage ork_imageWithRenderingModeForUserInterfaceStyle:self.traitCollection.userInterfaceStyle];
+        }
+        [_button setImage:selectedStateImage forState:UIControlStateSelected];
+    }
+    
+    UIImage *normalStateImage = choice.normalStateImage;
+    if (@available(iOS 12.0, *)) {
+        normalStateImage = [choice.normalStateImage ork_imageWithRenderingModeForUserInterfaceStyle:self.traitCollection.userInterfaceStyle];
+    }
+    
+    [_button setImage:[normalStateImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+}
+
+- (void)updateViewColors {
+    if (@available(iOS 12.0, *)) {
+        // [LC:NOTE] for dark mode we need to able to set the tint on the UIImageView,
+        // this requires the image to be set to the UIImageRenderingModeAlwaysTemplate rendering mode
+        // in the UIImageRenderingModeAlwaysOriginal rendering mode, tintColor does not apply
+        [_button.imageView updateRenderingModeForUserInterfaceStyle:self.traitCollection.userInterfaceStyle];
+        _button.imageView.tintColor = self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor whiteColor] : nil;
+    }
+}
+
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+    [super traitCollectionDidChange:previousTraitCollection];
+    [self updateViewColors];
 }
 
 - (void)setUpConstraints {

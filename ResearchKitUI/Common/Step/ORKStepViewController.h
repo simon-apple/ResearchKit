@@ -171,6 +171,15 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (ORKTaskTotalProgress)stepViewControllerTotalProgressInfoForStep:(ORKStepViewController *)stepViewController currentStep:(ORKStep *)currentStep;
 
+/**
+ Allows the stepViewController delegate to provide the ongoing result for the task.
+ 
+ StepViewController subclasses use this result to drive behavior that is conditional on responses to other steps in the task. 
+
+ @param stepViewController     The step view controller providing the callback.
+ */
+- (nullable ORKTaskResult *)stepViewControllerOngoingResult:(ORKStepViewController *)stepViewController;
+
 @end
 
 

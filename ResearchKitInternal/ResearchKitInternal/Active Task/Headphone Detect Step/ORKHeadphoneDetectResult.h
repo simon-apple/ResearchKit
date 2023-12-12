@@ -41,6 +41,7 @@ ORK_CLASS_AVAILABLE
 @property (nonatomic, copy, nullable) NSString *vendorID;
 @property (nonatomic, copy, nullable) NSString *productID;
 @property (assign) NSInteger deviceSubType;
+@property (nonatomic, assign) BOOL isMonoAudioEnabled;
 
 @end
 

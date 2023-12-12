@@ -28,6 +28,9 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <ResearchKitInternal/AAPLHelpers_Internal.h>
+#import <ResearchKitInternal/AAPLSpeechRecognitionStep.h>
+#import <ResearchKitInternal/AAPLSpeechRecognitionStepViewController.h>
 #import <ResearchKitInternal/ORKAVJournalingPredefinedTask.h>
 #import <ResearchKitInternal/ORKAVJournalingStep.h>
 #import <ResearchKitInternal/ORKSensitiveURLLearnMoreInstructionStep.h>
@@ -43,3 +46,4 @@
 #import <ResearchKitInternal/ORKTinnitusTypeStep.h>
 #import <ResearchKitInternal/ORKVolumeCalibrationStep.h>
 #import <ResearchKitInternal/UIColor+Custom.h>
+#import <ResearchKitInternal/ORKFamilyHistoryStepViewController_Private.h>

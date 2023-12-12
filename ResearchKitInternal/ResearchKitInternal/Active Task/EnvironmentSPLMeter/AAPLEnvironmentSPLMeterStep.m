@@ -52,4 +52,9 @@
     return YES;
 }
 
+- (instancetype)copyWithZone:(NSZone *)zone {
+    AAPLEnvironmentSPLMeterStep *step = [super copyWithZone:zone];
+    return step;
+}
+
 @end

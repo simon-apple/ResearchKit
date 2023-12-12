@@ -36,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface AAPLdBHLToneAudiometryStep : ORKdBHLToneAudiometryStep
 
-@property (nonatomic, assign) NSInteger algorithmVersion;
+@property (nonatomic, assign) NSInteger algorithm;
 
 @property (nonatomic, assign) double dBHLMaximumThreshold;
 

@@ -31,7 +31,9 @@
 #import <ResearchKitUI/ORKStepView_Private.h>
 #import <ResearchKitUI/ORKFormStepViewController_Private.h>
 #import <ResearchKitUI/ORKTaskViewController_Private.h>
+#import <ResearchKitUI/ORKTableContainerView.h>
 #import <ResearchKitUI/ORKStepContainerView_Private.h>
+#import <ResearchKitUI/ORKStepContentView.h>
 #import <ResearchKitUI/ORKStepViewController_Internal.h>
 #import <ResearchKitUI/ORKPasscodeStepViewController_Internal.h>
 
@@ -51,9 +53,7 @@
 #import <ResearchKitUI/ORKVerticalContainerView.h>
 #import <ResearchKitUI/ORKViewControllerProviding.h>
 
-// [WIP]: exposed for the internal framework
 #import <ResearchKitUI/ORKCheckmarkView.h>
-#import <ResearchKitUI/ORKInstructionStepView.h>
 #import <ResearchKitUI/ORKInstructionStepViewController_Internal.h>
 #import <ResearchKitUI/ORKNavigationContainerView_Internal.h>
 #import <ResearchKitUI/ORKStepHeaderView_Internal.h>

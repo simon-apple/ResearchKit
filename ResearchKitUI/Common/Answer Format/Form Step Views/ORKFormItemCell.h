@@ -52,11 +52,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ORKFormItemCell : UITableViewCell
 
-- (instancetype)initWithReuseIdentifier:(NSString *)reuseIdentifier
-                               formItem:(ORKFormItem *)formItem
-                                 answer:(nullable id)answer
-                          maxLabelWidth:(CGFloat)maxLabelWidth
-                               delegate:(id<ORKFormItemCellDelegate>)delegate;
+- (void)configureWithFormItem:(ORKFormItem *)formItem
+                       answer:(id)answer
+                maxLabelWidth:(CGFloat)maxLabelWidth
+                     delegate:(id<ORKFormItemCellDelegate>)delegate;
 
 @property (nonatomic, weak, readonly) id<ORKFormItemCellDelegate> delegate;
 @property (nonatomic, copy, nullable) id answer;
@@ -113,7 +112,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ORKFormItemScaleCell : ORKFormItemCell
 
 @end
-
 
 @interface ORKFormItemLocationCell : ORKFormItemCell
 

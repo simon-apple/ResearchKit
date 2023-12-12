@@ -168,11 +168,8 @@ static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;
 }
 
 - (void)reachedOptimumNoiseLevel {
-    [self stopAudioEngine];
-    [self sendHapticEvent:UINotificationFeedbackTypeSuccess];
-    [self stopTimeoutTimer];
-    
     [super reachedOptimumNoiseLevel];
+    [self stopTimeoutTimer];
 }
 
 @end

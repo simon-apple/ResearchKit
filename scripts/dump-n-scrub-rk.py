@@ -1,5 +1,6 @@
 #!/bin/env/python3
 import os
+import json
 from shutil import rmtree
 
 class File(object):
@@ -144,6 +145,21 @@ class FileHelper(object):
 
         return collected_folders
 
+    def fetch_files_of_type(self, type, files):
+        collected_files = []
+        file_type = "." + type
+
+        if "." in type:
+            file_type = type
+        else:
+            file_type = "." + type
+
+        for f in files:
+            if file_type in f.name :
+                collected_files.append(f)
+
+        return collected_files
+
     def gather_files_from_internal_folders(self, folders):
         internal_files = []
 
@@ -174,6 +190,30 @@ class FileHelper(object):
             f.remove_lines_containing("// FIXME:")
             f.remove_lines_containing("rdar://")
         print(f"=== Finished removing enclosed internal code and references from files ===")
+
+    def remove_internal_json_properties(self, files, properties_to_remove):
+        json_files = self.fetch_files_of_type("json", files)
+        for file in json_files:
+            data_updated = False
+
+            # open json file
+            f = open(file.path)
+
+            # convert to dictionary
+            data = json.load(f)
+
+            # remove any internal keys found within dictionary
+            for key_to_remove in properties_to_remove:
+                if key_to_remove in data:
+                    data_updated = True
+
+                    # remove key from dictionary
+                    del data[key_to_remove]
+
+            if data_updated:
+                # re-open file and update contents with scrubbed dictionary
+                with open(file.path, "w") as jsonFile:
+                    json.dump(data, jsonFile)
 
     def delete_files(self, files_to_delete):
         print(f"=== Deleting all idenitified internal files ===")
@@ -248,7 +288,8 @@ class RKTestScrubber():
         self.project_path = "../Testing/ORKTest"
         self.project_file_path = "../Testing/ORKTest/ORKTest.xcodeproj/project.pbxproj"
         self.folders_to_remove = ["List1", "PracticeList", "QuestionList1", "TinnitusSounds1"]
-        self.json_files_to_remove = ["ORKAVJournalingStep.json", "ORKAVJournalingResult.json", "ORKAVJournalingPredefinedTask.json", "ORKTinnitusPredefinedTask.json", "ORKTinnitusUnit.json", "ORKTinnitusTypeStep.json", "ORKTinnitusTypeResult.json", "ORKTinnitusVolumeResult.json", "ORKTinnitusPureToneStep.json", "ORKTinnitusPureToneResult.json", "ORKTinnitusMaskingSoundStep.json", "ORKTinnitusMaskingSoundResult.json", "ORKTinnitusOverallAssessmentStep.json", "ORKTinnitusOverallAssessmentResult.json", "ORKBLEScanPeripheralsStep.json", "ORKBLEScanPeripheralsStepResult.json", "ORKSpeechInNoisePredefinedTask.json", "ORKHeadphoneDetectStep.json", "ORKHeadphoneDetectResult.json", "ORKHeadphonesRequiredCompletionStep.json", "ORKFaceDetectionStep.json", "ORKVolumeCalibrationStep.json", "ORKdBHLToneAudiometryCompletionStep.json"]
+        self.json_keys_to_remove = ["scrubberNames", "discreteUnits", "fitMatrix", "algorithmVersion"]
+        self.json_files_to_remove = ["ORKAVJournalingStep.json", "ORKAVJournalingResult.json", "ORKAVJournalingPredefinedTask.json", "ORKTinnitusPredefinedTask.json", "ORKTinnitusUnit.json", "ORKTinnitusTypeStep.json", "ORKTinnitusTypeResult.json", "ORKTinnitusVolumeResult.json", "ORKTinnitusPureToneStep.json", "ORKTinnitusPureToneResult.json", "ORKTinnitusMaskingSoundStep.json", "ORKTinnitusMaskingSoundResult.json", "ORKTinnitusOverallAssessmentStep.json", "ORKTinnitusOverallAssessmentResult.json", "ORKBLEScanPeripheralsStep.json", "ORKBLEScanPeripheralsStepResult.json", "ORKSpeechInNoisePredefinedTask.json", "ORKHeadphoneDetectStep.json", "ORKHeadphoneDetectResult.json", "ORKHeadphonesRequiredCompletionStep.json", "ORKFaceDetectionStep.json", "ORKVolumeCalibrationStep.json", "ORKdBHLToneAudiometryCompletionStep.json", "ORKColorChoice.json", "ORKColorChoiceAnswerFormat.json", "ORKFamilyHistoryResult.json", "ORKFamilyHistoryStep.json", "ORKRelativeGroup.json", "ORKHealthCondition.json", "ORKRelatedPerson.json", "ORKConditionStepConfiguration.json", "AAPLdBHLToneAudiometryStep.json", "AAPLSpeechInNoiseStep.json","AAPLEnvironmentSPLMeterStep.json","AAPLSpeechRecognitionStep.json","AAPLCompletionStep.json","AAPLInstructionStep.json","AAPLdBHLToneAudiometryResult.json"]
 
     def scrub_project(self):
         files = self.file_helper.recursively_read_files(self.project_path)
@@ -266,6 +307,7 @@ class RKTestScrubber():
         files_to_delete = files_to_delete + files_with_special_comment
 
         self.file_helper.remove_file_references_from_project_file(self.project_file_path, files_to_delete + [File("ResearchKitInternal.framework")])
+        self.file_helper.remove_internal_json_properties(files, self.json_keys_to_remove)
         self.file_helper.remove_internal_blocks_from_files(files)
         self.file_helper.delete_files(files_to_delete)
         self.file_helper.delete_folders(folders_to_delete)

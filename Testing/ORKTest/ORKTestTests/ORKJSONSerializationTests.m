@@ -115,6 +115,12 @@ BOOL ORKIsResearchKitClass(Class class) {
 
 @end
 
+@interface ORKDateAnswerFormat ()
+
+- (void)_setCurrentDateOverride:(NSDate *)currentDateOverride;
+
+@end
+
 
 @implementation ClassProperty
 
@@ -286,6 +292,7 @@ ORK_MAKE_TEST_INIT(ORKResult, ^{return [self initWithIdentifier:[NSUUID UUID].UU
 ORK_MAKE_TEST_INIT(ORKTaskResult, ^{return [self initWithTaskIdentifier:[NSUUID UUID].UUIDString taskRunUUID:[NSUUID UUID] outputDirectory:nil];});
 ORK_MAKE_TEST_INIT(ORKStepNavigationRule, ^{return [super init];});
 ORK_MAKE_TEST_INIT(ORKSkipStepNavigationRule, ^{return [super init];});
+ORK_MAKE_TEST_INIT(ORKFormItemVisibilityRule, ^{return [super init];});
 ORK_MAKE_TEST_INIT(ORKStepModifier, ^{return [super init];});
 ORK_MAKE_TEST_INIT(ORKKeyValueStepModifier, ^{return [super init];});
 ORK_MAKE_TEST_INIT(ORKAnswerFormat, ^{return [super init];});
@@ -296,6 +303,10 @@ ORK_MAKE_TEST_INIT(ORKStep, ^{return [self initWithIdentifier:[NSUUID UUID].UUID
 ORK_MAKE_TEST_INIT(ORKReviewStep, ^{return [[self class] standaloneReviewStepWithIdentifier:[NSUUID UUID].UUIDString steps:@[] resultSource:[[ORKTaskResult alloc] orktest_init]];});
 ORK_MAKE_TEST_INIT(ORKOrderedTask, ^{return [self initWithIdentifier:@"test1" steps:nil];});
 ORK_MAKE_TEST_INIT(ORK3DModelStep, ^{return [[self.class alloc] initWithIdentifier:NSUUID.UUID.UUIDString modelManager: [[ORK3DModelManager alloc] init]]; });
+
+#if RK_APPLE_INTERNAL
+ORK_MAKE_TEST_INIT(ORKAgeAnswerFormat, ^{return [self initWithMinimumAge:0 maximumAge:80 minimumAgeCustomText:nil maximumAgeCustomText:nil showYear:NO useYearForResult:NO treatMinAgeAsRange:false treatMaxAgeAsRange:false defaultValue:0];});
+#endif
 
 #if RK_APPLE_INTERNAL && ORK_FEATURE_AV_JOURNALING
 ORK_MAKE_TEST_INIT(ORKAVJournalingPredefinedTask, ^{
@@ -314,6 +325,10 @@ ORK_MAKE_TEST_INIT(ORKFaceDetectionStep, ^{
 #endif
 
 #if RK_APPLE_INTERNAL
+ORK_MAKE_TEST_INIT(AAPLSpeechRecognitionStep, ^ {
+    return [self initWithIdentifier:[NSUUID UUID].UUIDString image:nil text:@"test1"];
+});
+
 ORK_MAKE_TEST_INIT(ORKSpeechInNoisePredefinedTask, ^{
     ORKStep *stepA = [[ORKStep alloc] initWithIdentifier:[NSUUID UUID].UUIDString];
     ORKStep *stepB = [[ORKStep alloc] initWithIdentifier:[NSUUID UUID].UUIDString];
@@ -335,9 +350,18 @@ ORK_MAKE_TEST_INIT(ORKTinnitusPredefinedTask, ^{
 });
 #endif
 ORK_MAKE_TEST_INIT(ORKImageChoice, ^{return [super init];});
+
+#if RK_APPLE_INTERNAL
+ORK_MAKE_TEST_INIT(ORKColorChoice, ^{return [super init];});
+#endif
+
 ORK_MAKE_TEST_INIT(ORKTextChoice, ^{return [super init];});
 ORK_MAKE_TEST_INIT(ORKTextChoiceOther, ^{return [self initWithText:@"test" primaryTextAttributedString:nil detailText:@"test1" detailTextAttributedString:nil value:@"value" exclusive:YES textViewPlaceholderText:@"test2" textViewInputOptional:NO textViewStartsHidden:YES];});
 ORK_MAKE_TEST_INIT(ORKPredicateStepNavigationRule, ^{return [self initWithResultPredicates:@[[ORKResultPredicate predicateForBooleanQuestionResultWithResultSelector:[ORKResultSelector selectorWithResultIdentifier:@"test"] expectedAnswer:YES]] destinationStepIdentifiers:@[@"test2"]];});
+ORK_MAKE_TEST_INIT(ORKPredicateFormItemVisibilityRule, ^{ NSPredicate* predicate = [ORKResultPredicate predicateForBooleanQuestionResultWithResultSelector:[ORKResultSelector selectorWithResultIdentifier:@"test"] expectedAnswer:YES];
+    ORKPredicateFormItemVisibilityRule* predicateRule = [self initWithPredicate:predicate];
+    return predicateRule;
+});
 ORK_MAKE_TEST_INIT(ORKResultSelector, ^{return [self initWithResultIdentifier:@"resultIdentifier"];});
 ORK_MAKE_TEST_INIT(ORKRecorderConfiguration, ^{return [self initWithIdentifier:@"testRecorder"];});
 ORK_MAKE_TEST_INIT(ORKAccelerometerRecorderConfiguration, ^{return [super initWithIdentifier:@"testRecorder"];});
@@ -513,6 +537,7 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
         _classesExcludedForORKESerialization = @[
                                                  [ORKStepNavigationRule class],     // abstract base class
                                                  [ORKSkipStepNavigationRule class],     // abstract base class
+                                                 [ORKFormItemVisibilityRule class],     // abstract base class
                                                  [ORKStepModifier class],     // abstract base class
                                                  [ORKPredicateSkipStepNavigationRule class],     // NSPredicate doesn't yet support JSON serialization
                                                  [ORKKeyValueStepModifier class],     // NSPredicate doesn't yet support JSON serialization
@@ -541,6 +566,8 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
                                    @"textViewText",
                                    @"ORKBodyItem.customButtonConfigurationHandler",
                                    @"ORKConsentSection.image",
+                                   @"ORKConsentDocument.instructionSteps",
+                                   @"ORKFormItem.visibilityRule",
                                    @"ORKNavigablePageStep.steps",
                                    @"ORKPageStep.steps",
                                    @"ORKRegistrationStep.passcodeValidationRegex",
@@ -551,6 +578,7 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
                                    @"ORKFrontFacingCameraTask.fileURL",
                                    @"ORKTaskResult.outputDirectory",
                                    @"ORKPageResult.outputDirectory",
+                                   @"ORKPredicateFormItemVisibilityRule.predicateFormat", // Prevent trying to assign a bogus empty string as predicateFormat during testing
                                    @"ORKAccuracyStroopStep.actualDisplayColor",
                                    @"ORKAccuracyStroopResult.didSelectCorrectColor",
                                    @"ORKAccuracyStroopResult.timeTakenToSelect"
@@ -568,6 +596,7 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
         _knownNotSerializedProperties = @[
                                           @"ORKActiveStep.image",
                                           @"ORKAmslerGridResult.image",
+                                          @"ORKAnswerFormat.formStepViewControllerCellClass",
                                           @"ORKAnswerFormat.healthKitUnit",
                                           @"ORKAnswerFormat.healthKitUserUnit",
                                           @"ORKAnswerFormat.questionType",
@@ -583,6 +612,7 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
                                           @"ORKConsentSection.escapedContent",
                                           @"ORKConsentSection.image",
                                           @"ORKConsentSignature.signatureImage",
+                                          @"ORKConsentDocument.instructionSteps",
                                           @"ORKContinuousScaleAnswerFormat.maximumImage",
                                           @"ORKContinuousScaleAnswerFormat.minimumImage",
                                           @"ORKContinuousScaleAnswerFormat.numberFormatter",
@@ -600,6 +630,7 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
                                           @"ORKInstructionStep.auxiliaryImage",
                                           @"ORKInstructionStep.iconImage",
                                           @"ORKInstructionStep.image",
+                                          @"ORKInstructionStep.type",
                                           @"ORKLoginStep.loginViewControllerClass",
                                           @"ORKNavigablePageStep.steps",
                                           @"ORKNumericAnswerFormat.defaultNumericAnswer",
@@ -607,6 +638,7 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
                                           @"ORKOrderedTask.providesBackgroundAudioPrompts",
                                           @"ORKOrderedTask.requestedPermissions",
                                           @"ORKPageStep.steps",
+                                          @"ORKPredicateFormItemVisibilityRule.predicate", // roundtripping format->predicate->format is unsupported in NSPredicate, so no point in serializing the predicate as text.
                                           @"ORKQuestionResult.answer",
                                           @"ORKQuestionStep.question",
                                           @"ORKQuestionStep.questionType",
@@ -641,10 +673,12 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
                                           @"ORKTextAnswerFormat.textContentType",
 #if RK_APPLE_INTERNAL
                                           @"ORKTextAnswerFormat.scrubbers",
+                                          @"ORKColorChoice.value",
 #endif
                                           @"ORKTextChoice.detailTextAttributedString",
                                           @"ORKTextChoice.primaryTextAttributedString",
                                           @"ORKTextChoice.value",
+                                          @"ORKHealthCondition.value",
                                           @"ORKTextChoice.image",
                                           @"ORKTextChoiceOther.image",
                                           @"ORKTimeIntervalAnswerFormat.defaultInterval",
@@ -799,7 +833,7 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
 
 ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector(void);
 
-ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
+ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector(void) {
     NSString *bundlePath = [[NSBundle bundleForClass:[ORKJSONSerializationTests class]] pathForResource:@"samples" ofType:@"bundle"];
     NSBundle *bundle = [NSBundle bundleWithPath:bundlePath];
     
@@ -977,11 +1011,14 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
     NSArray *allowedUnTouchedKeys = testConfiguration.allowedUnTouchedKeys;
     NSDictionary *mutallyExclusiveProperties = testConfiguration.mutuallyExclusiveProperties;
     
+    // Override date for date format testing
+    NSDate *dateFormatOverrideDate = [NSDate dateWithTimeIntervalSinceReferenceDate:6000];
+    
     // Test Each class
     for (Class aClass in classesWithORKSerialization) {
         NSString *className = NSStringFromClass(aClass);
         NSArray *classMutuallyExclusiveProperties = mutallyExclusiveProperties[className];
-        
+      
         id instance = [self instanceForClass:aClass];
         
         // Find all properties of this class
@@ -1057,7 +1094,27 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
         } else if ([aClass isSubclassOfClass:ORK3DModelStep.class]) {
             // as above, also a protocol
             [instance setValue:[[ORK3DModelManager alloc] init] forKey:@"modelManager"];
+        } else if ([aClass isSubclassOfClass:[ORKPredicateFormItemVisibilityRule class]]) {
+            // predicateFormat cannot be an empty sring for deserialization to work
+            [instance setValue:@"$title == 'testSerialization' && $className == 'ORKPredicateFormItemVisibilityRule'" forKey:@"predicateFormat"];
+        } else if ([aClass isSubclassOfClass:[ORKDateAnswerFormat class]]) {
+            // Seems to be unstable for some input timestamps
+            [instance setValue:dateFormatOverrideDate forKey:@"defaultDate"];
+            [(ORKDateAnswerFormat *)instance _setCurrentDateOverride:dateFormatOverrideDate];
+            [(ORKDateAnswerFormat *)instance setDaysAfterCurrentDateToSetMinimumDate:1];
+            [(ORKDateAnswerFormat *)instance setDaysBeforeCurrentDateToSetMinimumDate:1];
         }
+        
+#if RK_APPLE_INTERNAL
+        if ([aClass isSubclassOfClass:[ORKAgeAnswerFormat class]]) {
+            [instance setValue:@(0) forKey:@"minimumAge"];
+            [instance setValue:@(80) forKey:@"maximumAge"];
+            [instance setValue:@(0) forKey:@"defaultValue"];
+            [instance setValue:@(2023) forKey:@"relativeYear"];
+        } else if ([aClass isSubclassOfClass:[ORKColorChoice class]]) {
+            [instance setValue:@"blah" forKey:@"value"];
+        }
+#endif
 
         // Serialization
         NSDictionary *instanceDictionary = [ORKESerializer JSONObjectForObject:instance context:context error:NULL];
@@ -1092,6 +1149,14 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
         
         id instance2 = [ORKESerializer objectFromJSONObject:mockDictionary context:context error:NULL];
         
+        if ([instance2 isKindOfClass:[ORKDateAnswerFormat class]]) {
+            ORKDateAnswerFormat *dateAnswerFormatInstance = (ORKDateAnswerFormat *)instance2;
+            [dateAnswerFormatInstance _setCurrentDateOverride:dateFormatOverrideDate];
+            [dateAnswerFormatInstance setDaysAfterCurrentDateToSetMinimumDate:dateAnswerFormatInstance.daysAfterCurrentDateToSetMinimumDate];
+            [dateAnswerFormatInstance setDaysBeforeCurrentDateToSetMinimumDate:dateAnswerFormatInstance.daysBeforeCurrentDateToSetMinimumDate];
+        }
+        
+        
         NSArray *untouchedKeys = [mockDictionary untouchedKeys];
         
         // Make sure all keys are touched by initializer
@@ -1104,7 +1169,13 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
         // Serialize again, the output ought to be equal
         NSDictionary *dictionary2 = [ORKESerializer JSONObjectForObject:instance2 context:context error:NULL];
         BOOL isMatch = [mockDictionary isEqualToDictionary:dictionary2];
+        if ([aClass isSubclassOfClass:[ORKDateAnswerFormat class]]) {
+            NSLog(@"%@: Initial dictionary: %@", NSStringFromClass(aClass), instanceDictionary);
+            NSLog(@"%@: Dict after deserializing and reserializing: %@", NSStringFromClass(aClass), dictionary2);
+        }
         if (!isMatch) {
+            NSLog(@"Initial dictionary: %@", instanceDictionary);
+            NSLog(@"Does not match dictionary after deserializing and reserializing: %@", dictionary2);
             XCTAssertTrue(isMatch, @"Should be equal for class: %@", NSStringFromClass(aClass));
         }
         
@@ -1233,6 +1304,7 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
         NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:data error:nil];
         unarchiver.requiresSecureCoding = YES;
         unarchiver.delegate = self;
+        
         NSMutableSet<Class> *decodingClasses = [NSMutableSet setWithArray:classesWithSecureCoding];
         [decodingClasses addObject:[NSDate class]];
         [decodingClasses addObject:[HKQueryAnchor class]];
@@ -1241,6 +1313,7 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
         
         // Set of classes we can check for equality. Would like to get rid of this once we implement
         NSSet *checkableClasses = [NSSet setWithObjects:[NSNumber class], [NSString class], [NSDictionary class], [NSURL class], nil];
+        
         // All properties should have matching fields in dictionary (allow predefined exceptions)
         for (NSString *pName in propertyNames) {
             id newValue = [newInstance valueForKey:pName];
@@ -1253,6 +1326,7 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
                     XCTAssertTrue(success, "Unexpected notSerializedProperty = %@", notSerializedProperty);
                 }
             }
+            
             for (Class c in checkableClasses) {
                 if ([oldValue isKindOfClass:c]) {
                     if ([newValue isKindOfClass:[NSURL class]] || [oldValue isKindOfClass:[NSURL class]]) {
@@ -1281,7 +1355,9 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
         NSKeyedUnarchiver *unarchiver2 = [[NSKeyedUnarchiver alloc] initForReadingFromData:data2 error:nil];
         unarchiver2.requiresSecureCoding = YES;
         unarchiver2.delegate = self;
+        
         id newInstance2 = [unarchiver2 decodeObjectOfClasses:decodingClasses forKey:NSKeyedArchiveRootObjectKey];
+        
         NSData *data3 = [NSKeyedArchiver archivedDataWithRootObject:newInstance2 requiringSecureCoding:YES error:nil];
         
         if (![data isEqualToData:data2]) { // allow breakpointing
@@ -1298,12 +1374,15 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
                 XCTAssertEqualObjects(data, data2, @"data mismatch for %@", NSStringFromClass(aClass));
             }
         }
+        
         if (![data2 isEqualToData:data3]) { // allow breakpointing
             XCTAssertEqualObjects(data2, data3, @"data mismatch for %@", NSStringFromClass(aClass));
         }
+        
         if (![newInstance isEqual:instance]) {
             XCTAssertEqualObjects(newInstance, instance, @"equality mismatch for %@", NSStringFromClass(aClass));
         }
+        
         if (![newInstance2 isEqual:instance]) {
             XCTAssertEqualObjects(newInstance2, instance, @"equality mismatch for %@", NSStringFromClass(aClass));
         }
@@ -1330,6 +1409,7 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
                                  [ORKNoAnswer class],     // abstract base class
                                  [ORKStepNavigationRule class],     // abstract base class
                                  [ORKSkipStepNavigationRule class],     // abstract base class
+                                 [ORKFormItemVisibilityRule class],     // abstract base class
                                  [ORKStepModifier class],     // abstract base class
                                  [ORKVideoCaptureStep class],
                                  [ORKImageCaptureStep class]
@@ -1380,6 +1460,7 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
                                        @"shouldReportProgress",
                                        
                                        // For a specific class
+                                       @"ORKFormItem.visibilityRule",
                                        @"ORKHeightAnswerFormat.useMetricSystem",
                                        @"ORKWeightAnswerFormat.useMetricSystem",
                                        @"ORKNavigablePageStep.steps",
@@ -1390,18 +1471,28 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
                                        @"ORKStep.restorable",
                                        @"ORKStep.showsProgress",
                                        @"ORKStepResult.isPreviousResult",
+                                       @"ORKInstructionStep.type",
                                        @"ORKTextAnswerFormat.validationRegex",
                                        @"ORKVideoCaptureStep.duration",
                                        @"ORKQuestionStep.useCardView",
+                                       @"ORKConsentDocument.instructionSteps",
                                        @"ORKFormStep.useCardView",
                                        @"ORKSpeechRecognitionStep.shouldHideTranscript",
+#if RK_APPLE_INTERNAL
+                                       @"AAPLSpeechRecognitionStep.shouldHideTranscript",
+#endif
                                        @"ORKTableStep.isBulleted",
                                        @"ORKTableStep.allowsSelection",
                                        @"ORKPDFViewerStep.actionBarOption",
+                                       @"ORKPredicateFormItemVisibilityRule.predicate", // when testing equality, test_init instance of this rule has nonnull predicate which breaks assumptions about instance and copiedInstance in our test. So exclude this property for equality testing.
                                        @"ORKBodyItem.customButtonConfigurationHandler",
                                        @"ORKAccuracyStroopStep.actualDisplayColor",
                                        @"ORKAccuracyStroopResult.didSelectCorrectColor",
-                                       @"ORKAccuracyStroopResult.timeTakenToSelect"
+                                       @"ORKAccuracyStroopResult.timeTakenToSelect",
+                                       @"ORKAgeAnswerFormat.minimumAge",
+                                       @"ORKAgeAnswerFormat.maximumAge",
+                                       @"ORKAgeAnswerFormat.relativeYear",
+                                       @"ORKAgeAnswerFormat.defaultValue"
                                        ];
     
     NSArray *hashExclusionList = @[
@@ -1442,7 +1533,6 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
         id instance = [self instanceForClass:aClass];
         
         // Find all properties of this class
-        NSMutableArray *propertyNames = [NSMutableArray array];
         unsigned int count;
         objc_property_t *props = class_copyPropertyList(aClass, &count);
         for (uint i = 0; i < count; i++) {
@@ -1455,7 +1545,6 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector() {
                 if (p.isPrimitiveType || [instance valueForKey:p.propertyName] == nil) {
                     [self applySomeValueToClassProperty:p forObject:instance index:0 forEqualityCheck:YES];
                 }
-                [propertyNames addObject:p.propertyName];
             }
         }
         

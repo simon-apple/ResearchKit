@@ -52,6 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithTitle:(NSString *)title;
 
+- (void)enablePlaybackButton:(BOOL)isEnabled;
 - (void)setPlaybackButtonPlaying:(BOOL)isPlaying;
 
 @end

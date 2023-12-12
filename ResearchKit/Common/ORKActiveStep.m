@@ -98,8 +98,8 @@
     step.shouldVibrateOnFinish = self.shouldVibrateOnFinish;
     step.shouldUseNextAsSkipButton = self.shouldUseNextAsSkipButton;
     step.shouldContinueOnFinish = self.shouldContinueOnFinish;
-    step.spokenInstruction = self.spokenInstruction;
-    step.finishedSpokenInstruction = self.finishedSpokenInstruction;
+    step.spokenInstruction = [self.spokenInstruction copy];
+    step.finishedSpokenInstruction = [self.finishedSpokenInstruction copy];
     step.recorderConfigurations = [self.recorderConfigurations copy];
     return step;
 }

@@ -28,7 +28,6 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-// apple-internal
 
 import XCTest
 import Accelerate
@@ -1275,7 +1274,7 @@ extension ORKNewAudiometryTests {
 //        let audiograms = audiogramPool.map { dict in
 //            [dict["AUXU1K1"], dict["AUXU2K"], dict["AUXU3K"], dict["AUXU4K"], dict["AUXU6K"], dict["AUXU8K"], dict["AUXU500"]].compactMap { $0 }
 //        }.filter { $0.count == 7 }
-//        
+//
 //        try runFullTestWith(audiograms, accuracy: 5, frequencies: [1000,2000,3000,4000,6000,8000,500])
 //    }
     

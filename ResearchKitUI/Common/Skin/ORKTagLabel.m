@@ -41,12 +41,7 @@ static const CGFloat verticalInset = 4;
         self.numberOfLines = 0;
         self.clipsToBounds = YES;
         self.layer.cornerRadius = 2.0;
-        
-        UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleCaption1];
-        UIFontDescriptor *fontDescriptor = [descriptor fontDescriptorWithSymbolicTraits:(UIFontDescriptorTraitBold)];
-        
-        self.font = [UIFont fontWithDescriptor:fontDescriptor size:[[fontDescriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]];
-        
+        self.font = [ORKTagLabel font];
         if (@available(iOS 13.0, *)) {
             self.textColor = [UIColor systemGrayColor];
             self.backgroundColor = [UIColor tertiarySystemGroupedBackgroundColor];
@@ -56,6 +51,13 @@ static const CGFloat verticalInset = 4;
         }
     }
     return self;
+}
+
++ (UIFont*)font {
+    UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleCaption1];
+    UIFontDescriptor *fontDescriptor = [descriptor fontDescriptorWithSymbolicTraits:(UIFontDescriptorTraitBold)];
+    
+    return [UIFont fontWithDescriptor:fontDescriptor size:[[fontDescriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]];
 }
 
 - (void)drawTextInRect:(CGRect)rect {

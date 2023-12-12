@@ -32,7 +32,6 @@
 #import "ORKVideoInstructionStepViewController.h"
 #import "ORKInstructionStepViewController_Internal.h"
 #import "ORKStepViewController_Internal.h"
-#import "ORKInstructionStepView.h"
 #import "ORKVideoInstructionStepResult.h"
 #import "AVFoundation/AVFoundation.h"
 #import <AVKit/AVKit.h>
