@@ -2481,7 +2481,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                                                            sectionTitle:GETPROP(dict, sectionTitle)
                                                       sectionDetailText:GETPROP(dict, sectionDetailText)
                                                  identifierForCellTitle:GETPROP(dict, identifierForCellTitle)
-                                                             maxAllowed:[GETPROP(dict, maxAllowed) integerValue]
+                                                             maxAllowed:[GETPROP(dict, maxAllowed) unsignedIntValue]
                                                               formSteps:GETPROP(dict, formSteps)
                                                   detailTextIdentifiers:GETPROP(dict, detailTextIdentifiers)];
                  },

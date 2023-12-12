@@ -100,7 +100,6 @@
         [_navigationFooterView setAlpha:0.8];
         [self addSubview:_navigationFooterView];
         
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationDidChange) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(queue_sessionRunning) name:AVCaptureSessionDidStartRunningNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sessionWasInterrupted:) name:AVCaptureSessionWasInterruptedNotification object:self.session];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sessionInterruptionEnded:) name:AVCaptureSessionInterruptionEndedNotification object:self.session];
@@ -123,7 +122,7 @@
 - (void)orientationDidChange {
     dispatch_async(dispatch_get_main_queue(), ^{
         AVCaptureVideoOrientation orientation = AVCaptureVideoOrientationPortrait;
-        switch ([[UIApplication sharedApplication] statusBarOrientation]) {
+        switch (self.window.windowScene.interfaceOrientation) {
             case UIInterfaceOrientationLandscapeRight:
                 orientation = AVCaptureVideoOrientationLandscapeRight;
                 break;

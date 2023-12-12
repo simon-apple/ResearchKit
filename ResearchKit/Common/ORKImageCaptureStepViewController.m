@@ -178,7 +178,7 @@
         photoSettings = [AVCapturePhotoSettings photoSettingsWithRawPixelFormatType:rawPixelFormatType
                                                                     processedFormat:@{AVVideoCodecKey: AVVideoCodecTypeJPEG}];
     }
-    [photoSettings setAutoStillImageStabilizationEnabled:NO];
+    photoSettings.photoQualityPrioritization = AVCapturePhotoQualityPrioritizationBalanced;
     [photoSettings setFlashMode:(AVCaptureFlashModeAuto)];
     
     return photoSettings;
@@ -196,7 +196,7 @@
     }
     
     [photoSettings setFlashMode:(AVCaptureFlashModeAuto)];
-    [photoSettings setAutoStillImageStabilizationEnabled: [_photoOutput isStillImageStabilizationSupported]];
+    photoSettings.photoQualityPrioritization = AVCapturePhotoQualityPrioritizationBalanced;
     
     return photoSettings;
 }
