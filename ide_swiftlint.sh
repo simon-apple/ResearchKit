@@ -5,5 +5,6 @@
 if which swiftlint >/dev/null; then
   swiftlint
 else
-  echo "warning: SwiftLint not installed, download from https://stash.sd.apple.com/projects/DP/repos/swiftlint_distribution"
+  # Not a "warning" because then it will cause noise in automation
+  echo "SwiftLint not installed, download from https://stash.sd.apple.com/projects/DP/repos/swiftlint_distribution"
 fi
