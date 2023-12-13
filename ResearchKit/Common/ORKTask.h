@@ -69,7 +69,7 @@ typedef NS_ENUM(NSInteger, ORKTaskFinishReason) {
 
 /**
 
- `ORKTaskProgress` is a structure that represents how far a task has progressed.
+ A structure that represents how far a task has progressed.
  
  Objects that implement the `ORKTask` protocol return the task progress structure to indicate
  to the task view controller how far the task has progressed.
@@ -99,7 +99,7 @@ ORK_EXTERN ORKTaskProgress ORKTaskProgressMake(NSUInteger current, NSUInteger to
 
 /**
 
- `ORKTaskTotalProgress` is a structure that represents how far a task has progressed based on the total amount of questions.
+ A structure that represents how far a task has progressed based on the total amount of questions.
   
  Note that the values in an `ORKTotalTaskProgress` structure are used only for display; you don't use the values to access the steps in a task.
  */
@@ -126,8 +126,9 @@ typedef struct {
 ORK_EXTERN ORKTaskTotalProgress ORKTaskTotalProgressMake(NSUInteger currentStepStartingProgressPosition, NSUInteger total, BOOL stepShouldShowTotalProgress) ORK_AVAILABLE_DECL;
 
 /**
- The `ORKTask` protocol defines a task to be carried out by a participant
- in a research study. To present the ResearchKit framework UI in your app, instantiate an
+ A protocol defines a task to be carried out by a participant in a research study.
+ 
+ To present the ResearchKit framework UI in your app, instantiate an
  object that implements the `ORKTask` protocol (such as `ORKOrderedTask`) and
  provide it to an `ORKTaskViewController` object.
  

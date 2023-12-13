@@ -43,8 +43,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- The `ORKOrderedTask` class implements all the methods in the `ORKTask` protocol and represents a 
- task that assumes a fixed order for its steps.
+ A collection of steps that is presented in a fixed order.
  
  In the ResearchKit framework, any simple sequential task, such as a survey or an active task, can
  be represented as an ordered task.

@@ -36,7 +36,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- The `ORKFormItemVisibilityRule` class is the abstract base class for concrete formItem visibility rules.
+ An abstract base class for concrete formItem visibility rules.
  
  FormItem visibility rules are meant to be assigned to an `ORKFormItem` object. The visibility rule's
  `formItemVisibilityForTaskResult:` method is invoked to determine whether a formItem should be

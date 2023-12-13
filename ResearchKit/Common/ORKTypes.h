@@ -315,8 +315,7 @@ typedef NS_OPTIONS(NSUInteger, ORKPredefinedTaskHandOption) {
 
 
 /**
- The `ORKPredefinedTaskOption` flags let you exclude particular behaviors from the predefined active
- tasks in the predefined category of `ORKOrderedTask`.
+ Flags that exclude particular behaviors from the predefined active tasks.
  
  By default, all predefined tasks include instructions and conclusion steps, and may also include
  one or more data collection recorder configurations. Although not all predefined tasks include all
@@ -354,7 +353,7 @@ typedef NS_OPTIONS(NSUInteger, ORKPredefinedTaskOption) {
 
 
 /**
- Progress indicator type for `ORKWaitStep`.
+ Progress indicator type for the wait step.
  */
 typedef NS_ENUM(NSInteger, ORKProgressIndicatorType) {
     /// Spinner animation.
@@ -450,8 +449,7 @@ ORK_EXTERN ORKTrailMakingTypeIdentifier const ORKTrailMakingTypeIdentifierB;
 
 
 /**
- The `ORKTremorActiveTaskOption` flags let you exclude particular steps from the predefined active
- tasks in the predefined Tremor `ORKOrderedTask`.
+ Flags that let you exclude particular steps from the predefined Tremor active task.
  
  By default, all predefined active tasks will be included. The tremor active task option flags can
  be used to explicitly specify that an active task is not to be included.
