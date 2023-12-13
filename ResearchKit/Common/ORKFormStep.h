@@ -58,8 +58,12 @@ NS_ASSUME_NONNULL_BEGIN
 @class ORKLearnMoreItem;
 @class ORKFormItemVisibilityRule;
 /**
+<<<<<<< HEAD
  The `ORKFormStep` class is a concrete subclass of `ORKStep`, used for presenting multiple questions
  on a single scrollable page.
+=======
+ A step used for presenting multiple questions on a single scrollable page.
+>>>>>>> 5bebaf168 (cleaned up abstracts from the result api collection)
  
  To use `ORKFormStep`, instantiate the object, fill in its properties, and include it
  in a task. Next, create a task view controller for the task and present it.

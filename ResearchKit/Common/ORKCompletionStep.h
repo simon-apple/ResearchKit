@@ -43,9 +43,13 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
+<<<<<<< HEAD
  The `ORKCompletionStep` class is a subclass of `ORKInstructionStep` which behaves like
  an instruction step, but includes animated imagery that thanks the user
  for participating in the task.
+=======
+ A subclass of the instruction step that includes animated imagery for task completion.
+>>>>>>> 5bebaf168 (cleaned up abstracts from the result api collection)
  */
 ORK_CLASS_AVAILABLE API_AVAILABLE(ios(11.0), watchos(6.0))
 @interface ORKCompletionStep : ORKInstructionStep

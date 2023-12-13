@@ -283,7 +283,7 @@ typedef NS_OPTIONS(NSInteger, ORKPSATPresentationMode) {
 
 
 /**
- Identify the type of passcode authentication for `ORKPasscodeStepViewController`.
+ Identify the type of passcode authentication for passcode view controller.
  */
 typedef NS_ENUM(NSInteger, ORKPasscodeType) {
     /// 4 digit pin entry
@@ -476,7 +476,7 @@ typedef NS_OPTIONS(NSUInteger, ORKTremorActiveTaskOption) {
 
 
 /**
- Enums to exclude options from `ORKPDFViewerStep`.
+ Enums to exclude options from pdf viewer step.
  */
 typedef NS_OPTIONS(NSUInteger, ORKPDFViewerActionBarOption) {
     ORKPDFViewerActionBarOptionExcludeThumbnail = 1 << 0,
@@ -543,7 +543,7 @@ typedef NS_ENUM(NSInteger, ORKNavigationContainerButtonStyle) {
 } ORK_ENUM_AVAILABLE;
 
 /**
- An enumeration of the types of button styles for the ORKDontKnowButton.
+ An enumeration of the types of button styles for the dont know button.
  */
 typedef NS_ENUM(NSInteger, ORKDontKnowButtonStyle) {
     ORKDontKnowButtonStyleStandard = 0,

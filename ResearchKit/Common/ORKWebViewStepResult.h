@@ -31,7 +31,7 @@
 #import <ResearchKit/ORKResult.h>
 
 /**
- The `ORKWebViewStepResult` class represents the result of a web view step (`ORKWebViewStep`).
+ A result object from a web view step.
  
  A web view result is produced by the task view controller when it presents a web view step.
  
