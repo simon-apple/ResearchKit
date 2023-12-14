@@ -44,8 +44,9 @@ NS_ASSUME_NONNULL_BEGIN
 @class ORKHTMLPDFWriter;
 
 /**
- The `ORKConsentDocument` class represents the content of an informed consent
- document, which is a document that's used to obtain informed consent from participants
+ A base class that represents the content of an informed consent document.
+ 
+ A consent document is used to obtain informed consent from participants
  in a medical or other research study. The ResearchKit framework uses an `ORKConsentDocument` object
  to provide content for visual consent steps (`ORKVisualConsentStep`) and for consent review steps (`ORKConsentReviewStep`).
  
