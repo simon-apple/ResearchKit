@@ -240,6 +240,9 @@
 }
 
 - (void)stimulusMissed {
+    if (_indexOfFreqLoopList < _freqLoopList.count) {
+        return;
+    }
     ORKAudiometryTransition *currentTransition = [_transitionsDictionary objectForKey:[NSNumber numberWithFloat:_currentdBHL]];
     NSUInteger storedTestIndex = _currentTestIndex;
     if (_currentTestIndex == storedTestIndex) {
@@ -261,6 +264,7 @@
         }
         _resultUnit.timeoutTimeStamp = _getTimestamp();
         _currentTestIndex += 1;
+        
         [self estimatedBHLForFrequency:_freqLoopList[_indexOfFreqLoopList]];
     }
 }
