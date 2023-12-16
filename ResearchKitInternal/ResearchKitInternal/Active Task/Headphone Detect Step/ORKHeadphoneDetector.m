@@ -37,6 +37,7 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import <ResearchKit/ORKHelpers_Internal.h>
 
+
 static const NSTimeInterval ORKBTListeningModeCheckInterval = 0.2;
 static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
 
@@ -281,7 +282,7 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
             if ([modelId containsString:ORKHeadphoneVendorAndProductIdIdentifierAirPodsPro]) {
                 return ORKHeadphoneTypeIdentifierAirPodsPro;
             }
-
+            
             if ([modelId containsString:ORKHeadphoneVendorAndProductIdIdentifierAirPodsProGen2] ||
                 [modelId containsString:ORKHeadphoneVendorAndProductIdIdentifierAirPodsProGen2USBC]) {
                 return ORKHeadphoneTypeIdentifierAirPodsProGen2;

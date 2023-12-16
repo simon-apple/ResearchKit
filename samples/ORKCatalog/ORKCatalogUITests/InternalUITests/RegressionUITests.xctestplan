@@ -1,0 +1,32 @@
+{
+  "configurations" : [
+    {
+      "id" : "63BD6279-B17D-4F5A-850F-93ABE7C5539A",
+      "name" : "Configuration 1",
+      "options" : {
+        "testRepetitionMode" : "retryOnFailure",
+        "uiTestingScreenshotsLifetime" : "keepAlways",
+        "userAttachmentLifetime" : "keepAlways"
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true,
+    "uiTestingScreenshotsLifetime" : "keepAlways",
+    "userAttachmentLifetime" : "keepAlways"
+  },
+  "testTargets" : [
+    {
+      "skippedTests" : [
+        "Helpers",
+        "PreSubmissionTests"
+      ],
+      "target" : {
+        "containerPath" : "container:ORKCatalog.xcodeproj",
+        "identifier" : "9622282924F04D780056E74D",
+        "name" : "ORKCatalogUITests"
+      }
+    }
+  ],
+  "version" : 1
+}

@@ -18,6 +18,16 @@
   },
   "testTargets" : [
     {
+      "selectedTests" : [
+        "PreSubmissionTests\/testAccessActiveTasks()",
+        "PreSubmissionTests\/testAccessSurveyQuestions()",
+        "PreSubmissionTests\/testAccessSurveyTasks()",
+        "PreSubmissionTests\/testImageMultipleChoice()",
+        "PreSubmissionTests\/testSQPickerWheel()",
+        "PreSubmissionTests\/testSQSliders()",
+        "PreSubmissionTests\/testSQTextEntry()",
+        "PreSubmissionTests\/testWrittenMultipleChoice()"
+      ],
       "target" : {
         "containerPath" : "container:ORKCatalog.xcodeproj",
         "identifier" : "9622282924F04D780056E74D",

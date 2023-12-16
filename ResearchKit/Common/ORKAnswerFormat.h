@@ -128,10 +128,12 @@ ORK_CLASS_AVAILABLE
 
 + (ORKTextChoiceAnswerFormat *)choiceAnswerFormatWithStyle:(ORKChoiceAnswerStyle)style
                                                textChoices:(NSArray<ORKTextChoice *> *)textChoices;
+
 #if RK_APPLE_INTERNAL
 + (ORKColorChoiceAnswerFormat *)choiceAnswerFormatWithStyle:(ORKChoiceAnswerStyle)style
                                                colorChoices:(NSArray<ORKColorChoice *> *)colorChoices;
 #endif
+
 /// @name Validation
 
 /**

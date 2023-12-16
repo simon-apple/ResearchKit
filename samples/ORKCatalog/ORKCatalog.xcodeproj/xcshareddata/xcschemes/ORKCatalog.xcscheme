@@ -29,7 +29,10 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <TestPlans>
          <TestPlanReference
-            reference = "container:ORKCatalogUITests/ORKCatalogUI.xctestplan"
+            reference = "container:ORKCatalogUITests/ORKCatalogUI.xctestplan">
+         </TestPlanReference>
+         <TestPlanReference
+            reference = "container:ORKCatalogUITests/InternalUITests/RegressionUITests.xctestplan"
             default = "YES">
          </TestPlanReference>
       </TestPlans>

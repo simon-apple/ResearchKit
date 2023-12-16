@@ -144,7 +144,6 @@ static const NSTimeInterval SPL_METER_PLAY_DELAY_VOICEOVER = 3.0;
         [self configureAudioSession];
         [self setupFeedbackGenerator];
     }
-    
 }
 
 - (void)viewDidAppear:(BOOL)animated {

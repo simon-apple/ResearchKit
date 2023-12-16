@@ -46,6 +46,7 @@
 
 @property (nonatomic, strong) UIButton *button;
 @property (nonatomic, copy) NSString *labelText;
+@property (nonatomic, copy) ORKImageChoice *choice;
 
 @end
 
@@ -55,6 +56,7 @@
 - (instancetype)initWithImageChoice:(ORKImageChoice *)choice {
     self = [super init];
     if (self) {
+        _choice = [choice copy];
         _labelText = choice.text.length > 0 ? choice.text: @" ";
         
         self.button = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -79,6 +81,12 @@
 }
 
 - (void)setupButtonImagesFromImageChoice:(ORKImageChoice *)choice {
+    if ([UITraitCollection currentTraitCollection].userInterfaceStyle == UIUserInterfaceStyleDark) {
+        [_button setImage:[_button.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+    } else {
+        [_button setImage:[_button.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forState:UIControlStateNormal];
+    }
+    
     if (choice.selectedStateImage) {
         UIImage *selectedStateImage = choice.selectedStateImage;
         if (@available(iOS 12.0, *)) {
@@ -92,22 +100,18 @@
         normalStateImage = [choice.normalStateImage ork_imageWithRenderingModeForUserInterfaceStyle:self.traitCollection.userInterfaceStyle];
     }
     
-    [_button setImage:[normalStateImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+    [_button setImage:normalStateImage forState:UIControlStateNormal];
 }
 
 - (void)updateViewColors {
     if (@available(iOS 12.0, *)) {
-        // [LC:NOTE] for dark mode we need to able to set the tint on the UIImageView,
-        // this requires the image to be set to the UIImageRenderingModeAlwaysTemplate rendering mode
-        // in the UIImageRenderingModeAlwaysOriginal rendering mode, tintColor does not apply
-        [_button.imageView updateRenderingModeForUserInterfaceStyle:self.traitCollection.userInterfaceStyle];
         _button.imageView.tintColor = self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor whiteColor] : nil;
     }
 }
 
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
     [super traitCollectionDidChange:previousTraitCollection];
-    [self updateViewColors];
+    [self setupButtonImagesFromImageChoice:_choice];
 }
 
 - (void)setUpConstraints {
@@ -216,6 +220,7 @@ static const CGFloat SpacerHeight = 5.0;
             
             ORKChoiceButtonView *buttonView = [[ORKChoiceButtonView alloc] initWithImageChoice:imageChoice];
             [buttonView.button addTarget:self action:@selector(buttonTapped:) forControlEvents:UIControlEventTouchUpInside];
+            buttonView.button.imageView.layer.cornerRadius = ORKImageChoiceButtonCornerRadii;
             [buttonViews addObject:buttonView];
             [self addSubview:buttonView];
         }
@@ -398,7 +403,16 @@ static const CGFloat SpacerHeight = 5.0;
 - (void)resetLabelText {
     _placeHolderLabel.hidden = NO;
     _choiceLabel.hidden = !_placeHolderLabel.hidden;
-    
+}
+
+- (void)resetButtonSelection:(UIButton *)button {
+    [_buttonViews enumerateObjectsUsingBlock:^(ORKChoiceButtonView *buttonView, NSUInteger idx, BOOL *stop) {
+        if (_singleChoice) {
+            buttonView.button.imageView.backgroundColor = nil;
+        } else if ([buttonView.button isEqual: button]) {
+            buttonView.button.imageView.backgroundColor = nil;
+        }
+    }];
 }
 
 - (void)setLabelText:(NSString *)text {
@@ -426,6 +440,7 @@ static const CGFloat SpacerHeight = 5.0;
              if (buttonView.button != button) {
                  if (_singleChoice) {
                      buttonView.button.selected = NO;
+                     buttonView.button.imageView.backgroundColor = nil;
                  }
              } else {
                  if (_singleChoice) {
@@ -433,6 +448,7 @@ static const CGFloat SpacerHeight = 5.0;
                  } else {
                      [self setLabelText:[_helper labelForChoiceAnswer:[_helper answerForSelectedIndexes:[self selectedIndexes]]]];
                  }
+                 buttonView.button.imageView.backgroundColor = [UIColor lightGrayColor];
              }
              
          }];
@@ -443,6 +459,7 @@ static const CGFloat SpacerHeight = 5.0;
         } else {
             [self setLabelText:[_helper labelForChoiceAnswer:[_helper answerForSelectedIndexes:[self selectedIndexes]]]];
         }
+        [self resetButtonSelection:button];
     }
     
     _answer = [_helper answerForSelectedIndexes:[self selectedIndexes]];
@@ -475,9 +492,16 @@ static const CGFloat SpacerHeight = 5.0;
         if (number.unsignedIntegerValue < _buttonViews.count) {
             ORKChoiceButtonView *buttonView = _buttonViews[number.unsignedIntegerValue];
             [buttonView button].selected = YES;
-            [self setLabelText:buttonView.labelText];
+            buttonView.button.imageView.backgroundColor = [UIColor lightGrayColor];
+            if (_singleChoice) {
+                [self setLabelText:buttonView.labelText];
+            }
         }
     }];
+    
+    if (!_singleChoice) {
+        [self setLabelText:[_helper labelForChoiceAnswer:[_helper answerForSelectedIndexes:[self selectedIndexes]]]];
+    }
 }
 
 - (BOOL)isAccessibilityElement {

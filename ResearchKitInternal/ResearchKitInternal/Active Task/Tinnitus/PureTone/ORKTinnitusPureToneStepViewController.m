@@ -433,6 +433,7 @@ static const NSUInteger OCTAVE_CONFUSION_THRESHOLD_INDEX = 6;
 
 - (void)playSoundAt:(double)frequency {
 // rdar://118245036 (make sure debug check in tinnitus task is working correctly)
+
 #if defined(DEBUG)
     ORK_Log_Debug("ORKTinnitusPureToneSVC playSoundAt:");
 #endif

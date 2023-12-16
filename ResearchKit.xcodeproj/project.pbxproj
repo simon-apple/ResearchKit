@@ -5194,7 +5194,6 @@
 				CA1C7A45288B0C68004DAB3A /* Sources */,
 				CA1C7A50288B0C68004DAB3A /* Frameworks */,
 				CA1C7A52288B0C68004DAB3A /* Resources */,
-				CA1C7A53288B0C68004DAB3A /* Run SwiftLint */,
 				CA1C7A60288B0CA2004DAB3A /* Embed Frameworks */,
 			);
 			buildRules = (
@@ -5483,24 +5482,6 @@
 			shellPath = /bin/sh;
 			shellScript = "# License check: all\n\necho \"Checking for BSD license text (files missing licenses listed below):\"\n\nLICENSE_MISSING=`find . -name '*.[hm]' -o -name '*.vsh' -o -name '*.fsh' -exec grep -iL \"THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS\" {} \\;`\necho \"$LICENSE_MISSING\"\n\ntest \"$LICENSE_MISSING\" == \"\"\n\n";
 			showEnvVarsInLog = 0;
-		};
-		CA1C7A53288B0C68004DAB3A /* Run SwiftLint */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Run SwiftLint";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n    if ${CI} == true; then\n        echo \"Running Strict SwiftLint\"\n        swiftlint --strict\n    else\n        echo \"Running SwiftLint\"\n        swiftlint\n    fi\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

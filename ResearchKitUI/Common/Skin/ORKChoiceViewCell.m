@@ -319,6 +319,24 @@ static const CGFloat ColorSwatchExpandedRightPadding = 16.0;
                                                                            constant:LabelTopBottomMargin]];
         }
         
+        if (_colorSwatchView) {
+            [_containerConstraints addObject:[NSLayoutConstraint constraintWithItem:_primaryLabel
+                                                                          attribute:NSLayoutAttributeCenterY
+                                                                          relatedBy:NSLayoutRelationEqual
+                                                                             toItem:_containerView
+                                                                          attribute:NSLayoutAttributeCenterY
+                                                                         multiplier:1.0
+                                                                           constant:0.0]];
+        } else {
+            [_containerConstraints addObject:[NSLayoutConstraint constraintWithItem:_primaryLabel
+                                                                          attribute:NSLayoutAttributeTop
+                                                                          relatedBy:NSLayoutRelationEqual
+                                                                             toItem:_containerView
+                                                                          attribute:NSLayoutAttributeTop
+                                                                         multiplier:1.0
+                                                                           constant:LabelTopBottomMargin]];
+        }
+        
         [_containerConstraints addObjectsFromArray:@[
             [NSLayoutConstraint constraintWithItem:_primaryLabel
                                          attribute:NSLayoutAttributeTrailing

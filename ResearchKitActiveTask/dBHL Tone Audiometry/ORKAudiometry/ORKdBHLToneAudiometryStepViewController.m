@@ -117,7 +117,7 @@
 
 - (void)configureStep {
     ORKdBHLToneAudiometryStep *dBHLTAStep = [self dBHLToneAudiometryStep];
-    
+
     self.dBHLToneAudiometryContentView = [[ORKdBHLToneAudiometryContentView alloc] init];
     self.activeStepView.activeCustomView = self.dBHLToneAudiometryContentView;
     self.activeStepView.customContentFillsAvailableSpace = YES;
@@ -128,6 +128,7 @@
     _audioChannel = dBHLTAStep.earPreference;
     _audioGenerator = [self createAudioGeneratorFromHeadphoneType:dBHLTAStep.headphoneType];
     _audioGenerator.delegate = self;
+
     _hapticFeedback = [[UIImpactFeedbackGenerator alloc] initWithStyle: UIImpactFeedbackStyleHeavy];
 }
 
@@ -143,6 +144,7 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    
     [self start];
     [self addObservers];
 }

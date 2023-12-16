@@ -464,10 +464,20 @@ NSString * const ORKSurveyCardHeaderViewIdentifier = @"SurveyCardHeaderViewIdent
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 }
 
+- (BOOL)isContentSizeWithinFrame {
+    return _tableView.contentSize.height <= _tableView.bounds.size.height;
+}
+
+- (BOOL)isContentSizeLargerThanFrame {
+    BOOL isContentSizeLargerThanBounds = _tableView.contentSize.height > _tableView.bounds.size.height;
+    BOOL multipleCells = [self visibleFormItems].count >= 2;
+    return (isContentSizeLargerThanBounds && multipleCells);
+}
+
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     [_tableContainer sizeHeaderToFit];
-    [_tableContainer resizeFooterToFit];
+    [_tableContainer resizeFooterToFitUsingMinHeight:NO];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -1006,6 +1016,11 @@ NSString * const ORKSurveyCardHeaderViewIdentifier = @"SurveyCardHeaderViewIdent
         } else {
             ORKSurveyCardHeaderView *cardHeaderView = (ORKSurveyCardHeaderView *)[_tableView headerViewForSection:0];
             [cardHeaderView setProgressText:nil];
+        }
+        
+        // If the footer needs to go back to a larger size, we need to resize here, before applying the snapshot.
+        if (![self isContentSizeLargerThanFrame]) {
+            [_tableContainer resizeFooterToFitUsingMinHeight:NO];
         }
 
         [dataSource applySnapshot:snapshot animatingDifferences:shouldAnimateDifferences completion:^{
@@ -1730,6 +1745,7 @@ static CGFloat ORKLabelWidth(NSString *text) {
         itemIdentifier.expansionState = shouldHideTextView ? ORKChoiceViewCellExpansionStateCollapsed : ORKChoiceViewCellExpansionStateExpanded;
         [choiceOtherViewCell hideTextView:shouldHideTextView];
         [self reloadItems:@[itemIdentifier]];
+        [_tableContainer resizeFooterToFitUsingMinHeight:([self isContentSizeWithinFrame] && !shouldHideTextView)];
     }
 }
 
@@ -2164,6 +2180,10 @@ static NSString *const _ORKAnsweredSectionIdentifiersRestoreKey = @"answeredSect
     handled = handled || [self scrollFooterToVisibleFromIndexPath:updatedIndexPath];
     NSAssert(handled == YES, @"Answer change went unhandled");
     
+    if (handled && [self isContentSizeLargerThanFrame]) {
+        // rdar://116741746 - triggering a conditional formItem when we have content outside of the bounds of the tableview, results in the footer to have the wrong size. We need to resize it to the min value here.
+        [_tableContainer resizeFooterToFitUsingMinHeight:YES];
+    }
     // Delay updating answered sections so our autoscroll logic can check for the case where a section is answered for the first time
     // This way we don't try to autoscroll if you've changed an answer in a section. Instead we only autoscroll the first time you put an answer in for a section.
     [self updateAnsweredSections];

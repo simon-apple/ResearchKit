@@ -31,7 +31,6 @@
 
 import XCTest
 
-
 final class ORKFormStepViewControllerConditionalFormItemsTests: XCTestCase {
         
     func testBasicFormItemsAccessors() throws {
@@ -225,7 +224,6 @@ final class ORKFormStepViewControllerConditionalFormItemsTests: XCTestCase {
         ])
         let mainTaskVC = ORKTaskViewController(task: mainTask, taskRun: nil)
         
-        
         func simulateAnsweringQuestion(with yesOrNo: Bool) {
             let formStepViewController = mainTaskVC.currentStepViewController as! ORKFormStepViewController
             let index = (yesOrNo == true) ? 0 : 1 // index 0 == YES, index 1 == NO
@@ -243,7 +241,6 @@ final class ORKFormStepViewControllerConditionalFormItemsTests: XCTestCase {
         mainTaskVC.flipToPage(withIdentifier: mainTask.steps[0].identifier, forward: true, animated: false)
 
         do {
-            
             simulateAnsweringQuestion(with: true) // our visibilityRule evaluates to true when questionStep's answer is true
 
             // now move to the formStepViewController to have it generate results.
@@ -271,7 +268,6 @@ final class ORKFormStepViewControllerConditionalFormItemsTests: XCTestCase {
         mainTaskVC.flipToPage(withIdentifier: mainTask.steps[0].identifier, forward: false, animated: false)
         
         do {
-            
             simulateAnsweringQuestion(with: false) // our visibilityRule evaluates to false when questionStep's answer is false
 
             mainTaskVC.flipToPage(withIdentifier: mainTask.steps[1].identifier, forward: true, animated: false)

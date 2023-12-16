@@ -153,6 +153,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     case longHeaderTask
     case colorChoiceQuestion
     case familyHistory
+    case booleanConditionalFormTask
     #endif
     
     class TaskListRowSection {
@@ -266,9 +267,10 @@ enum TaskListRow: Int, CustomStringConvertible {
                     .studyPromoTask,
                     .studySignPostStep,
                     .colorChoiceQuestion,
-                    .familyHistoryReviewTask,
                     .familyHistory,
-                    .longHeaderTask
+                    .familyHistoryReviewTask,
+                    .longHeaderTask,
+                    .booleanConditionalFormTask
                 ])]
             defaultSections = (defaultSections + internalSections)
             #endif
@@ -339,6 +341,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         
         case .textChoiceQuestionWithImageTask:
             return NSLocalizedString("Text Choice Image Question", comment: "")
+            
             
         case .timeIntervalQuestion:
             return NSLocalizedString("Time Interval Question", comment: "")
@@ -514,6 +517,10 @@ enum TaskListRow: Int, CustomStringConvertible {
         
         case .longHeaderTask:
             return NSLocalizedString("Long Header Task", comment: "")
+        
+        case .booleanConditionalFormTask:
+            return NSLocalizedString("Boolean Conditional Form Task", comment: "")
+
         #endif
         case .surveyWithMultipleOptions:
             return NSLocalizedString("Survey With Multiple Options", comment: "")
@@ -1014,6 +1021,9 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .familyHistory:
             return familyHistoryTask
+        
+        case .booleanConditionalFormTask:
+            return booleanConditionalFormTask
             
         #endif
         case .textChoiceQuestionWithImageTask:
@@ -1152,7 +1162,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         let attitudeSelector = ORKResultSelector(stepIdentifier: String(describing: Identifier.formStep), resultIdentifier: String(describing: Identifier.formItem04))
         let predicateForAttitudeSelector = ORKResultPredicate.predicateForTextQuestionResult(with: attitudeSelector, expectedString: "Happy")
         
-        let formItem06Text =  NSLocalizedString("Socioeconomic Level", comment: "")
+        let formItem06Text =  NSLocalizedString("SES Level", comment: "")
         let answerFormat06 = ORKSESAnswerFormat(topRungText: "top", bottomRungText: "bottom")
         answerFormat06.shouldShowDontKnowButton = true
         let formItem06 = ORKFormItem(identifier: String(describing: Identifier.formItem06), text: formItem06Text, answerFormat: answerFormat06)
@@ -1816,7 +1826,7 @@ enum TaskListRow: Int, CustomStringConvertible {
 
         questionStep1.text = exampleDetailText
 
-        let answerFormat2 = ORKAnswerFormat.choiceAnswerFormat(with: imageChoces, style: .singleChoice, vertical: true)
+        let answerFormat2 = ORKAnswerFormat.choiceAnswerFormat(with: imageChoces, style: .multipleChoice, vertical: true)
         
         let questionStep2 = ORKQuestionStep(identifier: String(describing: Identifier.imageChoiceQuestionStep2), title: NSLocalizedString("Image Choice", comment: ""), question: exampleQuestionText, answer: answerFormat2)
 
@@ -1965,7 +1975,9 @@ enum TaskListRow: Int, CustomStringConvertible {
         ]
         
         let answerFormat1 = ORKAnswerFormat.choiceAnswerFormat(with: .singleChoice, textChoices: textChoices)
+
         let formItem1 = ORKFormItem(identifier: String(describing: Identifier.formItem01), text: "Select an option", answerFormat: answerFormat1)
+
         let formStep1 = ORKFormStep(identifier: String(describing: Identifier.formStep), title: "Your title here", text: "Your text here")
         formStep1.formItems = [formItem1]
         
@@ -1999,6 +2011,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         
         return ORKOrderedTask(identifier: String(describing: Identifier.textChoiceQuestionWithImageTask), steps: [questionStep])
     }
+    
     
     /**
         This task demonstrates requesting a time interval. For example, this might
@@ -2286,8 +2299,9 @@ enum TaskListRow: Int, CustomStringConvertible {
             parentAgeFormItem
         ]
         
-        return ORKOrderedTask(identifier: String(describing: Identifier.formTask), steps: [parentFormStep])
+        return ORKOrderedTask(identifier: String(describing: Identifier.familyHistoryStep), steps: [parentFormStep])
     }
+    
     
     /**
     A task demonstrating how the ResearchKit framework can be used to determine
@@ -3041,6 +3055,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         return ORKOrderedTask(identifier: String(describing: Identifier.familyHistoryStep), steps: [familyHistoryStep, completionStep])
     }
     
+    //TODO: rdar://113873048 (Update internal FxH task to match ResearchApp bundle)
     private var familyHistoryReviewTask: ORKTask {
         // create ORKHealthConditions
         
@@ -3213,6 +3228,41 @@ enum TaskListRow: Int, CustomStringConvertible {
         return ORKNavigableOrderedTask(identifier: String(describing: Identifier.familyHistoryReviewController), steps: [familyHistoryStep])
     }
     
+    private var booleanConditionalFormTask: ORKTask {
+        let childFormStep = ORKFormStep(identifier: "ChildSurveyIdentifier")
+        childFormStep.title = "Child Health Conditions"
+        childFormStep.detailText = "Confirm any diagnosed diseases or health conditions."
+
+        let childFormItem = ORKFormItem(identifier: "childFormItem", text: "This child may be a minor, would you like to continue?", answerFormat: ORKBooleanAnswerFormat())
+        childFormItem.isOptional = false
+        
+        let childConditions = ORKFormItem(identifier: "childConditions", text: "Have they been diagnosed with any of the following diseases or health conditions?", answerFormat: ORKTextChoiceAnswerFormat(style: .multipleChoice, textChoices: [
+            ORKTextChoice(text: "Anxiety", value: "Anxiety" as NSString),
+            ORKTextChoice(text: "Cancer", value: "Cancer" as NSString),
+            ORKTextChoice(text: "Depression", value: "Depression" as NSString),
+            ORKTextChoice(text: "Diabetes", value: "Depression" as NSString),
+            ORKTextChoice(text: "Hearing loss", value: "Hearing loss" as NSString),
+            ORKTextChoice(text: "Heart attack", value: "Heart attack" as NSString),
+            ORKTextChoice(text: "Heart disease", value: "Heart disease" as NSString),
+            ORKTextChoice(text: "High blood pressure", value: "High blood pressure" as NSString),
+            ORKTextChoice(text: "High cholesterol", value: "High cholestero" as NSString),
+            ORKTextChoice(text: "Stroke", value: "Stroke" as NSString),
+            ORKTextChoice(text: "None of the above", value: "None of the abov" as NSString),
+            ORKTextChoice(text: "I don't know", value: "I don't know" as NSString),
+            ORKTextChoice(text: "I prefer not to answer", value: "I prefer not to answer" as NSString),
+        ]))
+        childFormItem.isOptional = false
+        childFormStep.formItems = [childFormItem, childConditions]
+        
+        let childAgeVisibilityRule = ORKPredicateFormItemVisibilityRule(
+            predicate: ORKResultPredicate.predicateForBooleanQuestionResult(
+                with: .init(stepIdentifier: childFormStep.identifier, resultIdentifier: childFormItem.identifier),
+                expectedAnswer: true)
+            )
+        childConditions.visibilityRule = childAgeVisibilityRule
+        
+        return ORKOrderedTask(identifier: String(describing: Identifier.booleanQuestionTask), steps: [childFormStep])
+    }
     #endif
     
     // MARK: `ORKTask` Reused Text Convenience

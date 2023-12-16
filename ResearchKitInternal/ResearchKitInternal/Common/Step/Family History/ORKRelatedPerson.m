@@ -79,7 +79,7 @@
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wobjc-designated-initializers"
-- (instancetype)initWithCoder:(NSCoder *)aDecoder { 
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
     self = [super init];
     if (self) {
         ORK_DECODE_OBJ_CLASS(aDecoder, identifier, NSString);
@@ -90,7 +90,7 @@
     return self;
 }
 
-- (instancetype)copyWithZone:(nullable NSZone *)zone { 
+- (instancetype)copyWithZone:(nullable NSZone *)zone {
     ORKRelatedPerson *relatedPerson = [[[self class] allocWithZone:zone] initWithIdentifier:[_identifier copy]
                                                                             groupIdentifier:[_groupIdentifier copy]
                                                                      identifierForCellTitle: [_identifierForCellTitle copy]

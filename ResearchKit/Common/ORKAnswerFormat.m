@@ -51,7 +51,7 @@
 
 NSString *const EmailValidationRegularExpressionPattern = @"^[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$";
 
-id ORKNullAnswerValue() {
+id ORKNullAnswerValue(void) {
     return [NSNull null];
 }
 
@@ -320,6 +320,7 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
                                                     defaultIndex:defaultIndex
                                                         vertical:vertical];
 }
+
 
 + (ORKValuePickerAnswerFormat *)valuePickerAnswerFormatWithTextChoices:(NSArray<ORKTextChoice *> *)textChoices {
     return [[ORKValuePickerAnswerFormat alloc] initWithTextChoices:textChoices];
@@ -1115,6 +1116,7 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
 
 @end
 
+
 #if RK_APPLE_INTERNAL
 #pragma mark - ORKColorChoiceAnswerFormat
 
@@ -1214,6 +1216,7 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
 
 @end
 #endif
+
 
 #pragma mark - ORKTextChoice
 
@@ -1373,6 +1376,7 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
 
 @end
 
+
 #if RK_APPLE_INTERNAL
 #pragma mark - ORKColorChoice
 
@@ -1462,6 +1466,7 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
 
 @end
 #endif
+
 
 #pragma mark - ORKTextChoiceOther
 #if TARGET_OS_IOS

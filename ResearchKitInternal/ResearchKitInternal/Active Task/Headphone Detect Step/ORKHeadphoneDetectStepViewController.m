@@ -54,6 +54,8 @@
 
 #import <LocalAuthentication/LAContext.h>
 
+#import <LocalAuthentication/LAContext.h>
+
 static const CGFloat ORKHeadphoneImageViewDimension = 36.0;
 static const CGFloat ORKHeadphoneDetectStepSpacing = 12.0;
 static const CGFloat ORKHeadphoneDetectCellStepSize = 40;

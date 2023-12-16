@@ -34,9 +34,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class ORKAnswerFormat;
 @class ORKImageChoice;
+
 #if RK_APPLE_INTERNAL
 @class ORKColorChoice;
 #endif
+
 @class ORKTextChoice;
 @protocol ORKAnswerOption;
 

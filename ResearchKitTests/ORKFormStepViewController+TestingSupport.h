@@ -30,6 +30,7 @@
 
 #import <ResearchKitUI/ORKFormStepViewController_Private.h>
 
+
 @class ORKTableCellItemIdentifier;
 
 @interface ORKFormStepViewController (TestingSupport)
