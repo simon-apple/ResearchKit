@@ -69,7 +69,10 @@ final class ORKFormStepViewControllerConditionalFormItemsTests: XCTestCase {
         }
     }
     
+<<<<<<< HEAD
 #if RK_APPLE_INTERNAL
+=======
+>>>>>>> main
     //rdar://110665165 ([ConditionalFormItems] testDiffableDataSource invalidated due to synchronous call)
     /*
     func testDiffableDataSource() throws {
@@ -126,7 +129,10 @@ final class ORKFormStepViewControllerConditionalFormItemsTests: XCTestCase {
         }
     }
     */
+<<<<<<< HEAD
 #endif
+=======
+>>>>>>> main
     
     func testConditionalFormItemsAccessors() throws {
         let formStepViewController = ORKFormStepViewController(step: FormStepTestUtilities.conditionalFormStep())
@@ -225,9 +231,15 @@ final class ORKFormStepViewControllerConditionalFormItemsTests: XCTestCase {
         let mainTaskVC = ORKTaskViewController(task: mainTask, taskRun: nil)
         
         func simulateAnsweringQuestion(with yesOrNo: Bool) {
+<<<<<<< HEAD
             let formStepViewController = mainTaskVC.currentStepViewController as! ORKFormStepViewController
             let index = (yesOrNo == true) ? 0 : 1 // index 0 == YES, index 1 == NO
             formStepViewController.simulateSelectingAnswerAtIndex(index)
+=======
+            let questionStepViewController = mainTaskVC.currentStepViewController as! ORKQuestionStepViewController
+            let index = (yesOrNo == true) ? 0 : 1 // index 0 == YES, index 1 == NO
+            questionStepViewController.simulateSelectingAnswerAtIndex(index)
+>>>>>>> main
         }
         
         func questionStepAnswer(in taskResult: ORKTaskResult) -> Bool? {
@@ -481,6 +493,7 @@ extension ORKFormItem {
     }
 }
 
+<<<<<<< HEAD
 extension ORKFormStepViewController {
     func simulateSelectingAnswerAtIndex(_ index: Int) {
         let answerIndexPath = IndexPath(row: index, section: 0)
@@ -508,6 +521,30 @@ extension ORKFormStepViewController {
     
     func _manuallySelectCell(at indexPath: IndexPath) {
         let tableViewDelegate = self as! UITableViewDelegate
+=======
+extension ORKQuestionStepViewController {
+    func simulateSelectingAnswerAtIndex(_ index: Int) {
+        // manually get through loadView, viewWillAppear, viewDidAppear
+        loadViewIfNeeded()
+        beginAppearanceTransition(true, animated: false)
+        endAppearanceTransition()
+        
+        // drive the tableView so we should see the question
+        let tableViewDataSource = self as! UITableViewDataSource
+        let tableView = self.tableView!
+        let sectionCount = tableViewDataSource.numberOfSections?(in: tableView) ?? 0
+        [0 ... sectionCount].indices.forEach { eachSection in
+            let rowCount = tableViewDataSource.tableView(tableView, numberOfRowsInSection: eachSection)
+            [0 ... rowCount].indices.forEach { eachRow in
+                let indexPath = IndexPath(item: eachSection, section: eachSection)
+                _ = tableViewDataSource.tableView(tableView, cellForRowAt: indexPath)
+            }
+        }
+        
+        // select the indicated answer option in the table
+        let tableViewDelegate = self as! UITableViewDelegate
+        let indexPath = IndexPath(item: index, section: 0)
+>>>>>>> main
         tableViewDelegate.tableView?(tableView, didSelectRowAt: indexPath)
     }
 }

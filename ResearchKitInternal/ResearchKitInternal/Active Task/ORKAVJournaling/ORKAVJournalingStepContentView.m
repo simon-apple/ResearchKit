@@ -521,8 +521,10 @@ static const NSInteger MaxRecalibrationViewPresentations = 4;
 }
 
 - (void)setupFaceDetectionContentView {
+    UIInterfaceOrientation orientation = self.window.windowScene.interfaceOrientation;
     _faceDetectionContentView = [[ORKFaceDetectionStepContentView alloc] initForRecalibration:YES
-                                                                        stopFaceDetectionExit:_stopFaceDetectionExit];
+                                                                        stopFaceDetectionExit:_stopFaceDetectionExit
+                                                                                  orientation:orientation];
     __weak typeof(self) weakSelf = self;
     [_faceDetectionContentView setViewEventHandler:^(ORKFaceDetectionStepContentViewEvent event) {
         [weakSelf handleFaceDetectionContentViewEvent:event];

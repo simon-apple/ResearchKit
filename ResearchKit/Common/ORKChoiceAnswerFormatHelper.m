@@ -69,13 +69,19 @@
     return option && [option isKindOfClass:[ORKImageChoice class]] ? (ORKImageChoice *) option : nil;
 }
 
+<<<<<<< HEAD
 #if RK_APPLE_INTERNAL
+=======
+>>>>>>> main
 - (ORKColorChoice *)colorChoiceAtIndex:(NSUInteger)index {
     id<ORKAnswerOption> option = [self answerOptionAtIndex:index];
     return option && [option isKindOfClass:[ORKColorChoice class]] ? (ORKColorChoice *) option : nil;
 }
+<<<<<<< HEAD
 #endif
 
+=======
+>>>>>>> main
 #endif
 
 - (ORKTextChoice *)textChoiceAtIndex:(NSUInteger)index {

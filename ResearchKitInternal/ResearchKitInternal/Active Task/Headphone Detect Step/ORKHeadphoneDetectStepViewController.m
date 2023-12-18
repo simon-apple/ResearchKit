@@ -56,6 +56,8 @@
 
 #import <LocalAuthentication/LAContext.h>
 
+#import <LocalAuthentication/LAContext.h>
+
 static const CGFloat ORKHeadphoneImageViewDimension = 36.0;
 static const CGFloat ORKHeadphoneDetectStepSpacing = 12.0;
 static const CGFloat ORKHeadphoneDetectCellStepSize = 40;
@@ -234,7 +236,11 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
             return AAPLLocalizedString(@"AIRPODS", nil);
         case ORKHeadphoneDetectedAirpodsPro:
         case ORKHeadphoneDetectedAirpodsProGen2:
+<<<<<<< HEAD:ResearchKitInternal/ResearchKitInternal/Active Task/Headphone Detect Step/ORKHeadphoneDetectStepViewController.m
             return AAPLLocalizedString(@"AIRPODSPRO", nil);
+=======
+            return ORKLocalizedString(@"AIRPODSPRO", nil);
+>>>>>>> main:ResearchKit/Common/HeadphoneDetectStep/ORKHeadphoneDetectStepViewController.m
         case ORKHeadphoneDetectedAirpodsMax:
             return AAPLLocalizedString(@"AIRPODSMAX", nil);
         case ORKHeadphoneDetectedEarpods:
@@ -1071,3 +1077,8 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
 }
 
 @end
+<<<<<<< HEAD:ResearchKitInternal/ResearchKitInternal/Active Task/Headphone Detect Step/ORKHeadphoneDetectStepViewController.m
+=======
+
+#endif
+>>>>>>> main:ResearchKit/Common/HeadphoneDetectStep/ORKHeadphoneDetectStepViewController.m

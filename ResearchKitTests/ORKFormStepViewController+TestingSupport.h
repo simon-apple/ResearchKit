@@ -28,8 +28,12 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+<<<<<<< HEAD
 #import <ResearchKitUI/ORKFormStepViewController_Private.h>
 
+=======
+#import <ResearchKit/ORKFormStepViewController_Private.h>
+>>>>>>> main
 
 @class ORKTableCellItemIdentifier;
 
@@ -57,7 +61,11 @@ returns a list of all the answerable formItems
  */
 - (nonnull ORKTaskResult *)_ongoingTaskResult;
 
+<<<<<<< HEAD
 - (void)buildDataSource:(UITableViewDiffableDataSource<NSString *, ORKTableCellItemIdentifier *> *)dataSource withCompletion:(void (^ _Nullable)(void))completion;
+=======
+- (void)buildDataSource:(UITableViewDiffableDataSource<NSString *, ORKTableCellItemIdentifier *> *)dataSource;
+>>>>>>> main
 
 /**
  fetches the associated ORKFormItem from an indexPath which calls  _formItemForFormItemIdentifier (potential performance hit)

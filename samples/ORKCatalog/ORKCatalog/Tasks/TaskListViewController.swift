@@ -43,6 +43,10 @@ import SwiftUI
 import SwiftUI
 #endif
 
+#if RK_APPLE_INTERNAL
+import SwiftUI
+#endif
+
 /**
     This example displays a catalog of tasks, each consisting of one or two steps,
     built using the ResearchKit framework. The `TaskListViewController` displays the

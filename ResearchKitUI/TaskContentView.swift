@@ -49,13 +49,13 @@ struct CompletionKey: EnvironmentKey {
 extension EnvironmentValues {
     
     var progress: Progress? {
-        get { self[ProgressKey] }
-        set { self[ProgressKey] = newValue }
+        get { self[ProgressKey.self] }
+        set { self[ProgressKey.self] = newValue }
     }
     
     var completion: (Bool) -> Void {
-        get { self[CompletionKey] }
-        set { self[CompletionKey] = newValue }
+        get { self[CompletionKey.self] }
+        set { self[CompletionKey.self] = newValue }
     }
 }
 

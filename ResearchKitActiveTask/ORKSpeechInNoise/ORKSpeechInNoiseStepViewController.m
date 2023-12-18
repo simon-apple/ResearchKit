@@ -86,10 +86,16 @@
     _speechInNoiseContentView.alertColor = [UIColor blueColor];
     [self.speechInNoiseContentView.playButton addTarget:self action:@selector(tapButtonPressed) forControlEvents:UIControlEventTouchDown];
     [_speechInNoiseContentView setGraphViewHidden:[self speechInNoiseStep].hideGraphView];
-    _audioEngine = [[AVAudioEngine alloc] init];
-    _playerNode = [[AVAudioPlayerNode alloc] init];
-    [_audioEngine attachNode:_playerNode];
-    [self setupBuffers];
+    [self setupEngine];
+}
+
+- (void)setupEngine {
+    if (!_audioEngine.isRunning) {
+        _audioEngine = [[AVAudioEngine alloc] init];
+        _playerNode = [[AVAudioPlayerNode alloc] init];
+        [_audioEngine attachNode:_playerNode];
+        [self setupBuffers];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -106,6 +112,34 @@
         _mixerNode = nil;
     }
 }
+
+#if RK_APPLE_INTERNAL
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+
+    _showingAlert = NO;
+
+    ORKTaskResult *taskResults = [[self taskViewController] result];
+    
+    BOOL foundHeadphoneDetectorResult = NO;
+    
+    for (ORKStepResult *result in taskResults.results) {
+        if (result.results > 0) {
+            ORKStepResult *firstResult = (ORKStepResult *)[result.results firstObject];
+            if ([firstResult isKindOfClass:[ORKHeadphoneDetectResult class]]) {
+                ORKHeadphoneDetectResult *headphoneDetectResult = (ORKHeadphoneDetectResult *)firstResult;
+                _headphoneType = headphoneDetectResult.headphoneType;
+                foundHeadphoneDetectorResult = YES;
+            }
+        }
+    }
+    
+    if (foundHeadphoneDetectorResult) {
+        _headphoneDetector = [[ORKHeadphoneDetector alloc] initWithDelegate:self
+                                             supportedHeadphoneChipsetTypes:nil];
+    }
+}
+#endif
 
 - (void)setupBuffers {
     
@@ -211,6 +245,10 @@
     } else {
         [self.navigationItem setHidesBackButton:YES animated:YES];
         [self installTap];
+        
+        // can crash if engine is not running
+        [self setupEngine];
+        
         [_playerNode play];
         if ([self speechInNoiseStep].willAudioLoop) {
             [_speechInNoiseContentView.playButton setTitle:ORKLocalizedString(@"SPEECH_IN_NOISE_STOP_AUDIO_LABEL", nil)

@@ -36,6 +36,23 @@
 #import <ResearchKit/ORKDefines.h>
 #import <ResearchKitUI/ORKInstructionStepViewController.h>
 
+<<<<<<< HEAD:ResearchKitInternal/ResearchKitInternal/Active Task/Headphone Detect Step/ORKHeadphoneDetectStepViewController.h
+=======
+ORK_SOFT_LINK_FRAMEWORK(Frameworks, AVFoundation);
+ORK_SOFT_LINK_CLASS(AVFoundation, AVOutputContext)
+#define AVOutputContextSoft getAVOutputContextClass()
+
+ORK_SOFT_LINK_NSSTRING_CONSTANT(AVFoundation, AVOutputDeviceBluetoothListeningModeActiveNoiseCancellation)
+#define AVOutputDeviceBluetoothListeningModeActiveNoiseCancellation getAVOutputDeviceBluetoothListeningModeActiveNoiseCancellation()
+ORK_SOFT_LINK_NSSTRING_CONSTANT(AVFoundation, AVOutputDeviceBluetoothListeningModeAudioTransparency)
+#define AVOutputDeviceBluetoothListeningModeAudioTransparency getAVOutputDeviceBluetoothListeningModeAudioTransparency()
+ORK_SOFT_LINK_NSSTRING_CONSTANT(AVFoundation, AVOutputDeviceBluetoothListeningModeNormal)
+#define AVOutputDeviceBluetoothListeningModeNormal getAVOutputDeviceBluetoothListeningModeNormal()
+ORK_SOFT_LINK_NSSTRING_CONSTANT(AVFoundation, AVOutputDeviceBatteryLevelLeftKey)
+#define AVOutputDeviceBatteryLevelLeftKey getAVOutputDeviceBatteryLevelLeftKey()
+ORK_SOFT_LINK_NSSTRING_CONSTANT(AVFoundation, AVOutputDeviceBatteryLevelRightKey)
+#define AVOutputDeviceBatteryLevelRightKey getAVOutputDeviceBatteryLevelRightKey()
+>>>>>>> main:ResearchKit/Common/ORKAVFoundationSoftLink.h
 
 NS_ASSUME_NONNULL_BEGIN
 

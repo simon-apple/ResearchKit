@@ -166,6 +166,9 @@ func resultTableViewProviderForResult(_ result: ORKResult?, delegate: ResultProv
     case is ORKTaskResult:
         providerType = TaskResultTableViewProvider.self
 
+    case is ORKFamilyHistoryResult:
+        providerType = FamilyHistoryResultTableViewProvider.self
+
     /*
         Refer to the comment near the switch statement for why the
         additional guard is here.
@@ -1342,7 +1345,10 @@ class CollectionResultTableViewProvider: ResultTableViewProvider {
     }
 }
 
+<<<<<<< HEAD
 #if RK_APPLE_INTERNAL
+=======
+>>>>>>> main
 /// Table view provider specific to an `ORKFamilyHistoryResult` instance.
 class FamilyHistoryResultTableViewProvider: TaskResultTableViewProvider {
     // MARK: ResultTableViewProvider
@@ -1373,7 +1379,10 @@ class FamilyHistoryResultTableViewProvider: TaskResultTableViewProvider {
         return rows
     }
 }
+<<<<<<< HEAD
 #endif
+=======
+>>>>>>> main
 
 /// Table view provider specific to an `ORKVideoInstructionStepResult` instance.
 // swiftlint:disable type_name

@@ -31,6 +31,8 @@
 
 #import "ORKTinnitusHeadphoneTable.h"
 
+static const CGFloat TopIndexOutOfBounds = 0.0;
+
 @implementation ORKTinnitusHeadphoneTable
 
 - (instancetype)initWithHeadphoneType:(ORKHeadphoneTypeIdentifier)headphoneType {
@@ -132,6 +134,14 @@
     NSUInteger topIndex = [sortedKeys indexOfObjectPassingTest:^BOOL(NSNumber *obj, NSUInteger idx, BOOL * _Nonnull stop) {
         return [obj compare:volume] == NSOrderedDescending;
     }];
+<<<<<<< HEAD:ResearchKitInternal/ResearchKitInternal/Active Task/Tinnitus/ORKTinnitusHeadphoneTable.m
+=======
+        
+    // if topIndex is out bounds -- lets return 0
+    if (topIndex >= sortedKeys.count) {
+        return TopIndexOutOfBounds;
+    }
+>>>>>>> main:ResearchKit/ActiveTasks/Tinnitus/ORKTinnitusHeadphoneTable.m
 
     // The smallest volume key that is bigger than systemVolume
     NSNumber *topKey = [sortedKeys objectAtIndex:topIndex];

@@ -70,6 +70,15 @@ ORK_CLASS_AVAILABLE
 
 @property (nonatomic, copy, nullable) NSArray *frequencyList;
 
+<<<<<<< HEAD:ResearchKitActiveTask/dBHL Tone Audiometry/ORKdBHLToneAudiometryStep.h
+=======
+#if RK_APPLE_INTERNAL
+@property (nonatomic, assign) NSInteger algorithm;
+
+@property (nonatomic, assign) double dBHLMaximumThreshold;
+#endif
+
+>>>>>>> main:ResearchKit/ActiveTasks/ORKdBHLToneAudiometry/ORKdBHLToneAudiometryStep.h
 - (id<ORKAudiometryProtocol>)audiometryEngine;
 - (void)resetAudiometryEngine;
 

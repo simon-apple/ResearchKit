@@ -216,7 +216,7 @@ API_AVAILABLE(ios(13.0))
         switch (state) {
             case ORKBLEPeripheralStatePending:
             {
-                UIActivityIndicatorView *activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+                UIActivityIndicatorView *activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleMedium];
                 cell.accessoryView = activityView;
                 [activityView startAnimating];
                 break;

@@ -67,7 +67,7 @@ typedef NSTimeInterval(^ORKAudiometryTimestampProvider)(void);
 /**
  Register the user response for the last presented tone.
  
- @param BOOL  A Boolean representing if the user acknowledged the last presented tone.
+ @param response  A Boolean representing if the user acknowledged the last presented tone.
  */
 - (void)registerResponse:(BOOL)response;
 

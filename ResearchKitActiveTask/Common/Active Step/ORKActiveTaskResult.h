@@ -32,6 +32,7 @@
 
 #import <ResearchKitActiveTask/ORKAmslerGridResult.h>
 #import <ResearchKit/ORKFileResult.h>
+<<<<<<< HEAD:ResearchKitActiveTask/Common/Active Step/ORKActiveTaskResult.h
 #import <ResearchKitActiveTask/ORKHolePegTestResult.h>
 #import <ResearchKitActiveTask/ORKPSATResult.h>
 #import <ResearchKitActiveTask/ORKRangeOfMotionResult.h>
@@ -48,3 +49,30 @@
 #import <ResearchKitActiveTask/ORKTowerOfHanoiResult.h>
 #import <ResearchKitActiveTask/ORKTrailmakingResult.h>
 #import <ResearchKitActiveTask/ORKSpeechInNoiseResult.h>
+=======
+#import <ResearchKit/ORKHolePegTestResult.h>
+#import <ResearchKit/ORKPSATResult.h>
+#import <ResearchKit/ORKRangeOfMotionResult.h>
+#import <ResearchKit/ORKReactionTimeResult.h>
+#import <ResearchKit/ORKNormalizedReactionTimeResult.h>
+#import <ResearchKit/ORKSpatialSpanMemoryResult.h>
+#import <ResearchKit/ORKSpeechRecognitionResult.h>
+#import <ResearchKit/ORKStroopResult.h>
+#import <ResearchKit/ORKAccuracyStroopResult.h>
+#import <ResearchKit/ORKTappingIntervalResult.h>
+#import <ResearchKit/ORKTimedWalkResult.h>
+#import <ResearchKit/ORKToneAudiometryResult.h>
+#import <ResearchKit/ORKdBHLToneAudiometryResult.h>
+#import <ResearchKit/ORKTowerOfHanoiResult.h>
+#import <ResearchKit/ORKTrailmakingResult.h>
+#import <ResearchKit/ORKSpeechInNoiseResult.h>
+
+#if RK_APPLE_INTERNAL
+#import <ResearchKit/ORKTypingResult.h>
+#import <ResearchKit/ORKTinnitusPureToneResult.h>
+#import <ResearchKit/ORKTinnitusMaskingSoundResult.h>
+#import <ResearchKit/ORKTinnitusVolumeResult.h>
+#import <ResearchKit/ORKTinnitusTypeResult.h>
+#import <ResearchKit/ORKTinnitusOverallAssessmentResult.h>
+#endif
+>>>>>>> main:ResearchKit/Common/ORKActiveTaskResult.h

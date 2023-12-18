@@ -59,6 +59,14 @@
 
 #import <CoreLocation/CLLocationManagerDelegate.h>
 #import <ResearchKit/CLLocationManager+ResearchKit.h>
+<<<<<<< HEAD:ResearchKitUI/Common/Task/ORKTaskViewController.m
+=======
+
+#if RK_APPLE_INTERNAL
+#import "ORKContext.h"
+#import "ORKSpeechInNoisePredefinedTask.h"
+#endif
+>>>>>>> main:ResearchKit/Common/ORKTaskViewController.m
 
 @import AVFoundation;
 @import CoreMotion;
@@ -161,6 +169,12 @@ typedef void (^_ORKLocationAuthorizationRequestHandler)(BOOL success);
     NSString *_restoredTaskIdentifier;
     
 #if RK_APPLE_INTERNAL
+<<<<<<< HEAD:ResearchKitUI/Common/Task/ORKTaskViewController.m
+=======
+    BOOL _hasLockedVolume;
+    float _savedVolume;
+    float _lockedVolume;
+>>>>>>> main:ResearchKit/Common/ORKTaskViewController.m
     BOOL _updatingPreviousResults;
 #endif
     
@@ -228,6 +242,10 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     self.restorationClass = [ORKTaskViewController class];
 
 #if RK_APPLE_INTERNAL
+<<<<<<< HEAD:ResearchKitUI/Common/Task/ORKTaskViewController.m
+=======
+    _hasLockedVolume = NO;
+>>>>>>> main:ResearchKit/Common/ORKTaskViewController.m
     _updatingPreviousResults = NO;
 #endif
 
@@ -260,7 +278,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
         self.delegate = delegate;
         if (data != nil) {
             self.restorationClass = [self class];
-            NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+            NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:data error:errorOut];
             [self decodeRestorableStateWithCoder:unarchiver];
             [self applicationFinishedRestoringState];
             
@@ -632,6 +650,34 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
 }
 
 #if RK_APPLE_INTERNAL
+<<<<<<< HEAD:ResearchKitUI/Common/Task/ORKTaskViewController.m
+=======
+- (void)lockDeviceVolume:(float)volume {
+    if (!_hasLockedVolume) {
+        _hasLockedVolume = YES;
+        _lockedVolume = volume;
+        _savedVolume = [[AVAudioSession sharedInstance] outputVolume];
+        
+        [self registerNotifications];
+        
+        [[getAVSystemControllerClass() sharedAVSystemController] setActiveCategoryVolumeTo:_lockedVolume];
+    }
+}
+
+- (void)saveVolume {
+    _savedVolume = [[AVAudioSession sharedInstance] outputVolume];
+}
+
+- (void)registerNotifications {
+    if (@available(iOS 15.0, *)) {
+        [[getAVSystemControllerClass() sharedAVSystemController] setAttribute:@[AVSystemController_SystemVolumeDidChangeNotification]
+                                                                       forKey:AVSystemController_SubscribeToNotificationsAttribute
+                                                                        error:nil];
+    }
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(volumeDidChange:) name:AVSystemController_SystemVolumeDidChangeNotification object:nil];
+}
+
+>>>>>>> main:ResearchKit/Common/ORKTaskViewController.m
 - (void)setUpdatingPreviousResults:(BOOL)updatingPreviousResults {
     _updatingPreviousResults = updatingPreviousResults;
 }
@@ -771,12 +817,11 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
 }
 
 - (NSData *)restorationData {
-    NSMutableData *data = [[NSMutableData alloc] init];
-    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initRequiringSecureCoding:YES];
     [self encodeRestorableStateWithCoder:archiver];
     [archiver finishEncoding];
     
-    return [data copy];
+    return [archiver encodedData];
 }
 
 - (void)ensureDirectoryExists:(NSURL *)outputDirectory {
@@ -1086,8 +1131,11 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     }
     
     ORKStepViewController *stepViewController = nil;
+<<<<<<< HEAD:ResearchKitUI/Common/Task/ORKTaskViewController.m
     UIColor *tintColor = ORKViewTintColor(self.view);
     
+=======
+>>>>>>> main:ResearchKit/Common/ORKTaskViewController.m
     if ([self.delegate respondsToSelector:@selector(taskViewController:viewControllerForStep:)]) {
         // NOTE: While the delegate does not have direct access to the defaultResultSource,
         // it is assumed that it can set results as needed on the custom implementation of an
@@ -1166,7 +1214,10 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
         stepViewController.learnMoreButtonItem = [self defaultLearnMoreButtonItem];
     }
 
+<<<<<<< HEAD:ResearchKitUI/Common/Task/ORKTaskViewController.m
     stepViewController.view.tintColor = tintColor;
+=======
+>>>>>>> main:ResearchKit/Common/ORKTaskViewController.m
     stepViewController.delegate = self;
     return stepViewController;
 }

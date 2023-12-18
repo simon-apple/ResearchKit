@@ -78,6 +78,13 @@
     self.frequencyList = @[@1000.0, @2000.0, @3000.0, @4000.0, @8000.0, @1000.0, @500.0, @250.0];
     self.stepDuration = CGFLOAT_MAX;
     self.shouldShowDefaultTimer = NO;
+<<<<<<< HEAD:ResearchKitActiveTask/dBHL Tone Audiometry/ORKdBHLToneAudiometryStep.m
+=======
+#if RK_APPLE_INTERNAL
+    self.algorithm = ORKdBHLToneAudiometryTaskdBHLDefaultAlgorithm;
+    self.dBHLMaximumThreshold = ORKdBHLToneAudiometryTaskdBHLMaximumThreshold;
+#endif
+>>>>>>> main:ResearchKit/ActiveTasks/ORKdBHLToneAudiometry/ORKdBHLToneAudiometryStep.m
 }
 
 - (void)validateParameters {
@@ -117,6 +124,13 @@
     step.headphoneType = self.headphoneType;
     step.earPreference = self.earPreference;
     step.frequencyList = self.frequencyList;
+<<<<<<< HEAD:ResearchKitActiveTask/dBHL Tone Audiometry/ORKdBHLToneAudiometryStep.m
+=======
+#if RK_APPLE_INTERNAL
+    step.algorithm = self.algorithm;
+    step.dBHLMaximumThreshold = self.dBHLMaximumThreshold;
+#endif
+>>>>>>> main:ResearchKit/ActiveTasks/ORKdBHLToneAudiometry/ORKdBHLToneAudiometryStep.m
     return step;
 }
 
@@ -137,6 +151,14 @@
         ORK_DECODE_INTEGER(aDecoder, earPreference);
         ORK_DECODE_OBJ_CLASS(aDecoder, headphoneType, NSString);
         ORK_DECODE_OBJ_ARRAY(aDecoder, frequencyList, NSNumber);
+<<<<<<< HEAD:ResearchKitActiveTask/dBHL Tone Audiometry/ORKdBHLToneAudiometryStep.m
+=======
+        
+#if RK_APPLE_INTERNAL
+        ORK_DECODE_INTEGER(aDecoder, algorithm);
+        ORK_DECODE_DOUBLE(aDecoder, dBHLMaximumThreshold);
+#endif
+>>>>>>> main:ResearchKit/ActiveTasks/ORKdBHLToneAudiometry/ORKdBHLToneAudiometryStep.m
     }
     return self;
 }
@@ -157,6 +179,14 @@
     ORK_ENCODE_INTEGER(aCoder, earPreference);
     ORK_ENCODE_OBJ(aCoder, headphoneType);
     ORK_ENCODE_OBJ(aCoder, frequencyList);
+<<<<<<< HEAD:ResearchKitActiveTask/dBHL Tone Audiometry/ORKdBHLToneAudiometryStep.m
+=======
+    
+#if RK_APPLE_INTERNAL
+    ORK_ENCODE_INTEGER(aCoder, algorithm);
+    ORK_ENCODE_DOUBLE(aCoder, dBHLMaximumThreshold);
+#endif
+>>>>>>> main:ResearchKit/ActiveTasks/ORKdBHLToneAudiometry/ORKdBHLToneAudiometryStep.m
 }
 
 + (BOOL)supportsSecureCoding {
@@ -181,16 +211,46 @@
             && (self.dBHLMinimumThreshold == castObject.dBHLMinimumThreshold)
             && (self.earPreference == castObject.earPreference)
             && ORKEqualObjects(self.headphoneType, castObject.headphoneType)
+<<<<<<< HEAD:ResearchKitActiveTask/dBHL Tone Audiometry/ORKdBHLToneAudiometryStep.m
             && ORKEqualObjects(self.frequencyList, castObject.frequencyList));
 }
 
 - (id<ORKAudiometryProtocol>)createAudiometryEngine {
     return [[ORKAudiometry alloc] initWithStep:self];
+=======
+            && ORKEqualObjects(self.frequencyList, castObject.frequencyList)
+#if RK_APPLE_INTERNAL
+            && (self.algorithm == castObject.algorithm)
+            && (self.dBHLMaximumThreshold == castObject.dBHLMaximumThreshold)
+#endif
+            );
+>>>>>>> main:ResearchKit/ActiveTasks/ORKdBHLToneAudiometry/ORKdBHLToneAudiometryStep.m
 }
 
 - (id<ORKAudiometryProtocol>)audiometryEngine {
     if (!_audiometry) {
+<<<<<<< HEAD:ResearchKitActiveTask/dBHL Tone Audiometry/ORKdBHLToneAudiometryStep.m
         _audiometry = [self createAudiometryEngine];
+=======
+#if RK_APPLE_INTERNAL
+        switch (self.algorithm) {
+            case 1:
+                if (@available(iOS 14, *)) {
+                    _audiometry = [[ORKNewAudiometry alloc] initWithChannel:_earPreference
+                                                               initialLevel:_initialdBHLValue
+                                                                   minLevel:_dBHLMinimumThreshold
+                                                                   maxLevel:_dBHLMaximumThreshold
+                                                                frequencies:_frequencyList];
+                    break;
+                }
+            default:
+                _audiometry = [[ORKAudiometry alloc] initWithStep:self];
+                break;
+        }
+#else
+        _audiometry = [[ORKAudiometry alloc] initWithStep:self];
+#endif
+>>>>>>> main:ResearchKit/ActiveTasks/ORKdBHLToneAudiometry/ORKdBHLToneAudiometryStep.m
     }
     return _audiometry;
 }

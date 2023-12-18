@@ -28,6 +28,7 @@
 		03BD9EA4253E62A0008ADBE1 /* ORKBundleAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = 03BD9EA2253E62A0008ADBE1 /* ORKBundleAsset.m */; };
 		03EDD58024CA6B1D006245E9 /* ORKNotificationPermissionType.h in Headers */ = {isa = PBXBuildFile; fileRef = 03EDD57E24CA6B1D006245E9 /* ORKNotificationPermissionType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		03EDD58124CA6B1D006245E9 /* ORKNotificationPermissionType.m in Sources */ = {isa = PBXBuildFile; fileRef = 03EDD57F24CA6B1D006245E9 /* ORKNotificationPermissionType.m */; };
+		0B0DEDCB2A031DFB00FCF3FE /* ORKFormStepViewControllerConditionalFormItemsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0DEDCA2A031DFB00FCF3FE /* ORKFormStepViewControllerConditionalFormItemsTests.swift */; };
 		0B59A6BF28C1738D005035B4 /* ORKPickerTestDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B59A6BE28C1738D005035B4 /* ORKPickerTestDelegate.m */; };
 		0B9A990F2A8AC47500D64C40 /* NSObject+TestingSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B9A990E2A8AC47500D64C40 /* NSObject+TestingSupport.m */; };
 		0B9CC5672A68C02C00080E29 /* UIImageView+ResearchKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B9CC5652A68C02C00080E29 /* UIImageView+ResearchKit.h */; };
@@ -1057,6 +1058,7 @@
 		03EDD57E24CA6B1D006245E9 /* ORKNotificationPermissionType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKNotificationPermissionType.h; sourceTree = "<group>"; };
 		03EDD57F24CA6B1D006245E9 /* ORKNotificationPermissionType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKNotificationPermissionType.m; sourceTree = "<group>"; };
 		05F3765923C797930068E166 /* ResearchKit.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = ResearchKit.xctestplan; sourceTree = "<group>"; };
+		0B0DEDCA2A031DFB00FCF3FE /* ORKFormStepViewControllerConditionalFormItemsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ORKFormStepViewControllerConditionalFormItemsTests.swift; sourceTree = "<group>"; };
 		0B59A6BD28C1738D005035B4 /* ORKPickerTestDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKPickerTestDelegate.h; sourceTree = "<group>"; };
 		0B59A6BE28C1738D005035B4 /* ORKPickerTestDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKPickerTestDelegate.m; sourceTree = "<group>"; };
 		0B8444632A79C25000292DEA /* ORKChoiceViewCell+ORKTextChoice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ORKChoiceViewCell+ORKTextChoice.h"; sourceTree = "<group>"; };
@@ -1213,8 +1215,6 @@
 		2EBFE11C1AE1B32D00CB8254 /* ORKUIViewAccessibilityTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKUIViewAccessibilityTests.m; sourceTree = "<group>"; };
 		2EBFE11E1AE1B68800CB8254 /* ORKVoiceEngine_Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKVoiceEngine_Internal.h; sourceTree = "<group>"; };
 		2EBFE11F1AE1B74100CB8254 /* ORKVoiceEngineTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKVoiceEngineTests.m; sourceTree = "<group>"; };
-		3C7AEDCA29A72F83009EED4A /* CLLocationManager+ResearchKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CLLocationManager+ResearchKit.h"; sourceTree = "<group>"; };
-		3C7AEDCB29A72F83009EED4A /* CLLocationManager+ResearchKit.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CLLocationManager+ResearchKit.m"; sourceTree = "<group>"; };
 		51198767245CA50D004FC2C7 /* ORKUSDZModelManagerScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKUSDZModelManagerScene.h; sourceTree = "<group>"; };
 		51198768245CA50D004FC2C7 /* ORKUSDZModelManagerScene.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKUSDZModelManagerScene.m; sourceTree = "<group>"; };
 		51198799245FC33C004FC2C7 /* ORK3DModelManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORK3DModelManager.h; sourceTree = "<group>"; };
@@ -1229,6 +1229,8 @@
 		511E8D602995C20E00A384A5 /* ORKEnvironmentSPLMeterStepViewController_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKEnvironmentSPLMeterStepViewController_Private.h; sourceTree = "<group>"; };
 		512741262B1557220045A449 /* ResearchKit.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = ResearchKit.docc; sourceTree = "<group>"; };
 		5139A553266ED9BB00537192 /* ORKFeatureFlags.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKFeatureFlags.h; sourceTree = "<group>"; };
+		513A5BC82A81850500049094 /* ORKAgePicker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKAgePicker.h; sourceTree = "<group>"; };
+		513A5BC92A81850500049094 /* ORKAgePicker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKAgePicker.m; sourceTree = "<group>"; };
 		515310CD233570CF007BCA58 /* ORKDontKnowButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKDontKnowButton.h; sourceTree = "<group>"; };
 		515310CE233570CF007BCA58 /* ORKDontKnowButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKDontKnowButton.m; sourceTree = "<group>"; };
 		515F1B402B1E6260008C71FD /* ResearchKitInternal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitInternal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2118,6 +2120,40 @@
 			name = "Custom Step";
 			sourceTree = "<group>";
 		};
+		0BAF947D2910887D00EF138A /* Shake */ = {
+			isa = PBXGroup;
+			children = (
+				FF919A3D1E81AFEF005C2A1E /* ORKReactionTimeResult.h */,
+				FF919A3E1E81AFEF005C2A1E /* ORKReactionTimeResult.m */,
+				25ECC0931AFBD68300F3D63B /* ORKReactionTimeStep.h */,
+				25ECC0941AFBD68300F3D63B /* ORKReactionTimeStep.m */,
+				25ECC0991AFBD8B300F3D63B /* ORKReactionTimeViewController.h */,
+				25ECC09A1AFBD8B300F3D63B /* ORKReactionTimeViewController.m */,
+				25ECC09D1AFBD92D00F3D63B /* ORKReactionTimeContentView.h */,
+				25ECC09E1AFBD92D00F3D63B /* ORKReactionTimeContentView.m */,
+				25ECC0A11AFBDD2700F3D63B /* ORKReactionTimeStimulusView.h */,
+				25ECC0A21AFBDD2700F3D63B /* ORKReactionTimeStimulusView.m */,
+			);
+			name = Shake;
+			sourceTree = "<group>";
+		};
+		0BAF947E2910888900EF138A /* Normalized */ = {
+			isa = PBXGroup;
+			children = (
+				0BAF9798291088EE00EF138A /* ORKNormalizedReactionTimeContentView.h */,
+				0BAF979C291088F000EF138A /* ORKNormalizedReactionTimeContentView.m */,
+				0BAF9796291088ED00EF138A /* ORKNormalizedReactionTimeResult.h */,
+				0BAF979E291088F100EF138A /* ORKNormalizedReactionTimeResult.m */,
+				0BAF9799291088EE00EF138A /* ORKNormalizedReactionTimeStep.h */,
+				0BAF979F291088F200EF138A /* ORKNormalizedReactionTimeStep.m */,
+				0BAF9797291088EE00EF138A /* ORKNormalizedReactionTimeStimulusView.h */,
+				0BAF979B291088EF00EF138A /* ORKNormalizedReactionTimeStimulusView.m */,
+				0BAF979D291088F000EF138A /* ORKNormalizedReactionTimeViewController.h */,
+				0BAF979A291088EF00EF138A /* ORKNormalizedReactionTimeViewController.m */,
+			);
+			name = Normalized;
+			sourceTree = "<group>";
+		};
 		0BCC4BA4286A654C001E316F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -2638,6 +2674,7 @@
 				14D3F09D225BCA9100A3962D /* ORKButtonTests */,
 				1490DCF2224D3B71003FEEDA /* ORKResultTests */,
 				FA7A9D351B09362D005A2BEA /* Consent */,
+				3CF08BC529FC737E00BC25E1 /* ConditionalFormItems */,
 				86CC8EA71AC09383001CCD89 /* Info.plist */,
 				86CC8EA81AC09383001CCD89 /* ORKAccessibilityTests.m */,
 				248604051B4C98760010C8A0 /* ORKAnswerFormatTests.m */,
@@ -5232,9 +5269,10 @@
 		3FFF18351829DB1D00167070 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				CLASSPREFIX = ORK;
 				LastSwiftUpdateCheck = 1020;
-				LastUpgradeCheck = 1250;
+				LastUpgradeCheck = 1500;
 				ORGANIZATIONNAME = researchkit.org;
 				TargetAttributes = {
 					5D06632C24FEF272005D9B40 = {
@@ -5329,6 +5367,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DB7BB5F029A36A4900A41BB1 /* ResearchKitUI.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5433,6 +5472,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		5D8D87BF251C2A690030E058 /* Run SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -5447,7 +5487,8 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n    if ${CI} == true; then\n        echo \"Running Strict SwiftLint\"\n        swiftlint --strict\n    else\n        echo \"Running SwiftLint\"\n        swiftlint\n    fi\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n\n";
+			shellScript = "if which swiftlint >/dev/null; then\n    if ${CI} == true; then\n        echo \"Running Strict SwiftLint\"\n        swiftlint --strict\n    else\n        echo \"Running SwiftLint\"\n        swiftlint\n    fi\nelse\n    # Not a warning, to avoid this getting flagged in CI systems that don't have it\n    echo \"SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n\n";
+			showEnvVarsInLog = 0;
 		};
 		714174B5227ADF87005DD5E4 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -5536,6 +5577,7 @@
 				86CC8EB81AC09383001CCD89 /* ORKHKSampleTests.m in Sources */,
 				BCB96C131B19C0EC002A0B96 /* ORKStepTests.m in Sources */,
 				14A92C6E224531A2007547F2 /* ORKActiveTaskResultTests.swift in Sources */,
+				3CB9665F2A0077F7007A8766 /* ORKPredicateFormItemVisibilityRuleTests.swift in Sources */,
 				86CC8EB51AC09383001CCD89 /* ORKConsentTests.m in Sources */,
 				1490DD04224D6A61003FEEDA /* ORKTestResultPredicateType.swift in Sources */,
 				14F7AC8B2269035200D52F41 /* ORKStepViewControllerTests.swift in Sources */,
@@ -5571,7 +5613,9 @@
 				148E58BD227B36DB00EEF915 /* ORKCompletionStepViewControllerTests.swift in Sources */,
 				51CB80DA2AFEBF3800A1F410 /* ORKFormItemVisibilityRuleTests.swift in Sources */,
 				86CC8EB31AC09383001CCD89 /* ORKAccessibilityTests.m in Sources */,
+				3CF08BC729FC73C600BC25E1 /* ORKFormItemVisibilityRuleTests.swift in Sources */,
 				1490DD02224D6A21003FEEDA /* ORKResultPredicateTests.swift in Sources */,
+				0B0DEDCB2A031DFB00FCF3FE /* ORKFormStepViewControllerConditionalFormItemsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5601,6 +5645,7 @@
 				CA2B900A28A17ADE0025B773 /* ORKActiveStep.m in Sources */,
 				12F339BF26A1F09A000665E4 /* ORKLocationPermissionType.m in Sources */,
 				86C40E201A8D7C5C00081FAC /* ORKConsentSignature.m in Sources */,
+				51EED7B92A1D76D300546DA8 /* ORKColorChoiceCellGroup.m in Sources */,
 				BF1D43861D4904C6007EE90B /* ORKVideoInstructionStep.m in Sources */,
 				FF919A6E1E81D3B0005C2A1E /* ORKPasscodeResult.m in Sources */,
 				BABBB1AF2097D97200CB29E5 /* ORKPDFViewerStep.m in Sources */,
@@ -6055,6 +6100,14 @@
 			name = ResearchKit.strings;
 			sourceTree = "<group>";
 		};
+		DB7BB5F229A36A4900A41BB1 /* ResearchKitUI.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DB7BB5F129A36A4900A41BB1 /* en */,
+			);
+			name = ResearchKitUI.strings;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -6236,6 +6289,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5D000EDC2620F27100E5442A /* ResearchKitCore-(watchOS)-Shared.xcconfig */;
 			buildSettings = {
+				ENABLE_MODULE_VERIFIER = NO;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 			};
 			name = Debug;
 		};
@@ -6243,6 +6299,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5D000EDC2620F27100E5442A /* ResearchKitCore-(watchOS)-Shared.xcconfig */;
 			buildSettings = {
+				ENABLE_MODULE_VERIFIER = NO;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 			};
 			name = "Skywagon Stable";
 		};
@@ -6250,6 +6309,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5D000EDC2620F27100E5442A /* ResearchKitCore-(watchOS)-Shared.xcconfig */;
 			buildSettings = {
+				ENABLE_MODULE_VERIFIER = NO;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 			};
 			name = Release;
 		};
@@ -6257,6 +6319,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5D000EDC2620F27100E5442A /* ResearchKitCore-(watchOS)-Shared.xcconfig */;
 			buildSettings = {
+				ENABLE_MODULE_VERIFIER = NO;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 			};
 			name = "Skywagon Internal Release";
 		};
@@ -6264,6 +6329,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5D000EDC2620F27100E5442A /* ResearchKitCore-(watchOS)-Shared.xcconfig */;
 			buildSettings = {
+				ENABLE_MODULE_VERIFIER = NO;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 			};
 			name = "Skywagon Public Release";
 		};
