@@ -179,25 +179,16 @@ ORK_CLASS_AVAILABLE API_AVAILABLE(ios(11.0), watchos(6.0))
 @property (nonatomic, copy, nullable) UIImage *iconImage;
 
 /**
-<<<<<<< HEAD
  A property that gates automatic tint color image changes based on appearance changes.
  
  The default value for this property is ``NO``.
-=======
- A property that gates automatic tint color image changes based on appearance changes
- like userInterfaceStyle changes, and set to NO by default.
->>>>>>> main
  */
 @property (nonatomic) BOOL shouldAutomaticallyAdjustImageTintColor;
 
 /**
-<<<<<<< HEAD
  A property that determines whether  to show progress for this step when presented.
  
  The default is ``YES``.
-=======
-Whether to show progress for this step when it is presented. The default is YES.
->>>>>>> main
  */
 @property (nonatomic, assign) BOOL showsProgress;
 

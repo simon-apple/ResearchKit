@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "CA77D22D28AFF89200400292"
-               BuildableName = "ResearchKitInternal.framework"
+               BuildableName = ".framework"
                BlueprintName = "ResearchKitInternal"
                ReferencedContainer = "container:ResearchKitInternal.xcodeproj">
             </BuildableReference>
@@ -61,7 +61,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CA77D22D28AFF89200400292"
-            BuildableName = "ResearchKitInternal.framework"
+            BuildableName = ".framework"
             BlueprintName = "ResearchKitInternal"
             ReferencedContainer = "container:ResearchKitInternal.xcodeproj">
          </BuildableReference>

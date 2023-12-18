@@ -65,10 +65,6 @@
 #import <ResearchKit/ORKLearnMoreInstructionStep.h>
 #import <ResearchKit/ORKSecondaryTaskStep.h>
 #import <ResearchKit/ORKRequestPermissionsStep.h>
-<<<<<<< HEAD
-=======
-#import <ResearchKit/ORK3DModelStep.h>
->>>>>>> main
 
 #import <ResearchKit/ORKTask.h>
 #import <ResearchKit/ORKOrderedTask.h>
@@ -115,25 +111,3 @@
 
 #import <ResearchKit/ORKEarlyTerminationConfiguration.h>
 #import <ResearchKit/ORKBundleAsset.h>
-<<<<<<< HEAD
-=======
-
-#import <ResearchKit/ORKRelativeGroup.h>
-#import <ResearchKit/ORKHealthCondition.h>
-#import <ResearchKit/ORKRelatedPerson.h>
-#import <ResearchKit/ORKFamilyHistoryResult.h>
-#import <ResearchKit/ORKConditionStepConfiguration.h>
-#import <ResearchKit/ORKFamilyHistoryStep.h>
-#import <ResearchKit/ORKFamilyHistoryStepViewController.h>
-#import <ResearchKit/ORKFamilyHistoryReviewController.h>
-#import <ResearchKit/ORKRelativeGroup.h>
-
-#if RK_APPLE_INTERNAL
-#import <ResearchKit/ORKTypingStep.h>
-#import <ResearchKit/ORKTypingStepViewController.h>
-#import <ResearchKit/ORKAVJournalingTaskViewController.h>
-#import <ResearchKit/ORKAVJournalingResult.h>
-#import <ResearchKit/ORKBLEScanPeripheralsStepResult.h>
-#import <ResearchKit/ORKNewAudiometryMinimizer.h>
-#endif
->>>>>>> main

@@ -106,26 +106,14 @@ static const uint32_t IconDarkTintColor = 0x00A36C;
 }
 
 // Request for always permission.
-<<<<<<< HEAD
 - (void)requestPermission {
     [self.locationManager requestAlwaysAuthorization];
     
-=======
-- (void)requestPermissionButtonPressed {
->>>>>>> main
     BOOL requestWasDelivered = [self.locationManager ork_requestAlwaysAuthorization];
     
     // if the auth request was not delivered, that means ResearchKit was built with CoreLocation requests disabled
     // Presenting the location permission step in this case is probably programmer error
     NSAssert(requestWasDelivered, @"Tried to invoke -[CLLocationManager requestAlwaysAuthorization] but ResearchKit was compiled with CoreLocation authorization requests disabled. This is a programmer error. Check build settings for ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION");
-<<<<<<< HEAD
-=======
-}
-
-- (void)setState:(ORKRequestPermissionsButtonState)state canContinue:(BOOL)canContinue {
-    [self.cardView setEnableContinueButton:canContinue];
-    [self.cardView.requestPermissionButton setState:state];
->>>>>>> main
 }
 
 - (BOOL)isEqual:(id)object {

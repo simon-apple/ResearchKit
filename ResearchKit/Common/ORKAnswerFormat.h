@@ -63,18 +63,11 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @class ORKBooleanAnswerFormat;
-<<<<<<< HEAD
 #if RK_APPLE_INTERNAL
 @class ORKColorChoiceAnswerFormat;
 @class ORKColorChoice;
 #endif
 @class ORKTextChoiceAnswerFormat;
-=======
-@class ORKColorChoiceAnswerFormat;
-@class ORKTextChoiceAnswerFormat;
-
-@class ORKColorChoice;
->>>>>>> main
 @class ORKTextChoice;
 
 /**
@@ -136,15 +129,10 @@ ORK_CLASS_AVAILABLE
 + (ORKTextChoiceAnswerFormat *)choiceAnswerFormatWithStyle:(ORKChoiceAnswerStyle)style
                                                textChoices:(NSArray<ORKTextChoice *> *)textChoices;
 
-<<<<<<< HEAD
 #if RK_APPLE_INTERNAL
 + (ORKColorChoiceAnswerFormat *)choiceAnswerFormatWithStyle:(ORKChoiceAnswerStyle)style
                                                colorChoices:(NSArray<ORKColorChoice *> *)colorChoices;
 #endif
-=======
-+ (ORKColorChoiceAnswerFormat *)choiceAnswerFormatWithStyle:(ORKChoiceAnswerStyle)style
-                                               colorChoices:(NSArray<ORKColorChoice *> *)colorChoices;
->>>>>>> main
 
 /// @name Validation
 
@@ -213,10 +201,7 @@ ORK_CLASS_AVAILABLE
 
 @end
 
-<<<<<<< HEAD
 #if RK_APPLE_INTERNAL
-=======
->>>>>>> main
 ORK_CLASS_AVAILABLE
 @interface ORKColorChoiceAnswerFormat : ORKAnswerFormat
 
@@ -231,11 +216,8 @@ ORK_CLASS_AVAILABLE
 @property (copy, readonly) NSArray<ORKColorChoice *> *colorChoices;
 
 @end
-<<<<<<< HEAD
 #endif
-=======
 
->>>>>>> main
 
 /**
  The `ORKBooleanAnswerFormat` class behaves the same as the `ORKTextChoiceAnswerFormat` class,
@@ -429,10 +411,8 @@ ORK_CLASS_AVAILABLE
 
 @end
 
-<<<<<<< HEAD
+
 #if RK_APPLE_INTERNAL
-=======
->>>>>>> main
 ORK_CLASS_AVAILABLE
 @interface ORKColorChoice: NSObject <NSSecureCoding, NSCopying, NSObject>
 
@@ -461,10 +441,8 @@ ORK_CLASS_AVAILABLE
 @property (readonly) BOOL exclusive;
 
 @end
-<<<<<<< HEAD
 #endif
-=======
->>>>>>> main
+
 
 #pragma mark - iOS
 
