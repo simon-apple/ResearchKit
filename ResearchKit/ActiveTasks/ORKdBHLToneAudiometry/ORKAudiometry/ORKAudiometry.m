@@ -240,7 +240,7 @@
 }
 
 - (void)stimulusMissed {
-    if (_indexOfFreqLoopList < _freqLoopList.count) {
+    if (_indexOfFreqLoopList >= _freqLoopList.count) {
         return;
     }
     ORKAudiometryTransition *currentTransition = [_transitionsDictionary objectForKey:[NSNumber numberWithFloat:_currentdBHL]];
