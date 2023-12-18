@@ -35,6 +35,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ORKQuestionStepViewController () <ORKQuestionStepCustomViewDelegate>
 
+@property (nonatomic, strong) UITableView *tableView;
+
 - (nullable id)answer;
 - (BOOL)hasChangedAnswer;
 /**
