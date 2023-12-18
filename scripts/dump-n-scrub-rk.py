@@ -171,6 +171,10 @@ class FileHelper(object):
             f.remove_internal_flags_and_content()
             f.remove_lines_containing("swiftlint")
             f.remove_lines_containing("// TODO:")
+            f.remove_lines_containing("RDLS")
+            f.remove_lines_containing("[LC]")
+            f.remove_lines_containing("[LC:NOTE]")
+            f.remove_lines_containing("LC:")
             f.remove_lines_containing("// FIXME:")
             f.remove_lines_containing("rdar://")
         print(f"=== Finished removing enclosed internal code and references from files ===")
@@ -273,7 +277,7 @@ class RKCatalogScrubber():
         self.file_helper = FileHelper()
         self.project_path = "samples/ORKCatalog"
         self.project_file_path = "../samples/ORKCatalog/ORKCatalog.xcodeproj/project.pbxproj"
-        self.folders_to_remove = ["Scrubbers", "List1", "PracticeList", "QuestionList1", "TinnitusSounds1","promo_image.imageset"]
+        self.folders_to_remove = ["Scrubbers", "List1", "PracticeList", "QuestionList1", "TinnitusSounds1","promo_image.imageset", "InternalUITests"]
 
     def scrub_project(self):
         files = self.file_helper.recursively_read_files(self.project_path)
@@ -294,7 +298,8 @@ class RKCatalogScrubber():
 class RKIllegalTermsFinder():
     def __init__(self):
         self.project_path = "../ResearchKit"
-        self.illegal_terms_to_check = ["apple_internal", "RK_APPLE_INTERNAL" ,"spi", "lime", "olive", "nectarine","secret","DEVEOPMENT_TEAM"]
+        self.illegal_terms_to_check = ["apple_internal", "RK_APPLE_INTERNAL" ,"spi", "lime", "olive", "nectarine","secret","DEVELOPMENT_TEAM"]
+
 
     def find_illegal_terms(self):
         for term in self.illegal_terms_to_check:

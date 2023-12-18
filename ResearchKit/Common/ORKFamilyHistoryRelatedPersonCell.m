@@ -144,7 +144,11 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
 
 - (void)presentOptionsMenuAlert {
     UIAlertController *alert = [self alertForOptionsMenu];
-    [UIApplication.sharedApplication.keyWindow.rootViewController presentViewController:alert animated:true completion:nil];
+    if (@available(iOS 15.0, *)) {
+        [self.window.windowScene.keyWindow.rootViewController presentViewController:alert animated:true completion:nil];
+    } else {
+        [self.window.rootViewController presentViewController:alert animated:true completion:nil];
+    }
 }
 
 - (void)setupSubViews {

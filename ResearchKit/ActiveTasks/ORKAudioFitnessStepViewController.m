@@ -120,7 +120,7 @@
     NSError *error;
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback
                                             mode:AVAudioSessionModeDefault
-                              routeSharingPolicy:AVAudioSessionRouteSharingPolicyLongForm
+                              routeSharingPolicy:AVAudioSessionRouteSharingPolicyLongFormAudio
                                          options:0
                                            error:&error];
     if (error) {

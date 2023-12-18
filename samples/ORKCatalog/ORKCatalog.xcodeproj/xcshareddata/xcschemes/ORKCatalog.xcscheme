@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1250"
+   LastUpgradeVersion = "1500"
    version = "1.7">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -29,7 +29,10 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <TestPlans>
          <TestPlanReference
-            reference = "container:ORKCatalogUITests/ORKCatalogUI.xctestplan"
+            reference = "container:ORKCatalogUITests/ORKCatalogUI.xctestplan">
+         </TestPlanReference>
+         <TestPlanReference
+            reference = "container:ORKCatalogUITests/InternalUITests/RegressionUITests.xctestplan"
             default = "YES">
          </TestPlanReference>
       </TestPlans>

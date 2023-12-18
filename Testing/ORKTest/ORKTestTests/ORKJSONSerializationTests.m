@@ -1676,7 +1676,7 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector(void) {
         if (stepClassName && (kv = kvMapForStep[stepClassName])) {
             [step setValuesForKeysWithDictionary:kv];
         }
-        ORKStepViewController *stepViewController = [[aClass alloc] initWithStep:step];
+        ORKStepViewController *stepViewController = [(ORKStepViewController *)[aClass alloc] initWithStep:step];
         
         // Create a result
         ORKBooleanQuestionResult *result = [[ORKBooleanQuestionResult alloc] initWithIdentifier:@"test"];
