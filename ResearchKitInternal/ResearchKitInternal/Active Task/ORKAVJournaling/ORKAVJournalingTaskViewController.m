@@ -70,13 +70,8 @@
             [self updateAVJournalingTaskArrayForResumption];
             [self applicationFinishedRestoringState];
             
-<<<<<<< HEAD:ResearchKitInternal/ResearchKitInternal/Active Task/ORKAVJournaling/ORKAVJournalingTaskViewController.m
             if (unarchiver == nil) {
                 *errorOut = [NSError errorWithDomain:ORKErrorDomain code:ORKErrorException userInfo:@{NSLocalizedDescriptionKey: AAPLLocalizedString(@"RESTORE_ERROR_CANNOT_DECODE", nil)}];
-=======
-            if (unarchiver == nil && errorOut != nil) {
-                *errorOut = [NSError errorWithDomain:ORKErrorDomain code:ORKErrorException userInfo:@{NSLocalizedDescriptionKey: ORKLocalizedString(@"RESTORE_ERROR_CANNOT_DECODE", nil)}];
->>>>>>> main:ResearchKit/Common/InternalPredefinedTasks/ORKAVJournalingTaskViewController.m
             }
         }
     }

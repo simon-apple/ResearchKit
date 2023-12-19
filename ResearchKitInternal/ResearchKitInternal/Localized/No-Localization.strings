@@ -196,10 +196,7 @@
 
 /* Family History */
 "FAMILY_HISTORY_I_DONT_KNOW" = "I don't know";
-<<<<<<< HEAD:ResearchKitInternal/ResearchKitInternal/Localized/No-Localization.strings
 
-=======
->>>>>>> main:ResearchKit/Localized/No-Localization.strings
 // TODO: rdar://116689672 (Switch new text for the conditions form item in FxH back to the public loc file)
 "FAMILY_HISTORY_CONDITIONS_STEP_DESCRIPTION_TEMP" = "Confirm any diagnosed diseases or health conditions.";
 "FAMILY_HISTORY_PROVIDE_MINOR_CONDITION_INFO_QUESTION" = "This person is a minor. Would you like to continue with their medical history?";

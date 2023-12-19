@@ -109,7 +109,6 @@ class ResultViewController: UITableViewController {
             
             let destinationViewController = segue.destination as! ResultViewController
             
-<<<<<<< HEAD
 #if RK_APPLE_INTERNAL
             if let familyHistoryResult = result as? ORKFamilyHistoryResult {
                 destinationViewController.result = familyHistoryResult.relatedPersons![(indexPath as NSIndexPath).row].taskResult
@@ -118,16 +117,6 @@ class ResultViewController: UITableViewController {
 #endif
             let collectionResult = result as! ORKCollectionResult
             destinationViewController.result = collectionResult.results![(indexPath as NSIndexPath).row]
-=======
-            if let familyHistoryResult = result as? ORKFamilyHistoryResult {
-                destinationViewController.result = familyHistoryResult.relatedPersons![(indexPath as NSIndexPath).row].taskResult
-            } else {
-                let collectionResult = result as! ORKCollectionResult
-                
-                destinationViewController.result = collectionResult.results![(indexPath as NSIndexPath).row]
-            }
-
->>>>>>> main
         }
     }
 

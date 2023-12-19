@@ -302,16 +302,12 @@ ORK_MAKE_TEST_INIT(ORKVerificationStep, ^{return [self initWithIdentifier:[NSUUI
 ORK_MAKE_TEST_INIT(ORKStep, ^{return [self initWithIdentifier:[NSUUID UUID].UUIDString];});
 ORK_MAKE_TEST_INIT(ORKReviewStep, ^{return [[self class] standaloneReviewStepWithIdentifier:[NSUUID UUID].UUIDString steps:@[] resultSource:[[ORKTaskResult alloc] orktest_init]];});
 ORK_MAKE_TEST_INIT(ORKOrderedTask, ^{return [self initWithIdentifier:@"test1" steps:nil];});
-<<<<<<< HEAD
 ORK_MAKE_TEST_INIT(ORK3DModelStep, ^{return [[self.class alloc] initWithIdentifier:NSUUID.UUID.UUIDString modelManager: [[ORK3DModelManager alloc] init]]; });
 
 #if RK_APPLE_INTERNAL
 ORK_MAKE_TEST_INIT(ORKAgeAnswerFormat, ^{return [self initWithMinimumAge:0 maximumAge:80 minimumAgeCustomText:nil maximumAgeCustomText:nil showYear:NO useYearForResult:NO treatMinAgeAsRange:false treatMaxAgeAsRange:false defaultValue:0];});
 #endif
 
-=======
-ORK_MAKE_TEST_INIT(ORKAgeAnswerFormat, ^{return [self initWithMinimumAge:0 maximumAge:80 minimumAgeCustomText:nil maximumAgeCustomText:nil showYear:NO useYearForResult:NO treatMinAgeAsRange:false treatMaxAgeAsRange:false defaultValue:0];});
->>>>>>> main
 #if RK_APPLE_INTERNAL && ORK_FEATURE_AV_JOURNALING
 ORK_MAKE_TEST_INIT(ORKAVJournalingPredefinedTask, ^{
     ORKStep *stepA = [[ORKStep alloc] initWithIdentifier:[NSUUID UUID].UUIDString];
@@ -354,15 +350,11 @@ ORK_MAKE_TEST_INIT(ORKTinnitusPredefinedTask, ^{
 });
 #endif
 ORK_MAKE_TEST_INIT(ORKImageChoice, ^{return [super init];});
-<<<<<<< HEAD
 
 #if RK_APPLE_INTERNAL
 ORK_MAKE_TEST_INIT(ORKColorChoice, ^{return [super init];});
 #endif
 
-=======
-ORK_MAKE_TEST_INIT(ORKColorChoice, ^{return [super init];});
->>>>>>> main
 ORK_MAKE_TEST_INIT(ORKTextChoice, ^{return [super init];});
 ORK_MAKE_TEST_INIT(ORKTextChoiceOther, ^{return [self initWithText:@"test" primaryTextAttributedString:nil detailText:@"test1" detailTextAttributedString:nil value:@"value" exclusive:YES textViewPlaceholderText:@"test2" textViewInputOptional:NO textViewStartsHidden:YES];});
 ORK_MAKE_TEST_INIT(ORKPredicateStepNavigationRule, ^{return [self initWithResultPredicates:@[[ORKResultPredicate predicateForBooleanQuestionResultWithResultSelector:[ORKResultSelector selectorWithResultIdentifier:@"test"] expectedAnswer:YES]] destinationStepIdentifiers:@[@"test2"]];});
@@ -1100,12 +1092,9 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector(void) {
             [instance setValue:NSStringFromClass([ORKVerificationStepViewController class]) forKey:@"verificationViewControllerString"];
         } else if ([aClass isSubclassOfClass:[ORKReviewStep class]]) {
             [instance setValue:[[ORKTaskResult alloc] orktest_init] forKey:@"resultSource"]; // Manually add here because it's a protocol and hence property doesn't have a class
-<<<<<<< HEAD
         } else if ([aClass isSubclassOfClass:ORK3DModelStep.class]) {
             // as above, also a protocol
             [instance setValue:[[ORK3DModelManager alloc] init] forKey:@"modelManager"];
-=======
->>>>>>> main
         } else if ([aClass isSubclassOfClass:[ORKPredicateFormItemVisibilityRule class]]) {
             // predicateFormat cannot be an empty sring for deserialization to work
             [instance setValue:@"$title == 'testSerialization' && $className == 'ORKPredicateFormItemVisibilityRule'" forKey:@"predicateFormat"];
@@ -1115,14 +1104,6 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector(void) {
             [(ORKDateAnswerFormat *)instance _setCurrentDateOverride:dateFormatOverrideDate];
             [(ORKDateAnswerFormat *)instance setDaysAfterCurrentDateToSetMinimumDate:1];
             [(ORKDateAnswerFormat *)instance setDaysBeforeCurrentDateToSetMinimumDate:1];
-<<<<<<< HEAD
-=======
-        } else if ([aClass isSubclassOfClass:[ORKAgeAnswerFormat class]]) {
-            [instance setValue:@(0) forKey:@"minimumAge"];
-            [instance setValue:@(80) forKey:@"maximumAge"];
-            [instance setValue:@(0) forKey:@"defaultValue"];
-            [instance setValue:@(2023) forKey:@"relativeYear"];
->>>>>>> main
         }
         
 #if RK_APPLE_INTERNAL

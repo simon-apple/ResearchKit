@@ -2010,11 +2010,8 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     [self setUpConstraints];
     
     [super configureWithFormItem:formItem answer:answer maxLabelWidth:maxLabelWidth delegate:delegate];
-<<<<<<< HEAD:ResearchKitUI/Common/Answer Format/Form Step Views/ORKFormItemCell.m
     
     [_selectionView showMapViewIfNecessary];
-=======
->>>>>>> main:ResearchKit/Common/ORKFormItemCell.m
 }
 
 - (void)prepareForReuse {

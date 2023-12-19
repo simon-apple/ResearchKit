@@ -304,7 +304,6 @@ const NSTimeInterval ORKVolumeCalibrationFadeStep = 0.01;
     [super viewDidLoad];
     [self setupVolumeView];
     
-<<<<<<< HEAD:ResearchKitInternal/ResearchKitInternal/Active Task/ORKVolumeCalibration/ORKVolumeCalibrationStepViewController.m
     NSString *sampleTitle = @"Sample";
     ORKTinnitusPredefinedTaskContext *context = self.tinnitusPredefinedTaskContext;
     
@@ -340,8 +339,6 @@ const NSTimeInterval ORKVolumeCalibrationFadeStep = 0.01;
         }
     }
 
-=======
->>>>>>> main:ResearchKit/ActiveTasks/ORKVolumeCalibration/ORKVolumeCalibrationStepViewController.m
     self.contentView = [[ORKVolumeCalibrationContentView alloc] initWithTitle:[self sampleTitleForCalibrationStep]];
     self.contentView.delegate = self;
     
@@ -383,7 +380,6 @@ const NSTimeInterval ORKVolumeCalibrationFadeStep = 0.01;
     [super viewDidAppear:animated];
     
     [self setupAudioEngine];
-<<<<<<< HEAD:ResearchKitInternal/ResearchKitInternal/Active Task/ORKVolumeCalibration/ORKVolumeCalibrationStepViewController.m
     
     AAPLTaskViewController *aaplTaskViewController = (AAPLTaskViewController *)self.taskViewController;
     if (aaplTaskViewController != nil && [aaplTaskViewController isKindOfClass:[AAPLTaskViewController class]]) {
@@ -393,9 +389,6 @@ const NSTimeInterval ORKVolumeCalibrationFadeStep = 0.01;
         // TODO: THROW IF PARENT VIEW CONTROLLER ISN'T OF TYPE AAPLTaskViewController
     }
     
-=======
-    [self.taskViewController saveVolume];
->>>>>>> main:ResearchKit/ActiveTasks/ORKVolumeCalibration/ORKVolumeCalibrationStepViewController.m
     [[getAVSystemControllerClass() sharedAVSystemController] setActiveCategoryVolumeTo:UIAccessibilityIsVoiceOverRunning() ? 0.2 : 0];
 }
 

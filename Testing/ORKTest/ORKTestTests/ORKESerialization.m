@@ -1150,13 +1150,6 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(headphoneType, NSString, NSObject, YES, nil, nil),
                     PROPERTY(earPreference, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(frequencyList, NSArray, NSObject, YES, nil, nil),
-<<<<<<< HEAD
-=======
-#if RK_APPLE_INTERNAL
-                    PROPERTY(algorithm, NSNumber, NSObject, YES, nil, nil),
-                    PROPERTY(dBHLMaximumThreshold, NSNumber, NSObject, YES, nil, nil),
-#endif
->>>>>>> main
                     })),
 #if RK_APPLE_INTERNAL
            ENTRY(AAPLdBHLToneAudiometryResult,
@@ -1328,10 +1321,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(timeoutSound, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(failureSound, NSNumber, NSObject, YES, nil, nil),
                     })),
-<<<<<<< HEAD
 #if RK_APPLE_INTERNAL
-=======
->>>>>>> main
            ENTRY(ORKNormalizedReactionTimeStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      return [[ORKNormalizedReactionTimeStep alloc] initWithIdentifier:GETPROP(dict, identifier)];

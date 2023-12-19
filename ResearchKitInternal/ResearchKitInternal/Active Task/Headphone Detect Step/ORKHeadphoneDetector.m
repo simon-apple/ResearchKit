@@ -32,15 +32,12 @@
 #import "ORKCelestialSoftLink.h"
 #import "ORKHeadphoneDetector.h"
 
-<<<<<<< HEAD:ResearchKitInternal/ResearchKitInternal/Active Task/Headphone Detect Step/ORKHeadphoneDetector.m
 #import <ResearchKitInternal/AAPLTypes.h>
 
 #import <MediaPlayer/MediaPlayer.h>
 #import <ResearchKit/ORKHelpers_Internal.h>
 
 
-=======
->>>>>>> main:ResearchKit/Common/HeadphoneDetectStep/ORKHeadphoneDetector.m
 static const NSTimeInterval ORKBTListeningModeCheckInterval = 0.2;
 static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
 
@@ -285,10 +282,7 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
             if ([modelId containsString:ORKHeadphoneVendorAndProductIdIdentifierAirPodsPro]) {
                 return ORKHeadphoneTypeIdentifierAirPodsPro;
             }
-<<<<<<< HEAD:ResearchKitInternal/ResearchKitInternal/Active Task/Headphone Detect Step/ORKHeadphoneDetector.m
-            
-=======
->>>>>>> main:ResearchKit/Common/HeadphoneDetectStep/ORKHeadphoneDetector.m
+
             if ([modelId containsString:ORKHeadphoneVendorAndProductIdIdentifierAirPodsProGen2] ||
                 [modelId containsString:ORKHeadphoneVendorAndProductIdIdentifierAirPodsProGen2USBC]) {
                 return ORKHeadphoneTypeIdentifierAirPodsProGen2;

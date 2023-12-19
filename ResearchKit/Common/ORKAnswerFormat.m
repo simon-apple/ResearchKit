@@ -504,18 +504,12 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
     return [[ORKTextChoiceAnswerFormat alloc] initWithStyle:style textChoices:textChoices];
 }
 
-<<<<<<< HEAD
 #if RK_APPLE_INTERNAL
-=======
->>>>>>> main
 + (ORKColorChoiceAnswerFormat *)choiceAnswerFormatWithStyle:(ORKChoiceAnswerStyle)style
                      colorChoices:(NSArray<ORKColorChoice *> *)colorChoices {
     return [[ORKColorChoiceAnswerFormat alloc] initWithStyle:style colorChoices:colorChoices];
 }
-<<<<<<< HEAD
 #endif
-=======
->>>>>>> main
 
 - (void)validateParameters {
 }

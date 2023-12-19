@@ -53,10 +53,7 @@ static const CGFloat ColorSwatchExpandedRightPadding = 16.0;
 @interface ORKChoiceViewCell() <CAAnimationDelegate>
 
 @property (nonatomic) UIView *containerView;
-<<<<<<< HEAD:ResearchKitUI/Common/Skin/ORKChoiceViewCell.m
 @property (nonatomic) UIImageView *textChoiceImageView;
-=======
->>>>>>> main:ResearchKit/Common/ORKChoiceViewCell.m
 @property (nonatomic) UIView *colorSwatchView;
 @property (nonatomic) ORKSelectionTitleLabel *primaryLabel;
 @property (nonatomic) ORKSelectionSubTitleLabel *detailLabel;
@@ -273,7 +270,6 @@ static const CGFloat ColorSwatchExpandedRightPadding = 16.0;
     ]];
 }
 
-<<<<<<< HEAD:ResearchKitUI/Common/Skin/ORKChoiceViewCell.m
 - (void)addLeftContentViewToContainerViewConstraints {
     UIView *leftContentView = [self getLeftContentView];
     
@@ -285,17 +281,6 @@ static const CGFloat ColorSwatchExpandedRightPadding = 16.0;
         [_containerConstraints addObject:[leftContentView.heightAnchor constraintEqualToConstant:ColorSwatchViewHeightWidth]];
         
         [_containerConstraints addObject:[NSLayoutConstraint constraintWithItem:leftContentView
-=======
-- (void)addColorSwatchViewToContainerViewConstraints {
-    if (_colorSwatchView) {
-        
-        [_containerConstraints addObject:[_colorSwatchView.leadingAnchor constraintEqualToAnchor:_containerView.leadingAnchor constant:ORKSurveyItemMargin]];
-        
-        [_containerConstraints addObject:[_colorSwatchView.centerYAnchor constraintEqualToAnchor:_containerView.centerYAnchor]];
-        [_containerConstraints addObject:[_colorSwatchView.heightAnchor constraintEqualToConstant:ColorSwatchViewHeightWidth]];
-        
-        [_containerConstraints addObject:[NSLayoutConstraint constraintWithItem:_colorSwatchView
->>>>>>> main:ResearchKit/Common/ORKChoiceViewCell.m
                                                                       attribute:NSLayoutAttributeTop
                                                                       relatedBy:NSLayoutRelationEqual
                                                                          toItem:_containerView
@@ -304,17 +289,10 @@ static const CGFloat ColorSwatchExpandedRightPadding = 16.0;
                                                                        constant:ColorSwatchViewTopBottomPadding]];
         
         if (!_primaryLabel && !_detailLabel) {
-<<<<<<< HEAD:ResearchKitUI/Common/Skin/ORKChoiceViewCell.m
             [_containerConstraints addObject:[leftContentView.topAnchor constraintEqualToAnchor:_containerView.topAnchor constant:LabelTopBottomMargin]];
             [_containerConstraints addObject:[leftContentView.trailingAnchor constraintEqualToAnchor:_checkView.leadingAnchor constant:-ColorSwatchExpandedRightPadding]];
         } else if (leftContentView) {
             [_containerConstraints addObject:[leftContentView.widthAnchor constraintEqualToConstant:ColorSwatchViewHeightWidth]];
-=======
-            [_containerConstraints addObject:[_colorSwatchView.topAnchor constraintEqualToAnchor:_containerView.topAnchor constant:LabelTopBottomMargin]];
-            [_containerConstraints addObject:[_colorSwatchView.trailingAnchor constraintEqualToAnchor:_checkView.leadingAnchor constant:-ColorSwatchExpandedRightPadding]];
-        } else {
-            [_containerConstraints addObject:[_colorSwatchView.widthAnchor constraintEqualToConstant:ColorSwatchViewHeightWidth]];
->>>>>>> main:ResearchKit/Common/ORKChoiceViewCell.m
         }
      }
 }
@@ -388,13 +366,8 @@ static const CGFloat ColorSwatchExpandedRightPadding = 16.0;
             [NSLayoutConstraint constraintWithItem:_primaryLabel
                                          attribute:NSLayoutAttributeLeading
                                          relatedBy:NSLayoutRelationEqual
-<<<<<<< HEAD:ResearchKitUI/Common/Skin/ORKChoiceViewCell.m
                                             toItem:leftContentView ?: _containerView
                                          attribute:leftContentView ? NSLayoutAttributeTrailing : NSLayoutAttributeLeading
-=======
-                                            toItem:_colorSwatchView ?: _containerView
-                                         attribute:_colorSwatchView ? NSLayoutAttributeTrailing : NSLayoutAttributeLeading
->>>>>>> main:ResearchKit/Common/ORKChoiceViewCell.m
                                         multiplier:1.0
                                           constant:ORKSurveyItemMargin]
         ]];
@@ -431,7 +404,7 @@ static const CGFloat ColorSwatchExpandedRightPadding = 16.0;
 
 - (void)addContainerViewBottomConstraint {
     UIView *bottomMostView = _detailLabel ?: _primaryLabel;
-<<<<<<< HEAD:ResearchKitUI/Common/Skin/ORKChoiceViewCell.m
+    UIView *bottomMostView = _detailLabel ?: _primaryLabel;
     UIView *leftContentView = [self getLeftContentView];
     
     // only use extra margin if the primary or detail label have been initialized
@@ -439,14 +412,6 @@ static const CGFloat ColorSwatchExpandedRightPadding = 16.0;
     
     if (leftContentView) {
         bottomMostView = leftContentView;
-=======
-    
-    // only use extra margin if the primary or detail label have been initialized
-    CGFloat bottomMargin = (_colorSwatchView && bottomMostView) ? LabelTopBottomMarginWithColorSwatch : LabelTopBottomMargin;
-    
-    if (_colorSwatchView) {
-        bottomMostView = _colorSwatchView;
->>>>>>> main:ResearchKit/Common/ORKChoiceViewCell.m
         bottomMargin = ColorSwatchViewTopBottomPadding;
     }
     
@@ -470,11 +435,7 @@ static const CGFloat ColorSwatchExpandedRightPadding = 16.0;
     
     _containerConstraints = [[NSMutableArray alloc] init];
     [self addContainerViewToSelfConstraints];
-<<<<<<< HEAD:ResearchKitUI/Common/Skin/ORKChoiceViewCell.m
     [self addLeftContentViewToContainerViewConstraints];
-=======
-    [self addColorSwatchViewToContainerViewConstraints];
->>>>>>> main:ResearchKit/Common/ORKChoiceViewCell.m
     [self addPrimaryLabelToContainerViewConstraints];
     [self addDetailLabelConstraints];
     [self addCheckViewToContainerViewConstraints];
@@ -493,15 +454,12 @@ static const CGFloat ColorSwatchExpandedRightPadding = 16.0;
 - (void)prepareForReuse {
     _primaryLabel.text = nil;
     _detailLabel.text = nil;
-<<<<<<< HEAD:ResearchKitUI/Common/Skin/ORKChoiceViewCell.m
     
     if (_textChoiceImageView) {
         [_textChoiceImageView removeFromSuperview];
         _textChoiceImageView = nil;
     }
     
-=======
->>>>>>> main:ResearchKit/Common/ORKChoiceViewCell.m
     if (_colorSwatchView) {
         [_colorSwatchView removeFromSuperview];
         _colorSwatchView = nil;
@@ -588,20 +546,6 @@ static const CGFloat ColorSwatchExpandedRightPadding = 16.0;
         animation.delegate = self;
 
         [_animationLayer addAnimation:animation forKey:animationKeyPath];
-<<<<<<< HEAD:ResearchKitUI/Common/Skin/ORKChoiceViewCell.m
-=======
-    }
-}
-
-- (void)setupColorSwatchView {
-    if (!_colorSwatchView) {
-        _colorSwatchView = [UIView new];
-        _colorSwatchView.clipsToBounds = YES;
-        _colorSwatchView.layer.cornerRadius = 4.0;
-        _colorSwatchView.translatesAutoresizingMaskIntoConstraints = NO;
-        
-        [_containerView addSubview:_colorSwatchView];
->>>>>>> main:ResearchKit/Common/ORKChoiceViewCell.m
     }
 }
 
@@ -703,7 +647,6 @@ static const CGFloat ColorSwatchExpandedRightPadding = 16.0;
     }
 }
 
-<<<<<<< HEAD:ResearchKitUI/Common/Skin/ORKChoiceViewCell.m
 - (void)setTextChoiceImage:(UIImage *)image {
     if (image && !_colorSwatchView) {
         [self setupTextChoiceImageView];
@@ -714,10 +657,6 @@ static const CGFloat ColorSwatchExpandedRightPadding = 16.0;
 
 - (void)setSwatchColor:(UIColor *)swatchColor {
     if (swatchColor && !_textChoiceImageView) {
-=======
-- (void)setSwatchColor:(UIColor *)swatchColor {
-    if (swatchColor) {
->>>>>>> main:ResearchKit/Common/ORKChoiceViewCell.m
         [self setupColorSwatchView];
         _colorSwatchView.backgroundColor = swatchColor;
     }

@@ -30,11 +30,8 @@
 // apple-internal
 
 import ResearchKit
-<<<<<<< HEAD
 import ResearchKitUI
 import ResearchKitInternal
-=======
->>>>>>> main
 import SwiftUI
 
 /// A SwiftUI adaptor for `ORKTaskViewController`.
@@ -53,12 +50,8 @@ struct ResearchTaskView: View {
     
     var onLearnMoreTap: (ORKStep) -> Void = { _ in }
 
-<<<<<<< HEAD
     var onFinishTask: (ORKTaskFinishReason, ORKTaskResult, Error?) -> Void = { _, _, _ in }
-=======
-    var onFinishTask: (ORKTaskViewControllerFinishReason, ORKTaskResult, Error?) -> Void = { _, _, _ in }
->>>>>>> main
-
+    
     var body: some View {
 
         // Use a wrapper instead of directly conforming to
@@ -96,11 +89,7 @@ fileprivate struct TaskViewWrapper: UIViewControllerRepresentable {
 
     var onLearnMoreTap: (ORKStep) -> Void
 
-<<<<<<< HEAD
     var onFinishTask: (ORKTaskFinishReason, ORKTaskResult, Error?) -> Void
-=======
-    var onFinishTask: (ORKTaskViewControllerFinishReason, ORKTaskResult, Error?) -> Void
->>>>>>> main
     
     func makeCoordinator() -> Coordinator {
         Coordinator(
@@ -189,11 +178,7 @@ fileprivate struct TaskViewWrapper: UIViewControllerRepresentable {
 
         var onFinishStep: (ORKStep) -> Void
 
-<<<<<<< HEAD
         var onFinishTask: (ORKTaskFinishReason, ORKTaskResult, Error?) -> Void
-=======
-        var onFinishTask: (ORKTaskViewControllerFinishReason, ORKTaskResult, Error?) -> Void
->>>>>>> main
 
         var onLearnMoreTap: (ORKStep) -> Void
 
@@ -204,11 +189,7 @@ fileprivate struct TaskViewWrapper: UIViewControllerRepresentable {
              onFinishStep: @escaping (ORKStep) -> Void,
              onLearnMoreTap: @escaping (ORKStep) -> Void,
              onFinishTask: @escaping (
-<<<<<<< HEAD
                 ORKTaskFinishReason, ORKTaskResult, Error?
-=======
-                ORKTaskViewControllerFinishReason, ORKTaskResult, Error?
->>>>>>> main
              )
              -> Void
         ) {
@@ -223,11 +204,7 @@ fileprivate struct TaskViewWrapper: UIViewControllerRepresentable {
 
         func taskViewController(
             _ taskViewController: ORKTaskViewController,
-<<<<<<< HEAD
             didFinishWith reason: ORKTaskFinishReason,
-=======
-            didFinishWith reason: ORKTaskViewControllerFinishReason,
->>>>>>> main
             error: Error?) {
 
             // Using `taskViewController.dismiss()` fails to update the

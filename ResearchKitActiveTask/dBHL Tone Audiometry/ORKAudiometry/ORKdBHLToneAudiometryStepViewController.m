@@ -122,13 +122,10 @@
     [self.activeStepView.navigationFooterView setHidden:YES];
 
     [self.dBHLToneAudiometryContentView.tapButton addTarget:self action:@selector(tapButtonPressed) forControlEvents:UIControlEventTouchDown];
-<<<<<<< HEAD:ResearchKitActiveTask/dBHL Tone Audiometry/ORKAudiometry/ORKdBHLToneAudiometryStepViewController.m
     
     _audioChannel = dBHLTAStep.earPreference;
     _audioGenerator = [self createAudioGeneratorFromHeadphoneType:dBHLTAStep.headphoneType];
     _audioGenerator.delegate = self;
-=======
->>>>>>> main:ResearchKit/ActiveTasks/ORKdBHLToneAudiometry/ORKdBHLToneAudiometryStepViewController.m
 
     _hapticFeedback = [[UIImpactFeedbackGenerator alloc] initWithStyle: UIImpactFeedbackStyleHeavy];
 }
@@ -136,79 +133,16 @@
 - (void)addObservers {
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center addObserver:self selector:@selector(appWillTerminate:) name:UIApplicationWillTerminateNotification object:nil];
-<<<<<<< HEAD:ResearchKitActiveTask/dBHL Tone Audiometry/ORKAudiometry/ORKdBHLToneAudiometryStepViewController.m
-=======
-    #if RK_APPLE_INTERNAL
-    [center addObserver:self selector:@selector(appDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
-    #endif
->>>>>>> main:ResearchKit/ActiveTasks/ORKdBHLToneAudiometry/ORKdBHLToneAudiometryStepViewController.m
 }
 
 - (void)removeObservers {
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center removeObserver:self name:UIApplicationWillTerminateNotification object:nil];
-<<<<<<< HEAD:ResearchKitActiveTask/dBHL Tone Audiometry/ORKAudiometry/ORKdBHLToneAudiometryStepViewController.m
-=======
-    #if RK_APPLE_INTERNAL
-    [center removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
-    #endif
->>>>>>> main:ResearchKit/ActiveTasks/ORKdBHLToneAudiometry/ORKdBHLToneAudiometryStepViewController.m
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-<<<<<<< HEAD:ResearchKitActiveTask/dBHL Tone Audiometry/ORKAudiometry/ORKdBHLToneAudiometryStepViewController.m
-    
-=======
-#if RK_APPLE_INTERNAL
-    //TODO:- figure out where this call lives
-    [[self taskViewController] lockDeviceVolume:0.625];
-    
-    ORKdBHLToneAudiometryStep *dBHLTAStep = [self dBHLToneAudiometryStep];
 
-    ORKTaskResult *taskResults = [[self taskViewController] result];
-
-    BOOL foundHeadphoneDetectorResult = NO;
-    
-    for (ORKStepResult *result in taskResults.results) {
-        if (result.results > 0) {
-            ORKStepResult *firstResult = (ORKStepResult *)[result.results firstObject];
-            if ([firstResult isKindOfClass:[ORKHeadphoneDetectResult class]]) {
-                ORKHeadphoneDetectResult *headphoneDetectResult = (ORKHeadphoneDetectResult *)firstResult;
-                dBHLTAStep.headphoneType = headphoneDetectResult.headphoneType;
-                foundHeadphoneDetectorResult = YES;
-            } else if ([firstResult isKindOfClass:[ORKdBHLToneAudiometryResult class]]) {
-                if (@available(iOS 14.0, *)) {
-                    ORKdBHLToneAudiometryResult *dBHLToneAudiometryResult = (ORKdBHLToneAudiometryResult *)firstResult;
-                    BOOL suitableResult = (dBHLToneAudiometryResult.algorithmVersion == 1 &&
-                                           [self.audiometryEngine isKindOfClass:[ORKNewAudiometry class]] &&
-                                           dBHLToneAudiometryResult.samples.count > 0);
-                    
-                    // Only use audiograms from ORKNewAudiometry generated results
-                    if (suitableResult) {
-                        NSMutableDictionary *audiogram = [[NSMutableDictionary alloc] init];
-                        
-                        for (ORKdBHLToneAudiometryFrequencySample *sample in dBHLToneAudiometryResult.samples) {
-                            NSNumber *frequency = [NSNumber numberWithDouble:sample.frequency];
-                            NSNumber *threshold = [NSNumber numberWithDouble:sample.calculatedThreshold];
-                            audiogram[frequency] = threshold;
-                        }
-                        [(ORKNewAudiometry *)self.audiometryEngine setPreviousAudiogram:audiogram];
-                    }
-                }
-            }
-        }
-    }
-    
-    if (foundHeadphoneDetectorResult) {
-        _headphoneDetector = [[ORKHeadphoneDetector alloc] initWithDelegate:self
-                                             supportedHeadphoneChipsetTypes:[ORKHeadphoneDetectStep dBHLTypes]];
-        _audioChannel = dBHLTAStep.earPreference;
-        _audioGenerator = [[ORKdBHLToneAudiometryAudioGenerator alloc] initForHeadphoneType:dBHLTAStep.headphoneType];
-        _audioGenerator.delegate = self;
-    }
-#endif
->>>>>>> main:ResearchKit/ActiveTasks/ORKdBHLToneAudiometry/ORKdBHLToneAudiometryStepViewController.m
     [self start];
     [self addObservers];
 }
@@ -242,13 +176,6 @@
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-<<<<<<< HEAD:ResearchKitActiveTask/dBHL Tone Audiometry/ORKAudiometry/ORKdBHLToneAudiometryStepViewController.m
-=======
-    #if RK_APPLE_INTERNAL
-    [_headphoneDetector discard];
-    _headphoneDetector = nil;
-    #endif
->>>>>>> main:ResearchKit/ActiveTasks/ORKdBHLToneAudiometry/ORKdBHLToneAudiometryStepViewController.m
     
     _audioGenerator.delegate = nil;
     _audioGenerator = nil;
@@ -378,71 +305,4 @@
     [self nextTrial];
 }
 
-<<<<<<< HEAD:ResearchKitActiveTask/dBHL Tone Audiometry/ORKAudiometry/ORKdBHLToneAudiometryStepViewController.m
-=======
-#if RK_APPLE_INTERNAL
-#pragma mark - Headphone Monitoring
-
-- (NSString *)headphoneType {
-    return [[self dBHLToneAudiometryStep].headphoneType uppercaseString];
-}
-
-- (void)bluetoothModeChanged:(ORKBluetoothMode)bluetoothMode {
-    if ([[[self dBHLToneAudiometryStep].headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsPro] ||
-        [[[self dBHLToneAudiometryStep].headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsProGen2] ||
-        [[[self dBHLToneAudiometryStep].headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMax]) {
-        if (bluetoothMode != ORKBluetoothModeNoiseCancellation) {
-            [self showAlert];
-        }
-    }
-}
-
-- (void)headphoneTypeDetected:(nonnull ORKHeadphoneTypeIdentifier)headphoneType vendorID:(nonnull NSString *)vendorID productID:(nonnull NSString *)productID deviceSubType:(NSInteger)deviceSubType isSupported:(BOOL)isSupported {
-    if (![headphoneType isEqualToString:[self headphoneType]]) {
-        [self showAlert];
-    }
-}
-
-- (void)oneAirPodRemoved {
-    [self showAlert];
-}
-
-- (void)podLowBatteryLevelDetected {
-    [self showAlert];
-}
-
-- (void)showAlert {
-    if (!_showingAlert) {
-        _showingAlert = YES;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self stopAudio];
-            UIAlertController *alertController = [UIAlertController
-                                                  alertControllerWithTitle:ORKLocalizedString(@"PACHA_ALERT_TITLE_TASK_INTERRUPTED", nil)
-                                                  message:ORKLocalizedString(@"PACHA_ALERT_TEXT_TASK_INTERRUPTED", nil)
-                                                  preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *startOver = [UIAlertAction
-                                        actionWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE_START_OVER", nil)
-                                        style:UIAlertActionStyleDefault
-                                        handler:^(UIAlertAction *action) {
-                [self.dBHLToneAudiometryStep resetAudiometryEngine];
-                [[self taskViewController] restartTask];
-            }];
-            [alertController addAction:startOver];
-            [alertController addAction:[UIAlertAction
-                                        actionWithTitle:ORKLocalizedString(@"dBHL_ALERT_TITLE_CANCEL_TEST", nil)
-                                        style:UIAlertActionStyleDefault
-                                        handler:^(UIAlertAction *action) {
-                ORKStrongTypeOf(self.taskViewController.delegate) strongDelegate = self.taskViewController.delegate;
-                if ([strongDelegate respondsToSelector:@selector(taskViewController:didFinishWithReason:error:)]) {
-                    [strongDelegate taskViewController:self.taskViewController didFinishWithReason:ORKTaskViewControllerFinishReasonDiscarded error:nil];
-                }
-            }]];
-            alertController.preferredAction = startOver;
-            [self presentViewController:alertController animated:YES completion:nil];
-        });
-    }
-}
-#endif
-
->>>>>>> main:ResearchKit/ActiveTasks/ORKdBHLToneAudiometry/ORKdBHLToneAudiometryStepViewController.m
 @end

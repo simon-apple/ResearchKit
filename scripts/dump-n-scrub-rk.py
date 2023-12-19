@@ -342,12 +342,7 @@ class RKCatalogScrubber():
 class RKIllegalTermsFinder():
     def __init__(self):
         self.project_path = "../ResearchKit"
-<<<<<<< HEAD
         self.illegal_terms_to_check = ["apple_internal", "RK_APPLE_INTERNAL" ,"spi", "lime", "olive", "nectarine","secret","DEVEOPMENT_TEAM"]
-=======
-        self.illegal_terms_to_check = ["apple_internal", "RK_APPLE_INTERNAL" ,"spi", "lime", "olive", "nectarine","secret","DEVELOPMENT_TEAM"]
-
->>>>>>> main
 
     def find_illegal_terms(self):
         for term in self.illegal_terms_to_check:

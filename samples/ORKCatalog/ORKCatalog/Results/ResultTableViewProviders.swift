@@ -1345,10 +1345,7 @@ class CollectionResultTableViewProvider: ResultTableViewProvider {
     }
 }
 
-<<<<<<< HEAD
 #if RK_APPLE_INTERNAL
-=======
->>>>>>> main
 /// Table view provider specific to an `ORKFamilyHistoryResult` instance.
 class FamilyHistoryResultTableViewProvider: TaskResultTableViewProvider {
     // MARK: ResultTableViewProvider
@@ -1379,10 +1376,7 @@ class FamilyHistoryResultTableViewProvider: TaskResultTableViewProvider {
         return rows
     }
 }
-<<<<<<< HEAD
 #endif
-=======
->>>>>>> main
 
 /// Table view provider specific to an `ORKVideoInstructionStepResult` instance.
 // swiftlint:disable type_name
