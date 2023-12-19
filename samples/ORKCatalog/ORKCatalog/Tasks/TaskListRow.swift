@@ -91,7 +91,6 @@ enum TaskListRow: Int, CustomStringConvertible {
     case textQuestion
     case textChoiceQuestion
     case textChoiceQuestionWithImageTask
-    case colorChoiceQuestion
     case timeIntervalQuestion
     case timeOfDayQuestion
     case valuePickerChoiceQuestion
@@ -102,7 +101,6 @@ enum TaskListRow: Int, CustomStringConvertible {
     case wait
     case PDFViewer
     case requestPermissions
-    case familyHistory
     case eligibilityTask
     case accountCreation
     case login
@@ -663,10 +661,6 @@ enum TaskListRow: Int, CustomStringConvertible {
         case textChoiceQuestionStep
         case textChoiceQuestionWithImageStep
         case textChoiceQuestionWithImageTask
-        case colorChoiceQuestionTask
-        case colorChoiceQuestionStep
-        case colorChoiceQuestionStepSwatchOnly
-        case colorChoiceQuestionFormItem
 
         // Task with an example of time of day entry.
         case timeOfDayQuestionTask
@@ -704,9 +698,6 @@ enum TaskListRow: Int, CustomStringConvertible {
         case pdfViewerTask
         
         case requestPermissionsStep
-        
-        case familyHistoryStep
-        case familyHistoryTask
         
         // Eligibility task specific indentifiers.
         case eligibilityTask

@@ -404,7 +404,6 @@ static const CGFloat ColorSwatchExpandedRightPadding = 16.0;
 
 - (void)addContainerViewBottomConstraint {
     UIView *bottomMostView = _detailLabel ?: _primaryLabel;
-    UIView *bottomMostView = _detailLabel ?: _primaryLabel;
     UIView *leftContentView = [self getLeftContentView];
     
     // only use extra margin if the primary or detail label have been initialized
