@@ -1425,7 +1425,7 @@ static ORKStepResult *(^getConsentStepResult)(NSString *, NSString *, BOOL) = ^O
     XCTAssertEqualObjects(delegate.methodCalled.firstObject.selectorName, @"taskViewController:stepViewControllerWillDisappear:navigationDirection:");
     NSArray *expectedArgs = @[taskViewController, stepViewController, @(ORKStepViewControllerNavigationDirectionForward)];
     XCTAssertEqualObjects(delegate.methodCalled.firstObject.arguments, expectedArgs);
-
+    
 }
 
 - (void)testIndexOfStep {
