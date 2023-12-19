@@ -114,8 +114,8 @@
 		5192BF9E2AE1DE62006E43FB /* ORKColorChoiceCellGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = 5192BF9C2AE1DE62006E43FB /* ORKColorChoiceCellGroup.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5192BFA12AEAD7B5006E43FB /* Artwork.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 861610BF1A8D8EDD00245F7A /* Artwork.xcassets */; };
 		5192BFA92AEC4734006E43FB /* (null) in Sources */ = {isa = PBXBuildFile; };
-		51B94DBB2B31021E0039B0E7 /* CLLocationManager+ResearchKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 51B94DBA2B31021E0039B0E7 /* CLLocationManager+ResearchKit.m */; };
 		51B94DBD2B311E810039B0E7 /* CLLocationManager+ResearchKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 51B94DBC2B311E810039B0E7 /* CLLocationManager+ResearchKit.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		51B94DC72B3254FE0039B0E7 /* CLLocationManager+ResearchKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 51B94DC62B3254FD0039B0E7 /* CLLocationManager+ResearchKit.m */; };
 		51BD8FC329D3AD660001D54E /* Window.wav in Resources */ = {isa = PBXBuildFile; fileRef = 51BD8FC029D3AD660001D54E /* Window.wav */; };
 		51BD8FC429D3AD660001D54E /* VolumeCalibration.wav in Resources */ = {isa = PBXBuildFile; fileRef = 51BD8FC129D3AD660001D54E /* VolumeCalibration.wav */; };
 		51BD8FC529D3AD660001D54E /* Noise.wav in Resources */ = {isa = PBXBuildFile; fileRef = 51BD8FC229D3AD660001D54E /* Noise.wav */; };
@@ -1276,8 +1276,8 @@
 		5192BF9C2AE1DE62006E43FB /* ORKColorChoiceCellGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKColorChoiceCellGroup.h; sourceTree = "<group>"; };
 		519C298026D027AB00FD5F44 /* SwiftUIViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIViewFactory.swift; sourceTree = "<group>"; };
 		519C298D26D027E500FD5F44 /* TextChoiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextChoiceView.swift; sourceTree = "<group>"; };
-		51B94DBA2B31021E0039B0E7 /* CLLocationManager+ResearchKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CLLocationManager+ResearchKit.m"; path = "../../../test/ResearchKit/ResearchKit/Common/CLLocationManager+ResearchKit.m"; sourceTree = "<group>"; };
 		51B94DBC2B311E810039B0E7 /* CLLocationManager+ResearchKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CLLocationManager+ResearchKit.h"; sourceTree = "<group>"; };
+		51B94DC62B3254FD0039B0E7 /* CLLocationManager+ResearchKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CLLocationManager+ResearchKit.m"; sourceTree = "<group>"; };
 		51BD8FC029D3AD660001D54E /* Window.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = Window.wav; path = "ResearchKitInternal/ResearchKitInternal/Active Task/ORKSpeechInNoise/Window.wav"; sourceTree = SOURCE_ROOT; };
 		51BD8FC129D3AD660001D54E /* VolumeCalibration.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = VolumeCalibration.wav; path = "ResearchKitInternal/ResearchKitInternal/Active Task/ORKSpeechInNoise/VolumeCalibration.wav"; sourceTree = SOURCE_ROOT; };
 		51BD8FC229D3AD660001D54E /* Noise.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = Noise.wav; path = "ResearchKitInternal/ResearchKitInternal/Active Task/ORKSpeechInNoise/Noise.wav"; sourceTree = SOURCE_ROOT; };
@@ -2229,7 +2229,7 @@
 			isa = PBXGroup;
 			children = (
 				51B94DBC2B311E810039B0E7 /* CLLocationManager+ResearchKit.h */,
-				51B94DBA2B31021E0039B0E7 /* CLLocationManager+ResearchKit.m */,
+				51B94DC62B3254FD0039B0E7 /* CLLocationManager+ResearchKit.m */,
 				2433C9E11B9A506F0052D375 /* ORKKeychainWrapper.h */,
 				2433C9E21B9A506F0052D375 /* ORKKeychainWrapper.m */,
 				86C40B8C1A8D7C5C00081FAC /* ORKHelpers_Internal.h */,
@@ -5638,7 +5638,6 @@
 				CA6A0D86288B5B370048C1EF /* ORKHTMLPDFWriter.m in Sources */,
 				FF5CA6131D2C2670001660A3 /* ORKTableStep.m in Sources */,
 				036B1E8E25351BAD008483DF /* ORKMotionActivityPermissionType.m in Sources */,
-				51B94DBB2B31021E0039B0E7 /* CLLocationManager+ResearchKit.m in Sources */,
 				CA2B902228A1867E0025B773 /* ORKRecorder.m in Sources */,
 				5D04885825F19A7A0006C68B /* ORKDevice.m in Sources */,
 				CA2B902428A186AF0025B773 /* ORKDataLogger.m in Sources */,
@@ -5669,6 +5668,7 @@
 				FF5CA61C1D2C6453001660A3 /* ORKSignatureStep.m in Sources */,
 				FF919A541E81BEB5005C2A1E /* ORKCollectionResult.m in Sources */,
 				5192BFA92AEC4734006E43FB /* (null) in Sources */,
+				51B94DC72B3254FE0039B0E7 /* CLLocationManager+ResearchKit.m in Sources */,
 				86C40D581A8D7C5C00081FAC /* ORKOrderedTask.m in Sources */,
 				86C40D601A8D7C5C00081FAC /* ORKQuestionStep.m in Sources */,
 			);
