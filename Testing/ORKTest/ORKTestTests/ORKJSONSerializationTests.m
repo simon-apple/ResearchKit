@@ -1628,7 +1628,6 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector(void) {
                                                                              @"ORKHolePegTestRemoveStepViewController" : @"ORKHolePegTestRemoveStep",
                                                                              @"ORKImageCaptureStepViewController" : @"ORKImageCaptureStep",
                                                                              @"ORKPSATStepViewController" : @"ORKPSATStep",
-                                                                             @"ORKQuestionStepViewController" : @"ORKQuestionStep",
                                                                              @"ORKSpatialSpanMemoryStepViewController" : @"ORKSpatialSpanMemoryStep",
                                                                              @"ORKStroopStepViewController" : @"ORKStroopStep",
                                                                              @"ORKTimedWalkStepViewController" : @"ORKTimedWalkStep",
