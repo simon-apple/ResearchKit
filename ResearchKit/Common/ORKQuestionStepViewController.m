@@ -98,7 +98,6 @@ NSString * const ORKQuestionStepViewAccessibilityIdentifier = @"ORKQuestionStepV
     ORKQuestionStepCellHolderView *_cellHolderView;
     
     id _defaultAnswer;
-    
     BOOL _visible;
     UITableViewCell *_currentFirstResponderCell;
 }
@@ -163,7 +162,7 @@ NSString * const ORKQuestionStepViewAccessibilityIdentifier = @"ORKQuestionStepV
     _answerFormat = [self.questionStep impliedAnswerFormat];
     
     self.hasChangedAnswer = NO;
-    
+
     if ([self isViewLoaded]) {
         BOOL neediPadDesign = ORKNeedWideScreenDesign(self.view);
         [_tableContainer removeFromSuperview];
@@ -431,7 +430,6 @@ NSString * const ORKQuestionStepViewAccessibilityIdentifier = @"ORKQuestionStepV
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     [self stepDidChange];
     
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
@@ -455,8 +453,14 @@ NSString * const ORKQuestionStepViewAccessibilityIdentifier = @"ORKQuestionStepV
     if (_tableView) {
         [self.taskViewController setRegisteredScrollView:_tableView];
     }
-    
-    
+
+    [self requestAndRefreshDefaults];
+    if (_tableView) {
+        [_tableView reloadData];
+    }
+}
+
+- (void)requestAndRefreshDefaults {
     NSMutableSet *types = [NSMutableSet set];
     ORKAnswerFormat *format = [[self questionStep] answerFormat];
     HKObjectType *objType = [format healthKitObjectTypeForAuthorization];
@@ -480,10 +484,6 @@ NSString * const ORKQuestionStepViewAccessibilityIdentifier = @"ORKQuestionStepV
     }
     if (!scheduledRefresh) {
         [self refreshDefaults];
-    }
-    
-    if (_tableView) {
-        [_tableView reloadData];
     }
 }
 
@@ -523,10 +523,13 @@ NSString * const ORKQuestionStepViewAccessibilityIdentifier = @"ORKQuestionStepV
 - (void)defaultAnswerDidChange {
     id defaultAnswer = _defaultAnswer;
     if (![self hasAnswer] && defaultAnswer && !self.hasChangedAnswer) {
-        _answer = defaultAnswer;
-        
-        [self answerDidChange];
+        [self updateAnswer:defaultAnswer];
     }
+}
+
+- (void)updateAnswer:(id)answer {
+    _answer = answer;
+    [self answerDidChange];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -1028,6 +1031,10 @@ NSString * const ORKQuestionStepViewAccessibilityIdentifier = @"ORKQuestionStepV
 
 
 #pragma mark - ORKSurveyAnswerCellDelegate
+
+- (void)testAnswerDidChangeTo:(id)answer {
+    [self answerCell:[ORKSurveyAnswerCell new] answerDidChangeTo:answer dueUserAction:YES];
+}
 
 - (void)answerCell:(ORKSurveyAnswerCell *)cell answerDidChangeTo:(id)answer dueUserAction:(BOOL)dueUserAction {
     [self saveAnswer:answer];
