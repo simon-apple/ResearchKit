@@ -488,7 +488,7 @@ extension ORKQuestionStepViewController {
         
         // drive the tableView so we should see the question
         let tableViewDataSource = self as! UITableViewDataSource
-        let tableView = self.tableView!
+        let tableView = self.tableView
         let sectionCount = tableViewDataSource.numberOfSections?(in: tableView) ?? 0
         [0 ... sectionCount].indices.forEach { eachSection in
             let rowCount = tableViewDataSource.tableView(tableView, numberOfRowsInSection: eachSection)
