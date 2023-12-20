@@ -43,6 +43,7 @@
 #import "ORKSkin.h"
 #import "ORKStepContentView.h"
 #import "ORKEarlyTerminationConfiguration.h"
+#import "UIBarButtonItem+ORKBarButtonItem.h"
 
 static const CGFloat iPadStepTitleLabelPadding = 15.0;
 static const CGFloat iPadStepTitleLabelFontSize = 50.0;
@@ -382,6 +383,16 @@ static const CGFloat iPadStepTitleLabelFontSize = 50.0;
 
 - (NSString *)skipButtonTitle {
     return self.skipButtonItem.title;
+}
+
+- (void)enableBackNavigation {
+    [self setBackButtonItem:[self goToPreviousPageButtonItem]];
+}
+
+- (UIBarButtonItem *)goToPreviousPageButtonItem {
+    UIBarButtonItem *button = [UIBarButtonItem ork_backBarButtonItemWithTarget:self action:@selector(goBackward)];
+    button.accessibilityLabel = ORKLocalizedString(@"AX_BUTTON_BACK", nil);
+    return button;
 }
 
 - (void)setBackButtonItem:(UIBarButtonItem *)backButton {

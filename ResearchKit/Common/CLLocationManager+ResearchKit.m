@@ -64,11 +64,7 @@
 #if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
     [self stopUpdatingLocation];
 #else
-<<<<<<< HEAD
     // noop
-=======
-    // nooop
->>>>>>> main
 #endif
 }
 
