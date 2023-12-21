@@ -14,7 +14,7 @@ The following example specifies a registration step that includes requesting the
 
     ORKRegistrationStep *registrationStep = [[ORKRegistrationStep alloc] initWithIdentifier:@"identifier"
                                                                                       title:@"Account Registration" text:@"Please register at this point."
-                                                                                    options:ORKRegistrationStepIncludeGivenName |                                             ORKRegistrationStepIncludeFamilyName | ORKRegistrationStepIncludeGender |ORKRegistrationStepIncludeDOB];
+                                                                                    options:ORKRegistrationStepIncludeGivenName |                                             ORKRegistrationStepIncludeFamilyName | ORKRegistrationStepIncludeGender | ORKRegistrationStepIncludeDOB];
     ORKOrderedTask *task = [[ORKOrderedTask alloc] initWithIdentifier:@"registrationTask" steps:@[registrationStep]];
     ORKTaskViewController *taskViewController = [[ORKTaskViewController alloc] initWithTask:task taskRunUUID:nil];
     taskViewController.delegate = self;
