@@ -1130,13 +1130,9 @@ NSString * const ORKSurveyCardHeaderViewIdentifier = @"SurveyCardHeaderViewIdent
 #pragma mark Helpers
 
 - (ORKFormStep *)formStep {
-    if ([self.step isKindOfClass:ORKQuestionStep.class]) {
-        ORKQuestionStep *questionStep = (ORKQuestionStep *)self.step;
-        ORKFormStep *formStep = [[ORKFormStep alloc] initWithIdentifier:questionStep.identifier title:questionStep.title text:questionStep.text];
-        ORKFormItem *item = [[ORKFormItem alloc] initWithIdentifier:questionStep.identifier text:questionStep.question detailText:questionStep.detailText learnMoreItem:questionStep.learnMoreItem showsProgress:questionStep.showsProgress answerFormat:questionStep.answerFormat tagText:questionStep.tagText optional:questionStep.optional];
-        item.placeholder = questionStep.placeholder;
-        formStep.formItems = @[item];
-        return formStep;
+    ORKQuestionStep *questionStep = ORKDynamicCast(self.step, ORKQuestionStep);
+    if (questionStep) {
+        return questionStep.formStep;
     }
     
     NSAssert(!self.step || [self.step isKindOfClass:[ORKFormStep class]], nil);
