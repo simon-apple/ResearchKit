@@ -903,9 +903,6 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .requestPermissions:
             return requestPermissionsTask
-            
-        case .familyHistory:
-            return familyHistoryTask
         
         case .eligibilityTask:
             return eligibilityTask

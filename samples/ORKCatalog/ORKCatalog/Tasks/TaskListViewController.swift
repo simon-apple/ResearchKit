@@ -39,13 +39,6 @@ import ResearchKitInternal_Private
 import SwiftUI
 #endif
 
-#if RK_APPLE_INTERNAL
-import SwiftUI
-#endif
-
-#if RK_APPLE_INTERNAL
-import SwiftUI
-#endif
 
 /**
     This example displays a catalog of tasks, each consisting of one or two steps,
