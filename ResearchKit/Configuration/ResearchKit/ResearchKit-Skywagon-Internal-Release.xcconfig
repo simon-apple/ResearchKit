@@ -1,7 +1,7 @@
 //
 // ResearchKit-Skywagon-Internal-Release.xcconfig
 //
-
+// apple-internal
 #include "ResearchKit-Shared.xcconfig"
 
 GCC_SYMBOLS_PRIVATE_EXTERN = YES
