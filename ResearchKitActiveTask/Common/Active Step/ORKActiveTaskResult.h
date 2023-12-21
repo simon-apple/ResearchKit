@@ -30,21 +30,22 @@
  */
 
 
+#import <ResearchKitActiveTask/ORKAccuracyStroopResult.h>
 #import <ResearchKitActiveTask/ORKAmslerGridResult.h>
+#import <ResearchKitActiveTask/ORKdBHLToneAudiometryResult.h>
 #import <ResearchKit/ORKFileResult.h>
 #import <ResearchKitActiveTask/ORKHolePegTestResult.h>
+#import <ResearchKitActiveTask/ORKNormalizedReactionTimeResult.h>
 #import <ResearchKitActiveTask/ORKPSATResult.h>
 #import <ResearchKitActiveTask/ORKRangeOfMotionResult.h>
 #import <ResearchKitActiveTask/ORKReactionTimeResult.h>
-#import <ResearchKitActiveTask/ORKNormalizedReactionTimeResult.h>
 #import <ResearchKitActiveTask/ORKSpatialSpanMemoryResult.h>
+#import <ResearchKitActiveTask/ORKSpeechInNoiseResult.h>
 #import <ResearchKitActiveTask/ORKSpeechRecognitionResult.h>
 #import <ResearchKitActiveTask/ORKStroopResult.h>
-#import <ResearchKitActiveTask/ORKAccuracyStroopResult.h>
 #import <ResearchKitActiveTask/ORKTappingIntervalResult.h>
 #import <ResearchKitActiveTask/ORKTimedWalkResult.h>
 #import <ResearchKitActiveTask/ORKToneAudiometryResult.h>
-#import <ResearchKitActiveTask/ORKdBHLToneAudiometryResult.h>
 #import <ResearchKitActiveTask/ORKTowerOfHanoiResult.h>
 #import <ResearchKitActiveTask/ORKTrailmakingResult.h>
-#import <ResearchKitActiveTask/ORKSpeechInNoiseResult.h>
+

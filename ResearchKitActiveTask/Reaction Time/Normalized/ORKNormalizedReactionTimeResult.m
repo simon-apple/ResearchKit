@@ -45,7 +45,6 @@
     ORK_ENCODE_OBJ(aCoder, stimulusStartDate);
     ORK_ENCODE_OBJ(aCoder, reactionDate);
     ORK_ENCODE_INTEGER(aCoder, currentInterval);
-
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {

@@ -380,9 +380,6 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .requestPermissions:
             return NSLocalizedString("Request Permissions Step", comment: "")
-            
-        case .familyHistory:
-            return NSLocalizedString("Family History Step", comment: "")
 
         case .review:
             return NSLocalizedString("Review Step", comment: "")
@@ -876,9 +873,6 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .textChoiceQuestion:
             return textChoiceQuestionTask
-            
-        case .colorChoiceQuestion:
-            return ColorChoiceQuestionTask
             
         case .timeIntervalQuestion:
             return timeIntervalQuestionTask

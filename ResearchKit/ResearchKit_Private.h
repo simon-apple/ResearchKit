@@ -45,10 +45,8 @@
 #import <ResearchKit/ORKAnswerFormat_Internal.h>
 #import <ResearchKit/ORKChoiceAnswerFormatHelper.h>
 
-#if RK_APPLE_INTERNAL
 #import <ResearchKit/ORKPredicateFormItemVisibilityRule_Private.h>
 #import <ResearchKit/CLLocationManager+ResearchKit.h>
-#endif
 
 #import <ResearchKit/ORKConsentDocument_Private.h>
 #import <ResearchKit/ORKConsentSection_Private.h>

@@ -48,14 +48,6 @@ static const uint32_t IconDarkTintColor = 0x00A36C;
     return [[ORKLocationPermissionType alloc] init];
 }
 
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
-    }
-    return self;
-}
-
 - (CLLocationManager *)locationManager {
     if (!_locationManager) {
         _locationManager = [[CLLocationManager alloc] init];

@@ -55,7 +55,7 @@ typedef NSString * SRSensor NS_TYPED_ENUM API_AVAILABLE(ios(14.0));
 ORK_CLASS_AVAILABLE
 @interface ORKPermissionType : NSObject
 
-@property (nonatomic) void (^permissionsStatusUpdateCallback)(void);
+@property (nonatomic, copy) void (^permissionsStatusUpdateCallback)(void);
 
 @property (nonatomic, copy, readonly) NSString *localizedTitle;
 @property (nonatomic, copy, readonly) NSString *localizedDetailText;
