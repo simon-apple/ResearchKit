@@ -81,7 +81,6 @@ CGFloat BackgroundViewSpaceMultiplier = 2.0;
 
     [_button setDiameter:NormalizeButtonSize];
 
-
     [self addSubview:_button];
 
     [NSLayoutConstraint activateConstraints: @[
