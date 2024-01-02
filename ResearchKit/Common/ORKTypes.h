@@ -283,7 +283,7 @@ typedef NS_OPTIONS(NSInteger, ORKPSATPresentationMode) {
 
 
 /**
- Identify the type of passcode authentication for passcode view controller.
+ The type of passcode authentication for passcode view controller.
  */
 typedef NS_ENUM(NSInteger, ORKPasscodeType) {
     /// 4 digit pin entry
@@ -353,7 +353,7 @@ typedef NS_OPTIONS(NSUInteger, ORKPredefinedTaskOption) {
 
 
 /**
- Progress indicator type for the wait step.
+ A progress indicator type for the wait step.
  */
 typedef NS_ENUM(NSInteger, ORKProgressIndicatorType) {
     /// Spinner animation.
@@ -449,7 +449,7 @@ ORK_EXTERN ORKTrailMakingTypeIdentifier const ORKTrailMakingTypeIdentifierB;
 
 
 /**
- Flags that let you exclude particular steps from the predefined Tremor active task.
+ Flags that let you exclude particular steps from the predefined tremor active task.
  
  By default, all predefined active tasks will be included. The tremor active task option flags can
  be used to explicitly specify that an active task is not to be included.

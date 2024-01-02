@@ -47,7 +47,7 @@ typedef NS_ENUM(NSInteger, ORKBulletType) {
 } ORK_ENUM_AVAILABLE;
 
 /**
- A protocol that can be used for presenting a list of model objects in a table view.
+ A protocol that you use to present a list of model objects in a table view.
  
  Any `ORKStep` subclass that implements this protocol can be used with
  an `ORKTableStepViewController` to display the list of items.
@@ -128,7 +128,7 @@ typedef NS_ENUM(NSInteger, ORKBulletType) {
 @end
 
 /**
- A concrete subclass, used for presenting a list of model objects in a table view.
+ A concrete subclass that presents a list of model objects in a table view.
  
  To use `ORKTableStep`, instantiate the object, fill in its properties, and include it
  in a task. Next, create a task view controller for the task and present it.

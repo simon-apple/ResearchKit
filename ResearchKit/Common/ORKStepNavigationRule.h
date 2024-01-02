@@ -84,8 +84,7 @@ ORK_CLASS_AVAILABLE
 
 
 /**
- A rule that can be used to match any answer combination in the results of
- the ongoing task and jump accordingly.
+ A rule that matches any answer combination within the results of an ongoing task and jumps accordingly.
  
  This also applies to previously completed tasks.
  
@@ -204,8 +203,8 @@ ORK_CLASS_AVAILABLE
 
 
 /**
- A rule that can be used to unconditionally jump to a destination step
- specified by its identifier or to finish the task early.
+ A rule that unconditionally jumps to a destination step that its identifier specifies, or
+ to finish the task early.
  */
 ORK_CLASS_AVAILABLE
 @interface ORKDirectStepNavigationRule : ORKStepNavigationRule
@@ -345,8 +344,8 @@ ORK_CLASS_AVAILABLE
 
 
 /**
- An abstract base class for an object that can be used to modify a step
- if a given navigation rule is matched.
+ An abstract base class for an object that modifies a step
+ if a given navigation rule matches.
  
  Step modifiers can be used within an `ORKNavigableOrderedTask` object. You assign step modifiers 
  to be triggered after a task step is shown. Each step can have one step modifier at most.
@@ -369,8 +368,8 @@ ORK_CLASS_AVAILABLE
 
 
 /**
- A class for an object that can be used to modify a step
- if a given navigation rule is matched.
+ A class for an object that modifies a step if a
+ given navigation rule is matched.
  
  Step modifiers can be used within an `ORKNavigableOrderedTask` object. You assign step modifiers
  to be triggered after a task step is shown. Each step can have one step modifier at most.

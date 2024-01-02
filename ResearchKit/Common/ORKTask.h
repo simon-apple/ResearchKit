@@ -126,7 +126,7 @@ typedef struct {
 ORK_EXTERN ORKTaskTotalProgress ORKTaskTotalProgressMake(NSUInteger currentStepStartingProgressPosition, NSUInteger total, BOOL stepShouldShowTotalProgress) ORK_AVAILABLE_DECL;
 
 /**
- A protocol defines a task to be carried out by a participant in a research study.
+ A protocol that defines a task that a participant carries out in a research study.
  
  To present the ResearchKit framework UI in your app, instantiate an
  object that implements the `ORKTask` protocol (such as `ORKOrderedTask`) and
