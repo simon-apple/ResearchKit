@@ -38,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class ORKConsentDocument;
 
 /**
- A result object from of the consent review step.
+ A result object from the consent review step.
 
  The consent signature result is usually found as a child result of the
  `ORKStepResult` object for the consent review step.

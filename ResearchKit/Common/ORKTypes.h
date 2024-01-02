@@ -476,7 +476,7 @@ typedef NS_OPTIONS(NSUInteger, ORKTremorActiveTaskOption) {
 
 
 /**
- Enums to exclude options from pdf viewer step.
+ Enumerations that exclude options from the PDF viewer step.
  */
 typedef NS_OPTIONS(NSUInteger, ORKPDFViewerActionBarOption) {
     ORKPDFViewerActionBarOptionExcludeThumbnail = 1 << 0,
@@ -543,7 +543,7 @@ typedef NS_ENUM(NSInteger, ORKNavigationContainerButtonStyle) {
 } ORK_ENUM_AVAILABLE;
 
 /**
- An enumeration of the types of button styles for the dont know button.
+ An enumeration of the types of button styles for the "don't know button".
  */
 typedef NS_ENUM(NSInteger, ORKDontKnowButtonStyle) {
     ORKDontKnowButtonStyleStandard = 0,
