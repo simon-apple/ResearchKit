@@ -36,6 +36,8 @@
 #if TARGET_OS_IOS
 #import "ORKQuestionStep_Private.h"
 #import "ORKLearnMoreItem.h"
+#import "ORKFormStep.h"
+
 #endif
 
 #if TARGET_OS_IOS
@@ -58,6 +60,7 @@ ORKQuestionStepPresentationStyle const ORKQuestionStepPresentationStylePlatter =
     step.question = question;
     step.answerFormat = answerFormat;
     step.tagText = nil;
+    step.formStep = [self makeFormStep:step];
     return step;
 }
 
@@ -74,6 +77,7 @@ ORKQuestionStepPresentationStyle const ORKQuestionStepPresentationStylePlatter =
     step.presentationStyle = ORKQuestionStepPresentationStylePlatter;
     step.answerFormat = answerFormat;
     step.tagText = nil;
+    step.formStep = [self makeFormStep:step];
     return step;
 }
 
@@ -89,7 +93,16 @@ ORKQuestionStepPresentationStyle const ORKQuestionStepPresentationStylePlatter =
     step.answerFormat = answerFormat;
     step.learnMoreItem = learnMoreItem;
     step.tagText = nil;
+    step.formStep = [self makeFormStep:step];
     return step;
+}
+
++ (ORKFormStep *)makeFormStep:(ORKQuestionStep *)questionStep {
+    ORKFormStep *formStep = [[ORKFormStep alloc] initWithIdentifier:questionStep.identifier title:questionStep.title text:questionStep.text];
+    ORKFormItem *item = [[ORKFormItem alloc] initWithIdentifier:questionStep.identifier text:questionStep.question detailText:questionStep.detailText learnMoreItem:questionStep.learnMoreItem showsProgress:questionStep.showsProgress answerFormat:questionStep.answerFormat tagText:questionStep.tagText optional:questionStep.optional];
+    item.placeholder = questionStep.placeholder;
+    formStep.formItems = @[item];
+    return  formStep;
 }
 
 - (BOOL)isFormatChoiceWithImageOptions {

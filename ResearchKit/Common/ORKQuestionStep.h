@@ -41,6 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class ORKAnswerFormat;
 @class ORKLearnMoreItem;
+@class ORKFormStep;
 
 /**
  The `ORKQuestionStep` class is a concrete subclass of `ORKStep` that represents
@@ -122,6 +123,11 @@ ORK_CLASS_AVAILABLE
  The value displayed as a tag if set.
  */
 @property (nonatomic, copy, nullable) NSString *tagText;
+
+/**
+ An ORKFormStep representation of our ORKQuestionStep
+ */
+@property (nonatomic, copy, nullable) ORKFormStep *formStep;
 
 @end
 
