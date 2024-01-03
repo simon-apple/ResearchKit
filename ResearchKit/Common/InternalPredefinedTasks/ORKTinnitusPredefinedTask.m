@@ -652,6 +652,10 @@ static NSString *const ORKTinnitusHeadphoneRequiredStepIdentifier = @"ORKTinnitu
         nextStep = [self apendedStepAfterStep:step];
     }
     
+    if ([step.identifier isEqualToString:ORKEnvironmentSPLMeterTimeoutIdentifier]) {
+        return nil;
+    }
+    
     if (nextStep) {
         ORKSkipStepNavigationRule *skipNavigationRule = self.skipStepNavigationRules[nextStep.identifier];
         if ([skipNavigationRule stepShouldSkipWithTaskResult:result]) {
