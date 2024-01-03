@@ -369,7 +369,7 @@ ORK_CLASS_AVAILABLE
 
 /**
  A class for an object that modifies a step if a
- given navigation rule is matched.
+ given navigation rule matches.
  
  Step modifiers can be used within an `ORKNavigableOrderedTask` object. You assign step modifiers
  to be triggered after a task step is shown. Each step can have one step modifier at most.
