@@ -572,6 +572,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         case dontknowSurveyTask
 
         case textChoiceFormItem
+        case textChoiceFormStep
         case appleFormItemIdentifier
         case imageChoiceItemSection
         case imageChoiceItem
@@ -1317,10 +1318,8 @@ enum TaskListRow: Int, CustomStringConvertible {
         let textOnlyFormItemA = ORKFormItem(identifier: "text-section-text-item-a", text: "Text Field A", answerFormat: ORKTextAnswerFormat())
         let textOnlyFormItemB = ORKFormItem(identifier: "text-section-text-item-b", text: "Text Field B", answerFormat: ORKTimeIntervalAnswerFormat())
 
-        
         let sesAnswerFormat = ORKSESAnswerFormat(topRungText: "Best Off", bottomRungText: "Worst Off")
         let sesFormItem = ORKFormItem(identifier: "sesIdentifier", text: "Select where you are on the socioeconomic ladder.", answerFormat: sesAnswerFormat)
-        
         
         //Start of section for scale question
         let formItem03Text = NSLocalizedString(exampleQuestionText, comment: "")
@@ -1352,7 +1351,6 @@ enum TaskListRow: Int, CustomStringConvertible {
         booleanQuestionFormItem.learnMoreItem = booleanQuestionLearnMoreItem
         let booleanQuestionFormStep = ORKFormStep(identifier: String(describing: Identifier.booleanFormStep), title: "Questionnaire", text: exampleDetailText)
         booleanQuestionFormStep.formItems = [booleanQuestionFormItem]
-        
         
         //Add a question step with different layout format.
         let birthDayQuestionAnswerFormat = ORKAnswerFormat.dateAnswerFormat(withDefaultDate: nil, minimumDate: nil, maximumDate: Date(), calendar: nil)
@@ -1400,25 +1398,30 @@ enum TaskListRow: Int, CustomStringConvertible {
         instructionStep.detailText = NSLocalizedString("Please use this space to provide instructions for participants.  Please make sure to provide enough information so that users can progress through the survey and complete with ease.", comment: "")
         
         // Add a question step.
-        let question1StepAnswerFormat = ORKBooleanAnswerFormat()
-        let question1 = NSLocalizedString("Would you like to subscribe to our newsletter?", comment: "")
+        let booleanAnswerFormat = ORKBooleanAnswerFormat()
+        let booleanQuestion = NSLocalizedString("Would you like to subscribe to our newsletter?", comment: "")
         
         let learnMoreInstructionStep = ORKLearnMoreInstructionStep(identifier: "LearnMoreInstructionStep01")
         learnMoreInstructionStep.title = NSLocalizedString("Learn more title", comment: "")
         learnMoreInstructionStep.text = NSLocalizedString("Learn more text", comment: "")
         let learnMoreItem = ORKLearnMoreItem(text: nil, learnMoreInstructionStep: learnMoreInstructionStep)
         
-        let question1Step = ORKQuestionStep(identifier: String(describing: Identifier.questionStep), title: "Questionnaire", question: question1, answer: question1StepAnswerFormat, learnMoreItem: learnMoreItem)
-        question1Step.text = exampleDetailText
+        let booleanQuestionFormItem = ORKFormItem(identifier: String(describing: Identifier.booleanFormItem), text: booleanQuestion, answerFormat: booleanAnswerFormat, optional: true)
+        booleanQuestionFormItem.learnMoreItem = learnMoreItem
+        let booleanQuestionFormStep = ORKFormStep(identifier: String(describing: Identifier.booleanFormStep), title: "Questionnaire", text: nil)
+        booleanQuestionFormStep.formItems = [booleanQuestionFormItem]
         
-        // Add a question step with different layout format.
-        let question2StepAnswerFormat = ORKAnswerFormat.dateAnswerFormat(withDefaultDate: nil, minimumDate: nil, maximumDate: Date(), calendar: nil)
+        //Add a question step with different layout format.
+        let birthDayQuestionAnswerFormat = ORKAnswerFormat.dateAnswerFormat(withDefaultDate: nil, minimumDate: nil, maximumDate: Date(), calendar: nil)
+    
+        let birthdayQuestion = NSLocalizedString("When is your birthday?", comment: "")
+        let datePickerCellText = "Tap here"
         
-        let question2 = NSLocalizedString("When is your birthday?", comment: "")
-        let question2Step = ORKQuestionStep(identifier: String(describing: Identifier.birthdayQuestion), title: "Questionnaire", question: question2, answer: question2StepAnswerFormat)
-        question2Step.text = exampleDetailText
+        let birthDayQuestionSectionHeader = ORKFormItem(sectionTitle: birthdayQuestion)
+        let birthdayQuestionFormItem = ORKFormItem(identifier: String(describing: Identifier.birthdayQuestionFormItem), text: datePickerCellText, answerFormat: birthDayQuestionAnswerFormat)
+        let birthdayQuestionFormStep = ORKFormStep(identifier: String(describing: Identifier.birthdayQuestion), title: "Questionnaire", text: exampleDetailText)
+        birthdayQuestionFormStep.formItems = [birthDayQuestionSectionHeader, birthdayQuestionFormItem]
         
-        // Add a question step with an ORKTextChoiceOther
         let textChoices: [ORKTextChoice] = [
             ORKTextChoice(text: "choice 1", detailText: "detail 1", value: 1 as NSNumber, exclusive: false),
             ORKTextChoice(text: "choice 2", detailText: "detail 2", value: 2 as NSNumber, exclusive: false),
@@ -1429,20 +1432,23 @@ enum TaskListRow: Int, CustomStringConvertible {
             ORKTextChoiceOther.choice(withText: "choice 7", detailText: "detail 7", value: "choice 7" as NSString, exclusive: true, textViewPlaceholderText: "enter additional information")
         ]
         
-        let question3StepAnswerFormat = ORKTextChoiceAnswerFormat(style: .singleChoice, textChoices: textChoices)
-        let question3Step = ORKQuestionStep(identifier: String(describing: Identifier.questionStepWithOtherItems), title: "Questionnaire", question: question1, answer: question3StepAnswerFormat, learnMoreItem: learnMoreItem)
-        question3Step.text = exampleDetailText
+        let textChoiceQuestion = NSLocalizedString("Select an option below.", comment: "")
+        let textChoiceAnswerFormat = ORKTextChoiceAnswerFormat(style: .singleChoice, textChoices: textChoices)
         
-        // Add a summary step.
+        let textChoiceFormItem = ORKFormItem(identifier: String(describing: Identifier.textChoiceFormItem), text: textChoiceQuestion, answerFormat: textChoiceAnswerFormat)
+        textChoiceFormItem.learnMoreItem = learnMoreItem
+        let textChoiceFormStep = ORKFormStep(identifier: String(describing: Identifier.textChoiceFormStep), title: "Questionnaire", text: exampleDetailText)
+        textChoiceFormStep.formItems = [textChoiceFormItem]
+        
         let summaryStep = ORKInstructionStep(identifier: String(describing: Identifier.summaryStep))
         summaryStep.title = NSLocalizedString("Thanks", comment: "")
         summaryStep.text = NSLocalizedString("Thank you for participating in this sample survey.", comment: "")
     
         return ORKOrderedTask(identifier: String(describing: Identifier.surveyTask), steps: [
             instructionStep,
-            question1Step,
-            question2Step,
-            question3Step,
+            booleanQuestionFormStep,
+            birthdayQuestionFormStep,
+            textChoiceFormStep,
             summaryStep
             ])
     }
