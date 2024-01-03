@@ -78,7 +78,6 @@
         NSDictionary *dictionary = NSDictionaryOfVariableBindings(self, _previewView, _navigationFooterView, _headerView);
         ORKEnableAutoLayoutForViews(dictionary.allValues);
         
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationDidChange) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(queue_sessionRunning) name:AVCaptureSessionDidStartRunningNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sessionWasInterrupted:) name:AVCaptureSessionWasInterruptedNotification object:self.session];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sessionInterruptionEnded:) name:AVCaptureSessionInterruptionEndedNotification object:self.session];
@@ -101,7 +100,7 @@
 - (void)orientationDidChange {
     dispatch_async(dispatch_get_main_queue(), ^{
         AVCaptureVideoOrientation orientation = AVCaptureVideoOrientationPortrait;
-        switch ([[UIApplication sharedApplication] statusBarOrientation]) {
+        switch (self.window.windowScene.interfaceOrientation) {
             case UIInterfaceOrientationLandscapeRight:
                 orientation = AVCaptureVideoOrientationLandscapeRight;
                 break;
@@ -226,7 +225,7 @@
                                                views:views]];
     
     // Float the continue view over the previewView if in landscape to give more room for the preview
-    if (UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
+    if (UIInterfaceOrientationIsLandscape(self.window.windowScene.interfaceOrientation)) {
         [_variableConstraints addObjectsFromArray:
          [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_previewView]|"
                                                  options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil

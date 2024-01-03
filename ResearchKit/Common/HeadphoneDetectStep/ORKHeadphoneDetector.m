@@ -443,6 +443,8 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
             btMode = ORKBluetoothModeTransparency;
         } else if ([listeningMode isEqualToString:AVOutputDeviceBluetoothListeningModeActiveNoiseCancellation]) {
             btMode = ORKBluetoothModeNoiseCancellation;
+        } else if ([listeningMode isEqualToString:AVOutputDeviceBluetoothListeningModeAutomatic]) {
+            btMode = ORKBluetoothModeAutomatic;
         }
     }
     return btMode;

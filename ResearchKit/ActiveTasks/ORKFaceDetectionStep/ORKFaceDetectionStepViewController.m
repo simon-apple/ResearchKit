@@ -172,7 +172,10 @@
 }
 
 - (void)setupContentView {
-    _contentView = [[ORKFaceDetectionStepContentView alloc] initForRecalibration:NO stopFaceDetectionExit:NO];
+    UIInterfaceOrientation orientation = self.view.window.windowScene.interfaceOrientation;
+    _contentView = [[ORKFaceDetectionStepContentView alloc] initForRecalibration:NO
+                                                           stopFaceDetectionExit:NO
+                                                                     orientation:orientation];
     __weak typeof(self) weakSelf = self;
     [_contentView setViewEventHandler:^(ORKFaceDetectionStepContentViewEvent event) {
         [weakSelf handleContentViewEvent:event];
@@ -304,7 +307,7 @@
         AVCaptureConnection *connection = [_videoDataOutput connectionWithMediaType: AVMediaTypeVideo];
         connection.cameraIntrinsicMatrixDeliveryEnabled = YES;
         
-        _interfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
+        _interfaceOrientation = self.view.window.windowScene.interfaceOrientation;
         
         if (_interfaceOrientation == UIDeviceOrientationLandscapeLeft) {
             _videoOrientation = AVCaptureVideoOrientationLandscapeLeft;

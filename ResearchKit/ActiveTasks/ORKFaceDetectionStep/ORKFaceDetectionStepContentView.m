@@ -90,7 +90,9 @@ static const CGFloat StopFaceDetectionTimeLimit = 10.0;
     BOOL _stopFaceDetectionExit;
 }
 
-- (instancetype)initForRecalibration:(BOOL)forRecalibration stopFaceDetectionExit:(BOOL)stopFaceDetectionExit {
+- (instancetype)initForRecalibration:(BOOL)forRecalibration 
+               stopFaceDetectionExit:(BOOL)stopFaceDetectionExit
+                         orientation:(UIInterfaceOrientation)orientation {
     self = [super initWithFrame:CGRectZero];
     self.layoutMargins = ORKStandardFullScreenLayoutMarginsForView(self);
     
@@ -103,7 +105,7 @@ static const CGFloat StopFaceDetectionTimeLimit = 10.0;
         _showingForRecalibration = forRecalibration;
         _stopFaceDetectionExit = stopFaceDetectionExit;
 
-        if ([UIApplication sharedApplication].statusBarOrientation == UIDeviceOrientationLandscapeLeft) {
+        if (orientation == UIDeviceOrientationLandscapeLeft) {
             _videoOrientation = AVCaptureVideoOrientationLandscapeLeft;
         } else {
             _videoOrientation = AVCaptureVideoOrientationLandscapeRight;

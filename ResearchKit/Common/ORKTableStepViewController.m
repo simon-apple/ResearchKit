@@ -74,7 +74,7 @@ ORKDefineStringKey(ORKBasicCellReuseIdentifier);
     
     if (_tableContainer) {
         [_tableContainer sizeHeaderToFit];
-        [_tableContainer resizeFooterToFit];
+        [_tableContainer resizeFooterToFitUsingMinHeight:NO];
         [_tableContainer layoutIfNeeded];
     }
     

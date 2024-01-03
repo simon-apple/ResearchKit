@@ -189,13 +189,13 @@ static const CGFloat FooterViewHeightOffset = 20.0;
 - (void)layoutSubviews {
     [super layoutSubviews];
     [self sizeHeaderToFit];
-    [self resizeFooterToFit];
+    [self resizeFooterToFitUsingMinHeight:NO];
     [self updateTableViewBottomConstraint];
 }
 
 - (void)didMoveToWindow {
     [self sizeHeaderToFit];
-    [self resizeFooterToFit];
+    [self resizeFooterToFitUsingMinHeight:NO];
     [self layoutIfNeeded];
 }
 
@@ -219,7 +219,7 @@ static const CGFloat FooterViewHeightOffset = 20.0;
     _tableView.tableFooterView = nil;
 }
 
-- (void)resizeFooterToFit {
+- (void)resizeFooterToFitUsingMinHeight:(BOOL)useMinHeight {
     //     This method would resize the tableFooterView, so that navigationContainerView can have appropriate height.
     if (self.isNavigationContainerScrollable && _tableView.bounds.size.height > 0 && self.navigationFooterView.bounds.size.height > 0 && ![self.navigationFooterView wasContinueOrSkipButtonJustPressed]) {
         CGFloat minHeight = self.navigationFooterView.bounds.size.height;
@@ -227,6 +227,11 @@ static const CGFloat FooterViewHeightOffset = 20.0;
         [_tableView layoutIfNeeded];
         CGFloat tableViewHeight = self.tableView.bounds.size.height;
         CGFloat newHeight = tableViewHeight - self.tableView.contentSize.height + FooterViewHeightOffset;
+        
+        if (useMinHeight) {
+            newHeight = minHeight;
+        }
+        
         CGRect footerRect = newHeight < minHeight ? CGRectMake(0.0, 0.0, _tableView.bounds.size.width, minHeight) : CGRectMake(0.0, 0.0, _tableView.bounds.size.width, newHeight);
 
         [_footerView setFrame:footerRect];

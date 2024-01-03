@@ -115,10 +115,16 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
     _speechInNoiseContentView.alertColor = [UIColor blueColor];
     [self.speechInNoiseContentView.playButton addTarget:self action:@selector(tapButtonPressed) forControlEvents:UIControlEventTouchDown];
     [_speechInNoiseContentView setGraphViewHidden:[self speechInNoiseStep].hideGraphView];
-    _audioEngine = [[AVAudioEngine alloc] init];
-    _playerNode = [[AVAudioPlayerNode alloc] init];
-    [_audioEngine attachNode:_playerNode];
-    [self setupBuffers];
+    [self setupEngine];
+}
+
+- (void)setupEngine {
+    if (!_audioEngine.isRunning) {
+        _audioEngine = [[AVAudioEngine alloc] init];
+        _playerNode = [[AVAudioPlayerNode alloc] init];
+        [_audioEngine attachNode:_playerNode];
+        [self setupBuffers];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -264,6 +270,10 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
     } else {
         [self.navigationItem setHidesBackButton:YES animated:YES];
         [self installTap];
+        
+        // can crash if engine is not running
+        [self setupEngine];
+        
         [_playerNode play];
         if ([self speechInNoiseStep].willAudioLoop) {
             [_speechInNoiseContentView.playButton setTitle:ORKLocalizedString(@"SPEECH_IN_NOISE_STOP_AUDIO_LABEL", nil)
