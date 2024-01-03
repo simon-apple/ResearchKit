@@ -586,6 +586,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         case questionStep
         case questionStepWithOtherItems
         case birthdayQuestion
+        case birthdayQuestionFormItem
         case summaryStep
         case consentTask
         case consentDoc
@@ -597,6 +598,8 @@ enum TaskListRow: Int, CustomStringConvertible {
         // Task with a Boolean question.
         case booleanQuestionTask
         case booleanQuestionStep
+        case booleanFormStep
+        case booleanFormItem
 
         // Task with an example of date entry.
         case dateQuestionTask
@@ -1336,25 +1339,31 @@ enum TaskListRow: Int, CustomStringConvertible {
         ]
         
         // Add a question step.
-        let question1StepAnswerFormat = ORKBooleanAnswerFormat()
+        let booleanQuestionAnswerFormat = ORKBooleanAnswerFormat()
         
         let question1 = NSLocalizedString("Would you like to subscribe to our newsletter?", comment: "")
         
         let learnMoreInstructionStep = ORKLearnMoreInstructionStep(identifier: "LearnMoreInstructionStep01")
         learnMoreInstructionStep.title = NSLocalizedString("Learn more title", comment: "")
         learnMoreInstructionStep.text = NSLocalizedString("Learn more text", comment: "")
-        let learnMoreItem = ORKLearnMoreItem(text: nil, learnMoreInstructionStep: learnMoreInstructionStep)
+        let booleanQuestionLearnMoreItem = ORKLearnMoreItem(text: nil, learnMoreInstructionStep: learnMoreInstructionStep)
         
-        let question1Step = ORKQuestionStep(identifier: String(describing: Identifier.questionStep), title: "Questionnaire", question: question1, answer: question1StepAnswerFormat, learnMoreItem: learnMoreItem)
-        question1Step.text = exampleDetailText
+        let booleanQuestionFormItem = ORKFormItem(identifier: String(describing: Identifier.booleanFormItem), text: question1, answerFormat: booleanQuestionAnswerFormat)
+        booleanQuestionFormItem.learnMoreItem = booleanQuestionLearnMoreItem
+        let booleanQuestionFormStep = ORKFormStep(identifier: String(describing: Identifier.booleanFormStep), title: "Questionnaire", text: exampleDetailText)
+        booleanQuestionFormStep.formItems = [booleanQuestionFormItem]
+        
         
         //Add a question step with different layout format.
-        let question2StepAnswerFormat = ORKAnswerFormat.dateAnswerFormat(withDefaultDate: nil, minimumDate: nil, maximumDate: Date(), calendar: nil)
+        let birthDayQuestionAnswerFormat = ORKAnswerFormat.dateAnswerFormat(withDefaultDate: nil, minimumDate: nil, maximumDate: Date(), calendar: nil)
     
-        let question2 = NSLocalizedString("When is your birthday?", comment: "")
-        let question2Step = ORKQuestionStep(identifier: String(describing: Identifier.birthdayQuestion), title: "Questionnaire", question: question2, answer: question2StepAnswerFormat)
-        question2Step.text = exampleDetailText
+        let birthdayQuestion = NSLocalizedString("When is your birthday?", comment: "")
+        let datePickerCellText = "Tap here"
         
+        let birthDayQuestionSectionHeader = ORKFormItem(sectionTitle: birthdayQuestion)
+        let birthdayQuestionFormItem = ORKFormItem(identifier: String(describing: Identifier.birthdayQuestionFormItem), text: datePickerCellText, answerFormat: birthDayQuestionAnswerFormat)
+        let birthdayQuestionFormStep = ORKFormStep(identifier: String(describing: Identifier.birthdayQuestion), title: "Questionnaire", text: exampleDetailText)
+        birthdayQuestionFormStep.formItems = [birthDayQuestionSectionHeader, birthdayQuestionFormItem]
         
         let appleChoices: [ORKTextChoice] = [ORKTextChoice(text: "Granny Smith", value: 1 as NSNumber), ORKTextChoice(text: "Honeycrisp", value: 2 as NSNumber), ORKTextChoice(text: "Fuji", value: 3 as NSNumber), ORKTextChoice(text: "McIntosh", value: 10 as NSNumber), ORKTextChoice(text: "Kanzi", value: 5 as NSNumber)]
         
@@ -1364,7 +1373,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         let conditionalFormItem = ORKFormItem(identifier: "newletterFormItemIdentifier", text: "Include apples with your newletter?", answerFormat: ORKBooleanAnswerFormat())
         conditionalFormItem.visibilityRule = ORKPredicateFormItemVisibilityRule(
             predicate: ORKResultPredicate.predicateForBooleanQuestionResult(
-                with: .init(stepIdentifier: question1Step.identifier, resultIdentifier: question1Step.identifier),
+                with: .init(stepIdentifier: booleanQuestionFormStep.identifier, resultIdentifier: booleanQuestionFormStep.identifier),
                 expectedAnswer: true
             )
         )
@@ -1376,7 +1385,7 @@ enum TaskListRow: Int, CustomStringConvertible {
             conditionalFormItem
         ]
         
-        return ORKOrderedTask(identifier: String(describing: Identifier.groupedFormTask), steps: [step, question1Step, question2Step, appleFormStep])
+        return ORKOrderedTask(identifier: String(describing: Identifier.groupedFormTask), steps: [step, booleanQuestionFormStep, birthdayQuestionFormStep, appleFormStep])
     }
 
     /**
@@ -1597,8 +1606,8 @@ enum TaskListRow: Int, CustomStringConvertible {
         let answerFormat = ORKAnswerFormat.dateAnswerFormat()
         
         let step = ORKQuestionStep(identifier: String(describing: Identifier.dateQuestionStep), title: NSLocalizedString("Date", comment: ""), question: exampleQuestionText, answer: answerFormat)
-        
         step.text = exampleDetailText
+        
         
         return ORKOrderedTask(identifier: String(describing: Identifier.dateQuestionTask), steps: [step])
     }
