@@ -78,7 +78,6 @@ enum TaskListRow: Int, CustomStringConvertible {
     case survey
     case dontknowSurvey
     case surveyWithMultipleOptions
-    case platterUIQuestion
     case booleanQuestion
     case customBooleanQuestion
     case dateQuestion
@@ -140,6 +139,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     case webView
     
     #if RK_APPLE_INTERNAL
+    case platterUIQuestion
     case predefinedSpeechInNoiseTask
     case predefinedAVJournalingTask
     case predefinedTinnitusTask
@@ -299,9 +299,6 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .dontknowSurvey:
             return NSLocalizedString("Don't Know Survey", comment: "")
-            
-        case .platterUIQuestion:
-            return NSLocalizedString("Platter UI Question", comment: "")
             
         case .booleanQuestion:
             return NSLocalizedString("Boolean Question", comment: "")
@@ -481,6 +478,9 @@ enum TaskListRow: Int, CustomStringConvertible {
             return NSLocalizedString("Web View", comment: "")
             
         #if RK_APPLE_INTERNAL
+        case .platterUIQuestion:
+            return NSLocalizedString("Platter UI Question", comment: "")
+            
         case .catalogVersion:
             return NSLocalizedString("Catalog App Version History", comment: "")
         
@@ -592,10 +592,6 @@ enum TaskListRow: Int, CustomStringConvertible {
         case consentTask
         case consentDoc
         
-        // Task with a Platter UI Question
-        case platterQuestionTask
-        case platterQuestionStep
-        
         // Task with a Boolean question.
         case booleanQuestionTask
         case booleanQuestionStep
@@ -605,6 +601,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         // Task with an example of date entry.
         case dateQuestionTask
         case dateQuestionStep
+        case dateQuestionFormItem
         case date3DayLimitQuestionTask
 
         // Task with an example of date and time entry.
@@ -785,6 +782,8 @@ enum TaskListRow: Int, CustomStringConvertible {
         
         #if RK_APPLE_INTERNAL
         case catalogAppVersionHistory
+        case platterQuestionTask
+        case platterQuestionStep
         case textQuestionEmailPIIScrubbingStep
         case textQuestionSSNPIIScrubbingStep
         case textQuestionPIIScrubbingTask
@@ -826,9 +825,6 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .dontknowSurvey:
             return dontKnowTask
-            
-        case .platterUIQuestion:
-            return platterQuestionTask
             
         case .booleanQuestion:
             return booleanQuestionTask
@@ -1007,6 +1003,9 @@ enum TaskListRow: Int, CustomStringConvertible {
         #if RK_APPLE_INTERNAL
         case .catalogVersion:
             return catalogAppVersionHistory
+            
+        case .platterUIQuestion:
+            return platterQuestionTask
             
         case .textQuestionPIIScrubbing:
             return textQuestionPIIScrubbingTask
@@ -1529,78 +1528,45 @@ enum TaskListRow: Int, CustomStringConvertible {
         
         return ORKOrderedTask(identifier: String(describing: Identifier.consentDoc), steps: [pdfStep])
     }
-    
-    private var platterQuestionTask: ORKTask {
-        
-        let textChoiceOneText = NSLocalizedString("Choice 1", comment: "")
-        let textChoiceTwoText = NSLocalizedString("Choice 2", comment: "")
-        let textChoiceThreeText = NSLocalizedString("Choice 3", comment: "")
-        
-        let descriptor = UIFontDescriptor.preferredFontDescriptor(withTextStyle: .headline)
-        let font = UIFont(descriptor: descriptor, size: descriptor.pointSize)
-        
-        let primaryAttributes = [NSAttributedString.Key.font:font]
-        
-        let textChoiceOnePrimaryAttributedString = NSAttributedString(string: textChoiceOneText, attributes:primaryAttributes)
-        let textChoiceTwoPrimaryAttributedString = NSAttributedString(string: textChoiceTwoText, attributes: primaryAttributes)
-        let textChoiceThreePrimaryAttributedString = NSAttributedString(string: textChoiceThreeText, attributes: primaryAttributes)
-        
-        let textChoices = [
-            ORKTextChoice(text: nil,
-                          primaryTextAttributedString: textChoiceOnePrimaryAttributedString,
-                          detailText: "Detail",
-                          detailTextAttributedString: nil,
-                          value: "choice 1" as NSString,
-                          exclusive: true),
-            ORKTextChoice(text: nil,
-                          primaryTextAttributedString: textChoiceTwoPrimaryAttributedString,
-                          detailText: "Detail",
-                          detailTextAttributedString: nil,
-                          value: "choice 2" as NSString,
-                          exclusive: true),
-            ORKTextChoice(text: nil,
-                          primaryTextAttributedString: textChoiceThreePrimaryAttributedString,
-                          detailText: "Detail",
-                          detailTextAttributedString: nil,
-                          value: "choice 3" as NSString,
-                          exclusive: true)
-        ]
-        
-        let answerFormat = ORKAnswerFormat.choiceAnswerFormat(with: .singleChoice,
-                                                              textChoices: textChoices)
-        
-        let questionStep = ORKQuestionStep.platterQuestion(withIdentifier: String(describing: Identifier.platterQuestionStep),
-                                                           question: "How many fingers am I holding up?",
-                                                           text: "Answer to the best of your knowledge.",
-                                                           answerFormat: answerFormat)
-        
-        return ORKOrderedTask(identifier: String(describing: Identifier.platterQuestionTask), steps: [questionStep])
-    }
 
     /// This task presents just a single "Yes" / "No" question.
     private var booleanQuestionTask: ORKTask {
-        let answerFormat = ORKBooleanAnswerFormat()
+        // Add a question step.
+        let booleanQuestionAnswerFormat = ORKBooleanAnswerFormat()
         
-        // We attach an answer format to a question step to specify what controls the user sees.
-        let questionStep = ORKQuestionStep(identifier: String(describing: Identifier.booleanQuestionStep), title: NSLocalizedString("Boolean", comment: ""), question: exampleQuestionText, answer: answerFormat)
+        let question1 = NSLocalizedString("Would you like to subscribe to our newsletter?", comment: "")
         
-        // The detail text is shown in a small font below the title.
-        questionStep.text = exampleDetailText
+        let learnMoreInstructionStep = ORKLearnMoreInstructionStep(identifier: "LearnMoreInstructionStep01")
+        learnMoreInstructionStep.title = NSLocalizedString("Learn more title", comment: "")
+        learnMoreInstructionStep.text = NSLocalizedString("Learn more text", comment: "")
+        let booleanQuestionLearnMoreItem = ORKLearnMoreItem(text: nil, learnMoreInstructionStep: learnMoreInstructionStep)
         
-        return ORKOrderedTask(identifier: String(describing: Identifier.booleanQuestionTask), steps: [questionStep])
+        let booleanQuestionFormItem = ORKFormItem(identifier: String(describing: Identifier.booleanFormItem), text: question1, answerFormat: booleanQuestionAnswerFormat)
+        booleanQuestionFormItem.learnMoreItem = booleanQuestionLearnMoreItem
+        let booleanQuestionFormStep = ORKFormStep(identifier: String(describing: Identifier.booleanFormStep), title: "Questionnaire", text: exampleDetailText)
+        booleanQuestionFormStep.formItems = [booleanQuestionFormItem]
+        
+        return ORKOrderedTask(identifier: String(describing: Identifier.booleanQuestionTask), steps: [booleanQuestionFormStep])
     }
     
     /// This task presents a customized "Yes" / "No" question.
     private var customBooleanQuestionTask: ORKTask {
-        let answerFormat = ORKBooleanAnswerFormat(yesString: "Agree", noString: "Disagree")
+        // Add a question step.
+        let booleanQuestionAnswerFormat = ORKBooleanAnswerFormat(yesString: "Agree", noString: "Disagree")
         
-        // We attach an answer format to a question step to specify what controls the user sees.
-        let questionStep = ORKQuestionStep(identifier: String(describing: Identifier.booleanQuestionStep), title: NSLocalizedString("Custom Boolean", comment: ""), question: exampleQuestionText, answer: answerFormat)
+        let question1 = NSLocalizedString("Would you like to subscribe to our newsletter?", comment: "")
         
-        // The detail text is shown in a small font below the title.
-        questionStep.text = exampleDetailText
+        let learnMoreInstructionStep = ORKLearnMoreInstructionStep(identifier: "LearnMoreInstructionStep01")
+        learnMoreInstructionStep.title = NSLocalizedString("Learn more title", comment: "")
+        learnMoreInstructionStep.text = NSLocalizedString("Learn more text", comment: "")
+        let booleanQuestionLearnMoreItem = ORKLearnMoreItem(text: nil, learnMoreInstructionStep: learnMoreInstructionStep)
         
-        return ORKOrderedTask(identifier: String(describing: Identifier.booleanQuestionTask), steps: [questionStep])
+        let booleanQuestionFormItem = ORKFormItem(identifier: String(describing: Identifier.booleanFormItem), text: question1, answerFormat: booleanQuestionAnswerFormat)
+        booleanQuestionFormItem.learnMoreItem = booleanQuestionLearnMoreItem
+        let booleanQuestionFormStep = ORKFormStep(identifier: String(describing: Identifier.booleanFormStep), title: "Questionnaire", text: exampleDetailText)
+        booleanQuestionFormStep.formItems = [booleanQuestionFormItem]
+        
+        return ORKOrderedTask(identifier: String(describing: Identifier.booleanQuestionTask), steps: [booleanQuestionFormStep])
     }
 
     /// This task demonstrates a question which asks for a date.
@@ -1609,13 +1575,14 @@ enum TaskListRow: Int, CustomStringConvertible {
         The date answer format can also support minimum and maximum limits,
         a specific default value, and overriding the calendar to use.
         */
-        let answerFormat = ORKAnswerFormat.dateAnswerFormat()
+        let dateAnswerFormat = ORKAnswerFormat.dateAnswerFormat()
         
-        let step = ORKQuestionStep(identifier: String(describing: Identifier.dateQuestionStep), title: NSLocalizedString("Date", comment: ""), question: exampleQuestionText, answer: answerFormat)
-        step.text = exampleDetailText
+        let dateQuestionSectionHeaderFormItem = ORKFormItem(sectionTitle: exampleQuestionText)
+        let dateQuestionFormItem = ORKFormItem(identifier: String(describing: Identifier.dateQuestionFormItem), text: "tap here", answerFormat: dateAnswerFormat)
+        let dateQuestionFormStep = ORKFormStep(identifier: String(describing: Identifier.dateQuestionStep), title: NSLocalizedString("Date", comment: ""), text: exampleDetailText)
+        dateQuestionFormStep.formItems = [dateQuestionSectionHeaderFormItem, dateQuestionFormItem]
         
-        
-        return ORKOrderedTask(identifier: String(describing: Identifier.dateQuestionTask), steps: [step])
+        return ORKOrderedTask(identifier: String(describing: Identifier.dateQuestionTask), steps: [dateQuestionFormStep])
     }
     
     /// This task demonstrates a question which asks for a date.
@@ -2787,6 +2754,53 @@ enum TaskListRow: Int, CustomStringConvertible {
 
     
     #if RK_APPLE_INTERNAL
+    private var platterQuestionTask: ORKTask {
+        
+        let textChoiceOneText = NSLocalizedString("Choice 1", comment: "")
+        let textChoiceTwoText = NSLocalizedString("Choice 2", comment: "")
+        let textChoiceThreeText = NSLocalizedString("Choice 3", comment: "")
+        
+        let descriptor = UIFontDescriptor.preferredFontDescriptor(withTextStyle: .headline)
+        let font = UIFont(descriptor: descriptor, size: descriptor.pointSize)
+        
+        let primaryAttributes = [NSAttributedString.Key.font:font]
+        
+        let textChoiceOnePrimaryAttributedString = NSAttributedString(string: textChoiceOneText, attributes:primaryAttributes)
+        let textChoiceTwoPrimaryAttributedString = NSAttributedString(string: textChoiceTwoText, attributes: primaryAttributes)
+        let textChoiceThreePrimaryAttributedString = NSAttributedString(string: textChoiceThreeText, attributes: primaryAttributes)
+        
+        let textChoices = [
+            ORKTextChoice(text: nil,
+                          primaryTextAttributedString: textChoiceOnePrimaryAttributedString,
+                          detailText: "Detail",
+                          detailTextAttributedString: nil,
+                          value: "choice 1" as NSString,
+                          exclusive: true),
+            ORKTextChoice(text: nil,
+                          primaryTextAttributedString: textChoiceTwoPrimaryAttributedString,
+                          detailText: "Detail",
+                          detailTextAttributedString: nil,
+                          value: "choice 2" as NSString,
+                          exclusive: true),
+            ORKTextChoice(text: nil,
+                          primaryTextAttributedString: textChoiceThreePrimaryAttributedString,
+                          detailText: "Detail",
+                          detailTextAttributedString: nil,
+                          value: "choice 3" as NSString,
+                          exclusive: true)
+        ]
+        
+        let answerFormat = ORKAnswerFormat.choiceAnswerFormat(with: .singleChoice,
+                                                              textChoices: textChoices)
+        
+        let questionStep = ORKQuestionStep.platterQuestion(withIdentifier: String(describing: Identifier.platterQuestionStep),
+                                                           question: "How many fingers am I holding up?",
+                                                           text: "Answer to the best of your knowledge.",
+                                                           answerFormat: answerFormat)
+        
+        return ORKOrderedTask(identifier: String(describing: Identifier.platterQuestionTask), steps: [questionStep])
+    }
+    
     private var catalogAppVersionHistory: ORKTask {
         let steps: [ORKStep] = [
             createVersionInstructionStep(version: Bundle.main.appVersionAndBuild, additions: ["rdar://98986752 (ORKCatalog QA Handoff 5787)"])
