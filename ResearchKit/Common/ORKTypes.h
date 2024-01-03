@@ -543,7 +543,7 @@ typedef NS_ENUM(NSInteger, ORKNavigationContainerButtonStyle) {
 } ORK_ENUM_AVAILABLE;
 
 /**
- An enumeration of the types of button styles for the "don't know button".
+ An enumeration of the types of button styles for the "don't know" button.
  */
 typedef NS_ENUM(NSInteger, ORKDontKnowButtonStyle) {
     ORKDontKnowButtonStyleStandard = 0,
