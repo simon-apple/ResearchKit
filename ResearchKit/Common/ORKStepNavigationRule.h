@@ -86,7 +86,7 @@ ORK_CLASS_AVAILABLE
 /**
  A rule that matches any answer combination within the results of an ongoing task and jumps accordingly.
  
- This also applies to previously completed tasks.
+ This rule also applies to completed tasks.
  
  You must provide one or more result predicates (each predicate can match one or more step results within the task).
  
