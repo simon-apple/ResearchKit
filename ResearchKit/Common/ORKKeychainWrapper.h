@@ -36,8 +36,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- The `ORKKeychainWrapper` class is an abstraction layer for the iOS keychain
- communication.
+ An abstraction layer for iOS keychain communication.
  */
 ORK_CLASS_AVAILABLE
 @interface ORKKeychainWrapper : NSObject
