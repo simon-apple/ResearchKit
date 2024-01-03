@@ -49,7 +49,7 @@ typedef NS_ENUM(NSInteger, ORKBulletType) {
 /**
  A protocol that you use to present a list of model objects in a table view.
  
- Any `ORKStep` subclass that implements this protocol can be used with
+ You can use any `ORKStep` subclass that implements this protocol with
  an `ORKTableStepViewController` to display the list of items.
  */
 @protocol ORKTableStepSource <NSObject>
