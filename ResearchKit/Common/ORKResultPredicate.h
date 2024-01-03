@@ -173,7 +173,7 @@ ORK_CLASS_AVAILABLE
 
 /**
  A class that provides convenience class methods to build predicates for most of
- the question result subtypes.
+ the question-result subtypes.
  
  You use result predicates to create `ORKPredicateStepNavigationRule` objects. The result predicates
  are used to match specific ORKQuestionResult instances (created in response to the participant's
