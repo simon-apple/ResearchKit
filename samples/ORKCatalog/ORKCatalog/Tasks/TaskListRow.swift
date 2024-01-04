@@ -538,274 +538,6 @@ enum TaskListRow: Int, CustomStringConvertible {
         }
     }
     
-    // MARK: Types
-
-    /**
-        Every step and task in the ResearchKit framework has to have an identifier.
-        Within a task, the step identifiers should be unique.
-
-        Here we use an enum to ensure that the identifiers are kept unique. Since
-        the enum has a raw underlying type of a `String`, the compiler can determine
-        the uniqueness of the case values at compile time.
-
-        In a real application, the identifiers for your tasks and steps might
-        come from a database, or in a smaller application, might have some
-        human-readable meaning.
-    */
-    enum Identifier {
-        // Task with a form, where multiple items appear on one page.
-        case formTask
-        case groupedFormTask
-        case formStep
-        case formStep02
-        case groupedFormStep
-        case formStepWithMultipleSelection
-        case formStepWithSingleSelection
-        case formItem01
-        case formItem02
-        case formItem03
-        case formItem04
-        case formItem05
-        case formItem06
-
-        // Task with a form, with multiple don't know button
-        case dontknowSurveyTask
-
-        case textChoiceFormItem
-        case textChoiceFormStep
-        case appleFormItemIdentifier
-        case imageChoiceItemSection
-        case imageChoiceItem
-        case freeTextSectionIdentifier
-        case freeTextItemIdentifier
-        case completionStep
-        
-        // Survey task specific identifiers.
-        case surveyTask
-        case introStep
-        case surveyTaskWithMultipleSelection
-        case questionStep
-        case questionStepWithOtherItems
-        case birthdayQuestion
-        case birthdayQuestionFormItem
-        case summaryStep
-        case consentTask
-        case consentDoc
-        
-        // Task with a Boolean question.
-        case booleanQuestionTask
-        case booleanQuestionStep
-        case booleanFormStep
-        case booleanFormItem
-
-        // Task with an example of date entry.
-        case dateQuestionTask
-        case dateQuestionStep
-        case dateQuestionFormItem
-        case date3DayLimitQuestionTask
-
-        // Task with an example of date and time entry.
-        case dateTimeQuestionTask
-        case dateTimeQuestionStep
-
-        // Task with an example of height entry.
-        case heightQuestionTask
-        case heightQuestionStep1
-        case heightQuestionStep2
-        case heightQuestionStep3
-        case heightQuestionStep4
-
-        // Task with an example of weight entry.
-        case weightQuestionTask
-        case weightQuestionStep1
-        case weightQuestionStep2
-        case weightQuestionStep3
-        case weightQuestionStep4
-        case weightQuestionStep5
-        case weightQuestionStep6
-        case weightQuestionStep7
-
-        // Task with an example of age entry.
-        case ageQuestionTask
-        case ageQuestionFormStep
-        case ageQuestionFormStep2
-        case ageQuestionFormStep3
-        case ageQuestionFormStep4
-        case ageQuestionFormItem
-        case ageQuestionFormItem2
-        case ageQuestionFormItem3
-        case ageQuestionFormItem4
-        
-        // Task with an ORKHealthQuantity questions
-        case healthQuantityTask
-        case healthQuantityQuestion1
-        case healthQuantityQuestion2
-
-        // Task with an image choice question.
-        case imageChoiceQuestionTask
-        case imageChoiceQuestionStep1
-        case imageChoiceQuestionStep2
-        
-        // Task with a location entry.
-        case locationQuestionTask
-        case locationQuestionStep
-        
-        // Task with examples of numeric questions.
-        case numericQuestionTask
-        case numericQuestionStep
-        case numericNoUnitQuestionStep
-        case numericDisplayUnitQuestionStep
-
-        // Task with examples of review Steps.
-        case reviewTask
-        case embeddedReviewStep
-        case standAloneReviewStep
-        
-        // Task with examples of questions with sliding scales.
-        case scaleQuestionTask
-        case discreteScaleQuestionStep
-        case continuousScaleQuestionStep
-        case discreteVerticalScaleQuestionStep
-        case continuousVerticalScaleQuestionStep
-        case textScaleQuestionStep
-        case textVerticalScaleQuestionStep
-
-        // Task with an example of free text entry.
-        case textQuestionTask
-        case textQuestionStep
-
-        // Task with an example of a multiple choice question.
-        case textChoiceQuestionTask
-        case textChoiceQuestionStep
-        case textChoiceQuestionWithImageStep
-        case textChoiceQuestionWithImageTask
-
-        // Task with an example of time of day entry.
-        case timeOfDayQuestionTask
-        case timeOfDayQuestionStep
-
-        // Task with an example of time interval entry.
-        case timeIntervalQuestionTask
-        case timeIntervalQuestionStep
-
-        // Task with a value picker.
-        case valuePickerChoiceQuestionTask
-        case valuePickerChoiceQuestionStep
-        
-        // Task with an example of validated text entry.
-        case validatedTextQuestionTask
-        case validatedTextQuestionStepEmail
-        case validatedTextQuestionStepDomain
-        
-        // Image capture task specific identifiers.
-        case imageCaptureTask
-        case imageCaptureStep
-        
-        // Video capture task specific identifiers.
-        case videoCaptureTask
-        case videoCaptureStep
-        
-        case frontFacingCameraStep
-        
-        // Task with an example of waiting.
-        case waitTask
-        case waitStepDeterminate
-        case waitStepIndeterminate
-        
-        case pdfViewerStep
-        case pdfViewerTask
-        
-        case requestPermissionsStep
-        
-        // Eligibility task specific indentifiers.
-        case eligibilityTask
-        case eligibilityIntroStep
-        case eligibilityFormStep
-        case eligibilityFormItem01
-        case eligibilityFormItem02
-        case eligibilityFormItem03
-        case eligibilityIneligibleStep
-        case eligibilityEligibleStep
-        
-        // Account creation task specific identifiers.
-        case accountCreationTask
-        case registrationStep
-        case waitStep
-        case verificationStep
-        
-        // Login task specific identifiers.
-        case loginTask
-        case loginStep
-        case loginWaitStep
-
-        // Passcode task specific identifiers.
-        case passcodeTask
-        case passcodeStep
-        case biometricPasscodeTask
-        case biometricPasscodeStep
-
-        // Active tasks.
-        case audioTask
-        case amslerGridTask
-        case tecumsehCubeTestTask
-        case sixMinuteWalkTask
-        case fitnessTask
-        case holePegTestTask
-        case psatTask
-        case reactionTime
-        case normalizedReactionTime
-        case shortWalkTask
-        case spatialSpanMemoryTask
-        case speechRecognitionTask
-        case speechInNoiseTask
-        case stroopTask
-        case timedWalkWithTurnAroundTask
-        case toneAudiometryTask
-        case dBHLToneAudiometryTask
-        case splMeterTask
-        case splMeterStep
-        case towerOfHanoi
-        case tremorTestTask
-        case twoFingerTappingIntervalTask
-        case walkBackAndForthTask
-        case kneeRangeOfMotion
-        case shoulderRangeOfMotion
-        case trailMaking
-        
-        // Video instruction tasks.
-        case videoInstructionTask
-        case videoInstructionStep
-        
-        // Web view tasks.
-        case webViewTask
-        case webViewStep
-        
-        #if RK_APPLE_INTERNAL
-        case catalogAppVersionHistory
-        case platterQuestionTask
-        case platterQuestionStep
-        case textQuestionEmailPIIScrubbingStep
-        case textQuestionSSNPIIScrubbingStep
-        case textQuestionPIIScrubbingTask
-        case textQuestionPIIScrubbingEmailFormItem
-        case textQuestionPIIScrubbingSSNFormItem
-        case predefinedSpeechInNoiseTask
-        case predefinedAVJournalingTask
-        case predefinedTinnitusTask
-        case newdBHLToneAudiometryTask
-        case customStepTask
-        case studyPromoTask
-        case studySignPostStep
-        case familyHistoryReviewController
-        case colorChoiceQuestionTask
-        case colorChoiceQuestionStep
-        case colorChoiceQuestionStepSwatchOnly
-        case colorChoiceQuestionFormItem
-        case familyHistoryStep
-        case familyHistoryTask
-        #endif
-    }
-    
     // MARK: Properties
     
     /// Returns a new `ORKTask` that the `TaskListRow` enumeration represents.
@@ -1336,20 +1068,7 @@ enum TaskListRow: Int, CustomStringConvertible {
             sesFormItem
         ]
         
-        // Add a question step.
-        let booleanQuestionAnswerFormat = ORKBooleanAnswerFormat()
-        
-        let question1 = NSLocalizedString("Would you like to subscribe to our newsletter?", comment: "")
-        
-        let learnMoreInstructionStep = ORKLearnMoreInstructionStep(identifier: "LearnMoreInstructionStep01")
-        learnMoreInstructionStep.title = NSLocalizedString("Learn more title", comment: "")
-        learnMoreInstructionStep.text = NSLocalizedString("Learn more text", comment: "")
-        let booleanQuestionLearnMoreItem = ORKLearnMoreItem(text: nil, learnMoreInstructionStep: learnMoreInstructionStep)
-        
-        let booleanQuestionFormItem = ORKFormItem(identifier: String(describing: Identifier.booleanFormItem), text: question1, answerFormat: booleanQuestionAnswerFormat)
-        booleanQuestionFormItem.learnMoreItem = booleanQuestionLearnMoreItem
-        let booleanQuestionFormStep = ORKFormStep(identifier: String(describing: Identifier.booleanFormStep), title: "Questionnaire", text: exampleDetailText)
-        booleanQuestionFormStep.formItems = [booleanQuestionFormItem]
+        let booleanQuestionFormStep = TaskListRowFormSteps.booleanExample
         
         //Add a question step with different layout format.
         let birthDayQuestionAnswerFormat = ORKAnswerFormat.dateAnswerFormat(withDefaultDate: nil, minimumDate: nil, maximumDate: Date(), calendar: nil)
@@ -1396,19 +1115,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         instructionStep.text = exampleDescription
         instructionStep.detailText = NSLocalizedString("Please use this space to provide instructions for participants.  Please make sure to provide enough information so that users can progress through the survey and complete with ease.", comment: "")
         
-        // Add a question step.
-        let booleanAnswerFormat = ORKBooleanAnswerFormat()
-        let booleanQuestion = NSLocalizedString("Would you like to subscribe to our newsletter?", comment: "")
-        
-        let learnMoreInstructionStep = ORKLearnMoreInstructionStep(identifier: "LearnMoreInstructionStep01")
-        learnMoreInstructionStep.title = NSLocalizedString("Learn more title", comment: "")
-        learnMoreInstructionStep.text = NSLocalizedString("Learn more text", comment: "")
-        let learnMoreItem = ORKLearnMoreItem(text: nil, learnMoreInstructionStep: learnMoreInstructionStep)
-        
-        let booleanQuestionFormItem = ORKFormItem(identifier: String(describing: Identifier.booleanFormItem), text: booleanQuestion, answerFormat: booleanAnswerFormat, optional: true)
-        booleanQuestionFormItem.learnMoreItem = learnMoreItem
-        let booleanQuestionFormStep = ORKFormStep(identifier: String(describing: Identifier.booleanFormStep), title: "Questionnaire", text: nil)
-        booleanQuestionFormStep.formItems = [booleanQuestionFormItem]
+        let booleanQuestionFormStep = TaskListRowFormSteps.booleanExample
         
         //Add a question step with different layout format.
         let birthDayQuestionAnswerFormat = ORKAnswerFormat.dateAnswerFormat(withDefaultDate: nil, minimumDate: nil, maximumDate: Date(), calendar: nil)
@@ -1421,23 +1128,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         let birthdayQuestionFormStep = ORKFormStep(identifier: String(describing: Identifier.birthdayQuestion), title: "Questionnaire", text: exampleDetailText)
         birthdayQuestionFormStep.formItems = [birthDayQuestionSectionHeader, birthdayQuestionFormItem]
         
-        let textChoices: [ORKTextChoice] = [
-            ORKTextChoice(text: "choice 1", detailText: "detail 1", value: 1 as NSNumber, exclusive: false),
-            ORKTextChoice(text: "choice 2", detailText: "detail 2", value: 2 as NSNumber, exclusive: false),
-            ORKTextChoice(text: "choice 3", detailText: "detail 3", value: 3 as NSNumber, exclusive: false),
-            ORKTextChoice(text: "choice 4", detailText: "detail 4", value: 4 as NSNumber, exclusive: false),
-            ORKTextChoice(text: "choice 5", detailText: "detail 5", value: 5 as NSNumber, exclusive: false),
-            ORKTextChoice(text: "choice 6", detailText: "detail 6", value: 6 as NSNumber, exclusive: false),
-            ORKTextChoiceOther.choice(withText: "choice 7", detailText: "detail 7", value: "choice 7" as NSString, exclusive: true, textViewPlaceholderText: "enter additional information")
-        ]
-        
-        let textChoiceQuestion = NSLocalizedString("Select an option below.", comment: "")
-        let textChoiceAnswerFormat = ORKTextChoiceAnswerFormat(style: .singleChoice, textChoices: textChoices)
-        
-        let textChoiceFormItem = ORKFormItem(identifier: String(describing: Identifier.textChoiceFormItem), text: textChoiceQuestion, answerFormat: textChoiceAnswerFormat)
-        textChoiceFormItem.learnMoreItem = learnMoreItem
-        let textChoiceFormStep = ORKFormStep(identifier: String(describing: Identifier.textChoiceFormStep), title: "Questionnaire", text: exampleDetailText)
-        textChoiceFormStep.formItems = [textChoiceFormItem]
+        let textChoiceFormStep = TaskListRowFormSteps.textChoiceExample
         
         let summaryStep = ORKInstructionStep(identifier: String(describing: Identifier.summaryStep))
         summaryStep.title = NSLocalizedString("Thanks", comment: "")
@@ -1529,23 +1220,8 @@ enum TaskListRow: Int, CustomStringConvertible {
         return ORKOrderedTask(identifier: String(describing: Identifier.consentDoc), steps: [pdfStep])
     }
 
-    /// This task presents just a single "Yes" / "No" question.
     private var booleanQuestionTask: ORKTask {
-        // Add a question step.
-        let booleanQuestionAnswerFormat = ORKBooleanAnswerFormat()
-        
-        let question1 = NSLocalizedString("Would you like to subscribe to our newsletter?", comment: "")
-        
-        let learnMoreInstructionStep = ORKLearnMoreInstructionStep(identifier: "LearnMoreInstructionStep01")
-        learnMoreInstructionStep.title = NSLocalizedString("Learn more title", comment: "")
-        learnMoreInstructionStep.text = NSLocalizedString("Learn more text", comment: "")
-        let booleanQuestionLearnMoreItem = ORKLearnMoreItem(text: nil, learnMoreInstructionStep: learnMoreInstructionStep)
-        
-        let booleanQuestionFormItem = ORKFormItem(identifier: String(describing: Identifier.booleanFormItem), text: question1, answerFormat: booleanQuestionAnswerFormat)
-        booleanQuestionFormItem.learnMoreItem = booleanQuestionLearnMoreItem
-        let booleanQuestionFormStep = ORKFormStep(identifier: String(describing: Identifier.booleanFormStep), title: "Questionnaire", text: exampleDetailText)
-        booleanQuestionFormStep.formItems = [booleanQuestionFormItem]
-        
+        let booleanQuestionFormStep = TaskListRowFormSteps.booleanExample
         return ORKOrderedTask(identifier: String(describing: Identifier.booleanQuestionTask), steps: [booleanQuestionFormStep])
     }
     
@@ -1591,15 +1267,16 @@ enum TaskListRow: Int, CustomStringConvertible {
         The date answer format can also support minimum and maximum limits,
         a specific default value, and overriding the calendar to use.
         */
-        let answerFormat = ORKAnswerFormat.dateAnswerFormatWithDays(beforeCurrentDate: 3, daysAfterCurrentDate: 3, calendar: nil)
         
-        let step = ORKQuestionStep(identifier: String(describing: Identifier.dateQuestionStep), title: NSLocalizedString("Date", comment: ""), question: exampleDate3DayLimitQuestionTask, answer: answerFormat)
+        let dateAnswerFormat = ORKAnswerFormat.dateAnswerFormatWithDays(beforeCurrentDate: 3, daysAfterCurrentDate: 3, calendar: nil)
         
-        step.text = exampleDetailText
+        let dateQuestionSectionHeaderFormItem = ORKFormItem(sectionTitle: exampleQuestionText)
+        let dateQuestionFormItem = ORKFormItem(identifier: String(describing: Identifier.dateQuestionFormItem), text: "tap here", answerFormat: dateAnswerFormat)
+        let dateQuestionFormStep = ORKFormStep(identifier: String(describing: Identifier.dateQuestionStep), title: NSLocalizedString("Date", comment: ""), text: exampleDate3DayLimitQuestionTask)
+        dateQuestionFormStep.formItems = [dateQuestionSectionHeaderFormItem, dateQuestionFormItem]
         
-        return ORKOrderedTask(identifier: String(describing: Identifier.dateQuestionTask), steps: [step])
+        return ORKOrderedTask(identifier: String(describing: Identifier.dateQuestionTask), steps: [dateQuestionFormStep])
     }
-    
     
     /// This task demonstrates a question asking for a date and time of an event.
     private var dateTimeQuestionTask: ORKTask {
@@ -1607,136 +1284,38 @@ enum TaskListRow: Int, CustomStringConvertible {
         This uses the default calendar. Use a more detailed constructor to
         set minimum / maximum limits.
         */
-        let answerFormat = ORKAnswerFormat.dateTime()
         
-        let step = ORKQuestionStep(identifier: String(describing: Identifier.dateTimeQuestionStep), title: NSLocalizedString("Date and Time", comment: ""), question: exampleQuestionText, answer: answerFormat)
+        let dateTimeAnswerFormat = ORKAnswerFormat.dateTime()
         
-        step.text = exampleDetailText
+        let dateTimeQuestionSectionHeaderFormItem = ORKFormItem(sectionTitle: exampleQuestionText)
+        let dateTimeQuestionFormItem = ORKFormItem(identifier: String(describing: Identifier.dateTimeQuestionFormStep), text: "tap here", answerFormat: dateTimeAnswerFormat)
+        let dateTimeQuestionFormStep = ORKFormStep(identifier: String(describing: Identifier.dateTimeQuestionFormItem), title: NSLocalizedString("Date and Time", comment: ""), text: exampleQuestionText)
+        dateTimeQuestionFormStep.formItems = [dateTimeQuestionSectionHeaderFormItem, dateTimeQuestionFormItem]
         
-        return ORKOrderedTask(identifier: String(describing: Identifier.dateTimeQuestionTask), steps: [step])
+        return ORKOrderedTask(identifier: String(describing: Identifier.dateTimeQuestionTask), steps: [dateTimeQuestionFormStep])
     }
 
     /// This task demonstrates a question asking for the user height.
     private var heightQuestionTask: ORKTask {
-        let answerFormat1 = ORKAnswerFormat.heightAnswerFormat()
+        let step1 = TaskListRowFormSteps.heightExample
+        let step2 = TaskListRowFormSteps.heightMetricSystemExample
+        let step3 = TaskListRowFormSteps.heightUSCSystemExample
+        let step4 = TaskListRowFormSteps.heightHealthKitExample
         
-        let step1 = ORKQuestionStep(identifier: String(describing: Identifier.heightQuestionStep1), title: NSLocalizedString("Height", comment: ""), question: exampleQuestionText, answer: answerFormat1)
-        
-        step1.text = "Local system"
-        
-        
-        let step1NonOptional = ORKQuestionStep(identifier: String(describing: Identifier.heightQuestionStep1)  + "NonOptional", title: NSLocalizedString("Height", comment: ""), question: exampleQuestionText, answer: answerFormat1)
-        step1NonOptional.text = "Local system (Non Optional)"
-        step1NonOptional.isOptional = false
-        
-        let answerFormat2 = ORKAnswerFormat.heightAnswerFormat(with: ORKMeasurementSystem.metric)
-        
-        let step2 = ORKQuestionStep(identifier: String(describing: Identifier.heightQuestionStep2), title: NSLocalizedString("Height", comment: ""), question: exampleQuestionText, answer: answerFormat2)
-        
-        step2.text = "Metric system"
-
-        let step2NonOptional = ORKQuestionStep(identifier: String(describing: Identifier.heightQuestionStep2)  + "NonOptional", title: NSLocalizedString("Height", comment: ""), question: exampleQuestionText, answer: answerFormat2)
-        step2NonOptional.text = "Metric system (Non Optional)"
-        step2NonOptional.isOptional = false
-        
-        let answerFormat3 = ORKAnswerFormat.heightAnswerFormat(with: ORKMeasurementSystem.USC)
-        
-        let step3 = ORKQuestionStep(identifier: String(describing: Identifier.heightQuestionStep3), title: NSLocalizedString("Height", comment: ""), question: exampleQuestionText, answer: answerFormat3)
-        
-        step3.text = "USC system"
-
-        let step3NonOptional = ORKQuestionStep(identifier: String(describing: Identifier.heightQuestionStep3)  + "NonOptional", title: NSLocalizedString("Height", comment: ""), question: exampleQuestionText, answer: answerFormat3)
-        step3NonOptional.text = "USC system (Non Optional)"
-        step3NonOptional.isOptional = false
-        
-        let answerFormat4 = ORKHealthKitQuantityTypeAnswerFormat(quantityType: HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.height)!, unit: HKUnit.meterUnit(with: .centi), style: .decimal)
-        
-        let step4 = ORKQuestionStep(identifier: String(describing: Identifier.heightQuestionStep4), title: NSLocalizedString("Height", comment: ""), question: exampleQuestionText, answer: answerFormat4)
-        
-        step4.text = "HealthKit, height"
-        
-        let step4NonOptional = ORKQuestionStep(identifier: String(describing: Identifier.heightQuestionStep4)  + "NonOptional", title: NSLocalizedString("Height", comment: ""), question: exampleQuestionText, answer: answerFormat4)
-        step4NonOptional.text = "HealthKit, height (Non Optional"
-        step4NonOptional.isOptional = false
-        
-        return ORKOrderedTask(identifier: String(describing: Identifier.heightQuestionTask), steps: [step1, step1NonOptional, step2, step2NonOptional, step3, step3NonOptional, step4NonOptional, step4])
+        return ORKOrderedTask(identifier: String(describing: Identifier.heightQuestionTask), steps: [step1, step2, step3, step4])
     }
 
     /// This task demonstrates a question asking for the user weight.
     private var weightQuestionTask: ORKTask {
-        let answerFormat1 = ORKAnswerFormat.weightAnswerFormat()
+        let step1 = TaskListRowFormSteps.weightExample
+        let step2 = TaskListRowFormSteps.weightMetricSystemExample
+        let step3 = TaskListRowFormSteps.weightMetricSystemLowPrecisionExample
+        let step4 = TaskListRowFormSteps.weightMetricSystemHighPrecisionExample
+        let step5 = TaskListRowFormSteps.weightUSCSystemExample
+        let step6 = TaskListRowFormSteps.weightUSCSystemHighPrecisionExample
+        let step7 = TaskListRowFormSteps.weightHealthKitBodyMassExample
         
-        let step1 = ORKQuestionStep(identifier: String(describing: Identifier.weightQuestionStep1), title: NSLocalizedString("Weight", comment: ""), question: exampleQuestionText, answer: answerFormat1)
-        
-        step1.text = "Local system, default precision"
-                
-        let step1NonOptional = ORKQuestionStep(identifier: String(describing: Identifier.weightQuestionStep1)  + "NonOptional", title: NSLocalizedString("Weight", comment: ""), question: exampleQuestionText, answer: answerFormat1)
-        
-        step1NonOptional.text = "Local system, default precision (nonOptional)"
-        step1NonOptional.isOptional = false
-        
-        let answerFormat2 = ORKAnswerFormat.weightAnswerFormat(with: ORKMeasurementSystem.metric)
-        
-        let step2 = ORKQuestionStep(identifier: String(describing: Identifier.weightQuestionStep2), title: NSLocalizedString("Weight", comment: ""), question: exampleQuestionText, answer: answerFormat2)
-        
-        step2.text = "Metric system, default precision"
-        
-        let step2NonOptional = ORKQuestionStep(identifier: String(describing: Identifier.weightQuestionStep2)  + "NonOptional", title: NSLocalizedString("Weight", comment: ""), question: exampleQuestionText, answer: answerFormat2)
-        
-        step2NonOptional.text = "Metric system, default precision (nonOptional)"
-        step2NonOptional.isOptional = false
-        
-        let answerFormat3 = ORKAnswerFormat.weightAnswerFormat(with: ORKMeasurementSystem.metric, numericPrecision: ORKNumericPrecision.low, minimumValue: ORKDoubleDefaultValue, maximumValue: ORKDoubleDefaultValue, defaultValue: ORKDoubleDefaultValue)
-        
-        let step3 = ORKQuestionStep(identifier: String(describing: Identifier.weightQuestionStep3), title: NSLocalizedString("Weight", comment: ""), question: exampleQuestionText, answer: answerFormat3)
-        
-        step3.text = "Metric system, low precision"
-
-        let step3NonOptional = ORKQuestionStep(identifier: String(describing: Identifier.weightQuestionStep3)  + "NonOptional", title: NSLocalizedString("Weight", comment: ""), question: exampleQuestionText, answer: answerFormat3)
-        step3NonOptional.text = "Metric system, low precision (nonOptional)"
-        step3NonOptional.isOptional = false
-        
-        let answerFormat4 = ORKAnswerFormat.weightAnswerFormat(with: ORKMeasurementSystem.metric, numericPrecision: ORKNumericPrecision.high, minimumValue: 20.0, maximumValue: 100.0, defaultValue: 45.50)
-        
-        let step4 = ORKQuestionStep(identifier: String(describing: Identifier.weightQuestionStep4), title: NSLocalizedString("Weight", comment: ""), question: exampleQuestionText, answer: answerFormat4)
-        
-        step4.text = "Metric system, high precision"
-
-        let step4NonOptional = ORKQuestionStep(identifier: String(describing: Identifier.weightQuestionStep4)  + "NonOptional", title: NSLocalizedString("Weight", comment: ""), question: exampleQuestionText, answer: answerFormat4)
-        step4NonOptional.text = "Metric system, high precision (nonOptional)"
-        step4NonOptional.isOptional = false
-        
-        let answerFormat5 = ORKAnswerFormat.weightAnswerFormat(with: ORKMeasurementSystem.USC)
-        
-        let step5 = ORKQuestionStep(identifier: String(describing: Identifier.weightQuestionStep5), title: NSLocalizedString("Weight", comment: ""), question: exampleQuestionText, answer: answerFormat5)
-        
-        step5.text = "USC system, default precision"
-        
-        let step5NonOptional = ORKQuestionStep(identifier: String(describing: Identifier.weightQuestionStep5)  + "NonOptional", title: NSLocalizedString("Weight", comment: ""), question: exampleQuestionText, answer: answerFormat5)
-        step5NonOptional.text = "USC system, default precision (nonOptional)"
-        step5NonOptional.isOptional = false
-        
-        let answerFormat6 = ORKAnswerFormat.weightAnswerFormat(with: ORKMeasurementSystem.USC, numericPrecision: ORKNumericPrecision.high, minimumValue: 50.0, maximumValue: 150.0, defaultValue: 100.0)
-        
-        let step6 = ORKQuestionStep(identifier: String(describing: Identifier.weightQuestionStep6), title: NSLocalizedString("Weight", comment: ""), question: exampleQuestionText, answer: answerFormat6)
-        
-        step6.text = "USC system, high precision"
-
-        let step6NonOptional = ORKQuestionStep(identifier: String(describing: Identifier.weightQuestionStep6)  + "NonOptional", title: NSLocalizedString("Weight", comment: ""), question: exampleQuestionText, answer: answerFormat6)
-        step6NonOptional.text = "USC system, high precision (nonOptional)"
-        step6NonOptional.isOptional = false
-        
-        let answerFormat7 = ORKHealthKitQuantityTypeAnswerFormat(quantityType: HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.bodyMass)!, unit: HKUnit.gramUnit(with: .kilo), style: .decimal)
-        
-        let step7 = ORKQuestionStep(identifier: String(describing: Identifier.weightQuestionStep7), title: NSLocalizedString("Weight", comment: ""), question: exampleQuestionText, answer: answerFormat7)
-        
-        step7.text = "HealthKit, body mass"
-
-        let step7NonOptional = ORKQuestionStep(identifier: String(describing: Identifier.weightQuestionStep7)  + "NonOptional", title: NSLocalizedString("Weight", comment: ""), question: exampleQuestionText, answer: answerFormat7)
-        step7NonOptional.text =  "HealthKit, body mass (nonOptional)"
-        step7NonOptional.isOptional = false
-        
-        return ORKOrderedTask(identifier: String(describing: Identifier.weightQuestionTask), steps: [step1, step1NonOptional, step2,  step2NonOptional, step3, step3NonOptional, step4, step4NonOptional, step5,  step5NonOptional, step6, step6NonOptional, step7NonOptional, step7])
+        return ORKOrderedTask(identifier: String(describing: Identifier.weightQuestionTask), steps: [step1, step2, step3, step4, step5, step6, step7])
     }
     
     /// This task demonstrates a question asking for the user age.
@@ -3502,6 +3081,403 @@ enum TaskListRow: Int, CustomStringConvertible {
         )
         
         return instructionStep
+    }
+    #endif
+}
+
+/**
+    Every step and task in the ResearchKit framework has to have an identifier.
+    Within a task, the step identifiers should be unique.
+
+    Here we use an enum to ensure that the identifiers are kept unique. Since
+    the enum has a raw underlying type of a `String`, the compiler can determine
+    the uniqueness of the case values at compile time.
+
+    In a real application, the identifiers for your tasks and steps might
+    come from a database, or in a smaller application, might have some
+    human-readable meaning.
+*/
+enum Identifier {
+    // Task with a form, where multiple items appear on one page.
+    case formTask
+    case groupedFormTask
+    case formStep
+    case formStep02
+    case groupedFormStep
+    case formStepWithMultipleSelection
+    case formStepWithSingleSelection
+    case formItem01
+    case formItem02
+    case formItem03
+    case formItem04
+    case formItem05
+    case formItem06
+
+    // Task with a form, with multiple don't know button
+    case dontknowSurveyTask
+
+    case textChoiceFormItem
+    case textChoiceFormStep
+    case appleFormItemIdentifier
+    case imageChoiceItemSection
+    case imageChoiceItem
+    case freeTextSectionIdentifier
+    case freeTextItemIdentifier
+    case completionStep
+    
+    // Survey task specific identifiers.
+    case surveyTask
+    case introStep
+    case surveyTaskWithMultipleSelection
+    case questionStep
+    case questionStepWithOtherItems
+    case birthdayQuestion
+    case birthdayQuestionFormItem
+    case summaryStep
+    case consentTask
+    case consentDoc
+    
+    // Task with a Boolean question.
+    case booleanQuestionTask
+    case booleanQuestionStep
+    case booleanFormStep
+    case booleanFormItem
+
+    // Task with an example of date entry.
+    case dateQuestionTask
+    case dateQuestionStep
+    case dateQuestionFormItem
+    case date3DayLimitQuestionTask
+
+    // Task with an example of date and time entry.
+    case dateTimeQuestionTask
+    case dateTimeQuestionFormStep
+    case dateTimeQuestionFormItem
+
+    // Task with an example of height entry.
+    case heightQuestionFormItem1
+    case heightQuestionFormStep1
+    case heightQuestionFormStep2
+    case heightQuestionFormStep3
+    case heightQuestionFormStep4
+    case heightQuestionTask
+
+    // Task with an example of weight entry.
+    case weightQuestionTask
+    case weightQuestionFormStep1
+    case weightQuestionFormStep2
+    case weightQuestionFormStep3
+    case weightQuestionFormStep4
+    case weightQuestionFormStep5
+    case weightQuestionFormStep6
+    case weightQuestionFormStep7
+
+    // Task with an example of age entry.
+    case ageQuestionTask
+    case ageQuestionFormStep
+    case ageQuestionFormStep2
+    case ageQuestionFormStep3
+    case ageQuestionFormStep4
+    case ageQuestionFormItem
+    case ageQuestionFormItem2
+    case ageQuestionFormItem3
+    case ageQuestionFormItem4
+    
+    // Task with an ORKHealthQuantity questions
+    case healthQuantityTask
+    case healthQuantityQuestion1
+    case healthQuantityQuestion2
+
+    // Task with an image choice question.
+    case imageChoiceQuestionTask
+    case imageChoiceQuestionStep1
+    case imageChoiceQuestionStep2
+    
+    // Task with a location entry.
+    case locationQuestionTask
+    case locationQuestionStep
+    
+    // Task with examples of numeric questions.
+    case numericQuestionTask
+    case numericQuestionStep
+    case numericNoUnitQuestionStep
+    case numericDisplayUnitQuestionStep
+
+    // Task with examples of review Steps.
+    case reviewTask
+    case embeddedReviewStep
+    case standAloneReviewStep
+    
+    // Task with examples of questions with sliding scales.
+    case scaleQuestionTask
+    case discreteScaleQuestionStep
+    case continuousScaleQuestionStep
+    case discreteVerticalScaleQuestionStep
+    case continuousVerticalScaleQuestionStep
+    case textScaleQuestionStep
+    case textVerticalScaleQuestionStep
+
+    // Task with an example of free text entry.
+    case textQuestionTask
+    case textQuestionStep
+
+    // Task with an example of a multiple choice question.
+    case textChoiceQuestionTask
+    case textChoiceQuestionStep
+    case textChoiceQuestionWithImageStep
+    case textChoiceQuestionWithImageTask
+
+    // Task with an example of time of day entry.
+    case timeOfDayQuestionTask
+    case timeOfDayQuestionStep
+
+    // Task with an example of time interval entry.
+    case timeIntervalQuestionTask
+    case timeIntervalQuestionStep
+
+    // Task with a value picker.
+    case valuePickerChoiceQuestionTask
+    case valuePickerChoiceQuestionStep
+    
+    // Task with an example of validated text entry.
+    case validatedTextQuestionTask
+    case validatedTextQuestionStepEmail
+    case validatedTextQuestionStepDomain
+    
+    // Image capture task specific identifiers.
+    case imageCaptureTask
+    case imageCaptureStep
+    
+    // Video capture task specific identifiers.
+    case videoCaptureTask
+    case videoCaptureStep
+    
+    case frontFacingCameraStep
+    
+    // Task with an example of waiting.
+    case waitTask
+    case waitStepDeterminate
+    case waitStepIndeterminate
+    
+    case pdfViewerStep
+    case pdfViewerTask
+    
+    case requestPermissionsStep
+    
+    // Eligibility task specific indentifiers.
+    case eligibilityTask
+    case eligibilityIntroStep
+    case eligibilityFormStep
+    case eligibilityFormItem01
+    case eligibilityFormItem02
+    case eligibilityFormItem03
+    case eligibilityIneligibleStep
+    case eligibilityEligibleStep
+    
+    // Account creation task specific identifiers.
+    case accountCreationTask
+    case registrationStep
+    case waitStep
+    case verificationStep
+    
+    // Login task specific identifiers.
+    case loginTask
+    case loginStep
+    case loginWaitStep
+
+    // Passcode task specific identifiers.
+    case passcodeTask
+    case passcodeStep
+    case biometricPasscodeTask
+    case biometricPasscodeStep
+
+    // Active tasks.
+    case audioTask
+    case amslerGridTask
+    case tecumsehCubeTestTask
+    case sixMinuteWalkTask
+    case fitnessTask
+    case holePegTestTask
+    case psatTask
+    case reactionTime
+    case normalizedReactionTime
+    case shortWalkTask
+    case spatialSpanMemoryTask
+    case speechRecognitionTask
+    case speechInNoiseTask
+    case stroopTask
+    case timedWalkWithTurnAroundTask
+    case toneAudiometryTask
+    case dBHLToneAudiometryTask
+    case splMeterTask
+    case splMeterStep
+    case towerOfHanoi
+    case tremorTestTask
+    case twoFingerTappingIntervalTask
+    case walkBackAndForthTask
+    case kneeRangeOfMotion
+    case shoulderRangeOfMotion
+    case trailMaking
+    
+    // Video instruction tasks.
+    case videoInstructionTask
+    case videoInstructionStep
+    
+    // Web view tasks.
+    case webViewTask
+    case webViewStep
+    
+    #if RK_APPLE_INTERNAL
+    case catalogAppVersionHistory
+    case platterQuestionTask
+    case platterQuestionStep
+    case textQuestionEmailPIIScrubbingStep
+    case textQuestionSSNPIIScrubbingStep
+    case textQuestionPIIScrubbingTask
+    case textQuestionPIIScrubbingEmailFormItem
+    case textQuestionPIIScrubbingSSNFormItem
+    case predefinedSpeechInNoiseTask
+    case predefinedAVJournalingTask
+    case predefinedTinnitusTask
+    case newdBHLToneAudiometryTask
+    case customStepTask
+    case studyPromoTask
+    case studySignPostStep
+    case familyHistoryReviewController
+    case colorChoiceQuestionTask
+    case colorChoiceQuestionStep
+    case colorChoiceQuestionStepSwatchOnly
+    case colorChoiceQuestionFormItem
+    case familyHistoryStep
+    case familyHistoryTask
+    #endif
+}
+
+enum TaskListRowStrings {
+    static var exampleDescription: String {
+        return NSLocalizedString("Your description goes here.", comment: "")
+    }
+    
+    static var exampleSpeechInstruction: String {
+        return NSLocalizedString("Your more specific voice instruction goes here. For example, say 'Aaaah'.", comment: "")
+    }
+    
+    static var exampleQuestionText: String {
+        return NSLocalizedString("Your question goes here.", comment: "")
+    }
+    
+    static var exampleHighValueText: String {
+        return NSLocalizedString("High Value", comment: "")
+    }
+    
+    static var exampleLowValueText: String {
+        return NSLocalizedString("Low Value", comment: "")
+    }
+    
+    static var exampleDetailText: String {
+        return NSLocalizedString("Additional text can go here.", comment: "")
+    }
+    
+    static var exampleEmailText: String {
+        return NSLocalizedString("jappleseed@example.com", comment: "")
+    }
+    
+    static var exampleTapHereText: String {
+        return NSLocalizedString("Tap here", comment: "")
+    }
+    
+    static var exampleDate3DayLimitQuestionTask: String {
+        return NSLocalizedString("This date picker is restricted to 3 days before or after the current date.", comment: "")
+    }
+    
+    static var loremIpsumText: String {
+        return "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+    }
+    
+    static var loremIpsumShortText: String {
+        return "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    }
+    
+    static var loremIpsumMediumText: String {
+        return "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam adhuc, meo fortasse vitio, quid ego quaeram non perspicis. Plane idem, inquit, et maxima quidem, qua fieri nulla maior potest. Quonam, inquit, modo?"
+    }
+    
+    static var loremIpsumLongText: String {
+        return "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam adhuc, meo fortasse vitio, quid ego quaeram non perspicis. Plane idem, inquit, et maxima quidem, qua fieri nulla maior potest. Quonam, inquit, modo? An potest, inquit ille, quicquam esse suavius quam nihil dolere? Cave putes quicquam esse verius. Quonam, inquit, modo?"
+    }
+    
+    static var exampleHtml: String {
+        return """
+        <!DOCTYPE html>
+
+        <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+        <head>
+            <meta name="viewport" content="width=400, user-scalable=no">
+            <meta charset="utf-8" />
+            <style type="text/css">
+            body
+            {
+                background: #FFF;
+                font-family: Helvetica, sans-serif;
+                text-align: center;
+            }
+
+            .container
+            {
+                width: 100%;
+                padding: 10px;
+                box-sizing: border-box;
+            }
+
+            .answer-box
+            {
+                width: 100%;
+                box-sizing: border-box;
+                padding: 10px;
+                border: solid 1px #ddd;
+                border-radius: 2px;
+                -webkit-appearance: none;
+            }
+
+            .continue-button
+            {
+                width: 140px;
+                text-align: center;
+                padding-top: 10px;
+                padding-bottom: 10px;
+                font-size: 16px;
+                color: #2e6e9e;
+                border-radius: 2px;
+                border: solid 1px #2e6e9e;
+                background: #FFF;
+                cursor: pointer;
+                margin-top: 40px;
+            }
+            </style>
+            <script type="text/javascript">
+            function completeStep() {
+                var answer = document.getElementById("answer").value;
+                window.webkit.messageHandlers.ResearchKit.postMessage(answer);
+            }
+            </script>
+        </head>
+        <body>
+            <div class="container">
+                <input type="text" id="answer" class="answer-box" placeholder="Answer" />
+                <button onclick="completeStep();" class="continue-button">Continue</button>
+            </div>
+        </body>
+        </html>
+        """
+    }
+    
+    #if RK_APPLE_INTERNAL
+    static var examplePIIScrubbedEmailQuestionText: String {
+        return NSLocalizedString("Your question goes here. Your email will be scrubbed", comment: "")
+    }
+
+    static var examplePIIScrubbedSSNQuestionText: String {
+        return NSLocalizedString("Your question goes here. Your SSN will be scrubbed", comment: "")
     }
     #endif
 }

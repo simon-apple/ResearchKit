@@ -21,6 +21,7 @@
 		3E39BA001ABF683F00C2ABE5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3E39B9FF1ABF683F00C2ABE5 /* Images.xcassets */; };
 		3ED967B81AC13D37007E2D83 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3ED967BA1AC13D37007E2D83 /* Localizable.strings */; };
 		51BD8FC729D3AE2E0001D54E /* Sentence1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 51BD8FC629D3AE2E0001D54E /* Sentence1.wav */; };
+		51F210EF2B4634FC0072B536 /* TaskListRowFormSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51F210EE2B4634FC0072B536 /* TaskListRowFormSteps.swift */; };
 		5D1CE45123FB1DFE004CB416 /* List1 in Resources */ = {isa = PBXBuildFile; fileRef = 5D1CE45023FB1DFE004CB416 /* List1 */; };
 		5D3800B52459F4FF00E7D2BD /* PracticeList in Resources */ = {isa = PBXBuildFile; fileRef = 5D3800B42459F4FF00E7D2BD /* PracticeList */; };
 		5DB068EA25AE5940000F3170 /* TinnitusSounds1 in Resources */ = {isa = PBXBuildFile; fileRef = 5DB068E925AE5940000F3170 /* TinnitusSounds1 */; };
@@ -147,6 +148,7 @@
 		3ED967B91AC13D37007E2D83 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5116D0BF2677FB780010FAB1 /* ResearchKit-Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "ResearchKit-Shared.xcconfig"; sourceTree = "<group>"; };
 		51BD8FC629D3AE2E0001D54E /* Sentence1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = Sentence1.wav; path = List1/Sentence1.wav; sourceTree = "<group>"; };
+		51F210EE2B4634FC0072B536 /* TaskListRowFormSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListRowFormSteps.swift; sourceTree = "<group>"; };
 		5D1CE45023FB1DFE004CB416 /* List1 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = List1; sourceTree = "<group>"; };
 		5D3800B42459F4FF00E7D2BD /* PracticeList */ = {isa = PBXFileReference; lastKnownFileType = folder; path = PracticeList; sourceTree = "<group>"; };
 		5DB068E925AE5940000F3170 /* TinnitusSounds1 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = TinnitusSounds1; sourceTree = "<group>"; };
@@ -238,6 +240,7 @@
 				0B58E51B2981D293007263DA /* UserDefaultKeys.swift */,
 				0BE9D5172943E92700DA0625 /* ResearchKitView.swift */,
 				0B31EE4629887C4E00CD0D24 /* WrapperViewController.swift */,
+				51F210EE2B4634FC0072B536 /* TaskListRowFormSteps.swift */,
 			);
 			name = "Presenting Tasks";
 			sourceTree = "<group>";
@@ -578,6 +581,7 @@
 				BC9A273C1B82741900BDA84D /* ImageTableViewCell.swift in Sources */,
 				BC9A27351B82740D00BDA84D /* TaskListViewController.swift in Sources */,
 				BC9A27341B82740D00BDA84D /* TaskListRow.swift in Sources */,
+				51F210EF2B4634FC0072B536 /* TaskListRowFormSteps.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
