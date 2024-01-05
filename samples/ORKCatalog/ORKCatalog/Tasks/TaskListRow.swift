@@ -1458,53 +1458,13 @@ enum TaskListRow: Int, CustomStringConvertible {
     }
     
     /// This task presents two options for questions displaying a scale control.
-    private var scaleQuestionTask: ORKTask {
-        // The first step is a scale control with 10 discrete ticks.
-        let stepTitle = NSLocalizedString("Scale", comment: "")
-        
-        let step1AnswerFormat = ORKAnswerFormat.scale(withMaximumValue: 10, minimumValue: 1, defaultValue: NSIntegerMax, step: 1, vertical: false, maximumValueDescription: exampleHighValueText, minimumValueDescription: exampleLowValueText)
-        
-        let questionStep1 = ORKQuestionStep(identifier: String(describing: Identifier.discreteScaleQuestionStep), title: stepTitle, question: exampleQuestionText, answer: step1AnswerFormat)
-        
-        questionStep1.text = NSLocalizedString("Discrete Scale", comment: "")
-        
-        // The second step is a scale control that allows continuous movement with a percent formatter.
-        let step2AnswerFormat = ORKAnswerFormat.continuousScale(withMaximumValue: 1.0, minimumValue: 0.0, defaultValue: 99.0, maximumFractionDigits: 0, vertical: false, maximumValueDescription: nil, minimumValueDescription: nil)
-        step2AnswerFormat.numberStyle = .percent
-        
-        let questionStep2 = ORKQuestionStep(identifier: String(describing: Identifier.continuousScaleQuestionStep), title: stepTitle, question: exampleQuestionText, answer: step2AnswerFormat)
-        
-        questionStep2.text = NSLocalizedString("Continuous Scale", comment: "")
-        
-        // The third step is a vertical scale control with 10 discrete ticks.
-        let step3AnswerFormat = ORKAnswerFormat.scale(withMaximumValue: 10, minimumValue: 1, defaultValue: NSIntegerMax, step: 1, vertical: true, maximumValueDescription: nil, minimumValueDescription: nil)
-        
-        let questionStep3 = ORKQuestionStep(identifier: String(describing: Identifier.discreteVerticalScaleQuestionStep), title: stepTitle, question: exampleQuestionText, answer: step3AnswerFormat)
-        
-        questionStep3.text = NSLocalizedString("Discrete Vertical Scale", comment: "")
-        
-        // The fourth step is a vertical scale control that allows continuous movement.
-        let step4AnswerFormat = ORKAnswerFormat.continuousScale(withMaximumValue: 5.0, minimumValue: 1.0, defaultValue: 99.0, maximumFractionDigits: 2, vertical: true, maximumValueDescription: exampleHighValueText, minimumValueDescription: exampleLowValueText)
-        
-        let questionStep4 = ORKQuestionStep(identifier: String(describing: Identifier.continuousVerticalScaleQuestionStep), title: stepTitle, question: exampleQuestionText, answer: step4AnswerFormat)
-        
-        questionStep4.text = "Continuous Vertical Scale"
-        
-        // The fifth step is a scale control that allows text choices.
-        let textChoices: [ORKTextChoice] = [ORKTextChoice(text: "Poor", value: 1 as NSNumber), ORKTextChoice(text: "Fair", value: 2 as NSNumber), ORKTextChoice(text: "Good", value: 3 as NSNumber), ORKTextChoice(text: "Above Average", value: 10 as NSNumber), ORKTextChoice(text: "Excellent", value: 5 as NSNumber)]
-
-        let step5AnswerFormat = ORKAnswerFormat.textScale(with: textChoices, defaultIndex: NSIntegerMax, vertical: false)
-        
-        let questionStep5 = ORKQuestionStep(identifier: String(describing: Identifier.textScaleQuestionStep), title: stepTitle, question: exampleQuestionText, answer: step5AnswerFormat)
-        
-        questionStep5.text = "Text Scale"
-        
-        // The sixth step is a vertical scale control that allows text choices.
-        let step6AnswerFormat = ORKAnswerFormat.textScale(with: textChoices, defaultIndex: NSIntegerMax, vertical: true)
-        
-        let questionStep6 = ORKQuestionStep(identifier: String(describing: Identifier.textVerticalScaleQuestionStep), title: stepTitle, question: exampleQuestionText, answer: step6AnswerFormat)
-        
-        questionStep6.text = "Text Vertical Scale"
+    private var scaleQuestionTask: ORKTask {    
+        let questionStep1 = TaskListRowSteps.scaleExample
+        let questionStep2 = TaskListRowSteps.continuousScaleWithPercentExample
+        let questionStep3 = TaskListRowSteps.verticalScaleWithPercentExample
+        let questionStep4 = TaskListRowSteps.continuousVerticalScaleExample
+        let questionStep5 = TaskListRowSteps.scaleWithTextChoicesExample
+        let questionStep6 = TaskListRowSteps.verticalScaleWithTextChoicesExample
         
         return ORKOrderedTask(identifier: String(describing: Identifier.scaleQuestionTask), steps: [
             questionStep1,
@@ -3158,12 +3118,13 @@ enum Identifier {
     
     // Task with examples of questions with sliding scales.
     case scaleQuestionTask
-    case discreteScaleQuestionStep
-    case continuousScaleQuestionStep
-    case discreteVerticalScaleQuestionStep
-    case continuousVerticalScaleQuestionStep
-    case textScaleQuestionStep
-    case textVerticalScaleQuestionStep
+    case scaleFormItem
+    case discreteScaleFormStep
+    case continuousScaleFormStep
+    case discreteVerticalScaleFormStep
+    case continuousVerticalScaleFormStep
+    case textScaleFormStep
+    case textVerticalScaleFormStep
 
     // Task with an example of free text entry.
     case textQuestionFormItem

@@ -317,6 +317,99 @@ enum TaskListRowSteps {
         return decimalFormStep
     }
     
+    static var scaleExample: ORKFormStep {
+        // The first step is a scale control with 10 discrete ticks.
+        let scaleAnswerFormat = ORKAnswerFormat.scale(withMaximumValue: 10,
+                                                      minimumValue: 1,
+                                                      defaultValue: NSIntegerMax,
+                                                      step: 1,
+                                                      vertical: false,
+                                                      maximumValueDescription: TaskListRowStrings.exampleHighValueText,
+                                                      minimumValueDescription: TaskListRowStrings.exampleLowValueText)
+        
+        let scaleFormItem = ORKFormItem(identifier: String(describing: Identifier.scaleFormItem), text: TaskListRowStrings.exampleQuestionText, answerFormat: scaleAnswerFormat)
+        let scaleFormStep = ORKFormStep(identifier: String(describing: Identifier.discreteScaleFormStep), title: NSLocalizedString("Scale", comment: ""), text: NSLocalizedString("Discrete Scale", comment: ""))
+        scaleFormStep.formItems = [scaleFormItem]
+        
+        return scaleFormStep
+    }
+    
+    static var continuousScaleWithPercentExample: ORKFormStep {
+        // The second step is a scale control that allows continuous movement with a percent formatter.
+        let scaleAnswerFormat = ORKAnswerFormat.continuousScale(withMaximumValue: 1.0,
+                                                                minimumValue: 0.0,
+                                                                defaultValue: 99.0,
+                                                                maximumFractionDigits: 0,
+                                                                vertical: false,
+                                                                maximumValueDescription: nil,
+                                                                minimumValueDescription: nil)
+        scaleAnswerFormat.numberStyle = .percent
+        
+        let scaleFormItem = ORKFormItem(identifier: String(describing: Identifier.scaleFormItem), text: TaskListRowStrings.exampleQuestionText, answerFormat: scaleAnswerFormat)
+        let scaleFormStep = ORKFormStep(identifier: String(describing: Identifier.continuousScaleFormStep), title: NSLocalizedString("Scale", comment: ""), text: NSLocalizedString("Continuous Scale", comment: ""))
+        scaleFormStep.formItems = [scaleFormItem]
+        
+        return scaleFormStep
+    }
+    
+    static var verticalScaleWithPercentExample: ORKFormStep {
+        // The third step is a vertical scale control with 10 discrete ticks.
+        let scaleAnswerFormat = ORKAnswerFormat.scale(withMaximumValue: 10,
+                                                      minimumValue: 1,
+                                                      defaultValue: NSIntegerMax,
+                                                      step: 1,
+                                                      vertical: true,
+                                                      maximumValueDescription: nil,
+                                                      minimumValueDescription: nil)
+        
+        let scaleFormItem = ORKFormItem(identifier: String(describing: Identifier.scaleFormItem), text: TaskListRowStrings.exampleQuestionText, answerFormat: scaleAnswerFormat)
+        let scaleFormStep = ORKFormStep(identifier: String(describing: Identifier.discreteVerticalScaleFormStep), title: NSLocalizedString("Scale", comment: ""), text: NSLocalizedString("Discrete Vertical Scale", comment: ""))
+        scaleFormStep.formItems = [scaleFormItem]
+        
+        return scaleFormStep
+    }
+    
+    static var continuousVerticalScaleExample: ORKFormStep {
+        // The fourth step is a vertical scale control that allows continuous movement.
+        let scaleAnswerFormat = ORKAnswerFormat.continuousScale(withMaximumValue: 5.0,
+                                                                minimumValue: 1.0,
+                                                                defaultValue: 99.0,
+                                                                maximumFractionDigits: 2,
+                                                                vertical: true,
+                                                                maximumValueDescription: TaskListRowStrings.exampleHighValueText,
+                                                                minimumValueDescription: TaskListRowStrings.exampleLowValueText)
+        
+        let scaleFormItem = ORKFormItem(identifier: String(describing: Identifier.scaleFormItem), text: TaskListRowStrings.exampleQuestionText, answerFormat: scaleAnswerFormat)
+        let scaleFormStep = ORKFormStep(identifier: String(describing: Identifier.continuousVerticalScaleFormStep), title: NSLocalizedString("Scale", comment: ""), text: NSLocalizedString("Continuous Vertical Scale", comment: ""))
+        scaleFormStep.formItems = [scaleFormItem]
+        
+        return scaleFormStep
+    }
+    
+    static var scaleWithTextChoicesExample: ORKFormStep {
+        // The fifth step is a scale control that allows text choices.
+        let textChoices = self.textChoicesExample
+        let scaleAnswerFormat = ORKAnswerFormat.textScale(with: textChoices, defaultIndex: NSIntegerMax, vertical: false)
+        
+        let scaleFormItem = ORKFormItem(identifier: String(describing: Identifier.scaleFormItem), text: TaskListRowStrings.exampleQuestionText, answerFormat: scaleAnswerFormat)
+        let scaleFormStep = ORKFormStep(identifier: String(describing: Identifier.textScaleFormStep), title: NSLocalizedString("Scale", comment: ""), text: NSLocalizedString("Text Scale", comment: ""))
+        scaleFormStep.formItems = [scaleFormItem]
+        
+        return scaleFormStep
+    }
+    
+    static var verticalScaleWithTextChoicesExample: ORKFormStep {
+        // The sixth step is a vertical scale control that allows text choices.
+        let textChoices = self.textChoicesExample
+        let scaleAnswerFormat = ORKAnswerFormat.textScale(with: textChoices, defaultIndex: NSIntegerMax, vertical: true)
+        
+        let scaleFormItem = ORKFormItem(identifier: String(describing: Identifier.scaleFormItem), text: TaskListRowStrings.exampleQuestionText, answerFormat: scaleAnswerFormat)
+        let scaleFormStep = ORKFormStep(identifier: String(describing: Identifier.textVerticalScaleFormStep), title: NSLocalizedString("Scale", comment: ""), text: NSLocalizedString("Text Vertical Scale", comment: ""))
+        scaleFormStep.formItems = [scaleFormItem]
+        
+        return scaleFormStep
+    }
+    
     static var embeddedReviewStepExample: ORKReviewStep {
         let embeddedReviewStep = ORKReviewStep.embeddedReviewStep(withIdentifier: String(describing: Identifier.embeddedReviewStep))
         embeddedReviewStep.bodyItems = [
@@ -366,6 +459,16 @@ enum TaskListRowSteps {
         ]
         
         return imageChoices
+    }
+    
+    private static var textChoicesExample: [ORKTextChoice] {
+        let textChoices: [ORKTextChoice] = [ORKTextChoice(text: "Poor", value: 1 as NSNumber),
+                                            ORKTextChoice(text: "Fair", value: 2 as NSNumber),
+                                            ORKTextChoice(text: "Good", value: 3 as NSNumber),
+                                            ORKTextChoice(text: "Above Average", value: 10 as NSNumber),
+                                            ORKTextChoice(text: "Excellent", value: 5 as NSNumber)]
+        
+        return textChoices
     }
     
 }
