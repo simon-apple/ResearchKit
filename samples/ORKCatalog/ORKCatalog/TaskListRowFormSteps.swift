@@ -7,7 +7,7 @@
 
 import ResearchKit
 
-enum TaskListRowFormSteps {
+enum TaskListRowSteps {
     
     static var booleanExample: ORKFormStep {
         let booleanQuestionAnswerFormat = ORKBooleanAnswerFormat()
@@ -165,6 +165,88 @@ enum TaskListRowFormSteps {
         return formStep
     }
     
+    static var heartRateExample: ORKFormStep {
+        let heartRateType = HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.heartRate)!
+        let heartRateAnswerFormat = ORKHealthKitQuantityTypeAnswerFormat(quantityType: heartRateType,
+                                                                         unit: nil,
+                                                                         style: .decimal)
+        
+        let formItemSectionHeader = ORKFormItem(sectionTitle: String(describing: TaskListRowStrings.exampleHeartRateQuestion))
+        let heartRateFormItem = ORKFormItem(identifier: String(describing: Identifier.healthQuantityFormItem), 
+                                            text: nil, 
+                                            answerFormat:heartRateAnswerFormat)
+        
+        let heartRateFormStep = ORKFormStep(identifier: String(describing: Identifier.healthQuantityFormStep1), 
+                                            title: NSLocalizedString("Heart Rate", comment: ""),
+                                            text: TaskListRowStrings.exampleDetailText)
+        heartRateFormStep.formItems = [formItemSectionHeader, heartRateFormItem]
+        
+        return heartRateFormStep
+    }
+    
+    static var bloodTypeExample: ORKFormStep {
+        let bloodType = HKCharacteristicType.characteristicType(forIdentifier: HKCharacteristicTypeIdentifier.bloodType)!
+        let bloodTypeAnswerFormat = ORKHealthKitCharacteristicTypeAnswerFormat(characteristicType: bloodType)
+        
+        let formItemSectionHeader = ORKFormItem(sectionTitle: String(describing: TaskListRowStrings.exampleBloodTypeQuestion))
+        let bloodTypeFormItem = ORKFormItem(identifier: String(describing: Identifier.healthQuantityFormItem),
+                                            text: String(describing: TaskListRowStrings.exampleTapHereText),
+                                            answerFormat: bloodTypeAnswerFormat)
+        
+        let bloodTypeFormStep = ORKFormStep(identifier: String(describing: Identifier.healthQuantityFormStep2),
+                                            title: NSLocalizedString("Blood Type", comment: ""),
+                                            text: TaskListRowStrings.exampleDetailText)
+        bloodTypeFormStep.formItems = [formItemSectionHeader, bloodTypeFormItem]
+        
+        return bloodTypeFormStep
+    }
+    
+    static var imageChoiceExample: ORKFormStep {
+        let imageChoices = self.imageChoicesExample
+        let imageChoiceAnswerFormat = ORKAnswerFormat.choiceAnswerFormat(with: imageChoices)
+        
+        let imageChoiceFormItem = ORKFormItem(identifier: String(describing: Identifier.imageChoiceFormItem),
+                                              text: TaskListRowStrings.exampleQuestionText,
+                                              answerFormat: imageChoiceAnswerFormat)
+        
+        let imageChoiceFormStep = ORKFormStep(identifier: String(describing: Identifier.imageChoiceFormStep1),
+                                              title: NSLocalizedString("Image Choice", comment: ""),
+                                              text: TaskListRowStrings.exampleDetailText)
+        imageChoiceFormStep.formItems = [imageChoiceFormItem]
+        
+        return imageChoiceFormStep
+    }
+    
+    static var imageChoiceVerticalExample: ORKFormStep {
+        let imageChoices = self.imageChoicesExample
+        let imageChoiceAnswerFormat = ORKAnswerFormat.choiceAnswerFormat(with: imageChoices, style: .multipleChoice, vertical: true)
+    
+        let imageChoiceFormItem = ORKFormItem(identifier: String(describing: Identifier.imageChoiceFormItem),
+                                              text: TaskListRowStrings.exampleQuestionText,
+                                              answerFormat: imageChoiceAnswerFormat)
+        
+        let imageChoiceFormStep = ORKFormStep(identifier: String(describing: Identifier.imageChoiceFormStep2),
+                                              title: NSLocalizedString("Image Choice", comment: ""),
+                                              text: TaskListRowStrings.exampleDetailText)
+        imageChoiceFormStep.formItems = [imageChoiceFormItem]
+        
+        return imageChoiceFormStep
+    }
+    
+    static var locationExample: ORKFormStep {
+        let locationAnswerFormat = ORKLocationAnswerFormat()
+        let locationFormItem = ORKFormItem(identifier: String(describing: Identifier.locationQuestionFormItem),
+                                           text: TaskListRowStrings.exampleQuestionText,
+                                           answerFormat: locationAnswerFormat)
+        
+        let locationFormStep = ORKFormStep(identifier: String(describing: Identifier.locationQuestionFormStep),
+                                           title: NSLocalizedString("Location", comment: ""),
+                                           text: TaskListRowStrings.exampleDetailText)
+        locationFormStep.formItems = [locationFormItem]
+        
+        return locationFormStep
+    }
+    
     private static var formItemSectionHeaderExample: ORKFormItem {
         return ORKFormItem(sectionTitle: TaskListRowStrings.exampleQuestionText)
     }
@@ -187,4 +269,20 @@ enum TaskListRowFormSteps {
         
         return heightQuestionFormStep
     }
+    
+    private static var imageChoicesExample: [ORKImageChoice] {
+        let roundShapeImage = UIImage(named: "round_shape")!
+        let roundShapeText = NSLocalizedString("Round Shape", comment: "")
+        
+        let squareShapeImage = UIImage(named: "square_shape")!
+        let squareShapeText = NSLocalizedString("Square Shape", comment: "")
+        
+        let imageChoices = [
+            ORKImageChoice(normalImage: roundShapeImage, selectedImage: nil, text: roundShapeText, value: roundShapeText as NSString),
+            ORKImageChoice(normalImage: squareShapeImage, selectedImage: nil, text: squareShapeText, value: squareShapeText as NSString)
+        ]
+        
+        return imageChoices
+    }
+    
 }

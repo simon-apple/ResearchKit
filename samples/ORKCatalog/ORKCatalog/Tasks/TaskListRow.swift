@@ -1068,7 +1068,7 @@ enum TaskListRow: Int, CustomStringConvertible {
             sesFormItem
         ]
         
-        let booleanQuestionFormStep = TaskListRowFormSteps.booleanExample
+        let booleanQuestionFormStep = TaskListRowSteps.booleanExample
         
         //Add a question step with different layout format.
         let birthDayQuestionAnswerFormat = ORKAnswerFormat.dateAnswerFormat(withDefaultDate: nil, minimumDate: nil, maximumDate: Date(), calendar: nil)
@@ -1115,7 +1115,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         instructionStep.text = exampleDescription
         instructionStep.detailText = NSLocalizedString("Please use this space to provide instructions for participants.  Please make sure to provide enough information so that users can progress through the survey and complete with ease.", comment: "")
         
-        let booleanQuestionFormStep = TaskListRowFormSteps.booleanExample
+        let booleanQuestionFormStep = TaskListRowSteps.booleanExample
         
         //Add a question step with different layout format.
         let birthDayQuestionAnswerFormat = ORKAnswerFormat.dateAnswerFormat(withDefaultDate: nil, minimumDate: nil, maximumDate: Date(), calendar: nil)
@@ -1128,7 +1128,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         let birthdayQuestionFormStep = ORKFormStep(identifier: String(describing: Identifier.birthdayQuestion), title: "Questionnaire", text: exampleDetailText)
         birthdayQuestionFormStep.formItems = [birthDayQuestionSectionHeader, birthdayQuestionFormItem]
         
-        let textChoiceFormStep = TaskListRowFormSteps.textChoiceExample
+        let textChoiceFormStep = TaskListRowSteps.textChoiceExample
         
         let summaryStep = ORKInstructionStep(identifier: String(describing: Identifier.summaryStep))
         summaryStep.title = NSLocalizedString("Thanks", comment: "")
@@ -1221,7 +1221,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     }
 
     private var booleanQuestionTask: ORKTask {
-        let booleanQuestionFormStep = TaskListRowFormSteps.booleanExample
+        let booleanQuestionFormStep = TaskListRowSteps.booleanExample
         return ORKOrderedTask(identifier: String(describing: Identifier.booleanQuestionTask), steps: [booleanQuestionFormStep])
     }
     
@@ -1297,23 +1297,23 @@ enum TaskListRow: Int, CustomStringConvertible {
 
     /// This task demonstrates a question asking for the user height.
     private var heightQuestionTask: ORKTask {
-        let step1 = TaskListRowFormSteps.heightExample
-        let step2 = TaskListRowFormSteps.heightMetricSystemExample
-        let step3 = TaskListRowFormSteps.heightUSCSystemExample
-        let step4 = TaskListRowFormSteps.heightHealthKitExample
+        let step1 = TaskListRowSteps.heightExample
+        let step2 = TaskListRowSteps.heightMetricSystemExample
+        let step3 = TaskListRowSteps.heightUSCSystemExample
+        let step4 = TaskListRowSteps.heightHealthKitExample
         
         return ORKOrderedTask(identifier: String(describing: Identifier.heightQuestionTask), steps: [step1, step2, step3, step4])
     }
 
     /// This task demonstrates a question asking for the user weight.
     private var weightQuestionTask: ORKTask {
-        let step1 = TaskListRowFormSteps.weightExample
-        let step2 = TaskListRowFormSteps.weightMetricSystemExample
-        let step3 = TaskListRowFormSteps.weightMetricSystemLowPrecisionExample
-        let step4 = TaskListRowFormSteps.weightMetricSystemHighPrecisionExample
-        let step5 = TaskListRowFormSteps.weightUSCSystemExample
-        let step6 = TaskListRowFormSteps.weightUSCSystemHighPrecisionExample
-        let step7 = TaskListRowFormSteps.weightHealthKitBodyMassExample
+        let step1 = TaskListRowSteps.weightExample
+        let step2 = TaskListRowSteps.weightMetricSystemExample
+        let step3 = TaskListRowSteps.weightMetricSystemLowPrecisionExample
+        let step4 = TaskListRowSteps.weightMetricSystemHighPrecisionExample
+        let step5 = TaskListRowSteps.weightUSCSystemExample
+        let step6 = TaskListRowSteps.weightUSCSystemHighPrecisionExample
+        let step7 = TaskListRowSteps.weightHealthKitBodyMassExample
         
         return ORKOrderedTask(identifier: String(describing: Identifier.weightQuestionTask), steps: [step1, step2, step3, step4, step5, step6, step7])
     }
@@ -1392,15 +1392,8 @@ enum TaskListRow: Int, CustomStringConvertible {
     }
 
     private var healthQuantityTypeTask: ORKTask {
-        let heartRateHealthKitQuantityTypeAnswerFormat = ORKHealthKitQuantityTypeAnswerFormat(quantityType: HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.heartRate)!, unit: nil, style: .decimal)
-        let heartRateQuestion = ORKQuestionStep(identifier: String(describing: Identifier.healthQuantityQuestion1), title: NSLocalizedString("Heart Rate", comment: ""), question: "What is your Heart Rate?", answer: heartRateHealthKitQuantityTypeAnswerFormat)
-        heartRateQuestion.text = "Heart Rate"
-        heartRateQuestion.isOptional = false
-        
-        
-        let bloodType = HKCharacteristicType.characteristicType(forIdentifier: HKCharacteristicTypeIdentifier.bloodType)!
-        let bloodTypeAnswerFormat = ORKHealthKitCharacteristicTypeAnswerFormat(characteristicType: bloodType)
-        let bloodTypeQuestion = ORKQuestionStep(identifier: String(describing: Identifier.healthQuantityQuestion2), title: NSLocalizedString("Blood Type", comment: ""), question: "What is your Blood Type?", answer: bloodTypeAnswerFormat)
+        let heartRateQuestion = TaskListRowSteps.heartRateExample    
+        let bloodTypeQuestion = TaskListRowSteps.bloodTypeExample
         
         return ORKOrderedTask(identifier: String(describing: Identifier.healthQuantityTask), steps: [heartRateQuestion, bloodTypeQuestion])
     }
@@ -1411,43 +1404,17 @@ enum TaskListRow: Int, CustomStringConvertible {
     use a range of icons for faces ranging from happy to sad.
     */
     private var imageChoiceQuestionTask: ORKTask {
-        let roundShapeImage = UIImage(named: "round_shape")!
-        let roundShapeText = NSLocalizedString("Round Shape", comment: "")
-        
-        let squareShapeImage = UIImage(named: "square_shape")!
-        let squareShapeText = NSLocalizedString("Square Shape", comment: "")
-        
-        let imageChoces = [
-            ORKImageChoice(normalImage: roundShapeImage, selectedImage: nil, text: roundShapeText, value: roundShapeText as NSString),
-            ORKImageChoice(normalImage: squareShapeImage, selectedImage: nil, text: squareShapeText, value: squareShapeText as NSString)
-        ]
-        
-        let answerFormat1 = ORKAnswerFormat.choiceAnswerFormat(with: imageChoces)
-        
-        let questionStep1 = ORKQuestionStep(identifier: String(describing: Identifier.imageChoiceQuestionStep1), title: NSLocalizedString("Image Choice", comment: ""), question: exampleQuestionText, answer: answerFormat1)
-
-        questionStep1.text = exampleDetailText
-
-        let answerFormat2 = ORKAnswerFormat.choiceAnswerFormat(with: imageChoces, style: .multipleChoice, vertical: true)
-        
-        let questionStep2 = ORKQuestionStep(identifier: String(describing: Identifier.imageChoiceQuestionStep2), title: NSLocalizedString("Image Choice", comment: ""), question: exampleQuestionText, answer: answerFormat2)
-
-        questionStep2.text = exampleDetailText
+        let questionStep1 = TaskListRowSteps.imageChoiceExample
+        let questionStep2 = TaskListRowSteps.imageChoiceVerticalExample
         
         return ORKOrderedTask(identifier: String(describing: Identifier.imageChoiceQuestionTask), steps: [questionStep1, questionStep2])
     }
     
     /// This task presents just a single location question.
     private var locationQuestionTask: ORKTask {
-        let answerFormat = ORKLocationAnswerFormat()
+        let locationFormStep = TaskListRowSteps.locationExample
         
-        // We attach an answer format to a question step to specify what controls the user sees.
-        let questionStep = ORKQuestionStep(identifier: String(describing: Identifier.locationQuestionStep), title: NSLocalizedString("Location", comment: ""), question: exampleQuestionText, answer: answerFormat)
-        // The detail text is shown in a small font below the title.
-        questionStep.text = exampleDetailText
-        questionStep.placeholder = NSLocalizedString("Address", comment: "")
-        
-        return ORKOrderedTask(identifier: String(describing: Identifier.locationQuestionTask), steps: [questionStep])
+        return ORKOrderedTask(identifier: String(describing: Identifier.locationQuestionTask), steps: [locationFormStep])
     }
     
     /// This task presents a few different ORKReviewSteps
@@ -3184,18 +3151,21 @@ enum Identifier {
     case ageQuestionFormItem4
     
     // Task with an ORKHealthQuantity questions
+    case healthQuantityFormItem
+    case healthQuantityFormStep1
+    case healthQuantityFormStep2
     case healthQuantityTask
-    case healthQuantityQuestion1
-    case healthQuantityQuestion2
 
     // Task with an image choice question.
+    case imageChoiceFormItem
+    case imageChoiceFormStep1
+    case imageChoiceFormStep2
     case imageChoiceQuestionTask
-    case imageChoiceQuestionStep1
-    case imageChoiceQuestionStep2
     
-    // Task with a location entry.
+    // Task with a location entry
+    case locationQuestionFormItem
+    case locationQuestionFormStep
     case locationQuestionTask
-    case locationQuestionStep
     
     // Task with examples of numeric questions.
     case numericQuestionTask
@@ -3388,6 +3358,14 @@ enum TaskListRowStrings {
     
     static var exampleDate3DayLimitQuestionTask: String {
         return NSLocalizedString("This date picker is restricted to 3 days before or after the current date.", comment: "")
+    }
+    
+    static var exampleHeartRateQuestion: String {
+        return NSLocalizedString("What is your Heart Rate?", comment: "")
+    }
+    
+    static var exampleBloodTypeQuestion: String {
+        return NSLocalizedString("What is your Blood Type?", comment: "")
     }
     
     static var loremIpsumText: String {
