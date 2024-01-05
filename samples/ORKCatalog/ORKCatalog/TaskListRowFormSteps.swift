@@ -247,6 +247,89 @@ enum TaskListRowSteps {
         return locationFormStep
     }
     
+    static var textAnswerExample: ORKFormStep {
+        let textAnswerFormat = ORKTextAnswerFormat()
+        
+        let sectionHeaderFormItem = ORKFormItem(sectionTitle: "What is your name?")
+        let textAnswerFormItem = ORKFormItem(identifier: String(describing: Identifier.textQuestionFormItem), 
+                                             text: TaskListRowStrings.exampleTapHereText,
+                                             answerFormat: textAnswerFormat)
+        
+        let textAnswerFormStep = ORKFormStep(identifier: String(describing: Identifier.textQuestionFormStep),
+                                             title: TaskListRowStrings.exampleQuestionText,
+                                             text: TaskListRowStrings.exampleDetailText)
+        textAnswerFormStep.formItems = [sectionHeaderFormItem, textAnswerFormItem]
+        
+        return textAnswerFormStep
+    }
+    
+    static var decimalExample: ORKFormStep {
+        let localizedQuestionStep1AnswerFormatUnit = NSLocalizedString("Your unit", comment: "")
+        let decimalAnswerFormat = ORKAnswerFormat.decimalAnswerFormat(withUnit: localizedQuestionStep1AnswerFormatUnit)
+        
+        let sectionHeaderFormItem = ORKFormItem(sectionTitle: TaskListRowStrings.exampleQuestionText)
+        let decimalFormItem = ORKFormItem(identifier: String(describing: Identifier.numericFormItem), 
+                                          text: TaskListRowStrings.exampleTapHereText,
+                                          answerFormat: decimalAnswerFormat)
+        
+        let decimalFormStep = ORKFormStep(identifier: String(describing: Identifier.numericQuestionFormStep), 
+                                          title: NSLocalizedString("Numeric", comment: ""),
+                                          text: TaskListRowStrings.exampleDetailText)
+        decimalFormStep.formItems = [sectionHeaderFormItem, decimalFormItem]
+        
+        return decimalFormStep
+    }
+    
+    static var decimalNoUnitExample: ORKFormStep {
+        let decimalAnswerFormat = ORKAnswerFormat.decimalAnswerFormat(withUnit: nil)
+        
+        let sectionHeaderFormItem = ORKFormItem(sectionTitle: TaskListRowStrings.exampleQuestionText)
+        let decimalFormItem = ORKFormItem(identifier: String(describing: Identifier.numericFormItem), 
+                                          text: TaskListRowStrings.exampleTapHereText,
+                                          answerFormat: decimalAnswerFormat)
+        
+        let decimalFormStep = ORKFormStep(identifier: String(describing: Identifier.numericNoUnitQuestionFormStep), 
+                                          title:NSLocalizedString("Numeric", comment: ""),
+                                          text: TaskListRowStrings.exampleDetailText)
+        decimalFormStep.formItems = [sectionHeaderFormItem, decimalFormItem]
+        
+        return decimalFormStep
+    }
+    
+    static var decimalWithDisplayUnitExample: ORKFormStep {
+        let decimalAnswerFormat = ORKNumericAnswerFormat(style: .decimal,
+                                                         unit: "weeks",
+                                                         displayUnit: "semanas",
+                                                         minimum: nil,
+                                                         maximum: nil,
+                                                         maximumFractionDigits: 1)
+        
+        let sectionHeaderFormItem = ORKFormItem(sectionTitle: TaskListRowStrings.exampleQuestionText)
+        let decimalFormItem = ORKFormItem(identifier: String(describing: Identifier.numericFormItem), 
+                                          text: TaskListRowStrings.exampleTapHereText,
+                                          answerFormat: decimalAnswerFormat)
+        
+        let decimalFormStep = ORKFormStep(identifier: String(describing: Identifier.numericDisplayUnitQuestionFormStep), 
+                                          title: NSLocalizedString("Numeric with Display Unit", comment: ""),
+                                          text: TaskListRowStrings.exampleDetailText)
+        decimalFormStep.formItems = [sectionHeaderFormItem, decimalFormItem]
+        
+        return decimalFormStep
+    }
+    
+    static var embeddedReviewStepExample: ORKReviewStep {
+        let embeddedReviewStep = ORKReviewStep.embeddedReviewStep(withIdentifier: String(describing: Identifier.embeddedReviewStep))
+        embeddedReviewStep.bodyItems = [
+            ORKBodyItem(text: "Review Item #1", detailText: nil, image: nil, learnMoreItem: nil, bodyItemStyle: .bulletPoint),
+            ORKBodyItem(text: "Review Item #2", detailText: nil, image: nil, learnMoreItem: nil, bodyItemStyle: .bulletPoint),
+            ORKBodyItem(text: "Review Item #3", detailText: nil, image: nil, learnMoreItem: nil, bodyItemStyle: .bulletPoint),
+            ORKBodyItem(text: "Review Item #4", detailText: nil, image: nil, learnMoreItem: nil, bodyItemStyle: .bulletPoint)
+        ]
+        embeddedReviewStep.title = "Embedded Review Step"
+        
+        return embeddedReviewStep
+    }
+    
     private static var formItemSectionHeaderExample: ORKFormItem {
         return ORKFormItem(sectionTitle: TaskListRowStrings.exampleQuestionText)
     }

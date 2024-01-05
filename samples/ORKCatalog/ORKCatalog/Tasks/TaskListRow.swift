@@ -1419,14 +1419,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     
     /// This task presents a few different ORKReviewSteps
     private var reviewTask: ORKTask {
-        let embeddedReviewStep = ORKReviewStep.embeddedReviewStep(withIdentifier: String(describing: Identifier.embeddedReviewStep))
-        embeddedReviewStep.bodyItems = [
-            ORKBodyItem(text: "Review Item #1", detailText: nil, image: nil, learnMoreItem: nil, bodyItemStyle: .bulletPoint),
-            ORKBodyItem(text: "Review Item #2", detailText: nil, image: nil, learnMoreItem: nil, bodyItemStyle: .bulletPoint),
-            ORKBodyItem(text: "Review Item #3", detailText: nil, image: nil, learnMoreItem: nil, bodyItemStyle: .bulletPoint),
-            ORKBodyItem(text: "Review Item #4", detailText: nil, image: nil, learnMoreItem: nil, bodyItemStyle: .bulletPoint)
-        ]
-        embeddedReviewStep.title = "Embedded Review Step"
+        let embeddedReviewStep = TaskListRowSteps.embeddedReviewStepExample
         
         let standAloneInstructionStep1 =  ORKInstructionStep(identifier: "standAloneInstruction1")
         standAloneInstructionStep1.text = "First Item"
@@ -1440,9 +1433,9 @@ enum TaskListRow: Int, CustomStringConvertible {
         standAloneInstructionStep3.text = "Third Item"
         standAloneInstructionStep3.detailText = "There is a lot of detail to cover in this Instruction Step"
         
-        let questionStep = ORKQuestionStep(identifier: "questionStep", title: "Question Step", question: "What is your name?", answer: ORKTextAnswerFormat())
+        let textAnswerFormStep = TaskListRowSteps.textAnswerExample
         
-        let standAloneReviewStep = ORKReviewStep.standaloneReviewStep(withIdentifier:String(describing: Identifier.standAloneReviewStep), steps:[standAloneInstructionStep1, standAloneInstructionStep2, standAloneInstructionStep3, questionStep], resultSource: nil)
+        let standAloneReviewStep = ORKReviewStep.standaloneReviewStep(withIdentifier:String(describing: Identifier.standAloneReviewStep), steps:[standAloneInstructionStep1, standAloneInstructionStep2, standAloneInstructionStep3, textAnswerFormStep], resultSource: nil)
         standAloneReviewStep.title = "Standalone Review"
         return ORKOrderedTask(identifier: String(describing: Identifier.reviewTask), steps: [embeddedReviewStep, standAloneReviewStep])
     }
@@ -1452,26 +1445,10 @@ enum TaskListRow: Int, CustomStringConvertible {
         Note that the unit is just a string, prompting the user to enter the value
         in the expected unit. The unit string propagates into the result object.
     */
-    private var numericQuestionTask: ORKTask {
-        // This answer format will display a unit in-line with the numeric entry field.
-        let localizedQuestionStep1AnswerFormatUnit = NSLocalizedString("Your unit", comment: "")
-        let questionStep1AnswerFormat = ORKAnswerFormat.decimalAnswerFormat(withUnit: localizedQuestionStep1AnswerFormatUnit)
-        
-        let questionStep1 = ORKQuestionStep(identifier: String(describing: Identifier.numericQuestionStep), title: NSLocalizedString("Numeric", comment: ""), question: exampleQuestionText, answer: questionStep1AnswerFormat)
-        
-        questionStep1.text = exampleDetailText
-        questionStep1.placeholder = NSLocalizedString("Your placeholder.", comment: "")
-                
-        // This answer format is similar to the previous one, but this time without displaying a unit.
-        let questionStep2 = ORKQuestionStep(identifier: String(describing: Identifier.numericNoUnitQuestionStep), title: NSLocalizedString("Numeric", comment: ""), question: exampleQuestionText, answer: ORKAnswerFormat.decimalAnswerFormat(withUnit: nil))
-        
-        questionStep2.text = exampleDetailText
-        questionStep2.placeholder = NSLocalizedString("Placeholder without unit.", comment: "")
-        
-        // This answer format is similar to the previous one, but this time with a display unit.
-        let questionStep3 = ORKQuestionStep(identifier: String(describing: Identifier.numericDisplayUnitQuestionStep), title: NSLocalizedString("Numeric with Display Unit", comment: ""), question: exampleQuestionText, answer: ORKNumericAnswerFormat(style: .decimal, unit: "weeks", displayUnit: "semanas", minimum: nil, maximum: nil, maximumFractionDigits: 1))
-        questionStep3.text = exampleDetailText
-        questionStep3.placeholder = NSLocalizedString("Placeholder with display unit.", comment: "")
+    private var numericQuestionTask: ORKTask {        
+        let questionStep1 = TaskListRowSteps.decimalExample
+        let questionStep2 = TaskListRowSteps.decimalNoUnitExample
+        let questionStep3 = TaskListRowSteps.decimalWithDisplayUnitExample
         
         return ORKOrderedTask(identifier: String(describing: Identifier.numericQuestionTask), steps: [
             questionStep1,
@@ -3168,10 +3145,11 @@ enum Identifier {
     case locationQuestionTask
     
     // Task with examples of numeric questions.
+    case numericDisplayUnitQuestionFormStep
+    case numericFormItem
+    case numericNoUnitQuestionFormStep
+    case numericQuestionFormStep
     case numericQuestionTask
-    case numericQuestionStep
-    case numericNoUnitQuestionStep
-    case numericDisplayUnitQuestionStep
 
     // Task with examples of review Steps.
     case reviewTask
@@ -3188,8 +3166,10 @@ enum Identifier {
     case textVerticalScaleQuestionStep
 
     // Task with an example of free text entry.
-    case textQuestionTask
+    case textQuestionFormItem
+    case textQuestionFormStep
     case textQuestionStep
+    case textQuestionTask
 
     // Task with an example of a multiple choice question.
     case textChoiceQuestionTask
