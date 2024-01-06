@@ -9,6 +9,8 @@ import ResearchKit
 
 enum TaskListRowSteps {
     
+    // MARK: - ORKFormStep Examples
+    
     static var booleanExample: ORKFormStep {
         let booleanQuestionAnswerFormat = ORKBooleanAnswerFormat()
         let question1 = NSLocalizedString("Would you like to subscribe to our newsletter?", comment: "")
@@ -22,26 +24,143 @@ enum TaskListRowSteps {
         return booleanQuestionFormStep
     }
     
-    static var textChoiceExample: ORKFormStep {
-        let textChoices: [ORKTextChoice] = [
-            ORKTextChoice(text: "choice 1", detailText: "detail 1", value: 1 as NSNumber, exclusive: false),
-            ORKTextChoice(text: "choice 2", detailText: "detail 2", value: 2 as NSNumber, exclusive: false),
-            ORKTextChoice(text: "choice 3", detailText: "detail 3", value: 3 as NSNumber, exclusive: false),
-            ORKTextChoice(text: "choice 4", detailText: "detail 4", value: 4 as NSNumber, exclusive: false),
-            ORKTextChoice(text: "choice 5", detailText: "detail 5", value: 5 as NSNumber, exclusive: false),
-            ORKTextChoice(text: "choice 6", detailText: "detail 6", value: 6 as NSNumber, exclusive: false),
-            ORKTextChoiceOther.choice(withText: "choice 7", detailText: "detail 7", value: "choice 7" as NSString, exclusive: true, textViewPlaceholderText: "enter additional information")
-        ]
+    static var bloodTypeExample: ORKFormStep {
+        let bloodType = HKCharacteristicType.characteristicType(forIdentifier: HKCharacteristicTypeIdentifier.bloodType)!
+        let bloodTypeAnswerFormat = ORKHealthKitCharacteristicTypeAnswerFormat(characteristicType: bloodType)
         
-        let textChoiceQuestion = NSLocalizedString("Select an option below.", comment: "")
-        let textChoiceAnswerFormat = ORKTextChoiceAnswerFormat(style: .singleChoice, textChoices: textChoices)
+        let formItemSectionHeader = ORKFormItem(sectionTitle: String(describing: TaskListRowStrings.exampleBloodTypeQuestion))
+        let bloodTypeFormItem = ORKFormItem(identifier: String(describing: Identifier.healthQuantityFormItem),
+                                            text: String(describing: TaskListRowStrings.exampleTapHereText),
+                                            answerFormat: bloodTypeAnswerFormat)
         
-        let textChoiceFormItem = ORKFormItem(identifier: String(describing: Identifier.textChoiceFormItem), text: textChoiceQuestion, answerFormat: textChoiceAnswerFormat)
-        textChoiceFormItem.learnMoreItem = self.learnMoreItemExample
-        let textChoiceFormStep = ORKFormStep(identifier: String(describing: Identifier.textChoiceFormStep), title: "Questionnaire", text: TaskListRowStrings.exampleDetailText)
-        textChoiceFormStep.formItems = [textChoiceFormItem]
+        let bloodTypeFormStep = ORKFormStep(identifier: String(describing: Identifier.healthQuantityFormStep2),
+                                            title: NSLocalizedString("Blood Type", comment: ""),
+                                            text: TaskListRowStrings.exampleDetailText)
+        bloodTypeFormStep.formItems = [formItemSectionHeader, bloodTypeFormItem]
         
-        return textChoiceFormStep
+        return bloodTypeFormStep
+    }
+    
+    static var continuousScaleWithPercentExample: ORKFormStep {
+        // The second step is a scale control that allows continuous movement with a percent formatter.
+        let scaleAnswerFormat = ORKAnswerFormat.continuousScale(withMaximumValue: 1.0,
+                                                                minimumValue: 0.0,
+                                                                defaultValue: 99.0,
+                                                                maximumFractionDigits: 0,
+                                                                vertical: false,
+                                                                maximumValueDescription: nil,
+                                                                minimumValueDescription: nil)
+        scaleAnswerFormat.numberStyle = .percent
+        
+        let scaleFormItem = ORKFormItem(identifier: String(describing: Identifier.scaleFormItem), text: TaskListRowStrings.exampleQuestionText, answerFormat: scaleAnswerFormat)
+        let scaleFormStep = ORKFormStep(identifier: String(describing: Identifier.continuousScaleFormStep), title: NSLocalizedString("Scale", comment: ""), text: NSLocalizedString("Continuous Scale", comment: ""))
+        scaleFormStep.formItems = [scaleFormItem]
+        
+        return scaleFormStep
+    }
+    
+    static var continuousVerticalScaleExample: ORKFormStep {
+        // The fourth step is a vertical scale control that allows continuous movement.
+        let scaleAnswerFormat = ORKAnswerFormat.continuousScale(withMaximumValue: 5.0,
+                                                                minimumValue: 1.0,
+                                                                defaultValue: 99.0,
+                                                                maximumFractionDigits: 2,
+                                                                vertical: true,
+                                                                maximumValueDescription: TaskListRowStrings.exampleHighValueText,
+                                                                minimumValueDescription: TaskListRowStrings.exampleLowValueText)
+        
+        let scaleFormItem = ORKFormItem(identifier: String(describing: Identifier.scaleFormItem), text: TaskListRowStrings.exampleQuestionText, answerFormat: scaleAnswerFormat)
+        let scaleFormStep = ORKFormStep(identifier: String(describing: Identifier.continuousVerticalScaleFormStep), title: NSLocalizedString("Scale", comment: ""), text: NSLocalizedString("Continuous Vertical Scale", comment: ""))
+        scaleFormStep.formItems = [scaleFormItem]
+        
+        return scaleFormStep
+    }
+    
+    static var decimalExample: ORKFormStep {
+        let localizedQuestionStep1AnswerFormatUnit = NSLocalizedString("Your unit", comment: "")
+        let decimalAnswerFormat = ORKAnswerFormat.decimalAnswerFormat(withUnit: localizedQuestionStep1AnswerFormatUnit)
+        
+        let sectionHeaderFormItem = ORKFormItem(sectionTitle: TaskListRowStrings.exampleQuestionText)
+        let decimalFormItem = ORKFormItem(identifier: String(describing: Identifier.numericFormItem),
+                                          text: TaskListRowStrings.exampleTapHereText,
+                                          answerFormat: decimalAnswerFormat)
+        
+        let decimalFormStep = ORKFormStep(identifier: String(describing: Identifier.numericQuestionFormStep),
+                                          title: NSLocalizedString("Numeric", comment: ""),
+                                          text: TaskListRowStrings.exampleDetailText)
+        decimalFormStep.formItems = [sectionHeaderFormItem, decimalFormItem]
+        
+        return decimalFormStep
+    }
+    
+    static var decimalNoUnitExample: ORKFormStep {
+        let decimalAnswerFormat = ORKAnswerFormat.decimalAnswerFormat(withUnit: nil)
+        
+        let sectionHeaderFormItem = ORKFormItem(sectionTitle: TaskListRowStrings.exampleQuestionText)
+        let decimalFormItem = ORKFormItem(identifier: String(describing: Identifier.numericFormItem),
+                                          text: TaskListRowStrings.exampleTapHereText,
+                                          answerFormat: decimalAnswerFormat)
+        
+        let decimalFormStep = ORKFormStep(identifier: String(describing: Identifier.numericNoUnitQuestionFormStep),
+                                          title:NSLocalizedString("Numeric", comment: ""),
+                                          text: TaskListRowStrings.exampleDetailText)
+        decimalFormStep.formItems = [sectionHeaderFormItem, decimalFormItem]
+        
+        return decimalFormStep
+    }
+    
+    static var decimalWithDisplayUnitExample: ORKFormStep {
+        let decimalAnswerFormat = ORKNumericAnswerFormat(style: .decimal,
+                                                         unit: "weeks",
+                                                         displayUnit: "semanas",
+                                                         minimum: nil,
+                                                         maximum: nil,
+                                                         maximumFractionDigits: 1)
+        
+        let sectionHeaderFormItem = ORKFormItem(sectionTitle: TaskListRowStrings.exampleQuestionText)
+        let decimalFormItem = ORKFormItem(identifier: String(describing: Identifier.numericFormItem),
+                                          text: TaskListRowStrings.exampleTapHereText,
+                                          answerFormat: decimalAnswerFormat)
+        
+        let decimalFormStep = ORKFormStep(identifier: String(describing: Identifier.numericDisplayUnitQuestionFormStep),
+                                          title: NSLocalizedString("Numeric with Display Unit", comment: ""),
+                                          text: TaskListRowStrings.exampleDetailText)
+        decimalFormStep.formItems = [sectionHeaderFormItem, decimalFormItem]
+        
+        return decimalFormStep
+    }
+    
+    static var emailExample: ORKFormStep {
+        let emailDomainRegularExpressionPattern =  "^[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$"
+        let emailDomainRegularExpression = try? NSRegularExpression(pattern: emailDomainRegularExpressionPattern)
+        let emailAnswerFormatDomain = ORKAnswerFormat.textAnswerFormat(withValidationRegularExpression: emailDomainRegularExpression!, invalidMessage: "Invalid Email: %@")
+        
+        let sectionHeaderFormItem = ORKFormItem(sectionTitle: NSLocalizedString("Email", comment: ""))
+        let emailFormItem = ORKFormItem(identifier: String(describing: Identifier.validatedTextFormItem), text: TaskListRowStrings.exampleTapHereText, answerFormat: emailAnswerFormatDomain)
+        
+        let emailFormStep = ORKFormStep(identifier: String(describing: Identifier.validatedTextFormStepEmail), title: NSLocalizedString("Validated Text", comment: ""), text: TaskListRowStrings.exampleDetailText)
+        emailFormStep.formItems = [sectionHeaderFormItem, emailFormItem]
+        
+        return emailFormStep
+    }
+    
+    static var heartRateExample: ORKFormStep {
+        let heartRateType = HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.heartRate)!
+        let heartRateAnswerFormat = ORKHealthKitQuantityTypeAnswerFormat(quantityType: heartRateType,
+                                                                         unit: nil,
+                                                                         style: .decimal)
+        
+        let formItemSectionHeader = ORKFormItem(sectionTitle: String(describing: TaskListRowStrings.exampleHeartRateQuestion))
+        let heartRateFormItem = ORKFormItem(identifier: String(describing: Identifier.healthQuantityFormItem),
+                                            text: nil,
+                                            answerFormat:heartRateAnswerFormat)
+        
+        let heartRateFormStep = ORKFormStep(identifier: String(describing: Identifier.healthQuantityFormStep1),
+                                            title: NSLocalizedString("Heart Rate", comment: ""),
+                                            text: TaskListRowStrings.exampleDetailText)
+        heartRateFormStep.formItems = [formItemSectionHeader, heartRateFormItem]
+        
+        return heartRateFormStep
     }
     
     static var heightExample: ORKFormStep {
@@ -49,6 +168,17 @@ enum TaskListRowSteps {
         let heightAnswerFormat = ORKAnswerFormat.heightAnswerFormat()
         let title = NSLocalizedString("Height", comment: "")
         let stepText =  NSLocalizedString("Local system", comment: "")
+        
+        let formStep = self.heightWeightFormStepExample(identifier:stepIdentifier, answerFormat:heightAnswerFormat, title:title, text:stepText)
+        
+        return formStep
+    }
+    
+    static var heightHealthKitExample: ORKFormStep {
+        let stepIdentifier = String(describing: Identifier.heightQuestionFormStep4)
+        let heightAnswerFormat = ORKHealthKitQuantityTypeAnswerFormat(quantityType: HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.height)!, unit: HKUnit.meterUnit(with: .centi), style: .decimal)
+        let title = NSLocalizedString("Height", comment: "")
+        let stepText = NSLocalizedString("HealthKit, height", comment: "")
         
         let formStep = self.heightWeightFormStepExample(identifier:stepIdentifier, answerFormat:heightAnswerFormat, title:title, text:stepText)
         
@@ -75,130 +205,6 @@ enum TaskListRowSteps {
         let formStep = self.heightWeightFormStepExample(identifier:stepIdentifier, answerFormat:heightAnswerFormat, title:title, text:stepText)
         
         return formStep
-    }
-    
-    static var heightHealthKitExample: ORKFormStep {
-        let stepIdentifier = String(describing: Identifier.heightQuestionFormStep4)
-        let heightAnswerFormat = ORKHealthKitQuantityTypeAnswerFormat(quantityType: HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.height)!, unit: HKUnit.meterUnit(with: .centi), style: .decimal)
-        let title = NSLocalizedString("Height", comment: "")
-        let stepText = NSLocalizedString("HealthKit, height", comment: "")
-        
-        let formStep = self.heightWeightFormStepExample(identifier:stepIdentifier, answerFormat:heightAnswerFormat, title:title, text:stepText)
-        
-        return formStep
-    }
-    
-    static var weightExample: ORKFormStep {
-        let stepIdentifier = String(describing: Identifier.weightQuestionFormStep1)
-        let weightAnswerFormat = ORKAnswerFormat.weightAnswerFormat()
-        let title = NSLocalizedString("Weight", comment: "")
-        let stepText =  NSLocalizedString("Local system, default precision", comment: "")
-        
-        let formStep = self.heightWeightFormStepExample(identifier:stepIdentifier, answerFormat:weightAnswerFormat, title:title, text:stepText)
-        
-        return formStep
-    }
-    
-    static var weightMetricSystemExample: ORKFormStep {
-        let stepIdentifier = String(describing: Identifier.weightQuestionFormStep2)
-        let weightAnswerFormat = ORKAnswerFormat.weightAnswerFormat(with: .metric)
-        let title = NSLocalizedString("Weight", comment: "")
-        let stepText =  NSLocalizedString("Metric system, default precision", comment: "")
-        
-        let formStep = self.heightWeightFormStepExample(identifier:stepIdentifier, answerFormat:weightAnswerFormat, title:title, text:stepText)
-        
-        return formStep
-    }
-    
-    static var weightMetricSystemLowPrecisionExample: ORKFormStep {
-        let stepIdentifier = String(describing: Identifier.weightQuestionFormStep3)
-        let weightAnswerFormat = ORKAnswerFormat.weightAnswerFormat(with: ORKMeasurementSystem.metric, numericPrecision: ORKNumericPrecision.low, minimumValue: ORKDoubleDefaultValue, maximumValue: ORKDoubleDefaultValue, defaultValue: ORKDoubleDefaultValue)
-        let title = NSLocalizedString("Weight", comment: "")
-        let stepText =  NSLocalizedString("Metric system, low precision", comment: "")
-        
-        let formStep = self.heightWeightFormStepExample(identifier:stepIdentifier, answerFormat:weightAnswerFormat, title:title, text:stepText)
-        
-        return formStep
-    }
-    
-    static var weightMetricSystemHighPrecisionExample: ORKFormStep {
-        let stepIdentifier = String(describing: Identifier.weightQuestionFormStep4)
-        let weightAnswerFormat = ORKAnswerFormat.weightAnswerFormat(with: ORKMeasurementSystem.metric, numericPrecision: ORKNumericPrecision.high, minimumValue: ORKDoubleDefaultValue, maximumValue: ORKDoubleDefaultValue, defaultValue: ORKDoubleDefaultValue)
-        let title = NSLocalizedString("Weight", comment: "")
-        let stepText =  NSLocalizedString("Metric system, high precision", comment: "")
-        
-        let formStep = self.heightWeightFormStepExample(identifier:stepIdentifier, answerFormat:weightAnswerFormat, title:title, text:stepText)
-        
-        return formStep
-    }
-    
-    static var weightUSCSystemExample: ORKFormStep {
-        let stepIdentifier = String(describing: Identifier.weightQuestionFormStep5)
-        let weightAnswerFormat = ORKAnswerFormat.weightAnswerFormat(with: .USC)
-        let title = NSLocalizedString("Weight", comment: "")
-        let stepText =  NSLocalizedString("USC system, default precision", comment: "")
-        
-        let formStep = self.heightWeightFormStepExample(identifier:stepIdentifier, answerFormat:weightAnswerFormat, title:title, text:stepText)
-        
-        return formStep
-    }
-    
-    static var weightUSCSystemHighPrecisionExample: ORKFormStep {
-        let stepIdentifier = String(describing: Identifier.weightQuestionFormStep6)
-        let weightAnswerFormat = ORKAnswerFormat.weightAnswerFormat(with: ORKMeasurementSystem.USC, numericPrecision: ORKNumericPrecision.high, minimumValue: ORKDoubleDefaultValue, maximumValue: ORKDoubleDefaultValue, defaultValue: ORKDoubleDefaultValue)
-        let title = NSLocalizedString("Weight", comment: "")
-        let stepText =  NSLocalizedString("USC system, high precision", comment: "")
-        
-        let formStep = self.heightWeightFormStepExample(identifier:stepIdentifier, answerFormat:weightAnswerFormat, title:title, text:stepText)
-        
-        return formStep
-    }
-    
-    static var weightHealthKitBodyMassExample: ORKFormStep {
-        let stepIdentifier = String(describing: Identifier.weightQuestionFormStep7)
-        let weightAnswerFormat = ORKHealthKitQuantityTypeAnswerFormat(quantityType: HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.bodyMass)!, unit: HKUnit.gramUnit(with: .kilo), style: .decimal)
-        let title = NSLocalizedString("Weight", comment: "")
-        let stepText =  NSLocalizedString("HealthKit, body mass", comment: "")
-        
-        let formStep = self.heightWeightFormStepExample(identifier:stepIdentifier, answerFormat:weightAnswerFormat, title:title, text:stepText)
-        
-        return formStep
-    }
-    
-    static var heartRateExample: ORKFormStep {
-        let heartRateType = HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.heartRate)!
-        let heartRateAnswerFormat = ORKHealthKitQuantityTypeAnswerFormat(quantityType: heartRateType,
-                                                                         unit: nil,
-                                                                         style: .decimal)
-        
-        let formItemSectionHeader = ORKFormItem(sectionTitle: String(describing: TaskListRowStrings.exampleHeartRateQuestion))
-        let heartRateFormItem = ORKFormItem(identifier: String(describing: Identifier.healthQuantityFormItem), 
-                                            text: nil, 
-                                            answerFormat:heartRateAnswerFormat)
-        
-        let heartRateFormStep = ORKFormStep(identifier: String(describing: Identifier.healthQuantityFormStep1), 
-                                            title: NSLocalizedString("Heart Rate", comment: ""),
-                                            text: TaskListRowStrings.exampleDetailText)
-        heartRateFormStep.formItems = [formItemSectionHeader, heartRateFormItem]
-        
-        return heartRateFormStep
-    }
-    
-    static var bloodTypeExample: ORKFormStep {
-        let bloodType = HKCharacteristicType.characteristicType(forIdentifier: HKCharacteristicTypeIdentifier.bloodType)!
-        let bloodTypeAnswerFormat = ORKHealthKitCharacteristicTypeAnswerFormat(characteristicType: bloodType)
-        
-        let formItemSectionHeader = ORKFormItem(sectionTitle: String(describing: TaskListRowStrings.exampleBloodTypeQuestion))
-        let bloodTypeFormItem = ORKFormItem(identifier: String(describing: Identifier.healthQuantityFormItem),
-                                            text: String(describing: TaskListRowStrings.exampleTapHereText),
-                                            answerFormat: bloodTypeAnswerFormat)
-        
-        let bloodTypeFormStep = ORKFormStep(identifier: String(describing: Identifier.healthQuantityFormStep2),
-                                            title: NSLocalizedString("Blood Type", comment: ""),
-                                            text: TaskListRowStrings.exampleDetailText)
-        bloodTypeFormStep.formItems = [formItemSectionHeader, bloodTypeFormItem]
-        
-        return bloodTypeFormStep
     }
     
     static var imageChoiceExample: ORKFormStep {
@@ -251,8 +257,8 @@ enum TaskListRowSteps {
         let textAnswerFormat = ORKTextAnswerFormat()
         
         let sectionHeaderFormItem = ORKFormItem(sectionTitle: "What is your name?")
-        let textAnswerFormItem = ORKFormItem(identifier: String(describing: Identifier.textQuestionFormItem), 
-                                             text: TaskListRowStrings.exampleTapHereText,
+        let textAnswerFormItem = ORKFormItem(identifier: String(describing: Identifier.textQuestionFormItem),
+                                             text:  "What is your name?",
                                              answerFormat: textAnswerFormat)
         
         let textAnswerFormStep = ORKFormStep(identifier: String(describing: Identifier.textQuestionFormStep),
@@ -263,58 +269,101 @@ enum TaskListRowSteps {
         return textAnswerFormStep
     }
     
-    static var decimalExample: ORKFormStep {
-        let localizedQuestionStep1AnswerFormatUnit = NSLocalizedString("Your unit", comment: "")
-        let decimalAnswerFormat = ORKAnswerFormat.decimalAnswerFormat(withUnit: localizedQuestionStep1AnswerFormatUnit)
+    static var textChoiceExample: ORKFormStep {
+        let textChoices: [ORKTextChoice] = [
+            ORKTextChoice(text: "choice 1", detailText: "detail 1", value: 1 as NSNumber, exclusive: false),
+            ORKTextChoice(text: "choice 2", detailText: "detail 2", value: 2 as NSNumber, exclusive: false),
+            ORKTextChoice(text: "choice 3", detailText: "detail 3", value: 3 as NSNumber, exclusive: false),
+            ORKTextChoice(text: "choice 4", detailText: "detail 4", value: 4 as NSNumber, exclusive: false),
+            ORKTextChoice(text: "choice 5", detailText: "detail 5", value: 5 as NSNumber, exclusive: false),
+            ORKTextChoice(text: "choice 6", detailText: "detail 6", value: 6 as NSNumber, exclusive: false),
+            ORKTextChoiceOther.choice(withText: "choice 7", detailText: "detail 7", value: "choice 7" as NSString, exclusive: true, textViewPlaceholderText: "enter additional information")
+        ]
         
-        let sectionHeaderFormItem = ORKFormItem(sectionTitle: TaskListRowStrings.exampleQuestionText)
-        let decimalFormItem = ORKFormItem(identifier: String(describing: Identifier.numericFormItem), 
-                                          text: TaskListRowStrings.exampleTapHereText,
-                                          answerFormat: decimalAnswerFormat)
+        let textChoiceQuestion = NSLocalizedString("Select an option below.", comment: "")
+        let textChoiceAnswerFormat = ORKTextChoiceAnswerFormat(style: .singleChoice, textChoices: textChoices)
         
-        let decimalFormStep = ORKFormStep(identifier: String(describing: Identifier.numericQuestionFormStep), 
-                                          title: NSLocalizedString("Numeric", comment: ""),
-                                          text: TaskListRowStrings.exampleDetailText)
-        decimalFormStep.formItems = [sectionHeaderFormItem, decimalFormItem]
+        let textChoiceFormItem = ORKFormItem(identifier: String(describing: Identifier.textChoiceFormItem), text: textChoiceQuestion, answerFormat: textChoiceAnswerFormat)
+        textChoiceFormItem.learnMoreItem = self.learnMoreItemExample
+        let textChoiceFormStep = ORKFormStep(identifier: String(describing: Identifier.textChoiceFormStep), title: "Questionnaire", text: TaskListRowStrings.exampleDetailText)
+        textChoiceFormStep.formItems = [textChoiceFormItem]
         
-        return decimalFormStep
+        return textChoiceFormStep
     }
     
-    static var decimalNoUnitExample: ORKFormStep {
-        let decimalAnswerFormat = ORKAnswerFormat.decimalAnswerFormat(withUnit: nil)
+    static var textChoiceImagesExample: ORKFormStep {
+        let textChoiceOneText = NSLocalizedString("Choice 1", comment: "")
+        let textChoiceTwoText = NSLocalizedString("Choice 2", comment: "")
+        let textChoiceThreeText = NSLocalizedString("Choice 3", comment: "")
         
-        let sectionHeaderFormItem = ORKFormItem(sectionTitle: TaskListRowStrings.exampleQuestionText)
-        let decimalFormItem = ORKFormItem(identifier: String(describing: Identifier.numericFormItem), 
-                                          text: TaskListRowStrings.exampleTapHereText,
-                                          answerFormat: decimalAnswerFormat)
+        // The text to display can be separate from the value coded for each choice:
+        let textChoices = [
+            ORKTextChoice(text: textChoiceOneText, image: UIImage(named: "Face")!, value: "tap 1" as NSString),
+            ORKTextChoice(text: textChoiceTwoText, image: UIImage(named: "Face")!, value: "tap 2" as NSString),
+            ORKTextChoice(text: textChoiceThreeText, image: UIImage(named: "Face")!, value: "tap 3" as NSString)
+        ]
         
-        let decimalFormStep = ORKFormStep(identifier: String(describing: Identifier.numericNoUnitQuestionFormStep), 
-                                          title:NSLocalizedString("Numeric", comment: ""),
-                                          text: TaskListRowStrings.exampleDetailText)
-        decimalFormStep.formItems = [sectionHeaderFormItem, decimalFormItem]
+        let textChoiceAnswerFormat = ORKAnswerFormat.choiceAnswerFormat(with: .singleChoice, textChoices: textChoices)
         
-        return decimalFormStep
+        let textChoiceQuestion = NSLocalizedString("Select an option below.", comment: "")
+        let textChoiceFormItem = ORKFormItem(identifier: String(describing: Identifier.textChoiceFormItem), text: textChoiceQuestion, answerFormat: textChoiceAnswerFormat)
+        
+        let textChoiceFormStep = ORKFormStep(identifier: String(describing: Identifier.textChoiceFormStep), title: NSLocalizedString("Text Choice", comment: ""), text: TaskListRowStrings.exampleDetailText)
+        textChoiceFormStep.formItems = [textChoiceFormItem]
+        
+        return textChoiceFormStep
     }
     
-    static var decimalWithDisplayUnitExample: ORKFormStep {
-        let decimalAnswerFormat = ORKNumericAnswerFormat(style: .decimal,
-                                                         unit: "weeks",
-                                                         displayUnit: "semanas",
-                                                         minimum: nil,
-                                                         maximum: nil,
-                                                         maximumFractionDigits: 1)
+    static var textMultiLineAnswerExample: ORKFormStep {
+        let textAnswerFormat = ORKTextAnswerFormat()
+        textAnswerFormat.multipleLines = true
+        textAnswerFormat.maximumLength = 280
         
-        let sectionHeaderFormItem = ORKFormItem(sectionTitle: TaskListRowStrings.exampleQuestionText)
-        let decimalFormItem = ORKFormItem(identifier: String(describing: Identifier.numericFormItem), 
-                                          text: TaskListRowStrings.exampleTapHereText,
-                                          answerFormat: decimalAnswerFormat)
+        let textAnswerFormItem = ORKFormItem(identifier: String(describing: Identifier.textQuestionFormItem),
+                                             text: "What is your name?",
+                                             answerFormat: textAnswerFormat)
         
-        let decimalFormStep = ORKFormStep(identifier: String(describing: Identifier.numericDisplayUnitQuestionFormStep), 
-                                          title: NSLocalizedString("Numeric with Display Unit", comment: ""),
-                                          text: TaskListRowStrings.exampleDetailText)
-        decimalFormStep.formItems = [sectionHeaderFormItem, decimalFormItem]
+        let textAnswerFormStep = ORKFormStep(identifier: String(describing: Identifier.textQuestionFormStep),
+                                             title: NSLocalizedString("Text", comment: ""),
+                                             text: TaskListRowStrings.exampleDetailText)
+        textAnswerFormStep.formItems = [textAnswerFormItem]
         
-        return decimalFormStep
+        return textAnswerFormStep
+    }
+    
+    static var timeIntervalExample: ORKFormStep {
+        /*
+            The time interval answer format is constrained to entering a time
+            less than 24 hours and in steps of minutes. For times that don't fit
+            these restrictions, use another mode of data entry.
+        */
+        let timeIntervalAnswerFormat = ORKAnswerFormat.timeIntervalAnswerFormat()
+        
+        let formItemSectionHeader = self.formItemSectionHeaderExample
+        let timeIntervalFormItem = ORKFormItem(identifier: String(describing: Identifier.timeIntervalFormItem), text: TaskListRowStrings.exampleTapHereText, answerFormat: timeIntervalAnswerFormat)
+        
+        let timeIntervalFormStep = ORKFormStep(identifier: String(describing: Identifier.timeIntervalFormStep), title: NSLocalizedString("Time Interval", comment: ""), text: TaskListRowStrings.exampleDetailText)
+        timeIntervalFormStep.formItems = [formItemSectionHeader, timeIntervalFormItem]
+        
+        return timeIntervalFormStep
+    }
+    
+    static var timeOfDayExample: ORKFormStep {
+        /*
+        Because we don't specify a default, the picker will default to the
+        time the step is presented. For questions like "What time do you have
+        breakfast?", it would make sense to set the default on the answer
+        format.
+        */
+        let timeOfDayAnswerFormat = ORKAnswerFormat.timeOfDayAnswerFormat()
+        
+        let formItemSectionHeader = self.formItemSectionHeaderExample
+        let timeOfDayFormItem = ORKFormItem(identifier: String(describing: Identifier.timeOfDayFormItem), text: TaskListRowStrings.exampleTapHereText, answerFormat: timeOfDayAnswerFormat)
+        
+        let timeIntervalFormStep = ORKFormStep(identifier: String(describing: Identifier.timeOfDayQuestionFormStep), title: NSLocalizedString("Time", comment: ""), text: TaskListRowStrings.exampleDetailText)
+        timeIntervalFormStep.formItems = [formItemSectionHeader, timeOfDayFormItem]
+        
+        return timeIntervalFormStep
     }
     
     static var scaleExample: ORKFormStep {
@@ -334,22 +383,50 @@ enum TaskListRowSteps {
         return scaleFormStep
     }
     
-    static var continuousScaleWithPercentExample: ORKFormStep {
-        // The second step is a scale control that allows continuous movement with a percent formatter.
-        let scaleAnswerFormat = ORKAnswerFormat.continuousScale(withMaximumValue: 1.0,
-                                                                minimumValue: 0.0,
-                                                                defaultValue: 99.0,
-                                                                maximumFractionDigits: 0,
-                                                                vertical: false,
-                                                                maximumValueDescription: nil,
-                                                                minimumValueDescription: nil)
-        scaleAnswerFormat.numberStyle = .percent
+    static var scaleWithTextChoicesExample: ORKFormStep {
+        // The fifth step is a scale control that allows text choices.
+        let textChoices = self.textChoicesExample
+        let scaleAnswerFormat = ORKAnswerFormat.textScale(with: textChoices, defaultIndex: NSIntegerMax, vertical: false)
         
         let scaleFormItem = ORKFormItem(identifier: String(describing: Identifier.scaleFormItem), text: TaskListRowStrings.exampleQuestionText, answerFormat: scaleAnswerFormat)
-        let scaleFormStep = ORKFormStep(identifier: String(describing: Identifier.continuousScaleFormStep), title: NSLocalizedString("Scale", comment: ""), text: NSLocalizedString("Continuous Scale", comment: ""))
+        let scaleFormStep = ORKFormStep(identifier: String(describing: Identifier.textScaleFormStep), title: NSLocalizedString("Scale", comment: ""), text: NSLocalizedString("Text Scale", comment: ""))
         scaleFormStep.formItems = [scaleFormItem]
         
         return scaleFormStep
+    }
+    
+    static var validatedTextExample: ORKFormStep {
+        let urlDomainRegularExpressionPattern = "^(https?:\\/\\/)?([\\da-z\\.-]+)\\.([a-z\\.]{2,6})([\\/\\w \\.-]*)*\\/?$"
+        let urlDomainRegularExpression = try? NSRegularExpression(pattern: urlDomainRegularExpressionPattern)
+        
+        let textAnswerFormat = ORKAnswerFormat.textAnswerFormat(withValidationRegularExpression: urlDomainRegularExpression!, invalidMessage: "Invalid URL: %@")
+        textAnswerFormat.multipleLines = false
+        textAnswerFormat.keyboardType = .URL
+        textAnswerFormat.autocapitalizationType = UITextAutocapitalizationType.none
+        textAnswerFormat.autocorrectionType = UITextAutocorrectionType.no
+        textAnswerFormat.spellCheckingType = UITextSpellCheckingType.no
+        textAnswerFormat.textContentType = UITextContentType.URL
+        
+        let sectionHeaderFormItem = ORKFormItem(sectionTitle: NSLocalizedString("URL", comment: ""))
+        let validatedTextFormItem = ORKFormItem(identifier: String(describing: Identifier.validatedTextFormItem), text: TaskListRowStrings.exampleTapHereText, answerFormat:textAnswerFormat)
+        
+        let validatedTextFormStep = ORKFormStep(identifier: String(describing: Identifier.validatedTextFormStepDomain), title: NSLocalizedString("Validated Text", comment: ""), text: TaskListRowStrings.exampleDetailText)
+        validatedTextFormStep.formItems = [sectionHeaderFormItem, validatedTextFormItem]
+        
+        return validatedTextFormStep
+    }
+    
+    static var valuePickerChoicesExample: ORKFormStep {
+        let textChoices = self.textChoicesExample
+        let valuePickerAnswerFormat = ORKAnswerFormat.valuePickerAnswerFormat(with: textChoices)
+        
+        let sectionHeaderFormItem = self.formItemSectionHeaderExample
+        let valuePickerFormItem = ORKFormItem(identifier: String(describing: Identifier.valuePickerChoiceFormItem), text: TaskListRowStrings.exampleTapHereText, answerFormat: valuePickerAnswerFormat)
+        
+        let valuePickerFormStep = ORKFormStep(identifier: String(describing: Identifier.valuePickerChoiceFormStep), title: NSLocalizedString("Value Picker", comment: ""), text: TaskListRowStrings.exampleDetailText)
+        valuePickerFormStep.formItems = [sectionHeaderFormItem, valuePickerFormItem]
+        
+        return valuePickerFormStep
     }
     
     static var verticalScaleWithPercentExample: ORKFormStep {
@@ -369,35 +446,6 @@ enum TaskListRowSteps {
         return scaleFormStep
     }
     
-    static var continuousVerticalScaleExample: ORKFormStep {
-        // The fourth step is a vertical scale control that allows continuous movement.
-        let scaleAnswerFormat = ORKAnswerFormat.continuousScale(withMaximumValue: 5.0,
-                                                                minimumValue: 1.0,
-                                                                defaultValue: 99.0,
-                                                                maximumFractionDigits: 2,
-                                                                vertical: true,
-                                                                maximumValueDescription: TaskListRowStrings.exampleHighValueText,
-                                                                minimumValueDescription: TaskListRowStrings.exampleLowValueText)
-        
-        let scaleFormItem = ORKFormItem(identifier: String(describing: Identifier.scaleFormItem), text: TaskListRowStrings.exampleQuestionText, answerFormat: scaleAnswerFormat)
-        let scaleFormStep = ORKFormStep(identifier: String(describing: Identifier.continuousVerticalScaleFormStep), title: NSLocalizedString("Scale", comment: ""), text: NSLocalizedString("Continuous Vertical Scale", comment: ""))
-        scaleFormStep.formItems = [scaleFormItem]
-        
-        return scaleFormStep
-    }
-    
-    static var scaleWithTextChoicesExample: ORKFormStep {
-        // The fifth step is a scale control that allows text choices.
-        let textChoices = self.textChoicesExample
-        let scaleAnswerFormat = ORKAnswerFormat.textScale(with: textChoices, defaultIndex: NSIntegerMax, vertical: false)
-        
-        let scaleFormItem = ORKFormItem(identifier: String(describing: Identifier.scaleFormItem), text: TaskListRowStrings.exampleQuestionText, answerFormat: scaleAnswerFormat)
-        let scaleFormStep = ORKFormStep(identifier: String(describing: Identifier.textScaleFormStep), title: NSLocalizedString("Scale", comment: ""), text: NSLocalizedString("Text Scale", comment: ""))
-        scaleFormStep.formItems = [scaleFormItem]
-        
-        return scaleFormStep
-    }
-    
     static var verticalScaleWithTextChoicesExample: ORKFormStep {
         // The sixth step is a vertical scale control that allows text choices.
         let textChoices = self.textChoicesExample
@@ -409,6 +457,85 @@ enum TaskListRowSteps {
         
         return scaleFormStep
     }
+    
+    static var weightExample: ORKFormStep {
+        let stepIdentifier = String(describing: Identifier.weightQuestionFormStep1)
+        let weightAnswerFormat = ORKAnswerFormat.weightAnswerFormat()
+        let title = NSLocalizedString("Weight", comment: "")
+        let stepText =  NSLocalizedString("Local system, default precision", comment: "")
+        
+        let formStep = self.heightWeightFormStepExample(identifier:stepIdentifier, answerFormat:weightAnswerFormat, title:title, text:stepText)
+        
+        return formStep
+    }
+    
+    static var weightHealthKitBodyMassExample: ORKFormStep {
+        let stepIdentifier = String(describing: Identifier.weightQuestionFormStep7)
+        let weightAnswerFormat = ORKHealthKitQuantityTypeAnswerFormat(quantityType: HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.bodyMass)!, unit: HKUnit.gramUnit(with: .kilo), style: .decimal)
+        let title = NSLocalizedString("Weight", comment: "")
+        let stepText =  NSLocalizedString("HealthKit, body mass", comment: "")
+        
+        let formStep = self.heightWeightFormStepExample(identifier:stepIdentifier, answerFormat:weightAnswerFormat, title:title, text:stepText)
+        
+        return formStep
+    }
+    
+    static var weightMetricSystemExample: ORKFormStep {
+        let stepIdentifier = String(describing: Identifier.weightQuestionFormStep2)
+        let weightAnswerFormat = ORKAnswerFormat.weightAnswerFormat(with: .metric)
+        let title = NSLocalizedString("Weight", comment: "")
+        let stepText =  NSLocalizedString("Metric system, default precision", comment: "")
+        
+        let formStep = self.heightWeightFormStepExample(identifier:stepIdentifier, answerFormat:weightAnswerFormat, title:title, text:stepText)
+        
+        return formStep
+    }
+    
+    static var weightMetricSystemHighPrecisionExample: ORKFormStep {
+        let stepIdentifier = String(describing: Identifier.weightQuestionFormStep4)
+        let weightAnswerFormat = ORKAnswerFormat.weightAnswerFormat(with: ORKMeasurementSystem.metric, numericPrecision: ORKNumericPrecision.high, minimumValue: ORKDoubleDefaultValue, maximumValue: ORKDoubleDefaultValue, defaultValue: ORKDoubleDefaultValue)
+        let title = NSLocalizedString("Weight", comment: "")
+        let stepText =  NSLocalizedString("Metric system, high precision", comment: "")
+        
+        let formStep = self.heightWeightFormStepExample(identifier:stepIdentifier, answerFormat:weightAnswerFormat, title:title, text:stepText)
+        
+        return formStep
+    }
+    
+    static var weightMetricSystemLowPrecisionExample: ORKFormStep {
+        let stepIdentifier = String(describing: Identifier.weightQuestionFormStep3)
+        let weightAnswerFormat = ORKAnswerFormat.weightAnswerFormat(with: ORKMeasurementSystem.metric, numericPrecision: ORKNumericPrecision.low, minimumValue: ORKDoubleDefaultValue, maximumValue: ORKDoubleDefaultValue, defaultValue: ORKDoubleDefaultValue)
+        let title = NSLocalizedString("Weight", comment: "")
+        let stepText =  NSLocalizedString("Metric system, low precision", comment: "")
+        
+        let formStep = self.heightWeightFormStepExample(identifier:stepIdentifier, answerFormat:weightAnswerFormat, title:title, text:stepText)
+        
+        return formStep
+    }
+    
+    static var weightUSCSystemExample: ORKFormStep {
+        let stepIdentifier = String(describing: Identifier.weightQuestionFormStep5)
+        let weightAnswerFormat = ORKAnswerFormat.weightAnswerFormat(with: .USC)
+        let title = NSLocalizedString("Weight", comment: "")
+        let stepText =  NSLocalizedString("USC system, default precision", comment: "")
+        
+        let formStep = self.heightWeightFormStepExample(identifier:stepIdentifier, answerFormat:weightAnswerFormat, title:title, text:stepText)
+        
+        return formStep
+    }
+    
+    static var weightUSCSystemHighPrecisionExample: ORKFormStep {
+        let stepIdentifier = String(describing: Identifier.weightQuestionFormStep6)
+        let weightAnswerFormat = ORKAnswerFormat.weightAnswerFormat(with: ORKMeasurementSystem.USC, numericPrecision: ORKNumericPrecision.high, minimumValue: ORKDoubleDefaultValue, maximumValue: ORKDoubleDefaultValue, defaultValue: ORKDoubleDefaultValue)
+        let title = NSLocalizedString("Weight", comment: "")
+        let stepText =  NSLocalizedString("USC system, high precision", comment: "")
+        
+        let formStep = self.heightWeightFormStepExample(identifier:stepIdentifier, answerFormat:weightAnswerFormat, title:title, text:stepText)
+        
+        return formStep
+    }
+    
+    // MARK: - ORKReviewStep
     
     static var embeddedReviewStepExample: ORKReviewStep {
         let embeddedReviewStep = ORKReviewStep.embeddedReviewStep(withIdentifier: String(describing: Identifier.embeddedReviewStep))
@@ -422,6 +549,8 @@ enum TaskListRowSteps {
         
         return embeddedReviewStep
     }
+    
+    // MARK: - Helpers
     
     private static var formItemSectionHeaderExample: ORKFormItem {
         return ORKFormItem(sectionTitle: TaskListRowStrings.exampleQuestionText)

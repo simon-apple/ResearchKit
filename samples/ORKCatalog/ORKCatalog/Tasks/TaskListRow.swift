@@ -1482,12 +1482,8 @@ enum TaskListRow: Int, CustomStringConvertible {
     format.
     */
     private var textQuestionTask: ORKTask {
-        let answerFormat = ORKAnswerFormat.textAnswerFormat()
-        answerFormat.multipleLines = true
-        answerFormat.maximumLength = 280
-        let step = ORKQuestionStep(identifier: String(describing: Identifier.textQuestionStep), title: NSLocalizedString("Text", comment: ""), question: exampleQuestionText, answer: answerFormat)
-        step.text = exampleDetailText
-        return ORKOrderedTask(identifier: String(describing: Identifier.textQuestionTask), steps: [step])
+        let textFormStep = TaskListRowSteps.textMultiLineAnswerExample
+        return ORKOrderedTask(identifier: String(describing: Identifier.textQuestionTask), steps: [textFormStep])
     }
     
     
@@ -1529,23 +1525,9 @@ enum TaskListRow: Int, CustomStringConvertible {
     }
 
     private var textChoiceQuestionWithImageTask: ORKTask {
-        let textChoiceOneText = NSLocalizedString("Choice 1", comment: "")
-        let textChoiceTwoText = NSLocalizedString("Choice 2", comment: "")
-        let textChoiceThreeText = NSLocalizedString("Choice 3", comment: "")
-        
-        // The text to display can be separate from the value coded for each choice:
-        let textChoices = [
-            ORKTextChoice(text: textChoiceOneText, image: UIImage(named: "Face")!, value: "tap 1" as NSString),
-            ORKTextChoice(text: textChoiceTwoText, image: UIImage(named: "Face")!, value: "tap 2" as NSString),
-            ORKTextChoice(text: textChoiceThreeText, image: UIImage(named: "Face")!, value: "tap 3" as NSString)
-        ]
-        
-        let answerFormat = ORKAnswerFormat.choiceAnswerFormat(with: .singleChoice, textChoices: textChoices)
-        let questionStep = ORKQuestionStep(identifier: String(describing: Identifier.textChoiceQuestionWithImageStep), title: NSLocalizedString("Text Choice", comment: ""), question: exampleQuestionText, answer: answerFormat)
-        
-        questionStep.text = exampleDetailText
-        
-        return ORKOrderedTask(identifier: String(describing: Identifier.textChoiceQuestionWithImageTask), steps: [questionStep])
+        let textChoiceFormStep = TaskListRowSteps.textChoiceImagesExample
+
+        return ORKOrderedTask(identifier: String(describing: Identifier.textChoiceQuestionWithImageTask), steps: [textChoiceFormStep])
     }
     
     /**
@@ -1554,35 +1536,16 @@ enum TaskListRow: Int, CustomStringConvertible {
         commute?"
     */
     private var timeIntervalQuestionTask: ORKTask {
-        /*
-            The time interval answer format is constrained to entering a time
-            less than 24 hours and in steps of minutes. For times that don't fit
-            these restrictions, use another mode of data entry.
-        */
-        let answerFormat = ORKAnswerFormat.timeIntervalAnswerFormat()
+        let timeIntervalFormStep = TaskListRowSteps.timeIntervalExample
         
-        let step = ORKQuestionStep(identifier: String(describing: Identifier.timeIntervalQuestionStep), title: NSLocalizedString("Time Interval", comment: ""), question: exampleQuestionText, answer: answerFormat)
-        
-        step.text = exampleDetailText
-        
-        return ORKOrderedTask(identifier: String(describing: Identifier.timeIntervalQuestionTask), steps: [step])
+        return ORKOrderedTask(identifier: String(describing: Identifier.timeIntervalQuestionTask), steps: [timeIntervalFormStep])
     }
 
     /// This task demonstrates a question asking for a time of day.
     private var timeOfDayQuestionTask: ORKTask {
-        /*
-        Because we don't specify a default, the picker will default to the
-        time the step is presented. For questions like "What time do you have
-        breakfast?", it would make sense to set the default on the answer
-        format.
-        */
-        let answerFormat = ORKAnswerFormat.timeOfDayAnswerFormat()
+        let timeOfDayFormStep = TaskListRowSteps.timeOfDayExample
         
-        let questionStep = ORKQuestionStep(identifier: String(describing: Identifier.timeOfDayQuestionStep), title: NSLocalizedString("Time", comment: ""), question: exampleQuestionText, answer: answerFormat)
-        
-        questionStep.text = exampleDetailText
-        
-        return ORKOrderedTask(identifier: String(describing: Identifier.timeOfDayQuestionTask), steps: [questionStep])
+        return ORKOrderedTask(identifier: String(describing: Identifier.timeOfDayQuestionTask), steps: [timeOfDayFormStep])
     }
 
     /**
@@ -1591,24 +1554,9 @@ enum TaskListRow: Int, CustomStringConvertible {
         which can serve a similar purpose.
     */
     private var valuePickerChoiceQuestionTask: ORKTask {
-        let textChoiceOneText = NSLocalizedString("Choice 1", comment: "")
-        let textChoiceTwoText = NSLocalizedString("Choice 2", comment: "")
-        let textChoiceThreeText = NSLocalizedString("Choice 3", comment: "")
+        let valuePickerFormStep = TaskListRowSteps.valuePickerChoicesExample
         
-        // The text to display can be separate from the value coded for each choice:
-        let textChoices = [
-            ORKTextChoice(text: textChoiceOneText, value: "choice_1" as NSString),
-            ORKTextChoice(text: textChoiceTwoText, value: "choice_2" as NSString),
-            ORKTextChoice(text: textChoiceThreeText, value: "choice_3" as NSString)
-        ]
-        
-        let answerFormat = ORKAnswerFormat.valuePickerAnswerFormat(with: textChoices)
-        
-        let questionStep = ORKQuestionStep(identifier: String(describing: Identifier.valuePickerChoiceQuestionStep), title: NSLocalizedString("Value Picker", comment: ""), question: exampleQuestionText, answer: answerFormat)
-        
-        questionStep.text = NSLocalizedString("Text Value picker", comment: "")
-        
-        return ORKOrderedTask(identifier: String(describing: Identifier.valuePickerChoiceQuestionTask), steps: [questionStep])
+        return ORKOrderedTask(identifier: String(describing: Identifier.valuePickerChoiceQuestionTask), steps: [valuePickerFormStep])
     }
 
     /**
@@ -1617,27 +1565,10 @@ enum TaskListRow: Int, CustomStringConvertible {
      format.
      */
     private var validatedTextQuestionTask: ORKTask {
-        let emailDomainRegularExpressionPattern =  "^[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$"
-        let emailDomainRegularExpression = try? NSRegularExpression(pattern: emailDomainRegularExpressionPattern)
-        let emailAnswerFormatDomain = ORKAnswerFormat.textAnswerFormat(withValidationRegularExpression: emailDomainRegularExpression!, invalidMessage: "Invalid Email: %@")
+        let validatedEmailFormStep = TaskListRowSteps.emailExample
+        let validatedTextFormStep = TaskListRowSteps.validatedTextExample
         
-        let stepEmail = ORKQuestionStep(identifier: String(describing: Identifier.validatedTextQuestionStepEmail), title: NSLocalizedString("Validated Text", comment: ""), question: NSLocalizedString("Email", comment: ""), answer: emailAnswerFormatDomain)
-        stepEmail.text = exampleDetailText
-        
-        let urlDomainRegularExpressionPattern = "^(https?:\\/\\/)?([\\da-z\\.-]+)\\.([a-z\\.]{2,6})([\\/\\w \\.-]*)*\\/?$"
-        let urlDomainRegularExpression = try? NSRegularExpression(pattern: urlDomainRegularExpressionPattern)
-        let answerFormatDomain = ORKAnswerFormat.textAnswerFormat(withValidationRegularExpression: urlDomainRegularExpression!, invalidMessage: "Invalid URL: %@")
-
-        answerFormatDomain.multipleLines = false
-        answerFormatDomain.keyboardType = .URL
-        answerFormatDomain.autocapitalizationType = UITextAutocapitalizationType.none
-        answerFormatDomain.autocorrectionType = UITextAutocorrectionType.no
-        answerFormatDomain.spellCheckingType = UITextSpellCheckingType.no
-        answerFormatDomain.textContentType = UITextContentType.URL
-        let stepDomain = ORKQuestionStep(identifier: String(describing: Identifier.validatedTextQuestionStepDomain), title: NSLocalizedString("Validated Text", comment: ""), question: NSLocalizedString("URL", comment: ""), answer: answerFormatDomain)
-        stepDomain.text = exampleDetailText
-        
-        return ORKOrderedTask(identifier: String(describing: Identifier.validatedTextQuestionTask), steps: [stepEmail, stepDomain])
+        return ORKOrderedTask(identifier: String(describing: Identifier.validatedTextQuestionTask), steps: [validatedEmailFormStep, validatedTextFormStep])
     }
     
     /// This task presents the image capture step in an ordered task.
@@ -3139,21 +3070,25 @@ enum Identifier {
     case textChoiceQuestionWithImageTask
 
     // Task with an example of time of day entry.
+    case timeOfDayFormItem
+    case timeOfDayQuestionFormStep
     case timeOfDayQuestionTask
-    case timeOfDayQuestionStep
 
     // Task with an example of time interval entry.
+    case timeIntervalFormItem
+    case timeIntervalFormStep
     case timeIntervalQuestionTask
-    case timeIntervalQuestionStep
 
     // Task with a value picker.
+    case valuePickerChoiceFormItem
+    case valuePickerChoiceFormStep
     case valuePickerChoiceQuestionTask
-    case valuePickerChoiceQuestionStep
     
     // Task with an example of validated text entry.
+    case validatedTextFormItem
+    case validatedTextFormStepDomain
+    case validatedTextFormStepEmail
     case validatedTextQuestionTask
-    case validatedTextQuestionStepEmail
-    case validatedTextQuestionStepDomain
     
     // Image capture task specific identifiers.
     case imageCaptureTask
