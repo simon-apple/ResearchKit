@@ -191,8 +191,6 @@ enum TaskListRow: Int, CustomStringConvertible {
                     .imageChoiceQuestion,
                     .locationQuestion,
                     .numericQuestion,
-                    .requestPermissions,
-                    .PDFViewer,
                     .scaleQuestion,
                     .textChoiceQuestion,
                     .textChoiceQuestionWithImageTask,
@@ -201,73 +199,76 @@ enum TaskListRow: Int, CustomStringConvertible {
                     .timeOfDayQuestion,
                     .validatedTextQuestion,
                     .valuePickerChoiceQuestion,
-                    .videoCapture,
-                    .wait,
                     .weightQuestion,
                 ]),
             TaskListRowSection(title: "Onboarding", rows:
                 [
-                    .eligibilityTask,
                     .accountCreation,
+                    .biometricPasscode,
+                    .consentDoc,
+                    .consentTask,
+                    .eligibilityTask,
                     .login,
                     .passcode,
-                    .biometricPasscode,
-                    .consentTask,
-                    .consentDoc,
                     .review
+                ]),
+            TaskListRowSection(title: "Miscellaneous", rows:
+                [
+                    .frontFacingCamera,
+                    .PDFViewer,
+                    .requestPermissions,
+                    .videoCapture,
+                    .videoInstruction,
+                    .wait,
+                    .webView
                 ]),
             TaskListRowSection(title: "Active Tasks", rows:
                 [
                     .audio,
                     .amslerGrid,
-                    .sixMinuteWalk,
-                    .tecumsehCubeTest,
+                    .dBHLToneAudiometry,
                     .fitness,
                     .holePegTest,
+                    .kneeRangeOfMotion,
+                    .normalizedReactionTime,
                     .psat,
                     .reactionTime,
-                    .normalizedReactionTime,
                     .shortWalk,
+                    .shoulderRangeOfMotion,
+                    .sixMinuteWalk,
                     .spatialSpanMemory,
-                    .speechRecognition,
                     .speechInNoise,
+                    .speechRecognition,
+                    .splMeter,
                     .stroop,
+                    .tecumsehCubeTest,
                     .timedWalkWithTurnAround,
                     .toneAudiometry,
-                    .dBHLToneAudiometry,
-                    .splMeter,
                     .towerOfHanoi,
                     .tremorTest,
                     .twoFingerTappingInterval,
                     .walkBackAndForth,
-                    .kneeRangeOfMotion,
-                    .shoulderRangeOfMotion,
-                ]),
-            TaskListRowSection(title: "Miscellaneous", rows:
-                [
-                    .videoInstruction,
-                    .webView
                 ])]
         
             #if RK_APPLE_INTERNAL
             let internalSections = [
             TaskListRowSection(title: "Internal", rows:
                 [
-                    .platterUIQuestion,
-                    .predefinedSpeechInNoiseTask,
-                    .predefinedAVJournalingTask,
-                    .predefinedTinnitusTask,
-                    .textQuestionPIIScrubbing,
                     .ble,
-                    .newdBHLToneAudiometryTask,
+                    .booleanConditionalFormTask,
                     .customStepTask,
-                    .studyPromoTask,
-                    .studySignPostStep,
                     .colorChoiceQuestion,
                     .familyHistory,
                     .familyHistoryReviewTask,
                     .longHeaderTask,
-                    .booleanConditionalFormTask
+                    .newdBHLToneAudiometryTask,
+                    .platterUIQuestion,
+                    .predefinedAVJournalingTask,
+                    .predefinedSpeechInNoiseTask,
+                    .predefinedTinnitusTask,
+                    .studyPromoTask,
+                    .studySignPostStep,
+                    .textQuestionPIIScrubbing,
                 ])]
             defaultSections = (defaultSections + internalSections)
             #endif
