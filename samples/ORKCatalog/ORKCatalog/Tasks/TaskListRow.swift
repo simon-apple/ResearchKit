@@ -169,42 +169,41 @@ enum TaskListRow: Int, CustomStringConvertible {
         var defaultSections = [
             TaskListRowSection(title: "Surveys", rows:
                 [
-                    .form,
-                    .groupedForm,
-                    .survey,
                     .dontknowSurvey,
+                    .groupedForm,
+                    .form,
+                    .survey,
                     .surveyWithMultipleOptions
                 ]),
             TaskListRowSection(title: "Survey Questions", rows:
                 [
-                    .booleanQuestion,
-                    .customBooleanQuestion,
-                    .dateQuestion,
-                    .dateTimeQuestion,
-                    .date3DayLimitQuestionTask,
-                    .heightQuestion,
-                    .weightQuestion,
                     .ageQuestion,
+                    .booleanQuestion,
+                    .colorChoiceQuestion,
+                    .customBooleanQuestion,
+                    .dateTimeQuestion,
+                    .dateQuestion,
+                    .date3DayLimitQuestionTask,
+                    .frontFacingCamera,
                     .healthQuantity,
+                    .heightQuestion,
+                    .imageCapture,
                     .imageChoiceQuestion,
                     .locationQuestion,
                     .numericQuestion,
+                    .requestPermissions,
+                    .PDFViewer,
                     .scaleQuestion,
-                    .textQuestion,
                     .textChoiceQuestion,
                     .textChoiceQuestionWithImageTask,
-                    .colorChoiceQuestion,
+                    .textQuestion,
                     .timeIntervalQuestion,
                     .timeOfDayQuestion,
-                    .valuePickerChoiceQuestion,
                     .validatedTextQuestion,
-                    .imageCapture,
+                    .valuePickerChoiceQuestion,
                     .videoCapture,
-                    .frontFacingCamera,
                     .wait,
-                    .PDFViewer,
-                    .requestPermissions,
-                    .familyHistory
+                    .weightQuestion,
                 ]),
             TaskListRowSection(title: "Onboarding", rows:
                 [
@@ -2143,7 +2142,6 @@ enum TaskListRow: Int, CustomStringConvertible {
         return ORKOrderedTask(identifier: String(describing: Identifier.videoInstructionTask), steps: [frontFacingCameraStep])
     }
     
-    
     /// This task presents a web view step
     private var webView: ORKTask {
         let webViewStep = ORKWebViewStep(identifier: String(describing: Identifier.webViewStep), html: TaskListRowStrings.exampleHtml)
@@ -2152,7 +2150,6 @@ enum TaskListRow: Int, CustomStringConvertible {
         return ORKOrderedTask(identifier: String(describing: Identifier.webViewTask), steps: [webViewStep])
     }
 
-    
     #if RK_APPLE_INTERNAL
     private var platterQuestionTask: ORKTask {
         
