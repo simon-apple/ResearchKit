@@ -22,6 +22,7 @@
 		3ED967B81AC13D37007E2D83 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3ED967BA1AC13D37007E2D83 /* Localizable.strings */; };
 		51BD8FC729D3AE2E0001D54E /* Sentence1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 51BD8FC629D3AE2E0001D54E /* Sentence1.wav */; };
 		51F210EF2B4634FC0072B536 /* TaskListRowFormSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51F210EE2B4634FC0072B536 /* TaskListRowFormSteps.swift */; };
+		51F210FE2B49D04F0072B536 /* TaskListRowConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51F210FD2B49D04F0072B536 /* TaskListRowConstants.swift */; };
 		5D1CE45123FB1DFE004CB416 /* List1 in Resources */ = {isa = PBXBuildFile; fileRef = 5D1CE45023FB1DFE004CB416 /* List1 */; };
 		5D3800B52459F4FF00E7D2BD /* PracticeList in Resources */ = {isa = PBXBuildFile; fileRef = 5D3800B42459F4FF00E7D2BD /* PracticeList */; };
 		5DB068EA25AE5940000F3170 /* TinnitusSounds1 in Resources */ = {isa = PBXBuildFile; fileRef = 5DB068E925AE5940000F3170 /* TinnitusSounds1 */; };
@@ -149,6 +150,7 @@
 		5116D0BF2677FB780010FAB1 /* ResearchKit-Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "ResearchKit-Shared.xcconfig"; sourceTree = "<group>"; };
 		51BD8FC629D3AE2E0001D54E /* Sentence1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = Sentence1.wav; path = List1/Sentence1.wav; sourceTree = "<group>"; };
 		51F210EE2B4634FC0072B536 /* TaskListRowFormSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListRowFormSteps.swift; sourceTree = "<group>"; };
+		51F210FD2B49D04F0072B536 /* TaskListRowConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListRowConstants.swift; sourceTree = "<group>"; };
 		5D1CE45023FB1DFE004CB416 /* List1 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = List1; sourceTree = "<group>"; };
 		5D3800B42459F4FF00E7D2BD /* PracticeList */ = {isa = PBXFileReference; lastKnownFileType = folder; path = PracticeList; sourceTree = "<group>"; };
 		5DB068E925AE5940000F3170 /* TinnitusSounds1 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = TinnitusSounds1; sourceTree = "<group>"; };
@@ -232,6 +234,7 @@
 		3E838B881ABFD0E5006AE2D4 /* Presenting Tasks */ = {
 			isa = PBXGroup;
 			children = (
+				51F210FC2B49D02C0072B536 /* Task List Row Helpers */,
 				BC9A27321B82740D00BDA84D /* TaskListRow.swift */,
 				0B270D6B28D147AC0072BEA1 /* StudyPromoViewController.swift */,
 				BC9A27331B82740D00BDA84D /* TaskListViewController.swift */,
@@ -254,6 +257,14 @@
 				BC9A273B1B82741900BDA84D /* TextImageTableViewCell.swift */,
 			);
 			name = "Displaying Results";
+			sourceTree = "<group>";
+		};
+		51F210FC2B49D02C0072B536 /* Task List Row Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				51F210FD2B49D04F0072B536 /* TaskListRowConstants.swift */,
+			);
+			name = "Task List Row Helpers";
 			sourceTree = "<group>";
 		};
 		869230B51AAA890A00BFE11B = {
@@ -569,6 +580,7 @@
 				0B58E51C2981D293007263DA /* UserDefaultKeys.swift in Sources */,
 				0BE9D51C2943F42600DA0625 /* SettingsView.swift in Sources */,
 				0B270D6C28D147AC0072BEA1 /* StudyPromoViewController.swift in Sources */,
+				51F210FE2B49D04F0072B536 /* TaskListRowConstants.swift in Sources */,
 				BC9A273E1B82741900BDA84D /* ResultViewController.swift in Sources */,
 				0B6CB32728B577640092E993 /* Bundle+Extensions.swift in Sources */,
 				BC9A273D1B82741900BDA84D /* ResultTableViewProviders.swift in Sources */,
