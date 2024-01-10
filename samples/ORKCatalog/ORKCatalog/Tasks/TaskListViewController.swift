@@ -288,15 +288,15 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
     
     func taskViewController(_ taskViewController: ORKTaskViewController, stepViewControllerWillAppear stepViewController: ORKStepViewController) {
         // Example data processing for the wait step.
-        if stepViewController.step?.identifier == "WaitStepIndeterminate" ||
-            stepViewController.step?.identifier == "WaitStep" ||
-            stepViewController.step?.identifier == "LoginWaitStep" {
+        if stepViewController.step?.identifier == "waitStepIndeterminate" ||
+            stepViewController.step?.identifier == "waitStep" ||
+            stepViewController.step?.identifier == "loginWaitStep" {
             delay(5.0, closure: { () -> Void in
                 if let stepViewController = stepViewController as? ORKWaitStepViewController {
                     stepViewController.goForward()
                 }
             })
-        } else if stepViewController.step?.identifier == "WaitStepDeterminate" {
+        } else if stepViewController.step?.identifier == "waitStepDeterminate" {
             delay(1.0, closure: { () -> Void in
                 if let stepViewController = stepViewController as? ORKWaitStepViewController {
                     self.waitStepViewController = stepViewController
