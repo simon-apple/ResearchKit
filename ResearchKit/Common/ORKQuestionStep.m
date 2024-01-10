@@ -98,8 +98,18 @@ ORKQuestionStepPresentationStyle const ORKQuestionStepPresentationStylePlatter =
 }
 
 + (ORKFormStep *)makeFormStep:(ORKQuestionStep *)questionStep {
-    ORKFormStep *formStep = [[ORKFormStep alloc] initWithIdentifier:questionStep.identifier title:questionStep.title text:questionStep.text];
-    ORKFormItem *item = [[ORKFormItem alloc] initWithIdentifier:questionStep.identifier text:questionStep.question detailText:questionStep.detailText learnMoreItem:questionStep.learnMoreItem showsProgress:questionStep.showsProgress answerFormat:questionStep.answerFormat tagText:questionStep.tagText optional:questionStep.optional];
+    ORKFormStep *formStep = [[ORKFormStep alloc] initWithIdentifier:questionStep.identifier 
+                                                              title:questionStep.title
+                                                               text:questionStep.text];
+    
+    ORKFormItem *item = [[ORKFormItem alloc] initWithIdentifier:questionStep.identifier 
+                                                           text:questionStep.question
+                                                     detailText:questionStep.detailText
+                                                  learnMoreItem:questionStep.learnMoreItem
+                                                  showsProgress:questionStep.showsProgress
+                                                   answerFormat:questionStep.answerFormat
+                                                        tagText:questionStep.tagText
+                                                       optional:questionStep.optional];
     item.placeholder = questionStep.placeholder;
     formStep.formItems = @[item];
     return  formStep;
