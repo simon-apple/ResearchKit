@@ -134,6 +134,11 @@ static const CGFloat TopIndexOutOfBounds = 0.0;
     NSUInteger topIndex = [sortedKeys indexOfObjectPassingTest:^BOOL(NSNumber *obj, NSUInteger idx, BOOL * _Nonnull stop) {
         return [obj compare:volume] == NSOrderedDescending;
     }];
+    
+    // if topIndex is out bounds -- lets return 0
+    if (topIndex >= sortedKeys.count) {
+        return TopIndexOutOfBounds;
+    }
 
     // The smallest volume key that is bigger than systemVolume
     NSNumber *topKey = [sortedKeys objectAtIndex:topIndex];
