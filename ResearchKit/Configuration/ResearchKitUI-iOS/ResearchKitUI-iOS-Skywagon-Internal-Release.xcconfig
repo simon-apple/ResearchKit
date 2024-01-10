@@ -1,0 +1,5 @@
+//
+// ResearchKitUI-iOS-Skywagon-Internal-Release.xcconfig
+//
+// apple-internal
+#include "ResearchKitUI-iOS-Shared.xcconfig"

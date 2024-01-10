@@ -1,7 +1,7 @@
 //
 // ResearchKit-Skywagon-Stable.xcconfig
 //
-
+// apple-internal
 #include "ResearchKit-Shared.xcconfig"
 
 RUN_CLANG_STATIC_ANALYZER = YES

@@ -69,6 +69,8 @@ final class ORKFormStepViewControllerConditionalFormItemsTests: XCTestCase {
         }
     }
     
+
+#if RK_APPLE_INTERNAL
     //rdar://110665165 ([ConditionalFormItems] testDiffableDataSource invalidated due to synchronous call)
     /*
     func testDiffableDataSource() throws {
@@ -125,6 +127,7 @@ final class ORKFormStepViewControllerConditionalFormItemsTests: XCTestCase {
         }
     }
     */
+#endif
     
     func testConditionalFormItemsAccessors() throws {
         let formStepViewController = ORKFormStepViewController(step: FormStepTestUtilities.conditionalFormStep())
@@ -223,9 +226,9 @@ final class ORKFormStepViewControllerConditionalFormItemsTests: XCTestCase {
         let mainTaskVC = ORKTaskViewController(task: mainTask, taskRun: nil)
         
         func simulateAnsweringQuestion(with yesOrNo: Bool) {
-            let questionStepViewController = mainTaskVC.currentStepViewController as! ORKQuestionStepViewController
+            let formStepViewController = mainTaskVC.currentStepViewController as! ORKFormStepViewController
             let index = (yesOrNo == true) ? 0 : 1 // index 0 == YES, index 1 == NO
-            questionStepViewController.simulateSelectingAnswerAtIndex(index)
+            formStepViewController.simulateSelectingAnswerAtIndex(index)
         }
         
         func questionStepAnswer(in taskResult: ORKTaskResult) -> Bool? {
@@ -479,28 +482,33 @@ extension ORKFormItem {
     }
 }
 
-extension ORKQuestionStepViewController {
+extension ORKFormStepViewController {
     func simulateSelectingAnswerAtIndex(_ index: Int) {
-        // manually get through loadView, viewWillAppear, viewDidAppear
-        loadViewIfNeeded()
-        beginAppearanceTransition(true, animated: false)
-        endAppearanceTransition()
+        let answerIndexPath = IndexPath(row: index, section: 0)
         
-        // drive the tableView so we should see the question
-        let tableViewDataSource = self as! UITableViewDataSource
-        let tableView = self.tableView
-        let sectionCount = tableViewDataSource.numberOfSections?(in: tableView) ?? 0
-        [0 ... sectionCount].indices.forEach { eachSection in
-            let rowCount = tableViewDataSource.tableView(tableView, numberOfRowsInSection: eachSection)
-            [0 ... rowCount].indices.forEach { eachRow in
-                let indexPath = IndexPath(item: eachSection, section: eachSection)
-                _ = tableViewDataSource.tableView(tableView, cellForRowAt: indexPath)
-            }
-        }
-        
-        // select the indicated answer option in the table
+        _manuallyLoadView()
+        _buildDataSourceAndApplySnapshot()
+        _manuallyScrollToRow(at: answerIndexPath)
+        _manuallySelectCell(at: answerIndexPath)
+    }
+    
+    func _manuallyLoadView() {
+        self.loadView()
+        self.viewDidLoad()
+    }
+    
+    func _buildDataSourceAndApplySnapshot() {
+        let dataSource = tableView.dataSource as! UITableViewDiffableDataSourceReference
+        self.build(dataSource)
+        dataSource.applySnapshot(dataSource.snapshot(), animatingDifferences: false)
+    }
+    
+    func _manuallyScrollToRow(at indexPath: IndexPath) {
+        self.tableView.scrollToRow(at: indexPath, at: .top, animated: false)
+    }
+    
+    func _manuallySelectCell(at indexPath: IndexPath) {
         let tableViewDelegate = self as! UITableViewDelegate
-        let indexPath = IndexPath(item: index, section: 0)
         tableViewDelegate.tableView?(tableView, didSelectRowAt: indexPath)
     }
 }

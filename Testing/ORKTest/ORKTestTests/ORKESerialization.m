@@ -35,6 +35,12 @@
 
 @import ResearchKit;
 @import ResearchKit_Private;
+@import ResearchKitActiveTask;
+@import ResearchKitActiveTask_Private;
+#if RK_APPLE_INTERNAL
+@import ResearchKitInternal;
+@import ResearchKitInternal_Private;
+#endif
 
 @import MapKit;
 @import Speech;
@@ -1001,6 +1007,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(placeholder, NSString, NSObject, YES, nil, nil),
                     PROPERTY(question, NSString, NSObject, YES, nil, nil),
                     PROPERTY(useCardView, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(formStep, ORKFormStep, NSObject, YES, nil, nil),
                     PROPERTY(learnMoreItem, ORKLearnMoreItem, NSObject, YES, nil, nil),
                     PROPERTY(tagText, NSString, NSObject, YES, nil, nil),
                     PROPERTY(presentationStyle, NSString, NSObject, YES, nil, nil)
@@ -1144,11 +1151,49 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(headphoneType, NSString, NSObject, YES, nil, nil),
                     PROPERTY(earPreference, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(frequencyList, NSArray, NSObject, YES, nil, nil),
+                    })),
 #if RK_APPLE_INTERNAL
+           ENTRY(AAPLdBHLToneAudiometryResult,
+                 nil,
+                 (@{
+                    PROPERTY(discreteUnits, ORKdBHLToneAudiometryFrequencySample, NSArray, NO, nil, nil),
+                    PROPERTY(fitMatrix, NSDictionary, NSObject, NO, nil, nil),
+                    PROPERTY(algorithmVersion, NSNumber, NSObject, NO, nil, nil),
+                    })),
+           ENTRY(AAPLCompletionStep,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+                     return [[AAPLCompletionStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
+                 },
+                 (@{})),
+           ENTRY(AAPLInstructionStep,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+                     return [[AAPLInstructionStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
+                 },
+                 (@{})),
+           ENTRY(AAPLSpeechInNoiseStep,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+                     return [[AAPLSpeechInNoiseStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
+                 },
+                 ((@{}))),
+           ENTRY(AAPLEnvironmentSPLMeterStep,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+                     return [[AAPLEnvironmentSPLMeterStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
+                 },
+                 (@{})),
+           ENTRY(AAPLSpeechRecognitionStep,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+                     return [[AAPLSpeechRecognitionStep alloc] initWithIdentifier:GETPROP(dict, identifier) image:nil text:GETPROP(dict, speechRecognitionText)];
+                 },
+                 (@{})),
+           ENTRY(AAPLdBHLToneAudiometryStep,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+                     return [[AAPLdBHLToneAudiometryStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
+                 },
+                 (@{
                     PROPERTY(algorithm, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(dBHLMaximumThreshold, NSNumber, NSObject, YES, nil, nil),
+                 })),
 #endif
-                    })),
            ENTRY(ORKHolePegTestPlaceStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      return [[ORKHolePegTestPlaceStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
@@ -1277,6 +1322,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(timeoutSound, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(failureSound, NSNumber, NSObject, YES, nil, nil),
                     })),
+#if RK_APPLE_INTERNAL
            ENTRY(ORKNormalizedReactionTimeStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      return [[ORKNormalizedReactionTimeStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
@@ -1325,6 +1371,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(identifier, NSString, NSObject, YES, nil, nil),
                     PROPERTY(errors, NSObject, NSArray, YES, nil, nil)
                     })),
+#endif
            ENTRY(ORKStroopStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      return [[ORKStroopStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
@@ -1732,31 +1779,6 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(textViewPlaceholderText, NSString, NSObject, NO, nil, nil),
                     PROPERTY(textViewInputOptional, NSNumber, NSObject, NO, nil, nil),
                     PROPERTY(textViewStartsHidden, NSNumber, NSObject, NO, nil, nil),
-                    })),
-           ENTRY(ORKColorChoiceAnswerFormat,
-                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-                     return [[ORKColorChoiceAnswerFormat alloc] initWithStyle:((NSNumber *)GETPROP(dict, style)).integerValue colorChoices:GETPROP(dict, colorChoices)];
-                 },
-                 (@{
-                    PROPERTY(style, NSNumber, NSObject, NO, NUMTOSTRINGBLOCK(ORKChoiceAnswerStyleTable()), STRINGTONUMBLOCK(ORKChoiceAnswerStyleTable())),
-                    PROPERTY(colorChoices, ORKColorChoice, NSArray, NO, nil, nil),
-                    })),
-           ENTRY(ORKColorChoice,
-                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-               return [[ORKColorChoice alloc] initWithColor:GETPROP(dict, color)
-                                                       text:GETPROP(dict, text)
-                                                 detailText:GETPROP(dict, detailText)
-                                                      value:GETPROP(dict, value)
-                                                  exclusive:((NSNumber *)GETPROP(dict, exclusive)).boolValue];
-                 },
-                 (@{
-                    PROPERTY(text, NSString, NSObject, NO, nil, nil),
-                    PROPERTY(detailText, NSString, NSObject, NO, nil, nil),
-                    PROPERTY(value, NSObject, NSObject, NO, nil, nil),
-                    PROPERTY(exclusive, NSNumber, NSObject, NO, nil, nil),
-                    PROPERTY(color, UIColor, NSObject, YES,
-                             ^id(id color, __unused ORKESerializationContext *context) { return dictionaryFromColor(color); },
-                             ^id(id dict, __unused ORKESerializationContext *context) { return  colorFromDictionary(dict); })
                     })),
            ENTRY(ORKImageChoice,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
@@ -2178,12 +2200,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(tonePlaybackDuration, NSNumber, NSObject, NO, nil, nil),
                     PROPERTY(postStimulusDelay, NSNumber, NSObject, NO, nil, nil),
                     PROPERTY(headphoneType, NSString, NSObject, NO, nil, nil),
-                    PROPERTY(samples, ORKdBHLToneAudiometryFrequencySample, NSArray, NO, nil, nil),
-#if RK_APPLE_INTERNAL
-                    PROPERTY(discreteUnits, ORKdBHLToneAudiometryFrequencySample, NSArray, NO, nil, nil),
-                    PROPERTY(fitMatrix, NSDictionary, NSObject, NO, nil, nil),
-                    PROPERTY(algorithmVersion, NSNumber, NSObject, NO, nil, nil),
-#endif
+                    PROPERTY(samples, ORKdBHLToneAudiometryFrequencySample, NSArray, NO, nil, nil)
                     })),
            ENTRY(ORKReactionTimeResult,
                  nil,
@@ -2474,6 +2491,54 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                  (@{
                      PROPERTY(retryCount, NSNumber, NSObject, NO, nil, nil)
                   })),
+#if RK_APPLE_INTERNAL && ORK_FEATURE_AV_JOURNALING
+           ENTRY(ORKAVJournalingPredefinedTask,
+            ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+               return [[ORKAVJournalingPredefinedTask alloc] initWithIdentifier:GETPROP(dict, identifier)
+                                                 journalQuestionSetManifestPath:GETPROP(dict, journalQuestionSetManifestPath)
+                                                                   prependSteps:GETPROP(dict, prependSteps)
+                                                                    appendSteps:GETPROP(dict, appendSteps)];
+           },
+            (@{
+               PROPERTY(journalQuestionSetManifestPath, NSString, NSObject, NO, nil, nil),
+               PROPERTY(prependSteps, ORKStep, NSArray, NO, nil, nil),
+               PROPERTY(appendSteps, ORKStep, NSArray, NO, nil, nil),
+               SKIP_PROPERTY(steps, ORKStep, NSArray, NO, nil, nil)
+           })),
+           ENTRY(ORKAVJournalingStep,
+            ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+               return [[ORKAVJournalingStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
+           },
+           (@{
+                PROPERTY(maximumRecordingLimit, NSNumber, NSObject, YES, nil, nil),
+                PROPERTY(countDownStartTime, NSNumber, NSObject, YES, nil, nil),
+                PROPERTY(saveDepthDataIfAvailable, NSNumber, NSObject, YES, nil, nil),
+                PROPERTY(stopFaceDetectionExit, NSNumber, NSObject, YES, nil, nil),
+           })),
+           ENTRY(ORKAVJournalingResult,
+            nil,
+            (@{
+                PROPERTY(filenames, NSString, NSArray, NO, nil, nil),
+                PROPERTY(recalibrationTimeStamps, NSDictionary, NSArray, NO, nil, nil),
+                PROPERTY(cameraIntrinsics, NSArray, NSArray, NO, nil, nil)
+            })),
+           ENTRY(ORKFaceDetectionStep,
+            ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+               return [[ORKFaceDetectionStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
+            },
+            (@{ })),
+#endif
+#if RK_APPLE_INTERNAL && ORK_FEATURE_BLE_SCAN_PERIPHERALS
+           ENTRY(ORKBLEScanPeripheralsStep, ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+                return  [[ORKBLEScanPeripheralsStep alloc] initWithIdentifier:GETPROP(dict, identifier) scanOptions:GETPROP(dict, scanOptions)];},
+            (@{
+                PROPERTY(scanOptions, NSDictionary, NSObject, NO, nil, nil)
+            })),
+           ENTRY(ORKBLEScanPeripheralsStepResult, ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+            return [[ORKBLEScanPeripheralsStepResult alloc] initWithIdentifier:GETPROP(dict, identifier)];},
+            (@{})),
+#endif
+#if RK_APPLE_INTERNAL
            ENTRY(ORKRelativeGroup,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                     return [[ORKRelativeGroup alloc] initWithIdentifier:GETPROP(dict, identifier)
@@ -2481,7 +2546,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                                                            sectionTitle:GETPROP(dict, sectionTitle)
                                                       sectionDetailText:GETPROP(dict, sectionDetailText)
                                                  identifierForCellTitle:GETPROP(dict, identifierForCellTitle)
-                                                             maxAllowed:[GETPROP(dict, maxAllowed) unsignedIntValue]
+                                                             maxAllowed:[GETPROP(dict, maxAllowed) integerValue]
                                                               formSteps:GETPROP(dict, formSteps)
                                                   detailTextIdentifiers:GETPROP(dict, detailTextIdentifiers)];
                  },
@@ -2538,54 +2603,31 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                 PROPERTY(conditionStepConfiguration, ORKConditionStepConfiguration, NSObject, YES, nil, nil),
                 PROPERTY(relativeGroups, ORKRelativeGroup, NSArray, YES, nil, nil),
            })),
-#if RK_APPLE_INTERNAL && ORK_FEATURE_AV_JOURNALING
-           ENTRY(ORKAVJournalingPredefinedTask,
-            ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-               return [[ORKAVJournalingPredefinedTask alloc] initWithIdentifier:GETPROP(dict, identifier)
-                                                 journalQuestionSetManifestPath:GETPROP(dict, journalQuestionSetManifestPath)
-                                                                   prependSteps:GETPROP(dict, prependSteps)
-                                                                    appendSteps:GETPROP(dict, appendSteps)];
-           },
-            (@{
-               PROPERTY(journalQuestionSetManifestPath, NSString, NSObject, NO, nil, nil),
-               PROPERTY(prependSteps, ORKStep, NSArray, NO, nil, nil),
-               PROPERTY(appendSteps, ORKStep, NSArray, NO, nil, nil),
-               SKIP_PROPERTY(steps, ORKStep, NSArray, NO, nil, nil)
-           })),
-           ENTRY(ORKAVJournalingStep,
-            ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-               return [[ORKAVJournalingStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
-           },
-           (@{
-                PROPERTY(maximumRecordingLimit, NSNumber, NSObject, YES, nil, nil),
-                PROPERTY(countDownStartTime, NSNumber, NSObject, YES, nil, nil),
-                PROPERTY(saveDepthDataIfAvailable, NSNumber, NSObject, YES, nil, nil),
-                PROPERTY(stopFaceDetectionExit, NSNumber, NSObject, YES, nil, nil),
-           })),
-           ENTRY(ORKAVJournalingResult,
-            nil,
-            (@{
-                PROPERTY(filenames, NSString, NSArray, NO, nil, nil),
-                PROPERTY(recalibrationTimeStamps, NSDictionary, NSArray, NO, nil, nil),
-                PROPERTY(cameraIntrinsics, NSArray, NSArray, NO, nil, nil)
-            })),
-           ENTRY(ORKFaceDetectionStep,
-            ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-               return [[ORKFaceDetectionStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
-            },
-            (@{ })),
-#endif
-#if RK_APPLE_INTERNAL && ORK_FEATURE_BLE_SCAN_PERIPHERALS
-           ENTRY(ORKBLEScanPeripheralsStep, ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-                return  [[ORKBLEScanPeripheralsStep alloc] initWithIdentifier:GETPROP(dict, identifier) scanOptions:GETPROP(dict, scanOptions)];},
-            (@{
-                PROPERTY(scanOptions, NSDictionary, NSObject, NO, nil, nil)
-            })),
-           ENTRY(ORKBLEScanPeripheralsStepResult, ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-            return [[ORKBLEScanPeripheralsStepResult alloc] initWithIdentifier:GETPROP(dict, identifier)];},
-            (@{})),
-#endif
-#if RK_APPLE_INTERNAL
+           ENTRY(ORKColorChoiceAnswerFormat,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+                     return [[ORKColorChoiceAnswerFormat alloc] initWithStyle:((NSNumber *)GETPROP(dict, style)).integerValue colorChoices:GETPROP(dict, colorChoices)];
+                 },
+                 (@{
+                    PROPERTY(style, NSNumber, NSObject, NO, NUMTOSTRINGBLOCK(ORKChoiceAnswerStyleTable()), STRINGTONUMBLOCK(ORKChoiceAnswerStyleTable())),
+                    PROPERTY(colorChoices, ORKColorChoice, NSArray, NO, nil, nil),
+                    })),
+           ENTRY(ORKColorChoice,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+               return [[ORKColorChoice alloc] initWithColor:GETPROP(dict, color)
+                                                       text:GETPROP(dict, text)
+                                                 detailText:GETPROP(dict, detailText)
+                                                      value:GETPROP(dict, value)
+                                                  exclusive:((NSNumber *)GETPROP(dict, exclusive)).boolValue];
+                 },
+                 (@{
+                    PROPERTY(text, NSString, NSObject, NO, nil, nil),
+                    PROPERTY(detailText, NSString, NSObject, NO, nil, nil),
+                    PROPERTY(value, NSObject, NSObject, NO, nil, nil),
+                    PROPERTY(exclusive, NSNumber, NSObject, NO, nil, nil),
+                    PROPERTY(color, UIColor, NSObject, YES,
+                             ^id(id color, __unused ORKESerializationContext *context) { return dictionaryFromColor(color); },
+                             ^id(id dict, __unused ORKESerializationContext *context) { return  colorFromDictionary(dict); })
+                    })),
            ENTRY(ORKTinnitusTypeStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                return [[ORKTinnitusTypeStep alloc] initWithIdentifier:GETPROP(dict, identifier)];

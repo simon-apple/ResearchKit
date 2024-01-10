@@ -30,26 +30,15 @@
 
 
 #import "ORKCompletionStep.h"
-#if TARGET_OS_IOS
-#import "ORKCompletionStepViewController.h"
-#endif
 #import "ORKHelpers_Internal.h"
 
-#if RK_APPLE_INTERNAL
-ORKCompletionStepIdentifier const ORKCompletionStepIdentifierMicrophoneLearnMore = @"ORKCompletionStepIdentifierMicrophoneLearnMore";
-ORKCompletionStepIdentifier const ORKEnvironmentSPLMeterTimeoutIdentifier = @"ORKEnvironmentSPLMeterTimeoutIdentifier";
-#endif
 
 @implementation ORKCompletionStep
 #if TARGET_OS_IOS
-+ (Class)stepViewControllerClass {
-    return [ORKCompletionStepViewController class];
-}
-
 - (instancetype)initWithIdentifier:(NSString *)identifier {
     self = [super initWithIdentifier:identifier];
     if (self) {
-        _reasonForCompletion = ORKTaskViewControllerFinishReasonCompleted;
+        _reasonForCompletion = ORKTaskFinishReasonCompleted;
     }
     
     return self;
@@ -86,7 +75,7 @@ ORKCompletionStepIdentifier const ORKEnvironmentSPLMeterTimeoutIdentifier = @"OR
 }
 
 - (BOOL)allowsBackNavigation {
-    return !(_reasonForCompletion == ORKTaskViewControllerFinishReasonDiscarded);
+    return !(_reasonForCompletion == ORKTaskFinishReasonDiscarded);
 }
 #endif
 @end

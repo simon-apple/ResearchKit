@@ -31,7 +31,6 @@
 
 #import "ORKFormStep.h"
 
-#import "ORKFormStepViewController.h"
 #import "ORKBodyItem.h"
 #import "ORKLearnMoreItem.h"
 
@@ -43,10 +42,6 @@
 #import "ORKFormItemVisibilityRule.h"
 
 @implementation ORKFormStep
-
-+ (Class)stepViewControllerClass {
-    return [ORKFormStepViewController class];
-}
 
 - (instancetype)initWithIdentifier:(NSString *)identifier
                              title:(NSString *)title

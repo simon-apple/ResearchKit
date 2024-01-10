@@ -20,6 +20,7 @@
 		3E39B9FE1ABF683700C2ABE5 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E39B9FC1ABF683700C2ABE5 /* LaunchScreen.xib */; };
 		3E39BA001ABF683F00C2ABE5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3E39B9FF1ABF683F00C2ABE5 /* Images.xcassets */; };
 		3ED967B81AC13D37007E2D83 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3ED967BA1AC13D37007E2D83 /* Localizable.strings */; };
+		51BD8FC729D3AE2E0001D54E /* Sentence1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 51BD8FC629D3AE2E0001D54E /* Sentence1.wav */; };
 		5D1CE45123FB1DFE004CB416 /* List1 in Resources */ = {isa = PBXBuildFile; fileRef = 5D1CE45023FB1DFE004CB416 /* List1 */; };
 		5D3800B52459F4FF00E7D2BD /* PracticeList in Resources */ = {isa = PBXBuildFile; fileRef = 5D3800B42459F4FF00E7D2BD /* PracticeList */; };
 		5DB068EA25AE5940000F3170 /* TinnitusSounds1 in Resources */ = {isa = PBXBuildFile; fileRef = 5DB068E925AE5940000F3170 /* TinnitusSounds1 */; };
@@ -56,6 +57,12 @@
 		BC9A273D1B82741900BDA84D /* ResultTableViewProviders.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9A27391B82741900BDA84D /* ResultTableViewProviders.swift */; };
 		BC9A273E1B82741900BDA84D /* ResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9A273A1B82741900BDA84D /* ResultViewController.swift */; };
 		BC9A273F1B82741900BDA84D /* TextImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9A273B1B82741900BDA84D /* TextImageTableViewCell.swift */; };
+		CA6A0D8F288F04260048C1EF /* ResearchKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA6A0D8E288F04260048C1EF /* ResearchKitUI.framework */; };
+		CA6A0D90288F04260048C1EF /* ResearchKitUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CA6A0D8E288F04260048C1EF /* ResearchKitUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CA8D8CFF28B01E85000CF52F /* ResearchKitInternal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA8D8CFE28B01E85000CF52F /* ResearchKitInternal.framework */; };
+		CA8D8D0028B01E90000CF52F /* ResearchKitInternal.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CA8D8CFE28B01E85000CF52F /* ResearchKitInternal.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CA9B6DF828A2BF51000A7603 /* ResearchKitActiveTask.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA9B6DF728A2BF51000A7603 /* ResearchKitActiveTask.framework */; };
+		CA9B6DF928A2BF64000A7603 /* ResearchKitActiveTask.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CA9B6DF728A2BF51000A7603 /* ResearchKitActiveTask.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +82,9 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				CA8D8D0028B01E90000CF52F /* ResearchKitInternal.framework in Embed Frameworks */,
+				CA9B6DF928A2BF64000A7603 /* ResearchKitActiveTask.framework in Embed Frameworks */,
+				CA6A0D90288F04260048C1EF /* ResearchKitUI.framework in Embed Frameworks */,
 				BC2A3CDA1C58F1CA00DA64B7 /* ResearchKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -136,6 +146,7 @@
 		3E39B9FF1ABF683F00C2ABE5 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		3ED967B91AC13D37007E2D83 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5116D0BF2677FB780010FAB1 /* ResearchKit-Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "ResearchKit-Shared.xcconfig"; sourceTree = "<group>"; };
+		51BD8FC629D3AE2E0001D54E /* Sentence1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = Sentence1.wav; path = List1/Sentence1.wav; sourceTree = "<group>"; };
 		5D1CE45023FB1DFE004CB416 /* List1 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = List1; sourceTree = "<group>"; };
 		5D3800B42459F4FF00E7D2BD /* PracticeList */ = {isa = PBXFileReference; lastKnownFileType = folder; path = PracticeList; sourceTree = "<group>"; };
 		5DB068E925AE5940000F3170 /* TinnitusSounds1 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = TinnitusSounds1; sourceTree = "<group>"; };
@@ -179,6 +190,10 @@
 		BC9A27391B82741900BDA84D /* ResultTableViewProviders.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ResultTableViewProviders.swift; path = Results/ResultTableViewProviders.swift; sourceTree = "<group>"; };
 		BC9A273A1B82741900BDA84D /* ResultViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ResultViewController.swift; path = Results/ResultViewController.swift; sourceTree = "<group>"; };
 		BC9A273B1B82741900BDA84D /* TextImageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TextImageTableViewCell.swift; path = Results/TextImageTableViewCell.swift; sourceTree = "<group>"; };
+		CA6A0D8B288F01D10048C1EF /* ResearchKitUI (iOS).framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = "ResearchKitUI (iOS).framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CA6A0D8E288F04260048C1EF /* ResearchKitUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CA8D8CFE28B01E85000CF52F /* ResearchKitInternal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitInternal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CA9B6DF728A2BF51000A7603 /* ResearchKitActiveTask.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitActiveTask.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -186,6 +201,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA8D8CFF28B01E85000CF52F /* ResearchKitInternal.framework in Frameworks */,
+				CA9B6DF828A2BF51000A7603 /* ResearchKitActiveTask.framework in Frameworks */,
+				CA6A0D8F288F04260048C1EF /* ResearchKitUI.framework in Frameworks */,
 				BC2A3CD91C58F1CA00DA64B7 /* ResearchKit.framework in Frameworks */,
 				863CCD821ACF545E009FD3B4 /* HealthKit.framework in Frameworks */,
 			);
@@ -352,6 +370,10 @@
 		BC2A3C9E1C58E81500DA64B7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CA8D8CFE28B01E85000CF52F /* ResearchKitInternal.framework */,
+				CA9B6DF728A2BF51000A7603 /* ResearchKitActiveTask.framework */,
+				CA6A0D8E288F04260048C1EF /* ResearchKitUI.framework */,
+				CA6A0D8B288F01D10048C1EF /* ResearchKitUI (iOS).framework */,
 				BC2A3CD81C58F1CA00DA64B7 /* ResearchKit.framework */,
 				863CCD811ACF545E009FD3B4 /* HealthKit.framework */,
 			);
@@ -361,6 +383,7 @@
 		BC74787A1B990EED0072BFE8 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				51BD8FC629D3AE2E0001D54E /* Sentence1.wav */,
 				0BEE14A5286BC6A9005F26D1 /* Scrubbers */,
 				5DB068E925AE5940000F3170 /* TinnitusSounds1 */,
 				5DD2B46A249974AC00FF17F5 /* QuestionList1 */,
@@ -428,6 +451,7 @@
 				TargetAttributes = {
 					869230BD1AAA890A00BFE11B = {
 						CreatedOnToolsVersion = 6.2;
+						DevelopmentTeam = 7JYUG8QGJ3;
 						LastSwiftMigration = 1020;
 						ProvisioningStyle = Automatic;
 					};
@@ -513,6 +537,7 @@
 				0BEE14A6286BC6A9005F26D1 /* Scrubbers in Resources */,
 				5DD2B46B249974AC00FF17F5 /* QuestionList1 in Resources */,
 				3E39BA001ABF683F00C2ABE5 /* Images.xcassets in Resources */,
+				51BD8FC729D3AE2E0001D54E /* Sentence1.wav in Resources */,
 				3E39B9FB1ABF682D00C2ABE5 /* Main.storyboard in Resources */,
 				BAAC3FD620C4EF1C0065B9E1 /* ResearchKit.pdf in Resources */,
 				5D3800B52459F4FF00E7D2BD /* PracticeList in Resources */,

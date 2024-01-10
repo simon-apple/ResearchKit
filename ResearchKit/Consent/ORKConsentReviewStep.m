@@ -31,8 +31,6 @@
 
 #import "ORKConsentReviewStep.h"
 
-#import "ORKConsentReviewStepViewController.h"
-
 #import "ORKConsentDocument_Internal.h"
 #import "ORKConsentSection_Private.h"
 #import "ORKConsentSignature.h"
@@ -42,10 +40,6 @@
 
 
 @implementation ORKConsentReviewStep
-
-+ (Class)stepViewControllerClass {
-    return [ORKConsentReviewStepViewController class];
-}
 
 - (instancetype)initWithIdentifier:(NSString *)identifier signature:(ORKConsentSignature *)signature inDocument:(ORKConsentDocument *)consentDocument {
     self = [super initWithIdentifier:identifier];

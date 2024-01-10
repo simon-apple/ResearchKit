@@ -1,0 +1,5 @@
+//
+// ResearchKitActiveTask-Skywagon-Stable.xcconfig
+//
+// apple-internal
+#include "ResearchKitActiveTask-Shared.xcconfig"

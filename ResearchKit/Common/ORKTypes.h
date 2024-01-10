@@ -409,38 +409,6 @@ ORK_EXTERN ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierEarPods;
 /// Other vendors or even apple ones but not mapped.
 ORK_EXTERN ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierUnknown;
 
-#if RK_APPLE_INTERNAL
-/**
- Route Identifiers for supported headphones chipset types.
- */
-typedef NSString * ORKHeadphoneChipsetIdentifier NS_STRING_ENUM;
-
-ORK_EXTERN ORKHeadphoneChipsetIdentifier const ORKHeadphoneChipsetIdentifierAirPods;
-ORK_EXTERN ORKHeadphoneChipsetIdentifier const ORKHeadphoneChipsetIdentifierLightningEarPods;
-ORK_EXTERN ORKHeadphoneChipsetIdentifier const ORKHeadphoneChipsetIdentifierAudioJackEarPods;
-
-/**
- Type Identifiers for supported headphones vendor and product id types.
- */
-typedef NSString * ORKHeadphoneVendorAndProductIdIdentifier NS_STRING_ENUM;
-ORK_EXTERN ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsGen1;
-ORK_EXTERN ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsGen2;
-ORK_EXTERN ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsGen3;
-ORK_EXTERN ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsPro;
-ORK_EXTERN ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsProGen2;
-ORK_EXTERN ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsProGen2USBC;
-ORK_EXTERN ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsMax;
-
-/**
- An enumeration of the types of available blutooth modes
- */
-typedef NS_ENUM(NSInteger, ORKBluetoothMode) {
-    ORKBluetoothModeNone,
-    ORKBluetoothModeNormal,
-    ORKBluetoothModeTransparency,
-    ORKBluetoothModeNoiseCancellation
-} ORK_ENUM_AVAILABLE;
-#endif
 
 ORK_CLASS_AVAILABLE
 @interface ORKNoAnswer : NSObject<NSCopying, NSSecureCoding>

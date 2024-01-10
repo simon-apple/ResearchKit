@@ -45,6 +45,27 @@ NS_ASSUME_NONNULL_BEGIN
 @class ORKTaskResult;
 
 /**
+ The `ORKTaskFinishReason` value indicates how the task has finished.
+ */
+typedef NS_ENUM(NSInteger, ORKTaskFinishReason) {
+    
+    /// The task was canceled by the participant or the developer, and the participant asked to save the current result.
+    ORKTaskFinishReasonSaved,
+    
+    /// The task was canceled by the participant or the developer, and the participant asked to discard the current result.
+    ORKTaskFinishReasonDiscarded,
+    
+    /// The task has completed successfully, because all steps have been completed.
+    ORKTaskFinishReasonCompleted,
+    
+    /// An error was detected during the current step.
+    ORKTaskFinishReasonFailed,
+    
+    /// Interntional early termination of a task
+    ORKTaskFinishReasonEarlyTermination
+};
+
+/**
 
  `ORKTaskProgress` is a structure that represents how far a task has progressed.
  

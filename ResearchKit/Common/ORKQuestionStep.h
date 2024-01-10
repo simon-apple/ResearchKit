@@ -41,6 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class ORKAnswerFormat;
 @class ORKLearnMoreItem;
+@class ORKFormStep;
 
 /**
  The `ORKQuestionStep` class is a concrete subclass of `ORKStep` that represents
@@ -51,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
  When the task completes, the user's answer is encoded in the result hierarchy
  in the task view controller.
  
- When a task view controller presents an `ORKQuestionStep` object, it instantiates an `ORKQuestionStepViewController` object to present the step. The actual
+ When a task view controller presents an `ORKQuestionStep` object, it instantiates an `ORKFormStepViewController` object to present the step. The actual
  visual presentation depends on the answer format.
  
  When you need to present more than one question at the same time, it can be appropriate
@@ -75,7 +76,7 @@ ORK_CLASS_AVAILABLE
 + (instancetype)questionStepWithIdentifier:(NSString *)identifier
                                      title:(nullable NSString *)title
                                       question:(nullable NSString *)question
-                                    answer:(nullable ORKAnswerFormat *)answerFormat;
+                                    answer:(nullable ORKAnswerFormat *)answerFormat NS_DEPRECATED_IOS(8.0, 13.0, "Use ORKFormStep instead.");
 
 /**
  The format of the answer.
@@ -122,6 +123,11 @@ ORK_CLASS_AVAILABLE
  The value displayed as a tag if set.
  */
 @property (nonatomic, copy, nullable) NSString *tagText;
+
+/**
+ An ORKFormStep representation of our ORKQuestionStep
+ */
+@property (nonatomic, copy, nullable) ORKFormStep *formStep;
 
 @end
 

@@ -35,16 +35,10 @@
 #import <ResearchKitCore/ORKInstructionStep.h>
 #else
 #import <ResearchKit/ORKInstructionStep.h>
-#import <ResearchKit/ORKTaskViewController.h>
+#import <ResearchKit/ORKTask.h>
 #endif
 
 NS_ASSUME_NONNULL_BEGIN
-
-#if RK_APPLE_INTERNAL
-typedef NSString *ORKCompletionStepIdentifier NS_STRING_ENUM;
-ORK_EXTERN ORKCompletionStepIdentifier const ORKCompletionStepIdentifierMicrophoneLearnMore;
-ORK_EXTERN ORKCompletionStepIdentifier const ORKEnvironmentSPLMeterTimeoutIdentifier;
-#endif
 
 /**
  The `ORKCompletionStep` class is a subclass of `ORKInstructionStep` which behaves like
@@ -60,7 +54,7 @@ ORK_CLASS_AVAILABLE API_AVAILABLE(ios(11.0), watchos(6.0))
 
 @interface ORKCompletionStep ()
 
-@property (nonatomic) ORKTaskViewControllerFinishReason reasonForCompletion;
+@property (nonatomic) ORKTaskFinishReason reasonForCompletion;
 
 @end
 

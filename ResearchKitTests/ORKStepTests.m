@@ -32,6 +32,10 @@
 @import XCTest;
 @import ResearchKit;
 @import ResearchKit_Private;
+@import ResearchKitActiveTask;
+@import ResearchKitActiveTask_Private;
+@import ResearchKitUI;
+@import ResearchKitUI_Private;
 @import UIKit;
 #import "ORKReviewStep_Internal.h"
 
@@ -61,15 +65,13 @@
     [step setAuxiliaryImage:imageTwo];
     [step setIconImage:imageThree];
     
-    ORKStepViewController *controller = [step instantiateStepViewControllerWithResult:result];
+    ORKStepViewController *controller = [step makeViewControllerWithResult:result];
     
     XCTAssertEqual([step title], @"Title");
     XCTAssertEqual([step text], @"Text");
     XCTAssertEqual([step task], task);
     XCTAssertEqual([controller restorationIdentifier], [step identifier]);
-    XCTAssertEqual([controller restorationClass], [step stepViewControllerClass]);
     XCTAssertEqual([controller step], step);
-    XCTAssertEqual([step stepViewControllerClass], [ORKStepViewController class]);
     XCTAssertEqual([step isRestorable], YES);
     XCTAssertEqual([step showsProgress], NO);
     XCTAssert([step.identifier isEqualToString:@"STEP"]);
@@ -407,7 +409,6 @@
     XCTAssertEqual([step isOptional], NO);
     XCTAssertNoThrowSpecificNamed([step validateParameters], NSException, NSInvalidArgumentException, @"Should not throw exception");
     XCTAssertEqual([step requestedHealthKitTypesForReading], nil);
-    XCTAssertEqual([step stepViewControllerClass], [ORKQuestionStepViewController class], @"Should return ORKQuestionStepViewController");
     XCTAssert([step isEqual:step]);
     XCTAssertEqual([step questionType], ORKQuestionTypeText, @"Should return ORKQuestionTypeText");
     
@@ -484,7 +485,6 @@
     
     XCTAssertEqual([step identifier], identifier);
     XCTAssertEqual([step html], html);
-    XCTAssertEqual([step stepViewControllerClass], [ORKWebViewStepViewController class]);
     XCTAssert([step isEqual:step]);
     
     [step setHtml:nil];

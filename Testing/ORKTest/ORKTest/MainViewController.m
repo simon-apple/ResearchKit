@@ -734,9 +734,9 @@ stepViewControllerWillAppear:(ORKStepViewController *)stepViewController {
  
  In this test app, we don't dismiss on a fail (we just log it).
  */
-- (void)taskViewController:(ORKTaskViewController *)taskViewController didFinishWithReason:(ORKTaskViewControllerFinishReason)reason error:(NSError *)error {
+- (void)taskViewController:(ORKTaskViewController *)taskViewController didFinishWithReason:(ORKTaskFinishReason)reason error:(NSError *)error {
     switch (reason) {
-        case ORKTaskViewControllerFinishReasonCompleted:
+        case ORKTaskFinishReasonCompleted:
         {
             NSObject<ORKTask> *task = taskViewController.task;
             if (task.isEmbeddedReviewTask) {
@@ -748,12 +748,12 @@ stepViewControllerWillAppear:(ORKStepViewController *)stepViewController {
             [self taskViewControllerDidComplete:taskViewController];
         }
             break;
-        case ORKTaskViewControllerFinishReasonFailed:
+        case ORKTaskFinishReasonFailed:
         {
             NSLog(@"Error on step %@: %@", taskViewController.currentStepViewController.step, error);
         }
             break;
-        case ORKTaskViewControllerFinishReasonDiscarded:
+        case ORKTaskFinishReasonDiscarded:
         {
             NSObject<ORKTask> *task = taskViewController.task;
             if (task.isEmbeddedReviewTask) {
@@ -762,7 +762,7 @@ stepViewControllerWillAppear:(ORKStepViewController *)stepViewController {
             [self dismissTaskViewController:taskViewController removeOutputDirectory:YES];
         }
             break;
-        case ORKTaskViewControllerFinishReasonSaved:
+        case ORKTaskFinishReasonSaved:
         {
             NSObject<ORKTask> *task = taskViewController.task;
             if (task.isEmbeddedReviewTask) {

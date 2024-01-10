@@ -30,7 +30,7 @@
 
 
 @import XCTest;
-@import ResearchKit_Private;
+@import ResearchKit;
 
 
 @interface ORKKeychainWrapperTests : XCTestCase

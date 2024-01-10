@@ -30,6 +30,9 @@
 
 
 @import XCTest;
+@import ResearchKit;
+@import ResearchKitUI;
+@import ResearchKitUI_Private;
 @import ResearchKit_Private;
 
 
@@ -125,7 +128,7 @@
                                                                                       [[ORKInstructionStep alloc] initWithIdentifier:@"test"]
                                                                                       ]];
     ORKTaskViewController *taskViewController = [[ORKTaskViewController alloc] initWithTask:task taskRunUUID:nil];
-    ORKStepViewController *viewController = [taskViewController viewControllerForStep:task.steps.firstObject];
+    ORKStepViewController *viewController = [task.steps.firstObject makeViewControllerWithResult:nil];
     
     XCTAssertFalse(viewController.isViewLoaded, "TaskViewController's viewControllerForStep should return a viewController *without* its view loaded");
 }

@@ -33,10 +33,6 @@
 
 #import "ORKConsentDocument_Internal.h"
 
-#import "ORKBodyLabel.h"
-#import "ORKHeadlineLabel.h"
-#import "ORKSubheadlineLabel.h"
-
 #import "ORKConsentSection_Private.h"
 #import "ORKConsentSectionFormatter.h"
 #import "ORKConsentSignature.h"
@@ -45,7 +41,7 @@
 
 #import "ORKHelpers_Internal.h"
 #import "ORKErrors.h"
-
+#import "ORKSkin_Private.h"
 
 @implementation ORKConsentDocument {
     NSMutableArray<ORKConsentSignature *> *_signatures;
@@ -129,9 +125,13 @@
         [css appendString:@".header { margin-top: 36px ; margin-bottom: 30px; text-align: center; }\n"];
         [css appendString:@"body { margin-left: 0px; margin-right: 0px; }\n"];
         
+        CGFloat pointSize = ORKDefaultFontSizeForStyle(UIFontTextStyleSubheadline, -15 + ORKGetMetricForWindow(ORKScreenMetricFontSizeSubheadline, nil));
+        CGFloat pointSize2 = ORKDefaultFontSizeForStyle(UIFontTextStyleHeadline, -17 + ORKGetMetricForWindow(ORKScreenMetricFontSizeHeadline, nil));
+        CGFloat maxFontSize = ORKGetMetricForWindow(ORKScreenMetricMaxFontSizeHeadline, nil);
+        CGFloat fontSize = ORKLightFontWithSize(MIN(maxFontSize, pointSize2)).pointSize;
         
-        CGFloat adjustment = [[ORKSubheadlineLabel defaultFont] pointSize] - 17.0;
-        NSArray *hPointSizes = @[ @([[ORKHeadlineLabel defaultFont] pointSize]),
+        CGFloat adjustment = pointSize - 17.0;
+        NSArray *hPointSizes = @[ @(fontSize),
                                  @(24.0 + adjustment),
                                  @(19.0 + adjustment),
                                  @(17.0 + adjustment),

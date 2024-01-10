@@ -29,7 +29,7 @@
  */
 
 
-#import "ORKSkin.h"
+#import "ORKSkin_Private.h"
 
 #import "ORKHelpers_Internal.h"
 
@@ -42,12 +42,6 @@ NSString *const ORKLightTintColorKey = @"ORKLightTintColorKey";
 NSString *const ORKDarkTintColorKey = @"ORKDarkTintColorKey";
 NSString *const ORKCaptionTextColorKey = @"ORKCaptionTextColorKey";
 NSString *const ORKBlueHighlightColorKey = @"ORKBlueHighlightColorKey";
-NSString *const ORKChartDefaultTextColorKey = @"ORKChartDefaultTextColorKey";
-NSString *const ORKGraphAxisColorKey = @"ORKGraphAxisColorKey";
-NSString *const ORKGraphAxisTitleColorKey = @"ORKGraphAxisTitleColorKey";
-NSString *const ORKGraphReferenceLineColorKey = @"ORKGraphReferenceLineColorKey";
-NSString *const ORKGraphScrubberLineColorKey = @"ORKGraphScrubberLineColorKey";
-NSString *const ORKGraphScrubberThumbColorKey = @"ORKGraphScrubberThumbColorKey";
 NSString *const ORKAuxiliaryImageTintColorKey = @"ORKAuxiliaryImageTintColorKey";
 NSString *const ORKNavigationContainerColorKey = @"ORKNavigationContainerColorKey";
 NSString *const ORKNavigationContainerShadowColorKey = @"ORKNavigationContainerShadowColorKey";
@@ -130,6 +124,26 @@ ORKCachedColorMethod(ork_borderGrayColor, 239.0 / 255.0, 239.0 / 255.0, 244.0 / 
 
 #undef ORKCachedColorMethod
 
++ (UIColor *)ork_splGrayColor {
+    if (@available(iOS 13.0, *)) {
+        return [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traits) {
+            return traits.userInterfaceStyle == UIUserInterfaceStyleDark ? UIColor.systemGray5Color : UIColor.systemGray6Color;
+        }];
+    } else {
+        return UIColor.grayColor;
+    }
+}
+
++ (UIColor *)ork_ringViewStrokeColor {
+    if (@available(iOS 13.0, *)) {
+        return [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traits) {
+            return traits.userInterfaceStyle == UIUserInterfaceStyleDark ? UIColor.systemGray5Color : UIColor.systemGray6Color;
+        }];
+    } else {
+        return UIColor.grayColor;
+    }
+}
+
 @end
 
 static NSMutableDictionary *colors(void) {
@@ -154,12 +168,6 @@ static NSMutableDictionary *colors(void) {
                     ORKDarkTintColorKey: ORKRGB(0x888888),
                     ORKCaptionTextColorKey: ORKRGB(0xcccccc),
                     ORKBlueHighlightColorKey: [UIColor colorWithRed:0.0 green:122.0 / 255.0 blue:1.0 alpha:1.0],
-                    ORKChartDefaultTextColorKey: [UIColor lightGrayColor],
-                    ORKGraphAxisColorKey: [UIColor colorWithRed:217.0 / 255.0 green:217.0 / 255.0 blue:217.0 / 255.0 alpha:1.0],
-                    ORKGraphAxisTitleColorKey: [UIColor colorWithRed:142.0 / 255.0 green:142.0 / 255.0 blue:147.0 / 255.0 alpha:1.0],
-                    ORKGraphReferenceLineColorKey: [UIColor colorWithRed:225.0 / 255.0 green:225.0 / 255.0 blue:229.0 / 255.0 alpha:1.0],
-                    ORKGraphScrubberLineColorKey: [UIColor grayColor],
-                    ORKGraphScrubberThumbColorKey: [UIColor colorWithWhite:1.0 alpha:1.0],
                     ORKAuxiliaryImageTintColorKey: [UIColor colorWithRed:228.0 / 255.0 green:233.0 / 255.0 blue:235.0 / 255.0 alpha:1.0],
                     ORKNavigationContainerColorKey: [UIColor colorWithRed:249.0 / 255.0 green:249.0 / 255.0 blue:251.0 / 255.0 alpha:0.0],
                     ORKNavigationContainerShadowColorKey: [UIColor blackColor],
@@ -595,4 +603,14 @@ UIFontTextStyle ORKTitleLabelFontTextStyleForWindow(UIWindow *window) {
             return UIFontTextStyleLargeTitle;
     }
 }
+
+UIFont *ORKDefaultFontForStyle(UIFontTextStyle style, CGFloat sizeAdjustment) {
+    UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleSubheadline];
+    return [UIFont systemFontOfSize:[[descriptor objectForKey:UIFontDescriptorSizeAttribute] doubleValue] + sizeAdjustment];
+}
+
+CGFloat ORKDefaultFontSizeForStyle(UIFontTextStyle style, CGFloat sizeAdjustment) {
+    return ORKDefaultFontForStyle(style, sizeAdjustment).pointSize;
+}
+
 #endif

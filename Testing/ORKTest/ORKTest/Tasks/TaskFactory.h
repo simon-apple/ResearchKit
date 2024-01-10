@@ -34,7 +34,7 @@
 
 @import UIKit;
 @import ResearchKit;
-
+@import ResearchKitUI;
 
 /*  NOTE: The task creation utility methods are alphabetically sorted within their
  *        their own category file. Make sure you insert your code in the appropriate place

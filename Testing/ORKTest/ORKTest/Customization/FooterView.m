@@ -32,6 +32,7 @@
 #import "FooterView.h"
 
 @import ResearchKit;
+@import ResearchKitUI;
 
 
 @implementation FooterView

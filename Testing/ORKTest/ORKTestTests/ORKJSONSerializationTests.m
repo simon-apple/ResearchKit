@@ -32,10 +32,28 @@
 
 @import XCTest;
 @import ResearchKit_Private;
+@import ResearchKitActiveTask;
+@import ResearchKitActiveTask_Private;
+#if RK_APPLE_INTERNAL
+@import ResearchKitInternal;
+@import ResearchKitInternal_Private;
+#endif
+@import ResearchKitUI;
 
 #import "ORKESerialization.h"
 
 #import <objc/runtime.h>
+
+BOOL ORKIsResearchKitClass(Class class) {
+    NSString *name = NSStringFromClass(class);
+    
+#if RK_APPLE_INTERNAL
+    return [name hasPrefix:@"ORK"] || [name hasPrefix:@"AAPL"];
+#else
+    return [name hasPrefix:@"ORK"];
+#endif
+}
+
 
 
 @interface TestCompilerFlagHelper : NSObject
@@ -284,7 +302,12 @@ ORK_MAKE_TEST_INIT(ORKVerificationStep, ^{return [self initWithIdentifier:[NSUUI
 ORK_MAKE_TEST_INIT(ORKStep, ^{return [self initWithIdentifier:[NSUUID UUID].UUIDString];});
 ORK_MAKE_TEST_INIT(ORKReviewStep, ^{return [[self class] standaloneReviewStepWithIdentifier:[NSUUID UUID].UUIDString steps:@[] resultSource:[[ORKTaskResult alloc] orktest_init]];});
 ORK_MAKE_TEST_INIT(ORKOrderedTask, ^{return [self initWithIdentifier:@"test1" steps:nil];});
+ORK_MAKE_TEST_INIT(ORK3DModelStep, ^{return [[self.class alloc] initWithIdentifier:NSUUID.UUID.UUIDString modelManager: [[ORK3DModelManager alloc] init]]; });
+
+#if RK_APPLE_INTERNAL
 ORK_MAKE_TEST_INIT(ORKAgeAnswerFormat, ^{return [self initWithMinimumAge:0 maximumAge:80 minimumAgeCustomText:nil maximumAgeCustomText:nil showYear:NO useYearForResult:NO treatMinAgeAsRange:false treatMaxAgeAsRange:false defaultValue:0];});
+#endif
+
 #if RK_APPLE_INTERNAL && ORK_FEATURE_AV_JOURNALING
 ORK_MAKE_TEST_INIT(ORKAVJournalingPredefinedTask, ^{
     ORKStep *stepA = [[ORKStep alloc] initWithIdentifier:[NSUUID UUID].UUIDString];
@@ -302,6 +325,10 @@ ORK_MAKE_TEST_INIT(ORKFaceDetectionStep, ^{
 #endif
 
 #if RK_APPLE_INTERNAL
+ORK_MAKE_TEST_INIT(AAPLSpeechRecognitionStep, ^ {
+    return [self initWithIdentifier:[NSUUID UUID].UUIDString image:nil text:@"test1"];
+});
+
 ORK_MAKE_TEST_INIT(ORKSpeechInNoisePredefinedTask, ^{
     ORKStep *stepA = [[ORKStep alloc] initWithIdentifier:[NSUUID UUID].UUIDString];
     ORKStep *stepB = [[ORKStep alloc] initWithIdentifier:[NSUUID UUID].UUIDString];
@@ -323,7 +350,11 @@ ORK_MAKE_TEST_INIT(ORKTinnitusPredefinedTask, ^{
 });
 #endif
 ORK_MAKE_TEST_INIT(ORKImageChoice, ^{return [super init];});
+
+#if RK_APPLE_INTERNAL
 ORK_MAKE_TEST_INIT(ORKColorChoice, ^{return [super init];});
+#endif
+
 ORK_MAKE_TEST_INIT(ORKTextChoice, ^{return [super init];});
 ORK_MAKE_TEST_INIT(ORKTextChoiceOther, ^{return [self initWithText:@"test" primaryTextAttributedString:nil detailText:@"test1" detailTextAttributedString:nil value:@"value" exclusive:YES textViewPlaceholderText:@"test2" textViewInputOptional:NO textViewStartsHidden:YES];});
 ORK_MAKE_TEST_INIT(ORKPredicateStepNavigationRule, ^{return [self initWithResultPredicates:@[[ORKResultPredicate predicateForBooleanQuestionResultWithResultSelector:[ORKResultSelector selectorWithResultIdentifier:@"test"] expectedAnswer:YES]] destinationStepIdentifiers:@[@"test2"]];});
@@ -512,7 +543,9 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
                                                  [ORKKeyValueStepModifier class],     // NSPredicate doesn't yet support JSON serialization
                                                  [ORKCollector class], // ORKCollector doesn't support JSON serialization
                                                  [ORKHealthCollector class],
+#if RK_APPLE_INTERNAL
                                                  [ORKSensitiveURLLearnMoreInstructionStep class],
+#endif
                                                  [ORKHealthCorrelationCollector class],
                                                  [ORKMotionActivityCollector class],
                                                  [ORKShoulderRangeOfMotionStep class],
@@ -640,6 +673,7 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
                                           @"ORKTextAnswerFormat.textContentType",
 #if RK_APPLE_INTERNAL
                                           @"ORKTextAnswerFormat.scrubbers",
+                                          @"ORKColorChoice.value",
 #endif
                                           @"ORKTextChoice.detailTextAttributedString",
                                           @"ORKTextChoice.primaryTextAttributedString",
@@ -721,7 +755,7 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
         if ([excludedClassNames containsObject:NSStringFromClass(aClass)]) {
             continue;
         }
-        if ([NSStringFromClass(aClass) hasPrefix:@"ORK"] &&
+        if (ORKIsResearchKitClass(aClass) &&
             [aClass conformsToProtocol:@protocol(NSSecureCoding)]) {
             [classesWithSecureCoding addObject:aClass];
         }
@@ -967,12 +1001,10 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector(void) {
     
     NSArray *classesExcludedForORKESerialization = testConfiguration.classesExcludedForORKESerialization;
     
-    if ((classesExcludedForORKESerialization.count + classesWithORKSerialization.count) != classesWithSecureCoding.count) {
-        NSMutableArray *unregisteredList = [classesWithSecureCoding mutableCopy];
-        [unregisteredList removeObjectsInArray:classesWithORKSerialization];
-        [unregisteredList removeObjectsInArray:classesExcludedForORKESerialization];
-        XCTAssertEqual(unregisteredList.count, 0, @"Classes didn't implement ORKSerialization %@", unregisteredList);
-    }
+    NSMutableArray *unregisteredList = [classesWithSecureCoding mutableCopy];
+    [unregisteredList removeObjectsInArray:classesWithORKSerialization];
+    [unregisteredList removeObjectsInArray:classesExcludedForORKESerialization];
+    XCTAssertEqual(unregisteredList.count, 0, @"Classes didn't implement ORKSerialization %@", unregisteredList);
     
     // Predefined exception
     NSArray *propertyExclusionList = testConfiguration.propertyExclusionList;
@@ -1060,6 +1092,9 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector(void) {
             [instance setValue:NSStringFromClass([ORKVerificationStepViewController class]) forKey:@"verificationViewControllerString"];
         } else if ([aClass isSubclassOfClass:[ORKReviewStep class]]) {
             [instance setValue:[[ORKTaskResult alloc] orktest_init] forKey:@"resultSource"]; // Manually add here because it's a protocol and hence property doesn't have a class
+        } else if ([aClass isSubclassOfClass:ORK3DModelStep.class]) {
+            // as above, also a protocol
+            [instance setValue:[[ORK3DModelManager alloc] init] forKey:@"modelManager"];
         } else if ([aClass isSubclassOfClass:[ORKPredicateFormItemVisibilityRule class]]) {
             // predicateFormat cannot be an empty sring for deserialization to work
             [instance setValue:@"$title == 'testSerialization' && $className == 'ORKPredicateFormItemVisibilityRule'" forKey:@"predicateFormat"];
@@ -1069,12 +1104,18 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector(void) {
             [(ORKDateAnswerFormat *)instance _setCurrentDateOverride:dateFormatOverrideDate];
             [(ORKDateAnswerFormat *)instance setDaysAfterCurrentDateToSetMinimumDate:1];
             [(ORKDateAnswerFormat *)instance setDaysBeforeCurrentDateToSetMinimumDate:1];
-        } else if ([aClass isSubclassOfClass:[ORKAgeAnswerFormat class]]) {
+        }
+        
+#if RK_APPLE_INTERNAL
+        if ([aClass isSubclassOfClass:[ORKAgeAnswerFormat class]]) {
             [instance setValue:@(0) forKey:@"minimumAge"];
             [instance setValue:@(80) forKey:@"maximumAge"];
             [instance setValue:@(0) forKey:@"defaultValue"];
             [instance setValue:@(2023) forKey:@"relativeYear"];
+        } else if ([aClass isSubclassOfClass:[ORKColorChoice class]]) {
+            [instance setValue:@"blah" forKey:@"value"];
         }
+#endif
 
         // Serialization
         NSDictionary *instanceDictionary = [ORKESerializer JSONObjectForObject:instance context:context error:NULL];
@@ -1219,6 +1260,8 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector(void) {
         [instance setValue:@{@"prop": index?@"value":@"value1"} forKey:p.propertyName];
     } else if (aClass == [ORKTableStep class] && [p.propertyName isEqual:@"items"]) {
         [instance setValue:@[index?@"item":@"item2"] forKey:p.propertyName];
+    } else if ([aClass isSubclassOfClass:ORK3DModelStep.class] && [p.propertyName isEqualToString:@"modelManager"]) {
+        return NO;
     } else {
         id instanceForChild = [self instanceForClass:p.propertyClass];
         [instance setValue:instanceForChild forKey:p.propertyName];
@@ -1262,6 +1305,7 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector(void) {
         NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:data error:nil];
         unarchiver.requiresSecureCoding = YES;
         unarchiver.delegate = self;
+        
         NSMutableSet<Class> *decodingClasses = [NSMutableSet setWithArray:classesWithSecureCoding];
         [decodingClasses addObject:[NSDate class]];
         [decodingClasses addObject:[HKQueryAnchor class]];
@@ -1270,6 +1314,7 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector(void) {
         
         // Set of classes we can check for equality. Would like to get rid of this once we implement
         NSSet *checkableClasses = [NSSet setWithObjects:[NSNumber class], [NSString class], [NSDictionary class], [NSURL class], nil];
+        
         // All properties should have matching fields in dictionary (allow predefined exceptions)
         for (NSString *pName in propertyNames) {
             id newValue = [newInstance valueForKey:pName];
@@ -1282,6 +1327,7 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector(void) {
                     XCTAssertTrue(success, "Unexpected notSerializedProperty = %@", notSerializedProperty);
                 }
             }
+            
             for (Class c in checkableClasses) {
                 if ([oldValue isKindOfClass:c]) {
                     if ([newValue isKindOfClass:[NSURL class]] || [oldValue isKindOfClass:[NSURL class]]) {
@@ -1310,7 +1356,9 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector(void) {
         NSKeyedUnarchiver *unarchiver2 = [[NSKeyedUnarchiver alloc] initForReadingFromData:data2 error:nil];
         unarchiver2.requiresSecureCoding = YES;
         unarchiver2.delegate = self;
+        
         id newInstance2 = [unarchiver2 decodeObjectOfClasses:decodingClasses forKey:NSKeyedArchiveRootObjectKey];
+        
         NSData *data3 = [NSKeyedArchiver archivedDataWithRootObject:newInstance2 requiringSecureCoding:YES error:nil];
         
         if (![data isEqualToData:data2]) { // allow breakpointing
@@ -1327,12 +1375,14 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector(void) {
                 XCTAssertEqualObjects(data, data2, @"data mismatch for %@", NSStringFromClass(aClass));
             }
         }
+        
         if (![data2 isEqualToData:data3]) { // allow breakpointing
             XCTAssertEqualObjects(data2, data3, @"data mismatch for %@", NSStringFromClass(aClass));
         }
         if (![newInstance isEqual:instance]) {
             XCTAssertEqualObjects(newInstance, instance, @"equality mismatch for %@", NSStringFromClass(aClass));
         }
+        
         if (![newInstance2 isEqual:instance]) {
             XCTAssertEqualObjects(newInstance2, instance, @"equality mismatch for %@", NSStringFromClass(aClass));
         }
@@ -1383,7 +1433,7 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector(void) {
             continue;
         }
         
-        if ([NSStringFromClass(aClass) hasPrefix:@"ORK"] &&
+        if (ORKIsResearchKitClass(aClass) &&
             [aClass conformsToProtocol:@protocol(NSSecureCoding)] &&
             [aClass conformsToProtocol:@protocol(NSCopying)]) {
             
@@ -1428,6 +1478,9 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector(void) {
                                        @"ORKConsentDocument.instructionSteps",
                                        @"ORKFormStep.useCardView",
                                        @"ORKSpeechRecognitionStep.shouldHideTranscript",
+#if RK_APPLE_INTERNAL
+                                       @"AAPLSpeechRecognitionStep.shouldHideTranscript",
+#endif
                                        @"ORKTableStep.isBulleted",
                                        @"ORKTableStep.allowsSelection",
                                        @"ORKPDFViewerStep.actionBarOption",
@@ -1575,7 +1628,6 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector(void) {
                                                                              @"ORKHolePegTestRemoveStepViewController" : @"ORKHolePegTestRemoveStep",
                                                                              @"ORKImageCaptureStepViewController" : @"ORKImageCaptureStep",
                                                                              @"ORKPSATStepViewController" : @"ORKPSATStep",
-                                                                             @"ORKQuestionStepViewController" : @"ORKQuestionStep",
                                                                              @"ORKSpatialSpanMemoryStepViewController" : @"ORKSpatialSpanMemoryStep",
                                                                              @"ORKStroopStepViewController" : @"ORKStroopStep",
                                                                              @"ORKTimedWalkStepViewController" : @"ORKTimedWalkStep",
@@ -1648,7 +1700,7 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector(void) {
                 continue;
             }
             
-            if ([NSStringFromClass(aClass) hasPrefix:@"ORK"] &&
+            if (ORKIsResearchKitClass(aClass) &&
                 [aClass isSubclassOfClass:[ORKStepViewController class]]) {
                 
                 [stepViewControllerClassses addObject:aClass];

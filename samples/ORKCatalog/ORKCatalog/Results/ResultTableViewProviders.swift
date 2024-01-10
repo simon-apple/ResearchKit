@@ -30,6 +30,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import UIKit
 import ResearchKit
+import ResearchKitActiveTask
+import ResearchKitActiveTask_Private
+#if RK_APPLE_INTERNAL
+import ResearchKitInternal
+#endif
 import MapKit
 import Speech
 
@@ -183,8 +188,9 @@ func resultTableViewProviderForResult(_ result: ORKResult?, delegate: ResultProv
     case is ORKdBHLToneAudiometryResult:
         providerType = dBHLToneAudiometryResultTableViewProvider.self
 
-    // start-omit-internal-code
     #if RK_APPLE_INTERNAL
+    case is ORKFamilyHistoryResult:
+        providerType = FamilyHistoryResultTableViewProvider.self
 
     case is ORKHeadphoneDetectResult:
         providerType = HeadphoneDetectStepResultTableViewProvider.self
@@ -212,9 +218,7 @@ func resultTableViewProviderForResult(_ result: ORKResult?, delegate: ResultProv
         
     case is ORKBLEScanPeripheralsStepResult:
         providerType = BLEScanPeripheralsStepResultTableViewProvider.self
-                    
     #endif
-    // end-omit-internal-code
 
     default:
         fatalError("No ResultTableViewProvider defined for \(type(of: result)).")
@@ -1341,6 +1345,7 @@ class CollectionResultTableViewProvider: ResultTableViewProvider {
     }
 }
 
+#if RK_APPLE_INTERNAL
 /// Table view provider specific to an `ORKFamilyHistoryResult` instance.
 class FamilyHistoryResultTableViewProvider: TaskResultTableViewProvider {
     // MARK: ResultTableViewProvider
@@ -1371,6 +1376,7 @@ class FamilyHistoryResultTableViewProvider: TaskResultTableViewProvider {
         return rows
     }
 }
+#endif
 
 /// Table view provider specific to an `ORKVideoInstructionStepResult` instance.
 // swiftlint:disable type_name

@@ -35,6 +35,8 @@
 import Foundation
 import UIKit
 import ResearchKit
+import ResearchKitUI
+import ResearchKitUI_Private
 
 // swiftlint:disable:next type_body_length
 class StudyPromoViewController: ORKCustomStepViewController {
