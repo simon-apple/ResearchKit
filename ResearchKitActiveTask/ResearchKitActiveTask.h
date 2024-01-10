@@ -60,6 +60,7 @@ FOUNDATION_EXPORT const unsigned char ResearchKitActiveTaskVersionString[];
 #import <ResearchKitActiveTask/ORKHolePegTestPlaceStepViewController.h>
 #import <ResearchKitActiveTask/ORKHolePegTestRemoveStepViewController.h>
 #import <ResearchKitActiveTask/ORKHolePegTestResult.h>
+#import <ResearchKitActiveTask/ORKNormalizedReactionTimeStep.h>
 #import <ResearchKitActiveTask/ORKOrderedTask+ORKPredefinedActiveTask.h>
 #import <ResearchKitActiveTask/ORKPSATResult.h>
 #import <ResearchKitActiveTask/ORKPSATStepViewController.h>
