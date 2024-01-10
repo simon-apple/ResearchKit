@@ -188,6 +188,7 @@ ORKQuestionStepPresentationStyle const ORKQuestionStepPresentationStylePlatter =
     questionStep.answerFormat = [self.answerFormat copy];
     questionStep.placeholder = [self.placeholder copy];
 #if TARGET_OS_IOS
+    questionStep.formStep = [self.formStep copy];
     questionStep.learnMoreItem = [self.learnMoreItem copy];
     questionStep.presentationStyle = self.presentationStyle;
 #endif
@@ -205,6 +206,7 @@ ORKQuestionStepPresentationStyle const ORKQuestionStepPresentationStylePlatter =
     ORKEqualObjects(self.answerFormat, castObject.answerFormat) &&
     ORKEqualObjects(self.placeholder, castObject.placeholder) &&
 #if TARGET_OS_IOS
+    ORKEqualObjects(self.formStep, self.formStep) &&
     ORKEqualObjects(self.presentationStyle, castObject.presentationStyle) &&
     ORKEqualObjects(self.learnMoreItem, castObject.learnMoreItem) &&
 #endif
@@ -221,6 +223,7 @@ ORKQuestionStepPresentationStyle const ORKQuestionStepPresentationStylePlatter =
     (_useCardView ? 0xf : 0x0) ^
     self.tagText.hash
 #if TARGET_OS_IOS
+    ^ self.formStep.hash
     ^ self.learnMoreItem.hash
     ^ _presentationStyle.hash
 #endif
@@ -247,6 +250,7 @@ ORKQuestionStepPresentationStyle const ORKQuestionStepPresentationStylePlatter =
         ORK_DECODE_OBJ_CLASS(aDecoder, placeholder, NSString);
         ORK_DECODE_OBJ_CLASS(aDecoder, question, NSString);
 #if TARGET_OS_IOS
+        ORK_DECODE_OBJ_CLASS(aDecoder, formStep, ORKFormStep);
         ORK_DECODE_OBJ_CLASS(aDecoder, learnMoreItem, ORKLearnMoreItem);
         ORK_DECODE_OBJ_CLASS(aDecoder, presentationStyle, NSString);
 #endif
@@ -264,6 +268,7 @@ ORKQuestionStepPresentationStyle const ORKQuestionStepPresentationStylePlatter =
     ORK_ENCODE_OBJ(aCoder, placeholder);
     ORK_ENCODE_OBJ(aCoder, question);
 #if TARGET_OS_IOS
+    ORK_ENCODE_OBJ(aCoder, formStep);
     ORK_ENCODE_OBJ(aCoder, learnMoreItem);
     ORK_ENCODE_OBJ(aCoder, presentationStyle);
 #endif
