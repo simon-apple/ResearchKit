@@ -105,8 +105,9 @@ enum TaskListRowSteps {
         
         let sectionHeaderFormItem = ORKFormItem(sectionTitle: TaskListRowStrings.exampleQuestionText)
         let decimalFormItem = ORKFormItem(identifier: String(describing: Identifier.numericFormItem),
-                                          text: TaskListRowStrings.exampleTapHereText,
+                                          text: nil,
                                           answerFormat: decimalAnswerFormat)
+        decimalFormItem.placeholder = "Enter value"
         
         let decimalFormStep = ORKFormStep(identifier: String(describing: Identifier.numericQuestionFormStep),
                                           title: NSLocalizedString("Numeric", comment: ""),
@@ -121,8 +122,9 @@ enum TaskListRowSteps {
         
         let sectionHeaderFormItem = ORKFormItem(sectionTitle: TaskListRowStrings.exampleQuestionText)
         let decimalFormItem = ORKFormItem(identifier: String(describing: Identifier.numericFormItem),
-                                          text: TaskListRowStrings.exampleTapHereText,
+                                          text: nil,
                                           answerFormat: decimalAnswerFormat)
+        decimalFormItem.placeholder = "Enter value"
         
         let decimalFormStep = ORKFormStep(identifier: String(describing: Identifier.numericNoUnitQuestionFormStep),
                                           title:NSLocalizedString("Numeric", comment: ""),
@@ -142,8 +144,9 @@ enum TaskListRowSteps {
         
         let sectionHeaderFormItem = ORKFormItem(sectionTitle: TaskListRowStrings.exampleQuestionText)
         let decimalFormItem = ORKFormItem(identifier: String(describing: Identifier.numericFormItem),
-                                          text: TaskListRowStrings.exampleTapHereText,
+                                          text: nil,
                                           answerFormat: decimalAnswerFormat)
+        decimalFormItem.placeholder = "Enter value"
         
         let decimalFormStep = ORKFormStep(identifier: String(describing: Identifier.numericDisplayUnitQuestionFormStep),
                                           title: NSLocalizedString("Numeric with Display Unit", comment: ""),
@@ -159,7 +162,8 @@ enum TaskListRowSteps {
         let emailAnswerFormatDomain = ORKAnswerFormat.textAnswerFormat(withValidationRegularExpression: emailDomainRegularExpression!, invalidMessage: "Invalid Email: %@")
         
         let sectionHeaderFormItem = ORKFormItem(sectionTitle: NSLocalizedString("Email", comment: ""))
-        let emailFormItem = ORKFormItem(identifier: String(describing: Identifier.validatedTextFormItem), text: TaskListRowStrings.exampleTapHereText, answerFormat: emailAnswerFormatDomain)
+        let emailFormItem = ORKFormItem(identifier: String(describing: Identifier.validatedTextFormItem), text: nil, answerFormat: emailAnswerFormatDomain)
+        emailFormItem.placeholder = "Enter email"
         
         let emailFormStep = ORKFormStep(identifier: String(describing: Identifier.validatedTextFormStepEmail), title: NSLocalizedString("Validated Text", comment: ""), text: TaskListRowStrings.exampleDetailText)
         emailFormStep.formItems = [sectionHeaderFormItem, emailFormItem]
@@ -363,7 +367,8 @@ enum TaskListRowSteps {
         let timeIntervalAnswerFormat = ORKAnswerFormat.timeIntervalAnswerFormat()
         
         let formItemSectionHeader = self.formItemSectionHeaderExample
-        let timeIntervalFormItem = ORKFormItem(identifier: String(describing: Identifier.timeIntervalFormItem), text: TaskListRowStrings.exampleTapHereText, answerFormat: timeIntervalAnswerFormat)
+        let timeIntervalFormItem = ORKFormItem(identifier: String(describing: Identifier.timeIntervalFormItem), text: nil, answerFormat: timeIntervalAnswerFormat)
+        timeIntervalFormItem.placeholder = "Select interval"
         
         let timeIntervalFormStep = ORKFormStep(identifier: String(describing: Identifier.timeIntervalFormStep), title: NSLocalizedString("Time Interval", comment: ""), text: TaskListRowStrings.exampleDetailText)
         timeIntervalFormStep.formItems = [formItemSectionHeader, timeIntervalFormItem]
@@ -381,7 +386,8 @@ enum TaskListRowSteps {
         let timeOfDayAnswerFormat = ORKAnswerFormat.timeOfDayAnswerFormat()
         
         let formItemSectionHeader = self.formItemSectionHeaderExample
-        let timeOfDayFormItem = ORKFormItem(identifier: String(describing: Identifier.timeOfDayFormItem), text: TaskListRowStrings.exampleTapHereText, answerFormat: timeOfDayAnswerFormat)
+        let timeOfDayFormItem = ORKFormItem(identifier: String(describing: Identifier.timeOfDayFormItem), text: nil, answerFormat: timeOfDayAnswerFormat)
+        timeOfDayFormItem.placeholder = "Select time of day"
         
         let timeIntervalFormStep = ORKFormStep(identifier: String(describing: Identifier.timeOfDayQuestionFormStep), title: NSLocalizedString("Time", comment: ""), text: TaskListRowStrings.exampleDetailText)
         timeIntervalFormStep.formItems = [formItemSectionHeader, timeOfDayFormItem]
@@ -431,7 +437,8 @@ enum TaskListRowSteps {
         textAnswerFormat.textContentType = UITextContentType.URL
         
         let sectionHeaderFormItem = ORKFormItem(sectionTitle: NSLocalizedString("URL", comment: ""))
-        let validatedTextFormItem = ORKFormItem(identifier: String(describing: Identifier.validatedTextFormItem), text: TaskListRowStrings.exampleTapHereText, answerFormat:textAnswerFormat)
+        let validatedTextFormItem = ORKFormItem(identifier: String(describing: Identifier.validatedTextFormItem), text: nil, answerFormat:textAnswerFormat)
+        validatedTextFormItem.placeholder = "enter URL"
         
         let validatedTextFormStep = ORKFormStep(identifier: String(describing: Identifier.validatedTextFormStepDomain), title: NSLocalizedString("Validated Text", comment: ""), text: TaskListRowStrings.exampleDetailText)
         validatedTextFormStep.formItems = [sectionHeaderFormItem, validatedTextFormItem]
@@ -444,7 +451,8 @@ enum TaskListRowSteps {
         let valuePickerAnswerFormat = ORKAnswerFormat.valuePickerAnswerFormat(with: textChoices)
         
         let sectionHeaderFormItem = self.formItemSectionHeaderExample
-        let valuePickerFormItem = ORKFormItem(identifier: String(describing: Identifier.valuePickerChoiceFormItem), text: TaskListRowStrings.exampleTapHereText, answerFormat: valuePickerAnswerFormat)
+        let valuePickerFormItem = ORKFormItem(identifier: String(describing: Identifier.valuePickerChoiceFormItem), text: nil, answerFormat: valuePickerAnswerFormat)
+        valuePickerFormItem.placeholder = "Select value"
         
         let valuePickerFormStep = ORKFormStep(identifier: String(describing: Identifier.valuePickerChoiceFormStep), title: NSLocalizedString("Value Picker", comment: ""), text: TaskListRowStrings.exampleDetailText)
         valuePickerFormStep.formItems = [sectionHeaderFormItem, valuePickerFormItem]
@@ -590,7 +598,8 @@ enum TaskListRowSteps {
     
     private static func heightWeightFormStepExample(identifier: String, answerFormat: ORKAnswerFormat, title: String, text: String) -> ORKFormStep {
         let formItemSectionHeader = self.formItemSectionHeaderExample
-        let heightQuestionFormItem = ORKFormItem(identifier: String(describing: Identifier.heightQuestionFormItem1), text: TaskListRowStrings.exampleTapHereText, answerFormat: answerFormat)
+        let heightQuestionFormItem = ORKFormItem(identifier: String(describing: Identifier.heightQuestionFormItem1), text: nil, answerFormat: answerFormat)
+        heightQuestionFormItem.placeholder = TaskListRowStrings.exampleTapHereText
         
         let heightQuestionFormStep = ORKFormStep(identifier: String(describing: identifier), title: title, text: text)
         heightQuestionFormStep.formItems = [formItemSectionHeader, heightQuestionFormItem]

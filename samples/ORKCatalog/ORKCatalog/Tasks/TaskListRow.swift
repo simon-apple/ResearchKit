@@ -1257,7 +1257,8 @@ enum TaskListRow: Int, CustomStringConvertible {
         let dateAnswerFormat = ORKAnswerFormat.dateAnswerFormatWithDays(beforeCurrentDate: 3, daysAfterCurrentDate: 3, calendar: nil)
         
         let dateQuestionSectionHeaderFormItem = ORKFormItem(sectionTitle: TaskListRowStrings.exampleQuestionText)
-        let dateQuestionFormItem = ORKFormItem(identifier: String(describing: Identifier.dateQuestionFormItem), text: "tap here", answerFormat: dateAnswerFormat)
+        let dateQuestionFormItem = ORKFormItem(identifier: String(describing: Identifier.dateQuestionFormItem), text: nil, answerFormat: dateAnswerFormat)
+        dateQuestionFormItem.placeholder = "Select Date"
         let dateQuestionFormStep = ORKFormStep(identifier: String(describing: Identifier.dateQuestionStep), title: NSLocalizedString("Date", comment: ""), text: TaskListRowStrings.exampleDate3DayLimitQuestionTask)
         dateQuestionFormStep.formItems = [dateQuestionSectionHeaderFormItem, dateQuestionFormItem]
         
@@ -1274,7 +1275,8 @@ enum TaskListRow: Int, CustomStringConvertible {
         let dateTimeAnswerFormat = ORKAnswerFormat.dateTime()
         
         let dateTimeQuestionSectionHeaderFormItem = ORKFormItem(sectionTitle: TaskListRowStrings.exampleQuestionText)
-        let dateTimeQuestionFormItem = ORKFormItem(identifier: String(describing: Identifier.dateTimeQuestionFormStep), text: "tap here", answerFormat: dateTimeAnswerFormat)
+        let dateTimeQuestionFormItem = ORKFormItem(identifier: String(describing: Identifier.dateTimeQuestionFormStep), text: nil, answerFormat: dateTimeAnswerFormat)
+        dateTimeQuestionFormItem.placeholder = "Select Date & Time"
         let dateTimeQuestionFormStep = ORKFormStep(identifier: String(describing: Identifier.dateTimeQuestionFormItem), title: NSLocalizedString("Date and Time", comment: ""), text: TaskListRowStrings.exampleQuestionText)
         dateTimeQuestionFormStep.formItems = [dateTimeQuestionSectionHeaderFormItem, dateTimeQuestionFormItem]
         
