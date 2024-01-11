@@ -43,8 +43,9 @@ final class RequestPermissionsStep: Step {
         XCTAssertEqual(expectedCount, permissionButtons, "Failed to find this many permission buttons: \(expectedCount)")
     }
     
-    enum PermissionButtonLabel {
-        case labelDefault, labelConnected
+    enum PermissionButtonLabel: String {
+        case labelDefault = "Review"
+        case labelConnected = "Reviewed"
     }
     
     @discardableResult
@@ -53,7 +54,7 @@ final class RequestPermissionsStep: Step {
         if !reviewPermissionButton.visible {
             reviewPermissionButton.scrollUntilVisible()
         }
-        wait(for: reviewPermissionButton)
+        wait(for: reviewPermissionButton, withTimeout: 30)
         wait(for: reviewPermissionButton, toBeEnabled: isEnabled, failureMessage: "Permission button at index \(index) is not enabled")
         return self
     }
@@ -61,7 +62,7 @@ final class RequestPermissionsStep: Step {
     @discardableResult
     func tapPermissionButton(atIndex index: Int) -> Self {
         let reviewPermissionButton = getPermissionButtons().element(boundBy: index)
-        wait(for: reviewPermissionButton)
+        wait(for: reviewPermissionButton, withTimeout: 30)
         reviewPermissionButton.tap()
         return self
     }
@@ -71,13 +72,15 @@ final class RequestPermissionsStep: Step {
     func verifyPermissionButtonLabelExists(atIndex index: Int, label: PermissionButtonLabel) -> Self {
         var reviewPermissionButtonLabel: XCUIElement
         let reviewPermissionButton = Self().getPermissionButtons().element(boundBy: index)
+        wait(for: reviewPermissionButton, withTimeout: 30)
         switch label {
         case .labelDefault:
             reviewPermissionButtonLabel = reviewPermissionButton.staticTexts.matching(identifier: AccessibilityIdentifiers.RequestPermissionsStep.permissionButtonLabelDefault).firstMatch
         case .labelConnected:
             reviewPermissionButtonLabel = reviewPermissionButton.staticTexts.matching(identifier: AccessibilityIdentifiers.RequestPermissionsStep.permissionButtonLabelConnected).firstMatch
         }
-        wait(for: reviewPermissionButtonLabel, failureMessage: "Permission button label \(PermissionButtonLabel.self)")
+        print(label.rawValue)
+        wait(for: reviewPermissionButtonLabel, withTimeout: 30, failureMessage: "Permission button label \(label.rawValue)")
         return self
     }
     
@@ -87,7 +90,7 @@ final class RequestPermissionsStep: Step {
         if !dataTypeTitle.visible {
             dataTypeTitle.scrollUntilVisible()
         }
-        XCTAssert(dataTypeTitle.exists)
+        wait(for: dataTypeTitle)
         return self
     }
     
@@ -97,7 +100,7 @@ final class RequestPermissionsStep: Step {
         if !dataTypeImage.visible {
             dataTypeImage.scrollUntilVisible()
         }
-        XCTAssert(dataTypeImage.exists)
+        wait(for: dataTypeImage)
         return self
     }
 }

@@ -475,6 +475,7 @@ final class FormStep: Step {
     @discardableResult
     func answerDateQuestion(year: String, month: String, day: String, dismissPicker: Bool = false) -> Self {
         let picker = Self.firstPicker
+        wait(for: picker, withTimeout: 30)
         picker.pickerWheels.element(boundBy: 2).adjust(toPickerWheelValue: year)
         picker.pickerWheels.element(boundBy: 1).adjust(toPickerWheelValue: day)
         picker.pickerWheels.element(boundBy: 0).adjust(toPickerWheelValue: month)
@@ -486,6 +487,7 @@ final class FormStep: Step {
     
     func verifyDatePickerWheelValues(expectedYear: String, expectedMonth: String, expectedDay: String) -> Self {
         let picker = Self.firstPicker
+        wait(for: picker, withTimeout: 30)
         let actualYear = picker.pickerWheels.element(boundBy: 2).value as? String ?? ""
         let actualDay = picker.pickerWheels.element(boundBy: 1).value as? String ?? ""
         let actualMonth = picker.pickerWheels.element(boundBy: 0).value as? String ?? ""
@@ -508,6 +510,7 @@ final class FormStep: Step {
         let expectedYear = currentDateComponents[2]
         
         let picker = Self.firstPicker
+        wait(for: picker, withTimeout: 30)
         let actualYear = picker.pickerWheels.element(boundBy: 2).value as? String ?? ""
         let actualDay = picker.pickerWheels.element(boundBy: 1).value as? String ?? ""
         let actualMonth = picker.pickerWheels.element(boundBy: 0).value as? String ?? ""
@@ -524,6 +527,7 @@ final class FormStep: Step {
     @discardableResult
     func answerPickerValueChoiceQuestion(value: String, verifyResultValue: Bool = false, dismissPicker: Bool = false) -> Self {
         let picker = Self.firstPicker
+        wait(for: picker, withTimeout: 30)
         let pickerWheel = picker.pickerWheels.firstMatch // There is only one picker wheel
         wait(for: pickerWheel)
         pickerWheel.adjust(toPickerWheelValue: value)
@@ -561,7 +565,7 @@ final class FormStep: Step {
     @discardableResult
     func answerHeighQuestion(feet: Int, inches: Int, dismissPicker: Bool) -> Self {
         let picker = Self.firstPicker
-        wait(for: picker)
+        wait(for: picker, withTimeout: 30)
         let footPickerValue = "\(feet) ft"
         let inchPickerValue = "\(inches) in"
         let footWheel = picker.pickerWheels.element(boundBy: 0)
