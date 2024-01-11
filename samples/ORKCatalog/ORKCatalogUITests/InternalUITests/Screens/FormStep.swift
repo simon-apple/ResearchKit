@@ -26,7 +26,7 @@ final class FormStep: Step {
         app.otherElements[AccessibilityIdentifiers.FormStep.view].firstMatch
     }
     
-    /// Verify that step type did not change
+    /// Verifies that step type did not change
     func verifyStepView(_ exists: Bool = true) -> Self {
         wait(for: Self.stepView, toExists: exists)
         return self
@@ -207,8 +207,8 @@ final class FormStep: Step {
     func answerBooleanQuestion(
         withId formItemId: String,
         atIndex index: Int,
-        yesString: String = "Yes", // TODO: rdar://117821622 (Add localization support for UI Tests)
-        noString: String = "No"
+        yesString: String = "Yes",
+        noString: String = "No" /// TODO: rdar://117821622 (Add localization support for UI Tests)
     ) -> Self {
         guard index <= 1 else {
             XCTFail("Cell index should be in range between 0 and 1")
@@ -221,7 +221,7 @@ final class FormStep: Step {
     }
 
     /**
-     Verify that we only have 1 cell selected across several cells (we need specific range because other questions may also be selected)
+     Verifies that we only have 1 cell selected across several cells (we need specific range because other questions may also be selected)
      - parameter formItemId: The string that identifies the form item, which should be unique within the form step
      - parameter index: index that should be selected
      - parameter cellsRange: the range of cells that will be verified
@@ -361,7 +361,7 @@ final class FormStep: Step {
         let formItem = FormStep().getFormItemCell(withId: formItemId, atIndex: index)
         let textView = formItem.textViews.firstMatch
         
-        // Verify placeholder text instead of entered text
+        /// Verifies placeholder text instead of entered text
         if isPlaceholderExpected {
             textView.textViews.element.verifyElementValue(expectedValue: expectedValue)
             return self
@@ -713,7 +713,7 @@ final class FormStep: Step {
     
     static var firstSlider = app.sliders.firstMatch
     
-    /// Adjusts first found slider to normalized position
+    /// Adjusts the first slider found to normalized position
     @discardableResult
     func adjustFirstSlider(toNormalizedSliderPosition: CGFloat) -> Self {
         wait(for: Self.firstSlider)
