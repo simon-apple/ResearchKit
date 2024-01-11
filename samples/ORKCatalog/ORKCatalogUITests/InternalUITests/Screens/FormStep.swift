@@ -460,7 +460,7 @@ final class FormStep: Step {
     
     func adjustPickerWheels(hours: Int, minutes: Int, dismissPicker: Bool = false) {
         let picker = Self.firstPicker
-        wait(for: picker)
+        wait(for: picker, withTimeout: 30)
         let hourWheel = picker.pickerWheels.element(boundBy: 0)
         let minuteWheel = picker.pickerWheels.element(boundBy: 1)
         
@@ -579,7 +579,7 @@ final class FormStep: Step {
     @discardableResult
     func answerHeighQuestion(cm: Int, dismissPicker: Bool) -> Self {
         let picker = Self.firstPicker
-        wait(for: picker)
+        wait(for: picker, withTimeout: 30)
         let cmPickerValue = "\(cm) cm"
         let cmWheel = picker.pickerWheels.element.firstMatch /// There is only one picker wheel(cm)
         cmWheel.adjust(toPickerWheelValue: cmPickerValue)
@@ -596,7 +596,7 @@ final class FormStep: Step {
     @discardableResult
     func answerWeighQuestion(lb: Int, dismissPicker: Bool) -> Self {
         let picker = Self.firstPicker
-        wait(for: picker)
+        wait(for: picker, withTimeout: 30)
         let lbPickerValue = "\(lb) lb"
         let lbWheel = picker.pickerWheels.element.firstMatch /// There is only one picker wheel(lb)
         lbWheel.adjust(toPickerWheelValue: lbPickerValue)
@@ -613,7 +613,7 @@ final class FormStep: Step {
     @discardableResult
     func answerWeighQuestion(lb: Int, oz: Int, dismissPicker: Bool) -> Self {
         let picker = Self.firstPicker
-        wait(for: picker)
+        wait(for: picker, withTimeout: 30)
         let lbPickerValue = "\(lb) lb"
         let ozPickerValue = "\(oz) oz"
         let lbWheel = picker.pickerWheels.element(boundBy: 0)
@@ -633,7 +633,7 @@ final class FormStep: Step {
     @discardableResult
     func answerWeighQuestion(kg: Int, dismissPicker: Bool) -> Self {
         let picker = Self.firstPicker
-        wait(for: picker)
+        wait(for: picker, withTimeout: 30)
         let kgPickerValue = "\(kg) kg"
         let kgWheel = picker.pickerWheels.element.firstMatch /// There is only one picker wheel(kg)
         kgWheel.adjust(toPickerWheelValue: kgPickerValue)
@@ -650,7 +650,7 @@ final class FormStep: Step {
     @discardableResult
     func answerWeighQuestion(kg: Double, highPrecision: Bool = false, dismissPicker: Bool) -> Self {
         let picker = Self.firstPicker
-        wait(for: picker)
+        wait(for: picker, withTimeout: 30)
         var kgPickerValue: String
         let kgString = String(describing: kg)
         let components = kgString.components(separatedBy: ".")

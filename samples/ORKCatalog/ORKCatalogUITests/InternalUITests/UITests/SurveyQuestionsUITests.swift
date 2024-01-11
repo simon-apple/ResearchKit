@@ -251,8 +251,10 @@ final class SurveyQuestionsUITests: BaseUITest {
     func testValuePickerChoiceQuestion() {
         tasksList
             .selectTaskByName(Task.valuePickerChoiceQuestion.description)
-           
-        let textChoices = ["Choice 1", "Choice 2", "Choice 3"] /// rdar://117821622 (Add localization support for UI Tests)
+        
+       // let textChoices = ["Choice 1", "Choice 2", "Choice 3"]
+        let textChoices = ["Poor", "Fair", "Good", "Above Average", "Excellent"]
+        /// rdar://117821622 (Add localization support for UI Tests)
         
         let questionStep = FormStep()
         let id = "valuePickerChoiceFormItem"
@@ -506,7 +508,7 @@ final class SurveyQuestionsUITests: BaseUITest {
                  .verify(.title)
                  .verify(.text)
                  .verify(.skipButton, isEnabled: true)
-                 .verify(.continueButton, isEnabled: false)
+                 .verify(.continueButton, isEnabled: expectingNextButtonEnabledByDefault)
      
              questionStep
                  .answerImageChoiceQuestion(withId: formId, imageIndex: 0, expectedLabel: squareShape)

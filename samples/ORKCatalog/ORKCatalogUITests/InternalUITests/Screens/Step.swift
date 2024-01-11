@@ -108,6 +108,7 @@ class Step {
     }
     
     /// Taps "Cancel" button on the navigation bar and subsequently taps "End Task" button in action sheet modal view
+    @discardableResult
     func cancelTask() -> TasksTab {
         let cancelButton = Self.StepComponent.cancelButton.element
         wait(for: cancelButton)

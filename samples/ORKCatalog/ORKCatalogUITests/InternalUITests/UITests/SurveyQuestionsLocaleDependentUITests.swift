@@ -24,7 +24,7 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
     /// This issue required extra button tap to dismiss picker to continue
     let shouldUseUIPickerWorkaround = true
     
-    let expectingNonOptionalsStep = false
+    let expectingNonOptionalStep = false
     
     override func setUpWithError() throws {
         /// Start with clean state. Reset authorization status for health and location
@@ -96,7 +96,7 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
             .verify(.continueButton, isEnabled: true)
             .tap(.continueButton)
         
-        if expectingNonOptionalsStep {
+        if expectingNonOptionalStep {
             // Local system NonOptional Question
             questionStep
                 .verify(.title)
@@ -141,7 +141,7 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
             .verify(.continueButton, isEnabled: true)
             .tap(.continueButton)
         
-        if expectingNonOptionalsStep {
+        if expectingNonOptionalStep {
             // Metric system NonOptional Question
             questionStep
                 .verify(.title)
@@ -182,7 +182,7 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
             .verify(.continueButton, isEnabled: true)
             .tap(.continueButton)
         
-        if expectingNonOptionalsStep {
+        if expectingNonOptionalStep {
             // USCSystem system NonOptional Question
             questionStep
                 .verify(.title)
@@ -203,7 +203,7 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
                 .tap(.continueButton)
         }
         
-        if expectingNonOptionalsStep {
+        if expectingNonOptionalStep {
             // HealthKit integration NonOptional
             // TODO: rdar://118141808 (Height/Weight Questions should prefill with HealthKit value)
             questionStep
@@ -298,7 +298,7 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
             .verify(.continueButton, isEnabled: true)
             .tap(.continueButton)
         
-        if expectingNonOptionalsStep {
+        if expectingNonOptionalStep {
             // Local system NonOptional Question
             questionStep
                 .verify(.title)
@@ -344,7 +344,7 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
             .verify(.continueButton, isEnabled: true)
             .tap(.continueButton)
         
-        if expectingNonOptionalsStep {
+        if expectingNonOptionalStep {
             // Metric system Non Optional Question - default precision
             questionStep
                 .verify(.title)
@@ -387,7 +387,7 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
             .verify(.continueButton, isEnabled: true)
             .tap(.continueButton)
         
-        if expectingNonOptionalsStep {
+        if expectingNonOptionalStep {
             // Metric system Non Optional Question - low precision
             questionStep
                 .verify(.title)
@@ -430,7 +430,7 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
             .verify(.continueButton, isEnabled: true)
             .tap(.continueButton)
         
-        if expectingNonOptionalsStep {
+        if expectingNonOptionalStep {
             // Metric system Non Optional Question - high precision
             questionStep
                 .verify(.title)
@@ -472,7 +472,7 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
             .verify(.continueButton, isEnabled: true)
             .tap(.continueButton)
         
-        if expectingNonOptionalsStep {
+        if expectingNonOptionalStep {
             // USC system NonOptional Question - default precision
             questionStep
                 .verify(.title)
@@ -514,7 +514,7 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
             .verify(.continueButton, isEnabled: true)
             .tap(.continueButton)
         
-        if expectingNonOptionalsStep {
+        if expectingNonOptionalStep {
             // USC system NonOptional Question - default precision
             questionStep
                 .verify(.title)
@@ -536,7 +536,7 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
         }
 
         
-        if expectingNonOptionalsStep {
+        if expectingNonOptionalStep {
             // HealthKit integration - Non Optional // TODO: rdar://118141808 (Height/Weight Questions should prefill with HealthKit value)
             questionStep
                 .verify(.title)
