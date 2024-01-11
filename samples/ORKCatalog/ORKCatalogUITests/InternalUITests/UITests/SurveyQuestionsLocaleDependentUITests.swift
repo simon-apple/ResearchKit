@@ -24,6 +24,8 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
     /// This issue required extra button tap to dismiss picker to continue
     let shouldUseUIPickerWorkaround = true
     
+    let expectingNonOptionalsStep = false
+    
     override func setUpWithError() throws {
         /// Start with clean state. Reset authorization status for health and location
         app.resetAuthorizationStatus(for: .location)
@@ -94,29 +96,31 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
             .verify(.continueButton, isEnabled: true)
             .tap(.continueButton)
         
-        // Local system NonOptional Question
-        questionStep
-            .verify(.title)
-            .verify(.text)
-            .verify(.skipButton, exists: false)
-            .verify(.continueButton, isEnabled: false)
-        
-            .verifySingleQuestionTitleExists()
-        
-        if shouldUseUIPickerWorkaround {
-            questionStep.selectFormItemCell(withID: formItemId)
-            dismissPicker = true
+        if expectingNonOptionalsStep {
+            // Local system NonOptional Question
+            questionStep
+                .verify(.title)
+                .verify(.text)
+                .verify(.skipButton, exists: false)
+                .verify(.continueButton, isEnabled: false)
+            
+                .verifySingleQuestionTitleExists()
+            
+            if shouldUseUIPickerWorkaround {
+                questionStep.selectFormItemCell(withID: formItemId)
+                dismissPicker = true
+            }
+            
+            if measurementSystem == metricSignature {
+                questionStep.answerHeighQuestion(cm: heightMetricAnswer, dismissPicker: dismissPicker)
+            } else if measurementSystem == usSignature {
+                questionStep.answerHeighQuestion(feet: heightUSAnswerFeet, inches: heightUSAnswerInches, dismissPicker: dismissPicker)
+            }
+            questionStep
+                .verify(.continueButton, isEnabled: true)
+                .tap(.continueButton)
         }
-        
-        if measurementSystem == metricSignature {
-            questionStep.answerHeighQuestion(cm: heightMetricAnswer, dismissPicker: dismissPicker)
-        } else if measurementSystem == usSignature {
-            questionStep.answerHeighQuestion(feet: heightUSAnswerFeet, inches: heightUSAnswerInches, dismissPicker: dismissPicker)
-        }
-        questionStep
-            .verify(.continueButton, isEnabled: true)
-            .tap(.continueButton)
-        
+ 
         // Metric system Optional Question
         questionStep
             .verify(.title)
@@ -132,30 +136,32 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
             dismissPicker = true
         }
         
-            questionStep
+        questionStep
             .answerHeighQuestion(cm: heightMetricAnswer, dismissPicker: dismissPicker)
             .verify(.continueButton, isEnabled: true)
             .tap(.continueButton)
         
-        // Metric system NonOptional Question
-        questionStep
-            .verify(.title)
-            .verify(.text)
-            .verify(.skipButton, exists: false)
-            .verify(.continueButton, isEnabled: false)
-        
-            .verifySingleQuestionTitleExists()
-        
-        if shouldUseUIPickerWorkaround {
-            questionStep.selectFormItemCell(withID: formItemId)
-            dismissPicker = true
+        if expectingNonOptionalsStep {
+            // Metric system NonOptional Question
+            questionStep
+                .verify(.title)
+                .verify(.text)
+                .verify(.skipButton, exists: false)
+                .verify(.continueButton, isEnabled: false)
+            
+                .verifySingleQuestionTitleExists()
+            
+            if shouldUseUIPickerWorkaround {
+                questionStep.selectFormItemCell(withID: formItemId)
+                dismissPicker = true
+            }
+            
+            questionStep
+                .answerHeighQuestion(cm: heightMetricAnswer, dismissPicker: dismissPicker)
+                .verify(.continueButton, isEnabled: true)
+                .tap(.continueButton)
         }
         
-        questionStep
-            .answerHeighQuestion(cm: heightMetricAnswer, dismissPicker: dismissPicker)
-            .verify(.continueButton, isEnabled: true)
-            .tap(.continueButton)
-    
         // USCSystem system Optional Question
         questionStep
             .verify(.title)
@@ -176,49 +182,53 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
             .verify(.continueButton, isEnabled: true)
             .tap(.continueButton)
         
-        // USCSystem system NonOptional Question
-        questionStep
-            .verify(.title)
-            .verify(.text)
-            .verify(.skipButton, exists: false)
-            .verify(.continueButton, isEnabled: false)
-        
-            .verifySingleQuestionTitleExists()
-        
-        if shouldUseUIPickerWorkaround {
-            questionStep.selectFormItemCell(withID: formItemId)
-            dismissPicker = true
+        if expectingNonOptionalsStep {
+            // USCSystem system NonOptional Question
+            questionStep
+                .verify(.title)
+                .verify(.text)
+                .verify(.skipButton, exists: false)
+                .verify(.continueButton, isEnabled: false)
+            
+                .verifySingleQuestionTitleExists()
+            
+            if shouldUseUIPickerWorkaround {
+                questionStep.selectFormItemCell(withID: formItemId)
+                dismissPicker = true
+            }
+            
+            questionStep
+                .answerHeighQuestion(feet: heightUSAnswerFeet, inches: heightUSAnswerInches, dismissPicker: dismissPicker)
+                .verify(.continueButton, isEnabled: true)
+                .tap(.continueButton)
         }
         
-        questionStep
-            .answerHeighQuestion(feet: heightUSAnswerFeet, inches: heightUSAnswerInches, dismissPicker: dismissPicker)
-            .verify(.continueButton, isEnabled: true)
-            .tap(.continueButton)
-        
-        // HealthKit integration NonOptional
-        // TODO: rdar://118141808 (Height/Weight Questions should prefill with HealthKit value)
-        questionStep
-            .verify(.title)
-            .verify(.text)
-            .verify(.skipButton, exists: false)
-            .verify(.continueButton, isEnabled: false)
-        
-            .verifySingleQuestionTitleExists()
-        
-        if shouldUseUIPickerWorkaround {
-            questionStep.selectFormItemCell(withID: formItemId)
-            dismissPicker = true
+        if expectingNonOptionalsStep {
+            // HealthKit integration NonOptional
+            // TODO: rdar://118141808 (Height/Weight Questions should prefill with HealthKit value)
+            questionStep
+                .verify(.title)
+                .verify(.text)
+                .verify(.skipButton, exists: false)
+                .verify(.continueButton, isEnabled: false)
+            
+                .verifySingleQuestionTitleExists()
+            
+            if shouldUseUIPickerWorkaround {
+                questionStep.selectFormItemCell(withID: formItemId)
+                dismissPicker = true
+            }
+            
+            if measurementSystem == metricSignature {
+                questionStep.answerHeighQuestion(cm: heightMetricAnswer, dismissPicker: dismissPicker)
+            } else if measurementSystem == usSignature {
+                questionStep.answerHeighQuestion(feet: heightUSAnswerFeet, inches: heightUSAnswerInches, dismissPicker: dismissPicker)
+            }
+            questionStep
+                .verify(.continueButton, isEnabled: true)
+                .tap(.continueButton)
         }
-        
-        if measurementSystem == metricSignature {
-            questionStep.answerHeighQuestion(cm: heightMetricAnswer, dismissPicker: dismissPicker)
-        } else if measurementSystem == usSignature {
-            questionStep.answerHeighQuestion(feet: heightUSAnswerFeet, inches: heightUSAnswerInches, dismissPicker: dismissPicker)
-        }
-        questionStep
-            .verify(.continueButton, isEnabled: true)
-            .tap(.continueButton)
-        
+
         // HealthKit integration Optional
         // TODO: rdar://118141808 (Height/Weight Questions should prefill with HealthKit value)
         questionStep
@@ -288,29 +298,31 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
             .verify(.continueButton, isEnabled: true)
             .tap(.continueButton)
         
-        // Local system NonOptional Question
-        questionStep
-            .verify(.title)
-            .verify(.text)
-            .verify(.skipButton, exists: false)
-            .verify(.continueButton, isEnabled: false)
-        
-            .verifySingleQuestionTitleExists()
-        
-        if shouldUseUIPickerWorkaround {
-            questionStep.selectFormItemCell(withID: formItemId)
-            dismissPicker = true
+        if expectingNonOptionalsStep {
+            // Local system NonOptional Question
+            questionStep
+                .verify(.title)
+                .verify(.text)
+                .verify(.skipButton, exists: false)
+                .verify(.continueButton, isEnabled: false)
+            
+                .verifySingleQuestionTitleExists()
+            
+            if shouldUseUIPickerWorkaround {
+                questionStep.selectFormItemCell(withID: formItemId)
+                dismissPicker = true
+            }
+            
+            if measurementSystem == metricSignature {
+                questionStep.answerWeighQuestion(kg: weightMetricAnswerKg, dismissPicker: dismissPicker)
+            } else if measurementSystem == usSignature {
+                questionStep.answerWeighQuestion(lb: weightUSAnswerLb, dismissPicker: dismissPicker)
+            }
+            questionStep
+                .verify(.continueButton, isEnabled: true)
+                .tap(.continueButton)
         }
-        
-        if measurementSystem == metricSignature {
-            questionStep.answerWeighQuestion(kg: weightMetricAnswerKg, dismissPicker: dismissPicker)
-        } else if measurementSystem == usSignature {
-            questionStep.answerWeighQuestion(lb: weightUSAnswerLb, dismissPicker: dismissPicker)
-        }
-        questionStep
-            .verify(.continueButton, isEnabled: true)
-            .tap(.continueButton)
-       
+
         // Metric system Optional Question - default precision
         questionStep
             .verify(.title)
@@ -332,26 +344,28 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
             .verify(.continueButton, isEnabled: true)
             .tap(.continueButton)
         
-        // Metric system Non Optional Question - default precision
-        questionStep
-            .verify(.title)
-            .verify(.text)
-            .verify(.skipButton, exists: false)
-            .verify(.continueButton, isEnabled: false)
-        
-            .verifySingleQuestionTitleExists()
-        
-        if shouldUseUIPickerWorkaround {
-            questionStep.selectFormItemCell(withID: formItemId)
-            dismissPicker = true
-        }
-        
-        questionStep.answerWeighQuestion(kg: weightMetricAnswerKgPrecise, dismissPicker: dismissPicker)
-   
-        questionStep
-            .verify(.continueButton, isEnabled: true)
-            .tap(.continueButton)
+        if expectingNonOptionalsStep {
+            // Metric system Non Optional Question - default precision
+            questionStep
+                .verify(.title)
+                .verify(.text)
+                .verify(.skipButton, exists: false)
+                .verify(.continueButton, isEnabled: false)
+            
+                .verifySingleQuestionTitleExists()
+            
+            if shouldUseUIPickerWorkaround {
+                questionStep.selectFormItemCell(withID: formItemId)
+                dismissPicker = true
+            }
+            
+            questionStep.answerWeighQuestion(kg: weightMetricAnswerKgPrecise, dismissPicker: dismissPicker)
        
+            questionStep
+                .verify(.continueButton, isEnabled: true)
+                .tap(.continueButton)
+        }
+
         // Metric system Optional Question - low precision
         questionStep
             .verify(.title)
@@ -373,26 +387,28 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
             .verify(.continueButton, isEnabled: true)
             .tap(.continueButton)
         
-        // Metric system Non Optional Question - low precision
-        questionStep
-            .verify(.title)
-            .verify(.text)
-            .verify(.skipButton, exists: false)
-            .verify(.continueButton, isEnabled: false)
-        
-            .verifySingleQuestionTitleExists()
-        
-        if shouldUseUIPickerWorkaround {
-            questionStep.selectFormItemCell(withID: formItemId)
-            dismissPicker = true
-        }
-        
-        questionStep.answerWeighQuestion(kg: weightMetricAnswerKg, dismissPicker: dismissPicker)
-   
-        questionStep
-            .verify(.continueButton, isEnabled: true)
-            .tap(.continueButton)
+        if expectingNonOptionalsStep {
+            // Metric system Non Optional Question - low precision
+            questionStep
+                .verify(.title)
+                .verify(.text)
+                .verify(.skipButton, exists: false)
+                .verify(.continueButton, isEnabled: false)
+            
+                .verifySingleQuestionTitleExists()
+            
+            if shouldUseUIPickerWorkaround {
+                questionStep.selectFormItemCell(withID: formItemId)
+                dismissPicker = true
+            }
+            
+            questionStep.answerWeighQuestion(kg: weightMetricAnswerKg, dismissPicker: dismissPicker)
        
+            questionStep
+                .verify(.continueButton, isEnabled: true)
+                .tap(.continueButton)
+        }
+
         // Metric system Optional Question - high precision
         questionStep
             .verify(.title)
@@ -414,26 +430,28 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
             .verify(.continueButton, isEnabled: true)
             .tap(.continueButton)
         
-        // Metric system Non Optional Question - high precision
-        questionStep
-            .verify(.title)
-            .verify(.text)
-            .verify(.skipButton, exists: false)
-            .verify(.continueButton, isEnabled: false)
-        
-            .verifySingleQuestionTitleExists()
-        
-        if shouldUseUIPickerWorkaround {
-            questionStep.selectFormItemCell(withID: formItemId)
-            dismissPicker = true
-        }
-        
-        questionStep.answerWeighQuestion(kg: weightMetricAnswerKgHighlyPrecise, highPrecision: true, dismissPicker: dismissPicker)
-   
-        questionStep
-            .verify(.continueButton, isEnabled: true)
-            .tap(.continueButton)
+        if expectingNonOptionalsStep {
+            // Metric system Non Optional Question - high precision
+            questionStep
+                .verify(.title)
+                .verify(.text)
+                .verify(.skipButton, exists: false)
+                .verify(.continueButton, isEnabled: false)
+            
+                .verifySingleQuestionTitleExists()
+            
+            if shouldUseUIPickerWorkaround {
+                questionStep.selectFormItemCell(withID: formItemId)
+                dismissPicker = true
+            }
+            
+            questionStep.answerWeighQuestion(kg: weightMetricAnswerKgHighlyPrecise, highPrecision: true, dismissPicker: dismissPicker)
        
+            questionStep
+                .verify(.continueButton, isEnabled: true)
+                .tap(.continueButton)
+        }
+
         // USC system Optional Question - default precision
         questionStep
             .verify(.title)
@@ -454,25 +472,28 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
             .verify(.continueButton, isEnabled: true)
             .tap(.continueButton)
         
-        // USC system NonOptional Question - default precision
-        questionStep
-            .verify(.title)
-            .verify(.text)
-            .verify(.skipButton, exists: false)
-            .verify(.continueButton, isEnabled: false)
-        
-            .verifySingleQuestionTitleExists()
-        
-        if shouldUseUIPickerWorkaround {
-            questionStep.selectFormItemCell(withID: formItemId)
-            dismissPicker = true
+        if expectingNonOptionalsStep {
+            // USC system NonOptional Question - default precision
+            questionStep
+                .verify(.title)
+                .verify(.text)
+                .verify(.skipButton, exists: false)
+                .verify(.continueButton, isEnabled: false)
+            
+                .verifySingleQuestionTitleExists()
+            
+            if shouldUseUIPickerWorkaround {
+                questionStep.selectFormItemCell(withID: formItemId)
+                dismissPicker = true
+            }
+            
+            questionStep
+                .answerWeighQuestion(lb: weightUSAnswerLb, dismissPicker: dismissPicker)
+                .verify(.continueButton, isEnabled: true)
+                .tap(.continueButton)
+           
         }
-        
-        questionStep
-            .answerWeighQuestion(lb: weightUSAnswerLb, dismissPicker: dismissPicker)
-            .verify(.continueButton, isEnabled: true)
-            .tap(.continueButton)
-       
+
         // USC system Optional Question - high precision
         questionStep
             .verify(.title)
@@ -493,48 +514,53 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
             .verify(.continueButton, isEnabled: true)
             .tap(.continueButton)
         
-        // USC system NonOptional Question - default precision
-        questionStep
-            .verify(.title)
-            .verify(.text)
-            .verify(.skipButton, exists: false)
-            .verify(.continueButton, isEnabled: false)
-        
-            .verifySingleQuestionTitleExists()
-        
-        if shouldUseUIPickerWorkaround {
-            questionStep.selectFormItemCell(withID: formItemId)
-            dismissPicker = true
+        if expectingNonOptionalsStep {
+            // USC system NonOptional Question - default precision
+            questionStep
+                .verify(.title)
+                .verify(.text)
+                .verify(.skipButton, exists: false)
+                .verify(.continueButton, isEnabled: false)
+            
+                .verifySingleQuestionTitleExists()
+            
+            if shouldUseUIPickerWorkaround {
+                questionStep.selectFormItemCell(withID: formItemId)
+                dismissPicker = true
+            }
+            
+            questionStep
+                .answerWeighQuestion(lb: weightUSAnswerLb, oz: weightUSAnswerOz, dismissPicker: dismissPicker)
+                .verify(.continueButton, isEnabled: true)
+                .tap(.continueButton)
         }
+
         
-        questionStep
-            .answerWeighQuestion(lb: weightUSAnswerLb, oz: weightUSAnswerOz, dismissPicker: dismissPicker)
-            .verify(.continueButton, isEnabled: true)
-            .tap(.continueButton)
-        
-        // HealthKit integration - Non Optional // TODO: rdar://118141808 (Height/Weight Questions should prefill with HealthKit value)
-        questionStep
-            .verify(.title)
-            .verify(.text)
-            .verify(.skipButton, exists: false)
-            .verify(.continueButton, isEnabled: false)
-        
-            .verifySingleQuestionTitleExists()
-        
-        if shouldUseUIPickerWorkaround {
-            questionStep.selectFormItemCell(withID: formItemId)
-            dismissPicker = true
+        if expectingNonOptionalsStep {
+            // HealthKit integration - Non Optional // TODO: rdar://118141808 (Height/Weight Questions should prefill with HealthKit value)
+            questionStep
+                .verify(.title)
+                .verify(.text)
+                .verify(.skipButton, exists: false)
+                .verify(.continueButton, isEnabled: false)
+            
+                .verifySingleQuestionTitleExists()
+            
+            if shouldUseUIPickerWorkaround {
+                questionStep.selectFormItemCell(withID: formItemId)
+                dismissPicker = true
+            }
+            
+            if measurementSystem == metricSignature {
+                questionStep.answerWeighQuestion(kg: weightMetricAnswerKg, dismissPicker: dismissPicker)
+            } else if measurementSystem == usSignature {
+                questionStep.answerWeighQuestion(lb: weightUSAnswerLb, dismissPicker: dismissPicker)
+            }
+            questionStep
+                .verify(.continueButton, isEnabled: true)
+                .tap(.continueButton)
         }
-        
-        if measurementSystem == metricSignature {
-            questionStep.answerWeighQuestion(kg: weightMetricAnswerKg, dismissPicker: dismissPicker)
-        } else if measurementSystem == usSignature {
-            questionStep.answerWeighQuestion(lb: weightUSAnswerLb, dismissPicker: dismissPicker)
-        }
-        questionStep
-            .verify(.continueButton, isEnabled: true)
-            .tap(.continueButton)
-       
+
         // HealthKit integration - Optional // TODO: rdar://118141808 (Height/Weight Questions should prefill with HealthKit value)
         questionStep
             .verify(.title)

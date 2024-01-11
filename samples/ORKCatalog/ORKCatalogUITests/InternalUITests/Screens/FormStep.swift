@@ -591,7 +591,7 @@ final class FormStep: Step {
         return self
     }
     
-    /// Handles ORKAnswerFormat weightAnswerFormat ORKMeasurementSystem.USC)
+    /// Handles weightAnswerFormat ORKMeasurementSystem.USC
     /// Default Precision
     @discardableResult
     func answerWeighQuestion(lb: Int, dismissPicker: Bool) -> Self {
@@ -608,7 +608,7 @@ final class FormStep: Step {
         return self
     }
     
-    /// Handles ORKAnswerFormat weightAnswerFormat ORKMeasurementSystem.USC)
+    /// Handles weightAnswerFormat ORKMeasurementSystem.USC
     /// High Precision
     @discardableResult
     func answerWeighQuestion(lb: Int, oz: Int, dismissPicker: Bool) -> Self {
@@ -628,7 +628,7 @@ final class FormStep: Step {
         return self
     }
     
-    /// Handles ORKAnswerFormat weightAnswerFormat ORKMeasurementSystem.metric)
+    /// Handles weightAnswerFormat ORKMeasurementSystem.metric
     /// Low precision
     @discardableResult
     func answerWeighQuestion(kg: Int, dismissPicker: Bool) -> Self {
@@ -645,7 +645,7 @@ final class FormStep: Step {
         return self
     }
     
-    /// Handles ORKAnswerFormat weightAnswerFormat ORKMeasurementSystem.metric)
+    /// Handles weightAnswerFormat ORKMeasurementSystem.metric
     /// Default and high precision
     @discardableResult
     func answerWeighQuestion(kg: Double, highPrecision: Bool = false, dismissPicker: Bool) -> Self {

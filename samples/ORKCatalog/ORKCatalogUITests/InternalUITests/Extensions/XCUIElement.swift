@@ -24,7 +24,7 @@ extension XCUIElement {
     
     func verifyElementValueContains(expectedValue: String, failureMessage: String = "") {
         guard let currentValue = self.value as? String else {
-            XCTFail("Th current value for \(self) was found to be nil")
+            XCTFail("The current value for \(self) was found to be nil")
             return
         }
         XCTAssert(currentValue.contains(expectedValue), failureMessage)
