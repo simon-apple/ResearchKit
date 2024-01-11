@@ -87,6 +87,8 @@ static const CGFloat ORKStepContentIconToBulletTopPaddingStandard = 20.0;
 static const CGFloat ORKStepContentTagPaddingTop = 15.0;
 static const CGFloat ORKStepContentBottomPadding = 35.0;
 
+NSString * const ORKStepBodyContainerViewAccessibilityIdentifier = @"ORKStepBodyContainerView";
+
 typedef NS_CLOSED_ENUM(NSInteger, ORKUpdateConstraintSequence) {
     ORKUpdateConstraintSequenceTopContentImageView = 0,
     ORKUpdateConstraintSequenceIconImageView,
@@ -699,6 +701,7 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKUpdateConstraintSequence) {
 - (void)setBuildsInBodyItems:(BOOL)buildsInBodyItems {
     _buildsInBodyItems = buildsInBodyItems;
     _bodyContainerView.buildsInBodyItems = _buildsInBodyItems;
+    _bodyContainerView.accessibilityIdentifier = ORKStepBodyContainerViewAccessibilityIdentifier;
 }
 
 - (void)setupBodyContainerView {

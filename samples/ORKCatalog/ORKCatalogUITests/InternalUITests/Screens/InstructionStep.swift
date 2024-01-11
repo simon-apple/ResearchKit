@@ -23,7 +23,16 @@ final class InstructionStep: Step {
         return self
     }
     
-    func verifyImageExists() {
-        // TODO: rdar://117821980 (Add methods and verifications for Instruction Step UI Test)
+    func verifyImage(exists: Bool = true) -> Self {
+        let imageElement = Self.stepView.images.firstMatch
+        wait(for: imageElement, toExists: exists)
+        return self
+    }
+    
+    func verifyImageLabel(expectedAXLabel: String) -> Self {
+        let imageElement = Self.stepView.images.firstMatch
+        wait(for: imageElement)
+        XCTAssertEqual(imageElement.label, expectedAXLabel)
+        return self
     }
 }

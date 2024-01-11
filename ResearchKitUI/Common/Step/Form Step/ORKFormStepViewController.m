@@ -81,6 +81,7 @@ static const CGFloat TableViewYOffsetStandard = 30.0;
 static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
 
 NSString * const ORKSurveyCardHeaderViewIdentifier = @"SurveyCardHeaderViewIdentifier";
+NSString * const ORKFormStepViewAccessibilityIdentifier = @"ORKFormStepView";
 
 @interface ORKFormItem (FormStepViewControllerExtensions)
 
@@ -462,6 +463,8 @@ NSString * const ORKSurveyCardHeaderViewIdentifier = @"SurveyCardHeaderViewIdent
     
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    
+    self.view.accessibilityIdentifier = ORKFormStepViewAccessibilityIdentifier;
 }
 
 - (BOOL)isContentSizeWithinFrame {
@@ -1617,7 +1620,7 @@ NSString * const ORKSurveyCardHeaderViewIdentifier = @"SurveyCardHeaderViewIdent
 
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
     cell.userInteractionEnabled = !self.readOnlyMode;
-    cell.accessibilityIdentifier = [NSString stringWithFormat:@"%@_%ld", formItem.text, (long)indexPath.row];
+    cell.accessibilityIdentifier = [NSString stringWithFormat:@"%@_%ld", formItemIdentifier, (long)indexPath.row];
     
     ORKFormItemCell *formCell = ORKDynamicCast(cell, ORKFormItemCell);
     ORKChoiceViewCell *choiceViewCell = ORKDynamicCast(cell, ORKChoiceViewCell);

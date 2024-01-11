@@ -12,6 +12,13 @@ final class SurveyQuestionsUITests: BaseUITest {
     
     let tasksList = TasksTab()
     
+    var dismissPicker = false
+    /// rdar://119572486 ([ORKCatalog] [Modularization] Survey Questions - Next button is enabled by default before user provides answers)
+    let expectingNextButtonEnabledByDefault = true
+    /// rdar://111132091 ([Modularization] [ORKCatalog] Date Picker won't display on the question card)
+    /// This issue required extra button tap to dismiss picker to continue
+    let shouldUseUIPickerWorkaround = true
+    
     override func setUpWithError() throws {
         try super.setUpWithError()
         // Verify that before we start our test we are on Tasks tab
@@ -33,26 +40,27 @@ final class SurveyQuestionsUITests: BaseUITest {
         tasksList
             .selectTaskByName(Task.booleanQuestion.description)
         
-        let questionStep = QuestionStep()
+        let questionStep = FormStep()
+        let itemId = "booleanFormItem"
         let expectedNumberOfChoices = 2
         
         questionStep
             .verify(.title)
             .verify(.text)
             .verify(.skipButton, isEnabled: true)
-            .verify(.continueButton, isEnabled: false)
+            .verify(.continueButton, isEnabled: expectingNextButtonEnabledByDefault)
         
-            .verifyQuestionTitleExistsAndNotEmpty()
+            .verifySingleQuestionTitleExists()
         
-            .assertNumOfTextChoices(expectedNumberOfChoices)
-            .verifyNoCellsSelected(expectedNumberOfChoices)
+            .assertNumOfTextChoiceCells(withId: itemId, expectedCount: expectedNumberOfChoices)
+            .verifyNoCellsSelected(withId: itemId, expectedNumberOfChoices)
         
-            .answerBooleanQuestion(atIndex: 0)
-            .verifyOnlyOneCellSelected(atIndex: 0, expectedNumberOfTextChoices: expectedNumberOfChoices)
+            .answerBooleanQuestion(withId: itemId, atIndex: 0)
+            .verifyOnlyOneCellSelected(withId: itemId, atIndex: 0)
             .verify(.continueButton, isEnabled: true)
         
-            .answerBooleanQuestion(atIndex: 1)
-            .verifyOnlyOneCellSelected(atIndex: 1, expectedNumberOfTextChoices: expectedNumberOfChoices)
+            .answerBooleanQuestion(withId: itemId, atIndex: 1)
+            .verifyOnlyOneCellSelected(withId: itemId, atIndex: 1)
         
             .verifyContinueButtonLabel(expectedLabel: .done)
             .tap(.continueButton)
@@ -63,28 +71,28 @@ final class SurveyQuestionsUITests: BaseUITest {
         tasksList
             .selectTaskByName(Task.customBooleanQuestion.description)
         
+        let questionStep = FormStep()
+        let itemId = "booleanFormItem"
         let yesString = "Agree"
         let noString = "Disagree"
-        let questionStep = QuestionStep()
         let expectedNumberOfChoices = 2
         
         questionStep
             .verify(.title)
             .verify(.text)
             .verify(.skipButton)
-            .verify(.continueButton, isEnabled: false)
+            .verify(.continueButton, isEnabled: expectingNextButtonEnabledByDefault)
         
-            .verifyQuestionTitleExistsAndNotEmpty()
-            .verifyNoCellsSelected(expectedNumberOfChoices)
+            .verifySingleQuestionTitleExists()
+            .verifyNoCellsSelected(withId: itemId, expectedNumberOfChoices)
         
-            .answerBooleanQuestion(atIndex: 0, yesString: yesString, noString: noString)
-            .verifyOnlyOneCellSelected(atIndex: 0, expectedNumberOfTextChoices: expectedNumberOfChoices)
+            .answerBooleanQuestion(withId: itemId, atIndex: 0, yesString: yesString, noString: noString)
+            .verifyOnlyOneCellSelected(withId: itemId, atIndex: 0)
             .verify(.continueButton, isEnabled: true)
-        
-            .answerBooleanQuestion(atIndex: 1, yesString: yesString, noString: noString)
-            .verifyOnlyOneCellSelected(atIndex: 1, expectedNumberOfTextChoices: expectedNumberOfChoices)
-        
-            .verifyContinueButtonLabel(expectedLabel: .done)
+            .answerBooleanQuestion(withId: itemId, atIndex: 1, yesString: yesString, noString: noString)
+            .verifyOnlyOneCellSelected(withId: itemId, atIndex: 1)
+
+        questionStep
             .tap(.continueButton)
     }
     
@@ -93,34 +101,50 @@ final class SurveyQuestionsUITests: BaseUITest {
         tasksList
             .selectTaskByName(Task.dateQuestion.description)
         
-        let questionStep = QuestionStep()
-        questionStep
+        let formStep = FormStep()
+        let itemId = "dateQuestionFormItem"
+        formStep
             .verify(.title)
             .verify(.text)
             .verify(.skipButton) // Optional Question
             .verify(.continueButton, isEnabled: true) // Picker value defaults to current date so continue button is enabled
-
-            .verifyDatePickerDefaultsToCurrentDate()
-            .answerDateQuestion(year: "1955", month: "February", day: "24")
+            .verifySingleQuestionTitleExists()
+        
+        if shouldUseUIPickerWorkaround {
+            formStep.selectFormItemCell(withID: itemId)
+            dismissPicker = true
+        } else {
+            formStep.verifyDatePickerDefaultsToCurrentDate()
+        }
+        formStep
+            .answerDateQuestion(year: "1955", month: "February", day: "24", dismissPicker: dismissPicker)
             .verify(.continueButton,isEnabled: true)
+            .tap(.continueButton)
     }
     
     ///<rdar://tsc/22567665> [Survey Questions] Time Interval Question
     func testTimeIntervalQuestion() {
         tasksList
             .selectTaskByName(Task.timeIntervalQuestion.description)
-        let questionStep = QuestionStep()
-        questionStep
+        let formStep = FormStep()
+        let itemId = "timeIntervalFormItem"
+        formStep
             .verify(.title)
             .verify(.text)
             .verify(.skipButton) // Optional Question
             .verify(.skipButton, isEnabled: true) // Optional Question
-            .verify(.continueButton,isEnabled: true)
+            .verify(.continueButton, isEnabled: expectingNextButtonEnabledByDefault)
+            .verifySingleQuestionTitleExists()
         
-        questionStep
-            .answerTimeIntervalQuestion(hours: 07, minutes: 03)
+        if shouldUseUIPickerWorkaround {
+            formStep.selectFormItemCell(withID: itemId)
+            dismissPicker = true
+        }
+        formStep
+            .answerTimeIntervalQuestion(hours: 07, minutes: 03, dismissPicker: dismissPicker)
             .verify(.continueButton,isEnabled: true)
-            .answerTimeIntervalQuestion(hours: 23, minutes: 59)
+            .selectFormItemCell(withID: itemId)
+            .answerTimeIntervalQuestion(hours: 23, minutes: 59, dismissPicker: dismissPicker)
             .verify(.continueButton,isEnabled: true)
             .tap(.continueButton)
     }
@@ -131,22 +155,23 @@ final class SurveyQuestionsUITests: BaseUITest {
             .selectTaskByName(Task.textChoiceQuestion.description)
 
         test("Step 1: Select an option") {
-            let formStep1 = FormStep(items: ["formItem01"])
+            let formStep1 = FormStep(itemIds: ["formItem01"])
             formStep1
                 .verify(.title)
                 .verify(.text)
                 .verify(.skipButton, exists: true)
                 .verify(.skipButton, isEnabled: true)
-                .verify(.continueButton, isEnabled: true)
+                .verify(.continueButton, isEnabled: expectingNextButtonEnabledByDefault)
+                .verifySingleQuestionTitleExists()
             
-                .answerSingleChoiceTextQuestion(withId: formStep1.items[0], atIndex: 2)
-                .verifyOnlyOneCellSelected(withId: formStep1.items[0], atIndex: 2, cellsChoiceRange: (0,3))
+                .answerSingleChoiceTextQuestion(withId: formStep1.itemIds[0], atIndex: 2)
+                .verifyOnlyOneCellSelected(withId: formStep1.itemIds[0], atIndex: 2, cellsChoiceRange: (0,3))
                 .verify(.continueButton, isEnabled: true)
                 .tap(.continueButton)
         }
         
         test("Step 2: Select one or more options") {
-            let formStep2 = FormStep(items: ["formItem02"])
+            let formStep2 = FormStep(itemIds: ["formItem02"])
             let indicesToSelect1 = [0, 2]
             let exclusiveChoiceIndex = [3]
             formStep2
@@ -154,13 +179,14 @@ final class SurveyQuestionsUITests: BaseUITest {
                 .verify(.text)
                 .verify(.skipButton, exists: true)
                 .verify(.skipButton, isEnabled: true)
-                .verify(.continueButton, isEnabled: true)
+                .verify(.continueButton, isEnabled: expectingNextButtonEnabledByDefault)
+                .verifySingleQuestionTitleExists()
             
-                .answerMultipleChoiceTextQuestion(withId: formStep2.items[0], indices: indicesToSelect1)
-                .verifyMultipleCellsSelected(withId: formStep2.items[0], indices: indicesToSelect1, cellsChoiceRange: (0,3))
+                .answerMultipleChoiceTextQuestion(withId: formStep2.itemIds[0], indices: indicesToSelect1)
+                .verifyMultipleCellsSelected(withId: formStep2.itemIds[0], indices: indicesToSelect1, cellsChoiceRange: (0,3))
             
-                .answerMultipleChoiceTextQuestion(withId: formStep2.items[0], indices: exclusiveChoiceIndex)
-                .verifyOnlyOneCellSelected(withId: formStep2.items[0], atIndex: 3, cellsChoiceRange: (0,3))
+                .answerMultipleChoiceTextQuestion(withId: formStep2.itemIds[0], indices: exclusiveChoiceIndex)
+                .verifyOnlyOneCellSelected(withId: formStep2.itemIds[0], atIndex: 3, cellsChoiceRange: (0,3))
                 .tap(.continueButton)
         }
         
@@ -170,4 +196,320 @@ final class SurveyQuestionsUITests: BaseUITest {
             .verifyContinueButtonLabel(expectedLabel: .done)
             .tap(.continueButton)
     }
+    
+    /// rdar://119274038 ([Surveys] ORKCatalog - Text Choice Question - No text box appears when selecting Other option)
+    /// rdar://118204460 (ORKTextChoiceOther Improvements for Public [UI])
+    /// rdar://115800919 ([Surveys] ORKCatalog - Inconsistent button/option behavior for choice with additional information text box)
+    func testTextChoiceOtherQuestion() {
+        tasksList
+            .selectTaskByName(Task.textChoiceQuestion.description)
+        
+        let inputText = TextAnswers.loremIpsumShortText
+        let formItemId = "formItem01"
+        let otherTextChoiceIndex = 3
+        
+        let formStep1 = FormStep()
+        formStep1
+            .answerSingleChoiceTextQuestion(withId: formItemId, atIndex: 0)
+            .verifyTextBoxIsHidden(true, withId: formItemId, atIndex: otherTextChoiceIndex)
+            .answerSingleChoiceTextQuestion(withId: formItemId, atIndex: otherTextChoiceIndex)
+            .answerTextChoiceOtherQuestion(withId: formItemId, atIndex: otherTextChoiceIndex, text: inputText)
+            .verifyTextBoxIsHidden(false, withId: formItemId, atIndex: otherTextChoiceIndex)
+            .verifyTextBoxValue(withId: formItemId, atIndex: otherTextChoiceIndex, expectedValue: inputText)
+            .tap(.continueButton)
+            .tap(.backButton)
+            .verifyTextBoxIsHidden(false, withId: formItemId, atIndex: otherTextChoiceIndex)
+            .verifyTextBoxValue(withId: formItemId, atIndex: otherTextChoiceIndex, expectedValue: inputText)
+            .answerSingleChoiceTextQuestion(withId: formItemId, atIndex: 0)
+            .tap(.continueButton)
+            .tap(.backButton)
+            .verifyTextBoxIsHidden(true, withId: formItemId, atIndex: otherTextChoiceIndex)
+            .tap(.continueButton)
+            .tap(.continueButton)
+    }
+    
+    /// <rdar://tsc/21847958> [Survey Questions] Text Choice Question
+    /// Additionally verifies placeholder value in other choice option
+    func testTextChoiceOtherQuestionPlaceholderValue() {
+        tasksList
+            .selectTaskByName(Task.textChoiceQuestion.description)
+        
+        let formItemId = "formItem01"
+        let otherTextChoiceIndex = 3
+        
+        let formStep1 = FormStep()
+        formStep1
+            .answerSingleChoiceTextQuestion(withId: formItemId, atIndex: 0)
+            .verifyTextBoxIsHidden(true, withId: formItemId, atIndex: otherTextChoiceIndex)
+            .answerSingleChoiceTextQuestion(withId: formItemId, atIndex: otherTextChoiceIndex)
+            .verifyTextBoxValue(withId: formItemId, atIndex: otherTextChoiceIndex, expectedValue: "enter additional information", isPlaceholderExpected: true)
+            .tap(.continueButton)
+            .tap(.continueButton)
+    }
+    
+    /// <rdar://tsc/21847961> [Survey Questions] Value Picker Choice
+    func testValuePickerChoiceQuestion() {
+        tasksList
+            .selectTaskByName(Task.valuePickerChoiceQuestion.description)
+           
+        let textChoices = ["Choice 1", "Choice 2", "Choice 3"] /// rdar://117821622 (Add localization support for UI Tests)
+        
+        let questionStep = FormStep()
+        let id = "valuePickerChoiceFormItem"
+        questionStep
+            .verify(.title)
+            .verify(.text)
+            .verify(.skipButton, isEnabled: true)
+            .verify(.continueButton, isEnabled: expectingNextButtonEnabledByDefault)
+            .verifySingleQuestionTitleExists()
+        
+        for textChoice in textChoices {
+            if shouldUseUIPickerWorkaround {
+                questionStep
+                    .selectFormItemCell(withID: id)
+                dismissPicker = true
+            }
+            questionStep
+                .answerPickerValueChoiceQuestion(value: textChoice, verifyResultValue: true, dismissPicker: dismissPicker)
+                .verify(.continueButton, isEnabled: true)
+        }
+        
+        questionStep
+            .tap(.continueButton)
+    }
+    
+    /// rdar://tsc/26623039 ([Survey Questions] Platter UI Question)
+    /// Note: Platter question does not have question title. The step title itself is a question title
+    func testPlatterUIQuestion() {
+        tasksList
+            .selectTaskByName(Task.platterUIQuestion.description)
+        
+        let questionStep = FormStep()
+        let itemId = "platterQuestionStep"
+        questionStep
+            .verify(.title)
+            .verify(.text)
+            .verify(.skipButton, isEnabled: true)
+            .verify(.continueButton, isEnabled: expectingNextButtonEnabledByDefault)
+        
+        for choiceIndex in 0..<3 {
+            let uiIndex = choiceIndex + 1
+            questionStep
+                .answerSingleChoiceTextQuestion(withId: itemId, atIndex: choiceIndex)
+                .verifyCellLabel(withId: itemId, atIndex: choiceIndex, expectedLabel: "Choice \(uiIndex), Detail")
+                .verify(.continueButton, isEnabled: true)
+        }
+        questionStep
+            .tap(.continueButton)
+    }
+    
+    /// <rdar://tsc/21847957> [Survey Questions] Text Question
+    func testTextQuestion() {
+        tasksList
+            .selectTaskByName(Task.textQuestion.description)
+        
+        let questionStep = FormStep()
+        let itemId = "textQuestionFormItem"
+        questionStep
+            .verify(.title)
+            .verify(.text)
+            .verify(.skipButton, isEnabled: true)
+            .verify(.continueButton, isEnabled: expectingNextButtonEnabledByDefault)
+        
+            .verifySingleQuestionTitleExists()
+        
+        questionStep
+            .answerTextQuestionTextView(withId: itemId, text: TextAnswers.loremIpsumMediumText)
+            .verify(.continueButton, isEnabled: true)
+        
+        questionStep
+            .tap(.continueButton)
+    }
+    
+    /// <rdar://tsc/21847957> [Survey Questions] Text Question
+    /// Additionally verifies  placeholder value and character count indicator
+    func testTextQuestionPlaceholderValueAndCharacterIndicator()  {
+        tasksList
+            .selectTaskByName(Task.textQuestion.description)
+        
+        let questionStep = FormStep()
+        let itemId = "textQuestionFormItem"
+   
+        questionStep
+            .answerTextQuestionTextView(withId: itemId, text: TextAnswers.loremIpsumMediumText, maximumLength: 280, expectedPlaceholderValue: "Tap to write") // TODO: rdar://117821622 (Add localization support for UI Tests)
+            .verify(.continueButton, isEnabled: true)
+        
+        questionStep
+            .tap(.continueButton)
+    }
+    
+    /// <rdar://tsc/21847957> [Survey Questions] Text Question
+    /// Additionally verifies editing flow
+    func testTextQuestionEditing() {
+        tasksList
+            .selectTaskByName(Task.textQuestion.description)
+        
+        let questionStep = FormStep()
+        let itemId = "textQuestionFormItem"
+        questionStep
+            .answerTextQuestionTextView(withId: itemId, text: TextAnswers.loremIpsumShortText, dismissKeyboard: false) // We don't dismiss keyboard to be able to continue editing
+            .answerTextQuestionTextView(withId: itemId, text: TextAnswers.loremIpsumMediumText)
+            .verify(.continueButton, isEnabled: true)
+        
+        questionStep
+            .tap(.continueButton)
+    }
+    
+    /// <rdar://tsc/21847957> [Survey Questions] Text Question
+    /// Additionally verifies clear button
+    func testTextQuestionClearButton() {
+        tasksList
+            .selectTaskByName(Task.textQuestion.description)
+        
+        let questionStep = FormStep()
+        let itemId = "textQuestionFormItem"
+
+        questionStep
+            .answerTextQuestionTextView(withId: itemId, text: TextAnswers.loremIpsumShortText)
+            .verify(.continueButton, isEnabled: true)
+            .tapClearButton()
+            .verify(.continueButton, isEnabled: expectingNextButtonEnabledByDefault)
+            .answerTextQuestionTextView(withId: itemId, text: TextAnswers.loremIpsumShortText)
+            .verify(.continueButton, isEnabled: true)
+        
+        questionStep
+            .tap(.continueButton)
+    }
+    
+    /// <rdar://tsc/21847955> [Survey Questions] Numeric Question
+    func testNumericQuestions() {
+        tasksList
+            .selectTaskByName(Task.numericQuestion.description)
+        
+        let questionStep = FormStep()
+        questionStep
+            .verify(.title)
+            .verify(.text)
+            .verifySingleQuestionTitleExists()
+        
+        let formItemId = "numericFormItem"
+        
+        var randomValue = randomDecimal(withDecimalPlaces: 3)
+        questionStep
+            .verify(.continueButton, isEnabled: expectingNextButtonEnabledByDefault)
+            .selectFormItemCell(withID: formItemId)
+            .answerNumericQuestion(number: randomValue, dismissKeyboard: true)
+            .verify(.continueButton, isEnabled: true)
+            .tap(.continueButton)
+        
+        randomValue = randomDecimal(withDecimalPlaces: 3)
+        questionStep
+            .verify(.continueButton, isEnabled: expectingNextButtonEnabledByDefault)
+            .selectFormItemCell(withID: formItemId)
+            .answerNumericQuestion(number: randomValue, dismissKeyboard: true)
+            .verify(.continueButton, isEnabled: true)
+            .tap(.continueButton)
+    
+        let valueWithOneFractionalDigit = randomDecimal(withDecimalPlaces: 1)
+        questionStep
+            .verify(.continueButton, isEnabled: expectingNextButtonEnabledByDefault)
+            .selectFormItemCell(withID: formItemId)
+            .answerNumericQuestion(number: valueWithOneFractionalDigit, dismissKeyboard: true)
+            .verify(.continueButton, isEnabled: true)
+            .tap(.continueButton)
+    }
+    
+    func randomDecimal(withDecimalPlaces places: Int) -> Double {
+        let range: ClosedRange<Double> = 0.0 ... 500.0
+        let randomDouble = Double.random(in: range)
+        let multiplier = pow(10, Double(places))
+        let roundedValue = (randomDouble * multiplier).rounded() / multiplier
+        return roundedValue
+    }
+    
+    /// <rdar://tsc/21847955> [Survey Questions] Numeric Question
+    /// Additionally verifies editing flow
+    func testNumericQuestionsEditing() {
+        tasksList
+            .selectTaskByName(Task.numericQuestion.description)
+        let questionStep = FormStep()
+        let formItemId = "numericFormItem"
+        
+        var randomValue = randomDecimal(withDecimalPlaces: 2)
+        questionStep
+            .selectFormItemCell(withID: formItemId)
+            .answerNumericQuestion(number: randomValue, dismissKeyboard: true)
+            .selectFormItemCell(withID: formItemId)
+        randomValue = randomDecimal(withDecimalPlaces: 2)
+        questionStep
+            .answerNumericQuestion(number: randomValue, dismissKeyboard: true, clearIfNeeded: true)
+            .tap(.continueButton)
+        
+        randomValue = randomDecimal(withDecimalPlaces: 1)
+        questionStep
+            .selectFormItemCell(withID: formItemId)
+            .answerNumericQuestion(number: randomValue, dismissKeyboard: true)
+            .selectFormItemCell(withID: formItemId)
+        randomValue = randomDecimal(withDecimalPlaces: 1)
+        questionStep
+            .answerNumericQuestion(number: randomValue, dismissKeyboard: true, clearIfNeeded: true)
+            .tap(.continueButton)
+        
+        randomValue = randomDecimal(withDecimalPlaces: 1)
+        questionStep
+            .selectFormItemCell(withID: formItemId)
+            .answerNumericQuestion(number: randomValue, dismissKeyboard: true)
+            .selectFormItemCell(withID: formItemId)
+        randomValue = randomDecimal(withDecimalPlaces: 1)
+        questionStep
+            .answerNumericQuestion(number: randomValue, dismissKeyboard: true, clearIfNeeded: true)
+            .tap(.continueButton)
+    }
+    
+    /// rdar://115861020 ([Surveys] ORKCatalog - tapping selection with text box pushed Next and Skip buttons off screen)
+    func testPaddingBetweenContinueButtonAndLastCell() {
+        tasksList
+            .selectTaskByName(Task.textChoiceQuestion.description)
+        let formStep = FormStep()
+        let formItemId = "formItem01"
+        formStep
+            .answerSingleChoiceTextQuestion(withId: formItemId, atIndex: 3)
+        app.swipeUp() // to accelerate scrolling down, a preparatory step for next method
+        formStep
+            .scrollTo(.continueButton)
+            .verifyPaddingBetweenContinueButtonAndCell(withId: formItemId, maximumAllowedDistance: 200.0)
+    }
+    
+    /// rdar://tsc/21847952 ([Survey Questions] Image Choice Question)
+         func testImageChoiceQuestion() {
+             tasksList
+                 .selectTaskByName(Task.imageChoiceQuestion.description)
+     
+             let questionStep = FormStep()
+             let formId = "imageChoiceFormItem"
+             questionStep
+                 .verify(.title)
+                 .verify(.text)
+                 .verify(.skipButton, isEnabled: true)
+                 .verify(.continueButton, isEnabled: expectingNextButtonEnabledByDefault)
+             
+             let roundShape = FormStep.ImageButtonLabel.roundShape.rawValue
+             let squareShape = FormStep.ImageButtonLabel.squareShape.rawValue
+             questionStep
+                 .answerImageChoiceQuestion(withId: formId, imageIndex: 1, expectedLabel: roundShape)
+                 .answerImageChoiceQuestion(withId: formId, imageIndex: 0, expectedLabel: squareShape)
+     
+             questionStep
+                 .tap(.continueButton)
+             
+             questionStep
+                 .verify(.title)
+                 .verify(.text)
+                 .verify(.skipButton, isEnabled: true)
+                 .verify(.continueButton, isEnabled: false)
+     
+             questionStep
+                 .answerImageChoiceQuestion(withId: formId, imageIndex: 0, expectedLabel: squareShape)
+                 .answerImageChoiceQuestion(withId: formId, imageIndex: 1, expectedLabel: roundShape)
+         }
 }

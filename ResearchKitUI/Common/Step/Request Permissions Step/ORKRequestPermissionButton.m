@@ -36,6 +36,10 @@ static const CGFloat ButtonLabelVerticalPadding = 4;
 static const CGFloat StandardPadding = 15.0;
 static const CGFloat HighlightedOpacity = 0.5;
 
+NSString * const ORKRequestPermissionButtonDefaultLabelAccessibilityIdentifier = @"ORKRequestPermissionButtonDefaultLabel";
+NSString * const ORKRequestPermissionButtonConnectedLabelAccessibilityIdentifier = @"ORKRequestPermissionButtonConnectedLabel";
+NSString * const ORKRequestPermissionButtonAccessibilityIdentifier = @"ORKRequestPermissionButton";
+
 @implementation ORKRequestPermissionButton {
     UILabel *_titleLabel;
     ORKRequestPermissionsState _state;
@@ -51,6 +55,7 @@ static const CGFloat HighlightedOpacity = 0.5;
         [self setState:ORKRequestPermissionsStateDefault];
         [self updateFonts];
     }
+    self.accessibilityIdentifier = ORKRequestPermissionButtonAccessibilityIdentifier;
     return self;
 }
 
@@ -90,10 +95,12 @@ static const CGFloat HighlightedOpacity = 0.5;
 
         case ORKRequestPermissionsStateDefault:
             _titleLabel.text = ORKLocalizedString(@"REQUEST_PERMISSION_BUTTON_STATE_DEFAULT", nil);
+            _titleLabel.accessibilityIdentifier = ORKRequestPermissionButtonDefaultLabelAccessibilityIdentifier;
             break;
 
         case ORKRequestPermissionsStateConnected:
             _titleLabel.text = ORKLocalizedString(@"REQUEST_PERMISSION_BUTTON_STATE_CONNECTED", nil);
+            _titleLabel.accessibilityIdentifier = ORKRequestPermissionButtonConnectedLabelAccessibilityIdentifier;
             break;
 
         case ORKRequestPermissionsStateNotSupported:

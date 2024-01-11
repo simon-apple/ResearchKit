@@ -16,8 +16,9 @@ class TasksTab {
     }
     
     @discardableResult
-    func assertTitle(exists: Bool = true) -> Self {
+    func assertTitle(exists: Bool = true, hittable: Bool = true) -> Self {
         wait(for: Self.title, toExists: exists, failureMessage: "Please ensure that the app is navigated to Tasks Tab")
+        wait(for: Self.title, toBeHittable: hittable, failureMessage: "Please ensure that the app is navigated to Tasks Tab") // We need to verify that the view is hittable as well to make sure that we are indeed on task tab (because the view could technically exist but be below another view)
         return self
     }
     
@@ -98,7 +99,7 @@ enum Task {
     case videoInstruction
     case webView
     
-#if RK_APPLE_INTERNAL
+//#if RK_APPLE_INTERNAL
     case catalogVersion
     case predefinedSpeechInNoiseTask
     case predefinedAVJournalingTask
@@ -113,7 +114,7 @@ enum Task {
     case consentDoc
     case familyHistoryReviewTask
     case booleanConditionalFormTask
-#endif
+//#endif
     
     var description: String {
         switch self {
@@ -309,7 +310,7 @@ enum Task {
         case .webView:
             return NSLocalizedString("Web View", comment: "")
             
-#if RK_APPLE_INTERNAL
+//#if RK_APPLE_INTERNAL
         case .catalogVersion:
             return NSLocalizedString("Catalog App Version History", comment: "")
             
@@ -351,7 +352,7 @@ enum Task {
             
         case .booleanConditionalFormTask:
                     return NSLocalizedString("Boolean Conditional Form Task", comment: "")
-#endif
+//#endif
         case .surveyWithMultipleOptions:
             return NSLocalizedString("Survey With Multiple Options", comment: "")
         }
