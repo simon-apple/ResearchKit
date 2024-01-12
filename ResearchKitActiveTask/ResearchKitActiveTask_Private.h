@@ -52,8 +52,8 @@
 #import <ResearchKitActiveTask/ORKNormalizedReactionTimeStep.h>
 #import <ResearchKitActiveTask/ORKShoulderRangeOfMotionStep.h>
 #import <ResearchKitActiveTask/ORKSpatialSpanMemoryStep.h>
-#import <ResearchKitActiveTask/ORKSpeechInNoiseStep.h>
 #import <ResearchKitActiveTask/ORKSpeechInNoiseContentView.h>
+#import <ResearchKitActiveTask/ORKSpeechInNoiseStep.h>
 #import <ResearchKitActiveTask/ORKSpeechRecognitionContentView.h>
 #import <ResearchKitActiveTask/ORKSpeechRecognitionStep.h>
 #import <ResearchKitActiveTask/ORKStreamingAudioRecorder.h>

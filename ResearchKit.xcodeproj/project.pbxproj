@@ -333,7 +333,7 @@
 		CA2616D42894649A008B1425 /* ORKRequestPermissionButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5170009C254A197300CACE12 /* ORKRequestPermissionButton.m */; };
 		CA2B8F6128A16B050025B773 /* ORKSpeechInNoiseStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118AC6E20BF6A7700D7A6BB /* ORKSpeechInNoiseStepViewController.m */; };
 		CA2B8F6228A16B050025B773 /* ORKSpeechInNoiseContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118AC7020BF6A7700D7A6BB /* ORKSpeechInNoiseContentView.m */; };
-		CA2B8F6D28A16BAC0025B773 /* ORKSpeechInNoiseContentView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7118AC7120BF6A7800D7A6BB /* ORKSpeechInNoiseContentView.h */; };
+		CA2B8F6D28A16BAC0025B773 /* ORKSpeechInNoiseContentView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7118AC7120BF6A7800D7A6BB /* ORKSpeechInNoiseContentView.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		CA2B8F6E28A16BBA0025B773 /* ORKSpeechInNoiseStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 7118AC6F20BF6A7700D7A6BB /* ORKSpeechInNoiseStepViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CA2B8F8228A16CF40025B773 /* ORK3DModelStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 517514512459EF5D009E8FFC /* ORK3DModelStepViewController.m */; };
 		CA2B8F8328A16CF40025B773 /* ORK3DModelStepContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 517514552459F0BE009E8FFC /* ORK3DModelStepContentView.m */; };
@@ -381,7 +381,7 @@
 		CA2B8FB228A175660025B773 /* ORKSpeechRecognitionStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E8070F31FAD217400E4FC7F /* ORKSpeechRecognitionStepViewController.m */; };
 		CA2B8FB328A175660025B773 /* ORKSpeechRecognitionContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E8070FE1FAD256A00E4FC7F /* ORKSpeechRecognitionContentView.m */; };
 		CA2B8FB428A175700025B773 /* ORKSpeechRecognitionStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E8070F41FAD217400E4FC7F /* ORKSpeechRecognitionStepViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CA2B8FB528A175750025B773 /* ORKSpeechRecognitionContentView.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E8070FD1FAD255000E4FC7F /* ORKSpeechRecognitionContentView.h */; };
+		CA2B8FB528A175750025B773 /* ORKSpeechRecognitionContentView.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E8070FD1FAD255000E4FC7F /* ORKSpeechRecognitionContentView.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		CA2B8FB628A175870025B773 /* ORKAudioFitnessStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03057F382515771800C4EC5B /* ORKAudioFitnessStepViewController.m */; };
 		CA2B8FB728A175870025B773 /* ORKFitnessStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40B0B1A8D7C5B00081FAC /* ORKFitnessStepViewController.m */; };
 		CA2B8FB828A175870025B773 /* ORKFitnessContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40B071A8D7C5B00081FAC /* ORKFitnessContentView.m */; };

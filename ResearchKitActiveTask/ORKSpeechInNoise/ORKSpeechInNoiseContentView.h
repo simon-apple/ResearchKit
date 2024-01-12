@@ -30,7 +30,6 @@
 
 
 @import UIKit;
-
 #import <ResearchKitUI/ORKCustomStepView_Internal.h>
 
 
