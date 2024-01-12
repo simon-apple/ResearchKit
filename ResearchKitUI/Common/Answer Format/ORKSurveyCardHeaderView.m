@@ -46,6 +46,7 @@ NSString * const ORKSurveyCardHeaderViewTitleLabelAccessibilityIdentifier = @"OR
 NSString * const ORKSurveyCardHeaderViewProgressLabelAccessibilityIdentifier = @"ORKSurveyCardHeaderView_progressLabel";
 NSString * const ORKSurveyCardHeaderViewDetailTextLabelAccessibilityIdentifier = @"ORKSurveyCardHeaderView_detailTextLabel";
 NSString * const ORKSurveyCardHeaderViewSelectAllThatApplyLabelAccessibilityIdentifier = @"ORKSurveyCardHeaderView_selectAllThatApplyLabel";
+NSString * const UITestLaunchArgument = @"UITest";
 
 @implementation ORKSurveyCardHeaderView {
     
@@ -197,8 +198,7 @@ NSString * const ORKSurveyCardHeaderViewSelectAllThatApplyLabelAccessibilityIden
         NSLog(@"Error creating regex to parse numbers from string");
     }
     NSArray *matches = [regex matchesInString: inputString options:0 range:NSMakeRange(0, [inputString length])];
-    if ([matches count] >= 2)
-    {
+    if ([matches count] >= 2) {
         NSTextCheckingResult *firstMatch = matches[0];
         NSTextCheckingResult *secondMatch = matches[1];
         NSRange firstMatchRange = [firstMatch range];
@@ -210,9 +210,22 @@ NSString * const ORKSurveyCardHeaderViewSelectAllThatApplyLabelAccessibilityIden
         NSInteger secondNumber = [secondNumberString integerValue];
         
         return (firstNumber < secondNumber) ? firstNumberString : secondNumberString;
-
     }
     return @"";
+}
+
+- (NSString *)getAccessibilityIdentifierStringWithOptionalIndex:(NSString *)baseIdentifier progressText:(NSString *)progressText {
+    NSString *resultIdentifier = baseIdentifier;
+    if ([[NSProcessInfo processInfo].arguments containsObject:UITestLaunchArgument]) {
+        @try {
+            NSString *lesserNumber = [self returnLesserNumber:progressText];
+            resultIdentifier = [NSString stringWithFormat:@"%@_%@", baseIdentifier, lesserNumber];
+        }
+        @catch (NSException *exception) {
+            NSLog(@"An exception occurred: %@", exception.reason);
+        }
+    }
+    return resultIdentifier;
 }
 
 - (void)setupTitleLabel {
@@ -228,18 +241,10 @@ NSString * const ORKSurveyCardHeaderViewSelectAllThatApplyLabelAccessibilityIden
     }
     _titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
     _titleLabel.textAlignment = NSTextAlignmentNatural;
-    _titleLabel.accessibilityIdentifier = ORKSurveyCardHeaderViewTitleLabelAccessibilityIdentifier;
-    [_titleLabel setFont:[ORKSurveyCardHeaderView titleLabelFont]];
     
-    if ([[NSProcessInfo processInfo].arguments containsObject:@"UITest"]) {
-        @try {
-            NSString *lesserNumber = [self returnLesserNumber:_progressText];
-            _titleLabel.accessibilityIdentifier = [NSString stringWithFormat:@"%@_%@", ORKSurveyCardHeaderViewTitleLabelAccessibilityIdentifier, lesserNumber];
-        }
-        @catch (NSException *exception) {
-            NSLog(@"An exception occurred: %@", exception.reason);
-        }
-    }
+    _titleLabel.accessibilityIdentifier = [self getAccessibilityIdentifierStringWithOptionalIndex:ORKSurveyCardHeaderViewTitleLabelAccessibilityIdentifier progressText:_progressText];
+    
+    [_titleLabel setFont:[ORKSurveyCardHeaderView titleLabelFont]];
 }
 
 - (void)setUpDetailTextLabel {
@@ -260,16 +265,7 @@ NSString * const ORKSurveyCardHeaderViewSelectAllThatApplyLabelAccessibilityIden
     }
     _progressLabel.text = _progressText;
     
-    _progressLabel.accessibilityIdentifier = ORKSurveyCardHeaderViewProgressLabelAccessibilityIdentifier;
-    if ([[NSProcessInfo processInfo].arguments containsObject:@"UITest"]) {
-        @try {
-            NSString *lesserNumber = [self returnLesserNumber:_progressText];
-            _progressLabel.accessibilityIdentifier = [NSString stringWithFormat:@"%@_%@", ORKSurveyCardHeaderViewProgressLabelAccessibilityIdentifier, lesserNumber];
-        }
-        @catch (NSException *exception) {
-            NSLog(@"An exception occurred: %@", exception.reason);
-        }
-    }
+    _progressLabel.accessibilityIdentifier = [self getAccessibilityIdentifierStringWithOptionalIndex:ORKSurveyCardHeaderViewProgressLabelAccessibilityIdentifier progressText:_progressText];
     
     _progressLabel.numberOfLines = 0;
     if (@available(iOS 13.0, *)) {

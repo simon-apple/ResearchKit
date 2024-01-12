@@ -47,6 +47,18 @@ enum TaskListRowSteps {
         return booleanQuestionFormStep
     }
     
+    static var genericBooleanExample: ORKFormStep {
+        let booleanQuestionAnswerFormat = ORKBooleanAnswerFormat()
+        
+        let booleanQuestionFormItem = ORKFormItem(identifier: String(describing: Identifier.booleanFormItem), text: TaskListRowStrings.exampleQuestionText, answerFormat: booleanQuestionAnswerFormat)
+        booleanQuestionFormItem.learnMoreItem = self.learnMoreItemExample
+        
+        let booleanQuestionFormStep = ORKFormStep(identifier: String(describing: Identifier.booleanFormStep), title: NSLocalizedString("Boolean", comment: ""), text: TaskListRowStrings.exampleDetailText)
+        booleanQuestionFormStep.formItems = [booleanQuestionFormItem]
+        
+        return booleanQuestionFormStep
+    }
+    
     static var bloodTypeExample: ORKFormStep {
         let bloodType = HKCharacteristicType.characteristicType(forIdentifier: HKCharacteristicTypeIdentifier.bloodType)!
         let bloodTypeAnswerFormat = ORKHealthKitCharacteristicTypeAnswerFormat(characteristicType: bloodType)

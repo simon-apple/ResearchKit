@@ -442,6 +442,7 @@ final class FormStep: Step {
     
     // Usually, there is only one UI picker  presented on the screen
     static var firstPicker = app.pickers.firstMatch
+    let uiPickerTimeout: TimeInterval = 50
     /**
      Enters time interval
      Handles ORKTimeIntervalAnswerFormat
@@ -460,7 +461,7 @@ final class FormStep: Step {
     
     func adjustPickerWheels(hours: Int, minutes: Int, dismissPicker: Bool = false) {
         let picker = Self.firstPicker
-        wait(for: picker, withTimeout: 30)
+        wait(for: picker, withTimeout: uiPickerTimeout)
         let hourWheel = picker.pickerWheels.element(boundBy: 0)
         let minuteWheel = picker.pickerWheels.element(boundBy: 1)
         
@@ -475,7 +476,7 @@ final class FormStep: Step {
     @discardableResult
     func answerDateQuestion(year: String, month: String, day: String, dismissPicker: Bool = false) -> Self {
         let picker = Self.firstPicker
-        wait(for: picker, withTimeout: 30)
+        wait(for: picker, withTimeout: uiPickerTimeout)
         picker.pickerWheels.element(boundBy: 2).adjust(toPickerWheelValue: year)
         picker.pickerWheels.element(boundBy: 1).adjust(toPickerWheelValue: day)
         picker.pickerWheels.element(boundBy: 0).adjust(toPickerWheelValue: month)
@@ -487,7 +488,7 @@ final class FormStep: Step {
     
     func verifyDatePickerWheelValues(expectedYear: String, expectedMonth: String, expectedDay: String) -> Self {
         let picker = Self.firstPicker
-        wait(for: picker, withTimeout: 30)
+        wait(for: picker, withTimeout: uiPickerTimeout)
         let actualYear = picker.pickerWheels.element(boundBy: 2).value as? String ?? ""
         let actualDay = picker.pickerWheels.element(boundBy: 1).value as? String ?? ""
         let actualMonth = picker.pickerWheels.element(boundBy: 0).value as? String ?? ""
@@ -510,7 +511,7 @@ final class FormStep: Step {
         let expectedYear = currentDateComponents[2]
         
         let picker = Self.firstPicker
-        wait(for: picker, withTimeout: 30)
+        wait(for: picker, withTimeout: uiPickerTimeout)
         let actualYear = picker.pickerWheels.element(boundBy: 2).value as? String ?? ""
         let actualDay = picker.pickerWheels.element(boundBy: 1).value as? String ?? ""
         let actualMonth = picker.pickerWheels.element(boundBy: 0).value as? String ?? ""
@@ -527,7 +528,7 @@ final class FormStep: Step {
     @discardableResult
     func answerPickerValueChoiceQuestion(value: String, verifyResultValue: Bool = false, dismissPicker: Bool = false) -> Self {
         let picker = Self.firstPicker
-        wait(for: picker, withTimeout: 30)
+        wait(for: picker, withTimeout: uiPickerTimeout)
         let pickerWheel = picker.pickerWheels.firstMatch // There is only one picker wheel
         wait(for: pickerWheel)
         pickerWheel.adjust(toPickerWheelValue: value)
@@ -565,7 +566,7 @@ final class FormStep: Step {
     @discardableResult
     func answerHeighQuestion(feet: Int, inches: Int, dismissPicker: Bool) -> Self {
         let picker = Self.firstPicker
-        wait(for: picker, withTimeout: 30)
+        wait(for: picker, withTimeout: uiPickerTimeout)
         let footPickerValue = "\(feet) ft"
         let inchPickerValue = "\(inches) in"
         let footWheel = picker.pickerWheels.element(boundBy: 0)
@@ -583,7 +584,7 @@ final class FormStep: Step {
     @discardableResult
     func answerHeighQuestion(cm: Int, dismissPicker: Bool) -> Self {
         let picker = Self.firstPicker
-        wait(for: picker, withTimeout: 30)
+        wait(for: picker, withTimeout: uiPickerTimeout)
         let cmPickerValue = "\(cm) cm"
         let cmWheel = picker.pickerWheels.element.firstMatch /// There is only one picker wheel(cm)
         cmWheel.adjust(toPickerWheelValue: cmPickerValue)
@@ -600,7 +601,7 @@ final class FormStep: Step {
     @discardableResult
     func answerWeighQuestion(lb: Int, dismissPicker: Bool) -> Self {
         let picker = Self.firstPicker
-        wait(for: picker, withTimeout: 30)
+        wait(for: picker, withTimeout: uiPickerTimeout)
         let lbPickerValue = "\(lb) lb"
         let lbWheel = picker.pickerWheels.element.firstMatch /// There is only one picker wheel(lb)
         lbWheel.adjust(toPickerWheelValue: lbPickerValue)
@@ -617,7 +618,7 @@ final class FormStep: Step {
     @discardableResult
     func answerWeighQuestion(lb: Int, oz: Int, dismissPicker: Bool) -> Self {
         let picker = Self.firstPicker
-        wait(for: picker, withTimeout: 30)
+        wait(for: picker, withTimeout: uiPickerTimeout)
         let lbPickerValue = "\(lb) lb"
         let ozPickerValue = "\(oz) oz"
         let lbWheel = picker.pickerWheels.element(boundBy: 0)
@@ -637,7 +638,7 @@ final class FormStep: Step {
     @discardableResult
     func answerWeighQuestion(kg: Int, dismissPicker: Bool) -> Self {
         let picker = Self.firstPicker
-        wait(for: picker, withTimeout: 30)
+        wait(for: picker, withTimeout: uiPickerTimeout)
         let kgPickerValue = "\(kg) kg"
         let kgWheel = picker.pickerWheels.element.firstMatch /// There is only one picker wheel(kg)
         kgWheel.adjust(toPickerWheelValue: kgPickerValue)
@@ -654,7 +655,7 @@ final class FormStep: Step {
     @discardableResult
     func answerWeighQuestion(kg: Double, highPrecision: Bool = false, dismissPicker: Bool) -> Self {
         let picker = Self.firstPicker
-        wait(for: picker, withTimeout: 30)
+        wait(for: picker, withTimeout: uiPickerTimeout)
         var kgPickerValue: String
         let kgString = String(describing: kg)
         let components = kgString.components(separatedBy: ".")

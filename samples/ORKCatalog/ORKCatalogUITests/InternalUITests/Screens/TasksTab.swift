@@ -100,7 +100,6 @@ enum Task {
     case webView
     
 //#if RK_APPLE_INTERNAL
-    case catalogVersion
     case predefinedSpeechInNoiseTask
     case predefinedAVJournalingTask
     case predefinedTinnitusTask
@@ -311,9 +310,6 @@ enum Task {
             return NSLocalizedString("Web View", comment: "")
             
 //#if RK_APPLE_INTERNAL
-        case .catalogVersion:
-            return NSLocalizedString("Catalog App Version History", comment: "")
-            
         case .predefinedSpeechInNoiseTask:
             return NSLocalizedString("Predefined Speech In Noise", comment: "")
             

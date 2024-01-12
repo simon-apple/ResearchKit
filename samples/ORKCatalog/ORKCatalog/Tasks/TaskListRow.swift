@@ -1207,17 +1207,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     }
 
     private var booleanQuestionTask: ORKTask {
-        let booleanQuestionAnswerFormat = ORKBooleanAnswerFormat()
-        
-        let learnMoreInstructionStep = ORKLearnMoreInstructionStep(identifier: "LearnMoreInstructionStep01")
-        learnMoreInstructionStep.title = NSLocalizedString("Learn more title", comment: "")
-        learnMoreInstructionStep.text = NSLocalizedString("Learn more text", comment: "")
-        let booleanQuestionLearnMoreItem = ORKLearnMoreItem(text: nil, learnMoreInstructionStep: learnMoreInstructionStep)
-
-        let booleanQuestionFormItem = ORKFormItem(identifier: String(describing: Identifier.booleanFormItem), text: TaskListRowStrings.exampleQuestionText, answerFormat: booleanQuestionAnswerFormat)
-        booleanQuestionFormItem.learnMoreItem = booleanQuestionLearnMoreItem
-        let booleanQuestionFormStep = ORKFormStep(identifier: String(describing: Identifier.booleanFormStep), title: NSLocalizedString("Boolean", comment: ""), text: TaskListRowStrings.exampleDetailText)
-        booleanQuestionFormStep.formItems = [booleanQuestionFormItem]
+        let booleanQuestionFormStep = TaskListRowSteps.genericBooleanExample
         
         return ORKOrderedTask(identifier: String(describing: Identifier.booleanQuestionTask), steps: [booleanQuestionFormStep])
     }

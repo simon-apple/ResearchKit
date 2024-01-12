@@ -69,7 +69,6 @@ final class RequestPermissionStepUITests: BaseUITest {
                 .verifyPermissionButtonLabelExists(atIndex: i, label: .labelDefault)
                 .verifyPermissionButton(atIndex: i, isEnabled: true)
                 .tapPermissionButton(atIndex: i) // Triggers alert for granting access
-            
             if dataType.title == "Health Data" {
                 let healthAccessScreen = HealthAccess()
                 healthAccessScreen
@@ -79,6 +78,7 @@ final class RequestPermissionStepUITests: BaseUITest {
                     .tapAllowButton()
 
             } else {
+                sleep(5) /// Allow time for the permission alert to appear as system alerts are not part of the app's a11y hierarchy and may have a delay in presentation
                 permissionsStep.tapPermissionButton(atIndex: i) /// Required for automatic detection and handling the alert: see Helpers().monitorAlerts() method
             }
             permissionsStep
