@@ -48,9 +48,7 @@
         instructionStep.text = section.content;
         NSString* convertedImageName = [NSString stringWithFormat:@"consent_%02ld", section.type + 1];
         instructionStep.type = section.type;
-        if (@available(iOS 13.0, *)) {
-            instructionStep.image = [UIImage imageNamed:convertedImageName inBundle:ORKBundle() withConfiguration:nil];
-        }
+        instructionStep.image = [UIImage imageNamed:convertedImageName inBundle:ORKBundle() withConfiguration:nil];
         [instructionSteps addObject:instructionStep];
     }
     

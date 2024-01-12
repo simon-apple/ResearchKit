@@ -78,23 +78,13 @@
     _titleLabel.text = ORKLocalizedString(@"FRONT_FACING_CAMERA_REVIEW_OPTIONS_TITLE", nil);
     [self.contentView addSubview:_titleLabel];
 
-    UIImage *reviewButtonIcon = nil;
-    
-    if (@available(iOS 13.0, *)) {
-        reviewButtonIcon = [UIImage systemImageNamed:@"video.fill"];
-    }
-    
+    UIImage *reviewButtonIcon = [UIImage systemImageNamed:@"video.fill"];
     _reviewVideoButton = [[ORKIconButton alloc] initWithButtonText:ORKLocalizedString(@"FRONT_FACING_CAMERA_REVIEW_VIDEO", nil) buttonIcon: reviewButtonIcon];
     _reviewVideoButton.tag = 0;
     _reviewVideoButton.translatesAutoresizingMaskIntoConstraints = NO;
     [self.contentView addSubview:_reviewVideoButton];
     
-    UIImage *deleteAndRetryButtonIcon = nil;
-    
-    if (@available(iOS 13.0, *)) {
-        deleteAndRetryButtonIcon = [UIImage systemImageNamed:@"trash.fill"];
-    }
-    
+    UIImage *deleteAndRetryButtonIcon = [UIImage systemImageNamed:@"trash.fill"];
     _deleteAndRetryVideoButton = [[ORKIconButton alloc] initWithButtonText:ORKLocalizedString(@"FRONT_FACING_CAMERA_RETRY_VIDEO", nil) buttonIcon: deleteAndRetryButtonIcon];
     _deleteAndRetryVideoButton.tag = 1;
     _deleteAndRetryVideoButton.translatesAutoresizingMaskIntoConstraints = NO;
@@ -207,12 +197,6 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKStartStopButtonState) {
     _timerLabel.adjustsFontSizeToFitWidth = YES;
     [self.contentView addSubview:_timerLabel];
     
-    UIImage *collapseButtonImage;
-    
-    if (@available(iOS 13.0, *)) {
-        collapseButtonImage = [UIImage systemImageNamed:@"chevron.down"];
-    }
-    
     if (_titleText) {
         _titleLabel = [ORKTitleLabel new];
         _titleLabel.textAlignment = NSTextAlignmentLeft;
@@ -237,7 +221,7 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKStartStopButtonState) {
         _collapseButton = [UIButton new];
         _collapseButton.translatesAutoresizingMaskIntoConstraints = NO;
         [_collapseButton setTintColor:[UIColor whiteColor]];
-        [_collapseButton setBackgroundImage:collapseButtonImage forState:UIControlStateNormal];
+        [_collapseButton setBackgroundImage:[UIImage systemImageNamed:@"chevron.down"] forState:UIControlStateNormal];
         [_collapseButton addTarget:self
                             action:@selector(collapseButtonPressed)
                   forControlEvents:UIControlEventTouchUpInside];
@@ -316,8 +300,6 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKStartStopButtonState) {
 }
 
 - (void)collapseButtonPressed {
-    UIImage *collapseButtonImage;
-    
     if (_isTextCollapsed) {
         [_blurViewTopConstraint setActive:NO];
         _blurViewTopConstraint = [self.contentView.topAnchor constraintEqualToAnchor:_titleLabel.topAnchor constant:-20.0];
@@ -337,9 +319,7 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKStartStopButtonState) {
         [NSLayoutConstraint activateConstraints:_heightConstraints];
     }
     
-    if (@available(iOS 13.0, *)) {
-        collapseButtonImage =  _isTextCollapsed ? [UIImage systemImageNamed:@"chevron.down"] : [UIImage systemImageNamed:@"chevron.up"];
-    }
+    UIImage *collapseButtonImage =  _isTextCollapsed ? [UIImage systemImageNamed:@"chevron.down"] : [UIImage systemImageNamed:@"chevron.up"];
     
     [_collapseButton setBackgroundImage:collapseButtonImage forState:UIControlStateNormal];
     _isTextCollapsed = !_isTextCollapsed;

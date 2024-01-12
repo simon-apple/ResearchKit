@@ -90,11 +90,7 @@ static const CGFloat detailTextBottomSpacing = 16.0;
     if (!effectView && !_removeVisualEffect) {
         self.backgroundColor = [UIColor clearColor];
         UIVisualEffect *blurEffect;
-        if (@available(iOS 13.0, *)) {
-            blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleSystemChromeMaterial];
-        } else {
-            blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
-        }
+        blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleSystemChromeMaterial];
         effectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
     }
     effectView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -151,11 +147,7 @@ static const CGFloat detailTextBottomSpacing = 16.0;
     _detailTextLabel.numberOfLines = 0;
     _detailTextLabel.textAlignment = NSTextAlignmentCenter;
     _detailTextLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption2];
-    if (@available(iOS 13.0, *)) {
-        _detailTextLabel.textColor = [UIColor secondaryLabelColor];
-    } else {
-        _detailTextLabel.textColor = [UIColor grayColor];
-    }
+    _detailTextLabel.textColor = [UIColor secondaryLabelColor];
     _detailTextLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:_detailTextLabel];
 }

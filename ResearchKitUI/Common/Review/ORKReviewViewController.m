@@ -96,11 +96,7 @@ static const float FirstSectionHeaderPadding = 24.0;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    if (@available(iOS 13.0, *)) {
-        self.view.backgroundColor = [UIColor systemGroupedBackgroundColor];
-    } else {
-        self.view.backgroundColor = ORKColor(ORKBackgroundColorKey);
-    }
+    self.view.backgroundColor = [UIColor systemGroupedBackgroundColor];
 
     [self setupTableContainerView];
     
@@ -166,12 +162,7 @@ static const float FirstSectionHeaderPadding = 24.0;
         _tableContainerView.tableView.estimatedSectionHeaderHeight = 30.0;
         _tableContainerView.tableView.estimatedSectionFooterHeight = 30.0;
         _tableContainerView.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        if (@available(iOS 13.0, *)) {
-            _tableContainerView.tableView.backgroundColor = [UIColor systemGroupedBackgroundColor];
-        } else {
-            _tableContainerView.tableView.backgroundColor = ORKColor(ORKBackgroundColorKey);
-        }
-        
+        _tableContainerView.tableView.backgroundColor = [UIColor systemGroupedBackgroundColor];
     }
     [self.view addSubview:_tableContainerView];
     _tableContainerView.translatesAutoresizingMaskIntoConstraints = NO;

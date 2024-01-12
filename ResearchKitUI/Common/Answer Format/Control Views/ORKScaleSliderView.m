@@ -156,13 +156,8 @@ static const CGFloat kMargin = 25.0;
             }
             
             if (textChoices) {
-                if (@available(iOS 13.0, *)) {
-                    [_leftRangeDescriptionLabel setTextColor:[UIColor labelColor]];
-                    [_rightRangeDescriptionLabel setTextColor:[UIColor labelColor]];
-                } else {
-                    _leftRangeDescriptionLabel.textColor = [UIColor blackColor];
-                    _rightRangeDescriptionLabel.textColor = [UIColor blackColor];
-                }
+                [_leftRangeDescriptionLabel setTextColor:[UIColor labelColor]];
+                [_rightRangeDescriptionLabel setTextColor:[UIColor labelColor]];
                 
                 _leftRangeLabel.text = @"";
                 _rightRangeLabel.text = @"";
@@ -225,11 +220,7 @@ static const CGFloat kMargin = 25.0;
     UIFontDescriptor *moveSliderDescriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleFootnote];
     UIFontDescriptor *moveSliderFontDescriptor = [moveSliderDescriptor fontDescriptorWithSymbolicTraits:(UIFontDescriptorTraitBold)];
     [_moveSliderLabel setFont: [UIFont fontWithDescriptor:moveSliderFontDescriptor size:[[moveSliderFontDescriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]]];
-    if (@available(iOS 13.0, *)) {
-        _moveSliderLabel.textColor = [UIColor secondaryLabelColor];
-    } else {
-        _moveSliderLabel.textColor = [UIColor grayColor];
-    }
+    _moveSliderLabel.textColor = [UIColor secondaryLabelColor];
     
     _valueLabel = [[ORKScaleValueLabel alloc] initWithFrame:CGRectZero];
     _valueLabel.text = @"";
@@ -246,16 +237,12 @@ static const CGFloat kMargin = 25.0;
     
     _leftRangeLabel = [[ORKScaleRangeLabel alloc] initWithFrame:CGRectZero];
     _leftRangeLabel.textAlignment = NSTextAlignmentCenter;
-    if (@available(iOS 13.0, *)) {
-        [_leftRangeLabel setTextColor:[UIColor labelColor]];
-    }
+    [_leftRangeLabel setTextColor:[UIColor labelColor]];
     [_leftRangeLabel setFont: [UIFont fontWithDescriptor:rangeLabelRangeFontDescriptor size:[[rangeLabelRangeFontDescriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]]];
     
     _rightRangeLabel = [[ORKScaleRangeLabel alloc] initWithFrame:CGRectZero];
     _rightRangeLabel.textAlignment = NSTextAlignmentCenter;
-    if (@available(iOS 13.0, *)) {
-        [_rightRangeLabel setTextColor:[UIColor labelColor]];
-    }
+    [_rightRangeLabel setTextColor:[UIColor labelColor]];
     [_rightRangeLabel setFont: [UIFont fontWithDescriptor:rangeLabelRangeFontDescriptor size:[[rangeLabelRangeFontDescriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]]];
     
     if ([_formatProvider minimumImage]) {
@@ -296,18 +283,14 @@ static const CGFloat kMargin = 25.0;
     _leftRangeDescriptionLabel.lineBreakMode = NSLineBreakByWordWrapping;
     [_leftRangeDescriptionLabel setFont: [UIFont fontWithDescriptor:rangeDescriptionLabelFontDescriptor size:[[rangeDescriptionLabelFontDescriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]]];
     _leftRangeDescriptionLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    if (@available(iOS 13.0, *)) {
-        [_leftRangeDescriptionLabel setTextColor:[UIColor labelColor]];
-    }
+    [_leftRangeDescriptionLabel setTextColor:[UIColor labelColor]];
    
     _rightRangeDescriptionLabel = [[ORKScaleRangeDescriptionLabel alloc] initWithFrame:CGRectZero];
     _rightRangeDescriptionLabel.numberOfLines = 0;
     _rightRangeDescriptionLabel.lineBreakMode = NSLineBreakByWordWrapping;
     [_rightRangeDescriptionLabel setFont: [UIFont fontWithDescriptor:rangeDescriptionLabelFontDescriptor size:[[rangeDescriptionLabelFontDescriptor objectForKey: UIFontDescriptorSizeAttribute] doubleValue]]];
     _rightRangeDescriptionLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    if (@available(iOS 13.0, *)) {
-        [_rightRangeDescriptionLabel setTextColor:[UIColor labelColor]];
-    }
+    [_rightRangeDescriptionLabel setTextColor:[UIColor labelColor]];
 }
 
 - (void)setupDontKnowButton {
@@ -327,11 +310,7 @@ static const CGFloat kMargin = 25.0;
     
     if (!_dividerView) {
         _dividerView = [UIView new];
-        if (@available(iOS 13.0, *)) {
-            [_dividerView setBackgroundColor:[UIColor separatorColor]];
-        } else {
-            [_dividerView setBackgroundColor:[UIColor lightGrayColor]];
-        }
+        [_dividerView setBackgroundColor:[UIColor separatorColor]];
     }
 }
 

@@ -31,7 +31,6 @@
 import SwiftUI
 import ResearchKit
 
-@available(iOS 13.0, *)
 struct TextChoiceView: View {
     @ObservedObject var textChoiceHelper: SwiftUITextChoiceHelper
     
@@ -212,7 +211,6 @@ struct TextChoiceView: View {
     
 }
 
-@available(iOS 13.0, *)
 class SwiftUITextChoiceHelper: ObservableObject {
     var answer: Any
     let answerFormat: ORKTextChoiceAnswerFormat
@@ -302,7 +300,6 @@ class SwiftUITextChoiceHelper: ObservableObject {
     
 }
 
-@available(iOS 13.0, *)
 private struct SwiftUITextChoice: Identifiable {
     var id: String
     var text: String
@@ -311,7 +308,6 @@ private struct SwiftUITextChoice: Identifiable {
     var value: NSCopying & NSSecureCoding & NSObjectProtocol
 }
 
-@available(iOS 13.0, *)
 private struct CompatibleNavigationBarItems<
     LeadingContent: View,
     TrailingContent: View
@@ -341,7 +337,6 @@ private struct CompatibleNavigationBarItems<
     }
 }
 
-@available(iOS 13.0, *)
 extension CompatibleNavigationBarItems where LeadingContent == EmptyView {
 
     init(@ViewBuilder trailingContent: () -> TrailingContent) {
@@ -352,7 +347,6 @@ extension CompatibleNavigationBarItems where LeadingContent == EmptyView {
     }
 }
 
-@available(iOS 13.0, *)
 extension CompatibleNavigationBarItems where TrailingContent == EmptyView {
 
     init(@ViewBuilder leadingContent: () -> LeadingContent) {

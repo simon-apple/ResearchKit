@@ -130,11 +130,10 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    if (@available(iOS 13.0, *)) {
-        self.view.backgroundColor = UIColor.systemGroupedBackgroundColor;
-        self.taskViewController.navigationBar.barTintColor = UIColor.systemGroupedBackgroundColor;
-        [self.taskViewController.navigationBar setTranslucent:NO];
-    }
+    
+    self.view.backgroundColor = UIColor.systemGroupedBackgroundColor;
+    self.taskViewController.navigationBar.barTintColor = UIColor.systemGroupedBackgroundColor;
+    [self.taskViewController.navigationBar setTranslucent:NO];
 }
 
 - (void)headphoneChanged:(NSNotification *)note {

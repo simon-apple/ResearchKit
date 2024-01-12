@@ -104,11 +104,10 @@ static const CGFloat BarViewHeight = 50.0;
 
 - (void)setupXmarkView {
     if (!_xmarkView) {
-        if (@available(iOS 13.0, *)) {
-            UIImageConfiguration *configuration = [UIImageSymbolConfiguration configurationWithPointSize:HalfCircleSize weight:UIImageSymbolWeightBold scale:UIImageSymbolScaleDefault];
-            _xmarkImage = [[UIImage systemImageNamed:@"xmark" withConfiguration:configuration] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-            _checkmarkImage = [[UIImage systemImageNamed:@"checkmark" withConfiguration:configuration] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-        }
+        UIImageConfiguration *configuration = [UIImageSymbolConfiguration configurationWithPointSize:HalfCircleSize weight:UIImageSymbolWeightBold scale:UIImageSymbolScaleDefault];
+        _xmarkImage = [[UIImage systemImageNamed:@"xmark" withConfiguration:configuration] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        _checkmarkImage = [[UIImage systemImageNamed:@"checkmark" withConfiguration:configuration] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        
         _xmarkView = [[UIImageView alloc] initWithImage: _xmarkImage];
         _xmarkView.tintColor = UIColor.systemOrangeColor;
     }
@@ -147,10 +146,7 @@ static const CGFloat BarViewHeight = 50.0;
     [[_ringView.leadingAnchor constraintEqualToAnchor:_containerView.leadingAnchor] setActive:YES];
     [[_ringView.centerYAnchor constraintEqualToAnchor:_DBInstructionLabel.centerYAnchor] setActive:YES];
     [[_ringView.trailingAnchor constraintEqualToAnchor:_DBInstructionLabel.leadingAnchor constant:-InstructionLabelPadding] setActive:YES];
-
-    if (@available(iOS 13.0, *)) {
-        [_ringView setColor:UIColor.systemGray6Color];
-    }
+    [_ringView setColor:UIColor.systemGray6Color];
 }
 
 - (void)setupDBInstructionLabel {
@@ -158,9 +154,7 @@ static const CGFloat BarViewHeight = 50.0;
         _DBInstructionLabel = [ORKLabel new];
         _DBInstructionLabel.numberOfLines = 0;
         _DBInstructionLabel.font = [self title3TextFont];
-        if (@available(iOS 13.0, *)) {
-            _DBInstructionLabel.textColor = UIColor.labelColor;
-        }
+        _DBInstructionLabel.textColor = UIColor.labelColor;
         _DBInstructionLabel.text = ORKLocalizedString(@"ENVIRONMENTSPL_CALCULATING", nil);
     }
     _DBInstructionLabel.translatesAutoresizingMaskIntoConstraints = NO;

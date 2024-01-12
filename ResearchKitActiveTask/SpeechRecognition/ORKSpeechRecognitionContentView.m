@@ -197,10 +197,7 @@ static CGFloat const ORKSpeechRecognitionContentBottomLayoutMargin = 44.0;
 - (void)setupUseKeyboardButton
 {
     _useKeyboardButton = [[UIButton alloc] init];
-    if (@available(iOS 13.0, *))
-    {
-        [_useKeyboardButton setImage:[UIImage systemImageNamed:@"keyboard" compatibleWithTraitCollection:self.traitCollection] forState:UIControlStateNormal];
-    }
+    [_useKeyboardButton setImage:[UIImage systemImageNamed:@"keyboard" compatibleWithTraitCollection:self.traitCollection] forState:UIControlStateNormal];
     _useKeyboardButton.adjustsImageWhenHighlighted = NO;
     NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_USE_KEYBOARD_INSTEAD", nil)
                                                                           attributes:@{NSFontAttributeName:[self buttonTextFont],

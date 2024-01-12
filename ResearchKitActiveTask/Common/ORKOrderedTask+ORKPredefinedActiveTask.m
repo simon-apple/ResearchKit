@@ -1356,98 +1356,54 @@ NSString *const ORKKneeRangeOfMotionStepIdentifier = @"knee.range.of.motion";
     }
 
     if (!(options & ORKPredefinedTaskOptionExcludeInstructions)) {
-        if (@available(iOS 13.0, *)) {
-            // Use body items with SFSymbols in iOS 13+
-            ORKInstructionStep *instructionStep = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction0StepIdentifier];
-            instructionStep.shouldAutomaticallyAdjustImageTintColor = YES;
-
-            instructionStep.title = ORKLocalizedString(@"RANGE_OF_MOTION_TITLE", nil);
-            instructionStep.text = intendedUseDescription;
-            instructionStep.shouldTintImages = YES;
-            instructionStep.iconImage = kneeStartImage;
-            instructionStep.imageContentMode = UIViewContentModeCenter;
-            instructionStep.bodyItems = @[
-
-                [[ORKBodyItem alloc] initWithText:
-                 ([limbType isEqualToString:ORKLocalizedString(@"LIMB_LEFT", nil)])?
-                 ORKLocalizedString(@"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_0_LEFT", nil) :
-                 ORKLocalizedString(@"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_0_RIGHT", nil)
-                                       detailText:nil
-                                            image:[UIImage systemImageNamed:@"1.circle.fill"]
-                                    learnMoreItem:nil
-                                    bodyItemStyle:ORKBodyItemStyleImage],
-
-                [[ORKBodyItem alloc] initWithText:
-                 ([limbType isEqualToString:ORKLocalizedString(@"LIMB_LEFT", nil)])?
-                 ORKLocalizedString(@"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_1_LEFT", nil) :
-                 ORKLocalizedString(@"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_1_RIGHT", nil)
-                                       detailText:nil
-                                            image:[UIImage systemImageNamed:@"2.circle.fill"]
-                                    learnMoreItem:nil
-                                    bodyItemStyle:ORKBodyItemStyleImage],
-
-                [[ORKBodyItem alloc] initWithText:
-                 ([limbType isEqualToString:ORKLocalizedString(@"LIMB_LEFT", nil)])?
-                 ORKLocalizedString(@"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_LEFT", nil) :
-                 ORKLocalizedString(@"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_RIGHT", nil)
-                                       detailText:nil
-                                            image:[UIImage systemImageNamed:@"3.circle.fill"]
-                                    learnMoreItem:nil
-                                    bodyItemStyle:ORKBodyItemStyleImage],
-
-                [[ORKBodyItem alloc] initWithText:
-                 ([limbType isEqualToString:ORKLocalizedString(@"LIMB_LEFT", nil)])?
-                 ORKLocalizedString(@"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_LEFT", nil) :
-                 ORKLocalizedString(@"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_RIGHT", nil)
-                                       detailText:nil
-                                            image:[UIImage systemImageNamed:@"4.circle.fill"]
-                                    learnMoreItem:nil
-                                    bodyItemStyle:ORKBodyItemStyleImage],
-            ];
-
-            ORKStepArrayAddStep(steps, instructionStep);
-
-        } else {
-
-            // Fallback for iOS 12 and earlier
-            ORKInstructionStep *instructionStep0 = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction0StepIdentifier];
-            instructionStep0.title = ORKLocalizedString(@"RANGE_OF_MOTION_TITLE", nil);
-            instructionStep0.text = intendedUseDescription;
-            instructionStep0.detailText = ([limbType isEqualToString:ORKLocalizedString(@"LIMB_LEFT", nil)])? ORKLocalizedString(@"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_0_LEFT", nil) : ORKLocalizedString(@"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_0_RIGHT", nil);
-            instructionStep0.shouldTintImages = YES;
-            instructionStep0.imageContentMode = UIViewContentModeCenter;
-            instructionStep0.shouldAutomaticallyAdjustImageTintColor = YES;
+        ORKInstructionStep *instructionStep = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction0StepIdentifier];
+        instructionStep.shouldAutomaticallyAdjustImageTintColor = YES;
+        
+        instructionStep.title = ORKLocalizedString(@"RANGE_OF_MOTION_TITLE", nil);
+        instructionStep.text = intendedUseDescription;
+        instructionStep.shouldTintImages = YES;
+        instructionStep.iconImage = kneeStartImage;
+        instructionStep.imageContentMode = UIViewContentModeCenter;
+        instructionStep.bodyItems = @[
             
-            ORKStepArrayAddStep(steps, instructionStep0);
-
-            ORKInstructionStep *instructionStep1 = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction1StepIdentifier];
-            instructionStep1.title = ORKLocalizedString(@"RANGE_OF_MOTION_TITLE", nil);
-            instructionStep1.text = ([limbType isEqualToString:ORKLocalizedString(@"LIMB_LEFT", nil)])? ORKLocalizedString(@"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_1_LEFT", nil) : ORKLocalizedString(@"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_1_RIGHT", nil);
-            instructionStep1.shouldAutomaticallyAdjustImageTintColor = YES;
-
-            ORKStepArrayAddStep(steps, instructionStep1);
-
-            ORKInstructionStep *instructionStep2 = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction2StepIdentifier];
-            instructionStep2.title = ORKLocalizedString(@"RANGE_OF_MOTION_TITLE", nil);
-            instructionStep2.text = ([limbType isEqualToString:ORKLocalizedString(@"LIMB_LEFT", nil)])? ORKLocalizedString(@"KNEE_RANGE_OF_MOTION_TITLE_LEFT", nil) : ORKLocalizedString(@"KNEE_RANGE_OF_MOTION_TITLE_RIGHT", nil);
-            instructionStep2.shouldAutomaticallyAdjustImageTintColor = YES;
+            [[ORKBodyItem alloc] initWithText:
+             ([limbType isEqualToString:ORKLocalizedString(@"LIMB_LEFT", nil)])?
+             ORKLocalizedString(@"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_0_LEFT", nil) :
+             ORKLocalizedString(@"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_0_RIGHT", nil)
+                                   detailText:nil
+                                        image:[UIImage systemImageNamed:@"1.circle.fill"]
+                                learnMoreItem:nil
+                                bodyItemStyle:ORKBodyItemStyleImage],
             
-            instructionStep2.detailText = ([limbType isEqualToString:ORKLocalizedString(@"LIMB_LEFT", nil)])? ORKLocalizedString(@"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_LEFT", nil) : ORKLocalizedString(@"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_RIGHT", nil);
-            instructionStep2.image = kneeStartImage;
-            instructionStep2.imageContentMode = UIViewContentModeCenter;
-            instructionStep2.shouldTintImages = YES;
-            ORKStepArrayAddStep(steps, instructionStep2);
-
-            ORKInstructionStep *instructionStep3 = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction3StepIdentifier];
-            instructionStep3.title = ORKLocalizedString(@"RANGE_OF_MOTION_TITLE", nil);
-            instructionStep3.text = ([limbType isEqualToString:ORKLocalizedString(@"LIMB_LEFT", nil)])? ORKLocalizedString(@"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_LEFT", nil) : ORKLocalizedString(@"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_RIGHT", nil);
-            instructionStep3.shouldAutomaticallyAdjustImageTintColor = YES;
-
-            instructionStep3.image = kneeMaximumImage;
-            instructionStep3.imageContentMode = UIViewContentModeCenter;
-            instructionStep3.shouldTintImages = YES;
-            ORKStepArrayAddStep(steps, instructionStep3);
-        }
+            [[ORKBodyItem alloc] initWithText:
+             ([limbType isEqualToString:ORKLocalizedString(@"LIMB_LEFT", nil)])?
+             ORKLocalizedString(@"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_1_LEFT", nil) :
+             ORKLocalizedString(@"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_1_RIGHT", nil)
+                                   detailText:nil
+                                        image:[UIImage systemImageNamed:@"2.circle.fill"]
+                                learnMoreItem:nil
+                                bodyItemStyle:ORKBodyItemStyleImage],
+            
+            [[ORKBodyItem alloc] initWithText:
+             ([limbType isEqualToString:ORKLocalizedString(@"LIMB_LEFT", nil)])?
+             ORKLocalizedString(@"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_LEFT", nil) :
+             ORKLocalizedString(@"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_2_RIGHT", nil)
+                                   detailText:nil
+                                        image:[UIImage systemImageNamed:@"3.circle.fill"]
+                                learnMoreItem:nil
+                                bodyItemStyle:ORKBodyItemStyleImage],
+            
+            [[ORKBodyItem alloc] initWithText:
+             ([limbType isEqualToString:ORKLocalizedString(@"LIMB_LEFT", nil)])?
+             ORKLocalizedString(@"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_LEFT", nil) :
+             ORKLocalizedString(@"KNEE_RANGE_OF_MOTION_TEXT_INSTRUCTION_3_RIGHT", nil)
+                                   detailText:nil
+                                        image:[UIImage systemImageNamed:@"4.circle.fill"]
+                                learnMoreItem:nil
+                                bodyItemStyle:ORKBodyItemStyleImage],
+        ];
+        
+        ORKStepArrayAddStep(steps, instructionStep);
     }
 
     NSString *instructionText = ([limbType isEqualToString:ORKLocalizedString(@"LIMB_LEFT", nil)])? ORKLocalizedString(@"KNEE_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_LEFT", nil) : ORKLocalizedString(@"KNEE_RANGE_OF_MOTION_TOUCH_ANYWHERE_STEP_INSTRUCTION_RIGHT", nil);
@@ -1993,19 +1949,16 @@ NSString *const ORKdBHLToneAudiometryStep2Identifier = @"dBHL2.tone.audiometry";
             step.imageContentMode = UIViewContentModeCenter;
             step.shouldTintImages = YES;
             step.shouldAutomaticallyAdjustImageTintColor = YES;
-            if (@available(iOS 13.0, *)) {
-                ORKBodyItem * item1 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_1", nil) detailText:nil image:[UIImage systemImageNamed:@"ear"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
-                ORKBodyItem * item2 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_2", nil) detailText:nil image:[UIImage systemImageNamed:@"hand.draw.fill"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
-                ORKBodyItem * item3 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_3", nil) detailText:nil image:[UIImage systemImageNamed:@"volume.2.fill"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
-                ORKBodyItem * item4 = [[ORKBodyItem alloc] initWithHorizontalRule];
-                ORKBodyItem * item5 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_4", nil) detailText:nil image:[UIImage systemImageNamed:@"stopwatch"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
-                item5.useSecondaryColor = YES;
-                ORKBodyItem * item6 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_5", nil) detailText:nil image:[UIImage systemImageNamed:@"moon.fill"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
-                item6.useSecondaryColor = YES;
-                step.bodyItems = @[item1, item2, item3, item4, item5, item6];
-            } else {
-                // Fallback on earlier versions
-            }
+            
+            ORKBodyItem * item1 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_1", nil) detailText:nil image:[UIImage systemImageNamed:@"ear"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
+            ORKBodyItem * item2 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_2", nil) detailText:nil image:[UIImage systemImageNamed:@"hand.draw.fill"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
+            ORKBodyItem * item3 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_3", nil) detailText:nil image:[UIImage systemImageNamed:@"volume.2.fill"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
+            ORKBodyItem * item4 = [[ORKBodyItem alloc] initWithHorizontalRule];
+            ORKBodyItem * item5 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_4", nil) detailText:nil image:[UIImage systemImageNamed:@"stopwatch"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
+            item5.useSecondaryColor = YES;
+            ORKBodyItem * item6 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_5", nil) detailText:nil image:[UIImage systemImageNamed:@"moon.fill"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
+            item6.useSecondaryColor = YES;
+            step.bodyItems = @[item1, item2, item3, item4, item5, item6];
             
             ORKStepArrayAddStep(steps, step);
         }

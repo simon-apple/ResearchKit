@@ -42,13 +42,8 @@ static const CGFloat verticalInset = 4;
         self.clipsToBounds = YES;
         self.layer.cornerRadius = 2.0;
         self.font = [ORKTagLabel font];
-        if (@available(iOS 13.0, *)) {
-            self.textColor = [UIColor systemGrayColor];
-            self.backgroundColor = [UIColor tertiarySystemGroupedBackgroundColor];
-        } else {
-            self.textColor = [UIColor darkGrayColor];
-            self.backgroundColor = [UIColor lightGrayColor];
-        }
+        self.textColor = [UIColor systemGrayColor];
+        self.backgroundColor = [UIColor tertiarySystemGroupedBackgroundColor];
     }
     return self;
 }

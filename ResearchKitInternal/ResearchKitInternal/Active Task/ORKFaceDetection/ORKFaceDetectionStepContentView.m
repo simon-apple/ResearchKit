@@ -124,20 +124,14 @@ static const CGFloat StopFaceDetectionTimeLimit = 10.0;
 - (void)setUpSubviews {
     _cameraView = [UIView new];
     _cameraView.alpha = 1.0;
+    [_cameraView setBackgroundColor:[UIColor secondarySystemBackgroundColor]];
     [self addSubview:_cameraView];
     
     _bottomContentView = [UIView new];
     _bottomContentView.alpha = 1.0;
     _bottomContentView.layer.zPosition = 5.0;
+    [_bottomContentView setBackgroundColor:[UIColor secondarySystemBackgroundColor]];
     [self addSubview:_bottomContentView];
-    
-    if (@available(iOS 13.0, *)) {
-        [_cameraView setBackgroundColor:[UIColor secondarySystemBackgroundColor]];
-        [_bottomContentView setBackgroundColor:[UIColor secondarySystemBackgroundColor]];
-     } else {
-         [_cameraView setBackgroundColor:[UIColor whiteColor]];
-         [_bottomContentView setBackgroundColor:[UIColor whiteColor]];
-     }
     
     _faceDetectionTitleLabel = [UILabel new];
     _faceDetectionTitleLabel.font = [self titleLabelFont];
@@ -305,25 +299,21 @@ static const CGFloat StopFaceDetectionTimeLimit = 10.0;
     NSString *stringtoParse =  !_showingForRecalibration ? AAPLLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_FACE_DETECTED_TITLE", nil) : AAPLLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_FACE_DETECTED_TITLE_RECALIBRATION", nil);
     NSString *parsedString = [stringtoParse componentsSeparatedByString:separatorString].firstObject;
     
-    if (@available(iOS 13.0, *)) {
-        NSString *titleMesssage = [NSString stringWithFormat:@" %@", parsedString];
-        NSMutableAttributedString *fullString = [[NSMutableAttributedString alloc] initWithString:titleMesssage];
-        NSTextAttachment *imageAttachment = [NSTextAttachment new];
-        
-        UIImageSymbolConfiguration *imageConfig = [UIImageSymbolConfiguration configurationWithPointSize:25 weight:UIImageSymbolWeightBold];
-        UIImage *exclamationMarkImage = [UIImage systemImageNamed:@"checkmark"];
-        UIImage *configuredImage = [exclamationMarkImage imageByApplyingSymbolConfiguration:imageConfig];
-        
-        imageAttachment.image = [configuredImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-        
-        NSAttributedString *imageString = [NSAttributedString attributedStringWithAttachment:imageAttachment];
-        
-        [fullString appendAttributedString:imageString];
-        
-        _faceDetectionTitleLabel.attributedText = fullString;
-    } else {
-        [_faceDetectionTitleLabel setText:AAPLLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_FACE_DETECTED_TITLE", nil)];
-    }
+    NSString *titleMesssage = [NSString stringWithFormat:@" %@", parsedString];
+    NSMutableAttributedString *fullString = [[NSMutableAttributedString alloc] initWithString:titleMesssage];
+    NSTextAttachment *imageAttachment = [NSTextAttachment new];
+    
+    UIImageSymbolConfiguration *imageConfig = [UIImageSymbolConfiguration configurationWithPointSize:25 weight:UIImageSymbolWeightBold];
+    UIImage *exclamationMarkImage = [UIImage systemImageNamed:@"checkmark"];
+    UIImage *configuredImage = [exclamationMarkImage imageByApplyingSymbolConfiguration:imageConfig];
+    
+    imageAttachment.image = [configuredImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    
+    NSAttributedString *imageString = [NSAttributedString attributedStringWithAttachment:imageAttachment];
+    
+    [fullString appendAttributedString:imageString];
+    
+    _faceDetectionTitleLabel.attributedText = fullString;
 }
 
 - (void)animateInFaceIcon {

@@ -73,9 +73,8 @@ static const int ORKEnvironmentSPLMeterNumberOfRows = 4;
                                     _squareSize, _squareSize);
         [dot setPath:[UIBezierPath bezierPathWithRoundedRect:dotRect
                                                 cornerRadius:_cornerRadius].CGPath];
-        if (@available(iOS 13.0, *)) {
-            dot.fillColor = [UIColor systemGray6Color].CGColor;
-        }
+        
+        dot.fillColor = [UIColor systemGray6Color].CGColor;
         [[self layer] addSublayer:dot];
         
         [dots addObject:dot];
@@ -226,18 +225,10 @@ static const int ORKEnvironmentSPLMeterNumberOfRows = 4;
         ORKEnvironmentSPLMeterColumnView *columnView = _columnViews[i];
         NSInteger distanceToIndex = i - index;
         CGFloat opacityFactor = 0.1 * distanceToIndex;
-        UIColor *grayColor;
-        UIColor *greenColor;
-        UIColor *orangeColor;
-        
-        grayColor = [UIColor ork_splGrayColor];
-        if (@available(iOS 13.0, *)) {
-            greenColor = [UIColor systemGreenColor];
-            orangeColor = [UIColor systemOrangeColor];
-        } else {
-            greenColor = [UIColor greenColor];
-            orangeColor = [UIColor orangeColor];
-        }
+        UIColor *grayColor = [UIColor ork_splGrayColor];
+        UIColor *greenColor = [UIColor systemGreenColor];;
+        UIColor *orangeColor = [UIColor systemOrangeColor];;
+
         if (i <= _greenIndexLimit) {
             if (i < index) {
                 [columnView setColor:greenColor];

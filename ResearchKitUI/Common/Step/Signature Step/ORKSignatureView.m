@@ -179,11 +179,7 @@ static const CGFloat LineWidthStepValue = 0.25f;
     _lineWidth = DefaultLineWidth;
     _lineWidthVariation = DefaultLineWidthVariation;
     
-    if (@available(iOS 13.0, *)) {
-        self.layer.borderColor = [[UIColor separatorColor] CGColor];
-    } else {
-        self.layer.borderColor = [[UIColor ork_midGrayTintColor] CGColor];
-    }
+    self.layer.borderColor = [[UIColor separatorColor] CGColor];
     self.layer.borderWidth = 1.0;
     self.layer.cornerRadius = 10.0;
     self.clipsToBounds = YES;
@@ -266,11 +262,7 @@ static const CGFloat LineWidthStepValue = 0.25f;
 
 - (UIColor *)lineColor {
     if (_lineColor == nil) {
-        if (@available(iOS 13.0, *)) {
-            _lineColor = [UIColor labelColor];
-        } else {
-           _lineColor = ORKColor(ORKSignatureColorKey);
-        }
+        _lineColor = [UIColor labelColor];
     }
     return _lineColor;
 }
@@ -484,13 +476,9 @@ static CGPoint mmid_Point(CGPoint p1, CGPoint p2) {
 
 - (void)drawRect:(CGRect)rect {
     UIColor *fillColor;
-    if (@available(iOS 13.0, *)) {
-        fillColor = [UIColor systemBackgroundColor];
-    } else {
-        fillColor = [UIColor whiteColor];
-    }
-    
+    fillColor = [UIColor systemBackgroundColor];
     [fillColor setFill];
+    
     CGContextFillRect(UIGraphicsGetCurrentContext(), rect);
     
     for (UIBezierPath *path in self.pathArray) {

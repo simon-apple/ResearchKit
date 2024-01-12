@@ -54,11 +54,7 @@ static const CGFloat verticalPadding = 10.0;
 - (void)setupView {
     cardView = [[UIView alloc] init];
     cardView.translatesAutoresizingMaskIntoConstraints = NO;
-    if (@available(iOS 13.0, *)) {
-        cardView.backgroundColor = [UIColor secondarySystemGroupedBackgroundColor];
-    } else {
-        cardView.backgroundColor = [UIColor whiteColor];
-    }
+    cardView.backgroundColor = [UIColor secondarySystemGroupedBackgroundColor];
     cardView.layer.cornerRadius = ORKCardDefaultCornerRadii;
     [self.contentView addSubview:cardView];
     
@@ -91,17 +87,9 @@ static const CGFloat verticalPadding = 10.0;
 
 - (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
     if (highlighted == YES) {
-        if (@available(iOS 13.0, *)) {
-            cardView.backgroundColor = [UIColor systemGray5Color];
-        } else {
-            cardView.backgroundColor = [UIColor grayColor];
-        }
+        cardView.backgroundColor = [UIColor systemGray5Color];
     } else {
-        if (@available(iOS 13.0, *)) {
-            cardView.backgroundColor = [UIColor secondarySystemGroupedBackgroundColor];
-        } else {
-            cardView.backgroundColor = [UIColor whiteColor];
-        }
+        cardView.backgroundColor = [UIColor secondarySystemGroupedBackgroundColor];
     }
 }
 

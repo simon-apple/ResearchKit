@@ -101,11 +101,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    if (@available(iOS 13.0, *)) {
-        [self.navigationController.navigationBar setBarTintColor:[UIColor secondarySystemBackgroundColor]];
-    } else {
-        [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
-    }
+    [self.navigationController.navigationBar setBarTintColor:[UIColor secondarySystemBackgroundColor]];
     
     //Check for video authorization
     [self checkAuthorizationForMediaType:AVMediaTypeVideo completion:^(BOOL granted, AVAuthorizationStatus authStatus) {

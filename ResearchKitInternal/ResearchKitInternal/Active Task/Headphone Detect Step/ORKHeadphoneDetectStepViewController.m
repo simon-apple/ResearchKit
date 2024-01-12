@@ -177,9 +177,8 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
         if (!_imageView) {
             _imageView = [UIImageView new];
         }
-        if (@available(iOS 13.0, *)) {
-            _imageView.tintColor = UIColor.labelColor;
-        }
+
+        _imageView.tintColor = UIColor.labelColor;
         _imageView.image = _image;
         _imageView.translatesAutoresizingMaskIntoConstraints = NO;
         [[_imageView.widthAnchor constraintEqualToConstant:ORKHeadphoneImageViewDimension] setActive:YES];
@@ -319,12 +318,12 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     if (!_orangeLabel) {
         _orangeLabel = [UILabel new];
     }
-    if (@available(iOS 13.0, *)) {
-        UIImageConfiguration *configuration = [UIImageSymbolConfiguration configurationWithFont:[UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline] scale:UIImageSymbolScaleDefault];
-        UIImage *exclamation = [[UIImage systemImageNamed:@"exclamationmark.circle.fill" withConfiguration:configuration] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-        _orangeLabelImage = [[UIImageView alloc] initWithImage: exclamation];
-        _orangeLabelImage.tintColor = UIColor.systemOrangeColor;
-    }
+
+    UIImageConfiguration *configuration = [UIImageSymbolConfiguration configurationWithFont:[UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline] scale:UIImageSymbolScaleDefault];
+    UIImage *exclamation = [[UIImage systemImageNamed:@"exclamationmark.circle.fill" withConfiguration:configuration] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    
+    _orangeLabelImage = [[UIImageView alloc] initWithImage: exclamation];
+    _orangeLabelImage.tintColor = UIColor.systemOrangeColor;
     [_orangeLabelImage sizeToFit];
     _orangeLabelImage.translatesAutoresizingMaskIntoConstraints = NO;
     _orangeLabel.text = AAPLLocalizedString(@"NOISE_CANCELLATION_REQUIRED", nil);
@@ -644,21 +643,19 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
         NSTextAttachment *airplayAttachment = [NSTextAttachment new];
         NSTextAttachment *checkmarkAttachment = [NSTextAttachment new];
         
-        if (@available(iOS 13.0, *)) {
-            UIImageConfiguration *configuration = [UIImageSymbolConfiguration configurationWithFont:[UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline] scale:UIImageSymbolScaleDefault];
-            
-            UIImage *exclamationImg = [[UIImage systemImageNamed:@"exclamationmark.circle.fill"
-                                               withConfiguration:configuration] imageWithTintColor:orangeColor];
-            exclamationAttachment.image = exclamationImg;
-            
-            UIImage *airplayImg = [[UIImage systemImageNamed:@"airplayaudio"
-                                           withConfiguration:configuration] imageWithTintColor:grayColor];
-            airplayAttachment.image = airplayImg;
-            
-            UIImage *checkmarkImg = [[UIImage systemImageNamed:@"checkmark.circle.fill"
-                                             withConfiguration:configuration] imageWithTintColor:grayColor];
-            checkmarkAttachment.image = checkmarkImg;
-        }
+        UIImageConfiguration *configuration = [UIImageSymbolConfiguration configurationWithFont:[UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline] scale:UIImageSymbolScaleDefault];
+        
+        UIImage *exclamationImg = [[UIImage systemImageNamed:@"exclamationmark.circle.fill"
+                                           withConfiguration:configuration] imageWithTintColor:orangeColor];
+        exclamationAttachment.image = exclamationImg;
+        
+        UIImage *airplayImg = [[UIImage systemImageNamed:@"airplayaudio"
+                                       withConfiguration:configuration] imageWithTintColor:grayColor];
+        airplayAttachment.image = airplayImg;
+        
+        UIImage *checkmarkImg = [[UIImage systemImageNamed:@"checkmark.circle.fill"
+                                         withConfiguration:configuration] imageWithTintColor:grayColor];
+        checkmarkAttachment.image = checkmarkImg;
         
         [sharedAudioString appendAttributedString:[self attributedEmptyLineWithSize:10]];
         
@@ -699,11 +696,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
 - (UIView *)horizontalRuleView {
     UIView *separator = [UIView new];
     separator.translatesAutoresizingMaskIntoConstraints = NO;
-    if (@available(iOS 13.0, *)) {
-        separator.backgroundColor = UIColor.separatorColor;
-    } else {
-        separator.backgroundColor = UIColor.lightGrayColor;
-    }
+    separator.backgroundColor = UIColor.separatorColor;
     [separator.heightAnchor constraintEqualToConstant:1.0 / [UIScreen mainScreen].scale].active = YES;
     return separator;
 }

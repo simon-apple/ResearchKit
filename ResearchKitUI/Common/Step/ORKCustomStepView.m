@@ -285,20 +285,11 @@
         }
         _contentMaskLayer = [[CAShapeLayer alloc] init];
 
-        UIColor *fillColor;
-        if (@available(iOS 13.0, *)) {
-            fillColor = UIColor.secondarySystemGroupedBackgroundColor;
-        } else {
-            fillColor = [UIColor ork_borderGrayColor];
-        }
+        UIColor *fillColor = UIColor.secondarySystemGroupedBackgroundColor;;
         [_contentMaskLayer setFillColor:[fillColor CGColor]];
         
         CAShapeLayer *foreLayer = [CAShapeLayer layer];
-        if (@available(iOS 13.0, *)) {
-            [foreLayer setFillColor:[[UIColor secondarySystemGroupedBackgroundColor] CGColor]];
-        } else {
-            [foreLayer setFillColor:[[UIColor whiteColor] CGColor]];
-        }
+        [foreLayer setFillColor:[[UIColor secondarySystemGroupedBackgroundColor] CGColor]];
         foreLayer.zPosition = 0.0f;
         
         CAShapeLayer *lineLayer = [CAShapeLayer layer];
@@ -319,11 +310,7 @@
 
         [_contentMaskLayer addSublayer:foreLayer];
         [_contentMaskLayer addSublayer:lineLayer];
-        if (@available(iOS 13.0, *)) {
-            _contentMaskLayer.fillColor = UIColor.separatorColor.CGColor;
-        } else {
-            _contentMaskLayer.fillColor = [UIColor ork_midGrayTintColor].CGColor;
-        }
+        _contentMaskLayer.fillColor = UIColor.separatorColor.CGColor;
         [_containerView.layer insertSublayer:_contentMaskLayer atIndex:0];
     }
 }
@@ -541,20 +528,11 @@
         }
         _contentMaskLayer = [[CAShapeLayer alloc] init];
         
-        UIColor *fillColor;
-        if (@available(iOS 13.0, *)) {
-            fillColor = UIColor.secondarySystemGroupedBackgroundColor;
-        } else {
-            fillColor = [UIColor ork_borderGrayColor];
-        }
+        UIColor *fillColor = UIColor.secondarySystemGroupedBackgroundColor;;
         [_contentMaskLayer setFillColor:[fillColor CGColor]];
         
         CAShapeLayer *foreLayer = [CAShapeLayer layer];
-        if (@available(iOS 13.0, *)) {
-            [foreLayer setFillColor:[[UIColor secondarySystemGroupedBackgroundColor] CGColor]];
-        } else {
-            [foreLayer setFillColor:[[UIColor whiteColor] CGColor]];
-        }
+        [foreLayer setFillColor:[[UIColor secondarySystemGroupedBackgroundColor] CGColor]];
         foreLayer.zPosition = 0.0f;
         
         CAShapeLayer *lineLayer = [CAShapeLayer layer];
@@ -575,11 +553,7 @@
         
         [_contentMaskLayer addSublayer:foreLayer];
         [_contentMaskLayer addSublayer:lineLayer];
-        if (@available(iOS 13.0, *)) {
-            _contentMaskLayer.fillColor = UIColor.separatorColor.CGColor;
-        } else {
-            _contentMaskLayer.fillColor = [UIColor ork_midGrayTintColor].CGColor;
-        }
+        _contentMaskLayer.fillColor = UIColor.separatorColor.CGColor;
         [_containerView.layer insertSublayer:_contentMaskLayer atIndex:0];
     }
 }

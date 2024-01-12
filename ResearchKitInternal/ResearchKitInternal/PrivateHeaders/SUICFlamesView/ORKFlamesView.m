@@ -33,14 +33,7 @@
     {
         if ([ORKFlamesView _isMetalAvailable])
         {
-            if (@available(iOS 13.0, *))
-            {
-                _flamesView = [[ORKFlamesViewMetal alloc] initWithFrame:frame screen:screen fidelity:fidelity];
-            }
-            else
-            {
-                _flamesView = [[ORKFlamesViewLegacy alloc] initWithFrame:frame screen:screen fidelity:fidelity];
-            }
+            _flamesView = [[ORKFlamesViewMetal alloc] initWithFrame:frame screen:screen fidelity:fidelity];
         }
         else
         {

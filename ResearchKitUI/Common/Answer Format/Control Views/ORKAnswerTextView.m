@@ -68,11 +68,7 @@
                                                 object:self];
 
     _placeholderTextView = [[UITextView alloc] initWithFrame:CGRectZero];
-    if (@available(iOS 13.0, *)) {
-        _placeholderTextView.textColor = [UIColor placeholderTextColor];
-    } else {
-        _placeholderTextView.textColor = [UIColor ork_midGrayTintColor];
-    }
+    _placeholderTextView.textColor = [UIColor placeholderTextColor];
     _placeholderTextView.userInteractionEnabled = NO;
     _placeholderTextView.translatesAutoresizingMaskIntoConstraints = NO;
     [self insertSubview:_placeholderTextView atIndex:0];

@@ -68,9 +68,7 @@ static const CGFloat DontKnowButtonBottomPaddingOffset = 10.0;
 - (void)loadPicker {
     if (_picker == nil) {
         _picker = [ORKPicker pickerWithAnswerFormat:[self.step impliedAnswerFormat] answer:self.answer delegate:self];
-        if (@available(iOS 13.0, *)) {
-            _picker.pickerView.backgroundColor = UIColor.secondarySystemGroupedBackgroundColor;
-        }
+        _picker.pickerView.backgroundColor = UIColor.secondarySystemGroupedBackgroundColor;
         
         [self.picker pickerWillAppear];
         
@@ -94,11 +92,7 @@ static const CGFloat DontKnowButtonBottomPaddingOffset = 10.0;
      
      if (!_dividerView) {
          _dividerView = [UIView new];
-         if (@available(iOS 13.0, *)) {
-             [_dividerView setBackgroundColor:[UIColor separatorColor]];
-         } else {
-             [_dividerView setBackgroundColor:[UIColor lightGrayColor]];
-         }
+         [_dividerView setBackgroundColor:[UIColor separatorColor]];
          [self addSubview:_dividerView];
      }
     

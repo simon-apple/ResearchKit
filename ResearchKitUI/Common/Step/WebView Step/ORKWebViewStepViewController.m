@@ -101,11 +101,7 @@ static const CGFloat ORKSignatureTopPadding = 37.0;
     if (!css) {
         UIColor *backgroundColor = ORKColor(ORKBackgroundColorKey);
         UIColor *textColor;
-        if (@available(iOS 13.0, *)) {
-            textColor = [UIColor labelColor];
-        } else {
-            textColor = [UIColor blackColor];
-        }
+        textColor = [UIColor labelColor];
 
         NSString *backgroundColorString = [self hexStringForColor:backgroundColor];
         NSString *textColorString = [self hexStringForColor:textColor];
@@ -169,11 +165,9 @@ static const CGFloat ORKSignatureTopPadding = 37.0;
 
     // We need to re-render the HTML if the interface style has changed
     // so that the CSS adopts the new color scheme.
-    if (@available(iOS 13, *)) {
-        if (self.traitCollection.userInterfaceStyle != previousTraitCollection.userInterfaceStyle ||
-            self.traitCollection.preferredContentSizeCategory != previousTraitCollection.preferredContentSizeCategory) {
-            [self refreshHTML];
-        }
+    if (self.traitCollection.userInterfaceStyle != previousTraitCollection.userInterfaceStyle ||
+        self.traitCollection.preferredContentSizeCategory != previousTraitCollection.preferredContentSizeCategory) {
+        [self refreshHTML];
     }
 }
 

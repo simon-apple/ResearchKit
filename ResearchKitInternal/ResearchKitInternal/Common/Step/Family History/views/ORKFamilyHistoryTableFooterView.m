@@ -114,13 +114,8 @@ static const CGFloat ViewLeftRightPadding = 16.0;
 }
 
 - (void)updateViewColors {
-    if (@available(iOS 13.0, *)) {
-        _titleLabel.textColor = self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor whiteColor] : [UIColor systemBlueColor];
-        _viewButton.backgroundColor = [UIColor secondarySystemGroupedBackgroundColor];
-    } else {
-        _titleLabel.textColor = [UIColor systemBlueColor];
-        _viewButton.backgroundColor = [UIColor whiteColor];
-    }
+    _titleLabel.textColor = self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor whiteColor] : [UIColor systemBlueColor];
+    _viewButton.backgroundColor = [UIColor secondarySystemGroupedBackgroundColor];
 }
 
 - (void)enableAccessibilitySupport {
