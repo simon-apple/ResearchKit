@@ -30,6 +30,7 @@
 
 #import <ResearchKitActiveTask/ORKSpeechInNoiseStepViewController.h>
 
+@class ORKSpeechInNoiseContentView;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -39,6 +40,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString *)filename;
 - (BOOL)isPracticeTest;
 - (BOOL)shouldBlockFinishOfStep;
+- (void)setupContentView;
+
+@property (nonatomic, strong) ORKSpeechInNoiseContentView *speechInNoiseContentView;
 
 @end
 

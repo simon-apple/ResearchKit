@@ -30,7 +30,8 @@
 
 
 @import UIKit;
-#import "ORKCustomStepView_Internal.h"
+
+#import <ResearchKitUI/ORKCustomStepView_Internal.h>
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -52,6 +53,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)addSample:(NSNumber *)sample;
 - (void)removeAllSamples;
 - (void)setGraphViewHidden:(BOOL)hidden;
+
+#if RK_APPLE_INTERNAL
+- (void)useInternalGraphView;
+#endif
 
 @end
 

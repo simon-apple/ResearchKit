@@ -67,7 +67,6 @@
 @end
 
 @implementation ORKSpeechRecognitionStepViewController {
-    ORKSpeechRecognitionContentView *_speechRecognitionContentView;
     ORKAudioStreamer *_audioRecorder;
     ORKSpeechRecognizer *_speechRecognizer;
     
@@ -89,14 +88,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setAllowUserToRecordInsteadOnNextStep:NO];
-    ORKSpeechRecognitionStep *step = (ORKSpeechRecognitionStep *) self.step;
-    _speechRecognitionContentView = [ORKSpeechRecognitionContentView new];
-    _speechRecognitionContentView.shouldHideTranscript = step.shouldHideTranscript;
-    self.activeStepView.customContentFillsAvailableSpace = YES;
-    self.activeStepView.activeCustomView = _speechRecognitionContentView;
-    _speechRecognitionContentView.speechRecognitionImage = step.speechRecognitionImage;
-    _speechRecognitionContentView.speechRecognitionText = step.speechRecognitionText;
-    _speechRecognitionContentView.delegate = self;
+    [self setupContentView];
     
     _errorState = NO;
 
@@ -106,15 +98,25 @@
     _speechRecognitionQueue = dispatch_queue_create("SpeechRecognitionQueue", DISPATCH_QUEUE_SERIAL);
 }
 
-- (void)requestSpeechRecognizerAuthorizationIfNeeded
-{
+- (void)setupContentView {
+    ORKSpeechRecognitionStep *step = (ORKSpeechRecognitionStep *) self.step;
+    
+    _speechRecognitionContentView = [ORKSpeechRecognitionContentView new];
+    _speechRecognitionContentView.shouldHideTranscript = step.shouldHideTranscript;
+    self.activeStepView.customContentFillsAvailableSpace = YES;
+    self.activeStepView.activeCustomView = _speechRecognitionContentView;
+    _speechRecognitionContentView.speechRecognitionImage = step.speechRecognitionImage;
+    _speechRecognitionContentView.speechRecognitionText = step.speechRecognitionText;
+    _speechRecognitionContentView.delegate = self;
+}
+
+- (void)requestSpeechRecognizerAuthorizationIfNeeded {
     [self handleSpeechRecognizerAuthorizationStatus:[ORKSpeechRecognizer authorizationStatus]];
 }
 
-- (void)handleSpeechRecognizerAuthorizationStatus:(SFSpeechRecognizerAuthorizationStatus)status
-{
+- (void)handleSpeechRecognizerAuthorizationStatus:(SFSpeechRecognizerAuthorizationStatus)status {
     switch (status)
-    {
+{
         case SFSpeechRecognizerAuthorizationStatusAuthorized:
         {
             [_speechRecognitionContentView.recordButton setButtonState:ORKRecordButtonStateEnabled];

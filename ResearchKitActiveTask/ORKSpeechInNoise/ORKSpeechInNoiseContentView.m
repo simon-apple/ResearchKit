@@ -99,6 +99,16 @@ static CGFloat const ORKSpeechInNoiseContentViewVerticalMargin = 44;
     [self addSubview:_graphView];
 }
 
+#if RK_APPLE_INTERNAL
+- (void)useInternalGraphView {
+    [self.graphView setUseInternalGraphView:YES];
+    
+    [_graphView setMeterColor:[UIColor lightGrayColor]];
+    [self updateGraphSamples];
+    [self applyAlertColor];
+}
+#endif
+
 - (void)setupPlayButton {
     if (@available(iOS 13.0, *)) {
         self.playButton = [[ORKPlaybackButton alloc] initWithText:ORKLocalizedString(@"SPEECH_IN_NOISE_START_AUDIO_LABEL", nil) image:[UIImage systemImageNamed:@"play.circle"]];

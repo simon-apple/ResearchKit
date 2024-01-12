@@ -66,8 +66,6 @@
     BOOL _installedTap;
 }
 
-@property (nonatomic, strong) ORKSpeechInNoiseContentView *speechInNoiseContentView;
-
 @end
 
 @implementation ORKSpeechInNoiseStepViewController
@@ -80,13 +78,17 @@
     _filterAudioBuffer = [[AVAudioPCMBuffer alloc] init];
     _installedTap = NO;
     
+    [self setupContentView];
+    [self setupEngine];
+}
+
+- (void)setupContentView {
     self.speechInNoiseContentView = [[ORKSpeechInNoiseContentView alloc] init];
     self.activeStepView.activeCustomView = self.speechInNoiseContentView;
     self.activeStepView.customContentFillsAvailableSpace = NO;
     _speechInNoiseContentView.alertColor = [UIColor blueColor];
     [self.speechInNoiseContentView.playButton addTarget:self action:@selector(tapButtonPressed) forControlEvents:UIControlEventTouchDown];
     [_speechInNoiseContentView setGraphViewHidden:[self speechInNoiseStep].hideGraphView];
-    [self setupEngine];
 }
 
 - (void)setupEngine {

@@ -45,6 +45,7 @@
 
 #import <ResearchKitInternal/AAPLCompletionStep.h>
 #import <ResearchKitInternal/AAPLCompletionStepViewController.h>
+#import <ResearchKitInternal/ORKAudioDictationView.h>
 #import <ResearchKitInternal/ORKAVJournalingResult.h>
 #import <ResearchKitInternal/ORKAVJournalingStepViewController.h>
 #import <ResearchKitInternal/ORKAVJournalingTaskViewController.h>
