@@ -774,9 +774,8 @@ static const CGFloat ColorSwatchExpandedRightPadding = 16.0;
       placeholderText:(NSString *)placeholderText
        expansionState:(ORKChoiceViewCellExpansionState)expansionState {
         self.textView.placeholder = placeholderText;
-        if (self.textView.text.length > 0 && expansionState == ORKChoiceViewCellExpansionStateCollapsed) {
-            self.textView.text = text;
-        }
+        self.textView.text = text;
+        
         [self hideTextView:((expansionState == ORKChoiceViewCellExpansionStateExpanded) ? false : true)];
 }
 
