@@ -1685,16 +1685,21 @@ NSString * const ORKSurveyCardHeaderViewIdentifier = @"SurveyCardHeaderViewIdent
         }
 
         ORKChoiceOtherViewCell *choiceOtherViewCell = ORKDynamicCast(choiceViewCell, ORKChoiceOtherViewCell);
-        // [LC] This code used to be executed only once, when the cell was being created.
+        // This code used to be executed only once, when the cell was being created.
         // Now that we use dequeue to always create a cell, that logic doesn't apply anymore
         // setupWithText: withPlaceholderText: withExpansionState:  is a method that will apply the logic based on the textfield's expansion state
         if (choiceOtherViewCell != nil) {
-            ORKTextChoice *textChoice = [answerFormat.choices objectAtIndex:choiceIndex];
-            ORKTextChoiceOther *textChoiceOther = ORKDynamicCast(textChoice, ORKTextChoiceOther);
-            if (textChoiceOther != nil) {
-                [choiceOtherViewCell setupWithText:textChoiceOther.textViewText placeholderText:textChoiceOther.textViewPlaceholderText expansionState:itemIdentifier.expansionState];
-            }
-        }
+             ORKTextChoice *textChoice = [answerFormat.choices objectAtIndex:choiceIndex];
+             ORKTextChoiceOther *textChoiceOther = ORKDynamicCast(textChoice, ORKTextChoiceOther);
+             if (textChoiceOther != nil) {
+                 if (textChoiceOther.textViewText.length > 0) {
+                     // We should always expand the ORKChoiceOtherViewCell if the ORKTextChoiceOther has a textViewText
+                     // This can happen, when restoring the form.
+                     itemIdentifier.expansionState = ORKChoiceViewCellExpansionStateExpanded;
+                 }
+                 [choiceOtherViewCell setupWithText:textChoiceOther.textViewText placeholderText:textChoiceOther.textViewPlaceholderText expansionState:itemIdentifier.expansionState];
+             }
+         }
         choiceOtherViewCell.delegate = self;
         
         choiceViewCell.tintColor = ORKViewTintColor(self.view);
