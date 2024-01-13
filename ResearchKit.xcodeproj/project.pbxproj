@@ -155,7 +155,7 @@
 		51F716C6297E288A00D8ACF7 /* ORKNormalizedReactionTimeResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F716BC297E288900D8ACF7 /* ORKNormalizedReactionTimeResult.m */; };
 		51F716C7297E288A00D8ACF7 /* ORKNormalizedReactionTimeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F716BD297E288900D8ACF7 /* ORKNormalizedReactionTimeViewController.m */; };
 		51F716C8297E288A00D8ACF7 /* ORKNormalizedReactionTimeStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F716BE297E288900D8ACF7 /* ORKNormalizedReactionTimeStep.m */; };
-		51F716C9297E288A00D8ACF7 /* ORKNormalizedReactionTimeViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 51F716BF297E288A00D8ACF7 /* ORKNormalizedReactionTimeViewController.h */; };
+		51F716C9297E288A00D8ACF7 /* ORKNormalizedReactionTimeViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 51F716BF297E288A00D8ACF7 /* ORKNormalizedReactionTimeViewController.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		51F716CA297E288A00D8ACF7 /* ORKNormalizedReactionTimeContentView.h in Headers */ = {isa = PBXBuildFile; fileRef = 51F716C0297E288A00D8ACF7 /* ORKNormalizedReactionTimeContentView.h */; };
 		51F716CB297E2A1100D8ACF7 /* ORKConsentDocument+ORKInstructionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 0BE9D5242947EA4900DA0625 /* ORKConsentDocument+ORKInstructionStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		51F716D1297E2CC400D8ACF7 /* ORKConsentLearnMoreViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 51F716CD297E2CB600D8ACF7 /* ORKConsentLearnMoreViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
