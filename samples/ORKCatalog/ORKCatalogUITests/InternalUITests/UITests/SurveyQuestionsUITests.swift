@@ -274,7 +274,7 @@ final class SurveyQuestionsUITests: BaseUITest {
             questionStep
                 .answerPickerValueChoiceQuestion(value: textChoice, verifyResultValue: true, dismissPicker: dismissPicker)
                 .verify(.continueButton, isEnabled: true)
-            sleep(3) // Allow the UI to settle for subsequent interactions
+            sleep(5) // Allow the UI to settle for subsequent interactions
         }
         
         questionStep

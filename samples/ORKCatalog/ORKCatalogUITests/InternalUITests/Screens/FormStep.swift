@@ -441,7 +441,7 @@ final class FormStep: Step {
     // MARK: - Date and Time Answer Format
     
     // Usually, there is only one UI picker  presented on the screen
-    static var firstPicker = app.pickers.element(boundBy: 0).firstMatch
+    static var firstPicker = app.pickers.element(boundBy: 0)
     let uiPickerTimeout: TimeInterval = 60
     /**
      Enters time interval
@@ -571,6 +571,7 @@ final class FormStep: Step {
         let footPickerValue = "\(feet) ft"
         let inchPickerValue = "\(inches) in"
         let footWheel = picker.pickerWheels.element(boundBy: 0)
+        wait(for: footWheel)
         let inchWheel = picker.pickerWheels.element(boundBy: 1)
         footWheel.adjust(toPickerWheelValue: footPickerValue)
         inchWheel.adjust(toPickerWheelValue: inchPickerValue)
@@ -588,6 +589,7 @@ final class FormStep: Step {
         wait(for: picker, withTimeout: uiPickerTimeout)
         let cmPickerValue = "\(cm) cm"
         let cmWheel = picker.pickerWheels.element.firstMatch /// There is only one picker wheel(cm)
+        wait(for: cmWheel)
         cmWheel.adjust(toPickerWheelValue: cmPickerValue)
         
         if dismissPicker {
@@ -605,6 +607,7 @@ final class FormStep: Step {
         wait(for: picker, withTimeout: uiPickerTimeout)
         let lbPickerValue = "\(lb) lb"
         let lbWheel = picker.pickerWheels.element.firstMatch /// There is only one picker wheel(lb)
+        wait(for: lbWheel)
         lbWheel.adjust(toPickerWheelValue: lbPickerValue)
         
         if dismissPicker {
@@ -623,6 +626,7 @@ final class FormStep: Step {
         let lbPickerValue = "\(lb) lb"
         let ozPickerValue = "\(oz) oz"
         let lbWheel = picker.pickerWheels.element(boundBy: 0)
+        wait(for: lbWheel)
         lbWheel.adjust(toPickerWheelValue: lbPickerValue)
         let ozWheel = picker.pickerWheels.element(boundBy: 1)
         ozWheel.adjust(toPickerWheelValue: ozPickerValue)
@@ -642,6 +646,7 @@ final class FormStep: Step {
         wait(for: picker, withTimeout: uiPickerTimeout)
         let kgPickerValue = "\(kg) kg"
         let kgWheel = picker.pickerWheels.element.firstMatch /// There is only one picker wheel(kg)
+        wait(for: kgWheel)
         kgWheel.adjust(toPickerWheelValue: kgPickerValue)
         
         if dismissPicker {
@@ -668,6 +673,7 @@ final class FormStep: Step {
             }
             let integerPart = components[0]
             let kgWheel = picker.pickerWheels.element(boundBy: 0)
+            wait(for: kgWheel)
             kgWheel.adjust(toPickerWheelValue: integerPart)
             let gWheel = picker.pickerWheels.element(boundBy: 1)
             gWheel.adjust(toPickerWheelValue: ".\(fractionalPart)")
@@ -678,6 +684,7 @@ final class FormStep: Step {
             }
             kgPickerValue = "\(kg) kg"
             let kgWheel = picker.pickerWheels.element.firstMatch /// There is only one picker wheel(kg)
+            wait(for: kgWheel)
             kgWheel.adjust(toPickerWheelValue: kgPickerValue)
         }
         
