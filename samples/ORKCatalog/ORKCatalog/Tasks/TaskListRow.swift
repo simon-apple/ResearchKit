@@ -1207,7 +1207,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     }
 
     private var booleanQuestionTask: ORKTask {
-        let booleanQuestionFormStep = TaskListRowSteps.genericBooleanExample
+        let booleanQuestionFormStep = TaskListRowSteps.booleanGenericExample
         
         return ORKOrderedTask(identifier: String(describing: Identifier.booleanQuestionTask), steps: [booleanQuestionFormStep])
     }

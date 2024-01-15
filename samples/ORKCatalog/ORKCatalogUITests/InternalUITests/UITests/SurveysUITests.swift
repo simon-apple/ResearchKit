@@ -186,8 +186,9 @@ final class SurveysUITests: BaseUITest {
         }
         test("Step 1 Form Item 1 and Form Item 2: Verify multiple cells selected") {
             indicesToSelect.append(indexToSelect)
-            formStep1
-                .scrollDownToStepTitle()
+            app.swipeDown()
+            app.swipeDown() // to accelerate scrolling down, a preparatory step for next method
+            formStep1.scrollDownToStepTitle()
                 .verifyMultipleCellsSelected(withId: formStep1.itemIds[0], indices: indicesToSelect, cellsChoiceRange: (start: 0, end: 49))
                 .verifyOnlyOneCellSelected(withId: formStep1.itemIds[1], atIndex: indexToSelect, cellsChoiceRange: (start: 0, end: 49))
         }

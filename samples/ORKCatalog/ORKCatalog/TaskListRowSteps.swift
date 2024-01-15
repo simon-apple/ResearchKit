@@ -47,7 +47,7 @@ enum TaskListRowSteps {
         return booleanQuestionFormStep
     }
     
-    static var genericBooleanExample: ORKFormStep {
+    static var booleanGenericExample: ORKFormStep {
         let booleanQuestionAnswerFormat = ORKBooleanAnswerFormat()
         
         let booleanQuestionFormItem = ORKFormItem(identifier: String(describing: Identifier.booleanFormItem), text: TaskListRowStrings.exampleQuestionText, answerFormat: booleanQuestionAnswerFormat)

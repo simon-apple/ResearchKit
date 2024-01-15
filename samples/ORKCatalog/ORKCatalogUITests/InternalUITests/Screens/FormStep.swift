@@ -441,8 +441,8 @@ final class FormStep: Step {
     // MARK: - Date and Time Answer Format
     
     // Usually, there is only one UI picker  presented on the screen
-    static var firstPicker = app.pickers.firstMatch
-    let uiPickerTimeout: TimeInterval = 50
+    static var firstPicker = app.pickers.element(boundBy: 0).firstMatch
+    let uiPickerTimeout: TimeInterval = 60
     /**
      Enters time interval
      Handles ORKTimeIntervalAnswerFormat
@@ -463,6 +463,7 @@ final class FormStep: Step {
         let picker = Self.firstPicker
         wait(for: picker, withTimeout: uiPickerTimeout)
         let hourWheel = picker.pickerWheels.element(boundBy: 0)
+        wait(for: hourWheel)
         let minuteWheel = picker.pickerWheels.element(boundBy: 1)
         
         hourWheel.adjust(toPickerWheelValue: String(hours))
@@ -529,7 +530,7 @@ final class FormStep: Step {
     func answerPickerValueChoiceQuestion(value: String, verifyResultValue: Bool = false, dismissPicker: Bool = false) -> Self {
         let picker = Self.firstPicker
         wait(for: picker, withTimeout: uiPickerTimeout)
-        let pickerWheel = picker.pickerWheels.firstMatch // There is only one picker wheel
+        let pickerWheel = picker.pickerWheels.element(boundBy: 0).firstMatch // There is only one picker wheel
         wait(for: pickerWheel)
         pickerWheel.adjust(toPickerWheelValue: value)
         if verifyResultValue {
