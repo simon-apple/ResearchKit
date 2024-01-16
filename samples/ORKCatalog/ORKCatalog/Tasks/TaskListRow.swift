@@ -1617,7 +1617,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     private var waitTask: ORKTask {
         let waitStepIndeterminate = ORKWaitStep(identifier: String(describing: Identifier.waitStepIndeterminate))
         waitStepIndeterminate.title = NSLocalizedString("Wait Step", comment: "")
-        waitStepIndeterminate.text = TaskListRowStrings.exampleDescription
+        waitStepIndeterminate.text = "Will navigate forward after 5 seconds"
         waitStepIndeterminate.indicatorType = ORKProgressIndicatorType.indeterminate
         
         let waitStepDeterminate = ORKWaitStep(identifier: String(describing: Identifier.waitStepDeterminate))
