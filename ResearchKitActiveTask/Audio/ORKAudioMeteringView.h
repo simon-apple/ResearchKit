@@ -54,6 +54,10 @@ extern NSArray<NSNumber *> * ORKLastNSamples(NSArray<NSNumber *> *samples, NSInt
 
 @interface ORKAudioMeteringView : UIView <ORKAudioMetering, ORKAudioMeteringDisplay>
 
+#if RK_APPLE_INTERNAL
+@property (nonatomic) BOOL useInternalGraphView;
+#endif
+
 @end
 
 NS_ASSUME_NONNULL_END

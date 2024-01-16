@@ -81,13 +81,11 @@ static CGFloat const ORKSpeechRecognitionContentBottomLayoutMargin = 44.0;
     return self;
 }
 
-- (void)drawRect:(CGRect)rect
-{
+- (void)drawRect:(CGRect)rect {
     [self setUpConstraints];
 }
 
-- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection
-{
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
     [super traitCollectionDidChange:previousTraitCollection];
     
     [self setUpConstraints];
@@ -132,6 +130,15 @@ static CGFloat const ORKSpeechRecognitionContentBottomLayoutMargin = 44.0;
     [self addSubview:_graphView];
 }
 
+#if RK_APPLE_INTERNAL
+- (void)useInternalGraphView {
+    [_graphView setUseInternalGraphView:YES];
+    
+    [self updateGraphSamples];
+    [self applyKeyColor];
+}
+#endif
+
 - (void)setupTranscriptLabel {
     _transcriptLabel = [ORKSubheadlineLabel new];
     _transcriptLabel.textAlignment = NSTextAlignmentCenter;
@@ -143,10 +150,8 @@ static CGFloat const ORKSpeechRecognitionContentBottomLayoutMargin = 44.0;
     [self addSubview:_transcriptLabel];
 }
 
-- (void)setupRecordButton
-{
-    if (!_recordButton)
-    {
+- (void)setupRecordButton {
+    if (!_recordButton) {
         self.recordButton = [[ORKRecordButton alloc] init];
         self.recordButton.delegate = self;
         self.recordButton.translatesAutoresizingMaskIntoConstraints = NO;
@@ -156,16 +161,13 @@ static CGFloat const ORKSpeechRecognitionContentBottomLayoutMargin = 44.0;
     }
 }
 
-- (void)buttonPressed:(ORKRecordButton *)recordButton
-{
+- (void)buttonPressed:(ORKRecordButton *)recordButton {
     if ([self.delegate conformsToProtocol:@protocol(ORKSpeechRecognitionContentViewDelegate)] &&
-        [self.delegate respondsToSelector:@selector(didPressRecordButton:)])
-    {
+        [self.delegate respondsToSelector:@selector(didPressRecordButton:)]) {
         [self.delegate didPressRecordButton:recordButton];
     }
     
-    switch ([recordButton buttonType])
-    {
+    switch ([recordButton buttonType]) {
         case ORKRecordButtonTypeRecord:
             
             [recordButton setButtonType:ORKRecordButtonTypeStop animated:YES];
@@ -179,10 +181,8 @@ static CGFloat const ORKSpeechRecognitionContentBottomLayoutMargin = 44.0;
     }
 }
 
-- (void)updateButtonStates
-{
-    switch ([_recordButton buttonType])
-       {
+- (void)updateButtonStates {
+    switch ([_recordButton buttonType]) {
            case ORKRecordButtonTypeRecord:
                
                [self setKeyboardButtonEnabled:YES];
@@ -194,10 +194,12 @@ static CGFloat const ORKSpeechRecognitionContentBottomLayoutMargin = 44.0;
        }
 }
 
-- (void)setupUseKeyboardButton
-{
+- (void)setupUseKeyboardButton {
     _useKeyboardButton = [[UIButton alloc] init];
-    [_useKeyboardButton setImage:[UIImage systemImageNamed:@"keyboard" compatibleWithTraitCollection:self.traitCollection] forState:UIControlStateNormal];
+    [_useKeyboardButton setImage:[UIImage systemImageNamed:@"keyboard" 
+                             compatibleWithTraitCollection:self.traitCollection]
+                        forState:UIControlStateNormal];
+    
     _useKeyboardButton.adjustsImageWhenHighlighted = NO;
     NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:ORKLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_USE_KEYBOARD_INSTEAD", nil)
                                                                           attributes:@{NSFontAttributeName:[self buttonTextFont],
@@ -215,14 +217,12 @@ static CGFloat const ORKSpeechRecognitionContentBottomLayoutMargin = 44.0;
     [_useKeyboardButton addTarget:self action:@selector(useKeyboardButtonPressed) forControlEvents:UIControlEventTouchUpInside];
 }
 
-- (void)setKeyboardButtonEnabled:(BOOL)enabled
-{
+- (void)setKeyboardButtonEnabled:(BOOL)enabled {
     _useKeyboardButton.userInteractionEnabled = enabled;
     _useKeyboardButton.alpha = enabled ? 1.0 : 0.25;
 }
 
-- (void)useKeyboardButtonPressed
-{
+- (void)useKeyboardButtonPressed {
     if ([self.delegate conformsToProtocol:@protocol(ORKSpeechRecognitionContentViewDelegate)] &&
         [self.delegate respondsToSelector:@selector(didPressUseKeyboardButton)])
     {
@@ -230,8 +230,7 @@ static CGFloat const ORKSpeechRecognitionContentBottomLayoutMargin = 44.0;
     }
 }
 
-- (UIFont *)buttonTextFont
-{
+- (UIFont *)buttonTextFont {
     CGFloat fontSize = [[UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleCallout] pointSize];
     return [UIFont systemFontOfSize:fontSize weight:UIFontWeightSemibold];
 }

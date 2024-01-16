@@ -30,7 +30,7 @@
 
 
 @import UIKit;
-#import "ORKCustomStepView_Internal.h"
+#import <ResearchKitUI/ResearchKitUI_Private.h>
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -73,6 +73,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)addRecognitionError:(NSString * _Nullable)errorMsg;
 
 - (void)updateButtonStates;
+
+#if RK_APPLE_INTERNAL
+- (void)useInternalGraphView;
+#endif
 
 @end
 

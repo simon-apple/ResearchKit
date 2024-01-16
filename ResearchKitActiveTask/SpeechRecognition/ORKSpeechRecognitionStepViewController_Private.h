@@ -32,6 +32,7 @@
 
 @class ORKQuestionStep;
 @class ORKSpeechRecognitionResult;
+@class ORKSpeechRecognitionContentView;
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -43,7 +44,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (UIFont *)buttonTextFont;
 - (nullable NSString *)substitutedStringWithString:(nullable NSString *)string;
 - (nullable ORKQuestionStep *)nextStep;
+- (void)setupContentView;
 
+@property (nonatomic, strong) ORKSpeechRecognitionContentView *speechRecognitionContentView;
 @property (nonatomic, readonly) BOOL isPracticeTest;
 @property (nonatomic) ORKSpeechRecognitionResult *localResult;
 

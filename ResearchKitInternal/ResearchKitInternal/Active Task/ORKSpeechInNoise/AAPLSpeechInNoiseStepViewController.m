@@ -34,7 +34,6 @@
 #import "ORKHeadphoneDetector.h"
 #import "ORKHeadphoneDetectResult.h"
 
-
 #import <ResearchKitInternal/AAPLHelpers_Internal.h>
 #import <ResearchKitInternal/ORKContext.h>
 
@@ -42,6 +41,7 @@
 #import "ResearchKitUI/ORKTaskViewController_Internal.h"
 
 #import "ResearchKitActiveTask/ORKSpeechInNoiseStepViewController_Private.h"
+#import "ResearchKitActiveTask/ResearchKitActiveTask_Private.h"
 
 #import "ResearchKit/ORKHelpers_Internal.h"
 
@@ -88,6 +88,12 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
         _headphoneDetector = [[ORKHeadphoneDetector alloc] initWithDelegate:self
                                              supportedHeadphoneChipsetTypes:nil];
     }
+}
+
+- (void)setupContentView {
+    [super setupContentView];
+    
+    [self.speechInNoiseContentView useInternalGraphView];
 }
 
 - (void)tapButtonPressed {

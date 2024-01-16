@@ -2046,11 +2046,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     
     /// This task presents the Speech in Noise pre-defined active task.
     private var speechInNoiseTask: ORKTask {
-        #if RK_APPLE_INTERNAL
-        return predefinedSpeechInNoiseTask
-        #else
         return ORKOrderedTask.speechInNoiseTask(withIdentifier: String(describing: Identifier.speechInNoiseTask), intendedUseDescription: nil, options: [])
-        #endif
     }
     
     /// This task presents the Stroop pre-defined active task.

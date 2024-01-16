@@ -32,6 +32,7 @@
 
 #import <ResearchKitActiveTask/ORKSpeechRecognitionStepViewController_Private.h>
 #import <ResearchKitActiveTask/ORKSpeechRecognitionResult.h>
+#import "ResearchKitActiveTask/ResearchKitActiveTask_Private.h"
 
 #import <ResearchKit/ORKQuestionStep.h>
 #import <ResearchKit/ORKAnswerFormat.h>
@@ -47,6 +48,11 @@
 @end
 
 @implementation AAPLSpeechRecognitionStepViewController
+
+- (void)setupContentView {
+    [super setupContentView];
+    [self.speechRecognitionContentView useInternalGraphView];
+}
 
 - (NSObject<ORKContext> * _Nullable)currentSpeechInNoisePredefinedTaskContext {
     Class ORKSpeechInNoisePredefinedTaskContext = NSClassFromString(@"ORKSpeechInNoisePredefinedTaskContext");

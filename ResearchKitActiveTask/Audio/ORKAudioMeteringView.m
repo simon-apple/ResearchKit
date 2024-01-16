@@ -41,7 +41,9 @@ NSArray<NSNumber *> * ORKLastNSamples(NSArray<NSNumber *> *samples, NSInteger li
     return [samples copy];
 }
 
-NSString * const CustomAudioGraphViewClassKey = @"ORKCustomAudioGraphViewClass";
+#if RK_APPLE_INTERNAL
+NSString * const AudioDictionViewClass = @"ORKAudioDictationView";
+#endif
 
 @interface ORKAudioMeteringView ()
 @property (nonatomic, strong) UIView<ORKAudioMetering, ORKAudioMeteringDisplay> *meteringView;
@@ -49,99 +51,98 @@ NSString * const CustomAudioGraphViewClassKey = @"ORKCustomAudioGraphViewClass";
 
 @implementation ORKAudioMeteringView
 
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super init];
-    if (self)
-    {
+    if (self) {
         [self configureMeteringView];
     }
     return self;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame
-{
+- (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
-    if (self)
-    {
+    if (self) {
         [self configureMeteringView];
     }
     return self;
 }
 
-- (instancetype)initWithCoder:(NSCoder *)coder
-{
+- (instancetype)initWithCoder:(NSCoder *)coder {
     self = [super initWithCoder:coder];
-    if (self)
-    {
+    if (self) {
         [self configureMeteringView];
     }
     return self;
 }
 
-- (void)configureMeteringView
-{
+- (void)configureMeteringView {
     if (!_meteringView) {
-        Class audioGraphViewClass = nil;
+#if RK_APPLE_INTERNAL && !TARGET_IPHONE_SIMULATOR
+        if (_useInternalGraphView) {
+            Class audioGraphViewClass = NSClassFromString(AudioDictionViewClass) ?: [ORKAudioGraphView self];
+            [self setMeteringView:[[audioGraphViewClass alloc] init]];
+        } else {
+            [self setMeteringView:[[ORKAudioGraphView alloc] init]];
+        }
+#else
+        [self setMeteringView:[[ORKAudioGraphView alloc] init]];
+#endif
 
-        #if !TARGET_IPHONE_SIMULATOR
-             NSString *customClassName = [[NSBundle mainBundle] objectForInfoDictionaryKey:CustomAudioGraphViewClassKey];
-             audioGraphViewClass = NSClassFromString(customClassName);
-        #endif
-        audioGraphViewClass = audioGraphViewClass ? : [ORKAudioGraphView self];
-
-        
-        [self setMeteringView:[[audioGraphViewClass alloc] init]];
     }
 }
 
-- (void)layoutSubviews
-{
+- (void)layoutSubviews {
     [super layoutSubviews];
     [_meteringView setFrame:[self bounds]];
 }
 
-- (void)setHidden:(BOOL)hidden
-{
+- (void)setHidden:(BOOL)hidden {
     [super setHidden:hidden];
     [_meteringView setHidden:hidden];
 }
 
-- (void)didMoveToSuperview
-{
+- (void)didMoveToSuperview {
     [super didMoveToSuperview];
     
-    if ([self superview] == nil)
-    {
+    if ([self superview] == nil) {
         [_meteringView removeFromSuperview];
     }
-    else
-    {
+    else {
         [self addSubview:_meteringView];
     }
 }
 
+#if RK_APPLE_INTERNAL
+- (void)setUseInternalGraphView:(BOOL)useInternalGraphView {
+    self->_useInternalGraphView = useInternalGraphView;
+    
+    if (useInternalGraphView) {
+        [_meteringView removeFromSuperview];
+        _meteringView = nil;
+        
+        [self configureMeteringView];
+        [self addSubview:_meteringView];
+    }
+}
+#endif
+
 #pragma mark - ORKAudioMetering
 
-- (void)setSamples:(NSArray<NSNumber *> *)samples
-{
+- (void)setSamples:(NSArray<NSNumber *> *)samples {
     [_meteringView setSamples:samples];
 }
 
-- (void)setAlertThreshold:(float)threshold
-{
+- (void)setAlertThreshold:(float)threshold {
     [_meteringView setAlertThreshold:threshold];
 }
 
 #pragma mark - ORKAudioMeteringDisplay
 
-- (void)setMeterColor:(UIColor *)meterColor
-{
+- (void)setMeterColor:(UIColor *)meterColor {
     [_meteringView setMeterColor:meterColor];
 }
 
-- (void)setAlertColor:(UIColor *)alertColor
-{
+- (void)setAlertColor:(UIColor *)alertColor {
     [_meteringView setAlertColor:alertColor];
 }
 
