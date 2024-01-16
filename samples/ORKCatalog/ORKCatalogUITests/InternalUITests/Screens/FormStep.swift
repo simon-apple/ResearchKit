@@ -441,7 +441,7 @@ final class FormStep: Step {
     // MARK: - Date and Time Answer Format
     
     // Usually, there is only one UI picker  presented on the screen
-    static var firstPicker = app.pickers.element(boundBy: 0)
+    static var firstPicker = app.pickers.element(boundBy: 0).firstMatch
     let uiPickerTimeout: TimeInterval = 60
     /**
      Enters time interval
