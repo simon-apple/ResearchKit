@@ -338,7 +338,8 @@ final class FormStep: Step {
     @discardableResult
     func answerTextChoiceOtherQuestion(withId formItemId: String, atIndex index: Int, text: String, dismissKeyboard: Bool = true) -> Self {
         let formItem = FormStep().getFormItemCell(withId: formItemId, atIndex: index)
-        let textView = formItem.textViews.firstMatch
+       // let textView = formItem.textViews.firstMatch
+        let textView = formItem.textViews.element(boundBy: 0)
         wait(for: textView)
         textView.typeText(text, dismissKeyboard: dismissKeyboard)
         return self

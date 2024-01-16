@@ -271,6 +271,7 @@ final class SurveyQuestionsUITests: BaseUITest {
                     .selectFormItemCell(withID: id)
                 dismissPicker = true
             }
+            sleep(5) // Allow the UI to settle for subsequent
             questionStep
                 .answerPickerValueChoiceQuestion(value: textChoice, verifyResultValue: true, dismissPicker: dismissPicker)
                 .verify(.continueButton, isEnabled: true)
