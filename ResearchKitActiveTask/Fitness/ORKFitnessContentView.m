@@ -90,19 +90,16 @@
 }
 
 - (UIFont*) labelFont {
-
     UIFont* font = [UIFont preferredFontForTextStyle: UIFontTextStyleLargeTitle];
     UIFontMetrics* metrics = [UIFontMetrics metricsForTextStyle:UIFontTextStyleLargeTitle];
-
-    if (@available(iOS 13, *)) {
-        UIFontDescriptor* round = [[font fontDescriptor] fontDescriptorWithDesign:UIFontDescriptorSystemDesignRounded];
-        UIFontDescriptor* weighted = [round fontDescriptorByAddingAttributes:@{
-            UIFontDescriptorTraitsAttribute: @{
-                    UIFontWeightTrait: @1.5
-            }
-        }];
-        font = [UIFont fontWithDescriptor:weighted size:44];
-    }
+    
+    UIFontDescriptor* round = [[font fontDescriptor] fontDescriptorWithDesign:UIFontDescriptorSystemDesignRounded];
+    UIFontDescriptor* weighted = [round fontDescriptorByAddingAttributes:@{
+        UIFontDescriptorTraitsAttribute: @{
+            UIFontWeightTrait: @1.5
+        }
+    }];
+    font = [UIFont fontWithDescriptor:weighted size:44];
 
     UIFont* scaled = [metrics scaledFontForFont:font];
     return scaled;
@@ -139,11 +136,7 @@
     CGContextSetLineCap(context, kCGLineCapRound);
 
     // Draw a circular track
-    if (@available(iOS 13.0, *)) {
-        [[UIColor systemGray5Color] setStroke];
-    } else {
-        [[UIColor lightGrayColor] setStroke];
-    }
+    [[UIColor systemGray5Color] setStroke];
 
     CGContextAddArc(context, xCenter, yCenter, radius, 0, 2 * M_PI, clockwise ? 1 : 0);
     CGContextStrokePath(context);

@@ -953,10 +953,7 @@ static NSUInteger sIndexCacheSize = 5;
     }
     else
     {
-        if (@available(iOS 13.0, *))
-        {
-            [self _resizeFromLayer:_metalLayer];
-        }
+        [self _resizeFromLayer:_metalLayer];
     }
     
     [self _updateOrthoProjection];

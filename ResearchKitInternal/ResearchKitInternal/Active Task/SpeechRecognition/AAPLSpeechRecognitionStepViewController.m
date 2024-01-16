@@ -111,11 +111,8 @@
                     
                     ORKWeakTypeOf(self.taskViewController) weakTaskViewController = strongTaskViewController;
                     
-                    if (@available(iOS 13.0, *))
-                    {
-                        [button setImage:[UIImage systemImageNamed:@"smallcircle.fill.circle"] forState:UIControlStateNormal];
-                        [[button imageView] setTintColor:UIColor.systemRedColor];
-                    }
+                    [button setImage:[UIImage systemImageNamed:@"smallcircle.fill.circle"] forState:UIControlStateNormal];
+                    [[button imageView] setTintColor:UIColor.systemRedColor];
                     button.adjustsImageWhenHighlighted = NO;
                     NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:AAPLLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_RECORD_INSTEAD", nil)
                                                                                           attributes:@{NSFontAttributeName:[self buttonTextFont],

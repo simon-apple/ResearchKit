@@ -136,16 +136,14 @@ static const CGFloat ORKTinnitusButtonViewBarLevelsWidth = 30.0;
     [self addSubview:_titleLabel];
     _titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
     _titleLabel.text = _titleText;
-    if (@available(iOS 13.0, *)) {
-        _titleLabel.textColor = [UIColor labelColor];
-    }
+    _titleLabel.textColor = [UIColor labelColor];
+    
     _detailLabel = [[UILabel alloc] init];
     _detailLabel.font = [[self class] detailFont];
     _detailLabel.numberOfLines = 0;
     _detailLabel.textAlignment = NSTextAlignmentNatural;
-    if (@available(iOS 13.0, *)) {
-        _detailLabel.textColor = [UIColor secondaryLabelColor];
-    }
+    _detailLabel.textColor = [UIColor secondaryLabelColor];
+
     [self addSubview:_detailLabel];
     _detailLabel.translatesAutoresizingMaskIntoConstraints = NO;
     _detailLabel.text = _detailText;
@@ -154,11 +152,9 @@ static const CGFloat ORKTinnitusButtonViewBarLevelsWidth = 30.0;
     UIImage *playImage;
     UIImage *stopImage;
     
-    if (@available(iOS 13.0, *)) {
-        UIImageSymbolConfiguration *imageConfig = [UIImageSymbolConfiguration configurationWithPointSize:ORKTinnitusButtonViewImageSize weight:UIImageSymbolWeightRegular scale:UIImageSymbolScaleDefault];
-        playImage = [[[UIImage systemImageNamed:@"play.circle.fill"] imageByApplyingSymbolConfiguration:imageConfig] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-        stopImage = [[[UIImage systemImageNamed:@"pause.circle.fill"] imageByApplyingSymbolConfiguration:imageConfig] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    }
+    UIImageSymbolConfiguration *imageConfig = [UIImageSymbolConfiguration configurationWithPointSize:ORKTinnitusButtonViewImageSize weight:UIImageSymbolWeightRegular scale:UIImageSymbolScaleDefault];
+    playImage = [[[UIImage systemImageNamed:@"play.circle.fill"] imageByApplyingSymbolConfiguration:imageConfig] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    stopImage = [[[UIImage systemImageNamed:@"pause.circle.fill"] imageByApplyingSymbolConfiguration:imageConfig] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     
     _playView = [[UIImageView alloc] initWithImage:playImage highlightedImage:stopImage];
     _playView.contentMode = UIViewContentModeCenter;

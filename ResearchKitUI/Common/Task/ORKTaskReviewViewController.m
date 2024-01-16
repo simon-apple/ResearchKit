@@ -93,11 +93,7 @@ static const float ReviewQuestionAnswerPadding = 2.0;
 
 - (void)setAnswer:(NSString *)answer {
     _answer = answer;
-    if (@available(iOS 13.0, *)) {
-        _answerLabel.textColor = _answer ? UIColor.secondaryLabelColor : UIColor.tertiaryLabelColor;
-    } else {
-        _answerLabel.textColor = _answer ? UIColor.blackColor : UIColor.lightGrayColor;
-    }
+    _answerLabel.textColor = _answer ? UIColor.secondaryLabelColor : UIColor.tertiaryLabelColor;
     _answerLabel.text = _answer ? : ORKLocalizedString(@"REVIEW_SKIPPED_ANSWER", nil);
 }
 
@@ -110,15 +106,9 @@ static const float ReviewQuestionAnswerPadding = 2.0;
         _contentMaskLayer = nil;
     }
     _contentMaskLayer = [[CAShapeLayer alloc] init];
-    UIColor *fillColor;
-    UIColor *borderColor;
-    if (@available(iOS 13.0, *)) {
-        fillColor = [UIColor secondarySystemGroupedBackgroundColor];
-        borderColor = UIColor.separatorColor;
-    } else {
-        fillColor = [UIColor ork_borderGrayColor];
-        borderColor = [UIColor ork_midGrayTintColor];
-    }
+    UIColor *fillColor = [UIColor secondarySystemGroupedBackgroundColor];
+    UIColor *borderColor = UIColor.separatorColor;
+
     [_contentMaskLayer setFillColor:[fillColor CGColor]];
     CAShapeLayer *foreLayer = [CAShapeLayer layer];
     [foreLayer setFillColor:[fillColor CGColor]];
@@ -145,11 +135,8 @@ static const float ReviewQuestionAnswerPadding = 2.0;
     if (!_containerView) {
         _containerView = [UIView new];
     }
-    if (@available(iOS 13.0, *)) {
-        _containerView.backgroundColor = UIColor.systemBackgroundColor;
-    } else {
-        _containerView.backgroundColor = UIColor.whiteColor;
-    }
+    
+    _containerView.backgroundColor = UIColor.systemBackgroundColor;
     _containerView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.contentView addSubview:_containerView];
 }
@@ -161,11 +148,8 @@ static const float ReviewQuestionAnswerPadding = 2.0;
     if (!_answerLabel) {
         _answerLabel = [UILabel new];
     }
-    if (@available(iOS 13.0, *)) {
-        _questionLabel.textColor = [UIColor labelColor];
-    } else {
-        _questionLabel.textColor = [UIColor blackColor];
-    }
+
+    _questionLabel.textColor = [UIColor labelColor];
     _questionLabel.numberOfLines = 0;
     _questionLabel.textAlignment = NSTextAlignmentLeft;
     _questionLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
@@ -236,16 +220,9 @@ static const float ReviewQuestionAnswerPadding = 2.0;
                                                      cornerRadii: (CGSize){ORKCardDefaultCornerRadii, ORKCardDefaultCornerRadii}].CGPath;
     
     CAShapeLayer *foreLayer = [CAShapeLayer layer];
-    UIColor *fillColor;
-    UIColor *borderColor;
-    
-    if (@available(iOS 13.0, *)) {
-        fillColor = [UIColor secondarySystemGroupedBackgroundColor];
-        borderColor = UIColor.separatorColor;
-    } else {
-        fillColor = [UIColor whiteColor];
-        borderColor = [UIColor ork_midGrayTintColor];
-    }
+    UIColor *fillColor = [UIColor secondarySystemGroupedBackgroundColor];
+    UIColor *borderColor = UIColor.separatorColor;
+
     [foreLayer setFillColor:[fillColor CGColor]];
     
     CGFloat foreLayerCornerRadii = ORKCardDefaultCornerRadii >= ORKCardDefaultBorderWidth ? ORKCardDefaultCornerRadii - ORKCardDefaultBorderWidth : ORKCardDefaultCornerRadii;
@@ -271,11 +248,7 @@ static const float ReviewQuestionAnswerPadding = 2.0;
     [_containerView setBackgroundColor:[UIColor clearColor]];
     
     _separator = [UIView new];
-    if (@available(iOS 13.0, *)) {
-        _separator.backgroundColor = UIColor.separatorColor;
-    } else {
-        _separator.backgroundColor = UIColor.lightGrayColor;
-    }
+    _separator.backgroundColor = UIColor.separatorColor;
     [_containerView addSubview:_separator];
     
     _containerView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -290,12 +263,7 @@ static const float ReviewQuestionAnswerPadding = 2.0;
     }
     [_button setTitle:ORKLocalizedString(@"REVIEW_EDIT_ANSWER", nil) forState:UIControlStateNormal];
     [_button setTitleColor:[UIColor systemBlueColor] forState:UIControlStateNormal];
-    
-    if (@available(iOS 13.0, *)) {
-        [_button setBackgroundColor:[UIColor tertiarySystemFillColor]];
-    } else {
-        [_button setBackgroundColor:[UIColor lightGrayColor]];
-    }
+    [_button setBackgroundColor:[UIColor tertiarySystemFillColor]];
     [_button setContentEdgeInsets:UIEdgeInsetsMake(EditAnswerButtonTopBottomInsetSpacing, EditAnswerButtomLeftRightInsetSpacing, EditAnswerButtonTopBottomInsetSpacing, EditAnswerButtomLeftRightInsetSpacing)];
     _button.clipsToBounds = YES;
 

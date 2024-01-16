@@ -64,11 +64,7 @@
         UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(sliderTouched:)];
         [self addGestureRecognizer:panGesture];
         
-        if (@available(iOS 13.0, *)) {
-            self.maximumTrackTintColor = [UIColor systemGray3Color];
-        } else {
-            self.maximumTrackTintColor = [UIColor systemGrayColor];
-        }
+        self.maximumTrackTintColor = [UIColor systemGray3Color];
         
         self.gradientLayer = [CAGradientLayer layer];
         
@@ -209,11 +205,7 @@ static CGFloat LineWidth = 1.0;
     CGRect trackRect = [self trackRectForBounds:bounds];
     CGFloat centerY = bounds.size.height / 2.0;
     
-    if (@available(iOS 13.0, *)) {
-        [[UIColor systemGray3Color] set];
-    } else {
-        [[UIColor systemGrayColor] setStroke];
-    }
+    [[UIColor systemGray3Color] set];
     
     if (_numberOfSteps > 0 && !_hideValueMarkers) {
         

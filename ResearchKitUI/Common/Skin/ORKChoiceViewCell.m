@@ -121,30 +121,18 @@ static const CGFloat ColorSwatchExpandedRightPadding = 16.0;
         return [UIColor whiteColor];
     }
     
-    UIColor *color;
+    UIColor *color = [UIColor secondarySystemGroupedBackgroundColor];;
     
-    if (@available(iOS 13.0, *)) {
-        
-        color = [UIColor secondarySystemGroupedBackgroundColor];
-        
-        // FIXME:- dark mode color displays solid black after animation ends if the views are stacked
-        if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
-            color = [UIColor colorWithRed:0.173 green:0.173 blue:0.180 alpha:1.0];
-        }
-        
-    } else {
-        color = [UIColor ork_borderGrayColor];
+    // FIXME:- dark mode color displays solid black after animation ends if the views are stacked
+    if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+        color = [UIColor colorWithRed:0.173 green:0.173 blue:0.180 alpha:1.0];
     }
     
     return color;
 }
 
 - (UIColor *)__borderColor {
-    if (@available(iOS 13.0, *)) {
-        return UIColor.separatorColor;
-    } else {
-        return [UIColor ork_midGrayTintColor];
-    }
+    return UIColor.separatorColor;
 }
 
 - (UIRectCorner)roundedCorners {
@@ -522,21 +510,12 @@ static const CGFloat ColorSwatchExpandedRightPadding = 16.0;
         NSString *animationKeyPath = [self shouldApplyMaskLayers] ? @"fillColor" : @"backgroundColor";
         CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:animationKeyPath];
 
-        if (@available(iOS 13.0, *))
-        {
-            if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight)
-            {
-                animation.fromValue = (__bridge id _Nullable)(UIColor.systemGray5Color.CGColor);
-            }
-            else
-            {
-                animation.fromValue = (__bridge id _Nullable)(UIColor.systemGray3Color.CGColor);
-            }
+        if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight){
+            animation.fromValue = (__bridge id _Nullable)(UIColor.systemGray5Color.CGColor);
+        } else {
+            animation.fromValue = (__bridge id _Nullable)(UIColor.systemGray3Color.CGColor);
         }
-        else
-        {
-            animation.fromValue = (__bridge id _Nullable)([UIColor colorWithRed:0.282 green:0.282 blue:0.235 alpha:1.0].CGColor);
-        }
+
         animation.toValue = (__bridge id _Nullable)(_fillColor.CGColor);
         animation.beginTime = 0.0;
         animation.duration = 0.45;
@@ -583,11 +562,7 @@ static const CGFloat ColorSwatchExpandedRightPadding = 16.0;
     if (!_primaryLabel) {
         _primaryLabel = [ORKSelectionTitleLabel new];
         _primaryLabel.numberOfLines = 0;
-        if (@available(iOS 13.0, *)) {
-            _primaryLabel.textColor = _shouldIgnoreDarkMode ? [UIColor blackColor] : [UIColor labelColor];
-        } else {
-            _primaryLabel.textColor = [UIColor blackColor];
-        }
+        _primaryLabel.textColor = _shouldIgnoreDarkMode ? [UIColor blackColor] : [UIColor labelColor];
         
         [self.containerView addSubview:_primaryLabel];
         [self setPrimaryLabelFont];
@@ -719,11 +694,7 @@ static const CGFloat ColorSwatchExpandedRightPadding = 16.0;
                  animated:animated];
     
     if (highlighted) {
-        if (@available(iOS 13.0, *)) {
-            [_foreLayer setFillColor:UIColor.systemGray5Color.CGColor];
-        } else {
-            self.layer.backgroundColor = [UIColor colorWithRed:0.282 green:0.282 blue:0.235 alpha:1.0].CGColor;
-        }
+        [_foreLayer setFillColor:UIColor.systemGray5Color.CGColor];
     }
     else {
         _foreLayer.fillColor = _fillColor.CGColor;
@@ -756,9 +727,7 @@ static const CGFloat ColorSwatchExpandedRightPadding = 16.0;
         _textView = [[ORKAnswerTextView alloc] init];
         _textView.delegate = self;
         _textView.translatesAutoresizingMaskIntoConstraints = NO;
-        if (@available(iOS 13.0, *)) {
-            _textView.backgroundColor = [UIColor secondarySystemGroupedBackgroundColor];
-        }
+        _textView.backgroundColor = [UIColor secondarySystemGroupedBackgroundColor];
         [self.containerView addSubview:_textView];
         [self updateTextView];
     }

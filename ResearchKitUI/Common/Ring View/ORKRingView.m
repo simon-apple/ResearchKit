@@ -131,9 +131,7 @@ static const CGFloat CircleLineWidth = 3.0;
             [_circleLayer removeFromSuperlayer];
             _circleLayer = [self createShapeLayer];
             _circleLayer.lineWidth = CircleLineWidth;
-            if (@available(iOS 13.0, *)) {
-                _circleLayer.strokeColor = UIColor.systemGreenColor.CGColor;
-            }
+            _circleLayer.strokeColor = UIColor.systemGreenColor.CGColor;
             [self.layer addSublayer:_circleLayer];
             
             CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"strokeStart"];
@@ -201,21 +199,15 @@ static const CGFloat CircleLineWidth = 3.0;
 }
 
 - (UIColor *)fetchSystemGrayColor {
-    if (@available(iOS 13.0, *)) {
-        return [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traits) {
-            return traits.userInterfaceStyle == UIUserInterfaceStyleDark ? UIColor.systemGray5Color : UIColor.systemGray6Color;
-        }];
-    } else {
-        return UIColor.grayColor;
-    }
+    return [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traits) {
+        return traits.userInterfaceStyle == UIUserInterfaceStyleDark ? UIColor.systemGray5Color : UIColor.systemGray6Color;
+    }];
 }
 
 - (void)resetLayerColors {
     _backgroundLayer.strokeColor = [UIColor ork_ringViewStrokeColor].CGColor;
     
-    if (@available(iOS 13.0, *)) {
-        _circleLayer.strokeColor = UIColor.systemGreenColor.CGColor;
-    }
+    _circleLayer.strokeColor = UIColor.systemGreenColor.CGColor;
 }
 
 - (void)fillRingWithDuration:(NSTimeInterval)duration {

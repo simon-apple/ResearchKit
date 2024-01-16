@@ -747,11 +747,7 @@ NSString * const ORKSurveyCardHeaderViewIdentifier = @"SurveyCardHeaderViewIdent
                 [self.view setBackgroundColor:ORKColor(ORKBackgroundColorKey)];
             }
             else {
-                if (@available(iOS 13.0, *)) {
-                    [_tableView setBackgroundColor:[UIColor systemGroupedBackgroundColor]];
-                } else {
-                    [_tableView setBackgroundColor:ORKColor(ORKBackgroundColorKey)];
-                }
+                [_tableView setBackgroundColor:[UIColor systemGroupedBackgroundColor]];
                 [self.taskViewController setNavigationBarColor:[_tableView backgroundColor]];
                 [self.view setBackgroundColor:[_tableView backgroundColor]];
             }

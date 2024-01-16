@@ -206,11 +206,7 @@ static NSString *ORKBulletUnicode = @"\u2981";
     self.distribution = UIStackViewDistributionFill;
     UIView *separator = [UIView new];
     separator.translatesAutoresizingMaskIntoConstraints = NO;
-    if (@available(iOS 13.0, *)) {
-        separator.backgroundColor = UIColor.separatorColor;
-    } else {
-        separator.backgroundColor = UIColor.lightGrayColor;
-    }
+    separator.backgroundColor = UIColor.separatorColor;
     [separator.heightAnchor constraintEqualToConstant:1.0 / [UIScreen mainScreen].scale].active = YES;
     [self addArrangedSubview:separator];
 }
@@ -325,11 +321,7 @@ static NSString *ORKBulletUnicode = @"\u2981";
     UILabel *bulletIconLabel = [UILabel new];
     bulletIconLabel.numberOfLines = 1;
     bulletIconLabel.font = [ORKBodyItemView bulletIconFont];
-    if (@available(iOS 13.0, *)) {
-        bulletIconLabel.textColor = [UIColor secondaryLabelColor];
-    } else {
-        bulletIconLabel.textColor = [UIColor systemGrayColor];
-    }
+    bulletIconLabel.textColor = [UIColor secondaryLabelColor];
     [bulletIconLabel setText:ORKBulletUnicode];
     bulletIconLabel.translatesAutoresizingMaskIntoConstraints = NO;
     
@@ -345,13 +337,12 @@ static NSString *ORKBulletUnicode = @"\u2981";
     if (self.bodyItem.useSecondaryColor) {
         imageView.tintColor = UIColor.grayColor;
     }
-    if (@available(iOS 13.0, *)) {
-        // To allow symbols to handle their own configuration
-        if (imageView.image.isSymbolImage) {
-            imageView.contentMode = UIViewContentModeCenter;
-        } else {
-            imageView.contentMode = UIViewContentModeScaleAspectFit;
-        }
+
+    // To allow symbols to handle their own configuration
+    if (imageView.image.isSymbolImage) {
+        imageView.contentMode = UIViewContentModeCenter;
+    } else {
+        imageView.contentMode = UIViewContentModeScaleAspectFit;
     }
 
     [imageView.heightAnchor constraintEqualToConstant:ORKBulletIconDimension].active = YES;
@@ -432,11 +423,7 @@ static NSString *ORKBulletUnicode = @"\u2981";
         detailTextLabel.font = [ORKBodyItemView bulletDetailTextFont];
         detailTextLabel.text = _bodyItem.detailText;
         if (_bodyItem.useCardStyle == YES) {
-            if (@available(iOS 13.0, *)) {
-                [detailTextLabel setTextColor:[UIColor labelColor]];
-            } else{
-                [detailTextLabel setTextColor:ORKColor(ORKBulletItemTextColorKey)];
-            }
+            [detailTextLabel setTextColor:[UIColor labelColor]];
         } else {
             [detailTextLabel setTextColor:ORKColor(ORKBulletItemTextColorKey)];
         }
@@ -465,17 +452,15 @@ static NSString *ORKBulletUnicode = @"\u2981";
     NSString *textString = [[NSString alloc] initWithFormat:@" %@", text];
     NSMutableAttributedString *attributedText = [[NSMutableAttributedString alloc] initWithString:textString];
     NSTextAttachment *imageAttachment = [[NSTextAttachment alloc] init];
-    
-    if (@available(iOS 13.0, *)) {
-        UIImage *iconImage = image;
-        if (iconImage.isSymbolImage) {
-            UIImageSymbolConfiguration *configuration = [UIImageSymbolConfiguration configurationWithFont:font];
-            iconImage = [[image imageWithConfiguration:configuration] imageWithTintColor:color];
-        }
-        imageAttachment.image = iconImage;
-        NSAttributedString *imageString = [NSAttributedString attributedStringWithAttachment:imageAttachment];
-        [attributedText insertAttributedString:imageString atIndex:0];
+
+    UIImage *iconImage = image;
+    if (iconImage.isSymbolImage) {
+        UIImageSymbolConfiguration *configuration = [UIImageSymbolConfiguration configurationWithFont:font];
+        iconImage = [[image imageWithConfiguration:configuration] imageWithTintColor:color];
     }
+    imageAttachment.image = iconImage;
+    NSAttributedString *imageString = [NSAttributedString attributedStringWithAttachment:imageAttachment];
+    [attributedText insertAttributedString:imageString atIndex:0];
     
     return attributedText;
 }

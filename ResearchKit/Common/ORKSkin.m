@@ -125,23 +125,15 @@ ORKCachedColorMethod(ork_borderGrayColor, 239.0 / 255.0, 239.0 / 255.0, 244.0 / 
 #undef ORKCachedColorMethod
 
 + (UIColor *)ork_splGrayColor {
-    if (@available(iOS 13.0, *)) {
-        return [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traits) {
-            return traits.userInterfaceStyle == UIUserInterfaceStyleDark ? UIColor.systemGray5Color : UIColor.systemGray6Color;
-        }];
-    } else {
-        return UIColor.grayColor;
-    }
+    return [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traits) {
+        return traits.userInterfaceStyle == UIUserInterfaceStyleDark ? UIColor.systemGray5Color : UIColor.systemGray6Color;
+    }];
 }
 
 + (UIColor *)ork_ringViewStrokeColor {
-    if (@available(iOS 13.0, *)) {
-        return [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traits) {
-            return traits.userInterfaceStyle == UIUserInterfaceStyleDark ? UIColor.systemGray5Color : UIColor.systemGray6Color;
-        }];
-    } else {
-        return UIColor.grayColor;
-    }
+    return [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traits) {
+        return traits.userInterfaceStyle == UIUserInterfaceStyleDark ? UIColor.systemGray5Color : UIColor.systemGray6Color;
+    }];
 }
 
 @end
@@ -153,10 +145,8 @@ static NSMutableDictionary *colors(void) {
         UIColor *backgroundColor = [UIColor colorWithRed:239.0 / 255.0 green:239.0 / 255.0 blue:244.0 / 255.0 alpha:1.0];
         UIColor *fillColor = ORKRGB(0xD7D7D7);
 #if TARGET_OS_IOS
-        if (@available(iOS 13.0, *)) {
-            backgroundColor = [UIColor secondarySystemBackgroundColor];
-            fillColor = UIColor.quaternarySystemFillColor;
-        }
+        backgroundColor = [UIColor secondarySystemBackgroundColor];
+        fillColor = UIColor.quaternarySystemFillColor;
 #endif
 
         colors = [@{

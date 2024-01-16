@@ -75,14 +75,9 @@ static const CGFloat ButtonWidth = 150;
 }
 
 - (void)commonInit {
-    if (@available(iOS 13.0, *)) {
-        self.layer.borderColor = [[UIColor separatorColor] CGColor];
-        [self setBackgroundColor:[UIColor systemBackgroundColor]];
-    } else {
-        self.layer.borderColor = [[UIColor ork_midGrayTintColor] CGColor];
-        [self setBackgroundColor:[UIColor whiteColor]];
-    }
-
+    self.layer.borderColor = [[UIColor separatorColor] CGColor];
+    [self setBackgroundColor:[UIColor systemBackgroundColor]];
+    
     self.clipsToBounds = false;
     self.layer.cornerRadius = CornerRadius;
 
@@ -210,15 +205,7 @@ static const CGFloat ButtonWidth = 150;
 
     _constraints = [NSMutableArray array];
 
-    if (@available(iOS 13.0, *)) {
-        [_iconImageView setPreferredSymbolConfiguration:[UIImageSymbolConfiguration configurationWithTextStyle:UIFontTextStyleLargeTitle]];
-    } else {
-        _iconImageView.translatesAutoresizingMaskIntoConstraints = NO;
-        [_constraints addObjectsFromArray:@[
-            [_iconImageView.widthAnchor constraintEqualToConstant:IconImageViewWidthHeight],
-            [_iconImageView.heightAnchor constraintEqualToConstant:IconImageViewWidthHeight]
-        ]];
-    }
+    [_iconImageView setPreferredSymbolConfiguration:[UIImageSymbolConfiguration configurationWithTextStyle:UIFontTextStyleLargeTitle]];
 
     // Note, the button width is updated when the AX size changes
     _buttonWidthConstraint = [_requestPermissionButton.widthAnchor constraintGreaterThanOrEqualToConstant:ButtonWidth];

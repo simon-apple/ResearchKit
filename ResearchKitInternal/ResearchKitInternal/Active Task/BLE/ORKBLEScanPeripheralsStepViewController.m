@@ -183,9 +183,8 @@ API_AVAILABLE(ios(13.0))
     self.stepView.customContentView = self.tableView;
     self.stepView.customContentFillsAvailableSpace = YES;
     
-    if (@available(iOS 13.0, *)) {
-        self.dataSource = [self diffableDataSource];
-    }
+    self.dataSource = [self diffableDataSource];
+
     self.tableView.dataSource = self.dataSource;
     self.tableView.delegate = self;
 }
@@ -300,11 +299,9 @@ API_AVAILABLE(ios(13.0))
         [peripherals setObject:@(ORKBLEPeripheralStateDiscovered) forKey:peripheral];
         [peripheral setDelegate:self];
             
-        if (@available(iOS 13.0, *)) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self diffableDataSource:(UITableViewDiffableDataSource *)self.dataSource applySnapshotForNewPeripherals:[peripherals copy]];
-            });
-        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self diffableDataSource:(UITableViewDiffableDataSource *)self.dataSource applySnapshotForNewPeripherals:[peripherals copy]];
+        });
     }
     
     if (self.peripherals.count > 0) {
@@ -334,11 +331,9 @@ API_AVAILABLE(ios(13.0))
         
     [self.peripherals setObject:@(ORKBLEPeripheralStateUnavailable) forKey:peripheral];
     
-    if (@available(iOS 13.0, *)) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self diffableDataSource:(UITableViewDiffableDataSource *)self.dataSource applySnapshotForNewPeripherals:[self.peripherals copy]];
-        });
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self diffableDataSource:(UITableViewDiffableDataSource *)self.dataSource applySnapshotForNewPeripherals:[self.peripherals copy]];
+    });
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [self setContinueButtonEnabled:[self shouldAllowContinue]];
@@ -354,11 +349,9 @@ API_AVAILABLE(ios(13.0))
         
         [self.peripherals removeObjectForKey:peripheral];
         
-        if (@available(iOS 13.0, *)) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self diffableDataSource:(UITableViewDiffableDataSource *)self.dataSource applySnapshotForNewPeripherals:[self.peripherals copy]];
-            });
-        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self diffableDataSource:(UITableViewDiffableDataSource *)self.dataSource applySnapshotForNewPeripherals:[self.peripherals copy]];
+        });
         
         self.phase = self.peripherals.count > 0 ? ORKBLEScanPeripheralsStepPhaseDevicesAvailable : ORKBLEScanPeripheralsStepPhaseNoDevicesFound;
     }];
@@ -370,11 +363,9 @@ API_AVAILABLE(ios(13.0))
     
     [self.peripherals removeObjectForKey:peripheral];
     
-    if (@available(iOS 13.0, *)) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self diffableDataSource:(UITableViewDiffableDataSource *)self.dataSource applySnapshotForNewPeripherals:[self.peripherals copy]];
-        });
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self diffableDataSource:(UITableViewDiffableDataSource *)self.dataSource applySnapshotForNewPeripherals:[self.peripherals copy]];
+    });
 }
 
 #pragma mark - CBCentralManagerDelegate
@@ -424,11 +415,9 @@ API_AVAILABLE(ios(13.0))
     
     [self.peripherals setObject:@(ORKBLEPeripheralStateConnected) forKey:peripheral];
     
-    if (@available(iOS 13.0, *)) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self diffableDataSource:(UITableViewDiffableDataSource *)self.dataSource applySnapshotForNewPeripherals:[self.peripherals copy]];
-        });
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self diffableDataSource:(UITableViewDiffableDataSource *)self.dataSource applySnapshotForNewPeripherals:[self.peripherals copy]];
+    });
     
     if ([self shouldStopScaning]) {
         [self stopScanningWithCentral:central];
@@ -444,13 +433,11 @@ API_AVAILABLE(ios(13.0))
     
     [self.peripherals setObject:@(ORKBLEPeripheralStateUnavailable) forKey:peripheral];
     
-    if (@available(iOS 13.0, *)) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self diffableDataSource:(UITableViewDiffableDataSource *)self.dataSource applySnapshotForNewPeripherals:[self.peripherals copy]];
-            
-            [self showConnectionAlertForPeripheral:peripheral];
-        });
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self diffableDataSource:(UITableViewDiffableDataSource *)self.dataSource applySnapshotForNewPeripherals:[self.peripherals copy]];
+        
+        [self showConnectionAlertForPeripheral:peripheral];
+    });
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [self setContinueButtonEnabled:[self shouldAllowContinue]];
@@ -461,11 +448,9 @@ API_AVAILABLE(ios(13.0))
     
     [self.peripherals removeObjectForKey:peripheral];
     
-    if (@available(iOS 13.0, *)) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self diffableDataSource:(UITableViewDiffableDataSource *)self.dataSource applySnapshotForNewPeripherals:[self.peripherals copy]];
-        });
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self diffableDataSource:(UITableViewDiffableDataSource *)self.dataSource applySnapshotForNewPeripherals:[self.peripherals copy]];
+    });
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [self setContinueButtonEnabled:[self shouldAllowContinue]];
@@ -475,11 +460,9 @@ API_AVAILABLE(ios(13.0))
 #pragma mark - CBPeripheralDelegate
 
 - (void)peripheralDidUpdateName:(CBPeripheral *)peripheral {
-    if (@available(iOS 13.0, *)) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self diffableDataSource:(UITableViewDiffableDataSource *)self.dataSource applySnapshotForNewPeripherals:[self.peripherals copy]];
-        });
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self diffableDataSource:(UITableViewDiffableDataSource *)self.dataSource applySnapshotForNewPeripherals:[self.peripherals copy]];
+    });
 }
 
 #pragma mark - UITableViewDelegate
@@ -497,10 +480,7 @@ API_AVAILABLE(ios(13.0))
         completionHandler(true);
     }];
     
-    if (@available(iOS 13.0, *)) {
-        disconnectAction.image = [UIImage systemImageNamed:@"minus.circle.fill"];
-    }
-    
+    disconnectAction.image = [UIImage systemImageNamed:@"minus.circle.fill"];
     return [UISwipeActionsConfiguration configurationWithActions:@[disconnectAction]];
 }
 
@@ -516,13 +496,11 @@ API_AVAILABLE(ios(13.0))
             [self.centralManager connectPeripheral:peripheral options:nil];
             __weak typeof(peripheral) weakPeripheral = peripheral;
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(ORK_BLE_CONNECTION_TIMEOUT * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                if (@available(iOS 13.0, *)) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        if (weakPeripheral) {
-                            [self showConnectionAlertForPeripheral:weakPeripheral];
-                        }
-                    });
-                }
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if (weakPeripheral) {
+                        [self showConnectionAlertForPeripheral:weakPeripheral];
+                    }
+                });
             });
             break;
         }
@@ -538,11 +516,9 @@ API_AVAILABLE(ios(13.0))
         }
     }
     
-    if (@available(iOS 13.0, *)) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self diffableDataSource:(UITableViewDiffableDataSource *)self.dataSource applySnapshotForNewPeripherals:[self.peripherals copy]];
-        });
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self diffableDataSource:(UITableViewDiffableDataSource *)self.dataSource applySnapshotForNewPeripherals:[self.peripherals copy]];
+    });
 }
 
 @end

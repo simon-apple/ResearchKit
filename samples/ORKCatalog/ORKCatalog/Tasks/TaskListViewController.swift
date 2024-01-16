@@ -73,9 +73,7 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if #available(iOS 13.0, *) {
-            self.tableView.backgroundColor = UIColor.systemGroupedBackground
-        }
+        self.tableView.backgroundColor = UIColor.systemGroupedBackground
     }
     
     // MARK: UITableViewDataSource
@@ -98,10 +96,7 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
         let taskListRow = TaskListRow.sections[(indexPath as NSIndexPath).section].rows[(indexPath as NSIndexPath).row]
         
         cell.textLabel!.text = "\(taskListRow)"
-        
-        if #available(iOS 13.0, *) {
-            cell.textLabel?.textColor = UIColor.label
-        }
+        cell.textLabel?.textColor = UIColor.label
         
         return cell
     }

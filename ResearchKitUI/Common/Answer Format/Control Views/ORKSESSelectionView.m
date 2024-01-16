@@ -85,10 +85,7 @@ static const CGFloat rungButtonPadding = 10.0;
     self = [super init];
     if (self) {
         _rungIndex = rungIndex;
-        
-        if (@available(iOS 13.0, *)) {
-            self.tintColor = ORKWindowTintcolor(self.window) ? : [UIColor systemBlueColor];
-        }
+        self.tintColor = ORKWindowTintcolor(self.window) ? : [UIColor systemBlueColor];
         
         [self setupLabels];
         [self setText:text];
@@ -299,11 +296,7 @@ static const CGFloat rungButtonPadding = 10.0;
 
 - (void)tapAnimation {
     CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"backgroundColor"];
-    if (@available(iOS 13.0, *)) {
-        animation.fromValue = (__bridge id _Nullable)(UIColor.systemGray5Color.CGColor);
-    } else {
-        animation.fromValue = (__bridge id _Nullable)([UIColor colorWithRed:0.282 green:0.282 blue:0.235 alpha:1.0].CGColor);
-    }
+    animation.fromValue = (__bridge id _Nullable)(UIColor.systemGray5Color.CGColor);
     animation.toValue = (__bridge id _Nullable)(_fillColor.CGColor);
     animation.beginTime = 0.0;
     animation.duration = 0.45;
@@ -319,26 +312,19 @@ static const CGFloat rungButtonPadding = 10.0;
 }
 
 - (void)updateFillColor {
-    if (@available(iOS 13.0, *)) {
-        _fillColor = [UIColor secondarySystemGroupedBackgroundColor];
-        // FIXME:- dark mode color displays solid black after animation ends if the views are stacked
-        if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
-            _fillColor = [UIColor colorWithRed:0.173 green:0.173 blue:0.180 alpha:1.0];
-        }
-    } else {
-        _fillColor = [UIColor ork_borderGrayColor];
+    _fillColor = [UIColor secondarySystemGroupedBackgroundColor];
+    // FIXME:- dark mode color displays solid black after animation ends if the views are stacked
+    if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+        _fillColor = [UIColor colorWithRed:0.173 green:0.173 blue:0.180 alpha:1.0];
     }
+
     self.layer.backgroundColor = _fillColor.CGColor;
 }
 
 - (void)setHighlighted:(BOOL)highlighted {
     [super setHighlighted:highlighted];
     if (highlighted) {
-        if (@available(iOS 13.0, *)) {
-            self.layer.backgroundColor = UIColor.systemGray5Color.CGColor;
-        } else {
-            self.layer.backgroundColor = [UIColor colorWithRed:0.282 green:0.282 blue:0.235 alpha:1.0].CGColor;
-        }
+        self.layer.backgroundColor = UIColor.systemGray5Color.CGColor;
     }
     else {
         self.layer.backgroundColor = _fillColor.CGColor;

@@ -77,67 +77,35 @@ static const CGFloat CheckmarkViewBorderWidth = 2.0;
 }
 
 + (UIImage *)unCheckedImage {
-    if (@available(iOS 13.0, *)) {
-        UIImageConfiguration *configuration = [UIImageSymbolConfiguration configurationWithFont:[UIFont preferredFontForTextStyle:UIFontTextStyleBody] scale:ORKImageScaleToUse()];
-        return [UIImage systemImageNamed:@"circle" withConfiguration:configuration];
-    } else {
-        return nil;
-    }
+    UIImageConfiguration *configuration = [UIImageSymbolConfiguration configurationWithFont:[UIFont preferredFontForTextStyle:UIFontTextStyleBody] scale:ORKImageScaleToUse()];
+    return [UIImage systemImageNamed:@"circle" withConfiguration:configuration];
 }
 
 + (UIImage *)checkedImage {
-    if (@available(iOS 13.0, *)) {
-        UIImageConfiguration *configuration = [UIImageSymbolConfiguration configurationWithFont:[UIFont preferredFontForTextStyle:UIFontTextStyleBody] scale:ORKImageScaleToUse()];
-        return [UIImage systemImageNamed:@"checkmark.circle.fill" withConfiguration:configuration];
-    } else {
-        return [[UIImage imageNamed:@"checkmark" inBundle:ORKBundle() compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    }
+    UIImageConfiguration *configuration = [UIImageSymbolConfiguration configurationWithFont:[UIFont preferredFontForTextStyle:UIFontTextStyleBody] scale:ORKImageScaleToUse()];
+    return [UIImage systemImageNamed:@"checkmark.circle.fill" withConfiguration:configuration];
 }
 
 + (UIImage *)checkedImageWithoutCircle {
-    if (@available(iOS 13.0, *)) {
-        UIImageConfiguration *configuration = [UIImageSymbolConfiguration configurationWithFont:[UIFont preferredFontForTextStyle:UIFontTextStyleBody] scale:ORKImageScaleToUse()];
-        return [UIImage systemImageNamed:@"checkmark" withConfiguration:configuration];
-    } else {
-        return [[UIImage imageNamed:@"checkmark" inBundle:ORKBundle() compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    }
+    UIImageConfiguration *configuration = [UIImageSymbolConfiguration configurationWithFont:[UIFont preferredFontForTextStyle:UIFontTextStyleBody] scale:ORKImageScaleToUse()];
+    return [UIImage systemImageNamed:@"checkmark" withConfiguration:configuration];
 }
 
 - (void)updateCheckView {
     if (_checked) {
         self.image = _checkedImage;
         //        FIXME: Need to be replaced.
-        if (@available(iOS 13.0, *)) {
-            self.tintColor = ORKViewTintColor(self);
-        } else {
-            self.backgroundColor = [self tintColor];
-            self.tintColor = UIColor.whiteColor;
-        }
+        self.tintColor = ORKViewTintColor(self);
     }
     else {
         self.image = _uncheckedImage;
-        if (@available(iOS 13.0, *)) {
-            self.tintColor = _shouldIgnoreDarkMode ? [UIColor lightGrayColor] : [UIColor systemGray3Color];
-        } else {
-            self.tintColor = nil;
-            self.image = nil;
-            self.backgroundColor = UIColor.clearColor;
-        }
+        self.tintColor = _shouldIgnoreDarkMode ? [UIColor lightGrayColor] : [UIColor systemGray3Color];
     }
 }
 
 - (void)setupView {
     [[self.widthAnchor constraintEqualToConstant:_dimension] setActive:YES];
     [[self.heightAnchor constraintEqualToConstant:_dimension] setActive:YES];
-    
-    if (@available(iOS 13.0, *)) {
-        // use SFSymbols directly
-    } else {
-        self.layer.cornerRadius = _dimension * 0.5;
-        self.layer.borderWidth = CheckmarkViewBorderWidth;
-        self.layer.borderColor = self.tintColor.CGColor;
-        self.layer.masksToBounds = YES;
-    }
     
     self.contentMode = UIViewContentModeCenter;
 }

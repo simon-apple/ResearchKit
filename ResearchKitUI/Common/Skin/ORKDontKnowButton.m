@@ -171,30 +171,26 @@ static const CGFloat CheckMarkImageTrailingPadding = 2.0;
     _constraints = [NSMutableArray new];
     
     [self updateAppearance];
+    
+    if (_active) {
+        UIImageSymbolConfiguration *imageConfig = [UIImageSymbolConfiguration configurationWithScale:UIImageSymbolScaleSmall];
+        UIImage *checkMarkImage = [UIImage systemImageNamed:@"checkmark.circle.fill" withConfiguration:imageConfig];
+        UIImage *tintedCheckMarkImage = [checkMarkImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         
-    if (@available(iOS 13.0, *)) {
-            
-        if (_active) {
-                
-            UIImageSymbolConfiguration *imageConfig = [UIImageSymbolConfiguration configurationWithScale:UIImageSymbolScaleSmall];
-            UIImage *checkMarkImage = [UIImage systemImageNamed:@"checkmark.circle.fill" withConfiguration:imageConfig];
-            UIImage *tintedCheckMarkImage = [checkMarkImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-                
-            _dontKnowButtonCustomImageView = [[UIImageView alloc] initWithImage:tintedCheckMarkImage];
-            _dontKnowButtonCustomImageView.translatesAutoresizingMaskIntoConstraints = NO;
-            [_dontKnowButtonCustomImageView setTintColor:_dontKnowButtonTextLabel.textColor];
-            [_dontKnowButtonCustomView addSubview:_dontKnowButtonCustomImageView];
-
-            [_constraints addObjectsFromArray:@[
-                [_dontKnowButtonCustomImageView.heightAnchor constraintEqualToAnchor:_dontKnowButtonCustomImageView.widthAnchor],
-                [_dontKnowButtonCustomImageView.heightAnchor constraintEqualToAnchor:_dontKnowButtonTextLabel.heightAnchor constant:CheckMarkImageHeightOffset],
-                [_dontKnowButtonCustomImageView.trailingAnchor constraintEqualToAnchor:_dontKnowButtonTextLabel.leadingAnchor constant:-CheckMarkImageTrailingPadding],
-                [_dontKnowButtonCustomImageView.centerYAnchor constraintEqualToAnchor:_dontKnowButtonCustomView.centerYAnchor]
-            ]];
-        } else {
-            [_dontKnowButtonCustomImageView removeFromSuperview];
-            _dontKnowButtonCustomImageView = nil;
-        }
+        _dontKnowButtonCustomImageView = [[UIImageView alloc] initWithImage:tintedCheckMarkImage];
+        _dontKnowButtonCustomImageView.translatesAutoresizingMaskIntoConstraints = NO;
+        [_dontKnowButtonCustomImageView setTintColor:_dontKnowButtonTextLabel.textColor];
+        [_dontKnowButtonCustomView addSubview:_dontKnowButtonCustomImageView];
+        
+        [_constraints addObjectsFromArray:@[
+            [_dontKnowButtonCustomImageView.heightAnchor constraintEqualToAnchor:_dontKnowButtonCustomImageView.widthAnchor],
+            [_dontKnowButtonCustomImageView.heightAnchor constraintEqualToAnchor:_dontKnowButtonTextLabel.heightAnchor constant:CheckMarkImageHeightOffset],
+            [_dontKnowButtonCustomImageView.trailingAnchor constraintEqualToAnchor:_dontKnowButtonTextLabel.leadingAnchor constant:-CheckMarkImageTrailingPadding],
+            [_dontKnowButtonCustomImageView.centerYAnchor constraintEqualToAnchor:_dontKnowButtonCustomView.centerYAnchor]
+        ]];
+    } else {
+        [_dontKnowButtonCustomImageView removeFromSuperview];
+        _dontKnowButtonCustomImageView = nil;
     }
     
     if (_active && _dontKnowButtonCustomImageView) {
@@ -280,20 +276,12 @@ static const CGFloat CheckMarkImageTrailingPadding = 2.0;
     switch (_dontKnowButtonStyle) {
         case ORKDontKnowButtonStyleStandard:
         {
-            if (@available(iOS 13.0, *)) {
-                color = _active ? [UIColor systemBackgroundColor] : [UIColor secondaryLabelColor];
-            } else {
-                color = _active ? [UIColor whiteColor] : [UIColor grayColor];
-            }
+            color = _active ? [UIColor systemBackgroundColor] : [UIColor secondaryLabelColor];
             break;
         }
         case ORKDontKnowButtonStyleCircleChoice:
         {
-            if (@available(iOS 13.0, *)) {
-                color = [UIColor labelColor];
-            } else {
-                color = [UIColor blackColor];
-            }
+            color = [UIColor labelColor];
             break;
         }
     }
@@ -326,11 +314,7 @@ static const CGFloat CheckMarkImageTrailingPadding = 2.0;
         case ORKDontKnowButtonStyleStandard:
         {
             if (!_active) {
-                if (@available(iOS 13.0, *)) {
-                    color = [UIColor systemFillColor];
-                } else {
-                    color = [UIColor grayColor];
-                }
+                color = [UIColor systemFillColor];
             } else {
                 color = ORKViewTintColor(self);
             }
@@ -339,12 +323,7 @@ static const CGFloat CheckMarkImageTrailingPadding = 2.0;
         }
         case ORKDontKnowButtonStyleCircleChoice:
         {
-            if (@available(iOS 13.0, *)) {
-                color = [UIColor secondarySystemGroupedBackgroundColor];
-            } else {
-                color = [UIColor whiteColor];
-            }
-            
+            color = [UIColor secondarySystemGroupedBackgroundColor];   
             break;
         }
     }

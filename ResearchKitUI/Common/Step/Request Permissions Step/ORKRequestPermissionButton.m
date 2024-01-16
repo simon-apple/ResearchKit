@@ -121,12 +121,7 @@ static const CGFloat HighlightedOpacity = 0.5;
         case ORKRequestPermissionsStateNotSupported:
         case ORKRequestPermissionsStateError:
             _titleLabel.textColor = UIColor.systemGrayColor;
-
-            if (@available(iOS 13.0, *)) {
-                [self setBackgroundColor:UIColor.tertiarySystemFillColor];
-            } else {
-                [self setBackgroundColor:UIColor.lightGrayColor];
-            }
+            [self setBackgroundColor:UIColor.tertiarySystemFillColor];
             [self setEnabled:NO];
             break;
     }

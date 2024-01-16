@@ -151,7 +151,7 @@ static NSDictionary *dictionaryFromSFTranscriptionSegment(SFTranscriptionSegment
     [dict setObject:segment.alternativeSubstrings.copy forKey:@"alternativeSubstrings"];
     
     if (@available(iOS 14.5, *)) { }
-    else if (@available(iOS 13.0, *)) {
+    else {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         [dict setObject:dictionaryFromSFVoiceAnalytics(segment.voiceAnalytics) forKey:@"voiceAnalytics"];

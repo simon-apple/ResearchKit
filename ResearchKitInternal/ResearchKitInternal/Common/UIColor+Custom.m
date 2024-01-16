@@ -33,43 +33,27 @@
 @implementation UIColor (Custom)
 
 + (UIColor *)splGrayColor {
-    if (@available(iOS 13.0, *)) {
-        return [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traits) {
-            return traits.userInterfaceStyle == UIUserInterfaceStyleDark ? UIColor.systemGray5Color : UIColor.systemGray6Color;
-        }];
-    } else {
-        return UIColor.grayColor;
-    }
+    return [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traits) {
+        return traits.userInterfaceStyle == UIUserInterfaceStyleDark ? UIColor.systemGray5Color : UIColor.systemGray6Color;
+    }];
 }
 
 + (UIColor *)tinnitusButtonBackgroundColor {
-    if (@available(iOS 13.0, *)) {
-        return [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traits) {
-            return traits.userInterfaceStyle == UIUserInterfaceStyleDark ? UIColor.systemGray5Color : UIColor.systemBackgroundColor;
-        }];
-    } else {
-        return UIColor.grayColor;
-    }
+    return [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traits) {
+        return traits.userInterfaceStyle == UIUserInterfaceStyleDark ? UIColor.systemGray5Color : UIColor.systemBackgroundColor;
+    }];
 }
 
 + (UIColor *)tinnitusPlayBackgroundColor {
-    if (@available(iOS 13.0, *)) {
-        return [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traits) {
-            return traits.userInterfaceStyle == UIUserInterfaceStyleDark ? UIColor.systemGray3Color : UIColor.systemGray6Color;
-        }];
-    } else {
-        return UIColor.grayColor;
-    }
+    return [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traits) {
+        return traits.userInterfaceStyle == UIUserInterfaceStyleDark ? UIColor.systemGray3Color : UIColor.systemGray6Color;
+    }];
 }
 
 + (UIColor *)tinnitusBackgroundColor {
-    if (@available(iOS 13.0, *)) {
-        return [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traits) {
-            return traits.userInterfaceStyle == UIUserInterfaceStyleDark ? UIColor.systemBackgroundColor : UIColor.systemGroupedBackgroundColor;
-        }];
-    } else {
-        return UIColor.whiteColor;
-    }
+    return [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traits) {
+        return traits.userInterfaceStyle == UIUserInterfaceStyleDark ? UIColor.systemBackgroundColor : UIColor.systemGroupedBackgroundColor;
+    }];
 }
 
 @end

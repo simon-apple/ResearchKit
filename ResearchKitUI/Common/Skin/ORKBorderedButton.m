@@ -36,15 +36,11 @@
 @implementation CALayer (ORKCornerCurveContinuousCategory)
 
 - (void)setCornerCurveContinuous {
-    if (@available(iOS 13.0, *)) {
-        self.cornerCurve = kCACornerCurveContinuous;
-    }
+    self.cornerCurve = kCACornerCurveContinuous;
 }
 
 - (void)setCornerCurveCircular {
-    if (@available(iOS 13.0, *)) {
-        self.cornerCurve = kCACornerCurveCircular;
-    }
+    self.cornerCurve = kCACornerCurveCircular;
 }
 
 @end
@@ -100,11 +96,7 @@ static const CGFloat ORKBorderedButtonCornerRadii = 14.0;
     
     // Always override the title color for ORKBorderedButtonDisabledStyleSystemGray
     if (_disabledButtonStyle == ORKBorderedButtonDisabledStyleSystemGray) {
-        if (@available(iOS 13.0, *)) {
-            [self setTitleColor:[UIColor tertiaryLabelColor] forState:UIControlStateDisabled];
-        } else {
-            [self setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
-        }
+        [self setTitleColor:[UIColor tertiaryLabelColor] forState:UIControlStateDisabled];
     }
     
     [self updateBackgroundColor];
@@ -179,11 +171,7 @@ static const CGFloat ORKBorderedButtonCornerRadii = 14.0;
             }
         } else {
             if (self.disabledButtonStyle == ORKBorderedButtonDisabledStyleSystemGray) {
-                if (@available(iOS 13.0, *)) {
-                    _disableTintColor = [UIColor tertiarySystemFillColor];
-                } else {
-                    _disableTintColor = [UIColor lightGrayColor];
-                }
+                _disableTintColor = [UIColor tertiarySystemFillColor];
             }
             self.backgroundColor = _disableTintColor;
             self.layer.borderColor = [_disableTintColor CGColor];
