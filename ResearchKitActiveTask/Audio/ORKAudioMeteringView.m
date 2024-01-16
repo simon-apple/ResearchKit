@@ -41,7 +41,9 @@ NSArray<NSNumber *> * ORKLastNSamples(NSArray<NSNumber *> *samples, NSInteger li
     return [samples copy];
 }
 
+#if RK_APPLE_INTERNAL
 NSString * const AudioDictionViewClass = @"ORKAudioDictationView";
+#endif
 
 @interface ORKAudioMeteringView ()
 @property (nonatomic, strong) UIView<ORKAudioMetering, ORKAudioMeteringDisplay> *meteringView;
