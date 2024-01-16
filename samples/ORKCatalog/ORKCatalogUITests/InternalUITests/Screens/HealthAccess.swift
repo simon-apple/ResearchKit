@@ -42,7 +42,7 @@ final class HealthAccess: Step {
     }
     
     func verifyHealthAuthorizationView(exists: Bool) -> Self {
-        wait(for: Self.healthAccessView, toExists: exists)
+        wait(for: Self.healthAccessView, toExists: exists, withTimeout: 40)
         return self
     }
     

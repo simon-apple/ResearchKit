@@ -18,6 +18,7 @@
   },
   "testTargets" : [
     {
+      "parallelizable" : true,
       "skippedTests" : [
         "Helpers",
         "PreSubmissionTests"
