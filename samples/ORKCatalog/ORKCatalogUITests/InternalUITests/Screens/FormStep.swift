@@ -463,7 +463,7 @@ final class FormStep: Step {
         let picker = Self.firstPicker
         wait(for: picker, withTimeout: uiPickerTimeout)
         let hourWheel = picker.pickerWheels.element(boundBy: 0)
-        wait(for: hourWheel)
+        wait(for: hourWheel, withTimeout: uiPickerTimeout)
         let minuteWheel = picker.pickerWheels.element(boundBy: 1)
         
         hourWheel.adjust(toPickerWheelValue: String(hours))
@@ -478,6 +478,8 @@ final class FormStep: Step {
     func answerDateQuestion(year: String, month: String, day: String, dismissPicker: Bool = false) -> Self {
         let picker = Self.firstPicker
         wait(for: picker, withTimeout: uiPickerTimeout)
+        let yearPickerWheel = picker.pickerWheels.element(boundBy: 2)
+        wait(for: yearPickerWheel, withTimeout: uiPickerTimeout)
         picker.pickerWheels.element(boundBy: 2).adjust(toPickerWheelValue: year)
         picker.pickerWheels.element(boundBy: 1).adjust(toPickerWheelValue: day)
         picker.pickerWheels.element(boundBy: 0).adjust(toPickerWheelValue: month)
@@ -513,10 +515,11 @@ final class FormStep: Step {
         
         let picker = Self.firstPicker
         wait(for: picker, withTimeout: uiPickerTimeout)
+        let yearPickerWheel = picker.pickerWheels.element(boundBy: 2)
+        wait(for: yearPickerWheel, withTimeout: uiPickerTimeout)
         let actualYear = picker.pickerWheels.element(boundBy: 2).value as? String ?? ""
         let actualDay = picker.pickerWheels.element(boundBy: 1).value as? String ?? ""
         let actualMonth = picker.pickerWheels.element(boundBy: 0).value as? String ?? ""
-        
         XCTAssertEqual(actualYear, expectedYear, "The year picker wheel is not showing correct value. Expected \(expectedYear) but got \(actualYear)")
         XCTAssertEqual(actualDay, expectedDay, "The day picker wheel is not showing correct value. Expected \(expectedDay) but got \(actualDay)")
         XCTAssertEqual(actualMonth, expectedMonth, "The month picker wheel is not showing correct value. Expected \(expectedMonth) but got \(actualMonth)")
@@ -531,7 +534,7 @@ final class FormStep: Step {
         let picker = Self.firstPicker
         wait(for: picker, withTimeout: uiPickerTimeout)
         let pickerWheel = picker.pickerWheels.element(boundBy: 0).firstMatch // There is only one picker wheel
-        wait(for: pickerWheel)
+        wait(for: pickerWheel, withTimeout: uiPickerTimeout)
         pickerWheel.adjust(toPickerWheelValue: value)
         if verifyResultValue {
             pickerWheel.verifyElementValue(expectedValue: value, failureMessage: "The choice picker is displaying incorrect value")
@@ -571,7 +574,7 @@ final class FormStep: Step {
         let footPickerValue = "\(feet) ft"
         let inchPickerValue = "\(inches) in"
         let footWheel = picker.pickerWheels.element(boundBy: 0)
-        wait(for: footWheel)
+        wait(for: footWheel, withTimeout: uiPickerTimeout)
         let inchWheel = picker.pickerWheels.element(boundBy: 1)
         footWheel.adjust(toPickerWheelValue: footPickerValue)
         inchWheel.adjust(toPickerWheelValue: inchPickerValue)
@@ -589,7 +592,7 @@ final class FormStep: Step {
         wait(for: picker, withTimeout: uiPickerTimeout)
         let cmPickerValue = "\(cm) cm"
         let cmWheel = picker.pickerWheels.element.firstMatch /// There is only one picker wheel(cm)
-        wait(for: cmWheel)
+        wait(for: cmWheel, withTimeout: uiPickerTimeout)
         cmWheel.adjust(toPickerWheelValue: cmPickerValue)
         
         if dismissPicker {
@@ -607,7 +610,7 @@ final class FormStep: Step {
         wait(for: picker, withTimeout: uiPickerTimeout)
         let lbPickerValue = "\(lb) lb"
         let lbWheel = picker.pickerWheels.element.firstMatch /// There is only one picker wheel(lb)
-        wait(for: lbWheel)
+        wait(for: lbWheel, withTimeout: uiPickerTimeout)
         lbWheel.adjust(toPickerWheelValue: lbPickerValue)
         
         if dismissPicker {
@@ -626,7 +629,7 @@ final class FormStep: Step {
         let lbPickerValue = "\(lb) lb"
         let ozPickerValue = "\(oz) oz"
         let lbWheel = picker.pickerWheels.element(boundBy: 0)
-        wait(for: lbWheel)
+        wait(for: lbWheel, withTimeout: uiPickerTimeout)
         lbWheel.adjust(toPickerWheelValue: lbPickerValue)
         let ozWheel = picker.pickerWheels.element(boundBy: 1)
         ozWheel.adjust(toPickerWheelValue: ozPickerValue)
@@ -646,7 +649,7 @@ final class FormStep: Step {
         wait(for: picker, withTimeout: uiPickerTimeout)
         let kgPickerValue = "\(kg) kg"
         let kgWheel = picker.pickerWheels.element.firstMatch /// There is only one picker wheel(kg)
-        wait(for: kgWheel)
+        wait(for: kgWheel, withTimeout: uiPickerTimeout)
         kgWheel.adjust(toPickerWheelValue: kgPickerValue)
         
         if dismissPicker {
@@ -673,7 +676,7 @@ final class FormStep: Step {
             }
             let integerPart = components[0]
             let kgWheel = picker.pickerWheels.element(boundBy: 0)
-            wait(for: kgWheel)
+            wait(for: kgWheel, withTimeout: uiPickerTimeout)
             kgWheel.adjust(toPickerWheelValue: integerPart)
             let gWheel = picker.pickerWheels.element(boundBy: 1)
             gWheel.adjust(toPickerWheelValue: ".\(fractionalPart)")
@@ -684,7 +687,7 @@ final class FormStep: Step {
             }
             kgPickerValue = "\(kg) kg"
             let kgWheel = picker.pickerWheels.element.firstMatch /// There is only one picker wheel(kg)
-            wait(for: kgWheel)
+            wait(for: kgWheel, withTimeout: uiPickerTimeout)
             kgWheel.adjust(toPickerWheelValue: kgPickerValue)
         }
         

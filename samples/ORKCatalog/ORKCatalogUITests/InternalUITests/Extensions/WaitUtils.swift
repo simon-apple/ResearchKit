@@ -8,7 +8,7 @@
 import Foundation
 import XCTest
 
-fileprivate let defaultTimeout = 20.0
+fileprivate let defaultTimeout = 30.0
 
 /// All methods below implemented with test readability in mind (I made methods fileprivate to avoid inconsistency)
 /**
