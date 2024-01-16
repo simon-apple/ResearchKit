@@ -50,13 +50,9 @@ static const CGFloat ORKScrollViewCustomContentInset = 40.0;
     if (self.navigationItem.leftBarButtonItem) {
         self.navigationItem.leftBarButtonItem = nil;
     }
-    if (@available(iOS 13.0, *)) {
-        self.view.backgroundColor = [UIColor systemBackgroundColor];
-        self.navigationController.navigationBar.backgroundColor = UIColor.systemBackgroundColor;
-    } else {
-        self.view.backgroundColor = [UIColor whiteColor];
-        self.navigationController.navigationBar.backgroundColor = UIColor.whiteColor;
-    }
+    
+    self.view.backgroundColor = [UIColor systemBackgroundColor];
+    self.navigationController.navigationBar.backgroundColor = UIColor.systemBackgroundColor;
     
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
     self.navigationController.navigationBar.shadowImage = [UIImage new];

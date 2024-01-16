@@ -280,6 +280,7 @@ ORKCGFloatNearlyEqualToFloat(CGFloat f1, CGFloat f2) {
 
 #define ORKThrowMethodUnavailableException()  @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"method unavailable" userInfo:nil];
 #define ORKThrowInvalidArgumentExceptionIfNil(argument)  if (!argument) { @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@#argument" cannot be nil." userInfo:nil]; }
+#define ORKThrowInvalidArgumentExceptionIfNotEqual(argument1, argument2)  if (![argument1 isEqual:argument2]) { @throw [NSException exceptionWithName:NSInvalidArgumentException reason:[NSString stringWithFormat:@"text argument(%@) and value argument(%@) are not equal",argument1, argument2] userInfo:nil]; }
 
 void ORKValidateArrayForObjectsOfClass(NSArray *array, Class expectedObjectClass, NSString *exceptionReason);
 

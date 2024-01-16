@@ -163,12 +163,9 @@
                 [_sceneView setAutoenablesDefaultLighting:YES];
                 [_sceneView setAntialiasingMode:SCNAntialiasingModeMultisampling4X];
                 _sceneView.translatesAutoresizingMaskIntoConstraints = NO;
-                
-                if (@available(iOS 13.0, *)) {
-                    _sceneView.backgroundColor = [UIColor secondarySystemBackgroundColor];
-                }
-                
+                _sceneView.backgroundColor = [UIColor secondarySystemBackgroundColor];
                 [_parentView addSubview:_sceneView];
+                
                 [self setupSceneViewConstraints];
                 
                 if (self.allowsSelection) {

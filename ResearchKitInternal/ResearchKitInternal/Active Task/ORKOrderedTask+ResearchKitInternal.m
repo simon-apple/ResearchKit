@@ -68,19 +68,16 @@ NSString *const ORKdBHLToneAudiometryStep2Identifier = @"dBHL2.tone.audiometry";
             step.image = [UIImage imageNamed:@"audiometry" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
             step.imageContentMode = UIViewContentModeCenter;
             step.shouldTintImages = YES;
-            if (@available(iOS 13.0, *)) {
-                ORKBodyItem * item1 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_1", nil) detailText:nil image:[UIImage systemImageNamed:@"ear"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
-                ORKBodyItem * item2 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_2", nil) detailText:nil image:[UIImage systemImageNamed:@"hand.draw.fill"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
-                ORKBodyItem * item3 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_3", nil) detailText:nil image:[UIImage systemImageNamed:@"volume.2.fill"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
-                ORKBodyItem * item4 = [[ORKBodyItem alloc] initWithHorizontalRule];
-                ORKBodyItem * item5 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_4", nil) detailText:nil image:[UIImage systemImageNamed:@"stopwatch"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
-                item5.useSecondaryColor = YES;
-                ORKBodyItem * item6 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_5", nil) detailText:nil image:[UIImage systemImageNamed:@"moon.fill"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
-                item6.useSecondaryColor = YES;
-                step.bodyItems = @[item1, item2, item3, item4, item5, item6];
-            } else {
-                // Fallback on earlier versions
-            }
+
+            ORKBodyItem * item1 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_1", nil) detailText:nil image:[UIImage systemImageNamed:@"ear"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
+            ORKBodyItem * item2 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_2", nil) detailText:nil image:[UIImage systemImageNamed:@"hand.draw.fill"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
+            ORKBodyItem * item3 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_3", nil) detailText:nil image:[UIImage systemImageNamed:@"volume.2.fill"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
+            ORKBodyItem * item4 = [[ORKBodyItem alloc] initWithHorizontalRule];
+            ORKBodyItem * item5 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_4", nil) detailText:nil image:[UIImage systemImageNamed:@"stopwatch"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
+            item5.useSecondaryColor = YES;
+            ORKBodyItem * item6 = [[ORKBodyItem alloc] initWithText:ORKLocalizedString(@"dBHL_TONE_AUDIOMETRY_BODY_ITEM_TEXT_5", nil) detailText:nil image:[UIImage systemImageNamed:@"moon.fill"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
+            item6.useSecondaryColor = YES;
+            step.bodyItems = @[item1, item2, item3, item4, item5, item6];
             
             ORKStepArrayAddStep(steps, step);
         }

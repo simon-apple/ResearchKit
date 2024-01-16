@@ -145,13 +145,11 @@ static const NSInteger MaxRecalibrationViewPresentations = 4;
     [_recordingLabel setText:AAPLLocalizedString(@"AV_JOURNALING_STEP_RECORDING_LABEL_TEXT", nil)];
     [_recordingView addSubview:_recordingLabel];
     
-    if (@available(iOS 13.0, *)) {
-        UIImage *videoImage = [UIImage systemImageNamed:@"video.fill"];
-        _recordingIconImageView = [UIImageView new];
-        _recordingIconImageView.image = [videoImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-        [_recordingIconImageView setTintColor:[UIColor whiteColor]];
-        [_recordingView addSubview:_recordingIconImageView];
-    }
+    UIImage *videoImage = [UIImage systemImageNamed:@"video.fill"];
+    _recordingIconImageView = [UIImageView new];
+    _recordingIconImageView.image = [videoImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    [_recordingIconImageView setTintColor:[UIColor whiteColor]];
+    [_recordingView addSubview:_recordingIconImageView];
     
     _countDownLabel = [UILabel new];
     _countDownLabel.layer.opacity = 0;

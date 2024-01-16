@@ -37,37 +37,14 @@
 @implementation UIBarButtonItem (ORKBarButtonItem)
 
 + (UIBarButtonItem *)ork_backBarButtonItemWithTarget:(id)target action:(SEL)selector {
-
-    // Use SFSymbols for the back button on iOS 13+
-    if (@available(iOS 13.0, *)) {
-        NSString *imageName = @"chevron.left";
-        if ([UIApplication sharedApplication].userInterfaceLayoutDirection == UIUserInterfaceLayoutDirectionRightToLeft ) {
-            imageName = @"chevron.right";
-        }
-
-        UIImage *image = [UIImage systemImageNamed:imageName];
-        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:image
-                                                   landscapeImagePhone:image
-                                                                 style:UIBarButtonItemStyleDone
-                                                                target:target
-                                                                action:selector];
-        item.accessibilityLabel = ORKLocalizedString(@"AX_BUTTON_BACK", nil);
-        return item;
-    }
-
-    // Use assets catalog below iOS 13
-    NSString *regularImageName = @"arrowLeft";
-    NSString *landscapeImageName = @"arrowLeftLandscape";
-
+    NSString *imageName = @"chevron.left";
     if ([UIApplication sharedApplication].userInterfaceLayoutDirection == UIUserInterfaceLayoutDirectionRightToLeft ) {
-        regularImageName = @"arrowRight";
-        landscapeImageName = @"arrowRightLandscape";
+        imageName = @"chevron.right";
     }
-
-    UIImage *image = [UIImage imageNamed:regularImageName inBundle:ORKBundle() compatibleWithTraitCollection:nil];
-    UIImage *landscapeImage = [UIImage imageNamed:landscapeImageName inBundle:ORKBundle() compatibleWithTraitCollection:nil];
+    
+    UIImage *image = [UIImage systemImageNamed:imageName];
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:image
-                                               landscapeImagePhone:landscapeImage
+                                               landscapeImagePhone:image
                                                              style:UIBarButtonItemStyleDone
                                                             target:target
                                                             action:selector];

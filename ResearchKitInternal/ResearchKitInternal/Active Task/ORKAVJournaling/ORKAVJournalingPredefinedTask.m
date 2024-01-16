@@ -121,10 +121,7 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierInstructionStep
     completionStep.title = AAPLLocalizedString(@"AV_JOURNALING_PREDEFINED_AUDIO_VIDEO_ACCESS_TITLE", nil);
     completionStep.text = AAPLLocalizedString(@"AV_JOURNALING_PREDEFINED_AUDIO_VIDEO_ACCESS_TEXT", nil);
     completionStep.reasonForCompletion = ORKTaskFinishReasonDiscarded;
-    
-    if (@available(iOS 13.0, *)) {
-        completionStep.iconImage = [UIImage systemImageNamed:@"video.slash"];
-    }
+    completionStep.iconImage = [UIImage systemImageNamed:@"video.slash"];
     
     ORKLearnMoreInstructionStep *learnMoreInstructionStep = [[ORKLearnMoreInstructionStep alloc] initWithIdentifier:ORKAVJournalingStepIdentifierInstructionStepPlaceHolderVideoAudioAccessDenied];
     ORKLearnMoreItem *learnMoreItem = [[ORKLearnMoreItem alloc] initWithText:AAPLLocalizedString(@"AV_JOURNALING_PREDEFINED_AUDIO_VIDEO_ACCESS_SETTINGS_LINK_TEXT", nil)
@@ -274,10 +271,7 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierInstructionStep
                 completionStep.title = AAPLLocalizedString(@"AV_JOURNALING_PREDEFINED_LOW_MEMORY_TITLE", nil);
                 completionStep.text = AAPLLocalizedString(@"AV_JOURNALING_PREDEFINED_LOW_MEMORY_TEXT", nil);
                 completionStep.reasonForCompletion = ORKTaskFinishReasonDiscarded;
-                
-                if (@available(iOS 13.0, *)) {
-                    completionStep.iconImage = [UIImage systemImageNamed:@"bin.xmark"];
-                }
+                completionStep.iconImage = [UIImage systemImageNamed:@"bin.xmark"];
                 
                 ORKSensitiveURLLearnMoreInstructionStep *learnMoreInstructionStep = [[ORKSensitiveURLLearnMoreInstructionStep alloc]
                                                                                      initWithIdentifier:ORKCompletionStepIdentifierMicrophoneLearnMore

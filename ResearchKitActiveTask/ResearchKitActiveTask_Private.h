@@ -45,11 +45,11 @@
 #import <ResearchKitActiveTask/ORKHolePegTestPlaceStep.h>
 #import <ResearchKitActiveTask/ORKHolePegTestRemoveStep.h>
 #import <ResearchKitActiveTask/ORKLocationRecorder.h>
+#import <ResearchKitActiveTask/ORKNormalizedReactionTimeViewController.h>
 #import <ResearchKitActiveTask/ORKPedometerRecorder.h>
 #import <ResearchKitActiveTask/ORKPSATStep.h>
 #import <ResearchKitActiveTask/ORKRangeOfMotionStep.h>
 #import <ResearchKitActiveTask/ORKReactionTimeStep.h>
-#import <ResearchKitActiveTask/ORKNormalizedReactionTimeStep.h>
 #import <ResearchKitActiveTask/ORKShoulderRangeOfMotionStep.h>
 #import <ResearchKitActiveTask/ORKSpatialSpanMemoryStep.h>
 #import <ResearchKitActiveTask/ORKSpeechInNoiseContentView.h>

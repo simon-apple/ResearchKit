@@ -117,9 +117,7 @@ ORKCompletionStepIdentifier const ORKEnvironmentSPLMeterTimeoutIdentifier = @"OR
         completionStep.optional = NO;
         completionStep.reasonForCompletion = ORKTaskFinishReasonDiscarded;
         
-        if (@available(iOS 13.0, *)) {
-            completionStep.iconImage = [UIImage systemImageNamed:@"mic.slash"];
-        }
+        completionStep.iconImage = [UIImage systemImageNamed:@"mic.slash"];
         
         ORKSensitiveURLLearnMoreInstructionStep *learnMoreInstructionStep = [[ORKSensitiveURLLearnMoreInstructionStep alloc]
                                                                              initWithIdentifier:ORKCompletionStepIdentifierMicrophoneLearnMore

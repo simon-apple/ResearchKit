@@ -747,11 +747,7 @@ NSString * const ORKSurveyCardHeaderViewIdentifier = @"SurveyCardHeaderViewIdent
                 [self.view setBackgroundColor:ORKColor(ORKBackgroundColorKey)];
             }
             else {
-                if (@available(iOS 13.0, *)) {
-                    [_tableView setBackgroundColor:[UIColor systemGroupedBackgroundColor]];
-                } else {
-                    [_tableView setBackgroundColor:ORKColor(ORKBackgroundColorKey)];
-                }
+                [_tableView setBackgroundColor:[UIColor systemGroupedBackgroundColor]];
                 [self.taskViewController setNavigationBarColor:[_tableView backgroundColor]];
                 [self.view setBackgroundColor:[_tableView backgroundColor]];
             }
@@ -1685,16 +1681,21 @@ NSString * const ORKSurveyCardHeaderViewIdentifier = @"SurveyCardHeaderViewIdent
         }
 
         ORKChoiceOtherViewCell *choiceOtherViewCell = ORKDynamicCast(choiceViewCell, ORKChoiceOtherViewCell);
-        // [LC] This code used to be executed only once, when the cell was being created.
+        // This code used to be executed only once, when the cell was being created.
         // Now that we use dequeue to always create a cell, that logic doesn't apply anymore
         // setupWithText: withPlaceholderText: withExpansionState:  is a method that will apply the logic based on the textfield's expansion state
         if (choiceOtherViewCell != nil) {
-            ORKTextChoice *textChoice = [answerFormat.choices objectAtIndex:choiceIndex];
-            ORKTextChoiceOther *textChoiceOther = ORKDynamicCast(textChoice, ORKTextChoiceOther);
-            if (textChoiceOther != nil) {
-                [choiceOtherViewCell setupWithText:textChoiceOther.textViewText placeholderText:textChoiceOther.textViewPlaceholderText expansionState:itemIdentifier.expansionState];
-            }
-        }
+             ORKTextChoice *textChoice = [answerFormat.choices objectAtIndex:choiceIndex];
+             ORKTextChoiceOther *textChoiceOther = ORKDynamicCast(textChoice, ORKTextChoiceOther);
+             if (textChoiceOther != nil) {
+                 if (textChoiceOther.textViewText.length > 0) {
+                     // We should always expand the ORKChoiceOtherViewCell if the ORKTextChoiceOther has a textViewText
+                     // This can happen, when restoring the form.
+                     itemIdentifier.expansionState = ORKChoiceViewCellExpansionStateExpanded;
+                 }
+                 [choiceOtherViewCell setupWithText:textChoiceOther.textViewText placeholderText:textChoiceOther.textViewPlaceholderText expansionState:itemIdentifier.expansionState];
+             }
+         }
         choiceOtherViewCell.delegate = self;
         
         choiceViewCell.tintColor = ORKViewTintColor(self.view);
@@ -2323,7 +2324,10 @@ static NSString *const _ORKAnsweredSectionIdentifiersRestoreKey = @"answeredSect
     if (_currentFirstResponderCell == choiceOtherViewCell) {
         _currentFirstResponderCell = nil;
     }
-    NSIndexPath *indexPath = [_tableView indexPathForCell:choiceOtherViewCell];
+    
+    // we need to use `indexPathForRowAtPoint` because `indexPathForCell`
+    // will return nil if the cell is off the screen, which will happen if we are scrolling
+    NSIndexPath *indexPath = [_tableView indexPathForRowAtPoint:choiceOtherViewCell.center];
             
     ORKTableCellItemIdentifier *itemIdentifier = [_diffableDataSource itemIdentifierForIndexPath:indexPath];
     ORKFormItem *formItem = [self _formItemForFormItemIdentifier:itemIdentifier.formItemIdentifier];
@@ -2341,12 +2345,16 @@ static NSString *const _ORKAnsweredSectionIdentifiersRestoreKey = @"answeredSect
         if (!textChoice.textViewInputOptional) {
             [choiceOtherViewCell setCellSelected:NO highlight:NO];
         }
-        answer = _savedAnswers[itemIdentifier.formItemIdentifier];
+        // textChoice doesn't have any custom text from the textView
+        // the answer should be the default text option
+        answer = @[textChoice.text];
     }
-    [self saveTextChoiceAnswer:answer
-                      formItem:formItem
-                     indexPath:indexPath
-                itemIdentifier:itemIdentifier];
+    if (answer) {
+        [self saveTextChoiceAnswer:answer
+                          formItem:formItem
+                         indexPath:indexPath
+                    itemIdentifier:itemIdentifier];
+    }
 }
 
 - (void)saveTextChoiceAnswer:(id)answer

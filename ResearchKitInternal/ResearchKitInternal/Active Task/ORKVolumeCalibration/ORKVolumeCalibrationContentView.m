@@ -79,28 +79,26 @@ static int const ORKVolumeCalibrationStepPlaybackButtonSize = 36;
 {
     UIView *roundedView = [[UIView alloc] init];
     roundedView.layer.cornerRadius = 10;
+    roundedView.backgroundColor = UIColor.tinnitusButtonBackgroundColor;
 
     UIView *separatorView = [[UIView alloc] init];
+    separatorView.backgroundColor = UIColor.tinnitusBackgroundColor;
 
     self.playbackButton = [UIButton buttonWithType:UIButtonTypeCustom];
 
     UIImage *playImage;
     UIImage *sliderFullImage;
     UIImage *sliderEmptyImage;
-    if (@available(iOS 13.0, *)) {
-        sliderFullImage = [UIImage systemImageNamed:@"speaker.wave.3.fill"];
-        sliderEmptyImage = [UIImage systemImageNamed:@"speaker.fill"];
-        UIImageSymbolConfiguration *imageConfig = [UIImageSymbolConfiguration configurationWithPointSize:ORKVolumeCalibrationStepPlaybackButtonSize weight:UIImageSymbolWeightRegular scale:UIImageSymbolScaleDefault];
-        playImage = [[[UIImage systemImageNamed:@"play.circle.fill"] imageByApplyingSymbolConfiguration:imageConfig] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-
-        separatorView.backgroundColor = UIColor.tinnitusBackgroundColor;
-        _playbackButton.tintColor = UIColor.tinnitusPlayBackgroundColor;
-        _playbackButton.backgroundColor = [UIColor systemBlueColor];
-        roundedView.backgroundColor = UIColor.tinnitusButtonBackgroundColor;
-        
-        _playbackButton.layer.cornerRadius = ORKVolumeCalibrationStepPlaybackButtonSize/2.2;
-    }
-
+    
+    sliderFullImage = [UIImage systemImageNamed:@"speaker.wave.3.fill"];
+    sliderEmptyImage = [UIImage systemImageNamed:@"speaker.fill"];
+    UIImageSymbolConfiguration *imageConfig = [UIImageSymbolConfiguration configurationWithPointSize:ORKVolumeCalibrationStepPlaybackButtonSize weight:UIImageSymbolWeightRegular scale:UIImageSymbolScaleDefault];
+    playImage = [[[UIImage systemImageNamed:@"play.circle.fill"] imageByApplyingSymbolConfiguration:imageConfig] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    
+    _playbackButton.tintColor = UIColor.tinnitusPlayBackgroundColor;
+    _playbackButton.backgroundColor = [UIColor systemBlueColor];
+    
+    _playbackButton.layer.cornerRadius = ORKVolumeCalibrationStepPlaybackButtonSize/2.2;
     [_playbackButton setImage:playImage forState:UIControlStateNormal];
     _playbackButton.imageEdgeInsets = UIEdgeInsetsMake(-2, -2, -2, -2);
     _playbackButton.imageView.contentMode = UIViewContentModeCenter;
@@ -141,9 +139,8 @@ static int const ORKVolumeCalibrationStepPlaybackButtonSize = 36;
     UIImageView *sliderEmpty = [[UIImageView alloc] initWithImage:sliderEmptyImage];
 
     UIColor *tintColor = [UIColor grayColor];
-    if (@available(iOS 13.0, *)) {
-        tintColor = [UIColor secondaryLabelColor];
-    }
+    tintColor = [UIColor secondaryLabelColor];
+        
     sliderFull.tintColor = tintColor;
     sliderEmpty.tintColor = tintColor;
     [roundedView addSubview:sliderEmpty];
@@ -223,12 +220,10 @@ static int const ORKVolumeCalibrationStepPlaybackButtonSize = 36;
 - (void)setPlaybackButtonPlaying:(BOOL)isPlaying {
     [self.barLevelsView setHidden:!isPlaying];
     
-    if (@available(iOS 13.0, *)) {
-        UIImageSymbolConfiguration *imageConfig = [UIImageSymbolConfiguration configurationWithPointSize:ORKVolumeCalibrationStepPlaybackButtonSize weight:UIImageSymbolWeightRegular scale:UIImageSymbolScaleDefault];
-        NSString *imageName = isPlaying ? @"pause.circle.fill" : @"play.circle.fill";
-        UIImage *image = [[[UIImage systemImageNamed:imageName] imageByApplyingSymbolConfiguration:imageConfig] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-        [self.playbackButton setImage:image forState:UIControlStateNormal];
-    }
+    UIImageSymbolConfiguration *imageConfig = [UIImageSymbolConfiguration configurationWithPointSize:ORKVolumeCalibrationStepPlaybackButtonSize weight:UIImageSymbolWeightRegular scale:UIImageSymbolScaleDefault];
+    NSString *imageName = isPlaying ? @"pause.circle.fill" : @"play.circle.fill";
+    UIImage *image = [[[UIImage systemImageNamed:imageName] imageByApplyingSymbolConfiguration:imageConfig] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    [self.playbackButton setImage:image forState:UIControlStateNormal];
 }
 
 - (void)playbackButtonPressed:(UIButton *)sender {

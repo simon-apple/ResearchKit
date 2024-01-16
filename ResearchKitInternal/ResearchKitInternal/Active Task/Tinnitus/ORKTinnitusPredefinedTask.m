@@ -821,11 +821,9 @@ static NSString *const ORKTinnitusHeadphoneRequiredStepIdentifier = @"ORKTinnitu
     pitchMatchingInstruction.title = AAPLLocalizedString(@"TINNITUS_FREQUENCY_MATCHING_TITLE", nil);
     pitchMatchingInstruction.text = AAPLLocalizedString(@"TINNITUS_FREQUENCY_MATCHING_DETAIL", nil);
     
-    if (@available(iOS 13.0, *)) {
-        ORKBodyItem *item = [[ORKBodyItem alloc] initWithText:AAPLLocalizedString(@"TINNITUS_FREQUENCY_MATCHING_INSTRUCTION_BODY1", nil) detailText:nil image:[UIImage systemImageNamed:@"ear"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
-        ORKBodyItem *item2 = [[ORKBodyItem alloc] initWithText:AAPLLocalizedString(@"TINNITUS_FREQUENCY_MATCHING_INSTRUCTION_BODY2", nil) detailText:nil image:[UIImage systemImageNamed:@"timer"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
-        pitchMatchingInstruction.bodyItems = @[item,item2];
-    }
+    ORKBodyItem *item = [[ORKBodyItem alloc] initWithText:AAPLLocalizedString(@"TINNITUS_FREQUENCY_MATCHING_INSTRUCTION_BODY1", nil) detailText:nil image:[UIImage systemImageNamed:@"ear"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
+    ORKBodyItem *item2 = [[ORKBodyItem alloc] initWithText:AAPLLocalizedString(@"TINNITUS_FREQUENCY_MATCHING_INSTRUCTION_BODY2", nil) detailText:nil image:[UIImage systemImageNamed:@"timer"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
+    pitchMatchingInstruction.bodyItems = @[item,item2];
     
     return [pitchMatchingInstruction copy];
 }
@@ -854,12 +852,9 @@ static NSString *const ORKTinnitusHeadphoneRequiredStepIdentifier = @"ORKTinnitu
     roundSuccessCompleted.text = roundNumber == 1 ?  AAPLLocalizedString(@"TINNITUS_ROUND_COMPLETE_TEXT", nil) : AAPLLocalizedString(@"TINNITUS_FINAL_ROUND_COMPLETE_TEXT", nil) ;
     
     UIImage *iconImage;
-    if (@available(iOS 13.0, *)) {
-        UIImageConfiguration *configuration = [UIImageSymbolConfiguration configurationWithFont:[UIFont preferredFontForTextStyle:UIFontTextStyleBody] scale:UIImageSymbolScaleLarge];
-        iconImage = [UIImage systemImageNamed:@"checkmark.circle.fill" withConfiguration:configuration];
-    } else {
-        iconImage = [[UIImage imageNamed:@"checkmark" inBundle:ORKBundle() compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    }
+    UIImageConfiguration *configuration = [UIImageSymbolConfiguration configurationWithFont:[UIFont preferredFontForTextStyle:UIFontTextStyleBody] scale:UIImageSymbolScaleLarge];
+    iconImage = [UIImage systemImageNamed:@"checkmark.circle.fill" withConfiguration:configuration];
+    
     roundSuccessCompleted.iconImage = iconImage;
     roundSuccessCompleted.imageContentMode = UIViewContentModeTopLeft;
     roundSuccessCompleted.shouldTintImages = YES;
@@ -881,11 +876,9 @@ static NSString *const ORKTinnitusHeadphoneRequiredStepIdentifier = @"ORKTinnitu
     maskingSoundInstructionStep.title = AAPLLocalizedString(@"TINNITUS_MASKING_INSTRUCTION_TITLE", nil);
     maskingSoundInstructionStep.text = AAPLLocalizedString(@"TINNITUS_MASKING_INSTRUCTION_TEXT", nil);
     
-    if (@available(iOS 13.0, *)) {
-        ORKBodyItem * item1 = [[ORKBodyItem alloc] initWithText:AAPLLocalizedString(@"TINNITUS_MASKING_INSTRUCTION_BODY1", nil) detailText:nil image:[UIImage systemImageNamed:@"ear.badge.checkmark"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
-        ORKBodyItem * item2 = [[ORKBodyItem alloc] initWithText:AAPLLocalizedString(@"TINNITUS_MASKING_INSTRUCTION_BODY2", nil) detailText:nil image:[UIImage systemImageNamed:@"timer"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
-        maskingSoundInstructionStep.bodyItems = @[item1, item2];
-    }
+    ORKBodyItem * item1 = [[ORKBodyItem alloc] initWithText:AAPLLocalizedString(@"TINNITUS_MASKING_INSTRUCTION_BODY1", nil) detailText:nil image:[UIImage systemImageNamed:@"ear.badge.checkmark"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
+    ORKBodyItem * item2 = [[ORKBodyItem alloc] initWithText:AAPLLocalizedString(@"TINNITUS_MASKING_INSTRUCTION_BODY2", nil) detailText:nil image:[UIImage systemImageNamed:@"timer"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
+    maskingSoundInstructionStep.bodyItems = @[item1, item2];
     
     return [maskingSoundInstructionStep copy];
 }

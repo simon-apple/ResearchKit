@@ -119,12 +119,10 @@ static int const ORKTinnitusAssessmentMargin = 16;
     
     if (_includeSeparator) {
         _separatorView = [[UIView alloc] initWithFrame:CGRectZero];
+        _separatorView.backgroundColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traits) {
+            return traits.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor systemGray3Color] : [UIColor systemGray5Color];
+        }];
 
-        if (@available(iOS 13.0, *)) {
-            _separatorView.backgroundColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traits) {
-                return traits.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor systemGray3Color] : [UIColor systemGray5Color];
-            }];
-        }
         _separatorView.translatesAutoresizingMaskIntoConstraints = NO;
         [self addSubview:_separatorView];
     }
@@ -231,17 +229,16 @@ static int const ORKTinnitusAssessmentMargin = 16;
     [self addSubview:_roundedView];
 
     self.playButtonView = [UIButton buttonWithType:UIButtonTypeCustom];
-    if (@available(iOS 13.0, *)) {
-        UIImageSymbolConfiguration *imageConfig = [UIImageSymbolConfiguration configurationWithPointSize:ORKTinnitusAssessmentPlaybackButtonSize weight:UIImageSymbolWeightRegular scale:UIImageSymbolScaleDefault];
-        UIImage *playImage = [[[UIImage systemImageNamed:@"play.circle.fill"] imageByApplyingSymbolConfiguration:imageConfig] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-        [_playButtonView setImage:playImage forState:UIControlStateNormal];
-
-        _playButtonView.tintColor = UIColor.tinnitusPlayBackgroundColor;
-        _playButtonView.layer.cornerRadius = ORKTinnitusAssessmentPlaybackButtonSize/2.2;
-        
-        _playButtonView.backgroundColor = [UIColor systemBlueColor];
-        _roundedView.backgroundColor = UIColor.tinnitusButtonBackgroundColor;
-    }
+    
+    UIImageSymbolConfiguration *imageConfig = [UIImageSymbolConfiguration configurationWithPointSize:ORKTinnitusAssessmentPlaybackButtonSize weight:UIImageSymbolWeightRegular scale:UIImageSymbolScaleDefault];
+    UIImage *playImage = [[[UIImage systemImageNamed:@"play.circle.fill"] imageByApplyingSymbolConfiguration:imageConfig] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    [_playButtonView setImage:playImage forState:UIControlStateNormal];
+    
+    _playButtonView.tintColor = UIColor.tinnitusPlayBackgroundColor;
+    _playButtonView.layer.cornerRadius = ORKTinnitusAssessmentPlaybackButtonSize/2.2;
+    
+    _playButtonView.backgroundColor = [UIColor systemBlueColor];
+    _roundedView.backgroundColor = UIColor.tinnitusButtonBackgroundColor;
 
     [_playButtonView addTarget:self action:@selector(playButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -409,12 +406,10 @@ static int const ORKTinnitusAssessmentMargin = 16;
 - (void)setPlaybackButtonPlaying:(BOOL)isPlaying {
     [self.barLevelsView setHidden:!isPlaying];
     
-    if (@available(iOS 13.0, *)) {
-        UIImageSymbolConfiguration *imageConfig = [UIImageSymbolConfiguration configurationWithPointSize:ORKTinnitusAssessmentPlaybackButtonSize weight:UIImageSymbolWeightRegular scale:UIImageSymbolScaleDefault];
-        NSString *imageName = isPlaying ? @"pause.circle.fill" : @"play.circle.fill";
-        UIImage *image = [[[UIImage systemImageNamed:imageName] imageByApplyingSymbolConfiguration:imageConfig] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-        [_playButtonView setImage:image forState:UIControlStateNormal];
-    }
+    UIImageSymbolConfiguration *imageConfig = [UIImageSymbolConfiguration configurationWithPointSize:ORKTinnitusAssessmentPlaybackButtonSize weight:UIImageSymbolWeightRegular scale:UIImageSymbolScaleDefault];
+    NSString *imageName = isPlaying ? @"pause.circle.fill" : @"play.circle.fill";
+    UIImage *image = [[[UIImage systemImageNamed:imageName] imageByApplyingSymbolConfiguration:imageConfig] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    [_playButtonView setImage:image forState:UIControlStateNormal];
 }
 
 #pragma mark - Actions

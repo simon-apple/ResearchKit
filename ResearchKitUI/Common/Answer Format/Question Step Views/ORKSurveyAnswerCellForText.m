@@ -125,9 +125,7 @@ static const CGFloat DividerViewTopPadding = 10.0;
         
         self.textView.delegate = self;
         self.textView.editable = YES;
-        if (@available(iOS 13.0, *)) {
-            self.textView.backgroundColor = [UIColor secondarySystemGroupedBackgroundColor];
-        }
+        self.textView.backgroundColor = [UIColor secondarySystemGroupedBackgroundColor];
         
         [self addSubview:self.textView];
         
@@ -146,23 +144,14 @@ static const CGFloat DividerViewTopPadding = 10.0;
     
     if (_bottomSeperatorView == nil) {
         _bottomSeperatorView = [UIView new];
-        
-        if (@available(iOS 13.0, *)) {
-            [_bottomSeperatorView setBackgroundColor:[UIColor separatorColor]];
-        } else {
-            [_bottomSeperatorView setBackgroundColor:[UIColor lightGrayColor]];
-        }
+        [_bottomSeperatorView setBackgroundColor:[UIColor separatorColor]];
         _bottomSeperatorView.translatesAutoresizingMaskIntoConstraints = NO;
         [self addSubview:_bottomSeperatorView];
     }
     
     if (_textCountLabel == nil && _maxLength > 0) {
         _textCountLabel = [UILabel new];
-        if (@available(iOS 13.0, *)) {
-            [_textCountLabel setTextColor:[UIColor labelColor]];
-        } else {
-            [_textCountLabel setTextColor:[UIColor grayColor]];
-        }
+        [_textCountLabel setTextColor:[UIColor labelColor]];
         
         if (!_hideCharacterCountLabel) {
             [accessibilityElements addObject:_textCountLabel];
@@ -382,11 +371,7 @@ static const CGFloat DividerViewTopPadding = 10.0;
     if (!_dividerView) {
         _dividerView = [UIView new];
         _dividerView.translatesAutoresizingMaskIntoConstraints = NO;
-        if (@available(iOS 13.0, *)) {
-            [_dividerView setBackgroundColor:[UIColor separatorColor]];
-        } else {
-            [_dividerView setBackgroundColor:[UIColor lightGrayColor]];
-        }
+        [_dividerView setBackgroundColor:[UIColor separatorColor]];
     }
     
     [self addSubview:_dontKnowBackgroundView];
@@ -466,28 +451,22 @@ static const CGFloat DividerViewTopPadding = 10.0;
         self.accessibilityElements = [self.accessibilityElements arrayByAddingObject:self.errorLabel];
     }
     
-    if (@available(iOS 13.0, *)) {
-        
-        NSString *errorMessage = [NSString stringWithFormat:@" %@", parsedString];
-        NSMutableAttributedString *fullString = [[NSMutableAttributedString alloc] initWithString:errorMessage];
-        NSTextAttachment *imageAttachment = [NSTextAttachment new];
-        
-        UIImage *exclamationMarkImage = [UIImage systemImageNamed:@"exclamationmark.circle.fill"];
-        
-        UIImageSymbolConfiguration *imageConfig = [UIImageSymbolConfiguration configurationWithTextStyle:UIFontTextStyleFootnote];
-        UIImage *configuredImage = [exclamationMarkImage imageByApplyingSymbolConfiguration:imageConfig];
-        
-        imageAttachment.image = [configuredImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-        
-        NSAttributedString *imageString = [NSAttributedString attributedStringWithAttachment:imageAttachment];
-        
-        [fullString insertAttributedString:imageString atIndex:0];
-        
-        self.errorLabel.attributedText = fullString;
-    } else {
-        NSMutableAttributedString *fullString = [[NSMutableAttributedString alloc] initWithString:parsedString];
-        self.errorLabel.attributedText = fullString;
-    }
+    NSString *errorMessage = [NSString stringWithFormat:@" %@", parsedString];
+    NSMutableAttributedString *fullString = [[NSMutableAttributedString alloc] initWithString:errorMessage];
+    NSTextAttachment *imageAttachment = [NSTextAttachment new];
+    
+    UIImage *exclamationMarkImage = [UIImage systemImageNamed:@"exclamationmark.circle.fill"];
+    
+    UIImageSymbolConfiguration *imageConfig = [UIImageSymbolConfiguration configurationWithTextStyle:UIFontTextStyleFootnote];
+    UIImage *configuredImage = [exclamationMarkImage imageByApplyingSymbolConfiguration:imageConfig];
+    
+    imageAttachment.image = [configuredImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    
+    NSAttributedString *imageString = [NSAttributedString attributedStringWithAttachment:imageAttachment];
+    
+    [fullString insertAttributedString:imageString atIndex:0];
+    
+    self.errorLabel.attributedText = fullString;
     
     [self setUpConstraints];
 }
@@ -718,11 +697,7 @@ static const CGFloat DividerViewTopPadding = 10.0;
     if (!_dividerView) {
         _dividerView = [UIView new];
         _dividerView.translatesAutoresizingMaskIntoConstraints = NO;
-        if (@available(iOS 13.0, *)) {
-            [_dividerView setBackgroundColor:[UIColor separatorColor]];
-        } else {
-            [_dividerView setBackgroundColor:[UIColor lightGrayColor]];
-        }
+        [_dividerView setBackgroundColor:[UIColor separatorColor]];
     }
 
     [self addSubview:_dontKnowBackgroundView];
@@ -836,28 +811,22 @@ static const CGFloat DividerViewTopPadding = 10.0;
     if (![self.accessibilityElements containsObject:self.errorLabel]) {
         self.accessibilityElements = [self.accessibilityElements arrayByAddingObject:self.errorLabel];
     }
+        
+    NSString *errorMessage = [NSString stringWithFormat:@" %@", parsedString];
+    NSMutableAttributedString *fullString = [[NSMutableAttributedString alloc] initWithString:errorMessage];
+    NSTextAttachment *imageAttachment = [NSTextAttachment new];
     
-    if (@available(iOS 13.0, *)) {
-        
-        NSString *errorMessage = [NSString stringWithFormat:@" %@", parsedString];
-        NSMutableAttributedString *fullString = [[NSMutableAttributedString alloc] initWithString:errorMessage];
-        NSTextAttachment *imageAttachment = [NSTextAttachment new];
-        
-        UIImageSymbolConfiguration *imageConfig = [UIImageSymbolConfiguration configurationWithPointSize:12 weight:UIImageSymbolWeightRegular scale:UIImageSymbolScaleMedium];
-        UIImage *exclamationMarkImage = [UIImage systemImageNamed:@"exclamationmark.circle"];
-        UIImage *configuredImage = [exclamationMarkImage imageByApplyingSymbolConfiguration:imageConfig];
-        
-        imageAttachment.image = [configuredImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-        
-        NSAttributedString *imageString = [NSAttributedString attributedStringWithAttachment:imageAttachment];
-        
-        [fullString insertAttributedString:imageString atIndex:0];
-        
-        self.errorLabel.attributedText = fullString;
-    } else {
-        NSMutableAttributedString *fullString = [[NSMutableAttributedString alloc] initWithString:parsedString];
-        self.errorLabel.attributedText = fullString;
-    }
+    UIImageSymbolConfiguration *imageConfig = [UIImageSymbolConfiguration configurationWithPointSize:12 weight:UIImageSymbolWeightRegular scale:UIImageSymbolScaleMedium];
+    UIImage *exclamationMarkImage = [UIImage systemImageNamed:@"exclamationmark.circle"];
+    UIImage *configuredImage = [exclamationMarkImage imageByApplyingSymbolConfiguration:imageConfig];
+    
+    imageAttachment.image = [configuredImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    
+    NSAttributedString *imageString = [NSAttributedString attributedStringWithAttachment:imageAttachment];
+    
+    [fullString insertAttributedString:imageString atIndex:0];
+    
+    self.errorLabel.attributedText = fullString;
     
     [self setUpConstraints];
 }

@@ -112,9 +112,7 @@
     }
     
 #if RK_APPLE_INTERNAL
-    if (@available(iOS 13, *)) {
-        request.requiresOnDeviceRecognition = YES;
-    }
+    request.requiresOnDeviceRecognition = YES;
 #endif
     
     request.shouldReportPartialResults = reportPartialResults;
@@ -137,11 +135,7 @@
 
 #if RK_APPLE_INTERNAL
 - (BOOL)isOfflineRecognitionAvailable {
-    if (@available(iOS 13, *)) {
-        return recognizer.supportsOnDeviceRecognition;
-    } else {
-        return NO;
-    }
+    return recognizer.supportsOnDeviceRecognition;
 }
 #endif
 

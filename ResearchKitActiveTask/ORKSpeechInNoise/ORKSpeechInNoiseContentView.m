@@ -110,11 +110,7 @@ static CGFloat const ORKSpeechInNoiseContentViewVerticalMargin = 44;
 #endif
 
 - (void)setupPlayButton {
-    if (@available(iOS 13.0, *)) {
-        self.playButton = [[ORKPlaybackButton alloc] initWithText:ORKLocalizedString(@"SPEECH_IN_NOISE_START_AUDIO_LABEL", nil) image:[UIImage systemImageNamed:@"play.circle"]];
-    } else {
-        self.playButton = [[ORKPlaybackButton alloc] initWithText:ORKLocalizedString(@"SPEECH_IN_NOISE_START_AUDIO_LABEL", nil) image:[UIImage imageNamed:@"play" inBundle:ORKBundle() compatibleWithTraitCollection:nil]];
-    }
+    self.playButton = [[ORKPlaybackButton alloc] initWithText:ORKLocalizedString(@"SPEECH_IN_NOISE_START_AUDIO_LABEL", nil) image:[UIImage systemImageNamed:@"play.circle"]];
     self.playButton.translatesAutoresizingMaskIntoConstraints = NO;
     self.playButton.enabled = YES;
     self.playButton.accessibilityTraits = UIAccessibilityTraitButton | UIAccessibilityTraitStartsMediaSession;

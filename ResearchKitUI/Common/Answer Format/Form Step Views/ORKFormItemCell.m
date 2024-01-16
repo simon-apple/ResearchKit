@@ -217,15 +217,9 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
         }
         _contentMaskLayer = [[CAShapeLayer alloc] init];
 
-        UIColor *fillColor;
-        UIColor *borderColor;
-        if (@available(iOS 13.0, *)) {
-            fillColor = [UIColor secondarySystemGroupedBackgroundColor];
-            borderColor = UIColor.separatorColor;
-        } else {
-            fillColor = [UIColor ork_borderGrayColor];
-            borderColor = [UIColor ork_midGrayTintColor];
-        }
+        UIColor *fillColor = [UIColor secondarySystemGroupedBackgroundColor];;
+        UIColor *borderColor = UIColor.separatorColor;;
+
         [_contentMaskLayer setFillColor:[fillColor CGColor]];
         
         CAShapeLayer *foreLayer = [CAShapeLayer layer];
@@ -403,28 +397,22 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     NSString *separatorString = @":";
     NSString *stringtoParse = message ? : ORKLocalizedString(@"RANGE_ALERT_TITLE", @"");
     NSString *parsedString = [stringtoParse componentsSeparatedByString:separatorString].firstObject;
+        
+    NSString *errorMessage = [NSString stringWithFormat:@" %@", parsedString];
+    NSMutableAttributedString *fullString = [[NSMutableAttributedString alloc] initWithString:errorMessage];
+    NSTextAttachment *imageAttachment = [NSTextAttachment new];
     
-    if (@available(iOS 13.0, *)) {
-        
-        NSString *errorMessage = [NSString stringWithFormat:@" %@", parsedString];
-        NSMutableAttributedString *fullString = [[NSMutableAttributedString alloc] initWithString:errorMessage];
-        NSTextAttachment *imageAttachment = [NSTextAttachment new];
-        
-        UIImageSymbolConfiguration *imageConfig = [UIImageSymbolConfiguration configurationWithPointSize:12 weight:UIImageSymbolWeightRegular scale:UIImageSymbolScaleMedium];
-        UIImage *exclamationMarkImage = [UIImage systemImageNamed:@"exclamationmark.circle"];
-        UIImage *configuredImage = [exclamationMarkImage imageByApplyingSymbolConfiguration:imageConfig];
-        
-        imageAttachment.image = [configuredImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-        
-        NSAttributedString *imageString = [NSAttributedString attributedStringWithAttachment:imageAttachment];
-        
-        [fullString insertAttributedString:imageString atIndex:0];
-        
-        self.errorLabel.attributedText = fullString;
-    } else {
-        NSMutableAttributedString *fullString = [[NSMutableAttributedString alloc] initWithString:parsedString];
-        self.errorLabel.attributedText = fullString;
-    }
+    UIImageSymbolConfiguration *imageConfig = [UIImageSymbolConfiguration configurationWithPointSize:12 weight:UIImageSymbolWeightRegular scale:UIImageSymbolScaleMedium];
+    UIImage *exclamationMarkImage = [UIImage systemImageNamed:@"exclamationmark.circle"];
+    UIImage *configuredImage = [exclamationMarkImage imageByApplyingSymbolConfiguration:imageConfig];
+    
+    imageAttachment.image = [configuredImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    
+    NSAttributedString *imageString = [NSAttributedString attributedStringWithAttachment:imageAttachment];
+    
+    [fullString insertAttributedString:imageString atIndex:0];
+    
+    self.errorLabel.attributedText = fullString;
     
     [self updateConstraints];
     [self cellNeedsToResize];
@@ -609,11 +597,7 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     if (!_dividerView) {
         _dividerView = [UIView new];
         _dividerView.translatesAutoresizingMaskIntoConstraints = NO;
-        if (@available(iOS 13.0, *)) {
-            [_dividerView setBackgroundColor:[UIColor separatorColor]];
-        } else {
-            [_dividerView setBackgroundColor:[UIColor lightGrayColor]];
-        }
+        [_dividerView setBackgroundColor:[UIColor separatorColor]];
     }
     
     [self.containerView addSubview:_dontKnowBackgroundView];
@@ -759,11 +743,8 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
 - (void)setEditingHighlight:(BOOL)editingHighlight {
     _editingHighlight = editingHighlight;
     UIColor *defaultColor;
-    if (@available(iOS 13.0, *)) {
-        defaultColor = [UIColor labelColor];
-    } else {
-        defaultColor = [UIColor blackColor];
-    }
+    defaultColor = [UIColor labelColor];
+
     self.labelLabel.textColor = _editingHighlight ? [self tintColor] : defaultColor;
     [self textField].textColor = _editingHighlight ? [self tintColor] : defaultColor;
 }
@@ -1246,11 +1227,9 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     _textView.scrollEnabled = YES;
     _textView.placeholder = formItem.placeholder;
 
-    // [RDLS:NOTE] moved from cellInit
-    if (@available(iOS 13.0, *)) {
-        _textView.textColor = [UIColor labelColor];
-        _textView.backgroundColor = [UIColor secondarySystemGroupedBackgroundColor];
-    }
+    //moved from cellInit
+    _textView.textColor = [UIColor labelColor];
+    _textView.backgroundColor = [UIColor secondarySystemGroupedBackgroundColor];
 
     [super configureWithFormItem:formItem answer:answer maxLabelWidth:maxLabelWidth delegate:delegate];
 
@@ -1421,11 +1400,7 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     
     if (_maxLength > 0 && !textAnswerFormat.hideCharacterCountLabel) {
         _textCountLabel = [UILabel new];
-        if (@available(iOS 13.0, *)) {
-            [_textCountLabel setTextColor:[UIColor labelColor]];
-        } else {
-            [_textCountLabel setTextColor:[UIColor grayColor]];
-        }
+        [_textCountLabel setTextColor:[UIColor labelColor]];
         
         [self updateTextCountLabel];
         
@@ -1468,11 +1443,7 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     if (!_dividerView) {
         _dividerView = [UIView new];
         _dividerView.translatesAutoresizingMaskIntoConstraints = NO;
-        if (@available(iOS 13.0, *)) {
-            [_dividerView setBackgroundColor:[UIColor separatorColor]];
-        } else {
-            [_dividerView setBackgroundColor:[UIColor lightGrayColor]];
-        }
+        [_dividerView setBackgroundColor:[UIColor separatorColor]];
     }
     
     [self.containerView addSubview:_dontKnowBackgroundView];
@@ -1631,12 +1602,7 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
 - (void)textViewDidBeginEditing:(UITextView *)textView {
     if (textView.textColor == [self placeholderColor]) {
         textView.text = nil;
-        
-        if (@available(iOS 13.0, *)) {
-            _textView.textColor = [UIColor labelColor];
-        } else {
-            _textView.textColor = [UIColor blackColor];
-        }
+        _textView.textColor = [UIColor labelColor];
     }
     
     // Ask table view to adjust scrollview's position
@@ -2056,11 +2022,7 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
     if (_editingHighlight) {
         [_selectionView setTextColor:[self tintColor]];
     } else {
-        if (@available(iOS 13.0, *)) {
-            [_selectionView setTextColor:[UIColor labelColor]];
-        } else {
-            [_selectionView setTextColor:[UIColor blackColor]];
-        }
+        [_selectionView setTextColor:[UIColor labelColor]];
     }
 }
 

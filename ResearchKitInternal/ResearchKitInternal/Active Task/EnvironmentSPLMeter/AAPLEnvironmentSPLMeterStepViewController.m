@@ -126,10 +126,8 @@ static const NSTimeInterval SPL_METER_TIMEOUT_IN_SECONDS = 120.0;
             step.optional = NO;
             step.reasonForCompletion = ORKTaskFinishReasonDiscarded;
             
-            if (@available(iOS 13.0, *)) {
-                UIImageConfiguration *configuration = [UIImageSymbolConfiguration configurationWithFont:[UIFont preferredFontForTextStyle:UIFontTextStyleBody] scale:UIImageSymbolScaleLarge];
-                step.iconImage = [UIImage systemImageNamed:@"waveform.circle.fill" withConfiguration:configuration];
-            }
+            UIImageConfiguration *configuration = [UIImageSymbolConfiguration configurationWithFont:[UIFont preferredFontForTextStyle:UIFontTextStyleBody] scale:UIImageSymbolScaleLarge];
+            step.iconImage = [UIImage systemImageNamed:@"waveform.circle.fill" withConfiguration:configuration];
             
             [currentTask insertStep:step atIndex:[currentTask indexOfStep:self.step]];
             

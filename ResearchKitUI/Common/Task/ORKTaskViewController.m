@@ -192,13 +192,8 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     [_childNavigationController.navigationBar setShadowImage:[UIImage new]];
     [_childNavigationController.navigationBar setTranslucent:NO];
     [_childNavigationController.navigationBar setBarTintColor:ORKColor(ORKBackgroundColorKey)];
-    
-    if (@available(iOS 13.0, *)) {
-        [_childNavigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor secondaryLabelColor]}];
-        _childNavigationController.navigationBar.prefersLargeTitles = NO;
-    } else {
-        [_childNavigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor systemGrayColor]}];
-    }
+    [_childNavigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor secondaryLabelColor]}];
+    _childNavigationController.navigationBar.prefersLargeTitles = NO;
     [_childNavigationController.view setBackgroundColor:UIColor.clearColor];
     
     [self addChildViewController:_childNavigationController];
@@ -624,11 +619,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
         [self applicationFinishedRestoringState];
     }
     
-    if (@available(iOS 13.0, *)) {
-        [self setNavigationBarColor:[UIColor systemGroupedBackgroundColor]];
-    } else {
-        [self setNavigationBarColor:ORKColor(ORKBackgroundColorKey)];
-    }
+    [self setNavigationBarColor:[UIColor systemGroupedBackgroundColor]];
 }
 
 #if RK_APPLE_INTERNAL
@@ -670,11 +661,10 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     // Clear endDate if current TaskVC got presented again
     _dismissedDate = nil;
     
-    if (@available(iOS 13.0, *)) {
-        if ([self shouldDismissWithSwipe] == NO) {
-            self.modalInPresentation = YES;
-        }
+    if ([self shouldDismissWithSwipe] == NO) {
+        self.modalInPresentation = YES;
     }
+    
     if (_taskReviewViewController) {
         [_childNavigationController setViewControllers:@[_taskReviewViewController] animated:NO];
         [self setTaskReviewViewControllerNavbar];
@@ -1820,17 +1810,13 @@ static NSString *const _ORKProgressMode = @"progressMode";
 #pragma mark - UINavigationBarAppearance
 
 - (void)setNavigationBarColor:(UIColor *)color {
-    if (@available(iOS 13.0, *)) {
-        UINavigationBarAppearance *appearance = [[UINavigationBarAppearance alloc] init];
-        [appearance configureWithOpaqueBackground];
-        appearance.shadowColor = nil;
-        appearance.backgroundColor = color;
-        self.navigationBar.standardAppearance = appearance;
-        self.navigationBar.scrollEdgeAppearance = appearance;
-        self.navigationBar.compactAppearance = appearance;
-    } else {
-        [self.navigationBar setBarTintColor:color];
-    }
+    UINavigationBarAppearance *appearance = [[UINavigationBarAppearance alloc] init];
+    [appearance configureWithOpaqueBackground];
+    appearance.shadowColor = nil;
+    appearance.backgroundColor = color;
+    self.navigationBar.standardAppearance = appearance;
+    self.navigationBar.scrollEdgeAppearance = appearance;
+    self.navigationBar.compactAppearance = appearance;
 }
 
 @end

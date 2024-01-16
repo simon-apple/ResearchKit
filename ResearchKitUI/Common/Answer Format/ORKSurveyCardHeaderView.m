@@ -173,9 +173,7 @@ static const CGFloat SelectAllThatApplyBottomPadding = 6.0;
     }
     
     if (_shouldIgnoreDarkMode) {
-        if (@available(iOS 13.0, *)) {
-            self.overrideUserInterfaceStyle = UIUserInterfaceStyleLight;
-        }
+        self.overrideUserInterfaceStyle = UIUserInterfaceStyleLight;
     }
 }
 
@@ -191,11 +189,7 @@ static const CGFloat SelectAllThatApplyBottomPadding = 6.0;
     }
     _titleLabel.text = _title;
     _titleLabel.numberOfLines = 0;
-    if (@available(iOS 13.0, *)) {
-        _titleLabel.textColor = _shouldIgnoreDarkMode ? [UIColor blackColor] : [UIColor labelColor];
-    } else {
-        _titleLabel.textColor = [UIColor blackColor];
-    }
+    _titleLabel.textColor = _shouldIgnoreDarkMode ? [UIColor blackColor] : [UIColor labelColor];
     _titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
     _titleLabel.textAlignment = NSTextAlignmentNatural;
     _titleLabel.accessibilityIdentifier = @"ORKSurveyCardHeaderView_titleLabel";
@@ -219,11 +213,7 @@ static const CGFloat SelectAllThatApplyBottomPadding = 6.0;
     }
     _progressLabel.text = _progressText;
     _progressLabel.numberOfLines = 0;
-    if (@available(iOS 13.0, *)) {
-        _progressLabel.textColor = _shouldIgnoreDarkMode ? [UIColor lightGrayColor] : [UIColor secondaryLabelColor];
-    } else {
-        _progressLabel.textColor = [UIColor lightGrayColor];
-    }
+    _progressLabel.textColor = _shouldIgnoreDarkMode ? [UIColor lightGrayColor] : [UIColor secondaryLabelColor];
     _progressLabel.textAlignment = NSTextAlignmentNatural;
     [_progressLabel setFont:[self progressLabelFont]];
 }
@@ -301,11 +291,7 @@ static const CGFloat SelectAllThatApplyBottomPadding = 6.0;
     
     _selectAllThatApplyLabel.text = ORKLocalizedString(@"AX_SELECT_ALL_THAT_APPLY", nil);
     _selectAllThatApplyLabel.numberOfLines = 0;
-    if (@available(iOS 13.0, *)) {
-        _selectAllThatApplyLabel.textColor = _shouldIgnoreDarkMode ? [UIColor lightGrayColor] : [UIColor secondaryLabelColor];
-    } else {
-        _selectAllThatApplyLabel.textColor = [UIColor lightGrayColor];
-    }
+    _selectAllThatApplyLabel.textColor = _shouldIgnoreDarkMode ? [UIColor lightGrayColor] : [UIColor secondaryLabelColor];
     _selectAllThatApplyLabel.textAlignment = NSTextAlignmentNatural;
     [_selectAllThatApplyLabel setFont:[self selectAllThatApplyFont]];
 }
@@ -348,15 +334,8 @@ static const CGFloat SelectAllThatApplyBottomPadding = 6.0;
         _headlineMaskLayer.path = [UIBezierPath bezierPathWithRoundedRect: _headlineView.bounds byRoundingCorners: UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii: (CGSize){ORKCardDefaultCornerRadii, ORKCardDefaultCornerRadii}].CGPath;
         
         CAShapeLayer *foreLayer = [CAShapeLayer layer];
-        UIColor *fillColor;
-        UIColor *borderColor;
-        if (@available(iOS 13.0, *)) {
-            fillColor = _shouldIgnoreDarkMode ? [UIColor whiteColor] : [UIColor secondarySystemGroupedBackgroundColor];
-            borderColor = _shouldIgnoreDarkMode ? [UIColor ork_midGrayTintColor] : UIColor.separatorColor;
-        } else {
-            fillColor = [UIColor whiteColor];
-            borderColor = [UIColor ork_midGrayTintColor];
-        }
+        UIColor *fillColor = _shouldIgnoreDarkMode ? [UIColor whiteColor] : [UIColor secondarySystemGroupedBackgroundColor];
+        UIColor *borderColor = _shouldIgnoreDarkMode ? [UIColor ork_midGrayTintColor] : UIColor.separatorColor;;
         
         [foreLayer setFillColor:[fillColor CGColor]];
         CGRect foreLayerBounds = CGRectMake(ORKCardDefaultBorderWidth, ORKCardDefaultBorderWidth, _headlineView.bounds.size.width - 2 * ORKCardDefaultBorderWidth, _headlineView.bounds.size.height - ORKCardDefaultBorderWidth);

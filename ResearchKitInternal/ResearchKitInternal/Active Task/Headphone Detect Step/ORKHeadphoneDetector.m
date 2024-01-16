@@ -475,23 +475,15 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
                 });
             }
         }
-        if (@available(iOS 13.0, *)) {
-            if ([strongSelf headphoneHasNoiseCancellingFeature] &&
-                strongDelegate && [strongDelegate respondsToSelector:@selector(bluetoothModeChanged:)]) {
-                
-                NSString* listeningMode = [[[AVOutputContextSoft sharedSystemAudioContext] outputDevice] currentBluetoothListeningMode];
-                ORKBluetoothMode btMode = [self findBluetoothModeFromListeningMode:listeningMode];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [strongDelegate bluetoothModeChanged:btMode];
-                });
-            }
-        } else {
-            if (strongDelegate &&
-                [strongDelegate respondsToSelector:@selector(bluetoothModeChanged:)]) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [strongDelegate bluetoothModeChanged:ORKBluetoothModeNoiseCancellation];
-                });
-            }
+
+        if ([strongSelf headphoneHasNoiseCancellingFeature] &&
+            strongDelegate && [strongDelegate respondsToSelector:@selector(bluetoothModeChanged:)]) {
+            
+            NSString* listeningMode = [[[AVOutputContextSoft sharedSystemAudioContext] outputDevice] currentBluetoothListeningMode];
+            ORKBluetoothMode btMode = [self findBluetoothModeFromListeningMode:listeningMode];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [strongDelegate bluetoothModeChanged:btMode];
+            });
         }
     });
 }

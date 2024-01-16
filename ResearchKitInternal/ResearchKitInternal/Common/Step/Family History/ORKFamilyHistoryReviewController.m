@@ -137,11 +137,9 @@
 }
 
 - (void)updateViewColors {
-    if (@available(iOS 13.0, *)) {
-        UIColor *updateColor = [UIColor systemGroupedBackgroundColor];
-        self.view.backgroundColor = updateColor;
-        self.tableContainer.tableView.backgroundColor = updateColor;
-    }
+    UIColor *updateColor = [UIColor systemGroupedBackgroundColor];
+    self.view.backgroundColor = updateColor;
+    self.tableContainer.tableView.backgroundColor = updateColor;
 }
 
 - (void)setupFooterViewIfNeeded {

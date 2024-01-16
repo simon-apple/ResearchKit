@@ -1485,6 +1485,7 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
                          value:(NSObject<NSCopying, NSSecureCoding> *)value
                      exclusive:(BOOL)exclusive
        textViewPlaceholderText:(NSString *)textViewPlaceholderText {
+    ORKThrowInvalidArgumentExceptionIfNotEqual(text, value);
     ORKTextChoiceOther *option = [[ORKTextChoiceOther alloc] initWithText:text
                                               primaryTextAttributedString:nil
                                                                detailText:detailText

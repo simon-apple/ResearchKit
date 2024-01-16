@@ -63,9 +63,7 @@ class ResultViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if #available(iOS 13.0, *) {
-            self.tableView.backgroundColor = UIColor.systemGroupedBackground
-        }
+        self.tableView.backgroundColor = UIColor.systemGroupedBackground
     }
     
     override func viewWillAppear(_ animated: Bool) {

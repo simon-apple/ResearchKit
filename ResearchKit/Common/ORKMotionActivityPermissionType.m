@@ -77,13 +77,9 @@ static const uint32_t IconDarkTintColor = 0xEF6FD8;
 }
 
 - (UIColor *)iconTintColor {
-    if (@available(iOS 13, *)) {
-        return [[UIColor alloc] initWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
-            return traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? ORKRGB(IconDarkTintColor) : ORKRGB(IconLightTintColor);
-        }];
-    } else {
-        return ORKRGB(IconLightTintColor);
-    }
+    return [[UIColor alloc] initWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
+        return traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? ORKRGB(IconDarkTintColor) : ORKRGB(IconLightTintColor);
+    }];
 }
 
 - (ORKRequestPermissionsState)permissionState {

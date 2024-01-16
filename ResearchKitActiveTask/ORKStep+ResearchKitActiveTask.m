@@ -263,3 +263,11 @@
 
 @end
 
+@implementation ORKNormalizedReactionTimeStep (ViewControllerProviding)
+
+- (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
+    return [[ORKNormalizedReactionTimeViewController alloc] initWithStep:self result:result];
+}
+
+@end
+

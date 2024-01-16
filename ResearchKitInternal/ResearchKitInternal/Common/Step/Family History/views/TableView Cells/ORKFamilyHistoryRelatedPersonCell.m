@@ -175,22 +175,15 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
         [_optionsButton addTarget:self action:@selector(presentOptionsMenuAlert) forControlEvents:UIControlEventTouchUpInside];
     }
     
-    if (@available(iOS 13.0, *)) {
-        UIImageConfiguration *configuration = [UIImageSymbolConfiguration configurationWithFont:[UIFont preferredFontForTextStyle:UIFontTextStyleBody] scale:ORKImageScaleToUse()];
-        [_optionsButton setImage:[UIImage systemImageNamed:@"ellipsis.circle" withConfiguration:configuration] forState:UIControlStateNormal];
-        [_optionsButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
-    }
+    UIImageConfiguration *configuration = [UIImageSymbolConfiguration configurationWithFont:[UIFont preferredFontForTextStyle:UIFontTextStyleBody] scale:ORKImageScaleToUse()];
+    [_optionsButton setImage:[UIImage systemImageNamed:@"ellipsis.circle" withConfiguration:configuration] forState:UIControlStateNormal];
+    [_optionsButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
     
     [_backgroundView addSubview:_optionsButton];
     
     _dividerView = [UIView new];
     _dividerView.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    if (@available(iOS 13.0, *)) {
-        _dividerView.backgroundColor = [UIColor separatorColor];
-    } else {
-        _dividerView.backgroundColor = [UIColor lightGrayColor];
-    }
+    _dividerView.backgroundColor = [UIColor separatorColor];
     [_backgroundView addSubview:_dividerView];
     
     _conditionsLabel = [self _primaryLabel];
@@ -201,22 +194,13 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
 }
 
 - (void)updateViewColors {
-    if (@available(iOS 13.0, *)) {
-        _backgroundView.backgroundColor = [UIColor secondarySystemGroupedBackgroundColor];
-        _dividerView.backgroundColor = [UIColor separatorColor];
-        _titleLabel.textColor = [UIColor labelColor];
-        _conditionsLabel.textColor = [UIColor labelColor];
-        _optionsButton.tintColor = [UIColor secondaryLabelColor];
-
-        [self updateViewLabelsTextColor:[UIColor secondaryLabelColor]];
-    } else {
-        _backgroundView.backgroundColor = [UIColor whiteColor];
-        _dividerView.backgroundColor = [UIColor lightGrayColor];
-        _titleLabel.textColor = [UIColor blackColor];
-        _conditionsLabel.textColor = [UIColor blackColor];
-        _optionsButton.tintColor = [UIColor systemGrayColor];
-        [self updateViewLabelsTextColor:[UIColor systemGrayColor]];
-    }
+    _backgroundView.backgroundColor = [UIColor secondarySystemGroupedBackgroundColor];
+    _dividerView.backgroundColor = [UIColor separatorColor];
+    _titleLabel.textColor = [UIColor labelColor];
+    _conditionsLabel.textColor = [UIColor labelColor];
+    _optionsButton.tintColor = [UIColor secondaryLabelColor];
+    
+    [self updateViewLabelsTextColor:[UIColor secondaryLabelColor]];
 }
 
 - (void)updateViewLabelsTextColor:(UIColor *)color {
@@ -380,11 +364,7 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
 - (UILabel *)_secondaryLabel {
     UILabel *label = [self _baseLabel];
     label.font = [self conditionsLabelFont];
-    if (@available(iOS 13.0, *)) {
-        label.textColor = self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor whiteColor] : [UIColor lightGrayColor];
-    } else {
-        label.textColor = [UIColor lightGrayColor];
-    }
+    label.textColor = self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor whiteColor] : [UIColor lightGrayColor];
     return label;
 }
 

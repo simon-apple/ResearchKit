@@ -116,11 +116,7 @@ static const CGFloat DontKnowButtonTopBottomPadding = 16.0;
         if (!_dividerView) {
             _dividerView = [UIView new];
             _dividerView.translatesAutoresizingMaskIntoConstraints = NO;
-            if (@available(iOS 13.0, *)) {
-                [_dividerView setBackgroundColor:[UIColor separatorColor]];
-            } else {
-                [_dividerView setBackgroundColor:[UIColor lightGrayColor]];
-            }
+            [_dividerView setBackgroundColor:[UIColor separatorColor]];
         }
         
         [self addSubview:_dontKnowButton];
@@ -277,27 +273,21 @@ static const CGFloat DontKnowButtonTopBottomPadding = 16.0;
     NSString *stringtoParse = message ? : ORKLocalizedString(@"RANGE_ALERT_TITLE", @"");
     NSString *parsedString = [stringtoParse componentsSeparatedByString:separatorString].firstObject;
     
-    if (@available(iOS 13.0, *)) {
-        
-        NSString *errorMessage = [NSString stringWithFormat:@" %@", parsedString];
-        NSMutableAttributedString *fullString = [[NSMutableAttributedString alloc] initWithString:errorMessage];
-        NSTextAttachment *imageAttachment = [NSTextAttachment new];
-        
-        UIImageSymbolConfiguration *imageConfig = [UIImageSymbolConfiguration configurationWithPointSize:12 weight:UIImageSymbolWeightRegular scale:UIImageSymbolScaleMedium];
-        UIImage *exclamationMarkImage = [UIImage systemImageNamed:@"exclamationmark.circle"];
-        UIImage *configuredImage = [exclamationMarkImage imageByApplyingSymbolConfiguration:imageConfig];
-        
-        imageAttachment.image = [configuredImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-        
-        NSAttributedString *imageString = [NSAttributedString attributedStringWithAttachment:imageAttachment];
-        
-        [fullString insertAttributedString:imageString atIndex:0];
-        
-        self.errorLabel.attributedText = fullString;
-    } else {
-        NSMutableAttributedString *fullString = [[NSMutableAttributedString alloc] initWithString:parsedString];
-        self.errorLabel.attributedText = fullString;
-    }
+    NSString *errorMessage = [NSString stringWithFormat:@" %@", parsedString];
+    NSMutableAttributedString *fullString = [[NSMutableAttributedString alloc] initWithString:errorMessage];
+    NSTextAttachment *imageAttachment = [NSTextAttachment new];
+    
+    UIImageSymbolConfiguration *imageConfig = [UIImageSymbolConfiguration configurationWithPointSize:12 weight:UIImageSymbolWeightRegular scale:UIImageSymbolScaleMedium];
+    UIImage *exclamationMarkImage = [UIImage systemImageNamed:@"exclamationmark.circle"];
+    UIImage *configuredImage = [exclamationMarkImage imageByApplyingSymbolConfiguration:imageConfig];
+    
+    imageAttachment.image = [configuredImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    
+    NSAttributedString *imageString = [NSAttributedString attributedStringWithAttachment:imageAttachment];
+    
+    [fullString insertAttributedString:imageString atIndex:0];
+    
+    self.errorLabel.attributedText = fullString;
     
     [self setUpConstraints];
 }
