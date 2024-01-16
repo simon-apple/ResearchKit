@@ -533,7 +533,7 @@ final class FormStep: Step {
     @discardableResult
     func answerPickerValueChoiceQuestion(value: String, verifyResultValue: Bool = false, dismissPicker: Bool = false) -> Self {
         let picker = Self.firstPicker
-        wait(for: picker, withTimeout: uiPickerTimeout)
+        wait(for: picker, withTimeout: 70)
         let pickerWheel = picker.pickerWheels.element(boundBy: 0).firstMatch // There is only one picker wheel
         wait(for: pickerWheel, withTimeout: uiPickerTimeout)
         pickerWheel.adjust(toPickerWheelValue: value)

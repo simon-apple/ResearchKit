@@ -143,7 +143,8 @@ final class SurveyQuestionsUITests: BaseUITest {
         formStep
             .answerTimeIntervalQuestion(hours: 07, minutes: 03, dismissPicker: dismissPicker)
             .verify(.continueButton,isEnabled: true)
-            .selectFormItemCell(withID: itemId)
+        sleep(5) // Allow the UI to settle for subsequent
+        formStep.selectFormItemCell(withID: itemId)
             .answerTimeIntervalQuestion(hours: 23, minutes: 59, dismissPicker: dismissPicker)
             .verify(.continueButton,isEnabled: true)
             .tap(.continueButton)
