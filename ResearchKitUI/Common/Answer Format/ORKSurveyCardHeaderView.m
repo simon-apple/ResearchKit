@@ -264,7 +264,6 @@ NSString * const UITestLaunchArgument = @"UITest";
         _progressLabel = [UILabel new];
     }
     _progressLabel.text = _progressText;
-    
     _progressLabel.accessibilityIdentifier = [self getAccessibilityIdentifierStringWithOptionalIndex:ORKSurveyCardHeaderViewProgressLabelAccessibilityIdentifier progressText:_progressText];
     
     _progressLabel.numberOfLines = 0;
