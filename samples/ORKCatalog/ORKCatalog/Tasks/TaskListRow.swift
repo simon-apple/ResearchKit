@@ -1060,10 +1060,10 @@ enum TaskListRow: Int, CustomStringConvertible {
         let birthDayQuestionAnswerFormat = ORKAnswerFormat.dateAnswerFormat(withDefaultDate: nil, minimumDate: nil, maximumDate: Date(), calendar: nil)
     
         let birthdayQuestion = NSLocalizedString("When is your birthday?", comment: "")
-        let datePickerCellText = "Tap here"
         
         let birthDayQuestionSectionHeader = ORKFormItem(sectionTitle: birthdayQuestion)
-        let birthdayQuestionFormItem = ORKFormItem(identifier: String(describing: Identifier.birthdayQuestionFormItem), text: datePickerCellText, answerFormat: birthDayQuestionAnswerFormat)
+        let birthdayQuestionFormItem = ORKFormItem(identifier: String(describing: Identifier.birthdayQuestionFormItem), text: nil, answerFormat: birthDayQuestionAnswerFormat)
+        birthdayQuestionFormItem.placeholder = "Select Date"
         let birthdayQuestionFormStep = ORKFormStep(identifier: String(describing: Identifier.birthdayQuestion), title: "Questionnaire", text: TaskListRowStrings.exampleDetailText)
         birthdayQuestionFormStep.formItems = [birthDayQuestionSectionHeader, birthdayQuestionFormItem]
         
@@ -1240,7 +1240,8 @@ enum TaskListRow: Int, CustomStringConvertible {
         let dateAnswerFormat = ORKAnswerFormat.dateAnswerFormat()
         
         let dateQuestionSectionHeaderFormItem = ORKFormItem(sectionTitle: TaskListRowStrings.exampleQuestionText)
-        let dateQuestionFormItem = ORKFormItem(identifier: String(describing: Identifier.dateQuestionFormItem), text: "tap here", answerFormat: dateAnswerFormat)
+        let dateQuestionFormItem = ORKFormItem(identifier: String(describing: Identifier.dateQuestionFormItem), text: nil, answerFormat: dateAnswerFormat)
+        dateQuestionFormItem.placeholder = "Select Date"
         let dateQuestionFormStep = ORKFormStep(identifier: String(describing: Identifier.dateQuestionStep), title: NSLocalizedString("Date", comment: ""), text: TaskListRowStrings.exampleDetailText)
         dateQuestionFormStep.formItems = [dateQuestionSectionHeaderFormItem, dateQuestionFormItem]
         
