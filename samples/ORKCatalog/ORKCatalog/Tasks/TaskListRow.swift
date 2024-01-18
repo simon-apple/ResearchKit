@@ -1119,7 +1119,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         let summaryStep = ORKInstructionStep(identifier: String(describing: Identifier.summaryStep))
         summaryStep.title = NSLocalizedString("Thanks", comment: "")
         summaryStep.text = NSLocalizedString("Thank you for participating in this sample survey.", comment: "")
-        
+    
         return ORKOrderedTask(identifier: String(describing: Identifier.surveyTask), steps: [
             instructionStep,
             booleanQuestionFormStep,
