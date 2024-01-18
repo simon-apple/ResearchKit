@@ -998,6 +998,10 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector(void) {
     
     // All classes that conform to NSSecureCoding should also support ORKESerialization
     NSArray *classesWithSecureCoding = testConfiguration.classesWithSecureCoding;
+    classesWithSecureCoding = [classesWithSecureCoding filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id  _Nullable evaluatedObject, NSDictionary<NSString *,id> * _Nullable bindings) {
+        NSString *classString = NSStringFromClass(evaluatedObject);
+        return ![classString containsString:@"ORKMock"];
+    }]];
     
     NSArray *classesExcludedForORKESerialization = testConfiguration.classesExcludedForORKESerialization;
     
@@ -1276,6 +1280,11 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector(void) {
     NSArray *propertyExclusionList = testConfiguration.propertyExclusionList;
     NSArray *knownNotSerializedProperties = testConfiguration.knownNotSerializedProperties;
     
+    classesWithSecureCoding = [classesWithSecureCoding filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id  _Nullable evaluatedObject, NSDictionary<NSString *,id> * _Nullable bindings) {
+        NSString *classString = NSStringFromClass(evaluatedObject);
+        return ![classString containsString:@"ORKMock"];
+    }]];
+    
     // Test Each class
     for (Class aClass in classesWithSecureCoding) {
         
@@ -1418,6 +1427,7 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector(void) {
     
     // Each time ORKRegistrationStep returns a new date in its answer fromat, cannot be tested.
     NSMutableArray *stringsForClassesExcluded = [NSMutableArray arrayWithObjects:NSStringFromClass([ORKRegistrationStep class]), nil];
+    
     for (Class c in classesExcluded) {
         [stringsForClassesExcluded addObject:NSStringFromClass(c)];
     }
@@ -1430,6 +1440,10 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector(void) {
     for (int index = 0; index < numClasses; index++) {
         Class aClass = classes[index];
         if ([stringsForClassesExcluded containsObject:NSStringFromClass(aClass)]) {
+            continue;
+        }
+        
+        if ([NSStringFromClass(aClass) containsString:@"ORKMock"]) {
             continue;
         }
         

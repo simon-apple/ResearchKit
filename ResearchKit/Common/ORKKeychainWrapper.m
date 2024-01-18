@@ -191,7 +191,7 @@ static NSString *ORKKeychainWrapperDefaultService(void) {
                 returnValue = NO;
             }
         } else {
-            returnValue = NO;
+             returnValue = NO;
         }
     }
     return returnValue;

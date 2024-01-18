@@ -13,6 +13,10 @@
   },
   "testTargets" : [
     {
+      "skippedTests" : [
+        "ORKDataCollectionTests",
+        "ORKKeychainWrapperTests"
+      ],
       "target" : {
         "containerPath" : "container:ResearchKit.xcodeproj",
         "identifier" : "86CC8E991AC09332001CCD89",

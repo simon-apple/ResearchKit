@@ -33,6 +33,10 @@
 
 #import "ORKESerialization.h"
 
+//@import ResearchKit;
+//@import ResearchKitActiveTask;
+//@import ResearchKitInternal;
+//@import ResearchKitInternal_Private;
 @import ResearchKit;
 @import ResearchKit_Private;
 @import ResearchKitActiveTask;
