@@ -191,43 +191,6 @@ NSString * const UITestLaunchArgument = @"UITest";
     }
 }
 
-- (NSString *)returnLesserNumber:(NSString *)inputString {
-    NSError *error = nil;
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"\\b\\d+\\b" options:NSRegularExpressionCaseInsensitive error:&error];
-    if (error) {
-        NSLog(@"Error creating regex to parse numbers from string");
-    }
-    NSArray *matches = [regex matchesInString: inputString options:0 range:NSMakeRange(0, [inputString length])];
-    if ([matches count] >= 2) {
-        NSTextCheckingResult *firstMatch = matches[0];
-        NSTextCheckingResult *secondMatch = matches[1];
-        NSRange firstMatchRange = [firstMatch range];
-        NSRange secondMatchRange = [secondMatch range];
-        
-        NSString *firstNumberString = [_progressText substringWithRange: firstMatchRange];
-        NSString *secondNumberString = [_progressText substringWithRange: secondMatchRange];
-        NSInteger firstNumber = [firstNumberString integerValue];
-        NSInteger secondNumber = [secondNumberString integerValue];
-        
-        return (firstNumber < secondNumber) ? firstNumberString : secondNumberString;
-    }
-    return @"";
-}
-
-- (NSString *)getAccessibilityIdentifierStringWithOptionalIndex:(NSString *)baseIdentifier progressText:(NSString *)progressText {
-    NSString *resultIdentifier = baseIdentifier;
-    if ([[NSProcessInfo processInfo].arguments containsObject:UITestLaunchArgument]) {
-        @try {
-            NSString *lesserNumber = [self returnLesserNumber:progressText];
-            resultIdentifier = [NSString stringWithFormat:@"%@_%@", baseIdentifier, lesserNumber];
-        }
-        @catch (NSException *exception) {
-            NSLog(@"An exception occurred: %@", exception.reason);
-        }
-    }
-    return resultIdentifier;
-}
-
 - (void)setupTitleLabel {
     if (!_titleLabel) {
         _titleLabel = [UILabel new];
@@ -241,9 +204,10 @@ NSString * const UITestLaunchArgument = @"UITest";
     }
     _titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
     _titleLabel.textAlignment = NSTextAlignmentNatural;
-    
+#if RK_APPLE_INTERNAL
+// MARK: XCUITest Helpers Usage
     _titleLabel.accessibilityIdentifier = [self getAccessibilityIdentifierStringWithOptionalIndex:ORKSurveyCardHeaderViewTitleLabelAccessibilityIdentifier progressText:_progressText];
-    
+#endif
     [_titleLabel setFont:[ORKSurveyCardHeaderView titleLabelFont]];
 }
 
@@ -264,8 +228,10 @@ NSString * const UITestLaunchArgument = @"UITest";
         _progressLabel = [UILabel new];
     }
     _progressLabel.text = _progressText;
+#if RK_APPLE_INTERNAL
+// MARK: XCUITest Helpers Usage
     _progressLabel.accessibilityIdentifier = [self getAccessibilityIdentifierStringWithOptionalIndex:ORKSurveyCardHeaderViewProgressLabelAccessibilityIdentifier progressText:_progressText];
-    
+#endif
     _progressLabel.numberOfLines = 0;
     if (@available(iOS 13.0, *)) {
         _progressLabel.textColor = _shouldIgnoreDarkMode ? [UIColor lightGrayColor] : [UIColor secondaryLabelColor];
@@ -575,5 +541,46 @@ NSString * const UITestLaunchArgument = @"UITest";
     
     [NSLayoutConstraint activateConstraints:_learnMoreViewConstraints];
 }
+
+#if RK_APPLE_INTERNAL
+// MARK: XCUITest Helpers
+
+- (NSString *)returnLesserNumber:(NSString *)inputString {
+    NSError *error = nil;
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"\\b\\d+\\b" options:NSRegularExpressionCaseInsensitive error:&error];
+    if (error) {
+        NSLog(@"Error creating regex to parse numbers from string");
+    }
+    NSArray *matches = [regex matchesInString: inputString options:0 range:NSMakeRange(0, [inputString length])];
+    if ([matches count] >= 2) {
+        NSTextCheckingResult *firstMatch = matches[0];
+        NSTextCheckingResult *secondMatch = matches[1];
+        NSRange firstMatchRange = [firstMatch range];
+        NSRange secondMatchRange = [secondMatch range];
+        
+        NSString *firstNumberString = [_progressText substringWithRange: firstMatchRange];
+        NSString *secondNumberString = [_progressText substringWithRange: secondMatchRange];
+        NSInteger firstNumber = [firstNumberString integerValue];
+        NSInteger secondNumber = [secondNumberString integerValue];
+        
+        return (firstNumber < secondNumber) ? firstNumberString : secondNumberString;
+    }
+    return @"";
+}
+
+- (NSString *)getAccessibilityIdentifierStringWithOptionalIndex:(NSString *)baseIdentifier progressText:(NSString *)progressText {
+    NSString *resultIdentifier = baseIdentifier;
+    if ([[NSProcessInfo processInfo].arguments containsObject:UITestLaunchArgument]) {
+        @try {
+            NSString *lesserNumber = [self returnLesserNumber:progressText];
+            resultIdentifier = [NSString stringWithFormat:@"%@_%@", baseIdentifier, lesserNumber];
+        }
+        @catch (NSException *exception) {
+            NSLog(@"An exception occurred: %@", exception.reason);
+        }
+    }
+    return resultIdentifier;
+}
+#endif
 
 @end
