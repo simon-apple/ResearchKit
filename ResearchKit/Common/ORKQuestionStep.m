@@ -60,7 +60,10 @@ ORKQuestionStepPresentationStyle const ORKQuestionStepPresentationStylePlatter =
     step.question = question;
     step.answerFormat = answerFormat;
     step.tagText = nil;
+
+#if TARGET_OS_IOS
     step.formStep = [self makeFormStep:step];
+#endif
     return step;
 }
 
