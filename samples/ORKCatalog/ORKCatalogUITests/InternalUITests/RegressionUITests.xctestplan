@@ -26,6 +26,17 @@
         "identifier" : "9622282924F04D780056E74D",
         "name" : "ORKCatalogUITests"
       }
+    },
+    {
+      "parallelizable" : true,
+      "skippedTests" : [
+        "ORKCatalogTests"
+      ],
+      "target" : {
+        "containerPath" : "container:ORKCatalog.xcodeproj",
+        "identifier" : "51AF19762B59F1E400D3B399",
+        "name" : "ORKCatalogTests"
+      }
     }
   ],
   "version" : 1

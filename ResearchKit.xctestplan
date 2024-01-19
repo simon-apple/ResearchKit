@@ -14,8 +14,7 @@
   "testTargets" : [
     {
       "skippedTests" : [
-        "ORKDataCollectionTests",
-        "ORKKeychainWrapperTests"
+        "ORKDataCollectionTests"
       ],
       "target" : {
         "containerPath" : "container:ResearchKit.xcodeproj",
