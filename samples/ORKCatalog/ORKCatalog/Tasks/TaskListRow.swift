@@ -179,7 +179,6 @@ enum TaskListRow: Int, CustomStringConvertible {
                 [
                     .ageQuestion,
                     .booleanQuestion,
-                    .colorChoiceQuestion,
                     .customBooleanQuestion,
                     .dateTimeQuestion,
                     .dateQuestion,
