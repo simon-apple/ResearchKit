@@ -42,6 +42,12 @@ static const CGFloat HeaderViewBottomPadding = 24.0;
 static const CGFloat SelectAllThatApplyTopPadding = 24.0;
 static const CGFloat SelectAllThatApplyBottomPadding = 6.0;
 
+NSString * const ORKSurveyCardHeaderViewTitleLabelAccessibilityIdentifier = @"ORKSurveyCardHeaderView_titleLabel";
+NSString * const ORKSurveyCardHeaderViewProgressLabelAccessibilityIdentifier = @"ORKSurveyCardHeaderView_progressLabel";
+NSString * const ORKSurveyCardHeaderViewDetailTextLabelAccessibilityIdentifier = @"ORKSurveyCardHeaderView_detailTextLabel";
+NSString * const ORKSurveyCardHeaderViewSelectAllThatApplyLabelAccessibilityIdentifier = @"ORKSurveyCardHeaderView_selectAllThatApplyLabel";
+NSString * const UITestLaunchArgument = @"UITest";
+
 @implementation ORKSurveyCardHeaderView {
     
     UIView *_headlineView;
@@ -192,7 +198,10 @@ static const CGFloat SelectAllThatApplyBottomPadding = 6.0;
     _titleLabel.textColor = _shouldIgnoreDarkMode ? [UIColor blackColor] : [UIColor labelColor];
     _titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
     _titleLabel.textAlignment = NSTextAlignmentNatural;
-    _titleLabel.accessibilityIdentifier = @"ORKSurveyCardHeaderView_titleLabel";
+#if RK_APPLE_INTERNAL
+// MARK: XCUITest Helpers Usage
+    _titleLabel.accessibilityIdentifier = [self getAccessibilityIdentifierStringWithOptionalIndex:ORKSurveyCardHeaderViewTitleLabelAccessibilityIdentifier progressText:_progressText];
+#endif
     [_titleLabel setFont:[ORKSurveyCardHeaderView titleLabelFont]];
 }
 
@@ -204,6 +213,7 @@ static const CGFloat SelectAllThatApplyBottomPadding = 6.0;
     _detailTextLabel.numberOfLines = 0;
     _detailTextLabel.lineBreakMode = NSLineBreakByWordWrapping;
     _detailTextLabel.textAlignment = NSTextAlignmentNatural;
+    _detailTextLabel.accessibilityIdentifier = ORKSurveyCardHeaderViewDetailTextLabelAccessibilityIdentifier;
     [_detailTextLabel setFont:[ORKSurveyCardHeaderView detailTextLabelFont]];
 }
 
@@ -212,6 +222,10 @@ static const CGFloat SelectAllThatApplyBottomPadding = 6.0;
         _progressLabel = [UILabel new];
     }
     _progressLabel.text = _progressText;
+#if RK_APPLE_INTERNAL
+// MARK: XCUITest Helpers Usage
+    _progressLabel.accessibilityIdentifier = [self getAccessibilityIdentifierStringWithOptionalIndex:ORKSurveyCardHeaderViewProgressLabelAccessibilityIdentifier progressText:_progressText];
+#endif
     _progressLabel.numberOfLines = 0;
     _progressLabel.textColor = _shouldIgnoreDarkMode ? [UIColor lightGrayColor] : [UIColor secondaryLabelColor];
     _progressLabel.textAlignment = NSTextAlignmentNatural;
@@ -290,6 +304,7 @@ static const CGFloat SelectAllThatApplyBottomPadding = 6.0;
     }
     
     _selectAllThatApplyLabel.text = ORKLocalizedString(@"AX_SELECT_ALL_THAT_APPLY", nil);
+    _selectAllThatApplyLabel.accessibilityIdentifier = ORKSurveyCardHeaderViewSelectAllThatApplyLabelAccessibilityIdentifier;
     _selectAllThatApplyLabel.numberOfLines = 0;
     _selectAllThatApplyLabel.textColor = _shouldIgnoreDarkMode ? [UIColor lightGrayColor] : [UIColor secondaryLabelColor];
     _selectAllThatApplyLabel.textAlignment = NSTextAlignmentNatural;
@@ -505,5 +520,46 @@ static const CGFloat SelectAllThatApplyBottomPadding = 6.0;
     
     [NSLayoutConstraint activateConstraints:_learnMoreViewConstraints];
 }
+
+#if RK_APPLE_INTERNAL
+// MARK: XCUITest Helpers
+
+- (NSString *)returnLesserNumber:(NSString *)inputString {
+    NSError *error = nil;
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"\\b\\d+\\b" options:NSRegularExpressionCaseInsensitive error:&error];
+    if (error) {
+        NSLog(@"Error creating regex to parse numbers from string");
+    }
+    NSArray *matches = [regex matchesInString: inputString options:0 range:NSMakeRange(0, [inputString length])];
+    if ([matches count] >= 2) {
+        NSTextCheckingResult *firstMatch = matches[0];
+        NSTextCheckingResult *secondMatch = matches[1];
+        NSRange firstMatchRange = [firstMatch range];
+        NSRange secondMatchRange = [secondMatch range];
+        
+        NSString *firstNumberString = [_progressText substringWithRange: firstMatchRange];
+        NSString *secondNumberString = [_progressText substringWithRange: secondMatchRange];
+        NSInteger firstNumber = [firstNumberString integerValue];
+        NSInteger secondNumber = [secondNumberString integerValue];
+        
+        return (firstNumber < secondNumber) ? firstNumberString : secondNumberString;
+    }
+    return @"";
+}
+
+- (NSString *)getAccessibilityIdentifierStringWithOptionalIndex:(NSString *)baseIdentifier progressText:(NSString *)progressText {
+    NSString *resultIdentifier = baseIdentifier;
+    if ([[NSProcessInfo processInfo].arguments containsObject:UITestLaunchArgument]) {
+        @try {
+            NSString *lesserNumber = [self returnLesserNumber:progressText];
+            resultIdentifier = [NSString stringWithFormat:@"%@_%@", baseIdentifier, lesserNumber];
+        }
+        @catch (NSException *exception) {
+            NSLog(@"An exception occurred: %@", exception.reason);
+        }
+    }
+    return resultIdentifier;
+}
+#endif
 
 @end

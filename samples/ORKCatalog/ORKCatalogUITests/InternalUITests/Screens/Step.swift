@@ -76,6 +76,12 @@ class Step {
         return self
     }
     
+    @discardableResult
+    func verifyLabel(_ element: StepComponent, expectedLabel: String) -> Self {
+        XCTAssertEqual(element.element.label, expectedLabel)
+        return self
+    }
+    
     /// Method for buttons
     @discardableResult
     func verify(_ button: StepComponent, isEnabled: Bool, shouldWait: Bool = true) -> Self {
@@ -102,6 +108,7 @@ class Step {
     }
     
     /// Taps "Cancel" button on the navigation bar and subsequently taps "End Task" button in action sheet modal view
+    @discardableResult
     func cancelTask() -> TasksTab {
         let cancelButton = Self.StepComponent.cancelButton.element
         wait(for: cancelButton)
@@ -151,6 +158,26 @@ class Step {
         let currentProgressLabel = "\(currentProgress) of \(totalProgress)"
         let currentProgressElement = Self.app.navigationBars.staticTexts[currentProgressLabel].firstMatch
         wait(for: currentProgressElement)
+        return self
+    }
+    
+    // MARK: - methods for step navigation
+    
+    @discardableResult
+    func scrollDownToStepTitle(maxSwipes: Int = 15) -> Self {
+        let stepTitle = Self.StepComponent.title.element
+        if !stepTitle.visible {
+            stepTitle.scrollUntilVisible(direction: .down, maxSwipes: maxSwipes)
+        }
+        return self
+    }
+    
+    @discardableResult
+    func scrollTo(_ stepComponent: StepComponent, direction: SwipeDirection = .up) -> Self {
+        let stepComponent = stepComponent.element
+        if !stepComponent.visible {
+            stepComponent.scrollUntilVisible(direction: direction)
+        }
         return self
     }
 }

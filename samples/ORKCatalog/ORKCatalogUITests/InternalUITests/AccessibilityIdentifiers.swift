@@ -51,13 +51,29 @@ struct AccessibilityIdentifiers {
     
     struct QuestionStep {
         static var view = "ORKQuestionStepView"
+        static var bodyContainerView = "ORKStepBodyContainerView"
     }
     
     struct FormStep {
         static var view = "ORKFormStepView"
+        
+        struct FormItem {
+            static var clearTextViewButton = "ORKClearTextViewButton"
+        }
     }
     
     struct Question {
         static var title = "ORKSurveyCardHeaderView_titleLabel"
+        static var detailText = "ORKSurveyCardHeaderView_detailTextLabel"
+        static var progressLabel = "ORKSurveyCardHeaderView_progressLabel"
+        static var selectAllThatApplyLabel = "ORKSurveyCardHeaderView_selectAllThatApplyLabel"
+        
+    }
+    
+    struct RequestPermissionsStep {
+        static var view = "ORKRequestPermissionsStepView"
+        static var permissionButtonLabelDefault = "ORKRequestPermissionButtonDefaultLabel"
+        static var permissionButtonLabelConnected = "ORKRequestPermissionButtonConnectedLabel"
+        static var permissionButton = "ORKRequestPermissionButton"
     }
 }

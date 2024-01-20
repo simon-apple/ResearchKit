@@ -1206,7 +1206,8 @@ enum TaskListRow: Int, CustomStringConvertible {
     }
 
     private var booleanQuestionTask: ORKTask {
-        let booleanQuestionFormStep = TaskListRowSteps.booleanExample
+        let booleanQuestionFormStep = TaskListRowSteps.booleanGenericExample
+        
         return ORKOrderedTask(identifier: String(describing: Identifier.booleanQuestionTask), steps: [booleanQuestionFormStep])
     }
     
@@ -1215,16 +1216,14 @@ enum TaskListRow: Int, CustomStringConvertible {
         // Add a question step.
         let booleanQuestionAnswerFormat = ORKBooleanAnswerFormat(yesString: "Agree", noString: "Disagree")
         
-        let question1 = NSLocalizedString("Would you like to subscribe to our newsletter?", comment: "")
-        
         let learnMoreInstructionStep = ORKLearnMoreInstructionStep(identifier: "LearnMoreInstructionStep01")
         learnMoreInstructionStep.title = NSLocalizedString("Learn more title", comment: "")
         learnMoreInstructionStep.text = NSLocalizedString("Learn more text", comment: "")
         let booleanQuestionLearnMoreItem = ORKLearnMoreItem(text: nil, learnMoreInstructionStep: learnMoreInstructionStep)
         
-        let booleanQuestionFormItem = ORKFormItem(identifier: String(describing: Identifier.booleanFormItem), text: question1, answerFormat: booleanQuestionAnswerFormat)
+        let booleanQuestionFormItem = ORKFormItem(identifier: String(describing: Identifier.booleanFormItem), text: TaskListRowStrings.exampleQuestionText, answerFormat: booleanQuestionAnswerFormat)
         booleanQuestionFormItem.learnMoreItem = booleanQuestionLearnMoreItem
-        let booleanQuestionFormStep = ORKFormStep(identifier: String(describing: Identifier.booleanFormStep), title: "Questionnaire", text: TaskListRowStrings.exampleDetailText)
+        let booleanQuestionFormStep = ORKFormStep(identifier: String(describing: Identifier.booleanFormStep), title: NSLocalizedString("Custom Boolean", comment: ""), text: TaskListRowStrings.exampleDetailText)
         booleanQuestionFormStep.formItems = [booleanQuestionFormItem]
         
         return ORKOrderedTask(identifier: String(describing: Identifier.booleanQuestionTask), steps: [booleanQuestionFormStep])

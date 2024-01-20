@@ -48,6 +48,8 @@
 #import "ORKHelpers_Internal.h"
 #import "ORKSkin.h"
 
+NSString * const ORKRequestPermissionsStepViewAccessibilityIdentifier = @"ORKRequestPermissionsStepView";
+
 @interface ORKRequestPermissionsStepViewController ()
 
 @property (nonatomic, copy, readonly) NSArray<ORKRequestPermissionView *> *cardViews;
@@ -124,6 +126,9 @@
     _requestPermissionsStepContainerView.stepTopContentImage = self.step.image;
     _requestPermissionsStepContainerView.stepTopContentImageContentMode = self.step.imageContentMode;
     _requestPermissionsStepContainerView.bodyItems = self.step.bodyItems;
+    
+    _requestPermissionsStepContainerView.accessibilityIdentifier = ORKRequestPermissionsStepViewAccessibilityIdentifier;
+    
     [self setupNavigationFooterView];
     
     [self.view addSubview:_requestPermissionsStepContainerView];

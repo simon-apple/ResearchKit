@@ -65,6 +65,8 @@ static const CGFloat DontKnowButtonTopBottomPadding = 16.0;
 static const CGFloat DividerViewTopPadding = 10.0;
 static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
 
+NSString * const ORKClearTextViewButtonAccessibilityIdentifier = @"ORKClearTextViewButton";
+
 @interface ORKFormItemCell ()
 
 - (void)cellInit NS_REQUIRES_SUPER;
@@ -1416,6 +1418,8 @@ static const CGFloat InlineFormItemLabelToTextFieldPadding = 3.0;
         [_clearTextViewButton addTarget:self action:@selector(clearTextView) forControlEvents:UIControlEventTouchUpInside];
         _clearTextViewButton.translatesAutoresizingMaskIntoConstraints = NO;
         [_maxLengthView addSubview: _clearTextViewButton];
+        
+        _clearTextViewButton.accessibilityIdentifier = ORKClearTextViewButtonAccessibilityIdentifier;
     }
     
     [self.containerView addSubview:_maxLengthView];
