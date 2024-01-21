@@ -224,7 +224,7 @@ final class SurveyQuestionsUITests: BaseUITest {
             .answerSingleChoiceTextQuestion(withId: formItemId, atIndex: 0)
             .tap(.continueButton)
             .tap(.backButton)
-            .verifyTextBoxIsHidden(true, withId: formItemId, atIndex: otherTextChoiceIndex)
+            .verifyTextBoxIsHidden(false, withId: formItemId, atIndex: otherTextChoiceIndex)
             .tap(.continueButton)
             .tap(.continueButton)
     }
