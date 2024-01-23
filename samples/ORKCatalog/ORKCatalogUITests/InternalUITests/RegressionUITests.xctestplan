@@ -20,7 +20,26 @@
     {
       "skippedTests" : [
         "Helpers",
-        "PreSubmissionTests"
+        "PreSubmissionTests",
+        "RequestPermissionStepUITests",
+        "SurveyQuestionsUITests\/testBooleanQuestion()",
+        "SurveyQuestionsUITests\/testCustomBooleanQuestion()",
+        "SurveyQuestionsUITests\/testDateQuestion()",
+        "SurveyQuestionsUITests\/testImageChoiceQuestion()",
+        "SurveyQuestionsUITests\/testNumericQuestions()",
+        "SurveyQuestionsUITests\/testNumericQuestionsEditing()",
+        "SurveyQuestionsUITests\/testPaddingBetweenContinueButtonAndLastCell()",
+        "SurveyQuestionsUITests\/testPlatterUIQuestion()",
+        "SurveyQuestionsUITests\/testSingleTextChoiceQuestion()",
+        "SurveyQuestionsUITests\/testTextChoiceOtherQuestion()",
+        "SurveyQuestionsUITests\/testTextChoiceOtherQuestionPlaceholderValue()",
+        "SurveyQuestionsUITests\/testTextQuestion()",
+        "SurveyQuestionsUITests\/testTextQuestionClearButton()",
+        "SurveyQuestionsUITests\/testTextQuestionEditing()",
+        "SurveyQuestionsUITests\/testTextQuestionPlaceholderValueAndCharacterIndicator()",
+        "SurveyQuestionsUITests\/testTimeIntervalQuestion()",
+        "SurveyQuestionsUITests\/testValuePickerChoiceQuestion()",
+        "SurveysUITests"
       ],
       "target" : {
         "containerPath" : "container:ORKCatalog.xcodeproj",

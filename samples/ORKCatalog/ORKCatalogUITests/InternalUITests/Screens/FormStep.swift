@@ -474,7 +474,33 @@ final class FormStep: Step {
         }
     }
     
-    /// Adjusts the picker wheels to provided date
+    /**
+     Method for US Time Zone
+     - parameter hours: hours to be entered
+     - parameter minutes: minutes to be entered
+     - parameter isAM: indicating the time of day to be entered (before noon, after noon)
+     */
+    func adjustPickerWheels(hours: String, minutes: String, isAM: Bool = false, dismissPicker: Bool = false) {
+        let picker = Self.firstPicker
+        wait(for: picker)
+        let hourWheel = picker.pickerWheels.element(boundBy: 0)
+        let minuteWheel = picker.pickerWheels.element(boundBy: 1)
+        let amPmWheel = picker.pickerWheels.element(boundBy: 2)
+        hourWheel.adjust(toPickerWheelValue: hours)
+        minuteWheel.adjust(toPickerWheelValue: minutes)
+        if isAM {
+            amPmWheel.adjust(toPickerWheelValue: "AM")
+        } else {amPmWheel.adjust(toPickerWheelValue: "PM")}
+        if dismissPicker { Keyboards.tapDoneButtonOnToolbar() }
+    }
+    
+    /**
+     Adjusts picker wheels to provided date
+     Handles ORKDateAnswerFormat  dateAnswerFormat
+     - parameter year: year to be entered
+     - parameter month: month to be entered
+     - parameter dismissPicker: whether the ui picker should be dismissed after selection
+     */
     @discardableResult
     func answerDateQuestion(year: String, month: String, day: String, dismissPicker: Bool = false) -> Self {
         let picker = Self.firstPicker
@@ -484,6 +510,107 @@ final class FormStep: Step {
         picker.pickerWheels.element(boundBy: 2).adjust(toPickerWheelValue: year)
         picker.pickerWheels.element(boundBy: 1).adjust(toPickerWheelValue: day)
         picker.pickerWheels.element(boundBy: 0).adjust(toPickerWheelValue: month)
+        if dismissPicker {
+            Keyboards.tapDoneButtonOnToolbar()
+        }
+        return self
+    }
+    
+    /**
+     Adjusts picker wheels based on offsets from the current date
+     Handles ORKDateAnswerFormat  dateAnswerFormat
+     - parameter offsetDays: the number of days to add to the current date . A positive value moves forward in time, a negative value moves backward
+     - parameter offsetYears: the number of years to add to the current date. A positive value moves forward in time, a negative value moves backward
+     - parameter dismissPicker: whether the ui picker should be dismissed after selection
+     */
+    func answerDateQuestion(offsetDays: Int, offsetYears: Int, dismissPicker: Bool = false) -> Self {
+        let (month, day, year) = getPickerValues(offsetDays: offsetDays, offsetYears: offsetYears)
+        let picker = Self.firstPicker
+        wait(for: picker, withTimeout: uiPickerTimeout)
+        picker.pickerWheels.element(boundBy: 0).adjust(toPickerWheelValue: month)
+        picker.pickerWheels.element(boundBy: 1).adjust(toPickerWheelValue: day)
+        picker.pickerWheels.element(boundBy: 2).adjust(toPickerWheelValue: year)
+        if dismissPicker {
+            Keyboards.tapDoneButtonOnToolbar()
+        }
+        return self
+    }
+    
+    /**
+     Adjusts picker wheels to provided date
+     Handles ORKTimeOfDayAnswerFormat timeOfDayAnswerFormat
+     - parameter hours: hours to be entered
+     - parameter minutes: minutes to be entered
+     - parameter isUSTimeZone: whether AM/PM picker wheels need to be adjusted
+     - parameter isAM: indicating the time of day to be entered (before noon, after noon)
+     */
+    @discardableResult
+    func answerTimeOfDayQuestion(hours: Int, minutes: Int, isUSTimeZone: Bool, isAM: Bool = false, dismissPicker: Bool = false) -> Self {
+        var formattedHours: String
+        // Keep leading zeroes for minutes
+        let formattedMinutes = String(format: "%02d", minutes)
+        
+        if isUSTimeZone {
+            formattedHours = String(hours)
+            guard isAM else {
+                adjustPickerWheels(hours: formattedHours, minutes: formattedMinutes, isAM: false, dismissPicker: dismissPicker)
+                return self
+            }
+            adjustPickerWheels(hours: formattedHours, minutes: formattedMinutes, isAM: true, dismissPicker: dismissPicker)
+        } else {
+            // Keep leading zeroes for continental Time Zone
+            formattedHours = String(format: "%02d", hours)
+            adjustPickerWheels(hours: formattedHours, minutes: formattedMinutes, dismissPicker: dismissPicker)
+        }
+        return self
+    }
+    
+    /// Handles ORKDateAnswerFormat dateTimeAnswerFormat
+    /// Adjusts the picker wheels to provided date
+    @discardableResult
+    func answerDateAndTimeQuestion(year: String, month: String, day: String, hour: String, isUSTimeZOne: Bool = true, dismissPicker: Bool = false) -> Self {
+        let picker = Self.firstPicker
+        wait(for: picker, withTimeout: uiPickerTimeout)
+        var formattedHours: String
+        if isUSTimeZOne {
+            // Do not add leading zeros for US Time Zone
+            formattedHours = String(hour)
+            // Add leading zeroes for continental Time Zone
+        } else { formattedHours = String(format: "%02d", hour) }
+        picker.pickerWheels.element(boundBy: 3).adjust(toPickerWheelValue: formattedHours)
+        picker.pickerWheels.element(boundBy: 2).adjust(toPickerWheelValue: year)
+        picker.pickerWheels.element(boundBy: 1).adjust(toPickerWheelValue: day)
+        picker.pickerWheels.element(boundBy: 0).adjust(toPickerWheelValue: month)
+        if dismissPicker {
+            Keyboards.tapDoneButtonOnToolbar()
+        }
+        return self
+    }
+    
+    /**
+     Adjusts picker wheels based on offsets from the current date
+     Handles ORKDateAnswerFormat dateTimeAnswerFormat
+     - parameter offsetDays: the number of days to add to the current date . A positive value moves forward in time, a negative value moves backward
+     - parameter offsetHours: the number of hours to add to the current date. A positive value moves forward in time, a negative value moves backward
+     - parameter dismissPicker: whether the ui picker should be dismissed after selection
+     */
+    @discardableResult
+    func answerDateAndTimeQuestion(offsetDays: Int, offsetHours: Int, isUSTimeZone: Bool, dismissPicker: Bool = false) -> Self {
+        let picker = Self.firstPicker
+        wait(for: picker, withTimeout: uiPickerTimeout)
+        let (day, hour, minute, amPm) = getPickerValues(offsetDays: offsetDays, offsetHours: offsetHours)
+        var formattedHours = hour
+        if !isUSTimeZone {
+            // Add leading zeroes for continental Time Zone
+            formattedHours = String(format: "%02d", Int(hour) ?? 0)
+            print(formattedHours)
+        }
+        picker.pickerWheels.element(boundBy: 0).adjust(toPickerWheelValue: day)
+        picker.pickerWheels.element(boundBy: 1).adjust(toPickerWheelValue: formattedHours)
+        picker.pickerWheels.element(boundBy: 2).adjust(toPickerWheelValue: minute)
+        if  isUSTimeZone {
+            picker.pickerWheels.element(boundBy: 3).adjust(toPickerWheelValue: amPm)
+        }
         if dismissPicker {
             Keyboards.tapDoneButtonOnToolbar()
         }
@@ -500,6 +627,22 @@ final class FormStep: Step {
         XCTAssertEqual(actualYear, expectedYear, "The year picker wheel is not showing correct value. Expected \(expectedYear) but got \(actualYear)")
         XCTAssertEqual(actualDay, expectedDay, "The day picker wheel is not showing correct value. Expected \(expectedDay) but got \(actualDay)")
         XCTAssertEqual(actualMonth, expectedMonth, "The month picker wheel is not showing correct value. Expected \(expectedMonth) but got \(actualMonth)")
+        return self
+    }
+    
+    func verifyDatePickerRestrictedTo3days(offsetDays: Int, offsetYears: Int, dismissPicker: Bool = false) -> Self {
+        let (month, day, year) = getPickerValues(offsetDays: offsetDays, offsetYears: offsetYears )
+        let picker = Self.firstPicker
+        wait(for: picker, withTimeout: uiPickerTimeout)
+        picker.pickerWheels.element(boundBy: 0).adjust(toPickerWheelValue: month)
+        picker.pickerWheels.element(boundBy: 1).adjust(toPickerWheelValue: day)
+        picker.pickerWheels.element(boundBy: 2).adjust(toPickerWheelValue: year)
+        
+        let dayDisplayed = picker.pickerWheels.element(boundBy: 1).value as? String ?? ""
+        XCTAssertNotEqual(day, dayDisplayed, "The date picker should be restricted to 3 days")
+        if dismissPicker {
+            Keyboards.tapDoneButtonOnToolbar()
+        }
         return self
     }
     
@@ -525,6 +668,57 @@ final class FormStep: Step {
         XCTAssertEqual(actualDay, expectedDay, "The day picker wheel is not showing correct value. Expected \(expectedDay) but got \(actualDay)")
         XCTAssertEqual(actualMonth, expectedMonth, "The month picker wheel is not showing correct value. Expected \(expectedMonth) but got \(actualMonth)")
         return self
+    }
+    
+    /**
+     Gets picker wheels values based on offsets from the current date
+     - parameter offsetDays: the number of days to add to the current date . A positive value moves forward in time, a negative value moves backward
+     - parameter offsetHours: the number of hours to add to the current date. A positive value moves forward in time, a negative value moves backward
+     */
+    func getPickerValues(offsetDays: Int, offsetHours: Int) -> (day: String, hour: String, minute: String, amPm: String){
+        let calendar = Calendar.current
+        let now = Date()
+        let adjustedDate = calendar.date(byAdding: .day, value: offsetDays, to: now)!
+        let adjustedDateTime = calendar.date(byAdding: .hour, value: offsetHours, to: adjustedDate)!
+        let dateFormatter = DateFormatter()
+
+        dateFormatter.dateFormat = "MMM d"
+        let day = dateFormatter.string(from: adjustedDateTime)
+        
+        let hourFormatter = DateFormatter()
+        hourFormatter.dateFormat = "h"
+        let hour = hourFormatter.string(from: adjustedDateTime)
+        
+        let minuteFormatter = DateFormatter()
+        minuteFormatter.dateFormat = "mm"
+        let minute = minuteFormatter.string(from: adjustedDateTime)
+        
+        let amPmFormatter = DateFormatter()
+        amPmFormatter.dateFormat = "a"
+        let amPm = amPmFormatter.string(from: adjustedDateTime)
+        
+        return (day, hour, minute, amPm)
+    }
+    
+    func getPickerValues(offsetDays: Int, offsetYears: Int) -> (month: String, day: String, year: String) {
+        let calendar = Calendar.current
+        let now = Date()
+        let adjustedDate = calendar.date(byAdding: .day, value: offsetDays, to: now)!
+        let adjustedDateTime = calendar.date(byAdding: .year, value: offsetYears, to: adjustedDate)!
+        
+        let monthFormatter = DateFormatter()
+        monthFormatter.dateFormat = "MMMM"
+        let month = monthFormatter.string(from: adjustedDateTime)
+        
+        let dayFormatter = DateFormatter()
+        dayFormatter.dateFormat = "d"
+        let day = dayFormatter.string(from: adjustedDateTime)
+        
+        let yearFormatter = DateFormatter()
+        yearFormatter.dateFormat = "yyyy"
+        let year = yearFormatter.string(from: adjustedDateTime)
+        
+        return (month, day, year)
     }
     
     // MARK: - Picker Value Choice Format

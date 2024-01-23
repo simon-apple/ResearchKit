@@ -584,4 +584,121 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
             .verify(.continueButton, isEnabled: true)
             .tap(.continueButton)
     }
+    
+    ///<rdar://tsc/21847949> [Survey Questions] Date & Time Question
+    func testDateAndTimeQuestion() {
+        tasksList
+            .selectTaskByName(Task.dateTimeQuestion.description)
+        
+        let questionStep = FormStep()
+        questionStep
+            .verify(.title)
+            .verify(.text)
+            .verify(.skipButton) // Optional Question
+            .verify(.continueButton, isEnabled: true) // Picker value defaults to current date so continue button is enabled
+
+            .verifySingleQuestionTitleExists()
+        
+        if shouldUseUIPickerWorkaround {
+            questionStep.selectFormItemCell(withID: "dateTimeQuestionStep")
+            dismissPicker = true
+        }
+        
+        if hourCycle  == usTimeSignature {
+            questionStep
+                .answerDateAndTimeQuestion(offsetDays: 1, offsetHours: 5, isUSTimeZone: true)
+                .answerDateAndTimeQuestion(offsetDays: -2, offsetHours: 7, isUSTimeZone: true, dismissPicker: dismissPicker)
+            // TODO: Verifying entered values is blocked by rdar://120826508 ([Accessibility][ORKCatalog] Unable to access cell value after entering it)
+            
+        } else if hourCycle == continentalTimeSignature {
+            questionStep
+                .answerDateAndTimeQuestion(offsetDays: 1, offsetHours: 5, isUSTimeZone: false)
+                .answerDateAndTimeQuestion(offsetDays: -2, offsetHours: 7, isUSTimeZone: false, dismissPicker: dismissPicker)
+            // TODO: Verifying entered values is blocked by rdar://120826508 ([Accessibility][ORKCatalog] Unable to access cell value after entering it)
+        }
+        
+        questionStep
+            .verify(.continueButton,isEnabled: true)
+            .tap(.continueButton)
+    }
+    
+    func testDate3DayLimitQuestion() {
+        tasksList
+            .selectTaskByName(Task.date3DayLimitQuestionTask.description)
+        
+        let questionStep = FormStep()
+        let formItemId = "dateQuestionStep"
+        questionStep
+            .verify(.title)
+            .verify(.text)
+            .verify(.skipButton) // Optional Question
+            .verify(.continueButton, isEnabled: true) // Picker value defaults to current date so continue button is enabled
+        
+            .verifySingleQuestionTitleExists()
+        
+        if shouldUseUIPickerWorkaround {
+            questionStep.selectFormItemCell(withID: formItemId)
+            dismissPicker = true
+        }
+        
+        questionStep
+            .verifyDatePickerDefaultsToCurrentDate()
+            .answerDateQuestion(offsetDays: -3, offsetYears: 0, dismissPicker: dismissPicker)
+            .verify(.continueButton, isEnabled: true)
+        
+        if shouldUseUIPickerWorkaround {
+            questionStep.selectFormItemCell(withID: formItemId)
+            dismissPicker = true
+        }
+        
+        questionStep
+            .answerDateQuestion(offsetDays: 3, offsetYears: 0)
+            .verifyDatePickerRestrictedTo3days(offsetDays: -4, offsetYears: 0)
+            .verifyDatePickerRestrictedTo3days(offsetDays: 4, offsetYears: 0, dismissPicker: dismissPicker)
+            .verify(.continueButton,isEnabled: true)
+        
+        // TODO: Verifying entered values is blocked by rdar://120826508 ([Accessibility][iOS][ORKCatalog] Unable to access cell value after entering it)
+        
+        questionStep
+            .tap(.continueButton)
+    }
+    
+    ///<rdar://tsc/21847959> [Survey Questions] Time Of Day Question
+    func testTimeOfDayQuestion() {
+        tasksList
+            .selectTaskByName(Task.timeOfDayQuestion.description)
+        let questionStep = FormStep()
+        questionStep
+            .verify(.title)
+            .verify(.text)
+            .verify(.skipButton) // Optional Question
+            .verify(.skipButton, isEnabled: true) // Optional Question
+            .verify(.continueButton,isEnabled: true)
+        
+            .verifySingleQuestionTitleExists()
+        
+        if shouldUseUIPickerWorkaround {
+            questionStep.selectFormItemCell(withID: "timeOfDayQuestionStep")
+            dismissPicker = true
+        }
+        
+        if hourCycle  == usTimeSignature {
+            questionStep
+                .answerTimeOfDayQuestion(hours: 01, minutes: 01, isUSTimeZone: true, isAM: true)
+                .answerTimeOfDayQuestion(hours: 11, minutes: 59, isUSTimeZone: true, isAM: false, dismissPicker: dismissPicker)
+                .verify(.continueButton, isEnabled: true)
+            
+            // Verify entered values blocked by rdar://120826508 ([Accessibility][iOS][ORKCatalog] Unable to access cell value after entering it)
+            
+        } else if hourCycle == continentalTimeSignature {
+            questionStep
+                .answerTimeOfDayQuestion(hours: 01, minutes: 01, isUSTimeZone: false)
+                .answerTimeOfDayQuestion(hours: 11, minutes: 59, isUSTimeZone: false, dismissPicker: dismissPicker)
+                .verify(.continueButton, isEnabled: true)
+            // Verify entered values blocked by rdar://120826508 ([Accessibility][iOS][ORKCatalog] Unable to access cell value after entering it)
+        }
+        questionStep
+            .verify(.continueButton,isEnabled: true)
+            .tap(.continueButton)
+    }
 }

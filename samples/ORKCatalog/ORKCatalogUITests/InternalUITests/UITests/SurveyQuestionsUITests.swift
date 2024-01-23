@@ -485,35 +485,98 @@ final class SurveyQuestionsUITests: BaseUITest {
     }
     
     /// rdar://tsc/21847952 ([Survey Questions] Image Choice Question)
-         func testImageChoiceQuestion() {
-             tasksList
-                 .selectTaskByName(Task.imageChoiceQuestion.description)
-     
-             let questionStep = FormStep()
-             let formId = "imageChoiceFormItem"
-             questionStep
-                 .verify(.title)
-                 .verify(.text)
-                 .verify(.skipButton, isEnabled: true)
-                 .verify(.continueButton, isEnabled: expectingNextButtonEnabledByDefault)
-             
-             let roundShape = FormStep.ImageButtonLabel.roundShape.rawValue
-             let squareShape = FormStep.ImageButtonLabel.squareShape.rawValue
-             questionStep
-                 .answerImageChoiceQuestion(withId: formId, imageIndex: 1, expectedLabel: roundShape)
-                 .answerImageChoiceQuestion(withId: formId, imageIndex: 0, expectedLabel: squareShape)
-     
-             questionStep
-                 .tap(.continueButton)
-             
-             questionStep
-                 .verify(.title)
-                 .verify(.text)
-                 .verify(.skipButton, isEnabled: true)
-                 .verify(.continueButton, isEnabled: expectingNextButtonEnabledByDefault)
-     
-             questionStep
-                 .answerImageChoiceQuestion(withId: formId, imageIndex: 0, expectedLabel: squareShape)
-                 .answerImageChoiceQuestion(withId: formId, imageIndex: 1, expectedLabel: roundShape)
-         }
+    func testImageChoiceQuestion() {
+        tasksList
+            .selectTaskByName(Task.imageChoiceQuestion.description)
+        
+        let questionStep = FormStep()
+        let formId = "imageChoiceFormItem"
+        questionStep
+            .verify(.title)
+            .verify(.text)
+            .verify(.skipButton, isEnabled: true)
+            .verify(.continueButton, isEnabled: expectingNextButtonEnabledByDefault)
+        
+        let roundShape = FormStep.ImageButtonLabel.roundShape.rawValue
+        let squareShape = FormStep.ImageButtonLabel.squareShape.rawValue
+        questionStep
+            .answerImageChoiceQuestion(withId: formId, imageIndex: 1, expectedLabel: roundShape)
+            .answerImageChoiceQuestion(withId: formId, imageIndex: 0, expectedLabel: squareShape)
+        
+        questionStep
+            .tap(.continueButton)
+        
+        questionStep
+            .verify(.title)
+            .verify(.text)
+            .verify(.skipButton, isEnabled: true)
+            .verify(.continueButton, isEnabled: expectingNextButtonEnabledByDefault)
+        
+        questionStep
+            .answerImageChoiceQuestion(withId: formId, imageIndex: 0, expectedLabel: squareShape)
+            .answerImageChoiceQuestion(withId: formId, imageIndex: 1, expectedLabel: roundShape)
+    }
+    
+    ///rdar://tsc/21847962 ([Survey Questions] Validated Text Question)
+    func testValidatedText() {
+        tasksList
+            .selectTaskByName(Task.validatedTextQuestion.description)
+        
+        let questionStep = FormStep()
+        let formItemId = "validatedTextFormItem"
+        questionStep
+            .verify(.title)
+            .verify(.text)
+            .verify(.skipButton, isEnabled: true)
+            .verify(.continueButton, isEnabled: expectingNextButtonEnabledByDefault)
+        
+            .verifySingleQuestionTitleExists()
+        
+        questionStep
+            .selectFormItemCell(withID:  formItemId)
+            .answerTextQuestion(text: "User", dismissKeyboard: true)
+            .verify(.continueButton, isEnabled: false)
+        // TODO: rdar://121345903 (Check for an error message when invalid values are entered)
+        
+        questionStep
+            .selectFormItemCell(withID:  formItemId)
+        
+        Keyboards.deleteValueCaseSensitive(characterCount: 4)
+        
+        // There is inconsistency with the cell selection and/or autocorrection on simulator/device
+        let UKey =  app.keyboards.keys["U"]
+        if UKey.waitForExistence(timeout: 20) {
+            UKey.tap()
+        } else {
+            app.keyboards.keys["u"].tap()
+        }
+        // The letters keyboard is displayed, so we need to switch to the numbers keyboard in order to type "@"
+        let moreKey =  app.keyboards.keys["more"]
+        if moreKey.waitForExistence(timeout: 20)  {
+            moreKey.tap() // switch to numbers
+        }
+        app.keyboards.keys["@"].tap()
+        moreKey.tap() // switch to letters
+        questionStep.answerTextQuestion(text: "example")
+        moreKey.tap()  // switch to numbers
+        app.keyboards.keys["."].tap()
+        moreKey.tap()  // switch to letters
+        questionStep
+            .answerTextQuestion(text: "com", dismissKeyboard: true)
+            .verify(.continueButton, isEnabled: true)
+            .tap(.continueButton)
+        
+        let questionStep2 = FormStep()
+        questionStep2
+            .selectFormItemCell(withID:  formItemId)
+            .answerTextQuestion(text: "apple", dismissKeyboard: true)
+            .verify(.continueButton, isEnabled: false)
+        // TODO: rdar://121345903 (Check for an error message when invalid values are entered)
+        
+        questionStep2
+            .selectFormItemCell(withID:  formItemId)
+            .answerTextQuestion(text: "apple.com",  dismissKeyboard: true)
+            .verify(.continueButton, isEnabled: true)
+            .tap(.continueButton)
+    }
 }

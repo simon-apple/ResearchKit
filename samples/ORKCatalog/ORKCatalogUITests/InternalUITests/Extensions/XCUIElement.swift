@@ -178,6 +178,25 @@ class Keyboards {
         }
     }
     
+    static func deleteValueCaseSensitive(characterCount: Int) {
+        for _ in 0..<characterCount {
+            let key = XCUIApplication().keyboards.keys["Delete"]
+            
+            if key.waitForExistence(timeout: 20) {
+                if !key.isHittable {
+                    dismissKeyboardOnboarding()
+                }
+                key.tap()
+            } else {
+                let lowerKey = XCUIApplication().keyboards.keys["delete"]
+                if !lowerKey.isHittable {
+                    dismissKeyboardOnboarding()
+                }
+                lowerKey.tap()
+            }
+        }
+    }
+    
     static func tapDoneButtonOnToolbar() {
         // There is only one button ("Done") on toolbar
         let doneButton = XCUIApplication().toolbars["Toolbar"].buttons.firstMatch
