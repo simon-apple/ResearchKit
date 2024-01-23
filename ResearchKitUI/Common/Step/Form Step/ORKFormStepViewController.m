@@ -2349,7 +2349,6 @@ static NSString *const _ORKAnsweredSectionIdentifiersRestoreKey = @"answeredSect
             [choiceOtherViewCell setCellSelected:NO highlight:NO];
         }
         
-        [self resizeORKChoiceOtherViewCell:choiceOtherViewCell withTextChoice:textChoice];
         // textChoice doesn't have any custom text from the textView
         // the answer should be the default text option
         answer = @[textChoice.text];
@@ -2360,6 +2359,8 @@ static NSString *const _ORKAnsweredSectionIdentifiersRestoreKey = @"answeredSect
                          indexPath:indexPath
                     itemIdentifier:itemIdentifier];
     }
+    
+    [self resizeORKChoiceOtherViewCell:choiceOtherViewCell withTextChoice:textChoice];
 }
 
 - (void)saveTextChoiceAnswer:(id)answer
