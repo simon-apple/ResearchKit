@@ -524,6 +524,7 @@ final class SurveyQuestionsUITests: BaseUITest {
         
         let questionStep = FormStep()
         let formItemId = "validatedTextFormItem"
+        let name = "User"
         questionStep
             .verify(.title)
             .verify(.text)
@@ -534,21 +535,21 @@ final class SurveyQuestionsUITests: BaseUITest {
         
         questionStep
             .selectFormItemCell(withID:  formItemId)
-            .answerTextQuestion(text: "User", dismissKeyboard: true)
+            .answerTextQuestion(text: name, dismissKeyboard: true)
             .verify(.continueButton, isEnabled: false)
         // TODO: rdar://121345903 (Check for an error message when invalid values are entered)
         
         questionStep
             .selectFormItemCell(withID:  formItemId)
         
-        Keyboards.deleteValueCaseSensitive(characterCount: 4)
+        Keyboards.deleteValueCaseSensitive(characterCount: name.count)
         
-        // There is inconsistency with the cell selection and/or autocorrection on simulator/device
-        let UKey =  app.keyboards.keys["U"]
-        if UKey.waitForExistence(timeout: 20) {
-            UKey.tap()
+        // There is inconsistency with the cell selection and/or autocorrection on simulator vs device, so we need to handle both cases:
+        let xKey =  app.keyboards.keys["X"]
+        if xKey.waitForExistence(timeout: 20) {
+            xKey.tap()
         } else {
-            app.keyboards.keys["u"].tap()
+            app.keyboards.keys["X"].tap()
         }
         // The letters keyboard is displayed, so we need to switch to the numbers keyboard in order to type "@"
         let moreKey =  app.keyboards.keys["more"]
@@ -567,15 +568,20 @@ final class SurveyQuestionsUITests: BaseUITest {
             .tap(.continueButton)
         
         let questionStep2 = FormStep()
+        let domainName = "apple.com"
+        let secondLevelDomainName = String(domainName.split(separator: ".").first!)
         questionStep2
             .selectFormItemCell(withID:  formItemId)
-            .answerTextQuestion(text: "apple", dismissKeyboard: true)
+            .answerTextQuestion(text: secondLevelDomainName, dismissKeyboard: true)
             .verify(.continueButton, isEnabled: false)
         // TODO: rdar://121345903 (Check for an error message when invalid values are entered)
         
+        Keyboards.deleteValueCaseSensitive(characterCount: secondLevelDomainName.count)
+        
         questionStep2
             .selectFormItemCell(withID:  formItemId)
-            .answerTextQuestion(text: "apple.com",  dismissKeyboard: true)
+        // The period "." and ".com" are displayed along with the letters, so there is no need to switch to the numbers keyboard
+            .answerTextQuestion(text: domainName,  dismissKeyboard: true)
             .verify(.continueButton, isEnabled: true)
             .tap(.continueButton)
     }

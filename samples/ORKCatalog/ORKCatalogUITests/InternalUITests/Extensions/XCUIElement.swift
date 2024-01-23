@@ -61,7 +61,7 @@ extension XCUIElement {
             }
             swipes += 1
         }
-        XCTAssertLessThan(swipes, maxSwipes, "Exceeded maximum amount of \(maxSwipes) swipes")
+        XCTAssertLessThan(swipes, maxSwipes, "Exceeded maximum amount of \(maxSwipes) swipes. Element \(self) is not visible")
     }
     
     /**
@@ -180,19 +180,19 @@ class Keyboards {
     
     static func deleteValueCaseSensitive(characterCount: Int) {
         for _ in 0..<characterCount {
-            let key = XCUIApplication().keyboards.keys["Delete"]
+            let deleteKeyUppercased = XCUIApplication().keyboards.keys["Delete"]
+            let deleteKeyLowercased = XCUIApplication().keyboards.keys["delete"]
             
-            if key.waitForExistence(timeout: 20) {
-                if !key.isHittable {
+            if deleteKeyUppercased.waitForExistence(timeout: 20) {
+                if !deleteKeyUppercased.isHittable {
                     dismissKeyboardOnboarding()
                 }
-                key.tap()
-            } else {
-                let lowerKey = XCUIApplication().keyboards.keys["delete"]
-                if !lowerKey.isHittable {
+                deleteKeyUppercased.tap()
+            } else if deleteKeyLowercased.exists {
+                if !deleteKeyLowercased.isHittable {
                     dismissKeyboardOnboarding()
                 }
-                lowerKey.tap()
+                deleteKeyLowercased.tap()
             }
         }
     }
