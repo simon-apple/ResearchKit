@@ -631,7 +631,7 @@ final class FormStep: Step {
     }
     
     func verifyDatePickerRestrictedTo3days(offsetDays: Int, offsetYears: Int, dismissPicker: Bool = false) -> Self {
-        let (month, day, year) = getPickerValues(offsetDays: offsetDays, offsetYears: offsetYears )
+        let (month, day, year) = getPickerValues(offsetDays: offsetDays, offsetYears: offsetYears)
         let picker = Self.firstPicker
         wait(for: picker, withTimeout: uiPickerTimeout)
         picker.pickerWheels.element(boundBy: 0).adjust(toPickerWheelValue: month)
@@ -675,7 +675,7 @@ final class FormStep: Step {
      - parameter offsetDays: the number of days to add to the current date . A positive value moves forward in time, a negative value moves backward
      - parameter offsetHours: the number of hours to add to the current date. A positive value moves forward in time, a negative value moves backward
      */
-    func getPickerValues(offsetDays: Int, offsetHours: Int) -> (day: String, hour: String, minute: String, amPm: String){
+    func getPickerValues(offsetDays: Int, offsetHours: Int) -> (day: String, hour: String, minute: String, amPm: String) {
         let calendar = Calendar.current
         let now = Date()
         let adjustedDate = calendar.date(byAdding: .day, value: offsetDays, to: now)!
@@ -700,6 +700,11 @@ final class FormStep: Step {
         return (day, hour, minute, amPm)
     }
     
+    /**
+     Gets picker wheels values based on offsets from the current date
+     - parameter offsetDays: the number of days to add to the current date . A positive value moves forward in time, a negative value moves backward
+     - parameter offsetYears: the number of years to add to the current date. A positive value moves forward in time, a negative value moves backward
+     */
     func getPickerValues(offsetDays: Int, offsetYears: Int) -> (month: String, day: String, year: String) {
         let calendar = Calendar.current
         let now = Date()

@@ -491,7 +491,6 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
                 .answerWeighQuestion(lb: weightUSAnswerLb, dismissPicker: dismissPicker)
                 .verify(.continueButton, isEnabled: true)
                 .tap(.continueButton)
-            
         }
         
         // USC system Optional Question - high precision
@@ -534,7 +533,6 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
                 .verify(.continueButton, isEnabled: true)
                 .tap(.continueButton)
         }
-        
         
         if expectingNonOptionalStep {
             // HealthKit integration - Non Optional // TODO: rdar://118141808 (Height/Weight Questions should prefill with HealthKit value)
@@ -657,7 +655,7 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
             .verifyDatePickerRestrictedTo3days(offsetDays: 4, offsetYears: 0, dismissPicker: dismissPicker)
             .verify(.continueButton,isEnabled: true)
         
-        // TODO: Verifying entered values is blocked by rdar://120826508 ([Accessibility][iOS][ORKCatalog] Unable to access cell value after entering it)
+        // TODO: Verifying entered values is blocked by rdar://120826508 ([Accessibility][ORKCatalog] Unable to access cell value after entering it)
         
         questionStep
             .tap(.continueButton)
@@ -688,14 +686,14 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
                 .answerTimeOfDayQuestion(hours: 11, minutes: 59, isUSTimeZone: true, isAM: false, dismissPicker: dismissPicker)
                 .verify(.continueButton, isEnabled: true)
             
-            // TODO: Verify entered values blocked by rdar://120826508 ([Accessibility][iOS][ORKCatalog] Unable to access cell value after entering it)
+            // TODO: Verify entered values blocked by rdar://120826508 ([Accessibility][ORKCatalog] Unable to access cell value after entering it)
             
         } else if hourCycle == continentalTimeSignature {
             questionStep
                 .answerTimeOfDayQuestion(hours: 01, minutes: 01, isUSTimeZone: false)
                 .answerTimeOfDayQuestion(hours: 11, minutes: 59, isUSTimeZone: false, dismissPicker: dismissPicker)
                 .verify(.continueButton, isEnabled: true)
-            // TODO: Verify entered values blocked by rdar://120826508 ([Accessibility][iOS][ORKCatalog] Unable to access cell value after entering it)
+            // TODO: Verify entered values blocked by rdar://120826508 ([Accessibility][ORKCatalog] Unable to access cell value after entering it)
         }
         questionStep
             .verify(.continueButton,isEnabled: true)
