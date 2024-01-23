@@ -4,6 +4,7 @@
       "id" : "63BD6279-B17D-4F5A-850F-93ABE7C5539A",
       "name" : "Configuration 1",
       "options" : {
+        "detectTextLayoutIssues" : true,
         "testRepetitionMode" : "retryOnFailure",
         "uiTestingScreenshotsLifetime" : "keepAlways",
         "userAttachmentLifetime" : "keepAlways"
@@ -20,26 +21,7 @@
     {
       "skippedTests" : [
         "Helpers",
-        "PreSubmissionTests",
-        "RequestPermissionStepUITests",
-        "SurveyQuestionsUITests\/testBooleanQuestion()",
-        "SurveyQuestionsUITests\/testCustomBooleanQuestion()",
-        "SurveyQuestionsUITests\/testDateQuestion()",
-        "SurveyQuestionsUITests\/testImageChoiceQuestion()",
-        "SurveyQuestionsUITests\/testNumericQuestions()",
-        "SurveyQuestionsUITests\/testNumericQuestionsEditing()",
-        "SurveyQuestionsUITests\/testPaddingBetweenContinueButtonAndLastCell()",
-        "SurveyQuestionsUITests\/testPlatterUIQuestion()",
-        "SurveyQuestionsUITests\/testSingleTextChoiceQuestion()",
-        "SurveyQuestionsUITests\/testTextChoiceOtherQuestion()",
-        "SurveyQuestionsUITests\/testTextChoiceOtherQuestionPlaceholderValue()",
-        "SurveyQuestionsUITests\/testTextQuestion()",
-        "SurveyQuestionsUITests\/testTextQuestionClearButton()",
-        "SurveyQuestionsUITests\/testTextQuestionEditing()",
-        "SurveyQuestionsUITests\/testTextQuestionPlaceholderValueAndCharacterIndicator()",
-        "SurveyQuestionsUITests\/testTimeIntervalQuestion()",
-        "SurveyQuestionsUITests\/testValuePickerChoiceQuestion()",
-        "SurveysUITests"
+        "PreSubmissionTests"
       ],
       "target" : {
         "containerPath" : "container:ORKCatalog.xcodeproj",
