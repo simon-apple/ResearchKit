@@ -180,19 +180,19 @@ class Keyboards {
     
     static func deleteValueCaseSensitive(characterCount: Int) {
         for _ in 0..<characterCount {
-            let deleteKeyUppercased = XCUIApplication().keyboards.keys["Delete"]
-            let deleteKeyLowercased = XCUIApplication().keyboards.keys["delete"]
+            let deleteKeyCapitalized = XCUIApplication().keyboards.keys["Delete"]
+            let deleteKeyLowercase = XCUIApplication().keyboards.keys["delete"]
             
-            if deleteKeyUppercased.waitForExistence(timeout: 20) {
-                if !deleteKeyUppercased.isHittable {
+            if deleteKeyCapitalized.waitForExistence(timeout: 15) {
+                if !deleteKeyCapitalized.isHittable {
                     dismissKeyboardOnboarding()
                 }
-                deleteKeyUppercased.tap()
-            } else if deleteKeyLowercased.exists {
-                if !deleteKeyLowercased.isHittable {
+                deleteKeyCapitalized.tap()
+            } else if deleteKeyLowercase.exists {
+                if !deleteKeyLowercase.isHittable {
                     dismissKeyboardOnboarding()
                 }
-                deleteKeyLowercased.tap()
+                deleteKeyLowercase.tap()
             }
         }
     }

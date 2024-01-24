@@ -523,6 +523,7 @@ final class SurveyQuestionsUITests: BaseUITest {
             .selectTaskByName(Task.validatedTextQuestion.description)
         
         let questionStep = FormStep()
+        // Email validation
         let formItemId = "validatedTextFormItem"
         let name = "User"
         questionStep
@@ -541,16 +542,10 @@ final class SurveyQuestionsUITests: BaseUITest {
         
         questionStep
             .selectFormItemCell(withID:  formItemId)
-        
         Keyboards.deleteValueCaseSensitive(characterCount: name.count)
         
-        // There is inconsistency with the cell selection and/or autocorrection on simulator vs device, so we need to handle both cases:
         let xKey =  app.keyboards.keys["X"]
-        if xKey.waitForExistence(timeout: 20) {
-            xKey.tap()
-        } else {
-            app.keyboards.keys["X"].tap()
-        }
+        xKey.tap()
         // The letters keyboard is displayed, so we need to switch to the numbers keyboard in order to type "@"
         let moreKey =  app.keyboards.keys["more"]
         if moreKey.waitForExistence(timeout: 20)  {
@@ -568,6 +563,7 @@ final class SurveyQuestionsUITests: BaseUITest {
             .tap(.continueButton)
         
         let questionStep2 = FormStep()
+        // URL validation
         let domainName = "apple.com"
         let secondLevelDomainName = String(domainName.split(separator: ".").first!)
         questionStep2
@@ -576,12 +572,11 @@ final class SurveyQuestionsUITests: BaseUITest {
             .verify(.continueButton, isEnabled: false)
         // TODO: rdar://121345903 (Check for an error message when invalid values are entered)
         
-        Keyboards.deleteValueCaseSensitive(characterCount: secondLevelDomainName.count)
-        
         questionStep2
             .selectFormItemCell(withID:  formItemId)
+        Keyboards.deleteValueCaseSensitive(characterCount: secondLevelDomainName.count)
         // The period "." and ".com" are displayed along with the letters, so there is no need to switch to the numbers keyboard
-            .answerTextQuestion(text: domainName,  dismissKeyboard: true)
+        questionStep2.answerTextQuestion(text: domainName,  dismissKeyboard: true)
             .verify(.continueButton, isEnabled: true)
             .tap(.continueButton)
     }

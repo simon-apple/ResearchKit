@@ -496,7 +496,7 @@ final class FormStep: Step {
     
     /**
      Adjusts picker wheels to provided date
-     Handles ORKDateAnswerFormat  dateAnswerFormat
+     Handles ORKDateAnswerFormat dateAnswerFormat
      - parameter year: year to be entered
      - parameter month: month to be entered
      - parameter dismissPicker: whether the ui picker should be dismissed after selection
@@ -518,7 +518,7 @@ final class FormStep: Step {
     
     /**
      Adjusts picker wheels based on offsets from the current date
-     Handles ORKDateAnswerFormat  dateAnswerFormat
+     Handles ORKDateAnswerFormat dateAnswerFormat
      - parameter offsetDays: the number of days to add to the current date . A positive value moves forward in time, a negative value moves backward
      - parameter offsetYears: the number of years to add to the current date. A positive value moves forward in time, a negative value moves backward
      - parameter dismissPicker: whether the ui picker should be dismissed after selection
