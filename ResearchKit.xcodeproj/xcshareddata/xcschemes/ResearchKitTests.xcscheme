@@ -50,6 +50,11 @@
                BlueprintName = "ResearchKitTests"
                ReferencedContainer = "container:ResearchKit.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "ORKDataCollectionTests">
+               </Test>
+            </SkippedTests>
          </TestableReference>
       </Testables>
    </TestAction>

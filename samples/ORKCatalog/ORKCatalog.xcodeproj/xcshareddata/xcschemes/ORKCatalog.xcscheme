@@ -47,6 +47,17 @@
                ReferencedContainer = "container:ORKCatalog.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "51AF19762B59F1E400D3B399"
+               BuildableName = "ORKCatalogTests.xctest"
+               BlueprintName = "ORKCatalogTests"
+               ReferencedContainer = "container:ORKCatalog.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

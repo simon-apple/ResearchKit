@@ -114,6 +114,11 @@
 		5192BF9E2AE1DE62006E43FB /* ORKColorChoiceCellGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = 5192BF9C2AE1DE62006E43FB /* ORKColorChoiceCellGroup.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5192BFA12AEAD7B5006E43FB /* Artwork.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 861610BF1A8D8EDD00245F7A /* Artwork.xcassets */; };
 		5192BFA92AEC4734006E43FB /* (null) in Sources */ = {isa = PBXBuildFile; };
+		51AF19582B583BBA00D3B399 /* ORKDataCollectionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 51AF19532B583BB900D3B399 /* ORKDataCollectionTests.m */; };
+		51AF19592B583BBA00D3B399 /* samples.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 51AF19542B583BB900D3B399 /* samples.bundle */; };
+		51AF195B2B583BBA00D3B399 /* ORKJSONSerializationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 51AF19562B583BBA00D3B399 /* ORKJSONSerializationTests.m */; };
+		51AF19662B583D0F00D3B399 /* ORKESerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 51AF19552B583BB900D3B399 /* ORKESerialization.m */; };
+		51AF196B2B583E3C00D3B399 /* ResearchKitInternal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51AF19672B583DF000D3B399 /* ResearchKitInternal.framework */; };
 		51B94DBD2B311E810039B0E7 /* CLLocationManager+ResearchKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 51B94DBC2B311E810039B0E7 /* CLLocationManager+ResearchKit.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		51B94DC72B3254FE0039B0E7 /* CLLocationManager+ResearchKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 51B94DC62B3254FD0039B0E7 /* CLLocationManager+ResearchKit.m */; };
 		51BD8FC329D3AD660001D54E /* Window.wav in Resources */ = {isa = PBXBuildFile; fileRef = 51BD8FC029D3AD660001D54E /* Window.wav */; };
@@ -1276,6 +1281,12 @@
 		5192BF9C2AE1DE62006E43FB /* ORKColorChoiceCellGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKColorChoiceCellGroup.h; sourceTree = "<group>"; };
 		519C298026D027AB00FD5F44 /* SwiftUIViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIViewFactory.swift; sourceTree = "<group>"; };
 		519C298D26D027E500FD5F44 /* TextChoiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextChoiceView.swift; sourceTree = "<group>"; };
+		51AF19522B583BB900D3B399 /* ORKESerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKESerialization.h; sourceTree = "<group>"; };
+		51AF19532B583BB900D3B399 /* ORKDataCollectionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKDataCollectionTests.m; sourceTree = "<group>"; };
+		51AF19542B583BB900D3B399 /* samples.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = samples.bundle; sourceTree = "<group>"; };
+		51AF19552B583BB900D3B399 /* ORKESerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKESerialization.m; sourceTree = "<group>"; };
+		51AF19562B583BBA00D3B399 /* ORKJSONSerializationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKJSONSerializationTests.m; sourceTree = "<group>"; };
+		51AF19672B583DF000D3B399 /* ResearchKitInternal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitInternal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		51B94DBC2B311E810039B0E7 /* CLLocationManager+ResearchKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CLLocationManager+ResearchKit.h"; sourceTree = "<group>"; };
 		51B94DC62B3254FD0039B0E7 /* CLLocationManager+ResearchKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CLLocationManager+ResearchKit.m"; sourceTree = "<group>"; };
 		51BD8FC029D3AD660001D54E /* Window.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = Window.wav; path = "ResearchKitInternal/ResearchKitInternal/Active Task/ORKSpeechInNoise/Window.wav"; sourceTree = SOURCE_ROOT; };
@@ -2079,6 +2090,7 @@
 				CA4B673328A1CCBA00FAE01F /* ResearchKitActiveTask.framework in Frameworks */,
 				CA6A0DA0288F2C1C0048C1EF /* ResearchKitUI.framework in Frameworks */,
 				BC40696121104DDF00A4100C /* ResearchKit.framework in Frameworks */,
+				51AF196B2B583E3C00D3B399 /* ResearchKitInternal.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2276,6 +2288,7 @@
 		3FFF183F1829DB1D00167070 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				51AF19672B583DF000D3B399 /* ResearchKitInternal.framework */,
 				515F1B402B1E6260008C71FD /* ResearchKitInternal.framework */,
 				CA0AC56228BD4D0100E80040 /* ResearchKitInternal.framework */,
 				CA58F8B728B5549F00761769 /* ResearchKitInternal.framework */,
@@ -2340,6 +2353,18 @@
 			children = (
 			);
 			name = Factory;
+			sourceTree = "<group>";
+		};
+		51AF19512B583B5B00D3B399 /* ORKESerializationTests */ = {
+			isa = PBXGroup;
+			children = (
+				51AF19522B583BB900D3B399 /* ORKESerialization.h */,
+				51AF19552B583BB900D3B399 /* ORKESerialization.m */,
+				51AF19542B583BB900D3B399 /* samples.bundle */,
+				51AF19532B583BB900D3B399 /* ORKDataCollectionTests.m */,
+				51AF19562B583BBA00D3B399 /* ORKJSONSerializationTests.m */,
+			);
+			name = ORKESerializationTests;
 			sourceTree = "<group>";
 		};
 		51CB80D42AFEBE4800A1F410 /* ConditionalFormItems */ = {
@@ -2633,6 +2658,7 @@
 		86CC8EA61AC09383001CCD89 /* ResearchKitTests */ = {
 			isa = PBXGroup;
 			children = (
+				51AF19512B583B5B00D3B399 /* ORKESerializationTests */,
 				51CB80D42AFEBE4800A1F410 /* ConditionalFormItems */,
 				22ED184428528FF50052406B /* ORKAudiometryTests */,
 				BAB96753226E5D21006AAC56 /* Views */,
@@ -5348,6 +5374,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				22ED1848285290250052406B /* ORKAudiometryTestData.plist in Resources */,
+				51AF19592B583BBA00D3B399 /* samples.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5538,6 +5565,7 @@
 				248604061B4C98760010C8A0 /* ORKAnswerFormatTests.m in Sources */,
 				86CC8EBA1AC09383001CCD89 /* ORKResultTests.m in Sources */,
 				03057F492518ECDC00C4EC5B /* ORKAudioStepViewControllerTests.m in Sources */,
+				51AF195B2B583BBA00D3B399 /* ORKJSONSerializationTests.m in Sources */,
 				FA7A9D391B0969A7005A2BEA /* ORKConsentSignatureFormatterTests.m in Sources */,
 				86CC8EB81AC09383001CCD89 /* ORKHKSampleTests.m in Sources */,
 				BCB96C131B19C0EC002A0B96 /* ORKStepTests.m in Sources */,
@@ -5557,6 +5585,7 @@
 				1490DCF8224D4550003FEEDA /* ORKVideoInstructionStepResultTests.swift in Sources */,
 				86CC8EB41AC09383001CCD89 /* ORKChoiceAnswerFormatHelperTests.m in Sources */,
 				2EBFE1201AE1B74100CB8254 /* ORKVoiceEngineTests.m in Sources */,
+				51AF19662B583D0F00D3B399 /* ORKESerialization.m in Sources */,
 				BCAD50E81B0201EE0034806A /* ORKTaskTests.m in Sources */,
 				CA0AC56928BD4FAC00E80040 /* ORKStepViewControllerHelpers.swift in Sources */,
 				86CC8EBB1AC09383001CCD89 /* ORKTextChoiceCellGroupTests.m in Sources */,
@@ -5571,6 +5600,7 @@
 				86D348021AC161B0006DB02B /* ORKRecorderTests.m in Sources */,
 				1490DCFC224D4867003FEEDA /* ORKEnvironmentSPLMeterResultTests.swift in Sources */,
 				51CB80D62AFEBE7E00A1F410 /* ORKFormStepViewControllerConditionalFormItemsTests.swift in Sources */,
+				51AF19582B583BBA00D3B399 /* ORKDataCollectionTests.m in Sources */,
 				7141EA2222EFBC0C00650145 /* ORKLoggingTests.m in Sources */,
 				1490DCF4224D3C20003FEEDA /* ORKPasscodeResultTests.swift in Sources */,
 				14BE7091220A201E005DEF07 /* ORKDataLoggerTests.m in Sources */,
