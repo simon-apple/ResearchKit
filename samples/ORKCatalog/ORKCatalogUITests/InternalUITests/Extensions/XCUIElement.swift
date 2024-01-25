@@ -134,7 +134,7 @@ class Keyboards {
     static func enterNumber(_ number: Double, dismissKeyboard: Bool = false, clearIfNeeded: Bool = false) {
         let numberString = String(number)
         if clearIfNeeded {
-            deleteValue(characterCount: numberString.count)
+            deleteNumericValue(characterCount: numberString.count)
         }
         for digitCharacter in numberString {
             let digit = String(digitCharacter)
@@ -152,7 +152,7 @@ class Keyboards {
     
     static func enterText(_ text: String, dismissKeyboard: Bool = false, clearIfNeeded: Bool = false) {
         if clearIfNeeded {
-            deleteValue(characterCount: text.count)
+            deleteAlphabeticValue(characterCount: text.count)
         }
         for character in text {
             let ch = String(character)
@@ -168,7 +168,7 @@ class Keyboards {
         }
     }
     
-    static func deleteValue(characterCount: Int) {
+    static func deleteNumericValue(characterCount: Int) {
         for _ in 0..<characterCount {
             let key = XCUIApplication().keyboards.keys["Delete"]
             if !key.isHittable {
@@ -178,22 +178,17 @@ class Keyboards {
         }
     }
     
-    static func deleteValueCaseSensitive(characterCount: Int) {
+    static func deleteAlphabeticValue(characterCount: Int) {
+        let deleteKey = XCUIApplication().keyboards.keys["delete"]
+        wait(for: deleteKey)
+        // Check for keyboard onboarding interruption
+        if !deleteKey.isHittable {
+            dismissKeyboardOnboarding()
+        }
+        
         for _ in 0..<characterCount {
-            let deleteKeyCapitalized = XCUIApplication().keyboards.keys["Delete"]
-            let deleteKeyLowercase = XCUIApplication().keyboards.keys["delete"]
-            
-            if deleteKeyCapitalized.waitForExistence(timeout: 15) {
-                if !deleteKeyCapitalized.isHittable {
-                    dismissKeyboardOnboarding()
-                }
-                deleteKeyCapitalized.tap()
-            } else if deleteKeyLowercase.exists {
-                if !deleteKeyLowercase.isHittable {
-                    dismissKeyboardOnboarding()
-                }
-                deleteKeyLowercase.tap()
-            }
+            wait(for: deleteKey)
+            deleteKey.tap()
         }
     }
     

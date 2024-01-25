@@ -525,7 +525,7 @@ final class SurveyQuestionsUITests: BaseUITest {
         let questionStep = FormStep()
         // Email validation
         let formItemId = "validatedTextFormItem"
-        let name = "User"
+        let username = "X"
         questionStep
             .verify(.title)
             .verify(.text)
@@ -542,10 +542,9 @@ final class SurveyQuestionsUITests: BaseUITest {
         
         questionStep
             .selectFormItemCell(withID:  formItemId)
-        Keyboards.deleteValueCaseSensitive(characterCount: name.count)
+        Keyboards.deleteAlphabeticValue(characterCount: name.count)
         
-        let xKey =  app.keyboards.keys["X"]
-        xKey.tap()
+        app.keyboards.keys[username].tap()
         // The letters keyboard is displayed, so we need to switch to the numbers keyboard in order to type "@"
         let moreKey =  app.keyboards.keys["more"]
         if moreKey.waitForExistence(timeout: 20)  {
@@ -574,7 +573,7 @@ final class SurveyQuestionsUITests: BaseUITest {
         
         questionStep2
             .selectFormItemCell(withID:  formItemId)
-        Keyboards.deleteValueCaseSensitive(characterCount: secondLevelDomainName.count)
+        Keyboards.deleteAlphabeticValue(characterCount: secondLevelDomainName.count)
         // The period "." and ".com" are displayed along with the letters, so there is no need to switch to the numbers keyboard
         questionStep2.answerTextQuestion(text: domainName,  dismissKeyboard: true)
             .verify(.continueButton, isEnabled: true)
