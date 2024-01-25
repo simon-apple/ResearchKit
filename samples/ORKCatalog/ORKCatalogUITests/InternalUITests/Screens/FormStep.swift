@@ -439,6 +439,19 @@ final class FormStep: Step {
         return self
     }
     
+    @discardableResult
+    func verifyErrorMessage(exists: Bool, withId formItemId: String, expectedMessage: String) -> Self {
+        let cellToSelect = getFormItemCell(withId: formItemId)
+        let errorMessageElement = cellToSelect.staticTexts[expectedMessage].firstMatch // TODO: rdar://121345903 (Create AX Id for an error message when invalid values are entered)
+        guard exists else {
+            wait(for: errorMessageElement, toExists: false)
+            return self
+        }
+        wait(for: errorMessageElement)
+        XCTAssertEqual(errorMessageElement.label, expectedMessage)
+        return self
+    }
+    
     // MARK: - Date and Time Answer Format
     
     // Usually, there is only one UI picker  presented on the screen

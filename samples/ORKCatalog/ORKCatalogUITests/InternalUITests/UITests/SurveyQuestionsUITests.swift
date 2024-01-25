@@ -536,13 +536,13 @@ final class SurveyQuestionsUITests: BaseUITest {
         
         questionStep
             .selectFormItemCell(withID:  formItemId)
-            .answerTextQuestion(text: name, dismissKeyboard: true)
+            .answerTextQuestion(text: username, dismissKeyboard: true)
             .verify(.continueButton, isEnabled: false)
-        // TODO: rdar://121345903 (Check for an error message when invalid values are entered)
+            .verifyErrorMessage(exists: true, withId: formItemId, expectedMessage: " Invalid Email") // Observed behavior: The error message label begins with a space. Also this error message is hardcoded in ORKCatalog app and does not require localization support
         
         questionStep
             .selectFormItemCell(withID:  formItemId)
-        Keyboards.deleteAlphabeticValue(characterCount: name.count)
+        Keyboards.deleteAlphabeticValue(characterCount: username.count)
         
         app.keyboards.keys[username].tap()
         // The letters keyboard is displayed, so we need to switch to the numbers keyboard in order to type "@"
@@ -559,6 +559,7 @@ final class SurveyQuestionsUITests: BaseUITest {
         questionStep
             .answerTextQuestion(text: "com", dismissKeyboard: true)
             .verify(.continueButton, isEnabled: true)
+            .verifyErrorMessage(exists: false, withId: formItemId, expectedMessage: " Invalid Email")
             .tap(.continueButton)
         
         // URL validation
@@ -569,7 +570,7 @@ final class SurveyQuestionsUITests: BaseUITest {
             .selectFormItemCell(withID:  formItemId)
             .answerTextQuestion(text: secondLevelDomainName, dismissKeyboard: true)
             .verify(.continueButton, isEnabled: false)
-        // TODO: rdar://121345903 (Check for an error message when invalid values are entered)
+            .verifyErrorMessage(exists: true, withId: formItemId, expectedMessage: " Invalid URL") // Observed behavior: The error message label begins with a space. Also this error message is hardcoded in ORKCatalog app and does not require localization support
         
         questionStep2
             .selectFormItemCell(withID:  formItemId)
@@ -577,6 +578,7 @@ final class SurveyQuestionsUITests: BaseUITest {
         // The period "." and ".com" are displayed along with the letters, so there is no need to switch to the numbers keyboard
         questionStep2.answerTextQuestion(text: domainName,  dismissKeyboard: true)
             .verify(.continueButton, isEnabled: true)
+            .verifyErrorMessage(exists: false, withId: formItemId, expectedMessage: " Invalid URL")
             .tap(.continueButton)
     }
 }
