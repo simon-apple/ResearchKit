@@ -441,8 +441,8 @@ final class FormStep: Step {
     
     @discardableResult
     func verifyErrorMessage(exists: Bool, withId formItemId: String, expectedMessage: String) -> Self {
-        let cellToSelect = getFormItemCell(withId: formItemId)
-        let errorMessageElement = cellToSelect.staticTexts[expectedMessage].firstMatch // TODO: rdar://121345903 (Create AX Id for an error message when invalid values are entered)
+        let formItemCell = getFormItemCell(withId: formItemId)
+        let errorMessageElement = formItemCell.staticTexts[expectedMessage].firstMatch // TODO: rdar://121345903 (Create AX Id for an error message when invalid values are entered)
         guard exists else {
             wait(for: errorMessageElement, toExists: false)
             return self

@@ -518,7 +518,7 @@ final class SurveyQuestionsUITests: BaseUITest {
     }
     
     ///rdar://tsc/21847962 ([Survey Questions] Validated Text Question)
-    func testValidatedText() {
+    func testValidatedTextQuestion() {
         tasksList
             .selectTaskByName(Task.validatedTextQuestion.description)
         
