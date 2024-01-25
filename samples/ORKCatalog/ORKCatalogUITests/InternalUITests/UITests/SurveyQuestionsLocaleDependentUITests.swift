@@ -670,7 +670,7 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
             .verify(.title)
             .verify(.text)
             .verify(.skipButton) // Optional Question
-            .verify(.skipButton, isEnabled: true) // Optional Question
+            .verify(.skipButton, isEnabled: true) 
             .verify(.continueButton,isEnabled: true)
         
             .verifySingleQuestionTitleExists()
