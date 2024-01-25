@@ -522,8 +522,8 @@ final class SurveyQuestionsUITests: BaseUITest {
         tasksList
             .selectTaskByName(Task.validatedTextQuestion.description)
         
-        let questionStep = FormStep()
         // Email validation
+        let questionStep = FormStep()
         let formItemId = "validatedTextFormItem"
         let username = "X"
         questionStep
@@ -561,8 +561,8 @@ final class SurveyQuestionsUITests: BaseUITest {
             .verify(.continueButton, isEnabled: true)
             .tap(.continueButton)
         
-        let questionStep2 = FormStep()
         // URL validation
+        let questionStep2 = FormStep()
         let domainName = "apple.com"
         let secondLevelDomainName = String(domainName.split(separator: ".").first!)
         questionStep2

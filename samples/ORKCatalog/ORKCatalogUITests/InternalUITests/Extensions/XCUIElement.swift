@@ -169,12 +169,15 @@ class Keyboards {
     }
     
     static func deleteNumericValue(characterCount: Int) {
+        let deleteKey = XCUIApplication().keyboards.keys["Delete"]
+        wait(for: deleteKey)
+        // Check for keyboard onboarding interruption
+        if !deleteKey.isHittable {
+            dismissKeyboardOnboarding()
+        }
         for _ in 0..<characterCount {
-            let key = XCUIApplication().keyboards.keys["Delete"]
-            if !key.isHittable {
-                dismissKeyboardOnboarding()
-            }
-            key.tap()
+            wait(for: deleteKey)
+            deleteKey.tap()
         }
     }
     
@@ -185,7 +188,6 @@ class Keyboards {
         if !deleteKey.isHittable {
             dismissKeyboardOnboarding()
         }
-        
         for _ in 0..<characterCount {
             wait(for: deleteKey)
             deleteKey.tap()
