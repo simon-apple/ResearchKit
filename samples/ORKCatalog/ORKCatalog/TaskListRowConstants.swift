@@ -230,6 +230,10 @@ enum Identifier {
     case eligibilityIneligibleStep
     case eligibilityEligibleStep
     
+    // Consent task specific identifiers
+    case consentWelcomeInstructionStep
+    case informedConsentInstructionStep
+    
     // Account creation task specific identifiers.
     case accountCreationTask
     case registrationStep

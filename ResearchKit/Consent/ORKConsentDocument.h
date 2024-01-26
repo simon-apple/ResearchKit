@@ -37,6 +37,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class ORKInstructionStep;
 @class ORKConsentSection;
 @class ORKConsentSectionFormatter;
 @class ORKConsentSignature;
@@ -72,6 +73,7 @@ NS_ASSUME_NONNULL_BEGIN
  the document should be appropriately localized.
  */
 ORK_CLASS_AVAILABLE
+NS_CLASS_DEPRECATED_IOS(8.0, 13.0)
 @interface ORKConsentDocument : NSObject <NSSecureCoding, NSCopying>
 
 /// @name Properties
@@ -99,6 +101,12 @@ ORK_CLASS_AVAILABLE
  The PDF file contains all sections.
  */
 @property (nonatomic, copy, nullable) NSArray<ORKConsentSection *> *sections;
+
+/**
+ The Instruction Steps to be in printed in the PDF file.
+ */
+@property (nonatomic, copy, nullable) NSArray<ORKInstructionStep *> *documentInstructionSteps;
+
 
 /// @name Signatures for consent review
 
