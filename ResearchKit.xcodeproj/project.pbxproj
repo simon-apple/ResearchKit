@@ -484,7 +484,7 @@
 		CA6A0D7F288B51D30048C1EF /* ORKSkin.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40BB81A8D7C5C00081FAC /* ORKSkin.m */; };
 		CA6A0D81288B54650048C1EF /* ORKConsentReviewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40BEC1A8D7C5C00081FAC /* ORKConsentReviewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CA6A0D82288B54650048C1EF /* ORKConsentReviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40BED1A8D7C5C00081FAC /* ORKConsentReviewController.m */; };
-		CA6A0D83288B5B370048C1EF /* ORKHTMLPDFWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40B8E1A8D7C5C00081FAC /* ORKHTMLPDFWriter.h */; };
+		CA6A0D83288B5B370048C1EF /* ORKHTMLPDFWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40B8E1A8D7C5C00081FAC /* ORKHTMLPDFWriter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CA6A0D84288B5B370048C1EF /* ORKHTMLPDFPageRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 8DE27B3E1D5BC072009A26E3 /* ORKHTMLPDFPageRenderer.h */; };
 		CA6A0D85288B5B370048C1EF /* ORKHTMLPDFPageRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DE27B3F1D5BC0B9009A26E3 /* ORKHTMLPDFPageRenderer.m */; };
 		CA6A0D86288B5B370048C1EF /* ORKHTMLPDFWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40B8F1A8D7C5C00081FAC /* ORKHTMLPDFWriter.m */; };

@@ -1135,6 +1135,17 @@ enum TaskListRow: Int, CustomStringConvertible {
         let requestPermissionStep = TaskListRowSteps.requestPermissionsStepExample
         let consentCompletionStep = TaskListRowSteps.consentCompletionStepExample
         
+//        let htmlFormatter = ORKHTMLPDFWriter()
+//        
+//        if let webViewHtml = webViewStep.html {
+//            htmlFormatter.writePDF(fromHTML: webViewHtml) { data, error in
+//               let pdfURL = FileManager.default.temporaryDirectory
+//                    .appendingPathComponent("consentTask")
+//                    .appendingPathExtension("pdf")
+//                try? data.write(to: pdfURL)
+//            }
+//        }
+        
         let steps: [ORKStep] = [
             welcomeInstructionStep,
             informedConsentInstructionStep,

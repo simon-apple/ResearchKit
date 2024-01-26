@@ -52,7 +52,6 @@ NS_ASSUME_NONNULL_BEGIN
  does not verify or vouch for user identity.
  */
 ORK_CLASS_AVAILABLE
-NS_CLASS_DEPRECATED_IOS(8.0, 13.0)
 @interface ORKConsentSignature : NSObject <NSSecureCoding, NSCopying>
 
 /// @name Factory methods

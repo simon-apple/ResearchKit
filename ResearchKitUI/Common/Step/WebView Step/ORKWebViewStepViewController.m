@@ -129,7 +129,6 @@ static const CGFloat ORKSignatureTopPadding = 37.0;
     [_webView loadHTMLString:[self webViewStep].html baseURL:nil];
 }
 
-
 - (CGFloat)horizontalPadding {
     return self.step.useExtendedPadding ?
         ORKStepContainerExtendedLeftRightPaddingForWindow(self.view.window) :
@@ -474,6 +473,9 @@ static const CGFloat ORKSignatureTopPadding = 37.0;
             NSString *signatureResultIdentifier = @"Signature";
             ORKSignatureResult *signatureResult = [_signatureFooterView resultWithIdentifier: signatureResultIdentifier];
             stepResult.results = [stepResult.results arrayByAddingObject:signatureResult] ? : @[signatureResult];
+            
+            NSString *htmlWithSignature = [signatureResult applyToHTML:[self webViewStep].html];
+            webViewResult.userInfo = @{@"html": [self webViewStep].html, @"htmlWithSignature": htmlWithSignature};
         }
     }
     return stepResult;

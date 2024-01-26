@@ -42,6 +42,7 @@
 #import <ResearchKit/ORKConsentSharingStep.h>
 #import <ResearchKit/ORKFormStep.h>
 #import <ResearchKit/ORKFormItemVisibilityRule.h>
+#import <ResearchKit/ORKHTMLPDFWriter.h>
 #import <ResearchKit/ORKImageCaptureStep.h>
 #import <ResearchKit/ORKInstructionStep.h>
 #import <ResearchKit/ORKLoginStep.h>

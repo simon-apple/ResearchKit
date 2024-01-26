@@ -87,4 +87,36 @@
     return result;
 }
 
+- (NSString *)applyToHTML:(NSString *)html {
+    if (![html containsString:@"</body>"] || ![html containsString:@"</html>"]) {
+        return nil;
+    }
+    
+    NSRange bodyReplaceRangeRange = [html rangeOfString:@"</body>"];
+    NSString *newString = [html stringByReplacingCharactersInRange:bodyReplaceRangeRange withString:@""];
+    
+    NSRange htmlReplaceRangeRange = [newString rangeOfString:@"</html>"];
+    newString = [newString stringByReplacingCharactersInRange:htmlReplaceRangeRange withString:@""];
+    
+    NSMutableString *body = [NSMutableString new];
+
+    NSString *hr = @"<hr align='left' width='100%' style='height:1px; border:none; color:#000; background-color:#000; margin-top: -10px; margin-bottom: 0px;' />";
+    NSString *signatureElementWrapper = @"<p><br/><div class='sigbox'><div class='inbox'>%@</div></div>%@%@</p>";
+    NSString *signatureImageWrapper = @"<p><br/><div class='sigbox'><div class='inboxImage'>%@</div></div>%@%@</p>";
+    
+    NSMutableArray *signatureElements = [NSMutableArray array];
+    
+    NSString *base64 = [UIImagePNGRepresentation(self.signatureImage) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+    NSString *imageTag = [NSString stringWithFormat:@"<img width='100%%' alt='star' src='data:image/png;base64,%@' />", base64];
+    
+    [signatureElements addObject:[NSString stringWithFormat:signatureImageWrapper, imageTag, hr, ORKLocalizedString(@"CONSENT_DOC_LINE_SIGNATURE", nil)]];
+    [body appendString:[NSString stringWithFormat:@"<div width='200'>%@</div>", signatureElements.lastObject]];
+    
+    
+    newString = [newString stringByAppendingString:body];
+    newString = [newString stringByAppendingString:@"</body></html>"];
+    
+    return newString;
+}
+
 @end

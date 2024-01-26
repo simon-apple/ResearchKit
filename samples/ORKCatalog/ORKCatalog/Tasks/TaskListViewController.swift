@@ -276,6 +276,18 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
             The actual result of the task is on the `result` property of the task
             view controller.
         */
+        
+        if let html = (taskViewController.result.result(forIdentifier: String(describing: Identifier.webViewStep)) as? ORKStepResult)?.results?.first?.userInfo?["htmlWithSignature"] as? String {
+            let htmlFormatter = ORKHTMLPDFWriter()
+            
+            htmlFormatter.writePDF(fromHTML: html) { data, error in
+               let pdfURL = FileManager.default.temporaryDirectory
+                    .appendingPathComponent("consentTask")
+                    .appendingPathExtension("pdf")
+                try? data.write(to: pdfURL)
+            }
+        }
+        
         taskResultFinishedCompletionHandler?(taskViewController.result)
         
         taskViewController.dismiss(animated: true, completion: nil)
