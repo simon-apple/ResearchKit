@@ -614,7 +614,7 @@ enum TaskListRowSteps {
         
         let secureDataBodyItem = ORKBodyItem(text: "Your data is kept private and secure.",
                                              detailText: nil,
-                                             image: UIImage(systemName: "signature"),
+                                             image: UIImage(systemName: "lock.fill"),
                                              learnMoreItem: nil,
                                              bodyItemStyle: .image)
         
@@ -626,6 +626,12 @@ enum TaskListRowSteps {
         ]
         
         return instructionStep
+    }
+    
+    static var webViewStepExample: ORKWebViewStep {
+        let webViewStep = ORKWebViewStep(identifier: String(describing: Identifier.webViewStep), html: TaskListRowStrings.exampleHtml)
+        webViewStep.showSignatureAfterContent = true
+        return webViewStep
     }
     
     

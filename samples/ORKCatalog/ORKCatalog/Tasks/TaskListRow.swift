@@ -131,6 +131,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     case trailMaking
     case videoInstruction
     case review
+    case consentTask
     case webView
     
     #if RK_APPLE_INTERNAL
@@ -144,7 +145,6 @@ enum TaskListRow: Int, CustomStringConvertible {
     case customStepTask
     case studyPromoTask
     case studySignPostStep
-    case consentTask
     case consentDoc
     case familyHistoryReviewTask
     case longHeaderTask
@@ -465,6 +465,9 @@ enum TaskListRow: Int, CustomStringConvertible {
         case .trailMaking:
             return NSLocalizedString("Trail Making Test", comment: "")
             
+        case .consentTask:
+            return NSLocalizedString("Consent Task", comment: "")
+            
         case .webView:
             return NSLocalizedString("Web View", comment: "")
             
@@ -483,9 +486,6 @@ enum TaskListRow: Int, CustomStringConvertible {
         
         case .ble:
             return NSLocalizedString("BLE", comment: "")
-            
-        case .consentTask:
-            return NSLocalizedString("Consent Task", comment: "")
             
         case .consentDoc:
             return NSLocalizedString("Consent Document Review", comment: "")
@@ -717,6 +717,9 @@ enum TaskListRow: Int, CustomStringConvertible {
         case .videoInstruction:
             return videoInstruction
             
+        case .consentTask:
+            return consentTask
+            
         case .webView:
             return webView
             
@@ -738,9 +741,6 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .ble:
             return ble
-            
-        case .consentTask:
-            return consentTask
             
         case .consentDoc:
             return consentDoc
@@ -1131,10 +1131,12 @@ enum TaskListRow: Int, CustomStringConvertible {
     private var consentTask: ORKTask {
         let welcomeInstructionStep = TaskListRowSteps.consentWelcomeStepExample
         let informedConsentInstructionStep = TaskListRowSteps.informedConsentStepExample
+        let webViewStep = TaskListRowSteps.webViewStepExample
         
         let steps: [ORKStep] = [
             welcomeInstructionStep,
-            informedConsentInstructionStep
+            informedConsentInstructionStep,
+            webViewStep
         ]
         return ORKOrderedTask(identifier: String(describing: Identifier.consentTask), steps: steps)
     }
@@ -2085,10 +2087,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     
     /// This task presents a web view step
     private var webView: ORKTask {
-        let webViewStep = ORKWebViewStep(identifier: String(describing: Identifier.webViewStep), html: TaskListRowStrings.exampleHtml)
-        webViewStep.title = NSLocalizedString("Web View", comment: "")
-        webViewStep.detailText = "lorem ipsumr"
-        webViewStep.showSignatureAfterContent = true
+        let webViewStep = TaskListRowSteps.webViewStepExample
         return ORKOrderedTask(identifier: String(describing: Identifier.webViewTask), steps: [webViewStep])
     }
 

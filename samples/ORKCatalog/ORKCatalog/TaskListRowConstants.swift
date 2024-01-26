@@ -379,6 +379,97 @@ enum TaskListRowStrings {
     
     static var exampleHtml: String {
         return """
+           <!DOCTYPE html>
+           <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+           <head>
+               <meta name="viewport" content="width=400, user-scalable=no">
+               <meta charset="utf-8" />
+               <style type="text/css">
+               body
+               {
+                   background: #FFF;
+                   font-family: Helvetica, sans-serif;
+                   text-align: center;
+               }
+               .container
+               {
+                   width: 100%;
+                   padding: 10px;
+                   box-sizing: border-box;
+               }
+               .answer-box
+               {
+                   width: 100%;
+                   box-sizing: border-box;
+                   padding: 10px;
+                   border: solid 1px #ddd;
+                   border-radius: 2px;
+                   -webkit-appearance: none;
+               }
+               .continue-button
+               {
+                   width: 140px;
+                   text-align: center;
+                   padding-top: 10px;
+                   padding-bottom: 10px;
+                   font-size: 16px;
+                   color: #2e6e9e;
+                   border-radius: 2px;
+                   border: solid 1px #2e6e9e;
+                   background: #FFF;
+                   cursor: pointer;
+                   margin-top: 40px;
+               }
+           ul {
+             text-align: left;
+           }
+               </style>
+               <script type="text/javascript">
+               function completeStep() {
+                   var answer = document.getElementById("answer").value;
+                   window.webkit.messageHandlers.ResearchKit.postMessage(answer);
+               }
+               </script>
+           </head>
+           <body style="background-color:rgba(242.0, 242.0, 247.0, 1.0);">
+               <div class="container">
+                   <h1 style="text-align: left">Informed Consent</h1>
+           <h3 style="text-align: left">Study Expectations</h3>
+           <ul>
+           <li>You will be asked to complete various study tasks such as surveys.</li>
+           <li>The study will send you notifications to remind you to complete these study tasks.</li>
+           <li>You will be asked to share various health data types to support the study goals.</li>
+           <li>The study is expected to last 4 years.</li>
+           <li>The study may reach out to you for future research opportunities.</li>
+           <li>Your information will be kept private and secure.</li>
+           <li>You can withdraw from the study at any time.</li>
+           </ul>
+           <h3 style="text-align: left">Eligibility Requirements</h3>
+           <ul>
+           <li>Must be 18 years or older.</li>
+           <li>Must be able to read and understand English.</li>
+           <li>Must be a United States resident.</li>
+           <li>Must be the only user of the device on which you are participating in the study.</li>
+           <li>Must be able to sign your own consent form.</li>
+           </ul>
+           <p align="left">
+                       By signing below, I acknowledge that I have read this consent carefully, that I understand all of its terms, and that I enter into this study voluntarily.  I understand that my information will only be used and disclosed for the purposes described in the consent and I can withdraw from the study at any time.
+           </p>
+                   
+                   <p style="padding-bottom: 40px; text-align: left">
+                       Please sign using your finger below.
+                   </p>
+               </div>
+           </body>
+           </html>
+           """
+    }
+    
+    
+    
+    #if RK_APPLE_INTERNAL
+    static var exampleHtmlTwo: String {
+        return """
         <!DOCTYPE html>
 
         <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
@@ -442,7 +533,6 @@ enum TaskListRowStrings {
         """
     }
     
-    #if RK_APPLE_INTERNAL
     static var examplePIIScrubbedEmailQuestionText: String {
         return NSLocalizedString("Your question goes here. Your email will be scrubbed", comment: "")
     }
