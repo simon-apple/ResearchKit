@@ -1132,12 +1132,17 @@ enum TaskListRow: Int, CustomStringConvertible {
         let welcomeInstructionStep = TaskListRowSteps.consentWelcomeStepExample
         let informedConsentInstructionStep = TaskListRowSteps.informedConsentStepExample
         let webViewStep = TaskListRowSteps.webViewStepExample
+        let requestPermissionStep = TaskListRowSteps.requestPermissionsStepExample
+        let consentCompletionStep = TaskListRowSteps.consentCompletionStepExample
         
         let steps: [ORKStep] = [
             welcomeInstructionStep,
             informedConsentInstructionStep,
-            webViewStep
+            webViewStep,
+            requestPermissionStep,
+            consentCompletionStep
         ]
+        
         return ORKOrderedTask(identifier: String(describing: Identifier.consentTask), steps: steps)
     }
     

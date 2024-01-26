@@ -634,7 +634,32 @@ enum TaskListRowSteps {
         return webViewStep
     }
     
+    static var requestPermissionsStepExample: ORKRequestPermissionsStep {
+        let healthKitTypesToWrite: Set<HKSampleType> = [
+            HKObjectType.quantityType(forIdentifier: .bodyMassIndex)!,
+            HKObjectType.quantityType(forIdentifier: .activeEnergyBurned)!,
+            HKObjectType.workoutType()]
+        
+        let healthKitTypesToRead: Set<HKObjectType> = [
+            HKObjectType.characteristicType(forIdentifier: .dateOfBirth)!,
+            HKObjectType.characteristicType(forIdentifier: .bloodType)!,
+            HKObjectType.workoutType()]
+        
+        let healthKitPermissionType = ORKHealthKitPermissionType(sampleTypesToWrite: healthKitTypesToWrite, objectTypesToRead: healthKitTypesToRead)
+        
+        let requestPermissionsStep = ORKRequestPermissionsStep(identifier: String(describing: Identifier.requestPermissionsStep), permissionTypes: [healthKitPermissionType])
+        requestPermissionsStep.title = "Health Data Request"
+        requestPermissionsStep.text = "Please review the health data types below and enable sharing to contribute to the study."
+        
+        return requestPermissionsStep
+    }
     
+    static var consentCompletionStepExample: ORKCompletionStep {
+        let completionStep = ORKCompletionStep(identifier: "completionId")
+        completionStep.title = "Enrollment Complete"
+        completionStep.text = "Thank you for enrolling in this study. Your participation will contribute to meaningful research!"
+        return completionStep
+    }
     
     // MARK: - ORKReviewStep
     
