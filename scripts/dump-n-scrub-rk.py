@@ -301,7 +301,7 @@ class RKWorkSpaceScrubber():
 class RKCatalogScrubber():
     def __init__(self):
         self.file_helper = FileHelper()
-        self.project_path = "samples/ORKCatalog"
+        self.project_path = "../samples/ORKCatalog"
         self.project_file_path = "../samples/ORKCatalog/ORKCatalog.xcodeproj/project.pbxproj"
         self.folders_to_remove = ["Scrubbers", "List1", "PracticeList", "QuestionList1", "TinnitusSounds1","promo_image.imageset", "InternalUITests"]
 
@@ -352,3 +352,4 @@ if __name__ == "__main__":
     # === GREP all illegal terms  ===
     rk_illegal_terms_finder = RKIllegalTermsFinder()
     rk_illegal_terms_finder.find_illegal_terms()
+
