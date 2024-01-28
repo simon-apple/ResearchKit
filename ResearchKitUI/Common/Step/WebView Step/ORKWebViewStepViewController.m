@@ -42,6 +42,8 @@
 #import "ORKCustomSignatureFooterView_Private.h"
 #import "ORKTaskViewController_Internal.h"
 
+#import <ResearchKit/ORKHTMLPDFWriter.h>
+
 static const CGFloat ORKSignatureTopPadding = 37.0;
 
 // This view controller will hide it's view until the HTML finishes loading.
@@ -466,7 +468,6 @@ static const CGFloat ORKSignatureTopPadding = 37.0;
         ORKWebViewStepResult *webViewResult = [[ORKWebViewStepResult alloc] initWithIdentifier:webViewResultIdentifier];
         webViewResult.result = _receivedMessageBody;
         webViewResult.endDate = stepResult.endDate;
-        webViewResult.userInfo = @{@"html": [self webViewStep].html};
         stepResult.results = [stepResult.results arrayByAddingObject:webViewResult] ? : @[webViewResult];
         
         if ([[self webViewStep] showSignatureAfterContent] && [_signatureFooterView isComplete]) {
@@ -474,8 +475,11 @@ static const CGFloat ORKSignatureTopPadding = 37.0;
             ORKSignatureResult *signatureResult = [_signatureFooterView resultWithIdentifier: signatureResultIdentifier];
             stepResult.results = [stepResult.results arrayByAddingObject:signatureResult] ? : @[signatureResult];
             
-            NSString *htmlWithSignature = [signatureResult applyToHTML:[self webViewStep].html];
+            ORKHTMLPDFWriter *pdfWriter = [ORKHTMLPDFWriter new];
+            NSString *htmlWithSignature = [pdfWriter appendSignatureToHTML:[self webViewStep].html signatureResult:signatureResult];
             webViewResult.userInfo = @{@"html": [self webViewStep].html, @"htmlWithSignature": htmlWithSignature};
+        } else {
+            webViewResult.userInfo = @{@"html": [self webViewStep].html};
         }
     }
     return stepResult;

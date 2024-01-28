@@ -53,11 +53,6 @@ ORK_CLASS_AVAILABLE
  */
 @property (nonatomic, copy, nullable) NSArray <UIBezierPath *> *signaturePath;
 
-/**
- Appends the image from the signature result to the html provided.
- */
-- (nullable NSString *)applyToHTML:(NSString *)html;
-
 @end
 
 NS_ASSUME_NONNULL_END

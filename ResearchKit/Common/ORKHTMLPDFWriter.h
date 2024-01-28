@@ -32,6 +32,7 @@
 @import UIKit;
 
 @class ORKHTMLPDFPageRenderer;
+@class ORKSignatureResult;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -40,6 +41,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, nullable) ORKHTMLPDFPageRenderer *printRenderer;
 
 - (void)writePDFFromHTML:(NSString *)html completionBlock:(void (^)(NSData *data, NSError *error))completionBlock;
+
+- (nullable NSString *)appendSignatureToHTML:(NSString *)html signatureResult:(ORKSignatureResult *)signatureResult;
 
 @end
 

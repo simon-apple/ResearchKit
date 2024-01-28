@@ -265,6 +265,25 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
     }
 #endif
     
+    func storePdfIfConsentTaskDetectedIn(taskViewController: ORKTaskViewController) {
+        guard taskViewController.task?.identifier == String(describing: Identifier.consentTask) else { return }
+        
+        guard let webViewStepResult = taskViewController.result.result(forIdentifier: String(describing: Identifier.webViewStep)) as? ORKStepResult else {
+            return
+        }
+        
+        if let htmlContent = webViewStepResult.results?.first?.userInfo?["htmlWithSignature"] as? String {
+            let htmlFormatter = ORKHTMLPDFWriter()
+            
+            htmlFormatter.writePDF(fromHTML: htmlContent) { data, error in
+               let pdfURL = FileManager.default.temporaryDirectory
+                    .appendingPathComponent("consentTask")
+                    .appendingPathExtension("pdf")
+                try? data.write(to: pdfURL)
+            }
+        }
+    }
+    
     // MARK: ORKTaskViewControllerDelegate
     
     func taskViewController(_ taskViewController: ORKTaskViewController, didFinishWith reason: ORKTaskFinishReason, error: Error?) {
@@ -277,17 +296,7 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
             view controller.
         */
         
-        if let html = (taskViewController.result.result(forIdentifier: String(describing: Identifier.webViewStep)) as? ORKStepResult)?.results?.first?.userInfo?["htmlWithSignature"] as? String {
-            let htmlFormatter = ORKHTMLPDFWriter()
-            
-            htmlFormatter.writePDF(fromHTML: html) { data, error in
-               let pdfURL = FileManager.default.temporaryDirectory
-                    .appendingPathComponent("consentTask")
-                    .appendingPathExtension("pdf")
-                try? data.write(to: pdfURL)
-            }
-        }
-        
+        storePdfIfConsentTaskDetectedIn(taskViewController: taskViewController)
         taskResultFinishedCompletionHandler?(taskViewController.result)
         
         taskViewController.dismiss(animated: true, completion: nil)
