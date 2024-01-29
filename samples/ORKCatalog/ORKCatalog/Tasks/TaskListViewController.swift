@@ -265,8 +265,10 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
     }
 #endif
     
-    func storePdfIfConsentTaskDetectedIn(taskViewController: ORKTaskViewController) {
-        guard taskViewController.task?.identifier == String(describing: Identifier.consentTask) else { return }
+    func storePDFIfConsentTaskDetectedIn(taskViewController: ORKTaskViewController) {
+        guard taskViewController.task?.identifier == String(describing: Identifier.consentTask) else {
+            return
+        }
         
         guard let webViewStepResult = taskViewController.result.result(forIdentifier: String(describing: Identifier.webViewStep)) as? ORKStepResult else {
             return
@@ -296,7 +298,7 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
             view controller.
         */
         
-        storePdfIfConsentTaskDetectedIn(taskViewController: taskViewController)
+        storePDFIfConsentTaskDetectedIn(taskViewController: taskViewController)
         taskResultFinishedCompletionHandler?(taskViewController.result)
         
         taskViewController.dismiss(animated: true, completion: nil)

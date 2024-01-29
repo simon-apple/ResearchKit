@@ -32,7 +32,6 @@
 #import "ORKHTMLPDFWriter.h"
 #import "ORKHTMLPDFPageRenderer.h"
 #import <WebKit/WebKit.h>
-#import "ORKSignatureResult.h"
 
 #import "ORKHelpers_Internal.h"
 
@@ -44,6 +43,8 @@ static const CGFloat A4Width = 8.27;
 static const CGFloat A4Height = 11.69;
 static const CGFloat LetterWidth = 8.5f;
 static const CGFloat LetterHeight = 11.0f;
+
+
 
 
 @interface ORKHTMLPDFWriter () <WKNavigationDelegate> {
