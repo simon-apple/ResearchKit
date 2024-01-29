@@ -54,6 +54,7 @@
 #import <ResearchKit/ORKQuestionStep.h>
 #import <ResearchKit/ORKRegistrationStep.h>
 #import <ResearchKit/ORKReviewStep.h>
+#import <ResearchKit/ORKSignatureFormatter.h>
 #import <ResearchKit/ORKSignatureStep.h>
 #import <ResearchKit/ORKTableStep.h>
 #import <ResearchKit/ORKVerificationStep.h>

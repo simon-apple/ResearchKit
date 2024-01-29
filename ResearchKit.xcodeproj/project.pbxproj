@@ -119,6 +119,8 @@
 		51AF195B2B583BBA00D3B399 /* ORKJSONSerializationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 51AF19562B583BBA00D3B399 /* ORKJSONSerializationTests.m */; };
 		51AF19662B583D0F00D3B399 /* ORKESerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 51AF19552B583BB900D3B399 /* ORKESerialization.m */; };
 		51AF196B2B583E3C00D3B399 /* ResearchKitInternal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51AF19672B583DF000D3B399 /* ResearchKitInternal.framework */; };
+		51AF1B152B67F30500D3B399 /* ORKSignatureFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 51AF1B132B67F30500D3B399 /* ORKSignatureFormatter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		51AF1B162B67F30500D3B399 /* ORKSignatureFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 51AF1B142B67F30500D3B399 /* ORKSignatureFormatter.m */; };
 		51B94DBD2B311E810039B0E7 /* CLLocationManager+ResearchKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 51B94DBC2B311E810039B0E7 /* CLLocationManager+ResearchKit.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		51B94DC72B3254FE0039B0E7 /* CLLocationManager+ResearchKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 51B94DC62B3254FD0039B0E7 /* CLLocationManager+ResearchKit.m */; };
 		51BD8FC329D3AD660001D54E /* Window.wav in Resources */ = {isa = PBXBuildFile; fileRef = 51BD8FC029D3AD660001D54E /* Window.wav */; };
@@ -1287,6 +1289,8 @@
 		51AF19552B583BB900D3B399 /* ORKESerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKESerialization.m; sourceTree = "<group>"; };
 		51AF19562B583BBA00D3B399 /* ORKJSONSerializationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKJSONSerializationTests.m; sourceTree = "<group>"; };
 		51AF19672B583DF000D3B399 /* ResearchKitInternal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitInternal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		51AF1B132B67F30500D3B399 /* ORKSignatureFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKSignatureFormatter.h; sourceTree = "<group>"; };
+		51AF1B142B67F30500D3B399 /* ORKSignatureFormatter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKSignatureFormatter.m; sourceTree = "<group>"; };
 		51B94DBC2B311E810039B0E7 /* CLLocationManager+ResearchKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CLLocationManager+ResearchKit.h"; sourceTree = "<group>"; };
 		51B94DC62B3254FD0039B0E7 /* CLLocationManager+ResearchKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CLLocationManager+ResearchKit.m"; sourceTree = "<group>"; };
 		51BD8FC029D3AD660001D54E /* Window.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = Window.wav; path = "ResearchKitInternal/ResearchKitInternal/Active Task/ORKSpeechInNoise/Window.wav"; sourceTree = SOURCE_ROOT; };
@@ -1706,8 +1710,6 @@
 		86C40BF21A8D7C5C00081FAC /* ORKConsentDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKConsentDocument.h; sourceTree = "<group>"; };
 		86C40BF31A8D7C5C00081FAC /* ORKConsentDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ORKConsentDocument.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		86C40BF41A8D7C5C00081FAC /* ORKConsentDocument_Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ORKConsentDocument_Internal.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		86C40BF51A8D7C5C00081FAC /* ORKConsentLearnMoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKConsentLearnMoreViewController.h; sourceTree = "<group>"; };
-		86C40BF61A8D7C5C00081FAC /* ORKConsentLearnMoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ORKConsentLearnMoreViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		86C40BF71A8D7C5C00081FAC /* ORKConsentReviewStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKConsentReviewStep.h; sourceTree = "<group>"; };
 		86C40BF81A8D7C5C00081FAC /* ORKConsentReviewStep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ORKConsentReviewStep.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		86C40BF91A8D7C5C00081FAC /* ORKConsentReviewStepViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKConsentReviewStepViewController.h; sourceTree = "<group>"; };
@@ -2648,7 +2650,6 @@
 			children = (
 				FA7A9D2C1B083D90005A2BEA /* Formatters */,
 				B12EFF451AB214E000A80147 /* Model */,
-				B12EFF461AB2150C00A80147 /* Visual */,
 				B12EFF481AB2152D00A80147 /* Sharing */,
 				B12EFF471AB2151B00A80147 /* Review */,
 			);
@@ -2928,13 +2929,6 @@
 			name = PDF;
 			sourceTree = "<group>";
 		};
-		B12EFF441AB214B400A80147 /* Tinted Animations */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "Tinted Animations";
-			sourceTree = "<group>";
-		};
 		B12EFF451AB214E000A80147 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -2951,15 +2945,6 @@
 				86C40C031A8D7C5C00081FAC /* ORKConsentSignature.m */,
 			);
 			name = Model;
-			sourceTree = "<group>";
-		};
-		B12EFF461AB2150C00A80147 /* Visual */ = {
-			isa = PBXGroup;
-			children = (
-				B12EFF4C1AB2158100A80147 /* Consent Views */,
-				B12EFF4B1AB2157000A80147 /* Learn More */,
-			);
-			name = Visual;
 			sourceTree = "<group>";
 		};
 		B12EFF471AB2151B00A80147 /* Review */ = {
@@ -3000,23 +2985,6 @@
 			children = (
 			);
 			name = "Document Review";
-			sourceTree = "<group>";
-		};
-		B12EFF4B1AB2157000A80147 /* Learn More */ = {
-			isa = PBXGroup;
-			children = (
-				86C40BF51A8D7C5C00081FAC /* ORKConsentLearnMoreViewController.h */,
-				86C40BF61A8D7C5C00081FAC /* ORKConsentLearnMoreViewController.m */,
-			);
-			path = "Learn More";
-			sourceTree = "<group>";
-		};
-		B12EFF4C1AB2158100A80147 /* Consent Views */ = {
-			isa = PBXGroup;
-			children = (
-				B12EFF441AB214B400A80147 /* Tinted Animations */,
-			);
-			name = "Consent Views";
 			sourceTree = "<group>";
 		};
 		B1A860DA1A9693C400EA57B7 /* phone@2x */ = {
@@ -4600,6 +4568,8 @@
 				FA7A9D2E1B083DD3005A2BEA /* ORKConsentSectionFormatter.m */,
 				FA7A9D311B0843A9005A2BEA /* ORKConsentSignatureFormatter.h */,
 				FA7A9D321B0843A9005A2BEA /* ORKConsentSignatureFormatter.m */,
+				51AF1B132B67F30500D3B399 /* ORKSignatureFormatter.h */,
+				51AF1B142B67F30500D3B399 /* ORKSignatureFormatter.m */,
 			);
 			name = Formatters;
 			sourceTree = "<group>";
@@ -4744,6 +4714,7 @@
 				86C40E021A8D7C5C00081FAC /* ORKConsentDocument_Internal.h in Headers */,
 				86C40E181A8D7C5C00081FAC /* ORKConsentSection.h in Headers */,
 				866DA5251D63D04700C9AF3F /* ORKHealthSampleQueryOperation.h in Headers */,
+				51AF1B152B67F30500D3B399 /* ORKSignatureFormatter.h in Headers */,
 				5D04884C25EF4CC30006C68B /* ORKQuestionStep_Private.h in Headers */,
 				86C40D621A8D7C5C00081FAC /* ORKQuestionStep_Internal.h in Headers */,
 				B183A4DD1A8535D100C76870 /* ResearchKit.h in Headers */,
@@ -5640,6 +5611,7 @@
 				BF1D43861D4904C6007EE90B /* ORKVideoInstructionStep.m in Sources */,
 				FF919A6E1E81D3B0005C2A1E /* ORKPasscodeResult.m in Sources */,
 				BABBB1AF2097D97200CB29E5 /* ORKPDFViewerStep.m in Sources */,
+				51AF1B162B67F30500D3B399 /* ORKSignatureFormatter.m in Sources */,
 				FF919A641E81D04D005C2A1E /* ORKSignatureResult.m in Sources */,
 				8419D66F1FB73CC80088D7E5 /* ORKWebViewStep.m in Sources */,
 				866DA5211D63D04700C9AF3F /* ORKCollector.m in Sources */,

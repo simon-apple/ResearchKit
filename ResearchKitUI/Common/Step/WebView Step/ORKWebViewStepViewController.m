@@ -42,7 +42,7 @@
 #import "ORKCustomSignatureFooterView_Private.h"
 #import "ORKTaskViewController_Internal.h"
 
-#import <ResearchKit/ORKHTMLPDFWriter.h>
+#import <ResearchKit/ORKSignatureFormatter.h>
 
 static const CGFloat ORKSignatureTopPadding = 37.0;
 
@@ -475,8 +475,8 @@ static const CGFloat ORKSignatureTopPadding = 37.0;
             ORKSignatureResult *signatureResult = [_signatureFooterView resultWithIdentifier: signatureResultIdentifier];
             stepResult.results = [stepResult.results arrayByAddingObject:signatureResult] ? : @[signatureResult];
             
-            ORKHTMLPDFWriter *pdfWriter = [ORKHTMLPDFWriter new];
-            NSString *htmlWithSignature = [pdfWriter appendSignatureToHTML:[self webViewStep].html signatureResult:signatureResult];
+            ORKSignatureFormatter *signatureFormatter = [ORKSignatureFormatter new];
+            NSString *htmlWithSignature = [signatureFormatter appendSignatureToHTML:[self webViewStep].html signatureResult:signatureResult];
             webViewResult.userInfo = @{@"html": [self webViewStep].html, @"htmlWithSignature": htmlWithSignature};
         } else {
             webViewResult.userInfo = @{@"html": [self webViewStep].html};

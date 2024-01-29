@@ -37,6 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class ORKConsentSignature;
 
+NS_CLASS_DEPRECATED_IOS(8.0, 13.0)
 @interface ORKConsentSignatureFormatter : NSObject
 
 - (NSString *)HTMLForSignature:(ORKConsentSignature *)signature;

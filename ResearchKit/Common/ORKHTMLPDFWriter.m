@@ -45,13 +45,6 @@ static const CGFloat A4Height = 11.69;
 static const CGFloat LetterWidth = 8.5f;
 static const CGFloat LetterHeight = 11.0f;
 
-NSString * const ClosingBodyTagText = @"</body>";
-NSString * const ClosingHTMLTagText = @"</html>";
-NSString * const HorizontalRowHTMLText = @"<hr align='left' width='100%' style='height:1px; border:none; color:#000; background-color:#000; margin-top: -10px; margin-bottom: 0px;' />";
-NSString * const ImageTagHTMLText = @"<img width='100%%' alt='star' src='data:image/png;base64,%@' />";
-NSString * const SignatureEnclosingDiveHTMLText = @"<div width='200'>%@</div>";
-NSString * const SignatureImageWrapperHTMLText = @"<p><br/><div class='sigbox'><div class='inboxImage'>%@</div></div>%@%@</p>";
-
 
 @interface ORKHTMLPDFWriter () <WKNavigationDelegate> {
     id _selfRetain;
@@ -89,30 +82,6 @@ static const CGFloat PageEdge = 72.0 / 4;
     
     _selfRetain = self;
     self.completionBlock = completionBlock;
-}
-
-- (NSString *)appendSignatureToHTML:(NSString *)html signatureResult:(ORKSignatureResult *)signatureResult {
-    if (![html containsString:ClosingBodyTagText] || ![html containsString:ClosingHTMLTagText]) {
-        return nil;
-    }
-    
-    NSString *htmlWithoutClosingTags = [self removeClosingTagsFromHTML:html];
-    
-    NSString *hr = HorizontalRowHTMLText;
-    NSString *signatureImageWrapper = SignatureImageWrapperHTMLText;
-    NSString *imageTag = [self getImgTagFromImage:signatureResult.signatureImage];
-    
-    NSMutableArray *signatureElements = [NSMutableArray array];
-    [signatureElements addObject:[NSString stringWithFormat:signatureImageWrapper, imageTag, hr, ORKLocalizedString(@"CONSENT_DOC_LINE_SIGNATURE", nil)]];
-    
-    NSMutableString *body = [NSMutableString new];
-    [body appendString:[NSString stringWithFormat:SignatureEnclosingDiveHTMLText, signatureElements.lastObject]];
-    
-    NSString *groupedBodyAndHTMLClosingTags = [NSString stringWithFormat:@"%@%@", ClosingBodyTagText, ClosingHTMLTagText];
-    NSString *finalHTMLString = [htmlWithoutClosingTags stringByAppendingString:body];
-    finalHTMLString = [finalHTMLString stringByAppendingString:groupedBodyAndHTMLClosingTags];
-    
-    return finalHTMLString;
 }
 
 #pragma mark - private
@@ -163,22 +132,6 @@ static const CGFloat PageEdge = 72.0 / 4;
     
     self.completionBlock(_data, nil);
     _selfRetain = nil;
-}
-
-- (NSString *)removeClosingTagsFromHTML:(NSString *)html {
-    NSRange bodyReplaceRangeRange = [html rangeOfString:ClosingBodyTagText];
-    NSString *tempString = [html stringByReplacingCharactersInRange:bodyReplaceRangeRange withString:@""];
-    
-    NSRange htmlReplaceRangeRange = [tempString rangeOfString:ClosingHTMLTagText];
-    tempString = [tempString stringByReplacingCharactersInRange:htmlReplaceRangeRange withString:@""];
-    
-    return [tempString copy];
-}
-
-- (NSString *)getImgTagFromImage:(UIImage *)image {
-    NSString *base64 = [UIImagePNGRepresentation(image) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
-    NSString *imageTag = [NSString stringWithFormat:ImageTagHTMLText, base64];
-    return imageTag;
 }
 
 + (CGSize)defaultPageSize {
