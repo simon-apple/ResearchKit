@@ -121,6 +121,7 @@
 		51AF196B2B583E3C00D3B399 /* ResearchKitInternal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51AF19672B583DF000D3B399 /* ResearchKitInternal.framework */; };
 		51AF1B152B67F30500D3B399 /* ORKSignatureFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 51AF1B132B67F30500D3B399 /* ORKSignatureFormatter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		51AF1B162B67F30500D3B399 /* ORKSignatureFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 51AF1B142B67F30500D3B399 /* ORKSignatureFormatter.m */; };
+		51AF1B202B683C3400D3B399 /* ORKWebViewStepResult_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 51AF1B1F2B683C3400D3B399 /* ORKWebViewStepResult_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		51B94DBD2B311E810039B0E7 /* CLLocationManager+ResearchKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 51B94DBC2B311E810039B0E7 /* CLLocationManager+ResearchKit.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		51B94DC72B3254FE0039B0E7 /* CLLocationManager+ResearchKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 51B94DC62B3254FD0039B0E7 /* CLLocationManager+ResearchKit.m */; };
 		51BD8FC329D3AD660001D54E /* Window.wav in Resources */ = {isa = PBXBuildFile; fileRef = 51BD8FC029D3AD660001D54E /* Window.wav */; };
@@ -1291,6 +1292,7 @@
 		51AF19672B583DF000D3B399 /* ResearchKitInternal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitInternal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		51AF1B132B67F30500D3B399 /* ORKSignatureFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKSignatureFormatter.h; sourceTree = "<group>"; };
 		51AF1B142B67F30500D3B399 /* ORKSignatureFormatter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKSignatureFormatter.m; sourceTree = "<group>"; };
+		51AF1B1F2B683C3400D3B399 /* ORKWebViewStepResult_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKWebViewStepResult_Private.h; sourceTree = "<group>"; };
 		51B94DBC2B311E810039B0E7 /* CLLocationManager+ResearchKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CLLocationManager+ResearchKit.h"; sourceTree = "<group>"; };
 		51B94DC62B3254FD0039B0E7 /* CLLocationManager+ResearchKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CLLocationManager+ResearchKit.m"; sourceTree = "<group>"; };
 		51BD8FC029D3AD660001D54E /* Window.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = Window.wav; path = "ResearchKitInternal/ResearchKitInternal/Active Task/ORKSpeechInNoise/Window.wav"; sourceTree = SOURCE_ROOT; };
@@ -2574,6 +2576,7 @@
 				8419D66D1FB73CC80088D7E5 /* ORKWebViewStep.m */,
 				FF0CB3881FD5C4C3002D838C /* ORKWebViewStepResult.h */,
 				FF0CB3891FD5C4C3002D838C /* ORKWebViewStepResult.m */,
+				51AF1B1F2B683C3400D3B399 /* ORKWebViewStepResult_Private.h */,
 			);
 			name = "WebView Step";
 			sourceTree = "<group>";
@@ -4715,6 +4718,7 @@
 				86C40E181A8D7C5C00081FAC /* ORKConsentSection.h in Headers */,
 				866DA5251D63D04700C9AF3F /* ORKHealthSampleQueryOperation.h in Headers */,
 				51AF1B152B67F30500D3B399 /* ORKSignatureFormatter.h in Headers */,
+				51AF1B202B683C3400D3B399 /* ORKWebViewStepResult_Private.h in Headers */,
 				5D04884C25EF4CC30006C68B /* ORKQuestionStep_Private.h in Headers */,
 				86C40D621A8D7C5C00081FAC /* ORKQuestionStep_Internal.h in Headers */,
 				B183A4DD1A8535D100C76870 /* ResearchKit.h in Headers */,

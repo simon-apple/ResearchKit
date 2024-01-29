@@ -35,6 +35,7 @@
 #import "ORKResult_Private.h"
 #import "ORKCollectionResult_Private.h"
 #import "ORKWebViewStepResult.h"
+#import "ORKWebViewStepResult_Private.h"
 #import "ORKNavigationContainerView_Internal.h"
 #import "ORKSkin.h"
 #import "ORKHelpers_Internal.h"
@@ -43,6 +44,7 @@
 #import "ORKTaskViewController_Internal.h"
 
 #import <ResearchKit/ORKSignatureFormatter.h>
+
 
 static const CGFloat ORKSignatureTopPadding = 37.0;
 

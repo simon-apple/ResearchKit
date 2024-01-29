@@ -274,10 +274,10 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
             return
         }
         
-        if let htmlContent = webViewStepResult.results?.first?.userInfo?["htmlWithSignature"] as? String {
+        if let webViewStepResult = webViewStepResult.results?.first as? ORKWebViewStepResult, let html = webViewStepResult.getHTMLWithSignature() {
             let htmlFormatter = ORKHTMLPDFWriter()
             
-            htmlFormatter.writePDF(fromHTML: htmlContent) { data, error in
+            htmlFormatter.writePDF(fromHTML: html) { data, error in
                let pdfURL = FileManager.default.temporaryDirectory
                     .appendingPathComponent("consentTask")
                     .appendingPathExtension("pdf")

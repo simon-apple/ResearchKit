@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2017, CareEvolution, Inc.
+ Copyright (c) 2024, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,24 +28,11 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ResearchKit/ORKResult.h>
+#import <ResearchKit/ORKWebViewStepResult.h>
 
-/**
- The `ORKWebViewStepResult` class represents the result of a web view step (`ORKWebViewStep`).
- 
- A web view result is produced by the task view controller when it presents a web view step.
- 
- */
-ORK_CLASS_AVAILABLE
-@interface ORKWebViewStepResult : ORKResult
+@interface ORKWebViewStepResult()
 
-/**
- The answer produced by the webview.
- */
-@property (nonatomic, nullable) NSString* result;
-
-- (nullable NSString *)getHTML;
-
-- (nullable NSString *)getHTMLWithSignature;
++ (NSString *)getHTMLKey;
++ (NSString *)getHTMLWithDictionaryKey;
 
 @end
