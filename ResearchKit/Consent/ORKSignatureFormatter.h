@@ -37,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class ORKSignatureResult;
 
 /**
- A formatter object that translates a signature to HTML.
+ A formatter object that converts a signature to HTML.
  */
 @interface ORKSignatureFormatter : NSObject
 

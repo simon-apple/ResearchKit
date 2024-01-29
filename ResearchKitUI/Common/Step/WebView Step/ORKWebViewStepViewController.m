@@ -29,21 +29,21 @@
  */
 
 #import "ORKWebViewStepViewController.h"
-#import "ORKStepViewController_Internal.h"
-#import "ORKWebViewStep.h"
 
-#import "ORKResult_Private.h"
 #import "ORKCollectionResult_Private.h"
+#import "ORKCustomSignatureFooterView_Private.h"
+#import "ORKHelpers_Internal.h"
+#import "ORKNavigationContainerView_Internal.h"
+#import "ORKResult_Private.h"
+#import "ORKSignatureFormatter.h"
+#import "ORKSignatureResult_Private.h"
+#import "ORKSkin.h"
+#import "ORKStepViewController_Internal.h"
+#import "ORKTaskViewController_Internal.h"
+#import "ORKWebViewStep.h"
 #import "ORKWebViewStepResult.h"
 #import "ORKWebViewStepResult_Private.h"
-#import "ORKNavigationContainerView_Internal.h"
-#import "ORKSkin.h"
-#import "ORKHelpers_Internal.h"
-#import "ORKSignatureResult_Private.h"
-#import "ORKCustomSignatureFooterView_Private.h"
-#import "ORKTaskViewController_Internal.h"
 
-#import <ResearchKit/ORKSignatureFormatter.h>
 
 
 static const CGFloat ORKSignatureTopPadding = 37.0;
@@ -479,9 +479,9 @@ static const CGFloat ORKSignatureTopPadding = 37.0;
             
             ORKSignatureFormatter *signatureFormatter = [ORKSignatureFormatter new];
             NSString *htmlWithSignature = [signatureFormatter appendSignatureToHTML:[self webViewStep].html signatureResult:signatureResult];
-            webViewResult.userInfo = @{@"html": [self webViewStep].html, @"htmlWithSignature": htmlWithSignature};
+            webViewResult.userInfo = @{[ORKWebViewStepResult getHTMLKey]: [self webViewStep].html, [ORKWebViewStepResult getHTMLWithDictionaryKey]: htmlWithSignature};
         } else {
-            webViewResult.userInfo = @{@"html": [self webViewStep].html};
+            webViewResult.userInfo = @{[ORKWebViewStepResult getHTMLKey]: [self webViewStep].html};
         }
     }
     return stepResult;

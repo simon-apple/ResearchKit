@@ -270,11 +270,11 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
             return
         }
         
-        guard let webViewStepResult = taskViewController.result.result(forIdentifier: String(describing: Identifier.webViewStep)) as? ORKStepResult else {
+        guard let stepResult = taskViewController.result.result(forIdentifier: String(describing: Identifier.webViewStep)) as? ORKStepResult else {
             return
         }
         
-        if let webViewStepResult = webViewStepResult.results?.first as? ORKWebViewStepResult, let html = webViewStepResult.getHTMLWithSignature() {
+        if let webViewStepResult = stepResult.results?.first as? ORKWebViewStepResult, let html = webViewStepResult.getHTMLWithSignature() {
             let htmlFormatter = ORKHTMLPDFWriter()
             
             htmlFormatter.writePDF(fromHTML: html) { data, error in
