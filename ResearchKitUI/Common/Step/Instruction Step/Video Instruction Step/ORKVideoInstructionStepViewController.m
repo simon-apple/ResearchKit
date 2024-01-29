@@ -127,6 +127,7 @@
 - (void)play {
     AVAsset* asset = [AVAsset assetWithURL:[self assetURL]];
     AVPlayerItem* playerItem = [AVPlayerItem playerItemWithAsset:asset];
+    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
     ORKRateObservedPlayer* player = [[ORKRateObservedPlayer alloc] initWithPlayerItem:playerItem andObserver:self];
     player.actionAtItemEnd = AVPlayerActionAtItemEndPause;
     AVPlayerViewController *playerViewController = [[AVPlayerViewController alloc] init];
