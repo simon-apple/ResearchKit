@@ -1000,7 +1000,17 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     })),
            ENTRY(ORKQuestionStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-                     return [[ORKQuestionStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
+                     return [ORKQuestionStep
+                             questionStepWithIdentifier:GETPROP(dict, identifier)
+                             text:GETPROP(dict, text)
+                             placeholder:GETPROP(dict, placeholder)
+                             title:GETPROP(dict, title)
+                             question:GETPROP(dict, question)
+                             presentationStyle:GETPROP(dict, presentationStyle)
+                             tagText:GETPROP(dict, tagText)
+                             answer: GETPROP(dict, answerFormat)
+                             learnMoreItem:GETPROP(dict, learnMoreItem)
+                             useCardView:GETPROP(dict, useCardView)];
                  },
                  (@{
                     PROPERTY(answerFormat, ORKAnswerFormat, NSObject, YES, nil, nil),

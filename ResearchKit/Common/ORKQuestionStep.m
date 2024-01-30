@@ -100,6 +100,31 @@ ORKQuestionStepPresentationStyle const ORKQuestionStepPresentationStylePlatter =
     return step;
 }
 
++ (instancetype)questionStepWithIdentifier:(NSString *)identifier
+                                      text:(nullable NSString *)text
+                               placeholder:(nullable NSString *)placeholder
+                                     title:(nullable NSString *)title
+                                  question:(nullable NSString *)question
+                         presentationStyle:(nullable NSString *)presentationStyle
+                                   tagText:(nullable NSString *)tagText
+                                    answer:(nullable ORKAnswerFormat *)answerFormat
+                             learnMoreItem:(nullable ORKLearnMoreItem *)learnMoreItem
+                               useCardView:(nullable NSNumber *)useCardView {
+    ORKQuestionStep *step = [[ORKQuestionStep alloc] initWithIdentifier:identifier];
+    step.question = question;
+    step.answerFormat = answerFormat;
+    step.learnMoreItem = learnMoreItem;
+    step.tagText = tagText;
+    step.placeholder = placeholder;
+    
+    step.title = title;
+    step.question =  question;
+    step.useCardView = useCardView ? useCardView.boolValue : YES;
+    step.presentationStyle = presentationStyle;
+    step.formStep = [self makeFormStep:step];
+    return step;
+}
+
 + (ORKFormStep *)makeFormStep:(ORKQuestionStep *)questionStep {
     ORKFormStep *formStep = [[ORKFormStep alloc] initWithIdentifier:questionStep.identifier 
                                                               title:questionStep.title
