@@ -33,7 +33,6 @@
 #import <ResearchKit/ORKRecorder.h>
 #import <ResearchKitUI/ORKStepViewController.h>
 
-
 NS_ASSUME_NONNULL_BEGIN
 
 @class ORKResult;
@@ -306,7 +305,10 @@ task view controller and pass that data to `initWithTask:restorationData:` when 
  objects in the result hierarchy.
  */
 ORK_CLASS_AVAILABLE
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Weverything"
 @interface ORKTaskViewController : UIViewController <ORKStepViewControllerDelegate, UIViewControllerRestoration, UIAdaptivePresentationControllerDelegate>
+#pragma clang diagnostic pop
 
 /**
  Returns a newly initialized task view controller.

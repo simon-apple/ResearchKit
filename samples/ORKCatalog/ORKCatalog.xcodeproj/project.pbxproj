@@ -8,6 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		03F7FD9F23959DD500432EF6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F7FD9E23959DD500432EF6 /* SceneDelegate.swift */; };
+		0B1735512B5736E100AAB6BC /* ORKCatalogWatch Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 0B1735502B5736E100AAB6BC /* ORKCatalogWatch Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		0B1735562B5736E100AAB6BC /* ORKCatalogWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B1735552B5736E100AAB6BC /* ORKCatalogWatchApp.swift */; };
+		0B1735582B5736E100AAB6BC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B1735572B5736E100AAB6BC /* ContentView.swift */; };
+		0B17355A2B5736E300AAB6BC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B1735592B5736E300AAB6BC /* Assets.xcassets */; };
+		0B17355D2B5736E300AAB6BC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B17355C2B5736E300AAB6BC /* Preview Assets.xcassets */; };
+		0B1735982B57394300AAB6BC /* ResearchKitUI_Watch_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B1735972B57394300AAB6BC /* ResearchKitUI_Watch_.framework */; };
+		0B1735992B57394300AAB6BC /* ResearchKitUI_Watch_.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0B1735972B57394300AAB6BC /* ResearchKitUI_Watch_.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0B270D6C28D147AC0072BEA1 /* StudyPromoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B270D6B28D147AC0072BEA1 /* StudyPromoViewController.swift */; };
 		0B31EE4729887C4E00CD0D24 /* WrapperViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B31EE4629887C4E00CD0D24 /* WrapperViewController.swift */; };
 		0B58E51C2981D293007263DA /* UserDefaultKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B58E51B2981D293007263DA /* UserDefaultKeys.swift */; };
@@ -74,6 +81,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		0B1735522B5736E100AAB6BC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 869230B61AAA890A00BFE11B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0B17354F2B5736E100AAB6BC;
+			remoteInfo = "ORKCatalogWatch Watch App";
+		};
 		51AF197B2B59F1E500D3B399 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 869230B61AAA890A00BFE11B /* Project object */;
@@ -91,6 +105,28 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		0B1735792B5736E400AAB6BC /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				0B1735512B5736E100AAB6BC /* ORKCatalogWatch Watch App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0B17359A2B57394400AAB6BC /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				0B1735992B57394300AAB6BC /* ResearchKitUI_Watch_.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BC2A3CDB1C58F1CA00DA64B7 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -109,6 +145,16 @@
 
 /* Begin PBXFileReference section */
 		03F7FD9E23959DD500432EF6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		0B17354B2B5736E100AAB6BC /* ORKCatalogWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ORKCatalogWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0B1735502B5736E100AAB6BC /* ORKCatalogWatch Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ORKCatalogWatch Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		0B1735552B5736E100AAB6BC /* ORKCatalogWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ORKCatalogWatchApp.swift; sourceTree = "<group>"; };
+		0B1735572B5736E100AAB6BC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		0B1735592B5736E300AAB6BC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		0B17355C2B5736E300AAB6BC /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		0B17358D2B57379C00AAB6BC /* ResearchKitUI_Watch_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitUI_Watch_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0B1735912B5737A300AAB6BC /* ResearchKitCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0B1735942B5737CE00AAB6BC /* ResearchKitUI_Watch_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitUI_Watch_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0B1735972B57394300AAB6BC /* ResearchKitUI_Watch_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitUI_Watch_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B270D6B28D147AC0072BEA1 /* StudyPromoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyPromoViewController.swift; sourceTree = "<group>"; };
 		0B31EE4629887C4E00CD0D24 /* WrapperViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrapperViewController.swift; sourceTree = "<group>"; };
 		0B58E51B2981D293007263DA /* UserDefaultKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultKeys.swift; sourceTree = "<group>"; };
@@ -221,6 +267,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		0B17354D2B5736E100AAB6BC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0B1735982B57394300AAB6BC /* ResearchKitUI_Watch_.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		51AF19742B59F1E400D3B399 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -250,6 +304,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0B1735542B5736E100AAB6BC /* ORKCatalogWatch Watch App */ = {
+			isa = PBXGroup;
+			children = (
+				0B1735552B5736E100AAB6BC /* ORKCatalogWatchApp.swift */,
+				0B1735572B5736E100AAB6BC /* ContentView.swift */,
+				0B1735592B5736E300AAB6BC /* Assets.xcassets */,
+				0B17355B2B5736E300AAB6BC /* Preview Content */,
+			);
+			path = "ORKCatalogWatch Watch App";
+			sourceTree = "<group>";
+		};
+		0B17355B2B5736E300AAB6BC /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				0B17355C2B5736E300AAB6BC /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
 		0B1A0A8228B6E0D800C16ABA /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -309,6 +382,7 @@
 				3E39B9E81ABF675000C2ABE5 /* README.md */,
 				9622282B24F04D780056E74D /* ORKCatalogUITests */,
 				51AF19782B59F1E500D3B399 /* ORKCatalogTests */,
+				0B1735542B5736E100AAB6BC /* ORKCatalogWatch Watch App */,
 				BC2A3C9E1C58E81500DA64B7 /* Frameworks */,
 				869230C01AAA890A00BFE11B /* ORKCatalog */,
 				869230BF1AAA890A00BFE11B /* Products */,
@@ -320,6 +394,8 @@
 			children = (
 				869230BE1AAA890A00BFE11B /* ORKCatalog.app */,
 				9622282A24F04D780056E74D /* ORKCatalogUITests.xctest */,
+				0B17354B2B5736E100AAB6BC /* ORKCatalogWatch.app */,
+				0B1735502B5736E100AAB6BC /* ORKCatalogWatch Watch App.app */,
 				51AF19772B59F1E400D3B399 /* ORKCatalogTests.xctest */,
 			);
 			name = Products;
@@ -426,6 +502,10 @@
 		BC2A3C9E1C58E81500DA64B7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0B1735972B57394300AAB6BC /* ResearchKitUI_Watch_.framework */,
+				0B17358D2B57379C00AAB6BC /* ResearchKitUI_Watch_.framework */,
+				0B1735942B5737CE00AAB6BC /* ResearchKitUI_Watch_.framework */,
+				0B1735912B5737A300AAB6BC /* ResearchKitCore.framework */,
 				CA8D8CFE28B01E85000CF52F /* ResearchKitInternal.framework */,
 				CA9B6DF728A2BF51000A7603 /* ResearchKitActiveTask.framework */,
 				CA6A0D8E288F04260048C1EF /* ResearchKitUI.framework */,
@@ -458,6 +538,41 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		0B17354A2B5736E100AAB6BC /* ORKCatalogWatch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0B17358A2B5736E400AAB6BC /* Build configuration list for PBXNativeTarget "ORKCatalogWatch" */;
+			buildPhases = (
+				0B1735492B5736E100AAB6BC /* Resources */,
+				0B1735792B5736E400AAB6BC /* Embed Watch Content */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0B1735532B5736E100AAB6BC /* PBXTargetDependency */,
+			);
+			name = ORKCatalogWatch;
+			productName = ORKCatalogWatch;
+			productReference = 0B17354B2B5736E100AAB6BC /* ORKCatalogWatch.app */;
+			productType = "com.apple.product-type.application.watchapp2-container";
+		};
+		0B17354F2B5736E100AAB6BC /* ORKCatalogWatch Watch App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0B1735892B5736E400AAB6BC /* Build configuration list for PBXNativeTarget "ORKCatalogWatch Watch App" */;
+			buildPhases = (
+				0B17354C2B5736E100AAB6BC /* Sources */,
+				0B17354D2B5736E100AAB6BC /* Frameworks */,
+				0B17354E2B5736E100AAB6BC /* Resources */,
+				0B17359A2B57394400AAB6BC /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "ORKCatalogWatch Watch App";
+			productName = "ORKCatalogWatch Watch App";
+			productReference = 0B1735502B5736E100AAB6BC /* ORKCatalogWatch Watch App.app */;
+			productType = "com.apple.product-type.application";
+		};
 		51AF19762B59F1E400D3B399 /* ORKCatalogTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 51AF19822B59F1E600D3B399 /* Build configuration list for PBXNativeTarget "ORKCatalogTests" */;
@@ -519,10 +634,16 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastSwiftUpdateCheck = 1160;
+				LastSwiftUpdateCheck = 1500;
 				LastUpgradeCheck = 1500;
 				ORGANIZATIONNAME = researchkit.org;
 				TargetAttributes = {
+					0B17354A2B5736E100AAB6BC = {
+						CreatedOnToolsVersion = 15.0;
+					};
+					0B17354F2B5736E100AAB6BC = {
+						CreatedOnToolsVersion = 15.0;
+					};
 					51AF19762B59F1E400D3B399 = {
 						CreatedOnToolsVersion = 15.1;
 						TestTargetID = 869230BD1AAA890A00BFE11B;
@@ -602,12 +723,30 @@
 			targets = (
 				869230BD1AAA890A00BFE11B /* ORKCatalog */,
 				9622282924F04D780056E74D /* ORKCatalogUITests */,
+				0B17354A2B5736E100AAB6BC /* ORKCatalogWatch */,
+				0B17354F2B5736E100AAB6BC /* ORKCatalogWatch Watch App */,
 				51AF19762B59F1E400D3B399 /* ORKCatalogTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		0B1735492B5736E100AAB6BC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0B17354E2B5736E100AAB6BC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0B17355D2B5736E300AAB6BC /* Preview Assets.xcassets in Resources */,
+				0B17355A2B5736E300AAB6BC /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		51AF19752B59F1E400D3B399 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -644,6 +783,15 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		0B17354C2B5736E100AAB6BC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0B1735582B5736E100AAB6BC /* ContentView.swift in Sources */,
+				0B1735562B5736E100AAB6BC /* ORKCatalogWatchApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		51AF19732B59F1E400D3B399 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -711,6 +859,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		0B1735532B5736E100AAB6BC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0B17354F2B5736E100AAB6BC /* ORKCatalogWatch Watch App */;
+			targetProxy = 0B1735522B5736E100AAB6BC /* PBXContainerItemProxy */;
+		};
 		51AF197C2B59F1E500D3B399 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 869230BD1AAA890A00BFE11B /* ORKCatalog */;
@@ -1042,6 +1195,381 @@
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
+		};
+        		0B1735742B5736E400AAB6BC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 7JYUG8QGJ3;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				INFOPLIST_KEY_CFBundleDisplayName = ORKCatalogWatch;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = Apple.ORKCatalogWatch;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		0B1735742B5736E400AAB6BC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 7JYUG8QGJ3;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				INFOPLIST_KEY_CFBundleDisplayName = ORKCatalogWatch;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = Apple.ORKCatalogWatch;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		0B1735752B5736E400AAB6BC /* Skywagon Stable */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 7JYUG8QGJ3;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				INFOPLIST_KEY_CFBundleDisplayName = ORKCatalogWatch;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = Apple.ORKCatalogWatch;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_VERSION = 5.0;
+			};
+			name = "Skywagon Stable";
+		};
+		0B1735762B5736E400AAB6BC /* Skywagon Internal Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 7JYUG8QGJ3;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				INFOPLIST_KEY_CFBundleDisplayName = ORKCatalogWatch;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = Apple.ORKCatalogWatch;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_VERSION = 5.0;
+			};
+			name = "Skywagon Internal Release";
+		};
+		0B1735772B5736E400AAB6BC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 7JYUG8QGJ3;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				INFOPLIST_KEY_CFBundleDisplayName = ORKCatalogWatch;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = Apple.ORKCatalogWatch;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		0B1735782B5736E400AAB6BC /* Skywagon Public Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 7JYUG8QGJ3;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				INFOPLIST_KEY_CFBundleDisplayName = ORKCatalogWatch;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = Apple.ORKCatalogWatch;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_VERSION = 5.0;
+			};
+			name = "Skywagon Public Release";
+		};
+		0B17357A2B5736E400AAB6BC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_ASSET_PATHS = "\"ORKCatalogWatch Watch App/Preview Content\"";
+				DEVELOPMENT_TEAM = 7JYUG8QGJ3;
+				ENABLE_PREVIEWS = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = ORKCatalogWatch;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKWatchOnly = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = Apple.ORKCatalogWatch.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Debug;
+		};
+		0B17357B2B5736E400AAB6BC /* Skywagon Stable */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_ASSET_PATHS = "\"ORKCatalogWatch Watch App/Preview Content\"";
+				DEVELOPMENT_TEAM = 7JYUG8QGJ3;
+				ENABLE_PREVIEWS = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = ORKCatalogWatch;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKWatchOnly = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = Apple.ORKCatalogWatch.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = "Skywagon Stable";
+		};
+		0B17357C2B5736E400AAB6BC /* Skywagon Internal Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_ASSET_PATHS = "\"ORKCatalogWatch Watch App/Preview Content\"";
+				DEVELOPMENT_TEAM = 7JYUG8QGJ3;
+				ENABLE_PREVIEWS = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = ORKCatalogWatch;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKWatchOnly = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = Apple.ORKCatalogWatch.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = "Skywagon Internal Release";
+		};
+		0B17357D2B5736E400AAB6BC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_ASSET_PATHS = "\"ORKCatalogWatch Watch App/Preview Content\"";
+				DEVELOPMENT_TEAM = 7JYUG8QGJ3;
+				ENABLE_PREVIEWS = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = ORKCatalogWatch;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKWatchOnly = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = Apple.ORKCatalogWatch.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Release;
+		};
+		0B17357E2B5736E400AAB6BC /* Skywagon Public Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_ASSET_PATHS = "\"ORKCatalogWatch Watch App/Preview Content\"";
+				DEVELOPMENT_TEAM = 7JYUG8QGJ3;
+				ENABLE_PREVIEWS = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = ORKCatalogWatch;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKWatchOnly = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = Apple.ORKCatalogWatch.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = "Skywagon Public Release";
 		};
 		51AF197D2B59F1E600D3B399 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -1516,6 +2044,30 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0B1735892B5736E400AAB6BC /* Build configuration list for PBXNativeTarget "ORKCatalogWatch Watch App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0B17357A2B5736E400AAB6BC /* Debug */,
+				0B17357B2B5736E400AAB6BC /* Skywagon Stable */,
+				0B17357C2B5736E400AAB6BC /* Skywagon Internal Release */,
+				0B17357D2B5736E400AAB6BC /* Release */,
+				0B17357E2B5736E400AAB6BC /* Skywagon Public Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = "Skywagon Internal Release";
+		};
+		0B17358A2B5736E400AAB6BC /* Build configuration list for PBXNativeTarget "ORKCatalogWatch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0B1735742B5736E400AAB6BC /* Debug */,
+				0B1735752B5736E400AAB6BC /* Skywagon Stable */,
+				0B1735762B5736E400AAB6BC /* Skywagon Internal Release */,
+				0B1735772B5736E400AAB6BC /* Release */,
+				0B1735782B5736E400AAB6BC /* Skywagon Public Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = "Skywagon Internal Release";
+		};
 		51AF19822B59F1E600D3B399 /* Build configuration list for PBXNativeTarget "ORKCatalogTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

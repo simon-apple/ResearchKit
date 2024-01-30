@@ -95,3 +95,5 @@ FOUNDATION_EXPORT const unsigned char ResearchKitActiveTaskVersionString[];
 #import <ResearchKitActiveTask/ORKdBHLToneAudiometryOnboardingStepViewController.h>
 #import <ResearchKitActiveTask/ORKdBHLToneAudiometryResult.h>
 #import <ResearchKitActiveTask/ORKdBHLToneAudiometryStepViewController.h>
+#import <ResearchKitActiveTask/ORKNormalizedReactionTimeStep.h>
+#import <ResearchKitActiveTask/ORKTimedWalkStep.h>
