@@ -475,24 +475,30 @@ NSString * const ORKClearTextViewButtonAccessibilityIdentifier = @"ORKClearTextV
                        answer:(id)answer
                 maxLabelWidth:(CGFloat)maxLabelWidth
                      delegate:(id<ORKFormItemCellDelegate>)delegate {
+    // [RDLS:NOTE] moved from cellInit
+    self.textFieldView.textField.placeholder = formItem.placeholder;
+    // [RDLS:NOTE] moved from init. labelLabel.text set in [super config]
+    self.textFieldView.accessibilityLabel = self.labelLabel.text;
     
-    self.textFieldView.textField.placeholder = formItem.placeholder; // [RDLS:NOTE] moved from cellInit
-    self.textFieldView.accessibilityLabel = self.labelLabel.text; // [RDLS:NOTE] moved from init. labelLabel.text set in [super config]
-    
-    if ([formItem.answerFormat shouldShowDontKnowButton]) { // [RDLS:NOTE] moved from cellInit
+    // [RDLS:NOTE] moved from cellInit
+    if ([formItem.answerFormat shouldShowDontKnowButton]) {
         _shouldShowDontKnow = YES; // [RDLS:NOTE] reset in prepareForReuse
         _customDontKnowString = formItem.answerFormat.customDontKnowButtonText; // [RDLS:NOTE] reset in prepareForReuse
         _dontKnowButtonStyle = formItem.answerFormat.dontKnowButtonStyle; // reset in prepareForResuse
         
         // [LC:NOTE] we need to pass in our answer here, because self.answer is not set yet.
-        [self setupDontKnowButtonWithAnswer:answer]; // [RDLS:NOTE] reset in prepareForReuse
-        self.accessibilityElements = @[_textFieldView, _dontKnowButton, self.errorLabel]; // [RDLS:NOTE] reset in prepareForReuse
+        // [RDLS:NOTE] reset in prepareForReuse
+        [self setupDontKnowButtonWithAnswer:answer];
+        // [RDLS:NOTE] reset in prepareForReuse
+        self.accessibilityElements = @[_textFieldView, _dontKnowButton, self.errorLabel];
     } else {
         self.accessibilityElements = @[_textFieldView, self.errorLabel];
     }
     
-    [self setUpContentConstraint]; // [RDLS:NOTE] moved from cellInit
-    [self setNeedsUpdateConstraints]; // [RDLS:NOTE] moved from cellInit
+    // [RDLS:NOTE] moved from cellInit
+    [self setUpContentConstraint];
+    // [RDLS:NOTE] moved from cellInit
+    [self setNeedsUpdateConstraints];
 
     [super configureWithFormItem:formItem answer:answer maxLabelWidth:maxLabelWidth delegate:delegate];
     [self enableAccessibilitySupport];

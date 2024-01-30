@@ -132,6 +132,8 @@ enum TaskListRow: Int, CustomStringConvertible {
     case videoInstruction
     case review
     case webView
+    case consentTask
+    case consentDoc
     
     #if RK_APPLE_INTERNAL
     case platterUIQuestion
@@ -144,8 +146,6 @@ enum TaskListRow: Int, CustomStringConvertible {
     case customStepTask
     case studyPromoTask
     case studySignPostStep
-    case consentTask
-    case consentDoc
     case familyHistoryReviewTask
     case longHeaderTask
     case colorChoiceQuestion
@@ -468,6 +468,12 @@ enum TaskListRow: Int, CustomStringConvertible {
         case .webView:
             return NSLocalizedString("Web View", comment: "")
             
+        case .consentTask:
+            return NSLocalizedString("Consent Task", comment: "")
+            
+        case .consentDoc:
+            return NSLocalizedString("Consent Document Review", comment: "")
+            
         #if RK_APPLE_INTERNAL
         case .platterUIQuestion:
             return NSLocalizedString("Platter UI Question", comment: "")
@@ -483,12 +489,6 @@ enum TaskListRow: Int, CustomStringConvertible {
         
         case .ble:
             return NSLocalizedString("BLE", comment: "")
-            
-        case .consentTask:
-            return NSLocalizedString("Consent Task", comment: "")
-            
-        case .consentDoc:
-            return NSLocalizedString("Consent Document Review", comment: "")
             
         case .textQuestionPIIScrubbing:
             return NSLocalizedString("Text Question PII Scrubbing", comment: "")
@@ -720,6 +720,12 @@ enum TaskListRow: Int, CustomStringConvertible {
         case .webView:
             return webView
             
+        case .consentTask:
+            return consentTask
+            
+        case .consentDoc:
+            return consentDoc
+            
         #if RK_APPLE_INTERNAL
         case .platterUIQuestion:
             return platterQuestionTask
@@ -738,12 +744,6 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .ble:
             return ble
-            
-        case .consentTask:
-            return consentTask
-            
-        case .consentDoc:
-            return consentDoc
             
         case .newdBHLToneAudiometryTask:
             return newdBHLToneAudiometryTask
@@ -1668,93 +1668,6 @@ enum TaskListRow: Int, CustomStringConvertible {
         return ORKOrderedTask(identifier: String(describing: Identifier.requestPermissionsStep), steps: [requestPermissionsStep])
     }
     
-    private var longHeaderTask: ORKTask {
-        // create formItems and formStep for parent relative group
-        let learnMoreInstructionStep01 = ORKLearnMoreInstructionStep(identifier: "LearnMoreInstructionStep01")
-        learnMoreInstructionStep01.title = NSLocalizedString("Learn more title", comment: "")
-        learnMoreInstructionStep01.text = NSLocalizedString("Learn more text", comment: "")
-        let learnMoreItem01 = ORKLearnMoreItem(text: nil, learnMoreInstructionStep: learnMoreInstructionStep01)
-        
-        let relativeNameSectionHeaderFormItem = ORKFormItem(sectionTitle:"""
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque lacinia lorem in nulla ultrices, nec suscipit massa tristique. Pellentesque eu sem ut velit auctor gravida ut in augue. Aliquam non dolor in diam auctor pellentesque et vitae risus. Integer interdum hendrerit dolor. Vestibulum varius commodo ultricies. Donec ut quam vitae massa varius ultricies. Nullam porta quam in tortor efficitur fermentum. Vestibulum in vestibulum sem, eget porta magna. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas pretium lectus a turpis pretium, sed cursus diam ultricies. Morbi viverra nisi ut purus posuere convallis. Etiam velit lacus, rhoncus ut vehicula vel, malesuada eget lacus. Nunc varius enim leo, dapibus venenatis ante mollis in. Etiam ut lacus ornare, vulputate tellus eu, rutrum mi. Aliquam fringilla nulla sit amet velit blandit posuere. Integer tincidunt volutpat odio, at laoreet lorem ornare euismod. Nam ullamcorper imperdiet ipsum, eu blandit lectus sollicitudin quis. Vivamus id arcu orci.
-                """, detailText: """
-                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque lacinia lorem in nulla ultrices, nec suscipit massa tristique. Pellentesque eu sem ut velit auctor gravida ut in augue. Aliquam non dolor in diam auctor pellentesque et vitae risus. Integer interdum hendrerit dolor. Vestibulum varius commodo ultricies. Donec ut quam vitae massa varius ultricies. Nullam porta quam in tortor efficitur fermentum. Vestibulum in vestibulum sem, eget porta magna. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas pretium lectus a turpis pretium, sed cursus diam ultricies. Morbi viverra nisi ut purus posuere convallis. Etiam velit lacus, rhoncus ut vehicula vel, malesuada eget lacus. Nunc varius enim leo, dapibus venenatis ante mollis in. Etiam ut lacus ornare, vulputate tellus eu, rutrum mi. Aliquam fringilla nulla sit amet velit blandit posuere. Integer tincidunt volutpat odio, at laoreet lorem ornare euismod. Nam ullamcorper imperdiet ipsum, eu blandit lectus sollicitudin quis. Vivamus id arcu orci.
-                """, learnMoreItem: learnMoreItem01, showsProgress: true)
-        relativeNameSectionHeaderFormItem.tagText = """
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque lacinia lorem in nulla ultrices, nec suscipit massa tristique. Pellentesque eu sem ut velit auctor gravida ut in augue. Aliquam non dolor in diam auctor pellentesque et vitae risus. Integer interdum hendrerit dolor. Vestibulum varius commodo ultricies. Donec ut quam vitae massa varius ultricies. Nullam porta quam in tortor efficitur fermentum. Vestibulum in vestibulum sem, eget porta magna. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas pretium lectus a turpis pretium, sed cursus diam ultricies. Morbi viverra nisi ut purus posuere convallis. Etiam velit lacus, rhoncus ut vehicula vel, malesuada eget lacus. Nunc varius enim leo, dapibus venenatis ante mollis in. Etiam ut lacus ornare, vulputate tellus eu, rutrum mi. Aliquam fringilla nulla sit amet velit blandit posuere. Integer tincidunt volutpat odio, at laoreet lorem ornare euismod. Nam ullamcorper imperdiet ipsum, eu blandit lectus sollicitudin quis. Vivamus id arcu orci.
-        """
-        let parentTextEntryAnswerFormat = ORKAnswerFormat.textAnswerFormat()
-        parentTextEntryAnswerFormat.multipleLines = false
-        parentTextEntryAnswerFormat.maximumLength = 3
-
-        let parentNameFormItem = ORKFormItem(identifier: "ParentNameIdentifier", text: "enter optional name", answerFormat: parentTextEntryAnswerFormat)
-        parentNameFormItem.isOptional = true
-        
-        let sexAtBirthOptions = [
-            ORKTextChoice(text: "Female", value: "Female" as NSString),
-            ORKTextChoice(text: "Male", value: "Male" as NSString),
-            ORKTextChoice(text: "Intersex", value: "Intersex" as NSString),
-            ORKTextChoice(text: "I don't know", value: "i_dont_know" as NSString),
-            ORKTextChoice(text: "I prefer not to answer", value: "i_prefer_not_to_answer" as NSString)
-        ]
-        
-        let parentSexAtBirthChoiceAnswerFormat = ORKAnswerFormat.choiceAnswerFormat(with: .singleChoice, textChoices: sexAtBirthOptions)
-        let parentSextAtBirthFormItem = ORKFormItem(identifier: "ParentSexAtBirthIdentifier", text: "What was the sex assigned on their original birth certificate?", answerFormat: parentSexAtBirthChoiceAnswerFormat)
-        parentSextAtBirthFormItem.isOptional = false
-        
-        let vitalStatusOptions = [
-            ORKTextChoice(text: "Living", value: "system=snomedct&code=73211009" as NSString),
-            ORKTextChoice(text: "Deceased", value: "system=snomedct&code=73211008" as NSString),
-            ORKTextChoice(text: "I don't know", value: "system=snomedct&code=73211007" as NSString),
-            ORKTextChoice(text: "I prefer not to answer", value: "system=snomedct&code=73211006" as NSString),
-        ]
-        
-        let parentVitalStatusChoiceAnswerFormat = ORKAnswerFormat.choiceAnswerFormat(with: .singleChoice, textChoices: vitalStatusOptions)
-        let parentVitalStatusFormItem = ORKFormItem(identifier: "ParentVitalStatusIdentifier", text: "What is their current vital status?", answerFormat: parentVitalStatusChoiceAnswerFormat)
-        parentVitalStatusFormItem.isOptional = false
-        
-        let parentFormStep = ORKFormStep(identifier: "ParentSurveyIdentifier")
-        let visibilityRule = ORKPredicateFormItemVisibilityRule(
-            predicate: ORKResultPredicate.predicateForChoiceQuestionResult(
-                with: .init(stepIdentifier: parentFormStep.identifier, resultIdentifier: parentVitalStatusFormItem.identifier),
-                expectedAnswerValue: NSString(string: "system=snomedct&code=73211009")
-            )
-        )
-
-        let parentAgePickerSectionHeaderFormItem = ORKFormItem(identifier: "ParentAgeSectionHeaderIdentifier", text: "What is their approximate birth year?", answerFormat: nil)
-        parentAgePickerSectionHeaderFormItem.visibilityRule = visibilityRule
-        
-        let parentAgePickerAnswerFormat = ORKAgeAnswerFormat(
-            minimumAge: 18,
-            maximumAge: 90,
-            minimumAgeCustomText: "18 or younger",
-            maximumAgeCustomText: "90 or older",
-            showYear: true,
-            useYearForResult: true,
-            treatMinAgeAsRange: true,
-            treatMaxAgeAsRange: false,
-            defaultValue: 30)
-        parentAgePickerAnswerFormat.shouldShowDontKnowButton = true
-        
-        let parentAgeFormItem = ORKFormItem(identifier: "ParentAgeFormItemIdentifier", text: nil, answerFormat: parentAgePickerAnswerFormat)
-        parentAgeFormItem.isOptional = false
-        parentAgeFormItem.visibilityRule = visibilityRule
-        
-        parentFormStep.isOptional = false
-        parentFormStep.title = "Parent"
-        parentFormStep.detailText = "Answer these questions to the best of your ability."
-        parentFormStep.formItems = [
-            relativeNameSectionHeaderFormItem,
-            parentNameFormItem,
-            parentSextAtBirthFormItem,
-            parentVitalStatusFormItem,
-            parentAgePickerSectionHeaderFormItem,
-            parentAgeFormItem
-        ]
-        
-        return ORKOrderedTask(identifier: String(describing: Identifier.familyHistoryStep), steps: [parentFormStep])
-    }
-    
     /**
     A task demonstrating how the ResearchKit framework can be used to determine
     eligibility using a navigable ordered task.
@@ -2263,6 +2176,93 @@ enum TaskListRow: Int, CustomStringConvertible {
         customStep.iconImage = UIImage(systemName: "clock")
 
         return ORKOrderedTask(identifier: String(describing: Identifier.customStepTask), steps: [customStep])
+    }
+    
+    private var longHeaderTask: ORKTask {
+        // create formItems and formStep for parent relative group
+        let learnMoreInstructionStep01 = ORKLearnMoreInstructionStep(identifier: "LearnMoreInstructionStep01")
+        learnMoreInstructionStep01.title = NSLocalizedString("Learn more title", comment: "")
+        learnMoreInstructionStep01.text = NSLocalizedString("Learn more text", comment: "")
+        let learnMoreItem01 = ORKLearnMoreItem(text: nil, learnMoreInstructionStep: learnMoreInstructionStep01)
+        
+        let relativeNameSectionHeaderFormItem = ORKFormItem(sectionTitle:"""
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque lacinia lorem in nulla ultrices, nec suscipit massa tristique. Pellentesque eu sem ut velit auctor gravida ut in augue. Aliquam non dolor in diam auctor pellentesque et vitae risus. Integer interdum hendrerit dolor. Vestibulum varius commodo ultricies. Donec ut quam vitae massa varius ultricies. Nullam porta quam in tortor efficitur fermentum. Vestibulum in vestibulum sem, eget porta magna. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas pretium lectus a turpis pretium, sed cursus diam ultricies. Morbi viverra nisi ut purus posuere convallis. Etiam velit lacus, rhoncus ut vehicula vel, malesuada eget lacus. Nunc varius enim leo, dapibus venenatis ante mollis in. Etiam ut lacus ornare, vulputate tellus eu, rutrum mi. Aliquam fringilla nulla sit amet velit blandit posuere. Integer tincidunt volutpat odio, at laoreet lorem ornare euismod. Nam ullamcorper imperdiet ipsum, eu blandit lectus sollicitudin quis. Vivamus id arcu orci.
+                """, detailText: """
+                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque lacinia lorem in nulla ultrices, nec suscipit massa tristique. Pellentesque eu sem ut velit auctor gravida ut in augue. Aliquam non dolor in diam auctor pellentesque et vitae risus. Integer interdum hendrerit dolor. Vestibulum varius commodo ultricies. Donec ut quam vitae massa varius ultricies. Nullam porta quam in tortor efficitur fermentum. Vestibulum in vestibulum sem, eget porta magna. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas pretium lectus a turpis pretium, sed cursus diam ultricies. Morbi viverra nisi ut purus posuere convallis. Etiam velit lacus, rhoncus ut vehicula vel, malesuada eget lacus. Nunc varius enim leo, dapibus venenatis ante mollis in. Etiam ut lacus ornare, vulputate tellus eu, rutrum mi. Aliquam fringilla nulla sit amet velit blandit posuere. Integer tincidunt volutpat odio, at laoreet lorem ornare euismod. Nam ullamcorper imperdiet ipsum, eu blandit lectus sollicitudin quis. Vivamus id arcu orci.
+                """, learnMoreItem: learnMoreItem01, showsProgress: true)
+        relativeNameSectionHeaderFormItem.tagText = """
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque lacinia lorem in nulla ultrices, nec suscipit massa tristique. Pellentesque eu sem ut velit auctor gravida ut in augue. Aliquam non dolor in diam auctor pellentesque et vitae risus. Integer interdum hendrerit dolor. Vestibulum varius commodo ultricies. Donec ut quam vitae massa varius ultricies. Nullam porta quam in tortor efficitur fermentum. Vestibulum in vestibulum sem, eget porta magna. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas pretium lectus a turpis pretium, sed cursus diam ultricies. Morbi viverra nisi ut purus posuere convallis. Etiam velit lacus, rhoncus ut vehicula vel, malesuada eget lacus. Nunc varius enim leo, dapibus venenatis ante mollis in. Etiam ut lacus ornare, vulputate tellus eu, rutrum mi. Aliquam fringilla nulla sit amet velit blandit posuere. Integer tincidunt volutpat odio, at laoreet lorem ornare euismod. Nam ullamcorper imperdiet ipsum, eu blandit lectus sollicitudin quis. Vivamus id arcu orci.
+        """
+        let parentTextEntryAnswerFormat = ORKAnswerFormat.textAnswerFormat()
+        parentTextEntryAnswerFormat.multipleLines = false
+        parentTextEntryAnswerFormat.maximumLength = 3
+
+        let parentNameFormItem = ORKFormItem(identifier: "ParentNameIdentifier", text: "enter optional name", answerFormat: parentTextEntryAnswerFormat)
+        parentNameFormItem.isOptional = true
+        
+        let sexAtBirthOptions = [
+            ORKTextChoice(text: "Female", value: "Female" as NSString),
+            ORKTextChoice(text: "Male", value: "Male" as NSString),
+            ORKTextChoice(text: "Intersex", value: "Intersex" as NSString),
+            ORKTextChoice(text: "I don't know", value: "i_dont_know" as NSString),
+            ORKTextChoice(text: "I prefer not to answer", value: "i_prefer_not_to_answer" as NSString)
+        ]
+        
+        let parentSexAtBirthChoiceAnswerFormat = ORKAnswerFormat.choiceAnswerFormat(with: .singleChoice, textChoices: sexAtBirthOptions)
+        let parentSextAtBirthFormItem = ORKFormItem(identifier: "ParentSexAtBirthIdentifier", text: "What was the sex assigned on their original birth certificate?", answerFormat: parentSexAtBirthChoiceAnswerFormat)
+        parentSextAtBirthFormItem.isOptional = false
+        
+        let vitalStatusOptions = [
+            ORKTextChoice(text: "Living", value: "system=snomedct&code=73211009" as NSString),
+            ORKTextChoice(text: "Deceased", value: "system=snomedct&code=73211008" as NSString),
+            ORKTextChoice(text: "I don't know", value: "system=snomedct&code=73211007" as NSString),
+            ORKTextChoice(text: "I prefer not to answer", value: "system=snomedct&code=73211006" as NSString),
+        ]
+        
+        let parentVitalStatusChoiceAnswerFormat = ORKAnswerFormat.choiceAnswerFormat(with: .singleChoice, textChoices: vitalStatusOptions)
+        let parentVitalStatusFormItem = ORKFormItem(identifier: "ParentVitalStatusIdentifier", text: "What is their current vital status?", answerFormat: parentVitalStatusChoiceAnswerFormat)
+        parentVitalStatusFormItem.isOptional = false
+        
+        let parentFormStep = ORKFormStep(identifier: "ParentSurveyIdentifier")
+        let visibilityRule = ORKPredicateFormItemVisibilityRule(
+            predicate: ORKResultPredicate.predicateForChoiceQuestionResult(
+                with: .init(stepIdentifier: parentFormStep.identifier, resultIdentifier: parentVitalStatusFormItem.identifier),
+                expectedAnswerValue: NSString(string: "system=snomedct&code=73211009")
+            )
+        )
+
+        let parentAgePickerSectionHeaderFormItem = ORKFormItem(identifier: "ParentAgeSectionHeaderIdentifier", text: "What is their approximate birth year?", answerFormat: nil)
+        parentAgePickerSectionHeaderFormItem.visibilityRule = visibilityRule
+        
+        let parentAgePickerAnswerFormat = ORKAgeAnswerFormat(
+            minimumAge: 18,
+            maximumAge: 90,
+            minimumAgeCustomText: "18 or younger",
+            maximumAgeCustomText: "90 or older",
+            showYear: true,
+            useYearForResult: true,
+            treatMinAgeAsRange: true,
+            treatMaxAgeAsRange: false,
+            defaultValue: 30)
+        parentAgePickerAnswerFormat.shouldShowDontKnowButton = true
+        
+        let parentAgeFormItem = ORKFormItem(identifier: "ParentAgeFormItemIdentifier", text: nil, answerFormat: parentAgePickerAnswerFormat)
+        parentAgeFormItem.isOptional = false
+        parentAgeFormItem.visibilityRule = visibilityRule
+        
+        parentFormStep.isOptional = false
+        parentFormStep.title = "Parent"
+        parentFormStep.detailText = "Answer these questions to the best of your ability."
+        parentFormStep.formItems = [
+            relativeNameSectionHeaderFormItem,
+            parentNameFormItem,
+            parentSextAtBirthFormItem,
+            parentVitalStatusFormItem,
+            parentAgePickerSectionHeaderFormItem,
+            parentAgeFormItem
+        ]
+        
+        return ORKOrderedTask(identifier: String(describing: Identifier.familyHistoryStep), steps: [parentFormStep])
     }
     
     /**

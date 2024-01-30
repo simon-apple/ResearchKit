@@ -166,9 +166,6 @@ func resultTableViewProviderForResult(_ result: ORKResult?, delegate: ResultProv
     case is ORKTaskResult:
         providerType = TaskResultTableViewProvider.self
 
-    case is ORKFamilyHistoryResult:
-        providerType = FamilyHistoryResultTableViewProvider.self
-
     /*
         Refer to the comment near the switch statement for why the
         additional guard is here.
