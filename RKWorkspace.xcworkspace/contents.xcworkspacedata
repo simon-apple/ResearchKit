@@ -2,10 +2,13 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:ResearchKit.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:ResearchKitInternal/ResearchKitInternal.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:ResearchKit.xcodeproj">
+      location = "group:ResearchKitUIWatch/ResearchKitUI(Watch).xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Testing/ORKTest/ORKTest.xcodeproj">

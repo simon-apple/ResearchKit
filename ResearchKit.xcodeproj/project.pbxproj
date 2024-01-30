@@ -9,9 +9,6 @@
 /* Begin PBXBuildFile section */
 		003BC2BF24FD585B00BC7CDF /* ORKCollectionResult.h in Headers */ = {isa = PBXBuildFile; fileRef = FF919A511E81BEB5005C2A1E /* ORKCollectionResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		00B1F7852241503900D022FE /* Speech.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B1F7842241503900D022FE /* Speech.framework */; };
-		00C19CBE25094B5F00DCFB7A /* TaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D06633924FEF2CE005D9B40 /* TaskView.swift */; };
-		00C19CC22509520900DCFB7A /* ResearchKitUI.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D06632F24FEF272005D9B40 /* ResearchKitUI.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		00C19CC32509522000DCFB7A /* ResearchKitCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DABE54824D8BF2400570C57 /* ResearchKitCore.framework */; };
 		00C2668E23022CD400337E0B /* ORKCustomStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 00C2668C23022CD400337E0B /* ORKCustomStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		00C2668F23022CD400337E0B /* ORKCustomStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 00C2668D23022CD400337E0B /* ORKCustomStep.m */; };
 		00F189CB24F5B45300371E9C /* ORKStep_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40BBB1A8D7C5C00081FAC /* ORKStep_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -175,13 +172,6 @@
 		5D04885D25F1B3AB0006C68B /* ORKDevice_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D04885B25F1B3AB0006C68B /* ORKDevice_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5D04885E25F1B8C00006C68B /* ORKCollectionResult_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = FF919A551E81BEDD005C2A1E /* ORKCollectionResult_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5D43C5D424255675006F4084 /* ORKBodyItem_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D43C5D324255675006F4084 /* ORKBodyItem_Internal.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		5D8D87B0251919480030E058 /* View+Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8D87AF251919480030E058 /* View+Task.swift */; };
-		5D8D87B325191A0F0030E058 /* InstructionStepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8D87B225191A0F0030E058 /* InstructionStepView.swift */; };
-		5D8D87B525191A5D0030E058 /* QuestionStepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8D87B425191A5D0030E058 /* QuestionStepView.swift */; };
-		5D8D87B725191AA60030E058 /* CompletionStepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8D87B625191AA60030E058 /* CompletionStepView.swift */; };
-		5D8D87B925191B100030E058 /* DefaultStepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8D87B825191B100030E058 /* DefaultStepView.swift */; };
-		5D8D87BB25191B520030E058 /* TaskContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8D87BA25191B520030E058 /* TaskContentView.swift */; };
-		5D8D87BD25191B920030E058 /* TaskManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8D87BC25191B920030E058 /* TaskManager.swift */; };
 		5DABE54C24D8BF2400570C57 /* ResearchKitCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DABE54A24D8BF2400570C57 /* ResearchKitCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5DABE55C24D8C33800570C57 /* ORKStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40BB91A8D7C5C00081FAC /* ORKStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5DABE55D24D8C34B00570C57 /* ORKTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = BCB8133B1C98367A00346561 /* ORKTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -215,8 +205,6 @@
 		5DABE5AF24DA174200570C57 /* ResearchKit_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 5DABE5AD24DA16E600570C57 /* ResearchKit_Prefix.pch */; };
 		5DABE5B024DA1A4900570C57 /* ORKChoiceAnswerFormatHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 861D11AB1AA7951F003C98A7 /* ORKChoiceAnswerFormatHelper.h */; };
 		5DABE5B124DA1A4F00570C57 /* ORKChoiceAnswerFormatHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 861D11AC1AA7951F003C98A7 /* ORKChoiceAnswerFormatHelper.m */; };
-		5DD838F4257AD74C006CFD84 /* View+OnChange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DD838F3257AD74C006CFD84 /* View+OnChange.swift */; };
-		5DD838F6257AD831006CFD84 /* ORKScrollViewReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DD838F5257AD831006CFD84 /* ORKScrollViewReader.swift */; };
 		5DFD11D124F73A6F00744C69 /* ORKCollectionResult.m in Sources */ = {isa = PBXBuildFile; fileRef = FF919A521E81BEB5005C2A1E /* ORKCollectionResult.m */; };
 		7118AC6820BF6A3A00D7A6BB /* Sentence4.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7118AC6120BF6A3A00D7A6BB /* Sentence4.wav */; };
 		7118AC6920BF6A3A00D7A6BB /* Sentence6.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7118AC6220BF6A3A00D7A6BB /* Sentence6.wav */; };
@@ -978,13 +966,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		00C19CC52509522000DCFB7A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3FFF18351829DB1D00167070 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5DABE54724D8BF2400570C57;
-			remoteInfo = "ResearchKitCore (watchOS)";
-		};
 		86CC8EA11AC09332001CCD89 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 3FFF18351829DB1D00167070 /* Project object */;
@@ -1353,10 +1334,8 @@
 		5D04885525F19A7A0006C68B /* ORKDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKDevice.h; sourceTree = "<group>"; };
 		5D04885625F19A7A0006C68B /* ORKDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKDevice.m; sourceTree = "<group>"; };
 		5D04885B25F1B3AB0006C68B /* ORKDevice_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKDevice_Private.h; sourceTree = "<group>"; };
-		5D06632D24FEF272005D9B40 /* ResearchKitUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ResearchKitUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D06632F24FEF272005D9B40 /* ResearchKitUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResearchKitUI.h; sourceTree = "<group>"; };
 		5D06633024FEF272005D9B40 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5D06633924FEF2CE005D9B40 /* TaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskView.swift; sourceTree = "<group>"; };
 		5D1CE45823FC85F3004CB416 /* ORKAudioMeteringView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKAudioMeteringView.h; sourceTree = "<group>"; };
 		5D1CE45923FC85F4004CB416 /* ORKAudioMeteringView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKAudioMeteringView.m; sourceTree = "<group>"; };
 		5D26E77724997EA200E53D27 /* ORK3DModelManager_Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORK3DModelManager_Internal.h; sourceTree = "<group>"; };
@@ -1368,19 +1347,10 @@
 		5D58800A24007140005B3D91 /* ORKPlaybackButton_Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKPlaybackButton_Internal.h; sourceTree = "<group>"; };
 		5D5880372410394E005B3D91 /* ORKSpeechInNoiseResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKSpeechInNoiseResult.h; sourceTree = "<group>"; };
 		5D5880382410394E005B3D91 /* ORKSpeechInNoiseResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKSpeechInNoiseResult.m; sourceTree = "<group>"; };
-		5D8D87AF251919480030E058 /* View+Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Task.swift"; sourceTree = "<group>"; };
-		5D8D87B225191A0F0030E058 /* InstructionStepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionStepView.swift; sourceTree = "<group>"; };
-		5D8D87B425191A5D0030E058 /* QuestionStepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionStepView.swift; sourceTree = "<group>"; };
-		5D8D87B625191AA60030E058 /* CompletionStepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionStepView.swift; sourceTree = "<group>"; };
-		5D8D87B825191B100030E058 /* DefaultStepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultStepView.swift; sourceTree = "<group>"; };
-		5D8D87BA25191B520030E058 /* TaskContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskContentView.swift; sourceTree = "<group>"; };
-		5D8D87BC25191B920030E058 /* TaskManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskManager.swift; sourceTree = "<group>"; };
 		5DABE54824D8BF2400570C57 /* ResearchKitCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ResearchKitCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5DABE54A24D8BF2400570C57 /* ResearchKitCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResearchKitCore.h; sourceTree = "<group>"; };
 		5DABE55424D8C02F00570C57 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5DABE5AD24DA16E600570C57 /* ResearchKit_Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResearchKit_Prefix.pch; sourceTree = "<group>"; };
-		5DD838F3257AD74C006CFD84 /* View+OnChange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+OnChange.swift"; sourceTree = "<group>"; };
-		5DD838F5257AD831006CFD84 /* ORKScrollViewReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ORKScrollViewReader.swift; sourceTree = "<group>"; };
 		6146D0A11B84A91E0068491D /* ORKGraphChartAccessibilityElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKGraphChartAccessibilityElement.h; sourceTree = "<group>"; };
 		6146D0A21B84A91E0068491D /* ORKGraphChartAccessibilityElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKGraphChartAccessibilityElement.m; sourceTree = "<group>"; };
 		618DA0481A93D0D600E63AA8 /* ORKAccessibility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKAccessibility.h; sourceTree = "<group>"; };
@@ -2068,14 +2038,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		5D06632A24FEF272005D9B40 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				00C19CC32509522000DCFB7A /* ResearchKitCore.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		5DABE54524D8BF2400570C57 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -2278,7 +2240,6 @@
 				B183A5951A8535D100C76870 /* ResearchKit.framework */,
 				86CC8E9A1AC09332001CCD89 /* ResearchKitTests.xctest */,
 				5DABE54824D8BF2400570C57 /* ResearchKitCore.framework */,
-				5D06632D24FEF272005D9B40 /* ResearchKitUI.framework */,
 				CA1C7A5A288B0C68004DAB3A /* ResearchKitUI.framework */,
 				CAD08967289DD747007B2A98 /* ResearchKitActiveTask.framework */,
 			);
@@ -2506,13 +2467,6 @@
 				CA6A0D9D288F1BDC0048C1EF /* ResearchKitUI_Private.h */,
 				5D06633024FEF272005D9B40 /* Info.plist */,
 				CA1C7A5B288B0C69004DAB3A /* Info-iOS.plist */,
-				5D06633924FEF2CE005D9B40 /* TaskView.swift */,
-				5D8D87BC25191B920030E058 /* TaskManager.swift */,
-				5D8D87BA25191B520030E058 /* TaskContentView.swift */,
-				5D8D87AF251919480030E058 /* View+Task.swift */,
-				5DD838F3257AD74C006CFD84 /* View+OnChange.swift */,
-				5DD838F5257AD831006CFD84 /* ORKScrollViewReader.swift */,
-				5D8D87B1251919EF0030E058 /* Step Views */,
 			);
 			path = ResearchKitUI;
 			sourceTree = "<group>";
@@ -2522,17 +2476,6 @@
 			children = (
 			);
 			name = ORKRecordButton;
-			sourceTree = "<group>";
-		};
-		5D8D87B1251919EF0030E058 /* Step Views */ = {
-			isa = PBXGroup;
-			children = (
-				5D8D87B225191A0F0030E058 /* InstructionStepView.swift */,
-				5D8D87B425191A5D0030E058 /* QuestionStepView.swift */,
-				5D8D87B625191AA60030E058 /* CompletionStepView.swift */,
-				5D8D87B825191B100030E058 /* DefaultStepView.swift */,
-			);
-			path = "Step Views";
 			sourceTree = "<group>";
 		};
 		5DABE54924D8BF2400570C57 /* ResearchKitCore */ = {
@@ -4639,14 +4582,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		5D06632824FEF272005D9B40 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				00C19CC22509520900DCFB7A /* ResearchKitUI.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		5DABE54324D8BF2400570C57 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -5137,26 +5072,6 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		5D06632C24FEF272005D9B40 /* ResearchKitUI */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 5D06633824FEF272005D9B40 /* Build configuration list for PBXNativeTarget "ResearchKitUI" */;
-			buildPhases = (
-				5D06632824FEF272005D9B40 /* Headers */,
-				5D06632924FEF272005D9B40 /* Sources */,
-				5D06632A24FEF272005D9B40 /* Frameworks */,
-				5D06632B24FEF272005D9B40 /* Resources */,
-				5D8D87BF251C2A690030E058 /* Run SwiftLint */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				00C19CC62509522000DCFB7A /* PBXTargetDependency */,
-			);
-			name = ResearchKitUI;
-			productName = ResearchKitUI;
-			productReference = 5D06632D24FEF272005D9B40 /* ResearchKitUI.framework */;
-			productType = "com.apple.product-type.framework";
-		};
 		5DABE54724D8BF2400570C57 /* ResearchKitCore (watchOS) */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5DABE55324D8BF2400570C57 /* Build configuration list for PBXNativeTarget "ResearchKitCore (watchOS)" */;
@@ -5267,11 +5182,6 @@
 				LastUpgradeCheck = 1500;
 				ORGANIZATIONNAME = researchkit.org;
 				TargetAttributes = {
-					5D06632C24FEF272005D9B40 = {
-						CreatedOnToolsVersion = 12.0;
-						LastSwiftMigration = 1410;
-						ProvisioningStyle = Automatic;
-					};
 					5DABE54724D8BF2400570C57 = {
 						ProvisioningStyle = Manual;
 					};
@@ -5347,7 +5257,6 @@
 				B183A4731A8535D100C76870 /* ResearchKit */,
 				86CC8E991AC09332001CCD89 /* ResearchKitTests */,
 				5DABE54724D8BF2400570C57 /* ResearchKitCore (watchOS) */,
-				5D06632C24FEF272005D9B40 /* ResearchKitUI */,
 				CA1C7A40288B0C68004DAB3A /* ResearchKitUI (iOS) */,
 				CAD08966289DD747007B2A98 /* ResearchKitActiveTask */,
 			);
@@ -5355,13 +5264,6 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		5D06632B24FEF272005D9B40 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		5DABE54624D8BF2400570C57 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -5462,26 +5364,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		5D8D87BF251C2A690030E058 /* Run SwiftLint */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Run SwiftLint";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n    if ${CI} == true; then\n        echo \"Running Strict SwiftLint\"\n        swiftlint --strict\n    else\n        echo \"Running SwiftLint\"\n        swiftlint\n    fi\nelse\n    # Not a warning, to avoid this getting flagged in CI systems that don't have it\n    echo \"SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n\n";
-			showEnvVarsInLog = 0;
-		};
 		714174B5227ADF87005DD5E4 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
@@ -5519,23 +5401,6 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		5D06632924FEF272005D9B40 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5D8D87B525191A5D0030E058 /* QuestionStepView.swift in Sources */,
-				00C19CBE25094B5F00DCFB7A /* TaskView.swift in Sources */,
-				5D8D87BD25191B920030E058 /* TaskManager.swift in Sources */,
-				5DD838F6257AD831006CFD84 /* ORKScrollViewReader.swift in Sources */,
-				5D8D87B325191A0F0030E058 /* InstructionStepView.swift in Sources */,
-				5D8D87BB25191B520030E058 /* TaskContentView.swift in Sources */,
-				5D8D87B725191AA60030E058 /* CompletionStepView.swift in Sources */,
-				5DD838F4257AD74C006CFD84 /* View+OnChange.swift in Sources */,
-				5D8D87B925191B100030E058 /* DefaultStepView.swift in Sources */,
-				5D8D87B0251919480030E058 /* View+Task.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		5DABE54424D8BF2400570C57 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -6000,11 +5865,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		00C19CC62509522000DCFB7A /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 5DABE54724D8BF2400570C57 /* ResearchKitCore (watchOS) */;
-			targetProxy = 00C19CC52509522000DCFB7A /* PBXContainerItemProxy */;
-		};
 		86CC8EA21AC09332001CCD89 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = B183A4731A8535D100C76870 /* ResearchKit */;
@@ -6186,88 +6046,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 			};
 			name = Release;
-		};
-		5D06633224FEF272005D9B40 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5D000EDE2620F27100E5442A /* ResearchKitUI-Debug.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				DEFINES_MODULE = YES;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/Frameworks",
-				);
-				ORK_GCC_PREPROCESSOR_DEFINITIONS = "RK_APPLE_INTERNAL=1 ORK_FEATURE_AV_JOURNALING=1 ORK_FEATURE_AV_JOURNALING_DEPTH_DATA_COLLECTION=1 ORK_FEATURE_BLE_SCAN_PERIPHERALS=1";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
-			};
-			name = Debug;
-		};
-		5D06633324FEF272005D9B40 /* Skywagon Stable */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5D000EDF2620F27100E5442A /* ResearchKitUI-Shared.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				DEFINES_MODULE = YES;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/Frameworks",
-				);
-				ORK_GCC_PREPROCESSOR_DEFINITIONS = "RK_APPLE_INTERNAL=1 ORK_FEATURE_AV_JOURNALING=1 ORK_FEATURE_AV_JOURNALING_DEPTH_DATA_COLLECTION=1 ORK_FEATURE_BLE_SCAN_PERIPHERALS=1";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
-			};
-			name = "Skywagon Stable";
-		};
-		5D06633524FEF272005D9B40 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5D000EDF2620F27100E5442A /* ResearchKitUI-Shared.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				DEFINES_MODULE = YES;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/Frameworks",
-				);
-				ORK_GCC_PREPROCESSOR_DEFINITIONS = "RK_APPLE_INTERNAL=1 ORK_FEATURE_AV_JOURNALING=1 ORK_FEATURE_AV_JOURNALING_DEPTH_DATA_COLLECTION=1 ORK_FEATURE_BLE_SCAN_PERIPHERALS=1";
-				SWIFT_VERSION = 5.0;
-			};
-			name = Release;
-		};
-		5D06633624FEF272005D9B40 /* Skywagon Internal Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5D000EDF2620F27100E5442A /* ResearchKitUI-Shared.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				DEFINES_MODULE = YES;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/Frameworks",
-				);
-				ORK_GCC_PREPROCESSOR_DEFINITIONS = "RK_APPLE_INTERNAL=1 ORK_FEATURE_AV_JOURNALING=1 ORK_FEATURE_AV_JOURNALING_DEPTH_DATA_COLLECTION=1 ORK_FEATURE_BLE_SCAN_PERIPHERALS=1";
-				SWIFT_VERSION = 5.0;
-			};
-			name = "Skywagon Internal Release";
-		};
-		5D06633724FEF272005D9B40 /* Skywagon Public Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5D000EDF2620F27100E5442A /* ResearchKitUI-Shared.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				DEFINES_MODULE = YES;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/Frameworks",
-				);
-				ORK_GCC_PREPROCESSOR_DEFINITIONS = "RK_APPLE_INTERNAL=1 ORK_FEATURE_AV_JOURNALING=1 ORK_FEATURE_AV_JOURNALING_DEPTH_DATA_COLLECTION=1 ORK_FEATURE_BLE_SCAN_PERIPHERALS=1";
-				SWIFT_VERSION = 5.0;
-			};
-			name = "Skywagon Public Release";
 		};
 		5DABE54D24D8BF2400570C57 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -6772,18 +6550,6 @@
 				3FFF186A1829DB1E00167070 /* Release */,
 				050968EA236B720B006F734C /* Skywagon Internal Release */,
 				050968EE236B7217006F734C /* Skywagon Public Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
-		};
-		5D06633824FEF272005D9B40 /* Build configuration list for PBXNativeTarget "ResearchKitUI" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				5D06633224FEF272005D9B40 /* Debug */,
-				5D06633324FEF272005D9B40 /* Skywagon Stable */,
-				5D06633524FEF272005D9B40 /* Release */,
-				5D06633624FEF272005D9B40 /* Skywagon Internal Release */,
-				5D06633724FEF272005D9B40 /* Skywagon Public Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
