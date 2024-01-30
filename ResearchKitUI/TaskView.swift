@@ -28,6 +28,8 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+// apple-internal
+
 import ResearchKitCore
 import SwiftUI
 import UIKit
