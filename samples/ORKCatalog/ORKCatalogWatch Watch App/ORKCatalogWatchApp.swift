@@ -1,6 +1,8 @@
 /*
- Copyright (c) 2020, Apple Inc. All rights reserved.
- 
+ Copyright (c) 2015, Apple Inc. All rights reserved.
+ Copyright (c) 2015-2016, Ricardo Sánchez-Sáez.
+ Copyright (c) 2017, Macro Yau.
+
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
  
@@ -26,40 +28,20 @@
  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
+*/
 
-import ResearchKitCore
 import SwiftUI
+import ResearchKitCore
+import ResearchKitUI_Watch_
 
-@available(watchOS 6.0, *)
-public struct CompletionStepView: View {
-    
-    @ObservedObject
-    public private(set) var step: ORKCompletionStep
-    
-    @ObservedObject
-    public private(set) var result: ORKStepResult
-    
-    @Environment(\.completion) var completion
-    
-    init(_ step: ORKCompletionStep, result: ORKStepResult) {
-        self.step = step
-        self.result = result
-    }
-    
-    public var body: some View {
-        VStack {
-            if let title = step.title {
-                Text(title)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .font(Font.system(.headline))
-            }
-            if let detail = step.detailText {
-                Text(detail)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-            }
-        }.onAppear {
-            completion(true)
+/**
+    An example Watch app running in SwiftUI
+*/
+@main
+struct ORKCatalogWatch_Watch_App: App {
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
         }
     }
 }

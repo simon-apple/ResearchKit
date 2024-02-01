@@ -28,39 +28,35 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+// apple-internal
+
 import ResearchKitCore
 import SwiftUI
 
 @available(watchOS 6.0, *)
-public struct InstructionStepView: View {
+public struct DefaultStepView: View {
 
     @ObservedObject
-    public private(set) var step: ORKInstructionStep
+    public private(set) var step: ORKStep
 
     @ObservedObject
     public private(set) var result: ORKStepResult
     
-    @Environment(\.completion) var completion
-    
-    init(_ step: ORKInstructionStep, result: ORKStepResult) {
+    init(_ step: ORKStep, result: ORKStepResult) {
         self.step = step
         self.result = result
     }
 
+    @ViewBuilder
     public var body: some View {
-        
-        VStack(alignment: .center) {
-            if let title = step.title {
-                Text(title)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .font(Font.system(.headline))
-            }
-            if let detailText = step.detailText {
-                Text(detailText)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-            }
-        }.onAppear {
-            completion(true)
+        if let completionStep = step as? ORKCompletionStep {
+            CompletionStepView(completionStep, result: result)
+        } else if let instructionStep = step as? ORKInstructionStep {
+            InstructionStepView(instructionStep, result: result)
+        } else if let questionStep = step as? ORKQuestionStep {
+            QuestionStepView(questionStep, result: result)
+        } else {
+            fatalError("Not Supported")
         }
     }
 }

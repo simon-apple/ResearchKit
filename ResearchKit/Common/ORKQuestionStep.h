@@ -80,6 +80,31 @@ NS_DEPRECATED_IOS(8.0, 13.0, "Use ORKFormStep instead.")
                                     answer:(nullable ORKAnswerFormat *)answerFormat;
 
 /**
+ Returns a new question step that includes the specified identifier, title, question, and answer format.
+ 
+ @param identifier    The identifier of the step (a step identifier should be unique within the task).
+ @param text      A localized string that represents the  text.
+ @param title         A localized string that represents the primary text of the question.
+ @param placeholder       A localized string that represents the placeholder text displayed before an answer has been entered.
+ @param question      A localized string that represents the question as a text.
+ @param presentationStyle      An enum that represents the presentation styles to apply to the question
+ @param tagText       The value displayed as a tag if set.
+ @param learnMoreItem     A LearnMoreItem object that presents a learn more button in the card header view
+ @param useCardView     A property to present the question with a card view. Default to YES;
+ @param answerFormat  The format in which the answer is expected.
+ */
++ (instancetype)questionStepWithIdentifier:(NSString *)identifier
+                                      text:(nullable NSString *)text
+                               placeholder:(nullable NSString *)placeholder
+                                     title:(nullable NSString *)title
+                                  question:(nullable NSString *)question
+                         presentationStyle:(nullable NSString *)presentationStyle
+                                   tagText:(nullable NSString *)tagText
+                                    answer:(nullable ORKAnswerFormat *)answerFormat
+                             learnMoreItem:(nullable ORKLearnMoreItem *)learnMoreItem
+                               useCardView:(nullable NSNumber *)useCardView NS_DEPRECATED_IOS(8.0, 13.0, "Use ORKFormStep instead.");
+
+/**
  The format of the answer.
  
  For example, the answer format might include the type of data to collect, the constraints

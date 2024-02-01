@@ -28,40 +28,49 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+// apple-internal
+
+import Foundation
 import SwiftUI
 
 // swiftlint:disable line_length
-extension View {
+// Support ScrollViewReader for only the software that supports it without having to duplicate the view hierarchy.
+// Abstract unavailable APIs behind a protocol to get support in watchOS 7.0 devices.
+// swiftlint:enable line_length
+
+protocol ScrollViewProxyProtocol {
     
-    @ViewBuilder
-    func whenChanged<V>(_ value: V, perform action: @escaping (V) -> Void) -> some View where V: Equatable {
+    func scrollToID<ID>(_ id: ID, anchor: UnitPoint?) where ID: Hashable
+}
+
+struct ORKScrollViewProxy: ScrollViewProxyProtocol {
+    
+    func scrollToID<ID>(_ id: ID, anchor: UnitPoint? = nil) where ID: Hashable {
+        // Do nothing
+    }
+}
+
+@available(watchOSApplicationExtension 7.0, *)
+extension ScrollViewProxy: ScrollViewProxyProtocol {
+    
+    func scrollToID<ID>(_ id: ID, anchor: UnitPoint? = nil) where ID: Hashable {
+        scrollTo(id, anchor: anchor)
+    }
+}
+
+struct ORKScrollViewReader<Content>: View where Content: View {
+    
+    var content: (ScrollViewProxyProtocol) -> Content
+    
+    init(@ViewBuilder content: @escaping (ScrollViewProxyProtocol) -> Content) {
+        self.content = content
+    }
+    
+    var body: some View {
         if #available(watchOSApplicationExtension 7.0, *) {
-            onChange(of: value, perform: action)
+            ScrollViewReader(content: content)
         } else {
-            modifier(OnChangedModifier(value: value, action: action))
+            content(ORKScrollViewProxy())
         }
     }
 }
-
-private struct OnChangedModifier<T>: ViewModifier where T: Equatable {
-    
-    let value: T
-    
-    let action: (T) -> Void
-    
-    func body(content: Content) -> some View {
-        content
-            .onPreferenceChange(OnChangeKey<T>.self, perform: { action($0!) })
-            .preference(key: OnChangeKey<T>.self, value: value)
-    }
-}
-
-private struct OnChangeKey<T>: PreferenceKey {
-    
-    static var defaultValue: T? { nil }
-    
-    static func reduce(value: inout T?, nextValue: () -> T?) {
-        value = nextValue() ?? value
-    }
-}
-// swiftlint:enable line_length

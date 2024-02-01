@@ -28,47 +28,44 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import Foundation
+// apple-internal
+
+import ResearchKitCore
 import SwiftUI
+import UIKit
 
-// swiftlint:disable line_length
-// Support ScrollViewReader for only the software that supports it without having to duplicate the view hierarchy.
-// Abstract unavailable APIs behind a protocol to get support in watchOS 7.0 devices.
-// swiftlint:enable line_length
+@available(watchOS 6.0, *)
+public struct TaskView<Content>: View where Content: View {
 
-protocol ScrollViewProxyProtocol {
-    
-    func scrollToID<ID>(_ id: ID, anchor: UnitPoint?) where ID: Hashable
-}
+    @ObservedObject
+    private var taskManager: TaskManager
 
-struct ORKScrollViewProxy: ScrollViewProxyProtocol {
-    
-    func scrollToID<ID>(_ id: ID, anchor: UnitPoint? = nil) where ID: Hashable {
-        // Do nothing
-    }
-}
+    private let content: (ORKStep, ORKStepResult) -> Content
 
-@available(watchOSApplicationExtension 7.0, *)
-extension ScrollViewProxy: ScrollViewProxyProtocol {
-    
-    func scrollToID<ID>(_ id: ID, anchor: UnitPoint? = nil) where ID: Hashable {
-        scrollTo(id, anchor: anchor)
-    }
-}
-
-struct ORKScrollViewReader<Content>: View where Content: View {
-    
-    var content: (ScrollViewProxyProtocol) -> Content
-    
-    init(@ViewBuilder content: @escaping (ScrollViewProxyProtocol) -> Content) {
+    public init(taskManager: TaskManager,
+                @ViewBuilder _ content: @escaping (ORKStep, ORKStepResult) -> Content) {
+        self.taskManager = taskManager
         self.content = content
+        self.taskManager.result.startDate = Date()
     }
-    
-    var body: some View {
+
+    public var body: some View {
         if #available(watchOSApplicationExtension 7.0, *) {
-            ScrollViewReader(content: content)
+            NavigationView {
+                TaskContentView(index: 0, content)
+                    .environmentObject(self.taskManager)
+            }
         } else {
-            content(ORKScrollViewProxy())
+            TaskContentView(index: 0, content)
+                .environmentObject(self.taskManager)
         }
+    }
+}
+
+@available(watchOS 6.0, *)
+public extension TaskView where Content == DefaultStepView {
+
+    init(taskManager: TaskManager) {
+        self.init(taskManager: taskManager) { DefaultStepView($0, result: $1) }
     }
 }

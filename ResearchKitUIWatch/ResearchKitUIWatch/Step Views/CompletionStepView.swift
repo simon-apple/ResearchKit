@@ -28,42 +28,40 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+// apple-internal
+
 import ResearchKitCore
 import SwiftUI
-import UIKit
 
 @available(watchOS 6.0, *)
-public struct TaskView<Content>: View where Content: View {
-
+public struct CompletionStepView: View {
+    
     @ObservedObject
-    private var taskManager: TaskManager
-
-    private let content: (ORKStep, ORKStepResult) -> Content
-
-    public init(taskManager: TaskManager,
-                @ViewBuilder _ content: @escaping (ORKStep, ORKStepResult) -> Content) {
-        self.taskManager = taskManager
-        self.content = content
-        self.taskManager.result.startDate = Date()
+    public private(set) var step: ORKCompletionStep
+    
+    @ObservedObject
+    public private(set) var result: ORKStepResult
+    
+    @Environment(\.completion) var completion
+    
+    init(_ step: ORKCompletionStep, result: ORKStepResult) {
+        self.step = step
+        self.result = result
     }
-
+    
     public var body: some View {
-        if #available(watchOSApplicationExtension 7.0, *) {
-            NavigationView {
-                TaskContentView(index: 0, content)
-                    .environmentObject(self.taskManager)
+        VStack {
+            if let title = step.title {
+                Text(title)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .font(Font.system(.headline))
             }
-        } else {
-            TaskContentView(index: 0, content)
-                .environmentObject(self.taskManager)
+            if let detail = step.detailText {
+                Text(detail)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+        }.onAppear {
+            completion(true)
         }
-    }
-}
-
-@available(watchOS 6.0, *)
-public extension TaskView where Content == DefaultStepView {
-
-    init(taskManager: TaskManager) {
-        self.init(taskManager: taskManager) { DefaultStepView($0, result: $1) }
     }
 }

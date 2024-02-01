@@ -70,6 +70,7 @@ NS_ASSUME_NONNULL_BEGIN
  can be helpful to implement this protocol to facilitate navigation and
  results collection.
  */
+ORK_CLASS_AVAILABLE
 @protocol ORKStepViewControllerDelegate <NSObject>
 
 @required
