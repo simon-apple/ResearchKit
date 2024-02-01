@@ -183,7 +183,6 @@ enum TaskListRow: Int, CustomStringConvertible {
                     .dateTimeQuestion,
                     .dateQuestion,
                     .date3DayLimitQuestionTask,
-                    .frontFacingCamera,
                     .healthQuantity,
                     .heightQuestion,
                     .imageCapture,
