@@ -893,7 +893,7 @@ NSString * const ORKFormStepViewAccessibilityIdentifier = @"ORKFormStepView";
 #if RK_APPLE_INTERNAL
             if (ORKDynamicCast(answerFormat, ORKTextChoiceAnswerFormat) != nil || ORKDynamicCast(answerFormat, ORKColorChoiceAnswerFormat) != nil) {
 #else
-            if (ORKDynamicCast(answerFormat, ORKTextChoiceAnswerFormat) != nil {
+            if (ORKDynamicCast(answerFormat, ORKTextChoiceAnswerFormat) != nil) {
 #endif
                 // Make one row per choice, we probably made a section already since formItems with choice answerFormats are requiresSingleSection==YES
                 NSArray *choices = answerFormat.choices;

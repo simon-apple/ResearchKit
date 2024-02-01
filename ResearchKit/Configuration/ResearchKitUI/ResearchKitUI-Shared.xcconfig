@@ -2,6 +2,8 @@
 // ResearchKitUI-Shared.xcconfig
 //
 
+// apple-internal
+
 APPLICATION_EXTENSION_API_ONLY = YES
 CLANG_CXX_LANGUAGE_STANDARD = gnu++14
 CLANG_ENABLE_OBJC_WEAK = YES
