@@ -118,13 +118,13 @@ final class SurveysUITests: BaseUITest {
         formStep
             .verifyQuestionTitleExists(atIndex: 1)
             .verifyQuestionProgressLabelExists(atIndex: 1)
-            .answerScaleQuestion(withId: formStep.itemIds[1], withNormalizedPosition: 0.5)
-            .answerScaleQuestion(withId: formStep.itemIds[1], withNormalizedPosition: 1)
+            .adjustQuestionSlider(withId: formStep.itemIds[1], withNormalizedPosition: 0.5)
+            .adjustQuestionSlider(withId: formStep.itemIds[1], withNormalizedPosition: 1)
         
         // Section that consist of 3 questions:
         formStep
             .verifyQuestionTitleExists(atIndex: 2)
-            .answerScaleQuestion(withId: formStep.itemIds[2], atIndex: 0, withNormalizedPosition: 1)
+            .adjustQuestionSlider(withId: formStep.itemIds[2], atIndex: 0, withNormalizedPosition: 1)
             .selectFormItemCell(withID: formStep.itemIds[3], atIndex: 1)
             .answerIntegerQuestion(number: 578)
             .selectFormItemCell(withID: formStep.itemIds[4], atIndex: 2)
@@ -237,7 +237,7 @@ final class SurveysUITests: BaseUITest {
             formStep
                 .verifyQuestionTitleExists(atIndex: 2)
                 .verifyQuestionProgressLabelExists(atIndex: 2)
-                .answerScaleQuestion(withId: formStep.itemIds[4], withNormalizedPosition: 0.5)
+                .adjustQuestionSlider(withId: formStep.itemIds[4], withNormalizedPosition: 0.5)
         }
         test("Form Item: SES question") {
             formStep
