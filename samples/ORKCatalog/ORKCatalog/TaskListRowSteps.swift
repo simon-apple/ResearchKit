@@ -65,8 +65,9 @@ enum TaskListRowSteps {
         
         let formItemSectionHeader = ORKFormItem(sectionTitle: String(describing: TaskListRowStrings.exampleBloodTypeQuestion))
         let bloodTypeFormItem = ORKFormItem(identifier: String(describing: Identifier.healthQuantityFormItem),
-                                            text: String(describing: TaskListRowStrings.exampleTapHereText),
+                                            text: nil,
                                             answerFormat: bloodTypeAnswerFormat)
+        bloodTypeFormItem.placeholder = String(describing: TaskListRowStrings.exampleTapHereText)
         
         let bloodTypeFormStep = ORKFormStep(identifier: String(describing: Identifier.healthQuantityFormStep2),
                                             title: NSLocalizedString("Blood Type", comment: ""),
