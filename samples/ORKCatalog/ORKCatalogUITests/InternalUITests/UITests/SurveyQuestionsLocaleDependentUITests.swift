@@ -79,7 +79,6 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
             .verify(.skipButton)
             .verify(.skipButton, isEnabled: true)
             .verify(.continueButton, isEnabled: true)
-        
             .verifySingleQuestionTitleExists()
         
         if shouldUseUIPickerWorkaround {
@@ -103,7 +102,6 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
                 .verify(.text)
                 .verify(.skipButton, exists: false)
                 .verify(.continueButton, isEnabled: false)
-            
                 .verifySingleQuestionTitleExists()
             
             if shouldUseUIPickerWorkaround {
@@ -128,7 +126,6 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
             .verify(.skipButton)
             .verify(.skipButton, isEnabled: true)
             .verify(.continueButton, isEnabled: true)
-        
             .verifySingleQuestionTitleExists()
         
         if shouldUseUIPickerWorkaround {
@@ -148,7 +145,6 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
                 .verify(.text)
                 .verify(.skipButton, exists: false)
                 .verify(.continueButton, isEnabled: false)
-            
                 .verifySingleQuestionTitleExists()
             
             if shouldUseUIPickerWorkaround {
@@ -169,7 +165,6 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
             .verify(.skipButton)
             .verify(.skipButton, isEnabled: true)
             .verify(.continueButton, isEnabled: true)
-        
             .verifySingleQuestionTitleExists()
         
         if shouldUseUIPickerWorkaround {
@@ -189,7 +184,6 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
                 .verify(.text)
                 .verify(.skipButton, exists: false)
                 .verify(.continueButton, isEnabled: false)
-            
                 .verifySingleQuestionTitleExists()
             
             if shouldUseUIPickerWorkaround {
@@ -211,7 +205,6 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
                 .verify(.text)
                 .verify(.skipButton, exists: false)
                 .verify(.continueButton, isEnabled: false)
-            
                 .verifySingleQuestionTitleExists()
             
             if shouldUseUIPickerWorkaround {
@@ -237,7 +230,6 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
             .verify(.skipButton)
             .verify(.skipButton, isEnabled: true)
             .verify(.continueButton, isEnabled: true)
-        
             .verifySingleQuestionTitleExists()
         
         if shouldUseUIPickerWorkaround {
@@ -281,7 +273,6 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
             .verify(.skipButton)
             .verify(.skipButton, isEnabled: true)
             .verify(.continueButton, isEnabled: true)
-        
             .verifySingleQuestionTitleExists()
         
         if shouldUseUIPickerWorkaround {
@@ -305,7 +296,6 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
                 .verify(.text)
                 .verify(.skipButton, exists: false)
                 .verify(.continueButton, isEnabled: false)
-            
                 .verifySingleQuestionTitleExists()
             
             if shouldUseUIPickerWorkaround {
@@ -330,7 +320,6 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
             .verify(.skipButton)
             .verify(.skipButton, isEnabled: true)
             .verify(.continueButton, isEnabled: true)
-        
             .verifySingleQuestionTitleExists()
         
         if shouldUseUIPickerWorkaround {
@@ -351,7 +340,6 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
                 .verify(.text)
                 .verify(.skipButton, exists: false)
                 .verify(.continueButton, isEnabled: false)
-            
                 .verifySingleQuestionTitleExists()
             
             if shouldUseUIPickerWorkaround {
@@ -373,7 +361,6 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
             .verify(.skipButton)
             .verify(.skipButton, isEnabled: true)
             .verify(.continueButton, isEnabled: true)
-        
             .verifySingleQuestionTitleExists()
         
         if shouldUseUIPickerWorkaround {
@@ -394,7 +381,6 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
                 .verify(.text)
                 .verify(.skipButton, exists: false)
                 .verify(.continueButton, isEnabled: false)
-            
                 .verifySingleQuestionTitleExists()
             
             if shouldUseUIPickerWorkaround {
@@ -416,7 +402,6 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
             .verify(.skipButton)
             .verify(.skipButton, isEnabled: true)
             .verify(.continueButton, isEnabled: true)
-        
             .verifySingleQuestionTitleExists()
         
         if shouldUseUIPickerWorkaround {
@@ -437,7 +422,6 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
                 .verify(.text)
                 .verify(.skipButton, exists: false)
                 .verify(.continueButton, isEnabled: false)
-            
                 .verifySingleQuestionTitleExists()
             
             if shouldUseUIPickerWorkaround {
@@ -459,7 +443,6 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
             .verify(.skipButton)
             .verify(.skipButton, isEnabled: true)
             .verify(.continueButton, isEnabled: true)
-        
             .verifySingleQuestionTitleExists()
         
         if shouldUseUIPickerWorkaround {
@@ -479,7 +462,6 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
                 .verify(.text)
                 .verify(.skipButton, exists: false)
                 .verify(.continueButton, isEnabled: false)
-            
                 .verifySingleQuestionTitleExists()
             
             if shouldUseUIPickerWorkaround {
@@ -500,7 +482,6 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
             .verify(.skipButton)
             .verify(.skipButton, isEnabled: true)
             .verify(.continueButton, isEnabled: true)
-        
             .verifySingleQuestionTitleExists()
         
         if shouldUseUIPickerWorkaround {
@@ -520,7 +501,6 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
                 .verify(.text)
                 .verify(.skipButton, exists: false)
                 .verify(.continueButton, isEnabled: false)
-            
                 .verifySingleQuestionTitleExists()
             
             if shouldUseUIPickerWorkaround {
@@ -541,7 +521,6 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
                 .verify(.text)
                 .verify(.skipButton, exists: false)
                 .verify(.continueButton, isEnabled: false)
-            
                 .verifySingleQuestionTitleExists()
             
             if shouldUseUIPickerWorkaround {
@@ -566,7 +545,6 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
             .verify(.skipButton)
             .verify(.skipButton, isEnabled: true)
             .verify(.continueButton, isEnabled: true)
-        
             .verifySingleQuestionTitleExists()
         
         if shouldUseUIPickerWorkaround {
@@ -594,7 +572,6 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
             .verify(.text)
             .verify(.skipButton) // Optional Question
             .verify(.continueButton, isEnabled: true) // Picker value defaults to current date so continue button is enabled
-        
             .verifySingleQuestionTitleExists()
         
         if shouldUseUIPickerWorkaround {
@@ -631,7 +608,6 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
             .verify(.text)
             .verify(.skipButton) // Optional Question
             .verify(.continueButton, isEnabled: true) // Picker value defaults to current date so continue button is enabled
-        
             .verifySingleQuestionTitleExists()
         
         if shouldUseUIPickerWorkaround {
@@ -672,7 +648,6 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
             .verify(.skipButton) // Optional Question
             .verify(.skipButton, isEnabled: true) 
             .verify(.continueButton,isEnabled: true)
-        
             .verifySingleQuestionTitleExists()
         
         if shouldUseUIPickerWorkaround {

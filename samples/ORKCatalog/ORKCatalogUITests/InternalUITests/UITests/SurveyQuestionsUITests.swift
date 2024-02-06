@@ -542,7 +542,7 @@ final class SurveyQuestionsUITests: BaseUITest {
         
         questionStep
             .selectFormItemCell(withID:  formItemId)
-        Keyboards.deleteAlphabeticValue(characterCount: username.count)
+        Keyboards.deleteValue(characterCount: username.count, keyboardType: .alphabetic)
         
         app.keyboards.keys[username].tap()
         // The letters keyboard is displayed, so we need to switch to the numbers keyboard in order to type "@"
@@ -574,7 +574,7 @@ final class SurveyQuestionsUITests: BaseUITest {
         
         questionStep2
             .selectFormItemCell(withID:  formItemId)
-        Keyboards.deleteAlphabeticValue(characterCount: secondLevelDomainName.count)
+        Keyboards.deleteValue(characterCount: secondLevelDomainName.count, keyboardType: .alphabetic)
         // The period "." and ".com" are displayed along with the letters, so there is no need to switch to the numbers keyboard
         questionStep2.answerTextQuestion(text: domainName,  dismissKeyboard: true)
             .verify(.continueButton, isEnabled: true)
@@ -596,7 +596,6 @@ final class SurveyQuestionsUITests: BaseUITest {
             .verify(.text)
             .verify(.skipButton, isEnabled: true)
             .verify(.continueButton, isEnabled: expectingNextButtonEnabledByDefault)
-        
             .verifySingleQuestionTitleExists()
         
         for value in 1...10 {
@@ -604,11 +603,17 @@ final class SurveyQuestionsUITests: BaseUITest {
                 .answerScaleQuestion(withId: formItemId, sliderValue: Double(value), stepValue: 1, minValue: 1, maxValue: 10)
                 .verify(.continueButton, isEnabled: true)
         }
-        
         questionStep
             .tap(.continueButton)
         
         // The second step is a scale control that allows continuous movement with a percent formatter.
+        questionStep
+            .verify(.title)
+            .verify(.text)
+            .verify(.skipButton, isEnabled: true)
+            .verify(.continueButton, isEnabled: expectingNextButtonEnabledByDefault)
+            .verifySingleQuestionTitleExists()
+        
         // It only barely works for specific values, such as 50% and 100% and required several retries, for other values it does not work due to the issue where slider won't reach the expected value. XCTest radar: rdar://122248912
         let sliderValues2 = [50, 100]
         for value in sliderValues2 {
@@ -620,6 +625,13 @@ final class SurveyQuestionsUITests: BaseUITest {
             .tap(.continueButton)
         
         // The third step is a vertical scale control with 10 discrete ticks.
+        questionStep
+            .verify(.title)
+            .verify(.text)
+            .verify(.skipButton, isEnabled: true)
+            .verify(.continueButton, isEnabled: expectingNextButtonEnabledByDefault)
+            .verifySingleQuestionTitleExists()
+        
         // Can not verify slider value due to this radar XCTest radar: rdar://122248912
         questionStep
             .answerVerticalScaleQuestion(withId: formItemId, expectedSliderValue: 3, dx: 0.5, dy: 0.8)
@@ -631,6 +643,12 @@ final class SurveyQuestionsUITests: BaseUITest {
         
         // The fourth step is a vertical scale control that allows continuous movement.
         questionStep
+            .verify(.title)
+            .verify(.text)
+            .verify(.skipButton, isEnabled: true)
+            .verify(.continueButton, isEnabled: expectingNextButtonEnabledByDefault)
+            .verifySingleQuestionTitleExists()
+        
             .adjustVerticalSlider(withId: formItemId, dx: 0.5, dy: 0.5)
             .adjustVerticalSlider(withId: formItemId, dx: 0.5, dy: 0.2)
             .adjustVerticalSliderToEndPosition(withId: formItemId, expectedValue: 5)
@@ -638,6 +656,12 @@ final class SurveyQuestionsUITests: BaseUITest {
         
         // The fifth step is a scale control that allows text choices.
         let textChoices = ["Poor", "Fair", "Good", "Above Average", "Excellent"]
+        questionStep
+            .verify(.title)
+            .verify(.text)
+            .verify(.skipButton, isEnabled: true)
+            .verify(.continueButton, isEnabled: expectingNextButtonEnabledByDefault)
+            .verifySingleQuestionTitleExists()
         
         for value in 1...5 {
             questionStep
@@ -647,6 +671,12 @@ final class SurveyQuestionsUITests: BaseUITest {
         
         // The sixth step is a vertical scale control that allows text choices.
         questionStep
+            .verify(.title)
+            .verify(.text)
+            .verify(.skipButton, isEnabled: true)
+            .verify(.continueButton, isEnabled: expectingNextButtonEnabledByDefault)
+            .verifySingleQuestionTitleExists()
+        
             .adjustVerticalSlider(withId: formItemId, dx: 0.5, dy: 0.8)
             .verifySliderValue(withId: formItemId, expectedValue: textChoices[1])
         
@@ -655,8 +685,6 @@ final class SurveyQuestionsUITests: BaseUITest {
         
             .adjustVerticalSlider(withId: formItemId, dx: 0.5, dy: 0.3)
             .verifySliderValue(withId: formItemId, expectedValue: textChoices[3])
-        
-            .adjustVerticalSlider(withId: formItemId, dx: 0.5, dy: 0.25)
         
             .adjustVerticalSliderToEndPosition(withId: formItemId, expectedValue: textChoices[4])
         
