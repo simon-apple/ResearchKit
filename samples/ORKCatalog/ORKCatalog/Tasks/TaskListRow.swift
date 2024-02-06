@@ -185,7 +185,6 @@ enum TaskListRow: Int, CustomStringConvertible {
                     .date3DayLimitQuestionTask,
                     .healthQuantity,
                     .heightQuestion,
-                    .imageCapture,
                     .imageChoiceQuestion,
                     .locationQuestion,
                     .numericQuestion,
@@ -213,6 +212,7 @@ enum TaskListRow: Int, CustomStringConvertible {
             TaskListRowSection(title: "Miscellaneous", rows:
                 [
                     .frontFacingCamera,
+                    .imageCapture,
                     .PDFViewer,
                     .requestPermissions,
                     .videoCapture,
