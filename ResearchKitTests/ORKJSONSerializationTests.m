@@ -581,7 +581,9 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
                                    @"ORKPredicateFormItemVisibilityRule.predicateFormat", // Prevent trying to assign a bogus empty string as predicateFormat during testing
                                    @"ORKAccuracyStroopStep.actualDisplayColor",
                                    @"ORKAccuracyStroopResult.didSelectCorrectColor",
-                                   @"ORKAccuracyStroopResult.timeTakenToSelect"
+                                   @"ORKAccuracyStroopResult.timeTakenToSelect",
+                                   @"ORKWebViewStepResult.html",
+                                   @"ORKWebViewStepResult.htmlWithSignature"
                                    ];
         
 #if RK_APPLE_INTERNAL
@@ -1492,6 +1494,8 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector(void) {
                                        @"ORKConsentDocument.instructionSteps",
                                        @"ORKFormStep.useCardView",
                                        @"ORKSpeechRecognitionStep.shouldHideTranscript",
+                                       @"ORKWebViewStepResult.html",
+                                       @"ORKWebViewStepResult.htmlWithSignature",
 #if RK_APPLE_INTERNAL
                                        @"AAPLSpeechRecognitionStep.shouldHideTranscript",
 #endif

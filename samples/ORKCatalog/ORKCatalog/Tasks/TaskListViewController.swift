@@ -274,7 +274,7 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
             return
         }
         
-        if let webViewStepResult = stepResult.results?.first as? ORKWebViewStepResult, let html = webViewStepResult.getHTMLWithSignature() {
+        if let webViewStepResult = stepResult.results?.first as? ORKWebViewStepResult, let html = webViewStepResult.htmlWithSignature {
             let htmlFormatter = ORKHTMLPDFWriter()
             
             htmlFormatter.writePDF(fromHTML: html) { data, error in

@@ -62,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
  (`ORKQuestionResult`).
  */
 ORK_CLASS_AVAILABLE
-NS_DEPRECATED_IOS(8.0, 13.0, "Use ORKFormStep instead.")
+NS_CLASS_DEPRECATED_IOS(8.0, 13.0, "Use ORKFormStep instead.")
 @interface ORKQuestionStep : ORKStep
 
 
