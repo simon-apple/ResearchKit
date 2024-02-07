@@ -110,6 +110,21 @@ extension XCUIElement {
 
 class Keyboards {
     
+    enum KeyboardType: String {
+        case numeric
+        case alphabetic
+        
+        // The delete key has a different identifier depending on a keyboard type
+        var deleteKeyIdentifier: String {
+            switch self {
+            case .numeric:
+                return "Delete"
+            case .alphabetic:
+                return "delete"
+            }
+        }
+    }
+    
     /**
      Enters number using a numeric keyboard
      - parameter number: number to be entered
@@ -165,21 +180,6 @@ class Keyboards {
         }
         if dismissKeyboard {
             tapDoneButtonOnToolbar()
-        }
-    }
-    
-    enum KeyboardType: String {
-        case numeric
-        case alphabetic
-        
-        // The delete key has a different identifier depending on a keyboard type
-        var deleteKeyIdentifier: String {
-            switch self {
-            case .numeric:
-                return "Delete"
-            case .alphabetic:
-                return "delete"
-            }
         }
     }
     
