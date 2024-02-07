@@ -60,7 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
  present the task in a task view controller.
  */
 ORK_CLASS_AVAILABLE
-NS_CLASS_DEPRECATED_IOS(8.0, 13.0)
+__deprecated
 @interface ORKConsentReviewStep : ORKStep
 
 /// @name Initialization.
