@@ -61,7 +61,7 @@ extension XCUIElement {
             }
             swipes += 1
         }
-        XCTAssertLessThan(swipes, maxSwipes, "Exceeded maximum amount of \(maxSwipes) swipes")
+        XCTAssertLessThan(swipes, maxSwipes, "Exceeded maximum amount of \(maxSwipes) swipes. Element \(self) is not visible")
     }
     
     /**
@@ -110,6 +110,21 @@ extension XCUIElement {
 
 class Keyboards {
     
+    enum KeyboardType: String {
+        case numeric
+        case alphabetic
+        
+        // The delete key has a different identifier depending on a keyboard type
+        var deleteKeyIdentifier: String {
+            switch self {
+            case .numeric:
+                return "Delete"
+            case .alphabetic:
+                return "delete"
+            }
+        }
+    }
+    
     /**
      Enters number using a numeric keyboard
      - parameter number: number to be entered
@@ -134,7 +149,7 @@ class Keyboards {
     static func enterNumber(_ number: Double, dismissKeyboard: Bool = false, clearIfNeeded: Bool = false) {
         let numberString = String(number)
         if clearIfNeeded {
-            deleteValue(characterCount: numberString.count)
+            deleteValue(characterCount: numberString.count, keyboardType: .numeric)
         }
         for digitCharacter in numberString {
             let digit = String(digitCharacter)
@@ -152,7 +167,7 @@ class Keyboards {
     
     static func enterText(_ text: String, dismissKeyboard: Bool = false, clearIfNeeded: Bool = false) {
         if clearIfNeeded {
-            deleteValue(characterCount: text.count)
+            deleteValue(characterCount: text.count, keyboardType: .alphabetic)
         }
         for character in text {
             let ch = String(character)
@@ -168,13 +183,16 @@ class Keyboards {
         }
     }
     
-    static func deleteValue(characterCount: Int) {
+    static func deleteValue(characterCount: Int, keyboardType: KeyboardType) {
+        let deleteKey = XCUIApplication().keyboards.keys[keyboardType.deleteKeyIdentifier]
+        wait(for: deleteKey)
+        // Check for keyboard onboarding interruption
+        if !deleteKey.isHittable {
+            dismissKeyboardOnboarding()
+        }
         for _ in 0..<characterCount {
-            let key = XCUIApplication().keyboards.keys["Delete"]
-            if !key.isHittable {
-                dismissKeyboardOnboarding()
-            }
-            key.tap()
+            wait(for: deleteKey)
+            deleteKey.tap()
         }
     }
     

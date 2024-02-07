@@ -4,6 +4,7 @@
       "id" : "63BD6279-B17D-4F5A-850F-93ABE7C5539A",
       "name" : "Configuration 1",
       "options" : {
+        "detectTextLayoutIssues" : false,
         "testRepetitionMode" : "retryOnFailure",
         "uiTestingScreenshotsLifetime" : "keepAlways",
         "userAttachmentLifetime" : "keepAlways"
@@ -11,7 +12,6 @@
     }
   ],
   "defaultOptions" : {
-    "detectTextLayoutIssues" : true,
     "testTimeoutsEnabled" : true,
     "uiTestingScreenshotsLifetime" : "keepAlways",
     "userAttachmentLifetime" : "keepAlways"

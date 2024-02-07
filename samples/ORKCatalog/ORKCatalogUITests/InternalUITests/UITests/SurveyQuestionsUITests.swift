@@ -485,35 +485,245 @@ final class SurveyQuestionsUITests: BaseUITest {
     }
     
     /// rdar://tsc/21847952 ([Survey Questions] Image Choice Question)
-         func testImageChoiceQuestion() {
-             tasksList
-                 .selectTaskByName(Task.imageChoiceQuestion.description)
-     
-             let questionStep = FormStep()
-             let formId = "imageChoiceFormItem"
-             questionStep
-                 .verify(.title)
-                 .verify(.text)
-                 .verify(.skipButton, isEnabled: true)
-                 .verify(.continueButton, isEnabled: expectingNextButtonEnabledByDefault)
-             
-             let roundShape = FormStep.ImageButtonLabel.roundShape.rawValue
-             let squareShape = FormStep.ImageButtonLabel.squareShape.rawValue
-             questionStep
-                 .answerImageChoiceQuestion(withId: formId, imageIndex: 1, expectedLabel: roundShape)
-                 .answerImageChoiceQuestion(withId: formId, imageIndex: 0, expectedLabel: squareShape)
-     
-             questionStep
-                 .tap(.continueButton)
-             
-             questionStep
-                 .verify(.title)
-                 .verify(.text)
-                 .verify(.skipButton, isEnabled: true)
-                 .verify(.continueButton, isEnabled: expectingNextButtonEnabledByDefault)
-     
-             questionStep
-                 .answerImageChoiceQuestion(withId: formId, imageIndex: 0, expectedLabel: squareShape)
-                 .answerImageChoiceQuestion(withId: formId, imageIndex: 1, expectedLabel: roundShape)
-         }
+    func testImageChoiceQuestion() {
+        tasksList
+            .selectTaskByName(Task.imageChoiceQuestion.description)
+        
+        let questionStep = FormStep()
+        let formId = "imageChoiceFormItem"
+        questionStep
+            .verify(.title)
+            .verify(.text)
+            .verify(.skipButton, isEnabled: true)
+            .verify(.continueButton, isEnabled: expectingNextButtonEnabledByDefault)
+        
+        let roundShape = FormStep.ImageButtonLabel.roundShape.rawValue
+        let squareShape = FormStep.ImageButtonLabel.squareShape.rawValue
+        questionStep
+            .answerImageChoiceQuestion(withId: formId, imageIndex: 1, expectedLabel: roundShape)
+            .answerImageChoiceQuestion(withId: formId, imageIndex: 0, expectedLabel: squareShape)
+        
+        questionStep
+            .tap(.continueButton)
+        
+        questionStep
+            .verify(.title)
+            .verify(.text)
+            .verify(.skipButton, isEnabled: true)
+            .verify(.continueButton, isEnabled: expectingNextButtonEnabledByDefault)
+        
+        questionStep
+            .answerImageChoiceQuestion(withId: formId, imageIndex: 0, expectedLabel: squareShape)
+            .answerImageChoiceQuestion(withId: formId, imageIndex: 1, expectedLabel: roundShape)
+    }
+    
+    ///rdar://tsc/21847962 ([Survey Questions] Validated Text Question)
+    func testValidatedTextQuestion() {
+        tasksList
+            .selectTaskByName(Task.validatedTextQuestion.description)
+        
+        // Email validation
+        let questionStep = FormStep()
+        let formItemId = "validatedTextFormItem"
+        let username = "X"
+        questionStep
+            .verify(.title)
+            .verify(.text)
+            .verify(.skipButton, isEnabled: true)
+            .verify(.continueButton, isEnabled: expectingNextButtonEnabledByDefault)
+        
+            .verifySingleQuestionTitleExists()
+        
+        questionStep
+            .selectFormItemCell(withID:  formItemId)
+            .answerTextQuestion(text: username, dismissKeyboard: true)
+            .verify(.continueButton, isEnabled: false)
+            .verifyErrorMessage(exists: true, withId: formItemId, expectedMessage: " Invalid Email") // Observed behavior: The error message label begins with a space. Also this error message is hardcoded in ORKCatalog app and does not require localization support
+        
+        questionStep
+            .selectFormItemCell(withID:  formItemId)
+        Keyboards.deleteValue(characterCount: username.count, keyboardType: .alphabetic)
+        
+        app.keyboards.keys[username].tap()
+        // The letters keyboard is displayed, so we need to switch to the numbers keyboard in order to type "@"
+        let moreKey =  app.keyboards.keys["more"]
+        if moreKey.waitForExistence(timeout: 20)  {
+            moreKey.tap() // switch to numbers
+        }
+        app.keyboards.keys["@"].tap()
+        moreKey.tap() // switch to letters
+        questionStep.answerTextQuestion(text: "example")
+        moreKey.tap()  // switch to numbers
+        app.keyboards.keys["."].tap()
+        moreKey.tap()  // switch to letters
+        questionStep
+            .answerTextQuestion(text: "com", dismissKeyboard: true)
+            .verify(.continueButton, isEnabled: true)
+            .verifyErrorMessage(exists: false, withId: formItemId, expectedMessage: " Invalid Email")
+            .tap(.continueButton)
+        
+        // URL validation
+        let questionStep2 = FormStep()
+        let domainName = "apple.com"
+        let secondLevelDomainName = String(domainName.split(separator: ".").first!)
+        questionStep2
+            .selectFormItemCell(withID:  formItemId)
+            .answerTextQuestion(text: secondLevelDomainName, dismissKeyboard: true)
+            .verify(.continueButton, isEnabled: false)
+            .verifyErrorMessage(exists: true, withId: formItemId, expectedMessage: " Invalid URL") // Observed behavior: The error message label begins with a space. Also this error message is hardcoded in ORKCatalog app and does not require localization support
+        
+        questionStep2
+            .selectFormItemCell(withID:  formItemId)
+        Keyboards.deleteValue(characterCount: secondLevelDomainName.count, keyboardType: .alphabetic)
+        // The period "." and ".com" are displayed along with the letters, so there is no need to switch to the numbers keyboard
+        questionStep2.answerTextQuestion(text: domainName,  dismissKeyboard: true)
+            .verify(.continueButton, isEnabled: true)
+            .verifyErrorMessage(exists: false, withId: formItemId, expectedMessage: " Invalid URL")
+            .tap(.continueButton)
+    }
+    
+    /// <rdar://tsc/21847956> [Survey Questions] Scale Question
+    func testScaleQuestion() {
+        tasksList
+            .selectTaskByName(Task.scaleQuestion.description)
+        
+        let questionStep = FormStep()
+        let formItemId = "scaleFormItem"
+        
+        // The first step is a scale control with 10 discrete ticks
+        questionStep
+            .verify(.title)
+            .verify(.text)
+            .verify(.skipButton, isEnabled: true)
+            .verify(.continueButton, isEnabled: expectingNextButtonEnabledByDefault)
+            .verifySingleQuestionTitleExists()
+        
+        for value in 1...10 {
+            questionStep
+                .answerScaleQuestion(withId: formItemId, sliderValue: Double(value), stepValue: 1, minValue: 1, maxValue: 10)
+                .verify(.continueButton, isEnabled: true)
+        }
+        questionStep
+            .tap(.continueButton)
+        
+        // The second step is a scale control that allows continuous movement with a percent formatter.
+        questionStep
+            .verify(.title)
+            .verify(.text)
+            .verify(.skipButton, isEnabled: true)
+            .verify(.continueButton, isEnabled: expectingNextButtonEnabledByDefault)
+            .verifySingleQuestionTitleExists()
+        
+        // It only barely works for specific values, such as 50% and 100% and required several retries, for other values it does not work due to the issue where slider won't reach the expected value. XCTest radar: rdar://122248912
+        let sliderValues2 = [50, 100]
+        for value in sliderValues2 {
+            questionStep
+                .answerScaleQuestionPercentStyle(withId: formItemId, sliderValue: value, stepValue: 1, minValue: 0, maxValue: 100)
+                .verify(.continueButton, isEnabled: true)
+        }
+        questionStep
+            .tap(.continueButton)
+        
+        // The third step is a vertical scale control with 10 discrete ticks.
+        questionStep
+            .verify(.title)
+            .verify(.text)
+            .verify(.skipButton, isEnabled: true)
+            .verify(.continueButton, isEnabled: expectingNextButtonEnabledByDefault)
+            .verifySingleQuestionTitleExists()
+        
+        // Can not verify slider value due to this radar XCTest radar: rdar://122248912
+        questionStep
+            .answerVerticalScaleQuestion(withId: formItemId, expectedSliderValue: 3, dx: 0.5, dy: 0.8)
+            .answerVerticalScaleQuestion(withId: formItemId, expectedSliderValue: 4, dx: 0.5, dy: 0.7)
+            .answerVerticalScaleQuestion(withId: formItemId, expectedSliderValue: 6, dx: 0.5, dy: 0.5)
+            .answerVerticalScaleQuestion(withId: formItemId, expectedSliderValue: 8, dx: 0.5, dy: 0.3)
+            .adjustVerticalSliderToEndPosition(withId: formItemId, expectedValue: 10)
+            .tap(.continueButton)
+        
+        // The fourth step is a vertical scale control that allows continuous movement.
+        questionStep
+            .verify(.title)
+            .verify(.text)
+            .verify(.skipButton, isEnabled: true)
+            .verify(.continueButton, isEnabled: expectingNextButtonEnabledByDefault)
+            .verifySingleQuestionTitleExists()
+        
+            .adjustVerticalSlider(withId: formItemId, dx: 0.5, dy: 0.5)
+            .adjustVerticalSlider(withId: formItemId, dx: 0.5, dy: 0.2)
+            .adjustVerticalSliderToEndPosition(withId: formItemId, expectedValue: 5)
+            .tap(.continueButton)
+        
+        // The fifth step is a scale control that allows text choices.
+        let textChoices = ["Poor", "Fair", "Good", "Above Average", "Excellent"]
+        questionStep
+            .verify(.title)
+            .verify(.text)
+            .verify(.skipButton, isEnabled: true)
+            .verify(.continueButton, isEnabled: expectingNextButtonEnabledByDefault)
+            .verifySingleQuestionTitleExists()
+        
+        for value in 1...5 {
+            questionStep
+                .answerTextScaleQuestion(withId: formItemId, sliderValue: Double(value), expectedSliderValue: textChoices[value-1] , stepValue: 1, minValue: 1, maxValue: 5)
+        }
+        questionStep.tap(.continueButton)
+        
+        // The sixth step is a vertical scale control that allows text choices.
+        questionStep
+            .verify(.title)
+            .verify(.text)
+            .verify(.skipButton, isEnabled: true)
+            .verify(.continueButton, isEnabled: expectingNextButtonEnabledByDefault)
+            .verifySingleQuestionTitleExists()
+        
+            .adjustVerticalSlider(withId: formItemId, dx: 0.5, dy: 0.8)
+            .verifySliderValue(withId: formItemId, expectedValue: textChoices[1])
+        
+            .adjustVerticalSlider(withId: formItemId, dx: 0.5, dy: 0.55)
+            .verifySliderValue(withId: formItemId, expectedValue: textChoices[2])
+        
+            .adjustVerticalSlider(withId: formItemId, dx: 0.5, dy: 0.3)
+            .verifySliderValue(withId: formItemId, expectedValue: textChoices[3])
+        
+            .adjustVerticalSliderToEndPosition(withId: formItemId, expectedValue: textChoices[4])
+        
+            .tap(.continueButton)
+    }
+    
+    func testScaleQuestionInFormSurvey() {
+        tasksList
+            .selectTaskByName(Task.form.description)
+        
+        let formStep = FormStep()
+        
+        let formItemIdSlider1 = "formItem03"
+        let minValueSlider1 = 0
+        let maxValueSlider1 = 10
+        let formItemIdSlider2 = "formItem04"
+        let minValueSlider2 = 1
+        let maxValueSlider2 = 7
+        
+        // First slider
+        formStep
+            .scrollToQuestionTitle(atIndex: 1)
+        
+        for sliderValue in minValueSlider1...maxValueSlider1 {
+            formStep.answerScaleQuestion(withId: formItemIdSlider1, sliderValue: Double(sliderValue), stepValue: 1, minValue: Double(minValueSlider1), maxValue: Double(maxValueSlider1))
+        }
+        
+        // Second Text Slider
+        // Scroll to second slider
+        let secondSlider = formStep.getFormItemCell(withId: formItemIdSlider2).sliders.firstMatch
+        secondSlider.scrollUntilVisible()
+        
+        for value in minValueSlider2...maxValueSlider2 {
+            formStep
+                .answerTextScaleQuestion(withId: formItemIdSlider2, sliderValue: Double(value), expectedSliderValue: "choice \(value)" , stepValue: 1, minValue: Double(minValueSlider2), maxValue: Double(maxValueSlider2))
+        }
+        
+        // End Task
+        formStep
+            .cancelTask()
+    }
 }

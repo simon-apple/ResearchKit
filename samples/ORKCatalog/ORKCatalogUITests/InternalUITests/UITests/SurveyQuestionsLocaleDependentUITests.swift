@@ -79,9 +79,8 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
             .verify(.skipButton)
             .verify(.skipButton, isEnabled: true)
             .verify(.continueButton, isEnabled: true)
-        
             .verifySingleQuestionTitleExists()
- 
+        
         if shouldUseUIPickerWorkaround {
             questionStep.selectFormItemCell(withID: formItemId)
             dismissPicker = true
@@ -103,7 +102,6 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
                 .verify(.text)
                 .verify(.skipButton, exists: false)
                 .verify(.continueButton, isEnabled: false)
-            
                 .verifySingleQuestionTitleExists()
             
             if shouldUseUIPickerWorkaround {
@@ -120,7 +118,7 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
                 .verify(.continueButton, isEnabled: true)
                 .tap(.continueButton)
         }
- 
+        
         // Metric system Optional Question
         questionStep
             .verify(.title)
@@ -128,7 +126,6 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
             .verify(.skipButton)
             .verify(.skipButton, isEnabled: true)
             .verify(.continueButton, isEnabled: true)
-        
             .verifySingleQuestionTitleExists()
         
         if shouldUseUIPickerWorkaround {
@@ -148,7 +145,6 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
                 .verify(.text)
                 .verify(.skipButton, exists: false)
                 .verify(.continueButton, isEnabled: false)
-            
                 .verifySingleQuestionTitleExists()
             
             if shouldUseUIPickerWorkaround {
@@ -169,7 +165,6 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
             .verify(.skipButton)
             .verify(.skipButton, isEnabled: true)
             .verify(.continueButton, isEnabled: true)
-        
             .verifySingleQuestionTitleExists()
         
         if shouldUseUIPickerWorkaround {
@@ -189,7 +184,6 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
                 .verify(.text)
                 .verify(.skipButton, exists: false)
                 .verify(.continueButton, isEnabled: false)
-            
                 .verifySingleQuestionTitleExists()
             
             if shouldUseUIPickerWorkaround {
@@ -211,7 +205,6 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
                 .verify(.text)
                 .verify(.skipButton, exists: false)
                 .verify(.continueButton, isEnabled: false)
-            
                 .verifySingleQuestionTitleExists()
             
             if shouldUseUIPickerWorkaround {
@@ -228,7 +221,7 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
                 .verify(.continueButton, isEnabled: true)
                 .tap(.continueButton)
         }
-
+        
         // HealthKit integration Optional
         // TODO: rdar://118141808 (Height/Weight Questions should prefill with HealthKit value)
         questionStep
@@ -237,7 +230,6 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
             .verify(.skipButton)
             .verify(.skipButton, isEnabled: true)
             .verify(.continueButton, isEnabled: true)
-        
             .verifySingleQuestionTitleExists()
         
         if shouldUseUIPickerWorkaround {
@@ -265,7 +257,7 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
             .verifyHealthAuthorizationView(exists: true)
             .tapAllowToRead(for: .weight)
             .tapAllowButton()
-         
+        
         let weightMetricAnswerKg = 62
         let weightMetricAnswerKgPrecise = 62.5
         let weightMetricAnswerKgHighlyPrecise = 62.57
@@ -281,7 +273,6 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
             .verify(.skipButton)
             .verify(.skipButton, isEnabled: true)
             .verify(.continueButton, isEnabled: true)
-        
             .verifySingleQuestionTitleExists()
         
         if shouldUseUIPickerWorkaround {
@@ -305,7 +296,6 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
                 .verify(.text)
                 .verify(.skipButton, exists: false)
                 .verify(.continueButton, isEnabled: false)
-            
                 .verifySingleQuestionTitleExists()
             
             if shouldUseUIPickerWorkaround {
@@ -322,7 +312,7 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
                 .verify(.continueButton, isEnabled: true)
                 .tap(.continueButton)
         }
-
+        
         // Metric system Optional Question - default precision
         questionStep
             .verify(.title)
@@ -330,7 +320,6 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
             .verify(.skipButton)
             .verify(.skipButton, isEnabled: true)
             .verify(.continueButton, isEnabled: true)
-        
             .verifySingleQuestionTitleExists()
         
         if shouldUseUIPickerWorkaround {
@@ -339,7 +328,7 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
         }
         
         questionStep.answerWeighQuestion(kg: weightMetricAnswerKgPrecise, dismissPicker: dismissPicker)
- 
+        
         questionStep
             .verify(.continueButton, isEnabled: true)
             .tap(.continueButton)
@@ -351,7 +340,6 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
                 .verify(.text)
                 .verify(.skipButton, exists: false)
                 .verify(.continueButton, isEnabled: false)
-            
                 .verifySingleQuestionTitleExists()
             
             if shouldUseUIPickerWorkaround {
@@ -360,12 +348,12 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
             }
             
             questionStep.answerWeighQuestion(kg: weightMetricAnswerKgPrecise, dismissPicker: dismissPicker)
-       
+            
             questionStep
                 .verify(.continueButton, isEnabled: true)
                 .tap(.continueButton)
         }
-
+        
         // Metric system Optional Question - low precision
         questionStep
             .verify(.title)
@@ -373,7 +361,6 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
             .verify(.skipButton)
             .verify(.skipButton, isEnabled: true)
             .verify(.continueButton, isEnabled: true)
-        
             .verifySingleQuestionTitleExists()
         
         if shouldUseUIPickerWorkaround {
@@ -382,7 +369,7 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
         }
         
         questionStep.answerWeighQuestion(kg: weightMetricAnswerKg, dismissPicker: dismissPicker)
- 
+        
         questionStep
             .verify(.continueButton, isEnabled: true)
             .tap(.continueButton)
@@ -394,7 +381,6 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
                 .verify(.text)
                 .verify(.skipButton, exists: false)
                 .verify(.continueButton, isEnabled: false)
-            
                 .verifySingleQuestionTitleExists()
             
             if shouldUseUIPickerWorkaround {
@@ -403,12 +389,12 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
             }
             
             questionStep.answerWeighQuestion(kg: weightMetricAnswerKg, dismissPicker: dismissPicker)
-       
+            
             questionStep
                 .verify(.continueButton, isEnabled: true)
                 .tap(.continueButton)
         }
-
+        
         // Metric system Optional Question - high precision
         questionStep
             .verify(.title)
@@ -416,7 +402,6 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
             .verify(.skipButton)
             .verify(.skipButton, isEnabled: true)
             .verify(.continueButton, isEnabled: true)
-        
             .verifySingleQuestionTitleExists()
         
         if shouldUseUIPickerWorkaround {
@@ -425,7 +410,7 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
         }
         
         questionStep.answerWeighQuestion(kg: weightMetricAnswerKgHighlyPrecise, highPrecision: true, dismissPicker: dismissPicker)
- 
+        
         questionStep
             .verify(.continueButton, isEnabled: true)
             .tap(.continueButton)
@@ -437,7 +422,6 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
                 .verify(.text)
                 .verify(.skipButton, exists: false)
                 .verify(.continueButton, isEnabled: false)
-            
                 .verifySingleQuestionTitleExists()
             
             if shouldUseUIPickerWorkaround {
@@ -446,12 +430,12 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
             }
             
             questionStep.answerWeighQuestion(kg: weightMetricAnswerKgHighlyPrecise, highPrecision: true, dismissPicker: dismissPicker)
-       
+            
             questionStep
                 .verify(.continueButton, isEnabled: true)
                 .tap(.continueButton)
         }
-
+        
         // USC system Optional Question - default precision
         questionStep
             .verify(.title)
@@ -459,7 +443,6 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
             .verify(.skipButton)
             .verify(.skipButton, isEnabled: true)
             .verify(.continueButton, isEnabled: true)
-        
             .verifySingleQuestionTitleExists()
         
         if shouldUseUIPickerWorkaround {
@@ -479,7 +462,6 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
                 .verify(.text)
                 .verify(.skipButton, exists: false)
                 .verify(.continueButton, isEnabled: false)
-            
                 .verifySingleQuestionTitleExists()
             
             if shouldUseUIPickerWorkaround {
@@ -491,9 +473,8 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
                 .answerWeighQuestion(lb: weightUSAnswerLb, dismissPicker: dismissPicker)
                 .verify(.continueButton, isEnabled: true)
                 .tap(.continueButton)
-           
         }
-
+        
         // USC system Optional Question - high precision
         questionStep
             .verify(.title)
@@ -501,7 +482,6 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
             .verify(.skipButton)
             .verify(.skipButton, isEnabled: true)
             .verify(.continueButton, isEnabled: true)
-        
             .verifySingleQuestionTitleExists()
         
         if shouldUseUIPickerWorkaround {
@@ -521,7 +501,6 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
                 .verify(.text)
                 .verify(.skipButton, exists: false)
                 .verify(.continueButton, isEnabled: false)
-            
                 .verifySingleQuestionTitleExists()
             
             if shouldUseUIPickerWorkaround {
@@ -534,7 +513,6 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
                 .verify(.continueButton, isEnabled: true)
                 .tap(.continueButton)
         }
-
         
         if expectingNonOptionalStep {
             // HealthKit integration - Non Optional // TODO: rdar://118141808 (Height/Weight Questions should prefill with HealthKit value)
@@ -543,7 +521,6 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
                 .verify(.text)
                 .verify(.skipButton, exists: false)
                 .verify(.continueButton, isEnabled: false)
-            
                 .verifySingleQuestionTitleExists()
             
             if shouldUseUIPickerWorkaround {
@@ -560,7 +537,7 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
                 .verify(.continueButton, isEnabled: true)
                 .tap(.continueButton)
         }
-
+        
         // HealthKit integration - Optional // TODO: rdar://118141808 (Height/Weight Questions should prefill with HealthKit value)
         questionStep
             .verify(.title)
@@ -568,7 +545,6 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
             .verify(.skipButton)
             .verify(.skipButton, isEnabled: true)
             .verify(.continueButton, isEnabled: true)
-        
             .verifySingleQuestionTitleExists()
         
         if shouldUseUIPickerWorkaround {
@@ -582,6 +558,120 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
         }
         questionStep
             .verify(.continueButton, isEnabled: true)
+            .tap(.continueButton)
+    }
+    
+    ///<rdar://tsc/21847949> [Survey Questions] Date & Time Question
+    func testDateAndTimeQuestion() {
+        tasksList
+            .selectTaskByName(Task.dateTimeQuestion.description)
+        
+        let questionStep = FormStep()
+        questionStep
+            .verify(.title)
+            .verify(.text)
+            .verify(.skipButton) // Optional Question
+            .verify(.continueButton, isEnabled: true) // Picker value defaults to current date so continue button is enabled
+            .verifySingleQuestionTitleExists()
+        
+        if shouldUseUIPickerWorkaround {
+            questionStep.selectFormItemCell(withID: "dateTimeQuestionFormStep")
+            dismissPicker = true
+        }
+        
+        if hourCycle  == usTimeSignature {
+            questionStep
+                .answerDateAndTimeQuestion(offsetDays: 1, offsetHours: 5, isUSTimeZone: true)
+                .answerDateAndTimeQuestion(offsetDays: -2, offsetHours: 7, isUSTimeZone: true, dismissPicker: dismissPicker)
+            // TODO: Verifying entered values is blocked by rdar://120826508 ([Accessibility][ORKCatalog] Unable to access cell value after entering it)
+            
+        } else if hourCycle == continentalTimeSignature {
+            questionStep
+                .answerDateAndTimeQuestion(offsetDays: 1, offsetHours: 5, isUSTimeZone: false)
+                .answerDateAndTimeQuestion(offsetDays: -2, offsetHours: 7, isUSTimeZone: false, dismissPicker: dismissPicker)
+            // TODO: Verifying entered values is blocked by rdar://120826508 ([Accessibility][ORKCatalog] Unable to access cell value after entering it)
+        }
+        
+        questionStep
+            .verify(.continueButton,isEnabled: true)
+            .tap(.continueButton)
+    }
+    
+    func testDate3DayLimitQuestion() {
+        tasksList
+            .selectTaskByName(Task.date3DayLimitQuestionTask.description)
+        
+        let questionStep = FormStep()
+        let formItemId = "dateQuestionFormItem"
+        questionStep
+            .verify(.title)
+            .verify(.text)
+            .verify(.skipButton) // Optional Question
+            .verify(.continueButton, isEnabled: true) // Picker value defaults to current date so continue button is enabled
+            .verifySingleQuestionTitleExists()
+        
+        if shouldUseUIPickerWorkaround {
+            questionStep.selectFormItemCell(withID: formItemId)
+            dismissPicker = true
+        }
+        
+        questionStep
+            .verifyDatePickerDefaultsToCurrentDate()
+            .answerDateQuestion(offsetDays: -3, offsetYears: 0, dismissPicker: dismissPicker)
+            .verify(.continueButton, isEnabled: true)
+        
+        if shouldUseUIPickerWorkaround {
+            questionStep.selectFormItemCell(withID: formItemId)
+            dismissPicker = true
+        }
+        
+        questionStep
+            .answerDateQuestion(offsetDays: 3, offsetYears: 0)
+            .verifyDatePickerRestrictedTo3days(offsetDays: -4, offsetYears: 0)
+            .verifyDatePickerRestrictedTo3days(offsetDays: 4, offsetYears: 0, dismissPicker: dismissPicker)
+            .verify(.continueButton,isEnabled: true)
+        
+        // TODO: Verifying entered values is blocked by rdar://120826508 ([Accessibility][ORKCatalog] Unable to access cell value after entering it)
+        
+        questionStep
+            .tap(.continueButton)
+    }
+    
+    ///<rdar://tsc/21847959> [Survey Questions] Time Of Day Question
+    func testTimeOfDayQuestion() {
+        tasksList
+            .selectTaskByName(Task.timeOfDayQuestion.description)
+        let questionStep = FormStep()
+        questionStep
+            .verify(.title)
+            .verify(.text)
+            .verify(.skipButton) // Optional Question
+            .verify(.skipButton, isEnabled: true) 
+            .verify(.continueButton,isEnabled: true)
+            .verifySingleQuestionTitleExists()
+        
+        if shouldUseUIPickerWorkaround {
+            questionStep.selectFormItemCell(withID: "timeOfDayFormItem")
+            dismissPicker = true
+        }
+        
+        if hourCycle  == usTimeSignature {
+            questionStep
+                .answerTimeOfDayQuestion(hours: 01, minutes: 01, isUSTimeZone: true, isAM: true)
+                .answerTimeOfDayQuestion(hours: 11, minutes: 59, isUSTimeZone: true, isAM: false, dismissPicker: dismissPicker)
+                .verify(.continueButton, isEnabled: true)
+            
+            // TODO: Verify entered values blocked by rdar://120826508 ([Accessibility][ORKCatalog] Unable to access cell value after entering it)
+            
+        } else if hourCycle == continentalTimeSignature {
+            questionStep
+                .answerTimeOfDayQuestion(hours: 01, minutes: 01, isUSTimeZone: false)
+                .answerTimeOfDayQuestion(hours: 11, minutes: 59, isUSTimeZone: false, dismissPicker: dismissPicker)
+                .verify(.continueButton, isEnabled: true)
+            // TODO: Verify entered values blocked by rdar://120826508 ([Accessibility][ORKCatalog] Unable to access cell value after entering it)
+        }
+        questionStep
+            .verify(.continueButton,isEnabled: true)
             .tap(.continueButton)
     }
 }

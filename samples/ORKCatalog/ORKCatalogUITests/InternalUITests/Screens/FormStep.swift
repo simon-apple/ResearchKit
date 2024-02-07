@@ -439,6 +439,19 @@ final class FormStep: Step {
         return self
     }
     
+    @discardableResult
+    func verifyErrorMessage(exists: Bool, withId formItemId: String, expectedMessage: String) -> Self {
+        let formItemCell = getFormItemCell(withId: formItemId)
+        let errorMessageElement = formItemCell.staticTexts[expectedMessage].firstMatch // TODO: rdar://121345903 (Create AX Id for an error message when invalid values are entered)
+        guard exists else {
+            wait(for: errorMessageElement, toExists: false)
+            return self
+        }
+        wait(for: errorMessageElement)
+        XCTAssertEqual(errorMessageElement.label, expectedMessage)
+        return self
+    }
+    
     // MARK: - Date and Time Answer Format
     
     // Usually, there is only one UI picker  presented on the screen
@@ -474,7 +487,33 @@ final class FormStep: Step {
         }
     }
     
-    /// Adjusts the picker wheels to provided date
+    /**
+     Method for US Time Zone
+     - parameter hours: hours to be entered
+     - parameter minutes: minutes to be entered
+     - parameter isAM: indicating the time of day to be entered (before noon, after noon)
+     */
+    func adjustPickerWheels(hours: String, minutes: String, isAM: Bool = false, dismissPicker: Bool = false) {
+        let picker = Self.firstPicker
+        wait(for: picker)
+        let hourWheel = picker.pickerWheels.element(boundBy: 0)
+        let minuteWheel = picker.pickerWheels.element(boundBy: 1)
+        let amPmWheel = picker.pickerWheels.element(boundBy: 2)
+        hourWheel.adjust(toPickerWheelValue: hours)
+        minuteWheel.adjust(toPickerWheelValue: minutes)
+        if isAM {
+            amPmWheel.adjust(toPickerWheelValue: "AM")
+        } else {amPmWheel.adjust(toPickerWheelValue: "PM")}
+        if dismissPicker { Keyboards.tapDoneButtonOnToolbar() }
+    }
+    
+    /**
+     Adjusts picker wheels to provided date
+     Handles ORKDateAnswerFormat dateAnswerFormat
+     - parameter year: year to be entered
+     - parameter month: month to be entered
+     - parameter dismissPicker: whether the ui picker should be dismissed after selection
+     */
     @discardableResult
     func answerDateQuestion(year: String, month: String, day: String, dismissPicker: Bool = false) -> Self {
         let picker = Self.firstPicker
@@ -484,6 +523,107 @@ final class FormStep: Step {
         picker.pickerWheels.element(boundBy: 2).adjust(toPickerWheelValue: year)
         picker.pickerWheels.element(boundBy: 1).adjust(toPickerWheelValue: day)
         picker.pickerWheels.element(boundBy: 0).adjust(toPickerWheelValue: month)
+        if dismissPicker {
+            Keyboards.tapDoneButtonOnToolbar()
+        }
+        return self
+    }
+    
+    /**
+     Adjusts picker wheels based on offsets from the current date
+     Handles ORKDateAnswerFormat dateAnswerFormat
+     - parameter offsetDays: the number of days to add to the current date . A positive value moves forward in time, a negative value moves backward
+     - parameter offsetYears: the number of years to add to the current date. A positive value moves forward in time, a negative value moves backward
+     - parameter dismissPicker: whether the ui picker should be dismissed after selection
+     */
+    func answerDateQuestion(offsetDays: Int, offsetYears: Int, dismissPicker: Bool = false) -> Self {
+        let (month, day, year) = getPickerValues(offsetDays: offsetDays, offsetYears: offsetYears)
+        let picker = Self.firstPicker
+        wait(for: picker, withTimeout: uiPickerTimeout)
+        picker.pickerWheels.element(boundBy: 0).adjust(toPickerWheelValue: month)
+        picker.pickerWheels.element(boundBy: 1).adjust(toPickerWheelValue: day)
+        picker.pickerWheels.element(boundBy: 2).adjust(toPickerWheelValue: year)
+        if dismissPicker {
+            Keyboards.tapDoneButtonOnToolbar()
+        }
+        return self
+    }
+    
+    /**
+     Adjusts picker wheels to provided date
+     Handles ORKTimeOfDayAnswerFormat timeOfDayAnswerFormat
+     - parameter hours: hours to be entered
+     - parameter minutes: minutes to be entered
+     - parameter isUSTimeZone: whether AM/PM picker wheels need to be adjusted
+     - parameter isAM: indicating the time of day to be entered (before noon, after noon)
+     */
+    @discardableResult
+    func answerTimeOfDayQuestion(hours: Int, minutes: Int, isUSTimeZone: Bool, isAM: Bool = false, dismissPicker: Bool = false) -> Self {
+        var formattedHours: String
+        // Keep leading zeroes for minutes
+        let formattedMinutes = String(format: "%02d", minutes)
+        
+        if isUSTimeZone {
+            formattedHours = String(hours)
+            guard isAM else {
+                adjustPickerWheels(hours: formattedHours, minutes: formattedMinutes, isAM: false, dismissPicker: dismissPicker)
+                return self
+            }
+            adjustPickerWheels(hours: formattedHours, minutes: formattedMinutes, isAM: true, dismissPicker: dismissPicker)
+        } else {
+            // Keep leading zeroes for continental Time Zone
+            formattedHours = String(format: "%02d", hours)
+            adjustPickerWheels(hours: formattedHours, minutes: formattedMinutes, dismissPicker: dismissPicker)
+        }
+        return self
+    }
+    
+    /// Handles ORKDateAnswerFormat dateTimeAnswerFormat
+    /// Adjusts the picker wheels to provided date
+    @discardableResult
+    func answerDateAndTimeQuestion(year: String, month: String, day: String, hour: String, isUSTimeZOne: Bool = true, dismissPicker: Bool = false) -> Self {
+        let picker = Self.firstPicker
+        wait(for: picker, withTimeout: uiPickerTimeout)
+        var formattedHours: String
+        if isUSTimeZOne {
+            // Do not add leading zeros for US Time Zone
+            formattedHours = String(hour)
+            // Add leading zeroes for continental Time Zone
+        } else { formattedHours = String(format: "%02d", hour) }
+        picker.pickerWheels.element(boundBy: 3).adjust(toPickerWheelValue: formattedHours)
+        picker.pickerWheels.element(boundBy: 2).adjust(toPickerWheelValue: year)
+        picker.pickerWheels.element(boundBy: 1).adjust(toPickerWheelValue: day)
+        picker.pickerWheels.element(boundBy: 0).adjust(toPickerWheelValue: month)
+        if dismissPicker {
+            Keyboards.tapDoneButtonOnToolbar()
+        }
+        return self
+    }
+    
+    /**
+     Adjusts picker wheels based on offsets from the current date
+     Handles ORKDateAnswerFormat dateTimeAnswerFormat
+     - parameter offsetDays: the number of days to add to the current date . A positive value moves forward in time, a negative value moves backward
+     - parameter offsetHours: the number of hours to add to the current date. A positive value moves forward in time, a negative value moves backward
+     - parameter dismissPicker: whether the ui picker should be dismissed after selection
+     */
+    @discardableResult
+    func answerDateAndTimeQuestion(offsetDays: Int, offsetHours: Int, isUSTimeZone: Bool, dismissPicker: Bool = false) -> Self {
+        let picker = Self.firstPicker
+        wait(for: picker, withTimeout: uiPickerTimeout)
+        let (day, hour, minute, amPm) = getPickerValues(offsetDays: offsetDays, offsetHours: offsetHours)
+        var formattedHours = hour
+        if !isUSTimeZone {
+            // Add leading zeroes for continental Time Zone
+            formattedHours = String(format: "%02d", Int(hour) ?? 0)
+            print(formattedHours)
+        }
+        picker.pickerWheels.element(boundBy: 0).adjust(toPickerWheelValue: day)
+        picker.pickerWheels.element(boundBy: 1).adjust(toPickerWheelValue: formattedHours)
+        picker.pickerWheels.element(boundBy: 2).adjust(toPickerWheelValue: minute)
+        if  isUSTimeZone {
+            picker.pickerWheels.element(boundBy: 3).adjust(toPickerWheelValue: amPm)
+        }
         if dismissPicker {
             Keyboards.tapDoneButtonOnToolbar()
         }
@@ -500,6 +640,22 @@ final class FormStep: Step {
         XCTAssertEqual(actualYear, expectedYear, "The year picker wheel is not showing correct value. Expected \(expectedYear) but got \(actualYear)")
         XCTAssertEqual(actualDay, expectedDay, "The day picker wheel is not showing correct value. Expected \(expectedDay) but got \(actualDay)")
         XCTAssertEqual(actualMonth, expectedMonth, "The month picker wheel is not showing correct value. Expected \(expectedMonth) but got \(actualMonth)")
+        return self
+    }
+    
+    func verifyDatePickerRestrictedTo3days(offsetDays: Int, offsetYears: Int, dismissPicker: Bool = false) -> Self {
+        let (month, day, year) = getPickerValues(offsetDays: offsetDays, offsetYears: offsetYears)
+        let picker = Self.firstPicker
+        wait(for: picker, withTimeout: uiPickerTimeout)
+        picker.pickerWheels.element(boundBy: 0).adjust(toPickerWheelValue: month)
+        picker.pickerWheels.element(boundBy: 1).adjust(toPickerWheelValue: day)
+        picker.pickerWheels.element(boundBy: 2).adjust(toPickerWheelValue: year)
+        
+        let dayDisplayed = picker.pickerWheels.element(boundBy: 1).value as? String ?? ""
+        XCTAssertNotEqual(day, dayDisplayed, "The date picker should be restricted to 3 days")
+        if dismissPicker {
+            Keyboards.tapDoneButtonOnToolbar()
+        }
         return self
     }
     
@@ -525,6 +681,62 @@ final class FormStep: Step {
         XCTAssertEqual(actualDay, expectedDay, "The day picker wheel is not showing correct value. Expected \(expectedDay) but got \(actualDay)")
         XCTAssertEqual(actualMonth, expectedMonth, "The month picker wheel is not showing correct value. Expected \(expectedMonth) but got \(actualMonth)")
         return self
+    }
+    
+    /**
+     Gets picker wheels values based on offsets from the current date
+     - parameter offsetDays: the number of days to add to the current date . A positive value moves forward in time, a negative value moves backward
+     - parameter offsetHours: the number of hours to add to the current date. A positive value moves forward in time, a negative value moves backward
+     */
+    func getPickerValues(offsetDays: Int, offsetHours: Int) -> (day: String, hour: String, minute: String, amPm: String) {
+        let calendar = Calendar.current
+        let now = Date()
+        let adjustedDate = calendar.date(byAdding: .day, value: offsetDays, to: now)!
+        let adjustedDateTime = calendar.date(byAdding: .hour, value: offsetHours, to: adjustedDate)!
+        let dateFormatter = DateFormatter()
+
+        dateFormatter.dateFormat = "MMM d"
+        let day = dateFormatter.string(from: adjustedDateTime)
+        
+        let hourFormatter = DateFormatter()
+        hourFormatter.dateFormat = "h"
+        let hour = hourFormatter.string(from: adjustedDateTime)
+        
+        let minuteFormatter = DateFormatter()
+        minuteFormatter.dateFormat = "mm"
+        let minute = minuteFormatter.string(from: adjustedDateTime)
+        
+        let amPmFormatter = DateFormatter()
+        amPmFormatter.dateFormat = "a"
+        let amPm = amPmFormatter.string(from: adjustedDateTime)
+        
+        return (day, hour, minute, amPm)
+    }
+    
+    /**
+     Gets picker wheels values based on offsets from the current date
+     - parameter offsetDays: the number of days to add to the current date . A positive value moves forward in time, a negative value moves backward
+     - parameter offsetYears: the number of years to add to the current date. A positive value moves forward in time, a negative value moves backward
+     */
+    func getPickerValues(offsetDays: Int, offsetYears: Int) -> (month: String, day: String, year: String) {
+        let calendar = Calendar.current
+        let now = Date()
+        let adjustedDate = calendar.date(byAdding: .day, value: offsetDays, to: now)!
+        let adjustedDateTime = calendar.date(byAdding: .year, value: offsetYears, to: adjustedDate)!
+        
+        let monthFormatter = DateFormatter()
+        monthFormatter.dateFormat = "MMMM"
+        let month = monthFormatter.string(from: adjustedDateTime)
+        
+        let dayFormatter = DateFormatter()
+        dayFormatter.dateFormat = "d"
+        let day = dayFormatter.string(from: adjustedDateTime)
+        
+        let yearFormatter = DateFormatter()
+        yearFormatter.dateFormat = "yyyy"
+        let year = yearFormatter.string(from: adjustedDateTime)
+        
+        return (month, day, year)
     }
     
     // MARK: - Picker Value Choice Format
@@ -724,6 +936,8 @@ final class FormStep: Step {
     
     // MARK: - Scale Answer Format
     
+    // As per apple documentation: The adjustment is a “best effort” to move the indicator to the desired position; absolute fidelity is not guaranteed. https://developer.apple.com/documentation/xctest/xcuielement/1501022-adjust
+    
     static var firstSlider = app.sliders.firstMatch
     
     /// Adjusts the first slider found to normalized position
@@ -736,11 +950,11 @@ final class FormStep: Step {
     
     /**
      Handles ORKContinuousScaleAnswerFormat
-    - parameter formItemId: The string that identifies the form item, which should be unique within the form step
-    - parameter index: form item cell index. Usually form item cell index is 0 unless it's from item within a section
-    */
+     - parameter formItemId: The string that identifies the form item, which should be unique within the form step
+     - parameter index: form item cell index. Usually form item cell index is 0 unless it's from item within a section
+     */
     @discardableResult
-    func answerScaleQuestion(withId formItemId: String, atIndex index: Int = 0, withNormalizedPosition: CGFloat) -> Self {
+    func adjustQuestionSlider(withId formItemId: String, atIndex index: Int = 0, withNormalizedPosition: CGFloat) -> Self {
         let cell = getFormItemCell(withId: formItemId, atIndex: index)
         if !cell.visible {
             cell.scrollUntilVisible()
@@ -748,6 +962,175 @@ final class FormStep: Step {
         let slider = cell.sliders.firstMatch
         slider.adjust(toNormalizedSliderPosition: withNormalizedPosition)
         
+        return self
+    }
+    
+    /// Normalizes slider value to the range [0, 1]
+    /// Adding half of step because slider is not precise
+    func normalizeSliderValue(sliderValue: Double, stepValue: Double, minValue: Double, maxValue: Double) -> CGFloat {
+        var normalizedValue: Double
+        if sliderValue != maxValue {
+            normalizedValue = ((sliderValue + stepValue/2) - minValue)/(maxValue - minValue)
+        }
+        else {
+            normalizedValue = 1.0
+        }
+        return normalizedValue
+    }
+    
+    @discardableResult
+    func verifySliderValue(withId formItemId: String, atIndex index: Int = 0, expectedValue: String) -> Self {
+        let slider = getFormItemCell(withId: formItemId, atIndex: index).sliders.firstMatch
+        wait(for: slider)
+        slider.verifyElementValue(expectedValue: expectedValue)
+        return self
+    }
+    
+    /**
+     Adjusts slider and verifies slider result value. Handles  ORKAnswerFormat scale
+     - parameter formItemId: The string that identifies the form item, which should be unique within the form step
+     - parameter index: form item cell index. Usually form item cell index is 0 unless it's from item within a section
+     - parameter sliderValue: value that move slider to
+     - parameter stepValue: slider step
+     */
+    @discardableResult
+    func answerScaleQuestion(withId formItemId: String, atIndex index: Int = 0, sliderValue: Double, stepValue: Double, minValue: Double, maxValue: Double) -> Self {
+        
+        let cell = getFormItemCell(withId: formItemId, atIndex: index)
+        let slider = cell.sliders.firstMatch
+        wait(for: slider)
+        let normalizedValue = normalizeSliderValue(sliderValue: sliderValue, stepValue: stepValue, minValue: minValue, maxValue :maxValue)
+        print(normalizedValue)
+        
+        slider.adjust(toNormalizedSliderPosition: normalizedValue)
+        let actualSliderValue = slider.value as? String ?? ""
+        let actualSliderValueDouble = Double(actualSliderValue) ?? 0
+        
+        XCTAssertEqual(actualSliderValueDouble, sliderValue)
+        return self
+    }
+    
+    @discardableResult
+    func answerTextScaleQuestion(withId formItemId: String, atIndex index: Int = 0, sliderValue: Double, expectedSliderValue: String, stepValue: Double, minValue: Double, maxValue: Double) -> Self {
+        
+        let cell = getFormItemCell(withId: formItemId, atIndex: index)
+        let slider = cell.sliders.firstMatch
+        wait(for: slider)
+        let normalizedValue = normalizeSliderValue(sliderValue: sliderValue, stepValue: stepValue, minValue: minValue, maxValue :maxValue)
+        print(normalizedValue)
+        
+        slider.adjust(toNormalizedSliderPosition: normalizedValue)
+        let actualSliderValue = slider.value as? String ?? ""
+        
+        XCTAssertEqual(actualSliderValue, expectedSliderValue)
+        return self
+    }
+    
+    /// ORKAnswerFormat continuousScale numberStyle = .percent
+    @discardableResult
+    func answerScaleQuestionPercentStyle(withId formItemId: String, atIndex index: Int = 0, sliderValue: Int, stepValue: Double, minValue: Double, maxValue: Double) -> Self {
+        let formItemCell = getFormItemCell(withId: formItemId, atIndex: index)
+        let slider = formItemCell .sliders.firstMatch
+        wait(for: slider)
+        let normalizedValue = (Double(sliderValue) - minValue)/(maxValue - minValue)
+        slider.adjust(toNormalizedSliderPosition: normalizedValue)
+        var actualSliderValue = slider.value as? String ?? ""
+        let sliderValueString = String(sliderValue)
+        let sliderValuePercent = "\(sliderValueString)%"
+        var retry = 0
+        while actualSliderValue != sliderValuePercent && retry < 5 {
+            if retry > 0 { sleep(1) }
+            slider.adjust(toNormalizedSliderPosition: normalizedValue)
+            actualSliderValue = slider.value as? String ?? ""
+            retry += 1
+        }
+        XCTAssertEqual(actualSliderValue, sliderValuePercent)
+        return self
+    }
+    
+    /// Vertical sliders don't work with XCUITest slider method (adjust(toNormalizedSliderPosition), so we have to use workaround with coords
+    @discardableResult
+    func answerVerticalScaleQuestion(withId formItemId: String, atIndex index: Int = 0, expectedSliderValue: Double, dx: Double, dy: Double) -> Self {
+        let cell = getFormItemCell(withId: formItemId, atIndex: index)
+        let slider = cell.sliders.firstMatch
+        wait(for: slider)
+        let sliderCoordinate = slider.coordinate(withNormalizedOffset: CGVector(dx: dx, dy: dy))
+        var actualSliderValue = slider.value as? String ?? ""
+        var actualSliderValueDouble = Double(actualSliderValue) ?? 0
+        
+        // As per apple documentation: The adjustment is a “best effort” to move the indicator to the desired position; absolute fidelity is not guaranteed. https://developer.apple.com/documentation/xctest/xcuielement/1501022-adjust
+        // So we need to call slider adjustment method several times in order to set slider to desired position:
+        var retry = 0
+        while  actualSliderValueDouble != expectedSliderValue && retry < 5 {
+            if retry > 0 { sleep(1) }
+            sliderCoordinate.press(forDuration: 0.1)
+            actualSliderValue = slider.value as? String ?? ""
+            actualSliderValueDouble = Double(actualSliderValue) ?? 0
+            retry += 1
+        }
+        
+        XCTAssertEqual(actualSliderValueDouble, expectedSliderValue)
+        return self
+    }
+    
+    /// Adjusts slider to the end. Expected value of slider is Double
+    /// Start and end positions won't work properly so we need separate workaround for those
+    func adjustVerticalSliderToEndPosition(withId formItemId: String, atIndex index: Int = 0, expectedValue: Double) -> Self {
+        let cell = getFormItemCell(withId: formItemId, atIndex: index)
+        let slider = cell.sliders.firstMatch
+        wait(for: slider)
+        
+        let sliderCenter = slider.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5))
+        let sliderEnd = slider.coordinate(withNormalizedOffset: CGVector(dx: -0.1, dy: 0.0))
+        // When we need to adjust slider to the end of the slider we set the target coordinate a little bit further to make sure that dragging will hit the end of the slider
+        var actualSliderValue = slider.value as? String ?? ""
+        var actualSliderValueDouble = Double(actualSliderValue) ?? 0
+        
+        var retry = 0
+        while  actualSliderValueDouble != expectedValue && retry < 5 {
+            if retry > 0 { sleep(1) }
+            sliderCenter.press(forDuration: 0.1, thenDragTo: sliderEnd, withVelocity: .slow, thenHoldForDuration: 0.1)
+            actualSliderValue = slider.value as? String ?? ""
+            actualSliderValueDouble = Double(actualSliderValue) ?? 0
+            retry += 1
+        }
+        
+        XCTAssertEqual(actualSliderValueDouble, expectedValue)
+        
+        return self
+    }
+    
+    /// Adjusts slider to the end. Expected value of slider is String
+    func adjustVerticalSliderToEndPosition(withId formItemId: String, atIndex index: Int = 0, expectedValue: String) -> Self {
+        let cell = getFormItemCell(withId: formItemId, atIndex: index)
+        let slider = cell.sliders.firstMatch
+        wait(for: slider)
+        
+        let sliderCenter = slider.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5))
+        let sliderEnd = slider.coordinate(withNormalizedOffset: CGVector(dx: -0.1, dy: 0.0))
+        // When we need to adjust slider to the end of the slider we set the target coordinate a little bit further to make sure that dragging will hit the end of the slider
+        var actualSliderValue = slider.value as? String ?? ""
+        
+        var retry = 0
+        while  actualSliderValue != expectedValue && retry < 5 {
+            if retry > 0 { sleep(1) }
+            sliderCenter.press(forDuration: 0.1, thenDragTo: sliderEnd, withVelocity: .slow, thenHoldForDuration: 0.1)
+            actualSliderValue = slider.value as? String ?? ""
+            retry += 1
+        }
+        
+        XCTAssertEqual(actualSliderValue, expectedValue)
+        return self
+    }
+    
+    /// Adjusts vertical slider without verifying resulting value
+    func adjustVerticalSlider(withId formItemId: String, atIndex index: Int = 0, dx: Double, dy: Double) -> Self {
+        let cell = getFormItemCell(withId: formItemId, atIndex: index)
+        let slider = cell.sliders.firstMatch
+        wait(for: slider)
+        
+        let sliderCoordinate = slider.coordinate(withNormalizedOffset: CGVector(dx: dx, dy: dy))
+        sliderCoordinate.press(forDuration: 0.1)
         return self
     }
     
