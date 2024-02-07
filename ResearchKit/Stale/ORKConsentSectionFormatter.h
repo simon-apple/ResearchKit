@@ -1,22 +1,21 @@
 /*
- Copyright (c) 2015, Apple Inc. All rights reserved.
  Copyright (c) 2015, Alex Basson. All rights reserved.
 
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
- 
+
  1.  Redistributions of source code must retain the above copyright notice, this
  list of conditions and the following disclaimer.
- 
+
  2.  Redistributions in binary form must reproduce the above copyright notice,
  this list of conditions and the following disclaimer in the documentation and/or
  other materials provided with the distribution.
- 
+
  3.  Neither the name of the copyright holder(s) nor the names of any contributors
  may be used to endorse or promote products derived from this software without
  specific prior written permission. No license is granted to the trademarks of
  the copyright holders even if such marks are included in this software.
- 
+
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -30,29 +29,20 @@
  */
 
 
-#import <ResearchKit/ORKConsentDocument.h>
+@import Foundation;
+#import "ORKDefines.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class ORKHTMLPDFWriter;
-@class ORKConsentSectionFormatter;
-@class ORKConsentSignatureFormatter;
+@class ORKConsentSection;
 
-@interface ORKConsentDocument ()
+__deprecated
+@interface ORKConsentSectionFormatter : NSObject
 
-/**
- Initializer with ORKHTMLPDFWriter parameter. Allows for injecting mock dependency for the
- purposes of isolated unit testing.
- 
- @param writer              The instance of the ORKHTMLPDFWriter upon which the class depends.
- @param sectionFormatter    An instance of ORKConsentSectionFormatter
- @param signatureFormatter  An instance of ORKConsentSignatureFormatter
- */
-- (instancetype)initWithHTMLPDFWriter:(ORKHTMLPDFWriter *)writer
-              consentSectionFormatter:(ORKConsentSectionFormatter *)sectionFormatter
-            consentSignatureFormatter:(ORKConsentSignatureFormatter *)signatureFormatter;
+- (NSString *)HTMLForSection:(ORKConsentSection *)section;
 
 @end
 
 NS_ASSUME_NONNULL_END
+
