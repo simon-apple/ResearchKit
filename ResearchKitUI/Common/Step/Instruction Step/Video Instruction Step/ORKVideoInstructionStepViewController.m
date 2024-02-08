@@ -127,7 +127,13 @@
 - (void)play {
     AVAsset* asset = [AVAsset assetWithURL:[self assetURL]];
     AVPlayerItem* playerItem = [AVPlayerItem playerItemWithAsset:asset];
-    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
+    
+    NSError* error = nil;
+    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:&error];
+    if(error != nil) {
+        ORK_Log_Error("Could not start audio session: %@", error);
+    }
+    
     ORKRateObservedPlayer* player = [[ORKRateObservedPlayer alloc] initWithPlayerItem:playerItem andObserver:self];
     player.actionAtItemEnd = AVPlayerActionAtItemEndPause;
     AVPlayerViewController *playerViewController = [[AVPlayerViewController alloc] init];
