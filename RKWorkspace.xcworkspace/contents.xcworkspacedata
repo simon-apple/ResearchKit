@@ -11,9 +11,6 @@
       location = "group:ResearchKitUIWatch/ResearchKitUI(Watch).xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:Testing/ORKTest/ORKTest.xcodeproj">
-   </FileRef>
-   <FileRef
       location = "group:samples/ORKCatalog/ORKCatalog.xcodeproj">
    </FileRef>
    <FileRef

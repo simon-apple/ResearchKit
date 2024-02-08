@@ -31,7 +31,7 @@
 
 @import Foundation;
 
-#if TARGET_OS_WATCH
+#if TARGET_OS_WATCH || TARGET_OS_VISION
 #import <ResearchKitCore/ORKInstructionStep.h>
 #else
 #import <ResearchKit/ORKInstructionStep.h>

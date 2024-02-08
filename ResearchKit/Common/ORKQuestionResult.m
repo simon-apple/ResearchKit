@@ -332,6 +332,7 @@
 
 #pragma mark - ORKLocationQuestionResult
 
+#if !TARGET_OS_VISION
 @implementation ORKLocation
 
 + (instancetype)new {
@@ -471,6 +472,7 @@ static NSString *const RegionIdentifierKey = @"region.identifier";
 }
 
 @end
+#endif
 
 
 #pragma mark - ORKSESQuestionResult

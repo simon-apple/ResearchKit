@@ -32,7 +32,7 @@
 @import Foundation;
 @import HealthKit;
 
-#if TARGET_OS_WATCH
+#if TARGET_OS_WATCH || TARGET_OS_VISION
 #import <ResearchKitCore/ORKTypes.h>
 #else
 #import <ResearchKit/ORKTypes.h>

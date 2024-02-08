@@ -29,7 +29,7 @@
  */
 
 
-#if TARGET_OS_WATCH
+#if TARGET_OS_WATCH || TARGET_OS_VISION
 #import <ResearchKitCore/ORKQuestionResult.h>
 #elif TARGET_OS_IOS
 #import <ResearchKit/ORKQuestionResult.h>
@@ -50,8 +50,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-
+#if !TARGET_OS_VISION
 @interface ORKLocation ()
+
 
 - (instancetype)initWithCoordinate:(CLLocationCoordinate2D)coordinate
                             region:(nullable CLCircularRegion *)region
@@ -61,5 +62,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithPlacemark:(CLPlacemark *)placemark userInput:(NSString *)userInput;
 
 @end
+#endif
 
 NS_ASSUME_NONNULL_END

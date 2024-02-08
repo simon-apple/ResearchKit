@@ -30,7 +30,7 @@
 
 #if TARGET_OS_IOS
 #import <ResearchKit/ORKResult.h>
-#elif TARGET_OS_WATCH
+#elif TARGET_OS_WATCH || TARGET_OS_VISION
 #import <ResearchKitCore/ORKResult.h>
 #endif
 
@@ -156,6 +156,7 @@ ORK_CLASS_AVAILABLE
 /**
  The `ORKLocation` class represents the location addess obtained from a locaton question.
  */
+#if !TARGET_OS_VISION
 ORK_CLASS_AVAILABLE
 @interface ORKLocation : NSObject <NSCopying, NSSecureCoding>
 
@@ -195,6 +196,7 @@ ORK_CLASS_AVAILABLE
  completes, it may be appropriate to serialize it for transmission to a server,
  or to immediately perform analysis on it.
  */
+
 ORK_CLASS_AVAILABLE
 @interface ORKLocationQuestionResult : ORKQuestionResult
 
@@ -204,7 +206,7 @@ ORK_CLASS_AVAILABLE
 @property (nonatomic, copy, nullable) ORKLocation *locationAnswer;
 
 @end
-
+#endif
 
 /**
  The `ORKMultipleComponentQuestionResult` class represents the choice

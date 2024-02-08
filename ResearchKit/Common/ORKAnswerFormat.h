@@ -36,7 +36,7 @@
 @import UIKit;
 
 
-#if TARGET_OS_WATCH
+#if TARGET_OS_WATCH || TARGET_OS_VISION
 #import <ResearchKitCore/ORKTypes.h>
 #elif TARGET_OS_IOS
 #import <ResearchKit/ORKTypes.h>
