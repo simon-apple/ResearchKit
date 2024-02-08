@@ -37,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class ORKConsentSignature;
 
-ORK_TO_BE_DEPRECATED("Visit the catalog app for the recommended Informed Consent flow")
+ORK_TO_BE_DEPRECATED("Visit the catalog app for the recommended informed consent flow")
 @interface ORKConsentSignatureFormatter : NSObject
 
 - (NSString *)HTMLForSignature:(ORKConsentSignature *)signature;
