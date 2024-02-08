@@ -464,9 +464,6 @@ enum TaskListRow: Int, CustomStringConvertible {
         case .trailMaking:
             return NSLocalizedString("Trail Making Test", comment: "")
             
-        case .consentTask:
-            return NSLocalizedString("Consent Task", comment: "")
-            
         case .webView:
             return NSLocalizedString("Web View", comment: "")
             
