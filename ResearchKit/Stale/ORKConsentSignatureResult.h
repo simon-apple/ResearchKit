@@ -51,7 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
  or to immediately perform analysis on it.
  */
 ORK_CLASS_AVAILABLE
-__deprecated
+ORK_TO_BE_DEPRECATED("Visit the catalog app for the recommended Informed Consent flow")
 @interface ORKConsentSignatureResult : ORKResult
 
 /**

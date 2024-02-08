@@ -144,7 +144,7 @@ typedef NS_ENUM(NSInteger, ORKConsentSectionType) {
  If you provide content for the `ORKConsentSection` object, be sure to use localized content.
  */
 ORK_CLASS_AVAILABLE
-__deprecated
+ORK_TO_BE_DEPRECATED("Visit the catalog app for the recommended Informed Consent flow")
 @interface ORKConsentSection : NSObject <NSSecureCoding, NSCopying>
 
 /**

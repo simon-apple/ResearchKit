@@ -37,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class ORKConsentSection;
 
-__deprecated
+ORK_TO_BE_DEPRECATED("Visit the catalog app for the recommended Informed Consent flow")
 @interface ORKConsentSectionFormatter : NSObject
 
 - (NSString *)HTMLForSection:(ORKConsentSection *)section;

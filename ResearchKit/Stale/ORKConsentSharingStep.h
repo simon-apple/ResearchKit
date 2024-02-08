@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
  with a task view controller. It's easy to incorporate a consent sharing step into the review flow, because it provides default content for its title, text, and answer format.
  */
 ORK_CLASS_AVAILABLE
-__deprecated
+ORK_TO_BE_DEPRECATED("Visit the catalog app for the recommended Informed Consent flow")
 @interface ORKConsentSharingStep : ORKQuestionStep
 
 /**

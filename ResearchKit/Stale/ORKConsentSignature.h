@@ -52,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
  does not verify or vouch for user identity.
  */
 ORK_CLASS_AVAILABLE
-__deprecated
+ORK_TO_BE_DEPRECATED("Visit the catalog app for the recommended Informed Consent flow")
 @interface ORKConsentSignature : NSObject <NSSecureCoding, NSCopying>
 
 /// @name Factory methods

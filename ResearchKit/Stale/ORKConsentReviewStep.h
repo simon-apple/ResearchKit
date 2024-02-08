@@ -60,7 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
  present the task in a task view controller.
  */
 ORK_CLASS_AVAILABLE
-__deprecated
+ORK_TO_BE_DEPRECATED("Visit the catalog app for the recommended Informed Consent flow")
 @interface ORKConsentReviewStep : ORKStep
 
 /// @name Initialization.

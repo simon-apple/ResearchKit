@@ -62,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
  (`ORKQuestionResult`).
  */
 ORK_CLASS_AVAILABLE
-__deprecated_msg("Use ORKFormStep instead")
+ORK_TO_BE_DEPRECATED("Use the ORKFormStep instead")
 @interface ORKQuestionStep : ORKStep
 
 
