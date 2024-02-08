@@ -39,7 +39,6 @@ NS_ASSUME_NONNULL_BEGIN
 @class ORKConsentSectionFormatter;
 @class ORKConsentSignatureFormatter;
 
-
 @interface ORKConsentDocument ()
 
 /**
