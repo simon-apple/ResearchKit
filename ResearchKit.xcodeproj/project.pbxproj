@@ -30,6 +30,13 @@
 		0B9CC5672A68C02C00080E29 /* UIImageView+ResearchKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B9CC5652A68C02C00080E29 /* UIImageView+ResearchKit.h */; };
 		0B9CC5682A68C02C00080E29 /* UIImageView+ResearchKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B9CC5662A68C02C00080E29 /* UIImageView+ResearchKit.m */; };
 		0BCC4B9A28663895001E316F /* PIIScrubber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BCC4B9928663895001E316F /* PIIScrubber.swift */; };
+		0BD9B60D2B75991B00A64EF9 /* Sentence1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7118AC6620BF6A3A00D7A6BB /* Sentence1.wav */; };
+		0BD9B60E2B75991F00A64EF9 /* Sentence2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7118AC6520BF6A3A00D7A6BB /* Sentence2.wav */; };
+		0BD9B60F2B75992200A64EF9 /* Sentence3.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7118AC6420BF6A3A00D7A6BB /* Sentence3.wav */; };
+		0BD9B6102B75992500A64EF9 /* Sentence4.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7118AC6120BF6A3A00D7A6BB /* Sentence4.wav */; };
+		0BD9B6112B75992800A64EF9 /* Sentence5.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7118AC6320BF6A3A00D7A6BB /* Sentence5.wav */; };
+		0BD9B6122B75992C00A64EF9 /* Sentence6.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7118AC6220BF6A3A00D7A6BB /* Sentence6.wav */; };
+		0BD9B6132B75992F00A64EF9 /* Sentence7.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7118AC6020BF6A3900D7A6BB /* Sentence7.wav */; };
 		0BE9D5272947EA4900DA0625 /* ORKConsentDocument+ORKInstructionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BE9D5252947EA4900DA0625 /* ORKConsentDocument+ORKInstructionStep.m */; };
 		0BEE14B1286CE552005F26D1 /* Scrubbers in Resources */ = {isa = PBXBuildFile; fileRef = 0BEE14B0286CE552005F26D1 /* Scrubbers */; };
 		10FF9ADB1B7BA78400ECB5B4 /* ORKOrderedTask_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 10FF9AD91B7BA78400ECB5B4 /* ORKOrderedTask_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -211,9 +218,6 @@
 		5DABE5B024DA1A4900570C57 /* ORKChoiceAnswerFormatHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 861D11AB1AA7951F003C98A7 /* ORKChoiceAnswerFormatHelper.h */; };
 		5DABE5B124DA1A4F00570C57 /* ORKChoiceAnswerFormatHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 861D11AC1AA7951F003C98A7 /* ORKChoiceAnswerFormatHelper.m */; };
 		5DFD11D124F73A6F00744C69 /* ORKCollectionResult.m in Sources */ = {isa = PBXBuildFile; fileRef = FF919A521E81BEB5005C2A1E /* ORKCollectionResult.m */; };
-		7118AC6820BF6A3A00D7A6BB /* Sentence4.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7118AC6120BF6A3A00D7A6BB /* Sentence4.wav */; };
-		7118AC6920BF6A3A00D7A6BB /* Sentence6.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7118AC6220BF6A3A00D7A6BB /* Sentence6.wav */; };
-		7118AC6C20BF6A3A00D7A6BB /* Sentence2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7118AC6520BF6A3A00D7A6BB /* Sentence2.wav */; };
 		714080DB235FD14700281E04 /* ResearchKit.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 714080D9235FD14700281E04 /* ResearchKit.stringsdict */; };
 		714151D0225C4A23002CA33B /* ORKPasscodeViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A92C6922444F93007547F2 /* ORKPasscodeViewControllerTests.swift */; };
 		7141EA2222EFBC0C00650145 /* ORKLoggingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7141EA2122EFBC0C00650145 /* ORKLoggingTests.m */; };
@@ -741,13 +745,6 @@
 		CAA20E8C288B3F1100EDC764 /* splMeter_sensitivity_offset.plist in Resources */ = {isa = PBXBuildFile; fileRef = 71F3B27F21001DEC00FB1C41 /* splMeter_sensitivity_offset.plist */; };
 		CAA20EEA288B3F1200EDC764 /* ORKActiveStepQuantityView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40AFB1A8D7C5B00081FAC /* ORKActiveStepQuantityView.m */; };
 		CAA20F1A288B3F4000EDC764 /* SentencesList.txt in Resources */ = {isa = PBXBuildFile; fileRef = BA22F76C20C4F884006E6E11 /* SentencesList.txt */; };
-		CAA20F20288B3F4000EDC764 /* Sentence2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7118AC6520BF6A3A00D7A6BB /* Sentence2.wav */; };
-		CAA20F21288B3F4000EDC764 /* Sentence7.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7118AC6020BF6A3900D7A6BB /* Sentence7.wav */; };
-		CAA20F22288B3F4000EDC764 /* Sentence5.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7118AC6320BF6A3A00D7A6BB /* Sentence5.wav */; };
-		CAA20F23288B3F4000EDC764 /* Sentence1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7118AC6620BF6A3A00D7A6BB /* Sentence1.wav */; };
-		CAA20F24288B3F4000EDC764 /* Sentence3.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7118AC6420BF6A3A00D7A6BB /* Sentence3.wav */; };
-		CAA20F26288B3F4000EDC764 /* Sentence4.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7118AC6120BF6A3A00D7A6BB /* Sentence4.wav */; };
-		CAA20F27288B3F4000EDC764 /* Sentence6.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7118AC6220BF6A3A00D7A6BB /* Sentence6.wav */; };
 		CAA20F2A288B3F5B00EDC764 /* ORKConsentSharingStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = B11C549C1A9EF4A700265E61 /* ORKConsentSharingStepViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CAA20F2B288B3F5B00EDC764 /* MovieTintShader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 86C40BF11A8D7C5C00081FAC /* MovieTintShader.vsh */; };
 		CAA20F2D288B3F5B00EDC764 /* MovieTintShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 86C40BF01A8D7C5C00081FAC /* MovieTintShader.fsh */; };
@@ -5276,9 +5273,6 @@
 				51D9B87C2B23C1AB00927FDF /* Charts and Graphs.md in Resources */,
 				168EEAB6230B6F9E003FD2FA /* plist-to-strings.py in Resources */,
 				0BEE14B1286CE552005F26D1 /* Scrubbers in Resources */,
-				7118AC6920BF6A3A00D7A6BB /* Sentence6.wav in Resources */,
-				7118AC6820BF6A3A00D7A6BB /* Sentence4.wav in Resources */,
-				7118AC6C20BF6A3A00D7A6BB /* Sentence2.wav in Resources */,
 				51D9B87B2B23C1AB00927FDF /* Active Tasks.md in Resources */,
 				B1C0F4E41A9BA65F0022C153 /* ResearchKit.strings in Resources */,
 				5192BFA12AEAD7B5006E43FB /* Artwork.xcassets in Resources */,
@@ -5301,22 +5295,15 @@
 				CAA20F4A288B3F7700EDC764 /* consent_01@2x.m4v in Resources */,
 				CAA20F42288B3F7700EDC764 /* consent_05@3x.m4v in Resources */,
 				CAA20E8C288B3F1100EDC764 /* splMeter_sensitivity_offset.plist in Resources */,
-				CAA20F26288B3F4000EDC764 /* Sentence4.wav in Resources */,
 				CAA20F2B288B3F5B00EDC764 /* MovieTintShader.vsh in Resources */,
 				CAA20F44288B3F7700EDC764 /* consent_01@3x.m4v in Resources */,
-				CAA20F22288B3F4000EDC764 /* Sentence5.wav in Resources */,
 				CAA20F41288B3F7700EDC764 /* consent_02@3x.m4v in Resources */,
 				CAA20F46288B3F7700EDC764 /* consent_02@2x.m4v in Resources */,
 				CAA20F4C288B3F7700EDC764 /* consent_05@2x.m4v in Resources */,
 				CAA20F48288B3F7700EDC764 /* consent_04@3x.m4v in Resources */,
-				CAA20F20288B3F4000EDC764 /* Sentence2.wav in Resources */,
-				CAA20F24288B3F4000EDC764 /* Sentence3.wav in Resources */,
-				CAA20F23288B3F4000EDC764 /* Sentence1.wav in Resources */,
 				CAA20F1A288B3F4000EDC764 /* SentencesList.txt in Resources */,
 				CAA20F4B288B3F7700EDC764 /* consent_07@2x.m4v in Resources */,
-				CAA20F27288B3F4000EDC764 /* Sentence6.wav in Resources */,
 				CAA20F2D288B3F5B00EDC764 /* MovieTintShader.fsh in Resources */,
-				CAA20F21288B3F4000EDC764 /* Sentence7.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5324,12 +5311,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0BD9B6112B75992800A64EF9 /* Sentence5.wav in Resources */,
 				51BD8FD329D60FB60001D54E /* volume_curve_AIRPODSMAX.plist in Resources */,
 				5192BF7F2AE1A9BA006E43FB /* volume_curve_AIRPODSPROV2.plist in Resources */,
+				0BD9B60F2B75992200A64EF9 /* Sentence3.wav in Resources */,
 				51BD8FCF29D60FB60001D54E /* retspl_AIRPODSV3.plist in Resources */,
 				51BD8FD129D60FB60001D54E /* retspl_AIRPODS.plist in Resources */,
 				5192BF7D2AE1A87D006E43FB /* retspl_AIRPODSPROV2.plist in Resources */,
 				51BD8FCA29D60FB60001D54E /* frequency_dBSPL_EARPODS.plist in Resources */,
+				0BD9B60D2B75991B00A64EF9 /* Sentence1.wav in Resources */,
 				51BD8FD529D60FB60001D54E /* volume_curve_AIRPODSPRO.plist in Resources */,
 				51BD8FCD29D60FB60001D54E /* retspl_AIRPODSMAX.plist in Resources */,
 				51BD8FD629D60FB60001D54E /* retspl_AIRPODSPRO.plist in Resources */,
@@ -5339,10 +5329,14 @@
 				5192BF5D2AE19036006E43FB /* frequency_dBSPL_AIRPODSPROV2.plist in Resources */,
 				51BD8FD029D60FB60001D54E /* volume_curve_AIRPODS.plist in Resources */,
 				51BD8FD429D60FB60001D54E /* volume_curve_WIRED.plist in Resources */,
+				0BD9B6132B75992F00A64EF9 /* Sentence7.wav in Resources */,
 				51BD8FD229D60FB60001D54E /* frequency_dBSPL_AIRPODSV3.plist in Resources */,
+				0BD9B6102B75992500A64EF9 /* Sentence4.wav in Resources */,
 				51BD8FC929D60FB60001D54E /* frequency_dBSPL_AIRPODSMAX.plist in Resources */,
+				0BD9B60E2B75991F00A64EF9 /* Sentence2.wav in Resources */,
 				51BD8FCE29D60FB60001D54E /* retspl_EARPODS.plist in Resources */,
 				51BD8FCC29D60FB60001D54E /* volume_curve_AIRPODSV3.plist in Resources */,
+				0BD9B6122B75992C00A64EF9 /* Sentence6.wav in Resources */,
 				51BD8FCB29D60FB60001D54E /* frequency_dBSPL_AIRPODS.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
