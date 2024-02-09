@@ -303,10 +303,7 @@ ORK_MAKE_TEST_INIT(ORKStep, ^{return [self initWithIdentifier:[NSUUID UUID].UUID
 ORK_MAKE_TEST_INIT(ORKReviewStep, ^{return [[self class] standaloneReviewStepWithIdentifier:[NSUUID UUID].UUIDString steps:@[] resultSource:[[ORKTaskResult alloc] orktest_init]];});
 ORK_MAKE_TEST_INIT(ORKOrderedTask, ^{return [self initWithIdentifier:@"test1" steps:nil];});
 ORK_MAKE_TEST_INIT(ORK3DModelStep, ^{return [[self.class alloc] initWithIdentifier:NSUUID.UUID.UUIDString modelManager: [[ORK3DModelManager alloc] init]]; });
-
-#if RK_APPLE_INTERNAL
 ORK_MAKE_TEST_INIT(ORKAgeAnswerFormat, ^{return [self initWithMinimumAge:0 maximumAge:80 minimumAgeCustomText:nil maximumAgeCustomText:nil showYear:NO useYearForResult:NO treatMinAgeAsRange:false treatMaxAgeAsRange:false defaultValue:0];});
-#endif
 
 #if RK_APPLE_INTERNAL && ORK_FEATURE_AV_JOURNALING
 ORK_MAKE_TEST_INIT(ORKAVJournalingPredefinedTask, ^{
@@ -693,7 +690,8 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
                                           @"ORKWebViewStep.customViewProvider",
                                           @"ORKLearnMoreItem.delegate",
                                           @"ORKSpeechRecognitionResult.recognitionMetadata",
-                                          @"ORKAccuracyStroopStep.actualDisplayColor"
+                                          @"ORKAccuracyStroopStep.actualDisplayColor",
+                                          @"ORKAudioStreamerConfiguration.bypassAudioEngineStart"
                                           ];
         
 #if RK_APPLE_INTERNAL
@@ -701,8 +699,7 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
             @"ORKFaceDetectionBlurFooterView.startStopButton",
             @"ORKFaceDetectionBlurFooterView.timerLabel",
             @"ORKBLEScanPeripheralsStepResult.centralManager",
-            @"ORKBLEScanPeripheralsStepResult.connectedPeripherals",
-            @"ORKAudioStreamerConfiguration.bypassAudioEngineStart"
+            @"ORKBLEScanPeripheralsStepResult.connectedPeripherals"
         ];
         _knownNotSerializedProperties = [_knownNotSerializedProperties arrayByAddingObjectsFromArray:internalKnownNotSerializedProperties];
 #endif
