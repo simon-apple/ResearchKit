@@ -200,7 +200,7 @@
 		5DABE59D24D9E9F200570C57 /* ORKCompletionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40B531A8D7C5B00081FAC /* ORKCompletionStep.m */; };
 		5DABE59E24D9EA0C00570C57 /* ORKAnswerFormat.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40B641A8D7C5B00081FAC /* ORKAnswerFormat.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5DABE59F24D9EA3200570C57 /* ORKAnswerFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40B651A8D7C5B00081FAC /* ORKAnswerFormat.m */; };
-		5DABE5A024D9EAFE00570C57 /* ORKSkin.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40BB71A8D7C5C00081FAC /* ORKSkin.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		5DABE5A024D9EAFE00570C57 /* ORKSkin.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40BB71A8D7C5C00081FAC /* ORKSkin.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5DABE5A124D9EB1C00570C57 /* ORKSkin.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40BB81A8D7C5C00081FAC /* ORKSkin.m */; };
 		5DABE5A224D9EC4200570C57 /* ORKQuestionResult.h in Headers */ = {isa = PBXBuildFile; fileRef = FF919A571E81C628005C2A1E /* ORKQuestionResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5DABE5A324D9EC4800570C57 /* ORKQuestionResult.m in Sources */ = {isa = PBXBuildFile; fileRef = FF919A581E81C628005C2A1E /* ORKQuestionResult.m */; };
@@ -309,6 +309,7 @@
 		BC2908BC1FBD628F0030AB89 /* ORKTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = BC2908BB1FBD628F0030AB89 /* ORKTypes.m */; };
 		BC40696121104DDF00A4100C /* ResearchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B183A5951A8535D100C76870 /* ResearchKit.framework */; };
 		BC4D521F27B326EA0099DC18 /* ORKSecureCodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4D521E27B326EA0099DC18 /* ORKSecureCodingTests.swift */; };
+		BC6450D62B75B23C0084F1D9 /* ORKSkin_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = CA23A31C2899941700EC6E91 /* ORKSkin_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		BC94EF311E962F7400143081 /* ORKDeprecated.h in Headers */ = {isa = PBXBuildFile; fileRef = BC94EF2F1E962F7400143081 /* ORKDeprecated.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BC94EF361E96394C00143081 /* ORKRegistrationStep_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = BC94EF351E96394C00143081 /* ORKRegistrationStep_Internal.h */; };
 		BCA5C0351AEC05F20092AC8D /* ORKStepNavigationRule.h in Headers */ = {isa = PBXBuildFile; fileRef = BCA5C0331AEC05F20092AC8D /* ORKStepNavigationRule.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -477,7 +478,7 @@
 		CA2B902F28A18F860025B773 /* ORKActiveStepTimerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40B361A8D7C5B00081FAC /* ORKActiveStepTimerView.m */; };
 		CA2BBB2128AB06D300DD6C64 /* ORKLearnMoreItem.m in Sources */ = {isa = PBXBuildFile; fileRef = BA8C5020226FFB04001896D0 /* ORKLearnMoreItem.m */; };
 		CA4B673328A1CCBA00FAE01F /* ResearchKitActiveTask.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAD08967289DD747007B2A98 /* ResearchKitActiveTask.framework */; };
-		CA6A0D7E288B51D30048C1EF /* ORKSkin.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40BB71A8D7C5C00081FAC /* ORKSkin.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		CA6A0D7E288B51D30048C1EF /* ORKSkin.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40BB71A8D7C5C00081FAC /* ORKSkin.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CA6A0D7F288B51D30048C1EF /* ORKSkin.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40BB81A8D7C5C00081FAC /* ORKSkin.m */; };
 		CA6A0D81288B54650048C1EF /* ORKConsentReviewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40BEC1A8D7C5C00081FAC /* ORKConsentReviewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CA6A0D82288B54650048C1EF /* ORKConsentReviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40BED1A8D7C5C00081FAC /* ORKConsentReviewController.m */; };
@@ -4576,6 +4577,7 @@
 				5DABE5A624D9EEAB00570C57 /* ORKResult_Private.h in Headers */,
 				5DABE5AF24DA174200570C57 /* ResearchKit_Prefix.pch in Headers */,
 				5DABE5A824D9EF4A00570C57 /* ORKHelpers_Private.h in Headers */,
+				BC6450D62B75B23C0084F1D9 /* ORKSkin_Private.h in Headers */,
 				5DABE55F24D8C92000570C57 /* ORKInstructionStep.h in Headers */,
 				5DABE5A024D9EAFE00570C57 /* ORKSkin.h in Headers */,
 				5DABE5A224D9EC4200570C57 /* ORKQuestionResult.h in Headers */,

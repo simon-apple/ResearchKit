@@ -113,3 +113,4 @@
 
 #import <ResearchKit/ORKEarlyTerminationConfiguration.h>
 #import <ResearchKit/ORKBundleAsset.h>
+#import <ResearchKit/ORKSkin.h>
