@@ -42,6 +42,7 @@
 #import <ResearchKit/ORKConsentSharingStep.h>
 #import <ResearchKit/ORKFormStep.h>
 #import <ResearchKit/ORKFormItemVisibilityRule.h>
+#import <ResearchKit/ORKHTMLPDFWriter.h>
 #import <ResearchKit/ORKImageCaptureStep.h>
 #import <ResearchKit/ORKInstructionStep.h>
 #import <ResearchKit/ORKLoginStep.h>
@@ -53,6 +54,7 @@
 #import <ResearchKit/ORKQuestionStep.h>
 #import <ResearchKit/ORKRegistrationStep.h>
 #import <ResearchKit/ORKReviewStep.h>
+#import <ResearchKit/ORKSignatureFormatter.h>
 #import <ResearchKit/ORKSignatureStep.h>
 #import <ResearchKit/ORKTableStep.h>
 #import <ResearchKit/ORKVerificationStep.h>

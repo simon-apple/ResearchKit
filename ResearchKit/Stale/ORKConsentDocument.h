@@ -72,6 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
  the document should be appropriately localized.
  */
 ORK_CLASS_AVAILABLE
+ORK_TO_BE_DEPRECATED("Visit the catalog app for the recommended informed consent flow")
 @interface ORKConsentDocument : NSObject <NSSecureCoding, NSCopying>
 
 /// @name Properties

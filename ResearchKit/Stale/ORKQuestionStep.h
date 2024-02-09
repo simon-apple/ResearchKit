@@ -62,6 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
  (`ORKQuestionResult`).
  */
 ORK_CLASS_AVAILABLE
+ORK_TO_BE_DEPRECATED("Use the ORKFormStep instead")
 @interface ORKQuestionStep : ORKStep
 
 
@@ -76,7 +77,7 @@ ORK_CLASS_AVAILABLE
 + (instancetype)questionStepWithIdentifier:(NSString *)identifier
                                      title:(nullable NSString *)title
                                       question:(nullable NSString *)question
-                                    answer:(nullable ORKAnswerFormat *)answerFormat NS_DEPRECATED_IOS(8.0, 13.0, "Use ORKFormStep instead.");
+                                    answer:(nullable ORKAnswerFormat *)answerFormat;
 
 /**
  Returns a new question step that includes the specified identifier, title, question, and answer format.

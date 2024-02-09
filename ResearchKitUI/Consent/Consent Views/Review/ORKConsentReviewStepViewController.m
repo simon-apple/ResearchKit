@@ -252,7 +252,10 @@ static NSString *const _FamilyNameIdentifier = @"family";
     NSString *html = [document mobileHTMLWithTitle:ORKLocalizedString(@"CONSENT_REVIEW_TITLE", nil)
                                              detail:ORKLocalizedString(@"CONSENT_REVIEW_INSTRUCTION", nil)];
 
-    ORKConsentReviewController *reviewViewController = [[ORKConsentReviewController alloc] initWithHTML:html delegate:self requiresScrollToBottom:[[self consentReviewStep] requiresScrollToBottom]];
+    ORKConsentReviewController *reviewViewController = [[ORKConsentReviewController alloc] 
+                                                        initWithHTML:html
+                                                        delegate:self
+                                                        requiresScrollToBottom:[[self consentReviewStep] requiresScrollToBottom]];
     if (ORKNeedWideScreenDesign(self.view)) {
         [reviewViewController setTextForiPadStepTitleLabel:self.title];
     }
