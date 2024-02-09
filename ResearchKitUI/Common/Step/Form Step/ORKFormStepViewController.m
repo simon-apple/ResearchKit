@@ -1121,12 +1121,7 @@ NSString * const ORKFormStepViewAccessibilityIdentifier = @"ORKFormStepView";
 
 #pragma mark Helpers
 
-- (ORKFormStep *)formStep {
-    ORKQuestionStep *questionStep = ORKDynamicCast(self.step, ORKQuestionStep);
-    if (questionStep) {
-        return questionStep.formStep;
-    }
-    
+- (ORKFormStep *)formStep { 
     NSAssert(!self.step || [self.step isKindOfClass:[ORKFormStep class]], nil);
     return (ORKFormStep *)self.step;
 }

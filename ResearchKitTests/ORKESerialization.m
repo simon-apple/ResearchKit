@@ -1017,7 +1017,6 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(placeholder, NSString, NSObject, YES, nil, nil),
                     PROPERTY(question, NSString, NSObject, YES, nil, nil),
                     PROPERTY(useCardView, NSNumber, NSObject, YES, nil, nil),
-                    PROPERTY(formStep, ORKFormStep, NSObject, YES, nil, nil),
                     PROPERTY(learnMoreItem, ORKLearnMoreItem, NSObject, YES, nil, nil),
                     PROPERTY(tagText, NSString, NSObject, YES, nil, nil),
                     PROPERTY(presentationStyle, NSString, NSObject, YES, nil, nil)
@@ -1178,6 +1177,11 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
            ENTRY(AAPLInstructionStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      return [[AAPLInstructionStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
+                 },
+                 (@{})),
+           ENTRY(AAPLQuestionStep,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+                     return [[AAPLQuestionStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
                  },
                  (@{})),
            ENTRY(AAPLSpeechInNoiseStep,

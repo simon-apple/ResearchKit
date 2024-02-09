@@ -55,6 +55,10 @@
 		5192BF6D2AE19718006E43FB /* LoudnessEQ_AIRPODSMAX.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5192BF692AE19718006E43FB /* LoudnessEQ_AIRPODSMAX.plist */; };
 		5192BF6E2AE19718006E43FB /* LoudnessEQ_AIRPODSPRO.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5192BF6A2AE19718006E43FB /* LoudnessEQ_AIRPODSPRO.plist */; };
 		5192BF6F2AE19718006E43FB /* LoudnessEQ_EARPODS.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5192BF6B2AE19718006E43FB /* LoudnessEQ_EARPODS.plist */; };
+		51AEAABA2B7453D400F4D107 /* AAPLQuestionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 51AEAAB82B7453D400F4D107 /* AAPLQuestionStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		51AEAABB2B7453D400F4D107 /* AAPLQuestionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 51AEAAB92B7453D400F4D107 /* AAPLQuestionStep.m */; };
+		51AEAABE2B7454A200F4D107 /* AAPLQuestionStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 51AEAABC2B7454A200F4D107 /* AAPLQuestionStepViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		51AEAABF2B7454A200F4D107 /* AAPLQuestionStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51AEAABD2B7454A200F4D107 /* AAPLQuestionStepViewController.m */; };
 		51BD8FA529CD12FE0001D54E /* ORKContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 51BD8FA429CD12FE0001D54E /* ORKContext.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		51BD8FF429D88DDA0001D54E /* ORKSoftLinking.h in Headers */ = {isa = PBXBuildFile; fileRef = 51BD8FF129D88DDA0001D54E /* ORKSoftLinking.h */; };
 		51BD900129D88FD30001D54E /* AVOutputContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 51BD8FF729D88FD30001D54E /* AVOutputContext.h */; };
@@ -316,6 +320,10 @@
 		5192BF692AE19718006E43FB /* LoudnessEQ_AIRPODSMAX.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LoudnessEQ_AIRPODSMAX.plist; sourceTree = "<group>"; };
 		5192BF6A2AE19718006E43FB /* LoudnessEQ_AIRPODSPRO.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LoudnessEQ_AIRPODSPRO.plist; sourceTree = "<group>"; };
 		5192BF6B2AE19718006E43FB /* LoudnessEQ_EARPODS.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LoudnessEQ_EARPODS.plist; sourceTree = "<group>"; };
+		51AEAAB82B7453D400F4D107 /* AAPLQuestionStep.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAPLQuestionStep.h; sourceTree = "<group>"; };
+		51AEAAB92B7453D400F4D107 /* AAPLQuestionStep.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AAPLQuestionStep.m; sourceTree = "<group>"; };
+		51AEAABC2B7454A200F4D107 /* AAPLQuestionStepViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAPLQuestionStepViewController.h; sourceTree = "<group>"; };
+		51AEAABD2B7454A200F4D107 /* AAPLQuestionStepViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AAPLQuestionStepViewController.m; sourceTree = "<group>"; };
 		51BD8FA429CD12FE0001D54E /* ORKContext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKContext.h; sourceTree = "<group>"; };
 		51BD8FEF29D88DDA0001D54E /* ORKAVFoundationSoftLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKAVFoundationSoftLink.h; sourceTree = "<group>"; };
 		51BD8FF029D88DDA0001D54E /* ORKCelestialSoftLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKCelestialSoftLink.h; sourceTree = "<group>"; };
@@ -630,6 +638,17 @@
 			path = "TableView Cells";
 			sourceTree = "<group>";
 		};
+		51AEAAB72B7453AE00F4D107 /* Question Step */ = {
+			isa = PBXGroup;
+			children = (
+				51AEAAB82B7453D400F4D107 /* AAPLQuestionStep.h */,
+				51AEAAB92B7453D400F4D107 /* AAPLQuestionStep.m */,
+				51AEAABC2B7454A200F4D107 /* AAPLQuestionStepViewController.h */,
+				51AEAABD2B7454A200F4D107 /* AAPLQuestionStepViewController.m */,
+			);
+			path = "Question Step";
+			sourceTree = "<group>";
+		};
 		51BD8FA329CD128D0001D54E /* Misc */ = {
 			isa = PBXGroup;
 			children = (
@@ -689,6 +708,7 @@
 		51F716D529808B0000D8ACF7 /* Step */ = {
 			isa = PBXGroup;
 			children = (
+				51AEAAB72B7453AE00F4D107 /* Question Step */,
 				5192BEF02AE04594006E43FB /* Family History */,
 				51F716D629808B0E00D8ACF7 /* Instruction Step */,
 			);
@@ -1196,6 +1216,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				511BB010298B162400936EC0 /* AAPLHelpers_Internal.h in Headers */,
+				51AEAABA2B7453D400F4D107 /* AAPLQuestionStep.h in Headers */,
 				CA5B6D8A28BD1F38002C3BA4 /* ORKTinnitusVolumeResult.h in Headers */,
 				CA77D29928AFFB4700400292 /* ORKFlamesView.h in Headers */,
 				5192BF422AE04B16006E43FB /* ORKFamilyHistoryReviewController.h in Headers */,
@@ -1232,6 +1253,7 @@
 				511BB0352994518400936EC0 /* AAPLEnvironmentSPLMeterStep.h in Headers */,
 				CA77D2A828AFFB4700400292 /* ORKAudioLevelSmoother.h in Headers */,
 				CA3FF9DD28B56A8300A33B6B /* ORKAVJournalingStepContentView.h in Headers */,
+				51AEAABE2B7454A200F4D107 /* AAPLQuestionStepViewController.h in Headers */,
 				CA77D2A328AFFB4700400292 /* ORKIndexCacheEntry.h in Headers */,
 				CA0AC56128BD432300E80040 /* ORKSpeechInNoisePredefinedTask.h in Headers */,
 				CA5B6D5E28BD1F38002C3BA4 /* ORKTinnitusMaskingSoundStep.h in Headers */,
@@ -1429,6 +1451,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CA5B6D1028BD1C5C002C3BA4 /* ORKTypingStepViewController.m in Sources */,
+				51AEAABB2B7453D400F4D107 /* AAPLQuestionStep.m in Sources */,
 				CA5B6DAC28BD27FC002C3BA4 /* ORKHeadphoneDetectStepViewController.m in Sources */,
 				CA5B6DAB28BD27FC002C3BA4 /* ORKHeadphoneDetectResult.m in Sources */,
 				CA0748BD28B8032E001D8599 /* AAPLdBHLToneAudiometryStep.m in Sources */,
@@ -1475,6 +1498,7 @@
 				511BB0362994518400936EC0 /* AAPLEnvironmentSPLMeterStep.m in Sources */,
 				CA77D29B28AFFB4700400292 /* SiriUIFlamesShaders.metal in Sources */,
 				CA5B6D5D28BD1F38002C3BA4 /* ORKTinnitusMaskingSoundResult.m in Sources */,
+				51AEAABF2B7454A200F4D107 /* AAPLQuestionStepViewController.m in Sources */,
 				CA5B6DA128BD27FC002C3BA4 /* ORKHeadphonesRequiredCompletionStep.m in Sources */,
 				CA5B6D6B28BD1F38002C3BA4 /* ORKTinnitusPureToneResult.m in Sources */,
 				CA5B6D6E28BD1F38002C3BA4 /* ORKTinnitusPureToneStep.m in Sources */,

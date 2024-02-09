@@ -167,7 +167,7 @@ final class ORKFormStepViewControllerConditionalFormItemsTests: XCTestCase {
     func testEmptyTaskResult() throws {
 
         let mainTask = ORKOrderedTask(identifier: "mainTaskIdentifier", steps: [
-            FormStepTestUtilities.simpleQuestionStep(),
+            FormStepTestUtilities.simpleBooleanFormStep(),
             FormStepTestUtilities.simpleFormStep()
         ])
         let mainTaskVC = ORKTaskViewController(task: mainTask, taskRun: nil)
@@ -220,7 +220,7 @@ final class ORKFormStepViewControllerConditionalFormItemsTests: XCTestCase {
     
     func testEvaluatingTaskResultPreviousQuestionStep() throws {
         let mainTask = ORKOrderedTask(identifier: "mainTaskIdentifier", steps: [
-            FormStepTestUtilities.simpleQuestionStep(),
+            FormStepTestUtilities.simpleBooleanFormStep(),
             FormStepTestUtilities.conditionalFormStep()
         ])
         let mainTaskVC = ORKTaskViewController(task: mainTask, taskRun: nil)
@@ -596,14 +596,12 @@ fileprivate struct FormStepTestUtilities {
         return step
     }
 
-    static func simpleQuestionStep() -> ORKQuestionStep {
-        let step = ORKQuestionStep(
-            identifier: QuestionStepIdentifier,
-            title: nil,
-            question: nil,
-            answer: .booleanAnswerFormat()
-        )
-        return step
+    static func simpleBooleanFormStep() -> ORKFormStep {
+        let booleanFormItem = ORKFormItem(identifier: QuestionStepIdentifier, text: "none", answerFormat: .booleanAnswerFormat())
+        let formStep = ORKFormStep(identifier: QuestionStepIdentifier, formItems: [booleanFormItem])
+        
+        return formStep
+        
     }
 
 }

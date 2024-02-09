@@ -68,6 +68,7 @@
 #import <ResearchKitUI/ORKPasscodeViewController.h>
 #import <ResearchKitUI/ORKPicker.h>
 #import <ResearchKitUI/ORKPlaybackButton.h>
+#import <ResearchKitUI/ORKQuestionStepViewController.h>
 #import <ResearchKitUI/ORKRecordButton.h>
 #import <ResearchKitUI/ORKRequestPermissionsStepViewController.h>
 #import <ResearchKitUI/ORKReviewIncompleteCell.h>

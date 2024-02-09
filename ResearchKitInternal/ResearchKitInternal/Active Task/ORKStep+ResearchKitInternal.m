@@ -176,3 +176,11 @@
 }
 
 @end
+
+@implementation AAPLQuestionStep (ViewControllerProviding)
+
+- (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
+    return [[AAPLQuestionStepViewController alloc] initWithStep:self result:result];
+}
+
+@end

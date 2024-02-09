@@ -136,7 +136,7 @@
 @implementation ORKQuestionStep (ViewControllerProviding)
 
 - (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
-    return [[ORKFormStepViewController alloc] initWithStep:self result:result];
+    return [[ORKQuestionStepViewController alloc] initWithStep:self result:result];
 }
 
 @end

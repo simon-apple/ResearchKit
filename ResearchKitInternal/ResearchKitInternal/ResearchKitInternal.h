@@ -60,6 +60,8 @@
 #import <ResearchKitInternal/ORKHeadphonesRequiredCompletionStepViewController.h>
 #import <ResearchKitInternal/ORKNewAudiometryMinimizer.h>
 #import <ResearchKitInternal/ORKOrderedTask+ResearchKitInternal.h>
+#import <ResearchKitInternal/AAPLQuestionStep.h>
+#import <ResearchKitInternal/AAPLQuestionStepViewController.h>
 #import <ResearchKitInternal/ORKTinnitusMaskingSoundResult.h>
 #import <ResearchKitInternal/ORKTinnitusMaskingSoundStepViewController.h>
 #import <ResearchKitInternal/ORKTinnitusOverallAssessmentResult.h>

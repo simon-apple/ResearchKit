@@ -111,6 +111,11 @@
 		5192BF9E2AE1DE62006E43FB /* ORKColorChoiceCellGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = 5192BF9C2AE1DE62006E43FB /* ORKColorChoiceCellGroup.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5192BFA12AEAD7B5006E43FB /* Artwork.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 861610BF1A8D8EDD00245F7A /* Artwork.xcassets */; };
 		5192BFA92AEC4734006E43FB /* (null) in Sources */ = {isa = PBXBuildFile; };
+		51AEAAB22B744AC200F4D107 /* ORKQuestionStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 51AEAAA82B743FA500F4D107 /* ORKQuestionStepViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		51AEAAB32B744ACC00F4D107 /* ORKQuestionStepViewController_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 51AEAAA72B743FA500F4D107 /* ORKQuestionStepViewController_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		51AEAAB42B744B5700F4D107 /* ORKQuestionStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51AEAAA62B743FA500F4D107 /* ORKQuestionStepViewController.m */; };
+		51AEAAB52B744BC000F4D107 /* ORKQuestionStepView.h in Headers */ = {isa = PBXBuildFile; fileRef = 51AEAAAE2B7446F400F4D107 /* ORKQuestionStepView.h */; };
+		51AEAAB62B744BC800F4D107 /* ORKQuestionStepView.m in Sources */ = {isa = PBXBuildFile; fileRef = 51AEAAAF2B7446F400F4D107 /* ORKQuestionStepView.m */; };
 		51AF19582B583BBA00D3B399 /* ORKDataCollectionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 51AF19532B583BB900D3B399 /* ORKDataCollectionTests.m */; };
 		51AF19592B583BBA00D3B399 /* samples.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 51AF19542B583BB900D3B399 /* samples.bundle */; };
 		51AF195B2B583BBA00D3B399 /* ORKJSONSerializationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 51AF19562B583BBA00D3B399 /* ORKJSONSerializationTests.m */; };
@@ -1262,6 +1267,11 @@
 		5192BF9C2AE1DE62006E43FB /* ORKColorChoiceCellGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKColorChoiceCellGroup.h; sourceTree = "<group>"; };
 		519C298026D027AB00FD5F44 /* SwiftUIViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIViewFactory.swift; sourceTree = "<group>"; };
 		519C298D26D027E500FD5F44 /* TextChoiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextChoiceView.swift; sourceTree = "<group>"; };
+		51AEAAA62B743FA500F4D107 /* ORKQuestionStepViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKQuestionStepViewController.m; sourceTree = "<group>"; };
+		51AEAAA72B743FA500F4D107 /* ORKQuestionStepViewController_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKQuestionStepViewController_Private.h; sourceTree = "<group>"; };
+		51AEAAA82B743FA500F4D107 /* ORKQuestionStepViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKQuestionStepViewController.h; sourceTree = "<group>"; };
+		51AEAAAE2B7446F400F4D107 /* ORKQuestionStepView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKQuestionStepView.h; sourceTree = "<group>"; };
+		51AEAAAF2B7446F400F4D107 /* ORKQuestionStepView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKQuestionStepView.m; sourceTree = "<group>"; };
 		51AF19522B583BB900D3B399 /* ORKESerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKESerialization.h; sourceTree = "<group>"; };
 		51AF19532B583BB900D3B399 /* ORKDataCollectionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKDataCollectionTests.m; sourceTree = "<group>"; };
 		51AF19542B583BB900D3B399 /* samples.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = samples.bundle; sourceTree = "<group>"; };
@@ -2364,6 +2374,26 @@
 			name = "Question Step";
 			sourceTree = "<group>";
 		};
+		51AEAAA52B743EE000F4D107 /* Stale */ = {
+			isa = PBXGroup;
+			children = (
+				51AEAAC12B75442600F4D107 /* Question Step View Controller */,
+			);
+			path = Stale;
+			sourceTree = "<group>";
+		};
+		51AEAAC12B75442600F4D107 /* Question Step View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				51AEAAAE2B7446F400F4D107 /* ORKQuestionStepView.h */,
+				51AEAAAF2B7446F400F4D107 /* ORKQuestionStepView.m */,
+				51AEAAA72B743FA500F4D107 /* ORKQuestionStepViewController_Private.h */,
+				51AEAAA82B743FA500F4D107 /* ORKQuestionStepViewController.h */,
+				51AEAAA62B743FA500F4D107 /* ORKQuestionStepViewController.m */,
+			);
+			name = "Question Step View Controller";
+			sourceTree = "<group>";
+		};
 		51AF19512B583B5B00D3B399 /* ORKESerializationTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -2505,6 +2535,7 @@
 		5D06632E24FEF272005D9B40 /* ResearchKitUI */ = {
 			isa = PBXGroup;
 			children = (
+				51AEAAA52B743EE000F4D107 /* Stale */,
 				CA1C7A6F288B18B8004DAB3A /* Common */,
 				CA1C7AB7288B35A4004DAB3A /* Consent */,
 				CA1C7ABE288B3786004DAB3A /* Onboarding */,
@@ -4702,6 +4733,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CAA20E5B288B3E9900EDC764 /* UIImage+ResearchKit.h in Headers */,
+				51AEAAB52B744BC000F4D107 /* ORKQuestionStepView.h in Headers */,
 				CAA20DB2288B3DB300EDC764 /* ORKTextFieldView.h in Headers */,
 				CAA20DCF288B3DB400EDC764 /* ORKImageChoiceLabel.h in Headers */,
 				CAA20E55288B3E9200EDC764 /* ORKTaskViewController.h in Headers */,
@@ -4765,6 +4797,7 @@
 				CAA20D94288B3D9C00EDC764 /* ORKNavigationContainerView.h in Headers */,
 				5192BF932AE1C2F8006E43FB /* ORKChoiceViewCell+ORKColorChoice.h in Headers */,
 				CAA20DBD288B3DB300EDC764 /* ORKTableViewCell.h in Headers */,
+				51AEAAB32B744ACC00F4D107 /* ORKQuestionStepViewController_Private.h in Headers */,
 				CAA20E05288B3E8200EDC764 /* ORKVideoInstructionStepViewController.h in Headers */,
 				CAA20D58288B3D6F00EDC764 /* ORKPlaybackButton.h in Headers */,
 				CAA20D83288B3D9100EDC764 /* ORKHeightPicker.h in Headers */,
@@ -4784,6 +4817,7 @@
 				CAA20E1D288B3E8200EDC764 /* ORKImageCaptureCameraPreviewView.h in Headers */,
 				CAA20D67288B3D9100EDC764 /* ORKDateTimePicker.h in Headers */,
 				CAA20D89288B3D9100EDC764 /* ORKValuePicker.h in Headers */,
+				51AEAAB22B744AC200F4D107 /* ORKQuestionStepViewController.h in Headers */,
 				CAA20D71288B3D9100EDC764 /* ORKFormTextView.h in Headers */,
 				CAA20E0A288B3E8200EDC764 /* ORKWaitStepViewController.h in Headers */,
 				CAA20D96288B3D9C00EDC764 /* ORKStepContentView_Private.h in Headers */,
@@ -5544,6 +5578,7 @@
 				CAA20E2F288B3E8200EDC764 /* ORKWaitStepViewController.m in Sources */,
 				CAA20DFC288B3E8100EDC764 /* ORKFreehandDrawingView.m in Sources */,
 				CAA20D69288B3D9100EDC764 /* ORKMultipleValuePicker.m in Sources */,
+				51AEAAB62B744BC800F4D107 /* ORKQuestionStepView.m in Sources */,
 				CAA20DA4288B3D9C00EDC764 /* ORKStepContentView.m in Sources */,
 				CAA20E40288B3E8200EDC764 /* ORKVideoInstructionStepViewController.m in Sources */,
 				CAA20DBF288B3DB300EDC764 /* ORKTintedImageView.m in Sources */,
@@ -5630,6 +5665,7 @@
 				CAA20F30288B3F5B00EDC764 /* ORKConsentSharingStepViewController.m in Sources */,
 				CAA20DC0288B3DB300EDC764 /* ORKImageChoiceLabel.m in Sources */,
 				CAA20DD7288B3DB400EDC764 /* ORKChoiceViewCell.m in Sources */,
+				51AEAAB42B744B5700F4D107 /* ORKQuestionStepViewController.m in Sources */,
 				CAA20DE4288B3DB400EDC764 /* ORKProgressView.m in Sources */,
 				CA2616D32894649A008B1425 /* ORKRequestPermissionView.m in Sources */,
 				CAA20D8F288B3D9100EDC764 /* ORKSurveyAnswerCellForLocation.m in Sources */,

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2022, Apple Inc. All rights reserved.
+ Copyright (c) 2015, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,32 +28,29 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ResearchKitUI/ORKBodyContainerView.h>
-#import <ResearchKitUI/ORKCheckmarkView.h>
+
+#import <ResearchKitUI/ORKQuestionStepViewController.h>
 #import <ResearchKitUI/ORKCustomStepView.h>
-#import <ResearchKitUI/ORKCustomStepView_Internal.h>
-#import <ResearchKitUI/ORKDirectionView.h>
-#import <ResearchKitUI/ORKFormStepViewController_Private.h>
-#import <ResearchKitUI/ORKFreehandDrawingView.h>
-#import <ResearchKitUI/ORKInstructionStepContainerView.h>
-#import <ResearchKitUI/ORKInstructionStepViewController_Internal.h>
-#import <ResearchKitUI/ORKLearnMoreView.h>
-#import <ResearchKitUI/ORKNavigationContainerView.h>
-#import <ResearchKitUI/ORKNavigationContainerView_Internal.h>
-#import <ResearchKitUI/ORKPasscodeStepViewController_Internal.h>
-#import <ResearchKitUI/ORKProgressView.h>
-#import <ResearchKitUI/ORKQuestionStepViewController_Private.h>
-#import <ResearchKitUI/ORKRingView.h>
-#import <ResearchKitUI/ORKSeparatorView.h>
-#import <ResearchKitUI/ORKStepContainerView_Private.h>
-#import <ResearchKitUI/ORKStepContentView.h>
-#import <ResearchKitUI/ORKStepHeaderView.h>
-#import <ResearchKitUI/ORKStepHeaderView_Internal.h>
-#import <ResearchKitUI/ORKStepViewController_Internal.h>
-#import <ResearchKitUI/ORKStepView_Private.h>
-#import <ResearchKitUI/ORKTableContainerView.h>
-#import <ResearchKitUI/ORKTaskViewController_Private.h>
-#import <ResearchKitUI/ORKTaskViewController_Internal.h>
-#import <ResearchKitUI/ORKTintedImageView.h>
-#import <ResearchKitUI/ORKVerticalContainerView.h>
-#import <ResearchKitUI/ORKViewControllerProviding.h>
+
+
+NS_ASSUME_NONNULL_BEGIN
+
+@interface ORKQuestionStepViewController () <ORKQuestionStepCustomViewDelegate>
+
+/**
+ Provide a custom question view.
+
+ If a question requires a custom control for data entry, provide a suitable
+ custom step view. This view should provide `-sizeThatFits:` or autolayout
+ constraints which determine the vertical space required.
+ */
+@property (nonatomic, strong, nullable) ORKQuestionStepCustomView *customQuestionView;
+
+/**
+ Set the step answer.
+ */
+- (void)setAnswer:(id)answer;
+
+@end
+
+NS_ASSUME_NONNULL_END

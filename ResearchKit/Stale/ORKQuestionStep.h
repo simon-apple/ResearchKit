@@ -150,11 +150,6 @@ ORK_TO_BE_DEPRECATED("Use the ORKFormStep instead")
  */
 @property (nonatomic, copy, nullable) NSString *tagText;
 
-/**
- An ORKFormStep representation of our ORKQuestionStep
- */
-@property (nonatomic, copy, nullable) ORKFormStep *formStep;
-
 @end
 
 #if TARGET_OS_IOS
