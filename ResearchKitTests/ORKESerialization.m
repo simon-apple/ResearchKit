@@ -1336,7 +1336,6 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(timeoutSound, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(failureSound, NSNumber, NSObject, YES, nil, nil),
                     })),
-#if RK_APPLE_INTERNAL
            ENTRY(ORKNormalizedReactionTimeStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      return [[ORKNormalizedReactionTimeStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
@@ -1369,6 +1368,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                              ^id(id string, __unused ORKESerializationContext *context) { return ORKEDateFromStringISO8601(string); }),
                     PROPERTY(currentInterval, NSNumber, NSObject, NO, nil, nil),
                     })),
+#if RK_APPLE_INTERNAL
            ENTRY(ORKTypingStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      return [[ORKTypingStep alloc]  initWithIdentifier:GETPROP(dict, identifier)];
