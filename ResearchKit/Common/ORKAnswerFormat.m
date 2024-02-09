@@ -81,8 +81,10 @@ NSString *ORKQuestionTypeString(ORKQuestionType questionType) {
             SQT_CASE(Weight);
             SQT_CASE(Location);
             SQT_CASE(SES);
+            // start-omit-internal-code
             SQT_CASE(Age);
             SQT_CASE(Year);
+            // end-omit-internal-code
     }
 #undef SQT_CASE
 }
