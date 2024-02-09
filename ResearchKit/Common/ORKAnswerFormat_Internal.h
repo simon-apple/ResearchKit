@@ -30,8 +30,8 @@
 
 
 @import HealthKit;
-#import "ORKAnswerFormat_Private.h"
-#import "ORKChoiceAnswerFormatHelper.h"
+#import <ResearchKit/ORKAnswerFormat_Private.h>
+#import <ResearchKit/ORKChoiceAnswerFormatHelper.h>
 
 @class ORKChoiceAnswerFormatHelper;
 
@@ -68,7 +68,9 @@ ORK_DESIGNATE_CODING_AND_SERIALIZATION_INITIALIZERS(ORKTextAnswerFormat)
 ORK_DESIGNATE_CODING_AND_SERIALIZATION_INITIALIZERS(ORKTimeIntervalAnswerFormat)
 ORK_DESIGNATE_CODING_AND_SERIALIZATION_INITIALIZERS(ORKHeightAnswerFormat)
 ORK_DESIGNATE_CODING_AND_SERIALIZATION_INITIALIZERS(ORKWeightAnswerFormat)
+// start-omit-internal-code
 ORK_DESIGNATE_CODING_AND_SERIALIZATION_INITIALIZERS(ORKAgeAnswerFormat)
+// end-omit-internal-code
 #endif
 ORK_DESIGNATE_CODING_AND_SERIALIZATION_INITIALIZERS(ORKTextChoiceAnswerFormat)
 ORK_DESIGNATE_CODING_AND_SERIALIZATION_INITIALIZERS(ORKTextChoice)

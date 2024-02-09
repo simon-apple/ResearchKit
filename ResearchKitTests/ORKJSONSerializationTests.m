@@ -303,9 +303,10 @@ ORK_MAKE_TEST_INIT(ORKStep, ^{return [self initWithIdentifier:[NSUUID UUID].UUID
 ORK_MAKE_TEST_INIT(ORKReviewStep, ^{return [[self class] standaloneReviewStepWithIdentifier:[NSUUID UUID].UUIDString steps:@[] resultSource:[[ORKTaskResult alloc] orktest_init]];});
 ORK_MAKE_TEST_INIT(ORKOrderedTask, ^{return [self initWithIdentifier:@"test1" steps:nil];});
 ORK_MAKE_TEST_INIT(ORK3DModelStep, ^{return [[self.class alloc] initWithIdentifier:NSUUID.UUID.UUIDString modelManager: [[ORK3DModelManager alloc] init]]; });
-ORK_MAKE_TEST_INIT(ORKAgeAnswerFormat, ^{return [self initWithMinimumAge:0 maximumAge:80 minimumAgeCustomText:nil maximumAgeCustomText:nil showYear:NO useYearForResult:NO treatMinAgeAsRange:false treatMaxAgeAsRange:false defaultValue:0];});
 
 #if RK_APPLE_INTERNAL && ORK_FEATURE_AV_JOURNALING
+ORK_MAKE_TEST_INIT(ORKAgeAnswerFormat, ^{return [self initWithMinimumAge:0 maximumAge:80 minimumAgeCustomText:nil maximumAgeCustomText:nil showYear:NO useYearForResult:NO treatMinAgeAsRange:false treatMaxAgeAsRange:false defaultValue:0];});
+
 ORK_MAKE_TEST_INIT(ORKAVJournalingPredefinedTask, ^{
     ORKStep *stepA = [[ORKStep alloc] initWithIdentifier:[NSUUID UUID].UUIDString];
     ORKStep *stepB = [[ORKStep alloc] initWithIdentifier:[NSUUID UUID].UUIDString];
@@ -1495,6 +1496,10 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector(void) {
                                        @"ORKWebViewStepResult.htmlWithSignature",
 #if RK_APPLE_INTERNAL
                                        @"AAPLSpeechRecognitionStep.shouldHideTranscript",
+                                       @"ORKAgeAnswerFormat.minimumAge",
+                                       @"ORKAgeAnswerFormat.maximumAge",
+                                       @"ORKAgeAnswerFormat.relativeYear",
+                                       @"ORKAgeAnswerFormat.defaultValue",
 #endif
                                        @"ORKTableStep.isBulleted",
                                        @"ORKTableStep.allowsSelection",
@@ -1503,11 +1508,7 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector(void) {
                                        @"ORKBodyItem.customButtonConfigurationHandler",
                                        @"ORKAccuracyStroopStep.actualDisplayColor",
                                        @"ORKAccuracyStroopResult.didSelectCorrectColor",
-                                       @"ORKAccuracyStroopResult.timeTakenToSelect",
-                                       @"ORKAgeAnswerFormat.minimumAge",
-                                       @"ORKAgeAnswerFormat.maximumAge",
-                                       @"ORKAgeAnswerFormat.relativeYear",
-                                       @"ORKAgeAnswerFormat.defaultValue"
+                                       @"ORKAccuracyStroopResult.timeTakenToSelect"
                                        ];
     
     NSArray *hashExclusionList = @[

@@ -2028,30 +2028,6 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(maximumValue, NSNumber, NSObject, NO, nil, nil),
                     PROPERTY(defaultValue, NSNumber, NSObject, NO, nil, nil),
                     })),
-           ENTRY(ORKAgeAnswerFormat,
-                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-                    return [[ORKAgeAnswerFormat alloc] initWithMinimumAge:((NSNumber *)GETPROP(dict, minimumAge)).integerValue
-                                                               maximumAge:((NSNumber *)GETPROP(dict, maximumAge)).integerValue
-                                                     minimumAgeCustomText:GETPROP(dict, minimumAgeCustomText)
-                                                     maximumAgeCustomText:GETPROP(dict, maximumAgeCustomText)
-                                                                 showYear:((NSNumber *)GETPROP(dict, showYear)).boolValue
-                                                         useYearForResult:((NSNumber *)GETPROP(dict, useYearForResult)).boolValue
-                                                       treatMinAgeAsRange:((NSNumber *)GETPROP(dict, treatMinAgeAsRange)).boolValue
-                                                       treatMaxAgeAsRange:((NSNumber *)GETPROP(dict, treatMaxAgeAsRange)).boolValue
-                                                             defaultValue:((NSNumber *)GETPROP(dict, defaultValue)).integerValue];
-                 },
-                 (@{
-                    PROPERTY(minimumAge, NSNumber, NSObject, NO, nil, nil),
-                    PROPERTY(maximumAge, NSNumber, NSObject, NO, nil, nil),
-                    PROPERTY(minimumAgeCustomText, NSString, NSObject, YES, nil, nil),
-                    PROPERTY(maximumAgeCustomText, NSString, NSObject, YES, nil, nil),
-                    PROPERTY(showYear, NSNumber, NSObject, NO, nil, nil),
-                    PROPERTY(useYearForResult, NSNumber, NSObject, NO, nil, nil),
-                    PROPERTY(treatMinAgeAsRange, NSNumber, NSObject, NO, nil, nil),
-                    PROPERTY(treatMaxAgeAsRange, NSNumber, NSObject, NO, nil, nil),
-                    PROPERTY(relativeYear, NSNumber, NSObject, YES, nil, nil),
-                    PROPERTY(defaultValue, NSNumber, NSObject, NO, nil, nil),
-                    })),
            ENTRY(ORKLocationAnswerFormat,
                  ^id(__unused NSDictionary *dict, __unused ORKESerializationPropertyGetter getter) {
                      return [[ORKLocationAnswerFormat alloc] init];
@@ -2553,6 +2529,30 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
             (@{})),
 #endif
 #if RK_APPLE_INTERNAL
+           ENTRY(ORKAgeAnswerFormat,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+                    return [[ORKAgeAnswerFormat alloc] initWithMinimumAge:((NSNumber *)GETPROP(dict, minimumAge)).integerValue
+                                                               maximumAge:((NSNumber *)GETPROP(dict, maximumAge)).integerValue
+                                                     minimumAgeCustomText:GETPROP(dict, minimumAgeCustomText)
+                                                     maximumAgeCustomText:GETPROP(dict, maximumAgeCustomText)
+                                                                 showYear:((NSNumber *)GETPROP(dict, showYear)).boolValue
+                                                         useYearForResult:((NSNumber *)GETPROP(dict, useYearForResult)).boolValue
+                                                       treatMinAgeAsRange:((NSNumber *)GETPROP(dict, treatMinAgeAsRange)).boolValue
+                                                       treatMaxAgeAsRange:((NSNumber *)GETPROP(dict, treatMaxAgeAsRange)).boolValue
+                                                             defaultValue:((NSNumber *)GETPROP(dict, defaultValue)).integerValue];
+                 },
+                 (@{
+                    PROPERTY(minimumAge, NSNumber, NSObject, NO, nil, nil),
+                    PROPERTY(maximumAge, NSNumber, NSObject, NO, nil, nil),
+                    PROPERTY(minimumAgeCustomText, NSString, NSObject, YES, nil, nil),
+                    PROPERTY(maximumAgeCustomText, NSString, NSObject, YES, nil, nil),
+                    PROPERTY(showYear, NSNumber, NSObject, NO, nil, nil),
+                    PROPERTY(useYearForResult, NSNumber, NSObject, NO, nil, nil),
+                    PROPERTY(treatMinAgeAsRange, NSNumber, NSObject, NO, nil, nil),
+                    PROPERTY(treatMaxAgeAsRange, NSNumber, NSObject, NO, nil, nil),
+                    PROPERTY(relativeYear, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(defaultValue, NSNumber, NSObject, NO, nil, nil),
+                    })),
            ENTRY(ORKRelativeGroup,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                     return [[ORKRelativeGroup alloc] initWithIdentifier:GETPROP(dict, identifier)

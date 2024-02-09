@@ -3827,6 +3827,7 @@ static NSString *const kSecureTextEntryEscapeString = @"*";
 
 @end
 
+// start-omit-internal-code
 #pragma mark - ORKAgeAnswerFormat
 
 static const NSInteger ORKAgeAnswerDefaultMinAge = 1;
@@ -4056,7 +4057,7 @@ static const NSInteger ORKAgeAnswerDefaultMaxAge = 125;
     return YES;
 }
 @end
-
+// end-omit-internal-code
 
 #pragma mark - ORKLocationAnswerFormat
 @implementation ORKLocationAnswerFormat

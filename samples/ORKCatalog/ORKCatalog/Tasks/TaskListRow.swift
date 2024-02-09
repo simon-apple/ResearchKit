@@ -124,7 +124,6 @@ enum TaskListRow: Int, CustomStringConvertible {
     case walkBackAndForth
     case heightQuestion
     case weightQuestion
-    case ageQuestion
     case healthQuantity
     case kneeRangeOfMotion
     case shoulderRangeOfMotion
@@ -136,6 +135,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     case consentDoc
     
     #if RK_APPLE_INTERNAL
+    case ageQuestion
     case platterUIQuestion
     case predefinedSpeechInNoiseTask
     case predefinedAVJournalingTask
@@ -177,7 +177,6 @@ enum TaskListRow: Int, CustomStringConvertible {
                 ]),
             TaskListRowSection(title: "Survey Questions", rows:
                 [
-                    .ageQuestion,
                     .booleanQuestion,
                     .customBooleanQuestion,
                     .dateTimeQuestion,
@@ -252,6 +251,7 @@ enum TaskListRow: Int, CustomStringConvertible {
             let internalSections = [
             TaskListRowSection(title: "Internal", rows:
                 [
+                    .ageQuestion,
                     .ble,
                     .booleanConditionalFormTask,
                     .customStepTask,
@@ -313,9 +313,6 @@ enum TaskListRow: Int, CustomStringConvertible {
         
         case .healthQuantity:
             return NSLocalizedString("Health Quantity Question", comment: "")
-            
-        case .ageQuestion:
-            return NSLocalizedString("Age Question", comment: "")
             
         case .imageChoiceQuestion:
             return NSLocalizedString("Image Choice Question", comment: "")
@@ -474,6 +471,9 @@ enum TaskListRow: Int, CustomStringConvertible {
             return NSLocalizedString("Consent Document Review", comment: "")
             
         #if RK_APPLE_INTERNAL
+        case .ageQuestion:
+            return NSLocalizedString("Age Question", comment: "")
+            
         case .platterUIQuestion:
             return NSLocalizedString("Platter UI Question", comment: "")
         
@@ -565,9 +565,6 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .weightQuestion:
             return weightQuestionTask
-            
-        case .ageQuestion:
-            return ageQuestionTask
             
         case .healthQuantity:
             return healthQuantityTypeTask
@@ -726,6 +723,9 @@ enum TaskListRow: Int, CustomStringConvertible {
             return consentDoc
             
         #if RK_APPLE_INTERNAL
+        case .ageQuestion:
+            return ageQuestionTask
+            
         case .platterUIQuestion:
             return platterQuestionTask
             
@@ -1252,79 +1252,6 @@ enum TaskListRow: Int, CustomStringConvertible {
         let step7 = TaskListRowSteps.weightHealthKitBodyMassExample
         
         return ORKOrderedTask(identifier: String(describing: Identifier.weightQuestionTask), steps: [step1, step2, step3, step4, step5, step6, step7])
-    }
-    
-    /// This task demonstrates a question asking for the user age.
-    private var ageQuestionTask: ORKTask {
-        let ageFormItemSectionHeader1 = ORKFormItem(sectionTitle: "What is your age?", detailText: "Age question with default values.", learnMoreItem: nil, showsProgress: true)
-        
-        
-        // age picker example 1
-        let answerFormat = ORKAgeAnswerFormat()
-        answerFormat.shouldShowDontKnowButton = true
-        answerFormat.customDontKnowButtonText = "Prefer not to answer"
-        let ageFormItem = ORKFormItem(identifier: String(describing: Identifier.ageQuestionFormItem), text: nil, answerFormat: answerFormat)
-        
-        ageFormItem.isOptional = true
-        
-        let step = ORKFormStep(identifier: String(describing: Identifier.ageQuestionFormStep), title: "Title here", text: "Default age picker.")
-        step.formItems = [ageFormItemSectionHeader1, ageFormItem]
-        
-        // age picker example 2
-        let ageFormItemSectionHeader2 = ORKFormItem(sectionTitle: "What is your age?", detailText: "Age question with custom min/max values.", learnMoreItem: nil, showsProgress: true)
-        
-        let answerFormat2 = ORKAgeAnswerFormat(minimumAge: 18, maximumAge: 90)
-        let ageFormItem2 = ORKFormItem(identifier: String(describing: Identifier.ageQuestionFormItem2), text: nil, answerFormat: answerFormat2)
-        ageFormItem2.isOptional = false
-        
-        let step2 =  ORKFormStep(identifier: String(describing: Identifier.ageQuestionFormStep2), title: "Title here", text: "Age picker with modified min and max ages.")
-        step2.formItems = [ageFormItemSectionHeader2, ageFormItem2]
-        
-        // age picker example 3
-        let ageFormItemSectionHeader3 = ORKFormItem(sectionTitle: "What is your age?", detailText: "Age question that shows year in choices and passes back year for the result.", learnMoreItem: nil, showsProgress: true)
-        
-        let answerFormat3 = ORKAgeAnswerFormat(
-            minimumAge: 18,
-            maximumAge: 80,
-            minimumAgeCustomText: "18 or younger",
-            maximumAgeCustomText: "80 or older",
-            showYear: true,
-            useYearForResult: true,
-            defaultValue: 40)
-        
-        let ageFormItem3 = ORKFormItem(identifier: String(describing: Identifier.ageQuestionFormItem3), text: nil, answerFormat: answerFormat3)
-        ageFormItem3.isOptional = false
-        
-        let step3 =  ORKFormStep(identifier: String(describing: Identifier.ageQuestionFormStep3), title: "Title here", text: "Age picker with modified min and max ages.")
-        step3.formItems = [ageFormItemSectionHeader3, ageFormItem3]
-        
-        
-        // age picker example 4
-        let ageFormItemSectionHeader4 = ORKFormItem(sectionTitle: "What was your age in the year 2000?", detailText: "Age question that passes back sentinel values for the result if the minimum (-1) or maximum (-2) values are selected.", learnMoreItem: nil, showsProgress: true)
-        
-        let answerFormat4 = ORKAgeAnswerFormat(
-            minimumAge: 1,
-            maximumAge: 60,
-            minimumAgeCustomText: "Under a year old",
-            maximumAgeCustomText: "60 or older",
-            showYear: true,
-            useYearForResult: false,
-            treatMinAgeAsRange: true,
-            treatMaxAgeAsRange: true,
-            defaultValue: 30)
-        
-        answerFormat4.relativeYear = 2000
-        
-        let ageFormItem4 = ORKFormItem(identifier: String(describing: Identifier.ageQuestionFormItem4), text: nil, answerFormat: answerFormat4)
-        ageFormItem4.isOptional = false
-        
-        let step4 =  ORKFormStep(identifier: String(describing: Identifier.ageQuestionFormStep4), title: "Title here", text: "Age picker with utilizing a updated relative year.")
-        step4.formItems = [ageFormItemSectionHeader4, ageFormItem4]
-        
-        let completionStep = ORKCompletionStep(identifier: "completionStepIdentifier")
-        completionStep.title = "Task complete"
-        
-        return ORKOrderedTask(identifier: String(describing: Identifier.ageQuestionTask), steps: [step, step2, step3, step4, completionStep])
     }
 
     private var healthQuantityTypeTask: ORKTask {
@@ -2009,6 +1936,79 @@ enum TaskListRow: Int, CustomStringConvertible {
     }
 
     #if RK_APPLE_INTERNAL
+    /// This task demonstrates a question asking for the user age.
+    private var ageQuestionTask: ORKTask {
+        let ageFormItemSectionHeader1 = ORKFormItem(sectionTitle: "What is your age?", detailText: "Age question with default values.", learnMoreItem: nil, showsProgress: true)
+        
+        
+        // age picker example 1
+        let answerFormat = ORKAgeAnswerFormat()
+        answerFormat.shouldShowDontKnowButton = true
+        answerFormat.customDontKnowButtonText = "Prefer not to answer"
+        let ageFormItem = ORKFormItem(identifier: String(describing: Identifier.ageQuestionFormItem), text: nil, answerFormat: answerFormat)
+        
+        ageFormItem.isOptional = true
+        
+        let step = ORKFormStep(identifier: String(describing: Identifier.ageQuestionFormStep), title: "Title here", text: "Default age picker.")
+        step.formItems = [ageFormItemSectionHeader1, ageFormItem]
+        
+        // age picker example 2
+        let ageFormItemSectionHeader2 = ORKFormItem(sectionTitle: "What is your age?", detailText: "Age question with custom min/max values.", learnMoreItem: nil, showsProgress: true)
+        
+        let answerFormat2 = ORKAgeAnswerFormat(minimumAge: 18, maximumAge: 90)
+        let ageFormItem2 = ORKFormItem(identifier: String(describing: Identifier.ageQuestionFormItem2), text: nil, answerFormat: answerFormat2)
+        ageFormItem2.isOptional = false
+        
+        let step2 =  ORKFormStep(identifier: String(describing: Identifier.ageQuestionFormStep2), title: "Title here", text: "Age picker with modified min and max ages.")
+        step2.formItems = [ageFormItemSectionHeader2, ageFormItem2]
+        
+        // age picker example 3
+        let ageFormItemSectionHeader3 = ORKFormItem(sectionTitle: "What is your age?", detailText: "Age question that shows year in choices and passes back year for the result.", learnMoreItem: nil, showsProgress: true)
+        
+        let answerFormat3 = ORKAgeAnswerFormat(
+            minimumAge: 18,
+            maximumAge: 80,
+            minimumAgeCustomText: "18 or younger",
+            maximumAgeCustomText: "80 or older",
+            showYear: true,
+            useYearForResult: true,
+            defaultValue: 40)
+        
+        let ageFormItem3 = ORKFormItem(identifier: String(describing: Identifier.ageQuestionFormItem3), text: nil, answerFormat: answerFormat3)
+        ageFormItem3.isOptional = false
+        
+        let step3 =  ORKFormStep(identifier: String(describing: Identifier.ageQuestionFormStep3), title: "Title here", text: "Age picker with modified min and max ages.")
+        step3.formItems = [ageFormItemSectionHeader3, ageFormItem3]
+        
+        
+        // age picker example 4
+        let ageFormItemSectionHeader4 = ORKFormItem(sectionTitle: "What was your age in the year 2000?", detailText: "Age question that passes back sentinel values for the result if the minimum (-1) or maximum (-2) values are selected.", learnMoreItem: nil, showsProgress: true)
+        
+        let answerFormat4 = ORKAgeAnswerFormat(
+            minimumAge: 1,
+            maximumAge: 60,
+            minimumAgeCustomText: "Under a year old",
+            maximumAgeCustomText: "60 or older",
+            showYear: true,
+            useYearForResult: false,
+            treatMinAgeAsRange: true,
+            treatMaxAgeAsRange: true,
+            defaultValue: 30)
+        
+        answerFormat4.relativeYear = 2000
+        
+        let ageFormItem4 = ORKFormItem(identifier: String(describing: Identifier.ageQuestionFormItem4), text: nil, answerFormat: answerFormat4)
+        ageFormItem4.isOptional = false
+        
+        let step4 =  ORKFormStep(identifier: String(describing: Identifier.ageQuestionFormStep4), title: "Title here", text: "Age picker with utilizing a updated relative year.")
+        step4.formItems = [ageFormItemSectionHeader4, ageFormItem4]
+        
+        let completionStep = ORKCompletionStep(identifier: "completionStepIdentifier")
+        completionStep.title = "Task complete"
+        
+        return ORKOrderedTask(identifier: String(describing: Identifier.ageQuestionTask), steps: [step, step2, step3, step4, completionStep])
+    }
+    
     private var platterQuestionTask: ORKTask {
         
         let textChoiceOneText = NSLocalizedString("Choice 1", comment: "")

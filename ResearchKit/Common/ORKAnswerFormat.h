@@ -2089,6 +2089,8 @@ ORK_CLASS_AVAILABLE
 
 @end
 
+// start-omit-internal-code
+
 /**
  The `ORKAgeAnswerFormat` class represents the answer format for questions that require users
  to enter a weight.
@@ -2217,6 +2219,7 @@ ORK_CLASS_AVAILABLE
 
 @end
 
+// end-omit-internal-code
 
 /**
  The `ORKLocationAnswerFormat` class represents the answer format for questions that collect a location response
