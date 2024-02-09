@@ -1084,7 +1084,7 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector(void) {
             [instance setValue:@(0) forKey:@"minimum"];
             [instance setValue:@(100) forKey:@"maximum"];
             [instance setValue:@(10) forKey:@"step"];
-        } else if ([aClass isSubclassOfClass:[ORKImageChoice class]] || [aClass isSubclassOfClass:[ORKTextChoice class]] || [aClass isSubclassOfClass:[ORKColorChoice class]]) {
+        } else if ([aClass isSubclassOfClass:[ORKImageChoice class]] || [aClass isSubclassOfClass:[ORKTextChoice class]]) {
             [instance setValue:@"blah" forKey:@"value"];
         } else if ([aClass isSubclassOfClass:[ORKConsentSection class]]) {
             [instance setValue:[NSURL URLWithString:@"http://www.apple.com/"] forKey:@"customAnimationURL"];
