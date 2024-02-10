@@ -1863,16 +1863,13 @@ NSString * const ORKClearTextViewButtonAccessibilityIdentifier = @"ORKClearTextV
           [answerFormat isKindOfClass:[ORKTimeIntervalAnswerFormat class]] ||
           [answerFormat isKindOfClass:[ORKValuePickerAnswerFormat class]] ||
           [answerFormat isKindOfClass:[ORKMultipleValuePickerAnswerFormat class]] ||
+          // start-omit-internal-code
+          [answerFormat isKindOfClass:[ORKAgeAnswerFormat class]] ||
+          // end-omit-internal-code
           [answerFormat isKindOfClass:[ORKHeightAnswerFormat class]] ||
           [answerFormat isKindOfClass:[ORKWeightAnswerFormat class]])) {
         [self throwPickerTypeException];
     }
-    
-    // start-omit-internal-code
-    if (!(!formItem || [answerFormat isKindOfClass:[ORKAgeAnswerFormat class]])) {
-        [self throwPickerTypeException];
-    }
-    // end-omit-internal-code
     
     [super setFormItem:formItem];
 }
