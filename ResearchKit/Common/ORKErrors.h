@@ -33,7 +33,9 @@
 
 #if TARGET_OS_IOS
 #import <ResearchKit/ORKDefines.h>
-#elif TARGET_OS_WATCH
+#endif
+
+#if TARGET_OS_WATCH
 #import <ResearchKitCore/ORKDefines.h>
 #endif
 

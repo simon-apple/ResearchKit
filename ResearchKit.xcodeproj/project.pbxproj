@@ -154,7 +154,6 @@
 		51CB80D82AFEBEC600A1F410 /* ORKPredicateFormItemVisibilityRuleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51CB80D72AFEBEC600A1F410 /* ORKPredicateFormItemVisibilityRuleTests.swift */; };
 		51CB80DA2AFEBF3800A1F410 /* ORKFormItemVisibilityRuleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51CB80D92AFEBF3800A1F410 /* ORKFormItemVisibilityRuleTests.swift */; };
 		51D9B87B2B23C1AB00927FDF /* Active Tasks.md in Resources */ = {isa = PBXBuildFile; fileRef = 51D9B8752B23C1AB00927FDF /* Active Tasks.md */; };
-		51D9B87C2B23C1AB00927FDF /* Charts and Graphs.md in Resources */ = {isa = PBXBuildFile; fileRef = 51D9B8762B23C1AB00927FDF /* Charts and Graphs.md */; };
 		51D9B87D2B23C1AB00927FDF /* Consent.md in Resources */ = {isa = PBXBuildFile; fileRef = 51D9B8772B23C1AB00927FDF /* Consent.md */; };
 		51D9B87E2B23C1AB00927FDF /* Accounts.md in Resources */ = {isa = PBXBuildFile; fileRef = 51D9B8782B23C1AB00927FDF /* Accounts.md */; };
 		51D9B87F2B23C1AB00927FDF /* Passcode.md in Resources */ = {isa = PBXBuildFile; fileRef = 51D9B8792B23C1AB00927FDF /* Passcode.md */; };
@@ -747,13 +746,9 @@
 		CAA20EEA288B3F1200EDC764 /* ORKActiveStepQuantityView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40AFB1A8D7C5B00081FAC /* ORKActiveStepQuantityView.m */; };
 		CAA20F1A288B3F4000EDC764 /* SentencesList.txt in Resources */ = {isa = PBXBuildFile; fileRef = BA22F76C20C4F884006E6E11 /* SentencesList.txt */; };
 		CAA20F2A288B3F5B00EDC764 /* ORKConsentSharingStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = B11C549C1A9EF4A700265E61 /* ORKConsentSharingStepViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CAA20F2B288B3F5B00EDC764 /* MovieTintShader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 86C40BF11A8D7C5C00081FAC /* MovieTintShader.vsh */; };
-		CAA20F2D288B3F5B00EDC764 /* MovieTintShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 86C40BF01A8D7C5C00081FAC /* MovieTintShader.fsh */; };
 		CAA20F2E288B3F5B00EDC764 /* ORKConsentReviewStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40BFA1A8D7C5C00081FAC /* ORKConsentReviewStepViewController.m */; };
-		CAA20F2F288B3F5B00EDC764 /* ORKEAGLMoviePlayerView.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40C051A8D7C5C00081FAC /* ORKEAGLMoviePlayerView.h */; };
 		CAA20F30288B3F5B00EDC764 /* ORKConsentSharingStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B11C549D1A9EF4A700265E61 /* ORKConsentSharingStepViewController.m */; };
 		CAA20F31288B3F5B00EDC764 /* ORKConsentReviewStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40BF91A8D7C5C00081FAC /* ORKConsentReviewStepViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CAA20F32288B3F5B00EDC764 /* ORKEAGLMoviePlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40C061A8D7C5C00081FAC /* ORKEAGLMoviePlayerView.m */; };
 		CAA20F34288B3F6700EDC764 /* ORKVerificationStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 242C9E0B1BBE03F90088B7F4 /* ORKVerificationStepViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CAA20F35288B3F6700EDC764 /* ORKVerificationStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 242C9E0C1BBE03F90088B7F4 /* ORKVerificationStepViewController.m */; };
 		CAA20F36288B3F6700EDC764 /* ORKLoginStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 24850E181BCDA9C7006E91FB /* ORKLoginStepViewController.m */; };
@@ -767,20 +762,6 @@
 		CAA20F3E288B3F6D00EDC764 /* ORKAccessibilityFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 618DA0491A93D0D600E63AA8 /* ORKAccessibilityFunctions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CAA20F3F288B3F6D00EDC764 /* ORKGraphChartAccessibilityElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 6146D0A21B84A91E0068491D /* ORKGraphChartAccessibilityElement.m */; };
 		CAA20F40288B3F6D00EDC764 /* UIView+ORKAccessibility.m in Sources */ = {isa = PBXBuildFile; fileRef = 618DA04C1A93D0D600E63AA8 /* UIView+ORKAccessibility.m */; };
-		CAA20F41288B3F7700EDC764 /* consent_02@3x.m4v in Resources */ = {isa = PBXBuildFile; fileRef = B1A860E41A9693C400EA57B7 /* consent_02@3x.m4v */; };
-		CAA20F42288B3F7700EDC764 /* consent_05@3x.m4v in Resources */ = {isa = PBXBuildFile; fileRef = B1A860E71A9693C400EA57B7 /* consent_05@3x.m4v */; };
-		CAA20F43288B3F7700EDC764 /* consent_06@3x.m4v in Resources */ = {isa = PBXBuildFile; fileRef = B1A860E81A9693C400EA57B7 /* consent_06@3x.m4v */; };
-		CAA20F44288B3F7700EDC764 /* consent_01@3x.m4v in Resources */ = {isa = PBXBuildFile; fileRef = B1A860E31A9693C400EA57B7 /* consent_01@3x.m4v */; };
-		CAA20F45288B3F7700EDC764 /* consent_06@2x.m4v in Resources */ = {isa = PBXBuildFile; fileRef = B1A860E01A9693C400EA57B7 /* consent_06@2x.m4v */; };
-		CAA20F46288B3F7700EDC764 /* consent_02@2x.m4v in Resources */ = {isa = PBXBuildFile; fileRef = B1A860DC1A9693C400EA57B7 /* consent_02@2x.m4v */; };
-		CAA20F47288B3F7700EDC764 /* consent_03@2x.m4v in Resources */ = {isa = PBXBuildFile; fileRef = B1A860DD1A9693C400EA57B7 /* consent_03@2x.m4v */; };
-		CAA20F48288B3F7700EDC764 /* consent_04@3x.m4v in Resources */ = {isa = PBXBuildFile; fileRef = B1A860E61A9693C400EA57B7 /* consent_04@3x.m4v */; };
-		CAA20F49288B3F7700EDC764 /* consent_07@3x.m4v in Resources */ = {isa = PBXBuildFile; fileRef = B1A860E91A9693C400EA57B7 /* consent_07@3x.m4v */; };
-		CAA20F4A288B3F7700EDC764 /* consent_01@2x.m4v in Resources */ = {isa = PBXBuildFile; fileRef = B1A860DB1A9693C400EA57B7 /* consent_01@2x.m4v */; };
-		CAA20F4B288B3F7700EDC764 /* consent_07@2x.m4v in Resources */ = {isa = PBXBuildFile; fileRef = B1A860E11A9693C400EA57B7 /* consent_07@2x.m4v */; };
-		CAA20F4C288B3F7700EDC764 /* consent_05@2x.m4v in Resources */ = {isa = PBXBuildFile; fileRef = B1A860DF1A9693C400EA57B7 /* consent_05@2x.m4v */; };
-		CAA20F4D288B3F7700EDC764 /* consent_04@2x.m4v in Resources */ = {isa = PBXBuildFile; fileRef = B1A860DE1A9693C400EA57B7 /* consent_04@2x.m4v */; };
-		CAA20F4E288B3F7700EDC764 /* consent_03@3x.m4v in Resources */ = {isa = PBXBuildFile; fileRef = B1A860E51A9693C400EA57B7 /* consent_03@3x.m4v */; };
 		CAD0896A289DD747007B2A98 /* ResearchKitActiveTask.h in Headers */ = {isa = PBXBuildFile; fileRef = CAD08969289DD747007B2A98 /* ResearchKitActiveTask.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CAD089BA289DE347007B2A98 /* ORKSpeechInNoiseStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 7118AC7320BF6A7800D7A6BB /* ORKSpeechInNoiseStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		CAD089BB289DE34C007B2A98 /* ORKSpeechInNoiseStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118AC7220BF6A7800D7A6BB /* ORKSpeechInNoiseStep.m */; };
@@ -1292,7 +1273,6 @@
 		51D823032472FB9B00BF4F72 /* ORKRequestPermissionsStepContainerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKRequestPermissionsStepContainerView.h; sourceTree = "<group>"; };
 		51D823042472FB9B00BF4F72 /* ORKRequestPermissionsStepContainerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKRequestPermissionsStepContainerView.m; sourceTree = "<group>"; };
 		51D9B8752B23C1AB00927FDF /* Active Tasks.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = "Active Tasks.md"; sourceTree = "<group>"; };
-		51D9B8762B23C1AB00927FDF /* Charts and Graphs.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = "Charts and Graphs.md"; sourceTree = "<group>"; };
 		51D9B8772B23C1AB00927FDF /* Consent.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = Consent.md; sourceTree = "<group>"; };
 		51D9B8782B23C1AB00927FDF /* Accounts.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = Accounts.md; sourceTree = "<group>"; };
 		51D9B8792B23C1AB00927FDF /* Passcode.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = Passcode.md; sourceTree = "<group>"; };
@@ -1313,8 +1293,8 @@
 		51F716BE297E288900D8ACF7 /* ORKNormalizedReactionTimeStep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ORKNormalizedReactionTimeStep.m; path = "ResearchKitActiveTask/Reaction Time/Normalized/ORKNormalizedReactionTimeStep.m"; sourceTree = SOURCE_ROOT; };
 		51F716BF297E288A00D8ACF7 /* ORKNormalizedReactionTimeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ORKNormalizedReactionTimeViewController.h; path = "ResearchKitActiveTask/Reaction Time/Normalized/ORKNormalizedReactionTimeViewController.h"; sourceTree = SOURCE_ROOT; };
 		51F716C0297E288A00D8ACF7 /* ORKNormalizedReactionTimeContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ORKNormalizedReactionTimeContentView.h; path = "ResearchKitActiveTask/Reaction Time/Normalized/ORKNormalizedReactionTimeContentView.h"; sourceTree = SOURCE_ROOT; };
-		51F716CD297E2CB600D8ACF7 /* ORKConsentLearnMoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ORKConsentLearnMoreViewController.h; path = "ResearchKitUI/Consent/Consent Views/Visual/Learn More/ORKConsentLearnMoreViewController.h"; sourceTree = SOURCE_ROOT; };
-		51F716CE297E2CB600D8ACF7 /* ORKConsentLearnMoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ORKConsentLearnMoreViewController.m; path = "ResearchKitUI/Consent/Consent Views/Visual/Learn More/ORKConsentLearnMoreViewController.m"; sourceTree = SOURCE_ROOT; };
+		51F716CD297E2CB600D8ACF7 /* ORKConsentLearnMoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ORKConsentLearnMoreViewController.h; path = ResearchKitUI/Stale/ORKConsentLearnMoreViewController.h; sourceTree = SOURCE_ROOT; };
+		51F716CE297E2CB600D8ACF7 /* ORKConsentLearnMoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ORKConsentLearnMoreViewController.m; path = ResearchKitUI/Stale/ORKConsentLearnMoreViewController.m; sourceTree = SOURCE_ROOT; };
 		51F716E82981AF1200D8ACF7 /* ORKSpeechInNoiseStepViewController_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKSpeechInNoiseStepViewController_Private.h; sourceTree = "<group>"; };
 		5D000EC22620F27100E5442A /* ResearchKit-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "ResearchKit-Debug.xcconfig"; sourceTree = "<group>"; };
 		5D000EC32620F27100E5442A /* ResearchKit-Skywagon-Stable.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "ResearchKit-Skywagon-Stable.xcconfig"; sourceTree = "<group>"; };
@@ -1681,8 +1661,6 @@
 		86C40BED1A8D7C5C00081FAC /* ORKConsentReviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKConsentReviewController.m; sourceTree = "<group>"; };
 		86C40BEE1A8D7C5C00081FAC /* ORKSignatureStepViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKSignatureStepViewController.h; sourceTree = "<group>"; };
 		86C40BEF1A8D7C5C00081FAC /* ORKSignatureStepViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ORKSignatureStepViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		86C40BF01A8D7C5C00081FAC /* MovieTintShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MovieTintShader.fsh; sourceTree = "<group>"; };
-		86C40BF11A8D7C5C00081FAC /* MovieTintShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MovieTintShader.vsh; sourceTree = "<group>"; };
 		86C40BF21A8D7C5C00081FAC /* ORKConsentDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKConsentDocument.h; sourceTree = "<group>"; };
 		86C40BF31A8D7C5C00081FAC /* ORKConsentDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ORKConsentDocument.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		86C40BF41A8D7C5C00081FAC /* ORKConsentDocument_Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ORKConsentDocument_Internal.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -1695,8 +1673,6 @@
 		86C40C011A8D7C5C00081FAC /* ORKConsentSection_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKConsentSection_Private.h; sourceTree = "<group>"; };
 		86C40C021A8D7C5C00081FAC /* ORKConsentSignature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKConsentSignature.h; sourceTree = "<group>"; };
 		86C40C031A8D7C5C00081FAC /* ORKConsentSignature.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKConsentSignature.m; sourceTree = "<group>"; };
-		86C40C051A8D7C5C00081FAC /* ORKEAGLMoviePlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKEAGLMoviePlayerView.h; sourceTree = "<group>"; };
-		86C40C061A8D7C5C00081FAC /* ORKEAGLMoviePlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKEAGLMoviePlayerView.m; sourceTree = "<group>"; };
 		86C40C071A8D7C5C00081FAC /* ORKSignatureView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKSignatureView.h; sourceTree = "<group>"; };
 		86C40C081A8D7C5C00081FAC /* ORKSignatureView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKSignatureView.m; sourceTree = "<group>"; };
 		86C40C101A8D7C5C00081FAC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -1741,25 +1717,10 @@
 		B11C54971A9EEF8800265E61 /* ORKConsentSharingStep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKConsentSharingStep.m; sourceTree = "<group>"; };
 		B11C549C1A9EF4A700265E61 /* ORKConsentSharingStepViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKConsentSharingStepViewController.h; sourceTree = "<group>"; };
 		B11C549D1A9EF4A700265E61 /* ORKConsentSharingStepViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ORKConsentSharingStepViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		B11DF3B31AA109C8009E76D2 /* AppledocSettings.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = AppledocSettings.plist; sourceTree = "<group>"; };
 		B11DF4C21AA10D70009E76D2 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/ResearchKit.strings; sourceTree = "<group>"; };
 		B14660481AA10DD7002F95C2 /* zh_TW */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; name = zh_TW; path = zh_TW.lproj/ResearchKit.strings; sourceTree = "<group>"; };
 		B183A5951A8535D100C76870 /* ResearchKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ResearchKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B18AABE01A9F08D9003871B5 /* ResearchKit.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = ResearchKit.modulemap; sourceTree = "<group>"; };
-		B1A860DB1A9693C400EA57B7 /* consent_01@2x.m4v */ = {isa = PBXFileReference; lastKnownFileType = file; path = "consent_01@2x.m4v"; sourceTree = "<group>"; };
-		B1A860DC1A9693C400EA57B7 /* consent_02@2x.m4v */ = {isa = PBXFileReference; lastKnownFileType = file; path = "consent_02@2x.m4v"; sourceTree = "<group>"; };
-		B1A860DD1A9693C400EA57B7 /* consent_03@2x.m4v */ = {isa = PBXFileReference; lastKnownFileType = file; path = "consent_03@2x.m4v"; sourceTree = "<group>"; };
-		B1A860DE1A9693C400EA57B7 /* consent_04@2x.m4v */ = {isa = PBXFileReference; lastKnownFileType = file; path = "consent_04@2x.m4v"; sourceTree = "<group>"; };
-		B1A860DF1A9693C400EA57B7 /* consent_05@2x.m4v */ = {isa = PBXFileReference; lastKnownFileType = file; path = "consent_05@2x.m4v"; sourceTree = "<group>"; };
-		B1A860E01A9693C400EA57B7 /* consent_06@2x.m4v */ = {isa = PBXFileReference; lastKnownFileType = file; path = "consent_06@2x.m4v"; sourceTree = "<group>"; };
-		B1A860E11A9693C400EA57B7 /* consent_07@2x.m4v */ = {isa = PBXFileReference; lastKnownFileType = file; path = "consent_07@2x.m4v"; sourceTree = "<group>"; };
-		B1A860E31A9693C400EA57B7 /* consent_01@3x.m4v */ = {isa = PBXFileReference; lastKnownFileType = file; path = "consent_01@3x.m4v"; sourceTree = "<group>"; };
-		B1A860E41A9693C400EA57B7 /* consent_02@3x.m4v */ = {isa = PBXFileReference; lastKnownFileType = file; path = "consent_02@3x.m4v"; sourceTree = "<group>"; };
-		B1A860E51A9693C400EA57B7 /* consent_03@3x.m4v */ = {isa = PBXFileReference; lastKnownFileType = file; path = "consent_03@3x.m4v"; sourceTree = "<group>"; };
-		B1A860E61A9693C400EA57B7 /* consent_04@3x.m4v */ = {isa = PBXFileReference; lastKnownFileType = file; path = "consent_04@3x.m4v"; sourceTree = "<group>"; };
-		B1A860E71A9693C400EA57B7 /* consent_05@3x.m4v */ = {isa = PBXFileReference; lastKnownFileType = file; path = "consent_05@3x.m4v"; sourceTree = "<group>"; };
-		B1A860E81A9693C400EA57B7 /* consent_06@3x.m4v */ = {isa = PBXFileReference; lastKnownFileType = file; path = "consent_06@3x.m4v"; sourceTree = "<group>"; };
-		B1A860E91A9693C400EA57B7 /* consent_07@3x.m4v */ = {isa = PBXFileReference; lastKnownFileType = file; path = "consent_07@3x.m4v"; sourceTree = "<group>"; };
 		B1B349E41AA10DED005FAD66 /* zh_HK */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; name = zh_HK; path = zh_HK.lproj/ResearchKit.strings; sourceTree = "<group>"; };
 		B1B349E51AA10DF8005FAD66 /* zh_CN */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; name = zh_CN; path = zh_CN.lproj/ResearchKit.strings; sourceTree = "<group>"; };
 		B1B349E61AA10E02005FAD66 /* vi */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; name = vi; path = vi.lproj/ResearchKit.strings; sourceTree = "<group>"; };
@@ -1968,7 +1929,6 @@
 		E293656125757E7700092A7C /* volume_curve_AIRPODSMAX.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = volume_curve_AIRPODSMAX.plist; sourceTree = "<group>"; };
 		E293668325EE67C200EB7F24 /* ORKEnvironmentSPLMeterBarView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKEnvironmentSPLMeterBarView.h; sourceTree = "<group>"; };
 		E293668425EE67C200EB7F24 /* ORKEnvironmentSPLMeterBarView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKEnvironmentSPLMeterBarView.m; sourceTree = "<group>"; };
-		E2BC458222D8A0DD009DAAAE /* Celestial.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Celestial.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS13.0.Internal.sdk/System/Library/PrivateFrameworks/Celestial.framework; sourceTree = DEVELOPER_DIR; };
 		F7C022F8248EEAAC00782A61 /* ORKCustomSignatureFooterView_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKCustomSignatureFooterView_Private.h; sourceTree = "<group>"; };
 		F7EC216424787338000C1F46 /* ORKCustomSignatureFooterView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKCustomSignatureFooterView.h; sourceTree = "<group>"; };
 		F7EC216524787338000C1F46 /* ORKCustomSignatureFooterView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKCustomSignatureFooterView.m; sourceTree = "<group>"; };
@@ -2230,7 +2190,6 @@
 			children = (
 				05F3765923C797930068E166 /* ResearchKit.xctestplan */,
 				168EEAAE230B6F9E003FD2FA /* scripts */,
-				B11DF3B21AA109C8009E76D2 /* docs */,
 				86B623AF19520B770074CD3C /* ResearchKit */,
 				86CC8EA61AC09383001CCD89 /* ResearchKitTests */,
 				5DABE54924D8BF2400570C57 /* ResearchKitCore */,
@@ -2238,7 +2197,6 @@
 				CAD08968289DD747007B2A98 /* ResearchKitActiveTask */,
 				3FFF183F1829DB1D00167070 /* Frameworks */,
 				3FFF183E1829DB1D00167070 /* Products */,
-				8419D66A1FB73C5A0088D7E5 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -2263,7 +2221,6 @@
 				CA58F8B728B5549F00761769 /* ResearchKitInternal.framework */,
 				CA8D8D0128B024E1000CF52F /* ResearchKitInternal.framework */,
 				CA8D8CF228B01E2E000CF52F /* ResearchKitInternal.framework */,
-				E2BC458222D8A0DD009DAAAE /* Celestial.framework */,
 				00B1F7842241503900D022FE /* Speech.framework */,
 				B1C7955D1A9FBF04007279BA /* HealthKit.framework */,
 			);
@@ -2307,21 +2264,6 @@
 				51F716BD297E288900D8ACF7 /* ORKNormalizedReactionTimeViewController.m */,
 			);
 			path = Normalized;
-			sourceTree = "<group>";
-		};
-		519C297F26D0278A00FD5F44 /* SwiftUI Views */ = {
-			isa = PBXGroup;
-			children = (
-				519C298C26D027B000FD5F44 /* Factory */,
-			);
-			name = "SwiftUI Views";
-			sourceTree = "<group>";
-		};
-		519C298C26D027B000FD5F44 /* Factory */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Factory;
 			sourceTree = "<group>";
 		};
 		51AEAAA02B74296800F4D107 /* Stale */ = {
@@ -2375,6 +2317,7 @@
 		51AEAAA52B743EE000F4D107 /* Stale */ = {
 			isa = PBXGroup;
 			children = (
+				51DFB6302B7C1862004000C1 /* Consent */,
 				51AEAAC12B75442600F4D107 /* Question Step View Controller */,
 			);
 			path = Stale;
@@ -2415,6 +2358,21 @@
 			name = ConditionalFormItems;
 			sourceTree = "<group>";
 		};
+		51DFB6302B7C1862004000C1 /* Consent */ = {
+			isa = PBXGroup;
+			children = (
+				51F716CD297E2CB600D8ACF7 /* ORKConsentLearnMoreViewController.h */,
+				51F716CE297E2CB600D8ACF7 /* ORKConsentLearnMoreViewController.m */,
+				B11C549C1A9EF4A700265E61 /* ORKConsentSharingStepViewController.h */,
+				B11C549D1A9EF4A700265E61 /* ORKConsentSharingStepViewController.m */,
+				86C40BEC1A8D7C5C00081FAC /* ORKConsentReviewController.h */,
+				86C40BED1A8D7C5C00081FAC /* ORKConsentReviewController.m */,
+				86C40BF91A8D7C5C00081FAC /* ORKConsentReviewStepViewController.h */,
+				86C40BFA1A8D7C5C00081FAC /* ORKConsentReviewStepViewController.m */,
+			);
+			name = Consent;
+			sourceTree = "<group>";
+		};
 		51E03D60249196E0008F8406 /* Permission Types */ = {
 			isa = PBXGroup;
 			children = (
@@ -2440,15 +2398,6 @@
 				51E03D672491A601008F8406 /* ORKHealthKitPermissionType.m */,
 			);
 			name = "HealthKit Permission Type";
-			sourceTree = "<group>";
-		};
-		51F716CC297E2CA200D8ACF7 /* Learn More */ = {
-			isa = PBXGroup;
-			children = (
-				51F716CD297E2CB600D8ACF7 /* ORKConsentLearnMoreViewController.h */,
-				51F716CE297E2CB600D8ACF7 /* ORKConsentLearnMoreViewController.m */,
-			);
-			path = "Learn More";
 			sourceTree = "<group>";
 		};
 		5D000EC02620F27100E5442A /* Configuration */ = {
@@ -2535,10 +2484,8 @@
 			children = (
 				51AEAAA52B743EE000F4D107 /* Stale */,
 				CA1C7A6F288B18B8004DAB3A /* Common */,
-				CA1C7AB7288B35A4004DAB3A /* Consent */,
 				CA1C7ABE288B3786004DAB3A /* Onboarding */,
 				CA1C7AC0288B3AC1004DAB3A /* Accessibility */,
-				CA1C7AC1288B3AF5004DAB3A /* Animations */,
 				5D06632F24FEF272005D9B40 /* ResearchKitUI.h */,
 				CA6A0D9F288F1F3C0048C1EF /* ResearchKitUI.modulemap */,
 				CA6A0D9D288F1BDC0048C1EF /* ResearchKitUI_Private.h */,
@@ -2546,13 +2493,6 @@
 				CA1C7A5B288B0C69004DAB3A /* Info-iOS.plist */,
 			);
 			path = ResearchKitUI;
-			sourceTree = "<group>";
-		};
-		5D43C5CE2421736D006F4084 /* ORKRecordButton */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = ORKRecordButton;
 			sourceTree = "<group>";
 		};
 		5DABE54924D8BF2400570C57 /* ResearchKitCore */ = {
@@ -2570,19 +2510,11 @@
 			children = (
 				51D9B8782B23C1AB00927FDF /* Accounts.md */,
 				51D9B8752B23C1AB00927FDF /* Active Tasks.md */,
-				51D9B8762B23C1AB00927FDF /* Charts and Graphs.md */,
 				51D9B8772B23C1AB00927FDF /* Consent.md */,
 				51D9B8792B23C1AB00927FDF /* Passcode.md */,
 				51D9B87A2B23C1AB00927FDF /* Surveys.md */,
 			);
 			path = Articles;
-			sourceTree = "<group>";
-		};
-		8419D66A1FB73C5A0088D7E5 /* Recovered References */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 		8419D66B1FB73C800088D7E5 /* WebView Step */ = {
@@ -2644,11 +2576,6 @@
 		86C40B511A8D7C5B00081FAC /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				5D43C5CE2421736D006F4084 /* ORKRecordButton */,
-				BAD6FAAE2332A2B6006647E7 /* CheckmarkView */,
-				BA2645E3230156C200D00B73 /* Review */,
-				BA8C067522EEB7FD00ACDE6B /* Playback Button */,
-				BA87E26A20A79F5F00B375A9 /* Ring View */,
 				B12EFF3B1AB211E000A80147 /* Answer Format */,
 				B12EFF3A1AB211CC00A80147 /* Container Views */,
 				B12EFF3D1AB2121000A80147 /* Definitions */,
@@ -2658,7 +2585,6 @@
 				B12EFF311AB2100400A80147 /* Skin */,
 				B12EFF341AB2111200A80147 /* Step */,
 				B12EFF331AB2110300A80147 /* Task */,
-				B12EFF321AB2106F00A80147 /* UIKitCategories */,
 				866DA5121D63D01C00C9AF3F /* DataCollection */,
 				24B3535D1BB21137009ED6F8 /* Utilities */,
 			);
@@ -2724,14 +2650,6 @@
 			name = "Early Termination";
 			sourceTree = "<group>";
 		};
-		B11DF3B21AA109C8009E76D2 /* docs */ = {
-			isa = PBXGroup;
-			children = (
-				B11DF3B31AA109C8009E76D2 /* AppledocSettings.plist */,
-			);
-			path = docs;
-			sourceTree = "<group>";
-		};
 		B12EFF301AB20E7500A80147 /* Completion Step */ = {
 			isa = PBXGroup;
 			children = (
@@ -2749,13 +2667,6 @@
 				86C40BB81A8D7C5C00081FAC /* ORKSkin.m */,
 			);
 			name = Skin;
-			sourceTree = "<group>";
-		};
-		B12EFF321AB2106F00A80147 /* UIKitCategories */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = UIKitCategories;
 			sourceTree = "<group>";
 		};
 		B12EFF331AB2110300A80147 /* Task */ = {
@@ -2849,11 +2760,7 @@
 		B12EFF3B1AB211E000A80147 /* Answer Format */ = {
 			isa = PBXGroup;
 			children = (
-				519C297F26D0278A00FD5F44 /* SwiftUI Views */,
 				B12EFF421AB2134100A80147 /* Choice Format Helpers */,
-				B12EFF411AB212E100A80147 /* Control Views */,
-				B12EFF3E1AB2123000A80147 /* Form Step Views */,
-				B12EFF3F1AB2125E00A80147 /* Question Step Views */,
 				86C40B641A8D7C5B00081FAC /* ORKAnswerFormat.h */,
 				86C40B651A8D7C5B00081FAC /* ORKAnswerFormat.m */,
 				86C40B661A8D7C5B00081FAC /* ORKAnswerFormat_Internal.h */,
@@ -2893,27 +2800,6 @@
 			name = Definitions;
 			sourceTree = "<group>";
 		};
-		B12EFF3E1AB2123000A80147 /* Form Step Views */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "Form Step Views";
-			sourceTree = "<group>";
-		};
-		B12EFF3F1AB2125E00A80147 /* Question Step Views */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "Question Step Views";
-			sourceTree = "<group>";
-		};
-		B12EFF411AB212E100A80147 /* Control Views */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "Control Views";
-			sourceTree = "<group>";
-		};
 		B12EFF421AB2134100A80147 /* Choice Format Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -2946,34 +2832,6 @@
 			name = "Signature Step";
 			sourceTree = "<group>";
 		};
-		B1A860DA1A9693C400EA57B7 /* phone@2x */ = {
-			isa = PBXGroup;
-			children = (
-				B1A860DB1A9693C400EA57B7 /* consent_01@2x.m4v */,
-				B1A860DC1A9693C400EA57B7 /* consent_02@2x.m4v */,
-				B1A860DD1A9693C400EA57B7 /* consent_03@2x.m4v */,
-				B1A860DE1A9693C400EA57B7 /* consent_04@2x.m4v */,
-				B1A860DF1A9693C400EA57B7 /* consent_05@2x.m4v */,
-				B1A860E01A9693C400EA57B7 /* consent_06@2x.m4v */,
-				B1A860E11A9693C400EA57B7 /* consent_07@2x.m4v */,
-			);
-			path = "phone@2x";
-			sourceTree = "<group>";
-		};
-		B1A860E21A9693C400EA57B7 /* phone@3x */ = {
-			isa = PBXGroup;
-			children = (
-				B1A860E31A9693C400EA57B7 /* consent_01@3x.m4v */,
-				B1A860E41A9693C400EA57B7 /* consent_02@3x.m4v */,
-				B1A860E51A9693C400EA57B7 /* consent_03@3x.m4v */,
-				B1A860E61A9693C400EA57B7 /* consent_04@3x.m4v */,
-				B1A860E71A9693C400EA57B7 /* consent_05@3x.m4v */,
-				B1A860E81A9693C400EA57B7 /* consent_06@3x.m4v */,
-				B1A860E91A9693C400EA57B7 /* consent_07@3x.m4v */,
-			);
-			path = "phone@3x";
-			sourceTree = "<group>";
-		};
 		B1C0F4E01A9BA65F0022C153 /* Localized */ = {
 			isa = PBXGroup;
 			children = (
@@ -2981,13 +2839,6 @@
 				714080D9235FD14700281E04 /* ResearchKit.stringsdict */,
 			);
 			path = Localized;
-			sourceTree = "<group>";
-		};
-		BA2645E3230156C200D00B73 /* Review */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Review;
 			sourceTree = "<group>";
 		};
 		BA473FE5224DB36500A362E3 /* Step Body */ = {
@@ -3009,13 +2860,6 @@
 			name = "Learn More";
 			sourceTree = "<group>";
 		};
-		BA87E26A20A79F5F00B375A9 /* Ring View */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "Ring View";
-			sourceTree = "<group>";
-		};
 		BA8C066822ECF4B100ACDE6B /* SecondaryTask */ = {
 			isa = PBXGroup;
 			children = (
@@ -3024,13 +2868,6 @@
 			);
 			name = SecondaryTask;
 			path = ../ActiveTasks;
-			sourceTree = "<group>";
-		};
-		BA8C067522EEB7FD00ACDE6B /* Playback Button */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "Playback Button";
 			sourceTree = "<group>";
 		};
 		BAB96753226E5D21006AAC56 /* Views */ = {
@@ -3048,13 +2885,6 @@
 				BABBB1AD2097D97200CB29E5 /* ORKPDFViewerStep.m */,
 			);
 			name = PDFStep;
-			sourceTree = "<group>";
-		};
-		BAD6FAAE2332A2B6006647E7 /* CheckmarkView */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = CheckmarkView;
 			sourceTree = "<group>";
 		};
 		BAD9E90F2255E94F0014FA29 /* LearnMore Step */ = {
@@ -3703,63 +3533,6 @@
 			path = "USDZ Model Manager";
 			sourceTree = "<group>";
 		};
-		CA1C7AB7288B35A4004DAB3A /* Consent */ = {
-			isa = PBXGroup;
-			children = (
-				CA1C7AB8288B360D004DAB3A /* Consent Views */,
-			);
-			path = Consent;
-			sourceTree = "<group>";
-		};
-		CA1C7AB8288B360D004DAB3A /* Consent Views */ = {
-			isa = PBXGroup;
-			children = (
-				51F716CC297E2CA200D8ACF7 /* Learn More */,
-				CA1C7ABB288B3641004DAB3A /* Visual */,
-				CA1C7ABC288B3650004DAB3A /* Sharing */,
-				CA1C7ABD288B366A004DAB3A /* Review */,
-			);
-			path = "Consent Views";
-			sourceTree = "<group>";
-		};
-		CA1C7AB9288B3613004DAB3A /* Tinted Animations */ = {
-			isa = PBXGroup;
-			children = (
-				86C40C051A8D7C5C00081FAC /* ORKEAGLMoviePlayerView.h */,
-				86C40C061A8D7C5C00081FAC /* ORKEAGLMoviePlayerView.m */,
-				86C40BF01A8D7C5C00081FAC /* MovieTintShader.fsh */,
-				86C40BF11A8D7C5C00081FAC /* MovieTintShader.vsh */,
-			);
-			path = "Tinted Animations";
-			sourceTree = "<group>";
-		};
-		CA1C7ABB288B3641004DAB3A /* Visual */ = {
-			isa = PBXGroup;
-			children = (
-				CA1C7AB9288B3613004DAB3A /* Tinted Animations */,
-			);
-			path = Visual;
-			sourceTree = "<group>";
-		};
-		CA1C7ABC288B3650004DAB3A /* Sharing */ = {
-			isa = PBXGroup;
-			children = (
-				B11C549C1A9EF4A700265E61 /* ORKConsentSharingStepViewController.h */,
-				B11C549D1A9EF4A700265E61 /* ORKConsentSharingStepViewController.m */,
-			);
-			path = Sharing;
-			sourceTree = "<group>";
-		};
-		CA1C7ABD288B366A004DAB3A /* Review */ = {
-			isa = PBXGroup;
-			children = (
-				86C40BF91A8D7C5C00081FAC /* ORKConsentReviewStepViewController.h */,
-				86C40BFA1A8D7C5C00081FAC /* ORKConsentReviewStepViewController.m */,
-				CA6A0D80288B544F0048C1EF /* Document Review */,
-			);
-			path = Review;
-			sourceTree = "<group>";
-		};
 		CA1C7ABE288B3786004DAB3A /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
@@ -3793,15 +3566,6 @@
 				6146D0A21B84A91E0068491D /* ORKGraphChartAccessibilityElement.m */,
 			);
 			path = Accessibility;
-			sourceTree = "<group>";
-		};
-		CA1C7AC1288B3AF5004DAB3A /* Animations */ = {
-			isa = PBXGroup;
-			children = (
-				B1A860DA1A9693C400EA57B7 /* phone@2x */,
-				B1A860E21A9693C400EA57B7 /* phone@3x */,
-			);
-			path = Animations;
 			sourceTree = "<group>";
 		};
 		CA2B900828A17ABE0025B773 /* Active Step */ = {
@@ -3851,15 +3615,6 @@
 			name = ResearchKitActiveTask;
 			path = ResearchKit/Configuration/ResearchKitActiveTask;
 			sourceTree = SOURCE_ROOT;
-		};
-		CA6A0D80288B544F0048C1EF /* Document Review */ = {
-			isa = PBXGroup;
-			children = (
-				86C40BEC1A8D7C5C00081FAC /* ORKConsentReviewController.h */,
-				86C40BED1A8D7C5C00081FAC /* ORKConsentReviewController.m */,
-			);
-			path = "Document Review";
-			sourceTree = "<group>";
 		};
 		CAD08968289DD747007B2A98 /* ResearchKitActiveTask */ = {
 			isa = PBXGroup;
@@ -4030,7 +3785,6 @@
 				CAD08988289DDB80007B2A98 /* Active Step */,
 				CAD0898C289DDBDC007B2A98 /* Countdown Step */,
 				CAD0898D289DDBF5007B2A98 /* Recorders */,
-				CAD08995289DDCA5007B2A98 /* Results */,
 				FF154FB21E82EF5E004ED908 /* ORKOrderedTask+ORKPredefinedActiveTask.h */,
 				FF154FB31E82EF5E004ED908 /* ORKOrderedTask+ORKPredefinedActiveTask.m */,
 			);
@@ -4200,13 +3954,6 @@
 				86C40B251A8D7C5B00081FAC /* CMAccelerometerData+ORKJSONDictionary.m */,
 			);
 			path = Accelerometer;
-			sourceTree = "<group>";
-		};
-		CAD08995289DDCA5007B2A98 /* Results */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Results;
 			sourceTree = "<group>";
 		};
 		CAD08996289DDCF8007B2A98 /* Audio */ = {
@@ -4737,7 +4484,6 @@
 				CAA20DCF288B3DB400EDC764 /* ORKImageChoiceLabel.h in Headers */,
 				CAA20E55288B3E9200EDC764 /* ORKTaskViewController.h in Headers */,
 				CAA20D6E288B3D9100EDC764 /* ORKWeightPicker.h in Headers */,
-				CAA20F2F288B3F5B00EDC764 /* ORKEAGLMoviePlayerView.h in Headers */,
 				CAA20E2B288B3E8200EDC764 /* ORKInstructionStepContainerView.h in Headers */,
 				CA6A0D81288B54650048C1EF /* ORKConsentReviewController.h in Headers */,
 				CAA20F34288B3F6700EDC764 /* ORKVerificationStepViewController.h in Headers */,
@@ -5272,7 +5018,6 @@
 			files = (
 				51D9B8802B23C1AB00927FDF /* Surveys.md in Resources */,
 				51D9B87D2B23C1AB00927FDF /* Consent.md in Resources */,
-				51D9B87C2B23C1AB00927FDF /* Charts and Graphs.md in Resources */,
 				168EEAB6230B6F9E003FD2FA /* plist-to-strings.py in Resources */,
 				0BEE14B1286CE552005F26D1 /* Scrubbers in Resources */,
 				51D9B87B2B23C1AB00927FDF /* Active Tasks.md in Resources */,
@@ -5288,24 +5033,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CAA20F43288B3F7700EDC764 /* consent_06@3x.m4v in Resources */,
-				CAA20F45288B3F7700EDC764 /* consent_06@2x.m4v in Resources */,
-				CAA20F47288B3F7700EDC764 /* consent_03@2x.m4v in Resources */,
-				CAA20F4E288B3F7700EDC764 /* consent_03@3x.m4v in Resources */,
-				CAA20F4D288B3F7700EDC764 /* consent_04@2x.m4v in Resources */,
-				CAA20F49288B3F7700EDC764 /* consent_07@3x.m4v in Resources */,
-				CAA20F4A288B3F7700EDC764 /* consent_01@2x.m4v in Resources */,
-				CAA20F42288B3F7700EDC764 /* consent_05@3x.m4v in Resources */,
 				CAA20E8C288B3F1100EDC764 /* splMeter_sensitivity_offset.plist in Resources */,
-				CAA20F2B288B3F5B00EDC764 /* MovieTintShader.vsh in Resources */,
-				CAA20F44288B3F7700EDC764 /* consent_01@3x.m4v in Resources */,
-				CAA20F41288B3F7700EDC764 /* consent_02@3x.m4v in Resources */,
-				CAA20F46288B3F7700EDC764 /* consent_02@2x.m4v in Resources */,
-				CAA20F4C288B3F7700EDC764 /* consent_05@2x.m4v in Resources */,
-				CAA20F48288B3F7700EDC764 /* consent_04@3x.m4v in Resources */,
 				CAA20F1A288B3F4000EDC764 /* SentencesList.txt in Resources */,
-				CAA20F4B288B3F7700EDC764 /* consent_07@2x.m4v in Resources */,
-				CAA20F2D288B3F5B00EDC764 /* MovieTintShader.fsh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5687,7 +5416,6 @@
 				CAA20DA5288B3D9C00EDC764 /* ORKStepHeaderView.m in Sources */,
 				CAA20D75288B3D9100EDC764 /* ORKSESSelectionView.m in Sources */,
 				CAA20E03288B3E8100EDC764 /* ORKImageCaptureStepViewController.m in Sources */,
-				CAA20F32288B3F5B00EDC764 /* ORKEAGLMoviePlayerView.m in Sources */,
 				CAA20D77288B3D9100EDC764 /* ORKDateTimePicker.m in Sources */,
 				CAA20D74288B3D9100EDC764 /* ORKImageSelectionView.m in Sources */,
 				CAA20E4B288B3E8200EDC764 /* ORKSecondaryTaskStepViewController.m in Sources */,

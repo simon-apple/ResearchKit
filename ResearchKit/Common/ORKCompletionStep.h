@@ -33,7 +33,9 @@
 
 #if TARGET_OS_WATCH
 #import <ResearchKitCore/ORKInstructionStep.h>
-#else
+#endif
+
+#if TARGET_OS_IOS
 #import <ResearchKit/ORKInstructionStep.h>
 #import <ResearchKit/ORKTask.h>
 #endif

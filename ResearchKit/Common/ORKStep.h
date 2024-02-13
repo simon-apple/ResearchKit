@@ -30,7 +30,9 @@
 
 #if TARGET_OS_WATCH
 #import <ResearchKitCore/ORKTypes.h>
-#elif TARGET_OS_IOS
+#endif
+
+#if TARGET_OS_IOS
 #import <ResearchKit/ORKTypes.h>
 #endif
 
@@ -311,16 +313,15 @@ API_AVAILABLE(ios(11))
 @property (nonatomic) UIViewContentMode imageContentMode API_AVAILABLE(ios(11)) API_UNAVAILABLE(watchos);
 
 @end
+#endif
 
-#elif TARGET_OS_WATCH
-
+#if TARGET_OS_WATCH
 #pragma mark - watchOS
 
 API_AVAILABLE(watchos(6.0))
 @interface ORKStep ()
 
 @end
-
 #endif
 
 NS_ASSUME_NONNULL_END

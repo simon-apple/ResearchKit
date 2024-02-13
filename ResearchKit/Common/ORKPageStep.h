@@ -31,7 +31,9 @@
 #if TARGET_OS_WATCH
 #import <ResearchKitCore/ORKStep.h>
 #import <ResearchKitCore/ORKOrderedTask.h>
-#elif TARGET_OS_IOS
+#endif
+
+#if TARGET_OS_IOS
 #import <ResearchKit/ORKStep.h>
 #import <ResearchKit/ORKOrderedTask.h>
 #endif

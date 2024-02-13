@@ -65,10 +65,14 @@ class File(object):
 
         if should_skip:
             raise Exception(f"Encountered unpaired delimeter {start_delimeter} in file {self.name}")
-
-    def remove_internal_flags_and_content(self):
-
-        start_delimeter = "#if RK_APPLE_INTERNAL"
+    
+    def remove_apple_internal_flag(self):
+        self.remove_internal_flag_with("#if RK_APPLE_INTERNAL")
+        
+    def remove_watch_os_flag(self):
+        self.remove_internal_flag_with("#if TARGET_OS_WATCH")
+    
+    def remove_internal_flag_with(self, start_delimeter):
         mid_delimiter = "#else"
         end_delimeter = "#endif"
 
@@ -121,6 +125,14 @@ class FileHelper(object):
                         all_files.append(File(path))
 
         return all_files
+        
+    def read_files_from_path(self, project_path):
+        files = []
+        for file in os.listdir(project_path):
+            path = os.path.join(project_path, file)
+            files.append(File(path))
+        
+        return files
 
     def fetch_files_to_delete(self, files, files_to_delete):
         collected_files = []
@@ -184,7 +196,8 @@ class FileHelper(object):
             start_comment = "start-omit-internal-code"
             end_comment = "end-omit-internal-code"
             f.remove_internal_code(start_delimeter=start_comment, end_delimeter=end_comment)
-            f.remove_internal_flags_and_content()
+            f.remove_apple_internal_flag()
+            f.remove_watch_os_flag()
             f.remove_lines_containing("swiftlint")
             f.remove_lines_containing("// TODO:")
             f.remove_lines_containing("RDLS")
@@ -263,7 +276,7 @@ class RKScrubber():
         self.ui_project_path = "../ResearchKitUI"
         self.at_project_path = "../ResearchKitActiveTask"
         self.project_file_path = "../ResearchKit.xcodeproj/project.pbxproj"
-        self.folders_to_remove = ["PrivateHeaders", "Scrubbers", "ResearchKitCore", "ResearchKitCore-(watchOS)"]
+        self.folders_to_remove = ["PrivateHeaders", "Scrubbers", "ResearchKitCore", "ResearchKitCore-(watchOS)", "PredefinedTaskResources"]
         self.json_keys_to_remove = ["scrubberNames", "discreteUnits", "fitMatrix", "algorithmVersion"]
         self.json_files_to_remove = ["ORKAVJournalingStep.json", "ORKAVJournalingResult.json", "ORKAVJournalingPredefinedTask.json", "ORKTinnitusPredefinedTask.json", "ORKTinnitusUnit.json", "ORKTinnitusTypeStep.json", "ORKTinnitusTypeResult.json", "ORKTinnitusVolumeResult.json", "ORKTinnitusPureToneStep.json", "ORKTinnitusPureToneResult.json", "ORKTinnitusMaskingSoundStep.json", "ORKTinnitusMaskingSoundResult.json", "ORKTinnitusOverallAssessmentStep.json", "ORKTinnitusOverallAssessmentResult.json", "ORKBLEScanPeripheralsStep.json", "ORKBLEScanPeripheralsStepResult.json", "ORKSpeechInNoisePredefinedTask.json", "ORKHeadphoneDetectStep.json", "ORKHeadphoneDetectResult.json", "ORKHeadphonesRequiredCompletionStep.json", "ORKFaceDetectionStep.json", "ORKVolumeCalibrationStep.json", "ORKdBHLToneAudiometryCompletionStep.json", "ORKColorChoice.json", "ORKColorChoiceAnswerFormat.json", "ORKFamilyHistoryResult.json", "ORKFamilyHistoryStep.json", "ORKRelativeGroup.json", "ORKHealthCondition.json", "ORKRelatedPerson.json", "ORKConditionStepConfiguration.json", "AAPLdBHLToneAudiometryStep.json", "AAPLSpeechInNoiseStep.json","AAPLEnvironmentSPLMeterStep.json","AAPLSpeechRecognitionStep.json","AAPLCompletionStep.json","AAPLInstructionStep.json","AAPLdBHLToneAudiometryResult.json","AAPLQuestionStep.json","ORKTypingStep.json","ORKTypingResult.json","ORKAgeAnswerFormat.json"]
 
@@ -273,7 +286,7 @@ class RKScrubber():
 
         files_with_special_comment = self.file_helper.fetch_files_with_special_comment(files)
         json_files_to_delete = self.file_helper.fetch_files_to_delete(files, self.json_files_to_remove)
-        folders_to_delete = self.file_helper.fetch_folders_to_delete(self.project_path, self.folders_to_remove)
+        folders_to_delete = self.file_helper.fetch_folders_to_delete(self.project_path, self.folders_to_remove) + self.file_helper.fetch_folders_to_delete(self.tests_project_path, self.folders_to_remove)
         
         files_to_delete = self.file_helper.gather_files_from_internal_folders(folders_to_delete)
         
@@ -292,11 +305,18 @@ class RKWorkSpaceScrubber():
     def __init__(self):
         self.file_helper = FileHelper()
         self.project_path = "../"
-        self.folders_to_remove = ["ResearchKitInternal", "ResearchKitCore", "ci_scripts"]
+        self.folders_to_remove = ["ResearchKitInternal", "ResearchKitCore", "ci_scripts", "ResearchKitUIWatch"]
+        self.files_to_delete = ["Jenkinsfile", "JenkinsfileSDKs.groovy", "ide_swiftlint.sh", ".swiftlint.yml", ".travis.yml"]
         
     def scrub_project(self):
+        # remove internal folders
         folders_to_delete = self.file_helper.fetch_folders_to_delete(self.project_path, self.folders_to_remove)
         self.file_helper.delete_folders(folders_to_delete)
+        
+        # remove internal files
+        files_in_directory = self.file_helper.read_files_from_path(self.project_path)
+        files_to_delete = self.file_helper.fetch_files_to_delete(files_in_directory, self.files_to_delete)
+        self.file_helper.delete_files(files_to_delete)
 
 class RKCatalogScrubber():
     def __init__(self):
@@ -334,7 +354,6 @@ class RKIllegalTermsFinder():
             '''.format(term, self.project_path)
             output_stream = os.popen(grep_command)
             print(output_stream.read())
-
 
 if __name__ == "__main__":
     # === SCRUB RK PROJECT OF INTERNAL CODE AND REFERENCES ===

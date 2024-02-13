@@ -674,14 +674,14 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
 #if RK_APPLE_INTERNAL
                                           @"ORKTextAnswerFormat.scrubbers",
                                           @"ORKColorChoice.value",
+                                          @"ORKHealthCondition.value",
+                                          @"ORKColorChoice.value",
 #endif
                                           @"ORKTextChoice.detailTextAttributedString",
                                           @"ORKTextChoice.primaryTextAttributedString",
                                           @"ORKTextChoice.value",
-                                          @"ORKHealthCondition.value",
                                           @"ORKTextChoice.image",
                                           @"ORKTextChoiceOther.image",
-                                          @"ORKColorChoice.value",
                                           @"ORKTimeIntervalAnswerFormat.defaultInterval",
                                           @"ORKTimeIntervalAnswerFormat.maximumInterval",
                                           @"ORKTimeIntervalAnswerFormat.step",
