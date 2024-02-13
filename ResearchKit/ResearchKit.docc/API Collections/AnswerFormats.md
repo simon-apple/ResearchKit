@@ -9,9 +9,8 @@ Present a specific question and collect an answer.
 - ``ORKAnswerFormat``
 - ``ORKNumericPrecision``
 
-### Age, height, and weight
+### height, and weight
 
-- ``ORKAgeAnswerFormat``
 - ``ORKHeightAnswerFormat``
 - ``ORKWeightAnswerFormat``
 - ``ORKDoubleDefaultValue``

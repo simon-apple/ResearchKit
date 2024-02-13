@@ -15,9 +15,6 @@ Provide collection and presentation information to a step.
 - ``ORKRecorderConfiguration``
 - ``ORKStreamingAudioRecorderConfiguration``
 
-### Family history step configurations
-
-- ``ORKConditionStepConfiguration``
 
 ### Early termination configuration
 

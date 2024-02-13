@@ -687,6 +687,3 @@
 
 /* Restore error */
 "RESTORE_ERROR_CANNOT_DECODE" = "Decoderen van restoreData voor initialisatie niet mogelijk";
-
-/* Family History Step */
-"FAMILY_HISTORY_ADD" = "eud %@ tue";

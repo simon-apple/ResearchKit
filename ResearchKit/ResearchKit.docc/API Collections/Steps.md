@@ -66,16 +66,6 @@ Using ResearchKit, you can build apps that obtain consent, give instructions, pr
 - ``ORKCustomStep``
 - ``ORKCustomStepViewController``
 
-### Family history steps
-
-- ``ORKFamilyHistoryStep``
-- ``ORKFamilyHistoryStepViewController``
-- ``ORKFamilyHistoryReviewController``
-- ``ORKFamilyHistoryReviewControllerDelegate``
-- ``ORKHealthCondition``
-- ``ORKRelatedPerson``
-- ``ORKRelativeGroup``
-
 ### Form steps
 
 - ``ORKFormStep``

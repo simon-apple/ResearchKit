@@ -82,7 +82,6 @@ Obtain information from a step.
 - ``ORKBooleanQuestionResult``
 - ``ORKChoiceQuestionResult``
 - ``ORKDateQuestionResult``
-- ``ORKFamilyHistoryResult``
 - ``ORKLocationQuestionResult``
 - ``ORKNumericQuestionResult``
 - ``ORKMultipleComponentQuestionResult``
