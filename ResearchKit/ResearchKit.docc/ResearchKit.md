@@ -31,7 +31,8 @@ capabilities of frameworks such as HealthKit and CoreMotion.
 
 ### Essentials
 
-- <doc:StepsTasksResults>
+- <doc:Setting-up-Your-Project-to-Use-ResearchKit>
+- <doc:Steps-Tasks-Results>
 - <doc:Configurations>
 
 ### Research components
