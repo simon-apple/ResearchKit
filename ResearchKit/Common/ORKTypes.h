@@ -413,7 +413,10 @@ ORK_EXTERN ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierEarPods;
 /// Other vendors or even apple ones but not mapped.
 ORK_EXTERN ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierUnknown;
 
-
+/**
+ A base class object that you subclass to represent
+ results that aren't actual answers.
+ */
 ORK_CLASS_AVAILABLE
 @interface ORKNoAnswer : NSObject<NSCopying, NSSecureCoding>
 
@@ -422,6 +425,10 @@ ORK_CLASS_AVAILABLE
 
 @end
 
+/**
+ An Answer object attached to results when a
+ person selects the Don't Know Button for an answer.
+ */
 ORK_CLASS_AVAILABLE
 @interface ORKDontKnowAnswer : ORKNoAnswer
 

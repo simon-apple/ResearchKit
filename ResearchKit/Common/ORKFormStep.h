@@ -41,6 +41,11 @@
 #import <ResearchKit/ORKDefines.h>
 #endif
 
+/**
+ Values that determine the style
+ of form cells.
+ */
+
 typedef NS_ENUM(NSInteger, ORKCardViewStyle) {
     ORKCardViewStyleDefault,
     ORKCardViewStyleBordered

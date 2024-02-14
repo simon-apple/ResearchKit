@@ -33,6 +33,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ A step that captures video through the device's
+ front facing camera.
+ */
+
 ORK_CLASS_AVAILABLE
 @interface ORKFrontFacingCameraStep : ORKActiveStep
 
