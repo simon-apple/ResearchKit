@@ -34,6 +34,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ A visibility rule you add to form items to
+ conditionally present a question.
+ */
+
 ORK_CLASS_AVAILABLE
 @interface ORKPredicateFormItemVisibilityRule : ORKFormItemVisibilityRule
 

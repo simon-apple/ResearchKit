@@ -42,6 +42,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class ORKStep;
 
+/**
+ A configuration that navigates to a
+ specific step to end the task early.
+ */
 ORK_CLASS_AVAILABLE
 @interface ORKEarlyTerminationConfiguration : NSObject <NSSecureCoding, NSCopying>
 
