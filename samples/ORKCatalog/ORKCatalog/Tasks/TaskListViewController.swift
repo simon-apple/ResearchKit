@@ -149,11 +149,7 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
         
         #endif
         
-        
-        
-        
         displayTaskViewController(taskListRow: taskListRow)
-
     }
     
     func displayTaskViewController(taskListRow: TaskListRow) {

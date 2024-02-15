@@ -8,14 +8,10 @@ Present a specific question and collect an answer.
 
 - ``ORKActiveStep``
 - ``ORKActiveStepViewController``
-- ``ORKOrderedTask-c.class``
 
 ### Audio
 
 - ``ORKInvalidDBHLValue``
-- ``ORKNewAudiometry``
-- ``ORKNewAudiometryMinimizer``
-- ``ORKSpeechInNoisePredefinedTaskContext``
 - ``ORKAudiometryTimestampProvider``
 - ``ORKAudioChannel``
 - ``ORKSpeechRecognizerLocale``

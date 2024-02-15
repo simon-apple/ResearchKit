@@ -38,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  The `ORKReactionTimeResult` class represents the result of a single successful attempt within an ORKReactionTimeStep.
- /Users/louischatta/Workspace/ResearchKitRepo/ResearchKit/ResearchKit/ActiveTasks/ORKNormalizedReactionTimeResult.h
+ 
  The `timestamp` property is equal to the value of systemUptime (in NSProcessInfo) when the stimulus occurred.
  Each entry of motion data in this file contains a time interval which may be directly compared to timestamp in order to determine the elapsed time since the stimulus.
  

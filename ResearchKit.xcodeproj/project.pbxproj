@@ -153,11 +153,6 @@
 		51CB80D62AFEBE7E00A1F410 /* ORKFormStepViewControllerConditionalFormItemsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51CB80D52AFEBE7E00A1F410 /* ORKFormStepViewControllerConditionalFormItemsTests.swift */; };
 		51CB80D82AFEBEC600A1F410 /* ORKPredicateFormItemVisibilityRuleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51CB80D72AFEBEC600A1F410 /* ORKPredicateFormItemVisibilityRuleTests.swift */; };
 		51CB80DA2AFEBF3800A1F410 /* ORKFormItemVisibilityRuleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51CB80D92AFEBF3800A1F410 /* ORKFormItemVisibilityRuleTests.swift */; };
-		51D9B87B2B23C1AB00927FDF /* Active Tasks.md in Resources */ = {isa = PBXBuildFile; fileRef = 51D9B8752B23C1AB00927FDF /* Active Tasks.md */; };
-		51D9B87D2B23C1AB00927FDF /* Consent.md in Resources */ = {isa = PBXBuildFile; fileRef = 51D9B8772B23C1AB00927FDF /* Consent.md */; };
-		51D9B87E2B23C1AB00927FDF /* Accounts.md in Resources */ = {isa = PBXBuildFile; fileRef = 51D9B8782B23C1AB00927FDF /* Accounts.md */; };
-		51D9B87F2B23C1AB00927FDF /* Passcode.md in Resources */ = {isa = PBXBuildFile; fileRef = 51D9B8792B23C1AB00927FDF /* Passcode.md */; };
-		51D9B8802B23C1AB00927FDF /* Surveys.md in Resources */ = {isa = PBXBuildFile; fileRef = 51D9B87A2B23C1AB00927FDF /* Surveys.md */; };
 		51E03D6324919711008F8406 /* ORKPermissionType.h in Headers */ = {isa = PBXBuildFile; fileRef = 51E03D6124919711008F8406 /* ORKPermissionType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		51E03D6424919711008F8406 /* ORKPermissionType.m in Sources */ = {isa = PBXBuildFile; fileRef = 51E03D6224919711008F8406 /* ORKPermissionType.m */; };
 		51E03D682491A601008F8406 /* ORKHealthKitPermissionType.h in Headers */ = {isa = PBXBuildFile; fileRef = 51E03D662491A601008F8406 /* ORKHealthKitPermissionType.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1272,11 +1267,6 @@
 		51CB80DB2AFEBF7A00A1F410 /* ORKFormStepViewController+TestingSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ORKFormStepViewController+TestingSupport.h"; sourceTree = "<group>"; };
 		51D823032472FB9B00BF4F72 /* ORKRequestPermissionsStepContainerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKRequestPermissionsStepContainerView.h; sourceTree = "<group>"; };
 		51D823042472FB9B00BF4F72 /* ORKRequestPermissionsStepContainerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKRequestPermissionsStepContainerView.m; sourceTree = "<group>"; };
-		51D9B8752B23C1AB00927FDF /* Active Tasks.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = "Active Tasks.md"; sourceTree = "<group>"; };
-		51D9B8772B23C1AB00927FDF /* Consent.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = Consent.md; sourceTree = "<group>"; };
-		51D9B8782B23C1AB00927FDF /* Accounts.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = Accounts.md; sourceTree = "<group>"; };
-		51D9B8792B23C1AB00927FDF /* Passcode.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = Passcode.md; sourceTree = "<group>"; };
-		51D9B87A2B23C1AB00927FDF /* Surveys.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = Surveys.md; sourceTree = "<group>"; };
 		51E03D6124919711008F8406 /* ORKPermissionType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKPermissionType.h; sourceTree = "<group>"; };
 		51E03D6224919711008F8406 /* ORKPermissionType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKPermissionType.m; sourceTree = "<group>"; };
 		51E03D662491A601008F8406 /* ORKHealthKitPermissionType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKHealthKitPermissionType.h; sourceTree = "<group>"; };
@@ -2505,18 +2495,6 @@
 			path = ResearchKitCore;
 			sourceTree = "<group>";
 		};
-		68A622252ACE1C6C001F11D8 /* Articles */ = {
-			isa = PBXGroup;
-			children = (
-				51D9B8782B23C1AB00927FDF /* Accounts.md */,
-				51D9B8752B23C1AB00927FDF /* Active Tasks.md */,
-				51D9B8772B23C1AB00927FDF /* Consent.md */,
-				51D9B8792B23C1AB00927FDF /* Passcode.md */,
-				51D9B87A2B23C1AB00927FDF /* Surveys.md */,
-			);
-			path = Articles;
-			sourceTree = "<group>";
-		};
 		8419D66B1FB73C800088D7E5 /* WebView Step */ = {
 			isa = PBXGroup;
 			children = (
@@ -2553,7 +2531,6 @@
 			children = (
 				51AEAAA02B74296800F4D107 /* Stale */,
 				512741262B1557220045A449 /* ResearchKit.docc */,
-				68A622252ACE1C6C001F11D8 /* Articles */,
 				0BCC4BA4286A654C001E316F /* Resources */,
 				5D000EC02620F27100E5442A /* Configuration */,
 				5DABE5AD24DA16E600570C57 /* ResearchKit_Prefix.pch */,
@@ -5016,16 +4993,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				51D9B8802B23C1AB00927FDF /* Surveys.md in Resources */,
-				51D9B87D2B23C1AB00927FDF /* Consent.md in Resources */,
 				168EEAB6230B6F9E003FD2FA /* plist-to-strings.py in Resources */,
 				0BEE14B1286CE552005F26D1 /* Scrubbers in Resources */,
-				51D9B87B2B23C1AB00927FDF /* Active Tasks.md in Resources */,
 				B1C0F4E41A9BA65F0022C153 /* ResearchKit.strings in Resources */,
 				5192BFA12AEAD7B5006E43FB /* Artwork.xcassets in Resources */,
-				51D9B87E2B23C1AB00927FDF /* Accounts.md in Resources */,
 				714080DB235FD14700281E04 /* ResearchKit.stringsdict in Resources */,
-				51D9B87F2B23C1AB00927FDF /* Passcode.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

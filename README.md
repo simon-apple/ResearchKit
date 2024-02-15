@@ -16,7 +16,7 @@ for medical research or for other research projects.
 Getting More Information
 ========================
 
-* Join the [*ResearchKit* Forum](https://forums.developer.apple.com/community/researchkit) for discussing uses of the *ResearchKit framework and* related projects.
+* Join the [*ResearchKit* Forum](https://developer.apple.com/forums/tags/researchkit) for discussing uses of the *ResearchKit framework and* related projects.
 
 Use Cases
 ===========
@@ -32,15 +32,6 @@ The *ResearchKit framework* provides a pre-built user interface for surveys, whi
 modally on an *iPhone*, *iPod Touch*, or *iPad*. See
  *[Creating Surveys](docs/Survey/)* for more
  information.
-
-
-Consent
-----------------
-
-The *ResearchKit framework* provides visual consent templates that you can customize to explain the
-details of your research study and obtain a signature if needed.
-See *[Obtaining Consent](docs/InformedConsent/)* for
-more information.
 
 
 Active Tasks
@@ -209,7 +200,7 @@ This has just one required method, which you must implement in order to handle t
 
 ```objc
 - (void)taskViewController:(ORKTaskViewController *)taskViewController
-       didFinishWithReason:(ORKTaskViewControllerFinishReason)reason
+       didFinishWith:(ORKTaskFinishReason)reason
                      error:(NSError *)error {
 
     ORKTaskResult *taskResult = [taskViewController result];
@@ -224,7 +215,7 @@ This has just one required method, which you must implement in order to handle t
 
 ```swift
 func taskViewController(_ taskViewController: ORKTaskViewController, 
-                didFinishWith reason: ORKTaskViewControllerFinishReason, 
+                didFinishWith reason: ORKTaskFinishReason, 
                                     error: Error?) {
     let taskResult = taskViewController.result
     // You could do something with the result here.

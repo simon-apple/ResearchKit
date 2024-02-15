@@ -8,8 +8,6 @@ Construct surveys that ask a wide range of questions.
 
 - ``ORKFormStep``
 - ``ORKFormItem``
-- ``ORKInstructionStep-c.class``
-- ``ORKCompletionStep-c.class``
 
 ### Answer formats
 

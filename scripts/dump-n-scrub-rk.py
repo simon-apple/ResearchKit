@@ -205,6 +205,7 @@ class FileHelper(object):
             f.remove_lines_containing("[LC:NOTE]")
             f.remove_lines_containing("LC:")
             f.remove_lines_containing("// FIXME:")
+            f.remove_lines_containing("FIXME:")
             f.remove_lines_containing("rdar://")
         print(f"=== Finished removing enclosed internal code and references from files ===")
 

@@ -29,11 +29,6 @@ Obtain information from a step.
 
 - ``ORKdBHLToneAudiometryResult``
 - ``ORKEnvironmentSPLMeterResult``
-- ``ORKHeadphoneDetectResult``
-- ``ORKTinnitusMaskingSoundResult``
-- ``ORKTinnitusOverallAssessmentResult``
-- ``ORKTinnitusTypeResult``
-- ``ORKTinnitusVolumeResult``
 - ``ORKToneAudiometryResult``
 - ``ORKSpeechInNoiseResult``
 - ``ORKSpeechRecognitionResult``
@@ -54,7 +49,6 @@ Obtain information from a step.
 - ``ORKTimedWalkResult``
 - ``ORKTowerOfHanoiResult``
 - ``ORKTrailmakingResult``
-- ``ORKTypingResult``
 - ``ORKHolePegTestResult``
 - ``ORKTappingIntervalResult``
 - ``ORKHolePegTestResult``
