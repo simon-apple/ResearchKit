@@ -548,6 +548,17 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
                                                  [ORKMotionActivityCollector class],
                                                  [ORKShoulderRangeOfMotionStep class],
                                                  [ORKCustomStep class],
+                                                 [ORKTouchAbilityPinchStep class],
+                                                 [ORKTouchAbilitySwipeStep class],
+                                                 [ORKTouchAbilityTapResult class],
+                                                 [ORKTouchAbilityRotationStep class],
+                                                 [ORKTouchAbilityLongPressStep class],
+                                                 [ORKTouchAbilityScrollStep class],
+                                                 [ORKTouchAbilityPinchResult class],
+                                                 [ORKTouchAbilityRotationResult class],
+                                                 [ORKTouchAbilityLongPressResult class],
+                                                 [ORKTouchAbilitySwipeResult class],
+                                                 [ORKTouchAbilityScrollResult class]
                                                  ];
         
         _propertyExclusionList = @[
@@ -738,7 +749,36 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
         @"ORKUSDZModelManagerScene",
         @"ORKBlurFooterView",
         @"ORKFrontFacingCameraStepOptionsView",
-        @"ORKNoAnswer"
+        @"ORKNoAnswer",
+        @"ORKTouchAbilityTouch",
+        @"ORKTouchAbilityTouch",
+        @"ORKTouchAbilityTrack",
+        @"ORKTouchAbilityTrial",
+        @"ORKTouchAbilityTapStep",
+        @"ORKTouchAbilityTapTrial",
+        @"ORKTouchAbilityPinchStep",
+        @"ORKTouchAbilitySwipeStep",
+        @"ORKTouchAbilityTapResult",
+        @"ORKTouchAbilityPinchTrial",
+        @"ORKTouchAbilityLongPressTrial",
+        @"ORKTouchAbilityScrollTrial",
+        @"ORKTouchAbilityRotationTrial",
+        @"ORKTouchAbilitySwipeTrial",
+        @"ORKTouchAbilityGestureRecoginzerEvent",
+        @"ORKTouchAbilityRotationGestureRecoginzerEvent",
+        @"ORKTouchAbilityPinchGestureRecoginzerEvent",
+        @"ORKTouchAbilitySwipeGestureRecoginzerEvent",
+        @"ORKTouchAbilityPanGestureRecoginzerEvent",
+        @"ORKTouchAbilityLongPressGestureRecoginzerEvent",
+        @"ORKTouchAbilityTapGestureRecoginzerEvent",
+        @"ORKTouchAbilityRotationStep",
+        @"ORKTouchAbilityLongPressStep",
+        @"ORKTouchAbilityScrollStep",
+        @"ORKTouchAbilityPinchResult",
+        @"ORKTouchAbilityRotationResult",
+        @"ORKTouchAbilityLongPressResult",
+        @"ORKTouchAbilitySwipeResult",
+        @"ORKTouchAbilityScrollResult"
     ];
     
     #if RK_APPLE_INTERNAL

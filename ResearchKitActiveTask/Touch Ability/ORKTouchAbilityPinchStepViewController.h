@@ -1,6 +1,5 @@
 /*
- Copyright (c) 2015, Apple Inc. All rights reserved.
- Copyright (c) 2017, Sage Bionetworks
+ Copyright (c) 2018, Muh-Tarng Lin. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -30,27 +29,14 @@
  */
 
 
-#import <ResearchKitActiveTask/ORKAccuracyStroopResult.h>
-#import <ResearchKitActiveTask/ORKAmslerGridResult.h>
-#import <ResearchKitActiveTask/ORKdBHLToneAudiometryResult.h>
-#import <ResearchKit/ORKFileResult.h>
-#import <ResearchKitActiveTask/ORKHolePegTestResult.h>
-#import <ResearchKitActiveTask/ORKNormalizedReactionTimeResult.h>
-#import <ResearchKitActiveTask/ORKPSATResult.h>
-#import <ResearchKitActiveTask/ORKRangeOfMotionResult.h>
-#import <ResearchKitActiveTask/ORKReactionTimeResult.h>
-#import <ResearchKitActiveTask/ORKSpatialSpanMemoryResult.h>
-#import <ResearchKitActiveTask/ORKSpeechInNoiseResult.h>
-#import <ResearchKitActiveTask/ORKSpeechRecognitionResult.h>
-#import <ResearchKitActiveTask/ORKStroopResult.h>
-#import <ResearchKitActiveTask/ORKTappingIntervalResult.h>
-#import <ResearchKitActiveTask/ORKTimedWalkResult.h>
-#import <ResearchKitActiveTask/ORKToneAudiometryResult.h>
-#import <ResearchKitActiveTask/ORKTouchAbilityLongPressResult.h>
-#import <ResearchKitActiveTask/ORKTouchAbilityPinchResult.h>
-#import <ResearchKitActiveTask/ORKTouchAbilityRotationResult.h>
-#import <ResearchKitActiveTask/ORKTouchAbilityScrollResult.h>
-#import <ResearchKitActiveTask/ORKTouchAbilitySwipeResult.h>
-#import <ResearchKitActiveTask/ORKTouchAbilityTapResult.h>
-#import <ResearchKitActiveTask/ORKTowerOfHanoiResult.h>
-#import <ResearchKitActiveTask/ORKTrailmakingResult.h>
+@import UIKit;
+#import <ResearchKit/ORKDefines.h>
+#import <ResearchKitActiveTask/ORKActiveStepViewController.h>
+
+NS_ASSUME_NONNULL_BEGIN
+
+@interface ORKTouchAbilityPinchStepViewController : ORKActiveStepViewController
+
+@end
+
+NS_ASSUME_NONNULL_END

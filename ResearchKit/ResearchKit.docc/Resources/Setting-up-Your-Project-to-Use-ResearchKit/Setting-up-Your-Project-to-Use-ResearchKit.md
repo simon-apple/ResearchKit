@@ -40,10 +40,10 @@ import ResearchKit
 import ResearchKitUI
 ```
 
-If you also want to use ResearchKit Active Tasks, import ResearchKitActiveTasks
+If you also want to use ResearchKit Active Tasks, import ResearchKitActiveTask
 
 ```swift
 import ResearchKit
 import ResearchKitUI
-import ResearchKitActiveTasks
+import ResearchKitActiveTask
 ```

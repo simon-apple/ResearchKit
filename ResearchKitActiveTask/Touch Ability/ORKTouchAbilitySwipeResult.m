@@ -1,6 +1,5 @@
 /*
- Copyright (c) 2015, Apple Inc. All rights reserved.
- Copyright (c) 2017, Sage Bionetworks
+ Copyright (c) 2018, Muh-Tarng Lin. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -29,28 +28,46 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import "ORKTouchAbilitySwipeResult.h"
+#import "ORKHelpers_Internal.h"
 
-#import <ResearchKitActiveTask/ORKAccuracyStroopResult.h>
-#import <ResearchKitActiveTask/ORKAmslerGridResult.h>
-#import <ResearchKitActiveTask/ORKdBHLToneAudiometryResult.h>
-#import <ResearchKit/ORKFileResult.h>
-#import <ResearchKitActiveTask/ORKHolePegTestResult.h>
-#import <ResearchKitActiveTask/ORKNormalizedReactionTimeResult.h>
-#import <ResearchKitActiveTask/ORKPSATResult.h>
-#import <ResearchKitActiveTask/ORKRangeOfMotionResult.h>
-#import <ResearchKitActiveTask/ORKReactionTimeResult.h>
-#import <ResearchKitActiveTask/ORKSpatialSpanMemoryResult.h>
-#import <ResearchKitActiveTask/ORKSpeechInNoiseResult.h>
-#import <ResearchKitActiveTask/ORKSpeechRecognitionResult.h>
-#import <ResearchKitActiveTask/ORKStroopResult.h>
-#import <ResearchKitActiveTask/ORKTappingIntervalResult.h>
-#import <ResearchKitActiveTask/ORKTimedWalkResult.h>
-#import <ResearchKitActiveTask/ORKToneAudiometryResult.h>
-#import <ResearchKitActiveTask/ORKTouchAbilityLongPressResult.h>
-#import <ResearchKitActiveTask/ORKTouchAbilityPinchResult.h>
-#import <ResearchKitActiveTask/ORKTouchAbilityRotationResult.h>
-#import <ResearchKitActiveTask/ORKTouchAbilityScrollResult.h>
-#import <ResearchKitActiveTask/ORKTouchAbilitySwipeResult.h>
-#import <ResearchKitActiveTask/ORKTouchAbilityTapResult.h>
-#import <ResearchKitActiveTask/ORKTowerOfHanoiResult.h>
-#import <ResearchKitActiveTask/ORKTrailmakingResult.h>
+@implementation ORKTouchAbilitySwipeResult
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [super encodeWithCoder:aCoder];
+    ORK_ENCODE_OBJ(aCoder, trials);
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    if (self = [super initWithCoder:aDecoder]) {
+        ORK_ENCODE_OBJ(aDecoder, trials);
+    }
+    return self;
+}
+
+- (BOOL)isEqual:(id)object {
+    
+    BOOL isParentSame = [super isEqual:object];
+    
+    __typeof(self) castObject = object;
+    return isParentSame && ORKEqualObjects(self.trials, castObject.trials);
+}
+
+- (NSUInteger)hash {
+    return super.hash ^ self.trials.hash;
+}
+
+- (id)copyWithZone:(NSZone *)zone {
+    ORKTouchAbilitySwipeResult *result = [super copyWithZone:zone];
+    result.trials = [self.trials mutableCopy];
+    return result;
+}
+
+- (NSArray<ORKTouchAbilitySwipeTrial *> *)trials {
+    if (!_trials) {
+        _trials = [NSArray new];
+    }
+    return _trials;
+}
+
+@end

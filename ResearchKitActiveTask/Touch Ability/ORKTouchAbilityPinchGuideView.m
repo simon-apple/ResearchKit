@@ -1,6 +1,5 @@
 /*
- Copyright (c) 2015, Apple Inc. All rights reserved.
- Copyright (c) 2017, Sage Bionetworks
+ Copyright (c) 2018, Muh-Tarng Lin. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -29,28 +28,57 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import "ORKTouchAbilityPinchGuideView.h"
 
-#import <ResearchKitActiveTask/ORKAccuracyStroopResult.h>
-#import <ResearchKitActiveTask/ORKAmslerGridResult.h>
-#import <ResearchKitActiveTask/ORKdBHLToneAudiometryResult.h>
-#import <ResearchKit/ORKFileResult.h>
-#import <ResearchKitActiveTask/ORKHolePegTestResult.h>
-#import <ResearchKitActiveTask/ORKNormalizedReactionTimeResult.h>
-#import <ResearchKitActiveTask/ORKPSATResult.h>
-#import <ResearchKitActiveTask/ORKRangeOfMotionResult.h>
-#import <ResearchKitActiveTask/ORKReactionTimeResult.h>
-#import <ResearchKitActiveTask/ORKSpatialSpanMemoryResult.h>
-#import <ResearchKitActiveTask/ORKSpeechInNoiseResult.h>
-#import <ResearchKitActiveTask/ORKSpeechRecognitionResult.h>
-#import <ResearchKitActiveTask/ORKStroopResult.h>
-#import <ResearchKitActiveTask/ORKTappingIntervalResult.h>
-#import <ResearchKitActiveTask/ORKTimedWalkResult.h>
-#import <ResearchKitActiveTask/ORKToneAudiometryResult.h>
-#import <ResearchKitActiveTask/ORKTouchAbilityLongPressResult.h>
-#import <ResearchKitActiveTask/ORKTouchAbilityPinchResult.h>
-#import <ResearchKitActiveTask/ORKTouchAbilityRotationResult.h>
-#import <ResearchKitActiveTask/ORKTouchAbilityScrollResult.h>
-#import <ResearchKitActiveTask/ORKTouchAbilitySwipeResult.h>
-#import <ResearchKitActiveTask/ORKTouchAbilityTapResult.h>
-#import <ResearchKitActiveTask/ORKTowerOfHanoiResult.h>
-#import <ResearchKitActiveTask/ORKTrailmakingResult.h>
+@implementation ORKTouchAbilityPinchGuideView
+
+- (instancetype)initWithFrame:(CGRect)frame {
+    if (self = [super initWithFrame:frame]) {
+        self.backgroundColor = [UIColor clearColor];
+    }
+    return self;
+}
+
+- (void)setFrame:(CGRect)frame {
+    [super setFrame:frame];
+    [self setNeedsDisplay];
+}
+
+- (void)setBounds:(CGRect)bounds {
+    [super setBounds:bounds];
+    [self setNeedsDisplay];
+}
+
+- (void)drawRect:(CGRect)rect {
+    [super drawRect:rect];
+    
+    UIBezierPath *path = [UIBezierPath bezierPathWithRect:rect];
+    
+    [self.backgroundColor setFill];
+    [path fill];
+    
+    CGFloat dashes[2] = {4.0, 4.0};
+    [path setLineDash:dashes count:2 phase:0];
+    [path setLineCapStyle:kCGLineCapButt];
+    [path setLineWidth:4.0];
+    
+    [UIColor.blackColor setStroke];
+    [path stroke];
+    
+    
+    
+    /*
+    let path = UIBezierPath(roundedRect: rect, cornerRadius: 0)
+    path.lineWidth = lineWidth
+    
+    let dashes: [CGFloat] = [lineWidth, lineWidth]
+    path.setLineDash(dashes, count: dashes.count, phase: 0)
+    path.lineCapStyle = CGLineCap.butt
+    
+    lineColor.setStroke()
+    
+    path.stroke()
+    */
+}
+
+@end

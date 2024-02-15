@@ -30,15 +30,21 @@
 
 #import <ResearchKitActiveTask/ORKAccelerometerRecorder.h>
 #import <ResearchKitActiveTask/ORKActiveStepTimer.h>
+#import <ResearchKitActiveTask/ORKActiveStepView.h>
 #import <ResearchKitActiveTask/ORKActiveStepViewController_Internal.h>
 #import <ResearchKitActiveTask/ORKAmslerGridStep.h>
 #import <ResearchKitActiveTask/ORKAudioFitnessStep.h>
 #import <ResearchKitActiveTask/ORKAudioLevelNavigationRule.h>
+#import <ResearchKitActiveTask/ORKAudioMeteringView.h>
 #import <ResearchKitActiveTask/ORKAudiometry.h>
 #import <ResearchKitActiveTask/ORKAudioRecorder.h>
 #import <ResearchKitActiveTask/ORKAudioStep.h>
 #import <ResearchKitActiveTask/ORKCountdownStep.h>
+#import <ResearchKitActiveTask/ORKdBHLToneAudiometryAudioGenerator.h>
+#import <ResearchKitActiveTask/ORKdBHLToneAudiometryOnboardingStep.h>
+#import <ResearchKitActiveTask/ORKdBHLToneAudiometryStep.h>
 #import <ResearchKitActiveTask/ORKDeviceMotionRecorder.h>
+#import <ResearchKitActiveTask/ORKEnvironmentSPLMeterStepViewController_Private.h>
 #import <ResearchKitActiveTask/ORKFitnessStep.h>
 #import <ResearchKitActiveTask/ORKHealthClinicalTypeRecorder.h>
 #import <ResearchKitActiveTask/ORKHealthQuantityTypeRecorder.h>
@@ -54,26 +60,23 @@
 #import <ResearchKitActiveTask/ORKSpatialSpanMemoryStep.h>
 #import <ResearchKitActiveTask/ORKSpeechInNoiseContentView.h>
 #import <ResearchKitActiveTask/ORKSpeechInNoiseStep.h>
+#import <ResearchKitActiveTask/ORKSpeechInNoiseStepViewController_Private.h>
 #import <ResearchKitActiveTask/ORKSpeechRecognitionContentView.h>
 #import <ResearchKitActiveTask/ORKSpeechRecognitionStep.h>
+#import <ResearchKitActiveTask/ORKSpeechRecognitionStepViewController_Private.h>
 #import <ResearchKitActiveTask/ORKStreamingAudioRecorder.h>
 #import <ResearchKitActiveTask/ORKStroopStep.h>
 #import <ResearchKitActiveTask/ORKTappingIntervalStep.h>
 #import <ResearchKitActiveTask/ORKTimedWalkStep.h>
 #import <ResearchKitActiveTask/ORKToneAudiometryStep.h>
+#import <ResearchKitActiveTask/ORKTouchAbilityLongPressStep.h>
+#import <ResearchKitActiveTask/ORKTouchAbilityPinchStep.h>
+#import <ResearchKitActiveTask/ORKTouchAbilityRotationStep.h>
+#import <ResearchKitActiveTask/ORKTouchAbilityScrollStep.h>
+#import <ResearchKitActiveTask/ORKTouchAbilitySwipeStep.h>
+#import <ResearchKitActiveTask/ORKTouchAbilityTapStep.h>
 #import <ResearchKitActiveTask/ORKTouchRecorder.h>
 #import <ResearchKitActiveTask/ORKTowerOfHanoiStep.h>
 #import <ResearchKitActiveTask/ORKTrailmakingStep.h>
 #import <ResearchKitActiveTask/ORKVoiceEngine.h>
 #import <ResearchKitActiveTask/ORKWalkingTaskStep.h>
-#import <ResearchKitActiveTask/ORKdBHLToneAudiometryOnboardingStep.h>
-#import <ResearchKitActiveTask/ORKdBHLToneAudiometryStep.h>
-#import <ResearchKitActiveTask/ORKSpeechInNoiseStepViewController_Private.h>
-#import <ResearchKitActiveTask/ORKSpeechRecognitionStepViewController_Private.h>
-#import <ResearchKitActiveTask/ORKEnvironmentSPLMeterStepViewController_Private.h>
-
-// [WIP]: exposed for the internal framework
-// may need to be permanent, but we shall see
-#import <ResearchKitActiveTask/ORKActiveStepView.h>
-#import <ResearchKitActiveTask/ORKAudioMeteringView.h>
-#import <ResearchKitActiveTask/ORKdBHLToneAudiometryAudioGenerator.h>
