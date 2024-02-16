@@ -79,7 +79,6 @@ final class RequestPermissionsStep: Step {
         case .labelConnected:
             reviewPermissionButtonLabel = reviewPermissionButton.staticTexts.matching(identifier: AccessibilityIdentifiers.RequestPermissionsStep.permissionButtonLabelConnected).firstMatch
         }
-        print(label.rawValue)
         wait(for: reviewPermissionButtonLabel, withTimeout: 30, failureMessage: "Permission button label \(label.rawValue)")
         return self
     }

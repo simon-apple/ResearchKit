@@ -23,6 +23,10 @@ final class InstructionStep: Step {
         return self
     }
     
+    func isStepViewExists(timeout: TimeInterval) -> Bool {
+        return Self.stepView.waitForExistence(timeout: timeout)
+    }
+    
     func verifyImage(exists: Bool = true) -> Self {
         let imageElement = Self.stepView.images.firstMatch
         wait(for: imageElement, toExists: exists)

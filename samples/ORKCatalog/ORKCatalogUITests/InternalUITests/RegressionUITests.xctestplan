@@ -20,6 +20,13 @@
     {
       "skippedTests" : [
         "Helpers",
+        "OpenAndCancelActiveTaskOther",
+        "OpenAndCancelAudioTasks",
+        "OpenAndCancelBaseUITest",
+        "OpenAndCancelFitnessTasks",
+        "OpenAndCancelMiscellaneousTasks",
+        "OpenAndCancelSurveyQuestion",
+        "OpenAndCancelSurveys",
         "PreSubmissionTests"
       ],
       "target" : {

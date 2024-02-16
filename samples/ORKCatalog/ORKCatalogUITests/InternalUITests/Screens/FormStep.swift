@@ -7,6 +7,7 @@
 
 import Foundation
 import XCTest
+import OSLog
 
 /// This class corresponds to a single screen that displays questions or form items:`ORKFormStep`
 /// https://github.com/ResearchKit/ResearchKit/blob/main/docs/Survey/CreatingSurveys-template.markdown#form-step
@@ -616,7 +617,6 @@ final class FormStep: Step {
         if !isUSTimeZone {
             // Add leading zeroes for continental Time Zone
             formattedHours = String(format: "%02d", Int(hour) ?? 0)
-            print(formattedHours)
         }
         picker.pickerWheels.element(boundBy: 0).adjust(toPickerWheelValue: day)
         picker.pickerWheels.element(boundBy: 1).adjust(toPickerWheelValue: formattedHours)
@@ -1000,7 +1000,10 @@ final class FormStep: Step {
         let slider = cell.sliders.firstMatch
         wait(for: slider)
         let normalizedValue = normalizeSliderValue(sliderValue: sliderValue, stepValue: stepValue, minValue: minValue, maxValue :maxValue)
-        print(normalizedValue)
+        if #available(iOS 14.0, *) {
+            let logger = Logger(subsystem: "ORKCatalogUITests", category: "ORKCatalogUIAutomation")
+            logger.debug("Normalized value: \(normalizedValue)")
+        }
         
         slider.adjust(toNormalizedSliderPosition: normalizedValue)
         let actualSliderValue = slider.value as? String ?? ""
@@ -1017,7 +1020,10 @@ final class FormStep: Step {
         let slider = cell.sliders.firstMatch
         wait(for: slider)
         let normalizedValue = normalizeSliderValue(sliderValue: sliderValue, stepValue: stepValue, minValue: minValue, maxValue :maxValue)
-        print(normalizedValue)
+        if #available(iOS 14.0, *) {
+            let logger = Logger(subsystem: "ORKCatalogUITests", category: "ORKCatalogUIAutomation")
+            logger.debug("Normalized value: \(normalizedValue)")
+        }
         
         slider.adjust(toNormalizedSliderPosition: normalizedValue)
         let actualSliderValue = slider.value as? String ?? ""
@@ -1141,7 +1147,6 @@ final class FormStep: Step {
         let continueButton = Step.StepComponent.continueButton.element
         let lastCell = getLastCell(withId: formItemId)
         let currentDistance = abs(continueButton.frame.origin.y - lastCell.frame.maxY)
-        print(currentDistance)
         XCTAssert(currentDistance <= maximumAllowedDistance, "Unexpected large space between continue button and table last cell: \(currentDistance)")
         return self
     }

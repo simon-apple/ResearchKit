@@ -125,6 +125,33 @@ class Step {
         return TasksTab()
     }
     
+    /// Taps "Cancel" button on the navigation bar
+    @discardableResult
+    func tapCancelButton() -> Self {
+        let cancelButton = Self.StepComponent.cancelButton.element
+        wait(for: cancelButton)
+        cancelButton.tap()
+        return self
+    }
+    
+    /// Taps "End Task" button in action sheet modal view
+    @discardableResult
+    func tapEndTaskButton() -> TasksTab {
+        let endTaskButton = Self.StepComponent.endTaskButton.element
+        wait(for: endTaskButton)
+        endTaskButton.tap()
+        return TasksTab()
+    }
+    
+    /// Taps "Discard Results" button in action sheet modal view
+    @discardableResult
+    func tapDiscardResultsButton() -> TasksTab {
+        let discardResultsButton = Self.StepComponent.discardResultsButton.element
+        wait(for: discardResultsButton)
+        discardResultsButton.tap()
+        return TasksTab()
+    }
+    
     // TODO: rdar://117821622 (Add localization support for UI Tests)
     /// Most steps display a button that enables forward navigation. This button can have titles such as:
     enum ContinueButtonLabel: String {
@@ -178,6 +205,16 @@ class Step {
         if !stepComponent.visible {
             stepComponent.scrollUntilVisible(direction: direction)
         }
+        return self
+    }
+    
+    /// Taps the center of the screen
+    /// Note: This method should be used cautiously as tapping the center of the screen without knowing the current UI state can lead to unintended interactions
+    @discardableResult
+    func tapCenterCoordinateScreen() -> Self {
+        let normalizedCenter = CGVector(dx: 0.5, dy: 0.5)
+        let centerCoordinate = Self.app.windows.firstMatch.coordinate(withNormalizedOffset: normalizedCenter)
+        centerCoordinate.tap()
         return self
     }
 }

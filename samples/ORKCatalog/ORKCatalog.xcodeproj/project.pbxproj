@@ -37,6 +37,14 @@
 		5DD2B46B249974AC00FF17F5 /* QuestionList1 in Resources */ = {isa = PBXBuildFile; fileRef = 5DD2B46A249974AC00FF17F5 /* QuestionList1 */; };
 		863CCD821ACF545E009FD3B4 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 863CCD811ACF545E009FD3B4 /* HealthKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		86B89AA51AB2C0A5001626A4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B89A9C1AB2C0A5001626A4 /* AppDelegate.swift */; };
+		8C49088C2B7ECED200DA6E2D /* OpenAndCancelBaseUITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C49088B2B7ECED200DA6E2D /* OpenAndCancelBaseUITest.swift */; };
+		8C49088E2B7ECEEB00DA6E2D /* OpenAndCancelActiveTaskOther.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C49088D2B7ECEEB00DA6E2D /* OpenAndCancelActiveTaskOther.swift */; };
+		8C4908902B7ECF0300DA6E2D /* OpenAndCancelFitnessTasks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C49088F2B7ECF0300DA6E2D /* OpenAndCancelFitnessTasks.swift */; };
+		8C4908922B7ECF1800DA6E2D /* OpenAndCancelAudioTasks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4908912B7ECF1800DA6E2D /* OpenAndCancelAudioTasks.swift */; };
+		8C4908942B7ECF3300DA6E2D /* OpenAndCancelMiscellaneousTasks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4908932B7ECF3300DA6E2D /* OpenAndCancelMiscellaneousTasks.swift */; };
+		8C4908962B7ECF4D00DA6E2D /* OpenAndCancelSurveyQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4908952B7ECF4D00DA6E2D /* OpenAndCancelSurveyQuestion.swift */; };
+		8C4908982B7ECF6200DA6E2D /* OpenAndCancelSurveys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4908972B7ECF6200DA6E2D /* OpenAndCancelSurveys.swift */; };
+		8C49089A2B7ECF9400DA6E2D /* ActiveStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4908992B7ECF9400DA6E2D /* ActiveStep.swift */; };
 		8C7C541D2B4F5CF900A2E513 /* TextAnswers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7C541C2B4F5CF900A2E513 /* TextAnswers.swift */; };
 		8C7C54202B4F671800A2E513 /* SurveyQuestionsLocaleDependentUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7C541F2B4F671800A2E513 /* SurveyQuestionsLocaleDependentUITests.swift */; };
 		8C7C54222B4F675500A2E513 /* RequestPermissionStepUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7C54212B4F675500A2E513 /* RequestPermissionStepUITests.swift */; };
@@ -221,6 +229,15 @@
 		869230BE1AAA890A00BFE11B /* ORKCatalog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ORKCatalog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		86B89A981AB2C0A5001626A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		86B89A9C1AB2C0A5001626A4 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = ORKCatalog/AppDelegate.swift; sourceTree = SOURCE_ROOT; };
+		8C49088B2B7ECED200DA6E2D /* OpenAndCancelBaseUITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAndCancelBaseUITest.swift; sourceTree = "<group>"; };
+		8C49088D2B7ECEEB00DA6E2D /* OpenAndCancelActiveTaskOther.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAndCancelActiveTaskOther.swift; sourceTree = "<group>"; };
+		8C49088F2B7ECF0300DA6E2D /* OpenAndCancelFitnessTasks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAndCancelFitnessTasks.swift; sourceTree = "<group>"; };
+		8C4908912B7ECF1800DA6E2D /* OpenAndCancelAudioTasks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAndCancelAudioTasks.swift; sourceTree = "<group>"; };
+		8C4908932B7ECF3300DA6E2D /* OpenAndCancelMiscellaneousTasks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAndCancelMiscellaneousTasks.swift; sourceTree = "<group>"; };
+		8C4908952B7ECF4D00DA6E2D /* OpenAndCancelSurveyQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAndCancelSurveyQuestion.swift; sourceTree = "<group>"; };
+		8C4908972B7ECF6200DA6E2D /* OpenAndCancelSurveys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAndCancelSurveys.swift; sourceTree = "<group>"; };
+		8C4908992B7ECF9400DA6E2D /* ActiveStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveStep.swift; sourceTree = "<group>"; };
+		8C49089B2B7ED08000DA6E2D /* LaunchTasksUITests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = LaunchTasksUITests.xctestplan; sourceTree = "<group>"; };
 		8C7C541C2B4F5CF900A2E513 /* TextAnswers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextAnswers.swift; sourceTree = "<group>"; };
 		8C7C541F2B4F671800A2E513 /* SurveyQuestionsLocaleDependentUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyQuestionsLocaleDependentUITests.swift; sourceTree = "<group>"; };
 		8C7C54212B4F675500A2E513 /* RequestPermissionStepUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestPermissionStepUITests.swift; sourceTree = "<group>"; };
@@ -424,6 +441,20 @@
 			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		8CD2A5ED2B7EC68C0078AB5F /* LaunchTasksUITests */ = {
+			isa = PBXGroup;
+			children = (
+				8C49088B2B7ECED200DA6E2D /* OpenAndCancelBaseUITest.swift */,
+				8C49088D2B7ECEEB00DA6E2D /* OpenAndCancelActiveTaskOther.swift */,
+				8C49088F2B7ECF0300DA6E2D /* OpenAndCancelFitnessTasks.swift */,
+				8C4908912B7ECF1800DA6E2D /* OpenAndCancelAudioTasks.swift */,
+				8C4908932B7ECF3300DA6E2D /* OpenAndCancelMiscellaneousTasks.swift */,
+				8C4908952B7ECF4D00DA6E2D /* OpenAndCancelSurveyQuestion.swift */,
+				8C4908972B7ECF6200DA6E2D /* OpenAndCancelSurveys.swift */,
+			);
+			path = LaunchTasksUITests;
+			sourceTree = "<group>";
+		};
 		8CD81ABC2AFD910A00ABCA39 /* InternalUITests */ = {
 			isa = PBXGroup;
 			children = (
@@ -432,6 +463,7 @@
 				8CFF291F2AE9CAEB000DC99E /* UITests */,
 				8CFF290E2AE9C24A000DC99E /* AccessibilityIdentifiers.swift */,
 				8CFF29262AE9CBBC000DC99E /* RegressionUITests.xctestplan */,
+				8C49089B2B7ED08000DA6E2D /* LaunchTasksUITests.xctestplan */,
 				8C7C541C2B4F5CF900A2E513 /* TextAnswers.swift */,
 			);
 			path = InternalUITests;
@@ -466,6 +498,7 @@
 				8CFF29242AE9CB4A000DC99E /* SurveyQuestionsUITests.swift */,
 				8C7C541F2B4F671800A2E513 /* SurveyQuestionsLocaleDependentUITests.swift */,
 				8C7C54212B4F675500A2E513 /* RequestPermissionStepUITests.swift */,
+				8CD2A5ED2B7EC68C0078AB5F /* LaunchTasksUITests */,
 			);
 			path = UITests;
 			sourceTree = "<group>";
@@ -489,6 +522,7 @@
 				8CFF29152AE9C452000DC99E /* Step.swift */,
 				8CFF291D2AE9CA95000DC99E /* FormStep.swift */,
 				8CFF29172AE9C674000DC99E /* InstructionStep.swift */,
+				8C4908992B7ECF9400DA6E2D /* ActiveStep.swift */,
 				8CFF29112AE9C395000DC99E /* TabBar.swift */,
 				8CFF29132AE9C3E9000DC99E /* TasksTab.swift */,
 				8C7C54232B4F677300A2E513 /* HealthApp.swift */,
@@ -829,20 +863,27 @@
 			buildActionMask = 2147483647;
 			files = (
 				8CFF29212AE9CB00000DC99E /* BaseUITest.swift in Sources */,
+				8C4908982B7ECF6200DA6E2D /* OpenAndCancelSurveys.swift in Sources */,
 				8CFF29072AE9BE99000DC99E /* WaitUtils.swift in Sources */,
 				8C7C542A2B4F680B00A2E513 /* RequestPermissionsStep.swift in Sources */,
 				8C7C54222B4F675500A2E513 /* RequestPermissionStepUITests.swift in Sources */,
 				9622283924F04DBF0056E74D /* TaskScreen.swift in Sources */,
 				8CFF29142AE9C3E9000DC99E /* TasksTab.swift in Sources */,
+				8C49088C2B7ECED200DA6E2D /* OpenAndCancelBaseUITest.swift in Sources */,
 				8CFF29252AE9CB4A000DC99E /* SurveyQuestionsUITests.swift in Sources */,
+				8C49088E2B7ECEEB00DA6E2D /* OpenAndCancelActiveTaskOther.swift in Sources */,
 				8C7C54242B4F677300A2E513 /* HealthApp.swift in Sources */,
+				8C4908922B7ECF1800DA6E2D /* OpenAndCancelAudioTasks.swift in Sources */,
+				8C4908942B7ECF3300DA6E2D /* OpenAndCancelMiscellaneousTasks.swift in Sources */,
 				8CFF290B2AE9C051000DC99E /* XCTestCase.swift in Sources */,
 				8CFF29092AE9BEF9000DC99E /* XCUIElementQuery.swift in Sources */,
 				9622283B24F04DFE0056E74D /* CommonElements.swift in Sources */,
 				8C7C541D2B4F5CF900A2E513 /* TextAnswers.swift in Sources */,
 				8CFF29182AE9C674000DC99E /* InstructionStep.swift in Sources */,
+				8C4908902B7ECF0300DA6E2D /* OpenAndCancelFitnessTasks.swift in Sources */,
 				9622284124F04EEF0056E74D /* PreSubmissionTests.swift in Sources */,
 				8CFF29232AE9CB20000DC99E /* SurveysUITests.swift in Sources */,
+				8C49089A2B7ECF9400DA6E2D /* ActiveStep.swift in Sources */,
 				8C7C54282B4F67E200A2E513 /* Springboard.swift in Sources */,
 				9622283F24F04EBA0056E74D /* Helpers.swift in Sources */,
 				8CFF290F2AE9C24A000DC99E /* AccessibilityIdentifiers.swift in Sources */,
@@ -853,6 +894,7 @@
 				8CFF291E2AE9CA95000DC99E /* FormStep.swift in Sources */,
 				8C7C54262B4F678E00A2E513 /* HealthAccess.swift in Sources */,
 				9622283D24F04E6F0056E74D /* AllowScreens.swift in Sources */,
+				8C4908962B7ECF4D00DA6E2D /* OpenAndCancelSurveyQuestion.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1195,34 +1237,6 @@
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
-		};
-        		0B1735742B5736E400AAB6BC /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = 7JYUG8QGJ3;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				INFOPLIST_KEY_CFBundleDisplayName = ORKCatalogWatch;
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = Apple.ORKCatalogWatch;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
-				SWIFT_VERSION = 5.0;
-			};
-			name = Debug;
 		};
 		0B1735742B5736E400AAB6BC /* Debug */ = {
 			isa = XCBuildConfiguration;

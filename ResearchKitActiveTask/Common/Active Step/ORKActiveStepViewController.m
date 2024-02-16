@@ -57,6 +57,7 @@
 #import "ORKHelpers_Internal.h"
 #import "ORKSkin.h"
 
+NSString * const ORKActiveStepViewAccessibilityIdentifier = @"ORKActiveStepView";
 
 @interface ORKActiveStepViewController () {
     ORKActiveStepView *_activeStepView;
@@ -334,6 +335,7 @@
     [self resetTimer];
     
     [self prepareRecorders];
+    _activeStepView.accessibilityIdentifier = ORKActiveStepViewAccessibilityIdentifier;
 }
 
 - (void)startRecorders {
