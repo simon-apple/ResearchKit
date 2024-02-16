@@ -33,6 +33,10 @@ final class FormStep: Step {
         return self
     }
     
+    func isStepViewExists(timeout: TimeInterval) -> Bool {
+        return Self.stepView.waitForExistence(timeout: timeout)
+    }
+    
     // MARK: - Question Card View
     
     static var questionTitleQuery: XCUIElementQuery {

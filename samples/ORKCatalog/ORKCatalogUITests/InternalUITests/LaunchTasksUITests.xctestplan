@@ -4,7 +4,7 @@
       "id" : "3BEEE145-BEB6-4C16-852E-C99A8F9EA159",
       "name" : "Configuration 1",
       "options" : {
-
+        "testRepetitionMode" : "retryOnFailure"
       }
     }
   ],

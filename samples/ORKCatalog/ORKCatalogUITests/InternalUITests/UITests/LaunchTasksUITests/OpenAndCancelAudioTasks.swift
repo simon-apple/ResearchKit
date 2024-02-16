@@ -46,20 +46,19 @@ final class OpenAndCancelAudioTasks: OpenAndCancelBaseUITest {
         }
                 
         let activeStep = ActiveStep()
+        let formStep = FormStep()
         if activeStep.isStepViewExists(timeout: 7) {
             activeStep
                 .cancelTask()
+            // "Edit Transcript" Screen
+        } else if formStep.isStepViewExists(timeout: 30) {
+            let formStep = FormStep()
+            formStep
+                .verifyStepView()
+                .cancelTask()
         } else {
-            if app.navigationBars["ORKQuestionStepView"].waitForExistence(timeout: 3) {
-                Step().cancelTask()
-                return
-            } else {
-                // "Edit Transcript" Screen
-                let formStep = FormStep()
-                formStep
-                    .verifyStepView()
-                    .cancelTask()
-            }
+            // Handling ORKQuestionStep
+            Step().cancelTask()
         }
     }
     
