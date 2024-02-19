@@ -34,7 +34,6 @@ import ResearchKitCore
 import SwiftUI
 import UIKit
 
-@available(watchOS 6.0, *)
 public struct TaskView<Content>: View where Content: View {
 
     @ObservedObject
@@ -50,19 +49,13 @@ public struct TaskView<Content>: View where Content: View {
     }
 
     public var body: some View {
-        if #available(watchOSApplicationExtension 7.0, *) {
-            NavigationView {
-                TaskContentView(index: 0, content)
-                    .environmentObject(self.taskManager)
-            }
-        } else {
+        NavigationView {
             TaskContentView(index: 0, content)
                 .environmentObject(self.taskManager)
         }
     }
 }
 
-@available(watchOS 6.0, *)
 public extension TaskView where Content == DefaultStepView {
 
     init(taskManager: TaskManager) {
